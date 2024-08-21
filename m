@@ -1,185 +1,167 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010004.outbound.protection.outlook.com [52.101.229.4])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 537B81E504;
-	Wed, 21 Aug 2024 02:09:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.4
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724206169; cv=fail; b=VwmCdm+x06gp2jaHcDPIsjM2TymwtL4zztBmf4khv6OH7MLg5Dmr3+g0c0NKp5oFqY+twYY9pPwjmm4gcBmAWcRgS3UcA2bgs2wpcxsPGpMhhAOaeoFuyaIqO9mb2nid4NQ4JkcQDo7jBkP9w15Y7t4aT6k+Vd4fmnh+8hmdiU4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724206169; c=relaxed/simple;
-	bh=YPryaofCOdmKdQisDZH95mHZy9qN3fj/segISoxEEfc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=XuhrKOkGH1WM1rk1lgNPxX4if66/fMxdZH+nAEHrgxMThBi2NjEASbybH88UrzB6NGaIBZ/ZkJeDYsQX0Z4an60JBSa4oMg9QfNwW/hHNwoLC9YUFyhXK/rti54rgnKH2cyWYIaje1g+26dY0NRGOjIXbw4bPlOHscw2IeLWcMI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=dy2ff+ut; arc=fail smtp.client-ip=52.101.229.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 526D97602D;
+	Wed, 21 Aug 2024 04:22:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724214131; cv=none; b=j2ILLQyIZopo8PzlBJedCObCurwwywzFxamcL9Tq60LmT/Nfq3sVb8x3+0CQXo4z8W0shMo3acH6mq58BEgO6ieP0HTzOUjn5zDt6mbtzjtJ6NBTpnT9R6jDOAXmeXQ1iBVC5DsfSMZtcpCPnXJJr/8LOYbQGsMuy6w+/L+Y3eg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724214131; c=relaxed/simple;
+	bh=RLteaZvx78Nb1TJ71MHu/HAeSd6WAnVBBwl8ZzlxdTc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u01zM6qwxzxyIHDNDnvTabiXVb/6sPhJPSSNsq7hoVZbTwwq0M1q+7kmKl7goWhQrripAihPHQjHKdpecOH9bDi4nMTFp/Qyj7YXCPHbkNdjcymrdhF9oDuDt3oT+apSUrzhi4OzcX1Nf3aLcRbBAdmf8RuLqii7+eP+NQAmeb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nIUbpKmE; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="dy2ff+ut"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=i8dff5hVFBa7NLVq9CGTt45gRIBP62+Xo4hP5iP9zuEk9pwYq1+skgFENQJvLTvI0mmbpIUYiBxaj1fMAelTc00XaaokCPffHyAsXM5pyp7ZoJKi7oj/jKuFjpswLrg/thApXqqdUVeZRQwA3q/isL9wXAULt90+aYpBMbudIgepBu9PC3tje92lPy5ta9XcU/2K7g5C3X6+EwW9TmKs7LQXdfFpWA8jlkRkfn+K26nLlUkY2l/AjpdSNHT+SB5x1ZUEeCx6LzmRFWbA5TIbzBVbcHcHIoz2Z0btmq8h1QXFlS9L6O6w1qHEs47D5iqInp5Ca/GlADIvjJgMlpJG5w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=17n/MLdL5Wvtqd+c2yn/3LLyqzFLbYmOUqrBBwKE6uc=;
- b=fadHSoiFTfq3ibrDAjkDkrcc+aPGuagiEYm50tesxL05gq9XQFvFvAhfxo/KJ4+W4i8azaRNWKBEbh2zXn0ttLeGqabjJ90f/AWhBnMOjyRoCdO83VRz6vU1ADk85LxeJ4j1+YPvtSRzn2EPYqIVRLM6CHuJzn2RzGmPrpEDf+/0gUbP74TRf57nIh1QN5Qgn4O/tcdUnuVPqpL+aAhUAiaeU15c0dnUeRoTvmBissjV8SJz6kl8UapKd+SAlT///TZ5x0u0UP6tWbNzDlMKJXzNB2f4aO34xp6klMuBlsZJiv92jOUrTjR0/pcFD5Yyc4eLmIHkyQmNxh1dD16smw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=17n/MLdL5Wvtqd+c2yn/3LLyqzFLbYmOUqrBBwKE6uc=;
- b=dy2ff+uth3gmtkCvDwBXhtygMpJoEQZzA9IHQvwdMDX4GiXSf2bdwnAAh8eknPIyJIM6lKw0EOtZQzNPncFSREv0wp0xYfJIctq7WepTiVTDk1dvXZ9nDUR8NnFyVunoVYOfZlhERft+l1Tn9vZrpBMKBKflHOdTWKdgBjqOFDE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OS9PR01MB12133.jpnprd01.prod.outlook.com
- (2603:1096:604:2e7::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.18; Wed, 21 Aug
- 2024 02:09:20 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.7875.016; Wed, 21 Aug 2024
- 02:09:18 +0000
-Date: Wed, 21 Aug 2024 11:07:32 +0900
-Message-ID: <87v7zuaasb.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Mark Brown <broonie@kernel.org>, Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: =?ISO-8859-2?Q?=22Amadeusz_S=B3awi=F1ski=22?=
- <amadeuszx.slawinski@linux.intel.com>,	Alexandre Belloni
- <alexandre.belloni@bootlin.com>,	Alper Nebi Yasak
- <alpernebiyasak@gmail.com>,	AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>,	Banajit Goswami
- <bgoswami@quicinc.com>,	Bard Liao <yung-chuan.liao@linux.intel.com>,	Brent
- Lu <brent.lu@intel.com>,	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,	Claudiu Beznea
- <claudiu.beznea@tuxon.dev>,	Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>,	Daniel Baluta <daniel.baluta@nxp.com>,
-	Hans de Goede <hdegoede@redhat.com>,	Jaroslav Kysela <perex@perex.cz>,
-	Jerome Brunet <jbrunet@baylibre.com>,	Jiawei Wang <me@jwang.link>,	Jonathan
- Corbet <corbet@lwn.net>,	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Kevin Hilman <khilman@baylibre.com>,	Liam Girdwood <lgirdwood@gmail.com>,
-	Maso Huang <maso.huang@mediatek.com>,	Matthias Brugger
- <matthias.bgg@gmail.com>,	Neil Armstrong <neil.armstrong@linaro.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,	Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>,	Ranjani Sridharan
- <ranjani.sridharan@linux.intel.com>,	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,	Sylwester Nawrocki
- <s.nawrocki@samsung.com>,	Takashi Iwai <tiwai@suse.com>,	Vinod Koul
- <vkoul@kernel.org>,	Xiubo Li <Xiubo.Lee@gmail.com>,
-	alsa-devel@alsa-project.org,	imx@lists.linux.dev,
-	linux-doc@vger.kernel.org,	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v7 4/4] ASoC: Intel: sof_sdw: use playback/capture_only flags
-In-Reply-To: <ee24e5e3-06e6-4b74-bdbc-2127ca3f181e@sirena.org.uk>
-References: <87cymvlmki.wl-kuninori.morimoto.gx@renesas.com>
-	<877cd3lmid.wl-kuninori.morimoto.gx@renesas.com>
-	<ee24e5e3-06e6-4b74-bdbc-2127ca3f181e@sirena.org.uk>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-X-ClientProxiedBy: TYCP286CA0004.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:26c::13) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nIUbpKmE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724214129; x=1755750129;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RLteaZvx78Nb1TJ71MHu/HAeSd6WAnVBBwl8ZzlxdTc=;
+  b=nIUbpKmEpf5QaT8YWfg9/FrEWmyPQIacY+ThdDyceXaQdvCDpwsW98i9
+   8CgvXMvL5hoe8cSE90KCZKQ+LhadavbeEhVCI41kQCbOg1l8V6dPMBlSd
+   Yr6MP030GFwfDwv6x1JAfpfKvccnlXt3NlYSXi7uS1qoAkOT5q0svHbtO
+   k4mffrHymCoV2dHWn0e5D0ABMZiuobKoi4F+FSAsCuP1lxoT9Gx1OPt09
+   Sx2IkIhNq2JL1Xg3ZQ7ZlA9ywA/yR9W3BS1gHcdIxHPtVto1T5B9j8+l1
+   uu2w7y5cNFB2A0D5pbcqaeGD0MFzEPXd8hjrqZ/sDEVSLL6Q9mPV1+/Ki
+   g==;
+X-CSE-ConnectionGUID: 5uQu//3kTtiDIEqPSHlcqQ==
+X-CSE-MsgGUID: rBVXw6wZQD6Jigyg50nilA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="26307852"
+X-IronPort-AV: E=Sophos;i="6.10,163,1719903600"; 
+   d="scan'208";a="26307852"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 21:22:09 -0700
+X-CSE-ConnectionGUID: 2ZMCorPEQJKUtvK2cp51Kw==
+X-CSE-MsgGUID: ERd4brl8QOqPqedHfLL83Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,163,1719903600"; 
+   d="scan'208";a="65164031"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 20 Aug 2024 21:22:06 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sgcrE-000At4-1F;
+	Wed, 21 Aug 2024 04:22:04 +0000
+Date: Wed, 21 Aug 2024 12:21:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Lechner <dlechner@baylibre.com>,
+	Jonathan Cameron <jic23@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	David Lechner <dlechner@baylibre.com>
+Subject: Re: [PATCH 2/4] iio: adc: ad4695: implement calibration support
+Message-ID: <202408211207.fmYTjQDK-lkp@intel.com>
+References: <20240820-ad4695-gain-offset-v1-2-c8f6e3b47551@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS9PR01MB12133:EE_
-X-MS-Office365-Filtering-Correlation-Id: 863d779f-dec9-4794-88c9-08dcc1862ae3
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|52116014|7416014|376014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?IkbjOIY4/TWuoY0WeCjHjJCyYhkhWuHyHlhA+e7tFFrndc0Vw4JQcditO3dd?=
- =?us-ascii?Q?re4XWbCNW7yAPoh7ktzig/7zhp6aEsVGL7knKXIcOUfHJGQf3vIXP+4J5O5e?=
- =?us-ascii?Q?CzRbT4s+x3nbq7yf+vApf7EqKudwbBGhCGwviczR8hMaHY2BhpyPkArnnh3+?=
- =?us-ascii?Q?3VFVOMUnEdOK5NdytPKg1zXA96o4fBEF+d4rPEXhEwxK4OIbJtBy64W4zr95?=
- =?us-ascii?Q?aY1rV3U/URIk4e/8YZislsifGXZc8nRB7lj7uCuva+/LoXRtKAbITb3GSiFH?=
- =?us-ascii?Q?9wa4Qmgso2PZxZOaqYGkn6i15yF6uhE/17roTMFLZUaVu0xso1eMBK04ZS1T?=
- =?us-ascii?Q?gPXkCas3OKEnBlnShO8qsYVE3f7QTiRJBxslTxgMuHquDueOT1/RIqEy4hJK?=
- =?us-ascii?Q?ubTm9zBOTNcwE+lJE0//gaPoCtkrL082wqMOdPxsEuMruKzgZHKWr6E7wwtY?=
- =?us-ascii?Q?TxvmrZbXjHZO0neJC3sjv2HleeMQV+8aY167I1V2lXcvRrEbu7aEs0lw2ngA?=
- =?us-ascii?Q?meNis/roJaKBrU28qIs2Sk7qzw710RTpig9/XwxhJ3mhiw5c8fX0Nmccy1Ey?=
- =?us-ascii?Q?ppEGJtDO+/LQjr7eCuRU6JLhDIfwyn1Y5fSwtUaYqrBgdlgA3kJtNuf2qq7K?=
- =?us-ascii?Q?vQUD3rTFkHhwfdC2VR6/jQAdg59iM5doOMDER/WIjENI3wkVXyEcudYshvOG?=
- =?us-ascii?Q?nnfCYEPrR4t8kFcgIk3p1ETkU1j1vLPSpWJXXhqgh/EwCk62lIxJcPKAlMPy?=
- =?us-ascii?Q?MGsiSscJNYCEnnsaqd/Jj3BY596uXnDq5CA6+cGLNz4v2Vs0k9TMc5PuIN3s?=
- =?us-ascii?Q?1bxthREYmAEAGEnbuJEI2btSOM7YSrgUaixk25/rNAw/IQznBjbUn+qhgEMa?=
- =?us-ascii?Q?TLGeVv2L7pwJZjNWUR7zWpQBAvKy0UFVQeipvfscGIKrw0mLCdu3FzNjXdpW?=
- =?us-ascii?Q?Hp7tVB40XYiMl0PB+xoWV30adtOFO9/Iuuc7fmSTOAy+jSmCx3Yzq2X2mmKc?=
- =?us-ascii?Q?2eIO7AFU1G58fN0TIL9Jj5qW3Wtx+MaIc49e/ZQHXIlVEwKrxGcCg+9mbZm6?=
- =?us-ascii?Q?JdzWT/ufTTgiurG/6373aeDmubdTLMGYZ6hK8r/zJKch5pjdhnj8eSUrYTZp?=
- =?us-ascii?Q?dpHb+buFIcnl1bv0kjkoeT7r2D9TsvN9MhAYKU1nfaenyAmkaiNE06F6raxN?=
- =?us-ascii?Q?R+GFDkvExSE8+Y0mdqgABSa5K2e1XhmMnty3pwrVl+/GuMGFvP97HVWSsN+X?=
- =?us-ascii?Q?f7RajoYEBTuPjhRUsO1dE9UNuiYqdHs4sBdIGAxhpAN+ACJ99QImR1aDmi2q?=
- =?us-ascii?Q?YFpRhaTjK4CMzVkcr5HLDqNSZKgTHodL4SLyQNdmzmqBZ1yrYuGfksKXBwQ0?=
- =?us-ascii?Q?oVs7TT8Grq/u+ZKitE3BLLPWMYlO+smA7p8VJlTTaHbFjK/3Hg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(7416014)(376014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?q9wvpz1NJrjfwVol7lzp2hoi/dn5WFDclZ3hr2XeMBQzH163HRby+bI4t8xt?=
- =?us-ascii?Q?YyHJUrdMC78b0P8SasZzlTHGr0aFUy9oHv0//gv6uWIrwQQz3Irji8PodQA1?=
- =?us-ascii?Q?HbIOMytdtsOPAxKM4xqpOPPjwsjotRWxHp6UNkE8zlMwGk8pyhXa5NngHM9e?=
- =?us-ascii?Q?btTnyBEhcdKdtGWQTv6OiwMaZk1Q1GiCZvJK3mgYwZewk9i/AyCFBVKOcOuQ?=
- =?us-ascii?Q?cOO84s7Sx+XZeO7hI80RCp0GyJy8BCVNPGJ0XLUux/+q+49nWALduMqdBriP?=
- =?us-ascii?Q?0KHiB8PKYg+kAhkvcxt2yh2yZSi+mUChmfA825nPEFjuiwLAqBg2ySOzoW7I?=
- =?us-ascii?Q?ouEaH/Y8EcSuPN0/2kWeASrKa9GwPedJOCRUMplzliNd27vUvDW6wssIasU3?=
- =?us-ascii?Q?GW557dq7VNxpnnza07RMmHax1MmzFCVTW6e1G1ZnmrrLiAksqT1Siiuj5Aum?=
- =?us-ascii?Q?rueU2GkWFIZKyLqY4waHVXo3ooV1Y7WB4B2dmvSJm9RK2LNyOLnyt33gM0lt?=
- =?us-ascii?Q?Yi/4csjUbeY2h/ISbpUUgKQvcKvN5jAAAnjhG974nRXSXaFNQzY5FcDtD8Z2?=
- =?us-ascii?Q?qz26g4wYVrc0piU18Ch/lWVY1pHu4VdZCno0FcAWmjmgn6G5WlhnyisdrJ9B?=
- =?us-ascii?Q?6sg/V70ayzESqKD82pMQkxVpa20wuOGrt9l8V4LPQblcU2lQj0fPUl7ryx5j?=
- =?us-ascii?Q?uQhUcVohCVD3+cJz33y2Fk9sxAB+SOeQkobCAS/9lLS7S3jycLZNsqqxn3Ms?=
- =?us-ascii?Q?dmhL0A/WEMeVbAOTvFc13KU5bMo3AFyT67nbQWjtakUzkJDgXmBn6xBJ9U+n?=
- =?us-ascii?Q?YoqJiFNXrSKNjJPcOMx0P0Rx159q9iC+y+PjCTOG3Lkc/rtg2yPCBwKvrpwL?=
- =?us-ascii?Q?TBFHHwlMn7OP5dVeU/8KNlaGh65W7mdRO+bsDcOaS72oZBBYGUFejM/G8c3q?=
- =?us-ascii?Q?QpzBmitZElKFiZVM3IQ4/MttU6X8aCZssGQlkoW2mj47KY5P9a+suy+Bsuzy?=
- =?us-ascii?Q?7kpVhWqnEiaDwN/+9QQZ0zKFnLwFWB84EWzJUZ5WXRoKb896aSBSNfCYnB2x?=
- =?us-ascii?Q?rMkOTMb0YuNqijuo5N9XedtbIOeFQl2rhKd+4ENETEkgYSZ4VYLG6Lg87dh7?=
- =?us-ascii?Q?NpOxhJVE0rukCw/BGCMcnWKnqnzZKhqHuH5H1HKgmlLsmP+rJaAlJP4/fEYN?=
- =?us-ascii?Q?ccHIkT8nzmSLhPaa9KFFHAtCpJvHhwg35u09/EFER/xVcP7u2odYNjvM1AQa?=
- =?us-ascii?Q?upkznQeJ+/7QrYa7aVrUNh20ZWKOU+pO977GWge/saJ5qQQQqfSk3vyS7oWC?=
- =?us-ascii?Q?O97EfqvS0IxcsDytTVKG6uwifPDijS4Rx5kPD2HYg83I5xhbV2vLpUGHJAR9?=
- =?us-ascii?Q?w5HdsekzgofVT+Qcl2DWJSJtMs6G7OHpfCPru4pR/P62EIOngNOhdibUz1nv?=
- =?us-ascii?Q?gOScW+0rgG/RU/NWT+DopBLdx8Ahn4LFltaTU6SNUnpbUAZwvj3ZlI4nPHx4?=
- =?us-ascii?Q?0NIK3/LwJqhw/ax4j5BpFPyYxG56LOqHbGcIc37pmVjPms8e7g4V1YJJIiHM?=
- =?us-ascii?Q?rPz9D1jtZ8DlvlKGpbQiIi3xjaJQw0qQ2k/HGdzJjjiEUt/08G18L7DAL9BA?=
- =?us-ascii?Q?Qi81h6A4av7Bc8X+ojA4rX8=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 863d779f-dec9-4794-88c9-08dcc1862ae3
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2024 02:09:07.0951
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: k0S+tqdKng2cEqwh+3ckccnyIygveNkTMEAuZV93PCjkdAoa5rBtVcfIKLzGjiWIJuYF9rzZDCO+Le6eMUX7+/UQprF9wOhQsQPrAL9I6Fl5qlLo+Z2geEJFhnQ7BCaX
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB12133
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240820-ad4695-gain-offset-v1-2-c8f6e3b47551@baylibre.com>
+
+Hi David,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 0f718e10da81446df0909c9939dff2b77e3b4e95]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/iio-adc-ad4695-add-2nd-regmap-for-16-bit-registers/20240821-000102
+base:   0f718e10da81446df0909c9939dff2b77e3b4e95
+patch link:    https://lore.kernel.org/r/20240820-ad4695-gain-offset-v1-2-c8f6e3b47551%40baylibre.com
+patch subject: [PATCH 2/4] iio: adc: ad4695: implement calibration support
+config: i386-buildonly-randconfig-002-20240821 (https://download.01.org/0day-ci/archive/20240821/202408211207.fmYTjQDK-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240821/202408211207.fmYTjQDK-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408211207.fmYTjQDK-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/iio/adc/ad4695.c:735:6: warning: unused variable 'ret' [-Wunused-variable]
+     735 |         int ret;
+         |             ^~~
+   1 warning generated.
 
 
-Hi Mark, Pierre-Louis
+vim +/ret +735 drivers/iio/adc/ad4695.c
 
-> > From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-> > 
-> > Prepare for removal of dpcm_playback and dpcm_capture flags in
-> > dailinks.
-> 
-> This seems like it needs a rebase against my current tree.
+   728	
+   729	static int ad4695_write_raw(struct iio_dev *indio_dev,
+   730				    struct iio_chan_spec const *chan,
+   731				    int val, int val2, long mask)
+   732	{
+   733		struct ad4695_state *st = iio_priv(indio_dev);
+   734		unsigned int reg_val;
+ > 735		int ret;
+   736	
+   737		iio_device_claim_direct_scoped(return -EBUSY, indio_dev) {
+   738			switch (mask) {
+   739			case IIO_CHAN_INFO_CALIBSCALE:
+   740				switch (chan->type) {
+   741				case IIO_VOLTAGE:
+   742					if (val < 0 || val2 < 0)
+   743						reg_val = 0;
+   744					else if (val > 1)
+   745						reg_val = U16_MAX;
+   746					else
+   747						reg_val = (val * (1 << 16) +
+   748							   mul_u64_u32_div(val2, 1 << 16,
+   749									   MICRO)) / 2;
+   750	
+   751					return regmap_write(st->regmap16,
+   752						AD4695_REG_GAIN_IN(chan->scan_index),
+   753						reg_val);
+   754				default:
+   755					return -EINVAL;
+   756				}
+   757			case IIO_CHAN_INFO_CALIBBIAS:
+   758				switch (chan->type) {
+   759				case IIO_VOLTAGE:
+   760					if (val2 >= 0 && val > S16_MAX / 4)
+   761						reg_val = S16_MAX;
+   762					else if ((val2 < 0 ? -val : val) < S16_MIN / 4)
+   763						reg_val = S16_MIN;
+   764					else if (val2 < 0)
+   765						reg_val = clamp_t(int,
+   766							-(val * 4 + -val2 * 4 / MICRO),
+   767							S16_MIN, S16_MAX);
+   768					else if (val < 0)
+   769						reg_val = clamp_t(int,
+   770							val * 4 - val2 * 4 / MICRO,
+   771							S16_MIN, S16_MAX);
+   772					else
+   773						reg_val = clamp_t(int,
+   774							val * 4 + val2 * 4 / MICRO,
+   775							S16_MIN, S16_MAX);
+   776	
+   777					return regmap_write(st->regmap16,
+   778						AD4695_REG_OFFSET_IN(chan->scan_index),
+   779						reg_val);
+   780				default:
+   781					return -EINVAL;
+   782				}
+   783			default:
+   784				return -EINVAL;
+   785			}
+   786		}
+   787		unreachable();
+   788	}
+   789	
 
-It seems Intel has big change to shares the code.
-I will post v8 patch, but I think Intel want to test it before
-Mark apply it.
-
-Thank you for your help !!
-
-Best regards
----
-Kuninori Morimoto
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
