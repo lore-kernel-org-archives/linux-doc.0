@@ -1,157 +1,127 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 701E714A4F0;
-	Tue, 20 Aug 2024 23:41:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5317023B1;
+	Wed, 21 Aug 2024 00:05:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724197299; cv=none; b=VA/nMYT9VGWPwss2l7/T7z7WwkN+IIatJoj7b6hN8ELuYlzvwyU4yp6+x9Xbv29vlGaepAqOPlM0PD8je1QIzZJrO0OPrKKp68tpMsydYQCxeE0NGZxDZG4P7jK6cx7qEPW3l5EotzaiHTbQ2jblZT70+dEgJRXXgfD/LC7+Gl8=
+	t=1724198740; cv=none; b=YOenqamJmZ0Z6A1Pkk5vKYdYmOFoj/qBEhUtLTdyMPj6vl7zAMwS15Zm1zThMeMf6V2TAz9XicYNTKjn+W0UtSRaAYtlae8MPmhRp/RLxWrnwISjgyMKrgj/u8cg7pGOMYO3IQiIzki6llF9KVaRqmMA1Irw4nkiszlcwMhhIKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724197299; c=relaxed/simple;
-	bh=Oz4ictvZa/glJJtpD3FaAHLOq4xAQvkCo3lPcmuXIXc=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:CC:References:
-	 In-Reply-To:Content-Type; b=QQwBOu5ZYNYW9E+7otlrWd6WNFVFfoSWdnR5nChDqZE6HpthdX5959ufmK7KjadDOCnCuXPRAT0Zn2C1lqRg+6ZlpLPMYquW/QAaCLTzaBrKwb5GYuFhvdIPMJLoH0527lAukstKNOt4e0bWLoTADWSAAkGb6ZaXtao3igDLIuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=S87Sj045; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1724198740; c=relaxed/simple;
+	bh=uMj6ilPU4IS9n9I3FJHnVf8YY6z8euaidiqO36JH1kA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ttc4GzxXxTDxQmmRwnvw/XJKJaX0sc3o8oK409fLAy75fJUSyBYUV0jHxQZB/M8zcdZaisAL0GgBIy7zS7hMfhBJJ+uI5VVDsKKywfdlYMsKZpkgVQEM4ELCKD6aKJW3f5W5fLA6SoDIxdwLCU/j/b9V/izO1ePPnEXIOYSqKdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=jrCFzvrl; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=XBEYHE1f; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=jrCFzvrl; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=XBEYHE1f; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="S87Sj045"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47KG3tSU026084;
-	Tue, 20 Aug 2024 23:38:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	N2xSHxx/O1IBD0VFXMURcOHZcfL9/KRzxqHJdamFR6E=; b=S87Sj045LK14QvkR
-	87oyKdX0PA02Tl+lnuUD20KN8C3v8sP/bJwqMRWeSSFHTR8ESbKHgIAt9iFm5oU6
-	h/p4o0VisAKXFZCfaoDYt3n8nEYghAtZkPLYSbJEH1WRmrKABYI7lghQyVa4WbQs
-	Dya4kFb5QCf8QW+hFS/4jsUuG38a0LVKCgJ0Hxky7/xqu9Gax/mZe3iRtWkIrWOA
-	7zV448qd9W+SKs1wZhSpjmjrjRzNh0L+N0GSYBnmrUPDkgh6gAVi3nJr/FKFomqp
-	dy/5W8g+0s+rBdDacKuJgq4VbkqejVy24LKnfN7jnIAj/5skB6Om2CTeJ6gikLE5
-	GjIJNg==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 414xb9gw5x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 20 Aug 2024 23:38:25 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47KNcOpI017411
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 20 Aug 2024 23:38:24 GMT
-Received: from [10.110.70.123] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 20 Aug
- 2024 16:38:23 -0700
-Message-ID: <56ebd11e-9522-406b-9ca4-5e284eaac409@quicinc.com>
-Date: Tue, 20 Aug 2024 16:38:23 -0700
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jrCFzvrl";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="XBEYHE1f";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jrCFzvrl";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="XBEYHE1f"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4281C21D9B;
+	Wed, 21 Aug 2024 00:05:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1724198736;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5DSyb15YajHd7ugd6BrHeusKTDbiGzqcFawlOtru2t4=;
+	b=jrCFzvrlmUrK+uoDa/MhKr1sgWpyOVnXwsuEq2rWgSL9sPByPtv5uPUquRuBkwKzGcxWDe
+	dDsMBsclBVg3aQt7Fg0CSVDDejDNwvzbgUsU9Cbo4AJUmbLfuhBhZ4PME6xWT/SWIrugmy
+	3D+VRDhVL9JNxJyNaxK6ANAo1snIDcg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1724198736;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5DSyb15YajHd7ugd6BrHeusKTDbiGzqcFawlOtru2t4=;
+	b=XBEYHE1fCVQVD3khsxIeiOAdcTfdXJWb934y+4GHlIHgGL4tvsXpcLIlgUOpvF5j4FV40D
+	gHeZOP5zZB8ma5BA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1724198736;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5DSyb15YajHd7ugd6BrHeusKTDbiGzqcFawlOtru2t4=;
+	b=jrCFzvrlmUrK+uoDa/MhKr1sgWpyOVnXwsuEq2rWgSL9sPByPtv5uPUquRuBkwKzGcxWDe
+	dDsMBsclBVg3aQt7Fg0CSVDDejDNwvzbgUsU9Cbo4AJUmbLfuhBhZ4PME6xWT/SWIrugmy
+	3D+VRDhVL9JNxJyNaxK6ANAo1snIDcg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1724198736;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5DSyb15YajHd7ugd6BrHeusKTDbiGzqcFawlOtru2t4=;
+	b=XBEYHE1fCVQVD3khsxIeiOAdcTfdXJWb934y+4GHlIHgGL4tvsXpcLIlgUOpvF5j4FV40D
+	gHeZOP5zZB8ma5BA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 22B8313A20;
+	Wed, 21 Aug 2024 00:05:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id /TE2CFAvxWbfPQAAD6G6ig
+	(envelope-from <dsterba@suse.cz>); Wed, 21 Aug 2024 00:05:36 +0000
+Date: Wed, 21 Aug 2024 02:05:25 +0200
+From: David Sterba <dsterba@suse.cz>
+To: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-xfs@vger.kernel.org,
+	Pankaj Raghav <p.raghav@samsung.com>
+Subject: Re: [PATCH] Documentation: iomap: fix a typo
+Message-ID: <20240821000525.GM25962@twin.jikos.cz>
+Reply-To: dsterba@suse.cz
+References: <20240820161329.1293718-1-kernel@pankajraghav.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v24 29/34] ALSA: usb-audio: qcom: Add USB offload route
- kcontrol
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <broonie@kernel.org>, <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
-        <Thinh.Nguyen@synopsys.com>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
-        <gregkh@linuxfoundation.org>, <robh@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>
-References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
- <20240801011730.4797-30-quic_wcheng@quicinc.com>
- <4d5fe3f8-d7ba-4647-8dd7-22656ec2fde5@linux.intel.com>
- <58043166-c494-42db-b7d3-575991e43e8b@quicinc.com>
- <f507a228-4865-4df5-9215-bc59e330a82f@linux.intel.com>
- <88d5ed6f-1429-4381-8014-d5824ec7866e@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <88d5ed6f-1429-4381-8014-d5824ec7866e@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: ST7IiTIh_vJ13SBgn85S-sPx1NsnI_FY
-X-Proofpoint-ORIG-GUID: ST7IiTIh_vJ13SBgn85S-sPx1NsnI_FY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-20_17,2024-08-19_03,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 phishscore=0
- impostorscore=0 lowpriorityscore=0 bulkscore=0 mlxscore=0 malwarescore=0
- priorityscore=1501 adultscore=0 suspectscore=0 mlxlogscore=985 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
- definitions=main-2408200173
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240820161329.1293718-1-kernel@pankajraghav.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.99 / 50.00];
+	BAYES_HAM(-2.99)[99.97%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	HAS_REPLYTO(0.30)[dsterba@suse.cz];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[]
+X-Spam-Score: -3.99
+X-Spam-Flag: NO
 
-Hi Pierre,
+On Tue, Aug 20, 2024 at 06:13:29PM +0200, Pankaj Raghav (Samsung) wrote:
+> From: Pankaj Raghav <p.raghav@samsung.com>
+> 
+> Change voidw -> void.
 
-On 8/20/2024 10:37 AM, Wesley Cheng wrote:
-> Hi Pierre,
->
-> On 8/19/2024 11:39 PM, Pierre-Louis Bossart wrote:
->>>>> +/**
->>>>> + * snd_usb_offload_create_ctl() - Add USB offload bounded mixer
->>>>> + * @chip - USB SND chip device
->>>>> + *
->>>>> + * Creates a sound control for a USB audio device, so that applications can
->>>>> + * query for if there is an available USB audio offload path, and which
->>>>> + * card is managing it.
->>>>> + */
->>>>> +int snd_usb_offload_create_ctl(struct snd_usb_audio *chip)
->>>>> +{
->>>>> +	struct usb_device *udev = chip->dev;
->>>>> +	struct snd_kcontrol_new *chip_kctl;
->>>>> +	struct snd_usb_stream *as;
->>>>> +	char ctl_name[37];
->>>>> +	int ret;
->>>>> +
->>>>> +	list_for_each_entry(as, &chip->pcm_list, list) {
->>>>> +		chip_kctl = &snd_usb_offload_mapped_ctl;
->>>>> +		chip_kctl->count = 1;
->>>>> +		/*
->>>>> +		 * Store the associated USB SND card number and PCM index for
->>>>> +		 * the kctl.
->>>>> +		 */
->>>>> +		chip_kctl->private_value = as->pcm_index |
->>>>> +					  chip->card->number << 16;
->>>>> +		sprintf(ctl_name, "USB Offload Playback Route PCM#%d",
->>>>> +			as->pcm_index);
->>>>> +		chip_kctl->name = ctl_name;
->>>>> +		ret = snd_ctl_add(chip->card, snd_ctl_new1(chip_kctl,
->>>>> +				  udev->bus->sysdev));
->>>>> +		if (ret < 0)
->>>>> +			break;
->>>>> +	}
->>>>> +
->>>>> +	return ret;
->>> Hi Pierre,
->>>> None of this looks Qualcomm-specific, shouldn't this be part of the
->>>> soc_usb framework instead of being added in the qcom/ stuff?
->>> Started working on this particular comment, and there are some things that needs to be considered if we moved this into SOC USB:
->>>
->>> 1.  We do save the reference to the USB BE DAI link within the USB DT node, which can be fetched/referenced based on sysdev.  However, I'm not sure if everyone would potentially follow that way.
->>>
->>> 2.  I tried a few implementations of adding a new SOC USB API, and the argument list was a bit long, because I didn't want to directly reference the usb_chip.
->>>
->>> Sorry for the delay, but I wanted to give a good stab at implementing this before bringing up the implications.  It is possible, but definitely not as clean as how we have it now IMO.
->> My comment was only referring to the location of the code, it's now in
->> sound/usb/qcom/mixer_usb_offload.c but does not contain anything
->> specific to Qualcomm. I was not asking for any encapsulation inside of
->> soc-usb, I was only suggesting a move of the code to a shared helper
->> library so that this code can be reused as is and not duplicated if the
->> QCOM parts are not compiled in.
-> Ah, great, thanks for the clarification.  Let me take a look with that perspective.
->
-Going back on the history behind moving it into qcom/ was based off feedback that Takashi pointed out in v14[1].  It was mainly due to the fact that we would be adding another hard dependency between USB SND and the offloading components.  Hence the reason for moving it to within the QCOM offloading package. 
-
-Thanks
-
-Wesley Cheng
-
-[1]: https://lore.kernel.org/linux-usb/87y1bt2acg.wl-tiwai@suse.de/
-
+Tips for more typo fixes in the same file: fileystem, constaints,
+specifc
