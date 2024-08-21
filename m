@@ -1,387 +1,371 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5165178361;
-	Wed, 21 Aug 2024 21:36:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE2216DED2
+	for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 22:18:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724276211; cv=none; b=ihILIp0tkzt9vDheOCFbUe4IoEk6aa629eMTvc73pZEe3ubmVzB+97U6bTU4qkMdfdF8F78mTtrqSyY2y8Af3pwbXOi2joqMCQ3zZLAf2yJ11266QAJf4Q/ytZQ8Q9/kVO/EMWCmtpSxGMQQT2kagnEcVgwNe71dzh+mBqRP6/E=
+	t=1724278690; cv=none; b=FoWtbn/LBnXpLV0ZAd4MVb/14omD26vuY5G6ML9vtKfv+WrNDYMxg/x191q25REoOY3yKgeu6ifgpC5R+Eu28zxcP48ETgTwzN4j+3B7Z8curQZl3vS1z4ge7hKn4c/wTvTtx2+jZHAtqxe8iy94hkAiZZ20gfc8DFueoigilLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724276211; c=relaxed/simple;
-	bh=GuUGg7LnZOfJhh8E7ueHAphHX3K1J1UByxf37EL1ov8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=lhOAFzuNTzvJ4xldFsNQwT8XfUqDswa/FoMZQAcu/KJlwOa0yINwBSROtHjef6iDvUqHl0L7dp5LJNSKMy0oxV7kl2k+qWm3ZjxULPrhWyIRnaxh+5mquf8Vh0HbMV+qRy7SZNuY5S717/0Gs3u1k7OjZZNBxdImMS1z5eXj24U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZTTsw+dQ; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1724278690; c=relaxed/simple;
+	bh=lTWh4pFD1D1BKypveelHOr5cmZ6NSQkm9gZ/MuVgouw=;
+	h=Date:Subject:In-Reply-To:CC:From:To:Message-ID:Mime-Version:
+	 Content-Type; b=ZpOTNkUanMg0KKF7OLfslVNqvDOp6PClZ13etU+PTgE9I2leea8MRy8V0wUoG5Zpp+63XDc5EF8RceClCoZnDLQqncQorrz0m8SfDhpwLD85hXFZP0G3bGrF7TXoHFZVZ8OF+hn6qx4ZVUKG1TudAi3iha2gV7wq6KrTI/fZqEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com; spf=pass smtp.mailfrom=dabbelt.com; dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b=3Z9T/u7B; arc=none smtp.client-ip=209.85.166.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dabbelt.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZTTsw+dQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724276210; x=1755812210;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=GuUGg7LnZOfJhh8E7ueHAphHX3K1J1UByxf37EL1ov8=;
-  b=ZTTsw+dQjLOQrR9EIdP4lF/zq5xoeD89a5Uu1+nV7WUp8Qhanf4sI6dE
-   B74zrYyJU69F2MOng+Qj0Ga110f/UulB9V7DQZctkV3M1NT3oc9TjRjyE
-   o20+wr0YYmd6wJcX3mOHAUEN8XANFUjAQo4Il6/jjwbvV+3azQaew8pSd
-   EN2oVRE6s/DfPLuHU3kORNJTX7ARqjloLMJuF7r1il2mhHysXzhD6p1F/
-   gOc4CbD3LrPMp5oOon03WAjYf8TY/5rLm3khgTdLkYejvYExO7tcrtCst
-   6n8UgRwnbOgUHn/lVwvDQO7ZOqt+BIqIVeTxvkrDanSfo9YzHnQ5N0oLV
-   Q==;
-X-CSE-ConnectionGUID: lJ1Vf2DLTh2JUKdTpoEy1Q==
-X-CSE-MsgGUID: /kOhQDbnSsyqLrt/5ccNIQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="34083839"
-X-IronPort-AV: E=Sophos;i="6.10,165,1719903600"; 
-   d="scan'208";a="34083839"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 14:36:48 -0700
-X-CSE-ConnectionGUID: EV/R+ZVFR5Gbs9KgdSrEWQ==
-X-CSE-MsgGUID: g7RFJimOQqG2nT8D7BbUJQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,165,1719903600"; 
-   d="scan'208";a="98724643"
-Received: from amlin-018-114.igk.intel.com ([10.102.18.114])
-  by orviesa001.jf.intel.com with ESMTP; 21 Aug 2024 14:36:43 -0700
-From: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-To: netdev@vger.kernel.org
-Cc: vadim.fedorenko@linux.dev,
-	jiri@resnulli.us,
-	corbet@lwn.net,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	donald.hunter@gmail.com,
-	anthony.l.nguyen@intel.com,
-	przemyslaw.kitszel@intel.com,
-	intel-wired-lan@lists.osuosl.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>
-Subject: [PATCH net-next v2 2/2] ice: add callbacks for Embedded SYNC enablement on dpll pins
-Date: Wed, 21 Aug 2024 23:32:18 +0200
-Message-Id: <20240821213218.232900-3-arkadiusz.kubalewski@intel.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20240821213218.232900-1-arkadiusz.kubalewski@intel.com>
-References: <20240821213218.232900-1-arkadiusz.kubalewski@intel.com>
+	dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b="3Z9T/u7B"
+Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-81f8f0197abso6682239f.2
+        for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 15:18:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20230601.gappssmtp.com; s=20230601; t=1724278687; x=1724883487; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GA0U69lWqZh9vgiySnbOFG6Yi5OvKjFXU6qSWoDxJ6E=;
+        b=3Z9T/u7BQI7qIeZg8T9W5lZEcCJPD2r9PaQ6vRp3259J22q0kLCvwOxMGXV626iEEJ
+         BnVKwLG5TRRRD4CnBUmKUZs5CMu1z4WaroiRafiuW7K3Is586FgiSEPRYO/zaMUKfEpX
+         YIEgkcId+RnmR++W5Lq3JjL3pybZ0Yjv7z+3xRTEipN+QAvEm8BrAo947qVhzzCNtDVG
+         nt5VhniJh6Ayy87YKbtpH90MVE6tGSUH3kbT7Vgb2vJijlUPUtRnHKfGhhnAzPCsATtR
+         tbqMDcz7t/+iwfXp00XKszwvQ6AIhI1hCTpiFoyZE/VGL58tro1BRMXGxJr2gvAgJxuS
+         Bvbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724278687; x=1724883487;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GA0U69lWqZh9vgiySnbOFG6Yi5OvKjFXU6qSWoDxJ6E=;
+        b=pWUQxNfvVFIkMl2h9dlZYdX6yLqlrR7TI951BHWr/Bn/h6VSFAojIytwPDL4yjOm8X
+         13gijgw6Z4lBmfHfDc0xTRG0LukR1rxMUrZt4XTPf+iFegaHYAL6MfazgHU9C/s/RVm0
+         mcGEFXreUrmbfZ9LlQJygBjOPci4YF8aJ3W9a22Sly0girzhagZpLci3IADn5DsOtVW+
+         WzSFC6XV4+CmObnS56RsBEpu51+Jy2BxQnRgTC8Z/hISn5rSsA3FAVbD6HBCYkb7zhsQ
+         C9nchDk1amRC9vofXdRrGG23TSo9srKj/GmQ3HLAbjapCll5zH/l6UXpAH7lbPMaKibG
+         K3XQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX+z9L76gfP75FcfWeYc/HBYPNZHj2OEbf4rnxEi7BybEXjckQr/wvLKe7DrvPJOuF8hP57WdOYcDg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwyK0BloSMJJdq+OoUeI5jlFDthmFu28QLh5pdQksk05wDpl7GW
+	AkmpwVhO4UJ6wRkQ1IzvWV6vIJkQ6gO27YiZLm+1/Dl5VihMWc1g0wkOaJp8/+AoJcn1URazqCo
+	v
+X-Google-Smtp-Source: AGHT+IGGJZWDDJ8OGBrJ+D+6QI5DXa4ye9cGQczHj52PhpdGbXIA0HyWT9z9gUssP2NjkA94cd9eUg==
+X-Received: by 2002:a05:6a00:10c1:b0:706:6af8:e08a with SMTP id d2e1a72fcca58-71423421f05mr3709454b3a.2.1724278676054;
+        Wed, 21 Aug 2024 15:17:56 -0700 (PDT)
+Received: from localhost ([192.184.165.199])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71434340419sm138329b3a.205.2024.08.21.15.17.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Aug 2024 15:17:55 -0700 (PDT)
+Date: Wed, 21 Aug 2024 15:17:55 -0700 (PDT)
+X-Google-Original-Date: Wed, 21 Aug 2024 15:17:53 PDT (-0700)
+Subject:     Re: [PATCH v3 1/3] riscv: mm: Use hint address in mmap if available
+In-Reply-To: <MEYP282MB2312A08FF95D44014AB78411C68D2@MEYP282MB2312.AUSP282.PROD.OUTLOOK.COM>
+CC: Charlie Jenkins <charlie@rivosinc.com>, cyy@cyyself.name, alexghiti@rivosinc.com,
+  Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu, shuah@kernel.org, corbet@lwn.net, linux-mm@kvack.org,
+  linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+  linux-doc@vger.kernel.org, linux-api@vger.kernel.org
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: rsworktech@outlook.com
+Message-ID: <mhng-7d9e2b27-a53d-4579-b78e-0aec038290fb@palmer-ri-x1c9>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Allow the user to get and set configuration of Embedded SYNC feature
-on the ice driver dpll pins.
+On Mon, 19 Aug 2024 18:58:18 PDT (-0700), rsworktech@outlook.com wrote:
+> On 2024-08-20 01:00, Charlie Jenkins wrote:
+>> On Mon, Aug 19, 2024 at 01:55:57PM +0800, Levi Zim wrote:
+>>> On 2024-03-22 22:06, Palmer Dabbelt wrote:
+>>>> On Thu, 01 Feb 2024 18:28:06 PST (-0800), Charlie Jenkins wrote:
+>>>>> On Wed, Jan 31, 2024 at 11:59:43PM +0800, Yangyu Chen wrote:
+>>>>>> On Wed, 2024-01-31 at 22:41 +0800, Yangyu Chen wrote:
+>>>>>>> On Tue, 2024-01-30 at 17:07 -0800, Charlie Jenkins wrote:
+>>>>>>>> On riscv it is guaranteed that the address returned by mmap is less
+>>>>>>>> than
+>>>>>>>> the hint address. Allow mmap to return an address all the way up to
+>>>>>>>> addr, if provided, rather than just up to the lower address space.
+>>>>>>>>>> This provides a performance benefit as well, allowing
+>>>>>> mmap to exit
+>>>>>>>> after
+>>>>>>>> checking that the address is in range rather than searching for a
+>>>>>>>> valid
+>>>>>>>> address.
+>>>>>>>>>> It is possible to provide an address that uses at most the same
+>>>>>>>> number
+>>>>>>>> of bits, however it is significantly more computationally expensive
+>>>>>>>> to
+>>>>>>>> provide that number rather than setting the max to be the hint
+>>>>>>>> address.
+>>>>>>>> There is the instruction clz/clzw in Zbb that returns the highest
+>>>>>>>> set
+>>>>>>>> bit
+>>>>>>>> which could be used to performantly implement this, but it would
+>>>>>>>> still
+>>>>>>>> be slower than the current implementation. At worst case, half of
+>>>>>>>> the
+>>>>>>>> address would not be able to be allocated when a hint address is
+>>>>>>>> provided.
+>>>>>>>>>> Signed-off-by: Charlie Jenkins<charlie@rivosinc.com>
+>>>>>>>> ---
+>>>>>>>>   arch/riscv/include/asm/processor.h | 27 +++++++++++---------------
+>>>>>>>> -
+>>>>>>>>   1 file changed, 11 insertions(+), 16 deletions(-)
+>>>>>>>>>> diff --git a/arch/riscv/include/asm/processor.h
+>>>>>>>> b/arch/riscv/include/asm/processor.h
+>>>>>>>> index f19f861cda54..8ece7a8f0e18 100644
+>>>>>>>> --- a/arch/riscv/include/asm/processor.h
+>>>>>>>> +++ b/arch/riscv/include/asm/processor.h
+>>>>>>>> @@ -14,22 +14,16 @@
+>>>>>>>>
+>>>>>>>>   #include <asm/ptrace.h>
+>>>>>>>>
+>>>>>>>> -#ifdef CONFIG_64BIT
+>>>>>>>> -#define DEFAULT_MAP_WINDOW    (UL(1) << (MMAP_VA_BITS - 1))
+>>>>>>>> -#define STACK_TOP_MAX        TASK_SIZE_64
+>>>>>>>> -
+>>>>>>>>   #define arch_get_mmap_end(addr, len, flags)            \
+>>>>>>>>   ({                                \
+>>>>>>>>       unsigned long
+>>>>>>>> mmap_end;                    \
+>>>>>>>>       typeof(addr) _addr = (addr);                \
+>>>>>>>> -    if ((_addr) == 0 || (IS_ENABLED(CONFIG_COMPAT) &&
+>>>>>>>> is_compat_task())) \
+>>>>>>>> +    if ((_addr) == 0 ||                    \
+>>>>>>>> +        (IS_ENABLED(CONFIG_COMPAT) && is_compat_task()) ||    \
+>>>>>>>> +        ((_addr + len) > BIT(VA_BITS -
+>>>>>>>> 1)))            \
+>>>>>>>>           mmap_end = STACK_TOP_MAX;            \
+>>>>>>>> -    else if ((_addr) >= VA_USER_SV57) \
+>>>>>>>> -        mmap_end = STACK_TOP_MAX;            \
+>>>>>>>> -    else if ((((_addr) >= VA_USER_SV48)) && (VA_BITS >=
+>>>>>>>> VA_BITS_SV48)) \
+>>>>>>>> -        mmap_end = VA_USER_SV48;            \
+>>>>>>>>       else                            \
+>>>>>>>> -        mmap_end = VA_USER_SV39;            \
+>>>>>>>> +        mmap_end = (_addr + len);            \
+>>>>>>>>       mmap_end;                        \
+>>>>>>>>   })
+>>>>>>>>
+>>>>>>>> @@ -39,17 +33,18 @@
+>>>>>>>>       typeof(addr) _addr = (addr);                \
+>>>>>>>>       typeof(base) _base = (base);                \
+>>>>>>>>       unsigned long rnd_gap = DEFAULT_MAP_WINDOW - (_base);    \
+>>>>>>>> -    if ((_addr) == 0 || (IS_ENABLED(CONFIG_COMPAT) &&
+>>>>>>>> is_compat_task())) \
+>>>>>>>> +    if ((_addr) == 0 ||                    \
+>>>>>>>> +        (IS_ENABLED(CONFIG_COMPAT) && is_compat_task()) ||    \
+>>>>>>>> +        ((_addr + len) > BIT(VA_BITS -
+>>>>>>>> 1)))            \
+>>>>>>>>           mmap_base = (_base);                \
+>>>>>>>> -    else if (((_addr) >= VA_USER_SV57) && (VA_BITS >=
+>>>>>>>> VA_BITS_SV57)) \
+>>>>>>>> -        mmap_base = VA_USER_SV57 - rnd_gap; \
+>>>>>>>> -    else if ((((_addr) >= VA_USER_SV48)) && (VA_BITS >=
+>>>>>>>> VA_BITS_SV48)) \
+>>>>>>>> -        mmap_base = VA_USER_SV48 - rnd_gap; \
+>>>>>>>>       else                            \
+>>>>>>>> -        mmap_base = VA_USER_SV39 - rnd_gap; \
+>>>>>>>> +        mmap_base = (_addr + len) - rnd_gap; \
+>>>>>>>>       mmap_base;                        \
+>>>>>>>>   })
+>>>>>>>>
+>>>>>>>> +#ifdef CONFIG_64BIT
+>>>>>>>> +#define DEFAULT_MAP_WINDOW    (UL(1) << (MMAP_VA_BITS - 1))
+>>>>>>>> +#define STACK_TOP_MAX        TASK_SIZE_64
+>>>>>>>>   #else
+>>>>>>>>   #define DEFAULT_MAP_WINDOW    TASK_SIZE
+>>>>>>>>   #define STACK_TOP_MAX        TASK_SIZE
+>>>>>>>>>> I have carefully tested your patch on qemu with sv57. A
+>>>>>> bug that
+>>>>>>> needs
+>>>>>>> to be solved is that mmap with the same hint address without
+>>>>>>> MAP_FIXED
+>>>>>>> set will fail the second time.
+>>>>>>>> Userspace code to reproduce the bug:
+>>>>>>>> #include <sys/mman.h>
+>>>>>>> #include <stdio.h>
+>>>>>>> #include <stdint.h>
+>>>>>>>> void test(char *addr) {
+>>>>>>>      char *res = mmap(addr, 4096, PROT_READ | PROT_WRITE,
+>>>>>>> MAP_ANONYMOUS
+>>>>>>>> MAP_PRIVATE, -1, 0);
+>>>>>>>      printf("hint %p got %p.\n", addr, res);
+>>>>>>> }
+>>>>>>>> int main (void) {
+>>>>>>>      test(1<<30);
+>>>>>>>      test(1<<30);
+>>>>>>>      test(1<<30);
+>>>>>>>      return 0;
+>>>>>>> }
+>>>>>>>> output:
+>>>>>>>> hint 0x40000000 got 0x40000000.
+>>>>>>> hint 0x40000000 got 0xffffffffffffffff.
+>>>>>>> hint 0x40000000 got 0xffffffffffffffff.
+>>>>>>>> output on x86:
+>>>>>>>> hint 0x40000000 got 0x40000000.
+>>>>>>> hint 0x40000000 got 0x7f9171363000.
+>>>>>>> hint 0x40000000 got 0x7f9171362000.
+>>>>>>>> It may need to implement a special arch_get_unmapped_area and
+>>>>>>> arch_get_unmapped_area_topdown function.
+>>>>>>>
+>>>>>> This is because hint address < rnd_gap. I have tried to let mmap_base =
+>>>>>> min((_addr + len), (base) + TASK_SIZE - DEFAULT_MAP_WINDOW). However it
+>>>>>> does not work for bottom-up while ulimit -s is unlimited. You said this
+>>>>>> behavior is expected from patch v2 review. However it brings a new
+>>>>>> regression even on sv39 systems.
+>>>>>>
+>>>>>> I still don't know the reason why use addr+len as the upper-bound. I
+>>>>>> think solution like x86/arm64/powerpc provide two address space switch
+>>>>>> based on whether hint address above the default map window is enough.
+>>>>>>
+>>>>> Yep this is expected. It is up to the maintainers to decide.
+>>>> Sorry I forgot to reply to this, I had a buffer sitting around somewhere
+>>>> but I must have lost it.
+>>>>
+>>>> I think Charlie's approach is the right way to go.  Putting my userspace
+>>>> hat on, I'd much rather have my allocations fail rather than silently
+>>>> ignore the hint when there's memory pressure.
+>>>>
+>>>> If there's some real use case that needs these low hints to be silently
+>>>> ignored under VA pressure then we can try and figure something out that
+>>>> makes those applications work.
+>>> I could confirm that this patch has broken chromium's partition allocator on
+>>> riscv64. The minimal reproduction I use is chromium-mmap.c:
+>>>
+>>> #include <stdio.h>
+>>> #include <sys/mman.h>
+>>>
+>>> int main() {
+>>>      void* expected = (void*)0x400000000;
+>>>      void* addr = mmap(expected, 17179869184, PROT_NONE,
+>>> MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
+>>>      if (addr != expected) {
+>> It is not valid to assume that the address returned by mmap will be the
+>> hint address. If the hint address is not available, mmap will return a
+>> different address.
+>
+> Oh, sorry I didn't make it clear what is the expected behavior.
+> The printf here is solely for debugging purpose and I don't mean that
+> chromium expect it will get the hint address. The expected behavior is
+> that both the two mmap calls will succeed.
+>
+>>>          printf("Not expected address: %p != %p\n", addr, expected);
+>>>      }
+>>>      expected = (void*)0x3fffff000;
+>>>      addr = mmap(expected, 17179873280, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS,
+>>> -1, 0);
+>>>      if (addr != expected) {
+>>>          printf("Not expected address: %p != %p\n", addr, expected);
+>>>      }
+>>>      return 0;
+>>> }
+>>>
+>>> The second mmap fails with ENOMEM. Manually reverting this commit fixes the
+>>> issue for me. So I think it's clearly a regression and breaks userspace.
+>>>
+>> The issue here is that overlapping memory is being requested. This
+>> second mmap will never be able to provide an address at 0x3fffff000 with
+>> a size of 0x400001000 since mmap just provided an address at 0x400000000
+>> with a size of 0x400000000.
+>>
+>> Before this patch, this request causes mmap to return a completely
+>> arbitrary value. There is no reason to use a hint address in this manner
+>> because the hint can never be respected. Since an arbitrary address is
+>> desired, a hint of zero should be used.
+>>
+>> This patch causes the behavior to be more deterministic. Instead of
+>> providing an arbitrary address, it causes the address to be less than or
+>> equal to the hint address. This allows for applications to make
+>> assumptions about the returned address.
+>
+> About the overlap, of course the partition allocator's request for
+> overlapped vma seems unreasonable.
+>
+> But I still don't quite understand why mmap cannot use an address higher
+> than the hint address.
+> The hint address, after all, is a hint, not a requirement.
+>
+> Quoting the man page:
+>
+>>    If another mapping already exists there, the kernel picks
+>>         a new address that may or may not depend on the hint.  The
+>>         address of the new mapping is returned as the result of the call.
+>
+> So for casual programmers that only reads man page but not architecture
+> specific kernel documentation, the current behavior of mmap on riscv64
+> failing on overlapped address ranges are quite surprising IMO.
+>
+> And quoting the man page again about the errno:
+>
+>>       ENOMEM No memory is available.
+>>
+>>       ENOMEM The process's maximum number of mappings would have been
+>>              exceeded.  This error can also occur for munmap(), when
+>>              unmapping a region in the middle of an existing mapping,
+>>              since this results in two smaller mappings on either side
+>>              of the region being unmapped.
+>>
+>>       ENOMEM (since Linux 4.7) The process's RLIMIT_DATA limit,
+>>              described in getrlimit(2), would have been exceeded.
+>>
+>>       ENOMEM We don't like addr, because it exceeds the virtual address
+>>              space of the CPU.
+>>
+>
+> There's no matching description for the ENOMEM returned here.
+> I would suggest removing "because it exceeds the virtual address
+> space of the CPU." from the last item if the ENOMEM behavior here
+> is expected.
+>
+>> This code is unfortunately relying on the previously mostly undefined
+>> behavior of the hint address in mmap.
+>
+> Although I haven't read the code of chromium's partition allocator to
+> judge whether it should
+> be improved or fixed for riscv64, I do know that the kernel "don't break
+> userspace" and "never EVER blame the user programs".
 
-Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
-Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
----
-v2:
-- align to v2 changes of "dpll: add Embedded SYNC feature for a pin"
+Ya, sorry for breaking stuff.
 
- drivers/net/ethernet/intel/ice/ice_dpll.c | 230 +++++++++++++++++++++-
- drivers/net/ethernet/intel/ice/ice_dpll.h |   1 +
- 2 files changed, 228 insertions(+), 3 deletions(-)
+The goal here was to move to the mmap flag behavor similar to what arm64 
+and x86 have, as that was done in a way that didn't appear to break 
+userspace -- or at least any real userspace programs.  IIRC that first 
+test was pretty broken (it actually depended on the hint address), but 
+sounds like that's not the case.
 
-diff --git a/drivers/net/ethernet/intel/ice/ice_dpll.c b/drivers/net/ethernet/intel/ice/ice_dpll.c
-index e92be6f130a3..aa6b87281ea6 100644
---- a/drivers/net/ethernet/intel/ice/ice_dpll.c
-+++ b/drivers/net/ethernet/intel/ice/ice_dpll.c
-@@ -9,6 +9,7 @@
- #define ICE_CGU_STATE_ACQ_ERR_THRESHOLD		50
- #define ICE_DPLL_PIN_IDX_INVALID		0xff
- #define ICE_DPLL_RCLK_NUM_PER_PF		1
-+#define ICE_DPLL_PIN_ESYNC_PULSE_HIGH_PERCENT	25
- 
- /**
-  * enum ice_dpll_pin_type - enumerate ice pin types:
-@@ -30,6 +31,10 @@ static const char * const pin_type_name[] = {
- 	[ICE_DPLL_PIN_TYPE_RCLK_INPUT] = "rclk-input",
- };
- 
-+static const struct dpll_pin_frequency ice_esync_range[] = {
-+	DPLL_PIN_FREQUENCY_RANGE(0, DPLL_PIN_FREQUENCY_1_HZ),
-+};
-+
- /**
-  * ice_dpll_is_reset - check if reset is in progress
-  * @pf: private board structure
-@@ -394,8 +399,8 @@ ice_dpll_pin_state_update(struct ice_pf *pf, struct ice_dpll_pin *pin,
- 
- 	switch (pin_type) {
- 	case ICE_DPLL_PIN_TYPE_INPUT:
--		ret = ice_aq_get_input_pin_cfg(&pf->hw, pin->idx, NULL, NULL,
--					       NULL, &pin->flags[0],
-+		ret = ice_aq_get_input_pin_cfg(&pf->hw, pin->idx, &pin->status,
-+					       NULL, NULL, &pin->flags[0],
- 					       &pin->freq, &pin->phase_adjust);
- 		if (ret)
- 			goto err;
-@@ -430,7 +435,7 @@ ice_dpll_pin_state_update(struct ice_pf *pf, struct ice_dpll_pin *pin,
- 			goto err;
- 
- 		parent &= ICE_AQC_GET_CGU_OUT_CFG_DPLL_SRC_SEL;
--		if (ICE_AQC_SET_CGU_OUT_CFG_OUT_EN & pin->flags[0]) {
-+		if (ICE_AQC_GET_CGU_OUT_CFG_OUT_EN & pin->flags[0]) {
- 			pin->state[pf->dplls.eec.dpll_idx] =
- 				parent == pf->dplls.eec.dpll_idx ?
- 				DPLL_PIN_STATE_CONNECTED :
-@@ -1098,6 +1103,221 @@ ice_dpll_phase_offset_get(const struct dpll_pin *pin, void *pin_priv,
- 	return 0;
- }
- 
-+/**
-+ * ice_dpll_output_esync_set - callback for setting embedded sync
-+ * @pin: pointer to a pin
-+ * @pin_priv: private data pointer passed on pin registration
-+ * @dpll: registered dpll pointer
-+ * @dpll_priv: private data pointer passed on dpll registration
-+ * @esync_freq: requested embedded sync frequency
-+ * @extack: error reporting
-+ *
-+ * Dpll subsystem callback. Handler for setting embedded sync frequency value
-+ * on output pin.
-+ *
-+ * Context: Acquires pf->dplls.lock
-+ * Return:
-+ * * 0 - success
-+ * * negative - error
-+ */
-+static int
-+ice_dpll_output_esync_set(const struct dpll_pin *pin, void *pin_priv,
-+			  const struct dpll_device *dpll, void *dpll_priv,
-+			  u64 esync_freq, struct netlink_ext_ack *extack)
-+{
-+	struct ice_dpll_pin *p = pin_priv;
-+	struct ice_dpll *d = dpll_priv;
-+	struct ice_pf *pf = d->pf;
-+	u8 flags = 0;
-+	int ret;
-+
-+	if (ice_dpll_is_reset(pf, extack))
-+		return -EBUSY;
-+	mutex_lock(&pf->dplls.lock);
-+	if (p->flags[0] & ICE_AQC_GET_CGU_OUT_CFG_OUT_EN)
-+		flags = ICE_AQC_SET_CGU_OUT_CFG_OUT_EN;
-+	if (esync_freq == DPLL_PIN_FREQUENCY_1_HZ) {
-+		if (p->flags[0] & ICE_AQC_GET_CGU_OUT_CFG_ESYNC_EN) {
-+			ret = 0;
-+		} else {
-+			flags |= ICE_AQC_SET_CGU_OUT_CFG_ESYNC_EN;
-+			ret = ice_aq_set_output_pin_cfg(&pf->hw, p->idx, flags,
-+							0, 0, 0);
-+		}
-+	} else {
-+		if (!(p->flags[0] & ICE_AQC_GET_CGU_OUT_CFG_ESYNC_EN)) {
-+			ret = 0;
-+		} else {
-+			flags &= ~ICE_AQC_SET_CGU_OUT_CFG_ESYNC_EN;
-+			ret = ice_aq_set_output_pin_cfg(&pf->hw, p->idx, flags,
-+							0, 0, 0);
-+		}
-+	}
-+	mutex_unlock(&pf->dplls.lock);
-+	if (ret)
-+		NL_SET_ERR_MSG_FMT(extack,
-+				   "err:%d %s failed to set e-sync freq\n",
-+				   ret,
-+				   ice_aq_str(pf->hw.adminq.sq_last_status));
-+	return ret;
-+}
-+
-+/**
-+ * ice_dpll_output_esync_get - callback for getting embedded sync config
-+ * @pin: pointer to a pin
-+ * @pin_priv: private data pointer passed on pin registration
-+ * @dpll: registered dpll pointer
-+ * @dpll_priv: private data pointer passed on dpll registration
-+ * @esync: on success holds embedded sync pin properties
-+ * @extack: error reporting
-+ *
-+ * Dpll subsystem callback. Handler for getting embedded sync frequency value
-+ * and capabilities on output pin.
-+ *
-+ * Context: Acquires pf->dplls.lock
-+ * Return:
-+ * * 0 - success
-+ * * negative - error
-+ */
-+static int
-+ice_dpll_output_esync_get(const struct dpll_pin *pin, void *pin_priv,
-+			  const struct dpll_device *dpll, void *dpll_priv,
-+			  struct dpll_pin_esync *esync,
-+			  struct netlink_ext_ack *extack)
-+{
-+	struct ice_dpll_pin *p = pin_priv;
-+	struct ice_dpll *d = dpll_priv;
-+	struct ice_pf *pf = d->pf;
-+
-+	if (ice_dpll_is_reset(pf, extack))
-+		return -EBUSY;
-+	mutex_lock(&pf->dplls.lock);
-+	if (!(p->flags[0] & ICE_AQC_GET_CGU_OUT_CFG_ESYNC_ABILITY) ||
-+	    p->freq != DPLL_PIN_FREQUENCY_10_MHZ) {
-+		mutex_unlock(&pf->dplls.lock);
-+		return -EOPNOTSUPP;
-+	}
-+	esync->range = ice_esync_range;
-+	esync->range_num = ARRAY_SIZE(ice_esync_range);
-+	if (p->flags[0] & ICE_AQC_GET_CGU_OUT_CFG_ESYNC_EN) {
-+		esync->freq = DPLL_PIN_FREQUENCY_1_HZ;
-+		esync->pulse = ICE_DPLL_PIN_ESYNC_PULSE_HIGH_PERCENT;
-+	} else {
-+		esync->freq = 0;
-+		esync->pulse = 0;
-+	}
-+	mutex_unlock(&pf->dplls.lock);
-+	return 0;
-+}
-+
-+/**
-+ * ice_dpll_input_esync_set - callback for setting embedded sync
-+ * @pin: pointer to a pin
-+ * @pin_priv: private data pointer passed on pin registration
-+ * @dpll: registered dpll pointer
-+ * @dpll_priv: private data pointer passed on dpll registration
-+ * @esync_freq: requested embedded sync frequency
-+ * @extack: error reporting
-+ *
-+ * Dpll subsystem callback. Handler for setting embedded sync frequency value
-+ * on input pin.
-+ *
-+ * Context: Acquires pf->dplls.lock
-+ * Return:
-+ * * 0 - success
-+ * * negative - error
-+ */
-+static int
-+ice_dpll_input_esync_set(const struct dpll_pin *pin, void *pin_priv,
-+			 const struct dpll_device *dpll, void *dpll_priv,
-+			 u64 esync_freq, struct netlink_ext_ack *extack)
-+{
-+	struct ice_dpll_pin *p = pin_priv;
-+	struct ice_dpll *d = dpll_priv;
-+	struct ice_pf *pf = d->pf;
-+	u8 flags_en = 0;
-+	int ret;
-+
-+	if (ice_dpll_is_reset(pf, extack))
-+		return -EBUSY;
-+	mutex_lock(&pf->dplls.lock);
-+	if (p->flags[0] & ICE_AQC_GET_CGU_IN_CFG_FLG2_INPUT_EN)
-+		flags_en = ICE_AQC_SET_CGU_IN_CFG_FLG2_INPUT_EN;
-+	if (esync_freq == DPLL_PIN_FREQUENCY_1_HZ) {
-+		if (p->flags[0] & ICE_AQC_GET_CGU_IN_CFG_FLG2_ESYNC_EN) {
-+			ret = 0;
-+		} else {
-+			flags_en |= ICE_AQC_SET_CGU_IN_CFG_FLG2_ESYNC_EN;
-+			ret = ice_aq_set_input_pin_cfg(&pf->hw, p->idx, 0,
-+						       flags_en, 0, 0);
-+		}
-+	} else {
-+		if (!(p->flags[0] & ICE_AQC_GET_CGU_IN_CFG_FLG2_ESYNC_EN)) {
-+			ret = 0;
-+		} else {
-+			flags_en &= ~ICE_AQC_SET_CGU_IN_CFG_FLG2_ESYNC_EN;
-+			ret = ice_aq_set_input_pin_cfg(&pf->hw, p->idx, 0,
-+						       flags_en, 0, 0);
-+		}
-+	}
-+	mutex_unlock(&pf->dplls.lock);
-+	if (ret)
-+		NL_SET_ERR_MSG_FMT(extack,
-+				   "err:%d %s failed to set e-sync freq\n",
-+				   ret,
-+				   ice_aq_str(pf->hw.adminq.sq_last_status));
-+
-+	return ret;
-+}
-+
-+/**
-+ * ice_dpll_input_esync_get - callback for getting embedded sync config
-+ * @pin: pointer to a pin
-+ * @pin_priv: private data pointer passed on pin registration
-+ * @dpll: registered dpll pointer
-+ * @dpll_priv: private data pointer passed on dpll registration
-+ * @esync: on success holds embedded sync pin properties
-+ * @extack: error reporting
-+ *
-+ * Dpll subsystem callback. Handler for getting embedded sync frequency value
-+ * and capabilities on input pin.
-+ *
-+ * Context: Acquires pf->dplls.lock
-+ * Return:
-+ * * 0 - success
-+ * * negative - error
-+ */
-+static int
-+ice_dpll_input_esync_get(const struct dpll_pin *pin, void *pin_priv,
-+			 const struct dpll_device *dpll, void *dpll_priv,
-+			 struct dpll_pin_esync *esync,
-+			 struct netlink_ext_ack *extack)
-+{
-+	struct ice_dpll_pin *p = pin_priv;
-+	struct ice_dpll *d = dpll_priv;
-+	struct ice_pf *pf = d->pf;
-+
-+	if (ice_dpll_is_reset(pf, extack))
-+		return -EBUSY;
-+	mutex_lock(&pf->dplls.lock);
-+	if (!(p->status & ICE_AQC_GET_CGU_IN_CFG_STATUS_ESYNC_CAP) ||
-+	    p->freq != DPLL_PIN_FREQUENCY_10_MHZ) {
-+		mutex_unlock(&pf->dplls.lock);
-+		return -EOPNOTSUPP;
-+	}
-+	esync->range = ice_esync_range;
-+	esync->range_num = ARRAY_SIZE(ice_esync_range);
-+	if (p->flags[0] & ICE_AQC_GET_CGU_IN_CFG_FLG2_ESYNC_EN) {
-+		esync->freq = DPLL_PIN_FREQUENCY_1_HZ;
-+		esync->pulse = ICE_DPLL_PIN_ESYNC_PULSE_HIGH_PERCENT;
-+	} else {
-+		esync->freq = 0;
-+		esync->pulse = 0;
-+	}
-+	mutex_unlock(&pf->dplls.lock);
-+	return 0;
-+}
-+
- /**
-  * ice_dpll_rclk_state_on_pin_set - set a state on rclk pin
-  * @pin: pointer to a pin
-@@ -1222,6 +1442,8 @@ static const struct dpll_pin_ops ice_dpll_input_ops = {
- 	.phase_adjust_get = ice_dpll_pin_phase_adjust_get,
- 	.phase_adjust_set = ice_dpll_input_phase_adjust_set,
- 	.phase_offset_get = ice_dpll_phase_offset_get,
-+	.esync_set = ice_dpll_input_esync_set,
-+	.esync_get = ice_dpll_input_esync_get,
- };
- 
- static const struct dpll_pin_ops ice_dpll_output_ops = {
-@@ -1232,6 +1454,8 @@ static const struct dpll_pin_ops ice_dpll_output_ops = {
- 	.direction_get = ice_dpll_output_direction,
- 	.phase_adjust_get = ice_dpll_pin_phase_adjust_get,
- 	.phase_adjust_set = ice_dpll_output_phase_adjust_set,
-+	.esync_set = ice_dpll_output_esync_set,
-+	.esync_get = ice_dpll_output_esync_get,
- };
- 
- static const struct dpll_device_ops ice_dpll_ops = {
-diff --git a/drivers/net/ethernet/intel/ice/ice_dpll.h b/drivers/net/ethernet/intel/ice/ice_dpll.h
-index 93172e93995b..c320f1bf7d6d 100644
---- a/drivers/net/ethernet/intel/ice/ice_dpll.h
-+++ b/drivers/net/ethernet/intel/ice/ice_dpll.h
-@@ -31,6 +31,7 @@ struct ice_dpll_pin {
- 	struct dpll_pin_properties prop;
- 	u32 freq;
- 	s32 phase_adjust;
-+	u8 status;
- };
- 
- /** ice_dpll - store info required for DPLL control
--- 
-2.38.1
+I think maybe this is just luck: we didn't chunk the address space up, 
+we're just hinting on every bit, so we're just more likely to hit the 
+exhaustion.  Doesn't really matter, though, as if it's breaking stuff so 
+we've got to deal with it.
 
+Charlie and I are just talking, and best we can come up with is to move 
+to the behavior where we fall back to larger allocation regions when 
+there's no space in the smaller allocation region.  Charlie's going to 
+try and throw together a patch for that, hopefully it'll sort things 
+out.
+
+>> The goal of this patch is to help
+>> developers have more consistent mmap behavior, but maybe it is necessary
+>> to hide this behavior behind an mmap flag.
+>
+> Thank you for helping to shape a more consistent mmap behavior.
+> I think this should be fixed ASAP either by allowing the hint address to
+> be ignored
+> (as suggested by the Linux man page), or hide this behavior behind an
+> mmap flag as you said.
+>
+>> - Charlie
+>>
+>>> See alsohttps://github.com/riscv-forks/electron/issues/4
+>>>
+>>>>> - Charlie
+>>> Sincerely,
+>>> Levi
+>>>
+>
+> I accidentally introduced some HTML into this reply so this reply is
+> resent as plain text.
+>
+> Sincerely,
+> Levi
