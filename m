@@ -1,51 +1,50 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2044.outbound.protection.outlook.com [40.107.244.44])
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2071.outbound.protection.outlook.com [40.107.101.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE7C14D2A8;
-	Wed, 21 Aug 2024 20:45:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534CC1531C2;
+	Wed, 21 Aug 2024 20:51:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.71
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724273146; cv=fail; b=hBjoTwkvpqftQ9QegrDsUDfJU9g5HYvUMrLjMD/sGciXfJClDvllEmnaEVusGJQufH2YvefNxVXSl2m2/48XEnAKH4YSME9+O0uBLNev5N07gttj6Tl3dFiKj6zsatglGulz8Fu7D8XCC71pSOGwzLpOxxHOsFztuK7ZakTj5Kg=
+	t=1724273475; cv=fail; b=ewpTmNJxSO97QApIDlP6vG0TmHcrXkmoM9CsGDiHNrrkEpXmIA9lx/RHgBhy/8KSPfJwUy6gSR4xoTZz4Lap0jFPgEByne2qT4n1s7Hn3cfK4EQPOs87MZ1WrbFE2bhdxKV0cYIKJA1W8yLzsbI5zaB/Yb0lMg4q+f6qSlaSxVs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724273146; c=relaxed/simple;
-	bh=GmXZbIcr9RZX1Bd7VU/GWwOmPahqq3RuMaK1gv6ZDqo=;
+	s=arc-20240116; t=1724273475; c=relaxed/simple;
+	bh=ONO8uQdUUBrN3TOo4e9MCCH2ucJ6/rTQv3uUwGNg8mo=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=CReWn25Tu9nikVYaZwqJJ4xsWyqzWzkwe5H6YCaD2c2eBXGa2ad0fPOK45NjoDd9S0CJgdoI0Ci3BzzuT72HPjoEJlq9QBLory5tVzq+yIP0R4jDZbScH9kToQvg228aqq5wKq5wGvZjqwRrz+IcH7AIycIfSh/befHDZWcpFAY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=00E5IX6v; arc=fail smtp.client-ip=40.107.244.44
+	 Content-Type:MIME-Version; b=JTDZfid0zu+RBSO2iREWdfSZA3cjgLo4pL66RiTAAYGwo8IHbV4dEB6BJUM1pLS+EiqtO4Loz4ntr/ruDFCzkk6IFzB1DxQdC7+goja5GqGAMWmLSc59YXpNvzLKcfk9bQefzBnl7ohlUsxUFrCJvdhk+SpifOj8JdlyC3qrvmM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=g4JpQUo5; arc=fail smtp.client-ip=40.107.101.71
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="00E5IX6v"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="g4JpQUo5"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UPEpY4Fha6N7FztoANMZ60UAfxUwgKEonrw67Y+THK74S11/LtB1keX/u9PpIKC5z7g78FhvSF/i0Zt0bTjB0je4NKgfXVBMvkI8jTx0hkPEeJJOT0CtYAlszNFRDfskVaV83080HoE6ufLrYKiHRszB6PXEoGkrk3c1oTC272xc7m5XrBX/t/d/tEo3RMLR9IK3rWbt0sYLx5fFSC12vMm5uq7IuSVzaBgLJpKc4hPbqiLR1tByTzS3uXjifG0nUpiKRVKPJYeHf2skfAeZijHzUmd3YMDTx9foIhjXdLT1buHXC4U5X2dRGrf2SYQoJAt4lUmvo7p3rqPotP1Pow==
+ b=SuSjfuR8ppB2Tg8BogyDvDV1bGjd6dJdw9ZXPs2LvRzoQMavRB03Jd8qvbaD+6D33Yduf8wtZKI1Ve+gX/z5Z8x8ktaGnyknsWOjh6gWPi/DWK37+2upvKuD10I6njWTGECtS3uO66t+l4NBJNuzzcR64YppLJtEvUmeW17LKJRE8Ar8KI/98cltZU8MO8QooIXdCTN2gzIGV9HKt44JDX5Ci2irKnbmn5OOjVO93SHujE/v2qobLxsNgqGvNhQ8aVYZ3auXvssCFPBSVUOfrl9sezs1zo13SW+PwqTYt9P0LqnSgc1QKv4EiLM7b0QK4iPTBHWSFiyRKnIFIHqb+w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WlLcNiokpbPEaxlBiHuwLLER6DCrVQWXwK0LKrOUOjI=;
- b=BlQhwlronsU91iojib7RGZcv0M0iv/LGP4xDeiMY2ZdURAZrJetyEcXnVs9NAsl6x9Ps2CtJqeQ6lwGjnwSCNQadSTeD5lsboncXiTTWCaXNTULucW0/TUR5rd3+l8Xu3m4NfB1CIIxQtOFDbL8W497/PRyQwZpCSdm8zcCTMrE2CHy4Q0ZHQPBFHdtkLv0RPH39sMssg0kEokCR/OTW6xxKm7Gr0Kwlqbj4CTemC/3WCDMlBOdk61WT4tByG/2XCIseFj9XFcrSxpm3hNNvU9dAoC+Jqto7Uzgi9KmIvpmEO3BBumFT9sWO68kmCLliQ56/b2E0fPxKyAUWwOMKbw==
+ bh=9z066Ecjzq6i1CHfFY7bsRR+tQGPbhVmzK3xvGAX5Cg=;
+ b=aoPHRCnHsxPnKZ2R61Q5rfs44HQq15XStFN7z8vJttv5SH9Oz27eLq12MBFIDSQCFRUlEoXat/Px09324Oeq0cfiuELVhoy9edoo0WsdSqA5fgDB2dJ2CbqQRkSzVX7KKc4CYGX6DlA5cn4BlARcUKzbe8it5daWX/JHGWHQVFt3dZogFNv3MHLtKJr3mDSbdjeMiI+FPzFtMZZDYViajY2jSEIKpTs3pM63DvkuNa8gz5XRyItWOpR+ynt3XGRLbGUgHyGYO/O4rJ51WGIPfKgURBxwCoMWbg39vvEC63siqf4ym3bKUbsnDtIBNByE/PEtI6dmhGIlBqHdetNBXg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WlLcNiokpbPEaxlBiHuwLLER6DCrVQWXwK0LKrOUOjI=;
- b=00E5IX6vQRAg2hBTnob4N+8xz0CdSZqg/820RtiG5kAUTyo8FqByg6xVdJycTxJeGHspzOtvSGTYL4pwzhQCc4guwpEEN3zj5wknRtvntgadabX5jhUdXmngS9JiP4tLFuOHfYfng5Bn+GuFRzjKgbZKnl+bSH5HXLWH1EicQB4=
+ bh=9z066Ecjzq6i1CHfFY7bsRR+tQGPbhVmzK3xvGAX5Cg=;
+ b=g4JpQUo5blPB7TiAFFhLTtPES/kUFY0ZLzpLL5JqPUZcoRA9INDbR8ONL5ov05PObsXhFT5fC0jeyNdDrq0Tjd3BM12gsCVSN6NlikzDEWVfKDfJOwe6uMgUO8whzsoXxnTUX2TwIy5ElyDPFEHf993ucYb8isTQLTY+VtuxAZk=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by PH7PR12MB7188.namprd12.prod.outlook.com (2603:10b6:510:204::15) with
+ by DM6PR12MB4060.namprd12.prod.outlook.com (2603:10b6:5:216::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.21; Wed, 21 Aug
- 2024 20:45:39 +0000
+ 2024 20:51:10 +0000
 Received: from MN0PR12MB6101.namprd12.prod.outlook.com
  ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
  ([fe80::37ee:a763:6d04:81ca%7]) with mapi id 15.20.7875.016; Wed, 21 Aug 2024
- 20:45:39 +0000
-Message-ID: <4079b41e-9a5c-43be-9614-250b21d6e92d@amd.com>
-Date: Wed, 21 Aug 2024 15:45:46 -0500
+ 20:51:10 +0000
+Message-ID: <5363536d-0f96-4e96-8f1f-c8e1799b6421@amd.com>
+Date: Wed, 21 Aug 2024 15:51:17 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/4] drm: Minimum backlight overrides and
- implementation for amdgpu
+Subject: Re: [PATCH v5 1/4] drm: Add panel backlight quirks
 To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
  Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -62,13 +61,14 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Dustin Howett <dustin@howett.net>,
  linux-doc@vger.kernel.org
 References: <20240818-amdgpu-min-backlight-quirk-v5-0-b6c0ead0c73d@weissschuh.net>
+ <20240818-amdgpu-min-backlight-quirk-v5-1-b6c0ead0c73d@weissschuh.net>
 Content-Language: en-US
 From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20240818-amdgpu-min-backlight-quirk-v5-0-b6c0ead0c73d@weissschuh.net>
+In-Reply-To: <20240818-amdgpu-min-backlight-quirk-v5-1-b6c0ead0c73d@weissschuh.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SA1P222CA0163.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:3c3::22) To MN0PR12MB6101.namprd12.prod.outlook.com
+X-ClientProxiedBy: SA9PR13CA0076.namprd13.prod.outlook.com
+ (2603:10b6:806:23::21) To MN0PR12MB6101.namprd12.prod.outlook.com
  (2603:10b6:208:3cb::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -77,171 +77,259 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|PH7PR12MB7188:EE_
-X-MS-Office365-Filtering-Correlation-Id: fe922b05-53ba-43f7-fb11-08dcc2223757
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|DM6PR12MB4060:EE_
+X-MS-Office365-Filtering-Correlation-Id: d82f47d5-d78d-463e-5a1f-08dcc222fc93
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|1800799024|7416014|921020;
+	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|921020;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?NEU4eHZDTHRwc3Y4dTJnY1czR1UxcFMxaEFYUmd6c2dzWGdSMUVNQk1qK3cr?=
- =?utf-8?B?ci8zK0V1N1l6QUpSYldFRGtpWDhQK1NjV1lsZHg1eFdmREJXUUZrTUJvaEtU?=
- =?utf-8?B?TGhad09ydm5GbGFHTjc5eklpQWhxN3JFY1VZZERkOFVpU2VKLzFVS3M5OEpW?=
- =?utf-8?B?akpiYnJ6MHZDNVJ5aXRmeU9qdGdDK2p6SmE3YUtLbEdwZ05Icm05ZFdXV245?=
- =?utf-8?B?OWNncW5Ca3E5MlMvZk0wUlJHZU9Za1Y4TGdnbml5T1ZxelZVMU5RTkszUkI0?=
- =?utf-8?B?VTR6OUJCUTh3cXJ6a1c4bklOb2dua1NNaWdmeVdVNE9nZlo4bnFuRHptMXhW?=
- =?utf-8?B?d01oN204V29rSkdOdVBuQW40NzlXbC9uMVlZZkdFV0I2cEpybW5XU2g4bElK?=
- =?utf-8?B?M1NJdzY2a1lpQmhaWkF1YUJuSFdlNzNBWDlZbDF2QTBVU2tLRFVnRzM3bUlo?=
- =?utf-8?B?KzJCQ1ZvQ1ZMT0NIMi95RG1sOVdpcmh0TlNQaG5DcDFrMXFCd2pVSC8xTi9v?=
- =?utf-8?B?aWRGZmN6UjRDeUc2QU9xK1B3eUd2YnpCMnA4NkYrQlZFYzdRMzVWMFBhVnNx?=
- =?utf-8?B?UGJFZks3dFdSTDJERmFVeUNITm5IcWdhRnRyRlVGT3VySFljTFZLT0JSdElZ?=
- =?utf-8?B?L2pyTTVGejU0bTM5N0ZFeHB1ZVFEamFEclY5dlQ1M2RtbzkwRkpKYUh5akZY?=
- =?utf-8?B?eHk1a3I5NHV5SUtPMGw4SHVvaXJYZzdqTkJQa1VwcUJBT2hLaEo0T3BERU45?=
- =?utf-8?B?YktyTnFWcUtudUs0WnlqV3V6bUJiekEzN2NacHRkOUg4VGVUazFVQVFCRlJR?=
- =?utf-8?B?Y3JlWXdQNXdic2RmOC9nRHFUWGNuTWJWdkJURlI5cFlUOEg4MXBRblRyd05B?=
- =?utf-8?B?K1VvSk9tS2c1U2JkOVlYSEF4WUptK2xTT01icERTNU1XUHZsVEM2UTBrOEFB?=
- =?utf-8?B?U0c1RFBjZzdzYzlEaCtZVURpRjRJN0JpN3pxUnp1OUsyQjVEelpUVHFISXdN?=
- =?utf-8?B?WS9UbkZKQk9LQ0NVY3dVMklxeldFYWJ0Wlkxc0JZL2JNblNPT3hoUUJuejlE?=
- =?utf-8?B?cDFQMFF4Yk9DazQ3Nk5sWFJwM1ovdzg2dnBCY0JJZzhTUEVBbWQzUzV3YW1q?=
- =?utf-8?B?SFYyZmpGS2hidnZCb0RjYTAwNGZodWttVFRsbmRaK2xCSVp3VXNkR3huL09a?=
- =?utf-8?B?dFIzK3BLUmhJWTJrS2tuU0lBYWV0Qy8yTXdoQlRYTlloRWNmZW94Q1BWaU85?=
- =?utf-8?B?WWZGR0xBbDFKNjk3OW5mdmJRbUsrbVZMblYxTFd1ZldrYTJKQVFYV0NVNnUx?=
- =?utf-8?B?YklWa29TbjVkM0s5SThTME9IWHlOZHllNEJNTFNLT0NseDQxOEJCZ0FSYzdB?=
- =?utf-8?B?bFgxSEpvbnFmendId2wyWkgrV0JnSGRqUWhLWFozdEJqVlRTUFBZdnB0SlA0?=
- =?utf-8?B?QjE0YWQxdElIdHp5aEJ4MzBqd0VlZEFqZWphdDNLdm5yR29tRnMwd1ZRV1Bj?=
- =?utf-8?B?NDZHSTJhbGJDeWhSUUU2MzFmNHVrL1FQdkRzeExIemd0NUNFTU1NNElyNmpI?=
- =?utf-8?B?YmdSUCtHM2RsUVhpTnFjSjNXYnRyMDVQVjd3d2xseWJZWFhPZThHc3pFNm1P?=
- =?utf-8?B?SkNSMmFDd0JlbjJuQ3VNQ0NzS0o4UHpTME5mVG9wTno0SStDYW00TlhiRk8z?=
- =?utf-8?B?VXZZZnlDcmJTckRQTWRJNXg3YjNYTEVPUndtd0tmRGJycldlSnA0MHhyU1B2?=
- =?utf-8?B?b1lSQjBWM1RuR05UTFZtZVJuR1pIVUE4L2FEbzAvcDVaU0R1ZzRSSk1uUTFW?=
- =?utf-8?B?RGhaaFIyd3lQeVVweXV1azFhaUxrbDFaenN6ZzBISmdLTTh0a3RLOGY1aW43?=
- =?utf-8?B?ZGNRVjJrUzZWUFoyc3VmT0FSVW0yQzJCTmtzM2pRT1pjaVE9PQ==?=
+	=?utf-8?B?WndodDBmVHdnMDFES3NhM2J3czNvWVI4QVBUOVhjbnFONmVqRXR0ZFBWdGhO?=
+ =?utf-8?B?K25DMnNTZGY0V2RGQ1Zoa1RIaElnd01QYXpnTXdHMkdITlpSQWVoUGtETHRI?=
+ =?utf-8?B?NndnYnE4NGlKVVo2L2dZUUt2ZXlqMDMxeCtnZ2QwZ3hMYjhLL1hjZVB3MXlM?=
+ =?utf-8?B?UTYwa0RVRENqcExieDBpSWkyajJHeWpFRjdscUcyNVRhUWRLMnEyY0U5QUVH?=
+ =?utf-8?B?YmNuRDdQQjdmN252RFJTd2x6ZmhYQU9ubTNnTVFrZU5DQ2VwRFFkV1FhMWQy?=
+ =?utf-8?B?d2tJWDNPZ2U4Yll2dFllODd4MzZlQ0Iwc1RBV1I4OWR1UmR5YmpjRHBoQVJp?=
+ =?utf-8?B?endwS3FVVWE4RmlNem80ZjBYMy92WWdyRytNTDRpRFZoTWRaQUV6WWFHdU42?=
+ =?utf-8?B?N0tjMkJNMk91YW1laGxLTU9FdWZwajdrYllqUzhDNnlqbk1xQ1NNMzJpLzEx?=
+ =?utf-8?B?WC9ndVZkbFdXekUvWEJrTEZUKzhKTzZWa2sveEFCdXd5c0tuUVV0eUhBNlN6?=
+ =?utf-8?B?ajJLQzFsYUtVVVJGcVVwaGtmWXhvTmpzWDRTdUlPRFA2b3dQTjB3azJwS3RP?=
+ =?utf-8?B?UGNoZU5yNnpPaEtOeGhYd0w5N2RUZHNpRlJmM2E1a1o3VGNhc0UrRGdkczg3?=
+ =?utf-8?B?NTdZelNuU1VuQytuYW96T0RpbW5KU3lVT3B4VjA4LzJ2ck9VTzZFRkd2S2pp?=
+ =?utf-8?B?YUw5b3V1NlBicCtYUHBCYURZNmxGRk5qN1BhZHZLMCt1RFM3QTRaci96Qyty?=
+ =?utf-8?B?aDZYeFdOR05KdmMycXkra2FYSU91RVlsMmhhRmN0NzFGL2ZZck9wTkJDZHV3?=
+ =?utf-8?B?OENtZ05oc3E3Z3dBeDgzVU9vdStwbldqTVhXMXY4VEtScTMvVlV4QTVlN1N4?=
+ =?utf-8?B?Z1FIa3BxWjFoY3A3VFd0d1lOOGN5TWsvQXVhZHlFZC9lcWlpdVdEWUdlQUtM?=
+ =?utf-8?B?RkQ2OVpCWWZ4SEYva3NNUUZXZjNObzdBZXJzVFBEM2tHbEpBZEFMWDl5d3RI?=
+ =?utf-8?B?c3pQMHQwSE5vTGdnd0x0dXJyb29ETjg0RjZrdzBZYWhtQVNiaWhRMUxqNXJ5?=
+ =?utf-8?B?Z0RQY2RVYklTdXl2WDVISWc4WE1vRm01czk1ZWNHWS9uTFNtY01qRUYwNE5n?=
+ =?utf-8?B?a2cwTGxiQVE2eDMzMndxZVh1WGUyenlHOW83YjdWNFdBNWJrYW5VQ3UwN3J3?=
+ =?utf-8?B?UWpadnEzSk80aE5NVUF5R29Xd2dYQ2tlYXI0cHd4bm4vUHpZSDNoZXFaMHlW?=
+ =?utf-8?B?SCt6Zm5kRE9xR2Z4Wk5kY2JKNWdLYkh0RU5jdTJwSk4zSDhESnpwNmNUckxU?=
+ =?utf-8?B?cWtuVU1SOEdPYWJSeTFWQ2EvSVhRUzh2eGROZGhpa1BEbllpYzhoQUwvd1Bq?=
+ =?utf-8?B?S1lGcEEwbWJLN2Qxbm9sY3FQUm9WZU52TVVWVjhvNFk5SHFXYWl6SnVnU1Fr?=
+ =?utf-8?B?VE55MFBlSFBEVWU1ZlI1Ymd2MWpIQmNYRnZ2MGlzZHNVUGJSUWY3S0VWZXNN?=
+ =?utf-8?B?WkRoakVrQncyN20vM2VXTWROZUR0QzhnbHY3b3hLYWx2ZWx0S1lwb2s3d3Y4?=
+ =?utf-8?B?ZUE1VVBGNDlwU3FMNDFpN0JhQ2xpQjBMUXdhT1BqNXY1Snpib3NzS0NHbDVP?=
+ =?utf-8?B?VWRiNkVmUjQxQjBOMDgwKzEvMm9nZ2ZjYVNLbyt3VVRtdzIyRURxN210TVZx?=
+ =?utf-8?B?c3pWd0dzZXVkOVcxWkp2NDZUbFgzb2ZaYkN6MGZ4MnhLWFh3elkxSTU3YVZJ?=
+ =?utf-8?B?UE5QV2pDdzJUNFAweGlXTFFlS0MzbjAwOENKdy96SW50R2tkdVNveFJmelRL?=
+ =?utf-8?B?cjRTQ002QjRaU3RmNW85VnduTXBtUFhSYWZXYjRKUElSb0RkYXRBM2RtZk54?=
+ =?utf-8?Q?ffFBEf8FmvbqI?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014)(921020);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(921020);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?YXlmVUNyd3llSm5MdmhGUDU1RE1vQThWZTV3aVJJUlJ2SG9acUl1ZFVqdTZY?=
- =?utf-8?B?a004RFRKWEtackpmMXlnNnR0d1dLRXRGSTVqMkw5MHg3US9rWTN4UVEzZExn?=
- =?utf-8?B?WFBWVk5NKzMwdDhWOWdtT21xYUNMQTloOTRpZXZxR3c1d0xBanhpRmtNQzJP?=
- =?utf-8?B?dFNXWjR6a3JBYlJaU0w0WEtxbVE1T0x5R3psblpQZnVsZkRnbFpiRm1iS1l0?=
- =?utf-8?B?UVp6MUZLZk1RdFc0bC9kL2JZMmFtMExjTFdOU0Y3VnUrVG9JQ2NsdjdCQ0ZC?=
- =?utf-8?B?dVUraWZCb25RSzhXWHE4bTRJYWlLYUlmanhoUEhkWGVObVdMRXpOSlFGeHAx?=
- =?utf-8?B?OHY3WjVoRHJ6cmNUOUNuZlJscHZvZU5keDNzLy9IOXUyNmU0d1RxdkxNd1Y2?=
- =?utf-8?B?S3lHdWdmMzQybDkveDZNdWVGTmJzQ0RvUkxtSjFLZDhJd21qNTJya3hwOFhX?=
- =?utf-8?B?WHhrbDdSWC9IcXEyV0c2N1FtZ0cvdmYyWWVRMVQwZkMzb2YveXVsSTlTSkNT?=
- =?utf-8?B?UGFNNzhuemN6RkJNWW9UQkY2UUpseEhOOVQzcFhvSVAyUWoySGFzQ0NRYWVC?=
- =?utf-8?B?VTZDSlVNMlNFdjVQNnhia1RoZWNpWjR4OWxLS2RJbm1yUkNlN2JxbWlJZVBo?=
- =?utf-8?B?d09lOG9JZjdYY0FFZHU1YWJDNkttMTdJa3ZCaVdabE4xUU11UUJCSXMvd01M?=
- =?utf-8?B?bUYyNWJaQ1k1dmo3U3ZLbFMrTUovVHZjQkYreUFhYk5jaVhPWHd2RVAxSStK?=
- =?utf-8?B?Zld3RmJZZXBmb3dVKzJ0OUcweDR2VkU4azUrbVYwSGlTR0QvVXRPemNPRnpR?=
- =?utf-8?B?RUZSbmJFWW1MQ2x6QUVsZEhydUVobGZrZ2pyajJibjdwK1lrOHoyMmNJdFow?=
- =?utf-8?B?eFlKRis4U3hmWmFLVlB2YUxRbzRWbTU1dnpQNzRpbVZldE40QkNNalBldG0r?=
- =?utf-8?B?RG5RaGNkOWxCV2plUXF0cjVFMUIzbVlVWVdibHc0QnBER0tydFQ1dkNHU3cr?=
- =?utf-8?B?b3h5NVhSOSsraUFjRTJYUHY4bDVFKzNXY0Z4b2kyODBTY1FQZjltQ0lPNEp3?=
- =?utf-8?B?Wm50RXkxazRRc3VKcDdCeG5lQyt2ODV5TkVURXpNblluTmkwUjFRMGp3UWdS?=
- =?utf-8?B?N29ZRFlldDVPRFRRbFRSVkNGRXFDZFQxcDQ4bXZlSXVFbUE3TENnRjNTMFU3?=
- =?utf-8?B?MEt1RWdVTWtlOFNUSHE5T3RScml3a1N3R0JoMisvZzNMN1Y1VURoMmloUEMz?=
- =?utf-8?B?czJ1WFFVMlZkbWJIRlJNZGlURUpoWGhkMGJ6dEl0ZklzUFlhYVhCcCtMS1NT?=
- =?utf-8?B?N0h2MFZtMnpnNDRFYlVTR0k1ZjBIRk10NTdNdnd6ZTdnb3dNMnpJUWpVSC9Y?=
- =?utf-8?B?TkZuM3ovekV2b2c1S0dNVW9iRWYyQnpRL3ZoUGtoajhEZzVxYnQ4dlhRd0xn?=
- =?utf-8?B?ZlcxR0VkRWJ0R2Y4NFlSTHJpVkFlakY2TC9JOVYzK1VMSU9vQkZ4anpSZ0g2?=
- =?utf-8?B?eXZFVEIxeHMxTTlqdTN2RWN6R2t3VWxQQk1vKy91eG11MnFtTzhOaElxZmVs?=
- =?utf-8?B?NFlyaXgwS3U3aGh2ODlYNVgrOUxKeVBkZVhTT1lqd1h4QjNGcDBrVUwrdHRw?=
- =?utf-8?B?c05YdVM2WnpkY3BRN2xBOFd3d1c5R1cwWmtzSjVqclBIZHJnVXMvYzNEUGh1?=
- =?utf-8?B?RFZ3emE4Y3M5dmJ1ODFkcHRGWDN4NnlPeHhpblpTZysxSG83OS9adkNhb0Qy?=
- =?utf-8?B?Smc4M01xamV0UXpSZEdpbGJhV0J6QjlqVTgwK3ZDMWE2UUo5Q3Fna2VWQmhD?=
- =?utf-8?B?RVhzZW85a1FyWktmVFl6TVR0aGRkTkZFdUlzdFVIM1JPL2Jld0N1WUU4dE1i?=
- =?utf-8?B?RDErTk1tOGc3aHZVY1g2VXJ4NVU2bjZ1bmZ5RUkzWUcxd29JdDNkeDB6ZC9N?=
- =?utf-8?B?N3hOVi9RcDNrWWhXMmFUc094T1gySGpoZGhZZUFYbGtlOWdQbjZleDRLNGph?=
- =?utf-8?B?cUw2eXJYQmk5WFFhdmtkb1ExWXN3SGxJNlZFUHRZc1dPOGlaTm5OeUtxaGlZ?=
- =?utf-8?B?STJScy9ZUExSeWplODJtVENydHFDRFNwUTFHK2FBaDNsUk5vcm5VRitxNXgx?=
- =?utf-8?Q?xnbIPmreAb1f14rpI3Tt5/tBW?=
+	=?utf-8?B?a2UzWlAxQjhBVlVEVDVHZGNGQ3FMZ3p4cnJ4V25rb3VJZ3V4S2RHZElYVWRK?=
+ =?utf-8?B?NGZiMFY1UFNLekxJVDMxUmkyOFhDTWpqN3VlTmVPUjM3b0xCVC8rZkRIZlht?=
+ =?utf-8?B?TllKb3VjRWhwZ3lzRHN1eStPTC9rbUQrY2kvQWtQR3ppTUtqMXN5b3BNWVNn?=
+ =?utf-8?B?dmh1R0psVWtucGhjZnVZd29EbSs4dTFxZW1KcVZUYlVKYkhaUXg2dU5qYWNY?=
+ =?utf-8?B?bnppQkNEdFA5MldBVjRtaWN3Um85OGVNS0p1QWRRZWN2MjZZZzhuSU50NWto?=
+ =?utf-8?B?MGIrTUJ1dlRseFluaWdiTUlEWTJ1TWp3SW5NZUd3aGR2TVNGbnR6MkVrNnZB?=
+ =?utf-8?B?cnRtUk95amF0UXJtbXRqMnhzSlhIUVArN1hOZzJiWDMwRGFBZnFoMFF5REM2?=
+ =?utf-8?B?eExqZnFPcEVKdVVpZXVmRFdrKzYzTmFxWkN4OW9OamtVOGdxa0dXYkc1RSsv?=
+ =?utf-8?B?SDRpMW9UZFQ3M1lwYVYzcHB4dzZYdFV4ZjV2ZXJ6ejlnam1NdkFCYUV6Uk4y?=
+ =?utf-8?B?eHRWdjByUjZQb2lTSC8yQ0o3ekM3Z3E4M21sbkZKbkJFVG5vbUhKb1U4MTFM?=
+ =?utf-8?B?cEFaY3Uxb3pNenFpbFNlaXdUWmxhMjhPcldveEY0VFFQcmJyMGdXT2dnNFlp?=
+ =?utf-8?B?cmY0QWhuSGZpVTZZVUVqYktpdzBibTMyMzloYWwzU0xja3hlbnpubDhPV0Rm?=
+ =?utf-8?B?WlVoaTl0bTdMNFpDYzlpdTFwTWVMUnVCTjZyQWtNbXFoWTIxMXhuQzNlUU42?=
+ =?utf-8?B?OElEWWRQWnk1NE0zQ3BkZFMyTllRNjNOUGltRExjeUdVVXpqUnJqWlJQbnYw?=
+ =?utf-8?B?bWxzSDFiTlltbkVvSFJqV0Y2T2pWR2tpZHY1MUFKYmJPdkI1ZzNyNHhuWTRr?=
+ =?utf-8?B?ZlpKR1RpMEtqdGozWmczNlJBbEo1b2dYdWZBQm5YamZ3N25POUpHUUlFWWxN?=
+ =?utf-8?B?OVdQUUJDN3dEcTYvU3l2VUJqb3hPSit2N2szVTR1NGg2c3c0M3QwVjVXVUVM?=
+ =?utf-8?B?Z3locXJPOEhJZlFVL1VqMWx2c2tiWTY3QU9SRGdHeGxWeThQR3p5Yk5ST252?=
+ =?utf-8?B?aERIK0daNnlFN2grQ1lyWkJaUFpoaStId1NWVDRaNjdjL3NIODZzSzFNcGVt?=
+ =?utf-8?B?UGVBaHcrbTVZdTVaNHRqN1NsbUtWblY0ZkhtT0lhVGxRZGlVZW1hODBQa2hO?=
+ =?utf-8?B?NG5zUldHdDlRNjRsZjhUUW1ieEk5eFBVZDBLUzdhTkhGRlFPMFV4VUlTYmhs?=
+ =?utf-8?B?bGJma1JZR0kwL2FPbjdTOEQzdFIvQUNsQTJTbkN2a05UeWNlcXlVRHNML0wv?=
+ =?utf-8?B?VUlrRjh5dlhTaDFjc2R6Q3IwMldsNGwxTm5NVVpGNWF3ZWgzMWdvV3NmdUIz?=
+ =?utf-8?B?bXZnM2ZkNlBBOGorYkJ2ZGZhSTZFN09YS2xHRWFQQTIwRDZLRGI4MVppSXZZ?=
+ =?utf-8?B?bHN2bjBaOUdiRk4wai96ZnduU1l6Tjh3c0M5Tjg4WGUvYTNRSUhoTWNBOE1n?=
+ =?utf-8?B?ZGVTWHFMdHE3N2R3M0dmdE1yWHUvQmsvYXVvd2VlWnNRdmVHRWgxQ1RqYk8v?=
+ =?utf-8?B?OFFLSXl1RWE4ZjRhNERwcGxxeUZJeFJwMll6VE91cGtvdTJvemdnZ05NYzlU?=
+ =?utf-8?B?eTFkS3REdVprOUozaHk4Q3ZGNm5NM052cFZwYnhkOGo0VDR6Z3NudWhGY3U5?=
+ =?utf-8?B?NzQxK1JIcXRTMStyeUQvYXVWUHRYZ05aSlpNd09lQTlCeVM0TzZDZkJCbVFY?=
+ =?utf-8?B?d3cxUlNxOGlZUVZqSEhEM1hTcysrRW1uaXJJelVLek1GWWp6ME5XdHRHV3d1?=
+ =?utf-8?B?aWsvTmxMQTNpMlBiNDJzQ0lkdFkrbWg0SjQ2WCtBYm9odnpmK2FEdFdXak5N?=
+ =?utf-8?B?NFN4YzRyL2U5cVg2MkpMK25QSmNzcnZWWUtqbTh6ZFVxV0Rsbzh6OFY5TEVT?=
+ =?utf-8?B?UXBGZzZUQk9tNnhEd01EbUtyRXNNR3ZBd3Z6bmUzajdySEI5VFN2YXg4enl3?=
+ =?utf-8?B?TDdIMm41ZkwvZC9VMFVNSXpaU0JvQ3FFT05MNytXcW1DTlJYby9iaGx5Qmxh?=
+ =?utf-8?B?M1laWHpWQkprMTFxNDFuTXNVbFdjNnAvYmRFVTgxdUhES2t4TXFXUXJBaEVR?=
+ =?utf-8?Q?O1mo8OLpPcHnvaQLLCEbsEH+d?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe922b05-53ba-43f7-fb11-08dcc2223757
+X-MS-Exchange-CrossTenant-Network-Message-Id: d82f47d5-d78d-463e-5a1f-08dcc222fc93
 X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2024 20:45:39.6418
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2024 20:51:10.3259
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: X1/CXcWGWy2ezPTu6MnX4z4/vmiVLXjHezV37RT4g5OID9SzwZltLvUqmr/Xd7gx+x1ahwy9kPHwqABaVyvYlA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7188
+X-MS-Exchange-CrossTenant-UserPrincipalName: MASocD2PqAIpe0bVb03cbxcetJa5wCB4WxUB0pIEQqyKkgp2EAKDEMDwc6CE2ENxycgU2+vCLMzCg/r1agoyrw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4060
 
 On 8/18/2024 01:56, Thomas Weißschuh wrote:
-> The value of "min_input_signal" returned from ATIF on a Framework AMD 13
-> is "12". This leads to a fairly bright minimum display backlight.
+> Panels using a PWM-controlled backlight source do not have a standard
+> way to communicate their valid PWM ranges.
+> On x86 the ranges are read from ACPI through driver-specific tables.
+> The built-in ranges are not necessarily correct, or may grow stale if an
+> older device can be retrofitted with newer panels.
 > 
-> Introduce a quirk to override "min_input_signal" to "0" which leads to a
-> much lower minimum brightness, which is still readable even in daylight.
+> Add a quirk infrastructure with which the minimum valid backlight value
+> can be maintained as part of the kernel.
 > 
+> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> Tested-by: Dustin L. Howett <dustin@howett.net>
 
-Apologies for my delayed response, I've been OOO a while.
+One small nit below but otherwise this patch is fine to me.
 
-An earlier version of this series I had asked if this could be tested 
-specifically with panel_power_savings enabled to ensure we're not 
-causing a regression with such a low minimum and panel power savings 
-turned up to the maximum.  If such a dependency does exist, I believe 
-panel power savings will need to get an extra check introduced to 
-disable it when the brightness falls below the previous threshold that 
-was programmed by the firmware.
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 
-Did that ever get checked?
-
-> Tested on a Framework AMD 13 BIOS 3.05 and Framework AMD 16.
-> 
-
-As far as I can tell this series doesn't apply any quirks to Framework 
-16.  So by testing, do you mean that you tested that it didn't cause 
-regressions (which it shouldn't; the panels don't match!).
-
-> One solution would be a fixed firmware version, which was announced but
-> has no timeline. >
 > ---
-> Changes in v5:
-> - Forward-declare struct drm_edid
-> - Reorder patches, quirk entries are last
-> - Add patch from Dustin for additional quirk entries
-> - Link to v4: https://lore.kernel.org/r/20240812-amdgpu-min-backlight-quirk-v4-0-56a63ff897b7@weissschuh.net
+>   Documentation/gpu/drm-kms-helpers.rst        |  3 ++
+>   drivers/gpu/drm/Kconfig                      |  4 ++
+>   drivers/gpu/drm/Makefile                     |  1 +
+>   drivers/gpu/drm/drm_panel_backlight_quirks.c | 70 ++++++++++++++++++++++++++++
+>   include/drm/drm_utils.h                      |  4 ++
+>   5 files changed, 82 insertions(+)
 > 
-> Changes in v4:
-> - Switch back to v2 implementation
-> - Add MODULE_DESCRIPTION()
-> - Simplify quirk infrastructure to only handle min backlight quirks.
->    It can be extended if necessary.
-> - Expand documentation.
-> - Link to v3: https://lore.kernel.org/r/20240731-amdgpu-min-backlight-quirk-v3-0-46d40bb21a62@weissschuh.net
+> diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
+> index 8435e8621cc0..a26989500129 100644
+> --- a/Documentation/gpu/drm-kms-helpers.rst
+> +++ b/Documentation/gpu/drm-kms-helpers.rst
+> @@ -230,6 +230,9 @@ Panel Helper Reference
+>   .. kernel-doc:: drivers/gpu/drm/drm_panel_orientation_quirks.c
+>      :export:
+>   
+> +.. kernel-doc:: drivers/gpu/drm/drm_panel_backlight_quirks.c
+> +   :export:
+> +
+>   Panel Self Refresh Helper Reference
+>   ===================================
+>   
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 6b2c6b91f962..9ebb8cdb535e 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -454,6 +454,10 @@ config DRM_HYPERV
+>   config DRM_EXPORT_FOR_TESTS
+>   	bool
+>   
+> +# Separate option as not all DRM drivers use it
+> +config DRM_PANEL_BACKLIGHT_QUIRKS
+> +	tristate
+> +
+>   config DRM_LIB_RANDOM
+>   	bool
+>   	default n
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index 68cc9258ffc4..adf85999aee2 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -92,6 +92,7 @@ drm-$(CONFIG_DRM_PANIC) += drm_panic.o
+>   obj-$(CONFIG_DRM)	+= drm.o
+>   
+>   obj-$(CONFIG_DRM_PANEL_ORIENTATION_QUIRKS) += drm_panel_orientation_quirks.o
+> +obj-$(CONFIG_DRM_PANEL_BACKLIGHT_QUIRKS) += drm_panel_backlight_quirks.o
+>   
+>   #
+>   # Memory-management helpers
+> diff --git a/drivers/gpu/drm/drm_panel_backlight_quirks.c b/drivers/gpu/drm/drm_panel_backlight_quirks.c
+> new file mode 100644
+> index 000000000000..6b8bbed77c7f
+> --- /dev/null
+> +++ b/drivers/gpu/drm/drm_panel_backlight_quirks.c
+> @@ -0,0 +1,70 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include <linux/array_size.h>
+> +#include <linux/dmi.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/module.h>
+> +#include <drm/drm_edid.h>
+> +#include <drm/drm_utils.h>
+> +
+> +struct drm_panel_min_backlight_quirk {
+> +	struct {
+> +		enum dmi_field field;
+> +		const char * const value;
+> +	} dmi_match;
+> +	struct drm_edid_ident ident;
+> +	u8 min_brightness;
+> +};
+> +
+> +static const struct drm_panel_min_backlight_quirk drm_panel_min_backlight_quirks[] = {
+> +};
+> +
+> +static bool drm_panel_min_backlight_quirk_matches(const struct drm_panel_min_backlight_quirk *quirk,
+> +						  const struct drm_edid *edid)
+> +{
+> +	if (!dmi_match(quirk->dmi_match.field, quirk->dmi_match.value))
+> +		return false;
+> +
+> +	if (!drm_edid_match(edid, &quirk->ident))
+> +		return false;
+> +
+> +	return true;
+> +}
+> +
+> +/**
+> + * drm_get_panel_min_brightness_quirk - Get minimum supported brightness level for a panel.
+> + * @edid: EDID of the panel to check
+> + *
+> + * This function checks for platform specific (e.g. DMI based) quirks
+> + * providing info on the minimum backlight brightness for systems where this
+> + * cannot be probed correctly from the hard-/firm-ware.
+> + *
+> + * Returns:
+> + * A negative error value or
+> + * an override value in the range [0, 255] representing 0-100% to be scaled to
+> + * the drivers target range.
+> + */
+> +int drm_get_panel_min_brightness_quirk(const struct drm_edid *edid)
+> +{
+> +	const struct drm_panel_min_backlight_quirk *quirk;
+> +	size_t i;
+
+Nit: this doesn't really seem like it needs to be size_t.  Shouldn't it 
+just be an unsigned int?
+
+> +
+> +	if (!IS_ENABLED(CONFIG_DMI))
+> +		return -ENODATA;
+> +
+> +	if (!edid)
+> +		return -EINVAL;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(drm_panel_min_backlight_quirks); i++) {
+> +		quirk = &drm_panel_min_backlight_quirks[i];
+> +
+> +		if (drm_panel_min_backlight_quirk_matches(quirk, edid))
+> +			return quirk->min_brightness;
+> +	}
+> +
+> +	return -ENODATA;
+> +}
+> +EXPORT_SYMBOL(drm_get_panel_min_brightness_quirk);
+> +
+> +MODULE_DESCRIPTION("Quirks for panel backlight overrides");
+> +MODULE_LICENSE("GPL");
+> diff --git a/include/drm/drm_utils.h b/include/drm/drm_utils.h
+> index 70775748d243..15fa9b6865f4 100644
+> --- a/include/drm/drm_utils.h
+> +++ b/include/drm/drm_utils.h
+> @@ -12,8 +12,12 @@
+>   
+>   #include <linux/types.h>
+>   
+> +struct drm_edid;
+> +
+>   int drm_get_panel_orientation_quirk(int width, int height);
+>   
+> +int drm_get_panel_min_brightness_quirk(const struct drm_edid *edid);
+> +
+>   signed long drm_timeout_abs_to_jiffies(int64_t timeout_nsec);
+>   
+>   #endif
 > 
-> Changes in v3:
-> - Switch to cmdline override parameter
-> - Link to v2: https://lore.kernel.org/r/20240623-amdgpu-min-backlight-quirk-v2-0-cecf7f49da9b@weissschuh.net
-> 
-> Changes in v2:
-> - Introduce proper drm backlight quirk infrastructure
-> - Quirk by EDID and DMI instead of only DMI
-> - Limit quirk to only single Framework 13 matte panel
-> - Link to v1: https://lore.kernel.org/r/20240610-amdgpu-min-backlight-quirk-v1-1-8459895a5b2a@weissschuh.net
-> 
-> ---
-> Dustin L. Howett (1):
->        drm: panel-backlight-quirks: Add Framework 13 glossy and 2.8k panels
-> 
-> Thomas Weißschuh (3):
->        drm: Add panel backlight quirks
->        drm/amd/display: Add support for minimum backlight quirk
->        drm: panel-backlight-quirks: Add Framework 13 matte panel
-> 
->   Documentation/gpu/drm-kms-helpers.rst             |  3 +
->   drivers/gpu/drm/Kconfig                           |  4 +
->   drivers/gpu/drm/Makefile                          |  1 +
->   drivers/gpu/drm/amd/amdgpu/Kconfig                |  1 +
->   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 10 +++
->   drivers/gpu/drm/drm_panel_backlight_quirks.c      | 94 +++++++++++++++++++++++
->   include/drm/drm_utils.h                           |  4 +
->   7 files changed, 117 insertions(+)
-> ---
-> base-commit: c3f2d783a459980eafd24c5af94ccd56a615961f
-> change-id: 20240610-amdgpu-min-backlight-quirk-8402fd8e736a
-> 
-> Best regards,
 
