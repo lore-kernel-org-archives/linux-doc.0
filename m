@@ -1,102 +1,177 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E0E1B2537
-	for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 14:28:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703EB364D6;
+	Wed, 21 Aug 2024 14:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724250516; cv=none; b=P3n3dM8R/kUb2DrZtYHOZroYUD/Yk4FDAks449gl/p+HpUCB5MvdKNS3sKQnjpdEvVfYhz3+UyqMp8nP5cDrfORt/9GyVGmYU146D5DX09tsXoMaSiNf6KVpiUXOYO8B4ISsuN0sHAqH1ISSUQeVy0wbQJw/CVxDM2CNAIJ2np4=
+	t=1724250696; cv=none; b=aIXOEOEZvtBvv58c1RIvri5k1u/AwBumbSOJec1GdVqakJUzlLmMMCFF8vJj5eSgcYpNStVSFwllDdN1e2AjFkqy2xMXIIHNaZ+speWdYs3dSqSTmgeWgWiwunUfbB3Gidy9qaV9HuX7i5h8g2HLxtRLPtmsx+i99X1Jqofkehg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724250516; c=relaxed/simple;
-	bh=whWJEhEz/ceBCzVTBacQ5uRoKcxLKWFvP+QauRDZ8oA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E88L1B6c0YYskSJFn9pBkHWFOb+Bafv+JbO0No1PrBKWzk14k+cZ5wOQCpE2/zsE66ykSuR2EfJYvtDmxWmvBeP+Okmdhn+O4Y9YqdcnE1wlgyCFNyPddrlQczuY0X9FYAXINnJnbh6m+gCvHSPmpVYlRxoJe5UhGeaA4Uhqf5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=S00iSIad; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
+	s=arc-20240116; t=1724250696; c=relaxed/simple;
+	bh=c0OW0cW5hDmc6K2btWRZo5y8jLnJfEFGaMlukrhO9Gg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=CVNrWdffvGqXPyvepkSy5rL10pGi6/zBLTabb3NuhAsA3L1TUhBIk2/p/tnov2McT5wIvbq9Qhv7XAj8omFuKvHk4F74V0uhJHW1i0OIorS2B5RAng0fVeZAlQrOstqI4N/5s0E7xqLb2CYtJOOcw24Guy+yM9C0qEQwvKEi08w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=srumyX4z; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=dItHffqA; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="S00iSIad"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-428243f928fso74271825e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 07:28:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1724250512; x=1724855312; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=33YdeC3iT8CR+j1SZblDhoqx85c1E/nanH/Mxt/0lc0=;
-        b=S00iSIadWQoRvIh8IOGi1hZa6zCUQE2ituR6ZT/5Fr1LNkVey1w+ttwD/cwj/0TA41
-         HIpqBrxoJrb6xdKffOYuJeQH/g0Bocz0UqdzBkwVvtuEI7dClS4ndVRsrbkPlqqXe7Mz
-         mN6vpSHWcDXs4A1LqlclV9/m0HH5KfxSZJFjGIF+ZN6UVLqW5mTjOSN9YwsMQYDDlhSK
-         bK7kpMddwUtIMP0kMiCX39TTFIV+uWgQ+quVCbNnHXkt2+39PLBQQbN3Ms1+ih6wwd99
-         VR8zlYgKFyal+YCG7tJ13BXefp/Qj88M6tPtAUHKHl+gJjx7P3UKWEsootDxtZ0g0xKH
-         yDxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724250512; x=1724855312;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=33YdeC3iT8CR+j1SZblDhoqx85c1E/nanH/Mxt/0lc0=;
-        b=gVeANZWdFYGZuxMKlZX7u6DYoG2f+HjureAqRTdKAllFc6afv9V+CGnmDA9zGRs8z1
-         2rsMxQ+qfMm9ttq73vycqHHd7im8Dtcionvm+wQ/vh7Cc3+eCMp1rrkxWRVxH0Sq2Z4a
-         cAW279EDrlbDV+G1VvXopgQ4zSIBRIjECAToUduWIO/YU0pL+YRgh+Gc5dpzFMnweeVI
-         mrJgIVqGd+nyb2GAJULm9HwftEXINMV2fmHBNzHha1s0g/Jjv19bRwIhP1cvH11yndVB
-         RwruH9JfE2N31azjsdscF67PecAFcc+3VeIL4tJhDLBVQzY7EmICEjUwgSuXPYKqCJE0
-         gl/A==
-X-Forwarded-Encrypted: i=1; AJvYcCXai4bQSxqxYM7dzrLBUiWyAT6/iy3lWdTNbwYxAPvMp1Usudv12d5PqIYB6WCie2I8i6qhd2FLuPU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVwa5CJ7SplrUSZEYjAyhEzhb17GtsRKOKACxeGBNkJC9EyG0d
-	G8loCSfG5R5u+HfGsBwddJEP7Yvjm0HkHInp6QL/mZJ3BLOKg6ACE4OP2SiF/6s=
-X-Google-Smtp-Source: AGHT+IGfr36ocwDwn4or9Mf+dw2bDUy4gQ0Y1c7nRaSul2nHYfbm8Q0aRagSkky5/eY78AVRXeTy4g==
-X-Received: by 2002:a05:600c:198b:b0:426:6fd2:e14b with SMTP id 5b1f17b1804b1-42abd21517amr21696485e9.11.1724250512150;
-        Wed, 21 Aug 2024 07:28:32 -0700 (PDT)
-Received: from localhost (cst2-173-13.cust.vodafone.cz. [31.30.173.13])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42abed8b6a8sm28505615e9.2.2024.08.21.07.28.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Aug 2024 07:28:31 -0700 (PDT)
-Date: Wed, 21 Aug 2024 16:28:30 +0200
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Andrea Parri <parri.andrea@gmail.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Leonardo Bras <leobras@redhat.com>, Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-arch@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
-Subject: Re: [PATCH v5 09/13] asm-generic: ticket-lock: Reuse arch_spinlock_t
- of qspinlock
-Message-ID: <20240821-e350a1485008ee3263fae985@orel>
-References: <20240818063538.6651-1-alexghiti@rivosinc.com>
- <20240818063538.6651-10-alexghiti@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="srumyX4z";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="dItHffqA"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1724250692;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IJy4vBugzlwV92hnkKNfRqFL+RejFHcSLWidbn/Vn6s=;
+	b=srumyX4zQUqos1L0K89Vdf/MJloYV7pVVe4yQW430ylXuWIOpIccTKNbFvy5LixpaiLh6L
+	7srFRtK1Ocl0WFj+N6FTMJlDUOfFo5JuIXHyA7ZDgKdV5T+O7wEnbgGAmc2CSNSWiC8Ml2
+	wO5mKu8o3JW4ZQ9I0BT4AjIaQBQiWRhXUJjbHAS+Yznw0/YusZUV90uOnhyl5QnYd+GlD9
+	nl/1BPyhlh5MW7xPLdsyYztyQG/IxEXe/PhV1/egC5nfmMMLNQpS6oJ5OdMLIjsmve/0Rz
+	bZG6Y4uhGnPZxo7OsLSrB+NQelD1S4TJa7YZWbzmyCkOjQ47GJKE2W3OJPHolw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1724250692;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IJy4vBugzlwV92hnkKNfRqFL+RejFHcSLWidbn/Vn6s=;
+	b=dItHffqAzaM1p8KLS+JddMr7adq306CddspxgX5Oq1CjYG4EKIroOn23mxzSP8638UWdUO
+	OP7poBHK+SoHtaBg==
+To: Huacai Chen <chenhuacai@kernel.org>
+Cc: Tianyang Zhang <zhangtianyang@loongson.cn>, corbet@lwn.net,
+ alexs@kernel.org, kernel@xen0n.name, jiaxun.yang@flygoat.com,
+ gaoliang@loongson.cn, wangliupu@loongson.cn, lvjianmin@loongson.cn,
+ yijun@loongson.cn, mhocko@suse.com, akpm@linux-foundation.org,
+ dianders@chromium.org, maobibo@loongson.cn, xry111@xry111.site,
+ zhaotianrui@loongson.cn, nathan@kernel.org, yangtiezhu@loongson.cn,
+ zhoubinbin@loongson.cn, loongarch@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Huacai Chen
+ <chenhuacai@loongson.cn>
+Subject: Re: [PATCH v10 2/2] irqchip/loongarch-avec: Add AVEC irqchip support
+In-Reply-To: <CAAhV-H424SB_Ff6y4m4Cb7Cx9eWTLbK08Wycwa803y08qWVoOA@mail.gmail.com>
+References: <20240815112608.26925-1-zhangtianyang@loongson.cn>
+ <20240815112608.26925-3-zhangtianyang@loongson.cn> <87msl7jgye.ffs@tglx>
+ <CAAhV-H424SB_Ff6y4m4Cb7Cx9eWTLbK08Wycwa803y08qWVoOA@mail.gmail.com>
+Date: Wed, 21 Aug 2024 16:31:32 +0200
+Message-ID: <87cym2hrqz.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240818063538.6651-10-alexghiti@rivosinc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Aug 18, 2024 at 08:35:34AM GMT, Alexandre Ghiti wrote:
-> From: Guo Ren <guoren@linux.alibaba.com>
-> 
-> The arch_spinlock_t of qspinlock has contained the atomic_t val, which
-> satisfies the ticket-lock requirement. Thus, unify the arch_spinlock_t
-> into qspinlock_types.h. This is the preparation for the next combo
-> spinlock.
-> 
-> Reviewed-by: Leonardo Bras <leobras@redhat.com>
-> Suggested-by: Arnd Bergmann <arnd@arndb.de>
-> Link: https://lore.kernel.org/linux-riscv/CAK8P3a2rnz9mQqhN6-e0CGUUv9rntRELFdxt_weiD7FxH7fkfQ@mail.gmail.com/
-> Signed-off-by: Guo Ren <guoren@kernel.org>
-> Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
-> Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> ---
->  include/asm-generic/spinlock.h       | 14 +++++++-------
->  include/asm-generic/spinlock_types.h | 12 ++----------
->  2 files changed, 9 insertions(+), 17 deletions(-)
->
+On Wed, Aug 21 2024 at 21:14, Huacai Chen wrote:
+> On Wed, Aug 21, 2024 at 12:29=E2=80=AFAM Thomas Gleixner <tglx@linutronix=
+.de> wrote:
+>> This patch is doing too many things at once and is absolutely not
+>> reviewable.
+>>
+>> Please split it up into the obvious bits and pieces:
+> Splitting may cause another problem: some patches will get upstream
+> via the arch tree and others via the irq tree. These dependencies may
+> cause build errors in a certain tree. But anyway, we will try our best
+> to do this.
 
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+That's not a problem at all. The trivial way to solve this is to apply
+the architecture changes to the loongarch tree in a separate branch
+which is based of some -rcX tag and only contains those dependencies.
+That branch is then merged into the main loongarch branch and I can pull
+it in to my tree for adding the irqchip changes. No conflicts, no merge
+dependencies, nothing.
+
+>>       #ifdef CONFIG_IRQ_LOONGARCH_AVEC
+>>       # define SMP_CLEAR_VECTOR         BIT(ACTION_CLEAR_VECTOR)
+>>       #else
+>>       # define SMP_CLEAR_VECTOR         (0)
+>>       #endif
+>>
+>>       That way the compiler will optimize out stuff like the
+>>       SMP_CLEAR_VECTOR handling and you only need the prototype of
+>>       complete_irq_moving(), but no implementation.
+> These macros are not in hot-path, and we have already tried our best
+> to avoid using #ifdefs for cpu_has_xxx, so I suggest not introduce a
+> new Kconfig option. Moreover, the new option should always be selected
+> due to the deep coupling among loongson's irqchips, which makes the
+> #ifdefs useless.
+
+They are removed in step 8 again. It's for having a sanely split up and
+structured patch series instead of one big lump.
+
+>> > +static void clear_free_vector(struct irq_data *irqd)
+>> > +{
+>> > +     struct avecintc_data *adata =3D irq_data_get_irq_chip_data(irqd);
+>> > +     bool managed =3D irqd_affinity_is_managed(irqd);
+>>
+>> Don't even try. Your managed support is broken at the allocation side
+>> and at several other places.
+> I'm a bit confused here, irq_create_affinity_masks() marks some
+> interrupts "managed". So if we completely ignore "managed" here, then
+> can irq_create_affinity_masks() still work? Or the two has nothing to
+> do with each other?
+
+Managed interrupts have the property that the core and irqchip code
+guarantees the interrupts to be affinable to the CPU masks which are
+handed in to the allocator for them.
+
+So the requirement for architectures which have a limited number of
+vectors per CPU (x86, loongarch) is that you have to reserve the managed
+vectors right at allocation time.
+
+x86_vector_alloc_irqs()
+    assign_irq_vector_policy()
+        if (managed)
+            reserve_managed_vector()
+               irq_matrix_reserve_managed(mask)
+
+irq_matrix_reserve_managed() then reserves a vector on all CPUs which
+are in the affinity mask.
+
+On activation:
+
+x86_vector_activate()
+   if (managed)
+      activate_managed()
+        assign_managed_vector(mask)
+           irq_matrix_alloc_managed(mask)
+
+irq_matrix_alloc_managed() then picks an unassigned vector out of the
+managed vector space. Similar mechanism when the affinity is set.
+
+Why is this important for x86 (and loongarch)?
+
+Because both have a limited vector space of 256 vectors per CPU, where
+some of the vectors might be reserved for exceptions and OS purposes or
+the legacy space.
+
+The managed mechanism guarantees at allocation time that the interrupt
+will have a reserved vector on all CPUs in the mask. That ensures that
+on CPU hotplug the interrupt can be migrated over to a still online CPU
+in the mask. If the last CPU goes offline the interrupt is shut down.
+
+You might not yet have run into the situation of vector exhaustion, but
+once your number of CPUs gets big enough that is guaranteed to happen.
+
+That's why x86 also uses the concept of reserved (not guaranteed)
+regular vectors for non-managed interrupts. x86 uses the spurious vector
+for that. That's important because there are enough device drivers out
+there which allocate a gazillion of interrupts at probe time, but only
+request a few of them.
+
+If you allocate all vectors for them right upfront, then you exhaust
+your vector space quickly for no reason. Only when the interrupt is
+requested then a usable vector is allocated - or the allocation fails
+and request_irq() fails. That's better than exhausting the vector space
+for nothing.
+
+The complexity of the x86 allocation/activate/set_affinity mechanisms
+is there for a reason and not just because we did not have anything
+better to do. :)
+
+Thanks,
+
+        tglx
