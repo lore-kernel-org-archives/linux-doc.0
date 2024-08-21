@@ -1,457 +1,229 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2066.outbound.protection.outlook.com [40.107.93.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE47879F4;
-	Wed, 21 Aug 2024 15:04:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.66
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724252697; cv=fail; b=nQ+RVwc0vWcalFYOmzqSDoRn4TOwIp1f5APM5xGDYvGJBySX1pMhpeor2j9VLiOfdw/m+LawKligAwbgz0vrJbxl28SXtIsKvd0WxMvhlgbYMRLuc9EqWiPbLNeFc4LD5MWAuS0yk3DnysWbWshsvhy7k8hk4nIO5S+dENWfI/E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724252697; c=relaxed/simple;
-	bh=nGiLUexhFHhx4LKxo8DaZwmFSrypUvF58tjof+JPdiA=;
-	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Ub6fAOonbcwaF+6LYb87v6tRgPM81kmEcKSQplmatNN+MtfKC3YjCLisemf4L06wmlf0B6FXtsBc6F5mBw0Oig9f25LQuu46vRXxSYZtIApXMmLE3/W2GDahktA+vogvSKNkum6t5nVgkOWE8zezgOUUz8CfNE84xctNktaBWhQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ZGRlk63y; arc=fail smtp.client-ip=40.107.93.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D07614D296
+	for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 15:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724254609; cv=none; b=H6FJQjHVzzJbdfvoDYVxk7XnnXH44V+p8u/yEU3C2MDiPM0cSW3eF15htI9o0QHLxhVNx6c7xgtcwJh05RR7WFs7TMfEMGvK9K+ku/PXBRXImqNm6HRCIqMESNPcAflwDxvhtHYyvO8ieq0nkYAclqhdsey14JW8TPgBmxcRoTo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724254609; c=relaxed/simple;
+	bh=lRtlmbjL10N9pND329duqEBS2XO74LAzcfVhekR0HYk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TOZYebgErHJ9fdu2BJt5QgxHkezN/yJOC+suibdx62KuE409AbisYapv5K6jYv0pvE+Shd1BvaPiSpuuwrMqUHZv10A7v8Tbb5P17dBLZGLMRWmRoFTPEtqNI9EAiqte8aiziVKzpl0SD1raWW5I3XywtE87gpES6qIE6oBibSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VawqCO9A; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ZGRlk63y"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jseBhFY6xyoZTelvvEVS/bxHdKolvdRFF47VPKruPUn2GCzq2KSJp0BMuhy8kjBKvNxUp5UZ0tOGGV7tL3VjvXUMTZuiuCQfTaPp0Rq1kI2IbZGkZV0/vIH6IlcpFdRsK8BuZNDDO0KAwbfYQpFS9Od43P/WofPfjaCv/1Q+Vx5iuyaWShxIyKokJuirQ5Khdo8x2UfRzTQ72QhCXeBDK7DrvKv0WD1vsAwbz1lpZivjoiesWurwWCwiBSwbKqpYPrr50NBlncQiXv792anQBK7Hgvb7q5mDaE7xves1rACSlw8tZI5GNbyGA6gCTGeMIPpeXFy5E9Ycxoso1OAaHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jXkzxZpv5HAXtxZzuKJLl90pkEgRpSK1srHas5VxKw0=;
- b=u6lLSpK+0Xs0neHqQ3mblTDTopbSJONOsxuNMrY+uPcxfy9x7lCQuLV88HtRiyl3OOSLIOw1PwPKMGI6vug5AdJm+Zx/QuUA/a47Qjq3fcKcta8qpelA/Qr1zHwq0BQ225+MLjuvVqQIEh4qBrsl81PNJeQSz8rSW85FZwmPmZgJOc27/gHgIwo4lQFsOZgQa86RmlDO5X4XlpCMHAW1BrvwKABp/OjBvT1YwNxSa3bLTB3whSU8kqZQXiPWFUVVmBPdSxop27uYbOUPNgo4uJ9mmgSoHTQwq1wv4hq2lzrJ28M82pZmKv8dcA48wgck9e/5ike3LCwhvTYysWOzmQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jXkzxZpv5HAXtxZzuKJLl90pkEgRpSK1srHas5VxKw0=;
- b=ZGRlk63yB5DsI4I/Pv1fRyKAa9o3e2Es1HMxB9W8AzwAHEBBwxkOGSupPqOBDSpKFrdmtktDUF+ESUBtyHMDfvlpgsamMhDp+kNXVnYMPOvYPcxTWSdtFWUdqj3zsWC4AtD4Oq70gRVZ9LZh1cvurryNlUTqfiZ8hzp7XhMTE5Y=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by PH8PR12MB6964.namprd12.prod.outlook.com (2603:10b6:510:1bf::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.18; Wed, 21 Aug
- 2024 15:04:52 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%6]) with mapi id 15.20.7897.014; Wed, 21 Aug 2024
- 15:04:52 +0000
-Message-ID: <04fe3163-3a7c-4eef-b267-4da6e178e427@amd.com>
-Date: Wed, 21 Aug 2024 10:04:48 -0500
-User-Agent: Mozilla Thunderbird
-From: "Moger, Babu" <bmoger@amd.com>
-Subject: Re: [PATCH v6 15/22] x86/resctrl: Add the interface to assign a
- hardware counter
-Reply-To: babu.moger@amd.com
-To: Reinette Chatre <reinette.chatre@intel.com>,
- Babu Moger <babu.moger@amd.com>, corbet@lwn.net, fenghua.yu@intel.com,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
- tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
- kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
- jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
- rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
- jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
- daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
- ilpo.jarvinen@linux.intel.com, peternewman@google.com,
- maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
-References: <cover.1722981659.git.babu.moger@amd.com>
- <099ecbbe678dd44387a8962d0cb81e61500cd2fa.1722981659.git.babu.moger@amd.com>
- <aa118320-72eb-4dd6-8826-0f3f7287becc@intel.com>
-Content-Language: en-US
-In-Reply-To: <aa118320-72eb-4dd6-8826-0f3f7287becc@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SN6PR2101CA0024.namprd21.prod.outlook.com
- (2603:10b6:805:106::34) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VawqCO9A"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4518d9fa2f4so377581cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 08:36:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1724254605; x=1724859405; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XUZoeSiNO641pI3EuPxhZcOUo6QCsmcEaLeGMupG+Zk=;
+        b=VawqCO9Ap+dfG9m5J2m0lw/Kt22zqA+IUqPCZmZb15ns7NM1w7XhIHRfB0KFAyxY8W
+         vFYidURPYefAUs0AoQdCss4vjJs0hRhqr43gVHbsFiw1B9ldI0kIQS0dPYFs4nkxhRBO
+         VWr9iHG8WuLjsD5se9v2lReEV4/I+6inz0ZPbW5M9F4umNk5sbLVejBxxOMS+TUrfZEO
+         CONEh2i35AR7tfgTyzMzRYcMqBG/TbKMsxIKZneIW745qgGVc/CHc/VkwvNYZ3ELJxSH
+         Dr/c81HgwIJYlN3IKpB4dL58faG9ZHOBRQcc1OoHLmOX2F1tfDbzZOV877FLg9cCkcPw
+         8cPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724254605; x=1724859405;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XUZoeSiNO641pI3EuPxhZcOUo6QCsmcEaLeGMupG+Zk=;
+        b=iRmUBxtz9LoJIUQ1Mpi+HlvQxDfOHeov0HjkjHPihTSBtfJIwchav/2R5Bh853+rfC
+         Hn+e5Va/1d55DCbs2Gi4Zffgaxiu/14HhOh6Ur4A3GF3wuYB0Gir09RbZqfYXISvv9S/
+         Dnk7qXE5h/f+5d53bKK2PPF9kjRXMLhKOexVQwX5wlvPyNZw7quNCgjw+mMMsgGngbRw
+         7CvDknKU0dWeld+6a2zAhWpRFCfaVmEeHqn1ToqxNshDip7x3DaL41YSFU24myxROCaw
+         JNetEL00CCWlfyThb/PYk32m5zUG0HF0McEF7GGTyAJiGMveXkG5i//32NlEFJaggsWp
+         8f0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXBYoYcdIkJlg1QB1KpYiN42XtKUzpx8UEwzJ5hWuI7xI+yJDnNlSk2TjDYpkADVKtPbRVSsfQ8XoI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxWa7EwKn0WsqV65ErOwwIBQp7mjSiFHpNECBbby/5tyIlz7j+Q
+	Qqmgv+LzFace7B6YUZ4+K2ANshaknunWjiK9fwB4g2GetdBxqwVYr0CahOvRqC5/wxt5vXTRmBl
+	ISrumYhZcY0d2kkILqlk77IGxTtsrsnoYs/Up
+X-Google-Smtp-Source: AGHT+IGfHATnjXtnGmfmB/4D15ItV4+y4fk90XQNkiarco8smx060mhOYYV6TW3lde4cXDjE7q2OcPZA07rGH+zC+AM=
+X-Received: by 2002:a05:622a:1816:b0:447:d555:7035 with SMTP id
+ d75a77b69052e-454e86e342amr6626771cf.13.1724254604541; Wed, 21 Aug 2024
+ 08:36:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|PH8PR12MB6964:EE_
-X-MS-Office365-Filtering-Correlation-Id: b172ad7d-ee60-46f5-9445-08dcc1f29bd3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?NW5mRStOd1ljSk1VWjExdjJMMVhXTHZUOENMdmtPbS9NZEZOeWVnUjlaVUov?=
- =?utf-8?B?MTVyMXlKV3c3WHd0bWdsa2dDa0pLRDcwNGdObngxeGJLK2R1OEtVQzlaYzBH?=
- =?utf-8?B?UGRoa2wyNVREcUtJMUc1ckdxZjJVNUYvN1ArSVphblNsS1RmU29HQWlEeWhr?=
- =?utf-8?B?N3F0TGRjcTVvRUtUckVtbEtDMmwxNU9vM1BQeFVadjQ5UEowcVdQTE5yRGo1?=
- =?utf-8?B?d1U1cjJqN2tyRVlXWEIwdFJiSTJueTZiVE93STArUFRGU2ZQQzIxNHNiNnV6?=
- =?utf-8?B?UlRId0g0YXVYQUQ3R3Z0NW0rVHRVTUJlbHNuendoSlNOY1ZESWhEZGFUU3R6?=
- =?utf-8?B?L0pmNC8xSzcxcVBZN2x3Yldmb3hSTGFSdUJhTHVDekQ0ekdKWG9sbEtZNncz?=
- =?utf-8?B?dXloMEpKQUZrQldhTVdRcTU2MVlaOU9oVXlEZUk3N1pZNW5TNHRMcE9QT3d0?=
- =?utf-8?B?RkFHc1VyMnpiaXpORnpjM09id1BMODNPaDRTS2E4L2kzVE8vUVRZZWZXYXhL?=
- =?utf-8?B?NE42eXhHOGlRbFpYR2R1RXd5ZVM4bzc3VXlGd2N6TTZlM29sQnVJQ2h5UXN3?=
- =?utf-8?B?enhKRWJDKys0R0N3b09FSkdzSmhiY1p1N2dYNHFLbmt5Q05vS2FwYkFQWmlS?=
- =?utf-8?B?dzFBNDdWQUo4dVIwUkV2Zk1KQ3VoQ1J2WUg1Ly9QQ21SSVpEZlNuK0tYWFZO?=
- =?utf-8?B?Z1RvZnQ3aWxUbmU3bHErTmUxZ3R4NncyWnNXa2VwZzdSaFpyb2lBbE8rcmxI?=
- =?utf-8?B?WUtwbklWdHJ2R0pWV3pPNEZZUWtqc2RjdnF3NWVtVzE2N0grbHdvZWpGK21E?=
- =?utf-8?B?U0JCS0g4bFNoSW9RQ0ZwS3hna0p2Y2FFa3lScndVRVpvTG82bktkS2pDRjU3?=
- =?utf-8?B?MFVOb0ZqWHF1aHIvMUV1RHo1V1NGZXNhN2tKc1JOek05THVKYzd1QXpkbzBx?=
- =?utf-8?B?MFFaOFBha1Q1RERhYWYzWVZ3bmZjSnEvamtTSEg1M0pyUFYyS2pNWUlOZ3Rw?=
- =?utf-8?B?aG8vR2wrZmJ0MTBlbW1BK2F4YjBSQTR1YzNrMXdJcHFtREpOdzMvODRsbkh0?=
- =?utf-8?B?d0NXRldQVGE4M1R2WHdOMUliRSs5b255QWtIeGRoRkx6VVJ6bTMzV0FVbUh2?=
- =?utf-8?B?cGJMQzkrVU9peFVGa0Y4cHB2d29rbG1rUDk0Vlh0KytOeW9HZkRlL1NhdEZp?=
- =?utf-8?B?b0p0YnI0UjJYUThrcWJMakVTVks4N2JnTFNuWHFSdkhna09obEtoUU9zNVJP?=
- =?utf-8?B?cjB2STJUTGFxeTJpWFVxU0NrOWJ3TEt3MnltaytqaUNVOEJUK29adUZZK3k3?=
- =?utf-8?B?NDJ4U1NDTUhkTExBbFZaTWtJbXBKT1BOa0xrME52VzFPcVY3clg3d0g0aFhy?=
- =?utf-8?B?UWNoWkxVWGF0L2lsL1IzM3hvd2FEUkIzY3ZZS2FWYVppTHlBU1VuTjZwUGxp?=
- =?utf-8?B?citXTjlKUHlvNyt0cmlNRkVUNGxEMzFXUWNRL0E0ZnFWMExja3pQb092L0Va?=
- =?utf-8?B?Yjd0RllndjJ2dUdZVzVlUFJ3TktuRDdha3ZFYWVQMTZ6ZEdkL2tlbVFzU1Zy?=
- =?utf-8?B?Y29DaWRRdEJFR0NQUisvdVJkdXhPNFdmTlo2ekNkQUliNGxKZTdOdlNkVDFu?=
- =?utf-8?B?dXg1eE1kS2lsUTY5ZnA4eVBsM0E0Wk9kM25kY0FMZHJDRStqVTlJSlY2VTkz?=
- =?utf-8?B?YTJZZFNuNHJSM2NDcExvcGxUOE9BelljTytQN1NNUkRnZnQweWZTcXlJbXNZ?=
- =?utf-8?B?akpYYkU3M29ydjNQeEd1UHUvazJiNTRmbTZuNW1LclArbFZvOG5WM1Q3azN3?=
- =?utf-8?Q?xN5J8O9KeWNv9sXHSZPCqzOuZbX5s7hYvHPMI=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NVowVkxUOXVaNlZmd2hTZnprL1NtUHJkSmJUYVB5RDhzZDdFMkpjdXlCeEdN?=
- =?utf-8?B?MEJnUHZFaVlZbGlSVUdyVjR5dDMzaHE0TVg2MjZFa0VRc1JqYlU2b3dEN25W?=
- =?utf-8?B?dkxyaTcwZE42QkNhdXVoWGI0aXlET3BFcVZTRkpONjBBdGg1ZGl2OFJXRVdR?=
- =?utf-8?B?S3dKQ01naGMrRjdEQmRGUjdBcGJkUUQzTjVYSm9rSm5MTndTS2lHeW9DOGdZ?=
- =?utf-8?B?dGhIY29PeVQzbDNyTXE4cmM3S1B1dzI0MmRJVXE4UDBiUWR6L1pMbUtJZDFz?=
- =?utf-8?B?aENza1UydUtaVVlhb0dxQTRpallheURZY3c4MFRKZ0piRVpyZGlTUlorZURP?=
- =?utf-8?B?N29yRnZCM1Vjc0djYjFqZmJJOFFXTUF2NGNGOFBoMFpoV2I0MmJiS2t6UW00?=
- =?utf-8?B?N01RQnhsbkwzNXdjaHk2amd6WHd4Yk9yQ2pZL1pRRDlyZHJiaWtuNEZ4bWJy?=
- =?utf-8?B?bFg1YUh2MkpzM3pNS0x1Rjg1L21vYk5vYlZPWEZqWCtZY0RiOExJdU1PMnln?=
- =?utf-8?B?NDlFOUFtbE9EeHhzait4dE9GSklBbitTNE5CR3FocmZXTklhZHlIeFFzWGRX?=
- =?utf-8?B?V3FvWTJMUGt3Sm1HRVhnMGVBbjBOeU9mZ0liRFZtbkc3NDFySXAvZG9lNytu?=
- =?utf-8?B?djd2ZFRiVjVDTm9XUFFFMkMyRlQ1ckhZeEY3OGZSaW1zVmJkc0k2SlpKeU1H?=
- =?utf-8?B?eklUTU1LL04zSGhodFVRaGN3eFc5YWNPN1dNS1NIOXhJSGFGaWNEakJEYThQ?=
- =?utf-8?B?RjNHQVVJa1cyWGxXQXN2OFBpSFdiNGpxUitOSGhFMitzbEtKTlk4a1RYeEdk?=
- =?utf-8?B?YURTTVk5cHVGOWIwR25mNVVodEw3MERyVjRra3BEWkd2OFlHUHk3UXd1Ujkv?=
- =?utf-8?B?UHV5RHpjWW56V2t1MmVCb2dzT0VVdTE2dmJqSUtIMVcvYVk4R0pJNjg4TUs2?=
- =?utf-8?B?R0wzQVNQNGxVNEdzWWp6OWJvbDdXVVlHMGE0MTJwa2hLTUFCb2IzczI3Um1l?=
- =?utf-8?B?SEZGVTBzaFlaVXRsTFJwVDY5c3JxK01iYnpGenlNT29LVGdzZmRFMmVWL09t?=
- =?utf-8?B?MENCSlBDL3VUaks1bW1SWVR3dXlydWlGcnRDeDdHK1RiZ2pEemt0c1RvLzJm?=
- =?utf-8?B?NGZ6cEdqbXoxaVFkVVI3S2lWaDRQM3dqQVI0b2xkNHpaUEhtM2tGbGJvYW1W?=
- =?utf-8?B?QitzUDNTRFRtb2d5TlJSVkJHMGViUU5wck16c09wamJxcW9SZkwvV3Q1ZlFx?=
- =?utf-8?B?NHU3WmhHcm8xZ3h3dzZQVGkxeTJ1ZUsySVhjYVQyRU9zLzF2dEpMaWFGMHc4?=
- =?utf-8?B?VTg4NE9CMHp0UGpicTNLbE9BMERNb1JLcE9MRmFWWDVBVktWZTR5L0t5bVVj?=
- =?utf-8?B?azdoL3NzSUROejc3U3RQd0I4RGZYSWpvaGRDMWxhaitnN0pqUmlVcTlMUjVK?=
- =?utf-8?B?MmxqTXJIdTN5Y20yeXF0ZnBaVmJMVVQ1MFozWThqeW5zaC9RQWFEMzIvYjJs?=
- =?utf-8?B?OU90TUNtNHEwQjRGbUJ1Nk5DQ1phc0tISkg0aWNrME41WTJNcndxa1BTU0tF?=
- =?utf-8?B?R2hTZThlNHpIWmpYVjZPdk41V3FpWHNSVlk0Y0ZCVnZ6UFRORXc3S1RDZThV?=
- =?utf-8?B?d3UwOUFXZjJxTm5nL0xPSUNNc2QwLzU4WklUSTY3VENMMnlmdFBYOS9NTkZ5?=
- =?utf-8?B?VFhCMTdydlU3T2J0MUcreDFNZTJjRmZXTk5WRGd4bmtWeEpXb0JycENXYTd2?=
- =?utf-8?B?OEdFaGZXS0JPOFZnR2FNZzZUMkhzTUlMUGE2Umo1aldEY0ZjRmFKUU1FMmtp?=
- =?utf-8?B?VWExSjkrTnlrcXRmTEZXODZ6c3lqaThSdGZyTlRpRXlRUGN6dHFVQnhCRzNq?=
- =?utf-8?B?eXBtNDhBM3hGUzZPb3MwSEp5VzZ6NCs0cHBYTkZpalpUVy93V2lReFlXR1lj?=
- =?utf-8?B?SjVWZHdUVHhjZ2t3QkJsSUNlZEJNazZxYThybUluMUlLTllvOER4NHFRcUhI?=
- =?utf-8?B?a2xOVWFWSVpDSE5ER1JUdG92NDJYTVpzWHllSmxWcFhvZmRlb2c5bllMcVU0?=
- =?utf-8?B?ZGtZUWszem94ckpGRTBUSVJzcVZOaWRNRElXRUpnMnpqRm5vQjROam4zcCto?=
- =?utf-8?Q?3wPc=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b172ad7d-ee60-46f5-9445-08dcc1f29bd3
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2024 15:04:52.2240
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OcFhrjNv8A50rp2mqIpSLXzsFDCF2J29+uO5yYEHC9/STeAr+t0Wy3JSAQ8nnnzP
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6964
+References: <20240813211317.3381180-4-almasrymina@google.com>
+ <CAMArcTWWxjsg_zwS6waWkLpyHhwdXDm_NJeVGm_dr+eT5QDZiA@mail.gmail.com>
+ <20240819155257.1148e869@kernel.org> <CAHS8izPL4YdqFjkTpYavdxQn816=kkUv0xravQJF4Uno7Bn3ZQ@mail.gmail.com>
+ <CAMArcTXvccYBPZTEuW-z=uTK7W67utd9-xjPzfxEOvUWhPS7bg@mail.gmail.com>
+In-Reply-To: <CAMArcTXvccYBPZTEuW-z=uTK7W67utd9-xjPzfxEOvUWhPS7bg@mail.gmail.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Wed, 21 Aug 2024 11:36:31 -0400
+Message-ID: <CAHS8izPZ9Jiu9Gj+Kk3cQ_+t22M4n4-mbPLhx+fti_HiWzL57Q@mail.gmail.com>
+Subject: Re: [PATCH net-next v19 03/13] netdev: support binding dma-buf to netdevice
+To: Taehee Yoo <ap420073@gmail.com>
+Cc: Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	John Fastabend <john.fastabend@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
+	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
+	Kaiyuan Zhang <kaiyuanz@google.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Reinette,
+On Wed, Aug 21, 2024 at 5:15=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> wro=
+te:
+>
+> On Tue, Aug 20, 2024 at 1:01=E2=80=AFPM Mina Almasry <almasrymina@google.=
+com> wrote:
+> >
+> > On Mon, Aug 19, 2024 at 6:53=E2=80=AFPM Jakub Kicinski <kuba@kernel.org=
+> wrote:
+> > >
+> > > On Mon, 19 Aug 2024 00:44:27 +0900 Taehee Yoo wrote:
+> > > > > @@ -9537,6 +9540,10 @@ static int dev_xdp_attach(struct net_devic=
+e *dev, struct netlink_ext_ack *extack
+> > > > >                         NL_SET_ERR_MSG(extack, "Native and generi=
+c XDP can't be active at the same time");
+> > > > >                         return -EEXIST;
+> > > > >                 }
+> > > > > +               if (dev_get_max_mp_channel(dev) !=3D -1) {
+> > > > > +                       NL_SET_ERR_MSG(extack, "XDP can't be inst=
+alled on a netdev using memory providers");
+> > > > > +                       return -EINVAL;
+> > > > > +               }
+> > > >
+> > > > Should we consider virtual interfaces like bonding, bridge, etc?
+> > > > Virtual interfaces as an upper interface of physical interfaces can
+> > > > still install XDP prog.
+> > > >
+> > > > # ip link add bond0 type bond
+> > > > # ip link set eth0 master bond0
+> > > > # ip link set bond0 xdp pin /sys/fs/bpf/x/y
+> > > > and
+> > > > # ip link set bond0 xdpgeneric pin /sys/fs/bpf/x/y
+> > > >
+> > > > All virtual interfaces can install generic XDP prog.
+> > > > The bonding interface can install native XDP prog.
+> > >
+> > > Good point. We may need some common helpers to place the checks for X=
+DP.
+> > > They are spread all over the place now.
+> >
+> > Took a bit of a look here. Forgive me, I'm not that familiar with XDP
+> > and virtual interfaces, so I'm a bit unsure what to do here.
+> >
+> > For veth, it seems, the device behind the veth is stored in
+> > veth_priv->peer, so it seems maybe a dev_get_max_mp_channel() check on
+> > veth_priv->peer is the way to go to disable this for veth? I think we
+> > need to do this check on creation of the veth and on the ndo_bpf of
+> > veth.
+> >
+> > For bonding, it seems we need to add mp channel check in bond_xdp_set,
+> > and bond_enslave?
+> >
+> > There are a few other drivers that define ndo_add_slave, seems a check
+> > in br_add_slave is needed as well.
+> >
+> > This seems like a potentially deep rabbit hole with a few checks to
+> > add all of the place. Is this blocking the series? AFAICT if XDP fails
+> > with mp-bound queues with a benign error, that seems fine to me; I
+> > don't have a use case for memory providers + xdp yet. This should only
+> > be blocking if someone can repro a very serious error (kernel crash)
+> > or something with this combination.
+> >
+> > I can try to add these checks locally and propose as a follow up
+> > series. Let me know if I'm on the right track with figuring out how to
+> > implement this, and, if you feel like it's blocking.
+> >
+> > --
+> > Thanks,
+> > Mina
+>
+> I agree with the current approach, which uses the
+> dev_get_min_mp_channel_count() in the dev_xdp_attach().
+> The only problem that I am concerned about is the
+> dev_get_min_mp_channel_count() can't check lower interfaces.
+> So, how about just making the current code to be able to check lower
+> interfaces?
 
-On 8/16/2024 4:41 PM, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 8/6/24 3:00 PM, Babu Moger wrote:
->> The ABMC feature provides an option to the user to assign a hardware
-> 
-> This patch is a mix of resctrl fs and arch code, could each piece please
-> be desribed clearly?
+Thank you for the code snippet! It's very useful! I have been
+wondering how to walk lower/upper devices!
 
-I will separate them. That is probably better.
+To be honest, I think maybe Jakub's suggestion to refactor all the
+->ndo_bpf calls needs to happen anyway. The reason is that there are
+->ndo_bpf calls in the core net stack, like net/xdp/xsk_buff_pool.c
+and kernel/bpf/offload.c. AFAICT we need to add checks in these places
+as well, so refactoring them into one place is nice?
 
-> 
->> counter to an RMID and monitor the bandwidth as long as it is assigned.
->> The assigned RMID will be tracked by the hardware until the user 
->> unassigns
->> it manually.
->>
->> Counters are configured by writing to L3_QOS_ABMC_CFG MSR and
->> specifying the counter id, bandwidth source, and bandwidth types.
->>
->> Provide the interface to assign the counter ids to RMID.
->>
->> The feature details are documented in the APM listed below [1].
->> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
->>      Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable 
->> Bandwidth
->>      Monitoring (ABMC).
->>
->> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> ---
->> v6: Removed mbm_cntr_alloc() from this patch to keep fs and arch code
->>      separate.
->>      Added code to update the counter assignment at domain level.
->>
->> v5: Few name changes to match cntr_id.
->>      Changed the function names to
->>        rdtgroup_assign_cntr
->>        resctr_arch_assign_cntr
->>        More comments on commit log.
->>        Added function summary.
->>
->> v4: Commit message update.
->>        User bitmap APIs where applicable.
->>        Changed the interfaces considering MPAM(arm).
->>        Added domain specific assignment.
->>
->> v3: Removed the static from the prototype of rdtgroup_assign_abmc.
->>        The function is not called directly from user anymore. These
->>        changes are related to global assignment interface.
->>
->> v2: Minor text changes in commit message.
->> ---
->>   arch/x86/kernel/cpu/resctrl/internal.h |  4 ++
->>   arch/x86/kernel/cpu/resctrl/rdtgroup.c | 97 ++++++++++++++++++++++++++
->>   2 files changed, 101 insertions(+)
->>
->> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h 
->> b/arch/x86/kernel/cpu/resctrl/internal.h
->> index d93082b65d69..4e8109dee174 100644
->> --- a/arch/x86/kernel/cpu/resctrl/internal.h
->> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
->> @@ -685,6 +685,10 @@ int mbm_cntr_alloc(struct rdt_resource *r);
->>   void mbm_cntr_free(u32 cntr_id);
->>   void resctrl_mbm_evt_config_init(struct rdt_hw_mon_domain *hw_dom);
->>   unsigned int mon_event_config_index_get(u32 evtid);
->> +int resctrl_arch_assign_cntr(struct rdt_mon_domain *d, enum 
->> resctrl_event_id evtid,
->> +                 u32 rmid, u32 cntr_id, u32 closid, bool assign);
->> +int rdtgroup_assign_cntr(struct rdtgroup *rdtgrp, enum 
->> resctrl_event_id evtid);
->> +int rdtgroup_alloc_cntr(struct rdtgroup *rdtgrp, int index);
->>   void rdt_staged_configs_clear(void);
->>   bool closid_allocated(unsigned int closid);
->>   int resctrl_find_cleanest_closid(void);
->> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c 
->> b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> index 60696b248b56..1ee91a7293a8 100644
->> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> @@ -1864,6 +1864,103 @@ static ssize_t 
->> mbm_local_bytes_config_write(struct kernfs_open_file *of,
->>       return ret ?: nbytes;
->>   }
->> +static void rdtgroup_abmc_cfg(void *info)
-> 
-> This has nothing to do with a resctrl group (arch code has no insight 
-> into the groups anyway).
-> Maybe an arch specific name like "resctrl_abmc_config_one_amd()" to 
-> match earlier
-> "resctrl_abmc_set_one_amd()"?
-> 
+Note I sent the refactor for review. Sorry, I forgot to CC Taehee:
+https://patchwork.kernel.org/project/netdevbpf/patch/20240821045629.2856641=
+-1-almasrymina@google.com/
 
-Sure.
+Additionally I'm wondering if we should disable adding mp-bound
+devices as slaves completely, regardless of xdp. My concern is that if
+the lower device is using unreadable memory, then the upper device may
+see unreadable memory in its code paths, and will not be expecting
+that, so it may break. From the look at the code, it looks like
+net/batman-adv calls ndo_add_slave, and a bunch of code that touches
+skb_frags:
 
-> 
->> +{
->> +    u64 *msrval = info;
->> +
->> +    wrmsrl(MSR_IA32_L3_QOS_ABMC_CFG, *msrval);
->> +}
->> +
->> +/*
->> + * Send an IPI to the domain to assign the counter id to RMID.
->> + */
->> +int resctrl_arch_assign_cntr(struct rdt_mon_domain *d, enum 
->> resctrl_event_id evtid,
->> +                 u32 rmid, u32 cntr_id, u32 closid, bool assign)
->> +{
->> +    struct rdt_hw_mon_domain *hw_dom = resctrl_to_arch_mon_dom(d);
->> +    union l3_qos_abmc_cfg abmc_cfg = { 0 };
->> +    struct arch_mbm_state *arch_mbm;
->> +
->> +    abmc_cfg.split.cfg_en = 1;
->> +    abmc_cfg.split.cntr_en = assign ? 1 : 0;
->> +    abmc_cfg.split.cntr_id = cntr_id;
->> +    abmc_cfg.split.bw_src = rmid;
->> +
->> +    /* Update the event configuration from the domain */
->> +    if (evtid == QOS_L3_MBM_TOTAL_EVENT_ID) {
->> +        abmc_cfg.split.bw_type = hw_dom->mbm_total_cfg;
->> +        arch_mbm = &hw_dom->arch_mbm_total[rmid];
->> +    } else {
->> +        abmc_cfg.split.bw_type = hw_dom->mbm_local_cfg;
->> +        arch_mbm = &hw_dom->arch_mbm_local[rmid];
->> +    }
->> +
->> +    smp_call_function_any(&d->hdr.cpu_mask, rdtgroup_abmc_cfg, 
->> &abmc_cfg, 1);
->> +
->> +    /*
->> +     * Reset the architectural state so that reading of hardware
->> +     * counter is not considered as an overflow in next update.
->> +     */
->> +    if (arch_mbm)
->> +        memset(arch_mbm, 0, sizeof(struct arch_mbm_state));
->> +
->> +    return 0;
->> +}
->> +
->> +/* Allocate a new counter id if the event is unassigned */
->> +int rdtgroup_alloc_cntr(struct rdtgroup *rdtgrp, int index)
->> +{
->> +    struct rdt_resource *r = 
->> &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
->> +    int cntr_id;
->> +
->> +    /* Nothing to do if event has been assigned already */
->> +    if (rdtgrp->mon.cntr_id[index] != MON_CNTR_UNSET) {
->> +        rdt_last_cmd_puts("ABMC counter is assigned already\n");
-> 
-> This is resctrl fs code. Please replace the arch specific messages
-> ("ABMC") with resctrl fs terms.
+$ ackc -i ndo_add_slave
+soft-interface.c
+889:    .ndo_add_slave =3D batadv_softif_slave_add,
 
-Sure.
+$ ackc -i skb_frag
+fragmentation.c
+403:    struct sk_buff *skb_fragment;
+407:    skb_fragment =3D dev_alloc_skb(ll_reserved + mtu + tailroom);
+408:    if (!skb_fragment)
+411:    skb_fragment->priority =3D skb->priority;
+414:    skb_reserve(skb_fragment, ll_reserved + header_size);
+415:    skb_split(skb, skb_fragment, skb->len - fragment_size);
+418:    skb_push(skb_fragment, header_size);
+419:    memcpy(skb_fragment->data, frag_head, header_size);
+422:    return skb_fragment;
+441:    struct sk_buff *skb_fragment;
+513:            skb_fragment =3D batadv_frag_create(net_dev, skb, &frag_hea=
+der,
+515:            if (!skb_fragment) {
+522:                               skb_fragment->len + ETH_HLEN);
+523:            ret =3D batadv_send_unicast_skb(skb_fragment, neigh_node);
 
-> 
->> +        return 0;
->> +    }
->> +
->> +    /*
->> +     * Allocate a new counter id and update domains
->> +     */
->> +    cntr_id = mbm_cntr_alloc(r);
->> +    if (cntr_id < 0) {
->> +        rdt_last_cmd_puts("Out of ABMC counters\n");
-> 
-> here also.
+If we disable ndo_add_slave on mp devices, then we don't need to walk
+lower or upper devices. What do you think? If we don't disable mp
+lower devices entirely, then yes, we can make
+dev_get_min_mp_channel_count() do a recursive check.
 
-Sure.
+Note that we can add support for mp bound devices as slaves in the
+future if we have a use case for it, and it's well tested to be safe
+with selftests added.
 
-> 
->> +        return -ENOSPC;
->> +    }
->> +
->> +    rdtgrp->mon.cntr_id[index] = cntr_id;
->> +
->> +    return 0;
->> +}
->> +
->> +/*
->> + * Assign a hardware counter to the group and assign the counter
->> + * all the domains in the group. It will try to allocate the mbm
->> + * counter if the counter is available.
->> + */
->> +int rdtgroup_assign_cntr(struct rdtgroup *rdtgrp, enum 
->> resctrl_event_id evtid)
->> +{
->> +    struct rdt_resource *r = 
->> &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
->> +    struct rdt_mon_domain *d;
->> +    int index;
->> +
->> +    index = mon_event_config_index_get(evtid);
-> 
-> After going through MPAM series this no longer looks correct. As the 
-> name of this
-> function implies this is an index unique to the monitor event 
-> configuration feature
-> and as the MPAM series highlights, it is unique to the architecture, not 
-> something
-> that is visible to resctrl fs. resctrl fs uses the event IDs and it is 
-> only when the
-> fs makes a request to the architecture that this translation comes into 
-> play.
-> 
-> With this change, what is the architecture specific "mon event config 
-> index" now
-> becomes part of resctrl fs used for something totally different from mon 
-> event
-> configuration.
-> 
-> I think we should separate this to make sure we distinguish between an 
-> architectural
-> translation and a resctrl fs translation, the array index is not the 
-> same as the architecture
-> specific "mov event config index".
-> 
-> How about we start with something simple that is defined by resctrl fs? 
-> for example:
-> #define MBM_EVENT_ARRAY_INDEX(_event) (_event  - 2)
-
-Yes. Good point. We can do that.
-
-> 
-> 
->> +    if (index == INVALID_CONFIG_INDEX)
->> +        return -EINVAL;
->> +
->> +    if (rdtgroup_alloc_cntr(rdtgrp, index))
->> +        return -EINVAL;
->> +
-> 
-> hmmm ... so rdtgroup_alloc_cntr() returns 0 if the counter is assigned 
-> already, and
-> in this case the configuration is done again even if counter was already 
-> assigned.
-> Is this intended?
-
-I didn't think thru this. Yea. It is not required as far as I can see.
-Will address it.
-
-> 
-> rdtgroup_assign_cntr() seems to be almost identical to 
-> rdtgroup_assign_update()
-> that has protection against the above from happening. It looks like 
-> these two
-> functions can be merged into one?
-
-Yes. We can do that.
-
-> 
->> +    list_for_each_entry(d, &r->mon_domains, hdr.list) {
->> +        resctrl_arch_assign_cntr(d, evtid, rdtgrp->mon.rmid,
->> +                     rdtgrp->mon.cntr_id[index],
-> 
-> There currently seems to be a mismatch between functions needing to
-> access this ID directly as above in some cases while also needing to
-> use helpers like rdtgroup_alloc_cntr().
-
-I think I need to merge rdtgroup_assign_cntr(), rdtgroup_assign_update()
-and rdtgroup_alloc_cntr. It will probably make it clear.
-> 
-> Also, as James indicated, resctrl_arch_assign_cntr() may fail on Arm
-> so this needs error checking even though the x86 implementation always
-> returns success.
-
-Sure. Will do.
-
-> 
->> +                     rdtgrp->closid, true);
->> +        set_bit(rdtgrp->mon.cntr_id[index], d->mbm_cntr_map);
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->>   /* rdtgroup information files for one cache resource. */
->>   static struct rftype res_common_files[] = {
->>       {
-> 
-> Reinette
-> 
-Thanks
-- Babu Moger
+If we disable adding mp devices as lower devices, then during the mp
+binding we should also check if the device has upper devices.
