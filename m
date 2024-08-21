@@ -1,158 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06171192D6A;
-	Wed, 21 Aug 2024 07:02:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 912CE1A2868;
+	Wed, 21 Aug 2024 07:16:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724223767; cv=none; b=qKDsCipmg2z7Hn7pCJRYxz0mA6fCwkglbpV7UWvRJamgNFxazpbRRbS1sMLdmXgs808SDePHDjS8/Zh4UK14R2TFU4qlPUZ+cRLAxiwyJxGGZc8VPD7rD+qLTVlxG+7JIohO6ipNxNrZzyNGcTusDkCIqpCFVId+feerN7KXmVU=
+	t=1724224566; cv=none; b=o4mk6rsnGVUVzZXYR1xN8ZoPy52EGvxZfHrfswEvMMAENmRWBR75cB6tLsDBV7L5Zv6yEBHcOROmt99mSKu0tY9Zc+8UkBs8lrvBSnL3RQLnDlXScKDxCdk+98LId10mYqFNLL6gM21fV2s//LhSp15CbxkEafJWglnmmtdsY8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724223767; c=relaxed/simple;
-	bh=8rUm72MnGLmHQNl/Pyxx0EYzyXtHSorMLOIHmsjfdMk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HxwHumIdFonq2SoDL71KjbqDo4KV4j2brhRkBDHnS2kOLANbgSkGwvEtD2EVE+OFb0aX6X2GFibJjKt4v5gfJyxxTeNxQhI5uaO9+kxw2WgwW/FmsbFRAWZXb1EGonXsFv7QGuuBIgHSfK6KFS+vO48u/9p5TQVX6ufYC1BZ6Ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YY1g8XpH; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1724224566; c=relaxed/simple;
+	bh=gGa8aDchR6P35xmEhYkIohAWzHWpKhSYViKdBUb5fSk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PHYqrKI4rPA6o0HU+dR+Hj1aZmisI0Ja61oWWlt6oKnkewY4iU5cF6POUbr6IbyicEdCrARpsZsmktGCCyDrXCb72JhxSOqzrOjV1T9IfzZePqTG7pTJhyiwvpyVBdDQfs8DklURI6xNB2EtSMIixz+94dBnENUKioCfp43Ooj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pankajraghav.com; spf=pass smtp.mailfrom=pankajraghav.com; dkim=pass (2048-bit key) header.d=pankajraghav.com header.i=@pankajraghav.com header.b=kBxW1OsG; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pankajraghav.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pankajraghav.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YY1g8XpH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724223766; x=1755759766;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=8rUm72MnGLmHQNl/Pyxx0EYzyXtHSorMLOIHmsjfdMk=;
-  b=YY1g8XpHLdE595GK51tnrBrNO/HM5rr8j+FEc1APx3Ifcx+tH0VLnkr1
-   PWovQjs+6o5WGEgDTCnMkBUbIXUe+K4/x3cEdjntn+ibtEiW0AoyemxgU
-   kHtXkELsiWDlcD0aCUIz23Lht+MYyuVDjBdDOwfXqQYBnhSXrC94v9f0O
-   LANXScKrbZEnTtolgYBfj7vAL5PfbWR0ISOKVPA4BxzlOjoDbQ6dL6ArF
-   s8C+drAMjOY59JRwxRCvtmMFGsT2uDFpfJyD+eDX2eirm6xqmjXgVhsE0
-   +ZzYnIABT4XV7xVVbp1ejs+/k3cw8H3x5ZMvYV/gsk61a5h0XSLfmntfz
-   A==;
-X-CSE-ConnectionGUID: Hhs8JmD/QsW33kpH3E9nCw==
-X-CSE-MsgGUID: DGFSXacyTGqSOOjiLVDqZA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="22706002"
-X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
-   d="scan'208";a="22706002"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 00:02:46 -0700
-X-CSE-ConnectionGUID: r7X2J0LrR8ub329AoQ8R8g==
-X-CSE-MsgGUID: fYBNYWdMTGy2tKnZxPcjmg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
-   d="scan'208";a="65871786"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO [10.245.246.16]) ([10.245.246.16])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 00:02:39 -0700
-Message-ID: <7b3421f5-8d57-4138-9456-1bf0eb4662c0@linux.intel.com>
-Date: Wed, 21 Aug 2024 09:02:37 +0200
+	dkim=pass (2048-bit key) header.d=pankajraghav.com header.i=@pankajraghav.com header.b="kBxW1OsG"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Wpd0S5Lg5z9t63;
+	Wed, 21 Aug 2024 09:15:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pankajraghav.com;
+	s=MBO0001; t=1724224552;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rYduLHKa0UHntXi/4itA9oNRT2pbqE6hHxbM6/MwnOA=;
+	b=kBxW1OsGM38Idead3+WnZ9Z5SBYYwxcEKeB6IXQ+T2Po00kcJxg2GozC7yxon/8hEC3Hqf
+	HwwfF3xGe7m8KuAne9mcpU/rUiOtNnZXh5ZEVRVVggUipkOPl3O6X4BGOlg/VwqB8P7tKS
+	ZW5yvXOMqrfzIvZBwZ76sbYKig8uYddGLTpWTBSEiHKChB7zk9M/0M0pog3AXBaXenU0SN
+	vUHgB0lZCu0SYeiklp49XQ+eGj6dVaqPxNMAhS5wrCZCDa0X5oYAkS9BoqteNARNVWCYG2
+	+oRPW2jnmZfb8LYdg7FaLjv5CgHR1OSEm+tiOzxKErnqhqIaYWiRJulpcknyFA==
+Date: Wed, 21 Aug 2024 07:15:46 +0000
+From: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>
+To: David Sterba <dsterba@suse.cz>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-xfs@vger.kernel.org,
+	Pankaj Raghav <p.raghav@samsung.com>
+Subject: Re: [PATCH] Documentation: iomap: fix a typo
+Message-ID: <20240821071546.isbpc2smmjhooetj@quentin>
+References: <20240820161329.1293718-1-kernel@pankajraghav.com>
+ <20240821000525.GM25962@twin.jikos.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v24 29/34] ALSA: usb-audio: qcom: Add USB offload route
- kcontrol
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
- gregkh@linuxfoundation.org, robh@kernel.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
- <20240801011730.4797-30-quic_wcheng@quicinc.com>
- <4d5fe3f8-d7ba-4647-8dd7-22656ec2fde5@linux.intel.com>
- <58043166-c494-42db-b7d3-575991e43e8b@quicinc.com>
- <f507a228-4865-4df5-9215-bc59e330a82f@linux.intel.com>
- <88d5ed6f-1429-4381-8014-d5824ec7866e@quicinc.com>
- <56ebd11e-9522-406b-9ca4-5e284eaac409@quicinc.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <56ebd11e-9522-406b-9ca4-5e284eaac409@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240821000525.GM25962@twin.jikos.cz>
+X-Rspamd-Queue-Id: 4Wpd0S5Lg5z9t63
 
-
-
-
->>>>>> +/**
->>>>>> + * snd_usb_offload_create_ctl() - Add USB offload bounded mixer
->>>>>> + * @chip - USB SND chip device
->>>>>> + *
->>>>>> + * Creates a sound control for a USB audio device, so that applications can
->>>>>> + * query for if there is an available USB audio offload path, and which
->>>>>> + * card is managing it.
->>>>>> + */
->>>>>> +int snd_usb_offload_create_ctl(struct snd_usb_audio *chip)
->>>>>> +{
->>>>>> +	struct usb_device *udev = chip->dev;
->>>>>> +	struct snd_kcontrol_new *chip_kctl;
->>>>>> +	struct snd_usb_stream *as;
->>>>>> +	char ctl_name[37];
->>>>>> +	int ret;
->>>>>> +
->>>>>> +	list_for_each_entry(as, &chip->pcm_list, list) {
->>>>>> +		chip_kctl = &snd_usb_offload_mapped_ctl;
->>>>>> +		chip_kctl->count = 1;
->>>>>> +		/*
->>>>>> +		 * Store the associated USB SND card number and PCM index for
->>>>>> +		 * the kctl.
->>>>>> +		 */
->>>>>> +		chip_kctl->private_value = as->pcm_index |
->>>>>> +					  chip->card->number << 16;
->>>>>> +		sprintf(ctl_name, "USB Offload Playback Route PCM#%d",
->>>>>> +			as->pcm_index);
->>>>>> +		chip_kctl->name = ctl_name;
->>>>>> +		ret = snd_ctl_add(chip->card, snd_ctl_new1(chip_kctl,
->>>>>> +				  udev->bus->sysdev));
->>>>>> +		if (ret < 0)
->>>>>> +			break;
->>>>>> +	}
->>>>>> +
->>>>>> +	return ret;
->>>> Hi Pierre,
->>>>> None of this looks Qualcomm-specific, shouldn't this be part of the
->>>>> soc_usb framework instead of being added in the qcom/ stuff?
->>>> Started working on this particular comment, and there are some things that needs to be considered if we moved this into SOC USB:
->>>>
->>>> 1.  We do save the reference to the USB BE DAI link within the USB DT node, which can be fetched/referenced based on sysdev.  However, I'm not sure if everyone would potentially follow that way.
->>>>
->>>> 2.  I tried a few implementations of adding a new SOC USB API, and the argument list was a bit long, because I didn't want to directly reference the usb_chip.
->>>>
->>>> Sorry for the delay, but I wanted to give a good stab at implementing this before bringing up the implications.  It is possible, but definitely not as clean as how we have it now IMO.
->>> My comment was only referring to the location of the code, it's now in
->>> sound/usb/qcom/mixer_usb_offload.c but does not contain anything
->>> specific to Qualcomm. I was not asking for any encapsulation inside of
->>> soc-usb, I was only suggesting a move of the code to a shared helper
->>> library so that this code can be reused as is and not duplicated if the
->>> QCOM parts are not compiled in.
->> Ah, great, thanks for the clarification.  Let me take a look with that perspective.
->>
-> Going back on the history behind moving it into qcom/ was based off feedback that Takashi pointed out in v14[1].  It was mainly due to the fact that we would be adding another hard dependency between USB SND and the offloading components.  Hence the reason for moving it to within the QCOM offloading package. 
+On Wed, Aug 21, 2024 at 02:05:25AM +0200, David Sterba wrote:
+> On Tue, Aug 20, 2024 at 06:13:29PM +0200, Pankaj Raghav (Samsung) wrote:
+> > From: Pankaj Raghav <p.raghav@samsung.com>
+> > 
+> > Change voidw -> void.
 > 
-> Thanks
-> 
-> Wesley Cheng
-> 
-> [1]: https://lore.kernel.org/linux-usb/87y1bt2acg.wl-tiwai@suse.de/
+> Tips for more typo fixes in the same file: fileystem, constaints,
+> specifc
 
-I don't see anything wrong with the initial proposal
+These are already fixed in fs-next:
+9ba1824cc875 ("Fix spelling and gramatical errors")
 
-
- +config SND_USB_OFFLOAD_MIXER
- +	bool
- +
-  config SND_USB_AUDIO_QMI
-  	tristate "Qualcomm Audio Offload driver"
-  	depends on QCOM_QMI_HELPERS && SND_USB_AUDIO && USB_XHCI_SIDEBAND
-  	select SND_PCM
- +	select SND_USB_OFFLOAD_MIXER
-
-
-That would allows the SND_USB_OFFLOAD_MIXER to be build as a module, and
-it would allow other non-QCON solutions to use the module.
-Maybe just make it a tristate?
+-- 
+Pankaj Raghav
