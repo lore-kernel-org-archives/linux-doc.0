@@ -1,106 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 280211D131A;
-	Wed, 21 Aug 2024 18:41:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4599079CD
+	for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 19:02:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724265683; cv=none; b=dhic1eK8jYKaKm/ByW0RqFFgHU8ZiwR/T3+lA8ZB0oMUoqdyaBeiPqUIcLZ7aTD8SLW/aIaFQpQo4RssdYi2nLEU4mxi7+U697VwDyYziRy1V2KavM48RgBeENSM5OuGhqdz0j+ZgSPNzbO5VRn2u6X97tWlke02by64Eo8u3wE=
+	t=1724266955; cv=none; b=YIGx30YBhvY9q/po5VKsy5OLGsiTn6qdBa6S5ssK1D5UnECnfgs1POopOWNlJspo2Sc2N/BrZ+8R+xL0DlmDPhx/tqVez5fCFIDxDRQlJO9zoiwBe6liK0KYp1AGu9qpR3qEh0uDcVpjg5Z70kQ6yvobfXvytq4E43+LMeeFZCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724265683; c=relaxed/simple;
-	bh=E8dXxpdarfv5CApG/ySDW3eYs88clE31dyTXCgdIj+o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cOp74YnADgHcGCnsE8tNqSE1zjuxzlA2iMeHTx+T2n+L4PKuqu2+i05l6aWanXmpJAhNlxjc7eq0MJ/KMOA0xHdN11aqyGeuo5ZpkjR9r4TXRpgeMF4j2YOX3mWQhRTNCPGCgcjXfwwB6/xUyx3dT33xXNYPDYHiy95zvWNR4/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P1Z5wNq7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724266955; c=relaxed/simple;
+	bh=1ahm9esPITVeZ0QIpZcT8JjHfRFyH7cLMPiUbwzxhbM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VfN4OTV24BS1cLdHMan1vK9AWsQ/VcxNjvk2hXcL2TYGKxw7QoHoo8aAlfeOgk8R0xL0i5QTE0kCJ+LB0hlFUFgfAF51RDquNYBtTVMh2cDiaZxp/ctDwM3Fa/DsfHcWnDWzz05PXNwoAF71XthDI1iDi6MOeyTgH1qDuaxlNwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=LOgpLLK6; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P1Z5wNq7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 160FEC32781;
-	Wed, 21 Aug 2024 18:41:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724265682;
-	bh=E8dXxpdarfv5CApG/ySDW3eYs88clE31dyTXCgdIj+o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=P1Z5wNq7V+GasD5vLMXFUN5I8quGoeaPeU/IOn49bO8otYh4m4+pEPuD02+LjkIpu
-	 1InGS8UBGdn07hLYwr9lczN0PpJKUZda3+PUnVYGPIHPz37YiW/rlBT39Wu3Z6waXl
-	 yFHS8eRfeRov6xX2PfirQ7yEoiX+M7qPnRSKDkpLB7DgHumi3WXwPKLN/zebkWiSh5
-	 BVgWHhEMq7jh8WLHQBofBwINPODDw2R/uDRfRihMjYS5SRen4JvJhmC1N9DkEtYC28
-	 UbCdbUMMqjuH/078spkgiUnjLrN7q0REvfVwOvY+hgphHs8YYEHun383qhkKCWENa0
-	 +x6JMwgsjOsOA==
-Date: Wed, 21 Aug 2024 19:41:12 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Shuah Khan <shuah@kernel.org>,
-	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Florian Weimer <fweimer@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
-	Ross Burton <ross.burton@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v10 25/40] arm64/ptrace: Expose GCS via ptrace and core
- files
-Message-ID: <79d5dad9-3194-45dd-8c2e-663cea2e5f4f@sirena.org.uk>
-References: <20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org>
- <20240801-arm64-gcs-v10-25-699e2bd2190b@kernel.org>
- <ZsYqfJ3V_-ljqlwq@arm.com>
- <58ee01de-88a6-4d0c-845a-3d5bebc0c55c@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="LOgpLLK6"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5334b61b6beso4390e87.3
+        for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 12:02:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1724266951; x=1724871751; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sTk2wQSGpS2A9NuKFMEhj1HJguytFPmwi5TTNL6/m+0=;
+        b=LOgpLLK6IEZmNFOqT6UL9CWSJ9Ei7tdDVMBWtqwhfTc1eh5E1+9vpHKY+qJwbXWW4w
+         CAjSy3bVCvG1SstedQ++ObFtlQWd2cxWgqDcmB05XbghO+putgI12GP+lQu4Wy35ZlAU
+         BntopNbEZkkSOLCC3UeRGpiFf/me9vinJEg1ndK/0X9ubPdaj+tVcqDA1cvdgB/q3m3S
+         jDjObhpXD9W6/71hAnGxPoCeayysjnlWCodlJ0XaREW7c8L2w71c7Jfww4Ubg5MCZCKj
+         2HfX0/WfMSU7w5WQksR/HndrrCxS7pgW77yorj6ythFhm5tC0epLfKd/y4lyqv3JvQAt
+         3u/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724266951; x=1724871751;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sTk2wQSGpS2A9NuKFMEhj1HJguytFPmwi5TTNL6/m+0=;
+        b=oahdr6RYON0jDYZ8xWY6ho3qD0o1VHLb/VY3ipRe8QGpVH40NCSqmDu6VcJqkLQpit
+         p4aEDjuxZr9gw5n0wNqJ+sS3/8hcroba/sR5eRdQDgiKi2t3jx0xOctcEWa7JVQHW6n2
+         9nLeln6+4rrhBiMgVQo+wieHg+NTFx3RZxJGY8DHYzUvRJD6S0zYEbwVknTs8sn4PRY3
+         T1ZomevOuHttzGYkzQ6zIzfg3jQWf3Ekzuqpy19z5kFMSHRAiSXlf97+OnYj4aZeOj5C
+         vvNqj/XyKZGxJhG1xpt66Px4TC0BriznkfzPueYI/fXwFLO8upTtdk/WW1uvKfVJ+OSG
+         qDQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXD6y/tVISccSzpw9r6VHImodZky1Mg4IBwm+D+BPpRm1MZwB5+nxzUrOUa3ejQ93MJcecA/1SSa6U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YycQkoi7IZJh4SNGHeAuv9iNQLE5rxZayXimOkSGpNMYfguvCow
+	A6w1DuaaNIfLN9ybcUz4IYDyGe5O6u9dLowZ660RkgRQ+AHuqvUnYvCA+3RxiJU=
+X-Google-Smtp-Source: AGHT+IEKangxSdv8RKVt8xT7NwbFnlr1CTlLF5FaXGHO4SmBkB8s3awJT4QE1Buowd2DfM8UOn033w==
+X-Received: by 2002:a05:6512:114d:b0:52f:e5:3765 with SMTP id 2adb3069b0e04-53348593647mr1102285e87.6.1724266950793;
+        Wed, 21 Aug 2024 12:02:30 -0700 (PDT)
+Received: from mordecai (dynamic-2a00-1028-83b8-1e7a-3010-3bd6-8521-caf1.ipv6.o2.cz. [2a00:1028:83b8:1e7a:3010:3bd6:8521:caf1])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868c23e1basm11382566b.204.2024.08.21.12.02.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Aug 2024 12:02:30 -0700 (PDT)
+Date: Wed, 21 Aug 2024 21:02:26 +0200
+From: Petr Tesarik <ptesarik@suse.com>
+To: Thorsten Leemhuis <linux@leemhuis.info>
+Cc: Jonathan Corbet <corbet@lwn.net>, regressions@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Bagas Sanjaya
+ <bagasdotme@gmail.com>
+Subject: Re: [PATCH v2] docs: bug-bisect: rewrite to better match the other
+ bisecting text
+Message-ID: <20240821210226.25862313@mordecai>
+In-Reply-To: <e6681b51-297e-4ef8-a199-d36712088740@leemhuis.info>
+References: <fbeae4056ae8174f454c3865bc45633281bb1b31.1723997526.git.linux@leemhuis.info>
+	<20240820140751.0e024f21@mordecai>
+	<e6681b51-297e-4ef8-a199-d36712088740@leemhuis.info>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="BMJnA8eFDlPmLXSS"
-Content-Disposition: inline
-In-Reply-To: <58ee01de-88a6-4d0c-845a-3d5bebc0c55c@sirena.org.uk>
-X-Cookie: Are you a turtle?
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Tue, 20 Aug 2024 19:16:25 +0200
+Thorsten Leemhuis <linux@leemhuis.info> wrote:
 
---BMJnA8eFDlPmLXSS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> On 20.08.24 14:07, Petr Tesarik wrote:
+> > On Sun, 18 Aug 2024 18:12:13 +0200
+> > Thorsten Leemhuis <linux@leemhuis.info> wrote:
+> >  
+> >> Rewrite the short document on bisecting kernel bugs. The new text
+> >> improves .config handling, brings a mention of 'git skip', and explains  
+> > Nitpick: git bisect skip  
+> 
+> Ohh, one of those cases where one misses the most obvious mistakes. Thx
+> for pointing this out!
+> 
+> Also: many thx for your feedback in general, performed a most of the
+> changes you suggested (thx again), only replying to a few other bits.
+> 
+>  
+> > But it's still difficult to parse for me. Maybe it would be better to
+> > reorder the sentence like this:
+> > 
+> >   After issuing one of these commands, if Git checks out another
+> >   bisection point and prints something like 'Bisecting: 675 revisions
+> >   left to test affter this (roughly 10 steps)', then go back to step 1.  
+> 
+> Chose to do it slightly different:
+> 
+>    After issuing one of these two commands, Git will usually check out another
+>    bisection point and print something like 'Bisecting: 675 revisions left to
+>    test after this (roughly 10 steps)'. In that case go back to step 1. 
 
-On Wed, Aug 21, 2024 at 07:28:08PM +0100, Mark Brown wrote:
+That's just as good for me. Keep your wording.
 
-> part of an otherwise invalid write.  The validation is checking for
-> unknown features and enables.  With clone3() we could relax the enable
-> check, but I've just pulled that out of the series for the time being.
+> >> +  Git might reject this, for example when the bisection landed on a merge
+> >> +  commit. In that case, abandon the attempt. Do the same, if Git fails to revert
+> >> +  the culprit on its own because later changes depend on it -- at least unless
+> >> +  you bisected using a stable or longterm kernel series, in which case you want
+> >> +  to retry using the latest code from that series.  
+> > 
+> > Admittedly, this paragraph left me a bit confused. So, what is your
+> > suggestion if I bisected using a stable or longterm kernel series (BTW
+> > shouldn't we use Git-speak and call it a branch?)  
+> 
+> Not having a strong opinion here, but I'd say "series" is the better word
+> here; but maybe "using" should go (see below).
 
-Actually thinking about it some more I'll just remove the check for
-enable, the support for threads with GCS enabled and no kernel allocated
-GCS is already there and I didn't pull that bit out.
+Good point. I don't have a strong opinion either, so let's go with
+"series".
 
---BMJnA8eFDlPmLXSS
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+> > and Git fails to
+> > revert the commit because some later changes depend on the commit?
+> > Are you trying to say I should check out the current head of that
+> > stable or longterm branch and retry the revert there?  
+> 
+> Yeah. Changed the text slightly; does it make things better?
+>  
+>   Git might reject this, for example when the bisection landed on a merge
+>   commit. In that case, abandon the attempt. Do the same, if Git fails to revert
+>   the culprit on its own because later changes depend on it -- at least unless
+>   you bisected a stable or longterm kernel series, in which case you want to
+>   check out its latest codebase and try a revert there.
 
------BEGIN PGP SIGNATURE-----
+Yes, this makes it crystal clear what I am supposed to do.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbGNMgACgkQJNaLcl1U
-h9Cs9gf/faFn4ZIWAD0ObkgYSu2MFgvuc0/TxhjIvIwyaRcVoqWhCLuxFx6tDyf7
-R003D+EGEn6M1h6zfEPXV/PKOBUV1KMnZcpTgESMJyUVa4HSREWmw7nMQZmiifDl
-xICPAzUBzqlPsIcc5S1eQlR7ecwt80Hs0WM5cWjh4YmQikjGU4LZse2eCrrVQ+8E
-hrLM84hndTamAlUtO9oREDCdZ8BZc+wxpQSRpRuufSMIdD/Ujv26ikmoRDOvGSbW
-h8v2pgOb1hekEEesgevZoE1YbJ76Z5GfQO4HdJKSh/iB4vz5mbmj324y6K0oL4Ej
-dsCLfFizij3MQaU6gmwwgHzolx6UWg==
-=MjH1
------END PGP SIGNATURE-----
+> > Overall, it all looks good to me.
+> > Thank you very much for your effort!  
+> 
+> Thx for saying that, the time your spend, and your feedback, 
+> much appreciated!
 
---BMJnA8eFDlPmLXSS--
+No problem. It's you who has done the hard work.
+
+Petr T
