@@ -1,57 +1,57 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F8A41AF4F1
-	for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 14:11:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E9731AF4F9
+	for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 14:16:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724249498; cv=none; b=JeBnPlh+ccTqVW1jQvsXyqn+4LULTQSbDGbw/8AOefnhKmykBqGGMhYHXntHeC4kdL9qenGElZ5b4+Yytc0x3qxcZfsU27cCFzxKCZ3/8Bgn8jUgBrZRNbktBa2SF8jNzvO1bMLMc7EsS8U/BExtgDkHUdC2MqsNtbPIGiJicxI=
+	t=1724249800; cv=none; b=gJc/WCWbDs1rSrDAdRfZksfCMhAx0BJ4xAA2yh6W3SzgSDWtAsGlHBNmSForibWZPKFBjzCIJ+5ZhR8SCSzQe1BzMGMd41enuZneWDxl13ps7Xwm3CyKHrd1UxXgF2j1cimAwpMidM/wfKGUXJtCsrYyfQj9aa9bhXcy7K6YG2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724249498; c=relaxed/simple;
-	bh=lp556fCuqH/R513eqRQMxr+5lieSaZy/LymjmbvXEPE=;
+	s=arc-20240116; t=1724249800; c=relaxed/simple;
+	bh=m7X/1nlXFnx6K0tldZgYVRy28K5m8NEXV6Gf8fcZUY8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ck5jJ/3CdzGIDFD5ah9CtvHWkobOANS7HkYWUg4xM3hB3gz92+n5xShTPeyK1IDBOtUv2VBHJiIUPqDcw5rWFTLHNIvVXaI+3OOnJUuMx+J8zGgptSAWrv3ntZgVnKX5v0YxFV4Kzk48F0PLV1T3P87+qrxf/XtPAjICzIgcUPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=Lhq1tPwL; arc=none smtp.client-ip=209.85.218.47
+	 Content-Type:Content-Disposition:In-Reply-To; b=DjV7hB3I/7fgAmYH4YWlEZhjljWRuNWhQpi5xX+BPYXAIVulI/cwYUVnG0ntUQ5j+I2q4UfPXwvMTEQbXMbbmhw2K30sNjUwQ88B8T8MmdgReqG+L06TkOlVzcwhTQz/LkBcRJGPVoqMfv6kuUnM3NkNStjSwqTQnV555/8XOLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=Tsz5XWcb; arc=none smtp.client-ip=209.85.208.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="Lhq1tPwL"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a8643a6bd55so270405666b.3
-        for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 07:11:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="Tsz5XWcb"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5bede548f7cso5065139a12.2
+        for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 07:16:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1724249495; x=1724854295; darn=vger.kernel.org;
+        d=ventanamicro.com; s=google; t=1724249796; x=1724854596; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XBOHL837jA2B59cJ9N1CVTAML3ruQr41aXO6bANSxRE=;
-        b=Lhq1tPwLBYzlmt50dmJXKhBc55HgZR6HO7sS8j03xx48vtpeSehmEPwuvMcVrIDWyj
-         94V14FGO8wEOhOFoqW/xLOTgfniBwrfpUnhV0iNUboiAiuN6YPgZ66tX8bn38eiWDBhl
-         Ldgz0Q6Pu4y/pyXLDp3reK1XMCCp8S1v/pCEKD3PUdU6F0MYtd/wZkT5g0PdXd+h2vff
-         O3yOGfIPrJ316HbfqUS6TkKSA1UiDozFjMvnuyj84Nq5TVOyvpdo94h6poPoewaMraws
-         zml+iZSZnU34OtgZlKmbvPdbdlPm7wf0UhrIduGHJd3/4us1YDHxa8PfYZuqKgwkAM1Y
-         cpLw==
+        bh=1HTAcUTpqyzByMJpquHWMYu3B5Ynm1G8WC9iJphytM0=;
+        b=Tsz5XWcb8kgJD1Ws3tSxzX6hvOqRgnl0Luq6pCR1RPHYgN69yatPpGv8p9etiTsvMA
+         GiNsdmm6cS1NBaK0dSgbfZLGAyvnuoBaY/RNWHfspXBByG0z5cFJHEafk0SopjUh6BYk
+         icyt/geF9FtpJuqjUvkiS93lUwb4WuS7MTvDZgGVERaUDApLy9Qk4kLAEGj/u3vjN+7E
+         HP/mEUf50F/kmkpW5EAbxsqZTCS/w+lhhoEb0HPOBk94nWk6BDg0Nn9YHSOJFmZ0XLzF
+         unPBY6Mm8gMzsAbxZ6MsVaWw3inLyCC0ZFVmEabQBPRYrgpuMWQl4xrZHEKbiy2bTsMo
+         7fKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724249495; x=1724854295;
+        d=1e100.net; s=20230601; t=1724249796; x=1724854596;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XBOHL837jA2B59cJ9N1CVTAML3ruQr41aXO6bANSxRE=;
-        b=WvUdpeBbR22D23cC+/eNzaPxZDi9rV3Y0PWe32b+2ymVCppab2+pkGm/Pkzpbdd8AX
-         TPPVL0AUicFhWALvFKEJv9KS93d4pOwCcBRg7UtRS125Pqgb1VYMmOZEQz3mBRlGepc3
-         8B802pLGXpuVuWd25loI40Dbe0X341byJ09NhcbCAycpunF4n2rcS2bYGiJ5j8ZD/p8d
-         iR9Iy706WoHqTrcslAyL8F0bJJO/Vlv1jh7OChzK3tLIyV9x5/NL5G79wAT7jBESKeqW
-         TWw15Cnmdymym5FHoG/ZIAQD24uZrQZzmxagGl2jI3BONKk45AyRC4kIg7Q6T98mHjmJ
-         tBeA==
-X-Forwarded-Encrypted: i=1; AJvYcCUpeGSZRubBBSIqevdTS2y92Pjgtn79hvmhFRUtjVi7cpCPBMwBC5Y0yiVstp+cBDeDm0q1iBiqoyc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2Jk6wFKCH3DbF+ZvRKVYcEV3X6ECquSmamsxfBCNWw9AIXsx0
-	S5I20GncA4mzHR/xzAdozb93UfWW9ybZYiujWo1watNIstjcGS6DMSwWcp8BaME=
-X-Google-Smtp-Source: AGHT+IG0kyQofIzbQK74kuC8mV6f7JGisMMjMYnCb2XVNIyD0azrMDsyQFGQgXYRauDuPTktDhBa4g==
-X-Received: by 2002:a17:907:9490:b0:a7a:a892:8e05 with SMTP id a640c23a62f3a-a866f359158mr186667266b.33.1724249494018;
-        Wed, 21 Aug 2024 07:11:34 -0700 (PDT)
+        bh=1HTAcUTpqyzByMJpquHWMYu3B5Ynm1G8WC9iJphytM0=;
+        b=BDCQxWFAqGvc4bGU2fsZIdHJ1TX7nX6LuJ7c8GJHYug3Cl6X7bae/tBAF45hnTtZY6
+         NbnFP8xMSxJ6VnKp8lgTpimyKVykmpTYiOrkIJ0eBKXWmPFr1fFH0Nr/6RLtuFaH4lO5
+         DbQHriwqK1ClurBra+O5ED5RjzfhHQ4SzLT74U1faH3SraluWOB8PKyh9cSy+MfaZ5S5
+         gXHtRxQWCnTfCdtQp/tuuzXaq7c5doBvK2QRGiUEVAUMKFwRKZPWHm7k5dvrvqNPOHTx
+         ClbhmIwOAJSZMcT8ULGhfr3wGHAohXDivafHLjtB5olp4DgNo34YB50jArSq2sny1kkk
+         BUGw==
+X-Forwarded-Encrypted: i=1; AJvYcCU97fBSnUObbIcZfci6k3FTtNy91wg79BL+1VsTm30pCBjwv4RFRAtVTmgVhMn6kpuCbJFLX28pbkQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxR52VlmjxfE1pnaITEcz5F/oe7owak1X4XsZ7L10lEZXIxEJc/
+	PMZtUcnDByZl7UZ/qq6WDkdT1s3Q2YhqPT78jj7LEXCxOivTvC/fO6BYlMAAYZ0=
+X-Google-Smtp-Source: AGHT+IE8bwm0dEjF7VBywYff/AafpoSdjerliMDujGbpLZiuwqH+igjndWkqozC0Ufc6S5g43YyWNA==
+X-Received: by 2002:a17:907:9803:b0:a80:f79a:eb6f with SMTP id a640c23a62f3a-a866f11b8ecmr177010066b.8.1724249795649;
+        Wed, 21 Aug 2024 07:16:35 -0700 (PDT)
 Received: from localhost (cst2-173-13.cust.vodafone.cz. [31.30.173.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8679a8e3f9sm86081266b.1.2024.08.21.07.11.33
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a86680ed15fsm136535866b.224.2024.08.21.07.16.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Aug 2024 07:11:33 -0700 (PDT)
-Date: Wed, 21 Aug 2024 16:11:32 +0200
+        Wed, 21 Aug 2024 07:16:35 -0700 (PDT)
+Date: Wed, 21 Aug 2024 16:16:34 +0200
 From: Andrew Jones <ajones@ventanamicro.com>
 To: Alexandre Ghiti <alexghiti@rivosinc.com>
 Cc: Jonathan Corbet <corbet@lwn.net>, 
@@ -63,12 +63,12 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
 	Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
 	Leonardo Bras <leobras@redhat.com>, Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org, 
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-arch@vger.kernel.org
-Subject: Re: [PATCH v5 02/13] riscv: Do not fail to build on byte/halfword
- operations with Zawrs
-Message-ID: <20240821-ab85a511044c72f0511f7a1e@orel>
+	linux-arch@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v5 04/13] dt-bindings: riscv: Add Zabha ISA extension
+ description
+Message-ID: <20240821-5c19951bb4f35f7ed90fc10a@orel>
 References: <20240818063538.6651-1-alexghiti@rivosinc.com>
- <20240818063538.6651-3-alexghiti@rivosinc.com>
+ <20240818063538.6651-5-alexghiti@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -77,38 +77,48 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240818063538.6651-3-alexghiti@rivosinc.com>
+In-Reply-To: <20240818063538.6651-5-alexghiti@rivosinc.com>
 
-On Sun, Aug 18, 2024 at 08:35:27AM GMT, Alexandre Ghiti wrote:
-> riscv does not have lr instructions on byte and halfword but the
-> qspinlock implementation actually uses such atomics provided by the
-> Zabha extension, so those sizes are legitimate.
-> 
-> Then instead of failing to build, just fallback to the !Zawrs path.
+On Sun, Aug 18, 2024 at 08:35:29AM GMT, Alexandre Ghiti wrote:
+> Add description for the Zabha ISA extension which was ratified in April
+> 2024.
 > 
 > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> Reviewed-by: Guo Ren <guoren@kernel.org>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 > ---
->  arch/riscv/include/asm/cmpxchg.h | 5 +++++
->  1 file changed, 5 insertions(+)
+>  Documentation/devicetree/bindings/riscv/extensions.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> diff --git a/arch/riscv/include/asm/cmpxchg.h b/arch/riscv/include/asm/cmpxchg.h
-> index ebbce134917c..ac1d7df898ef 100644
-> --- a/arch/riscv/include/asm/cmpxchg.h
-> +++ b/arch/riscv/include/asm/cmpxchg.h
-> @@ -245,6 +245,11 @@ static __always_inline void __cmpwait(volatile void *ptr,
->  		 : : : : no_zawrs);
+> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
+> index a06dbc6b4928..a63578b95c4a 100644
+> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
+> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+> @@ -171,6 +171,12 @@ properties:
+>              memory types as ratified in the 20191213 version of the privileged
+>              ISA specification.
 >  
->  	switch (size) {
-> +	case 1:
-> +		fallthrough;
-> +	case 2:
-> +		/* RISC-V doesn't have lr instructions on byte and half-word. */
-> +		goto no_zawrs;
->  	case 4:
->  		asm volatile(
->  		"	lr.w	%0, %1\n"
-> -- 
-> 2.39.2
->
+> +        - const: zabha
+> +          description: |
+> +            The Zabha extension for Byte and Halfword Atomic Memory Operations
+> +            as ratified at commit 49f49c842ff9 ("Update to Rafified state") of
+
+The typo is verbatim from the commit, so
+
+"Reviewfified-by:", err...
 
 Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+
+> +            riscv-zabha.
+> +
+>          - const: zacas
+>            description: |
+>              The Zacas extension for Atomic Compare-and-Swap (CAS) instructions
+> -- 
+> 2.39.2
+> 
+> 
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
