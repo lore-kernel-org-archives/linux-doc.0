@@ -1,504 +1,446 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2050.outbound.protection.outlook.com [40.107.236.50])
+Received: from out203-205-221-205.mail.qq.com (out203-205-221-205.mail.qq.com [203.205.221.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B46E225A8;
-	Thu, 22 Aug 2024 01:31:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724290311; cv=fail; b=KmAFt5Ztk5+nQg/8im9NJIY49NJypfnuZO7U1XNudN6+BDQ/QcIBp7r8yxewBxnWQq84HLurdSVN8F18luSR9sK3ctMfTpx5N7mO7V+tqjVqzzPu7T9i0OOk7PBJhgqi1/CnnIqDUOkYsSuC7HhPygDewyfW7D4ZdtaqWl8onFg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724290311; c=relaxed/simple;
-	bh=ECX8QrHvFyqpVE/H3W6eshcQo2cXkHFJ57YbIiqNX2k=;
-	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=g6iyBDTbtgTaSe4rZnBxzcXZ9AXjsIe2WVy9LEV72xRDx2kPaCfu9F+y7kD+8nnYpD09M9AIwZAsqvhDD3eUOtA63DffgJz0nQ/QwdcaFLH18Zz4Aj7h5smZDagzpSsZccyGej+XdZfAX1rRVdQc0quHZNOE5H2gkR3ZaljJNs4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=5Dxd9hdX; arc=fail smtp.client-ip=40.107.236.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7111D15B134;
+	Thu, 22 Aug 2024 02:52:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.205
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724295139; cv=none; b=Z2oPsx0XTxdfL1Y8PN63Yjba8z8lqYXp9xcvPclJZUj67wDWVPhkmcIVRuPADgLX01SqUS7uqP9SuG1GSGzyrn18VuYS5q6PjRLGUKzID7UZh5NbQsbw4u5lRuwS5N0vuH0xBuFUhpJdFR47fWD3NekxmW/fo+4TFbmHFYknjEY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724295139; c=relaxed/simple;
+	bh=9QVy49R6gNHL9cLSRwlvMCQQ2PJFrtE8pdup+rgm8d8=;
+	h=Message-ID:Content-Type:Mime-Version:Subject:From:In-Reply-To:
+	 Date:Cc:References:To; b=XebyVuZRFd0gENv4XntgXOZsv2M1UOrkCrSgDtte6VZ2V6aJhWY3WI1mwnkUopWLRx5p5Qjy6DvCboShuidEcIHk2oyHRw6/39swj0fV+9mLHbU4Y+WkFtXGMoAg7FgjF4IWujRR3Vbx27z7CEY8RYHQdc68vnJzPxY0sogFzFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name; spf=none smtp.mailfrom=cyyself.name; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=DBCjxn5J; arc=none smtp.client-ip=203.205.221.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cyyself.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="5Dxd9hdX"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KAQnKAD6LnMz71LCrrfIU95rwshPZKgeAYBbgyIUJHP9iRZyYOD9v863oQRLgmAFMfEQEmPuf4YsWBSRiWmFS0U1XnBsgLvJBqdnEFLGo7PoWdKqkPH5A26vehXJhUXIUfozl5brIkgPCy5pDZLFnuenSie0+J11+L5jIByjhrMWmunkQzx09sw0xbleZDeEReCvAR1vtcXRmuDH6B2VWze8B/C30Gdg/s2BXM0lsvTuiqF4440VKmOshpOYbAzBgszuaD29EZB+KDyCCioCrpkvPk4loovOTtaRk+KNkZ3h1fOY4/7g7kPcpxjVDMnUj87IsymN7qT2p+8qrv17NQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Qkw7dN0eWNkOykC7Jlnw8oC2iE/SOZ4/PJiijGCRD5M=;
- b=L7okNhqDabwZrZvXaTzfvwIUjfdKYSwJk171/QKwZE5bqsmZl+yM7t53HeOYrRxyp0XLQk7q+WEIdb5rhCXcwn+Wxrk9vq0yAf/Y3OXxbX/h5HBeScAD02RU5fZG/jI4lRIQhh0xdCVjp29zRc4yW6nucfCLe3FtmKqAziGP4Y8sGVMoQNcnLgGWDcFWL97GxsoWNHqUJpM9uFAZaC18b45l8q06+JScXF0L6JzAsWCOKyS9YPNTFIpf7RLbDgoll1MXr7uz0xA4b0XvdS37/+d1Vz1JKzHi56SW2w7p0p10+vfr+dZ7JhEgq1Y0xEhhGTdJIDfVSaezrbyWq/A/xQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qkw7dN0eWNkOykC7Jlnw8oC2iE/SOZ4/PJiijGCRD5M=;
- b=5Dxd9hdX7yGArQQi3/7R+5D8nJ8MPXyIAFLTBdf9ckzwUBfgtqGOGsxnpHMiPnDZerLSCwm8hTBSa2c5Z0Gn7/NYkAWz+a2RJgOGF2r9azg2eTmJ/HyQdCRZRzr06prUEbPRF02RvflC1biJnAlNhusS6h/8DV3JgpunaSjkiDI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by CH2PR12MB4279.namprd12.prod.outlook.com (2603:10b6:610:af::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.19; Thu, 22 Aug
- 2024 01:31:45 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%6]) with mapi id 15.20.7897.014; Thu, 22 Aug 2024
- 01:31:45 +0000
-Message-ID: <3223bd31-2112-0c5e-08d4-7e4942d031ec@amd.com>
-Date: Wed, 21 Aug 2024 20:31:40 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-From: "Moger, Babu" <babu.moger@amd.com>
-Subject: Re: [PATCH v6 00/22] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-Reply-To: babu.moger@amd.com
-To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
- tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
- kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
- jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
- rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
- jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
- daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
- ilpo.jarvinen@linux.intel.com, peternewman@google.com,
- maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
-References: <cover.1722981659.git.babu.moger@amd.com>
- <d093c0bc-dfd2-422a-9d23-2bde68dc6f73@intel.com>
-Content-Language: en-US
-In-Reply-To: <d093c0bc-dfd2-422a-9d23-2bde68dc6f73@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SN6PR2101CA0009.namprd21.prod.outlook.com
- (2603:10b6:805:106::19) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="DBCjxn5J"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1724295129; bh=3ag1cOHVmxBybWIBowT1HEBR7lBqQ/qgYWUC/34ng/g=;
+	h=Subject:From:In-Reply-To:Date:Cc:References:To;
+	b=DBCjxn5JB1TsoivhpC1SqDE6uNZTYHuc/mh9hDIMxEpoqqzpZBXcLv+8OSuyhrnRY
+	 AMX6jTqgOJNhGGKEbuWW/8ztIyB8dEpkODSmhbQRQ18+IHpLMQuwH+WRP+WL83LHtU
+	 6LtiUkFxXdVj5v7pjXAmGfIyz4IeSKK2kvrEP70g=
+Received: from smtpclient.apple ([115.238.42.178])
+	by newxmesmtplogicsvrsza29-0.qq.com (NewEsmtp) with SMTP
+	id D05176EE; Thu, 22 Aug 2024 10:52:05 +0800
+X-QQ-mid: xmsmtpt1724295125th7r105br
+Message-ID: <tencent_86551D71707162B243861AC9F8EC0573B409@qq.com>
+X-QQ-XMAILINFO: N5sfBKY/oC4kp5vgaJMJDoOUXI0Ivw7aTJ/jz8M3cADNSpgDh1jLIMXujDK7Ph
+	 RvdaJ28EK8dqVoOm4PlugjQvl6uQATfg+QBjnf0EE5XwSpb5sLioY4kt7bexkWqVU+sY1zKqe59N
+	 tFQdM1R2iY9JhhAWE32IVhxxxUP9N4RSzDx54D0FGk6EF28yM6MdnP3p+vsTx40Atan0UI7onR3E
+	 h5chnTU2SbkwBXHq4+cYfYOOTTeZo1s4gMkxrLMIM5JWgfiW/AtfcCFMNm5FY+AduT5UnufXfRLL
+	 QoLydu4wxNt/EyViOYpPbPWFjFBOHzuABGCj8ZtJX5rgu8+SWE/IQE/jrGgN8k8h2sAL6Ledsm2Q
+	 uAhg3MAyCmT5TO2LmR5GUmWvE6qqjao71bQNbk19gDw7NM2m0Lz15XqhyeOduXf7Hh7Mr/5O+UiV
+	 CWM/qN2y0zl7Wo+fKM92VgSv0dQFiFMZAzsL327SUoec0+NV8r8K5yZejg+se0miY22Rvb8/8ORs
+	 B+i2MRpwM1cqBT3ZF0ckITt3opBEz5rKQi3NOWYkaD3rlv8I6Mxyly8ArMfBI2CaK4hzcEoK2gzy
+	 dCSv7qThPEkX3Oww4DzAik5updoqwLcXakcMgfC+w5zOfTl1/ykxSTRe6GDB5d3VhvDGVW6nc4nI
+	 Q5XD+yHIoA5bcYgzzotjw95PVshh3gA1yv9leGwuWD8jO2a4w9b/6WFc9BOxK1Dw9fH79bHYcdZ0
+	 iiZpp2OCoF73ZK5InR9umkuFw6/vRBC7pl3Hp4hzqLELDPbpdrTmVt/V/iqSWF+g2wBozJS/wLVF
+	 1p7/MSLb8OlKn/rBFWOvSe9WjnM0Fzp5AjhpFdHOxVTzP5jrf9ytMwTgRflgkoU4bcMs7jP4l6hk
+	 qVu/QSrDB6j0vLw32FSgQMxMLyfuhwEtfAablV76ejjsUwyTwuATMwXQduuBKZt7fbIDty9UQaPH
+	 CBNhpwddJLSa801S3ku0nE8gjBxalJ
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|CH2PR12MB4279:EE_
-X-MS-Office365-Filtering-Correlation-Id: c02c1d13-28f4-4b8d-296f-08dcc24a2f36
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?OFBtYXFIcXhCWHNrek81clpZL0tNcnRQdXd0aVdwV0YyeXQ2MWNUT3VSVGxE?=
- =?utf-8?B?RUhqS3pYV2ZwdlZlRlFESTJHWlRDR2hsdC9RTG1QVmRGbHFOa2g3ZU9meHNj?=
- =?utf-8?B?UTJsM252eGthUnBDMy9Zc2ZpaFBmWUdkdFVnZkRCaTNSeGE4em5ZaHlpRUx1?=
- =?utf-8?B?dzFJRzNiT0RhNGJ3N1FlaHZ1MzZibGZzeVdjREt2emxuU3lIWCthQU1rR0g3?=
- =?utf-8?B?czEwcVBySHM0K2FLdzRFN3Q2c0M1R0l0Uno3VTFXQ0I1S2FmSVU4VUVzY1Yx?=
- =?utf-8?B?ZTlOc3BUd3ZrT1htTXJjY0Fxbi9xRDNhc3RXSE9XUEU5eUdYc1dzcllXVFFk?=
- =?utf-8?B?dUtnWUc4SFFSTWI1UHhxN1dhclpxbWRnNVlqcWFtcG1XWkZlRTkyeGlkZWp0?=
- =?utf-8?B?RVdZK0NMblRPcDN5Z01zcGhIWVJReWRpbUZrNWl4cFh6STV5c1Z5SSs1ZDhF?=
- =?utf-8?B?cDUwL0VXUGU2RW1aeFVEck9hb09jZkUxdE0rTmdPc0ErOW1ScjZIUDFONmtB?=
- =?utf-8?B?K3puU3FrcHB5S0trZTI5YXgrSHA4UFRiWnNHajNSZ1FVZjBlazBnU1lHbEtM?=
- =?utf-8?B?ajJObVp0VGNoZ2hOb2dUc09RQUZnSmpHd1NId0dqWEFmMWxZUy9Na0QxWTJx?=
- =?utf-8?B?QkUwa0kzdnQweWFUaHplWGpXN0hQR1VOWWVIV3RqM3UrQlFBb0VvaldmSG1x?=
- =?utf-8?B?dXA5SGQyb1RUOHhVRzI1cTlPSk13T3Qrd2wyZDNFbk95RkpqNXFqS1NtRGZ6?=
- =?utf-8?B?OVRhUUZSMjhBS3RJS24xTVNWc2JuRWtPRExnbEt4UHpIUTVMVkJ4SnN3aC9D?=
- =?utf-8?B?MXdxSnYweld5MzJQaHVwc2VKcGNCdVllVkcvajB6OWptTE9yZEdkdW1OQzFU?=
- =?utf-8?B?S1BSZTdIZ1kwUEY2TVpiVnEwSTEyZ3NuUVkzclhYSWwxN3dVdkRWd1ZuWm1O?=
- =?utf-8?B?dDdPTDdhRWh5Ujh0bUgvTHhlRFlCdmhndGZSMTFYOWF5cWFVU0dMK2N4ZnVE?=
- =?utf-8?B?UC9JUU5QbEtEL2lQZC9scnJMSnM2Y1ZnV2pOVm8wZlNyRUFJSGN4ZjNvL2pn?=
- =?utf-8?B?Y2x3MldEWmtkYkw2Mnc5bTFHR3FobjFncUtTUmhOS0lvNmluZ3krUmY0RW5y?=
- =?utf-8?B?eDlmc08zczgwcVNLdU0vZHpJaEM5b0NQYXBGalkxWHN6MFdOWkNoekNHdjls?=
- =?utf-8?B?SU5FeDZiRWYzS3ArbEdhUWJ0OE1INkpEcnA1NGtOcWVMTndBQy8yUXZqM2VN?=
- =?utf-8?B?U0RkS2VJemhaSDdOb1o2SlpHYm9MUVNkQXhlTGc5ZXdEeDg2a04vU0dKQUx5?=
- =?utf-8?B?Qk9hQUdnNjFLK2I2T0Q1eWlBWUVzMWtHTG1TY05PUkFLMDJ4NUdBeXROa21Y?=
- =?utf-8?B?eDUyRjNTaWx0WGdPTXg2TWJ6SE95MUlES2p4cTZiL3ZSRUhwQ1g5SHNEbFNF?=
- =?utf-8?B?NUcxeEh0SjJMVXZ5dmt5eUFJSURBQjRmU3hxNENxTzdyaFFrMmZWSno5aUZE?=
- =?utf-8?B?T0FPZ2lsb3pVdEQ4QjdmVVUzeUs0UU54ZnV2dkRLL3pGeXhVc0xkUjViek5F?=
- =?utf-8?B?dkh5Yk50SGRIOTBwMkxTRWY3cTltYVRMbXZxSE5PSE9BT2JjazJ0SkVhcW53?=
- =?utf-8?B?TjgweWM3cHl2TmdLQkhJcFNxa0VhUDBzeG5Ycy8rajFRSEdRN0Uvbjg1dExm?=
- =?utf-8?B?dS82a2F1QzVUMGN5NHZjVmpPR2hYM2xsc0ppcHN0SkJybG56ZlBMNW1DanZG?=
- =?utf-8?B?ZFRZK3JXc0RTLzhhR1FFdEMvaEcxbE1jaTYzSjM3QS8yS2RWa3R5NnJkdVRa?=
- =?utf-8?Q?keyi8UzXJl8qBwSsylnNTwgyN8ys2L2Sbuduo=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dnV3VEtoQ29URExZcHpLKzYwa1dmYnFFQ1pVblpBcGdEL2FGa3o5ZWxhRFd6?=
- =?utf-8?B?SEcxNTFxUUppNE5saFlYL2VXK3NaUG1TK0pIRWYxb055ZzdzeCtWY2ZkTnAw?=
- =?utf-8?B?OU1yWTRUMGdsSmxDdXZOam91ak1pRFg2RUJzQ0hsZjA1OUJ2VTV2aXRWN04x?=
- =?utf-8?B?L3VLcytWbnRpZWVhSzlCRlF6ejFBeWl6SHp4SHZZdkhZZ1JrVCtTcnhDbDlF?=
- =?utf-8?B?WUY2eG56WkJkUFdyR2RHOHg3WGpsbjA0dUtVamR0NDRzaVpKS3ZSc21FMFcv?=
- =?utf-8?B?VllONVFBL2RlWFp3YXZHcjN4cloyWmM3enNQVGxZanJOODVEbHl2R3pra2lk?=
- =?utf-8?B?SnhsR1BqcjJNRnRvRmdSdzd6OGQ0ZG9zMU54b1Z2ZnZnVjNKTmdkekJtZkZX?=
- =?utf-8?B?SGNpczRUQWVPb3BOUE9POWJxWWVtZ3JQcXdvc3FZaVpzbzltOVBqWXR4RmRK?=
- =?utf-8?B?c1F3TjNHZzVDQUI3dytqNm9wNGhyNVNQTjg4d1UrUGRXUFBuSXZYMEl1WDB6?=
- =?utf-8?B?MWdsZUdvaTFoU0pYZnlJWjkwWVhpd2dxQkF4OU1xQ2piTVh6MzRqYm9KT3dQ?=
- =?utf-8?B?VGh4TlhYek5BWnVzMHBSbk0zdE54eTBjVFZzODNxSUNpNVpad3ZFTmE4anRP?=
- =?utf-8?B?b3drMHp1dXEwNjQ5OEhZRzB3SUM3MXVsMkZQczVOQ21Oa0pQMlZaMU5Ed1p0?=
- =?utf-8?B?YitjUlZGdENaMzl5SG0veWJyTDBSYTVvZTJEWC9nOElYN0Nob29GQ2RkZXRY?=
- =?utf-8?B?Y2tQNms1UEsyMHR3eWNycHVmT3pYZFZhSXN1UGhmdHJPTFhzTFJZeGE1TDd3?=
- =?utf-8?B?ZFlqWThjSjE4U0RJcXc0SzhzTFVnTmE0L29heHRuS2RweU9oRWo0Vyt1cXEx?=
- =?utf-8?B?WGdPdzZ5U2lFUExtamRQWVhyQVQvS3RGOFMxZmZwNi9RTXRrZWJSUmtrSTdu?=
- =?utf-8?B?SFVaMlpJZWtLNDV5RUx5cXduUTlFbG0wK2lMdUw2OGtsMTdaUi9BVnZWZkVR?=
- =?utf-8?B?QXBRQTdYQnc4NkRaOGVsajR4SjBxdXNkaU41enFSdHZDNDloSkpGV2FUb3Uz?=
- =?utf-8?B?Zjg5cHdJTjlMc0xkd1Z6T0hhUUQvNUFWaCtQQ3lwcjZGdk55djBsM2NXVVk3?=
- =?utf-8?B?K1FPQ0FvMmdUNHN2VFp2dVhSQzZhdnAzbFlzZUxKakFXQXRkTDZaV1MrV3Ev?=
- =?utf-8?B?UDRpT2w3bGc0R1VnU3Q0MlhTWXIzTWpYV2xLK0grZEhoSTB5eTBSTFhFdFB4?=
- =?utf-8?B?WVdKNTIySDFsR1pZSU45UzM2akdhaVFxRDJTMkhzZWFHeTMyaUdRN0l3QzJs?=
- =?utf-8?B?Um9wZ295dzZLbVJ4V0FDelNiM2JXbU15eWtjVjRlaU5yVnpkUDN5UXpRMGZI?=
- =?utf-8?B?V1d5YmphVWcvUndOMldoTHBNUXQ2QXNPVUpPdnZwNTNTd29RaFgwUXB0ckJN?=
- =?utf-8?B?d2lXVW9yRXpEckZkNG5NRitJSGNUQ1E5NWIwNWVEcW10MzRvVXllejIzQXJM?=
- =?utf-8?B?SldsaVBWVjBRS1ZUT0lqSXdVa0sxRDVXdS80dDhUQkI1dndrVHNVKzZrWVhq?=
- =?utf-8?B?YW5Wbmh3aVJaYXZmeFhVTHVGbDV3WTFsOEo3OHppcloyMVNDS1FpY3RWSlF4?=
- =?utf-8?B?TjJtT21lNjZqMXlSNDByL2ZwTVRTSkZoTmJWdWJJWXNrS3lxRnZSc3N3dWlm?=
- =?utf-8?B?MDBxTytvWWd4ZzN5Yk9TcEFMbzM0MXVzWUdoOGFWZUwwaTYwZE5FRXNMMHUr?=
- =?utf-8?B?US9JRE9EZXAxR2x3WlNVSjQ0WWc0SDI2RlY3N1ZCb2JRNnJGWVBTY0duclho?=
- =?utf-8?B?bHJsNGRMUzdjYkt4NXRMZkdVd0Q5Y25BYTJFNFI4MTU1MmRoWVBSVGhINU9H?=
- =?utf-8?B?cDhoSzdCS094T0h6VS93S2ZpUGtwdUpYMC81NjVOUm9hR0RBUkF5NDJSY2RF?=
- =?utf-8?B?eEhibytjN1BLaklJTnJEVEhJNXBNWk1jNGRXTjFCWUVZeDMrdjcyc0lZeWpz?=
- =?utf-8?B?aWNhQ3IzaVk3OTVmcUpKV2NaVEh4aFgyS0FiZ0JoWmlBQi9kNUtIUnJyMlMy?=
- =?utf-8?B?alNITlBvMTZiWGk0N1dVOE42Z2ttVDhybWNGZXFyaWorSkhYNkg5KzEzeVVU?=
- =?utf-8?B?NENhRjliTnZqVlNFT0ZMSkhWU1JOMFJGanhzVlptc25kU01sczZqUGd0VlhX?=
- =?utf-8?Q?TwUTbMSVcIsHEAmSXs95rBUuEgNHFmkYrVXSBdBHK1J5?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c02c1d13-28f4-4b8d-296f-08dcc24a2f36
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2024 01:31:45.6944
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: A+/eX1ezmtMKkOFiVpIWQv2X4niufU3nzWDPN6T+MP2dxjaC9q55TZYkVCL5Bggg
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4279
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51\))
+Subject: Re: [PATCH v3 1/3] riscv: mm: Use hint address in mmap if available
+From: Yangyu Chen <cyy@cyyself.name>
+In-Reply-To: <mhng-7d9e2b27-a53d-4579-b78e-0aec038290fb@palmer-ri-x1c9>
+Date: Thu, 22 Aug 2024 10:51:54 +0800
+Cc: rsworktech@outlook.com,
+ Charlie Jenkins <charlie@rivosinc.com>,
+ Alexandre Ghiti <alexghiti@rivosinc.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ Shuah Khan <shuah@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-kselftest@vger.kernel.org,
+ linux-doc@vger.kernel.org,
+ linux-api@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+X-OQ-MSGID: <13A56B67-7705-4823-9613-61CFBE5DBDCA@cyyself.name>
+References: <mhng-7d9e2b27-a53d-4579-b78e-0aec038290fb@palmer-ri-x1c9>
+To: Palmer Dabbelt <palmer@dabbelt.com>
+X-Mailer: Apple Mail (2.3776.700.51)
 
-Hi Reinette,
 
-On 8/16/24 16:28, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 8/6/24 3:00 PM, Babu Moger wrote:
->>
->> Feature adds following interface files:
->>
->> /sys/fs/resctrl/info/L3_MON/mbm_mode: Reports the list of assignable
->> monitoring features supported. The enclosed brackets indicate which
->> feature is enabled.
-> 
-> I've been considering this file as a generic file where all future "MBM
-> modes"
-> can be captured, while this series treats it as specific to "assignable
-> monitoring
-> features" (btw, should this be "assignable monitoring modes" to match the
-> name?).
-> Looking closer at this implementation it does make things easier that
-> "mbm_mode" is
-> specific to "assignable monitoring features" but when doing so I think it
-> should have
-> a less generic name to avoid the obstacles we have with the existing
-> "mon_features".
-> Apologies that this goes back to be close to what you had earlier ... maybe
-> "mbm_assign_mode"?
 
-Lets see:
-#cat /sys/fs/resctrl/info/L3_MON/mbm_mode
-[mbm_cntr_assign]  <- This already says 'assign'. Isn't that enough?
+> On Aug 22, 2024, at 06:17, Palmer Dabbelt <palmer@dabbelt.com> wrote:
+>=20
+> On Mon, 19 Aug 2024 18:58:18 PDT (-0700), rsworktech@outlook.com =
+wrote:
+>> On 2024-08-20 01:00, Charlie Jenkins wrote:
+>>> On Mon, Aug 19, 2024 at 01:55:57PM +0800, Levi Zim wrote:
+>>>> On 2024-03-22 22:06, Palmer Dabbelt wrote:
+>>>>> On Thu, 01 Feb 2024 18:28:06 PST (-0800), Charlie Jenkins wrote:
+>>>>>> On Wed, Jan 31, 2024 at 11:59:43PM +0800, Yangyu Chen wrote:
+>>>>>>> On Wed, 2024-01-31 at 22:41 +0800, Yangyu Chen wrote:
+>>>>>>>> On Tue, 2024-01-30 at 17:07 -0800, Charlie Jenkins wrote:
+>>>>>>>>> On riscv it is guaranteed that the address returned by mmap is =
+less
+>>>>>>>>> than
+>>>>>>>>> the hint address. Allow mmap to return an address all the way =
+up to
+>>>>>>>>> addr, if provided, rather than just up to the lower address =
+space.
+>>>>>>>>>>> This provides a performance benefit as well, allowing
+>>>>>>> mmap to exit
+>>>>>>>>> after
+>>>>>>>>> checking that the address is in range rather than searching =
+for a
+>>>>>>>>> valid
+>>>>>>>>> address.
+>>>>>>>>>>> It is possible to provide an address that uses at most the =
+same
+>>>>>>>>> number
+>>>>>>>>> of bits, however it is significantly more computationally =
+expensive
+>>>>>>>>> to
+>>>>>>>>> provide that number rather than setting the max to be the hint
+>>>>>>>>> address.
+>>>>>>>>> There is the instruction clz/clzw in Zbb that returns the =
+highest
+>>>>>>>>> set
+>>>>>>>>> bit
+>>>>>>>>> which could be used to performantly implement this, but it =
+would
+>>>>>>>>> still
+>>>>>>>>> be slower than the current implementation. At worst case, half =
+of
+>>>>>>>>> the
+>>>>>>>>> address would not be able to be allocated when a hint address =
+is
+>>>>>>>>> provided.
+>>>>>>>>>>> Signed-off-by: Charlie Jenkins<charlie@rivosinc.com>
+>>>>>>>>> ---
+>>>>>>>>>  arch/riscv/include/asm/processor.h | 27 =
++++++++++++---------------
+>>>>>>>>> -
+>>>>>>>>>  1 file changed, 11 insertions(+), 16 deletions(-)
+>>>>>>>>>>> diff --git a/arch/riscv/include/asm/processor.h
+>>>>>>>>> b/arch/riscv/include/asm/processor.h
+>>>>>>>>> index f19f861cda54..8ece7a8f0e18 100644
+>>>>>>>>> --- a/arch/riscv/include/asm/processor.h
+>>>>>>>>> +++ b/arch/riscv/include/asm/processor.h
+>>>>>>>>> @@ -14,22 +14,16 @@
+>>>>>>>>>=20
+>>>>>>>>>  #include <asm/ptrace.h>
+>>>>>>>>>=20
+>>>>>>>>> -#ifdef CONFIG_64BIT
+>>>>>>>>> -#define DEFAULT_MAP_WINDOW    (UL(1) << (MMAP_VA_BITS - 1))
+>>>>>>>>> -#define STACK_TOP_MAX        TASK_SIZE_64
+>>>>>>>>> -
+>>>>>>>>>  #define arch_get_mmap_end(addr, len, flags)            \
+>>>>>>>>>  ({                                \
+>>>>>>>>>      unsigned long
+>>>>>>>>> mmap_end;                    \
+>>>>>>>>>      typeof(addr) _addr =3D (addr);                \
+>>>>>>>>> -    if ((_addr) =3D=3D 0 || (IS_ENABLED(CONFIG_COMPAT) &&
+>>>>>>>>> is_compat_task())) \
+>>>>>>>>> +    if ((_addr) =3D=3D 0 ||                    \
+>>>>>>>>> +        (IS_ENABLED(CONFIG_COMPAT) && is_compat_task()) ||    =
+\
+>>>>>>>>> +        ((_addr + len) > BIT(VA_BITS -
+>>>>>>>>> 1)))            \
+>>>>>>>>>          mmap_end =3D STACK_TOP_MAX;            \
+>>>>>>>>> -    else if ((_addr) >=3D VA_USER_SV57) \
+>>>>>>>>> -        mmap_end =3D STACK_TOP_MAX;            \
+>>>>>>>>> -    else if ((((_addr) >=3D VA_USER_SV48)) && (VA_BITS >=3D
+>>>>>>>>> VA_BITS_SV48)) \
+>>>>>>>>> -        mmap_end =3D VA_USER_SV48;            \
+>>>>>>>>>      else                            \
+>>>>>>>>> -        mmap_end =3D VA_USER_SV39;            \
+>>>>>>>>> +        mmap_end =3D (_addr + len);            \
+>>>>>>>>>      mmap_end;                        \
+>>>>>>>>>  })
+>>>>>>>>>=20
+>>>>>>>>> @@ -39,17 +33,18 @@
+>>>>>>>>>      typeof(addr) _addr =3D (addr);                \
+>>>>>>>>>      typeof(base) _base =3D (base);                \
+>>>>>>>>>      unsigned long rnd_gap =3D DEFAULT_MAP_WINDOW - (_base);   =
+ \
+>>>>>>>>> -    if ((_addr) =3D=3D 0 || (IS_ENABLED(CONFIG_COMPAT) &&
+>>>>>>>>> is_compat_task())) \
+>>>>>>>>> +    if ((_addr) =3D=3D 0 ||                    \
+>>>>>>>>> +        (IS_ENABLED(CONFIG_COMPAT) && is_compat_task()) ||    =
+\
+>>>>>>>>> +        ((_addr + len) > BIT(VA_BITS -
+>>>>>>>>> 1)))            \
+>>>>>>>>>          mmap_base =3D (_base);                \
+>>>>>>>>> -    else if (((_addr) >=3D VA_USER_SV57) && (VA_BITS >=3D
+>>>>>>>>> VA_BITS_SV57)) \
+>>>>>>>>> -        mmap_base =3D VA_USER_SV57 - rnd_gap; \
+>>>>>>>>> -    else if ((((_addr) >=3D VA_USER_SV48)) && (VA_BITS >=3D
+>>>>>>>>> VA_BITS_SV48)) \
+>>>>>>>>> -        mmap_base =3D VA_USER_SV48 - rnd_gap; \
+>>>>>>>>>      else                            \
+>>>>>>>>> -        mmap_base =3D VA_USER_SV39 - rnd_gap; \
+>>>>>>>>> +        mmap_base =3D (_addr + len) - rnd_gap; \
+>>>>>>>>>      mmap_base;                        \
+>>>>>>>>>  })
+>>>>>>>>>=20
+>>>>>>>>> +#ifdef CONFIG_64BIT
+>>>>>>>>> +#define DEFAULT_MAP_WINDOW    (UL(1) << (MMAP_VA_BITS - 1))
+>>>>>>>>> +#define STACK_TOP_MAX        TASK_SIZE_64
+>>>>>>>>>  #else
+>>>>>>>>>  #define DEFAULT_MAP_WINDOW    TASK_SIZE
+>>>>>>>>>  #define STACK_TOP_MAX        TASK_SIZE
+>>>>>>>>>>> I have carefully tested your patch on qemu with sv57. A
+>>>>>>> bug that
+>>>>>>>> needs
+>>>>>>>> to be solved is that mmap with the same hint address without
+>>>>>>>> MAP_FIXED
+>>>>>>>> set will fail the second time.
+>>>>>>>>> Userspace code to reproduce the bug:
+>>>>>>>>> #include <sys/mman.h>
+>>>>>>>> #include <stdio.h>
+>>>>>>>> #include <stdint.h>
+>>>>>>>>> void test(char *addr) {
+>>>>>>>>     char *res =3D mmap(addr, 4096, PROT_READ | PROT_WRITE,
+>>>>>>>> MAP_ANONYMOUS
+>>>>>>>>> MAP_PRIVATE, -1, 0);
+>>>>>>>>     printf("hint %p got %p.\n", addr, res);
+>>>>>>>> }
+>>>>>>>>> int main (void) {
+>>>>>>>>     test(1<<30);
+>>>>>>>>     test(1<<30);
+>>>>>>>>     test(1<<30);
+>>>>>>>>     return 0;
+>>>>>>>> }
+>>>>>>>>> output:
+>>>>>>>>> hint 0x40000000 got 0x40000000.
+>>>>>>>> hint 0x40000000 got 0xffffffffffffffff.
+>>>>>>>> hint 0x40000000 got 0xffffffffffffffff.
+>>>>>>>>> output on x86:
+>>>>>>>>> hint 0x40000000 got 0x40000000.
+>>>>>>>> hint 0x40000000 got 0x7f9171363000.
+>>>>>>>> hint 0x40000000 got 0x7f9171362000.
+>>>>>>>>> It may need to implement a special arch_get_unmapped_area and
+>>>>>>>> arch_get_unmapped_area_topdown function.
+>>>>>>>>=20
+>>>>>>> This is because hint address < rnd_gap. I have tried to let =
+mmap_base =3D
+>>>>>>> min((_addr + len), (base) + TASK_SIZE - DEFAULT_MAP_WINDOW). =
+However it
+>>>>>>> does not work for bottom-up while ulimit -s is unlimited. You =
+said this
+>>>>>>> behavior is expected from patch v2 review. However it brings a =
+new
+>>>>>>> regression even on sv39 systems.
+>>>>>>>=20
+>>>>>>> I still don't know the reason why use addr+len as the =
+upper-bound. I
+>>>>>>> think solution like x86/arm64/powerpc provide two address space =
+switch
+>>>>>>> based on whether hint address above the default map window is =
+enough.
+>>>>>>>=20
+>>>>>> Yep this is expected. It is up to the maintainers to decide.
+>>>>> Sorry I forgot to reply to this, I had a buffer sitting around =
+somewhere
+>>>>> but I must have lost it.
+>>>>>=20
+>>>>> I think Charlie's approach is the right way to go.  Putting my =
+userspace
+>>>>> hat on, I'd much rather have my allocations fail rather than =
+silently
+>>>>> ignore the hint when there's memory pressure.
+>>>>>=20
+>>>>> If there's some real use case that needs these low hints to be =
+silently
+>>>>> ignored under VA pressure then we can try and figure something out =
+that
+>>>>> makes those applications work.
+>>>> I could confirm that this patch has broken chromium's partition =
+allocator on
+>>>> riscv64. The minimal reproduction I use is chromium-mmap.c:
+>>>>=20
+>>>> #include <stdio.h>
+>>>> #include <sys/mman.h>
+>>>>=20
+>>>> int main() {
+>>>>     void* expected =3D (void*)0x400000000;
+>>>>     void* addr =3D mmap(expected, 17179869184, PROT_NONE,
+>>>> MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
+>>>>     if (addr !=3D expected) {
+>>> It is not valid to assume that the address returned by mmap will be =
+the
+>>> hint address. If the hint address is not available, mmap will return =
+a
+>>> different address.
+>>=20
+>> Oh, sorry I didn't make it clear what is the expected behavior.
+>> The printf here is solely for debugging purpose and I don't mean that
+>> chromium expect it will get the hint address. The expected behavior =
+is
+>> that both the two mmap calls will succeed.
+>>=20
+>>>>         printf("Not expected address: %p !=3D %p\n", addr, =
+expected);
+>>>>     }
+>>>>     expected =3D (void*)0x3fffff000;
+>>>>     addr =3D mmap(expected, 17179873280, PROT_NONE, =
+MAP_PRIVATE|MAP_ANONYMOUS,
+>>>> -1, 0);
+>>>>     if (addr !=3D expected) {
+>>>>         printf("Not expected address: %p !=3D %p\n", addr, =
+expected);
+>>>>     }
+>>>>     return 0;
+>>>> }
+>>>>=20
+>>>> The second mmap fails with ENOMEM. Manually reverting this commit =
+fixes the
+>>>> issue for me. So I think it's clearly a regression and breaks =
+userspace.
+>>>>=20
+>>> The issue here is that overlapping memory is being requested. This
+>>> second mmap will never be able to provide an address at 0x3fffff000 =
+with
+>>> a size of 0x400001000 since mmap just provided an address at =
+0x400000000
+>>> with a size of 0x400000000.
+>>>=20
+>>> Before this patch, this request causes mmap to return a completely
+>>> arbitrary value. There is no reason to use a hint address in this =
+manner
+>>> because the hint can never be respected. Since an arbitrary address =
+is
+>>> desired, a hint of zero should be used.
+>>>=20
+>>> This patch causes the behavior to be more deterministic. Instead of
+>>> providing an arbitrary address, it causes the address to be less =
+than or
+>>> equal to the hint address. This allows for applications to make
+>>> assumptions about the returned address.
+>>=20
+>> About the overlap, of course the partition allocator's request for
+>> overlapped vma seems unreasonable.
+>>=20
+>> But I still don't quite understand why mmap cannot use an address =
+higher
+>> than the hint address.
+>> The hint address, after all, is a hint, not a requirement.
+>>=20
+>> Quoting the man page:
+>>=20
+>>>   If another mapping already exists there, the kernel picks
+>>>        a new address that may or may not depend on the hint.  The
+>>>        address of the new mapping is returned as the result of the =
+call.
+>>=20
+>> So for casual programmers that only reads man page but not =
+architecture
+>> specific kernel documentation, the current behavior of mmap on =
+riscv64
+>> failing on overlapped address ranges are quite surprising IMO.
+>>=20
+>> And quoting the man page again about the errno:
+>>=20
+>>>       ENOMEM No memory is available.
+>>>=20
+>>>       ENOMEM The process's maximum number of mappings would have =
+been
+>>>              exceeded.  This error can also occur for munmap(), when
+>>>              unmapping a region in the middle of an existing =
+mapping,
+>>>              since this results in two smaller mappings on either =
+side
+>>>              of the region being unmapped.
+>>>=20
+>>>       ENOMEM (since Linux 4.7) The process's RLIMIT_DATA limit,
+>>>              described in getrlimit(2), would have been exceeded.
+>>>=20
+>>>       ENOMEM We don't like addr, because it exceeds the virtual =
+address
+>>>              space of the CPU.
+>>>=20
+>>=20
+>> There's no matching description for the ENOMEM returned here.
+>> I would suggest removing "because it exceeds the virtual address
+>> space of the CPU." from the last item if the ENOMEM behavior here
+>> is expected.
+>>=20
+>>> This code is unfortunately relying on the previously mostly =
+undefined
+>>> behavior of the hint address in mmap.
+>>=20
+>> Although I haven't read the code of chromium's partition allocator to
+>> judge whether it should
+>> be improved or fixed for riscv64, I do know that the kernel "don't =
+break
+>> userspace" and "never EVER blame the user programs".
+>=20
+> Ya, sorry for breaking stuff.
+>=20
+> The goal here was to move to the mmap flag behavor similar to what =
+arm64 and x86 have, as that was done in a way that didn't appear to =
+break userspace -- or at least any real userspace programs.  IIRC that =
+first test was pretty broken (it actually depended on the hint address), =
+but sounds like that's not the case.
+>=20
+> I think maybe this is just luck: we didn't chunk the address space up, =
+we're just hinting on every bit, so we're just more likely to hit the =
+exhaustion.  Doesn't really matter, though, as if it's breaking stuff so =
+we've got to deal with it.
+>=20
+> Charlie and I are just talking, and best we can come up with is to =
+move to the behavior where we fall back to larger allocation regions =
+when there's no space in the smaller allocation region. =20
 
-default            <-  Default mode is not related assignable features.
 
-I would think mbm_mode is fine. Let me know.
+For this solution, the only difference from the mmap behavior of
+x86 and aarch64 is that we will first try to allocate some memory
+from an address less or equal to the request address + size. But
+for most cases, I think there is no need to do that, especially for
+those addresses < BIT(47), as most program works fine on x86-64,
+which has 47bit available userspace address space to use. And for
+that program that wants an address < BIT(32), we already have
+MAP_32BIT now.
 
->>
->> /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs: Reports the number of monitoring
->> counters available for assignment.
->>
->> /sys/fs/resctrl/info/L3_MON/mbm_control: Reports the resctrl group and
->> monitor
->> status of each group. Assignment state can be updated by writing to the
->> interface.
->>
->> # Examples
->>
->> a. Check if ABMC support is available
->>     #mount -t resctrl resctrl /sys/fs/resctrl/
->>
->>     #cat /sys/fs/resctrl/info/L3_MON/mbm_mode
->>     [mbm_cntr_assign]
->>     legacy
->>
->>     ABMC feature is detected and it is enabled.
->>
->> b. Check how many ABMC counters are available.
->>
->>     #cat /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs
->>     32
->>
->> c. Create few resctrl groups.
->>
->>     # mkdir /sys/fs/resctrl/mon_groups/child_default_mon_grp
->>     # mkdir /sys/fs/resctrl/non_default_ctrl_mon_grp
->>     # mkdir
->> /sys/fs/resctrl/non_default_ctrl_mon_grp/mon_groups/child_non_default_mon_grp
->>
->>
->> d. This series adds a new interface file
->> /sys/fs/resctrl/info/L3_MON/mbm_control
->>     to list and modify the group's monitoring states. File provides
->> single place
->>     to list monitoring states of all the resctrl groups. It makes it
->> easier for
->>     user space to learn about the counters are used without needing to
->> traverse
-> 
-> "to learn about the counters are used" -> "to learn the counters that are
-> used" or
-> "to learn about the used counters" or ...?
+I think we can just fix like that patch:
+=
+https://lore.kernel.org/lkml/tencent_B2D0435BC011135736262764B511994F4805@=
+qq.com/
 
-Sure.
+> Charlie's going to try and throw together a patch for that, hopefully =
+it'll sort things out.
+>=20
+>>> The goal of this patch is to help
+>>> developers have more consistent mmap behavior, but maybe it is =
+necessary
+>>> to hide this behavior behind an mmap flag.
+>>=20
+>> Thank you for helping to shape a more consistent mmap behavior.
+>> I think this should be fixed ASAP either by allowing the hint address =
+to
+>> be ignored
+>> (as suggested by the Linux man page), or hide this behavior behind an
+>> mmap flag as you said.
+>>=20
+>>> - Charlie
+>>>=20
+>>>> See alsohttps://github.com/riscv-forks/electron/issues/4
+>>>>=20
+>>>>>> - Charlie
+>>>> Sincerely,
+>>>> Levi
+>>>>=20
+>>=20
+>> I accidentally introduced some HTML into this reply so this reply is
+>> resent as plain text.
+>>=20
+>> Sincerely,
+>> Levi
 
-> 
->>     all the groups thus reducing the number of file system calls.
->>
->>     The list follows the following format:
->>
->>     "<CTRL_MON group>/<MON group>/<domain_id>=<flags>"
->>
->>     Format for specific type of groups:
->>
->>     * Default CTRL_MON group:
->>      "//<domain_id>=<flags>"
->>
->>         * Non-default CTRL_MON group:
->>                 "<CTRL_MON group>//<domain_id>=<flags>"
->>
->>         * Child MON group of default CTRL_MON group:
->>                 "/<MON group>/<domain_id>=<flags>"
->>
->>         * Child MON group of non-default CTRL_MON group:
->>                 "<CTRL_MON group>/<MON group>/<domain_id>=<flags>"
->>
->>         Flags can be one of the following:
->>
->>          t  MBM total event is enabled.
->>          l  MBM local event is enabled.
->>          tl Both total and local MBM events are enabled.
->>          _  None of the MBM events are enabled
->>
->>     Examples:
->>
->>     # cat /sys/fs/resctrl/info/L3_MON/mbm_control
->>     non_default_ctrl_mon_grp//0=tl;1=tl;
->>     non_default_ctrl_mon_grp/child_non_default_mon_grp/0=tl;1=tl;
->>     //0=tl;1=tl;
->>     /child_default_mon_grp/0=tl;1=tl;
->>     
->>     There are four groups and all the groups have local and total
->>     event enabled on domain 0 and 1.
->>
->> e. Update the group assignment states using the interface file
->> /sys/fs/resctrl/info/L3_MON/mbm_control.
->>
->>       The write format is similar to the above list format with addition
->>     of opcode for the assignment operation.
->>          “<CTRL_MON group>/<MON group>/<domain_id><opcode><flags>”
->>
->>     
->>     * Default CTRL_MON group:
->>             "//<domain_id><opcode><flags>"
->>     
->>     * Non-default CTRL_MON group:
->>             "<CTRL_MON group>//<domain_id><opcode><flags>"
->>     
->>     * Child MON group of default CTRL_MON group:
->>             "/<MON group>/<domain_id><opcode><flags>"
->>     
->>     * Child MON group of non-default CTRL_MON group:
->>             "<CTRL_MON group>/<MON group>/<domain_id><opcode><flags>"
->>     
->>     Opcode can be one of the following:
->>     
->>     = Update the assignment to match the flag.
->>     + Assign a new event.
->>     - Unassign a new event.
-> 
-> Since user space can provide more than one flag the text could be more
-> accurate
-> noting this. Eg. "Update the assignment to match the flag" -> "Update the
-> assignment
-> to match the flags.".
 
-Sure.
-
-> 
->>
->>     Flags can be one of the following:
->>
->>          t  MBM total event.
->>          l  MBM local event.
->>          tl Both total and local MBM events.
->>          _  None of the MBM events. Only works with '=' opcode.
-> 
-> Please take care with the implementation that seems to support a variety of
-> combinations. If I understand correctly the implementation support flags
-> like,
-> for example, "tttt", "llll", "ltlt" ... those may not be an issue but of most
-> concern is, for example, a pattern like "_lt" that (unexpectedly) appears to
-> result in set of total and local.
-
-Yes. Should we not allow flag combinations with "_"?
-I am not very sure about how to go about this.
-
-> 
->>     
->>     Initial group status:
->>     # cat /sys/fs/resctrl/info/L3_MON/mbm_control
->>     non_default_ctrl_mon_grp//0=tl;1=tl;
->>     non_default_ctrl_mon_grp/child_non_default_mon_grp/0=tl;1=tl;
->>     //0=tl;1=tl;
->>     /child_default_mon_grp/0=tl;1=tl;
->>
->>     To update the default group to enable only total event on domain 0:
->>     # echo "//0=t" > /sys/fs/resctrl/info/L3_MON/mbm_control
->>
->>     Assignment status after the update:
->>     # cat /sys/fs/resctrl/info/L3_MON/mbm_control
->>     non_default_ctrl_mon_grp//0=tl;1=tl;
->>     non_default_ctrl_mon_grp/child_non_default_mon_grp/0=tl;1=tl;
->>     //0=t;1=tl;
->>     /child_default_mon_grp/0=tl;1=tl;
->>
->>     To update the MON group child_default_mon_grp to remove total event
->> on domain 1:
->>     # echo "/child_default_mon_grp/1-t" >
->> /sys/fs/resctrl/info/L3_MON/mbm_control
->>
->>     Assignment status after the update:
->>     $ cat /sys/fs/resctrl/info/L3_MON/mbm_control
->>     non_default_ctrl_mon_grp//0=tl;1=tl;
->>     non_default_ctrl_mon_grp/child_non_default_mon_grp/0=tl;1=tl;
->>     //0=t;1=tl;
->>     /child_default_mon_grp/0=tl;1=l;
->>
->>     To update the MON group
->> non_default_ctrl_mon_grp/child_non_default_mon_grp to
->>     remove both local and total events on domain 1:
->>     # echo "non_default_ctrl_mon_grp/child_non_default_mon_grp/1=_" >
->>            /sys/fs/resctrl/info/L3_MON/mbm_control
->>
->>     Assignment status after the update:
->>     non_default_ctrl_mon_grp//0=tl;1=tl;
->>     non_default_ctrl_mon_grp/child_non_default_mon_grp/0=tl;1=_;
->>     //0=t;1=tl;
->>     /child_default_mon_grp/0=tl;1=l;
->>
->>     To update the default group to add a local event domain 0.
->>     # echo "//0+l" > /sys/fs/resctrl/info/L3_MON/mbm_control
->>
->>     Assignment status after the update:
->>     # cat /sys/fs/resctrl/info/L3_MON/mbm_control
->>     non_default_ctrl_mon_grp//0=tl;1=tl;
->>     non_default_ctrl_mon_grp/child_non_default_mon_grp/0=tl;1=_;
->>     //0=tl;1=tl;
->>     /child_default_mon_grp/0=tl;1=l;
->>
->>     To update the non default CTRL_MON group non_default_ctrl_mon_grp to
->> unassign all
->>     the MBM events on all the domains.
->>     # echo "non_default_ctrl_mon_grp//*=_" >
->> /sys/fs/resctrl/info/L3_MON/mbm_control
->>
->>     Assignment status after the update:
->>     # cat /sys/fs/resctrl/info/L3_MON/mbm_control
->>     non_default_ctrl_mon_grp//0=_;1=_;
->>     non_default_ctrl_mon_grp/child_non_default_mon_grp/0=tl;1=_;
->>     //0=tl;1=tl;
->>     /child_default_mon_grp/0=tl;1=l;
->>
->>
->> f. Read the event mbm_total_bytes and mbm_local_bytes of the default group.
->>     There is no change in reading the events with ABMC. If the event is
->> unassigned
->>     when reading, then the read will come back as "Unassigned".
->>     
->>     # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
->>     779247936
->>     # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
->>     765207488
->>     
->> g. Check the bandwidth configuration for the group. Note that bandwidth
->>     configuration has a domain scope. Total event defaults to 0x7F (to
->>     count all the events) and local event defaults to 0x15 (to count all
->>     the local numa events). The event bitmap decoding is available at
->>     https://www.kernel.org/doc/Documentation/x86/resctrl.rst
->>     in section "mbm_total_bytes_config", "mbm_local_bytes_config":
->>     
->>     #cat /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config
->>     0=0x7f;1=0x7f
->>     
->>     #cat /sys/fs/resctrl/info/L3_MON/mbm_local_bytes_config
->>     0=0x15;1=0x15
->>     
->> h. Change the bandwidth source for domain 0 for the total event to count
->> only reads.
->>     Note that this change effects total events on the domain 0.
->>     
->>     #echo 0=0x33 > /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config
->>     #cat /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config
->>     0=0x33;1=0x7F
->>     
->> i. Now read the total event again. The first read will come back with
->> "Unavailable"
->>     status. The subsequent read of mbm_total_bytes will display only the
->> read events.
->>     
->>     #cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
->>     Unavailable
->>     #cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
->>     314101
->>
->> j. Users will have the option to go back to legacy mbm_mode if required.
->>     This can be done using the following command. Note that switching the
->>     mbm_mode will reset all the mbm counters of all resctrl groups.
-> 
-> "reset all the mbm counters" -> "reset all the MBM counters"
-
-Sure.
-
-> 
->>
->>     # echo "legacy" > /sys/fs/resctrl/info/L3_MON/mbm_mode
->>     # cat /sys/fs/resctrl/info/L3_MON/mbm_mode
->>     mbm_cntr_assign
->>     [legacy]
->>
->>     
->> k. Unmount the resctrl
->>     
->>     #umount /sys/fs/resctrl/
->> ---
->> v6:
->>    We still need to finalize few interface details on mbm_mode and
->> mbm_control
->>    in case of ABMC and Soft-ABMC. We can continue the discussion with
->> this series.
-> 
-> Could you please list the details that need to be finalized?
-
-1. mbm_mode display
-    # cat /sys/fs/resctrl/info/L3_MON/mbm_mode
-      mbm_cntr_assign
-      [legacy]
-
-     "mbm_cntr_assign"
-      Are we sticking with ""mbm_cntr_assign" for ABMC?
-      What should we name for soft-ABMC?
-
-2. Also we had some concerns about Individual event assignment(ABMC)
-    and group assignment(soft-ABMC)?
-    Are the flags "t" and 'l' good for both these modes?
-
-> 
-> Thank you
-> 
-> Reinette
-> 
-
--- 
-Thanks
-Babu Moger
