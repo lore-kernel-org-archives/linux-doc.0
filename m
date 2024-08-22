@@ -1,258 +1,217 @@
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2052.outbound.protection.outlook.com [40.107.94.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8157A1CFEB8
-	for <linux-doc@vger.kernel.org>; Thu, 22 Aug 2024 19:43:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724355825; cv=none; b=VCWQ4qj9zBWuiWevXL+rEzNG4HUSNMJQns+G3Xc6j2ReeHwQw4zhIyQM1WW7ftPf6TRVWAaDJgBZ3qhNkCHMSkH5aeC4do11+7CvAoeaZD95iLHqM8OVUb7uTAE+XwM9qKzHluqeWIaZ4YNLCb83q939pf6IEOIIXbRFIlgjoxs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724355825; c=relaxed/simple;
-	bh=RP4y+/7MM9jSz5HZCZkGA8wnBwm/mXV7qSW3J20gAiU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hjLt7gmEiT1f9p3A/vaXqV8umqIYhvu+7FsL6K6Q8TvDBl5FQjyF5feU+Bd7u452/TjdaCdxcghTkEUzKTohkfAXHccSvR+X9HorLVP0dPiWpnGFxZSg33NUDU5Bqbq2vslZZOyaDbwoiU9S40zZOhtvNCvHUUt1RbWNPt7A45I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ugkuuewD; arc=none smtp.client-ip=209.85.160.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59EBF1D04B6;
+	Thu, 22 Aug 2024 20:41:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724359294; cv=fail; b=RzorlZ3QGy+QCSyik5Oe0Rxi/OhzmXEBPzZIdP5Ha87PKDbon+B4R3LxtpF4/FAjgozvV7m29ArVO98s24WGRzzV7MpFgva4DqudtEuVzYgANgnLafzYKNaWN1ML0PDVoAADpPaUHJTc5Yr5Jm4tecp6aV+3tfYWqJeik4LtESY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724359294; c=relaxed/simple;
+	bh=sjjHFlcn7IbSAoCj5vFmKvnSrfHM8ZZKwKDM5JAw720=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tAcN6rtSu7Mt65oVs5+JunY9uY8+VVlcX74JmZ3qgPGXZCIFjOphvLuPIEoPjc+L5VSEEyFR7YUG/DWzjA27QDjtTPr+SbHdcO4bamEW88W9qA1+THQTLk1G84JjfdCjSkviGmilUbEBSyUrJcns9Pj5esXGT2z2zGfpUKcLEeA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=B+hawQP4; arc=fail smtp.client-ip=40.107.94.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ugkuuewD"
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-270596dbf59so853329fac.3
-        for <linux-doc@vger.kernel.org>; Thu, 22 Aug 2024 12:43:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1724355821; x=1724960621; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zrphh2W/kycmfZ/8VneCtdGx+CrSEXJ4tVn5Mz1GwDo=;
-        b=ugkuuewDBWHFuKLobPJ5q8tDJYA+DDHH3sjpjho/bF1Z1KPnpYa7feaPYu/oBxupQ+
-         rKyA493K7AH2nWcg1xh2HvXfwNlgHaVJAQrhqT7JUruWKlsS9LLKSCiGlYwSY5m6NsIF
-         WYVeG1lwoJZQWKuSvKn4A2ML1/pmGACE7lUe5M7DTKf2+cgX5yx78cp3kHSaqUkqFwf2
-         lzzLl3n3jvse/uuFThRqFCGIzP1GqoneGPNaooaYqo5fa3FW1g/JkECDhgV29qsqIF0T
-         nYTj0jP79sqCszhLk6aA0arGXUfxQyqGD/jgS3Vzr2wFeAr+kkhLokG8htkX8EfSbOeD
-         hAjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724355821; x=1724960621;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zrphh2W/kycmfZ/8VneCtdGx+CrSEXJ4tVn5Mz1GwDo=;
-        b=BIR7odSSRQlIkw80wEC7L+zyVs00iN3jJXcKxVU/w7JbODKFV2cx2P6YXAHNZRpL6Z
-         hY8PjDZC4o+3S+LiyhW9TSUHXXWRcICtum+Q84/IgUeZpB5PRRKjEH+s1bhTK4XcetSf
-         jRCaXIomf3xN7GgJ+9HittgXNvfI4rlOQRjeJhi7sfhmwFszDmEdZbJk7KfPXIwU8uYl
-         rq6TrgjzUBdN9CfEnxumTVHNB+gAyaryP34b2mViJlxYbX3fKkeIBKhS8oVoppq11tY0
-         K3gVHkoNR+Bu5I7Mo/gd3CRCNu3Nw7HC488u0d6ynNB5elxC8Jc1dtu/10DRjFrb1LQw
-         sHYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXgF+iWrs7LwPvMXmkHAlYmGmSjDhQgTlbpRhQbXh6l+SYEC1WO5ve9fw1Im0ntgnmMh5/FBZCYxYE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwgtRSXCt6SuPlh5aUa1bXJy/S0GkfYoeeYS8QZe5zf9nweYw/S
-	orFRpIHyLZq/g6zmJXRgzwoyCtiNMaTekFLsJ2tYhawoil339s5JZkfTGCwUYcU=
-X-Google-Smtp-Source: AGHT+IGe2irDfM2bs6E4ggVjVcIPPoXUbqTchSMChCsaSe9hLazbwWqlCJ5t9m9HeiEyM6ANkykcRQ==
-X-Received: by 2002:a05:6870:1614:b0:25c:b3c9:ecda with SMTP id 586e51a60fabf-2738be3ae43mr7375252fac.38.1724355821576;
-        Thu, 22 Aug 2024 12:43:41 -0700 (PDT)
-Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-273cebc59a3sm510786fac.55.2024.08.22.12.43.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Aug 2024 12:43:41 -0700 (PDT)
-Message-ID: <98c34122-6077-4d2c-835c-12e479d90730@baylibre.com>
-Date: Thu, 22 Aug 2024 14:43:40 -0500
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="B+hawQP4"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=l8oxzB6uYIpZalCdy10saNOsW4kxp8E7Qdok/OQ/PLvLAUJCc39LWz0Xfowxa1BqvikF4E9sECeleORMPUMYZFHL2KzerJoos9d4eyKJGiIQqY+0wfPOWLcoSzabU9p2yLBGRd6LQor9BuNiQVPvtnro1b0R7BtlVE8qjvMyHpH7RAR8KqPuZfxdFbumNLl7oJokg/sfEXqaOvFvDzQyGKkwFSO8X+4QPPxwfD5xw8yTVP2TzrFDoa3LtHtpUzRr2G7+btJuiAhCF2C685TYPwMg3jUBdAVStCcmvz4ruxqZI9RTioV/yYvPipftEq/vW9OCNipDaTW2pmg28ZR5kQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9UrNcO8RAk+PbXtyFQQQm7frv2H27uuOJEWOmstzjX8=;
+ b=qc0z2Npwuh6aVqm1ALP9sZQtm5OQlBFmEQwTPyTaoz12uX4nvccYla0+THtFvtrsoeDsX3AniTSSRSmrTBT1Faht7uW2bIn/mS0ngGNTakp2zxVZVS/jLpmLKRS7Ks1OvK2q/9qt/bdgVWYFd3P0/NiiwgVaZzpsxjfY6oVjv8yeBY49iT3Uz3CcjF2NjkrTBLAcrDzIfJ8gMD/cIhNZRWDaNKvOlOEvacHaJBubvxTuW+dZHxqD+IQXOP1CA1MD0ZZdJwPL4V22GwHSGlxhP844tXUzGe+VADjofnPv+gJoOQKVIINWxAA4Hfs23FpF+/IfQdh2xospNSQ6w6aJOw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9UrNcO8RAk+PbXtyFQQQm7frv2H27uuOJEWOmstzjX8=;
+ b=B+hawQP4dpxrMS8nTa2N1xDKb9CXmtX2K4DDCwtntK3yH/PQrusMsh5hxkSm+V+yeo/KJmODtBSR/emFVwRfxwggVz9ssLIDL4lICs23SUUFP00f2E/OL9L98XbqfY8EK68c6Sk0TS4GdV8BmA0Zo+hQklv4tJg9WEIYKXYlhX0=
+Received: from BY3PR04CA0024.namprd04.prod.outlook.com (2603:10b6:a03:217::29)
+ by MN0PR12MB5716.namprd12.prod.outlook.com (2603:10b6:208:373::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.19; Thu, 22 Aug
+ 2024 20:41:28 +0000
+Received: from CO1PEPF000075F4.namprd03.prod.outlook.com
+ (2603:10b6:a03:217:cafe::c4) by BY3PR04CA0024.outlook.office365.com
+ (2603:10b6:a03:217::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.22 via Frontend
+ Transport; Thu, 22 Aug 2024 20:41:28 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1PEPF000075F4.mail.protection.outlook.com (10.167.249.43) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7897.11 via Frontend Transport; Thu, 22 Aug 2024 20:41:27 +0000
+Received: from weiserver.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 22 Aug
+ 2024 15:41:26 -0500
+From: Wei Huang <wei.huang2@amd.com>
+To: <linux-pci@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <netdev@vger.kernel.org>
+CC: <Jonathan.Cameron@Huawei.com>, <helgaas@kernel.org>, <corbet@lwn.net>,
+	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+	<pabeni@redhat.com>, <alex.williamson@redhat.com>, <gospo@broadcom.com>,
+	<michael.chan@broadcom.com>, <ajit.khaparde@broadcom.com>,
+	<somnath.kotur@broadcom.com>, <andrew.gospodarek@broadcom.com>,
+	<manoj.panicker2@amd.com>, <Eric.VanTassell@amd.com>, <wei.huang2@amd.com>,
+	<vadim.fedorenko@linux.dev>, <horms@kernel.org>, <bagasdotme@gmail.com>,
+	<bhelgaas@google.com>, <lukas@wunner.de>, <paul.e.luse@intel.com>,
+	<jing2.liu@intel.com>
+Subject: [PATCH V4 00/12] PCIe TPH and cache direct injection support
+Date: Thu, 22 Aug 2024 15:41:08 -0500
+Message-ID: <20240822204120.3634-1-wei.huang2@amd.com>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/6] docs: iio: ad4030: add documentation
-To: Esteban Blanc <eblanc@baylibre.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Nuno Sa <nuno.sa@analog.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20240822-eblanc-ad4630_v1-v1-0-5c68f3327fdd@baylibre.com>
- <20240822-eblanc-ad4630_v1-v1-6-5c68f3327fdd@baylibre.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20240822-eblanc-ad4630_v1-v1-6-5c68f3327fdd@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000075F4:EE_|MN0PR12MB5716:EE_
+X-MS-Office365-Filtering-Correlation-Id: f874f0d0-93a0-4a56-9dcd-08dcc2eacc0b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|36860700013|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?ZWMOCNJr2DnzH584GpGyKGUNYba+tAC5CzjaMkBbB9wpEMW/n4RiE7PvwDPx?=
+ =?us-ascii?Q?q+BWZBQRoQglMGTKyEJOcbxwlomfdCxV9oYidGe+/tfyd7bg3c6+m8fWNVcf?=
+ =?us-ascii?Q?bIzfvPaHz2JEzhoXYURv/SdQTRVqtn+Wr1JtsLhm1ZrWoyabGi+xE6rcqscG?=
+ =?us-ascii?Q?Hopk8Kk+deZiyfXQv/kAz+rbIy+38SDLZ7Vh1zE/VdscAx6faZGbFBulv8q/?=
+ =?us-ascii?Q?p6j80aZjoZU4vgJhQXTvagYTex/AYPaboTFtZ+uXmJfUbVZ2kpuv5x7U84gE?=
+ =?us-ascii?Q?SNe+OdgLil/Q5EUt0stDWsLh6jh5ffr1e6z+zeP3HzXi/uXrEeVPawpq8AFp?=
+ =?us-ascii?Q?plbXtFaHwmMjngdDSp1r+MFuUPrrWfsm3cgtcFI1px6ijm4qZn3VOMIDRvJf?=
+ =?us-ascii?Q?5+ZZE+Xhdjp4Z8ZvVDoDTXQIFOHS3qffBWuTjwMMsQ/2fRbm0iCMRGnTl8uA?=
+ =?us-ascii?Q?2PylVSm4S10CqQwNM9MtYb7YmFcJj4N0daYpj6VIx7uL63Hgj10UJKSNz5JD?=
+ =?us-ascii?Q?xxbofxeGu6GZuNayFF8057XXAHPx7TDKmwOchjjXabpaT1yQ0ZQu21MSVNao?=
+ =?us-ascii?Q?P17nc8sY7bDXpDYV+52qIr6BdIK+63bfUCnSw7Nh03SAXVYBQyK3eY4vQv9c?=
+ =?us-ascii?Q?ewpzqw/d0XDhq3afB5F6QzJpcHhCPEYJOYQ6ykuds/JrrlITNANNwgajJqLZ?=
+ =?us-ascii?Q?SeUQaKewjHNqgrcQz2Anhy+1LCCaQrVzmdhLq/IwG//lPhj4NAtTur1tr2rD?=
+ =?us-ascii?Q?CtTizXHfJbCNM2xubvIc3CblvGYWe6EdokvDn0KMIwo85CqgwMh9FT3MoGHL?=
+ =?us-ascii?Q?YUd/YI4u6qv3sY/PTddVwDdmhym1VLk5yWAGonbFgYTQ9oxK/GI4SfN52KvV?=
+ =?us-ascii?Q?SpbwIhDQKD7zOh4Lg2Sx3tBmue6UfNjUwgW9rpKGXpJARK7hRiLaYVGzssMe?=
+ =?us-ascii?Q?CMZwsBsxCtiA0JdCcVXj097+iR+/OFbJReihsnxJNySLHHpm0TLgM5S82Qu5?=
+ =?us-ascii?Q?IqRYGbu8w8Ox4QNxc8Alc82azZ7OjRfhskBvjL8TvIF8k2wrZEQsfSprvvrn?=
+ =?us-ascii?Q?b53oiXrCVgEQzJC+qCVNz6O/PZV//U2cZVKVXuwtn7Ugozas1sn4iSw2tC2P?=
+ =?us-ascii?Q?OwPQFHer5yh0Lgk5ysr/iscvWOPF+TbuMX5WryMNv5g5iBRvPl7JL2GcQsG/?=
+ =?us-ascii?Q?KzUeQD89vtGT3s3SozpsNDa1n2l7waDWM26g/wpd+aYzTj7MA9WVTjPeHxdI?=
+ =?us-ascii?Q?CMWvdxbSCBphMPYyinBfsu1ijNJpxzbcVbtmjD8tYXB+peoo5w4I+fbgVAlB?=
+ =?us-ascii?Q?0DyR42Qhk/ry9rvp9515kKQoN2afxcyMLpyqYRUKpR+Rqx1n+ShBDxYXiRcG?=
+ =?us-ascii?Q?e3KComsNX7pGrQFR5oF/ZcPUPnpd+Jm2jfn8m5+djHrHK0upPQ=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2024 20:41:27.9654
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f874f0d0-93a0-4a56-9dcd-08dcc2eacc0b
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF000075F4.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5716
 
-On 8/22/24 7:45 AM, Esteban Blanc wrote:
-> This adds a new page to document how to use the ad4030 ADC driver
-> 
-> Signed-off-by: Esteban Blanc <eblanc@baylibre.com>
-> ---
->  Documentation/iio/ad4030.rst | 129 +++++++++++++++++++++++++++++++++++++++++++
->  Documentation/iio/index.rst  |   1 +
->  MAINTAINERS                  |   1 +
->  3 files changed, 131 insertions(+)
-> 
-> diff --git a/Documentation/iio/ad4030.rst b/Documentation/iio/ad4030.rst
-> new file mode 100644
-> index 000000000000..56e0ba58b127
-> --- /dev/null
-> +++ b/Documentation/iio/ad4030.rst
-> @@ -0,0 +1,129 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +=============
-> +AD4030 driver
-> +=============
-> +
-> +ADC driver for Analog Devices Inc. AD4030 and similar devices. The module name
-> +is ``ad4030``.
-> +
-> +
-> +Supported devices
-> +=================
-> +
-> +The following chips are supported by this driver:
-> +
-> +* `AD4030-24 <https://www.analog.com/AD4030-24>`_
-> +* `AD4630-16 <https://www.analog.com/AD4630-16>`_
-> +* `AD4630-24 <https://www.analog.com/AD4630-24>`_
-> +* `AD4632-16 <https://www.analog.com/AD4632-16>`_
-> +* `AD4632-24 <https://www.analog.com/AD4632-24>`_
-> +
-> +IIO channels
-> +============
-> +
-> +Each "device" channel as described in the datasheet is split in 2 IIO channels,
-> +in the following order:
-> +
-> +- One channel for the differential data
-> +- One channel for the common byte.
-> +
-> +Supported features
-> +==================
-> +
-> +SPI wiring modes
-> +----------------
-> +
-> +The driver currently supports the following SPI wiring configurations:
-> +
-> +One lane mode
-> +^^^^^^^^^^^^^
-> +
-> +In this mode, each channel has its own SDO line to send the conversion results.
-> +At the moment this mode can only be used on AD4030 which has one channel so only
-> +one SDO line is used.
-> +
-> +.. code-block::
-> +
-> +    +-------------+         +-------------+
-> +    |     ADC     |         |     HOST    |
-> +    |             |         |             |
-> +    |         CNV |<--------| CNV         |
-> +    |          CS |<--------| CS          |
-> +    |         SDI |<--------| SDO         |
-> +    |        SDO0 |-------->| SDI         |
-> +    |        SCLK |<--------| SCLK        |
-> +    +-------------+         +-------------+
-> +
-> +Interleaved mode
-> +^^^^^^^^^^^^^^^^
-> +
-> +In this mode, both channels conversion results are bit interleaved one SDO line.
-> +As such the wiring is the same as `One lane mode`.
-> +
-> +SPI Clock mode
-> +--------------
-> +
-> +Only the SPI clocking mode is supported.
-> +
-> +Output modes
-> +------------
-> +
-> +There is more exposed IIO channels than channels as describe in the devices
-> +datasheet. This is due to the `Differential data + 8-bit common-mode` encoding
-> +2 types of information in one conversion result. As such a "device" channel
-> +provides 2 IIO channels, one for the differential data and one for the common
-> +byte.
-> +
-> +Differential data
-> +^^^^^^^^^^^^^^^^^
-> +
-> +This mode is selected when:
-> +
-> +- Only differential channels are selected
-> +- Oversampling attribute is set to 1
-> +
-> +Differential data + common-mode
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> +
-> +This mode is selected when:
-> +
-> +- Differential and common-mode channels are selected
-> +- Oversampling attribute is set to 1
-> +
-> +For the 24-bits chips, this mode is also available with 16-bits differential
-> +data but is not selectable yet.
-> +
-> +Averaged differential data
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^
-> +
-> +This mode is selected when:
-> +
-> +- Only differential channels are selected
-> +- Oversampling attribute is greater than 1
-> +
+Hi All,
 
-Worth mentioning calibration (gain/offset) feature?
+TPH (TLP Processing Hints) is a PCIe feature that allows endpoint
+devices to provide optimization hints for requests that target memory
+space. These hints, in a format called steering tag (ST), are provided
+in the requester's TLP headers and allow the system hardware, including
+the Root Complex, to optimize the utilization of platform resources
+for the requests.
 
-> +Reference voltage
-> +-----------------
-> +
-> +The chip supports an external reference voltage via the ``REF`` input or an
-> +internal buffered reference voltage via the ``REFIN`` input. The driver looks
-> +at the device tree to determine which is being used. If ``ref-supply`` is
-> +present, then the external reference voltage is used and the internal buffer is
-> +disabled. If ``refin-supply`` is present, then the internal buffered reference
-> +voltage is used.
-> +
-> +Reset
-> +-----
-> +
-> +Both hardware and software reset are supported. The driver looks first at the
-> +device tree to see if the `reset-gpio` is populated. If not present, the driver
-> +will fallback to a software reset by wiring to the device's registers.
-> +
-> +Unimplemented features
-> +----------------------
-> +
-> +- ``BUSY`` indication
-> +- Additional wiring modes
-> +- Additional clock modes
-> +- Differential data 16-bits + common-mode for 24-bits chips
+Upcoming AMD hardware implement a new Cache Injection feature that
+leverages TPH. Cache Injection allows PCIe endpoints to inject I/O
+Coherent DMA writes directly into an L2 within the CCX (core complex)
+closest to the CPU core that will consume it. This technology is aimed
+at applications requiring high performance and low latency, such as
+networking and storage applications.
 
-- overrange event
-- test patterns
+This series introduces generic TPH support in Linux, allowing STs to be
+retrieved and used by PCIe endpoint drivers as needed. As a
+demonstration, it includes an example usage in the Broadcom BNXT driver.
+When running on Broadcom NICs with the appropriate firmware, it shows
+substantial memory bandwidth savings and better network bandwidth using
+real-world benchmarks. This solution is vendor-neutral and implemented
+based on industry standards (PCIe Spec and PCI FW Spec).
 
-> +
-> diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
-> index dfcf9618568a..61faf3a60da6 100644
-> --- a/Documentation/iio/index.rst
-> +++ b/Documentation/iio/index.rst
-> @@ -19,6 +19,7 @@ Industrial I/O Kernel Drivers
->     :maxdepth: 1
->  
->     ad4000
-> +   ad4030
->     ad4695
->     ad7380
->     ad7944
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 6a5a0e7b7a51..4a076a48648a 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -420,6 +420,7 @@ R:	Esteban Blanc <eblanc@baylibre.com>
->  S:	Supported
->  W:	https://ez.analog.com/linux-software-drivers
->  F:	Documentation/devicetree/bindings/iio/adc/adi,ad4030.yaml
-> +F:	Documentation/iio/ad4030.c
->  F:	drivers/iio/adc/ad4030.c
->  
->  AD5110 ANALOG DEVICES DIGITAL POTENTIOMETERS DRIVER
-> 
+V3->V4:
+ * Rebase on top of the latest pci/next tree (tag: 6.11-rc1)
+ * Add new API functioins to query/enable/disable TPH support
+ * Make pcie_tph_set_st() completely independent from pcie_tph_get_cpu_st()
+ * Rewrite bnxt.c based on new APIs
+ * Remove documentation for now due to constantly changing API
+ * Remove pci=notph, but keep pci=nostmode with better flow (Bjorn)
+ * Lots of code rewrite in tph.c & pci-tph.h with cleaner interface (Bjorn)
+ * Add TPH save/restore support (Paul Luse and Lukas Wunner)
+
+V2->V3:
+ * Rebase on top of pci/next tree (tag: pci-v6.11-changes)
+ * Redefine PCI TPH registers (pci_regs.h) without breaking uapi
+ * Fix commit subjects/messages for kernel options (Jonathan and Bjorn)
+ * Break API functions into three individual patches for easy review
+ * Rewrite lots of code in tph.c/tph.h based (Jonathan and Bjorn)
+
+V1->V2:
+ * Rebase on top of pci.git/for-linus (6.10-rc1)
+ * Address mismatched data types reported by Sparse (Sparse check passed)
+ * Add pcie_tph_intr_vec_supported() for checking IRQ mode support
+ * Skip bnxt affinity notifier registration if
+   pcie_tph_intr_vec_supported()=false
+ * Minor fixes in bnxt driver (i.e. warning messages)
+
+Manoj Panicker (1):
+  bnxt_en: Add TPH support in BNXT driver
+
+Michael Chan (1):
+  bnxt_en: Pass NQ ID to the FW when allocating RX/RX AGG rings
+
+Paul Luse (1):
+  PCI/TPH: Add save/restore support for TPH
+
+Wei Huang (9):
+  PCI: Introduce PCIe TPH support framework
+  PCI: Add TPH related register definition
+  PCI/TPH: Add pcie_tph_modes() to query TPH modes
+  PCI/TPH: Add pcie_enable_tph() to enable TPH
+  PCI/TPH: Add pcie_disable_tph() to disable TPH
+  PCI/TPH: Add pcie_tph_enabled() to check TPH state
+  PCI/TPH: Add pcie_tph_set_st_entry() to set ST tag
+  PCI/TPH: Add pcie_tph_get_cpu_st() to get ST tag
+  PCI/TPH: Add pci=nostmode to force TPH No ST Mode
+
+ .../admin-guide/kernel-parameters.txt         |   3 +
+ drivers/net/ethernet/broadcom/bnxt/bnxt.c     |  86 ++-
+ drivers/net/ethernet/broadcom/bnxt/bnxt.h     |   4 +
+ drivers/pci/pci.c                             |   4 +
+ drivers/pci/pci.h                             |  12 +
+ drivers/pci/pcie/Kconfig                      |  11 +
+ drivers/pci/pcie/Makefile                     |   1 +
+ drivers/pci/pcie/tph.c                        | 563 ++++++++++++++++++
+ drivers/pci/probe.c                           |   1 +
+ include/linux/pci-tph.h                       |  48 ++
+ include/linux/pci.h                           |   7 +
+ include/uapi/linux/pci_regs.h                 |  38 +-
+ 12 files changed, 768 insertions(+), 10 deletions(-)
+ create mode 100644 drivers/pci/pcie/tph.c
+ create mode 100644 include/linux/pci-tph.h
+
+-- 
+2.45.1
 
