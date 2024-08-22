@@ -1,122 +1,147 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 917F91CCEF8;
-	Thu, 22 Aug 2024 15:56:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865241CDA08;
+	Thu, 22 Aug 2024 16:12:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724342202; cv=none; b=C/9M1rYoKXz84x6mqTRvmxphCK3s4tfKvjIX2DxZpOG04BrDpFcoyC7za6l51AJKr4h8ofQ9KHVuNETtaXAHbcPQbGLt9y+WpKIUFReDBSlFbxKbciB1sLf3yCMoczCFUQyFxLvYfp86nSKCng8comgW5pKswIevvIn6YJA+IRM=
+	t=1724343159; cv=none; b=rBAFsucXbSQo+GNqrGXDl5lYGSK+u2TdPXXlh3HGj8EQwXZNvoJeFWvYd1HWOVSQENIp6bFg8ZjMFukFJ0bNVFdHUCsNQY/ZUnltwlxfFiZXtdzNpFgyeP/X37pp/on+goxIzbw3VMKscnrWKpZsRI7KYpLUBcGbjNA5COS3ays=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724342202; c=relaxed/simple;
-	bh=gqhE289N3O+DWBlo4LTGRrk+e4dB0ttAA6yDY9Vx6Js=;
+	s=arc-20240116; t=1724343159; c=relaxed/simple;
+	bh=arNvsRUXm7jY00uvGkAwSitSYm9UxPvScMuijKZi0Fg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rTop7Fco08t96liLB+usrF5g1X0SXjoymSnrYEAD+Os8KO6MdsVFG6XaxCmLffB5URlnjOfk732x5mJO5MSSVgYq4Hrzl/HjbmMa75vGaiZxPBx09Ib5IwfrhtqlftI7202V83ngJ8NXJj+YUnWB0CMvxxXvTxeJRYxqtxZFpcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Obach4Vn; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Obach4Vn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D8DCC4AF0C;
-	Thu, 22 Aug 2024 15:56:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724342202;
-	bh=gqhE289N3O+DWBlo4LTGRrk+e4dB0ttAA6yDY9Vx6Js=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Obach4VnevwF6PVZKlHVYAX/SY7dPgdcaffE4vqQTYortChW2G/daLYqHKZYTYQ1/
-	 hg/z/F0dEVI4s3m38GSvo1rKVij4yA0CNHF5T54XHENtqCZFR01Z+x/e3lXfw5hYJ4
-	 N833GugP1jkQPIDdYbaD+l8ijbmyy5sYm6XkcihCjxsfToUHqn9+azivPply8C69im
-	 EuhKdf6crdSv6RLT25VId6iuen0NA5W4zoNcMT1YVsEJVc3vtXzJTNa5fQIdGwNE6i
-	 YWwcoiD2ljEepK8x07Du3u7uQLPt8tJJsZfjL1ggOoyow7aK6CCeIAB7a8llSWPHyn
-	 GfOs4j/drOpQQ==
-Date: Thu, 22 Aug 2024 16:56:37 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Esteban Blanc <eblanc@baylibre.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Nuno Sa <nuno.sa@analog.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	David Lechner <dlechner@baylibre.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/6] dt-bindings: iio: adc: add ADI ad4030, ad4630 and
- ad4632
-Message-ID: <20240822-elixir-distort-a4b841f3bfa3@spud>
-References: <20240822-eblanc-ad4630_v1-v1-0-5c68f3327fdd@baylibre.com>
- <20240822-eblanc-ad4630_v1-v1-1-5c68f3327fdd@baylibre.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=F5e2AsFFZQJTuID5ka9rGZrp7RiQO8LfhXnbZ3Bo6xmclRchzH0THPvqxNSImvWAs9At1v+UlPtDCjF8od0qi2seVRAkqJtYbKLqAfke5aYyo/HgoRTZ/pLIE4W6x6s4JfxHqE1iHpzYkQphgiMajeE5PGEg8JvEEJ2CBI+v6og=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A751C4AF0C;
+	Thu, 22 Aug 2024 16:12:33 +0000 (UTC)
+Date: Thu, 22 Aug 2024 17:12:30 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Shuah Khan <shuah@kernel.org>,
+	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Florian Weimer <fweimer@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
+	Ross Burton <ross.burton@arm.com>,
+	Yury Khrustalev <yury.khrustalev@arm.com>,
+	Wilco Dijkstra <wilco.dijkstra@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v11 19/39] arm64/mm: Handle GCS data aborts
+Message-ID: <ZsdjbsDrMWgBU9Hj@arm.com>
+References: <20240822-arm64-gcs-v11-0-41b81947ecb5@kernel.org>
+ <20240822-arm64-gcs-v11-19-41b81947ecb5@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="QqCA6/O2HNzlTRLS"
-Content-Disposition: inline
-In-Reply-To: <20240822-eblanc-ad4630_v1-v1-1-5c68f3327fdd@baylibre.com>
-
-
---QqCA6/O2HNzlTRLS
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240822-arm64-gcs-v11-19-41b81947ecb5@kernel.org>
 
-On Thu, Aug 22, 2024 at 02:45:17PM +0200, Esteban Blanc wrote:
-> This adds a binding specification for the Analog Devices Inc. AD4030,
-> AD4630 and AD4632 families of ADCs.
->=20
-> - ad4030-24 is a 1 channel SAR ADC with 24 bits of precision and a
->   sampling rate of 2M samples per second
-> - ad4630-16 is a 2 channels SAR ADC with 16 bits of precision and a
->   sampling rate of 2M samples per second
-> - ad4630-24 is a 2 channels SAR ADC with 24 bits of precision and a
->   sampling rate of 2M samples per second
-> - ad4632-16 is a 2 channels SAR ADC with 16 bits of precision and a
->   sampling rate of 500K samples per second
-> - ad4632-24 is a 2 channels SAR ADC with 24 bits of precision and a
->   sampling rate of 500K samples per second
->=20
-> Signed-off-by: Esteban Blanc <eblanc@baylibre.com>
-> ---
->  .../devicetree/bindings/iio/adc/adi,ad4030.yaml    | 113 +++++++++++++++=
-++++++
->  MAINTAINERS                                        |   8 ++
->  2 files changed, 121 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad4030.yaml b/=
-Documentation/devicetree/bindings/iio/adc/adi,ad4030.yaml
-> new file mode 100644
-> index 000000000000..7957c0c0ac7a
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad4030.yaml
-> @@ -0,0 +1,113 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright 2024 Analog Devices Inc.
-> +# Copyright 2024 BayLibre, SAS.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/iio/adc/adi,ad4030.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+On Thu, Aug 22, 2024 at 02:15:22AM +0100, Mark Brown wrote:
+> diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
+> index 451ba7cbd5ad..3ada31c2ac12 100644
+> --- a/arch/arm64/mm/fault.c
+> +++ b/arch/arm64/mm/fault.c
+> @@ -486,6 +486,14 @@ static void do_bad_area(unsigned long far, unsigned long esr,
+>  	}
+>  }
+>  
+> +static bool is_gcs_fault(unsigned long esr)
+> +{
+> +	if (!esr_is_data_abort(esr))
+> +		return false;
 > +
-> +title: Analog Devices AD4030 and AD4630 ADC family device driver
+> +	return ESR_ELx_ISS2(esr) & ESR_ELx_GCS;
+> +}
 > +
-> +maintainers:
-> +  - Nuno Sa <nuno.sa@analog.com>
-> +  - Michael Hennerich <michael.hennerich@analog.com>
+>  static bool is_el0_instruction_abort(unsigned long esr)
+>  {
+>  	return ESR_ELx_EC(esr) == ESR_ELx_EC_IABT_LOW;
+> @@ -500,6 +508,23 @@ static bool is_write_abort(unsigned long esr)
+>  	return (esr & ESR_ELx_WNR) && !(esr & ESR_ELx_CM);
+>  }
+>  
+> +static bool is_invalid_gcs_access(struct vm_area_struct *vma, u64 esr)
+> +{
+> +	if (!system_supports_gcs())
+> +		return false;
+> +
+> +	if (unlikely(is_gcs_fault(esr))) {
+> +		/* GCS accesses must be performed on a GCS page */
+> +		if (!(vma->vm_flags & VM_SHADOW_STACK))
+> +			return true;
 
-This doesn't match the MAINTAINERS file entry below FYI.
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+This first check covers the GCSPOPM/RET etc. permission faults on
+non-GCS vmas. It looks correct.
 
-Thanks,
-Conor.
+> +	} else if (unlikely(vma->vm_flags & VM_SHADOW_STACK)) {
+> +		/* Only GCS operations can write to a GCS page */
+> +		return is_write_abort(esr);
+> +	}
 
---QqCA6/O2HNzlTRLS
-Content-Type: application/pgp-signature; name="signature.asc"
+I don't think that's right. The ESR on this path may not even indicate a
+data abort and ESR.WnR bit check wouldn't make sense.
 
------BEGIN PGP SIGNATURE-----
+I presume we want to avoid an infinite loop on a (writeable) GCS page
+when the user does a normal STR but the CPU raises a permission fault. I
+think this function needs to just return false if !esr_is_data_abort().
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZsdftQAKCRB4tDGHoIJi
-0hJcAP9piPcb/kfHDWMWWLNLWnaNiTv0Wm2hR/LoUpOlyi0aqAD/ZC4fW7ZGSfAx
-ZV8CecaSsRwy4+oC0PmlH56jyFhyMgA=
-=bPdu
------END PGP SIGNATURE-----
+> +
+> +	return false;
+> +}
+> +
+>  static int __kprobes do_page_fault(unsigned long far, unsigned long esr,
+>  				   struct pt_regs *regs)
+>  {
+> @@ -535,6 +560,14 @@ static int __kprobes do_page_fault(unsigned long far, unsigned long esr,
+>  		/* It was exec fault */
+>  		vm_flags = VM_EXEC;
+>  		mm_flags |= FAULT_FLAG_INSTRUCTION;
+> +	} else if (is_gcs_fault(esr)) {
+> +		/*
+> +		 * The GCS permission on a page implies both read and
+> +		 * write so always handle any GCS fault as a write fault,
+> +		 * we need to trigger CoW even for GCS reads.
+> +		 */
+> +		vm_flags = VM_WRITE;
+> +		mm_flags |= FAULT_FLAG_WRITE;
+>  	} else if (is_write_abort(esr)) {
+>  		/* It was write fault */
+>  		vm_flags = VM_WRITE;
+> @@ -568,6 +601,13 @@ static int __kprobes do_page_fault(unsigned long far, unsigned long esr,
+>  	if (!vma)
+>  		goto lock_mmap;
+>  
+> +	if (is_invalid_gcs_access(vma, esr)) {
+> +		vma_end_read(vma);
+> +		fault = 0;
+> +		si_code = SEGV_ACCERR;
+> +		goto bad_area;
+> +	}
 
---QqCA6/O2HNzlTRLS--
+Here there's a risk that the above function returns true for some
+unrelated fault that happens to have bit 6 in ESR set.
+
+-- 
+Catalin
