@@ -1,198 +1,268 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1CF21C93D3;
-	Thu, 22 Aug 2024 11:53:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A43E1C9EA5
+	for <linux-doc@vger.kernel.org>; Thu, 22 Aug 2024 12:45:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724327609; cv=none; b=jECcpnszSuHxfmZi3SVnmeWZxGkV5oP0Do4a/cFA9keXcThI6e2HQuG6kOnuB/jY5uP83rZDJyjWyq09beEZnxN4hKzCj7VgmD1CQojLPGNwL9FE24Ay59DhxmGHoGDYyWTv40GW3cAwZOUG/hdD+EDoe3SWU/PNCcHgSIurfPc=
+	t=1724330751; cv=none; b=nY6/elbHdLJCDOsOg7ZNv/ecLJh+FKRDrfYsNPvMrFDw05YYQ9PjH8iqqQKyoYWjK7pvCe2Y5uiHjc0Z1eaiFMxfD+i7YIW0GCI8alinOTieyqv0s0HlREetbqtUwsGBB7v9uXF31j8OTR3EaPDGKol8haN+mOvB6zYmHu1b6gQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724327609; c=relaxed/simple;
-	bh=kq7HkHLVZBMwOV2O6R4WSTN1EqJabyZVI07suXmSc/g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dka6asmMN3Oeb33OQUbMdbib0C9Ix7h8tUm6emWvdRjRYf980JpHOeOxJWGJyfydSb02S0hybas+dE4OcFu0hvjDa3zM5TLsMY1ia+KQzDAW4/meS4/CbWEAYzZ0JCm0JplNejVuPgZ6XStqswNqxo8Rr1/jmb19ItgqM1Y/qUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ul3rSUPR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724330751; c=relaxed/simple;
+	bh=fyqXqsZjJrEeXJfQiseBAtwVBgxOvF2ECKQScWgEPdw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=frXWhdNM1PrQRME90qCKl4MMrf/3qwfPu7uRbwU2no97zlX+40vSA2VCUgQKqQJYILQweWXqiXNj8dxkm2yh3melDcz32rj5V3cxENc2YZ2HBGmwnXN8F0A38sfzTmQK8cOieRsJK8Fbcx0WVTXTnhyv/KeqZq4h5KJgIoUfQuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=sezSUqo5; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ul3rSUPR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FAFEC4AF15;
-	Thu, 22 Aug 2024 11:53:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724327609;
-	bh=kq7HkHLVZBMwOV2O6R4WSTN1EqJabyZVI07suXmSc/g=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Ul3rSUPR4uSrgVCuvGaIreY6oyMJ/Iz4VzpHxjoReDMlSD+PLQVdRNPenprp0tyM+
-	 4PRW8E/bclapaO9ix2LZuUdzKztIKXAye54ae/WOl+V3WGll8vExjfsMY6ld9f5xiP
-	 RNs2MKiYVZfN0l3rTwjAy95XdwrKMJN1aj8bayH5ZkPMapxVlWPyXXpZv8f+5KBFoD
-	 uTIEcbM6S9Zu16mx6DTqR1xUhZjlzTpvAu2xdhoTvtSsABezKtyg2rPwi+zKX9Ci3N
-	 Qe3YxcB7ElTJkjnryLwRsO1yATHrhDrx1URUwiyCFJK4FZhM4tz8j58y4Zv0qrRbHX
-	 6So7WpOesArfQ==
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5bb85e90ad5so760970a12.3;
-        Thu, 22 Aug 2024 04:53:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUyPbMWPh08oni4HZRJCsMKTcFXU3O+cL4pgZDG2nSyCR7VlxKPvQs1HaVfiJXyRv97RbxGsRMxfv6/H/PX@vger.kernel.org, AJvYcCVuMkaLm91tKoV7FZoKQGFLVaFBZb/uo34bb3t6apbo/jOLJdgCQiPWVV2Wnzq6XeKdkrcOGebSCeo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRAh2DJE0gl4EUeBD+ktrLk8sTS7mOiKO4cW/auK+czTh1NJQJ
-	sbXXB/NyrHcL64rEgNVKpTf1osMlSd6kqOtSqAlU1sM0vq01Zyh5GdvbDBdiAhDktI/k+sqelPm
-	0nR5sNKvPcY3Dqls9zY4jWK60R+o=
-X-Google-Smtp-Source: AGHT+IGuBOo9QhUzweuJTGry2O7SAHfVgztCGpD9T8pktDrHaSIOc8XLNCru4hE14bswILF0Fq3qHz1KAL0u5zAQmJM=
-X-Received: by 2002:a05:6402:13ca:b0:5bb:9b09:8c7e with SMTP id
- 4fb4d7f45d1cf-5c07928f58amr1133235a12.26.1724327607686; Thu, 22 Aug 2024
- 04:53:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="sezSUqo5"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-427fc97a88cso5553665e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 22 Aug 2024 05:45:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1724330748; x=1724935548; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rBGPvhHLvlJuvRIFNEnpskRGdh1NE27Q73tLCnC4f40=;
+        b=sezSUqo5dUTHtUFXhoYWecCnSb+hJVoHVMUcxbwNnxoDHSZEtRVKr9p+g/06f/StWw
+         hP9upJfvd532zEgpQiXrWGXx9TvHDugQ0kZw8OTbh+8hb6wkSeG4eL1zlsXwkdMHa6yq
+         3ftrf+bUpEaA77b86v0+ZAFE9T6H/4zyNR6ngsdI7IqfVHQusTkim38xXRd4jcfQCZ5E
+         Q2LO9ri1D35rqmkMbAjuw6zkGeRFPhtqte526iYzJZaTg1DZyj7S2rN55z/OURdYrbmD
+         Gqkc3t4h13/sCYX49Ym1nmxUmSlQjOdrp9Y7I6C6i+NUWEl1+JseQUfwabJM6yNCXn3C
+         Nvcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724330748; x=1724935548;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rBGPvhHLvlJuvRIFNEnpskRGdh1NE27Q73tLCnC4f40=;
+        b=v831NW9J8RWlJM4B9890N5durotzofXw+Q0kh/a6RRgMD30rkQxZkxbz5DXn0lJFpH
+         qdgPbAw/48Zcchy/dPViGqkANQXuiUQtUrBfTZia0dg00R8AeZoOyD4MAJ7lpFzm7VD4
+         VoZCmMLRTQCsTRrD2tt/IVNFaZjAdeGTiArCS8Gp+XjzDh2nBtlR+5uDYAyo91zUFp4Q
+         zXwG5Mx4PQ8GsOBAgckjR3v1kRbwFWFFm2gIP/0hH7NEGTyLa6gxkh0ZdZlngmbzksT+
+         O4jtdF2ZZMLRF83nP/Y1J4tkHHe7itRirTmALSqdIMnt3Bi5iTmFuJ7523N18/Z10JOx
+         fAXA==
+X-Forwarded-Encrypted: i=1; AJvYcCXyW0vWDiDchgUFyDtGbX+Cu/0az5FBL3aucqiVhBanpDjHUj84eOarscpuMcsk5rTXvVgSsRctECs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbPVOWWE+gin1zRXSs1BxkMg9zccDjnXfLnhjj7Ry62kF1ubaS
+	SvUG7tcWm+aGST1vcmmKFVHWU/uWAw40g/+apyimJXtGbfcpMMrAtrDtnSg2Df8=
+X-Google-Smtp-Source: AGHT+IGLddsqdBqwYxq4wvo0WyS+Tg8NBcgZQmI1jPpH0BHxiDNsCxrgTGTIbmcMHWcZGs8SoH6vsg==
+X-Received: by 2002:a05:600c:b4c:b0:428:2433:1a07 with SMTP id 5b1f17b1804b1-42abd264786mr37820265e9.34.1724330747784;
+        Thu, 22 Aug 2024 05:45:47 -0700 (PDT)
+Received: from [127.0.0.1] ([2a01:e0a:448:76e0:8da6:6d6d:c8ed:16c5])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ac514e269sm24032195e9.2.2024.08.22.05.45.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Aug 2024 05:45:47 -0700 (PDT)
+From: Esteban Blanc <eblanc@baylibre.com>
+Date: Thu, 22 Aug 2024 14:45:17 +0200
+Subject: [PATCH 1/6] dt-bindings: iio: adc: add ADI ad4030, ad4630 and
+ ad4632
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240815112608.26925-1-zhangtianyang@loongson.cn>
- <20240815112608.26925-3-zhangtianyang@loongson.cn> <87msl7jgye.ffs@tglx>
- <CAAhV-H424SB_Ff6y4m4Cb7Cx9eWTLbK08Wycwa803y08qWVoOA@mail.gmail.com> <87cym2hrqz.ffs@tglx>
-In-Reply-To: <87cym2hrqz.ffs@tglx>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Thu, 22 Aug 2024 19:53:12 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H4umZBXAugRm45=dewiTGjpDSJf2wnjCtkakk+xG3VLHg@mail.gmail.com>
-Message-ID: <CAAhV-H4umZBXAugRm45=dewiTGjpDSJf2wnjCtkakk+xG3VLHg@mail.gmail.com>
-Subject: Re: [PATCH v10 2/2] irqchip/loongarch-avec: Add AVEC irqchip support
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: Tianyang Zhang <zhangtianyang@loongson.cn>, corbet@lwn.net, alexs@kernel.org, 
-	kernel@xen0n.name, jiaxun.yang@flygoat.com, gaoliang@loongson.cn, 
-	wangliupu@loongson.cn, lvjianmin@loongson.cn, yijun@loongson.cn, 
-	mhocko@suse.com, akpm@linux-foundation.org, dianders@chromium.org, 
-	maobibo@loongson.cn, xry111@xry111.site, zhaotianrui@loongson.cn, 
-	nathan@kernel.org, yangtiezhu@loongson.cn, zhoubinbin@loongson.cn, 
-	loongarch@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Huacai Chen <chenhuacai@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20240822-eblanc-ad4630_v1-v1-1-5c68f3327fdd@baylibre.com>
+References: <20240822-eblanc-ad4630_v1-v1-0-5c68f3327fdd@baylibre.com>
+In-Reply-To: <20240822-eblanc-ad4630_v1-v1-0-5c68f3327fdd@baylibre.com>
+To: Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Nuno Sa <nuno.sa@analog.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Michael Hennerich <michael.hennerich@analog.com>, 
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, David Lechner <dlechner@baylibre.com>, 
+ linux-doc@vger.kernel.org, Esteban Blanc <eblanc@baylibre.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openssh-sha256; t=1724330730; l=4807;
+ i=eblanc@baylibre.com; s=yubikey; h=from:subject:message-id;
+ bh=fyqXqsZjJrEeXJfQiseBAtwVBgxOvF2ECKQScWgEPdw=;
+ b=U1NIU0lHAAAAAQAAAhcAAAAHc3NoLXJzYQAAAAMBAAEAAAIBALJZcW6pLD4ksSdWnXd5r65Ze
+ 5Qc5pH7+DmmbKJasOXeVYRPFEmnORS7pwhURG11AMVFmnCVYWj+wPYrbCEeM7XKfO4oQzc66kYB
+ 7y0RrFwjoWKofytjI026zV5b2pn1JAItgu0Ijth+TSa6KVOTSXqqiVzOTDM1WL0hAIIzpkhE3Vt
+ AVJrFDsh/nWed9OpeSS+S6e3ZxyJtlnhqbVIemcDmjwMihtFgTKeJWlxP7KGY/RQKPF/Ef7pS+O
+ AckOrxuqGKvpOiNVCmuQEUQM0+r4uvwtja4zRSl+huqW+g1nLyReoZPzFwfJWREd+89dtTJTXN7
+ xmmFNdX6KzRKBLVw1RY/R3mhAd+MkrdiNaRNKj+LO1QIxPoW90cPG9WpdVDUZf1VxhdciB6Hlxn
+ lfEDFuCxU0n5H+kC4eiZvw+c9D4xX7iVdjPTMEaE6GBQNnMncdljBwA5NVN8WcaUhnAQnq7qhcz
+ 85L2Br7MPqe3q3J/PHIe0nHO56j7tTY6cFFs/ckqcQSTJigh2rA7InN1d7GqZFLzlewRTGaCY+M
+ 93d7DCIuxTxJWRpVm7NW1FBeX6d00+dAcQ/dS+jmA3kcdRoWtH160jmmYYvOgrsQTcMIQrPtK+B
+ rULRmmIvEIJMF5UfNmxruWmWn6MM/xeejTNszoKqrORpbr7q3BnkKt2y/KdAAAABnBhdGF0dAAA
+ AAAAAAAGc2hhNTEyAAACFAAAAAxyc2Etc2hhMi01MTIAAAIAj1q4EMIcf1j8mI9ZLN/B2YN8M0n
+ 7krasqxgoc5GlCcQDKWm3N4Flp8PDc9j0e5w6bNV0XPDkeSypx9SoLCQZOFZb6LUTDgPGpjSZtJ
+ YEc1uGWQk5b+nOwBtLw9HP3yryUY9DqD2aC9jvU9fl/T2wRBW9E6D+9on0JD0MBtx+KaaeMBhE/
+ 5U0UuzKrbHsXiXx4EffqorAeDmu8ZB0Q8/CPTCk8+xDKXkSpHXTgv+1fG+8M1O8b58Qc/P19U0l
+ Lv6j2JEd6l52SIoFO2UNZW9eWZ10pTKfdckx1KGCbKm2vPUX2FhWunBphKn4zDYDO5hZRedBIuu
+ bxf84MGZWf+rulgNBbbhWdGW6YvOCCpfj5glnTpT+alb1jTmwESlkD0/R++U4rfE+8jWJ4xT8SL
+ LHafmaYUI60z1MJOJAQmuT811M5tiHFvCRvB1hgSnpRv+c+Yvhg5WSDta+gLDdU3Ahazen2RouP
+ gGhHYPrRPHoEyqQYfHn5MWBbPVVGFEhBCyjE+MO5aZn21zbZfkuNVwfOdHNbLbBJJXH6OovedCl
+ cbboaFyh4TQhNdS7EjYk5Qja/M6EBxMnrwg4bE4qKmbLq5S6uqB7k6M0zz9pQjXw9fnPxwdDsa5
+ KgADJ2K+hVrCBjh54bUEtuvYEuBtmvEFjh8WGmrpNJbyNNMvKtwEP3mI=
+X-Developer-Key: i=eblanc@baylibre.com; a=openssh;
+ fpr=SHA256:LOxhPHcL6HLuSaOVHuI2Yq7hvD2blbngN1ohWi2rJOw
 
-On Wed, Aug 21, 2024 at 10:31=E2=80=AFPM Thomas Gleixner <tglx@linutronix.d=
-e> wrote:
->
-> On Wed, Aug 21 2024 at 21:14, Huacai Chen wrote:
-> > On Wed, Aug 21, 2024 at 12:29=E2=80=AFAM Thomas Gleixner <tglx@linutron=
-ix.de> wrote:
-> >> This patch is doing too many things at once and is absolutely not
-> >> reviewable.
-> >>
-> >> Please split it up into the obvious bits and pieces:
-> > Splitting may cause another problem: some patches will get upstream
-> > via the arch tree and others via the irq tree. These dependencies may
-> > cause build errors in a certain tree. But anyway, we will try our best
-> > to do this.
->
-> That's not a problem at all. The trivial way to solve this is to apply
-> the architecture changes to the loongarch tree in a separate branch
-> which is based of some -rcX tag and only contains those dependencies.
-> That branch is then merged into the main loongarch branch and I can pull
-> it in to my tree for adding the irqchip changes. No conflicts, no merge
-> dependencies, nothing.
-Emm, another way is apply all patches to the irq tree with my Acked-by.
+This adds a binding specification for the Analog Devices Inc. AD4030,
+AD4630 and AD4632 families of ADCs.
 
+- ad4030-24 is a 1 channel SAR ADC with 24 bits of precision and a
+  sampling rate of 2M samples per second
+- ad4630-16 is a 2 channels SAR ADC with 16 bits of precision and a
+  sampling rate of 2M samples per second
+- ad4630-24 is a 2 channels SAR ADC with 24 bits of precision and a
+  sampling rate of 2M samples per second
+- ad4632-16 is a 2 channels SAR ADC with 16 bits of precision and a
+  sampling rate of 500K samples per second
+- ad4632-24 is a 2 channels SAR ADC with 24 bits of precision and a
+  sampling rate of 500K samples per second
 
->
-> >>       #ifdef CONFIG_IRQ_LOONGARCH_AVEC
-> >>       # define SMP_CLEAR_VECTOR         BIT(ACTION_CLEAR_VECTOR)
-> >>       #else
-> >>       # define SMP_CLEAR_VECTOR         (0)
-> >>       #endif
-> >>
-> >>       That way the compiler will optimize out stuff like the
-> >>       SMP_CLEAR_VECTOR handling and you only need the prototype of
-> >>       complete_irq_moving(), but no implementation.
-> > These macros are not in hot-path, and we have already tried our best
-> > to avoid using #ifdefs for cpu_has_xxx, so I suggest not introduce a
-> > new Kconfig option. Moreover, the new option should always be selected
-> > due to the deep coupling among loongson's irqchips, which makes the
-> > #ifdefs useless.
->
-> They are removed in step 8 again. It's for having a sanely split up and
-> structured patch series instead of one big lump.
-I see, but I'm trying another splitting way to avoid
-adding-and-then-removing, of course it should also make reviews easy.
+Signed-off-by: Esteban Blanc <eblanc@baylibre.com>
+---
+ .../devicetree/bindings/iio/adc/adi,ad4030.yaml    | 113 +++++++++++++++++++++
+ MAINTAINERS                                        |   8 ++
+ 2 files changed, 121 insertions(+)
 
->
-> >> > +static void clear_free_vector(struct irq_data *irqd)
-> >> > +{
-> >> > +     struct avecintc_data *adata =3D irq_data_get_irq_chip_data(irq=
-d);
-> >> > +     bool managed =3D irqd_affinity_is_managed(irqd);
-> >>
-> >> Don't even try. Your managed support is broken at the allocation side
-> >> and at several other places.
-> > I'm a bit confused here, irq_create_affinity_masks() marks some
-> > interrupts "managed". So if we completely ignore "managed" here, then
-> > can irq_create_affinity_masks() still work? Or the two has nothing to
-> > do with each other?
->
-> Managed interrupts have the property that the core and irqchip code
-> guarantees the interrupts to be affinable to the CPU masks which are
-> handed in to the allocator for them.
->
-> So the requirement for architectures which have a limited number of
-> vectors per CPU (x86, loongarch) is that you have to reserve the managed
-> vectors right at allocation time.
->
-> x86_vector_alloc_irqs()
->     assign_irq_vector_policy()
->         if (managed)
->             reserve_managed_vector()
->                irq_matrix_reserve_managed(mask)
->
-> irq_matrix_reserve_managed() then reserves a vector on all CPUs which
-> are in the affinity mask.
->
-> On activation:
->
-> x86_vector_activate()
->    if (managed)
->       activate_managed()
->         assign_managed_vector(mask)
->            irq_matrix_alloc_managed(mask)
->
-> irq_matrix_alloc_managed() then picks an unassigned vector out of the
-> managed vector space. Similar mechanism when the affinity is set.
->
-> Why is this important for x86 (and loongarch)?
->
-> Because both have a limited vector space of 256 vectors per CPU, where
-> some of the vectors might be reserved for exceptions and OS purposes or
-> the legacy space.
->
-> The managed mechanism guarantees at allocation time that the interrupt
-> will have a reserved vector on all CPUs in the mask. That ensures that
-> on CPU hotplug the interrupt can be migrated over to a still online CPU
-> in the mask. If the last CPU goes offline the interrupt is shut down.
->
-> You might not yet have run into the situation of vector exhaustion, but
-> once your number of CPUs gets big enough that is guaranteed to happen.
->
-> That's why x86 also uses the concept of reserved (not guaranteed)
-> regular vectors for non-managed interrupts. x86 uses the spurious vector
-> for that. That's important because there are enough device drivers out
-> there which allocate a gazillion of interrupts at probe time, but only
-> request a few of them.
->
-> If you allocate all vectors for them right upfront, then you exhaust
-> your vector space quickly for no reason. Only when the interrupt is
-> requested then a usable vector is allocated - or the allocation fails
-> and request_irq() fails. That's better than exhausting the vector space
-> for nothing.
->
-> The complexity of the x86 allocation/activate/set_affinity mechanisms
-> is there for a reason and not just because we did not have anything
-> better to do. :)
-Frankly, I haven't absorbed everything here, but I think I can try to
-answer my question "can irq_create_affinity_masks() still work".
+diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad4030.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad4030.yaml
+new file mode 100644
+index 000000000000..7957c0c0ac7a
+--- /dev/null
++++ b/Documentation/devicetree/bindings/iio/adc/adi,ad4030.yaml
+@@ -0,0 +1,113 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright 2024 Analog Devices Inc.
++# Copyright 2024 BayLibre, SAS.
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/iio/adc/adi,ad4030.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Analog Devices AD4030 and AD4630 ADC family device driver
++
++maintainers:
++  - Nuno Sa <nuno.sa@analog.com>
++  - Michael Hennerich <michael.hennerich@analog.com>
++
++description: |
++  Analog Devices AD4030 single channel and AD4630 dual channel precision SAR ADC
++  family
++
++  * https://www.analog.com/media/en/technical-documentation/data-sheets/ad4030-24-4032-24.pdf
++  * https://www.analog.com/media/en/technical-documentation/data-sheets/ad4630-24_ad4632-24.pdf
++  * https://www.analog.com/media/en/technical-documentation/data-sheets/ad4630-16-4632-16.pdf
++
++properties:
++
++  compatible:
++    enum:
++      - adi,ad4030-24
++      - adi,ad4630-16
++      - adi,ad4630-24
++      - adi,ad4632-16
++      - adi,ad4632-24
++
++  reg:
++    maxItems: 1
++
++  spi-max-frequency:
++    maximum: 100000000
++
++  spi-rx-bus-width:
++    enum: [1, 2, 4]
++
++  vdd-5v-supply: true
++  vdd-1v8-supply: true
++  vio-supply: true
++
++  ref-supply:
++    description:
++      Optional External unbuffered reference. Used when refin-supply is not
++      connected.
++
++  refin-supply:
++    description:
++      Internal buffered Reference. Used when ref-supply is not connected.
++
++  cnv-gpio:
++    description:
++      The Convert Input (CNV). It initiates the sampling conversions.
++    maxItems: 1
++
++  reset-gpio:
++    description:
++      Reset Input (Active Low). Used for asynchronous device reset.
++    maxItems: 1
++
++  interrupts:
++    description:
++      The BUSY pin is used to signal that the conversions results are available
++      to be transferred when in SPI Clocking Mode. This nodes should be connected
++      to an interrupt that is triggered when the BUSY line goes low.
++    maxItems: 1
++
++  interrupt-names:
++    const: busy
++
++required:
++  - compatible
++  - reg
++  - vdd-5v-supply
++  - vdd-1v8-supply
++  - vio-supply
++  - cnv-gpio
++
++oneOf:
++  - required:
++      - ref-supply
++  - required:
++      - refin-supply
++
++allOf:
++  - $ref: /schemas/spi/spi-peripheral-props.yaml#
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        adc@0 {
++            compatible = "adi,ad4030-24";
++            reg = <0>;
++            spi-max-frequency = <80000000>;
++            vdd-5v-supply = <&supply_5V>;
++            vdd-1v8-supply = <&supply_1_8V>;
++            vio-supply = <&supply_1_8V>;
++            ref-supply = <&supply_5V>;
++            cnv-gpio = <&gpio0 0 GPIO_ACTIVE_HIGH>;
++        };
++    };
++
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 417c6751c0dc..f17c42bea19c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -413,6 +413,14 @@ S:	Maintained
+ W:	https://parisc.wiki.kernel.org/index.php/AD1889
+ F:	sound/pci/ad1889.*
+ 
++AD4030 ADC DRIVER (AD4030-24/AD4630-16/AD4630-24/AD4632-16/AD4632-24)
++M:	Michael Hennerich <michael.hennerich@analog.com>
++M:	Nuno Sá <nuno.sa@analog.com>
++R:	Esteban Blanc <eblanc@baylibre.com>
++S:	Supported
++W:	https://ez.analog.com/linux-software-drivers
++F:	Documentation/devicetree/bindings/iio/adc/adi,ad4030.yaml
++
+ AD5110 ANALOG DEVICES DIGITAL POTENTIOMETERS DRIVER
+ M:	Mugilraj Dhavachelvan <dmugil2000@gmail.com>
+ L:	linux-iio@vger.kernel.org
 
-irq_create_affinity_masks() can still mark interrupts "managed" if
-avecintc driver doesn't support "managed", but it cannot guarantee
-that set_affinity can always succeed. If the destination cpu has a
-free vector, then set_affinity succeeds, otherwise it will fail. But
-if avecintc driver supports "managed", set_affinity can always
-succeed, because the destination cpu has already reserved a vector for
-this. Am I right?
+-- 
+2.44.1
 
-Huacai
-
->
-> Thanks,
->
->         tglx
