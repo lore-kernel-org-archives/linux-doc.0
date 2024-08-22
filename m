@@ -1,691 +1,420 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E25251D048E;
-	Thu, 22 Aug 2024 18:35:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2161C13A3E6;
+	Thu, 22 Aug 2024 18:50:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724351733; cv=none; b=PD3yyKAtjjRwXzN6PLoiGCcWgV1Q3olrmwIR7eCq0wxzCTKLbXEwWcxY6jTb5Zqjr8P1y0O7/JWtoKI+h5vGFH3ItLp1bT6Jh1jfXHAN7HOKMcGvjYyvrTUz+IZAB1AIq0tBiXpNEUOC2X56Ksn6rta7WbS2Q8u3/dUIOgwieFo=
+	t=1724352651; cv=none; b=s6FqLWerSQpe5HtLtZz3I1gpWkbkxS99tuCHOfO9jz1FCpPXhrBmp/x22IkyYuAOAACxuipHnE7MHB+lTyQYc4vsetsSbulsB5XzE8tnHV+u9pSSwFUqdRmfPSx6F8Ispw1pXwPI8EkKYJVkzy3lVu1ZyAVj5KZ352T3SzFGu6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724351733; c=relaxed/simple;
-	bh=slGPJ20OWadS8KCTZ6hGB3KKaoeEB/lcAd3nHYPee8A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aHiTlH6WO9COSf+lLxL2BXKiOLSRMXqvrF4hMFX6kkvQkiK9gI/JSK48DUJ6qasR7vHim41H4C2VbeWNwuY32GrXS4vEfbvoxrFLqNfou+j1ycy6RwuhnvGseFf3YVIi+2cP9BwYQNBjPLuTTTwPP8FXbGsgL+Hs0lAIzZ19w1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L2l+WZMJ; arc=none smtp.client-ip=209.85.210.181
+	s=arc-20240116; t=1724352651; c=relaxed/simple;
+	bh=6Cm0bTloBm4V74x8cd769lfZ7ZMvXDhKYlxWwlXYBJ8=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ev78Z83//M6xzMqY/6H+hPq/JHEIyrWEFj0JGrn2UqX1GVjNXibaF1qA7Z2WXZ2BYiGC/9jgsj5vpd3EJetQXmOctmEzROUrYReYxdfVh2kTL7L5NTYuGavgcvHFa7YBJrs38YLUHkzYk9MllZobEcIhFvNgH86Iy1MeTl6ULDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XGrqLxTe; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L2l+WZMJ"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-714226888dfso1073577b3a.1;
-        Thu, 22 Aug 2024 11:35:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XGrqLxTe"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-71439adca73so810891b3a.0;
+        Thu, 22 Aug 2024 11:50:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724351731; x=1724956531; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=87GO7fdtzJKv+bl80IBW5M0mQvVzTAX004RskD1OfS4=;
-        b=L2l+WZMJUXcKVTRF4D/ARwSTfwTWmn6DXSXEUux8SbD8KcGHtkack6iQi2lMw1o8kA
-         IEaDRMycnBR+x0WApgAfcEEquNQ1+At+poIzMtELA7KyK8P63+hSjT2TgU8xZlcQj7Di
-         CETVO4uThA/mCPg5nodaXgi7sOeHgVRW2TcDgdOpbM9dZ3MoVjkyGcZj8W9Xhk0idOUb
-         D2znH5hf5Q5t9flxsIaEQcxpNwqWagedRbuLUVzfFI+K6v4FTlOHI/cb4rEa8aL8HNi7
-         am5ji56Qxt77tn5umRAMSJwL62utgj+QYQjmNy6m5PTfFZoQkzu2KMM/r++ZNZmTZ8OK
-         6CCw==
+        d=gmail.com; s=20230601; t=1724352648; x=1724957448; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/giHwW8p/shdeeJgEhyqh9JwUPhW+QzITYF/aA9L2FI=;
+        b=XGrqLxTeoTp+nNkeCTBCZ8J4mc1wAzsw8YIcWVzXXUCJDO2k8lA62ZbtAqxFQU2noe
+         rS9oSXvGBJH4MrYPC/JWoDaHtGTUoeirczykKbjkrfcBDg30dHTagWAil0LIrPCwjSJT
+         lOVgLIJgaFewpgcvLSJB69VYXCinyYfseSf/Qn63fZX/AFAOCTrrc7XHbsy2zMDI4qu+
+         k2SAEf9+vhSf7l0o6S6nj5cAHEloKjvV5V8mX5b5LUT2oBA4YFEMznCRmXOES4ZawUos
+         fKeLHFLWl58TCwhfBfr7fjVNgFvdFYwrTpa2YtjOKr/kapJn2fqsWy1pSgNQRObmItPM
+         yEqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724351731; x=1724956531;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=87GO7fdtzJKv+bl80IBW5M0mQvVzTAX004RskD1OfS4=;
-        b=FQhrxRUsrVRJ8FjFiCfIuCJKE+Dx6Mj0fx0l3C9Qa9ZY2zmrJj5n9HT4WZPNKe8qZG
-         wyL/k+cqrnbAb+r2bnSGZCBL+BQMmjuGavkemS723OMQj6PWgy3f++vD4vf4QxXDjxWJ
-         WFAwqMVVnolBaE/HYET8jJWgYhG+Gn2HaHKBET0MF4MFgYNtJxgPBd4G9qnhTyME9dFC
-         3KavOxv63jpTmnTlI4+Y6SCF/HRZ06694RcNgodCnLcqwk/LXFxoCNwnQ17MXmFLupHa
-         AqxVI6blEA6Gq4YrbxhoBxZ4IY7+mYnJvZfFoaXJmXshUE7A23HwqHR6qkR8FokPnF/Q
-         m+rw==
-X-Forwarded-Encrypted: i=1; AJvYcCUuZIqLw9ttz0RCNS++wJejKuJcMcvEyn5Rj5BwxhzFcS6Z520KQ+n+ji+DdULVMKFoeaOW/XsahYvk1/Q=@vger.kernel.org, AJvYcCViXuFD7gO/Y0TgxNG5NZHdmjYkK4GG6IKSmqAv8fsER7ddKgeer7r0z3/CuwX6chqT4AIDqO3pzNQRo1n+@vger.kernel.org, AJvYcCVvbJAQIvsXTH+IfcpdqOkseoVqKBlNsUhMFWRofRHRqBGtVwRDjW5LNfKFJA59K1Oy+VRidXpxdMI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwaH0yQjtcoafE4ZStF96ey5tgvju3HPmP8MOBuDg1oqY9Mdr6v
-	Tp6kJPYGpdncakL06U1YU9RzL0SbmdAjXYPkhZOoXfGqtOd5fID3WN6Ye0If
-X-Google-Smtp-Source: AGHT+IHUb8d4iAM4J5VBnRzKr/VSmDPSS1wUrqIJjhLM1+ntCyIF/IvM09bm5fTMhKJNUayNABL/qA==
-X-Received: by 2002:a05:6a21:e85:b0:1c4:9f31:ac8f with SMTP id adf61e73a8af0-1cad81447c0mr6499411637.37.1724351730970;
-        Thu, 22 Aug 2024 11:35:30 -0700 (PDT)
-Received: from localhost.localdomain (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7cd9acdd0e3sm1691598a12.45.2024.08.22.11.35.29
+        d=1e100.net; s=20230601; t=1724352648; x=1724957448;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/giHwW8p/shdeeJgEhyqh9JwUPhW+QzITYF/aA9L2FI=;
+        b=IKgVFVaHgFpIf9oHyvllU2zia5w7tHnMx2LJE6l8PuiWGHbsQ4EkLGuppJcivnyT0L
+         VCpA8wov0NCeVpeRM+8+IQ29hPhm61MzgUZH+bPdAEi2pDQqYJaM/kXqxszq2JXqwO7W
+         X0ClLO+luTetguHAu0/Lb0kJ8XBZzn867EP4uH/+DapsrW4JbPrO+A3zdtPEvd4wkBYi
+         GCEPwhPqs3dwGEa/iaV6EYCsKxZj5BcBqwlIVkX+OVoNQdKSu5hiE3A9b+GmR0vowj4J
+         HvK5+pfCpQS2GBZlZdbi/fTK8CDl1Br85wzEjbPd98gOHmFJamLQVJ2RJTVwJkBPdA5j
+         y6UQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWbuq8W6Jgk38r8Zrmblu7erxYjzEDFIPlaTy28aQc4fvoMPLFbB6bERCG9a3Dxkrh0o8ER6VzGuYOt@vger.kernel.org, AJvYcCWvK98AussgEqQkpDcreN2Cx9lH5BUB+vizsbKXZtLZFpuGccnBjal99YMwkm0ETJ59YZL6XLxe4W4Brg==@vger.kernel.org, AJvYcCX+N42xqgwU9SrQvxAUvm1lAbm2sgAeD1JLcUpITYhtPhraCmLHIRF45aAsqseRFqMsxs3d6YX4AHcYZSRD@vger.kernel.org, AJvYcCXiqVmec1kX5RAdfzh1+fJE5kIE8X9qk9/89yVyWQz4UW4Brs2o2lVxq2HSwJtROkIqhfASBUSfVUXg@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/K0HYs3ciXXtvvccSiZdhOltGZXq0R3+Vul1KSuv8+7pQ5BYg
+	4Nov6jiqPizP6TCay+9mXK10qoev8UQdJS8GiJYYZPmNdqP+MzA6ZuOyjA==
+X-Google-Smtp-Source: AGHT+IGXbAgwOb//fb3sbe4twRBz+rgQ7/83yrF0Sp+dy7qo5f+zo0FMA7uKjgN8XJQZMA1MZ2oyaQ==
+X-Received: by 2002:a05:6a20:9d91:b0:1c4:f209:f1ea with SMTP id adf61e73a8af0-1cad80f657emr8066482637.31.1724352648099;
+        Thu, 22 Aug 2024 11:50:48 -0700 (PDT)
+Received: from fan ([2601:646:8f03:9fee:3cd4:f45f:79d:1096])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71434230d1dsm1708507b3a.37.2024.08.22.11.50.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Aug 2024 11:35:30 -0700 (PDT)
-From: "Derek J. Clark" <derekjohn.clark@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Jean Delvare <jdelvare@suse.com>,
+        Thu, 22 Aug 2024 11:50:47 -0700 (PDT)
+From: Fan Ni <nifan.cxl@gmail.com>
+X-Google-Original-From: Fan Ni <fan.ni@samsung.com>
+Date: Thu, 22 Aug 2024 11:50:31 -0700
+To: ira.weiny@intel.com
+Cc: Dave Jiang <dave.jiang@intel.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Navneet Singh <navneet.singh@intel.com>, Chris Mason <clm@fb.com>,
+	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	=?UTF-8?q?Joaqu=C3=ADn=20Ignacio=20Aramend=C3=ADa?= <samsagax@gmail.com>,
-	Kevin Greenberg <kdgreenberg234@protonmail.com>,
-	Joshua Tam <csinaction@pm.me>,
-	Parth Menon <parthasarathymenon@gmail.com>,
-	=?UTF-8?q?Philip=20M=C3=BCller?= <philm@manjaro.org>,
-	"Derek J . Clark" <derekjohn.clark@gmail.com>,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH v2 1/1] Add support for multiple new devices.
-Date: Thu, 22 Aug 2024 11:35:25 -0700
-Message-ID: <20240822183525.27289-2-derekjohn.clark@gmail.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240822183525.27289-1-derekjohn.clark@gmail.com>
-References: <20240822183525.27289-1-derekjohn.clark@gmail.com>
+	Andrew Morton <akpm@linux-foundation.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	linux-btrfs@vger.kernel.org, linux-cxl@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	nvdimm@lists.linux.dev
+Subject: Re: [PATCH v3 13/25] cxl/region: Add sparse DAX region support
+Message-ID: <ZseId5TkH5F76xM0@fan>
+References: <20240816-dcd-type2-upstream-v3-0-7c9b96cba6d7@intel.com>
+ <20240816-dcd-type2-upstream-v3-13-7c9b96cba6d7@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240816-dcd-type2-upstream-v3-13-7c9b96cba6d7@intel.com>
 
-Add support for the OrangePi NEO-01. It uses different registers for PWM
-manual mode, set PWM, and read fan speed than previous devices. Valid PWM
-input and duty cycle is 1-244, we scale this from 1-255 to maintain
-compatibility with the existing interface.
+On Fri, Aug 16, 2024 at 09:44:21AM -0500, ira.weiny@intel.com wrote:
+> From: Navneet Singh <navneet.singh@intel.com>
+> 
+> Dynamic Capacity CXL regions must allow memory to be added or removed
+> dynamically.  In addition to the quantity of memory available the
+> location of the memory within a DC partition is dynamic based on the
+> extents offered by a device.  CXL DAX regions must accommodate the
+> sparseness of this memory in the management of DAX regions and devices.
+> 
+> Introduce the concept of a sparse DAX region.  Add a create_dc_region()
+> sysfs entry to create such regions.  Special case DC capable regions to
+> create a 0 sized seed DAX device to maintain compatibility which
+> requires a default DAX device to hold a region reference.
+> 
+> Indicate 0 byte available capacity until such time that capacity is
+> added.
+> 
+> Sparse regions complicate the range mapping of dax devices.  There is no
+> known use case for range mapping on sparse regions.  Avoid the
+> complication by preventing range mapping of dax devices on sparse
+> regions.
+> 
+> Interleaving is deferred for now.  Add checks.
+> 
+> Signed-off-by: Navneet Singh <navneet.singh@intel.com>
+> Co-developed-by: Ira Weiny <ira.weiny@intel.com>
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> 
+> ---
+> Changes:
+> [Fan: use single function for dc region store]
+> [djiang: avoid setting dev_size twice]
+> [djbw: Check DCD support and interleave restriction on region creation]
+> [iweiny: squash patch : dax/region: Prevent range mapping allocation on sparse regions]
+> [iwieny: remove reviews]
+> [iweiny: rebase to master]
+> [iweiny: push sysfs version to 6.12]
+> [iweiny: make cxled_to_mds inline]
+> ---
+>  Documentation/ABI/testing/sysfs-bus-cxl | 22 ++++++++--------
+>  drivers/cxl/core/core.h                 | 12 +++++++++
+>  drivers/cxl/core/port.c                 |  1 +
+>  drivers/cxl/core/region.c               | 46 +++++++++++++++++++++++++++++++--
+>  drivers/dax/bus.c                       | 10 +++++++
+>  drivers/dax/bus.h                       |  1 +
+>  drivers/dax/cxl.c                       | 16 ++++++++++--
+>  7 files changed, 93 insertions(+), 15 deletions(-)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-bus-cxl b/Documentation/ABI/testing/sysfs-bus-cxl
+> index 6227ae0ab3fc..3a5ee88e551b 100644
+> --- a/Documentation/ABI/testing/sysfs-bus-cxl
+> +++ b/Documentation/ABI/testing/sysfs-bus-cxl
+> @@ -406,20 +406,20 @@ Description:
+>  		interleave_granularity).
+>  
+>  
+> -What:		/sys/bus/cxl/devices/decoderX.Y/create_{pmem,ram}_region
+> -Date:		May, 2022, January, 2023
+> -KernelVersion:	v6.0 (pmem), v6.3 (ram)
+> +What:		/sys/bus/cxl/devices/decoderX.Y/create_{pmem,ram,dc}_region
+> +Date:		May, 2022, January, 2023, August 2024
+> +KernelVersion:	v6.0 (pmem), v6.3 (ram), v6.12 (dc)
+>  Contact:	linux-cxl@vger.kernel.org
+>  Description:
+>  		(RW) Write a string in the form 'regionZ' to start the process
+> -		of defining a new persistent, or volatile memory region
+> -		(interleave-set) within the decode range bounded by root decoder
+> -		'decoderX.Y'. The value written must match the current value
+> -		returned from reading this attribute. An atomic compare exchange
+> -		operation is done on write to assign the requested id to a
+> -		region and allocate the region-id for the next creation attempt.
+> -		EBUSY is returned if the region name written does not match the
+> -		current cached value.
+> +		of defining a new persistent, volatile, or Dynamic Capacity
+> +		(DC) memory region (interleave-set) within the decode range
+> +		bounded by root decoder 'decoderX.Y'. The value written must
+> +		match the current value returned from reading this attribute.
+> +		An atomic compare exchange operation is done on write to assign
+> +		the requested id to a region and allocate the region-id for the
+> +		next creation attempt.  EBUSY is returned if the region name
+> +		written does not match the current cached value.
+>  
+>  
+>  What:		/sys/bus/cxl/devices/decoderX.Y/delete_region
+> diff --git a/drivers/cxl/core/core.h b/drivers/cxl/core/core.h
+> index 72a506c9dbd0..15b6cf1c19ef 100644
+> --- a/drivers/cxl/core/core.h
+> +++ b/drivers/cxl/core/core.h
+> @@ -4,15 +4,27 @@
+>  #ifndef __CXL_CORE_H__
+>  #define __CXL_CORE_H__
+>  
+> +#include <cxlmem.h>
+> +
+>  extern const struct device_type cxl_nvdimm_bridge_type;
+>  extern const struct device_type cxl_nvdimm_type;
+>  extern const struct device_type cxl_pmu_type;
+>  
+>  extern struct attribute_group cxl_base_attribute_group;
+>  
+> +static inline struct cxl_memdev_state *
+> +cxled_to_mds(struct cxl_endpoint_decoder *cxled)
+> +{
+> +	struct cxl_memdev *cxlmd = cxled_to_memdev(cxled);
+> +	struct cxl_dev_state *cxlds = cxlmd->cxlds;
+> +
+> +	return container_of(cxlds, struct cxl_memdev_state, cxlds);
+> +}
+> +
+>  #ifdef CONFIG_CXL_REGION
+>  extern struct device_attribute dev_attr_create_pmem_region;
+>  extern struct device_attribute dev_attr_create_ram_region;
+> +extern struct device_attribute dev_attr_create_dc_region;
+>  extern struct device_attribute dev_attr_delete_region;
+>  extern struct device_attribute dev_attr_region;
+>  extern const struct device_type cxl_pmem_region_type;
+> diff --git a/drivers/cxl/core/port.c b/drivers/cxl/core/port.c
+> index 222aa0aeeef7..44e1e203173d 100644
+> --- a/drivers/cxl/core/port.c
+> +++ b/drivers/cxl/core/port.c
+> @@ -320,6 +320,7 @@ static struct attribute *cxl_decoder_root_attrs[] = {
+>  	&dev_attr_qos_class.attr,
+>  	SET_CXL_REGION_ATTR(create_pmem_region)
+>  	SET_CXL_REGION_ATTR(create_ram_region)
+> +	SET_CXL_REGION_ATTR(create_dc_region)
+>  	SET_CXL_REGION_ATTR(delete_region)
+>  	NULL,
+>  };
+> diff --git a/drivers/cxl/core/region.c b/drivers/cxl/core/region.c
+> index f85b26b39b2f..35c4a1f4f9bd 100644
+> --- a/drivers/cxl/core/region.c
+> +++ b/drivers/cxl/core/region.c
+> @@ -496,6 +496,11 @@ static ssize_t interleave_ways_store(struct device *dev,
+>  	if (rc)
+>  		return rc;
+>  
+> +	if (cxlr->mode == CXL_REGION_DC && val != 1) {
+> +		dev_err(dev, "Interleaving and DCD not supported\n");
 
-Add OneXPlayer 2 series, OneXFly, and X1 series models. The 2/X1 series use
-new registers for turbo button takeover and read fan speed. X1 has an Intel
-variant so change the CPU detection at init to only check for the affected
-devices. While at it, adjust formatting of some constants and reorder all
-cases alphabetically for consistency. Rename OXP_OLD constants to OXP_MINI
-for disambiguation. Update code comments for clarity.
+Is there a typo here?
+Maybe "Interleaving a DCD not supported"?
 
-Add support for AYANEO models 2S, AIR 1S, Flip series, GEEK 1S, and KUN.
+> +		return -EINVAL;
+> +	}
+> +
+>  	rc = ways_to_eiw(val, &iw);
+>  	if (rc)
+>  		return rc;
+> @@ -2174,6 +2179,7 @@ static size_t store_targetN(struct cxl_region *cxlr, const char *buf, int pos,
+>  	if (sysfs_streq(buf, "\n"))
+>  		rc = detach_target(cxlr, pos);
+>  	else {
+> +		struct cxl_endpoint_decoder *cxled;
+>  		struct device *dev;
+>  
+>  		dev = bus_find_device_by_name(&cxl_bus_type, NULL, buf);
+> @@ -2185,8 +2191,13 @@ static size_t store_targetN(struct cxl_region *cxlr, const char *buf, int pos,
+>  			goto out;
+>  		}
+>  
+> -		rc = attach_target(cxlr, to_cxl_endpoint_decoder(dev), pos,
+> -				   TASK_INTERRUPTIBLE);
+> +		cxled = to_cxl_endpoint_decoder(dev);
+> +		if (cxlr->mode == CXL_REGION_DC &&
+> +		    !cxl_dcd_supported(cxled_to_mds(cxled))) {
+> +			dev_dbg(dev, "DCD unsupported\n");
+> +			return -EINVAL;
+> +		}
+> +		rc = attach_target(cxlr, cxled, pos, TASK_INTERRUPTIBLE);
+>  out:
+>  		put_device(dev);
+>  	}
+> @@ -2534,6 +2545,7 @@ static struct cxl_region *__create_region(struct cxl_root_decoder *cxlrd,
+>  	switch (mode) {
+>  	case CXL_REGION_RAM:
+>  	case CXL_REGION_PMEM:
+> +	case CXL_REGION_DC:
+>  		break;
+>  	default:
+>  		dev_err(&cxlrd->cxlsd.cxld.dev, "unsupported mode %s\n",
+> @@ -2587,6 +2599,20 @@ static ssize_t create_ram_region_store(struct device *dev,
+>  }
+>  DEVICE_ATTR_RW(create_ram_region);
+>  
+> +static ssize_t create_dc_region_show(struct device *dev,
+> +				     struct device_attribute *attr, char *buf)
+> +{
+> +	return __create_region_show(to_cxl_root_decoder(dev), buf);
+> +}
+> +
+> +static ssize_t create_dc_region_store(struct device *dev,
+> +				      struct device_attribute *attr,
+> +				      const char *buf, size_t len)
+> +{
+> +	return create_region_store(dev, buf, len, CXL_REGION_DC);
+> +}
+> +DEVICE_ATTR_RW(create_dc_region);
+> +
+>  static ssize_t region_show(struct device *dev, struct device_attribute *attr,
+>  			   char *buf)
+>  {
+> @@ -3168,6 +3194,11 @@ static int devm_cxl_add_dax_region(struct cxl_region *cxlr)
+>  	struct device *dev;
+>  	int rc;
+>  
+> +	if (cxlr->mode == CXL_REGION_DC && cxlr->params.interleave_ways != 1) {
+> +		dev_err(&cxlr->dev, "Interleaving DC not supported\n");
+> +		return -EINVAL;
+> +	}
+> +
+>  	cxlr_dax = cxl_dax_region_alloc(cxlr);
+>  	if (IS_ERR(cxlr_dax))
+>  		return PTR_ERR(cxlr_dax);
+> @@ -3260,6 +3291,16 @@ static struct cxl_region *construct_region(struct cxl_root_decoder *cxlrd,
+>  		return ERR_PTR(-EINVAL);
+>  
+>  	mode = cxl_decoder_to_region_mode(cxled->mode);
+> +	if (mode == CXL_REGION_DC) {
+> +		if (!cxl_dcd_supported(cxled_to_mds(cxled))) {
+> +			dev_err(&cxled->cxld.dev, "DCD unsupported\n");
+> +			return ERR_PTR(-EINVAL);
+> +		}
+> +		if (cxled->cxld.interleave_ways != 1) {
+> +			dev_err(&cxled->cxld.dev, "Interleaving and DCD not supported\n");
+If it goes here, it means DCD is upported, but interleaving is not, so
+the message here may also need change.
 
-Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
-Tested-by: Kevin Greenberg <kdgreenberg234@protonmail.com>
-Tested-by: Joshua Tam <csinaction@pm.me>
-Tested-by: Parth Menon <parthasarathymenon@gmail.com>
-Tested-by: Philip Müller <philm@manjaro.org>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202408160329.TLNbIwRC-lkp@intel.com/
----
- Documentation/hwmon/oxp-sensors.rst |  54 +++--
- drivers/hwmon/oxp-sensors.c         | 299 +++++++++++++++++++++++-----
- 2 files changed, 290 insertions(+), 63 deletions(-)
-
-diff --git a/Documentation/hwmon/oxp-sensors.rst b/Documentation/hwmon/oxp-sensors.rst
-index 50618f064379..581c4dafbfa1 100644
---- a/Documentation/hwmon/oxp-sensors.rst
-+++ b/Documentation/hwmon/oxp-sensors.rst
-@@ -10,41 +10,59 @@ Authors:
- Description:
- ------------
- 
--Handheld devices from One Netbook and Aya Neo provide fan readings and fan
--control through their embedded controllers.
-+Handheld devices from OneNetbook, AOKZOE, AYANEO, And OrangePi provide fan
-+readings and fan control through their embedded controllers.
- 
--Currently only supports AMD boards from One X Player, AOK ZOE, and some Aya
--Neo devices. One X Player Intel boards could be supported if we could figure
--out the EC registers and values to write to since the EC layout and model is
--different. Aya Neo devices preceding the AIR may not be supportable as the EC
--model is different and do not appear to have manual control capabilities.
-+Currently supports OneXPlayer devices, AOKZOE, AYANEO, and OrangePi
-+handheld devices. AYANEO devices preceding the AIR and OneXPlayer devices
-+preceding the Mini A07 are not supportable as the EC model is different
-+and do not have manual control capabilities.
- 
--Some models have a toggle for changing the behaviour of the "Turbo/Silent"
--button of the device. It will change the key event that it triggers with
--a flip of the `tt_toggle` attribute. See below for boards that support this
--function.
-+Some OneXPlayer and AOKZOE models have a toggle for changing the behaviour
-+of the "Turbo/Silent" button of the device. It will change the key event
-+that it triggers with a flip of the `tt_toggle` attribute. See below for
-+boards that support this function.
- 
- Supported devices
- -----------------
- 
- Currently the driver supports the following handhelds:
- 
-- - AOK ZOE A1
-- - AOK ZOE A1 PRO
-- - Aya Neo 2
-- - Aya Neo AIR
-- - Aya Neo AIR Plus (Mendocino)
-- - Aya Neo AIR Pro
-- - Aya Neo Geek
-+ - AOKZOE A1
-+ - AOKZOE A1 PRO
-+ - AYANEO 2
-+ - AYANEO 2S
-+ - AYANEO AIR
-+ - AYANEO AIR 1S
-+ - AYANEO AIR Plus (Mendocino)
-+ - AYANEO AIR Pro
-+ - AYANEO Flip DS
-+ - AYANEO Flip KB
-+ - AYANEO Geek
-+ - AYANEO Geek 1S
-+ - AYANEO KUN
-+ - OneXPlayer 2
-+ - OneXPlayer 2 Pro
-  - OneXPlayer AMD
-  - OneXPlayer mini AMD
-  - OneXPlayer mini AMD PRO
-+ - OneXPlayer OneXFly
-+ - OneXPlayer X1 A
-+ - OneXPlayer X1 i
-+ - OneXPlayer X1 mini
-+ - OrangePi NEO-01
- 
- "Turbo/Silent" button behaviour toggle is only supported on:
-  - AOK ZOE A1
-  - AOK ZOE A1 PRO
-+ - OneXPlayer 2
-+ - OneXPlayer 2 Pro
-  - OneXPlayer mini AMD (only with updated alpha BIOS)
-  - OneXPlayer mini AMD PRO
-+ - OneXPlayer OneXFly
-+ - OneXPlayer X1 A
-+ - OneXPlayer X1 i
-+ - OneXPlayer X1 mini
- 
- Sysfs entries
- -------------
-diff --git a/drivers/hwmon/oxp-sensors.c b/drivers/hwmon/oxp-sensors.c
-index 8d3b0f86cc57..b6d06370469d 100644
---- a/drivers/hwmon/oxp-sensors.c
-+++ b/drivers/hwmon/oxp-sensors.c
-@@ -1,18 +1,21 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * Platform driver for OneXPlayer, AOK ZOE, and Aya Neo Handhelds that expose
-- * fan reading and control via hwmon sysfs.
-+ * Platform driver for OneXPlayer, AOKZOE, AYANEO, and OrangePi Handhelds
-+ * that expose fan reading and control via hwmon sysfs.
-  *
-  * Old OXP boards have the same DMI strings and they are told apart by
-- * the boot cpu vendor (Intel/AMD). Currently only AMD boards are
-- * supported but the code is made to be simple to add other handheld
-- * boards in the future.
-+ * the boot cpu vendor (Intel/AMD). Of these older models only AMD is
-+ * supported.
-+ *
-  * Fan control is provided via pwm interface in the range [0-255].
-  * Old AMD boards use [0-100] as range in the EC, the written value is
-  * scaled to accommodate for that. Newer boards like the mini PRO and
-- * AOK ZOE are not scaled but have the same EC layout.
-+ * AOKZOE are not scaled but have the same EC layout. Newer models
-+ * like the 2 and X1 are [0-184] and are scaled to 0-255. OrangePi
-+ * are [1-244] and scaled to 0-255.
-  *
-  * Copyright (C) 2022 Joaquín I. Aramendía <samsagax@gmail.com>
-+ * Copyright (C) 2024 Derek J. Clark <derekjohn.clark@gmail.com>
-  */
- 
- #include <linux/acpi.h>
-@@ -43,32 +46,48 @@ enum oxp_board {
- 	aok_zoe_a1 = 1,
- 	aya_neo_2,
- 	aya_neo_air,
-+	aya_neo_air_1s,
- 	aya_neo_air_plus_mendo,
- 	aya_neo_air_pro,
-+	aya_neo_flip,
- 	aya_neo_geek,
-+	aya_neo_kun,
-+	orange_pi_neo,
-+	oxp_2,
-+	oxp_fly,
- 	oxp_mini_amd,
- 	oxp_mini_amd_a07,
- 	oxp_mini_amd_pro,
-+	oxp_x1,
- };
- 
- static enum oxp_board board;
- 
- /* Fan reading and PWM */
--#define OXP_SENSOR_FAN_REG		0x76 /* Fan reading is 2 registers long */
--#define OXP_SENSOR_PWM_ENABLE_REG	0x4A /* PWM enable is 1 register long */
--#define OXP_SENSOR_PWM_REG		0x4B /* PWM reading is 1 register long */
-+#define OXP_SENSOR_FAN_REG             0x76 /* Fan reading is 2 registers long */
-+#define OXP_2_SENSOR_FAN_REG           0x58 /* Fan reading is 2 registers long */
-+#define OXP_SENSOR_PWM_ENABLE_REG      0x4A /* PWM enable is 1 register long */
-+#define OXP_SENSOR_PWM_REG             0x4B /* PWM reading is 1 register long */
-+#define PWM_MODE_AUTO                  0x00
-+#define PWM_MODE_MANUAL                0x01
-+
-+/* OrangePi fan reading and PWM */
-+#define ORANGEPI_SENSOR_FAN_REG        0x78 /* Fan reading is 2 registers long */
-+#define ORANGEPI_SENSOR_PWM_ENABLE_REG 0x40 /* PWM enable is 1 register long */
-+#define ORANGEPI_SENSOR_PWM_REG        0x38 /* PWM reading is 1 register long */
- 
- /* Turbo button takeover function
-- * Older boards have different values and EC registers
-+ * Different boards have different values and EC registers
-  * for the same function
-  */
--#define OXP_OLD_TURBO_SWITCH_REG	0x1E
--#define OXP_OLD_TURBO_TAKE_VAL		0x01
--#define OXP_OLD_TURBO_RETURN_VAL	0x00
-+#define OXP_TURBO_SWITCH_REG           0xF1 /* Mini Pro, OneXFly, AOKZOE */
-+#define OXP_2_TURBO_SWITCH_REG         0xEB /* OXP2 and X1 */
-+#define OXP_MINI_TURBO_SWITCH_REG      0x1E /* Mini AO7 */
-+
-+#define OXP_MINI_TURBO_TAKE_VAL        0x01 /* Mini AO7 */
-+#define OXP_TURBO_TAKE_VAL             0x40 /* All other models */
- 
--#define OXP_TURBO_SWITCH_REG		0xF1
--#define OXP_TURBO_TAKE_VAL		0x40
--#define OXP_TURBO_RETURN_VAL		0x00
-+#define OXP_TURBO_RETURN_VAL           0x00 /* Common return val */
- 
- static const struct dmi_system_id dmi_table[] = {
- 	{
-@@ -88,7 +107,7 @@ static const struct dmi_system_id dmi_table[] = {
- 	{
- 		.matches = {
- 			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
--			DMI_EXACT_MATCH(DMI_BOARD_NAME, "AYANEO 2"),
-+			DMI_MATCH(DMI_BOARD_NAME, "AYANEO 2"),
- 		},
- 		.driver_data = (void *)aya_neo_2,
- 	},
-@@ -99,6 +118,13 @@ static const struct dmi_system_id dmi_table[] = {
- 		},
- 		.driver_data = (void *)aya_neo_air,
- 	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
-+			DMI_EXACT_MATCH(DMI_BOARD_NAME, "AIR 1S"),
-+		},
-+		.driver_data = (void *)aya_neo_air_1s,
-+	},
- 	{
- 		.matches = {
- 			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
-@@ -116,10 +142,31 @@ static const struct dmi_system_id dmi_table[] = {
- 	{
- 		.matches = {
- 			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
--			DMI_EXACT_MATCH(DMI_BOARD_NAME, "GEEK"),
-+			DMI_MATCH(DMI_BOARD_NAME, "FLIP"),
-+		},
-+		.driver_data = (void *)aya_neo_flip,
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
-+			DMI_MATCH(DMI_BOARD_NAME, "GEEK"),
- 		},
- 		.driver_data = (void *)aya_neo_geek,
- 	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
-+			DMI_EXACT_MATCH(DMI_BOARD_NAME, "KUN"),
-+		},
-+		.driver_data = (void *)aya_neo_kun,
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "OrangePi"),
-+			DMI_EXACT_MATCH(DMI_BOARD_NAME, "NEO-01"),
-+		},
-+		.driver_data = (void *)orange_pi_neo,
-+	},
- 	{
- 		.matches = {
- 			DMI_MATCH(DMI_BOARD_VENDOR, "ONE-NETBOOK"),
-@@ -127,6 +174,20 @@ static const struct dmi_system_id dmi_table[] = {
- 		},
- 		.driver_data = (void *)oxp_mini_amd,
- 	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "ONE-NETBOOK"),
-+			DMI_MATCH(DMI_BOARD_NAME, "ONEXPLAYER 2"),
-+		},
-+		.driver_data = (void *)oxp_2,
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "ONE-NETBOOK"),
-+			DMI_EXACT_MATCH(DMI_BOARD_NAME, "ONEXPLAYER F1"),
-+		},
-+		.driver_data = (void *)oxp_fly,
-+	},
- 	{
- 		.matches = {
- 			DMI_MATCH(DMI_BOARD_VENDOR, "ONE-NETBOOK"),
-@@ -141,6 +202,13 @@ static const struct dmi_system_id dmi_table[] = {
- 		},
- 		.driver_data = (void *)oxp_mini_amd_pro,
- 	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "ONE-NETBOOK"),
-+			DMI_MATCH(DMI_BOARD_NAME, "ONEXPLAYER X1"),
-+		},
-+		.driver_data = (void *)oxp_x1,
-+	},
- 	{},
- };
- 
-@@ -192,14 +260,20 @@ static int tt_toggle_enable(void)
- 
- 	switch (board) {
- 	case oxp_mini_amd_a07:
--		reg = OXP_OLD_TURBO_SWITCH_REG;
--		val = OXP_OLD_TURBO_TAKE_VAL;
-+		reg = OXP_MINI_TURBO_SWITCH_REG;
-+		val = OXP_MINI_TURBO_TAKE_VAL;
- 		break;
--	case oxp_mini_amd_pro:
- 	case aok_zoe_a1:
-+	case oxp_fly:
-+	case oxp_mini_amd_pro:
- 		reg = OXP_TURBO_SWITCH_REG;
- 		val = OXP_TURBO_TAKE_VAL;
- 		break;
-+	case oxp_2:
-+	case oxp_x1:
-+		reg = OXP_2_TURBO_SWITCH_REG;
-+		val = OXP_TURBO_TAKE_VAL;
-+		break;
- 	default:
- 		return -EINVAL;
- 	}
-@@ -213,14 +287,20 @@ static int tt_toggle_disable(void)
- 
- 	switch (board) {
- 	case oxp_mini_amd_a07:
--		reg = OXP_OLD_TURBO_SWITCH_REG;
--		val = OXP_OLD_TURBO_RETURN_VAL;
-+		reg = OXP_MINI_TURBO_SWITCH_REG;
-+		val = OXP_TURBO_RETURN_VAL;
- 		break;
--	case oxp_mini_amd_pro:
- 	case aok_zoe_a1:
-+	case oxp_fly:
-+	case oxp_mini_amd_pro:
- 		reg = OXP_TURBO_SWITCH_REG;
- 		val = OXP_TURBO_RETURN_VAL;
- 		break;
-+	case oxp_2:
-+	case oxp_x1:
-+		reg = OXP_2_TURBO_SWITCH_REG;
-+		val = OXP_TURBO_RETURN_VAL;
-+		break;
- 	default:
- 		return -EINVAL;
- 	}
-@@ -233,8 +313,11 @@ static umode_t tt_toggle_is_visible(struct kobject *kobj,
- {
- 	switch (board) {
- 	case aok_zoe_a1:
-+	case oxp_2:
-+	case oxp_fly:
- 	case oxp_mini_amd_a07:
- 	case oxp_mini_amd_pro:
-+	case oxp_x1:
- 		return attr->mode;
- 	default:
- 		break;
-@@ -273,12 +356,17 @@ static ssize_t tt_toggle_show(struct device *dev,
- 
- 	switch (board) {
- 	case oxp_mini_amd_a07:
--		reg = OXP_OLD_TURBO_SWITCH_REG;
-+		reg = OXP_MINI_TURBO_SWITCH_REG;
- 		break;
--	case oxp_mini_amd_pro:
- 	case aok_zoe_a1:
-+	case oxp_fly:
-+	case oxp_mini_amd_pro:
- 		reg = OXP_TURBO_SWITCH_REG;
- 		break;
-+	case oxp_2:
-+	case oxp_x1:
-+		reg = OXP_2_TURBO_SWITCH_REG;
-+		break;
- 	default:
- 		return -EINVAL;
- 	}
-@@ -295,12 +383,53 @@ static DEVICE_ATTR_RW(tt_toggle);
- /* PWM enable/disable functions */
- static int oxp_pwm_enable(void)
- {
--	return write_to_ec(OXP_SENSOR_PWM_ENABLE_REG, 0x01);
-+	switch (board) {
-+	case orange_pi_neo:
-+		return write_to_ec(ORANGEPI_SENSOR_PWM_ENABLE_REG, PWM_MODE_MANUAL);
-+	case aok_zoe_a1:
-+	case aya_neo_2:
-+	case aya_neo_air:
-+	case aya_neo_air_plus_mendo:
-+	case aya_neo_air_pro:
-+	case aya_neo_flip:
-+	case aya_neo_geek:
-+	case aya_neo_kun:
-+	case oxp_2:
-+	case oxp_fly:
-+	case oxp_mini_amd:
-+	case oxp_mini_amd_a07:
-+	case oxp_mini_amd_pro:
-+	case oxp_x1:
-+		return write_to_ec(OXP_SENSOR_PWM_ENABLE_REG, PWM_MODE_MANUAL);
-+	default:
-+		return -EINVAL;
-+	}
- }
- 
- static int oxp_pwm_disable(void)
- {
--	return write_to_ec(OXP_SENSOR_PWM_ENABLE_REG, 0x00);
-+	switch (board) {
-+	case orange_pi_neo:
-+		return write_to_ec(ORANGEPI_SENSOR_PWM_ENABLE_REG, PWM_MODE_AUTO);
-+	case aok_zoe_a1:
-+	case aya_neo_2:
-+	case aya_neo_air:
-+	case aya_neo_air_1s:
-+	case aya_neo_air_plus_mendo:
-+	case aya_neo_air_pro:
-+	case aya_neo_flip:
-+	case aya_neo_geek:
-+	case aya_neo_kun:
-+	case oxp_2:
-+	case oxp_fly:
-+	case oxp_mini_amd:
-+	case oxp_mini_amd_a07:
-+	case oxp_mini_amd_pro:
-+	case oxp_x1:
-+		return write_to_ec(OXP_SENSOR_PWM_ENABLE_REG, PWM_MODE_AUTO);
-+	default:
-+		return -EINVAL;
-+	}
- }
- 
- /* Callbacks for hwmon interface */
-@@ -326,7 +455,29 @@ static int oxp_platform_read(struct device *dev, enum hwmon_sensor_types type,
- 	case hwmon_fan:
- 		switch (attr) {
- 		case hwmon_fan_input:
--			return read_from_ec(OXP_SENSOR_FAN_REG, 2, val);
-+			switch (board) {
-+			case orange_pi_neo:
-+				return read_from_ec(ORANGEPI_SENSOR_FAN_REG, 2, val);
-+			case oxp_2:
-+			case oxp_x1:
-+				return read_from_ec(OXP_2_SENSOR_FAN_REG, 2, val);
-+			case aok_zoe_a1:
-+			case aya_neo_2:
-+			case aya_neo_air:
-+			case aya_neo_air_1s:
-+			case aya_neo_air_plus_mendo:
-+			case aya_neo_air_pro:
-+			case aya_neo_flip:
-+			case aya_neo_geek:
-+			case aya_neo_kun:
-+			case oxp_fly:
-+			case oxp_mini_amd:
-+			case oxp_mini_amd_a07:
-+			case oxp_mini_amd_pro:
-+				return read_from_ec(OXP_SENSOR_FAN_REG, 2, val);
-+			default:
-+				break;
-+			}
- 		default:
- 			break;
- 		}
-@@ -334,31 +485,74 @@ static int oxp_platform_read(struct device *dev, enum hwmon_sensor_types type,
- 	case hwmon_pwm:
- 		switch (attr) {
- 		case hwmon_pwm_input:
--			ret = read_from_ec(OXP_SENSOR_PWM_REG, 1, val);
--			if (ret)
--				return ret;
- 			switch (board) {
-+			case orange_pi_neo:
-+				ret = read_from_ec(ORANGEPI_SENSOR_PWM_REG, 1, val);
-+				if (ret)
-+					return ret;
-+				/* scale from range [1-244] */
-+				*val = ((*val - 1) * 254 / 243) + 1;
-+				break;
-+			case oxp_2:
-+			case oxp_x1:
-+				ret = read_from_ec(OXP_SENSOR_PWM_REG, 1, val);
-+				if (ret)
-+					return ret;
-+				/* scale from range [0-184] */
-+				*val = (*val * 255) / 184;
-+				break;
- 			case aya_neo_2:
- 			case aya_neo_air:
-+			case aya_neo_air_1s:
- 			case aya_neo_air_plus_mendo:
- 			case aya_neo_air_pro:
-+			case aya_neo_flip:
- 			case aya_neo_geek:
-+			case aya_neo_kun:
- 			case oxp_mini_amd:
- 			case oxp_mini_amd_a07:
-+				ret = read_from_ec(OXP_SENSOR_PWM_REG, 1, val);
-+				if (ret)
-+					return ret;
-+				/* scale from range [0-100] */
- 				*val = (*val * 255) / 100;
- 				break;
--			case oxp_mini_amd_pro:
- 			case aok_zoe_a1:
-+			case oxp_fly:
-+			case oxp_mini_amd_pro:
- 			default:
-+				ret = read_from_ec(OXP_SENSOR_PWM_REG, 1, val);
-+				if (ret)
-+					return ret;
- 				break;
- 			}
- 			return 0;
- 		case hwmon_pwm_enable:
--			return read_from_ec(OXP_SENSOR_PWM_ENABLE_REG, 1, val);
-+			switch (board) {
-+			case orange_pi_neo:
-+				return read_from_ec(ORANGEPI_SENSOR_PWM_ENABLE_REG, 1, val);
-+			case aok_zoe_a1:
-+			case aya_neo_2:
-+			case aya_neo_air:
-+			case aya_neo_air_1s:
-+			case aya_neo_air_plus_mendo:
-+			case aya_neo_air_pro:
-+			case aya_neo_flip:
-+			case aya_neo_geek:
-+			case aya_neo_kun:
-+			case oxp_2:
-+			case oxp_fly:
-+			case oxp_mini_amd:
-+			case oxp_mini_amd_a07:
-+			case oxp_mini_amd_pro:
-+			case oxp_x1:
-+				return read_from_ec(OXP_SENSOR_PWM_ENABLE_REG, 1, val);
-+			default:
-+				break;
-+			}
- 		default:
- 			break;
- 		}
--		break;
- 	default:
- 		break;
- 	}
-@@ -381,21 +575,35 @@ static int oxp_platform_write(struct device *dev, enum hwmon_sensor_types type,
- 			if (val < 0 || val > 255)
- 				return -EINVAL;
- 			switch (board) {
-+			case orange_pi_neo:
-+				/* scale to range [1-244] */
-+				val = ((val - 1) * 243 / 254) + 1;
-+				return write_to_ec(ORANGEPI_SENSOR_PWM_REG, val);
-+			case oxp_2:
-+			case oxp_x1:
-+				/* scale to range [0-184] */
-+				val = (val * 184) / 255;
-+				return write_to_ec(OXP_SENSOR_PWM_REG, val);
- 			case aya_neo_2:
- 			case aya_neo_air:
-+			case aya_neo_air_1s:
- 			case aya_neo_air_plus_mendo:
- 			case aya_neo_air_pro:
-+			case aya_neo_flip:
- 			case aya_neo_geek:
-+			case aya_neo_kun:
- 			case oxp_mini_amd:
- 			case oxp_mini_amd_a07:
-+				/* scale to range [0-100] */
- 				val = (val * 100) / 255;
--				break;
-+				return write_to_ec(OXP_SENSOR_PWM_REG, val);
- 			case aok_zoe_a1:
-+			case oxp_fly:
- 			case oxp_mini_amd_pro:
-+				return write_to_ec(OXP_SENSOR_PWM_REG, val);
- 			default:
- 				break;
- 			}
--			return write_to_ec(OXP_SENSOR_PWM_REG, val);
- 		default:
- 			break;
- 		}
-@@ -467,19 +675,20 @@ static int __init oxp_platform_init(void)
- {
- 	const struct dmi_system_id *dmi_entry;
- 
--	/*
--	 * Have to check for AMD processor here because DMI strings are the
--	 * same between Intel and AMD boards, the only way to tell them apart
--	 * is the CPU.
--	 * Intel boards seem to have different EC registers and values to
--	 * read/write.
--	 */
- 	dmi_entry = dmi_first_match(dmi_table);
--	if (!dmi_entry || boot_cpu_data.x86_vendor != X86_VENDOR_AMD)
-+	if (!dmi_entry)
- 		return -ENODEV;
- 
- 	board = (enum oxp_board)(unsigned long)dmi_entry->driver_data;
- 
-+	/*
-+	 * Have to check for AMD processor here because DMI strings are the same
-+	 * between Intel and AMD boards on older OneXPlayer devices, the only way
-+	 * to tell them apart is the CPU. Old Intel boards have an unsupported EC.
-+	 */
-+	if (board == oxp_mini_amd && boot_cpu_data.x86_vendor != X86_VENDOR_AMD)
-+		return -ENODEV;
-+
- 	oxp_platform_device =
- 		platform_create_bundle(&oxp_platform_driver,
- 				       oxp_platform_probe, NULL, 0, NULL, 0);
--- 
-2.46.0
-
+Fan
+> +			return ERR_PTR(-EINVAL);
+> +		}
+> +	}
+>  	do {
+>  		cxlr = __create_region(cxlrd, mode,
+>  				       atomic_read(&cxlrd->region_id));
+> @@ -3467,6 +3508,7 @@ static int cxl_region_probe(struct device *dev)
+>  	case CXL_REGION_PMEM:
+>  		return devm_cxl_add_pmem_region(cxlr);
+>  	case CXL_REGION_RAM:
+> +	case CXL_REGION_DC:
+>  		/*
+>  		 * The region can not be manged by CXL if any portion of
+>  		 * it is already online as 'System RAM'
+> diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
+> index fde29e0ad68b..d8cb5195a227 100644
+> --- a/drivers/dax/bus.c
+> +++ b/drivers/dax/bus.c
+> @@ -178,6 +178,11 @@ static bool is_static(struct dax_region *dax_region)
+>  	return (dax_region->res.flags & IORESOURCE_DAX_STATIC) != 0;
+>  }
+>  
+> +static bool is_sparse(struct dax_region *dax_region)
+> +{
+> +	return (dax_region->res.flags & IORESOURCE_DAX_SPARSE_CAP) != 0;
+> +}
+> +
+>  bool static_dev_dax(struct dev_dax *dev_dax)
+>  {
+>  	return is_static(dev_dax->region);
+> @@ -301,6 +306,9 @@ static unsigned long long dax_region_avail_size(struct dax_region *dax_region)
+>  
+>  	lockdep_assert_held(&dax_region_rwsem);
+>  
+> +	if (is_sparse(dax_region))
+> +		return 0;
+> +
+>  	for_each_dax_region_resource(dax_region, res)
+>  		size -= resource_size(res);
+>  	return size;
+> @@ -1373,6 +1381,8 @@ static umode_t dev_dax_visible(struct kobject *kobj, struct attribute *a, int n)
+>  		return 0;
+>  	if (a == &dev_attr_mapping.attr && is_static(dax_region))
+>  		return 0;
+> +	if (a == &dev_attr_mapping.attr && is_sparse(dax_region))
+> +		return 0;
+>  	if ((a == &dev_attr_align.attr ||
+>  	     a == &dev_attr_size.attr) && is_static(dax_region))
+>  		return 0444;
+> diff --git a/drivers/dax/bus.h b/drivers/dax/bus.h
+> index cbbf64443098..783bfeef42cc 100644
+> --- a/drivers/dax/bus.h
+> +++ b/drivers/dax/bus.h
+> @@ -13,6 +13,7 @@ struct dax_region;
+>  /* dax bus specific ioresource flags */
+>  #define IORESOURCE_DAX_STATIC BIT(0)
+>  #define IORESOURCE_DAX_KMEM BIT(1)
+> +#define IORESOURCE_DAX_SPARSE_CAP BIT(2)
+>  
+>  struct dax_region *alloc_dax_region(struct device *parent, int region_id,
+>  		struct range *range, int target_node, unsigned int align,
+> diff --git a/drivers/dax/cxl.c b/drivers/dax/cxl.c
+> index 9b29e732b39a..367e86b1c22a 100644
+> --- a/drivers/dax/cxl.c
+> +++ b/drivers/dax/cxl.c
+> @@ -13,19 +13,31 @@ static int cxl_dax_region_probe(struct device *dev)
+>  	struct cxl_region *cxlr = cxlr_dax->cxlr;
+>  	struct dax_region *dax_region;
+>  	struct dev_dax_data data;
+> +	resource_size_t dev_size;
+> +	unsigned long flags;
+>  
+>  	if (nid == NUMA_NO_NODE)
+>  		nid = memory_add_physaddr_to_nid(cxlr_dax->hpa_range.start);
+>  
+> +	flags = IORESOURCE_DAX_KMEM;
+> +	if (cxlr->mode == CXL_REGION_DC)
+> +		flags |= IORESOURCE_DAX_SPARSE_CAP;
+> +
+>  	dax_region = alloc_dax_region(dev, cxlr->id, &cxlr_dax->hpa_range, nid,
+> -				      PMD_SIZE, IORESOURCE_DAX_KMEM);
+> +				      PMD_SIZE, flags);
+>  	if (!dax_region)
+>  		return -ENOMEM;
+>  
+> +	if (cxlr->mode == CXL_REGION_DC)
+> +		/* Add empty seed dax device */
+> +		dev_size = 0;
+> +	else
+> +		dev_size = range_len(&cxlr_dax->hpa_range);
+> +
+>  	data = (struct dev_dax_data) {
+>  		.dax_region = dax_region,
+>  		.id = -1,
+> -		.size = range_len(&cxlr_dax->hpa_range),
+> +		.size = dev_size,
+>  		.memmap_on_memory = true,
+>  	};
+>  
+> 
+> -- 
+> 2.45.2
+> 
