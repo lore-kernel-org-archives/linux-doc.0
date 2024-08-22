@@ -1,395 +1,318 @@
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [58.251.27.85])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C2C1D12EA;
-	Thu, 22 Aug 2024 06:33:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=58.251.27.85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8424FA933;
+	Thu, 22 Aug 2024 07:35:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724308422; cv=none; b=SO5/cdYWhq8qc+3iEWKdsBgnBcRhRSPjf6c6hXpijyuPcbyLMvaSabobuvtJXSXeUUdxzKrqvKik4BIxbNpMR9KaSXyUNLs4i/esfvqa3/g+Gf/POXotFT+fUxDgTpcYLSyy4K+ZpJ/UEQtb53t0u4EZY3oEdU+0eoeEdRJ25hU=
+	t=1724312141; cv=none; b=nyMGDgWkVtNr4GBAGJ9wi8vXI9UhUxjBKYVm/1ddbfcQYgDIEAM6gG9iGzETQI8hmJFwYHzkvQj85goQSrYPrmjh4YpBcdCz10FCx+PgS23GnbNQD6oxqzrCecdpo0xcU65YT/2HV3uyXFJ+LHhumAdfHbWlZT+jhHRhWNfr6Gg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724308422; c=relaxed/simple;
-	bh=9I8CcnSpfVtDMXgfyYR5bgyEexeV4vopq97N9hFUdbs=;
-	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=CUrmrvOeLGdUQOTrPhE0COJEFu8Jrz+C/iz2P4luvl2Bzj+YJWi8rCb8D+S8uvH6uz19mrbDCf1gbji6JZcW2p1Vug8cvYEihPVkOfqKzRIB3dUzM8sJ3abIZJUWO8Z/EWl8DnrebslgbccDV/Hcc5JnkhkpyXeuchjPDvlOzgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=58.251.27.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mxde.zte.com.cn (unknown [10.35.20.165])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4WqCpp0DZMzW7y;
-	Thu, 22 Aug 2024 14:24:34 +0800 (CST)
-Received: from mxhk.zte.com.cn (unknown [192.168.250.138])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mxde.zte.com.cn (FangMail) with ESMTPS id 4WqCpg2zPBz5pskc;
-	Thu, 22 Aug 2024 14:24:27 +0800 (CST)
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4WqCpT72Mgz5B1G1;
-	Thu, 22 Aug 2024 14:24:17 +0800 (CST)
-Received: from njy2app08.zte.com.cn ([10.40.13.206])
-	by mse-fl2.zte.com.cn with SMTP id 47M6O8tg064627;
-	Thu, 22 Aug 2024 14:24:08 +0800 (+08)
-	(envelope-from jiang.kun2@zte.com.cn)
-Received: from mapi (njy2app01[null])
-	by mapi (Zmail) with MAPI id mid204;
-	Thu, 22 Aug 2024 14:24:10 +0800 (CST)
-Date: Thu, 22 Aug 2024 14:24:10 +0800 (CST)
-X-Zmail-TransId: 2af966c6d98a13e-f53be
-X-Mailer: Zmail v1.0
-Message-ID: <20240822142410693uxzX5lKhqcLi-jAvxttlp@zte.com.cn>
+	s=arc-20240116; t=1724312141; c=relaxed/simple;
+	bh=zoaoChsEMLtL7kUrFXaDHXOdFyUI+KQJ+Nlmx16QznA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E1k5UP1GlglAv4G0XbS270yqF8Dz09kuVwOciyE6mg3mXXN3QHQmt3JJV90ZZNkFrDoadEZydXOmR8OKXwjrzOCuG225tgknnWkY7hJsHneXliSBCL6V+3/rjw2xY4AP5Jr4SrF/BUkXTdaDZdV7ARuCWYLXQNP/Bsg9RddhYOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=SKYRa6G5; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="SKYRa6G5"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:MIME-Version:
+	Message-ID:Date:Subject:Cc:To:From:From:Sender:Reply-To:Subject:Date:
+	Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=jzvY1/+ed7pIuhUW1Gu/HKcJVU6D3qMKWWOJhGvZ5lI=; t=1724312139; x=1724744139;
+	 b=SKYRa6G5f86UkM4l0nkYBzzPnKjTGBxRuV3WV4Rp/VV411qftmLhjTb3JeHNfLPjEX0D+OmpDV
+	zcrbzghDRceEa+U3maSIPnRB41dxGgm3dPnFik5aa48NmAL9/qc8Ja35HZb8iSSycR34Vbp4IuMBM
+	AK+abHezeXwSdeKSYI3qx5yr5PBCpvFumhuv2r/quCTdE5++mnR9F0zN2/yQvNin/YXyeBB7oK76x
+	l04LuJaRRLeqRNZ9SyCmDK7SlsNEWMvJz7zXRMOVS0iDfBl5NCwK7mEAoQov+iv8N1TYDvnOIkVSM
+	GAzpIJz2rw24hCALKJ6ERkn3janOn3AK5t3PA==;
+Received: from ip4d148da6.dynamic.kabel-deutschland.de ([77.20.141.166] helo=truhe.fritz.box); authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	id 1sh2M1-000826-Uc; Thu, 22 Aug 2024 09:35:34 +0200
+From: Thorsten Leemhuis <linux@leemhuis.info>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: regressions@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	=?UTF-8?q?Petr=20Tesa=C5=99=C3=ADk?= <petr@tesarici.cz>
+Subject: [PATCH v3] docs: bug-bisect: rewrite to better match the other bisecting text
+Date: Thu, 22 Aug 2024 09:35:33 +0200
+Message-ID: <74dc0137dcc3e2c05648e885a7bc31ffd39a0890.1724312119.git.linux@leemhuis.info>
+X-Mailer: git-send-email 2.45.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <jiang.kun2@zte.com.cn>
-To: <alexs@kernel.org>, <siyanteng@loongson.cn>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Cc: <wang.yaxin@zte.com.cn>, <fan.yu9@zte.com.cn>, <xu.xin16@zte.com.cn>,
-        <he.peilin@zte.com.cn>, <tu.qiang35@zte.com.cn>,
-        <zhang.yunkai@zte.com.cn>, <qiu.yutan@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIXSBEb2N1bWVudGF0aW9uL21tOiBUcmFuc2xhdGUgcGh5c2ljYWxfbWVtb3J5LnJzdCB0byBTaW1wbGlmaWVkCgogQ2hpbmVzZQ==?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl2.zte.com.cn 47M6O8tg064627
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 66C6D9A1.000/4WqCpp0DZMzW7y
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1724312139;78e5f5c4;
+X-HE-SMSGID: 1sh2M1-000826-Uc
 
-From: Yaxin Wang <wang.yaxin@zte.com.cn>
+Rewrite the short document on bisecting kernel bugs. The new text
+improves .config handling, brings a mention of 'git bisect skip', and
+explains what to do after the bisection finished -- including trying a
+revert to verify the result. The rewrite at the same time removes the
+unrelated and outdated section on 'Devices not appearing' and replaces
+some sentences about bug reporting with a pointer to the document
+covering that topic in detail.
 
-This patch translates the "physical_memory.rst" document into
-Simplified Chinese to improve accessibility for Chinese-speaking
-developers and users.
+This overall brings the approach close to the one in the recently added
+text Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst.
+As those two texts serve a similar purpose for different audiences,
+mention that document in the head of this one and outline when the
+other might be the better one to follow.
 
-The translation was done with attention to technical accuracy
-and readability, ensuring that the document remains informative
-and useful in its translated form.
-
-Signed-off-by: Yaxin Wang <wang.yaxin@zte.com.cn>
+Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
 ---
- .../translations/zh_CN/mm/physical_memory.rst | 310 ++++++++++++++++++
- 1 file changed, 310 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/mm/physical_memory.rst
+v3: (this version)
+- incorporate a few minor changes after review feedback from Petr
 
-diff --git a/Documentation/translations/zh_CN/mm/physical_memory.rst b/Documentation/translations/zh_CN/mm/physical_memory.rst
-new file mode 100644
-index 000000000000..58344d8ac291
---- /dev/null
-+++ b/Documentation/translations/zh_CN/mm/physical_memory.rst
-@@ -0,0 +1,310 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+:Original: Documentation/mm/physical_memory.rst
-+
-+:翻译:
-+
-+ 王亚鑫 Yaxin Wang <wang.yaxin@zte.com.cn>
-+
-+===============
-+物理内存
-+===============
-+
-+Linux可用于多种架构，因此需要一个与架构无关的抽象来表示物理内存。本章描述了用于管理运行系统
-+中物理内存的结构。
-+
-+第一个与内存管理相关的主要概念是`非一致性内存访问(NUMA)<https://en.wikipedia.org/
-+wiki/Non-uniform_memory_access>`
-+
-+在多核和多插槽机器中，内存可能被组织成不同的库，这些内存库根据与处理器的“距离”不同而有不同的
-+访问开销。例如，可能为每个CPU分配一堆内存，或者在外围设备附近有一个非常适合DMA的内存库。
-+
-+每个内存库被称为一个节点，节点在Linux中表示为 ``struct pglist_data``，即使是在UMA架构中
-+也是这样表示。该结构总是通过 ``pg_data_t``来索引。特定节点的 ``pg_data_t`` 结构体可以通过
-+NODE_DATA(nid)引用，其中nid被称为该节点的ID。
-+
-+对于非一致性内存访问（NUMA）架构，节点数据结构在引导时由特定于架构的代码早期分配。通常，这些
-+结构是在他们所代表的内存区上本地分配。对于一致性内存访问（UMA）架构，只使用一个静态的 ``pg_data_t``
-+结构体，称为 ``contig_page_data``。节点将会在ref:`Nodes <nodes>`章节中进一步讨论。
-+
-+整个物理内存被划分为一个或多个被称为区域的块，这些区域表示内存的范围。这些范围通常由访问内存
-+的架构限制来决定。在节点内，与特定区域对应的内存范围由 ``struct zone`` 结构体描述，该结构被定义为
-+``zone_t``，每种类型都属于以下描述类型的一种。
-+
-+* ``ZONE_DMA``和 ``ZONE_DMA32``在历史上代表适用于DMA的内存，这些内存由那些不能访问所有可寻址内存的
-+外设访问。多年来，已经有了更好、更稳固的接口来获取满足特定DMA需求的内存（这些接口由Documentation/
-+core-api/dma-api.rst文档描述），但是 ``ZONE_DMA``和 ``ZONE_DMA32``仍然表示访问受限的内存范围。
-+
-+取决于架构的不同，这两种区域可以在构建时通过 ``CONFIG_ZONE_DMA``和 ``CONFIG_ZONE_DMA32``配置选项
-+来禁用。一些64位的平台可能需要这两种区域，因为他们支持具有不同DMA寻址限制的外设。
-+
-+* ``ZONE_NORMAL`` 是普通内存的区域，这种内存可以被内核随时访问。如果DMA设备支持将数据传输到
-+所有可寻址的内存区域，那么可以在该区域的页面上执行DMA操作。 ``ZONE_NORMAL`` 总是被启用的。
-+
-+* ``ZONE_HIGHMEM`` 是指那些没有在内核页表中永久映射的物理内存部分。该区域的内存只能通过临时映射
-+被内核访问。该区域只在某些32位架构上可用，并且是通过 ``CONFIG_HIGHMEM`` 配置选项来启用。
-+
-+* ``ZONE_MOVABLE`` 是用于可访问的普通内存区域，就像 ``ZONE_NORMAL`` 一样。不同之处在于 ``ZONE_MOVABLE``
-+ 中的大多数页面内容是可移动的。这意味着这些页面的虚拟地址不会改变，但它们的内容可能会在不同的物理
-+ 页面之间移动。通常，在内存热插拔期间填充 ``ZONE_MOVABLE``，但在启动时也可以使用 ``kernelcore``、
-+ ``movablecore`` 和 ``movable_node`` 这些内核命令行参数来填充。有关更多详细信息，请参阅内核文档
-+ Documentation/mm/page_migration.rst 和 Documentation/admin-guide/mm/memory-hotplug.rst。
-+
-+* ``ZONE_DEVICE`` 表示位于诸如持久性内存（PMEM）和图形处理单元（GPU）等设备上的内存。它与RAM区域类型有
-+不同的特性，并且它的存在是为了提供:ref:`struct page <Pages>` 结构和内存映射服务，以便设备驱动程序识别物理地址
-+范围。 ``ZONE_DEVICE`` 通过配置选项 ``CONFIG_ZONE_DEVICE`` 启用。
-+
-+需要注意的是，许多内核操作只能使用 ``ZONE_NORMAL`` 来执行，因此它是性能最关键区域。区域在第 :
-+:ref:`Zones <zones>` 节中有更详细的讨论。
-+
-+节点和区域范围之间的关系由固件报告的物理内存映射决定，另外也由内存寻址的架构约束以及内核命令行中的某些参数决定。
-+
-+例如，在具有2GB RAM的x86统一内存架构（UMA）机器上运行32位内核时，整个内存将位于节点0，并且将有三个
-+区域： ``ZONE_DMA``、 ``ZONE_NORMAL`` 和 ``ZONE_HIGHMEM``。
-+
-+  0                                                            2G
-+  +-------------------------------------------------------------+
-+  |                            node 0                           |
-+  +-------------------------------------------------------------+
-+
-+  0         16M                    896M                        2G
-+  +----------+-----------------------+--------------------------+
-+  | ZONE_DMA |      ZONE_NORMAL      |       ZONE_HIGHMEM       |
-+  +----------+-----------------------+--------------------------+
-+
-+
-+在内核构建时禁用了 ``ZONE_DMA`` 并启用了 ``ZONE_DMA32``，并且在具有16GB RAM平均分配在两个节点上的arm64
-+机器上，使用 ``movablecore=80%`` 参数启动时， ``ZONE_DMA32``、 ``ZONE_NORMAL`` 和
-+ ``ZONE_MOVABLE`` 位于节点0，``ZONE_NORMAL`` 和 ``ZONE_MOVABLE`` 位于节点1。
-+
-+
-+ 1G                                9G                         17G
-+  +--------------------------------+ +--------------------------+
-+  |              node 0            | |          node 1          |
-+  +--------------------------------+ +--------------------------+
-+
-+  1G       4G        4200M          9G          9320M          17G
-+  +---------+----------+-----------+ +------------+-------------+
-+  |  DMA32  |  NORMAL  |  MOVABLE  | |   NORMAL   |   MOVABLE   |
-+  +---------+----------+-----------+ +------------+-------------+
-+
-+
-+内存库可能属于交错的节点。在下面的例子中，一台x86机器有16GB的RAM分布在4个内存条上，偶数编号的内存条
-+属于节点0，奇数编号的内存条属于节点1::
-+
-+  0              4G              8G             12G            16G
-+  +-------------+ +-------------+ +-------------+ +-------------+
-+  |    node 0   | |    node 1   | |    node 0   | |    node 1   |
-+  +-------------+ +-------------+ +-------------+ +-------------+
-+
-+  0   16M      4G
-+  +-----+-------+ +-------------+ +-------------+ +-------------+
-+  | DMA | DMA32 | |    NORMAL   | |    NORMAL   | |    NORMAL   |
-+  +-----+-------+ +-------------+ +-------------+ +-------------+
-+
-+在这种情况下，节点0将覆盖从0到12GB的内存范围，而节点1将覆盖从4GB到16GB的内存范围。
-+
-+.. _nodes:
-+
-+节点
-+=====
-+
-+正如我们所提到的，内存中的每个节点都由 ``pg_data_t`` 描述，它是 ``struct pglist_data`` 结构体的类型定义。
-+在分配页面时，默认情况下，Linux 使用节点本地分配策略，从最接近当前运行CPU的节点分配内存。由于进程倾向于
-+在同一个CPU上运行，很可能会使用当前节点的内存。分配策略可以由用户控制，如内核文档 Documentation/admin-guide
-+/mm/numa_memory_policy.rst 中所述。
-+
-+大多数NUMA（非统一内存访问）架构维护了一个指向节点结构的指针数组。这些实际的结构在启动过程中的早期被分配，
-+当时特定于架构的代码解析了固件报告的物理内存映射。节点初始化的大部分工作是在启动过程后由 free_area_init()
-+函数完成的，该函数在后面的小节 :ref:`Initialization <initialization>` 中有详细描述。
-+
-+与节点结构一起，内核维护了一个名为 ``node_states`` 的 ``nodemask_t`` 位掩码数组。这个数组中的每个位掩码代表一组
-+特定属性的节点，这些属性由 ``enum node_states`` 定义，定义如下：
-+
-+``N_POSSIBLE``
-+节点可能在某个时刻上线。
-+
-+``N_ONLINE``
-+节点已经上线。
-+
-+``N_NORMAL_MEMORY``
-+节点拥有普通内存。
-+
-+``N_HIGH_MEMORY``
-+节点拥有普通或高端内存。当禁用 ``CONFIG_HIGHMEM`` 时，也可以称为 ``N_NORMAL_MEMORY`` 。
-+
-+``N_MEMORY``
-+节点拥有（普通、高端、可移动）内存。
-+
-+``N_CPU``
-+节点拥有一个或多个CPU。
-+
-+对于具有上述属性的每个节点， ``node_states[<property>]``掩码中对应于节点ID的位会被置位。
-+
-+例如，对于具有常规内存和CPU的节点2，第二个bit将被设置::
-+
-+  node_states[N_POSSIBLE]
-+  node_states[N_ONLINE]
-+  node_states[N_NORMAL_MEMORY]
-+  node_states[N_HIGH_MEMORY]
-+  node_states[N_MEMORY]
-+  node_states[N_CPU]
-+
-+有关使用节点掩码（nodemasks）可能进行的各种操作，请参考 ``include/linux/nodemask.h``。
-+
-+除此之外，节点掩码（nodemasks）提供用于节点遍历的宏，即 ``for_each_node()`` 和
-+ ``for_each_online_node()``。
-+
-+例如，要为每个在线节点调用函数 foo()，可以这样操作：
-+
-+  for_each_online_node(nid) {
-+		  pg_data_t *pgdat = NODE_DATA(nid);
-+
-+		  foo(pgdat);
-+	}
-+
-+节点数据结构
-+--------------
-+
-+节点结构 ``struct pglist_data`` 在 ``include/linux/mmzone.h`` 中声明。这里我们
-+将简要描述这个结构体的字段：
-+
-+通用字段
-+~~~~~~~
-+
-+``node_zones``
-+该节点的区域列表。并非所有区域都可能被填充，但这是完整的列表。它被该节点的 node_zonelists 以及其它
-+节点的 node_zonelists 引用。
-+
-+``node_zonelists``
-+所有节点中所有区域的列表。此列表定义了分配内存时首选的区域顺序。 ``node_zonelists`` 是在核心内存管理
-+结构初始化期间，由 ``mm/page_alloc.c`` 中的 ``build_zonelists()`` 函数设置的。
-+
-+``nr_zones``
-+此节点中已填充区域的数量。
-+
-+``node_mem_map``
-+对于使用 FLATMEM 内存模型的 UMA 系统，0 号节点的 ``node_mem_map`` 是表示每个物理帧的 struct pages 数组。
-+
-+``node_page_ext``
-+对于使用 FLATMEM 内存模型的 UMA 系统，0 号节点的 ``node_page_ext`` 是 struct pages 的扩展数组。
-+只有在启用了 ``CONFIG_PAGE_EXTENSION`` 配置选项的内核中才可用。
-+
-+``node_start_pfn``
-+此节点中起始页面帧的页面帧号。
-+
-+``node_present_pages``
-+此节点中存在的物理页面的总数。
-+
-+``node_spanned_pages``
-+包括空洞在内的物理页面范围的总大小。
-+
-+``node_size_lock``
-+一个保护定义节点范围字段的锁。仅在启用了 ``CONFIG_MEMORY_HOTPLUG`` 或
-+``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` 配置选项中的某一个时才定义。提供了
-+``pgdat_resize_lock()`` 和 ``pgdat_resize_unlock()`` 来操作``node_size_lock``，
-+而无需检查 ``CONFIG_MEMORY_HOTPLUG`` 或 ``CONFIG_DEFERRED_STRUCT_PAGE_INIT``是否开启。
-+
-+``node_id``
-+节点的节点ID（NID），从0开始。
-+
-+``totalreserve_pages``
-+这是每个节点保留的页面，这些页面不可用于用户空间分配。
-+
-+``first_deferred_pfn``
-+如果大型机器上的内存初始化被推迟，那么PFN（页帧号）是需要先初始化的。仅在启用了
-+``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` 配置选项时定义。
-+
-+``deferred_split_queue``
-+每个节点的大页队列，这些大页的拆分被推迟了。仅在启用了 ``CONFIG_TRANSPARENT_HUGEPAGE``
-+配置选项时定义。
-+
-+``__lruvec``
-+每个节点的 lruvec 持有 LRU（最近最少使用）列表和相关参数。仅在禁用了内存控制组（cgroups）
-+时使用。它不应该被直接访问，而应该使用 ``mem_cgroup_lruvec()`` 来查找 lruvecs。
-+
-+回收控制
-+~~~~~~~~~~~~~~~
-+
-+另见内核文档 Documentation/mm/page_reclaim.rst 文件。
-+
-+``kswapd``
-+每个节点的 kswapd 内核线程实例。
-+
-+``kswapd_wait``, ``pfmemalloc_wait``, ``reclaim_wait``
-+同步内存回收任务的工作队列。
-+
-+``nr_writeback_throttled``
-+等待写回脏页时，被被限制的任务数量。
-+
-+``kswapd_order``
-+控制 kswapd 尝试回收的order。
-+
-+``kswapd_highest_zoneidx``
-+kswapd线程可以回收的最高区域索引。
-+
-+``kswapd_failures``
-+kswapd 无法回收任何页面的运行次数。
-+
-+``min_unmapped_pages``
-+无法回收的未映射文件支持的最小页面数量。由 ``vm.min_unmapped_ratio`` 系统控制台（sysctl）
-+决定。仅在启用 ``CONFIG_NUMA`` 时定义。
-+
-+``min_slab_pages``
-+无法回收的 SLAB 页面的最少数量。由 ``vm.min_slab_ratio`` 系统控制台（sysctl）决定。仅在
-+启用 ``CONFIG_NUMA`` 时定义。
-+
-+``flags``
-+控制回收行为的标志位。
-+
-+内存压缩控制
-+~~~~~~~~~~~~~~~~~~
-+
-+``kcompactd_max_order``
-+kcompactd 应尝试实现的页面order。
-+
-+``kcompactd_highest_zoneidx``
-+kcompactd 可以压缩的最高区域索引。
-+
-+``kcompactd_wait``
-+同步内存压缩任务的工作队列。
-+
-+``kcompactd``
-+每个节点的 kcompactd 内核线程实例。
-+
-+``proactive_compact_trigger``
-+决定是否启用主动压缩。由 ``vm.compaction_proactiveness`` 系统控制台（sysctl）控制。
-+
-+统计信息
-+~~~~~~~~~~
-+
-+``per_cpu_nodestats``
-+每个 节点的Per-CPU虚拟内存统计信息。
-+
-+``vm_stat``
-+节点的虚拟内存统计数据。
-+
-+.. _zones:
-+
-+Zones
-+=====
-+
-+.. 警告:: Stub
-+
-+本节内容不完整。请列出并描述适当的字段。
-+
-+.. _folios:
-+
-+Folios
-+======
-+
-+.. 警告:: Stub
-+
-+  本节内容不完整。请列出并描述适当的字段。
-+
-+Initialization
-+==============
-+
-+.. 警告:: Stub
-+
-+  本节内容不完整。请列出并描述适当的字段。
-\ No newline at end of file
+v2: https://lore.kernel.org/all/fbeae4056ae8174f454c3865bc45633281bb1b31.1723997526.git.linux@leemhuis.info/
+- incorporate review feedback from Jonathan
+- rename to 'Bisecting a regression'
+
+v1: https://lore.kernel.org/all/10a565e4ebca5e03a2e7abb7ffe1893136471bf9.1722846343.git.linux@leemhuis.info/
+- initial version
+---
+ Documentation/admin-guide/bug-bisect.rst | 208 +++++++++++++++--------
+ MAINTAINERS                              |   1 +
+ 2 files changed, 139 insertions(+), 70 deletions(-)
+
+diff --git a/Documentation/admin-guide/bug-bisect.rst b/Documentation/admin-guide/bug-bisect.rst
+index 325c5d0ed34a0a..585630d14581c7 100644
+--- a/Documentation/admin-guide/bug-bisect.rst
++++ b/Documentation/admin-guide/bug-bisect.rst
+@@ -1,76 +1,144 @@
+-Bisecting a bug
+-+++++++++++++++
++.. SPDX-License-Identifier: (GPL-2.0+ OR CC-BY-4.0)
++.. [see the bottom of this file for redistribution information]
+ 
+-Last updated: 28 October 2016
++======================
++Bisecting a regression
++======================
+ 
+-Introduction
+-============
++This document describes how to use a ``git bisect`` to find the source code
++change that broke something -- for example when some functionality stopped
++working after upgrading from Linux 6.0 to 6.1.
+ 
+-Always try the latest kernel from kernel.org and build from source. If you are
+-not confident in doing that please report the bug to your distribution vendor
+-instead of to a kernel developer.
++The text focuses on the gist of the process. If you are new to bisecting the
++kernel, better follow Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
++instead: it depicts everything from start to finish while covering multiple
++aspects even kernel developers occasionally forget. This includes detecting
++situations early where a bisection would be a waste of time, as nobody would
++care about the result -- for example, because the problem happens after the
++kernel marked itself as 'tainted', occurs in an abandoned version, was already
++fixed, or is caused by a .config change you or your Linux distributor performed.
+ 
+-Finding bugs is not always easy. Have a go though. If you can't find it don't
+-give up. Report as much as you have found to the relevant maintainer. See
+-MAINTAINERS for who that is for the subsystem you have worked on.
++Finding the change causing a kernel issue using a bisection
++===========================================================
+ 
+-Before you submit a bug report read
+-'Documentation/admin-guide/reporting-issues.rst'.
++*Note: the following process assumes you prepared everything for a bisection.
++This includes having a Git clone with the appropriate sources, installing the
++software required to build and install kernels, as well as a .config file stored
++in a safe place (the following example assumes '~/prepared_kernel_.config') to
++use as pristine base at each bisection step; ideally, you have also worked out
++a fully reliable and straight-forward way to reproduce the regression, too.*
+ 
+-Devices not appearing
+-=====================
+-
+-Often this is caused by udev/systemd. Check that first before blaming it
+-on the kernel.
+-
+-Finding patch that caused a bug
+-===============================
+-
+-Using the provided tools with ``git`` makes finding bugs easy provided the bug
+-is reproducible.
+-
+-Steps to do it:
+-
+-- build the Kernel from its git source
+-- start bisect with [#f1]_::
+-
+-	$ git bisect start
+-
+-- mark the broken changeset with::
+-
+-	$ git bisect bad [commit]
+-
+-- mark a changeset where the code is known to work with::
+-
+-	$ git bisect good [commit]
+-
+-- rebuild the Kernel and test
+-- interact with git bisect by using either::
+-
+-	$ git bisect good
+-
+-  or::
+-
+-	$ git bisect bad
+-
+-  depending if the bug happened on the changeset you're testing
+-- After some interactions, git bisect will give you the changeset that
+-  likely caused the bug.
+-
+-- For example, if you know that the current version is bad, and version
+-  4.8 is good, you could do::
+-
+-           $ git bisect start
+-           $ git bisect bad                 # Current version is bad
+-           $ git bisect good v4.8
+-
+-
+-.. [#f1] You can, optionally, provide both good and bad arguments at git
+-	 start with ``git bisect start [BAD] [GOOD]``
+-
+-For further references, please read:
+-
+-- The man page for ``git-bisect``
+-- `Fighting regressions with git bisect <https://www.kernel.org/pub/software/scm/git/docs/git-bisect-lk2009.html>`_
+-- `Fully automated bisecting with "git bisect run" <https://lwn.net/Articles/317154>`_
+-- `Using Git bisect to figure out when brokenness was introduced <http://webchick.net/node/99>`_
++* Preparation: start the bisection and tell Git about the points in the history
++  you consider to be working and broken, which Git calls 'good' and 'bad'::
++
++     git bisect start
++     git bisect good v6.0
++     git bisect bad v6.1
++
++  Instead of Git tags like 'v6.0' and 'v6.1' you can specify commit-ids, too.
++
++1. Copy your prepared .config into the build directory and adjust it to the
++   needs of the codebase Git checked out for testing::
++
++     cp ~/prepared_kernel_.config .config
++     make olddefconfig
++
++2. Now build, install, and boot a kernel. This might fail for unrelated reasons,
++   for example, when a compile error happens at the current stage of the
++   bisection a later change resolves. In such cases run ``git bisect skip`` and
++   go back to step 1.
++
++3. Check if the functionality that regressed works in the kernel you just built.
++
++   If it works, execute::
++
++     git bisect good
++
++   If it is broken, run::
++
++     git bisect bad
++
++   Note, getting this wrong just once will send the rest of the bisection
++   totally off course. To prevent having to start anew later you thus want to
++   ensure what you tell Git is correct; it is thus often wise to spend a few
++   minutes more on testing in case your reproducer is unreliable.
++
++   After issuing one of these two commands, Git will usually check out another
++   bisection point and print something like 'Bisecting: 675 revisions left to
++   test after this (roughly 10 steps)'. In that case go back to step 1.
++
++   If Git instead prints something like 'cafecaca0c0dacafecaca0c0dacafecaca0c0da
++   is the first bad commit', then you have finished the bisection. In that case
++   move to the next point below. Note, right after displaying that line Git will
++   show some details about the culprit including its patch description; this can
++   easily fill your terminal, so you might need to scroll up to see the message
++   mentioning the culprit's commit-id.
++
++   In case you missed Git's output, you can always run ``git bisect log`` to
++   print the status: it will show how many steps remain or mention the result of
++   the bisection.
++
++* Recommended complementary task: put the bisection log and the current .config
++  file aside for the bug report; furthermore tell Git to reset the sources to
++  the state before the bisection::
++
++     git bisect log > ~/bisection-log
++     cp .config ~/bisection-config-culprit
++     git bisect reset
++
++* Recommended optional task: try reverting the culprit on top of the latest
++  codebase and check if that fixes your bug; if that is the case, it validates
++  the bisection and enables developers to resolve the regression through a
++  revert.
++
++  To try this, update your clone and check out latest mainline. Then tell Git
++  to revert the change by specifying its commit-id::
++
++     git revert --no-edit cafec0cacaca0
++
++  Git might reject this, for example when the bisection landed on a merge
++  commit. In that case, abandon the attempt. Do the same, if Git fails to revert
++  the culprit on its own because later changes depend on it -- at least unless
++  you bisected a stable or longterm kernel series, in which case you want to
++  check out its latest codebase and try a revert there.
++
++  If a revert succeeds, build and test another kernel to check if reverting
++  resolved your regression.
++
++With that the process is complete. Now report the regression as described by
++Documentation/admin-guide/reporting-issues.rst.
++
++
++Additional reading material
++---------------------------
++
++* The `man page for 'git bisect' <https://git-scm.com/docs/git-bisect>`_ and
++  `fighting regressions with 'git bisect' <https://git-scm.com/docs/git-bisect-lk2009.html>`_
++  in the Git documentation.
++* `Working with git bisect <https://nathanchance.dev/posts/working-with-git-bisect/>`_
++  from kernel developer Nathan Chancellor.
++* `Using Git bisect to figure out when brokenness was introduced <http://webchick.net/node/99>`_.
++* `Fully automated bisecting with 'git bisect run' <https://lwn.net/Articles/317154>`_.
++
++..
++   end-of-content
++..
++   This document is maintained by Thorsten Leemhuis <linux@leemhuis.info>. If
++   you spot a typo or small mistake, feel free to let him know directly and
++   he'll fix it. You are free to do the same in a mostly informal way if you
++   want to contribute changes to the text -- but for copyright reasons please CC
++   linux-doc@vger.kernel.org and 'sign-off' your contribution as
++   Documentation/process/submitting-patches.rst explains in the section 'Sign
++   your work - the Developer's Certificate of Origin'.
++..
++   This text is available under GPL-2.0+ or CC-BY-4.0, as stated at the top
++   of the file. If you want to distribute this text under CC-BY-4.0 only,
++   please use 'The Linux kernel development community' for author attribution
++   and link this as source:
++   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/admin-guide/bug-bisect.rst
++
++..
++   Note: Only the content of this RST file as found in the Linux kernel sources
++   is available under CC-BY-4.0, as versions of this text that were processed
++   (for example by the kernel's build system) might contain content taken from
++   files which use a more restrictive license.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b34385f2e46d92..90c8681d4d311c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6719,6 +6719,7 @@ DOCUMENTATION REPORTING ISSUES
+ M:	Thorsten Leemhuis <linux@leemhuis.info>
+ L:	linux-doc@vger.kernel.org
+ S:	Maintained
++F:	Documentation/admin-guide/bug-bisect.rst
+ F:	Documentation/admin-guide/quickly-build-trimmed-linux.rst
+ F:	Documentation/admin-guide/reporting-issues.rst
+ F:	Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
+
+base-commit: 8663dd38a7ba5b2bfd2c7b4271e6e63bc0ef1e42
 -- 
-2.25.1
+2.45.0
+
