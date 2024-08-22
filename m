@@ -1,259 +1,174 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2059.outbound.protection.outlook.com [40.107.93.59])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B8721C9440;
-	Thu, 22 Aug 2024 13:34:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.59
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724333675; cv=fail; b=qipF80mLy+3lLRJun/MFsdwl1wHFsAce4IE2I9pIcl/8igpaPC0uVaF5WSBptnPeCJZuMejuf1dyDDzV+6h/KawvEgrhSdXJGIGmyZnIUJywPPGOtHTnES3LMUVAJ+n+O/Z5VJTQehNO1YEBtPIcMVVHA+w1tKrWnxwbR1lLwVg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724333675; c=relaxed/simple;
-	bh=++gqxFF3pHKgZ6k0LMQHFoncFertEIyglMTOgfLRD78=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=l/twKU7+p7Y57Rx9YzXGiD7bePvRYxrzXLAcTFMnhqngrnzGo0zgyXO1bFQ/GXgf16StFFbG8HPSxtsSrtzl1jPzaj7Zk+mZlWHl1TVRc4VVuv8PB3NOx9TG/y5VEUNLNqt2ZLiVf5C97+tm94DSFqNAdVAULyLGAbPCUn+17PU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ShRFHmwt; arc=fail smtp.client-ip=40.107.93.59
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8091CB321
+	for <linux-doc@vger.kernel.org>; Thu, 22 Aug 2024 13:48:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724334484; cv=none; b=VUFoSmSjnZSbK/V+i04AsP/elegKAqs8bFCC3b9AVgrMf8wlM8Ud+IA1avWefxp8WK5KSQtjeau7Q9CkAmnzknL2OB3MCDOsH1d37mE5ButDArzh1M0FbRzBRwl1suNTc1B6riElrIXQNNT4WvjAq+v3Z8cOnThND6AF+ppWkpc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724334484; c=relaxed/simple;
+	bh=TveaYkEbx2doRY7IcRS2QWPC/9cfsUPF8paUrSreb6o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=X/U55nFXIupZ7XsByQG+d9VpbPdo5miVLRAOt6qBCiPb+hj1QeEZ/Mebv05rs0G1GJV8e/wpNNF+PRvgbx0+bmB0soMS3rX4U5aSBgjt65jaIGgY/jIS10+Y9fH4zKLrg9hr3yypjHEibne0puwfDhqIuIeBoKpCmlTDFybubJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cWFAPPE0; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ShRFHmwt"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZIe4n9P7PUsjlj930arxZtibLiTBPg8P4vz+VnQwFBvK+idxI91g6hxYAZNcIFwWX8DUMKkNokpuxLkM2Bp3HBLKfKu96Ote0SwOURpAClEKUx73KmK+uiPKpxJybz9EQvGJo2AjoweBcNfPBwKK14F5nFP99d6d6UU2tanoB7Gz7rH+C0s7tbHYz9B8gfQGbX1NfqKppjwrOtvrSk2E32zbd9CaWjuvRQR/JEJiNM98xx9SOiSDhheB2BMMzuWXjR1nfpNjqV1sgJUN4mULmH5h48lff9U4gtCLRLiIqmE2/H8BNwjlXYn0GWIACYI8OEDBajevJgCoLcoZLvlQPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PadkYNYfQasG1Xao9DaHY2/cWouAKSDb2Jqibk9JlII=;
- b=tXNOJ8uD/ziECDn9Z36qELNCf8AQGuAp6qzDxPqthQZPgd97bZb10EtXPMpvTxOqx6YkjaU4CPdrsrP0GqCgzzw6VhZ5SjR8IWLrZDm5URutQJR9b9JZhovRHnw9BFHVFzOrxens+qAFAZKd22rmYP+Sdhzh5Wuc33F+fjoA/1RjurZVVP3/1oCixmBF2H7T8+oJzrL/bZyYaTgpNrNlfax5ejABGYfQaJIB1VK8J2b0ECcSPIp78bi/tS8IW06ITOe5NwatTfc3C9x83b3gcoJ1Q5MJBc/aOwcJZNAP+WQ0dX1T3P/7j4aQ+yxK7r4eErJTq9++O0tQp07dwtNF1Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PadkYNYfQasG1Xao9DaHY2/cWouAKSDb2Jqibk9JlII=;
- b=ShRFHmwtwt84BJ6w+vSUMYsoJ8a8WsH4tp9og0OhDlgo83/qZ3xTKSJxXwOnbWanABtBWeGRKXNVjWH7XbiYm0QSGMmoicirFWozn3KWkmjMFKv0z9w/zFCF6bRL0ZXnPY6C5mw/4ICtZQBqw+VdBs6Wwy0e8Ti4dU4+m/D7y8Y=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by CH3PR12MB8209.namprd12.prod.outlook.com (2603:10b6:610:123::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.25; Thu, 22 Aug
- 2024 13:34:28 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca%7]) with mapi id 15.20.7875.016; Thu, 22 Aug 2024
- 13:34:28 +0000
-Message-ID: <3940dab1-ec3d-4d14-a43e-8821b9f6a1de@amd.com>
-Date: Thu, 22 Aug 2024 08:34:34 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/4] drm/amd/display: Add support for minimum backlight
- quirk
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Matt Hartley <matt.hartley@gmail.com>, Kieran Levin <ktl@framework.net>,
- Hans de Goede <hdegoede@redhat.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, Xinhui Pan <Xinhui.Pan@amd.com>,
- Jonathan Corbet <corbet@lwn.net>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Dustin Howett <dustin@howett.net>, linux-doc@vger.kernel.org
-References: <20240818-amdgpu-min-backlight-quirk-v5-0-b6c0ead0c73d@weissschuh.net>
- <20240818-amdgpu-min-backlight-quirk-v5-2-b6c0ead0c73d@weissschuh.net>
- <269b2e72-2f93-4415-a56e-77536f373b22@amd.com>
- <f516b4af-0dac-4607-bdab-e4c83395fe04@t-8ch.de>
-Content-Language: en-US
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <f516b4af-0dac-4607-bdab-e4c83395fe04@t-8ch.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR05CA0011.namprd05.prod.outlook.com
- (2603:10b6:a03:33b::16) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cWFAPPE0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1724334481;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=FjYBhspv7tRST0pSqSmRh821Mv70zB5zctMwrlaK9DI=;
+	b=cWFAPPE0P3RsYgVyL2MrGq/KalMVHE//NKpfZGFo+mR+n2nh02MTPa8LD8E7ldfZb4JtPC
+	+LziWOjHJtHyoK0PCIzv9PmpZfxLm5LOqqNuxn5HCzisPlC6ZrIIYsU/i5/y+sZ++dl7N4
+	bvQNx5ANQFelGnXNm/JTnwByxRAolOU=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-177-iQyb5LuRMea96r84_jTb9A-1; Thu, 22 Aug 2024 09:48:00 -0400
+X-MC-Unique: iQyb5LuRMea96r84_jTb9A-1
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-428ea5b1479so6323375e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 22 Aug 2024 06:47:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724334478; x=1724939278;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FjYBhspv7tRST0pSqSmRh821Mv70zB5zctMwrlaK9DI=;
+        b=kPUQfg08GIv1cBj9FGK3G1XDahdbooJsEMHVpSujK9/HiCZ+c4AmDIaU1x4/WGnUaH
+         9+o5tNz3H4zXxerIGzAZcTePCeW2jRIf5r3baAitR9qPcx/IJL9B6JK61K8oIt4UAYoY
+         fqchni9U2rB1AmIKoHUA6OH3Q7uUNPF7KgeGhEO2UdcEeOqpaBC9DmTY3m3MRXNP7f5B
+         aa9eNESbe1Gb/o/ZU/lp9wk1t78QPOsiU5gfwBxs5Hv+PSmrc5ylxqopy32twFUbJRp9
+         oH7d0DID2LMVDeQjB9UnCr4TxplE6m0tbCJqjX+/ccSaDmAv1zz8HRoQ6zwuyT5Nd3Pb
+         GWyQ==
+X-Gm-Message-State: AOJu0YwPfdBSg4umzH0UMdILa2kTHLWSKlpPoKLaB2hEWS2BuFxxqu2z
+	r9bULe0WMHadhUUGfxog5xujRmx75Ez7j6fNgnq4dFwsE4eExlf8XGWsGlCXEGITKRlQYdrFOPH
+	kYGL9/SZkN28fGFVbN0eiLbSVAhdy/dN8ySvGkiCma6yDeBrqSU7H8YYtGg==
+X-Received: by 2002:a05:600c:5014:b0:426:6e95:78d6 with SMTP id 5b1f17b1804b1-42ac55babf8mr14882935e9.4.1724334478059;
+        Thu, 22 Aug 2024 06:47:58 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH9pgATN30e2cGvgnx/4ylawVQ+wC24Vnwz41hd/vPVumxXeQFsraVN5ewZN1S7fwv2HF76Rg==
+X-Received: by 2002:a05:600c:5014:b0:426:6e95:78d6 with SMTP id 5b1f17b1804b1-42ac55babf8mr14882365e9.4.1724334477513;
+        Thu, 22 Aug 2024 06:47:57 -0700 (PDT)
+Received: from eisenberg.muc.redhat.com (nat-pool-muc-t.redhat.com. [149.14.88.26])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ac5162322sm25057215e9.24.2024.08.22.06.47.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Aug 2024 06:47:57 -0700 (PDT)
+From: Philipp Stanner <pstanner@redhat.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Jens Axboe <axboe@kernel.dk>,
+	Wu Hao <hao.wu@intel.com>,
+	Tom Rix <trix@redhat.com>,
+	Moritz Fischer <mdf@kernel.org>,
+	Xu Yilun <yilun.xu@intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Alvaro Karsz <alvaro.karsz@solid-run.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Philipp Stanner <pstanner@redhat.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Hannes Reinecke <hare@suse.de>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-fpga@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	virtualization@lists.linux.dev
+Subject: [PATCH v3 0/9] PCI: Remove pcim_iounmap_regions()
+Date: Thu, 22 Aug 2024 15:47:32 +0200
+Message-ID: <20240822134744.44919-1-pstanner@redhat.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|CH3PR12MB8209:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1a4e1954-6353-47e8-5afc-08dcc2af251e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?ZklsZ2djQWltcUdhRmJDck5ka0NyeVBUemIyWWFSUnlzMEtGVnM5dHR3eVNK?=
- =?utf-8?B?SDU3ZVo3TUJHd3E1VTNIa01KMm9XRWxJK0h0UUFsaG1uL1BCeWZPcXJmcXJK?=
- =?utf-8?B?c2pGZU1lQktyOTJKNmU0UDIrMy9xM0N5L2lQYThJVnV3UllQYmVWb25BMFdD?=
- =?utf-8?B?RXI3QU0vNldqblZuNHRGUzI2dE5mMnd1V1dMWm1aVkVzZnlFbnNuM092dU5W?=
- =?utf-8?B?TTJad1hoTjd2MXZBaDk5MVIza1RRKzFMRG5adTMyaVBORVg3aXlBYmhOZSt6?=
- =?utf-8?B?Vm44V2ZBRG80d3plK2JVbWlIRVNVR3FCSG9xT25DMWJVZDZGZ29uRVNTZzY5?=
- =?utf-8?B?R0FrVE5qSklWaGFiQVd5RCtVZ1ZtUzZ3ZmlacHNGanc4U2pyOWZTQ3U4NnRC?=
- =?utf-8?B?UWVuZWdETFNmbTRDQVJjZnVkSThPRHlwaTlrT1VSZWlJSUx5V2prNlJTQzc0?=
- =?utf-8?B?cGkyaWZlZ0ZsTkJTbXVpMkwwSkZDZzY5QTE3T2I0Qm1EMmljVEJVR2pTU0Rv?=
- =?utf-8?B?aUc2NUd5YUhMZzdwZGxiT0MwMkFuTG4wdGc2dHI1M0hublZQSXZtbDc4SEFa?=
- =?utf-8?B?cFVMZHFvclRKdFdlMTBoMGFWT2s5cjgveWlkVGJNRWZlUi9hQUR6aTlOd2xT?=
- =?utf-8?B?cnp1MFphbXdoRzE0ajRubysrRVhJUDdRWUUrSTVzWFZsQkdoMzFFNG5yZkgv?=
- =?utf-8?B?N2FHZWFBZzhKeDcyNGtUbmptVnYyU25YSHBuSmlXNHNQN24ySFVrTkVzdng4?=
- =?utf-8?B?Ynh3emFtWGlERWErVEJRQzhHdE5YQmROUk9KWnhDblROL0pSY2I4YmozRmt3?=
- =?utf-8?B?d255Mnl1UTNpVTY5VTZ0SmR5emo4WXJMUmtlcGFBZnZGRUpvQkR5cVZSOTRU?=
- =?utf-8?B?KzJWZDlDU2h1a2RUUGhVZW5KUTBmQVlZemwrMjdXYWJDZmZPTmJBNWZoM2Ft?=
- =?utf-8?B?Z0tYbVJBSmtQV2U4Snp4TGtvRTl3QXBGSjlISHg3YUdvOFJmNEVTRUliVUJM?=
- =?utf-8?B?WSsrZmN3ZndPMzkxRndCVXpWQWRJenpxSndmZTJvNFBFWDJIN21KZXVadUdC?=
- =?utf-8?B?cWRQQnNhRHZqQjFPKzNqOEkvc0ZLaWs1Rmh5a1hMTlJPc2RrcjVpOEhsV0Mz?=
- =?utf-8?B?bzJocE1LdVBlaVNGM3RsTXBDMWh6WUxKczNEa1VFUkZsakJXekhEYjR1OUJI?=
- =?utf-8?B?RzNvRXhrWW1DNFpyWGdBeld2ZncyTW1VQkVnSUlLaHZ2czA2SHY4dytBcktr?=
- =?utf-8?B?YlZWQ0R3L0IvZ1RwRlphZ2lLbGNkanJ6VUpINGljWjNmRGY5b1lLSEttWHlW?=
- =?utf-8?B?ZkxOS2ZaOHEyNTgwRis1am5XVWpyNEM2WGtCK1R6NjNsN0NDVTRLS0kxRi9V?=
- =?utf-8?B?NzFqN3hVNzVkSXRIZ2JPYThteWpERm81MS9nMGNWZXhlL0ZqS3F2bm5WZE56?=
- =?utf-8?B?bmJoMUZXYzQ3RE9qbHdlN0J4b2VFdzZvM0lQWERwU0ZXSVRwc0RKNjRsYzl4?=
- =?utf-8?B?ZElxenkxNnlRbnlKcUVLMGcrV0FsZEM5ZCtKeGpGSG5KRUx0d0hEMzdKRjdp?=
- =?utf-8?B?RlBMQ2o4RTUyc0Q1ZzhtK3VUeXFXL05UWmNMM1hJckZwdGdxZ1hTVWprOGFP?=
- =?utf-8?B?WExDNGlSVSttU1ZQeG5lYmlDaFBPTDZUU0Zxa1JOMXFKOFJYbE9VbWg0dHJr?=
- =?utf-8?B?cXZHaGQrU0I1SDFtMUEwNDQzelZzd2Z2NUlFbHhIZi80c0x4YS9qTUxhZ0ZU?=
- =?utf-8?B?dzZvY2lIdlNnZklkakY4TDJ2dS80RUlsdEI0MDU5MjZ2Ym1HR3k3NGdkTmdm?=
- =?utf-8?B?Vzg1RXlqVjRLUWVzRUFiQT09?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RlowS25wUGpZMU5odUM5YXY4M1doTlYxNU53cmw1RGIwekUvbzZYcXVtZUZl?=
- =?utf-8?B?TjRaeDEvdkRmcFdoSWd1bkNwMStLTzZXVklTUGJrd1c0MVBsUTd3UTZEUE90?=
- =?utf-8?B?dTh1dHorQ3U5UFpYYWllR2x5STBWZzFNdXFyelhNd0dicFQzS2hPNVNGRmd4?=
- =?utf-8?B?dTZZMkltQXdYejlhNnFVNGZ1Q2RxVVczanZmN1prOTlyNTU2bUhKWGlBZkUr?=
- =?utf-8?B?MDJTUFBPMVF6WGUxSkY2NXRLYmE2NEo5cytNSlE0YzBwWVRJNmpyRC9KWS9X?=
- =?utf-8?B?MEw3NDRGTEhxeEloV2JLbUVjNmExazE4YVFZN29sbjhLVEtaL200RjNJMjBs?=
- =?utf-8?B?bE9CWjdvazVOTlJqNW1lSVplRU9SVmNsVUFnK3QzMExWanQ0ZXdaK2ZNcmtN?=
- =?utf-8?B?RjBha3g3cElPQ0VqZ0NnSjEySDFnYVcrSklIM1VQdk14ZkxFaHBtYkRrVzFC?=
- =?utf-8?B?a0Q5S2dNNGEySEtxcVhJOHdxSzUwOXIvcy9pUHVOcnZJeGRtR3d1WTNSV0RO?=
- =?utf-8?B?dmh6RVNKaFpVc25ueVZVQW5mRmMrQWlTSlZGMVpOYzhpSFVpQUN1ZHllZGl4?=
- =?utf-8?B?NnF0cnlqSlNXRnV2ZUZXZW9tK2Q2eUw4L200ejdnSGl1cjA2T0o1WUVEVkZ6?=
- =?utf-8?B?SFVhODE4K3liQkFjQzJsa0NmNXoveUZpaVBXSGlHSktWQ3p4VFA2bVBNb2pl?=
- =?utf-8?B?L0Q2UHlJeFlOWTgyRlUrZmc4V0ZBWjVhSG00S0FmSE9JZGtNb2hlNXBaK2Jh?=
- =?utf-8?B?K2c1TEhzemlSL2s3VmllVUlXa0FCMFFpOWhteXZicDF3L085UHJmZG80ZlA4?=
- =?utf-8?B?enU1T3FDY2xOQk92MU9nZ25XdDRWZW5MTzFMZjExSlhhN0JaNGluSWZGZUVp?=
- =?utf-8?B?QkFib0U0UHloNVJSUmx6dVhVWTlpQ25PNlJQZEdEUXF2U3htYVo1Ujc0ZnVJ?=
- =?utf-8?B?Y3NJQ2dqWllBc3p3WDByZGFoeWlva0RaZTJlaWk1YzhhN2l4eDQvam5mR3gy?=
- =?utf-8?B?dlVXUkg5blZJSHdoY1VHb0R4c3dmL1FNb0RqWW4yOENuR3doQm1ORFVNbnlF?=
- =?utf-8?B?Z0QxQXhZY0hJOXB6U3loZEFHOFkxdzFKcysyQkxGdHhNSnNaQmdpRnFETFIw?=
- =?utf-8?B?bVJEM01XZURDbFEzaHVhREtINnVKUWRVN3p0TnZkVVExaEZFc1VENjFKRkVw?=
- =?utf-8?B?UjljdDlmQUhaNjRzZ0ZSNVIrY0RRc0lNb21Oa2I0dEhMWlZxbG4vWXBzQ3Q0?=
- =?utf-8?B?eFVLUWgzUmkwa0xxVGE2L2NMaTBKalpZNlIxZVYwR3dIaE5hYjQybktlKzM5?=
- =?utf-8?B?cGxLNEpmRFgyazFpN1lWS0NQYkxNZXAyZEFDOFZtZTRsZ1JsaGNDRDByaWdT?=
- =?utf-8?B?dTZXYitmSkk5T3dhTTZGbWtGaVhWZERaMjQvNTQ4R2t6SENzbjQ2YXlWcmVj?=
- =?utf-8?B?MFpid0Vzb3NGNkszZkRGMjhsV21kblo3TW8rcUoxL3JBR1BJZVM5czEvZFlC?=
- =?utf-8?B?WUk0Z2NhTFlseHA4NXdiRE9GZzAzR0ZLZWR4QUdqa2kwUHQ3M3haeDdvVXp2?=
- =?utf-8?B?NDJVc1BCVVRlZnlaZllzaXdNZU9mZ3JaeGRnYW1ORzJ3Zlc4dUFnUG43Z0hy?=
- =?utf-8?B?NXNydDR5Y1Z3cEJ0ZlZGanpISXZoaVZSNVM3ZUdkeXZYUjVmU2pWcEF6dnFl?=
- =?utf-8?B?bW41R1pOU1FXUEZZeTBsY2syOUhrRFcvY3BXd3E0ODBpRjg5RlM4cmJxYTZE?=
- =?utf-8?B?YXFnQk5TMzZUVWhFY2NqTTByaVpmeDhRd0hDcmNUOHhmSHd1V2NpMWVpSndD?=
- =?utf-8?B?WTE0WmRBL05zZGhXbXZUcndQbEpkaUxMQ0NyN3BPaUVLT3dBbDJ5LzF3UXFn?=
- =?utf-8?B?QnBMVjRtUExlL2NZcHI4UVVJYmVZUVI5V2RvaHBGNHQyMFhlZ29KTi91Nms3?=
- =?utf-8?B?ZDJVcDJ0Tm1ST1NTVldxaDNBT1JVT3h6WU12cjJ1Q3JZWnVCdGNUSkhRNVl2?=
- =?utf-8?B?Q0F4OUNINlRCZlZmcnB5TU1LTnIyWWgrNUQ1QUhKcGIrQnRuclg3ZTZkUUFr?=
- =?utf-8?B?TnJkNEJvWjlhUXBDSzBWRnk2SVZyd3pWUFJzY0pqTkorVjRzdWcrSHpCeHBO?=
- =?utf-8?Q?+TNC6y+c2NCYnBiFLV4mAm91e?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a4e1954-6353-47e8-5afc-08dcc2af251e
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2024 13:34:27.8829
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Snc1rxzPMeaSBPyZRMr0QKXEbDaGINi/hWzpUXSbqJ8SpIqkbD2u7EI4VYzY7/DFwYrY+1hnHW2UpS4ooJzJ/A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8209
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 8/22/2024 01:14, Thomas Weißschuh wrote:
-> On 2024-08-21 15:54:14+0000, Mario Limonciello wrote:
->> On 8/18/2024 01:56, Thomas Weißschuh wrote:
->>> Not all platforms provide correct PWM backlight capabilities through ATIF.
->>
->> I don't think correct is an accurate term here.  How about 'optimial'?
-> 
-> Looks typoed to me :-)
+Changes in v3:
+  - fpga/dfl-pci.c: remove now surplus wrapper around
+    pcim_iomap_region(). (Andy)
+  - block: mtip32xx: remove now surplus label. (Andy)
+  - vdpa: solidrun: Bugfix: Include forgotten place where stack UB
+    occurs. (Andy, Christophe)
+  - Some minor wording improvements in commit messages. (Me)
 
-heh.
+Changes in v2:
+  - Add a fix for the UB stack usage bug in vdap/solidrun. Separate
+    patch, put stable kernel on CC. (Christophe, Andy).
+  - Drop unnecessary pcim_release_region() in mtip32xx (Andy)
+  - Consequently, drop patch "PCI: Make pcim_release_region() a public
+    function", since there's no user anymore. (obsoletes the squash
+    requested by Damien).
+  - vdap/solidrun:
+    • make 'i' an 'unsigned short' (Andy, me)
+    • Use 'continue' to simplify loop (Andy)
+    • Remove leftover blank line
+  - Apply given Reviewed- / acked-bys (Andy, Damien, Bartosz)
 
-> 
-> What about this?
-> 
-> Not all platforms provide the full range of PWM backlight capabilities
-> supported by the hardware through ATIF.
 
-Sounds great, thanks!
-> 
-> 
->>> Use the generic drm panel minimum backlight quirk infrastructure to
->>> override the capabilities where necessary.
->>>
->>> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
->>> Tested-by: Dustin L. Howett <dustin@howett.net>
->>
->> The code looks fine to me but please wait for an ack from someone on the AMD
->> display team.
->>
->> Also, I would like to see comments about the testing with panel power
->> savings enabled to avoid a conflict.
-> 
-> Ack.
-> 
->>
->> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
->>> ---
->>>    drivers/gpu/drm/amd/amdgpu/Kconfig                |  1 +
->>>    drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 10 ++++++++++
->>>    2 files changed, 11 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/Kconfig b/drivers/gpu/drm/amd/amdgpu/Kconfig
->>> index 0051fb1b437f..655c10aef2e3 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/Kconfig
->>> +++ b/drivers/gpu/drm/amd/amdgpu/Kconfig
->>> @@ -23,6 +23,7 @@ config DRM_AMDGPU
->>>    	select DRM_BUDDY
->>>    	select DRM_SUBALLOC_HELPER
->>>    	select DRM_EXEC
->>> +	select DRM_PANEL_BACKLIGHT_QUIRKS
->>>    	# amdgpu depends on ACPI_VIDEO when ACPI is enabled, for select to work
->>>    	# ACPI_VIDEO's dependencies must also be selected.
->>>    	select INPUT if ACPI
->>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->>> index 983a977632ff..056960ea335c 100644
->>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->>> @@ -93,6 +93,7 @@
->>>    #include <drm/drm_fourcc.h>
->>>    #include <drm/drm_edid.h>
->>>    #include <drm/drm_eld.h>
->>> +#include <drm/drm_utils.h>
->>>    #include <drm/drm_vblank.h>
->>>    #include <drm/drm_audio_component.h>
->>>    #include <drm/drm_gem_atomic_helper.h>
->>> @@ -3333,6 +3334,8 @@ static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
->>>    	struct drm_connector *conn_base;
->>>    	struct amdgpu_device *adev;
->>>    	struct drm_luminance_range_info *luminance_range;
->>> +	const struct drm_edid *drm_edid;
->>> +	int min_input_signal_override;
->>>    	if (aconnector->bl_idx == -1 ||
->>>    	    aconnector->dc_link->connector_signal != SIGNAL_TYPE_EDP)
->>> @@ -3367,6 +3370,13 @@ static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
->>>    		caps->aux_min_input_signal = 0;
->>>    		caps->aux_max_input_signal = 512;
->>>    	}
->>> +
->>> +	drm_edid = drm_edid_alloc(aconnector->edid,
->>> +				  EDID_LENGTH * (aconnector->edid->extensions + 1));
->>> +	min_input_signal_override = drm_get_panel_min_brightness_quirk(drm_edid);
->>> +	drm_edid_free(drm_edid);
->>> +	if (min_input_signal_override >= 0)
->>> +		caps->min_input_signal = min_input_signal_override;
->>>    }
->>>    void amdgpu_dm_update_connector_after_detect(
->>>
->>
+Important things first:
+This series is based on [1] and [2] which Bjorn Helgaas has currently
+queued for v6.12 in the PCI tree.
+
+This series shall remove pcim_iounmap_regions() in order to make way to
+remove its brother, pcim_iomap_regions().
+
+@Bjorn: Feel free to squash the PCI commits.
+
+Regards,
+P.
+
+[1] https://lore.kernel.org/all/20240729093625.17561-4-pstanner@redhat.com/
+[2] https://lore.kernel.org/all/20240807083018.8734-2-pstanner@redhat.com/
+
+Philipp Stanner (9):
+  PCI: Make pcim_iounmap_region() a public function
+  fpga/dfl-pci.c: Replace deprecated PCI functions
+  block: mtip32xx: Replace deprecated PCI functions
+  gpio: Replace deprecated PCI functions
+  ethernet: cavium: Replace deprecated PCI functions
+  ethernet: stmicro: Simplify PCI devres usage
+  vdpa: solidrun: Fix UB bug with devres
+  vdap: solidrun: Replace deprecated PCI functions
+  PCI: Remove pcim_iounmap_regions()
+
+ .../driver-api/driver-model/devres.rst        |  1 -
+ drivers/block/mtip32xx/mtip32xx.c             | 16 +++---
+ drivers/fpga/dfl-pci.c                        | 16 ++----
+ drivers/gpio/gpio-merrifield.c                | 14 ++---
+ .../net/ethernet/cavium/common/cavium_ptp.c   | 10 ++--
+ .../ethernet/stmicro/stmmac/dwmac-loongson.c  | 25 ++------
+ .../net/ethernet/stmicro/stmmac/stmmac_pci.c  | 18 ++----
+ drivers/pci/devres.c                          | 24 +-------
+ drivers/vdpa/solidrun/snet_main.c             | 57 ++++++++-----------
+ include/linux/pci.h                           |  2 +-
+ 10 files changed, 61 insertions(+), 122 deletions(-)
+
+-- 
+2.46.0
 
