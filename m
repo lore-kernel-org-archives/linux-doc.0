@@ -1,137 +1,183 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6685154448;
-	Thu, 22 Aug 2024 20:52:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824BAA933;
+	Thu, 22 Aug 2024 21:39:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724359938; cv=none; b=tTCedamDz57bE3wRE+PaXQ/lU0eXEhTf1Fwwo/v/pr6WSapGkeE0xL4+Nb0oYJsROb/a6E/wgf1l3cSpXhIwt5XupR0cGimumehrRxCG5Vwj1MqR9OB2r1rYw2UJzKq0juuOZBe83rdiGGoL3Dk/7ekF8CgtXkQSrnALW7X+540=
+	t=1724362758; cv=none; b=SkVWiBTY2+wmnOd3ShkMB3Au+YBX9OBPlZ21IkZSg+DUsP2B/lZq5N+o62oc2IZjoD1Ja+9pucdDX8+q1Mwe9Ch/HeNhjFthXUIBNWU6uuWDKcwD31zYtL/uZlK+oxRudg5v/aOyXNvtop0N0CimEkqZpbZx1UDzOvCyxEaniE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724359938; c=relaxed/simple;
-	bh=2x3OHdXqC2nN68R6PsfrH7HZf8vLL3DwjDZ/e8OcwPI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Dn+wXH6EjVUKKI1lU3KAgBw29s/GGeaCASUD7zJQpexSoAQ3iLjB3RLoTx9M+Hjd5tV7vQjTwDVleimJnkqqIzisTgq7DJbBJeL2nDJkw9pb194JGfmt6+eDRX29KEuv/bEE8/42fUXsiy4jwPEatK0PALzg9JDnU/2Rh24a2IQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=xSU3+fxt; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PfdDAwWD; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1724362758; c=relaxed/simple;
+	bh=+39veRksgq9Q04CTRb52aRC0jGhyFgQuRQSLZwaTmY0=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PxD5KIE0AN1paqWTSlz73dgGxxXXVEc8135tHnEaNxBY3/qF41RLrPveBj7DZOCq9VTgwsk+H5Zj6o42I+9OnVX8mvqW7rMFhuEpJcUJTHbptiDDlTbU7tK375/+lad/UWiva/IoNAZtuAEBqJlW/wjuaI6+cKcwlMzS+YZyhdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IyhLNEty; arc=none smtp.client-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="xSU3+fxt";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PfdDAwWD"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1724359934;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LwRahi9Tt5Gcpo+n8KvB8bABTwMi1Q1kuJQ9Biekl6A=;
-	b=xSU3+fxtjjSwe8kudeyVPEiovj2q5IGkfReXjg9445u3ij5IKsu8+xHlcnClHw1XCnNHit
-	pxIBDJj1sI0dphETij+17EKZNJIAMzijqrJgnGlK4pu3auNV+qEWnpa4zlfb4uLjxmIshV
-	UGo5Ks9BQMg8C+l7pr6B4+mgoaC8TjdE6QmOWfMIxWPUeuDPUSaFi0vT2RKS7XEPjRMFTc
-	OokcyFiNrMet5UArOaKsbwXi5rEJnPcjRjuO/EL1+0pkWrrDfv96pU54bF5jFxJnO31JJ0
-	HtEh1H3OeaFZLxAh+qWyxog832OH4ST8FZXdc0T4F9Ppwl7XeDpS8VITlhejQA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1724359934;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LwRahi9Tt5Gcpo+n8KvB8bABTwMi1Q1kuJQ9Biekl6A=;
-	b=PfdDAwWDxxlAY208eWnSCU8Z8GWkec9oOlmVGmRFbxtqo+iJYOA6x2kNDGzpwvlybzkczF
-	S8pyLJRkHUCI1XBQ==
-To: Huacai Chen <chenhuacai@kernel.org>
-Cc: Tianyang Zhang <zhangtianyang@loongson.cn>, corbet@lwn.net,
- alexs@kernel.org, kernel@xen0n.name, jiaxun.yang@flygoat.com,
- gaoliang@loongson.cn, wangliupu@loongson.cn, lvjianmin@loongson.cn,
- yijun@loongson.cn, mhocko@suse.com, akpm@linux-foundation.org,
- dianders@chromium.org, maobibo@loongson.cn, xry111@xry111.site,
- zhaotianrui@loongson.cn, nathan@kernel.org, yangtiezhu@loongson.cn,
- zhoubinbin@loongson.cn, loongarch@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Huacai Chen
- <chenhuacai@loongson.cn>
-Subject: Re: [PATCH v10 2/2] irqchip/loongarch-avec: Add AVEC irqchip support
-In-Reply-To: <CAAhV-H4umZBXAugRm45=dewiTGjpDSJf2wnjCtkakk+xG3VLHg@mail.gmail.com>
-References: <20240815112608.26925-1-zhangtianyang@loongson.cn>
- <20240815112608.26925-3-zhangtianyang@loongson.cn> <87msl7jgye.ffs@tglx>
- <CAAhV-H424SB_Ff6y4m4Cb7Cx9eWTLbK08Wycwa803y08qWVoOA@mail.gmail.com>
- <87cym2hrqz.ffs@tglx>
- <CAAhV-H4umZBXAugRm45=dewiTGjpDSJf2wnjCtkakk+xG3VLHg@mail.gmail.com>
-Date: Thu, 22 Aug 2024 22:52:14 +0200
-Message-ID: <87r0aggu0x.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IyhLNEty"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-7bcf8077742so934014a12.0;
+        Thu, 22 Aug 2024 14:39:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724362756; x=1724967556; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4lapMsfxqEHGeVn8F/nOKzcEtprNP+KFTP6KpIca0dc=;
+        b=IyhLNEtyWdoLCIRIGv/+8iLplWqiyB8kgODtehKAgLGoLfTcMUfC9N/nx69Fgizws9
+         95sVkads7Di/CGo1sKkistOmgM4h7oQteZ44DhMAwWoCvpWm7LSVfV8u1c3Hqp+5HCIk
+         LqTp2L9vCjwTYqerIxydIR9HidBMdbjGHnsdnGKM7Zir0pHxwgl/9ZVwSYUSHqASGxbP
+         H16nq551WfAXYJYDaqfiemvSqyhZWBkNiZB0hSRhfOZ3zhBAMjrTeQrzM/oCIkygC91u
+         Tpgds3uuRzcn/7jUJeacpZsZzZH+cbLlOxnQbVzK5VXNOHb/VP87gNZRLXVbtkcqwZql
+         IAqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724362756; x=1724967556;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4lapMsfxqEHGeVn8F/nOKzcEtprNP+KFTP6KpIca0dc=;
+        b=oIzJiauqsh3upcsKd3Si+MzhjObiyDF90tjzdPL3Q0IVeCoP7iG7l6D++6cVqqE1MF
+         OQv88QJmENpvjj4pr3hPEbtKmE4zcOMAW/3C+lOg61jeS7AsG/6Wr+QMIaU1u58eVm13
+         8nvwzKn46NDOeo8s+Pa9Qsxhf10ScHuQj89fYRJYSy5l7+ACWwZFNHRqmRnfvDyQsjzl
+         SCqLtinJfkWDZi87haJbC/2TPOBXuZ3S8EShiaiLpb8ne4sLxhxvygNULCa1pOHFZoM2
+         0tvtWAKe2CcIlA0bQXPDsuJyf+Y7Rt6Kux/GEodShc7nEuWHsqpF5aDpWyzs2Ja1s9TS
+         q0Uw==
+X-Forwarded-Encrypted: i=1; AJvYcCVxszB6yxUOMXikt+d814EX9je2k2lm4qKEX/NpuMgpITBEk3FhQY+LmXRG89420KJVhy2N/v4Ra8gq@vger.kernel.org, AJvYcCWP1YGtLFQ+qCXho1IPr+W3U5k6x0YsmD4FxKHanntRJoLyyRy/waUzMRYdizPvHIBQWEAVCoZTu61LSEz5@vger.kernel.org, AJvYcCXIe/Kqbr+NZi7RHIQs9wBQmnwXzbN6DGfInM+JjuhSzh4JEebT/fH0PA/uMVyOY7oI4rF/fJ8YPnLo5w==@vger.kernel.org, AJvYcCXud81Ik1puSbhcZRs6L/NLuvML9ohPtD7Wxrhisr9stW90TG7M+0rZRYhZhWFzS8IIG9In9J1qdujZ@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPd942kkeztXTkMAlRghvmBkRFiIgoAWQwuvg9W6AKm0iwmAGz
+	bWK77Er5CTNX0IxzPT6f0A2pR5ZOlONkdHpn/6i9LUl1bMo9dEwE
+X-Google-Smtp-Source: AGHT+IEOtp11CIsD6bvJ9HhdPD7yo7y8zut7NgWkbt/YY3g8PaQOXy2xj43HqtE9c5QlyIIaVo8m0A==
+X-Received: by 2002:a05:6a20:2d13:b0:1c6:ed5e:24f with SMTP id adf61e73a8af0-1cc89d7dde9mr472696637.23.1724362755692;
+        Thu, 22 Aug 2024 14:39:15 -0700 (PDT)
+Received: from fan ([2601:646:8f03:9fee:3cd4:f45f:79d:1096])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-714343405f6sm1822047b3a.186.2024.08.22.14.39.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Aug 2024 14:39:15 -0700 (PDT)
+From: Fan Ni <nifan.cxl@gmail.com>
+X-Google-Original-From: Fan Ni <fan.ni@samsung.com>
+Date: Thu, 22 Aug 2024 14:39:12 -0700
+To: Ira Weiny <ira.weiny@intel.com>
+Cc: Dave Jiang <dave.jiang@intel.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Navneet Singh <navneet.singh@intel.com>, Chris Mason <clm@fb.com>,
+	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	linux-btrfs@vger.kernel.org, linux-cxl@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	nvdimm@lists.linux.dev
+Subject: Re: [PATCH v3 14/25] cxl/events: Split event msgnum configuration
+ from irq setup
+Message-ID: <ZsewAA6VxM4U4inw@fan>
+References: <20240816-dcd-type2-upstream-v3-0-7c9b96cba6d7@intel.com>
+ <20240816-dcd-type2-upstream-v3-14-7c9b96cba6d7@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240816-dcd-type2-upstream-v3-14-7c9b96cba6d7@intel.com>
 
-Huacai!
+On Fri, Aug 16, 2024 at 09:44:22AM -0500, Ira Weiny wrote:
+> Dynamic Capacity Devices (DCD) require event interrupts to process
+> memory addition or removal.  BIOS may have control over non-DCD event
+> processing.  DCD interrupt configuration needs to be separate from
+> memory event interrupt configuration.
+> 
+> Split cxl_event_config_msgnums() from irq setup in preparation for
+> separate DCD interrupts configuration.
+> 
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> ---
 
-On Thu, Aug 22 2024 at 19:53, Huacai Chen wrote:
-> On Wed, Aug 21, 2024 at 10:31=E2=80=AFPM Thomas Gleixner <tglx@linutronix=
-.de> wrote:
->>
->> On Wed, Aug 21 2024 at 21:14, Huacai Chen wrote:
->> > On Wed, Aug 21, 2024 at 12:29=E2=80=AFAM Thomas Gleixner <tglx@linutro=
-nix.de> wrote:
->> >> This patch is doing too many things at once and is absolutely not
->> >> reviewable.
->> >>
->> >> Please split it up into the obvious bits and pieces:
->> > Splitting may cause another problem: some patches will get upstream
->> > via the arch tree and others via the irq tree. These dependencies may
->> > cause build errors in a certain tree. But anyway, we will try our best
->> > to do this.
->>
->> That's not a problem at all. The trivial way to solve this is to apply
->> the architecture changes to the loongarch tree in a separate branch
->> which is based of some -rcX tag and only contains those dependencies.
->> That branch is then merged into the main loongarch branch and I can pull
->> it in to my tree for adding the irqchip changes. No conflicts, no merge
->> dependencies, nothing.
-> Emm, another way is apply all patches to the irq tree with my Acked-by.
+Reviewed-by: Fan Ni <fan.ni@samsung.com>
 
-Correct, but that has the potential of creating conflicts when the
-loongarch tree grows changes in the same areas.
-
->> > These macros are not in hot-path, and we have already tried our best
->> > to avoid using #ifdefs for cpu_has_xxx, so I suggest not introduce a
->> > new Kconfig option. Moreover, the new option should always be selected
->> > due to the deep coupling among loongson's irqchips, which makes the
->> > #ifdefs useless.
->>
->> They are removed in step 8 again. It's for having a sanely split up and
->> structured patch series instead of one big lump.
-> I see, but I'm trying another splitting way to avoid
-> adding-and-then-removing, of course it should also make reviews easy.
-
-That's the whole point of the exercise.
-
->> The complexity of the x86 allocation/activate/set_affinity mechanisms
->> is there for a reason and not just because we did not have anything
->> better to do. :)
->
-> Frankly, I haven't absorbed everything here, but I think I can try to
-> answer my question "can irq_create_affinity_masks() still work".
->
-> irq_create_affinity_masks() can still mark interrupts "managed" if
-> avecintc driver doesn't support "managed", but it cannot guarantee
-> that set_affinity can always succeed. If the destination cpu has a
-> free vector, then set_affinity succeeds, otherwise it will fail. But
-> if avecintc driver supports "managed", set_affinity can always
-> succeed, because the destination cpu has already reserved a vector for
-> this. Am I right?
-
-It can work by some definition of "works", but in case of vector
-exhaustion it will fail which is contrary to the purpose of managed
-interrupts.
-
-The matrix allocator already provides all the infrastructure and the
-x86 reference implementation does the right thing. So why do you want to
-shortcut that and make loongarch a special snowflake?
-
-Thanks,
-
-        tglx
+>  drivers/cxl/pci.c | 24 ++++++++++++------------
+>  1 file changed, 12 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/cxl/pci.c b/drivers/cxl/pci.c
+> index f7f03599bc83..17bea49bbf4d 100644
+> --- a/drivers/cxl/pci.c
+> +++ b/drivers/cxl/pci.c
+> @@ -698,35 +698,31 @@ static int cxl_event_config_msgnums(struct cxl_memdev_state *mds,
+>  	return cxl_event_get_int_policy(mds, policy);
+>  }
+>  
+> -static int cxl_event_irqsetup(struct cxl_memdev_state *mds)
+> +static int cxl_event_irqsetup(struct cxl_memdev_state *mds,
+> +			      struct cxl_event_interrupt_policy *policy)
+>  {
+>  	struct cxl_dev_state *cxlds = &mds->cxlds;
+> -	struct cxl_event_interrupt_policy policy;
+>  	int rc;
+>  
+> -	rc = cxl_event_config_msgnums(mds, &policy);
+> -	if (rc)
+> -		return rc;
+> -
+> -	rc = cxl_event_req_irq(cxlds, policy.info_settings);
+> +	rc = cxl_event_req_irq(cxlds, policy->info_settings);
+>  	if (rc) {
+>  		dev_err(cxlds->dev, "Failed to get interrupt for event Info log\n");
+>  		return rc;
+>  	}
+>  
+> -	rc = cxl_event_req_irq(cxlds, policy.warn_settings);
+> +	rc = cxl_event_req_irq(cxlds, policy->warn_settings);
+>  	if (rc) {
+>  		dev_err(cxlds->dev, "Failed to get interrupt for event Warn log\n");
+>  		return rc;
+>  	}
+>  
+> -	rc = cxl_event_req_irq(cxlds, policy.failure_settings);
+> +	rc = cxl_event_req_irq(cxlds, policy->failure_settings);
+>  	if (rc) {
+>  		dev_err(cxlds->dev, "Failed to get interrupt for event Failure log\n");
+>  		return rc;
+>  	}
+>  
+> -	rc = cxl_event_req_irq(cxlds, policy.fatal_settings);
+> +	rc = cxl_event_req_irq(cxlds, policy->fatal_settings);
+>  	if (rc) {
+>  		dev_err(cxlds->dev, "Failed to get interrupt for event Fatal log\n");
+>  		return rc;
+> @@ -745,7 +741,7 @@ static bool cxl_event_int_is_fw(u8 setting)
+>  static int cxl_event_config(struct pci_host_bridge *host_bridge,
+>  			    struct cxl_memdev_state *mds, bool irq_avail)
+>  {
+> -	struct cxl_event_interrupt_policy policy;
+> +	struct cxl_event_interrupt_policy policy = { 0 };
+>  	int rc;
+>  
+>  	/*
+> @@ -773,11 +769,15 @@ static int cxl_event_config(struct pci_host_bridge *host_bridge,
+>  		return -EBUSY;
+>  	}
+>  
+> +	rc = cxl_event_config_msgnums(mds, &policy);
+> +	if (rc)
+> +		return rc;
+> +
+>  	rc = cxl_mem_alloc_event_buf(mds);
+>  	if (rc)
+>  		return rc;
+>  
+> -	rc = cxl_event_irqsetup(mds);
+> +	rc = cxl_event_irqsetup(mds, &policy);
+>  	if (rc)
+>  		return rc;
+>  
+> 
+> -- 
+> 2.45.2
+> 
