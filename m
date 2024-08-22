@@ -1,62 +1,62 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD781CCED6
-	for <linux-doc@vger.kernel.org>; Thu, 22 Aug 2024 13:48:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71FCA1CDFCB
+	for <linux-doc@vger.kernel.org>; Thu, 22 Aug 2024 13:48:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724334495; cv=none; b=S20fUB7mYqJ2wi2I8UUMu7FYMeACtvOccIyqMPBVf4pnffnxk1AGJ2QgKHvp/TvhvYwA7/FwGa5yI7KOaoLiOglyPiKFwRCTtKEutJ0w04vtI22KOlMjYjKeQR7u7ffUruTZ2cNllx/j2cTmoEDEtUGK7/HK+j90nPiS/d+fRWY=
+	t=1724334499; cv=none; b=VIb6AVqhVFq15m7vaLpz26TZJE2EGnVTWcRbcRJW4VW08WovSuFGBGxW41a0zs1CZL3+CJHJxJ4IS2OZfRmcbQaJ7ghJVF9dOoTe81BZtcOi4XgLGOmEU55xe81uIlGvpuGf7vByZOl52zWfn15X4N+55LiLdkw5nFmVrPdwvOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724334495; c=relaxed/simple;
-	bh=kigVrUGzwAc3Gfl0QApPC++gUgBQlYDwvJKklnpQh/U=;
+	s=arc-20240116; t=1724334499; c=relaxed/simple;
+	bh=xzKTSbBUCxwnUpKs8six5ekb8eTkm5n7sI9qBsfTSxA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UEZHacb+aKXrBZvp6URv0+CpErrgjdV/yxHwwl6SuTB885D4PYJapH7dUHWR2VCkeN6mkx1E/x42I0aCqsRdpV9DhGJm1207uOrCCuUzPThrLcr2z5BUa629qlZj+aU1f7hSiI1MIEBEh05p9X5x7oWtQEyqjENSHoVT4cHavQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YwDAl0+W; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=RIyJQs6gZnvW1SMarJrPrris1s63Pl2whHm1JNpUIIpZpQqPD4gFhVbEkkGSBqqcFgjXt+vk8KKLtKNBR6hJ3grhcSn6Nt/6L4OBA170kNwzQtls25tTNTbuB43FNKtvgFKKiYa7LeA5sLkekN1ALZiGgGsEC1rTIL3WNueS0JA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LX1cRsD6; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YwDAl0+W"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LX1cRsD6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1724334491;
+	s=mimecast20190719; t=1724334496;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FEnCsYi4V2PnChy33tc28SWivSiMlK/Z32Tet3XvGFE=;
-	b=YwDAl0+WdzZgTTBH7GZQHayynLUP1G2MA77EwzE9+2bH3zJd9aEVxAQXmwpgN2KNNpmXYz
-	Rtx1EKrpWQsRyqTg+8E2z9FJpHyY3qCUUwgsOjdLJD7tIxFxZ8pKrIoc/Tkpy+iHbzgN1t
-	y+/717jt2pKjEj1v1jSQuTGAAZLsJU4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=stErXlsn4bG59ZiuP1S49NzWKfcbkIn79Ht3IKYskFI=;
+	b=LX1cRsD6/Q6Vax7T1ODI1RnAIXS+w5tZla8sA1P9sgjqJGmHazVO0IraAP4XxtEBys8oGa
+	V0R35Q57U62DQZXcOCqDcSvz0s7RaHHBHXp5s6TOoEYlRTiK6W612HbUICGfIrx1xNOm1e
+	T3XlBuVqz8iG0XzxM8I50dynEiUbLis=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-400-Lmw6cox0PXSzw9ZG6wbk8g-1; Thu, 22 Aug 2024 09:48:09 -0400
-X-MC-Unique: Lmw6cox0PXSzw9ZG6wbk8g-1
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-428fc34f41bso7042685e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 22 Aug 2024 06:48:08 -0700 (PDT)
+ us-mta-321-aSGpHwNrO46y6zxkc5L9ZA-1; Thu, 22 Aug 2024 09:48:15 -0400
+X-MC-Unique: aSGpHwNrO46y6zxkc5L9ZA-1
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4280ec5200cso6293395e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 22 Aug 2024 06:48:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724334488; x=1724939288;
+        d=1e100.net; s=20230601; t=1724334494; x=1724939294;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FEnCsYi4V2PnChy33tc28SWivSiMlK/Z32Tet3XvGFE=;
-        b=pdgLWZS+wghomrKWkBiA4SXwk6svb/t6AiPAAMZy2J2vp5Iuc3KBE/7En6ItH+RQMp
-         kWOiwCiZcV1OdL1OkWDn5cgL1klX1KrR50b2d4Rewpx20uyF+GdEs/OhknJchxyxgzHv
-         9V5inVM4fozgvRoUHWZCSt+AZrbgfpRPQu1r90FUOHG4t94nYSzslsJ3rHy1ExhQZyrm
-         e1OFfv7/7l+uB/ge8LALbNtNZdtOnlLrFLUry+g5IFNlY9qd2Yq+dwLaUxwjclrf2HxC
-         EJDIlnDMgwFdPoh2XafbAM+Oq3DsUKF6ylc41hdyj9SM4mnCPd/yzbynP3uj+ixfFbOQ
-         yE1g==
-X-Gm-Message-State: AOJu0YxMOgYJx/zD62cFjpTjJx7p8TBz3E0vYL/cLJpDUjIEBUQMWR7/
-	xzSa5rHN4G7oTV2iJki1TMxBrJ3hZixMXJzYonDd7IeW8lQJEc1uV3B6zILUDja72K5NYs7YGo5
-	epSOVXkS+gqP7H7Gvj4iMuPlEaMc7SAXBOubR+mz6MSnMThqQCPO98AQGXQ==
-X-Received: by 2002:adf:e410:0:b0:367:8ff0:e022 with SMTP id ffacd0b85a97d-372fd82c514mr3475185f8f.63.1724334487683;
-        Thu, 22 Aug 2024 06:48:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEfm5IVXln66BGNZF5JJpxCZS0SFv4UM3BbHCVYBs8QYQ2NHD/YJAIrke5UaPWYY0eCv/EJGA==
-X-Received: by 2002:adf:e410:0:b0:367:8ff0:e022 with SMTP id ffacd0b85a97d-372fd82c514mr3475148f8f.63.1724334487230;
-        Thu, 22 Aug 2024 06:48:07 -0700 (PDT)
+        bh=stErXlsn4bG59ZiuP1S49NzWKfcbkIn79Ht3IKYskFI=;
+        b=SY2hRL+et4NaMwdckmntgPVAmpKx3loohOrXKzflaozoqhtfqTvhY6vgqRJ+Yr1/px
+         xx5E/Kb0c36lNtSn1a8n9+CFWjpvkPWXDkbjy0/ksWwu+DvLhic4UrU796Rqw71YbSOS
+         KlNs+VTB6MLR7uI7eCNq91byLpVo+GGMNvTcUuaNEeh0HcF+CgQ+SHojqERSXKxcWc8N
+         kDgX17BfdFKsAE3bY9MMONL86ZBrQwAlw8+Y3wgxg6LlpIAmfKGntl637UJeVjqGhIfr
+         sFi6LQTBmG/5Ul6fIedpgqM6r2J1rT1JpSoI9Iu1Ge4UFKcELesBO3DedswYP7zBGaI9
+         dQ4A==
+X-Gm-Message-State: AOJu0Yy8gnimebQUmHRpAnJ1upfBkFbKBJGg66SqxgPrRi8l2elI12tq
+	FHD9GFncP6h66qXmvN7lgnxVWWz/DApn3Wo3KydBV1fbY1Lm2D+CtrN5A6U4p/OzR2wVFZXrZ4J
+	wCwxSZxyAEJA8OodlWdeRGL0Srq+aPPCtW4UVUVN10TeXPn/gtrBnKsBmTw==
+X-Received: by 2002:a05:600c:470d:b0:426:5cee:4abc with SMTP id 5b1f17b1804b1-42abd23c42fmr42834505e9.20.1724334494015;
+        Thu, 22 Aug 2024 06:48:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE+ml6suAX3eG1pz2LPHUrAJqRTfncLpMSUbPA+Ci3dUa++3KF20e/68btOdPMgiZkBffw5eg==
+X-Received: by 2002:a05:600c:470d:b0:426:5cee:4abc with SMTP id 5b1f17b1804b1-42abd23c42fmr42833985e9.20.1724334493539;
+        Thu, 22 Aug 2024 06:48:13 -0700 (PDT)
 Received: from eisenberg.muc.redhat.com (nat-pool-muc-t.redhat.com. [149.14.88.26])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ac5162322sm25057215e9.24.2024.08.22.06.48.05
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ac5162322sm25057215e9.24.2024.08.22.06.48.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Aug 2024 06:48:06 -0700 (PDT)
+        Thu, 22 Aug 2024 06:48:11 -0700 (PDT)
 From: Philipp Stanner <pstanner@redhat.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -98,9 +98,9 @@ Cc: linux-doc@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-pci@vger.kernel.org,
 	virtualization@lists.linux.dev
-Subject: [PATCH v3 6/9] ethernet: stmicro: Simplify PCI devres usage
-Date: Thu, 22 Aug 2024 15:47:38 +0200
-Message-ID: <20240822134744.44919-7-pstanner@redhat.com>
+Subject: [PATCH v3 9/9] PCI: Remove pcim_iounmap_regions()
+Date: Thu, 22 Aug 2024 15:47:41 +0200
+Message-ID: <20240822134744.44919-10-pstanner@redhat.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240822134744.44919-1-pstanner@redhat.com>
 References: <20240822134744.44919-1-pstanner@redhat.com>
@@ -112,137 +112,75 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-stmicro uses PCI devres in the wrong way. Resources requested
-through pcim_* functions don't need to be cleaned up manually in the
-remove() callback or in the error unwind path of a probe() function.
+All users of pcim_iounmap_regions() have been removed by now.
 
-Moreover, there is an unnecessary loop which only requests and ioremaps
-BAR 0, but iterates over all BARs nevertheless.
-
-Furthermore, pcim_iomap_regions() and pcim_iomap_table() have been
-deprecated by the PCI subsystem in commit e354bb84a4c1 ("PCI: Deprecate
-pcim_iomap_table(), pcim_iomap_regions_request_all()").
-
-Replace these functions with pcim_iomap_region().
-
-Remove the unnecessary manual pcim_* cleanup calls.
-
-Remove the unnecessary loop over all BARs.
+Remove pcim_iounmap_regions().
 
 Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+Reviewed-by: Andy Shevchenko <andy@kernel.org>
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
 ---
- .../ethernet/stmicro/stmmac/dwmac-loongson.c  | 25 +++++--------------
- .../net/ethernet/stmicro/stmmac/stmmac_pci.c  | 18 +++++--------
- 2 files changed, 12 insertions(+), 31 deletions(-)
+ .../driver-api/driver-model/devres.rst        |  1 -
+ drivers/pci/devres.c                          | 21 -------------------
+ include/linux/pci.h                           |  1 -
+ 3 files changed, 23 deletions(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c
-index 9e40c28d453a..5d42a9fad672 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c
-@@ -50,7 +50,7 @@ static int loongson_dwmac_probe(struct pci_dev *pdev, const struct pci_device_id
- 	struct plat_stmmacenet_data *plat;
- 	struct stmmac_resources res;
- 	struct device_node *np;
--	int ret, i, phy_mode;
-+	int ret, phy_mode;
+diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+index ac9ee7441887..525f08694984 100644
+--- a/Documentation/driver-api/driver-model/devres.rst
++++ b/Documentation/driver-api/driver-model/devres.rst
+@@ -397,7 +397,6 @@ PCI
+   pcim_iomap_regions_request_all() : do request_region() on all and iomap() on multiple BARs
+   pcim_iomap_table()		: array of mapped addresses indexed by BAR
+   pcim_iounmap()		: do iounmap() on a single BAR
+-  pcim_iounmap_regions()	: do iounmap() and release_region() on multiple BARs
+   pcim_pin_device()		: keep PCI device enabled after release
+   pcim_set_mwi()		: enable Memory-Write-Invalidate PCI transaction
  
- 	np = dev_of_node(&pdev->dev);
- 
-@@ -88,14 +88,11 @@ static int loongson_dwmac_probe(struct pci_dev *pdev, const struct pci_device_id
- 		goto err_put_node;
- 	}
- 
--	/* Get the base address of device */
--	for (i = 0; i < PCI_STD_NUM_BARS; i++) {
--		if (pci_resource_len(pdev, i) == 0)
--			continue;
--		ret = pcim_iomap_regions(pdev, BIT(0), pci_name(pdev));
--		if (ret)
--			goto err_disable_device;
--		break;
-+	memset(&res, 0, sizeof(res));
-+	res.addr = pcim_iomap_region(pdev, 0, pci_name(pdev));
-+	if (IS_ERR(res.addr)) {
-+		ret = PTR_ERR(res.addr);
-+		goto err_disable_device;
- 	}
- 
- 	plat->bus_id = of_alias_get_id(np, "ethernet");
-@@ -116,8 +113,6 @@ static int loongson_dwmac_probe(struct pci_dev *pdev, const struct pci_device_id
- 
- 	loongson_default_data(plat);
- 	pci_enable_msi(pdev);
--	memset(&res, 0, sizeof(res));
--	res.addr = pcim_iomap_table(pdev)[0];
- 
- 	res.irq = of_irq_get_byname(np, "macirq");
- 	if (res.irq < 0) {
-@@ -158,18 +153,10 @@ static void loongson_dwmac_remove(struct pci_dev *pdev)
- {
- 	struct net_device *ndev = dev_get_drvdata(&pdev->dev);
- 	struct stmmac_priv *priv = netdev_priv(ndev);
--	int i;
- 
- 	of_node_put(priv->plat->mdio_node);
- 	stmmac_dvr_remove(&pdev->dev);
- 
--	for (i = 0; i < PCI_STD_NUM_BARS; i++) {
--		if (pci_resource_len(pdev, i) == 0)
--			continue;
--		pcim_iounmap_regions(pdev, BIT(i));
--		break;
--	}
--
- 	pci_disable_msi(pdev);
- 	pci_disable_device(pdev);
+diff --git a/drivers/pci/devres.c b/drivers/pci/devres.c
+index 4dbba385e6b4..022c0bb243ad 100644
+--- a/drivers/pci/devres.c
++++ b/drivers/pci/devres.c
+@@ -1013,27 +1013,6 @@ int pcim_iomap_regions_request_all(struct pci_dev *pdev, int mask,
  }
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c
-index 352b01678c22..f89a8a54c4e8 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c
-@@ -188,11 +188,11 @@ static int stmmac_pci_probe(struct pci_dev *pdev,
- 		return ret;
- 	}
+ EXPORT_SYMBOL(pcim_iomap_regions_request_all);
  
--	/* Get the base address of device */
-+	/* Request the base address BAR of device */
- 	for (i = 0; i < PCI_STD_NUM_BARS; i++) {
- 		if (pci_resource_len(pdev, i) == 0)
- 			continue;
--		ret = pcim_iomap_regions(pdev, BIT(i), pci_name(pdev));
-+		ret = pcim_request_region(pdev, i, pci_name(pdev));
- 		if (ret)
- 			return ret;
- 		break;
-@@ -205,7 +205,10 @@ static int stmmac_pci_probe(struct pci_dev *pdev,
- 		return ret;
- 
- 	memset(&res, 0, sizeof(res));
--	res.addr = pcim_iomap_table(pdev)[i];
-+	/* Get the base address of device */
-+	res.addr = pcim_iomap(pdev, i, 0);
-+	if (!res.addr)
-+		return -ENOMEM;
- 	res.wol_irq = pdev->irq;
- 	res.irq = pdev->irq;
- 
-@@ -231,16 +234,7 @@ static int stmmac_pci_probe(struct pci_dev *pdev,
-  */
- static void stmmac_pci_remove(struct pci_dev *pdev)
- {
+-/**
+- * pcim_iounmap_regions - Unmap and release PCI BARs
+- * @pdev: PCI device to map IO resources for
+- * @mask: Mask of BARs to unmap and release
+- *
+- * Unmap and release regions specified by @mask.
+- */
+-void pcim_iounmap_regions(struct pci_dev *pdev, int mask)
+-{
 -	int i;
 -
- 	stmmac_dvr_remove(&pdev->dev);
--
 -	for (i = 0; i < PCI_STD_NUM_BARS; i++) {
--		if (pci_resource_len(pdev, i) == 0)
+-		if (!mask_contains_bar(mask, i))
 -			continue;
--		pcim_iounmap_regions(pdev, BIT(i));
--		break;
+-
+-		pcim_iounmap_region(pdev, i);
+-		pcim_remove_bar_from_legacy_table(pdev, i);
 -	}
- }
+-}
+-EXPORT_SYMBOL(pcim_iounmap_regions);
+-
+ /**
+  * pcim_iomap_range - Create a ranged __iomap mapping within a PCI BAR
+  * @pdev: PCI device to map IO resources for
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 9625d8a7b655..6c60f063c672 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -2301,7 +2301,6 @@ void pcim_iounmap_region(struct pci_dev *pdev, int bar);
+ int pcim_iomap_regions(struct pci_dev *pdev, int mask, const char *name);
+ int pcim_iomap_regions_request_all(struct pci_dev *pdev, int mask,
+ 				   const char *name);
+-void pcim_iounmap_regions(struct pci_dev *pdev, int mask);
+ void __iomem *pcim_iomap_range(struct pci_dev *pdev, int bar,
+ 				unsigned long offset, unsigned long len);
  
- static int __maybe_unused stmmac_pci_suspend(struct device *dev)
 -- 
 2.46.0
 
