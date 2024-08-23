@@ -1,407 +1,403 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 853B31A255A;
-	Fri, 23 Aug 2024 20:02:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724443326; cv=none; b=sTI5zwVWUyc5thwwEpNYp9E47bH+MtmiinF2yiNGUgtTSbtW9lcAMUjMIuhxoe3IuYsyQ+A2O/1EEd1VxQfpire5ZnKry1/uADZn3Nsq6VSDYTyq8y4QfbMaIOR4fr2ZEl+bkUUOYjiuac7bDPMoHo0njDRQIdrAJ0m6MguTA3E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724443326; c=relaxed/simple;
-	bh=FVZ+4jnQKI0bp+DdQ1EFFnyLVuIgotwV+WcFnjejfQM=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qGFT2PQCwjQw0g6mXD3n+ZCf4WqEjSBao4GPaaWkspzzMegCxBqNyC9RRmtvWjrQ8SNqL0Og+V9vBaQPLDU6rQ08qnE5dsF/fV2hhu5CRNc6Kbp9kJ8CtOscyXy/J3bTNy+a3nKxAD8PbN57AAzUIdF2YsFg4iPfWcvJvao9CWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=oFXwAzV1; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A18A9193087;
+	Fri, 23 Aug 2024 20:18:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724444301; cv=fail; b=B0AkaUUVy6Voe/EN9VyDmCeug84yIY/ghv6VvY+4YYBYBGf+4krivguVcXW1LHs+z/Ib5QIGAOto8F5FDK0lztJArtaug1+qLmw9sURQaZw/xYM4Fouf+3oHRjsNF1UeeuDdra6T2uAAsYYMiusMvR+W8fQ9aFAAhm4eKVkvpk4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724444301; c=relaxed/simple;
+	bh=/pbCFmM9KyU6/Ns54ZyvDwyjQ++WLJhzgV69fEjRtcs=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=XygBSNXm2QbDMAFAcOL0bo2wMp1E+vOPZaYtWd1A5N851Wx8sHtye1JHzvbd6MF8WsZmjLK0Nz09hE6fCxi50oMRefyGZ4AvBLtdbpLQzkqU+7hzxNgrvcsRZcwITgZwlTIWeuM3NhSBC3Uw10QIMMgwb2syDaIDMuEUkWYk9xU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F99I+XUZ; arc=fail smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="oFXwAzV1"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47NDxBVI011186;
-	Fri, 23 Aug 2024 20:01:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=5/I9Gt0Lc2phVczkwFjP52M5
-	DWn4HMMWnv1XME6NMqI=; b=oFXwAzV16ihv2eQ0bcO/5ZMWFZs1PcLJCzskLcUd
-	gHGyqyhet0MF554Ozs6uwXfQ4/f6SZsRFQpxYDBY+PNN42hKeTIXI3DZUn2XNkoK
-	OPTXqc2eX6ozlF/wCjpwOymM5Ep3+vpHwfBOWVJ1EuFsbJ2J4bnPRl6SUp8GGLBZ
-	qkobjfknqmO+9YYoT5lU8cqwtSs4G0ct2PgMn5iXMcqegpG3dh9KaK6NiwLKYV+t
-	MEtnSZvArxWsOSW+2DnBQWbOZUHQdV4Tv+bj/1gr9A7WmGgN3hhyUl1EoQ2n78mn
-	KcQkjMpxYlGIsX+FNJkQnwU1LyKRqnLwDE2hH5YvD1o8bg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 416mnma6pk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 23 Aug 2024 20:01:20 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47NK1JSQ021644
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 23 Aug 2024 20:01:19 GMT
-Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F99I+XUZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724444299; x=1755980299;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=/pbCFmM9KyU6/Ns54ZyvDwyjQ++WLJhzgV69fEjRtcs=;
+  b=F99I+XUZmXZ6bLbr34c2h5a6u+k+S/uy5qYMH3xL3N52AqzsaDEQlhru
+   jASy9W/kQLYp4EXr2pvxIVce7hi6O1jIndV0Zg4jkwMmpN3j88q3w16p8
+   oNjedHTfo+35w4L6hIfz/IFBIt69OHFme53VgEaseEGJ0186E0lYV3hoM
+   1WyGNzA2e9srmwVZcnFG5JYxU82RPjPERCjhI74yUxwA963pC98U7Tl0F
+   vvwCyXge1tzP+NFka+ZcYkQACyUjujZ6ZrJuuzcwKtbgfCnZQtQgyIoPo
+   NPqXDYi13f9IEvvf0+/7GmoUxjgnjhxomOs57hlZxl/KSBw11m8H3w2BN
+   A==;
+X-CSE-ConnectionGUID: 7fI95MtRSGe7o43ccGwADA==
+X-CSE-MsgGUID: 4/puOI9dTo6iP2aabmDBLg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11173"; a="34343150"
+X-IronPort-AV: E=Sophos;i="6.10,171,1719903600"; 
+   d="scan'208";a="34343150"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 13:18:17 -0700
+X-CSE-ConnectionGUID: 8ua5eNKcRiCsAHTnpRYp1A==
+X-CSE-MsgGUID: 2TCQqFRPSNS+5+8vKVLoiQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,171,1719903600"; 
+   d="scan'208";a="62624535"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by orviesa008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 23 Aug 2024 13:18:17 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Fri, 23 Aug 2024 13:18:16 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Fri, 23 Aug 2024 13:18:16 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Fri, 23 Aug 2024 13:18:16 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.169)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Fri, 23 Aug 2024 13:01:19 -0700
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
-        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <tiwai@suse.com>, <krzk+dt@kernel.org>, <Thinh.Nguyen@synopsys.com>,
-        <bgoswami@quicinc.com>, <robh@kernel.org>,
-        <gregkh@linuxfoundation.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        Wesley Cheng
-	<quic_wcheng@quicinc.com>
-Subject: [PATCH v25 21/33] ASoC: qcom: qdsp6: Add USB backend ASoC driver for Q6
-Date: Fri, 23 Aug 2024 13:00:49 -0700
-Message-ID: <20240823200101.26755-22-quic_wcheng@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20240823200101.26755-1-quic_wcheng@quicinc.com>
-References: <20240823200101.26755-1-quic_wcheng@quicinc.com>
+ 15.1.2507.39; Fri, 23 Aug 2024 13:18:16 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=U69jB4SHq3fjHbqB29l8RkxOa/PP1aDhEccDl01zShmwsI9t0EgwJ2wHM++nPfRiFXoWczu65mZEPoOWQQyN7TYdtASGiK3otgCU+gU+ofdeYZ12bRBY53JTnDPVk2YxBnTKlVfZvPOH1HadobHjoEe3NGeg/4+fCZ/gVt5Srj73Z5JGxFshAJWCeW+ORP9y02WCA0lJ62RmTs6YeCYirrcajg3VG143bUy30C3yUGzk7NSD8N9uovexSUrvspS/GO5dy10vOOpcLLXelO0bJPHQ0xO3cyqM7+XbhUZZSSlMOZAMbtbCaD9LUyu/VTDftW/aTmI6FHcBbDFQw1NAFQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=B15oMDcHDWzq3qBfNgLzkA1I+X3/0SI838jcBeNDtH4=;
+ b=qgZvrLJtj0t9INTr0PGt6n8pLTf7NNDfDsSTkobv/mcqnhfIOKvmiUDXbuUyjx/j0FyNU3YRRMklvUPQKFaFZzYB+pnQidUJxePrsZcUpAenXDRm15u5Otubbuln4y/H4/a7/MhJfzwM/VSaZld80+ynPGTmouUzu3zsNSPUkanpCgfxygkh1Z6oRV3iZ8fGEimPBqEF14rIuJM7hwKPu1tCN5Q3PmwO7nJx8F5fsn+2wcLD+RZc3NdO7LUgmxKkTBvFIB7Ase+0t8vt420dOEvbVWS+geJPlbtu0LSoZ6k92ZhgdLfhuYgAiBMQYMl8c0i4QE1e4B8qKiPCd8Q3Gw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by DS7PR11MB5967.namprd11.prod.outlook.com (2603:10b6:8:72::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.29; Fri, 23 Aug
+ 2024 20:18:12 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%3]) with mapi id 15.20.7875.019; Fri, 23 Aug 2024
+ 20:18:12 +0000
+Message-ID: <df257c05-ef8c-4e31-9ab8-0d396e1b40f7@intel.com>
+Date: Fri, 23 Aug 2024 13:18:08 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 22/22] x86/resctrl: Introduce interface to modify
+ assignment states of the groups
+To: <babu.moger@amd.com>, <corbet@lwn.net>, <fenghua.yu@intel.com>,
+	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>
+CC: <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
+	<rdunlap@infradead.org>, <tj@kernel.org>, <peterz@infradead.org>,
+	<yanjiewtw@gmail.com>, <kim.phillips@amd.com>, <lukas.bulwahn@gmail.com>,
+	<seanjc@google.com>, <jmattson@google.com>, <leitao@debian.org>,
+	<jpoimboe@kernel.org>, <rick.p.edgecombe@intel.com>,
+	<kirill.shutemov@linux.intel.com>, <jithu.joseph@intel.com>,
+	<kai.huang@intel.com>, <kan.liang@linux.intel.com>,
+	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
+	<sandipan.das@amd.com>, <ilpo.jarvinen@linux.intel.com>,
+	<peternewman@google.com>, <maciej.wieczor-retman@intel.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<eranian@google.com>, <james.morse@arm.com>
+References: <cover.1722981659.git.babu.moger@amd.com>
+ <30a946c5ec042e66db675e9e57fe2cff971f570e.1722981659.git.babu.moger@amd.com>
+ <d4873add-ac24-47dd-be45-28af3698c334@intel.com>
+ <d8259097-3ccb-4989-aa1e-6b5c564240f5@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <d8259097-3ccb-4989-aa1e-6b5c564240f5@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MW4PR04CA0318.namprd04.prod.outlook.com
+ (2603:10b6:303:82::23) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: N-qDmIt82H6AGP1seY0m7OKzSDtMZdca
-X-Proofpoint-GUID: N-qDmIt82H6AGP1seY0m7OKzSDtMZdca
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-23_16,2024-08-23_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 mlxscore=0
- adultscore=0 spamscore=0 lowpriorityscore=0 suspectscore=0 phishscore=0
- priorityscore=1501 impostorscore=0 bulkscore=0 clxscore=1015
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2408230147
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|DS7PR11MB5967:EE_
+X-MS-Office365-Filtering-Correlation-Id: 46dd9bc9-29cf-4ae4-7253-08dcc3b0b669
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TXV3K2xMNTVRN3Q3SXAveS9lSWNHNjVyWDdSYkVnTkdYV2JRaU81VkpKdnJ5?=
+ =?utf-8?B?L0QvRGM5Ty9zZ1BWR0dqb29BUTRYTlJGc0FOZzYzOFNodVYrQVZudXNvRUtV?=
+ =?utf-8?B?R3NMU1hGbGRTYnhLOUNEdXFnRUJadVRiTWQ1UzdyR1h2SDFYV1pKUVNONUlO?=
+ =?utf-8?B?dVZsRHF4RXVFZTBwdlBORnZqeVJJeDRjMWp4anNSeUV1S0dPRHJpRGhXazdB?=
+ =?utf-8?B?b1NpU0c2Q1R1ZDBnREZzajlhSzZ0SWE0bEl1QU05SzkwaU1tR2Juc0ROUEJh?=
+ =?utf-8?B?ZEtJYk9TNjRZSVFKNFJBeHdkQ2ExSU9CZXJ5cFJqQm9FQWNLYUs5bnNlUU9L?=
+ =?utf-8?B?K3Z0dzljS3YyNHFkUW5iTjRDaEVUY3hsak1KWktCODJNK3pndFNWdkErNk1y?=
+ =?utf-8?B?dEEwVTNIdzl3QUNRMkgyckluQVlsd2Z4bG1oTzNXcTRsbjFOc3pVc0ZQam5s?=
+ =?utf-8?B?NGVTQWN3SmJzbEhycmRDWnJCUGZOaGNybFZqZUhPY25jZnNrdkdnS29iR0g5?=
+ =?utf-8?B?KzBnSUpXMEI5YTNVUkw2UkJBUDZaN3N2aGEzbjNDRmwvSHdMT1pTS3ZsQlNN?=
+ =?utf-8?B?eGVUUlFVaTh4S1BGdEpRVCtRRjJQbEZNbHFWNncrQm50ZEpzamM2dG1UaUI5?=
+ =?utf-8?B?M2h3Z2I0LzV0ZiswZDRSbnp4cmhNd3kyMWNoajcwQWFsSUNQVmc5THpoSUli?=
+ =?utf-8?B?VllOWXFEOVppRUhmci82SkZDUmo4a3pRQmNFenBvWnVmUW1kdGo1YzJ1TS9G?=
+ =?utf-8?B?YTgvbHdDN1pNSGhaK3ROaHBSZ1dNY0JrRWt5aHZnQkNtNC9rV3JDTkVia1dH?=
+ =?utf-8?B?RUpJbjhYRElHSDBpYUtaSWJ2Q0FtcDh1eVNZSnAyaHJpRDROaStYMlk1cDlR?=
+ =?utf-8?B?d3d1N2xNSkVmR28yZEVlYUN6cWlzN2EvNkhOekplcm96VWRyV1hIMFRCQjIx?=
+ =?utf-8?B?K0tuM0lrQVI4SEV4UndGTHJUYm5TQmxjVXJxTmN2SzlKYVRTa1UyNjVYNmw0?=
+ =?utf-8?B?VG40MUhaQlhpSGgwSFR0NXRTdHRHTVlzai83NDNDOFQ2TXJjRlRsYXg2ZzRD?=
+ =?utf-8?B?cCs4Z2xYUmJITW1HSTRQWEsxM0ZJenRRb2RPRjZmVmRtUzNCWFluREJWbVhm?=
+ =?utf-8?B?SzdHdUYrOXhUQWlTZjRlY1k1Z3NWeUt3dnZ0T2xOQytqL3hEdU1uc20zcTds?=
+ =?utf-8?B?ZE1KcHc1VWdwekU3LzRJZ05qUHlwTTVsenFLUzR0K1k4UmlUZ1V1ZDZwRzdG?=
+ =?utf-8?B?SlR0bG9LRGtaWndiaVh5b25Fc24rMEVpVng0TTNEU2ZObXBZMURwZ2NMQ3dK?=
+ =?utf-8?B?VGpEL1ArcnZvNzZwRmUxV01rM2dJSGFBRTAvb1g0WG9MeDlXNW1LeU8vY1c5?=
+ =?utf-8?B?NmE4RDl5cTVDMEVWdTVzNTNoNEFYR0NpL3YvUFk0blRTeThYZ3MramNEdHVo?=
+ =?utf-8?B?SDBDNDVFaG8wa2hEbC9WVFdKWTRMOE93TTg5Y3FnYnZmeVdZV0FJaC9abldG?=
+ =?utf-8?B?d2ZnQXdDcW8zRHRXL2pIYTlsWCtOazA2UkpuZzNxSkdKTGRPaGZSVmFxUEZN?=
+ =?utf-8?B?ZUJWMVpTM2RVNG05cTg1L3QreGpIcnk1eU8wMVcyRGNCRDFwVnNGTFRtTHgv?=
+ =?utf-8?B?N3gzcmRDMlBEeG4xZ3JhdThHd1lnaHVsK005WWlVU2JnckcwSWJQUVA2eWlU?=
+ =?utf-8?B?UEt0UzQzeFJDZytoTDJWQVFyMkt3aTl4Z2plUUVXMmlpOHowRzFjUnRGcDRx?=
+ =?utf-8?B?VjJLWFhSTVVmNFZENldBRTQycklydWJMVnhEOHJtb3JwK1M5WlRKMUFobE1w?=
+ =?utf-8?B?b2NKNHduWHdlaUQvT2hTZz09?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K092YjZuMCtoSGdnZ0cwR0JTTHhYQk9wMzNKUUJxRHNoekd2WW1KcHFNYkwr?=
+ =?utf-8?B?SG5Ba3lSRE1QOTZYQ2tjQU4yK2UwaGxZSEpEYUZvWjVLdkdSTjZWbGdEK3Zk?=
+ =?utf-8?B?UWRzWTVwZkJCYUFRS1VHOEtRVzFOU1Z2NVZ6NUZoc1hFSnVXY0s4aHZUbzNF?=
+ =?utf-8?B?QW5kSURrUGJWeHVySWdNeGFYd3VQalIwWE93NDJiaU9YenNnZUlGL00wdndQ?=
+ =?utf-8?B?ZDBOYU9RR0l6N3JmMDdvMS8zTC9rYSs5SFlsREtQRXNEQytIdDRQaGt4S09s?=
+ =?utf-8?B?ZkM0MFQzK2YxRG85bTAycFNPVEYvMzJKaTVwMmtNQzZNbmg4QnpkNjhqZysw?=
+ =?utf-8?B?OEQ4bTgxeWlOWXVFT0NlekZ1cng3dzdnaW5GcHpabEdYR1p6VW9PVWxVakta?=
+ =?utf-8?B?UUloaFExRHNld3B3T3hISXZCS05aWGlHVGYwelVVZjBFZVBtYUw3SXNQQkRp?=
+ =?utf-8?B?dDlLdUFNVjZXRjNnRmdlcHlEcmJDT09BbFdJQUt1N2FWMTh1S1V1NlVMekZL?=
+ =?utf-8?B?ekRvZlRFd2N2bDJTa3ZVYk4zVnU4VkpuOStTa25Fd05hSzVWdlFTejlIWVBm?=
+ =?utf-8?B?SEkrSGtjUkQ1L3kxQ3ZUYThvSVh1QWwxekM0MUxmcElOeit0am41L3N6ZzlN?=
+ =?utf-8?B?bXZ0ZTJGSlVoR2gwTVVUbWprTzNCK0Rhd0FCd0hGdXB0UUpXYmIwem0zZWpR?=
+ =?utf-8?B?WGE2WXJqTFBzVVB3NXJ0Mmk3eWRFSlBSRS84MktSV3FtUk5zVktwemlYcGJV?=
+ =?utf-8?B?T1BKSjlFTlg4Q3Fkd0pncU1rR2dVRzUrZTVjUkd6UUQraTBoQ0RhNHBFNDVa?=
+ =?utf-8?B?cDdtY2V1SHBBeXJUempzOU56cTZDV2dBOTZhRXhNNm5KVFFwOHZFME5FR1FI?=
+ =?utf-8?B?SFFVejhCSUNYenViY2xOTStQZGU2TERIUGlEQittbzQreEN0T2lyVWlmbE43?=
+ =?utf-8?B?MHFqeFEyYUVxbEtQczJwdERoSnk5dklTZzh1QWEwcUE4WXhBbTJwMVlvN1R4?=
+ =?utf-8?B?QVlRcGVIQjFWcFlHeHFIVUdqbU4wYjhsRWFKem80VXBaM2QyeEFvT1g1N1hC?=
+ =?utf-8?B?UmxnMkUwV0h4eExtaUw3a1hSeDY3RmR3V2dwc2MzejJtQXZLa0JFdlhnbnhz?=
+ =?utf-8?B?RmFLRXUxY0lTdFprM28zZFBSNHIxWGl5NmJ3d1BHOXcwY1RBS0UxWmszN1kv?=
+ =?utf-8?B?bng0QWw1N2RTWHgycXg1S09kVEx6NitITDIxT0J6K0JGcFpxbFd2OWRlekw0?=
+ =?utf-8?B?SzFlREJRcmpXeEttbFZkcG1FZVEzK2pISERYTFJmZUhucWc3cjBqd1MrS2d1?=
+ =?utf-8?B?VVFNQitxemtWYktlQUs0ZkFocnl6aS81eEVPMDFjRmxXKzNvWVlicjBqNTJw?=
+ =?utf-8?B?aHVlMFdEcHRWc3Fqa09uRTg5WCs0YVhBUFdmRGVjNEZIOEZLbExwdW14dWZC?=
+ =?utf-8?B?c0dLcHhjNWZOUTRvQ0cvSExVeklBSnlxWVZWeGFQbWx6a0t4Q0JzRE44MG44?=
+ =?utf-8?B?RXdPZ2VxbzNnTDFPZTYvNm45TndObEQ2SUtWWVJCeTJDWnI0cGRaWGhIUjRh?=
+ =?utf-8?B?eXc0djI3VXJUT01uVWF4QTJzVTdOUnlML3FFb0ZMLzB2OGJPN2N2VWhNMnhZ?=
+ =?utf-8?B?K2ZVZnh3N0trUG96ZUtjZmU2Z09mQ01HYWNpTkp3VkVwc3BUdGlsUHZQbzBp?=
+ =?utf-8?B?ektwLzkzK3dYMm5qVjBmNTV6QWdLT2U5K01SYnViWEZvbml1NFlLT3l0Q2ZQ?=
+ =?utf-8?B?K29aQ2ZCSkFzRFd1NERScHNHbzNyT3dER21QRUdub2JkT1JkeDZTd2VyV0s3?=
+ =?utf-8?B?RWdlb0U5WG5hYUNrT1ZBN0RzdEttMEhWR04wdFBzc3ZVbEE3Z044RVd1UzdM?=
+ =?utf-8?B?bHFvbmtIaVVHMDNsVnJFR2huRVowRG8wbEg1VUVmRWpRUU9iRnJ6S3lXNlUr?=
+ =?utf-8?B?aG1vRVdKZGZjWFU2RHdLRGVvbHlDWVNSOG0zVy9VaEpnUGVicFFrWUg4U0U3?=
+ =?utf-8?B?dk9mRHQzd2QvQlFTL1lRL1BtWXZ3cVFuUGJwOHE4eCtCaUhMWHl1amZQWDRp?=
+ =?utf-8?B?TFBiNTl2QVR4ZTNYdVhzVlYvS3VYdkZwQS8xUW01cmszY2pJU0luc29TNHhw?=
+ =?utf-8?B?UE94L2ZVTlB1emNaYVRZdWFiYU5ZUmNJZGZZSERzeitqRlZwRDM1cmhudkM5?=
+ =?utf-8?B?OWc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 46dd9bc9-29cf-4ae4-7253-08dcc3b0b669
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2024 20:18:12.2904
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oa2jYlpBXPQht3T2DEVSdsVH5XNa7ucUFMFNMmm5hGoUZJ04F0sKoehymc1pHnEEIB2miqFQYNkzxyoS/pxvS+b9QSkoxI5r7lvPkxmLWHE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB5967
+X-OriginatorOrg: intel.com
 
-Create a USB BE component that will register a new USB port to the ASoC USB
-framework.  This will handle determination on if the requested audio
-profile is supported by the USB device currently selected.
+Hi Babu,
 
-Check for if the PCM format is supported during the hw_params callback.  If
-the profile is not supported then the userspace ALSA entity will receive an
-error, and can take further action.
+On 8/21/24 1:11 PM, Moger, Babu wrote:
+> On 8/16/24 17:33, Reinette Chatre wrote:
+>> On 8/6/24 3:00 PM, Babu Moger wrote:
 
-Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
----
- include/sound/q6usboffload.h  |  20 +++
- sound/soc/qcom/Kconfig        |  10 ++
- sound/soc/qcom/qdsp6/Makefile |   1 +
- sound/soc/qcom/qdsp6/q6usb.c  | 244 ++++++++++++++++++++++++++++++++++
- 4 files changed, 275 insertions(+)
- create mode 100644 include/sound/q6usboffload.h
- create mode 100644 sound/soc/qcom/qdsp6/q6usb.c
+...
 
-diff --git a/include/sound/q6usboffload.h b/include/sound/q6usboffload.h
-new file mode 100644
-index 000000000000..49ab2c34b84c
---- /dev/null
-+++ b/include/sound/q6usboffload.h
-@@ -0,0 +1,20 @@
-+/* SPDX-License-Identifier: GPL-2.0
-+ *
-+ * linux/sound/q6usboffload.h -- QDSP6 USB offload
-+ *
-+ * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+/**
-+ * struct q6usb_offload
-+ * @dev - dev handle to usb be
-+ * @sid - streamID for iommu
-+ * @intr_num - usb interrupter number
-+ * @domain - allocated iommu domain
-+ **/
-+struct q6usb_offload {
-+	struct device *dev;
-+	long long sid;
-+	u16 intr_num;
-+	struct iommu_domain *domain;
-+};
-diff --git a/sound/soc/qcom/Kconfig b/sound/soc/qcom/Kconfig
-index 762491d6f2f2..a1beafe2b1dd 100644
---- a/sound/soc/qcom/Kconfig
-+++ b/sound/soc/qcom/Kconfig
-@@ -118,6 +118,16 @@ config SND_SOC_QDSP6_PRM
- 	tristate
- 	select SND_SOC_QDSP6_PRM_LPASS_CLOCKS
- 
-+config SND_SOC_QDSP6_USB
-+    tristate "SoC ALSA USB offloading backing for QDSP6"
-+    depends on SND_SOC_USB
-+    help
-+      Adds support for USB offloading for QDSP6 ASoC
-+      based platform sound cards.  This will enable the
-+      Q6USB DPCM backend DAI link, which will interact
-+      with the SoC USB framework to initialize a session
-+      with active USB SND devices.
-+
- config SND_SOC_QDSP6
- 	tristate "SoC ALSA audio driver for QDSP6"
- 	depends on QCOM_APR
-diff --git a/sound/soc/qcom/qdsp6/Makefile b/sound/soc/qcom/qdsp6/Makefile
-index 26b7c55c9c11..67267304e7e9 100644
---- a/sound/soc/qcom/qdsp6/Makefile
-+++ b/sound/soc/qcom/qdsp6/Makefile
-@@ -17,3 +17,4 @@ obj-$(CONFIG_SND_SOC_QDSP6_APM_DAI) += q6apm-dai.o
- obj-$(CONFIG_SND_SOC_QDSP6_APM_LPASS_DAI) += q6apm-lpass-dais.o
- obj-$(CONFIG_SND_SOC_QDSP6_PRM) += q6prm.o
- obj-$(CONFIG_SND_SOC_QDSP6_PRM_LPASS_CLOCKS) += q6prm-clocks.o
-+obj-$(CONFIG_SND_SOC_QDSP6_USB) += q6usb.o
-diff --git a/sound/soc/qcom/qdsp6/q6usb.c b/sound/soc/qcom/qdsp6/q6usb.c
-new file mode 100644
-index 000000000000..40d25bbd44ed
---- /dev/null
-+++ b/sound/soc/qcom/qdsp6/q6usb.c
-@@ -0,0 +1,244 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+#include <linux/device.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/dma-map-ops.h>
-+#include <linux/err.h>
-+#include <linux/init.h>
-+#include <linux/iommu.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/slab.h>
-+
-+#include <sound/asound.h>
-+#include <sound/pcm.h>
-+#include <sound/pcm_params.h>
-+#include <sound/q6usboffload.h>
-+#include <sound/soc.h>
-+#include <sound/soc-usb.h>
-+
-+#include <dt-bindings/sound/qcom,q6afe.h>
-+
-+#include "q6afe.h"
-+#include "q6dsp-lpass-ports.h"
-+
-+#define Q6_USB_SID_MASK	0xF
-+
-+struct q6usb_port_data {
-+	struct q6afe_usb_cfg usb_cfg;
-+	struct snd_soc_usb *usb;
-+	struct q6usb_offload priv;
-+	struct mutex mutex;
-+	struct list_head devices;
-+};
-+
-+static const struct snd_soc_dapm_widget q6usb_dai_widgets[] = {
-+	SND_SOC_DAPM_HP("USB_RX_BE", NULL),
-+};
-+
-+static const struct snd_soc_dapm_route q6usb_dapm_routes[] = {
-+	{"USB Playback", NULL, "USB_RX_BE"},
-+};
-+
-+static int q6usb_hw_params(struct snd_pcm_substream *substream,
-+			   struct snd_pcm_hw_params *params,
-+			   struct snd_soc_dai *dai)
-+{
-+	struct q6usb_port_data *data = dev_get_drvdata(dai->dev);
-+	struct snd_soc_pcm_runtime *rtd = substream->private_data;
-+	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-+	int direction = substream->stream;
-+	struct q6afe_port *q6usb_afe;
-+	struct snd_soc_usb_device *sdev;
-+	int ret = -EINVAL;
-+
-+	mutex_lock(&data->mutex);
-+
-+	/* No active chip index */
-+	if (list_empty(&data->devices))
-+		goto out;
-+
-+	sdev = list_last_entry(&data->devices, struct snd_soc_usb_device, list);
-+
-+	ret = snd_soc_usb_find_supported_format(sdev->chip_idx, params, direction);
-+	if (ret < 0)
-+		goto out;
-+
-+	q6usb_afe = q6afe_port_get_from_id(cpu_dai->dev, USB_RX);
-+	if (IS_ERR(q6usb_afe))
-+		goto out;
-+
-+	/* Notify audio DSP about the devices being offloaded */
-+	ret = afe_port_send_usb_dev_param(q6usb_afe, sdev->card_idx,
-+					  sdev->ppcm_idx[sdev->num_playback - 1]);
-+
-+out:
-+	mutex_unlock(&data->mutex);
-+
-+	return ret;
-+}
-+
-+static const struct snd_soc_dai_ops q6usb_ops = {
-+	.hw_params = q6usb_hw_params,
-+};
-+
-+static struct snd_soc_dai_driver q6usb_be_dais[] = {
-+	{
-+		.playback = {
-+			.stream_name = "USB BE RX",
-+			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_11025 |
-+				SNDRV_PCM_RATE_16000 | SNDRV_PCM_RATE_22050 |
-+				SNDRV_PCM_RATE_32000 | SNDRV_PCM_RATE_44100 |
-+				SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_96000 |
-+				SNDRV_PCM_RATE_192000,
-+			.formats = SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S16_BE |
-+				SNDRV_PCM_FMTBIT_U16_LE | SNDRV_PCM_FMTBIT_U16_BE |
-+				SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S24_BE |
-+				SNDRV_PCM_FMTBIT_U24_LE | SNDRV_PCM_FMTBIT_U24_BE,
-+			.channels_min = 1,
-+			.channels_max = 2,
-+			.rate_max =     192000,
-+			.rate_min =	8000,
-+		},
-+		.id = USB_RX,
-+		.name = "USB_RX_BE",
-+		.ops = &q6usb_ops,
-+	},
-+};
-+
-+static int q6usb_audio_ports_of_xlate_dai_name(struct snd_soc_component *component,
-+					const struct of_phandle_args *args,
-+					const char **dai_name)
-+{
-+	int id = args->args[0];
-+	int ret = -EINVAL;
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(q6usb_be_dais); i++) {
-+		if (q6usb_be_dais[i].id == id) {
-+			*dai_name = q6usb_be_dais[i].name;
-+			ret = 0;
-+			break;
-+		}
-+	}
-+
-+	return ret;
-+}
-+
-+static int q6usb_alsa_connection_cb(struct snd_soc_usb *usb,
-+			struct snd_soc_usb_device *sdev, bool connected)
-+{
-+	struct q6usb_port_data *data;
-+
-+	if (!usb->component)
-+		return -ENODEV;
-+
-+	data = dev_get_drvdata(usb->component->dev);
-+
-+	mutex_lock(&data->mutex);
-+	if (connected) {
-+		/* Selects the latest USB headset plugged in for offloading */
-+		list_add_tail(&sdev->list, &data->devices);
-+	} else {
-+		list_del(&sdev->list);
-+	}
-+	mutex_unlock(&data->mutex);
-+
-+	return 0;
-+}
-+
-+static int q6usb_component_probe(struct snd_soc_component *component)
-+{
-+	struct q6usb_port_data *data = dev_get_drvdata(component->dev);
-+	struct snd_soc_usb *usb;
-+
-+	usb = snd_soc_usb_allocate_port(component, &data->priv);
-+	if (IS_ERR(usb))
-+		return -ENOMEM;
-+
-+	usb->connection_status_cb = q6usb_alsa_connection_cb;
-+
-+	snd_soc_usb_add_port(usb);
-+	data->usb = usb;
-+
-+	return 0;
-+}
-+
-+static void q6usb_component_remove(struct snd_soc_component *component)
-+{
-+	struct q6usb_port_data *data = dev_get_drvdata(component->dev);
-+
-+	snd_soc_usb_remove_port(data->usb);
-+	snd_soc_usb_free_port(data->usb);
-+}
-+
-+static const struct snd_soc_component_driver q6usb_dai_component = {
-+	.probe = q6usb_component_probe,
-+	.remove = q6usb_component_remove,
-+	.name = "q6usb-dai-component",
-+	.dapm_widgets = q6usb_dai_widgets,
-+	.num_dapm_widgets = ARRAY_SIZE(q6usb_dai_widgets),
-+	.dapm_routes = q6usb_dapm_routes,
-+	.num_dapm_routes = ARRAY_SIZE(q6usb_dapm_routes),
-+	.of_xlate_dai_name = q6usb_audio_ports_of_xlate_dai_name,
-+};
-+
-+static int q6usb_dai_dev_probe(struct platform_device *pdev)
-+{
-+	struct device_node *node = pdev->dev.of_node;
-+	struct q6usb_port_data *data;
-+	struct device *dev = &pdev->dev;
-+	struct of_phandle_args args;
-+	int ret;
-+
-+	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	ret = of_property_read_u16(node, "qcom,usb-audio-intr-idx",
-+				&data->priv.intr_num);
-+	if (ret) {
-+		dev_err(&pdev->dev, "failed to read intr idx.\n");
-+		return ret;
-+	}
-+
-+	ret = of_parse_phandle_with_fixed_args(node, "iommus", 1, 0, &args);
-+	if (ret < 0)
-+		data->priv.sid = -1;
-+	else
-+		data->priv.sid = args.args[0] & Q6_USB_SID_MASK;
-+
-+	data->priv.domain = iommu_get_domain_for_dev(&pdev->dev);
-+
-+	data->priv.dev = dev;
-+	INIT_LIST_HEAD(&data->devices);
-+	dev_set_drvdata(dev, data);
-+
-+	return devm_snd_soc_register_component(dev, &q6usb_dai_component,
-+					q6usb_be_dais, ARRAY_SIZE(q6usb_be_dais));
-+}
-+
-+static const struct of_device_id q6usb_dai_device_id[] = {
-+	{ .compatible = "qcom,q6usb" },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, q6usb_dai_device_id);
-+
-+static struct platform_driver q6usb_dai_platform_driver = {
-+	.driver = {
-+		.name = "q6usb-dai",
-+		.of_match_table = of_match_ptr(q6usb_dai_device_id),
-+	},
-+	.probe = q6usb_dai_dev_probe,
-+	/*
-+	 * Remove not required as resources are cleaned up as part of
-+	 * component removal.  Others are device managed resources.
-+	 */
-+};
-+module_platform_driver(q6usb_dai_platform_driver);
-+
-+MODULE_DESCRIPTION("Q6 USB backend dai driver");
-+MODULE_LICENSE("GPL");
+>>> +
+>>> +static int rdtgroup_str_to_mon_state(char *flag)
+>>> +{
+>>> +    int i, mon_state = 0;
+>>> +
+>>> +    for (i = 0; i < strlen(flag); i++) {
+>>> +        switch (*(flag + i)) {
+>>> +        case 't':
+>>> +            mon_state |= ASSIGN_TOTAL;
+>>> +            break;
+>>> +        case 'l':
+>>> +            mon_state |= ASSIGN_LOCAL;
+>>> +            break;
+>>> +        case '_':
+>>> +            mon_state = ASSIGN_NONE;
+>>> +            break;
+>>
+>> It looks like this supports flags like "_lt", treating it as assigning
+>> both local and total. I expect this should remove all flags instead?
+> 
+> This is a cobination of flags.
+> "_lt"  This will assign both local and total.
+> "lt_"  This with remove both the flags.
+> 
+> It seems alright to me. Do you want me to change the bahaviour here?
+
+This looks like undefined behavior to me. A request to set individual flags
+and also clear all flags looks like a contradiction to me.
+
+> 
+> 
+>>
+>>> +        default:
+>>> +            break;
+>>> +        }
+>>> +    }
+>>> +
+>>> +    return mon_state;
+>>> +}
+>>
+>> hmmm ... so you removed assigning mon_state to ASSIGN_NONE from default,
+>> but that did not change what this function returns since ASSIGN_NONE is 0
+>> and mon_state is initialized to 0. Unknown flags should cause error so
+>> that it is possible to add flags in the future. Above prevents us from
+>> ever adding new flags.
+> 
+> May be I am missing something here. How about this?
+> 
+> enum {
+>          ASSIGN_NONE = 0,
+>          ASSIGN_TOTAL,
+>          ASSIGN_LOCAL,
+>          ASSIGN_INVALID,
+> };
+> 
+> 
+> static int rdtgroup_str_to_mon_state(char *flag)
+> {
+>          int i, mon_state = ASSIGN_NONE;
+> 
+>          for (i = 0; i < strlen(flag); i++) {
+>                  switch (*(flag + i)) {
+>                  case 't':
+>                          mon_state |= ASSIGN_TOTAL;
+>                          break;
+>                  case 'l':
+>                          mon_state |= ASSIGN_LOCAL;
+>                          break;
+>                  case '_':
+>                          mon_state = ASSIGN_NONE;
+>                          break;
+>                  default:
+> 			mon_state = ASSIGN_INVALID;
+>                          goto out_done;
+>                 }
+>          }
+> 
+> :out_done:
+>          return mon_state;
+> }
+> 
+> Then handle the ASSIGN_INVALID from the caller.  Is that what you think?
+
+Why not return an error?
+
+> 
+>>
+>>> +
+>>> +static struct rdtgroup *rdtgroup_find_grp(enum rdt_group_type rtype,
+>>> char *p_grp, char *c_grp)
+>>
+>> rdtgroup_find_grp() -> rdtgroup_find_grp_by_name()?
+>>
+>>> +{
+>>> +    struct rdtgroup *rdtg, *crg;
+>>> +
+>>> +    if (rtype == RDTCTRL_GROUP && *p_grp == '\0') {
+>>> +        return &rdtgroup_default;
+>>> +    } else if (rtype == RDTCTRL_GROUP) {
+>>> +        list_for_each_entry(rdtg, &rdt_all_groups, rdtgroup_list)
+>>> +            if (!strcmp(p_grp, rdtg->kn->name))
+>>> +                return rdtg;
+>>> +    } else if (rtype == RDTMON_GROUP) {
+>>> +        list_for_each_entry(rdtg, &rdt_all_groups, rdtgroup_list) {
+>>> +            if (!strcmp(p_grp, rdtg->kn->name)) {
+>>> +                list_for_each_entry(crg, &rdtg->mon.crdtgrp_list,
+>>> +                            mon.crdtgrp_list) {
+>>> +                    if (!strcmp(c_grp, crg->kn->name))
+>>> +                        return crg;
+>>> +                }
+>>> +            }
+>>> +        }
+>>> +    }
+>>> +
+>>> +    return NULL;
+>>> +}
+>>> +
+>>> +static int rdtgroup_process_flags(struct rdt_resource *r,
+>>> +                  enum rdt_group_type rtype,
+>>> +                  char *p_grp, char *c_grp, char *tok)
+>>> +{
+>>> +    int op, mon_state, assign_state, unassign_state;
+>>> +    char *dom_str, *id_str, *op_str;
+>>> +    struct rdt_mon_domain *d;
+>>> +    struct rdtgroup *rdtgrp;
+>>> +    unsigned long dom_id;
+>>> +    int ret, found = 0;
+>>> +
+>>> +    rdtgrp = rdtgroup_find_grp(rtype, p_grp, c_grp);
+>>> +
+>>> +    if (!rdtgrp) {
+>>> +        rdt_last_cmd_puts("Not a valid resctrl group\n");
+>>> +        return -EINVAL;
+>>> +    }
+>>> +
+>>> +next:
+>>> +    if (!tok || tok[0] == '\0')
+>>> +        return 0;
+>>> +
+>>> +    /* Start processing the strings for each domain */
+>>> +    dom_str = strim(strsep(&tok, ";"));
+>>> +
+>>> +    op_str = strpbrk(dom_str, "=+-");
+>>> +
+>>> +    if (op_str) {
+>>> +        op = *op_str;
+>>> +    } else {
+>>> +        rdt_last_cmd_puts("Missing operation =, +, -, _ character\n");
+>>> +        return -EINVAL;
+>>> +    }
+>>> +
+>>> +    id_str = strsep(&dom_str, "=+-");
+>>> +
+>>> +    /* Check for domain id '*' which means all domains */
+>>> +    if (id_str && *id_str == '*') {
+>>> +        d = NULL;
+>>> +        goto check_state;
+>>> +    } else if (!id_str || kstrtoul(id_str, 10, &dom_id)) {
+>>> +        rdt_last_cmd_puts("Missing domain id\n");
+>>> +        return -EINVAL;
+>>> +    }
+>>> +
+>>> +    /* Verify if the dom_id is valid */
+>>> +    list_for_each_entry(d, &r->mon_domains, hdr.list) {
+>>> +        if (d->hdr.id == dom_id) {
+>>> +            found = 1;
+>>> +            break;
+>>> +        }
+>>> +    }
+>>> +
+>>> +    if (!found) {
+>>> +        rdt_last_cmd_printf("Invalid domain id %ld\n", dom_id);
+>>> +        return -EINVAL;
+>>> +    }
+>>> +
+>>> +check_state:
+>>> +    mon_state = rdtgroup_str_to_mon_state(dom_str);
+>>
+>> Function should return error and exit here.
+> 
+> No. This is case to skip checking for domain when '*' is passed to apply
+> assignment to all the domains.
+
+Using "*" for a domain still requires valid flags, no?
+
+Reinette
