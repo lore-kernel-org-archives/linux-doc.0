@@ -1,93 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3907118BB97;
-	Fri, 23 Aug 2024 17:02:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B364B18C334;
+	Fri, 23 Aug 2024 17:06:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724432560; cv=none; b=YU+kUnuK2XE35ih84WdZxIobvuS2LC7h4GhRREg9i4Up4f6267HRlv233eKcH2cq07o7e+L2XwL+QUsGmWKaT4Ex59sTI8X96MXdFpENy6fo9f1rgAkMvWZev0OCWV6m5bwR/ZXAaGwMRB3NDhU1yEbcIP95bwmtbolH1fQJ5jY=
+	t=1724432760; cv=none; b=UKHm/udawTlNK23id5UB2eIP0YazAOfKSTL6O+uv8gBy8TjTDDdRZ7N58XSFU3uhxWu/nEn0jw9jBCMQMT5IsUTH0pAzP8eKIU/NSDhyunNl01njBUjH8qKBWkhFBsCppRGpqjP5odK/JcX+qE6Dfv952KfpPtmpHqKy+SSNTmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724432560; c=relaxed/simple;
-	bh=LrsQbM+9Culzk5ZY9Zi1h3Hk51nvlJlLN7JY3gYeZ58=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qElWmEXSVfgaXJ1IUNdFg57fqbDZyfCUUP7rszVfCeob/MHUPZH+6qOital58Xfkd1AC2Tl86XEWW48/ksoHoXPN+6QO3Khnzdi1sX5UemUnlHitEMmw+lpX5o7APFaGNaT7GTU3iQkmSWlC/jaafuOGohzq+dUdBmq3hwsxx+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KXU6+DF8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724432760; c=relaxed/simple;
+	bh=43adu1eRo+HRbxxi1+zURaQNHe8ohSSLo3KCZFqKHVY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UZQLya7ZwU86scYkZOYt+5ya4dre5REIyvDWxLYsuexTeqZT0xffABDrGjWtMCih1z1mwepZmAoL2BmaKbTumcvTRZD+2/NHwLav2vucjdbow2/9+k5x2hjtslbdXbER+7BnvZPsvTmp9+fedDEILirWWuz8W52IWg3+bQDuqbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a3GU4xfQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KXU6+DF8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35515C4AF0B;
-	Fri, 23 Aug 2024 17:02:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a3GU4xfQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7ECDEC32786;
+	Fri, 23 Aug 2024 17:06:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724432559;
-	bh=LrsQbM+9Culzk5ZY9Zi1h3Hk51nvlJlLN7JY3gYeZ58=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KXU6+DF89znEUirCTp35mYNCLYojgYk8MR4FlxokFC7tSsPoU37sbQtr02dfE1X7J
-	 9n0mLdPKtVRtwVpQFcLDbssODFWM9GoSU46M/qpPWDhir5xrMW7tSy3Y4WQh6KV5EV
-	 Sb2/OznrLSC4d7Hf2fVVFY6wBAIxM6+ymWj/1+upUnGdmhbqbLUkc3c1N/gK8fzKXy
-	 KGveAS0qbHrTaxhR/za4wjDURJtnpYOEWmqE3i2S35JIrwREglgcbxVUyFdIjzfNWY
-	 mf3gAeJfXjvLm6qU1lLly3DakzOWHRx35GILq/HXgMCN+TGUoxaYzOWA3D9+f6QZYJ
-	 m/yyAyJIpThuA==
-From: Will Deacon <will@kernel.org>
-To: Shuai Xue <xueshuai@linux.alibaba.com>,
-	Jing Zhang <renyu.zj@linux.alibaba.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Yicong Yang <yangyicong@hisilicon.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Krishna chaitanya chundru <quic_krichai@quicinc.com>
-Cc: catalin.marinas@arm.com,
-	kernel-team@android.com,
-	Will Deacon <will@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	quic_vbadigan@quicinc.com,
-	quic_nitegupt@quicinc.com,
-	quic_skananth@quicinc.com,
-	quic_ramkri@quicinc.com,
-	quic_parass@quicinc.com,
-	quic_mrana@quicinc.com
-Subject: Re: [PATCH v2 0/4] perf/dwc_pcie: Fix registration issue in multi PCIe controller instances
-Date: Fri, 23 Aug 2024 18:02:12 +0100
-Message-Id: <172442564702.2792102.12095795549059563421.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20240816-dwc_pmu_fix-v2-0-198b8ab1077c@quicinc.com>
-References: <20240816-dwc_pmu_fix-v2-0-198b8ab1077c@quicinc.com>
+	s=k20201202; t=1724432760;
+	bh=43adu1eRo+HRbxxi1+zURaQNHe8ohSSLo3KCZFqKHVY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a3GU4xfQ5AIlqSIbxWMSew9BKJp9neUwscANQhzHf/jtO1TY7akFD2qugyHiacN+Q
+	 YSsdI+yRc3TgNJpywiKLysrk5jsrEFVZH/1r4si29+qjrlHLEVbU7HksNGuwdRwNit
+	 5IFPZoN18HtF7xFq3mUkDoiU1FVuT55xN9ah77HLuuZO42kY3+aMZVemHlOM9ILkaQ
+	 HBrlG0vcvFF2ylx29SAzi8kRjAJ1VJW/Qs8PHpG3kU56d68G0rbMUEgQN7hkf/uNED
+	 S4bWlv74C2bnkle+fIZguF+4hHwPxSOiBB9YRwkLefTTkir5NW1BFBDXkNnUjJKGKm
+	 u7CSn4iBgMsPg==
+Date: Fri, 23 Aug 2024 10:05:59 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>, linux-doc@vger.kernel.org,
+	corbet@lwn.net, linux-fsdevel@vger.kernel.org,
+	linux-block@vger.kernel.org, kernel-dev@igalia.com,
+	kernel@gpiccoli.net, Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH V2] Documentation: Document the kernel flag
+ bdev_allow_write_mounted
+Message-ID: <20240823170559.GZ6082@frogsfrogsfrogs>
+References: <20240823142840.63234-1-gpiccoli@igalia.com>
+ <35febff2-e7cc-4b57-9ba5-798271fe0e3b@acm.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <35febff2-e7cc-4b57-9ba5-798271fe0e3b@acm.org>
 
-On Fri, 16 Aug 2024 20:47:19 +0530, Krishna chaitanya chundru wrote:
-> When there are multiple of instances of PCIe controllers, registration
-> to perf driver fails with this error. This is because of having same
-> bdf value for devices under two different controllers.
+On Fri, Aug 23, 2024 at 09:11:22AM -0700, Bart Van Assche wrote:
+> On 8/23/24 7:26 AM, Guilherme G. Piccoli wrote:
+> > +	bdev_allow_write_mounted=
+> > +			Format: <bool>
+> > +			Control the ability of directly writing to mounted block
+> > +			devices' page cache, i.e., allow / disallow writes that
+> > +			bypasses the FS. This was implemented as a means to
+> > +			prevent fuzzers from crashing the kernel by overwriting
+> > +			the metadata underneath a mounted FS without its awareness.
+> > +			This also prevents destructive formatting of mounted
+> > +			filesystems by naive storage tooling that don't use
+> > +			O_EXCL. Default is Y and can be changed through the
+> > +			Kconfig option CONFIG_BLK_DEV_WRITE_MOUNTED.
+> > +
 > 
-> Update the logic to use sbdf which is a unique number in case of
-> multi instance also.
+> Does this flag also affect direct I/O? If so, does this mean that the
+> reference to the page cache should be left out?
+
+I think it does affect directio, since the validation is done at open
+time via bdev_may_open, right?
+
+--D
+
+> Thanks,
 > 
-> [...]
-
-Applied to will (for-next/perf), thanks!
-
-[1/4] perf/dwc_pcie: Fix registration issue in multi PCIe controller instances
-      https://git.kernel.org/will/c/e669388537c4
-[2/4] Documentation: dwc_pcie_pmu: Update bdf to sbdf
-      https://git.kernel.org/will/c/96a37ec98664
-[3/4] perf/dwc_pcie: Always register for PCIe bus notifier
-      https://git.kernel.org/will/c/b94b05478fb6
-[4/4] perf/dwc_pcie: Add support for QCOM vendor devices
-      https://git.kernel.org/will/c/db9e7a83d308
-
-Cheers,
--- 
-Will
-
-https://fixes.arm64.dev
-https://next.arm64.dev
-https://will.arm64.dev
+> Bart.
