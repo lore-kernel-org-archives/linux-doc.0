@@ -1,254 +1,405 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1392D28DA5;
-	Fri, 23 Aug 2024 02:58:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724381895; cv=fail; b=XvD7AbX40r2gDhHsQIE0UxCVyTzCxSTDZbCuk7J18AD3qgFNHM04jtD9MkmiCzGfyjNrdVXebGKbAAswU55CzaSn+oDyFGJxdVBRelmw6o4jIzYFW6rIX9O3rbMZvJFom6NFG+pw6u1IYe6RLHIXLpqVwsslMx0s4e4HiqYBPQU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724381895; c=relaxed/simple;
-	bh=4+NIU+JBfef5mNXzOZTHzC06QC9sBLRFNz9SXv19SP8=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=P5M54ELvTqRSP3nn9Vd/t8adpF5FDup9XtaA72tQdbhvfgOnL5M94jB4zHBZoJooptmiCiRHqjaG3+YNZxr0nFZHVNgcZYbI98SsVN2BDRIJJqIXPkkW+LLr/bpTAIiup4Qdk1iu3vq+R2g1m77rXP3Sn51+M/f9CAOvAlopW/U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D5uK4xdS; arc=fail smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29899376EC
+	for <linux-doc@vger.kernel.org>; Fri, 23 Aug 2024 04:39:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724387978; cv=none; b=SJN6vgXGGyOnVwe0zDQnO78FPGqv7Tqwy0UTJS+zYuQigFaRUh8SboEuqm4/xbzqXW5dL1xM7cjE58Ge77wgMmnNIDXukITK8/mJDR/gFP+BYJLg/48QDSi9NPhUe9GX0I9m/Lbu9EyyuXmh+wh1WOLh1dDCX1+IW45eY92DdIg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724387978; c=relaxed/simple;
+	bh=1MolIIuGFBQrPnm2QvOcVIdRLDEW8q1RUqevgXk3HHo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sZrp7kuIZ19NjeOhzWA4DWLG/yGbHdqklp8UgS6uNvJobvHaw1nR0WMKmxa4K4xgJLtqV4RlytaGoj7obKqINH3P3+doC8cPZ/KGybdu0cG2X4fYScgFc95Awumngn9gUadgblVjKWdqeVihCk36J36SbxYJSLTOexYzuZvJq3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=H0qIAeny; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D5uK4xdS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724381893; x=1755917893;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=4+NIU+JBfef5mNXzOZTHzC06QC9sBLRFNz9SXv19SP8=;
-  b=D5uK4xdS4dTDLnbkVi+PAI/Io0verRYm0q9FAnbdQ8RVpNvwYL6LrwZX
-   nY02KIhX6lfbC9b36Tk6pNB4I+d/edTK8Fem5HJcTL0eiW5imQGQaf9On
-   L8JHZZyKyQ3ai4vX/4WXEPyt8IvQbFBTAuFA5WZ7rDibTJ3akSb9sg2Ky
-   PGzVOfIPdwqJFnMDSRxfKhbCRnyUXDwN/pnlpSrzG15x64IbbgYDULkQz
-   usa5/yLZ+2GpslhqueyEVLzuz/wVC+t6yRKrHyVsQaxgqcfxLTdD8GMSD
-   Fp49H0m0hlJPLF8VviXlGVTRLf6aROBLWb1DIdhQ7mAUi92opg4d/Fs0I
-   Q==;
-X-CSE-ConnectionGUID: 8zKLmEctSWyh97429iU5rA==
-X-CSE-MsgGUID: Jq8tmyuhQGKtQfrvtXk0GA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22697835"
-X-IronPort-AV: E=Sophos;i="6.10,169,1719903600"; 
-   d="scan'208";a="22697835"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 19:58:13 -0700
-X-CSE-ConnectionGUID: +OGIyV1oQQykR+K8dmEaqA==
-X-CSE-MsgGUID: 6H2f9ThaTxebql3ChZwa7g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,169,1719903600"; 
-   d="scan'208";a="62386070"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by orviesa008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 22 Aug 2024 19:58:12 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 22 Aug 2024 19:58:11 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 22 Aug 2024 19:58:10 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 22 Aug 2024 19:58:10 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 22 Aug 2024 19:58:10 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=klNmAj9kv17SEwTXz74Jprw7abNri1Bc78rj+Tszg2IydAl92j/ubZFPo0pzbfNdNclrByAba6iObUOxaEIUGNfDJsNiWJLyiLPrM5FghGtce+0CY+5R2yHwa0jx6Nrki0cH5AyxIZX9dL8dlnipaQdD5zEMf5XiZ8TLY1fQNhTTD7HsdH5xD5FH5YMbtSFe753WZHzb8vuB0XI/06LDfK9CcW1fkuuOTar2cjP1QcBpaB0je6arjOqgEeijxBrueso5MqbY6vwd2wg8SZzf7xTh+RIO0cMu0s9eDydAW42EvVxVu+rMWwKMFQr3hzgU7ATCdB8rZ32w7gv+eRa88Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zPudyF37UKT79T0u40tizkuUt+kTrRdV9po/FqcHkek=;
- b=gazNjoXqBlEAmBdXBsYOoku/bfVtsPRHHh+6qaU6hyaxv8KpQl6k6XrRylzGmJSWTywwwfcmrB8EsxtTbbDq8i3ICRloaAjtkA4XtmniY88OJgMSBcJRZkcNXBf02Sd38uzvgG0dqbT7ejKoMFm83PjD/FjFCnLm8MZtIW5iZ0S5gfhaHPKyNcHpztZa9khgmkvK7M0rWtJf1MKaI2WE78k9PUepPpZyABg2OL5ArAjqEIcFPdeuDnJ6e0kJiuBR6e8947Baz/4OilGb9Flgtshikfi0fIv9bRQ/BE/eHXNlc0oXMEXZoYSsXfYQWMUx1GElp8TSorLfi/daorBOrw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
- by CH3PR11MB7795.namprd11.prod.outlook.com (2603:10b6:610:120::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.25; Fri, 23 Aug
- 2024 02:58:08 +0000
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::cf7d:9363:38f4:8c57]) by SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::cf7d:9363:38f4:8c57%6]) with mapi id 15.20.7897.014; Fri, 23 Aug 2024
- 02:58:08 +0000
-Date: Thu, 22 Aug 2024 21:58:02 -0500
-From: Ira Weiny <ira.weiny@intel.com>
-To: Dave Jiang <dave.jiang@intel.com>, <ira.weiny@intel.com>, Fan Ni
-	<fan.ni@samsung.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, Navneet
- Singh <navneet.singh@intel.com>, Chris Mason <clm@fb.com>, "Josef Bacik"
-	<josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, Petr Mladek
-	<pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko
-	<andriy.shevchenko@linux.intel.com>, Rasmus Villemoes
-	<linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>
-CC: Dan Williams <dan.j.williams@intel.com>, Davidlohr Bueso
-	<dave@stgolabs.net>, Alison Schofield <alison.schofield@intel.com>, "Vishal
- Verma" <vishal.l.verma@intel.com>, <linux-btrfs@vger.kernel.org>,
-	<linux-cxl@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <nvdimm@lists.linux.dev>
-Subject: Re: [PATCH v3 19/25] cxl/region/extent: Expose region extent
- information in sysfs
-Message-ID: <66c7faba90d0a_1719d294b@iweiny-mobl.notmuch>
-References: <20240816-dcd-type2-upstream-v3-0-7c9b96cba6d7@intel.com>
- <20240816-dcd-type2-upstream-v3-19-7c9b96cba6d7@intel.com>
- <63cfd343-763e-4f7a-a1cc-857927a7282c@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <63cfd343-763e-4f7a-a1cc-857927a7282c@intel.com>
-X-ClientProxiedBy: MW4PR04CA0297.namprd04.prod.outlook.com
- (2603:10b6:303:89::32) To SA1PR11MB6733.namprd11.prod.outlook.com
- (2603:10b6:806:25c::17)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="H0qIAeny"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-20219a0fe4dso15665725ad.2
+        for <linux-doc@vger.kernel.org>; Thu, 22 Aug 2024 21:39:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1724387974; x=1724992774; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Gqe+urx6ldbmD1E7Rwksh8MtsfggHXXnzovx5alouE4=;
+        b=H0qIAenye0hjiZ9xpd68MCE11UNQ67LTfhvhUZADDlMPnr+MCJiUtIZ7PpEPSMCfXD
+         5zFy/bRHt7/aBmCBeKsWjw9lJjY6ecShL1UxK9PmVO578OGlWQGiGAd0g1qW+eJOXJ84
+         G4RhWle2zUecpfYhpkHP0wVvsLrSXMq7H0aK6DYnPigyxLFbtgmudwXIF51YrqG8sZ41
+         y4hUwVgka5bOsIAKcubBJ996nOAJLXJuKf29T2uMi73F9v9QXWyiPXCQihfmXdnAmsik
+         G5YmA3Co4iSfmmfvowX31mshwiZ/w2KMIEpNcfYCfnnIzCU4f0VXfFBtfFNZls8/ERCM
+         qbQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724387974; x=1724992774;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Gqe+urx6ldbmD1E7Rwksh8MtsfggHXXnzovx5alouE4=;
+        b=ChmVNrWZsXkW7WS7BDd0ILQGxVG0YHA/pp2J9HtYRJM0LAJxggeaeQoUpCVbAwgz3z
+         jPQff0j+Ic8c+X7O3f3JZDEN9XLYO4b0TeL+B9WGqukPvEMwHzIm7XKidGfvbJ+fQI1V
+         +0ehoB4jegIaNDBDCxpvtiOvahl2p065rHilFy9wUGRIhmbho2eGzZrgOXZZ6B8thFGY
+         LcAxpm9wlcB8QsU3cntcy+owUGVeG+qOfoD0N9tqfBo1gJ7GxgAhG+MhLSgjMyGqoFtE
+         gy2e4NrvVu4E0aR9HqO254YyANuSA4s5R183DjIzdv6JgKsASJUp7guGpyUWutKxN9TK
+         gfTg==
+X-Forwarded-Encrypted: i=1; AJvYcCVH7NTjclsZT3NywcjI36BX4Ub7MxqYTxOr5PWENvXfkv6FN5LwWgZpq09SXRzX0bZk85SBcsIEnv4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzBNyfD441vv6rvkecjSVgU3dIebpsvZ6ZOEyeoKYbK6AuPWTOD
+	XahrZGVjSTNrvo04Mj0XRGXOzA9JdXi4dnL+1ORA4Nqq0eVBl766dBcMRt1ei68=
+X-Google-Smtp-Source: AGHT+IH/UWpbUoEWUXINMMcxrhHXa2MBrr4xkWKB8wrSXqKqHIV+/deQG0lreoJzFG5C0rNXKr1HzA==
+X-Received: by 2002:a17:902:da81:b0:1fd:a7a7:20b7 with SMTP id d9443c01a7336-2039e494f51mr12105595ad.30.1724387974123;
+        Thu, 22 Aug 2024 21:39:34 -0700 (PDT)
+Received: from ghost ([2601:647:6700:64d0:32df:35ec:8dbd:978c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-203855860a7sm20312825ad.110.2024.08.22.21.39.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Aug 2024 21:39:33 -0700 (PDT)
+Date: Thu, 22 Aug 2024 21:39:30 -0700
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Yangyu Chen <cyy@cyyself.name>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, rsworktech@outlook.com,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Shuah Khan <shuah@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
+	linux-riscv@lists.infradead.org,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-api@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] riscv: mm: Use hint address in mmap if available
+Message-ID: <ZsgSgm0zEE2t/9tK@ghost>
+References: <mhng-7d9e2b27-a53d-4579-b78e-0aec038290fb@palmer-ri-x1c9>
+ <tencent_86551D71707162B243861AC9F8EC0573B409@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|CH3PR11MB7795:EE_
-X-MS-Office365-Filtering-Correlation-Id: f818c646-f204-4be1-1a5a-08dcc31f6ae9
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014|921020;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?tr8iMfpMVQ1J3z6dpchDYq+Lv0uRnATmb51P0v22t8H98jLJtCEgtgXHtha+?=
- =?us-ascii?Q?ihwD+bWQyjHDrqOy67dSicOz063qjdj08gKOaGYZeCzZ/wxb9IuO/6uFqv3f?=
- =?us-ascii?Q?7v35/+Pb6nZqfRCG/jxJFtG/68U9oUnHBTFHKWKmc2d+fy1fSlTpwDCLO8NA?=
- =?us-ascii?Q?6gCWnepm5tJPEiJZvG1URa//eePoctTmm6ixHmLSztcw6COJYslKfI4o78oX?=
- =?us-ascii?Q?H9fQFWpA8Pvm7BYPNo771qI9hTduwOZn2vLcfnn7AVEhGtPfJhYKKOzRWDc5?=
- =?us-ascii?Q?xOYOS6igUIGvSCt/rBhjrzTiCkEpzAb3A68I6aEDPOS8v+q2Xm0NUxFuBkca?=
- =?us-ascii?Q?OpWSuc+cLD4o9+hcMCmhdrJhi8Rw/4IbrqZ0WmChR2po5zxcIIsuBojAWfhK?=
- =?us-ascii?Q?JOk9YUJHBk00k822RD82YkGHm3XlS3ApkvidZZu+v7uDw16L4vWDk8vjsBL7?=
- =?us-ascii?Q?PEItpEhQtgd9Xc25F0ajawD2Pedcs5fR/WYOXnat1rfeCdpEbkkjYTC/Qj9n?=
- =?us-ascii?Q?KLhF4NcrsoNeBJ1bEMPrps+aY5/lwNW/fy7aaeU9LXctLOoALo73fPiYMeKv?=
- =?us-ascii?Q?bEM1VeDd2wdeJkL8zmDFm6xjqAIO4l8LtnxnXF2a/qvR+7Adv7WE448TkwiJ?=
- =?us-ascii?Q?r00TuBE+spTa5Xl3rNXXjMfQBAXoSsq9XZmPdQQroH3VdV82SyFLSDCPv9FQ?=
- =?us-ascii?Q?vE2s5hVjZDRavOvBTnBOGcFRFeJvlFOeXY669xNYivc1yVhb4Q7ZZM6rHvZ2?=
- =?us-ascii?Q?CJ+JZdX2QZguZM6RpsdapU9kcYeNFmoSriKUrA4NWAd+q51EEsvnyL+OGIbp?=
- =?us-ascii?Q?6FgGzxOaJhlxVzDGYBPiPRYhTixeH3Qi8v2yHCbSyJNDRkn5cuuDUvOi5umY?=
- =?us-ascii?Q?C+dJHwbvTQ1qMypRz7sdfMFtiMDk3ESW7FgGyEMKORCukuUKgiE94GHjlw0t?=
- =?us-ascii?Q?V9PL8cecAg6X0sdvLsFYuvwe/6tolvB1WC5/KROzO53DqwV/ffOF+SipnjO0?=
- =?us-ascii?Q?T0XThuY3CJ+Hg58NknNSsdaO0ePW7HG6gL6Zps7hACcTeZOFETmhUBaSEj+b?=
- =?us-ascii?Q?cjMzUXYYih8rewSihLWrNvUKymSwPqk9k3T2W5ycanEGcIe/C9wZ5DpCaPif?=
- =?us-ascii?Q?q25Z0m2PwSyZSXIBt24lC+6eWY1EHD9nWcNRfDDOySD+3J9segAW0bTqDdFS?=
- =?us-ascii?Q?+mbBy1IWfd2Ozb4VG6GBToynZH6X3IQYqhZHyhWWFNWlMjQ7VrKfkrFO02cB?=
- =?us-ascii?Q?5q+K+kYa4ejhNisIMW0waOVVR501Dl3TfdcS2Ovx1ZppIT2Y0pyOP0SwA2Gb?=
- =?us-ascii?Q?vET1S81BzwVAESgRFmcpkhB/wndIHkmSZ+ZZPpQ4XXTMPaTDjmJI/0UwwpDb?=
- =?us-ascii?Q?NWAxE4Q7Duu5khoQ9T9MdtxWXPcM?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6733.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xv4DBb3Xx3V3H3XxHKg3K0zIZyzkl6ZIGW7wdn4Tw26CLK6UbLs7dNbr6u2d?=
- =?us-ascii?Q?90Q/pun5Wr7Ah+scZFgk+sMvPhQNtY28A6UUmAUELEUBIreTt/O1T//720wN?=
- =?us-ascii?Q?HnJ/NKwtvTgS7kCmzk9Kd6i+TT8Lhwz+12XAQwNfe9bQ14jpkb4Hp3xqD0xP?=
- =?us-ascii?Q?dtR7kBcNiTDcR/jb3z/DAWCbhBPVZYTUnO+3iI28Pg0AD2GmDTvDEeozRuUe?=
- =?us-ascii?Q?kwUumaFho8EWsvVeH9EAimOkf+ru2DW63Ms567y7RsRPwz0DlAhNMPezgQaV?=
- =?us-ascii?Q?TpqVtJqmPazZgt0XQL/i4wGra8Hn4RmiHqXnxIxhftXzUrLm72NtrkBvHLKE?=
- =?us-ascii?Q?T0AHIYZaF5+2CmhBQ0tS4XKv809h7J/sqVQXmfyDxk8KHXaDL/UE5bW74HGc?=
- =?us-ascii?Q?4eD2R1KVHhihsHb2UhaJVyaMnD7EcIE3tYdVRH/WSVO8wI94txnucSo6igke?=
- =?us-ascii?Q?efSbzclHqv9zh+m9cQ8hQWMV7RppwV+uiTCQGpEpuBlGsOzJ2SjklYY6ahEO?=
- =?us-ascii?Q?QNs/RBCe90csCi9rGIuoMNyw8pDrSPnXmTlmwBUL7aFDB9q3o15ZkyctcIqI?=
- =?us-ascii?Q?Cl8CuZ0Zllr81QSfK6YcBN2U3KUXcMkPIlAEULXHQ/jF5IrvdRbyn9y17NxK?=
- =?us-ascii?Q?X8kOdkqAOTHUo2DBJ3hEnhxj6tmHN31zSZjzX2U3nJCjove1xYk0kddO/0zJ?=
- =?us-ascii?Q?TG+IJhNEdFHw1eYr8m+6+88jnizvMe0aUI2OBrrYJ/111QNfOUO8Arf9vfgT?=
- =?us-ascii?Q?n060b4cuJjwDkSEzXUzKIGQ+bxn2lrd/BdAZgnyBn0fv9gq27DCtv2qbiM+6?=
- =?us-ascii?Q?cTWUDnEreagcUFYY68/bkS6s63IRpzARpYY0R6gxAJrUlnNLbi/3gPShM5gb?=
- =?us-ascii?Q?Snk85/ehj6W2z+0UfdfImAryviiebfV+zV5WkEkHTvjD9FwjjpGjj1sDKwwi?=
- =?us-ascii?Q?GL3aZvdPJZ+83Tio0+CUh29mkskVBOIkysWipsSA98MDh8FyK8kPbJMD7PN2?=
- =?us-ascii?Q?1NakL6amc8WUe+uotVfmj5Ab+cmVNwlgjkxtukDaNst6ZTOcX0n5dd1jGjz1?=
- =?us-ascii?Q?QI8WgsYfEbdyMQ5I8iQLZ1zoGsp40tlnNLnVvju2zTP2IK4r/NbPk+UyAf68?=
- =?us-ascii?Q?L+WZhYIj3d3KDrAbxw1TKVoMT1JR/HgV1VTZgAzmcjqwhX+lNfuYte8rtUDd?=
- =?us-ascii?Q?Zd6f/SOQjt3Ns9ZCTyMmy5qJv6R8SnrmlGUIdSDw8WQ/6E7vUWJIddgfoRhs?=
- =?us-ascii?Q?Cq0oILGTd4GwhVvhMxW9c+7QjgxFAHlaV6tPjDnU5xYQPFS4uz2UVwdcnF9R?=
- =?us-ascii?Q?brWwxYX9imPSgQ8QE5ec0ZO51kF6sYZfGZo59d1PKe+98iXAxTcPufmNn6cQ?=
- =?us-ascii?Q?2t1jbaHu2CK1HbP+Y60Wj/UcUbBva9vSV4C5XVd6BPYaeRA9GLK1BT6l1LwP?=
- =?us-ascii?Q?+iGhOby33bK3UYcIKNOpksuxOGuD6wNq80uknE4YCZvxJcLdAOjgMaHcUc4F?=
- =?us-ascii?Q?NXKL23P3a5zZDfcBmk6ZhzpGrTWYnizGBHkTdsD8ErkvwC3tqncJERVqAZJn?=
- =?us-ascii?Q?g4h+IaFW82+0GaSrgRh3J46qgITVqcxxYz4rB7Xr?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f818c646-f204-4be1-1a5a-08dcc31f6ae9
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2024 02:58:08.6656
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cTv/IsTnDavPR1vgVUkHzrsbf2OuW9HC0kED4oqGIP/u2NF+PP1JNUYbEBVBay82/x5GbRqc+E0Gn+IJj47lFg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7795
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_86551D71707162B243861AC9F8EC0573B409@qq.com>
 
-Dave Jiang wrote:
+On Thu, Aug 22, 2024 at 10:51:54AM +0800, Yangyu Chen wrote:
 > 
 > 
-> On 8/16/24 7:44 AM, ira.weiny@intel.com wrote:
-> > From: Navneet Singh <navneet.singh@intel.com>
+> > On Aug 22, 2024, at 06:17, Palmer Dabbelt <palmer@dabbelt.com> wrote:
 > > 
-> > Extent information can be helpful to the user to coordinate memory usage
-> > with the external orchestrator and FM.
+> > On Mon, 19 Aug 2024 18:58:18 PDT (-0700), rsworktech@outlook.com wrote:
+> >> On 2024-08-20 01:00, Charlie Jenkins wrote:
+> >>> On Mon, Aug 19, 2024 at 01:55:57PM +0800, Levi Zim wrote:
+> >>>> On 2024-03-22 22:06, Palmer Dabbelt wrote:
+> >>>>> On Thu, 01 Feb 2024 18:28:06 PST (-0800), Charlie Jenkins wrote:
+> >>>>>> On Wed, Jan 31, 2024 at 11:59:43PM +0800, Yangyu Chen wrote:
+> >>>>>>> On Wed, 2024-01-31 at 22:41 +0800, Yangyu Chen wrote:
+> >>>>>>>> On Tue, 2024-01-30 at 17:07 -0800, Charlie Jenkins wrote:
+> >>>>>>>>> On riscv it is guaranteed that the address returned by mmap is less
+> >>>>>>>>> than
+> >>>>>>>>> the hint address. Allow mmap to return an address all the way up to
+> >>>>>>>>> addr, if provided, rather than just up to the lower address space.
+> >>>>>>>>>>> This provides a performance benefit as well, allowing
+> >>>>>>> mmap to exit
+> >>>>>>>>> after
+> >>>>>>>>> checking that the address is in range rather than searching for a
+> >>>>>>>>> valid
+> >>>>>>>>> address.
+> >>>>>>>>>>> It is possible to provide an address that uses at most the same
+> >>>>>>>>> number
+> >>>>>>>>> of bits, however it is significantly more computationally expensive
+> >>>>>>>>> to
+> >>>>>>>>> provide that number rather than setting the max to be the hint
+> >>>>>>>>> address.
+> >>>>>>>>> There is the instruction clz/clzw in Zbb that returns the highest
+> >>>>>>>>> set
+> >>>>>>>>> bit
+> >>>>>>>>> which could be used to performantly implement this, but it would
+> >>>>>>>>> still
+> >>>>>>>>> be slower than the current implementation. At worst case, half of
+> >>>>>>>>> the
+> >>>>>>>>> address would not be able to be allocated when a hint address is
+> >>>>>>>>> provided.
+> >>>>>>>>>>> Signed-off-by: Charlie Jenkins<charlie@rivosinc.com>
+> >>>>>>>>> ---
+> >>>>>>>>>  arch/riscv/include/asm/processor.h | 27 +++++++++++---------------
+> >>>>>>>>> -
+> >>>>>>>>>  1 file changed, 11 insertions(+), 16 deletions(-)
+> >>>>>>>>>>> diff --git a/arch/riscv/include/asm/processor.h
+> >>>>>>>>> b/arch/riscv/include/asm/processor.h
+> >>>>>>>>> index f19f861cda54..8ece7a8f0e18 100644
+> >>>>>>>>> --- a/arch/riscv/include/asm/processor.h
+> >>>>>>>>> +++ b/arch/riscv/include/asm/processor.h
+> >>>>>>>>> @@ -14,22 +14,16 @@
+> >>>>>>>>> 
+> >>>>>>>>>  #include <asm/ptrace.h>
+> >>>>>>>>> 
+> >>>>>>>>> -#ifdef CONFIG_64BIT
+> >>>>>>>>> -#define DEFAULT_MAP_WINDOW    (UL(1) << (MMAP_VA_BITS - 1))
+> >>>>>>>>> -#define STACK_TOP_MAX        TASK_SIZE_64
+> >>>>>>>>> -
+> >>>>>>>>>  #define arch_get_mmap_end(addr, len, flags)            \
+> >>>>>>>>>  ({                                \
+> >>>>>>>>>      unsigned long
+> >>>>>>>>> mmap_end;                    \
+> >>>>>>>>>      typeof(addr) _addr = (addr);                \
+> >>>>>>>>> -    if ((_addr) == 0 || (IS_ENABLED(CONFIG_COMPAT) &&
+> >>>>>>>>> is_compat_task())) \
+> >>>>>>>>> +    if ((_addr) == 0 ||                    \
+> >>>>>>>>> +        (IS_ENABLED(CONFIG_COMPAT) && is_compat_task()) ||    \
+> >>>>>>>>> +        ((_addr + len) > BIT(VA_BITS -
+> >>>>>>>>> 1)))            \
+> >>>>>>>>>          mmap_end = STACK_TOP_MAX;            \
+> >>>>>>>>> -    else if ((_addr) >= VA_USER_SV57) \
+> >>>>>>>>> -        mmap_end = STACK_TOP_MAX;            \
+> >>>>>>>>> -    else if ((((_addr) >= VA_USER_SV48)) && (VA_BITS >=
+> >>>>>>>>> VA_BITS_SV48)) \
+> >>>>>>>>> -        mmap_end = VA_USER_SV48;            \
+> >>>>>>>>>      else                            \
+> >>>>>>>>> -        mmap_end = VA_USER_SV39;            \
+> >>>>>>>>> +        mmap_end = (_addr + len);            \
+> >>>>>>>>>      mmap_end;                        \
+> >>>>>>>>>  })
+> >>>>>>>>> 
+> >>>>>>>>> @@ -39,17 +33,18 @@
+> >>>>>>>>>      typeof(addr) _addr = (addr);                \
+> >>>>>>>>>      typeof(base) _base = (base);                \
+> >>>>>>>>>      unsigned long rnd_gap = DEFAULT_MAP_WINDOW - (_base);    \
+> >>>>>>>>> -    if ((_addr) == 0 || (IS_ENABLED(CONFIG_COMPAT) &&
+> >>>>>>>>> is_compat_task())) \
+> >>>>>>>>> +    if ((_addr) == 0 ||                    \
+> >>>>>>>>> +        (IS_ENABLED(CONFIG_COMPAT) && is_compat_task()) ||    \
+> >>>>>>>>> +        ((_addr + len) > BIT(VA_BITS -
+> >>>>>>>>> 1)))            \
+> >>>>>>>>>          mmap_base = (_base);                \
+> >>>>>>>>> -    else if (((_addr) >= VA_USER_SV57) && (VA_BITS >=
+> >>>>>>>>> VA_BITS_SV57)) \
+> >>>>>>>>> -        mmap_base = VA_USER_SV57 - rnd_gap; \
+> >>>>>>>>> -    else if ((((_addr) >= VA_USER_SV48)) && (VA_BITS >=
+> >>>>>>>>> VA_BITS_SV48)) \
+> >>>>>>>>> -        mmap_base = VA_USER_SV48 - rnd_gap; \
+> >>>>>>>>>      else                            \
+> >>>>>>>>> -        mmap_base = VA_USER_SV39 - rnd_gap; \
+> >>>>>>>>> +        mmap_base = (_addr + len) - rnd_gap; \
+> >>>>>>>>>      mmap_base;                        \
+> >>>>>>>>>  })
+> >>>>>>>>> 
+> >>>>>>>>> +#ifdef CONFIG_64BIT
+> >>>>>>>>> +#define DEFAULT_MAP_WINDOW    (UL(1) << (MMAP_VA_BITS - 1))
+> >>>>>>>>> +#define STACK_TOP_MAX        TASK_SIZE_64
+> >>>>>>>>>  #else
+> >>>>>>>>>  #define DEFAULT_MAP_WINDOW    TASK_SIZE
+> >>>>>>>>>  #define STACK_TOP_MAX        TASK_SIZE
+> >>>>>>>>>>> I have carefully tested your patch on qemu with sv57. A
+> >>>>>>> bug that
+> >>>>>>>> needs
+> >>>>>>>> to be solved is that mmap with the same hint address without
+> >>>>>>>> MAP_FIXED
+> >>>>>>>> set will fail the second time.
+> >>>>>>>>> Userspace code to reproduce the bug:
+> >>>>>>>>> #include <sys/mman.h>
+> >>>>>>>> #include <stdio.h>
+> >>>>>>>> #include <stdint.h>
+> >>>>>>>>> void test(char *addr) {
+> >>>>>>>>     char *res = mmap(addr, 4096, PROT_READ | PROT_WRITE,
+> >>>>>>>> MAP_ANONYMOUS
+> >>>>>>>>> MAP_PRIVATE, -1, 0);
+> >>>>>>>>     printf("hint %p got %p.\n", addr, res);
+> >>>>>>>> }
+> >>>>>>>>> int main (void) {
+> >>>>>>>>     test(1<<30);
+> >>>>>>>>     test(1<<30);
+> >>>>>>>>     test(1<<30);
+> >>>>>>>>     return 0;
+> >>>>>>>> }
+> >>>>>>>>> output:
+> >>>>>>>>> hint 0x40000000 got 0x40000000.
+> >>>>>>>> hint 0x40000000 got 0xffffffffffffffff.
+> >>>>>>>> hint 0x40000000 got 0xffffffffffffffff.
+> >>>>>>>>> output on x86:
+> >>>>>>>>> hint 0x40000000 got 0x40000000.
+> >>>>>>>> hint 0x40000000 got 0x7f9171363000.
+> >>>>>>>> hint 0x40000000 got 0x7f9171362000.
+> >>>>>>>>> It may need to implement a special arch_get_unmapped_area and
+> >>>>>>>> arch_get_unmapped_area_topdown function.
+> >>>>>>>> 
+> >>>>>>> This is because hint address < rnd_gap. I have tried to let mmap_base =
+> >>>>>>> min((_addr + len), (base) + TASK_SIZE - DEFAULT_MAP_WINDOW). However it
+> >>>>>>> does not work for bottom-up while ulimit -s is unlimited. You said this
+> >>>>>>> behavior is expected from patch v2 review. However it brings a new
+> >>>>>>> regression even on sv39 systems.
+> >>>>>>> 
+> >>>>>>> I still don't know the reason why use addr+len as the upper-bound. I
+> >>>>>>> think solution like x86/arm64/powerpc provide two address space switch
+> >>>>>>> based on whether hint address above the default map window is enough.
+> >>>>>>> 
+> >>>>>> Yep this is expected. It is up to the maintainers to decide.
+> >>>>> Sorry I forgot to reply to this, I had a buffer sitting around somewhere
+> >>>>> but I must have lost it.
+> >>>>> 
+> >>>>> I think Charlie's approach is the right way to go.  Putting my userspace
+> >>>>> hat on, I'd much rather have my allocations fail rather than silently
+> >>>>> ignore the hint when there's memory pressure.
+> >>>>> 
+> >>>>> If there's some real use case that needs these low hints to be silently
+> >>>>> ignored under VA pressure then we can try and figure something out that
+> >>>>> makes those applications work.
+> >>>> I could confirm that this patch has broken chromium's partition allocator on
+> >>>> riscv64. The minimal reproduction I use is chromium-mmap.c:
+> >>>> 
+> >>>> #include <stdio.h>
+> >>>> #include <sys/mman.h>
+> >>>> 
+> >>>> int main() {
+> >>>>     void* expected = (void*)0x400000000;
+> >>>>     void* addr = mmap(expected, 17179869184, PROT_NONE,
+> >>>> MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
+> >>>>     if (addr != expected) {
+> >>> It is not valid to assume that the address returned by mmap will be the
+> >>> hint address. If the hint address is not available, mmap will return a
+> >>> different address.
+> >> 
+> >> Oh, sorry I didn't make it clear what is the expected behavior.
+> >> The printf here is solely for debugging purpose and I don't mean that
+> >> chromium expect it will get the hint address. The expected behavior is
+> >> that both the two mmap calls will succeed.
+> >> 
+> >>>>         printf("Not expected address: %p != %p\n", addr, expected);
+> >>>>     }
+> >>>>     expected = (void*)0x3fffff000;
+> >>>>     addr = mmap(expected, 17179873280, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS,
+> >>>> -1, 0);
+> >>>>     if (addr != expected) {
+> >>>>         printf("Not expected address: %p != %p\n", addr, expected);
+> >>>>     }
+> >>>>     return 0;
+> >>>> }
+> >>>> 
+> >>>> The second mmap fails with ENOMEM. Manually reverting this commit fixes the
+> >>>> issue for me. So I think it's clearly a regression and breaks userspace.
+> >>>> 
+> >>> The issue here is that overlapping memory is being requested. This
+> >>> second mmap will never be able to provide an address at 0x3fffff000 with
+> >>> a size of 0x400001000 since mmap just provided an address at 0x400000000
+> >>> with a size of 0x400000000.
+> >>> 
+> >>> Before this patch, this request causes mmap to return a completely
+> >>> arbitrary value. There is no reason to use a hint address in this manner
+> >>> because the hint can never be respected. Since an arbitrary address is
+> >>> desired, a hint of zero should be used.
+> >>> 
+> >>> This patch causes the behavior to be more deterministic. Instead of
+> >>> providing an arbitrary address, it causes the address to be less than or
+> >>> equal to the hint address. This allows for applications to make
+> >>> assumptions about the returned address.
+> >> 
+> >> About the overlap, of course the partition allocator's request for
+> >> overlapped vma seems unreasonable.
+> >> 
+> >> But I still don't quite understand why mmap cannot use an address higher
+> >> than the hint address.
+> >> The hint address, after all, is a hint, not a requirement.
+> >> 
+> >> Quoting the man page:
+> >> 
+> >>>   If another mapping already exists there, the kernel picks
+> >>>        a new address that may or may not depend on the hint.  The
+> >>>        address of the new mapping is returned as the result of the call.
+> >> 
+> >> So for casual programmers that only reads man page but not architecture
+> >> specific kernel documentation, the current behavior of mmap on riscv64
+> >> failing on overlapped address ranges are quite surprising IMO.
+> >> 
+> >> And quoting the man page again about the errno:
+> >> 
+> >>>       ENOMEM No memory is available.
+> >>> 
+> >>>       ENOMEM The process's maximum number of mappings would have been
+> >>>              exceeded.  This error can also occur for munmap(), when
+> >>>              unmapping a region in the middle of an existing mapping,
+> >>>              since this results in two smaller mappings on either side
+> >>>              of the region being unmapped.
+> >>> 
+> >>>       ENOMEM (since Linux 4.7) The process's RLIMIT_DATA limit,
+> >>>              described in getrlimit(2), would have been exceeded.
+> >>> 
+> >>>       ENOMEM We don't like addr, because it exceeds the virtual address
+> >>>              space of the CPU.
+> >>> 
+> >> 
+> >> There's no matching description for the ENOMEM returned here.
+> >> I would suggest removing "because it exceeds the virtual address
+> >> space of the CPU." from the last item if the ENOMEM behavior here
+> >> is expected.
+> >> 
+> >>> This code is unfortunately relying on the previously mostly undefined
+> >>> behavior of the hint address in mmap.
+> >> 
+> >> Although I haven't read the code of chromium's partition allocator to
+> >> judge whether it should
+> >> be improved or fixed for riscv64, I do know that the kernel "don't break
+> >> userspace" and "never EVER blame the user programs".
 > > 
-> > Expose the details of region extents by creating the following
-> > sysfs entries.
+> > Ya, sorry for breaking stuff.
 > > 
-> >         /sys/bus/cxl/devices/dax_regionX/extentX.Y
-> >         /sys/bus/cxl/devices/dax_regionX/extentX.Y/offset
-> >         /sys/bus/cxl/devices/dax_regionX/extentX.Y/length
-> >         /sys/bus/cxl/devices/dax_regionX/extentX.Y/tag
+> > The goal here was to move to the mmap flag behavor similar to what arm64 and x86 have, as that was done in a way that didn't appear to break userspace -- or at least any real userspace programs.  IIRC that first test was pretty broken (it actually depended on the hint address), but sounds like that's not the case.
 > > 
-> > Signed-off-by: Navneet Singh <navneet.singh@intel.com>
-> > Co-developed-by: Ira Weiny <ira.weiny@intel.com>
-> > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> > I think maybe this is just luck: we didn't chunk the address space up, we're just hinting on every bit, so we're just more likely to hit the exhaustion.  Doesn't really matter, though, as if it's breaking stuff so we've got to deal with it.
 > > 
-> > ---
-> > Changes:
-> > [iweiny: split this out]
-> > [Jonathan: add documentation for extent sysfs]
-> > [Jonathan/djbw: s/label/tag]
-> > [Jonathan/djbw: treat tag as uuid]
-> > [djbw: use __ATTRIBUTE_GROUPS]
-> > [djbw: make tag invisible if it is empty]
-> > [djbw/iweiny: use conventional id names for extents; extentX.Y]
-> > ---
-> >  Documentation/ABI/testing/sysfs-bus-cxl | 13 ++++++++
-> >  drivers/cxl/core/extent.c               | 58 +++++++++++++++++++++++++++++++++
-> >  2 files changed, 71 insertions(+)
-> > 
-> > diff --git a/Documentation/ABI/testing/sysfs-bus-cxl b/Documentation/ABI/testing/sysfs-bus-cxl
-> > index 3a5ee88e551b..e97e6a73c960 100644
-> > --- a/Documentation/ABI/testing/sysfs-bus-cxl
-> > +++ b/Documentation/ABI/testing/sysfs-bus-cxl
-> > @@ -599,3 +599,16 @@ Description:
-> >  		See Documentation/ABI/stable/sysfs-devices-node. access0 provides
-> >  		the number to the closest initiator and access1 provides the
-> >  		number to the closest CPU.
-> > +
-> > +What:		/sys/bus/cxl/devices/dax_regionX/extentX.Y/offset
-> > +		/sys/bus/cxl/devices/dax_regionX/extentX.Y/length
-> > +		/sys/bus/cxl/devices/dax_regionX/extentX.Y/tag
+> > Charlie and I are just talking, and best we can come up with is to move to the behavior where we fall back to larger allocation regions when there's no space in the smaller allocation region.  
 > 
-> I wonder consider an entry for each with their own descriptions, which seems to be the standard practice.
+> 
+> For this solution, the only difference from the mmap behavior of
+> x86 and aarch64 is that we will first try to allocate some memory
+> from an address less or equal to the request address + size. But
+> for most cases, I think there is no need to do that, especially for
+> those addresses < BIT(47), as most program works fine on x86-64,
+> which has 47bit available userspace address space to use. And for
+> that program that wants an address < BIT(32), we already have
+> MAP_32BIT now.
+> 
+> I think we can just fix like that patch:
+> https://lore.kernel.org/lkml/tencent_B2D0435BC011135736262764B511994F4805@qq.com/
 
-:-/  Except kind of for the access'.
+This patch does not satisfy the requirement of having the ability to guarantee
+that mmap returns an address that is less than the hint address. This
+patch only allows an address to be less than the DEFAULT_MAP_WINDOW
+which is 32 bits on sv32, 39 bits on sv39, and 48 bits on sv48 or sv57.
 
-What:           /sys/bus/cxl/devices/regionZ/accessY/read_bandwidth
-                /sys/bus/cxl/devices/regionZ/accessY/write_banwidth
+This patch also again falls into the trap of using the hint address to
+forcefully restrict the address space. I agree with Levi that it is not
+very good behavior to have a "hint" cause mmap to fail if conforming to
+the hint isn't possible. Instead, I believe it to be more logical to try
+to allocate at the hint address, otherwise give a random address.
 
-What:           /sys/bus/cxl/devices/regionZ/accessY/read_latency
-                /sys/bus/cxl/devices/regionZ/accessY/write_latency
+The current behavior can then be maintained through the flag
+MAP_BELOW_HINT. This way the user explicitly selects that they want mmap
+to fail if an address could not be found within the hint address
+constraints.
 
-But I think you have a point.
-
-Ira
+- Charlie
 
 > 
-> DJ
+> > Charlie's going to try and throw together a patch for that, hopefully it'll sort things out.
+> > 
+> >>> The goal of this patch is to help
+> >>> developers have more consistent mmap behavior, but maybe it is necessary
+> >>> to hide this behavior behind an mmap flag.
+> >> 
+> >> Thank you for helping to shape a more consistent mmap behavior.
+> >> I think this should be fixed ASAP either by allowing the hint address to
+> >> be ignored
+> >> (as suggested by the Linux man page), or hide this behavior behind an
+> >> mmap flag as you said.
+> >> 
+> >>> - Charlie
+> >>> 
+> >>>> See alsohttps://github.com/riscv-forks/electron/issues/4
+> >>>> 
+> >>>>>> - Charlie
+> >>>> Sincerely,
+> >>>> Levi
+> >>>> 
+> >> 
+> >> I accidentally introduced some HTML into this reply so this reply is
+> >> resent as plain text.
+> >> 
+> >> Sincerely,
+> >> Levi
 > 
-
-[snip]
+> 
