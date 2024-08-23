@@ -1,132 +1,87 @@
-Received: from smtp.smtpout.orange.fr (smtp-17.smtpout.orange.fr [80.12.242.17])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6608D148FED;
-	Fri, 23 Aug 2024 08:30:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D31AC149009
+	for <linux-doc@vger.kernel.org>; Fri, 23 Aug 2024 08:39:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724401824; cv=none; b=Dg7jha0oYTqzZJeV3LXGohfKf7iJxjirsTZ23GzcjEzql95xjTbbZx2QSh3NCKS/2R1yP6acUUtbZef9yiVrLY3DBVrOKmCJ95xcE7vD35KbF/4fzrAc97fNCEWbSUV0AUI3gpxj1vpko+Y38GGshU6YcUJtheQF2mLAbV/de6I=
+	t=1724402391; cv=none; b=XYHDuh4uhMFxWS6qHl2fa9FPSK+iGBoQb8dC5vAf5B+euRtDAWY44fmGw+uAOmTLBYTNzuw8wLeTYmrhnFxNaVHriaQXsxKERmC/qplFNXQ3oJKWN3994VYLm37RlWo8taE8Q7LhluFlUM9bPOJoCzVRrvPTJggLoUr1IjVaTvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724401824; c=relaxed/simple;
-	bh=rjhxv2t08DqDPHrpZk4YuwYWEvtkeDRepg3q6RjCzuI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FRN5oY1zYqDY8Am/CfxHcCggk9pHV4Ao0j8tXLWuExbdb99QLF/7UJABJTwJZ51Xbz7wciYb1w9dX4I8+vLJqCNJyuJNFZn4rK/IBk2ADdIvDkxtaTf9qSeYOXvKt8VHI2Zq8dDjRVJLSTyw6IvAQI6fGPLJ6j0ThWjj098cuAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=G5ArijfC; arc=none smtp.client-ip=80.12.242.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1724402391; c=relaxed/simple;
+	bh=+e7QJLLu5Urr6Z2iktLhxsbbPJOrAtGSxxMTBcyUzm0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ox5jnWR+U32wGVqs8YheuxRDeocBV+gGjRFYinVCdipDottUN2Crdkx/TslPaDN4KyLvVIpQtebHvhw4ZxNPPHG1VIMopfvL6kocfg2x1GFJk4pJftCu3h7s+aGq99u+yd4RynRAu4wAXyNdKorEIqELGKJRC5V/PoRt+LXEuDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=a6nUT2O5; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="G5ArijfC"
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id hPgQs5jfklL4ChPgQslxTp; Fri, 23 Aug 2024 10:30:12 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1724401813;
-	bh=PVjp2iT7Rv5Qx8ZjmxlWjeR6rEVd8j+mpByLlyhusHA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=G5ArijfCIVlkKAf0/dr6MVHi16pv+N4Xqm9v8RokEFBcnN6xgA/Y99dF+91nx2w3b
-	 2oZ1RPyiPUtmxBGnaoy+Sroi5Jl7Qh2VzM3RIMjHz6G7tlrkDQ8CyJ2LspNXx7JV5n
-	 qxEY6aJN0aj3jgUgzdFNQzC/A/3su96UoWskA/uO87EZh3g0oGakjmQO2u413Vk12k
-	 f4joFWK2HpqqOMLdmLrPtrxIi6UKpmHMff8TWZ8Q+dhpJxl8yuQM+VpSZ6TQcbfGz/
-	 xkZAMVBzkFs9S9cBPeT+naNtkj9lI7mCIDgBWPN3GjCbTCj0VNaHEzBDM/GQS7v2EZ
-	 HZwGf4I6pzCcg==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Fri, 23 Aug 2024 10:30:13 +0200
-X-ME-IP: 90.11.132.44
-Message-ID: <5fce67e8-5687-4fde-b6ee-b564a335283e@wanadoo.fr>
-Date: Fri, 23 Aug 2024 10:30:09 +0200
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="a6nUT2O5"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5334adf7249so2209301e87.3
+        for <linux-doc@vger.kernel.org>; Fri, 23 Aug 2024 01:39:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1724402387; x=1725007187; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+e7QJLLu5Urr6Z2iktLhxsbbPJOrAtGSxxMTBcyUzm0=;
+        b=a6nUT2O5Wv1b6v0f5rctqZSTgXqAcy5WyocgXpqWvY3BIntPGFxCQ8ooA9jmmK2EyJ
+         /yVu6S+lQnDdVZNvElUhROBQIxTGUpCPrn3VYdMo3SIX34zRIZjZNZe9/c90MCYC2zuf
+         7oRxBa+lDbW0HZ5ZAmD0uuq72S6oJj3nU+VqCUacsF9Ujy/8zb01zIpvgvK/i4sOEt4V
+         u9vPoOnlqQfQKXNjHEtNdDlh8Xc5IGDSyRRsJYJemLnFqkOBc0GHjwX5IGbweAZKR84K
+         qUzAQ4E0/uFX86UXn7rqiYNrV5c7qYbwcKY8Hc5T4OJKqeKU+OtIe7InSk59RPZhe2Cp
+         SdfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724402387; x=1725007187;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+e7QJLLu5Urr6Z2iktLhxsbbPJOrAtGSxxMTBcyUzm0=;
+        b=J8379TSa0q/MJC0snwb7+3MfzBKUc8vC5QONb1jSro0h/c+LrjzJ/f64+vEI8Tl0qj
+         tVXAdjIi8WA8pOY21MLEChYoxkemnI//Pb4b1Z8Mn014zYtv4PotFe1kWY5NvJPLtHyq
+         8YRcB3NWHTWDaYLnmfylLdOH3vCOOZW4xs+Wi1q92xlcjYmUoW57JpXO6JIhZnXC5Ji/
+         YGHZjH5+vC913oc3iBcHEC2edmY6f/gNzu+brJqFW9CS2+G8e38yqMSb6jSzLMUG7710
+         idP2J/0eIm5+L8cR0Ql6YfJH8rbIULjushT51sXy/wCczqqxUcEAD+BO9FkN+cy7d747
+         bHqg==
+X-Forwarded-Encrypted: i=1; AJvYcCXpnrNeuzy+qvXxDvwC3ia34dnsuBVWEK4QPwd4H9SaCjer7LALFka6JDGhUYZW0Cr6CUn4DBwR0Rs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvWRSqdJsEIm5MIgSI08txh7zJHh58PogM0IbaUKuLIVSc0lX9
+	xO7tflFvwJ9/lsA7mgq6Ms+JYFQXPHUJKkmkSAAQyRAOj1/zT1d2/pBBgpo2ctk=
+X-Google-Smtp-Source: AGHT+IGOWVuOC9yeeKp5mZ4UlpcTLScCESsqL86DkbvcGyGbBm1D6i4r/hzXl4SKazXPEZkY4narSw==
+X-Received: by 2002:a05:6512:ba2:b0:533:3223:df91 with SMTP id 2adb3069b0e04-53438773a9emr1136975e87.24.1724402386504;
+        Fri, 23 Aug 2024 01:39:46 -0700 (PDT)
+Received: from localhost (37-48-50-18.nat.epc.tmcz.cz. [37.48.50.18])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f2e74bbsm229799366b.95.2024.08.23.01.39.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Aug 2024 01:39:45 -0700 (PDT)
+Date: Fri, 23 Aug 2024 10:39:44 +0200
+From: Jiri Pirko <jiri@resnulli.us>
+To: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+Cc: netdev@vger.kernel.org, vadim.fedorenko@linux.dev, corbet@lwn.net,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, donald.hunter@gmail.com,
+	anthony.l.nguyen@intel.com, przemyslaw.kitszel@intel.com,
+	intel-wired-lan@lists.osuosl.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>
+Subject: Re: [PATCH net-next v3 1/2] dpll: add Embedded SYNC feature for a pin
+Message-ID: <ZshK0IEblXbjNKMh@nanopsycho.orion>
+References: <20240822222513.255179-1-arkadiusz.kubalewski@intel.com>
+ <20240822222513.255179-2-arkadiusz.kubalewski@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 1/3] usb: gadget: function: move u_f.h to
- include/linux/usb/func_utils.h
-To: Michael Grzeschik <m.grzeschik@pengutronix.de>
-Cc: andrzej.p@collabora.com, asmadeus@codewreck.org, corbet@lwn.net,
- ericvh@kernel.org, gregkh@linuxfoundation.org, kernel@pengutronix.de,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, linux_oss@crudebyte.com, lucho@ionkov.net,
- v9fs@lists.linux.dev
-References: <20240116-ml-topic-u9p-v9-0-93d73f47b76b@pengutronix.de>
- <20240116-ml-topic-u9p-v9-1-93d73f47b76b@pengutronix.de>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20240116-ml-topic-u9p-v9-1-93d73f47b76b@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240822222513.255179-2-arkadiusz.kubalewski@intel.com>
 
-Le 23/08/2024 à 09:36, Michael Grzeschik a écrit :
-> We move the func_utils.h header to include/linux/usb to be
-> able to compile function drivers outside of the
-> drivers/usb/gadget/function directory.
-> 
-> Signed-off-by: Michael Grzeschik <m.grzeschik-bIcnvbaLZ9MEGnE8C9+IrQ@public.gmane.org>
-> 
-> ---
-> v8 -> v9: -
-> v7 -> v8: -
-> v6 -> v7: -
-> v5 -> v6: -
-> v4 -> v5:
->    - renamed to func_utils.h
-> v3 -> v4: -
-> v2 -> v3: -
-> v1 -> v2:
->    - new introduced patch
-> ---
->   drivers/usb/gadget/configfs.c                              | 2 +-
->   drivers/usb/gadget/function/f_fs.c                         | 2 +-
->   drivers/usb/gadget/function/f_hid.c                        | 2 +-
->   drivers/usb/gadget/function/f_loopback.c                   | 2 +-
->   drivers/usb/gadget/function/f_midi.c                       | 2 +-
->   drivers/usb/gadget/function/f_midi2.c                      | 2 +-
->   drivers/usb/gadget/function/f_sourcesink.c                 | 2 +-
->   drivers/usb/gadget/u_f.c                                   | 2 +-
->   drivers/usb/gadget/u_f.h => include/linux/usb/func_utils.h | 2 +-
->   9 files changed, 9 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/usb/gadget/configfs.c b/drivers/usb/gadget/configfs.c
-> index 0e7c1e947c0a0..0f8553795a8ed 100644
-> --- a/drivers/usb/gadget/configfs.c
-> +++ b/drivers/usb/gadget/configfs.c
-> @@ -8,8 +8,8 @@
->   #include <linux/usb/composite.h>
->   #include <linux/usb/gadget_configfs.h>
->   #include <linux/usb/webusb.h>
-> +#include <linux/usb/func_utils.h>
+Fri, Aug 23, 2024 at 12:25:12AM CEST, arkadiusz.kubalewski@intel.com wrote:
+>Implement and document new pin attributes for providing Embedded SYNC
+>capabilities to the DPLL subsystem users through a netlink pin-get
+>do/dump messages. Allow the user to set Embedded SYNC frequency with
+>pin-set do netlink message.
+>
+>Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
+>Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
 
-Hi,
-
-Here and in the other files, maybe, keep alphabetic order?
-(even if it is not already completely sorted)
-
->   #include "configfs.h"
-> -#include "u_f.h"
->   #include "u_os_desc.h"
->   
->   int check_user_usb_string(const char *name,
-
-...
-
-> rename from drivers/usb/gadget/u_f.h
-> rename to include/linux/usb/func_utils.h
-> index e313c3b8dcb19..9f2a32c765260 100644
-> --- a/drivers/usb/gadget/u_f.h
-> +++ b/include/linux/usb/func_utils.h
-> @@ -1,6 +1,6 @@
->   // SPDX-License-Identifier: GPL-2.0
->   /*
-> - * u_f.h
-> + * usbf_utils.h
->    *
->    * Utility definitions for USB functions
->    *
-> 
-
-Maybe the include guard could be updated as-well?
-
-CJ
-
+Reviewed-by: Jiri Pirko <jiri@nvidia.com>
