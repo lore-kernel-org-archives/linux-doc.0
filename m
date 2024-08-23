@@ -1,123 +1,168 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FC5618DF81;
-	Fri, 23 Aug 2024 18:42:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EABA0191F9C;
+	Fri, 23 Aug 2024 18:49:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724438546; cv=none; b=nirTEEjbTy/T4waIFFdRcRrLejg7Unq0e75DlR76GF1zidAgYzNXBSE9JK0Oky3shtfq2yLFZSFBDUIfEcKcmAvytL5ricBoi9bSHs2XHs4CJPl4FXGKtltnlw5ta1cCG+AptjqAQYVzk8RDeGKqRrSCLJPuf5yl1mDrgvbqm80=
+	t=1724438943; cv=none; b=u+Ja05d1N+hRB3fF7ARehEvNXdOFFTELnEYYONToAXTgRc4ZukzeHmKypBgAd1q6SCO5n7KaKFxKHRq57h5xFx7rfquz58hp9PQtkGustPd8M9YF9FoF+5/E0Q8rVxWuaaeNJDy+AlPEZa6tgue9bj9oqpA8Xyn188HZdo4uP2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724438546; c=relaxed/simple;
-	bh=vzDS1xGJWi/pkNolZLO+6HNfn4L3U7xg210csJvwYds=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OuORKF9NdOLkJLCiHL6wZGKmPPqPoTawTj3T+nab7If3vluhzb5s1YbKCELw6SxgvpsoKiSJqQePjA0SGQAJ1ne7I7lsYy9r4ti2wNa2MOBNO9zNYbCqV3WEgC4D8SmjBiVxo2Oq9ogOjkjSTUEdJJQJ6Kl9frwLW7d03ot+iBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nEZcaNwW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724438943; c=relaxed/simple;
+	bh=cWy2nEWs2KrRrBfFk6UIt2HinYabtHMMjbnzuXOfPTE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=leyuaK2xjhS9n9t7BM7uqM68fJnem2PCF5/OL9ao0YfHDrSpxy6AwuuG2bwKfzidOTeNC8/Jk8HeBqSroMPwHkaGua4VSGkDQ9nnEgV2YgSTnpm89EfNvRh1tMGGMJlM/L45EyAoyUFh8fKCH4rfciIXL9dhJbjstZw2F+jw9LA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YGLGGcdN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nEZcaNwW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95AF7C32786;
-	Fri, 23 Aug 2024 18:42:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YGLGGcdN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6232BC32786;
+	Fri, 23 Aug 2024 18:48:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724438545;
-	bh=vzDS1xGJWi/pkNolZLO+6HNfn4L3U7xg210csJvwYds=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nEZcaNwWhZR8SbZY5Ob+ylg+PP4VV7BgaZKa/Tq75Q0g5T7UafB3wupXf4TEiU2/U
-	 Lv1SwicfYKZ630JfKWDQFz8gq52EWH42m7c1fgYUDd6a2t47BNJGb+otIn5B/F8b3v
-	 ps+l8eGSkPI4xpEVPKrdTXT4mu9qPRcs4qqwnQKJYq4E8Z0g3jCyx0yU6p4ahlhNES
-	 AjO9IaYtCfPkrmqeBjf1jd7aMGFEI3GNvPWYyy1/zvrWifaRhpjT8P91be1jNtLQ8f
-	 DhuGKpzu1X/bkPMXHxaLBUwKLUAIYUOiFm8zTmFMffxmw4jrJCnhjGL4GjBfDusW9R
-	 H+enBAvwwpKhA==
-Date: Fri, 23 Aug 2024 11:42:25 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>, linux-doc@vger.kernel.org,
-	corbet@lwn.net, linux-fsdevel@vger.kernel.org,
-	linux-block@vger.kernel.org, kernel-dev@igalia.com,
-	kernel@gpiccoli.net, Bart Van Assche <bvanassche@acm.org>,
-	Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH V3] Documentation: Document the kernel flag
- bdev_allow_write_mounted
-Message-ID: <20240823184225.GA6082@frogsfrogsfrogs>
-References: <20240823180635.86163-1-gpiccoli@igalia.com>
- <6f303c9f-7180-45ef-961e-6f235ed57553@kernel.dk>
+	s=k20201202; t=1724438942;
+	bh=cWy2nEWs2KrRrBfFk6UIt2HinYabtHMMjbnzuXOfPTE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=YGLGGcdNOYByD/L4LqRodK1g8dRV4Omux2+3/oOEqULY3Kj9vpeNXx+Gnp9l3KJGd
+	 7jxeSblyJiTM/lKFyA+TfQJcRk0nxViWPJa4b7HsUNUA2w29lohsyqSis4BvAqwGnX
+	 0PembGsW/I6+bSVzttrD9tN2Jt5H8okFx+XSO5rPR8FOcMP4V+EiGF8+7XxVFm2zzT
+	 5YUMfvXx9gtKg3rBo2n3UhQRqs/mtUNgAxC4xxkU7/fEZx7ACiINV6LZ2nljHRIWY4
+	 NIBKflCPwxAH/RTA0mbuYeRCkjjGS3OcNgKNX3tDioR8Ydjdl8hcbs3xyZxzaFHggb
+	 qdj6U0P1LT2hQ==
+Date: Fri, 23 Aug 2024 19:48:52 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, David
+ Lechner <dlechner@baylibre.com>, Uwe Kleine-Konig
+ <u.kleine-koenig@baylibre.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] iio: adc: ad7625: add driver
+Message-ID: <20240823194852.4d855eb3@jic23-huawei>
+In-Reply-To: <20240819-ad7625_r1-v3-2-75d5217c76b5@baylibre.com>
+References: <20240819-ad7625_r1-v3-0-75d5217c76b5@baylibre.com>
+	<20240819-ad7625_r1-v3-2-75d5217c76b5@baylibre.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6f303c9f-7180-45ef-961e-6f235ed57553@kernel.dk>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 23, 2024 at 12:17:54PM -0600, Jens Axboe wrote:
-> On 8/23/24 12:05 PM, Guilherme G. Piccoli wrote:
-> > Commit ed5cc702d311 ("block: Add config option to not allow writing to mounted
-> > devices") added a Kconfig option along with a kernel command-line tuning to
-> > control writes to mounted block devices, as a means to deal with fuzzers like
-> > Syzkaller, that provokes kernel crashes by directly writing on block devices
-> > bypassing the filesystem (so the FS has no awareness and cannot cope with that).
-> > 
-> > The patch just missed adding such kernel command-line option to the kernel
-> > documentation, so let's fix that.
-> > 
-> > Cc: Bart Van Assche <bvanassche@acm.org>
-> > Cc: Darrick J. Wong <djwong@kernel.org>
-> > Cc: Jan Kara <jack@suse.cz>
-> > Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
-> > ---
-> > 
-> > V3: Dropped reference to page cache (thanks Bart!).
-> > 
-> > V2 link: https://lore.kernel.org/r/20240823142840.63234-1-gpiccoli@igalia.com
-> > 
-> > 
-> >  Documentation/admin-guide/kernel-parameters.txt | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
-> > 
-> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > index 09126bb8cc9f..58b9455baf4a 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > @@ -517,6 +517,18 @@
-> >  			Format: <io>,<irq>,<mode>
-> >  			See header of drivers/net/hamradio/baycom_ser_hdx.c.
-> >  
-> > +	bdev_allow_write_mounted=
-> > +			Format: <bool>
-> > +			Control the ability of directly writing to mounted block
-> 
-> Since we're nit picking...
-> 
-> Control the ability to directly write [...]
-> 
-> The directly may be a bit confusing ("does it mean O_DIRECT?"), so maybe
-> just
-> 
-> Control the ability to write [...]
-> 
-> would be better and more clear.
+On Mon, 19 Aug 2024 10:11:44 -0400
+Trevor Gamblin <tgamblin@baylibre.com> wrote:
 
-"Control the ability to open a block device for writing."
+> Add a driver for the AD762x and AD796x family of ADCs. These are
+> pin-compatible devices using an LVDS interface for data transfer,
+> capable of sampling at rates of 6 (AD7625), 10 (AD7626), and 5
+> (AD7960/AD7961) MSPS, respectively. They also feature multiple voltage
+> reference options based on the configuration of the EN1/EN0 pins, which
+> can be set in the devicetree.
+> 
+> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+Hi Trevor
+A few really minor things in here.  Given we are waiting on the 
+PWM set anyway, I haven't just tidied them up whilst applying.
+> ---
+>  MAINTAINERS              |   1 +
+>  drivers/iio/adc/Kconfig  |  15 ++
+>  drivers/iio/adc/Makefile |   1 +
+>  drivers/iio/adc/ad7625.c | 688 +++++++++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 705 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 2361f92751dd..a90972e1c5c5 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1268,6 +1268,7 @@ S:	Supported
+>  W:	https://ez.analog.com/linux-software-drivers
+>  W:	http://analogdevicesinc.github.io/hdl/projects/pulsar_lvds/index.html
+>  F:	Documentation/devicetree/bindings/iio/adc/adi,ad7625.yaml
+> +F:	drivers/iio/adc/ad7625.c
+>  
+>  ANALOG DEVICES INC AD7768-1 DRIVER
+>  M:	Michael Hennerich <Michael.Hennerich@analog.com>
+> diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
+> index f60fe85a30d5..e25fb505f545 100644
+> --- a/drivers/iio/adc/Kconfig
+> +++ b/drivers/iio/adc/Kconfig
+> @@ -219,6 +219,21 @@ config AD7606_IFACE_SPI
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called ad7606_spi.
+>  
+> +config AD7625
+> +        tristate "Analog Devices AD7625/AD7626 High Speed ADC driver"
+> +        select IIO_BACKEND
+> +        help
+> +          Say yes here to build support for Analog Devices:
+> +	  * AD7625 16-Bit, 6 MSPS PulSAR Analog-to-Digital Converter
+Looks like some tabs mixed in with otherwise spaces.
+Should be tabs + spaces as per entry above.
+> +	  * AD7626 16-Bit, 10 MSPS PulSAR Analog-to-Digital Converter
+> +	  * AD7960 18-Bit, 5 MSPS PulSAR Analog-to-Digital Converter
+> +	  * AD7961 16-Bit, 5 MSPS PulSAR Analog-to-Digital Converter
+> +
+> +          The driver requires the assistance of the AXI ADC IP core to operate.
+> +
+> +          To compile this driver as a module, choose M here: the module will be
+> +          called ad7625.
+> +
+>  config AD7766
+>  	tristate "Analog Devices AD7766/AD7767 ADC driver"
+>  	depends on SPI_MASTER
 
-Since that's what it actually does, right?
+> diff --git a/drivers/iio/adc/ad7625.c b/drivers/iio/adc/ad7625.c
+> new file mode 100644
+> index 000000000000..3ac3c56d43eb
+> --- /dev/null
+> +++ b/drivers/iio/adc/ad7625.c
+> @@ -0,0 +1,688 @@
 
---D
+> +
+> +struct ad7625_chip_info {
+> +	const char *name;
+> +	const unsigned int max_sample_rate_hz;
+> +	const struct ad7625_timing_spec *timing_spec;
+> +	const struct iio_chan_spec chan_spec;
+> +	const bool has_power_down_state;
+> +	const bool has_bandwidth_control;
+> +	const bool has_internal_vref;
+Not sure I'd bother marking these bools const. Unlikely the compiler
+can do anything with that info it can't do without it. I guess it does no
+real harm thowever.
+> +};
 
-> > +			devices, i.e., allow / disallow writes that bypasses the
-> 
-> Since we're nit picking, s/bypasses/bypass
-> 
-> > +			FS. This was implemented as a means to prevent fuzzers
-> > +			from crashing the kernel by overwriting the metadata
-> > +			underneath a mounted FS without its awareness. This
-> > +			also prevents destructive formatting of mounted
-> > +			filesystems by naive storage tooling that don't use
-> > +			O_EXCL. Default is Y and can be changed through the
-> > +			Kconfig option CONFIG_BLK_DEV_WRITE_MOUNTED.
-> > +
-> >  	bert_disable	[ACPI]
-> >  			Disable BERT OS support on buggy BIOSes.
-> 
-> -- 
-> Jens Axboe
-> 
+
+> +static int ad7625_probe(struct platform_device *pdev)
+> +{
+
+...
+
+> +	/*
+> +	 * Set the initial sampling frequency to the maximum, unless the
+> +	 * AD796x device is limited to narrow bandwidth by EN2 == 1, in
+> +	 * which case the sampling frequency should be limited to 2MSPS
+> +	 */
+> +	if (!st->info->has_bandwidth_control) {
+> +		default_sample_freq = st->info->max_sample_rate_hz;
+> +	} else {
+> +		default_sample_freq = !st->can_wide_bandwidth ?
+
+Flip the logic.
+		default_sample_freq = st->can_wide_bandwidth ?
+				      st->info->max_sample_rate_hz :
+				      AD7960_MAX_NBW_FREQ;
+
+seems simpler or set a default and override it.
+	default_sample_freq = st->info_max_sample_rate_hz;
+	if (st->info->has_bandwidth_control &&
+	    !st->can_wide_bandwidth)
+		default_sampling_freq = AD7960_MAX_NBW_FREQ;
+		
+
+> +				      AD7960_MAX_NBW_FREQ :
+> +				      st->info->max_sample_rate_hz;
+> +	}
