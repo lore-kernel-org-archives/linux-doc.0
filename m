@@ -1,173 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA1714A092;
-	Fri, 23 Aug 2024 10:25:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65C57186E57;
+	Fri, 23 Aug 2024 10:33:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724408734; cv=none; b=icb+AlQGbLFJyH9agcM1YbjIIi/UsMaM0Z9zYJPIxjVnUXjiJkw3IGkXhd/J3qpoa4aocaVwSl+w47nnEYghyKW64SzAuREwivIxcamt96qTmH0Z9N8e/WWaoe0MVAEuLeZMhX2s/aT6sYkKdCv5m4WJEQBtROORtUswsQRwU8U=
+	t=1724409226; cv=none; b=RYjtUjFffdRT07MEgQEEA1TSwbZ4lFkEouoV4H3Vh7f8e3rerNOsGU8QWZHnkuyRByYVC2neq0wtxwqpqX2wjTcwxeXTVZhp/TzT15G7VYvvf1qu9APa9anp3ldMyTLwWb0EDBtyoo/CSFhOuKM+x6KUqeDXLd/MsqdqplZY29A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724408734; c=relaxed/simple;
-	bh=sQqhNYedR1BK3builnVoyg4SxBnBW3yPxbGa623Z0Lg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lP1lPRtw1p11txD32uRLQPxZP5MHBrnbKuSIRF43qLF6iz0YsRJq5Y7rRyih1+F8GAhAMWU868DY/jOwnsSKugONwNZnKil8xDGibTKVLL9Sch165vEsFK62qgOP0coPig6pEt8cgTJEC4mmTm7sGOUToteZaX3cEfFiE5xthC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p85uLFPz; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p85uLFPz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73EFEC32786;
-	Fri, 23 Aug 2024 10:25:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724408733;
-	bh=sQqhNYedR1BK3builnVoyg4SxBnBW3yPxbGa623Z0Lg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p85uLFPzRzTjF8TlOpeiA4rumcvxDEt5Fylq/9D05p3sIyY+055i0xe3zxSZLAoqN
-	 QZHNkumhB+xPzgZ/sxTPyBYYrNrG8f5anr2pue94kpefrN+CCKb4iLhzMhRTBpSA0K
-	 sVYCVfW5FfB2qLD+0FFI6UGF0ZbAxjh5/DQ4oH00TXYoDQs14NRelVjlKHMrBh/wqb
-	 WIAQ2tuAChr2+JPT3qMr5aq++L4A6q4aPfN6kAHB7/S6XhE8E13elQ+Sv0HMTl8mQd
-	 AV1ckfw3bNkrK34vkLNFaaA8WrSpMbnM/HArzMkeG+5njHE00+M1umnvsYvWZyPQyj
-	 cpi/uhsdQGqjA==
-Date: Fri, 23 Aug 2024 11:25:30 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Shuah Khan <shuah@kernel.org>,
-	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Florian Weimer <fweimer@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
-	Ross Burton <ross.burton@arm.com>,
-	Yury Khrustalev <yury.khrustalev@arm.com>,
-	Wilco Dijkstra <wilco.dijkstra@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v11 25/39] arm64/signal: Expose GCS state in signal frames
-Message-ID: <ZshjmuYcejbhaSBg@finisterre.sirena.org.uk>
-References: <20240822-arm64-gcs-v11-0-41b81947ecb5@kernel.org>
- <20240822-arm64-gcs-v11-25-41b81947ecb5@kernel.org>
- <ZshYTyNbveD7WMyJ@arm.com>
+	s=arc-20240116; t=1724409226; c=relaxed/simple;
+	bh=xqkYFoIeKHjvyXYSScBmkIwYsS+h8/BO5Dlwp5j/f4c=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=fJeAKYObFCgb3iSatlXcCgEabsBSetkAR5jWkYZyCv3KGDG8rSIrrvr5P5qea2mFr145QvOj9+YL+2745qT6JRPk6Wc67oTNhxFEv2OVX9udc7QH6xzT0cHwMW4G5RjPoTIT3b/+WXWEJPdm3brM9iZaUqULt8RKEDjw162RhWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.2.10.34])
+	by gateway (Coremail) with SMTP id _____8DxfZuEZchmo1MdAA--.35984S3;
+	Fri, 23 Aug 2024 18:33:40 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.10.34])
+	by front1 (Coremail) with SMTP id qMiowMAxVOCDZchmmDYfAA--.5401S2;
+	Fri, 23 Aug 2024 18:33:39 +0800 (CST)
+From: Tianyang Zhang <zhangtianyang@loongson.cn>
+To: corbet@lwn.net,
+	alexs@kernel.org,
+	chenhuacai@kernel.org,
+	kernel@xen0n.name,
+	tglx@linutronix.de,
+	jiaxun.yang@flygoat.com,
+	gaoliang@loongson.cn,
+	wangliupu@loongson.cn,
+	lvjianmin@loongson.cn,
+	zhangtianyang@loongson.cn,
+	yijun@loongson.cn,
+	mhocko@suse.com,
+	akpm@linux-foundation.org,
+	dianders@chromium.org,
+	maobibo@loongson.cn,
+	xry111@xry111.site,
+	zhaotianrui@loongson.cn,
+	nathan@kernel.org,
+	yangtiezhu@loongson.cn,
+	zhoubinbin@loongson.cn
+Cc: loongarch@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v11 0/7] Loongarch-avec support
+Date: Fri, 23 Aug 2024 18:33:29 +0800
+Message-Id: <20240823103337.23602-1-zhangtianyang@loongson.cn>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="/CrZc0/PCTYKFxlL"
-Content-Disposition: inline
-In-Reply-To: <ZshYTyNbveD7WMyJ@arm.com>
-X-Cookie: Your love life will be... interesting.
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowMAxVOCDZchmmDYfAA--.5401S2
+X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj93XoWxGF1DZrW3Gw4DXrWxJFyxWFX_yoWrtr4kpF
+	W7Cryqvr48CryxCrnak34rury5Xr4xK3y2qay3K347uryDJ34DWr10yF1DZF18Jw4rGa4I
+	gF1rW3yUWa1UAacCm3ZEXasCq-sJn29KB7ZKAUJUUUUf529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUBIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+	xVW8Jr0_Cr1UM2kKe7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+	AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+	AVWUtwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7V
+	AKI48JMxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY
+	6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
+	xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xII
+	jxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw2
+	0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x02
+	67AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8svtJUUUUU==
 
+This series of patches introduces support for advanced extended 
+interrupt controllers (AVECINTC), and this hardware feature will 
+be supported on 3C6000 for the first time
 
---/CrZc0/PCTYKFxlL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Changes log:
+ V0->V1:
+         1.Modified some formats and declarations
+         2.Removed kmalloc/kfree when adding affinity related data to pending_list,
+           and used moving tag to replace the original behavior
+         3.Adjusted the process that enables AVEC interrupts, now it is at the end of all processes
+         4.Removed CPUHP related callbacks, now irq_matrix_online/irq_matrix_offline is completed in start_secondary/loongson_cpu_disable
+         5.Adjusted compatibility issues for CONFIG_ACPI
+         6.About question:
+         > irr = csr_read64(LOONGARCH_CSR_IRR0 + vector / 64);
+         > should be good enough, no?
+         csr_read64 was built-in as __csrrd_d, it doesn't seem to support variables as parameters
+         >>>>
+         drivers/irqchip/irq-loongarch-avec.c: In function ‘complete_irq_moving’:
+         ./arch/loongarch/include/asm/loongarch.h:164:25: error: invalid argument to built-in function
+           164 | #define csr_read64(reg) __csrrd_d(reg)
+               |                         ^~~~~~~~~
+         drivers/irqchip/irq-loongarch-avec.c:170:23: note: in expansion of macro ‘csr_read64’
+           170 |                 irr = csr_read64(LOONGARCH_CSR_IRR_BASE + vector / VECTORS_PER_REG);
+               |                       ^~~~~~~~~~
+         >>>>
+         So we have temporarily retained the previous implementation.
+ 
+ V1->V2:
+         Fixed up coding style. Made on/offline functions void
+         Added compatibility when CONFIG_SMP is turned off
+ 
+ V2->V3:
+ 	Squash two patches into one
+ 
+ V3->V4:
+ 	Update NR_IRQS
+ 	Update Register's name
+ 	Fixed up coding style
+ V4->V5:
+	Retain feature CPUCFG1_MSGINT	
+ 	Fixed up coding style
+	Delete the test code introduced by V4, and now msi msg address still uses the 32-bit address
+ V5->V6:
+	Fix definition of NR_IRQS
+	Define arch_probe_nr_irqs()
+	Handle all avecintc interrupts in one dispatch
+	Use cpuhotplug callbacks instead of direct call to avec_online_cpu()/avec_offline_cpu()
+	Rename {SMP,ACTION}_CLEAR_VECT to {SMP,ACTION}_CLEAR_VECTOR
+	Use avecintc_ prefix instead of loongarch_avec_ to keep consistancy
+ V6->V7:
+	Fixed compatibility issue with cpuhp_setup_state_nocalls when CONFIG_SMP is turned off
+	Rename avecintc_online/offline_cpu as avecintc_cpu_online/offline
+	Use pch_msi_handle[0] as default value of get_pch_msi_handle
+	Rework commit-message
+ V7->V8:
+	Fixed up coding style
+	Support per-device-MSI domain
+	Replaced spin_lock ops with guard/scope_guard
+	Always execute irq_metrix_offline while the CPU is offline
+ V8->V9:
+	Fixed up coding style and potential bugs 
+ V9->V10:
+	Add a cover of series patch
+ V10->V11:
+	Separate the original patch into 7 small patches
+	Correcting memory operations in critical areas
+	Fixed up other coding style problem
 
-On Fri, Aug 23, 2024 at 10:37:19AM +0100, Catalin Marinas wrote:
-> On Thu, Aug 22, 2024 at 02:15:28AM +0100, Mark Brown wrote:
+Huacai Chen (5):
+  Docs/LoongArch: Add advanced extended IRQ model description
+  LoongArch: Define ARCH_IRQ_INIT_FLAGS as IRQ_NOPROBE
+  LoongArch: Move irqchip function prototypes to irq-loongson.h
+  LoongArch: Architectural preparation for AVEC irqchip
+  irqchip/loongson-eiointc: Rename CPUHP_AP_IRQ_LOONGARCH_STARTING
 
-> > +	gcs_preserve_current_state();
-> > +	gcspr = current->thread.gcspr_el0 - 8;
+Tianyang Zhang (2):
+  irqchip/loongson-pch-msi: Prepare get_pch_msi_handle() for AVECINTC
+  irqchip/loongarch-avec: Add AVEC irqchip support
 
-> > +	__put_user_error(gcspr, &ctx->gcspr, err);
+ .../arch/loongarch/irq-chip-model.rst         |  32 ++
+ .../zh_CN/arch/loongarch/irq-chip-model.rst   |  32 ++
+ arch/loongarch/Kconfig                        |   1 +
+ arch/loongarch/include/asm/cpu-features.h     |   1 +
+ arch/loongarch/include/asm/cpu.h              |   2 +
+ arch/loongarch/include/asm/hardirq.h          |   3 +-
+ arch/loongarch/include/asm/hw_irq.h           |   2 +
+ arch/loongarch/include/asm/irq.h              |  31 +-
+ arch/loongarch/include/asm/loongarch.h        |  18 +-
+ arch/loongarch/include/asm/smp.h              |   2 +
+ arch/loongarch/kernel/cpu-probe.c             |   3 +-
+ arch/loongarch/kernel/irq.c                   |  15 +-
+ arch/loongarch/kernel/paravirt.c              |   5 +
+ arch/loongarch/kernel/smp.c                   |   6 +
+ drivers/irqchip/Makefile                      |   2 +-
+ drivers/irqchip/irq-loongarch-avec.c          | 425 ++++++++++++++++++
+ drivers/irqchip/irq-loongarch-cpu.c           |   7 +-
+ drivers/irqchip/irq-loongson-eiointc.c        |   9 +-
+ drivers/irqchip/irq-loongson-htvec.c          |   2 +
+ drivers/irqchip/irq-loongson-liointc.c        |   2 +
+ drivers/irqchip/irq-loongson-pch-lpc.c        |   2 +
+ drivers/irqchip/irq-loongson-pch-msi.c        |  25 +-
+ drivers/irqchip/irq-loongson-pch-pic.c        |   2 +
+ drivers/irqchip/irq-loongson.h                |  27 ++
+ include/linux/cpuhotplug.h                    |   3 +-
+ 25 files changed, 624 insertions(+), 35 deletions(-)
+ create mode 100644 drivers/irqchip/irq-loongarch-avec.c
+ create mode 100644 drivers/irqchip/irq-loongson.h
 
-> Do we actually need to store the gcspr value after the cap token has
-> been pushed or just the value of the interrupted context? If we at some
-> point get a sigaltshadowstack() syscall, the saved GCS wouldn't point to
-> the new stack but rather the original one. Unwinders should be able to
-> get the actual GCSPR_EL0 register, no need for the sigcontext to point
-> to the new shadow stack.
+-- 
+2.20.1
 
-We could store either the cap token or the interrupted GCSPR_EL0 (the
-address below the cap token).  It felt more joined up to go with the cap
-token since notionally signal return is consuming the cap token but
-either way would work, we could just add an offset when looking at the
-pointer.
-
-> Also in gcs_signal_entry() in the previous patch, we seem to subtract 16
-> rather than 8.
-
-We need to not only place a cap but also a GCS frame for the sigreturn
-trampoline, the sigreturn trampoline isn't part of the interrupted
-context so isn't included in the signal frame but it needs to have a
-record on the GCS so that the signal handler doesn't just generate a GCS
-fault if it tries to return to the trampoline.  This means that the
-GCSPR_EL0 that is set for the signal handler needs to move two entries,
-one for the cap token and one for the trampoline.
-
-> What I find confusing is that both restore_gcs_context() and
-> gcs_restore_signal() seem to touch current->thread.gcspr_el0 and the
-> sysreg. Which one takes priority? I should probably check the branch out
-> to see the end result.
-
-restore_gcs_context() is loading values from the signal frame in memory
-(which will only happen if a GCS context is present) then
-gcs_restore_signal() consumes the token at the top of the stack.  The
-split is because userspace can skip the restore_X_context() functions
-for the optional signal frame elements by removing them from the context
-but we want to ensure that we always consume a token.
-
-> > +	/*
-> > +	 * We let userspace set GCSPR_EL0 to anything here, we will
-> > +	 * validate later in gcs_restore_signal().
-> > +	 */
-> > +	current->thread.gcspr_el0 = gcspr;
-> > +	write_sysreg_s(current->thread.gcspr_el0, SYS_GCSPR_EL0);
-
-> So in preserve_gcs_context(), we subtract 8 from the gcspr_el0 value.
-> Where is it added back?
-
-When we consumed the GCS cap token.
-
-> > +	if (add_all || task_gcs_el0_enabled(current)) {
-> > +		err = sigframe_alloc(user, &user->gcs_offset,
-> > +				     sizeof(struct gcs_context));
-> > +		if (err)
-> > +			return err;
-> > +	}
-
-> I'm still not entirely convinced of this conditional saving and the
-> interaction with unwinders. In a previous thread you mentioned that we
-> need to keep the GCSPR_EL0 sysreg value up to date even after disabling
-> GCS for a thread as not to confuse the unwinders. We could get a signal
-> delivered together with a sigreturn without any context switch. Do we
-> lose any state?
-
-> It might help if you describe the scenario, maybe even adding a comment
-> in the code, otherwise I'm sure we'll forget in a few months time.
-
-We should probably just change that back to saving unconditionally - it
-looks like the decision on worrying about overflowing the default signal
-frame is that we just shouldn't.
-
---/CrZc0/PCTYKFxlL
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbIY5MACgkQJNaLcl1U
-h9Bi+gf8CXq7dITB6mfDzRqVPcrdnIF0zDFjmHC8iIhqzkArOPeUrHuV8v1JvQKo
-xxY+T75lyZYVhNmi/4AnCvx2NQ+73+wmg5ZJyg3MMYv67UP5A4Gk8cOO3DP4gNZp
-GkinUu6g/33nKttu0Z8bNrylbmSVqqtFnh3Bzbv74LhYyKDe/dQ9CuCtZBEgjcQN
-U3x2p8TYyhcqu6/7OkT7MNJtI825nOVxVQh2B4Rlfp0ea+z2UNkTocgU12qsyZRt
-ew3ERI/4vdbAgPIIvqX5hmkLCEn6GNpyohGHm6LJ1BEZx3DGM9Ev6Q/ImtCMF+ty
-5N4sxm/JaJbA6ExZyirRb8m7CyRISQ==
-=OryW
------END PGP SIGNATURE-----
-
---/CrZc0/PCTYKFxlL--
