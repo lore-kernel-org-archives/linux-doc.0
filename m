@@ -1,77 +1,103 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F8712B6C;
-	Fri, 23 Aug 2024 00:18:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C9DB125AC;
+	Fri, 23 Aug 2024 01:27:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724372296; cv=none; b=jZGNaZfwXQr9bBeu+8bsthj02cQOsSHoqfcZaqgiB28vAH+QYsMKXwWD1ZJYsR6syMMnI92l6H21xota+lfM3Z6v1b6btEX/rFzI1j/HC29X10avDdxTgYgX+OtdcL+4PJPvDHBEunIgGfXjbNxsnWS8YaRyqWsx98dSoJ7qrvA=
+	t=1724376431; cv=none; b=OhN9fLCqUiZoaCR3l4FHhzWcDFm+lHiTk2aoIcOrHMN0R9NljzlbviAs/VwQK3nCvgeGP1LanayGckttG5FjEPyEaMiDo11z9Mqt9v1YpGvLxnKD9mO1euYLEWedEgrsTdu1NWc8B9qAuxlsA3sdfWZnGBqzQc79iIsAI2i5oXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724372296; c=relaxed/simple;
-	bh=2HVUjJT8ysAAiOf7lEZcT9lCdiA5BBbCXrDdPmIUcNU=;
+	s=arc-20240116; t=1724376431; c=relaxed/simple;
+	bh=Nf2wPTVgwfnfO4wozJbawzPg7tqsI7NIDsI0AfWVapU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RoTxT0emSmSo/7CLKJ6rOvUmHFOk1BwnLWl7au2nSuzzCR4f37HvHV0dRQGFt36lLAfGjAExSQE2lA5y1CurytB6hH3tkRvOgiInAhWY/Iw66cg2yI/zwxjzSIHZHRZQvfWT9ZNbi2zjFeWE+tZ1DDH+iO8m2MPQE43Wc0Jd7zI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PQAvZtuz; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=pJcjUuv9ODHZ20It6FIpPlvoKAYatLzDoVmKwEZWZMggddPgH74gFdTH17xTgU8ggKv+jr3GyVCXVjaeH3LocJRw/nD9ZEjKVtfD3/L1A9u4MfFtLoZiJQfGNnZzUhPU67wCxZ/Qcjeqn+ZYmd+7s4QvlywyJt7p1xMhaj1OANA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y1e/wpXi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PQAvZtuz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 434A5C4AF09;
-	Fri, 23 Aug 2024 00:18:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y1e/wpXi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D07E3C32782;
+	Fri, 23 Aug 2024 01:27:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724372296;
-	bh=2HVUjJT8ysAAiOf7lEZcT9lCdiA5BBbCXrDdPmIUcNU=;
+	s=k20201202; t=1724376430;
+	bh=Nf2wPTVgwfnfO4wozJbawzPg7tqsI7NIDsI0AfWVapU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PQAvZtuzpNYxB2uELf0d5qDY3obDWfFhPA0o45PDaSrQD3a8FQYcWes6DKm7l1XEF
-	 VR2Rfe6xpQ31NRd3yHh3tdCi8OixGO+Ewj19j91vYid1HQ7nSaiFoIbIrQbAwuNrfU
-	 omAQI3dNoZ4qpnc7NLt+wN/rw0BBaVbKtuXVeD5NhLJLpvcTOL0+vxVfVryVgxTqKL
-	 t1sTZC8e842HNFwELMwFhVuhAtjrwbEDNnPd4b4NvJsjexeveJW1HhsJeha55320Pi
-	 vezfQflMJ9wzQpd1AmvQHjsJMoPwbi2Nf4W+nK5vrSvu42XfAaCFEAjopzRQYffii5
-	 w9v0VgIxCEEcQ==
-Date: Thu, 22 Aug 2024 17:18:15 -0700
-From: Kees Cook <kees@kernel.org>
-To: David Gow <davidgow@google.com>
-Cc: John Hubbard <jhubbard@nvidia.com>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	Rae Moar <rmoar@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v3] Documentation: KUnit: Update filename best practices
-Message-ID: <202408221717.1138DB3D1C@keescook>
-References: <20240724201354.make.730-kees@kernel.org>
- <CABVgOSmXqv_+20OKjVAPJoqrP1EvBk+1WUqF4wBsefegxYNiWA@mail.gmail.com>
+	b=Y1e/wpXirDNkn3eK7AMUEuOd/yiilMZj5Qiy43h17fD3qXrfAK8rg8H4vKD4x0+L3
+	 tIWNy0aa61rQGYVBxjurWcSTXTmMy7zJQq8I+uGKg22bC5BWhQymnKOfQTt7HZzyRK
+	 muY7J3ACs4u5HKVN7W7FaTL579agaEALb3PyUDKEPHEBHS6OtsBcxISwyXF8PSeGiq
+	 tDuJ+rsOdag9qCF8Q/uBcyxronyeuZqoZKHqn4WYp7WHSil2NJqt32Q/A9m4ezsjmh
+	 2CHeLBvMph8Dw0uRsUvyd0zSz7swMqU+VR7zyJUmUVX5lQaMi6bWeIuPcm4VseS0g1
+	 Foby2pF4Rqzrg==
+Date: Thu, 22 Aug 2024 18:27:10 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc: linux-doc@vger.kernel.org, corbet@lwn.net, jack@suse.cz,
+	linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+	kernel-dev@igalia.com, kernel@gpiccoli.net
+Subject: Re: [PATCH] Documentation: Document the kernel flag
+ bdev_allow_write_mounted
+Message-ID: <20240823012710.GY6082@frogsfrogsfrogs>
+References: <20240819225626.2000752-2-gpiccoli@igalia.com>
+ <20240820162359.GI6043@frogsfrogsfrogs>
+ <170545d7-3fa5-f52a-1250-dfe0a0fff93c@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CABVgOSmXqv_+20OKjVAPJoqrP1EvBk+1WUqF4wBsefegxYNiWA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <170545d7-3fa5-f52a-1250-dfe0a0fff93c@igalia.com>
 
-On Fri, Jul 26, 2024 at 03:14:36PM +0800, David Gow wrote:
-> On Thu, 25 Jul 2024 at 04:14, Kees Cook <kees@kernel.org> wrote:
-> >
-> > Based on feedback from Linus[1] and follow-up discussions, change the
-> > suggested file naming for KUnit tests.
-> >
-> > Link: https://lore.kernel.org/lkml/CAHk-=wgim6pNiGTBMhP8Kd3tsB7_JTAuvNJ=XYd3wPvvk=OHog@mail.gmail.com/ [1]
-> > Reviewed-by: John Hubbard <jhubbard@nvidia.com>
-> > Signed-off-by: Kees Cook <kees@kernel.org>
-> > ---
+On Tue, Aug 20, 2024 at 03:42:53PM -0300, Guilherme G. Piccoli wrote:
+> On 20/08/2024 13:23, Darrick J. Wong wrote:
+> > [...]
+> >> +	bdev_allow_write_mounted=
+> >> +			Format: <bool>
+> >> +			Control the ability of directly writing to mounted block
+> >> +			devices' page cache, i.e., allow / disallow writes that
+> >> +			bypasses the FS. This was implemented as a means to
+> >> +			prevent fuzzers to crash the kernel by breaking the
+> >> +			filesystem without its awareness, through direct block
+> >> +			device writes. Default is Y and can be changed through
+> >> +			the Kconfig option CONFIG_BLK_DEV_WRITE_MOUNTED.
+> > 
+> > Can we mention that this also solves the problem of naïve storage
+> > management tools (aka the ones that don't use O_EXCL) writing over a
+> > mounted filesystem and trashing it?
+> > 
+> > --D
 > 
-> Looks good to me. (And it seems like sphinx is okay with it, too,
-> which is always nice.)
 > 
-> We normally take these changes in via the kunit tree, but if you want
-> to try to push it through along with the naming changes, that's fine
-> by me.
+> Sure! At least from my side, fine with that.
+> How about the following string ?
 > 
-> Reviewed-by: David Gow <davidgow@google.com>
+> + Control the ability of directly writing to mounted block
+> + devices' page cache, i.e., allow / disallow writes that
+> + bypasses the FS. This was implemented as a means to
+> + prevent fuzzers to crash the kernel by breaking the
 
-Hi! Just a quick check: I haven't seen this land in -next yet. Are you
-still planning to take this?
+                "...from crashing the kernel by overwriting
+the metadata underneath a mounted filesystem without its awareness."
 
--- 
-Kees Cook
+> + filesystem without its awareness, through direct block
+> + device writes. Also prevents issues from direct writes
+
+You can do it with buffered writes to the block device pagecache too.
+
+"This also prevents destructive formatting of mounted filesystems by
+naïve storage tooling that don't use O_EXCL."
+
+--D
+
+> + of silly storage tooling (that doesn't use O_EXCL). The
+> + default is Y and can be changed through the Kconfig
+> + option CONFIG_BLK_DEV_WRITE_MOUNTED.
+> 
+> 
+> But feel free to improve / change it. I'll wait more feedback and
+> resubmit with a refined text.
+> Cheers,
+> 
+> 
+> Guilherme
