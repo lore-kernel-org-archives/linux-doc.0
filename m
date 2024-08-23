@@ -1,192 +1,85 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from 009.lax.mailroute.net (009.lax.mailroute.net [199.89.1.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9408218593A;
-	Fri, 23 Aug 2024 16:09:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C127B4C62B;
+	Fri, 23 Aug 2024 16:11:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724429372; cv=none; b=FRgaOc8l+KtQtbF0stmH3zW3tLNWPKc+4bT63aLhhlNPBg29jxGs2FMufppUo2slUkRtPCpWFj4y1ykj2Kc3q61vH8+0G3b9mEABS2Wl07a7wD6+RhKzyZzJV+khZkAoOvExoWxdfn+AoouOwTeePcqiH0zMywFJSDq+i9e8fbo=
+	t=1724429495; cv=none; b=e/4J4a09dwRf6+50VASqtwBLQ04JY4EIpCFLodyvWBnLFjDHN6DOKyFAgiH72xKTyhsWuP024Oxa9rvdBjKFcadhIzN7wL7ymDi70k2yqzyf4EhMYtMhsLMvVk9qyUHgFPYJLIKN1S5HeJ0PdfjHsyBqzTiJjcxhRT2jHSGfDEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724429372; c=relaxed/simple;
-	bh=CbAQlyU8fku3VCWy5333UtRcY2DrWTawVuVsOfKJuII=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=N6uAuGQ6GoZnluLCpCoXV6Jv9afcnlaX30rn+iqqKvgWinS7nsdh2XIA9x2lLq3eAEuL3bJX2u7kvgM5jMiK8+EgpYe+TUOuUuUa0Rgc3ZhBMB/Gr/pn1rvccAv07jLSI/xIzAcjbvmUJheKJ3FukjIVgVx5fz4ZmEtCB1Ip6Fs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Wr4gX4g02z6K97G;
-	Sat, 24 Aug 2024 00:06:16 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id B415B140C72;
-	Sat, 24 Aug 2024 00:09:25 +0800 (CST)
-Received: from localhost (10.203.177.66) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 23 Aug
- 2024 17:09:25 +0100
-Date: Fri, 23 Aug 2024 17:09:24 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: <ira.weiny@intel.com>
-CC: Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, "Navneet
- Singh" <navneet.singh@intel.com>, Chris Mason <clm@fb.com>, Josef Bacik
-	<josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, Petr Mladek
-	<pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko
-	<andriy.shevchenko@linux.intel.com>, Rasmus Villemoes
-	<linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
-	Dan Williams <dan.j.williams@intel.com>, Davidlohr Bueso <dave@stgolabs.net>,
-	Alison Schofield <alison.schofield@intel.com>, Vishal Verma
-	<vishal.l.verma@intel.com>, <linux-btrfs@vger.kernel.org>,
-	<linux-cxl@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <nvdimm@lists.linux.dev>
-Subject: Re: [PATCH v3 09/25] cxl/hdm: Add dynamic capacity size support to
- endpoint decoders
-Message-ID: <20240823170924.00002456@Huawei.com>
-In-Reply-To: <20240816-dcd-type2-upstream-v3-9-7c9b96cba6d7@intel.com>
-References: <20240816-dcd-type2-upstream-v3-0-7c9b96cba6d7@intel.com>
-	<20240816-dcd-type2-upstream-v3-9-7c9b96cba6d7@intel.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1724429495; c=relaxed/simple;
+	bh=ZWDyf+nErovNeJ6GkhBmSpKa+K7/CO5U+w0e6zbxjPY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KSzRUdZMNMRfz6Apyewo4ryORcVOPK/GmOJeI2w+RVm2p9YlglHr155nbIsPWjvsizP0Ag1DaQ8De1fWei+RgdwFfwJVN5LblDKkSfbdO47oTIke3OvMk35gjPPjaZsulZv/8JCGOMxt8mWDRjILEaaj3lG4Q5dkp+Vy1+CsswU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=RSY+AlbD; arc=none smtp.client-ip=199.89.1.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="RSY+AlbD"
+Received: from localhost (localhost [127.0.0.1])
+	by 009.lax.mailroute.net (Postfix) with ESMTP id 4Wr4nd13mQzlgVnK;
+	Fri, 23 Aug 2024 16:11:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1724429490; x=1727021491; bh=h2YCubCc91QxFmANTA7npfN2
+	gufp8WsN0ehvCsJe3UM=; b=RSY+AlbD8jin1XnLmS2NjbvqwjplT1nMVIeggTG7
+	PP4XSh4B6KslW1FPbOKdAs0S2VDE12lyNcETE+zKERVJppGAVYhViBify9jGfd2b
+	IBfSfK5SAYVQZLCjWkaupQnUw+xwpImWlRE2ZdNjeTj0UkOLhXQsh8I8xCD++gzO
+	2m7H+j8wy4Jh/u4Z1mZMWEfWuIl598clh7xlZazhT/2xlgW3wrK7v/tQHbx89gxJ
+	k5IFwb3JDxB/zEXggkJGP5wyjSMOC3hwxIdec9F6n5aaXrK5WuOsYl9BQ/si9I95
+	8KYKo98OBuFb30CH1xfHMkG64y6rlF2eYvILUMlTSqbwjg==
+X-Virus-Scanned: by MailRoute
+Received: from 009.lax.mailroute.net ([127.0.0.1])
+ by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id c4IPwVF-IJrq; Fri, 23 Aug 2024 16:11:30 +0000 (UTC)
+Received: from [172.20.20.20] (unknown [98.51.0.159])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4Wr4nW2hXDzlgVnF;
+	Fri, 23 Aug 2024 16:11:26 +0000 (UTC)
+Message-ID: <35febff2-e7cc-4b57-9ba5-798271fe0e3b@acm.org>
+Date: Fri, 23 Aug 2024 09:11:22 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2] Documentation: Document the kernel flag
+ bdev_allow_write_mounted
+To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>, linux-doc@vger.kernel.org
+Cc: corbet@lwn.net, linux-fsdevel@vger.kernel.org,
+ linux-block@vger.kernel.org, kernel-dev@igalia.com, kernel@gpiccoli.net,
+ "Darrick J. Wong" <djwong@kernel.org>, Jan Kara <jack@suse.cz>
+References: <20240823142840.63234-1-gpiccoli@igalia.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20240823142840.63234-1-gpiccoli@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
 
-On Fri, 16 Aug 2024 09:44:17 -0500
-ira.weiny@intel.com wrote:
-
-> From: Navneet Singh <navneet.singh@intel.com>
-> 
-> To support Dynamic Capacity Devices (DCD) endpoint decoders will need to
-> map DC partitions (regions).  In addition to assigning the size of the
-> DC partition, the decoder must assign any skip value from the previous
-> decoder.  This must be done within a contiguous DPA space.
-> 
-> Two complications arise with Dynamic Capacity regions which did not
-> exist with Ram and PMEM partitions.  First, gaps in the DPA space can
-> exist between and around the DC partitions.  Second, the Linux resource
-> tree does not allow a resource to be marked across existing nodes within
-> a tree.
-> 
-> For clarity, below is an example of an 60GB device with 10GB of RAM,
-> 10GB of PMEM and 10GB for each of 2 DC partitions.  The desired CXL
-> mapping is 5GB of RAM, 5GB of PMEM, and 5GB of DC1.
-> 
->      DPA RANGE
->      (dpa_res)
-> 0GB        10GB       20GB       30GB       40GB       50GB       60GB
-> |----------|----------|----------|----------|----------|----------|
-> 
-> RAM         PMEM                  DC0                   DC1
->  (ram_res)  (pmem_res)            (dc_res[0])           (dc_res[1])
-> |----------|----------|   <gap>  |----------|   <gap>  |----------|
-> 
->  RAM        PMEM                                        DC1
-> |XXXXX|----|XXXXX|----|----------|----------|----------|XXXXX-----|
-> 0GB   5GB  10GB  15GB 20GB       30GB       40GB       50GB       60GB
-> 
-> The previous skip resource between RAM and PMEM was always a child of
-> the RAM resource and fit nicely [see (S) below].  Because of this
-> simplicity this skip resource reference was not stored in any CXL state.
-> On release the skip range could be calculated based on the endpoint
-> decoders stored values.
-> 
-> Now when DC1 is being mapped 4 skip resources must be created as
-> children.  One for the PMEM resource (A), two of the parent DPA resource
-> (B,D), and one more child of the DC0 resource (C).
-> 
-> 0GB        10GB       20GB       30GB       40GB       50GB       60GB
-> |----------|----------|----------|----------|----------|----------|
->                            |                     |
-> |----------|----------|    |     |----------|    |     |----------|
->         |          |       |          |          |
->        (S)        (A)     (B)        (C)        (D)
-> 	v          v       v          v          v
-> |XXXXX|----|XXXXX|----|----------|----------|----------|XXXXX-----|
->        skip       skip  skip        skip      skip
-> 
-> Expand the calculation of DPA free space and enhance the logic to
-> support this more complex skipping.  To track the potential of multiple
-> skip resources an xarray is attached to the endpoint decoder.  The
-> existing algorithm between RAM and PMEM is consolidated within the new
-> one to streamline the code even though the result is the storage of a
-> single skip resource in the xarray.
-> 
-> Signed-off-by: Navneet Singh <navneet.singh@intel.com>
-> Co-developed-by: Ira Weiny <ira.weiny@intel.com>
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> 
-One query below + request to add a comment on it for when I've
-again completely forgotten how this works.
-
-Also a grumpy reviewer comment.
-
-> +static int cxl_reserve_dpa_skip(struct cxl_endpoint_decoder *cxled,
-> +				resource_size_t base, resource_size_t skipped)
-> +{
-> +	struct cxl_memdev *cxlmd = cxled_to_memdev(cxled);
-> +	struct cxl_port *port = cxled_to_port(cxled);
-> +	struct cxl_dev_state *cxlds = cxlmd->cxlds;
-> +	resource_size_t skip_base = base - skipped;
-> +	struct device *dev = &port->dev;
-> +	resource_size_t skip_len = 0;
-> +	int rc, index;
+On 8/23/24 7:26 AM, Guilherme G. Piccoli wrote:
+> +	bdev_allow_write_mounted=
+> +			Format: <bool>
+> +			Control the ability of directly writing to mounted block
+> +			devices' page cache, i.e., allow / disallow writes that
+> +			bypasses the FS. This was implemented as a means to
+> +			prevent fuzzers from crashing the kernel by overwriting
+> +			the metadata underneath a mounted FS without its awareness.
+> +			This also prevents destructive formatting of mounted
+> +			filesystems by naive storage tooling that don't use
+> +			O_EXCL. Default is Y and can be changed through the
+> +			Kconfig option CONFIG_BLK_DEV_WRITE_MOUNTED.
 > +
 
-> +	index = dc_mode_to_region_index(cxled->mode);
-> +	for (int i = 0; i <= index; i++) {
+Does this flag also affect direct I/O? If so, does this mean that the
+reference to the page cache should be left out?
 
-I'm not sure why this is <= so maybe a comment?
+Thanks,
 
-> +		struct resource *dcr = &cxlds->dc_res[i];
-> +
-> +		if (skip_base < dcr->start) {
-> +			skip_len = dcr->start - skip_base;
-> +			rc = cxl_request_skip(cxled, skip_base, skip_len);
-> +			if (rc)
-> +				return rc;
-> +			skip_base += skip_len;
-> +		}
-> +
-> +		if (skip_base == base) {
-> +			dev_dbg(dev, "skip done DC region %d!\n", i);
-> +			break;
-> +		}
-> +
-> +		if (resource_size(dcr) && skip_base <= dcr->end) {
-> +			if (skip_base > base) {
-> +				dev_err(dev, "Skip error DC region %d; skip_base %pa; base %pa\n",
-> +					i, &skip_base, &base);
-> +				return -ENXIO;
-> +			}
-> +
-> +			skip_len = dcr->end - skip_base + 1;
-> +			rc = cxl_request_skip(cxled, skip_base, skip_len);
-> +			if (rc)
-> +				return rc;
-> +			skip_base += skip_len;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-
-> @@ -466,8 +588,8 @@ int cxl_dpa_set_mode(struct cxl_endpoint_decoder *cxled,
->  
->  int cxl_dpa_alloc(struct cxl_endpoint_decoder *cxled, unsigned long long size)
->  {
-> -	struct cxl_memdev *cxlmd = cxled_to_memdev(cxled);
->  	resource_size_t free_ram_start, free_pmem_start;
-> +	struct cxl_memdev *cxlmd = cxled_to_memdev(cxled);
-
-Patch noise.  Put it back where it was! (assuming I haven't failed to spot the difference)
-
->  	struct cxl_port *port = cxled_to_port(cxled);
->  	struct cxl_dev_state *cxlds = cxlmd->cxlds;
->  	struct device *dev = &cxled->cxld.dev;
+Bart.
