@@ -1,76 +1,230 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B364B18C334;
-	Fri, 23 Aug 2024 17:06:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDCDC1885B9;
+	Fri, 23 Aug 2024 17:08:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724432760; cv=none; b=UKHm/udawTlNK23id5UB2eIP0YazAOfKSTL6O+uv8gBy8TjTDDdRZ7N58XSFU3uhxWu/nEn0jw9jBCMQMT5IsUTH0pAzP8eKIU/NSDhyunNl01njBUjH8qKBWkhFBsCppRGpqjP5odK/JcX+qE6Dfv952KfpPtmpHqKy+SSNTmQ=
+	t=1724432900; cv=none; b=kW78TshcLYPKVGl+1FJCH9OJIxJMuXoJ3MmLoxV8K7mrOXzVKc0IzjAV/X89Y6KuzibAnnlRkvabPhm1+ouwKgUX0lIPssNOUJhJHTDeLVVftbVUOHr56C18rLwAA5MCc7zOUH42WldxfwIN/syBPTqy5ZT+ZeNW9CM6A0zwZDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724432760; c=relaxed/simple;
-	bh=43adu1eRo+HRbxxi1+zURaQNHe8ohSSLo3KCZFqKHVY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UZQLya7ZwU86scYkZOYt+5ya4dre5REIyvDWxLYsuexTeqZT0xffABDrGjWtMCih1z1mwepZmAoL2BmaKbTumcvTRZD+2/NHwLav2vucjdbow2/9+k5x2hjtslbdXbER+7BnvZPsvTmp9+fedDEILirWWuz8W52IWg3+bQDuqbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a3GU4xfQ; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a3GU4xfQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7ECDEC32786;
-	Fri, 23 Aug 2024 17:06:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724432760;
-	bh=43adu1eRo+HRbxxi1+zURaQNHe8ohSSLo3KCZFqKHVY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a3GU4xfQ5AIlqSIbxWMSew9BKJp9neUwscANQhzHf/jtO1TY7akFD2qugyHiacN+Q
-	 YSsdI+yRc3TgNJpywiKLysrk5jsrEFVZH/1r4si29+qjrlHLEVbU7HksNGuwdRwNit
-	 5IFPZoN18HtF7xFq3mUkDoiU1FVuT55xN9ah77HLuuZO42kY3+aMZVemHlOM9ILkaQ
-	 HBrlG0vcvFF2ylx29SAzi8kRjAJ1VJW/Qs8PHpG3kU56d68G0rbMUEgQN7hkf/uNED
-	 S4bWlv74C2bnkle+fIZguF+4hHwPxSOiBB9YRwkLefTTkir5NW1BFBDXkNnUjJKGKm
-	 u7CSn4iBgMsPg==
-Date: Fri, 23 Aug 2024 10:05:59 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>, linux-doc@vger.kernel.org,
-	corbet@lwn.net, linux-fsdevel@vger.kernel.org,
-	linux-block@vger.kernel.org, kernel-dev@igalia.com,
-	kernel@gpiccoli.net, Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH V2] Documentation: Document the kernel flag
- bdev_allow_write_mounted
-Message-ID: <20240823170559.GZ6082@frogsfrogsfrogs>
-References: <20240823142840.63234-1-gpiccoli@igalia.com>
- <35febff2-e7cc-4b57-9ba5-798271fe0e3b@acm.org>
+	s=arc-20240116; t=1724432900; c=relaxed/simple;
+	bh=IhurxctLsvNbOFGpk99fmiMkzXHMKoALnOa1ORIFYrE=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pc/HLdTuIusGzJ7Ob5N4T5eqW+M/0TE89o05SuUy8Ksou0MWEPBec5LHMhiHc7oay8uLpMvTwGqoBO0P6pJIUrc88J8c1HMyXm25mgxAFL7ZBiCvLBtDRHyn1ibxnoyAtI1LHf2PTeyJFNLagCzwRCzu4gByYWaYMjWKq6Uvqjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Wr5zQ1Qw4z6K98Q;
+	Sat, 24 Aug 2024 01:05:06 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id 548A5140595;
+	Sat, 24 Aug 2024 01:08:15 +0800 (CST)
+Received: from localhost (10.203.177.66) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 23 Aug
+ 2024 18:08:14 +0100
+Date: Fri, 23 Aug 2024 18:08:13 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: <ira.weiny@intel.com>
+CC: Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, "Navneet
+ Singh" <navneet.singh@intel.com>, Chris Mason <clm@fb.com>, Josef Bacik
+	<josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, Petr Mladek
+	<pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko
+	<andriy.shevchenko@linux.intel.com>, Rasmus Villemoes
+	<linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+	Dan Williams <dan.j.williams@intel.com>, Davidlohr Bueso <dave@stgolabs.net>,
+	Alison Schofield <alison.schofield@intel.com>, Vishal Verma
+	<vishal.l.verma@intel.com>, <linux-btrfs@vger.kernel.org>,
+	<linux-cxl@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <nvdimm@lists.linux.dev>
+Subject: Re: [PATCH v3 16/25] cxl/mem: Configure dynamic capacity interrupts
+Message-ID: <20240823180813.000059c3@Huawei.com>
+In-Reply-To: <20240816-dcd-type2-upstream-v3-16-7c9b96cba6d7@intel.com>
+References: <20240816-dcd-type2-upstream-v3-0-7c9b96cba6d7@intel.com>
+	<20240816-dcd-type2-upstream-v3-16-7c9b96cba6d7@intel.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <35febff2-e7cc-4b57-9ba5-798271fe0e3b@acm.org>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-On Fri, Aug 23, 2024 at 09:11:22AM -0700, Bart Van Assche wrote:
-> On 8/23/24 7:26 AM, Guilherme G. Piccoli wrote:
-> > +	bdev_allow_write_mounted=
-> > +			Format: <bool>
-> > +			Control the ability of directly writing to mounted block
-> > +			devices' page cache, i.e., allow / disallow writes that
-> > +			bypasses the FS. This was implemented as a means to
-> > +			prevent fuzzers from crashing the kernel by overwriting
-> > +			the metadata underneath a mounted FS without its awareness.
-> > +			This also prevents destructive formatting of mounted
-> > +			filesystems by naive storage tooling that don't use
-> > +			O_EXCL. Default is Y and can be changed through the
-> > +			Kconfig option CONFIG_BLK_DEV_WRITE_MOUNTED.
-> > +
+On Fri, 16 Aug 2024 09:44:24 -0500
+ira.weiny@intel.com wrote:
+
+> From: Navneet Singh <navneet.singh@intel.com>
 > 
-> Does this flag also affect direct I/O? If so, does this mean that the
-> reference to the page cache should be left out?
-
-I think it does affect directio, since the validation is done at open
-time via bdev_may_open, right?
-
---D
-
-> Thanks,
+> Dynamic Capacity Devices (DCD) support extent change notifications
+> through the event log mechanism.  The interrupt mailbox commands were
+> extended in CXL 3.1 to support these notifications.  Firmware can't
+> configure DCD events to be FW controlled but can retain control of
+> memory events.
 > 
-> Bart.
+> Configure DCD event log interrupts on devices supporting dynamic
+> capacity.  Disable DCD if interrupts are not supported.
+> 
+> Care is taken to preserve the interrupt policy set by the FW if FW first
+> has been selected by the BIOS.
+> 
+> Signed-off-by: Navneet Singh <navneet.singh@intel.com>
+> Co-developed-by: Ira Weiny <ira.weiny@intel.com>
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+Minor thing on naming inline.  Either way
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+> 
+> ---
+> Changes:
+> [iweiny: update commit message]
+> [iweiny: rebase to upstream irq code]
+> [iweiny: disable DCD if irqs not supported]
+> [Jonathan: formatting fix]
+> [Fan: add text to debug print]
+> [djiang: make dcd helpers inline]
+> ---
+>  drivers/cxl/cxlmem.h |  2 ++
+>  drivers/cxl/pci.c    | 72 +++++++++++++++++++++++++++++++++++++++++++---------
+>  2 files changed, 62 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/cxl/cxlmem.h b/drivers/cxl/cxlmem.h
+> index b4eb8164d05d..d41bec5433db 100644
+> --- a/drivers/cxl/cxlmem.h
+> +++ b/drivers/cxl/cxlmem.h
+> @@ -225,7 +225,9 @@ struct cxl_event_interrupt_policy {
+>  	u8 warn_settings;
+>  	u8 failure_settings;
+>  	u8 fatal_settings;
+> +	u8 dcd_settings;
+>  } __packed;
+> +#define CXL_EVENT_INT_POLICY_BASE_SIZE 4 /* info, warn, failure, fatal */
+>  
+>  /**
+>   * struct cxl_event_state - Event log driver state
+> diff --git a/drivers/cxl/pci.c b/drivers/cxl/pci.c
+> index 370c74eae323..e5430c4e3a3b 100644
+> --- a/drivers/cxl/pci.c
+> +++ b/drivers/cxl/pci.c
+> @@ -669,22 +669,33 @@ static int cxl_event_get_int_policy(struct cxl_memdev_state *mds,
+>  }
+>  
+>  static int cxl_event_config_msgnums(struct cxl_memdev_state *mds,
+> -				    struct cxl_event_interrupt_policy *policy)
+> +				    struct cxl_event_interrupt_policy *policy,
+> +				    bool native_cxl)
+Maybe carry through the native_cxl_error naming?
+
+>  {
+> +	size_t size_in = CXL_EVENT_INT_POLICY_BASE_SIZE;
+>  	struct cxl_mbox_cmd mbox_cmd;
+>  	int rc;
+>  
+> -	*policy = (struct cxl_event_interrupt_policy) {
+> -		.info_settings = CXL_INT_MSI_MSIX,
+> -		.warn_settings = CXL_INT_MSI_MSIX,
+> -		.failure_settings = CXL_INT_MSI_MSIX,
+> -		.fatal_settings = CXL_INT_MSI_MSIX,
+> -	};
+> +	/* memory event policy is left if FW has control */
+> +	if (native_cxl) {
+> +		*policy = (struct cxl_event_interrupt_policy) {
+> +			.info_settings = CXL_INT_MSI_MSIX,
+> +			.warn_settings = CXL_INT_MSI_MSIX,
+> +			.failure_settings = CXL_INT_MSI_MSIX,
+> +			.fatal_settings = CXL_INT_MSI_MSIX,
+> +			.dcd_settings = 0,
+> +		};
+> +	}
+> +
+> +	if (cxl_dcd_supported(mds)) {
+> +		policy->dcd_settings = CXL_INT_MSI_MSIX;
+> +		size_in += sizeof(policy->dcd_settings);
+> +	}
+>  
+>  	mbox_cmd = (struct cxl_mbox_cmd) {
+>  		.opcode = CXL_MBOX_OP_SET_EVT_INT_POLICY,
+>  		.payload_in = policy,
+> -		.size_in = sizeof(*policy),
+> +		.size_in = size_in,
+>  	};
+>  
+>  	rc = cxl_internal_send_cmd(mds, &mbox_cmd);
+> @@ -731,6 +742,31 @@ static int cxl_event_irqsetup(struct cxl_memdev_state *mds,
+>  	return 0;
+>  }
+
+> +
+>  static bool cxl_event_int_is_fw(u8 setting)
+>  {
+>  	u8 mode = FIELD_GET(CXLDEV_EVENT_INT_MODE_MASK, setting);
+> @@ -757,17 +793,25 @@ static int cxl_event_config(struct pci_host_bridge *host_bridge,
+>  			    struct cxl_memdev_state *mds, bool irq_avail)
+>  {
+>  	struct cxl_event_interrupt_policy policy = { 0 };
+> +	bool native_cxl = host_bridge->native_cxl_error;
+
+Maybe keep the native_cxl_error naming for the local variable as well?
+
+
+>  	int rc;
+>  
+>  	/*
+>  	 * When BIOS maintains CXL error reporting control, it will process
+>  	 * event records.  Only one agent can do so.
+> +	 *
+> +	 * If BIOS has control of events and DCD is not supported skip event
+> +	 * configuration.
+>  	 */
+> -	if (!host_bridge->native_cxl_error)
+> +	if (!native_cxl && !cxl_dcd_supported(mds))
+>  		return 0;
+>  
+>  	if (!irq_avail) {
+>  		dev_info(mds->cxlds.dev, "No interrupt support, disable event processing.\n");
+> +		if (cxl_dcd_supported(mds)) {
+> +			dev_info(mds->cxlds.dev, "DCD requires interrupts, disable DCD\n");
+> +			cxl_disable_dcd(mds);
+> +		}
+>  		return 0;
+>  	}
+>  
+> @@ -775,10 +819,10 @@ static int cxl_event_config(struct pci_host_bridge *host_bridge,
+>  	if (rc)
+>  		return rc;
+>  
+> -	if (!cxl_event_validate_mem_policy(mds, &policy))
+> +	if (native_cxl && !cxl_event_validate_mem_policy(mds, &policy))
+>  		return -EBUSY;
+>  
+> -	rc = cxl_event_config_msgnums(mds, &policy);
+> +	rc = cxl_event_config_msgnums(mds, &policy, native_cxl);
+>  	if (rc)
+>  		return rc;
+>  
+> @@ -786,12 +830,16 @@ static int cxl_event_config(struct pci_host_bridge *host_bridge,
+>  	if (rc)
+>  		return rc;
+>  
+> -	rc = cxl_event_irqsetup(mds, &policy);
+> +	rc = cxl_irqsetup(mds, &policy, native_cxl);
+>  	if (rc)
+>  		return rc;
+>  
+>  	cxl_mem_get_event_records(mds, CXLDEV_EVENT_STATUS_ALL);
+>  
+> +	dev_dbg(mds->cxlds.dev, "Event config : %s DCD %s\n",
+> +		native_cxl ? "OS" : "BIOS",
+> +		cxl_dcd_supported(mds) ? "supported" : "not supported");
+> +
+>  	return 0;
+>  }
+>  
+> 
+
