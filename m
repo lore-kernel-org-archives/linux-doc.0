@@ -1,54 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66AD7149002;
-	Fri, 23 Aug 2024 09:11:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC5EF139D00;
+	Fri, 23 Aug 2024 09:29:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724404314; cv=none; b=ozyTXUigKIq9RnHuQwyDlmjwM6GgKlQKvGHomc4NR0126UOon/SEmWwFmR/jvPjbKFqpGsz2qDFeSRb8PPjoqTGDptx4desMFST1iDuXc9t7XxlfBuxene+oNMHwQe9BZdjXJe+rNJrlcgZQ6V9D4niy6oV/im34fTBlDVT2l5M=
+	t=1724405357; cv=none; b=kcTl9XptH1LSFbDRfC9CJDJgdDXy/MXSRIzxZ7IcJSxmgmDvzO+W9cesD2ibN6nM+yp3/UxWgLngTu7vTGiy8JGhhIg6Pj0DKfKQ+e6fW2Y0LbCTmpLsBZfCG+9TDAJgk2cd0P6qjMcfBE30YXVPJ4OIQNwxdw1y4Oki5vapM/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724404314; c=relaxed/simple;
-	bh=sBxjqPY90sA8th14z9PpmpXgc0D2hH/Ae9bcg6vUdp4=;
+	s=arc-20240116; t=1724405357; c=relaxed/simple;
+	bh=2Yb/HipWs9Hwj3qIpBvkIqiRNPZPBVsVKcsw8IFvcmc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XYuRGyzQe6ar5thOz4+y+6uh9OH9OFFmwLBc0M412O7L3PsLxBWyha9Gs0B3+fttpE3IkvVls+LOI0N+ZO+z14WTQ4oFNpO0FJpcXmUuiPpNH2ytj0QPvuVG3hUcdArGfhLhaFhOOY4BXNSDVFtRw2mpvw5Lr9V+xvEpwKze5qw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27A89C32786;
-	Fri, 23 Aug 2024 09:11:47 +0000 (UTC)
-Date: Fri, 23 Aug 2024 10:11:45 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Shuah Khan <shuah@kernel.org>,
-	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Florian Weimer <fweimer@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
-	Ross Burton <ross.burton@arm.com>,
-	Yury Khrustalev <yury.khrustalev@arm.com>,
-	Wilco Dijkstra <wilco.dijkstra@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v11 24/39] arm64/signal: Set up and restore the GCS
- context for signal handlers
-Message-ID: <ZshSUcVIsdeJKcc5@arm.com>
-References: <20240822-arm64-gcs-v11-0-41b81947ecb5@kernel.org>
- <20240822-arm64-gcs-v11-24-41b81947ecb5@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=BrUjU5/wA9ZrgA5yuaODjj9of18kORp7ykQlMfuFpL7FQFz1zuhI6CLWqyQ544tbz/U8XZna2OyGpdifqH8D4fiv77iXZcaTsDoNyBZJCx4Cr7GCCmF3XBtMm6Q21N6WnuCJfoqna71NgV53vQigj7anR2gpOsBhFZKVBg0OWi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HgFo/qYo; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HgFo/qYo"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5334c4cc17fso2380700e87.2;
+        Fri, 23 Aug 2024 02:29:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724405354; x=1725010154; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HJZgnLkJ3O5ij2lr4uMh4xPM1CMCZfKHy3jKVr/xmOI=;
+        b=HgFo/qYoLzAoq+HpYvLgMdKJgQseuoxiGMdFRoxkUrAr+h4nkJ/tvseYg8Bf+6qp66
+         BUYMbgIWqpxXbXjeCNzB7KTJq3DjXG9CMjMYZr2pUkAptE7PCeEmY5lzVszQOWNHQnSs
+         XU/nDnkuIiI262KkE2jc9XDZS3ERHMw85cjD1AeKtrJVJrlxeptmnwt0l/Jnhm8k01h2
+         XmxfveTfmMSK1+tA3Yrofar0rhg7jsG4ExD0Y2Gvn12Zt4/ng1IXMT1pt+2eFmH4Wjky
+         PEr/za14HsQe6J+MNwNPG5KlWWq4w9I+zbtXmStxZGAouCxg/Tzijg1DvrMHmblievQQ
+         IKtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724405354; x=1725010154;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HJZgnLkJ3O5ij2lr4uMh4xPM1CMCZfKHy3jKVr/xmOI=;
+        b=hfuzfQ+uVm72kM7QLOdpG15cAef0nqSCq0auCkKgSSCG3o8JUx9nHLXW++d0pTxETE
+         eKAq5BaHYXNE7o//r7OaGJC8UAbfP1OboyZr29gVb1wmO5JeWFg8rW9oVicKR8tfUHf+
+         4J16HPY6gD3w59q08p/tPUjDz6gMXfZ68D805jBWayvfDDgUgg4UKPVqBNkkJ4imZxY8
+         4YL8Mti917ZsoVjSybDT1kKqTkBKTV0hgTn7M9FjkXOQIfbt692b65oUM0Sjzg65BX9O
+         pQtJxo2kdPzcmNoAMC7FZosqRraUhBHbK172oemK+lfGLCLWO6Ek/Kab1/FrOtHTWbwe
+         lIEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUC+TbkvymhQNrcuaXQXMZ8mIX1MjKEcR1PPU7pHTqSjyDGXig4uW3Bhcms3XbcQPh5xLPtbn2HmMDZhQ==@vger.kernel.org, AJvYcCUjknvbAg39I6oolWZ/KULjtdgdYzBTOrldy5sdMqUqU1s/HArPhECLa6MH3okdfr2YmdGeTtPwZ7HI4g==@vger.kernel.org, AJvYcCUld2lrUIfjCTi9grwDWOHiAG0W8d567XvcKoWZx8u7KEQxbuQToXjq9Cn9KwWCiT0XVy+FydAAsdR9WdMy@vger.kernel.org, AJvYcCVI/Q8xs5fq2pJWa3v3ucT/Dpdm2gexu+vED+/mV9Y2a3JiiCiIiwSVFJRjwbqrFOr5xuIyQi7fcLLM@vger.kernel.org, AJvYcCW/EBBDf2OzNrU+ulJFaWyNpo5Cw8hFoLc6Wk15H+gl7Hmsbc5MHXSQ/+0lvfEGFbHVKDKXBGzH@vger.kernel.org, AJvYcCW2W1+MJGJaJNCq+mcAcZ6Vi5cVjJoFqOj6bN9ALkYWjRrHColFREkjE/E/bTzv3epC5LoIrQ9w8ErX@vger.kernel.org, AJvYcCXRwrHxOQ4JCPLIJB9JMWcSYTP5ysrqXxzkmNfdkm8mKEjeVhDwLWhDKzyIjjOgHAHEkUVeFtJE9UvXSg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzkWgATOzuYMwoaGPu4Kx0WNIxb0JHWq3p1ZBpHBLCjyGWDule
+	LEnIa9f94lyRdMRSLjGSfK9/x+WZRdJ1s1T5UDDae2zyd/UyA6YM
+X-Google-Smtp-Source: AGHT+IHqOXJOWHb79RTihzE3on1iV74tjWvNfm3tTmK51dxtJorj4SeUP8Xl+KghIyqpPSU2ZAidYw==
+X-Received: by 2002:a05:6512:ba2:b0:533:3223:df91 with SMTP id 2adb3069b0e04-53438773a9emr1245520e87.24.1724405353307;
+        Fri, 23 Aug 2024 02:29:13 -0700 (PDT)
+Received: from mobilestation ([178.176.56.174])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5334ea5d9e6sm494618e87.226.2024.08.23.02.29.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Aug 2024 02:29:12 -0700 (PDT)
+Date: Fri, 23 Aug 2024 12:29:09 +0300
+From: Serge Semin <fancer.lancer@gmail.com>
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
+	Wu Hao <hao.wu@intel.com>, Tom Rix <trix@redhat.com>, Moritz Fischer <mdf@kernel.org>, 
+	Xu Yilun <yilun.xu@intel.com>, Andy Shevchenko <andy@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Alvaro Karsz <alvaro.karsz@solid-run.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+	Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, Richard Cochran <richardcochran@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, Damien Le Moal <dlemoal@kernel.org>, 
+	Hannes Reinecke <hare@suse.de>, Chaitanya Kulkarni <kch@nvidia.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, linux-fpga@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org, virtualization@lists.linux.dev
+Subject: Re: [PATCH v3 6/9] ethernet: stmicro: Simplify PCI devres usage
+Message-ID: <6q4pcpyqqt6mhj422pfkgggvwu7jhweu5446y6prcjgjql6xeq@jztt7z4fr6rg>
+References: <20240822134744.44919-1-pstanner@redhat.com>
+ <20240822134744.44919-7-pstanner@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,28 +83,162 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240822-arm64-gcs-v11-24-41b81947ecb5@kernel.org>
+In-Reply-To: <20240822134744.44919-7-pstanner@redhat.com>
 
-On Thu, Aug 22, 2024 at 02:15:27AM +0100, Mark Brown wrote:
-> When invoking a signal handler we use the GCS configuration and stack
-> for the current thread.
-> 
-> Since we implement signal return by calling the signal handler with a
-> return address set up pointing to a trampoline in the vDSO we need to
-> also configure any active GCS for this by pushing a frame for the
-> trampoline onto the GCS.  If we do not do this then signal return will
-> generate a GCS protection fault.
-> 
-> In order to guard against attempts to bypass GCS protections via signal
-> return we only allow returning with GCSPR_EL0 pointing to an address
-> where it was previously preempted by a signal.  We do this by pushing a
-> cap onto the GCS, this takes the form of an architectural GCS cap token
-> with the top bit set and token type of 0 which we add on signal entry
-> and validate and pop off on signal return.  The combination of the top
-> bit being set and the token type mean that this can't be interpreted as
-> a valid token or address.
-> 
-> Reviewed-by: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
-> Signed-off-by: Mark Brown <broonie@kernel.org>
+Hi Philipp
 
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+On Thu, Aug 22, 2024 at 03:47:38PM +0200, Philipp Stanner wrote:
+> stmicro uses PCI devres in the wrong way. Resources requested
+> through pcim_* functions don't need to be cleaned up manually in the
+> remove() callback or in the error unwind path of a probe() function.
+> 
+> Moreover, there is an unnecessary loop which only requests and ioremaps
+> BAR 0, but iterates over all BARs nevertheless.
+> 
+> Furthermore, pcim_iomap_regions() and pcim_iomap_table() have been
+> deprecated by the PCI subsystem in commit e354bb84a4c1 ("PCI: Deprecate
+> pcim_iomap_table(), pcim_iomap_regions_request_all()").
+> 
+> Replace these functions with pcim_iomap_region().
+> 
+> Remove the unnecessary manual pcim_* cleanup calls.
+> 
+> Remove the unnecessary loop over all BARs.
+> 
+> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+
+Thanks for the series. But please note the network subsystem
+dev-process requires to submit the cleanup/feature changes on top of
+the net-next tree:
+https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/
+
+Just recently a Yanteng' (+cc) series
+https://lore.kernel.org/netdev/cover.1723014611.git.siyanteng@loongson.cn/
+was merged in which significantly refactored the Loongson MAC driver.
+Seeing your patch isn't based on these changes, there is a high
+probability that the patch won't get cleanly applied onto the
+net-next tree. So please either rebase your patch onto the net-next
+tree, or at least merge in the Yanteng' series in your tree and
+rebase the patch onto it and let's hope there have been no other
+conflicting patches merged in into the net-next tree.
+
+-Serge(y)
+
+
+> ---
+>  .../ethernet/stmicro/stmmac/dwmac-loongson.c  | 25 +++++--------------
+>  .../net/ethernet/stmicro/stmmac/stmmac_pci.c  | 18 +++++--------
+>  2 files changed, 12 insertions(+), 31 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c
+> index 9e40c28d453a..5d42a9fad672 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c
+> @@ -50,7 +50,7 @@ static int loongson_dwmac_probe(struct pci_dev *pdev, const struct pci_device_id
+>  	struct plat_stmmacenet_data *plat;
+>  	struct stmmac_resources res;
+>  	struct device_node *np;
+> -	int ret, i, phy_mode;
+> +	int ret, phy_mode;
+>  
+>  	np = dev_of_node(&pdev->dev);
+>  
+> @@ -88,14 +88,11 @@ static int loongson_dwmac_probe(struct pci_dev *pdev, const struct pci_device_id
+>  		goto err_put_node;
+>  	}
+>  
+> -	/* Get the base address of device */
+> -	for (i = 0; i < PCI_STD_NUM_BARS; i++) {
+> -		if (pci_resource_len(pdev, i) == 0)
+> -			continue;
+> -		ret = pcim_iomap_regions(pdev, BIT(0), pci_name(pdev));
+> -		if (ret)
+> -			goto err_disable_device;
+> -		break;
+> +	memset(&res, 0, sizeof(res));
+> +	res.addr = pcim_iomap_region(pdev, 0, pci_name(pdev));
+> +	if (IS_ERR(res.addr)) {
+> +		ret = PTR_ERR(res.addr);
+> +		goto err_disable_device;
+>  	}
+>  
+>  	plat->bus_id = of_alias_get_id(np, "ethernet");
+> @@ -116,8 +113,6 @@ static int loongson_dwmac_probe(struct pci_dev *pdev, const struct pci_device_id
+>  
+>  	loongson_default_data(plat);
+>  	pci_enable_msi(pdev);
+> -	memset(&res, 0, sizeof(res));
+> -	res.addr = pcim_iomap_table(pdev)[0];
+>  
+>  	res.irq = of_irq_get_byname(np, "macirq");
+>  	if (res.irq < 0) {
+> @@ -158,18 +153,10 @@ static void loongson_dwmac_remove(struct pci_dev *pdev)
+>  {
+>  	struct net_device *ndev = dev_get_drvdata(&pdev->dev);
+>  	struct stmmac_priv *priv = netdev_priv(ndev);
+> -	int i;
+>  
+>  	of_node_put(priv->plat->mdio_node);
+>  	stmmac_dvr_remove(&pdev->dev);
+>  
+> -	for (i = 0; i < PCI_STD_NUM_BARS; i++) {
+> -		if (pci_resource_len(pdev, i) == 0)
+> -			continue;
+> -		pcim_iounmap_regions(pdev, BIT(i));
+> -		break;
+> -	}
+> -
+>  	pci_disable_msi(pdev);
+>  	pci_disable_device(pdev);
+>  }
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c
+> index 352b01678c22..f89a8a54c4e8 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c
+> @@ -188,11 +188,11 @@ static int stmmac_pci_probe(struct pci_dev *pdev,
+>  		return ret;
+>  	}
+>  
+> -	/* Get the base address of device */
+> +	/* Request the base address BAR of device */
+>  	for (i = 0; i < PCI_STD_NUM_BARS; i++) {
+>  		if (pci_resource_len(pdev, i) == 0)
+>  			continue;
+> -		ret = pcim_iomap_regions(pdev, BIT(i), pci_name(pdev));
+> +		ret = pcim_request_region(pdev, i, pci_name(pdev));
+>  		if (ret)
+>  			return ret;
+>  		break;
+> @@ -205,7 +205,10 @@ static int stmmac_pci_probe(struct pci_dev *pdev,
+>  		return ret;
+>  
+>  	memset(&res, 0, sizeof(res));
+> -	res.addr = pcim_iomap_table(pdev)[i];
+> +	/* Get the base address of device */
+> +	res.addr = pcim_iomap(pdev, i, 0);
+> +	if (!res.addr)
+> +		return -ENOMEM;
+>  	res.wol_irq = pdev->irq;
+>  	res.irq = pdev->irq;
+>  
+> @@ -231,16 +234,7 @@ static int stmmac_pci_probe(struct pci_dev *pdev,
+>   */
+>  static void stmmac_pci_remove(struct pci_dev *pdev)
+>  {
+> -	int i;
+> -
+>  	stmmac_dvr_remove(&pdev->dev);
+> -
+> -	for (i = 0; i < PCI_STD_NUM_BARS; i++) {
+> -		if (pci_resource_len(pdev, i) == 0)
+> -			continue;
+> -		pcim_iounmap_regions(pdev, BIT(i));
+> -		break;
+> -	}
+>  }
+>  
+>  static int __maybe_unused stmmac_pci_suspend(struct device *dev)
+> -- 
+> 2.46.0
+> 
+> 
