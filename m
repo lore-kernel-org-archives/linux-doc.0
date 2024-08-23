@@ -1,205 +1,217 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E56B1885B9;
-	Fri, 23 Aug 2024 19:42:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724442131; cv=fail; b=iqNnElpDfnfD1XaN/sLBOUlmeLz9l6eE2UhzOTh0ZWDqJLKeiAA/3wIkfJCcpe4rDU1SCgqwazP2xN4Op6+ScIyfXT/qwvsNIJyJ7LSkvB9LQDu0yGmT2WIc3Kt33tXGhRsTdIwWNDeAnkIRG5y9poX2ZZNMLgyIsfadz21oYy8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724442131; c=relaxed/simple;
-	bh=i6RtGt+JGbiF1TOoIHzHWo0ElJEWM3WdEKuZXcoHS6g=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=bn6gdiMDU80s90tLBTumLhMVP2iHutaTtPOwdEo0CQq0jTywqMGms780x/PTETIDcKRQSuCVlVBO4ExlYNIvYKzVtMlUqz92m+2+9WMxps8sFF5ffZn1yv4ws+LAkPBZPvE8A6I3gZmHlCaZQ9xkRz4kRCR5SovFl4V/pgtPtk4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=ck8DtXYo; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=rPuMGScu; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5570A2629D;
+	Fri, 23 Aug 2024 20:01:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724443298; cv=none; b=mdqp1o+JPnsT3qi+FS1rH+YfGeZjaC7hfIXajk4VUgCcZ3QgbrNvn3rv6cSVNOmel27vABDTsRg1+Ug/Cvsv+MeS7yaAVJsHvc/OgyUPd66bbOipOGqdYGMd3oNCVwFA34avBGcXL6Lstwk6eX7mNsUHJu3MzAE3RawH84bsE6o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724443298; c=relaxed/simple;
+	bh=5wD1vwiaDyC6eHDhPVwrUsr+Ah6KNvcynuesHVF9Dd4=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=H7mnt+DDSIVR3/ZISNuR5BTDXp0FBwxDh3oLBpmXDHQ7etKaPJPpdmdXvprYCo13a+Ue+Sxh/bIi/sVlavpdwph7/CuykMsm15RnrN/vLtLv0d9YE2TU2Ky4OrXSVbaedBD43orgcwvVrrJQLCXC5bgMTlo3EAOUK/XyVsLhG0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=nAQRQcSx; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ck8DtXYo";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="rPuMGScu"
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47NH0Vrd028477;
-	Fri, 23 Aug 2024 19:41:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	from:to:cc:subject:date:message-id:content-transfer-encoding
-	:content-type:mime-version; s=corp-2023-11-20; bh=3ij2CbjiWc4eal
-	90au8rRUjuodckwz+VWeD4NRLFAuc=; b=ck8DtXYoKy/ITcpaOmVmf/pTeDuQu1
-	sNxviAHnGLPUlolOza3cLpbD5UHWtIzKkOEx8hXQ7zpbAxUl7AM4scWR/neaa+wZ
-	a/yQ+ZerSyv88T+EDRFTBu9bL001x0Ar4bBxzTPhjEL1ipm/dr8k4anzDTs22EmZ
-	WVPmTuAJBQnrpFkj+Gqu+LL42CXlr0od98vd5W5Gze4ZFw2waGfAMladU/9+hGk3
-	z1fxqJ/tgBFzIq6gj9U0TCo0UBynhUN3yyRQdMgWOdapPbryOrkc5b+i2FEZqAJC
-	Y0QMgjZqMlfkC7hilC8QN4B2kOWL8qli8UEQVUa/cugm9ZU9JOBvpMQQ==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 412m2dn7nr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 23 Aug 2024 19:41:58 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 47NJdCHD007459;
-	Fri, 23 Aug 2024 19:41:57 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2177.outbound.protection.outlook.com [104.47.56.177])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4170s5g32m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 23 Aug 2024 19:41:57 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ROBrxMaQJAR+K8VzTeK2G5OoP7aEuifSC7lhVxhypDWXzzxrVkIKUuAOKuzRWQR4SN2Dkvlr0p3S9aE4pUxzkfoC40U951koVUkLvyp+33b1faO7H1OYA+OmfGhN5auhj7zVPd75WSkqni88eGBQPk7iEuZN5PZggpI/CBpCBsOqC4aAvG7h4Xd6Cn9haxangZxYdgUQ6QMx6nVabO5+IaP+aRb9owLLszCzSmiT821EWJocogme4W6EKjUFLT6fVhT+9LGtZWQR708MMwoEyXN1VFZTM08QV92nUJEEN2mFYM8iUUP6zZTgBuZ8HGBMxh3QpEgOzVGZ57gGaG6ezQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3ij2CbjiWc4eal90au8rRUjuodckwz+VWeD4NRLFAuc=;
- b=Cf0De3OWIRZVezpdsAODdCPgN2WaQ9Smf0uqH0eg0wbet4EsH6FJ34cCXwnBKgMtbFCUo98Zw9eYhg/4NcDN2WcL3gBerkoism5Th4+ubtvC3No6k08Me9t35DUpQ2PAvaZIDNgTHl6i3Icva9r896sv2fvhyaGLZrlW9CaiEMyHxhNjX5Gox6iDUiCJKH8bEpLELl2afLYdlMQrDhBmhc2tZ2bdTvcKcUb6ARqS9t8S+vLrH5qZfmEn8Ncxif7i+uWQwsrc9hA2KdBa7GJ1cvAZ7YdzSjcokwcJ+ZI/O3YV0KfzFlED31wgrEN8UJ3xKOEB/vGGBP7NlSvHvJalmA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3ij2CbjiWc4eal90au8rRUjuodckwz+VWeD4NRLFAuc=;
- b=rPuMGScuak558OLqm+q1ZeAk+shAda9fa56tctTDQg5Ke4+hyG3MDmqoC086Jdc5GQ0jT8ilfuGVaHGCT8+jeovxhYXTAxsw3u7pr/VIYwdNKtcYZoXit6f8EQ6JQEldmZnUVj62pSCvYvU0mew8LQI8tYRYIQEaGStQvoofhIg=
-Received: from PH8PR10MB6597.namprd10.prod.outlook.com (2603:10b6:510:226::20)
- by CH4PR10MB8074.namprd10.prod.outlook.com (2603:10b6:610:23d::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.13; Fri, 23 Aug
- 2024 19:41:55 +0000
-Received: from PH8PR10MB6597.namprd10.prod.outlook.com
- ([fe80::6874:4af6:bf0a:6ca]) by PH8PR10MB6597.namprd10.prod.outlook.com
- ([fe80::6874:4af6:bf0a:6ca%4]) with mapi id 15.20.7897.010; Fri, 23 Aug 2024
- 19:41:55 +0000
-From: Stephen Brennan <stephen.s.brennan@oracle.com>
-To: Jonathan Corbet <corbet@lwn.net>, Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Stephen Brennan <stephen.s.brennan@oracle.com>,
-        Nathan Chancellor <nathan@kernel.org>, linux-kernel@vger.kernel.org,
-        Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH v2] Documentation: kbuild: explicitly document missing prompt
-Date: Fri, 23 Aug 2024 12:41:51 -0700
-Message-ID: <20240823194152.13881-1-stephen.s.brennan@oracle.com>
-X-Mailer: git-send-email 2.43.5
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: CH2PR07CA0002.namprd07.prod.outlook.com
- (2603:10b6:610:20::15) To PH8PR10MB6597.namprd10.prod.outlook.com
- (2603:10b6:510:226::20)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="nAQRQcSx"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47NAdctl029174;
+	Fri, 23 Aug 2024 20:01:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=M7ndBw73jABICdB1EqxjPgpi
+	E1C6Pj0SSbQHDMGGcqg=; b=nAQRQcSxaW53gVIqicNnsFjipAAa8tFXA29mrCMg
+	x9F9N1TzRf6GPNU7OjE6Bz8877CnnBP570mFbsI+Co/Hi63ndAo2asPcUQYf99ir
+	qLGK4K/kAhMW6WHz+CYzv84D3xPS5AsLBFfzz581S3T4OU1mgrMFQ9v0uc7iG/rs
+	nWR+T7Rq7lFvuphtxSFkcf6i65aQKCWtOQgzOR/Cb6vMRnbbeXSJwMsLWhFa+P/o
+	ay+JvokOxGkGnWArUHZgRyr75Ug7tiGSbUPTAopN9y3rrAn8JknSHkNG6HpLUWM5
+	nReJfs2HZVwg5EAjrBinAiCGAdpiZY19C++Gj1heg0daEw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4159adhanv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 23 Aug 2024 20:01:16 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47NK1Fc1016863
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 23 Aug 2024 20:01:15 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Fri, 23 Aug 2024 13:01:14 -0700
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <tiwai@suse.com>, <krzk+dt@kernel.org>, <Thinh.Nguyen@synopsys.com>,
+        <bgoswami@quicinc.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        Wesley Cheng
+	<quic_wcheng@quicinc.com>
+Subject: [PATCH v25 05/33] usb: host: xhci-mem: Cleanup pending secondary event ring events
+Date: Fri, 23 Aug 2024 13:00:33 -0700
+Message-ID: <20240823200101.26755-6-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20240823200101.26755-1-quic_wcheng@quicinc.com>
+References: <20240823200101.26755-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR10MB6597:EE_|CH4PR10MB8074:EE_
-X-MS-Office365-Filtering-Correlation-Id: c7d19895-479d-41a8-7376-08dcc3aba497
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?bx11JuP/cGlNTMZ0VqxJaTeYWEqrAsftRUdMURNeLrvRLdpAd9tHzvCBBgAE?=
- =?us-ascii?Q?abD3yhrbArJ2+W6fCT2wHqf2lhB4wGbIoLK96HT9ZM+TULI8+CwtScHl7qQd?=
- =?us-ascii?Q?5Ab4ZZrYKVK+esyzzjSr3DONqCeWCFN1ddW6lotaQoFPYSNwuP5JdK2QiB0L?=
- =?us-ascii?Q?YdiEiiqsS84U34OayGvAwYi1QjJZvN7S19IU/H5r6ZJBVYIEAN1wQypgaR9n?=
- =?us-ascii?Q?+zbkCVYZYh2UYJfRrlS7/+y/hpPOp3NpHEQXeSkd4Y82JcR+w3zltU1A9U1D?=
- =?us-ascii?Q?P3X8DUziHcpcVOhSizJZQWBPfABpYQD+/Uy+7sFTGQ0UTXjhHR0fCgetnns5?=
- =?us-ascii?Q?ZwMTApg3uEBoxSIpAAv1pTs5vWfIxBk/Nd5GQarSkplHdc3A2Mgu9QZc+5wv?=
- =?us-ascii?Q?tm3FprlWMM26DQmFk0O2bvZxWurt8kx8fu+y3RS+QLIFRjBh0ufpBAVcxJ01?=
- =?us-ascii?Q?Ji7AquzWmlLKr9/+JQVqFqZD0WSIRRKOb6v/ENCNY3Ua4pwHqxqj2pwgWxwt?=
- =?us-ascii?Q?KadunVqAmW2EtycaA2SC8bX7ww9/ztNwVn4FsJJ8KBmHBRM9nKH0MZRB6EIr?=
- =?us-ascii?Q?sQ4UyFlok2G5GcLiezC5ajjY8qpVjaZK+gjfBWN7g6suS55mptMumY98TUBO?=
- =?us-ascii?Q?D+60cswF7D7xCZ2S8H18fT8R/Xscm9g4z6KbtdG0S0ru3tJxWiFyiZ0uwp3H?=
- =?us-ascii?Q?A7s15yIYi/sEL9xSO3RcwV+GUbzjox4R5GEEIshx2rG5obvNHE/sh/7SgHlY?=
- =?us-ascii?Q?FuJvCcE12dBNlg/sVbfQhv42nLSE0byc0YIo/gbpX82l9f+Uos3EUy0IMYtr?=
- =?us-ascii?Q?7l5oreV+iNbq+Xw5AYkcGhVYai5ETw6QWEU918AWFmg/WfuRWanXyFKOv27V?=
- =?us-ascii?Q?pEXfseD63HaEweZjsHytAUGYqryIpxLyQzR8nAQk1+tRHOLYH3bYwbd6Cm/X?=
- =?us-ascii?Q?cQlxz4wlp1WlusjzVBIfreJMod5OJivTU08Bipaawhz1lbkCwaFa2DtUdsaC?=
- =?us-ascii?Q?SAOnRjxwRgdtt2v7/TxcvmNC6hWiGnOoXGBJhkoYD6++YHjTL+T6PrqYPUPR?=
- =?us-ascii?Q?6oys7ost/rpRPZJ+iFirQjnaV97ghUj0OmL9pvp1Fb04rPfBNw8fck7d9JWf?=
- =?us-ascii?Q?wpdziA/BRYe8+kjussSHGSfCJPFU8s9PBW5MTqaWCFLfI/qyR5uVONgofiDL?=
- =?us-ascii?Q?YHL1Ro7tY2WzeFg1fIWYT8otf7iUzc/Feg7H1a9xFAkHkRpyEXLr3h5HMl29?=
- =?us-ascii?Q?wKGlprFeHLhlFceSDOeMZeywriTgqy3vvUFWBO+IFtzgxX9OVdhU4m0aNZnn?=
- =?us-ascii?Q?98U=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR10MB6597.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?UZG2vpV12QvCw+MX3ajgx8knKtpYpGZHHGOyXxq0U1rW/SiiEFGLPp/prVii?=
- =?us-ascii?Q?eTaCRdqMBfRmopyvF/HhpRQT8OyoJdKjcFRBVD0NnDh+RdOgctCyOKkxa0TE?=
- =?us-ascii?Q?io5fio6BCZFQ/kSHRzeY6iwHPAfVcAZ3LjOD17BISsX+a4GgQbX6DoXNbkjG?=
- =?us-ascii?Q?dX3MA+OLPgOAS/nWAgy6Y+tOWBsnRakkbFVLga5BqBvXyxbitA2Ah4lU+WbM?=
- =?us-ascii?Q?TKMkePNkKKUqqfDB3CJlKiaBVHdJGRSswYf1fp8tdtwE0+n5Yc+gyjO2kTE0?=
- =?us-ascii?Q?yvwlTIf0qFtK6jTsGIUWw7nMXcNtPolRMaYyJOnS+LS/laBi5qolpKsOgdeU?=
- =?us-ascii?Q?8jA/8Asvr7x3Xz+Ollnj2yHpr7m/vTQVuzl/EYNpwkqVRL1wPM3m9Lrh1Qmj?=
- =?us-ascii?Q?X9Gg+kGV2D9sXJ7i45M/8GP+cW2zpcOaiOfgwfb4kKdeDPsd2T3fWS9cnJVb?=
- =?us-ascii?Q?HdDanJZNd/mIl0ZigCfWUJVRyWg6OiKWztX1HjksKfVCEO7zSVpe40igKwXi?=
- =?us-ascii?Q?blQiSRL+WRQVMWmRiViv4ixsbjpbODybCh+faIHBvXXn/3riceZkkQDdeaBy?=
- =?us-ascii?Q?w1DmDtNytkuVLegmrn/v8UHr7nqXXuJnnsRRdH/xwhNqYj1K7O2PovqxZN6k?=
- =?us-ascii?Q?LvwapPq6WocCSzwhV5AozfTvBfnaxdKhcsOO1LTQ+pOkrp7jmyhYU3L/f0W2?=
- =?us-ascii?Q?UIa2pGPilfdW3g6ke2PRgJzGqdwssDnNa6J2jUCF/JSc/FWXF+NVILiujQN1?=
- =?us-ascii?Q?LBKfm5gRwjdJkx+2cbjBubFZ9X/kpB+ThJKl02XHWcQ42ha+tqh6LugqW+8s?=
- =?us-ascii?Q?Ynlst9rlJQTSeVJEEWzt87w5Q0vymxxvX5v+spMNx7QOx1CpRYACm9J3LPEy?=
- =?us-ascii?Q?yGad+fPqH3MLQQS1X0CCdHv9rw9eN5/Jg8xyol7iZdmk9sOcgo7QWTVoRL5d?=
- =?us-ascii?Q?myd4+iDVuR8X+X3ksbSflNUuJ3qurvO3+jUJYI1y7VhPgJwXunH1f/2hSHHU?=
- =?us-ascii?Q?LRpyK+RhCHwRVGdaavTn0Zs83wofhlQjFbEfGSnumvUtLbB6GVir2mpPb7H5?=
- =?us-ascii?Q?F94ggc47C09EutlylE4zEcG4qubkj8Yo4YfuFcb/RviWyUd+TVHtZApJjKjo?=
- =?us-ascii?Q?7M6l+jPneJ0C3nRs2WqHTNWRd/XzrtPLfSAkNUt371j1Hq6iF8lMxqkT1tSc?=
- =?us-ascii?Q?XVGDSrJKMnbH6J1q20rTKWR6bO2zkIER7RbAGT0US7+UzocSWqAigcxminaO?=
- =?us-ascii?Q?+4X+0/1yxAY+2euvcaixfajosSuW+0/ptDzefUrLvfezlMihAr8AYYhhvj4i?=
- =?us-ascii?Q?l39AhpPdMYqK5EVsVWzYYUQGzgxM8kmQLKy4TGqfWpE53/RoLm6+A8y+Tc/3?=
- =?us-ascii?Q?ZDTMp6oBAIfN4fsRJT5+viEwha5wdxSc2qw01yOrU8KwXBaxkLSp163ltLr8?=
- =?us-ascii?Q?/Hrj2vhmAAbmi2HoKZwOR5HlA8L1AeG/LN27lQyR/fZlpHXSvjKsG6y7yqzy?=
- =?us-ascii?Q?9sy0pBpRdIMsQGuYULWM99VToCZ3FSBk3k/qAmZ4Lp1rlfxseGGS8SIBhqH0?=
- =?us-ascii?Q?4hjTjqppMz5rjT6k8M50ZLhfjdQTPJybGmZ7oY3PbiUr1vLzZgfJ+gdceGSX?=
- =?us-ascii?Q?UvmHtqDQ5zWmZ3y1YRr1KgspLyW8eDql89zFxnDB5asv1EhjjgPfRGDG3aAP?=
- =?us-ascii?Q?0tlTOQ=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	0n/eV3LWD0BcBYlI7tVU4w/DuzaIvVK3Hd7Z1MkANxHs2Jfj1X2jyjMeinewDPbIKCs4yvO12Qkw7ZwhiiyWYjvSn6Hb/oMZ10ZapAvAW3PYZd1eBLKqiKh41J1t2nLo2ApPVsjqBVCFVCt2Z642VOE2GnPFEewmjxFl8AeE8jX/C1Oxo2uSQkoZjHwW4ZyTr1wprwNzTLYHcnBDc10TnVZgyAidMjFmIwWKtB1iIUY0xFMf4BTHoLsZXySBX0BcW0SDPjwJn0mNyrSZBn59uhW2q0nCykTUWtZ2/pbl082YeFltvmfUcEEhGPYX0rspnRB3R6AnEqSqFmkxNpdmxp34XDSm9h1XbXBjhYFm+223h6vUgN5zsbvz1lG3wvhTBUd6X6I0yNX+HrLhhkYsKJL77oaCsNyxdFQmIJUNYcnbuhNh1s8WztBE5vJz0UeOOyr2c5uTjqT6hVDh88U/645W1KruuXMHEiDbBFGCuy3C1P2Hp/CQeVn/o6vCgp2QP5SbtL8GMOKgPl0myBYKmuVfvQpYHBp+Q4N7/S7IG0mQv83x17PP0kcK9Gns5W+is6F+MJUZhGBpsDGjqFKWLY/WALcvVcLQvZf3Z6MG6K4=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c7d19895-479d-41a8-7376-08dcc3aba497
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR10MB6597.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2024 19:41:54.9467
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UhxVNHOMIV9jLPrfymCqkpRT3U1JHy173He7/Laj2lw8bwT9Xo1HFF0pjCywMjWqC9VfLl+KjpASrGvQDbey8VroEN6jEVLTV3c3fllnMzQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH4PR10MB8074
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: NPVj6smWrpEP2jTETK-kCDFd5uqu7qRK
+X-Proofpoint-ORIG-GUID: NPVj6smWrpEP2jTETK-kCDFd5uqu7qRK
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-08-23_16,2024-08-23_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999 bulkscore=0
- phishscore=0 adultscore=0 suspectscore=0 malwarescore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2407110000
- definitions=main-2408230144
-X-Proofpoint-GUID: SaBOHQ7k1iEtnc1xugGsjrah02A14yTl
-X-Proofpoint-ORIG-GUID: SaBOHQ7k1iEtnc1xugGsjrah02A14yTl
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=886
+ impostorscore=0 lowpriorityscore=0 clxscore=1015 spamscore=0 mlxscore=0
+ bulkscore=0 phishscore=0 adultscore=0 malwarescore=0 priorityscore=1501
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2408230147
 
-There are a few lines in the kbuild-language.rst document which
-obliquely reference the behavior of config options without prompts.
-But there is nothing in the obvious location that explicitly calls
-out that users cannot edit config options unless they have a prompt.
+As part of xHCI bus suspend, the xHCI is halted.  However, if there are
+pending events in the secondary event ring, it is observed that the xHCI
+controller stops responding to further commands upon host or device
+initiated bus resume.  Iterate through all pending events and update the
+dequeue pointer to the beginning of the event ring.
 
-Signed-off-by: Stephen Brennan <stephen.s.brennan@oracle.com>
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
-v1: https://lore.kernel.org/linux-doc/20240820171000.1656021-1-stephen.s.brennan@oracle.com/
+ drivers/usb/host/xhci-mem.c  |  7 ++++++-
+ drivers/usb/host/xhci-ring.c | 33 ++++++++++++++++++++++++++++++++-
+ drivers/usb/host/xhci.c      |  2 +-
+ drivers/usb/host/xhci.h      |  6 ++++++
+ 4 files changed, 45 insertions(+), 3 deletions(-)
 
- Documentation/kbuild/kconfig-language.rst | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-index 1fb3f5e6193c3..4650daaf5d365 100644
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -70,7 +70,11 @@ applicable everywhere (see syntax).
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index 2ca5937b73f4..60dfc59260d8 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -1816,7 +1816,7 @@ xhci_remove_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir)
+ 		tmp &= ERST_SIZE_MASK;
+ 		writel(tmp, &ir->ir_set->erst_size);
  
-   Every menu entry can have at most one prompt, which is used to display
-   to the user. Optionally dependencies only for this prompt can be added
--  with "if".
-+  with "if". If a prompt is not present, the config option is a non-visible
-+  symbol, meaning its value cannot be directly changed by the user (such as
-+  altering the value in ``.config``) and the option will not appear in any
-+  config menus. Its value can only be set via "default" and "select" (see
-+  below).
+-		xhci_write_64(xhci, ERST_EHB, &ir->ir_set->erst_dequeue);
++		xhci_update_erst_dequeue(xhci, ir, true);
+ 	}
+ }
  
- - default value: "default" <expr> ["if" <expr>]
+@@ -1859,6 +1859,11 @@ void xhci_remove_secondary_interrupter(struct usb_hcd *hcd, struct xhci_interrup
+ 		return;
+ 	}
  
--- 
-2.43.5
-
++	/*
++	 * Cleanup secondary interrupter to ensure there are no pending events.
++	 * This also updates event ring dequeue pointer back to the start.
++	 */
++	xhci_skip_sec_intr_events(xhci, ir->event_ring, ir);
+ 	intr_num = ir->intr_num;
+ 
+ 	xhci_remove_interrupter(xhci, ir);
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index 80dca780317a..014b3000d2df 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -3012,7 +3012,7 @@ static int xhci_handle_event_trb(struct xhci_hcd *xhci, struct xhci_interrupter
+  * - When all events have finished
+  * - To avoid "Event Ring Full Error" condition
+  */
+-static void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
++void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
+ 				     struct xhci_interrupter *ir,
+ 				     bool clear_ehb)
+ {
+@@ -3112,6 +3112,37 @@ static int xhci_handle_events(struct xhci_hcd *xhci, struct xhci_interrupter *ir
+ 	return 0;
+ }
+ 
++/*
++ * Move the event ring dequeue pointer to skip events kept in the secondary
++ * event ring.  This is used to ensure that pending events in the ring are
++ * acknowledged, so the xHCI HCD can properly enter suspend/resume.  The
++ * secondary ring is typically maintained by an external component.
++ */
++void xhci_skip_sec_intr_events(struct xhci_hcd *xhci,
++	struct xhci_ring *ring,	struct xhci_interrupter *ir)
++{
++	union xhci_trb *current_trb;
++	u64 erdp_reg;
++	dma_addr_t deq;
++
++	/* disable irq, ack pending interrupt and ack all pending events */
++	xhci_disable_interrupter(ir);
++
++	/* last acked event trb is in erdp reg  */
++	erdp_reg = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
++	deq = (dma_addr_t)(erdp_reg & ERST_PTR_MASK);
++	if (!deq) {
++		xhci_err(xhci, "event ring handling not required\n");
++		return;
++	}
++
++	current_trb = ir->event_ring->dequeue;
++	/* read cycle state of the last acked trb to find out CCS */
++	ring->cycle_state = le32_to_cpu(current_trb->event_cmd.flags) & TRB_CYCLE;
++
++	xhci_handle_events(xhci, ir);
++}
++
+ /*
+  * xHCI spec says we can get an interrupt, and if the HC has an error condition,
+  * we might get bad data out of the event ring.  Section 4.10.2.7 has a list of
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 0b22342bbff1..608062d8fab6 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -333,7 +333,7 @@ static int xhci_enable_interrupter(struct xhci_interrupter *ir)
+ 	return 0;
+ }
+ 
+-static int xhci_disable_interrupter(struct xhci_interrupter *ir)
++int xhci_disable_interrupter(struct xhci_interrupter *ir)
+ {
+ 	u32 iman;
+ 
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index a2db8250b1fd..6e1198082b4f 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1836,6 +1836,8 @@ xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
+ 					u32 imod_interval);
+ void xhci_remove_secondary_interrupter(struct usb_hcd
+ 				       *hcd, struct xhci_interrupter *ir);
++void xhci_skip_sec_intr_events(struct xhci_hcd *xhci,
++	struct xhci_ring *ring,	struct xhci_interrupter *ir);
+ 
+ /* xHCI host controller glue */
+ typedef void (*xhci_get_quirks_t)(struct device *, struct xhci_hcd *);
+@@ -1875,6 +1877,7 @@ int xhci_alloc_tt_info(struct xhci_hcd *xhci,
+ 		struct usb_tt *tt, gfp_t mem_flags);
+ int xhci_set_interrupter_moderation(struct xhci_interrupter *ir,
+ 					   u32 imod_interval);
++int xhci_disable_interrupter(struct xhci_interrupter *ir);
+ 
+ /* xHCI ring, segment, TRB, and TD functions */
+ dma_addr_t xhci_trb_virt_to_dma(struct xhci_segment *seg, union xhci_trb *trb);
+@@ -1924,6 +1927,9 @@ void inc_deq(struct xhci_hcd *xhci, struct xhci_ring *ring);
+ unsigned int count_trbs(u64 addr, u64 len);
+ int xhci_stop_endpoint_sync(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
+ 			    int suspend, gfp_t gfp_flags);
++void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
++				     struct xhci_interrupter *ir,
++				     bool clear_ehb);
+ 
+ /* xHCI roothub code */
+ void xhci_set_link_state(struct xhci_hcd *xhci, struct xhci_port *port,
