@@ -1,73 +1,93 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF4A185926;
-	Fri, 23 Aug 2024 17:01:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3907118BB97;
+	Fri, 23 Aug 2024 17:02:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724432482; cv=none; b=p1Z/yeYGs7IlZOpS9QbvfBPif5wX6h2sjuQZFhaSr6nUA9gf1UUE2hU2Vd9xSFGLOJUE4EokhVibuPDxpcGk8wYamtIfdVmOxKopi4uz5PDqY0KYXbUj2GHTigpL+JS919UfBDfVqHSG8OVevADQJAxAhGptPQtzSOM37X2e9E8=
+	t=1724432560; cv=none; b=YU+kUnuK2XE35ih84WdZxIobvuS2LC7h4GhRREg9i4Up4f6267HRlv233eKcH2cq07o7e+L2XwL+QUsGmWKaT4Ex59sTI8X96MXdFpENy6fo9f1rgAkMvWZev0OCWV6m5bwR/ZXAaGwMRB3NDhU1yEbcIP95bwmtbolH1fQJ5jY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724432482; c=relaxed/simple;
-	bh=AJcv/tPtKfv8hd+nhv6iszcG6/a0Ba1YIilo39XftuE=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lL4p3QVHsd86c3SSUwQ5KKCnuGkbYhbytnoVtVQrBg+uNFshoTF9nkBqsrywUnrl3ZSzIk7rvcnj5vDlDjspY2YrRCCiMqxRS8AhGLMjtZGXIaf9rgRazRKQdm5wQgT9FN5EIPZfTjqXwnPTZblQHoEoOvZUnhO/4MFvPeOZJoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Wr5qT2sswz6K5lm;
-	Sat, 24 Aug 2024 00:58:13 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 6B0A5140B33;
-	Sat, 24 Aug 2024 01:01:18 +0800 (CST)
-Received: from localhost (10.203.177.66) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 23 Aug
- 2024 18:01:17 +0100
-Date: Fri, 23 Aug 2024 18:01:17 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Ira Weiny <ira.weiny@intel.com>
-CC: Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, "Navneet
- Singh" <navneet.singh@intel.com>, Chris Mason <clm@fb.com>, Josef Bacik
-	<josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, Petr Mladek
-	<pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko
-	<andriy.shevchenko@linux.intel.com>, Rasmus Villemoes
-	<linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
-	Dan Williams <dan.j.williams@intel.com>, Davidlohr Bueso <dave@stgolabs.net>,
-	Alison Schofield <alison.schofield@intel.com>, Vishal Verma
-	<vishal.l.verma@intel.com>, <linux-btrfs@vger.kernel.org>,
-	<linux-cxl@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <nvdimm@lists.linux.dev>
-Subject: Re: [PATCH v3 14/25] cxl/events: Split event msgnum configuration
- from irq setup
-Message-ID: <20240823180117.00004561@Huawei.com>
-In-Reply-To: <20240816-dcd-type2-upstream-v3-14-7c9b96cba6d7@intel.com>
-References: <20240816-dcd-type2-upstream-v3-0-7c9b96cba6d7@intel.com>
-	<20240816-dcd-type2-upstream-v3-14-7c9b96cba6d7@intel.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1724432560; c=relaxed/simple;
+	bh=LrsQbM+9Culzk5ZY9Zi1h3Hk51nvlJlLN7JY3gYeZ58=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qElWmEXSVfgaXJ1IUNdFg57fqbDZyfCUUP7rszVfCeob/MHUPZH+6qOital58Xfkd1AC2Tl86XEWW48/ksoHoXPN+6QO3Khnzdi1sX5UemUnlHitEMmw+lpX5o7APFaGNaT7GTU3iQkmSWlC/jaafuOGohzq+dUdBmq3hwsxx+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KXU6+DF8; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KXU6+DF8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35515C4AF0B;
+	Fri, 23 Aug 2024 17:02:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724432559;
+	bh=LrsQbM+9Culzk5ZY9Zi1h3Hk51nvlJlLN7JY3gYeZ58=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=KXU6+DF89znEUirCTp35mYNCLYojgYk8MR4FlxokFC7tSsPoU37sbQtr02dfE1X7J
+	 9n0mLdPKtVRtwVpQFcLDbssODFWM9GoSU46M/qpPWDhir5xrMW7tSy3Y4WQh6KV5EV
+	 Sb2/OznrLSC4d7Hf2fVVFY6wBAIxM6+ymWj/1+upUnGdmhbqbLUkc3c1N/gK8fzKXy
+	 KGveAS0qbHrTaxhR/za4wjDURJtnpYOEWmqE3i2S35JIrwREglgcbxVUyFdIjzfNWY
+	 mf3gAeJfXjvLm6qU1lLly3DakzOWHRx35GILq/HXgMCN+TGUoxaYzOWA3D9+f6QZYJ
+	 m/yyAyJIpThuA==
+From: Will Deacon <will@kernel.org>
+To: Shuai Xue <xueshuai@linux.alibaba.com>,
+	Jing Zhang <renyu.zj@linux.alibaba.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Yicong Yang <yangyicong@hisilicon.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Krishna chaitanya chundru <quic_krichai@quicinc.com>
+Cc: catalin.marinas@arm.com,
+	kernel-team@android.com,
+	Will Deacon <will@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	quic_vbadigan@quicinc.com,
+	quic_nitegupt@quicinc.com,
+	quic_skananth@quicinc.com,
+	quic_ramkri@quicinc.com,
+	quic_parass@quicinc.com,
+	quic_mrana@quicinc.com
+Subject: Re: [PATCH v2 0/4] perf/dwc_pcie: Fix registration issue in multi PCIe controller instances
+Date: Fri, 23 Aug 2024 18:02:12 +0100
+Message-Id: <172442564702.2792102.12095795549059563421.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20240816-dwc_pmu_fix-v2-0-198b8ab1077c@quicinc.com>
+References: <20240816-dwc_pmu_fix-v2-0-198b8ab1077c@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, 16 Aug 2024 09:44:22 -0500
-Ira Weiny <ira.weiny@intel.com> wrote:
+On Fri, 16 Aug 2024 20:47:19 +0530, Krishna chaitanya chundru wrote:
+> When there are multiple of instances of PCIe controllers, registration
+> to perf driver fails with this error. This is because of having same
+> bdf value for devices under two different controllers.
+> 
+> Update the logic to use sbdf which is a unique number in case of
+> multi instance also.
+> 
+> [...]
 
-> Dynamic Capacity Devices (DCD) require event interrupts to process
-> memory addition or removal.  BIOS may have control over non-DCD event
-> processing.  DCD interrupt configuration needs to be separate from
-> memory event interrupt configuration.
-> 
-> Split cxl_event_config_msgnums() from irq setup in preparation for
-> separate DCD interrupts configuration.
-> 
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Applied to will (for-next/perf), thanks!
+
+[1/4] perf/dwc_pcie: Fix registration issue in multi PCIe controller instances
+      https://git.kernel.org/will/c/e669388537c4
+[2/4] Documentation: dwc_pcie_pmu: Update bdf to sbdf
+      https://git.kernel.org/will/c/96a37ec98664
+[3/4] perf/dwc_pcie: Always register for PCIe bus notifier
+      https://git.kernel.org/will/c/b94b05478fb6
+[4/4] perf/dwc_pcie: Add support for QCOM vendor devices
+      https://git.kernel.org/will/c/db9e7a83d308
+
+Cheers,
+-- 
+Will
+
+https://fixes.arm64.dev
+https://next.arm64.dev
+https://will.arm64.dev
