@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A217EEB1;
-	Sat, 24 Aug 2024 03:33:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F238149DF0;
+	Sat, 24 Aug 2024 05:18:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724470389; cv=none; b=h2N/paalDD/Xm9LHft6J/h59MdKaZXJMn0k8S4oT9zQrQ7MJHeqtW3Trys6wAWTR8P2R6vj/iFMR4WCef4XEj5FlvmGT8n5tsybUq2bfqkwbnf+0qBaP0OJfuGENZwI+oyTkWr+TcKY1S8qL1ChzXu4KfmTcVJmzpZsCxQww3/w=
+	t=1724476684; cv=none; b=rfxK4G9/VfDvsGS9h8x8aUTl303jITyqXnDtzaE+i7q3o4zw87QLJeGr7q5ibQ9W4QOzrQOezG2v3veKYdASB26DsnE/AocYi+GWDEUtQLXl2H6vGkHCJ9KtmC5Oz7gGCqJU6Zx5kqq1T6wUcwvHCQ83JSIYp/gg6gOLYxyJRhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724470389; c=relaxed/simple;
-	bh=KiliZRb6EV7cdg7Is5wvXw6Z0tQs6uGk02S++Ojv9x8=;
+	s=arc-20240116; t=1724476684; c=relaxed/simple;
+	bh=+mtznrRw+WkO4Q3pJ4tEm1SSyICPnSau4ifvkkKFX4s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vv+itVZ8kZFsB5HkZ0d/0OranFO+4vReRb6DjiVctxhxvgqVp+0Iq8k+GJ5kOgOvMtBf34NUi2z0s/OnMJ0ckne9JSfUxAgW4ebNPJURkxVizYxnhXcJ3UQos6QDlQyV0J84Z5G5sLL4i0GKPjNlh0oerKNDC6NkMCNrmIFWmH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TY7kVKKZ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=PbmlaVIpZ4ovBwJwuG+nlKiKrNSKBIKnu1ZZnourpj7zxq7HTWuniSTLi3Go5fpnyC7HOObb5rkw29lctaIKxktF9x4SLwPOGv5b4JYfc46bbuNkcIiCbEbmEKZ/UJH9mByIksw2/pShHcXdb9PH47VyJSO439rHlRED7l6IDBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=htoa2wxk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TY7kVKKZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75CC7C4AF09;
-	Sat, 24 Aug 2024 03:33:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724470388;
-	bh=KiliZRb6EV7cdg7Is5wvXw6Z0tQs6uGk02S++Ojv9x8=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="htoa2wxk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CF62C32781;
+	Sat, 24 Aug 2024 05:18:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1724476683;
+	bh=+mtznrRw+WkO4Q3pJ4tEm1SSyICPnSau4ifvkkKFX4s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TY7kVKKZkJ1GWy0oaunC9F4OXt24q/X2FeHpihzGsIU3RGhvyawC3CW6RYkVypgno
-	 YoiB/FiAyG0yiElH3H+yQ4N5SdCcRmuPe0OeFlGRyfILefBr1WRWbtlEXyfAmc6TvB
-	 5Ev1vZkxK4tdDlY6eeFBdoVREb2AfG/lJtsxq9s7YQ5eRwmNg5I3Sz7osjZZnfMaoL
-	 xwuKtZ/r4p8rm9yRri9+iEcYtYpRk8X0/LFzHxqWlx5AGR5hlbRioVKq9+sUD8R+WE
-	 5StHIw3cdP0V2rBWTElQCU/34lONiT4zjJfZC2erClAUIeRKhh6UZfCdczXxJQ5s84
-	 nfABP1uj5lcbg==
-Date: Fri, 23 Aug 2024 20:33:06 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Stephen Brennan <stephen.s.brennan@oracle.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Masahiro Yamada <masahiroy@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Nicolas Schier <nicolas@fjasle.eu>
-Subject: Re: [PATCH v2] Documentation: kbuild: explicitly document missing
- prompt
-Message-ID: <20240824033306.GC1733394@thelio-3990X>
-References: <20240823194152.13881-1-stephen.s.brennan@oracle.com>
+	b=htoa2wxkL0Tupsp33cHJTs4PcxDzOKMa2Wt1R7G5g+pX1+E5Rp6xtOc0qDwDF7DgB
+	 zC8aNIp1W5GuqSRGihC+Y0Bp5gBVsyiI/EyiXDzTCOcHXga0qHnGdepiFKs/OZJZm4
+	 q7I36gyYcwH0yMAdf5Pv+vjtWsuLzOuhUXMRcgmA=
+Date: Sat, 24 Aug 2024 10:20:45 +0800
+From: Greg KH <gregkh@linuxfoundation.org>
+To: subramanian.mohan@intel.com
+Cc: tglx@linutronix.de, giometti@enneenne.com, corbet@lwn.net,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	andriy.shevchenko@linux.intel.com, eddie.dong@intel.com,
+	christopher.s.hall@intel.com, pandith.n@intel.com,
+	thejesh.reddy.t.r@intel.com, david.zage@intel.com,
+	srinivasan.chinnadurai@intel.com
+Subject: Re: [PATCH v12 3/3] ABI: pps: Add ABI documentation for Intel TIO
+Message-ID: <2024082447-sizably-unsmooth-40ed@gregkh>
+References: <20240823070109.27815-1-subramanian.mohan@intel.com>
+ <20240823070109.27815-4-subramanian.mohan@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -45,43 +44,62 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240823194152.13881-1-stephen.s.brennan@oracle.com>
+In-Reply-To: <20240823070109.27815-4-subramanian.mohan@intel.com>
 
-On Fri, Aug 23, 2024 at 12:41:51PM -0700, Stephen Brennan wrote:
-> There are a few lines in the kbuild-language.rst document which
-> obliquely reference the behavior of config options without prompts.
-> But there is nothing in the obvious location that explicitly calls
-> out that users cannot edit config options unless they have a prompt.
+On Fri, Aug 23, 2024 at 12:31:08PM +0530, subramanian.mohan@intel.com wrote:
+> From: Subramanian Mohan <subramanian.mohan@intel.com>
 > 
-> Signed-off-by: Stephen Brennan <stephen.s.brennan@oracle.com>
-
-Looks good to me.
-
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-
+> Document sysfs interface for Intel Timed I/O PPS driver.
+> 
+> Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+> Acked-by: Christopher Hall <christopher.s.hall@intel.com>
+> Signed-off-by: Subramanian Mohan <subramanian.mohan@intel.com>
 > ---
-> v1: https://lore.kernel.org/linux-doc/20240820171000.1656021-1-stephen.s.brennan@oracle.com/
+>  Documentation/ABI/testing/sysfs-platform-pps-tio | 8 ++++++++
+>  MAINTAINERS                                      | 1 +
+>  2 files changed, 9 insertions(+)
+>  create mode 100644 Documentation/ABI/testing/sysfs-platform-pps-tio
 > 
->  Documentation/kbuild/kconfig-language.rst | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-> index 1fb3f5e6193c3..4650daaf5d365 100644
-> --- a/Documentation/kbuild/kconfig-language.rst
-> +++ b/Documentation/kbuild/kconfig-language.rst
-> @@ -70,7 +70,11 @@ applicable everywhere (see syntax).
->  
->    Every menu entry can have at most one prompt, which is used to display
->    to the user. Optionally dependencies only for this prompt can be added
-> -  with "if".
-> +  with "if". If a prompt is not present, the config option is a non-visible
-> +  symbol, meaning its value cannot be directly changed by the user (such as
-> +  altering the value in ``.config``) and the option will not appear in any
-> +  config menus. Its value can only be set via "default" and "select" (see
-> +  below).
->  
->  - default value: "default" <expr> ["if" <expr>]
->  
-> -- 
-> 2.43.5
-> 
+> diff --git a/Documentation/ABI/testing/sysfs-platform-pps-tio b/Documentation/ABI/testing/sysfs-platform-pps-tio
+> new file mode 100644
+> index 000000000000..8face1dc8010
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-platform-pps-tio
+> @@ -0,0 +1,8 @@
+> +What:		/sys/devices/platform/INTCxxxx/enable
+> +Date:		September 2024
+> +KernelVersion:	6.12
+> +Contact:	Christopher Hall <christopher.s.hall@intel.com>
+
+Why are you adding a random person here who did not sign off on this
+commit as being responsible for it?
+
+> +		Subramanian Mohan<subramanian.mohan@intel.com>
+
+Do you really need 2 people for a sysfs attribute?
+
+> +Description:
+> +		(RW) Enable or disable PPS TIO generator output, read to
+> +		see the status of hardware (Enabled/Disabled).
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f328373463b0..242d9784ee5d 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -18263,6 +18263,7 @@ M:	Rodolfo Giometti <giometti@enneenne.com>
+>  L:	linuxpps@ml.enneenne.com (subscribers-only)
+>  S:	Maintained
+>  W:	http://wiki.enneenne.com/index.php/LinuxPPS_support
+> +F:	Documentation/ABI/testing/sysfs-platform-pps-tio
+
+Why are you saying that Rodolfo is now responsible for this file?
+
+>  F:	Documentation/ABI/testing/sysfs-pps
+
+Wait, there already is default pps sysfs attributes?  Why aren't you
+adding your attribute to them instead?  Doing a "driver-specific"
+attribute for a generic class device is not a good idea as userspace
+tools will never know to look for it.
+
+thanks,
+
+greg k-h
