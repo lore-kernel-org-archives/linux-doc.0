@@ -1,110 +1,101 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83873EAD2;
-	Sun, 25 Aug 2024 11:37:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29006481B7;
+	Sun, 25 Aug 2024 20:22:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724585832; cv=none; b=BgGGf5A/ABhiccnhj5IPHYoDmATi4kvY70/20qL6dxfEYq2bD7ErNMTt/VrNpwNgQ5JEeRDidgmd9WvHJuMLGIYOCVAPSRBNs9uE838KtXtcmtMEVM95iqbO3H2BKFVJO45WB6pCIEo60kMdFmtFHotbU2tFXwRdFInC1U7Fd5I=
+	t=1724617337; cv=none; b=YKjkDqhx0S2SmCAsv8QQFUdAxfTRz0CYrH4jODQJs8keLupjoLG5X5XaQVBIxgv0Iiwk7/GYwLQpoopaZaDyJQYK3AXgskFWHq8voreN23Vw1Lemogtm65++jPaUg9uJNspseDe2M4CXpHNnrIQxT2jdN38d5MWYVRRhkQwE9I4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724585832; c=relaxed/simple;
-	bh=D5ZZ4RLvasyhicNOD3S4o5wh9h421fLXUKnKC0AKeq0=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=M4ZZ36t5dCNjo4QTtyExGSwR6iYf9jOTPaST3M8kS0vwhdjYhJ+jwzZsMxxHfhScQCvEtParHmjQYk1NaNN2H+ST9kta0nUjVCQWCBOKmjDgzNPxjbm7+q+12LedZPDMbzJ/EQ5qVLSBznXOPEGRuVEdkr8o5Opn7vdKC6ulbSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XU3zImJo; arc=none smtp.client-ip=209.85.216.54
+	s=arc-20240116; t=1724617337; c=relaxed/simple;
+	bh=GYSyNOK3k1Vwvu+qUM78Phh1+2YeSoxQg85u3iLzFEs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SXV1B+LEnlbVRvx7H08CvFzCQ2jIfwUyhuN18vS8qOGbR5fel/H4Ky7lAGj9/Al+C40VXLGQ8apGR23gFSi8cQO+bXVQK27puxAjze5Qs+qjBQ8JVpQ5dJYjzAXE3HSbRykxudJuHbdchGKBUQ5rlq8ONQCMauFFOLxCh8baGtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gna6gxaf; arc=none smtp.client-ip=209.85.215.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XU3zImJo"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2d3d7a1e45fso2319000a91.3;
-        Sun, 25 Aug 2024 04:37:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gna6gxaf"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-72703dd2b86so603170a12.1;
+        Sun, 25 Aug 2024 13:22:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724585831; x=1725190631; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UnIcUBvMTw1KEUBUHA1XjYrrtx3KSJtfY2z61T9WyfY=;
-        b=XU3zImJoo2bTKO2cK9yR/2HiNtuap20Dido1hG7MZcBctuHBHK/2OPE5XHF1Tu3mkj
-         ZITJlzM+NpbP6ZeKjkmJJ5ZrnUw0jo7hwsq1kzttFGDKkjxS99TOUI2dZo9LpES9xbPj
-         ZpthyxQj98oRlll2Zkp/8ll8qZ+lED+YNh7d4bplmKwNISivMIv8st9Xz6BKurm0FH+D
-         2z8n1I/4w6QGfevcrkawWYrtyCPf/or1xZU15XXBJyhZAmCwyQShc0TOrsnvSnUUHAsE
-         54l1AmRidPn72uy4hspuZYFMNv44Az+tWcOcWPsDYbc54gJ7D6Kpk8fL5RkrpP4jLemi
-         C/TQ==
+        d=gmail.com; s=20230601; t=1724617335; x=1725222135; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0/YBMbb7bDw+tUfEn9ELV8y2Lwvjiv14mYFxssAzGRo=;
+        b=Gna6gxafX0vdznZIHox3IJa0ix5nZB7Yo/kmGR5aBoGOKW23yGjfZAW5NgRQublkUV
+         5RhsNPAc2BbpV99W4ZRLPqaNg1g3FqEd2ilVBpmm6scuZJWSR5JIcZM+iWRkIDcxgwnI
+         sGFvtmty3FxW4niDB+l3QU7lg8wh1SrDJlVFQ3O2Bn23+NtsXMSAdgANO22RNENj4KXb
+         vsvwOLCpJw2kyTaiBGtlYnmUxeNPo+qsMvCFCpqIpMa7rhoeswbCvrkI2QvKwHl5gIr3
+         S8iLh/dhEn2h21ZqB2sg5Yyr0hIUCnEVPqPfrErmEvfMiPS8n+jyT5rg6NmPbMf/7ock
+         LamA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724585831; x=1725190631;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UnIcUBvMTw1KEUBUHA1XjYrrtx3KSJtfY2z61T9WyfY=;
-        b=ww0wwa4dr+dB/Ki+EwYPpgne/iUYQz1XN8KQBlFOD4JPcGZTFBRhhZUba7qkPC3gCJ
-         mBcBw9OD28b8kz0O69j5ZABqZDlzelnrGJNE2pCZyIYFqE74656iWCIkGSK06J7SVaxa
-         Yn4XL+QMEH0rM2qJuzZ7f7DL/txeMwXPdrvYzxvTQHIJ7JjteolbYNnFQL8RhyQa/eIR
-         u8VVZhie9EAdlfVUPzzc8PuMSf+fG41AAOgvPW/81hhgQAMVpDSM+/k8w0vweMYWWRue
-         SVP5ljx2Rafj51TtCUT+8HKJa6+5qppKCxC9vyiXfHxJD7pcZlK/8mZDezD/BmFrJrMv
-         dBeA==
-X-Forwarded-Encrypted: i=1; AJvYcCU3sKzygZHX9JJ9+fLyvy5hLjj0LYGYFQynnO3YSs+737w0k0YjaR2jMtTgS2AAFv6dnFu7xFf6aDFI@vger.kernel.org, AJvYcCWuuuRxm6tdTufb0Y+8mNgSp0g8Qv1RFmyBpiuuGdjcQtqdHJ9l2tXEvNfVLCii8SyxlbS3CxFBkRwB0wjV@vger.kernel.org, AJvYcCXeOsiCS1AgBHuZpvOVwOURFMAvDsTsVzUKRqltdMUZIBxboYK5bj2ehqCnT3eFjsFMkV7RVgyoK+I=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxj1dnkfgKS17F4RlhINDlSMOYhFzmL4kL2Gs1kyxWx+iOU8ALn
-	SsNigU6seqixiJk59QFEBKE1vto3PAcKnyag6NZVaxcSRs4QPuH5HFYsta1y
-X-Google-Smtp-Source: AGHT+IErR+scHsSfvRrogL9GgyzP91f57TnBwt+xm/79x4K2iVrmQQO6Jo46gKeJInkKwLA2lePUig==
-X-Received: by 2002:a17:90a:1302:b0:2ca:4a6f:1dd with SMTP id 98e67ed59e1d1-2d646d492abmr5700830a91.41.1724585830558;
-        Sun, 25 Aug 2024 04:37:10 -0700 (PDT)
-Received: from localhost ([115.96.30.187])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d6136fce0asm7612015a91.11.2024.08.25.04.37.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Aug 2024 04:37:10 -0700 (PDT)
-Date: Sun, 25 Aug 2024 17:03:40 +0530
-From: Aryabhatta Dey <aryabhattadey35@gmail.com>
-To: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: process: fix typos in
- Documentation/process/backporting.rst
-Message-ID: <rd2vu7z2t23ppafto4zxc6jge5mj7w7xnpmwywaa2e3eiojgf2@poicxprsdoks>
+        d=1e100.net; s=20230601; t=1724617335; x=1725222135;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0/YBMbb7bDw+tUfEn9ELV8y2Lwvjiv14mYFxssAzGRo=;
+        b=HARJI5/ZZmQtAog6oAei00UIBPNWF8fknxzKFAzMt+pugObZBMrs305feeE1RyY/jd
+         3PlbOOKl93DPdJsHDvBV3fTO0H5sTMO/7u7oFrRtZGqfDJYaQ3DVZI9AF0kAO2DEON6I
+         Jbw7IB0GyHcRsnrdtB31sjCfW9YcNA7GSKgwTMbr5qobihT0lcx1Cuweo5Bx7voxxiQQ
+         hQxishhI/KnT6fUiApG9qynAEOdqupn93weXQI29Zj2eSvQFs6VWGX8zJ4GBlZ1wnm0I
+         Eq+Tp8pMVsPidnEjs1l1ZqqIW3o4r0qrNHIYDOotH58ZwvDE4JPo7Km9t0k+BkWI/f7K
+         3Mtw==
+X-Forwarded-Encrypted: i=1; AJvYcCUJyqidWOmiWje7pMLBUNc8kB6cRgb/twhUcPVjXNINcxa1qxNC6m4rw/a1bFfhiFqc+WCUuWGif7B5P3uw@vger.kernel.org, AJvYcCXAPHyQ74jeCcPcKVvkviKZx98tCd5Xfdg1aM0S8YDauvaMa/D7TJjauMu1U0h10vGgNaxREiKjS1A=@vger.kernel.org, AJvYcCXvVwtl+b45lkghPlALXLODTMrT8E7wItD90nOb7jsl0IRkzqXCXFVZyNiRcWk2LR3kiKl/qM3lREH9rqydaUg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwT63UNu40978haGVtgDXfofa5roYhaO4d3Vik9g+wke+FRWgBE
+	1uDBYuEj0Fh+8exHjgndTtsIsJy9dw1aWeR+DHSuRa2P6hGCrsIrAlM63qnfLBQYnNSa/abvCaK
+	SYsNtnWf/H4APx9XCMf/FV5v4y34=
+X-Google-Smtp-Source: AGHT+IHCmep9UepNduc+XY5Tzud3PFNGZ8xoRBKUCUNs9JGrOraBzt1yGvUVLlvm+mlvyPkNrStBGRCpiayAi7lCJI0=
+X-Received: by 2002:a17:90a:ce97:b0:2d4:d74:ea4d with SMTP id
+ 98e67ed59e1d1-2d646dafd3fmr5964512a91.5.1724617335360; Sun, 25 Aug 2024
+ 13:22:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240818141200.386899-1-ojeda@kernel.org>
+In-Reply-To: <20240818141200.386899-1-ojeda@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sun, 25 Aug 2024 22:22:02 +0200
+Message-ID: <CANiq72=gTVwJmD8eW5Yoi=rROH4Kf45+0NLDVbG41xmTr+XKGA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] docs: rust: link to https://rust.docs.kernel.org
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev, 
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Change 'submiting' to 'submitting', 'famliar' to 'familiar' and
-'appared' to 'appeared'.
+On Sun, Aug 18, 2024 at 4:12=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wro=
+te:
+>
+> The Rust code documentation (i.e. `rustdoc`-generated docs) is now
+> available at:
+>
+>     https://rust.docs.kernel.org
+>
+> Thus document it and remove the `TODO` line.
+>
+> The generation uses a particular kernel configuration, based on x86_64,
+> which may get tweaked over time. Older tags, and how they are generated,
+> may also change in the future. We may consider freezing them at some
+> point, but for the moment, the content should not be considered immutable=
+.
+>
+> Thanks Konstantin for the support setting it up!
+>
+> Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-Signed-off-by: Aryabhatta Dey <aryabhattadey35@gmail.com>
----
- Documentation/process/backporting.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Applied series to `rust-next` -- thanks!
 
-diff --git a/Documentation/process/backporting.rst b/Documentation/process/backporting.rst
-index e1a6ea0a1e8a..a71480fcf3b4 100644
---- a/Documentation/process/backporting.rst
-+++ b/Documentation/process/backporting.rst
-@@ -73,7 +73,7 @@ Once you have the patch in git, you can go ahead and cherry-pick it into
- your source tree. Don't forget to cherry-pick with ``-x`` if you want a
- written record of where the patch came from!
- 
--Note that if you are submiting a patch for stable, the format is
-+Note that if you are submitting a patch for stable, the format is
- slightly different; the first line after the subject line needs tobe
- either::
- 
-@@ -147,7 +147,7 @@ divergence.
- It's important to always identify the commit or commits that caused the
- conflict, as otherwise you cannot be confident in the correctness of
- your resolution. As an added bonus, especially if the patch is in an
--area you're not that famliar with, the changelogs of these commits will
-+area you're not that familiar with, the changelogs of these commits will
- often give you the context to understand the code and potential problems
- or pitfalls with your conflict resolution.
- 
-@@ -197,7 +197,7 @@ git blame
- Another way to find prerequisite commits (albeit only the most recent
- one for a given conflict) is to run ``git blame``. In this case, you
- need to run it against the parent commit of the patch you are
--cherry-picking and the file where the conflict appared, i.e.::
-+cherry-picking and the file where the conflict appeared, i.e.::
- 
-     git blame <commit>^ -- <path>
- 
--- 
-2.46.0
-
+Cheers,
+Miguel
