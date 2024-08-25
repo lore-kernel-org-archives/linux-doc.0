@@ -1,132 +1,87 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8BCF40849;
-	Sat, 24 Aug 2024 18:34:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F08C6B667;
+	Sun, 25 Aug 2024 03:54:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724524480; cv=none; b=PHWqXRfZfeHzLbBFKpsLpZj1G+Q+Z62ApOezi1WOT9MFbfmh5S2qE7rIvuawph3rBydNeQwzf81Jw4sM7bFJtSOc557jqCRJGJUMgtGRyWj2+DVepNXg4sEQuhDIokEUBylewy0SBMDWPrk97U6zjtwwEI+huA1lemd023+ya4A=
+	t=1724558050; cv=none; b=i1Pwx+SAiRzGqXV27EsxUKwKjDhNcbLoQ0p0SIKQs6fHcd4dF9+HEAe12RGYQDxW5e8/ApSAyeT9HODJm46b8JgYVEuIwNFa50cvwm8E9mgcGlmOMo32VJC7JvQxnSY3AwljigG8fKF7apwNL++aYs05syf0kCzU6ZYsVX8t3W8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724524480; c=relaxed/simple;
-	bh=OnZOWHCKoYxDgjmxX5wXRk3HqlrotqXB5UqTjCWSGCc=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Cs9AXmuf1cT4aGWEyXWaAywReCM0740WtVGg2oO0304g0SdazytE82h5B38wA6UWNHvBspQoBE8FQ6T5lIZL1kUHejxx7hK9kr9ptSjNAvj3dvsiDk0rTaGdF+5vRqhQtkcfkLaQUBkYCdWxa6Fr8bufSl9pkx08R5UAfcNlvZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=KdIHZuLI; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1724558050; c=relaxed/simple;
+	bh=okJ2hCt5aTJgDcUNU44pAdnsRODyqx1Z0qzyZr0eCUs=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Eai562mdq1zIpMyIKc5k8julZFuiBEvhPxdUFpyjcPFaYfindjgS6NENZb3id17icrHtfQwNyLXoYZEvI+yHD1cojI2uQe+yu2dZ+8HUIOMaexI6sLydbhH4e2UDhyUzRs1Fo4HH7FaWW2piVn7zByXcQQ+pPuPp12psx6EonA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ebUubxVJ; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="KdIHZuLI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1724524474;
-	bh=OnZOWHCKoYxDgjmxX5wXRk3HqlrotqXB5UqTjCWSGCc=;
-	h=From:Subject:Date:To:Cc:From;
-	b=KdIHZuLIr6W/5MbMdSySR8UUMhxtwegzJQqmo45DgR6+1edML0GoOAOHbBvqtnWoY
-	 9kUupKfjt7nnVr2pLeaWfzWJjHAkbjl98olQ2OIzqHonWJo1lL4Zzcjkgo1ZfVwANm
-	 uVYqGlTHTdUs/YFh+H2m6YT5p+qtiPY6ubvRryes=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Subject: [PATCH v6 0/4] drm: Minimum backlight overrides and implementation
- for amdgpu
-Date: Sat, 24 Aug 2024 20:33:53 +0200
-Message-Id: <20240824-amdgpu-min-backlight-quirk-v6-0-1ed776a17fb3@weissschuh.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ebUubxVJ"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-20203988f37so31728405ad.1;
+        Sat, 24 Aug 2024 20:54:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724558048; x=1725162848; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bEKwLaZ8eX+2F+2ojEc0idJO4EKoYFoaC5mzt/EJ/Hk=;
+        b=ebUubxVJ8C0xfx+5hIcCnuhoYQu+hIVgS1/eLHUsVwCRaRfpqVhPzL9GMyJX+yBaJp
+         X/Vxl/12DMswfl7tiTNoEj95eyot3ONRHo2UgKrgD0oA+fIg+kkNZsol8xGfZDItzhIe
+         F//cyxklW6kFo26NJPuF6jzAOBH5DICxntDD9omM8D/iS369vAxyXpwTrwrDO70yQRFM
+         4AYF1Wldfk2v1d7nqPUTqu/k8eOQZU6gBrm0PPgErwaLKBRm5yGmRnLog3N2zUsMrsib
+         HtHtw5Ich1CsQgW9Cswx0ps+9HOwpTosy453YvmZemMp0YSwmLffRJP0+CnaZ4tryCpR
+         YI/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724558048; x=1725162848;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bEKwLaZ8eX+2F+2ojEc0idJO4EKoYFoaC5mzt/EJ/Hk=;
+        b=YLNVwmZzOY248LSs5H3J3lALQGSnkck2//q7twqclHmPXduf/kJeeSSj+64/N2Jecs
+         EJ5gjk9HalGVwNIRmZAG0lib31rs64/nbeCnOrh3yOWiOPs6Svbq4FJ47VUedLXlZsjT
+         SKfwsN6Uek3HZzluid4411BwKGprjelWcLpGNloGKYi5c+GtV66py6pjXCxLfz2h/Ato
+         tbr7SfQatT4P42cvM960Fa34k41mKAsi316FlsSYSIf6bz7FkNlCv8aD6Wl+b6twXKsi
+         6jQO+TppUEkOVNn2zwSyn1pMcy0XY0ibdxkEARlHQontEAs9IcYAFT2sbQZtp9kUjPSY
+         ZTOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUgZ+utlSFqLWpd05NsTs8WNQBApqr/33F/m0YHyESxHoToSGFduOAKtLJCdWWEsu5/Kz08U/YWCwLoeA==@vger.kernel.org, AJvYcCW5BhqNLV+CCIfWxFZxuf5Chv2kdldftZqgdcnMD+aTqQaqhGIL68a/acgP66QteBXFRZIBebNHP/Q=@vger.kernel.org, AJvYcCXTy3c4j+EBUJly6Bd3w/UXQx1mc8MMMpIxpZV+HWozqkU1hQctK1OPKOc1eMkNBcI/TSSo+d+7Q1OePCse@vger.kernel.org
+X-Gm-Message-State: AOJu0YyV4m9z2wWz0wmeEzYhIAQAR0pTR6GTwE5g4ItZe3+p+Y036+2n
+	cNrtHgf/VBx/H9vVkL8ThjhgPs2voUh90Fwc/CgyRmQyKOW9JRZM
+X-Google-Smtp-Source: AGHT+IH87DrnE50Q4Lcvaxpezm44zwafI4NmnxTd+2z0GBPruvMFo+HdishWtazpN/w1WMpGkBP2jQ==
+X-Received: by 2002:a17:902:da8d:b0:1ff:393d:5e56 with SMTP id d9443c01a7336-2039e4cab1emr80348865ad.36.1724558048058;
+        Sat, 24 Aug 2024 20:54:08 -0700 (PDT)
+Received: from localhost ([115.96.30.187])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-203859f0115sm48430965ad.242.2024.08.24.20.54.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 24 Aug 2024 20:54:07 -0700 (PDT)
+Date: Sun, 25 Aug 2024 09:20:39 +0530
+From: Aryabhatta Dey <aryabhattadey35@gmail.com>
+To: vadimp@nvidia.com, pavel@ucw.cz, lee@kernel.org, corbet@lwn.net, 
+	linux-leds@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: leds: fix typo in Documentation/leds/leds-mlxcpld.rst
+Message-ID: <5nib2kj6uh7lkafrmmwcjpeyvs7megdfmseftkjws2wcuztoyc@yhidnl4ilbok>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAJEnymYC/43NS07DMBSF4a1UHmPktx1G7AN14Md1bJWmxU5SU
- JW943bSSkQRw/8MvnNFFUqGit52V1RgzjWfhhbqZYd8skMPOIfWiBEmiKIE22PozxM+5gE76w+
- fuU8j/ppyOWAjCIvBgObKogacC8T8fcc/9q1TruOp/Ny/Znpb/8XOFNNmy8500krH7PsFcq3Vp
- ym9DjCimz2zJ4/xTY9hgj34qKPogu3cqscfnuZ00+PNEyoI4hyjVrFVTzw8Q9mmJ5onlVU8RtN
- pp1c9+eyZTU82zylPwAbiNQ9/vGVZfgEc0Fh+CQIAAA==
-To: Alex Deucher <alexander.deucher@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, 
- Mario Limonciello <mario.limonciello@amd.com>, 
- Matt Hartley <matt.hartley@gmail.com>, Kieran Levin <ktl@framework.net>, 
- Hans de Goede <hdegoede@redhat.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, Xinhui Pan <Xinhui.Pan@amd.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Dustin Howett <dustin@howett.net>, 
- linux-doc@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1724524474; l=2655;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=OnZOWHCKoYxDgjmxX5wXRk3HqlrotqXB5UqTjCWSGCc=;
- b=Fv+S8yXkdtgd3svJ3HscCxbYgzuZCqM3RL40fBuNCFbI8e9ER39Oi2d9+Kljttrnc54l2/bd5
- dmd0RMLXzF+C++jDyYeBBQm81J26vVZbfgnCN3i+kgrveNYj3nxsnKn
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The value of "min_input_signal" returned from ATIF on a Framework AMD 13
-is "12". This leads to a fairly bright minimum display backlight.
+Change 'cylce' to 'cycle'.
 
-Introduce a quirk to override "min_input_signal" to "0" which leads to a
-much lower minimum brightness, which is still readable even in daylight.
-
-One solution would be a fixed firmware version, which was announced but
-has no timeline.
-
+Signed-off-by: Aryabhatta Dey <aryabhattadey35@gmail.com>
 ---
-Changes in v6:
-- Clean up cover letter and commit messages
-- Add my S-o-b to patch from Dustin
-- Mention testing in combination with "panel_power_savings"
-- Link to v5: https://lore.kernel.org/r/20240818-amdgpu-min-backlight-quirk-v5-0-b6c0ead0c73d@weissschuh.net
+ Documentation/leds/leds-mlxcpld.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes in v5:
-- Forward-declare struct drm_edid
-- Reorder patches, quirk entries are last
-- Add patch from Dustin for additional quirk entries
-- Link to v4: https://lore.kernel.org/r/20240812-amdgpu-min-backlight-quirk-v4-0-56a63ff897b7@weissschuh.net
-
-Changes in v4:
-- Switch back to v2 implementation
-- Add MODULE_DESCRIPTION()
-- Simplify quirk infrastructure to only handle min backlight quirks.
-  It can be extended if necessary.
-- Expand documentation.
-- Link to v3: https://lore.kernel.org/r/20240731-amdgpu-min-backlight-quirk-v3-0-46d40bb21a62@weissschuh.net
-
-Changes in v3:
-- Switch to cmdline override parameter
-- Link to v2: https://lore.kernel.org/r/20240623-amdgpu-min-backlight-quirk-v2-0-cecf7f49da9b@weissschuh.net
-
-Changes in v2:
-- Introduce proper drm backlight quirk infrastructure
-- Quirk by EDID and DMI instead of only DMI
-- Limit quirk to only single Framework 13 matte panel
-- Link to v1: https://lore.kernel.org/r/20240610-amdgpu-min-backlight-quirk-v1-1-8459895a5b2a@weissschuh.net
-
----
-Dustin L. Howett (1):
-      drm: panel-backlight-quirks: Add Framework 13 glossy and 2.8k panels
-
-Thomas Weißschuh (3):
-      drm: Add panel backlight quirks
-      drm/amd/display: Add support for minimum backlight quirk
-      drm: panel-backlight-quirks: Add Framework 13 matte panel
-
- Documentation/gpu/drm-kms-helpers.rst             |  3 +
- drivers/gpu/drm/Kconfig                           |  4 +
- drivers/gpu/drm/Makefile                          |  1 +
- drivers/gpu/drm/amd/amdgpu/Kconfig                |  1 +
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 10 +++
- drivers/gpu/drm/drm_panel_backlight_quirks.c      | 94 +++++++++++++++++++++++
- include/drm/drm_utils.h                           |  4 +
- 7 files changed, 117 insertions(+)
----
-base-commit: d2bafcf224f3911b183113b2fcb536c9e90684a3
-change-id: 20240610-amdgpu-min-backlight-quirk-8402fd8e736a
-
-Best regards,
+diff --git a/Documentation/leds/leds-mlxcpld.rst b/Documentation/leds/leds-mlxcpld.rst
+index 528582429e0b..c520a134d91e 100644
+--- a/Documentation/leds/leds-mlxcpld.rst
++++ b/Documentation/leds/leds-mlxcpld.rst
+@@ -115,4 +115,4 @@ Driver provides the following LEDs for the system "msn2100":
+ 	- [1,1,1,1] = Blue blink 6Hz
+ 
+ Driver supports HW blinking at 3Hz and 6Hz frequency (50% duty cycle).
+-For 3Hz duty cylce is about 167 msec, for 6Hz is about 83 msec.
++For 3Hz duty cycle is about 167 msec, for 6Hz is about 83 msec.
 -- 
-Thomas Weißschuh <linux@weissschuh.net>
+2.46.0
 
