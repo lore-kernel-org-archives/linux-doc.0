@@ -1,302 +1,206 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F45582D91
-	for <linux-doc@vger.kernel.org>; Sun, 25 Aug 2024 04:15:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16FA1D69E
+	for <linux-doc@vger.kernel.org>; Sun, 25 Aug 2024 05:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724559357; cv=none; b=YVnR8j8DlbsRUPQP4+1GfWTLXy9bVkJR5EMNh+07zyRHHPoui9ggHetIgRD+Q2e4Txl9dv6UvLOZtrgP5FsDro3Iva6RewojNGYpMlYlM+uGWVol9wzM+NSWetkJoDxkfLlUOsLCpWwJdwKg/F5PeRqk8EXHYQdPdbF05UHoDB0=
+	t=1724562385; cv=none; b=AQS1/T2cDEaPkRyr4Uth1UnKsxWgoc//UNeffPxGGuy77NDCS2VXT3r7zl6LIdgKMuZXfGJLC3DAmuMtv85LOGmvGI9I2gKhkQKZfH+hlRB4de9Qkhwz493rUMKPXjgYkNc8F7T0/No362wygJ25XYY2uNQsufome042Ryt5pyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724559357; c=relaxed/simple;
-	bh=TJAAMUYSEfHQpgrVp94762FrJpaRhDaUbadojmeKPFI=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=LVC9poR1ynt9dmZAV9PmztjrRrkzrrZ0GD9lazkdcZ5rTuC5Pjshy7LvQ28ryZopDnid+U37LyvgpzRX66u+1YgSexPER3D9c0lFvEnSrGin9LZCF5vbkHvd6pPssiUq+eDC+GfvZF67d8M8po+hu+Np2fditW/V35KSWcdUVpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hzN4IWav; arc=none smtp.client-ip=209.85.219.201
+	s=arc-20240116; t=1724562385; c=relaxed/simple;
+	bh=iJm4Urs/UC4vYg8SmsCbP927+ihuObpWVJzCOpxYzbk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=M/g5+qv1xOqxod0PTCnf/IGretsBzczM+Fs+Pakb01GYqIyonka9p7IlzGstf+AC+aksLIKisZSfcSzEEOJsgn9TmQBiai8s9rK1wruSUHGGTaVCo6LpONleZt5+/yzrNT1VRpZ7ei97Fcq8cj4wKGetEZsnLlnx9UOLFqdDc5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OMnZ336D; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hzN4IWav"
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-e1159fb1669so5554246276.2
-        for <linux-doc@vger.kernel.org>; Sat, 24 Aug 2024 21:15:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OMnZ336D"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-20260346ca1so184535ad.0
+        for <linux-doc@vger.kernel.org>; Sat, 24 Aug 2024 22:06:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1724559343; x=1725164143; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=h1SH0JAJ1B5PyyHx6pFWolw91iIxYtuOQavx/IgUURY=;
-        b=hzN4IWavQV+i+euDuRfS3wC/D549Fv+04c1xE3pLu/1n0MZppCDUvQsBq+1ctAipDR
-         IqWK0i6F9Z/plROi/iH7mff5GzYaaGceoyNnDIG9++DADRce5f67OHsozurdw7fUVYXT
-         0YGkn9+f8x2oLQUwXhZbRmkaG/GxDoRu9dfWOzS9YorS/53ueSwDLEQWLx/4NctOVeWh
-         dGGU8SGB2cjdFq7N3G39tGDrvjYlNapUJxrLvQPHOExM++GtWjNUXedHojA6LtBOXy10
-         aTH1PMMntljh+c6n4ktpjnfnP+mIm9J3pjtIIHINnhYlT4HYEWGybihmKfRN0ofCdoIB
-         uhpA==
+        d=google.com; s=20230601; t=1724562383; x=1725167183; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IMTbkedgsrPPfo8IkPbVnRMKzmVgjOLjelsopWSO9RY=;
+        b=OMnZ336D00sgTkoJdyfjQwn+TV7xsIzJgmRvkmngQ1fQmp+GwWTn+tbX8PZn5Ha8Nc
+         5MFEM4mArrptO80HlMLDPtQhKgSxsNh3Y/lcY+ohcvK9Q7YwPnmqQKO2oh1G6SLGpJ+9
+         bNW1UUQTKLWyRJns0YxpiOKdp+xXp4G2j5aIiL9dJusB9vLHbONrIALYOXdmqzzAUUY5
+         toGv/eOCln1ixvduVVHiEjnLZGiuuRBea2lE6E4cfYoAUMv5wrV2+pqUEFz+82z0zKln
+         H+GoPPXunIvITUNQnPgIcehtDbOBXk3v4AgQ4Sk4kboujROZ62YRkX/tqyRblCL8RMKj
+         asuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724559343; x=1725164143;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=h1SH0JAJ1B5PyyHx6pFWolw91iIxYtuOQavx/IgUURY=;
-        b=V7FX/OMwTJMS8B1+vB+I6KlSpNX+OOWsjioZMpxqUudTySYga55loRO5Z4sD6ZlS4F
-         fogAsZ+2Jj7q4CctgckXR4BR0N9jNOjlVR3gQDPTwGMh18rp8xDGWweQlAXx4/dlfSSY
-         1e8Kb8zVoc9fJkWAZ5KchK+YDjJPLs4E/y/kQXxyQquFkRLK73p1F97LeuIEb+agzynC
-         mwgKU435QBYCVuAlJ1PqOT8lk13HnF6RgZ2u4ECH/mXKLwR8K7BcWyFecbdGJ8emHgZv
-         vv9acVRFTcRi4JWX8OB0XgfJaqikOASTWS1riEa2ApH42mPjo8uLPWs/74wP2LN3Ig2p
-         A9ZA==
-X-Forwarded-Encrypted: i=1; AJvYcCXNoWh6dHG2QNowv0Y+/aIYhD5pDAkdjeEcIkbO8Vlx4MtXzM8nbUaBpJ1lj+GbkzkCqiAjPJKtktw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRD2lwiKjyXmYFmp2JS07EED5QyyFcevKKIDc/XIKTdKZjoDKN
-	ILSCHkQhISwv41Gjqqwg11Y3bXrjv00u7l7d0LfItu7s/2Los1PIGWjgLg+NdeBK9jbPQryybZU
-	J0NjAio6ta9+3mAd8wySfAg==
-X-Google-Smtp-Source: AGHT+IHS+Zu+bgRE5oFFPnUb1fdy8od53owLmEP+/LrN1rcw2bxR/R5+KhAaCeWdLTwgk9DZAKT2KFHGlGeKj1gETg==
-X-Received: from almasrymina.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:4bc5])
- (user=almasrymina job=sendgmr) by 2002:a25:d348:0:b0:e0e:ce19:4e51 with SMTP
- id 3f1490d57ef6-e17a83b0cecmr10947276.3.1724559342511; Sat, 24 Aug 2024
- 21:15:42 -0700 (PDT)
-Date: Sun, 25 Aug 2024 04:15:11 +0000
-In-Reply-To: <20240825041511.324452-1-almasrymina@google.com>
+        d=1e100.net; s=20230601; t=1724562383; x=1725167183;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IMTbkedgsrPPfo8IkPbVnRMKzmVgjOLjelsopWSO9RY=;
+        b=LMIPuR9muZlk2nfdqDKcTQUX3jkN682mPk/4hIG1pBhH/rkeJfnbShaU7g3107mn6e
+         MF2bPBBUSjFFm1M2s24niOFR7+epUPaduEKdxczxTgBsMnaefYCw3z9DO2izThdtxRrD
+         RSdHISJlMTdCyhh5etk3szF2h0/qGcMipiNx6uvAHcNVq32KO4IeuFiLZ52wdUMVkBIS
+         aeEG/tlUOQCAnf60JRCbfvlcfS9esxXz16zf4mkfiDQ9mvQPXKsrVkJmNptIdkQWXnBK
+         99qYIjSNWBrki4dVVBZoFb/e5vzJ3jB351G/zFxicb0oYiRtcUTQtnenryLvr783Pj2W
+         atTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW8+yCFR38ltqXjG0n2lLSmYpmTtGJdCCNuGRGV4BG7JDHgJkhtf484LdGPVkgBGHSwrlEfexwpe3Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBrntYjjvhJ6y/DfWsrf+GyI2SIm/C++D8W1iskQR9xOr5qN/a
+	nOhG0/VTCJuaciYL2hhbbMntPmiKZkGgwHHbN7/CnhMh3PqY1KhuLhACeugMImNbJQz6Ek0doKT
+	kvHEYAeLWQLljVK7MgzuIwhPHFu3W0SHuntjT
+X-Google-Smtp-Source: AGHT+IHjS9fSVNpvHgfBVIFhvORjREsASYBgn5bFbXRzTlOIZ/el99DRfU4HWSZ0kS7JnnK8YcSOTQ05nicymObSraM=
+X-Received: by 2002:a17:902:cec2:b0:1fb:2924:5c7e with SMTP id
+ d9443c01a7336-203b6d6392fmr1847355ad.11.1724562382581; Sat, 24 Aug 2024
+ 22:06:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240825041511.324452-1-almasrymina@google.com>
-X-Mailer: git-send-email 2.46.0.295.g3b9ea8a38a-goog
-Message-ID: <20240825041511.324452-14-almasrymina@google.com>
-Subject: [PATCH net-next v22 13/13] netdev: add dmabuf introspection
-From: Mina Almasry <almasrymina@google.com>
-To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org
-Cc: Mina Almasry <almasrymina@google.com>, Donald Hunter <donald.hunter@gmail.com>, 
-	Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
-	"=?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?=" <bjorn@kernel.org>, Magnus Karlsson <magnus.karlsson@intel.com>, 
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>, 
-	Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, 
-	"=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, 
-	David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	Christoph Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>
+MIME-Version: 1.0
+References: <7f2b1c74-4087-4da4-94eb-51d37f3d8fc2@gmail.com>
+In-Reply-To: <7f2b1c74-4087-4da4-94eb-51d37f3d8fc2@gmail.com>
+From: Ian Rogers <irogers@google.com>
+Date: Sat, 24 Aug 2024 22:06:10 -0700
+Message-ID: <CAP-5=fVmP0sNaE-T0PAHb0y+Eoo7eNgDFyu7kCT+Hp+G62KXHw@mail.gmail.com>
+Subject: Re: publish: perfwiki.github.io/main
+To: Yunseong Kim <yskelg@gmail.com>
+Cc: Namhyung Kim <namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	linux-perf-users <linux-perf-users@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	Austin Kim <austindh.kim@gmail.com>, MichelleJin <shjy180909@gmail.com>, 
+	Yeoreum Yun <ppbuk5246@gmail.com>, Jiri Olsa <olsajiri@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add dmabuf information to page_pool stats:
+On Fri, Aug 9, 2024 at 10:11=E2=80=AFPM Yunseong Kim <yskelg@gmail.com> wro=
+te:
+>
+> Hello everyone,
+>
+> I=E2=80=99ve migrated the content from
+>
+> Link: https://perf.wiki.kernel.org/
+>
+> to markdown format.
+>
+> You can now access it here:
+>
+> Link: https://perfwiki.github.io/main/
+>
+> All the pages listed under have been migrated.
+> Link: https://perf.wiki.kernel.org/index.php?title=3DSpecial%3AAllPages&f=
+rom=3D&to=3D&namespace=3D0
+>
+> We haven=E2=80=99t been able to log in or sign up on
+>
+>   perf.wiki.kernel.org
+>
+> for several months now, despite it being a valuable resource for many
+> Linux users. I don=E2=80=99t know much about how the perf wiki is managed=
+,
+> including any automated backups or the updates of man pages to the wiki.
+>
+> Using the mkdocs framework, my knowledge of markdown, my keyboard,
+> and my efforts of finger, I=E2=80=99ve converted the MediaWiki format doc=
+umentation
+> from perf.wiki.kernel.org into markdown.
 
-$ ./cli.py --spec ../netlink/specs/netdev.yaml --dump page-pool-get
-...
- {'dmabuf': 10,
-  'id': 456,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 455,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 454,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 453,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 452,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 451,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 450,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 449,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
+I think this is great Yunseong, thank you for doing it! Sorry for not
+seeing your email earlier!
 
-And queue stats:
+Can you explain a little on how to create updates to the pages? For
+example, I see the topdown markdown here:
+https://github.com/perfwiki/main/blob/main/docs/top-down-analysis.md
+It looks like if I update the markdown, in a fork, I then need to
+generate the HTML:
+https://github.com/perfwiki/main/blob/main/site/top-down-analysis/index.htm=
+l
+Presumably I send a pull request containing the HTML and the mark down?
 
-$ ./cli.py --spec ../netlink/specs/netdev.yaml --dump queue-get
-...
-{'dmabuf': 10, 'id': 8, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 9, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 10, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 11, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 12, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 13, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 14, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 15, 'ifindex': 3, 'type': 'rx'},
+> I believe this was a worthwhile effort for me, especially
+> considering that it serves as a backup of the valuable content on
+> the perf wiki at this point in time.
+>
+> Linus once said, "Talk is cheap. Show me the code." While I haven=E2=80=
+=99t
+> been around for long, I understand that telling others what to do without
+> taking action oneself is not the best way to give feedback. When I looked
+> into it, the last edits, aside from the bot-built manual documents,
+> were made in May. Someone can check the recently changed pages, although
+> I found that it=E2=80=99s not easy to review the past change of history i=
+n MediaWiki.
+>
+> I noticed from the perf mailing list that there were issues with
+> logging in, and it seems the door lock is still broken with no sign
+> of it being fixed. This motivated me to start this migration.
 
-Suggested-by: Jakub Kicinski <kuba@kernel.org>
-Signed-off-by: Mina Almasry <almasrymina@google.com>
-Reviewed-by: Jakub Kicinski <kuba@kernel.org>
+Log in problems to the wiki have definitely been an issue. I think
+using github is a sensible way to resolve this.
 
----
- Documentation/netlink/specs/netdev.yaml | 10 ++++++++++
- include/uapi/linux/netdev.h             |  2 ++
- net/core/netdev-genl.c                  | 10 ++++++++++
- net/core/page_pool_user.c               |  4 ++++
- tools/include/uapi/linux/netdev.h       |  2 ++
- 5 files changed, 28 insertions(+)
+> I wasn=E2=80=99t sure how long we=E2=80=99d have to wait to regain login =
+access.
+> I hope you see this in a positive work and not as an act of rebellion
+> against using the original wiki. I genuinely believe this was the
+> best action I could take.
+>
+> This situation also made me wonder: Is it really a good idea for a
+> wiki, which is linked to the kernel and serves as an official
+> reference, to be updated without review from others through the
+> mailing list?
+>
+> While it might be convenient, during the migration,
+> I found quite a few documents that were linked for future additions
+> but never actually created.
 
-diff --git a/Documentation/netlink/specs/netdev.yaml b/Documentation/netlink/specs/netdev.yaml
-index 0c747530c275..08412c279297 100644
---- a/Documentation/netlink/specs/netdev.yaml
-+++ b/Documentation/netlink/specs/netdev.yaml
-@@ -167,6 +167,10 @@ attribute-sets:
-           "re-attached", they are just waiting to disappear.
-           Attribute is absent if Page Pool has not been detached, and
-           can still be used to allocate new memory.
-+      -
-+        name: dmabuf
-+        doc: ID of the dmabuf this page-pool is attached to.
-+        type: u32
-   -
-     name: page-pool-info
-     subset-of: page-pool
-@@ -268,6 +272,10 @@ attribute-sets:
-         name: napi-id
-         doc: ID of the NAPI instance which services this queue.
-         type: u32
-+      -
-+        name: dmabuf
-+        doc: ID of the dmabuf attached to this queue, if any.
-+        type: u32
- 
-   -
-     name: qstats
-@@ -543,6 +551,7 @@ operations:
-             - inflight
-             - inflight-mem
-             - detach-time
-+            - dmabuf
-       dump:
-         reply: *pp-reply
-       config-cond: page-pool
-@@ -607,6 +616,7 @@ operations:
-             - type
-             - napi-id
-             - ifindex
-+            - dmabuf
-       dump:
-         request:
-           attributes:
-diff --git a/include/uapi/linux/netdev.h b/include/uapi/linux/netdev.h
-index 91bf3ecc5f1d..7c308f04e7a0 100644
---- a/include/uapi/linux/netdev.h
-+++ b/include/uapi/linux/netdev.h
-@@ -93,6 +93,7 @@ enum {
- 	NETDEV_A_PAGE_POOL_INFLIGHT,
- 	NETDEV_A_PAGE_POOL_INFLIGHT_MEM,
- 	NETDEV_A_PAGE_POOL_DETACH_TIME,
-+	NETDEV_A_PAGE_POOL_DMABUF,
- 
- 	__NETDEV_A_PAGE_POOL_MAX,
- 	NETDEV_A_PAGE_POOL_MAX = (__NETDEV_A_PAGE_POOL_MAX - 1)
-@@ -131,6 +132,7 @@ enum {
- 	NETDEV_A_QUEUE_IFINDEX,
- 	NETDEV_A_QUEUE_TYPE,
- 	NETDEV_A_QUEUE_NAPI_ID,
-+	NETDEV_A_QUEUE_DMABUF,
- 
- 	__NETDEV_A_QUEUE_MAX,
- 	NETDEV_A_QUEUE_MAX = (__NETDEV_A_QUEUE_MAX - 1)
-diff --git a/net/core/netdev-genl.c b/net/core/netdev-genl.c
-index 269faa37f84e..8c14676cf4ca 100644
---- a/net/core/netdev-genl.c
-+++ b/net/core/netdev-genl.c
-@@ -293,6 +293,7 @@ static int
- netdev_nl_queue_fill_one(struct sk_buff *rsp, struct net_device *netdev,
- 			 u32 q_idx, u32 q_type, const struct genl_info *info)
- {
-+	struct net_devmem_dmabuf_binding *binding;
- 	struct netdev_rx_queue *rxq;
- 	struct netdev_queue *txq;
- 	void *hdr;
-@@ -312,6 +313,15 @@ netdev_nl_queue_fill_one(struct sk_buff *rsp, struct net_device *netdev,
- 		if (rxq->napi && nla_put_u32(rsp, NETDEV_A_QUEUE_NAPI_ID,
- 					     rxq->napi->napi_id))
- 			goto nla_put_failure;
-+
-+		binding = (struct net_devmem_dmabuf_binding *)
-+				  rxq->mp_params.mp_priv;
-+		if (binding) {
-+			if (nla_put_u32(rsp, NETDEV_A_QUEUE_DMABUF,
-+					binding->id))
-+				goto nla_put_failure;
-+		}
-+
- 		break;
- 	case NETDEV_QUEUE_TYPE_TX:
- 		txq = netdev_get_tx_queue(netdev, q_idx);
-diff --git a/net/core/page_pool_user.c b/net/core/page_pool_user.c
-index 9b69066cc07e..7995c1e3477d 100644
---- a/net/core/page_pool_user.c
-+++ b/net/core/page_pool_user.c
-@@ -213,6 +213,7 @@ static int
- page_pool_nl_fill(struct sk_buff *rsp, const struct page_pool *pool,
- 		  const struct genl_info *info)
- {
-+	struct net_devmem_dmabuf_binding *binding = pool->mp_priv;
- 	size_t inflight, refsz;
- 	void *hdr;
- 
-@@ -242,6 +243,9 @@ page_pool_nl_fill(struct sk_buff *rsp, const struct page_pool *pool,
- 			 pool->user.detach_time))
- 		goto err_cancel;
- 
-+	if (binding && nla_put_u32(rsp, NETDEV_A_PAGE_POOL_DMABUF, binding->id))
-+		goto err_cancel;
-+
- 	genlmsg_end(rsp, hdr);
- 
- 	return 0;
-diff --git a/tools/include/uapi/linux/netdev.h b/tools/include/uapi/linux/netdev.h
-index 91bf3ecc5f1d..7c308f04e7a0 100644
---- a/tools/include/uapi/linux/netdev.h
-+++ b/tools/include/uapi/linux/netdev.h
-@@ -93,6 +93,7 @@ enum {
- 	NETDEV_A_PAGE_POOL_INFLIGHT,
- 	NETDEV_A_PAGE_POOL_INFLIGHT_MEM,
- 	NETDEV_A_PAGE_POOL_DETACH_TIME,
-+	NETDEV_A_PAGE_POOL_DMABUF,
- 
- 	__NETDEV_A_PAGE_POOL_MAX,
- 	NETDEV_A_PAGE_POOL_MAX = (__NETDEV_A_PAGE_POOL_MAX - 1)
-@@ -131,6 +132,7 @@ enum {
- 	NETDEV_A_QUEUE_IFINDEX,
- 	NETDEV_A_QUEUE_TYPE,
- 	NETDEV_A_QUEUE_NAPI_ID,
-+	NETDEV_A_QUEUE_DMABUF,
- 
- 	__NETDEV_A_QUEUE_MAX,
- 	NETDEV_A_QUEUE_MAX = (__NETDEV_A_QUEUE_MAX - 1)
--- 
-2.46.0.295.g3b9ea8a38a-goog
+Agreed, the wiki has been a work in progress for a long time. It is
+quite sad the corners haven't been filled out and the documentation
+that is there slowly bitrots.
 
+> With a review process through the
+> mailing list, I believe the documentation could have been more
+> systematically organized.
+>
+> One thing we need to check is the licensing of the original wiki
+> content. The existing documents do not clearly specify their licenses.
+
+Agreed. Are there examples we can learn from? For example, libbpf is
+active on github:
+https://github.com/libbpf/libbpf
+
+> If you find any discrepancies or issues with the migrated documents
+> compared to the originals, please let me know. While migrating, I
+> also fixed some errors in the original documents. If the original is
+> correct and the migrated document seems off, it=E2=80=99s likely due to a
+> mistake on my part=E2=80=94no AI was involved, just my fingers. Or perhap=
+s I
+> was just tired. :)
+>
+> I wasn=E2=80=99t sure if GitHub or GitLab was better, so for now, it=E2=
+=80=99s
+> hosted on GitHub. I plan to mirror it on GitLab as well:
+>
+>   perfwiki.gitlab.io/main/
+>
+> The CI pipeline for building man pages still needs to be
+> implemented. I=E2=80=99ll work on that when I have time.
+>
+> I=E2=80=99d appreciate any feedback and would love to hear any ideas for
+> improvement.
+>
+> P.S. I also think it would be great if the markdown documents from
+> the perf wiki could be viewed offline in a TUI.
+
+Agreed. The perf documentation itself, largely the man pages, is a
+fork from the git source code 15 years ago. I did a round of deleting
+documentation that related to git and not to perf. I'm not sure how
+you'd propose packaging the documentation if it were part of the perf
+tool. I believe the thought in the wiki was to remove the burden that
+exists sending things to LKML. It is also for the best that the build
+not have external dependencies (such as downloading files) and is
+reproducible. An issue with the man pages was that they defaulted to
+placing the current date in them, I modified this so that we use the
+git last modified date and it thereby made builds reproducible.
+
+Thanks,
+Ian
+
+> Warm regards,
+> Yunseong Kim
