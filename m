@@ -1,67 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC8B913AD3F;
-	Mon, 26 Aug 2024 09:29:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88C1143C70;
+	Mon, 26 Aug 2024 09:32:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724664574; cv=none; b=G1PIABKf2qZSdtfSInllpp6jE8ptTX3TIm0Z8zqz2iwMvvaFDMheC7UPnKKJPCefYGWGR+Rp2NrlO/a6qMKj9YhZHzbSTqUiw8iLlzj6Ygdv1qSn9iqwDwJZKt0h/vZDSMkyMr+rnqlgQRQBgY3u93+GhWdPJJSV34A8U9NDbcc=
+	t=1724664778; cv=none; b=Z2xH97e0woklw6WltLoSC3BXAbssL2EyfM+PLgRwYDnmW6R43epjkWYLcZ/Y/KGBM9xGFLodDLMQ5ABOR3gAlrR54tWqzNZW2mWHRI+TNWkqXre8p8+UCYxT2TN+w1GPBpTm8WZXFJdCQgHRoBjsil4YOUb0Jqzhp7VFFhMtPTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724664574; c=relaxed/simple;
-	bh=yFtaOyJ3oZbhPtFgbua649+GIjQJIk5xntNn98+IQR4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uxXLcEQxB3q1N4lGpfm/vJ3h2vYxDhU9pN7jjNTzgaSrKQovEtdXxvNtQwiZK2SqPSNihTZY5+BDblVTPPrWPo6Vm1NPDuGulA0jTYvXdRanpR2PRo6niewLgttBxdSxbjc7jOZg6wkNYTOh04LOftkcEQeaJQ4ellydD3ICTOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OqULYCcM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724664778; c=relaxed/simple;
+	bh=CNlgUOIhnZS0GrsQng07UAMdA7zQHT5HyZ7gwUjR7Rk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=afSrq7tqzAt0FBocXkWCBZ6YdC6J/hWb3uo7DV7IWFt6/s6rXpiswmopsrS6NIgdn8yXy4POtyEBCxOsfw9oMcAseK+m/xMP+vdkkmKPSu5IdWTC+gj5ONGyl5F2GBBw9gzS47VVIxbfL8UZdiIHFfWTBXNCjAo3vog/pPK5kuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EOIanDy6; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OqULYCcM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E477C8403F;
-	Mon, 26 Aug 2024 09:29:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724664574;
-	bh=yFtaOyJ3oZbhPtFgbua649+GIjQJIk5xntNn98+IQR4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=OqULYCcMB+OSTkFPTgm+yOBeUzxkwxkyBwtdmIel/WsSxWu2ZNlIDHXQNcKmPA5bK
-	 4hRiAhEiGpArK0PjhFbOS9puXePcIzL5fY1n+Uhtms88TEmiHlzEkF+EmHQfiScsZa
-	 jyUVeB0M58jZnFjXyji46f0W+Xj1oic90Vi3P1IuewwiFQPbwhBAhGRNN98gI8YvDK
-	 abwRya7rGwmYBdSVt0TZcjg4gd8MsJP62mGsdoKed0HPAddBx0Kzqrgv7q8yVk7Pwx
-	 R37iDvoyS7gcHBwQhL/sZSmWoEWApOJ5PTNqPqeWN4Ciyt/Kz8JWv8MO21N/1nE0m3
-	 zJ+JaYq2NCuJg==
-Date: Mon, 26 Aug 2024 10:29:21 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Esteban Blanc <eblanc@baylibre.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Nuno Sa
- <nuno.sa@analog.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, David Lechner <dlechner@baylibre.com>,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH 5/6] iio: adc: ad4030: add support for ad4632-16 and
- ad4632-24
-Message-ID: <20240826102921.1c897357@jic23-huawei>
-In-Reply-To: <20240822-eblanc-ad4630_v1-v1-5-5c68f3327fdd@baylibre.com>
-References: <20240822-eblanc-ad4630_v1-v1-0-5c68f3327fdd@baylibre.com>
-	<20240822-eblanc-ad4630_v1-v1-5-5c68f3327fdd@baylibre.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EOIanDy6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724664776; x=1756200776;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=CNlgUOIhnZS0GrsQng07UAMdA7zQHT5HyZ7gwUjR7Rk=;
+  b=EOIanDy6WKVOWqNGb8VoKVTyz5MHq827hmKYXYOglpGNGU2O4KN44xJH
+   MB96NL5Ql9/BBRP1aPCw6FJS7eNFu9LnMMBaS0Fgnf9xHR0UNkCGlvf84
+   wtqIA38ZlIdyN3rvUXmsJerdiGtHa8LvsEkXL2UwNuz02qzAnecMIueqZ
+   0HyrcFcHX9Z0b019Eq41ATGjWvcEjtTFLhiqqRH9dcsPexOzS68gY+EUy
+   W7iawrrkhadQJRet03mp2NGq5p9kG5qyB7i5YddoaP2+CG3avXFMCQK3U
+   m3inFtu0q5b2UXnHU1wOb/pAd0j9ML72EHDQ0ChoT5fcvdrjGEMTJVAny
+   A==;
+X-CSE-ConnectionGUID: /MZactx/QFC/l6uKqmMQxg==
+X-CSE-MsgGUID: HKpjTBjSTeSwwz2paY1HuA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="25967061"
+X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
+   d="scan'208";a="25967061"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 02:32:55 -0700
+X-CSE-ConnectionGUID: wdvPnAEPTqmZhETgD1WLmA==
+X-CSE-MsgGUID: RKvQAKVwRa24HsNafnwANQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
+   d="scan'208";a="62134672"
+Received: from cpetruta-mobl1.ger.corp.intel.com (HELO [10.245.246.121]) ([10.245.246.121])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 02:32:49 -0700
+Message-ID: <9f25b900-ae1c-41af-a380-ac5e00860283@linux.intel.com>
+Date: Mon, 26 Aug 2024 10:48:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v25 01/33] xhci: add helper to stop endpoint and wait for
+ completion
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ dmitry.torokhov@gmail.com, corbet@lwn.net, broonie@kernel.org,
+ lgirdwood@gmail.com, tiwai@suse.com, krzk+dt@kernel.org,
+ Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, robh@kernel.org,
+ gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-doc@vger.kernel.org, alsa-devel@alsa-project.org,
+ Mathias Nyman <mathias.nyman@linux.intel.com>
+References: <20240823200101.26755-1-quic_wcheng@quicinc.com>
+ <20240823200101.26755-2-quic_wcheng@quicinc.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <20240823200101.26755-2-quic_wcheng@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Thu, 22 Aug 2024 14:45:21 +0200
-Esteban Blanc <eblanc@baylibre.com> wrote:
 
-> AD4632-24 and AD4632-16 are 2 channels ADCs. Both channels are
-> interleaved bit per bit on SDO line.
+
+On 8/23/24 22:00, Wesley Cheng wrote:
+> From: Mathias Nyman <mathias.nyman@linux.intel.com>
 > 
-> Both of them do not have evaluation board. As such, the support added
-> here can't be tested. Support is provided as best effort until someone get
-> their hands on one.
+> Expose xhci_stop_endpoint_sync() which is a synchronous variant of
+> xhci_queue_stop_endpoint().  This is useful for client drivers that are
+> using the secondary interrupters, and need to stop/clean up the current
+> session.  The stop endpoint command handler will also take care of cleaning
+> up the ring.
 > 
-> Signed-off-by: Esteban Blanc <eblanc@baylibre.com>
-This looks fine to me.
+> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> ---
+>  drivers/usb/host/xhci.c | 39 +++++++++++++++++++++++++++++++++++++++
+>  drivers/usb/host/xhci.h |  2 ++
+>  2 files changed, 41 insertions(+)
+> 
+> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+> index 37eb37b0affa..3a051ed32907 100644
+> --- a/drivers/usb/host/xhci.c
+> +++ b/drivers/usb/host/xhci.c
+> @@ -2784,6 +2784,45 @@ static int xhci_reserve_bandwidth(struct xhci_hcd *xhci,
+>  	return -ENOMEM;
+>  }
+>  
+> +/*
+> + * Synchronous XHCI stop endpoint helper.  Issues the stop endpoint command and
+> + * waits for the command completion before returning.
+> + */
+> +int xhci_stop_endpoint_sync(struct xhci_hcd *xhci, struct xhci_virt_ep *ep, int suspend,
+> +			    gfp_t gfp_flags)
+> +{
+> +	struct xhci_command *command;
+> +	unsigned long flags;
+> +	int ret;
+> +
+> +	command = xhci_alloc_command(xhci, true, gfp_flags);
+> +	if (!command)
+> +		return -ENOMEM;
+> +
+> +	spin_lock_irqsave(&xhci->lock, flags);
+> +	ret = xhci_queue_stop_endpoint(xhci, command, ep->vdev->slot_id,
+> +				       ep->ep_index, suspend);
+> +	if (ret < 0) {
+> +		spin_unlock_irqrestore(&xhci->lock, flags);
+> +		goto out;
+> +	}
+> +
+> +	xhci_ring_cmd_db(xhci);
+> +	spin_unlock_irqrestore(&xhci->lock, flags);
+> +
+> +	wait_for_completion(command->completion);
+> +
+> +	if (command->status == COMP_COMMAND_ABORTED ||
+> +	    command->status == COMP_COMMAND_RING_STOPPED) {
+> +		xhci_warn(xhci, "Timeout while waiting for stop endpoint command\n");
+
+nit-pick: is this really a timeout? In that case you would have used
+wait_for_completion_timeout(), no?
+
+> +		ret = -ETIME;
+> +	}
+> +out:
+> +	xhci_free_command(xhci, command);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(xhci_stop_endpoint_sync);
+>  
+>  /* Issue a configure endpoint command or evaluate context command
+>   * and wait for it to finish.
+> diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+> index 30415158ed3c..1c6126ed55b0 100644
+> --- a/drivers/usb/host/xhci.h
+> +++ b/drivers/usb/host/xhci.h
+> @@ -1914,6 +1914,8 @@ void xhci_ring_doorbell_for_active_rings(struct xhci_hcd *xhci,
+>  void xhci_cleanup_command_queue(struct xhci_hcd *xhci);
+>  void inc_deq(struct xhci_hcd *xhci, struct xhci_ring *ring);
+>  unsigned int count_trbs(u64 addr, u64 len);
+> +int xhci_stop_endpoint_sync(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
+> +			    int suspend, gfp_t gfp_flags);
+>  
+>  /* xHCI roothub code */
+>  void xhci_set_link_state(struct xhci_hcd *xhci, struct xhci_port *port,
 
