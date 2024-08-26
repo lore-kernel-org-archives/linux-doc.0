@@ -1,45 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15404199EA2;
-	Mon, 26 Aug 2024 21:34:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC93519B3E3;
+	Mon, 26 Aug 2024 21:35:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724708069; cv=none; b=I++pn4GUIHEEhiD4up71YESJKj75OIFu6gLXHKecypKME+55keCtW1Wyd3IGa4/xKluoJ4qGgdBvZKTGU7ioyK1+HFakN+/VLUpno1Q97hcURwTJqNZlmZsJwKlsFX4sqNrxgwmayCHH0PH0cJeaRlbYUDPh/iTResQ89btOxNQ=
+	t=1724708150; cv=none; b=nzViuQBLH8t/KN1h0laeCrzOiMXDCv+RXy9kivH4IIx2OyxtUVUo9+fpigMGB8oikyieegkxs0dV2R6N7v2ZULIAWhZxosogwRNLDMSBxijW6JuzxDln6/jQtYOeEXlVFZVcBj4gZhoLJsFXsrKsBiiyrOH0f74zOWUfa5ljyzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724708069; c=relaxed/simple;
-	bh=UzLwthq55feRRfqVqft+krrc68RgU3jX8QAxGa9eDGA=;
+	s=arc-20240116; t=1724708150; c=relaxed/simple;
+	bh=KWFanSE7a5YD1qySSVxDMrsb9vLrSW3D7bdJrpj+tcE=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=s2P+zxMubmxMq8ZhxduvVHiiMHw47mmJUwpD9vdUaxx3Hcc4TGFBC5RzmaV/VY2yaUS7vrfl1ua9av0JlPMFrLgtiBGJQH1HMd4fypPQ0lfGNF56DAhGVv4k/BRr68CDTbdmPOUWgVjQifeYJ2rCboCg+e8MprTZ+Lq4L/bC78w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=J88AOzg5; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=KjzoXx0/sXuEhv59KH/znBtqPVTvp6Dc7Ik9/zuUGYJR9d+jk3wcwsKu1FxOF9akuHYFDJtQV2uNeA1CPhAFjRPGWrrsVbETg2nq0d1NpGWAizNUQxYCc6kOkObXtI1gtVT2pnZgO/dbYzTsE1ZLJdVePKyMmSE+lsLXW77PUvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=GlHIqnnH; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="J88AOzg5"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 34B1641AB9
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="GlHIqnnH"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DA85645CC6
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1724708067; bh=kQdVjhEgW36oG2YSr9XWxNlwc0D1J7E/TbKSSVi1YII=;
+	t=1724708148; bh=qqrB4CtT9Hw69RzlowOexS1vm29yAxh8AIkHouAVxWw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=J88AOzg5d2mrcRi/shhsfd+JF5jkLodxaOB2vkA+6fKsn7rnRwK8f1Wi+iA+d7XFA
-	 pyFqqG2eOwkoWgxI3wFl1epMPX3sIHzGciu+5TqNHN73o8mim6qGyTCFnXJV3vtvD8
-	 +HxC+InqxddPjB8hwUgQTI7kBMensi7SeNX88YKnJ4FkBO0kE+ySnwYP+S9GgUFHm1
-	 yOEiyDpaF0zFAbERVPyu2uD4KxeGNcik/0mHKkmks3jW3KR4XQhhEkhI50Y15tZBSi
-	 6APgG3NsE96i3J/3yrPGmDcvmwmOYsoIlkHFY4WwAlJs9Wm1rixGvcCOrJdl+OFJpF
-	 walHLGWD7ya2g==
+	b=GlHIqnnH1C3iLtsC6/OA+z1r0SIN9p7mNfnFygC2Kl01fqr8sB7p3kPQv5Tmt2Lss
+	 br1wTld4pXrvyie1zmphj7CaWHHMy4VBqsdPZc7sh7/wwxjFuYAlIOPtpoheohYdTk
+	 PHnf8wIohO3v8I2kK07hyCVOVWHic04ErQzjdY5NOStG6YeD3XSHBeeLOpI3dJh2iO
+	 foDwGXPpj9NnM7s2EhS3RmHq8vOmYzQeANsDRpCymy+kKkywwAhPP9nsn4NQXyFoKB
+	 AMGaVjVAACSjH/ABmXhbZi4YBaVe1ltuwYJ0+XLPjFqR6Rph4nQ8smwREyf4JDJk1V
+	 y1Gbtbcu6x9wg==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 34B1641AB9;
-	Mon, 26 Aug 2024 21:34:27 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id DA85645CC6;
+	Mon, 26 Aug 2024 21:35:47 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Ming Lei <ming.lei@redhat.com>, linux-doc@vger.kernel.org
-Cc: linux-block@vger.kernel.org, Ming Lei <ming.lei@redhat.com>
-Subject: Re: [PATCH] Documentation: add ublk driver ioctl numbers
-In-Reply-To: <20240823134339.1496916-1-ming.lei@redhat.com>
-References: <20240823134339.1496916-1-ming.lei@redhat.com>
-Date: Mon, 26 Aug 2024 15:34:26 -0600
-Message-ID: <875xrn6k9p.fsf@trenco.lwn.net>
+To: Thorsten Leemhuis <linux@leemhuis.info>
+Cc: regressions@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>, Petr
+ =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+Subject: Re: [PATCH v3] docs: bug-bisect: rewrite to better match the other
+ bisecting text
+In-Reply-To: <74dc0137dcc3e2c05648e885a7bc31ffd39a0890.1724312119.git.linux@leemhuis.info>
+References: <74dc0137dcc3e2c05648e885a7bc31ffd39a0890.1724312119.git.linux@leemhuis.info>
+Date: Mon, 26 Aug 2024 15:35:47 -0600
+Message-ID: <871q2b6k7g.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,29 +51,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Ming Lei <ming.lei@redhat.com> writes:
+Thorsten Leemhuis <linux@leemhuis.info> writes:
 
-> ublk driver takes the following ioctl numbers:
+> Rewrite the short document on bisecting kernel bugs. The new text
+> improves .config handling, brings a mention of 'git bisect skip', and
+> explains what to do after the bisection finished -- including trying a
+> revert to verify the result. The rewrite at the same time removes the
+> unrelated and outdated section on 'Devices not appearing' and replaces
+> some sentences about bug reporting with a pointer to the document
+> covering that topic in detail.
 >
-> 	'u'   00-2F  linux/ublk_cmd.h
+> This overall brings the approach close to the one in the recently added
+> text Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst.
+> As those two texts serve a similar purpose for different audiences,
+> mention that document in the head of this one and outline when the
+> other might be the better one to follow.
 >
-> So document it in ioctl-number.rst
->
-> Signed-off-by: Ming Lei <ming.lei@redhat.com>
+> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
 > ---
->  Documentation/userspace-api/ioctl/ioctl-number.rst | 1 +
->  1 file changed, 1 insertion(+)
+> v3: (this version)
+> - incorporate a few minor changes after review feedback from Petr
 >
-> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> index e91c0376ee59..5baae6de2861 100644
-> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> @@ -292,6 +292,7 @@ Code  Seq#    Include File                                           Comments
->  't'   80-8F  linux/isdn_ppp.h
->  't'   90-91  linux/toshiba.h                                         toshiba and toshiba_acpi SMM
->  'u'   00-1F  linux/smb_fs.h                                          gone
-> +'u'   00-2F  linux/ublk_cmd.h                                        conflict!
+> v2: https://lore.kernel.org/all/fbeae4056ae8174f454c3865bc45633281bb1b31.1723997526.git.linux@leemhuis.info/
+> - incorporate review feedback from Jonathan
+> - rename to 'Bisecting a regression'
+>
+> v1: https://lore.kernel.org/all/10a565e4ebca5e03a2e7abb7ffe1893136471bf9.1722846343.git.linux@leemhuis.info/
+> - initial version
+> ---
+>  Documentation/admin-guide/bug-bisect.rst | 208 +++++++++++++++--------
+>  MAINTAINERS                              |   1 +
+>  2 files changed, 139 insertions(+), 70 deletions(-)
 
-Applied, thanks.
+I've applied this, thanks.
 
 jon
