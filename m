@@ -1,207 +1,107 @@
-Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E979A3B782
-	for <linux-doc@vger.kernel.org>; Mon, 26 Aug 2024 17:00:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0BA191473;
+	Mon, 26 Aug 2024 17:12:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724691643; cv=none; b=JtNyCEoJDwHI4EEwMhhaX9rOA9E/5AlFsONANdk//fJGGZBd9dtnXyu5XpSu5UGCl65xKUClAr+uDbzBL+hKtN1BUgjOyCuYpCdjaHIwxIQhTfiKUrQWcG7u3eaPu7mOa26FeLrsLYO5o74HFBOlUgINBcCr9mkcMRLn9oMm2b8=
+	t=1724692381; cv=none; b=ErBHm4UA0I/e2PV3WZmY2RNmmHiSpAQEzHrQoXrHvWboTR1uQY3N0L50Cn+hXZWLFCW5ugcIt5SA8OhrOeUNO4P4Os1SZWmDMe5H7K8LSPdfgyiCJWkiXsIi6VcGND/u63ZK2sPIj99lgB77uNxt2OsAgErfue/fqb+y/K7Kaj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724691643; c=relaxed/simple;
-	bh=y57+2mOp6MwfLqW65/FGyTbYnYojmL4y+eOUfw6+Hb4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JPt5jLStq4X99kQ+XOO4ZXZJEN3YXQGSUu3hqAGBoa7YHsFgPEfjEq1Gk49yso6zmrcLdfORbat5BfnLA7iQzBx8OAvjh2LKYOSgJSdwyzBxh5OpSxY1GcvKNDwfg4AajaDUG1zcH1ferybeH8oCVSMD+z9Hd6TxYJhNOUrC6Wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=kNKervn9; arc=none smtp.client-ip=91.218.175.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1724692381; c=relaxed/simple;
+	bh=C5FXLuFC4tgnhX12okZbEegr8EajQMblPAiafgd65pE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lvVW3EJh9AFVenujsjMaLT0iWubRsSPTACEQaWTKrNXaxlDqvIDol2Fgj+anLUb559lK18PQKXIw/D/lBCeD4bt57+Ix6JCAbNse7liH15B/wihdzwqsDxZcDPmNuhwMXLwkjDJX7Y8eNliKgjgtF9UDoHFO5tS0QruGerUMceY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VJ+oJ34T; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="kNKervn9"
-Message-ID: <804a804c-f62d-4814-a174-51d19e3ea094@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1724691637;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rfGKENWRuewSAOwpAN/lMp6iaeHyoIbXcxwxsIfnPyA=;
-	b=kNKervn9ODUPMnERP5FH//+eFPS7BSn0MTZ7GJszB97jBiYtlBjq1PsbN7jm6ET9+ZLwTV
-	UQc0t1e1e4aY8waYq3kK3aGmTfn4Mvpa34C2oWeyTk6I0vDH2dKlKdgjF+8pKCYMhfPfPl
-	u6P7dmeuHhb6yamg1LpgBfHuRa3A5Zs=
-Date: Tue, 27 Aug 2024 01:00:21 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VJ+oJ34T"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5a10835487fso6801640a12.1;
+        Mon, 26 Aug 2024 10:12:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724692378; x=1725297178; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C5FXLuFC4tgnhX12okZbEegr8EajQMblPAiafgd65pE=;
+        b=VJ+oJ34T84+Qg+dfbrtnErfLqSka99a+8XwJwBrbYanOEjQdfuyScMY0w53zs7yxva
+         AAZDJWWWGInbG8Hx6Beu3s3jbX3cj6utxCCf25k/WP5ET8Wx/J56O7bWb2qokaUfjWm8
+         PUkAJ+5+6nxD/7Hdkspum+BGpDi/FzTLbhglgMS6BptajY625TEt9+VtIs7GOOa2+3Gr
+         TmNf7AD/7xhONf8L2vOTyYzDPr3smmsF68Jx1FgiGqsaxqemph1JbMPmVXx+vDThe18P
+         njEQ1L+YHck8hfYE5ksQ6Bqz7UleSOpB+WVPefvMGhdAfWmte6HbPEqVvuHUDcEkK6W0
+         AgWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724692378; x=1725297178;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=C5FXLuFC4tgnhX12okZbEegr8EajQMblPAiafgd65pE=;
+        b=ZGMXdNavQq0Nt3wZ5WUU5zGvbVe6G6mcrfCud/vzx8Rs5S/40fDwB7nf/WW0g55Euy
+         UOcelhhGKxOKqzSGfL1Qx4HOIM7GSwyS17Bz5H1tfQ4oJYZfuPUJ+8GEaVocWoC2VZ7R
+         3/SZZNkyMMXyvL4Du8pUqIPH1D2nOoVgR/TnUBMEpEXMyIQVrH+4gIxeZClGNycbCcQs
+         BsoW1f+OFe8jo/sxR7vlt0p5mRcqtqJcwJga4jyrtt9BKCSpW7Puf/DQtya2Udc4oAjg
+         17gh4Ythf4GjjhS+qFeB31xoYNms0eJ149Tg8qsLPGhH+MKTuL+diGAxf58bgGK7cQ0O
+         acMg==
+X-Forwarded-Encrypted: i=1; AJvYcCU4kj4dQ7LSxWe8XKZIQ2yxZ4jmhtDAS82Wy2UUHE2lPg57p2+zGUHpnjSV9IrUP2lCwKfKywRpcdjKQw==@vger.kernel.org, AJvYcCUg7DpW+t8G2XLv6ReC9BymcP93GhDBoLNFb2lBDJgKTs6mLb7VDFKe/3pshsthA2vsZwMu9HBz@vger.kernel.org, AJvYcCUgSjY///4dtFb/afg6s+s1Pza7K/0k7Wu5KpcBjzPCu4IzA7McSQXvp3lmWM7zOez66y/vWS9Tr9xFew==@vger.kernel.org, AJvYcCV1QYQpbw89IEcIYDqMNn+Vcy3XVT7y4tEU9K8V/pU+xivXZ5A3U+Gk4xNi1TkT1x+TSMXELDtwkxYY@vger.kernel.org, AJvYcCWTLKyT4jmGyLUkF3wZswDgQY4donSLj2+ihU7qW6nud6avnqio1nJI61rF+s28BY72DFWIAQPlmyoWejG4@vger.kernel.org, AJvYcCX77FdcU73NEJQwPbqpY7XqE7HVu9pUTV8eoYfVGJgGKrFFY6v/Txw1k6/q3vYrhuuOb/dh3EcoTXTS6w==@vger.kernel.org, AJvYcCXR1QACemjxcqAtD1HfD74ZndayA3/lvIjbqd+5tQhn+k0g3MvxAWQfgLkHo8ggn2CPjm/1ZdBOPhIT@vger.kernel.org
+X-Gm-Message-State: AOJu0YyevUVfgVlUgORDQ+RQ17iFetpj8mTWT57EX1ayQKuTSN6rUT7c
+	IejTJpfiv7SYSqv7TfEgRPkPSnhjhYw5z3F3F4d6c595O0pjFRJTFxiIAkr3Cqv5oDsfzogHzif
+	jYiJq/v5DwDjFct1u3JePg86eJbY=
+X-Google-Smtp-Source: AGHT+IHOnow3s0g1qCPDF0qgfwkSpamrc3MZdI/hWzuSVu2jgy51rNUKPxKvH0/02EJM/ysKZeVBGzzN4FAWZd6sxPU=
+X-Received: by 2002:a17:906:c105:b0:a86:9644:2a60 with SMTP id
+ a640c23a62f3a-a86a5162f4fmr872581066b.6.1724692377440; Mon, 26 Aug 2024
+ 10:12:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] Loongarch: KVM: Add KVM hypercalls documentation for
- LoongArch
-To: Dandan Zhang <zhangdandan@uniontech.com>
-Cc: pbonzini@redhat.com, corbet@lwn.net, zhaotianrui@loongson.cn,
- maobibo@loongson.cn, chenhuacai@kernel.org, kernel@xen0n.name,
- kvm@vger.kernel.org, loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, guanwentao@uniontech.com,
- wangyuli@uniontech.com, baimingcong@uniontech.com,
- Xianglai Li <lixianglai@loongson.cn>, Mingcong Bai <jeffbai@aosc.io>
-References: <DE6B1B9EAC9BEF4C+20240826054727.24166-1-zhangdandan@uniontech.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Zenghui Yu <zenghui.yu@linux.dev>
-In-Reply-To: <DE6B1B9EAC9BEF4C+20240826054727.24166-1-zhangdandan@uniontech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+References: <20240822134744.44919-1-pstanner@redhat.com> <20240822134744.44919-6-pstanner@redhat.com>
+ <ZsdO2q8uD829hP-X@smile.fi.intel.com> <ad6af1c4194873e803df65dc4d595f8e4b26cb33.camel@redhat.com>
+ <CAHp75VfKS_PWer2hEH8x0qgBUEPx05p8BA=c0UirAWjg0SaLeA@mail.gmail.com> <f2d6345a8a684f62035108d74938ec0b2e162019.camel@redhat.com>
+In-Reply-To: <f2d6345a8a684f62035108d74938ec0b2e162019.camel@redhat.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 26 Aug 2024 20:12:20 +0300
+Message-ID: <CAHp75VcgWdCOs0b51pqReLAMArno7FekYxiJmNnBTcdgGAyJMw@mail.gmail.com>
+Subject: Re: [PATCH v3 5/9] ethernet: cavium: Replace deprecated PCI functions
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Andy Shevchenko <andy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
+	Wu Hao <hao.wu@intel.com>, Tom Rix <trix@redhat.com>, Moritz Fischer <mdf@kernel.org>, 
+	Xu Yilun <yilun.xu@intel.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Alvaro Karsz <alvaro.karsz@solid-run.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+	Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	=?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+	Richard Cochran <richardcochran@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Damien Le Moal <dlemoal@kernel.org>, Hannes Reinecke <hare@suse.de>, Chaitanya Kulkarni <kch@nvidia.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-block@vger.kernel.org, linux-fpga@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org, 
+	virtualization@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[ Trivial comments inline.  You can feel free to ignore them since I
-  know almost nothing about loongarch. ]
+On Mon, Aug 26, 2024 at 6:52=E2=80=AFPM Philipp Stanner <pstanner@redhat.co=
+m> wrote:
+> On Mon, 2024-08-26 at 18:41 +0300, Andy Shevchenko wrote:
 
-On 2024/8/26 13:47, Dandan Zhang wrote:
-> From: Bibo Mao <maobibo@loongson.cn>
-> 
-> Add documentation topic for using pv_virt when running as a guest
-> on KVM hypervisor.
-> 
-> Signed-off-by: Bibo Mao <maobibo@loongson.cn>
-> Signed-off-by: Xianglai Li <lixianglai@loongson.cn>
-> Co-developed-by: Mingcong Bai <jeffbai@aosc.io>
-> Signed-off-by: Mingcong Bai <jeffbai@aosc.io>
-> Link: https://lore.kernel.org/all/5c338084b1bcccc1d57dce9ddb1e7081@aosc.io/
-> Signed-off-by: Dandan Zhang <zhangdandan@uniontech.com>
-> ---
->  Documentation/virt/kvm/index.rst              |  1 +
->  .../virt/kvm/loongarch/hypercalls.rst         | 86 +++++++++++++++++++
->  Documentation/virt/kvm/loongarch/index.rst    | 10 +++
->  MAINTAINERS                                   |  1 +
->  4 files changed, 98 insertions(+)
->  create mode 100644 Documentation/virt/kvm/loongarch/hypercalls.rst
->  create mode 100644 Documentation/virt/kvm/loongarch/index.rst
-> 
-> diff --git a/Documentation/virt/kvm/index.rst b/Documentation/virt/kvm/index.rst
-> index ad13ec55ddfe..9ca5a45c2140 100644
-> --- a/Documentation/virt/kvm/index.rst
-> +++ b/Documentation/virt/kvm/index.rst
-> @@ -14,6 +14,7 @@ KVM
->     s390/index
->     ppc-pv
->     x86/index
-> +   loongarch/index
->  
->     locking
->     vcpu-requests
-> diff --git a/Documentation/virt/kvm/loongarch/hypercalls.rst b/Documentation/virt/kvm/loongarch/hypercalls.rst
-> new file mode 100644
-> index 000000000000..58168dc7166c
-> --- /dev/null
-> +++ b/Documentation/virt/kvm/loongarch/hypercalls.rst
-> @@ -0,0 +1,86 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +===================================
-> +The LoongArch paravirtual interface
-> +===================================
-> +
-> +KVM hypercalls use the HVCL instruction with code 0x100 and the hypercall
-> +number is put in a0. Up to five arguments may be placed in registers a1 - a5.
-> +The return value is placed in v0 (an alias of a0).
-> +
-> +Source code for this interface can be found in arch/loongarch/kvm*.
-> +
-> +Querying for existence
-> +======================
-> +
-> +To determine if the host is running on KVM, we can utilize the cpucfg()
-> +function at index CPUCFG_KVM_BASE (0x40000000).
-> +
-> +The CPUCPU_KVM_BASE range, spanning from 0x40000000 to 0x400000FF, The
-> +CPUCPU_KVM_BASE range between 0x40000000 - 0x400000FF is marked as reserved.
+...
 
-What is CPUCPU_KVM_BASE? Grepping it in the code shows nothing.
+> Though if it has 0 disadvantages I'd propose proposing to the git-devs
+> to make it the default.
 
-> +Consequently, all current and future processors will not implement any
-> +feature within this range.
-> +
-> +On a KVM-virtualized Linux system, a read operation on cpucfg() at index
-> +CPUCFG_KVM_BASE (0x40000000) returns the magic string 'KVM\0'.
-> +
-> +Once you have determined that your host is running on a paravirtualization-
-> +capable KVM, you may now use hypercalls as described below.
-> +
-> +KVM hypercall ABI
-> +=================
-> +
-> +The KVM hypercall ABI is simple, with one scratch register a0 (v0) and at most
-> +five generic registers (a1 - a5) used as input parameters. The FP (Floating-
-> +point) and vector registers are not utilized as input registers and must
-> +remain unmodified during a hypercall.
-> +
-> +Hypercall functions can be inlined as it only uses one scratch register.
-> +
-> +The parameters are as follows:
-> +
-> +        ========	================	================
-> +	Register	IN			OUT
-> +        ========	================	================
-> +	a0		function number		Return code
-> +	a1		1st parameter		-
-> +	a2		2nd parameter		-
-> +	a3		3rd parameter		-
-> +	a4		4th parameter		-
-> +	a5		5th parameter		-
-> +        ========	================	================
+It's slower. so the people from https://occ.deadnet.se/about/ won't be happ=
+y.
+And more power consuming, so maybe not so environment friendly after all :-=
+P
 
-Please consistently use tab.
-
-> +
-> +The return codes may be one of the following:
-> +
-> +	====		=========================
-> +	Code		Meaning
-> +	====		=========================
-> +	0		Success
-> +	-1		Hypercall not implemented
-> +	-2		Bad Hypercall parameter
-> +	====		=========================
-> +
-> +KVM Hypercalls Documentation
-> +============================
-> +
-> +The template for each hypercall is as follows:
-> +
-> +1. Hypercall name
-> +2. Purpose
-> +
-> +1. KVM_HCALL_FUNC_PV_IPI
-
-Is it still a work-in-progress thing? I don't see it in mainline.
-
-> +------------------------
-> +
-> +:Purpose: Send IPIs to multiple vCPUs.
-> +
-> +- a0: KVM_HCALL_FUNC_PV_IPI
-> +- a1: Lower part of the bitmap for destination physical CPUIDs
-> +- a2: Higher part of the bitmap for destination physical CPUIDs
-> +- a3: The lowest physical CPUID in the bitmap
-
-- Is it a feature that implements IPI broadcast with a PV method?
-- Don't you need to *at least* specify which IPI to send by issuing this
-  hypercall?
-
-But again, as I said I know nothing about loongarch.  I might have
-missed some obvious points.
-
-> +
-> +The hypercall lets a guest send multiple IPIs (Inter-Process Interrupts) with
-> +at most 128 destinations per hypercall.The destinations are represented in a
-                                          ^
-Add a blank space.
-
-> +bitmap contained in the first two input registers (a1 and a2).
-> +
-> +Bit 0 of a1 corresponds to the physical CPUID in the third input register (a3)
-> +and bit 1 corresponds to the physical CPUID in a3+1 (a4), and so on.
-
-This looks really confusing.  "Bit 63 of a1 corresponds to the physical
-CPUID in a3+63 (a66)"?
-
-Zenghui
+--=20
+With Best Regards,
+Andy Shevchenko
