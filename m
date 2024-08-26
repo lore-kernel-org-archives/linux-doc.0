@@ -1,245 +1,207 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2041.outbound.protection.outlook.com [40.107.237.41])
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41860197A6C;
-	Mon, 26 Aug 2024 16:57:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724691449; cv=fail; b=dtms7Y3hxt2cvcHfurd3hMk068yMedoCEdN6gjukgy6rSOnq0mS8zuljeUe4yBpe7ux2w6v41a3DHPGkTRJZrwHbRrecO3EJThht7fUd0c8+Oq0hT2z1FjfW1g/YzAASpHELD863VDZTA0KWJSdRYL/DyDC9BojcZ1ldL4L58T8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724691449; c=relaxed/simple;
-	bh=cjjvS/ky4OZAsL51zn7iXNKxi/IDYHDuSeV24HjcFDg=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=jVANFAJrtJPgqiRwn6l2h8B+B9skJS3aiZL11Cg8yl6ATz1p39SeGLuo+TfMu9kZMb0qSDDPIvkFO79GuEYavAcXka+nD7bGRnyIU5W3PJxcQmD8xAEUM/zy8CZ2VhPVssG3m++8NSfWB+/ueIhHPG356nWwi0ah/qLfdHLBqPA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=PPdZ/DVa; arc=fail smtp.client-ip=40.107.237.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E979A3B782
+	for <linux-doc@vger.kernel.org>; Mon, 26 Aug 2024 17:00:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724691643; cv=none; b=JtNyCEoJDwHI4EEwMhhaX9rOA9E/5AlFsONANdk//fJGGZBd9dtnXyu5XpSu5UGCl65xKUClAr+uDbzBL+hKtN1BUgjOyCuYpCdjaHIwxIQhTfiKUrQWcG7u3eaPu7mOa26FeLrsLYO5o74HFBOlUgINBcCr9mkcMRLn9oMm2b8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724691643; c=relaxed/simple;
+	bh=y57+2mOp6MwfLqW65/FGyTbYnYojmL4y+eOUfw6+Hb4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JPt5jLStq4X99kQ+XOO4ZXZJEN3YXQGSUu3hqAGBoa7YHsFgPEfjEq1Gk49yso6zmrcLdfORbat5BfnLA7iQzBx8OAvjh2LKYOSgJSdwyzBxh5OpSxY1GcvKNDwfg4AajaDUG1zcH1ferybeH8oCVSMD+z9Hd6TxYJhNOUrC6Wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=kNKervn9; arc=none smtp.client-ip=91.218.175.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="PPdZ/DVa"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n94pij+m+KT2W2C+voXDA+BDiKeoX01WylGJth057lPV92JdKEyFTMZtO6EvDFgDE/yIy4DdspSIuvrCPO8pyMGaxi7SJ7rYuu/tW9OIB9Ky232J3coI3MKh4cqXJmFTV/zFECo3WJj5MxaEHWUf0o7pkzqyHGf4a+ecaxGxs0vCQsoHuJ1vmnit9cJcpoxUG48Fbb0QZ0w4s4Pm8pxhMT3KDxdmITI/LZ68aroDAmzcC+iMVo6LSeU7ZFXwS1ZTYvW5diplXebp6wOOiGbSo31pHQ97E5fUjnDY74gZyqn/2w6RdGez/kILvp6DGSkDVLVEKzgQRDvnh/ic7JcOfQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CVGV7PKEjTLXS8YxI0bvLBbKZ5o4Q2Jp1NKzV0Duksk=;
- b=hpA2pWSFMtd8zhoA/8azUus8vI8pv66gHLW7RDGAoIpUeEognwR6x5o4GdAw9NRKBVECSyXvQS70ttp6eBo0NawEgrnPLcWuYuQBC5KOxHS/1VCZYaMlXfWN4eEiVaqU19dlMQeG5Ro386pLtKkk0DvkuVNyaGBlvcvEnc38aLyg1l9HV07JMbMc4sdaLtVPF3aj6zt8q3ElzQz4gtB/w2HWCxM31iaSnUHwjbKIASsjVfZra9R9KYcBNBktQQl0pSlufgSq8M+9FtdYYGK7y/MHlnYTwrbKnn9W1ubzEiFE3l4Xh6YK0CMlEMigOXRssWgMaAnsrxpEX0lP4Xbr8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CVGV7PKEjTLXS8YxI0bvLBbKZ5o4Q2Jp1NKzV0Duksk=;
- b=PPdZ/DVaqMvBdzja2sQrtI62TM7VvDzfwM1ji29a8w3IxcGB/Uwmmz5/t7P/iYiZgUhrkzeSN9zojxy+1ACtw9tfI7Trai6O2a6ytlsJoMiT8/JTttUnvrCvF72kX4NkPJzDywYhoQfXFNf4XZtqvoe09SlQJZMQj/BCUTh+jWs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by CY8PR12MB7538.namprd12.prod.outlook.com (2603:10b6:930:95::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.25; Mon, 26 Aug
- 2024 16:57:24 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca%7]) with mapi id 15.20.7875.016; Mon, 26 Aug 2024
- 16:57:23 +0000
-Message-ID: <1396eead-b584-4b36-b9b2-18ef783cfdbf@amd.com>
-Date: Mon, 26 Aug 2024 11:57:20 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/4] drm/amd/display: Add support for minimum backlight
- quirk
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Dustin Howett <dustin@howett.net>,
- linux-doc@vger.kernel.org, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?=
- <linux@weissschuh.net>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Matt Hartley <matt.hartley@gmail.com>, Kieran Levin <ktl@framework.net>,
- Hans de Goede <hdegoede@redhat.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, Xinhui Pan <Xinhui.Pan@amd.com>,
- Jonathan Corbet <corbet@lwn.net>
-References: <20240824-amdgpu-min-backlight-quirk-v6-0-1ed776a17fb3@weissschuh.net>
- <20240824-amdgpu-min-backlight-quirk-v6-2-1ed776a17fb3@weissschuh.net>
-Content-Language: en-US
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20240824-amdgpu-min-backlight-quirk-v6-2-1ed776a17fb3@weissschuh.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SA1P222CA0020.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:22c::21) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="kNKervn9"
+Message-ID: <804a804c-f62d-4814-a174-51d19e3ea094@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1724691637;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rfGKENWRuewSAOwpAN/lMp6iaeHyoIbXcxwxsIfnPyA=;
+	b=kNKervn9ODUPMnERP5FH//+eFPS7BSn0MTZ7GJszB97jBiYtlBjq1PsbN7jm6ET9+ZLwTV
+	UQc0t1e1e4aY8waYq3kK3aGmTfn4Mvpa34C2oWeyTk6I0vDH2dKlKdgjF+8pKCYMhfPfPl
+	u6P7dmeuHhb6yamg1LpgBfHuRa3A5Zs=
+Date: Tue, 27 Aug 2024 01:00:21 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|CY8PR12MB7538:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5b54998b-c482-45af-b24b-08dcc5f02831
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?cFZiTFNQTHlaQ3I2RmJHUGVpcEtCcTVLWHE1YVhydHc4Z1d2a2pvTXkyVnZp?=
- =?utf-8?B?SDg5RElyUEZTZytBV0hqVE1sVVZoRm4rSmdJT0RqWmsrNHBMZzVGb0d4T1Mw?=
- =?utf-8?B?ZytYMmNCcE5TOWhYMTF2T2Npa1NUbXJDMmFWU3VmRFdhSUFyWlZsamRVeEFx?=
- =?utf-8?B?eExxMWpwaCtVcm9kS0IwUmtxbHJmYm41VFhrWXZLSWNQT1I1SWxVaHFhQUN4?=
- =?utf-8?B?YnlrYzl1cnIzZjBwbTRLUlAxb2YxS2VVN1c0NW84dEN1RVZ6cnJFTjZnU2tw?=
- =?utf-8?B?dWQ2U3pNK3lIM3FhM0FDV0ljSHg4Q1duQmtLZmE4TTVGbkpmRUtlSmRlSWF0?=
- =?utf-8?B?SjVXWEMyVkYyeTVCaWJqNlVMWFdLMU9yNmdnZUZHNnUvZm1iTXorZ3pKNmFv?=
- =?utf-8?B?dnRtKzBNR0NZcXZ1R2J6ZituN1pnQk5QNDlOQys0TE5aQWxaMXVFMEhWZElO?=
- =?utf-8?B?U0lxT1kzaTJSallkbXJVcDVSVmNWUVVUZHRRSExubFZFNFlBYjNoSzlNRFFw?=
- =?utf-8?B?KzlrcG1wR2JRaXVpYlpuREJGVzVkRzJ3YmQ4cGtFMEc2OUlKMFlUdm1BcVFv?=
- =?utf-8?B?TlhtVkt4Z3l4ZUNqU2xlaUtIWkZ6dm9MaW5sYmFIdjNkanFodmwvTG9YeC85?=
- =?utf-8?B?dUc4elBjNHIwOGtaZUVtMU1jSnpMZVRvT1Btcjl5alRvNU5WYzlmMzhSUnZ5?=
- =?utf-8?B?U2w5UDNWTlpQMjhRU1FrOThVa3YwdjE2UnJ2RUdPcTVFcVRya3RiMUttcS9L?=
- =?utf-8?B?azlDaEl1Sm5BaEF0dm5CTmZUQ3BMZGVRTFBKbmxKQXU2NFcraG9VZ0JlSGpO?=
- =?utf-8?B?NGhEb3d4ZWxNVm9IUzRiZ2FWYkFxMkIwODErZitMSGExSnZIc1FmY0RmSVFS?=
- =?utf-8?B?WkNnZnZhMEVMTVgrdXF0WWwrVGlPR1dKQmpFYVlzek9WcUZNNW8wRUN3ZElD?=
- =?utf-8?B?R1ZCSUtIekxKMDJMc0Q4TW92U0tYU1dQU2JDQlVTb1lkU01LRGdibkJleFc1?=
- =?utf-8?B?Vmh1cVVwOUorcUtlQ1dJbXRrbUNPVTEvQ0Q4cnUvTTBKTldBem0zaTBGcGlu?=
- =?utf-8?B?WnJ4RDZuaENmanRPRHdyVHFhdDFRajlrNFAzRmdqNTVrQU1VTWdxQXNENG5s?=
- =?utf-8?B?Zkp5eFZwb2ZuTmdvMSt2dEYvNXlXdWVuanhMUFhLRURaQ3M4eE1sREpwMUxy?=
- =?utf-8?B?VkZObW83MmsvSlVBeTBicnk4NUtFQ0U2U2dObExtalE2WUx2Zm1yUjFYV2JO?=
- =?utf-8?B?ODlpYkt5MUhnWHZVSUU1ZWRMQUY5Zi9KRDQ1R2RlWkwrczhpV3RJa25OakUr?=
- =?utf-8?B?N0hseEFCaEZRTGNkN0RWejI3TzNhWldhZ3RSZnZJeDl4MVRFZThTcEFGUTNM?=
- =?utf-8?B?QUhUc3NldC96LzlnaHhUNmp4YUVIRjIzMmNNNGRpN0MwMUxBc0N1TkxtUHd5?=
- =?utf-8?B?bjFNNFBRS3BTRDBMVWkwbTJUTWdWRnVqZ3VkV1RpSTZxUUFUeTlpN256N3BM?=
- =?utf-8?B?VnZWWDcvcy9rbnd3bERHZFVQYXdPYmhlcVNmYjNqYjhCYnN5cm5VNUZwTm54?=
- =?utf-8?B?a1E2SkZUNXZ3amRSYi94MUZLakNPeThZb2w1ODFtb1dxNmVhNGVZQWZub3BB?=
- =?utf-8?B?am1NaGRVMXFHRndBYmdFRG02OWJZYUtkQkpYYXhkM3pwNGVhQnBsaG41V0s2?=
- =?utf-8?B?cEdTbGRuaWdteWN1TFNyWktvZW5KZnNuTU5uNTU3S3R5Z0hFTmxmODc5bWxD?=
- =?utf-8?B?czhFS0xjcTJPa1oxYk5NYXlSUUFGRGRFbXRMOWRTNjhMeGd5TGpLeWlQUVFL?=
- =?utf-8?B?dlJNbmsxKzJ1NENNWXNodz09?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Y01ad2JOUWl5VW9OV1hHUDFXUkhoaE5xMXkrZFo1UnN6dlhCekJobXRLUE9x?=
- =?utf-8?B?cmw5QllYSWdEZlBvZFhzcWVkWjljN2gwUE1VdzdJT3ZpOGVuS2hWV2l3cENx?=
- =?utf-8?B?eUNqUkNFSUp2NlIxQndrRS92WXNjamhYTHZjUlpEaEpnV1ZBRXFwaU91c2t1?=
- =?utf-8?B?YWcwck5MTFQrbVB4ejRFOTZXYzdHV3pQZXczWURCYmN5Y2F4YlFqMVFaMlFY?=
- =?utf-8?B?UzZvb3pGTVM4NWhsbVJoSjF6a2FIU2pSRENYYmJ2L2cycnlpU203UXBQSkM2?=
- =?utf-8?B?dStyMFJINmkrRGFpV3laaWFsOXpRczVITVR2ZWRFQldkZjhxZk1nMkxpSEFQ?=
- =?utf-8?B?NmRvOGNTa2Y1T2V5eFZqWStVMmgwZm5VYkpXdDV0eWQxa3FnWlR1aU5yOTM1?=
- =?utf-8?B?ejVMUnJUdDF2M0VDZWMyZjdRQWFLUEY2K3B3dHNlUTN3TkdHOE1iMFozaXAw?=
- =?utf-8?B?WGc5N2JkbVBQanV4SWNiS1hiQ1ZnOENIOUlhSGx2bUgvMGVSb054MStIU2kr?=
- =?utf-8?B?Z0hLdUIxQUVEc3Z2V3pzOGU0aVR6aDVXOHljVHNhcHlOKzFTRUR0THFTbVZM?=
- =?utf-8?B?OXdTd3d2akNRaUxRd2IvSDVkalc4bXpLdlBWd3RJNWQveWRIS3dCTWx2ck1s?=
- =?utf-8?B?Z3MxVEVHb3d6Y2RJbkZ3em1ZdFFjNUEyMWhlbVV3czNDSyt2aC9vOHFFeElk?=
- =?utf-8?B?bitrNUtsd3RTbVo3YjRwM3FQdWZDalcvUVFCdnpmOW83dUZiRndpRi9QR3hr?=
- =?utf-8?B?REpNYTVzWHNNSDN1WjJmU0ozVVBXV2pQVUhnak5EaHB1V2s4ejV2dXdVWGk0?=
- =?utf-8?B?UTZTQ25UcCtlU2tNaG0xR1dTL3EwQU1BMnBqUzFOUDBVbXA5SzdFNUVJT3Ew?=
- =?utf-8?B?c05QaWU1aXhtQ0ZaYVhtRysrQS82WVZ4UjBvamRnTVg5TUlyU3ZnSW9sU3E5?=
- =?utf-8?B?azdjNGxId0MwZTBMSlp4SmU3S0FEVENHWUdURmdlYmNaWi9TYmg0dTNabmdl?=
- =?utf-8?B?cGxUVHFXa29TK0Vvb09BUERpaHpwQlBUMGdvc1A0U0JnbVVFbW5Na0ViNWVj?=
- =?utf-8?B?UE52KzcvRituMGIvZml3T0gwbnFNRVNSYkJaUWJNYS80VDlrQTlzQlEzcVFD?=
- =?utf-8?B?cjdyb0FjZzBsRm9NTmxtM1FNRHU2Qm1WUyswVDBqRU1vS3NRR2hiNmI2ckdD?=
- =?utf-8?B?c0ZQN0x2TTUzY0dHd2VJRWxNZklvTy8vb0hGWlJzelJyU1NDSDZBMElNN0JP?=
- =?utf-8?B?NkkvT3FjeVkvcGxyTCsvQmhEQ29GbXdNcWxmSFdqTjZPbG4yTVk0dmkyS2s5?=
- =?utf-8?B?aGxXV1lXazQwZ1lCaXI0WFhCUkoxcnF4dnZPSWRkNURHTjZSNEJJczI4RXVW?=
- =?utf-8?B?QzRpbE5DQ2pjR05IMkExc3FPK2tpVCtsZ1FjRERZVm5iRzVyQUF6UnFtT0pR?=
- =?utf-8?B?TFJtMk93aWFYZW1JYmhacjdDaDZhc1ArSkl4KzRmcW1BTU9wZ3NFMXZUaHFY?=
- =?utf-8?B?TzAybWtSSVZ6Rng1cjMrSVZRUmNKMWtvdmxCTjREaFVjVTlKN3Q3V2lacUFO?=
- =?utf-8?B?WmhqcWlVUnhCOXhVejVOakY2cWdxMWVBZWd0VThjbHhTbi9VbHVwY29Jdmht?=
- =?utf-8?B?NGNOOU05b0d1MnVZb0drMWo0NWR1bERvODJPVEN1NXBCZmphQWduQlBKUVNn?=
- =?utf-8?B?UkowSHJ1cVo0VDU4V2hleXI3WVZheVlLQTMxYk05MW5lcnNFMzRBeUZTMFBv?=
- =?utf-8?B?ZGNJWWptUXBZOFkyU2R6YnY5RGNrWkZNOXhYMUN2dVBDM2NJWGdNTWVSaVlj?=
- =?utf-8?B?bDNCTzNvS1NYWDJWTUNLOHQ0ZHVTVGFMSUNNblNzZW5mc08xUWY4bkxSZjh3?=
- =?utf-8?B?ZFlrQ1RIZGdQRG9CVjVlenJobVJjS1hVckNPTHJkV2hFME4yUTN0RStPcm9n?=
- =?utf-8?B?UVBMQ0VDVFdLM2lNZ3dIY2Z3STcrMHFlOEs2a2VFUDRVV1VVUDBES0drQ2pX?=
- =?utf-8?B?SVUwWUVrT21SY2NqekdtTGdPL0JzM25nUFY2ZzNieU1OTmNaK0xhRFpLdGtl?=
- =?utf-8?B?VjEray9KclpHT0VmSzY4bkl3MUNUN2dLZWRWSGFiZ0FhdCtKU2pxbW16WnEw?=
- =?utf-8?Q?HR1DtU8CDofWRFoiLK8jXr7yN?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b54998b-c482-45af-b24b-08dcc5f02831
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2024 16:57:23.8881
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GtefSaH9m/oMzquSOcKB47ZjzNfeiZSv0SF12x7+gpbvXHJ3jV6IfgD+HZ0xkQ1/1Z7vWRifY40NzI7vb5FBPA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7538
+Subject: Re: [PATCH v2] Loongarch: KVM: Add KVM hypercalls documentation for
+ LoongArch
+To: Dandan Zhang <zhangdandan@uniontech.com>
+Cc: pbonzini@redhat.com, corbet@lwn.net, zhaotianrui@loongson.cn,
+ maobibo@loongson.cn, chenhuacai@kernel.org, kernel@xen0n.name,
+ kvm@vger.kernel.org, loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, guanwentao@uniontech.com,
+ wangyuli@uniontech.com, baimingcong@uniontech.com,
+ Xianglai Li <lixianglai@loongson.cn>, Mingcong Bai <jeffbai@aosc.io>
+References: <DE6B1B9EAC9BEF4C+20240826054727.24166-1-zhangdandan@uniontech.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Zenghui Yu <zenghui.yu@linux.dev>
+In-Reply-To: <DE6B1B9EAC9BEF4C+20240826054727.24166-1-zhangdandan@uniontech.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On 8/24/2024 13:33, Thomas Weißschuh wrote:
-> Not all platforms provide the full range of PWM backlight capabilities
-> supported by the hardware through ATIF.
-> Use the generic drm panel minimum backlight quirk infrastructure to
-> override the capabilities where necessary.
+[ Trivial comments inline.  You can feel free to ignore them since I
+  know almost nothing about loongarch. ]
+
+On 2024/8/26 13:47, Dandan Zhang wrote:
+> From: Bibo Mao <maobibo@loongson.cn>
 > 
-> Testing the backlight quirk together with the "panel_power_savings"
-> sysfs file has not shown any negative impact.
-> One quirk seems to be that 0% at panel_power_savings=0 seems to be
-> slightly darker than at panel_power_savings=4.
-
-Thanks; This is the kind of thing I was worried about.
-
-Harry, Leo,
-
-Is that expected?  I wonder if we need to internally turn off panel 
-power savings in display code when brightness falls a threshold (12 IIRC 
-was the real "minimum" advertised in the table?).
-
+> Add documentation topic for using pv_virt when running as a guest
+> on KVM hypervisor.
 > 
-> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> Tested-by: Dustin L. Howett <dustin@howett.net>
-> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+> Signed-off-by: Bibo Mao <maobibo@loongson.cn>
+> Signed-off-by: Xianglai Li <lixianglai@loongson.cn>
+> Co-developed-by: Mingcong Bai <jeffbai@aosc.io>
+> Signed-off-by: Mingcong Bai <jeffbai@aosc.io>
+> Link: https://lore.kernel.org/all/5c338084b1bcccc1d57dce9ddb1e7081@aosc.io/
+> Signed-off-by: Dandan Zhang <zhangdandan@uniontech.com>
 > ---
->   drivers/gpu/drm/amd/amdgpu/Kconfig                |  1 +
->   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 10 ++++++++++
->   2 files changed, 11 insertions(+)
+>  Documentation/virt/kvm/index.rst              |  1 +
+>  .../virt/kvm/loongarch/hypercalls.rst         | 86 +++++++++++++++++++
+>  Documentation/virt/kvm/loongarch/index.rst    | 10 +++
+>  MAINTAINERS                                   |  1 +
+>  4 files changed, 98 insertions(+)
+>  create mode 100644 Documentation/virt/kvm/loongarch/hypercalls.rst
+>  create mode 100644 Documentation/virt/kvm/loongarch/index.rst
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/Kconfig b/drivers/gpu/drm/amd/amdgpu/Kconfig
-> index 0051fb1b437f..655c10aef2e3 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/Kconfig
-> +++ b/drivers/gpu/drm/amd/amdgpu/Kconfig
-> @@ -23,6 +23,7 @@ config DRM_AMDGPU
->   	select DRM_BUDDY
->   	select DRM_SUBALLOC_HELPER
->   	select DRM_EXEC
-> +	select DRM_PANEL_BACKLIGHT_QUIRKS
->   	# amdgpu depends on ACPI_VIDEO when ACPI is enabled, for select to work
->   	# ACPI_VIDEO's dependencies must also be selected.
->   	select INPUT if ACPI
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 983a977632ff..056960ea335c 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -93,6 +93,7 @@
->   #include <drm/drm_fourcc.h>
->   #include <drm/drm_edid.h>
->   #include <drm/drm_eld.h>
-> +#include <drm/drm_utils.h>
->   #include <drm/drm_vblank.h>
->   #include <drm/drm_audio_component.h>
->   #include <drm/drm_gem_atomic_helper.h>
-> @@ -3333,6 +3334,8 @@ static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
->   	struct drm_connector *conn_base;
->   	struct amdgpu_device *adev;
->   	struct drm_luminance_range_info *luminance_range;
-> +	const struct drm_edid *drm_edid;
-> +	int min_input_signal_override;
->   
->   	if (aconnector->bl_idx == -1 ||
->   	    aconnector->dc_link->connector_signal != SIGNAL_TYPE_EDP)
-> @@ -3367,6 +3370,13 @@ static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
->   		caps->aux_min_input_signal = 0;
->   		caps->aux_max_input_signal = 512;
->   	}
+> diff --git a/Documentation/virt/kvm/index.rst b/Documentation/virt/kvm/index.rst
+> index ad13ec55ddfe..9ca5a45c2140 100644
+> --- a/Documentation/virt/kvm/index.rst
+> +++ b/Documentation/virt/kvm/index.rst
+> @@ -14,6 +14,7 @@ KVM
+>     s390/index
+>     ppc-pv
+>     x86/index
+> +   loongarch/index
+>  
+>     locking
+>     vcpu-requests
+> diff --git a/Documentation/virt/kvm/loongarch/hypercalls.rst b/Documentation/virt/kvm/loongarch/hypercalls.rst
+> new file mode 100644
+> index 000000000000..58168dc7166c
+> --- /dev/null
+> +++ b/Documentation/virt/kvm/loongarch/hypercalls.rst
+> @@ -0,0 +1,86 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
-> +	drm_edid = drm_edid_alloc(aconnector->edid,
-> +				  EDID_LENGTH * (aconnector->edid->extensions + 1));
-> +	min_input_signal_override = drm_get_panel_min_brightness_quirk(drm_edid);
-> +	drm_edid_free(drm_edid);
-> +	if (min_input_signal_override >= 0)
-> +		caps->min_input_signal = min_input_signal_override;
->   }
->   
->   void amdgpu_dm_update_connector_after_detect(
-> 
+> +===================================
+> +The LoongArch paravirtual interface
+> +===================================
+> +
+> +KVM hypercalls use the HVCL instruction with code 0x100 and the hypercall
+> +number is put in a0. Up to five arguments may be placed in registers a1 - a5.
+> +The return value is placed in v0 (an alias of a0).
+> +
+> +Source code for this interface can be found in arch/loongarch/kvm*.
+> +
+> +Querying for existence
+> +======================
+> +
+> +To determine if the host is running on KVM, we can utilize the cpucfg()
+> +function at index CPUCFG_KVM_BASE (0x40000000).
+> +
+> +The CPUCPU_KVM_BASE range, spanning from 0x40000000 to 0x400000FF, The
+> +CPUCPU_KVM_BASE range between 0x40000000 - 0x400000FF is marked as reserved.
 
+What is CPUCPU_KVM_BASE? Grepping it in the code shows nothing.
+
+> +Consequently, all current and future processors will not implement any
+> +feature within this range.
+> +
+> +On a KVM-virtualized Linux system, a read operation on cpucfg() at index
+> +CPUCFG_KVM_BASE (0x40000000) returns the magic string 'KVM\0'.
+> +
+> +Once you have determined that your host is running on a paravirtualization-
+> +capable KVM, you may now use hypercalls as described below.
+> +
+> +KVM hypercall ABI
+> +=================
+> +
+> +The KVM hypercall ABI is simple, with one scratch register a0 (v0) and at most
+> +five generic registers (a1 - a5) used as input parameters. The FP (Floating-
+> +point) and vector registers are not utilized as input registers and must
+> +remain unmodified during a hypercall.
+> +
+> +Hypercall functions can be inlined as it only uses one scratch register.
+> +
+> +The parameters are as follows:
+> +
+> +        ========	================	================
+> +	Register	IN			OUT
+> +        ========	================	================
+> +	a0		function number		Return code
+> +	a1		1st parameter		-
+> +	a2		2nd parameter		-
+> +	a3		3rd parameter		-
+> +	a4		4th parameter		-
+> +	a5		5th parameter		-
+> +        ========	================	================
+
+Please consistently use tab.
+
+> +
+> +The return codes may be one of the following:
+> +
+> +	====		=========================
+> +	Code		Meaning
+> +	====		=========================
+> +	0		Success
+> +	-1		Hypercall not implemented
+> +	-2		Bad Hypercall parameter
+> +	====		=========================
+> +
+> +KVM Hypercalls Documentation
+> +============================
+> +
+> +The template for each hypercall is as follows:
+> +
+> +1. Hypercall name
+> +2. Purpose
+> +
+> +1. KVM_HCALL_FUNC_PV_IPI
+
+Is it still a work-in-progress thing? I don't see it in mainline.
+
+> +------------------------
+> +
+> +:Purpose: Send IPIs to multiple vCPUs.
+> +
+> +- a0: KVM_HCALL_FUNC_PV_IPI
+> +- a1: Lower part of the bitmap for destination physical CPUIDs
+> +- a2: Higher part of the bitmap for destination physical CPUIDs
+> +- a3: The lowest physical CPUID in the bitmap
+
+- Is it a feature that implements IPI broadcast with a PV method?
+- Don't you need to *at least* specify which IPI to send by issuing this
+  hypercall?
+
+But again, as I said I know nothing about loongarch.  I might have
+missed some obvious points.
+
+> +
+> +The hypercall lets a guest send multiple IPIs (Inter-Process Interrupts) with
+> +at most 128 destinations per hypercall.The destinations are represented in a
+                                          ^
+Add a blank space.
+
+> +bitmap contained in the first two input registers (a1 and a2).
+> +
+> +Bit 0 of a1 corresponds to the physical CPUID in the third input register (a3)
+> +and bit 1 corresponds to the physical CPUID in a3+1 (a4), and so on.
+
+This looks really confusing.  "Bit 63 of a1 corresponds to the physical
+CPUID in a3+63 (a66)"?
+
+Zenghui
