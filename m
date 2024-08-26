@@ -1,84 +1,80 @@
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0A1623;
-	Mon, 26 Aug 2024 00:17:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92CB2321D;
+	Mon, 26 Aug 2024 01:09:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724631440; cv=none; b=n175UNmTHo7+As2grC7vTY0xIKSKeS7zXD1gpNor4NCDasZXU9dnPxIyc2twv5ogwk4JvB7dhSHTiEwpfbTOGHDGr8qAX8SBthlrwYXb3BHSc8gQ1i4KOiqWU8HlfUv+38VrZuGFrgYty2zFvqBJYKm0mBUT5Qv6qNmz3ZgFTvM=
+	t=1724634595; cv=none; b=AKoH2NfLtg6brvHxdPMrxs7phd1YKK712xyjhuPwsqLYQvj3vmQYdHAvrkk3ZPst+KyeAajQljYWK/i9C2WSrRJ9vprIZ+2Xfoz8FpUbkPyKY4jcv8fjdUxCCzBEdmCVGfCEHyi3hhtoHnx0kpFkQqPTxP/Ep0V4Bz8mjMSoV/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724631440; c=relaxed/simple;
-	bh=lRz0/Fvx1diucd4fbKQdcJLUSbUGkJTWzOiVsLEyqig=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g5WcVpj6eG7DNALQaAMYGOWBlj6UbUxso2aZD7pFfAkbTxTFZHfRWV9IcBUbylPIqI2gtgVrVUATLmifq2slIc/EtgJElIyizYhYKXz/aaBTSvEMJV+15ctrcFES/3oS8218OK317EiGBR5+BWj1Cvbn96LudMYRr47BoV90Br8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=WM1G3Dvb; arc=none smtp.client-ip=178.60.130.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1724634595; c=relaxed/simple;
+	bh=ROGoIA4E2WCTYH12r5QZU/Rd5aHzNZ4t+dp9IisKGCM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=kzArHnuxsS6C9stqnIc7o63N60RVVq/0jlyllUt+ssGYsEkYmGtvRrfKimxTPFkFv0NyeNBWYWso61YDe3en5nV53WvTfHUQLQHHf311yfyJCuoXNYaAO3XXu4TpdD5EeajS/ZJnoyBdy4hKvFAb3OWZrmNxF8Uexx+pkxBB+qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lc15RXdn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="WM1G3Dvb"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=FwvxtT60b9OTEs/qolqlJrRCGUKpIxxoKqbYPPagouU=; b=WM1G3DvbbGLXa7D3ivoBXq61rv
-	AHrtB3x/P+k+AUO80bVkZkeQ5rDRnxSVbJRyZpaC8UyytM9+Lu+wB+MzJJQWl9gqP4Qw07fKBn9kh
-	9/SOTw5upF/AdK2hg09gVsacYDfhK31LZ53lxT4eX5Ks7/JHOBCt7lum65tOC+E5rJ9nWJa1aAXDU
-	pHXoWawveGFObWeqaOKZ1JOD5frujeyrwg9q3xh6qTfFURSYFfv5SydVLTfECZuif/JBlVlk71yhW
-	B1OZ+g/DiMoYSLokacnLvAsSzPxeKlNJThsyfA9EQoMORawVEG7n4ld603fintIbclB0pW4t2+WCO
-	M7avvxiQ==;
-Received: from [177.76.152.96] (helo=[192.168.1.60])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1siNQ3-0053UG-Ky; Mon, 26 Aug 2024 02:17:15 +0200
-Message-ID: <87bcaf5a-f5dd-fa0d-1936-665516cee100@igalia.com>
-Date: Sun, 25 Aug 2024 21:17:09 -0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lc15RXdn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B18E5C4AF14;
+	Mon, 26 Aug 2024 01:09:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724634595;
+	bh=ROGoIA4E2WCTYH12r5QZU/Rd5aHzNZ4t+dp9IisKGCM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Lc15RXdnAvexrqOtq2SrjGsOg0injuYoEhWWtPUwRQr0J72oZsTs/J2XU/MYL27EE
+	 58Fae9apznrMl6VO7ncrI/tmwPdZ+gzt1pNTxfoV8DqVsDpPieUBGcYdKgN5JJ8/06
+	 pGMpBcIHASOKITpIoxN4nVt0//Y99y8Kqe2gZstObbl56qIYAfbWIeRO0hl18OTUOC
+	 PVuPUqG5w4h0LTWkqd4nWApXqK9Q38AMz/cPSsSQzAo2cfvHLoyFkAkm2ipyZkIcWH
+	 R7qAx7PKDFRU/dYcONBerNNqLoSRx1XBXiKBWZPgQp3iirGNlACVzgVJz0lr7S/yLK
+	 a4eODiDt2EJWA==
+From: SeongJae Park <sj@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: SeongJae Park <sj@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/3] Docs/translations/ko_KR: link howto.rst with other language versions
+Date: Sun, 25 Aug 2024 18:09:47 -0700
+Message-Id: <20240826010949.78305-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH V3] Documentation: Document the kernel flag
- bdev_allow_write_mounted
-Content-Language: en-US
-To: "Darrick J. Wong" <djwong@kernel.org>, Jens Axboe <axboe@kernel.dk>
-Cc: linux-doc@vger.kernel.org, corbet@lwn.net, linux-fsdevel@vger.kernel.org,
- linux-block@vger.kernel.org, kernel-dev@igalia.com, kernel@gpiccoli.net,
- Bart Van Assche <bvanassche@acm.org>, Jan Kara <jack@suse.cz>
-References: <20240823180635.86163-1-gpiccoli@igalia.com>
- <6f303c9f-7180-45ef-961e-6f235ed57553@kernel.dk>
- <20240823184225.GA6082@frogsfrogsfrogs>
-From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <20240823184225.GA6082@frogsfrogsfrogs>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 23/08/2024 15:42, Darrick J. Wong wrote:
-> [...]
->> Since we're nit picking...
->>
->> Control the ability to directly write [...]
->>
->> The directly may be a bit confusing ("does it mean O_DIRECT?"), so maybe
->> just
->>
->> Control the ability to write [...]
->>
->> would be better and more clear.
-> 
-> "Control the ability to open a block device for writing."
-> 
-> Since that's what it actually does, right?
-> 
-> --D
-> 
->>> +			devices, i.e., allow / disallow writes that bypasses the
->>
->> Since we're nit picking, s/bypasses/bypass
->>
+The menu for documents of other available languages is created for
+documents in same file hierarchy under the translations/ directory.
+Because howto.rst of Korean translation is at the root of translations/
+directory while that for English is under howto/ directory, the Korean
+translation is not linked with other available language versions via the
+menu.  Move the document under the same hierarchy to make it be linked
+with other langauge versions.
 
-Thank you both! Just sent the V4
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
+ Documentation/translations/ko_KR/index.rst               | 2 +-
+ Documentation/translations/ko_KR/{ => process}/howto.rst | 0
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename Documentation/translations/ko_KR/{ => process}/howto.rst (100%)
+
+diff --git a/Documentation/translations/ko_KR/index.rst b/Documentation/translations/ko_KR/index.rst
+index 4add6b2fe1f2..2d51f1481310 100644
+--- a/Documentation/translations/ko_KR/index.rst
++++ b/Documentation/translations/ko_KR/index.rst
+@@ -11,7 +11,7 @@
+ .. toctree::
+    :maxdepth: 1
+ 
+-   howto
++   process/howto
+ 
+ 
+ 리눅스 커널 메모리 배리어
+diff --git a/Documentation/translations/ko_KR/howto.rst b/Documentation/translations/ko_KR/process/howto.rst
+similarity index 100%
+rename from Documentation/translations/ko_KR/howto.rst
+rename to Documentation/translations/ko_KR/process/howto.rst
+-- 
+2.39.2
+
