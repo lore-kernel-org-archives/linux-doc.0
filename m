@@ -1,90 +1,107 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D902E1803A;
-	Sun, 25 Aug 2024 20:29:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A81D623;
+	Mon, 26 Aug 2024 00:16:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724617791; cv=none; b=RBI5Gj5IRRtjrgQ6rF0x8poYrD/PF5mvH1fwEfLAC54VX1yRFYqRwX2fYO2QSKv/3scVx5odJf372+CUDxPR1gy6q9fLe9iPS82y85IAX7H70GkIKn55Cs1ayd9kCSTkI++ACB4tZPsdE3Zc/fae1ZUE9XMm44e8RNjZuu8ZBwU=
+	t=1724631408; cv=none; b=MKy2jY1uVGFpQtbMw4ToNDIFo9jkZfz3dulTmOO+MTzBGwu8YR6egh01jNhelOa9+SumtQkYsQV4VGvUNf2/8Qkk2TKK1PemItKxKfVhwwcer6fpoPdTcxu3skdHb8lcmm7L8VVSxJ+YYAwPmLag0C3qGKzxZiYcMzan3jtk5lc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724617791; c=relaxed/simple;
-	bh=Tabtq3pbe9qAyEkgCDeJgXpNUAzPs0xWGHdygU8SfDU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WTXk5tD0sKxyb8plr5dEt8QZ1+HKBPD6rv4PZJwC0gisURpdeUp1IJYpZhqvvWTHakJzXacfSrtlQMeQmvgamAScsolZE1B50pyadtCGUbad9GlTZ6KelLbGpmp9OOuCX0yGwzsTfR/lmYRqvsN2cymHQf6PbT2l82Bt98If73Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mPoDngky; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1724631408; c=relaxed/simple;
+	bh=h3oFpfXf51AqeUkuOeTEcLoxvTmO/wb6NbJewe8704c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FP2GarUNTgnyA0XUG0P/Omwsj8XEu468svRIpnHT0x0/Tok/qLg5Et2FWRnYMYFr8ipsoceGCREz7ZRw3h4/ohWm93nR3VYu6HQKdZzaOBYq67TUKmASGrggR4eEZJY/ghEF19Vg3cjNX/Fx5AKOd1WUjYbvQHXCr7wLtCsdxPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=pjQB+mnv; arc=none smtp.client-ip=178.60.130.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mPoDngky"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2d3ba4e6ad9so670621a91.2;
-        Sun, 25 Aug 2024 13:29:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724617789; x=1725222589; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Tabtq3pbe9qAyEkgCDeJgXpNUAzPs0xWGHdygU8SfDU=;
-        b=mPoDngkyKq45m1xrUFUHPuHm00xyyK/+5Fx2/6+nVnKtwLYQHRG+JfNp02Urexp4rF
-         Fbk09kGcOb53lJMN47QREr3NProECBjlDbwNsyuOTteaL0+KwDGVQEpr65D+AkYfdpkc
-         g+yYg6OiCJ6wuiMTQW9YZBN3dyeQ6SsK+Bhipcxa3JD/5qjpDT77jEyhL6w40M2/kBxf
-         a7c+wQbyEc4wGPU4zc0j045g7cP/ZleTc2xvZ85ag9JksmXAZ4CgeWwVB1yq6vTjW4XD
-         U1QrrA+WBVKtV1VvRpfz3XrbG++uiWMZksAol/cRf6I90JGYUxCl84jCg7/nPBusbLNJ
-         b03g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724617789; x=1725222589;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Tabtq3pbe9qAyEkgCDeJgXpNUAzPs0xWGHdygU8SfDU=;
-        b=C4TLBHGglpYvQ6ZUzQCBpc6WiWiKdLgqLndTpIA2QDUuxpk0atjhP275oVlRuipz3n
-         z8CldWQ7eKYrzKaETVPQQV+ucLAUidxVdBO+wFg3rp4ZXg1bkK3/LahCj77SHaxI6Ttu
-         IPCrcgX6CuArSc2A1o8HXt7Q3Jb9RaYpyAlOJ0VAUZDE8e57UdmP1C9HUCVxjj11GAE5
-         NGIAlo2o28ELB+NmiKv54qnZ7+16OXxg0KWwtjTQ3bjT8hMDZroYbucLeQakBVu6+ONd
-         r4iS5cTLe5X6VSzvxUopeidXLZpUZPe3DnNSFeubxly/O+VKoSNQyOEH+PtIWDyrXrWn
-         eNbQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVQOVcWFGOw8KmFi7AyTkmu9p4pVT2bsMl6Z43GHLeoVJdQWB5Q70HqPjqALO4uFij3Zwqvzp0tf78=@vger.kernel.org, AJvYcCVgMMSOTPOKD8ZdT67rIyvSaRppAbGyZBOCzzUOTPr2djAdDsx2TrPOvlbIYf3M79rDu7n+oYFMFPT7GYwJr2I=@vger.kernel.org, AJvYcCXBhfgToT+0Z2yJRfcHtZkfCTBuP86Z1W7SVbhqUGxJ31kL1qf29L8+ucp2FI5XhDh3DGQ2q2mMfGyI2PML@vger.kernel.org
-X-Gm-Message-State: AOJu0YxBxn6PUk+bjGlWkEr0DZRUFXUI+SjxcoemR/mmtWsUBKl/lPKw
-	ZxWm9fBt6rxR7aMc4mtmnmMB73ChI4CUmE3p6NmhXqjQQUQlVAJgNjlTKM52qN26hasMFASxmpb
-	12SivrTjq7XBl5Dmc0YVtySleWO4=
-X-Google-Smtp-Source: AGHT+IGJ0vPpx4EfP3jAuDeWFpMIZNHlyFSDsmJuLjEou2DJG7XpFM0CJHn7XJgN5N7kJO9sAW70557WPT2I2byI400=
-X-Received: by 2002:a05:6a21:6da5:b0:1c4:d312:64d8 with SMTP id
- adf61e73a8af0-1cc89d6442emr5691191637.3.1724617789154; Sun, 25 Aug 2024
- 13:29:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="pjQB+mnv"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=eVEfY25bFaaUmkSSv/dQYk+QOj18buGsOyCj0zIKmiw=; b=pjQB+mnvS7U8IX9flc3mqQIa1Z
+	WiBaT1OIqImCGq5W+ZwEJJweDFlYNnCjLoFtr0Cx1reF0qXdZ4D4lcYZPmrqza1DbT3QUz/C7OI16
+	QW+GZ2PfKFX0IWfTVNGrVDoJ6es+LeZD2rgKU7k7Sx3aq/7k0DmYrfhAud5yq/+gCUOnR8Wj0+oFy
+	wIOsNv6ZFSAQispfXZSF4qTLdpVr2RiOSlVEEodNdCAGgbSR5P3B8wNi2is52+/b2Yb5AwjieMec8
+	Br427Zzswa7dhpPecevQvdrlRg/FW1vPmcnt+NC9ZCVQjhlczi5cm1dej7ToALSSHU2HEfIBJMAs9
+	TI09NspQ==;
+Received: from [177.76.152.96] (helo=localhost)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1siNPN-0053Td-8f; Mon, 26 Aug 2024 02:16:33 +0200
+From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+To: linux-doc@vger.kernel.org
+Cc: corbet@lwn.net,
+	linux-fsdevel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	kernel-dev@igalia.com,
+	kernel@gpiccoli.net,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Jens Axboe <axboe@kernel.dk>
+Subject: [PATCH V4] Documentation: Document the kernel flag bdev_allow_write_mounted
+Date: Sun, 25 Aug 2024 21:15:11 -0300
+Message-ID: <20240826001624.188581-1-gpiccoli@igalia.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240818141249.387166-1-ojeda@kernel.org> <CANiq72=amLCxV3QRVqK0gVKnGZe_YeqB79LkydEjZ_hJ6_K4QA@mail.gmail.com>
- <CAAOQCfSi9sMqgBzh+v42XGOh2fopytBSjxfPp6kd5DUcGtq20w@mail.gmail.com>
-In-Reply-To: <CAAOQCfSi9sMqgBzh+v42XGOh2fopytBSjxfPp6kd5DUcGtq20w@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 25 Aug 2024 22:29:37 +0200
-Message-ID: <CANiq72nCJNGRSJCyYXn4+Xgq83doxB+oFE87P62pFtqpk6CZFw@mail.gmail.com>
-Subject: Re: [RFC PATCH] rust: enable rustdoc's `--generate-link-to-definition`
-To: Guillaume Gomez <guillaume1.gomez@gmail.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev, 
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, Aug 25, 2024 at 10:25=E2=80=AFPM Guillaume Gomez
-<guillaume1.gomez@gmail.com> wrote:
->
-> Don't hesitate if you encounter any bug to tell me so I can fix them.
->
-> Any feedback is also very appreciated!
+Commit ed5cc702d311 ("block: Add config option to not allow writing to mounted
+devices") added a Kconfig option along with a kernel command-line tuning to
+control writes to mounted block devices, as a means to deal with fuzzers like
+Syzkaller, that provokes kernel crashes by directly writing on block devices
+bypassing the filesystem (so the FS has no awareness and cannot cope with that).
 
-Thanks Guillaume, that is very appreciated!
+The patch just missed adding such kernel command-line option to the kernel
+documentation, so let's fix that.
 
-We will hopefully not have to tell you about any bugs :)
+Cc: Bart Van Assche <bvanassche@acm.org>
+Cc: Darrick J. Wong <djwong@kernel.org>
+Cc: Jan Kara <jack@suse.cz>
+Cc: Jens Axboe <axboe@kernel.dk>
+Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+---
 
-Cheers,
-Miguel
+V4: More improvements in the wording (thanks Jens and Darrick!)
+
+V3 link: https://lore.kernel.org/r/20240823180635.86163-1-gpiccoli@igalia.com
+
+
+ Documentation/admin-guide/kernel-parameters.txt | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 09126bb8cc9f..d521d444a35c 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -517,6 +517,18 @@
+ 			Format: <io>,<irq>,<mode>
+ 			See header of drivers/net/hamradio/baycom_ser_hdx.c.
+ 
++	bdev_allow_write_mounted=
++			Format: <bool>
++			Control the ability to open a block device for
++			writing, i.e., allow / disallow writes that bypass
++			the FS. This was implemented as a means to prevent
++			fuzzers from crashing the kernel by overwriting the
++			metadata underneath a mounted FS without its awareness.
++			This also prevents destructive formatting of mounted
++			filesystems by naive storage tooling that don't use
++			O_EXCL. Default is Y and can be changed through the
++			Kconfig option CONFIG_BLK_DEV_WRITE_MOUNTED.
++
+ 	bert_disable	[ACPI]
+ 			Disable BERT OS support on buggy BIOSes.
+ 
+-- 
+2.46.0
+
