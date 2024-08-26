@@ -1,45 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E400319D088
-	for <linux-doc@vger.kernel.org>; Mon, 26 Aug 2024 22:15:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D4019B5B2;
+	Mon, 26 Aug 2024 22:39:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724710561; cv=none; b=Rlun/aTHAn7W2GR4s2OAe8DawjSyLoAgyho3rjKRIJroZS5C2bRnvdTFf5JR13mVDaX4+V2Z2PJ78NK74WvbzWrplUOzj6LLJJ16gfGXG4nMVTFkgw/sftxw6VDfsl+uX5NhrFNKzbXMjLaE98k1785RrxX1Az/SV3oI8T7IVHU=
+	t=1724711963; cv=none; b=KO2M6Y5GUs6b2odaXRvEXPfteTR4av2qJkF8D9WTG24Och3bDJ1XCVjHDfJ9cZvhp14vMUvnSNH9ovJZPAhAVaxJWqB6bU9HNqOC+xCkcKO6oYm/h1yJoNqGeQp6rHplpr+qu3uVvrbQkXg6xKXjfi7K36PsTCirBMmkDIV0NVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724710561; c=relaxed/simple;
-	bh=0bkrLw4uX5kXgcnT0UKEgW6WGaFWoJFTDaQeYqgCdF8=;
+	s=arc-20240116; t=1724711963; c=relaxed/simple;
+	bh=Npd+k9aJeKY2/fw6H0Xv+ExgcBnKlUjyVkQ5bOGmKY4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=I0XTLJSWm+/pWzzGZUv7sfkIETSToTSdtM/JxF4TuCfpjIzZfMoRB2qoXwjN2/zNMncjvENOO4leGhIWKtlM6jbxkTucRgkNQGgePAtXeAhp2FmSfy3BobuZ7aiTWA0cfEy/8+G0kphvHn8kLi6yGurRxywh+tLLuGe6k8Pw5Kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ipGnMmCr; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=ohyGKw7gKYegV7CPywu5dMGoAp5Qr51fXhJd9fIjWkNFH8DZQIKglFMEmst3zJ3F9ms6uwwFCfT4T905ewCUQWbCwOWoVthgTkedU5nf9vFnVhTWu6VkBWExfylWiS26AmhkCumdS9oHbgQxGwsHKe4BgH7JPu+y+WW9vzVLiZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=WEjzEoCr; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ipGnMmCr"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 194BB42D39
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="WEjzEoCr"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7114642D39
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1724710559; bh=/UjvcIjG80F+ItO47u+dmlLw9La/HpofWKJeq9L0GK0=;
+	t=1724711961; bh=SOB4Y/mA83RGuSSHmVBE/QBRUDrhbB4ZbfzoXM4B1TQ=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ipGnMmCrzqwvaMaiM8yl7deopXS8TCsfvZSh6JEn8MidBg5f8R+k3wwpQkBwdMsoT
-	 z8x48TlCWHeKAbmXFAvceGuGi3df6zj8B7nzzIZH9VSIcHLFqyMFvyJtD6NJx3qAFa
-	 5cmMDZmC5eJIVmFZ5UK50gGpE5bf0X2ZZnyW2r28W3z1BNrz+4XYdpNXFZvWAts+C1
-	 7WETUfKiZubXy9CIRqz7/QhQ7siLJG/yyUU/3tbRdsc1MDLLkWI8n7JRulsBIkj2X6
-	 XNwKfKpZMu7DNHfMhSpfey6KbTosOIZlJfm1bDq34V/UVA6Cmd3gQMBmy+bTc24Ztv
-	 iesfEg6F6Fq+A==
+	b=WEjzEoCrAjZHAqu0olqak+6AuVUtH6DmcGoAcL29C/7q6KR528vBLCAb8JABl0htX
+	 LJB93rbiAbYLogPmnvD5naDGLeYqxU8BEBCvyzPWHKdsm7Q95YbAX80CMsC9rmLTiT
+	 tE8heJ1EIaCqlXTdaytHxnRSFyBEuDukjp05KZQd4aDXdZmWyecs0ohPqqz6f91Uve
+	 Diq8FS4sbOQAiyHGMGIrYeTIYwf9Ln5G1SfAj2Yq75NstxH0OxNqC3QfCPEPf1SHy/
+	 rUIRxIfzDmQULsupFT/ezX723XVH1fTpTt+NkxDDXNODwN+VL/2Fyn4Js71DyS8eiJ
+	 deI7ABtP6WNmQ==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 194BB42D39;
-	Mon, 26 Aug 2024 22:15:59 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 7114642D39;
+	Mon, 26 Aug 2024 22:39:21 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Thorsten Scherer <t.scherer@eckelmann.de>, linux-doc@vger.kernel.org
-Cc: Thorsten Scherer <t.scherer@eckelmann.de>
-Subject: Re: [PATCH] doc: iio: Fix sysfs paths
-In-Reply-To: <20240805120357.21135-1-t.scherer@eckelmann.de>
-References: <20240805120357.21135-1-t.scherer@eckelmann.de>
-Date: Mon, 26 Aug 2024 16:15:58 -0600
-Message-ID: <87cylv53s1.fsf@trenco.lwn.net>
+To: SeongJae Park <sj@kernel.org>
+Cc: SeongJae Park <sj@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] Docs/translations/ko_KR: link howto.rst with other
+ language versions
+In-Reply-To: <20240826010949.78305-1-sj@kernel.org>
+References: <20240826010949.78305-1-sj@kernel.org>
+Date: Mon, 26 Aug 2024 16:39:20 -0600
+Message-ID: <878qwi6h9j.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,16 +50,23 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Thorsten Scherer <t.scherer@eckelmann.de> writes:
+SeongJae Park <sj@kernel.org> writes:
 
-> Add missing 'devices' folder in the /sys/bus/iio path.
+> The menu for documents of other available languages is created for
+> documents in same file hierarchy under the translations/ directory.
+> Because howto.rst of Korean translation is at the root of translations/
+> directory while that for English is under howto/ directory, the Korean
+> translation is not linked with other available language versions via the
+> menu.  Move the document under the same hierarchy to make it be linked
+> with other langauge versions.
 >
-> Signed-off-by: Thorsten Scherer <t.scherer@eckelmann.de>
+> Signed-off-by: SeongJae Park <sj@kernel.org>
 > ---
->  Documentation/driver-api/iio/buffers.rst |  8 ++++----
->  Documentation/driver-api/iio/core.rst    | 14 +++++++-------
->  2 files changed, 11 insertions(+), 11 deletions(-)
+>  Documentation/translations/ko_KR/index.rst               | 2 +-
+>  Documentation/translations/ko_KR/{ => process}/howto.rst | 0
+>  2 files changed, 1 insertion(+), 1 deletion(-)
+>  rename Documentation/translations/ko_KR/{ => process}/howto.rst (100%)
 
-Applied, thanks.
+I've applied the first two patches, thanks.
 
 jon
