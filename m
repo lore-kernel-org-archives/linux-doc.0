@@ -1,249 +1,131 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BDD2189509
-	for <linux-doc@vger.kernel.org>; Mon, 26 Aug 2024 15:40:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A94D19306C;
+	Mon, 26 Aug 2024 15:42:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724686840; cv=none; b=mTi3YTTGZ7dUqrF/91ZZaXDo82K+P9jgNlx+kRBAjkmzkkueztfrMrmAUFkQuIRyuH/22hke/PXUVNzVtC3DlYpdsscB+yNM1xmdZudUzDAxEv9gUOfzOfGg87NSpzbFM4OIkQidLVLCXq04CRtqo+T5+2O8XttwwV4Se8Jn0sw=
+	t=1724686937; cv=none; b=PqiENNsrCI/Iquu4kbfC43dz8sSqIa9utJmK+lagtaYx1aitKLsL5MoXRufpJfn+XAFn3a+8wNLSnCmV9qBYl3WPHufgCS6oW5o42ElV/wReHo92t+3lDNfkRACc+xrRi1HhvU7LVfTDEzmbptAH7XXq23plaJLBZpHuqerFXqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724686840; c=relaxed/simple;
-	bh=v6aBNEgkD+yCxRyLqlLsqt9Me9mghklxGM1HvPv9Lb4=;
+	s=arc-20240116; t=1724686937; c=relaxed/simple;
+	bh=xM8pXW+HgjT0erxnOsIGtoopuFkOjZ2IcKxNFrbxs24=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s1mkXcnn/TeUStJtyUAK1CbXnEn3aalr0NcifeQP7pOPQYOdRK01olHJJpF5Ptt1aU+09IpTiVWaxaE7yV7zAaARux37UZgE1HeqpfBo/w/jFx8iLcivMoqRPwB49qc69QUlhoz5yxLmoPl7TwungR5/cxc5oKtV47C3h3kTD5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eU65gLjg; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 To:Cc:Content-Type; b=WCZrOFK+2hXKBDQAUS40EMbewcaWyu1MUrgWV9+P2/V97lwdYGNOXpxnHNiz3bBBVCgwueURk6fFsIesudDF8A4Dnm4eXzr4rbv9SSHowIobN34NKL8NziYwtDqQV/DZtB1olu5D6kaLZvX0L2MfePcVoYtM/oBMJHNy8l0ajI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EdjS9CZa; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eU65gLjg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1724686837;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=27eVj2Z6RNgb00mecDqw/aDsuiUwWuk/YVU/+hWWgVg=;
-	b=eU65gLjgJrp4BwYkxc5ZO9dfPYNCKLPcYqd3wpj32MZV0ULJpIeChNcDXyLMG9Exw5pTof
-	Xydogdq+KfuXfPKQgCOeiKYqmdfiA3r5TBiIbqXUPo6U4lO7Oy3XN554Q/TOhSSnfDz5wY
-	+v2ix02cIjqn6eHQ7IGHctQ8nqN+ibE=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-436-x5vkVTGFM-KOWwG0SlqrcQ-1; Mon, 26 Aug 2024 11:40:36 -0400
-X-MC-Unique: x5vkVTGFM-KOWwG0SlqrcQ-1
-Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-6b71aa9349dso81696467b3.1
-        for <linux-doc@vger.kernel.org>; Mon, 26 Aug 2024 08:40:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EdjS9CZa"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5343eeb4973so3703342e87.2;
+        Mon, 26 Aug 2024 08:42:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724686933; x=1725291733; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FH/rM9r8vy15gTO0SvqG09ShUwI8MYLfcApXi3x19VU=;
+        b=EdjS9CZavbm/qHjdqAVWAMe51uCR7TIdmv8bxidfh6CYSFEDINpoD9bnNZw/44NEd2
+         bwBi7FKlKtyMt0aRH9pV5PVxbBLin9ef5NWVI29BzbN/ecmH7ybQvBjssgCuZxe2N6ZU
+         7ix90zpw2jETILZoFi3jgRNr5r8Uc+0KPKg8uDr8uTXolk0iCXovdJcMfQ0COUo0Fagf
+         aIVHXK2pNYoUTKjnCizNHQ2GnNb3Ssg1jeZQVF2hHit1AtRoMmTpfyj80pjyAYaVa3SL
+         190xbe2zVRO5EoXJuoymLYZLXgIt0VN5KzhSc99Ki7QVuE4o/Lg4evW1RfKxHAV1p1jZ
+         VsIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724686835; x=1725291635;
+        d=1e100.net; s=20230601; t=1724686933; x=1725291733;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=27eVj2Z6RNgb00mecDqw/aDsuiUwWuk/YVU/+hWWgVg=;
-        b=Eskae1crEsxONiC57DRGGKRU55mxzgft+WI1mYNwj8h/ufqOyg2fU4DYAmmvZTxPEK
-         OLcfNenCD6lSzN8vKke4Dbj83HQKydcacP7XUGh3bCdRP7gK4zuSw5Q0/+MU+WLwOl6d
-         xGz+cou6hiI5aHiNSVgSzyIK8+BpydTW5j3lpuXTsehZgUoylM/5iM/rjp4KcyHmBhO7
-         f+3yE1zoALED/zd7dQvZeQ5mVbk+K9E5ZWqOZVbs3FZyy2ucoN/e2XJPEMwN6/zywm6R
-         foeYr3lbzjMEvOtWwZaoy0wYFvPU30Bl319qJ2O7DiwdI3Xx/q4EAsLmGVmu/m/a0q1s
-         OL1Q==
-X-Gm-Message-State: AOJu0YzkV9n4o0IEsfAHhSqW06qxeSaXaO9SwS/6NrqFk3497igR408O
-	foZI14pATrgbP/7atWQCl14nKFvF1DS19F0nVESKPDbxCLc+ZcCm/CgzFlFw3Jlg8j0QOq2jOR/
-	SbsZeQ1haS7L+ZYOXrJqJHKvy+YjNiFUzhAx8TvvmdBtGdPErSWjVp2K85YocvC51bBfqNiSABG
-	l4PXkfB3n5ZM1dMNvq1L0Ir4su9b3nJThJ
-X-Received: by 2002:a05:690c:ecb:b0:6ae:1e27:c994 with SMTP id 00721157ae682-6c6248e8e21mr102812557b3.3.1724686835472;
-        Mon, 26 Aug 2024 08:40:35 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHHo5xy1tCcPATzjwKv562swJ8qdcQ3hXU/FJ7I5SxAT5TQe0vT7bwPymRwDqoI/eR5G7ezSBJ8+GTy4PeNLRU=
-X-Received: by 2002:a05:690c:ecb:b0:6ae:1e27:c994 with SMTP id
- 00721157ae682-6c6248e8e21mr102812327b3.3.1724686835153; Mon, 26 Aug 2024
- 08:40:35 -0700 (PDT)
+        bh=FH/rM9r8vy15gTO0SvqG09ShUwI8MYLfcApXi3x19VU=;
+        b=OfchqeexupTnQ70b/gPvTSp4ysO6+DSuBIzlVLqODF84aw3sTALHkfvT3hvcmmbuya
+         4jdOLh7DNXR6+k7hm2oNSxBm3H2CQfRZWZE7bWobKs/vPIxCsAiGqTpka2JtNw8h2h0M
+         tLhJHtB0tHKzsPT7/FU1qvbvg98315bSVMfOzetEC15qRrr+WnJnPLR0X0Qx86CwU+1a
+         W1BdoruNDwHJ5zgXUzCjAEG24whjNZKyBfHfG2yX5yi9AmR1n50/Kk21b1qiiqUgkNGh
+         ezOuRQyCdPURdLohfIk8677CHVQAbELVp3rFyzRr92YeTlx2ZbCKOX1+2Zknuk9VpwNe
+         Nbgw==
+X-Forwarded-Encrypted: i=1; AJvYcCV82Yc0GfBiVscdpNiH8Cn1HQ0lYpvuSjt7qaJLOwA7h3aPdyAHtosYXKiZvRpibbuebyhAPTvn4CLKbA==@vger.kernel.org, AJvYcCVI/piB7xYhp2AHSPIQF5Hk0tDk577LglGcyylXlTgtoaXrXEq5Or9FY6RXK39IQ1kDpOadZyZA@vger.kernel.org, AJvYcCVl833agkMpi5UadWwaCyPL5YHvENsRbuJ13BnzKYdY2hoDUHJWqcFtyzBCVD09LtQY5JO3vrYhJ4kWxoLx@vger.kernel.org, AJvYcCWGRmTCqwn/PSfdfXgT1AAVmlZnnskaFi6uXQdehnW9n2MQpRoJ309ZJ8OyGu9Xxrunu3Q4JthwcARz@vger.kernel.org, AJvYcCWKN89Y418s69KCCpnQbddorcfo/8aSC5MMwvtKd6cH2ZMrUFAzAQZLEcFa+Vyj8fI0w/GCaDawDRsC@vger.kernel.org, AJvYcCWWlpsZ8jctj9IxWb8rtQvxQs1vqqrexaHjZ7YNhuNAIvLxnZVw1sDiWp0IDgkBYvY5QtQkIyzyf/6dsQ==@vger.kernel.org, AJvYcCXuzaFrSIuR/W/rSaj86l3u9rw6GOtN9wKq/KJS32EAWj8zas0gTCJXrxwiKUVmX53q8dLcX/97D4pXXg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwkmXMIVUA9sKDzyL8jEy9n3kr4Qxovw8z1bM2cGDcWxbyAG//6
+	AFqhaHBjbrFkL/rqOTtRTb203J3BDnzRje5y1MGPsPxrMEN9PSxU7766//v/ZH7mr11JzDSMnh3
+	AME9aKOsRvcxxnkE4TnqlG5qJnig=
+X-Google-Smtp-Source: AGHT+IEO+gUPPoFWhnVIZyFPIRMKkPjZZ1g7sFSpxYSDeKMazFoujBp34K9I3yoSDp0PEZ365NhxrirOyyk84oqJOVc=
+X-Received: by 2002:ac2:4e06:0:b0:52e:936e:a237 with SMTP id
+ 2adb3069b0e04-53438846debmr7930724e87.16.1724686932982; Mon, 26 Aug 2024
+ 08:42:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240729222727.64319-1-npache@redhat.com> <72320F9D-9B6A-4ABA-9B18-E59B8382A262@nvidia.com>
- <CAA1CXcCD798gkLoZuz3Cd5-Wf2MRfnAG_EB0U3nbScZeFv09dw@mail.gmail.com>
-In-Reply-To: <CAA1CXcCD798gkLoZuz3Cd5-Wf2MRfnAG_EB0U3nbScZeFv09dw@mail.gmail.com>
-From: Nico Pache <npache@redhat.com>
-Date: Mon, 26 Aug 2024 09:40:09 -0600
-Message-ID: <CAA1CXcCCOS8-aqcm+w8Aoqe2P5q005wMrgmtx=xjzJgjKFb7mg@mail.gmail.com>
-Subject: Re: [RFC 0/2] mm: introduce THP deferred setting
-To: linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@redhat.com>, Matthew Wilcox <willy@infradead.org>, Barry Song <baohua@kernel.org>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Lance Yang <ioworker0@gmail.com>, Peter Xu <peterx@redhat.com>, 
-	Rafael Aquini <aquini@redhat.com>, Andrea Arcangeli <aarcange@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, 
-	Zi Yan <ziy@nvidia.com>, usamaarif642@gmail.com
+References: <20240822134744.44919-1-pstanner@redhat.com> <20240822134744.44919-6-pstanner@redhat.com>
+ <ZsdO2q8uD829hP-X@smile.fi.intel.com> <ad6af1c4194873e803df65dc4d595f8e4b26cb33.camel@redhat.com>
+In-Reply-To: <ad6af1c4194873e803df65dc4d595f8e4b26cb33.camel@redhat.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 26 Aug 2024 18:41:36 +0300
+Message-ID: <CAHp75VfKS_PWer2hEH8x0qgBUEPx05p8BA=c0UirAWjg0SaLeA@mail.gmail.com>
+Subject: Re: [PATCH v3 5/9] ethernet: cavium: Replace deprecated PCI functions
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Andy Shevchenko <andy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
+	Wu Hao <hao.wu@intel.com>, Tom Rix <trix@redhat.com>, Moritz Fischer <mdf@kernel.org>, 
+	Xu Yilun <yilun.xu@intel.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Alvaro Karsz <alvaro.karsz@solid-run.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+	Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	=?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+	Richard Cochran <richardcochran@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Damien Le Moal <dlemoal@kernel.org>, Hannes Reinecke <hare@suse.de>, Chaitanya Kulkarni <kch@nvidia.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-block@vger.kernel.org, linux-fpga@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org, 
+	virtualization@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 30, 2024 at 4:37=E2=80=AFPM Nico Pache <npache@redhat.com> wrot=
-e:
->
-> Hi Zi Yan,
-> On Mon, Jul 29, 2024 at 7:26=E2=80=AFPM Zi Yan <ziy@nvidia.com> wrote:
-> >
-> > +Kirill
-> >
-> > On 29 Jul 2024, at 18:27, Nico Pache wrote:
-> >
-> > > We've seen cases were customers switching from RHEL7 to RHEL8 see a
-> > > significant increase in the memory footprint for the same workloads.
-> > >
-> > > Through our investigations we found that a large contributing factor =
-to
-> > > the increase in RSS was an increase in THP usage.
-> >
-> > Any knob is changed from RHEL7 to RHEL8 to cause more THP usage?
-> IIRC, most of the systems tuning is the same. We attributed the
-> increase in THP usage to a combination of improvements in the kernel,
-> and improvements in the libraries (better alignments). That allowed
-> THP allocations to succeed at a higher rate. I can go back and confirm
-> this tomorrow though.
-> >
-> > >
-> > > For workloads like MySQL, or when using allocators like jemalloc, it =
-is
-> > > often recommended to set /transparent_hugepages/enabled=3Dnever. This=
- is
-> > > in part due to performance degradations and increased memory waste.
-> > >
-> > > This series introduces enabled=3Ddefer, this setting acts as a middle
-> > > ground between always and madvise. If the mapping is MADV_HUGEPAGE, t=
-he
-> > > page fault handler will act normally, making a hugepage if possible. =
-If
-> > > the allocation is not MADV_HUGEPAGE, then the page fault handler will
-> > > default to the base size allocation. The caveat is that khugepaged ca=
-n
-> > > still operate on pages thats not MADV_HUGEPAGE.
-> >
-> > Why? If user does not explicitly want huge page, why bother providing h=
-uge
-> > pages? Wouldn't it increase memory footprint?
->
-> So we have "always", which will always try to allocate a THP when it
-> can. This setting gives good performance in a lot of conditions, but
-> tends to waste memory. Additionally applications DON'T need to be
-> modified to take advantage of THPs.
->
-> We have "madvise" which will only satisfy allocations that are
-> MADV_HUGEPAGE, this gives you granular control, and a lot of times
-> these madvises come from libraries. Unlike "always" you DO need to
-> modify your application if you want to use THPs.
->
-> Then we have "never", which of course, never allocates THPs.
->
-> Ok. back to your question, like "madvise", "defer" gives you the
-> benefits of THPs when you specifically know you want them
-> (madv_hugepage), but also benefits applications that dont specifically
-> ask for them (or cant be modified to ask for them), like "always"
-> does. The applications that dont ask for THPs must wait for khugepaged
-> to get them (avoid insertions at PF time)-- this curbs a lot of memory
-> waste, and gives an increased tunability over "always". Another added
-> benefit is that khugepaged will most likely not operate on short lived
-> allocations, meaning that only longstanding memory will be collapsed
-> to THPs.
->
-> The memory waste can be tuned with max_ptes_none... lets say you want
-> ~90% of your PMD to be full before collapsing into a huge page. simply
-> set max_ptes_none=3D64. or no waste, set max_ptes_none=3D0, requiring the
-> 512 pages to be present before being collapsed.
->
-> >
-> > >
-> > > This allows for two things... one, applications specifically designed=
- to
-> > > use hugepages will get them, and two, applications that don't use
-> > > hugepages can still benefit from them without aggressively inserting
-> > > THPs at every possible chance. This curbs the memory waste, and defer=
-s
-> > > the use of hugepages to khugepaged. Khugepaged can then scan the memo=
-ry
-> > > for eligible collapsing.
-> >
-> > khugepaged would replace application memory with huge pages without spe=
-cific
-> > goal. Why not use a user space agent with process_madvise() to collapse
-> > huge pages? Admin might have more knobs to tweak than khugepaged.
->
-> The benefits of "always" are that no userspace agent is needed, and
-> applications dont have to be modified to use madvise(MADV_HUGEPAGE) to
-> benefit from THPs. This setting hopes to gain some of the same
-> benefits without the significant waste of memory and an increased
-> tunability.
->
-> future changes I have in the works are to make khugepaged more
-> "smart". Moving it away from the round robin fashion it currently
-> operates in, to instead make smart and informed decisions of what
-> memory to collapse (and potentially split).
->
-> Hopefully that helped explain the motivation for this new setting!
+On Mon, Aug 26, 2024 at 5:51=E2=80=AFPM Philipp Stanner <pstanner@redhat.co=
+m> wrote:
+> On Thu, 2024-08-22 at 17:44 +0300, Andy Shevchenko wrote:
+> > On Thu, Aug 22, 2024 at 03:47:37PM +0200, Philipp Stanner wrote:
 
-Any last comments before I resend this?
+...
 
-Ive been made aware of
-https://lore.kernel.org/all/20240730125346.1580150-1-usamaarif642@gmail.com=
-/T/#u
-which introduces THP splitting. These are both trying to achieve the
-same thing through different means. Our approach leverages khugepaged
-to promote pages, while Usama's uses the reclaim path to demote
-hugepages and shrink the underlying memory.
-
-I will leave it up to reviewers to determine which is better; However,
-we can't have both, as we'd be introducing trashing conditions.
-
-Cheers,
--- Nico
-
-
-
-
-
+> > > -   err =3D pcim_iomap_regions(pdev, 1 << PCI_PTP_BAR_NO,
+> > > pci_name(pdev));
+> > > -   if (err)
+> > > +   clock->reg_base =3D pcim_iomap_region(pdev, PCI_PTP_BAR_NO,
+> > > pci_name(pdev));
+> > > +   if (IS_ERR(clock->reg_base)) {
+> > > +           err =3D PTR_ERR(clock->reg_base);
+> > >             goto error_free;
+> > > -
+> > > -   clock->reg_base =3D pcim_iomap_table(pdev)[PCI_PTP_BAR_NO];
+> > > +   }
+> >
+> > Perhaps
+> >
+> >       clock->reg_base =3D pcim_iomap_region(pdev, PCI_PTP_BAR_NO,
+> > pci_name(pdev));
+> >       err =3D PTR_ERR_OR_ZERO(clock->reg_base);
+> >       if (err)
+> >               goto error_free;
+> >
+> > This will make your patch smaller and neater.
+> >
+> > P.S. Do you use --histogram diff algo when preparing patches?
 >
-> Cheer!
-> -- Nico
-> >
-> > >
-> > > Admins may want to lower max_ptes_none, if not, khugepaged may
-> > > aggressively collapse single allocations into hugepages.
-> > >
-> > > RFC note
-> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > Im not sure if im missing anything related to the mTHP
-> > > changes. I think now that we have hugepage_pmd_enabled in
-> > > commit 00f58104202c ("mm: fix khugepaged activation policy") everythi=
-ng
-> > > should work as expected.
-> > >
-> > > Nico Pache (2):
-> > >   mm: defer THP insertion to khugepaged
-> > >   mm: document transparent_hugepage=3Ddefer usage
-> > >
-> > >  Documentation/admin-guide/mm/transhuge.rst | 18 ++++++++++---
-> > >  include/linux/huge_mm.h                    | 15 +++++++++--
-> > >  mm/huge_memory.c                           | 31 +++++++++++++++++++-=
---
-> > >  3 files changed, 55 insertions(+), 9 deletions(-)
-> > >
-> > > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > > Cc: David Hildenbrand <david@redhat.com>
-> > > Cc: Matthew Wilcox <willy@infradead.org>
-> > > Cc: Barry Song <baohua@kernel.org>
-> > > Cc: Ryan Roberts <ryan.roberts@arm.com>
-> > > Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
-> > > Cc: Lance Yang <ioworker0@gmail.com>
-> > > Cc: Peter Xu <peterx@redhat.com>
-> > > Cc: Zi Yan <ziy@nvidia.com>
-> > > Cc: Rafael Aquini <aquini@redhat.com>
-> > > Cc: Andrea Arcangeli <aarcange@redhat.com>
-> > > Cc: Jonathan Corbet <corbet@lwn.net>
-> > > --
-> > > 2.45.2
-> >
-> > --
-> > Best Regards,
-> > Yan, Zi
+> So far not.
+> Should one do that?
 
+Id doesn't alter your code, it's in addition to what I suggested, but
+as Linus shared that there is no reason to avoid using --histogram not
+only in Linux kernel, but in general as it produces more
+human-readable diff:s.
+
+--=20
+With Best Regards,
+Andy Shevchenko
