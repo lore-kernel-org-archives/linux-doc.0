@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB39E198E6C;
-	Mon, 26 Aug 2024 17:32:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 154F5166F13;
+	Mon, 26 Aug 2024 17:35:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724693548; cv=none; b=DCZ6T3KQj46az54jNIucG87GSa3nx2fwAnRZ1t0waU8iDg7C8Bkg0w5EMwgbsa2I5pHhlsV6VBL8MO6AG4bRKzNez3OkKHCTtzWOp3Sb04ngMUCWV5irHVhpjF+uzF61k9EaXkYDZTlvYlvGH77KSiy96k73Jz2mU52i+5b8lcI=
+	t=1724693744; cv=none; b=DbnL5DE7RA4tMTHHGOJIRhTn+RS0J/6LhSl3NihMso43v+nnUZukfevV5kX+I+SapAqDqEhN9VZqtRanHjXG8e45oTSD1Op3yuFXo2qsx4Tz25NDzBviZzBVDCtmq2CA6SWgk8/ZOQa964nqgnOk2YMq/9dKs11gOuw+h9rkWeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724693548; c=relaxed/simple;
-	bh=GKu6PcQakwK1O4e1iKW9EO7fBcMdUG9TXO2Vb1A5eBE=;
+	s=arc-20240116; t=1724693744; c=relaxed/simple;
+	bh=0sWVcw96T8tSLQcwGgeWLTWjxATb/PQPdf28mrheZsE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PahI0rk43CHMWDmASc4YXjQqaOYA+QgeUGEJeLcww+5x9N/9C+BA3rhd4G6POAHkt4EdxsiADRbC58U9z89D88R87lbyo5HXT+kBpNOCZ5SpaxfejkJZGTlKXc8LnCHNoUXvvcRvRpbg6uccJO14pZy1cC6g9dlYo2R/aadAYAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ONQ1Imkt; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=TFqke2afeDcxyAEgZkld+UYUJjKcbrc5+HRhYnOVhWblXIJA28nsuQ+7twoy/PjgIBkA8T2doP7v3KrrJFQTHWfJE1TNztX8GR2fnAqzHgendMlrpS48LNPTXcEKdtBEC5/MNtv6PxP1nmFFFd+lVZcWKP9m5W67hHlGZ7APMqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TjXHhz8r; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ONQ1Imkt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TjXHhz8r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724693547; x=1756229547;
+  t=1724693743; x=1756229743;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=GKu6PcQakwK1O4e1iKW9EO7fBcMdUG9TXO2Vb1A5eBE=;
-  b=ONQ1ImktxLDSg4tvTmHBFii90bXCM+Islhbo9YNrI1W9oiQjqG1w7Nsj
-   uwnMkCNh0qiZwn8KvY9gltZdE+WbiskgDkDl6+CaXdgOtw5NxcmsWn4EX
-   q+WKQ+yFlEEIVWsykt3HiRDByJnylevoNew90XSh4r2ZUrlgS3PB7mUJP
-   BWvOAUnXc553j5tXxtcF/Knu1mEpgr5RpVeVYZruqtdEsOSdd9zyz4iAK
-   2pWgwizqbtlCRbyfePa6IXQwrD88dnH4IfMhr3VE59jiwSaWov5N8ZphT
-   gFCxis77hHxpF3lONvZl4W8I5i83PQFsBunxsYAlhxCpxctmPeriqXWZO
-   Q==;
-X-CSE-ConnectionGUID: tyCEtCCIQoish7Q4MhaD/A==
-X-CSE-MsgGUID: mK5AoCZ+TDiQjNelR8VLZQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="33796602"
+  bh=0sWVcw96T8tSLQcwGgeWLTWjxATb/PQPdf28mrheZsE=;
+  b=TjXHhz8rUxraygpm9YxyTkswHaPz9LC0OdZkzHEMfAttyHahmxyiy//n
+   xuakahtEv4lW9ZLvrw1KHVdkurh0zuvB2r6BerPsrN2GGz0QPMksY9ZCB
+   eH4fbHka+L3haVaTZId4mhyoSEDybwiNGx1U6xUN8oPr4qb0Z2NO3fcDh
+   QCllJcqFLNBhJ/Vlo2iwwCclbqxs47IvG8mO0cjAyuPf+WxU7XG4fPVku
+   3wE2kl3fCNw77ZmmGYl6DUc+zhS5fACQC/puIRaQV/cI7thU8P1VwazCx
+   jkekBKFtChzCKVQGSOBRNiKkVvEpFsflEwT9G1aTKIfZtb3rYEtQNB9rE
+   A==;
+X-CSE-ConnectionGUID: bUoBmjBySR+91cI7s0GTWg==
+X-CSE-MsgGUID: hrcPCJ3sQEe0gN/7bYbuig==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="33760645"
 X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="33796602"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 10:32:26 -0700
-X-CSE-ConnectionGUID: GLGqFkZFT3yq5g9gL/Wr4w==
-X-CSE-MsgGUID: RVUL4LFHSrCFHfcDGqoI8A==
+   d="scan'208";a="33760645"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 10:35:42 -0700
+X-CSE-ConnectionGUID: 3ZaPV8csSDq9Lp5rfbTY1Q==
+X-CSE-MsgGUID: CFx360prSKeBQzT6tXDZBQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="93307910"
+   d="scan'208";a="63110120"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 10:32:23 -0700
+  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 10:35:39 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.98)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1sidZk-000000021c9-1Ozc;
-	Mon, 26 Aug 2024 20:32:20 +0300
-Date: Mon, 26 Aug 2024 20:32:20 +0300
+	id 1sidcu-000000021fS-2HAa;
+	Mon, 26 Aug 2024 20:35:36 +0300
+Date: Mon, 26 Aug 2024 20:35:36 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>
 Cc: Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
@@ -58,9 +58,10 @@ Cc: Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] hexdump: Allow skipping identical lines
-Message-ID: <Zsy8JPaiGknBypw9@smile.fi.intel.com>
+Subject: Re: [PATCH 2/2] hexdump: Allow skipping identical lines
+Message-ID: <Zsy86HZ7uew9-Ef6@smile.fi.intel.com>
 References: <20240826162416.74501-1-miquel.raynal@bootlin.com>
+ <20240826162416.74501-3-miquel.raynal@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,37 +70,43 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240826162416.74501-1-miquel.raynal@bootlin.com>
+In-Reply-To: <20240826162416.74501-3-miquel.raynal@bootlin.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Mon, Aug 26, 2024 at 06:24:14PM +0200, Miquel Raynal wrote:
-> Hello!
+On Mon, Aug 26, 2024 at 06:24:16PM +0200, Miquel Raynal wrote:
+> When dumping long buffers (especially for debug purposes) it may be very
+> convenient to sometimes avoid spitting all the lines of the buffer if
+> the lines are identical. Typically on embedded devices, the console
+> would be wired to a UART running at 115200 bauds, which makes the dumps
+> very (very) slow. In this case, having a flag to avoid printing
+> duplicated lines is handy.
 > 
-> While working on NAND issues, I used print_hex_dump() a lot to compare
-> data. But I am mostly working on embedded systems where the kernel
-> messages go through a serial console. Sometimes network support is an
-> option, sometimes not. Anyway, I often print buffers both in kernel
-> space and user space to compare them, and they may be full of 0's or
-> 1's, which means lines are repeated a lot in the output and this is slow
-> *and* hard to compare.
+> Example of a made up repetitive output:
+> 0f 53 63 47 56 55 78 7a aa b7 8c ff ff ff ff ff
+> ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+> ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+> ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+> ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+> ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+> ff ff ff ff ff ff ff ff ff ff ff ff 01 2a 39 eb
 > 
-> I initially hacked into lib/hexdump.c for my own purpose and just
-> discarded all the other users, but it felt like this might be a useful
-> feature for others and decided to make it a public patch.
-> 
-> * First patch changes the "ascii" parameter into a "flags" variable now
->   accepting the value: DUMP_FLAG_ASCII.
-> * Second patch adds a new flag to skip the identical lines, because this
->   must be an opt-in parameter, I guess.
+> Same but with the flag enabled:
+> 0f 53 63 47 56 55 78 7a aa b7 8c ff ff ff ff ff
+> ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+> *
+> ff ff ff ff ff ff ff ff ff ff ff ff 01 2a 39 eb
 
-This is quite a long to look into, can you please add a summary here which
-includes (but not limited to) the following:
-1) examples before and after (ah, I see you have that in the patch 2,
-   but would be still good to have in the cover letter);
-2) excerpts of the code for before and after (since the type of the ascii
-   parameter had been changed).
+The problem here is that without offset we can't see how many lines were
+skipped.
 
-Also here is the formal NAK till the series gains the test cases.
+Two ways to solve (that come to my mind immediately, maybe more and better):
+1) make sure that new flag implies or expects (otherwise BUILD_BUG_ON() or so)
+  the OFFSET to be set;
+2) [OR] add number of lines skipped in that * line.
+
+Personally I prefer the 1) as I think that you tried to follow the existing
+format of user space tools and there is a chance that there are other tools or
+scripts that parse the dump to restore the binary contents.
 
 -- 
 With Best Regards,
