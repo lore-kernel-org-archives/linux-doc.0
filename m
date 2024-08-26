@@ -1,674 +1,180 @@
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B403194124;
-	Mon, 26 Aug 2024 12:46:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D15417C9B5;
+	Mon, 26 Aug 2024 12:46:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724676400; cv=none; b=frEPqVKJZzINGQoew4J7pKVS8Q/+0JL6d+oiMyuWx8bmsQVQr2DpvMcplScaAaRarnBwoQ19HLXBmSj2XGmzwih0czuWukscALfqPhqA2zsYdcWw7w2PdRoVJYAbQmt63zFNHlHzJWtKPMHZ8+Gjf28zaWsC6tzL8oX1/kl9OIU=
+	t=1724676401; cv=none; b=JPU/fxHvDxkC4/APg/1QXhv5CjYb1f5SBcI10Myl3P+nPYvukqMbaV0mib8dTp2kygPgdrXy5CSOTi9RlfpfisFDWWF/LA/cA+xhDzHOx4otE6NEFAwyIKpsCDTUThq8VceROKy4pTSNMooPAZDiCoHoj+drDOeZkK3fbPXtbIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724676400; c=relaxed/simple;
-	bh=cDk3Axvfijb1LblY5Ie0+lSzdCgFfeGH1pHhnML9ks0=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mT4oUX91xr/wGytbv9mq7TPtrymnC50szEjpplWsPWBlw6mke48YYRnqdLb6zCstADgQ7Ub+tfUIvtkjlvKpcttKw+mJvB80u0kkl2nPT03I3g+s3nfHS0Bm++I2Ib9wL3EX5SIEStjQI+yJ6b0zik02qHvZhoTnnu7YdlxD1iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.190
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.234])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Wsr0D6wbSz20mjC;
-	Mon, 26 Aug 2024 20:41:48 +0800 (CST)
-Received: from dggpemf200006.china.huawei.com (unknown [7.185.36.61])
-	by mail.maildlp.com (Postfix) with ESMTPS id 35F701402E1;
-	Mon, 26 Aug 2024 20:46:36 +0800 (CST)
-Received: from localhost.localdomain (10.90.30.45) by
- dggpemf200006.china.huawei.com (7.185.36.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 26 Aug 2024 20:46:35 +0800
-From: Yunsheng Lin <linyunsheng@huawei.com>
-To: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Yunsheng Lin
-	<linyunsheng@huawei.com>, Alexander Duyck <alexander.duyck@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
-	<linux-mm@kvack.org>, <linux-doc@vger.kernel.org>
-Subject: [PATCH net-next v15 12/13] mm: page_frag: update documentation for page_frag
-Date: Mon, 26 Aug 2024 20:40:19 +0800
-Message-ID: <20240826124021.2635705-13-linyunsheng@huawei.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20240826124021.2635705-1-linyunsheng@huawei.com>
-References: <20240826124021.2635705-1-linyunsheng@huawei.com>
+	s=arc-20240116; t=1724676401; c=relaxed/simple;
+	bh=Rita/RK8sbI3aAYesZmLle/wA6UaJC2j1C6ZpQoaOsQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=aQIEu9CRqbmXZwgffHhZoiLTrAahWgycEezABO0HXxC+4DcdCFuhubRhUDGCEgIwr8VeX5fjRIaZONx8jk/pKPHQakB4YmFEmy0qOTz0ii+JG3vYwY5I5YKXuISKyw/H/7wPAMR85SOmeJhtroIZeFo+yAn1ah3TP9QYnt+28XM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tbuayevS; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tbuayevS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 283FFC58285;
+	Mon, 26 Aug 2024 12:46:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724676400;
+	bh=Rita/RK8sbI3aAYesZmLle/wA6UaJC2j1C6ZpQoaOsQ=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=tbuayevS14zGa+/4AMLybjNEjHAE5gc0qcbegl83QMJ8hUGqhvuVXUfl2ysaMhR8W
+	 E9xZ9nikcDfOFEPkLGb54FU3wnkTnjiLxxtIkV+cZYKKNLh1cl52pIK7GDHxd+TsPp
+	 job+PKEitcy3L3XKU5kgiMNuoOMbePrg+CPSNrxBRZ3daVKXCKvdleo+7WciCNKUox
+	 lE/xViVU92rv68h10ZvH/69P5JyNB2aBSOCjyFXfOkskv5I3KAZUIQGxTZb/8rBg+/
+	 zKxiruK2HNoJOV3eecF5m7E7KLNPqZwJlGcmAGCGNv1ey1PeSYFH4+LaXcnW7r7die
+	 hC13k18M4ZjWg==
+From: Jeff Layton <jlayton@kernel.org>
+Date: Mon, 26 Aug 2024 08:46:12 -0400
+Subject: [PATCH v2 2/7] nfs_common: make nfs4.h include generated nfs4_1.h
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemf200006.china.huawei.com (7.185.36.61)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240826-delstid-v2-2-e8ab5c0e39cc@kernel.org>
+References: <20240826-delstid-v2-0-e8ab5c0e39cc@kernel.org>
+In-Reply-To: <20240826-delstid-v2-0-e8ab5c0e39cc@kernel.org>
+To: Chuck Lever <chuck.lever@oracle.com>, Neil Brown <neilb@suse.de>, 
+ Olga Kornievskaia <kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
+ Tom Talpey <tom@talpey.com>, Trond Myklebust <trondmy@kernel.org>, 
+ Anna Schumaker <anna@kernel.org>, Olga Kornievskaia <okorniev@redhat.com>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Tom Haynes <loghyr@gmail.com>, linux-kernel@vger.kernel.org, 
+ linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3784; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=Rita/RK8sbI3aAYesZmLle/wA6UaJC2j1C6ZpQoaOsQ=;
+ b=owEBbQKS/ZANAwAIAQAOaEEZVoIVAcsmYgBmzHkqKuN5PHDEKNhstw0JqwBFrSLYKzm6eWleT
+ V6AV11uA32JAjMEAAEIAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCZsx5KgAKCRAADmhBGVaC
+ FQRdD/9bi5AT6HYU73MPDktzS2M65HmQ8X0D7GtYB5kRKGeGwthcpFWpX1qP0wTzbsRQ3Tt6vnZ
+ Bb2FS3W5DSsvP6BUkNyQybpD3FHxj6Oef00Kf/M76SQtax9KpfltsstqU1AO5HE65NXgclCPZqr
+ 7kJeJ2ML0LjOivIVr0RiDcRsyEi8e4I+l8v4VsrHEVYSPSOppXhjj18q+4UxQl3W/ilXnXIS3Az
+ 8bMkB+3ywM2TtbmOYAkwq5xGAHV41zOuV8shrRWE8tx6UJiyWhDXLnWktr9+xE4RcWmSbn9lk90
+ WQWHc5jYxelDM066moa4fhc4YKeVMRMLZ2pfbUY+gVBGiB4EZoa0fl8tkRe6TPg2bSxueuayqau
+ RdRmYXdaFk/vkCK8ZzGfld3MeRSYu25DmLLT+ilsSzWakr6XrG4+ea+OMkQkTi7/2XbRtxy0sV4
+ im5oPONfqzISSiTL+w0n3zBJdvgy7M8FCyWHQOsgWM3BXAOjtWgQU5wkZZyDuV6lsNVmSEkkcfN
+ UpMjV8e2VwnWE+mURgfGxOHYGsfrOECjiQuzMsI6W3bOL5pGrJ2h2a/TVWtdr2RDfqe2O3jgtpr
+ nnOeynQEiRIyPnER4o1Iudxj31xdC4SuJnE3SLzRhnQd5N3F4X9gc0mOvnWmggkfxv50qnlfb7Y
+ uu/djCMtyRG0KeA==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
-Update documentation about design, implementation and API usages
-for page_frag.
+Long term, we'd like to move to autogenerating a lot of our XDR code.
+Both the client and server include include/linux/nfs4.h. That file is
+hand-rolled and some of the symbols in it conflict with the
+autogenerated symbols from the spec.
 
-CC: Alexander Duyck <alexander.duyck@gmail.com>
-Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
+Move nfs4_1.x to Documentation/sunrpc/xdr. Create a new
+include/linux/sunrpc/xdrgen directory in which we can keep autogenerated
+header files. Move the new, generated nfs4xdr_gen.h file to nfs4_1.h in
+that directory. Have include/linux/nfs4.h include the newly renamed file
+and then remove conflicting definitions from it and nfs_xdr.h.
+
+For now, the .x file from which we're generating the header is fairly
+small and just covers the delstid draft, but we can expand that in the
+future and just remove conflicting definitions as we go.
+
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
 ---
- Documentation/mm/page_frags.rst | 173 +++++++++++++++++++++-
- include/linux/page_frag_cache.h | 251 ++++++++++++++++++++++++++++++++
- mm/page_frag_cache.c            |  12 +-
- 3 files changed, 433 insertions(+), 3 deletions(-)
+ {fs/nfsd => Documentation/sunrpc/xdr}/nfs4_1.x                | 0
+ fs/nfsd/nfs4xdr_gen.c                                         | 2 +-
+ include/linux/nfs4.h                                          | 7 +------
+ include/linux/nfs_xdr.h                                       | 5 -----
+ fs/nfsd/nfs4xdr_gen.h => include/linux/sunrpc/xdrgen/nfs4_1.h | 6 +++---
+ 5 files changed, 5 insertions(+), 15 deletions(-)
 
-diff --git a/Documentation/mm/page_frags.rst b/Documentation/mm/page_frags.rst
-index 503ca6cdb804..d80f44cb471e 100644
---- a/Documentation/mm/page_frags.rst
-+++ b/Documentation/mm/page_frags.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ==============
- Page fragments
- ==============
-@@ -40,4 +42,173 @@ page via a single call.  The advantage to doing this is that it allows for
- cleaning up the multiple references that were added to a page in order to
- avoid calling get_page per allocation.
+diff --git a/fs/nfsd/nfs4_1.x b/Documentation/sunrpc/xdr/nfs4_1.x
+similarity index 100%
+rename from fs/nfsd/nfs4_1.x
+rename to Documentation/sunrpc/xdr/nfs4_1.x
+diff --git a/fs/nfsd/nfs4xdr_gen.c b/fs/nfsd/nfs4xdr_gen.c
+index 0816cfa530e0..3e55dd1e6530 100644
+--- a/fs/nfsd/nfs4xdr_gen.c
++++ b/fs/nfsd/nfs4xdr_gen.c
+@@ -2,7 +2,7 @@
+ // Generated by xdrgen. Manual edits will be lost.
+ // XDR specification modification time: Fri Aug 23 18:57:46 2024
  
--Alexander Duyck, Nov 29, 2016.
-+
-+Architecture overview
-+=====================
-+
-+.. code-block:: none
-+
-+                      +----------------------+
-+                      | page_frag API caller |
-+                      +----------------------+
-+                                  |
-+                                  |
-+                                  v
-+    +------------------------------------------------------------------+
-+    |                   request page fragment                          |
-+    +------------------------------------------------------------------+
-+             |                                 |                     |
-+             |                                 |                     |
-+             |                          Cache not enough             |
-+             |                                 |                     |
-+             |                         +-----------------+           |
-+             |                         | reuse old cache |--Usable-->|
-+             |                         +-----------------+           |
-+             |                                 |                     |
-+             |                             Not usable                |
-+             |                                 |                     |
-+             |                                 v                     |
-+        Cache empty                   +-----------------+            |
-+             |                        | drain old cache |            |
-+             |                        +-----------------+            |
-+             |                                 |                     |
-+             v_________________________________v                     |
-+                              |                                      |
-+                              |                                      |
-+             _________________v_______________                       |
-+            |                                 |              Cache is enough
-+            |                                 |                      |
-+ PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE         |                      |
-+            |                                 |                      |
-+            |               PAGE_SIZE >= PAGE_FRAG_CACHE_MAX_SIZE    |
-+            v                                 |                      |
-+    +----------------------------------+      |                      |
-+    | refill cache with order > 0 page |      |                      |
-+    +----------------------------------+      |                      |
-+      |                    |                  |                      |
-+      |                    |                  |                      |
-+      |              Refill failed            |                      |
-+      |                    |                  |                      |
-+      |                    v                  v                      |
-+      |      +------------------------------------+                  |
-+      |      |   refill cache with order 0 page   |                  |
-+      |      +----------------------------------=-+                  |
-+      |                       |                                      |
-+ Refill succeed               |                                      |
-+      |                 Refill succeed                               |
-+      |                       |                                      |
-+      v                       v                                      v
-+    +------------------------------------------------------------------+
-+    |             allocate fragment from cache                         |
-+    +------------------------------------------------------------------+
-+
-+API interface
-+=============
-+As the design and implementation of page_frag API implies, the allocation side
-+does not allow concurrent calling. Instead it is assumed that the caller must
-+ensure there is not concurrent alloc calling to the same page_frag_cache
-+instance by using its own lock or rely on some lockless guarantee like NAPI
-+softirq.
-+
-+Depending on different aligning requirement, the page_frag API caller may call
-+page_frag_*_align*() to ensure the returned virtual address or offset of the
-+page is aligned according to the 'align/alignment' parameter. Note the size of
-+the allocated fragment is not aligned, the caller needs to provide an aligned
-+fragsz if there is an alignment requirement for the size of the fragment.
-+
-+Depending on different use cases, callers expecting to deal with va, page or
-+both va and page for them may call page_frag_alloc, page_frag_refill, or
-+page_frag_alloc_refill API accordingly.
-+
-+There is also a use case that needs minimum memory in order for forward progress,
-+but more performant if more memory is available. Using page_frag_*_prepare() and
-+page_frag_commit*() related API, the caller requests the minimum memory it needs
-+and the prepare API will return the maximum size of the fragment returned. The
-+caller needs to either call the commit API to report how much memory it actually
-+uses, or not do so if deciding to not use any memory.
-+
-+.. kernel-doc:: include/linux/page_frag_cache.h
-+   :identifiers: page_frag_cache_init page_frag_cache_is_pfmemalloc
-+                 page_frag_cache_page_offset __page_frag_alloc_align
-+		 page_frag_alloc_align page_frag_alloc
-+                 __page_frag_refill_align page_frag_refill_align
-+                 page_frag_refill __page_frag_refill_prepare_align
-+                 page_frag_refill_prepare_align page_frag_refill_prepare
-+                 __page_frag_alloc_refill_prepare_align
-+		 page_frag_alloc_refill_prepare_align
-+		 page_frag_alloc_refill_prepare
-+		 __page_frag_alloc_refill_probe_align
-+		 page_frag_alloc_refill_probe page_frag_refill_probe
-+                 page_frag_commit page_frag_commit_noref
-+		 page_frag_alloc_abort
-+
-+.. kernel-doc:: mm/page_frag_cache.c
-+   :identifiers: page_frag_cache_drain page_frag_free
-+
-+Coding examples
-+===============
-+
-+Init & Drain API
-+----------------
-+
-+.. code-block:: c
-+
-+   page_frag_cache_init(nc);
-+   ...
-+   page_frag_cache_drain(nc);
-+
-+
-+Alloc & Free API
-+----------------
-+
-+.. code-block:: c
-+
-+    void *va;
-+
-+    va = page_frag_alloc_align(nc, size, gfp, align);
-+    if (!va)
-+        goto do_error;
-+
-+    err = do_something(va, size);
-+    if (err) {
-+        page_frag_free(va);
-+        goto do_error;
-+    }
-+
-+Prepare & Commit API
-+--------------------
-+
-+.. code-block:: c
-+
-+    struct page_frag page_frag, *pfrag;
-+    bool merge = true;
-+    void *va;
-+
-+    pfrag = &page_frag;
-+    va = page_frag_alloc_refill_prepare(nc, 32U, pfrag, GFP_KERNEL);
-+    if (!va)
-+        goto wait_for_space;
-+
-+    copy = min_t(unsigned int, copy, pfrag->size);
-+    if (!skb_can_coalesce(skb, i, pfrag->page, pfrag->offset)) {
-+        if (i >= max_skb_frags)
-+            goto new_segment;
-+
-+        merge = false;
-+    }
-+
-+    copy = mem_schedule(copy);
-+    if (!copy)
-+        goto wait_for_space;
-+
-+    err = copy_from_iter_full_nocache(va, copy, iter);
-+    if (err)
-+        goto do_error;
-+
-+    if (merge) {
-+        skb_frag_size_add(&skb_shinfo(skb)->frags[i - 1], copy);
-+        page_frag_commit_noref(nc, pfrag, copy);
-+    } else {
-+        skb_fill_page_desc(skb, i, pfrag->page, pfrag->offset, copy);
-+        page_frag_commit(nc, pfrag, copy);
-+    }
-diff --git a/include/linux/page_frag_cache.h b/include/linux/page_frag_cache.h
-index 9d2a7dd39d64..01a0d7db3ac0 100644
---- a/include/linux/page_frag_cache.h
-+++ b/include/linux/page_frag_cache.h
-@@ -59,11 +59,28 @@ static inline struct page *page_frag_encoded_page_ptr(unsigned long encoded_page
- 	return virt_to_page((void *)encoded_page);
- }
+-#include "nfs4xdr_gen.h"
++#include <linux/sunrpc/xdrgen/nfs4.h>
  
-+/**
-+ * page_frag_cache_init() - Init page_frag cache.
-+ * @nc: page_frag cache from which to init
-+ *
-+ * Inline helper to init the page_frag cache.
-+ */
- static inline void page_frag_cache_init(struct page_frag_cache *nc)
- {
- 	nc->encoded_page = 0;
- }
+ static bool __maybe_unused
+ xdrgen_decode_int64_t(struct xdr_stream *xdr, int64_t *ptr)
+diff --git a/include/linux/nfs4.h b/include/linux/nfs4.h
+index 8d7430d9f218..b90719244775 100644
+--- a/include/linux/nfs4.h
++++ b/include/linux/nfs4.h
+@@ -17,6 +17,7 @@
+ #include <linux/uidgid.h>
+ #include <uapi/linux/nfs4.h>
+ #include <linux/sunrpc/msg_prot.h>
++#include <linux/sunrpc/xdrgen/nfs4_1.h>
  
-+/**
-+ * page_frag_cache_is_pfmemalloc() - Check for pfmemalloc.
-+ * @nc: page_frag cache from which to check
-+ *
-+ * Used to check if the current page in page_frag cache is pfmemalloc'ed.
-+ * It has the same calling context expectation as the alloc API.
-+ *
-+ * Return:
-+ * true if the current page in page_frag cache is pfmemalloc'ed, otherwise
-+ * return false.
-+ */
- static inline bool page_frag_cache_is_pfmemalloc(struct page_frag_cache *nc)
- {
- 	return page_frag_encoded_page_pfmemalloc(nc->encoded_page);
-@@ -74,6 +91,16 @@ static inline unsigned int page_frag_cache_page_size(unsigned long encoded_page)
- 	return PAGE_SIZE << page_frag_encoded_page_order(encoded_page);
- }
+ enum nfs4_acl_whotype {
+ 	NFS4_ACL_WHO_NAMED = 0,
+@@ -512,12 +513,6 @@ enum {
+ 	FATTR4_XATTR_SUPPORT		= 82,
+ };
  
-+/**
-+ * page_frag_cache_page_offset() - Return the current page fragment's offset.
-+ * @nc: page_frag cache from which to check
-+ *
-+ * The API is only used in net/sched/em_meta.c for historical reason, do not use
-+ * it for new caller unless there is a strong reason.
-+ *
-+ * Return:
-+ * the offset of the current page fragment in the page_frag cache.
-+ */
- static inline unsigned int page_frag_cache_page_offset(const struct page_frag_cache *nc)
- {
- 	return nc->offset;
-@@ -115,6 +142,19 @@ static inline void __page_frag_cache_commit(struct page_frag_cache *nc,
- 	nc->offset = pfrag->offset + used_sz;
- }
+-enum {
+-	FATTR4_TIME_DELEG_ACCESS	= 84,
+-	FATTR4_TIME_DELEG_MODIFY	= 85,
+-	FATTR4_OPEN_ARGUMENTS		= 86,
+-};
+-
+ /*
+  * The following internal definitions enable processing the above
+  * attribute bits within 32-bit word boundaries.
+diff --git a/include/linux/nfs_xdr.h b/include/linux/nfs_xdr.h
+index 45623af3e7b8..d3fe47baf110 100644
+--- a/include/linux/nfs_xdr.h
++++ b/include/linux/nfs_xdr.h
+@@ -1315,11 +1315,6 @@ struct nfs4_fsid_present_res {
  
-+/**
-+ * __page_frag_alloc_align() - Alloc a page fragment with aligning
-+ * requirement.
-+ * @nc: page_frag cache from which to allocate
-+ * @fragsz: the requested fragment size
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ * @align_mask: the requested aligning requirement for the 'va'
-+ *
-+ * Alloc a page fragment from page_frag cache with aligning requirement.
-+ *
-+ * Return:
-+ * Virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *__page_frag_alloc_align(struct page_frag_cache *nc, unsigned int fragsz,
- 					    gfp_t gfp_mask, unsigned int align_mask)
- {
-@@ -130,6 +170,19 @@ static inline void *__page_frag_alloc_align(struct page_frag_cache *nc, unsigned
- 	return va;
- }
+ #endif /* CONFIG_NFS_V4 */
  
-+/**
-+ * page_frag_alloc_align() - Alloc a page fragment with aligning requirement.
-+ * @nc: page_frag cache from which to allocate
-+ * @fragsz: the requested fragment size
-+ * @gfp_mask: the allocation gfp to use when cache needs to be refilled
-+ * @align: the requested aligning requirement for the fragment
-+ *
-+ * WARN_ON_ONCE() checking for @align before allocing a page fragment from
-+ * page_frag cache with aligning requirement.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *page_frag_alloc_align(struct page_frag_cache *nc,
- 					  unsigned int fragsz, gfp_t gfp_mask,
- 					  unsigned int align)
-@@ -138,12 +191,36 @@ static inline void *page_frag_alloc_align(struct page_frag_cache *nc,
- 	return __page_frag_alloc_align(nc, fragsz, gfp_mask, -align);
- }
+-struct nfstime4 {
+-	u64	seconds;
+-	u32	nseconds;
+-};
+-
+ #ifdef CONFIG_NFS_V4_1
  
-+/**
-+ * page_frag_alloc() - Alloc a page fragment.
-+ * @nc: page_frag cache from which to allocate
-+ * @fragsz: the requested fragment size
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ *
-+ * Alloc a page fragment from page_frag cache.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *page_frag_alloc(struct page_frag_cache *nc,
- 				    unsigned int fragsz, gfp_t gfp_mask)
- {
- 	return __page_frag_alloc_align(nc, fragsz, gfp_mask, ~0u);
- }
+ struct pnfs_commit_bucket {
+diff --git a/fs/nfsd/nfs4xdr_gen.h b/include/linux/sunrpc/xdrgen/nfs4_1.h
+similarity index 96%
+rename from fs/nfsd/nfs4xdr_gen.h
+rename to include/linux/sunrpc/xdrgen/nfs4_1.h
+index e79935f973ff..0272c2ee8739 100644
+--- a/fs/nfsd/nfs4xdr_gen.h
++++ b/include/linux/sunrpc/xdrgen/nfs4_1.h
+@@ -2,8 +2,8 @@
+ /* Generated by xdrgen. Manual edits will be lost. */
+ /* XDR specification modification time: Fri Aug 23 18:57:46 2024 */
  
-+/**
-+ * __page_frag_refill_align() - Refill a page_frag with aligning requirement.
-+ * @nc: page_frag cache from which to refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ * @align_mask: the requested aligning requirement for the fragment
-+ *
-+ * Refill a page_frag from page_frag cache with aligning requirement.
-+ *
-+ * Return:
-+ * True if refill succeeds, otherwise return false.
-+ */
- static inline bool __page_frag_refill_align(struct page_frag_cache *nc, unsigned int fragsz,
- 					    struct page_frag *pfrag, gfp_t gfp_mask,
- 					    unsigned int align_mask)
-@@ -155,6 +232,20 @@ static inline bool __page_frag_refill_align(struct page_frag_cache *nc, unsigned
- 	return true;
- }
+-#ifndef _LINUX_NFS4_XDRGEN_H
+-#define _LINUX_NFS4_XDRGEN_H
++#ifndef _LINUX_XDRGEN_NFS4_H
++#define _LINUX_XDRGEN_NFS4_H
  
-+/**
-+ * page_frag_refill_align() - Refill a page_frag with aligning requirement.
-+ * @nc: page_frag cache from which to refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache needs to be refilled
-+ * @align: the requested aligning requirement for the fragment
-+ *
-+ * WARN_ON_ONCE() checking for @align before refilling a page_frag from
-+ * page_frag cache with aligning requirement.
-+ *
-+ * Return:
-+ * True if refill succeeds, otherwise return false.
-+ */
- static inline bool page_frag_refill_align(struct page_frag_cache *nc, unsigned int fragsz,
- 					  struct page_frag *pfrag, gfp_t gfp_mask,
- 					  unsigned int align)
-@@ -163,12 +254,38 @@ static inline bool page_frag_refill_align(struct page_frag_cache *nc, unsigned i
- 	return __page_frag_refill_align(nc, fragsz, pfrag, gfp_mask, -align);
- }
+ #include <linux/types.h>
+ #include <linux/sunrpc/svc.h>
+@@ -103,4 +103,4 @@ enum { FATTR4_TIME_DELEG_MODIFY = 85 };
  
-+/**
-+ * page_frag_refill() - Refill a page_frag.
-+ * @nc: page_frag cache from which to refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ *
-+ * Refill a page_frag from page_frag cache.
-+ *
-+ * Return:
-+ * True if refill succeeds, otherwise return false.
-+ */
- static inline bool page_frag_refill(struct page_frag_cache *nc, unsigned int fragsz,
- 				    struct page_frag *pfrag, gfp_t gfp_mask)
- {
- 	return __page_frag_refill_align(nc, fragsz, pfrag, gfp_mask, ~0u);
- }
+ enum { OPEN4_SHARE_ACCESS_WANT_DELEG_TIMESTAMPS = 0x100000 };
  
-+/**
-+ * __page_frag_refill_prepare_align() - Prepare refilling a page_frag with aligning
-+ * requirement.
-+ * @nc: page_frag cache from which to refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ * @align_mask: the requested aligning requirement for the fragment
-+ *
-+ * Prepare refill a page_frag from page_frag cache with aligning requirement.
-+ *
-+ * Return:
-+ * True if prepare refilling succeeds, otherwise return false.
-+ */
- static inline bool __page_frag_refill_prepare_align(struct page_frag_cache *nc,
- 						    unsigned int fragsz,
- 						    struct page_frag *pfrag,
-@@ -178,6 +295,21 @@ static inline bool __page_frag_refill_prepare_align(struct page_frag_cache *nc,
- 	return !!__page_frag_cache_prepare(nc, fragsz, pfrag, gfp_mask, align_mask);
- }
- 
-+/**
-+ * page_frag_refill_prepare_align() - Prepare refilling a page_frag with aligning
-+ * requirement.
-+ * @nc: page_frag cache from which to refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache needs to be refilled
-+ * @align: the requested aligning requirement for the fragment
-+ *
-+ * WARN_ON_ONCE() checking for @align before prepare refilling a page_frag from
-+ * page_frag cache with aligning requirement.
-+ *
-+ * Return:
-+ * True if prepare refilling succeeds, otherwise return false.
-+ */
- static inline bool page_frag_refill_prepare_align(struct page_frag_cache *nc,
- 						  unsigned int fragsz,
- 						  struct page_frag *pfrag,
-@@ -188,6 +320,18 @@ static inline bool page_frag_refill_prepare_align(struct page_frag_cache *nc,
- 	return __page_frag_refill_prepare_align(nc, fragsz, pfrag, gfp_mask, -align);
- }
- 
-+/**
-+ * page_frag_refill_prepare() - Prepare refilling a page_frag.
-+ * @nc: page_frag cache from which to refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ *
-+ * Prepare refilling a page_frag from page_frag cache.
-+ *
-+ * Return:
-+ * True if refill succeeds, otherwise return false.
-+ */
- static inline bool page_frag_refill_prepare(struct page_frag_cache *nc,
- 					    unsigned int fragsz,
- 					    struct page_frag *pfrag,
-@@ -196,6 +340,20 @@ static inline bool page_frag_refill_prepare(struct page_frag_cache *nc,
- 	return __page_frag_refill_prepare_align(nc, fragsz, pfrag, gfp_mask, ~0u);
- }
- 
-+/**
-+ * __page_frag_alloc_refill_prepare_align() - Prepare allocing a fragment and
-+ * refilling a page_frag with aligning requirement.
-+ * @nc: page_frag cache from which to allocate and refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ * @align_mask: the requested aligning requirement for the fragment.
-+ *
-+ * Prepare allocing a fragment and refilling a page_frag from page_frag cache.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *__page_frag_alloc_refill_prepare_align(struct page_frag_cache *nc,
- 							   unsigned int fragsz,
- 							   struct page_frag *pfrag,
-@@ -205,6 +363,21 @@ static inline void *__page_frag_alloc_refill_prepare_align(struct page_frag_cach
- 	return __page_frag_cache_prepare(nc, fragsz, pfrag, gfp_mask, align_mask);
- }
- 
-+/**
-+ * page_frag_alloc_refill_prepare_align() - Prepare allocing a fragment and
-+ * refilling a page_frag with aligning requirement.
-+ * @nc: page_frag cache from which to allocate and refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ * @align: the requested aligning requirement for the fragment.
-+ *
-+ * WARN_ON_ONCE() checking for @align before prepare allocing a fragment and
-+ * refilling a page_frag from page_frag cache.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *page_frag_alloc_refill_prepare_align(struct page_frag_cache *nc,
- 							 unsigned int fragsz,
- 							 struct page_frag *pfrag,
-@@ -215,6 +388,19 @@ static inline void *page_frag_alloc_refill_prepare_align(struct page_frag_cache
- 	return __page_frag_alloc_refill_prepare_align(nc, fragsz, pfrag, gfp_mask, -align);
- }
- 
-+/**
-+ * page_frag_alloc_refill_prepare() - Prepare allocing a fragment and refilling
-+ * a page_frag.
-+ * @nc: page_frag cache from which to allocate and refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ *
-+ * Prepare allocing a fragment and refilling a page_frag from page_frag cache.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *page_frag_alloc_refill_prepare(struct page_frag_cache *nc,
- 						   unsigned int fragsz,
- 						   struct page_frag *pfrag,
-@@ -223,6 +409,20 @@ static inline void *page_frag_alloc_refill_prepare(struct page_frag_cache *nc,
- 	return __page_frag_alloc_refill_prepare_align(nc, fragsz, pfrag, gfp_mask, ~0u);
- }
- 
-+/**
-+ * __page_frag_alloc_refill_probe_align() - Probe allocing a fragment and refilling
-+ * a page_frag with aligning requirement.
-+ * @nc: page_frag cache from which to allocate and refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @align_mask: the requested aligning requirement for the fragment.
-+ *
-+ * Probe allocing a fragment and refilling a page_frag from page_frag cache with
-+ * aligning requirement.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *__page_frag_alloc_refill_probe_align(struct page_frag_cache *nc,
- 							 unsigned int fragsz,
- 							 struct page_frag *pfrag,
-@@ -243,6 +443,18 @@ static inline void *__page_frag_alloc_refill_probe_align(struct page_frag_cache
- 	return page_frag_encoded_page_address(encoded_page) + offset;
- }
- 
-+/**
-+ * page_frag_alloc_refill_probe() - Probe allocing a fragment and refilling
-+ * a page_frag.
-+ * @nc: page_frag cache from which to allocate and refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled
-+ *
-+ * Probe allocing a fragment and refilling a page_frag from page_frag cache.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *page_frag_alloc_refill_probe(struct page_frag_cache *nc,
- 						 unsigned int fragsz,
- 						 struct page_frag *pfrag)
-@@ -250,6 +462,17 @@ static inline void *page_frag_alloc_refill_probe(struct page_frag_cache *nc,
- 	return __page_frag_alloc_refill_probe_align(nc, fragsz, pfrag, ~0u);
- }
- 
-+/**
-+ * page_frag_refill_probe() - Probe refilling a page_frag.
-+ * @nc: page_frag cache from which to refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled
-+ *
-+ * Probe refilling a page_frag from page_frag cache.
-+ *
-+ * Return:
-+ * True if refill succeeds, otherwise return false.
-+ */
- static inline bool page_frag_refill_probe(struct page_frag_cache *nc,
- 					  unsigned int fragsz,
- 					  struct page_frag *pfrag)
-@@ -257,18 +480,46 @@ static inline bool page_frag_refill_probe(struct page_frag_cache *nc,
- 	return !!page_frag_alloc_refill_probe(nc, fragsz, pfrag);
- }
- 
-+/**
-+ * page_frag_commit - Commit allocing a page fragment.
-+ * @nc: page_frag cache from which to commit
-+ * @pfrag: the page_frag to be committed
-+ * @used_sz: size of the page fragment has been used
-+ *
-+ * Commit the actual used size for the allocation that was either prepared
-+ * or probed.
-+ */
- static inline void page_frag_commit(struct page_frag_cache *nc, struct page_frag *pfrag,
- 				    unsigned int used_sz)
- {
- 	__page_frag_cache_commit(nc, pfrag, true, used_sz);
- }
- 
-+/**
-+ * page_frag_commit_noref - Commit allocing a page fragment without taking
-+ * page refcount.
-+ * @nc: page_frag cache from which to commit
-+ * @pfrag: the page_frag to be committed
-+ * @used_sz: size of the page fragment has been used
-+ *
-+ * Commit the alloc preparing or probing by passing the actual used size, but
-+ * not taking refcount. Mostly used for fragmemt coalescing case when the
-+ * current fragment can share the same refcount with previous fragment.
-+ */
- static inline void page_frag_commit_noref(struct page_frag_cache *nc,
- 					  struct page_frag *pfrag, unsigned int used_sz)
- {
- 	__page_frag_cache_commit(nc, pfrag, false, used_sz);
- }
- 
-+/**
-+ * page_frag_alloc_abort - Abort the page fragment allocation.
-+ * @nc: page_frag cache to which the page fragment is aborted back
-+ * @fragsz: size of the page fragment to be aborted
-+ *
-+ * It is expected to be called from the same context as the alloc API.
-+ * Mostly used for error handling cases where the fragment is no longer needed.
-+ */
- static inline void page_frag_alloc_abort(struct page_frag_cache *nc, unsigned int fragsz)
- {
- 	VM_BUG_ON(fragsz > nc->offset);
-diff --git a/mm/page_frag_cache.c b/mm/page_frag_cache.c
-index e0ad3de11249..48e3aeb86942 100644
---- a/mm/page_frag_cache.c
-+++ b/mm/page_frag_cache.c
-@@ -47,6 +47,10 @@ static struct page *__page_frag_cache_refill(struct page_frag_cache *nc,
- 	return page;
- }
- 
-+/**
-+ * page_frag_cache_drain - Drain the current page from page_frag cache.
-+ * @nc: page_frag cache from which to drain
-+ */
- void page_frag_cache_drain(struct page_frag_cache *nc)
- {
- 	if (!nc->encoded_page)
-@@ -137,8 +141,12 @@ void *__page_frag_cache_prepare(struct page_frag_cache *nc, unsigned int fragsz,
- }
- EXPORT_SYMBOL(__page_frag_cache_prepare);
- 
--/*
-- * Frees a page fragment allocated out of either a compound or order 0 page.
-+/**
-+ * page_frag_free - Free a page fragment.
-+ * @addr: va of page fragment to be freed
-+ *
-+ * Free a page fragment allocated out of either a compound or order 0 page by
-+ * virtual address.
-  */
- void page_frag_free(void *addr)
- {
+-#endif /* _LINUX_NFS4_XDRGEN_H */
++#endif /* _LINUX_XDRGEN_NFS4_H */
+
 -- 
-2.33.0
+2.46.0
 
