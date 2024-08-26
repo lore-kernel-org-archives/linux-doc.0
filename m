@@ -1,46 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A2E881E;
-	Mon, 26 Aug 2024 21:07:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA7641993BA;
+	Mon, 26 Aug 2024 21:08:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724706473; cv=none; b=OvtrB7kN8x/yEkUfz/+s3h/aUwqHgOISj1dnercZdlDMmQnPXS0ev1Tvt0HOLo1RDEIti5I9JjBBdxSS7qkJ9RLp1jMzgGRJuURMJiSc48yYmrRcSjNX5TJ9RNooZoJDgas4YRmiuBboHOr1di6D/RoTvCQDrZY0sXf4UaHsmS4=
+	t=1724706492; cv=none; b=oi9AcNVJRDM2w8mgwIWs1dKo4jkUIKhIbcAPEam6qo9rNBTxXGEKRamct9NCm+f8VYWFWB2/hZHaagCzUZMN0ZMyfz2IT783cnuWcgQ1+2mWb/TrC/Z70oR7RePjh04IxgL9IOiqFwVfXoYegndQa20hqM7zRVbQhDNZA/vmWGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724706473; c=relaxed/simple;
-	bh=0EWEuJcdwdIyzNP12HmlUHMkhgWA6mZVV/NN/fG5VKc=;
+	s=arc-20240116; t=1724706492; c=relaxed/simple;
+	bh=Qw+J6iD8Pg10UUZ64viFHuUl9HmU6O+5V+P2eYkl2uo=;
 	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=SO2hS3YEs+ltykf1uHIrBP9tkcZ9I10x3dCReTiMFPqJJtBbnCF5YwpTGD9FtDKE1fFWciswuEaz25Oz97EsvS8IBLHCXeTBNDB5NYuCQdPZbNMgwh2cXRMdnQk6oaHV6imgj6B1uTMhJhN5F+2/tGh1JbMtLGY8JwOK9Q+uhsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=dzGBTuOF; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=U086LN9wc5fEhIo+C+oimkE8yDzMfdJr5e+rZfLb3j9bb5uTXfOb0+eJe1O0VsJXbqUkr1kavjCA4RjxWFBXL040H+m7001X8BJSdXkZXsaECPUae1RzYCxqH0XvXIYXLeiWiwVCZFNKy8AtVWfRfCzh7anoky1CHORsRbpX1N0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=UEHpjAXr; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="dzGBTuOF"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4E13741AB9
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="UEHpjAXr"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E339441AB9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1724706463; bh=7BfkKSZi/7KMqOZYo+q/HR6MkuZYJQFCXk7/jN/sUAU=;
+	t=1724706490; bh=IaKvDgSFx1cLKXSEhOkfh1OgCi/I6RmNfUqoLjrWYbA=;
 	h=From:To:Subject:In-Reply-To:References:Date:From;
-	b=dzGBTuOFkv4ezZ+Lrrq507biq2o+lR7aY3PV7JV9mKlQ0ODi0CN+2+pEelNQs9ZkW
-	 EjkHc7S48M+PvmPAK5bl27GgMx6A5dcJqPg8hO1pEjMczMwQSchaI4i35k67YNnfEQ
-	 6GRVQwSTOCwNEb2Fx9iQJ5WQKivc+x3bm6dQpwL5Wg9KqLtVuqNweGh0JqUsk6zWaX
-	 pzZiGl2hCULVZ2638+qit7jiAf0Qsdaoh1BiW600WuplJaMjfQSmSIc8CV2skUhsqA
-	 XadlCVpJhFg/Np7ZTB5Xqys6RfNgvmcWK0eceWfz08nvT3uNc+RGz5qlA++PNEtZGY
-	 nRgtn/RUPpZrA==
+	b=UEHpjAXruquSXyQy9oIQqAsVq45ldJ6EaJ6o97Krv1vG5RVTPWZXSJ02Re8hsYUG6
+	 dwMZ8VMTl60xabQlfhYOumNwPp0BE6CXRhpHPDZVHtrKMnr0x2bnrUtQrFqf1ScttS
+	 sReuHrRyRrwMNHfOaH9WnMUkli2eo0uNwM+/P+mis/IlvarIvF89S6YIAJ9sgqWn4O
+	 Y940rMKLYi5Mif6g8HQUObZYrd5eD0WY2N1gG2ewHB83Es2ek9tstvhuIYCCoAN0E+
+	 YnKc9FGpzJdE8xG12gvqQrfKMuHl5OHW2s+9MXwrSkKyCvT4UHc8FFfn/HKRekNFHE
+	 Usba05vgIIIrQ==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 4E13741AB9;
-	Mon, 26 Aug 2024 21:07:43 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id E339441AB9;
+	Mon, 26 Aug 2024 21:08:09 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Aryabhatta Dey <aryabhattadey35@gmail.com>, workflows@vger.kernel.org,
+To: Aryabhatta Dey <aryabhattadey35@gmail.com>, vadimp@nvidia.com,
+ pavel@ucw.cz, lee@kernel.org, linux-leds@vger.kernel.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: process: fix typos in
- Documentation/process/backporting.rst
-In-Reply-To: <rd2vu7z2t23ppafto4zxc6jge5mj7w7xnpmwywaa2e3eiojgf2@poicxprsdoks>
-References: <rd2vu7z2t23ppafto4zxc6jge5mj7w7xnpmwywaa2e3eiojgf2@poicxprsdoks>
-Date: Mon, 26 Aug 2024 15:07:42 -0600
-Message-ID: <87r0ab6li9.fsf@trenco.lwn.net>
+Subject: Re: [PATCH] docs: leds: fix typo in
+ Documentation/leds/leds-mlxcpld.rst
+In-Reply-To: <5nib2kj6uh7lkafrmmwcjpeyvs7megdfmseftkjws2wcuztoyc@yhidnl4ilbok>
+References: <5nib2kj6uh7lkafrmmwcjpeyvs7megdfmseftkjws2wcuztoyc@yhidnl4ilbok>
+Date: Mon, 26 Aug 2024 15:08:09 -0600
+Message-ID: <87mskz6lhi.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,13 +52,23 @@ Content-Type: text/plain
 
 Aryabhatta Dey <aryabhattadey35@gmail.com> writes:
 
-> Change 'submiting' to 'submitting', 'famliar' to 'familiar' and
-> 'appared' to 'appeared'.
+> Change 'cylce' to 'cycle'.
 >
 > Signed-off-by: Aryabhatta Dey <aryabhattadey35@gmail.com>
 > ---
->  Documentation/process/backporting.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  Documentation/leds/leds-mlxcpld.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/leds/leds-mlxcpld.rst b/Documentation/leds/leds-mlxcpld.rst
+> index 528582429e0b..c520a134d91e 100644
+> --- a/Documentation/leds/leds-mlxcpld.rst
+> +++ b/Documentation/leds/leds-mlxcpld.rst
+> @@ -115,4 +115,4 @@ Driver provides the following LEDs for the system "msn2100":
+>  	- [1,1,1,1] = Blue blink 6Hz
+>  
+>  Driver supports HW blinking at 3Hz and 6Hz frequency (50% duty cycle).
+> -For 3Hz duty cylce is about 167 msec, for 6Hz is about 83 msec.
+> +For 3Hz duty cycle is about 167 msec, for 6Hz is about 83 msec.
 
 Applied, thanks.
 
