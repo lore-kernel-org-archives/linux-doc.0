@@ -1,46 +1,50 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84207F7FC;
-	Mon, 26 Aug 2024 21:37:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E4626AC3;
+	Mon, 26 Aug 2024 21:45:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724708269; cv=none; b=e/gMn8XZbd3Gn2deK9buLpv7++UImjrbfLiDdfkfbM6W1rTJr2ZuUMRlvLFcjIU+kBFJ0nV+/eWWrkopSAX9MEFTp6aH2fz1iDa86UAQ+FPTYcm2f1p10/G1ydvjG1nD+TGGYx3XegveLcE6iuRXFBfh26XI0GJsf5KPIgkLW3Y=
+	t=1724708721; cv=none; b=Ivr1SKMNLx7q/Xi/kQWrffeBztZ1LgyEZerDoYdZMRgV9p3d5LcdCprErhhrmuh7yrEutb+iGp7NV0oeM12S76Unh0ma3ocg6rpS2fo/Xl1gJLT8PbjsOojG1rX3ugKGcy6F5UfPCTtbvy0Em6pfuaBEyxAsgcIs+JGcCuJ9hBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724708269; c=relaxed/simple;
-	bh=aW9wia3uk6XOGc9qgz2oY52IEKNMNOCAMK+SWniio6g=;
+	s=arc-20240116; t=1724708721; c=relaxed/simple;
+	bh=9HuQOiSNN6/kKxzX7pc6LVjoP+jiMmXY4yGzX/h5pGg=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=WN7CdmYejhijpG6BJKz1hcsR+8QxcTJSRj50L477UwuRHOxMKiisALb4vlC+oiCiPp5vhLGy4ovxXZVtHdSk6DGu9ChBv/SMOWmXPrq41VNY8+i8h6gjckuWAUT/0UF6yE0V9Zj4O85RoZKPlKFHMCMYwIWweMFbZsQ6L1tAZ6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=epK3hZDV; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=nID1GCfSf3KyIwUirloEwWSw63kpz5VCVMZ9j56MxknxJhu/yRWtVR00P0DM9SkqH6peNM2RIwED5URwtjqQmi2rR3g+Tr5JBUCPTMx/SSJlKMeqRTRQqLsi7ZW5kBzbR1lyCZVUajgUrkgQNRNqUamf4ct8ckNu6zywOzdEbkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=pDouXqIw; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="epK3hZDV"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 03C0845CC6
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="pDouXqIw"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2151F41AB9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1724708267; bh=LDX3Y5+Jha9vksTAxf461nNLNTuxgcR9NT6a1WSlGAc=;
+	t=1724708719; bh=4Sdbpb1WMKaV3Ic3jTBKuIlKBSluMuTdNbalX8xuK/4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=epK3hZDVzFqiqxXHf5x+3Uu+NyVjpbx/5vVWvBs4GeCYD9tx5lGvXIiLPRwziVa3S
-	 cvnC0qHNrjzXqaSvA1pBD5yJ0n70z4SsqGYFJp0IcFjJVZuhnBn8hPjZQa8oGF4PcV
-	 rMWb8rq5DJ35Q+OMYg6O8DJOWAuooQs1FmMWp1Zzvjs4HogS1y1bTL/q5E6iNn17kQ
-	 zK+wgNawqqrsBihN7BrGwH4yxJNoKnyCdYP8zAHaZ1jpfB4Tdn0QQtFj6bO56blVBZ
-	 HRU73scTAO0DaJUdZD4JeUREP2gt5pMOOizUZOqp/GE1KX3UiRqOUTNMCUDrY0V/Ds
-	 OqxohbDJzMyMA==
+	b=pDouXqIwDro5X4QCaXAhhs/9gu7YN9wTUNttrlWbQfRbwBfL/RbWzgLBKl279Hxgs
+	 qkpj0Bu2cDfk5hPiHMpBU/ojS9SAkLd5ofMDL1+p5GVhb61MN5bW6hH84dWFYLJGXM
+	 Q8xoGsOViVGfUZrcmu28p8frWVsVT9QPFgYNiZxT0BV4QID1re/uBNubinNuvIL8LP
+	 W9ldrIQbweVKadknoAg6s06geYlvoAdeGANWTnGTCHSYEhIYzmHy5Y05oV0H1P9pwW
+	 w+3CIq2Rc/UTb0sjydpRcFfxVp5OoMGqiyQ+yLPPCych8jjuiTS3DbdCsJZriURSD2
+	 8xf3Bu4Xp2Lpg==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 03C0845CC6;
-	Mon, 26 Aug 2024 21:37:46 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 2151F41AB9;
+	Mon, 26 Aug 2024 21:45:19 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Gianfranco Trad <gianf.trad@gmail.com>, akinobu.mita@gmail.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Gianfranco Trad
- <gianf.trad@gmail.com>
-Subject: Re: [PATCH] Fix typo "allocateed" to allocated
-In-Reply-To: <20240819110641.1931-1-gianf.trad@gmail.com>
-References: <20240819110641.1931-1-gianf.trad@gmail.com>
-Date: Mon, 26 Aug 2024 15:37:46 -0600
-Message-ID: <87wmk355jp.fsf@trenco.lwn.net>
+To: Haoyang Liu <tttturtleruss@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <siyanteng@loongson.cn>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: hust-os-kernel-patches@googlegroups.com, Haoyang Liu
+ <tttturtleruss@hust.edu.cn>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v7] docs/zh_CN: Add dev-tools/kcsan Chinese translation
+In-Reply-To: <20240817175151.164923-1-tttturtleruss@hust.edu.cn>
+References: <20240817175151.164923-1-tttturtleruss@hust.edu.cn>
+Date: Mon, 26 Aug 2024 15:45:18 -0600
+Message-ID: <87seur5575.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,27 +53,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Gianfranco Trad <gianf.trad@gmail.com> writes:
+Haoyang Liu <tttturtleruss@hust.edu.cn> writes:
 
-> Fix minor typo in the fault-injection documentation,
-> where the word allocated was misspelled as "allocateed".
+> Translate dev-tools/kcsan commit 31f605a308e6
+> ("kcsan, compiler_types: Introduce __data_racy type qualifier")
+> into Chinese and add it in dev-tools/zh_CN/index.rst
 >
-> Signed-off-by: Gianfranco Trad <gianf.trad@gmail.com>
+> Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
+> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
 > ---
->  Documentation/fault-injection/fault-injection.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> v6 -> v7: Replace duplicated inclusion with a note to avoid compile warnings.
+> v5 -> v6: Fix a typo.
+> v4 -> v5: Translate link into Chinese as well according to reviewer's advice.
+> v3 -> v4: Added original English text for proper nouns and modified some unclear experessions.
+> v2 -> v3: Revised some sentences based on reviewer's suggestions and updated the KTSAN url.
+> v1 -> v2: Added commit tag and fixed style problems according to reviewer's suggestions. 
 >
-> diff --git a/Documentation/fault-injection/fault-injection.rst b/Documentation/fault-injection/fault-injection.rst
-> index 70380a2a01b4..9170e22db215 100644
-> --- a/Documentation/fault-injection/fault-injection.rst
-> +++ b/Documentation/fault-injection/fault-injection.rst
-> @@ -283,7 +283,7 @@ kernel may crash because it may not be able to handle the error.
->  There are 4 types of errors defined in include/asm-generic/error-injection.h
->  
->  EI_ETYPE_NULL
-> -  This function will return `NULL` if it fails. e.g. return an allocateed
-> +  This function will return `NULL` if it fails. e.g. return an allocated
->    object address.
+>  .../translations/zh_CN/dev-tools/index.rst    |   2 +-
+>  .../translations/zh_CN/dev-tools/kcsan.rst    | 320 ++++++++++++++++++
+>  2 files changed, 321 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/dev-tools/kcsan.rst
 
 Applied, thanks.
 
