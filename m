@@ -1,163 +1,316 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEFE5194122
-	for <linux-doc@vger.kernel.org>; Mon, 26 Aug 2024 15:52:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554F67E1;
+	Mon, 26 Aug 2024 16:24:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724687529; cv=none; b=qu1Yxf0W43dA54ojb08aliM0xPVISi3frMvINiAJ5atdP/v2w1u04J8Fs2CQ2q34zNnu0Fx7EvJ3IvPzlIUlO4Ny6/2Aw1vH70lcivtQcVm5YsET7+E2Jtg6UoptU5I+DNwCnU5KOCtFc9D5f6vMIuMsQige2kmUxHh+1wifVfM=
+	t=1724689461; cv=none; b=qWZ3EYalqrU2Mk0H6V9WpmC3Pv1/ocr6emizxvBEAq4l7xpg8QeR8rMVHCUsOtTG9ZxwHFUgX1DXR6frm1WpyA6ZRDIVyoZjIZxDS7fGyoD/8spoqkBVh+iiffscWm5XnNDc2VplqY038NO3JlUMHBlYlzYqfHX6dK8QHiuHy58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724687529; c=relaxed/simple;
-	bh=Dwazc+e0kXeS2xTQ712+0BIKFANt7k7hBlcLvCAFWPU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hCPzmVfJIL/QnfNi++gyL2izzw2wUv9805Yo8CqpWABkQ1omo8LDAcK8P9pQSBVWsOMGl210p2RSwfvkVQBoHlcdY+Kr8VjX9UE6QgqLQUxi4Xi7nF/yOoMRdo3slYm2HdtIMPsxoU4MG0tf5zeZjRL1Gqh/MHAx62fYGfghWbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=e3FIzBZv; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1724689461; c=relaxed/simple;
+	bh=MI1DHld11evWnJl0j41h7b1BUDgwHggz6IrVMlfsTss=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RneXfKjejJrU6SfhKVYaEKqFOppGGgtyk4eZoQ/9/7OzVWjsbZZLAFGyu++Pe/bAAwzbqhngjHo5s0Wy0iga1FUy1z3wIjqOoKFaN+WF32Y5zfzbl9+j6SW1nGEauoI109wy1eRsSJTpd97YDjMbi+eqta0fhEJdnrhsFCazzVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=nEy0hWiD; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="e3FIzBZv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1724687526;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="nEy0hWiD"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 9F58C1C0005;
+	Mon, 26 Aug 2024 16:24:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1724689457;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Dwazc+e0kXeS2xTQ712+0BIKFANt7k7hBlcLvCAFWPU=;
-	b=e3FIzBZv0Hz32L1TuWGAEqcXh08IH0x7Lx5jYTzEncSKtvkEHFz/C8+6Qv9ZDgaKJXX6dV
-	DPNVfAIFDexax9KOZNnjrhRSuck18vVR2tiODw3gCeoRaDGftiQSTnnw6/isBH2mvkQsjE
-	/DjFLCEo3GPWtDMgObc1wTfG3WUS+xM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-548-YkRHFrgUPoOHR8ZHwVXEiA-1; Mon, 26 Aug 2024 11:52:05 -0400
-X-MC-Unique: YkRHFrgUPoOHR8ZHwVXEiA-1
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-428fc34f41bso42856585e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 26 Aug 2024 08:52:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724687524; x=1725292324;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Dwazc+e0kXeS2xTQ712+0BIKFANt7k7hBlcLvCAFWPU=;
-        b=wuIFiWm7hqbUMhVVzdfK+T4nZcatJI4BIjL1BBGd16L8zpJAc+rcXnVxyT1/5hrUt6
-         LH9snKkoMIGKlcpX3u0gOAOvwM/RzdwCI8Kjbo0kjtZSUAC0w1mBLTQddeaTJCzqKuu0
-         vG6UFucmDncECUcsrHAWLGf4Zg+ApFaRxd7oVMPdWO5iQExW6G8gEtjGQhj4WuFuFwG2
-         sSpbny5gKI48hvm//8eXo6lS1F46mpugp/+53AK70K9a+FVFuDF/AcAgAKf9mf2SzLdx
-         ZdswVdGh/tvaMJ5pr4pJHuXNeBTOMugQiPr9/fEJR8G75NSCPSbCAsT8U1ig318RFomx
-         VJTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVTwzMmS6/ACkO8Ne0zPAMdlAqXE+wcwyt8HvRmGTSRsONxUxTshvE/VUOGD7mKQFcMRQ+//iITYOA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwML4GacfvFg/VmMz5HbHK5VlTuQBq0WMkoEqJeNOAYuyzUnjlN
-	zP8PYBG4uQE2OpewfVWPqAszylIF9oLrK/hVTOEsZC8wpxFGxif72GxRc5Sej3NJiLhAcHKKie5
-	jVdEmj2jsXPOQOSS90GbjUC+g1lph+vImdyxSwkI/wjxEmDQAMakvT1p/PQ==
-X-Received: by 2002:adf:e44b:0:b0:360:7c4b:58c3 with SMTP id ffacd0b85a97d-3748c835e08mr49196f8f.54.1724687524279;
-        Mon, 26 Aug 2024 08:52:04 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGxAzHOXHhnfnYaxqHhgL/uz7vF7Nw5k64KjkexckDk+9QWCj+MHZcvnBNc7cGqudRMU7r7fA==
-X-Received: by 2002:adf:e44b:0:b0:360:7c4b:58c3 with SMTP id ffacd0b85a97d-3748c835e08mr49174f8f.54.1724687523730;
-        Mon, 26 Aug 2024 08:52:03 -0700 (PDT)
-Received: from dhcp-64-164.muc.redhat.com (nat-pool-muc-t.redhat.com. [149.14.88.26])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3730814602asm11021638f8f.44.2024.08.26.08.52.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Aug 2024 08:52:02 -0700 (PDT)
-Message-ID: <f2d6345a8a684f62035108d74938ec0b2e162019.camel@redhat.com>
-Subject: Re: [PATCH v3 5/9] ethernet: cavium: Replace deprecated PCI
- functions
-From: Philipp Stanner <pstanner@redhat.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Jens Axboe <axboe@kernel.dk>, Wu Hao <hao.wu@intel.com>, Tom Rix
- <trix@redhat.com>, Moritz Fischer <mdf@kernel.org>, Xu Yilun
- <yilun.xu@intel.com>, Linus Walleij <linus.walleij@linaro.org>, Bartosz
- Golaszewski <brgl@bgdev.pl>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,  Paolo
- Abeni <pabeni@redhat.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Jose Abreu <joabreu@synopsys.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>, Alvaro
- Karsz <alvaro.karsz@solid-run.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Eugenio =?ISO-8859-1?Q?P=E9rez?= <eperezma@redhat.com>, Richard Cochran
- <richardcochran@gmail.com>, Mark Brown <broonie@kernel.org>, David Lechner
- <dlechner@baylibre.com>, Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=
- <u.kleine-koenig@pengutronix.de>, Damien Le Moal <dlemoal@kernel.org>, 
- Hannes Reinecke <hare@suse.de>, Chaitanya Kulkarni <kch@nvidia.com>,
- linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org,  linux-fpga@vger.kernel.org,
- linux-gpio@vger.kernel.org, netdev@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org,  linux-pci@vger.kernel.org,
- virtualization@lists.linux.dev
-Date: Mon, 26 Aug 2024 17:52:00 +0200
-In-Reply-To: <CAHp75VfKS_PWer2hEH8x0qgBUEPx05p8BA=c0UirAWjg0SaLeA@mail.gmail.com>
-References: <20240822134744.44919-1-pstanner@redhat.com>
-	 <20240822134744.44919-6-pstanner@redhat.com>
-	 <ZsdO2q8uD829hP-X@smile.fi.intel.com>
-	 <ad6af1c4194873e803df65dc4d595f8e4b26cb33.camel@redhat.com>
-	 <CAHp75VfKS_PWer2hEH8x0qgBUEPx05p8BA=c0UirAWjg0SaLeA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=nfc8PLjiZI1yal1Zw5qdC6sch+dLjIkryaHmHrDltCA=;
+	b=nEy0hWiDyTDOmOnC6zc72H3MKP7Lj8caRgEwNYdc3FmeDqzZElJfnJ83VF4LPDKpV7i89E
+	FYiKRx/JGLK6wfR19y5XtPi6fTApGf+VdyeWavu2j58HTuZCt+r+SDuAGeQVu9roNMzy1z
+	22btLWzjpR9slRzA0nKHxxiaF3EygKDv9bStS18oIgHadqnrjs7KOSsihzruu4nMDvFZT8
+	gIxLAbz60Ur84nrfrLPVCLxKrh+Vcb+FteuwjCiO/xWVyvxuSZH3JrEr6T/HRDifHBzQXp
+	/WH00eIJGLVffurp7PPTm7OcpED2V5Fj2jIa1PscrnWgI++yFcme+humBZ74yA==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	John Ogness <john.ogness@linutronix.de>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [PATCH 0/2] hexdump: Allow skipping identical lines
+Date: Mon, 26 Aug 2024 18:24:14 +0200
+Message-ID: <20240826162416.74501-1-miquel.raynal@bootlin.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: miquel.raynal@bootlin.com
 
-On Mon, 2024-08-26 at 18:41 +0300, Andy Shevchenko wrote:
-> On Mon, Aug 26, 2024 at 5:51=E2=80=AFPM Philipp Stanner <pstanner@redhat.=
-com>
-> wrote:
-> > On Thu, 2024-08-22 at 17:44 +0300, Andy Shevchenko wrote:
-> > > On Thu, Aug 22, 2024 at 03:47:37PM +0200, Philipp Stanner wrote:
->=20
-> ...
->=20
-> > > > -=C2=A0=C2=A0 err =3D pcim_iomap_regions(pdev, 1 << PCI_PTP_BAR_NO,
-> > > > pci_name(pdev));
-> > > > -=C2=A0=C2=A0 if (err)
-> > > > +=C2=A0=C2=A0 clock->reg_base =3D pcim_iomap_region(pdev, PCI_PTP_B=
-AR_NO,
-> > > > pci_name(pdev));
-> > > > +=C2=A0=C2=A0 if (IS_ERR(clock->reg_base)) {
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 err =
-=3D PTR_ERR(clock->reg_base);
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-goto error_free;
-> > > > -
-> > > > -=C2=A0=C2=A0 clock->reg_base =3D pcim_iomap_table(pdev)[PCI_PTP_BA=
-R_NO];
-> > > > +=C2=A0=C2=A0 }
-> > >=20
-> > > Perhaps
-> > >=20
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 clock->reg_base =3D pcim_iomap_region(=
-pdev, PCI_PTP_BAR_NO,
-> > > pci_name(pdev));
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 err =3D PTR_ERR_OR_ZERO(clock->reg_bas=
-e);
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (err)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 goto error_free;
-> > >=20
-> > > This will make your patch smaller and neater.
-> > >=20
-> > > P.S. Do you use --histogram diff algo when preparing patches?
-> >=20
-> > So far not.
-> > Should one do that?
->=20
-> Id doesn't alter your code, it's in addition to what I suggested, but
-> as Linus shared that there is no reason to avoid using --histogram
-> not
-> only in Linux kernel, but in general as it produces more
-> human-readable diff:s.
+Hello!
 
-If the Boss says so, one can surely do that \o/
+While working on NAND issues, I used print_hex_dump() a lot to compare
+data. But I am mostly working on embedded systems where the kernel
+messages go through a serial console. Sometimes network support is an
+option, sometimes not. Anyway, I often print buffers both in kernel
+space and user space to compare them, and they may be full of 0's or
+1's, which means lines are repeated a lot in the output and this is slow
+*and* hard to compare.
 
-Though if it has 0 disadvantages I'd propose proposing to the git-devs
-to make it the default.
+I initially hacked into lib/hexdump.c for my own purpose and just
+discarded all the other users, but it felt like this might be a useful
+feature for others and decided to make it a public patch.
 
+* First patch changes the "ascii" parameter into a "flags" variable now
+  accepting the value: DUMP_FLAG_ASCII.
+* Second patch adds a new flag to skip the identical lines, because this
+  must be an opt-in parameter, I guess.
 
-P.
+The patch series has successfully gone through a round of
+kernel-test-robot.
 
->=20
+The Cc-list, as provided by get_maintainers.pl, was returning 330
+e-mail addresses which felt to much, so I ran the script only on the
+second patch (the printk/includes/debug/Doc changes). It gave this
+Cc-list which sounds more reasonable. Hopefully this is a smart move,
+otherwise let me know what you think would be better.
+
+Cheers,
+Miquèl
+
+Miquel Raynal (2):
+  hexdump: Convert the ascii boolean into a flag variable
+  hexdump: Allow skipping identical lines
+
+ Documentation/core-api/printk-formats.rst     |   4 +-
+ arch/um/include/shared/user.h                 |   6 +-
+ arch/x86/kernel/mpparse.c                     |   2 +-
+ arch/x86/kvm/svm/sev.c                        |   3 +-
+ arch/xtensa/kernel/traps.c                    |   4 +-
+ crypto/ansi_cprng.c                           |   2 +-
+ crypto/testmgr.c                              |   2 +-
+ drivers/acpi/nfit/core.c                      |   6 +-
+ drivers/ata/libata-core.c                     |   3 +-
+ drivers/ata/pata_parport/bpck.c               |   2 +-
+ drivers/block/floppy.c                        |   4 +-
+ drivers/cdx/controller/mcdi.c                 |  10 +-
+ .../crypto/allwinner/sun8i-ce/sun8i-ce-core.c |   6 +-
+ drivers/crypto/axis/artpec6_crypto.c          |   5 +-
+ drivers/crypto/bcm/util.c                     |   2 +-
+ drivers/crypto/bcm/util.h                     |   4 +-
+ drivers/crypto/caam/blob_gen.c                |   6 +-
+ drivers/crypto/caam/caamalg.c                 |  33 +++---
+ drivers/crypto/caam/caamalg_desc.c            |  32 +++---
+ drivers/crypto/caam/caamalg_qi.c              |  21 ++--
+ drivers/crypto/caam/caamalg_qi2.c             |  63 ++++++-----
+ drivers/crypto/caam/caamhash.c                |  67 +++++------
+ drivers/crypto/caam/caampkc.c                 |   2 +-
+ drivers/crypto/caam/caamprng.c                |   4 +-
+ drivers/crypto/caam/caamrng.c                 |   4 +-
+ drivers/crypto/caam/error.c                   |   3 +-
+ drivers/crypto/caam/key_gen.c                 |   7 +-
+ drivers/crypto/caam/sg_sw_sec4.h              |   3 +-
+ drivers/crypto/ccp/platform-access.c          |   4 +-
+ drivers/crypto/ccp/psp-dev.c                  |   4 +-
+ drivers/crypto/ccp/sev-dev.c                  |   4 +-
+ drivers/crypto/ccree/cc_driver.c              |   2 +-
+ .../intel/qat/qat_common/adf_mstate_mgr.c     |   4 +-
+ .../marvell/octeontx/otx_cptvf_reqmgr.c       |   8 +-
+ .../marvell/octeontx2/otx2_cptvf_reqmgr.c     |   8 +-
+ drivers/crypto/sa2ul.c                        |   2 +-
+ drivers/firmware/efi/apple-properties.c       |  11 +-
+ drivers/firmware/efi/cper-arm.c               |   2 +-
+ drivers/firmware/efi/cper.c                   |   5 +-
+ drivers/gpu/drm/amd/amdgpu/smu_v11_0_i2c.c    |   4 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   2 +-
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c    |   3 +-
+ drivers/gpu/drm/display/drm_dp_mst_topology.c |   4 +-
+ drivers/gpu/drm/drm_edid.c                    |   2 +-
+ .../drm/i915/display/intel_crtc_state_dump.c  |   2 +-
+ drivers/gpu/drm/i915/display/intel_display.c  |   4 +-
+ .../gpu/drm/nouveau/nvkm/subdev/gsp/r535.c    |   6 +-
+ drivers/gpu/drm/omapdrm/dss/hdmi4_core.c      |   2 +-
+ drivers/gpu/drm/omapdrm/dss/hdmi5_core.c      |   2 +-
+ drivers/hv/channel_mgmt.c                     |   4 +-
+ drivers/infiniband/hw/hns/hns_roce_hw_v2.c    |   2 +-
+ drivers/infiniband/hw/irdma/cm.c              |   6 +-
+ drivers/infiniband/hw/irdma/ctrl.c            | 104 +++++++++---------
+ drivers/infiniband/hw/irdma/puda.c            |  20 ++--
+ drivers/infiniband/hw/irdma/uda.c             |   6 +-
+ drivers/infiniband/hw/mlx5/cq.c               |   2 +-
+ drivers/infiniband/ulp/srp/ib_srp.c           |   2 +-
+ drivers/input/touchscreen/melfas_mip4.c       |   6 +-
+ .../iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c  |  12 +-
+ drivers/macintosh/via-cuda.c                  |   2 +-
+ drivers/macintosh/windfarm_smu_sat.c          |   4 +-
+ drivers/mailbox/imx-mailbox.c                 |   4 +-
+ drivers/media/common/tveeprom.c               |   2 +-
+ drivers/media/dvb-core/dvb_net.c              |   3 +-
+ drivers/media/firewire/firedtv-avc.c          |   4 +-
+ drivers/media/pci/saa7164/saa7164-api.c       |   8 +-
+ drivers/media/pci/saa7164/saa7164-core.c      |   4 +-
+ .../media/platform/nxp/imx-jpeg/mxc-jpeg.c    |   2 +-
+ drivers/media/platform/qcom/venus/hfi_venus.c |   2 +-
+ drivers/media/platform/ti/cal/cal.c           |   4 +-
+ drivers/media/usb/em28xx/em28xx-i2c.c         |   2 +-
+ drivers/mfd/rave-sp.c                         |   4 +-
+ drivers/misc/genwqe/genwqe_driver.h           |   2 +-
+ drivers/mtd/tests/mtd_nandecctest.c           |   8 +-
+ drivers/mtd/ubi/debug.c                       |   7 +-
+ drivers/mtd/ubi/debug.h                       |   2 +-
+ drivers/mtd/ubi/io.c                          |   7 +-
+ drivers/net/arcnet/arcnet.c                   |   4 +-
+ drivers/net/can/usb/etas_es58x/es58x_core.c   |   4 +-
+ drivers/net/can/usb/peak_usb/pcan_usb_core.c  |   2 +-
+ drivers/net/can/usb/ucan.c                    |   2 +-
+ drivers/net/ethernet/aeroflex/greth.c         |   7 +-
+ drivers/net/ethernet/altera/altera_tse_main.c |   3 +-
+ drivers/net/ethernet/amd/a2065.c              |   2 +-
+ drivers/net/ethernet/amd/ariadne.c            |   2 +-
+ drivers/net/ethernet/amd/pds_core/adminq.c    |   4 +-
+ drivers/net/ethernet/cadence/macb_main.c      |   6 +-
+ .../net/ethernet/cavium/thunder/nicvf_main.c  |   2 +-
+ .../ethernet/hisilicon/hns3/hns3_ethtool.c    |   2 +-
+ drivers/net/ethernet/intel/e1000e/netdev.c    |   6 +-
+ drivers/net/ethernet/intel/i40e/i40e_common.c |   2 +-
+ .../net/ethernet/intel/i40e/i40e_debugfs.c    |  12 +-
+ drivers/net/ethernet/intel/iavf/iavf_common.c |   2 +-
+ drivers/net/ethernet/intel/ice/ice_osdep.h    |   4 +-
+ drivers/net/ethernet/intel/igb/igb_main.c     |   5 +-
+ drivers/net/ethernet/intel/igc/igc_dump.c     |   4 +-
+ drivers/net/ethernet/intel/ixgbe/ixgbe_main.c |   5 +-
+ drivers/net/ethernet/mellanox/mlx4/en_tx.c    |   5 +-
+ .../net/ethernet/mellanox/mlx5/core/en_tc.c   |   3 +-
+ .../net/ethernet/mellanox/mlx5/core/lib/aso.c |   2 +-
+ drivers/net/ethernet/mellanox/mlx5/core/wq.c  |   3 +-
+ .../net/ethernet/mellanox/mlxfw/mlxfw_mfa2.c  |   3 +-
+ drivers/net/ethernet/meta/fbnic/fbnic_fw.c    |   2 +-
+ drivers/net/ethernet/microchip/enc28j60.c     |   2 +-
+ .../net/ethernet/pensando/ionic/ionic_main.c  |   7 +-
+ .../ethernet/pensando/ionic/ionic_rx_filter.c |   3 +-
+ drivers/net/ethernet/qlogic/qed/qed_ll2.c     |   2 +-
+ .../net/ethernet/qlogic/qlcnic/qlcnic_io.c    |   2 +-
+ .../net/ethernet/qlogic/qlcnic/qlcnic_main.c  |   2 +-
+ drivers/net/ethernet/realtek/8139too.c        |   2 +-
+ drivers/net/ethernet/smsc/smc9194.c           |   2 +-
+ drivers/net/ethernet/vertexcom/mse102x.c      |   2 +-
+ drivers/net/fddi/skfp/skfddi.c                |   3 +-
+ drivers/net/phy/sfp.c                         |   6 +-
+ drivers/net/tun.c                             |   3 +-
+ drivers/net/wireless/ath/wcn36xx/wcn36xx.h    |   2 +-
+ drivers/net/wireless/ath/wil6210/cfg80211.c   |   3 +-
+ drivers/net/wireless/ath/wil6210/ethtool.c    |   2 +-
+ drivers/net/wireless/ath/wil6210/fw_inc.c     |   3 +-
+ drivers/net/wireless/ath/wil6210/txrx_edma.c  |   4 +-
+ drivers/net/wireless/ath/wil6210/wil6210.h    |   9 +-
+ drivers/net/wireless/ath/wil6210/wmi.c        |   2 +-
+ drivers/net/wireless/broadcom/b43/main.c      |   2 +-
+ drivers/net/wireless/intel/iwlegacy/common.h  |   6 +-
+ .../net/wireless/intel/iwlwifi/iwl-debug.h    |   6 +-
+ drivers/net/wireless/marvell/mwifiex/main.h   |   2 +-
+ drivers/net/wireless/realtek/rtl8xxxu/core.c  |   4 +-
+ drivers/net/wireless/realtek/rtw88/rtw8723x.c |   2 +-
+ drivers/net/wireless/silabs/wfx/bh.c          |   2 +-
+ drivers/net/wireless/silabs/wfx/hif_rx.c      |   4 +-
+ drivers/net/wireless/ti/wl1251/wl1251.h       |   2 +-
+ drivers/net/wireless/ti/wlcore/debug.h        |   2 +-
+ drivers/net/wireless/ti/wlcore/sdio.c         |   4 +-
+ drivers/nfc/mei_phy.c                         |   4 +-
+ drivers/nfc/pn533/i2c.c                       |   2 +-
+ drivers/nfc/pn533/pn533.c                     |   2 +-
+ drivers/nfc/pn533/uart.c                      |   2 +-
+ drivers/nfc/pn533/usb.c                       |   6 +-
+ drivers/nfc/pn544/i2c.c                       |   2 +-
+ drivers/nfc/pn544/pn544.c                     |   4 +-
+ drivers/nfc/port100.c                         |   4 +-
+ drivers/nfc/st21nfca/core.c                   |   2 +-
+ drivers/nfc/st21nfca/i2c.c                    |   2 +-
+ drivers/nfc/trf7970a.c                        |   4 +-
+ drivers/pci/probe.c                           |   2 +-
+ .../surface/aggregator/ssh_packet_layer.c     |   4 +-
+ drivers/platform/x86/amd/pmf/tee-if.c         |   2 +-
+ drivers/ras/amd/fmpm.c                        |   3 +-
+ drivers/rpmsg/rpmsg_ns.c                      |   2 +-
+ drivers/rpmsg/virtio_rpmsg_bus.c              |   4 +-
+ drivers/s390/crypto/ap_queue.c                |   4 +-
+ drivers/s390/crypto/zcrypt_api.c              |   8 +-
+ drivers/s390/net/qeth_core_main.c             |   8 +-
+ drivers/scsi/esas2r/esas2r_log.c              |   2 +-
+ drivers/scsi/qedf/qedf_fip.c                  |   4 +-
+ drivers/scsi/qedf/qedf_io.c                   |   2 +-
+ drivers/scsi/qedf/qedf_main.c                 |   4 +-
+ drivers/scsi/qla2xxx/qla_dbg.c                |   2 +-
+ drivers/soc/ti/k3-ringacc.c                   |   2 +-
+ drivers/spi/spi-pl022.c                       |   4 +-
+ drivers/staging/nvec/nvec.c                   |   4 +-
+ drivers/staging/nvec/nvec_ps2.c               |   2 +-
+ .../vc04_services/vchiq-mmal/mmal-vchiq.c     |   4 +-
+ drivers/tty/n_gsm.c                           |   4 +-
+ drivers/ufs/core/ufshcd.c                     |   2 +-
+ drivers/usb/class/usbtmc.c                    |  14 ++-
+ drivers/usb/core/devio.c                      |   6 +-
+ drivers/usb/gadget/function/f_ncm.c           |   2 +-
+ drivers/usb/gadget/udc/gr_udc.c               |   2 +-
+ drivers/usb/usbip/usbip_common.c              |   2 +-
+ .../video/fbdev/omap2/omapfb/dss/hdmi4_core.c |   2 +-
+ .../video/fbdev/omap2/omapfb/dss/hdmi5_core.c |   2 +-
+ drivers/watchdog/wdrtas.c                     |   2 +-
+ fs/ceph/mdsmap.c                              |   2 +-
+ fs/ecryptfs/debug.c                           |   2 +-
+ fs/ext4/super.c                               |   2 +-
+ fs/jfs/xattr.c                                |   2 +-
+ fs/seq_file.c                                 |   2 +-
+ fs/smb/client/cifs_debug.c                    |   2 +-
+ fs/smb/client/misc.c                          |   2 +-
+ fs/ubifs/debug.c                              |   2 +-
+ fs/ubifs/scan.c                               |   3 +-
+ fs/xfs/xfs_message.c                          |   3 +-
+ include/linux/dma/ti-cppi5.h                  |   2 +-
+ include/linux/dynamic_debug.h                 |   8 +-
+ include/linux/filter.h                        |   2 +-
+ include/linux/mlx5/cq.h                       |   2 +-
+ include/linux/printk.h                        |  23 ++--
+ include/net/6lowpan.h                         |   4 +-
+ lib/hexdump.c                                 |  29 ++++-
+ lib/test_bitmap.c                             |   4 +-
+ mm/debug.c                                    |   4 +-
+ mm/dmapool.c                                  |   2 +-
+ mm/kmemleak.c                                 |   2 +-
+ mm/page_poison.c                              |   2 +-
+ mm/slub.c                                     |   3 +-
+ net/atm/br2684.c                              |   3 +-
+ net/atm/lec.c                                 |   6 +-
+ net/ceph/crypto.c                             |   6 +-
+ net/ceph/messenger.c                          |   9 +-
+ net/ceph/osdmap.c                             |   4 +-
+ net/core/skbuff.c                             |   8 +-
+ net/ipv4/route.c                              |   2 +-
+ net/nfc/digital_core.c                        |   4 +-
+ net/nfc/llcp_core.c                           |   5 +-
+ samples/rpmsg/rpmsg_client_sample.c           |   2 +-
+ security/integrity/ima/ima_kexec.c            |   2 +-
+ sound/soc/codecs/hdac_hdmi.c                  |   2 +-
+ sound/soc/intel/atom/sst/sst_ipc.c            |   2 +-
+ sound/soc/intel/catpt/loader.c                |  14 +--
+ sound/soc/intel/skylake/skl-messages.c        |   2 +-
+ sound/soc/intel/skylake/skl-sst-ipc.c         |   2 +-
+ sound/soc/sof/ipc3.c                          |   2 +-
+ sound/soc/sof/ipc4.c                          |   2 +-
+ sound/usb/bcd2000/bcd2000.c                   |   2 +-
+ sound/usb/quirks.c                            |   4 +-
+ sound/usb/validate.c                          |   6 +-
+ .../crypto/chacha20-s390/test-cipher.c        |  23 ++--
+ tools/testing/nvdimm/test/nfit.c              |   2 +-
+ 219 files changed, 655 insertions(+), 532 deletions(-)
+
+-- 
+2.43.0
 
