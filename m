@@ -1,67 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 154F5166F13;
-	Mon, 26 Aug 2024 17:35:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7746198E6C;
+	Mon, 26 Aug 2024 17:44:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724693744; cv=none; b=DbnL5DE7RA4tMTHHGOJIRhTn+RS0J/6LhSl3NihMso43v+nnUZukfevV5kX+I+SapAqDqEhN9VZqtRanHjXG8e45oTSD1Op3yuFXo2qsx4Tz25NDzBviZzBVDCtmq2CA6SWgk8/ZOQa964nqgnOk2YMq/9dKs11gOuw+h9rkWeI=
+	t=1724694274; cv=none; b=aIMjtpDqAvf4ZtmIxT7W6o/XKUDs0Inj/foP3DQjc3a7DNbKi9bo1tlz0ynASK2HULTYMJELCUq0YiJZevRy+Ns6wLd9Fhzfu6HUc03DVfPwFIDwkFbqseB6TaM+0uB4BmwuNjPVxN/bwe1pe6sWbqnW1AzoMwYMwmFfGo4O6eo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724693744; c=relaxed/simple;
-	bh=0sWVcw96T8tSLQcwGgeWLTWjxATb/PQPdf28mrheZsE=;
+	s=arc-20240116; t=1724694274; c=relaxed/simple;
+	bh=a5FzUTnE9HADVd0iHq5kRlEPg4MhnxIDXhDxBBh9q5M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TFqke2afeDcxyAEgZkld+UYUJjKcbrc5+HRhYnOVhWblXIJA28nsuQ+7twoy/PjgIBkA8T2doP7v3KrrJFQTHWfJE1TNztX8GR2fnAqzHgendMlrpS48LNPTXcEKdtBEC5/MNtv6PxP1nmFFFd+lVZcWKP9m5W67hHlGZ7APMqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TjXHhz8r; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=biDWpTBhMfhl6/dM/bKH8hPFeoWMpirTQ8kk3dHKZyoSrpRBsPFzq2s0jqIJkvvvE36fQOO0J1YEfnN4188iWpByr3F9Yrt7yo9xK6YL3bKR29CpB1PpAucRFOJEHAwR0w1FZhs4QernA8etWLUJPgo7GnjXwFmX12heWr/pELI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YKuyWnH7; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TjXHhz8r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YKuyWnH7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724693743; x=1756229743;
+  t=1724694272; x=1756230272;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=0sWVcw96T8tSLQcwGgeWLTWjxATb/PQPdf28mrheZsE=;
-  b=TjXHhz8rUxraygpm9YxyTkswHaPz9LC0OdZkzHEMfAttyHahmxyiy//n
-   xuakahtEv4lW9ZLvrw1KHVdkurh0zuvB2r6BerPsrN2GGz0QPMksY9ZCB
-   eH4fbHka+L3haVaTZId4mhyoSEDybwiNGx1U6xUN8oPr4qb0Z2NO3fcDh
-   QCllJcqFLNBhJ/Vlo2iwwCclbqxs47IvG8mO0cjAyuPf+WxU7XG4fPVku
-   3wE2kl3fCNw77ZmmGYl6DUc+zhS5fACQC/puIRaQV/cI7thU8P1VwazCx
-   jkekBKFtChzCKVQGSOBRNiKkVvEpFsflEwT9G1aTKIfZtb3rYEtQNB9rE
+  bh=a5FzUTnE9HADVd0iHq5kRlEPg4MhnxIDXhDxBBh9q5M=;
+  b=YKuyWnH7DnLYZligp/IWQqitsIgF3SjL/WxbEyGl/cPcVkb0tXYDyB9c
+   x4yM/ZGFnuhn5mSP/XIp3DtZWWZnS7XAoNdf7mhExHI2f1eJQNwk3zl8y
+   BVqgG6E8ppXTZWZUzUYNOaL5jIOrm4dMIk5VxB8b3PPdKfgsgpmrRkNOw
+   Wl0rtb1YPjfCmPArJG2i9EEIf7Zh7mTdbS025NuVWLYXKQx+cMZxrwEdg
+   ///Wx/zsFG95X0+pMUqs3pyTsfYGvD3Iu+0kFx619xpE5m6m5mXcstoSR
+   m9ReCglJvx4A9pie3zDDbfcy0lwcDoHy5D/ojyxl8dGVKlcQMvmJhmyP+
    A==;
-X-CSE-ConnectionGUID: bUoBmjBySR+91cI7s0GTWg==
-X-CSE-MsgGUID: hrcPCJ3sQEe0gN/7bYbuig==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="33760645"
+X-CSE-ConnectionGUID: aDCSvph5RaWKyQ872opFNQ==
+X-CSE-MsgGUID: 0+z+CK7LSoyItVOHQ/Iwvw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="22730130"
 X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="33760645"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 10:35:42 -0700
-X-CSE-ConnectionGUID: 3ZaPV8csSDq9Lp5rfbTY1Q==
-X-CSE-MsgGUID: CFx360prSKeBQzT6tXDZBQ==
+   d="scan'208";a="22730130"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 10:44:31 -0700
+X-CSE-ConnectionGUID: EAKVgrsOQ0qjFLMDWPEuhA==
+X-CSE-MsgGUID: Wu7q6B5aS32in6O5qJCBCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="63110120"
+   d="scan'208";a="62640390"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 10:35:39 -0700
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 10:44:23 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.98)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1sidcu-000000021fS-2HAa;
-	Mon, 26 Aug 2024 20:35:36 +0300
-Date: Mon, 26 Aug 2024 20:35:36 +0300
+	id 1sidlL-000000021ng-2l5k;
+	Mon, 26 Aug 2024 20:44:19 +0300
+Date: Mon, 26 Aug 2024 20:44:19 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	John Ogness <john.ogness@linutronix.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] hexdump: Allow skipping identical lines
-Message-ID: <Zsy86HZ7uew9-Ef6@smile.fi.intel.com>
-References: <20240826162416.74501-1-miquel.raynal@bootlin.com>
- <20240826162416.74501-3-miquel.raynal@bootlin.com>
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	sebastian.fricke@collabora.com, linux-doc@vger.kernel.org,
+	praneeth@ti.com, nm@ti.com, vigneshr@ti.com, s-jain1@ti.com,
+	r-donadkar@ti.com, b-brnich@ti.com, detheridge@ti.com,
+	p-mantena@ti.com, vijayp@ti.com, andi.shyti@linux.intel.com,
+	nicolas@ndufresne.ca, jirislaby@kernel.org, davidgow@google.com,
+	dlatypov@google.com, corbet@lwn.net, broonie@kernel.org,
+	jani.nikula@intel.com, rdunlap@infradead.org, nik.borisov@suse.com,
+	Dave.Martin@arm.com
+Subject: Re: [PATCH v2 1/6] math.h: Add macros for rounding to the closest
+ value
+Message-ID: <Zsy-8xXQ01-JhL0m@smile.fi.intel.com>
+References: <20240826150822.4057164-1-devarsht@ti.com>
+ <20240826150822.4057164-2-devarsht@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,43 +73,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240826162416.74501-3-miquel.raynal@bootlin.com>
+In-Reply-To: <20240826150822.4057164-2-devarsht@ti.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Mon, Aug 26, 2024 at 06:24:16PM +0200, Miquel Raynal wrote:
-> When dumping long buffers (especially for debug purposes) it may be very
-> convenient to sometimes avoid spitting all the lines of the buffer if
-> the lines are identical. Typically on embedded devices, the console
-> would be wired to a UART running at 115200 bauds, which makes the dumps
-> very (very) slow. In this case, having a flag to avoid printing
-> duplicated lines is handy.
+On Mon, Aug 26, 2024 at 08:38:17PM +0530, Devarsh Thakkar wrote:
+> Add below rounding related macros:
 > 
-> Example of a made up repetitive output:
-> 0f 53 63 47 56 55 78 7a aa b7 8c ff ff ff ff ff
-> ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-> ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-> ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-> ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-> ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-> ff ff ff ff ff ff ff ff ff ff ff ff 01 2a 39 eb
+> round_closest_up(x, y) : Rounds x to the closest multiple of y where y is a
+> power of 2, with a preference to round up in case two nearest values are
+> possible.
 > 
-> Same but with the flag enabled:
-> 0f 53 63 47 56 55 78 7a aa b7 8c ff ff ff ff ff
-> ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-> *
-> ff ff ff ff ff ff ff ff ff ff ff ff 01 2a 39 eb
+> round_closest_down(x, y) : Rounds x to the closest multiple of y where y is
+> a power of 2, with a preference to round down in case two nearest values
+> are possible.
+> 
+> roundclosest(x, y) : Rounds x to the closest multiple of y, this macro
+> should generally be used only when y is not multiple of 2 as otherwise
+> round_closest* macros should be used which are much faster.
 
-The problem here is that without offset we can't see how many lines were
-skipped.
+I understand the point, but if you need to send a v3, please explain
+the equivalency between roundclosest() and one (or both?) of the
+round_closest_*() in case the argument is power-of-2.
 
-Two ways to solve (that come to my mind immediately, maybe more and better):
-1) make sure that new flag implies or expects (otherwise BUILD_BUG_ON() or so)
-  the OFFSET to be set;
-2) [OR] add number of lines skipped in that * line.
-
-Personally I prefer the 1) as I think that you tried to follow the existing
-format of user space tools and there is a chance that there are other tools or
-scripts that parse the dump to restore the binary contents.
+Because from the above I don't see what I'll get in such a case.
 
 -- 
 With Best Regards,
