@@ -1,107 +1,133 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0BA191473;
-	Mon, 26 Aug 2024 17:12:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED041990A5;
+	Mon, 26 Aug 2024 17:23:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724692381; cv=none; b=ErBHm4UA0I/e2PV3WZmY2RNmmHiSpAQEzHrQoXrHvWboTR1uQY3N0L50Cn+hXZWLFCW5ugcIt5SA8OhrOeUNO4P4Os1SZWmDMe5H7K8LSPdfgyiCJWkiXsIi6VcGND/u63ZK2sPIj99lgB77uNxt2OsAgErfue/fqb+y/K7Kaj8=
+	t=1724693008; cv=none; b=fzsi2ISXWeuMDisjZ9WpUGDTn+jgES37XyMKEC+I5ELgvH5c8kx/LIZxCiLORMea34EoWP/bUJSTx1jIHpJkCze/UHhfNbVDxbTcpjAn9BZ/QMbWKMXN1XSeyaZ3Jmhk65PZhQj9c3KvY9JM8JT2asfj7G9REgjW8aTNc+VNa6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724692381; c=relaxed/simple;
-	bh=C5FXLuFC4tgnhX12okZbEegr8EajQMblPAiafgd65pE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lvVW3EJh9AFVenujsjMaLT0iWubRsSPTACEQaWTKrNXaxlDqvIDol2Fgj+anLUb559lK18PQKXIw/D/lBCeD4bt57+Ix6JCAbNse7liH15B/wihdzwqsDxZcDPmNuhwMXLwkjDJX7Y8eNliKgjgtF9UDoHFO5tS0QruGerUMceY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VJ+oJ34T; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1724693008; c=relaxed/simple;
+	bh=EH4sLmUi31moY38px/brd6V2p1f9A3ICQEkXbIPLoGI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dCDqqdWeccaZFIJ7jYTQMApU9KlbMwEK/+IXgNzyJF+KcC1j60kiOhwnl9oWA9Gj+SsO62ck1FGHthQ7mLNk160i5/lMYG8kETFex+TINtaQf9OavTnVZGflu40OGwzNuWpGrugpiVHKQhlDUi4ADmdnHo03SRMP2BLwN0k6TWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RG7jfQBZ; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VJ+oJ34T"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5a10835487fso6801640a12.1;
-        Mon, 26 Aug 2024 10:12:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724692378; x=1725297178; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C5FXLuFC4tgnhX12okZbEegr8EajQMblPAiafgd65pE=;
-        b=VJ+oJ34T84+Qg+dfbrtnErfLqSka99a+8XwJwBrbYanOEjQdfuyScMY0w53zs7yxva
-         AAZDJWWWGInbG8Hx6Beu3s3jbX3cj6utxCCf25k/WP5ET8Wx/J56O7bWb2qokaUfjWm8
-         PUkAJ+5+6nxD/7Hdkspum+BGpDi/FzTLbhglgMS6BptajY625TEt9+VtIs7GOOa2+3Gr
-         TmNf7AD/7xhONf8L2vOTyYzDPr3smmsF68Jx1FgiGqsaxqemph1JbMPmVXx+vDThe18P
-         njEQ1L+YHck8hfYE5ksQ6Bqz7UleSOpB+WVPefvMGhdAfWmte6HbPEqVvuHUDcEkK6W0
-         AgWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724692378; x=1725297178;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=C5FXLuFC4tgnhX12okZbEegr8EajQMblPAiafgd65pE=;
-        b=ZGMXdNavQq0Nt3wZ5WUU5zGvbVe6G6mcrfCud/vzx8Rs5S/40fDwB7nf/WW0g55Euy
-         UOcelhhGKxOKqzSGfL1Qx4HOIM7GSwyS17Bz5H1tfQ4oJYZfuPUJ+8GEaVocWoC2VZ7R
-         3/SZZNkyMMXyvL4Du8pUqIPH1D2nOoVgR/TnUBMEpEXMyIQVrH+4gIxeZClGNycbCcQs
-         BsoW1f+OFe8jo/sxR7vlt0p5mRcqtqJcwJga4jyrtt9BKCSpW7Puf/DQtya2Udc4oAjg
-         17gh4Ythf4GjjhS+qFeB31xoYNms0eJ149Tg8qsLPGhH+MKTuL+diGAxf58bgGK7cQ0O
-         acMg==
-X-Forwarded-Encrypted: i=1; AJvYcCU4kj4dQ7LSxWe8XKZIQ2yxZ4jmhtDAS82Wy2UUHE2lPg57p2+zGUHpnjSV9IrUP2lCwKfKywRpcdjKQw==@vger.kernel.org, AJvYcCUg7DpW+t8G2XLv6ReC9BymcP93GhDBoLNFb2lBDJgKTs6mLb7VDFKe/3pshsthA2vsZwMu9HBz@vger.kernel.org, AJvYcCUgSjY///4dtFb/afg6s+s1Pza7K/0k7Wu5KpcBjzPCu4IzA7McSQXvp3lmWM7zOez66y/vWS9Tr9xFew==@vger.kernel.org, AJvYcCV1QYQpbw89IEcIYDqMNn+Vcy3XVT7y4tEU9K8V/pU+xivXZ5A3U+Gk4xNi1TkT1x+TSMXELDtwkxYY@vger.kernel.org, AJvYcCWTLKyT4jmGyLUkF3wZswDgQY4donSLj2+ihU7qW6nud6avnqio1nJI61rF+s28BY72DFWIAQPlmyoWejG4@vger.kernel.org, AJvYcCX77FdcU73NEJQwPbqpY7XqE7HVu9pUTV8eoYfVGJgGKrFFY6v/Txw1k6/q3vYrhuuOb/dh3EcoTXTS6w==@vger.kernel.org, AJvYcCXR1QACemjxcqAtD1HfD74ZndayA3/lvIjbqd+5tQhn+k0g3MvxAWQfgLkHo8ggn2CPjm/1ZdBOPhIT@vger.kernel.org
-X-Gm-Message-State: AOJu0YyevUVfgVlUgORDQ+RQ17iFetpj8mTWT57EX1ayQKuTSN6rUT7c
-	IejTJpfiv7SYSqv7TfEgRPkPSnhjhYw5z3F3F4d6c595O0pjFRJTFxiIAkr3Cqv5oDsfzogHzif
-	jYiJq/v5DwDjFct1u3JePg86eJbY=
-X-Google-Smtp-Source: AGHT+IHOnow3s0g1qCPDF0qgfwkSpamrc3MZdI/hWzuSVu2jgy51rNUKPxKvH0/02EJM/ysKZeVBGzzN4FAWZd6sxPU=
-X-Received: by 2002:a17:906:c105:b0:a86:9644:2a60 with SMTP id
- a640c23a62f3a-a86a5162f4fmr872581066b.6.1724692377440; Mon, 26 Aug 2024
- 10:12:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RG7jfQBZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724693007; x=1756229007;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EH4sLmUi31moY38px/brd6V2p1f9A3ICQEkXbIPLoGI=;
+  b=RG7jfQBZDEE+xybcGDjX9YoxUj9drbl/SUod1/1aYLD6Q+gR5UxauPu1
+   LcH2GvM7hUqUMp2zAGcAUHW1P88VeyjfhEDJX4q+rZZjg5ZtWNrLAk5Vx
+   ZxpA7t1f07WGID5WZz18LYlxCbw2cWeuNpUPti02iGTVNl/wvq1vnTBRN
+   vNyvHX8etKcrdQGkDoMoxb8YgnfH+x95FOKkRO8MLUeTWIVzxqc6+CHaM
+   QtQ+ZoKiyDoO2TeJHJlRi83ANKgxbgVbfE30yVyZ3cOcp9oT5ogEtyXNe
+   CpwAXLeRSsQjWh49QGaSBpBMtT/BWOWu1WT3MNdlR9RD0eOM9bDjQnk50
+   A==;
+X-CSE-ConnectionGUID: j1Jf8l10S2mjGbi4pYugwQ==
+X-CSE-MsgGUID: aMrX+BC3T9iiDBY2Ff+vng==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="40635600"
+X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
+   d="scan'208";a="40635600"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 10:23:26 -0700
+X-CSE-ConnectionGUID: 8A35PKczQaeEPyg9h8MbHQ==
+X-CSE-MsgGUID: NdgO3xEzQY6GDoWJMR2D+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
+   d="scan'208";a="67264184"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 10:23:21 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1sidQz-000000021TV-2vmu;
+	Mon, 26 Aug 2024 20:23:17 +0300
+Date: Mon, 26 Aug 2024 20:23:17 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Petr Mladek <pmladek@suse.com>
+Cc: Ira Weiny <ira.weiny@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+	Fan Ni <fan.ni@samsung.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Navneet Singh <navneet.singh@intel.com>, Chris Mason <clm@fb.com>,
+	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	linux-btrfs@vger.kernel.org, linux-cxl@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	nvdimm@lists.linux.dev
+Subject: Re: [PATCH v3 02/25] printk: Add print format (%par) for struct range
+Message-ID: <Zsy6BbJiYqiXORGu@smile.fi.intel.com>
+References: <20240816-dcd-type2-upstream-v3-0-7c9b96cba6d7@intel.com>
+ <20240816-dcd-type2-upstream-v3-2-7c9b96cba6d7@intel.com>
+ <ZsSjdjzRSG87alk5@pathway.suse.cz>
+ <66c77b1c5c65c_1719d2940@iweiny-mobl.notmuch>
+ <Zsd_EctNZ80fuKMu@smile.fi.intel.com>
+ <ZsyB5rqhaZ-oRwny@pathway.suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240822134744.44919-1-pstanner@redhat.com> <20240822134744.44919-6-pstanner@redhat.com>
- <ZsdO2q8uD829hP-X@smile.fi.intel.com> <ad6af1c4194873e803df65dc4d595f8e4b26cb33.camel@redhat.com>
- <CAHp75VfKS_PWer2hEH8x0qgBUEPx05p8BA=c0UirAWjg0SaLeA@mail.gmail.com> <f2d6345a8a684f62035108d74938ec0b2e162019.camel@redhat.com>
-In-Reply-To: <f2d6345a8a684f62035108d74938ec0b2e162019.camel@redhat.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 26 Aug 2024 20:12:20 +0300
-Message-ID: <CAHp75VcgWdCOs0b51pqReLAMArno7FekYxiJmNnBTcdgGAyJMw@mail.gmail.com>
-Subject: Re: [PATCH v3 5/9] ethernet: cavium: Replace deprecated PCI functions
-To: Philipp Stanner <pstanner@redhat.com>
-Cc: Andy Shevchenko <andy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
-	Wu Hao <hao.wu@intel.com>, Tom Rix <trix@redhat.com>, Moritz Fischer <mdf@kernel.org>, 
-	Xu Yilun <yilun.xu@intel.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Alvaro Karsz <alvaro.karsz@solid-run.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
-	Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-	=?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	Richard Cochran <richardcochran@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Damien Le Moal <dlemoal@kernel.org>, Hannes Reinecke <hare@suse.de>, Chaitanya Kulkarni <kch@nvidia.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-block@vger.kernel.org, linux-fpga@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org, 
-	virtualization@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZsyB5rqhaZ-oRwny@pathway.suse.cz>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Mon, Aug 26, 2024 at 6:52=E2=80=AFPM Philipp Stanner <pstanner@redhat.co=
-m> wrote:
-> On Mon, 2024-08-26 at 18:41 +0300, Andy Shevchenko wrote:
+On Mon, Aug 26, 2024 at 03:23:50PM +0200, Petr Mladek wrote:
+> On Thu 2024-08-22 21:10:25, Andy Shevchenko wrote:
+> > On Thu, Aug 22, 2024 at 12:53:32PM -0500, Ira Weiny wrote:
+> > > Petr Mladek wrote:
+> > > > On Fri 2024-08-16 09:44:10, Ira Weiny wrote:
 
 ...
 
-> Though if it has 0 disadvantages I'd propose proposing to the git-devs
-> to make it the default.
+> > > > > +	%par	[range 0x60000000-0x6fffffff] or
+> > > > 
+> > > > It seems that it is always 64-bit. It prints:
+> > > > 
+> > > > struct range {
+> > > > 	u64   start;
+> > > > 	u64   end;
+> > > > };
+> > > 
+> > > Indeed.  Thanks I should not have just copied/pasted.
+> > 
+> > With that said, I'm not sure the %pa is a good placeholder for this ('a' stands
+> > to "address" AFAIU). Perhaps this should go somewhere under %pr/%pR?
+> 
+> The r/R in %pr/%pR actually stands for "resource".
+> 
+> But "%ra" really looks like a better choice than "%par". Both
+> "resource"  and "range" starts with 'r'. Also the struct resource
+> is printed as a range of values.
 
-It's slower. so the people from https://occ.deadnet.se/about/ won't be happ=
-y.
-And more power consuming, so maybe not so environment friendly after all :-=
-P
+Fine with me as long as it:
+1) doesn't collide with %pa namespace
+2) tries to deduplicate existing code as much as possible.
 
---=20
+> > > > > +		[range 0x0000000060000000-0x000000006fffffff]
+> > > > > +
+> > > > > +For printing struct range.  A variation of printing a physical address is to
+> > > > > +print the value of struct range which are often used to hold a physical address
+> > > > > +range.
+> > > > > +
+> > > > > +Passed by reference.
+
+-- 
 With Best Regards,
 Andy Shevchenko
+
+
