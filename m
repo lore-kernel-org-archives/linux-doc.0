@@ -1,105 +1,160 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A32915B13A;
-	Mon, 26 Aug 2024 12:06:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4CCE17C990;
+	Mon, 26 Aug 2024 12:46:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724674016; cv=none; b=ADJIdgbLHeHu7Lec1wft6kkRDFRO787Bt0DjAc3ebbjSExj5O69w4miCdXjPYCGTP/VwQJF/V7Nc9ab0OEZDTUskEwYVu0x6Nb6O44pK8W/KGViXCzFZounN8AuQRj63/nAvu6+ueCTB4ldT+R8b1wUfwZzo7CmwYPebUUdmLGo=
+	t=1724676397; cv=none; b=QmluDQH011bZLCVHDFcKm8QEJYWzu74ZFC3FuQmNwK7jX9f/22Uo9EwHIIhwUJuUuUsXLyHg2vjyDVY0+RhBdefE5yc71b2TrVo7GFVECBUAhMt/XqY9mSWRq0XIEDDqiURy2hmb2d2z+Ugm2MLXQ1n3weiOo4BFJOD/oHevWJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724674016; c=relaxed/simple;
-	bh=TnVYqFx8iidahUDrnDilYvKd1NQU38KVQJIeCmFEZdA=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pagmjcrfoXqM1kP57pepL2AjXLhRjbeksUnauGYNF1mZlJsDk2XA13YZ6weKsxa3PP879+T1G/h66G6cpU4WW0YoIAN0vGzx7io58xrodVUDP0YIRa3FdxDBPKO0ZeP3Ue8vdFmWVrwrz1m6JIM/ZEk1ysLcQWaiRah7i3hLPeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AYKugEnG; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1724676397; c=relaxed/simple;
+	bh=Mqa5mLhpZY/ltSyNSZZhMBfJFukWo5ccxg5oGNVYVKs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=HrJ3YQFVeIVnyvEE76cfblOg4g1AT/Qjtp8Rv8S/cEJ9LeFdAmdYcmgsord4BQoB6aYcj7sXKysCbt1kK4vDRRXjQeATLNzzDgE6CmXtYUVZjHOzWGAR8xxnllJ8zBnSAw7GsD31OQ63R3rXo5f+z4GD1gPmr3lfLD7dPn17EmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ps9uclU9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AYKugEnG"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-20223b5c1c0so35895235ad.2;
-        Mon, 26 Aug 2024 05:06:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724674014; x=1725278814; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TnVYqFx8iidahUDrnDilYvKd1NQU38KVQJIeCmFEZdA=;
-        b=AYKugEnGc1aRTT3M6FMk//h23EVA+jIrw8EcA7KRDtvCVOmoraiOBW1Q+tMDEDJnsn
-         X9agJ05uYyVv7ZZlbgLAJKTzzoMhvxD+hiFI/pN6SxNcb35XdohfTqPj9vDsci8pSUuJ
-         ihfyz0U9ZVzf8hOcVoWPISsJ2SR9tY889I/fadpU7XmjivO1cFvM/IoFmSGrNF9hDMYz
-         I0EUEcP930GoHqqlfOBvONK+H1M94kzhJ+RabNh+g9Q3dp5T+n2hJQM4bPE8R8dl73t5
-         VhSRkZ/1Bz2BUF4iYwo7xsdaZn3KRvdoYjQbyOGT4DXjCIfbevUgbvbDok1KPUCG2Vao
-         ZzaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724674014; x=1725278814;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TnVYqFx8iidahUDrnDilYvKd1NQU38KVQJIeCmFEZdA=;
-        b=m8j4j+pnsxNp4qpPIi0qzWqA1On862B7GBQGyw1SmPk5c4dMCauPEWs42nuxmSiadv
-         Z84Kk/41kIvQLF7ijj5/62edKziDDeMFaCfLMFDy6vmh0H597Vje2A63ocUSVtB+OMca
-         PyayFMv3yRYL8uQ1zPEe/xdd/8Arr9RmpYblvCZeTHmP+zDmWi1GpuQq9xlSdqNe5Rdx
-         He8fBie/Bx4zAQdbJ/HOF/krundxQzQUYMC7V/LR7VVRWTdNqrCQ+E/Tq0seoZAA5x7x
-         0rrrNjvBN+m57yEcOXtHkmj4GQDL720vp78JHS09NLEnShZAskC50tRhJe5IEARY1l4B
-         +x8A==
-X-Forwarded-Encrypted: i=1; AJvYcCUPDFK0mA09Ic2eEqGsvjw3JgsVI4N95+qFVPY9X2MnHRm2QYdNyJbu7+5JODxf3Ex9IfyLUl48lDg=@vger.kernel.org, AJvYcCVWBP008GU5OOPYbOTN+IG+EqovuDolbkRbzCr8HJqYvbo53RIUwlHlfM2S+Yo56kVU4c7ptsZNxKISOoyw@vger.kernel.org, AJvYcCViFCqRund+yLL4fwunQrjW7IBgnio/GoqSykR1LFOnwnl8dS1QS1Tw6Rxj2NChY7P0tes6X8pSM14M@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxokdyOyD4t4mq1OUlh3AwDgqQx/KEBZ33ePXUWYRrISZNne4W
-	G87j2UEd9wNHT1o847avtGe8r+pamFnvF7PN82mj3uUQYtyg7/Uu
-X-Google-Smtp-Source: AGHT+IEQMgmfsNtXw28+xuRExp75piWl7tqAWS65ZBXAc9S3z8Buaz9ERqRlQD/RUI0oQs6uHaqALw==
-X-Received: by 2002:a17:902:ecd2:b0:1fc:6901:9c35 with SMTP id d9443c01a7336-2039e4d875dmr78754185ad.20.1724674013823;
-        Mon, 26 Aug 2024 05:06:53 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20391b7faadsm58553345ad.195.2024.08.26.05.06.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Aug 2024 05:06:53 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id A005948D2E95; Mon, 26 Aug 2024 19:06:50 +0700 (WIB)
-Date: Mon, 26 Aug 2024 19:06:50 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Aryabhatta Dey <aryabhattadey35@gmail.com>, corbet@lwn.net,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: process: fix typos in
- Documentation/process/backporting.rst
-Message-ID: <Zsxv2gilh-zfZbb3@archie.me>
-References: <rd2vu7z2t23ppafto4zxc6jge5mj7w7xnpmwywaa2e3eiojgf2@poicxprsdoks>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ps9uclU9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7364C581A8;
+	Mon, 26 Aug 2024 12:46:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724676397;
+	bh=Mqa5mLhpZY/ltSyNSZZhMBfJFukWo5ccxg5oGNVYVKs=;
+	h=From:Subject:Date:To:Cc:From;
+	b=Ps9uclU9vmsyZRIuCMx9HeJBP1eF4frm1kuhfPPZ1IxtxVt9nnjT2IhsEq19cguZS
+	 z6f+FGwT4lP1di7aHYi+K80lJCxRnXa6vVEdwKHEilIcKpZ+CTrFhl7dlf5VxpEi7c
+	 TclzY5HPwAHrmIkJ4KI1be6ykI+kHGeNa0ynzfrgkiuYOeRNfp+UKPUSgpCCTbAcxO
+	 /aHjxi3ja6EieBSZbNPwtgjQXYnOVrKbsB7cHC58PWJ9Vc4LCMEKKmgeszAT63IVOE
+	 EoPYZRXbhgy+RIOCGuSGRXv/rivgsB94HyBOFJNXriO+EwopeUluHpMVj8WJ1llBF7
+	 p7u+R7T5tK6mg==
+From: Jeff Layton <jlayton@kernel.org>
+Subject: [PATCH v2 0/7] nfsd: implement the "delstid" draft
+Date: Mon, 26 Aug 2024 08:46:10 -0400
+Message-Id: <20240826-delstid-v2-0-e8ab5c0e39cc@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="PtfwvYqb3epCZ1qV"
-Content-Disposition: inline
-In-Reply-To: <rd2vu7z2t23ppafto4zxc6jge5mj7w7xnpmwywaa2e3eiojgf2@poicxprsdoks>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABJ5zGYC/z3MQQrCMBCF4auUWRvJTGsxrryHdFGSsR0siSQlK
+ CV3NxZ0+T8e3waJo3CCS7NB5CxJgq9BhwbsPPqJlbjaQJo6fcaTcrykVZwyLRndGxwdItT3M/J
+ dXrt0G2rPktYQ3zuc8bv+jP5vZFRaWSK0rbPYWXd9cPS8HEOcYCilfAAUqwsInwAAAA==
+To: Chuck Lever <chuck.lever@oracle.com>, Neil Brown <neilb@suse.de>, 
+ Olga Kornievskaia <kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
+ Tom Talpey <tom@talpey.com>, Trond Myklebust <trondmy@kernel.org>, 
+ Anna Schumaker <anna@kernel.org>, Olga Kornievskaia <okorniev@redhat.com>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Tom Haynes <loghyr@gmail.com>, linux-kernel@vger.kernel.org, 
+ linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4176; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=Mqa5mLhpZY/ltSyNSZZhMBfJFukWo5ccxg5oGNVYVKs=;
+ b=owEBbQKS/ZANAwAIAQAOaEEZVoIVAcsmYgBmzHklNB/3H06JSbOJk7KWW01IPnZ3Ngolievad
+ ZKp6iEEYB2JAjMEAAEIAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCZsx5JQAKCRAADmhBGVaC
+ FeqfD/9/LZnJu/iWR1fcTiBn4raT4I6PpMydkZ64EwU6NnAUGAz/14Cp1ja9MkUrT/M7+RoKkXv
+ uHNkyiqHdYozP9mhZadUmy7rFhS/If6y8qVP78JjobU3ghzpvq9pgFBCGCrFErWDC02IYaKdGbV
+ EOWuFo0CIIBhADLdnsD2/O9rH0GxvGwJJutog25GZN9AqzciSOzsOs/GZndWKCFaxnmztBYDY8n
+ SdzyV/hCTinE3ANhB8aJrowKfnvZkjcJKF71kIeUxDRIZoO+gQnctagtLRfBFxgiq4PCTx6EELc
+ OVW9eVhvrbn3GlpjKOMCV3f1QF/W4gXkvE5Tlyc9gnKifIA5yjxSqVnGTXPfybcGajMIeL/sCVe
+ s/xqsx+Jg47166qsHhHnOwODivVqs84KjLv5MW4hpG/PG8Igiqeah7qpPK+NLxtysUseg7fsmdF
+ rsfN9D18daTBBytJHBBDz2HohjmXuP1etBwl5kfTDyBhTjK5uPfD3DiIgfZt3XFzzjlLQ5j9v5U
+ 5kY2YnXQS1QDCXNrJomIJnlymuWHYXBDX7K2W6pmICV6EYXuYFmDtTdwUCNO5xEpNCsjnmmoPFN
+ 3wWzBhvOT88hRV4zWOsXDkrLVwGZE4czesL8l674F+glKSLfUHjf5fvg4SDOE1/2igzVac6HVNl
+ LkseKZHxMrjs+8g==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
+This adds support for most of the "delstid" draft:
 
---PtfwvYqb3epCZ1qV
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+    https://datatracker.ietf.org/doc/draft-ietf-nfsv4-delstid/06/
 
-On Sun, Aug 25, 2024 at 05:03:40PM +0530, Aryabhatta Dey wrote:
-> Change 'submiting' to 'submitting', 'famliar' to 'familiar' and
-> 'appared' to 'appeared'.
->=20
+This includes a number of new features around the OPEN call:
 
-LGTM, thanks!
+- support for FATTR4_OPEN_ARGUMENTS: A new way for clients to discover
+  what OPEN features the server supports at mount time.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+- support for OPEN_XOR_DELEGATION: The server can send only a delegation
+  stateid in response to an OPEN (avoiding the useless open stateid in
+  that case).
 
---=20
-An old man doll... just what I always wanted! - Clara
+- support for delegated timestamps: when the client holds a write
+  delegation, it can send an updated atime and mtime in the CB_GETATTR
+  response
 
---PtfwvYqb3epCZ1qV
-Content-Type: application/pgp-signature; name="signature.asc"
+FATTR4_OFFLINE is not implemented, since we don't have a way to
+designate that under Linux. [1]
 
------BEGIN PGP SIGNATURE-----
+This patchset depends on a number of patchsets still in flight:
+- the multigrain timestamp series [2] (in Christian's vfs.mgtime branch)
+- the nfsd CB_GETATTR fixes [3][4] (in Chuck's nfsd-fixes branch)
+- Chuck's xdrgen patches [5] (in Chuck's lkxdrgen branch)
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZsxv1AAKCRD2uYlJVVFO
-o0g2AQCKuw0SRpzN4Byp3EYjPPIjzcxbfsBvmFvBtlCRAgLiwgEAtsTT4/BtRb0l
-10fGTV8TtXdiIr7euP2REfiYI7pDcgY=
-=R5Js
------END PGP SIGNATURE-----
+If you want to test this functionality, you'll also need client-side
+patches that went into v6.11-rc5 [6][7].
 
---PtfwvYqb3epCZ1qV--
+I should make special mention of patch #2, which starts integrating the
+xdrgenerated header. That will affect both the client and server, so I
+want to make sure everyone (Trond and Anna, in particular) is on board
+with this scheme before we merge it.
+
+For now, that patch just moves the header from where it was in Chuck's
+tree, but it'd probably be better to add a new "make xdrgen" target for
+that, long term.
+
+[1]: We could add a STATX_ATTR_OFFLINE flag for this, but the userland
+     use-cases are not 100% clear to me.
+[2]: https://lore.kernel.org/linux-fsdevel/20240715-mgtime-v6-0-48e5d34bd2ba@kernel.org/
+[3]: https://lore.kernel.org/linux-nfs/Zsoe%2FD24xvLfKClT@tissot.1015granger.net/T/#t
+[4]: https://lore.kernel.org/linux-nfs/ZsofUUJeB1wbONyi@tissot.1015granger.net/T/#t
+[5]: https://lore.kernel.org/linux-nfs/20240820144600.189744-1-cel@kernel.org/T/#me0207d0b18c19ddbf1cf698acff7e591bb4b100c
+[6]: https://lore.kernel.org/linux-nfs/20240815141841.29620-1-jlayton@kernel.org/
+[7]: https://lore.kernel.org/linux-nfs/20240821-nfs-6-11-v2-1-44478efe1650@kernel.org/
+
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+Changes in v2:
+- rebase onto Chuck's lkxdrgen branch, and reworked how autogenerated
+  code is included
+- declare nfsd_open_arguments as a global, so it doesn't have to be
+  set up on the stack each time
+- delegated timestamp support has been added
+- Link to v1: https://lore.kernel.org/r/20240816-delstid-v1-0-c221c3dc14cd@kernel.org
+
+---
+Jeff Layton (7):
+      nfsd: add pragma public to delegated timestamp types
+      nfs_common: make nfs4.h include generated nfs4_1.h
+      nfsd: add support for FATTR4_OPEN_ARGUMENTS
+      nfsd: implement OPEN_ARGS_SHARE_ACCESS_WANT_OPEN_XOR_DELEGATION
+      fs: add an ATTR_CTIME_DLG flag
+      nfsd: drop the ncf_cb_bmap field
+      nfsd: add support for delegated timestamps
+
+ {fs/nfsd => Documentation/sunrpc/xdr}/nfs4_1.x     |   2 +
+ fs/attr.c                                          |  10 +-
+ fs/nfsd/Makefile                                   |   2 +-
+ fs/nfsd/nfs4callback.c                             |  43 +++++++-
+ fs/nfsd/nfs4state.c                                | 115 +++++++++++++++++++--
+ fs/nfsd/nfs4xdr.c                                  |  53 +++++++++-
+ fs/nfsd/nfs4xdr_gen.c                              |  12 +--
+ fs/nfsd/nfsd.h                                     |   6 +-
+ fs/nfsd/state.h                                    |   4 +-
+ fs/nfsd/xdr4cb.h                                   |  10 +-
+ include/linux/fs.h                                 |   1 +
+ include/linux/nfs4.h                               |   7 +-
+ include/linux/nfs_xdr.h                            |   5 -
+ .../linux/sunrpc/xdrgen/nfs4_1.h                   |  14 ++-
+ include/uapi/linux/nfs4.h                          |   7 +-
+ 15 files changed, 244 insertions(+), 47 deletions(-)
+---
+base-commit: 55f9aa30de14b6ec52940adeb4790c15247fed40
+change-id: 20240815-delstid-93290691ad11
+
+Best regards,
+-- 
+Jeff Layton <jlayton@kernel.org>
+
