@@ -1,106 +1,64 @@
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2E01BFE06
-	for <linux-doc@vger.kernel.org>; Tue, 27 Aug 2024 14:50:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BBFD1A01C8
+	for <linux-doc@vger.kernel.org>; Tue, 27 Aug 2024 14:53:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724770257; cv=none; b=SHUClDkIKfQo8/37oxVMvXLf3Os4FaYUJtyf0VWFguYuSqnx31NxxvJTfojw/Yeovh0RoPjqZmk6gudUbtCLTluW/LH+tGxNjNhxUtisBMr+WvaRzJ9Hwy8LXwv/hcLhwYHekUn3EiBmt24JBgRUSCxPHUqjdPm9OsuwyiUim5U=
+	t=1724770397; cv=none; b=HfOQrWivhBmPC/pQ+acGsjPG9X0ex7qajkewmMh7y5wvEEMWk8y22KOHLyEKZ5YQhKruzLT8h/r2fffWiMgHQJjunzomWQ1A/FeMs5PRrXanejZW3Xc4hWt4jMuy9tUUhVGtm03cIq8O0hZwXHNUL9u7EupAwborNQSgL4O66/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724770257; c=relaxed/simple;
-	bh=paZ0GNFKn4uEQjz0srhCfFTNE/NCDkZfX4JypROkEfM=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NgAG0DVoI0M9tIaqajZP6C9Sy9/VFz5l8418rOFXu4sCUcn71Mv70/Uskxn6xs8ZNRasevs5SEBfUt/f3orjtpqLQyxo4JbrviDhgc8p7b/9RCftlHgSEoSmW5gHrp2wHfkmsRKHR6kH5QSywRtDkLEfEktOQWsa+pRxCR0B1D0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=Q0D219xi; arc=none smtp.client-ip=209.85.161.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1724770397; c=relaxed/simple;
+	bh=9QSmgOPZdH+PJesOTqZc6uIPB0+KDd0jeReg7eEhpkc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PFbkBfcK9/CRuz2Em6tTkft44eVzjv0SFhJ455QPt2T/M/UCSrJ9xwUh8EkjrV0R7mAt7lP1SZlS5q1be9Hc2nQqIg8gQWvk01ZGEOVMt5zUukyZUI8meDfpq6etnKl+AKjRt4xJcjk1cUImM16xZl//9vfWoERW0gsuE8A0ut4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=QCbiMnq0; arc=none smtp.client-ip=85.214.62.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="Q0D219xi"
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5de9809a38aso1388244eaf.1
-        for <linux-doc@vger.kernel.org>; Tue, 27 Aug 2024 07:50:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1724770254; x=1725375054; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NMEhLTTiqmBwY1nXaDK4IjIztlks0giYedmAFfB8Fwc=;
-        b=Q0D219ximTRFJJ4MNWZAg1CMJ+HHtAiF4URWZcBj4uTyWvoX4OY/zFDTwSMIYPQgAh
-         G7mmPVp+QE6RKBk8fwVkavHT9UVIvuZehGYqe9tyCaJNvdsjKEloOoW97Hbxk+T+riBU
-         WuokYxB8chQwR8WR7GO2MfKseUWmKtOQ9LHfk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724770254; x=1725375054;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NMEhLTTiqmBwY1nXaDK4IjIztlks0giYedmAFfB8Fwc=;
-        b=DfdeIjAhhM549IBzEuG/VgoOB5ZAyI8U9Bc3kUbLaAm4odCyk6fRVUg8CmC1o4TtiR
-         FHAHl1rqePxRZaPuPBw1lGp/iRJQHubAd2luJRWlKbSguW5lCxJsToHCxm14Zv1bMB8v
-         HpDIacTQzJ/YhVbBOJ5DwAgeGof6b1CUZxfBtTA/0y9gSrJQ82XgkqOE0/hiXW0uWz3H
-         RhhUqK+QpprQ1MDiPw0y4Nc8MjpVHo79sy63SrgurY0Zom/ppcL9+fpRT8bhVYPFmlFj
-         iHk2UB376UUKXZ5Pi8g+Vf7iCU5b87KT2hls3SsWMIZvQ13KJlvZamC/L+7gD0JFuw/1
-         ixjA==
-X-Forwarded-Encrypted: i=1; AJvYcCWQLeYgzsnw6OvKKyWCVtjCOYRHOQC77/+ZeygoAJTwLycdjRfbNph9ca8YEHS17qas6qtlRwh3uLc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAbpD09WfA4NiGOCW3O7VPCoiXszIXP49INqD2AH8u50xOo4At
-	yoslqQaWOLhbcl2BYu0UFrNqwWVK5aGnx4I/n6KTHwfMUNcM4gru8uoMbTLZwQ==
-X-Google-Smtp-Source: AGHT+IHatlFAvK6uXGDuOiOcHjDE37TG9ucPimxIcM7gtB4jyoTqbUPJ3VH2CYXi75P14ZJFtn+zNQ==
-X-Received: by 2002:a05:6359:4c04:b0:1aa:c8b7:4224 with SMTP id e5c5f4694b2df-1b5c3a6a7fbmr1146323355d.17.1724770254273;
-        Tue, 27 Aug 2024 07:50:54 -0700 (PDT)
-Received: from C02YVCJELVCG ([192.19.144.250])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a67f3199dasm558635285a.15.2024.08.27.07.50.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Aug 2024 07:50:53 -0700 (PDT)
-From: Andy Gospodarek <andrew.gospodarek@broadcom.com>
-X-Google-Original-From: Andy Gospodarek <gospo@broadcom.com>
-Date: Tue, 27 Aug 2024 10:50:51 -0400
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Andy Gospodarek <andrew.gospodarek@broadcom.com>,
-	Wei Huang <wei.huang2@amd.com>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	netdev@vger.kernel.org, Jonathan.Cameron@huawei.com,
-	helgaas@kernel.org, corbet@lwn.net, davem@davemloft.net,
-	edumazet@google.com, pabeni@redhat.com, alex.williamson@redhat.com,
-	michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
-	somnath.kotur@broadcom.com, manoj.panicker2@amd.com,
-	Eric.VanTassell@amd.com, vadim.fedorenko@linux.dev,
-	horms@kernel.org, bagasdotme@gmail.com, bhelgaas@google.com,
-	lukas@wunner.de, paul.e.luse@intel.com, jing2.liu@intel.com
-Subject: Re: [PATCH V4 11/12] bnxt_en: Add TPH support in BNXT driver
-Message-ID: <Zs3ny988Yk1LJeEY@C02YVCJELVCG>
-References: <20240822204120.3634-1-wei.huang2@amd.com>
- <20240822204120.3634-12-wei.huang2@amd.com>
- <20240826132213.4c8039c0@kernel.org>
- <ZszsBNC8HhCfFnhL@C02YVCJELVCG>
- <20240826154912.6a85e654@kernel.org>
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="QCbiMnq0"
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 3DF0C8897C;
+	Tue, 27 Aug 2024 16:53:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1724770393;
+	bh=lmb2oqOq5vJaZzMzPhiNEEPpt4WCsLSX6OKw8ytYuA8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=QCbiMnq0dF18BUn9XeJE6qSxjK3iIgduzEKYuHJ+tyanCUYyMQPnIu/z27NmWRkV2
+	 RcmC5/H/L3OnYaMXEqfus26FQkLnRYlsmsw3QpsehVUrh7Q6x3dywvp5ZchRNwAvqp
+	 73fjiMbgOiqfHtfv6Ci+FvuaVJOs3Cx8wd2cz7uhHF1umfH8LazxdsztNEDbHkeAla
+	 EwIjaxtge7nGHjcDWCd9XhUkpx3zASRs/YpgjpiMUS+1pklkg08QSQurNiRNs2mYoN
+	 cxjgNuQeVdf50heSIglJM2pAyQlcQrWatZLgsLSoo5NChGblRb816+d6Vk6cndYtrf
+	 4XBJlHtWz7axg==
+Message-ID: <34e42bb1-801a-4be7-a27c-b771e8f1926f@denx.de>
+Date: Tue, 27 Aug 2024 16:53:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240826154912.6a85e654@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: nvmem: Fix misspelling
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ linux-doc@vger.kernel.org
+References: <Zs3nQxwycafk75MX@casper.infradead.org>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <Zs3nQxwycafk75MX@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 
-On Mon, Aug 26, 2024 at 03:49:12PM -0700, Jakub Kicinski wrote:
-> On Mon, 26 Aug 2024 16:56:36 -0400 Andy Gospodarek wrote:
-> > We plan to replace these calls with calls to stop and start only that
-> > ring via netdev_rx_queue_restart as soon as these calls all land in
-> > the same tree.  Since this set is [presumably] coming through
-> > linux-pci we didn't think we could do that yet.
-> > 
-> > Thoughts?
+On 8/27/24 4:48 PM, Matthew Wilcox wrote:
+> There is no function called kstrbool().
 > 
-> The merge window is in 3 weeks or so, so this can wait.
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 
-Are you asking for the patch for this feature to include the queue
-stop/start instead of this?  I just checked linux-pci and it does have
-bnxt_queue_stop/bnxt_queue_start.
+Reviewed-by: Marek Vasut <marex@denx.de>
 
-> I'm worried we'll find out later that the current queue reset
-> implementation in bnxt turns out to be insufficient. And we'll
-> be stuck with yet another close/open in this driver.
-
-The queue reset _has_ to work.  We will ensure that it does and fix any
-problems found.  Note that these have been under test already internally
-and fixes are/will be posted to the list as they are made.  Holding this
-patch because an API that it uses might not work seems odd.
-
+Thanks
