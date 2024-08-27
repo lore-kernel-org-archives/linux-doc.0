@@ -1,336 +1,138 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CE0E199926
-	for <linux-doc@vger.kernel.org>; Tue, 27 Aug 2024 11:46:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7B31A0B02;
+	Tue, 27 Aug 2024 12:08:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724759195; cv=none; b=F9fuYaI0RmyKEhlNYmcBRheK3a2P2sy0ltjGrZCtlCwfk+X7Ax2USnU1GRll3/vHAYA2sydaR5PjbMwsOT1l9jPug3CdycXDgmtAJ3RnDNpaDJ2/Xde5eLXBBoFWeHcNM2HRKJiKbEeLkgxlJV0uuZkBZ0eoHEjsFiWg+2RntRA=
+	t=1724760515; cv=none; b=f59MXm5Qt2Jcdb8Y5QtbPyrWOYJSKtGN7KZrWuRLWY8UttKIKYqpO0MYNRLRMLYAGDDrWERtqYNHyjnjdsC7jgVM4kfHUec1185OilJ/XoO/wvAgfzfyiQoIKGQgSu5McUW5UuXrVfZD6anNFs1yc910/ZeFcggWUB6+YBByCcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724759195; c=relaxed/simple;
-	bh=NMfQFUMPwUmqcOgetvZDZl13bHToB2ewyfzwvjxEgpI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mOJ2v8mJlpYH9w3epSRbVV3ie8IpvXbqI9ug9JEb1cbtiQD/yBYSqQD5cnCZvUjeImdBH8lhZ8N0nH3+44p95ebegpROoujz5jcW4TnOFXhkrf15Y69C+i45LNPsRRUBajKYwTT1LEKkLDx+tauR0G38Gr4Jhq0ZlUuD606FG8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SopO8ZMS; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SopO8ZMS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1724759192;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=RN16f/x7fHfjG9v6mnPSIwPu+Wm1a6yP8pFnDIQtCAY=;
-	b=SopO8ZMSNEEe5zTpgZ3fPjHO6BdAogRXTm+Xj7mXtguwPB+yBofo3CXx6CuTzEr5Wxt/C/
-	olaT7TB2JA/5kPOCzPPVsqmDQfqr/qRfMcMi81IFnTHqu8jOnBTM63tPMMjlCLu9IEm7CT
-	ugV9qkLjsdxEXZEN3plA2wGTpzJYlSU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-391-mNuL-Q4fNICtyT9ktB9p-A-1; Tue, 27 Aug 2024 07:46:31 -0400
-X-MC-Unique: mNuL-Q4fNICtyT9ktB9p-A-1
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4280c0b3017so51670665e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 27 Aug 2024 04:46:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724759190; x=1725363990;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=RN16f/x7fHfjG9v6mnPSIwPu+Wm1a6yP8pFnDIQtCAY=;
-        b=OAwabgdWSp4ikaDmg8U8oFSUhb+MCu2A8Op22pD44h1e5x8l3sSho5u/gdF3fXqdEt
-         Pr4xLrfgGJ1W6z3AarUz045Y9uqxEtceHT2TtkVREjvU9d/8ffwNoeHG9M+1m97n5OIO
-         lbkKb+ma6IF7cQ1jWerP3w/oD6BZrZX7mtF/vBIt2KuPMoazthzfR279Db5jy1PuTt+A
-         d5U/cNIfxRpvCSbQH11H558Qe9zwa/tQrfclimUXuMOtx+RigVjHa72I8gTWPnTDODTa
-         Qtg3yiZO55DsQoub9LdrKWFF/DQ2eA0vi7WGyTwOczIKbCfJpbgk7p9V9/xSYdqK09Ja
-         +lmA==
-X-Forwarded-Encrypted: i=1; AJvYcCVrnoxFyNRxJKQM7gzeAQgxK9LtRvMtJ8y3L2XnUJaV0riwrzbj9SvoGshA7RzTDRs3+YCsDObXmPQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUoMR2HwZ8gJDHeQwwQiUxIWNsl+D99t91SouRpe0WOHUgD7kO
-	9OBlmnHmrJ03uAKHXH/WsOSWyk5p3D5gPx05GITOuFqF3Rg7lmpyiRcKiZJ4tNrVipJcJUJOufi
-	Jy1mVSf544dsKqmvaIx3OJizBbk60rhhecv+eZ/1z7Ym7SEaH2xc2C2dWpA==
-X-Received: by 2002:a05:600c:511a:b0:426:5fe1:ec7a with SMTP id 5b1f17b1804b1-42b9ae3a992mr16252235e9.31.1724759189754;
-        Tue, 27 Aug 2024 04:46:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFbGwbNmIss18jSuVLUNIRVI5JaTKiWjIwWCgAMSH7OHKm+ryI0CzVTn5QsF77U1Ccr7+QJxQ==
-X-Received: by 2002:a05:600c:511a:b0:426:5fe1:ec7a with SMTP id 5b1f17b1804b1-42b9ae3a992mr16251845e9.31.1724759188732;
-        Tue, 27 Aug 2024 04:46:28 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c742:a100:9dd2:c523:f5fd:da19? (p200300cbc742a1009dd2c523f5fdda19.dip0.t-ipconnect.de. [2003:cb:c742:a100:9dd2:c523:f5fd:da19])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37308110603sm12982263f8f.2.2024.08.27.04.46.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Aug 2024 04:46:28 -0700 (PDT)
-Message-ID: <b73961a2-87ec-45a5-b6fb-83d3505a0f39@redhat.com>
-Date: Tue, 27 Aug 2024 13:46:26 +0200
+	s=arc-20240116; t=1724760515; c=relaxed/simple;
+	bh=52M/8BWHhEzkUmRkv6Kdv6Vqv/i/kvJFaeCUvFN1u34=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GeSJZe/EajLB0Ix2Ios7srKtej3G+TgSk2IuH11R10WKOqaG6XcllaDgnmrxrBxV2dLUEJN2kt6Q080F4KFw4niSJ9Im9rU6y27ZA+delT1M8SKCRGg33mncuCMsa7/p/A2LPzqwiGbZRqE8Iu78lw6brhapFaSYbvBbKSLeMv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4WtR7c3s8Bz6DBfS;
+	Tue, 27 Aug 2024 20:05:16 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id 3E3121400D4;
+	Tue, 27 Aug 2024 20:08:31 +0800 (CST)
+Received: from localhost (10.203.177.66) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 27 Aug
+ 2024 13:08:30 +0100
+Date: Tue, 27 Aug 2024 13:08:29 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Fan Ni <nifan.cxl@gmail.com>
+CC: <ira.weiny@intel.com>, Dave Jiang <dave.jiang@intel.com>, Navneet Singh
+	<navneet.singh@intel.com>, Chris Mason <clm@fb.com>, Josef Bacik
+	<josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, Petr Mladek
+	<pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko
+	<andriy.shevchenko@linux.intel.com>, Rasmus Villemoes
+	<linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+	Dan Williams <dan.j.williams@intel.com>, Davidlohr Bueso <dave@stgolabs.net>,
+	Alison Schofield <alison.schofield@intel.com>, Vishal Verma
+	<vishal.l.verma@intel.com>, <linux-btrfs@vger.kernel.org>,
+	<linux-cxl@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <nvdimm@lists.linux.dev>
+Subject: Re: [PATCH v3 18/25] cxl/extent: Process DCD events and realize
+ region extents
+Message-ID: <20240827130829.00004660@Huawei.com>
+In-Reply-To: <Zsj_8IckEFpwmA5L@fan>
+References: <20240816-dcd-type2-upstream-v3-0-7c9b96cba6d7@intel.com>
+	<20240816-dcd-type2-upstream-v3-18-7c9b96cba6d7@intel.com>
+	<Zsj_8IckEFpwmA5L@fan>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 0/2] mm: introduce THP deferred setting
-To: Johannes Weiner <hannes@cmpxchg.org>, Usama Arif <usamaarif642@gmail.com>
-Cc: Nico Pache <npache@redhat.com>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Matthew Wilcox <willy@infradead.org>, Barry Song <baohua@kernel.org>,
- Ryan Roberts <ryan.roberts@arm.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Lance Yang
- <ioworker0@gmail.com>, Peter Xu <peterx@redhat.com>,
- Rafael Aquini <aquini@redhat.com>, Andrea Arcangeli <aarcange@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Zi Yan <ziy@nvidia.com>
-References: <20240729222727.64319-1-npache@redhat.com>
- <72320F9D-9B6A-4ABA-9B18-E59B8382A262@nvidia.com>
- <CAA1CXcCD798gkLoZuz3Cd5-Wf2MRfnAG_EB0U3nbScZeFv09dw@mail.gmail.com>
- <CAA1CXcCCOS8-aqcm+w8Aoqe2P5q005wMrgmtx=xjzJgjKFb7mg@mail.gmail.com>
- <61411216-d196-42de-aa64-12bd28aef44f@gmail.com>
- <CAA1CXcCe8QDir2KiWg=GmN4BErfXSDs_9kmnYfyK=X8H8U8QwA@mail.gmail.com>
- <698ea52e-db99-4d21-9984-ad07038d4068@gmail.com>
- <20240827110959.GA438928@cmpxchg.org>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <20240827110959.GA438928@cmpxchg.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-On 27.08.24 13:09, Johannes Weiner wrote:
-> On Tue, Aug 27, 2024 at 11:37:14AM +0100, Usama Arif wrote:
->>
->>
->> On 26/08/2024 17:14, Nico Pache wrote:
->>> On Mon, Aug 26, 2024 at 10:47 AM Usama Arif <usamaarif642@gmail.com> wrote:
->>>>
->>>>
->>>>
->>>> On 26/08/2024 11:40, Nico Pache wrote:
->>>>> On Tue, Jul 30, 2024 at 4:37 PM Nico Pache <npache@redhat.com> wrote:
->>>>>>
->>>>>> Hi Zi Yan,
->>>>>> On Mon, Jul 29, 2024 at 7:26 PM Zi Yan <ziy@nvidia.com> wrote:
->>>>>>>
->>>>>>> +Kirill
->>>>>>>
->>>>>>> On 29 Jul 2024, at 18:27, Nico Pache wrote:
->>>>>>>
->>>>>>>> We've seen cases were customers switching from RHEL7 to RHEL8 see a
->>>>>>>> significant increase in the memory footprint for the same workloads.
->>>>>>>>
->>>>>>>> Through our investigations we found that a large contributing factor to
->>>>>>>> the increase in RSS was an increase in THP usage.
->>>>>>>
->>>>>>> Any knob is changed from RHEL7 to RHEL8 to cause more THP usage?
->>>>>> IIRC, most of the systems tuning is the same. We attributed the
->>>>>> increase in THP usage to a combination of improvements in the kernel,
->>>>>> and improvements in the libraries (better alignments). That allowed
->>>>>> THP allocations to succeed at a higher rate. I can go back and confirm
->>>>>> this tomorrow though.
->>>>>>>
->>>>>>>>
->>>>>>>> For workloads like MySQL, or when using allocators like jemalloc, it is
->>>>>>>> often recommended to set /transparent_hugepages/enabled=never. This is
->>>>>>>> in part due to performance degradations and increased memory waste.
->>>>>>>>
->>>>>>>> This series introduces enabled=defer, this setting acts as a middle
->>>>>>>> ground between always and madvise. If the mapping is MADV_HUGEPAGE, the
->>>>>>>> page fault handler will act normally, making a hugepage if possible. If
->>>>>>>> the allocation is not MADV_HUGEPAGE, then the page fault handler will
->>>>>>>> default to the base size allocation. The caveat is that khugepaged can
->>>>>>>> still operate on pages thats not MADV_HUGEPAGE.
->>>>>>>
->>>>>>> Why? If user does not explicitly want huge page, why bother providing huge
->>>>>>> pages? Wouldn't it increase memory footprint?
->>>>>>
->>>>>> So we have "always", which will always try to allocate a THP when it
->>>>>> can. This setting gives good performance in a lot of conditions, but
->>>>>> tends to waste memory. Additionally applications DON'T need to be
->>>>>> modified to take advantage of THPs.
->>>>>>
->>>>>> We have "madvise" which will only satisfy allocations that are
->>>>>> MADV_HUGEPAGE, this gives you granular control, and a lot of times
->>>>>> these madvises come from libraries. Unlike "always" you DO need to
->>>>>> modify your application if you want to use THPs.
->>>>>>
->>>>>> Then we have "never", which of course, never allocates THPs.
->>>>>>
->>>>>> Ok. back to your question, like "madvise", "defer" gives you the
->>>>>> benefits of THPs when you specifically know you want them
->>>>>> (madv_hugepage), but also benefits applications that dont specifically
->>>>>> ask for them (or cant be modified to ask for them), like "always"
->>>>>> does. The applications that dont ask for THPs must wait for khugepaged
->>>>>> to get them (avoid insertions at PF time)-- this curbs a lot of memory
->>>>>> waste, and gives an increased tunability over "always". Another added
->>>>>> benefit is that khugepaged will most likely not operate on short lived
->>>>>> allocations, meaning that only longstanding memory will be collapsed
->>>>>> to THPs.
->>>>>>
->>>>>> The memory waste can be tuned with max_ptes_none... lets say you want
->>>>>> ~90% of your PMD to be full before collapsing into a huge page. simply
->>>>>> set max_ptes_none=64. or no waste, set max_ptes_none=0, requiring the
->>>>>> 512 pages to be present before being collapsed.
->>>>>>
->>>>>>>
->>>>>>>>
->>>>>>>> This allows for two things... one, applications specifically designed to
->>>>>>>> use hugepages will get them, and two, applications that don't use
->>>>>>>> hugepages can still benefit from them without aggressively inserting
->>>>>>>> THPs at every possible chance. This curbs the memory waste, and defers
->>>>>>>> the use of hugepages to khugepaged. Khugepaged can then scan the memory
->>>>>>>> for eligible collapsing.
->>>>>>>
->>>>>>> khugepaged would replace application memory with huge pages without specific
->>>>>>> goal. Why not use a user space agent with process_madvise() to collapse
->>>>>>> huge pages? Admin might have more knobs to tweak than khugepaged.
->>>>>>
->>>>>> The benefits of "always" are that no userspace agent is needed, and
->>>>>> applications dont have to be modified to use madvise(MADV_HUGEPAGE) to
->>>>>> benefit from THPs. This setting hopes to gain some of the same
->>>>>> benefits without the significant waste of memory and an increased
->>>>>> tunability.
->>>>>>
->>>>>> future changes I have in the works are to make khugepaged more
->>>>>> "smart". Moving it away from the round robin fashion it currently
->>>>>> operates in, to instead make smart and informed decisions of what
->>>>>> memory to collapse (and potentially split).
->>>>>>
->>>>>> Hopefully that helped explain the motivation for this new setting!
->>>>>
->>>>> Any last comments before I resend this?
->>>>>
->>>>> Ive been made aware of
->>>>> https://lore.kernel.org/all/20240730125346.1580150-1-usamaarif642@gmail.com/T/#u
->>>>> which introduces THP splitting. These are both trying to achieve the
->>>>> same thing through different means. Our approach leverages khugepaged
->>>>> to promote pages, while Usama's uses the reclaim path to demote
->>>>> hugepages and shrink the underlying memory.
->>>>>
->>>>> I will leave it up to reviewers to determine which is better; However,
->>>>> we can't have both, as we'd be introducing trashing conditions.
->>>>>
->>>>
->>>> Hi,
->>>>
->>>> Just inserting this here from my cover letter:
->>>>
->>>> Waiting for khugepaged to scan memory and
->>>> collapse pages into THP can be slow and unpredictable in terms of performance
->>> Obviously not part of my patchset here, but I have been testing some
->>> changes to khugepaged to make it more aware of what processes are hot.
->>> Ideally then it can make better choices of what to operate on.
->>>> (i.e. you dont know when the collapse will happen), while production
->>>> environments require predictable performance. If there is enough memory
->>>> available, its better for both performance and predictability to have
->>>> a THP from fault time, i.e. THP=always rather than wait for khugepaged
->>>> to collapse it, and deal with sparsely populated THPs when the system is
->>>> running out of memory.
->>>>
->>>> I just went through your patches, and am not sure why we can't have both?
->>> Fair point, we can. I've been playing around with splitting hugepages
->>> and via khugepaged and was thinking of the trashing conditions there--
->>> but your implementation takes a different approach.
->>> I've been working on performance testing my "defer" changes, once I
->>> find the appropriate workloads I'll try adding your changes to the
->>> mix. I have a feeling my approach is better for latency sensitive
->>> workloads, while yours is better for throughput, but let me find a way
->>> to confirm that.
->>>
->>>
->> Hmm, I am not sure if its latency vs throughput.
->>
->> There are 2 things we probably want to consider, short lived and long lived mappings, and
->> in each of these situations, having enough memory and running out of memory.
->>
->> For short lived mappings, I believe reducing page faults is a bigger factor in
->> improving performance. In that case, khugepaged won't have enough time to work,
->> so THP=always will perform better than THP=defer. THP=defer in this case will perform
->> the same as THP=madvise?
->> If there is enough memory, then the changes I introduced in the shrinker won't cost anything
->> as the shrinker won't run, and the system performance will be the same as THP=always.
->> If there is low memory and the shrinker runs, it will only split THPs that have zero-filled
->> pages more than max_ptes_none, and map the zero-filled pages to shared zero-pages saving memory.
->> There is ofcourse a cost to splitting and running the shrinker, but hopefully it only splits
->> underused THPs.
->>
->> For long lived mappings, reduced TLB misses would be the bigger factor in improving performance.
->> For the initial run of the application THP=always will perform better wrt TLB misses as
->> page fault handler will give THPs from start.
->> Later on in the run, the memory might look similar between THP=always with shrinker and
->> max_ptes_none < HPAGE_PMD_NR vs THP=defer and max_ptes_none < HPAGE_PMD_NR?
->> This is because khugepaged will have collapsed pages that might have initially been faulted in.
->> And collapsing has a cost, which would not have been incurred if the THPs were present from fault.
->> If there is low memory, then shrinker would split memory (which has a cost as well) and the system
->> memory would look similar or better than THP=defer, as the shrinker would split THPs that initially
->> might not have been underused, but are underused at time of memory pressure.
->>
->> With THP=always + underused shrinker, the cost (splitting) is incurred only if needed and when its needed.
->> While with THP=defer the cost (higher page faults, higher TLB misses + khugepaged collapse) is incurred all the time,
->> even if the system might have plenty of memory available and there is no need to take a performance hit.
+On Fri, 23 Aug 2024 14:32:32 -0700
+Fan Ni <nifan.cxl@gmail.com> wrote:
+
+> On Fri, Aug 16, 2024 at 09:44:26AM -0500, ira.weiny@intel.com wrote:
+> > From: Navneet Singh <navneet.singh@intel.com>
+> > 
+> > A dynamic capacity device (DCD) sends events to signal the host for
+> > changes in the availability of Dynamic Capacity (DC) memory.  These
+> > events contain extents describing a DPA range and meta data for memory
+> > to be added or removed.  Events may be sent from the device at any time.
+> > 
+> > Three types of events can be signaled, Add, Release, and Force Release.
+> > 
+> > On add, the host may accept or reject the memory being offered.  If no
+> > region exists, or the extent is invalid, the extent should be rejected.
+> > Add extent events may be grouped by a 'more' bit which indicates those
+> > extents should be processed as a group.
+> > 
+> > On remove, the host can delay the response until the host is safely not
+> > using the memory.  If no region exists the release can be sent
+> > immediately.  The host may also release extents (or partial extents) at
+> > any time.  Thus the 'more' bit grouping of release events is of less
+> > value and can be ignored in favor of sending multiple release capacity
+> > responses for groups of release events.
+> > 
+> > Force removal is intended as a mechanism between the FM and the device
+> > and intended only when the host is unresponsive, out of sync, or
+> > otherwise broken.  Purposely ignore force removal events.
+> > 
+> > Regions are made up of one or more devices which may be surfacing memory
+> > to the host.  Once all devices in a region have surfaced an extent the
+> > region can expose a corresponding extent for the user to consume.
+> > Without interleaving a device extent forms a 1:1 relationship with the
+> > region extent.  Immediately surface a region extent upon getting a
+> > device extent.
+> > 
+> > Per the specification the device is allowed to offer or remove extents
+> > at any time.  However, anticipated use cases can expect extents to be
+> > offered, accepted, and removed in well defined chunks.
+> > 
+> > Simplify extent tracking with the following restrictions.
+> > 
+> > 	1) Flag for removal any extent which overlaps a requested
+> > 	   release range.
+> > 	2) Refuse the offer of extents which overlap already accepted
+> > 	   memory ranges.
+> > 	3) Accept again a range which has already been accepted by the
+> > 	   host.  (It is likely the device has an error because it
+> > 	   should already know that this range was accepted.  But from
+> > 	   the host point of view it is safe to acknowledge that
+> > 	   acceptance again.)
+> > 
+> > Management of the region extent devices must be synchronized with
+> > potential uses of the memory within the DAX layer.  Create region extent
+> > devices as children of the cxl_dax_region device such that the DAX
+> > region driver can co-drive them and synchronize with the DAX layer.
+> > Synchronization and management is handled in a subsequent patch.
+> > 
+> > Process DCD events and create region devices.
+> > 
+> > Signed-off-by: Navneet Singh <navneet.singh@intel.com>
+> > Co-developed-by: Ira Weiny <ira.weiny@intel.com>
+> > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> >   
 > 
-> I agree with this. The defer mode is an improvement over the upstream
-> status quo, no doubt. However, both defer mode and the shrinker solve
-> the issue of memory waste under pressure, while the shrinker permits
-> more desirable behavior when memory is abundant.
+> One minor change inline.
+Hi Fan,
+
+Crop please.  I scanned past it 3 times when scrolling without noticing
+what you'd actually commented on.
+
+> > +/* See CXL 3.0 8.2.9.2.1.5 */  
 > 
-> So my take is that the shrinker is the way to go, and I don't see a
-> bonafide usecase for defer mode that the shrinker couldn't cover.
-
-Page fault latency? IOW, zeroing a complete THP, which might be up to 
-512 MiB on arm64. This is one of the things people bring up, where 
-FreeBSD is different because it will zero fragments on-demand (but also 
-result in more pagefaults).
-
-On the downside, in the past (before) we could easily and repeatedly 
-fail to collapse THPs in busy environments. With per-VMA locks this 
-might have improved in the meantime.
-
--- 
-Cheers,
-
-David / dhildenb
-
+> Update the reference to reflect CXL 3.1.
+> 
+> Fan
+> 
