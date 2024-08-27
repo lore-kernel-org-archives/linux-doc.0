@@ -1,114 +1,158 @@
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04olkn2024.outbound.protection.outlook.com [40.92.47.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D137C19F467;
-	Tue, 27 Aug 2024 11:27:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724758066; cv=none; b=qmV7PVEYwnz6FdXYt2LWDY7pg/wSIlgM10qvlVtyEyHlJRvyDxo9RKO5om4K7vQ3eIu/6uW5B7fThaEmS8UkGn4eMh6yuGQ9LMekTBP/GE4mScG900x+Cd4ThfjTLRJmgmZbBApMeS4Ol8YH7W5t4VNHFNySoRjX4sdeYvVT148=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724758066; c=relaxed/simple;
-	bh=NvUNmIiFddQBNUlI1Ldz3THrcrU/8gD3o2YKY7dPIPU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=b1C9tYMwSjFwousKdNmSLVGwrTbmitZzQtPhgVfkg+uDiQsTT1w/Ou4XFHShzjjcyI4wUDVoXdA6JRh97+E4T+ZmPCN58T4tgKyBUCHXHS/BCC8f/OTgMu8zCLBXahtPuiP9vpUdQ0BWkPXcooM4Wvi56v3Yz567e54C7/7zPPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=A4Yz1+1V; arc=none smtp.client-ip=198.47.19.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD04B14D29C;
+	Tue, 27 Aug 2024 11:35:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.47.24
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724758554; cv=fail; b=a8bUI8vWZf+nwHl1xO6NsdBq+Dbop7A/hg/5lOdmh4sHCt1Ardu1vrrJjW4uFrS6N5iiLdq7+8jKpuPDrhurmZAiliLvsIvyG0DGy/tC+QWjH/vkPkNJIkLc8pYD37PIzrE0yM9hjjFrJrji79Q8LHrQD/Kci6J0bSVVgAwOBeQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724758554; c=relaxed/simple;
+	bh=vzFB3ZLv2n4geExks1YqoZU3HHnM6FBcplA8ekwN2nM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=lJPvrWJTzU6lji5NLc3/bn9lbR/6KNxpc0mcEN5xOSRer+FLWYzDlxrXdnqMLd8JYrSwojsL97ngmdc+fMsWEk6mPcEwRmkKEfnJSdyAFJKyg3yIoXnEqh8BD2DVSaGKx0BPftdPbLkWdG9cbxWnGE7HNCEl8B0N53UdiPv05Co=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=sf/CuY+S; arc=fail smtp.client-ip=40.92.47.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="A4Yz1+1V"
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 47RBRPoH121851;
-	Tue, 27 Aug 2024 06:27:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1724758045;
-	bh=qtJ5rNu6wj/UDoMOvt2vEROyr8WOsRGIifqB7285mAY=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=A4Yz1+1VpwlBdDgqbVBj68D03TsZG5G3SMH/RA8IsPY9BjCckq/kFvYDRxXEJlxE8
-	 KJqXK7iQRKAXX6BaTb5NhBzK0gYphG2vO+VX6n4yCn1XvjAp9CoVY6+FlG7Yf7bRES
-	 nr2dYOM5YEV0cYg8r7ujSmM5o5owIC0JJxWVNJWo=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 47RBRPnj013217
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 27 Aug 2024 06:27:25 -0500
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 27
- Aug 2024 06:27:25 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 27 Aug 2024 06:27:25 -0500
-Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193] (may be forged))
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 47RBRI5Y082799;
-	Tue, 27 Aug 2024 06:27:18 -0500
-Message-ID: <9c41f6b7-6b06-cd5b-74bd-24873c4beaf7@ti.com>
-Date: Tue, 27 Aug 2024 16:57:17 +0530
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="sf/CuY+S"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XpyoVkY2/Qcgry2QLHoadZrDBzQ9uFg94i7mxY4pmB8oqsTBvwZSdsINYp0wcCeLMvRRE+uEtOjBd+e2btQKfFByb43PALEJnPCrtzjnopXnioiveOCf8XXo3fXUNtEhi8BaTwgNu0Fm+QQRoaOphQEJi/qiBWup/FKHjqSCqz+7BA/vOcOi2zgTDGCQaU2OJwJflFJeNlg5WRo+LGcfEUM0TLIc+JgdwkIzsJwH36BWiPrUjon0z2twuc6k1aSc+92oFOsmUHUv5bBmz0oogHZVRfkQVOGnl9G03ZJsa9A9d1xZuZZz5ahMcEEWWmyHakANyToH+rvx4u887c2f2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FL9ALtdsHqGaO1a09Y1TAsJGYWHUl7rROAIise8KV/I=;
+ b=Ye6d/gzk8j2z+HG+Wh63zsyBpV3slO/QXmHriiW1BM0G6isTq6Vk3MATppmA8PfXdenc82UyJbO+CWUauDuQJy9+TvOm7ZRAMnJzHgIOPAfNe3fhFi4p/jmiGqYIFqhPkbehZh5fiQpMF3YFuA167ay0cywcRa5e/nes1A+j/OTT+SHJEd7+YZGXFx1LMKFtUgxdrx05GgIAuwZOd0AzWnwExuTBSt2+IBxoz5a+qDzmJChEsasO1exhPV3ug4RttqjIsXz2X8noBQMPnkC0skr5U3MP2TwoQKcZPZRum9y1pr+vEk/M1e5u3xmkQZNVPnMLbhrrkA7+aRKOQbqNhg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FL9ALtdsHqGaO1a09Y1TAsJGYWHUl7rROAIise8KV/I=;
+ b=sf/CuY+SbNd2kAiba3spPmTj19Sezo56OamQP0mz+f6ZaA8UKRqdWByihjEY4wL9B1JMKic4jYCGylZs6m8x0U/VoB2vOYTpR1leh2BGaqC9iOqoVJQfRNlRJ/30Ldf8iVV04cFL917gFxRCVgy9xGRP0hx/k/VOtE+h+bxD9Yeetn+P3lUcix6PxxnAQKuC+HXhS1u1WNjXxYj/Rjwhs/PoMCSI2IV6lowu7tJH06gsuQLvzdgyqZ8/rtOTV59AVHsacqxtW/lgeRgAZDC6gtSwOIX1p3eJDqz4b6dXDAhFoYTQMwfvChfeN0sMdITZ84o0c4KrQ6kN1vtJ7PytYw==
+Received: from IA1PR20MB4953.namprd20.prod.outlook.com (2603:10b6:208:3af::19)
+ by CH3PR20MB7037.namprd20.prod.outlook.com (2603:10b6:610:1b8::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.25; Tue, 27 Aug
+ 2024 11:35:50 +0000
+Received: from IA1PR20MB4953.namprd20.prod.outlook.com
+ ([fe80::ab0b:c0d3:1f91:d149]) by IA1PR20MB4953.namprd20.prod.outlook.com
+ ([fe80::ab0b:c0d3:1f91:d149%4]) with mapi id 15.20.7897.021; Tue, 27 Aug 2024
+ 11:35:44 +0000
+From: Inochi Amaoto <inochiama@outlook.com>
+To: Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen Wang <unicorn_wang@outlook.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Guo Ren <guoren@kernel.org>,
+	Chao Wei <chao.wei@sophgo.com>,
+	Yangyu Chen <cyy@cyyself.name>,
+	Sunil V L <sunilvl@ventanamicro.com>,
+	Anup Patel <apatel@ventanamicro.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Hal Feng <hal.feng@starfivetech.com>,
+	Inochi Amaoto <inochiama@outlook.com>
+Cc: linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: (subset) [PATCH v11 0/4] riscv: sophgo: Add SG2042 external hardware monitor support
+Date: Tue, 27 Aug 2024 19:34:45 +0800
+Message-ID:
+ <IA1PR20MB4953A509BE6FB7E05590E3FBBB942@IA1PR20MB4953.namprd20.prod.outlook.com>
+X-Mailer: git-send-email 2.46.0
+In-Reply-To: <IA1PR20MB4953DF0AE7210A6D74162952BB822@IA1PR20MB4953.namprd20.prod.outlook.com>
+References: <IA1PR20MB4953DF0AE7210A6D74162952BB822@IA1PR20MB4953.namprd20.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-TMN: [U7DgGyrQalc7TTsTG8pMr5l5QTyi56JY88DcGqbfdh8=]
+X-ClientProxiedBy: TYCP286CA0109.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:29c::6) To IA1PR20MB4953.namprd20.prod.outlook.com
+ (2603:10b6:208:3af::19)
+X-Microsoft-Original-Message-ID:
+ <172475845236.1309337.9432886632005176363.b4-ty@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 1/6] math.h: Add macros for rounding to the closest
- value
-Content-Language: en-US
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <sebastian.fricke@collabora.com>, <linux-doc@vger.kernel.org>,
-        <praneeth@ti.com>, <nm@ti.com>, <vigneshr@ti.com>, <s-jain1@ti.com>,
-        <r-donadkar@ti.com>, <b-brnich@ti.com>, <detheridge@ti.com>,
-        <p-mantena@ti.com>, <vijayp@ti.com>, <andi.shyti@linux.intel.com>,
-        <nicolas@ndufresne.ca>, <jirislaby@kernel.org>, <davidgow@google.com>,
-        <dlatypov@google.com>, <corbet@lwn.net>, <broonie@kernel.org>,
-        <jani.nikula@intel.com>, <rdunlap@infradead.org>,
-        <nik.borisov@suse.com>, <Dave.Martin@arm.com>
-References: <20240826150822.4057164-1-devarsht@ti.com>
- <20240826150822.4057164-2-devarsht@ti.com>
- <Zsy-8xXQ01-JhL0m@smile.fi.intel.com>
-From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <Zsy-8xXQ01-JhL0m@smile.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR20MB4953:EE_|CH3PR20MB7037:EE_
+X-MS-Office365-Filtering-Correlation-Id: b4aa3f51-e042-4799-2b06-08dcc68c62e0
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|461199028|6090799003|15080799006|8060799006|5072599009|19110799003|1602099012|440099028|3412199025|4302099013|1710799026;
+X-Microsoft-Antispam-Message-Info:
+	THuzMoXZXz6t+Np69sKKuHvHXO4mpIOhwizpEfygBVJKOD2QMlAF3ZX6f/nyp7PGNHuALyktKrHmy/w+tQp+OLyDMdu0o1eWkYtFFf2ErQJ+2m2suhhIKQa5Q8cSMjiTzqL8ZwvTxcedmuiCKkVvFxEOvQefw5p4yvortS2xK9233PDuiotjxPG5jf32lsvDHtTsihK1qQsrAgDUNfcpD9xW1ONdwnSxwSbKv5rwAhiqwLLWz1vMHhlceHi0dKVpZ3jkvosINOzr4qLoMdGzSY2thoxLK17x+glfevWUXQerV3oh5U1J+5uL8HbpIXELGiiKgI1wLqT3Ece265gGEX48ZJ0BRoy/iFvq5F+kgcArxm5VHsDEepSjIFU8yhWPjGCHPjvVaghzTJ4hoIJ0sIquVGX/HKnczOaKlkJoUqLplNFkHV06sI8gMv0AAYQrbklBqHdV1OODSNSX+3XMQSEYNAfuj8Xl2nIRESoyZtKtXvh8IWQms38VEbIMQ0/ihm4NSS4FiK6Q5FYof1S8Dp31pZ9vHX4HE/XdBf0U+LC2bRIra9RlbcTwuAINOaKpZFCUOgLI7c3I0nvEmH4otyYO8kCce3x+JpvvgCpSInWi1flaUUIZZvMPmxa+j+elQBaubyJPh2O3JtjmuQUVWyPE0NoDJhfsmYb3QPMEEbaMZQxQvS6ZDSIGhB13No8tYMf13YiGbr2UN1Y66nxCrY5tKnvortTqZoGIRwfnpt5JQBJ6iUeGciIwjMfFhNP3HtlOp0/64P2yzNkdP5PLuqQbyqxQGnAN7hvl8Wm5c24yxe0WwzrBwLRmihHseHDY+20EgUDcLyQexcSdxzfL9O6y6fhpKWz3zI6LyLnGVWhMQHIIvLeyMOxwIbiuwLtu
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?N0FPU2ZzWklFKzE3Uk9HQzhiZFd6eXZORTV4d3o2WFFIUlZHM3lqbmZzM1c3?=
+ =?utf-8?B?RTFOQW9pcVZIVzhYL1RwTXhVaHlIVDJ1YzllV1RaMDVsWEMySCtRNGpXTlVi?=
+ =?utf-8?B?cXY0TjR4RDJJZ01rdkRjVTV2LzBYbDUzNVYrSlFtSmRnUE03YktIaGt5U3Zk?=
+ =?utf-8?B?bUhUdG95NzluZzY2WUZLZ0c0TjdoTCtYOEdmNUthWmVPVEdJYUIrR2kvelBF?=
+ =?utf-8?B?NSt0U0hSS2pDT0Z5bDNuczd3TFA1MzZjY29rUkRwTldGT2g5OHc5MkpiWTJS?=
+ =?utf-8?B?UVJKSFhoMDRzM2F6VzhrTGxMOC9wMWtocThIUVdUNVRNMFJFTlZ6aHFoWXVN?=
+ =?utf-8?B?ekw2WDl3WVJjK04zaWdtZEJtenVQa1JCZ1h6aFVxSTRBSllqcUFTU1RHMERw?=
+ =?utf-8?B?QkpRaTBPeHplK0paYy95aWFEYk9Kck1lQWpmUTFPSXZFTm9ha0p3TGdLVGY5?=
+ =?utf-8?B?dXR0WkhGVDJGSXo1cnc0RWJPcytmTlUwQXhmY1MrU3BaQjJvZjFwT1REL29r?=
+ =?utf-8?B?elp3Wm1IZXN1RnZ6N3VuSmtTWmx5ODFMRlFaOHFoUE5iZUdSeDVYT0pTRTFZ?=
+ =?utf-8?B?QWUvcGpHU0VGUXFqd1dXN01MeTdBaCtvdmVYWlVvWGhTNERmWEw1dzhHK1BC?=
+ =?utf-8?B?eGViOVFpbTEvWGZFY1NDMjhuU0NXbStrZ1dNQXN6UTQ1N0Q3cjJiOS9MYUdr?=
+ =?utf-8?B?Mk5GbkY5ZWlmaFRwVUF6ZGFaRGtsTUpUZ0JKZHRkY3I4RmdtaHljb0x3amlX?=
+ =?utf-8?B?c0YyU0M2YXlGMHBidzhTeG1HN2UrKyttd2Q5ZzkxMG5yb3FCQVdHWGJ6c2d4?=
+ =?utf-8?B?VWNSQTdHek1jTTc4WXI3a0RlQ1grb01HRVpJc3JvMHpqcVY5Y1RKcUNPQ2ZZ?=
+ =?utf-8?B?Zk54akVRY1lRTEpEWVYzZDd4Q0MxNUpXend4Q0FxNy9IVnFOUmhXN2FFVjMw?=
+ =?utf-8?B?QjVTbzY2Z2NFT1Bzd2hDYlNFK29OandscnRzVitUYVhWd1B1Tm9TempOcDZF?=
+ =?utf-8?B?cU96d2FHSy9kQ043Zm42RThsUTVpZUx4Q2RHRFZ5amE1MnlvMnI4WlI0blV4?=
+ =?utf-8?B?aitGWmNjcnV3TG5tQThKV1Jld09pd01TbUt2anpueWFHNFV4SnRyblJHMito?=
+ =?utf-8?B?dyt0dFhpTEd2RllCSmkvSEkrVkJYRXlKbkUrZlV4bXAxblBIN1BVeFVRa3Bn?=
+ =?utf-8?B?OTNBVnZONEpHTjIwcEUxNXkwL2ZETXc3ZWQxUTlyQnZLdWN4dlp6N1ZPY0Z6?=
+ =?utf-8?B?ckFCMjRZYzdJQ21LVEhqalhleWlTZm1zeURJSUMrN2NjaXIzYmdTMGJDY1FG?=
+ =?utf-8?B?K3RxYXBTZ3J0YmpITVYraE54a0hIdWdQU2pKcXZaSUtFVk04cSt0d2tscm9w?=
+ =?utf-8?B?YnVMRGlYKzhRcGF6TkQ2TXJMZ0wwNDBwUEoxYWE0TERUeEVucCsrQ1paV255?=
+ =?utf-8?B?ODBIRXY1RVVNTWN3U0lJbkp5MUdSZWNYMDJNRkhXNk8zck1pL284MWQrY1FI?=
+ =?utf-8?B?Rm05UGtUMWt4a0RDOUJGQW5hNVMwNkhtMFc1eVNsYTRSYndIbDFaSXJ4ZnJP?=
+ =?utf-8?B?QXhjVG9sWU1VK0M0MnJweW1KQ0VkT2NKK2d2NzByVFhzd0JDRm5zdk1lbmlo?=
+ =?utf-8?B?Zm5tejBaQ3NHTlIxMkFvdUdvbnlqV0E1dHZzUTd5OEJYSnpTd1F4Tm1UczhH?=
+ =?utf-8?Q?rm2sCZT6fXqNek4MwlNH?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4aa3f51-e042-4799-2b06-08dcc68c62e0
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR20MB4953.namprd20.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2024 11:35:43.9152
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR20MB7037
 
-Hi Andy,
-
-Thanks for the review.
-
-On 26/08/24 23:14, Andy Shevchenko wrote:
-> On Mon, Aug 26, 2024 at 08:38:17PM +0530, Devarsh Thakkar wrote:
->> Add below rounding related macros:
->>
->> round_closest_up(x, y) : Rounds x to the closest multiple of y where y is a
->> power of 2, with a preference to round up in case two nearest values are
->> possible.
->>
->> round_closest_down(x, y) : Rounds x to the closest multiple of y where y is
->> a power of 2, with a preference to round down in case two nearest values
->> are possible.
->>
->> roundclosest(x, y) : Rounds x to the closest multiple of y, this macro
->> should generally be used only when y is not multiple of 2 as otherwise
->> round_closest* macros should be used which are much faster.
+On Sat, 17 Aug 2024 10:21:59 +0800, Inochi Amaoto wrote:
+> Add support for the onboard hardware monitor for SG2042.
+> Can be tested with OpenSBI v1.5.
 > 
-> I understand the point, but if you need to send a v3, please explain
-> the equivalency between roundclosest() and one (or both?) of the
-> round_closest_*() in case the argument is power-of-2.
+> This patch is based on sophgo/for-next:
+> https://github.com/sophgo/linux/tree/sg2000/for-next
 > 
+> Changed from v10:
+> 1. fix the hwmon entry permission.
+> 2. remention the extra entry postion in the document.
+> 
+> [...]
 
-The equivalency between roundclosest w.r.t round_closest is same as
-equivalency between existing macros rounddown w.r.t round_down. Functionally
-both are same but the former is recommended to be used only for the scenario
-where multiple is not power of 2 and latter is faster but is strictly for the
-scenario where multiple is power of 2. I think the same is already summarized
-well in commit message and further elaborated in the patch itself as part of
-header file comments [1] so I personally don't think any update is required
-w.r.t this.
+Applied to sg2042/for-next, thanks!
 
-[1]: https://lore.kernel.org/all/20240826150822.4057164-2-devarsht@ti.com
+[3/4] riscv: dts: sophgo: Add mcu device for Milk-V Pioneer
+      https://github.com/sophgo/linux/commit/cec3f1940b60b057142bd11f7bd421e13d198f75
 
-Regards
-Devarsh
+Thanks,
+Inochi
+
