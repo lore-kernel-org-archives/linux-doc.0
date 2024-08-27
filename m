@@ -1,108 +1,141 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A00E1BB694
-	for <linux-doc@vger.kernel.org>; Tue, 27 Aug 2024 12:34:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E91711BA862;
+	Tue, 27 Aug 2024 12:40:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724762082; cv=none; b=d87W/zQ5XcWuVMBnbWtfbuZvP46TQ69MxACe6/01GpwKPlUjWK2NQm8kEcAyhLKS1a2Q7NNReAZneLUdowQ7BB37MjP3k8CngxQaQotbT7AUqBIh8ZpdGOMOXtTeWrflFGVHK3BgWkso6FYm83AAZ1prZPqcFwOo51PnqJUbzHE=
+	t=1724762414; cv=none; b=lv9SAuyNwZwOQaLnCpamUL9qh59uUjip+9zjMpfdBuK1C+kArPGeXSkezuvtKWRp8NtdYkgIVT6VlbFKS6arlVr9TbtiKmhDWUbdIBrORCPnYPhh1jTwsrHJJifvbduAxglSzXjzbbugvst2ZrUAWx9mH+9GGoDpIVd3a5jocok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724762082; c=relaxed/simple;
-	bh=rIfujnRm2V1RobBJwbb3mPgwma8W9Db1vHV/ES1fRgs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Nn4UpubCDQQ+KK7aiJ67dCQZCHQb2tlG48nToIvDsbEN9IFjIRMwsM8GhYRep+7oQoBlRrn5Cqw4gSyHQLCU2Afm2bH1/HiMUYlApcf3bZtDFPsIMOEIbPFj0YV/zr4cstAFE8p3yWLx0/Fibo4k3EDpXq2TdAFJ/Mh0/gniFcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=PjJlJ55r; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1724762414; c=relaxed/simple;
+	bh=K4K8o40fJGQu6cafxSC7zWCIvY6jYj3G/g/Nol8nbuQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Y/4bDDitCblRHjHWKrBwdQ3i6BYO6AR95ilKl6HSwOPOkuNCzeDcNxKQU2sHaaq4mvZ51nRb9IhfOLaXnsLa55oJtKd1BaHiaz5+VCRmhR4VfyMSUYP8+WASz45ageqJCnf5ahPTWEWjUF+GU9RgcheM19AgVh0DM3yy8jZljPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b6oPnuuy; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="PjJlJ55r"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-7cd9e4f550dso1678720a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 27 Aug 2024 05:34:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1724762079; x=1725366879; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KyXAJapJSnZ2dDDvQaQcnKrD5eisnLa1o6mBBkyryV8=;
-        b=PjJlJ55rpNKFW9G00mcIygkEVVUP2NnDBU80iyfWCb4lJaIvko5k7/l60puYbVP/vs
-         lCWdUihky4dmbz3BNUkvfH4+E5GkRBC4AhTcONb5eRLNNQYL9yTJ6cWvWnqM8+dzgogU
-         4hMyVm3tv8GprHhLVpJ5YQh76Oejtv7cR9Bn0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724762079; x=1725366879;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KyXAJapJSnZ2dDDvQaQcnKrD5eisnLa1o6mBBkyryV8=;
-        b=tH/ZMGdIRs1hCfULNWB46Buq883cIKajVZwOMbRvxKzY85WH/uJWC/h7zzTu6uH0oS
-         FbKku3lAxFyham4qzmOVpzB9gm8sNjJW7qhwtTKvWyWoXGASm9GRwC6DNNHEA/MQ9ejs
-         /MCwrIsA3rEXzp5MOURwd86A8wlnFsiJXO4NtORp1pQIR4VbcjEQ85mqH7X0Gj/aeOhr
-         vzq1iEQNSh+v7EYVY9vKmqQEUyNj2+6Aj18gyfWxFRjg3sAgCZYbXA1nq+MeJK8DI3q1
-         M6ZOET/dr67W0dBcfg23BNk/zG96ygkQ638wCBTX0bfbUFJDVp4l6Comcfb5lZLHULFe
-         kkrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVABVpdWWHQfJsQZllc76GXECERwPykvU+SXA1EDfymFx3dm/L1IEw2XINr6hIacpmZE+f3AtxFS7g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyD1+g4ryQA13sPr8VHutjMwqCUwLt+XlLvV3gaeIj2BWTuRN87
-	Eox+DbOkHYG5O20WeCN3XM1nrhov7C+TkxHG2XV4mGXnTjcSbRE5z8RVziWYISeRjcsAHoyULgE
-	pMJs=
-X-Google-Smtp-Source: AGHT+IGjiYKK2pg00dNbHQgAvQ/REQmd5g9wxQNuwUyB/YkBILqbu4Jg6AxTKtpIKWtECuFZJ2DiWw==
-X-Received: by 2002:a17:902:e541:b0:202:2b7:9c7f with SMTP id d9443c01a7336-2039e534e0emr143411945ad.65.1724762079307;
-        Tue, 27 Aug 2024 05:34:39 -0700 (PDT)
-Received: from [192.168.121.153] ([218.49.71.194])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20385fcf525sm82694515ad.300.2024.08.27.05.34.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Aug 2024 05:34:37 -0700 (PDT)
-Message-ID: <b274a725-03f6-4a65-a998-75f10026f2e3@linuxfoundation.org>
-Date: Tue, 27 Aug 2024 06:34:31 -0600
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b6oPnuuy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724762413; x=1756298413;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=K4K8o40fJGQu6cafxSC7zWCIvY6jYj3G/g/Nol8nbuQ=;
+  b=b6oPnuuySHXu9JBr1PLlQgAYXRhP1k1bHtV0CM8BA5ichQAkNRdPbRZU
+   PqTc78XOxb4zWX6XHrc+3IORH9sWKT783nvi29w/XhfK/2t28IjrHXvr3
+   k/7k7awCJE0BdPtu83QxY0l2+whn4f2fFPzcNgS08a3sG7coO4Qeh1osy
+   ThTbEZCQVIdhe2NRdXtguCugIXBwu7NAqBqaNsiFMqAlAA3lTqy/N/wF1
+   HYb1YPVrziaZzgRb599epwO5xQaZQEAvWc1LSxc2CMaNwxqjo4rNQ+dH1
+   BK3pqOfbg2iCcPgW2y/X93J3RYUz+Onm6MkDy+u508dmawUNWxGWzxh4T
+   A==;
+X-CSE-ConnectionGUID: 7yTPWtYzQju1bDdH7i35ZA==
+X-CSE-MsgGUID: p+Fsarn8R6evEzvUftnwSQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="23115468"
+X-IronPort-AV: E=Sophos;i="6.10,180,1719903600"; 
+   d="scan'208";a="23115468"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 05:40:12 -0700
+X-CSE-ConnectionGUID: 3aJrmhWoQyG4VAUeNQd4AA==
+X-CSE-MsgGUID: nqTcsyasRlyC0Xh04Mq1/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,180,1719903600"; 
+   d="scan'208";a="66998828"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.246.226])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 05:40:02 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Devarsh Thakkar <devarsht@ti.com>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ sebastian.fricke@collabora.com, linux-doc@vger.kernel.org,
+ praneeth@ti.com, nm@ti.com, vigneshr@ti.com, s-jain1@ti.com,
+ r-donadkar@ti.com, b-brnich@ti.com, detheridge@ti.com, p-mantena@ti.com,
+ vijayp@ti.com, andi.shyti@linux.intel.com, nicolas@ndufresne.ca,
+ jirislaby@kernel.org, davidgow@google.com, dlatypov@google.com,
+ corbet@lwn.net, broonie@kernel.org, rdunlap@infradead.org,
+ nik.borisov@suse.com, Dave.Martin@arm.com
+Subject: Re: [PATCH v2 1/6] math.h: Add macros for rounding to the closest
+ value
+In-Reply-To: <9c41f6b7-6b06-cd5b-74bd-24873c4beaf7@ti.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240826150822.4057164-1-devarsht@ti.com>
+ <20240826150822.4057164-2-devarsht@ti.com>
+ <Zsy-8xXQ01-JhL0m@smile.fi.intel.com>
+ <9c41f6b7-6b06-cd5b-74bd-24873c4beaf7@ti.com>
+Date: Tue, 27 Aug 2024 15:40:00 +0300
+Message-ID: <87frqqyw9r.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] Documentation: KUnit: Update filename best practices
-To: Kees Cook <kees@kernel.org>, David Gow <davidgow@google.com>
-Cc: John Hubbard <jhubbard@nvidia.com>,
- Brendan Higgins <brendan.higgins@linux.dev>, Rae Moar <rmoar@google.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20240724201354.make.730-kees@kernel.org>
- <CABVgOSmXqv_+20OKjVAPJoqrP1EvBk+1WUqF4wBsefegxYNiWA@mail.gmail.com>
- <202408221717.1138DB3D1C@keescook>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <202408221717.1138DB3D1C@keescook>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On 8/22/24 18:18, Kees Cook wrote:
-> On Fri, Jul 26, 2024 at 03:14:36PM +0800, David Gow wrote:
->> On Thu, 25 Jul 2024 at 04:14, Kees Cook <kees@kernel.org> wrote:
+On Tue, 27 Aug 2024, Devarsh Thakkar <devarsht@ti.com> wrote:
+> Hi Andy,
+>
+> Thanks for the review.
+>
+> On 26/08/24 23:14, Andy Shevchenko wrote:
+>> On Mon, Aug 26, 2024 at 08:38:17PM +0530, Devarsh Thakkar wrote:
+>>> Add below rounding related macros:
 >>>
->>> Based on feedback from Linus[1] and follow-up discussions, change the
->>> suggested file naming for KUnit tests.
+>>> round_closest_up(x, y) : Rounds x to the closest multiple of y where y is a
+>>> power of 2, with a preference to round up in case two nearest values are
+>>> possible.
 >>>
->>> Link: https://lore.kernel.org/lkml/CAHk-=wgim6pNiGTBMhP8Kd3tsB7_JTAuvNJ=XYd3wPvvk=OHog@mail.gmail.com/ [1]
->>> Reviewed-by: John Hubbard <jhubbard@nvidia.com>
->>> Signed-off-by: Kees Cook <kees@kernel.org>
->>> ---
->>
->> Looks good to me. (And it seems like sphinx is okay with it, too,
->> which is always nice.)
->>
->> We normally take these changes in via the kunit tree, but if you want
->> to try to push it through along with the naming changes, that's fine
->> by me.
->>
->> Reviewed-by: David Gow <davidgow@google.com>
-> 
-> Hi! Just a quick check: I haven't seen this land in -next yet. Are you
-> still planning to take this?
-> 
+>>> round_closest_down(x, y) : Rounds x to the closest multiple of y where y is
+>>> a power of 2, with a preference to round down in case two nearest values
+>>> are possible.
+>>>
+>>> roundclosest(x, y) : Rounds x to the closest multiple of y, this macro
+>>> should generally be used only when y is not multiple of 2 as otherwise
+>>> round_closest* macros should be used which are much faster.
+>> 
+>> I understand the point, but if you need to send a v3, please explain
+>> the equivalency between roundclosest() and one (or both?) of the
+>> round_closest_*() in case the argument is power-of-2.
+>> 
+>
+> The equivalency between roundclosest w.r.t round_closest is same as
+> equivalency between existing macros rounddown w.r.t round_down. Functionally
+> both are same but the former is recommended to be used only for the scenario
+> where multiple is not power of 2 and latter is faster but is strictly for the
+> scenario where multiple is power of 2. I think the same is already summarized
+> well in commit message and further elaborated in the patch itself as part of
+> header file comments [1] so I personally don't think any update is required
+> w.r.t this.
 
-I applied it yesterday to kunit next.
+I still don't think rounddown vs. round_down naming is a good example to
+model anything after.
 
-thanks,
--- Shuah
+I have yet to hear a single compelling argument in favor of having a
+single underscore in the middle of a name having implications about the
+inputs of a macro/function.
+
+The macros being added here are at 2 or 3 in Rusty's scale [1]. We could
+aim for 6 (The name tells you how to use it), but also do opportunistic
+8 (The compiler will warn if you get it wrong) for compile-time
+constants.
+
+As-is, these, and round_up/round_down, are just setting a trap for an
+unsuspecting kernel developer to fall into.
+
+
+BR,
+Jani.
+
+
+[1] https://ozlabs.org/~rusty/index.cgi/tech/2008-03-30.html
+
+
+>
+> [1]: https://lore.kernel.org/all/20240826150822.4057164-2-devarsht@ti.com
+>
+> Regards
+> Devarsh
+
+-- 
+Jani Nikula, Intel
