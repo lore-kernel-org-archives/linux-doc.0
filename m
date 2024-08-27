@@ -1,330 +1,456 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0EB1991AD;
-	Tue, 27 Aug 2024 21:45:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724795124; cv=fail; b=X35q525q32z81RCvdkUdJU3tHIZKxx2RvGiBT9tF1ED+uW77CYd8b1dItqhiMcD5iG0NbtG9pHaIxxuP7ioyRUNbg74OHQ1tbU89UYomLt3ZyQy/+H65UjMx1bhIka3qDYt1Tiu4M5nt95aQPKRDZpeMLaSb4yQ51gpSNf61VPU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724795124; c=relaxed/simple;
-	bh=8w7sZDSGu+GbrI7dI+W2sC+SUUg3u5aZWot8CCGGM7E=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=AgYS23F+hb5vi78CEjRZrceCx0v6pB+U8kCB6rGF6EqmG3huFsraQx47Ie9tOVzBCs/33vXG/pDSPKHqhOTJkiftcOgJwYOwd4K08XefqQf1Dp7K+Bk2HzO7r08xFSs9y3eaQMAqHqVyTE61aYQiB21ymdi2uQ9Ny8gQUNvukOc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KrII35JC; arc=fail smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9294212F5B1
+	for <linux-doc@vger.kernel.org>; Tue, 27 Aug 2024 22:04:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724796282; cv=none; b=o9FGfEnoivGe1zn8QzAvfl9qXVnPf+oSXiJdXzZkS8bX95LZ07Xt3a/WziRK1Qh8YVWow+y1C6TBkanknBvT7UCba71p0RVUdR+KbVgyLahyAs/MoP9VtEA67WGsWsBDaUf4y445R9VcHhM3q7kChe6OZyLSuP8Am2KE3len5K0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724796282; c=relaxed/simple;
+	bh=TYVYuVfjj962y34SkzDzX+M1XeyFcgoX9wq3H/LLV3s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rWknuWmUtBjU4AMMUaS9glt1Rliu1/EgHtgxG0HZTafadMhMFMOx9jxkaEJKzG1O1fwFzdGBJE6qPokFXX97hWoc3P1cgnJX1OjHMJyNJwFb4whKLU6RqIUDitTB+FxJKltUQwz7IkTHJlkLde4rYjOOkLmV1RN+Ev0+tDa0Jv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=O0Noisy2; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KrII35JC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724795123; x=1756331123;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=8w7sZDSGu+GbrI7dI+W2sC+SUUg3u5aZWot8CCGGM7E=;
-  b=KrII35JCG9tyeYlBmkK2LtIfLB8MIlWEQjgz2awgsk6+i6i76tISxDyz
-   6FaerUj3VLglodvt+S5YlARIX0G+gMfSLyFlogBcpikcco/GqSPG9z587
-   wX720n2vbyuVStbEaJLSYJZVBFzZKup9IZBHzZaXU2MjZ1z2bgKRGPXmO
-   L2KVAdorwEkBEp9grxuG5BymRR6HYVZLl7tEG2D2fpFvFciAlwEf22ns5
-   vbeBl88ueOJstqlB9/cvlIRaPTT/ElIQL9dzGBs2e3F+x46VnpIr1po/T
-   Kfh2v9HdFEJk0J1C7YkenMZ2hWP823A4bEu9CFlipRnWs6hhKaiDiqs1h
-   w==;
-X-CSE-ConnectionGUID: ukDYtFmRSb+9yKXdQ1rG4Q==
-X-CSE-MsgGUID: R8bDnjhAQKmuxHthCIEvjg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="27093566"
-X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
-   d="scan'208";a="27093566"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 14:45:05 -0700
-X-CSE-ConnectionGUID: hpBWbceJQ+ufyHle929q+w==
-X-CSE-MsgGUID: wV0BBS/sSze6T+4j4dXM3g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
-   d="scan'208";a="63000981"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 27 Aug 2024 14:45:04 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 27 Aug 2024 14:45:04 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Tue, 27 Aug 2024 14:45:04 -0700
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.40) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 27 Aug 2024 14:45:03 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JvTJC3O17Ya2WEvUcpLHb+dFEZeI7GUnACiGqtO7t6pVNc9/EHMCN13SFw7xl10vddp9C72rYoYkHBZ3opusqyJBWtJGMuvr5RNdXjHliqEwe8XInmlY0IJSw+72m0J7NJaWY8xAlgWYb6DizoP540zK8MzUxg+B24qOYM9Z68P1JNIEJ5a34OCFogK7ct9yhK9+y/9AK6T8phdg1jaCo2oHO805a6oDGW1dIjTXC2XDNw9DqoxSgk3V9zdCNkTXaFkE9HyfXMsqqC7eBh+5zJla1grnf6dVEsBFXiYNQ5uHdfGCTpw5pHMy5o6AsR1VpOvunuwGv16yqvIkk0HEsg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=smQ3gblKATRhVDPzH+lALlb1/1RlU8BZQXcXfCUdCdw=;
- b=vEOOTBWAZhizuGI1vnziDM/4f2ATodP8EEf74tdI0wfMWdtJbAX1s+v4sLhu/X7ctAzgWnxr7xIOXZB/m6qTDbSQ6aJlGoGmKUimMcGWwcblgKtbShhDocWrFtDtjw388GhyD3MMgZ3BhyUaF7fdHjik2zsoDcrsLrmfjWkAgPVfgwMKSPB7r2N0FJm263QqPWtQOGNly5QtsmmVpaSV4wQExGZv20fvl9oU7O6rNKMIwyMicq7/GpbzS2y2zE/LVL+pz8J4DAugZjXTP9ERAsnpYl+ZsBMFAXhs2LP5+3B07FGCtBz2hq+ZbAN0jtIRzgjkg444fdkWTUUJjuQ29A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
- by DS0PR11MB7263.namprd11.prod.outlook.com (2603:10b6:8:13f::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.24; Tue, 27 Aug
- 2024 21:45:01 +0000
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::cf7d:9363:38f4:8c57]) by SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::cf7d:9363:38f4:8c57%6]) with mapi id 15.20.7897.021; Tue, 27 Aug 2024
- 21:44:55 +0000
-Date: Tue, 27 Aug 2024 16:44:49 -0500
-From: Ira Weiny <ira.weiny@intel.com>
-To: Petr Mladek <pmladek@suse.com>, Ira Weiny <ira.weiny@intel.com>
-CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Dave Jiang
-	<dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, Jonathan Cameron
-	<Jonathan.Cameron@huawei.com>, Navneet Singh <navneet.singh@intel.com>,
-	"Chris Mason" <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, David Sterba
-	<dsterba@suse.com>, Steven Rostedt <rostedt@goodmis.org>, Rasmus Villemoes
-	<linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
-	Dan Williams <dan.j.williams@intel.com>, Davidlohr Bueso <dave@stgolabs.net>,
-	Alison Schofield <alison.schofield@intel.com>, Vishal Verma
-	<vishal.l.verma@intel.com>, <linux-btrfs@vger.kernel.org>,
-	<linux-cxl@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <nvdimm@lists.linux.dev>
-Subject: Re: [PATCH v3 02/25] printk: Add print format (%par) for struct range
-Message-ID: <66ce48d1e11dd_f937b294fd@iweiny-mobl.notmuch>
-References: <20240816-dcd-type2-upstream-v3-0-7c9b96cba6d7@intel.com>
- <20240816-dcd-type2-upstream-v3-2-7c9b96cba6d7@intel.com>
- <ZsSjdjzRSG87alk5@pathway.suse.cz>
- <66c77b1c5c65c_1719d2940@iweiny-mobl.notmuch>
- <Zsd_EctNZ80fuKMu@smile.fi.intel.com>
- <ZsyB5rqhaZ-oRwny@pathway.suse.cz>
- <Zsy6BbJiYqiXORGu@smile.fi.intel.com>
- <66ccf10089b0_e0732294ef@iweiny-mobl.notmuch>
- <Zs2DhzbLK_LU6B0a@pathway.suse.cz>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <Zs2DhzbLK_LU6B0a@pathway.suse.cz>
-X-ClientProxiedBy: MW4PR04CA0211.namprd04.prod.outlook.com
- (2603:10b6:303:87::6) To SA1PR11MB6733.namprd11.prod.outlook.com
- (2603:10b6:806:25c::17)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="O0Noisy2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1724796279;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TYVYuVfjj962y34SkzDzX+M1XeyFcgoX9wq3H/LLV3s=;
+	b=O0Noisy238CUncqzi7KOMu02KpptV+jeRxv6HpeftQ1HY6X2fD0GnYKGw/0grWK3gzb1i5
+	liy4I4qFUsw20Sndp0De8VqbqsgHtcBGfQSvYjQi8FofBkp5t+LboJWbWjoEClYLZ0GVn+
+	s//UkBdNZH0/Z24X9wjuqXeP+blCTjk=
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
+ [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-682-1nFDZo8gNPWP6e6_kj7oMw-1; Tue, 27 Aug 2024 18:04:37 -0400
+X-MC-Unique: 1nFDZo8gNPWP6e6_kj7oMw-1
+Received: by mail-yw1-f200.google.com with SMTP id 00721157ae682-6ad660add0fso194857b3.0
+        for <linux-doc@vger.kernel.org>; Tue, 27 Aug 2024 15:04:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724796277; x=1725401077;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TYVYuVfjj962y34SkzDzX+M1XeyFcgoX9wq3H/LLV3s=;
+        b=Y8eijKRsfym3NhlCsxhLNb0Gq1ND6gge0utcwMqfyQOLKw0ug1r69HLAsKSqdnv2Kf
+         SYbPlbNn+t5dPmf4j/u6S2y2a2bTxpuQViJeU3txKkD/pcMXEY95zgk0n4n7/tABOKN9
+         I5teGu90TItqwoCQpUdFHNNSWoP4Kn4FVGQVDn7YUo2kr1fgkS4DG6JLbwLHU78Y7Fqd
+         +jL4dbEF7t3KrE5k2DPKTPQvLwyR6sTmCj3jx32iIqCA4ZvSWiEogamCRpAc3CwB8J1V
+         wW8P/jhjcHO983MDfLDPwiOs0UQo2JvsDw77Ydlnkl5DwRutFCDZf5RYESjBvrYqMiyb
+         CUqA==
+X-Forwarded-Encrypted: i=1; AJvYcCX2Wcum+/KZroW+ps0Ifmo5oXJNGVllKDDhi1fgEopHJP8oAbpCO67cCa3G3fp1GteZut3iKRWaDpQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyT938DeL9FFqxjHcy1RQCtfpP48ocW8LHugLHsIh3li2U+athT
+	7o0vw5nEg3h1pIFYbWzGuuyDExfAtK+i/29N1WFoIYyCT9MQ+nsInuWfjLJpJ3cobmyL/OvyYgi
+	BZ/kTPXjJ20uk9Kd9HGqmeQR2jha2Kzstt3sTr2tuXLiWIHHFDUde3RXr38PpPJk3T51PvO0IMT
+	UjSkAQSdPEedLxNXP+U9ycZXq4QUPotmw0
+X-Received: by 2002:a05:690c:6d10:b0:6bf:1ca2:f6ce with SMTP id 00721157ae682-6d1527402f8mr2073637b3.11.1724796277061;
+        Tue, 27 Aug 2024 15:04:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGXBYyPy457E+8/kJj7r+nklgbvzduvQWHWpVPjZxmJNMeHMVOQ6x9b13jzENeT8Q3/xJEoVEf/Td0KOdDD3UI=
+X-Received: by 2002:a05:690c:6d10:b0:6bf:1ca2:f6ce with SMTP id
+ 00721157ae682-6d1527402f8mr2073107b3.11.1724796276588; Tue, 27 Aug 2024
+ 15:04:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|DS0PR11MB7263:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6777edee-e5e8-4a26-9e87-08dcc6e17d68
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?MeCsbWQ/VmReis2IjiYXmt/tVMEdJGXNacHL7XVI/GwFjdvi8qKrRPbxpkuE?=
- =?us-ascii?Q?oE2PTB8v8OD1hWz5VPUR5AKDWdLJPAk2f1QD8HFaiigz4q/ASEjBQpsvzA5/?=
- =?us-ascii?Q?7rdck5g3cGnyutT9Qd1mosg9q7xXpIJcSizbgeb1iiPULdN4uyEAeetcAeOd?=
- =?us-ascii?Q?o66nUdbCewLytE6QbeUVRyQrAIshBp6YRWy8S76IY1IPmuVTIBdzVsWbKTP9?=
- =?us-ascii?Q?iemmCAbvvIklAkKYnznjXZhQ2aRsPgejKwUYIVq30neLnu5vwv7JJfSPMecF?=
- =?us-ascii?Q?kuaCMPi6KxAP+oQMqK1rfIRr+zels3eTZah9x5vBLmR73mx8mJsdlj3i9H+N?=
- =?us-ascii?Q?34ZAtdTMxG79+d1j1HNSuB2x9CDTUKfp9X4gGGAdezBE4SW4L298khy5ly8V?=
- =?us-ascii?Q?xv2t331AHr+lPDx/mpFtvOM2XImlMf7oaOAojgAJ/x61TMU0TTMHXTHTslPm?=
- =?us-ascii?Q?sh/mmSYRWZ/pIcRNE++iDr6wo1NscwRIpDJXNanLP3pRii7Y5A2NUUsFP9Se?=
- =?us-ascii?Q?A4OeKf9fgWodfhd8KZBvWu2x11oNTcaqXIlozbcuzCBBnp1Fnbug6NM/guUA?=
- =?us-ascii?Q?tjDahz0YK80U36+sGszxwC3YMdDtdpk7tpPQDtRi+VxuEUZKCnE1XvKtmN2J?=
- =?us-ascii?Q?d3g9l5wJ06JQNr7e6hci1ORvDRK6t4mW9cwfXRsrY3sDammb8VmEK1DkJLYm?=
- =?us-ascii?Q?RvoBG5Kb+NHSSJHYXhEw49KMGWoi1wC56fS9FfpBdhWLxO9ceRM3ksnXSZFa?=
- =?us-ascii?Q?l1UJ6zr4PHPq1mYM20fl8F1oae+Pdsdv7aNXe7oxLi/6amwG1oiUrj61ThDd?=
- =?us-ascii?Q?+Euz3bld3SD9ErDEhAMEx2Wc2hwG/AoTE6RCbG6lD08g9WX3sfN0DiaCjJnz?=
- =?us-ascii?Q?tgt+oJzZ8060hlTrqOWGpBjad/Q5mRs2QRdpH7JswDRCXee3ifCa/aaS4pwG?=
- =?us-ascii?Q?7hbiOsDeCepppUSN3Yp9/5ql3482e2VTfxc6u7dSset9IOXYK8zH/jMCBc8x?=
- =?us-ascii?Q?l5LXp8hSdsJqTIKqy52TZnHobS7ayd2X6dNDujEm9heWuXaKcfW/H/dkZyf4?=
- =?us-ascii?Q?aBFNF2+uM/4UiXzU0g/eCYDlCtHgxp+t0m7gmVUfQqoc0gP3Rdz1emFOaVfd?=
- =?us-ascii?Q?nMchxDd0qQGynk2BE5eaCeU9pDCmQ+qkjLdpjlALOVMbCJHzD2ZCM1/Dbsyn?=
- =?us-ascii?Q?uz6l0wxlP9rZABsE5aya9sYtsjkr/QYGpApp2n9QTiveqWmXxrC9Z+qJfkdc?=
- =?us-ascii?Q?2JsbXRIRzJZseh3gf+bTdm+desuaWM4Uzx4IEMd7oUym7pQCOQCwwdEmkrMf?=
- =?us-ascii?Q?kHIDx6xCmOAiELQLTbhQ1Di6aEYJiDh1H0KSRTQdXgxlzQ=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6733.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qweZgjqEAP5pY4WIL7hu9+eCCMvCrbl7dGXcSD1kNiuUWSSykdhoW/HY9ujX?=
- =?us-ascii?Q?YlU0txCzL98Tyyc89IM+b1eVTCZG6g8rjZ/2ikwEFwk/YY8Lh9i52y8BJCN4?=
- =?us-ascii?Q?gYAVufkKKwb2LjjgYbc4GLpWdDGN84QkIBCrkN9CGD/3naECPshtk/o2Yxx3?=
- =?us-ascii?Q?bMrhoIa44E1zFhKXnA+qudCUaorRC0waQwqhtuRWTj0JxywdXrzexD0i6v8U?=
- =?us-ascii?Q?QY9hbF/AW/kHW0arncVfyyzxAbO+2ZCKo2rR5/gv9xyHcKArF6Ns+N4Tj2Mk?=
- =?us-ascii?Q?vgiyaSMyle8J2GLP40Lnxn2DDJ0ZxP9RYdAsYDdjwIQQP5zhggwyrx0z5vWQ?=
- =?us-ascii?Q?Qb20ShC37OSh9n7Z43vL4M9bIJBKNM9K9M9FNioFYDgjrj61OB2GV4Q3+cMz?=
- =?us-ascii?Q?9UpZF4PVcF1/TrgRwffEz0+210D25hOst6I4BCafnRSkevDbVdiilvhOBtoN?=
- =?us-ascii?Q?RVPzutizMkfa3uuq/x1rKcG/PP1MSbHEw6+kqC+U3NBhENE2FQ4cE7jxvNm/?=
- =?us-ascii?Q?AtPA0VBG28HWA4AOVWH6b9w/IXrjXkZMOdz9pU4hZP3fWJbsfcxx3viU/OTC?=
- =?us-ascii?Q?5w3yNvOi2t9E0dndyOtpy4SDAX866s2Juf4Yx7jkklHVROBK/bHzYxoe5c0J?=
- =?us-ascii?Q?yGxA2JL0pkeEB9d4QzeRuvY70eZAKuzXjn2Ek/XXqtLnCyT8mbS1ayayqrJI?=
- =?us-ascii?Q?ER/uH9W9KKqbuh+JesI2YmfobpCZo5+f6o0+8OTZrx/UVM1CUqK3lH680k+Y?=
- =?us-ascii?Q?Rp2pgrvPbpnS8Ga4WfLdRaJLu7m5h9uG6P1QaIbX6QnXkHdkMsUUkytL1Edp?=
- =?us-ascii?Q?A5XDIObELHKWJsd4ZIUDUM9Q6ugF4nMumefoDZ19ZHjtT4xKqUk8tX0OxpYV?=
- =?us-ascii?Q?0arncfLxBKMAgXsqBChRoSWN6PplOcc6n7JysT5F/7FlsrhbNURJ52oFJJO+?=
- =?us-ascii?Q?u+hrCEjRNF26bs/QgF1PJuKZlD+Fx/OnCzHQfIVB32sOwOP+T+EiulriM5As?=
- =?us-ascii?Q?HLlbJd7G2eleHqJ8S0k118UwVV+c/mdrV3I1YFT40HPudMYmMrEzyeVHMyb1?=
- =?us-ascii?Q?VaWiW97woaGBgYmTfZzWRyp5mFqs2ZZ7cFGvDTHn9a3X9BmXcugP2zpVZJLB?=
- =?us-ascii?Q?zLzXAoWLsox2rjiZFh7kDCZ57U2Zw0jJiRagGe6ObHqoJl9Va0ylnT1Nax00?=
- =?us-ascii?Q?aSX/itZsYQcho/VYJrimLzk+N4BhUNkGvnGrSM0SmJt4UvS/X24IciywxUWs?=
- =?us-ascii?Q?5v2gexysgIFpYOYV50Q2zt/y9ikVjt+8ryVWK5Wi60fRH6nxgl8/IQHExLXv?=
- =?us-ascii?Q?aS7QAS52zbcx8mTQNuy4iPTYffzlMPrQ5GgLNHjeRUeKtPoV97bB3BmMVxY0?=
- =?us-ascii?Q?UM4bk9kVYreLdsMcsMVaLrmTpojC0dSTvy5stTR/+ibVrau2UQWDn7EZJf6+?=
- =?us-ascii?Q?cBwO7/0cLBoI03J/lSHzJZbGlMouRznZKz+iqgaHO7/qPsn987J4nbOCECFO?=
- =?us-ascii?Q?PZ2B/spY/KerW4hfJO9mQkBLecAvyvUHfvgz2Py9AroN9FNEoVA9f42iktsQ?=
- =?us-ascii?Q?iCnLJtcBoWXgi1J39yZL4jvvxIQc15nzkPmagrrz?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6777edee-e5e8-4a26-9e87-08dcc6e17d68
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2024 21:44:55.5704
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jpVO+sCi9PsAjRbktHTdDaodrAATohhVWklKJUvvcDFDJXgG4Jcc0oDkQCPtGyUsLzwJXmSa55w0GdDWZAxvBQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7263
-X-OriginatorOrg: intel.com
+References: <20240729222727.64319-1-npache@redhat.com> <72320F9D-9B6A-4ABA-9B18-E59B8382A262@nvidia.com>
+ <CAA1CXcCD798gkLoZuz3Cd5-Wf2MRfnAG_EB0U3nbScZeFv09dw@mail.gmail.com>
+ <CAA1CXcCCOS8-aqcm+w8Aoqe2P5q005wMrgmtx=xjzJgjKFb7mg@mail.gmail.com>
+ <61411216-d196-42de-aa64-12bd28aef44f@gmail.com> <CAA1CXcCe8QDir2KiWg=GmN4BErfXSDs_9kmnYfyK=X8H8U8QwA@mail.gmail.com>
+ <698ea52e-db99-4d21-9984-ad07038d4068@gmail.com> <20240827110959.GA438928@cmpxchg.org>
+ <b73961a2-87ec-45a5-b6fb-83d3505a0f39@redhat.com> <20240827130544.GA460210@cmpxchg.org>
+ <693a2bf0-7c18-489b-a1b4-518cf35c5aa3@redhat.com> <88b379f1-ad09-4fe5-b7a4-81fbf9d934b1@gmail.com>
+In-Reply-To: <88b379f1-ad09-4fe5-b7a4-81fbf9d934b1@gmail.com>
+From: Nico Pache <npache@redhat.com>
+Date: Tue, 27 Aug 2024 16:04:10 -0600
+Message-ID: <CAA1CXcCyRd+qfszM4GGvKqW=95AV9v8LG5oihByEBGLtW4tD4g@mail.gmail.com>
+Subject: Re: [RFC 0/2] mm: introduce THP deferred setting
+To: Usama Arif <usamaarif642@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	David Hildenbrand <david@redhat.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
+	Matthew Wilcox <willy@infradead.org>, Barry Song <baohua@kernel.org>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Lance Yang <ioworker0@gmail.com>, Peter Xu <peterx@redhat.com>, 
+	Rafael Aquini <aquini@redhat.com>, Andrea Arcangeli <aarcange@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, 
+	Zi Yan <ziy@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Petr Mladek wrote:
-> On Mon 2024-08-26 16:17:52, Ira Weiny wrote:
-> > Andy Shevchenko wrote:
-> > > On Mon, Aug 26, 2024 at 03:23:50PM +0200, Petr Mladek wrote:
-> > > > On Thu 2024-08-22 21:10:25, Andy Shevchenko wrote:
-> > > > > On Thu, Aug 22, 2024 at 12:53:32PM -0500, Ira Weiny wrote:
-> > > > > > Petr Mladek wrote:
-> > > > > > > On Fri 2024-08-16 09:44:10, Ira Weiny wrote:
-> > > 
-> > > ...
-> > > 
-> > > > > > > > +	%par	[range 0x60000000-0x6fffffff] or
-> > > > > > > 
-> > > > > > > It seems that it is always 64-bit. It prints:
-> > > > > > > 
-> > > > > > > struct range {
-> > > > > > > 	u64   start;
-> > > > > > > 	u64   end;
-> > > > > > > };
-> > > > > > 
-> > > > > > Indeed.  Thanks I should not have just copied/pasted.
-> > > > > 
-> > > > > With that said, I'm not sure the %pa is a good placeholder for this ('a' stands
-> > > > > to "address" AFAIU). Perhaps this should go somewhere under %pr/%pR?
-> > 
-> > I'm speaking a bit for Dan here but also the logical way I thought of
-> > things.
-> > 
-> > 1) %p does not dictate anything about the format of the data.  Rather
-> >    indicates that what is passed is a pointer.  Because we are passing a
-> >    pointer to a range struct %pXX makes sense.
-> > 2) %pa indicates what follows is 'address'.  This was a bit of creative
-> >    license because, as I said in the commit message most of the time
-> >    struct range contains an address range.  So for this narrow use case it
-> >    also makes sense.
-> > 3) %par r for range.
-> 
-> Yes. I got it.
-> 
-> Well, is struct range really used for addresses?
-
-Commonly yes.  But I agree with Andy that it is not always.
-
-> It rather looks like
-> a range of any 64-bit values.
-> 
-> > %p[rR] is taken.  %pra confuses things IMO.
-> 
-> Another variants might be %pr64 or %prange.
-> 
-> IMHO, there is no good solution. We are trying to find the least
-> bad one. The meaning should be as obvious and as least confusing
-> as possible.
-
-Yep.
-
-> 
-> Honestly, I do not have a strong opinion. I kind of like %prange ;-)
-> But I could live with all other variants, except for %pn mentioned below.
-> 
-> > > > The r/R in %pr/%pR actually stands for "resource".
-> > > > 
-> > > > But "%ra" really looks like a better choice than "%par". Both
-> > > > "resource"  and "range" starts with 'r'. Also the struct resource
-> > > > is printed as a range of values.
-> > 
-> > %r could be used I think.  But this breaks with the convention of passing a
-> > pointer and how to interpret it.
-> 
-> How exactly does it break the convention, please?
-> 
-> Do you passing a pointer to struct range instead of a pointer to
-> struct resource?
-
-Yes a pointer is passed as the parameter.  This is what %p means AFAIU.
-Then the modifier is applied to know what we are pointing to.
-
-> 
-> It should not be a big problem as long as the vsprintf() code is
-> able to guess the right pointer type from the %pXX modifier.
-> 
-> > The other idea I had, mentioned in the commit
-> > message was %pn.  Meaning passed by pointer 'raNge'.
-> 
-> This looks like the worst variant to me.
-
-Fair enough.
-
-> 
-> > > Fine with me as long as it:
-> > > 1) doesn't collide with %pa namespace
-> > > 2) tries to deduplicate existing code as much as possible.
-> > 
-> > Andy, I'm not quite following how you expect to share the code between
-> > resource_string() and range_string()?
-> > 
-> > There is very little duplicated code.  In fact with Petr's suggestions and some
-> > more work range_string() is quite simple:
+On Tue, Aug 27, 2024 at 7:57=E2=80=AFAM Usama Arif <usamaarif642@gmail.com>=
+ wrote:
+>
+>
+>
+> On 27/08/2024 09:22, David Hildenbrand wrote:
+> > On 27.08.24 15:05, Johannes Weiner wrote:
+> >> On Tue, Aug 27, 2024 at 01:46:26PM +0200, David Hildenbrand wrote:
+> >>> On 27.08.24 13:09, Johannes Weiner wrote:
+> >>>> On Tue, Aug 27, 2024 at 11:37:14AM +0100, Usama Arif wrote:
+> >>>>>
+> >>>>>
+> >>>>> On 26/08/2024 17:14, Nico Pache wrote:
+> >>>>>> On Mon, Aug 26, 2024 at 10:47=E2=80=AFAM Usama Arif <usamaarif642@=
+gmail.com> wrote:
+> >>>>>>>
+> >>>>>>>
+> >>>>>>>
+> >>>>>>> On 26/08/2024 11:40, Nico Pache wrote:
+> >>>>>>>> On Tue, Jul 30, 2024 at 4:37=E2=80=AFPM Nico Pache <npache@redha=
+t.com> wrote:
+> >>>>>>>>>
+> >>>>>>>>> Hi Zi Yan,
+> >>>>>>>>> On Mon, Jul 29, 2024 at 7:26=E2=80=AFPM Zi Yan <ziy@nvidia.com>=
+ wrote:
+> >>>>>>>>>>
+> >>>>>>>>>> +Kirill
+> >>>>>>>>>>
+> >>>>>>>>>> On 29 Jul 2024, at 18:27, Nico Pache wrote:
+> >>>>>>>>>>
+> >>>>>>>>>>> We've seen cases were customers switching from RHEL7 to RHEL8=
+ see a
+> >>>>>>>>>>> significant increase in the memory footprint for the same wor=
+kloads.
+> >>>>>>>>>>>
+> >>>>>>>>>>> Through our investigations we found that a large contributing=
+ factor to
+> >>>>>>>>>>> the increase in RSS was an increase in THP usage.
+> >>>>>>>>>>
+> >>>>>>>>>> Any knob is changed from RHEL7 to RHEL8 to cause more THP usag=
+e?
+> >>>>>>>>> IIRC, most of the systems tuning is the same. We attributed the
+> >>>>>>>>> increase in THP usage to a combination of improvements in the k=
+ernel,
+> >>>>>>>>> and improvements in the libraries (better alignments). That all=
+owed
+> >>>>>>>>> THP allocations to succeed at a higher rate. I can go back and =
+confirm
+> >>>>>>>>> this tomorrow though.
+> >>>>>>>>>>
+> >>>>>>>>>>>
+> >>>>>>>>>>> For workloads like MySQL, or when using allocators like jemal=
+loc, it is
+> >>>>>>>>>>> often recommended to set /transparent_hugepages/enabled=3Dnev=
+er. This is
+> >>>>>>>>>>> in part due to performance degradations and increased memory =
+waste.
+> >>>>>>>>>>>
+> >>>>>>>>>>> This series introduces enabled=3Ddefer, this setting acts as =
+a middle
+> >>>>>>>>>>> ground between always and madvise. If the mapping is MADV_HUG=
+EPAGE, the
+> >>>>>>>>>>> page fault handler will act normally, making a hugepage if po=
+ssible. If
+> >>>>>>>>>>> the allocation is not MADV_HUGEPAGE, then the page fault hand=
+ler will
+> >>>>>>>>>>> default to the base size allocation. The caveat is that khuge=
+paged can
+> >>>>>>>>>>> still operate on pages thats not MADV_HUGEPAGE.
+> >>>>>>>>>>
+> >>>>>>>>>> Why? If user does not explicitly want huge page, why bother pr=
+oviding huge
+> >>>>>>>>>> pages? Wouldn't it increase memory footprint?
+> >>>>>>>>>
+> >>>>>>>>> So we have "always", which will always try to allocate a THP wh=
+en it
+> >>>>>>>>> can. This setting gives good performance in a lot of conditions=
+, but
+> >>>>>>>>> tends to waste memory. Additionally applications DON'T need to =
+be
+> >>>>>>>>> modified to take advantage of THPs.
+> >>>>>>>>>
+> >>>>>>>>> We have "madvise" which will only satisfy allocations that are
+> >>>>>>>>> MADV_HUGEPAGE, this gives you granular control, and a lot of ti=
+mes
+> >>>>>>>>> these madvises come from libraries. Unlike "always" you DO need=
+ to
+> >>>>>>>>> modify your application if you want to use THPs.
+> >>>>>>>>>
+> >>>>>>>>> Then we have "never", which of course, never allocates THPs.
+> >>>>>>>>>
+> >>>>>>>>> Ok. back to your question, like "madvise", "defer" gives you th=
+e
+> >>>>>>>>> benefits of THPs when you specifically know you want them
+> >>>>>>>>> (madv_hugepage), but also benefits applications that dont speci=
+fically
+> >>>>>>>>> ask for them (or cant be modified to ask for them), like "alway=
+s"
+> >>>>>>>>> does. The applications that dont ask for THPs must wait for khu=
+gepaged
+> >>>>>>>>> to get them (avoid insertions at PF time)-- this curbs a lot of=
+ memory
+> >>>>>>>>> waste, and gives an increased tunability over "always". Another=
+ added
+> >>>>>>>>> benefit is that khugepaged will most likely not operate on shor=
+t lived
+> >>>>>>>>> allocations, meaning that only longstanding memory will be coll=
+apsed
+> >>>>>>>>> to THPs.
+> >>>>>>>>>
+> >>>>>>>>> The memory waste can be tuned with max_ptes_none... lets say yo=
+u want
+> >>>>>>>>> ~90% of your PMD to be full before collapsing into a huge page.=
+ simply
+> >>>>>>>>> set max_ptes_none=3D64. or no waste, set max_ptes_none=3D0, req=
+uiring the
+> >>>>>>>>> 512 pages to be present before being collapsed.
+> >>>>>>>>>
+> >>>>>>>>>>
+> >>>>>>>>>>>
+> >>>>>>>>>>> This allows for two things... one, applications specifically =
+designed to
+> >>>>>>>>>>> use hugepages will get them, and two, applications that don't=
+ use
+> >>>>>>>>>>> hugepages can still benefit from them without aggressively in=
+serting
+> >>>>>>>>>>> THPs at every possible chance. This curbs the memory waste, a=
+nd defers
+> >>>>>>>>>>> the use of hugepages to khugepaged. Khugepaged can then scan =
+the memory
+> >>>>>>>>>>> for eligible collapsing.
+> >>>>>>>>>>
+> >>>>>>>>>> khugepaged would replace application memory with huge pages wi=
+thout specific
+> >>>>>>>>>> goal. Why not use a user space agent with process_madvise() to=
+ collapse
+> >>>>>>>>>> huge pages? Admin might have more knobs to tweak than khugepag=
+ed.
+> >>>>>>>>>
+> >>>>>>>>> The benefits of "always" are that no userspace agent is needed,=
+ and
+> >>>>>>>>> applications dont have to be modified to use madvise(MADV_HUGEP=
+AGE) to
+> >>>>>>>>> benefit from THPs. This setting hopes to gain some of the same
+> >>>>>>>>> benefits without the significant waste of memory and an increas=
+ed
+> >>>>>>>>> tunability.
+> >>>>>>>>>
+> >>>>>>>>> future changes I have in the works are to make khugepaged more
+> >>>>>>>>> "smart". Moving it away from the round robin fashion it current=
+ly
+> >>>>>>>>> operates in, to instead make smart and informed decisions of wh=
+at
+> >>>>>>>>> memory to collapse (and potentially split).
+> >>>>>>>>>
+> >>>>>>>>> Hopefully that helped explain the motivation for this new setti=
+ng!
+> >>>>>>>>
+> >>>>>>>> Any last comments before I resend this?
+> >>>>>>>>
+> >>>>>>>> Ive been made aware of
+> >>>>>>>> https://lore.kernel.org/all/20240730125346.1580150-1-usamaarif64=
+2@gmail.com/T/#u
+> >>>>>>>> which introduces THP splitting. These are both trying to achieve=
+ the
+> >>>>>>>> same thing through different means. Our approach leverages khuge=
+paged
+> >>>>>>>> to promote pages, while Usama's uses the reclaim path to demote
+> >>>>>>>> hugepages and shrink the underlying memory.
+> >>>>>>>>
+> >>>>>>>> I will leave it up to reviewers to determine which is better; Ho=
+wever,
+> >>>>>>>> we can't have both, as we'd be introducing trashing conditions.
+> >>>>>>>>
+> >>>>>>>
+> >>>>>>> Hi,
+> >>>>>>>
+> >>>>>>> Just inserting this here from my cover letter:
+> >>>>>>>
+> >>>>>>> Waiting for khugepaged to scan memory and
+> >>>>>>> collapse pages into THP can be slow and unpredictable in terms of=
+ performance
+> >>>>>> Obviously not part of my patchset here, but I have been testing so=
+me
+> >>>>>> changes to khugepaged to make it more aware of what processes are =
+hot.
+> >>>>>> Ideally then it can make better choices of what to operate on.
+> >>>>>>> (i.e. you dont know when the collapse will happen), while product=
+ion
+> >>>>>>> environments require predictable performance. If there is enough =
+memory
+> >>>>>>> available, its better for both performance and predictability to =
+have
+> >>>>>>> a THP from fault time, i.e. THP=3Dalways rather than wait for khu=
+gepaged
+> >>>>>>> to collapse it, and deal with sparsely populated THPs when the sy=
+stem is
+> >>>>>>> running out of memory.
+> >>>>>>>
+> >>>>>>> I just went through your patches, and am not sure why we can't ha=
+ve both?
+> >>>>>> Fair point, we can. I've been playing around with splitting hugepa=
+ges
+> >>>>>> and via khugepaged and was thinking of the trashing conditions the=
+re--
+> >>>>>> but your implementation takes a different approach.
+> >>>>>> I've been working on performance testing my "defer" changes, once =
+I
+> >>>>>> find the appropriate workloads I'll try adding your changes to the
+> >>>>>> mix. I have a feeling my approach is better for latency sensitive
+> >>>>>> workloads, while yours is better for throughput, but let me find a=
+ way
+> >>>>>> to confirm that.
+> >>>>>>
+> >>>>>>
+> >>>>> Hmm, I am not sure if its latency vs throughput.
+> >>>>>
+> >>>>> There are 2 things we probably want to consider, short lived and lo=
+ng lived mappings, and
+> >>>>> in each of these situations, having enough memory and running out o=
+f memory.
+> >>>>>
+> >>>>> For short lived mappings, I believe reducing page faults is a bigge=
+r factor in
+> >>>>> improving performance. In that case, khugepaged won't have enough t=
+ime to work,
+> >>>>> so THP=3Dalways will perform better than THP=3Ddefer. THP=3Ddefer i=
+n this case will perform
+> >>>>> the same as THP=3Dmadvise?
+> >>>>> If there is enough memory, then the changes I introduced in the shr=
+inker won't cost anything
+> >>>>> as the shrinker won't run, and the system performance will be the s=
+ame as THP=3Dalways.
+> >>>>> If there is low memory and the shrinker runs, it will only split TH=
+Ps that have zero-filled
+> >>>>> pages more than max_ptes_none, and map the zero-filled pages to sha=
+red zero-pages saving memory.
+> >>>>> There is ofcourse a cost to splitting and running the shrinker, but=
+ hopefully it only splits
+> >>>>> underused THPs.
+> >>>>>
+> >>>>> For long lived mappings, reduced TLB misses would be the bigger fac=
+tor in improving performance.
+> >>>>> For the initial run of the application THP=3Dalways will perform be=
+tter wrt TLB misses as
+> >>>>> page fault handler will give THPs from start.
+> >>>>> Later on in the run, the memory might look similar between THP=3Dal=
+ways with shrinker and
+> >>>>> max_ptes_none < HPAGE_PMD_NR vs THP=3Ddefer and max_ptes_none < HPA=
+GE_PMD_NR?
+> >>>>> This is because khugepaged will have collapsed pages that might hav=
+e initially been faulted in.
+> >>>>> And collapsing has a cost, which would not have been incurred if th=
+e THPs were present from fault.
+> >>>>> If there is low memory, then shrinker would split memory (which has=
+ a cost as well) and the system
+> >>>>> memory would look similar or better than THP=3Ddefer, as the shrink=
+er would split THPs that initially
+> >>>>> might not have been underused, but are underused at time of memory =
+pressure.
+> >>>>>
+> >>>>> With THP=3Dalways + underused shrinker, the cost (splitting) is inc=
+urred only if needed and when its needed.
+> >>>>> While with THP=3Ddefer the cost (higher page faults, higher TLB mis=
+ses + khugepaged collapse) is incurred all the time,
+> >>>>> even if the system might have plenty of memory available and there =
+is no need to take a performance hit.
+> >>>>
+> >>>> I agree with this. The defer mode is an improvement over the upstrea=
+m
+> >>>> status quo, no doubt. However, both defer mode and the shrinker solv=
+e
+> >>>> the issue of memory waste under pressure, while the shrinker permits
+> >>>> more desirable behavior when memory is abundant.
+> >>>>
+> >>>> So my take is that the shrinker is the way to go, and I don't see a
+> >>>> bonafide usecase for defer mode that the shrinker couldn't cover.
+> >>>
+> >>> Page fault latency? IOW, zeroing a complete THP, which might be up to
+> >>> 512 MiB on arm64. This is one of the things people bring up, where
+> >>> FreeBSD is different because it will zero fragments on-demand (but al=
+so
+> >>> result in more pagefaults).
+> >>
+> >> Good point, I suppose this could matter to some workloads. Would be
+> >> interesting to get real world data on that if that's the argument.
 > >
-> > +static noinline_for_stack
-> > +char *range_string(char *buf, char *end, const struct range *range,
-> > +                     struct printf_spec spec, const char *fmt)
-> > +{
-> > +#define RANGE_DECODED_BUF_SIZE         ((2 * sizeof(struct range)) + 4)
-> > +#define RANGE_PRINT_BUF_SIZE           sizeof("[range -]")
-> > +       char sym[RANGE_DECODED_BUF_SIZE + RANGE_PRINT_BUF_SIZE];
-> > +       char *p = sym, *pend = sym + sizeof(sym);
-> > +
-> > +       *p++ = '[';
-> > +       p = string_nocheck(p, pend, "range ", default_str_spec);
-> > +       p = special_hex_number(p, pend, range->start, sizeof(range->start));
-> > +       *p++ = '-';
-> > +       p = special_hex_number(p, pend, range->end, sizeof(range->end));
-> > +       *p++ = ']';
-> > +       *p = '\0';
-> > +
-> > +       return string_nocheck(buf, end, sym, spec);
-> > +}
-> 
-> I agree that there is not much duplicated code in the end.
-> 
-> > Also this is the bulk of the patch except for documentation and the new
-> > testing code.  [new patch below]
-> > 
-> > Am I missing your point somehow?  I considered cramming a struct range into a
-> > struct resource to let resource_string() process the data.  But that would
-> > involve creating a new IORESOURCE_* flag (not ideal) and also does not allow
-> > for the larger u64 data in struct range should this be a 32 bit physical
-> > address config.
-> 
-> This would be nasty. I believe that this is not what Andy meant.
+> > IIRC, there is mentioning about some of these workloads in THP optimiza=
+tion papers, where even the cost of defragmenation+reclaim+zeroing of 2MiB =
+apparently affects some latency-sensitive workloads.
+> >
+> > But the challenge that THP-deferred and the shrinker is trying to solve=
+ right now is more towards memory over-allocation, and for the the shrinker=
+ should *mostly* be able to do what the deferred option would achieve.
+> >
+>
+> I would say underused shrinker is trying to solve memory over-allocation =
+due to THP=3Dalways *while* trying to preserve the performance benefits of =
+THP=3Dalways,
+> which THP=3Ddefer might not achieve with the same performance due to more=
+ running costs?
+>
+> > There are these corner cases where a workload accesses some pages and t=
+hen long-term pins them (e.g., iouring fixed buffers), where the over-allco=
+ation cannot be reclaimed until the longterm pin is gone.
+> >
+> > But it's not been raised to be a real problem in practice, so I'm just =
+mentioning it as a key difference: the shrinker runs after memory over-allo=
+cation with the cost of memory scanning and temporary memory overallcoation=
++zeroing. "deferred" avoids memory over-allocation, with the cost of more p=
+age faults + relying on khugepaged making progress.
+> >
+> and the deferred option also has the cost of higher TLB misses (which can=
+ be quite significant) when the pages haven't collapsed yet,
+> and all of these are costs that shouldn't even be incurred if the system =
+has plenty of memory.
+>
+> If there aren't many underused pages, then for long-term mappings, the me=
+mory would look similar in both cases after sometime?
+> as khugepaged would just collapse pages that would just have been there f=
+rom page fault in THP=3Dalways (especially if khugepaged
+> is made more affective). In that case, the shrinker solution would have h=
+ad no cost for that time (or maybe just page fault
+> latency?), while THP=3Ddefer would incur all the 3 costs?
+>
+> Both solutions do have their pros and cons and I am not against having TH=
+P=3Ddefer. But I do feel the shrinker is a better solution
+> with the experiments in Meta production [1] and only having to incur a co=
+st if and when needed. I could be biased as well :)
 
-Nope.
+I agree, they both do have pros and cons, and I think the shrinker
+solution is the better solution for the "always" approach. It's
+important to remember that "defer" isn't necessarily trying to beat
+"always". It's closer in behavior to "madvise", but with the added
+benefit that applications that need to be "transparent" (no madv
+calls) can still leverage THPs.
 
-> 
-> Best Regards,
-> Petr
-> 
-> PS: I have vacation until the end of the week, so my next eventual
->     reaction would be delayed.
+I will try to find some latency benchmarks to show that "always" can
+negatively impact latency in some cases, and "madvise" (or "defer")
+would be the better solution for that workload. In these cases the
+defer solution would be allowing applications to transparently benefit
+from THPs and reduce their TLB pressure over time, without incurring
+the latency penalty associated with requesting a THP at fault.
 
-No hurry.  I'm still mucking around with it,
-Ira
+>
+> [1] https://lore.kernel.org/all/20240819023145.2415299-1-usamaarif642@gma=
+il.com/#t
+>
+> >>
+> >> Btw, I'm curious if anybody actually uses or tried to use 512MB
+> >> THPs. I understand it's technically possible, and there are usecases
+> >> for 1G pages through static hugetlb management, but 512M seems wild
+> >> for a "real" page size - real as in: allocated on-demand and actually
+> >> paged to/from storage.
+> >
+> > I think it's less a matter of "using" or trying", but more THPs being d=
+efault enabled in many setups nowadays, and if you have sufficient memory i=
+n the system, even these weird 512MiB THPs will up in your address space if=
+ a (sparse) VMA is large enough :)
+> >
+>
+> The page fault latency is a good point for ARM servers. I would imagine m=
+ore ARM servers run with 64K page size compared to 4K, and if the default c=
+onfig option for THP is not changed, then we could run into 512M THPs!
+>
+>
+
