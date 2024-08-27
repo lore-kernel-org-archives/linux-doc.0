@@ -1,168 +1,83 @@
-Received: from out203-205-221-239.mail.qq.com (out203-205-221-239.mail.qq.com [203.205.221.239])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66DF78BEA
-	for <linux-doc@vger.kernel.org>; Tue, 27 Aug 2024 02:24:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 713CF17BBE;
+	Tue, 27 Aug 2024 02:30:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724725500; cv=none; b=SeZfRfqoA8CnI34Der6VoA1PI03mVng92d59ErpR6kAEA12Sc6bdIj5rolyeCrgrvO7kseXV7QutpO94hiLxLTKWkuryvmqhsrWhzJxtHci2dles8oAwUnzaxmLIVctxMEihVBOpQU+ZXJD2IQX7MWnXtZSqa5c9q+2d+tATea0=
+	t=1724725832; cv=none; b=kY7RihQusPxq50uNCPX63dvUowvVFr36FCZRQC5pwZ599yRrZxN2BfpNMGPvkL4P/m538umJqAEde+r4uVIWyZb2OUNflPdb/cYAlxhajKSCXO4gU8ROS/srfa5EfNr2rS2m5u3H4EykT31ZForSkfrxy1Yv6/ypwsc0HI7q7fA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724725500; c=relaxed/simple;
-	bh=Rex+v/gRjv7leIkVQjbIzLC9Eoh8KVP6y99gGD7O1VM=;
-	h=Message-ID:Content-Type:Mime-Version:Subject:From:In-Reply-To:
-	 Date:Cc:References:To; b=J0nlPoR4sOL5L/5IxwNwGh+tAAZFQGagfhZZEG2ivd6XJ8cOGbEMNAXWxD1b74p1Dj6PH2ZFnmbS+imqKMeohIstgY8UQ5B2i9gkoZ3X8x9trwLYRvrEF5mEzOh8QZokUJ3H3fCOdwQ9XOdQ7ew7OEGWaWkN3GWBUPtoiooMGnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name; spf=none smtp.mailfrom=cyyself.name; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=aIcGoSq1; arc=none smtp.client-ip=203.205.221.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cyyself.name
+	s=arc-20240116; t=1724725832; c=relaxed/simple;
+	bh=96aPBM1prgnl1Trwv1kDI7urETSSeh6JFCVzKGEBwOE=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=JULQdtlWhLIf/TwnllgCwCv2SsgokJXcqgGaiJv/JFvRL8XPzmiS+IvdqLrT1HnUgDe1OXjuY4B3xw6Vkc85rooEisA6VGsLRFvE7vxV2d7kUyWsYzurueTDt4NSdFu80jO/3swCdRJ6UMI5r+oPpbt+wZ9c05sIakCopTYrSwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UID67CP7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="aIcGoSq1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1724725486; bh=6OUVBGQm+R7uNiXYq6N251s4vbehYFjQAwiXtpU9mUU=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To;
-	b=aIcGoSq1hsllpTuDkn4NUVfVmZae3lHVnVNDzwcBth+jhJP7BO7F6KyV49MaXjwFL
-	 avt8ocOIQbN1lh1phGKIAprXk1sHFxO4YdnrjfjVGlH7nVYiR62rLjQ//uizS7yXOg
-	 uQe67JK6I2+nFcaiFGSt3IRhtmB1Ykti4l+xUDc4=
-Received: from smtpclient.apple ([2408:8207:18a0:211f:25e9:f22a:88fc:3aa2])
-	by newxmesmtplogicsvrsza29-0.qq.com (NewEsmtp) with SMTP
-	id 62AB22D1; Tue, 27 Aug 2024 10:24:42 +0800
-X-QQ-mid: xmsmtpt1724725482tyapdnd0p
-Message-ID: <tencent_A414DA7D8E69B831317A21368D057C378208@qq.com>
-X-QQ-XMAILINFO: MziGzrjZeogZJQ6VsuNCfMEWmzxEuNlCz4qLlbmWD8GXK82Tlhv024UTyHMuIW
-	 ZtLBG68GVeE2jivNbSpoKPduTbKnA+QTcfUHwOZl2QERMeWJ6DciXxTfMgN87P4/tt7wNODCLr/i
-	 6CgpqzkgKxF9mRHFf9HMTr7+G3qhcMGCTcN+vO9GEHdhaSHYu175P9c/sTybxbQBV1UR2KfEGRg9
-	 z+JILA8bxwqIn6bqshESR1mhoJslaizNhds1dwS+WHN+bKVhgr5LmJkOc8ujMu2TnjLE3/DlK7/a
-	 dgn11Cpc8JBwRMLLdEfA8jO+Ni8ZXWUQamEgh5MQNDRrXL4PZSjKnA+WDKTiQG8OwqjD0nUKgAM3
-	 u2twQqRrjT623mTZypNeVgzrrnzJ2pV9hZhT3Tb+wrl/ht1Pae7pkK3vFOoqNc65+oMnR5V9IUyv
-	 2H2UuHGUSFYN8RM6/9d0x3AxBFG+BD+b9eERHZATAnBWC95ib6NXMkBbJ6SQ05KyGSP0kQusTHrc
-	 XaP+n002mFehPmr3ObtoHI7j2YLCNa5JTH5ICle0Zb/z2GfrhvkvpZ1C9e7VngM70n4HGtZxdLL3
-	 Mys36Um1BmZklMItTEgend+zP/c4Y9/HN758EdpnRw/vV0CW+N746A87dl64wMa8vgl+Ua0sxthN
-	 +u1qxQtSJzW/bDEMQzC5w3YxfDdiQK09aYT1F5k9CufRYKuL11RtXdEew7e5dQxGwGKPWQKhHriL
-	 SyUAFwWgGoRoPliMkbSTRcLIRTN6a1j+v1fOeIb8HFtfbQafKsqOHkJZ0LdsJozsP+PORMRaXzT7
-	 fSepXLJPn9LRMvi6MhyJ4LCXaa2afmBKKeRDAACZ3/1NtFyId5YksShgvRMNyEqlyMlxEgrCtZyN
-	 1Ck2VZYyp6HeqKmXKmSVLghYnSh00JCXj7F4BvEWDqbUzaPQi0AzktLd63NDtrvMqhceWreCudxn
-	 2n8l8UuXinL3n6S/Hln/mMrRcibbXWIMaU8iK5hYaSdxEruZvqAeITlTElmhSw4Yps++wtc8E=
-X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UID67CP7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA728C8B7A4;
+	Tue, 27 Aug 2024 02:30:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724725831;
+	bh=96aPBM1prgnl1Trwv1kDI7urETSSeh6JFCVzKGEBwOE=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=UID67CP7WsLrT3RsC/iK+4OOP992y+UqZ2MwdiSGm7zt9jaKcN/cy4qWxVGCwcdB0
+	 0nzrTyZL2kgZBt0lVURgJps+vzb4YGdpDdcYBNL9ClpPplKK2xJYSuTgy/pSiMIlwl
+	 ZPLEndwMnzmrMJSBkalIkKAPECxF1FgerWTOp8ZlU3go3W/QgaH87N5S22U8st8SXo
+	 u698FDFS/GvTzTKGvkilRj0wmnw682ujMP52OhBHZOs3srGxRBJYdq+6N0DonplqUi
+	 rfnkPwae+4dm3ZqRUT+DTBOYeX/87zAGZ7CkFqEkwKin+39gJ1RGaL5sZVFnesaT5W
+	 xd4+8BFiD/5hQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33E523806660;
+	Tue, 27 Aug 2024 02:30:32 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51\))
-Subject: Re: [PATCH 3/3] riscv: mm: Do not restrict mmap address based on hint
-From: Yangyu Chen <cyy@cyyself.name>
-In-Reply-To: <20240826-riscv_mmap-v1-3-cd8962afe47f@rivosinc.com>
-Date: Tue, 27 Aug 2024 10:24:38 +0800
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>,
- Shuah Khan <shuah@kernel.org>,
- Levi Zim <rsworktech@outlook.com>,
- Alexandre Ghiti <alexghiti@rivosinc.com>,
- linux-doc@vger.kernel.org,
- linux-riscv@lists.infradead.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Palmer Dabbelt <palmer@rivosinc.com>,
- linux-kselftest@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-X-OQ-MSGID: <C5CD5C41-B9C2-42E0-BAC4-AD8A6FE52447@cyyself.name>
-References: <20240826-riscv_mmap-v1-0-cd8962afe47f@rivosinc.com>
- <20240826-riscv_mmap-v1-3-cd8962afe47f@rivosinc.com>
-To: Charlie Jenkins <charlie@rivosinc.com>
-X-Mailer: Apple Mail (2.3776.700.51)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v3 0/2] Add Embedded SYNC feature for a dpll's pin
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <172472583073.186086.6173747037683312916.git-patchwork-notify@kernel.org>
+Date: Tue, 27 Aug 2024 02:30:30 +0000
+References: <20240822222513.255179-1-arkadiusz.kubalewski@intel.com>
+In-Reply-To: <20240822222513.255179-1-arkadiusz.kubalewski@intel.com>
+To: Kubalewski@aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org,
+	Arkadiusz <arkadiusz.kubalewski@intel.com>
+Cc: netdev@vger.kernel.org, vadim.fedorenko@linux.dev, jiri@resnulli.us,
+ corbet@lwn.net, davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, donald.hunter@gmail.com, anthony.l.nguyen@intel.com,
+ przemyslaw.kitszel@intel.com, intel-wired-lan@lists.osuosl.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 
+Hello:
 
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-> On Aug 27, 2024, at 00:36, Charlie Jenkins <charlie@rivosinc.com> =
-wrote:
->=20
-> The hint address should not forcefully restrict the addresses returned
-> by mmap as this causes mmap to report ENOMEM when there is memory =
-still
-> available.
->=20
+On Fri, 23 Aug 2024 00:25:11 +0200 you wrote:
+> Introduce and allow DPLL subsystem users to get/set capabilities of
+> Embedded SYNC on a dpll's pin.
+> 
+> Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+> 
+> Arkadiusz Kubalewski (2):
+>   dpll: add Embedded SYNC feature for a pin
+>   ice: add callbacks for Embedded SYNC enablement on dpll pins
+> 
+> [...]
 
-Fixing in this way will break userspace on Sv57 machines as some
-issues mentioned in the patch [1].
+Here is the summary with links:
+  - [net-next,v3,1/2] dpll: add Embedded SYNC feature for a pin
+    https://git.kernel.org/netdev/net-next/c/cda1fba15cb2
+  - [net-next,v3,2/2] ice: add callbacks for Embedded SYNC enablement on dpll pins
+    https://git.kernel.org/netdev/net-next/c/87abc5666ab7
 
-I suggest restricting to BIT(47) by default, like patch [2], to
-align with kernel behavior on x86 and aarch64, and this does exist
-on x86 and aarch64 for quite a long time. In that way, we will also
-solve the problem mentioned in the first patch [1], as QEMU enables
-Sv57 by default now and will not break userspace.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-[1] =
-https://lore.kernel.org/linux-riscv/20230809232218.849726-1-charlie@rivosi=
-nc.com/
-[2] =
-https://lore.kernel.org/linux-riscv/tencent_B2D0435BC011135736262764B51199=
-4F4805@qq.com/
-
-Thanks,
-Yangyu Chen
-
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> Fixes: b5b4287accd7 ("riscv: mm: Use hint address in mmap if =
-available")
-> Fixes: add2cc6b6515 ("RISC-V: mm: Restrict address space for =
-sv39,sv48,sv57")
-> Closes: =
-https://lore.kernel.org/linux-kernel/ZbxTNjQPFKBatMq+@ghost/T/#mccb1890466=
-bf5a488c9ce7441e57e42271895765
-> ---
-> arch/riscv/include/asm/processor.h | 26 ++------------------------
-> 1 file changed, 2 insertions(+), 24 deletions(-)
->=20
-> diff --git a/arch/riscv/include/asm/processor.h =
-b/arch/riscv/include/asm/processor.h
-> index 8702b8721a27..efa1b3519b23 100644
-> --- a/arch/riscv/include/asm/processor.h
-> +++ b/arch/riscv/include/asm/processor.h
-> @@ -14,36 +14,14 @@
->=20
-> #include <asm/ptrace.h>
->=20
-> -/*
-> - * addr is a hint to the maximum userspace address that mmap should =
-provide, so
-> - * this macro needs to return the largest address space available so =
-that
-> - * mmap_end < addr, being mmap_end the top of that address space.
-> - * See Documentation/arch/riscv/vm-layout.rst for more details.
-> - */
-> #define arch_get_mmap_end(addr, len, flags) \
-> ({ \
-> - unsigned long mmap_end; \
-> - typeof(addr) _addr =3D (addr); \
-> - if ((_addr) =3D=3D 0 || is_compat_task() || \
-> -    ((_addr + len) > BIT(VA_BITS - 1))) \
-> - mmap_end =3D STACK_TOP_MAX; \
-> - else \
-> - mmap_end =3D (_addr + len); \
-> - mmap_end; \
-> + STACK_TOP_MAX; \
-> })
->=20
-> #define arch_get_mmap_base(addr, base) \
-> ({ \
-> - unsigned long mmap_base; \
-> - typeof(addr) _addr =3D (addr); \
-> - typeof(base) _base =3D (base); \
-> - unsigned long rnd_gap =3D DEFAULT_MAP_WINDOW - (_base); \
-> - if ((_addr) =3D=3D 0 || is_compat_task() || \
-> -    ((_addr + len) > BIT(VA_BITS - 1))) \
-> - mmap_base =3D (_base); \
-> - else \
-> - mmap_base =3D (_addr + len) - rnd_gap; \
-> - mmap_base; \
-> + base; \
-> })
->=20
-> #ifdef CONFIG_64BIT
->=20
-> --=20
-> 2.45.0
->=20
 
