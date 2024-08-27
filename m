@@ -1,190 +1,275 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D70C2EAE6;
-	Tue, 27 Aug 2024 20:10:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 081BA1D318D
+	for <linux-doc@vger.kernel.org>; Tue, 27 Aug 2024 20:51:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724789431; cv=none; b=ljkepx3nDNfieoRVPuqFZV56UjULtIQ4cPiTWBRHZGS1cnt8cc9VkGyGw3kArDRNGtrcRAglZv0MEJBtSazULf4beNlZOwlxD85fHeO/F+q92ijsH1ggXnGePRmJypfpBAKKsztGxT+F7RFa0wqcmEtyuUHubcEC5l4MWt43UnE=
+	t=1724791921; cv=none; b=PngYYQZbnouM7wStKHt1mZno55F4LGeGKwdXsMksKuJWKJEk2fkYm/R9rUcy8BLAB8qKhCXqaUZHsTD6r2V7f+Xx0OJBg20GwTMnzPlkwK6i6UdS0XxLgtWIUy0vP4N4DIIKBLmPWup87FQ+/MQYc8akZEQcS8q/SJWgsTRVzWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724789431; c=relaxed/simple;
-	bh=f3sZbsLPe/J4HvOjV7og6WTUbkDT102FyoUUj5gFOAY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bGxjgYvGerkSbftfjRk/0BhwVlZRctkibUs/4EIqCE4JP7A/IPhpJUM8TyUn+TYrNjcd3wTZIuZG7ozmRRIGaYivugzBId4n3TWompul7fRiMIIoc78Nf4my54h2lrfDYeHa4+HWfkAPirnd4MVyR0e3Wnv0W/Xdkj7JUE0KSkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K6uo0UIs; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K6uo0UIs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724789429; x=1756325429;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=f3sZbsLPe/J4HvOjV7og6WTUbkDT102FyoUUj5gFOAY=;
-  b=K6uo0UIsduSXRIkKDv1hxmbSPxh/AEMqwuE/vbma4/3yDV4lSnnJdThD
-   6RUwduLAF8MD9LULN9WnmG+1aosi5EujA6FA6ICzf+rapNfnoGldWOsG9
-   b4k6fcvM682y22M4xgaLxjVOVX7/539CKpJyU/sd8BeLwhzffnQINzl0K
-   udxtHN+RgsnWbkAYdL+ulvhz9//sA6Q7U6t+iLELnKPPWSscwmZ4Xs7El
-   HvwuZRO2UgSjRB/2Yhhcbp52msldD1ro5Bsn67vyROBvQn0sun4ZMQ9N7
-   CYepjmUA3fHJ94yxEhrhFF55odGMgTLhamPQLAMcCWy7SL4T1+2tehQZI
-   g==;
-X-CSE-ConnectionGUID: 1PsDLGKISmSsnaThQFYmIQ==
-X-CSE-MsgGUID: wH3PcPlLQoiuJDpaQ57WkA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="27084995"
-X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
-   d="scan'208";a="27084995"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 13:10:21 -0700
-X-CSE-ConnectionGUID: MkWdwHFPSaORUXRLLgx3tA==
-X-CSE-MsgGUID: pScGyMYhQB+U1HU6Fp8Wxw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
-   d="scan'208";a="100500178"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 27 Aug 2024 13:10:14 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sj2W3-000K2k-0N;
-	Tue, 27 Aug 2024 20:10:11 +0000
-Date: Wed, 28 Aug 2024 04:09:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ross Philipson <ross.philipson@oracle.com>,
-	linux-kernel@vger.kernel.org, x86@kernel.org,
-	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
-	linux-efi@vger.kernel.org, iommu@lists.linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, ross.philipson@oracle.com,
-	dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
-	ardb@kernel.org, mjg59@srcf.ucam.org,
-	James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de,
-	jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
-	nivedita@alum.mit.edu, herbert@gondor.apana.org.au,
-	davem@davemloft.net, corbet@lwn.net, ebiederm@xmission.com,
-	dwmw2@infradead.org, baolu.lu@linux.intel.com,
-	kanth.ghatraju@oracle.com
-Subject: Re: [PATCH v10 20/20] x86/efi: EFI stub DRTM launch support for
- Secure Launch
-Message-ID: <202408280656.66ZxoOOL-lkp@intel.com>
-References: <20240826223835.3928819-21-ross.philipson@oracle.com>
+	s=arc-20240116; t=1724791921; c=relaxed/simple;
+	bh=FhiYuMAttzKLPSgmu+aXcQP6ZavgO6GOLNGeyMVWLuE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=IhkoD88yY7GqSIXxI+LO66RdijTLq6veaS4E8mG6nVmkvd32e9bWZj2ODIVmTH9iDzYH/DH0bVIiYiTYC42R78XinK0jqfCJSijQGE287X7Trau/8zF83V8fy2zZ2fdwV6Jf+Sl0XPAhjEqkNJI4MbU5l/V6EFRuHzqP26YJXAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <m.grzeschik@pengutronix.de>)
+	id 1sj3AK-0004aG-P7; Tue, 27 Aug 2024 22:51:48 +0200
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <m.grzeschik@pengutronix.de>)
+	id 1sj3AJ-003VwD-1p; Tue, 27 Aug 2024 22:51:47 +0200
+Received: from localhost ([::1] helo=dude04.red.stw.pengutronix.de)
+	by dude04.red.stw.pengutronix.de with esmtp (Exim 4.96)
+	(envelope-from <m.grzeschik@pengutronix.de>)
+	id 1sj3AI-00Cxwt-1g;
+	Tue, 27 Aug 2024 22:51:46 +0200
+From: Michael Grzeschik <m.grzeschik@pengutronix.de>
+Date: Tue, 27 Aug 2024 22:51:41 +0200
+Subject: [PATCH v11 1/3] usb: gadget: function: move u_f.h to
+ include/linux/usb/func_utils.h
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240826223835.3928819-21-ross.philipson@oracle.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240116-ml-topic-u9p-v11-1-b4890e06733a@pengutronix.de>
+References: <20240116-ml-topic-u9p-v11-0-b4890e06733a@pengutronix.de>
+In-Reply-To: <20240116-ml-topic-u9p-v11-0-b4890e06733a@pengutronix.de>
+To: Eric Van Hensbergen <ericvh@kernel.org>, 
+ Latchesar Ionkov <lucho@ionkov.net>, 
+ Dominique Martinet <asmadeus@codewreck.org>, 
+ Christian Schoenebeck <linux_oss@crudebyte.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Andrzej Pietrasiewicz <andrzej.p@collabora.com>, v9fs@lists.linux.dev, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-usb@vger.kernel.org, kernel@pengutronix.de, 
+ Michael Grzeschik <m.grzeschik@pengutronix.de>
+X-Mailer: b4 0.12.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6088;
+ i=m.grzeschik@pengutronix.de; h=from:subject:message-id;
+ bh=FhiYuMAttzKLPSgmu+aXcQP6ZavgO6GOLNGeyMVWLuE=;
+ b=owEBbQKS/ZANAwAKAb9pWET5cfSrAcsmYgBmzjxhu3okKyszVYOMCV2qvcdXncwYU8j/mbD2W
+ HreWbNul4mJAjMEAAEKAB0WIQQV2+2Fpbqd6fvv0Gi/aVhE+XH0qwUCZs48YQAKCRC/aVhE+XH0
+ q3oPD/95qaxdBuKJnqkiI2QhYKYsO28DxGSuXI1nt0u9mW3Pmw7dfAJ+wFqMPqGg/qVQQuBoc82
+ FYDrztLA49YZZd8brcSVFElNqXzlwaiP0SQA5+oEYBn2qDzJfHU0PNjlpgzbQynRVALXvvc6vTh
+ 9CLXIQqQw5jsRqw7hPxaxhZuVD3h0K9b7TjdW1ps5zCfD5pCkQ+Zvi37/wX9EE+840N12U735t0
+ W7k1r/Uc7IOiMgm1jaZJ5Gtat2uSqZ4U+xAUEodjPcGVuCh4i8wHO7G3xU7O0F5GnwiCG5y59lR
+ engT/a0n6kZpu+7HFHt43hJThy4Uz6Cyn+t6X9dPSLRBDK1ZvT2E/s2VpOlHOBps2dYr2yEqC40
+ truIaICZ1OQN22DQ2RiFMSeZ+oO9u3ULOVO/9M7pRVtmRCa5M6m/76uEbd5TpOiFWL+z9GOTUSX
+ 6ox5vz05Zwy+52RY1RN9pHYJ7DHLQ7OV5n7pTSBHDcr/3fFiNNf/9rW2UXKXe5ln9xe9i/DuJiJ
+ XVyHRcai+k76fH+Bf102saRX2pZ5FTbl1xB/cW0ihO1+YkwHi7KJQQOmG0KHSrtoDZLryxcPcFR
+ ht6IUhV7ZcV3NSyAPu2OG0xf4XPriGg7P1gaIriv6iVSmb3WrmwTxoKqE+yohJexPyJ4RfsBqDF
+ 9CaAQVvTqGqsV/w==
+X-Developer-Key: i=m.grzeschik@pengutronix.de; a=openpgp;
+ fpr=957BC452CE953D7EA60CF4FC0BE9E3157A1E2C64
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: m.grzeschik@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Hi Ross,
+We move the func_utils.h header to include/linux/usb to be
+able to compile function drivers outside of the
+drivers/usb/gadget/function directory.
 
-kernel test robot noticed the following build warnings:
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 
-[auto build test WARNING on tip/x86/core]
-[also build test WARNING on char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus herbert-cryptodev-2.6/master efi/next linus/master v6.11-rc5]
-[cannot apply to herbert-crypto-2.6/master next-20240827]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+---
+v10 -> v11:
+  - fixed the naming of the include guard in func_utils.h
+v9  -> v10:
+  - respect alphabetical order
+  - correctly changed filename in func_utils.h itself
+v5  -> v9: -
+v4  -> v5:
+  - renamed to func_utils.h
+v3  -> v4: -
+v1  -> v2:
+  - new introduced patch
+---
+ drivers/usb/gadget/configfs.c                              | 2 +-
+ drivers/usb/gadget/function/f_fs.c                         | 2 +-
+ drivers/usb/gadget/function/f_hid.c                        | 2 +-
+ drivers/usb/gadget/function/f_loopback.c                   | 2 +-
+ drivers/usb/gadget/function/f_midi.c                       | 2 +-
+ drivers/usb/gadget/function/f_midi2.c                      | 2 +-
+ drivers/usb/gadget/function/f_sourcesink.c                 | 2 +-
+ drivers/usb/gadget/u_f.c                                   | 2 +-
+ drivers/usb/gadget/u_f.h => include/linux/usb/func_utils.h | 8 ++++----
+ 9 files changed, 12 insertions(+), 12 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ross-Philipson/Documentation-x86-Secure-Launch-kernel-documentation/20240827-065225
-base:   tip/x86/core
-patch link:    https://lore.kernel.org/r/20240826223835.3928819-21-ross.philipson%40oracle.com
-patch subject: [PATCH v10 20/20] x86/efi: EFI stub DRTM launch support for Secure Launch
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240828/202408280656.66ZxoOOL-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240828/202408280656.66ZxoOOL-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408280656.66ZxoOOL-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/firmware/efi/libstub/x86-stub.c: In function 'efi_secure_launch_update_boot_params':
->> drivers/firmware/efi/libstub/x86-stub.c:941:40: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     941 |         os_mle = txt_os_mle_data_start((void *)txt_info->txt_heap);
-         |                                        ^
-   drivers/firmware/efi/libstub/x86-stub.c:945:36: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     945 |         os_mle->boot_params_addr = (u64)boot_params;
-         |                                    ^
-   drivers/firmware/efi/libstub/x86-stub.c:953:60: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     953 |                         policy->policy_entries[i].entity = (u64)boot_params;
-         |                                                            ^
-   drivers/firmware/efi/libstub/x86-stub.c:980:56: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     980 |                 boot_params->hdr.cmdline_size = strlen((const char *)cmdline_ptr);
-         |                                                        ^
-   drivers/firmware/efi/libstub/x86-stub.c: In function 'efi_secure_launch':
-   drivers/firmware/efi/libstub/x86-stub.c:1014:28: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-    1014 |         handler_callback = (dl_handler_func)dlinfo->dl_handler;
-         |                            ^
-
-
-vim +941 drivers/firmware/efi/libstub/x86-stub.c
-
-   927	
-   928	static bool efi_secure_launch_update_boot_params(struct slr_table *slrt,
-   929							 struct boot_params *boot_params)
-   930	{
-   931		struct slr_entry_intel_info *txt_info;
-   932		struct slr_entry_policy *policy;
-   933		struct txt_os_mle_data *os_mle;
-   934		bool updated = false;
-   935		int i;
-   936	
-   937		txt_info = slr_next_entry_by_tag(slrt, NULL, SLR_ENTRY_INTEL_INFO);
-   938		if (!txt_info)
-   939			return false;
-   940	
- > 941		os_mle = txt_os_mle_data_start((void *)txt_info->txt_heap);
-   942		if (!os_mle)
-   943			return false;
-   944	
-   945		os_mle->boot_params_addr = (u64)boot_params;
-   946	
-   947		policy = slr_next_entry_by_tag(slrt, NULL, SLR_ENTRY_ENTRY_POLICY);
-   948		if (!policy)
-   949			return false;
-   950	
-   951		for (i = 0; i < policy->nr_entries; i++) {
-   952			if (policy->policy_entries[i].entity_type == SLR_ET_BOOT_PARAMS) {
-   953				policy->policy_entries[i].entity = (u64)boot_params;
-   954				updated = true;
-   955				break;
-   956			}
-   957		}
-   958	
-   959		/*
-   960		 * If this is a PE entry into EFI stub the mocked up boot params will
-   961		 * be missing some of the setup header data needed for the second stage
-   962		 * of the Secure Launch boot.
-   963		 */
-   964		if (image) {
-   965			struct setup_header *hdr = (struct setup_header *)((u8 *)image->image_base +
-   966						    offsetof(struct boot_params, hdr));
-   967			u64 cmdline_ptr;
-   968	
-   969			boot_params->hdr.setup_sects = hdr->setup_sects;
-   970			boot_params->hdr.syssize = hdr->syssize;
-   971			boot_params->hdr.version = hdr->version;
-   972			boot_params->hdr.loadflags = hdr->loadflags;
-   973			boot_params->hdr.kernel_alignment = hdr->kernel_alignment;
-   974			boot_params->hdr.min_alignment = hdr->min_alignment;
-   975			boot_params->hdr.xloadflags = hdr->xloadflags;
-   976			boot_params->hdr.init_size = hdr->init_size;
-   977			boot_params->hdr.kernel_info_offset = hdr->kernel_info_offset;
-   978			efi_set_u64_form(boot_params->hdr.cmd_line_ptr, boot_params->ext_cmd_line_ptr,
-   979					 &cmdline_ptr);
-   980			boot_params->hdr.cmdline_size = strlen((const char *)cmdline_ptr);
-   981		}
-   982	
-   983		return updated;
-   984	}
-   985	
+diff --git a/drivers/usb/gadget/configfs.c b/drivers/usb/gadget/configfs.c
+index 0e7c1e947c0a0..3b092078fc39a 100644
+--- a/drivers/usb/gadget/configfs.c
++++ b/drivers/usb/gadget/configfs.c
+@@ -6,10 +6,10 @@
+ #include <linux/kstrtox.h>
+ #include <linux/nls.h>
+ #include <linux/usb/composite.h>
++#include <linux/usb/func_utils.h>
+ #include <linux/usb/gadget_configfs.h>
+ #include <linux/usb/webusb.h>
+ #include "configfs.h"
+-#include "u_f.h"
+ #include "u_os_desc.h"
+ 
+ int check_user_usb_string(const char *name,
+diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+index e0ceaa7219493..411f0273d8d44 100644
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -33,6 +33,7 @@
+ #include <linux/usb/ccid.h>
+ #include <linux/usb/composite.h>
+ #include <linux/usb/functionfs.h>
++#include <linux/usb/func_utils.h>
+ 
+ #include <linux/aio.h>
+ #include <linux/kthread.h>
+@@ -40,7 +41,6 @@
+ #include <linux/eventfd.h>
+ 
+ #include "u_fs.h"
+-#include "u_f.h"
+ #include "u_os_desc.h"
+ #include "configfs.h"
+ 
+diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
+index 93dae017ae456..482bc88834151 100644
+--- a/drivers/usb/gadget/function/f_hid.c
++++ b/drivers/usb/gadget/function/f_hid.c
+@@ -15,9 +15,9 @@
+ #include <linux/uaccess.h>
+ #include <linux/wait.h>
+ #include <linux/sched.h>
++#include <linux/usb/func_utils.h>
+ #include <linux/usb/g_hid.h>
+ 
+-#include "u_f.h"
+ #include "u_hid.h"
+ 
+ #define HIDG_MINORS	4
+diff --git a/drivers/usb/gadget/function/f_loopback.c b/drivers/usb/gadget/function/f_loopback.c
+index 979b028edb99e..49b009a7d5d79 100644
+--- a/drivers/usb/gadget/function/f_loopback.c
++++ b/drivers/usb/gadget/function/f_loopback.c
+@@ -14,9 +14,9 @@
+ #include <linux/module.h>
+ #include <linux/err.h>
+ #include <linux/usb/composite.h>
++#include <linux/usb/func_utils.h>
+ 
+ #include "g_zero.h"
+-#include "u_f.h"
+ 
+ /*
+  * LOOPBACK FUNCTION ... a testing vehicle for USB peripherals,
+diff --git a/drivers/usb/gadget/function/f_midi.c b/drivers/usb/gadget/function/f_midi.c
+index 67052a664e746..1067847cc0799 100644
+--- a/drivers/usb/gadget/function/f_midi.c
++++ b/drivers/usb/gadget/function/f_midi.c
+@@ -30,11 +30,11 @@
+ #include <sound/rawmidi.h>
+ 
+ #include <linux/usb/ch9.h>
++#include <linux/usb/func_utils.h>
+ #include <linux/usb/gadget.h>
+ #include <linux/usb/audio.h>
+ #include <linux/usb/midi.h>
+ 
+-#include "u_f.h"
+ #include "u_midi.h"
+ 
+ MODULE_AUTHOR("Ben Williamson");
+diff --git a/drivers/usb/gadget/function/f_midi2.c b/drivers/usb/gadget/function/f_midi2.c
+index 3f63253ad3e07..8285df9ed6fd7 100644
+--- a/drivers/usb/gadget/function/f_midi2.c
++++ b/drivers/usb/gadget/function/f_midi2.c
+@@ -15,11 +15,11 @@
+ #include <sound/ump_convert.h>
+ 
+ #include <linux/usb/ch9.h>
++#include <linux/usb/func_utils.h>
+ #include <linux/usb/gadget.h>
+ #include <linux/usb/audio.h>
+ #include <linux/usb/midi-v2.h>
+ 
+-#include "u_f.h"
+ #include "u_midi2.h"
+ 
+ struct f_midi2;
+diff --git a/drivers/usb/gadget/function/f_sourcesink.c b/drivers/usb/gadget/function/f_sourcesink.c
+index 6f3702210450f..ec5fd25020fdb 100644
+--- a/drivers/usb/gadget/function/f_sourcesink.c
++++ b/drivers/usb/gadget/function/f_sourcesink.c
+@@ -13,10 +13,10 @@
+ #include <linux/device.h>
+ #include <linux/module.h>
+ #include <linux/usb/composite.h>
++#include <linux/usb/func_utils.h>
+ #include <linux/err.h>
+ 
+ #include "g_zero.h"
+-#include "u_f.h"
+ 
+ /*
+  * SOURCE/SINK FUNCTION ... a primary testing vehicle for USB peripheral
+diff --git a/drivers/usb/gadget/u_f.c b/drivers/usb/gadget/u_f.c
+index 6aea1ecb39999..115d219c9c00c 100644
+--- a/drivers/usb/gadget/u_f.c
++++ b/drivers/usb/gadget/u_f.c
+@@ -8,8 +8,8 @@
+  * Author: Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
+  */
+ 
+-#include "u_f.h"
+ #include <linux/usb/ch9.h>
++#include <linux/usb/func_utils.h>
+ 
+ struct usb_request *alloc_ep_req(struct usb_ep *ep, size_t len)
+ {
+diff --git a/drivers/usb/gadget/u_f.h b/include/linux/usb/func_utils.h
+similarity index 96%
+rename from drivers/usb/gadget/u_f.h
+rename to include/linux/usb/func_utils.h
+index e313c3b8dcb19..c8795c9651096 100644
+--- a/drivers/usb/gadget/u_f.h
++++ b/include/linux/usb/func_utils.h
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+- * u_f.h
++ * func_utils.h
+  *
+  * Utility definitions for USB functions
+  *
+@@ -10,8 +10,8 @@
+  * Author: Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
+  */
+ 
+-#ifndef __U_F_H__
+-#define __U_F_H__
++#ifndef _FUNC_UTILS_H_
++#define _FUNC_UTILS_H_
+ 
+ #include <linux/usb/gadget.h>
+ #include <linux/overflow.h>
+@@ -83,4 +83,4 @@ static inline void free_ep_req(struct usb_ep *ep, struct usb_request *req)
+ 	usb_ep_free_request(ep, req);
+ }
+ 
+-#endif /* __U_F_H__ */
++#endif /* _FUNC_UTILS_H_ */
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.2
+
