@@ -1,176 +1,200 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 205C81CDFBC
-	for <linux-doc@vger.kernel.org>; Tue, 27 Aug 2024 19:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B541C57AD
+	for <linux-doc@vger.kernel.org>; Tue, 27 Aug 2024 19:35:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724786449; cv=none; b=dKpv6VRY09nP8yn9s6unIXkelI7ChhncWKz9WHNAt7VJDGwj4LlCGeHQH/BPEtv5B8zOqvZ/9kBKtmDNCOLdveFN8j/X89U8QiAifUt5SXv+ldvB3CL6rDwPrAUsPd2/kFRxi6t6Q444ga238hMwujCr9uRe9ALQ5erPvixpg04=
+	t=1724787348; cv=none; b=gCFs72fvLWwal/uYqQ4bPW6pqWwcK/zlAuu30A/NTcF3CNS8GOO/ErAcMFbHoRA7pdlzApWn038MsgnxLFe7zx4nhNpCNZ7b7rV+BHyabZmQT8OPMkUFY3Qg+HPJNJRjWsQyzbRZROY2Rfptc3qNppdL2XC9QT5VmvK9OMbhyJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724786449; c=relaxed/simple;
-	bh=koUllsBdmF9Qos2WoL76zAFYQTXND4km2EldlqD//nQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=m51vsqLKaU3uvNZfLd6rMKHcNXTK0lROjnBYDH5SayWvVIYBlCHhKp1QlTA6nacvhIpVg86aFYOqqWk9sKfIffnVnie/FqVvj0Lup+K4S+EQ9aP+/kdXD/pzQuBvIatbjbBuN0e7LZCQAb7fZTHDgN9qMKtp48PVOS9SS1ni+e0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=LD1XwxIc; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1724787348; c=relaxed/simple;
+	bh=C126ECeOuuPRfMcmLSKPSR0Cb9OCBXW6FN9t9Wdlg/4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j5Pg+NrhiRb5cTVHkgjKrwxF7Khpm41rjj/Ot59PlmdpmTFRNPTj0MPW/RB/WpInQDqjFFAyg7jRRq/CGI+fx6++qbNkgn+VYQmTfR/n3wCwvrLgFzRhozwHCiYcfnZq/v2w1azRgk566hkFY/kPqqk5wd8Y57XIFoeY2p67kJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=y2vkfZVh; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="LD1XwxIc"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5becd359800so6536234a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 27 Aug 2024 12:20:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="y2vkfZVh"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-204eebfaebdso5185005ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 27 Aug 2024 12:35:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1724786446; x=1725391246; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=koUllsBdmF9Qos2WoL76zAFYQTXND4km2EldlqD//nQ=;
-        b=LD1XwxIc2kuSVwu+W/kSOd2TLXcUr4qAb4ztMkthmEGeVGpu5kJ0yrT5wFsx+3F3Qg
-         kJ0dpZvYzafwjyiq1ztp4KACR9qmjkYooGTQap7pw+/2JQykXec9Z06WQ0i+Qmx6Qr2t
-         G1xQMkBCcaHiV+igS+ciPH40/KnPz3/Gvotbo=
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1724787345; x=1725392145; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rFPAN19RA1hvKHrQkmp/NKYMnPJaVA3/YimxO7ZXHeE=;
+        b=y2vkfZVh8tT8eJQomtPKoMUAtv4d0kAm4LVpbMXI7D/TeeHM9PrY0lo3S/xdW6JZOr
+         4ilri21jd4o9tl5Ssbx/x+tDhHhi5E2sptp32cYSfc2/nk6XOqJdVyNCCSfx+9Xkx2jk
+         OM4wrDpjyY2dmyC5OnkXSQIVTsrhBMSANF4lARTDaOSL1SWCLH3Z5KB1wG68ATciCgRO
+         bP0hjNSaUPnSFLVEqXGI1sVwLT/+dzmmM4H27+wM2UVaxZJEPUOW4SAAwrA/LJdVg9gJ
+         tuYvjvs3n43XlDQKPl64CcXoIRLaW3qh1YU+pbaTS2Kuar5E59jcHQocLNL6UIM6t0Ts
+         ae3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724786446; x=1725391246;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=koUllsBdmF9Qos2WoL76zAFYQTXND4km2EldlqD//nQ=;
-        b=K6yKL6RnL14zeWVW96Z2DNO/m64eHYrk09EUQe1B8IpSvNNaR2xaWQheDYXKVynSKB
-         KtWcPmPuiY5G16Oj6DpsIurSNaG37x7GUTRGJyrxQxYUShNqzJDwBXAzKEdjX8ck2enF
-         a5weba43Cq35XOipAbz9LnUUOvosZnP4HeTbaYZnFjzzSTrBKDzoaqMIx6tiaNFxM0gy
-         OcyfP0L0K+4NGz8uBoja9rJ6eaVIOKuw5ltrDLP7xtH96uPu+aTQlkMwJ88BmXqtrCp4
-         dJ2FtRIhQHdrup/7LGwNKRWOH+aGqvDTudOFmoil+Z/QKrtJklnMO2k3yaU61yo8ox4F
-         HDgg==
-X-Forwarded-Encrypted: i=1; AJvYcCVB7qOTb6454jVkiUzkT9tvwMNz7fj0VoybwG21oEgVTNH4qnO5qbUsVxWq/u9FFYkJUSZBZC842P4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyyBQ24QZCeUt1VarBg5jQVf7QFuFL312/iO7N7j3dufkBU07Wm
-	Mfx5bv7BBhyCe9/HGAdmg5P8/NvdRR//hydXMZeMNeB5PKhXtj7ST7MeyC8p0E47q8PTq/nTMmr
-	y5DbwNEpJoZ6VP1zaEbU72Jeomx+7ujYzVeXB
-X-Google-Smtp-Source: AGHT+IHyiblg8oxR6h2eIw4lJCDNv5/eXNMd6VvHXK6XtRQlmFUm646Al0OG/Iev8IhnoBSvJkXvDLMUCNp608Z1PPE=
-X-Received: by 2002:a05:6402:354e:b0:5c2:106b:7191 with SMTP id
- 4fb4d7f45d1cf-5c2106b7411mr511440a12.17.1724786446231; Tue, 27 Aug 2024
- 12:20:46 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1724787345; x=1725392145;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rFPAN19RA1hvKHrQkmp/NKYMnPJaVA3/YimxO7ZXHeE=;
+        b=npSuFjW1RtFXn+yQtw55+lsLd1vbyqvYIFrx95yX1NWznf3Tdms9tUVmYneEXfobzd
+         NO7hU0DimC4Fqd8IAuoRHtespZ95Wpc96uQLs3Hi24cs45VQJ8TV144OBYcJ3xkwP4ae
+         MOnNOEVYagBjX1+NuIdHiK7McmJfJwuf8D5F/8ljUoH4D5DWj1TvwyxsNHegELC4fM+h
+         5LEofVFJY9ECTWogsWh6e9aMX6kLDpY/fWJwNARNntH7+9oGaKzfOi41GggFP9+Og/lO
+         +MUgKIeOVfsNfSPkY1liEEGFpJ2AzFRbSWG6PFpk+0zgtEXJ8vRJKbKJWA02/46iEmPS
+         Jbuw==
+X-Forwarded-Encrypted: i=1; AJvYcCVh/S6YFP2Kym5d7w9n/yRZ1PwUemupYgsdxP72xA9GYWeAoNhLNEx9BwVCNaU+L0ZS5JC3XvouFfc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwNhMQ/59saodhXRhJ4dj+K/WJeWe7CVXphasW1snDvMUEXvOOe
+	q5nUfO3+tiVpQENCsA54SfRsOjVcnkZ+G9QV2t3xQuS/h9doqGjVY+9Pp7rUZ1A=
+X-Google-Smtp-Source: AGHT+IGCXPfghiRA1yNRvhmr+OG3R75Wa/zdLSP/YBTbifITsP8BB2EzUmqixr8vg7m1QBie0YNejQ==
+X-Received: by 2002:a17:903:22cb:b0:203:a034:c2e with SMTP id d9443c01a7336-203a0340c9cmr162046725ad.21.1724787344884;
+        Tue, 27 Aug 2024 12:35:44 -0700 (PDT)
+Received: from ghost ([50.145.13.30])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20385581165sm87277375ad.88.2024.08.27.12.35.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Aug 2024 12:35:44 -0700 (PDT)
+Date: Tue, 27 Aug 2024 12:35:41 -0700
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Yangyu Chen <cyy@cyyself.name>
+Cc: Palmer Dabbelt <palmer@rivosinc.com>, linux-riscv@lists.infradead.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Shuah Khan <shuah@kernel.org>,
+	Levi Zim <rsworktech@outlook.com>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>, linux-doc@vger.kernel.org,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v3 0/3] RISC-V: mm: do not treat hint addr on mmap as the
+ upper bound to search
+Message-ID: <Zs4qjejI2PzLrI5M@ghost>
+References: <tencent_108260B43689E30AAE5D0C7C085AA31ADF06@qq.com>
+ <mhng-a7dcdfb5-0232-4ffb-8a20-13e564904da1@palmer-ri-x1c9a>
+ <Zs4BhmB4xOF4LOH9@ghost>
+ <tencent_595F628A43601A53F8E00461B5FB1CEB7009@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240822204120.3634-1-wei.huang2@amd.com> <20240822204120.3634-12-wei.huang2@amd.com>
- <20240826132213.4c8039c0@kernel.org> <ZszsBNC8HhCfFnhL@C02YVCJELVCG>
- <20240826154912.6a85e654@kernel.org> <Zs3ny988Yk1LJeEY@C02YVCJELVCG> <20240827120544.383a1eef@kernel.org>
-In-Reply-To: <20240827120544.383a1eef@kernel.org>
-From: Michael Chan <michael.chan@broadcom.com>
-Date: Tue, 27 Aug 2024 12:20:34 -0700
-Message-ID: <CACKFLikctGq7Mg-7htmj=FUKcTXhaHsujJ32VCKnwDpKqNVv0A@mail.gmail.com>
-Subject: Re: [PATCH V4 11/12] bnxt_en: Add TPH support in BNXT driver
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Andy Gospodarek <andrew.gospodarek@broadcom.com>, Wei Huang <wei.huang2@amd.com>, 
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
-	Jonathan.Cameron@huawei.com, helgaas@kernel.org, corbet@lwn.net, 
-	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com, 
-	alex.williamson@redhat.com, ajit.khaparde@broadcom.com, 
-	somnath.kotur@broadcom.com, manoj.panicker2@amd.com, Eric.VanTassell@amd.com, 
-	vadim.fedorenko@linux.dev, horms@kernel.org, bagasdotme@gmail.com, 
-	bhelgaas@google.com, lukas@wunner.de, paul.e.luse@intel.com, 
-	jing2.liu@intel.com
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="00000000000079b8cf0620af2395"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_595F628A43601A53F8E00461B5FB1CEB7009@qq.com>
 
---00000000000079b8cf0620af2395
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, Aug 28, 2024 at 02:04:29AM +0800, Yangyu Chen wrote:
+> 
+> 
+> > On Aug 28, 2024, at 00:40, Charlie Jenkins <charlie@rivosinc.com> wrote:
+> > 
+> > On Tue, Aug 27, 2024 at 09:33:11AM -0700, Palmer Dabbelt wrote:
+> >> On Tue, 27 Aug 2024 01:05:15 PDT (-0700), cyy@cyyself.name wrote:
+> >>> Previous patch series[1][2] changes a mmap behavior that treats the hint
+> >>> address as the upper bound of the mmap address range. The motivation of the
+> >>> previous patch series is that some user space software may assume 48-bit
+> >>> address space and use higher bits to encode some information, which may
+> >>> collide with large virtual address space mmap may return. However, to make
+> >>> sv48 by default, we don't need to change the meaning of the hint address on
+> >>> mmap as the upper bound of the mmap address range. This behavior breaks
+> >>> some user space software like Chromium that gets ENOMEM error when the hint
+> >>> address + size is not big enough, as specified in [3].
+> >>> 
+> >>> Other ISAs with larger than 48-bit virtual address space like x86, arm64,
+> >>> and powerpc do not have this special mmap behavior on hint address. They
+> >>> all just make 48-bit / 47-bit virtual address space by default, and if a
+> >>> user space software wants to large virtual address space, it only need to
+> >>> specify a hint address larger than 48-bit / 47-bit.
+> >>> 
+> >>> Thus, this patch series change mmap to use sv48 by default but does not
+> >>> treat the hint address as the upper bound of the mmap address range. After
+> >>> this patch, the behavior of mmap will align with existing behavior on other
+> >>> ISAs with larger than 48-bit virtual address space like x86, arm64, and
+> >>> powerpc. The user space software will no longer need to rewrite their code
+> >>> to fit with this special mmap behavior only on RISC-V.
+> >> 
+> >> So it actually looks like we just screwed up the original version of this:
+> >> the reason we went with the more complicated address splits were than we
+> >> actually started with a defacto 39-bit page table uABI (ie 38-bit user VAs),
+> >> and moving to even 48-bit page tables (ie, 47-bit user VAs) broke users
+> >> (here's an ASAN bug, for example:
+> >> https://github.com/google/android-riscv64/issues/64).
+> >> 
+> >> Unless I'm missing something, though, the code doesn't actually do that.  I
+> >> remember having that discussion at some point, but I must have forgotten to
+> >> make sure it worked.  As far as I can tell we've just moved to the 48-bit
+> >> VAs by default, which breaks the whole point of doing the compatibilty
+> >> stuff.  Probably a good sign I need to pay more attention to this stuff.
+> >> 
+> >> So I'm not really sure what to do here: we can just copy the arm64 behavior
+> >> at tell the other users that's just how things work, but then we're just
+> >> pushing around breakages.  At a certain point all we can really do with this
+> >> hint stuff is push around problems, though, and at least if we copy arm64
+> >> then most of those problems get reported as bugs for us.
+> > 
+> > Relying on the hint address in any capacity will push around breakages
+> > is my perspective as well. I messed this up from the start. I believe
+> > the only way to have consistent behavior is to mark mmap relying on the
+> > hint address as a bug, and only rely on the hint address if a flag
+> > defines the behavior.
+> > 
+> 
+> I agree with this. However, since we already have this behavior on
+> x86 and aarch64 for quite a long time, to prevent breaking userspace,
+> I think we can use this patch and then add a flag like MAP_VA_FULL
+> to enable full va address in the future.
 
-On Tue, Aug 27, 2024 at 12:05=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> w=
-rote:
+Since riscv is not x86 or aarch64, we should be able to make decisions
+that are best for riscv regardless of if it is identical to how it is
+implemented in x86 or aarch64.
 
-> Not holding because API may not work, holding because (I thought)
-> API isn't in place at all. If bnxt_queue_stop/bnxt_queue_start are in
-> linux-pci please rewrite the patch to use those and then all clear
-> from my PoV.
+- Charlie
 
-To be clear, the API is available in the linux-pci tree but the recent
-patch from David to check for proper FW support is only in net-next:
-
-97cbf3d0accc ("bnxt_en: only set dev->queue_mgmt_ops if supported by FW")
-
-So we'll need to add this check for TPH also once the 2 trees are merged.
-
---00000000000079b8cf0620af2395
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-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
-OnaLEot1MoQO7BIe5S9H4AcCEXXcrJJiAtMCl47ARpyHmvQFQFFTrHgUYEd9V+9bOzY7MBIGSV1N
-/JfsT1sZw6HT0lJkSQefhPGpBniAob62DJP3qr11tu8CAwEAAaOCAdowggHWMA4GA1UdDwEB/wQE
-AwIFoDCBowYIKwYBBQUHAQEEgZYwgZMwTgYIKwYBBQUHMAKGQmh0dHA6Ly9zZWN1cmUuZ2xvYmFs
-c2lnbi5jb20vY2FjZXJ0L2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNydDBBBggrBgEFBQcw
-AYY1aHR0cDovL29jc3AuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAw
-TQYDVR0gBEYwRDBCBgorBgEEAaAyASgKMDQwMgYIKwYBBQUHAgEWJmh0dHBzOi8vd3d3Lmdsb2Jh
-bHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwSQYDVR0fBEIwQDA+oDygOoY4aHR0cDov
-L2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcmwwJAYDVR0R
-BB0wG4EZbWljaGFlbC5jaGFuQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNV
-HSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQU31rAyTdZweIF0tJTFYwfOv2w
-L4QwDQYJKoZIhvcNAQELBQADggEBACcuyaGmk0NSZ7Kio7O7WSZ0j0f9xXcBnLbJvQXFYM7JI5uS
-kw5ozATEN5gfmNIe0AHzqwoYjAf3x8Dv2w7HgyrxWdpjTKQFv5jojxa3A5LVuM8mhPGZfR/L5jSk
-5xc3llsKqrWI4ov4JyW79p0E99gfPA6Waixoavxvv1CZBQ4Stu7N660kTu9sJrACf20E+hdKLoiU
-hd5wiQXo9B2ncm5P3jFLYLBmPltIn/uzdiYpFj+E9kS9XYDd+boBZhN1Vh0296zLQZobLfKFzClo
-E6IFyTTANonrXvCRgodKS+QJEH8Syu2jSKe023aVemkuZjzvPK7o9iU7BKkPG2pzLPgxggJtMIIC
-aQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQD
-EyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgxeQGjDntHGb2iaQkIw
-DQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIAckulXVqKaoPHIKj9Qaluh9u2hmZrAN
-ZSUYxykCIdSHMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI0MDgy
-NzE5MjA0NlowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCG
-SAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQC
-ATANBgkqhkiG9w0BAQEFAASCAQACqphtUml1ayKjEk6S7z0VHWEktD2jtpRoDkS3DlEQHKkeMiBf
-He/KE6LqJm29/yTsinBwvsXmd4MwwD+zrdeyTBWfTWBW6bpu+iRuFF2HWVGa4UdrDwcRpjWNNm5v
-AObwCdtxJ/CJ2NevwpRkUk4RJNR94N/3i/pR1ba1kZ7sFEgFpm7Wr2ieZm2L5S+3oPkJeg2roNph
-r8ZRMfJgfdqvZF13tTjL8hByQ77B6t2RAHJP0lk3TWxNDm8GJeoDtVjwugJA4suCeXc5NsQT42ts
-Ry8qurNecaAfWxhZMNiTsF8hbUIJEjDJhgT0QbFyjMltYA17Yv9hq/Q79zztlTvi
---00000000000079b8cf0620af2395--
+> 
+> Thanks,
+> Yangyu Chen
+> 
+> > There is an awkward window of releases that will have this "buggy"
+> > behavior. However, since the mmap changes introduced a variety of
+> > userspace bugs it seems acceptable to revert to the previous behavior
+> > and to create a consistent path forward.
+> > 
+> > - Charlie
+> > 
+> >> 
+> >>> Note: Charlie also created another series [4] to completely remove the
+> >>> arch_get_mmap_end and arch_get_mmap_base behavior based on the hint address
+> >>> and size. However, this will cause programs like Go and Java, which need to
+> >>> store information in the higher bits of the pointer, to fail on Sv57
+> >>> machines.
+> >>> 
+> >>> Changes in v3:
+> >>> - Rebase to newest master
+> >>> - Changes some information in cover letter after patchset [2]
+> >>> - Use patch [5] to patch selftests
+> >>> - Link to v2: https://lore.kernel.org/linux-riscv/tencent_B2D0435BC011135736262764B511994F4805@qq.com/
+> >>> 
+> >>> Changes in v2:
+> >>> - correct arch_get_mmap_end and arch_get_mmap_base
+> >>> - Add description in documentation about mmap behavior on kernel v6.6-6.7.
+> >>> - Improve commit message and cover letter
+> >>> - Rebase to newest riscv/for-next branch
+> >>> - Link to v1: https://lore.kernel.org/linux-riscv/tencent_F3B3B5AB1C9D704763CA423E1A41F8BE0509@qq.com/
+> >>> 
+> >>> [1] https://lore.kernel.org/linux-riscv/20230809232218.849726-1-charlie@rivosinc.com/
+> >>> [2] https://lore.kernel.org/linux-riscv/20240130-use_mmap_hint_address-v3-0-8a655cfa8bcb@rivosinc.com/
+> >>> [3] https://lore.kernel.org/linux-riscv/MEYP282MB2312A08FF95D44014AB78411C68D2@MEYP282MB2312.AUSP282.PROD.OUTLOOK.COM/
+> >>> [4] https://lore.kernel.org/linux-riscv/20240826-riscv_mmap-v1-0-cd8962afe47f@rivosinc.com/
+> >>> [5] https://lore.kernel.org/linux-riscv/20240826-riscv_mmap-v1-2-cd8962afe47f@rivosinc.com/
+> >>> 
+> >>> Charlie Jenkins (1):
+> >>>  riscv: selftests: Remove mmap hint address checks
+> >>> 
+> >>> Yangyu Chen (2):
+> >>>  RISC-V: mm: not use hint addr as upper bound
+> >>>  Documentation: riscv: correct sv57 kernel behavior
+> >>> 
+> >>> Documentation/arch/riscv/vm-layout.rst        | 43 ++++++++----
+> >>> arch/riscv/include/asm/processor.h            | 20 ++----
+> >>> .../selftests/riscv/mm/mmap_bottomup.c        |  2 -
+> >>> .../testing/selftests/riscv/mm/mmap_default.c |  2 -
+> >>> tools/testing/selftests/riscv/mm/mmap_test.h  | 67 -------------------
+> >>> 5 files changed, 36 insertions(+), 98 deletions(-)
+> 
+> 
