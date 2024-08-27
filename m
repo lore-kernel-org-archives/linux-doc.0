@@ -1,36 +1,36 @@
 Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74AC013B293;
-	Tue, 27 Aug 2024 09:01:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA93919752C;
+	Tue, 27 Aug 2024 09:13:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724749321; cv=none; b=ewcLZPYTTDHu4KMP/VbB0HBwkr1xIKhmgqBL0eWRIScLWbhbLCguak8rD35iWWd63MvMIoEu1aw7Wgf2vOJ738TZuMcQe2cEhS7d2Rp187+/90Ge3i1AKPko3QDj8v8q6AB6HtoIHZn5T62PzZUPCDr9bdj2xkxtu+AQ6gR5lQc=
+	t=1724750039; cv=none; b=N7hY0uIHk/EZkQwueMGxMVBBGpXhpdq+XEOCavgBLlJljs+6tdYMxwbbd6dHnTVNfnBbOAmsz5Zf9v7KoaVY02ZtmDlUGCcWPChxk+avSoeZjd8ue2r36IxNDXkXtF+rDe0vhd5iCLeZhdTN61BDaLhydp0fdZMGQ+phmPjj8bQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724749321; c=relaxed/simple;
-	bh=ZLpYLaolmOE6fOikl7lbht2tvgu8R0+s66V2JnVzJuU=;
+	s=arc-20240116; t=1724750039; c=relaxed/simple;
+	bh=DcVSrrjynKbRxXS0XwiX+7IfWWMNyF+0fi4dKQ+Xsqg=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rTKFYCOnrtQ2NVqazTfXjxPXzGS0laJwR5t64OzHmgF9v+RHy4eXuHswuwUFfOwUI2BTndpKrhJuwIpHz14Ckiaa0uGvZZa2pHVUx+Cqnr8O8B7N0aT3yWfppcRpK2YMSVe35Cvo4yzdAjOWY/x25CjPZiyTvkRjipTiCIaL13M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JW9LPz1N; arc=none smtp.client-ip=217.70.183.198
+	 MIME-Version:Content-Type; b=DyLUZUi+tQsTZSxyPVHEimUFySYdmi1vEl4/+WOrZBuToSW1coN96hiZnu49Fm3XV8mqeaz912vHr/93fYLyH6bbcu/2r55EWIGwXjJ8I863mICPgq/4bwOuX2PItvyVFMjn6f93BPEqa3c0VGgq/8VNTP8CEbrSnWKZ93UAPso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=NlQ+zAP0; arc=none smtp.client-ip=217.70.183.198
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JW9LPz1N"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id DC28DC0009;
-	Tue, 27 Aug 2024 09:01:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="NlQ+zAP0"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 77BC3C0006;
+	Tue, 27 Aug 2024 09:13:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1724749310;
+	t=1724750035;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=70TA7iyrRtSGBBWX4Dp+NsHo/WZwGM3JN2PcpntFqI0=;
-	b=JW9LPz1NOhWgP2fitZ1XuRqyyynBTm6NmfDTsNwmxk1TcqrSuu1tdVV2VZ5D+ciIzKhDHN
-	H1Is6pmShviU7xPv3Pxr2hSfHs++SAD1bRABjyhkF3EJSAUJMQAZVYx/mxcxSbLJvSKo14
-	he0o+TZok4LvVh8WCqAEusikqrxAQh1HlhHzSMbXrhmtGoZndzW6RRMoOUe8zZcXphhUPK
-	oQFZvRN9UkC+YxdrMgSa6BteTLUCASFzjuUJ4nGnDg/kxTepIm0GTTvbaZNZE5KNV8icGr
-	4d2HG9zbDit7huVxUO+Nc8syopyLJwsND1ViPF3eFe6XjZGkG/Wxul2ywquR+w==
-Date: Tue, 27 Aug 2024 11:01:47 +0200
+	bh=sgDeJKYsQBbTYnMqbAF25gViBY/ePcmfyH1BkbpcCUw=;
+	b=NlQ+zAP0bIheb4MUSFf/XrzLm7aBRVV4cYsW8JL4GHMRWP5WVOvTLppgcFNL1lB2KBzxCx
+	yNR/mXljzUJMzUXPAAIGM8QpQG3afO87mMAiYcgWIv7Y3UcFHNy9tnBjQlmJ9Zl0l7jJZj
+	7eE/6o7Q1br/a7I4/4HCz1zekvBCez3cSx48TuCL83iESpFNxFS2hKGK20jMbdR4bgUnIY
+	VKg7mWy/1MYp9AiITO67gEKg2zSUOP3i491tZIX81cdq9iJQh/6xrTUtGOzIjq4ajAqOhR
+	Fv0WWp7Xh7GNaBHaXEXg5KZV7kdd+sjslH0J5ayIgEgV80ZUROVQB95DWK4dog==
+Date: Tue, 27 Aug 2024 11:13:53 +0200
 From: Miquel Raynal <miquel.raynal@bootlin.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
@@ -39,11 +39,12 @@ Cc: Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
  <john.ogness@linutronix.de>, Andrew Morton <akpm@linux-foundation.org>,
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] hexdump: Allow skipping identical lines
-Message-ID: <20240827110147.29a7481a@xps-13>
-In-Reply-To: <Zsy8JPaiGknBypw9@smile.fi.intel.com>
+Subject: Re: [PATCH 2/2] hexdump: Allow skipping identical lines
+Message-ID: <20240827111353.0341c571@xps-13>
+In-Reply-To: <Zsy86HZ7uew9-Ef6@smile.fi.intel.com>
 References: <20240826162416.74501-1-miquel.raynal@bootlin.com>
-	<Zsy8JPaiGknBypw9@smile.fi.intel.com>
+	<20240826162416.74501-3-miquel.raynal@bootlin.com>
+	<Zsy86HZ7uew9-Ef6@smile.fi.intel.com>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
@@ -58,48 +59,80 @@ X-GND-Sasl: miquel.raynal@bootlin.com
 
 Hi Andy,
 
-Thanks for your feedback.
-
-andriy.shevchenko@linux.intel.com wrote on Mon, 26 Aug 2024 20:32:20
+andriy.shevchenko@linux.intel.com wrote on Mon, 26 Aug 2024 20:35:36
 +0300:
 
-> On Mon, Aug 26, 2024 at 06:24:14PM +0200, Miquel Raynal wrote:
-> > Hello!
+> On Mon, Aug 26, 2024 at 06:24:16PM +0200, Miquel Raynal wrote:
+> > When dumping long buffers (especially for debug purposes) it may be very
+> > convenient to sometimes avoid spitting all the lines of the buffer if
+> > the lines are identical. Typically on embedded devices, the console
+> > would be wired to a UART running at 115200 bauds, which makes the dumps
+> > very (very) slow. In this case, having a flag to avoid printing
+> > duplicated lines is handy.
 > >=20
-> > While working on NAND issues, I used print_hex_dump() a lot to compare
-> > data. But I am mostly working on embedded systems where the kernel
-> > messages go through a serial console. Sometimes network support is an
-> > option, sometimes not. Anyway, I often print buffers both in kernel
-> > space and user space to compare them, and they may be full of 0's or
-> > 1's, which means lines are repeated a lot in the output and this is slow
-> > *and* hard to compare.
+> > Example of a made up repetitive output:
+> > 0f 53 63 47 56 55 78 7a aa b7 8c ff ff ff ff ff
+> > ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+> > ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+> > ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+> > ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+> > ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+> > ff ff ff ff ff ff ff ff ff ff ff ff 01 2a 39 eb
 > >=20
-> > I initially hacked into lib/hexdump.c for my own purpose and just
-> > discarded all the other users, but it felt like this might be a useful
-> > feature for others and decided to make it a public patch.
-> >=20
-> > * First patch changes the "ascii" parameter into a "flags" variable now
-> >   accepting the value: DUMP_FLAG_ASCII.
-> > * Second patch adds a new flag to skip the identical lines, because this
-> >   must be an opt-in parameter, I guess. =20
+> > Same but with the flag enabled:
+> > 0f 53 63 47 56 55 78 7a aa b7 8c ff ff ff ff ff
+> > ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+> > *
+> > ff ff ff ff ff ff ff ff ff ff ff ff 01 2a 39 eb =20
 >=20
-> This is quite a long to look into, can you please add a summary here which
-> includes (but not limited to) the following:
-> 1) examples before and after (ah, I see you have that in the patch 2,
->    but would be still good to have in the cover letter);
+> The problem here is that without offset we can't see how many lines were
+> skipped.
 
-No problem, I can make this part of the cover letter as well.
+Yes, this is intended, I prefer to mimic userspace tools behavior.
 
-> 2) excerpts of the code for before and after (since the type of the ascii
->    parameter had been changed).
+> Two ways to solve (that come to my mind immediately, maybe more and bette=
+r):
+> 1) make sure that new flag implies or expects (otherwise BUILD_BUG_ON() o=
+r so)
+>   the OFFSET to be set;
 
-In patch 1/2 there is the Coccinelle script, but I must admit the
-syntax is not super clear, so I will improve this by showing the two
-main user cases with a proper human-readable diff.
+It depends what you are looking for. When I print a 2kiB page and want
+to compare the output with some other dump, I will immediately see if
+there are more or less skipped lines in the diff. When I want to just
+grab the UBI header and skip all the ff's following while asking a full
+buffer to be dumped (for kernel development reasons), the amount of
+skipped lines is not of interest to me either. Of course this is my own
+use case, but I guess there are others.
 
-> Also here is the formal NAK till the series gains the test cases.
+However this is true it is sometimes also useful to know where we are in
+the dump, but the hexdump helpers already include all the interesting
+bits for that through the 'prefix_type' parameter :
 
-What test cases are you talking about?
+enum {
+	DUMP_PREFIX_NONE,
+	DUMP_PREFIX_ADDRESS,
+	DUMP_PREFIX_OFFSET
+};
+
+See https://elixir.bootlin.com/linux/v4.20.17/source/include/linux/printk.h
+
+I anyway understand the request and will change the example with
+something more common, probably, by using one of the two other
+prefixes.
+
+> 2) [OR] add number of lines skipped in that * line.
+
+As mentioned above, this is not the intended output.
+
+> Personally I prefer the 1) as I think that you tried to follow the existi=
+ng
+> format of user space tools and there is a chance that there are other too=
+ls or
+> scripts that parse the dump to restore the binary contents.
+
+Exactly. Also, just simply using the diff command over two dumps
+without being polluted by any additions on one side or the other is very
+convenient.
 
 Thanks,
 Miqu=C3=A8l
