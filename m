@@ -1,86 +1,74 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6D4C1C2DD1
-	for <linux-doc@vger.kernel.org>; Tue, 27 Aug 2024 13:38:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail.larkspur.one (mail.larkspur.one [45.132.244.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6AA19D076;
+	Tue, 27 Aug 2024 13:40:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.132.244.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724765896; cv=none; b=gWA6625zEEDHgRMfPYJSgY2UU7UZmnNiDaC5KlPQ5IKDY06w7iUk87eF9RjliffLEJgZXaPGp2lodpgi+xeS9rE5tA+DQP19bCPAsNOKMs5XdpHcspLdttf18aANl+ZQjqFwkfktTWWUuxzpfIXUk6o9PqNtEJNSSbhjIR54/xo=
+	t=1724766007; cv=none; b=XZpmP9Og6EBiR4xpMapLJ8T1yLdhIfQJ30t9IPRd0J12buH15XutmPqoFT/xVV9MO7Ywvjc2OCjnOTzWZ5qADtdICOljecXwpXBiOMSV1VOmM6qTbMVde7ohP5AYlfOGCzxbF74ulplw2A+xiZosvitf8l2cYRT0K9/EzeOAJTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724765896; c=relaxed/simple;
-	bh=ERLthtgB5hPtkdxFxq7l3sdLVXMzX7gZyoAKnGd3MU8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZHZ5nhTPAclPB8Bav1Mw6DqRbzOG/qJuo8OSfENd2QP0UzaYzu2I22MzvSnmixMql+7qhcQ7VaxHqTkaQAHyeqLvF5eb4tXyP06CCHGAdYKGxopyZ7nIk0GjQDPP6Frv70KLoQrl4yMuWKphHfYgGzvs/bDtiCT0GPKoO1y72Cw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4E200DA7
-	for <linux-doc@vger.kernel.org>; Tue, 27 Aug 2024 06:38:40 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E11893F66E
-	for <linux-doc@vger.kernel.org>; Tue, 27 Aug 2024 06:38:13 -0700 (PDT)
-Date: Tue, 27 Aug 2024 14:38:04 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Aryabhatta Dey <aryabhattadey35@gmail.com>
-Cc: airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, tzimmermann@suse.de, corbet@lwn.net,
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation/gpu: Fix typo in
- Documentation/gpu/komeda-kms.rst
-Message-ID: <Zs3WvKCbvqCrIO0G@e110455-lin.cambridge.arm.com>
-References: <l5wzytcamcc43eadaquqbrfqilq6ajfnnseh37c77eceamtw35@hhtdipi4h22c>
+	s=arc-20240116; t=1724766007; c=relaxed/simple;
+	bh=+C1+fgbMw/euXjSrNWrrXTv/5xMsGTkbdtcYL89zMfY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tcCbvosO9izRzFjsuP6P4/1bZ0Q0boUoO8BqW4QYUAtQfANm9qWzY85vSgi2nDMi7tB1I3XXMmnPUsBBqSO0nhGKIF5b65MR2a+pddX4egD0OKV/r62+s1iJJSkqbrnWbWTMADYr2ririx0f2imksbiUibblNRjGa+4CplGcq7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=muxel.dev; spf=pass smtp.mailfrom=muxel.dev; dkim=pass (2048-bit key) header.d=muxel.dev header.i=@muxel.dev header.b=Gear0AYt; arc=none smtp.client-ip=45.132.244.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=muxel.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=muxel.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=muxel.dev header.i=@muxel.dev header.b="Gear0AYt"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D6FAE29256;
+	Tue, 27 Aug 2024 15:33:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=muxel.dev; s=dkim;
+	t=1724765603; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=8lFMmSd3p/v694tPfIzHSO9zh7Sd8dCwn2X3I4gCA04=;
+	b=Gear0AYtVrr9EGpr7TCJGcaSN2aZJYMzN0Gb0pATHJ72f6azewUhN0e5YkFhpMR6nwob2k
+	dqIYG29JsavZNINjhfkydHNU6MnC8OC0CbJjEcv52rqyZgq0N8mL0sokA52QQ95xoRVIfV
+	ENqObpVHWAvW05bF+rQSeukgCeUUwCKkVeiuBjiv4dlwvfPoFbs/Fs/foEm6/R/ETIadlT
+	hmpPI+lchJgy5kmokhgKQ/A2CW+59cFaaFYOH2LmPBE9ZZqPYEM8U0zjVAt/MlLB16EeiO
+	lgrnYUAxthYq9pl2q8G9azKx8xKarKGVWIH7WkofGXUpf4sSNVI+iEvuy9L7OA==
+From: Sebastian Muxel <sebastian@muxel.dev>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sebastian Muxel <sebastian@muxel.dev>
+Subject: [PATCH] scripts: sphinx-pre-install: remove unnecessary double check for $cur_version
+Date: Tue, 27 Aug 2024 15:32:24 +0200
+Message-ID: <20240827133224.160776-1-sebastian@muxel.dev>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <l5wzytcamcc43eadaquqbrfqilq6ajfnnseh37c77eceamtw35@hhtdipi4h22c>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Tue, Aug 27, 2024 at 06:48:52PM +0530, Aryabhatta Dey wrote:
-> Change 'indenpendently' to 'independently'.
-> 
-> Signed-off-by: Aryabhatta Dey <aryabhattadey35@gmail.com>
+$cur_version is currently being tested twice with the first test
+resulting in an unhelpful "$sphinx returned an error", not continuing to
+the more helpful "$sphinx didn't return its version".
 
-Acked-by: Liviu Dudau <liviu.dudau@arm.com>
+This patch removes the first test to return the more useful message.
 
-Thanks for the patch!
+Fixes: a8b380c379ef ("scripts: sphinx-pre-install: only ask to activate valid venvs")
+Signed-off-by: Sebastian Muxel <sebastian@muxel.dev>
+---
+ scripts/sphinx-pre-install | 2 --
+ 1 file changed, 2 deletions(-)
 
-Jonathan, is that something you can pick up in your tree?
-
-Best regards,
-Liviu
-
-> ---
->  Documentation/gpu/komeda-kms.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/gpu/komeda-kms.rst b/Documentation/gpu/komeda-kms.rst
-> index 633a016563ae..eaea40eb725b 100644
-> --- a/Documentation/gpu/komeda-kms.rst
-> +++ b/Documentation/gpu/komeda-kms.rst
-> @@ -86,7 +86,7 @@ types of working mode:
->  -   Single display mode
->      Two pipelines work together to drive only one display output.
->  
-> -    On this mode, pipeline_B doesn't work indenpendently, but outputs its
-> +    On this mode, pipeline_B doesn't work independently, but outputs its
->      composition result into pipeline_A, and its pixel timing also derived from
->      pipeline_A.timing_ctrlr. The pipeline_B works just like a "slave" of
->      pipeline_A(master)
-> -- 
-> 2.46.0
-> 
-
+diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+index c1121f098542..ad9945ccb0cf 100755
+--- a/scripts/sphinx-pre-install
++++ b/scripts/sphinx-pre-install
+@@ -300,8 +300,6 @@ sub check_sphinx()
+ 	}
+ 
+ 	$cur_version = get_sphinx_version($sphinx);
+-	die ("$sphinx returned an error") if (!$cur_version);
+-
+ 	die "$sphinx didn't return its version" if (!$cur_version);
+ 
+ 	if ($cur_version lt $min_version) {
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+2.46.0
+
