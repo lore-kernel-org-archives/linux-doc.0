@@ -1,138 +1,70 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7B31A0B02;
-	Tue, 27 Aug 2024 12:08:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07531B3F21;
+	Tue, 27 Aug 2024 12:25:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724760515; cv=none; b=f59MXm5Qt2Jcdb8Y5QtbPyrWOYJSKtGN7KZrWuRLWY8UttKIKYqpO0MYNRLRMLYAGDDrWERtqYNHyjnjdsC7jgVM4kfHUec1185OilJ/XoO/wvAgfzfyiQoIKGQgSu5McUW5UuXrVfZD6anNFs1yc910/ZeFcggWUB6+YBByCcQ=
+	t=1724761505; cv=none; b=GokXcr9tyu9JedyTuAknNREMPAKCoPdLGuTTEpUUbctdBI+516QWjWLVXtCowLk2scII9HlatHzzYSXkCDKLOWCjHQim4VeeLKKmufB9Br2nGQMMYfaCdy469Sg0prmzbgyv4VTjtcrmiadjEjJWeOrK2/3xIDuGlsiwn62ofF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724760515; c=relaxed/simple;
-	bh=52M/8BWHhEzkUmRkv6Kdv6Vqv/i/kvJFaeCUvFN1u34=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GeSJZe/EajLB0Ix2Ios7srKtej3G+TgSk2IuH11R10WKOqaG6XcllaDgnmrxrBxV2dLUEJN2kt6Q080F4KFw4niSJ9Im9rU6y27ZA+delT1M8SKCRGg33mncuCMsa7/p/A2LPzqwiGbZRqE8Iu78lw6brhapFaSYbvBbKSLeMv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4WtR7c3s8Bz6DBfS;
-	Tue, 27 Aug 2024 20:05:16 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 3E3121400D4;
-	Tue, 27 Aug 2024 20:08:31 +0800 (CST)
-Received: from localhost (10.203.177.66) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 27 Aug
- 2024 13:08:30 +0100
-Date: Tue, 27 Aug 2024 13:08:29 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Fan Ni <nifan.cxl@gmail.com>
-CC: <ira.weiny@intel.com>, Dave Jiang <dave.jiang@intel.com>, Navneet Singh
-	<navneet.singh@intel.com>, Chris Mason <clm@fb.com>, Josef Bacik
-	<josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, Petr Mladek
-	<pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko
-	<andriy.shevchenko@linux.intel.com>, Rasmus Villemoes
-	<linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
-	Dan Williams <dan.j.williams@intel.com>, Davidlohr Bueso <dave@stgolabs.net>,
-	Alison Schofield <alison.schofield@intel.com>, Vishal Verma
-	<vishal.l.verma@intel.com>, <linux-btrfs@vger.kernel.org>,
-	<linux-cxl@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <nvdimm@lists.linux.dev>
-Subject: Re: [PATCH v3 18/25] cxl/extent: Process DCD events and realize
- region extents
-Message-ID: <20240827130829.00004660@Huawei.com>
-In-Reply-To: <Zsj_8IckEFpwmA5L@fan>
-References: <20240816-dcd-type2-upstream-v3-0-7c9b96cba6d7@intel.com>
-	<20240816-dcd-type2-upstream-v3-18-7c9b96cba6d7@intel.com>
-	<Zsj_8IckEFpwmA5L@fan>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1724761505; c=relaxed/simple;
+	bh=ibFELH6wnefwxqmKPLY/CFWmccSL2UNN83qpRzxLezI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MsgnoM4lv+iMS5lkzGsBJEZ7eJJoXYOMiW0QRxsSMB43VLmeQ+emWPaiHEf5v6wyEr9snk2YBBAGNo1UUSEJT5W3WyOf5tOLwkRs3AGBo9XqJ/cdQc1d5W+NjlM5VCKMpObZwF7gxT0ZAOVkumR52ZvzJVnaAmvF3gwI/u2Oo08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MHDMp0Zs; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MHDMp0Zs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32A3FC61047;
+	Tue, 27 Aug 2024 12:25:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724761505;
+	bh=ibFELH6wnefwxqmKPLY/CFWmccSL2UNN83qpRzxLezI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MHDMp0Zs/84W3n2xKjaRCFUmn7pMXCcxZmqzHIEEsZFoD4qv2OgB2rdPpNUTUtQ4l
+	 FVKgDPnwvNsyTja6FadTfNhI1CRmKezIZ+SVOq++Gmie8+XBsT0hSjxzzWhB9YXGJO
+	 YaeRD96UD5py7GYNPYW7xQTkDHH/aGfnQC6+YE1da0dVhOOokhrfrGiWp3EawHUIiN
+	 9Lkqluky0xoVcomrjkcQVRGmGkD8qgXOJc1JhWuSmdiOHRC2HpsmvrGwSBSWEjN3bH
+	 jFLF4csYk30tvCGcf5oT5ngr+9EuL3zjM/srmSpj7aEEBg6krZEm2cqN0w2d/tz/xF
+	 SISPZITH4x2dg==
+Date: Tue, 27 Aug 2024 13:24:59 +0100
+From: Will Deacon <will@kernel.org>
+To: Kuan-Ying Lee <kuan-ying.lee@canonical.com>
+Cc: Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+	Dave Young <dyoung@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	ardb@kernel.org
+Subject: Re: [PATCH] arm64/vmcore: Add pgtable_l5_enabled information in
+ vmcoreinfo
+Message-ID: <20240827122459.GA4679@willie-the-truck>
+References: <20240826065219.305963-1-kuan-ying.lee@canonical.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240826065219.305963-1-kuan-ying.lee@canonical.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Fri, 23 Aug 2024 14:32:32 -0700
-Fan Ni <nifan.cxl@gmail.com> wrote:
+On Mon, Aug 26, 2024 at 02:52:02PM +0800, Kuan-Ying Lee wrote:
+> Since arm64 supports 5-level page tables, we need to add this
+> information to vmcoreinfo to make debug tools know if 5-level
+> page table is enabled or not.
+> 
+> Missing this information will break the debug tool like crash [1].
+> 
+> [1] https://github.com/crash-utility/crash
+> 
+> Signed-off-by: Kuan-Ying Lee <kuan-ying.lee@canonical.com>
+> ---
+>  Documentation/admin-guide/kdump/vmcoreinfo.rst | 6 ++++++
+>  arch/arm64/kernel/vmcore_info.c                | 3 +++
+>  2 files changed, 9 insertions(+)
 
-> On Fri, Aug 16, 2024 at 09:44:26AM -0500, ira.weiny@intel.com wrote:
-> > From: Navneet Singh <navneet.singh@intel.com>
-> > 
-> > A dynamic capacity device (DCD) sends events to signal the host for
-> > changes in the availability of Dynamic Capacity (DC) memory.  These
-> > events contain extents describing a DPA range and meta data for memory
-> > to be added or removed.  Events may be sent from the device at any time.
-> > 
-> > Three types of events can be signaled, Add, Release, and Force Release.
-> > 
-> > On add, the host may accept or reject the memory being offered.  If no
-> > region exists, or the extent is invalid, the extent should be rejected.
-> > Add extent events may be grouped by a 'more' bit which indicates those
-> > extents should be processed as a group.
-> > 
-> > On remove, the host can delay the response until the host is safely not
-> > using the memory.  If no region exists the release can be sent
-> > immediately.  The host may also release extents (or partial extents) at
-> > any time.  Thus the 'more' bit grouping of release events is of less
-> > value and can be ignored in favor of sending multiple release capacity
-> > responses for groups of release events.
-> > 
-> > Force removal is intended as a mechanism between the FM and the device
-> > and intended only when the host is unresponsive, out of sync, or
-> > otherwise broken.  Purposely ignore force removal events.
-> > 
-> > Regions are made up of one or more devices which may be surfacing memory
-> > to the host.  Once all devices in a region have surfaced an extent the
-> > region can expose a corresponding extent for the user to consume.
-> > Without interleaving a device extent forms a 1:1 relationship with the
-> > region extent.  Immediately surface a region extent upon getting a
-> > device extent.
-> > 
-> > Per the specification the device is allowed to offer or remove extents
-> > at any time.  However, anticipated use cases can expect extents to be
-> > offered, accepted, and removed in well defined chunks.
-> > 
-> > Simplify extent tracking with the following restrictions.
-> > 
-> > 	1) Flag for removal any extent which overlaps a requested
-> > 	   release range.
-> > 	2) Refuse the offer of extents which overlap already accepted
-> > 	   memory ranges.
-> > 	3) Accept again a range which has already been accepted by the
-> > 	   host.  (It is likely the device has an error because it
-> > 	   should already know that this range was accepted.  But from
-> > 	   the host point of view it is safe to acknowledge that
-> > 	   acceptance again.)
-> > 
-> > Management of the region extent devices must be synchronized with
-> > potential uses of the memory within the DAX layer.  Create region extent
-> > devices as children of the cxl_dax_region device such that the DAX
-> > region driver can co-drive them and synchronize with the DAX layer.
-> > Synchronization and management is handled in a subsequent patch.
-> > 
-> > Process DCD events and create region devices.
-> > 
-> > Signed-off-by: Navneet Singh <navneet.singh@intel.com>
-> > Co-developed-by: Ira Weiny <ira.weiny@intel.com>
-> > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> >   
-> 
-> One minor change inline.
-Hi Fan,
+In which case, wouldn't you also want to know about pgtable_l4_enabled()?
 
-Crop please.  I scanned past it 3 times when scrolling without noticing
-what you'd actually commented on.
-
-> > +/* See CXL 3.0 8.2.9.2.1.5 */  
-> 
-> Update the reference to reflect CXL 3.1.
-> 
-> Fan
-> 
+Will
