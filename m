@@ -1,92 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C136D64A;
-	Tue, 27 Aug 2024 18:14:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE96770F1;
+	Tue, 27 Aug 2024 19:05:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724782469; cv=none; b=QeNUD1inJ9Q33iwUkMW9DtpD6ClhiCwUJ9gvuilOejns4jukWrTcerzu9lDkfP7xG9VLXM7+U/bVynVgHCWQppZUlUuPe7MX1q2vxu3+yGnt/WQiZveKqhd3d7GOQEfBNjUFsf6A7pdnN+hA53NXDv+6DznIl2I4NP9mzMLSzxI=
+	t=1724785547; cv=none; b=iObQOHPNyjk7o8jJGPZpLaNoLeXZqx0LVfFL7hiXhXTlDa+Zi1Vvji/nUxjFPk8yGJoaUAHBQKA7bvSj9Uvj+gtK2n7gQuec2B6K6JO1VQgYpkLUTg6RZISmjLyv/vJ/wcc1PnEqz0lQp/S2xBkt2QKc0/ndaLalOAs1vuuMjT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724782469; c=relaxed/simple;
-	bh=m0KhuixhE94LpmqoQsm4UAltH48GcF8i8IXdiG38ZPk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t4dRea0Q8M9HFDmc+xTpywqohdnbEW2O3XLj9X1bgrEQ1kk4L78aWE9NjMA80fHqmD811dFGq3VZMbZF8hlMzHXmc5A2p+gJNP3zISzkZlPqYWSpf9iIrrOzooiP7+2zZe501FWrtdja8eDUJWKyrnF/Z1e9lEc8+zB98Jjb8WU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NO9wZXRK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724785547; c=relaxed/simple;
+	bh=2/HpgshCK19xkX85wh1aiPA9KDp9vPJdMLlDAGfD1ls=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bGAu9Wtni98If+piFRKmd+jFK4KFWK2eC1bcuDGklXXAphk5VD6G0lLVXA0Z7dOHue+7vj5aJWWtoXtOsaO2+o8F6t5NeOt+o2gxaFBWJRl4n30SlXkjzGYi8C4ntPp/bDzL5TzZVi6c6CMhsbPxtQqT04VJv5sRp3OOsdY+UGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=doJMjLuw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NO9wZXRK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58B41C55DE1;
-	Tue, 27 Aug 2024 18:14:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="doJMjLuw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5C83C4AF1B;
+	Tue, 27 Aug 2024 19:05:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724782469;
-	bh=m0KhuixhE94LpmqoQsm4UAltH48GcF8i8IXdiG38ZPk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NO9wZXRK+c5+9o1RgEUXTMlPsLUkraQbJNjNWgnaiIsMVAj7HTDpigo1IKFqPjQSC
-	 72aYl4ts3jLiWhPoHr5B+0XONuilwh2rVswBam14Vp2U84t+uzxlVMX80qsuYTUwMd
-	 B03rCcpX2T0+wlO1mryM4OumGNDr3k3Oj8NO3Dc94a7lzqt6Vqdane7FRLa1U8xvd6
-	 QIqoXi5N9u8S8mhS9/gA5VAQP+xy8shOYuVsU9PJsQmze3QJq57qFJCtarRBhpyAya
-	 VTsHjCBQprW7P/+6l5j3vMcsypMc9D0XOKJ+pnsn9wnsg3+pJxbeIeF38mRpoBFf7O
-	 XwDFH+Dkzul/A==
-Date: Tue, 27 Aug 2024 11:14:26 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Ross Philipson <ross.philipson@oracle.com>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
-	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
-	linux-efi@vger.kernel.org, iommu@lists.linux-foundation.org,
-	dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
-	ardb@kernel.org, mjg59@srcf.ucam.org,
-	James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de,
-	jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
-	nivedita@alum.mit.edu, herbert@gondor.apana.org.au,
-	davem@davemloft.net, corbet@lwn.net, ebiederm@xmission.com,
-	dwmw2@infradead.org, baolu.lu@linux.intel.com,
-	kanth.ghatraju@oracle.com, andrew.cooper3@citrix.com,
-	trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH v9 06/19] x86: Add early SHA-1 support for Secure Launch
- early measurements
-Message-ID: <20240827181426.GC2049@sol.localdomain>
-References: <20240531010331.134441-1-ross.philipson@oracle.com>
- <20240531010331.134441-7-ross.philipson@oracle.com>
- <20240531021656.GA1502@sol.localdomain>
+	s=k20201202; t=1724785546;
+	bh=2/HpgshCK19xkX85wh1aiPA9KDp9vPJdMLlDAGfD1ls=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=doJMjLuwdHqPWCcV3WE6NSq7XUTWA2rkIlB8ZpgXVXjVC8xXmbqmjBGzbhDZQQLIT
+	 oIVBimeSLJ11Sa932CabKaAQUoaOYl3pS7cJ0WC3PbbRJ0f54QNzYYz8xHOVtnlJeU
+	 U8Ml6FDCn4OnF71bsjwM/mphrV3GXKuR7DcddxS4tb4y+4PmxxYnTfPwIVv5pAzGSG
+	 5xEdjMCv7uGOFx1RfdeaS0+8mhcP7c/HXzQP7jd81yFMCtsmIuqL0No0sef0D7zXhQ
+	 lK9hmCC2vol5DX8foaw6iA1nYlFwb9MVxdE7CzbmETs1afbKxAD2mWUDYrwn2lC27a
+	 yrkW2JAMtfISg==
+Date: Tue, 27 Aug 2024 12:05:44 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Andy Gospodarek <andrew.gospodarek@broadcom.com>
+Cc: Wei Huang <wei.huang2@amd.com>, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ netdev@vger.kernel.org, Jonathan.Cameron@huawei.com, helgaas@kernel.org,
+ corbet@lwn.net, davem@davemloft.net, edumazet@google.com,
+ pabeni@redhat.com, alex.williamson@redhat.com, michael.chan@broadcom.com,
+ ajit.khaparde@broadcom.com, somnath.kotur@broadcom.com,
+ manoj.panicker2@amd.com, Eric.VanTassell@amd.com,
+ vadim.fedorenko@linux.dev, horms@kernel.org, bagasdotme@gmail.com,
+ bhelgaas@google.com, lukas@wunner.de, paul.e.luse@intel.com,
+ jing2.liu@intel.com
+Subject: Re: [PATCH V4 11/12] bnxt_en: Add TPH support in BNXT driver
+Message-ID: <20240827120544.383a1eef@kernel.org>
+In-Reply-To: <Zs3ny988Yk1LJeEY@C02YVCJELVCG>
+References: <20240822204120.3634-1-wei.huang2@amd.com>
+	<20240822204120.3634-12-wei.huang2@amd.com>
+	<20240826132213.4c8039c0@kernel.org>
+	<ZszsBNC8HhCfFnhL@C02YVCJELVCG>
+	<20240826154912.6a85e654@kernel.org>
+	<Zs3ny988Yk1LJeEY@C02YVCJELVCG>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240531021656.GA1502@sol.localdomain>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 30, 2024 at 07:16:56PM -0700, Eric Biggers wrote:
-> On Thu, May 30, 2024 at 06:03:18PM -0700, Ross Philipson wrote:
-> > From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
-> > 
-> > For better or worse, Secure Launch needs SHA-1 and SHA-256. The
-> > choice of hashes used lie with the platform firmware, not with
-> > software, and is often outside of the users control.
-> > 
-> > Even if we'd prefer to use SHA-256-only, if firmware elected to start us
-> > with the SHA-1 and SHA-256 backs active, we still need SHA-1 to parse
-> > the TPM event log thus far, and deliberately cap the SHA-1 PCRs in order
-> > to safely use SHA-256 for everything else.
-> > 
-> > The SHA-1 code here has its origins in the code from the main kernel:
-> > 
-> > commit c4d5b9ffa31f ("crypto: sha1 - implement base layer for SHA-1")
-> > 
-> > A modified version of this code was introduced to the lib/crypto/sha1.c
-> > to bring it in line with the SHA-256 code and allow it to be pulled into the
-> > setup kernel in the same manner as SHA-256 is.
-> > 
-> > Signed-off-by: Daniel P. Smith <dpsmith@apertussolutions.com>
-> > Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
+On Tue, 27 Aug 2024 10:50:51 -0400 Andy Gospodarek wrote:
+> > The merge window is in 3 weeks or so, so this can wait.  
 > 
-> Thanks.  This explanation doesn't seem to have made it into the actual code or
-> documentation.  Can you please get it into a more permanent location?
+> Are you asking for the patch for this feature to include the queue
+> stop/start instead of this? 
 
-I see that a new version of the patchset was sent out but this suggestion was
-not taken.  Are you planning to address it?
+Yes, indeed.
 
-- Eric
+> I just checked linux-pci and it does have bnxt_queue_stop/bnxt_queue_start.
+>
+> > I'm worried we'll find out later that the current queue reset
+> > implementation in bnxt turns out to be insufficient. And we'll
+> > be stuck with yet another close/open in this driver.  
+> 
+> The queue reset _has_ to work.  We will ensure that it does and fix any
+> problems found.  Note that these have been under test already internally
+> and fixes are/will be posted to the list as they are made.  Holding this
+> patch because an API that it uses might not work seems odd.
+
+Not holding because API may not work, holding because (I thought) 
+API isn't in place at all. If bnxt_queue_stop/bnxt_queue_start are in
+linux-pci please rewrite the patch to use those and then all clear 
+from my PoV.
