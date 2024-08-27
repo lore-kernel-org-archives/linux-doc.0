@@ -1,144 +1,274 @@
-Received: from smtpcmd0987.aruba.it (smtpcmd0987.aruba.it [62.149.156.87])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB83A17BED8
-	for <linux-doc@vger.kernel.org>; Tue, 27 Aug 2024 13:12:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.149.156.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0EF1BD50A;
+	Tue, 27 Aug 2024 13:18:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724764350; cv=none; b=tD2IgBRoHXFI6ktsrunOFTKhg2bntpdKhMJjsk1dtTyr8PKPx7v9wkrJQ+Shejl7ESduESd3Ay+//z9srYV6m46fjjMWiT6cY/WAB4UxWeelOiingf5gAcybhyTMcGr52VNX4jwy/pGWRwH2Ko30Uf4/ZinzbXUI/9HDzgRgX+8=
+	t=1724764691; cv=none; b=lafksIWCYPON3LmhSKuMh5xUwOChyFein7CRE2azUMhVpUt28XFLA+a7/E9P2ekAPnn/ouMn4GQoi4S9tzG9osnE6mM87Gvd6qNb9AiohE4SZaNKSzL6I0nSvRfjVxnobqmuAblpZy+km3V8nnBivGtgZHY/8x3u4jTblQXe7s8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724764350; c=relaxed/simple;
-	bh=FZ9EdpASgQDQw2I7w/OIDjomodkMadaDVqA//AQdHFA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tHTos940h4EUCPk2vDvHNWl011QZZ3h3yttZ7U7gMt7Yt8cBXwWFZtUIl53FdO5C8tXDXCg7qxKGYesQ6Zeqq54RVY4My7IeKl5eTBenidHcEWdlKYjjxPK/jFfGzHDUqyDR25mVPZHUfhkEPyRbdB7234s/QpO33hBt3EoAuGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com; spf=pass smtp.mailfrom=enneenne.com; dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b=kePo+yvf; arc=none smtp.client-ip=62.149.156.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enneenne.com
+	s=arc-20240116; t=1724764691; c=relaxed/simple;
+	bh=RCzuKTFN/faQNgu04Bbp5FM+f12nyS0HtynHkBTLOXs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r/YxBPVwb1+JRgJQmarlGA9aVQ7DWKpNU1SS6mScz1P3XODN2AoWxZYtuNVrPfckiizjJ/zmxrLzOgKe1Uj6lTCB8kcUQMn1i8eC9dS2wxpIRYZDXB66PAvxd72iSJCf+7ACOGlGSDWjkn22vByE4olCsTF1Qi5aPX7QvsiU/jQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EhBKY6F9; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b="kePo+yvf"
-Received: from [192.168.1.58] ([79.0.204.227])
-	by Aruba Outgoing Smtp  with ESMTPSA
-	id ivwhsEWU7cvwVivwisevbv; Tue, 27 Aug 2024 15:09:17 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
-	t=1724764157; bh=FZ9EdpASgQDQw2I7w/OIDjomodkMadaDVqA//AQdHFA=;
-	h=Date:MIME-Version:Subject:To:From:Content-Type;
-	b=kePo+yvfR7O0OeidKzu+YE0VwBqglOYHxYZKz2+46VCsnQFlkeuWw/h+cuddvvHsK
-	 dqNFkY+sFcwUWhehKHPE9qVTQmDBXnvrD/ECEDSCDdr6IVr7SkCWXDTDi2nwJlT31f
-	 6yPUEmMkMbeOiP3acSdzi60OojvADiYFeK5N3EOG+XnZgG+aXAsrPsASip+PL3e/Cg
-	 xBq+txbCkKg7O8t81NyUedmSOINMV6aG+ViD9wifxz0afURneGneu7DHt4uwRgTO3t
-	 OAvkcLsrMNm8vCiq+2bsK34oeLc0osXVZnGq3Qujijgj+CyyJmq6wD7aBxlfM/fVSe
-	 newzoBzCuKhfA==
-Message-ID: <801c7a93-667b-4c23-9493-4cbe979847a2@enneenne.com>
-Date: Tue, 27 Aug 2024 15:09:15 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EhBKY6F9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724764689; x=1756300689;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RCzuKTFN/faQNgu04Bbp5FM+f12nyS0HtynHkBTLOXs=;
+  b=EhBKY6F9Qo5wv/1I9PpF3gcSzSb2WBdyY00Uv4hFz7fc0AC6T87rqS+t
+   7lxBtK6s4PvghQ3FNLD9UNfzkLXW5SgI5gN+sJrIvJKWoHfQ9cZW3Jwve
+   fLvx+aDj2Siy7zpvY/kBjIiuLkwmNHBvdeQJW25cXCbRFHKL9qN+dqfeo
+   iJzWHi2DLnXvW7aZ64/XBu1epRY63T6h6n3w8cMjnIzZhwB68cLUOpgBZ
+   Z2ooH2wlPdGDrwGUO6u3FwNAltgcUokGqZfl+nK0NNggisBdDpsgpaUfj
+   zzuY9oSTK8dXjAOZXq9r9cY+JryIUuKdNDHLIkDvR7LXw15vlFbjsYhfh
+   g==;
+X-CSE-ConnectionGUID: 41BgJiuERRW/pFsjCRiaXQ==
+X-CSE-MsgGUID: xPc++jevT7GeJZZfVrX9jg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="22832196"
+X-IronPort-AV: E=Sophos;i="6.10,180,1719903600"; 
+   d="scan'208";a="22832196"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 06:18:08 -0700
+X-CSE-ConnectionGUID: aWjBSD9HS0qNntGcBGBgkQ==
+X-CSE-MsgGUID: a54sve+dTjG+tvt3RMGuOg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,180,1719903600"; 
+   d="scan'208";a="100365065"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 06:18:03 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1siw59-00000002Guo-3fuh;
+	Tue, 27 Aug 2024 16:17:59 +0300
+Date: Tue, 27 Aug 2024 16:17:59 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Ira Weiny <ira.weiny@intel.com>
+Cc: Petr Mladek <pmladek@suse.com>, Dave Jiang <dave.jiang@intel.com>,
+	Fan Ni <fan.ni@samsung.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Navneet Singh <navneet.singh@intel.com>, Chris Mason <clm@fb.com>,
+	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	linux-btrfs@vger.kernel.org, linux-cxl@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	nvdimm@lists.linux.dev
+Subject: Re: [PATCH v3 02/25] printk: Add print format (%par) for struct range
+Message-ID: <Zs3SB48QdLmUEdzw@smile.fi.intel.com>
+References: <20240816-dcd-type2-upstream-v3-0-7c9b96cba6d7@intel.com>
+ <20240816-dcd-type2-upstream-v3-2-7c9b96cba6d7@intel.com>
+ <ZsSjdjzRSG87alk5@pathway.suse.cz>
+ <66c77b1c5c65c_1719d2940@iweiny-mobl.notmuch>
+ <Zsd_EctNZ80fuKMu@smile.fi.intel.com>
+ <ZsyB5rqhaZ-oRwny@pathway.suse.cz>
+ <Zsy6BbJiYqiXORGu@smile.fi.intel.com>
+ <66ccf10089b0_e0732294ef@iweiny-mobl.notmuch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 2/3] Documentation: driver-api: pps: Add Intel Timed
- I/O PPS generator
-To: Greg KH <gregkh@linuxfoundation.org>, subramanian.mohan@intel.com
-Cc: tglx@linutronix.de, corbet@lwn.net, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, andriy.shevchenko@linux.intel.com,
- eddie.dong@intel.com, christopher.s.hall@intel.com, pandith.n@intel.com,
- thejesh.reddy.t.r@intel.com, david.zage@intel.com,
- srinivasan.chinnadurai@intel.com
-References: <20240823070109.27815-1-subramanian.mohan@intel.com>
- <20240823070109.27815-3-subramanian.mohan@intel.com>
- <2024082456-kitchen-astride-7892@gregkh>
-From: Rodolfo Giometti <giometti@enneenne.com>
-Content-Language: en-US
-In-Reply-To: <2024082456-kitchen-astride-7892@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfCxSOsKTWK/QqMUreYQRbcEbpjB4JvIEZ8LKm8HLFEP8QYO+CiHRklqJ6DR+Bi/+50wcfKJjl1w/LffkdK8iVJcfO9jneACUgOkjsZNPW9Y/1lmCMnak
- lUiaT6cmtLnHIztcHDkBib+bb9+blU5PknSq6n+Of/8X3Asw+OtqzMuY/K6xo05CbZ1GgJyuLDyFxt0HAFKMkGMrk0HngzoAFyWlK1XD/RucXSuRFAhiwnW1
- YZrDx6bal/FTcOVsKhMhPhU0mAdrWdy2VrjTq7Dq51IzzFvjMy/rqKL/9qvh47UTFl+RNi3lUi5EU8xzdQAysUsV0ir2LLgdcAzCVQ7GvNDmmwbgGaMSbBJg
- nK99s7tZ+0tnGGC6qrH4kbhv0Vf9ZsOawCKlFrczlnhhJwQtUoiFprXFAPTcifWbt63rr+BwozkgMKgvAgNB13kcpcD/AQqiNHgLPdlYu9p7c8Yc0MXEojA/
- mzQFydziZYO8F/lfZcDAhiJanqp/Q3WX2RRQAzQKrBuJZ0ULEmzywkYG/ETCqXwmWjAVcyp/rGgRKNF2g6A6l8mNpTUMsw5s6X3NUA9Ze8pdg8VFQnHXLa7b
- QGPeunlkJaejwV8YFwceRv16PMqvHKUZ3DjWqBfjJ+EhqHSjIE/Z8+BRsXyzRMhkjDo=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <66ccf10089b0_e0732294ef@iweiny-mobl.notmuch>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On 24/08/24 04:21, Greg KH wrote:
-> On Fri, Aug 23, 2024 at 12:31:07PM +0530, subramanian.mohan@intel.com wrote:
->> From: Subramanian Mohan <subramanian.mohan@intel.com>
->>
->> Add Intel Timed I/O PPS usage instructions.
->>
->> Co-developed-by: Pandith N <pandith.n@intel.com>
->> Signed-off-by: Pandith N <pandith.n@intel.com>
->> Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
->> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->> Acked-by: Rodolfo Giometti <giometti@enneenne.com>
->> Signed-off-by: Subramanian Mohan <subramanian.mohan@intel.com>
->> ---
->>   Documentation/driver-api/pps.rst | 24 ++++++++++++++++++++++++
->>   1 file changed, 24 insertions(+)
->>
->> diff --git a/Documentation/driver-api/pps.rst b/Documentation/driver-api/pps.rst
->> index 78dded03e5d8..75f7b094f963 100644
->> --- a/Documentation/driver-api/pps.rst
->> +++ b/Documentation/driver-api/pps.rst
->> @@ -246,3 +246,27 @@ delay between assert and clear edge as small as possible to reduce system
->>   latencies. But if it is too small slave won't be able to capture clear edge
->>   transition. The default of 30us should be good enough in most situations.
->>   The delay can be selected using 'delay' pps_gen_parport module parameter.
->> +
->> +
->> +Intel Timed I/O PPS signal generator
->> +------------------------------------
->> +
->> +Intel Timed I/O is a high precision device, present on 2019 and newer Intel
->> +CPUs, that can generate PPS signals.
->> +
->> +Timed I/O and system time are both driven by same hardware clock. The signal
->> +is generated with a precision of ~20 nanoseconds. The generated PPS signal
->> +is used to synchronize an external device with system clock. For example,
->> +it can be used to share your clock with a device that receives PPS signal,
->> +generated by Timed I/O device. There are dedicated Timed I/O pins to deliver
->> +the PPS signal to an external device.
->> +
->> +Usage of Intel Timed I/O as PPS generator:
->> +
->> +Start generating PPS signal::
->> +
->> +        $echo 1 > /sys/devices/platform/INTCxxxx\:00/enable
->> +
->> +Stop generating PPS signal::
->> +
->> +        $echo 0 > /sys/devices/platform/INTCxxxx\:00/enable
+On Mon, Aug 26, 2024 at 04:17:52PM -0500, Ira Weiny wrote:
+> Andy Shevchenko wrote:
+> > On Mon, Aug 26, 2024 at 03:23:50PM +0200, Petr Mladek wrote:
+> > > On Thu 2024-08-22 21:10:25, Andy Shevchenko wrote:
+> > > > On Thu, Aug 22, 2024 at 12:53:32PM -0500, Ira Weiny wrote:
+> > > > > Petr Mladek wrote:
+> > > > > > On Fri 2024-08-16 09:44:10, Ira Weiny wrote:
+
+...
+
+> > > > > > > +	%par	[range 0x60000000-0x6fffffff] or
+> > > > > > 
+> > > > > > It seems that it is always 64-bit. It prints:
+> > > > > > 
+> > > > > > struct range {
+> > > > > > 	u64   start;
+> > > > > > 	u64   end;
+> > > > > > };
+> > > > > 
+> > > > > Indeed.  Thanks I should not have just copied/pasted.
+> > > > 
+> > > > With that said, I'm not sure the %pa is a good placeholder for this ('a' stands
+> > > > to "address" AFAIU). Perhaps this should go somewhere under %pr/%pR?
 > 
-> As I mentioned on the sysfs documentation, why isn't this just a generic
-> pps class attribute instead?  Why did you make it
-> only-this-one-special-driver type of thing?
+> I'm speaking a bit for Dan here but also the logical way I thought of
+> things.
+> 
+> 1) %p does not dictate anything about the format of the data.  Rather
+>    indicates that what is passed is a pointer.  Because we are passing a
+>    pointer to a range struct %pXX makes sense.
 
-This is an Original Sin when PPS generators were introduced. :-(
+There is no objection to that.
 
-In 2011 a patch from Alexander Gordeev <lasaine@lvk.cs.msu.su> (which introduced 
-the "parallel port PPS signal generator") was committed in the main kernel.
+> 2) %pa indicates what follows is 'address'.  This was a bit of creative
+>    license because, as I said in the commit message most of the time
+>    struct range contains an address range.  So for this narrow use case it
+>    also makes sense.
 
-At the time it was something exotic and doing a PPS generator interface for it 
-was not considered (since it actually has no controlling inputs), but now 
-several Ethernet cards have such PPS generator functionalities, and they are 
-enabled in a per-driver way or via the PTP API.
+As in the discussion it was pointed out that struct range is always 64-bit,
+limiting it to the "address" is a wrong assumption as we are talking generic
+printing routine here. We don't know what users will be in the future on 32-bit
+platforms, or what data (semantically) is being held by this structure.
 
-This code is a pure PPS generator and it cannot use any other way to enable such 
-functionality than the one above since the PPS layer misses a proper 
-implementation for PPS generator.
+> 3) %par r for range.
 
-If you are willing to stop the inclusion due this fact maybe its time to add 
-such PPS generators interface... on the other hand, if you agree for inclusion 
-we can do this job as soon as the code has been included, in order to fix this 
-anomalous status.
+I understand, but again struct range != address.
 
-Ciao,
+> %p[rR] is taken.
+> %pra confuses things IMO.
 
-Rodolfo
+It doesn't confuse me. :-) But I believe Petr also has a rationale behind this
+proposal as he described earlier.
+
+> > > The r/R in %pr/%pR actually stands for "resource".
+> > > 
+> > > But "%ra" really looks like a better choice than "%par". Both
+> > > "resource"  and "range" starts with 'r'. Also the struct resource
+> > > is printed as a range of values.
+> 
+> %r could be used I think.  But this breaks with the convention of passing a
+> pointer and how to interpret it.  The other idea I had, mentioned in the commit
+> message was %pn.  Meaning passed by pointer 'raNge'.
+
+No, we can't use %r or anything else that is documented for the standard
+printf() format specifiers, otherwise you will get a compiler warning and
+basically it means no go.
+
+> I think that follows better than %r.  That would be another break from C99.
+> But we don't have to follow that.
+> 
+> > Fine with me as long as it:
+> > 1) doesn't collide with %pa namespace
+> > 2) tries to deduplicate existing code as much as possible.
+> 
+> Andy, I'm not quite following how you expect to share the code between
+> resource_string() and range_string()?
+> 
+> There is very little duplicated code.  In fact with Petr's suggestions and some
+> more work range_string() is quite simple:
+> 
+> +static noinline_for_stack
+> +char *range_string(char *buf, char *end, const struct range *range,
+> +                     struct printf_spec spec, const char *fmt)
+> +{
+> +#define RANGE_DECODED_BUF_SIZE         ((2 * sizeof(struct range)) + 4)
+> +#define RANGE_PRINT_BUF_SIZE           sizeof("[range -]")
+> +       char sym[RANGE_DECODED_BUF_SIZE + RANGE_PRINT_BUF_SIZE];
+> +       char *p = sym, *pend = sym + sizeof(sym);
+
+
+Missing check for pointer, but it's not that I wanted to tell.
+
+> +       *p++ = '[';
+> +       p = string_nocheck(p, pend, "range ", default_str_spec);
+
+Hmm... %pr uses str_spec, what the difference can be here?
+
+> +       p = special_hex_number(p, pend, range->start, sizeof(range->start));
+> +       *p++ = '-';
+> +       p = special_hex_number(p, pend, range->end, sizeof(range->end));
+
+This is basically the copy of %pr implementation.
+
+	p = number(p, pend, res->start, *specp);
+	if (res->start != res->end) {
+		*p++ = '-';
+		p = number(p, pend, res->end, *specp);
+	}
+
+Would it be possible to unify? I think so, but it requires a bit of thinking.
+
+That's why testing is very important in this kind of generic code.
+
+> +       *p++ = ']';
+> +       *p = '\0';
+> +
+> +       return string_nocheck(buf, end, sym, spec);
+> +}
+> 
+> Also this is the bulk of the patch except for documentation and the new
+> testing code.  [new patch below]
+> 
+> Am I missing your point somehow?
+
+See above.
+
+> I considered cramming a struct range into a
+> struct resource to let resource_string() process the data.  But that would
+> involve creating a new IORESOURCE_* flag (not ideal) and also does not allow
+> for the larger u64 data in struct range should this be a 32 bit physical
+> address config.
+
+No, that's not what I was expecting.
+
+> Most importantly that would not be much less code AFAICT.
+
+...
+
+> +       %par    [range 0x0000000060000000-0x000000006fffffff]
+
+I still think this is not okay to use %pa namespace.
+
+...
+
+> +static void __init
+> +struct_range(void)
+> +{
+> +       struct range test_range = {
+> +               .start = 0xc0ffee00ba5eba11,
+> +               .end = 0xc0ffee00ba5eba11,
+> +       };
+> +
+> +       test("[range 0xc0ffee00ba5eba11-0xc0ffee00ba5eba11]",
+> +            "%par", &test_range);
+> +
+> +       test_range = (struct range) {
+> +               .start = 0xc0ffee,
+> +               .end = 0xba5eba11,
+> +       };
+> +       test("[range 0x0000000000c0ffee-0x00000000ba5eba11]",
+> +            "%par", &test_range);
+
+Case when start == end?
+Case when end < start?
+
+> +}
+
+...
+
+> +       *p++ = '[';
+> +       p = string_nocheck(p, pend, "range ", default_str_spec);
+> +       p = special_hex_number(p, pend, range->start, sizeof(range->start));
+> +       *p++ = '-';
+> +       p = special_hex_number(p, pend, range->end, sizeof(range->end));
+> +       *p++ = ']';
+> +       *p = '\0';
+
+As per above comments.
 
 -- 
-GNU/Linux Solutions                  e-mail: giometti@enneenne.com
-Linux Device Driver                          giometti@linux.it
-Embedded Systems                     phone:  +39 349 2432127
-UNIX programming
+With Best Regards,
+Andy Shevchenko
+
 
