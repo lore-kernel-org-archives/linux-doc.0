@@ -1,172 +1,385 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 735CA1CE703
-	for <linux-doc@vger.kernel.org>; Tue, 27 Aug 2024 16:40:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 433121925AC
+	for <linux-doc@vger.kernel.org>; Tue, 27 Aug 2024 16:45:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724776845; cv=none; b=EW8Im6VUhwY7xa2jIYgPXYkPbOUnuVpt8IIinGWBeszyx2t96vQE3n8rZdip0ptYpIycWVKrJgLmIh3iVQPhR+mMmOy9gZsXi5SJAwqpdKseEbGyP2O/ovKhF9is9T/TJCcrj9ZUh2/bXsRzl5vowJB1aAUFBysYQeb/zrnWBkY=
+	t=1724777155; cv=none; b=AOl35j0c2jFLS22CxMGC7oE3nMgfvRyH4cqAeOtzc6PfiRwp3cDhVrLDq6+A7KfCmfC8s6emVqK90/9NJc110QhdvMWNjwPhibRHOTdwjRdot43fxRjLoluXun5Gg1oNnQb8KMxJJi6zi9KB+wJtyxP6/BSpcr4v1du7oxifi3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724776845; c=relaxed/simple;
-	bh=mqj+nUaexZpLx78MbIFDbgbr3Re7pm0UFpvwCKrsD0c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y/i7qejxmuRqA3Jp6eRZK6Srj5UIkKp6qYHw/YgagoM1MeCTBjEd0T53riWuDoYIXRS31ovrUQHLR6iGZ6A3TVmamhXlRNAlpKuo2dCb5ca5XtWxvWuCfCS5Ix8Jqu316JxcxThG+1abRVwlVX/feX9i6wILz/Fb05NeblB86FY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=PqWJKRPP; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1724777155; c=relaxed/simple;
+	bh=LrwKhfn+7M4t7yDZyvvpWwUDN3fahJJbPlQxyZWlD00=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=SIzIo9uV2jZYNRtlbYrbEny1pcrO6qo+mLegznHYCweZ0NNB8SsPlZjZvABLID9GEJ7AkLr11DuM0dNHgRo4VkS1azjDNtPFNp7krAJbsUJ3qOCFG1EBWi5K8maSNijVx2zpZqZQv33WBszfD/e/Q9EKaebFHOLg7rgbu37UYtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=MsYCwPEO; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="PqWJKRPP"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-715c160e231so1073314b3a.0
-        for <linux-doc@vger.kernel.org>; Tue, 27 Aug 2024 09:40:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="MsYCwPEO"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3717de33d58so3227136f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 27 Aug 2024 09:45:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1724776842; x=1725381642; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rne+zpysSkg2L5/AJ4St1hJj9zp6Pm7sVmKolecYhts=;
-        b=PqWJKRPPwFLQnAy4nagGnJmHASViITGtTluO0vV3r6Y+6OjyqMxUECblHindenUk3V
-         QmXGIvAvysH1KGPOravaJZIq6Cmf3tx5sf2+JXsVrBxpfvqpyOp4Z3iOtyo+GPLTDZ4V
-         wtj4L6VbtygNztlsPDMFwQUcE5b1geMyRCzs57ILk8rvMMf14ejdnQfjcNCPnU403Mv8
-         3nlWTHrFr1BNqU0h1fAnsGXELJxSrZNR1eTyHoTsZDQbnNfPNDplWaTM1xjDy4HhocCc
-         ZXMAeEWRpJoDVXlvzD8rsCJPF0lGHWoK1yCX+TOE6XjvVAkLbw0/MTqClUqkejqgWHwR
-         6CrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724776842; x=1725381642;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1724777151; x=1725381951; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rne+zpysSkg2L5/AJ4St1hJj9zp6Pm7sVmKolecYhts=;
-        b=Fj/UVFRvSGpQldUIMp93x2YDFzBSVgDWgH82pWO79VoaHw2LpqPbDWEpt5mLl/CfgK
-         qp0903KflUxZAjtYgA+dccZDueZFXJDttoekH7PZEPcZEiyUKRJvq6dXxND5847tsxek
-         Z4cYLx0TksvssPVyd9aMmUVXedHZbg/937iYzlGq8O0sAqgIDpkoaVr914hdwjbqCfHm
-         +H1SE7Aoyw/PALRVGwv6Kmvf5vGPL0vc7NV35xDx75aawztYHUVBFc6p5WbXNrPoMKlH
-         wokk/xgvSzPGpWJ7gtgklDc6TcByCr+6lK6OEBOgxVFR/+WS3otSiDACV68c7R2zkB/p
-         d0Gg==
-X-Forwarded-Encrypted: i=1; AJvYcCWnibPfAPVHCGP7ZJOl4AsOpb5s3NeBgMqg2NxxJ51dn0lev1D6kgZZZHPeKCXNmoNFV/2t2/Z2Olo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy416e/6q9yqApFGEDUOLWVnw0WR0evQLDNYOq0VBWwLt/rCA5z
-	fRcOpKn7DVflbgLWjst+JOynlCkaPpkajkpjwmEOsTiPq4CnwOJvHYXSc5XWJ5w=
-X-Google-Smtp-Source: AGHT+IG4PEytdJ7OVt7Zz6RxwZUGrSYdw900Upp1JNyJAzmPqshX0Vt1KaedOXWDN98/VzACJx3dKQ==
-X-Received: by 2002:a05:6a20:d510:b0:1c8:d4d4:4131 with SMTP id adf61e73a8af0-1cc89ee5940mr15116375637.40.1724776841470;
-        Tue, 27 Aug 2024 09:40:41 -0700 (PDT)
-Received: from ghost ([50.145.13.30])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-714343060e1sm9090279b3a.149.2024.08.27.09.40.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Aug 2024 09:40:40 -0700 (PDT)
-Date: Tue, 27 Aug 2024 09:40:38 -0700
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Palmer Dabbelt <palmer@rivosinc.com>
-Cc: cyy@cyyself.name, linux-riscv@lists.infradead.org, corbet@lwn.net,
-	Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu,
-	shuah@kernel.org, rsworktech@outlook.com, alexghiti@rivosinc.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 0/3] RISC-V: mm: do not treat hint addr on mmap as the
- upper bound to search
-Message-ID: <Zs4BhmB4xOF4LOH9@ghost>
-References: <tencent_108260B43689E30AAE5D0C7C085AA31ADF06@qq.com>
- <mhng-a7dcdfb5-0232-4ffb-8a20-13e564904da1@palmer-ri-x1c9a>
+        bh=YD3PTpc3UAvdPxux1yFdbSoCtlfgWLDrWRyZ4DLf+dw=;
+        b=MsYCwPEOtsLkPx9OGmAjGywqsBODvS9p857rxZM+mQmAe4JM3HuifPMcEOi1DlU9wh
+         k8RgPcLxJGdSzhLuJi/GZxgPFFNm6cxYymN2hdPAjRZpxpy6ycuaVhqOsshkAjaczjhD
+         Q1FLqVja6XgNWJoTWqOjXAWG2Ehlrvi9W/RRZ+gy4oVrYkY71bet7P9L+W0WkFF7JE7G
+         ONzMcvSZGEKdP8rNzgQ+O7RUGjpsw4FM6fZ7ipZ+OK/CqKBuBMUjqYhZSH6ABvVOuRKm
+         0+avVqW2W7xYnIeikGk88ViRAHKEy+zWiqKb+cKBH+PR6EI97X1kXq+Rfloyv7+A81By
+         fFRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724777151; x=1725381951;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=YD3PTpc3UAvdPxux1yFdbSoCtlfgWLDrWRyZ4DLf+dw=;
+        b=nszg1jnb2OaVzrQJYCtD6mcDrGnIMRJr7miq7xluKJZ04WGssqVdBxPE013ad5M3Tz
+         U9HZhFcIS9EL4hNne6i3tngpxW5XJrBqkvc7Yz7iwHIN4IMy5TE14JeU0UaOQTY6p9/u
+         0T66LXCLyJwIJVCVK/fBzBv5NTjZt+txeQuyIjswsNTJ4CrJ7DOUoMW+iQ1Qyoq0lif2
+         OYpleqgx90E0dID5f5RC4XpdGQ27mPziKtLjyhe1BFwR3IN4Z49FKOn3pvdZQEC1Tlr4
+         +vVx0tx6STF+ZE8GEofyeHokCgWY5fl6FOm4rOGDrr4DPQNYaH7fmebt1ibG75ts4HsC
+         xCxw==
+X-Forwarded-Encrypted: i=1; AJvYcCUrsF30dyqjZMddvXWt5Zv0BV21HiG0znkGiopaURvE1NrF7okulGLEHyn1a00bv8ycDU9XwHdTCSY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9ZHm6151/EKuX6998Y26ssLm1g4fDLdOqY2R3yGdBCJxZM+VE
+	CEX3bFo8HqUdrgcyn0mPP0ygMy+R3CnPlm8iEsZgXGJPv6A8DCskdIELt+8sDwF6YqSFALTIh19
+	E
+X-Google-Smtp-Source: AGHT+IGqz2SN6D0Ze4LPRg9FQpAhZitgBfRbYDRYHsjseyBgTvjReqACfP+CfbEaD2nw3iyEpzq/vw==
+X-Received: by 2002:a5d:6589:0:b0:368:6598:131e with SMTP id ffacd0b85a97d-3748c825bbamr2416206f8f.38.1724777151363;
+        Tue, 27 Aug 2024 09:45:51 -0700 (PDT)
+Received: from localhost ([2a01:e0a:448:76e0:49a3:a2f2:ac60:c67f])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37308110014sm13532607f8f.19.2024.08.27.09.45.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Aug 2024 09:45:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <mhng-a7dcdfb5-0232-4ffb-8a20-13e564904da1@palmer-ri-x1c9a>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 27 Aug 2024 18:45:49 +0200
+Message-Id: <D3QUGZYL7INK.R3U3WQR0OCUS@baylibre.com>
+Cc: "Lars-Peter Clausen" <lars@metafoo.de>, "Michael Hennerich"
+ <Michael.Hennerich@analog.com>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Nuno Sa" <nuno.sa@analog.com>, "Jonathan Corbet" <corbet@lwn.net>,
+ <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "David Lechner" <dlechner@baylibre.com>,
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 2/6] iio: adc: ad4030: add driver for ad4030-24
+From: "Esteban Blanc" <eblanc@baylibre.com>
+To: "Jonathan Cameron" <jic23@kernel.org>
+X-Mailer: aerc 0.17.0
+References: <20240822-eblanc-ad4630_v1-v1-0-5c68f3327fdd@baylibre.com>
+ <20240822-eblanc-ad4630_v1-v1-2-5c68f3327fdd@baylibre.com>
+ <20240824122111.425fa689@jic23-huawei>
+In-Reply-To: <20240824122111.425fa689@jic23-huawei>
 
-On Tue, Aug 27, 2024 at 09:33:11AM -0700, Palmer Dabbelt wrote:
-> On Tue, 27 Aug 2024 01:05:15 PDT (-0700), cyy@cyyself.name wrote:
-> > Previous patch series[1][2] changes a mmap behavior that treats the hint
-> > address as the upper bound of the mmap address range. The motivation of the
-> > previous patch series is that some user space software may assume 48-bit
-> > address space and use higher bits to encode some information, which may
-> > collide with large virtual address space mmap may return. However, to make
-> > sv48 by default, we don't need to change the meaning of the hint address on
-> > mmap as the upper bound of the mmap address range. This behavior breaks
-> > some user space software like Chromium that gets ENOMEM error when the hint
-> > address + size is not big enough, as specified in [3].
-> > 
-> > Other ISAs with larger than 48-bit virtual address space like x86, arm64,
-> > and powerpc do not have this special mmap behavior on hint address. They
-> > all just make 48-bit / 47-bit virtual address space by default, and if a
-> > user space software wants to large virtual address space, it only need to
-> > specify a hint address larger than 48-bit / 47-bit.
-> > 
-> > Thus, this patch series change mmap to use sv48 by default but does not
-> > treat the hint address as the upper bound of the mmap address range. After
-> > this patch, the behavior of mmap will align with existing behavior on other
-> > ISAs with larger than 48-bit virtual address space like x86, arm64, and
-> > powerpc. The user space software will no longer need to rewrite their code
-> > to fit with this special mmap behavior only on RISC-V.
-> 
-> So it actually looks like we just screwed up the original version of this:
-> the reason we went with the more complicated address splits were than we
-> actually started with a defacto 39-bit page table uABI (ie 38-bit user VAs),
-> and moving to even 48-bit page tables (ie, 47-bit user VAs) broke users
-> (here's an ASAN bug, for example:
-> https://github.com/google/android-riscv64/issues/64).
-> 
-> Unless I'm missing something, though, the code doesn't actually do that.  I
-> remember having that discussion at some point, but I must have forgotten to
-> make sure it worked.  As far as I can tell we've just moved to the 48-bit
-> VAs by default, which breaks the whole point of doing the compatibilty
-> stuff.  Probably a good sign I need to pay more attention to this stuff.
-> 
-> So I'm not really sure what to do here: we can just copy the arm64 behavior
-> at tell the other users that's just how things work, but then we're just
-> pushing around breakages.  At a certain point all we can really do with this
-> hint stuff is push around problems, though, and at least if we copy arm64
-> then most of those problems get reported as bugs for us.
+On Sat Aug 24, 2024 at 1:21 PM CEST, Jonathan Cameron wrote:
+> On Thu, 22 Aug 2024 14:45:18 +0200
+> Esteban Blanc <eblanc@baylibre.com> wrote:
+>
+> > This adds a new driver for the Analog Devices INC. AD4030-24 ADC.
+> >=20
+> > The driver implements basic support for the AD4030-24 1 channel
+> > differential ADC with hardware gain and offset control.
+> >=20
+> > Signed-off-by: Esteban Blanc <eblanc@baylibre.com>
+> Hi Esteban
+>
+> Some additional comments.  David did a good review already so
+> I've tried not to duplicate too much of that.
+>
+> The big one in here is don't use extended_name.
+> It's effectively deprecated for new drivers plus
+> it would have required you add a lot of ABI docs as every
+> sysfs file would have a strange name.
+>
+> > diff --git a/drivers/iio/adc/ad4030.c b/drivers/iio/adc/ad4030.c
+> > new file mode 100644
+> > index 000000000000..a981dce988e5
+> > --- /dev/null
+> > +++ b/drivers/iio/adc/ad4030.c
+>
+> > +struct ad4030_state {
+> > +	struct spi_device *spi;
+> > +	struct regmap *regmap;
+> > +	const struct ad4030_chip_info *chip;
+> > +	struct gpio_desc *cnv_gpio;
+> > +	int vref_uv;
+> > +	int vio_uv;
+> > +	int offset_avail[3];
+> > +	u32 conversion_speed_hz;
+> > +	enum ad4030_out_mode mode;
+> > +
+> > +	/*
+> > +	 * DMA (thus cache coherency maintenance) requires the transfer buffe=
+rs
+> > +	 * to live in their own cache lines.
+> > +	 */
+> > +	u8 tx_data[AD4030_SPI_MAX_XFER_LEN] __aligned(IIO_DMA_MINALIGN);
+> > +	struct {
+> > +		union {
+> > +			u8 raw[AD4030_MAXIMUM_RX_BUFFER_SIZE];
+> > +			struct {
+> > +				s32 val;
+> > +				u32 common;
+> > +			} __packed buffered[AD4030_MAX_HARDWARE_CHANNEL_NB];
+>
+> David pointed out this doesn't need to be packed.
+> Given you have a union here, add __beXX as needed to avoid casts below.
 
-Relying on the hint address in any capacity will push around breakages
-is my perspective as well. I messed this up from the start. I believe
-the only way to have consistent behavior is to mark mmap relying on the
-hint address as a bug, and only rely on the hint address if a flag
-defines the behavior.
+They also pointed out that I should reduce the size for the common field.
+I was planing to use an u32 bitfield here, 8 bits for common and 24 bits fo=
+r
+padding. As far as I understood, the C standard is quite flexible on the
+size used for bitfield, so I should probably keep the __packed, right?
 
-There is an awkward window of releases that will have this "buggy"
-behavior. However, since the mmap changes introduced a variety of
-userspace bugs it seems acceptable to revert to the previous behavior
-and to create a consistent path forward.
+> > +};
+> > +
+> > +#define AD4030_CHAN_CMO(_idx)  {					\
+> > +	.info_mask_separate =3D BIT(IIO_CHAN_INFO_RAW),			\
+> > +	.type =3D IIO_VOLTAGE,						\
+> > +	.indexed =3D 1,							\
+> > +	.channel =3D _idx * 2 + 2,					\
+> > +	.scan_index =3D _idx * 2 + 1,					\
+> > +	.extend_name =3D "Channel" #_idx " common byte part",		\
+>
+> We more or less never use extend name any more because it makes writing
+> userspace code much harder.  Use the label callback to assign a label ins=
+tead.
+>
+> If we were still using this, it would need to be a lot simpler than that
+> and no spaces etc as it ends up int he sysfs file names.
 
-- Charlie
+> > +	.scan_type =3D {							\
+> > +		.sign =3D 'u',						\
+> > +		.storagebits =3D 32,					\
+> > +		.realbits =3D 8,						\
+> > +		.endianness =3D IIO_BE,					\
+> > +	},								\
+> > +}
+> > +
+> > +#define AD4030_CHAN_IN(_idx, _storage, _real, _shift) {			\
+> > +	.info_mask_shared_by_all =3D BIT(IIO_CHAN_INFO_SCALE),		\
+> > +	.info_mask_separate =3D BIT(IIO_CHAN_INFO_CALIBSCALE) |		\
+> > +		BIT(IIO_CHAN_INFO_CALIBBIAS) |				\
+> > +		BIT(IIO_CHAN_INFO_RAW),					\
+> > +	.info_mask_separate_available =3D BIT(IIO_CHAN_INFO_CALIBBIAS) |	\
+> > +		BIT(IIO_CHAN_INFO_CALIBSCALE),				\
+> > +	.type =3D IIO_VOLTAGE,						\
+> > +	.indexed =3D 1,							\
+> > +	.channel =3D _idx * 2,						\
+> > +	.channel2 =3D _idx * 2 + 1,					\
+> > +	.scan_index =3D _idx * 2,						\
+> > +	.extend_name =3D "Channel" #_idx " differential part",		\
+>
+> As above, no to this for same reason.
+> This will generate a crazy ABI so I'm a bit surprised that didn't show
+> up in your testing.  Would have needed a lot of docs even if we did
+> still do things this way.
 
-> 
-> > Note: Charlie also created another series [4] to completely remove the
-> > arch_get_mmap_end and arch_get_mmap_base behavior based on the hint address
-> > and size. However, this will cause programs like Go and Java, which need to
-> > store information in the higher bits of the pointer, to fail on Sv57
-> > machines.
-> > 
-> > Changes in v3:
-> > - Rebase to newest master
-> > - Changes some information in cover letter after patchset [2]
-> > - Use patch [5] to patch selftests
-> > - Link to v2: https://lore.kernel.org/linux-riscv/tencent_B2D0435BC011135736262764B511994F4805@qq.com/
-> > 
-> > Changes in v2:
-> > - correct arch_get_mmap_end and arch_get_mmap_base
-> > - Add description in documentation about mmap behavior on kernel v6.6-6.7.
-> > - Improve commit message and cover letter
-> > - Rebase to newest riscv/for-next branch
-> > - Link to v1: https://lore.kernel.org/linux-riscv/tencent_F3B3B5AB1C9D704763CA423E1A41F8BE0509@qq.com/
-> > 
-> > [1] https://lore.kernel.org/linux-riscv/20230809232218.849726-1-charlie@rivosinc.com/
-> > [2] https://lore.kernel.org/linux-riscv/20240130-use_mmap_hint_address-v3-0-8a655cfa8bcb@rivosinc.com/
-> > [3] https://lore.kernel.org/linux-riscv/MEYP282MB2312A08FF95D44014AB78411C68D2@MEYP282MB2312.AUSP282.PROD.OUTLOOK.COM/
-> > [4] https://lore.kernel.org/linux-riscv/20240826-riscv_mmap-v1-0-cd8962afe47f@rivosinc.com/
-> > [5] https://lore.kernel.org/linux-riscv/20240826-riscv_mmap-v1-2-cd8962afe47f@rivosinc.com/
-> > 
-> > Charlie Jenkins (1):
-> >   riscv: selftests: Remove mmap hint address checks
-> > 
-> > Yangyu Chen (2):
-> >   RISC-V: mm: not use hint addr as upper bound
-> >   Documentation: riscv: correct sv57 kernel behavior
-> > 
-> >  Documentation/arch/riscv/vm-layout.rst        | 43 ++++++++----
-> >  arch/riscv/include/asm/processor.h            | 20 ++----
-> >  .../selftests/riscv/mm/mmap_bottomup.c        |  2 -
-> >  .../testing/selftests/riscv/mm/mmap_default.c |  2 -
-> >  tools/testing/selftests/riscv/mm/mmap_test.h  | 67 -------------------
-> >  5 files changed, 36 insertions(+), 98 deletions(-)
+I'm using ADI IIO oscilloscope to check the signals so I didn't get
+impacted by the sysfs change. Anyway I will use labels.
+
+> > +	.differential =3D true,						\
+> > +	.scan_type =3D {							\
+> > +		.sign =3D 's',						\
+> > +		.storagebits =3D _storage,				\
+> > +		.realbits =3D _real,					\
+> > +		.shift =3D _shift,					\
+> > +		.endianness =3D IIO_BE,					\
+> > +	},								\
+> > +}
+> > +
+> > +static int ad4030_spi_read(void *context, const void *reg, size_t reg_=
+size,
+> > +			   void *val, size_t val_size)
+> > +{
+> > +	struct ad4030_state *st =3D context;
+> > +
+> > +	struct spi_transfer xfer =3D {
+> > +		.tx_buf =3D st->tx_data,
+> > +		.rx_buf =3D st->rx_data.raw,
+> > +		.len =3D reg_size + val_size,
+> > +	};
+> > +	int ret;
+> > +
+> > +	memcpy(st->tx_data, reg, reg_size);
+> > +
+> > +	/*
+> > +	 * This should use spi_write_the_read but when doing so, CS never get
+> > +	 * deasserted.
+>
+> I'm confused.  As a single transfer it won't be deasserted in the transfe=
+r
+> whereas spi_write_then_read() will. So is this comment backwards or
+> is it referring to something else?
+
+So, with a single transfer (what is done now), the transfer is working
+as expected: CS goes low, the data is transferred, CS goes high again.
+With spi_write_then_read(), CS goes low, data is transferred but CS never
+goes high again. After some time I get a timeout error in the kernel logs.
+
+> > +static int ad4030_conversion(struct ad4030_state *st,
+> > +			     const struct iio_chan_spec *chan)
+> > +{
+> > +	unsigned int bytes_to_read;
+> > +	unsigned char byte_index;
+> > +	unsigned int i;
+> > +	int ret;
+> > +
+> > +	/* Number of bytes for one differential channel */
+> > +	bytes_to_read =3D BITS_TO_BYTES(chan->scan_type.realbits);
+> > +	/* Add one byte if we are using a differential + common byte mode */
+> > +	bytes_to_read +=3D (st->mode =3D=3D AD4030_OUT_DATA_MD_24_DIFF_8_COM =
+||
+> > +			st->mode =3D=3D AD4030_OUT_DATA_MD_16_DIFF_8_COM) ? 1 : 0;
+> > +	/* Mulitiply by the number of hardware channels */
+> > +	bytes_to_read *=3D st->chip->num_channels;
+> > +
+> > +	gpiod_set_value_cansleep(st->cnv_gpio, 1);
+> > +	ndelay(AD4030_TCNVH_NS);
+> > +	gpiod_set_value_cansleep(st->cnv_gpio, 0);
+> > +	ndelay(st->chip->tcyc);
+> > +
+> > +	ret =3D spi_read(st->spi, st->rx_data.raw, bytes_to_read);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	if (st->mode !=3D AD4030_OUT_DATA_MD_24_DIFF_8_COM)
+> > +		return 0;
+> > +
+> > +	byte_index =3D BITS_TO_BYTES(chan->scan_type.realbits);
+> > +	for (i =3D 0; i < st->chip->num_channels; i++)
+> > +		st->rx_data.buffered[i].common =3D ((u8 *)&st->rx_data.buffered[i].v=
+al)[byte_index];
+> break line after =3D.
+>
+> When it doesn't significantly hurt readability we still try to keep to 80
+> chars for IIO drivers.  People have big screens but a lot of kernel devs
+> love to have lots of windows across them - or have bad eyesight due to
+> years of code review!
+
+I keep forgeting that checkpatch now defaults at 100 chars...
+
+> > +static int ad4030_read_raw(struct iio_dev *indio_dev,
+> > +			   struct iio_chan_spec const *chan, int *val,
+> > +			   int *val2, long info)
+> > +{
+> > +	struct ad4030_state *st =3D iio_priv(indio_dev);
+> > +	int ret;
+> > +
+> > +	iio_device_claim_direct_scoped(return -EBUSY, indio_dev) {
+> > +		switch (info) {
+> > +		case IIO_CHAN_INFO_RAW:
+> > +			return ad4030_single_conversion(indio_dev, chan, val);
+> > +
+> > +		case IIO_CHAN_INFO_SCALE:
+> > +			*val =3D (st->vref_uv * 2) / MILLI;
+> > +			*val2 =3D st->chip->precision_bits;
+> > +			return IIO_VAL_FRACTIONAL_LOG2;
+>
+> No reason you can't read this whilst buffered capture in progress.
+> Maybe it's not worth the effort of special casing though.
+>
+> It is the one thing people do read whilst doing buffered capture
+> though because they didn't cache it before starting the buffer
+> and it's needed for data interpretation unlike all the other controls.
+>
+> Maybe just do a
+> 	if (info =3D=3D IIO_CHAN_INFO_SCALE) {
+> 	}
+> block at top of function?
+
+Good catch. I will check for IIO_CHAN_INFO_SCALE before the whole block
+
+> > +static int ad4030_reset(struct ad4030_state *st)
+> > +{
+> > +	struct device *dev =3D &st->spi->dev;
+> > +	struct gpio_desc *reset;
+> > +	int ret;
+> > +
+> > +	/* Use GPIO if available ... */
+> > +	reset =3D devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+> > +	if (IS_ERR(reset))
+> > +		return dev_err_probe(dev, PTR_ERR(reset),
+> > +				"Failed to get reset GPIO\n");
+> > +
+> > +	if (reset) {
+> > +		ndelay(50);
+> > +		gpiod_set_value_cansleep(reset, 0);
+> > +	} else {
+> > +		/* ... falback to software reset otherwise */
+> > +		ret =3D ad4030_enter_config_mode(st);
+> > +		if (ret)
+> > +			return ret;
+> > +
+> > +		ret =3D regmap_write(st->regmap, AD4030_REG_INTERFACE_CONFIG_A,
+> > +				   AD4030_REG_INTERFACE_CONFIG_A_SW_RESET);
+> > +		if (ret)
+> > +			return ret;
+> > +	}
+> > +
+> > +	/* Wait for reset to complete before communicating to it */
+>
+> I'd rather see a reference for the value than a generic comment
+> like this.  Also pull the actual value down here. Not particularly
+> useful to have a define for what is a real time unless you are going
+>  to have some combined docs for a bunch of timings (i.e a datasheet
+> table reference)
+
+I will put the real value in fsleep call directly. When you say "I'd
+rather see a reference for the value", you ment a reference to the place
+the value is defined in the datasheet, right?
+
+> > +static int ad4030_detect_chip_info(const struct ad4030_state *st)
+> > +{
+> > +	unsigned int grade;
+> > +	int ret;
+> > +
+> > +	ret =3D regmap_read(st->regmap, AD4030_REG_CHIP_GRADE, &grade);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	grade =3D FIELD_GET(AD4030_REG_CHIP_GRADE_MASK_CHIP_GRADE, grade);
+> > +	if (grade !=3D st->chip->grade)
+> > +		return dev_err_probe(&st->spi->dev, -EINVAL,
+> > +					"Unknown grade(0x%x) for %s\n", grade,
+> > +					st->chip->name);
+>
+> Is this similar to a missmatch on a whoami value?
+
+Yes. It also saved me multiple hours of debuging when the eval board
+was not connected porperly and the SPI link was just not working.
+
+> I.e. should we print a message and carry on in the interests of providing
+> some degree of support for newer devices on older kernel?
+> (fallback compatibles in DT)
+
+Ok, let's go with a warning then.
+
+> > +static const struct spi_device_id ad4030_id_table[] =3D {
+> > +	{ "ad4030-24", (kernel_ulong_t)&ad4030_24_chip_info },
+> > +	{}
+>
+> I'm going to assume you have a bunch of other parts you plan to
+> support soon. Otherwise we normally don't add the chip specific
+> support until it is needed.  It tends to complicate initial driver
+> review a little and experience says that sometimes no other devices
+> are ever added.
+
+I'm sending the other devices in the same series (patch 4 and 5).
+For the sake of reducing noise in the later patches, I've put it in
+the initial driver. If you feel like I should wait and do it in the
+following patch (patch 4), I can do that.
+
+Thanks for your time,
+
+--=20
+Esteban Blanc
+BayLibre
