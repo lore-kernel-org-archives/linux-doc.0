@@ -1,172 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58188158DD0;
-	Tue, 27 Aug 2024 08:55:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74AC013B293;
+	Tue, 27 Aug 2024 09:01:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724748945; cv=none; b=bLyEsNYT8WeLcukQ5W+0k58/kim9tIPhGIssieGFgBjDgndmcdCVx+ZBvjqA2+dosRdy8ryr1CoFfr3Qb3xKHtab7WuLBYb5dgto36HhoxjfgYTAhFkXjcRKuLGnU3wrLcS1RzSy1RVxoKfUC0LtlEak2epeUdHnzCC3T84a5oY=
+	t=1724749321; cv=none; b=ewcLZPYTTDHu4KMP/VbB0HBwkr1xIKhmgqBL0eWRIScLWbhbLCguak8rD35iWWd63MvMIoEu1aw7Wgf2vOJ738TZuMcQe2cEhS7d2Rp187+/90Ge3i1AKPko3QDj8v8q6AB6HtoIHZn5T62PzZUPCDr9bdj2xkxtu+AQ6gR5lQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724748945; c=relaxed/simple;
-	bh=WLyDwKrTLwxUKO9wLuHMkEx2eqbtMQG2RDk7GrJYDXs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oW+yXMNYQLA8jsdJv8q+4imlY13EYHDB43Pi/YHEqiPG0tfwost9HmHi9gToLX3rOliQ49yvvdc1sLeVJnek25rOgrvDA3/hH5iYjH1dJ+jRDb4w9I2hLG/S6S47Z+71FPe/IJmHo0mt47b7lYNGEiVVzOXnRRgo84P4UjHV6aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DusVZnZ7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724749321; c=relaxed/simple;
+	bh=ZLpYLaolmOE6fOikl7lbht2tvgu8R0+s66V2JnVzJuU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rTKFYCOnrtQ2NVqazTfXjxPXzGS0laJwR5t64OzHmgF9v+RHy4eXuHswuwUFfOwUI2BTndpKrhJuwIpHz14Ckiaa0uGvZZa2pHVUx+Cqnr8O8B7N0aT3yWfppcRpK2YMSVe35Cvo4yzdAjOWY/x25CjPZiyTvkRjipTiCIaL13M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JW9LPz1N; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DusVZnZ7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E362BC8B7A5;
-	Tue, 27 Aug 2024 08:55:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724748944;
-	bh=WLyDwKrTLwxUKO9wLuHMkEx2eqbtMQG2RDk7GrJYDXs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DusVZnZ7wV2iULh/1avLL75JPrhMhQlBqoECiJtic0bUtwgwuIxQeD5hzgO3OPkyS
-	 dpl+eK1bBgzJJ35WOwwwbfdgq1YQrY2eHAEWUAKnv8OixY+PRJYPtQH9Uh4KDOOHgD
-	 2/VI5iJPwBhdC5LsFDFX73FW+2wIcx/umVi6Bv43EvELDrk40xPn4mIuDGkezsnKRA
-	 xbs+ZNNQqQDTYUIePAvIqd1K0l/VrmBAarQw0NUQwiKK+jAlMR+ifUUyK+I6EB0ATl
-	 0IqZzSdRMeIajz+pVDlkeyPLq3GoGX7ttE4pCEa3ZuqwGkXktl0F6ooJc0ev3A8Yxa
-	 2+SfAAZCXhU+Q==
-Date: Tue, 27 Aug 2024 11:52:55 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Bruno Faccini <bfaccini@nvidia.com>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Hildenbrand <david@redhat.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vasily Gorbik <gor@linux.ibm.com>, Will Deacon <will@kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-	"linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-	"linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-	"linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>,
-	"linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
-	"sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
-	"x86@kernel.org" <x86@kernel.org>, Zi Yan <ziy@nvidia.com>
-Subject: Re: [PATCH v4 24/26] arch_numa: switch over to numa_memblks
-Message-ID: <Zs2T5wkSYO9MGcab@kernel.org>
-References: <MW4PR12MB72616723E1A090E315681FF6A38B2@MW4PR12MB7261.namprd12.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JW9LPz1N"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id DC28DC0009;
+	Tue, 27 Aug 2024 09:01:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1724749310;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=70TA7iyrRtSGBBWX4Dp+NsHo/WZwGM3JN2PcpntFqI0=;
+	b=JW9LPz1NOhWgP2fitZ1XuRqyyynBTm6NmfDTsNwmxk1TcqrSuu1tdVV2VZ5D+ciIzKhDHN
+	H1Is6pmShviU7xPv3Pxr2hSfHs++SAD1bRABjyhkF3EJSAUJMQAZVYx/mxcxSbLJvSKo14
+	he0o+TZok4LvVh8WCqAEusikqrxAQh1HlhHzSMbXrhmtGoZndzW6RRMoOUe8zZcXphhUPK
+	oQFZvRN9UkC+YxdrMgSa6BteTLUCASFzjuUJ4nGnDg/kxTepIm0GTTvbaZNZE5KNV8icGr
+	4d2HG9zbDit7huVxUO+Nc8syopyLJwsND1ViPF3eFe6XjZGkG/Wxul2ywquR+w==
+Date: Tue, 27 Aug 2024 11:01:47 +0200
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky
+ <senozhatsky@chromium.org>, Jonathan Corbet <corbet@lwn.net>, John Ogness
+ <john.ogness@linutronix.de>, Andrew Morton <akpm@linux-foundation.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] hexdump: Allow skipping identical lines
+Message-ID: <20240827110147.29a7481a@xps-13>
+In-Reply-To: <Zsy8JPaiGknBypw9@smile.fi.intel.com>
+References: <20240826162416.74501-1-miquel.raynal@bootlin.com>
+	<Zsy8JPaiGknBypw9@smile.fi.intel.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <MW4PR12MB72616723E1A090E315681FF6A38B2@MW4PR12MB7261.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 
-Hi,
+Hi Andy,
 
-On Mon, Aug 26, 2024 at 06:17:22PM +0000, Bruno Faccini wrote:
-> > On 7 Aug 2024, at 2:41, Mike Rapoport wrote:
-> > 
-> > From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-> > 
-> > Until now arch_numa was directly translating firmware NUMA information
-> > to memblock.
-> > 
-> > Using numa_memblks as an intermediate step has a few advantages:
-> > * alignment with more battle tested x86 implementation
-> > * availability of NUMA emulation
-> > * maintaining node information for not yet populated memory
-> > 
-> > Adjust a few places in numa_memblks to compile with 32-bit phys_addr_t
-> > and replace current functionality related to numa_add_memblk() and
-> > __node_distance() in arch_numa with the implementation based on
-> > numa_memblks and add functions required by numa_emulation.
-> > 
-> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> > Tested-by: Zi Yan <ziy@nvidia.com> # for x86_64 and arm64
-> > Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > Tested-by: Jonathan Cameron <Jonathan.Cameron@huawei.com> [arm64 + CXL via
-> > QEMU]
-> > Acked-by: Dan Williams <dan.j.williams@intel.com>
-> > Acked-by: David Hildenbrand <david@redhat.com>
-> > ---
-> >   drivers/base/Kconfig       |   1 +
-> >   drivers/base/arch_numa.c   | 201 +++++++++++--------------------------
-> >   include/asm-generic/numa.h |   6 +-
-> >   mm/numa_memblks.c          |  17 ++--
-> >   4 files changed, 75 insertions(+), 150 deletions(-)
-> >  
-> > <snip>
-> > 
-> > +
-> > +u64 __init numa_emu_dma_end(void)
-> > +{
-> > +             return PFN_PHYS(memblock_start_of_DRAM() + SZ_4G);
-> > +}
-> > +
-> 
-> PFN_PHYS() translation is unnecessary here, as
-> memblock_start_of_DRAM() + SZ_4G is already a
-> memory size.
-> 
-> This should fix it:
->  
-> diff --git a/drivers/base/arch_numa.c b/drivers/base/arch_numa.c
-> index 8d49893c0e94..e18701676426 100644
-> --- a/drivers/base/arch_numa.c
-> +++ b/drivers/base/arch_numa.c
-> @@ -346,7 +346,7 @@ void __init numa_emu_update_cpu_to_node(int
-> *emu_nid_to_phys,
-> 
-> u64 __init numa_emu_dma_end(void)
-> {
-> -              return PFN_PHYS(memblock_start_of_DRAM() + SZ_4G);
-> +             return memblock_start_of_DRAM() + SZ_4G;
-> }
-> 
-> void debug_cpumask_set_cpu(unsigned int cpu, int node, bool enable)
+Thanks for your feedback.
 
-Right, I've missed that. Thanks for the fix!
+andriy.shevchenko@linux.intel.com wrote on Mon, 26 Aug 2024 20:32:20
++0300:
 
-Andrew, can you please apply this (with fixed formatting)
+> On Mon, Aug 26, 2024 at 06:24:14PM +0200, Miquel Raynal wrote:
+> > Hello!
+> >=20
+> > While working on NAND issues, I used print_hex_dump() a lot to compare
+> > data. But I am mostly working on embedded systems where the kernel
+> > messages go through a serial console. Sometimes network support is an
+> > option, sometimes not. Anyway, I often print buffers both in kernel
+> > space and user space to compare them, and they may be full of 0's or
+> > 1's, which means lines are repeated a lot in the output and this is slow
+> > *and* hard to compare.
+> >=20
+> > I initially hacked into lib/hexdump.c for my own purpose and just
+> > discarded all the other users, but it felt like this might be a useful
+> > feature for others and decided to make it a public patch.
+> >=20
+> > * First patch changes the "ascii" parameter into a "flags" variable now
+> >   accepting the value: DUMP_FLAG_ASCII.
+> > * Second patch adds a new flag to skip the identical lines, because this
+> >   must be an opt-in parameter, I guess. =20
+>=20
+> This is quite a long to look into, can you please add a summary here which
+> includes (but not limited to) the following:
+> 1) examples before and after (ah, I see you have that in the patch 2,
+>    but would be still good to have in the cover letter);
 
-diff --git a/drivers/base/arch_numa.c b/drivers/base/arch_numa.c
-index 8d49893c0e94..e18701676426 100644
---- a/drivers/base/arch_numa.c
-+++ b/drivers/base/arch_numa.c
-@@ -346,7 +346,7 @@ void __init numa_emu_update_cpu_to_node(int *emu_nid_to_phys,
- 
- u64 __init numa_emu_dma_end(void)
- {
--	return PFN_PHYS(memblock_start_of_DRAM() + SZ_4G);
-+	return memblock_start_of_DRAM() + SZ_4G;
- }
- 
- void debug_cpumask_set_cpu(unsigned int cpu, int node, bool enable)
+No problem, I can make this part of the cover letter as well.
 
--- 
-Sincerely yours,
-Mike.
+> 2) excerpts of the code for before and after (since the type of the ascii
+>    parameter had been changed).
+
+In patch 1/2 there is the Coccinelle script, but I must admit the
+syntax is not super clear, so I will improve this by showing the two
+main user cases with a proper human-readable diff.
+
+> Also here is the formal NAK till the series gains the test cases.
+
+What test cases are you talking about?
+
+Thanks,
+Miqu=C3=A8l
