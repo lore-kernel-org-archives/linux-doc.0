@@ -1,171 +1,146 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3391C1A706C;
-	Wed, 28 Aug 2024 17:14:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5CB11A3BCE;
+	Wed, 28 Aug 2024 17:32:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724865259; cv=none; b=qdbNctNH+buF0EwJMIkLmY0+7uZ0GE0RZrkobrf9lnCiMeU7GhXGT9AHF9D5NVqTC3UsYRG0cNW3lIMeVNIoBpC+CQCCUOHDPbeI9bVyIu0KgfAYOj/MW943LhDXUlXy50SIzs5X1tSPWn6J9vmGHra0eLzqD0/r0ZO/jw0JMEw=
+	t=1724866378; cv=none; b=sKTXaddVtPQ/6nZUN7s08Euw37DGGj7NOAavF3H7JGv796Bh4rEqjXxucLLBao6U4+e48fe1jT6iL5gd7l12ctyjyujh0/NkotrowsMIXzhyTzklUCvaaUKnOvz/8KmnidPTVKSR4qv/LfYBCyxCE3yuF0efntuRqp3vDSsYPl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724865259; c=relaxed/simple;
-	bh=JMXcxtayu0gzzaCBWTcXmf2eB/HAKHtp+/XlQYk6MBo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TRTAdVmcplpjL+SbRIxBUKo51aCAdWqS3aEZ+PX67vNjTOLo6zj4e7aB/HjEdrn4ilxiDtY/WyUZNDDTR7QL9fhblJtUfSNL8rmPC8KsPXf/jav8dCe/Fs79Vo20ZNv/ZbaTODV7VFpLHFCyIf5PP1SvCLr1Vx8o6wAgj7gph8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=azHCmxiT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724866378; c=relaxed/simple;
+	bh=4MDDdzSEhRjEbEa2n9fIYxr42mIY+eyZfSj6+j+Bu0s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PEaL/Pf4PgHqJjzwWdqKFjIiFEJJBqGUuOpOLicxoUU5Ol9afleYtlZSluN88oNHOc4ryVuQSfSWbhfJTdXkaYxIWMtcuwJHhCH8cY1uyH8MTCloy8Lx0cCFdJKCs3pB2AwaAFl7KLN+GRX+qpOh8S5gn/eOJLacWLMSjK5Dk/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O/xcOhor; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="azHCmxiT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC5EFC4AF10;
-	Wed, 28 Aug 2024 17:14:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O/xcOhor"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71927C4CEC0;
+	Wed, 28 Aug 2024 17:32:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724865258;
-	bh=JMXcxtayu0gzzaCBWTcXmf2eB/HAKHtp+/XlQYk6MBo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=azHCmxiTXKE3x7rwJPOfbJepWeWHKeou6GzC9yWlspuG4haAA3acy6WVh77iaM4z5
-	 O2OEFuda+1O6DK77JDqyue3RDMfwcX8207p6iR328o/8iCFuXjPiZeb+JIgV8NOlcs
-	 lMlASpeCY07DWlr9IefrQ5mr8lwLYIVSElhKb3L+YVjJ0eNch1k5kT5b39NgeDMQ6m
-	 wnqxzfoiN7p2vuIQv8LhOqnhQpNfhEaLIS5uA0nb9odqS6zthIw0K7LuXuSkMirueU
-	 Hto6PVWap9ehICcysOfp3iK4wrSz5Wd9tZ+DWn7JRrZ5fOm0dlYbkUW1gOfwO2wnms
-	 ruA65lYdzvEAA==
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-534366c1aa2so6137488e87.1;
-        Wed, 28 Aug 2024 10:14:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUFpq7AWRC/zaBOSIuXnWzId9zmXWhEVGCmJD+1k6PZzou+ll54NSIgh45z3qWTchKaiKj+E7WCKwKh@vger.kernel.org, AJvYcCVJxsff5RpUvTVQcPRLiRQ2tdTjP14ZgTq1bFjDfZrP7KITtgX45xnuTWI5Ihn4/IafK5y3vhrLgHXS@vger.kernel.org, AJvYcCVYOSb3/Q6a62+5SxrpdHSTNEI3r2v/fbhhhpi4BO0sJ4a6LbI23nieGa6Y/C9hK+bKJvFQagGDp3GToLmT@vger.kernel.org, AJvYcCWxxDWSFeDrRWRftxIaVzo1LWgrZZECdHOnZ06CdtuzJtVmErYCQ3XFDhU1FR0T/qERTlFZrrOVb+ky4rE=@vger.kernel.org, AJvYcCXvWxuB/chG7GRiSeojp4tkKGJpTXovEaJp/XeFOpk0KrIUvE3U4OV/na6uERmJyl25jRLRHHw+2mW7QxOUptFX@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyl02PTVlzuxEvCgU+6y7qp7gyPd7JsXDULCIQxTmRKorZlhV68
-	5WKoR17Ol12CTxx2pgTMzM34g1Txcoj9zeR8hXcqB9sf9ieLxjxY2rgFVLxqaFSbb6qOghvAHCq
-	XbmkQKCU5DfEiUvhq3m00zjFsbpg=
-X-Google-Smtp-Source: AGHT+IGjIAEHfnaAvWDGrHZH9ur0Yqdu+2C9S8V61720ewupp4mWfrA47TtZM9rrWmWlkP/s8kuZindCvpyLzRoi8jM=
-X-Received: by 2002:a05:6512:3052:b0:52e:9b2f:c313 with SMTP id
- 2adb3069b0e04-53438831efbmr11902856e87.22.1724865257121; Wed, 28 Aug 2024
- 10:14:17 -0700 (PDT)
+	s=k20201202; t=1724866378;
+	bh=4MDDdzSEhRjEbEa2n9fIYxr42mIY+eyZfSj6+j+Bu0s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=O/xcOhorFRSv2vHmRagMWmGxh+ScNnb9p5YrzG9/pAmQfUsEg399/CaTU0Z06a3Kd
+	 25gBR9x3tRKON/9TVqn3X9yWKKyvoaXPglSuRX8H/AEzCQfOfamSFXFrUflPvWSiAU
+	 m2RTlwhEQm6GYG4Uu3jWFaCtKcYLtQjATOV2MkQy03IMy9y2Bez9OmpxvhprGtMcQG
+	 PjRlInV3Bc/JK1THjQVmMuPnn6fu1rOqZ3+sGnnl2KRptQU5L4iIPf6dlZynx0jL9x
+	 730E1RPdEdJUvwP5kiHq7t30Mte5uQ7x3NQJjn8eIqgssRzUyqSg0jXamQWsy9Pz/C
+	 BWKufAwkMrGMg==
+Date: Wed, 28 Aug 2024 18:32:48 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Shuah Khan <shuah@kernel.org>,
+	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Florian Weimer <fweimer@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
+	Ross Burton <ross.burton@arm.com>,
+	Yury Khrustalev <yury.khrustalev@arm.com>,
+	Wilco Dijkstra <wilco.dijkstra@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v11 25/39] arm64/signal: Expose GCS state in signal frames
+Message-ID: <4de41478-3bc8-4cb4-a557-3e9402afe858@sirena.org.uk>
+References: <20240822-arm64-gcs-v11-0-41b81947ecb5@kernel.org>
+ <20240822-arm64-gcs-v11-25-41b81947ecb5@kernel.org>
+ <ZshYTyNbveD7WMyJ@arm.com>
+ <ZshjmuYcejbhaSBg@finisterre.sirena.org.uk>
+ <Zsixz6Y9xWxqaQaV@arm.com>
+ <ZskGqU8BSvR01W30@finisterre.sirena.org.uk>
+ <ZsxSKVAOHQq12YfB@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240826223835.3928819-21-ross.philipson@oracle.com> <202408290030.FEbUhHbr-lkp@intel.com>
-In-Reply-To: <202408290030.FEbUhHbr-lkp@intel.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Wed, 28 Aug 2024 19:14:06 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXGVn85ht_srwhYXDnKffPFX=B2+Cnv-8EAocwoHi__OoQ@mail.gmail.com>
-Message-ID: <CAMj1kXGVn85ht_srwhYXDnKffPFX=B2+Cnv-8EAocwoHi__OoQ@mail.gmail.com>
-Subject: Re: [PATCH v10 20/20] x86/efi: EFI stub DRTM launch support for
- Secure Launch
-To: kernel test robot <lkp@intel.com>
-Cc: Ross Philipson <ross.philipson@oracle.com>, linux-kernel@vger.kernel.org, x86@kernel.org, 
-	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, kexec@lists.infradead.org, 
-	linux-efi@vger.kernel.org, iommu@lists.linux-foundation.org, 
-	oe-kbuild-all@lists.linux.dev, dpsmith@apertussolutions.com, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com, 
-	dave.hansen@linux.intel.com, mjg59@srcf.ucam.org, 
-	James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de, jarkko@kernel.org, 
-	jgg@ziepe.ca, luto@amacapital.net, nivedita@alum.mit.edu, 
-	herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net, 
-	ebiederm@xmission.com, dwmw2@infradead.org, baolu.lu@linux.intel.com, 
-	kanth.ghatraju@oracle.com
-Content-Type: text/plain; charset="UTF-8"
-
-On Wed, 28 Aug 2024 at 19:09, kernel test robot <lkp@intel.com> wrote:
->
-> Hi Ross,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on tip/x86/core]
-> [also build test WARNING on char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus herbert-cryptodev-2.6/master efi/next linus/master v6.11-rc5]
-> [cannot apply to herbert-crypto-2.6/master next-20240828]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Ross-Philipson/Documentation-x86-Secure-Launch-kernel-documentation/20240827-065225
-> base:   tip/x86/core
-> patch link:    https://lore.kernel.org/r/20240826223835.3928819-21-ross.philipson%40oracle.com
-> patch subject: [PATCH v10 20/20] x86/efi: EFI stub DRTM launch support for Secure Launch
-> config: i386-randconfig-062-20240828 (https://download.01.org/0day-ci/archive/20240829/202408290030.FEbUhHbr-lkp@intel.com/config)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="qwAebp9So100JWhv"
+Content-Disposition: inline
+In-Reply-To: <ZsxSKVAOHQq12YfB@arm.com>
+X-Cookie: You are number 6!  Who is number one?
 
 
-This is a i386 32-bit build, which makes no sense: this stuff should
-just declare 'depends on 64BIT'
+--qwAebp9So100JWhv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+On Mon, Aug 26, 2024 at 01:00:09PM +0300, Catalin Marinas wrote:
+> On Fri, Aug 23, 2024 at 11:01:13PM +0100, Mark Brown wrote:
+> > On Fri, Aug 23, 2024 at 04:59:11PM +0100, Catalin Marinas wrote:
 
-> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240829/202408290030.FEbUhHbr-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202408290030.FEbUhHbr-lkp@intel.com/
->
-> sparse warnings: (new ones prefixed by >>)
-> >> drivers/firmware/efi/libstub/x86-stub.c:945:41: sparse: sparse: non size-preserving pointer to integer cast
->    drivers/firmware/efi/libstub/x86-stub.c:953:65: sparse: sparse: non size-preserving pointer to integer cast
-> >> drivers/firmware/efi/libstub/x86-stub.c:980:70: sparse: sparse: non size-preserving integer to pointer cast
->    drivers/firmware/efi/libstub/x86-stub.c:1014:45: sparse: sparse: non size-preserving integer to pointer cast
->
-> vim +945 drivers/firmware/efi/libstub/x86-stub.c
->
->    927
->    928  static bool efi_secure_launch_update_boot_params(struct slr_table *slrt,
->    929                                                   struct boot_params *boot_params)
->    930  {
->    931          struct slr_entry_intel_info *txt_info;
->    932          struct slr_entry_policy *policy;
->    933          struct txt_os_mle_data *os_mle;
->    934          bool updated = false;
->    935          int i;
->    936
->    937          txt_info = slr_next_entry_by_tag(slrt, NULL, SLR_ENTRY_INTEL_INFO);
->    938          if (!txt_info)
->    939                  return false;
->    940
->    941          os_mle = txt_os_mle_data_start((void *)txt_info->txt_heap);
->    942          if (!os_mle)
->    943                  return false;
->    944
->  > 945          os_mle->boot_params_addr = (u64)boot_params;
->    946
->    947          policy = slr_next_entry_by_tag(slrt, NULL, SLR_ENTRY_ENTRY_POLICY);
->    948          if (!policy)
->    949                  return false;
->    950
->    951          for (i = 0; i < policy->nr_entries; i++) {
->    952                  if (policy->policy_entries[i].entity_type == SLR_ET_BOOT_PARAMS) {
->    953                          policy->policy_entries[i].entity = (u64)boot_params;
->    954                          updated = true;
->    955                          break;
->    956                  }
->    957          }
->    958
->    959          /*
->    960           * If this is a PE entry into EFI stub the mocked up boot params will
->    961           * be missing some of the setup header data needed for the second stage
->    962           * of the Secure Launch boot.
->    963           */
->    964          if (image) {
->    965                  struct setup_header *hdr = (struct setup_header *)((u8 *)image->image_base +
->    966                                              offsetof(struct boot_params, hdr));
->    967                  u64 cmdline_ptr;
->    968
->    969                  boot_params->hdr.setup_sects = hdr->setup_sects;
->    970                  boot_params->hdr.syssize = hdr->syssize;
->    971                  boot_params->hdr.version = hdr->version;
->    972                  boot_params->hdr.loadflags = hdr->loadflags;
->    973                  boot_params->hdr.kernel_alignment = hdr->kernel_alignment;
->    974                  boot_params->hdr.min_alignment = hdr->min_alignment;
->    975                  boot_params->hdr.xloadflags = hdr->xloadflags;
->    976                  boot_params->hdr.init_size = hdr->init_size;
->    977                  boot_params->hdr.kernel_info_offset = hdr->kernel_info_offset;
->    978                  efi_set_u64_form(boot_params->hdr.cmd_line_ptr, boot_params->ext_cmd_line_ptr,
->    979                                   &cmdline_ptr);
->  > 980                  boot_params->hdr.cmdline_size = strlen((const char *)cmdline_ptr);
->    981          }
->    982
->    983          return updated;
->    984  }
->    985
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+> gcs_preserve_current_state() only a context switch thing. Would it work
+> if we don't touch the thread structure at all in the signal code? We
+> wouldn't deliver a signal in the middle of the switch_to() code. So any
+> value we write in thread struct would be overridden at the next switch.
+
+I think so, yes.
+
+> If GCS is disabled for a guest, we save the GCSPR_EL0 with the cap size
+
+s/guest/task/ I guess?
+
+> subtracted but there's no cap written. In restore_gcs_context() it
+> doesn't look like we add the cap size back when writing GCSPR_EL0. If
+> GCS is enabled, we do consume the cap and add 8 but otherwise it looks
+> that we keep decreasing GCSPR_EL0. I think we should always subtract the
+> cap size if GCS is enabled. This could could do with some refactoring as
+> I find it hard to follow (not sure exactly how, maybe just comments will
+> do).
+
+I've changed this so we instead only add the frame for the token if GCS
+is enabled and updated the comment, that way we don't modify GCSPR_EL0
+in cases where GCS is not enabled.
+
+> I'd also keep a single write to GCSPR_EL0 on the return path but I'm ok
+> with two if we need to cope with GCS being disabled but the GCSPR_EL0
+> still being saved/restored.
+
+I think the handling for the various options in the second case mean
+that it's clearer and simpler to write once when we restore the frame
+and once when we consume the token.
+
+> Another aspect for gcs_restore_signal(), I think it makes more sense for
+> the cap to be consumed _after_ restoring the sigcontext since this has
+> the actual gcspr_el0 where we stored the cap and represents the original
+> stack. If we'll get an alternative shadow stack, current GCSPR_EL0 on
+> sigreturn points to that alternative shadow stack rather than the
+> original one. That's what confused me when reviewing the patch and I
+> thought the cap goes to the top of the signal stack.
+
+I've moved gcs_restore_signal() before the altstack restore which I
+think is what you're looking for here?
+
+--qwAebp9So100JWhv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbPXz8ACgkQJNaLcl1U
+h9AINwgAghxTu8PB4VcQHkYwz1H/qDleYcPMAHplNpZgcLpx59wTJgBZ5QfIwDnV
+v12mJKsZJ3gfnHdZipZjp7EKhKGELQUTGRLICZqBr9S/8SfK3cXC3z6gQEXLxu3W
+Z122sDonqb/vfykIYhrtWeP12Rgm1n7KRplfJrXGx+xfZD2pQRdydES4L5RWtbZU
+coJqFBLlGHRFqsnIUQni4PFl1UCQRVitFHHS4nL+Fs/lGj+rkjM69mkCQjmAHR1d
+/Wivj6fyHPPQj8UCXiCXkk+/KcM64IZqgoTzIdYH+khbjTKKaBC0s06fnqJqU2n1
+d06XGwawJkM0HfQlIcf0XRaB8a7aew==
+=V6Zo
+-----END PGP SIGNATURE-----
+
+--qwAebp9So100JWhv--
