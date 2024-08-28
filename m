@@ -1,92 +1,189 @@
-Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DD5617335C;
-	Wed, 28 Aug 2024 12:54:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.67.55.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554A616BE30;
+	Wed, 28 Aug 2024 13:26:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724849701; cv=none; b=a2h+FEY1RPwHpNSCrJCzuQ8S03kDUzsVxOBCakwlxvK0Fj5daUxNIosYuCRJ2eyKHRQpqOs80bmc9No+0dEaYFRJCKME3TIiZ19Dkcc9T9G1BRhOVw/GPG2NE0SogKmqsk8SEhgFbDzxvkkkExQHpXBBjXQSbsUEuPrtIkr/zzo=
+	t=1724851609; cv=none; b=om+yRYy6Jdc/MNpJbvTWu/XRHWpZOj+pbav7jZUVdP4V3eT4acElBdjyNzil6dK4IifPCt23+ZJJ2Q3jNCOzDW55J6yXFDF7ZCtqcHazPN4OHTcy3ZYnPTMTiTpIBFLUa/eevSK4turgiSJXO6PtwtaB+7rxLXxp0YlGuqRLB04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724849701; c=relaxed/simple;
-	bh=H9xGvRslflWZOOm5Scl/mBKn6XvgSSf5ROmmH8aPjBo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=mJ+JNgg896u7ENOy+adRGAljJU3nQ76uJH9nfR/TYmMbCRrm2Upa1OJmExVBOGijcbzqQkn4otuj843WZfsH8RVQ7Htxpnloz/O+O9xpwPdsfMyVWdgOPU0mbvPHXBtRlyRRadRLNXHEy3/ASAn8eTNqUdB81e3qqz2rqi1HyUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=surriel.com; spf=pass smtp.mailfrom=shelob.surriel.com; arc=none smtp.client-ip=96.67.55.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=surriel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shelob.surriel.com
-Received: from [2601:18c:9101:a8b6:6e0b:84ff:fee2:98bb] (helo=imladris.surriel.com)
-	by shelob.surriel.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.97.1)
-	(envelope-from <riel@shelob.surriel.com>)
-	id 1sjIBr-000000003J8-3ujq;
-	Wed, 28 Aug 2024 08:54:23 -0400
-Message-ID: <8d0a923115746ab77064764e391271403b5b820e.camel@surriel.com>
-Subject: Re: [RFC 0/2] mm: introduce THP deferred setting
-From: Rik van Riel <riel@surriel.com>
-To: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Usama Arif
- <usamaarif642@gmail.com>,  Nico Pache <npache@redhat.com>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, David
- Hildenbrand <david@redhat.com>, Matthew Wilcox <willy@infradead.org>, Barry
- Song <baohua@kernel.org>,  Ryan Roberts <ryan.roberts@arm.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Lance Yang <ioworker0@gmail.com>, Peter Xu
- <peterx@redhat.com>, Rafael Aquini <aquini@redhat.com>, Andrea Arcangeli
- <aarcange@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Zi Yan
- <ziy@nvidia.com>
-Date: Wed, 28 Aug 2024 08:54:23 -0400
-In-Reply-To: <ouerpxb676mei3kndz53j4am4fo2duvygoatfnposo2rkct566@akl7ckd7nrvk>
-References: <20240729222727.64319-1-npache@redhat.com>
-	 <72320F9D-9B6A-4ABA-9B18-E59B8382A262@nvidia.com>
-	 <CAA1CXcCD798gkLoZuz3Cd5-Wf2MRfnAG_EB0U3nbScZeFv09dw@mail.gmail.com>
-	 <CAA1CXcCCOS8-aqcm+w8Aoqe2P5q005wMrgmtx=xjzJgjKFb7mg@mail.gmail.com>
-	 <61411216-d196-42de-aa64-12bd28aef44f@gmail.com>
-	 <CAA1CXcCe8QDir2KiWg=GmN4BErfXSDs_9kmnYfyK=X8H8U8QwA@mail.gmail.com>
-	 <698ea52e-db99-4d21-9984-ad07038d4068@gmail.com>
-	 <20240827110959.GA438928@cmpxchg.org>
-	 <9cf237df1a7bb21bba1a464787938eba8f372658.camel@surriel.com>
-	 <ouerpxb676mei3kndz53j4am4fo2duvygoatfnposo2rkct566@akl7ckd7nrvk>
-Autocrypt: addr=riel@surriel.com; prefer-encrypt=mutual;
- keydata=mQENBFIt3aUBCADCK0LicyCYyMa0E1lodCDUBf6G+6C5UXKG1jEYwQu49cc/gUBTTk33Aeo2hjn4JinVaPF3zfZprnKMEGGv4dHvEOCPWiNhlz5RtqH3SKJllq2dpeMS9RqbMvDA36rlJIIo47Z/nl6IA8MDhSqyqdnTY8z7LnQHqq16jAqwo7Ll9qALXz4yG1ZdSCmo80VPetBZZPw7WMjo+1hByv/lvdFnLfiQ52tayuuC1r9x2qZ/SYWd2M4p/f5CLmvG9UcnkbYFsKWz8bwOBWKg1PQcaYHLx06sHGdYdIDaeVvkIfMFwAprSo5EFU+aes2VB2ZjugOTbkkW2aPSWTRsBhPHhV6dABEBAAG0HlJpayB2YW4gUmllbCA8cmllbEByZWRoYXQuY29tPokBHwQwAQIACQUCW5LcVgIdIAAKCRDOed6ShMTeg05SB/986ogEgdq4byrtaBQKFg5LWfd8e+h+QzLOg/T8mSS3dJzFXe5JBOfvYg7Bj47xXi9I5sM+I9Lu9+1XVb/r2rGJrU1DwA09TnmyFtK76bgMF0sBEh1ECILYNQTEIemzNFwOWLZZlEhZFRJsZyX+mtEp/WQIygHVWjwuP69VJw+fPQvLOGn4j8W9QXuvhha7u1QJ7mYx4dLGHrZlHdwDsqpvWsW+3rsIqs1BBe5/Itz9o6y9gLNtQzwmSDioV8KhF85VmYInslhv5tUtMEppfdTLyX4SUKh8ftNIVmH9mXyRCZclSoa6IMd635Jq1Pj2/Lp64tOzSvN5Y9zaiCc5FucXtB9SaWsgdmFuIFJpZWwgPHJpZWxAc3VycmllbC5jb20+iQE+BBMBAgAoBQJSLd2lAhsjBQkSzAMABgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDOed6ShMTeg4PpB/0ZivKYFt0LaB22ssWUrBoeNWCP1NY/lkq2QbPhR3agLB7ZXI97PF2z/5QD9Fuy/FD/j
-	ddPxKRTvFCtHcEzTOcFjBmf52uqgt3U40H9GM++0IM0yHusd9EzlaWsbp09vsAV2DwdqS69x9RPbvE/NefO5subhocH76okcF/aQiQ+oj2j6LJZGBJBVigOHg+4zyzdDgKM+jp0bvDI51KQ4XfxV593OhvkS3z3FPx0CE7l62WhWrieHyBblqvkTYgJ6dq4bsYpqxxGJOkQ47WpEUx6onH+rImWmPJbSYGhwBzTo0MmG1Nb1qGPG+mTrSmJjDRxrwf1zjmYqQreWVSFEt26tBpSaWsgdmFuIFJpZWwgPHJpZWxAZmIuY29tPokBPgQTAQIAKAUCW5LbiAIbIwUJEswDAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQznnekoTE3oOUEQgAsrGxjTC1bGtZyuvyQPcXclap11Ogib6rQywGYu6/Mnkbd6hbyY3wpdyQii/cas2S44NcQj8HkGv91JLVE24/Wt0gITPCH3rLVJJDGQxprHTVDs1t1RAbsbp0XTksZPCNWDGYIBo2aHDwErhIomYQ0Xluo1WBtH/UmHgirHvclsou1Ks9jyTxiPyUKRfae7GNOFiX99+ZlB27P3t8CjtSO831Ij0IpQrfooZ21YVlUKw0Wy6Ll8EyefyrEYSh8KTm8dQj4O7xxvdg865TLeLpho5PwDRF+/mR3qi8CdGbkEc4pYZQO8UDXUN4S+pe0aTeTqlYw8rRHWF9TnvtpcNzZw==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+	s=arc-20240116; t=1724851609; c=relaxed/simple;
+	bh=7BbU5dLovWDFORgSLFgRyj4fzAjLCu/oXgappiGEN7I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NiozCog0REfwoizK6dSWdYmU1gNC8yDLnu9boayivQWvKBDaEVh6DxZCT+3sdmvJm8ozMjTSyT3RrYTq1dqa9+WIaqKA3CU8SHsnKWQr0Myf/kJLKCZXvUVQ1rHzBotRAFLT/qglPrBdSweJG2jjtnUm+1y2cOwS92eJ8ynTf4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=gGFZAlaI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uyOpuk+j; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=gGFZAlaI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uyOpuk+j; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="gGFZAlaI";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uyOpuk+j";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="gGFZAlaI";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uyOpuk+j"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 589331FBBF;
+	Wed, 28 Aug 2024 13:26:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1724851605; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LyUIc0iZ+ZifEEA8zobhhlH2+HprB79+jaE7STT3510=;
+	b=gGFZAlaIfmh4x7eegJ3pSAbPn1at4ndXZyXRO1e46NXX1Wsl2zHBv0eSak+JHJyaqRw/CX
+	0RV27RwFNhem2n/lDWNa1RSyvK3QzbkEmz3Yn7k9N8nY0EQK5LznRqX+EmUKY5tCdl2u+T
+	0kONASN0lfBTSmYCnKZUW3SfxnGZnbw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1724851605;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LyUIc0iZ+ZifEEA8zobhhlH2+HprB79+jaE7STT3510=;
+	b=uyOpuk+jgh3b7bSMpIsDhZzaSt5GQHdG87HIN4O2Ra6f7eXPtFFfMLh8iJ10ULdvLfrffv
+	61m6HzM5Xsyo/tBg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=gGFZAlaI;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=uyOpuk+j
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1724851605; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LyUIc0iZ+ZifEEA8zobhhlH2+HprB79+jaE7STT3510=;
+	b=gGFZAlaIfmh4x7eegJ3pSAbPn1at4ndXZyXRO1e46NXX1Wsl2zHBv0eSak+JHJyaqRw/CX
+	0RV27RwFNhem2n/lDWNa1RSyvK3QzbkEmz3Yn7k9N8nY0EQK5LznRqX+EmUKY5tCdl2u+T
+	0kONASN0lfBTSmYCnKZUW3SfxnGZnbw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1724851605;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LyUIc0iZ+ZifEEA8zobhhlH2+HprB79+jaE7STT3510=;
+	b=uyOpuk+jgh3b7bSMpIsDhZzaSt5GQHdG87HIN4O2Ra6f7eXPtFFfMLh8iJ10ULdvLfrffv
+	61m6HzM5Xsyo/tBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4273D138D2;
+	Wed, 28 Aug 2024 13:26:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id O14zEJUlz2a+JgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 28 Aug 2024 13:26:45 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id B4B33A0968; Wed, 28 Aug 2024 15:26:40 +0200 (CEST)
+Date: Wed, 28 Aug 2024 15:26:40 +0200
+From: Jan Kara <jack@suse.cz>
+To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc: linux-doc@vger.kernel.org, corbet@lwn.net,
+	linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+	kernel-dev@igalia.com, kernel@gpiccoli.net,
+	Bart Van Assche <bvanassche@acm.org>,
+	"Darrick J. Wong" <djwong@kernel.org>, Jan Kara <jack@suse.cz>,
+	Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH V4] Documentation: Document the kernel flag
+ bdev_allow_write_mounted
+Message-ID: <20240828132640.baglvrg3vkybjkys@quack3>
+References: <20240826001624.188581-1-gpiccoli@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Sender: riel@surriel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240826001624.188581-1-gpiccoli@igalia.com>
+X-Rspamd-Queue-Id: 589331FBBF
+X-Spam-Score: -4.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Wed, 2024-08-28 at 09:17 +0300, Kirill A . Shutemov wrote:
-> On Tue, Aug 27, 2024 at 09:18:58PM -0400, Rik van Riel wrote:
-> >=20
-> > Workload owners are going to have a real problem trying to figure
-> > out what the best value of max_ptes_none should be for their
-> > workloads.
-> >=20
-> > However, giving workload owners the ability to say "this workload
-> > should not waste more than 1GB of memory on zero pages inside
-> > THPs",
-> > or 500MB, or 4GB or whatever, would then allow the kernel to
-> > automatically adjust the max_ptes_none threshold.
->=20
-> The problem is that we don't have and cannot have the info on zero
-> pages
-> inside THPs readily available. It requires memory scanning which is
-> prohibitively expensive if we want the info to be somewhat up-to-
-> date.
->=20
-I'm not sure it needs to be super up to date.
+On Sun 25-08-24 21:15:11, Guilherme G. Piccoli wrote:
+> Commit ed5cc702d311 ("block: Add config option to not allow writing to mounted
+> devices") added a Kconfig option along with a kernel command-line tuning to
+> control writes to mounted block devices, as a means to deal with fuzzers like
+> Syzkaller, that provokes kernel crashes by directly writing on block devices
+> bypassing the filesystem (so the FS has no awareness and cannot cope with that).
+> 
+> The patch just missed adding such kernel command-line option to the kernel
+> documentation, so let's fix that.
+> 
+> Cc: Bart Van Assche <bvanassche@acm.org>
+> Cc: Darrick J. Wong <djwong@kernel.org>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: Jens Axboe <axboe@kernel.dk>
+> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+> ---
+> 
+> V4: More improvements in the wording (thanks Jens and Darrick!)
+> 
+> V3 link: https://lore.kernel.org/r/20240823180635.86163-1-gpiccoli@igalia.com
+> 
+> 
+>  Documentation/admin-guide/kernel-parameters.txt | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 09126bb8cc9f..d521d444a35c 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -517,6 +517,18 @@
+>  			Format: <io>,<irq>,<mode>
+>  			See header of drivers/net/hamradio/baycom_ser_hdx.c.
+>  
+> +	bdev_allow_write_mounted=
+> +			Format: <bool>
+> +			Control the ability to open a block device for
+						    ^^ a mounted block device
 
-After all, we only care when there is memory pressure, and
-when there is memory pressure we will be doing some sort of
-scanning, anyway.
+Otherwise looks good so feel free to add:
 
-With a shrinker in the mix, we do not need totally up to date
-information, but can gradually approximate the target.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
---=20
-All Rights Reversed.
+									Honza
+
+> +			writing, i.e., allow / disallow writes that bypass
+> +			the FS. This was implemented as a means to prevent
+> +			fuzzers from crashing the kernel by overwriting the
+> +			metadata underneath a mounted FS without its awareness.
+> +			This also prevents destructive formatting of mounted
+> +			filesystems by naive storage tooling that don't use
+> +			O_EXCL. Default is Y and can be changed through the
+> +			Kconfig option CONFIG_BLK_DEV_WRITE_MOUNTED.
+> +
+>  	bert_disable	[ACPI]
+>  			Disable BERT OS support on buggy BIOSes.
+>  
+> -- 
+> 2.46.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
