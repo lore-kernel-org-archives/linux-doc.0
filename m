@@ -1,189 +1,247 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554A616BE30;
-	Wed, 28 Aug 2024 13:26:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50B1F1D554;
+	Wed, 28 Aug 2024 13:34:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724851609; cv=none; b=om+yRYy6Jdc/MNpJbvTWu/XRHWpZOj+pbav7jZUVdP4V3eT4acElBdjyNzil6dK4IifPCt23+ZJJ2Q3jNCOzDW55J6yXFDF7ZCtqcHazPN4OHTcy3ZYnPTMTiTpIBFLUa/eevSK4turgiSJXO6PtwtaB+7rxLXxp0YlGuqRLB04=
+	t=1724852087; cv=none; b=QMp8gcVV3BwDmBA2EHa5ndgZzFUJwuHrgqga0Km/5dY8jF4ema27SBT5EZBmWe2+V0vIkpeLiFd3tjWyr8nk4ODpWwLDg1LajrDz/FFETyy7zTpmjxJ3L11ywiUC6cSA+kW7FcXC0kNLz9QBJhHtqikdgUoxxfu1f81j/DogtNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724851609; c=relaxed/simple;
-	bh=7BbU5dLovWDFORgSLFgRyj4fzAjLCu/oXgappiGEN7I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NiozCog0REfwoizK6dSWdYmU1gNC8yDLnu9boayivQWvKBDaEVh6DxZCT+3sdmvJm8ozMjTSyT3RrYTq1dqa9+WIaqKA3CU8SHsnKWQr0Myf/kJLKCZXvUVQ1rHzBotRAFLT/qglPrBdSweJG2jjtnUm+1y2cOwS92eJ8ynTf4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=gGFZAlaI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uyOpuk+j; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=gGFZAlaI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uyOpuk+j; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="gGFZAlaI";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uyOpuk+j";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="gGFZAlaI";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uyOpuk+j"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 589331FBBF;
-	Wed, 28 Aug 2024 13:26:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1724851605; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LyUIc0iZ+ZifEEA8zobhhlH2+HprB79+jaE7STT3510=;
-	b=gGFZAlaIfmh4x7eegJ3pSAbPn1at4ndXZyXRO1e46NXX1Wsl2zHBv0eSak+JHJyaqRw/CX
-	0RV27RwFNhem2n/lDWNa1RSyvK3QzbkEmz3Yn7k9N8nY0EQK5LznRqX+EmUKY5tCdl2u+T
-	0kONASN0lfBTSmYCnKZUW3SfxnGZnbw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1724851605;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LyUIc0iZ+ZifEEA8zobhhlH2+HprB79+jaE7STT3510=;
-	b=uyOpuk+jgh3b7bSMpIsDhZzaSt5GQHdG87HIN4O2Ra6f7eXPtFFfMLh8iJ10ULdvLfrffv
-	61m6HzM5Xsyo/tBg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=gGFZAlaI;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=uyOpuk+j
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1724851605; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LyUIc0iZ+ZifEEA8zobhhlH2+HprB79+jaE7STT3510=;
-	b=gGFZAlaIfmh4x7eegJ3pSAbPn1at4ndXZyXRO1e46NXX1Wsl2zHBv0eSak+JHJyaqRw/CX
-	0RV27RwFNhem2n/lDWNa1RSyvK3QzbkEmz3Yn7k9N8nY0EQK5LznRqX+EmUKY5tCdl2u+T
-	0kONASN0lfBTSmYCnKZUW3SfxnGZnbw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1724851605;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LyUIc0iZ+ZifEEA8zobhhlH2+HprB79+jaE7STT3510=;
-	b=uyOpuk+jgh3b7bSMpIsDhZzaSt5GQHdG87HIN4O2Ra6f7eXPtFFfMLh8iJ10ULdvLfrffv
-	61m6HzM5Xsyo/tBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4273D138D2;
-	Wed, 28 Aug 2024 13:26:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id O14zEJUlz2a+JgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 28 Aug 2024 13:26:45 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id B4B33A0968; Wed, 28 Aug 2024 15:26:40 +0200 (CEST)
-Date: Wed, 28 Aug 2024 15:26:40 +0200
-From: Jan Kara <jack@suse.cz>
-To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc: linux-doc@vger.kernel.org, corbet@lwn.net,
-	linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
-	kernel-dev@igalia.com, kernel@gpiccoli.net,
-	Bart Van Assche <bvanassche@acm.org>,
-	"Darrick J. Wong" <djwong@kernel.org>, Jan Kara <jack@suse.cz>,
-	Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH V4] Documentation: Document the kernel flag
- bdev_allow_write_mounted
-Message-ID: <20240828132640.baglvrg3vkybjkys@quack3>
-References: <20240826001624.188581-1-gpiccoli@igalia.com>
+	s=arc-20240116; t=1724852087; c=relaxed/simple;
+	bh=hYxXtkxsQKOAkmN+b3xnHbaMT1UgdiIJMQzTuDcUAIk=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jbwhaPeqbyK3VhVb98to6lt9EG4XEij2w4F3l2oWPahaj+WJdIzqDAsVXHjacL0t8Tiw9DINlopBtNj5fkp0mrqdhKz+p1tECGU8OBmYm9l9lCHTy83xtGmBGAJHn8I92jgAbs+KznxfJ14nLNytUv1q9NJaADcc1hLZhsvwNE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Wv50X51yfz6H7YP;
+	Wed, 28 Aug 2024 21:31:24 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id 008C1140B30;
+	Wed, 28 Aug 2024 21:34:41 +0800 (CST)
+Received: from localhost (10.203.177.66) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 28 Aug
+ 2024 14:34:40 +0100
+Date: Wed, 28 Aug 2024 14:34:39 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Esteban Blanc <eblanc@baylibre.com>
+CC: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>, "Rob Herring"
+	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, "Conor Dooley"
+	<conor+dt@kernel.org>, Nuno Sa <nuno.sa@analog.com>, Jonathan Corbet
+	<corbet@lwn.net>, <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, David Lechner <dlechner@baylibre.com>,
+	<linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 2/6] iio: adc: ad4030: add driver for ad4030-24
+Message-ID: <20240828143439.00006d3d@Huawei.com>
+In-Reply-To: <D3QUGZYL7INK.R3U3WQR0OCUS@baylibre.com>
+References: <20240822-eblanc-ad4630_v1-v1-0-5c68f3327fdd@baylibre.com>
+	<20240822-eblanc-ad4630_v1-v1-2-5c68f3327fdd@baylibre.com>
+	<20240824122111.425fa689@jic23-huawei>
+	<D3QUGZYL7INK.R3U3WQR0OCUS@baylibre.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240826001624.188581-1-gpiccoli@igalia.com>
-X-Rspamd-Queue-Id: 589331FBBF
-X-Spam-Score: -4.01
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-On Sun 25-08-24 21:15:11, Guilherme G. Piccoli wrote:
-> Commit ed5cc702d311 ("block: Add config option to not allow writing to mounted
-> devices") added a Kconfig option along with a kernel command-line tuning to
-> control writes to mounted block devices, as a means to deal with fuzzers like
-> Syzkaller, that provokes kernel crashes by directly writing on block devices
-> bypassing the filesystem (so the FS has no awareness and cannot cope with that).
-> 
-> The patch just missed adding such kernel command-line option to the kernel
-> documentation, so let's fix that.
-> 
-> Cc: Bart Van Assche <bvanassche@acm.org>
-> Cc: Darrick J. Wong <djwong@kernel.org>
-> Cc: Jan Kara <jack@suse.cz>
-> Cc: Jens Axboe <axboe@kernel.dk>
-> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
-> ---
-> 
-> V4: More improvements in the wording (thanks Jens and Darrick!)
-> 
-> V3 link: https://lore.kernel.org/r/20240823180635.86163-1-gpiccoli@igalia.com
-> 
-> 
->  Documentation/admin-guide/kernel-parameters.txt | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 09126bb8cc9f..d521d444a35c 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -517,6 +517,18 @@
->  			Format: <io>,<irq>,<mode>
->  			See header of drivers/net/hamradio/baycom_ser_hdx.c.
->  
-> +	bdev_allow_write_mounted=
-> +			Format: <bool>
-> +			Control the ability to open a block device for
-						    ^^ a mounted block device
+On Tue, 27 Aug 2024 18:45:49 +0200
+Esteban Blanc <eblanc@baylibre.com> wrote:
 
-Otherwise looks good so feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-									Honza
-
-> +			writing, i.e., allow / disallow writes that bypass
-> +			the FS. This was implemented as a means to prevent
-> +			fuzzers from crashing the kernel by overwriting the
-> +			metadata underneath a mounted FS without its awareness.
-> +			This also prevents destructive formatting of mounted
-> +			filesystems by naive storage tooling that don't use
-> +			O_EXCL. Default is Y and can be changed through the
-> +			Kconfig option CONFIG_BLK_DEV_WRITE_MOUNTED.
-> +
->  	bert_disable	[ACPI]
->  			Disable BERT OS support on buggy BIOSes.
->  
-> -- 
-> 2.46.0
+> On Sat Aug 24, 2024 at 1:21 PM CEST, Jonathan Cameron wrote:
+> > On Thu, 22 Aug 2024 14:45:18 +0200
+> > Esteban Blanc <eblanc@baylibre.com> wrote:
+> >  
+> > > This adds a new driver for the Analog Devices INC. AD4030-24 ADC.
+> > > 
+> > > The driver implements basic support for the AD4030-24 1 channel
+> > > differential ADC with hardware gain and offset control.
+> > > 
+> > > Signed-off-by: Esteban Blanc <eblanc@baylibre.com>  
+> > Hi Esteban
+> >
+> > Some additional comments.  David did a good review already so
+> > I've tried not to duplicate too much of that.
+> >
+> > The big one in here is don't use extended_name.
+> > It's effectively deprecated for new drivers plus
+> > it would have required you add a lot of ABI docs as every
+> > sysfs file would have a strange name.
+> >  
+> > > diff --git a/drivers/iio/adc/ad4030.c b/drivers/iio/adc/ad4030.c
+> > > new file mode 100644
+> > > index 000000000000..a981dce988e5
+> > > --- /dev/null
+> > > +++ b/drivers/iio/adc/ad4030.c  
+> >  
+> > > +struct ad4030_state {
+> > > +	struct spi_device *spi;
+> > > +	struct regmap *regmap;
+> > > +	const struct ad4030_chip_info *chip;
+> > > +	struct gpio_desc *cnv_gpio;
+> > > +	int vref_uv;
+> > > +	int vio_uv;
+> > > +	int offset_avail[3];
+> > > +	u32 conversion_speed_hz;
+> > > +	enum ad4030_out_mode mode;
+> > > +
+> > > +	/*
+> > > +	 * DMA (thus cache coherency maintenance) requires the transfer buffers
+> > > +	 * to live in their own cache lines.
+> > > +	 */
+> > > +	u8 tx_data[AD4030_SPI_MAX_XFER_LEN] __aligned(IIO_DMA_MINALIGN);
+> > > +	struct {
+> > > +		union {
+> > > +			u8 raw[AD4030_MAXIMUM_RX_BUFFER_SIZE];
+> > > +			struct {
+> > > +				s32 val;
+> > > +				u32 common;
+> > > +			} __packed buffered[AD4030_MAX_HARDWARE_CHANNEL_NB];  
+> >
+> > David pointed out this doesn't need to be packed.
+> > Given you have a union here, add __beXX as needed to avoid casts below.  
 > 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> They also pointed out that I should reduce the size for the common field.
+> I was planing to use an u32 bitfield here, 8 bits for common and 24 bits for
+> padding. As far as I understood, the C standard is quite flexible on the
+> size used for bitfield, so I should probably keep the __packed, right?
+Don't use a bitfield - they are a pain as the C standard is very vague
+on the data arrangement. Just use big enough storage and #define x GENMASK()
+etc to extract the dta.
+
+> 
+
+> > > +static int ad4030_spi_read(void *context, const void *reg, size_t reg_size,
+> > > +			   void *val, size_t val_size)
+> > > +{
+> > > +	struct ad4030_state *st = context;
+> > > +
+> > > +	struct spi_transfer xfer = {
+> > > +		.tx_buf = st->tx_data,
+> > > +		.rx_buf = st->rx_data.raw,
+> > > +		.len = reg_size + val_size,
+> > > +	};
+> > > +	int ret;
+> > > +
+> > > +	memcpy(st->tx_data, reg, reg_size);
+> > > +
+> > > +	/*
+> > > +	 * This should use spi_write_the_read but when doing so, CS never get
+> > > +	 * deasserted.  
+> >
+> > I'm confused.  As a single transfer it won't be deasserted in the transfer
+> > whereas spi_write_then_read() will. So is this comment backwards or
+> > is it referring to something else?  
+> 
+> So, with a single transfer (what is done now), the transfer is working
+> as expected: CS goes low, the data is transferred, CS goes high again.
+> With spi_write_then_read(), CS goes low, data is transferred but CS never
+> goes high again. After some time I get a timeout error in the kernel logs.
+
+That's odd.  spi_write_then_read() should not behave differently.
+Perhaps a quirk of your SPI controller?
+
+That one is worth digging into as in both cases we should have some
+transactions and after that the chip select should behave the same.
+
+
+
+> > > +static int ad4030_reset(struct ad4030_state *st)
+> > > +{
+> > > +	struct device *dev = &st->spi->dev;
+> > > +	struct gpio_desc *reset;
+> > > +	int ret;
+> > > +
+> > > +	/* Use GPIO if available ... */
+> > > +	reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+> > > +	if (IS_ERR(reset))
+> > > +		return dev_err_probe(dev, PTR_ERR(reset),
+> > > +				"Failed to get reset GPIO\n");
+> > > +
+> > > +	if (reset) {
+> > > +		ndelay(50);
+> > > +		gpiod_set_value_cansleep(reset, 0);
+> > > +	} else {
+> > > +		/* ... falback to software reset otherwise */
+> > > +		ret = ad4030_enter_config_mode(st);
+> > > +		if (ret)
+> > > +			return ret;
+> > > +
+> > > +		ret = regmap_write(st->regmap, AD4030_REG_INTERFACE_CONFIG_A,
+> > > +				   AD4030_REG_INTERFACE_CONFIG_A_SW_RESET);
+> > > +		if (ret)
+> > > +			return ret;
+> > > +	}
+> > > +
+> > > +	/* Wait for reset to complete before communicating to it */  
+> >
+> > I'd rather see a reference for the value than a generic comment
+> > like this.  Also pull the actual value down here. Not particularly
+> > useful to have a define for what is a real time unless you are going
+> >  to have some combined docs for a bunch of timings (i.e a datasheet
+> > table reference)  
+> 
+> I will put the real value in fsleep call directly. When you say "I'd
+> rather see a reference for the value", you ment a reference to the place
+> the value is defined in the datasheet, right?
+Exactly.
+
+> 
+> > > +static int ad4030_detect_chip_info(const struct ad4030_state *st)
+> > > +{
+> > > +	unsigned int grade;
+> > > +	int ret;
+> > > +
+> > > +	ret = regmap_read(st->regmap, AD4030_REG_CHIP_GRADE, &grade);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	grade = FIELD_GET(AD4030_REG_CHIP_GRADE_MASK_CHIP_GRADE, grade);
+> > > +	if (grade != st->chip->grade)
+> > > +		return dev_err_probe(&st->spi->dev, -EINVAL,
+> > > +					"Unknown grade(0x%x) for %s\n", grade,
+> > > +					st->chip->name);  
+> >
+> > Is this similar to a missmatch on a whoami value?  
+> 
+> Yes. It also saved me multiple hours of debuging when the eval board
+> was not connected porperly and the SPI link was just not working.
+> 
+> > I.e. should we print a message and carry on in the interests of providing
+> > some degree of support for newer devices on older kernel?
+> > (fallback compatibles in DT)  
+> 
+> Ok, let's go with a warning then.
+> 
+> > > +static const struct spi_device_id ad4030_id_table[] = {
+> > > +	{ "ad4030-24", (kernel_ulong_t)&ad4030_24_chip_info },
+> > > +	{}  
+> >
+> > I'm going to assume you have a bunch of other parts you plan to
+> > support soon. Otherwise we normally don't add the chip specific
+> > support until it is needed.  It tends to complicate initial driver
+> > review a little and experience says that sometimes no other devices
+> > are ever added.  
+> 
+> I'm sending the other devices in the same series (patch 4 and 5).
+> For the sake of reducing noise in the later patches, I've put it in
+> the initial driver. If you feel like I should wait and do it in the
+> following patch (patch 4), I can do that.
+
+Oops. I didn't ready on ;)  Absolutely fine to have this here.
+
+Jonathan
+
+> 
+> Thanks for your time,
+> 
+
