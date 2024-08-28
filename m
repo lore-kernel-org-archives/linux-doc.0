@@ -1,222 +1,116 @@
-Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C9812E1D9;
-	Wed, 28 Aug 2024 05:00:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E01B14D452;
+	Wed, 28 Aug 2024 06:17:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724821223; cv=none; b=Ikj+/BW09rpzZsjBeym9YDfAry2xXCx5Ka4vwQOxaWh3NguFpqL7j0gO+t0xsDDBpSMvpw94dT/OK+3egwuRHzPdDMxQXqVTqBUSNsMBq5fPPT1xdk6qHBhYFO88RCbr4Ct2etAxS235wgOIjzt/3wbI3jFh/9HFh7quq/FUpTM=
+	t=1724825859; cv=none; b=P7eBHCDOFVpkr4gMHwKUSPYqU/D4bunoUHgtW+4Df9fXF1hvAGEGwHz9O4wdfxfAaDTxGxh8JG3zwWio7T+6Vk5Fg/q2lkCR4w4n68zb5yBYFV/xZRE+Hi/WmZSh7e7/YtQzgAmxy1/PjGceL34u17JXXiwOWtwe+89u9pWnvbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724821223; c=relaxed/simple;
-	bh=VEDhVTVnY0zuzhewz0zm/PuilM0PMpgznKb+DAM1Xo8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pVnnv+fLPmFj58Vyd5Z9DOue3PF8LDS7+yiUXA09S5NDLmeyZ9REZ3onSP+TfPpGyBmNdd/jlyWcQ1m5vc9mjmYenLrW1eVcAb+3aTnSo+QSocc2KH8xOf9r5JJ2ID4YBWzXrpHICyYdgVWVASw5JclToxyEee1ftlNSP1FODQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=e2V+1bFD; arc=none smtp.client-ip=54.206.16.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1724825859; c=relaxed/simple;
+	bh=N7D0w95cp/r1m6Xu8l24R+M33YOTjjUOZNZE60X/7Dg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZFk4CLIZRQDcTcx8LHcR5DuwfIFIw5bnsw8HI8Yvggna7M7vRejoXbUtRNc1ooZAimBO1w9L5jfM9a+iHpf53HbpayHYMERycXbImyARynMi9yGsbl6Mf7soaDqBCoyWo6cBrsC4+VlkcN4ShrsRNCX7vzI2rM7Zu926YdumIrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FvAZNVyP; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="e2V+1bFD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1724821216;
-	bh=oVU55GyPUEvEL9hcGrB07XoY0OBZbqxfBQ2u9guts1c=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=e2V+1bFDqf1L+DxNwUnLhgum2250OqR5MRWf50lERqKS3vgSnAOOrfsEannwWSQXq
-	 OvPejG5CQO+xmDTt0R3Sld4LDzlZgNb2YDB0Lvfw/VUOuDzzw08dKTOwu1AuFujwlz
-	 QN/jDf4X3ZFkgPK8avNbN3XRse8bKPXKRgH5/VYc=
-X-QQ-mid: bizesmtp79t1724821209tmjq0y8y
-X-QQ-Originating-IP: HSvd97IkU+jxIjPcvdHxQdd/9fxSsft1/zQzGcj2AoM=
-Received: from localhost.localdomain ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 28 Aug 2024 13:00:07 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 15732336081589095938
-From: Dandan Zhang <zhangdandan@uniontech.com>
-To: pbonzini@redhat.com,
-	corbet@lwn.net,
-	zhaotianrui@loongson.cn,
-	maobibo@loongson.cn,
-	chenhuacai@kernel.org,
-	zenghui.yu@linux.dev
-Cc: kernel@xen0n.name,
-	kvm@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	guanwentao@uniontech.com,
-	wangyuli@uniontech.com,
-	baimingcong@uniontech.com,
-	Xianglai Li <lixianglai@loongson.cn>,
-	Mingcong Bai <jeffbai@aosc.io>,
-	Dandan Zhang <zhangdandan@uniontech.com>
-Subject: [PATCH v3] Loongarch: KVM: Add KVM hypercalls documentation for LoongArch
-Date: Wed, 28 Aug 2024 12:59:50 +0800
-Message-ID: <4769C036576F8816+20240828045950.3484113-1-zhangdandan@uniontech.com>
-X-Mailer: git-send-email 2.43.4
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FvAZNVyP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724825858; x=1756361858;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=N7D0w95cp/r1m6Xu8l24R+M33YOTjjUOZNZE60X/7Dg=;
+  b=FvAZNVyPtDnT1Ztr59K4j0DkWn1AbM/YSqfJLu5HwwYt0JxrFOQSNL6o
+   x1qCY/9AFk+IAzrD7Zpa1qVQimPTGe/4wHYOtLR7gQ7OrOSvP87rPmmAl
+   ZsH5XKkMyaSky4mfxQqLsoGu2oltfSltoioSAQRRq5q80R94hNsehBQly
+   zmmS+iQKxggOc11hUHFTrmCZUisKBAdI/WauTIVWdf0sjECMjMs3J24mq
+   wjB9MLxOagPHai0IB1LsD5YTZ9PhBS4kDZc2XZvjlM3WC27lT1Kh+qdm/
+   C7vEq+A0gT1Sq93WqkUP+D3ruWsUpIsmJM9lDo8WpS1XtsDxcP8aroZ1W
+   Q==;
+X-CSE-ConnectionGUID: QJyqN7/cTQyfePyYqssA6A==
+X-CSE-MsgGUID: u8vtmIL0QbGnXi7E2cyX0Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="40809975"
+X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
+   d="scan'208";a="40809975"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 23:17:37 -0700
+X-CSE-ConnectionGUID: 1mKfn2JpSu2KtJ8a7fNUCA==
+X-CSE-MsgGUID: HuWHYxoBTY6lcwh4GJ9twg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
+   d="scan'208";a="93827911"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa002.jf.intel.com with ESMTP; 27 Aug 2024 23:17:32 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1000)
+	id D8699142; Wed, 28 Aug 2024 09:17:30 +0300 (EEST)
+Date: Wed, 28 Aug 2024 09:17:30 +0300
+From: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+To: Rik van Riel <riel@surriel.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, 
+	Usama Arif <usamaarif642@gmail.com>, Nico Pache <npache@redhat.com>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>, 
+	Matthew Wilcox <willy@infradead.org>, Barry Song <baohua@kernel.org>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Lance Yang <ioworker0@gmail.com>, Peter Xu <peterx@redhat.com>, Rafael Aquini <aquini@redhat.com>, 
+	Andrea Arcangeli <aarcange@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Zi Yan <ziy@nvidia.com>
+Subject: Re: [RFC 0/2] mm: introduce THP deferred setting
+Message-ID: <ouerpxb676mei3kndz53j4am4fo2duvygoatfnposo2rkct566@akl7ckd7nrvk>
+References: <20240729222727.64319-1-npache@redhat.com>
+ <72320F9D-9B6A-4ABA-9B18-E59B8382A262@nvidia.com>
+ <CAA1CXcCD798gkLoZuz3Cd5-Wf2MRfnAG_EB0U3nbScZeFv09dw@mail.gmail.com>
+ <CAA1CXcCCOS8-aqcm+w8Aoqe2P5q005wMrgmtx=xjzJgjKFb7mg@mail.gmail.com>
+ <61411216-d196-42de-aa64-12bd28aef44f@gmail.com>
+ <CAA1CXcCe8QDir2KiWg=GmN4BErfXSDs_9kmnYfyK=X8H8U8QwA@mail.gmail.com>
+ <698ea52e-db99-4d21-9984-ad07038d4068@gmail.com>
+ <20240827110959.GA438928@cmpxchg.org>
+ <9cf237df1a7bb21bba1a464787938eba8f372658.camel@surriel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9cf237df1a7bb21bba1a464787938eba8f372658.camel@surriel.com>
 
-From: Bibo Mao <maobibo@loongson.cn>
+On Tue, Aug 27, 2024 at 09:18:58PM -0400, Rik van Riel wrote:
+> On Tue, 2024-08-27 at 13:09 +0200, Johannes Weiner wrote:
+> > 
+> > I agree with this. The defer mode is an improvement over the upstream
+> > status quo, no doubt. However, both defer mode and the shrinker solve
+> > the issue of memory waste under pressure, while the shrinker permits
+> > more desirable behavior when memory is abundant.
+> > 
+> > So my take is that the shrinker is the way to go, and I don't see a
+> > bonafide usecase for defer mode that the shrinker couldn't cover.
+> > 
+> > 
+> I would like to take one step back, and think about what some real
+> world workloads might want as a tunable for THP.
+> 
+> Workload owners are going to have a real problem trying to figure
+> out what the best value of max_ptes_none should be for their
+> workloads.
+> 
+> However, giving workload owners the ability to say "this workload
+> should not waste more than 1GB of memory on zero pages inside THPs",
+> or 500MB, or 4GB or whatever, would then allow the kernel to
+> automatically adjust the max_ptes_none threshold.
 
-Add documentation topic for using pv_virt when running as a guest
-on KVM hypervisor.
+The problem is that we don't have and cannot have the info on zero pages
+inside THPs readily available. It requires memory scanning which is
+prohibitively expensive if we want the info to be somewhat up-to-date.
 
-Signed-off-by: Bibo Mao <maobibo@loongson.cn>
-Signed-off-by: Xianglai Li <lixianglai@loongson.cn>
-Co-developed-by: Mingcong Bai <jeffbai@aosc.io>
-Signed-off-by: Mingcong Bai <jeffbai@aosc.io>
-Link: https://lore.kernel.org/all/5c338084b1bcccc1d57dce9ddb1e7081@aosc.io/
-Signed-off-by: Dandan Zhang <zhangdandan@uniontech.com>
----
- Documentation/virt/kvm/index.rst              |  1 +
- .../virt/kvm/loongarch/hypercalls.rst         | 89 +++++++++++++++++++
- Documentation/virt/kvm/loongarch/index.rst    | 10 +++
- MAINTAINERS                                   |  1 +
- 4 files changed, 101 insertions(+)
- create mode 100644 Documentation/virt/kvm/loongarch/hypercalls.rst
- create mode 100644 Documentation/virt/kvm/loongarch/index.rst
+We don't have enough input from HW on the access pattern. It would be nice
+to decouple A/D bit (or maybe just A) from page table structure and get
+higher resolution on the access pattern for THPs.
 
-diff --git a/Documentation/virt/kvm/index.rst b/Documentation/virt/kvm/index.rst
-index ad13ec55ddfe..9ca5a45c2140 100644
---- a/Documentation/virt/kvm/index.rst
-+++ b/Documentation/virt/kvm/index.rst
-@@ -14,6 +14,7 @@ KVM
-    s390/index
-    ppc-pv
-    x86/index
-+   loongarch/index
- 
-    locking
-    vcpu-requests
-diff --git a/Documentation/virt/kvm/loongarch/hypercalls.rst b/Documentation/virt/kvm/loongarch/hypercalls.rst
-new file mode 100644
-index 000000000000..dd96ded5d17d
---- /dev/null
-+++ b/Documentation/virt/kvm/loongarch/hypercalls.rst
-@@ -0,0 +1,89 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===================================
-+The LoongArch paravirtual interface
-+===================================
-+
-+KVM hypercalls use the HVCL instruction with code 0x100 and the hypercall
-+number is put in a0. Up to five arguments may be placed in registers a1 - a5.
-+The return value is placed in v0 (an alias of a0).
-+
-+Source code for this interface can be found in arch/loongarch/kvm*.
-+
-+Querying for existence
-+======================
-+
-+To determine if the host is running on KVM, we can utilize the cpucfg()
-+function at index CPUCFG_KVM_BASE (0x40000000).
-+
-+The CPUCFG_KVM_BASE range, spanning from 0x40000000 to 0x400000FF, The
-+CPUCFG_KVM_BASE range between 0x40000000 - 0x400000FF is marked as reserved.
-+Consequently, all current and future processors will not implement any
-+feature within this range.
-+
-+On a KVM-virtualized Linux system, a read operation on cpucfg() at index
-+CPUCFG_KVM_BASE (0x40000000) returns the magic string 'KVM\0'.
-+
-+Once you have determined that your host is running on a paravirtualization-
-+capable KVM, you may now use hypercalls as described below.
-+
-+KVM hypercall ABI
-+=================
-+
-+The KVM hypercall ABI is simple, with one scratch register a0 (v0) and at most
-+five generic registers (a1 - a5) used as input parameters. The FP (Floating-
-+point) and vector registers are not utilized as input registers and must
-+remain unmodified during a hypercall.
-+
-+Hypercall functions can be inlined as it only uses one scratch register.
-+
-+The parameters are as follows:
-+
-+	========	================	================
-+	Register	IN			OUT
-+	========	================	================
-+	a0		function number		Return	code
-+	a1		1st	parameter	-
-+	a2		2nd	parameter	-
-+	a3		3rd	parameter	-
-+	a4		4th	parameter	-
-+	a5		5th	parameter	-
-+	========	================	================
-+
-+The return codes may be one of the following:
-+
-+	====		=========================
-+	Code		Meaning
-+	====		=========================
-+	0		Success
-+	-1		Hypercall not implemented
-+	-2		Bad Hypercall parameter
-+	====		=========================
-+
-+KVM Hypercalls Documentation
-+============================
-+
-+The template for each hypercall is as follows:
-+
-+1. Hypercall name
-+2. Purpose
-+
-+1. KVM_HCALL_FUNC_IPI
-+------------------------
-+
-+:Purpose: Send IPIs to multiple vCPUs.
-+
-+- a0: KVM_HCALL_FUNC_IPI
-+- a1: Lower part of the bitmap for destination physical CPUIDs
-+- a2: Higher part of the bitmap for destination physical CPUIDs
-+- a3: The lowest physical CPUID in the bitmap
-+
-+The hypercall lets a guest send multiple IPIs (Inter-Process Interrupts) with
-+at most 128 destinations per hypercall. The destinations are represented in a
-+bitmap contained in the first two input registers (a1 and a2).
-+
-+Bit 0 of a1 corresponds to the physical CPUID in the third input register (a3)
-+and bit 1 corresponds to the physical CPUID in a3+1, and so on.
-+
-+PV IPI on LoongArch includes both PV IPI multicast sending and PV IPI receiving,
-+and SWI is used for PV IPI inject since there is no VM-exits accessing SWI registers.
-diff --git a/Documentation/virt/kvm/loongarch/index.rst b/Documentation/virt/kvm/loongarch/index.rst
-new file mode 100644
-index 000000000000..83387b4c5345
---- /dev/null
-+++ b/Documentation/virt/kvm/loongarch/index.rst
-@@ -0,0 +1,10 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=========================
-+KVM for LoongArch systems
-+=========================
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   hypercalls.rst
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 878dcd23b331..c267ad7cc2c5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12294,6 +12294,7 @@ L:	kvm@vger.kernel.org
- L:	loongarch@lists.linux.dev
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/virt/kvm/kvm.git
-+F:	Documentation/virt/kvm/loongarch/
- F:	arch/loongarch/include/asm/kvm*
- F:	arch/loongarch/include/uapi/asm/kvm*
- F:	arch/loongarch/kvm/
+I tried to talk to HW folk, but it went nowhere. Maybe if there would be a
+customer demand... Just saying...
+
 -- 
-2.43.4
-
+Kiryl Shutsemau / Kirill A. Shutemov
