@@ -1,138 +1,233 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF2515B125
-	for <linux-doc@vger.kernel.org>; Wed, 28 Aug 2024 07:20:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D34B11552EB;
+	Wed, 28 Aug 2024 07:43:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.161.220
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724829640; cv=none; b=Nh0/3DCAKzWoWlB4urN98iBngyMJm4kGVTGg6uLRrzpyCZma0zL3ox5GDVVUoqjASny3O68BiQRbzA45RFjkxo/MHjZqOlZ+eirpBN4NIOHv+1BMRNAqAvkjU3zWDHFzrpmwxKfh2d8T/NgNR6ogjbLb4DSM+thJkUfglw1pXSI=
+	t=1724831036; cv=none; b=Aaehg/fUWlK5z6oiI3DIrlfeKiRrdLTYn+hU1xg+moo/tPk3I/sNnzRYlSXEPWhxTtPDKFbTNvGMoQN7pOx8U7E7NcWLy4zBfJpxS49iNEb8hF4yKv3KjKE6FGiOXoshn1tWViNZu1EipCrDNbPhz3d/LFdeQVazP9mbpDKtKiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724829640; c=relaxed/simple;
-	bh=hY0rdkFxlOJ73INaytL9GxG6uDuQeptdtje3tcWXF+U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PgGWlITnFmqpjjdJpaayDmKI72xJ4V+tuVqL0n+bFdiDaPAXXKFeKDodtc3Uv+GGsrLPK7WiUSjYappxrmkjFTOu/RZ0tvGsd/0JGZHwqXy2yQ0o2OaHJ+U113Wyw1g8EI4W1JhnvpYjGdmlreKEnJqj6bZvAXIV5yXwgtV1KRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iXiG2zT1; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iXiG2zT1"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4518d9fa2f4so190551cf.0
-        for <linux-doc@vger.kernel.org>; Wed, 28 Aug 2024 00:20:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1724829636; x=1725434436; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WaKkxTlZTeNsK8i9Bxn3PWY1aY/BLsT89GdUnPxSzCs=;
-        b=iXiG2zT1LZYmRlQ14gRZynyy8LwteaYwvbXkKGk5hnY0hWAZjMr8whQjsAqKYp6nIP
-         XLnbQMYBrYHBNu2sGcwa411HH/mMlVF0VBicIn18IOgiBOcMj7TzkZBN5rg7K/Yp9zac
-         R4aJXx9G57xEL9LbZaFy70W55jvCQSwc1bpuGqMWGM3uz93nKfBiK3V6jDEh2jPTaxEM
-         ohJQqGdPdB4R2lsc7JjJsg2tfPWD/feF/rI2J35mNcyrE53PQxNmaeKZ+1xv3hFDVUjb
-         cdTv7zi2Ctk8Iohq3E3vtTNIz1joqkAMQVGFaQBTDLqcJ+jeTne9UjwOa8Bge8CxHv3Z
-         0R5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724829636; x=1725434436;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WaKkxTlZTeNsK8i9Bxn3PWY1aY/BLsT89GdUnPxSzCs=;
-        b=h+0jTTIzVy2tiNbu6l6lpa+kDJBXZaVOyvnCmo9gYyKmHAnpSRzZECSZChxZNoPXLO
-         kytNzgskyI+3vOWil7Olrm9qG4UKNpBpU2BaAMDGAJ3hwlWirswmRAIuX7a/ekUqH2KY
-         wfAM0a/sjqyvqpTts7VaCnME7kox6QZ6sqpqCQ6BwOd1T1OZ3OV0d+ah3pOqk8WeZtFq
-         nxfCUYUn05VSeW3eYl8s0HSkJfev+l1GyGKjpiKvr/iwrkJNarxGOei/L6/bPX64VMWa
-         6w6ooi5HFqN6oVRNMlnJ9hSWBr25L5LBWMsri+G+i3R06E1xxpDHoTpkm+F/ndYk4cS3
-         0NUA==
-X-Forwarded-Encrypted: i=1; AJvYcCU4lR3YAKsWeIC14AJGzILduO0DK+yZrA+oTJnRbmBqboyq/kTRRBRIEqbC86eW3aGMhkssEPdnKMw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNbPm2z7EYzCLIb2LCDtDpKmYLUq3Iq3kCKUEzewOuCsUfIAXG
-	I28s1CgVDv7/TPshNqXt+1t6bJinY3YNisYGh+vdpikfXt+ps9xJrAKL//Sy/IVf14KfbPqOj+c
-	mMfF3F+3iUVDHyIlsKbuYMKNjCBoWwtIfObl/
-X-Google-Smtp-Source: AGHT+IHyMD+4xnusQLwuQ5h6kBQmR1VYMf6lXqEwBGB2U8vCgE7ervQyk/rNIf69lWKuYbdIUKJLj3Yofx+zROPan7c=
-X-Received: by 2002:a05:622a:1211:b0:451:cd18:84c3 with SMTP id
- d75a77b69052e-4566cb29dc2mr2435821cf.12.1724829636084; Wed, 28 Aug 2024
- 00:20:36 -0700 (PDT)
+	s=arc-20240116; t=1724831036; c=relaxed/simple;
+	bh=tgZElXEW/k+zqqpn44uzCLqkqVHYMPI9jUULFZjtiBs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QK3+dICWkoR+CNoVkwI/7JhLZWBvJxtVT04k64yHH3ORZshGQmyI70Qj+j3qC6g3XElsACZHVE5XFmvYHf4upI+ueAY/Nvzk7wg1InDzZTSzRIGFdAOeCYiz4EHL98CWIglR9azgTU29T2WpNZ6Gd3Rq0mhvYoOdDpb//GJEGC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=162.243.161.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app1 (Coremail) with SMTP id HgEQrADHzX0S1c5mWSLrBA--.43518S2;
+	Wed, 28 Aug 2024 15:43:14 +0800 (CST)
+Received: from pride-PowerEdge-R740.. (unknown [222.20.126.129])
+	by gateway (Coremail) with SMTP id _____wDHsE4L1c5mqcHAAA--.58773S2;
+	Wed, 28 Aug 2024 15:43:09 +0800 (CST)
+From: Dongliang Mu <dzm91@hust.edu.cn>
+To: Alex Shi <alexs@kernel.org>,
+	Yanteng Si <siyanteng@loongson.cn>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Dongliang Mu <dzm91@hust.edu.cn>
+Cc: hust-os-kernel-patches@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH] docs/zh_CN: add the translation of kbuild/gcc-plugins.rst
+Date: Wed, 28 Aug 2024 15:42:28 +0800
+Message-ID: <20240828074305.314666-1-dzm91@hust.edu.cn>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240825041511.324452-1-almasrymina@google.com>
- <20240825041511.324452-5-almasrymina@google.com> <20240827191519.5464a0b2@kernel.org>
-In-Reply-To: <20240827191519.5464a0b2@kernel.org>
-From: Mina Almasry <almasrymina@google.com>
-Date: Wed, 28 Aug 2024 00:20:23 -0700
-Message-ID: <CAHS8izP8T5Xj97M7efecBmCrG9z8E0PYTxWCYZ0ym0hv13-DKg@mail.gmail.com>
-Subject: Re: [PATCH net-next v22 04/13] netdev: netdevice devmem allocator
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
-	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>, 
-	Magnus Karlsson <magnus.karlsson@intel.com>, 
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>, 
-	Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
-	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
-	Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, 
-	Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HgEQrADHzX0S1c5mWSLrBA--.43518S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxtryfXF4fur15KFyUur48Zwb_yoWxXr4fpw
+	1qk34SgFWSyFy093yfKr1fuF15JFs3Ww15Ka4kGwn7tF1kJrZ0y39xtry5GFyfWFy8ZrW7
+	XF4YyrW8uw1jva7anT9S1TB71UUUUjJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQSb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUtVW8Zw
+	CF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Y
+	z7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE
+	2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
+	xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF
+	7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUVDGYDUUUU
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On Tue, Aug 27, 2024 at 7:15=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
->
-> On Sun, 25 Aug 2024 04:15:02 +0000 Mina Almasry wrote:
-> > +void net_devmem_free_dmabuf(struct net_iov *niov)
-> > +{
-> > +     struct net_devmem_dmabuf_binding *binding =3D net_iov_binding(nio=
-v);
-> > +     unsigned long dma_addr =3D net_devmem_get_dma_addr(niov);
-> > +
-> > +     if (gen_pool_has_addr(binding->chunk_pool, dma_addr, PAGE_SIZE))
-> > +             gen_pool_free(binding->chunk_pool, dma_addr, PAGE_SIZE);
->
-> Is the check necessary for correctness? Should it perhaps be a WARN
-> under DEBUG_NET instead? The rest LGTM:
->
+Finish the translation of kbuild/gcc-plugins.rst and move gcc-plugins
+from TODO to the main body.
 
-Not really necessary for correctness per se, but if we try to free a
-dma_addr that is not in a gen_pool (due to some other bug in the
-code), then gen_pool_free ends up BUG_ON, crashing the kernel.
+Update to commit 3832d1fd84b6 ("docs/core-api: expand Fedora instructions
+for GCC plugins")
 
-Arguably gen_pool_free should not BUG_ON, but I think that's an old
-API, and existing call sites have worked around the BUG_ON by doing a
-gen_pool_has_addr check like I do here, for example kernel/dma/pool.c.
-So I did not seek to change this established behavior.
+Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+---
+ .../translations/zh_CN/kbuild/gcc-plugins.rst | 126 ++++++++++++++++++
+ .../translations/zh_CN/kbuild/index.rst       |   2 +-
+ 2 files changed, 127 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/kbuild/gcc-plugins.rst
 
-I think WARN seems fine to me, but maybe not under DEBUG_NET. I don't
-want production code crashing due to this error, if it's OK with you.
+diff --git a/Documentation/translations/zh_CN/kbuild/gcc-plugins.rst b/Documentation/translations/zh_CN/kbuild/gcc-plugins.rst
+new file mode 100644
+index 000000000000..214945a4ecf3
+--- /dev/null
++++ b/Documentation/translations/zh_CN/kbuild/gcc-plugins.rst
+@@ -0,0 +1,126 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/kbuild/gcc-plugins.rst
++:Translator: 慕冬亮 Dongliang Mu <dzm91@hust.edu.cn>
++
++================
++GCC 插件基础设施
++================
++
++
++介绍
++============
++
++GCC 插件是为编译器提供额外功能的可加载模块 [1]_。它们对于运行时插装和静态分析非常有用。
++我们可以在编译过程中通过回调 [2]_，GIMPLE [3]_，IPA [4]_ 和 RTL Passes [5]_
++（译者注：Pass 是编译器所采用的一种结构化技术，用于完成编译对象的分析、优化或转换等功能）
++来分析、修改和添加更多的代码。
++
++内核的 GCC 插件基础设施支持构建树外模块、交叉编译和在单独的目录中构建。插件源文件必须由
++C++ 编译器编译。
++
++目前 GCC 插件基础设施只支持一些架构。搜索 "select HAVE_GCC_PLUGINS" 来查找支持
++GCC 插件的架构。
++
++这个基础设施是从 grsecurity [6]_  和 PaX [7]_ 移植过来的。
++
++--
++
++.. [1] https://gcc.gnu.org/onlinedocs/gccint/Plugins.html
++.. [2] https://gcc.gnu.org/onlinedocs/gccint/Plugin-API.html#Plugin-API
++.. [3] https://gcc.gnu.org/onlinedocs/gccint/GIMPLE.html
++.. [4] https://gcc.gnu.org/onlinedocs/gccint/IPA.html
++.. [5] https://gcc.gnu.org/onlinedocs/gccint/RTL.html
++.. [6] https://grsecurity.net/
++.. [7] https://pax.grsecurity.net/
++
++
++目的
++=======
++
++GCC 插件的设计目的是提供一个场所，用于试验 GCC 或 Clang 上游没有的潜在编译器功能。
++一旦它们的实用性得到验证，目标就是将这些功能添加到 GCC（和 Clang）的上游，然后在
++所有支持的 GCC 版本都支持这些功能后，再将它们从内核中移除。
++
++具体来说，新插件应该只实现上游编译器（GCC 和 Clang）不支持的功能。
++
++当 Clang 中存在 GCC 中不存在的某项功能时，应努力将该功能上传到上游 GCC（而不仅仅
++是作为内核专用的 GCC 插件），以使整个生态都能从中受益。
++
++类似的，如果 GCC 插件提供的功能在 Clang 中 **不** 存在，但该功能被证明是有用的，也应
++努力将该功能上传到 GCC（和 Clang）。
++
++在上游 GCC 提供了某项功能后，该插件将无法在相应的 GCC 版本（以及更高版本）下编译。
++一旦所有内核支持的 GCC 版本都提供了该功能，该插件将从内核中移除。
++
++
++文件
++=====
++
++**$(src)/scripts/gcc-plugins**
++
++	这是 GCC 插件的目录。
++
++**$(src)/scripts/gcc-plugins/gcc-common.h**
++
++	这是 GCC 插件的兼容性头文件。
++	应始终包含它，而不是单独的 GCC 头文件。
++
++**$(src)/scripts/gcc-plugins/gcc-generate-gimple-pass.h,
++$(src)/scripts/gcc-plugins/gcc-generate-ipa-pass.h,
++$(src)/scripts/gcc-plugins/gcc-generate-simple_ipa-pass.h,
++$(src)/scripts/gcc-plugins/gcc-generate-rtl-pass.h**
++
++	这些头文件可以自动生成 GIMPLE、SIMPLE_IPA、IPA 和 RTL passes 的注册结构。
++	与手动创建结构相比，它们更受欢迎。
++
++
++用法
++=====
++
++你必须为你的 GCC 版本安装 GCC 插件头文件，以 Ubuntu 上的 gcc-10 为例::
++
++	apt-get install gcc-10-plugin-dev
++
++或者在 Fedora 上::
++
++	dnf install gcc-plugin-devel libmpc-devel
++
++或者在 Fedora 上使用包含插件的交叉编译器时::
++
++	dnf install libmpc-devel
++
++在内核配置中启用 GCC 插件基础设施与一些你想使用的插件::
++
++	CONFIG_GCC_PLUGINS=y
++	CONFIG_GCC_PLUGIN_LATENT_ENTROPY=y
++	...
++
++运行 gcc（本地或交叉编译器），确保能够检测到插件头文件::
++
++	gcc -print-file-name=plugin
++	CROSS_COMPILE=arm-linux-gnu- ${CROSS_COMPILE}gcc -print-file-name=plugin
++
++"plugin" 这个词意味着它们没有被检测到::
++
++	plugin
++
++完整的路径则表示插件已经被检测到::
++
++       /usr/lib/gcc/x86_64-redhat-linux/12/plugin
++
++编译包括插件在内的最小工具集::
++
++	make scripts
++
++或者直接在内核中运行 make，使用循环复杂性 GCC 插件编译整个内核。
++
++
++4. 如何添加新的 GCC 插件
++==============================
++
++GCC 插件位于 scripts/gcc-plugins/。你需要将插件源文件放在 scripts/gcc-plugins/ 目录下。
++子目录创建并不支持，你必须添加在 scripts/gcc-plugins/Makefile、scripts/Makefile.gcc-plugins
++和相关的 Kconfig 文件中。
+diff --git a/Documentation/translations/zh_CN/kbuild/index.rst b/Documentation/translations/zh_CN/kbuild/index.rst
+index d906a4e88d0f..b51655d981f6 100644
+--- a/Documentation/translations/zh_CN/kbuild/index.rst
++++ b/Documentation/translations/zh_CN/kbuild/index.rst
+@@ -13,6 +13,7 @@
+     :maxdepth: 1
+ 
+     headers_install
++    gcc-plugins
+ 
+ TODO:
+ 
+@@ -24,7 +25,6 @@ TODO:
+ - modules
+ - issues
+ - reproducible-builds
+-- gcc-plugins
+ - llvm
+ 
+ .. only::  subproject and html
+-- 
+2.43.0
 
-Unless I hear otherwise I'll add a WARN without debug here.
-
-> Reviewed-by: Jakub Kicinski <kuba@kernel.org>
->
-
-Thanks!
-
---=20
-Thanks,
-Mina
