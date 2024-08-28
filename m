@@ -1,112 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D54D1D696;
-	Wed, 28 Aug 2024 18:43:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7071C1A76B2;
+	Wed, 28 Aug 2024 18:59:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724870616; cv=none; b=uJZwamkrjh5oRjpH6SBD4rh3eC2qJJ6li8bOxd5aUabP5asyfwAiyQQA7r8VU6YltEMBEq+S6n9QP8Dlx4h+rbIj5vevFLwfXMyBxp6V75zSS4V8oRmmBnAY/TOGSN9fiuLocENf5HO10aJBI6GJisdLzQ84IBuSHLgi6aEDWZ4=
+	t=1724871575; cv=none; b=uqPBi4JLNietbW8rQd6hpl7MGWBFEkILr0QjPsjj7JWPjBwDMg4/Y5qYk00X+WmMyiOSiMzwhXMxsHGVJ8YI6tDT8PW1f2kuBoLOQ4NqL1fOUDMruSnXWZmwdFEPEKXb/m9KKbNfOSb8koOrv/bS+EhS2kW9eDMlq5EqsDvc5G4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724870616; c=relaxed/simple;
-	bh=bWjjtD9ux0QAGG3fGYObh74lsPxgFpjHa3YWm0m0vIU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Tg8NLAiN1pUYg/CZyuIe3v/9AOKfJ3kdjm5n9ZUcJWOqRE17Iih5BlNWvRTbUydOrtYLKo/GvtwNdO9eC4UuAeS2ybdlpWXDVR7yAc0xB1IA6dKqW3Bccz1evVcTEc5V2SZTYQ6YzZwJWwYLE+78WGN6UYT7cyU0DtjrZPKn/ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ROtLpkCE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724871575; c=relaxed/simple;
+	bh=2oNMMsYsI+j+ejHVU5D5R1OZsviLXTfVtcjUTwfydlU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Jn+L7pLrQxr1p2TO3auViaZxf3bvq4byxodjve8czn7xQ2k1kYMxyMoHSTxT3qDT3DLYLT/cuNeH9at0WJQN+TSB8DGofY1VLn0R7uflNaMmCZ3YS1aIKnH7V4WHQ4yvmjE6R04FExu84/UXZ34017dFT9hCruB4WN+wVhmkCnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=O0Xmz5bf; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ROtLpkCE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72659C4CEC0;
-	Wed, 28 Aug 2024 18:43:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724870616;
-	bh=bWjjtD9ux0QAGG3fGYObh74lsPxgFpjHa3YWm0m0vIU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ROtLpkCEGD8Ucdbs7a1iRfvuc32G3qJBY6quO3vEkfgfTtRxHiuhmUPG4800e2RsG
-	 /Lm2aGh9ZM5echC/qr/x2EXrVQ45i6g+DGFDj3b4IL1+1nBBMKPOO7F2EVPH21SXWt
-	 D3wyLlY3wzUG+pAwc9PiOyoANcpRLYBPjrk80WBsoM0sK/mk/Y/+Np3wR59Dnj9tMd
-	 zCiuTrI/cV8v34a6M0pTb4HTETCCVIQdFJzGlV39b2ciDrjitNDYPxuwRZojB40abg
-	 4ctkvmZU35i1iPs5RMsbgdrXOvldO8psyPOoy6iI6yqUNNrEivtWT76jv46HwMkF1o
-	 46/gB0lOrWDFQ==
-Date: Wed, 28 Aug 2024 11:43:33 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, Ivan
- Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
- Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
- <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert
- Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem
- de Bruijn <willemdebruijn.kernel@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBl?=
- =?UTF-8?B?bA==?= <bjorn@kernel.org>, Magnus Karlsson
- <magnus.karlsson@intel.com>, Maciej Fijalkowski
- <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>, Daniel
- Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, David
- Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
- <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
- Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
- Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
- <pkaligineedi@google.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
- Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
- Taehee Yoo <ap420073@gmail.com>, Willem de Bruijn <willemb@google.com>,
- Kaiyuan Zhang <kaiyuanz@google.com>
-Subject: Re: [PATCH net-next v22 04/13] netdev: netdevice devmem allocator
-Message-ID: <20240828114333.560895f0@kernel.org>
-In-Reply-To: <CAHS8izP8T5Xj97M7efecBmCrG9z8E0PYTxWCYZ0ym0hv13-DKg@mail.gmail.com>
-References: <20240825041511.324452-1-almasrymina@google.com>
-	<20240825041511.324452-5-almasrymina@google.com>
-	<20240827191519.5464a0b2@kernel.org>
-	<CAHS8izP8T5Xj97M7efecBmCrG9z8E0PYTxWCYZ0ym0hv13-DKg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="O0Xmz5bf"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47SAiFvp020336;
+	Wed, 28 Aug 2024 18:59:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	X+bp9nEmFMTVmWQTMXToBGklbro1PYiI6dvNZl24hjw=; b=O0Xmz5bf0/grb8CI
+	bmXJR3TuhNpmeW4y21GNl1aEjQWl4aC+Zw12rl2gx9sHLwPb7UzoUi+A1JeaIMLb
+	rJ6isSaBm9Rl5FQdWhMYTdDmDF/n1f2uzeX/WySv7ubqzQXaZakKtu+xG28hZAya
+	qZubyj/54hHBgPJkUMf5boHQwa++N1WfMKVJzk9DFGVCTbvx8m+uhz0pWzYKXFPc
+	CXtqn48VSVLt1A+pBcpA/Gcelit/+bFyltIEJpusDE4/9/tHlGo7c5XfaMWNL2Ze
+	CUqHbpZ500s9jmP/u/1KKejrfapEoiLd7x84f/1mkz2Qm9YYtasGJavo6hOse+wN
+	uGNWIw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 419puttu87-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 Aug 2024 18:59:15 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47SIxEYk019455
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 Aug 2024 18:59:14 GMT
+Received: from [10.110.100.101] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 28 Aug
+ 2024 11:59:13 -0700
+Message-ID: <d44634b7-1285-4771-b7e0-4e852224d13f@quicinc.com>
+Date: Wed, 28 Aug 2024 11:59:13 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v25 31/33] ALSA: usb-audio: Add USB offload route kcontrol
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <tiwai@suse.com>, <krzk+dt@kernel.org>, <Thinh.Nguyen@synopsys.com>,
+        <bgoswami@quicinc.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>
+References: <20240823200101.26755-1-quic_wcheng@quicinc.com>
+ <20240823200101.26755-32-quic_wcheng@quicinc.com>
+ <4149884a-7c60-40d8-848b-8876f16d6d7f@linux.intel.com>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <4149884a-7c60-40d8-848b-8876f16d6d7f@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: X3n_XKtTrJz3EB77-0EvdjKlg6OlyTSW
+X-Proofpoint-GUID: X3n_XKtTrJz3EB77-0EvdjKlg6OlyTSW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-28_08,2024-08-28_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ mlxlogscore=544 suspectscore=0 phishscore=0 spamscore=0 bulkscore=0
+ clxscore=1015 mlxscore=0 malwarescore=0 lowpriorityscore=0 impostorscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2408280138
 
-On Wed, 28 Aug 2024 00:20:23 -0700 Mina Almasry wrote:
-> > On Sun, 25 Aug 2024 04:15:02 +0000 Mina Almasry wrote:  
-> > > +void net_devmem_free_dmabuf(struct net_iov *niov)
-> > > +{
-> > > +     struct net_devmem_dmabuf_binding *binding = net_iov_binding(niov);
-> > > +     unsigned long dma_addr = net_devmem_get_dma_addr(niov);
-> > > +
-> > > +     if (gen_pool_has_addr(binding->chunk_pool, dma_addr, PAGE_SIZE))
-> > > +             gen_pool_free(binding->chunk_pool, dma_addr, PAGE_SIZE);  
-> >
-> > Is the check necessary for correctness? Should it perhaps be a WARN
-> > under DEBUG_NET instead? The rest LGTM:
-> >  
-> 
-> Not really necessary for correctness per se, but if we try to free a
-> dma_addr that is not in a gen_pool (due to some other bug in the
-> code), then gen_pool_free ends up BUG_ON, crashing the kernel.
-> 
-> Arguably gen_pool_free should not BUG_ON, but I think that's an old
-> API, and existing call sites have worked around the BUG_ON by doing a
-> gen_pool_has_addr check like I do here, for example kernel/dma/pool.c.
-> So I did not seek to change this established behavior.
-> 
-> I think WARN seems fine to me, but maybe not under DEBUG_NET. I don't
-> want production code crashing due to this error, if it's OK with you.
-> 
-> Unless I hear otherwise I'll add a WARN without debug here.
+Hi Pierre,
 
-WARN makes sense, I didn't know about the BUG_ON() hiding inside
-gen_pool :(
+On 8/26/2024 2:09 AM, Pierre-Louis Bossart wrote:
+>
+>> +config SND_USB_OFFLOAD_MIXER
+>> +	tristate "Qualcomm USB Audio Offload mixer control"
+>> +	help
+>> +	 Say Y to enable the Qualcomm USB audio offloading mixer controls.
+>> +	 This exposes an USB offload capable kcontrol to signal to
+>> +	 applications about which platform sound card can support USB
+>> +	 audio offload.  This can potentially be used to fetch further
+>> +	 information about the offloading status from the platform sound
+>> +	 card.
+> I would remove reference to Qualcomm for this Kconfig, all the code
+> seems generic to me? Probably a left-over from the previous version.
+
+Ah, yes will remove any vendor stuff.
+
+Thanks
+
+Wesley Cheng
+
