@@ -1,78 +1,115 @@
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 311031898F6;
-	Wed, 28 Aug 2024 14:51:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11EEE44C68;
+	Wed, 28 Aug 2024 16:27:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724856706; cv=none; b=I3yFZM5EbMNoWs8ZMImz8684HDXpqpj7bssApng3wStMNK++BqVGPd2oaME4fXyt95tvt+8xsPlYsHnZ3al477pt6KKlei6xPYpig78e4VL+GJQQ1DVuOk/a4s/KgAmzBYLM7Eq4pu+OXaZGeCWgg7cuA31dM8LXHlun7XCPWZI=
+	t=1724862474; cv=none; b=NDVoJAwziHuu86D9GgFn7IeTV8kxiAvXo+lbwgeCOxzeHKP053SE/lc4SCg45EZHDX80nhvmA3AtqK6VKTZZUZ198aOz0w/6rQM+HLRWM7raMVlu+rPk0J2dm3iAmyQb0dD3VoIySctzVmvzBmdavVgQSqUdvOTYoriVqepQqfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724856706; c=relaxed/simple;
-	bh=8JtQ18OLVzFWX8geqNYZeN7Vh4PMTNF9RG2ZtCetbXw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cBPdy4sfpUo2ViQZPi7SLbhACMIk+9kXUlwBHC2vLToz3OVFwChEegj3S1S7kZvxql+ukclik8fGlDyxmv6uh3vdvWSD8Vn1idEt/HSar+lu0GB+OGHPFXVxpj5wsxth8oRuBlUe9tj1K1V3lPBbLQBxCgpwK8PMm7DtxI9l348=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=XTDen7sQ; arc=none smtp.client-ip=178.60.130.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1724862474; c=relaxed/simple;
+	bh=yiHtmwtZpevDfS/QkcYT/xZiCrDHFrmlQuTjJLiii0g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R2fv4fYwZ8jGkTTnOn6GFvMQM3dI2C0zybJfxf3KwhrAEUk7Krd1SMfN07fspEe80A4Nlsgkr9kD9gzZWDgJFFYIlQgsW6zhCS31ZdKcYNxvF6mYBNyyJvEEdeVsCpn08jXuWxuwin3Tu3rqluK6dCD93sx0rSLwKJeB0AYkuvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iO/rozde; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="XTDen7sQ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=VP+hqOelGa5pKflE0DRQN+uFVvubKK/EENoZvYaD5BU=; b=XTDen7sQx9agssYn8MkhNRiZRd
-	5VRTH1xLhBVR3UdCS72CEyCqNOtGTiAHghk2hU5yHITlgFLzXy0oDXuLYRBUF9iuGLMlRO/AGhH09
-	FavBkDsi8fFccpamyxqphV0pT/iU1nZBwzjU/OIqkC6T1jzjzuFCexTGUpkAdu6GRfMejyLG22IVh
-	qQUGstn6WeGqgXv/ciRNZO0TfcTouuViW9pJhJb2DjrWMOEY0PRi7mlRLIrfa7MNfV8Oz97o/iQZV
-	vFieUPfTXP5Wd2rs44DBBlHfZP/LFZGUEVLF0qxG2h+AF7IafcomvXsw3H3L8458xX9WccBR1LrjX
-	YNrpQDyg==;
-Received: from [177.76.152.96] (helo=[192.168.1.60])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1sjK1O-006N4P-G9; Wed, 28 Aug 2024 16:51:42 +0200
-Message-ID: <fe4e1363-250a-f5ed-82fa-9996f6c9b67a@igalia.com>
-Date: Wed, 28 Aug 2024 11:51:34 -0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iO/rozde"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9F59C4FE01;
+	Wed, 28 Aug 2024 16:27:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724862473;
+	bh=yiHtmwtZpevDfS/QkcYT/xZiCrDHFrmlQuTjJLiii0g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iO/rozdep5jfgDNCIskmXHmvBLHhqBXai6uXXkp2Qopjp3ZHxbcNKd8fErDy4lSfj
+	 AuhFE1oGtaP/1OOXRlZHwgyFiFwXqg8KwOCoY0Gm0lGZNmdJTDgdsDMVVl2k1k2Y21
+	 4ptEYVKfJBolMAgM0oMN8K6YmwBCTFxWAvtgX2UJxulruKud8WTPspV1EnqMD+tySk
+	 ZqsKgZqGkzJ97I7Rm+qyBQG0S606lomjJ0wKM1WCymEssrjUAmWZhrE/+qIk/EtluO
+	 QOIFZHQYFioRLmr7j6Y3AY9AjjFJbu6WQERwDCpwnSufnI0Y9KhoI1ZyYVcs26ACSn
+	 +UUSIcK4ton4Q==
+Date: Wed, 28 Aug 2024 09:27:53 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc: linux-doc@vger.kernel.org, corbet@lwn.net,
+	linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+	kernel-dev@igalia.com, kernel@gpiccoli.net,
+	Bart Van Assche <bvanassche@acm.org>, Jens Axboe <axboe@kernel.dk>,
+	Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH V5] Documentation: Document the kernel flag
+ bdev_allow_write_mounted
+Message-ID: <20240828162753.GO6043@frogsfrogsfrogs>
+References: <20240828145045.309835-1-gpiccoli@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH V4] Documentation: Document the kernel flag
- bdev_allow_write_mounted
-Content-Language: en-US
-To: Jan Kara <jack@suse.cz>
-Cc: linux-doc@vger.kernel.org, corbet@lwn.net, linux-fsdevel@vger.kernel.org,
- linux-block@vger.kernel.org, kernel-dev@igalia.com, kernel@gpiccoli.net,
- Bart Van Assche <bvanassche@acm.org>, "Darrick J. Wong" <djwong@kernel.org>,
- Jens Axboe <axboe@kernel.dk>
-References: <20240826001624.188581-1-gpiccoli@igalia.com>
- <20240828132640.baglvrg3vkybjkys@quack3>
-From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <20240828132640.baglvrg3vkybjkys@quack3>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240828145045.309835-1-gpiccoli@igalia.com>
 
-On 28/08/2024 10:26, Jan Kara wrote:
-> [...]
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -517,6 +517,18 @@
->>  			Format: <io>,<irq>,<mode>
->>  			See header of drivers/net/hamradio/baycom_ser_hdx.c.
->>  
->> +	bdev_allow_write_mounted=
->> +			Format: <bool>
->> +			Control the ability to open a block device for
-> 						    ^^ a mounted block device
+On Wed, Aug 28, 2024 at 11:48:58AM -0300, Guilherme G. Piccoli wrote:
+> Commit ed5cc702d311 ("block: Add config option to not allow writing to mounted
+> devices") added a Kconfig option along with a kernel command-line tuning to
+> control writes to mounted block devices, as a means to deal with fuzzers like
+> Syzkaller, that provokes kernel crashes by directly writing on block devices
+> bypassing the filesystem (so the FS has no awareness and cannot cope with that).
 > 
-> Otherwise looks good so feel free to add:
+> The patch just missed adding such kernel command-line option to the kernel
+> documentation, so let's fix that.
 > 
+> Cc: Bart Van Assche <bvanassche@acm.org>
+> Cc: Darrick J. Wong <djwong@kernel.org>
+> Cc: Jens Axboe <axboe@kernel.dk>
 > Reviewed-by: Jan Kara <jack@suse.cz>
-> 
+> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
 
-Thanks! Just sent the v5.
+Looks good to me now,
+Reviewed-by: Darrick J. Wong <djwong@kernel.org>
+
+Fun unrelated question: do we want to turn on bdev_allow_write_mounted
+if lockdown is enabled?  In that kind of environment, we don't want to
+allow random people to scribble, given how many weird ext4 bugs we've
+had to fix due to syzbot.
+
+--D
+
+> ---
+> 
+> V5:
+> - s/open a block device/open a mounted block device (thanks Jan!).
+> - Added the Review tag from Jan.
+> 
+> V4 link: https://lore.kernel.org/r/20240826001624.188581-1-gpiccoli@igalia.com
+> 
+> 
+>  Documentation/admin-guide/kernel-parameters.txt | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 09126bb8cc9f..efc52ddc6864 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -517,6 +517,18 @@
+>  			Format: <io>,<irq>,<mode>
+>  			See header of drivers/net/hamradio/baycom_ser_hdx.c.
+>  
+> +	bdev_allow_write_mounted=
+> +			Format: <bool>
+> +			Control the ability to open a mounted block device
+> +			for writing, i.e., allow / disallow writes that bypass
+> +			the FS. This was implemented as a means to prevent
+> +			fuzzers from crashing the kernel by overwriting the
+> +			metadata underneath a mounted FS without its awareness.
+> +			This also prevents destructive formatting of mounted
+> +			filesystems by naive storage tooling that don't use
+> +			O_EXCL. Default is Y and can be changed through the
+> +			Kconfig option CONFIG_BLK_DEV_WRITE_MOUNTED.
+> +
+>  	bert_disable	[ACPI]
+>  			Disable BERT OS support on buggy BIOSes.
+>  
+> -- 
+> 2.46.0
+> 
+> 
