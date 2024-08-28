@@ -1,115 +1,121 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11EEE44C68;
-	Wed, 28 Aug 2024 16:27:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 705FD44C68;
+	Wed, 28 Aug 2024 16:29:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724862474; cv=none; b=NDVoJAwziHuu86D9GgFn7IeTV8kxiAvXo+lbwgeCOxzeHKP053SE/lc4SCg45EZHDX80nhvmA3AtqK6VKTZZUZ198aOz0w/6rQM+HLRWM7raMVlu+rPk0J2dm3iAmyQb0dD3VoIySctzVmvzBmdavVgQSqUdvOTYoriVqepQqfY=
+	t=1724862596; cv=none; b=bQVjbP+xB/R8UPiR4EcjlIG3wT108tBRU+8optk7CAHGMXTEVSDXtp0jVKcL13Aef0LXicTkKqDSB5AJuJbLu6Z+xIBGkAWN0ymX89kuZ0+2xRbQLGVjhdzBcE5Mz0IGx8w67BEQ8FrVuSWpA0dy3JO2YDu0wv8eBAu2ZjM6CqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724862474; c=relaxed/simple;
-	bh=yiHtmwtZpevDfS/QkcYT/xZiCrDHFrmlQuTjJLiii0g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R2fv4fYwZ8jGkTTnOn6GFvMQM3dI2C0zybJfxf3KwhrAEUk7Krd1SMfN07fspEe80A4Nlsgkr9kD9gzZWDgJFFYIlQgsW6zhCS31ZdKcYNxvF6mYBNyyJvEEdeVsCpn08jXuWxuwin3Tu3rqluK6dCD93sx0rSLwKJeB0AYkuvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iO/rozde; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724862596; c=relaxed/simple;
+	bh=heMEFFxgFnO2TTBcSgnerIm3y6uCUk6NyKGxrB/IYn8=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=JCpCOD9yaJmal2fRTnMjAx4eAdUE3ww8XtGIE6D/gck/WN/HFpZTqffwj1o711KnbafrT0/DvwgyCFxyv/RpKvMniMTNYPzI1psNn2EHzWMUPSiWQsVnnetcybf8LeQFFMTSp6KHkKS5lgOVKKJBs6WAn/Grjc4bhR966fdTyY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kfsBCMZ6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iO/rozde"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9F59C4FE01;
-	Wed, 28 Aug 2024 16:27:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kfsBCMZ6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E9E0C4FEA2;
+	Wed, 28 Aug 2024 16:29:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724862473;
-	bh=yiHtmwtZpevDfS/QkcYT/xZiCrDHFrmlQuTjJLiii0g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iO/rozdep5jfgDNCIskmXHmvBLHhqBXai6uXXkp2Qopjp3ZHxbcNKd8fErDy4lSfj
-	 AuhFE1oGtaP/1OOXRlZHwgyFiFwXqg8KwOCoY0Gm0lGZNmdJTDgdsDMVVl2k1k2Y21
-	 4ptEYVKfJBolMAgM0oMN8K6YmwBCTFxWAvtgX2UJxulruKud8WTPspV1EnqMD+tySk
-	 ZqsKgZqGkzJ97I7Rm+qyBQG0S606lomjJ0wKM1WCymEssrjUAmWZhrE/+qIk/EtluO
-	 QOIFZHQYFioRLmr7j6Y3AY9AjjFJbu6WQERwDCpwnSufnI0Y9KhoI1ZyYVcs26ACSn
-	 +UUSIcK4ton4Q==
-Date: Wed, 28 Aug 2024 09:27:53 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc: linux-doc@vger.kernel.org, corbet@lwn.net,
-	linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
-	kernel-dev@igalia.com, kernel@gpiccoli.net,
-	Bart Van Assche <bvanassche@acm.org>, Jens Axboe <axboe@kernel.dk>,
-	Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH V5] Documentation: Document the kernel flag
- bdev_allow_write_mounted
-Message-ID: <20240828162753.GO6043@frogsfrogsfrogs>
-References: <20240828145045.309835-1-gpiccoli@igalia.com>
+	s=k20201202; t=1724862595;
+	bh=heMEFFxgFnO2TTBcSgnerIm3y6uCUk6NyKGxrB/IYn8=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=kfsBCMZ6iC/51f34BX86sfPqUAEINT3MLKTcwsVdo/V1cRz/kJoinjaAyUkx8k0j1
+	 jXgmNC+QBBdTZNU+XXMqCN8PNH90d7/4ZdItm08Yviv89qFo5Qiq8VU3TzamWijLLU
+	 OEAaIPEgQmqLpD1GYVWycegLbMGW2mw7nhVocRUx2D9pLbPbKiKI92hVC+TCrtzlIr
+	 hA5QtGdwuDDT0/1OhksgAVfrV5xLRk5Nmq8SD19FKkIWtBk8sYJ5nlHqRX3D5PeKT4
+	 2zlGNf1D9tDEjvNtRYZhUhw4S7W8zFFp7UF2EAih0dWVwYNVH6YbS2N5T0UqrhqfX1
+	 fAgSoM+Xr5Zlg==
+From: Mark Brown <broonie@kernel.org>
+To: =?utf-8?q?Amadeusz_S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Banajit Goswami <bgoswami@quicinc.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>, 
+ Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Jiawei Wang <me@jwang.link>, Jonathan Corbet <corbet@lwn.net>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Maso Huang <maso.huang@mediatek.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+ Shengjiu Wang <shengjiu.wang@gmail.com>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, 
+ Vinod Koul <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ alsa-devel@alsa-project.org, imx@lists.linux.dev, linux-doc@vger.kernel.org, 
+ linux-sound@vger.kernel.org, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87bk4oqerx.wl-kuninori.morimoto.gx@renesas.com>
+References: <87bk4oqerx.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH v5 0/4] ASoC: grace time for DPCM cleanup
+Message-Id: <172486258823.92851.2758535753129650442.b4-ty@kernel.org>
+Date: Wed, 28 Aug 2024 17:29:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240828145045.309835-1-gpiccoli@igalia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-37811
 
-On Wed, Aug 28, 2024 at 11:48:58AM -0300, Guilherme G. Piccoli wrote:
-> Commit ed5cc702d311 ("block: Add config option to not allow writing to mounted
-> devices") added a Kconfig option along with a kernel command-line tuning to
-> control writes to mounted block devices, as a means to deal with fuzzers like
-> Syzkaller, that provokes kernel crashes by directly writing on block devices
-> bypassing the filesystem (so the FS has no awareness and cannot cope with that).
+On Thu, 30 May 2024 01:17:39 +0000, Kuninori Morimoto wrote:
+> Cc each ASoC driver maintainer
 > 
-> The patch just missed adding such kernel command-line option to the kernel
-> documentation, so let's fix that.
+> This is v5 of DPCM cleanup
 > 
-> Cc: Bart Van Assche <bvanassche@acm.org>
-> Cc: Darrick J. Wong <djwong@kernel.org>
-> Cc: Jens Axboe <axboe@kernel.dk>
-> Reviewed-by: Jan Kara <jack@suse.cz>
-> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+> As we discussed in [1], we don't need to use dpcm_playback/capture flag,
+> so we remove it. But we have been using it for 10 years, some driver might
+> get damage. The most likely case is that the device/driver can use both
+> playback/capture, but have only one flag, and not using xxx_only flag.
+> [1/3] patch indicates warning in such case.
+> 
+> [...]
 
-Looks good to me now,
-Reviewed-by: Darrick J. Wong <djwong@kernel.org>
+Applied to
 
-Fun unrelated question: do we want to turn on bdev_allow_write_mounted
-if lockdown is enabled?  In that kind of environment, we don't want to
-allow random people to scribble, given how many weird ext4 bugs we've
-had to fix due to syzbot.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
---D
+Thanks!
 
-> ---
-> 
-> V5:
-> - s/open a block device/open a mounted block device (thanks Jan!).
-> - Added the Review tag from Jan.
-> 
-> V4 link: https://lore.kernel.org/r/20240826001624.188581-1-gpiccoli@igalia.com
-> 
-> 
->  Documentation/admin-guide/kernel-parameters.txt | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 09126bb8cc9f..efc52ddc6864 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -517,6 +517,18 @@
->  			Format: <io>,<irq>,<mode>
->  			See header of drivers/net/hamradio/baycom_ser_hdx.c.
->  
-> +	bdev_allow_write_mounted=
-> +			Format: <bool>
-> +			Control the ability to open a mounted block device
-> +			for writing, i.e., allow / disallow writes that bypass
-> +			the FS. This was implemented as a means to prevent
-> +			fuzzers from crashing the kernel by overwriting the
-> +			metadata underneath a mounted FS without its awareness.
-> +			This also prevents destructive formatting of mounted
-> +			filesystems by naive storage tooling that don't use
-> +			O_EXCL. Default is Y and can be changed through the
-> +			Kconfig option CONFIG_BLK_DEV_WRITE_MOUNTED.
-> +
->  	bert_disable	[ACPI]
->  			Disable BERT OS support on buggy BIOSes.
->  
-> -- 
-> 2.46.0
-> 
-> 
+[1/4] ASoC: soc-pcm: Indicate warning if dpcm_playback/capture were used for availability limition
+      commit: fd69dfe6789f4ed46d1fdb52e223cff83946d997
+[2/4] ASoC: remove snd_soc_dai_link_set_capabilities()
+      commit: 12806510481497a01d01edd64d7bb53a4d9ec28d
+[3/4] ASoC: amlogic: do not use dpcm_playback/capture flags
+      commit: 46fb727a28d8c7195f915150a669d927d463069b
+[4/4] ASoC: Intel: sof_sdw: use playback/capture_only flags
+      commit: 61e1f74f739546415570ccc1ac14e1b26afe4705
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
