@@ -1,123 +1,106 @@
-Received: from sender4-of-o51.zoho.com (sender4-of-o51.zoho.com [136.143.188.51])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9034E1A3BDD;
-	Thu, 29 Aug 2024 14:12:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724940747; cv=pass; b=MbqgQEZK5Xk+2D+sOpjtK2h+HFdl+0bfkj37W1K1Uds1NxXSt78iZyNW93HJ2rFrgcJzjKZMxgYrhyvsJpTZ87TKTGpadfQfoTBwhTaexdPGBv5T7SB1uCKGR37iXhBTzW/4zZHknpr67Vv3YwgMiqf/Ah8ym8wJMIiAo15+A/o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724940747; c=relaxed/simple;
-	bh=7hB/1UOJaiqQ99Joa1DObT9nogjXVp6w2U15f4FVo3Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Lxb0veOerT8BEIzmJq9Tk7r/EASVTsWNexoWFtVdf0MxZOZfnpPtwQ+VtE1GHfeH/V3xMNoD2tNr8GuK6Y7VWRCRCJgqDLDOKK6CpYcj5wwtUJWS9N4ED2EpPwtwequwRmLlVNfxbsu3UpsA0DFVu51hnzxJ/y8gQzsIfBRX+jA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apertussolutions.com; spf=pass smtp.mailfrom=apertussolutions.com; dkim=pass (1024-bit key) header.d=apertussolutions.com header.i=dpsmith@apertussolutions.com header.b=fRJYXpXL; arc=pass smtp.client-ip=136.143.188.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apertussolutions.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apertussolutions.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8448E1A76C1;
+	Thu, 29 Aug 2024 14:22:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724941369; cv=none; b=szV5eHTIlV8RF4ydtqCjOKMSVE6Kpio6UPYLlOKAt8t6w7/id0OZytKYn2pFKKJ9aw/p6XIH1sNEN3yCdpzpASUHzLbXT31b1IT94HtcxRwThFvb5edKBKdDh4UxwbXtuTEXHZszXcePtBzNjz6TCUtt9phzV0i0PCW8ZFqWuVk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724941369; c=relaxed/simple;
+	bh=gAcRbQTu/a5oxU8HgdH6u2TScEh8nTCQf3KroGJv+mA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YXIwjcWxnbF9XMq3vNzw46RGO3Gq75184sjzvDGeNjSe4BhSIZZ7zuqFpq07deALgXRDGPIDHuvGhLShJOBZF4O4CXP0GJCLz9bpvxiRMRfuV35maIE7ADpaI6p6Qm6WDT4N86Gk4HqSK7LZwm2UDmiyS15GnvsFwbHr1y/IBa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=RsFL5RCl; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=apertussolutions.com header.i=dpsmith@apertussolutions.com header.b="fRJYXpXL"
-ARC-Seal: i=1; a=rsa-sha256; t=1724940676; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=E7EusWO6er6F2xI1Zxfssj17795cFIrBU9nS7H5PyLGs+6UWBCNXAkfV+JQpsvkn4X6QnDjZg59GcAbdwpZwp541+ugqTaxP6T/nv6M351s7VISQpTXJZegJ/QpLmHKW8PhIgd5ObyYNwREe1/OqSZxAHGA/WYAAlVOJLcXTMDk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1724940676; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=HgDBKtReaNoT627XPwozc8cV/1MN4aAoTtHPOciy3pM=; 
-	b=F8+Ieta99m9Sb6grjg5r5Hse1Vt8cQANARXzRz4E2JRoFdXjGYznYWVRmMvi/k0t3GJxjfgkNXCi7mbnz93mta8ovG1WRwOCa2szi73evgpHYzIgytv1sd3soamVZ71SpJYmuyZoaySGKcb25OExw2BJMSP43syvz3OmqKbf23o=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=apertussolutions.com;
-	spf=pass  smtp.mailfrom=dpsmith@apertussolutions.com;
-	dmarc=pass header.from=<dpsmith@apertussolutions.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1724940676;
-	s=zoho; d=apertussolutions.com; i=dpsmith@apertussolutions.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=HgDBKtReaNoT627XPwozc8cV/1MN4aAoTtHPOciy3pM=;
-	b=fRJYXpXL9J45pXy0RROxungza/op8PLpbcAgBCB2imI/b3vHv4nw02sEX8neAivz
-	PPiCX2FneFCwIi7K74vsx1xZ2NcmUIkgDl+v3rZoRF1EkHBouBvTymaYqasGUoGZL83
-	itV4OEfBmfm1uvXSAhidcGZMH/LIAtY/V/1UW3+4=
-Received: by mx.zohomail.com with SMTPS id 1724940674239491.862092879441;
-	Thu, 29 Aug 2024 07:11:14 -0700 (PDT)
-Message-ID: <e3194ad1-e976-40a6-a8f3-98081b0b07ea@apertussolutions.com>
-Date: Thu, 29 Aug 2024 10:11:11 -0400
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="RsFL5RCl"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 51F6540E0285;
+	Thu, 29 Aug 2024 14:22:45 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id Z_3om9jwFIrw; Thu, 29 Aug 2024 14:22:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1724941361; bh=zJx9ixYeyjWo1R0Y9LIHO0GPlTekBh5dy/up5rE0uo4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RsFL5RCluxJm6DvZl34Chz5X/oz8TBCFpaCo2Yvlv9EtmzrLJJgGOuIIRH6ijdzrC
+	 VJkhDykX0UgXY3pu4FfZTglHiHW0/1RRH11TwJB8T4jXQQgQJ2msZqaH8rm9mcX2gT
+	 qAUwg9yWlfNY8qtfL+Erc03T5ztiAtNANCNfiIrn/KbdNspuQ0dWiJOtkEiBPG4/mn
+	 gEHnMFeTX7/XAK0N4lPyLaLxpsyqV6MQcGtEGCcYMnW83NtIo3LuGkRnASVue56zmA
+	 jo2WaoqvAQvFr0bVejTU+OU0C6i3moFfYz2EHjy7BB3BxwXidjoV876c4sfqfA/xhN
+	 CJ0/nnuI4CMOubuaV/sqb+HvPUUbWNcXhYBI80b6FIHTeBXuCiIIDWJRtzXTA9IjKt
+	 /Id10OpNKUDkS/D7RegzWcAGhje4ETttq5bHegUIG1B8av3pQQrGiJLtVeXJkCa0nW
+	 UB/y/gkwH3KSgd1FBYSwU9yg9RhTXmj/S1jy1acSHaM/+FVEdByZeFkesI4AvI3/SP
+	 FTYOtVtrDnCGI1LbaVaKhNWK9Ue1YSf7rnJC7DXLUi8s4g4pQFln2RSdJ19Ydhz7ZS
+	 2rs59HHlQdBdQzRqlRJKOG+FdhjsgC2GkrJ82RqynaQvj8U2+B2TxXbn9AtazkWENn
+	 f9I5WkIuEM3SqM+yzRYQ90Zs=
+Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id DF9B440E0169;
+	Thu, 29 Aug 2024 14:22:27 +0000 (UTC)
+Date: Thu, 29 Aug 2024 16:22:26 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Pavan Kumar Paluri <papaluri@amd.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Eric Van Tassell <Eric.VanTassell@amd.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Ashish Kalra <ashish.kalra@amd.com>,
+	Michael Roth <michael.roth@amd.com>,
+	Brijesh Singh <brijesh.singh@amd.com>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH 1/2] x86, KVM:SVM: Move sev specific parsing into
+ arch/x86/virt/svm
+Message-ID: <20240829142226.GEZtCEIjD3wW6OowIs@fat_crate.local>
+References: <20240801205638.6603-1-papaluri@amd.com>
+ <20240801205638.6603-2-papaluri@amd.com>
+ <20240829132438.GCZtB2lqeYpleYk9c4@fat_crate.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 01/15] x86/boot: Place kernel_info at a fixed offset
-To: Ard Biesheuvel <ardb@kernel.org>, Stuart Yoder <stuart.yoder@arm.com>
-Cc: Ross Philipson <ross.philipson@oracle.com>, linux-kernel@vger.kernel.org,
- x86@kernel.org, linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
- linux-efi@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
- bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
- mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
- peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
- nivedita@alum.mit.edu, herbert@gondor.apana.org.au, davem@davemloft.net,
- kanth.ghatraju@oracle.com, trenchboot-devel@googlegroups.com
-References: <20240214221847.2066632-1-ross.philipson@oracle.com>
- <20240214221847.2066632-2-ross.philipson@oracle.com>
- <CAMj1kXH3Gvr3vDRLDdXuc0s7ZAQYE6+D7tmCRBjJWwWt2fn4-w@mail.gmail.com>
- <9d01a6d2-4dd9-4331-8fc9-b01c07cfdbb5@apertussolutions.com>
- <CAMj1kXHn6xeAskWiDLvvA4oG3j9_tqx+iMYJXMqmgvyX4pMzgg@mail.gmail.com>
-Content-Language: en-US
-From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
-In-Reply-To: <CAMj1kXHn6xeAskWiDLvvA4oG3j9_tqx+iMYJXMqmgvyX4pMzgg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240829132438.GCZtB2lqeYpleYk9c4@fat_crate.local>
 
-On 8/28/24 13:45, Ard Biesheuvel wrote:
-> (cc Stuart)
+On Thu, Aug 29, 2024 at 03:24:38PM +0200, Borislav Petkov wrote:
+> On Thu, Aug 01, 2024 at 03:56:37PM -0500, Pavan Kumar Paluri wrote:
+> > +#include <linux/memblock.h>
 > 
-> On Thu, 21 Mar 2024 at 15:46, Daniel P. Smith
-> <dpsmith@apertussolutions.com> wrote:
->>
->> Hi Ard!
->>
->> On 2/15/24 02:56, Ard Biesheuvel wrote:
->>> On Wed, 14 Feb 2024 at 23:31, Ross Philipson <ross.philipson@oracle.com> wrote:
->>>>
->>>> From: Arvind Sankar <nivedita@alum.mit.edu>
->>>>
->>>> There are use cases for storing the offset of a symbol in kernel_info.
->>>> For example, the trenchboot series [0] needs to store the offset of the
->>>> Measured Launch Environment header in kernel_info.
->>>>
->>>
->>> Why? Is this information consumed by the bootloader?
->>
->> Yes, the bootloader needs a standardized means to find the offset of the
->> MLE header, which communicates a set of meta-data needed by the DCE in
->> order to set up for and start the loaded kernel. Arm will also need to
->> provide a similar metadata structure and alternative entry point (or a
->> complete rewrite of the existing entry point), as the current Arm entry
->> point is in direct conflict with Arm DRTM specification.
->>
+> What's the idea of adding some random include here?
 > 
-> Digging up an old thread here: could you elaborate on this? What do
-> you mean by 'Arm entry point' and how does it conflict directly with
-> the Arm DRTM specification? The Linux/arm64 port predates that spec by
-> about 10 years, so I would expect the latter to take the former into
-> account. If that failed to happen, we should fix the spec while we
-> still can.
+> Does this file use memblock?
+> 
+> I don't think so.
+> 
+> You need to resolve include visibility by including the headers where you need
+> them:
 
-Yes, we have been working with Stuart regarding the specification and 
-crafting a compliant implementation approach. It is still very early 
-days, we are attempting to draft a plan around the specification with no 
-physical implementation to validate against. After some discussion, the 
-concern that a separate entry point may be needed has faded and in fact 
-it likely will not be needed. As always, the devil is in the details, 
-and until we have a hardware that has implemented the specification, and 
-we attempt to light it up, we won't know what will be needed for the 
-implementation.
+And with this applied, your next patch needs includes too.
 
-In short, at this point it was determined no update to the DRTM spec is 
-needed. As hardware becomes available, and we do battle with it, Stuart 
-will be kept up to date. We will work with him to ensure any changes are 
-captured that will help reduce chances that vendors and developers do 
-not misinterpret the spec.
+Please include only those headers into sev/cmdline.c which supply the
+facilities you're using. IOW, include only those headers and only into those
+files which need the respective facilities.
 
-V/r,
-Daniel P. Smith
+This needs to be done right because otherwise we have an include hell and some
+poor moron gets to mop up after you in the future.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
