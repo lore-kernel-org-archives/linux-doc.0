@@ -1,156 +1,184 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DAE418D649;
-	Thu, 29 Aug 2024 09:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 363C73E47B;
+	Thu, 29 Aug 2024 09:19:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724922615; cv=none; b=TD2fyeM+HLCHoTUEbnevR+4Y1RDBM+sn0DL59bX6/ShQy2w9y5XV2qZeW4x73raWEz0FT4bbB5PWYuo46ago4/3mKVct6M7ABFBBUn1mROoEKETN4kIP1PB0OjdPUURu3Tsj2CsVWrKu/U/sIgIQGP/nPfqmr2/6qo+V3647tLw=
+	t=1724923198; cv=none; b=ZGNor03sX8UfvSY9YuuapvI0+zqyisz5Ddb4udr6vIpLpRu1l4T77fznDXWRexn/F5BfLNpjLGIGEoJt+U/vZdPqMfXthaN7MVgHCAwQeDRv3/gvk7CoZwYoOZmlrHJsyRZW9+lpWoZVVhrmIFDXAA/0zvI7AMVLI1FD/taTf+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724922615; c=relaxed/simple;
-	bh=MEcRl9ZhNrQZozxSU0zQS8bPAunwYULwwQ6bqjpUt/Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wg9mv73Q8AYQi5WvCT+LCNZQQ7m4pQ2fZal2lr50bqX1ETC8zKqt2x3CNh96cWbvbAEGCrFf8PyNNPV0ISLre6Zoez9UfhYqZeMH/hSWkCiWjJmDRIbmTWedSssIZ+XDLqlcMFZtykHIU5MwRiqOJ2GNHhky4FBYAk8CkD35Tt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=m1LRORsd; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=XwUj/2C7; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=m1LRORsd; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=XwUj/2C7; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1724923198; c=relaxed/simple;
+	bh=y0oWGGe7R6HnOQYclTlWlPmFdV39yRoRU7bLFGNWI3M=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=c6L732fOXTMUBduU9EVAWbVFCkoonKwAvtXCiXAX8htZfkds66mKvYv6Zl3/0bhV9Ulsch1f0HdN3ERNYFz/yUNja959ny6uvC4WJ10+BHGEgyG3yQX9hYkUb5ObDSCWanfq1xCRnfYKdSWSJFBLvEKh2vzVnTGzpdLdgtsB5zo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R8hefzsR; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="m1LRORsd";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="XwUj/2C7";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="m1LRORsd";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="XwUj/2C7"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6A21021290;
-	Thu, 29 Aug 2024 09:10:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1724922611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9+wRzqzeOftsxEeIDfwEbJpnsPlpLcci829W2RncfvI=;
-	b=m1LRORsd19qLzzaTDDXVLREufeiv1QdcYDUD3SA5zUtAN0bQ1Y7TP4WjRYcaBULtDM7afu
-	Q0tJW3QmNR2jDugns/HY24spVRTY84LfqKhNw7GeTm05gelxkGFjubSYodmBuegBFIVY3l
-	C8tjn+a24U9eQtb/h+W2ai8YhNBm0+U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1724922611;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9+wRzqzeOftsxEeIDfwEbJpnsPlpLcci829W2RncfvI=;
-	b=XwUj/2C7kyOcEsuiDQakj61nXJ+UyPoYZqgx3ToFVB/TACmFXItLs6VevBP+we1LuWFrHu
-	7Z8EfMGOUfAUZ9CQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1724922611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9+wRzqzeOftsxEeIDfwEbJpnsPlpLcci829W2RncfvI=;
-	b=m1LRORsd19qLzzaTDDXVLREufeiv1QdcYDUD3SA5zUtAN0bQ1Y7TP4WjRYcaBULtDM7afu
-	Q0tJW3QmNR2jDugns/HY24spVRTY84LfqKhNw7GeTm05gelxkGFjubSYodmBuegBFIVY3l
-	C8tjn+a24U9eQtb/h+W2ai8YhNBm0+U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1724922611;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9+wRzqzeOftsxEeIDfwEbJpnsPlpLcci829W2RncfvI=;
-	b=XwUj/2C7kyOcEsuiDQakj61nXJ+UyPoYZqgx3ToFVB/TACmFXItLs6VevBP+we1LuWFrHu
-	7Z8EfMGOUfAUZ9CQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5D4C613408;
-	Thu, 29 Aug 2024 09:10:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MmTBFvM60Ga7bAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 29 Aug 2024 09:10:11 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 0D2A3A0965; Thu, 29 Aug 2024 11:10:07 +0200 (CEST)
-Date: Thu, 29 Aug 2024 11:10:07 +0200
-From: Jan Kara <jack@suse.cz>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>, linux-doc@vger.kernel.org,
-	corbet@lwn.net, linux-fsdevel@vger.kernel.org,
-	linux-block@vger.kernel.org, kernel-dev@igalia.com,
-	kernel@gpiccoli.net, Bart Van Assche <bvanassche@acm.org>,
-	Jens Axboe <axboe@kernel.dk>, Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH V5] Documentation: Document the kernel flag
- bdev_allow_write_mounted
-Message-ID: <20240829091007.swglkuf2ybpexgs6@quack3>
-References: <20240828145045.309835-1-gpiccoli@igalia.com>
- <20240828162753.GO6043@frogsfrogsfrogs>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R8hefzsR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724923197; x=1756459197;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=y0oWGGe7R6HnOQYclTlWlPmFdV39yRoRU7bLFGNWI3M=;
+  b=R8hefzsR7kj+9v5PuhxD8FfRhCqiBXtbwslxKBKyH3OxHgXEOI3rX5s1
+   UZvNO/C6p1J9dd6xDsnBruGW3PJtrL39/gYhKWV1fK6hWH1k2F2fJq5XZ
+   6qWntJfeHXZWZDoASIbjZl8tNhT7XydiysWPREb830UoNRY7nbESOJDkw
+   7iEViAlxaqKc2QQwAiMFGx6hr4pLSHvIAMyrhqWom/O2G6zQttsNCG5cf
+   YrZyrnh9mfV2nmiInxGzkx6STgdBeLdUmuaEAJEFJpXTpegtZ53b4RiMV
+   HbRUodbIs8jtQQv/lsVxS1puYDRVrATOoFDN/mqzPEbaRgt9DM/QvO+My
+   g==;
+X-CSE-ConnectionGUID: jL/Wf+aMScCiK5+6RxN8sw==
+X-CSE-MsgGUID: 0xfuGmKSQ4Ogrs2+TzZpZQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="40978199"
+X-IronPort-AV: E=Sophos;i="6.10,185,1719903600"; 
+   d="scan'208";a="40978199"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 02:19:56 -0700
+X-CSE-ConnectionGUID: UaV69X6MRAaEwbmgVJX0bg==
+X-CSE-MsgGUID: emelES7JQ9GXwWK4dghn7w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,185,1719903600"; 
+   d="scan'208";a="68345578"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.242])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 02:19:47 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Devarsh Thakkar <devarsht@ti.com>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ sebastian.fricke@collabora.com, linux-doc@vger.kernel.org,
+ praneeth@ti.com, nm@ti.com, vigneshr@ti.com, s-jain1@ti.com,
+ r-donadkar@ti.com, b-brnich@ti.com, detheridge@ti.com, p-mantena@ti.com,
+ vijayp@ti.com, andi.shyti@linux.intel.com, nicolas@ndufresne.ca,
+ jirislaby@kernel.org, davidgow@google.com, dlatypov@google.com,
+ corbet@lwn.net, broonie@kernel.org, rdunlap@infradead.org,
+ nik.borisov@suse.com, Dave.Martin@arm.com
+Subject: Re: [PATCH v2 1/6] math.h: Add macros for rounding to the closest
+ value
+In-Reply-To: <0b06794b-34c5-ec0d-59c6-8412a8789eaf@ti.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240826150822.4057164-1-devarsht@ti.com>
+ <20240826150822.4057164-2-devarsht@ti.com>
+ <Zsy-8xXQ01-JhL0m@smile.fi.intel.com>
+ <9c41f6b7-6b06-cd5b-74bd-24873c4beaf7@ti.com> <87frqqyw9r.fsf@intel.com>
+ <0b06794b-34c5-ec0d-59c6-8412a8789eaf@ti.com>
+Date: Thu, 29 Aug 2024 12:19:43 +0300
+Message-ID: <878qwfy9cg.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240828162753.GO6043@frogsfrogsfrogs>
-X-Spam-Score: -3.80
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	ARC_NA(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain
 
-On Wed 28-08-24 09:27:53, Darrick J. Wong wrote:
-> On Wed, Aug 28, 2024 at 11:48:58AM -0300, Guilherme G. Piccoli wrote:
-> > Commit ed5cc702d311 ("block: Add config option to not allow writing to mounted
-> > devices") added a Kconfig option along with a kernel command-line tuning to
-> > control writes to mounted block devices, as a means to deal with fuzzers like
-> > Syzkaller, that provokes kernel crashes by directly writing on block devices
-> > bypassing the filesystem (so the FS has no awareness and cannot cope with that).
-> > 
-> > The patch just missed adding such kernel command-line option to the kernel
-> > documentation, so let's fix that.
-> > 
-> > Cc: Bart Van Assche <bvanassche@acm.org>
-> > Cc: Darrick J. Wong <djwong@kernel.org>
-> > Cc: Jens Axboe <axboe@kernel.dk>
-> > Reviewed-by: Jan Kara <jack@suse.cz>
-> > Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
-> 
-> Looks good to me now,
-> Reviewed-by: Darrick J. Wong <djwong@kernel.org>
-> 
-> Fun unrelated question: do we want to turn on bdev_allow_write_mounted
-> if lockdown is enabled?  In that kind of environment, we don't want to
-> allow random people to scribble, given how many weird ext4 bugs we've
-> had to fix due to syzbot.
+On Tue, 27 Aug 2024, Devarsh Thakkar <devarsht@ti.com> wrote:
+> Hi Nikula,
+>
+> Thanks for the review.
+>
+> On 27/08/24 18:10, Jani Nikula wrote:
+>> On Tue, 27 Aug 2024, Devarsh Thakkar <devarsht@ti.com> wrote:
+>
+> [..]
+>
+>>> The equivalency between roundclosest w.r.t round_closest is same as
+>>> equivalency between existing macros rounddown w.r.t round_down. Functionally
+>>> both are same but the former is recommended to be used only for the scenario
+>>> where multiple is not power of 2 and latter is faster but is strictly for the
+>>> scenario where multiple is power of 2. I think the same is already summarized
+>>> well in commit message and further elaborated in the patch itself as part of
+>>> header file comments [1] so I personally don't think any update is required
+>>> w.r.t this.
+>> 
+>> I still don't think rounddown vs. round_down naming is a good example to
+>> model anything after.
+>> 
+>> I have yet to hear a single compelling argument in favor of having a
+>> single underscore in the middle of a name having implications about the
+>> inputs of a macro/function.
+>> 
+>> The macros being added here are at 2 or 3 in Rusty's scale [1]. We could
+>> aim for 6 (The name tells you how to use it), but also do opportunistic
+>> 8 (The compiler will warn if you get it wrong) for compile-time
+>> constants.
+>> 
+>
+> The macros use existing round_up/round_down underneath, so need to check if
+> they have compile-time checks but either-way this should not block the current
+> series as the series does not aim to enhance the existing round_up/round_down
+> macros.
+>
+>> As-is, these, and round_up/round_down, are just setting a trap for an
+>> unsuspecting kernel developer to fall into.
+>> 
+>
+> I understand what you are saying but I believe this was already discussed in
+> original patch series [1] where you had raised the same issue and it was even
+> discussed if we want to go with a new naming convention (like
+> round_closest_up_pow_2) [2] or not and the final consensus reached on naming
+> was to align with the existing round*() macros [3]. Moreover, I didn't hear
+> back any further arguments on this in further 8 revisions carrying this patch,
+> so thought this was aligned per wider consensus.
+>
+> Anyways, to re-iterate the discussion do we want to change to below naming scheme?
+>
+> round_closest_up_pow_2
+> round_closest_down_pow_2
+> roundclosest
+>
+> or any other suggestions for naming ?
+>
+> If there is a wider consensus on the suggested name (and ok to deviate from
+> existing naming convention), then we can go ahead with that.
 
-It would be desirable. But it will break some administrative tasks
-currently so I'm not sure users are really prepared for that? But with
-recent util-linux those should be mostly limited to filesystem-specific
-tooling issues (tune2fs is definitely broken and needs new kernel
-interfaces to be able to work, I think resize2fs is also broken but that
-should be fixable within e2fsprogs though it requires larger refactoring
-AFAIR).
+The stupid thing here is, I still don't remember which one is the
+generic thing, rounddown() or round_down(). I have to look it up every
+single time to be sure. I refuse to believe I'd be the only one.
 
-								Honza
+It's okay to accidentally use the generic version, no harm done. It's
+definitely not okay to accidentally use the special pow-2 version, so it
+should have a special name. I think _pow2() or _pow_2() is a fine
+suffix.
+
+Another stupid thing is, I'd name the generic thing round_down(). But
+whoopsie, that's not the generic thing.
+
+This naming puts an unnecessary extra burden on people. It's a stupid
+"convention" to follow. It's a mistake. Not repeating a mistake trumps
+following the pattern.
+
+There, I've said it. Up to the people who ack and commit to decide.
+
+
+BR,
+Jani.
+
+
+>
+> [1]: https://lore.kernel.org/all/ZkIG0-01pz632l4R@smile.fi.intel.com/
+> [2]: https://lore.kernel.org/all/5ebcf480-81c6-4c2d-96e8-727d44f21ca9@ti.com/
+> [3]:
+> https://lore.kernel.org/all/ZkIG0-01pz632l4R@smile.fi.intel.com/#:~:text=series%20is%20that%3A%0A%2D-,align,-naming%20(with%20the
+>
+> Regards
+> Devarsh
+>> 
+>> BR,
+>> Jani.
+>> 
+>> 
+>> [1] https://ozlabs.org/~rusty/index.cgi/tech/2008-03-30.html
+>> 
+>> 
+>>>
+>>> [1]: https://lore.kernel.org/all/20240826150822.4057164-2-devarsht@ti.com
+>>>
+>>> Regards
+>>> Devarsh
+>> 
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Jani Nikula, Intel
