@@ -1,165 +1,133 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A525F1B5319;
-	Thu, 29 Aug 2024 13:27:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583F31B1407;
+	Thu, 29 Aug 2024 13:29:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724938032; cv=none; b=kKEKrmTPgSwjXR7KMR64MyMyfhYrioXmQpNBOa7gR30ruQSCXiurl/teZVgDooBPWGl2rmjqZYYmWyVNvwcwYTfgThN4m0nW1UY3Ova5gbS4woIzT6AcwkDGoI2ilb/bwzisHlrLLH11Gbvf3XHihgQKiJxZHwGUcktOngSmXew=
+	t=1724938141; cv=none; b=Qfnu1f/xEywTrS5UwDNABNwvBJSfpK2d9t/qxQlMBF0i8fRfcI1JhYqirLSdwp9LSiIJS5VqqcmPdMjyECtmshumDM+0SoupdC1HYICAQVWuaRjeXwyUZFdKZ1fCF/fNVV0SPLjVckkBsNGfLEbTg2j1GNZFEhzcqkG82tQQkGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724938032; c=relaxed/simple;
-	bh=a/6GHoinSuuHqpamKEatlNRJQO7PI65R0nWt2LL7iyQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qf6fVMutOVgGGte76VoPKKRWDaLyKf1PjH341Zn7q3tPnPs2eFx2TS8/KPGuDF9UDxLpjHjdY73V9N6CQH4yg6py4Ag1YA8ULQixSXAmyuUCiJRBZyem9IDqqk1o4lfnA44BnLeS2+LiRiZPgPRgO5u27WvdbwSfFKDONX/bmvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HpjaACkc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724938141; c=relaxed/simple;
+	bh=/JM47t330311w1URWNgJKWeR3KsLsi57yIqe7LWcBDQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nR4Lqm1EQKfUWBczgSHL/lqaZze/KlVa+oAMVsFlqDbIIzMT0WVvUQoXhVHRti0234v0qVp+J8I+J1n+p4nfxTJQRMnvjFgs3CjiNS+x7ZGVtjwueSO1z45jxAtbWnp5Xhb9hBJeqBhMk0W/3UUL8NGmd0o3yCMpIhYDCh5QMiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GWUmH+VD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HpjaACkc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B69A6C4CEC9;
-	Thu, 29 Aug 2024 13:27:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GWUmH+VD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38C65C4CEC5;
+	Thu, 29 Aug 2024 13:29:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724938032;
-	bh=a/6GHoinSuuHqpamKEatlNRJQO7PI65R0nWt2LL7iyQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=HpjaACkc603d9161YTH7Z8dnRAdC6Vz2cZaoqyMJIrDkuypGWGW2FXPU0avcY1qkF
-	 cq2r4vIBSpH5+fPg4A8r0bNI+POc1st5LY/BFFo3Ya3hMdlCYS3iSs+Hy0JHjsOkTb
-	 8dBqrlQMVaG3BUJFjbE1LdITL35+7H8fV0hbFMx/vCveKsbJteyaX9YJlVyBQ9ebfs
-	 H9mt7jdUfe8u3uR6aFhix+qRymJcXr3mk27NDMM9NyzkTcX+rQt1LUFm59fEFB3ccB
-	 iAIBCOkAVOoY5TTW1TPAUww4sHHirYBjbJv1rK4BhY01NYvqc/2drZO79J2Ba4TZ7C
-	 IA9rODlr45Gcg==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Thu, 29 Aug 2024 09:26:51 -0400
-Subject: [PATCH v3 13/13] nfsd: handle delegated timestamps in SETATTR
+	s=k20201202; t=1724938141;
+	bh=/JM47t330311w1URWNgJKWeR3KsLsi57yIqe7LWcBDQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=GWUmH+VDn7PGqf7OCkWt61y26BuOc3jvCOyW80wPk0Ea2oPNCiKqWh1ZzJXv2Ycpm
+	 d1z9q70phGGVVwWFmlVTPx43K+W1FXEuXO08ofStOQh8+8e5gwvR+o8WHBPEHD1Nmq
+	 9b1Krr82ZBHWHYH115jZ3ZYVifjgZmjZvstLzZIzQigeybQLkBs3s+WuWK6DN2MRfV
+	 TqvT7Cxc9LzX4rpzAGWe8DIH6JIyG4v26B4oEirVDm1dDj6NU4A67skJ8Pa8yX45X1
+	 NFfhPhhzPr7eY/1oHrx3CjjtLwSz2EZfRhsxrrbO37iHQ5ARxzE79CGDoAv/4dboNm
+	 e8coKFIvcg1+Q==
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2f50966c469so7353051fa.3;
+        Thu, 29 Aug 2024 06:29:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUh2rQ5UcLWKTQqGHJpILli51G97PRj5XuAYwc23H6/1JBQY6SLXgag6CW6ZWG5Q+HHU8o7NaLONxIEui3VW5J4@vger.kernel.org, AJvYcCVRGmywkKjoxh38UGzw1OEBnZnsI4WAmlR3lIseGDeV8p8xhQfoUKXhYN4M/fW7OZ+67tPCJV3EL6ov@vger.kernel.org, AJvYcCWqwiscKjDzLOvEmGxW7o7VYw5O4VllfrTCXzdaCOnwyId0LWeyvs/Wjvfmvmt4RjlWeMbzOVdk8OuVf+o=@vger.kernel.org, AJvYcCXOVScWQ7IkRjdQg6FwpPcBA4NSQP3VPELULjVDfcI+q5zXDeRfzVNUuofgx2lROmvVeukApizl0/Y0@vger.kernel.org, AJvYcCXqrcNQ+3Tf589RTl9cauGDiQ9KEujnHCEncxcGmot5h72lpgU7Ld4aL6TB7/TxSiMss9ABW0/QP0nbcXXX@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLnJ5r0dpd+Ulj9i9Zxu9O7wSVF3rhRrcDq1IR2FsaSnrHsprx
+	UZWSDKN8CPTr5XvttA9ZuxyCnhEZZZv8hRVSSUIRrdfttLjW9D20LrYoVgc2+K392StU91OMAtt
+	VvbzR0zSyAXqlbTjgi0PJeGmKB/4=
+X-Google-Smtp-Source: AGHT+IG7brDpiVxJl+LLeO4JEGrNvWC9+/qw29ZvVDhohPvAunRSDVjoDP7LpczQ2+SS7Lyf3hGLblkJdiXuBsb3zXM=
+X-Received: by 2002:a05:6512:340c:b0:52e:9382:a36 with SMTP id
+ 2adb3069b0e04-5353e57cb27mr1967760e87.30.1724938139518; Thu, 29 Aug 2024
+ 06:28:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240829-delstid-v3-13-271c60806c5d@kernel.org>
-References: <20240829-delstid-v3-0-271c60806c5d@kernel.org>
-In-Reply-To: <20240829-delstid-v3-0-271c60806c5d@kernel.org>
-To: Chuck Lever <chuck.lever@oracle.com>, Neil Brown <neilb@suse.de>, 
- Olga Kornievskaia <kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
- Tom Talpey <tom@talpey.com>, Trond Myklebust <trondmy@kernel.org>, 
- Anna Schumaker <anna@kernel.org>, Olga Kornievskaia <okorniev@redhat.com>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: Tom Haynes <loghyr@gmail.com>, linux-kernel@vger.kernel.org, 
- linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3155; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=a/6GHoinSuuHqpamKEatlNRJQO7PI65R0nWt2LL7iyQ=;
- b=owEBbQKS/ZANAwAIAQAOaEEZVoIVAcsmYgBm0HcY9eVwk975rjF/C75K4qCFyhZtQjmbn7Zpo
- 8QiJ5ZX9bGJAjMEAAEIAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCZtB3GAAKCRAADmhBGVaC
- FbUWEAC55y2Xah4VYLt/PzlskKD9lXUM+0OdWE1lc2rFqtFHwRZUfLHWtB4rqsmu4YhCCvW0SFi
- cLgA3NFhXBfSuOC4mJ8643YAQ45qR3+klyBeaAICoOatoO8Hjfx1XxtsV/dvTt6a+wZzwp1pngt
- zGyV3dSL1ZDCEbspBu1PfB3nzI0sMZEZ33nU5+0vqE7Lv0ug/GK34sVST+BmZhCgFCXdy2UTwC9
- eocPmpO5ou/DfocbXSg0wJ1DqrsYqpZedL3Pkw5Hbxg1JNp6ZEzW4gLhjJz5SoAFuaT2s+Z2Mgq
- +62EqImb/bGPefUK1fxa5lX/M96/dKV5/OKUGtwej0ZGBip6aQtWkg6L3jQxQjaE2ajW5QchSHC
- jaDbaiWd9bcYIbK9/vpvnsiLA61q/JtlR0wWwSN8noqci4ElAf1jSZSBuQaVY9vhj2Id53hYk12
- nI1HPvBLgaH3EemJUEIhZ9VKC8nJiLu2RAurJYePAJWi5CQjInY/jJ58+ZlGzUgFbrMGnsfSzs9
- aCcUPF60OKT7ZFMSZu3YqSKBihyFgr2bFiZHUu7IzDNWVj016AE/1ch5BA7GY/lQRIvJ9JXIEmx
- C0vQ1E9tiRZT1khgp+QwF5+bksFbeeKy6t9XDnty+xB1EnX84Tj8rEznyjzsc7bZqjtYexCAmam
- DaYhyt7l8/GmCJA==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+References: <20240826223835.3928819-21-ross.philipson@oracle.com>
+ <202408290030.FEbUhHbr-lkp@intel.com> <CAMj1kXGVn85ht_srwhYXDnKffPFX=B2+Cnv-8EAocwoHi__OoQ@mail.gmail.com>
+ <6b214ad2-d448-4f5f-85e9-93cd38e0e035@oracle.com> <ZtB2bP1Mx3zTr9e5@earth.li>
+In-Reply-To: <ZtB2bP1Mx3zTr9e5@earth.li>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Thu, 29 Aug 2024 15:28:47 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXHvTjC1ALgHnu-_Tad4Ur9RqJR_d9h8bQDvXcx2p5H2AA@mail.gmail.com>
+Message-ID: <CAMj1kXHvTjC1ALgHnu-_Tad4Ur9RqJR_d9h8bQDvXcx2p5H2AA@mail.gmail.com>
+Subject: Re: [PATCH v10 20/20] x86/efi: EFI stub DRTM launch support for
+ Secure Launch
+To: Jonathan McDowell <noodles@earth.li>
+Cc: ross.philipson@oracle.com, kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org, 
+	x86@kernel.org, linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, kexec@lists.infradead.org, 
+	linux-efi@vger.kernel.org, iommu@lists.linux-foundation.org, 
+	oe-kbuild-all@lists.linux.dev, dpsmith@apertussolutions.com, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com, 
+	dave.hansen@linux.intel.com, mjg59@srcf.ucam.org, 
+	James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de, jarkko@kernel.org, 
+	jgg@ziepe.ca, luto@amacapital.net, nivedita@alum.mit.edu, 
+	herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net, 
+	ebiederm@xmission.com, dwmw2@infradead.org, baolu.lu@linux.intel.com, 
+	kanth.ghatraju@oracle.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Allow SETATTR to handle delegated timestamps. This patch assumes that
-only the delegation holder has the ability to set the timestamps in this
-way, so we only allow this if the SETATTR stateid refers to the
-delegation.
+On Thu, 29 Aug 2024 at 15:24, Jonathan McDowell <noodles@earth.li> wrote:
+>
+> On Wed, Aug 28, 2024 at 01:19:16PM -0700, ross.philipson@oracle.com wrote=
+:
+> > On 8/28/24 10:14 AM, Ard Biesheuvel wrote:
+> > > On Wed, 28 Aug 2024 at 19:09, kernel test robot <lkp@intel.com> wrote=
+:
+> > > >
+> > > > Hi Ross,
+> > > >
+> > > > kernel test robot noticed the following build warnings:
+> > > >
+> > > > [auto build test WARNING on tip/x86/core]
+> > > > [also build test WARNING on char-misc/char-misc-testing char-misc/c=
+har-misc-next char-misc/char-misc-linus herbert-cryptodev-2.6/master efi/ne=
+xt linus/master v6.11-rc5]
+> > > > [cannot apply to herbert-crypto-2.6/master next-20240828]
+> > > > [If your patch is applied to the wrong git tree, kindly drop us a n=
+ote.
+> > > > And when submitting patch, we suggest to use '--base' as documented=
+ in
+> > > > https://urldefense.com/v3/__https://git-scm.com/docs/git-format-pat=
+ch*_base_tree_information__;Iw!!ACWV5N9M2RV99hQ!KhkZK77BXRIR4F24tKkUeIlIrdq=
+XtUW2vcnDV74c_5BmrQBQaQ4FqcDKKv9LB3HQUocTGkrmIxuz-LAC$ ]
+> > > >
+> > > > url:    https://urldefense.com/v3/__https://github.com/intel-lab-lk=
+p/linux/commits/Ross-Philipson/Documentation-x86-Secure-Launch-kernel-docum=
+entation/20240827-065225__;!!ACWV5N9M2RV99hQ!KhkZK77BXRIR4F24tKkUeIlIrdqXtU=
+W2vcnDV74c_5BmrQBQaQ4FqcDKKv9LB3HQUocTGkrmI7Z6SQKy$
+> > > > base:   tip/x86/core
+> > > > patch link:    https://urldefense.com/v3/__https://lore.kernel.org/=
+r/20240826223835.3928819-21-ross.philipson*40oracle.com__;JQ!!ACWV5N9M2RV99=
+hQ!KhkZK77BXRIR4F24tKkUeIlIrdqXtUW2vcnDV74c_5BmrQBQaQ4FqcDKKv9LB3HQUocTGkrm=
+IzWfs1XZ$
+> > > > patch subject: [PATCH v10 20/20] x86/efi: EFI stub DRTM launch supp=
+ort for Secure Launch
+> > > > config: i386-randconfig-062-20240828 (https://urldefense.com/v3/__h=
+ttps://download.01.org/0day-ci/archive/20240829/202408290030.FEbUhHbr-lkp@i=
+ntel.com/config__;!!ACWV5N9M2RV99hQ!KhkZK77BXRIR4F24tKkUeIlIrdqXtUW2vcnDV74=
+c_5BmrQBQaQ4FqcDKKv9LB3HQUocTGkrmIwkYG0TY$ )
+> > >
+> > >
+> > > This is a i386 32-bit build, which makes no sense: this stuff should
+> > > just declare 'depends on 64BIT'
+> >
+> > Our config entry already has 'depends on X86_64' which in turn depends =
+on
+> > 64BIT. I would think that would be enough. Do you think it needs an exp=
+licit
+> > 'depends on 64BIT' in our entry as well?
+>
+> The error is in x86-stub.c, which is pre-existing and compiled for 32
+> bit as well, so you need more than a "depends" here.
+>
 
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
- fs/nfsd/nfs4proc.c | 29 ++++++++++++++++++++++++++---
- fs/nfsd/nfs4xdr.c  | 20 ++++++++++++++++++++
- 2 files changed, 46 insertions(+), 3 deletions(-)
+Ugh, that means this is my fault - apologies. Replacing the #ifdef
+with IS_ENABLED() makes the code visible to the 32-bit compiler, even
+though the code is disregarded.
 
-diff --git a/fs/nfsd/nfs4proc.c b/fs/nfsd/nfs4proc.c
-index 963a02e179a0..f715dd29de60 100644
---- a/fs/nfsd/nfs4proc.c
-+++ b/fs/nfsd/nfs4proc.c
-@@ -1142,18 +1142,41 @@ nfsd4_setattr(struct svc_rqst *rqstp, struct nfsd4_compound_state *cstate,
- 		.na_iattr	= &setattr->sa_iattr,
- 		.na_seclabel	= &setattr->sa_label,
- 	};
-+	struct nfs4_stid *st = NULL;
- 	struct inode *inode;
- 	__be32 status = nfs_ok;
--	bool save_no_wcc;
-+	bool save_no_wcc, deleg_attrs;
- 	int err;
- 
--	if (setattr->sa_iattr.ia_valid & ATTR_SIZE) {
-+	deleg_attrs = setattr->sa_bmval[2] & (FATTR4_WORD2_TIME_DELEG_ACCESS |
-+					      FATTR4_WORD2_TIME_DELEG_MODIFY);
-+
-+	if (deleg_attrs || (setattr->sa_iattr.ia_valid & ATTR_SIZE)) {
- 		status = nfs4_preprocess_stateid_op(rqstp, cstate,
- 				&cstate->current_fh, &setattr->sa_stateid,
--				WR_STATE, NULL, NULL);
-+				WR_STATE, NULL, &st);
- 		if (status)
- 			return status;
- 	}
-+
-+	/*
-+	 * If client is trying to set delegated timestamps, ensure that the
-+	 * stateid refers to a write delegation.
-+	 */
-+	if (deleg_attrs) {
-+		status = nfserr_bad_stateid;
-+		if (st->sc_type & SC_TYPE_DELEG) {
-+			struct nfs4_delegation *dp = delegstateid(st);
-+
-+			if (dp->dl_type == NFS4_OPEN_DELEGATE_WRITE)
-+				status = nfs_ok;
-+		}
-+	}
-+	if (st)
-+		nfs4_put_stid(st);
-+	if (status)
-+		return status;
-+
- 	err = fh_want_write(&cstate->current_fh);
- 	if (err)
- 		return nfserrno(err);
-diff --git a/fs/nfsd/nfs4xdr.c b/fs/nfsd/nfs4xdr.c
-index 557f4c8767ff..3b46014f911b 100644
---- a/fs/nfsd/nfs4xdr.c
-+++ b/fs/nfsd/nfs4xdr.c
-@@ -520,6 +520,26 @@ nfsd4_decode_fattr4(struct nfsd4_compoundargs *argp, u32 *bmval, u32 bmlen,
- 		*umask = mask & S_IRWXUGO;
- 		iattr->ia_valid |= ATTR_MODE;
- 	}
-+	if (bmval[2] & FATTR4_WORD2_TIME_DELEG_ACCESS) {
-+		fattr4_time_deleg_access access;
-+
-+		if (!xdrgen_decode_fattr4_time_deleg_access(argp->xdr, &access))
-+			return nfserr_bad_xdr;
-+		iattr->ia_atime.tv_sec = access.seconds;
-+		iattr->ia_atime.tv_nsec = access.nseconds;
-+		iattr->ia_valid |= ATTR_ATIME | ATTR_ATIME_SET | ATTR_DELEG;
-+	}
-+	if (bmval[2] & FATTR4_WORD2_TIME_DELEG_MODIFY) {
-+		fattr4_time_deleg_modify modify;
-+
-+		if (!xdrgen_decode_fattr4_time_deleg_modify(argp->xdr, &modify))
-+			return nfserr_bad_xdr;
-+		iattr->ia_mtime.tv_sec = modify.seconds;
-+		iattr->ia_mtime.tv_nsec = modify.nseconds;
-+		iattr->ia_ctime.tv_sec = modify.seconds;
-+		iattr->ia_ctime.tv_nsec = modify.seconds;
-+		iattr->ia_valid |= ATTR_CTIME | ATTR_MTIME | ATTR_MTIME_SET | ATTR_DELEG;
-+	}
- 
- 	/* request sanity: did attrlist4 contain the expected number of words? */
- 	if (attrlist4_count != xdr_stream_pos(argp->xdr) - starting_pos)
-
--- 
-2.46.0
-
+I'd still prefer IS_ENABLED(), but this would require the code in
+question to live in a separate compilation unit (which depends on
+CONFIG_SECURE_LAUNCH). If that is too fiddly, feel free to bring back
+the #ifdef CONFIG_SECURE_LAUNCH here (and retain my R-b)
