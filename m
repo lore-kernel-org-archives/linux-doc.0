@@ -1,89 +1,124 @@
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F7B1A3BC3
-	for <linux-doc@vger.kernel.org>; Thu, 29 Aug 2024 13:21:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84CAE192B6F;
+	Thu, 29 Aug 2024 13:25:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724937704; cv=none; b=s+dtrOikwOzZ3djzMrP9WEuoP48D5WQDRLo2IqTcLbmTRqNkbp0FhhZyX6NUEWA7uQljrl4juU1mPdR6CqEytxzczA52T8xuac9DW6+MK6vWpMq+dyjBEPbdtuOAB9DIkQ9Nv3nGz5JDjZwK6XnIitmr+fp5eVhut8mSVbvB7O0=
+	t=1724937902; cv=none; b=Hzw4GQYfpJH6nFt2P2sQV8v7qKreQKOSTIu/BHtO88K0rmnm+/U/5mMlTbBruz6C63k9+RcDnmd6DVz0+066xN9xB8HLBRDwWNlaf5lITPK7Yahn7Pmt5zV0y03rT3c+pSD983zj2PwveHoAYI2o5HsNqDijH2+ZD6X9XEit1Y0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724937704; c=relaxed/simple;
-	bh=hdV4rZzJMRAJBVUYw2ja547l7Uw/TfehnV91g5CT5jM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iEnqr5K56XjzZDKYxnDCO1v4ODl8AUxM2vABg3/DATd5H3bBmBmowRY1jawXhgYEZWt0BGa7dH5Rvaj/uTgPTTZg4qTMK3tZN4pKrSprBdzR9Mm8N3jvBXsOy1MhqHsjXbUuaAUW568YbWOredimtqDDeDU8rLDD5jbp4vCWz5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=XxD0rm7L; arc=none smtp.client-ip=209.85.219.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	s=arc-20240116; t=1724937902; c=relaxed/simple;
+	bh=GV60B7TnA6DnC3HM8+W6F2D5ilvKsXaFmGtCwJfJZaw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z9uq6obTBJgXbNt93P80sa/79HXrDRWDV/4xxrBlhFboKNNvVMKw09JRXBEFjOI5E2Ci5c6etzY68XdTtTcunqm2IOw05vYNZW/ACzfq5HwCG9JMEtcCvf/rEhQStYSoA0Ov68ppPwSEINDK/GWd7h/oN5tEUmAojq+s26sR96s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=ZDnUaWz9; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="XxD0rm7L"
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-e13cda45037so686804276.3
-        for <linux-doc@vger.kernel.org>; Thu, 29 Aug 2024 06:21:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1724937702; x=1725542502; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=17X032zDJy+/0wMUgmzbwhIMKf3z2lFl5ldVJ4sPDf0=;
-        b=XxD0rm7LkOJAUwXzSkLZwRdHMjy+qM0ZOIWLviQVXMMT74B3prBKxtMy+JEoamWEBm
-         6HypZTVcDb1nRr9nptpDfzz9dfqDQ1onIG1goU7zLNnCE0YBL7gwOyGjmap1eMCyY74i
-         v31jstwuVtK23YqSv5tmT2ZCMecR7tCEqnhFs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724937702; x=1725542502;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=17X032zDJy+/0wMUgmzbwhIMKf3z2lFl5ldVJ4sPDf0=;
-        b=ldrmD5IWDPFd/9/H4345Iy4Qa5m6rW/ABpKE8DLnVPy8Viv8y3FEUpNi58xMsRORPZ
-         YxOo3PPRL0JlOFremN5R7Twumk3UqQuS9/vvfgdKiNe6Kb/1nAvGjYcWjUfZ2Ohp8r/n
-         t6x+qp4WTFEjl6dxxYC8KoEKDO1EtaWOdn+ZGAp2Rs9CMTf87o/mxJYZKj252T1K7+l/
-         UfX7IiF/Utrb4iRXQE4KvNWLpXbeLKv9HvmNun15gGlPFN4ePrWqj45WRKnY3Wv1PuRY
-         UcuWCXhU7ODqnMInSwLN2uhMMqF4d+bVrAZN1UkWoR27NNmEGE94BPdbVtCt11LnRd+G
-         u8Kg==
-X-Forwarded-Encrypted: i=1; AJvYcCV7RYvYwZ7Ui509RolM/W7Tsm6gjRZvEC3dL7P8d9sN99lYaJN+Q/k5kIRMzoqFESmjhfkoZbSX5h8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRsAgym9qVQdNcoTXc+rLqcvkF+7Rp/fGxVftFEhPRMVNux4Ef
-	U3uNARh2PLgW52gaco8pFo4TnXHTUMT7XsM8s8J+lSIhxv3lCz73iTz1GVzoB7kPj1gfA07dHI5
-	ewox6mA+mdC0jCRXw7k7R8iaTe/7Xevu7Lb1HRg==
-X-Google-Smtp-Source: AGHT+IGFmmq4KYWULCCzqEFKek25OxK9x8oLjmoZmu8m4Sd2SvnaVWUH+kbP/SjW5Ho91ld6gT2dR61FWiPYKjgvHmQ=
-X-Received: by 2002:a05:690c:2f0a:b0:6b0:d9bc:5a29 with SMTP id
- 00721157ae682-6d277a7927emr26497587b3.32.1724937702395; Thu, 29 Aug 2024
- 06:21:42 -0700 (PDT)
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="ZDnUaWz9"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 6950C40E0288;
+	Thu, 29 Aug 2024 13:24:58 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id RLZtmtQE7s3y; Thu, 29 Aug 2024 13:24:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1724937892; bh=vNtQxJkHxft4astBfVL5KicdSbzbOp9p9GXUzMP7v+M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZDnUaWz9X/E9xmg3UH8tRu4v44eG1CImcZvlSx/eqNtKxY1qS8SnEK58fLTHjPZje
+	 aKb/XjUwAnfyWJEAWToV1v9aykcJCpJMjkEzdTsYeA1AIZeyEoxOSSEo5jfIllFRpR
+	 DM5pFQyW7obJ5D3nHZGP9a5uuBVrP2Tg0/PeGTqH4EF0UfGR2T9hF3Mfm5CVSf37uy
+	 hmdSvh8z2/RhoEgP1hhgwYD3QaAKY1SfteFViArQMKlCqSKEiUrdYm3bN/w3MBskTL
+	 S8MeqtsDpZg+T4OE1KltFIdFPt1Cz5lSWmRJVIo1fMOCFlOrAVwTlyL4ADY7Q0+5VQ
+	 mMQcMJ4a1xX2EeqGLrIerf7SxDVsWpxT6r7nT88bEAY6FKffIXhZqjmzSgnCCf3nPa
+	 5/kIjhrBSleRvPxQ6WqLZsrLL4nkHviueKIlKpLUDgDKqhwM9XHsfri5alpqZ611VX
+	 sX8aoML67u40katcGp8s8qrX4Uvp1fgdpGCXYmJkElHK3a1d+c5k21r3E2PJkgJVx3
+	 4cNsUidy2tIlJVpNu5x6U2+CdRelRQSXgpjZTUzYCDKPZ+0bKIM/EsNCv0rtQZ4pD7
+	 vlABlzJ1pkAdnOyp389tjEHURbdlCEj2K2iCBr6eyxQ2pgNuLfSt4tzrM+xrJO74IW
+	 SqyPtt1c+BQsX9up7As4GSbA=
+Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 3ABA140E0275;
+	Thu, 29 Aug 2024 13:24:39 +0000 (UTC)
+Date: Thu, 29 Aug 2024 15:24:38 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Pavan Kumar Paluri <papaluri@amd.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Eric Van Tassell <Eric.VanTassell@amd.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Ashish Kalra <ashish.kalra@amd.com>,
+	Michael Roth <michael.roth@amd.com>,
+	Brijesh Singh <brijesh.singh@amd.com>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH 1/2] x86, KVM:SVM: Move sev specific parsing into
+ arch/x86/virt/svm
+Message-ID: <20240829132438.GCZtB2lqeYpleYk9c4@fat_crate.local>
+References: <20240801205638.6603-1-papaluri@amd.com>
+ <20240801205638.6603-2-papaluri@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240709111918.31233-1-hreitz@redhat.com> <CAJfpegv6T_5fFCEMcHWgLQy5xT8Dp-O5KVOXiKsh2Gd-AJHwcg@mail.gmail.com>
- <19017a78-b14a-4998-8ebb-f3ffdbfae5b8@redhat.com> <CAJfpegs0Y3bmsw3jThaV+PboQEsWWoQYBLZwkqx9sLMAdqCa6Q@mail.gmail.com>
- <b82dd5f9-a214-4a13-b500-38b07f1e9761@redhat.com>
-In-Reply-To: <b82dd5f9-a214-4a13-b500-38b07f1e9761@redhat.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Thu, 29 Aug 2024 15:21:30 +0200
-Message-ID: <CAJfpeguO_jt=fR+kMkmbJDtbD9f-+fAafkmS+CbE0qE_Z2wFug@mail.gmail.com>
-Subject: Re: [PATCH 0/2] virtio-fs: Add 'file' mount option
-To: Hanna Czenczek <hreitz@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, virtualization@lists.linux.dev, 
-	Miklos Szeredi <mszeredi@redhat.com>, German Maglione <gmaglione@redhat.com>, 
-	Stefan Hajnoczi <stefanha@redhat.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Vivek Goyal <vgoyal@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240801205638.6603-2-papaluri@amd.com>
 
-On Thu, 29 Aug 2024 at 15:11, Hanna Czenczek <hreitz@redhat.com> wrote:
+On Thu, Aug 01, 2024 at 03:56:37PM -0500, Pavan Kumar Paluri wrote:
+> +#include <linux/memblock.h>
 
-> Hm, I thought we set some things in fuse_mount and fuse_conn in there tha=
-t are then queried by fuse_send_init()...  Maybe the only thing fuse_send_i=
-nit() needs is fm->sb->s_bdi->ra_pages for max_readahead.
+What's the idea of adding some random include here?
 
-Yes, that definitely needs special treatment.
+Does this file use memblock?
 
-> Sounds simple.  Do you think semantically it=E2=80=99s find to block here=
-?  We=E2=80=99d only do it for virtio-fs, so a denial-of-service may not be=
- of concern here.
+I don't think so.
 
-It should be okay.  AFAIK all network filesystems block mount(2) until
-setup is complete.
+You need to resolve include visibility by including the headers where you need
+them:
 
-Thanks,
-Miklos
+diff --git a/arch/x86/include/asm/sev-common.h b/arch/x86/include/asm/sev-common.h
+index dd302fe49f04..d3e7f97e2a4a 100644
+--- a/arch/x86/include/asm/sev-common.h
++++ b/arch/x86/include/asm/sev-common.h
+@@ -8,6 +8,9 @@
+ #ifndef __ASM_X86_SEV_COMMON_H
+ #define __ASM_X86_SEV_COMMON_H
+ 
++#include <asm/cache.h>
++#include <asm/pgtable_types.h>
++
+ #define GHCB_MSR_INFO_POS		0
+ #define GHCB_DATA_LOW			12
+ #define GHCB_MSR_INFO_MASK		(BIT_ULL(GHCB_DATA_LOW) - 1)
+diff --git a/arch/x86/virt/svm/cmdline.c b/arch/x86/virt/svm/cmdline.c
+index 507549a9c793..f0a532108f49 100644
+--- a/arch/x86/virt/svm/cmdline.c
++++ b/arch/x86/virt/svm/cmdline.c
+@@ -5,11 +5,8 @@
+  * Copyright (C) 2023 - 2024 Advanced Micro Devices, Inc.
+  *
+  * Author: Michael Roth <michael.roth@amd.com>
+- *
+  */
+ 
+-#include <linux/memblock.h>
+-
+ #include <asm/sev.h>
+ 
+ struct sev_config sev_cfg;
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
