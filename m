@@ -1,97 +1,72 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D48A81B29B7
-	for <linux-doc@vger.kernel.org>; Thu, 29 Aug 2024 15:57:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BF601B5EBC
+	for <linux-doc@vger.kernel.org>; Thu, 29 Aug 2024 17:05:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724947073; cv=none; b=nNsgVxf3zhLXvD3n5I4Q9NCmI93OBPLcw/cFM6yvkzXWvvJVhVvdGfj7B0pbQVWx5GyhnQDLdA5OuUvpKhsHfgk6QUfPOoPH37WPxxeKizIaNmIPhTsZU1B3F+VFzaLA4SkRszI51YIBNDypT3nV6XtmP67gi8KVF+nnXbmJ6lo=
+	t=1724951122; cv=none; b=jc+hok6oP4TuhSWfp0q+Tx7l3PrKPw+Ktw8lHmFdUOtUoxNmnwmQ1GgovlvjajIIjTtfxpyKm0sLq5uvZn5nVdOCTSBs+HBMZW1fUF00xpgt13za4bSp2py1R1RvVgQzP/OvjcpI4UF26k3CSFYqaqXFr5yNT6fLoCLGoXm0LMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724947073; c=relaxed/simple;
-	bh=BjQzomJdfelQle+FoyKCfNVMJnt/w3H756pm8LAAsZE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YNTbfA5O0w2VTh/cRZ2zYKRE4p4iwwnQDbjP18N78fMrVVK9B0+xFVyeAd3lbaOdaeZFucLkUZ2YVpEUQqEOsOunvE8qP5a5GPVuuFWmj8Wk2wbddzcPASu+RCmAas2Ei3M/EqAZVvq0OEb1q+EHQtEu9WVDGwVwCDur9r3y/oY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=wSpyoNFd; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
+	s=arc-20240116; t=1724951122; c=relaxed/simple;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=n3NiquS4MsSyhCCLb41w6gCrs9DGnxd/OI4iaYFVyjpDDVBMQr0eaYVqhMcQ7HBSYU8+CMmnTGCvZ/g7JwfWsjoEMRXiSPG251L+KAnrqOeY6jds/degQjYYFnGBAgzbMXlq7GH2yxStOiL1aB6TPqR4FrK/kav2z3cx0CXN9a8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ROhFhDPO; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="wSpyoNFd"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7141e20e31cso698964b3a.3
-        for <linux-doc@vger.kernel.org>; Thu, 29 Aug 2024 08:57:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ROhFhDPO"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-42bb6d93325so175e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 29 Aug 2024 10:05:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1724947071; x=1725551871; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/41oDsZHfxhcl1cqUKA01PWjnJrjTcYi52+9QxRI62A=;
-        b=wSpyoNFdEh10hAqmGC56DeP0G5vUzxzxB3mY5K4cg0WB1ONH9vvaczzDZLlITE2N6n
-         GYDqf7y2rbYjeuQDmj6GAG/JIveq7pcHL2CWWqcpVuKYb1gfNI+wWvVlqNWwDgEF80dL
-         TwljAMLA92vo/opYyrZbUcT5Jsy7DREYwpO1c=
+        d=google.com; s=20230601; t=1724951119; x=1725555919; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=ROhFhDPO9Ll9pWySk8+1RNzrFAIkqvOHeAt76Sekt/2Nq2RgyGnHOrg06nVAwJTbbx
+         zAi0uJwwJP0jqEYMfTHLkWaLJ2gekVim0k8G/dT0p2KPEwnnDBxr8vGAEIAbWGgwydbJ
+         27gRXfuhbdNIvrexgxiNmeLdRC7iD8eL/W8DICUJu+ZkoPpVwFJIzZtULYynfRQ7WJSf
+         hf3JckSyM3mS9++wZHTI426vRojfg3E4bT5gEo9V8aflq0OYneGz+LtgkdyczysS1TMQ
+         xYqLj5Joab5nUxH9a9uJl41/gt6GcyBRtoMAcugUPwyUekYoCs3c/38EOqb5F/7yf3PF
+         4aQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724947071; x=1725551871;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1724951119; x=1725555919;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/41oDsZHfxhcl1cqUKA01PWjnJrjTcYi52+9QxRI62A=;
-        b=lTyj6J9zMx/1z/q9Vo3i1Acv0AsIzU9EFyymvij8F94mo83XVVpOn3/f8/sn8frVnS
-         RbIK1f+EzLTU6TwI2CS6TUvw8mubmdYAPoG14MiwpZcAxWW0ddNYDoOWnaIeVnwjiW9G
-         EDpqaqtM/d4ONhuFTAE2fFpxVUecsrhCDm5h5oMRaSIB65D1mFA9RDUMfza2XKUYabo5
-         aGq8yezQ0L9K1ixrSKHdgS53og2b1p4GI3TC/3SIjK2ALy8CWRs2y/pfH8lSFAp/O0pf
-         eawrVQkJvLhkw4lk87KHuT0JxQp1Jo0CF4elGqhv4W4nFVqBjsdDgYpi3CH028bW3Ds9
-         wAXA==
-X-Forwarded-Encrypted: i=1; AJvYcCVXEPdryEyty+SCFC1L9gmCcrUG9Nk1mggwRjRFT4gSgw65QLx4UbbvBpG3glz1EcUc3CJCHTZfY7w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzD6fV0OsMlBh4wjjNsyPxt7gftCY84LWBGJrwCLDXNBsDcvq6
-	GHo0loc8D6PsvpWg8l7+TPFp+UtmaWCusFlIZhMZ7EPY/WZ4XGnsky461Iyo/Fs=
-X-Google-Smtp-Source: AGHT+IEN/5x5JumXpn1GxODDJHBpZA1fqwxshkNBrm3W4Pi55CCH9podw+EpN5OXTvwZkSm6rfsQDg==
-X-Received: by 2002:a05:6a20:d8b:b0:1c6:b45a:df51 with SMTP id adf61e73a8af0-1cce1022303mr2371314637.30.1724947070902;
-        Thu, 29 Aug 2024 08:57:50 -0700 (PDT)
-Received: from localhost.localdomain ([2620:11a:c019:0:65e:3115:2f58:c5fd])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-715e569dccesm1294592b3a.136.2024.08.29.08.57.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2024 08:57:50 -0700 (PDT)
-From: Joe Damato <jdamato@fastly.com>
-To: netdev@vger.kernel.org
-Cc: mkarsten@uwaterloo.ca,
-	edumazet@google.com,
-	kuba@kernel.org,
-	Joe Damato <jdamato@fastly.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH net-next] Documentation: Add missing fields to net_cachelines
-Date: Thu, 29 Aug 2024 15:57:42 +0000
-Message-Id: <20240829155742.366584-1-jdamato@fastly.com>
-X-Mailer: git-send-email 2.25.1
+        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=ejzkugovYGvFci0ZfLazS6pZNVIp5ni8NdP4Is8RQDEYUvxGKW64ExD/1Nzi2EAXKJ
+         JWyUf2pvVUzyZIsSpJPkK/e58cAbqnO6N+FNWfdSTshoFle+UCaCz1tN7G6FpLYEZTUk
+         eRPPZJSnz9zw05EDQqtpLvuJCXGnDDGIqLsvMVKBBImhar454Y85AvT+5S0u98jRUByJ
+         ACnNvY3xI8d3EtG15WOU7360mF6K0wOjo/XbIePq+DURywUAZdhITMYv8g++W56FJTVz
+         QDzzc5yJdVcNg4JWIrmn5Y+OQ8ysV+KWX1B8HGU2qxSSTX0VGFMnKKelUdxI7MKIKLZi
+         8EMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVpbeTpW4PwHKZuUIeBIOZ8ISlvB8A2iR1PyXEslxtotWy+G9lc30qKnZFbJ6/p5EFsNfqrmsZplEQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YypX+oVdqklKjk3RtzqZdBf3LeMpt7WFTdSpejj5D3PRfGrhoYM
+	ZW5Ml4k/EHXfZ7SOB9aghYVG2l/k0R0776+X//FpUdOZbofJu5CIpB62xwrCycIgXriQcLxN4Ne
+	EzUfI7A8kIBz4KPEqHdQe+7SZMzlnu1EjZkY=
+X-Gm-Gg: AV9I1ZQbnKEGMBeaTFl7bYt9UDpXdmljOTFnOcq2nCqig6CB28JNNgSdJL+1MKW4kkL
+	TLZcQP8D2dy0VM2vPkvpRgHuydXZSk+idX58Gxwh5e5BqelX1Zug0Hy078z4=
+X-Google-Smtp-Source: AGHT+IF8ncbv3hPX6txBwjD+mljfVJFZjCz8WD9pS5r0ChWeEb3HcbLEeUEQAMuL4Kr+bb+8RiZA/+ov4ZUA9UxFSLs=
+X-Received: by 2002:a05:600c:6d12:b0:424:a2ae:8d1d with SMTP id
+ 5b1f17b1804b1-42bba2d4b89mr12755e9.2.1724951118768; Thu, 29 Aug 2024 10:05:18
+ -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAFs7P=jk=wfo0nbHzqd1NrGX3NKpOezD4-u=nAMqzq7mq4Lidg@mail.gmail.com>
+In-Reply-To: <CAFs7P=jk=wfo0nbHzqd1NrGX3NKpOezD4-u=nAMqzq7mq4Lidg@mail.gmail.com>
+From: Joshua Pius <joshuapius@google.com>
+Date: Thu, 29 Aug 2024 13:04:40 -0400
+Message-ID: <CAFs7P=jPqv2Zr6Fnw584TKhj5joBRt7X7gMidE4MiK1ABAMiRQ@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: Add logitech Audio profile quirk
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, alsa-devel@alsa-project.org
+Content-Type: text/plain; charset="UTF-8"
 
-Two fields, page_pools and *irq_moder, were added to struct net_device
-in commit 083772c9f972 ("net: page_pool: record pools per netdev") and
-commit f750dfe825b9 ("ethtool: provide customized dim profile
-management"), respectively.
-
-Add both to the net_cachelines documentation, as well.
-
-Signed-off-by: Joe Damato <jdamato@fastly.com>
----
- Documentation/networking/net_cachelines/net_device.rst | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/Documentation/networking/net_cachelines/net_device.rst b/Documentation/networking/net_cachelines/net_device.rst
-index 70c4fb9d4e5c..a0e0fab8161a 100644
---- a/Documentation/networking/net_cachelines/net_device.rst
-+++ b/Documentation/networking/net_cachelines/net_device.rst
-@@ -176,3 +176,5 @@ netdevice_tracker                   dev_registered_tracker
- struct_rtnl_hw_stats64*             offload_xstats_l3                                               
- struct_devlink_port*                devlink_port                                                    
- struct_dpll_pin*                    dpll_pin                                                        
-+struct hlist_head                   page_pools
-+struct dim_irq_moder*               irq_moder
--- 
-2.25.1
 
