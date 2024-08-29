@@ -1,124 +1,151 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84CAE192B6F;
-	Thu, 29 Aug 2024 13:25:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB92D446D1;
+	Thu, 29 Aug 2024 13:26:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724937902; cv=none; b=Hzw4GQYfpJH6nFt2P2sQV8v7qKreQKOSTIu/BHtO88K0rmnm+/U/5mMlTbBruz6C63k9+RcDnmd6DVz0+066xN9xB8HLBRDwWNlaf5lITPK7Yahn7Pmt5zV0y03rT3c+pSD983zj2PwveHoAYI2o5HsNqDijH2+ZD6X9XEit1Y0=
+	t=1724938010; cv=none; b=WvD5KUPM13GLL+uBhRQggvfuXvOqU2RGt1lUForAMI72NUO6ZShdarjZPBUPTpk6OilrB7nD9oFGh5sJ1Z1ggxDN/OsUA+yZsBAVHpttS2F+VRjAgHxpDvqC09KQzFrSHWpfZh/ExoLVbRmI8rtL5Wwone/iMIAAq9O+4KtiA1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724937902; c=relaxed/simple;
-	bh=GV60B7TnA6DnC3HM8+W6F2D5ilvKsXaFmGtCwJfJZaw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z9uq6obTBJgXbNt93P80sa/79HXrDRWDV/4xxrBlhFboKNNvVMKw09JRXBEFjOI5E2Ci5c6etzY68XdTtTcunqm2IOw05vYNZW/ACzfq5HwCG9JMEtcCvf/rEhQStYSoA0Ov68ppPwSEINDK/GWd7h/oN5tEUmAojq+s26sR96s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=ZDnUaWz9; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1724938010; c=relaxed/simple;
+	bh=+mHl9ArgxM2tIFp0DloJtxCG50oMRZe3Ta3hKO0rY6o=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=NJnXXtj3YWI2WzTa/Lj3Aa4TV8jeMFZKAMz8OEmOLJQ6yHNTCuikQzvAR8op9Xz/mjQGq5Mj2Ot4idFiH+Kw/Wxi3FPxxCswd9jHhQOUEw2XYEOPEJStf/rkHm91ibxzzauK/grv4RvLSCDZDlUbDwviB9cPzfPNJJ2E8GbRcbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dukqpTLw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="ZDnUaWz9"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 6950C40E0288;
-	Thu, 29 Aug 2024 13:24:58 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id RLZtmtQE7s3y; Thu, 29 Aug 2024 13:24:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1724937892; bh=vNtQxJkHxft4astBfVL5KicdSbzbOp9p9GXUzMP7v+M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZDnUaWz9X/E9xmg3UH8tRu4v44eG1CImcZvlSx/eqNtKxY1qS8SnEK58fLTHjPZje
-	 aKb/XjUwAnfyWJEAWToV1v9aykcJCpJMjkEzdTsYeA1AIZeyEoxOSSEo5jfIllFRpR
-	 DM5pFQyW7obJ5D3nHZGP9a5uuBVrP2Tg0/PeGTqH4EF0UfGR2T9hF3Mfm5CVSf37uy
-	 hmdSvh8z2/RhoEgP1hhgwYD3QaAKY1SfteFViArQMKlCqSKEiUrdYm3bN/w3MBskTL
-	 S8MeqtsDpZg+T4OE1KltFIdFPt1Cz5lSWmRJVIo1fMOCFlOrAVwTlyL4ADY7Q0+5VQ
-	 mMQcMJ4a1xX2EeqGLrIerf7SxDVsWpxT6r7nT88bEAY6FKffIXhZqjmzSgnCCf3nPa
-	 5/kIjhrBSleRvPxQ6WqLZsrLL4nkHviueKIlKpLUDgDKqhwM9XHsfri5alpqZ611VX
-	 sX8aoML67u40katcGp8s8qrX4Uvp1fgdpGCXYmJkElHK3a1d+c5k21r3E2PJkgJVx3
-	 4cNsUidy2tIlJVpNu5x6U2+CdRelRQSXgpjZTUzYCDKPZ+0bKIM/EsNCv0rtQZ4pD7
-	 vlABlzJ1pkAdnOyp389tjEHURbdlCEj2K2iCBr6eyxQ2pgNuLfSt4tzrM+xrJO74IW
-	 SqyPtt1c+BQsX9up7As4GSbA=
-Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 3ABA140E0275;
-	Thu, 29 Aug 2024 13:24:39 +0000 (UTC)
-Date: Thu, 29 Aug 2024 15:24:38 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Pavan Kumar Paluri <papaluri@amd.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Eric Van Tassell <Eric.VanTassell@amd.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Ashish Kalra <ashish.kalra@amd.com>,
-	Michael Roth <michael.roth@amd.com>,
-	Brijesh Singh <brijesh.singh@amd.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [PATCH 1/2] x86, KVM:SVM: Move sev specific parsing into
- arch/x86/virt/svm
-Message-ID: <20240829132438.GCZtB2lqeYpleYk9c4@fat_crate.local>
-References: <20240801205638.6603-1-papaluri@amd.com>
- <20240801205638.6603-2-papaluri@amd.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dukqpTLw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0034C4CEC1;
+	Thu, 29 Aug 2024 13:26:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724938010;
+	bh=+mHl9ArgxM2tIFp0DloJtxCG50oMRZe3Ta3hKO0rY6o=;
+	h=From:Subject:Date:To:Cc:From;
+	b=dukqpTLwxypLzpR03ubtrJ2JSZfTTvjxkzqs26GWfSwGtxRXfo2HHBaMPgHKeTH8p
+	 oZK3I3LO+3q9cJbYnxCY+wa+Ymley+XmtbnPGdcLkpwEpDgkvnjRcdxfvnTCviTCPZ
+	 V8adp0hgm9YItl+ufj/c1yXhlOvBqmptgTezO8uBkNaUpz9KMAFslV2Rmpm+7p+49D
+	 2uPO0QMvFeKrzdZw8O5XT+q7i8QM38tyjrw8MeqPy5XdHfoSMq/huAqQTfrXKCwUKo
+	 OW7lYLlv4unvINmW2h6cBbPCjB7Jn9L6MPzxdf0qe0u/4/jClaAm0tooPT6mIVDhwj
+	 i6j4dTADyq3jQ==
+From: Jeff Layton <jlayton@kernel.org>
+Subject: [PATCH v3 00/13] nfsd: implement the "delstid" draft
+Date: Thu, 29 Aug 2024 09:26:38 -0400
+Message-Id: <20240829-delstid-v3-0-271c60806c5d@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240801205638.6603-2-papaluri@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAA530GYC/1WMQQ6CMBBFr0K6tqYzBUJdeQ/jok5HaCRgWtJoC
+ He3kGhw+X7+e7OIHDxHcSpmETj56Mchgz4Ugjo7tCy9yyxQYakaqKTjPk7eSaPRqNqAdQAiv5+
+ B7/61lS7XzJ2P0xjeWzjBun4b9a+RQCpJiEDaEZTkzg8OA/fHMbRijSTcibgTMYvc2FtFirUh+
+ hOXZfkARtoEV9gAAAA=
+To: Chuck Lever <chuck.lever@oracle.com>, Neil Brown <neilb@suse.de>, 
+ Olga Kornievskaia <kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
+ Tom Talpey <tom@talpey.com>, Trond Myklebust <trondmy@kernel.org>, 
+ Anna Schumaker <anna@kernel.org>, Olga Kornievskaia <okorniev@redhat.com>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Tom Haynes <loghyr@gmail.com>, linux-kernel@vger.kernel.org, 
+ linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3818; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=+mHl9ArgxM2tIFp0DloJtxCG50oMRZe3Ta3hKO0rY6o=;
+ b=owEBbQKS/ZANAwAIAQAOaEEZVoIVAcsmYgBm0HcSS9PQ3BborrNALBRZf62j2hkBYPTAjow+R
+ B3wUBfLluCJAjMEAAEIAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCZtB3EgAKCRAADmhBGVaC
+ FfZ0EACaFwp7Sr56f/PkvkhWpccCIzN8zgZyQqpMPKlE2ll/qZSB9tBXtUZEtcNMPoRkB437Nke
+ FxTHayXGvj/mgV0wQHOaWQRUFYyOMYVMID4NdlnFgaivy9UrZxNCiWmTT1tpoReaV73rdJwcbE3
+ iT8l3AMb/83E3NpJb/6jEdNHGQKJNQZ8P2r1S50rxMJYtyJpHl0rhU4+iv3IHD3uqFYawwqe7+X
+ 6BhuKhBmY605BrFGCmjjai1YN0F8moC4oQjTtoNSxNFj/t5creW8Z2oN8CpAFd346EJAUFrUs/o
+ A9KZlejrmorYd9DfXmnjRxmLboEPOWy5/HdRxKSUEzFc0Z6BNujg4hcpUgjSV6DPbdsxg8RHd3T
+ RlEvG23n9PfVG6A3HXErMYrBHq/f9wKnZJxeIfTG9GHCJfwihp562vpZfnqqat63rnEh/vepGs+
+ qEE++TXU776BV9CC9VaeyEmvpKA+2U3C/Uj1n2beJ/KRSJV2XjHFGe/pt70YVI5ZgExwD/0PBiy
+ YQzaQPoBrxnFjxPWeoskSaFDUnFbfLyF4OnunNiXFQyPgi1KcE8fmtR/4L0a5SuNUCmWYRzr9Yf
+ Mchf4WOteaWGF6hQDoLOSxxDUcOVBpEV8NgBZ0H6HXrQdcA4p+dEn6k1lMZJNSK/KWrPkFmAL6k
+ tK+osl/Iaac0lHA==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
-On Thu, Aug 01, 2024 at 03:56:37PM -0500, Pavan Kumar Paluri wrote:
-> +#include <linux/memblock.h>
+The first couple of patches are prep patches from Neil, with some small
+cleanups. The first patch should probably go to mainline for v6.11
+since it fixes a bug.
 
-What's the idea of adding some random include here?
+The OPEN_ARGUMENTS and OPEN_XOR_DELEG patches are pretty straightforward
+and have survived some local testing. The delegated timestamp patches
+took a few tries to get right, but seem to work. That part is hard to
+test since it requires 2 clients. It would be nice to have pynfs tests
+for that.
 
-Does this file use memblock?
+The main question I have about this series is the change to make nfs4.h
+include the autogenerated headers. Does anyone have issues with that?
+I'd especially appreciate feedback on the basic scheme from Chuck, Trond
+and Anna.
 
-I don't think so.
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+Changes in v3:
+- fix includes in nfs4xdr_gen.c
+- drop ATTR_CTIME_DLG flag (just use ATTR_DELEG instead)
+- proper handling for SETATTR (maybe? Outstanding q about stateid here)
+- incorporate Neil's patches for handling non-delegation leases
+- always return times from CB_GETATTR instead of from local vfs_getattr
+- fix potential races vs. mgtimes by moving ctime handling into VFS layer
+- Link to v2: https://lore.kernel.org/r/20240826-delstid-v2-0-e8ab5c0e39cc@kernel.org
 
-You need to resolve include visibility by including the headers where you need
-them:
+Changes in v2:
+- rebase onto Chuck's lkxdrgen branch, and reworked how autogenerated
+  code is included
+- declare nfsd_open_arguments as a global, so it doesn't have to be
+  set up on the stack each time
+- delegated timestamp support has been added
+- Link to v1: https://lore.kernel.org/r/20240816-delstid-v1-0-c221c3dc14cd@kernel.org
 
-diff --git a/arch/x86/include/asm/sev-common.h b/arch/x86/include/asm/sev-common.h
-index dd302fe49f04..d3e7f97e2a4a 100644
---- a/arch/x86/include/asm/sev-common.h
-+++ b/arch/x86/include/asm/sev-common.h
-@@ -8,6 +8,9 @@
- #ifndef __ASM_X86_SEV_COMMON_H
- #define __ASM_X86_SEV_COMMON_H
- 
-+#include <asm/cache.h>
-+#include <asm/pgtable_types.h>
-+
- #define GHCB_MSR_INFO_POS		0
- #define GHCB_DATA_LOW			12
- #define GHCB_MSR_INFO_MASK		(BIT_ULL(GHCB_DATA_LOW) - 1)
-diff --git a/arch/x86/virt/svm/cmdline.c b/arch/x86/virt/svm/cmdline.c
-index 507549a9c793..f0a532108f49 100644
---- a/arch/x86/virt/svm/cmdline.c
-+++ b/arch/x86/virt/svm/cmdline.c
-@@ -5,11 +5,8 @@
-  * Copyright (C) 2023 - 2024 Advanced Micro Devices, Inc.
-  *
-  * Author: Michael Roth <michael.roth@amd.com>
-- *
-  */
- 
--#include <linux/memblock.h>
--
- #include <asm/sev.h>
- 
- struct sev_config sev_cfg;
+---
+Jeff Layton (11):
+      nfsd: drop the ncf_cb_bmap field
+      nfsd: drop the nfsd4_fattr_args "size" field
+      nfsd: have nfsd4_deleg_getattr_conflict pass back write deleg pointer
+      nfsd: add pragma public to delegated timestamp types
+      nfsd: fix reported change attr on a write delegation
+      nfs_common: make nfs4.h include generated nfs4_1.h
+      nfsd: add support for FATTR4_OPEN_ARGUMENTS
+      nfsd: implement OPEN_ARGS_SHARE_ACCESS_WANT_OPEN_XOR_DELEGATION
+      fs: handle delegated timestamps in setattr_copy_mgtime
+      nfsd: add support for delegated timestamps
+      nfsd: handle delegated timestamps in SETATTR
 
+NeilBrown (2):
+      nfsd: fix nfsd4_deleg_getattr_conflict in presence of third party lease
+      nfsd: untangle code in nfsd4_deleg_getattr_conflict()
+
+ {fs/nfsd => Documentation/sunrpc/xdr}/nfs4_1.x     |   2 +
+ MAINTAINERS                                        |   1 +
+ fs/attr.c                                          |  28 ++-
+ fs/inode.c                                         |  74 +++++++
+ fs/nfsd/Makefile                                   |   2 +-
+ fs/nfsd/nfs4callback.c                             |  43 +++-
+ fs/nfsd/nfs4proc.c                                 |  29 ++-
+ fs/nfsd/nfs4state.c                                | 241 ++++++++++++++-------
+ fs/nfsd/nfs4xdr.c                                  | 117 ++++++++--
+ fs/nfsd/nfs4xdr_gen.c                              |  12 +-
+ fs/nfsd/nfsd.h                                     |   5 +-
+ fs/nfsd/state.h                                    |   6 +-
+ fs/nfsd/xdr4cb.h                                   |  10 +-
+ include/linux/fs.h                                 |   2 +
+ include/linux/nfs4.h                               |   7 +-
+ include/linux/nfs_xdr.h                            |   5 -
+ .../linux/sunrpc/xdrgen/nfs4_1.h                   |  14 +-
+ include/linux/time64.h                             |   5 +
+ include/uapi/linux/nfs4.h                          |   7 +-
+ 19 files changed, 469 insertions(+), 141 deletions(-)
+---
+base-commit: 30e4927dc0506504ddbfed51698bc5f37b17343a
+change-id: 20240815-delstid-93290691ad11
+
+Best regards,
 -- 
-Regards/Gruss,
-    Boris.
+Jeff Layton <jlayton@kernel.org>
 
-https://people.kernel.org/tglx/notes-about-netiquette
