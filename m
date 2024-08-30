@@ -1,301 +1,211 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 950CD18C001;
-	Fri, 30 Aug 2024 13:33:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B56E4288DB;
+	Fri, 30 Aug 2024 13:46:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725024801; cv=none; b=nFRrW67xMCn6BMDI6rRudtk6i2qVjBIvkdFE17GjY4TBUQ8lpf0v3oTWczLq9Y7AQmoBUYzhHOn5uuC0V7YLGkZjGrrMP/vE3zjYfP2aqxB8bc76qTZeErWdTxBgAGi44Z7bFiPAFoNowba4HM9GECcFoRe8SwbkddhjLKPnvGA=
+	t=1725025564; cv=none; b=lEd5IhBB58ygoHY9IHH5hdU3U99666t/kgkWYOySZ3a8W+9MsJkjK0iiT6jek+XnnFJrCFOmSjj93vky++q8ld8i9QUFlHx5o8znrKj3h7bsiWR51Dj4CwphQBDG7L1cBUoJpMr2zkwy7kD/PjiwuKEe6HXdCmd/U+S0d+glXCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725024801; c=relaxed/simple;
-	bh=PpCoKRxuP1JMyjatbWNtCMiAVbW8Cm45OvbCmpuoMCc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=AIVBEGv5nti6fCSgqdtzFnOx3VrNtgkB32j3WRdttIeORsJ5FA47WeXL8B2EKD5Lps151z+VQetJHALyw34YKawVHoOkDownVsaueS88RJT/yaxb/EkQkCEqnOdwbBnFSL27Vzhh65xc4nV6hdpNfF4vx3jwZgK20rcpW7e4+r8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c3T9RwP5; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c3T9RwP5"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-20201433461so1540215ad.3;
-        Fri, 30 Aug 2024 06:33:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725024799; x=1725629599; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rx75AI83soQ7F4/nlkSY12sdOTxom+scb4Glrve47wc=;
-        b=c3T9RwP5E/1Qk7+q6BW0DdkHbDgIRmqRBUyYf6Wc8AgpOP+nZVs9JFEYB5u2T+xP8T
-         bSiIsXM27BHnbuPdRgYdcRxMfIJyf1HnLvmzjGUpFXuIJoPSd+1xvRSJVw8VAalaH40p
-         AWP4J/x1xrA6KvQ7Atgb2rJQAjikwstYH/WT8wqarlHzAJeZbGUFYT8BzQUt98IOjf+f
-         6Nftr0S7lmxsaDwpwqFpURx7B1xPAlzrjZH71HEEKOU2TM6L6dfaGKu6jdzdy0iP5mcY
-         Ts6mPpvg3SITRyq7iFoughUD1LMCBlCkMTSFiHUQmyC2cc4wc4k7Etfqw50dz5UxPFRi
-         RIeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725024799; x=1725629599;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Rx75AI83soQ7F4/nlkSY12sdOTxom+scb4Glrve47wc=;
-        b=jSks/JWQ/okSSl6n0fj3GTip8Dgcch7t+PUCOreY+Wa1IXXK0em/pN84R9+H1VUCLF
-         neaQ1HWG+L0ehT07RIcLGqb+tJzorEkgp0BCF6OX62AXc/n6yrH677Q4JuiVl/LQ3nbU
-         D3SjFHo3PBBWQB91hbJ4ZD4cDvop+H8to0VXBgWGqjWTod1wrS4LIfgnJdrw9YqrIbnt
-         5tn5wvC/VfNfu+BLAa/kD482wQomRiuGAcvF/U0ErhVbp7iuvd9abtje0z/4fABgGsmq
-         6+nkfJBHhdyC+hpkCTZp5zu62qRgwRxFKnKlV9OH20H2S54WNNC7bO7/YSlODxCR/E/U
-         xllA==
-X-Forwarded-Encrypted: i=1; AJvYcCUaNf12VY5WU37qf6U2dl7+V/rHOwlumOQl1GR8oe/BaBCU3Xu+7iCYNhmI8pW+Qo4CmcqpHkWQ1+uqI7E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBOICvOkuJOwOCM8UmxXPn0dx0vbtZQOGmCsy+JMOUCkZi9Kco
-	vNe2h6H9xs9roc8yHN35f0YSt4lklftOhoOMlKx5DfalC0DmZ8t6
-X-Google-Smtp-Source: AGHT+IHN49eFYAylNOK3ItNuUxZ4Ufjqj1MkPfEyJJ2khQqjvXHz15dl0tF7Qy4qM3Apa88XUH87Ew==
-X-Received: by 2002:a17:903:11c5:b0:202:5add:b245 with SMTP id d9443c01a7336-20528697d31mr13016755ad.8.1725024798433;
-        Fri, 30 Aug 2024 06:33:18 -0700 (PDT)
-Received: from aizome.localdomain ([117.172.223.60])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20515551e5bsm26798785ad.252.2024.08.30.06.33.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Aug 2024 06:33:17 -0700 (PDT)
-From: Pengyu Zhang <zpenya1314@gmail.com>
-To: alexs@kernel.org,
-	siyanteng@loongson.cn,
-	corbet@lwn.net
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	zpenya1314@gmail.com,
-	yaxin_wang_uestc@163.com
-Subject: [PATCH] Documentation/mm: Translate page_tables.rst to Simplified Chinese
-Date: Fri, 30 Aug 2024 21:32:30 +0800
-Message-Id: <20240830133230.7988-1-zpenya1314@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1725025564; c=relaxed/simple;
+	bh=4rx5MJaU7mW3Sv3wIWFvKKmuNzdHoavdGmHau0vT6Bo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=geh2y5LOvkqljzwPwrtGwP3gi5PYfnGCCGZukeZuVFKz5KOecGxJgeqUH7YDiyzmVYCJjT5uab0qyw2Xu5UFbyeoEQhLcay13VGwxgKj4RJs5vKWcrPLOc6C1vTZTxvpDcAUSp53tX3JAo9OLBf7MAmLdB/I+trhad4W+yPSnoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 209C71063;
+	Fri, 30 Aug 2024 06:46:27 -0700 (PDT)
+Received: from e133380.arm.com (e133380.arm.com [10.1.197.59])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C1D713F66E;
+	Fri, 30 Aug 2024 06:45:57 -0700 (PDT)
+Date: Fri, 30 Aug 2024 14:45:11 +0100
+From: Dave Martin <Dave.Martin@arm.com>
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	sebastian.fricke@collabora.com, linux-doc@vger.kernel.org,
+	praneeth@ti.com, nm@ti.com, vigneshr@ti.com, s-jain1@ti.com,
+	r-donadkar@ti.com, b-brnich@ti.com, detheridge@ti.com,
+	p-mantena@ti.com, vijayp@ti.com, andi.shyti@linux.intel.com,
+	nicolas@ndufresne.ca, andriy.shevchenko@linux.intel.com,
+	jirislaby@kernel.org, davidgow@google.com, dlatypov@google.com,
+	corbet@lwn.net, broonie@kernel.org, jani.nikula@intel.com,
+	rdunlap@infradead.org, nik.borisov@suse.com
+Subject: Re: [PATCH v2 1/6] math.h: Add macros for rounding to the closest
+ value
+Message-ID: <ZtHM5+SJ15Db+P2z@e133380.arm.com>
+References: <20240826150822.4057164-1-devarsht@ti.com>
+ <20240826150822.4057164-2-devarsht@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240826150822.4057164-2-devarsht@ti.com>
 
-This patch provides a Simplified Chinese translation of the
-"page_tables.rst" document, aimed at improving accessibility
-for Chinese-speaking developers and users.
+On Mon, Aug 26, 2024 at 08:38:17PM +0530, Devarsh Thakkar wrote:
+> Add below rounding related macros:
+> 
+> round_closest_up(x, y) : Rounds x to the closest multiple of y where y is a
+> power of 2, with a preference to round up in case two nearest values are
+> possible.
+> 
+> round_closest_down(x, y) : Rounds x to the closest multiple of y where y is
+> a power of 2, with a preference to round down in case two nearest values
+> are possible.
+> 
+> roundclosest(x, y) : Rounds x to the closest multiple of y, this macro
+> should generally be used only when y is not multiple of 2 as otherwise
+> round_closest* macros should be used which are much faster.
+> 
+> Examples:
+>  * round_closest_up(17, 4) = 16
+>  * round_closest_up(15, 4) = 16
+>  * round_closest_up(14, 4) = 16
+>  * round_closest_down(17, 4) = 16
+>  * round_closest_down(15, 4) = 16
+>  * round_closest_down(14, 4) = 12
+>  * roundclosest(21, 5) = 20
+>  * roundclosest(19, 5) = 20
+>  * roundclosest(17, 5) = 15
+> 
+> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+> Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+> NOTE: This patch is inspired from the Mentor Graphics IPU driver [1]
+> which uses similar macro locally and which is updated in further patch
+> in the series to use this generic macro instead along with other drivers
+> having similar requirements.
+> 
+> Link: https://elixir.bootlin.com/linux/v6.8.9/source/drivers/gpu/ipu-v3/ipu-image-convert.c#L480 [1]
+> 
+> Past discussions and alignment on this:
+> https://lore.kernel.org/all/7e3ad816-6a2a-4e02-9b41-03a8562812ad@ti.com/#r
+> https://lore.kernel.org/all/ZkISG6p1tn9Do-xY@smile.fi.intel.com/#r
+> https://lore.kernel.org/all/ZlTt-YWzyRyhmT9n@smile.fi.intel.com/
+> https://lore.kernel.org/all/ZmHDWeuezCEgj20m@smile.fi.intel.com/
+> https://lore.kernel.org/all/ZloMFfGKLry6EWNL@smile.fi.intel.com/
+> 
+> Changelog:
+> V2:
+> - Fix grammar in macro description
+> - Update roundclosest macro to use roundup to avoid overflow scenario
+> ---
+>  include/linux/math.h | 63 ++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 63 insertions(+)
+> 
+> diff --git a/include/linux/math.h b/include/linux/math.h
+> index f5f18dc3616b..b59a02a007d7 100644
+> --- a/include/linux/math.h
+> +++ b/include/linux/math.h
+> @@ -34,6 +34,52 @@
+>   */
+>  #define round_down(x, y) ((x) & ~__round_mask(x, y))
+>  
+> +/**
+> + * round_closest_up - round closest to be multiple of the specified value
+> + *                    (which is power of 2) with preference to rounding up
+> + * @x: the value to round
+> + * @y: multiple to round closest to (must be a power of 2)
+> + *
+> + * Rounds @x to the closest multiple of @y (which must be a power of 2).
+> + * The value can be rounded up or rounded down depending on the rounded
+> + * value's closeness to the specified value. Also, there can be two closest
+> + * values, i.e. the difference between the specified value and its rounded-up
+> + * and rounded-down values could be the same. In that case, the rounded-up
+> + * value is preferred.
+> + *
+> + * To perform arbitrary rounding to the closest value (not multiple of 2), use
+> + * roundclosest().
+> + *
+> + * Examples:
+> + * * round_closest_up(17, 4) = 16
+> + * * round_closest_up(15, 4) = 16
+> + * * round_closest_up(14, 4) = 16
+> + */
+> +#define round_closest_up(x, y) round_down((x) + (y) / 2, (y))
+> +
+> +/**
+> + * round_closest_down - round closest to be multiple of the specified value
+> + *                      (which is power of 2) with preference to rounding down
+> + * @x: the value to round
+> + * @y: multiple to round closest to (must be a power of 2)
+> + *
+> + * Rounds @x to the closest multiple of @y (which must be a power of 2).
+> + * The value can be rounded up or rounded down depending on the rounded
+> + * value's closeness to the specified value. Also, there can be two closest
+> + * values, i.e. the difference between the specified value and its rounded-up
+> + * and rounded-down values could be the same. In that case, the rounded-down
+> + * value is preferred.
+> + *
+> + * To perform arbitrary rounding to the closest value (not multiple of 2), use
+> + * roundclosest().
+> + *
+> + * Examples:
+> + * * round_closest_down(17, 4) = 16
+> + * * round_closest_down(15, 4) = 16
+> + * * round_closest_down(14, 4) = 12
+> + */
+> +#define round_closest_down(x, y) round_up((x) - (y) / 2, (y))
+> +
+>  #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
+>  
+>  #define DIV_ROUND_DOWN_ULL(ll, d) \
+> @@ -77,6 +123,23 @@
+>  }							\
+>  )
+>  
+> +/**
+> + * roundclosest - round to the nearest multiple
+> + * @x: the value to round
+> + * @y: multiple to round nearest to
+> + *
+> + * Rounds @x to the nearest multiple of @y.
+> + * The rounded value can be greater or less than @x depending
+> + * upon its nearness to @x. If @y is always a power of 2, consider
+> + * using the faster round_closest_up() or round_closest_down().
+> + *
+> + * Examples:
+> + * * roundclosest(21, 5) = 20
+> + * * roundclosest(19, 5) = 20
+> + * * roundclosest(17, 5) = 15
+> + */
+> +#define roundclosest(x, y) roundup((x) - (y) / 2, (y))
 
-The translation prioritizes technical accuracy and readability,
-ensuring that the content remains clear and informative for
-its intended audience.：
+roundup() looks like it already does the wrong thing for negative
+numbers:
 
-Signed-off-by: Pengyu Zhang <zpenya1314@gmail.com>
----
- .../translations/zh_CN/mm/page_tables.rst     | 205 ++++++++++++++++++
- 1 file changed, 205 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/mm/page_tables.rst
+	roundup(-10, 5)
+	= (-10 + 4) / 5 * 5
+	= -6 / 5 * 5
+	= -1 * 5
+	= -5
 
-diff --git a/Documentation/translations/zh_CN/mm/page_tables.rst b/Documentation/translations/zh_CN/mm/page_tables.rst
-new file mode 100644
-index 000000000000..0a17c3cef4d5
---- /dev/null
-+++ b/Documentation/translations/zh_CN/mm/page_tables.rst
-@@ -0,0 +1,205 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===========
-+   页 表
-+===========
-+
-+分页虚拟内存随虚拟内存的概念一起于1962年在Ferranti Atlas计算机上被提出的，
-+这是第一台有分页虚拟内存的计算机。随着时间推移，这个特性被迁移到更新的计算机上
-+并且成为所有类Unix系统实际的特性。在1985年，这个特性被包含在了英特尔80386中，
-+也就是Linux 1.0基于的CPU。
-+
-+页表将CPU看到的虚拟地址映射到外部内存总线上看到的物理地址。
-+
-+Linux将页表定义为一个分级结构，目前有五级。对于支持的每种架构，其代码会根据硬件限制
-+对这个层级结构进行映射。
-+
-+虚拟地址对应的物理地址通常由底层物理页帧引用。 **页帧号(page frame number， pfn)**
-+是页的物理地址（在外部内存总线看到的地址）除以 `PAGE_SIZE `得到的值。
-+
-+物理内存地址0对应*pfn 0*，而最大的pfn对应处理器外部地址总线所能寻址物理地址的最后一页。
-+
-+在页粒度为4KB且地址范围为32位的情况下，pfn 0对应地址0x00000000，pfn 1对应
-+地址0x00001000，pfn 2对应地址0x00002000，以此类推，直到pfn 0xfffff对应
-+0xfffff000。如果页粒度为16KB，则pfn分别对应地址0x00004000、
-+0x00008000...0xffffc000，pfn的范围从0到0x3fffff。
-+
-+如你所见，对于4KB页面粒度，页基址使用地址的12-31位，这就是为什么在这种情况下
-+`PAGE_SHIFT`被定义为12，并且 `PAGE_SIZE`通常由页偏移定义，为 `(1 << PAGE_SHIFT)`。
-+
-+随着内存容量的增加，久而久之层级结构逐渐加深。Linux最初使用4KB页面和一个被称为
-+`swapper_pg_dir` 的页表，该页表拥有1024个条目(entries)，覆盖4MB的内存，事实上Torvald
-+的第一台计算机正好就有4MB物理内存。条目在这张表中被称为*PTE*:s -页表项(page table entries)。
-+
-+软件页表层级结构反映了页表硬件已经变得分层化的事实，而这种分层化的目的是为了
-+节省页表内存并加快地址映射速度。
-+
-+当然，人们可以想象一张拥有大量条目的单一线性的页表将整个内存分为一个个页。而且，这样的
-+页表会非常稀疏，因为虚拟内存中大部分位置通常是未使用的。通过页表分层，虚拟内存中的大量空洞
-+不会浪费宝贵的页表内存，因为只需要在上层页表中将大块的区域标记为未映射即可。
-+
-+另外，在现代处理器中，上层页表条目可以直接指向一个物理地址范围，这使得单个上层页表条目
-+可以连续映射几兆字节甚至几千兆字节的内存范围，从而快捷地实现虚拟地址到物理地址的映射：
-+当你找到一个像这样的大型映射范围时，无需在层级结构中进一步遍历。
-+
-+页表的层级结构目前发展为如下所示::
-+
-+  +-----+
-+  | PGD |
-+  +-----+
-+     |
-+     |   +-----+
-+     +-->| P4D |
-+         +-----+
-+            |
-+            |   +-----+
-+            +-->| PUD |
-+                +-----+
-+                   |
-+                   |   +-----+
-+                   +-->| PMD |
-+                       +-----+
-+                          |
-+                          |   +-----+
-+                          +-->| PTE |
-+                              +-----+
-+
-+
-+不同页表层级的符号含义从最底层开始如下：
-+
-+- **pte**, `pte_t`, `pteval_t` = **页表条目** - 前面提到过.
-+  *pte*是一个由 `PTRS_PER_PTE`个 `pteval_t`类型元素组成的数组，每个元素将一个
-+  虚拟内存页映射到一个物理内存页。体系结构定义了 `pteval_t`的大小和内容。
-+
-+  一个典型的例子是 `pteval_t`是一个32或者64位的值，其中高位是**pfn**(页帧号)，
-+  而低位则一些特定体系架构相关的位，如内存保护。
-+
-+  **条目(entry)**这个名字有点令人困惑，因为在Linux 1.0中它确实指的是单层顶级页表中的单个
-+  页表项，但在首次引入二级页表时，它被被重新定义为映射元素的数组。因此，*pte*现在指的
-+  是最底层的页*表*，而不是一个页表*条目*。
-+
-+- **pmd**, `pmd_t`, `pmdval_t` = **页中间目录(Page Middle Directory)**,
-+  位于*pte*之上的层级结构，包含 `PTRS_PER_PMD` 个指向*pte*的引用。
-+
-+- **pud**, `pud_t`, `pudval_t` = **页上级目录(Page Upper Directory)**是
-+  在其他层级之后引入的，用于处理四级页表。它可能未被使用，或者像我们稍后讨论的那样
-+  被“折叠”。
-+
-+- **p4d**, `p4d_t`, `p4dval_t` = **页四级目录(Page Level 4 Directory)**
-+  是在*pud*之后用于处理五级页表引入的。至此，显然需要用数字来替代*pgd*、*pmd*、
-+  *pud*等目录层级的名称，不能再继续使用临时的命名方式。这个目录层级只在实际拥有
-+  五级页表的系统上使用，否则它会被折叠。
-+
-+- **pgd**, `pgd_t`, `pgdval_t` = **页全局目录(Page Global Directory)** -
-+  Linux内核用于处理内核内存的*PGD*主页表仍然位于 `swapper_pg_dir`。
-+  但系统中的每个用户空间进程也有自己的内存上下文，因此也有自己的*pgd*，
-+  它位于 `struct mm_struct`中，而 `struct mm_struct`又在每个 `struct task_struct`
-+  中有引用。所以，任务（进程）存在一个形式为 `struct mm_struct`的内存上下文，
-+  而这个结构体中有一个指向指向相应的页全局目录 `struct pgt_t *pgd`指针。
-+
-+重申一下：页表层级结构中的每一层都是一个*指针数组*，所以*pgd*包含 `PTRS_PER_PGD` 个
-+指向下一层的指针，*p4d* 包含 `PTRS_PER_P4D` 个指向 *pud* 项的指针，依此类推。
-+每一层的指针数量由体系结构定义。::
-+
-+        PMD
-+  --> +-----+           PTE
-+      | ptr |-------> +-----+
-+      | ptr |-        | ptr |-------> PAGE
-+      | ptr | \       | ptr |
-+      | ptr |  \        ...
-+      | ... |   \
-+      | ptr |    \         PTE
-+      +-----+     +----> +-----+
-+                         | ptr |-------> PAGE
-+                         | ptr |
-+                           ...
-+
-+页表折叠
-+==================
-+如果架构不使用所有的页表层级，那么这些层级可以被*折叠*，也就是说被跳过。
-+在访问下一层时，所有在页表上执行的操作都会在编译时增强，以跳过这一层。
-+
-+希望与架构无关的页表处理代码（例如虚拟内存管理器）需要编写得能够遍历当前的
-+所有五个层级。对于特定架构的代码，也应优先采用这种风格，以便对未来的变化具有
-+更好的适应性。
-+
-+MMU, TLB, and 缺页异常
-+=========================
-+
-+`内存管理单元(MMU)`是处理虚拟地址到物理地址转换的硬件组件。它可能会使用
-+相对较小的硬件缓存，如 `转换后备缓冲区(TLB)`和 `页遍历缓存`，以加快这些地址翻译过程。
-+
-+当CPU访存时，它会向MMU提供一个虚拟地址。MMU会首先检查TLB或者页遍历缓存(在支持的架构上)
-+是否存在对应的转换结果。如果没有，MMU会通过遍历来确定物理地址并且建立映射。
-+
-+当页面被写入时，该页的脏位会被设置(即打开)。每个内存页面都有相关的权限位和脏位。后者表明这个页
-+自从被加载到内存以来是否被修改。
-+
-+如果没有任何阻碍，物理内存到头来可以被任意访问并且对物理帧进行请求的操作。
-+
-+MMU无法找到某些转换有多种原因。有可能是CPU试图去访问当前进程没有权限访问的内存，
-+或者因为访问的数据还不在物理内存中。
-+
-+当这些情况发生时，MMU会触发缺页异常，这是一种异常类型，用于通知CPU暂停当前执行
-+并运行一个特殊的函数去处理这些异常。
-+
-+缺页异常有一些常见且预期的原因。这些因素是由称为“懒加载”和“写时复制”的进程管理优化技术
-+来触发。缺页异常也可能发生在当页帧被交换到持久存储(交换分区或者文件)并从其物理地址移出时。
-+
-+这些技术提高了内存效率，减少了延迟，并且最小化了空间占用。本文档不会深入讨论“懒加载”
-+和“写时复制的细节，因为这些的主题属于进程地址管理范畴，超出了本文范围。
-+
-+交换技术和前面提到的其他技术不同，因为它是在压力过大下情况下减少内存消耗的一种迫不得已的手段
-+，因此是不受欢迎的。
-+
-+交换不适用于由内核逻辑地址映射的内存。这些地址是内核虚拟地址空间的子集，直接映射
-+一段连续的物理内存。对于提供的任意逻辑地址，它的物理地址可以通过对偏移量进行简单的
-+算数运算来确定。对逻辑地址的访问很快，因为这避免了复杂的页表查找，但代价是这些内存
-+不能被驱逐或置换。
-+
-+如果内核无法为必须存在物理帧中的数据腾出空间，那么它会调用内存不足(out-if-memory, OOM)杀手，
-+通过杀掉低优先级的进程来腾出空间，直到内存压力下降到安全阈值之下。
-+
-+另外，代码漏洞或CPU被指示访问的精心制作的恶意地址也可能导致缺页异常。
-+一个进程的线程可以利用指令来访问不属于其地址空间的(非共享)内存，或者试图执行
-+写入只读位置的指令。
-+
-+如果上述情况发生在用户态，内核会向当前线程发送 `段错误` (SIGSEGV)信号。这信号
-+通常导致线程及其所属的进程终止。
-+
-+本文将简化并概述Linux内核如何处理这些页面错误、创建表和表项、检查内存是否存在，
-+以及当内存不存在时，如何请求从持久存储或其他设备加载数据，并更新MMU及其缓存。
-+
-+前几步取决于设备依赖。大多是架构跳转到 `do_page_fault()`，而x86中断处理程序由
-+`DEFINE_IDTENTRY_RAW_ERRORCODE()`宏定义的，该宏调用 `handle_page_fault()`。
-+
-+无论调用路径如何，所有架构最终都会调用 `handle_mm_fault()`，该函数通常会调用
-+`__handle_mm_fault()`来执行实际分配页表的任务。
-+
-+如果不幸无法调用 `__handle_mm_fault()`则意味着虚拟地址指向了无权访问的物理内存区域
-+(至少对于当前上下文如此)。这种情况会导致内核向该进程发送上述的SIGSEGV信号，
-+并引发前面提到的后果。
-+
-+查询偏移量的函数有像 `*_offset()`格式的名字，其中“*”代表pgd，p4d，pud，pmd，pte；
-+而分层分配对应页表的函数命名为 `*_alloc`，使用上述命名约定以层级命名这些函数。
-+
-+页表遍历可能在中间或者上层结束(PMD，PUD)。
-+
-+Linux支持比通常4KB更大的页面(即所谓的 `大页`)。当使用这种较大的页面时，没有必要使用更低层
-+的页表项(PTE)。大页通常包含2MB到1GB的大块连续物理区域，分别由PMD和PUD页表项映射。
-+
-+大页带来许多好处，如减少TLB压力，减少页表开销，提高内存分配效率，以及改善特定工作
-+负载的性能。然而，这些好处也伴随着权衡，如内存浪费和分配难度增加。
-+
-+在遍历和分配的最后，如果没有返回错误， `__handle_mm_fault()`最终调用 `handle_pte_fault()`
-+通过 `do_fault()`执行 `do_read_fault()`、 `do_cow_fault()`和 `do_shared_fault()`。
-+“read”，“cow”和“shared”分别暗示了它处理错误的类型和原因。
-+
-+实际的工作流程实现是非常复杂的。其设计允许 Linux 根据每种架构的特定特性处理缺页异常，
-+同时仍然共享一个通用的整体结构。
-+
-+为了总结 Linux 如何处理缺页中断的概述，需要补充的是，缺页异常处理程序可以通过
-+`pagefault_disable()`和 `pagefault_enable()`分别禁用和启用。
-+
-+许多代码路径使用了这两个函数，因为它们需要禁止陷入缺页异常处理程序，主要是为了防止死锁。
-+
--- 
-2.25.1
+(DIV_ROUND_UP looks less broken in this regard, though it's complicated
+and I haven't tried to understand it fully.)
 
+Disregarding the issue of negative inputs, the proposed definition of
+roundclosest() looks like it still doesn't always do the right thing
+close to the upper limits of types, even when the expected result is
+representable in the type.
+
+For example, if I've understood this correctly, we can get:
+
+	roundclosest(0xFFFFFFFFU, 0xFFFFU)
+	= roundup(0xFFFFFFFF - 0x7FFFU, 0xFFFFU)
+	= roundup(0xFFFF8000, 0xFFFFU)
+	= ((0xFFFF8000 + (0xFFFFU - 1)) / 0xFFFFU) * 0xFFFFU
+	= ((0xFFFF8000 + 0xFFFEU) / 0xFFFFU) * 0xFFFFU
+	= (0x00007FFE / 0xFFFFU) * 0xFFFFU
+	= 0
+
+(Expected result: 0x00010001U * 0xFFFFU, = 0xFFFFFFFFU.)
+
+I suppose this could be documented around, but it seems like a
+potential trap and not something the caller would expect.
+
+Cheers
+---Dave
