@@ -1,314 +1,225 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5058816F910;
-	Fri, 30 Aug 2024 09:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523BC166F19;
+	Fri, 30 Aug 2024 10:04:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725009711; cv=none; b=gJBbM01Lr8nGP/hkBtEGtXctdpqUBNgMwRWNXOJdAZc/xE9CVdddEXGo/bP/zBdODsElIUM6+aRbDFiVZESzQewKjhigVuvVxO50R2EmiQXLe/Qa9pbipZoxkxYZA0/7/MS9fqMm/PP9wmYTHrFjTsj5eKDQB0LQC8wq8Ffw8wg=
+	t=1725012284; cv=none; b=PRqX8DUWRQdmdb6lPnLGwniiQKCtuR8UN+uZebp7cwPEIiotfJUeJPb+YibC2p+YJm7fS7LAgSyI3Eqa5q14WQaAN2EzJuY/U8ZVJonAW1ZFgFNWVvIzRKIZR+Q3Oxz+sxUxVSrKScpqK5xQpOZGyg4JDxyRVqb1AldEd2wJRrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725009711; c=relaxed/simple;
-	bh=w1KE5YtnyEVz+JccDJR6K2o6T6AbXIzzJ/ppMYoM4Bo=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LlzEaDuPOEBYjfSe8Sb9zj5Fe5FEvI10sKq/HBllPIl7cOzLRmvLJk5HHJ/IKhdKkbGM9GYFNuFDuG1PePTbx/efHxnbmSfXdpVilw9ac+3uNe9x9+/kJ3eofNikLO4bdOnnc33ks+FTym4sPgkla4mZwTQmqC/nPKqWRUlSVmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4WwCHk2wp1z6J7qd;
-	Fri, 30 Aug 2024 17:18:26 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 5B5511408F9;
-	Fri, 30 Aug 2024 17:21:45 +0800 (CST)
-Received: from localhost (10.203.177.66) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 30 Aug
- 2024 10:21:44 +0100
-Date: Fri, 30 Aug 2024 10:21:43 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Ira Weiny <ira.weiny@intel.com>
-CC: Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, "Navneet
- Singh" <navneet.singh@intel.com>, Chris Mason <clm@fb.com>, Josef Bacik
-	<josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, Petr Mladek
-	<pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko
-	<andriy.shevchenko@linux.intel.com>, Rasmus Villemoes
-	<linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
-	Dan Williams <dan.j.williams@intel.com>, Davidlohr Bueso <dave@stgolabs.net>,
-	Alison Schofield <alison.schofield@intel.com>, Vishal Verma
-	<vishal.l.verma@intel.com>, <linux-btrfs@vger.kernel.org>,
-	<linux-cxl@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <nvdimm@lists.linux.dev>
-Subject: Re: [PATCH v3 18/25] cxl/extent: Process DCD events and realize
- region extents
-Message-ID: <20240830102143.000048fc@Huawei.com>
-In-Reply-To: <66d0e53e9d3e9_f937b294b7@iweiny-mobl.notmuch>
-References: <20240816-dcd-type2-upstream-v3-0-7c9b96cba6d7@intel.com>
-	<20240816-dcd-type2-upstream-v3-18-7c9b96cba6d7@intel.com>
-	<20240827141852.0000553d@Huawei.com>
-	<66d0e53e9d3e9_f937b294b7@iweiny-mobl.notmuch>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1725012284; c=relaxed/simple;
+	bh=0LW3yeEbyckH6/EaCbbCABoLyU+izR0YfBDyxWISs7M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JK42wmKTH/hIwbkSyJHUIf/fa7u7SLyt6AccdSiMmXQ1gECF8GesE1AAmDB1UemiN4wSgAuUmpn2jqzlqZFNIRPfBkSReR+bUGElbnhy8zNZs3tXuGceUOkMmnvudIAnDuqQ+kG4kFL5YNAsLp61xL9REo1Pvw1O/1j9K8A7oSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HRWoMmch; arc=none smtp.client-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HRWoMmch"
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7a8049d4a4cso105243085a.0;
+        Fri, 30 Aug 2024 03:04:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725012281; x=1725617081; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dLKphNpkkCp+J9O7l+uUUFl357u8bBkR0pEv7i+vcZQ=;
+        b=HRWoMmchPIKEL4WrYrDspEVWKyRpSIslBR7Y74+oqMY9UH9EeLUalHd++4lMRRcc/x
+         kHR/CBXiiyiE+bH5seCan5SVkc9UWmYqN9dZUqVKYh855tpJGXvz2IEoV4r2IgYq+LmJ
+         YUJbl7xXr/hCeyh9h0vvtQ1dbiFDKUh0QuusMxkmErReCmCHwRRFbByI9uVPwvepy5LD
+         eS34Ab2/s3e09pBNf8ElxVVPUxVML9B5BUjEfGr1JPhgMkNVDfb3CrJfAZc6R2EPMDKp
+         7VAiUElfx3ZTxOZGLSM2rf9Onkz+Y+eB63paB2rFVxNieRkabIRgdSLU52WJItvotdAS
+         fgZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725012281; x=1725617081;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dLKphNpkkCp+J9O7l+uUUFl357u8bBkR0pEv7i+vcZQ=;
+        b=GEV6i/NUI7OgcDE5X8Zv+Y9sNARQn03/foVZwQ7+1hmR33tnMd2qIS4IYAAi0ttclu
+         pv5mOjl7hmnHNXOCUQALIksofCbVEZyr7V28++9GgiwMrCDc/BJuuV5lS0bB4RWo30Zb
+         uq2gd4+/OOe+vJ/2G2zgwhVODTzXHlB8+FwvGKejYMZDH2lcCsjigDeXqMMvm1dIx+nU
+         B/5K+lbLOMLdxl9EaUZUOCPg+k3eyib+xzjJx95gWyD4ekfKN4jhwlwX43pfds7hzxNL
+         nej/mJwwlNgrQqOgSaBjg3iq7ZBDjtdxnd5wV6LCZbI+mh8FAdapNv+IzbHHkejeGDzO
+         KNgA==
+X-Forwarded-Encrypted: i=1; AJvYcCUS3M9E7NB9kbMJ1NYCdblnUoP99mDJrd8cnXwqMRpO2dfJWFea+uZWL2y2Z9K4NEyPA0FKJZTtvyM=@vger.kernel.org, AJvYcCVSjmKU38egmsdNzqCs30deDXbN67vUwSwXiqVNK5J1xCkh0VO47FqWHoMrfdtyKZmhR3ORN21Q+JSgeV54@vger.kernel.org
+X-Gm-Message-State: AOJu0YyrkPamWp9JlFV/pK0cK4YHhtNk1Moi/6rSTgxvXZbq86fJOfSv
+	+XJ+8UV5crCiDQs6kJF4zTdjDn2TCILxBMHtygFoOqd6xXpObveAijJJBuhJ
+X-Google-Smtp-Source: AGHT+IFMKbL7pEYm24WeSLEu9sCq4QqQ9Qp4Fm8CPC+4jsuJQakmX0eaui3K7I12XoanfSpCSgwB+A==
+X-Received: by 2002:a05:620a:254b:b0:7a7:df01:f949 with SMTP id af79cd13be357-7a8041ca9f7mr648369785a.33.1725012280883;
+        Fri, 30 Aug 2024 03:04:40 -0700 (PDT)
+Received: from localhost (fwdproxy-ash-003.fbsv.net. [2a03:2880:20ff:3::face:b00c])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a806d3be38sm128888085a.79.2024.08.30.03.04.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Aug 2024 03:04:40 -0700 (PDT)
+From: Usama Arif <usamaarif642@gmail.com>
+To: akpm@linux-foundation.org,
+	linux-mm@kvack.org
+Cc: hannes@cmpxchg.org,
+	riel@surriel.com,
+	shakeel.butt@linux.dev,
+	roman.gushchin@linux.dev,
+	yuzhao@google.com,
+	david@redhat.com,
+	npache@redhat.com,
+	baohua@kernel.org,
+	ryan.roberts@arm.com,
+	rppt@kernel.org,
+	willy@infradead.org,
+	cerasuolodomenico@gmail.com,
+	ryncsn@gmail.com,
+	corbet@lwn.net,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	kernel-team@meta.com,
+	Usama Arif <usamaarif642@gmail.com>
+Subject: [PATCH v5 0/6] mm: split underused THPs
+Date: Fri, 30 Aug 2024 11:03:34 +0100
+Message-ID: <20240830100438.3623486-1-usamaarif642@gmail.com>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+Content-Transfer-Encoding: 8bit
 
-> > > +int cxl_rm_extent(struct cxl_memdev_state *mds, struct cxl_extent *extent)
-> > > +{
-> > > +	u64 start_dpa = le64_to_cpu(extent->start_dpa);
-> > > +	struct cxl_memdev *cxlmd = mds->cxlds.cxlmd;
-> > > +	struct cxl_endpoint_decoder *cxled;
-> > > +	struct range hpa_range, dpa_range;
-> > > +	struct cxl_region *cxlr;
-> > > +
-> > > +	dpa_range = (struct range) {
-> > > +		.start = start_dpa,
-> > > +		.end = start_dpa + le64_to_cpu(extent->length) - 1,
-> > > +	};
-> > > +
-> > > +	guard(rwsem_read)(&cxl_region_rwsem);
-> > > +	cxlr = cxl_dpa_to_region(cxlmd, start_dpa, &cxled);
-> > > +	if (!cxlr) {
-> > > +		memdev_release_extent(mds, &dpa_range);  
-> > 
-> > How does this condition happen?  Perhaps a comment needed.  
-> 
-> Fair enough.  Proposed comment.
-> 
-> 	/*
-> 	 * No region can happen here for a few reasons:
-> 	 *
-> 	 * 1) Extents were accepted and the host crashed/rebooted
-> 	 *    leaving them in an accepted state.  On reboot the host
-> 	 *    has not yet created a region to own them.
-> 	 *
-> 	 * 2) Region destruction won the race with the device releasing
-> 	 *    all the extents.  Here the release will be a duplicate of
-> 	 *    the one sent via region destruction.
-> 	 *
-> 	 * 3) The device is confused and releasing extents for which no
-> 	 *    region ever existed.
-> 	 *
-> 	 * In all these cases make sure the device knows we are not
-> 	 * using this extent.
-> 	 */
-> 
-> Item 2 is AFAICS ok with the spec.
+The current upstream default policy for THP is always. However, Meta
+uses madvise in production as the current THP=always policy vastly
+overprovisions THPs in sparsely accessed memory areas, resulting in
+excessive memory pressure and premature OOM killing.
+Using madvise + relying on khugepaged has certain drawbacks over
+THP=always. Using madvise hints mean THPs aren't "transparent" and
+require userspace changes. Waiting for khugepaged to scan memory and
+collapse pages into THP can be slow and unpredictable in terms of performance
+(i.e. you dont know when the collapse will happen), while production
+environments require predictable performance. If there is enough memory
+available, its better for both performance and predictability to have
+a THP from fault time, i.e. THP=always rather than wait for khugepaged
+to collapse it, and deal with sparsely populated THPs when the system is
+running out of memory.
 
-I'm not sure I follow 2.  Why would device be releasing extents
-if we haven't given them back? We aren't supporting the mess that
-is force removal.
+This patch-series is an attempt to mitigate the issue of running out of
+memory when THP is always enabled. During runtime whenever a THP is being
+faulted in or collapsed by khugepaged, the THP is added to a list.
+Whenever memory reclaim happens, the kernel runs the deferred_split
+shrinker which goes through the list and checks if the THP was underused,
+i.e. how many of the base 4K pages of the entire THP were zero-filled.
+If this number goes above a certain threshold, the shrinker will attempt
+to split that THP. Then at remap time, the pages that were zero-filled are
+mapped to the shared zeropage, hence saving memory. This method avoids the
+downside of wasting memory in areas where THP is sparsely filled when THP
+is always enabled, while still providing the upside THPs like reduced TLB
+misses without having to use madvise.
 
-> 
-> >   
-> > > +		return -ENXIO;
-> > > +	}
-> > > +
-> > > +	calc_hpa_range(cxled, cxlr->cxlr_dax, &dpa_range, &hpa_range);
-> > > +
-> > > +	/* Remove region extents which overlap */
-> > > +	return device_for_each_child(&cxlr->cxlr_dax->dev, &hpa_range,
-> > > +				     cxlr_rm_extent);
-> > > +}
-> > > +
-> > > +/* Callers are expected to ensure cxled has been attached to a region */
-> > > +int cxl_add_extent(struct cxl_memdev_state *mds, struct cxl_extent *extent)
-> > > +{
-> > > +	u64 start_dpa = le64_to_cpu(extent->start_dpa);
-> > > +	struct cxl_memdev *cxlmd = mds->cxlds.cxlmd;
-> > > +	struct cxl_endpoint_decoder *cxled;
-> > > +	struct range ed_range, ext_range;
-> > > +	struct cxl_dax_region *cxlr_dax;
-> > > +	struct cxled_extent *ed_extent;
-> > > +	struct cxl_region *cxlr;
-> > > +	struct device *dev;
-> > > +
-> > > +	ext_range = (struct range) {
-> > > +		.start = start_dpa,
-> > > +		.end = start_dpa + le64_to_cpu(extent->length) - 1,
-> > > +	};
-> > > +
-> > > +	guard(rwsem_read)(&cxl_region_rwsem);
-> > > +	cxlr = cxl_dpa_to_region(cxlmd, start_dpa, &cxled);
-> > > +	if (!cxlr)
-> > > +		return -ENXIO;
-> > > +
-> > > +	cxlr_dax = cxled->cxld.region->cxlr_dax;
-> > > +	dev = &cxled->cxld.dev;
-> > > +	ed_range = (struct range) {
-> > > +		.start = cxled->dpa_res->start,
-> > > +		.end = cxled->dpa_res->end,
-> > > +	};
-> > > +
-> > > +	dev_dbg(&cxled->cxld.dev, "Checking ED (%pr) for extent %par\n",
-> > > +		cxled->dpa_res, &ext_range);
-> > > +
-> > > +	if (!range_contains(&ed_range, &ext_range)) {
-> > > +		dev_err_ratelimited(dev,
-> > > +				    "DC extent DPA %par (%*phC) is not fully in ED %par\n",
-> > > +				    &ext_range.start, CXL_EXTENT_TAG_LEN,
-> > > +				    extent->tag, &ed_range);
-> > > +		return -ENXIO;
-> > > +	}
-> > > +
-> > > +	if (extents_contain(cxlr_dax, cxled, &ext_range))  
-> > 
-> > This case confuses me. If the extents are already there I think we should
-> > error out or at least print something as that's very wrong.  
-> 
-> I thought we discussed this in one of the community meetings that it would be
-> ok to accept these.  We could certainly print a warning here.
+Meta production workloads that were CPU bound (>99% CPU utilzation) were
+tested with THP shrinker. The results after 2 hours are as follows:
 
-A warning probably does the job of indicating that 'something' odd is going on.
-A device should never resend an extent overlapping one it sent before, (assuming
-no removal happened inbetween) so this should never happen, but who knows :(
+                            | THP=madvise |  THP=always   | THP=always
+                            |             |               | + shrinker series
+                            |             |               | + max_ptes_none=409
+-----------------------------------------------------------------------------
+Performance improvement     |      -      |    +1.8%      |     +1.7%
+(over THP=madvise)          |             |               |
+-----------------------------------------------------------------------------
+Memory usage                |    54.6G    | 58.8G (+7.7%) |   55.9G (+2.4%)
+-----------------------------------------------------------------------------
+max_ptes_none=409 means that any THP that has more than 409 out of 512
+(80%) zero filled filled pages will be split.
 
-> 
-> In all honestly I'm wondering if these restrictions are really needed anymore.
-> But at the same time I really, really, really don't think anyone has a good use
-> case to have to support these cases.  So I'm keeping the code simple for now.
+To test out the patches, the below commands without the shrinker will
+invoke OOM killer immediately and kill stress, but will not fail with
+the shrinker:
 
-Fair enough.
-> 
-> >   
-> > > +		return 0;
-> > > +
-> > > +	if (extents_overlap(cxlr_dax, cxled, &ext_range))
-> > > +		return -ENXIO;
-> > > +
-> > > +	ed_extent = kzalloc(sizeof(*ed_extent), GFP_KERNEL);
-> > > +	if (!ed_extent)
-> > > +		return -ENOMEM;
-> > > +
-> > > +	ed_extent->cxled = cxled;
-> > > +	ed_extent->dpa_range = ext_range;
-> > > +	memcpy(ed_extent->tag, extent->tag, CXL_EXTENT_TAG_LEN);
-> > > +
-> > > +	dev_dbg(dev, "Add extent %par (%*phC)\n", &ed_extent->dpa_range,
-> > > +		CXL_EXTENT_TAG_LEN, ed_extent->tag);
-> > > +
-> > > +	return cxlr_add_extent(cxlr_dax, cxled, ed_extent);
-> > > +}
-> > > diff --git a/drivers/cxl/core/mbox.c b/drivers/cxl/core/mbox.c
-> > > index 01a447aaa1b1..f629ad7488ac 100644
-> > > --- a/drivers/cxl/core/mbox.c
-> > > +++ b/drivers/cxl/core/mbox.c
-> > > @@ -882,6 +882,48 @@ int cxl_enumerate_cmds(struct cxl_memdev_state *mds)
-> > >  }
-> > >  EXPORT_SYMBOL_NS_GPL(cxl_enumerate_cmds, CXL);
-> > >  
-> > > +static int cxl_validate_extent(struct cxl_memdev_state *mds,
-> > > +			       struct cxl_extent *extent)
-> > > +{
-> > > +	u64 start = le64_to_cpu(extent->start_dpa);
-> > > +	u64 length = le64_to_cpu(extent->length);
-> > > +	struct device *dev = mds->cxlds.dev;
-> > > +
-> > > +	struct range ext_range = (struct range){
-> > > +		.start = start,
-> > > +		.end = start + length - 1,
-> > > +	};
-> > > +
-> > > +	if (le16_to_cpu(extent->shared_extn_seq) != 0) {  
-> > 
-> > That's not the 'main' way to tell if an extent is shared because
-> > we could have a single extent (so seq == 0).
-> > Should verify it's not in a DCD region that
-> > is shareable to make this decision.  
-> 
-> Ah...  :-/
-> 
-> > 
-> > I've lost track on the region handling so maybe you already do
-> > this by not including those regions at all?  
-> 
-> I don't think so.
-> 
-> I'll add the region check.  I see now why I glossed over this though.  The
-> shared nature of a DCD partition is defined in the DSMAS.
-> 
-> Is that correct?  Or am I missing something in the spec?
+echo 450 > /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none
+mkdir /sys/fs/cgroup/test
+echo $$ > /sys/fs/cgroup/test/cgroup.procs
+echo 20M > /sys/fs/cgroup/test/memory.max
+echo 0 > /sys/fs/cgroup/test/memory.swap.max
+# allocate twice memory.max for each stress worker and touch 40/512 of
+# each THP, i.e. vm-stride 50K.
+# With the shrinker, max_ptes_none of 470 and below won't invoke OOM
+# killer.
+# Without the shrinker, OOM killer is invoked immediately irrespective
+# of max_ptes_none value and kills stress.
+stress --vm 1 --vm-bytes 40M --vm-stride 50K
 
-Yes. That's matches my understanding (I might also be missing something
-of course :)
+---
+v4 -> v5:
+- rebase on top of latest mm-unstable. This includes Barrys'
+  anon mTHP accounting series. All merge conflicts should be resolved
+  with the patches on mailing list. This also means all places
+  where partially_mapped flag is set is first tested for it (Barry).
+- uint64_t to unsigned long for rss_anon function in selftest.
+- convert PageMlocked to folio_test_mlocked in
+  try_to_map_unused_to_zeropage.
 
+v3 -> v4:
+- do not clear partially_mapped flag on hugeTLB folios (Yu Zhao).
+- fix condition for calling deferred_folio_split in partially mapped case
+  and count for partially mapped vm events (Barry Song).
+- use non-atomic versions of set/clear partially_mapped flags
+  (David Hildenbrand)
+- use PG_partially_mapped = PG_reclaim (Matthew Wilcox)
+- delete folio from lru list and folio_batch_add "new_folio" instead
+  of folio in __split_huge_page. (Kairui Song)
+- fix deadlock in deferred_split_scan by not doing folio_put while
+  holding split_queue_lock (Hugh Dickins)
+- underutilized to underused and thp_low_util_shrinker to shrink_underused
+  (Hugh Dickins)
 
-> > > +static int cxl_add_pending(struct cxl_memdev_state *mds)
-> > > +{
-> > > +	struct device *dev = mds->cxlds.dev;
-> > > +	struct cxl_extent *extent;
-> > > +	unsigned long index;
-> > > +	unsigned long cnt = 0;
-> > > +	int rc;
-> > > +
-> > > +	xa_for_each(&mds->pending_extents, index, extent) {
-> > > +		if (validate_add_extent(mds, extent)) {  
-> > 
-> > 
-> > Add a comment here that not accepting an extent but
-> > accepting some or none means this one was rejected (I'd forgotten how
-> > that bit worked)  
-> 
-> Ok yeah that may not be clear without reading the spec closely.
-> 
-> 	/*
-> 	 * Any extents which are to be rejected are omitted from
-> 	 * the response.  An empty response means all are
-> 	 * rejected.
-> 	 */
+v2 -> v3:
+- Use my_zero_pfn instead of page_to_pfn(ZERO_PAGE(..)) (Johannes)
+- Use flags argument instead of bools in remove_migration_ptes (Johannes)
+- Use a new flag in folio->_flags_1 instead of folio->_partially_mapped
+  (David Hildenbrand).
+- Split out the last patch of v2 into 3, one for introducing the flag,
+  one for splitting underutilized THPs on _deferred_list and one for adding
+  sysfs entry to disable splitting (David Hildenbrand).
 
-Perfect.
+v1 -> v2:
+- Turn page checks and operations to folio versions in __split_huge_page.
+  This means patches 1 and 2 from v1 are no longer needed.
+  (David Hildenbrand)
+- Map to shared zeropage in all cases if the base page is zero-filled.
+  The uffd selftest was removed.
+  (David Hildenbrand).
+- rename 'dirty' to 'contains_data' in try_to_map_unused_to_zeropage
+  (Rik van Riel).
+- Use unsigned long instead of uint64_t (kernel test robot).
 
-> 
-> >   
-> > > +			dev_dbg(dev, "unconsumed DC extent DPA:%#llx LEN:%#llx\n",
-> > > +				le64_to_cpu(extent->start_dpa),
-> > > +				le64_to_cpu(extent->length));
-> > > +			xa_erase(&mds->pending_extents, index);
-> > > +			kfree(extent);
-> > > +			continue;
-> > > +		}
-> > > +		cnt++;
-> > > +	}
-> > > +	rc = cxl_send_dc_response(mds, CXL_MBOX_OP_ADD_DC_RESPONSE,
-> > > +				  &mds->pending_extents, cnt);
-> > > +	xa_for_each(&mds->pending_extents, index, extent) {
-> > > +		xa_erase(&mds->pending_extents, index);
-> > > +		kfree(extent);
-> > > +	}
-> > > +	return rc;
-> > > +}
-> > > +
+Alexander Zhu (1):
+  mm: selftest to verify zero-filled pages are mapped to zeropage
 
-> > >  static void cxl_mem_get_records_log(struct cxl_memdev_state *mds,
-> > >  				    enum cxl_event_log_type type)
-> > >  {
-> > > @@ -1044,9 +1287,17 @@ static void cxl_mem_get_records_log(struct cxl_memdev_state *mds,
-> > >  		if (!nr_rec)
-> > >  			break;
-> > >  
-> > > -		for (i = 0; i < nr_rec; i++)
-> > > +		for (i = 0; i < nr_rec; i++) {
-> > >  			__cxl_event_trace_record(cxlmd, type,
-> > >  						 &payload->records[i]);
-> > > +			if (type == CXL_EVENT_TYPE_DCD) {  
-> > Bit of a deep indent so maybe flip logic?
-> > 
-> > Logic wise it's a bit dubious as we might want to match other
-> > types in future though so up to you.  
-> 
-> I was thinking more along these lines.  But the rc is unneeded.  That print
-> can be in the handle function.
-> 
-> 
-> Something like this:
-Looks good to me. (cut to save on scrolling!)
+Usama Arif (3):
+  mm: Introduce a pageflag for partially mapped folios
+  mm: split underused THPs
+  mm: add sysfs entry to disable splitting underused THPs
 
-Jonathan
+Yu Zhao (2):
+  mm: free zapped tail pages when splitting isolated thp
+  mm: remap unused subpages to shared zeropage when splitting isolated
+    thp
+
+ Documentation/admin-guide/mm/transhuge.rst    |  16 ++
+ include/linux/huge_mm.h                       |   4 +-
+ include/linux/khugepaged.h                    |   1 +
+ include/linux/page-flags.h                    |  13 +-
+ include/linux/rmap.h                          |   7 +-
+ include/linux/vm_event_item.h                 |   1 +
+ mm/huge_memory.c                              | 163 ++++++++++++++++--
+ mm/khugepaged.c                               |   3 +-
+ mm/memcontrol.c                               |   3 +-
+ mm/migrate.c                                  |  75 ++++++--
+ mm/migrate_device.c                           |   4 +-
+ mm/page_alloc.c                               |   5 +-
+ mm/rmap.c                                     |   5 +-
+ mm/vmscan.c                                   |   3 +-
+ mm/vmstat.c                                   |   1 +
+ .../selftests/mm/split_huge_page_test.c       |  71 ++++++++
+ tools/testing/selftests/mm/vm_util.c          |  22 +++
+ tools/testing/selftests/mm/vm_util.h          |   1 +
+ 18 files changed, 358 insertions(+), 40 deletions(-)
+
+-- 
+2.43.5
+
