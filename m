@@ -1,116 +1,164 @@
-Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com [95.215.58.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428C02F2C
-	for <linux-doc@vger.kernel.org>; Fri, 30 Aug 2024 05:48:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D681136E3F;
+	Fri, 30 Aug 2024 06:02:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724996913; cv=none; b=pWyLjfEjUa4x8RCYlquZ0LXj9+XyQNX8d/IttDa7EygGl5rRxBP1Bkk/G6YflIehgrBmN1D8NHddA5TQK0lqUWO6cj78tLsfNs3NLdb9sYTUBSPJX5Ftywrb6K5/UYVOsYN3NX2xiEcAy2QW0pLeSJMXrYykV32DWdUsVVNp9B0=
+	t=1724997723; cv=none; b=c6oUzUlcQlSIj6BsP0vRVX26FeCzpIJM7v4+g5sgvDirm12z+QEf8+ktbJKEWlzqKPNr97/Jg4o6xzacDpIi7pj1OP7RtsP55r+X+19SS/kNEfxma/3vcDhxmgB5K4wruvronvQHz8mHMeBvoSThpUlXpdC5cYPDmqllkBAKlhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724996913; c=relaxed/simple;
-	bh=679NXg6id5PLytBa7BQ9IBt08iayYByB0eAiPWZ3jFM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FL4mONxnPHP97qmNyckiv4lVY3ay+n4Hn2lxCvt0Q2gxLCvCItXROSDF1HYpb7MQcNiSh+bpBtDaTIUkXonXSzSPYZ+7Jx/2zULaHFv4+dhZqrja9e10VEpawuKUZDHpcJvW1Q0oDcy+DbI4Zlg7VYQeIU0u1yB1+enu/2g+8NU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Zj+yVsHg; arc=none smtp.client-ip=95.215.58.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1724997723; c=relaxed/simple;
+	bh=qIRV4J9z3EHhb2uZCZnv5qt7Cx/Dh131OGth2MX4CaI=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=ZOuYQWyXwkdGd45MiGefSASGzQ62QA8o4aNKs2l+YlUGHVeKVBYDPDnsxo/OToF6ND+BlD+HfGCsIVvu8OPb33CifKYWzssR5hWbdbjmvlwbpx9z73oeLXNxaN3uJKTsdu4bg8Y6p2nj7rt3XNquOp1rmLiJZktWgKcwP5ZeHY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Hy8hDktj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xh8lUHaa; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Hy8hDktj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xh8lUHaa; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Zj+yVsHg"
-Message-ID: <6da89601-35d8-44cf-88e7-db8f36635c66@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1724996907;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Hy8hDktj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xh8lUHaa";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Hy8hDktj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xh8lUHaa"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6D2221F7A0;
+	Fri, 30 Aug 2024 06:01:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1724997719; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=WTa8e3/jM/RbQiQBkkhzGoSerbedvHw29OHSSmTgdcI=;
-	b=Zj+yVsHgOjAGYYcP0ikoB4ZHnR4fDKGlD/G+S1K2jEgIeB2mtW0b9dqOQqUtqCmPOVaRUY
-	o9MsEc4MN+Bzzs2FHlaS+2vKo/1yI35QZXDKAQ+UlXkEOaXizu4jVNM8syL/ZFGwZVuHk+
-	xiVQa7EuWMmKTymTu/StNthvpHgoGS8=
-Date: Fri, 30 Aug 2024 13:48:16 +0800
+	bh=DQYaQzUbHs1svgPSjeqnrYJpo4sR50O8Yv6Fg3B8xn0=;
+	b=Hy8hDktj5Lf2eSU+OVgsgDiM4EXz3/OriOmPh4ePyyB+8GEPtifz5DZvqou+cWlct8Riy7
+	aD/5t5KXfZFmohdxIyqxpgtYSNfiQRPIdcOS127i8FZaSArwpfLNhp3IjWJHgGcgvoVYW3
+	B0jviqZb4wtwkoUy40umLXyULJLlX0o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1724997719;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DQYaQzUbHs1svgPSjeqnrYJpo4sR50O8Yv6Fg3B8xn0=;
+	b=xh8lUHaaHK+ZyjmP/6fd/CEgMUpzrp68A3NnI/VsySk/8VgotmiVrEFi0SrWt/v16stKph
+	zW6dtPGrIzVwNIAg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1724997719; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DQYaQzUbHs1svgPSjeqnrYJpo4sR50O8Yv6Fg3B8xn0=;
+	b=Hy8hDktj5Lf2eSU+OVgsgDiM4EXz3/OriOmPh4ePyyB+8GEPtifz5DZvqou+cWlct8Riy7
+	aD/5t5KXfZFmohdxIyqxpgtYSNfiQRPIdcOS127i8FZaSArwpfLNhp3IjWJHgGcgvoVYW3
+	B0jviqZb4wtwkoUy40umLXyULJLlX0o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1724997719;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DQYaQzUbHs1svgPSjeqnrYJpo4sR50O8Yv6Fg3B8xn0=;
+	b=xh8lUHaaHK+ZyjmP/6fd/CEgMUpzrp68A3NnI/VsySk/8VgotmiVrEFi0SrWt/v16stKph
+	zW6dtPGrIzVwNIAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0B9C713A69;
+	Fri, 30 Aug 2024 06:01:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id egO6LFFg0WbcSgAAD6G6ig
+	(envelope-from <neilb@suse.de>); Fri, 30 Aug 2024 06:01:53 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3] Loongarch: KVM: Add KVM hypercalls documentation for
- LoongArch
-To: WangYuli <wangyuli@uniontech.com>,
- Dandan Zhang <zhangdandan@uniontech.com>, pbonzini@redhat.com,
- corbet@lwn.net, zhaotianrui@loongson.cn, maobibo@loongson.cn,
- chenhuacai@kernel.org, zenghui.yu@linux.dev
-Cc: kernel@xen0n.name, kvm@vger.kernel.org, loongarch@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- guanwentao@uniontech.com, baimingcong@uniontech.com,
- Xianglai Li <lixianglai@loongson.cn>, Mingcong Bai <jeffbai@aosc.io>
-References: <4769C036576F8816+20240828045950.3484113-1-zhangdandan@uniontech.com>
- <aa72bc73-b20d-4652-be89-37d01f291725@linux.dev>
- <6B877E46C55A8A27+f98078be-8cde-46d2-9065-3f12e44ac603@uniontech.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: YanTeng Si <si.yanteng@linux.dev>
-In-Reply-To: <6B877E46C55A8A27+f98078be-8cde-46d2-9065-3f12e44ac603@uniontech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+From: "NeilBrown" <neilb@suse.de>
+To: "Chuck Lever" <chuck.lever@oracle.com>
+Cc: "Jeff Layton" <jlayton@kernel.org>, "Olga Kornievskaia" <kolga@netapp.com>,
+ "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
+ "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
+ "Olga Kornievskaia" <okorniev@redhat.com>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Tom Haynes" <loghyr@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 01/13] nfsd: fix nfsd4_deleg_getattr_conflict in
+ presence of third party lease
+In-reply-to: <ZtCRGfPRayPPDXRM@tissot.1015granger.net>
+References: <>, <ZtCRGfPRayPPDXRM@tissot.1015granger.net>
+Date: Fri, 30 Aug 2024 16:01:43 +1000
+Message-id: <172499770304.4433.15669416955311925812@noble.neil.brown.name>
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FREEMAIL_CC(0.00)[kernel.org,netapp.com,oracle.com,talpey.com,redhat.com,zeniv.linux.org.uk,suse.cz,lwn.net,gmail.com,vger.kernel.org];
+	RCVD_TLS_ALL(0.00)[];
+	R_RATELIMIT(0.00)[from(RLewrxuus8mos16izbn)];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,noble.neil.brown.name:mid,suse.de:email]
+X-Spam-Score: -4.30
+X-Spam-Flag: NO
 
+On Fri, 30 Aug 2024, Chuck Lever wrote:
+> On Thu, Aug 29, 2024 at 09:26:39AM -0400, Jeff Layton wrote:
+> > From: NeilBrown <neilb@suse.de>
+> >=20
+> > It is not safe to dereference fl->c.flc_owner without first confirming
+> > fl->fl_lmops is the expected manager.  nfsd4_deleg_getattr_conflict()
+> > tests fl_lmops but largely ignores the result and assumes that flc_owner
+> > is an nfs4_delegation anyway.  This is wrong.
+> >=20
+> > With this patch we restore the "!=3D &nfsd_lease_mng_ops" case to behave
+> > as it did before the changed mentioned below.  This the same as the
+> > current code, but without any reference to a possible delegation.
+> >=20
+> > Fixes: c5967721e106 ("NFSD: handle GETATTR conflict with write delegation=
+")
+> > Signed-off-by: NeilBrown <neilb@suse.de>
+> > Signed-off-by: Jeff Layton <jlayton@kernel.org>
+>=20
+> I've already applied this to nfsd-fixes.
+>=20
+> If I include this commit in both nfsd-fixes and nfsd-next then the
+> linux-next merge whines about duplicate patches. Stephen Rothwell
+> suggested git-merging nfsd-fixes and nfsd-next but I'm not quite
+> confident enough to try that.
+>=20
+> Barring another solution, merging this series will have to wait a
+> few days before the two trees can sync up.
 
+Hmmm....  I would probably always rebase nfsd-next on nfsd-fixes, which
+I would rebase on the most recent of rc0, rc1, or the latest rc to
+receive nfsd patches.
 
+nfsd-fixes is currently based on 6.10-rc7, while -next is based on
+6.11-rc5.
 
-在 2024/8/29 11:33, WangYuli 写道:
->
-> On 2024/8/29 11:22, YanTeng Si wrote:
->>
->> 在 2024/8/28 12:59, Dandan Zhang 写道:
->>> From: Bibo Mao <maobibo@loongson.cn>
->>>
->>> Add documentation topic for using pv_virt when running as a guest
->>> on KVM hypervisor.
->>>
->>> Signed-off-by: Bibo Mao <maobibo@loongson.cn>
->>> Signed-off-by: Xianglai Li <lixianglai@loongson.cn>
->>> Co-developed-by: Mingcong Bai <jeffbai@aosc.io>
->>> Signed-off-by: Mingcong Bai <jeffbai@aosc.io>
->>> Link: 
->>> https://lore.kernel.org/all/5c338084b1bcccc1d57dce9ddb1e7081@aosc.io/
->>> Signed-off-by: Dandan Zhang <zhangdandan@uniontech.com>
->>> ---
->>>   Documentation/virt/kvm/index.rst              |  1 +
->>>   .../virt/kvm/loongarch/hypercalls.rst         | 89 
->>> +++++++++++++++++++
->>>   Documentation/virt/kvm/loongarch/index.rst    | 10 +++
->>>   MAINTAINERS                                   |  1 +
->>>   4 files changed, 101 insertions(+)
->>>   create mode 100644 Documentation/virt/kvm/loongarch/hypercalls.rst
->>>   create mode 100644 Documentation/virt/kvm/loongarch/index.rst
->> If you don't mind, how about translating these into Chinese? If
->> you decide to do so, you don't need to split the patch again,
->> just complete your translation in this patch and add your
->> Co-developed-by tag.
->
->
-> I'm afraid that's not feasible.
->
-> The entire KVM subsystem documentation is currently lacking a Chinese 
-> translation, not just for LoongArch.
-You can add other documents to TODOLIST.
->
->  A better approach would be to merge this English document first.
-It's up to you.
->
-> In fact, I'm in the process of preparing Chinese translations for the 
-> KVM subsystem documentation, and they're on their way.
-Nice！ To be honest, I've tried to translate kvm's API documentation more 
-than once in the past, but all of them have been halfway because it's 
-too long, and I'm guessing that the review process won't be too smooth 
-either.
+Why the 6.10 base??
 
-
-BTW, I've noticed that v2 is still a work in progress, so please reduce 
-the frequency of sending emails until the v2 and v3 reviews are over.
-
-
-Thanks,
-Yanteng
-
+NeilBrown
