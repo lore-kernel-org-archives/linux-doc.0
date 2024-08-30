@@ -1,105 +1,83 @@
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2AE199FB7;
-	Fri, 30 Aug 2024 16:10:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 575F61BA895;
+	Fri, 30 Aug 2024 16:12:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725034203; cv=none; b=hzAU42FzdYzLsEKfm3TvoUggfSL+ubbhQ+my0YtUnGNcFpohTcZuZ7ILWz5CMlFvabXltHqUCrWnlzcMQ9kqQaZxqtLk0iTjUO0iGUktt91sKtO/41IS1couyAzkoZPTxEdCZkhzE79yp1EzMeJc56wxK6EFCXXukP+35hgL0Lk=
+	t=1725034359; cv=none; b=kpEuxqCl0pqtS6J4yjdFZPYD76Fs0uD5JIjvqIzW0EhRXCiH+oO6TZXdOc3spYDzb927HvGvaBtzpiflmOp2jcm6q4PEJ2w2urTFRegWfcqXWi83DlWA4p4yFi5Vug7l3pqs8ww848FpgZu68MNHCiot+JHKohVcZfkVwgliW64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725034203; c=relaxed/simple;
-	bh=fs5r9a7+4o5m7r+P9T33tlELpNm09e4/5KwdXAJI5Do=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=tLI3aKiYUm21M4t4Es9TxgaRBobjSLMGWScGoV3ZuKqgfWyPYNJlljd3lmQW9NQ2pKQ/qYw40LhHbc9qwhmS6BeE1TH6h6rY19VsZkznSOJMczktMPuLArcFi3ksuQTqp1Kn2/OIvczC+H6GUopkgRLlVSEAW+OTBOnnUih6zDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=glvNI7XQ; arc=none smtp.client-ip=198.47.19.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1725034359; c=relaxed/simple;
+	bh=3WluTfM/2AVhxXsBLbvXkfr2Sb1Vu7quEX6AURpIYLE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qeqO0gjPGZuRiuSTXSvljmzzE8BSZv+e2KfY/s9xztGTH0MulFRxKhYAkgFDoCGZVcHoUXl2TIHD0QfRB/dAgVYiUYPQs251b/nrpAiercvSZTybzZNIYf3DyPMXaGHPq+oA67X5wwA9+rjMjvKqZh97+JNJTiqTmTinLMIjbe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IlgeXMb0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="glvNI7XQ"
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 47UG9esH063664;
-	Fri, 30 Aug 2024 11:09:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1725034180;
-	bh=UtRIdCY2mej4r1D29l8J74CgITE2kP+9FO1lvFfhaAI=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=glvNI7XQl3VfJX9JP3tF257zQsTkDtXy35GyRrNX98tDty78nIYCf9r0Ls38KmkZC
-	 JEg6MLMSA2FGCCi7ffpM9W6SN2bGZ2Xgy4UravJmnEf1mTkS03VdwiJcxP3zfUYG70
-	 BO3NtdILjD8WIp0fYzUfDSlrb7zcvTYvTaCCtR4E=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 47UG9e3H077994
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 30 Aug 2024 11:09:40 -0500
-Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 30
- Aug 2024 11:09:40 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 30 Aug 2024 11:09:40 -0500
-Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193] (may be forged))
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 47UG9WFb094581;
-	Fri, 30 Aug 2024 11:09:33 -0500
-Message-ID: <f6331333-dc3c-b28c-2bbb-229a180c9ede@ti.com>
-Date: Fri, 30 Aug 2024 21:39:32 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IlgeXMb0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D521C4CECE;
+	Fri, 30 Aug 2024 16:12:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725034358;
+	bh=3WluTfM/2AVhxXsBLbvXkfr2Sb1Vu7quEX6AURpIYLE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=IlgeXMb0X4+qYvg0gChNumy+x9ky+IO+bQnWAcrv3u6WHp06a7VWn7swrgwYZIlRr
+	 L1N+EWl8JXzffHxEM57PlHWH1d2NyS/kWOERzXBa5F74vkcX0HhnZocWLX5o7v7SFS
+	 XECCrpQjiNxQjZBQlHCg8DazRKGqS34tVz/7R7TxveJgo0ebQuqiYIV3dm7JS9el/6
+	 bqh4ffYP9h9J4Ro1Dw+NGki6Tqcg+KT2oHn5HgzFilMcN9375o8dJkme9I2abig4KR
+	 vLuZn+KVW61A2l9ESZorJNqsz5s8oPVyC4b6bzjlZlWyqvFcKNtdJWyMjWEVKdU+t1
+	 CNNye97Dw74/Q==
+From: Will Deacon <will@kernel.org>
+To: Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	D Scott Phillips <scott@os.amperecomputing.com>
+Cc: kernel-team@android.com,
+	Will Deacon <will@kernel.org>,
+	Besar Wicaksono <bwicaksono@nvidia.com>,
+	Easwar Hariharan <eahariha@linux.microsoft.com>,
+	Rob Herring <robh@kernel.org>,
+	Andre Przywara <andre.przywara@arm.com>,
+	linux-kernel@vger.kernel.org,
+	patches@amperecomputing.com,
+	Marc Zyngier <maz@kernel.org>,
+	kvmarm@lists.linux.dev,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>
+Subject: Re: [PATCH v2] arm64: errata: Enable the AC03_CPU_38 workaround for ampere1a
+Date: Fri, 30 Aug 2024 17:12:13 +0100
+Message-Id: <172502412797.2650729.128588861974374748.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20240827211701.2216719-1-scott@os.amperecomputing.com>
+References: <20240827211701.2216719-1-scott@os.amperecomputing.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 1/6] math.h: Add macros for rounding to the closest
- value
-Content-Language: en-US
-To: Jiri Slaby <jirislaby@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sebastian Fricke
-	<sebastian.fricke@collabora.com>
-CC: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <sebastian.fricke@collabora.com>, <linux-doc@vger.kernel.org>,
-        <praneeth@ti.com>, <nm@ti.com>, <vigneshr@ti.com>, <s-jain1@ti.com>,
-        <r-donadkar@ti.com>, <b-brnich@ti.com>, <detheridge@ti.com>,
-        <p-mantena@ti.com>, <vijayp@ti.com>, <andi.shyti@linux.intel.com>,
-        <nicolas@ndufresne.ca>, <davidgow@google.com>, <dlatypov@google.com>,
-        <corbet@lwn.net>, <broonie@kernel.org>, <rdunlap@infradead.org>,
-        <nik.borisov@suse.com>, <Dave.Martin@arm.com>
-References: <20240826150822.4057164-1-devarsht@ti.com>
- <20240826150822.4057164-2-devarsht@ti.com>
- <Zsy-8xXQ01-JhL0m@smile.fi.intel.com>
- <9c41f6b7-6b06-cd5b-74bd-24873c4beaf7@ti.com> <87frqqyw9r.fsf@intel.com>
- <0b06794b-34c5-ec0d-59c6-8412a8789eaf@ti.com> <878qwfy9cg.fsf@intel.com>
- <8bcddd10-6699-4e76-9eaf-8768f1c1ae66@kernel.org>
-From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <8bcddd10-6699-4e76-9eaf-8768f1c1ae66@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Andy, Randy, Sebastian,
-
-On 29/08/24 15:24, Jiri Slaby wrote:
-> On 29. 08. 24, 11:19, Jani Nikula wrote:
->> The stupid thing here is, I still don't remember which one is the
->> generic thing, rounddown() or round_down(). I have to look it up every
->> single time to be sure. I refuse to believe I'd be the only one.
->>
->> It's okay to accidentally use the generic version, no harm done. It's
->> definitely not okay to accidentally use the special pow-2 version, so it
->> should have a special name. I think _pow2() or _pow_2() is a fine
->> suffix.
+On Tue, 27 Aug 2024 14:17:01 -0700, D Scott Phillips wrote:
+> The ampere1a cpu is affected by erratum AC04_CPU_10 which is the same
+> bug as AC03_CPU_38. Add ampere1a to the AC03_CPU_38 workaround midr list.
 > 
-> Concur.
 > 
 
-We have got 2 votes to change round_closest_up to round_closest_up_pow_2 and
-likewise for round_closest_down to round_closest_up_pow_2.
+Applied to arm64 (for-next/errata), thanks!
 
-Kindly let us know if you have any concerns w.r.t above name change. Else, I
-was thinking to proceed with the suggestion.
+[1/1] arm64: errata: Enable the AC03_CPU_38 workaround for ampere1a
+      https://git.kernel.org/arm64/c/db0d8a84348b 
 
-Regards
-Devarsh
+Cheers,
+-- 
+Will
+
+https://fixes.arm64.dev
+https://next.arm64.dev
+https://will.arm64.dev
