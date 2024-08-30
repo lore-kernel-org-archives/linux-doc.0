@@ -1,167 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C2A1369B4;
-	Fri, 30 Aug 2024 15:16:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86DDF1B790D
+	for <linux-doc@vger.kernel.org>; Fri, 30 Aug 2024 15:34:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725030981; cv=none; b=p00Eav8CM2fUdHEZH8yWCmQ1OlzZPsq7/RslNjhiwQe87vEcGo9l48DVagn6MAdqFIqoQWUY586SzlRT2GiTGQvscRFe1Bx+ZGRe5jEHPf4M056Kzr8ysr3Px/JsJ3vFxuuC1BWcCUBZwhhEb+QkGRYB83mq5Iv6ZhXncLZ8r2E=
+	t=1725032070; cv=none; b=KC3+ZnZxddVNeRL8QUQAyiRG+cIj3xuy/CR1gCdamrzkq7xr6qd8wY80PjCOuZoG6gtiQDsHcMAxoGQwA8VlZIsCTuPJopc2tAohXgSObty0geqSwGvlcXfJHpGxiPK7gFBjRjwWMIv3laLznQ8YiTR1BPGi0bqR+s3b0ZBF+6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725030981; c=relaxed/simple;
-	bh=/CToR2noGOmvfazw9DBbjHmDtYon0YLhA9vEC/k1uIs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b0w+gePoNbQ7LIDCwUlyWMO5POz0rD5Gu7948WZs2IkLJ6P2yiyjClEHQBu25LZu7nA6Twg9dKDeyj9Gwc8fiNzk0cHDO3PLSKwvV/4kn/Scer7H4JBAy+pl1GHHkpzEZZxg+m5W9CscWr1f2R2sj8lnRjcaJlCnNhqw09TfCo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dE3YC7Yi; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725032070; c=relaxed/simple;
+	bh=fpS42aX0b5K/b3Q1uAIPaQJhJiOQBXKx/N3vFKIRp18=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JFPyaupqqAUEgXiOYGItzv9Zqgc2b/attC/23aXt4ew3K73eQXG5YdyFphiAPAKswVId+9gIz1nA0QLbZTYATpPMOXr7svwiMi5DrjCWEgPvnpRAqUlUneYVAupBLJ4VueKul+2oFPaMXY2MEHocwqeLGvkFgNkno+8s4aH1qZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Wmsc5rPG; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dE3YC7Yi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725030979; x=1756566979;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/CToR2noGOmvfazw9DBbjHmDtYon0YLhA9vEC/k1uIs=;
-  b=dE3YC7YiVH2idPYGqYNN2Cj/bj7z4cVPykoqREcc7wb/Y/H2AB6YaRGU
-   M7JlvbY8w2CrqnQRxt1hZPm77G102OVFtA83Ia/SnxzT9UuZTtiWmaBl+
-   ytC0aeRVWlFwM0YT1qWdjJz2jF1GRZ9Z1hFnJNwh8mFHVa27CzX2khPA0
-   ppiOb/tZEw74yoU1HMqMgSIQuxwpHNWmo4F2vMIDC9tUL69//3etQ4Ajg
-   UZBNw56gJ2kzV6FWdWLdlG/aZemv1GDRvjN9/glMDhZyJNNBtHvrnoBE2
-   OaC+qAfMP5Slb7/JdS2qudbyMCUTi5yJNGvwSiXXLW6jyWTlAyNQvRwUS
-   g==;
-X-CSE-ConnectionGUID: KsRwUFBAR1CzYShl8gmgJw==
-X-CSE-MsgGUID: 1RNpFkMFQdKRmJTVPVSD/A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="34343600"
-X-IronPort-AV: E=Sophos;i="6.10,189,1719903600"; 
-   d="scan'208";a="34343600"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 08:16:18 -0700
-X-CSE-ConnectionGUID: 7lCWqmbKSfCRo2rYoIM5mA==
-X-CSE-MsgGUID: zyJK6N7QTpeG04QKnMQBow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,189,1719903600"; 
-   d="scan'208";a="94736036"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 30 Aug 2024 08:16:15 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sk3MC-0001Ze-2l;
-	Fri, 30 Aug 2024 15:16:12 +0000
-Date: Fri, 30 Aug 2024 23:15:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Michael Grzeschik <m.grzeschik@pengutronix.de>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	v9fs@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	kernel@pengutronix.de,
-	Michael Grzeschik <m.grzeschik@pengutronix.de>
-Subject: Re: [PATCH v10 2/3] net/9p/usbg: Add new usb gadget function
- transport
-Message-ID: <202408302200.rlcB6d6K-lkp@intel.com>
-References: <20240116-ml-topic-u9p-v10-2-a85fdeac2c52@pengutronix.de>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Wmsc5rPG"
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2f50966c478so19698911fa.1
+        for <linux-doc@vger.kernel.org>; Fri, 30 Aug 2024 08:34:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1725032067; x=1725636867; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fpS42aX0b5K/b3Q1uAIPaQJhJiOQBXKx/N3vFKIRp18=;
+        b=Wmsc5rPGtDGiPCZokdC1Gw7pezL3Q+qYze/rrzykk6T6lnvb1YCGpqPa1xSQWGDNUo
+         tK6X+kq/xXKH/WmwGautbiHU7kQ6kV7/yuWP8cfQWdTQ2mK45EKOpRaH/gD/JzaLDQHw
+         ppIQUv9p+UV5Yh1Z9EGQ2O/RTVOZMMzGzFc3yXx7Gxle5lEqeImVn98gGbE/Vf7ZOHo3
+         wKdna+JM5LSDztXAzzJy/1tTVkStuMC9OoLkzIm8LSpr4MHWFlaK/dOJ+YHYoqBvPTYh
+         bEXuhlZOoBlVJ8AulTFczU0ewsabFsjNzGXO8oiZqsP98QwEvC0RxrVazAiV3KtVtEBg
+         IN7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725032067; x=1725636867;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fpS42aX0b5K/b3Q1uAIPaQJhJiOQBXKx/N3vFKIRp18=;
+        b=pfUp1uAssXEBqu3l4+1ZTtJW6rGSYLL2uhJqcZ1I7puKVgWlXJNw//WvTZCyW1Yrao
+         ryMvgP7L0ADoeRIc2zm+aQoj2/WXadKkVzGpPG0xaTO8gNeazKjdRVpo031h5EXx4jtJ
+         h7jeMWoAB+XXdw87k1f4MAdtuAp7mAmnCz0+DnNk/YsLxKRwV2RNspe2uwgBuiUYuC1Z
+         heEvjXzZ0fYixruv3Z2adP0iCT6YdxMPs9ZJgHJDpVzTZsx5zuh+f+kkkLbpQT30FpV8
+         cLSpmJRmBuKk0Z4fgL+40CmkC9qu09QKxaqrrUx3ca7ILxCK9V37EGXNRxDsaXYd4WQu
+         wZBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVZXbcLspEEmKxdG9QAeJppP93bQvZyE9ULBwL9hJAzYBuUAPH976Hao5jabC2XsYkxovF17l3pk24=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxl2h8k1i+sCagsbjP+YERovHSm30F8Ly1GOTbIGpLH4dHf2dud
+	pPaLYtyxNgIP693jFb0kxKsvXzmtlqpVHLaadcrf8nhtGR4p1/c4tBRZMmJ6B6FuUlpRTOpI3OF
+	Y5zor2w5FXYYfaYxdXgir5mlZaDl3LAtB42Sh
+X-Google-Smtp-Source: AGHT+IGwBJXtOV0i3GYyRTdCgSnRpiivnFkx2coVNIZMzMIKNaMNwsMNP5zJF5zp0+JOd+xMSn0E3uXDKUV2VAuZcjg=
+X-Received: by 2002:a2e:a544:0:b0:2f3:f39f:3719 with SMTP id
+ 38308e7fff4ca-2f61e0a5143mr23582771fa.29.1725032066374; Fri, 30 Aug 2024
+ 08:34:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240116-ml-topic-u9p-v10-2-a85fdeac2c52@pengutronix.de>
+References: <20240724011037.3671523-1-jthoughton@google.com>
+ <20240724011037.3671523-4-jthoughton@google.com> <CADrL8HV5M-n72KDseDKWpGrUVMjC147Jqz98PxyG2ZeRVbFu8g@mail.gmail.com>
+ <Zr_y7Fn63hdowfYM@google.com> <CAOUHufYc3hr-+fp14jgEkDN++v6t-z-PRf1yQdKtnje6SgLiiA@mail.gmail.com>
+ <ZsOuEP6P0v45ffC0@linux.dev> <CADrL8HWf-Onu=4ONBO1CFZ1Tqj5bee=+NnRC333aKqkUy+0Sxg@mail.gmail.com>
+ <ZtEW5Iym5QsJbONM@linux.dev>
+In-Reply-To: <ZtEW5Iym5QsJbONM@linux.dev>
+From: David Matlack <dmatlack@google.com>
+Date: Fri, 30 Aug 2024 08:33:59 -0700
+Message-ID: <CALzav=daN3y9nXNuj7pPpn2u_aAQ84t161z3odP=MGLYCLfYMQ@mail.gmail.com>
+Subject: Re: [PATCH v6 03/11] KVM: arm64: Relax locking for kvm_test_age_gfn
+ and kvm_age_gfn
+To: Oliver Upton <oliver.upton@linux.dev>
+Cc: James Houghton <jthoughton@google.com>, Yu Zhao <yuzhao@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Ankit Agrawal <ankita@nvidia.com>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	David Rientjes <rientjes@google.com>, James Morse <james.morse@arm.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
+	Raghavendra Rao Ananta <rananta@google.com>, Ryan Roberts <ryan.roberts@arm.com>, 
+	Shaoqin Huang <shahuang@redhat.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Wei Xu <weixugc@google.com>, Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, 
+	kvmarm@lists.linux.dev, kvm@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Michael,
+On Thu, Aug 29, 2024 at 5:48=E2=80=AFPM Oliver Upton <oliver.upton@linux.de=
+v> wrote:
+>
+> On Thu, Aug 29, 2024 at 05:33:00PM -0700, James Houghton wrote:
+> > On Mon, Aug 19, 2024 at 1:42=E2=80=AFPM Oliver Upton <oliver.upton@linu=
+x.dev> wrote:
+> > > Asking since you had a setup / data earlier on when you were carrying
+> > > the series. Hopefully with supportive data we can get arm64 to opt-in
+> > > to HAVE_KVM_MMU_NOTIFIER_YOUNG_FAST_ONLY as well.
+> >
+> > I'll keep trying some other approaches I can take for getting similar
+> > testing that Yu had; it is somewhat difficult for me to reproduce
+> > those tests (and it really shouldn't be.... sorry).
+>
+> No need to apologize. Getting good test hardware for arm64 is a complete
+> chore. Sure would love a functional workstation with cores from this
+> decade...
+>
+> > I think it makes most sense for me to drop the arm64 patch for now and
+> > re-propose it (or something stronger) alongside enabling aging. Does
+> > that sound ok?
+>
+> I'm a bit disappointed that we haven't gotten forward progress on the
+> arm64 patches, but I also recognize this is the direction of travel as
+> the x86 patches are shaping up.
+>
+> So yeah, I'm OK with it, but I'd love to get the arm64 side sorted out
+> soon while the context is still fresh.
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on usb/usb-linus]
-[also build test WARNING on linus/master v6.11-rc5]
-[cannot apply to usb/usb-testing usb/usb-next ericvh-v9fs/for-next next-20240830]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Grzeschik/net-9p-usbg-Add-new-usb-gadget-function-transport/20240827-064810
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
-patch link:    https://lore.kernel.org/r/20240116-ml-topic-u9p-v10-2-a85fdeac2c52%40pengutronix.de
-patch subject: [PATCH v10 2/3] net/9p/usbg: Add new usb gadget function transport
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20240830/202408302200.rlcB6d6K-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408302200.rlcB6d6K-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408302200.rlcB6d6K-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   net/9p/trans_usbg.c: In function 'p9_usbg_create':
->> net/9p/trans_usbg.c:373:30: warning: variable 'f' set but not used [-Wunused-but-set-variable]
-     373 |         struct usb_function *f;
-         |                              ^
-
-
-vim +/f +373 net/9p/trans_usbg.c
-
-   368	
-   369	static int p9_usbg_create(struct p9_client *client, const char *devname, char *args)
-   370	{
-   371		struct f_usb9pfs_dev *dev;
-   372		struct f_usb9pfs *usb9pfs;
- > 373		struct usb_function *f;
-   374		int ret = -ENOENT;
-   375		int found = 0;
-   376	
-   377		if (!devname)
-   378			return -EINVAL;
-   379	
-   380		guard(mutex)(&usb9pfs_lock);
-   381	
-   382		list_for_each_entry(dev, &usbg_instance_list, usb9pfs_instance) {
-   383			if (!strncmp(devname, dev->tag, strlen(devname))) {
-   384				if (!dev->inuse) {
-   385					dev->inuse = true;
-   386					found = 1;
-   387					break;
-   388				}
-   389				ret = -EBUSY;
-   390				break;
-   391			}
-   392		}
-   393	
-   394		if (!found) {
-   395			pr_err("no channels available for device %s\n", devname);
-   396			return ret;
-   397		}
-   398	
-   399		usb9pfs = dev->usb9pfs;
-   400		if (!usb9pfs)
-   401			return -EINVAL;
-   402	
-   403		f = &usb9pfs->function;
-   404	
-   405		client->trans = (void *)usb9pfs;
-   406		if (!usb9pfs->in_req)
-   407			client->status = Disconnected;
-   408		else
-   409			client->status = Connected;
-   410		usb9pfs->client = client;
-   411	
-   412		client->trans_mod->maxsize = usb9pfs->buflen;
-   413	
-   414		complete(&usb9pfs->received);
-   415	
-   416		return 0;
-   417	}
-   418	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Converting the aging notifiers to holding mmu_lock for read seems like
+a pure win and minimal churn. Can we keep that patch in v7 (which
+depends on the lockless notifier refactor, i.e. is not completely
+stand-alone)? We can revisit enabling MGLRU on arm64 in a subsequent
+series.
+>
+> --
+> Thanks,
+> Oliver
