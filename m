@@ -1,331 +1,113 @@
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7811369AE;
-	Fri, 30 Aug 2024 16:29:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DDE81B6524
+	for <linux-doc@vger.kernel.org>; Fri, 30 Aug 2024 17:09:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725035385; cv=none; b=Mc8SPEDcTGlMqLoJDmuYzofCNbLUS7T1cilpsLFStg+TRM6bLijDGUUnIAz+DVSIzINIXNZOQxWdlEhi7Cba31eJSRq5Rm3xBwQoBC5ZQsdbd+2RdTfG85iI96oCydrqCUOPIq7E74t0QlgCAon8bfhCLN1PVmhPjBLm6hASOnU=
+	t=1725037774; cv=none; b=Fry7LMHJnLQJInRI+Aek/QeZvh+WCfkkwe/rZQzjRDM03NYGjoBuypDTR6IiHMwrGB5Xh58puUcZo2BO9AfiONfjR2lqYJyPLZkRBKofmFXZV1qJiWuKu7ZFDLS3yAKmYrfIfZZ7YP70Z61/go94Jhyp4kE/C0CYAPkkEWq/vTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725035385; c=relaxed/simple;
-	bh=TSKbhhuaRzarcj0riC2ELT2cBIOKduDCtuPat/2Rrjs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fCrVbc7Eh7x9C2Ylx0rNUDslilaPv1ZWGHAd4K7cwmFUejdP2CIewiAOXg84ECVw2Pwj4IjxBXlNvmNfiZeSTQUUZMfChvLScSq0iReghKnll+wPgMGfN1fMcN1kh7MQvr+5f96DqiI4YxxuWbW/GEen5jYVCkYqtWpEULxcOBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F9eZNOfv; arc=none smtp.client-ip=209.85.128.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1725037774; c=relaxed/simple;
+	bh=CU346vDOqsSTaU3Zni7xFPxbjTXZB+6lE4+IxGvIin4=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=GfQJCeW63RcdrZw92SEVtFTiRA4zDzT3nLJekeRri2jf7RbttDouBsN5jgbytuZklSNQYx9nbxb0788ZI2yxEuDBzsbdHJurlsL3D3jlPSoo8o7rmxhGMc75STngHZks7I8wL7MiQFzX+iSWh3qE5gUrRl3cMNMHULbk/H449YE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=D/63zj5w; arc=none smtp.client-ip=209.85.210.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F9eZNOfv"
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6c91f9fb0d7so19974817b3.3;
-        Fri, 30 Aug 2024 09:29:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="D/63zj5w"
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-7141d43582cso2128206b3a.3
+        for <linux-doc@vger.kernel.org>; Fri, 30 Aug 2024 10:09:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725035383; x=1725640183; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MKW2ySfTJtxg9hCELCYfcp6iXm8lrti76j0UGTwkt7Q=;
-        b=F9eZNOfvmWA4JifXAmPnh6jXsP20qyB974XSTANPv4TlbibhNd/mXveRh0KKVCFvVQ
-         CxYFXwPk/8ovhiq+64re/4ttlzmqSa7pR8dhY1w1EzWo5vpj7pKjfyanYfs+SpCDdeUd
-         uyDyyIiLEFIXaPO+4gckgo+cS5ZyVQSF//7rVSlYbhWe4SBqu93ULms1GL/utDHRD60I
-         XplFJJb8U7BzCfSiDum2q6GlvWBq80efCbrIDfu1ViDK2nWls5BrJKjxYMRXS4NZg+KO
-         8Ko3Q9kvEn6hQliyeU8XwuXqjBYNsLgBPQUxLkP7xMqECJg2pM9giqQ9uozgwlNUN6Hx
-         +mVg==
+        d=google.com; s=20230601; t=1725037773; x=1725642573; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=U/DqUd03uLisJ+lBV6coVazHA/8Mv1E9hChZqzhDQx4=;
+        b=D/63zj5wPjlolrfCsivNV3IWEtLug/VbFwPjgd4Grl18gAGH3T2yFT23KhktRRXjk9
+         JNObrTVBsWDh3K4fZwVuVBXouFNXdEmpf7bcZ9eaxH4OVVxB3fWwwnqmUedwTpxlPG1L
+         jbCN2F7z8ucVzrTmBUs6VbheAYNk1JTLRsppP9oBB/pG1y/BhlcD1SRUPeUaKGM2zvHo
+         U6+BSkUsl3B5IH4+V5z43Kr9VfNu930FEiMp8jaM+9r1vvYpPMcmUHhsNpBwSY5rpleV
+         6cHYGfjLB8bCH30xmM4MYmwHq4UswAPNM+y9d01owjKSF3bCkVVl3HUibHjRd3qimz8U
+         QvGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725035383; x=1725640183;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MKW2ySfTJtxg9hCELCYfcp6iXm8lrti76j0UGTwkt7Q=;
-        b=NcQCXE8OcwHXW4xw32J9EUvuTtBdaJTiIUtW2NtdOV9AYAt8+fUmgWEPKZQgO46eSL
-         6YwSz2OuPRryGljwF+CRJjm3uCgCwA/LqPjKeAhuII0uhZuM0MfmlCBfJIHX1fUgNxDv
-         /n2K+gFxfzD7w3B2jsLMQS6e3fv/SdYsonk4wtrwVxSUr2zm6W05R0jZWjjQGUBP/ojd
-         RzzeOt4aifhXYJn0u0ucYel1MRzoV1N6w0M8xlyI14UUR+bbDP+1ds6BLIQN3RVky7uZ
-         4iYiGN4z2ec9jbuUz+NiBhlACYY77r3uGMNP0hBqwasbl9rVA1XdLg9UcKNNHoe8MfBM
-         4WAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUk9ufxhvOtcaLGLWnFQFC4QUPZoro6q3CWVgAcZVkzRNdc6l+y6esDFHn/k+OcDwAWhVNz2snZ4CM=@vger.kernel.org, AJvYcCVLyKDd/aChKVtddbfHw9vT9K4ISHwY6kMNYzM3lTh1GMJTAoHBFZT+LXiWmHad49EXrIGH2eo/ZNP2lqGsVdN+Yw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwITim6ievoVbuPR8q60RqWY4Xk3sW2p874RTDPKBBasV8XQbQ0
-	J08zwqMval/oiPwZqLYlcLRnIu9D/5Y9WZLWER2ydMwME8p0i5EdRzr79wqDnjp5fsy+lgK/xrJ
-	C0UFhU4wvuZSZrTDn2RWd84hDl+kibf1zwU8=
-X-Google-Smtp-Source: AGHT+IHa7NEYai7hFc8Z0XKs4e6W+Vbtz8YA74OjOaSsq++EDmZV6aHRQLv+jKh99H84PAoJ1MmJiU0yhVqZN42yqqI=
-X-Received: by 2002:a05:690c:d85:b0:64a:f237:e0b0 with SMTP id
- 00721157ae682-6d40d78db7amr24524467b3.5.1725035382590; Fri, 30 Aug 2024
- 09:29:42 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1725037773; x=1725642573;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=U/DqUd03uLisJ+lBV6coVazHA/8Mv1E9hChZqzhDQx4=;
+        b=h11I97YxyHFdCR5BLcj44MrJYWM1bLV7PxU9T6eyv0DwYKYENuZl7Okpjy0I/BGer4
+         FbSMvT9a+5+h754eZmgX/ScUvadJKp+uVet6HCK/vhg3StM904HSLsTFHWNZDZyeqoKC
+         EwgwdQiKh9rv/sIRmgca1KPISDgJeF7NjoklJDGOSYr7eqaefLu/90tKomJltLQLVmLr
+         /D83fP5rSun79j9cnNCBfwuOkeCvmywIGw3cXcqVW1OnEDueuLdv0gLFyJ+BXlR3oAVT
+         ZK/xh6Dh01i7JeM/hNIEXu/05iZXndhdhcx6OboWlsqna75LmHqKeZM6XrkjKdIXkqEz
+         /WMw==
+X-Forwarded-Encrypted: i=1; AJvYcCWLKDCjWB9Ng4stKLwPd25rKxE4hXIWOTCjGTfrrghLbBaKK25XfJEp9Cz1o706Jp0xNlJAaukW4qo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQKVJg2oXkyPpv5vhv5XLGckhQFOVPgwh3t/RF39QMRITnGLh1
+	vCjmUeNC+dBItl8FCzKhEOko8ABleoT2nOGSkhb+15gveJF6S/e/6MGpL0sx+b+U/xGVsriLyMP
+	Exw==
+X-Google-Smtp-Source: AGHT+IFFKP/thrpWlcd7MMBTCnnTgAMVFprrx6gPBFzwzuc79yk0sgtRNBZcK7vPcXyz945EdY+xAc0UhR8=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a05:6a00:9467:b0:714:24bf:eaf5 with SMTP id
+ d2e1a72fcca58-717307852dcmr5463b3a.5.1725037772263; Fri, 30 Aug 2024 10:09:32
+ -0700 (PDT)
+Date: Fri, 30 Aug 2024 10:09:30 -0700
+In-Reply-To: <20240830124720.GX3468552@ziepe.ca>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <7f2b1c74-4087-4da4-94eb-51d37f3d8fc2@gmail.com> <CAP-5=fVmP0sNaE-T0PAHb0y+Eoo7eNgDFyu7kCT+Hp+G62KXHw@mail.gmail.com>
-In-Reply-To: <CAP-5=fVmP0sNaE-T0PAHb0y+Eoo7eNgDFyu7kCT+Hp+G62KXHw@mail.gmail.com>
-From: Howard Chu <howardchu95@gmail.com>
-Date: Sat, 31 Aug 2024 00:29:31 +0800
-Message-ID: <CAH0uvohyjLojJYtwCQeD2zmDYavjYWmom3C4O3Xmou-ez_hCkg@mail.gmail.com>
-Subject: Re: publish: perfwiki.github.io/main
-To: Ian Rogers <irogers@google.com>
-Cc: Yunseong Kim <yskelg@gmail.com>, Namhyung Kim <namhyung@kernel.org>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, linux-perf-users <linux-perf-users@vger.kernel.org>, 
-	linux-doc@vger.kernel.org, Austin Kim <austindh.kim@gmail.com>, 
-	MichelleJin <shjy180909@gmail.com>, Yeoreum Yun <ppbuk5246@gmail.com>, 
-	Jiri Olsa <olsajiri@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+References: <20240724011037.3671523-1-jthoughton@google.com>
+ <20240724011037.3671523-3-jthoughton@google.com> <Zr_3Vohvzt0KmFiN@google.com>
+ <CADrL8HWQqVm5VbNnR6iMEZF17+nuO_Y25m6uuScCBVSE_YCTdg@mail.gmail.com>
+ <ZtFA79zreVt4GBri@google.com> <20240830124720.GX3468552@ziepe.ca>
+Message-ID: <ZtH8yv5AabMEpBoj@google.com>
+Subject: Re: [PATCH v6 02/11] KVM: x86: Relax locking for kvm_test_age_gfn and kvm_age_gfn
+From: Sean Christopherson <seanjc@google.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: James Houghton <jthoughton@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Ankit Agrawal <ankita@nvidia.com>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
+	James Morse <james.morse@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, Raghavendra Rao Ananta <rananta@google.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Shaoqin Huang <shahuang@redhat.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>, 
+	Will Deacon <will@kernel.org>, Yu Zhao <yuzhao@google.com>, Zenghui Yu <yuzenghui@huawei.com>, 
+	kvmarm@lists.linux.dev, kvm@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-[Resend because didn=E2=80=99t cc the mailing list]
-Hello Yunseong,
+On Fri, Aug 30, 2024, Jason Gunthorpe wrote:
+> On Thu, Aug 29, 2024 at 08:47:59PM -0700, Sean Christopherson wrote:
+> > On Thu, Aug 29, 2024, James Houghton wrote:
+> > > On Fri, Aug 16, 2024 at 6:05=E2=80=AFPM Sean Christopherson <seanjc@g=
+oogle.com> wrote:
+> > > > > +static __always_inline bool kvm_tdp_mmu_handle_gfn_lockless(
+> > > > > +             struct kvm *kvm,
+> > > > > +             struct kvm_gfn_range *range,
+> > > > > +             tdp_handler_t handler)
+> > > >
+> > > > Please burn all the Google3 from your brain, and code ;-)
+> > >=20
+> > > I indented this way to avoid going past the 80 character limit. I've
+> > > adjusted it to be more like the other functions in this file.
+> > >=20
+> > > Perhaps I should put `static __always_inline bool` on its own line?
+> >=20
+> > Noooo. Do not wrap before the function name.  Linus has a nice explanat=
+ion/rant
+> > on this[1].
+>=20
+> IMHO, run clang-format on your stuff and just be happy with 99% of
+> what it spits out. Saves *so much time* and usually arguing..
 
-On Sat, Aug 10, 2024 at 1:11=E2=80=AFPM Yunseong Kim <yskelg@gmail.com> wro=
-te:
->
-> Hello everyone,
->
-> I=E2=80=99ve migrated the content from
->
-> Link: https://perf.wiki.kernel.org/
->
-> to markdown format.
->
-> You can now access it here:
->
-> Link: https://perfwiki.github.io/main/
->
-> All the pages listed under have been migrated.
-
-Thank you so much, absolutely amazing work.
-
-Just sent a pull request to the perfwiki github page for some minor
-improvements, can you please take a look?
-
-> Link: https://perf.wiki.kernel.org/index.php?title=3DSpecial%3AAllPages&f=
-rom=3D&to=3D&namespace=3D0
->
-> We haven=E2=80=99t been able to log in or sign up on
->
->   perf.wiki.kernel.org
->
-> for several months now, despite it being a valuable resource for many
-> Linux users. I don=E2=80=99t know much about how the perf wiki is managed=
-,
-> including any automated backups or the updates of man pages to the wiki.
->
-> Using the mkdocs framework, my knowledge of markdown, my keyboard,
-> and my efforts of finger, I=E2=80=99ve converted the MediaWiki format doc=
-umentation
-> from perf.wiki.kernel.org into markdown.
->
-> I believe this was a worthwhile effort for me, especially
-> considering that it serves as a backup of the valuable content on
-> the perf wiki at this point in time.
->
-> Linus once said, "Talk is cheap. Show me the code." While I haven=E2=80=
-=99t
-> been around for long, I understand that telling others what to do without
-> taking action oneself is not the best way to give feedback. When I looked
-> into it, the last edits, aside from the bot-built manual documents,
-> were made in May. Someone can check the recently changed pages, although
-> I found that it=E2=80=99s not easy to review the past change of history i=
-n MediaWiki.
->
-> I noticed from the perf mailing list that there were issues with
-> logging in, and it seems the door lock is still broken with no sign
-> of it being fixed. This motivated me to start this migration.
->
-> I wasn=E2=80=99t sure how long we=E2=80=99d have to wait to regain login =
-access.
-> I hope you see this in a positive work and not as an act of rebellion
-> against using the original wiki. I genuinely believe this was the
-> best action I could take.
->
-> This situation also made me wonder: Is it really a good idea for a
-> wiki, which is linked to the kernel and serves as an official
-> reference, to be updated without review from others through the
-> mailing list?
->
-> While it might be convenient, during the migration,
-> I found quite a few documents that were linked for future additions
-> but never actually created.
->
-> With a review process through the
-> mailing list, I believe the documentation could have been more
-> systematically organized.
->
-> One thing we need to check is the licensing of the original wiki
-> content. The existing documents do not clearly specify their licenses.
->
-> If you find any discrepancies or issues with the migrated documents
-> compared to the originals, please let me know. While migrating, I
-> also fixed some errors in the original documents. If the original is
-> correct and the migrated document seems off, it=E2=80=99s likely due to a
-> mistake on my part=E2=80=94no AI was involved, just my fingers. Or perhap=
-s I
-> was just tired. :)
->
-> I wasn=E2=80=99t sure if GitHub or GitLab was better, so for now, it=E2=
-=80=99s
-> hosted on GitHub. I plan to mirror it on GitLab as well:
->
->   perfwiki.gitlab.io/main/
->
-> The CI pipeline for building man pages still needs to be
-> implemented. I=E2=80=99ll work on that when I have time.
->
-> I=E2=80=99d appreciate any feedback and would love to hear any ideas for
-> improvement.
->
-> P.S. I also think it would be great if the markdown documents from
-> the perf wiki could be viewed offline in a TUI.
-
-Cool.
-
-Thanks,
-Howard
->
->
-> Warm regards,
-> Yunseong Kim
->
-
-On Sun, Aug 25, 2024 at 1:06=E2=80=AFPM Ian Rogers <irogers@google.com> wro=
-te:
->
-> On Fri, Aug 9, 2024 at 10:11=E2=80=AFPM Yunseong Kim <yskelg@gmail.com> w=
-rote:
-> >
-> > Hello everyone,
-> >
-> > I=E2=80=99ve migrated the content from
-> >
-> > Link: https://perf.wiki.kernel.org/
-> >
-> > to markdown format.
-> >
-> > You can now access it here:
-> >
-> > Link: https://perfwiki.github.io/main/
-> >
-> > All the pages listed under have been migrated.
-> > Link: https://perf.wiki.kernel.org/index.php?title=3DSpecial%3AAllPages=
-&from=3D&to=3D&namespace=3D0
-> >
-> > We haven=E2=80=99t been able to log in or sign up on
-> >
-> >   perf.wiki.kernel.org
-> >
-> > for several months now, despite it being a valuable resource for many
-> > Linux users. I don=E2=80=99t know much about how the perf wiki is manag=
-ed,
-> > including any automated backups or the updates of man pages to the wiki=
-.
-> >
-> > Using the mkdocs framework, my knowledge of markdown, my keyboard,
-> > and my efforts of finger, I=E2=80=99ve converted the MediaWiki format d=
-ocumentation
-> > from perf.wiki.kernel.org into markdown.
->
-> I think this is great Yunseong, thank you for doing it! Sorry for not
-> seeing your email earlier!
->
-> Can you explain a little on how to create updates to the pages? For
-> example, I see the topdown markdown here:
-> https://github.com/perfwiki/main/blob/main/docs/top-down-analysis.md
-> It looks like if I update the markdown, in a fork, I then need to
-> generate the HTML:
-> https://github.com/perfwiki/main/blob/main/site/top-down-analysis/index.h=
-tml
-> Presumably I send a pull request containing the HTML and the mark down?
->
-> > I believe this was a worthwhile effort for me, especially
-> > considering that it serves as a backup of the valuable content on
-> > the perf wiki at this point in time.
-> >
-> > Linus once said, "Talk is cheap. Show me the code." While I haven=E2=80=
-=99t
-> > been around for long, I understand that telling others what to do witho=
-ut
-> > taking action oneself is not the best way to give feedback. When I look=
-ed
-> > into it, the last edits, aside from the bot-built manual documents,
-> > were made in May. Someone can check the recently changed pages, althoug=
-h
-> > I found that it=E2=80=99s not easy to review the past change of history=
- in MediaWiki.
-> >
-> > I noticed from the perf mailing list that there were issues with
-> > logging in, and it seems the door lock is still broken with no sign
-> > of it being fixed. This motivated me to start this migration.
->
-> Log in problems to the wiki have definitely been an issue. I think
-> using github is a sensible way to resolve this.
->
-> > I wasn=E2=80=99t sure how long we=E2=80=99d have to wait to regain logi=
-n access.
-> > I hope you see this in a positive work and not as an act of rebellion
-> > against using the original wiki. I genuinely believe this was the
-> > best action I could take.
-> >
-> > This situation also made me wonder: Is it really a good idea for a
-> > wiki, which is linked to the kernel and serves as an official
-> > reference, to be updated without review from others through the
-> > mailing list?
-> >
-> > While it might be convenient, during the migration,
-> > I found quite a few documents that were linked for future additions
-> > but never actually created.
->
-> Agreed, the wiki has been a work in progress for a long time. It is
-> quite sad the corners haven't been filled out and the documentation
-> that is there slowly bitrots.
->
-> > With a review process through the
-> > mailing list, I believe the documentation could have been more
-> > systematically organized.
-> >
-> > One thing we need to check is the licensing of the original wiki
-> > content. The existing documents do not clearly specify their licenses.
->
-> Agreed. Are there examples we can learn from? For example, libbpf is
-> active on github:
-> https://github.com/libbpf/libbpf
->
-> > If you find any discrepancies or issues with the migrated documents
-> > compared to the originals, please let me know. While migrating, I
-> > also fixed some errors in the original documents. If the original is
-> > correct and the migrated document seems off, it=E2=80=99s likely due to=
- a
-> > mistake on my part=E2=80=94no AI was involved, just my fingers. Or perh=
-aps I
-> > was just tired. :)
-> >
-> > I wasn=E2=80=99t sure if GitHub or GitLab was better, so for now, it=E2=
-=80=99s
-> > hosted on GitHub. I plan to mirror it on GitLab as well:
-> >
-> >   perfwiki.gitlab.io/main/
-> >
-> > The CI pipeline for building man pages still needs to be
-> > implemented. I=E2=80=99ll work on that when I have time.
-> >
-> > I=E2=80=99d appreciate any feedback and would love to hear any ideas fo=
-r
-> > improvement.
-> >
-> > P.S. I also think it would be great if the markdown documents from
-> > the perf wiki could be viewed offline in a TUI.
->
-> Agreed. The perf documentation itself, largely the man pages, is a
-> fork from the git source code 15 years ago. I did a round of deleting
-> documentation that related to git and not to perf. I'm not sure how
-> you'd propose packaging the documentation if it were part of the perf
-> tool. I believe the thought in the wiki was to remove the burden that
-> exists sending things to LKML. It is also for the best that the build
-> not have external dependencies (such as downloading files) and is
-> reproducible. An issue with the man pages was that they defaulted to
-> placing the current date in them, I modified this so that we use the
-> git last modified date and it thereby made builds reproducible.
->
-> Thanks,
-> Ian
->
-> > Warm regards,
-> > Yunseong Kim
->
+Heh, nope, not bending on this one.  The time I spend far hunting for imple=
+mentations
+because of wraps before the function name far exceeds the time it takes me =
+to
+push back on these warts in review.
