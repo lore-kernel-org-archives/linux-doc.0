@@ -1,267 +1,152 @@
-Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C196150989
-	for <linux-doc@vger.kernel.org>; Fri, 30 Aug 2024 06:13:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEF071D131D
+	for <linux-doc@vger.kernel.org>; Fri, 30 Aug 2024 06:41:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.122
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724998416; cv=none; b=F/Yz5jV8ngYC0kwlu82+eln8QozXD0xeJUvuwGn6BI0ARBH1h6ar9YJe44nPmqSNJWiaqd3QKLhTGsvt6efydq2CVxAwaxAzK7mIoEPgTh4t57nQvkcWr8JzEvOMjrriP1gDDp+/BagKjSPDIfzK0HKk67y6nzwj/QNIITaAOr0=
+	t=1725000122; cv=none; b=kCrzeb9AwUQ7FH8HutjKdZUupLaCMciI7xhDmP8bhaPB0wQXIJ8GI+IIZDiIvLbFQzM7EiD8FPeie2lPSuceWIQR+mqT5DivDLY70AY+8Hq8c0c+XyEofYSedmy91k29D3odd6SmPRgUFIOd5QzosUneIpOD7QNg/XawsbfIPE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724998416; c=relaxed/simple;
-	bh=Szw/m1kpcox6QzCG5M/Ll9tQigntyXNmtuPxVGtRryc=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Ig2U8pGrwGLsrYG0UfrgOvwP1UCBkhBAKTgYInnesL0BUOoBlamlM2WubSVRJ2r48jRAzp/wLznRMZux944labdRaEFTTLXxS3hpIAip9bI8nCdS5YCmxgPypXFbjTRdxHVz+SEGJHM6jAjejyHaMTFpmlWSIbeu1y1srHy5nOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=OGKTsuXK; arc=none smtp.client-ip=95.215.58.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1725000122; c=relaxed/simple;
+	bh=SPX2TYWXECL8SZx6jLAaGZ8DQ70DBpQ/cR7EuKTZ+xA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H2hKX8zx74rxAcQo9eJUniDzXiEfZjzD8vWExHUldNUPs8nbg1766xtQ/E05mKqrHttrgjQw+k+MzWRk0493X0VMnfjOdMUVOGonpY+fiOte2i4DyRHAm3659SSVcPy/ZOjBE5V2W0Mmz3+fCaR5qJ26/DbIn7WV9J4zYuwuyi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=eUV7HnOC; arc=none smtp.client-ip=185.125.188.122
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="OGKTsuXK"
-Message-ID: <2e6e368f-0f2a-4724-892e-06cfe3fba97e@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1724998412;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2m0qz/oyn3UjH+b9LuMdU8KCsrU/kiOsmLYV8sbVKEQ=;
-	b=OGKTsuXKLdrQpxCO7DWP7yRgtnsLsWtC4hFWXpny7PFVVO2i3Oi1ZQZ0SsrULWKCG/iRRk
-	+kxvJ0vU3vNQZIfnvo9qNocTEK87jrqgOMd+ovWcSYGefR/PUD+RNLXVlxR2oa8TunEi72
-	rD3gm+lqz9OsTY3PFOKIX0eB4hCDitE=
-Date: Fri, 30 Aug 2024 14:13:24 +0800
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="eUV7HnOC"
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id DF9CA3F885
+	for <linux-doc@vger.kernel.org>; Fri, 30 Aug 2024 06:41:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1725000117;
+	bh=stViVxHrBBEsBOu5+lfKdQqL1kmTozBEiuazG7uCPrc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:In-Reply-To;
+	b=eUV7HnOCrZ6P7rWnxp+vbvI+vKQxH5izWalKq+Xlw5vId/gX8YrR5ZoQgvDBhq3Sb
+	 kf4sK2Ap2QFqGs1VgNef/w9GEtjYoHLYTMsYVH/sEPlcOvOXY6LGej72jvTsIjyB9Z
+	 rczqLP9eaoWY0ryuwLWtcgzYw0SyKT0ji8D0FB170XLMGzncEp+69BJgxK/rGwClEW
+	 YTiuO/phYwSKKYD40TXVD7jPHW5YcqWV1isBdiJAyZxU+RHUD6yFsolcXpn2QwFqkn
+	 QY76P/lpXsOCXgWNysQD2MfF+lqJKP4y3JX61CEDzBnaaG/S/kXTHKmX/6cU9FgFnl
+	 eUHovGiWUYtBw==
+Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-7143b3025caso1693566b3a.2
+        for <linux-doc@vger.kernel.org>; Thu, 29 Aug 2024 23:41:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725000116; x=1725604916;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=stViVxHrBBEsBOu5+lfKdQqL1kmTozBEiuazG7uCPrc=;
+        b=UDOr6AOUz8IkMOrDyN8xaiyk7eEZ6qhbqyjhxxFa/q9HAyYXzzdvrf9DhVlPuFwHaq
+         H3GKh1XADNKM1bGZniwplNxLOvzJ1qRuhoZqulZZ5Q3tVeiNv11+A+J1quJk+nWow/pB
+         PeRIZJen0VgBP1CKhlKMMBJfpt24StpvKw8pi/JuFgNP/xrRRm6WxSFqVc8qJVJmUkDI
+         NFvk6WUpD+xbB0lvrcFkejuor+HsBTZuPcet2ZeTV5g6HzDFjCwSvWaLE1brDzxoJQbI
+         RPUksvmxC/HEcwxQf6lijHgLnSYGEFHzolucY1a9vPbeyS5x7/3b04iXT5wTeXH1oRg0
+         Z8nw==
+X-Forwarded-Encrypted: i=1; AJvYcCWGXM+gSdUmPN+JdyWbOf5wGvR0Vd1vMYj0D2nU9Yv5CiVQT+LsQIbGocCMlLR1thhz4q6yfXV66Qs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfW/6j1G/p3IA4P6+FFdn2/+uBs9itQB9VexifvstRd23qpdIu
+	LkO6zUGL1QiAd+z+hd4QrmTolUDSvRMBDRsXA4bATz4SyNii65XZY5DM6lON/M+kzUVkLaMaI+j
+	mlXHDI0HQEnln9AfmzO9ABlOvZBEQjd87W2+MaCoymjIP6AdLwFH0KDVLY3ERX5mflXbKc1xf5g
+	==
+X-Received: by 2002:a05:6a21:1304:b0:1cc:ecfc:4e19 with SMTP id adf61e73a8af0-1ccecfc5080mr2120878637.21.1725000116139;
+        Thu, 29 Aug 2024 23:41:56 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHaXyUn2dop9Ka0x8wrhn0wVdTWTZjUwZ/SlkcBN7yWlQ1nrIciaeWRmtziG4HoZZ26ik1ehQ==
+X-Received: by 2002:a05:6a21:1304:b0:1cc:ecfc:4e19 with SMTP id adf61e73a8af0-1ccecfc5080mr2120843637.21.1725000115369;
+        Thu, 29 Aug 2024 23:41:55 -0700 (PDT)
+Received: from kylee-ThinkPad-E16-Gen-1 ([122.147.171.160])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2051556a712sm20796435ad.307.2024.08.29.23.41.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Aug 2024 23:41:55 -0700 (PDT)
+Date: Fri, 30 Aug 2024 14:41:49 +0800
+From: Kuan-Ying Lee <kuan-ying.lee@canonical.com>
+To: lijiang <lijiang@redhat.com>
+Cc: Baoquan He <bhe@redhat.com>, Will Deacon <will@kernel.org>,
+	HAGIO =?utf-8?B?S0FaVUhJVE8o6JCp5bC+IOS4gOS7gSk=?= <k-hagio-ab@nec.com>,
+	Vivek Goyal <vgoyal@redhat.com>, Dave Young <dyoung@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	ardb@kernel.org
+Subject: Re: [PATCH] arm64/vmcore: Add pgtable_l5_enabled information in
+ vmcoreinfo
+Message-ID: <ZtFprQX-UzyqnKTH@kylee-ThinkPad-E16-Gen-1>
+References: <20240826065219.305963-1-kuan-ying.lee@canonical.com>
+ <20240827122459.GA4679@willie-the-truck>
+ <Zs5Xo5eVUvGMbtSv@MiWiFi-R3L-srv>
+ <CANU+ZydbFPiSnCRr3qQ52GjUQQmU3ZO62c6hRkoLM147+u5u8w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] docs/zh_CN: add the translation of kbuild/gcc-plugins.rst
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: YanTeng Si <si.yanteng@linux.dev>
-To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <siyanteng@loongson.cn>, Jonathan Corbet <corbet@lwn.net>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-References: <20240828074305.314666-1-dzm91@hust.edu.cn>
- <04184aa1-475e-4e1f-9e05-21f59a0787d3@linux.dev>
-Content-Language: en-US
-In-Reply-To: <04184aa1-475e-4e1f-9e05-21f59a0787d3@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <CANU+ZydbFPiSnCRr3qQ52GjUQQmU3ZO62c6hRkoLM147+u5u8w@mail.gmail.com>
 
+On Wed, Aug 28, 2024 at 05:37:07PM +0800, lijiang wrote:
+> On Wed, Aug 28, 2024 at 6:48 AM Baoquan He <bhe@redhat.com> wrote:
+> 
+> > On 08/27/24 at 01:24pm, Will Deacon wrote:
+> > > On Mon, Aug 26, 2024 at 02:52:02PM +0800, Kuan-Ying Lee wrote:
+> > > > Since arm64 supports 5-level page tables, we need to add this
+> > > > information to vmcoreinfo to make debug tools know if 5-level
+> > > > page table is enabled or not.
+> > > >
+> > > > Missing this information will break the debug tool like crash [1].
 
+Sorry, the above line was mistakenly expressed.
 
+Currently, the crash tool doesn't support 4K page with 5-level
+page tables (LPA2), so I initially planned to add this
+information to implement support for 4K page with 5-level page
+table in the crash tool.
 
-在 2024/8/29 18:22, YanTeng Si 写道:
->
->
->
-> 在 2024/8/28 15:42, Dongliang Mu 写道:
->> Finish the translation of kbuild/gcc-plugins.rst and move gcc-plugins
->> from TODO to the main body.
->>
->> Update to commit 3832d1fd84b6 ("docs/core-api: expand Fedora 
->> instructions
->> for GCC plugins")
->>
->> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
->> ---
->>   .../translations/zh_CN/kbuild/gcc-plugins.rst | 126 ++++++++++++++++++
->>   .../translations/zh_CN/kbuild/index.rst       |   2 +-
->>   2 files changed, 127 insertions(+), 1 deletion(-)
->>   create mode 100644 
->> Documentation/translations/zh_CN/kbuild/gcc-plugins.rst
->>
->> diff --git a/Documentation/translations/zh_CN/kbuild/gcc-plugins.rst 
->> b/Documentation/translations/zh_CN/kbuild/gcc-plugins.rst
->> new file mode 100644
->> index 000000000000..214945a4ecf3
->> --- /dev/null
->> +++ b/Documentation/translations/zh_CN/kbuild/gcc-plugins.rst
->> @@ -0,0 +1,126 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +.. include:: ../disclaimer-zh_CN.rst
->> +
->> +:Original: Documentation/kbuild/gcc-plugins.rst
->> +:Translator: 慕冬亮 Dongliang Mu <dzm91@hust.edu.cn>
->> +
->> +================
->> +GCC 插件基础设施
->> +================
->> +
->> +
->
->> +介绍
->> +============
-> Please trim the length of the equal sign line.
->> +
->> +GCC 插件是为编译器提供额外功能的可加载模块 
->> [1]_。它们对于运行时插装和静态分析非常有用。
->> +我们可以在编译过程中通过回调 [2]_，GIMPLE [3]_，IPA [4]_ 和 RTL Passes 
->> [5]_
->> +（译者注：Pass 
->> 是编译器所采用的一种结构化技术，用于完成编译对象的分析、优化或转换等功能） 
->>
->> +来分析、修改和添加更多的代码。
->> +
->> +内核的 GCC 
->> 插件基础设施支持构建树外模块、交叉编译和在单独的目录中构建。插件源文件必须由 
->>
->> +C++ 编译器编译。
->> +
->> +目前 GCC 插件基础设施只支持一些架构。搜索 "select HAVE_GCC_PLUGINS" 
->> 来查找支持
->> +GCC 插件的架构。
->> +
->> +这个基础设施是从 grsecurity [6]_  和 PaX [7]_ 移植过来的。
->> +
->> +--
->> +
->> +.. [1] https://gcc.gnu.org/onlinedocs/gccint/Plugins.html
->> +.. [2] https://gcc.gnu.org/onlinedocs/gccint/Plugin-API.html#Plugin-API
->> +.. [3] https://gcc.gnu.org/onlinedocs/gccint/GIMPLE.html
->> +.. [4] https://gcc.gnu.org/onlinedocs/gccint/IPA.html
->> +.. [5] https://gcc.gnu.org/onlinedocs/gccint/RTL.html
->> +.. [6] https://grsecurity.net/
->> +.. [7] https://pax.grsecurity.net/
->> +
->> +
->
->> +目的
->> +=======
->
-> I will continue reviewing later or tomorrow.
->
->
-> Thank,
-> Yanteng
->> +
->> +GCC 插件的设计目的是提供一个场所，用于试验 GCC 或 Clang 
->> 上游没有的潜在编译器功能。
-How about:
-GCC 插件的设计目的是提供一个用于试验 GCC 或 Clang 
-上游没有的潜在编译器功能的场所。
->>
->> +一旦它们的实用性得到验证，目标就是将这些功能添加到 GCC（和 
->> Clang）的上游，然后在
->> +所有支持的 GCC 版本都支持这些功能后，再将它们从内核中移除。
-目标是 进上游后 把 功能 移除。
-Can we re-polish it here?
->> +
->> +具体来说，新插件应该只实现上游编译器（GCC 和 Clang）不支持的功能。
->> +
->> +当 Clang 中存在 GCC 中不存在的某项功能时，应努力将该功能上传到上游 
->> GCC（而不仅仅
-应努力将该功能做到 GCC上游
->> +是作为内核专用的 GCC 插件），以使整个生态都能从中受益。
->> +
->> +类似的，如果 GCC 插件提供的功能在 Clang 中 **不** 
->> 存在，但该功能被证明是有用的，也应
+> > > >
+> > > > [1] https://github.com/crash-utility/crash
+> > > >
+> > > > Signed-off-by: Kuan-Ying Lee <kuan-ying.lee@canonical.com>
+> > > > ---
+> > > >  Documentation/admin-guide/kdump/vmcoreinfo.rst | 6 ++++++
+> > > >  arch/arm64/kernel/vmcore_info.c                | 3 +++
+> > > >  2 files changed, 9 insertions(+)
+> > >
+> > > In which case, wouldn't you also want to know about pgtable_l4_enabled()?
+> >
+> > That is a good question. I guess it's deduced in code, mostly needed for
+> > different PAGE_OFFSET, how to transfer virtual addr to physical addr,
+> > etc.
+> >
+> >
+> Thanks for the information, Baoquan.
+> 
+> If I understand correctly, for arm64, currently, the crash tool determines
+> the levels of the page table based on page size and va_bits, and then
+> decides how to translate the address, such as calculating it in conjunction
+> with other values, e.g: kernel pgd, offset, etc.
 
->> +努力将该功能上传到 GCC（和 Clang）。
-
->> +
->> +在上游 GCC 提供了某项功能后，该插件将无法在相应的 GCC 
->> 版本（以及更高版本）下编译。
->> +一旦所有内核支持的 GCC 版本都提供了该功能，该插件将从内核中移除。
->> +
->> +
->> +文件
->> +=====
->> +
->> +**$(src)/scripts/gcc-plugins**
->> +
->> +    这是 GCC 插件的目录。
->> +
->> +**$(src)/scripts/gcc-plugins/gcc-common.h**
->> +
->> +    这是 GCC 插件的兼容性头文件。
->> +    应始终包含它，而不是单独的 GCC 头文件。
->> +
->> +**$(src)/scripts/gcc-plugins/gcc-generate-gimple-pass.h,
->> +$(src)/scripts/gcc-plugins/gcc-generate-ipa-pass.h,
->> +$(src)/scripts/gcc-plugins/gcc-generate-simple_ipa-pass.h,
->> +$(src)/scripts/gcc-plugins/gcc-generate-rtl-pass.h**
->> +
->> +    这些头文件可以自动生成 GIMPLE、SIMPLE_IPA、IPA 和 RTL passes 
->> 的注册结构。
->> +    与手动创建结构相比，它们更受欢迎。
->> +
->> +
->> +用法
->> +=====
->> +
->> +你必须为你的 GCC 版本安装 GCC 插件头文件，以 Ubuntu 上的 gcc-10 为例::
->> +
->> +    apt-get install gcc-10-plugin-dev
->> +
->> +或者在 Fedora 上::
->> +
->> +    dnf install gcc-plugin-devel libmpc-devel
->> +
->> +或者在 Fedora 上使用包含插件的交叉编译器时::
->> +
->> +    dnf install libmpc-devel
->> +
->> +在内核配置中启用 GCC 插件基础设施与一些你想使用的插件::
->> +
->> +    CONFIG_GCC_PLUGINS=y
->> +    CONFIG_GCC_PLUGIN_LATENT_ENTROPY=y
->> +    ...
->> +
->> +运行 gcc（本地或交叉编译器），确保能够检测到插件头文件::
->> +
->> +    gcc -print-file-name=plugin
->> +    CROSS_COMPILE=arm-linux-gnu- ${CROSS_COMPILE}gcc 
->> -print-file-name=plugin
->> +
->> +"plugin" 这个词意味着它们没有被检测到::
->> +
->> +    plugin
->> +
->> +完整的路径则表示插件已经被检测到::
->> +
->> +       /usr/lib/gcc/x86_64-redhat-linux/12/plugin
->> +
->> +编译包括插件在内的最小工具集::
->> +
->> +    make scripts
->> +
->> +或者直接在内核中运行 make，使用循环复杂性 GCC 插件编译整个内核。
->> +
->> +
->> +4. 如何添加新的 GCC 插件
->> +==============================
->> +
->> +GCC 插件位于 scripts/gcc-plugins/。你需要将插件源文件放在 
->> scripts/gcc-plugins/ 目录下。
->> +子目录创建并不支持，你必须添加在 
->> scripts/gcc-plugins/Makefile、scripts/Makefile.gcc-plugins
->> +和相关的 Kconfig 文件中。
->> diff --git a/Documentation/translations/zh_CN/kbuild/index.rst 
->> b/Documentation/translations/zh_CN/kbuild/index.rst
->> index d906a4e88d0f..b51655d981f6 100644
->> --- a/Documentation/translations/zh_CN/kbuild/index.rst
->> +++ b/Documentation/translations/zh_CN/kbuild/index.rst
->> @@ -13,6 +13,7 @@
->>       :maxdepth: 1
->>         headers_install
->> +    gcc-plugins
->>     TODO:
->>   @@ -24,7 +25,6 @@ TODO:
->>   - modules
->>   - issues
->>   - reproducible-builds
->> -- gcc-plugins
->>   - llvm
->>     .. only::  subproject and html
+Thanks for the information. I will then try to use VA_BITS to determine
+if it is a 5-level page table.
+Let me investigate further.
 
 Thanks,
-Yanteng
->
->
+Kuan-Ying Lee
 
+> 
+> For more details, please refer to this one:
+> https://github.com/crash-utility/crash/blob/master/arm64.c
+> 
+> 
+> Thanks
+> Lianbo
+> 
+> 
+> > Add Crash utility experts here.
+> >
+> >
