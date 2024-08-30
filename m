@@ -1,674 +1,459 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Received: from FR5P281CU006.outbound.protection.outlook.com (mail-germanywestcentralazon11022134.outbound.protection.outlook.com [40.107.149.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6154B1B2EE7;
-	Fri, 30 Aug 2024 11:25:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725017110; cv=none; b=A/cEM9s4hUN5QuKmeAqzjzVviGq3Mm7l0GD3l+E7KiR3OUYaoZ4AcKzYFwYqTI0+u0OzeDi3JyfqHJFiEZLt98CEqj41Y185kIsONiifyG+0TteMhTJTuQBK7AV6YNjG79x+pBf6aWl2Yb4GADaBNSLCUH8UU+LTUwKH9t5221E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725017110; c=relaxed/simple;
-	bh=B5rrgLm2yNS49hMG1JFWb8itoi9O5/1DbhFoC3E0EaU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FHU3Gv59NwzBNavqQzazw/VYKZ5DP59UWHzJsiTci2ygCllHPceuSgTYcYcNIrgDr86bv9xjMmTS4LBbbdGW1/Tw/FmeaiypsYn1XrXnD5FncTNQm1tM1tdQLZLLm+WVl9F7xM2v3TT6cSLWkw+YlT1sivjgVJaqN2IRV9rh2v4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.174])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4WwG4v2d6gzyQqH;
-	Fri, 30 Aug 2024 19:24:15 +0800 (CST)
-Received: from dggpemf200006.china.huawei.com (unknown [7.185.36.61])
-	by mail.maildlp.com (Postfix) with ESMTPS id 7D4A7140258;
-	Fri, 30 Aug 2024 19:25:06 +0800 (CST)
-Received: from localhost.localdomain (10.90.30.45) by
- dggpemf200006.china.huawei.com (7.185.36.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 30 Aug 2024 19:25:06 +0800
-From: Yunsheng Lin <linyunsheng@huawei.com>
-To: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Yunsheng Lin
-	<linyunsheng@huawei.com>, Alexander Duyck <alexander.duyck@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
-	<linux-mm@kvack.org>, <linux-doc@vger.kernel.org>
-Subject: [PATCH net-next v16 13/14] mm: page_frag: update documentation for page_frag
-Date: Fri, 30 Aug 2024 19:18:43 +0800
-Message-ID: <20240830111845.1593542-14-linyunsheng@huawei.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20240830111845.1593542-1-linyunsheng@huawei.com>
-References: <20240830111845.1593542-1-linyunsheng@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C11170A01;
+	Fri, 30 Aug 2024 11:49:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.149.134
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725018601; cv=fail; b=JaHoU96si9Sk4W6dvdbneJ8Iugesbqnvoiklq+TpDsNUblDlnLTanSknpRb52EXGKouOx2n+i0VTNldfFvxqDc8jlrUmEzEUBRgP0VtYl4l6K8VBbVZ5NN0bkot3t/e4qfl8QkH+qJv4XCqOHUGh4UUHU+QqrK78tOou/yjtJnQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725018601; c=relaxed/simple;
+	bh=mp8KqmPVjYY5HQzruIpwFh6Ey5YjF5BvF/QPV880OVg=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=liEuunTiTwVN4tIC85YGd3SAQpv8ceyp42fUfmC3v1B7BK9f6BO1EYeDk3OYTv+z/0kYRUoYIoWCRojoF0dI+lO2gH2/uAJ2ahnChaut/ABOR9fmmTWay2JeEMhajo3JrKUCjhQSMOTnz7Slnexz2kOR/0t3w0HDZq0NF7/95gQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=Softing.com; spf=pass smtp.mailfrom=Softing.com; dkim=pass (2048-bit key) header.d=softing.com header.i=@softing.com header.b=Ec5+5DmT; arc=fail smtp.client-ip=40.107.149.134
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=Softing.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=Softing.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=softing.com header.i=@softing.com header.b="Ec5+5DmT"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QW3i5nFCoZv3XPUHdUouwAMj+rs+vBjlG3aMnrRjtI5/PTDAjV0FVwO9P65178znL3/8LabmpFWQcWWU2cFcJWfIuf8Zc9H42fzoSmzEoAgdxWMZXGOXREEDgx+qFukOriGVZwiiDD2B62CcQaRonQAJ3EqdxJMaGESLLrz0sOcuFA+PNqKlR2+i4Q7yZcm/5QUAvzUAMYVHdKT9++iAitRCsPDJsdIYeu6Uxw3/CUl+J9TybOI/5XPERQNsAhI+zKwQRVJJidwfK98FQkOvHuqFsVyCUaslE6DcSOqfzDfov+tTwB02h/lVLHWovytbkUiwE1/XYXXGxLcIbVzFbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EemrGTTmrZgaozT/sfY3WA1Qdii7epm7DQ3Rv/82ues=;
+ b=uaEA20yKtWwYwJFsCp5X1GEpNSFocGTxOyYyvSwCjS/XEN9xmY5OOG8bOMefV4kxVqCLf/jBLtNoO1lo3Ncp18A4R3sXj+TyRviEe5k1uZ9qD+AWCavj2R1lUnP8hzFEIPxjLXxGNPe5k50xH2Ecw/NyO7UJhVho6kaLjvVpDWCQo1Mkg13UJmX5+vA85ZAGK/N8jyOrI/2C3nLYsNd2ODUVHmnG9nwP4KVjLMr+6hhR8mJbWCZG5+guNnYXlBfYK4lneFhwDSZ7niwRsrNd4q9nmQbGwDZiimhxVrjtl+ZgrJFVxMDYH5o/BA7Nm9qOiGXB1yOx7FC6hMtNaWdfvg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=softing.com; dmarc=pass action=none header.from=softing.com;
+ dkim=pass header.d=softing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=softing.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EemrGTTmrZgaozT/sfY3WA1Qdii7epm7DQ3Rv/82ues=;
+ b=Ec5+5DmTaRf+zLSMb7Yiy4STmDmQIpgDNgSYuNjzaAMhyMni4HEXscmoD9N0vYLHMeu4aGgk2kX2gc1Vbtan7CnpJrm39gJtFQkp/DVIoMiIViwTLv7kMdZ8IojMFXCkDZDureGgaR9vUVA5AvKWcu/97I7Rwr7kxpxf9iMZKfEXa/CvUHHUvp+LD1Iz+YYKT17qaBqebT9KEDBwVoNs1tqI3yuI9DrIRRUHZ26tskqykprzb/JdDTGrWCjZa7Lhp1MVM9wIgnu7Lmvr92AUDvuyYcpDyoqMZjjLvyXfupW8WEORmARKmdn5EhcX+59icE8HdwjU3yRqhCX85g5pXg==
+Received: from BE1P281MB2420.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10:43::7) by
+ FR5P281MB4123.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:106::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7897.28; Fri, 30 Aug 2024 11:49:53 +0000
+Received: from BE1P281MB2420.DEUP281.PROD.OUTLOOK.COM
+ ([fe80::8de2:b2ba:4092:939a]) by BE1P281MB2420.DEUP281.PROD.OUTLOOK.COM
+ ([fe80::8de2:b2ba:4092:939a%6]) with mapi id 15.20.7918.019; Fri, 30 Aug 2024
+ 11:49:53 +0000
+From: "Sperling, Tobias" <Tobias.Sperling@Softing.com>
+To: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+CC: "jdelvare@suse.com" <jdelvare@suse.com>, "linux@roeck-us.net"
+	<linux@roeck-us.net>, "robh@kernel.org" <robh@kernel.org>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "conor+dt@kernel.org"
+	<conor+dt@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>, "Sperling, Tobias"
+	<Tobias.Sperling@Softing.com>
+Subject: [PATCH 1/2] dt-bindings: hwmon: Introduce ADS71x8
+Thread-Topic: [PATCH 1/2] dt-bindings: hwmon: Introduce ADS71x8
+Thread-Index: Adr60bwOPjoiJD3QTreu2+tBMAOlGg==
+Date: Fri, 30 Aug 2024 11:49:53 +0000
+Message-ID:
+ <BE1P281MB24208CB90AF549578AA5C384EF972@BE1P281MB2420.DEUP281.PROD.OUTLOOK.COM>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=Softing.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BE1P281MB2420:EE_|FR5P281MB4123:EE_
+x-ms-office365-filtering-correlation-id: 15995782-8292-4e7d-6e6f-08dcc8e9dc9f
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|366016|376014|7416014|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?L+02nldvPKSnq0IkiWMVs3e0jh8waoyn5bRs5h0eMeEiWAmka9VbkeD4d3eE?=
+ =?us-ascii?Q?KvFJZXnPj+O6LSKvoDPmxXoOKI3QlxME38DAbdb60ZOs+rLrakzSD8ArauEo?=
+ =?us-ascii?Q?6SFliBXNQg7C9PSvIkoaQO26ViNl56xLPG0tM4k872KAjoZ9SMUU8ZiBLZMD?=
+ =?us-ascii?Q?Br2R/HWNRcL44uUJOUXEsZsHxA5bLNYdKtPTp8iWO+iauZMsqSiUPQ4e25aB?=
+ =?us-ascii?Q?GxhutVrGnYM5bNFT4qbko+PTXQXh/Kflwx+To/KM9HGlx4A2EnC72WsfpWVy?=
+ =?us-ascii?Q?PfeoRuUujFIgYy+PuwjTRHFOJVu0akBObnCqPQTsanRj+fbaQHeWbpCxj5VM?=
+ =?us-ascii?Q?g+CS7wVTs6eP7vwHgybQ5ye80fReX3yUxh3tQ072ElFNzlqDfkSLfJ4TBmmd?=
+ =?us-ascii?Q?RWQRCo7OoHHCcEFmyoKYpTLqH7nXc+uXIjrqnaxt3QvTCysJ535hS8iN58k1?=
+ =?us-ascii?Q?He7zPg5QDQuNmVEk4KWB+A3almIHqmAfz+4EZCsBT30wjg4j05J0L1/1C4sp?=
+ =?us-ascii?Q?uVYoaCRwVEkbbpicy4VV5DVF8sIFEz1ckw35R4f5MmM7UH2dLT++U99z6b/o?=
+ =?us-ascii?Q?w6/VkYFu5+k1hdQvH4847ZLZlnjLZeOlA8WNWExFHqEj2HLtBK4mQ7jWnyuF?=
+ =?us-ascii?Q?eIZkQVGFfaCDLbknBXD9sifSGXBcLyO91ZvgUpapmpOiiA71QOOY+HneunBM?=
+ =?us-ascii?Q?+8PXDmvgIU0S321NZn45jyT6um4/Dnftx2ojgn7BDK3tl/3wVgIFIYBG1c74?=
+ =?us-ascii?Q?8BN4I4chjTsjMnlPQ0BmRwJtq/5t+b0oliSDRNFP/yBV771TqOfeJ1AH5eho?=
+ =?us-ascii?Q?81LC/BdyZbOgnjDpAQembbqU9qzPgP/PhpZVO1XCWFrXzj9/QBYxv4x8jDym?=
+ =?us-ascii?Q?04eQenNpN+T62Erjpv0r+yntHdE6W6ji8G0nQfpY5YBlfKX1aKfZO9fVAeep?=
+ =?us-ascii?Q?HuYzuh7din6qoMmQ1xx4FqyZG43RBPge1pKBMUen0L8W8Efg5JrWVjNoEZKc?=
+ =?us-ascii?Q?qwbjsCg9pV3wB/OQ2+9f5kf23gzjyzfqzknvs8A9zdrjdzc5G7+fAbUaDY0J?=
+ =?us-ascii?Q?+SSuaXcLLZ42m6M+4bbD1+Sqdg5EXGB2xIncrTgzTgupZwP1KIlja10CgHnM?=
+ =?us-ascii?Q?WGX1ycsNUq1uIl8P23nThkLObeRMEBDTnHRD9lm1TV9ZMt+15f7NHL5yLz1a?=
+ =?us-ascii?Q?vOKdufcp0NnK4+mS8+SnSpoHOocGAFplUt5+5KSR6Acs3gp3r1OTU27Xet2H?=
+ =?us-ascii?Q?IXey7sU3FXsu1r6QkykHy9snmAjjFVvwoAdzUSik8NgPYQCbW1+tzj6zpXn1?=
+ =?us-ascii?Q?OUq2gEFNKndVow4QDcLYtsKuiqWSz4SYxl63tTNiSQcmQL9yvLCzybY6Y5MJ?=
+ =?us-ascii?Q?lXjCV24=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BE1P281MB2420.DEUP281.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?Ux8PwsKhNQBdybb2XiSpszwOPVf/A1VFha3Sv+9VeuHsx7S59DxX9DXYufDZ?=
+ =?us-ascii?Q?yNlWJ3X1nitHjAgc/J7Ff3Wiz2eKkgqtVWAMq7XbbRsK8e1UkUjTP0jtOR1J?=
+ =?us-ascii?Q?XkAnMU8h+gx82zWL4BKoLw/47xpiWaY3/FG9FoO52nynyqw92YsdekBba4d7?=
+ =?us-ascii?Q?vDA5iBI1hXVsyZ+OOZ6HO4TD8280t0SRYtKVOULwZgNGdHM2TKse92a7vInk?=
+ =?us-ascii?Q?CzsPf/Hfw4oenySxjyT34suzMcrS87Za3ir51PP1RfJcJJ0rjiV7bpVCUsIH?=
+ =?us-ascii?Q?HchntIqy8r1aGld1ZY9LMiNjOF6VcVITIGAhetOYEY2VAxun5x4EjJoe8nuj?=
+ =?us-ascii?Q?hFe7iinhdXtBm70LDjMhFB3TnUQiklp2fb6rDGfjRrffzUwj4MzAb4P713jd?=
+ =?us-ascii?Q?WUHkwYdQQ6Zze6v1+iFiCN/LnVrEHcIuP7ArfQxcQGICmUaa3w/CDN9DS0iW?=
+ =?us-ascii?Q?lxtkFxuIf+57ryouDbGvH3KJn8Ieg0VQWxhApwN73aCTBFdy9p1R/UbngolO?=
+ =?us-ascii?Q?VDUyHMxtG4+/N1YDQ/EaMp9CaRRaO7fO+l492UUUsS8Z9H9+HTyZP7boWDCg?=
+ =?us-ascii?Q?y6BcumRKbwZ7S42XzDcLftNyg+7sYIMiPievFjqQ+Qlr1kaVT82CvkA9NFGv?=
+ =?us-ascii?Q?JtEC/ZZIMg8SDesAkfIvZ3W4doGuVHRvKlEo3Co5RSrtexegBKv+gCOjgtGV?=
+ =?us-ascii?Q?LKiPIm05bCHQEU/by5s/GsGFuBn1lvnB4MdunZTIVrWv3WuIge0j+FL/V5Qk?=
+ =?us-ascii?Q?7B0MpnKaPlPUDOQ2xNBo7O7rSuTZbXaLSZH+A4XTo2fs10usZ56XhzJSOdLi?=
+ =?us-ascii?Q?3DPSaZgGsCbRgux8OLlNQYZrVGH9sxYXP4o6b5ogPGCFUqY8C3pePsqYytAg?=
+ =?us-ascii?Q?kqHA6OMGpnfNaj6w2UI7MnOusnHGDKWO9jnGfPhTOpgHgpvg4PzNsdipljNS?=
+ =?us-ascii?Q?1hqnd1+SE0cYbzfLYW/axNK/ohPAWeNxaj1II7K9L51sl68cCTkh9QDhzInQ?=
+ =?us-ascii?Q?HUtjxAOkya0flMtUZYjqENIpcgi/t8mtRQ5lp659FrKnBya4NUX9beBQow/I?=
+ =?us-ascii?Q?r8TuozOlKGuoEHhV7jbYyt8dyrAax2qgG733oZw0l1RpTKlh3hKxvYIMaWPu?=
+ =?us-ascii?Q?AM1IsGjfNA1GfdPj9qzsnn3V+LOmHfaz1JBADNhARYIAx7ZolkioEHC9bdq0?=
+ =?us-ascii?Q?6kiFMA85oPfO0sNceT0J9FtPS+hiN9ILHTehvoLLspEJBvWfp/z7CNYkKaHj?=
+ =?us-ascii?Q?b09gFQJQZneWjxtJ6AQSEAnzjwzwzT6nG9rw8740MrXG9VOfE55vXgNWEnnp?=
+ =?us-ascii?Q?/iobe4u/N+8Qsc+ivItmJRLJncTrhL4ksQ9lvo24Wvtb1tx4nP6aKTbvtBet?=
+ =?us-ascii?Q?fpF6ZnwgZxccog95NFHjdMtwVYgMTODIpqkTTvcUHl01QiugvfZPFL9wpLXX?=
+ =?us-ascii?Q?Lv/B9P1C1lN2dG11xSmlHTC5mb3uWFgcQOk6ZH/+Y+Mb0SpOO4xTVpIlXB+y?=
+ =?us-ascii?Q?fwdNq/f3UhcrvrpnnTzGnaNICzpDMtc/tPHr3FNtGRzslZ9QgInmjxHgHnMn?=
+ =?us-ascii?Q?AKSHr3jyI1f7CKb6pef4zHvg5C9BZ8J0+OlnmvzlS0YbumC04rMVJzK490BS?=
+ =?us-ascii?Q?hLy8L5P3tzClHALkxBLIHpDXGn/cIUly8+02gws31VO7CQmG9utZ+yk8i9DH?=
+ =?us-ascii?Q?ILvV3g=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemf200006.china.huawei.com (7.185.36.61)
+X-OriginatorOrg: softing.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BE1P281MB2420.DEUP281.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 15995782-8292-4e7d-6e6f-08dcc8e9dc9f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Aug 2024 11:49:53.3571
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: fe3606fa-d397-4238-9997-68dcd7851f64
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /gtlp5yFwp+n9up8BuRBA8p/+xA8ovvcKqQ9OmJfC+1Yk0v2ItfZ1LZ91gAVQuLmXcPLKIsMGvrBw3qUENpdvYhB1n/zrlVAuIld6eYmpCA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: FR5P281MB4123
 
-Update documentation about design, implementation and API usages
-for page_frag.
+From b2e04ce5500faf274654be5284be9db4f3abefce Mon Sep 17 00:00:00 2001
+From: Tobias Sperling <tobias.sperling@softing.com>
+Date: Fri, 23 Aug 2024 12:08:33 +0200
+Subject: [PATCH 1/2] dt-bindings: hwmon: Introduce ADS71x8
 
-CC: Alexander Duyck <alexander.duyck@gmail.com>
-Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
+Add documentation for the driver of ADS7128 and ADS7138 12-bit, 8-channel
+analog-to-digital converters. These ADCs have a wide operating range and
+a wide feature set. Communication is based on an I2C interface.
+The driver provides the functionality of manually reading single channels
+or sequentially reading all channels automatically.
+
+Signed-off-by: Tobias Sperling <tobias.sperling@softing.com>
 ---
- Documentation/mm/page_frags.rst | 173 +++++++++++++++++++++-
- include/linux/page_frag_cache.h | 251 ++++++++++++++++++++++++++++++++
- mm/page_frag_cache.c            |  12 +-
- 3 files changed, 433 insertions(+), 3 deletions(-)
+ .../devicetree/bindings/hwmon/ti,ads71x8.yaml |  85 +++++++++++
+ Documentation/hwmon/ads71x8.rst               | 140 ++++++++++++++++++
+ Documentation/hwmon/index.rst                 |   1 +
+ 3 files changed, 226 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/ti,ads71x8.yaml
+ create mode 100644 Documentation/hwmon/ads71x8.rst
 
-diff --git a/Documentation/mm/page_frags.rst b/Documentation/mm/page_frags.rst
-index 503ca6cdb804..e4950b8d8705 100644
---- a/Documentation/mm/page_frags.rst
-+++ b/Documentation/mm/page_frags.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
+diff --git a/Documentation/devicetree/bindings/hwmon/ti,ads71x8.yaml b/Docu=
+mentation/devicetree/bindings/hwmon/ti,ads71x8.yaml
+new file mode 100644
+index 000000000000..e422c4ebd207
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwmon/ti,ads71x8.yaml
+@@ -0,0 +1,85 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
 +
- ==============
- Page fragments
- ==============
-@@ -40,4 +42,173 @@ page via a single call.  The advantage to doing this is that it allows for
- cleaning up the multiple references that were added to a page in order to
- avoid calling get_page per allocation.
- 
--Alexander Duyck, Nov 29, 2016.
++$id: http://devicetree.org/schemas/hwmon/ti,ads71x8.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+Architecture overview
-+=====================
++title: Texas Instruments ADS7128/ADS7138 Analog to Digital Converter (ADC)
 +
-+.. code-block:: none
++maintainers:
++  - None
 +
-+                      +----------------------+
-+                      | page_frag API caller |
-+                      +----------------------+
-+                                  |
-+                                  |
-+                                  v
-+    +------------------------------------------------------------------+
-+    |                   request page fragment                          |
-+    +------------------------------------------------------------------+
-+             |                                 |                     |
-+             |                                 |                     |
-+             |                          Cache not enough             |
-+             |                                 |                     |
-+             |                         +-----------------+           |
-+             |                         | reuse old cache |--Usable-->|
-+             |                         +-----------------+           |
-+             |                                 |                     |
-+             |                             Not usable                |
-+             |                                 |                     |
-+             |                                 v                     |
-+        Cache empty                   +-----------------+            |
-+             |                        | drain old cache |            |
-+             |                        +-----------------+            |
-+             |                                 |                     |
-+             v_________________________________v                     |
-+                              |                                      |
-+                              |                                      |
-+             _________________v_______________                       |
-+            |                                 |              Cache is enough
-+            |                                 |                      |
-+ PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE         |                      |
-+            |                                 |                      |
-+            |               PAGE_SIZE >= PAGE_FRAG_CACHE_MAX_SIZE    |
-+            v                                 |                      |
-+    +----------------------------------+      |                      |
-+    | refill cache with order > 0 page |      |                      |
-+    +----------------------------------+      |                      |
-+      |                    |                  |                      |
-+      |                    |                  |                      |
-+      |              Refill failed            |                      |
-+      |                    |                  |                      |
-+      |                    v                  v                      |
-+      |      +------------------------------------+                  |
-+      |      |   refill cache with order 0 page   |                  |
-+      |      +----------------------------------=-+                  |
-+      |                       |                                      |
-+ Refill succeed               |                                      |
-+      |                 Refill succeed                               |
-+      |                       |                                      |
-+      v                       v                                      v
-+    +------------------------------------------------------------------+
-+    |             allocate fragment from cache                         |
-+    +------------------------------------------------------------------+
++description: |
++  The ADS7128 is 12-Bit, 8-Channel Sampling Analog to Digital Converter (A=
+DC)
++  with an I2C interface.
 +
-+API interface
-+=============
-+As the design and implementation of page_frag API implies, the allocation side
-+does not allow concurrent calling. Instead it is assumed that the caller must
-+ensure there is not concurrent alloc calling to the same page_frag_cache
-+instance by using its own lock or rely on some lockless guarantee like NAPI
-+softirq.
++  Datasheets:
++    https://www.ti.com/product/ADS7128
++    https://www.ti.com/product/ADS7138
 +
-+Depending on different aligning requirement, the page_frag API caller may call
-+page_frag_*_align*() to ensure the returned virtual address or offset of the
-+page is aligned according to the 'align/alignment' parameter. Note the size of
-+the allocated fragment is not aligned, the caller needs to provide an aligned
-+fragsz if there is an alignment requirement for the size of the fragment.
++properties:
++  compatible:
++    enum:
++      - ti,ads7128
++      - ti,ads7138
 +
-+Depending on different use cases, callers expecting to deal with va, page or
-+both va and page for them may call page_frag_alloc, page_frag_refill, or
-+page_frag_alloc_refill API accordingly.
++  reg:
++    maxItems: 1
 +
-+There is also a use case that needs minimum memory in order for forward progress,
-+but more performant if more memory is available. Using page_frag_*_prepare() and
-+page_frag_commit*() related API, the caller requests the minimum memory it needs
-+and the prepare API will return the maximum size of the fragment returned. The
-+caller needs to either call the commit API to report how much memory it actually
-+uses, or not do so if deciding to not use any memory.
++  avdd-supply:
++    description:
++      The regulator used as analog supply voltage as well as reference vol=
+tage.
 +
-+.. kernel-doc:: include/linux/page_frag_cache.h
-+   :identifiers: page_frag_cache_init page_frag_cache_is_pfmemalloc
-+                 page_frag_cache_page_offset __page_frag_alloc_align
-+		 page_frag_alloc_align page_frag_alloc
-+                 __page_frag_refill_align page_frag_refill_align
-+                 page_frag_refill __page_frag_refill_prepare_align
-+                 page_frag_refill_prepare_align page_frag_refill_prepare
-+                 __page_frag_alloc_refill_prepare_align
-+		 page_frag_alloc_refill_prepare_align
-+		 page_frag_alloc_refill_prepare
-+		 __page_frag_alloc_refill_probe_align
-+		 page_frag_alloc_refill_probe page_frag_refill_probe
-+                 page_frag_commit page_frag_commit_noref
-+		 page_frag_alloc_abort
++  ti,mode:
++    $ref: /schemas/types.yaml#/definitions/uint8
++    description: |
++      Operation mode
++      Mode 0 - Manual mode. A channel is only sampled when the according i=
+nput
++        in the sysfs is read.
++      Mode 1 - Auto mode. All channels are automatically sampled sequentia=
+lly.
++        Reading an input returns the last valid sample. In this mode furth=
+er
++        features like statistics and interrupts are available.
++    default: 0
 +
-+.. kernel-doc:: mm/page_frag_cache.c
-+   :identifiers: page_frag_cache_drain page_frag_free
++  ti,interval:
++    $ref: /schemas/types.yaml#/definitions/uint16
++    description: |
++      Only considered in mode 1!
++      Interval in microseconds a new sample is triggered. Is set to closes=
+t
++      possible interval, see datasheet.
++    default: 1
 +
-+Coding examples
-+===============
++  interrupts:
++    description: |
++      Only considered in mode 1!
++      Interrupt specifier the device's ALERT pin is connected to. Level mu=
+st be
++      IRQ_TYPE_LEVEL_LOW. If not configured the digital window comparator =
+(DWC)
++      is not available.
++    maxItems: 1
 +
-+Init & Drain API
-+----------------
++required:
++  - compatible
++  - reg
++  - avdd-supply
 +
-+.. code-block:: c
++additionalProperties: false
 +
-+   page_frag_cache_init(nc);
-+   ...
-+   page_frag_cache_drain(nc);
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    i2c {
++        #address-cells =3D <1>;
++        #size-cells =3D <0>;
 +
++        ads7138@10 {
++            compatible =3D "ti,ads7138";
++            reg =3D <0x10>;
++            avdd-supply =3D <&reg_stb_3v3>;
++            ti,mode =3D /bits/ 8 <1>;
++            ti,interval =3D /bits/ 16 <1000>;
++            interrupt-parent =3D <&gpio2>;
++            interrupts =3D <12 IRQ_TYPE_LEVEL_LOW>;
++            status =3D "okay";
++        };
++    };
+diff --git a/Documentation/hwmon/ads71x8.rst b/Documentation/hwmon/ads71x8.=
+rst
+new file mode 100644
+index 000000000000..383669c1f8c5
+--- /dev/null
++++ b/Documentation/hwmon/ads71x8.rst
+@@ -0,0 +1,140 @@
++.. SPDX-License-Identifier: GPL-2.0-or-later
 +
-+Alloc & Free API
-+----------------
++Kernel driver ads71x8
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 +
-+.. code-block:: c
++Supported chips:
 +
-+    void *va;
++  * Texas Instruments ADS7138
 +
-+    va = page_frag_alloc_align(nc, size, gfp, align);
-+    if (!va)
-+        goto do_error;
++	Prefix: 'ads7128'
 +
-+    err = do_something(va, size);
-+    if (err) {
-+        page_frag_abort(nc, size);
-+        goto do_error;
-+    }
++	Datasheet: Publicly available at the Texas Instruments website:
++	http://focus.ti.com/lit/ds/symlink/ads7128.pdf
 +
-+Prepare & Commit API
-+--------------------
++  * Texas Instruments ADS7138
 +
-+.. code-block:: c
++	Prefix: 'ads7138'
 +
-+    struct page_frag page_frag, *pfrag;
-+    bool merge = true;
-+    void *va;
++	Datasheet: Publicly available at the Texas Instruments website:
++	http://focus.ti.com/lit/ds/symlink/ads7138.pdf
 +
-+    pfrag = &page_frag;
-+    va = page_frag_alloc_refill_prepare(nc, 32U, pfrag, GFP_KERNEL);
-+    if (!va)
-+        goto wait_for_space;
++Author: Tobias Sperling <tobias.sperling@softing.com>
++	(based on ads7828 by Steve Hardy)
 +
-+    copy = min_t(unsigned int, copy, pfrag->size);
-+    if (!skb_can_coalesce(skb, i, pfrag->page, pfrag->offset)) {
-+        if (i >= max_skb_frags)
-+            goto new_segment;
++Description
++-----------
 +
-+        merge = false;
-+    }
++This driver implements support for the Texas Instruments ADS7128 and ADS71=
+38,
++which are 8-channel 12-bit A/D converters.
 +
-+    copy = mem_schedule(copy);
-+    if (!copy)
-+        goto wait_for_space;
++The chip requires an external analog supply voltage AVDD which is also use=
+d as
++reference voltage. If it is missing or too low, the chip won't show up as =
+I2C
++device.
 +
-+    err = copy_from_iter_full_nocache(va, copy, iter);
-+    if (err)
-+        goto do_error;
++The driver can be run in different modes. In manual mode a new (averaged) =
+sample
++is created when the according input is read.
 +
-+    if (merge) {
-+        skb_frag_size_add(&skb_shinfo(skb)->frags[i - 1], copy);
-+        page_frag_commit_noref(nc, pfrag, copy);
-+    } else {
-+        skb_fill_page_desc(skb, i, pfrag->page, pfrag->offset, copy);
-+        page_frag_commit(nc, pfrag, copy);
-+    }
-diff --git a/include/linux/page_frag_cache.h b/include/linux/page_frag_cache.h
-index 48a88ef8b5c7..5cca3f5ef1c5 100644
---- a/include/linux/page_frag_cache.h
-+++ b/include/linux/page_frag_cache.h
-@@ -46,11 +46,28 @@ static inline struct page *page_frag_encoded_page_ptr(unsigned long encoded_page
- 	return virt_to_page((void *)encoded_page);
- }
- 
-+/**
-+ * page_frag_cache_init() - Init page_frag cache.
-+ * @nc: page_frag cache from which to init
-+ *
-+ * Inline helper to init the page_frag cache.
-+ */
- static inline void page_frag_cache_init(struct page_frag_cache *nc)
- {
- 	nc->encoded_page = 0;
- }
- 
-+/**
-+ * page_frag_cache_is_pfmemalloc() - Check for pfmemalloc.
-+ * @nc: page_frag cache from which to check
-+ *
-+ * Used to check if the current page in page_frag cache is pfmemalloc'ed.
-+ * It has the same calling context expectation as the alloc API.
-+ *
-+ * Return:
-+ * true if the current page in page_frag cache is pfmemalloc'ed, otherwise
-+ * return false.
-+ */
- static inline bool page_frag_cache_is_pfmemalloc(struct page_frag_cache *nc)
- {
- 	return page_frag_encoded_page_pfmemalloc(nc->encoded_page);
-@@ -61,6 +78,16 @@ static inline unsigned int page_frag_cache_page_size(unsigned long encoded_page)
- 	return PAGE_SIZE << page_frag_encoded_page_order(encoded_page);
- }
- 
-+/**
-+ * page_frag_cache_page_offset() - Return the current page fragment's offset.
-+ * @nc: page_frag cache from which to check
-+ *
-+ * The API is only used in net/sched/em_meta.c for historical reason, do not use
-+ * it for new caller unless there is a strong reason.
-+ *
-+ * Return:
-+ * the offset of the current page fragment in the page_frag cache.
-+ */
- static inline unsigned int page_frag_cache_page_offset(const struct page_frag_cache *nc)
- {
- 	return nc->offset;
-@@ -98,6 +125,19 @@ static inline void __page_frag_cache_commit(struct page_frag_cache *nc,
- 	nc->offset = committed_offset;
- }
- 
-+/**
-+ * __page_frag_alloc_align() - Alloc a page fragment with aligning
-+ * requirement.
-+ * @nc: page_frag cache from which to allocate
-+ * @fragsz: the requested fragment size
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ * @align_mask: the requested aligning requirement for the 'va'
-+ *
-+ * Alloc a page fragment from page_frag cache with aligning requirement.
-+ *
-+ * Return:
-+ * Virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *__page_frag_alloc_align(struct page_frag_cache *nc, unsigned int fragsz,
- 					    gfp_t gfp_mask, unsigned int align_mask)
- {
-@@ -113,6 +153,19 @@ static inline void *__page_frag_alloc_align(struct page_frag_cache *nc, unsigned
- 	return va;
- }
- 
-+/**
-+ * page_frag_alloc_align() - Alloc a page fragment with aligning requirement.
-+ * @nc: page_frag cache from which to allocate
-+ * @fragsz: the requested fragment size
-+ * @gfp_mask: the allocation gfp to use when cache needs to be refilled
-+ * @align: the requested aligning requirement for the fragment
-+ *
-+ * WARN_ON_ONCE() checking for @align before allocing a page fragment from
-+ * page_frag cache with aligning requirement.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *page_frag_alloc_align(struct page_frag_cache *nc,
- 					  unsigned int fragsz, gfp_t gfp_mask,
- 					  unsigned int align)
-@@ -121,12 +174,36 @@ static inline void *page_frag_alloc_align(struct page_frag_cache *nc,
- 	return __page_frag_alloc_align(nc, fragsz, gfp_mask, -align);
- }
- 
-+/**
-+ * page_frag_alloc() - Alloc a page fragment.
-+ * @nc: page_frag cache from which to allocate
-+ * @fragsz: the requested fragment size
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ *
-+ * Alloc a page fragment from page_frag cache.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *page_frag_alloc(struct page_frag_cache *nc,
- 				    unsigned int fragsz, gfp_t gfp_mask)
- {
- 	return __page_frag_alloc_align(nc, fragsz, gfp_mask, ~0u);
- }
- 
-+/**
-+ * __page_frag_refill_align() - Refill a page_frag with aligning requirement.
-+ * @nc: page_frag cache from which to refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ * @align_mask: the requested aligning requirement for the fragment
-+ *
-+ * Refill a page_frag from page_frag cache with aligning requirement.
-+ *
-+ * Return:
-+ * True if refill succeeds, otherwise return false.
-+ */
- static inline bool __page_frag_refill_align(struct page_frag_cache *nc, unsigned int fragsz,
- 					    struct page_frag *pfrag, gfp_t gfp_mask,
- 					    unsigned int align_mask)
-@@ -138,6 +215,20 @@ static inline bool __page_frag_refill_align(struct page_frag_cache *nc, unsigned
- 	return true;
- }
- 
-+/**
-+ * page_frag_refill_align() - Refill a page_frag with aligning requirement.
-+ * @nc: page_frag cache from which to refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache needs to be refilled
-+ * @align: the requested aligning requirement for the fragment
-+ *
-+ * WARN_ON_ONCE() checking for @align before refilling a page_frag from
-+ * page_frag cache with aligning requirement.
-+ *
-+ * Return:
-+ * True if refill succeeds, otherwise return false.
-+ */
- static inline bool page_frag_refill_align(struct page_frag_cache *nc, unsigned int fragsz,
- 					  struct page_frag *pfrag, gfp_t gfp_mask,
- 					  unsigned int align)
-@@ -146,12 +237,38 @@ static inline bool page_frag_refill_align(struct page_frag_cache *nc, unsigned i
- 	return __page_frag_refill_align(nc, fragsz, pfrag, gfp_mask, -align);
- }
- 
-+/**
-+ * page_frag_refill() - Refill a page_frag.
-+ * @nc: page_frag cache from which to refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ *
-+ * Refill a page_frag from page_frag cache.
-+ *
-+ * Return:
-+ * True if refill succeeds, otherwise return false.
-+ */
- static inline bool page_frag_refill(struct page_frag_cache *nc, unsigned int fragsz,
- 				    struct page_frag *pfrag, gfp_t gfp_mask)
- {
- 	return __page_frag_refill_align(nc, fragsz, pfrag, gfp_mask, ~0u);
- }
- 
-+/**
-+ * __page_frag_refill_prepare_align() - Prepare refilling a page_frag with aligning
-+ * requirement.
-+ * @nc: page_frag cache from which to refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ * @align_mask: the requested aligning requirement for the fragment
-+ *
-+ * Prepare refill a page_frag from page_frag cache with aligning requirement.
-+ *
-+ * Return:
-+ * True if prepare refilling succeeds, otherwise return false.
-+ */
- static inline bool __page_frag_refill_prepare_align(struct page_frag_cache *nc,
- 						    unsigned int fragsz,
- 						    struct page_frag *pfrag,
-@@ -161,6 +278,21 @@ static inline bool __page_frag_refill_prepare_align(struct page_frag_cache *nc,
- 	return !!__page_frag_cache_prepare(nc, fragsz, pfrag, gfp_mask, align_mask);
- }
- 
-+/**
-+ * page_frag_refill_prepare_align() - Prepare refilling a page_frag with aligning
-+ * requirement.
-+ * @nc: page_frag cache from which to refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache needs to be refilled
-+ * @align: the requested aligning requirement for the fragment
-+ *
-+ * WARN_ON_ONCE() checking for @align before prepare refilling a page_frag from
-+ * page_frag cache with aligning requirement.
-+ *
-+ * Return:
-+ * True if prepare refilling succeeds, otherwise return false.
-+ */
- static inline bool page_frag_refill_prepare_align(struct page_frag_cache *nc,
- 						  unsigned int fragsz,
- 						  struct page_frag *pfrag,
-@@ -171,6 +303,18 @@ static inline bool page_frag_refill_prepare_align(struct page_frag_cache *nc,
- 	return __page_frag_refill_prepare_align(nc, fragsz, pfrag, gfp_mask, -align);
- }
- 
-+/**
-+ * page_frag_refill_prepare() - Prepare refilling a page_frag.
-+ * @nc: page_frag cache from which to refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ *
-+ * Prepare refilling a page_frag from page_frag cache.
-+ *
-+ * Return:
-+ * True if refill succeeds, otherwise return false.
-+ */
- static inline bool page_frag_refill_prepare(struct page_frag_cache *nc,
- 					    unsigned int fragsz,
- 					    struct page_frag *pfrag,
-@@ -179,6 +323,20 @@ static inline bool page_frag_refill_prepare(struct page_frag_cache *nc,
- 	return __page_frag_refill_prepare_align(nc, fragsz, pfrag, gfp_mask, ~0u);
- }
- 
-+/**
-+ * __page_frag_alloc_refill_prepare_align() - Prepare allocing a fragment and
-+ * refilling a page_frag with aligning requirement.
-+ * @nc: page_frag cache from which to allocate and refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ * @align_mask: the requested aligning requirement for the fragment.
-+ *
-+ * Prepare allocing a fragment and refilling a page_frag from page_frag cache.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *__page_frag_alloc_refill_prepare_align(struct page_frag_cache *nc,
- 							   unsigned int fragsz,
- 							   struct page_frag *pfrag,
-@@ -188,6 +346,21 @@ static inline void *__page_frag_alloc_refill_prepare_align(struct page_frag_cach
- 	return __page_frag_cache_prepare(nc, fragsz, pfrag, gfp_mask, align_mask);
- }
- 
-+/**
-+ * page_frag_alloc_refill_prepare_align() - Prepare allocing a fragment and
-+ * refilling a page_frag with aligning requirement.
-+ * @nc: page_frag cache from which to allocate and refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ * @align: the requested aligning requirement for the fragment.
-+ *
-+ * WARN_ON_ONCE() checking for @align before prepare allocing a fragment and
-+ * refilling a page_frag from page_frag cache.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *page_frag_alloc_refill_prepare_align(struct page_frag_cache *nc,
- 							 unsigned int fragsz,
- 							 struct page_frag *pfrag,
-@@ -198,6 +371,19 @@ static inline void *page_frag_alloc_refill_prepare_align(struct page_frag_cache
- 	return __page_frag_alloc_refill_prepare_align(nc, fragsz, pfrag, gfp_mask, -align);
- }
- 
-+/**
-+ * page_frag_alloc_refill_prepare() - Prepare allocing a fragment and refilling
-+ * a page_frag.
-+ * @nc: page_frag cache from which to allocate and refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ *
-+ * Prepare allocing a fragment and refilling a page_frag from page_frag cache.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *page_frag_alloc_refill_prepare(struct page_frag_cache *nc,
- 						   unsigned int fragsz,
- 						   struct page_frag *pfrag,
-@@ -206,6 +392,20 @@ static inline void *page_frag_alloc_refill_prepare(struct page_frag_cache *nc,
- 	return __page_frag_alloc_refill_prepare_align(nc, fragsz, pfrag, gfp_mask, ~0u);
- }
- 
-+/**
-+ * __page_frag_alloc_refill_probe_align() - Probe allocing a fragment and refilling
-+ * a page_frag with aligning requirement.
-+ * @nc: page_frag cache from which to allocate and refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @align_mask: the requested aligning requirement for the fragment.
-+ *
-+ * Probe allocing a fragment and refilling a page_frag from page_frag cache with
-+ * aligning requirement.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *__page_frag_alloc_refill_probe_align(struct page_frag_cache *nc,
- 							 unsigned int fragsz,
- 							 struct page_frag *pfrag,
-@@ -226,6 +426,18 @@ static inline void *__page_frag_alloc_refill_probe_align(struct page_frag_cache
- 	return page_frag_encoded_page_address(encoded_page) + offset;
- }
- 
-+/**
-+ * page_frag_alloc_refill_probe() - Probe allocing a fragment and refilling
-+ * a page_frag.
-+ * @nc: page_frag cache from which to allocate and refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled
-+ *
-+ * Probe allocing a fragment and refilling a page_frag from page_frag cache.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *page_frag_alloc_refill_probe(struct page_frag_cache *nc,
- 						 unsigned int fragsz,
- 						 struct page_frag *pfrag)
-@@ -233,6 +445,17 @@ static inline void *page_frag_alloc_refill_probe(struct page_frag_cache *nc,
- 	return __page_frag_alloc_refill_probe_align(nc, fragsz, pfrag, ~0u);
- }
- 
-+/**
-+ * page_frag_refill_probe() - Probe refilling a page_frag.
-+ * @nc: page_frag cache from which to refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled
-+ *
-+ * Probe refilling a page_frag from page_frag cache.
-+ *
-+ * Return:
-+ * True if refill succeeds, otherwise return false.
-+ */
- static inline bool page_frag_refill_probe(struct page_frag_cache *nc,
- 					  unsigned int fragsz,
- 					  struct page_frag *pfrag)
-@@ -240,18 +463,46 @@ static inline bool page_frag_refill_probe(struct page_frag_cache *nc,
- 	return !!page_frag_alloc_refill_probe(nc, fragsz, pfrag);
- }
- 
-+/**
-+ * page_frag_commit - Commit allocing a page fragment.
-+ * @nc: page_frag cache from which to commit
-+ * @pfrag: the page_frag to be committed
-+ * @used_sz: size of the page fragment has been used
-+ *
-+ * Commit the actual used size for the allocation that was either prepared
-+ * or probed.
-+ */
- static inline void page_frag_commit(struct page_frag_cache *nc, struct page_frag *pfrag,
- 				    unsigned int used_sz)
- {
- 	__page_frag_cache_commit(nc, pfrag, true, used_sz);
- }
- 
-+/**
-+ * page_frag_commit_noref - Commit allocing a page fragment without taking
-+ * page refcount.
-+ * @nc: page_frag cache from which to commit
-+ * @pfrag: the page_frag to be committed
-+ * @used_sz: size of the page fragment has been used
-+ *
-+ * Commit the alloc preparing or probing by passing the actual used size, but
-+ * not taking refcount. Mostly used for fragmemt coalescing case when the
-+ * current fragment can share the same refcount with previous fragment.
-+ */
- static inline void page_frag_commit_noref(struct page_frag_cache *nc,
- 					  struct page_frag *pfrag, unsigned int used_sz)
- {
- 	__page_frag_cache_commit(nc, pfrag, false, used_sz);
- }
- 
-+/**
-+ * page_frag_alloc_abort - Abort the page fragment allocation.
-+ * @nc: page_frag cache to which the page fragment is aborted back
-+ * @fragsz: size of the page fragment to be aborted
-+ *
-+ * It is expected to be called from the same context as the alloc API.
-+ * Mostly used for error handling cases where the fragment is no longer needed.
-+ */
- static inline void page_frag_alloc_abort(struct page_frag_cache *nc, unsigned int fragsz)
- {
- 	VM_BUG_ON(fragsz > nc->offset);
-diff --git a/mm/page_frag_cache.c b/mm/page_frag_cache.c
-index 994b85e7df67..6d236e8f6f33 100644
---- a/mm/page_frag_cache.c
-+++ b/mm/page_frag_cache.c
-@@ -59,6 +59,10 @@ static struct page *__page_frag_cache_refill(struct page_frag_cache *nc,
- 	return page;
- }
- 
-+/**
-+ * page_frag_cache_drain - Drain the current page from page_frag cache.
-+ * @nc: page_frag cache from which to drain
-+ */
- void page_frag_cache_drain(struct page_frag_cache *nc)
- {
- 	if (!nc->encoded_page)
-@@ -150,8 +154,12 @@ void *__page_frag_cache_prepare(struct page_frag_cache *nc, unsigned int fragsz,
- }
- EXPORT_SYMBOL(__page_frag_cache_prepare);
- 
--/*
-- * Frees a page fragment allocated out of either a compound or order 0 page.
-+/**
-+ * page_frag_free - Free a page fragment.
-+ * @addr: va of page fragment to be freed
-+ *
-+ * Free a page fragment allocated out of either a compound or order 0 page by
-+ * virtual address.
-  */
- void page_frag_free(void *addr)
- {
--- 
-2.33.0
++In auto mode all channels are sampled sequentially automatically. Reading =
+an
++input returns the last valid sample. In this mode there are also further
++features like statistics and the possibility to trigger an interrupt if a
++voltage drops/raises below/above a specific value (DWC - Digital Window
++Comparator).
++The overall update time (after which all channels are updated) depends on =
+the
++number of samples, the update interval and the amount of channels (8).
++
++	update time =3D samples * update_interval * 8
++
++There is no reliable way to identify this chip, so the driver will not sca=
+n
++some addresses to try to auto-detect it. That means that you will have to
++statically declare the device in the device tree.
++
++sysfs-Interface
++---------------
++
++The following interfaces are available in all modes.
++
+++----------------+----+---------------------------------------------+
++| in[0-7]_input  | ro | Voltage in mV sampled at channel [0-7]      |
+++----------------+----+---------------------------------------------+
++| samples        | rw | Number of samples used for averaging 1-128. |
++|                |    | Automatically set to closest power of 2.    |
+++----------------+----+---------------------------------------------+
++| calibrate      | rw | Write any value greater than 0 to trigger   |
++|                |    | self-calibration. Reads as 0 if finished.   |
+++----------------+----+---------------------------------------------+
++
++If the device is running in auto mode there are also the following interfa=
+ces.
++
+++------------------+----+-------------------------------------------------=
+----+
++| in[0-7]_max      | ro | Maximum value in mV that occurred at channel [0-=
+7]  |
+++------------------+----+-------------------------------------------------=
+----+
++| in[0-7]_min      | ro | Minimal value in mV that occurred at channel [0-=
+7]  |
+++------------------+----+-------------------------------------------------=
+----+
++| update_interval  | ro | Time in microseconds after which the next sample=
+ is |
++|                  |    | executed.                                       =
+    |
+++------------------+----+-------------------------------------------------=
+----+
++
++If the device is running in auto mode and the interrupt is configured also=
+ the
++following interfaces are added. If CONFIG_SYSFS is set in the kernel
++configuration it is also possible to poll the 'alrarms', see example below=
+.
++
+++--------------------+----+-----------------------------------------------=
+----+
++| alarms             | ro | | Contains the flags of DWC events. Once read =
+it  |
++|                    |    |   is reset to 0.                              =
+    |
++|                    |    | | BIT0 equals the low event flag of channel 0.=
+    |
++|                    |    | | BIT7 equals the low event flag of channel 7.=
+    |
++|                    |    | | BIT8 equals the high event flag of channel 0=
+.   |
++|                    |    | | BIT15 equals the high event flag of channel =
+7.  |
+++--------------------+----+-----------------------------------------------=
+----+
++| in[0-7]_max_alarm  | rw | Set high threshold in mV of DWC for channel [0=
+-7] |
+++--------------------+----+-----------------------------------------------=
+----+
++| in[0-7]_min_alarm  | rw | Set low threshold in mV of DWC for channel [0-=
+7]  |
+++--------------------+----+-----------------------------------------------=
+----+
++
++Example
++-------
++
++.. code:: c
++
++	#include <stdio.h>
++	#include <stdlib.h>
++	#include <fcntl.h>
++	#include <sys/select.h>
++	#include <unistd.h>
++
++	int main(void)
++	{
++		int		retval, fd;
++		fd_set	exceptfds;
++		char	buf[16];
++
++		fd =3D open("/sys/class/hwmon/hwmon1/alarms", O_RDONLY);
++
++		while (1) {
++
++			FD_ZERO(&exceptfds);
++			FD_SET(fd, &exceptfds);
++
++			/* Must be assigned to 'exceptional conditions'. For poll() use
++				POLLPRI. */
++			retval =3D select(fd + 1, NULL, NULL, &exceptfds, NULL);
++			if (retval =3D=3D -1)
++				perror("select()");
++			else if (retval) {
++				/* Close and reopen is required, since it's a sysfs file */
++				close(fd);
++				fd =3D open("/sys/class/hwmon/hwmon1/alarms", O_RDONLY);
++				retval =3D read(fd, buf, sizeof(buf));
++				printf("Received: %.*s\n", retval,buf);
++			}
++		}
++
++	close(fd);
++	exit(EXIT_SUCCESS);
++	}
++
++Notes
++-----
++
++TODO support for GPIOs, ADC hysteresis and counts is missing yet.
+diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+index 913c11390a45..a54df7af27ea 100644
+--- a/Documentation/hwmon/index.rst
++++ b/Documentation/hwmon/index.rst
+@@ -33,6 +33,7 @@ Hardware Monitoring Kernel Drivers
+    adm1275
+    adm9240
+    adp1050
++   ads71x8
+    ads7828
+    adt7410
+    adt7411
+--=20
+2.39.2
 
