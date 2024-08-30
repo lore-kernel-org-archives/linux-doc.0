@@ -1,93 +1,76 @@
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF6BC1531C5;
-	Fri, 30 Aug 2024 18:23:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B11C3DBB6;
+	Fri, 30 Aug 2024 18:40:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725042238; cv=none; b=ejpTfXc20ty+WGtfZI3EcfXJGhFtNzORNwrZZQDVni2lDK5cBxnvd1Zkrk58u+X6zVYg3bUeliUWBzezg56u8RvYm8jHzMwW4frtZt3BeSetmL+XJWiOz3M5si+C+IzgSoFK4NQ1lyEQ+YXbwSSspWTnFkcXYtciTpUeNHEjZ9Q=
+	t=1725043229; cv=none; b=tsyK8EoeVQ9kXSCwY1IcQqt0T34FQi5kD4z4QOiLNFfrrq3BUE3ZmF+8ILbZ1JlRo2egkpxgf3sUmlL8KEUcfDvsMIU12qL9pu8ywecrf70sE+Rhz7LXPdL+/5hQ6Fg1xunSKrjmanROYwOGE+2Oz72KkIH83BFGWuUSpLJp+rA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725042238; c=relaxed/simple;
-	bh=fKMKmdIdvmv98smX+LI6ZUFHFWqjKkATbTDIJrPvllA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gfaLIE8FqGdw9CEY9BtcZV/Mq70LJiBGTVHjRHcWZdpdaLHlTfL6ctpgDAVSHHbgUZw6JQdIcZp0n8jDTdGA8Cy2GIxsGZnUpRxyrSFAXdoenEiDW3d6cZqcSs7Mudzn1FMmOzFWnColeuU1IcDjKJoUA0wBSBmzCsMg7+XIaD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=OysKoZ1J; arc=none smtp.client-ip=178.60.130.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1725043229; c=relaxed/simple;
+	bh=2/Lde77M57/uft20yZsYU2AJIk+qjlCHEXdgpvBhzNU=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=HT+2tJdH3oHFlz7R6GrHnj1VdeZPfy9yImH+s6X15PEgn0Mn7ot21H0VZRBeOMUwJqK032Uzy13XDm73NxHimgjVzGUuhlSwR1x/bXtl+ZpiEWAzW97QkQ0o+ancisHgjjOZ6nJrj7DJp64kCd5ISuGNmmQdaWsjUJ2e3L7ctTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EoHkIgda; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="OysKoZ1J"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=hh4itEyLDnEMzZxAwF6jQr2sg6SqyVA/UmRTj4Gm508=; b=OysKoZ1J6RJLGm/5sQNsgBNmAi
-	cWsUb0ASJzvLxJVJ1pTqh+H5c4mewYkOHgpNMpGWLyU418tHS9D1CuevL9L8IT2VgJ1QBqtxYHACl
-	POm9m7uEsiB9DTix716yXedCWUxSAEJ0PnWM6qnir2OIfvwaHQdesUw8FZsWn69i+nV4nzKB5fRGc
-	Qhwa3O7MJ2zxTOnbTPLX6AYe8R1yhcdnKbAPucmn+k0ieduQOzs37ihHRL8ZLzIHJX8ON269yjz7A
-	54lChbOTh932aSKts8QAE3/aQ0ZtgV2JDSyl5sXG89hmgzjgpFD33DWCx7hKnujMRoENk2byfWMMB
-	rdTFK+cQ==;
-Received: from [177.76.152.96] (helo=[192.168.1.60])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1sk6Ho-007FYO-3c; Fri, 30 Aug 2024 20:23:51 +0200
-Message-ID: <ffe4b1ac-926e-7f99-900b-707384f09462@igalia.com>
-Date: Fri, 30 Aug 2024 15:23:45 -0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EoHkIgda"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE1FBC4CEC8;
+	Fri, 30 Aug 2024 18:40:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725043228;
+	bh=2/Lde77M57/uft20yZsYU2AJIk+qjlCHEXdgpvBhzNU=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=EoHkIgdaKe7W/x+CVN0adQ9gxGvdBS5uTNtwD9iTSAwhmSWNBqgxECr2RCKvhGOhy
+	 lK5LObzbw8RTjmIj+2FRReto4s2C9sd+AjL42cfanuumofffErYsce5+lFVC3NSB4d
+	 713FYVQEcKsIL0H0H33bzgVgiaC1+8WcK4baFqlYuf+wfP0EFFmSit1olyVgWtxLrl
+	 R9nWhzDdZq9n3IXkw+ycaI6Pubgm/4rUpopnW6BGA3gdR+ZSyUl1UmzIUvTwGRUoKy
+	 wcwpBnGg/h0MMjD0pP9JbbKBamvGKcJDtF9dyO90L2z0mXknQt1HrBA6SYfapv636J
+	 fVZEy1e3OfaAg==
+Received: from ip-10-30-226-235.us-west-2.compute.internal (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 73D4A3809A82;
+	Fri, 30 Aug 2024 18:40:30 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] Documentation: Improve crash_kexec_post_notifiers
- description
-Content-Language: en-US
-To: Stephen Brennan <stephen.s.brennan@oracle.com>,
- kexec@lists.infradead.org, linux-doc@vger.kernel.org
-Cc: bhe@redhat.com, vgoyal@redhat.com, dyoung@redhat.com, corbet@lwn.net,
- linux-kernel@vger.kernel.org, linux-debuggers@vger.kernel.org,
- kernel@gpiccoli.net, kernel-dev@igalia.com
-References: <20240830140401.458542-1-gpiccoli@igalia.com>
- <87ed66q6d5.fsf@oracle.com>
-From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <87ed66q6d5.fsf@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next] Documentation: Add missing fields to net_cachelines
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <172504323046.2682525.188474389406773601.git-patchwork-notify@kernel.org>
+Date: Fri, 30 Aug 2024 18:40:30 +0000
+References: <20240829155742.366584-1-jdamato@fastly.com>
+In-Reply-To: <20240829155742.366584-1-jdamato@fastly.com>
+To: Joe Damato <jdamato@fastly.com>
+Cc: netdev@vger.kernel.org, mkarsten@uwaterloo.ca, edumazet@google.com,
+ kuba@kernel.org, davem@davemloft.net, pabeni@redhat.com, corbet@lwn.net,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 
-On 30/08/2024 14:15, Stephen Brennan wrote:
+Hello:
+
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Thu, 29 Aug 2024 15:57:42 +0000 you wrote:
+> Two fields, page_pools and *irq_moder, were added to struct net_device
+> in commit 083772c9f972 ("net: page_pool: record pools per netdev") and
+> commit f750dfe825b9 ("ethtool: provide customized dim profile
+> management"), respectively.
+> 
+> Add both to the net_cachelines documentation, as well.
+> 
 > [...]
-> 
-> This is definitely clearer and an improvement! But I didn't (and still
-> don't) love the phrase "users who doubt kdump will succeed" because I
-> think that implies user error or silly beliefs.
-> 
-> What if these two sentences read something like:
-> 
-> In configurations where kdump may not be reliable, running the panic
-> notifiers can allow collecting more data on dmesg, like stack traces
-> from other CPUS or extra data dumped by panic_print.
-> 
->> Notice that some code
->> +			enables this option unconditionally, like Hyper-V,
->> +			PowerPC (fadump) and AMD SEV.
-> 
-> Yes, great addition.
-> 
-> With or without my suggestions it's an improvement, so:
-> 
-> Reviewed-by: Stephen Brennan <stephen.s.brennan@oracle.com>
-> 
 
-Thanks Stephen, I agree - your wording sounds better.
-I've incorporated that in the just sent V2.
-Cheers,
+Here is the summary with links:
+  - [net-next] Documentation: Add missing fields to net_cachelines
+    https://git.kernel.org/netdev/net-next/c/6af91e3d2cfc
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
-Guilherme
-
-
-P.S. I'll be OOO some days, so expect a bit of delay in case there are
-more reviews/interactions.
