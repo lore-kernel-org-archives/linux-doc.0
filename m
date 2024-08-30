@@ -1,113 +1,105 @@
-Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DDE81B6524
-	for <linux-doc@vger.kernel.org>; Fri, 30 Aug 2024 17:09:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A2B1BAEC0;
+	Fri, 30 Aug 2024 17:14:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725037774; cv=none; b=Fry7LMHJnLQJInRI+Aek/QeZvh+WCfkkwe/rZQzjRDM03NYGjoBuypDTR6IiHMwrGB5Xh58puUcZo2BO9AfiONfjR2lqYJyPLZkRBKofmFXZV1qJiWuKu7ZFDLS3yAKmYrfIfZZ7YP70Z61/go94Jhyp4kE/C0CYAPkkEWq/vTA=
+	t=1725038087; cv=none; b=dLLA80GHCOL3dtvBNR1A+m/zZ2q0Xcbk5rgxdO+4OjLdMjnVxP1mLdbxJ4Jty7hCP2qYJQEn+SvEEn0vySfj0B+FuCOU8L3i/+dqJsfzv3L5zWACVvdWZkDszy6JUYhzBLU/9D904Bs+Zn3qyibaI9gFCZsl0pNoWMc+ZkI7zfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725037774; c=relaxed/simple;
-	bh=CU346vDOqsSTaU3Zni7xFPxbjTXZB+6lE4+IxGvIin4=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=GfQJCeW63RcdrZw92SEVtFTiRA4zDzT3nLJekeRri2jf7RbttDouBsN5jgbytuZklSNQYx9nbxb0788ZI2yxEuDBzsbdHJurlsL3D3jlPSoo8o7rmxhGMc75STngHZks7I8wL7MiQFzX+iSWh3qE5gUrRl3cMNMHULbk/H449YE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=D/63zj5w; arc=none smtp.client-ip=209.85.210.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1725038087; c=relaxed/simple;
+	bh=6muzqNrp6/GvlVRaKgN/ToIdt+fZp8wXmbCAVwe1h10=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DJl4J008av3wqWUeRSZcfZWNY4WkIM1bPGzSQjUqJjqOgCio7MQEdzWl+ahNBn3eIJDa1Q1JUmbTp1q6sau7DvxgiL01F9RVK52cIm4x0TJgk5NshS4wALLUtq/hOh9N+JAVmqo4bDvFLAJ6SDLnoeOHwVXh+tWxy17ufIebny8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HoQCbaV4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="D/63zj5w"
-Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-7141d43582cso2128206b3a.3
-        for <linux-doc@vger.kernel.org>; Fri, 30 Aug 2024 10:09:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1725037773; x=1725642573; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=U/DqUd03uLisJ+lBV6coVazHA/8Mv1E9hChZqzhDQx4=;
-        b=D/63zj5wPjlolrfCsivNV3IWEtLug/VbFwPjgd4Grl18gAGH3T2yFT23KhktRRXjk9
-         JNObrTVBsWDh3K4fZwVuVBXouFNXdEmpf7bcZ9eaxH4OVVxB3fWwwnqmUedwTpxlPG1L
-         jbCN2F7z8ucVzrTmBUs6VbheAYNk1JTLRsppP9oBB/pG1y/BhlcD1SRUPeUaKGM2zvHo
-         U6+BSkUsl3B5IH4+V5z43Kr9VfNu930FEiMp8jaM+9r1vvYpPMcmUHhsNpBwSY5rpleV
-         6cHYGfjLB8bCH30xmM4MYmwHq4UswAPNM+y9d01owjKSF3bCkVVl3HUibHjRd3qimz8U
-         QvGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725037773; x=1725642573;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=U/DqUd03uLisJ+lBV6coVazHA/8Mv1E9hChZqzhDQx4=;
-        b=h11I97YxyHFdCR5BLcj44MrJYWM1bLV7PxU9T6eyv0DwYKYENuZl7Okpjy0I/BGer4
-         FbSMvT9a+5+h754eZmgX/ScUvadJKp+uVet6HCK/vhg3StM904HSLsTFHWNZDZyeqoKC
-         EwgwdQiKh9rv/sIRmgca1KPISDgJeF7NjoklJDGOSYr7eqaefLu/90tKomJltLQLVmLr
-         /D83fP5rSun79j9cnNCBfwuOkeCvmywIGw3cXcqVW1OnEDueuLdv0gLFyJ+BXlR3oAVT
-         ZK/xh6Dh01i7JeM/hNIEXu/05iZXndhdhcx6OboWlsqna75LmHqKeZM6XrkjKdIXkqEz
-         /WMw==
-X-Forwarded-Encrypted: i=1; AJvYcCWLKDCjWB9Ng4stKLwPd25rKxE4hXIWOTCjGTfrrghLbBaKK25XfJEp9Cz1o706Jp0xNlJAaukW4qo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQKVJg2oXkyPpv5vhv5XLGckhQFOVPgwh3t/RF39QMRITnGLh1
-	vCjmUeNC+dBItl8FCzKhEOko8ABleoT2nOGSkhb+15gveJF6S/e/6MGpL0sx+b+U/xGVsriLyMP
-	Exw==
-X-Google-Smtp-Source: AGHT+IFFKP/thrpWlcd7MMBTCnnTgAMVFprrx6gPBFzwzuc79yk0sgtRNBZcK7vPcXyz945EdY+xAc0UhR8=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:6a00:9467:b0:714:24bf:eaf5 with SMTP id
- d2e1a72fcca58-717307852dcmr5463b3a.5.1725037772263; Fri, 30 Aug 2024 10:09:32
- -0700 (PDT)
-Date: Fri, 30 Aug 2024 10:09:30 -0700
-In-Reply-To: <20240830124720.GX3468552@ziepe.ca>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HoQCbaV4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58A3DC4CEC2;
+	Fri, 30 Aug 2024 17:14:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725038085;
+	bh=6muzqNrp6/GvlVRaKgN/ToIdt+fZp8wXmbCAVwe1h10=;
+	h=From:To:Cc:Subject:Date:From;
+	b=HoQCbaV4Sma/OmVwNJKJhSSmosaeZaRaGTzl0eFYwMHDDRb9D4IFcsJAjGVnk6hVm
+	 14Uc7IeKiy8modfD687HKdKizKozosTB+LWdZ1Bc+wJ5gQxQtGtmcoca9GMstMUsIh
+	 fbgzOss/mYUWLFwZlzKk/SbXL3pASxnTjw4LFksf7Hpa8IMvTm8tEbu6N80sWfhdF0
+	 4bv5msTpQKN4EfhD8WA3kW2lNRsEdQo7z7mqssdsKngImIYjwFjn+V0n3xW4+Hae5H
+	 FZg7OA6RZweRHLPyOPHiffFPsLCTN181zLgo9CJ0AVQX2u+EoVt2rkzH7AaVMOsm/Y
+	 rJyo/kfbGAMJQ==
+From: Jakub Kicinski <kuba@kernel.org>
+To: davem@davemloft.net
+Cc: netdev@vger.kernel.org,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	Jakub Kicinski <kuba@kernel.org>,
+	Nikolay Aleksandrov <razor@blackwall.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	horms@kernel.org,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org
+Subject: [PATCH net v2] docs: netdev: document guidance on cleanup.h
+Date: Fri, 30 Aug 2024 10:14:42 -0700
+Message-ID: <20240830171443.3532077-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240724011037.3671523-1-jthoughton@google.com>
- <20240724011037.3671523-3-jthoughton@google.com> <Zr_3Vohvzt0KmFiN@google.com>
- <CADrL8HWQqVm5VbNnR6iMEZF17+nuO_Y25m6uuScCBVSE_YCTdg@mail.gmail.com>
- <ZtFA79zreVt4GBri@google.com> <20240830124720.GX3468552@ziepe.ca>
-Message-ID: <ZtH8yv5AabMEpBoj@google.com>
-Subject: Re: [PATCH v6 02/11] KVM: x86: Relax locking for kvm_test_age_gfn and kvm_age_gfn
-From: Sean Christopherson <seanjc@google.com>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: James Houghton <jthoughton@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Ankit Agrawal <ankita@nvidia.com>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
-	James Morse <james.morse@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oliver.upton@linux.dev>, Raghavendra Rao Ananta <rananta@google.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Shaoqin Huang <shahuang@redhat.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>, 
-	Will Deacon <will@kernel.org>, Yu Zhao <yuzhao@google.com>, Zenghui Yu <yuzenghui@huawei.com>, 
-	kvmarm@lists.linux.dev, kvm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 30, 2024, Jason Gunthorpe wrote:
-> On Thu, Aug 29, 2024 at 08:47:59PM -0700, Sean Christopherson wrote:
-> > On Thu, Aug 29, 2024, James Houghton wrote:
-> > > On Fri, Aug 16, 2024 at 6:05=E2=80=AFPM Sean Christopherson <seanjc@g=
-oogle.com> wrote:
-> > > > > +static __always_inline bool kvm_tdp_mmu_handle_gfn_lockless(
-> > > > > +             struct kvm *kvm,
-> > > > > +             struct kvm_gfn_range *range,
-> > > > > +             tdp_handler_t handler)
-> > > >
-> > > > Please burn all the Google3 from your brain, and code ;-)
-> > >=20
-> > > I indented this way to avoid going past the 80 character limit. I've
-> > > adjusted it to be more like the other functions in this file.
-> > >=20
-> > > Perhaps I should put `static __always_inline bool` on its own line?
-> >=20
-> > Noooo. Do not wrap before the function name.  Linus has a nice explanat=
-ion/rant
-> > on this[1].
->=20
-> IMHO, run clang-format on your stuff and just be happy with 99% of
-> what it spits out. Saves *so much time* and usually arguing..
+Document what was discussed multiple times on list and various
+virtual / in-person conversations. guard() being okay in functions
+<= 20 LoC is a bit of my own invention. If the function is trivial
+it should be fine, but feel free to disagree :)
 
-Heh, nope, not bending on this one.  The time I spend far hunting for imple=
-mentations
-because of wraps before the function name far exceeds the time it takes me =
-to
-push back on these warts in review.
+We'll obviously revisit this guidance as time passes and we and other
+subsystems get more experience.
+
+Reviewed-by: Eric Dumazet <edumazet@google.com>
+Reviewed-by: Nikolay Aleksandrov <razor@blackwall.org>
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+CC: horms@kernel.org
+CC: corbet@lwn.net
+CC: linux-doc@vger.kernel.org
+
+v2:
+ - add sentence about revisiting later to commit msg
+ - fix spelling
+v1: https://lore.kernel.org/20240829152025.3203577-1-kuba@kernel.org
+---
+ Documentation/process/maintainer-netdev.rst | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
+index 30d24eecdaaa..c9edf9e7362d 100644
+--- a/Documentation/process/maintainer-netdev.rst
++++ b/Documentation/process/maintainer-netdev.rst
+@@ -375,6 +375,22 @@ When working in existing code which uses nonstandard formatting make
+ your code follow the most recent guidelines, so that eventually all code
+ in the domain of netdev is in the preferred format.
+ 
++Using device-managed and cleanup.h constructs
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Netdev remains skeptical about promises of all "auto-cleanup" APIs,
++including even ``devm_`` helpers, historically. They are not the preferred
++style of implementation, merely an acceptable one.
++
++Use of ``guard()`` is discouraged within any function longer than 20 lines,
++``scoped_guard()`` is considered more readable. Using normal lock/unlock is
++still (weakly) preferred.
++
++Low level cleanup constructs (such as ``__free()``) can be used when building
++APIs and helpers, especially scoped iterators. However, direct use of
++``__free()`` within networking core and drivers is discouraged.
++Similar guidance applies to declaring variables mid-function.
++
+ Resending after review
+ ~~~~~~~~~~~~~~~~~~~~~~
+ 
+-- 
+2.46.0
+
