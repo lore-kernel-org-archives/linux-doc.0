@@ -1,127 +1,242 @@
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA63413C3D5
-	for <linux-doc@vger.kernel.org>; Fri, 30 Aug 2024 12:47:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0189B18E378;
+	Fri, 30 Aug 2024 13:14:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725022044; cv=none; b=KmTph3uXZb7w39afA+GcXM2IamxL6pKt4j/VqA6hFA5eUD6On2DFRdT/6OoT0a4jts8ypSQC95x0Lk90xuzqP9An7s70XgBM65g9eloM5u/u+RkXlbESm1nexJdvdKrbeeMFcg9PDYWe70H7QaYIjRg527DPtDFkRYMpAAflKQ8=
+	t=1725023667; cv=none; b=bEzXXiEeklM8Sxxrg1X+zZS1Lv/iwXlw8ZGCW6PNzCvPg9XmJ9buNC6PLiKTahZ3e6WKRtWKhCsSEeBb7H0s9D/ZSxFABQ65i23gs0913sKlisYKCoC/QcWH1G6D5qK1G67Xkonob9t9R21b2+4/GACcu8n8+HLktoWsIbqqN2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725022044; c=relaxed/simple;
-	bh=lWiucSN6zXhG3X717OejSkyo1yUhj7w0KySk1SkYMIE=;
+	s=arc-20240116; t=1725023667; c=relaxed/simple;
+	bh=TySXN9cetRSmWCN4veZ0Z+ZRgq1TPvA79rVPiBwac+4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YCUpOxy17cbKCne/axpShm+KM4f6YjKaRYrSVwEktsJ5+bWMmd5gjVFiTUwh4JrouA+GYdLI/LrInEcJSmzDJa4+Zt1aRt17TTGopsU619I9ceJJyJ00sMR/ycRpiGTqsB19Obk0+MTC53912d+adfOA2UpoL5u84+2kRTyLxws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=Tkqa/SAx; arc=none smtp.client-ip=209.85.219.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	 Content-Type:Content-Disposition:In-Reply-To; b=D3auLFJI92jTUxK8JmZMMfBCo2Ru9XcRD907QTUKm5L2uNdcH+4tvE0/iEPOuuAsL7qPklM7/DTAOtAHEa7vge8TcnYdHE/xzvEgtytHedTNKr8TpV91XqAZEgRPJVYrE3lO4sTxfiWlI4pv5xhw1vW/IY+qRPHH0tQiNmPlfNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aI2lZoKd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="Tkqa/SAx"
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6bf9ddfc2dcso8448986d6.1
-        for <linux-doc@vger.kernel.org>; Fri, 30 Aug 2024 05:47:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1725022042; x=1725626842; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=WmShJpOz/GOmUnd0xKeTBcV3P2NCGM0BHpjZiSl8WN0=;
-        b=Tkqa/SAxC6hDf3jk2/+3faExVIsJ7T72464ofmlt/iDcnuqn04YWh5DDrhJ2OGQb2K
-         T/hsSz5znhzr84aWUSfbd8ajZp6+rv9X7rHnDxTUr5NVwYzTWwYhp/1Eu1jG4GX5M4zB
-         xe6Nxhatfhwz72HqYUIh/Bm9dQNLFWyUE4H9mGIx9nOdEnbIvAakkYxFHlI8m+uwknV2
-         U2XETOsxLAhmD5BopdFPH5LK3KCpgw7yYKvNXpnrmidNndddltHr3NhyQdz6ite1d/m1
-         QamqiVX/DX55ys+9+fwwOCc4KSb5TNeUd8GxXu3zi3u6ttSwDNVhtNEXAaWJSEYcIuHM
-         u56g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725022042; x=1725626842;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WmShJpOz/GOmUnd0xKeTBcV3P2NCGM0BHpjZiSl8WN0=;
-        b=sfR0vgUCsaXA/Dg82uwCIVY4N+n1CSTMqRIZS/yuNw3Ff9uxX777V+75RdMx5NVxjd
-         M3p34QI/NXM2wKRYYzsOyEapVZXPBaNMvo66SxrQPwGVQ59imWCwJWJlFzUaGLomiEnv
-         kyVvep0o6RZ4issDG6eSocB2APbZ2faInQCkccpgbXEhwZJuM6nmXIGzZ9J0VOBZsQXb
-         +H9vgyfapU94FuT/tf/pXUTcrFIwhW6vLC79NGNXKi0JAOI4v/bTfxBvIzG/Lr3vzgv7
-         X222mKW8hZf5RawTNWNI93DP6Qeh3vgOiUObsVymneCH2xe0vOUWbPnnZPijgRHHYvaQ
-         FVLg==
-X-Forwarded-Encrypted: i=1; AJvYcCXH0jdTQEO+hVM8B4dXXZu33yswfpSEHFqouxRMyktw+Fo0UDrLf2UzyfYkEJC6NgLHJBib1kY90Ys=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVHZXIUW313foyn4tkY2xAESlRX4ObP7hqeOK4Ypf0cDAcqocU
-	IDXqFv+w6fDfbUtwpo/2VlGeoYIEyNfPGB4RsTYUDlanFtRQwEmWFvhCXJSRID0=
-X-Google-Smtp-Source: AGHT+IF1zgT2NlSjbSBC4mUiCoFIEUsoyt95nAEze677a3G7gSdAzBNVY6enBBsIy8xyElYIQbGvzA==
-X-Received: by 2002:a05:6214:3c8b:b0:6c1:70c8:ead6 with SMTP id 6a1803df08f44-6c33e69695bmr78641056d6.50.1725022041738;
-        Fri, 30 Aug 2024 05:47:21 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-68-80-239.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.80.239])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6c34c04f512sm3869726d6.37.2024.08.30.05.47.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Aug 2024 05:47:21 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1sk128-00DlJD-Gs;
-	Fri, 30 Aug 2024 09:47:20 -0300
-Date: Fri, 30 Aug 2024 09:47:20 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Sean Christopherson <seanjc@google.com>
-Cc: James Houghton <jthoughton@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	David Matlack <dmatlack@google.com>,
-	David Rientjes <rientjes@google.com>,
-	James Morse <james.morse@arm.com>, Jonathan Corbet <corbet@lwn.net>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Raghavendra Rao Ananta <rananta@google.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Shaoqin Huang <shahuang@redhat.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Wei Xu <weixugc@google.com>, Will Deacon <will@kernel.org>,
-	Yu Zhao <yuzhao@google.com>, Zenghui Yu <yuzenghui@huawei.com>,
-	kvmarm@lists.linux.dev, kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v6 02/11] KVM: x86: Relax locking for kvm_test_age_gfn
- and kvm_age_gfn
-Message-ID: <20240830124720.GX3468552@ziepe.ca>
-References: <20240724011037.3671523-1-jthoughton@google.com>
- <20240724011037.3671523-3-jthoughton@google.com>
- <Zr_3Vohvzt0KmFiN@google.com>
- <CADrL8HWQqVm5VbNnR6iMEZF17+nuO_Y25m6uuScCBVSE_YCTdg@mail.gmail.com>
- <ZtFA79zreVt4GBri@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aI2lZoKd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9E2DC4CEC7;
+	Fri, 30 Aug 2024 13:14:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725023665;
+	bh=TySXN9cetRSmWCN4veZ0Z+ZRgq1TPvA79rVPiBwac+4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aI2lZoKdVO4xG0+gXii7ySQH3bs/WeE3GnlzN0ACXWuE8tQ+9WUgN4Zt4xfDHYJ3T
+	 hcfihE9fHi01molNCNcOd2meJ1QJIB+N8s4Ryz3S8XDuIIeqpWPNHLxSrJ54IxdsN0
+	 /1gskhy8CUBTDquIJE6AfgDEapIcSqLBsN2AlvWgAKBz++w0AI4DiY0P/PtKsM8Xgd
+	 dKjXb0ElyWB5NGP4RhIpf5qAgf3ebFIribKNoD08hSYFGTN9e97M2A/GfhcRMXhhuz
+	 sCZFCyY+/9QbCmcIgWxt7ygcOyjsSoUikJF3nFN1cIQgVoqRp2CkVdgCit6aXnRlTu
+	 BfF/EOCO6N46Q==
+Date: Fri, 30 Aug 2024 14:14:20 +0100
+From: Conor Dooley <conor@kernel.org>
+To: "Sperling, Tobias" <Tobias.Sperling@softing.com>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"jdelvare@suse.com" <jdelvare@suse.com>,
+	"linux@roeck-us.net" <linux@roeck-us.net>,
+	"robh@kernel.org" <robh@kernel.org>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: hwmon: Introduce ADS71x8
+Message-ID: <20240830-chaos-unrivaled-04c5c4c6add9@spud>
+References: <BE1P281MB24208CB90AF549578AA5C384EF972@BE1P281MB2420.DEUP281.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="lRANKpXNUz7vXikp"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZtFA79zreVt4GBri@google.com>
+In-Reply-To: <BE1P281MB24208CB90AF549578AA5C384EF972@BE1P281MB2420.DEUP281.PROD.OUTLOOK.COM>
 
-On Thu, Aug 29, 2024 at 08:47:59PM -0700, Sean Christopherson wrote:
-> On Thu, Aug 29, 2024, James Houghton wrote:
-> > On Fri, Aug 16, 2024 at 6:05 PM Sean Christopherson <seanjc@google.com> wrote:
-> > > > +static __always_inline bool kvm_tdp_mmu_handle_gfn_lockless(
-> > > > +             struct kvm *kvm,
-> > > > +             struct kvm_gfn_range *range,
-> > > > +             tdp_handler_t handler)
-> > >
-> > > Please burn all the Google3 from your brain, and code ;-)
-> > 
-> > I indented this way to avoid going past the 80 character limit. I've
-> > adjusted it to be more like the other functions in this file.
-> > 
-> > Perhaps I should put `static __always_inline bool` on its own line?
-> 
-> Noooo. Do not wrap before the function name.  Linus has a nice explanation/rant
-> on this[1].
 
-IMHO, run clang-format on your stuff and just be happy with 99% of
-what it spits out. Saves *so much time* and usually arguing..
+--lRANKpXNUz7vXikp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-clang-format will occasionally decide to wrap in the GNU way, if it
-can put the arguments all on one line. People will never agree on
-small details of style, but it would be really nice if we can at least
-agree not to nitpick clang-format's decisions :) :)
+Hey Tobias, Guenter, Jonathan,
 
-Jason
+On Fri, Aug 30, 2024 at 11:49:53AM +0000, Sperling, Tobias wrote:
+> From b2e04ce5500faf274654be5284be9db4f3abefce Mon Sep 17 00:00:00 2001
+> From: Tobias Sperling <tobias.sperling@softing.com>
+> Date: Fri, 23 Aug 2024 12:08:33 +0200
+> Subject: [PATCH 1/2] dt-bindings: hwmon: Introduce ADS71x8
+>=20
+> Add documentation for the driver of ADS7128 and ADS7138 12-bit, 8-channel
+> analog-to-digital converters. These ADCs have a wide operating range and
+> a wide feature set. Communication is based on an I2C interface.
+> The driver provides the functionality of manually reading single channels
+> or sequentially reading all channels automatically.
+>=20
+> Signed-off-by: Tobias Sperling <tobias.sperling@softing.com>
+> ---
+>  .../devicetree/bindings/hwmon/ti,ads71x8.yaml |  85 +++++++++++
+
+If this is a "generic" adc, why is it going into hwmon?
+I would have expected this to be in iio/adc, and use more typical adc
+bindings, even if the driver is in hwmon.
+
+Guenter/Jonathan wdyt?
+
+>  Documentation/hwmon/ads71x8.rst               | 140 ++++++++++++++++++
+>  Documentation/hwmon/index.rst                 |   1 +
+
+And these two documents are not dt-bindings, so they should either be in
+their own commit or alongside the driver. Not sure how Guenter likes
+things.
+
+>  3 files changed, 226 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/ti,ads71x8.ya=
+ml
+
+>  create mode 100644 Documentation/hwmon/ads71x8.rst
+>=20
+> diff --git a/Documentation/devicetree/bindings/hwmon/ti,ads71x8.yaml b/Do=
+cumentation/devicetree/bindings/hwmon/ti,ads71x8.yaml
+> new file mode 100644
+> index 000000000000..e422c4ebd207
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/ti,ads71x8.yaml
+
+Please make the filename match a compatible.
+
+> @@ -0,0 +1,85 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +
+> +$id: http://devicetree.org/schemas/hwmon/ti,ads71x8.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Texas Instruments ADS7128/ADS7138 Analog to Digital Converter (AD=
+C)
+> +
+> +maintainers:
+> +  - None
+
+Nice trick..
+
+> +description: |
+> +  The ADS7128 is 12-Bit, 8-Channel Sampling Analog to Digital Converter =
+(ADC)
+> +  with an I2C interface.
+> +
+> +  Datasheets:
+> +    https://www.ti.com/product/ADS7128
+> +    https://www.ti.com/product/ADS7138
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - ti,ads7128
+> +      - ti,ads7138
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  avdd-supply:
+
+There's also a dvdd on the ads7128.
+
+> +    description:
+> +      The regulator used as analog supply voltage as well as reference v=
+oltage.
+> +
+> +  ti,mode:
+> +    $ref: /schemas/types.yaml#/definitions/uint8
+> +    description: |
+> +      Operation mode
+> +      Mode 0 - Manual mode. A channel is only sampled when the according=
+ input
+> +        in the sysfs is read.
+> +      Mode 1 - Auto mode. All channels are automatically sampled sequent=
+ially.
+> +        Reading an input returns the last valid sample. In this mode fur=
+ther
+> +        features like statistics and interrupts are available.
+> +    default: 0
+
+I don't think this ti,mode property is suitable for bindings. sysfs is a
+linux implementation detail, when to do sampling is an implementation
+detail of your driver. Bindings are only supposed to describe properties
+of the hardware, not set software policy.
+
+> +
+> +  ti,interval:
+> +    $ref: /schemas/types.yaml#/definitions/uint16
+> +    description: |
+> +      Only considered in mode 1!
+> +      Interval in microseconds a new sample is triggered. Is set to clos=
+est
+> +      possible interval, see datasheet.
+
+For iio devices, this is usually set from userspace, not from
+devicetree, because it is usually not a hardware property, but rather
+something a user may want to change at runtime.
+
+> +    default: 1
+> +
+> +  interrupts:
+> +    description: |
+> +      Only considered in mode 1!
+> +      Interrupt specifier the device's ALERT pin is connected to. Level =
+must be
+> +      IRQ_TYPE_LEVEL_LOW. If not configured the digital window comparato=
+r (DWC)
+> +      is not available.
+> +    maxItems: 1
+
+You've got 8 channels on the device, so I would be expecting to see
+these described here, with a reference to adc.yaml, even if the only
+suitable property is "label".
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - avdd-supply
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    i2c {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        ads7138@10 {
+
+This should just be "dac@".
+
+> +            compatible =3D "ti,ads7138";
+> +            reg =3D <0x10>;
+> +            avdd-supply =3D <&reg_stb_3v3>;
+> +            ti,mode =3D /bits/ 8 <1>;
+> +            ti,interval =3D /bits/ 16 <1000>;
+> +            interrupt-parent =3D <&gpio2>;
+> +            interrupts =3D <12 IRQ_TYPE_LEVEL_LOW>;
+> +            status =3D "okay";
+> +        };
+> +    };
+oCheers,
+Conor.
+
+--lRANKpXNUz7vXikp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZtHFrAAKCRB4tDGHoIJi
+0gGJAQDSrH+O91oma7P5k9E+GjH8BM9eGLiFTeSHh/mDeLBU0wEAnUlaR0cOocD3
+A5ar/PwXWSn7o6e3pz50rpHfAO4Iew8=
+=zvjM
+-----END PGP SIGNATURE-----
+
+--lRANKpXNUz7vXikp--
