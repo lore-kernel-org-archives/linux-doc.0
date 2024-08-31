@@ -1,149 +1,185 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from AUS01-ME3-obe.outbound.protection.outlook.com (mail-me3aus01olkn2033.outbound.protection.outlook.com [40.92.63.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06448A926;
-	Sat, 31 Aug 2024 02:11:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725070291; cv=none; b=cXB2TojueNbT/+65P6rOR47lHGT7XW4F03UOZlvxz+1erilK9pnQg0tSIwOn9AT/0LmK/Pl/rOWl+1uAzC4ZXs5M76Ub7YszP+1HJvASbqq6G5Xbxs8TCyHKeLZcUfQSHvRWkDd9ZBCnnAlyI0ilW+8l8fCnrURFmadmlzSQEJg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725070291; c=relaxed/simple;
-	bh=tnAqR6UfpTUbRxBq5PIZ41Adc1DmuhagL8RLHPVvYGs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=TlrX3rKUkvNqVYaqRmdAxqlc2jwowyBibvO86PEZoSufYq1dbdgqOoeG1ZU6rw7EAlhCxCVoPiVaPJu2K1N0fgRXjwFEfFtyIF4f1sq0l40ZLO6Mc2eu02CBe77gyXpjFLRHbGkmosM9hJkcZGoqPJiCmc93xS6+tS+wfjAAvDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=LLy7Gdev; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B0B2F2E;
+	Sat, 31 Aug 2024 03:34:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.63.33
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725075256; cv=fail; b=h8uipnetIjLr/ioxJlooK8nfGyiAlx0SpNc82R6/Ioa91SQnpOsoJTIxSioiPdDpjN+WyvGrnD6Z+FL4ZfPnJ2X/sbAdfSXqpwmN+OZTQMFuI4vBU7NKI6Jy3xFQmrZZL82T54S2fUF4pcmblfWuHleIN2YVmq+n7THsE+lxEos=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725075256; c=relaxed/simple;
+	bh=wgPNELWRCndsoodG2PiGy0NgvSIBKn3fHJIEYu8V63w=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=oX8YuwLnpEhECPSB4FPjK7mMeawdRzd48GhBwQbnmefVgeTzfqFbDeeNY46hnvS47KDvQHe9VqGnIBp6ptwcTY5sWimnKMe8PaG0n5y9aIKV+PNBtcZS9sFRTPTxSBiPITUMGxLV9SMQD6QIHtgyOEYw9EilMc2ca+89lv8tpW4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=K0Qf2D9Q; arc=fail smtp.client-ip=40.92.63.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LLy7Gdev"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47V20ZCO010779;
-	Sat, 31 Aug 2024 02:11:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ZXvT5Stw1lH4jky1fc80QPaN+DcFiwOANNRjZIvJNek=; b=LLy7GdevN+hNB1Ai
-	+bsZ+P3IjSvNrxwWs3ZwWdhYuPYZD8oh5eGvmxZsJqMAFQrq5fFg9glCBVLSRmsh
-	3Hex0z8dSaNES7OxFt5vE8T+vsOL5ksDQ0Og1kM/ryG1vP4cajBq2gmaFUP1eey4
-	wwIRZYS6eljBkQoluIQhP/U8W8XV/Xj6B1n2j+uGm+RCkfK71TssORT6dub/ZH22
-	1oIKoKNxzYwwqYn0D9N9dFmGFy/9SxOjdUqV0mMbj+6TE4oqRwBhbzYT4TplwV/b
-	2uxQ+C1KO0TirfzzAd3a9V92lh5z/RIGILK1uItiZfs2UAAWiZR18RlcL2+iXJte
-	ZCV8Dg==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 419puvjjkq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 31 Aug 2024 02:11:12 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47V2BBSn022950
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 31 Aug 2024 02:11:11 GMT
-Received: from [10.110.4.92] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 30 Aug
- 2024 19:11:09 -0700
-Message-ID: <15039aad-0485-4fe7-aca5-3b59ffadcccb@quicinc.com>
-Date: Fri, 30 Aug 2024 19:11:09 -0700
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="K0Qf2D9Q"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=g91CXYnHH9cIqsglugrNCd6Bj1cX+I8XBxCph7Y76TGPHLHrIe6eiZCqQ5YXTV6K+JDzQgo3CHoxjSlkb3Q0jUol8eWuDzJwHbIwJQ25XNdaFSuC9ZJiI6cY0Xf9+FAimVNH3V54iOxk63E9QQlvX2Bhh1j9SU9PAXMOjNIrX5OZMUeMZ97zhwDg1suC0KatALAVktFT3Gm4XJkQHBgXm0nNcitshLS0gsM9h2arUxPzJrqo8mUA27HgaI3Q9ikQf6z0F1u6gn0OS24VmyPQ0ubowl9s8Pwvx/qsISH8LM0v7HJ0o58ehqdCK25uqGxwx5oL3wQT5yQW1GgWitGTBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vHauG8AlPUeAzUasa+fgao591JMNiBnKP7Vd6tpC/bo=;
+ b=ub5lnVdDpOWJ1Kcaw2/hbuwWF41hoGtUDb+mfB5d1EDkGeP8LuDzhkJLQHW5piLsbEF7fOvYEAjAin2S9vhlpfJ4wWnnC5HFarl4siYDUAbRxoR4uGCeOSil53CuFYtygYHBBvcuZnwzPay2vEAMeeeZ+iSBY33v7f5Fa7wPZEGGxoPU7yWqhASxlZiB6KUrGOZ/aiwxCuX8o8TtPWLBbK6na8C8lew8l6QKI4UitrkRgF1NJfrSJZazIDJr3H6muAinakx6PxUzabN6jFfoQNlGkAFVPFjw0ERnLEUKwBZm3ud3cdJtLkLTLUA2u4n3Zm7r1q/6o9sO8fnwd0IASg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vHauG8AlPUeAzUasa+fgao591JMNiBnKP7Vd6tpC/bo=;
+ b=K0Qf2D9QrlP1XmvVFLwN5gV9cMK8RZFKZWkdGDapgEHzEgJ2VCiJQaUSsEveuP6vJyC3IV/93DntrIK+YbIIak2G+e+ONCpoxLtk7ehIKGcHhA6FCib4wkSDPhSHPnOB9DIRKGDj5yKWkXIDHO5Onkykoj1Lq9r3kSODEnHYQxbp0GFT18vFy8Upueaiu5kcV5iRx6VNdFYiVaHXnqrWcnIYzPGvghmbaIXOvCpJkVq3HmKUXVx2JZsy+Xpzx9kKIUofdqgxL3lXanceStk6P00vaqyTLBIhihLYD2yel/YOmIN25+9DPDq44qCvP2MtsnBbuJWNgelq8h+6C8doVQ==
+Received: from MEYP282MB2312.AUSP282.PROD.OUTLOOK.COM (2603:10c6:220:ff::9) by
+ ME3P282MB1844.AUSP282.PROD.OUTLOOK.COM (2603:10c6:220:a0::12) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7897.28; Sat, 31 Aug 2024 03:34:07 +0000
+Received: from MEYP282MB2312.AUSP282.PROD.OUTLOOK.COM
+ ([fe80::6174:52de:9210:9165]) by MEYP282MB2312.AUSP282.PROD.OUTLOOK.COM
+ ([fe80::6174:52de:9210:9165%3]) with mapi id 15.20.7918.020; Sat, 31 Aug 2024
+ 03:34:07 +0000
+Message-ID:
+ <MEYP282MB2312DF315C4FC264E96AF8B2C6902@MEYP282MB2312.AUSP282.PROD.OUTLOOK.COM>
+Date: Sat, 31 Aug 2024 11:33:50 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] riscv: mm: Do not restrict mmap address based on hint
+To: Charlie Jenkins <charlie@rivosinc.com>, Jonathan Corbet <corbet@lwn.net>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Shuah Khan <shuah@kernel.org>, Yangyu Chen <cyy@cyyself.name>,
+ Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc: linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+ linux-kselftest@vger.kernel.org
+References: <20240826-riscv_mmap-v1-0-cd8962afe47f@rivosinc.com>
+ <20240826-riscv_mmap-v1-3-cd8962afe47f@rivosinc.com>
+Content-Language: en-US
+From: Levi Zim <rsworktech@outlook.com>
+In-Reply-To: <20240826-riscv_mmap-v1-3-cd8962afe47f@rivosinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TMN: [95OAXNkcMNv5EUZfKhpGVTQw601WQjTY]
+X-ClientProxiedBy: SG2PR02CA0012.apcprd02.prod.outlook.com
+ (2603:1096:3:17::24) To MEYP282MB2312.AUSP282.PROD.OUTLOOK.COM
+ (2603:10c6:220:ff::9)
+X-Microsoft-Original-Message-ID:
+ <a4bf3140-3130-483f-b4f7-809c3ce091de@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v26 19/33] ASoC: qcom: qdsp6: Introduce USB AFE port to
- q6dsp
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
-        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <tiwai@suse.com>, <krzk+dt@kernel.org>, <Thinh.Nguyen@synopsys.com>,
-        <bgoswami@quicinc.com>, <robh@kernel.org>,
-        <gregkh@linuxfoundation.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>
-References: <20240829194105.1504814-1-quic_wcheng@quicinc.com>
- <20240829194105.1504814-20-quic_wcheng@quicinc.com>
- <ae0ae5f0-a3e9-49b4-95ba-524975d70659@linux.intel.com>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <ae0ae5f0-a3e9-49b4-95ba-524975d70659@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: VdoEpgeHo008CMaGqUIvxVZr5uOlC_nQ
-X-Proofpoint-GUID: VdoEpgeHo008CMaGqUIvxVZr5uOlC_nQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-30_12,2024-08-30_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- mlxlogscore=886 priorityscore=1501 bulkscore=0 impostorscore=0
- adultscore=0 malwarescore=0 phishscore=0 lowpriorityscore=0 mlxscore=0
- spamscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2408310016
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MEYP282MB2312:EE_|ME3P282MB1844:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2f7b1966-a399-45d7-b50d-08dcc96dc4cd
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|15080799006|461199028|5072599009|19110799003|6090799003|8060799006|1602099012|3412199025|440099028|4302099013;
+X-Microsoft-Antispam-Message-Info:
+	87iH7s/oFLWfAHp6rJheEv0FX5azOFfv0w5n6iDuKupC3CD1Bugnr2u2wYfH47Xhf0qqdopdH7FT82vH1oqf2eNj1BU0t5tKHIMEPoeDv54OxXKuu8YXZWqKC4z/lymR0Mikm8Yr97xOH/ubX6X+SAB3Igxt4t7jxVNEapddqT3H48qSydSrNo2joVcmFNiUsJlRiHjZywfcUxKTEjeUsjLO0H7ffVC38rgSDKoikJaT77llORlphlkHt9QPbc3gyhRdyjoj1y620jTfYVhqs52wDw+glq2G5BRge1MePqyKZYCr9yK+06569bhBtZFvxwiuJWpmGumdcncjAnCQFQf32bUyNLRl1I/ZaEmdL6rLqh2uM5prc7HAHcqF4FRkO8prRQ6JRYhrgto2smgAxHTTU/reNnpS3zDx3RA/izXqC5myN9PxPs95BcjwE4I5wnrY8ipHQ8nfsVwDR+UAwP+uybq8K1Lea57QegSdovy3j9ykCV9flGTl2mXd1L/XmTx09ZuB7eCQEzxZmTv9Kcr0vLdiHZYDwcOT9th7a6PcnS4uMM1CZkBffb6vLLoKEmt1JKShYM6eAUJ1Yzq8gWyDwoZzzjnASVBAw5Geyh9tgc/sPlyBP5EoFMhlIto8YO4SW0uQxfnOJobieDlvBOiap8bxiqpSjC911kzPoGp4nY3VcvagWGYr5NEnFC0+VhnzwFbgGxf/xl64Zx4Sm9G29HZTgBLGUNnPz0ZvQuUcCZM+n0U+KTfJlRRGswaoD0Oitp0o3YRlI3aYOr3tcUiTAXJe+cVjWVqiRaVjK4rk94q6NUTBr1DfR06QdlRU7mSnrGW1Bxk9OL1NVfx3Mg==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VzBvd0xQM2x0ZEwyRDVFZTUvcjFpbjlJQjFkUTB6UjcwMVJkZGdlMEgzdEJI?=
+ =?utf-8?B?UmsvanB1UHJXZGJUZUo5bURlQW55NmNOSnFCMlA4OGl2WHQrNXFKS3JNWTY4?=
+ =?utf-8?B?OXdlbzBGTjZjUVNmaThObnNWNytOWmM1c0d1QzVWZFlpc2tVRDBRUDR5dTZH?=
+ =?utf-8?B?YUc4RGdiVUs4S05UMkthY2tOSmxzOGlUckdMaTJGcHVlV0dwNC9OVG1CNHV4?=
+ =?utf-8?B?L0JIZ1d5ekZsS0pNUzQ1SHBOWWRoVi9uLzNpTlIvaW1KZGJ5aWpQaEs2RUU3?=
+ =?utf-8?B?ZWlUU1lkdnM1RGFKWGd1SWlUZ0V4YkcyRnZHUE1PWWh3emxaNjhrUDJVZTV2?=
+ =?utf-8?B?TStPNk1LQWxCdTBOejVKN0hUSHFLUjZkY29GUjZEUGphNVd3cGJjMXpiVjFE?=
+ =?utf-8?B?TUFIUUxicUtZUXp3Z3hHUGJ1MEFjNk9DR1p4M0EyOTQwV0FSbENPclV1QWhS?=
+ =?utf-8?B?VXlnclUxSzV4QmxyMDZvdmlQY1paRWdvcU1wVEZ6WnZ5N3ExQkVGZTl0RCtp?=
+ =?utf-8?B?cXY3UFFEN3Nzak1IS0xrK3czVG1NbjVOSUZ0bnhQQjRyTEFEWG5xcktZbmQx?=
+ =?utf-8?B?ZWhFK0ZxNXZFUVhaU2hqYXJrTHZVTi9CMmsyRkRxSlRpUEx2cnkreGxtY1Uz?=
+ =?utf-8?B?YzlqMDNKa2FuQXZISVI2aVA1L01jK3kvWndQR1M5TzltWFVVOWE4REpoamVT?=
+ =?utf-8?B?SUFNL0RrU2YvNFdIZXd5Ui9HZ09VZUJXTjYxVlRRSHdpNVVUWkswc05ndFVo?=
+ =?utf-8?B?N216UTdlN2FzR29CYTIvSmsySWRKVk5VcVl5MytPYm1rQ0RPdld4VEdwcE43?=
+ =?utf-8?B?bFE1NFA4cXFHQUduUHZPUUNoQWVZTlVxWG50U1JrZWhjczBjT1V4UXlUVkI5?=
+ =?utf-8?B?ZlBnQmFkSzNxdTdSeEUzN3dCdmhBRWpjS3lvcllIbzVKeUVHUi9DOGNZU3d5?=
+ =?utf-8?B?d1RMWHdrcXZwUG9ZWFhMRnFuYWtyT2RPa3pIKzdRUmliMVcwSm1nVW1CTEhZ?=
+ =?utf-8?B?QVdaOXpSRGZJamdNemROMXNpT05venhjRXJveTN5VWo1TVhWdVd2OThXMi9a?=
+ =?utf-8?B?emxrSnJ2OFQrK2R4NzNESHVZTndZcWtaa3JnOTRkdXQ0ZHUrRi9GRlRhcHl1?=
+ =?utf-8?B?SG1IREVHUVM2OHQrTk5vRHBBZEFnVUJ6NlFLL1VQVG12QmthK1FTMG5LUS82?=
+ =?utf-8?B?eDlXTklETlNZQlBtTlpMcnJZMXBXSHpWUkk2eFY0VTlyaXkyS2diSFgwN29k?=
+ =?utf-8?B?N281UGdpYm9CSkc0ME9rd01YUUpqaHp0VUJHS3FGL1N1NlpaWGpmWllCZVFi?=
+ =?utf-8?B?ZmdpbVFGdXY5eThvbEVIVzNIMEgrek5Sd1VNdm5GQVpHUzFWNGY3bmVsNXlH?=
+ =?utf-8?B?SlcyQk5YbWR5V3FOM2FCT0xwNW5VZnBPUE5EOXRHeGZKcDdPbzlNWFB0VjRX?=
+ =?utf-8?B?TG94UTVJaHpmTUZTcDhKZ0gxYVRrcDI3d2cvbkE1RzhtaGZtdkp3Z0k0b1pE?=
+ =?utf-8?B?emU3TDBQSmVEdTNJVytkUy9YSGpjL1dnbFpGZzNZRlJmL2FVcjg4TzdUS1Jw?=
+ =?utf-8?B?QkNEc2Y5K1dYem5VakNnV2ZWd3ZWVHVNeERhMTR2eEYvUkpmTUl3ZEtMdnRk?=
+ =?utf-8?Q?BPmV1Wmrz3DxX110SeGo7mPj8Mz2MG7ee7be3MYZ8CtE=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f7b1966-a399-45d7-b50d-08dcc96dc4cd
+X-MS-Exchange-CrossTenant-AuthSource: MEYP282MB2312.AUSP282.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2024 03:34:07.4494
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: ME3P282MB1844
 
-
-On 8/30/2024 2:12 AM, Pierre-Louis Bossart wrote:
+On 2024-08-27 00:36, Charlie Jenkins wrote:
+> The hint address should not forcefully restrict the addresses returned
+> by mmap as this causes mmap to report ENOMEM when there is memory still
+> available.
 >
-> On 8/29/24 21:40, Wesley Cheng wrote:
->> The QC ADSP is able to support USB playback endpoints, so that the main
->> application processor can be placed into lower CPU power modes.  This adds
->> the required AFE port configurations and port start command to start an
->> audio session.
->>
->> Specifically, the QC ADSP can support all potential endpoints that are
->> exposed by the audio data interface.  This includes, feedback endpoints
->> (both implicit and explicit) as well as the isochronous (data) endpoints.
-> I think you meant
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> Fixes: b5b4287accd7 ("riscv: mm: Use hint address in mmap if available")
+> Fixes: add2cc6b6515 ("RISC-V: mm: Restrict address space for sv39,sv48,sv57")
+> Closes: https://lore.kernel.org/linux-kernel/ZbxTNjQPFKBatMq+@ghost/T/#mccb1890466bf5a488c9ce7441e57e42271895765
+> ---
+>   arch/riscv/include/asm/processor.h | 26 ++------------------------
+>   1 file changed, 2 insertions(+), 24 deletions(-)
 >
-> "
-> this includes isochronous data endpoints, in either synchronous mode or
-> asynchronous mode. In the latter case both implicit or explicit feedback
-> endpoints are supported.
-> "
+> diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/asm/processor.h
+> index 8702b8721a27..efa1b3519b23 100644
+> --- a/arch/riscv/include/asm/processor.h
+> +++ b/arch/riscv/include/asm/processor.h
+> @@ -14,36 +14,14 @@
+>   
+>   #include <asm/ptrace.h>
+>   
+> -/*
+> - * addr is a hint to the maximum userspace address that mmap should provide, so
+> - * this macro needs to return the largest address space available so that
+> - * mmap_end < addr, being mmap_end the top of that address space.
+> - * See Documentation/arch/riscv/vm-layout.rst for more details.
+> - */
+>   #define arch_get_mmap_end(addr, len, flags)			\
+>   ({								\
+> -	unsigned long mmap_end;					\
+> -	typeof(addr) _addr = (addr);				\
+> -	if ((_addr) == 0 || is_compat_task() ||			\
+> -	    ((_addr + len) > BIT(VA_BITS - 1)))			\
+> -		mmap_end = STACK_TOP_MAX;			\
+> -	else							\
+> -		mmap_end = (_addr + len);			\
+> -	mmap_end;						\
+> +	STACK_TOP_MAX;						\
+>   })
+>   
+>   #define arch_get_mmap_base(addr, base)				\
+>   ({								\
+> -	unsigned long mmap_base;				\
+> -	typeof(addr) _addr = (addr);				\
+> -	typeof(base) _base = (base);				\
+> -	unsigned long rnd_gap = DEFAULT_MAP_WINDOW - (_base);	\
+> -	if ((_addr) == 0 || is_compat_task() || 		\
+> -	    ((_addr + len) > BIT(VA_BITS - 1)))			\
+> -		mmap_base = (_base);				\
+> -	else							\
+> -		mmap_base = (_addr + len) - rnd_gap;		\
+> -	mmap_base;						\
+> +	base;							\
+>   })
+>   
+>   #ifdef CONFIG_64BIT
 >
-> And now I don't remember how *controls* are handled.
->
-> Is this the case that all controls exposed by endpoint zero are visible
-> in both the regular USB-audio card AND the offloaded card, with changes
-> mirrored?
-I think we had a discussion about this previously, but can't seem to find it.  The USB volume controls (ie controls still handled by the control EP) are going to still reside only within the USB SND card.  As of now, there aren't any kcontrols that are being added to the ASoC platform card for offload.
-> It's important to explain so that the volumes are consistent no matter
-> which path is used. This should be added to the documentation.
->
->
->> +static const struct snd_soc_dai_ops q6afe_usb_ops = {
->> +	.probe		= msm_dai_q6_dai_probe,
->> +	.prepare	= q6afe_dai_prepare,
->> +	.hw_params	= q6afe_usb_hw_params,
->> +	/*
->> +	 * Shutdown callback required to stop the USB AFE port, which is enabled
->> +	 * by the prepare() stage.  This stops the audio traffic on the USB AFE
->> +	 * port on the Q6DSP.
->> +	 */
->> +	.shutdown	= q6afe_dai_shutdown,
->> +	/*
->> +	 * Startup callback not needed, as AFE port start command passes the PCM
->> +	 * parameters within the AFE command, which is provided by the PCM core
->> +	 * during the prepare() stage.
->> +	 */
-> Humm, now this is a bit confusing. Why would you need a shutdown, can't
-> you use the hw_free() callback for symmetry with prepare()?
+I tested this patch on 6.10.2 kernel and could confirm that it fixes the 
+crash of chromium. But I think I prefer Yangyu Chen's approach because 
+that would avoid breaking some applications on sv57.
 
-I thought that it was hw_params() -- hw_free() and prepare() -- shutdown()?
+Tested-by: Levi Zim <rsworktech@outlook.com> # Chromium, sv39
 
-"DPCM runs the PCM trigger(stop), hw_free(), shutdown() operations on DAI0 for headset since the path is now disabled.
-
-DPCM runs the PCM ops for startup(), hw_params(), prepare() and trigger(start) for DAI1 Speakers since the path is enabled."
-
-https://www.kernel.org/doc/html/v6.10/sound/soc/dpcm.html
-
-Thanks
-
-Wesley Cheng
-
->
