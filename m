@@ -1,89 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652F4171092
-	for <linux-doc@vger.kernel.org>; Sat, 31 Aug 2024 11:33:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF84193;
+	Sat, 31 Aug 2024 12:18:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725103985; cv=none; b=czgknCiqwlAaCjDwOfjmxX2r2lymYreuw1Cl071FFO1BMH/bcXnoWNTXD+za9ZkzkDCr3W0vdOhk65c+0ZsKPof4slBJOieYqFk/SGJ+VRe4/455oLifyFxDrFOE0/XRLk+riC/71yYSEasDgtyRtqo2jesogfYo+unKLrczZj8=
+	t=1725106714; cv=none; b=kzgbjZImdh4X0crAkzufd3dhNeAyiXcZQ2eJ1flHUppe0QjE55mikB2R7POpspNEZphcf7J34jSHhQcs0Y3AB4/vC6sYCikW3HJkwVuP6wAoLN4GJm/GceKF4/aGpqoinPpgeQGoJBPvvC7jfQFkYz/Zg3GburvYGfx4/3/KBWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725103985; c=relaxed/simple;
-	bh=jj9Vp976niRDnareIAZjr8PaQoO1NluWTTen20cykOg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Cvj24JJR/wrk4S9fgu/IMTjMDAnm68lDRrX0iUANVe/g+qHrhGCLTfLoXK+T2eCcLNr+d4Z2kTFxUGMP6/2QwkLXJjEHytkVF++KvmEIjKniRObTDnOtobCERcKRnniNRlDJPEjIK4OK/UbnqUZIb3Jyqqnh3Rc4dBsLCrQSvS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZnFRLiL/; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725106714; c=relaxed/simple;
+	bh=/DcwqGi/TTJgseU69eQAMnE6ASnIXDVzUih6oz1NpNI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HSsnDfPiwIvo+eFR5iZSDsU1/oINV3yTPxxAfvL0BuW01Q5KMkfXa0IvQmzJl60iFQ4kL8P0pMC1hh3cdkumiuA4gMi7pC2PNoNg/f6b3E6+VT79EC20pH8J31UI5c65XYjpNVn6ylyzr8d+iho9j8Upn6ssdg2GxzsAlbs2ebQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RJ2JezcI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZnFRLiL/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725103983; x=1756639983;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jj9Vp976niRDnareIAZjr8PaQoO1NluWTTen20cykOg=;
-  b=ZnFRLiL/WEeyIFJvsJl8fUjMrF1oOKaaK+JL6txZNnZl9DhHtEEH369P
-   8IjLqEPd0UviiMA/leiuRk8iY3GVYFYYL/52evTqvL03qlWvUWIdPGBTf
-   7ii+OG7K/jqO77Pl2+WGBUkDU2WklVhTy4gelGph/xR2kNfBAy0x98jIh
-   H+yonutnl/ozNrG0QAL4v0WY62A9BFq5UyD+URHp+Ic64VjlwHNjYTO7k
-   rscJKz1/1ntX3jYizzgGIuJcqw4J+IsmMitzBIjT9s7RcauscBTPsd/Jh
-   Hz4RXs+RO4H22VBxKdwd4x+DChnSbZMviwgBSNhyAPD5HQWJcsHr77kbZ
-   w==;
-X-CSE-ConnectionGUID: cQdy99neRk+u83Z2tdc7FQ==
-X-CSE-MsgGUID: ZkHw2JyYQKi/1nRwjBHibw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="13309735"
-X-IronPort-AV: E=Sophos;i="6.10,191,1719903600"; 
-   d="scan'208";a="13309735"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 04:33:03 -0700
-X-CSE-ConnectionGUID: TgT16vksQVKDRClb9UEsPA==
-X-CSE-MsgGUID: sXsRxjuBTrO/IOqNzb3UrA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,191,1719903600"; 
-   d="scan'208";a="64158485"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 31 Aug 2024 04:33:02 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1skMLj-0002gg-2G;
-	Sat, 31 Aug 2024 11:32:59 +0000
-Date: Sat, 31 Aug 2024 19:32:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: James Morse <james.morse@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [morse:mpam/abmc/v6 76/162] htmldocs: Warning: fs/resctrl/Kconfig
- references a file that doesn't exist: file:Documentation/fs/resctrl.rst
-Message-ID: <202408311914.xjS4eyEd-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RJ2JezcI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 567CEC4CEC0;
+	Sat, 31 Aug 2024 12:18:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725106713;
+	bh=/DcwqGi/TTJgseU69eQAMnE6ASnIXDVzUih6oz1NpNI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=RJ2JezcIpXcSe1NeonYL0r100OFvOuWNOT0MzKkQRdZzXDLAyYJ1JJbL+AndAvIRr
+	 3DlUus60hSuaxcD927eSDfNQb6AkRNKC2AjJRL18BHbJFuCcOzTnrTZZZ8U6yVn1rH
+	 CS86ErYAaIzj+qOuWqmmLrVoQZqNNd8VCfvoWIEfBYt0+e3sqekz25D+KsGL7q6QhW
+	 GKEolpj6QE+8i4Ypgw7zHal+9jbV4qdoj+xpyUgBCLdOjD6ge1BaW7JcqGWG4lDfgy
+	 Z70M6CTMzhLYpkkobsxeaQjB/Xp/QDCAgTogGGLf+7YiN5qcFPwYe0RTkVDoM7nklM
+	 BwU0BnUV+d5ng==
+Date: Sat, 31 Aug 2024 13:18:24 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Conor Dooley <conor@kernel.org>, "Sperling, Tobias"
+ <Tobias.Sperling@softing.com>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-hwmon@vger.kernel.org"
+ <linux-hwmon@vger.kernel.org>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, "linux-doc@vger.kernel.org"
+ <linux-doc@vger.kernel.org>, "jdelvare@suse.com" <jdelvare@suse.com>,
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "corbet@lwn.net" <corbet@lwn.net>, linux-iio@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: hwmon: Introduce ADS71x8
+Message-ID: <20240831131824.03141d4a@jic23-huawei>
+In-Reply-To: <766b9892-ef54-4f0a-96dd-19e8a1b3279c@roeck-us.net>
+References: <BE1P281MB24208CB90AF549578AA5C384EF972@BE1P281MB2420.DEUP281.PROD.OUTLOOK.COM>
+	<20240830-chaos-unrivaled-04c5c4c6add9@spud>
+	<766b9892-ef54-4f0a-96dd-19e8a1b3279c@roeck-us.net>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/abmc/v6
-head:   1c2b259a9b6b7795f994cc351031c4ac166b1496
-commit: 2132c4b5412b53caf5b353ae75e463adbc36a2e5 [76/162] x86,fs/resctrl: Move resctrl.rst to live under Documentation/filesystems
-reproduce: (https://download.01.org/0day-ci/archive/20240831/202408311914.xjS4eyEd-lkp@intel.com/reproduce)
+On Fri, 30 Aug 2024 07:30:16 -0700
+Guenter Roeck <linux@roeck-us.net> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408311914.xjS4eyEd-lkp@intel.com/
+> On 8/30/24 06:14, Conor Dooley wrote:
+> > Hey Tobias, Guenter, Jonathan,
+> > 
+> > On Fri, Aug 30, 2024 at 11:49:53AM +0000, Sperling, Tobias wrote:  
+> >>  From b2e04ce5500faf274654be5284be9db4f3abefce Mon Sep 17 00:00:00 2001
+> >> From: Tobias Sperling <tobias.sperling@softing.com>
+> >> Date: Fri, 23 Aug 2024 12:08:33 +0200
+> >> Subject: [PATCH 1/2] dt-bindings: hwmon: Introduce ADS71x8
+> >>
+> >> Add documentation for the driver of ADS7128 and ADS7138 12-bit, 8-channel
+> >> analog-to-digital converters. These ADCs have a wide operating range and
+> >> a wide feature set. Communication is based on an I2C interface.
+> >> The driver provides the functionality of manually reading single channels
+> >> or sequentially reading all channels automatically.
+> >>
+> >> Signed-off-by: Tobias Sperling <tobias.sperling@softing.com>
+> >> ---
+> >>   .../devicetree/bindings/hwmon/ti,ads71x8.yaml |  85 +++++++++++  
+> > 
+> > If this is a "generic" adc, why is it going into hwmon?
+> > I would have expected this to be in iio/adc, and use more typical adc
+> > bindings, even if the driver is in hwmon.
+> > 
+> > Guenter/Jonathan wdyt?
+> >   
+> 
+> Same thought here. While the chip supports limits, making it suitable for
+> hardware monitoring, its primary use seems to be as ADC, not as hardware
+> monitoring device. The hardware monitoring API isn't well suited for the
+> fast sample rate supported by this chip.
 
-All warnings (new ones prefixed by >>):
+Agreed, looks like a typical IIO ADC.
 
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/exynos/
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/fs/resctrl*
-   Warning: arch/x86/kernel/cpu/resctrl/monitor.c references a file that doesn't exist: Documentation/arch/x86/resctrl.rst
->> Warning: fs/resctrl/Kconfig references a file that doesn't exist: file:Documentation/fs/resctrl.rst
-   Using alabaster theme
+If the particular board needs it for hardware monitoring we have
+the bridge that should work for that (iio-hwmon).
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jonathan
+
+> 
+> Guenter
+> 
+
