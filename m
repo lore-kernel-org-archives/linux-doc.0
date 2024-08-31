@@ -1,201 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5530213B2B1;
-	Sat, 31 Aug 2024 06:42:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C144D13AA2D;
+	Sat, 31 Aug 2024 09:10:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725086563; cv=none; b=XeFhFVDfKzdXKepCJnU8D00S8CnHWEntGl4krrrdpAjuNXvht5V+vnnH6XtlfwTnv4xlRtWKOpjosGqYGeSA0zAkT0g9TY4y7PZCnZDaOMXTCkqSeAirSX8hAakQ6mnBhk2hIB/uu6E95aGSw2s5BAjU2VTE3AAYkqLYfEr4FH0=
+	t=1725095438; cv=none; b=QZ8r82s02E5Cs7T09Vvex9WkcAEBuK0EbhKG5sPGLxstBdfGH+bjnYIpFCAUKBjMO2zwhgqiFt8lxvAX5YDAFsp87jQLnv+pByoG3KbIkoXAPEqOWIvpTGiPRwJswvTc+dqtSK8ptcZeR7pIwA7uzdsPGSoRcePc6b78neTELMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725086563; c=relaxed/simple;
-	bh=RJ8RqrepOIn9xN7g8pAcnilEva80xBqyvr9dmVEw2zo=;
+	s=arc-20240116; t=1725095438; c=relaxed/simple;
+	bh=UQ/wb3lVDECaa3X0SN/ZzbLMmL/JVMJ9CgyTECs9m3E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uM2KoVdcmb9/ZAyMdxHWAzRsWdUsIXtnXLPxsHADwfNiddMAry2+s+Y62Okywqwk/CYC3Zah7T6Y0Wn3swRJFPT5fXxT4GaHh5P8igjJuZdyI/XJDwWmdrVHnL5Imk3GLP1GtQoQv1r443mFM8uff91xU/ASzdSeLlBoVmZF35A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SBuyteZu; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=KmXQkcl5SWolZzOXrZfmOQH9eZDybpRLlyWEo3N9w1YyGDXc88GYd75xno4QfO+FSfXx4vjtZyElbyLjdSjgg0BZt0kteASKVhXeT9UFxw3bgI6fBp4gTuXv31oH0jPaewcltRaOGmDobU6hmP7hK9d22J2CSnyOurSIhhYoM9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MeIXcvFl; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SBuyteZu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29751C4CEC0;
-	Sat, 31 Aug 2024 06:42:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725086562;
-	bh=RJ8RqrepOIn9xN7g8pAcnilEva80xBqyvr9dmVEw2zo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SBuyteZuyjY3yTglAvhZuBB7/ogERVv7og59ZpGejQNvz5v6WBRJqXsvfgOGAfrEE
-	 Zmx2e2NguG2ZARY5UCiX+xPlnFrCGzytGZpu5T+XvxC8WYgkbttuwRnoBSs3S+cv5q
-	 t/Je+S8FwqypyxiYM+pcHSmO8mzI8+e2EDpKKBUsQj3Vl3UokIwV8/gUa+6RqYmLnw
-	 vg1J9Vxxt+BWdXppLpZzgDkmKh0XxeE3CO5Jh89J4CG88ZotMllzWKgUXesCB/6etl
-	 kN5CVi0C+d+aJ7NyzaoQ7cNZDesBxMAGwopgjGbjvIMXzL4U53+N0M1Y7+IDDXx5oZ
-	 Yf6Oza0gW3k1w==
-Date: Sat, 31 Aug 2024 08:42:39 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: "Sperling, Tobias" <Tobias.Sperling@softing.com>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "jdelvare@suse.com" <jdelvare@suse.com>, 
-	"linux@roeck-us.net" <linux@roeck-us.net>, "robh@kernel.org" <robh@kernel.org>, 
-	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, 
-	"corbet@lwn.net" <corbet@lwn.net>
-Subject: Re: [PATCH 1/2] dt-bindings: hwmon: Introduce ADS71x8
-Message-ID: <ypez4vjmasehqflgi4ylylpicldabf2dc6wwjco34qr2zmkdvx@enejrjjyaulf>
-References: <BE1P281MB24208CB90AF549578AA5C384EF972@BE1P281MB2420.DEUP281.PROD.OUTLOOK.COM>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MeIXcvFl"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2025031eb60so23409915ad.3;
+        Sat, 31 Aug 2024 02:10:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725095436; x=1725700236; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+K5iTRIFye6V8+yrsd/e+hQh3SzzgwXAkuDp7n6rOB4=;
+        b=MeIXcvFlF7Sme88BaDW4h+n/L8/3vp4CghKXcgXdwauk+jYN5LtsEjdp6v71FOtoFb
+         tSx7CgdEfFdDab6VDoaokZswtMkL9BYs6CiwwRHCeMIucy4rd17cwY8BkNTh1Y/biwEB
+         vSwpDU5+h9kXWJvfqd9ZeBKV17ZW0TyONWkjyrD8THvMPzu/JPVglYQE9kGxpna6Rdi/
+         UyqLOFKYq+fknyr9NdCaBBY/xpjMl3DXIC4whzh84HB30IOzSDwUzKCc2JrfNTznWrrP
+         mj6tZ5He0qXhgIjXLW0YcYCJZhi0PD6kc5kYGvhOoCQvYIYVfJVtp5OHfbU7emqgFxAG
+         CJJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725095436; x=1725700236;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+K5iTRIFye6V8+yrsd/e+hQh3SzzgwXAkuDp7n6rOB4=;
+        b=ZIDZwdp4G4lZOiGD8HpMESKkq2oDlIFmbb2xXC9kkpAJ7/iih2lmpRlAVTWoMU1wTm
+         1QHc3AjmuUPcOtf1Qk5IXBVtnXIXkOtMilWNg2w/ELSxJv7xZtGncE3FXilsU5qMca5w
+         9SKAL41rOofVbFzHpAFePaHdd/P7aE+/p3IU0gpJOxgw8PlTQZoyxINJ3jXzfX92QPkl
+         oasX+VjlmIggIRJc7EHwnbDbSMRk5UbjEUlLCbQUgn1i8Q1R5olz9YB1DkRYFyMVDDZC
+         ScWiG+Spi1tEW1dK4VPl88ZTg2HwTo8qH53C0Q0+opIQmu3BhyFymaX2OBu6Fza3lYjz
+         IOBw==
+X-Forwarded-Encrypted: i=1; AJvYcCURri6+mfEH9luUtGTzeqIxsNUffiTP+hnT8zH0dom7Rg/FchBVRG82stkhpaOSYXU3A+un6pDG6PI=@vger.kernel.org, AJvYcCWWPQ4++xg8l8Mse+WFAL9AO0joPYu5HaHV4gmPO+bcP3SiQ55EfrONKFFmXXYMrABsoZYn3cxqXWrsiic4@vger.kernel.org
+X-Gm-Message-State: AOJu0YwFVIpstMmSqUr794IiC6Dj6kl6J+fgyV8Bi9100UoPrAazm+3+
+	+pf8Z2nb91ckA1KmSptUxfBRjlGTwNGHHkPQZ4OXU63pUVcw2mSZ
+X-Google-Smtp-Source: AGHT+IF3VR069qg5tDmbi/zuoQ+5c/A3K8wsy96RcPR3qCT7M4xhpGt9rRq5TU+4HT73VX9mwK3UEQ==
+X-Received: by 2002:a17:903:946:b0:1fd:93d2:fb67 with SMTP id d9443c01a7336-2050c47f58bmr87010695ad.52.1725095435949;
+        Sat, 31 Aug 2024 02:10:35 -0700 (PDT)
+Received: from visitorckw-System-Product-Name ([140.113.216.168])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20515550eb5sm37777395ad.242.2024.08.31.02.10.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 31 Aug 2024 02:10:35 -0700 (PDT)
+Date: Sat, 31 Aug 2024 17:10:33 +0800
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: I Hsin Cheng <richard120310@gmail.com>
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: scheduler: completion: Update member of struct
+ completion
+Message-ID: <ZtLeCc4GeZbwiJZ9@visitorckw-System-Product-Name>
+References: <20240828165036.178011-1-richard120310@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <BE1P281MB24208CB90AF549578AA5C384EF972@BE1P281MB2420.DEUP281.PROD.OUTLOOK.COM>
+In-Reply-To: <20240828165036.178011-1-richard120310@gmail.com>
 
-On Fri, Aug 30, 2024 at 11:49:53AM +0000, Sperling, Tobias wrote:
-> >From b2e04ce5500faf274654be5284be9db4f3abefce Mon Sep 17 00:00:00 2001
-
-Some junk ^^^ above. Please investigate how you send patches.
-
-> From: Tobias Sperling <tobias.sperling@softing.com>
-> Date: Fri, 23 Aug 2024 12:08:33 +0200
-> Subject: [PATCH 1/2] dt-bindings: hwmon: Introduce ADS71x8
-
-And all this suggests malformed patch.
-
+On Thu, Aug 29, 2024 at 12:50:36AM +0800, I Hsin Cheng wrote:
+> The member "wait" in struct completion isn't of type wait_queue_head_t
+> anymore, as it is now "struct swait_queue_head", fix it to match with
+> the current implementation.
 > 
-> Add documentation for the driver of ADS7128 and ADS7138 12-bit, 8-channel
-> analog-to-digital converters. These ADCs have a wide operating range and
-> a wide feature set. Communication is based on an I2C interface.
-> The driver provides the functionality of manually reading single channels
-> or sequentially reading all channels automatically.
-> 
-> Signed-off-by: Tobias Sperling <tobias.sperling@softing.com>
+> Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
+
+LGTM. Feel free to add:
+
+Reviewed-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+
 > ---
->  .../devicetree/bindings/hwmon/ti,ads71x8.yaml |  85 +++++++++++
->  Documentation/hwmon/ads71x8.rst               | 140 ++++++++++++++++++
->  Documentation/hwmon/index.rst                 |   1 +
-
-Please run scripts/checkpatch.pl and fix reported warnings. Then please
-run  and (probably) fix more warnings.
-Some warnings can be ignored, especially from --strict run, but the code
-here looks like it needs a fix. Feel free to get in touch if the warning
-is not clear.
-
->  3 files changed, 226 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/ti,ads71x8.yaml
->  create mode 100644 Documentation/hwmon/ads71x8.rst
+>  Documentation/scheduler/completion.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/hwmon/ti,ads71x8.yaml b/Documentation/devicetree/bindings/hwmon/ti,ads71x8.yaml
-> new file mode 100644
-> index 000000000000..e422c4ebd207
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/hwmon/ti,ads71x8.yaml
-> @@ -0,0 +1,85 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +
-
-Drop blank line
-
-> +$id: http://devicetree.org/schemas/hwmon/ti,ads71x8.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Texas Instruments ADS7128/ADS7138 Analog to Digital Converter (ADC)
-> +
-> +maintainers:
-> +  - None
-
-Fidn a person... otherwise why would we care?
-
-> +
-> +description: |
-> +  The ADS7128 is 12-Bit, 8-Channel Sampling Analog to Digital Converter (ADC)
-> +  with an I2C interface.
-> +
-> +  Datasheets:
-> +    https://www.ti.com/product/ADS7128
-> +    https://www.ti.com/product/ADS7138
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - ti,ads7128
-> +      - ti,ads7138
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  avdd-supply:
-> +    description:
-> +      The regulator used as analog supply voltage as well as reference voltage.
-> +
-> +  ti,mode:
-> +    $ref: /schemas/types.yaml#/definitions/uint8
-> +    description: |
-> +      Operation mode
-> +      Mode 0 - Manual mode. A channel is only sampled when the according input
-> +        in the sysfs is read.
-> +      Mode 1 - Auto mode. All channels are automatically sampled sequentially.
-> +        Reading an input returns the last valid sample. In this mode further
-> +        features like statistics and interrupts are available.
-
-Use string instead.
-
-> +    default: 0
-> +
-> +  ti,interval:
-> +    $ref: /schemas/types.yaml#/definitions/uint16
-> +    description: |
-> +      Only considered in mode 1!
-> +      Interval in microseconds a new sample is triggered. Is set to closest
-> +      possible interval, see datasheet.
-
-User proper unit-suffix.
-
-> +    default: 1
-> +
-> +  interrupts:
-> +    description: |
-> +      Only considered in mode 1!
-
-What is "considered"? Driver considers? This does not matter. Describe
-the hardware and if this is hardware related, you should have
-allOf:if:then restricting this.
-
-> +      Interrupt specifier the device's ALERT pin is connected to. Level must be
-> +      IRQ_TYPE_LEVEL_LOW. If not configured the digital window comparator (DWC)
-> +      is not available.
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - avdd-supply
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        ads7138@10 {
-
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-
-> +            compatible = "ti,ads7138";
-> +            reg = <0x10>;
-> +            avdd-supply = <&reg_stb_3v3>;
-> +            ti,mode = /bits/ 8 <1>;
-> +            ti,interval = /bits/ 16 <1000>;
-> +            interrupt-parent = <&gpio2>;
-> +            interrupts = <12 IRQ_TYPE_LEVEL_LOW>;
-> +            status = "okay";
-
-Drop
-
-Best regards,
-Krzysztof
-
+> diff --git a/Documentation/scheduler/completion.rst b/Documentation/scheduler/completion.rst
+> index f19aca2062bd..adf0c0a56d02 100644
+> --- a/Documentation/scheduler/completion.rst
+> +++ b/Documentation/scheduler/completion.rst
+> @@ -51,7 +51,7 @@ which has only two fields::
+>  
+>  	struct completion {
+>  		unsigned int done;
+> -		wait_queue_head_t wait;
+> +		struct swait_queue_head wait;
+>  	};
+>  
+>  This provides the ->wait waitqueue to place tasks on for waiting (if any), and
+> -- 
+> 2.34.1
+> 
