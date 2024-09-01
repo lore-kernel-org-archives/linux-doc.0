@@ -1,109 +1,76 @@
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 653D13A28D;
-	Sun,  1 Sep 2024 06:03:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590CE219F6
+	for <linux-doc@vger.kernel.org>; Sun,  1 Sep 2024 09:02:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725170599; cv=none; b=ojJkWH46+6d9pWVgU7zDb2VxwDZcVyxlzQpvUoNvfz2pbOam3JU96KpeiEaJcmYKGEsKHHx1hBLPPTS9m2OFTgOgqmSWJvKjtyvr3b9+rHztTT3bTAV9nmd6IJMxknqe0YbJZXvqyQaCIHyiwjeT3/LbsvdDjdMNVtuGa0sD+WM=
+	t=1725181357; cv=none; b=uSkCwQ5MxWQ0OUosghJpNwuYzyvBRqJUNZfJUvnCPklmFrsItj4dA7Hk1QIAvuo96hB4VhbjlTiDWPe3RYQ1VmnsgA3WWW0yTUD+SPPKpgoXBbdwgURkhiwkWtecTkqdgKznZRrZtoJErs14gPVCiyjoFy5YiYPHLclg+Ij+qtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725170599; c=relaxed/simple;
-	bh=gTaVx+TwHD+FJbillFONR4wr3k7gQ6JEyFsWWKxKwTA=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=mJI+xm4m356bK9OzV4bP/vtrtypsvQYhKLoKdTiiYAjWchiF02RNGWKqCrPY0GFOboIPnkKV17zz1HJR1BU//aubb21SY8zROi3zZEr5T01bd3gJhfHArN+gMD4Uq8CaXSQdz3IoyJCYfru11mzRaEz1wFNZm2WrpxJu5oKETHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K2yuhGLL; arc=none smtp.client-ip=209.85.166.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1725181357; c=relaxed/simple;
+	bh=oFLOXNDDklgyTqcduEsEbJhkUfMSyhfd6kKhmXj0RxM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KR+Mi5cMM8wJKYP6QfYfP2woJGgBWdcwQEpTZfSMUm66BaY9pf34prU8jH9+hU1BzhHGgBXlth8HP/Hr6ny9/lrEtCxCAMWCesrphoD5+5ALoBKUl9CRwZSfq5Nt0B2LTXdIGugKvBKhf8W2XeOmIYoPTEXhLwsk6tnW8E91gDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=bdXgaXOj; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K2yuhGLL"
-Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-39f51371baeso3011055ab.3;
-        Sat, 31 Aug 2024 23:03:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725170597; x=1725775397; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6ASaKifyh7CAWP7KfJ/Pkn2CRTiEMZbywc4FPBtZowk=;
-        b=K2yuhGLLDvNXd+wXc7Y9t2sRQ9GHc/lahQ4XnV482RtDIlR6z6blulohbUzd9s6NSy
-         ginUCoOJftgRabsyWn5AIRa5fhi/aKGPP0fCeXc2yB84+DGFKnrkaOxfUWqaEj4CwX6R
-         Xaoo40F4IRrX7sD62PxnHg91ItO1659hSUFOZzXMmm8cFGk6AqzLx80hm/9XATq+3Gn5
-         HZNE05SoPUYZjvswnFoYsvj7uSHiBxHpZI153qxX8LxnjSZdxBmEy6cwBHSBi0JjqfhU
-         DA0UAdCvgXIh3l8ov1N79Cb/Ld9Jeme8N4Vh4DfOnq3ehQSYxBgPsxGXkGc/m6KIPXG4
-         LG8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725170597; x=1725775397;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6ASaKifyh7CAWP7KfJ/Pkn2CRTiEMZbywc4FPBtZowk=;
-        b=FMveowpsXyCjUt5J1+wJ0HAVcKml5MFnbtlnIImZ+vQ373RRceun7vZbKddJC8dEqn
-         JiqIxGqUFl7HUulP2sp/UQsw1M3z72cC9Bd25fl6+VYmWlqVJ19obc1l58mgei0ghnHm
-         AhQ2SHWMp1/nxU56KGW/qfkJBuWM2mm4IzsfSvnYdMS20C7+fLH/wl3izluKIz1eJU+B
-         tUr9+ubaywfxh+cXa8t9skVnqnyKivXEZLo7wdKaui6YiBbIBaiVBe0PJzp5IX+YS4RP
-         nG9lxi9KYaedJHFUwr84Stx0fQvuGTS8162Vo+kzbT26yPNl5/ZJyzGwNlJMBhgijlBF
-         UPNA==
-X-Forwarded-Encrypted: i=1; AJvYcCUx/D4AesS4reZWHgRusSH0MZdgvJ3bUgdw8Dly4fMZePvlAh0K/UVvjxbPkHZ0INbOrPyQRp4/cfcykreI@vger.kernel.org, AJvYcCVaBgQNahxnndBk/se9ZGDKIGd9WNGntLKC+qVScj6LnmUjLTM/Fj66B6Jp3mCBsSC11qxXFApwSYU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2MBX8KSPWuvED62BViXAa54sQRxeK7Xjh3cxPG5NUty9A0W7R
-	aYL5oNNI5MgxrX/v3/Z7TM+frnG+qbkGv5g4BHjMQ9sL0yOXaHi8
-X-Google-Smtp-Source: AGHT+IGw6QkiS7ytm3WVmlkoKhqjolc0dX880UP6OkyZZlWBmYHKwT4V+Nr35s91ww2YI7/yzG1CwQ==
-X-Received: by 2002:a05:6e02:1cad:b0:398:16d1:6127 with SMTP id e9e14a558f8ab-39f37867c14mr129488355ab.21.1725170596927;
-        Sat, 31 Aug 2024 23:03:16 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7d22e9d92a5sm4631784a12.90.2024.08.31.23.03.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 31 Aug 2024 23:03:16 -0700 (PDT)
-Message-ID: <58b7c7d2-f60c-4a2d-9cb5-d583182bfef4@gmail.com>
-Date: Sun, 1 Sep 2024 15:03:13 +0900
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="bdXgaXOj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=DNAAyzq/RftJ9D
+	1dVVcs6SxeUfX7OTPrIA5ni+CVLgE=; b=bdXgaXOjC9ZK726EikXV2xiT4WGmne
+	h1/4AcBcE3EHLMaWg9fW0AjGi8FBxDGkzRHzA84Kmd3V8jmleeRtoXVNQDoWFkP8
+	QVXSRtxZK0OO2RpiW67UujEuEbWzH7VC9huFYv03DqX+KKDdztdP/fgN/ETXVu6Z
+	aQXhqzS6vypmCkpS9qg2Tl58wQ8l92l+vavXk9xkjRq4hmH5xeHGD069S+67mr/5
+	VX4hF2KOI7UhT+3hiGqhoTL6ZQhvzWge6KRGVFQWs+0/COkJsDzhrFmnglJ3Ttdm
+	D4O2QSCNskEJDhlN9Ntr45TTd7+ilEc8yWjmbjD4/zHTnCq1ubrqt1kw==
+Received: (qmail 3758735 invoked from network); 1 Sep 2024 11:02:27 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Sep 2024 11:02:27 +0200
+X-UD-Smtp-Session: l3s3148p1@XEFaFQshnsxegkeE
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-i2c@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Corey Minyard <minyard@acm.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	openipmi-developer@lists.sourceforge.net,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] ipmi: docs: don't advertise deprecated sysfs entries
+Date: Sun,  1 Sep 2024 11:02:11 +0200
+Message-ID: <20240901090211.3797-2-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: dzm91@hust.edu.cn, seakeel@gmail.com
-Cc: corbet@lwn.net, hust-os-kernel-patches@googlegroups.com,
- justinstitt@google.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev, morbo@google.com,
- nathan@kernel.org, ndesaulniers@google.com, siyanteng@loongson.cn,
- alexs@kernel.org
-References: <35904aa5-9851-4894-b953-689904bf33ca@hust.edu.cn>
-Subject: Re: [PATCH v2] docs/zh_CN: add the translation of
- kbuild/gcc-plugins.rst
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <35904aa5-9851-4894-b953-689904bf33ca@hust.edu.cn>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi,
+"i2c-adapter" class entries are deprecated since 2009. Switch to the
+proper location.
 
-I'm not Alex, but let me chime in.
+Reported-by: Heiner Kallweit <hkallweit1@gmail.com>
+Closes: https://lore.kernel.org/r/80c4a898-5867-4162-ac85-bdf7c7c68746@gmail.com
+Fixes: 259307074bfc ("ipmi: Add SMBus interface driver (SSIF)")
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ Documentation/driver-api/ipmi.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Sat, 31 Aug 2024 17:34:11 +0800, Dongliang Mu wrote:
-> On 2024/8/31 12:11, Alex Shi wrote:
->>
->> On 8/31/24 11:48 AM, Dongliang Mu wrote:
->>> +目的
->>> +=======
->>> +
->> there are still a lots of sign incorrect. Please be sure everything looks fine in a web browser after you 'make htmldocs'
-> 
-> What do you mean by "sign incorrect"? I check the html rendering in the 
-> vscode. It seems fine to me.
-
-You are right.  There is nothing wrong as far as the reST specification
-is concerned.
-
-Quote from https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#sections
-(emphasis by me):
-
-    An underline/overline is a single repeated punctuation character that
-    begins in column 1 and forms a line extending *at least* as far as the
-    right edge of the title text.
-
-HTH, Akira
-
-> 
-> Dongliang Mu
+diff --git a/Documentation/driver-api/ipmi.rst b/Documentation/driver-api/ipmi.rst
+index e224e47b6b09..dfa021eacd63 100644
+--- a/Documentation/driver-api/ipmi.rst
++++ b/Documentation/driver-api/ipmi.rst
+@@ -540,7 +540,7 @@ at module load time (for a module) with::
+ 	alerts_broken
+ 
+ The addresses are normal I2C addresses.  The adapter is the string
+-name of the adapter, as shown in /sys/class/i2c-adapter/i2c-<n>/name.
++name of the adapter, as shown in /sys/bus/i2c/devices/i2c-<n>/name.
+ It is *NOT* i2c-<n> itself.  Also, the comparison is done ignoring
+ spaces, so if the name is "This is an I2C chip" you can say
+ adapter_name=ThisisanI2cchip.  This is because it's hard to pass in
+-- 
+2.43.0
 
