@@ -1,100 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13DD2193;
-	Sat, 31 Aug 2024 12:22:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 653D13A28D;
+	Sun,  1 Sep 2024 06:03:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725106928; cv=none; b=dD3XzSGgd+2Q6yTcR1CIrcxQPAIB+Rkrlc9marz/99LWAslapeA12ckEUdqtw9jp3ABU+wGP+nULN0VNG9yqhuKhKkyCQJt2BqeY0BsGi0fzP9g43tCMuNHO+9hO1kMiDniJ/wK4RdUsapIgSE6G9fXo9zCBCxDZ9gBEFU43GIs=
+	t=1725170599; cv=none; b=ojJkWH46+6d9pWVgU7zDb2VxwDZcVyxlzQpvUoNvfz2pbOam3JU96KpeiEaJcmYKGEsKHHx1hBLPPTS9m2OFTgOgqmSWJvKjtyvr3b9+rHztTT3bTAV9nmd6IJMxknqe0YbJZXvqyQaCIHyiwjeT3/LbsvdDjdMNVtuGa0sD+WM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725106928; c=relaxed/simple;
-	bh=StmMqtk1qu2rJCc4Il63kXR9JrprhuPEirHNGh6jjdA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XmcMt6vynanE84jddi0oEAIfvC+lgGYRmt+j8tdBGhPK+gJ6MmmTzW7+cufmOMLmdBHi55b/+YfHK71L+fKjt8/8ZOJaQTCwLG8As6o6SwRJrULKnU5fTcQ4wX+ayAq06vzmL1RcT7yz40uPZZsaqBQ0dlsVwDul/ftoDvnvVXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rGyMXa+A; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725170599; c=relaxed/simple;
+	bh=gTaVx+TwHD+FJbillFONR4wr3k7gQ6JEyFsWWKxKwTA=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=mJI+xm4m356bK9OzV4bP/vtrtypsvQYhKLoKdTiiYAjWchiF02RNGWKqCrPY0GFOboIPnkKV17zz1HJR1BU//aubb21SY8zROi3zZEr5T01bd3gJhfHArN+gMD4Uq8CaXSQdz3IoyJCYfru11mzRaEz1wFNZm2WrpxJu5oKETHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K2yuhGLL; arc=none smtp.client-ip=209.85.166.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rGyMXa+A"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 652CCC4CEC0;
-	Sat, 31 Aug 2024 12:22:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725106927;
-	bh=StmMqtk1qu2rJCc4Il63kXR9JrprhuPEirHNGh6jjdA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=rGyMXa+AvBLE+nJZTVXG6eSqU4/vigDsYT2Zob+gujZ+2zTNzpi/uIMhPdGBC3ryn
-	 iOxrP8BK+G2eJwBY7bzmt5MDkC6V77nxprOb/A7+ECKDFzmEhAH+AigJe1ZJ/NmGHC
-	 mJzWZnkqsmxi4tGzsRNCHa7/mOurlheYV7g4fOIHXo2s/cFCdICSNcPT+nMX6yz2qs
-	 YjfH/2xSDSsuWmYPhMwoXRkFSAfxmFCunquPU+temeyhEJIz0CeVAG6IcG0p4c1twZ
-	 V9rOpcyXSiVK88I6gMfu2JMUgJbn3o/c+QuvJ9HJ7gRnCNMjwVk76kIVNI0oudBzlW
-	 7MKmLbPim0Cjg==
-Date: Sat, 31 Aug 2024 13:21:59 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Conor Dooley <conor@kernel.org>
-Cc: "Sperling, Tobias" <Tobias.Sperling@softing.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "jdelvare@suse.com" <jdelvare@suse.com>, "linux@roeck-us.net"
- <linux@roeck-us.net>, "robh@kernel.org" <robh@kernel.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>, "conor+dt@kernel.org"
- <conor+dt@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
- linux-iio@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: hwmon: Introduce ADS71x8
-Message-ID: <20240831132159.2073994f@jic23-huawei>
-In-Reply-To: <20240830-chaos-unrivaled-04c5c4c6add9@spud>
-References: <BE1P281MB24208CB90AF549578AA5C384EF972@BE1P281MB2420.DEUP281.PROD.OUTLOOK.COM>
-	<20240830-chaos-unrivaled-04c5c4c6add9@spud>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K2yuhGLL"
+Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-39f51371baeso3011055ab.3;
+        Sat, 31 Aug 2024 23:03:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725170597; x=1725775397; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6ASaKifyh7CAWP7KfJ/Pkn2CRTiEMZbywc4FPBtZowk=;
+        b=K2yuhGLLDvNXd+wXc7Y9t2sRQ9GHc/lahQ4XnV482RtDIlR6z6blulohbUzd9s6NSy
+         ginUCoOJftgRabsyWn5AIRa5fhi/aKGPP0fCeXc2yB84+DGFKnrkaOxfUWqaEj4CwX6R
+         Xaoo40F4IRrX7sD62PxnHg91ItO1659hSUFOZzXMmm8cFGk6AqzLx80hm/9XATq+3Gn5
+         HZNE05SoPUYZjvswnFoYsvj7uSHiBxHpZI153qxX8LxnjSZdxBmEy6cwBHSBi0JjqfhU
+         DA0UAdCvgXIh3l8ov1N79Cb/Ld9Jeme8N4Vh4DfOnq3ehQSYxBgPsxGXkGc/m6KIPXG4
+         LG8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725170597; x=1725775397;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6ASaKifyh7CAWP7KfJ/Pkn2CRTiEMZbywc4FPBtZowk=;
+        b=FMveowpsXyCjUt5J1+wJ0HAVcKml5MFnbtlnIImZ+vQ373RRceun7vZbKddJC8dEqn
+         JiqIxGqUFl7HUulP2sp/UQsw1M3z72cC9Bd25fl6+VYmWlqVJ19obc1l58mgei0ghnHm
+         AhQ2SHWMp1/nxU56KGW/qfkJBuWM2mm4IzsfSvnYdMS20C7+fLH/wl3izluKIz1eJU+B
+         tUr9+ubaywfxh+cXa8t9skVnqnyKivXEZLo7wdKaui6YiBbIBaiVBe0PJzp5IX+YS4RP
+         nG9lxi9KYaedJHFUwr84Stx0fQvuGTS8162Vo+kzbT26yPNl5/ZJyzGwNlJMBhgijlBF
+         UPNA==
+X-Forwarded-Encrypted: i=1; AJvYcCUx/D4AesS4reZWHgRusSH0MZdgvJ3bUgdw8Dly4fMZePvlAh0K/UVvjxbPkHZ0INbOrPyQRp4/cfcykreI@vger.kernel.org, AJvYcCVaBgQNahxnndBk/se9ZGDKIGd9WNGntLKC+qVScj6LnmUjLTM/Fj66B6Jp3mCBsSC11qxXFApwSYU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2MBX8KSPWuvED62BViXAa54sQRxeK7Xjh3cxPG5NUty9A0W7R
+	aYL5oNNI5MgxrX/v3/Z7TM+frnG+qbkGv5g4BHjMQ9sL0yOXaHi8
+X-Google-Smtp-Source: AGHT+IGw6QkiS7ytm3WVmlkoKhqjolc0dX880UP6OkyZZlWBmYHKwT4V+Nr35s91ww2YI7/yzG1CwQ==
+X-Received: by 2002:a05:6e02:1cad:b0:398:16d1:6127 with SMTP id e9e14a558f8ab-39f37867c14mr129488355ab.21.1725170596927;
+        Sat, 31 Aug 2024 23:03:16 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7d22e9d92a5sm4631784a12.90.2024.08.31.23.03.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 31 Aug 2024 23:03:16 -0700 (PDT)
+Message-ID: <58b7c7d2-f60c-4a2d-9cb5-d583182bfef4@gmail.com>
+Date: Sun, 1 Sep 2024 15:03:13 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+To: dzm91@hust.edu.cn, seakeel@gmail.com
+Cc: corbet@lwn.net, hust-os-kernel-patches@googlegroups.com,
+ justinstitt@google.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev, morbo@google.com,
+ nathan@kernel.org, ndesaulniers@google.com, siyanteng@loongson.cn,
+ alexs@kernel.org
+References: <35904aa5-9851-4894-b953-689904bf33ca@hust.edu.cn>
+Subject: Re: [PATCH v2] docs/zh_CN: add the translation of
+ kbuild/gcc-plugins.rst
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <35904aa5-9851-4894-b953-689904bf33ca@hust.edu.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Hi,
 
-> > +  ti,mode:
-> > +    $ref: /schemas/types.yaml#/definitions/uint8
-> > +    description: |
-> > +      Operation mode
-> > +      Mode 0 - Manual mode. A channel is only sampled when the according input
-> > +        in the sysfs is read.
-> > +      Mode 1 - Auto mode. All channels are automatically sampled sequentially.
-> > +        Reading an input returns the last valid sample. In this mode further
-> > +        features like statistics and interrupts are available.
-> > +    default: 0  
+I'm not Alex, but let me chime in.
+
+On Sat, 31 Aug 2024 17:34:11 +0800, Dongliang Mu wrote:
+> On 2024/8/31 12:11, Alex Shi wrote:
+>>
+>> On 8/31/24 11:48 AM, Dongliang Mu wrote:
+>>> +目的
+>>> +=======
+>>> +
+>> there are still a lots of sign incorrect. Please be sure everything looks fine in a web browser after you 'make htmldocs'
 > 
-> I don't think this ti,mode property is suitable for bindings. sysfs is a
-> linux implementation detail, when to do sampling is an implementation
-> detail of your driver. Bindings are only supposed to describe properties
-> of the hardware, not set software policy.
+> What do you mean by "sign incorrect"? I check the html rendering in the 
+> vscode. It seems fine to me.
 
-Agreed. With an IIO driver this will become a switch based on what usespace
-interfaces are enabled.
-So if events are on or buffered data capture, enable automode.
-If just sysfs reads, then manual mode is fine.
+You are right.  There is nothing wrong as far as the reST specification
+is concerned.
 
+Quote from https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#sections
+(emphasis by me):
 
-> > +
-> > +        ads7138@10 {  
-> 
-> This should just be "dac@".
+    An underline/overline is a single repeated punctuation character that
+    begins in column 1 and forms a line extending *at least* as far as the
+    right edge of the title text.
 
-adc :)
+HTH, Akira
 
 > 
-> > +            compatible = "ti,ads7138";
-> > +            reg = <0x10>;
-> > +            avdd-supply = <&reg_stb_3v3>;
-> > +            ti,mode = /bits/ 8 <1>;
-> > +            ti,interval = /bits/ 16 <1000>;
-> > +            interrupt-parent = <&gpio2>;
-> > +            interrupts = <12 IRQ_TYPE_LEVEL_LOW>;
-> > +            status = "okay";
-> > +        };
-> > +    };  
-> oCheers,
-> Conor.
+> Dongliang Mu
 
