@@ -1,114 +1,149 @@
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com [209.85.216.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC7A014A0AB;
-	Sun,  1 Sep 2024 10:38:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5749016A938;
+	Sun,  1 Sep 2024 12:48:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725187123; cv=none; b=YZa3W+VsHyDNG4VVZyxaAC1g5TLJhhV51n6RZPuu1qlf2vYz1G3tHq+kn31JMZHAfO5YZl/y6CnvR8P7ik/FQZL7oQD59yj9ggYzPbtb4bCIfsDdOEsLuwdKjVczIJsIErFTKbWcLqGtEhJd4MArS0FxcZUszrvPTusICinGDQo=
+	t=1725194923; cv=none; b=o/t72xVVddA86SiYHqR0Mm8KW/+D2TzOyC4oKzAoKVKJhEdv11x6jSRtnVwe7Ud+eJfpLzN5wQmwMm0kZhBC759w44pSBL5S8fryDH6/4WIT7M9SLVA1m4FZiRO8nXnmvBQZkdcO6QMr0msl/c46tG1Zl3XzIMxnnIBfIsoxX8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725187123; c=relaxed/simple;
-	bh=RtbrHR8X01m8ZmauEKuNsNd8YBX31NLA3tjo7E1zYhE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=D4t5nfoxk3YE7RBNORu3uvX6dMae0anLgOOeHzE3X8cZLVuc4L99yMYUN7Gd6rduWSqKF0fKQb3U6zCykMQHyoLbrlBK9y6/yKr+d121eXcZFF5Is4S8OON9wTBBsyAaYDb6B6u1oQDiLF7U3Qf4lHjO1cyMQpqIYfqcImgoTiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lD7mo890; arc=none smtp.client-ip=209.85.160.51
+	s=arc-20240116; t=1725194923; c=relaxed/simple;
+	bh=samEHV0jUn7URIWtdg/4icgKiqYX0iRtvAJqyxfr5+Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=npfgkWRzeckLaI+y08u88y5r96vz4pJSKuredK0LVactTipfVjQBRTRVdGVi732W1NGLQVOufL4P82SvioHBc9aASbX3Pz1xIHmqXiawe4IX+9cGdz2+/RiwWM/ptemAQdVCuv/LREd38Fq4eSG7cUiRbBPZTIbWj+JDEIAgLZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KVkTrIw9; arc=none smtp.client-ip=209.85.216.67
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lD7mo890"
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-2705d31a35cso2061152fac.0;
-        Sun, 01 Sep 2024 03:38:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KVkTrIw9"
+Received: by mail-pj1-f67.google.com with SMTP id 98e67ed59e1d1-2d8a744aa9bso459282a91.3;
+        Sun, 01 Sep 2024 05:48:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725187121; x=1725791921; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lyzhfAO6X5H2nFlBE67hjFSOfmqgByxBU/TMolVNnCU=;
-        b=lD7mo890bhKPI87HDp3SUygYcWDKbz7yilxu/8t3EnUoAkZ78W2SktNgfmL7/cXDPn
-         Gn0JT96nYd6UHQqPBN2ZAtpw8/MI+JiktqPihuZ5n4oYbMVI4uOcqaNIGmbVDmPIoVcH
-         zRUhmBbGsxsilIgpeR/DXEDiD93uq0bd8w0LHTp6x5hHAtG867q3nEtKIv60UaM3mIK/
-         wgqLDB79NHWyUpdwRIM/5lQHC1kEliJDpW+jCW5fv13K+BFhh9h9Yezk7b6wA//Q2eXU
-         xhBUJV+E2ui/CAotn/LJeP7NJOFLPI04vI22wK1fuN6kfKw6asXIRVaXposbXJCeM3Xx
-         HQUw==
+        d=gmail.com; s=20230601; t=1725194922; x=1725799722; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EHDZ89ZCH8BG0OnvARBGCqyVQ1Az25bpqUNy0Tps9uM=;
+        b=KVkTrIw9HI1RIn8aNf8niDvFUs/T/1RVIQiFcg7nK0EGoK9Yh6txWqOSGZF/F9+LJl
+         6NKPFT23k2TJLedaF7hMbCZa9r9VdnBZZys6xClU5LpCdedr2R5kyg1knAMHfgyRSCIj
+         RUrHFb1eggxKrq4CxYkLkoiWMC8+5Tkj9U/dKwnLr/rh/SGioM5Zsps47Q+X1C0Fpe+O
+         0jnkaMfP/IJx/E5Fo9t6bu8CK4NVyHFQk4PvgAx90y5b94smyOJwD1pmM6iT9h4KFvl5
+         zCPdOHYydESu307lYxnNYm3KXFsiixGQZ5Dwe2KZzJrihaylpVNzuOxXtkJBleOFLyxq
+         HSdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725187121; x=1725791921;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lyzhfAO6X5H2nFlBE67hjFSOfmqgByxBU/TMolVNnCU=;
-        b=XCrnWJIBfl6KPUK6Gm+dmcq5Vta+fbwMlh3tbAMoOfQmMXP9fkjpMY+Ov3w75ohsSQ
-         /Ddz+EJhuu/cuX8f0ekxr/S3Xwfl25P6Ev+o5ecCk2MLyTb1+/ERb/yY1uAr06UrqmpX
-         LWE/2pdUU4hw3LO6cNzAG12BXcfBHSf80SMIEJ7d+kv5SE3v1p+aSyciQNqMi+k6Ezcq
-         0/b/w74W5+ZVsn57TUOUhehp+7gRYK5RPK5uF7PMJvb6BTMGlilCssTFl5XsPH8MVitf
-         qbPyy7OvwiG2YxIAY3hL8GQOVTv0Si/zJsjOS5bHpMInRNgY0L0esEUw1DAbDmNG+Ulw
-         zDPA==
-X-Forwarded-Encrypted: i=1; AJvYcCV5mEMs5pAYCKgsyuF038CmQmutNLmUNceHqBFzcySxertfb4C7RlchEgbs0tr8i9lXorISqRXFRsQ=@vger.kernel.org, AJvYcCXTmaIkkosRWl2suvB2Yt1S3j2dwUl1DHQtcCd2OzhC8mPc1DaXH7rmVomsQeP4eA0QymWkJd9Nqogigh3N@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9vkGcmUFYG/5BbUV9oh5DW0IWLrmGeYUM+oYAQkgOjPt1QW8m
-	H0zLd0w9s36q85E++rjVr4mASqrlg9J77cMuWFoipyuOKXAF5m+DtRa21a/rbL9vTkhAh7s6CM4
-	9Wdm+7Ej53l6vZqm3CDxwQGRcQ8s=
-X-Google-Smtp-Source: AGHT+IFwDrFIRchFBPeU5Cmhdf8kTcaSFA4UqvIROjrdvU6DSkfFqOLzuG6/Nk75iyrmFNWILWDA+pXxJaqlFWVRaBE=
-X-Received: by 2002:a05:6871:1cc:b0:25e:b999:d24 with SMTP id
- 586e51a60fabf-277cc63f0f9mr4474832fac.0.1725187120778; Sun, 01 Sep 2024
- 03:38:40 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1725194922; x=1725799722;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EHDZ89ZCH8BG0OnvARBGCqyVQ1Az25bpqUNy0Tps9uM=;
+        b=vUBI9cP5H4UDOhkN9CKRrnRGZuit+RWENvULt1nADckTbwiI/ihVHxY1OftlDQwUGV
+         AyxAPbotXhc8WaQhvkX+zd6KjhQZCjmQ8PokFNrIVCX8Y+Ot9uePFIzHLTGNDIgifM8Z
+         dNkN/kWM1E3mbAjXfmuc4KQHiYDC7qD1g0cBa8Gfo3g2TqpGWcvY43j0m8oWnoiHMKSF
+         nOeVzFzFxOguV35nyx11eNOhid1+z5TFGH36Y4G7dllYb1qdC1afhjBGmaq2TMmRi1XB
+         yXyrPjfH+ktoycaNlxoT9e742vM15h1OjzZlSg/b2RsJVQLnmQYHLlECNlc4yrePNcNT
+         TBzw==
+X-Forwarded-Encrypted: i=1; AJvYcCVhhYhmB2C3vJhl7YURgjJo2T/vcCsh6jJYIB+nTzqS2VjsVdXXy+HOjrkeLL0AJ2Z/A+E3U25+LQQ=@vger.kernel.org, AJvYcCXDMq8Va2WhcHSEP+EJpQAejlk8Y4Uj+0WncRXWoRvP+bsStCWTMvC/4jbkWBeKbCS/B5trpT+hblIIVz7O@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIzHP2Z3vGQP4TFODDz+/crvjwXG/8fwzdwtjfe/rnwSTulm/o
+	tQtfELEluupRY0qR3WxQ+D3mIgVg3yTagZ6M/oj+C/pehs4JY8NH
+X-Google-Smtp-Source: AGHT+IHNPGYZH2Q3By8yr2BcK+qndvFwTyIiLLbuRFNZ+8D6GOScYCcHZ1bWib54ZWWoXTNPiT5bFA==
+X-Received: by 2002:a17:902:f691:b0:203:a0c3:b342 with SMTP id d9443c01a7336-2054bc909a0mr27514865ad.9.1725194921590;
+        Sun, 01 Sep 2024 05:48:41 -0700 (PDT)
+Received: from [192.168.3.171] ([183.159.77.249])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-205152b3343sm51993695ad.30.2024.09.01.05.48.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 01 Sep 2024 05:48:41 -0700 (PDT)
+Message-ID: <9eb5af0d-730c-459d-9c2e-5ad7b78f30d7@gmail.com>
+Date: Sun, 1 Sep 2024 20:48:28 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <35904aa5-9851-4894-b953-689904bf33ca@hust.edu.cn> <58b7c7d2-f60c-4a2d-9cb5-d583182bfef4@gmail.com>
-In-Reply-To: <58b7c7d2-f60c-4a2d-9cb5-d583182bfef4@gmail.com>
-From: Dongliang Mu <mudongliangabcd@gmail.com>
-Date: Sun, 1 Sep 2024 18:38:02 +0800
-Message-ID: <CAD-N9QXks-bFxz+4NVbuvG7BJQZrRiodHXqSadqzdA-ammsM1w@mail.gmail.com>
-Subject: Re: [PATCH v2] docs/zh_CN: add the translation of kbuild/gcc-plugins.rst
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: dzm91@hust.edu.cn, seakeel@gmail.com, corbet@lwn.net, 
-	hust-os-kernel-patches@googlegroups.com, justinstitt@google.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	morbo@google.com, nathan@kernel.org, ndesaulniers@google.com, 
-	siyanteng@loongson.cn, alexs@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/6] mm: Introduce a pageflag for partially mapped
+ folios
+To: Usama Arif <usamaarif642@gmail.com>, Barry Song <baohua@kernel.org>
+Cc: akpm@linux-foundation.org, linux-mm@kvack.org, hannes@cmpxchg.org,
+ riel@surriel.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev,
+ yuzhao@google.com, david@redhat.com, ryan.roberts@arm.com, rppt@kernel.org,
+ willy@infradead.org, cerasuolodomenico@gmail.com, ryncsn@gmail.com,
+ corbet@lwn.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kernel-team@meta.com, libang.li@antgroup.com,
+ Lance Yang <ioworker0@gmail.com>
+References: <20240819023145.2415299-1-usamaarif642@gmail.com>
+ <20240819023145.2415299-5-usamaarif642@gmail.com>
+ <CAGsJ_4yKuvMSazWABXqaeRr84hLEubET0nCUhPFYHQnfR4Tm8w@mail.gmail.com>
+ <a09b6af0-4fdb-4ac1-9cbe-9b422ebc3308@gmail.com>
+ <CAGsJ_4xeWt9n3zX3-DknE=NftkWS0fe2vKTJT9tLuJPM4EaEwg@mail.gmail.com>
+ <9a58e794-2156-4a9f-a383-1cdfc07eee5e@gmail.com>
+ <CAGsJ_4xiG+oGkjt3nf0Zh2rdztz8h_AaahZWs4N3UARhw7DcgQ@mail.gmail.com>
+ <CAGsJ_4z2YL01wvVgsFsbzGAQ5KowXgxLcj=Y7DSX7ODOF5MUvw@mail.gmail.com>
+ <953d398d-58be-41c6-bf30-4c9df597de77@gmail.com>
+ <CAGsJ_4y49c8-hDgjNuqMZnNWfUT-ktxeqkfX0EQz4-Pu3x9-Dg@mail.gmail.com>
+ <5ed479c9-21eb-4bc8-8c17-79e1b6081355@gmail.com>
+Content-Language: en-US
+From: Bang Li <libang.linux@gmail.com>
+In-Reply-To: <5ed479c9-21eb-4bc8-8c17-79e1b6081355@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sun, Sep 1, 2024 at 2:03=E2=80=AFPM Akira Yokosawa <akiyks@gmail.com> wr=
-ote:
->
-> Hi,
->
-> I'm not Alex, but let me chime in.
->
-> On Sat, 31 Aug 2024 17:34:11 +0800, Dongliang Mu wrote:
-> > On 2024/8/31 12:11, Alex Shi wrote:
-> >>
-> >> On 8/31/24 11:48 AM, Dongliang Mu wrote:
-> >>> +=E7=9B=AE=E7=9A=84
-> >>> +=3D=3D=3D=3D=3D=3D=3D
-> >>> +
-> >> there are still a lots of sign incorrect. Please be sure everything lo=
-oks fine in a web browser after you 'make htmldocs'
-> >
-> > What do you mean by "sign incorrect"? I check the html rendering in the
-> > vscode. It seems fine to me.
->
-> You are right.  There is nothing wrong as far as the reST specification
-> is concerned.
->
-> Quote from https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.=
-html#sections
-> (emphasis by me):
->
->     An underline/overline is a single repeated punctuation character that
->     begins in column 1 and forms a line extending *at least* as far as th=
-e
->     right edge of the title text.
->
+hi, Usama
 
-I see. Will send a v3 patch.
+On 2024/8/22 3:04, Usama Arif wrote:
 
-> HTH, Akira
 >
-> >
-> > Dongliang Mu
+> On 20/08/2024 17:30, Barry Song wrote:
 >
+>> Hi Usama,
+>> thanks! I can't judge if we need this partially_mapped flag. but if we
+>> need, the code
+>> looks correct to me. I'd like to leave this to David and other experts to ack.
+>>
+> Thanks for the reviews!
 >
+>> an alternative approach might be two lists? one for entirely_mapped,
+>> the other one
+>> for split_deferred. also seems ugly ?
+>>
+> That was my very first prototype! I shifted to using a bool which I sent in v1, and then a bit in _flags_1 as David suggested. I believe a bit in _flags_1 is the best way forward, as it leaves the most space in folio for future work.
+>
+>> On the other hand, when we want to extend your patchset to mTHP other than PMD-
+>> order, will the only deferred_list create huge lock contention while
+>> adding or removing
+>> folios from it?
+>>
+> Yes, I would imagine so. the deferred_split_queue is per memcg/node, so that helps.
+>
+> Also, this work is tied to khugepaged. So would need some thought when doing it for mTHP.
+>
+> I would imagine doing underused shrinker for mTHP would be less beneficial compared to doing it for 2M THP. But probably needs experimentation.
+>
+> Thanks
+
+Below is the core code snippet to support "split underused mTHP". Can we extend the
+khugepaged_max_ptes_none value to mthp and keep its semantics unchanged? With a small
+modification, Only folios with page numbers greater than khugepaged_max_ptes_none - 1
+can be added to the deferred_split list and can be split. What do you think?
+
+diff --git a/mm/memory.c b/mm/memory.c
+index b95fce7d190f..ef503958d6a0 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -4789,6 +4789,8 @@ static vm_fault_t do_anonymous_page(struct vm_fault *vmf)
+         }
+
+         folio_ref_add(folio, nr_pages - 1);
++       if (nr_pages > 1 && nr_pages > khugepaged_max_ptes_none - 1)
++               deferred_split_folio(folio, false);
+         add_mm_counter(vma->vm_mm, MM_ANONPAGES, nr_pages);
+         count_mthp_stat(folio_order(folio), MTHP_STAT_ANON_FAULT_ALLOC);
+         folio_add_new_anon_rmap(folio, vma, addr, RMAP_EXCLUSIVE);
+
+shmem THP has the same memory expansion problem when the shmem_enabled configuration is
+set to always. In my opinion, it is necessary to support "split underused shmem THP",
+but I am not sure if there is any gap in the implementation?
+
+Bang
+Thanks
+
