@@ -1,116 +1,242 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6EA382;
-	Mon,  2 Sep 2024 05:16:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E12B1547C3
+	for <linux-doc@vger.kernel.org>; Mon,  2 Sep 2024 06:07:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725254198; cv=none; b=tQu3m2AV94XH/V1kMUGcf260A0Jg4B+TdKL7HDnM0FsxVrcPg5hP8Sxr8gy0WUOQuTBKfFX/o3JWPxP4XLIqtOZoJ73nPbxarlRthUMZTH6FTjqxErXVJgwUWHwEO4F8Wh+0+95u7Nq5MF3NAMaI+o4fs6/QMhIj9Uxzzv4QIqQ=
+	t=1725257240; cv=none; b=pu79+FnfajdDWXGcNC2LXdkDq78H1DzcvcPOWTQbVjkOsWXkeK3OM4m5i+yD3DGN5ftdy5dEVbKZiD1B8wiNP+PaPc1UBUwY6LjT3+85tfEl7LI+nClZbiy4TZhj6rujlvIpizEOu7bNnC8f6OHytur5uZ7pYLqlvoeP4atD00Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725254198; c=relaxed/simple;
-	bh=1xlmn1CCleSTfCBgJB3zCP9jQCY2zoK1n5+MoF/CsVU=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=GzdD+A/0dmeP1LqV4h+8ruvd6xTNpRDP+HB8V4v+zKZ43wRIdvt6YEshFbLabEksqOmRK3WPQrcXYC85fBVv6miuGOtRSa3/Ha/vDejpMee0Ta2KvT1ekVleXjcnhCHzjWFsZfFU3GvbbXwhYyDknHR+3/IBBUEMfrEvmDaZPc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=D7vMA9VJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725257240; c=relaxed/simple;
+	bh=1SwXqyiCVRRoQN3UEPdxtZ2vW+ZevbVmTnYXJftwoiE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GGs42G9ROYsYJMNUuEWErVW5w66z64ThgjVS2LThhVZ+l+3aeHiIuJgJ1UuupKPTNfgW5LzJfcelBifFUyDfrBLaKhEeXY4ON4YFWE/xUDF1A6LvypJrISfvHRnUioeNCXbxuNYDi/1nR8zDSk6lv+c1T6wro1zK6+YD1bI8qus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=riiPFqN0; arc=none smtp.client-ip=91.218.175.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="D7vMA9VJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0515C4CEC2;
-	Mon,  2 Sep 2024 05:16:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1725254198;
-	bh=1xlmn1CCleSTfCBgJB3zCP9jQCY2zoK1n5+MoF/CsVU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=D7vMA9VJUJwFXhuMZYsQF8m20GzI1hPhtdRH9/AJItHhYVyfbxTGYjTNs4EgrKr+z
-	 4oxLvWk1zZnbWAgN0QtpFQjhan7mhGNBNRprVxLtaoEBTVU38iT4cc3vu+TsODLC7D
-	 3HCiPp9GKDuq//9oLoJR1Wrwr7fSNpHIqtabIbh8=
-Date: Sun, 1 Sep 2024 22:16:36 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: kent.overstreet@linux.dev, corbet@lwn.net, arnd@arndb.de,
- mcgrof@kernel.org, rppt@kernel.org, paulmck@kernel.org, thuth@redhat.com,
- tglx@linutronix.de, bp@alien8.de, xiongwei.song@windriver.com,
- ardb@kernel.org, david@redhat.com, vbabka@suse.cz, mhocko@suse.com,
- hannes@cmpxchg.org, roman.gushchin@linux.dev, dave@stgolabs.net,
- willy@infradead.org, liam.howlett@oracle.com, pasha.tatashin@soleen.com,
- souravpanda@google.com, keescook@chromium.org, dennis@kernel.org,
- jhubbard@nvidia.com, yuzhao@google.com, vvvvvv@google.com,
- rostedt@goodmis.org, iamjoonsoo.kim@lge.com, rientjes@google.com,
- minchan@google.com, kaleshsingh@google.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-mm@kvack.org, linux-modules@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH v2 6/6] alloc_tag: config to store page allocation tag
- refs in page flags
-Message-Id: <20240901221636.5b0af3694510482e9d9e67df@linux-foundation.org>
-In-Reply-To: <20240902044128.664075-7-surenb@google.com>
-References: <20240902044128.664075-1-surenb@google.com>
-	<20240902044128.664075-7-surenb@google.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="riiPFqN0"
+Message-ID: <2a474e6f-1731-482a-9399-07462ee6f1b5@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1725257233;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rsSx3C7X9XYoiDqaXLDPgsJHFaoXA/O/tT3/TbjYLTw=;
+	b=riiPFqN0qgN0BvMm0ieBWbS88HsU31Nthin/PejmnW1bLkxaIWalG1L5Uo5UU6SpQbNeqa
+	ZkIrl0YqwbqZj4kPH0GCmJGyKCRHuhzRl9fcBErJ+bFp6nSGR0Sny3sQfrSdff/xNYj75h
+	9yNjGeEXZIBvbWfu8xoQBSpycE8s6eg=
+Date: Mon, 2 Sep 2024 14:07:00 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Subject: Re: [PATCH v2] docs/zh_CN: add the translation of
+ kbuild/gcc-plugins.rst
+To: Akira Yokosawa <akiyks@gmail.com>, dzm91@hust.edu.cn, seakeel@gmail.com
+Cc: corbet@lwn.net, hust-os-kernel-patches@googlegroups.com,
+ justinstitt@google.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev, morbo@google.com,
+ nathan@kernel.org, ndesaulniers@google.com, siyanteng@loongson.cn,
+ alexs@kernel.org
+References: <35904aa5-9851-4894-b953-689904bf33ca@hust.edu.cn>
+ <58b7c7d2-f60c-4a2d-9cb5-d583182bfef4@gmail.com>
+ <65f5467a-5c31-4d35-b0a4-e163429e98c9@linux.dev>
+ <129f741e-ab25-4954-8d30-39746dea2d3e@gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: YanTeng Si <si.yanteng@linux.dev>
+In-Reply-To: <129f741e-ab25-4954-8d30-39746dea2d3e@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Sun,  1 Sep 2024 21:41:28 -0700 Suren Baghdasaryan <surenb@google.com> wrote:
+Hi Akira,
 
-> Add CONFIG_PGALLOC_TAG_USE_PAGEFLAGS to store allocation tag
-> references directly in the page flags. This removes dependency on
-> page_ext and results in better performance for page allocations as
-> well as reduced page_ext memory overhead.
-> CONFIG_PGALLOC_TAG_REF_BITS controls the number of bits required
-> to be available in the page flags to store the references. If the
-> number of page flag bits is insufficient, the build will fail and
-> either CONFIG_PGALLOC_TAG_REF_BITS would have to be lowered or
-> CONFIG_PGALLOC_TAG_USE_PAGEFLAGS should be disabled.
-> 
+
+在 2024/9/2 11:21, Akira Yokosawa 写道:
+> On Mon, 2 Sep 2024 09:32:08 +0800, YanTeng Si wrote:
 > ...
+>> 在 2024/9/1 14:03, Akira Yokosawa 写道:
+>>> Hi,
+>>>
+>>> I'm not Alex, but let me chime in.
+>>>
+>>> On Sat, 31 Aug 2024 17:34:11 +0800, Dongliang Mu wrote:
+>>>> On 2024/8/31 12:11, Alex Shi wrote:
+>>>>> On 8/31/24 11:48 AM, Dongliang Mu wrote:
+>>>>>> +目的
+>>>>>> +=======
+>>>>>> +
+>>>>> there are still a lots of sign incorrect. Please be sure everything looks fine in a web browser after you 'make htmldocs'
+>>>> What do you mean by "sign incorrect"? I check the html rendering in the
+>>>> vscode. It seems fine to me.
+>>> You are right.  There is nothing wrong as far as the reST specification
+>>> is concerned.
+>>>
+>>> Quote from https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#sections
+>>> (emphasis by me):
+>>>
+>>>       An underline/overline is a single repeated punctuation character that
+>>>       begins in column 1 and forms a line extending *at least* as far as the
+>>>       right edge of the title text.
+>> Yes, I guess we should also think about the reading experience
+>> of readers who use vim to read kernel documentation.
+>>
+>> Because Chinese characters are already very neat, sentences
+>> and paragraphs should also be neat, otherwise the reading
+>> experience will be poor.
+>>
+>> Let's take a look at some examples: (copy to vim)
+>>
+>> 整齐
+>> ====
+>> 整齐
+>> ====
+>> 整齐
+>> ====
+>> Great!
+>>
+>>
+>> And
+>>
+>>
+>> 不整齐
+>> ============
+>> 不整齐
+>> =========
+>> 不整齐
+>> ================
+>> I think this is a bit difficult to read. What do you think?
+>>
+> So you are talking about your personal preference, not about what is
+> technically correct or wrong.
+In a sense, yes.
+> And you are exaggerating by collecting them in one place.
 >
-> +config PGALLOC_TAG_USE_PAGEFLAGS
-> +	bool "Use pageflags to encode page allocation tag reference"
-> +	default n
-> +	depends on MEM_ALLOC_PROFILING
-> +	help
-> +	  When set, page allocation tag references are encoded inside page
-> +	  flags, otherwise they are encoded in page extensions.
-> +
-> +	  Setting this flag reduces memory and performance overhead of memory
-> +	  allocation profiling but also limits how many allocations can be
-> +	  tagged. The number of bits is set by PGALLOC_TAG_USE_PAGEFLAGS and
-> +	  they must fit in the page flags field.
+> If they appeared springily as title adornments, they would not bother
+> me at all.
+Sorry, my example is not good enough.
 
-Again.  Please put yourself in the position of one of the all-minus-two
-people in this world who aren't kernel-memory-profiling-developers. 
-How the heck are they to decide whether or not to enable this?  OK, 59%
-of them are likely to say "yes" because reasons.  But then what?  How
-are they to determine whether it was the correct choice for them?  If
-we don't tell them, who will?
 
->  config PGALLOC_TAG_REF_BITS
->  	int "Number of bits for page allocation tag reference (10-64)"
->  	range 10 64
-> -	default "64"
-> +	default "16" if PGALLOC_TAG_USE_PAGEFLAGS
-> +	default "64" if !PGALLOC_TAG_USE_PAGEFLAGS
->  	depends on MEM_ALLOC_PROFILING
->  	help
->  	  Number of bits used to encode a page allocation tag reference.
-> @@ -1011,6 +1027,13 @@ config PGALLOC_TAG_REF_BITS
->  	  Smaller number results in less memory overhead but limits the number of
->  	  allocations which can be tagged (including allocations from modules).
->  
-> +	  If PGALLOC_TAG_USE_PAGEFLAGS is set, the number of requested bits should
-> +	  fit inside the page flags.
+>
+> At times, especially with a very short title, I'd like to have a way
+> longer adornment line to make it stand out such as:
+>
+>    整齐
+>    ------------
+Okay, I'm not a stubborn person, I just care about the feelings of most 
+people.
 
-What does "should fit" mean?  "It is your responsibility to make it
-fit"?  "We think it will fit but we aren't really sure"?
+If you open any document, you will find that the author is trying to keep
+everything as neat as possible.
 
-> +	  If PGALLOC_TAG_USE_PAGEFLAGS is not set, the number of bits used to store
-> +	  a reference is rounded up to the closest basic type. If set higher than 32,
-> +	  a direct pointer to the allocation tag is stored for performance reasons.
-> +
+let's vim kbuild/gcc-plugins.rst
 
-We shouldn't be offering things like this to our users.  If we cannot decide, how
-can they?
+---
+
+=========================
+GCC plugin infrastructure
+=========================
+
+
+Introduction
+============
+
+GCC plugins are loadable modules that provide extra features to the
+compiler [1]_. They are useful for runtime instrumentation and static 
+analysis.
+We can analyse, change and add further code during compilation via
+callbacks [2]_, GIMPLE [3]_, IPA [4]_ and RTL passes [5]_.
+
+...
+
+
+Purpose
+=======
+
+GCC plugins are designed to provide a place to experiment with potential
+compiler features that are neither in GCC nor Clang upstream. Once
+their utility is proven, the goal is to upstream the feature into GCC
+(and Clang), and then to finally remove them from the kernel once the
+feature is available in all supported versions of GCC.
+
+...
+
+After a feature is available in upstream GCC, the plugin will be made
+unbuildable for the corresponding GCC version (and later). Once all
+kernel-supported versions of GCC provide the feature, the plugin will
+be removed from the kernel.
+
+
+Files
+=====
+
+**$(src)/scripts/gcc-plugins**
+
+....
+     These headers automatically generate the registration structures for
+     GIMPLE, SIMPLE_IPA, IPA and RTL passes.
+     They should be preferred to creating the structures by hand.
+
+
+Usage
+=====
+
+You must install the gcc plugin headers for your gcc version,
+e.g., on Ubuntu for gcc-10::
+
+.....
+
+or just run the kernel make and compile the whole kernel with
+the cyclomatic complexity GCC plugin.
+
+
+4. How to add a new GCC plugin
+==============================
+
+The GCC plugins are in scripts/gcc-plugins/. You need to put plugin 
+source files
+right under scripts/gcc-plugins/. Creating subdirectories is not supported.
+It must be added to scripts/gcc-plugins/Makefile, 
+scripts/Makefile.gcc-plugins
+and a relevant Kconfig file.
+
+---
+
+We can see that all the underline are aligned with the title,  Even each 
+row is
+as long as possible. I think most readers are also accustomed to alignment.
+
+
+In addition, we are only translating from English to Chinese, and the
+translation should be as consistent as possible with the original
+document to facilitate readers/developers to compare the original
+document. Because our translations may not be accurate and updates
+may not be timely, keeping them consistent with English will make
+everything simpler.
+>
+> Of course I don't have a say on personal preferences and I think
+> maybe I was stupid making a *technical* comment here in the first
+> place. :-/
+Don't say that, your comment makes this matter clearer and greatly
+reduces the difficulty of discussion. I understand your feelings very
+well, as I replied to your first comment by saying 'yes', and then I
+elaborated on my point of view, although not entirely perfect.
+
+
+Thanks,
+Yanteng
+>
+>          Akira.
+>
+>>
+>> Thanks,
+>> Yanteng
+>>> HTH, Akira
+>>>
+>>>> Dongliang Mu
+
