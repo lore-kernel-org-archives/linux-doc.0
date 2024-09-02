@@ -1,107 +1,118 @@
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3514E42040
-	for <linux-doc@vger.kernel.org>; Sun,  1 Sep 2024 19:36:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA7781946F;
+	Mon,  2 Sep 2024 01:32:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725219393; cv=none; b=ufXIeQqRzSuRxV6lvMX8I7oVH93c62Zv/dCiZh+viH5eayO5nF3zgzVN+wswjslIvZ0j/xQ0HxkzOIIKb/2KYRgoLrcioN0SKSaCxO5KOagisCZs1eePQVQn3w3Q8sLnjPl+2ooz/LDrANoLoGLCwX8PjHw2XtDk1jWSXZKMBcc=
+	t=1725240745; cv=none; b=r41q679gITGsi341PBvKsdKrDv83aOrGAGjVX1t9zb1g/qMaGejAYi9zvKSRvQnd5/Sfdrqb257S2hKHYSQV0CTtfoHd4jZKxrStuBKVd2unjNN6eyMhqY+WCMYamX9aNynFm+SE2eaQjjIgC4B/bnnl5U/cxTeoqHwz+Y2NK0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725219393; c=relaxed/simple;
-	bh=55cEkcsmnDLhMTDbdd9K2ijc1dx/EsofROUUEYVy2cg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nW9iV+1J6W5B1yIEhPOPJpS7y+9Ij1ibCTD2q+btlXn1xZ2QOSyIPPsOff+FbRXnSDjGIzQi1p3Gt6WxZOUYVsazvSjQbYtRiKY4L72DG4Yb1ayWgmQJRscrHx3wuLypmhkieIBi9w3F++xaApXdqQSZaAb4Qq9FV33dLO21bu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=minyard.net; spf=none smtp.mailfrom=minyard.net; dkim=pass (2048-bit key) header.d=minyard-net.20230601.gappssmtp.com header.i=@minyard-net.20230601.gappssmtp.com header.b=IhTu//ft; arc=none smtp.client-ip=209.85.161.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=minyard.net
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=minyard.net
+	s=arc-20240116; t=1725240745; c=relaxed/simple;
+	bh=Gkw5/N0HtbyIWijLA7K4vIhfekiMhOEM/MlSdykpWU4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sz1L3fb2kuEpt1a+a0RydgTZ9y8w/In4EAHFKIkHRwk3HXTWdnCihUQzL4+E3dGhPXD6iTW74TUcxGZTUq14DD3RQIEhLCMjlN87mVHEurKKae46fDtDce7ZAdYpzFPTJ02AD5Jx7qpP0iMJHFjn2H63YtVyGxIHL2DJJjd2jOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=hh1bdTrk; arc=none smtp.client-ip=91.218.175.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=minyard-net.20230601.gappssmtp.com header.i=@minyard-net.20230601.gappssmtp.com header.b="IhTu//ft"
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5d5c7f24372so2257091eaf.0
-        for <linux-doc@vger.kernel.org>; Sun, 01 Sep 2024 12:36:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=minyard-net.20230601.gappssmtp.com; s=20230601; t=1725219391; x=1725824191; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XiOFp46qhP2eeXetIvuZsxlfaW7Lra2Ek61RDRs0VMM=;
-        b=IhTu//ftgH9LMMuA5MZFcw0sRYq/EkxD9sur6nu/HWNnn+68MdFcUOmJD7XCwXwyP4
-         e3raCKHZpZyeZ/AL9WjPJ2Boi1zzMLBvb/IEvPE5607D+IbI4p+6kjEwY/trHSNtGNz2
-         zK0kgvfikbE8PCTiJ1APX34EJ7CBTZi9pbUyowBlB3iyQPOxHh/RnEjULb9JoWJK7Um9
-         wSdy2JF0pn1AoRlGKPP1rcwcSOYuA0p48uGV09h5/c6e62QOUx7THh7vFCP9wPRWo8bi
-         Jbo8IBudQYcXPwFN0Ef1DuNt0fwapYDwJVM4xql3nviT9biG/r5zhrHSz3YIEpqrgIQb
-         1msw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725219391; x=1725824191;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XiOFp46qhP2eeXetIvuZsxlfaW7Lra2Ek61RDRs0VMM=;
-        b=n8bb95pqA5go2Q+QhmTNa+IWMFM29RpWuK+kM+Gmf5Jl5g6S5BJhPkGNCI3nGTcpVI
-         YBJa0x5ir3AycB7bPp3Zku4huXmZu3x+CVE4AOnFbaA/boR2B/ZaJBfDYvJ9Eow+1VTH
-         uuOKAnrE7CQC2oby+xa/UmEM8IKCwOQBbXrmLpRXZ46lP/TkKYmSb5vGkGorih9UWsDp
-         J4ifM7Aeuz4EamlkkA3IACMyKNQCwgX1Y1LzKwGACd0zArEWcagT0PGB6GlqrXfohUn0
-         tQbOsUtFz+ohc8IeYeG/JaqnHzbtJt6pfMlO3uFcTNAUOww+1Xtma1sWzFAstWYSgh0w
-         L7Vw==
-X-Forwarded-Encrypted: i=1; AJvYcCWwKaxf7dnxprUYIyBg5/OYc/yWpYurlK6adQKZSevVV/sh57q6lsqpNCTFmjerJ4jT1w62EOgHDGA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9KWvoadEk2oIPYSBFH39y6WZfkZiVjOAHVLQ85IEb2zuMMzv+
-	EDpLtDLzmPm5sqk/Z8wkXC9gt8ebKfwHF4xPDdCaEqYLYsFSbfDtzvp4igMHGRY=
-X-Google-Smtp-Source: AGHT+IG5bNU+8xFP1f27d3WC/VyPLz6YYCq5+TlVAUmorRNBQNYcIL6WeKBq4LEQuKFASWo/wAm4kg==
-X-Received: by 2002:a05:6870:9a1e:b0:24f:e5f2:1cf0 with SMTP id 586e51a60fabf-277900c6c6dmr14746876fac.14.1725219390944;
-        Sun, 01 Sep 2024 12:36:30 -0700 (PDT)
-Received: from mail.minyard.net ([2001:470:b8f6:1b:a4c5:2f87:1c10:5fa2])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-277cb790846sm1259385fac.47.2024.09.01.12.36.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Sep 2024 12:36:30 -0700 (PDT)
-Date: Sun, 1 Sep 2024 14:36:28 -0500
-From: Corey Minyard <corey@minyard.net>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-i2c@vger.kernel.org, Heiner Kallweit <hkallweit1@gmail.com>,
-	Corey Minyard <minyard@acm.org>, Jonathan Corbet <corbet@lwn.net>,
-	openipmi-developer@lists.sourceforge.net, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] ipmi: docs: don't advertise deprecated sysfs entries
-Message-ID: <ZtTCPPZSzVZMZiqf@mail.minyard.net>
-Reply-To: corey@minyard.net
-References: <20240901090211.3797-2-wsa+renesas@sang-engineering.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="hh1bdTrk"
+Message-ID: <65f5467a-5c31-4d35-b0a4-e163429e98c9@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1725240739;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hPqIE5RNTs1s0Odq078y70W4Md4LQBU8xZumnRmNTUY=;
+	b=hh1bdTrkZl2TUGkHupsFWuKftY98ndV9gP4qsCpQ42AbdI60Sk8Lw4hZ9sdT9TeaIeN1as
+	1lR9P+EXYQuqnB54jaoxjA/BRdMDGSepiVcIUhsB5la1XH0b8hY+8Z4+8Osh+e7EHlnNke
+	6mn+FwYLLXux7Ya/tGn8Ak6RW9Ww5Ig=
+Date: Mon, 2 Sep 2024 09:32:08 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240901090211.3797-2-wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH v2] docs/zh_CN: add the translation of
+ kbuild/gcc-plugins.rst
+To: Akira Yokosawa <akiyks@gmail.com>, dzm91@hust.edu.cn, seakeel@gmail.com
+Cc: corbet@lwn.net, hust-os-kernel-patches@googlegroups.com,
+ justinstitt@google.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev, morbo@google.com,
+ nathan@kernel.org, ndesaulniers@google.com, siyanteng@loongson.cn,
+ alexs@kernel.org
+References: <35904aa5-9851-4894-b953-689904bf33ca@hust.edu.cn>
+ <58b7c7d2-f60c-4a2d-9cb5-d583182bfef4@gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: YanTeng Si <si.yanteng@linux.dev>
+In-Reply-To: <58b7c7d2-f60c-4a2d-9cb5-d583182bfef4@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Sun, Sep 01, 2024 at 11:02:11AM +0200, Wolfram Sang wrote:
-> "i2c-adapter" class entries are deprecated since 2009. Switch to the
-> proper location.
 
-Thanks, in my queue.
 
--corey
 
-> 
-> Reported-by: Heiner Kallweit <hkallweit1@gmail.com>
-> Closes: https://lore.kernel.org/r/80c4a898-5867-4162-ac85-bdf7c7c68746@gmail.com
-> Fixes: 259307074bfc ("ipmi: Add SMBus interface driver (SSIF)")
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->  Documentation/driver-api/ipmi.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/driver-api/ipmi.rst b/Documentation/driver-api/ipmi.rst
-> index e224e47b6b09..dfa021eacd63 100644
-> --- a/Documentation/driver-api/ipmi.rst
-> +++ b/Documentation/driver-api/ipmi.rst
-> @@ -540,7 +540,7 @@ at module load time (for a module) with::
->  	alerts_broken
->  
->  The addresses are normal I2C addresses.  The adapter is the string
-> -name of the adapter, as shown in /sys/class/i2c-adapter/i2c-<n>/name.
-> +name of the adapter, as shown in /sys/bus/i2c/devices/i2c-<n>/name.
->  It is *NOT* i2c-<n> itself.  Also, the comparison is done ignoring
->  spaces, so if the name is "This is an I2C chip" you can say
->  adapter_name=ThisisanI2cchip.  This is because it's hard to pass in
-> -- 
-> 2.43.0
-> 
+在 2024/9/1 14:03, Akira Yokosawa 写道:
+> Hi,
+>
+> I'm not Alex, but let me chime in.
+>
+> On Sat, 31 Aug 2024 17:34:11 +0800, Dongliang Mu wrote:
+>> On 2024/8/31 12:11, Alex Shi wrote:
+>>> On 8/31/24 11:48 AM, Dongliang Mu wrote:
+>>>> +目的
+>>>> +=======
+>>>> +
+>>> there are still a lots of sign incorrect. Please be sure everything looks fine in a web browser after you 'make htmldocs'
+>> What do you mean by "sign incorrect"? I check the html rendering in the
+>> vscode. It seems fine to me.
+> You are right.  There is nothing wrong as far as the reST specification
+> is concerned.
+>
+> Quote from https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#sections
+> (emphasis by me):
+>
+>      An underline/overline is a single repeated punctuation character that
+>      begins in column 1 and forms a line extending *at least* as far as the
+>      right edge of the title text.
+Yes, I guess we should also think about the reading experience
+of readers who use vim to read kernel documentation.
+
+Because Chinese characters are already very neat, sentences
+and paragraphs should also be neat, otherwise the reading
+experience will be poor.
+
+Let's take a look at some examples: (copy to vim)
+
+整齐
+====
+整齐
+====
+整齐
+====
+Great!
+
+
+And
+
+
+不整齐
+============
+不整齐
+=========
+不整齐
+================
+I think this is a bit difficult to read. What do you think?
+
+
+
+Thanks,
+Yanteng
+> HTH, Akira
+>
+>> Dongliang Mu
+>
+
