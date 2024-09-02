@@ -1,152 +1,95 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384771AB6E7
-	for <linux-doc@vger.kernel.org>; Mon,  2 Sep 2024 17:06:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30ED75680;
+	Mon,  2 Sep 2024 18:32:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725296782; cv=none; b=fjnfLmWreTZ7HJx4+yaiYv4lempJxgN6kfUqRqU6g4jKKwyC6GxYApKCpEdPGeYkHY17AFJLhV8Kn5f44BEmSMypKlQ+P8uV1oy3tgcvMt6ueNYElPyRwtfdS79YapGUuBtUvJhPGMkY/7w4n/z1qu2qYEFnNGWDuHxhuxRlw0U=
+	t=1725301965; cv=none; b=ayXJgjjae8iewKw9UN5GHWSAGE6sFg9t6GkDAAWWMsp0g2TPqnWqJqCuRz+AVeSS2ryir+mIe6XCfyta7QPwtUusE68Lg3y9aQuURuyp1quB0l2Un4RrjHMyE9TJJiuf7nmns9DFiznUCaUSFzkSbd4VdKCZyzSQSWFSeXlPQ3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725296782; c=relaxed/simple;
-	bh=m/Hl05dGE8DG9LV4d7LMKZdjId9IkoBTCyuBgmslKIU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KFJaembas28DoOuDpDMYZHnxXn3OQduxINguhKvgbbHoV24fzkD6fbQKSEZMjtKBpv/FMUWNsVqEqo1KTonWbO4aBRkhGZQh5xAvE+7iuHixxssGM9yQNkN1Lmrw2qMgFpIPSEuMWjG4pA68BF55JQdSrZ9uc/uD53QG96aAIWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=yQUXHPzw; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
+	s=arc-20240116; t=1725301965; c=relaxed/simple;
+	bh=1PzOhJJY2LeQBaJd2Bcw0TdQoPlV8i5sNgTxX2h7qYQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AtsTBaeaDxt5raUXWJLqfr/ZYkSRdVTK3AITiZRxVRnuWQgi/kFa+MBN+RYB7KDZkEsO14KDXDnJMmrZyOWSyEZNwlpG16Q9DM+/5HuSqZzkFPlZR67lEXyAs7OzrsznuTTFT0NHCi+o62zSrS8yaadvyglzz6pDwXtGHBQrswg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HFriyin2; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="yQUXHPzw"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a8696e9bd24so516903666b.0
-        for <linux-doc@vger.kernel.org>; Mon, 02 Sep 2024 10:06:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HFriyin2"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42bac9469e8so37599955e9.3;
+        Mon, 02 Sep 2024 11:32:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1725296777; x=1725901577; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7M8BT8N6vTwP+D5Hjg4AMJAeuxuEG1WY11kk9v24ceA=;
-        b=yQUXHPzwLakaHPlXkCRrO7aUae8f5P9dSXdXRoBhuFclC9S0bOMhP2XckKQIwQJY1G
-         e+FgxkoxrD7MZED9W94hzfslKWzxVOwr50I44Lev2VSVriG/ZTp1gzQjxxKx82A7bXtW
-         INwcl5qaPc4Qyq64vuqPBYVdGKiGziQd94m3Y=
+        d=gmail.com; s=20230601; t=1725301962; x=1725906762; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=b6Vltd8viCzWqgRL1P5eoxbS5xCxFYSk50A+3pCWiIk=;
+        b=HFriyin2fLn9nF/y0DzHn8wdRY8Ir9sjPvXPds7MzVLXXcxsmGhUwd4CEFmsGjwvys
+         82gSVK/7HFjV1GQBPzeo8NGzOKZg07xvaLO9HIAAnatpi1sbtD9+c1zahZOyjBBmA0fI
+         7UoOvp2rsfq4OM9HLm4m0/8SocEqazs5/xPQAnwK26mGyQyDitqIGDyQti9QQ+E6Bon2
+         YXy4hAZ1ufoIi7apU5o5e8JouoZg5uQVkahhwwYe31pLa6cUe4OxaTJ3RxDF5ad1WHi2
+         v3HEIDVPhBRz5K8XSCttfEDg9M3PNvmEXN3of8QJMXXt1s0RAOcWTXOPTMt43UWrpFrr
+         8SzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725296777; x=1725901577;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1725301962; x=1725906762;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7M8BT8N6vTwP+D5Hjg4AMJAeuxuEG1WY11kk9v24ceA=;
-        b=V03HsRf4GL3qNINiQElnKdhS3YK0IAp2lev6o/vBsadPjmH1JO2EYzucHPKs9FP50i
-         vPmone8asqJ01DclLmc7+d3FkdRKYppWoCCkuNKpfhli9QuqYdbD1iipjcqn8IWcQRjw
-         c+ic6Q4zLYFYvzpy1GYcnWboSA7Bs6DSQjFvyfk2wxCF9Jim9C1CJyDvEK7bfCZ8ikxn
-         PxFSZD6d7rowIxdVAZqLKyeBgUJSEp/C8AoYTBUsXOEKjR15bjuvC2H2rT8SlDh5Hd3A
-         euUYdx4Zql4Fwg85dio4LJzhxd24856KObiv0irc3k8Tcu7jrMlhwDQVBFruJGSbe+Iw
-         sOQg==
-X-Forwarded-Encrypted: i=1; AJvYcCX4JUi9A3oNjlV9A8FfSzQrgIWOYD7qXWICyNxfdHS4FOrnyFjRAAJs83znQJgVxFjk7wwyMUt7/fA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyt2S/KKoTjk71jh/KOK6GM41CCRJjbdJTDibb4lQx13EZncetC
-	XndY+0PVRtO3Mvdpu685Rz0jo5Uk9gRpetJbksPobs+Wugo6uwNODyYhHVyfJDk=
-X-Google-Smtp-Source: AGHT+IGWJf9Avan9MoUFQ6Ai0+z5nn+fJXzqwnGlBi2FTipYcSbwZOLN+wfh53hpdVGR9SMXe/vXdg==
-X-Received: by 2002:a17:907:60d0:b0:a86:acbe:8d61 with SMTP id a640c23a62f3a-a897fa71c13mr1003988366b.53.1725296777056;
-        Mon, 02 Sep 2024 10:06:17 -0700 (PDT)
-Received: from LQ3V64L9R2.station (net-2-42-195-208.cust.vodafonedsl.it. [2.42.195.208])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8989092143sm584447366b.96.2024.09.02.10.06.16
+        bh=b6Vltd8viCzWqgRL1P5eoxbS5xCxFYSk50A+3pCWiIk=;
+        b=TfN3eO79NgTsvR0PNSLNO4h84OGzb2imhD4gd95JUOTASCQXDoHnCRsl8mMO6qQJTC
+         WhWQlGPpRtBaWoBa/CnCWoSBu/jI1sYMGWA7nTXZ61OIsoOz0bdX16dZcsCY5LILttvc
+         86/+cwtYYiZSWv2Jvym9IOrw1fKFvQG5ciSLOcPkcGugZo/l6Tn5DtahmJc5bwb12mUQ
+         KuNHMAah0P8xOVLKFB9RzfDIlck0SQP83E42e+oy4TPtcQcO7IZgdn7RLX2UJpl6IYhk
+         88e+SrvM5zGgDTWHaIcVKGZ6bcCV/qQy65I/lVbnE0ILaHUuX7byA14ALDrVFqdK02Ly
+         elIg==
+X-Forwarded-Encrypted: i=1; AJvYcCUKuFbKzdToMBVBb6lPsGJuyFZA4bqrMBmLe91W+ascXPto2/tUKLaCsac+qykt3dows3/MJg6qviq/v2X2@vger.kernel.org, AJvYcCWOV2h1od3CgogiIKRf6fwz8Kl48sHQD0MUnYuU00IHOzDMf/Y/ex5/nnbs7iBflFxXOZvoTKb3pZeo@vger.kernel.org, AJvYcCXE/h//+Ib1YbKFLn7raUdGlZ+/iAmDe+u3omL3DDdGAT1y39K0Ba0OnMFuaCsBRL9Ul2jkv0X7n6BqZFdSVqg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyicNrWX+BCmKjn4G/byr69eXn1M/5s7wY7JSFafKbV61I1ES7o
+	qNXDuuR6//lZOBq8MSPsoscMDBNk9Y9v7228tVmfAvTJ7+2oXzxj
+X-Google-Smtp-Source: AGHT+IEuijIqFI6OQlhAdRImRAPPN07texv3tKxOiUMeIi1SzD5bVxGHWNZ7z/oU6Gc9t12Xhw4Zxw==
+X-Received: by 2002:a05:600c:4f53:b0:426:55a3:71af with SMTP id 5b1f17b1804b1-42c82f6cf51mr28782565e9.33.1725301961742;
+        Mon, 02 Sep 2024 11:32:41 -0700 (PDT)
+Received: from void.void ([141.226.8.198])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42bb6deb43esm146783615e9.7.2024.09.02.11.32.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Sep 2024 10:06:16 -0700 (PDT)
-Date: Mon, 2 Sep 2024 19:06:14 +0200
-From: Joe Damato <jdamato@fastly.com>
-To: Eric Dumazet <edumazet@google.com>
-Cc: netdev@vger.kernel.org, mkarsten@uwaterloo.ca, stable@kernel.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-	Breno Leitao <leitao@debian.org>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH net] net: napi: Make napi_defer_irqs u32
-Message-ID: <ZtXwhnVzR6ofBJhb@LQ3V64L9R2.station>
-Mail-Followup-To: Joe Damato <jdamato@fastly.com>,
-	Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
-	mkarsten@uwaterloo.ca, stable@kernel.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-	Breno Leitao <leitao@debian.org>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-References: <20240831113223.9627-1-jdamato@fastly.com>
- <CANn89iK+09DW95LTFwN1tA=_hV7xvA0mY4O4d-LwVbmNkO0y3w@mail.gmail.com>
- <ZtXn9gK6Dr-JGo81@LQ3V64L9R2.station>
- <CANn89iLhrKyFKf9DpJSSM9CZ9sgoRo7jovg2GhjsJABoqzzVsQ@mail.gmail.com>
+        Mon, 02 Sep 2024 11:32:41 -0700 (PDT)
+From: Andrew Kreimer <algonell@gmail.com>
+To: =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Andrew Kreimer <algonell@gmail.com>
+Subject: [PATCH] docs/mm: fix a typo
+Date: Mon,  2 Sep 2024 21:32:05 +0300
+Message-ID: <20240902183210.2130-1-algonell@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANn89iLhrKyFKf9DpJSSM9CZ9sgoRo7jovg2GhjsJABoqzzVsQ@mail.gmail.com>
 
-On Mon, Sep 02, 2024 at 07:00:48PM +0200, Eric Dumazet wrote:
-> On Mon, Sep 2, 2024 at 6:29 PM Joe Damato <jdamato@fastly.com> wrote:
-> >
-> > On Mon, Sep 02, 2024 at 03:01:28PM +0200, Eric Dumazet wrote:
-> > > On Sat, Aug 31, 2024 at 1:32 PM Joe Damato <jdamato@fastly.com> wrote:
-> > > >
-> > > > In commit 6f8b12d661d0 ("net: napi: add hard irqs deferral feature")
-> > > > napi_defer_irqs was added to net_device and napi_defer_irqs_count was
-> > > > added to napi_struct, both as type int.
-> > > >
-> > > > This value never goes below zero. Change the type for both from int to
-> > > > u32, and add an overflow check to sysfs to limit the value to S32_MAX.
-> > > >
-> > > > Before this patch:
-> > > >
-> > > > $ sudo bash -c 'echo 2147483649 > /sys/class/net/eth4/napi_defer_hard_irqs'
-> > > > $ cat /sys/class/net/eth4/napi_defer_hard_irqs
-> > > > -2147483647
-> > > >
-> > > > After this patch:
-> > > >
-> > > > $ sudo bash -c 'echo 2147483649 > /sys/class/net/eth4/napi_defer_hard_irqs'
-> > > > bash: line 0: echo: write error: Numerical result out of range
-> > > >
-> > > > Fixes: 6f8b12d661d0 ("net: napi: add hard irqs deferral feature")
-> > > > Cc: stable@kernel.org
-> > > > Cc: Eric Dumazet <edumazet@google.com>
-> > > > Suggested-by: Jakub Kicinski <kuba@kernel.org>
-> > > > Signed-off-by: Joe Damato <jdamato@fastly.com>
-> > > > ---
-> > >
-> > > I do not think this deserves a change to stable trees.
-> >
-> > OK, I can send any other revisions to -next, instead.
-> >
-> > > Signed or unsigned, what is the issue ?
-> > >
-> > > Do you really need one extra bit ?
-> >
-> > I made the maximum S32_MAX because the practical limit has always
-> > been S32_MAX. Any larger values overflow. Keeping it at S32_MAX does
-> > not change anything about existing behavior, which was my goal.
-> >
-> > Would you prefer if it was U32_MAX instead?
-> >
-> > Or are you asking me to leave it the way it is?
-> 
-> I think this would target net-next at most, please lets avoid hassles
-> for stable teams.
+Fix a typo in documentation.
 
-Sure, that's fine with me.
+Signed-off-by: Andrew Kreimer <algonell@gmail.com>
+---
+ Documentation/mm/hmm.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'm just not sure what you meant by your comment about the extra
-bit and what you are asking me to make the maximum limit? I have no
-preference.
+diff --git a/Documentation/mm/hmm.rst b/Documentation/mm/hmm.rst
+index 0595098a74d9..3dcf1b69e807 100644
+--- a/Documentation/mm/hmm.rst
++++ b/Documentation/mm/hmm.rst
+@@ -405,7 +405,7 @@ can be used to make a memory range inaccessible from userspace.
+ 
+ This replaces all mappings for pages in the given range with special swap
+ entries. Any attempt to access the swap entry results in a fault which is
+-resovled by replacing the entry with the original mapping. A driver gets
++resolved by replacing the entry with the original mapping. A driver gets
+ notified that the mapping has been changed by MMU notifiers, after which point
+ it will no longer have exclusive access to the page. Exclusive access is
+ guaranteed to last until the driver drops the page lock and page reference, at
+-- 
+2.46.0
 
-I just want to prevent overflow and then make the per-NAPI stuff
-compatible with existing sysfs code as much as possible.
