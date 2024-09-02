@@ -1,194 +1,111 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF0920FA94;
-	Mon,  2 Sep 2024 13:00:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CF419E960
+	for <linux-doc@vger.kernel.org>; Mon,  2 Sep 2024 13:01:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725282006; cv=none; b=i8EM0yvxpVpw5VW5vSi+xx1ekRWanDk+RdTMtkwWbSgPDKzCf6ZxXKQ26RFaERAO+hM28PCX42oPca0LW9pgBxHlVphLz4VLOuc5jxv+2Sovy6el1C7ri1UQJW+/JcLthb1DogKOCYzR+c1RP++iMFbTEXovHFsSWeyJT40846o=
+	t=1725282106; cv=none; b=NI2Z8Dbsnljkxf89Ej1xolyMlvjX0n1yVyu/oGn7B5aNnJpY5N5YRtIx+cCKPY8sGxft6sxrxXSlyZn5c+oicsf7W5HSAWvM7jqA426R+CeFZd4K3islSnLs+49o5dztyLMD0Y3d0Ms+9+srQJORU0mAAO+WRbOWZpm8Rz81Sdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725282006; c=relaxed/simple;
-	bh=ef8LxGrRpjdmL/uT5tW7ISEWjInkoyUm4FYUw3dm4Yg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=u8Gk0VRm5LtRiAKSaAdfRoJvXAZvyDoRkuvLiQYnygUqr84y19voUFcJ2KZ6VAyN+EcoKc7v8cF5nmDywm+XbrwLN7zZPbPSl2gv6d2WVpZ1L/ky34tA0ojgqzdfKh6HFLn/IczAx08QRsF5V+B5o6ILruo6WiccGHpcnImSv/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.216])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4Wy83g48zwz4f3m6g;
-	Mon,  2 Sep 2024 20:59:43 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 536A31A154C;
-	Mon,  2 Sep 2024 20:59:59 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.85.165.202])
-	by APP4 (Coremail) with SMTP id gCh0CgD3KsfEttVmOJPAAA--.25304S11;
-	Mon, 02 Sep 2024 20:59:59 +0800 (CST)
-From: Yang Yingliang <yangyingliang@huaweicloud.com>
-To: broonie@kernel.org,
-	mchehab@kernel.org,
-	Jonathan.Cameron@huawei.com,
-	rmfrfs@gmail.com,
-	vireshk@kernel.org,
-	gregkh@linuxfoundation.org,
-	deller@gmx.de,
-	corbet@lwn.net,
-	yangyingliang@huawei.com,
-	liwei391@huawei.com
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-spi@vger.kernel.org
-Subject: [PATCH -next 7/7] spi: remove {devm_}spi_alloc_master/slave()
-Date: Mon,  2 Sep 2024 20:59:47 +0800
-Message-ID: <20240902125947.1368-8-yangyingliang@huaweicloud.com>
-X-Mailer: git-send-email 2.46.0.windows.1
-In-Reply-To: <20240902125947.1368-1-yangyingliang@huaweicloud.com>
-References: <20240902125947.1368-1-yangyingliang@huaweicloud.com>
+	s=arc-20240116; t=1725282106; c=relaxed/simple;
+	bh=OqcJZ/1GMKCCiNdCksBYuf+yCIrGEq2SbmEzRSEKkyk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=poanBC5/KrbApzD/hfzM1hHKc7Ufb0E/plmgaNRFNREDeRqv1E+fvJVrNt1YU/kuJRhzDG9euAiSkSw23XsJs+ILur0nq1P+TQZCMM1xMkqqmFY6hXOv1OrrOIJgx+wIs4mFlnyENhBL15ua+MEWjTaS8y5ya9WXXCBPUP+mZy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZvwItzQk; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZvwItzQk"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a86b46c4831so468261466b.1
+        for <linux-doc@vger.kernel.org>; Mon, 02 Sep 2024 06:01:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1725282103; x=1725886903; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OqcJZ/1GMKCCiNdCksBYuf+yCIrGEq2SbmEzRSEKkyk=;
+        b=ZvwItzQkAwNedFcs630M+hLkw/tmm/lisIdJNLZDIo4ioaq6NGjbE8qAGHx8oRdjRX
+         hOHRN4BDvrfUNdMneVeSCgsjtIqTm1xdMwLzHSWqOxE0LWjKjH5/XSdpRAyxVa6g71Th
+         Ho2s40tUMpQrRrWR2fah77keuK+G9oYT0cEtYQ1FbkZhywbzz9zDEpUUaVuagODf1dkE
+         rkuZaeS2E7ApquwVR9D0OHk75WvdZzargYA/1MMIMMLjforRf5KMDjAbjrtfnHqJjqIg
+         2CphjEHDsm2ml08w8Oeb5AYrdp5Gea7gJOZXsuyqkRFQPvLU2KKbGAQek7iRI2pbfz+/
+         iPdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725282103; x=1725886903;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OqcJZ/1GMKCCiNdCksBYuf+yCIrGEq2SbmEzRSEKkyk=;
+        b=Q5lp846Lpa/xNYf1Vo6vsWQ4flKqxe4ePiso7WxDBPbVJUbjE9/s2asXFkQwa4ZdHS
+         OldSCgvvniXAd6HIPy2YXAZdRIrtR9ap77rdc9sekG4eSRS6MAAs88sr2s0M2P6u3x1I
+         lfa8FMxbMzIS33IZnWX5lnStI28477itFr9CsCapYhdEMltHNQGnqtZGhZJopYIpRRSC
+         WdJkyLOOefmZaSgOcfe/gOhJXbXilhPCAOtqZcpOKq9M/yVMYEKPNkYdyTnB98fF1g9e
+         eFIJJ6ZxMOBVinAfxlIs48KfUnFSILTTQjt7/uts4VinIAJZ735haQYQY8uC4da+BMJD
+         YGHw==
+X-Forwarded-Encrypted: i=1; AJvYcCUKp+qH+UzBlJ8OL4UpFFYMrRcJR03Y+7i0sBkKSGGrMCWBlht54PZZ6Ek96nFnc9mVxOykf7wBnvs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzmW6Fzo7/2v95lpDxKGbv9ST0KWwXbD4kPmrILklnnGCvD7YVl
+	5mDXaC2yHUSm/nqypsWWhYbE+7WaO0jhvPJ5ObAlVpRGtjT59NkYsHVJjg2cwMPsfpX3TE9HRIq
+	5lM08/qFszUNzHkmMIsh9O0ZWsJ9edw+AQpo6
+X-Google-Smtp-Source: AGHT+IEqxuDt5F9iLAPqh29duXxwhGXKRe2nes7X9QlYEzjiULot5Kc8klsLZ2ZBF8NXVRMhqG5+6UVEa6rSFv8Zqvo=
+X-Received: by 2002:a17:907:701:b0:a80:7193:bd88 with SMTP id
+ a640c23a62f3a-a89d879cf05mr456688866b.36.1725282101820; Mon, 02 Sep 2024
+ 06:01:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgD3KsfEttVmOJPAAA--.25304S11
-X-Coremail-Antispam: 1UD129KBjvJXoWxWw4ktFW5Jr43tr43Kr1Dtrb_yoWrAw17pF
-	4rWFsxAFWktF45uF4Utw4kuFy3Jas7WFW0kwsrG34Fvr1Sgr95XryDCryrXFy5tFWjyFyj
-	yrs093y8ua12yaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUPvb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAV
-	Cq3wA2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0
-	rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267
-	AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E
-	14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7
-	xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Y
-	z7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2
-	AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAq
-	x4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r
-	43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF
-	7I0E14v26r4UJVWxJr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14
-	v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuY
-	vjxUF9NVUUUUU
-X-CM-SenderInfo: 51dqw5xlqjzxhdqjqx5xdzvxpfor3voofrz/
+References: <20240831113223.9627-1-jdamato@fastly.com>
+In-Reply-To: <20240831113223.9627-1-jdamato@fastly.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Mon, 2 Sep 2024 15:01:28 +0200
+Message-ID: <CANn89iK+09DW95LTFwN1tA=_hV7xvA0mY4O4d-LwVbmNkO0y3w@mail.gmail.com>
+Subject: Re: [PATCH net] net: napi: Make napi_defer_irqs u32
+To: Joe Damato <jdamato@fastly.com>
+Cc: netdev@vger.kernel.org, mkarsten@uwaterloo.ca, stable@kernel.org, 
+	Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, Paolo Abeni <pabeni@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Breno Leitao <leitao@debian.org>, 
+	Johannes Berg <johannes.berg@intel.com>, Heiner Kallweit <hkallweit1@gmail.com>, 
+	Alexander Lobakin <aleksander.lobakin@intel.com>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Yang Yingliang <yangyingliang@huawei.com>
+On Sat, Aug 31, 2024 at 1:32=E2=80=AFPM Joe Damato <jdamato@fastly.com> wro=
+te:
+>
+> In commit 6f8b12d661d0 ("net: napi: add hard irqs deferral feature")
+> napi_defer_irqs was added to net_device and napi_defer_irqs_count was
+> added to napi_struct, both as type int.
+>
+> This value never goes below zero. Change the type for both from int to
+> u32, and add an overflow check to sysfs to limit the value to S32_MAX.
+>
+> Before this patch:
+>
+> $ sudo bash -c 'echo 2147483649 > /sys/class/net/eth4/napi_defer_hard_irq=
+s'
+> $ cat /sys/class/net/eth4/napi_defer_hard_irqs
+> -2147483647
+>
+> After this patch:
+>
+> $ sudo bash -c 'echo 2147483649 > /sys/class/net/eth4/napi_defer_hard_irq=
+s'
+> bash: line 0: echo: write error: Numerical result out of range
+>
+> Fixes: 6f8b12d661d0 ("net: napi: add hard irqs deferral feature")
+> Cc: stable@kernel.org
+> Cc: Eric Dumazet <edumazet@google.com>
+> Suggested-by: Jakub Kicinski <kuba@kernel.org>
+> Signed-off-by: Joe Damato <jdamato@fastly.com>
+> ---
 
-All the {devm_}spi_alloc_master/slave() have been replaced,
-so they can be removed and replaced in doc and comment.
+I do not think this deserves a change to stable trees.
 
-No functional changed.
+Signed or unsigned, what is the issue ?
 
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
----
- .../driver-api/driver-model/devres.rst        |  4 +--
- drivers/spi/spi.c                             | 14 ++++-----
- include/linux/spi/spi.h                       | 30 -------------------
- 3 files changed, 9 insertions(+), 39 deletions(-)
+Do you really need one extra bit ?
 
-diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-index 5f2ee8d717b1..ebbf8e4cc85f 100644
---- a/Documentation/driver-api/driver-model/devres.rst
-+++ b/Documentation/driver-api/driver-model/devres.rst
-@@ -462,8 +462,8 @@ SLAVE DMA ENGINE
-   devm_acpi_dma_controller_free()
- 
- SPI
--  devm_spi_alloc_master()
--  devm_spi_alloc_slave()
-+  devm_spi_alloc_host()
-+  devm_spi_alloc_target()
-   devm_spi_optimize_message()
-   devm_spi_register_controller()
-   devm_spi_register_host()
-diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
-index 60a2b5a0c85d..2000bce240a6 100644
---- a/drivers/spi/spi.c
-+++ b/drivers/spi/spi.c
-@@ -3249,9 +3249,9 @@ static int spi_controller_id_alloc(struct spi_controller *ctlr, int start, int e
- }
- 
- /**
-- * spi_register_controller - register SPI master or slave controller
-- * @ctlr: initialized master, originally from spi_alloc_master() or
-- *	spi_alloc_slave()
-+ * spi_register_controller - register SPI host or target controller
-+ * @ctlr: initialized controller, originally from spi_alloc_host() or
-+ *	spi_alloc_target()
-  * Context: can sleep
-  *
-  * SPI controllers connect to their drivers using some non-SPI bus,
-@@ -3401,11 +3401,11 @@ static void devm_spi_unregister(struct device *dev, void *res)
- }
- 
- /**
-- * devm_spi_register_controller - register managed SPI master or slave
-+ * devm_spi_register_controller - register managed SPI host or target
-  *	controller
-  * @dev:    device managing SPI controller
-- * @ctlr: initialized controller, originally from spi_alloc_master() or
-- *	spi_alloc_slave()
-+ * @ctlr: initialized controller, originally from spi_alloc_host() or
-+ *	spi_alloc_target()
-  * Context: can sleep
-  *
-  * Register a SPI device as with spi_register_controller() which will
-@@ -3489,7 +3489,7 @@ void spi_unregister_controller(struct spi_controller *ctlr)
- 
- 	/*
- 	 * Release the last reference on the controller if its driver
--	 * has not yet been converted to devm_spi_alloc_master/slave().
-+	 * has not yet been converted to devm_spi_alloc_host/target().
- 	 */
- 	if (!ctlr->devm_allocated)
- 		put_device(&ctlr->dev);
-diff --git a/include/linux/spi/spi.h b/include/linux/spi/spi.h
-index d47d5f14ff99..a9a6af11c974 100644
---- a/include/linux/spi/spi.h
-+++ b/include/linux/spi/spi.h
-@@ -833,21 +833,6 @@ void spi_take_timestamp_post(struct spi_controller *ctlr,
- extern struct spi_controller *__spi_alloc_controller(struct device *host,
- 						unsigned int size, bool slave);
- 
--static inline struct spi_controller *spi_alloc_master(struct device *host,
--						      unsigned int size)
--{
--	return __spi_alloc_controller(host, size, false);
--}
--
--static inline struct spi_controller *spi_alloc_slave(struct device *host,
--						     unsigned int size)
--{
--	if (!IS_ENABLED(CONFIG_SPI_SLAVE))
--		return NULL;
--
--	return __spi_alloc_controller(host, size, true);
--}
--
- static inline struct spi_controller *spi_alloc_host(struct device *dev,
- 						    unsigned int size)
- {
-@@ -867,21 +852,6 @@ struct spi_controller *__devm_spi_alloc_controller(struct device *dev,
- 						   unsigned int size,
- 						   bool slave);
- 
--static inline struct spi_controller *devm_spi_alloc_master(struct device *dev,
--							   unsigned int size)
--{
--	return __devm_spi_alloc_controller(dev, size, false);
--}
--
--static inline struct spi_controller *devm_spi_alloc_slave(struct device *dev,
--							  unsigned int size)
--{
--	if (!IS_ENABLED(CONFIG_SPI_SLAVE))
--		return NULL;
--
--	return __devm_spi_alloc_controller(dev, size, true);
--}
--
- static inline struct spi_controller *devm_spi_alloc_host(struct device *dev,
- 							 unsigned int size)
- {
--- 
-2.33.0
-
+/sys/class/net/XXXXX/tx_queue_len has a similar behavior.
