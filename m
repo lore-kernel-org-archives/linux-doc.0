@@ -1,106 +1,118 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B92156C6C;
-	Mon,  2 Sep 2024 07:12:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D7C185B49;
+	Mon,  2 Sep 2024 08:23:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725261173; cv=none; b=fHjrLhz5Rax2ReniHLpgMgzFEr1e2ZHLXztwEkmddv+eVm2JSvFmn9XwtbwVRoFpXcfDQZDcU5kv3xa8Qa9DpBLhj87v4v4oiIOsN9vtiP8Td55FrM1gNXmSNahD2ngiPbBnXgYaVuIrphL1aHkStGcnwUO01NmFdd9KLKpIG2M=
+	t=1725265428; cv=none; b=U5jheu6g8nAFcBgm8plx7fNFZbd/EMrJ9PSxJKTPVUT1zSEJfc/U7/i84T+OSYcxjIaB5YsxxnT7UyKeudlw0RnW8ucFEzwrXrww/Sa/NfRRdg5NkUWVOYn3dxngF4cfnmxEB4l7X20AO/vpT/ZvHzarPRz6wSN9izAgjeizC1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725261173; c=relaxed/simple;
-	bh=FKep8l+oV7HR/Wfto8Gbg+6ucFn4AA0TMQUicSzBqf8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rGTEZgLO3pt2jMBwTUVGV95MRKicJFY5iqDYCaKEJFHY3vNC5t0e0CHTDCKEmbAv0B/5lR7qh5WvOFgpKv7cYbA8IUKMRjXqb0h5fN4ofQlWJQFFWK1Kp9bncaMgOtgp1ZLC9VDWtmXjePPWFFNlcjMmI3z8qy49dIr3WeSqhPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LNQlXIfV; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1725265428; c=relaxed/simple;
+	bh=Vw8owfhCT5NXCuUPrz+ei1KCOX779W7JZ98MuG1X2W4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g7//hIuO8z7AgFpFkiDvGWYF0Mq7N0zeI8kbW5G+5VZr0y2inVUysLRQSOpfmq04Dvcv1OIQPe8+/9ClxvlB29c81cM/q3pMAev4qp8VoYizBxxJ7O8WYA/bQSbQlZrzQM9jSDsBJxaoYStx7x6n5p7n2nsn8kjxv7EML6XXtH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d64tsKgi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LNQlXIfV"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2025031eb60so33056395ad.3;
-        Mon, 02 Sep 2024 00:12:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725261171; x=1725865971; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nPJjH6wjnaMmhjF7ajp9QxgpTUkbKcRgs08eMqfuzp8=;
-        b=LNQlXIfV5NOzafIKepaN0C2kqiWX0H5VW2W4TrXP6i3AgEln/Umjw89St1qu1TgfMN
-         8daeYC0d/tJOP1+vf7/0ZqqMqajCxZ+/n9mGcwOOgUHTUUEKw1pXbOQfo47PHf+vZaLM
-         5mMMqOn68me1T6wCoW44BDYT69S+xFUhRfdK4H/MFTITHsl4y5Rs6rvVGTZ1RZKig6ks
-         rh5/vvcJpDLUm8GhVFrFFzCnPwn7C6fI01CUmuKM2zjxSwrvVph+vo+it0vNBSB7uj/L
-         KgivD4htT7XY5wXEnNj2xssZQgfKbKbESwargjtWuNefB69ee9KY+NI/mXO3VJXxE1Tm
-         poLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725261171; x=1725865971;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nPJjH6wjnaMmhjF7ajp9QxgpTUkbKcRgs08eMqfuzp8=;
-        b=EWhmulq3AfWojs6ijpDG5cZmN2d7H+VUkR1MoKQQ9yCJI9MV7r/hMQbLVKyaXlWoYm
-         ex2nZlhwR11dMaQGtshqFR9atXsbxCtsFhQWz+AQmG8Z1I8AQ00C00icWMFxQo5f49rJ
-         zY6Mg1/E9Dsf8wjqhMdM7b5THQ5cw7Gxu28/h7pTJs4QIpjqwDJ7JmpfIW37MzUOQFOH
-         VYj4l55E55fUP2vL63ztSbJWLiX8fW9jC+zDh4/XeXPDsNSmlg3q4R0eKjUsqv19Xmn8
-         fRv35PJuoEYftBgvHFH0kwNXoJuqTqJvEVmysMy6Miav4p7wViol4vXgLi6vV6fgWySc
-         /+kw==
-X-Forwarded-Encrypted: i=1; AJvYcCUhF39YxOa1Tdi/CpmLZkEeeiW9SxoQWKc0oUGVdBqDPeb61flNfNCAJL7SFRgonFRGc1IJ/cXccHnJ/+Ri@vger.kernel.org, AJvYcCVP9UaLyN4QwEKsv3Vzu5uXVaWx8gxXbH+U55yMNzTlxLMULe8jOFkT1SIQNUdTNs2xliY3DfaWAyA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy5LC1iRLTrKCsBxJrGJh7reYWk9gOsuA/GQxGGUxkuAcdIllZG
-	ms5qigTBi2i2ea1buDz1TABxAjQj2qgi1NhIf5EaRHX7OAKutzQY
-X-Google-Smtp-Source: AGHT+IFXZKM/8IqDv+Gbczy712NDtwg2wdVmlEzcNwDgfNYlgvz4awzr7Hob1IucqFMlqVTHUdpKaA==
-X-Received: by 2002:a17:903:22c7:b0:205:6f2d:adf7 with SMTP id d9443c01a7336-2056f2db09bmr32015405ad.21.1725261171328;
-        Mon, 02 Sep 2024 00:12:51 -0700 (PDT)
-Received: from [192.168.255.10] ([43.132.141.21])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2055553958fsm24736575ad.99.2024.09.02.00.12.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Sep 2024 00:12:50 -0700 (PDT)
-Message-ID: <14c9d71e-e953-493b-a581-141a58a15b49@gmail.com>
-Date: Mon, 2 Sep 2024 15:12:45 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d64tsKgi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BBF9C4CEC2;
+	Mon,  2 Sep 2024 08:23:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725265427;
+	bh=Vw8owfhCT5NXCuUPrz+ei1KCOX779W7JZ98MuG1X2W4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=d64tsKgiZzjYTOkitlfnwrz3lEryc10shY3safBerLoybDvdJxIxZI6JfAePdfxFM
+	 JkR/vZz0oZIPbL2ebh/dHJrK6NqC3nZCk0C2JM7E4m8Q4K20d/HjomMMc7cxcnAyWm
+	 6yc/aQuDkvb/jGkwh5EcDtjAGkk6qY/XccGFxqtRTn52cDQd9bZMQLh+gdH5Z/olDa
+	 I8d6qccvCjJQd+mNJL15Oxk1jVghce2qYb9Skawlk5p022ongUnqq3bcAQJV/AueKD
+	 kfW0Lx7NvTFW3+iIIYMG3dAd64iTHRQgcEVwxHSPSqQxbS3OqqmdRS80V7vUPhwF2g
+	 VHtYP5otX4KzQ==
+Date: Mon, 2 Sep 2024 09:23:42 +0100
+From: Simon Horman <horms@kernel.org>
+To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org, bhe@redhat.com,
+	corbet@lwn.net, kernel@gpiccoli.net, linux-kernel@vger.kernel.org,
+	stephen.s.brennan@oracle.com, kernel-dev@igalia.com,
+	dyoung@redhat.com, vgoyal@redhat.com,
+	linux-debuggers@vger.kernel.org
+Subject: Re: [PATCH V2] Documentation: Improve crash_kexec_post_notifiers
+ description
+Message-ID: <20240902082342.GC23170@kernel.org>
+References: <20240830182219.485065-1-gpiccoli@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs/zh_CN: add the translation of
- kbuild/gcc-plugins.rst
-To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <siyanteng@loongson.cn>, Jonathan Corbet <corbet@lwn.net>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-References: <20240831034924.3729507-1-dzm91@hust.edu.cn>
- <0a434542-b207-4bb6-886e-74eff6cc9f39@gmail.com>
- <35904aa5-9851-4894-b953-689904bf33ca@hust.edu.cn>
-Content-Language: en-US
-From: Alex Shi <seakeel@gmail.com>
-In-Reply-To: <35904aa5-9851-4894-b953-689904bf33ca@hust.edu.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240830182219.485065-1-gpiccoli@igalia.com>
 
-
-
-On 8/31/24 5:34 PM, Dongliang Mu wrote:
+On Fri, Aug 30, 2024 at 03:21:00PM -0300, Guilherme G. Piccoli wrote:
+> Be more clear about the downsides, the upsides (yes, there are some!)
+> and about code that unconditionally sets that.
 > 
-> On 2024/8/31 12:11, Alex Shi wrote:
->>
->> On 8/31/24 11:48 AM, Dongliang Mu wrote:
->>> +目的
->>> +=======
->>> +
->> there are still a lots of sign incorrect. Please be sure everything looks fine in a web browser after you 'make htmldocs'
+> Reviewed-by: Stephen Brennan <stephen.s.brennan@oracle.com>
+> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
 > 
-> What do you mean by "sign incorrect"? I check the html rendering in the vscode. It seems fine to me.
-
-vscode isn't good to show the correctness of the doc. Please try the thing reviewer pointed out.
-
-Thanks
-
+> ---
 > 
-> Dongliang Mu
+> V2: Some wording improvements from Stephen, thanks!
+> Also added his review tag.
 > 
->>
->> Thanks
->>   
+> V1 link: https://lore.kernel.org/r/20240830140401.458542-1-gpiccoli@igalia.com/
+> 
+> 
+>  Documentation/admin-guide/kernel-parameters.txt | 16 ++++++++++------
+>  1 file changed, 10 insertions(+), 6 deletions(-)
+> 
+
+Hi Guilherme,
+
+Some subjective grammar nits.
+
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index efc52ddc6864..351730108c58 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -913,12 +913,16 @@
+>  			the parameter has no effect.
+>  
+>  	crash_kexec_post_notifiers
+> -			Run kdump after running panic-notifiers and dumping
+> -			kmsg. This only for the users who doubt kdump always
+> -			succeeds in any situation.
+> -			Note that this also increases risks of kdump failure,
+> -			because some panic notifiers can make the crashed
+> -			kernel more unstable.
+> +			Only jump to kdump kernel after running the panic
+> +			notifiers and dumping kmsg. This option increases the
+> +			risks of a kdump failure, since some panic notifiers
+> +			can make the crashed kernel more unstable. In the
+
+nit: In the configurations -> In configurations
+
+> +			configurations where kdump may not be reliable,
+> +			running the panic notifiers can allow collecting more
+> +			data on dmesg, like stack traces from other CPUS or
+> +			extra data dumped by panic_print. Notice that some
+
+nit: Notice that -> Note that
+
+> +			code enables this option unconditionally, like
+
+Maybe: some code enables -> some configurations enable
+
+> +			Hyper-V, PowerPC (fadump) and AMD SEV.
+>  
+>  	crashkernel=size[KMG][@offset[KMG]]
+>  			[KNL,EARLY] Using kexec, Linux can switch to a 'crash kernel'
+> -- 
+> 2.46.0
+> 
+> 
+> _______________________________________________
+> kexec mailing list
+> kexec@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/kexec
 > 
