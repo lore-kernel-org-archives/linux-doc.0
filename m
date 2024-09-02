@@ -1,118 +1,174 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D7C185B49;
-	Mon,  2 Sep 2024 08:23:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF7013AD37;
+	Mon,  2 Sep 2024 10:09:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725265428; cv=none; b=U5jheu6g8nAFcBgm8plx7fNFZbd/EMrJ9PSxJKTPVUT1zSEJfc/U7/i84T+OSYcxjIaB5YsxxnT7UyKeudlw0RnW8ucFEzwrXrww/Sa/NfRRdg5NkUWVOYn3dxngF4cfnmxEB4l7X20AO/vpT/ZvHzarPRz6wSN9izAgjeizC1o=
+	t=1725271766; cv=none; b=dmAhYDwRe5QQkbW230BHMzCuGD8fgE3cK056EJZdjYTwCEbbBVj7LcIoSEHCK+RuohoqovhU/0QBJK2Zf9kITYiMcxHYpTxKLspELjZjpIAHbuKrAIZUI7WAfphqC2ywRi9wgg5sSVCjffeC1lM3fxjn8atTn27p6G6sxLUKJyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725265428; c=relaxed/simple;
-	bh=Vw8owfhCT5NXCuUPrz+ei1KCOX779W7JZ98MuG1X2W4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g7//hIuO8z7AgFpFkiDvGWYF0Mq7N0zeI8kbW5G+5VZr0y2inVUysLRQSOpfmq04Dvcv1OIQPe8+/9ClxvlB29c81cM/q3pMAev4qp8VoYizBxxJ7O8WYA/bQSbQlZrzQM9jSDsBJxaoYStx7x6n5p7n2nsn8kjxv7EML6XXtH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d64tsKgi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725271766; c=relaxed/simple;
+	bh=lzYfpfpRNSnHHYs5OJpvSysvCEO7Y8rYtnLM91szTBk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XJxM9PbXzKyRgRxpXklYd1dxegExpD2T9EoNfwm07WmnZE+hAO5QiWtQvWymLQxUgAMP7ZemkFOCJPA/xiRRdKFpIhCHDyu56t0jStU00daQiu7U+CwfzuX8qNF+tWRpRa5PFuOM7xNWtv8bC3A25Q1VpsFr6Y/KuUR+unsPIyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CMwQPQQ9; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d64tsKgi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BBF9C4CEC2;
-	Mon,  2 Sep 2024 08:23:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725265427;
-	bh=Vw8owfhCT5NXCuUPrz+ei1KCOX779W7JZ98MuG1X2W4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d64tsKgiZzjYTOkitlfnwrz3lEryc10shY3safBerLoybDvdJxIxZI6JfAePdfxFM
-	 JkR/vZz0oZIPbL2ebh/dHJrK6NqC3nZCk0C2JM7E4m8Q4K20d/HjomMMc7cxcnAyWm
-	 6yc/aQuDkvb/jGkwh5EcDtjAGkk6qY/XccGFxqtRTn52cDQd9bZMQLh+gdH5Z/olDa
-	 I8d6qccvCjJQd+mNJL15Oxk1jVghce2qYb9Skawlk5p022ongUnqq3bcAQJV/AueKD
-	 kfW0Lx7NvTFW3+iIIYMG3dAd64iTHRQgcEVwxHSPSqQxbS3OqqmdRS80V7vUPhwF2g
-	 VHtYP5otX4KzQ==
-Date: Mon, 2 Sep 2024 09:23:42 +0100
-From: Simon Horman <horms@kernel.org>
-To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org, bhe@redhat.com,
-	corbet@lwn.net, kernel@gpiccoli.net, linux-kernel@vger.kernel.org,
-	stephen.s.brennan@oracle.com, kernel-dev@igalia.com,
-	dyoung@redhat.com, vgoyal@redhat.com,
-	linux-debuggers@vger.kernel.org
-Subject: Re: [PATCH V2] Documentation: Improve crash_kexec_post_notifiers
- description
-Message-ID: <20240902082342.GC23170@kernel.org>
-References: <20240830182219.485065-1-gpiccoli@igalia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CMwQPQQ9"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a86cc0d10aaso439969766b.2;
+        Mon, 02 Sep 2024 03:09:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725271762; x=1725876562; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=C4qeT7o4ULHWCXxvL6tnTmiF2kCLEXZf1Gydy/0gqfY=;
+        b=CMwQPQQ9gK64SI8JFA22KXY3i2W5QssnKGubRbVaYSMtkCsqkKmFIrJIhr9DQPWCbD
+         JLvZUxvG2tObTy8NNxk3KeEQHNl19jO987JHMcWw1dWOy1gPsYZk+dq7sq43+6uGVrmq
+         asxxOEo18W33RfY78Sj4M2nYaZftbb/jyNGof6rmFL6DGF+yVX79zTtaK4RVLsti6y3O
+         WfIvAYm/trEeYmjJfchQiLGJZjlVF8CWM7wMFcJOiJlpyYV4QsFCUej4kW3sRkB19g17
+         1LoE2hBflvBDhHOqIQG0lPzXbHs76o4DHT64eICMVWAci1+A5+cBSsndRl9UVU8fVj/S
+         XZBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725271762; x=1725876562;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=C4qeT7o4ULHWCXxvL6tnTmiF2kCLEXZf1Gydy/0gqfY=;
+        b=CKTZ/lD/4aWcfFVI/UvIMbYTCkQHfjd/5kWYAzecWDZ6sY9wEUXPJfRKYagAFM4p1B
+         162v5KS0Rrg+a2wa0ZRuBH1lfRowZ4U4W5/cZfndtJ7+ULrqpdMTmB6WHRLeUkDtJfRW
+         lwBiv60JPDUVkeHoLkw1npzksfNf0aaJEayK2DOlEpGpTQZMj1T/u91GYwDAnxKWjK+z
+         TF9Sjo0AoGTpRFLt/8b6jydMcfV5OhatIApQcZ4NK2lEi7shE/H8cVKaRD+pwBQGh+N3
+         EnWqeqDrrsYBMM2Al1BYEvi8EI+sLPjvMXVcZZkrtibUlQQJAMrlzfQpV+DrWxX43oay
+         GB9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUTCK358uE3qUQiLO+y1qz0o+H7vCGRDKU+zHYBX+Dhy7G9msaFlTVeYq302Fn3qsVf/hP6mSUajllq6CxV@vger.kernel.org, AJvYcCXjUbnr5xUEmSHupPK56O71CGomKnqr/gwCE2Bg+gQ3O1l6K2MdvthU/JCx3juRCl1sLbBCPf1vTsg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHeh7o5NBYuQol+HvbY3NGqrkbp7MOM27Knybg2ZnagOxOah43
+	ZBP8Zm9XSpzaNvnot0k/OJkysaLY/pX8OGJRJ98ig5wRGbPErg2l
+X-Google-Smtp-Source: AGHT+IEknuOqL3uHFMqy/8uXTo23Npaz4MEm2YU7/Kccsr2LMVU8Oh04k1tsDqje10i2pJc+cTU1gw==
+X-Received: by 2002:a17:907:7f1e:b0:a77:b052:877e with SMTP id a640c23a62f3a-a897f84d4d0mr894471266b.19.1725271761663;
+        Mon, 02 Sep 2024 03:09:21 -0700 (PDT)
+Received: from ?IPV6:2a03:83e0:1126:4:eb:d0d0:c7fd:c82c? ([2620:10d:c092:500::7:76e8])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a898900f26asm541443366b.58.2024.09.02.03.09.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Sep 2024 03:09:21 -0700 (PDT)
+Message-ID: <3b910105-591c-45d4-b9c8-8b70f20f283b@gmail.com>
+Date: Mon, 2 Sep 2024 11:09:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240830182219.485065-1-gpiccoli@igalia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/6] mm: Introduce a pageflag for partially mapped
+ folios
+To: Bang Li <libang.linux@gmail.com>, Barry Song <baohua@kernel.org>
+Cc: akpm@linux-foundation.org, linux-mm@kvack.org, hannes@cmpxchg.org,
+ riel@surriel.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev,
+ yuzhao@google.com, david@redhat.com, ryan.roberts@arm.com, rppt@kernel.org,
+ willy@infradead.org, cerasuolodomenico@gmail.com, ryncsn@gmail.com,
+ corbet@lwn.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kernel-team@meta.com, libang.li@antgroup.com,
+ Lance Yang <ioworker0@gmail.com>
+References: <20240819023145.2415299-1-usamaarif642@gmail.com>
+ <20240819023145.2415299-5-usamaarif642@gmail.com>
+ <CAGsJ_4yKuvMSazWABXqaeRr84hLEubET0nCUhPFYHQnfR4Tm8w@mail.gmail.com>
+ <a09b6af0-4fdb-4ac1-9cbe-9b422ebc3308@gmail.com>
+ <CAGsJ_4xeWt9n3zX3-DknE=NftkWS0fe2vKTJT9tLuJPM4EaEwg@mail.gmail.com>
+ <9a58e794-2156-4a9f-a383-1cdfc07eee5e@gmail.com>
+ <CAGsJ_4xiG+oGkjt3nf0Zh2rdztz8h_AaahZWs4N3UARhw7DcgQ@mail.gmail.com>
+ <CAGsJ_4z2YL01wvVgsFsbzGAQ5KowXgxLcj=Y7DSX7ODOF5MUvw@mail.gmail.com>
+ <953d398d-58be-41c6-bf30-4c9df597de77@gmail.com>
+ <CAGsJ_4y49c8-hDgjNuqMZnNWfUT-ktxeqkfX0EQz4-Pu3x9-Dg@mail.gmail.com>
+ <5ed479c9-21eb-4bc8-8c17-79e1b6081355@gmail.com>
+ <9eb5af0d-730c-459d-9c2e-5ad7b78f30d7@gmail.com>
+Content-Language: en-US
+From: Usama Arif <usamaarif642@gmail.com>
+In-Reply-To: <9eb5af0d-730c-459d-9c2e-5ad7b78f30d7@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 30, 2024 at 03:21:00PM -0300, Guilherme G. Piccoli wrote:
-> Be more clear about the downsides, the upsides (yes, there are some!)
-> and about code that unconditionally sets that.
+
+
+On 01/09/2024 08:48, Bang Li wrote:
+> hi, Usama
 > 
-> Reviewed-by: Stephen Brennan <stephen.s.brennan@oracle.com>
-> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+> On 2024/8/22 3:04, Usama Arif wrote:
 > 
-> ---
+>>
+>> On 20/08/2024 17:30, Barry Song wrote:
+>>
+>>> Hi Usama,
+>>> thanks! I can't judge if we need this partially_mapped flag. but if we
+>>> need, the code
+>>> looks correct to me. I'd like to leave this to David and other experts to ack.
+>>>
+>> Thanks for the reviews!
+>>
+>>> an alternative approach might be two lists? one for entirely_mapped,
+>>> the other one
+>>> for split_deferred. also seems ugly ?
+>>>
+>> That was my very first prototype! I shifted to using a bool which I sent in v1, and then a bit in _flags_1 as David suggested. I believe a bit in _flags_1 is the best way forward, as it leaves the most space in folio for future work.
+>>
+>>> On the other hand, when we want to extend your patchset to mTHP other than PMD-
+>>> order, will the only deferred_list create huge lock contention while
+>>> adding or removing
+>>> folios from it?
+>>>
+>> Yes, I would imagine so. the deferred_split_queue is per memcg/node, so that helps.
+>>
+>> Also, this work is tied to khugepaged. So would need some thought when doing it for mTHP.
+>>
+>> I would imagine doing underused shrinker for mTHP would be less beneficial compared to doing it for 2M THP. But probably needs experimentation.
+>>
+>> Thanks
 > 
-> V2: Some wording improvements from Stephen, thanks!
-> Also added his review tag.
-> 
-> V1 link: https://lore.kernel.org/r/20240830140401.458542-1-gpiccoli@igalia.com/
-> 
-> 
->  Documentation/admin-guide/kernel-parameters.txt | 16 ++++++++++------
->  1 file changed, 10 insertions(+), 6 deletions(-)
+> Below is the core code snippet to support "split underused mTHP". Can we extend the
+> khugepaged_max_ptes_none value to mthp and keep its semantics unchanged? With a small
+> modification, Only folios with page numbers greater than khugepaged_max_ptes_none - 1
+> can be added to the deferred_split list and can be split. What do you think?
 > 
 
-Hi Guilherme,
+hmm, so I believe its not as simple as that.
 
-Some subjective grammar nits.
+First mTHP support would need to be added to khugepaged. The entire khugepaged code needs
+to be audited for it and significantly tested. If you just look at all the instances of
+HPAGE_PMD_NR in khugepaged.c, you will see it will be a significant change and needs to
+be a series of its own.
 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index efc52ddc6864..351730108c58 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -913,12 +913,16 @@
->  			the parameter has no effect.
->  
->  	crash_kexec_post_notifiers
-> -			Run kdump after running panic-notifiers and dumping
-> -			kmsg. This only for the users who doubt kdump always
-> -			succeeds in any situation.
-> -			Note that this also increases risks of kdump failure,
-> -			because some panic notifiers can make the crashed
-> -			kernel more unstable.
-> +			Only jump to kdump kernel after running the panic
-> +			notifiers and dumping kmsg. This option increases the
-> +			risks of a kdump failure, since some panic notifiers
-> +			can make the crashed kernel more unstable. In the
+Also, different values of max_ptes_none can have different significance for mTHP sizes.
+max_ptes_none of 200 does not mean anything for 512K and below, it means 78% of a 1M mTHP
+and 39% of a 2M THP. We might want different max_ptes_none for each mTHP if we were to do
+this.
 
-nit: In the configurations -> In configurations
+The benefit of splitting underused mTHPs of lower order might not be worth the work
+needed to split. Someone needs to experiment with different workloads and see some
+improvement for these lower orders.
 
-> +			configurations where kdump may not be reliable,
-> +			running the panic notifiers can allow collecting more
-> +			data on dmesg, like stack traces from other CPUS or
-> +			extra data dumped by panic_print. Notice that some
+So probably a lot more than the below diff is needed for mTHP support!
 
-nit: Notice that -> Note that
 
-> +			code enables this option unconditionally, like
-
-Maybe: some code enables -> some configurations enable
-
-> +			Hyper-V, PowerPC (fadump) and AMD SEV.
->  
->  	crashkernel=size[KMG][@offset[KMG]]
->  			[KNL,EARLY] Using kexec, Linux can switch to a 'crash kernel'
-> -- 
-> 2.46.0
+> diff --git a/mm/memory.c b/mm/memory.c
+> index b95fce7d190f..ef503958d6a0 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -4789,6 +4789,8 @@ static vm_fault_t do_anonymous_page(struct vm_fault *vmf)
+>         }
 > 
+>         folio_ref_add(folio, nr_pages - 1);
+> +       if (nr_pages > 1 && nr_pages > khugepaged_max_ptes_none - 1)
+> +               deferred_split_folio(folio, false);
+>         add_mm_counter(vma->vm_mm, MM_ANONPAGES, nr_pages);
+>         count_mthp_stat(folio_order(folio), MTHP_STAT_ANON_FAULT_ALLOC);
+>         folio_add_new_anon_rmap(folio, vma, addr, RMAP_EXCLUSIVE);
 > 
-> _______________________________________________
-> kexec mailing list
-> kexec@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/kexec
+> shmem THP has the same memory expansion problem when the shmem_enabled configuration is
+> set to always. In my opinion, it is necessary to support "split underused shmem THP",
+> but I am not sure if there is any gap in the implementation?
 > 
+> Bang
+> Thanks
+> 
+
