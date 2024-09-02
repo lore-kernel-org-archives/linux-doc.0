@@ -1,486 +1,197 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from FR6P281CU001.outbound.protection.outlook.com (mail-germanywestcentralazon11020118.outbound.protection.outlook.com [52.101.171.118])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B5A19C56C;
-	Mon,  2 Sep 2024 12:56:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725281775; cv=none; b=dAdvx3lUftmi75SDaPp2mr6hIZLqfYrl8Wv7kdeWdiIibND/YsIEI0bWVyFfzr22RhftTEbtPpndOGIiL0Mlwx8t4I8VA399RNOE5NFiAoQRYkzjNHOm3tj+MN2+fGSqLkh8MgWyHj2TtYZZpVlW44WUCcVn3JIUKkvdxsfiT28=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725281775; c=relaxed/simple;
-	bh=Cvmn/MxRHMteSCvHfVIVw9TsmLnSkdvoBYquXqAFVSw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=K0BHoktOGoWfMqLQlLvju3xoDaHDKIv/xcw0xxcy/ZDJyyM9u8MNvgEBj8uDtP8UUqjXNdSnSXbIG1bJB7i2UjF6RuuNb/TONqYPQhlCQeGGtMctzgBicJA0Zcslh3WL3olfnTE9enQoKzpk0DIwmIsHaVHRcPVkMmVzZcyKnCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5c260b19f71so808991a12.1;
-        Mon, 02 Sep 2024 05:56:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725281768; x=1725886568;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AulFetis4hJ4nBZpqnAuP4LAKnJB+TKmCm7LCByyUks=;
-        b=QEkSYTgriPOzL+KcLXKoBire/NibH5z6gK9m6OHzNW9mLr6MlHadhzCtKny60vy5ev
-         nQ+2IqX+PNA5XmCHgzvnfpbxYz0QJK9z2pS8SAqjLTFhh4g1ISi29csDxkw8/Jj0lgWE
-         kwr+lPIutpflHLyUzhYe5LcvkZCvi4uaYCpg1/bvQmP/gPfmNWkZNU3e2xt5SIG2XBwQ
-         n0PMSG8hFiz13zF+Y6P5332uJdH8y6bvlEQMAApc9XalzMbocdJ8q8WuH5kcmw2Uv6H5
-         H2leq7Gy1/8VVJaei4GUqX0u9VdTecC7NP9fMx4PvDjOMntpN2xw6RothtuTwWSvF2lL
-         /7Pw==
-X-Forwarded-Encrypted: i=1; AJvYcCUJ9W79ggLWg8nit+IQc/goUO0dpDR/FhsIiQUKZ7y4/qKFE3kLjMqwpVPpwED3O3rspr+IqyL3UZmLJIQ=@vger.kernel.org, AJvYcCUuMoQbSCx4suIS1sefSSiT6pmjd+sh5Oa29bbnRPfFKLQbBItIw7KH60hZV6kqCBpv0Vn9kdWdXPn3@vger.kernel.org, AJvYcCXEr7ZBMqFJWvYaj7CwXWcoG5ihlNipgkokIeZzfoR/P+Kv0O15AITyPf3bchDREdSVSlnBF+wx++U+jw==@vger.kernel.org, AJvYcCXP+cuKE0TF049McR+nqnbJyI24/cdUfvK1ntJwhVXWsV6xRXHRQ5yI9CI5vNt+UTjkcGPh4kDRt27f@vger.kernel.org, AJvYcCXR8AenZPU6vibNjf/iJ553Le8Hoq3xguxwBuGWikdpPtzNSIv6ZKd+GDUAyJQ8UmNeePvhT7yRzkLb@vger.kernel.org, AJvYcCXUmB2u0lB3kjQenZ2+28rQAoKC7Lf99PuynafDrsUpsGlxvA6KrSUBj2Hh2/SSQSxMa5RNMCrtN903lbZy@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLPvCZ1NVk18752w0ZtWBcgRmM3Gdyn4FYg1J9IoNX5gacYFar
-	6u+qDF3fgCDj6H+oaISjS0rh4yHG0sS3EBbqlpMGdfVyE9lka4Xx
-X-Google-Smtp-Source: AGHT+IGCS78pvxIBdvjRBXHwluMlTuEf25Ac7vqcWSYoAo8knsAvDiU3YKvjT6NaTY3ZnyYh3nukxQ==
-X-Received: by 2002:a05:6402:35d2:b0:5c2:43bd:8d3d with SMTP id 4fb4d7f45d1cf-5c243bd90eamr5092738a12.15.1725281767568;
-        Mon, 02 Sep 2024 05:56:07 -0700 (PDT)
-Received: from localhost (fwdproxy-lla-112.fbsv.net. [2a03:2880:30ff:70::face:b00c])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c226c7c1f7sm5242435a12.42.2024.09.02.05.56.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Sep 2024 05:56:06 -0700 (PDT)
-From: Breno Leitao <leitao@debian.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Akinobu Mita <akinobu.mita@gmail.com>,
-	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Akira Yokosawa <akiyks@gmail.com>,
-	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>,
-	Avadhut Naik <avadhut.naik@amd.com>,
-	Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>,
-	Jens Axboe <axboe@kernel.dk>,
-	Kees Cook <kees@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Avri Altman <avri.altman@wdc.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: leit@meta.com,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Thomas Huth <thuth@redhat.com>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Xiongwei Song <xiongwei.song@windriver.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	John Moon <john@jmoon.dev>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	SeongJae Park <sj@kernel.org>,
-	"Ran.Park" <ranpark@foxmail.com>,
-	Tiezhu Yang <yangtiezhu@loongson.cn>,
-	Remington Brasga <rbrasga@uci.edu>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Hannes Reinecke <hare@suse.de>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Johannes Thumshirn <johannes.thumshirn@wdc.com>,
-	Zhu Yanjun <yanjun.zhu@linux.dev>,
-	John Garry <john.g.garry@oracle.com>,
-	Chengming Zhou <zhouchengming@bytedance.com>,
-	Yu Kuai <yukuai3@huawei.com>,
-	"Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list),
-	workflows@vger.kernel.org (open list:DOCUMENTATION PROCESS),
-	linux-block@vger.kernel.org (open list:BLOCK LAYER),
-	linux-scsi@vger.kernel.org (open list:UNIVERSAL FLASH STORAGE HOST CONTROLLER DRIVER),
-	linux-arch@vger.kernel.org (open list:GENERIC INCLUDE/ASM HEADER FILES)
-Subject: [PATCH v2] docs: Move fault injection section to dev-tools
-Date: Mon,  2 Sep 2024 05:53:11 -0700
-Message-ID: <20240902125421.569668-1-leitao@debian.org>
-X-Mailer: git-send-email 2.43.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151A4185934;
+	Mon,  2 Sep 2024 12:58:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.171.118
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725281927; cv=fail; b=h4DE7xFEfa5y8Qz677hUzsYRFnk8HmVksLFIvrUpG/3+OfTg6ZQtFLVWx6ncGUl3WVZXMcl+7sDohVBldVOahhS5G5UEW8FgZtQCJuBymf1rGak+PD9y7V4ymqwMfTxklTFojxQTJjNvEyRrsOOBIVF5FoMTuxzgIfcyXxB5II4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725281927; c=relaxed/simple;
+	bh=/2iMk9pJrTGI0Up9J6dNB6NVLHTr2mc6Qr0JjZF1fsc=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=TDc1ekB7YymhHjMT6wzmJWZ0/dr3VfqBxjjQ7DEfxgGk/oBxIOezar92q+yGf8hM7pNeI9NaZPCk/9vYBUPms46tbohj6M3SHI4DQgEwYjkKRZ9+5duuVGCa4VhjvCuEUZuJY8ZVNQT4DQqmRkflC4bVS7ZDzj+cEQrvpJFsUbI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=Softing.com; spf=pass smtp.mailfrom=Softing.com; dkim=pass (2048-bit key) header.d=softing.com header.i=@softing.com header.b=4f/SowHC; arc=fail smtp.client-ip=52.101.171.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=Softing.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=Softing.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=softing.com header.i=@softing.com header.b="4f/SowHC"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JbiPvh8s/1dto5/lPVGSPHSsRF0sktmlSx+jGZOfWV0UR0WCDI3tBomIIPT8xvbYGGYe823qMVM7zbe8BdCBkm2qa+B5vxOKnARUwhWP6PzqzyMaaKhvtLAZAvLhqOSUDa8f3E4/Lif4mpq/DSecE1porE3UgdPgrs1r9Rcy3BnO9pkh16gAs6F3V7cSPeQMaxPZospM7KH/zqU7jy/JM2+PoGjnWfHImIGuwzpf/FwlmxqBGflWi4D/MG22UOzJaczlC2ufwAhmamG6G5pk9B6fHGtpATqog/dCJYuffKiBCY0zeG+ABdDBhCTnkrNF1WPKRYmTrO8o3m/dUY9zKw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oV6E34/WD0p5rHTZ7bHmhbKdsCzUm2JSfnXP4PGB1eU=;
+ b=Jvnt5k9TnEzy5soQ8/jw2gmnjVRHxxdQlyN3Vzd+eHsHDode9Prcx5tY3mjCMeWNWLPv79L5YM+j/e2qqUlfzSER9O8I5BBj3Lp30DRfZM70elD8wjyfdLZiDTy5VFj7uLyowRKRYpjHFI+mC5s6rI8Gb8wEoRaLpW901nehTs4jFNwcEeaVURpZz00JXKGcm+iyBwoSQ9sjoS2FQP/lLDEvkTZY0Z3gnHHv77g1yBtsTrfgM83QZm+hBZiygz+zCnCUlzHNzMH1Wg4AiUnDjf0vgRYhOlLXtE12byy+WMZhraC0sA8aewM/khzWX4qjrAvfgbui75yEz6KEqt0Ajw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=softing.com; dmarc=pass action=none header.from=softing.com;
+ dkim=pass header.d=softing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=softing.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oV6E34/WD0p5rHTZ7bHmhbKdsCzUm2JSfnXP4PGB1eU=;
+ b=4f/SowHCcuxErp5e1On2p9vsDdLbBP9ZvWW6h9xgzqUf1jHhnY7gMXHWyRHu1yF9WhnnJi/JN1eSz+3aMU+HefuMxotGS7aISbY1X/7mtTuLmhtfD8PNH0xODAilwYUgkr3Zt6pAw1GEe314kEDgXhqT0HJwH40QUxz0qulzXEIaw6PsDDstIJvTIxKpXXhc9rmupZ9OIOGuQB7kNY5Amjtkh6rtj3amutrkdDmhy2B3vv7ajnqPNurw06b1Hd1LFrl+TSvkHO11DE3Mm0Ad3ggk94SCXqgI6TJNK/JM7Onv7pETjVD5ui0JzRvhFnL4EsOFJp3MvDlURNYrRm9zpQ==
+Received: from BE1P281MB2420.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10:43::7) by
+ BE2P281MB4932.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10:be::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7918.24; Mon, 2 Sep 2024 12:58:37 +0000
+Received: from BE1P281MB2420.DEUP281.PROD.OUTLOOK.COM
+ ([fe80::8de2:b2ba:4092:939a]) by BE1P281MB2420.DEUP281.PROD.OUTLOOK.COM
+ ([fe80::8de2:b2ba:4092:939a%4]) with mapi id 15.20.7918.024; Mon, 2 Sep 2024
+ 12:58:37 +0000
+From: "Sperling, Tobias" <Tobias.Sperling@Softing.com>
+To: Conor Dooley <conor@kernel.org>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "jdelvare@suse.com"
+	<jdelvare@suse.com>, "linux@roeck-us.net" <linux@roeck-us.net>,
+	"robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+	<krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"corbet@lwn.net" <corbet@lwn.net>, Jonathan Cameron <jic23@kernel.org>,
+	"linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>
+Subject: AW: [PATCH 1/2] dt-bindings: hwmon: Introduce ADS71x8
+Thread-Topic: [PATCH 1/2] dt-bindings: hwmon: Introduce ADS71x8
+Thread-Index: Adr60bwOPjoiJD3QTreu2+tBMAOlGgADMoEAAJXJPEA=
+Date: Mon, 2 Sep 2024 12:58:37 +0000
+Message-ID:
+ <BE1P281MB2420F7EDCFFB8C5B2528F680EF922@BE1P281MB2420.DEUP281.PROD.OUTLOOK.COM>
+References:
+ <BE1P281MB24208CB90AF549578AA5C384EF972@BE1P281MB2420.DEUP281.PROD.OUTLOOK.COM>
+ <20240830-chaos-unrivaled-04c5c4c6add9@spud>
+In-Reply-To: <20240830-chaos-unrivaled-04c5c4c6add9@spud>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=Softing.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BE1P281MB2420:EE_|BE2P281MB4932:EE_
+x-ms-office365-filtering-correlation-id: 00287f5e-dc69-484c-6d7b-08dccb4ef60c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|1800799024|376014|7416014|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?YstRBix7uAipjgklK68X5Jb8N90oslDnB7xWqBJ5De7REqeqNczA/NyvSWY4?=
+ =?us-ascii?Q?Zi3ES46W/oMr59Axm4Vtb3NkORvDKW/dt0oC5edwYERWaNFmc8AK2zBkySjm?=
+ =?us-ascii?Q?8t9r4Lr9Bb6yq2mixBSP4gesdvDsP4V5S3+nQoyjGrWFTGzuUTMEB/tvrRn4?=
+ =?us-ascii?Q?9QOdrzICJKOvghk8/U3/oMQZmootVZDm2bNxw9xxhf/EaAwucToZVRCOjfAD?=
+ =?us-ascii?Q?EllsmBRji4rXWX9EEQUsOeZ/E/LwBTrZu6LiGI/wtaLdI+TIjj22VNKeKw+n?=
+ =?us-ascii?Q?6Ni1QlqFSkTEhPnNEh/Oq+09YuI17q4BZdNOYImQvOEijU2fPNwDi3KK1JLr?=
+ =?us-ascii?Q?oSuDuzJYdPguirWSfshChdEav+b/UZPuhWnfSxenIJBpHZ/b6mNeJAd0OXEz?=
+ =?us-ascii?Q?LxA3YSsfDEBdUXJqbkja6WKmfPrUH8xC4jRzbzNBNRQJRMgDOSYlIM6patSn?=
+ =?us-ascii?Q?J7mug0OLhTjws1uUi4r3t26ADbYY5th7nfhke6p1WFQwQhW7zomCmeVw7YK4?=
+ =?us-ascii?Q?ZAq3LLT+DkDIkJYwzeQlR4qDnsVDnVdU5HUUyum60ZJDlhp45eXeeXSpU13B?=
+ =?us-ascii?Q?UeudjBnWyGWhj0+TtXPI0zMtjCP93ZRSFiaTiWNtHTupYR5l+RUJBwpPXUW9?=
+ =?us-ascii?Q?jn3V4JXsR9hedpCczBfVY/w2T+r6Mat6kipKx35uPClNIE+OVPrbiMpdvOdj?=
+ =?us-ascii?Q?Au/073oo7G9FxkkZeapMY6Ccek7uM6HDJguJnBFIqZqROtRQj0/e7CfqsiYY?=
+ =?us-ascii?Q?xZTmvPGqYvkGD655JTAXV3cgfB6Ngje64K7oeIBF+cjS6fcbA5Lv/pXofq1/?=
+ =?us-ascii?Q?4R/A0V6vEtJi3YHPmSt98UwfQJ9gLPdzhPU6qSdvXI0EgUUfLKG/2fOesmwn?=
+ =?us-ascii?Q?io+Kg5HxnMv4e7hnR7xCkkwKpUn/Q8Fn6El1f0WI+taWM5W9azZGnEWNV+Nx?=
+ =?us-ascii?Q?qdXU/ubyghoLiRhP8AEG90b33I3ykMFV5TLPreJxFE4So7GqgdbsOJynwpBC?=
+ =?us-ascii?Q?KRpRFdMQezEHYnFQzEH+D4motEalaPCCrGVj50h7VEUkBjUBoFQPbF1Htpgr?=
+ =?us-ascii?Q?8xFiT0VPx4Vja15Yfa3fAtHJ/5Sz3f+GuDI/CJb3OTa/u5TYAVxEKB+QYG02?=
+ =?us-ascii?Q?ctVbiZ9o0ZFTnavbPiv2voR0AWO3YBxMQiUrSJFMFXjniI2NO1od2U8Ob4cQ?=
+ =?us-ascii?Q?ZUwKDz6lmohfU+jyzB1X8ErjRy0l+4PCOg+5NVyuWKqiFKBK2mPGDemtzs3B?=
+ =?us-ascii?Q?E6IVL3y87PWtpTYhroBvj05AQMoC7QS6E+kDuuoJs7Px0bNYIV+Qh0abdiTg?=
+ =?us-ascii?Q?Ga076VDW5GehmA+6ApaGUGXdeaZhFsbBS83SakDeeYTwOl26QrT0PD9fLD13?=
+ =?us-ascii?Q?NOMeNju0IiuBdv7Id3oISA/XaQwOtpciwgN1g2y76/lQTVtXFw=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BE1P281MB2420.DEUP281.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?AFa/RTUzA0wlStEngU3Lbowf6P+u9hK8XLK7IgRg27WasIEYX+GDjlNncJtl?=
+ =?us-ascii?Q?9PxaZs78VrbAGZHySs/Hy3Ok57t8kMXQnippNos+1Vl7WNihpuYpUmI4dB+P?=
+ =?us-ascii?Q?SRniietLqplCWjFAwjAy7THp0S52yqCp4Y300XTvDPgqAPqfdW1omZBS8EIb?=
+ =?us-ascii?Q?Bu2ycd9tEmzk4cxZnJvBWnOWhMmTpu8zGZVemC6Mc0ENEmxa630u9FizjOYr?=
+ =?us-ascii?Q?SZmhBCtRnqRa/ktkoWWXTzXDGEt8/59RcBonJjqhQRU5ZdFns7S2EGrntEqi?=
+ =?us-ascii?Q?Z1gC8Y6yLWLColNkLAVJzRKN5FJjs/8PdpwxofQ6Dfr+n9deycS0EhdtPTxn?=
+ =?us-ascii?Q?AOsAEOQ6zyoVsKUtKGOGAfzo5M5WyzFGbiBK964/x2kpannrdy323OQyfOMs?=
+ =?us-ascii?Q?0oBUH8ojFQVuHEshVV9R5Expbw0noT/49Lsg+KoGyjFnBYYsAt03M1zVWKqg?=
+ =?us-ascii?Q?41shFNBEjzQ7IhtkV/6/s2G1IvAsBq4XxQmJKyyz9VQ+YCc4n7AqpPxLXXII?=
+ =?us-ascii?Q?OjmXXbObe+jZ48EEHp5ksDS+TKiWshFGN6ezSlntnDSOqx3AdMlyofvKKZR5?=
+ =?us-ascii?Q?vZ/t0yvKrRDnFEiCqtSFHro2FWe3FsUrCeesDA7P0Xjl6Urr65x9vCB4nkRD?=
+ =?us-ascii?Q?fEfsoOr0ISxaHCAjnYIVBHB2845wGrm85kqdI2nFK2M9l8HJbohPKgsq0uGr?=
+ =?us-ascii?Q?4L6SOsBPPqRtQaH/U2CMucll+8XKfF82vs8HDDBdFdjZ7+7PlixT533uNNy8?=
+ =?us-ascii?Q?sNVCwjG2vP+DkgTfqveCd78oSkqZP54pGvtT0nt64f06pJr49fyngIpeTbwh?=
+ =?us-ascii?Q?PJ+MH35TSXOVvnJ35nLyshvd5HQVLjhnZ7/t5Qlu/l8IatuRwfSI9q5unlxJ?=
+ =?us-ascii?Q?mKyvfmwktNqMxD12K6Z6t/Pk6e3ixiicjFm5oRl/s5cDIodSGNUa41tVYMgl?=
+ =?us-ascii?Q?vg32UFRmskzlKw41In4wkCXNNqigea25D2jR5Fak9RaMTfL2cuzfrzqm+vm8?=
+ =?us-ascii?Q?0reJEPiVT6c4OCeaIuWZkTP8TaDEmVAz0uV91jjI9GMxULaXk9JchV8w8gIt?=
+ =?us-ascii?Q?PwAoq6jVPEy1ZPCg/q0eEWgZ7E4Y9Iq4hJNADfwLMm0z2K6VS+D6FQBOvKBQ?=
+ =?us-ascii?Q?ENMH7/g0tsz30Jp8crp4l4OMO56mzNhdGaZ3ZpbqRSqD1quinJUM3v6mf6H7?=
+ =?us-ascii?Q?kcLmCArb5YK2/ULV7HvAWRsqYzTKNMMMhDC5JvKLkxpuSsLQyxG7QxJKo77J?=
+ =?us-ascii?Q?2ImWzSXxouthqmcu92a9tmkCHrhwywnquK39N8vPpOKxWB70iz4z6hbUa6Vs?=
+ =?us-ascii?Q?DoabkrAKUJp865yFEeAqD6bOPsEQ1lFKXduBS/nTOQH2MyTyjFlPffPAApFV?=
+ =?us-ascii?Q?no3Hqab5uBuuayStLNJ4Rkdnb1rwM6qtk8acV3M5+uVcTbFIkgbHhliJrRMd?=
+ =?us-ascii?Q?VeM6qiQt51Fyp+v6OHIfFlUOj6VNBOzy+0nKsJ/Zm+VSjlKMgAfBdToecpEj?=
+ =?us-ascii?Q?H6Ew77FObVOyuSjz4/Qmmu++aQaFgX0W2DCnb7KZAQ+IIe3JYqmOM78sXE8v?=
+ =?us-ascii?Q?2gOShF9MyuFwvs5UGfDL8MNRGWOOtF+Hs4qYC0F0kf5tZ2QfhOUxILDnEqc1?=
+ =?us-ascii?Q?uGcisOhZEwNoD5y0zZBo4DzOGP7C3aWyPt/wuxI2sTcZ5i/iWuIq/RpBEEv2?=
+ =?us-ascii?Q?Hc4/VQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: softing.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BE1P281MB2420.DEUP281.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00287f5e-dc69-484c-6d7b-08dccb4ef60c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Sep 2024 12:58:37.5134
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: fe3606fa-d397-4238-9997-68dcd7851f64
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: D1WD9JJI01BFkSTihkm/3sq0ExHEynVkzl2ISJq19wn8Y6CrBUh+LA636un+0RE+JRjlN6RLdrYl0A7gVIc9ok4UYSjY8lU4NO48JzhmKco=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BE2P281MB4932
 
-Fault injection is a development tool, and should be under dev-tools
-section.
+Hi,
+thanks for the feedback in general.
 
-Suggested-by: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
-Changelog:
+> >  Documentation/hwmon/ads71x8.rst               | 140 ++++++++++++++++++
+> >  Documentation/hwmon/index.rst                 |   1 +
+>=20
+> And these two documents are not dt-bindings, so they should either be in
+> their own commit or alongside the driver. Not sure how Guenter likes
+> things.
 
-v2:
-  * Fixed a remaining file pointing to the wrong file, as reported by
-    kernel test robot:
-	* https://lore.kernel.org/all/202408312350.DEf53QzI-lkp@intel.com/ 
+Ok, probably misunderstood some documentation then, that everything in
+Documentation/ should be a separate commit. Would move it then alongside
+the driver, if that's fine from your side.
 
-v1:
-  * https://lore.kernel.org/all/20240830174502.3732959-1-leitao@debian.org/
+> > +description: |
+> > +  The ADS7128 is 12-Bit, 8-Channel Sampling Analog to Digital Converte=
+r (ADC)
+> > +  with an I2C interface.
+> > +
+> > +  Datasheets:
+> > +    https://www.ti.com/product/ADS7128
+> > +    https://www.ti.com/product/ADS7138
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - ti,ads7128
+> > +      - ti,ads7138
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  avdd-supply:
+>=20
+> There's also a dvdd on the ads7128.
 
- Documentation/admin-guide/kernel-parameters.txt              | 2 +-
- .../{ => dev-tools}/fault-injection/fault-injection.rst      | 0
- Documentation/{ => dev-tools}/fault-injection/index.rst      | 0
- .../fault-injection/notifier-error-inject.rst                | 0
- .../{ => dev-tools}/fault-injection/nvme-fault-injection.rst | 0
- .../{ => dev-tools}/fault-injection/provoke-crashes.rst      | 0
- Documentation/dev-tools/index.rst                            | 1 +
- Documentation/index.rst                                      | 1 -
- Documentation/process/4.Coding.rst                           | 2 +-
- Documentation/process/submit-checklist.rst                   | 2 +-
- Documentation/translations/it_IT/process/4.Coding.rst        | 2 +-
- .../translations/it_IT/process/submit-checklist.rst          | 2 +-
- Documentation/translations/ja_JP/SubmitChecklist             | 2 +-
- .../translations/sp_SP/process/submit-checklist.rst          | 2 +-
- Documentation/translations/zh_CN/index.rst                   | 2 +-
- Documentation/translations/zh_CN/process/4.Coding.rst        | 2 +-
- .../translations/zh_CN/process/submit-checklist.rst          | 2 +-
- Documentation/translations/zh_TW/index.rst                   | 2 +-
- Documentation/translations/zh_TW/process/4.Coding.rst        | 2 +-
- .../translations/zh_TW/process/submit-checklist.rst          | 2 +-
- MAINTAINERS                                                  | 2 +-
- drivers/block/null_blk/main.c                                | 2 +-
- drivers/misc/lkdtm/core.c                                    | 2 +-
- drivers/ufs/core/ufs-fault-injection.c                       | 2 +-
- include/asm-generic/error-injection.h                        | 5 +++--
- include/linux/fault-inject.h                                 | 2 +-
- lib/Kconfig.debug                                            | 4 ++--
- tools/testing/fault-injection/failcmd.sh                     | 2 +-
- 28 files changed, 25 insertions(+), 24 deletions(-)
- rename Documentation/{ => dev-tools}/fault-injection/fault-injection.rst (100%)
- rename Documentation/{ => dev-tools}/fault-injection/index.rst (100%)
- rename Documentation/{ => dev-tools}/fault-injection/notifier-error-inject.rst (100%)
- rename Documentation/{ => dev-tools}/fault-injection/nvme-fault-injection.rst (100%)
- rename Documentation/{ => dev-tools}/fault-injection/provoke-crashes.rst (100%)
+Yes, but it doesn't affect anything in the driver. Does it still need to be=
+ documented then?
+=20
+> oCheers,
+> Conor.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 09126bb8cc9f..70d2077c9b3f 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1532,7 +1532,7 @@
- 	fail_make_request=[KNL]
- 			General fault injection mechanism.
- 			Format: <interval>,<probability>,<space>,<times>
--			See also Documentation/fault-injection/.
-+			See also Documentation/dev-tools/fault-injection/.
- 
- 	fb_tunnels=	[NET]
- 			Format: { initns | none }
-diff --git a/Documentation/fault-injection/fault-injection.rst b/Documentation/dev-tools/fault-injection/fault-injection.rst
-similarity index 100%
-rename from Documentation/fault-injection/fault-injection.rst
-rename to Documentation/dev-tools/fault-injection/fault-injection.rst
-diff --git a/Documentation/fault-injection/index.rst b/Documentation/dev-tools/fault-injection/index.rst
-similarity index 100%
-rename from Documentation/fault-injection/index.rst
-rename to Documentation/dev-tools/fault-injection/index.rst
-diff --git a/Documentation/fault-injection/notifier-error-inject.rst b/Documentation/dev-tools/fault-injection/notifier-error-inject.rst
-similarity index 100%
-rename from Documentation/fault-injection/notifier-error-inject.rst
-rename to Documentation/dev-tools/fault-injection/notifier-error-inject.rst
-diff --git a/Documentation/fault-injection/nvme-fault-injection.rst b/Documentation/dev-tools/fault-injection/nvme-fault-injection.rst
-similarity index 100%
-rename from Documentation/fault-injection/nvme-fault-injection.rst
-rename to Documentation/dev-tools/fault-injection/nvme-fault-injection.rst
-diff --git a/Documentation/fault-injection/provoke-crashes.rst b/Documentation/dev-tools/fault-injection/provoke-crashes.rst
-similarity index 100%
-rename from Documentation/fault-injection/provoke-crashes.rst
-rename to Documentation/dev-tools/fault-injection/provoke-crashes.rst
-diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
-index 53d4d124f9c5..ade850c4b344 100644
---- a/Documentation/dev-tools/index.rst
-+++ b/Documentation/dev-tools/index.rst
-@@ -34,6 +34,7 @@ Documentation/dev-tools/testing-overview.rst
-    ktap
-    checkuapi
-    gpio-sloppy-logic-analyzer
-+   Fault injection <fault-injection/index>
- 
- 
- .. only::  subproject and html
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index f9f525f4c0dd..9b57d6bc04f4 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -57,7 +57,6 @@ Various other manuals with useful information for all kernel developers.
-    Testing guide <dev-tools/testing-overview>
-    Hacking guide <kernel-hacking/index>
-    Tracing <trace/index>
--   Fault injection <fault-injection/index>
-    Livepatching <livepatch/index>
-    Rust <rust/index>
- 
-diff --git a/Documentation/process/4.Coding.rst b/Documentation/process/4.Coding.rst
-index 80bcc1cabc23..1fc0a7fc2f43 100644
---- a/Documentation/process/4.Coding.rst
-+++ b/Documentation/process/4.Coding.rst
-@@ -300,7 +300,7 @@ enabled, a configurable percentage of memory allocations will be made to
- fail; these failures can be restricted to a specific range of code.
- Running with fault injection enabled allows the programmer to see how the
- code responds when things go badly.  See
--Documentation/fault-injection/fault-injection.rst for more information on
-+Documentation/dev-tools/fault-injection/fault-injection.rst for more information on
- how to use this facility.
- 
- Other kinds of errors can be found with the "sparse" static analysis tool.
-diff --git a/Documentation/process/submit-checklist.rst b/Documentation/process/submit-checklist.rst
-index e531dd504b6c..b513b3d05426 100644
---- a/Documentation/process/submit-checklist.rst
-+++ b/Documentation/process/submit-checklist.rst
-@@ -124,7 +124,7 @@ Test your code
- 3) All codepaths have been exercised with all lockdep features enabled.
- 
- 4) Has been checked with injection of at least slab and page-allocation
--   failures.  See ``Documentation/fault-injection/``.
-+   failures.  See ``Documentation/dev-tools/fault-injection/``.
-    If the new code is substantial, addition of subsystem-specific fault
-    injection might be appropriate.
- 
-diff --git a/Documentation/translations/it_IT/process/4.Coding.rst b/Documentation/translations/it_IT/process/4.Coding.rst
-index ec874a8dfb9d..b7b9ab6df103 100644
---- a/Documentation/translations/it_IT/process/4.Coding.rst
-+++ b/Documentation/translations/it_IT/process/4.Coding.rst
-@@ -317,7 +317,7 @@ di allocazione di memoria sarà destinata al fallimento; questi fallimenti
- possono essere ridotti ad uno specifico pezzo di codice.  Procedere con
- l'inserimento dei fallimenti attivo permette al programmatore di verificare
- come il codice risponde quando le cose vanno male.  Consultate:
--Documentation/fault-injection/fault-injection.rst per avere maggiori
-+Documentation/dev-tools/fault-injection/fault-injection.rst per avere maggiori
- informazioni su come utilizzare questo strumento.
- 
- Altre tipologie di errori possono essere riscontrati con lo strumento di
-diff --git a/Documentation/translations/it_IT/process/submit-checklist.rst b/Documentation/translations/it_IT/process/submit-checklist.rst
-index 2fc09cc1f0be..60ec660702fa 100644
---- a/Documentation/translations/it_IT/process/submit-checklist.rst
-+++ b/Documentation/translations/it_IT/process/submit-checklist.rst
-@@ -99,7 +99,7 @@ sottomissione delle patch, in particolare
-     essere inviate in copia anche a linux-api@vger.kernel.org.
- 
- 20) La patch è stata verificata con l'iniezione di fallimenti in slab e
--    nell'allocazione di pagine.  Vedere ``Documentation/fault-injection/``.
-+    nell'allocazione di pagine.  Vedere ``Documentation/dev-tools/fault-injection/``.
- 
-     Se il nuovo codice è corposo, potrebbe essere opportuno aggiungere
-     l'iniezione di fallimenti specifici per il sottosistema.
-diff --git a/Documentation/translations/ja_JP/SubmitChecklist b/Documentation/translations/ja_JP/SubmitChecklist
-index 1759c6b452d6..193641581e98 100644
---- a/Documentation/translations/ja_JP/SubmitChecklist
-+++ b/Documentation/translations/ja_JP/SubmitChecklist
-@@ -90,7 +90,7 @@ Linux カーネルパッチ投稿者向けチェックリスト
- 
- 19: 少なくともslabアロケーションとpageアロケーションに失敗した場合の
-     挙動について、fault-injectionを利用して確認してください。
--    Documentation/fault-injection/ を参照してください。
-+    Documentation/dev-tools/fault-injection/ を参照してください。
- 
-     追加したコードがかなりの量であったならば、サブシステム特有の
-     fault-injectionを追加したほうが良いかもしれません。
-diff --git a/Documentation/translations/sp_SP/process/submit-checklist.rst b/Documentation/translations/sp_SP/process/submit-checklist.rst
-index 0d6651f9d871..d2b09a10c1fe 100644
---- a/Documentation/translations/sp_SP/process/submit-checklist.rst
-+++ b/Documentation/translations/sp_SP/process/submit-checklist.rst
-@@ -102,7 +102,7 @@ y en otros lugares con respecto al envío de parches del kernel de Linux.
-     espacio de usuario deben ser CCed a linux-api@vger.kernel.org.
- 
- 19) Se ha comprobado con la inyección de al menos errores de asignación
--    de slab y página. Consulte ``Documentation/fault-injection/``.
-+    de slab y página. Consulte ``Documentation/dev-tools/fault-injection/``.
- 
-     Si el nuevo código es sustancial, la adición de la inyección de
-     errores específica del subsistema podría ser apropiada.
-diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-index 20b9d4270d1f..e471f22a5473 100644
---- a/Documentation/translations/zh_CN/index.rst
-+++ b/Documentation/translations/zh_CN/index.rst
-@@ -73,7 +73,7 @@
- TODOList:
- 
- * trace/index
--* fault-injection/index
-+* dev-tools/fault-injection/index
- * livepatch/index
- 
- 面向用户的文档
-diff --git a/Documentation/translations/zh_CN/process/4.Coding.rst b/Documentation/translations/zh_CN/process/4.Coding.rst
-index 4cc35d410dbc..2794761a1cbe 100644
---- a/Documentation/translations/zh_CN/process/4.Coding.rst
-+++ b/Documentation/translations/zh_CN/process/4.Coding.rst
-@@ -208,7 +208,7 @@ Linus对这个问题给出了最佳答案:
- 启用故障注入后，内存分配的可配置失败的百分比；这些失败可以限定在特定的代码
- 范围内。在启用了故障注入的情况下运行，程序员可以看到当情况恶化时代码如何响
- 应。有关如何使用此工具的详细信息，请参阅
--Documentation/fault-injection/fault-injection.rst。
-+Documentation/dev-tools/fault-injection/fault-injection.rst。
- 
- “sparse”静态分析工具可以发现其他类型的错误。sparse可以警告程序员用户空间
- 和内核空间地址之间的混淆、大端序与小端序的混淆、在需要一组位标志的地方传递
-diff --git a/Documentation/translations/zh_CN/process/submit-checklist.rst b/Documentation/translations/zh_CN/process/submit-checklist.rst
-index 10536b74aeec..4f8d7480673d 100644
---- a/Documentation/translations/zh_CN/process/submit-checklist.rst
-+++ b/Documentation/translations/zh_CN/process/submit-checklist.rst
-@@ -85,7 +85,7 @@ Linux内核补丁提交检查单
-     请参阅 ``Documentation/ABI/README`` 。更改用户空间接口的补丁应该抄送
-     linux-api@vger.kernel.org。
- 
--19) 已通过至少注入slab和page分配失败进行检查。请参阅 ``Documentation/fault-injection/`` 。
-+19) 已通过至少注入slab和page分配失败进行检查。请参阅 ``Documentation/dev-tools/fault-injection/`` 。
-     如果新代码是实质性的，那么添加子系统特定的故障注入可能是合适的。
- 
- 20) 新添加的代码已经用 ``gcc -W`` 编译（使用 ``make EXTRA-CFLAGS=-W`` ）。这
-diff --git a/Documentation/translations/zh_TW/index.rst b/Documentation/translations/zh_TW/index.rst
-index 660a74d2023c..1932a5f28069 100644
---- a/Documentation/translations/zh_TW/index.rst
-+++ b/Documentation/translations/zh_TW/index.rst
-@@ -64,7 +64,7 @@ TODOList:
- * kernel-hacking/index
- * rust/index
- * trace/index
--* fault-injection/index
-+* dev-tools/fault-injection/index
- * livepatch/index
- 
- 面向用戶的文檔
-diff --git a/Documentation/translations/zh_TW/process/4.Coding.rst b/Documentation/translations/zh_TW/process/4.Coding.rst
-index e90a6b51fb98..3841da1e6729 100644
---- a/Documentation/translations/zh_TW/process/4.Coding.rst
-+++ b/Documentation/translations/zh_TW/process/4.Coding.rst
-@@ -211,7 +211,7 @@ Linus對這個問題給出了最佳答案:
- 啓用故障注入後，內存分配的可配置失敗的百分比；這些失敗可以限定在特定的代碼
- 範圍內。在啓用了故障注入的情況下運行，程序員可以看到當情況惡化時代碼如何響
- 應。有關如何使用此工具的詳細信息，請參閱
--Documentation/fault-injection/fault-injection.rst。
-+Documentation/dev-tools/fault-injection/fault-injection.rst。
- 
- “sparse”靜態分析工具可以發現其他類型的錯誤。sparse可以警告程序員用戶空間
- 和內核空間地址之間的混淆、大端序與小端序的混淆、在需要一組位標誌的地方傳遞
-diff --git a/Documentation/translations/zh_TW/process/submit-checklist.rst b/Documentation/translations/zh_TW/process/submit-checklist.rst
-index 0ecb187753e4..e7a6c3332017 100644
---- a/Documentation/translations/zh_TW/process/submit-checklist.rst
-+++ b/Documentation/translations/zh_TW/process/submit-checklist.rst
-@@ -88,7 +88,7 @@ Linux內核補丁提交檢查單
-     請參閱 ``Documentation/ABI/README`` 。更改用戶空間接口的補丁應該抄送
-     linux-api@vger.kernel.org。
- 
--19) 已通過至少注入slab和page分配失敗進行檢查。請參閱 ``Documentation/fault-injection/`` 。
-+19) 已通過至少注入slab和page分配失敗進行檢查。請參閱 ``Documentation/dev-tools/fault-injection/`` 。
-     如果新代碼是實質性的，那麼添加子系統特定的故障注入可能是合適的。
- 
- 20) 新添加的代碼已經用 ``gcc -W`` 編譯（使用 ``make EXTRA-CFLAGS=-W`` ）。這
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e4fa9010fcb6..b5fd319b8786 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8537,7 +8537,7 @@ F:	drivers/net/wan/farsync.*
- FAULT INJECTION SUPPORT
- M:	Akinobu Mita <akinobu.mita@gmail.com>
- S:	Supported
--F:	Documentation/fault-injection/
-+F:	Documentation/dev-tools/fault-injection/
- F:	lib/fault-inject.c
- 
- FBTFT Framebuffer drivers
-diff --git a/drivers/block/null_blk/main.c b/drivers/block/null_blk/main.c
-index 2f0431e42c49..2266c80649a2 100644
---- a/drivers/block/null_blk/main.c
-+++ b/drivers/block/null_blk/main.c
-@@ -100,7 +100,7 @@ MODULE_PARM_DESC(home_node, "Home node for the device");
- #ifdef CONFIG_BLK_DEV_NULL_BLK_FAULT_INJECTION
- /*
-  * For more details about fault injection, please refer to
-- * Documentation/fault-injection/fault-injection.rst.
-+ * Documentation/dev-tools/fault-injection/fault-injection.rst.
-  */
- static char g_timeout_str[80];
- module_param_string(timeout, g_timeout_str, sizeof(g_timeout_str), 0444);
-diff --git a/drivers/misc/lkdtm/core.c b/drivers/misc/lkdtm/core.c
-index 5732fd59a227..029592f2d07e 100644
---- a/drivers/misc/lkdtm/core.c
-+++ b/drivers/misc/lkdtm/core.c
-@@ -15,7 +15,7 @@
-  *
-  * Debugfs support added by Simon Kagstrom <simon.kagstrom@netinsight.net>
-  *
-- * See Documentation/fault-injection/provoke-crashes.rst for instructions
-+ * See Documentation/dev-tools/fault-injection/provoke-crashes.rst for instructions
-  */
- #include "lkdtm.h"
- #include <linux/fs.h>
-diff --git a/drivers/ufs/core/ufs-fault-injection.c b/drivers/ufs/core/ufs-fault-injection.c
-index 169540417079..3afe1e7fb407 100644
---- a/drivers/ufs/core/ufs-fault-injection.c
-+++ b/drivers/ufs/core/ufs-fault-injection.c
-@@ -19,7 +19,7 @@ enum { FAULT_INJ_STR_SIZE = 80 };
- 
- /*
-  * For more details about fault injection, please refer to
-- * Documentation/fault-injection/fault-injection.rst.
-+ * Documentation/dev-tools/fault-injection/fault-injection.rst.
-  */
- static char g_trigger_eh_str[FAULT_INJ_STR_SIZE];
- module_param_cb(trigger_eh, &ufs_fault_ops, g_trigger_eh_str, 0644);
-diff --git a/include/asm-generic/error-injection.h b/include/asm-generic/error-injection.h
-index b05253f68eaa..26b80eec6d5f 100644
---- a/include/asm-generic/error-injection.h
-+++ b/include/asm-generic/error-injection.h
-@@ -21,8 +21,9 @@ struct pt_regs;
- /*
-  * Whitelist generating macro. Specify functions which can be error-injectable
-  * using this macro. If you unsure what is required for the error-injectable
-- * functions, please read Documentation/fault-injection/fault-injection.rst
-- * 'Error Injectable Functions' section.
-+ * functions, please read
-+ * Documentation/dev-tools/fault-injection/fault-injection.rst 'Error
-+ * Injectable Functions' section.
-  */
- #define ALLOW_ERROR_INJECTION(fname, _etype)				\
- static struct error_injection_entry __used				\
-diff --git a/include/linux/fault-inject.h b/include/linux/fault-inject.h
-index 354413950d34..9b10e50155a6 100644
---- a/include/linux/fault-inject.h
-+++ b/include/linux/fault-inject.h
-@@ -12,7 +12,7 @@
- 
- /*
-  * For explanation of the elements of this struct, see
-- * Documentation/fault-injection/fault-injection.rst
-+ * Documentation/dev-tools/fault-injection/fault-injection.rst
-  */
- struct fault_attr {
- 	unsigned long probability;
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index a30c03a66172..a0e66c01042e 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -2019,7 +2019,7 @@ config FAULT_INJECTION
- 	depends on DEBUG_KERNEL
- 	help
- 	  Provide fault-injection framework.
--	  For more details, see Documentation/fault-injection/.
-+	  For more details, see Documentation/dev-tools/fault-injection/.
- 
- config FAILSLAB
- 	bool "Fault-injection capability for kmalloc"
-@@ -2225,7 +2225,7 @@ config LKDTM
- 	called lkdtm.
- 
- 	Documentation on how to use the module can be found in
--	Documentation/fault-injection/provoke-crashes.rst
-+	Documentation/dev-tools/fault-injection/provoke-crashes.rst
- 
- config CPUMASK_KUNIT_TEST
- 	tristate "KUnit test for cpumask" if !KUNIT_ALL_TESTS
-diff --git a/tools/testing/fault-injection/failcmd.sh b/tools/testing/fault-injection/failcmd.sh
-index 78dac34264be..ea384c7cae68 100644
---- a/tools/testing/fault-injection/failcmd.sh
-+++ b/tools/testing/fault-injection/failcmd.sh
-@@ -42,7 +42,7 @@ OPTIONS
- 	--interval=value, --space=value, --verbose=value, --task-filter=value,
- 	--stacktrace-depth=value, --require-start=value, --require-end=value,
- 	--reject-start=value, --reject-end=value, --ignore-gfp-wait=value
--		See Documentation/fault-injection/fault-injection.rst for more
-+		See Documentation/dev-tools/fault-injection/fault-injection.rst for more
- 		information
- 
- 	failslab options:
--- 
-2.43.5
-
+Regards
+Tobias
