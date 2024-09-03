@@ -1,91 +1,62 @@
-Received: from fout8-smtp.messagingengine.com (fout8-smtp.messagingengine.com [103.168.172.151])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 983651CE6ED;
-	Tue,  3 Sep 2024 05:58:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7714918452D
+	for <linux-doc@vger.kernel.org>; Tue,  3 Sep 2024 06:10:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725343084; cv=none; b=thFxQBWPIwzph1EsjKuYrWiwosgJe1Py+DfpSTnAQxuyzgW1YJnATJkyeLBhOe1eVqS+PEL9kPJyw3eTv4Z4cHlvOnB0XvODh0DkLXcyssUn9PCjvDrVY+hprQA86nB3ctgCVVeGmJDJg/asMBbcZOJvb/6kf3mPlrbG1FkjwZo=
+	t=1725343846; cv=none; b=CsSGsOB3VPUCJ2xcdxIvr+j5+KtHsQF/O4YiLaR8beuj0e39H1OURTB+6F646AJf1pzYeQjBMMdGS/nivGj1IwfBjcePU03g9C8WEPGWR8PznAve4Nr2gDGtq3vN9lkR8IqoJ2otDT9X80vvUNPQ+oHHzE8mPeZp68+7hb/eLCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725343084; c=relaxed/simple;
-	bh=ORxlrybr0miEKGUNReRTbzJyZOz1c7Aa8Ya/cInZS1U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ISmUjMUnavlq7OFWFC6K9UwgEHMJQVtaaSku/nTvvvDNP97CGwu6zDVy+D/koodJBccz0WVx4NXtdS2eM9dzeVMCTfK0SCdxWrK/4iCAKxO2W+R0zfzgOLHsCO0FXSH2uaTxiTyIEQsw1X/UjoWYeqDFJaJngjNUxGe+sp4/CRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net; spf=pass smtp.mailfrom=who-t.net; dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b=vg6/7YIC; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QYN2FeIg; arc=none smtp.client-ip=103.168.172.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=who-t.net
+	s=arc-20240116; t=1725343846; c=relaxed/simple;
+	bh=dwgwVXQlQjR6YAHGvIFnjFom6xCsOKtFwXPyoipoy3Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tGszYuJmHgT2veRlFlk8bnOPd9Cn7r0BQ/Y4I4kb6rFvn9DtkaNqfD08bZn8nNqNQVgHZbYfHKW5Vns1i2KObksjA5NIrep79YC1Cpz8S8hP8aojVZ1oPskHHYTwLUAXrwosu/aSTnwiCYMllR2DRTdlv9lE0biIc5YL2aagnqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TtENt4jN; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b="vg6/7YIC";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QYN2FeIg"
-Received: from phl-compute-07.internal (phl-compute-07.nyi.internal [10.202.2.47])
-	by mailfout.nyi.internal (Postfix) with ESMTP id A6846138030D;
-	Tue,  3 Sep 2024 01:58:01 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-07.internal (MEProxy); Tue, 03 Sep 2024 01:58:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1725343081; x=1725429481; bh=uXeKgWb/Nb
-	mdrKy6APCtXUQCm+rImJ9sCZU2y2bBhlU=; b=vg6/7YICBZHR9f3szRFh/cQig/
-	DNaY1aZ5JmhDIIx4KCDfhcLfPpWtP39TITjfCfKLOtSQF5KYXkAE2XuoyT9iC728
-	YtxI9UsdAGCnWpf+SVwfE8KlL8yY9uhio8RNfwQaIoE5ZJO6H2uSsYbhNqVUKnx0
-	9SHQz3oQKzbee4Aixv9RRPmOmxvfLG6mX/5UJnEITwK4Pys2/Q9aRaFL8w9G3OWO
-	3DhupZBSXzRpVgZ7V+cvewVwjGINTrSHxFCi4KrLDGJnRSJqjlpj2B9En/Vlc691
-	Gz8IoS5s0enxrSnfD4a2+SnBbPnntKAqQ0zj2jk7R091tQDfvDlzI6fy+psg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1725343081; x=1725429481; bh=uXeKgWb/NbmdrKy6APCtXUQCm+rI
-	mJ9sCZU2y2bBhlU=; b=QYN2FeIgrnp8fXXVsqgtqSdld5SwhaC0eQ7YDC0dNJIT
-	qJkbk1Y1eCYz66vhk0wKUseKlSDrSd76aj2zY28N4F9Z0OxTiLYGSDM2QB1MIhTF
-	CnVWWoCSeIUhcdKUAtE/CXB3RtxMCe1X8e1jUVAeZMRtSiR9eto/6rYVW9fzakc5
-	c5XgphBVPUXurLHzrjYPS+3Z1zZPPuWQEN3791JW1olsglwBuZ+sf95TjsdM6L+V
-	RUNYkhYW95mIDWMRJfK0KhUYU+mwcbLuHBvCWZEZ75vX4h/DmVHw3DRsLXUyunEF
-	Q3xLPICYm1UDSs3NZ9sp7CoZCycEhXE+pQsg0C1ldQ==
-X-ME-Sender: <xms:aaXWZvO2Kjs83oBigi6qXamK4OdhS7wlDQfD62GgooZm6kZlGrI33g>
-    <xme:aaXWZp9TiDv8Nu9Yk8hlDduQlWtpNJCmwf8_8kys0JKyB-kNQgNucCBx_gKj40pKm
-    aiVNuMESsWh7tjMYqM>
-X-ME-Received: <xmr:aaXWZuTMIMSn9--GEHnBrdxne9BvADl9Bevj4zH9m3MGxjXKVL5pT3DVGXRiwCVSt4daoQR0EpQ4Y-y4XiFuwTwUvGYbch5qJbtW>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehgedguddthecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddv
-    necuhfhrohhmpefrvghtvghrucfjuhhtthgvrhgvrhcuoehpvghtvghrrdhhuhhtthgvrh
-    gvrhesfihhohdqthdrnhgvtheqnecuggftrfgrthhtvghrnhepkedvkeegheefjefgvddu
-    fffhveehjeffvefgiefgkefhudeifedugfetudfgtefgnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepphgvthgvrhdrhhhuthhtvghrvghrseif
-    hhhoqdhtrdhnvghtpdhnsggprhgtphhtthhopedutddpmhhouggvpehsmhhtphhouhhtpd
-    hrtghpthhtohepsggvnhhtihhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhi
-    khhosheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepvhhisegvnhgurhhifhhtrdgtoh
-    hmpdhrtghpthhtohepshhhuhgrhheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptgho
-    rhgsvghtsehlfihnrdhnvghtpdhrtghpthhtoheplhhinhhugidqihhnphhuthesvhhgvg
-    hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkshgvlhhfthgvshht
-    sehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvg
-    hlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsghpfhesvhhgvghrrdhk
-    vghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:aaXWZjuBH9kiJCw0mc01PZhbRpTKUT6aNshhONPnQhJQ3mPn9EcWyQ>
-    <xmx:aaXWZnfMLEm0JzETI8SVFn9VGpEHAWj80Lz_Hxz3nCvYgLbUuOty0A>
-    <xmx:aaXWZv2UYJhCGfPlpzDkXF_RJTV102N5Nky9SGhLTggShHPjAI4Egw>
-    <xmx:aaXWZj9P1NhHHekCkf6heJrlO3VGD9ioaP_bEcTcYsNxIZtr-12S-g>
-    <xmx:aaXWZoVqS8ReMzE7Ij44VaqquyuzicGTLylgFfxoIjLXMAheXr8wSJtp>
-Feedback-ID: i7ce144cd:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 3 Sep 2024 01:57:58 -0400 (EDT)
-Date: Tue, 3 Sep 2024 15:57:45 +1000
-From: Peter Hutterer <peter.hutterer@who-t.net>
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>, Vicki Pfau <vi@endrift.com>,
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH HID 6/7] HID: bpf: Allow to control the connect mask of
- hid-generic from BPF
-Message-ID: <20240903055745.GB968953@quokka>
-References: <20240903-hid-bpf-hid-generic-v1-0-9511a565b2da@kernel.org>
- <20240903-hid-bpf-hid-generic-v1-6-9511a565b2da@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TtENt4jN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725343846; x=1756879846;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dwgwVXQlQjR6YAHGvIFnjFom6xCsOKtFwXPyoipoy3Y=;
+  b=TtENt4jNnHA4q6rQ35EpuzxHuNfGuS7DU3vcoyjdmGyMuhSVA7Nf3JZr
+   tBTwa1ei3xEXbh2nvzMQUndrG4x1dKmL5/UTmrvNG7Egk3W+l/PTlSWcI
+   hb2hgozyqMNd3i3kqqk7VgJIKFxfINl4NRrYf8giiDJY6e8RujrgOKU7N
+   bCMs0evDFEByCia+iyBtOqAXoyYxCWSKgJX4tXLO8+i0VfIkIxDb9/R+0
+   CTKTYhXJly/SDGhkJi5k9O6sQlZ3qNMWFqkuMvINAt+L9jYWiue+C+aQK
+   rPTedcRu3SRa+N3Me1okVdTjvFfDv+ln6Mg9yd4C2BFbZ4Js437S/rRt5
+   Q==;
+X-CSE-ConnectionGUID: 4yY2ZjnpT4+RYBrk6+x8Jg==
+X-CSE-MsgGUID: AVmc4r7PTmu+AQtB7G9UZw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="41393353"
+X-IronPort-AV: E=Sophos;i="6.10,197,1719903600"; 
+   d="scan'208";a="41393353"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 23:10:45 -0700
+X-CSE-ConnectionGUID: wWEoSZubSUajoNxHJRgj2g==
+X-CSE-MsgGUID: uK06MaJ4SC2rBvfP2yzAUg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,197,1719903600"; 
+   d="scan'208";a="95515306"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 02 Sep 2024 23:10:44 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1slMkT-0006I6-0W;
+	Tue, 03 Sep 2024 06:10:41 +0000
+Date: Tue, 3 Sep 2024 14:10:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Marek Maslanka <mmaslanka@google.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Hans de Goede <hdegoede@redhat.com>, linux-doc@vger.kernel.org
+Subject: [daniel-lezcano:timers/drivers/next 4/9]
+ drivers/platform/x86/intel/pmc/core.c:1213: warning: This comment starts
+ with '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202409031410.a9beukFc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -94,122 +65,62 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240903-hid-bpf-hid-generic-v1-6-9511a565b2da@kernel.org>
 
-On Tue, Sep 03, 2024 at 01:14:36AM +0900, Benjamin Tissoires wrote:
-> We make struct hid_device_id writeable and use the .driver_data field
-> of hid-generic as the connect mask.
+tree:   http://git.linaro.org/people/daniel.lezcano/linux timers/drivers/next
+head:   8f8b0349aa312eb7e67e623ed1f296a04126fe7f
+commit: 2d167560d43c809c66e6389b6cc651b77fcbf951 [4/9] platform/x86:intel/pmc: Enable the ACPI PM Timer to be turned off when suspended
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240903/202409031410.a9beukFc-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240903/202409031410.a9beukFc-lkp@intel.com/reproduce)
 
-I think this needs to be spelled out a bit more: for this to work the
-driver *must* be hid-generic, otherwise this doesn't work. But I'm a bit
-confused why we have a custom fields for force/ignore driver but 
-whether the device is connected (and thus uses the driver) is hidden in
-an effectively undocumented private field of one specific driver.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409031410.a9beukFc-lkp@intel.com/
 
-Wouldn't it be easier to add another boolean (or enum entry, see my
-other comment) to hid_bpf_driver? This way *how* it happens is hidden
-from the API as well - you say "hidraw only please" and the kernel does
-the rest (through hid-generic or otherwise).
+All warnings (new ones prefixed by >>):
 
-Cheers,
-  Peter
+>> drivers/platform/x86/intel/pmc/core.c:1213: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Enable or disable ACPI PM Timer
 
-> 
-> This way, we can control from a HID-BPF program if a device needs to
-> be exported through hidraw and/or hid-input mainly.
-> 
-> This is useful in case we want to have a third party program that directly
-> talks to the hidraw node and we don't want regular input events to be
-> emitted. This third party program can load a BPF program that instructs
-> hid-generic to rebind on the device with hidraw only and then open the
-> hidraw node itself.
-> 
-> When the application is closed, the BPF program is unloaded and the normal
-> driver takes back the control of the device.
-> 
-> Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
-> ---
->  drivers/hid/bpf/hid_bpf_struct_ops.c |  1 +
->  drivers/hid/hid-core.c               | 14 ++++++++------
->  drivers/hid/hid-generic.c            |  5 +++--
->  3 files changed, 12 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/hid/bpf/hid_bpf_struct_ops.c b/drivers/hid/bpf/hid_bpf_struct_ops.c
-> index 1e13a22f73a1..bb755edd02f0 100644
-> --- a/drivers/hid/bpf/hid_bpf_struct_ops.c
-> +++ b/drivers/hid/bpf/hid_bpf_struct_ops.c
-> @@ -80,6 +80,7 @@ static int hid_bpf_ops_btf_struct_access(struct bpf_verifier_log *log,
->  		WRITE_RANGE(hid_device, name, true),
->  		WRITE_RANGE(hid_device, uniq, true),
->  		WRITE_RANGE(hid_device, phys, true),
-> +		WRITE_RANGE(hid_device_id, driver_data, false),
->  		WRITE_RANGE(hid_bpf_driver, force_driver, false),
->  		WRITE_RANGE(hid_bpf_driver, ignore_driver, false),
->  	};
-> diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-> index 7845f0a789ec..2bd279b23aa4 100644
-> --- a/drivers/hid/hid-core.c
-> +++ b/drivers/hid/hid-core.c
-> @@ -2637,15 +2637,17 @@ EXPORT_SYMBOL_GPL(hid_compare_device_paths);
->  
->  static bool hid_check_device_match(struct hid_device *hdev,
->  				   struct hid_driver *hdrv,
-> -				   const struct hid_device_id **id)
-> +				   struct hid_device_id *id)
->  {
-> +	const struct hid_device_id *_id = hid_match_device(hdev, hdrv);
->  	int ret;
->  
-> -	*id = hid_match_device(hdev, hdrv);
-> -	if (!*id)
-> +	if (!_id)
->  		return false;
->  
-> -	ret = call_hid_bpf_driver_probe(hdev, hdrv, *id);
-> +	memcpy(id, _id, sizeof(*id));
-> +
-> +	ret = call_hid_bpf_driver_probe(hdev, hdrv, id);
->  	if (ret)
->  		return ret > 0;
->  
-> @@ -2662,7 +2664,7 @@ static bool hid_check_device_match(struct hid_device *hdev,
->  
->  static int __hid_device_probe(struct hid_device *hdev, struct hid_driver *hdrv)
->  {
-> -	const struct hid_device_id *id;
-> +	struct hid_device_id id;
->  	int ret;
->  
->  	if (!hid_check_device_match(hdev, hdrv, &id))
-> @@ -2677,7 +2679,7 @@ static int __hid_device_probe(struct hid_device *hdev, struct hid_driver *hdrv)
->  	hdev->driver = hdrv;
->  
->  	if (hdrv->probe) {
-> -		ret = hdrv->probe(hdev, id);
-> +		ret = hdrv->probe(hdev, &id);
->  	} else { /* default probe */
->  		ret = hid_open_report(hdev);
->  		if (!ret)
-> diff --git a/drivers/hid/hid-generic.c b/drivers/hid/hid-generic.c
-> index f9db991d3c5a..5cd1f3a79a4b 100644
-> --- a/drivers/hid/hid-generic.c
-> +++ b/drivers/hid/hid-generic.c
-> @@ -64,11 +64,12 @@ static int hid_generic_probe(struct hid_device *hdev,
->  	if (ret)
->  		return ret;
->  
-> -	return hid_hw_start(hdev, HID_CONNECT_DEFAULT);
-> +	return hid_hw_start(hdev, id->driver_data);
->  }
->  
->  static const struct hid_device_id hid_table[] = {
-> -	{ HID_DEVICE(HID_BUS_ANY, HID_GROUP_ANY, HID_ANY_ID, HID_ANY_ID) },
-> +	{ HID_DEVICE(HID_BUS_ANY, HID_GROUP_ANY, HID_ANY_ID, HID_ANY_ID),
-> +		.driver_data = HID_CONNECT_DEFAULT },
->  	{ }
->  };
->  MODULE_DEVICE_TABLE(hid, hid_table);
-> 
-> -- 
-> 2.46.0
-> 
+
+vim +1213 drivers/platform/x86/intel/pmc/core.c
+
+  1211	
+  1212	/**
+> 1213	 * Enable or disable ACPI PM Timer
+  1214	 *
+  1215	 * This function is intended to be a callback for ACPI PM suspend/resume event.
+  1216	 * The ACPI PM Timer is enabled on resume only if it was enabled during suspend.
+  1217	 */
+  1218	static void pmc_core_acpi_pm_timer_suspend_resume(void *data, bool suspend)
+  1219	{
+  1220		struct pmc_dev *pmcdev = data;
+  1221		struct pmc *pmc = pmcdev->pmcs[PMC_IDX_MAIN];
+  1222		const struct pmc_reg_map *map = pmc->map;
+  1223		bool enabled;
+  1224		u32 reg;
+  1225	
+  1226		if (!map->acpi_pm_tmr_ctl_offset)
+  1227			return;
+  1228	
+  1229		guard(mutex)(&pmcdev->lock);
+  1230	
+  1231		if (!suspend && !pmcdev->enable_acpi_pm_timer_on_resume)
+  1232			return;
+  1233	
+  1234		reg = pmc_core_reg_read(pmc, map->acpi_pm_tmr_ctl_offset);
+  1235		enabled = !(reg & map->acpi_pm_tmr_disable_bit);
+  1236		if (suspend)
+  1237			reg |= map->acpi_pm_tmr_disable_bit;
+  1238		else
+  1239			reg &= ~map->acpi_pm_tmr_disable_bit;
+  1240		pmc_core_reg_write(pmc, map->acpi_pm_tmr_ctl_offset, reg);
+  1241	
+  1242		pmcdev->enable_acpi_pm_timer_on_resume = suspend && enabled;
+  1243	}
+  1244	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
