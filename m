@@ -1,119 +1,287 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B63B31C7685;
-	Tue,  3 Sep 2024 08:44:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5D41C7670;
+	Tue,  3 Sep 2024 08:53:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725353096; cv=none; b=KiIqD1LxAyaaPZvP4fKJUwOfmUUZabnNwtdjgA1wGG1v34oTObEWMZFqW+PtkjdqA7QKzew27b7Rhkue4pdf2VoXZmfj4l0ormmgm3l2BlKlBgOOUi7shlK+I3wgFEnWOOUT1i/+v5xRKDWzOqI8cbakGyEWpcF5E8ic2vHiUec=
+	t=1725353600; cv=none; b=F0z2aP0zGD1V36eScm/PFLzJ6ojW1/dH7BT0GQeNkiTRL/ZDUcr249lU8FP0Anw/xJB3tsbOSZ7gzpMDiGHsR8UjfkfZhT60lgkAHtUEd3ncOAPsXLcRCjuGErNAoaWHvwr1ec8OJHBuWkM60R4mYTC2E+4Ym4hBQbkO3UkKZow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725353096; c=relaxed/simple;
-	bh=3xB3ztwj0gMpVSIrxypG9nmuOvlqkoexcBQdprbAobY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PT+r0x+4rkoBNhwcSoERnnIP0n/aDJpOhaIykdn2E6IywRN9aHBx/NWPCzY2Ljy2Y+EQddpOVhzuZRmCGwbavpxRodpZMVZt/If8s+OZkamjGohd850BMqajjG/55d3D7efQGzd0Ote8Vp4iCX9xlxRk5xNMgCuMWbJflKtOMcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MjlBDYAz; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725353600; c=relaxed/simple;
+	bh=pF9CszNYwjJO5JuUq2dHO3LIuUrYYG12W216C7TCrIQ=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CBkc8Bc8Zd7u/os4jqAE3VTKIKpUDvFV8upHFvxQP1h8AQC1J2v796vVUoxGi0lBr0qBHtb3UuBZCPbRGsR7n3j+dp0+ge/GCI5jeF4kzLvAEKYcjJ6mpdIhfoVUlt/xzqQwKXO4w/oWxoAiL8UlME8J8yJIlRALd9Y6Y2Q5WEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ey0IEJoR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MjlBDYAz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725353095; x=1756889095;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3xB3ztwj0gMpVSIrxypG9nmuOvlqkoexcBQdprbAobY=;
-  b=MjlBDYAzyTSrwImB0WPDx2yYzIt0H4rowXayawf8Y9dWo0aBP+AA8SgE
-   o7PjX2IGb/pOKtB+uZsDX8fDTicUjfZGzXLPFpxRwFepL3p8u2R5wLaIH
-   DKtjMFRR/ckRIflVUMyzbLGwC6RoEVpsqJgI1qarD4VecWX3tPbFtrdjO
-   hU2tkLEUVuRVpO3Cnj3mfRs5IVNFYVRca838z66zVHu0kalXLZaRC2As7
-   JzuL4IPT2y75zVLGN1V+GiXqKmR9lO6skCRrGMTzUyyt+om3DCFJELq1+
-   /rt9TNFx9JJAOCfSb893GJzpIqYFaAEgdpayW7xkAZTBi00W036vt+DAz
-   Q==;
-X-CSE-ConnectionGUID: oWaDnofBR+6RRugglRioZA==
-X-CSE-MsgGUID: X4NWet46SQ2Xs1YAFZcLLA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="13340547"
-X-IronPort-AV: E=Sophos;i="6.10,198,1719903600"; 
-   d="scan'208";a="13340547"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 01:44:54 -0700
-X-CSE-ConnectionGUID: eyhj1E5rSHaxevCr/gM+9Q==
-X-CSE-MsgGUID: X/xG8AjRS/WND4b1Mr78AQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,198,1719903600"; 
-   d="scan'208";a="69477026"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 03 Sep 2024 01:44:51 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1slP9d-0006QI-0P;
-	Tue, 03 Sep 2024 08:44:49 +0000
-Date: Tue, 3 Sep 2024 16:44:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Pavan Kumar Paluri <papaluri@amd.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-	Borislav Petkov <bp@alien8.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Eric Van Tassell <Eric.VanTassell@amd.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Ashish Kalra <ashish.kalra@amd.com>,
-	Michael Roth <michael.roth@amd.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Pavan Kumar Paluri <papaluri@amd.com>
-Subject: Re: [PATCH v2 1/2] x86, KVM:SVM: Move sev specific parsing into
- arch/x86/virt/svm
-Message-ID: <202409031656.SS8NsjIN-lkp@intel.com>
-References: <20240903003511.1530454-2-papaluri@amd.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ey0IEJoR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10C3CC4CEC4;
+	Tue,  3 Sep 2024 08:53:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725353600;
+	bh=pF9CszNYwjJO5JuUq2dHO3LIuUrYYG12W216C7TCrIQ=;
+	h=Date:From:To:Subject:References:In-Reply-To:From;
+	b=ey0IEJoR3QjObccfvtl+IVNs3bMkadki8pzTl/HbOgT4SApEZdouS3ArzHkc+WJuK
+	 Bm66TGtj7EvySvcm78AGruWZcEfGR0U8U8C9NORBB6uqtPSL/5ODv5lyzNJ8KuHeU8
+	 PE64NcvpP4nBpdB3U6szU+7jwKRwJ3t1Qa5sVBJMwTxyOLLwT3EaKusSgWAywkv67Q
+	 MnIMOz83UtKz01hHrzpvosTwotiuHcLztTI11jWY2NyAfLB8a2yUw01BgLtLSe+PRt
+	 kDL2e57VE6D5wCyLXC/9v+pKwUJ6gWmKFfrSuO+aX8ZhSIJlzh215dxW3KfyvfQ3Wa
+	 RKPr3mj5OlJWw==
+Date: Tue, 3 Sep 2024 10:53:17 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Tvrtko Ursulin <tursulin@ursulin.net>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@gmail.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org, 
+	linux-mm@kvack.org, linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH 2/6] drm/cgroup: Add memory accounting DRM cgroup
+Message-ID: <20240903-resilient-quiet-oxpecker-d57d7a@houat>
+References: <20240627154754.74828-1-maarten.lankhorst@linux.intel.com>
+ <20240627154754.74828-3-maarten.lankhorst@linux.intel.com>
+ <20240627-paper-vicugna-of-fantasy-c549ed@houat>
+ <6cb7c074-55cb-4825-9f80-5cf07bbd6745@linux.intel.com>
+ <20240628-romantic-emerald-snake-7b26ca@houat>
+ <70289c58-7947-4347-8600-658821a730b0@linux.intel.com>
+ <40ef0eed-c514-4ec1-9486-2967f23824be@ursulin.net>
+ <ZrIeuLi88jqbQ0FH@phenom.ffwll.local>
+ <20240806-gharial-of-abstract-reverence-aad6ea@houat>
+ <ZrJAnbLcj_dU47ZO@phenom.ffwll.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="r7g4aiuocov6uk3k"
+Content-Disposition: inline
+In-Reply-To: <ZrJAnbLcj_dU47ZO@phenom.ffwll.local>
+
+
+--r7g4aiuocov6uk3k
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240903003511.1530454-2-papaluri@amd.com>
+Content-Transfer-Encoding: quoted-printable
 
-Hi Pavan,
+On Tue, Aug 06, 2024 at 05:26:21PM GMT, Daniel Vetter wrote:
+> On Tue, Aug 06, 2024 at 04:09:43PM +0200, Maxime Ripard wrote:
+> > On Tue, Aug 06, 2024 at 03:01:44PM GMT, Daniel Vetter wrote:
+> > > On Mon, Jul 01, 2024 at 06:01:41PM +0100, Tvrtko Ursulin wrote:
+> > > >=20
+> > > > On 01/07/2024 10:25, Maarten Lankhorst wrote:
+> > > > > Den 2024-06-28 kl. 16:04, skrev Maxime Ripard:
+> > > > > > Hi,
+> > > > > >=20
+> > > > > > On Thu, Jun 27, 2024 at 09:22:56PM GMT, Maarten Lankhorst wrote:
+> > > > > > > Den 2024-06-27 kl. 19:16, skrev Maxime Ripard:
+> > > > > > > > Hi,
+> > > > > > > >=20
+> > > > > > > > Thanks for working on this!
+> > > > > > > >=20
+> > > > > > > > On Thu, Jun 27, 2024 at 05:47:21PM GMT, Maarten Lankhorst w=
+rote:
+> > > > > > > > > The initial version was based roughly on the rdma and mis=
+c cgroup
+> > > > > > > > > controllers, with a lot of the accounting code borrowed f=
+rom rdma.
+> > > > > > > > >=20
+> > > > > > > > > The current version is a complete rewrite with page count=
+er; it uses
+> > > > > > > > > the same min/low/max semantics as the memory cgroup as a =
+result.
+> > > > > > > > >=20
+> > > > > > > > > There's a small mismatch as TTM uses u64, and page_counte=
+r long pages.
+> > > > > > > > > In practice it's not a problem. 32-bits systems don't rea=
+lly come with
+> > > > > > > > > > =3D4GB cards and as long as we're consistently wrong wi=
+th units, it's
+> > > > > > > > > fine. The device page size may not be in the same units a=
+s kernel page
+> > > > > > > > > size, and each region might also have a different page si=
+ze (VRAM vs GART
+> > > > > > > > > for example).
+> > > > > > > > >=20
+> > > > > > > > > The interface is simple:
+> > > > > > > > > - populate drmcgroup_device->regions[..] name and size fo=
+r each active
+> > > > > > > > >     region, set num_regions accordingly.
+> > > > > > > > > - Call drm(m)cg_register_device()
+> > > > > > > > > - Use drmcg_try_charge to check if you can allocate a chu=
+nk of memory,
+> > > > > > > > >     use drmcg_uncharge when freeing it. This may return a=
+n error code,
+> > > > > > > > >     or -EAGAIN when the cgroup limit is reached. In that =
+case a reference
+> > > > > > > > >     to the limiting pool is returned.
+> > > > > > > > > - The limiting cs can be used as compare function for
+> > > > > > > > >     drmcs_evict_valuable.
+> > > > > > > > > - After having evicted enough, drop reference to limiting=
+ cs with
+> > > > > > > > >     drmcs_pool_put.
+> > > > > > > > >=20
+> > > > > > > > > This API allows you to limit device resources with cgroup=
+s.
+> > > > > > > > > You can see the supported cards in /sys/fs/cgroup/drm.cap=
+acity
+> > > > > > > > > You need to echo +drm to cgroup.subtree_control, and then=
+ you can
+> > > > > > > > > partition memory.
+> > > > > > > > >=20
+> > > > > > > > > Signed-off-by: Maarten Lankhorst<maarten.lankhorst@linux.=
+intel.com>
+> > > > > > > > > Co-developed-by: Friedrich Vock<friedrich.vock@gmx.de>
+> > > > > > > > I'm sorry, I should have wrote minutes on the discussion we=
+ had with TJ
+> > > > > > > > and Tvrtko the other day.
+> > > > > > > >=20
+> > > > > > > > We're all very interested in making this happen, but doing =
+a "DRM"
+> > > > > > > > cgroup doesn't look like the right path to us.
+> > > > > > > >=20
+> > > > > > > > Indeed, we have a significant number of drivers that won't =
+have a
+> > > > > > > > dedicated memory but will depend on DMA allocations one way=
+ or the
+> > > > > > > > other, and those pools are shared between multiple framewor=
+ks (DRM,
+> > > > > > > > V4L2, DMA-Buf Heaps, at least).
+> > > > > > > >=20
+> > > > > > > > This was also pointed out by Sima some time ago here:
+> > > > > > > > https://lore.kernel.org/amd-gfx/YCVOl8%2F87bqRSQei@phenom.f=
+fwll.local/
+> > > > > > > >=20
+> > > > > > > > So we'll want that cgroup subsystem to be cross-framework. =
+We settled on
+> > > > > > > > a "device" cgroup during the discussion, but I'm sure we'll=
+ have plenty
+> > > > > > > > of bikeshedding.
+> > > > > > > >=20
+> > > > > > > > The other thing we agreed on, based on the feedback TJ got =
+on the last
+> > > > > > > > iterations of his series was to go for memcg for drivers no=
+t using DMA
+> > > > > > > > allocations.
+> > > > > > > >=20
+> > > > > > > > It's the part where I expect some discussion there too :)
+> > > > > > > >=20
+> > > > > > > > So we went back to a previous version of TJ's work, and I'v=
+e started to
+> > > > > > > > work on:
+> > > > > > > >=20
+> > > > > > > >     - Integration of the cgroup in the GEM DMA and GEM VRAM=
+ helpers (this
+> > > > > > > >       works on tidss right now)
+> > > > > > > >=20
+> > > > > > > >     - Integration of all heaps into that cgroup but the sys=
+tem one
+> > > > > > > >       (working on this at the moment)
+> > > > > > >=20
+> > > > > > > Should be similar to what I have then. I think you could use =
+my work to
+> > > > > > > continue it.
+> > > > > > >=20
+> > > > > > > I made nothing DRM specific except the name, if you renamed i=
+t the device
+> > > > > > > resource management cgroup and changed the init function sign=
+ature to take a
+> > > > > > > name instead of a drm pointer, nothing would change. This is =
+exactly what
+> > > > > > > I'm hoping to accomplish, including reserving memory.
+> > > > > >=20
+> > > > > > I've started to work on rebasing my current work onto your seri=
+es today,
+> > > > > > and I'm not entirely sure how what I described would best fit. =
+Let's
+> > > > > > assume we have two KMS device, one using shmem, one using DMA
+> > > > > > allocations, two heaps, one using the page allocator, the other=
+ using
+> > > > > > CMA, and one v4l2 device using dma allocations.
+> > > > > >=20
+> > > > > > So we would have one KMS device and one heap using the page all=
+ocator,
+> > > > > > and one KMS device, one heap, and one v4l2 driver using the DMA
+> > > > > > allocator.
+> > > > > >=20
+> > > > > > Would these make different cgroup devices, or different cgroup =
+regions?
+> > > > >=20
+> > > > > Each driver would register a device, whatever feels most logical =
+for that device I suppose.
+> > > > >=20
+> > > > > My guess is that a prefix would also be nice here, so register a =
+device with name of drm/$name or v4l2/$name, heap/$name. I didn't give it m=
+uch thought and we're still experimenting, so just try something. :)
+> > > > >=20
+> > > > > There's no limit to amount of devices, I only fixed amount of poo=
+ls to match TTM, but even that could be increased arbitrarily. I just don't=
+ think there is a point in doing so.
+> > > >=20
+> > > > Do we need a plan for top level controls which do not include regio=
+n names?
+> > > > If the latter will be driver specific then I am thinking of ease of
+> > > > configuring it all from the outside. Especially considering that on=
+e cgroup
+> > > > can have multiple devices in it.
+> > > >=20
+> > > > Second question is about double accounting for shmem backed objects=
+=2E I think
+> > > > they will be seen, for drivers which allocate backing store at buff=
+er
+> > > > objects creation time, under the cgroup of process doing the creati=
+on, in
+> > > > the existing memory controller. Right?
+> > >=20
+> > > We currently don't set __GFP_ACCOUNT respectively use GFP_KERNEL_ACCO=
+UNT,
+> > > so no. Unless someone allocates them with GFP_USER ...
+> > >=20
+> > > > Is there a chance to exclude those from there and only have them in=
+ this new
+> > > > controller? Or would the opposite be a better choice? That is, not =
+see those
+> > > > in the device memory controller but only in the existing one.
+> > >=20
+> > > I missed this, so jumping in super late. I think guidance from Tejun =
+was
+> > > to go the other way around: Exclude allocations from normal system
+> > > memory from device cgroups and instead make sure it's tracked in the
+> > > existing memcg.
+> > >=20
+> > > Which might mean we need memcg shrinkers and the assorted pain ...
+> > >=20
+> > > Also I don't think we ever reached some agreement on where things lik=
+e cma
+> > > allocations should be accounted for in this case.
+> >=20
+> > Yeah, but that's the thing, memcg probably won't cut it for CMA. Because
+> > if you pull the thread, that means that dma-heaps also have to register
+> > their buffers into memcg too, even if it's backed by something else than
+> > RAM.
+>=20
+> For cma I'm kinda leaning towards "both". If you don't have a special cma
+> cgroup and just memcg, you can exhaust the cma easily. But if the cma
+> allocations also aren't tracked in memcg, you have a blind spot there,
+> which isn't great.
 
-kernel test robot noticed the following build warnings:
+I think one of earlier comment from Tejun was that we don't want to
+double-account memory, but I guess your point is that we should double
+account if we allocate CMA buffers from the main CMA allocator, and not
+if we're allocating from a secondary one?
 
-[auto build test WARNING on a85536e1bce722cb184abbac98068217874bdd6e]
+Maxime
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pavan-Kumar-Paluri/x86-KVM-SVM-Move-sev-specific-parsing-into-arch-x86-virt-svm/20240903-083803
-base:   a85536e1bce722cb184abbac98068217874bdd6e
-patch link:    https://lore.kernel.org/r/20240903003511.1530454-2-papaluri%40amd.com
-patch subject: [PATCH v2 1/2] x86, KVM:SVM: Move sev specific parsing into arch/x86/virt/svm
-config: i386-buildonly-randconfig-001-20240903 (https://download.01.org/0day-ci/archive/20240903/202409031656.SS8NsjIN-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240903/202409031656.SS8NsjIN-lkp@intel.com/reproduce)
+--r7g4aiuocov6uk3k
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409031656.SS8NsjIN-lkp@intel.com/
+-----BEGIN PGP SIGNATURE-----
 
-All warnings (new ones prefixed by >>):
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZtbOfQAKCRAnX84Zoj2+
+dnwzAYCEWYkV8bFQQiateI5fA27NPKONLZzvNymw/YlkL6RqCbyy8yQF5/c3OB2y
+FyfBwboBgN6ohy+xL0NP1ul/DCpoJ/yDH0DMRhvYsEGPgvbkGm+8WPbc/KFc/xKt
+alKvNeyYYQ==
+=9H/P
+-----END PGP SIGNATURE-----
 
-   In file included from arch/x86/include/asm/sev.h:16,
-                    from arch/x86/virt/svm/cmdline.c:13:
->> arch/x86/include/asm/coco.h:28:18: warning: 'cc_mask' defined but not used [-Wunused-const-variable=]
-      28 | static const u64 cc_mask = 0;
-         |                  ^~~~~~~
-
-
-vim +/cc_mask +28 arch/x86/include/asm/coco.h
-
-1c811d403afd73 Ard Biesheuvel     2024-02-03  22  
-b577f542f93cbb Kirill A. Shutemov 2022-02-22  23  u64 cc_mkenc(u64 val);
-b577f542f93cbb Kirill A. Shutemov 2022-02-22  24  u64 cc_mkdec(u64 val);
-99485c4c026f02 Jason A. Donenfeld 2024-03-26  25  void cc_random_init(void);
-b577f542f93cbb Kirill A. Shutemov 2022-02-22  26  #else
-e4596477100706 Nathan Chancellor  2024-02-02  27  #define cc_vendor (CC_VENDOR_NONE)
-a0a8d15a798be4 Kirill A. Shutemov 2024-04-24 @28  static const u64 cc_mask = 0;
-e4596477100706 Nathan Chancellor  2024-02-02  29  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--r7g4aiuocov6uk3k--
