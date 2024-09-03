@@ -1,88 +1,118 @@
-Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 032BD22F11;
-	Tue,  3 Sep 2024 17:58:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.38.16
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.237.72.81])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1388819005F;
+	Tue,  3 Sep 2024 17:58:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.237.72.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725386290; cv=none; b=uPZI87/0LH2NUEqqbnsSggMSxer8dMooDTTAW0DA1uS2om4cY75NBi5AIP6l+S3IQgUDg8Bx75dNcfMqDJWZkx/nouqFk7hq/NIGOLNNJfE/RGSjWBU9vXQRbAQvcDWeBFJGDLCtM6TfvXGXLFf82Fc6w14dKPkW2isBTOqaN5s=
+	t=1725386298; cv=none; b=i0/1hOwFJapwBLQRNSBO/N1VmOcEWsp+6ic+AG1zTTZOCmrkXdBLQ20TiM2PPi23bhIE9JS2IKzb1fk+1YOaOzqUvP8SUYrzRVJXdEW9TqmzfxRCZNxHITJ7mgr/BzOCUpODmNNlV5cnTznr0wLJmo+Gn2k7fsPIVSk1p/Qd9/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725386290; c=relaxed/simple;
-	bh=u8j2kWJdK0EeKzN4AXVT6Du9D/Kibugx0Xb60H3LWpo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=S+1JISBUsJf3w9kBKxtGjO6LE6RgjTKcrBMQfsNFM4KmU5amWAxoui0lRWmWvvQKVRYuHW060YZOLr3iyM4bnBsdldIRGQPg5pWZikzAvF2xAuuSpWGVSwkw1D/gSSnzd55mIYZv+q7UCnr4V8Yb+elVMqFdNsRk9A28KX/F3go=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net; spf=pass smtp.mailfrom=sipsolutions.net; dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b=ySxNEsvV; arc=none smtp.client-ip=168.119.38.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sipsolutions.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="ySxNEsvV"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
-	Resent-Cc:Resent-Message-ID; bh=IAESczAqoTkqwd1sElm2y6U2dzgfrcTnXqQTQycwhtw=;
-	t=1725386289; x=1726595889; b=ySxNEsvV1jpF4z8YVdISeGjRSRW+R+vRFyjwpbjNIzJ5Mvq
-	zp0z+XLLHRrzXNZtaVR866mGPHDGgaJYhDA3Xx+7eOsr60z38iUR4LSvtVfxh+16S4VIrkAAvGg2N
-	hFcvfZadJgvbExtfHuPhSghgrvar0hgI+8h8tLKKrBrnyQLUYjcbPgMAE6rbeUK2BcInpWJgf2r5A
-	up6mqJjKEsFhn/VzTN/3F5CCVDn01gdRcP9D8gjoFu40MFAK0JiJhMh2+vSZDbv89G8Olyvv5U948
-	vCJGJV6awP3Ni7tHoU451oNrAw4Mbdcq16qpcZmoc4XPjqtfX6uweD9s9TS+GNew==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.97)
-	(envelope-from <johannes@sipsolutions.net>)
-	id 1slXmU-00000002un7-3JPR;
-	Tue, 03 Sep 2024 19:57:31 +0200
-Message-ID: <a163db239ffe31fbe1921f8b0bfdcfa47fd355f0.camel@sipsolutions.net>
-Subject: Re: [PATCH 1/3] rust: Introduce HAVE_GENERATE_RUST_TARGET config
- option
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, Masahiro Yamada
- <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas
- Schier <nicolas@fjasle.eu>, Richard Weinberger <richard@nod.at>, Anton
- Ivanov <anton.ivanov@cambridgegreys.com>, Thomas Gleixner
- <tglx@linutronix.de>,  Ingo Molnar <mingo@redhat.com>, Borislav Petkov
- <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,  x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Miguel Ojeda <ojeda@kernel.org>,  Alex
- Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin
- <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, Alice
- Ryhl <aliceryhl@google.com>, Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>, Steven Rostedt <rostedt@goodmis.org>, Masami
- Hiramatsu <mhiramat@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Jonathan Corbet <corbet@lwn.net>,  Alex Shi <alexs@kernel.org>, Yanteng Si
- <siyanteng@loongson.cn>, Nick Desaulniers <ndesaulniers@google.com>, Bill
- Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-um@lists.infradead.org, rust-for-linux@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, llvm@lists.linux.dev
-Date: Tue, 03 Sep 2024 19:57:29 +0200
-In-Reply-To: <20240903-mips-rust-v1-1-0fdf0b2fd58f@flygoat.com>
-References: <20240903-mips-rust-v1-0-0fdf0b2fd58f@flygoat.com>
-	 <20240903-mips-rust-v1-1-0fdf0b2fd58f@flygoat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
+	s=arc-20240116; t=1725386298; c=relaxed/simple;
+	bh=uATjZ/YF6nzeNKi1F2SZH37jXsIQydZyrH2XaUeCEdQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QILVSExEGhigbd/0LjNB1eI4er1RSz63gn22fmIYC7iq1pPZmZ+qUfY1y4juAVfygJXRdtS1dKuyj9BcBBTDMpMQ42ni2oecXQTnCo3wsErTSENC1+WCOXeBTQEfztu1vrwrNwUp2xZrTiOW9puDaYZNEncIw2gL2mFmNyE7nnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=52.237.72.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app2 (Coremail) with SMTP id HwEQrACXn7f4TddmHm+pAA--.54713S2;
+	Wed, 04 Sep 2024 01:57:12 +0800 (CST)
+Received: from [198.18.0.1] (unknown [10.12.177.116])
+	by gateway (Coremail) with SMTP id _____wB3b772Tddm33b7AA--.43248S2;
+	Wed, 04 Sep 2024 01:57:11 +0800 (CST)
+Message-ID: <bd647428-f74d-4f89-acd2-0a96c7f0478a@hust.edu.cn>
+Date: Wed, 4 Sep 2024 01:57:08 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-malware-bazaar: not-scanned
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: update dev-tools/kcsan.rst url about KTSAN
+To: Marco Elver <elver@google.com>, Dongliang Mu <dzm91@hust.edu.cn>
+Cc: Dmitry Vyukov <dvyukov@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ hust-os-kernel-patches@googlegroups.com, kasan-dev@googlegroups.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240725174632.23803-1-tttturtleruss@hust.edu.cn>
+ <a6285062-4e36-431e-b902-48f4bee620e0@hust.edu.cn>
+ <CANpmjNOiMFUM8KxV8Gj_LTSbC_qLYSh+34Ma8gC1LFCgjtPRsA@mail.gmail.com>
+From: Haoyang Liu <tttturtleruss@hust.edu.cn>
+In-Reply-To: <CANpmjNOiMFUM8KxV8Gj_LTSbC_qLYSh+34Ma8gC1LFCgjtPRsA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HwEQrACXn7f4TddmHm+pAA--.54713S2
+Authentication-Results: app2; spf=neutral smtp.mail=tttturtleruss@hust
+	.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cw1kGFWrWFWfAry3uF45Jrb_yoW8uF4kpa
+	yfuFyIkw4vqr17K3yIgw40yFW8tF93Xr1UJ3W8J3WFqrsIvFn3trW29w4Fga4UZrZ5CFW2
+	vF4j9a4Fv3WDAaUanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmFb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+	z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAaw2AFwI
+	0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAq
+	x4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r4UJVWxJr1lYx0E74AGY7
+	Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1lOx8S6xCaFVCjc4AY6r1j
+	6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxAIw2
+	8IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AK
+	xVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
+	AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI
+	42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMI
+	IF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2
+	KfnxnUUI43ZEXa7IU0KNt3UUUUU==
+X-CM-SenderInfo: rxsqjiqrssiko6kx23oohg3hdfq/1tbiAQkJAmbWg7dAjQADsJ
 
-On Tue, 2024-09-03 at 18:14 +0100, Jiaxun Yang wrote:
->=20
-> --- a/arch/um/Kconfig
-> +++ b/arch/um/Kconfig
-> @@ -32,6 +32,7 @@ config UML
->  	select TTY # Needed for line.c
->  	select HAVE_ARCH_VMAP_STACK
->  	select HAVE_RUST
-> +	select HAVE_GENERATE_RUST_TARGET if X86_32 || X86_64
->=20
 
-There are no other sub-arches support for UML, I don't see much point in
-adding the dependency here.
+在 2024/7/26 16:38, Marco Elver 写道:
+> On Fri, 26 Jul 2024 at 03:36, Dongliang Mu <dzm91@hust.edu.cn> wrote:
+>>
+>> On 2024/7/26 01:46, Haoyang Liu wrote:
+>>> The KTSAN doc has moved to
+>>> https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md.
+>>> Update the url in kcsan.rst accordingly.
+>>>
+>>> Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
+>> Although the old link is still accessible, I agree to use the newer one.
+>>
+>> If this patch is merged, you need to change your Chinese version to
+>> catch up.
+>>
+>> Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
+>>
+>>> ---
+>>>    Documentation/dev-tools/kcsan.rst | 3 ++-
+>>>    1 file changed, 2 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-tools/kcsan.rst
+>>> index 02143f060b22..d81c42d1063e 100644
+>>> --- a/Documentation/dev-tools/kcsan.rst
+>>> +++ b/Documentation/dev-tools/kcsan.rst
+>>> @@ -361,7 +361,8 @@ Alternatives Considered
+>>>    -----------------------
+>>>
+>>>    An alternative data race detection approach for the kernel can be found in the
+>>> -`Kernel Thread Sanitizer (KTSAN) <https://github.com/google/ktsan/wiki>`_.
+>>> +`Kernel Thread Sanitizer (KTSAN)
+>>> +<https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md>`_.
+>>>    KTSAN is a happens-before data race detector, which explicitly establishes the
+>>>    happens-before order between memory operations, which can then be used to
+>>>    determine data races as defined in `Data Races`_.
+> Acked-by: Marco Elver <elver@google.com>
+>
+> Do you have a tree to take your other patch ("docs/zh_CN: Add
+> dev-tools/kcsan Chinese translation") through? If so, I would suggest
+> that you ask that maintainer to take both patches, this and the
+> Chinese translation patch. (Otherwise, I will queue this patch to be
+> remembered but it'll be a while until it reaches mainline.)
 
-johannes
+Hi, Marco.
+
+
+The patch "docs/zh_CN: Add dev-tools/kcsan Chinese translation" has been 
+applied, but they didn't take this one. How about you take it into your 
+tree?
+
+
+Thanks,
+
+Haoyang
+
