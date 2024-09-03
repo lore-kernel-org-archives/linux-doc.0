@@ -1,104 +1,326 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh4-smtp.messagingengine.com (fhigh4-smtp.messagingengine.com [103.168.172.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C161E49F;
-	Tue,  3 Sep 2024 02:48:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F134AA32;
+	Tue,  3 Sep 2024 05:37:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725331684; cv=none; b=SG2DxHbgxLBRrPtmPRr63Kl5iTZ/NE5GLWu+npEVFwNXF1TXNPn8TcxQcmRoumRwmeyCJnfRLFtUVgdxU3FNVNfymergTiyAJh1Gd8HRD+7M9QJBUD24uFmS/q+C1eU7xrxT7U3qSyyjI7K/RycruZzUxFsxCyNVwnrBnIwd1gQ=
+	t=1725341837; cv=none; b=Vc0+OvEu9D3cO+p0O7xqYJtVU7P7+/wtBbbViel2haoxYyRP+xu334pX5pHXnGK7orh2WIrZ1PSBpsS3K54xdQYoA9lsI61/0rZRBHzu4PuN1dI+PbWrHBSzHWVUqUFFF6M0eIg9XCNOXbF2xnPIMadouY30aWASZruOK6eqWfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725331684; c=relaxed/simple;
-	bh=3e9BFcxGMyztGQkt2ajX1gaFZsKe1j90E8wXlDLqqBA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DNjOrgPSFg785+UQbLFEN3ccyiKZX/msqw7Qsf6GdMrorWRSZfWOGuDERhNpvayI/Va3oRP0Chk9OZEkjxsEtsvvzSNqtxknVSnvHYAzY+kOU9B54uBz8JG21zTWDQcnXLTMkEMjJulipMwKkRQV4jfRUIGEgbXZPWrIvIeb+88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i9bOTEqA; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1725341837; c=relaxed/simple;
+	bh=cSHTXzqTkcKTuQYIQ/Vbye5ERtQLZnVWXIfSGfo0rWo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t+AR7yGNewUzwOjqjLPvjJOJ+UDjGmjhupaXQtHF0pl922YF5gUKj1s5fHLDV00sKb4nxJX/GPn4SPqL4tEqRcZ1GVe+r+kKYfJb50Bn2Qm8T53l9VPdNdFEuYp7e1UKYsMYF5mzR82yVIGAVT6Dbln+1drl/nsiRRSRKydxg+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net; spf=pass smtp.mailfrom=who-t.net; dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b=pDzo+7Lk; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RfHigZa4; arc=none smtp.client-ip=103.168.172.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=who-t.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i9bOTEqA"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-20543fdb7acso17854225ad.1;
-        Mon, 02 Sep 2024 19:48:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725331682; x=1725936482; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QL+Dy5jYOUZJ3ujUP+UZJfMT8uowfmg+5RGiW1rc9fQ=;
-        b=i9bOTEqAKZw9S4hhJdrfOinZKYop0ZfUkOepk0Ki3WPBKiSJt4ycSCmAFUCcU53w8p
-         FFNw8HgU2JA9czjo8OSiIRBhDlCOCBWkOFRDsmKsAqPrAlyy8NPPtWcFdIm0BrqWa2SI
-         EUSs44zzsuonqeiSWbD7ztLfxImvQtRfssNutKnHpnFshd22kIQU2JjVp1yh690OKJHA
-         giDQ6UTSU2G2CpSGlEOTobnT67wCQdhTjttiSkitsMMNBrVGi9uAaqJtyQnv3Q9JocQS
-         0erPDIpe1yiavif5GDJnk4neLnVqklI/MXkDGmAOxyKPPLCrM1yTPIhs63JvnGvbLBKz
-         VpUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725331682; x=1725936482;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QL+Dy5jYOUZJ3ujUP+UZJfMT8uowfmg+5RGiW1rc9fQ=;
-        b=Z4+Pf7N4QMBIIO2mXcTlqe6x0LUEMDE80UScyBGTidIpSDZM46NzqhHP6Q3Rc9Pruy
-         oXwCPMUPH913Ax/DgVM/IovkP79zdvGXdGXnZAsmJVpMl+OVlk7y3jHolMSUydz8GJIy
-         idIW0e/OqpSEBGdDlI+MRmIHlG73q7MPMStzOFVKpe5h2VnQZcvW4Q26BK6/md3zAxrs
-         eiRZp3oZgzgdwLbbhfXihMdhHlozg9q/Un3VrW5gERzB68FCL7iS/J91l0WxkbBaPPPZ
-         TM9/3ZUFooUKiiTQHFDDoGsWZz5sutMyWj9mR3vrtl+SyAPu23tLdxY5NtC5Qi1vPt7m
-         l8Bw==
-X-Forwarded-Encrypted: i=1; AJvYcCVGrI4F6tbEHCfeZwPIzQdmFsa/M6maSfNYb88UahVZL5fhs0Zun6ysS8vKNd0NwHtU/Mm/ETLiYug=@vger.kernel.org, AJvYcCWpeM3Q+A+7LzGqq6UU58wpu+uLNUgEVaX8xw711GxXdt+gWXkdcgxq2ZqyoIxh9BJaowdnjQhAOTczKBDDkg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVGVnC+kvyWd6v7CynxiPZfx14xPcpRw0BB5AQAMddkIsgyBeQ
-	Pcyh1sRvxM9PFZJFu3loWHdpEKMvsDsEIOLu5cm+z+b4rvt0fAjmEtUXNA==
-X-Google-Smtp-Source: AGHT+IEoB0+9ktJiczooR9Okr3QAk/6WxwpYddp14Oem1sZYhwrOl+DTFGf3Woowfwqlabg3AqqMVA==
-X-Received: by 2002:a17:902:db03:b0:202:4b99:fd27 with SMTP id d9443c01a7336-2054c24a0a1mr83012095ad.51.1725331681939;
-        Mon, 02 Sep 2024 19:48:01 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2057f8c12c9sm19433855ad.176.2024.09.02.19.48.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Sep 2024 19:48:01 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 86CB14936702; Tue, 03 Sep 2024 09:47:58 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Kernel Livepatching <live-patching@vger.kernel.org>
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>,
-	Jiri Kosina <jikos@kernel.org>,
-	Miroslav Benes <mbenes@suse.cz>,
-	Petr Mladek <pmladek@suse.com>,
-	Joe Lawrence <joe.lawrence@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Marcos Paulo de Souza <mpdesouza@suse.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH] Documentation: livepatch: Correct release locks antonym
-Date: Tue,  3 Sep 2024 09:47:53 +0700
-Message-ID: <20240903024753.104609-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.46.0
+	dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b="pDzo+7Lk";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RfHigZa4"
+Received: from phl-compute-04.internal (phl-compute-04.nyi.internal [10.202.2.44])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id 1BCE311401BE;
+	Tue,  3 Sep 2024 01:37:14 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Tue, 03 Sep 2024 01:37:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1725341834; x=1725428234; bh=tgUirjAflv
+	UaY9suuFJASQujb+mxCSerZTRkwaQiYpA=; b=pDzo+7LkdGq1flscdYJBDNr/4k
+	iMFjR9nh3hOqZivTYj/wdFlQ604XjTfFQar3Xhuw2TEo7hsNL5O8PMQCvH+zCsd7
+	G0nwET0Ld4kZUADeRyAPTGjcIQz8E6sbe6kv8TEG/lwsGrxvlJQZDl2Bs0+i8vpk
+	Er0NrEkm98mSZ4+ucCzhaJZcP742a/rOb/2fQDGeUwe1q1GXyhOKOcXe1W86YJ3C
+	G35dp6WxiQjzifG3NEIT+66J5GQQ6+y7LcIDmdPYYMeo/QBfO4U6yGVImAi/P6bk
+	xy0PlRHhyJAaR13ZwDvkmkaITHUrGbUbDzBbXQ8xOl4K299kqaNNd1kdiOWg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1725341834; x=1725428234; bh=tgUirjAflvUaY9suuFJASQujb+mx
+	CSerZTRkwaQiYpA=; b=RfHigZa40+aNDRBO2QGyNzNAddFFb2vkrrIDpWzWbm2N
+	8+Zg82kvVxKoJ4tIfYt44f1hzv7Zux/jd5a3uTBpO36+bvUsEPXDcRA3ZrGFgeTp
+	/X8KuQB3qYHMjdm/CAgkOEqkclfMgyxs4bzlwmfUJQuIAtqp7SlmjaeDe4Yqjh9O
+	DX1n/aWYmxg8Qem5Riv6t4Xp1wttO9GgU1s2meLAwch9WssGHSC2h9OthXP+57YP
+	5jgd7t645QITNOCqSAnMnFTzW7ZOGcCIHdsjErjmvKZdrcqJ2Af6V8DMqr6fVwQz
+	9QZXzIluZPWMnoT0WxvIrdaou64Xw4LBkqoY9Jelvg==
+X-ME-Sender: <xms:iaDWZjMAc-NYLCXdMl4IWJtLWrSAHgBjk6F9waUk-mLiSa5tc1eScw>
+    <xme:iaDWZt8DH9sHxNnc2GYB2hSwxztZJg5uF62iUEL5_ffWi6qfBRMtWu9TkxwxUjvjM
+    ZbxlzRhnNl7Syx2d1w>
+X-ME-Received: <xmr:iaDWZiRYoxR7wp06gRZg69JkR3w-5Q9IoVoZcUMhYDIHig4IADTTNhflZajMuYFNOgk8x9lhsfflOmrAeKC5ZHd4Bzo60M3NVvYZ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehgedguddttdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddv
+    necuhfhrohhmpefrvghtvghrucfjuhhtthgvrhgvrhcuoehpvghtvghrrdhhuhhtthgvrh
+    gvrhesfihhohdqthdrnhgvtheqnecuggftrfgrthhtvghrnhepkedvkeegheefjefgvddu
+    fffhveehjeffvefgiefgkefhudeifedugfetudfgtefgnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepphgvthgvrhdrhhhuthhtvghrvghrseif
+    hhhoqdhtrdhnvghtpdhnsggprhgtphhtthhopedutddpmhhouggvpehsmhhtphhouhhtpd
+    hrtghpthhtohepsggvnhhtihhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhi
+    khhosheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepvhhisegvnhgurhhifhhtrdgtoh
+    hmpdhrtghpthhtohepshhhuhgrhheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptgho
+    rhgsvghtsehlfihnrdhnvghtpdhrtghpthhtoheplhhinhhugidqihhnphhuthesvhhgvg
+    hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkshgvlhhfthgvshht
+    sehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvg
+    hlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsghpfhesvhhgvghrrdhk
+    vghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:iaDWZntL0EjCDAuXemqwVd-w-Atk7x2WRG9cenx3pcqUrEHhw3qlig>
+    <xmx:iaDWZrdpKKDgYMlSyexa8cY3Ik6TH7BkrTeccuGWFnF0594CFc_H5A>
+    <xmx:iaDWZj0JyiexCcZVVLStEZRfTfbTgTJQT8zJgyAZ20wlK5sVK4fkCg>
+    <xmx:iaDWZn9OLFJ6Y7HuKBwd0JzatGwXuHlhnbC6uPCeTDml4ttAUuQV5w>
+    <xmx:iqDWZsXXaBKeThBsQD3LDc37f6FA3QlekwO1VAgQlYgTvqW5Bf0ysqAV>
+Feedback-ID: i7ce144cd:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 3 Sep 2024 01:37:10 -0400 (EDT)
+Date: Tue, 3 Sep 2024 15:36:56 +1000
+From: Peter Hutterer <peter.hutterer@who-t.net>
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: Jiri Kosina <jikos@kernel.org>, Vicki Pfau <vi@endrift.com>,
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH HID 4/7] HID: bpf: allow BPF programs to force using
+ hid-generic
+Message-ID: <20240903053656.GA968953@quokka>
+References: <20240903-hid-bpf-hid-generic-v1-0-9511a565b2da@kernel.org>
+ <20240903-hid-bpf-hid-generic-v1-4-9511a565b2da@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=962; i=bagasdotme@gmail.com; h=from:subject; bh=3e9BFcxGMyztGQkt2ajX1gaFZsKe1j90E8wXlDLqqBA=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDGnXym+JuFv+4Gcr+s7IdLLaL6pr/6mXk8uWRfXEzl5sb MOTkjizo5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABMxNGT4w82lpXgmutMpfs7s 1937rl2te+8ZrZDLE9q5o7xqwiGF5YwMh0OsFRN3aGl0FrPkpPwKuJW5+MGfMqm6SZP5dqmErOz lAgA=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240903-hid-bpf-hid-generic-v1-4-9511a565b2da@kernel.org>
 
-"get" doesn't properly fit as an antonym for "release" in the context
-of locking. Correct it with "acquire".
+On Tue, Sep 03, 2024 at 01:14:34AM +0900, Benjamin Tissoires wrote:
+> The use case is when we fix a device through HID-BPF, 99% of the cases
+> we want the device to use hid-generic now instead of a dedicated device.
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/livepatch/livepatch.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+s/dedicated device/dedicated driver/ in the commit message
 
-diff --git a/Documentation/livepatch/livepatch.rst b/Documentation/livepatch/livepatch.rst
-index 68e3651e8af925..acb90164929e32 100644
---- a/Documentation/livepatch/livepatch.rst
-+++ b/Documentation/livepatch/livepatch.rst
-@@ -50,7 +50,7 @@ some limitations, see below.
- 3. Consistency model
- ====================
- 
--Functions are there for a reason. They take some input parameters, get or
-+Functions are there for a reason. They take some input parameters, acquire or
- release locks, read, process, and even write some data in a defined way,
- have return values. In other words, each function has a defined semantic.
- 
--- 
-An old man doll... just what I always wanted! - Clara
+> That's because the dedicated device might also want to change the report
+> descriptor, or will be handling the device in a different way the new
+> fixed device is using.
+> 
+> In hid-core, after matching for the device (so that we only call this new
+> hook on compatible drivers), we call for `.hid_bpf_driver_probe`.
+> The function can not communicate with the device because it is not yet
+> started, but it can make educated guesses and decide to:
+> - let hid-core decide by itself
+> - force the use of this driver (by comparing the provided name with
+>   "hid-generic" for instance)
+> - force hid-core to ignore this driver for this device.
+> 
+> For API stability, we don't rely on a bitfield or a return value for
+> chosing hid-core behavior. We simply have a couple of writeable fields
+> in the new struct hid_bpf_driver, and then hid-core can make its educated
+> decision.
+> 
+> Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+> ---
+>  Documentation/hid/hid-bpf.rst        |  2 +-
+>  drivers/hid/bpf/hid_bpf_dispatch.c   | 31 ++++++++++++++++++++++++++++
+>  drivers/hid/bpf/hid_bpf_struct_ops.c |  3 +++
+>  drivers/hid/hid-core.c               |  6 ++++++
+>  include/linux/hid_bpf.h              | 40 ++++++++++++++++++++++++++++++++++++
+>  5 files changed, 81 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/hid/hid-bpf.rst b/Documentation/hid/hid-bpf.rst
+> index 5939eeafb361..05a43f11cdab 100644
+> --- a/Documentation/hid/hid-bpf.rst
+> +++ b/Documentation/hid/hid-bpf.rst
+> @@ -190,7 +190,7 @@ User API data structures available in programs:
+>  -----------------------------------------------
+>  
+>  .. kernel-doc:: include/linux/hid_bpf.h
+> -   :identifiers: hid_bpf_ctx
+> +   :identifiers: hid_bpf_ctx hid_bpf_driver
+>  
+>  Available API that can be used in all HID-BPF struct_ops programs:
+>  ------------------------------------------------------------------
+> diff --git a/drivers/hid/bpf/hid_bpf_dispatch.c b/drivers/hid/bpf/hid_bpf_dispatch.c
+> index a272a086c950..2df136d64152 100644
+> --- a/drivers/hid/bpf/hid_bpf_dispatch.c
+> +++ b/drivers/hid/bpf/hid_bpf_dispatch.c
+> @@ -189,6 +189,37 @@ u8 *call_hid_bpf_rdesc_fixup(struct hid_device *hdev, u8 *rdesc, unsigned int *s
+>  }
+>  EXPORT_SYMBOL_GPL(call_hid_bpf_rdesc_fixup);
+>  
+> +int call_hid_bpf_driver_probe(struct hid_device *hdev, struct hid_driver *hdrv,
+> +			      const struct hid_device_id *id)
+> +{
+> +	struct hid_bpf_driver drv = { 0 };
+> +	struct hid_bpf_ops *e;
+> +	int idx;
+ +
+> +	if (strscpy(drv.name, hdrv->name, sizeof(drv.name)) < 0)
+> +		return 0;
+> +
+> +	idx = srcu_read_lock(&hdev->bpf.srcu);
+> +	list_for_each_entry_srcu(e, &hdev->bpf.prog_list, list,
+> +				 srcu_read_lock_held(&hdev->bpf.srcu)) {
+> +		if (!e->hid_driver_probe)
+> +			continue;
+> +
+> +		e->hid_driver_probe(hdev, &drv, id);
+> +	}
+> +
+> +	srcu_read_unlock(&hdev->bpf.srcu, idx);
+> +
+> +	if (drv.force_driver)
+> +		return 1;
+> +
+> +	if (drv.ignore_driver)
+> +		return -1;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(call_hid_bpf_driver_probe);
+> +
+>  static int device_match_id(struct device *dev, const void *id)
+>  {
+>  	struct hid_device *hdev = to_hid_device(dev);
+> diff --git a/drivers/hid/bpf/hid_bpf_struct_ops.c b/drivers/hid/bpf/hid_bpf_struct_ops.c
+> index cd696c59ba0f..1e13a22f73a1 100644
+> --- a/drivers/hid/bpf/hid_bpf_struct_ops.c
+> +++ b/drivers/hid/bpf/hid_bpf_struct_ops.c
+> @@ -46,6 +46,7 @@ static int hid_bpf_ops_check_member(const struct btf_type *t,
+>  	case offsetof(struct hid_bpf_ops, hid_rdesc_fixup):
+>  	case offsetof(struct hid_bpf_ops, hid_hw_request):
+>  	case offsetof(struct hid_bpf_ops, hid_hw_output_report):
+> +	case offsetof(struct hid_bpf_ops, hid_driver_probe):
+>  		break;
+>  	default:
+>  		if (prog->sleepable)
+> @@ -79,6 +80,8 @@ static int hid_bpf_ops_btf_struct_access(struct bpf_verifier_log *log,
+>  		WRITE_RANGE(hid_device, name, true),
+>  		WRITE_RANGE(hid_device, uniq, true),
+>  		WRITE_RANGE(hid_device, phys, true),
+> +		WRITE_RANGE(hid_bpf_driver, force_driver, false),
+> +		WRITE_RANGE(hid_bpf_driver, ignore_driver, false),
+>  	};
+>  #undef WRITE_RANGE
+>  	const struct btf_type *state = NULL;
+> diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+> index 988d0acbdf04..7845f0a789ec 100644
+> --- a/drivers/hid/hid-core.c
+> +++ b/drivers/hid/hid-core.c
+> @@ -2639,10 +2639,16 @@ static bool hid_check_device_match(struct hid_device *hdev,
+>  				   struct hid_driver *hdrv,
+>  				   const struct hid_device_id **id)
+>  {
+> +	int ret;
+> +
+>  	*id = hid_match_device(hdev, hdrv);
+>  	if (!*id)
+>  		return false;
+>  
+> +	ret = call_hid_bpf_driver_probe(hdev, hdrv, *id);
+> +	if (ret)
+> +		return ret > 0;
+> +
+>  	if (hdrv->match)
+>  		return hdrv->match(hdev, hid_ignore_special_drivers);
+>  
+> diff --git a/include/linux/hid_bpf.h b/include/linux/hid_bpf.h
+> index d4d063cf63b5..20693c218857 100644
+> --- a/include/linux/hid_bpf.h
+> +++ b/include/linux/hid_bpf.h
+> @@ -9,6 +9,7 @@
+>  #include <uapi/linux/hid.h>
+>  
+>  struct hid_device;
+> +struct hid_driver;
+>  
+>  /*
+>   * The following is the user facing HID BPF API.
+> @@ -80,6 +81,22 @@ struct hid_ops {
+>  
+>  extern struct hid_ops *hid_ops;
+>  
+> +/**
+> + * struct hid_bpf_driver - User accessible data for the ``hid_bpf_probe``
+> + * struct_ops
+> + *
+> + * @name: the name of the driver currently being treated
+> + * @force_driver: set this to ``true`` to force hid-core to use this driver,
+> + *		  bypassing any further decision made by this driver
+> + * @ignore_driver: set this to ``true`` to force hid-core to ignore this driver,
+> + *                bypassing any further decision made by this driver
 
+If I set both to false or true, what happens? The two seem to be
+mutually exclusive, in userspace I'd use an enum here to have a
+NOOP/FORCE_DRIVER/IGNORE_DRIVER value range (that can be extended later).
+Maybe something like that is an option?
+
+> + */
+> +struct hid_bpf_driver {
+> +	__u8 name[64];
+> +	bool force_driver;
+> +	bool ignore_driver;
+> +};
+> +
+>  /**
+>   * struct hid_bpf_ops - A BPF struct_ops of callbacks allowing to attach HID-BPF
+>   *			programs to a HID device
+> @@ -178,6 +195,25 @@ struct hid_bpf_ops {
+>  	 */
+>  	int (*hid_hw_output_report)(struct hid_bpf_ctx *ctx, u64 source);
+>  
+> +	/**
+> +	 * @hid_driver_probe: called before the kernel ``.probe()`` function
+> +	 *
+> +	 * It has the following arguments:
+> +	 *
+> +	 * ``hdev``: The HID device kernel representation
+> +	 *
+> +	 * ``hdrv``: A BPF partially writeable representation of a HID driver
+> +	 *
+> +	 * ``id``: The device match structure found in the driver
+> +	 *
+> +	 * Note that the device has not been started yet, and thus kfuncs like
+> +	 * ``hid_hw_output_report`` will likely fail.
+
+Just to confirm, I can access the device's report descriptor though? For
+the devices that we're looking at (e.g. the foot pedals pretending to be
+an apple keyboard) the driver name and what we can set in HID_BPF_CONFIG
+are not going to be enough, we'll have to check the rdesc too.
+
+Cheers,
+  Peter
+
+> +	 *
+> +	 * This function is useful to force/ignore a given supported HID driver,
+> +	 * by writing ``true`` in ``hdrv->force_driver`` or ``hdrv->ignore_driver``
+> +	 */
+> +	void (*hid_driver_probe)(struct hid_device *hdev, struct hid_bpf_driver *hdrv,
+> +				 const struct hid_device_id *id);
+>  
+>  	/* private: do not show up in the docs */
+>  	struct hid_device *hdev;
+> @@ -213,6 +249,8 @@ void hid_bpf_disconnect_device(struct hid_device *hdev);
+>  void hid_bpf_destroy_device(struct hid_device *hid);
+>  int hid_bpf_device_init(struct hid_device *hid);
+>  u8 *call_hid_bpf_rdesc_fixup(struct hid_device *hdev, u8 *rdesc, unsigned int *size);
+> +int call_hid_bpf_driver_probe(struct hid_device *hdev, struct hid_driver *hdrv,
+> +			      const struct hid_device_id *id);
+>  #else /* CONFIG_HID_BPF */
+>  static inline u8 *dispatch_hid_bpf_device_event(struct hid_device *hid, enum hid_report_type type,
+>  						u8 *data, u32 *size, int interrupt,
+> @@ -228,6 +266,8 @@ static inline int hid_bpf_connect_device(struct hid_device *hdev) { return 0; }
+>  static inline void hid_bpf_disconnect_device(struct hid_device *hdev) {}
+>  static inline void hid_bpf_destroy_device(struct hid_device *hid) {}
+>  static inline int hid_bpf_device_init(struct hid_device *hid) { return 0; }
+> +static inline int call_hid_bpf_driver_probe(struct hid_device *hdev, struct hid_driver *hdrv,
+> +					    const struct hid_device_id *id) { return 0; }
+>  /*
+>   * This specialized allocator has to be a macro for its allocations to be
+>   * accounted separately (to have a separate alloc_tag). The typecast is
+> 
+> -- 
+> 2.46.0
+> 
