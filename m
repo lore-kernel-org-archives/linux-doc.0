@@ -1,257 +1,118 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2040.outbound.protection.outlook.com [40.107.92.40])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 524341A4E82;
-	Tue,  3 Sep 2024 22:42:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.40
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725403342; cv=fail; b=GgseIjm7tutWjFWpedJ6wE7xnyV8FUVxIjiUlpUTAT8fGON/gwwjSJ+f82T3teZHnyaHdLcYGLtQcyDPGllhg75MZ6d0Yl4RWHqwdbWCw6oN8gU1WcScQVWxl5qzmEvg0zne++4NxJbD35tt1SuFUs1Jbv1Y5LuXLC1415GrZnU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725403342; c=relaxed/simple;
-	bh=9PUd0juuIFQ87l4Yn9c6eqpdqYaIiy2id44KGaIMPO8=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=umX76J5+/wvsS3J2V4zxdYkd4AhEzs7Hb6E95Ajm4ZNVl+r0E9Is9uhCo5c10nZVnwK9tr3/zB8ApIe6AxoCgXXDCcviIbC2DfFbI2L4WFXf/FJCUMcPMQozJWaAmRpCinNXE4TqC8pEMj1M8jAG52K0OUogPO69Y8CelljtTKc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=jYJDYtv5; arc=fail smtp.client-ip=40.107.92.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F54126BFE
+	for <linux-doc@vger.kernel.org>; Tue,  3 Sep 2024 23:06:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725404769; cv=none; b=Qn6LkVI7K6W15aJTgyzTNO0bGUCYwYnwMrOHTTq9qONj7OLkLvrqgQAklrDrcxK401zmTd/wBbgyoxbOL8zGvvsFQakKqWi3GLkyELkVFkBuHgivvd7q950v9O5YDLknwkXb/7Spla0z/X7MWqhJ0oU17bIjVcgJnW2CY9K57HY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725404769; c=relaxed/simple;
+	bh=4HwEMqP+AeBWEeyIseM+pjAVK0SEalDg7bAT6JCmFzQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EYEE5alq5kly4QthifWgsHM8/s913f/bcSPnib8txXwlw++o6nCjeUSci5dr1UmxTzMiduFA2hThQ5FQct4xpDVNOB5Ox6/vsLYF4I75z7yhS62p20n2tFKjVJRTh1Zp8WbT2jhRTf03QViK1NGzolwDH9aiNPQAM/Xz7p/HWeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=N40NeuRr; arc=none smtp.client-ip=209.85.166.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="jYJDYtv5"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PYj2Dhxq0PPBRJCo8ZTXZcVQswpMDbl/zbDVoThgVJc4DvSyCXp86V/Rl24weFQLuJSFoWqcgp4f4Djg0XTZeQ1vjhUe5LMglrPzzXkTuKmjQOzkmfhAXCsyaETnrGIyyTBGR507DhSlH6NW5OJZnOxdnu4lex7TDuqOeh/LYK/A6fX/8MrwPZB+t5mUnDMIJI1mjuzS6BQ954lfC9O7s4IVwwQeMw3EtN/djA/Tutzva6gWaWb687A6jh+lxWSE8Vvd27DGHLFVOaUueATxZbWqoVbxw5fsiaW/UO+lCiruXrxT6Ge9/u8L/xzc+GuERD9s5auwhec2FNYoFQrD0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aMMflL4Pr6rl5i4KWuCd0/+Sq274YO/HaV7YFg6e2yM=;
- b=o7wBvrfUbE1nnvrsg/Ys93rnc5Mt1kGjR+2EA83RYFA3RThFaGCV2UFj9+lzsIl5pR1YeSf0ZbSYPFtsmHVah2hcp5qLd0KIA3G3gWSGAKtmi7fmMqOmrqEikp2zW1S0f76tLPSOmPNMlPVPInT7aMI0AJc6wsAy9sX6Z22J51BEe+DKeCsh/gHqtxzFiNYm/kscUHivchXPD1XgdBlses14MJpm+0QoyrG9BgFZiH7zkk8x92J8igeDo+6glsRdsecNtrC5UjbHKpD2S8tcqr8pLipdqgBN5oiRE2ml7b/NYeRCaUOvGYIGBMVicvAKV3xyOcSyyCHWUD6SU43lgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aMMflL4Pr6rl5i4KWuCd0/+Sq274YO/HaV7YFg6e2yM=;
- b=jYJDYtv5AE/DjQHVyBPd4nSVG8rsCgT3bn+my5sSSgbLzXgLLBEYNpOM6RECXnECKIXwmDjIW0MJeSBZ0Dxi0Z/lE+UyqqC+nbgSjlpFHkGUSQvquYHf9ivWJv7m/Y/YTnkH74v/gTlqtqpdRAcL8iuB+UR8TcbqnbT5wqDoVcY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4877.namprd12.prod.outlook.com (2603:10b6:5:1bb::24)
- by IA0PR12MB8325.namprd12.prod.outlook.com (2603:10b6:208:407::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.25; Tue, 3 Sep
- 2024 22:42:16 +0000
-Received: from DM6PR12MB4877.namprd12.prod.outlook.com
- ([fe80::92ad:22ff:bff2:d475]) by DM6PR12MB4877.namprd12.prod.outlook.com
- ([fe80::92ad:22ff:bff2:d475%5]) with mapi id 15.20.7918.024; Tue, 3 Sep 2024
- 22:42:14 +0000
-Message-ID: <04354274-d198-4162-badc-1078d1293517@amd.com>
-Date: Tue, 3 Sep 2024 17:42:09 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V4 00/12] PCIe TPH and cache direct injection support
-To: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, netdev@vger.kernel.org,
- Bjorn Helgaas <helgaas@kernel.org>
-Cc: Jonathan.Cameron@Huawei.com, corbet@lwn.net, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- alex.williamson@redhat.com, gospo@broadcom.com, michael.chan@broadcom.com,
- ajit.khaparde@broadcom.com, somnath.kotur@broadcom.com,
- andrew.gospodarek@broadcom.com, manoj.panicker2@amd.com,
- Eric.VanTassell@amd.com, vadim.fedorenko@linux.dev, horms@kernel.org,
- bagasdotme@gmail.com, bhelgaas@google.com, lukas@wunner.de,
- paul.e.luse@intel.com, jing2.liu@intel.com
-References: <20240822204120.3634-1-wei.huang2@amd.com>
-From: Wei Huang <wei.huang2@amd.com>
-Content-Language: en-US
-In-Reply-To: <20240822204120.3634-1-wei.huang2@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA9PR13CA0113.namprd13.prod.outlook.com
- (2603:10b6:806:24::28) To DM6PR12MB4877.namprd12.prod.outlook.com
- (2603:10b6:5:1bb::24)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="N40NeuRr"
+Received: by mail-io1-f49.google.com with SMTP id ca18e2360f4ac-829f7911eecso258108439f.1
+        for <linux-doc@vger.kernel.org>; Tue, 03 Sep 2024 16:06:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1725404766; x=1726009566; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=u3BAkkaK6DTYCZdraoRrR1AOnwQgm6BkQ3h01GvsefU=;
+        b=N40NeuRr/Gf7iUuUZbSyx/GSDw5rH6VefhQzvFnv17XEx/DirkhgcOlNsYahGt0pCE
+         QduncTx18a152BUULl7PAePtZT35V7WV8xGcWEm4LtW7FQYiN++6vCkiVZrx6gXiR3+w
+         HgASXYhzniueSiYYBvxIhrRMLVYoLXn5PL5U8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725404766; x=1726009566;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=u3BAkkaK6DTYCZdraoRrR1AOnwQgm6BkQ3h01GvsefU=;
+        b=tQB5q8iKHQFefFZMQZb4Xdq9sV9V8ycJEp0PN0ad0oYQX692U7Pol3VNkIPRUq2oz+
+         3lTxxECSzuNAfh8Ypkt40HdI7eDPMwGJtIEJM38OHOt1sRUx3y9QjkzVlxyJUfTH2bqm
+         /+4k3ywR432woWc6+WMgTupNS2w1s5zF5F5GZmXN2YP/16UmgqvfF/SgnuHGhqD0c8bf
+         Z4arvFCIS3y7lziz0Ldkc1VSRJKoovdUaisbIYEIDVcdN29oC6FpxhxLZkGquvuwq3s6
+         4Bi3CN6aI32r/3cd5oFWRpgOEnwUvHXGv/IH/GiMXUTqiWpmsJe8Ew/pZt9tNGaJ/PeY
+         xuyw==
+X-Forwarded-Encrypted: i=1; AJvYcCVfLlKJKS6lGjhbeq2LvXU95Dgmh045j2vcR2PXWH6RyQQOrF+DB8nah9qL2RQUwF3Kkhj789Ocfp8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8gZaEf2MVEGJ0UB2dYZJGM0GXCZTO5hgtDpT6EEvS+bylzooG
+	gouzTnq/F3LzKSW8elHCSgUvCRCUdXJF37I7H5GdipRORUm416eVht4w12EOS+s=
+X-Google-Smtp-Source: AGHT+IGCWHo81NXmeApVZ7FR8jCII+W7+16gCqjB+W16I3N/e6ZIt3hzaLHg8vAf/tWw3+v60iTr2A==
+X-Received: by 2002:a05:6602:15c4:b0:82a:6270:7466 with SMTP id ca18e2360f4ac-82a627075e0mr463633939f.13.1725404765663;
+        Tue, 03 Sep 2024 16:06:05 -0700 (PDT)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4ced2dcdf66sm2833926173.33.2024.09.03.16.06.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Sep 2024 16:06:05 -0700 (PDT)
+Message-ID: <c674b0f8-fb98-4562-b636-f139a83f9b7d@linuxfoundation.org>
+Date: Tue, 3 Sep 2024 17:06:04 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4877:EE_|IA0PR12MB8325:EE_
-X-MS-Office365-Filtering-Correlation-Id: c7681c44-1daa-4c21-25a9-08dccc69a77d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?YmtxVXVhVTdpQytFSGpTVzdLMS8vM3FrYUNjNUl3eDJTdlVGQzI4WGFYdmNx?=
- =?utf-8?B?L3d3Qkl3YmdpNFFCZTRWYS9XVlUzMzJFbWgzR25TbEFSc054VjFKQml0WW5n?=
- =?utf-8?B?M1VnVW5CL3FJL2ZkWGRjWVRpYU1jaVFIOUZOcy8xMUNaRmtMVFVYR2xDMnpL?=
- =?utf-8?B?cEhPVWgxZmhxL2FhK084YjRWcUpkS2o5bS8xd25QYmJBcmszUERqQmVXSzFn?=
- =?utf-8?B?TXZ4WUFLRnN2azVHMzNUaDVLbHBvZ2pYS3ZUNENpc2FpN3FhWHV2L2EzaFRw?=
- =?utf-8?B?NGhTRVR1aVJDWG9Eb01SR1VZcE1tdjd4VWZ2UXhpeXUzOXVPQk1hdGFRcHdH?=
- =?utf-8?B?cmVQZ0hYaHJIVjNHK2NnQUUzM21kdGV0ZCtXMHFoUDg0NmlFcnk4dWhUWE9m?=
- =?utf-8?B?MkIvcFNtQlZHY0hwdURKWU90ei9ORUZEcjRkdlFBVU8raUl5cnF2UytrYUVV?=
- =?utf-8?B?bXZBMW9mRzBaaVZXVzdsTllTNHJQSU9zMExiZzNtN0JJY1cvUDl2S0lVR0V5?=
- =?utf-8?B?bHpGU1MvMW1YaENSYVhGdGFGR0VhZkQ2bzlXSS93dWxhdUVvdEQwcEw2dmRC?=
- =?utf-8?B?cjVtMHcxRElIWmkzWTZYMFYvS1lOOW1SUHNNSzFybGFYVTRhTDJaSmlnb0t6?=
- =?utf-8?B?R0F4aVlVSHQ3MithekhyWXUxWGVoNmpJYll6eGJUU2paZDczNUJzcklHYll3?=
- =?utf-8?B?UjdpYVdkWVZiWnpjMUxFdE1xcVJhZUZFaWpPbmk5ZUp5MXp3YmV6M0JKMVBs?=
- =?utf-8?B?dEdKVGVQWWNDWDdhT2JvUThYQi8yWEt3MTlHWitXUkpzRWlCMVhMM1pPVHBr?=
- =?utf-8?B?bnE2YjNFTlRiMGdPbStEbFQ1V1NoT25TQUNFR3JuUGppSzdQRnJSRzRzOUhZ?=
- =?utf-8?B?ak9DWUJZYlErb3JBL2gxMmlaOEtHT1o3dERrZ0ZVQUt5bzhleFZ4TmU4QWxx?=
- =?utf-8?B?WWlpdzNCVndqMWJGWHZ3WGJnRzl3a2pVWDlQQjdvczhRRTJ2M2JNeHJGSWcy?=
- =?utf-8?B?azR6UHJXaFRXQ2o0dzNBRzFUeUZLU1NtYjMxT2VxZ2dMSitjMHIzZitINUpV?=
- =?utf-8?B?MDUvVWVONzFHKzBHMnNMWnp5dzlSWlNDS0luSENHbTdiQWVMVkpBSHBXY28z?=
- =?utf-8?B?ZlNGVnA4cnpTYkhMU1QvVlVHS2FTSjZFRkttVXcrbmpITHU5Qm4zTzd0Y1Ja?=
- =?utf-8?B?UGNvOVhzb3RnN2dtZWczODNVU0Nzb1NRWGhnK29SeUhrVGRldHZKeXI3blcy?=
- =?utf-8?B?dXF0SlJHTCtscldYTTJYSUN4NTIrMHViU05LQ25MWnNWRXNoU1ZqcGZEeFlO?=
- =?utf-8?B?MklXUDN1YXE3S1hPSWlwYWx6aFZwMjNOV1VtczlDY0l3YXZhMlBLdU9hSnpr?=
- =?utf-8?B?Mm1CRFZ6R1lGREo4eE9rMDd0U1FPTFB4clJvMlJoMVF3bG92M1lSV3NhSllO?=
- =?utf-8?B?bTJVaXMzaDI1WjhLWlRnbEhzVEExck1qUmZDQzZBSHgzT3ZhNnZTNkxaaVJy?=
- =?utf-8?B?andCTDRuQ0FCbGpUNzBiWWtlVktiWEsvbjBrQzQ5SUY4RFZ1ekNVL05OYm5j?=
- =?utf-8?B?dTg2WGJmdGZzbU8rZkpJRHk4T0ZlZlpmaHB3S1FwclNYaEFNOFFxMFVBSUNB?=
- =?utf-8?B?VDc1a0EzeXNzRDR6NkNUaG5XczBHTGEyVUxZTndHWjl6SFFicjVqZXprOEpY?=
- =?utf-8?B?dEw1WmRqaG90N1p2QkkrN0pVeEUvSXpYT3VYalNnaFNzb0RHTkxZU1dMcjhB?=
- =?utf-8?Q?TnDwNCKY9EBKJe43jU=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4877.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aXRZK2RLYkJnREVkV09ERXIyZlNMejgwZjV0eVBGYk5MTmhFNHhQR01vYTly?=
- =?utf-8?B?RkMyODFUNDhSdGpQZVZFMENsRzBoYTd2bEVIOGMwS3NMbzZ0YmQ4ZFNqU28v?=
- =?utf-8?B?clREUld2WDNPWDIydFNOQjdZbnQ4MlFuVm80THNIT1htd1lyY1htWXo3cW41?=
- =?utf-8?B?OGJVVkRtNUY3QWR1TWttS3hGRXIrOU5pcnROZlhJSkQ0NWJnZStYWk1kbUlK?=
- =?utf-8?B?cS9OMVNaYm1NQXByYmNqN0tUUmFwUXpmUlVMV21saExMNERoQ2J4U1QrMXkw?=
- =?utf-8?B?RVFZMUJJK09KRFRuNy9OMS9SdmF2TzByWjJZTDViZ3Z0S0Z5elNCUzA5RGdF?=
- =?utf-8?B?MHVkbHl0WmtTUHJidTF2THgwckRCcDhtUVRaNVhPbFcza211c1ovN2V1b29F?=
- =?utf-8?B?S0JqcS9sT2JjTHVQc0ExTUozMVhoWGJ5OG80VVJ5UGFZSUtvVksvTUlTUElH?=
- =?utf-8?B?VTFSY2VxblM3MlN2WWo3SkV6M2p5Y1VDWWdSd2lIZVlGSlF1Rk5McDJsdm56?=
- =?utf-8?B?a1N0SUIvaEFZNDdMSUM1T1lhQXNVWkM1NCszLzZzOXJlNk9wMGdaUnRLWStE?=
- =?utf-8?B?QTIyRWFrQ2hBdVdsc3lZdnNSK25kK0lpM1BCMnJpM1BLdk14WkNIOGxUK2Iv?=
- =?utf-8?B?eXFGWDlnK3QwK2RSMFVLc2dTcXU1dFExazA1VThPczQ1c2VHb0UvVEhDOUFP?=
- =?utf-8?B?eGtySFhyUU1CYzNtOHVkNlZXaWs3V1I4TUk5Q21hRmluMStUVFdwUjlQZ1p5?=
- =?utf-8?B?V2YxT0taWGlrT2ZyQkNQQkY1SEFrcnRsQ0dOOFpOdEVqRFNpbUdRbXFERFFo?=
- =?utf-8?B?RHFLOFJWK2x1S2N2UE9BRXZvdm5HZ05BaEp2V05CYVd5a1lWU2JZekorUHcy?=
- =?utf-8?B?TitFaVdBRWxOUUQ1VzBhbVFFdE41YUQvOU1tSUxrV1g3U0RLSFBrR0VuaHFD?=
- =?utf-8?B?OGZNblN1WGJOUVdPci85WXZqd2M0Z1R2N2I3a0NSVURLb1hySmsyMmxIMitq?=
- =?utf-8?B?OFhQWHpqUk8zRi9GVkdpZkd4dzMwZkJUOFA0b1BUWURsRzZ2dVhEYkx1R0w0?=
- =?utf-8?B?VDNUZzM1RmpBWWlOaGFxTHNmNnB5RmEyWHZlTWk3SjdHNThNRFF3akxpRlBE?=
- =?utf-8?B?aTdQRmtycTVoU3VYYWl3bG5tRjdGMTRkMFRFVmhWY1d5aXhkMlVkV2ZRTVdQ?=
- =?utf-8?B?TitkRjMxTUtmYmNnWHViMzgyZ09nN1pGYVZYZ1Z4VlVYdlpHUkRLdzk5TUhi?=
- =?utf-8?B?Wi9pWUdaT1BLaHBtZXVYZVY3VGJrSFVkQ3prVURoMGFjdDc4ZUpnWmo5T2w5?=
- =?utf-8?B?NFRKdHdrNGZwZlc1azI1YVBmTHp5WGpUNG1XR0V3ZXdiVnVqMnYzbWFUQUF6?=
- =?utf-8?B?ak1WOEQ5MVZQY0tLTnpGM2R6OFhIZVcvRDQ1MXFvbHRCV1ZPT0FBVm1XcDlZ?=
- =?utf-8?B?UmRBcVhydW9WWnVDSWo3Kzd3bFdCMTl3WjIzaU1SMGYrTXlkcWFiRWZqNmZw?=
- =?utf-8?B?NkU2czYyemZDNjZVWmFXTm1sYlZaYXUyNHIwNmRFdkk5T2lHQXRsdS9GaVg5?=
- =?utf-8?B?bElZUGNWZ1RSRW1CcjVkRFM5THhiQS9reGFYZlpkckppQVlkSFBQYnd1YWdV?=
- =?utf-8?B?aVZIQ0tTNXBMZTU3RnZZSDhZSElxSVZibnlYRTZJYzQxMEpOUGRFdHZ6Q0FS?=
- =?utf-8?B?YXAxUmRhQWlZOGJndE93WTU5SGN6YktwZFpFYWNOSEZVcVE5Z0gvSmtRb21J?=
- =?utf-8?B?c1Z1UFNkYzZzT0pDN3ZNbm5LRHhSMkI2b1pkS0U3alkvYU5pZjI5WnVPcEF3?=
- =?utf-8?B?NUFWdmdpWDUvUk45Tlc1SzdzNVdrU2U4b1JiVFZ4VmlOWFZxeUpOZHlublAz?=
- =?utf-8?B?R1FWZkp5K3MyVTJkMXp3MWpxbTFWdGxKdGdlZDRieU8xZVRFeXpFV0dyQ3hz?=
- =?utf-8?B?cGIvOUIxUUQ5aVArZVQ3SVZzZSsxNEJIOVhOU25rY2JlV3lLYUtLVksyTGh6?=
- =?utf-8?B?MXVIU29ZL3YyWUxMVEhvWXdQRnV0WGRpUkF4K2ZaQWF6UlA3RFBaem1rSkZo?=
- =?utf-8?B?WlJraUwvTDZhRXFCVTFoOCtScnNJUVNXU1k5NWZtamZPUEJ1S3U0aHFXeGFT?=
- =?utf-8?Q?zb/nGtwP2Cy4NOiZqoZXZnQVw?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c7681c44-1daa-4c21-25a9-08dccc69a77d
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4877.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2024 22:42:14.1913
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bWe8reSf4vyNc7eMBdPHU9Fh/gloAIntXsYY9lg5fRn67+VY0t/Z1aOANDL5L3DU
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8325
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: submitting-patches: Advertise b4
+To: Mark Brown <broonie@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <20240903-documentation-b4-advert-v1-1-fefda9564f6e@kernel.org>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20240903-documentation-b4-advert-v1-1-fefda9564f6e@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Bjorn,
+On 9/3/24 16:36, Mark Brown wrote:
+> b4 is now widely used and is quite helpful for a lot of the things that
+> submitting-patches covers, let's advertise it to submitters to try to make
+> their lives easier and reduce the number of procedural issues maintainers
+> see.
+> 
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>   Documentation/process/submitting-patches.rst | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
+> 
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index f310f2f36666..4b6904184ad1 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -842,6 +842,16 @@ Make sure that base commit is in an official maintainer/mainline tree
+>   and not in some internal, accessible only to you tree - otherwise it
+>   would be worthless.
+>   
+> +
+> +Tooling
+> +-------
+> +
+> +Many of the technical aspects of this process can be automated using
+> +b4, documented at <https://b4.docs.kernel.org/en/latest/>. This can
+> +help with things like tracking dependencies, running checkpatch and
+> +with formatting and sending mails.
+> +
+> +
+>   References
+>   ----------
+>   
+> 
+> ---
+> base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
+> change-id: 20240903-documentation-b4-advert-18016e83d7d9
+> 
+> Best regards,
 
-I have incorporated Jakub's feedback on patch 11 (i.e. bnxt.c) in my new 
-revision. Do you have additional comments or suggestions on V4 to 
-include in the next spin?
+Looks good to me. Thanks for the update.
 
-Thanks,
--Wei
+Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
 
-On 8/22/24 3:41 PM, Wei Huang wrote:
-> Hi All,
-> 
-> TPH (TLP Processing Hints) is a PCIe feature that allows endpoint
-> devices to provide optimization hints for requests that target memory
-> space. These hints, in a format called steering tag (ST), are provided
-> in the requester's TLP headers and allow the system hardware, including
-> the Root Complex, to optimize the utilization of platform resources
-> for the requests.
-> 
-> Upcoming AMD hardware implement a new Cache Injection feature that
-> leverages TPH. Cache Injection allows PCIe endpoints to inject I/O
-> Coherent DMA writes directly into an L2 within the CCX (core complex)
-> closest to the CPU core that will consume it. This technology is aimed
-> at applications requiring high performance and low latency, such as
-> networking and storage applications.
-> 
-> This series introduces generic TPH support in Linux, allowing STs to be
-> retrieved and used by PCIe endpoint drivers as needed. As a
-> demonstration, it includes an example usage in the Broadcom BNXT driver.
-> When running on Broadcom NICs with the appropriate firmware, it shows
-> substantial memory bandwidth savings and better network bandwidth using
-> real-world benchmarks. This solution is vendor-neutral and implemented
-> based on industry standards (PCIe Spec and PCI FW Spec).
-> 
-> V3->V4:
->   * Rebase on top of the latest pci/next tree (tag: 6.11-rc1)
->   * Add new API functioins to query/enable/disable TPH support
->   * Make pcie_tph_set_st() completely independent from pcie_tph_get_cpu_st()
->   * Rewrite bnxt.c based on new APIs
->   * Remove documentation for now due to constantly changing API
->   * Remove pci=notph, but keep pci=nostmode with better flow (Bjorn)
->   * Lots of code rewrite in tph.c & pci-tph.h with cleaner interface (Bjorn)
->   * Add TPH save/restore support (Paul Luse and Lukas Wunner)
-> 
-> V2->V3:
->   * Rebase on top of pci/next tree (tag: pci-v6.11-changes)
->   * Redefine PCI TPH registers (pci_regs.h) without breaking uapi
->   * Fix commit subjects/messages for kernel options (Jonathan and Bjorn)
->   * Break API functions into three individual patches for easy review
->   * Rewrite lots of code in tph.c/tph.h based (Jonathan and Bjorn)
-> 
-> V1->V2:
->   * Rebase on top of pci.git/for-linus (6.10-rc1)
->   * Address mismatched data types reported by Sparse (Sparse check passed)
->   * Add pcie_tph_intr_vec_supported() for checking IRQ mode support
->   * Skip bnxt affinity notifier registration if
->     pcie_tph_intr_vec_supported()=false
->   * Minor fixes in bnxt driver (i.e. warning messages)
-> 
-> Manoj Panicker (1):
->    bnxt_en: Add TPH support in BNXT driver
-> 
-> Michael Chan (1):
->    bnxt_en: Pass NQ ID to the FW when allocating RX/RX AGG rings
-> 
-> Paul Luse (1):
->    PCI/TPH: Add save/restore support for TPH
-> 
-> Wei Huang (9):
->    PCI: Introduce PCIe TPH support framework
->    PCI: Add TPH related register definition
->    PCI/TPH: Add pcie_tph_modes() to query TPH modes
->    PCI/TPH: Add pcie_enable_tph() to enable TPH
->    PCI/TPH: Add pcie_disable_tph() to disable TPH
->    PCI/TPH: Add pcie_tph_enabled() to check TPH state
->    PCI/TPH: Add pcie_tph_set_st_entry() to set ST tag
->    PCI/TPH: Add pcie_tph_get_cpu_st() to get ST tag
->    PCI/TPH: Add pci=nostmode to force TPH No ST Mode
-> 
->   .../admin-guide/kernel-parameters.txt         |   3 +
->   drivers/net/ethernet/broadcom/bnxt/bnxt.c     |  86 ++-
->   drivers/net/ethernet/broadcom/bnxt/bnxt.h     |   4 +
->   drivers/pci/pci.c                             |   4 +
->   drivers/pci/pci.h                             |  12 +
->   drivers/pci/pcie/Kconfig                      |  11 +
->   drivers/pci/pcie/Makefile                     |   1 +
->   drivers/pci/pcie/tph.c                        | 563 ++++++++++++++++++
->   drivers/pci/probe.c                           |   1 +
->   include/linux/pci-tph.h                       |  48 ++
->   include/linux/pci.h                           |   7 +
->   include/uapi/linux/pci_regs.h                 |  38 +-
->   12 files changed, 768 insertions(+), 10 deletions(-)
->   create mode 100644 drivers/pci/pcie/tph.c
->   create mode 100644 include/linux/pci-tph.h
-> 
+thanks,
+-- Shuah
+
