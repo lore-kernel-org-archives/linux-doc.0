@@ -1,118 +1,142 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.237.72.81])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1388819005F;
-	Tue,  3 Sep 2024 17:58:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.237.72.81
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B75E18C90C
+	for <linux-doc@vger.kernel.org>; Tue,  3 Sep 2024 18:02:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725386298; cv=none; b=i0/1hOwFJapwBLQRNSBO/N1VmOcEWsp+6ic+AG1zTTZOCmrkXdBLQ20TiM2PPi23bhIE9JS2IKzb1fk+1YOaOzqUvP8SUYrzRVJXdEW9TqmzfxRCZNxHITJ7mgr/BzOCUpODmNNlV5cnTznr0wLJmo+Gn2k7fsPIVSk1p/Qd9/E=
+	t=1725386544; cv=none; b=tFljswfZMbsvfNBkRFyZ+DhsUITOKMKTMYVtKArSugTX39DIVGJpGEk9Obso+6BoInqz1LGgpA49aD9LT8YlW79iMqzMOPS7fQQfQarylPaGHiNJRB/gAtA7dVR+81DooydGoruJhRgBmjT0gVcpvvDH/F/5lpqO1c9D3OOMvH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725386298; c=relaxed/simple;
-	bh=uATjZ/YF6nzeNKi1F2SZH37jXsIQydZyrH2XaUeCEdQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QILVSExEGhigbd/0LjNB1eI4er1RSz63gn22fmIYC7iq1pPZmZ+qUfY1y4juAVfygJXRdtS1dKuyj9BcBBTDMpMQ42ni2oecXQTnCo3wsErTSENC1+WCOXeBTQEfztu1vrwrNwUp2xZrTiOW9puDaYZNEncIw2gL2mFmNyE7nnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=52.237.72.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app2 (Coremail) with SMTP id HwEQrACXn7f4TddmHm+pAA--.54713S2;
-	Wed, 04 Sep 2024 01:57:12 +0800 (CST)
-Received: from [198.18.0.1] (unknown [10.12.177.116])
-	by gateway (Coremail) with SMTP id _____wB3b772Tddm33b7AA--.43248S2;
-	Wed, 04 Sep 2024 01:57:11 +0800 (CST)
-Message-ID: <bd647428-f74d-4f89-acd2-0a96c7f0478a@hust.edu.cn>
-Date: Wed, 4 Sep 2024 01:57:08 +0800
+	s=arc-20240116; t=1725386544; c=relaxed/simple;
+	bh=dN0jhISHYCsWr37/OtOK76vPxu9vJk7aNNoC4DNtVPQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qR9zv7QhdXCy4SIvk+fJjskO+uGpE870ECZrlkocXZADjdVCH51DLVYWg+O/RaJO1nTZ8wQjzd0W2KH8BtRR6bz0mko23nOOU0y52/Yp2UmrbCOc17fJg4CZ8MzNZ7FO2XvhIhq645ICpnbvSXTPOlM4JVTxeaTaDHBV3OLFbuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iTr0pogF; arc=none smtp.client-ip=209.85.167.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iTr0pogF"
+Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3e0059dc06bso1263498b6e.0
+        for <linux-doc@vger.kernel.org>; Tue, 03 Sep 2024 11:02:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1725386541; x=1725991341; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yvGiNFbJVYVvUlbAp59wn+lmSLXIjtX8rqRd77LaWMc=;
+        b=iTr0pogFSwIZqgt/7ZrmZxSB/5zVVAD//QQnY7OcQkdT6aXmLiw2kwXQ6eh9AouI1u
+         44biO4Zk2Otj8wfGH0nAw+M9AKCjpZt2Njgwhm+9bpGsUyWn2AqGhBU56g0MW9iZ6Vxs
+         l40jYf7hR+tIwwI+FTc2vTxIusz9Sb0gDtcJgHXcaajGHXSJDYkfyqq011ZwTgQlSVYD
+         0fAhGm9EH9/fHc/qlU6VKI8SWJ4llH2vSMqbCBojdUzOnNURaSWFK/h7ZsHCbBIKbfua
+         oTdY78tssGLYOJUlT0bIcaR5B1JilK8zi/bi1Y8jBBf4bPCst3J1CET/cFUemADqdOhi
+         q+yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725386541; x=1725991341;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yvGiNFbJVYVvUlbAp59wn+lmSLXIjtX8rqRd77LaWMc=;
+        b=VVSIIapjK03qWzjlvECQEtNP7e7RZhMLAI19q39iOvY0PjnBYInV3H/GE37OsrY+sb
+         MsaDejHhLZ3IQTxvZH2HI5cbeH3CsTWxkSoqa5O9DxR/EQCimERp9Q+5BljsG/PF8oEu
+         iXO1Fv/WQ2JsevoEJKXecRSdijayod/3/J87Oy3/7/GdpjdZoBLtcp06zvmUBOQGy5Kj
+         kk/2s6S+iJ9kN7LTZXKCc0WPNC0MRhw5JumAuQwCA8IOgFHMNyx+JuvMwSrqJoE6kM89
+         fwT7OTOZ6NtBGRDddvFJaelSyCpo8fPH6twIAG4EyQM7QNAZeMWhHw0jIibCL5cI5aR/
+         jmxA==
+X-Forwarded-Encrypted: i=1; AJvYcCUCy7KzFtOXBmeqgY2QBKkdT++WXNgpzCpNVOHiosljoqwmi10yyPV+QaUwLrmV1AWQ5D/0MMv6D0U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxnoO3f2HUo5nZlggt8msMNpaMtIkDhj2ZCgBm304Q/yUMkfGtH
+	Lu/iKAxwYC4nxgxDdARtwQCXReAsA9CU4rRPlPK/Orm6wN6CyhDsFvdFoLpZPeWaT7QAySAN9FU
+	Rz9F6pYvuQgaq82i4K6IcxjJmgNDEhIfz9Ryt
+X-Google-Smtp-Source: AGHT+IH7pmwvmIORwmvwTPIiQFITkvfZTDp4oI2Xd738aAjykgCVol9hSLyrQ/hDJAmRr1cV6D4CKI5iOFx/bG3D4Hk=
+X-Received: by 2002:a05:6808:201b:b0:3da:a48b:d1e6 with SMTP id
+ 5614622812f47-3df220f2742mr11368929b6e.16.1725386541400; Tue, 03 Sep 2024
+ 11:02:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: update dev-tools/kcsan.rst url about KTSAN
-To: Marco Elver <elver@google.com>, Dongliang Mu <dzm91@hust.edu.cn>
-Cc: Dmitry Vyukov <dvyukov@google.com>, Jonathan Corbet <corbet@lwn.net>,
- hust-os-kernel-patches@googlegroups.com, kasan-dev@googlegroups.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20240725174632.23803-1-tttturtleruss@hust.edu.cn>
- <a6285062-4e36-431e-b902-48f4bee620e0@hust.edu.cn>
- <CANpmjNOiMFUM8KxV8Gj_LTSbC_qLYSh+34Ma8gC1LFCgjtPRsA@mail.gmail.com>
-From: Haoyang Liu <tttturtleruss@hust.edu.cn>
-In-Reply-To: <CANpmjNOiMFUM8KxV8Gj_LTSbC_qLYSh+34Ma8gC1LFCgjtPRsA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HwEQrACXn7f4TddmHm+pAA--.54713S2
-Authentication-Results: app2; spf=neutral smtp.mail=tttturtleruss@hust
-	.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW7Cw1kGFWrWFWfAry3uF45Jrb_yoW8uF4kpa
-	yfuFyIkw4vqr17K3yIgw40yFW8tF93Xr1UJ3W8J3WFqrsIvFn3trW29w4Fga4UZrZ5CFW2
-	vF4j9a4Fv3WDAaUanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUmFb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
-	z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAaw2AFwI
-	0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAq
-	x4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r4UJVWxJr1lYx0E74AGY7
-	Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1lOx8S6xCaFVCjc4AY6r1j
-	6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxAIw2
-	8IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AK
-	xVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
-	AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI
-	42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMI
-	IF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2
-	KfnxnUUI43ZEXa7IU0KNt3UUUUU==
-X-CM-SenderInfo: rxsqjiqrssiko6kx23oohg3hdfq/1tbiAQkJAmbWg7dAjQADsJ
+ <a6285062-4e36-431e-b902-48f4bee620e0@hust.edu.cn> <CANpmjNOiMFUM8KxV8Gj_LTSbC_qLYSh+34Ma8gC1LFCgjtPRsA@mail.gmail.com>
+ <bd647428-f74d-4f89-acd2-0a96c7f0478a@hust.edu.cn>
+In-Reply-To: <bd647428-f74d-4f89-acd2-0a96c7f0478a@hust.edu.cn>
+From: Marco Elver <elver@google.com>
+Date: Tue, 3 Sep 2024 20:01:42 +0200
+Message-ID: <CANpmjNMHsbr=1+obzwGHcHT86fqpdPXOs-VayPmB8f2t=AmBbA@mail.gmail.com>
+Subject: Re: [PATCH] docs: update dev-tools/kcsan.rst url about KTSAN
+To: Haoyang Liu <tttturtleruss@hust.edu.cn>
+Cc: Dongliang Mu <dzm91@hust.edu.cn>, Dmitry Vyukov <dvyukov@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, hust-os-kernel-patches@googlegroups.com, 
+	kasan-dev@googlegroups.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-在 2024/7/26 16:38, Marco Elver 写道:
-> On Fri, 26 Jul 2024 at 03:36, Dongliang Mu <dzm91@hust.edu.cn> wrote:
->>
->> On 2024/7/26 01:46, Haoyang Liu wrote:
->>> The KTSAN doc has moved to
->>> https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md.
->>> Update the url in kcsan.rst accordingly.
->>>
->>> Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
->> Although the old link is still accessible, I agree to use the newer one.
->>
->> If this patch is merged, you need to change your Chinese version to
->> catch up.
->>
->> Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
->>
->>> ---
->>>    Documentation/dev-tools/kcsan.rst | 3 ++-
->>>    1 file changed, 2 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-tools/kcsan.rst
->>> index 02143f060b22..d81c42d1063e 100644
->>> --- a/Documentation/dev-tools/kcsan.rst
->>> +++ b/Documentation/dev-tools/kcsan.rst
->>> @@ -361,7 +361,8 @@ Alternatives Considered
->>>    -----------------------
->>>
->>>    An alternative data race detection approach for the kernel can be found in the
->>> -`Kernel Thread Sanitizer (KTSAN) <https://github.com/google/ktsan/wiki>`_.
->>> +`Kernel Thread Sanitizer (KTSAN)
->>> +<https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md>`_.
->>>    KTSAN is a happens-before data race detector, which explicitly establishes the
->>>    happens-before order between memory operations, which can then be used to
->>>    determine data races as defined in `Data Races`_.
-> Acked-by: Marco Elver <elver@google.com>
+On Tue, 3 Sept 2024 at 19:58, Haoyang Liu <tttturtleruss@hust.edu.cn> wrote=
+:
 >
-> Do you have a tree to take your other patch ("docs/zh_CN: Add
-> dev-tools/kcsan Chinese translation") through? If so, I would suggest
-> that you ask that maintainer to take both patches, this and the
-> Chinese translation patch. (Otherwise, I will queue this patch to be
-> remembered but it'll be a while until it reaches mainline.)
+>
+> =E5=9C=A8 2024/7/26 16:38, Marco Elver =E5=86=99=E9=81=93:
+> > On Fri, 26 Jul 2024 at 03:36, Dongliang Mu <dzm91@hust.edu.cn> wrote:
+> >>
+> >> On 2024/7/26 01:46, Haoyang Liu wrote:
+> >>> The KTSAN doc has moved to
+> >>> https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md.
+> >>> Update the url in kcsan.rst accordingly.
+> >>>
+> >>> Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
+> >> Although the old link is still accessible, I agree to use the newer on=
+e.
+> >>
+> >> If this patch is merged, you need to change your Chinese version to
+> >> catch up.
+> >>
+> >> Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
+> >>
+> >>> ---
+> >>>    Documentation/dev-tools/kcsan.rst | 3 ++-
+> >>>    1 file changed, 2 insertions(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-to=
+ols/kcsan.rst
+> >>> index 02143f060b22..d81c42d1063e 100644
+> >>> --- a/Documentation/dev-tools/kcsan.rst
+> >>> +++ b/Documentation/dev-tools/kcsan.rst
+> >>> @@ -361,7 +361,8 @@ Alternatives Considered
+> >>>    -----------------------
+> >>>
+> >>>    An alternative data race detection approach for the kernel can be =
+found in the
+> >>> -`Kernel Thread Sanitizer (KTSAN) <https://github.com/google/ktsan/wi=
+ki>`_.
+> >>> +`Kernel Thread Sanitizer (KTSAN)
+> >>> +<https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md>`_=
+.
+> >>>    KTSAN is a happens-before data race detector, which explicitly est=
+ablishes the
+> >>>    happens-before order between memory operations, which can then be =
+used to
+> >>>    determine data races as defined in `Data Races`_.
+> > Acked-by: Marco Elver <elver@google.com>
+> >
+> > Do you have a tree to take your other patch ("docs/zh_CN: Add
+> > dev-tools/kcsan Chinese translation") through? If so, I would suggest
+> > that you ask that maintainer to take both patches, this and the
+> > Chinese translation patch. (Otherwise, I will queue this patch to be
+> > remembered but it'll be a while until it reaches mainline.)
+>
+> Hi, Marco.
+>
+>
+> The patch "docs/zh_CN: Add dev-tools/kcsan Chinese translation" has been
+> applied, but they didn't take this one. How about you take it into your
+> tree?
 
-Hi, Marco.
+I don't have a tree.
 
-
-The patch "docs/zh_CN: Add dev-tools/kcsan Chinese translation" has been 
-applied, but they didn't take this one. How about you take it into your 
-tree?
-
+Since this is purely documentation changes, could Jon take it into the
+Documentation tree?
+Otherwise we have to ask Paul to take it into -rcu.
 
 Thanks,
-
-Haoyang
-
+-- Marco
