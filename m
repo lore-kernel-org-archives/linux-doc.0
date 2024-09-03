@@ -1,110 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11150B647;
-	Tue,  3 Sep 2024 21:51:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8418C186E30;
+	Tue,  3 Sep 2024 22:36:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725400314; cv=none; b=pGZQdNjxDtGE6dYWjNbpSE9ARcFQh/KwZGLDqZpK/l7o4EZ64MZjaMsFFyLGxqCkQKlT4wD3qkyWIZkQgGkslIFNinSv/CkCCfOtc4oY5I0Wq+yGiv1ZSJICS9UuoqlA0sbnjIEiEzG4UTZUv111oBqchwasFkQ7vEJz9wl2g5g=
+	t=1725402980; cv=none; b=rWIJAAQtNGGakbrFMrEaZZYkS5AAQZBZBtkk3JLWHv7Cuv1KDeGdDTQXRjF/C8yWBod6WSikD8VB0IkUlpwkHb3+j4G8Pdhi6EU1FV1ofk00aCnHWFgM61nbA6ENJf99dMtv21c8ZQ45Bx7xHASjsMVje78NMxmwCE+VCnpaCuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725400314; c=relaxed/simple;
-	bh=tN5vqlCKPar7XP4sqfMn5SllXz0g+GvMXAGcorIVqYM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t6cxjg39/RKDfQYxxe+OFBE7/Xs5sUqg/aXRZIPveKrsdrsAVsX92+Yhs7ew5OmAQ8duHQp+NLZOzIanhAUL/BzkYDm5DwfEI0DPgF8qq6j7WorltBlA2F6FeTPhZg49v4FCqaDqnFshKlDLuG57VC/7wAbOxWbiSmVclEl5pD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pLZNXCj0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725402980; c=relaxed/simple;
+	bh=w/F5Gln/VAy+w+5IKZ0bm6juyWi5rGx8h9yXwrhxeU8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=CFGrH3IvPadOYdGlQCvSb6AoB85PGBcv50Hkwf/XILmLUz/LMRbn5sG1+FvImHxNDxs1yVh63aubDei6/gqIaRrdQg5viBlIE03kbnL34mSJu6ZvIt/6cLUY1zkPe5iKqmlWXXESnuJ/ve5IPv6nOtKRNbELDXwohfvhruPHkYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t5R+NXJS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pLZNXCj0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42686C4CEC4;
-	Tue,  3 Sep 2024 21:51:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t5R+NXJS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4352C4CEC8;
+	Tue,  3 Sep 2024 22:36:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725400313;
-	bh=tN5vqlCKPar7XP4sqfMn5SllXz0g+GvMXAGcorIVqYM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=pLZNXCj0UEyKhvBJH5OnAGowSygKD8coz1erfWLAmf25HQz7h56PVHW0XMx2E/+w7
-	 xIjmR/ODgmkQ6EkT6qbdOkd5+85QO1VKRGcUIdp6j2mkLuyJOvw/tsogx2g6M2wzva
-	 plaXBbA4zNqKIrFF1xpYvfxDeNxXAy01Gmo8YJ+WZVfKF+cf6OJiYtW+gQBUW93FAy
-	 xIbMwFjMhxNIKZyJ57an/ZH5OFRWVdtyWrTv6ylNleOf2fa0XbMtEJRZe8/7ngefo1
-	 qikCcPNCOUF1XR5udOGdG6WVHyWR9fGyOzvTd3fowwLf6pKYqM5v5MJzgqDs6Hj2YM
-	 mtSUblomNCqHQ==
-Date: Tue, 3 Sep 2024 14:51:50 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, Ivan
- Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
- Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
- <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert
- Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem
- de Bruijn <willemdebruijn.kernel@gmail.com>, "=?UTF-8?B?QmrDtnJuIFTDtnBl?=
- =?UTF-8?B?bA==?=" <bjorn@kernel.org>, Magnus Karlsson
- <magnus.karlsson@intel.com>, Maciej Fijalkowski
- <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>, Daniel
- Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, "Christian =?UTF-8?B?S8O2bmln?="
- <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, David
- Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
- <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
- Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
- Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
- <pkaligineedi@google.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
- Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
- Taehee Yoo <ap420073@gmail.com>
-Subject: Re: [PATCH net-next v24 11/13] net: add devmem TCP documentation
-Message-ID: <20240903145150.4ffee51b@kernel.org>
-In-Reply-To: <20240831004313.3713467-12-almasrymina@google.com>
-References: <20240831004313.3713467-1-almasrymina@google.com>
-	<20240831004313.3713467-12-almasrymina@google.com>
+	s=k20201202; t=1725402980;
+	bh=w/F5Gln/VAy+w+5IKZ0bm6juyWi5rGx8h9yXwrhxeU8=;
+	h=From:Date:Subject:To:Cc:From;
+	b=t5R+NXJS7ceShRs5loYLB1GbvWLXbsTSNwqzcUeDuydzHOh7yXDdEjWCVIk/w6I5C
+	 /gmhl6SklRud24waZ0HbxfJCHGjV88AcA9RhIEMrlA+mbbY92TdWOpwCCXS4mQWXp/
+	 e0YX2AkrQ2HMId9xKxOe1C6gxvod6kDEsfeaLBpemCwWBSrwV6XMO4Wlqs6Sml0wdi
+	 exY1zDRT0KU+Jwjqta8a8eFtmSs9Q+cn1UGua9vxKBnACT8ehM87khBi1rReo6P16U
+	 gkE8OKVzDL0o6iSNCmBZonoH3cm9PufHX7+h34nWTQd5/ZL8rAVeMRk3nydUB6shiK
+	 Dq2eXldJs9bpA==
+From: Mark Brown <broonie@kernel.org>
+Date: Tue, 03 Sep 2024 23:36:02 +0100
+Subject: [PATCH] docs: submitting-patches: Advertise b4
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20240903-documentation-b4-advert-v1-1-fefda9564f6e@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAFGP12YC/x2MSQqAMAwAvyI5G2ituH1FPFQTNQertFUE8e8Wj
+ wMz80BgLxygyx7wfEmQ3SXQeQbTat3CKJQYClWUqlUGaZ/OjV20MZk4lmjpYh9RN0pX3BiqqYV
+ UH55nuf9zP7zvB0Jgfv1pAAAA
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.15-dev-37811
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1308; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=w/F5Gln/VAy+w+5IKZ0bm6juyWi5rGx8h9yXwrhxeU8=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBm149hGmuOSz86kPMz+k+68HRFxU7pTuCXgJZNW/bF
+ jfGhiMyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZtePYQAKCRAk1otyXVSH0EJ3B/
+ wLEanakrcIqqBQ+MCRwUOAboiatcaAx++AoH3bJPKIA7bBUfKIzyLWb9CCi6EdsMJahDPYfoNTLtxt
+ kwQ3VUa4ujOoe+xVz9tngXnuWHABvMhaEbTjImjmYIU20rH3QhkxiVGMCQ8UiLxeEMIK4xiNqeoY0m
+ aI9Ru0VBU/ZKHe8n9xo3BphKw7+WFpSIuZymfv3MEgqByK0O1KCQi0Tl/m9JziIMPrX1C/bs3VWQZi
+ v8cAN+tvrfydUL83MqTn0aYwRVhlUTRHFnL2SyigvCiwSCuTFBgtvpZoNCKfkT2e8oHNz2nOW6huio
+ OGY1r8QpYsc9JMaUn7wH4r/tEfbw0C
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Sat, 31 Aug 2024 00:43:11 +0000 Mina Almasry wrote:
-> +The socket must be flow steered to the dmabuf bound RX queue::
-> +
-> +	ethtool -N eth1 flow-type tcp4 ... queue 15,
+b4 is now widely used and is quite helpful for a lot of the things that
+submitting-patches covers, let's advertise it to submitters to try to make
+their lives easier and reduce the number of procedural issues maintainers
+see.
 
-nit: tailing comma here
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ Documentation/process/submitting-patches.rst | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-> +Devmem payloads are inaccessible to the kernel processing the packets. This
-> +results in a few quirks for payloads of devmem skbs:
-> +
-> +- Loopback is not functional. Loopback relies on copying the payload, which is
-> +  not possible with devmem skbs.
-> +
-> +- Software checksum calculation fails.
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index f310f2f36666..4b6904184ad1 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -842,6 +842,16 @@ Make sure that base commit is in an official maintainer/mainline tree
+ and not in some internal, accessible only to you tree - otherwise it
+ would be worthless.
+ 
++
++Tooling
++-------
++
++Many of the technical aspects of this process can be automated using
++b4, documented at <https://b4.docs.kernel.org/en/latest/>. This can
++help with things like tracking dependencies, running checkpatch and
++with formatting and sending mails.
++
++
+ References
+ ----------
+ 
 
-Speaking of which, I think we need to add readability check to 
-skb_checksum_help(). Shouldn't the check in __skb_checksum() 
-have a WARN_ON_ONCE() around it? It's impossible to return 
-an error from there.
+---
+base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
+change-id: 20240903-documentation-b4-advert-18016e83d7d9
 
-> +- TCP Dump and bpf can't access devmem packet payloads.
-> +
-> +
-> +Testing
-> +=======
-> +
-> +More realistic example code can be found in the kernel source under
-> +tools/testing/selftests/net/ncdevmem.c
+Best regards,
+-- 
+Mark Brown <broonie@kernel.org>
 
-looks like HTML output wraps the file path, maybe quote it as
-``tools/testing/selftests/net/ncdevmem.c`` ?
