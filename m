@@ -1,133 +1,214 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A259618BB89;
-	Tue,  3 Sep 2024 18:17:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E5418EFC9
+	for <linux-doc@vger.kernel.org>; Tue,  3 Sep 2024 18:20:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725387439; cv=none; b=TgvS+tsq0GaUN3PvbzLwZzxs4Gr2vqnjFNC34xlCnZAeo6b471rs4HSpZMXV/z5i0wAmKDtEu+GIv99FTQdpxUhMDY/WpKILgguekjFw5RQ1VqSd4ShxZw1dBjWVnPvOUwBjZgbGYcUFfIHO3Sd2A8LLfJRCuOYVrMZdTMbSVpw=
+	t=1725387604; cv=none; b=Iqnz5q3y6dpuRxnrCmZpO31xlC0K+mk9ehm0LpHBSV+zBTnXBdU0Qh4vhhoG0r1rwSlCysm9fTNcbcDehsE2yayKKq3KO45bhFmWqVnIFZpqjQlvVo7bHWxHzZcThgZRR8CV3Ulzr22Hcbhbn9cfhXy83ep40U8rFWfUMQqVTIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725387439; c=relaxed/simple;
-	bh=72SwK870brWuO+1H7M3ZgRnMKAN3mk5VB6H1CyKczVk=;
+	s=arc-20240116; t=1725387604; c=relaxed/simple;
+	bh=zXN/cYGVl2WUochENDfjWT91MjJc/vSw44nrbwt6mHY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=glfAPuT0mStrDuJdUktejeWm46u/JYnYuhFBU57Jw96pabtztcncZQfXCAVOzj8nPuPoM5nhevEPHmkVZ5aS1hFMHh3JnjwHTF2pEzQM5MaRnU+fOM/bWaKwMkZYwcwtwnnVMo/AWBeyctQTFD9nErAbvx4wnBXYJXbSTu4LGD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ka7gwTor; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=t8SRXfp2xfIst7dxMlSlj4Yl8rTWX8Z8G7YDSpcLybapoWIIEhFUH1w+mlWbHdSHe/6XabSvfwgOu1vkxTPAEqzhzhr0j8jtIpnKxHHpkyGRTbEHm2o6ONQuKJ7H87j6vxo/pAGqv8EBdyrhJXKZH1FmVdQ8ziRimgXCVab23c0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ydlfzMSb; arc=none smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ka7gwTor"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2d88ec20283so200492a91.0;
-        Tue, 03 Sep 2024 11:17:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ydlfzMSb"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4567deb9f9dso32781cf.1
+        for <linux-doc@vger.kernel.org>; Tue, 03 Sep 2024 11:20:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725387437; x=1725992237; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1725387602; x=1725992402; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iCRq6ERVuiYfqPwMIYcT8lbPZnFxke33M5BuFbK5HIg=;
-        b=Ka7gwTorlj2Fywai5mXwRlCuNaBaQpElz5O7QEltvWMQST6AbpJiLilfaSNDNHM1aN
-         D0HSUWrtH87B1HypBmwIqfYvFN0yCQPunRXAIGhzqiSy7/1Nyb+tdgrX+8YtTUfGr27G
-         IuK6KsBCJUXYScM1PIdxXqfSrJQ2dKeJbdqFXirIEC7fXCozaqAQaWzmo0skQS2i0dzv
-         v7vASJJtJDYbZ8TMxlQ9EjJ6XqM7qMJNJ0VqIFEKYLqfxHIOIFD8cpKvw59JDNbuCzO6
-         S8E9jjwhkt2YPW8/S20kxjLqZ9ZjJEvbiq6FqF66x9JU2EW6rkK+QwEmGbw5hKn6CHmN
-         phQw==
+        bh=BavSPl5fUtSdj/rsZpwNTR+qZ+A98RwNx6tvieBDuTs=;
+        b=ydlfzMSbYXzau+BOfW2sp03zEDKQYC/IFvlDYBhswif2+dYiCemHCZ+nAoyveHzIim
+         tOTtCnb7z9y+J1vU4fKwIDmAlgUuZIb+KIETCfuwaVEKqq7Tpim1tMhUQZvjEINyc78g
+         f21uvBuco5g9pO1EYQzesZ0UzdtemAwe7f3PtiBEBUqzV1RMHfeYLTKyAANMGgYeW1ee
+         w0svIlm+2mM20Iodr+qj7rmBF0K/8bIdJ8vGGBtBefMP0aLBY5FkY5GlW8Hl2L0JLcOT
+         SDEFOPBVthrIpzJnGGXSETeuBztCM93c996X/BgwPz/bo2vpP0N2iT59qDWDXqIxh4MR
+         5wAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725387437; x=1725992237;
+        d=1e100.net; s=20230601; t=1725387602; x=1725992402;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iCRq6ERVuiYfqPwMIYcT8lbPZnFxke33M5BuFbK5HIg=;
-        b=LJB7t2Rp3xKiwmPI3s6JPjbqbIPNYK+7UHuyVymVwkhjK13VTf3YkGYUrTO5ofVQ5L
-         fKu7FQlAsqLQ96JlVVOX9XKe8DOQRyhNFiM4o+VYpXR5wy+YyJ2V6AStfGg2rdQCSy8W
-         zKBAZwPejK61s07wS/Y3MuCBuUrjV8jpwTSJK2EYiSiytiCjtBOGoEC7himHVf9enfDG
-         zdQIJajAZCCFGlPaZ6Zp1g2+gGppz6ltmubN3q8O8IRF4CeIT4ZHVeIda5pL7kj4SW7D
-         ThZdd0//1cA1M8qwAhjWDg9GtP0/QHE+YbH9jjXOLERXDxFTEgRM5padN74K3yzcrexG
-         +Cng==
-X-Forwarded-Encrypted: i=1; AJvYcCU3GgEYeeoNbYT7NZ0bx8Mf9O+x6ZyDwyGNVlWUt8yU2X0AAiVBW0qo6SIDa4DDGaS5t0C3nqigg5M=@vger.kernel.org, AJvYcCVR3IXzzdrMYSQeKu5DPzdPUDyJfzL35Il2WZYZ0B/WrOu2oMe/CiDtiO4K9S4SYmvrqcKsa/VojcPL3oNt@vger.kernel.org, AJvYcCVcA+hq1dGgbUvB+C2/TQmzYEtp1uO3OaXmaMBlrdVPc//bnDuO7Apr+diDgMMWEZLgqAZf9IldRMawDu8m79o=@vger.kernel.org, AJvYcCWtohUHE1ZGkpYoG2DN2sazcIV7GFtJ1Lms1RtLZeCqkDXUu+KTQMa8JncO/BfoapCK4c8m5baW7+92MQ==@vger.kernel.org, AJvYcCXB8xVeRc0bc+Mb8EUL2ik19xbn8xAQBuuWzHGNaeGitqQygODXrw/CcjDDQDcJhWAiGAmswmU3/OhBv5YtCxnAPnrz@vger.kernel.org, AJvYcCXmzAXEFNDrmVjnvS8mKPMb6G2KM+iB3669EymwovNkqva1d4nT4EKwCp7JzflBvQISKBh/AYmK6mgdJZys@vger.kernel.org
-X-Gm-Message-State: AOJu0YzjVfFmsCMPXZwPsRtCIHkc4vXeitMKzfm2JwDgj+7hRIWiaZTf
-	nAxRgA2dMQeu2IdhBpbjmcmX0CGDRHckWQpyeEFobyqv6wfc7RQ/eTbMdgdS8HqDTlb0GwN5cIA
-	5AhrEAo0UVsN+ntEZYK0abdwNE2k=
-X-Google-Smtp-Source: AGHT+IG32aDLtHKi6AhxBeXK5jquJ2AWi/0PseceBjRwkozuKShq4rru0SzsbIiSg4LmaHN2BLYJYbySTLJ6lDehrcs=
-X-Received: by 2002:a17:90a:ee8f:b0:2da:5aa5:5d5b with SMTP id
- 98e67ed59e1d1-2da5aa560f4mr2043322a91.3.1725387436834; Tue, 03 Sep 2024
- 11:17:16 -0700 (PDT)
+        bh=BavSPl5fUtSdj/rsZpwNTR+qZ+A98RwNx6tvieBDuTs=;
+        b=I4ajAwUKqHp1HPT5XJuPdFvKgb97DEO0mOvHF8fH/lrzovbPmiZTR8BXaBLGvMp2I3
+         rwY0/UQrZFtc1fyDyi92Xzk0VEqf/Elr+m3I8EKkwIAAwNrBs2MZN8VRY1+eZcFqJdzT
+         H4uOaznSS/e2G1wUH9ch50emzMXRE0PCEvL9spZMuWH1QkIVlnJ8d32/4WHEglhq+Yn3
+         EZmbvNOLq+6ZhyHKL0myIPBDvuOBnNyhwJLvPIcLvj4YZrlkhujl4F6bT0PJzY+Kea+E
+         JXr+tRLXMZpNblVVlseTVSq1YdqfVXnluMNE46mq/mYrWsHubAbbbV72nlHJqlG5HEZe
+         x/+g==
+X-Forwarded-Encrypted: i=1; AJvYcCWfB4uQiBL0HJpdeYf306jUGBrMHhdPENJEdB7S4nOKDyY9AUOQIglQdZYHNUshER9x8ebRR+yM0no=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzb+PUSmAmzTe9M4KZUW+nzsPylFmPFmH/3KyZUv8QlowWgiOJU
+	RF5HuGi+uuQ1KNaOG0AHB59VZYajXCJj6ii5xtjnx/nDLySg57cF+3LvSjnn6Gg3/hh81xDdxa+
+	epsYf22NuSN/cICD0ifwKePcrfs67Dgu6Hh+f
+X-Google-Smtp-Source: AGHT+IGGVsLSR0VWiAw1Ihng2p7h4/4G9uaafKrLUqbwk2Hx9YjWEaRA9FJvSAxgGPWu1F5yx8Cnzf/j56ZBNxw7Whk=
+X-Received: by 2002:ac8:7d85:0:b0:453:56d3:d155 with SMTP id
+ d75a77b69052e-457f6225901mr370451cf.8.1725387601590; Tue, 03 Sep 2024
+ 11:20:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240903-mips-rust-v1-0-0fdf0b2fd58f@flygoat.com>
- <20240903-mips-rust-v1-3-0fdf0b2fd58f@flygoat.com> <CANiq72=z1yJm-B_ie=GfueOF1qksaSD9txgFU1YQo2tZx0qQPg@mail.gmail.com>
- <d9591a84-9a0f-4046-9b2a-437061f6882b@app.fastmail.com>
-In-Reply-To: <d9591a84-9a0f-4046-9b2a-437061f6882b@app.fastmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 3 Sep 2024 20:17:04 +0200
-Message-ID: <CANiq72m5iFcqRU_qdUCZkoV8ayPhtQQq3TTEDRUYfMEsnNqTDg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] rust: Enable for MIPS
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Richard Weinberger <richard@nod.at>, 
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Alice Ryhl <aliceryhl@google.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>, 
-	Yanteng Si <siyanteng@loongson.cn>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-um@lists.infradead.org, 
-	rust-for-linux@vger.kernel.org, 
-	"linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, llvm@lists.linux.dev
+References: <20240902044128.664075-1-surenb@google.com> <20240902044128.664075-7-surenb@google.com>
+ <20240901221636.5b0af3694510482e9d9e67df@linux-foundation.org>
+In-Reply-To: <20240901221636.5b0af3694510482e9d9e67df@linux-foundation.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Tue, 3 Sep 2024 11:19:48 -0700
+Message-ID: <CAJuCfpGNYgx0GW4suHRzmxVH28RGRnFBvFC6WO+F8BD4HDqxXA@mail.gmail.com>
+Subject: Re: [PATCH v2 6/6] alloc_tag: config to store page allocation tag
+ refs in page flags
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: kent.overstreet@linux.dev, corbet@lwn.net, arnd@arndb.de, 
+	mcgrof@kernel.org, rppt@kernel.org, paulmck@kernel.org, thuth@redhat.com, 
+	tglx@linutronix.de, bp@alien8.de, xiongwei.song@windriver.com, 
+	ardb@kernel.org, david@redhat.com, vbabka@suse.cz, mhocko@suse.com, 
+	hannes@cmpxchg.org, roman.gushchin@linux.dev, dave@stgolabs.net, 
+	willy@infradead.org, liam.howlett@oracle.com, pasha.tatashin@soleen.com, 
+	souravpanda@google.com, keescook@chromium.org, dennis@kernel.org, 
+	jhubbard@nvidia.com, yuzhao@google.com, vvvvvv@google.com, 
+	rostedt@goodmis.org, iamjoonsoo.kim@lge.com, rientjes@google.com, 
+	minchan@google.com, kaleshsingh@google.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kernel-team@android.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 3, 2024 at 7:53=E2=80=AFPM Jiaxun Yang <jiaxun.yang@flygoat.com=
-> wrote:
+On Sun, Sep 1, 2024 at 10:16=E2=80=AFPM Andrew Morton <akpm@linux-foundatio=
+n.org> wrote:
 >
-> Thanks for your review!
+> On Sun,  1 Sep 2024 21:41:28 -0700 Suren Baghdasaryan <surenb@google.com>=
+ wrote:
+>
+> > Add CONFIG_PGALLOC_TAG_USE_PAGEFLAGS to store allocation tag
+> > references directly in the page flags. This removes dependency on
+> > page_ext and results in better performance for page allocations as
+> > well as reduced page_ext memory overhead.
+> > CONFIG_PGALLOC_TAG_REF_BITS controls the number of bits required
+> > to be available in the page flags to store the references. If the
+> > number of page flag bits is insufficient, the build will fail and
+> > either CONFIG_PGALLOC_TAG_REF_BITS would have to be lowered or
+> > CONFIG_PGALLOC_TAG_USE_PAGEFLAGS should be disabled.
+> >
+> > ...
+> >
+> > +config PGALLOC_TAG_USE_PAGEFLAGS
+> > +     bool "Use pageflags to encode page allocation tag reference"
+> > +     default n
+> > +     depends on MEM_ALLOC_PROFILING
+> > +     help
+> > +       When set, page allocation tag references are encoded inside pag=
+e
+> > +       flags, otherwise they are encoded in page extensions.
+> > +
+> > +       Setting this flag reduces memory and performance overhead of me=
+mory
+> > +       allocation profiling but also limits how many allocations can b=
+e
+> > +       tagged. The number of bits is set by PGALLOC_TAG_USE_PAGEFLAGS =
+and
+> > +       they must fit in the page flags field.
+>
+> Again.  Please put yourself in the position of one of the all-minus-two
+> people in this world who aren't kernel-memory-profiling-developers.
+> How the heck are they to decide whether or not to enable this?  OK, 59%
+> of them are likely to say "yes" because reasons.  But then what?  How
+> are they to determine whether it was the correct choice for them?  If
+> we don't tell them, who will?
 
-You're welcome!
+Fair point. I think one would want to enable this config unless there
+aren't enough unused bits if the page flags to address all page
+allocation tags. That last part of determining how many bits we need
+is a bit tricky.
+If we put aside loadable modules for now, there are 3 cases:
 
-> Triples defined for MIPS bare-metal target is surprisingly lacking, we do=
- have
-> little-endian 32-bit bare-metal target mipsel-unknown-none but big-endian=
- and
-> 64 bit variants are missing.
+1. The number of unused page flag bits is enough to address all page
+allocations.
+2. The number of unused page flag bits is enough if we push
+last_cpupid out of page flags. In that case we get the warning at
+https://elixir.bootlin.com/linux/v6.11-rc6/source/mm/mm_init.c#L124.
+3. The number of unused page flag bits is not enough even if we push
+last_cpupid out of page flags. In that case we get the  "Not enough
+bits in page flags" build time error.
 
-Hmm... Sorry if this may be too naive, since I have no expertise on
-MIPS, but I see some triples that match the LLVM ones you specify in
-the patch:
+So, maybe I should make this option "default y" when
+CONFIG_MEM_ALLOC_PROFILING=3Dy and let the user disable it if they hit
+case #3 or (case #2 and performance hit is unacceptable)?
 
-    rustc --print target-list | grep mips
+For loadable modules, if we hit the limit when loading a module at
+runtime, we could issue a warning and disable allocation tagging via
+the static key. Another option is to fail to load the module with a
+proper warning but that IMO would be less appealing.
 
-> Also, those triples all assumed +mips32r2 as baseline ISA, but kernel act=
-ually needs
-> some other ISA variant features.
+>
+> >  config PGALLOC_TAG_REF_BITS
+> >       int "Number of bits for page allocation tag reference (10-64)"
+> >       range 10 64
+> > -     default "64"
+> > +     default "16" if PGALLOC_TAG_USE_PAGEFLAGS
+> > +     default "64" if !PGALLOC_TAG_USE_PAGEFLAGS
+> >       depends on MEM_ALLOC_PROFILING
+> >       help
+> >         Number of bits used to encode a page allocation tag reference.
+> > @@ -1011,6 +1027,13 @@ config PGALLOC_TAG_REF_BITS
+> >         Smaller number results in less memory overhead but limits the n=
+umber of
+> >         allocations which can be tagged (including allocations from mod=
+ules).
+> >
+> > +       If PGALLOC_TAG_USE_PAGEFLAGS is set, the number of requested bi=
+ts should
+> > +       fit inside the page flags.
+>
+> What does "should fit" mean?  "It is your responsibility to make it
+> fit"?  "We think it will fit but we aren't really sure"?
 
-I guess you mean you are getting the warning about the
-unknown/unstable feature passed to the backend? i.e. `rustc` knows
-about those LLVM ones and forwards them when enabled via
-`-Ctarget-feature` (with a warning):
+This is the case #3 I described above, the user will get a "Not enough
+bits in page flags" build time error. If we stick with this config, I
+can clarify that in this description.
 
-    rustc --target mips64-unknown-linux-gnuabi64 --print target-features
+>
+> > +       If PGALLOC_TAG_USE_PAGEFLAGS is not set, the number of bits use=
+d to store
+> > +       a reference is rounded up to the closest basic type. If set hig=
+her than 32,
+> > +       a direct pointer to the allocation tag is stored for performanc=
+e reasons.
+> > +
+>
+> We shouldn't be offering things like this to our users.  If we cannot dec=
+ide, how
+> can they?
 
-So they would need to be added to the list at [1] (or targeted flags create=
-d).
+Thinking about the ease of use, the CONFIG_PGALLOC_TAG_REF_BITS is the
+hardest one to set. The user does not know how many page allocations
+are there. I think I can simplify this by trying to use all unused
+page flag bits for addressing the tags. Then, after compilation we can
+follow the rules I mentioned before:
+- If the available bits are not enough to address all kernel page
+allocations, we issue an error. The user should disable
+CONFIG_PGALLOC_TAG_USE_PAGEFLAGS.
+- If there are enough unused bits but we have to push last_cpupid out
+of page flags, we issue a warning and continue. The user can disable
+CONFIG_PGALLOC_TAG_USE_PAGEFLAGS if last_cpupid has to stay in page
+flags.
+- If we run out of addressing space during module loading, we disable
+allocation tagging and continue. The user should disable
+CONFIG_PGALLOC_TAG_USE_PAGEFLAGS.
 
-Until those do not emit a warning, it is fine using the `target.json`,
-but I wanted to understand if there is something else you may need,
-since we will need to eventually avoid the `target.json`, so it is
-best asking upstream as soon as possible.
-
-Thanks!
-
-[1] https://github.com/rust-lang/rust/blob/d6c8169c186ab16a3404cd0d08666740=
-18e8a19e/compiler/rustc_target/src/target_features.rs#L368
-
-Cheers,
-Miguel
+This leaves one outstanding case:
+- If we run out of addressing space during module loading but we would
+not run out of space if we pushed last_cpupid out of page flags during
+compilation.
+In this case I would want the user to have an option to request a
+larger addressing space for page allocation tags at compile time.
+Maybe I can keep CONFIG_PGALLOC_TAG_REF_BITS for such explicit
+requests for a larger space? This would limit the use of
+CONFIG_PGALLOC_TAG_REF_BITS to this case only. In all other cases the
+number of bits would be set automatically. WDYT?
