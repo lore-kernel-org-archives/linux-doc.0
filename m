@@ -1,125 +1,161 @@
-Received: from smtp-fw-9102.amazon.com (smtp-fw-9102.amazon.com [207.171.184.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01251CA6AF;
-	Tue,  3 Sep 2024 13:26:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.171.184.29
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1EFB13D52E
+	for <linux-doc@vger.kernel.org>; Tue,  3 Sep 2024 14:27:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725369962; cv=none; b=tj1y+Dg2iWSdOyKZtRVtOcvLE4pe7SxSfjYJBvg42sHG1QM0q5MfMuqcLGBugZ5kaY14AszDLhraw7rIwRymGEC5GkQZKvMbGHvmW+ZPxzKtvXf8RCdMVwqvACRO8njYmGlEnI17oqaGC10a+vipWWG3OOicUb3PF1c3vAhUzL4=
+	t=1725373627; cv=none; b=s1JznofqHnhvUF4nQ6sJdozGpSJ9mAyE3GulwmsSkBi+Eadry4Eb0DcqQPJKcxRlNRpJoQN/5R5qkBE/TOMZbyYhAWYejuVkGgRJE8kwdBl4q0HaFez4f7Z6cgfckcvxy+JjqJ0BECY0VtAjmU5nV8Z3mphI3X8p3OYm6SLoZKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725369962; c=relaxed/simple;
-	bh=k7iuFT1H7ujrvfLyNrffmZSfZA4lxwHy6zFA4xnUBz8=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=kCQn25IWya09VuRTYmWOguBND9XQWrS5vwCr1IvUJ/dRLOe9OQWp/yhQvzOpl3Na18ntRgoCyKKy9dxp1M2vs2l9kr19IQKA82bpHEP5yzIw2BgWp9ISPCN3w3W9w91/yMusW80VRO5kiSFcipg2Rkjpf8YnoTpdWVM7east9+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=BF0BCgfG; arc=none smtp.client-ip=207.171.184.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+	s=arc-20240116; t=1725373627; c=relaxed/simple;
+	bh=YJZad+gj0lbbhihO+iH3TxZ51TS0VnirXp0wz604WKQ=;
+	h=Date:Subject:In-Reply-To:CC:From:To:Message-ID:Mime-Version:
+	 Content-Type; b=NY4Sa3S6ZxyQhoJsrAyC/Emt8lBuURVtkvW3d1cpNE8Ya/gav/mVkeITOoQ1yM4WmUFOndLnZ9Rp3YddLR1TcYIIG82kXH7oHSqx18tH0WM330hDnsP1WsdjtIwZcIxbpMUnS5AuYS8uzoa7z3gdsPmX6ogWRYeh+LzvJnvTYyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=nZEvQmf6; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="BF0BCgfG"
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="nZEvQmf6"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2057c6c57b5so11764345ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 03 Sep 2024 07:27:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1725369961; x=1756905961;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=bRq6OaDwt0v/rRzT3o77hM5i/nBzjJJFOfHuaw9pAKY=;
-  b=BF0BCgfGWjMgSA+3NOPaofIn5zEXCplohkdLFI575SUQodNBG9sMo7H2
-   ijjf6NnvmCqHDz/uTuYFongQy1KVHIDSgvsaqOEjZ0b7TdhdlBag5WKY0
-   ZkGeo3c5XIlGn5eAshExxBoDwDBEwRVIeWibFxxiQU3Q4D1fBtQDKJKGH
-   A=;
-X-IronPort-AV: E=Sophos;i="6.10,198,1719878400"; 
-   d="scan'208";a="450080823"
-Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.214])
-  by smtp-border-fw-9102.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 13:25:39 +0000
-Received: from EX19MTAUWA002.ant.amazon.com [10.0.21.151:54976]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.23.147:2525] with esmtp (Farcaster)
- id e699812b-fed0-47f1-8332-46244ff6de93; Tue, 3 Sep 2024 13:25:38 +0000 (UTC)
-X-Farcaster-Flow-ID: e699812b-fed0-47f1-8332-46244ff6de93
-Received: from EX19D002ANA002.ant.amazon.com (10.37.240.152) by
- EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Tue, 3 Sep 2024 13:25:38 +0000
-Received: from EX19MTAUEC001.ant.amazon.com (10.252.135.222) by
- EX19D002ANA002.ant.amazon.com (10.37.240.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.35;
- Tue, 3 Sep 2024 13:25:36 +0000
-Received: from dev-dsk-itazur-1b-8445a99b.eu-west-1.amazon.com (10.13.227.122)
- by mail-relay.amazon.com (10.252.135.200) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34
- via Frontend Transport; Tue, 3 Sep 2024 13:25:35 +0000
-From: Takahiro Itazuri <itazur@amazon.com>
-To: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC: Takahiro Itazuri <itazur@amazon.com>, Takahiro Itazuri
-	<zulinx86@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov
-	<bp@alien8.de>, Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf
-	<jpoimboe@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] Documentation: Use list table for possible GDS sysfs values
-Date: Tue, 3 Sep 2024 13:25:33 +0000
-Message-ID: <20240903132533.26458-1-itazur@amazon.com>
-X-Mailer: git-send-email 2.40.1
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1725373624; x=1725978424; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GoTw6t0Be8aKNozeOjjMtSaTe5hpCqncxCg69X7v8Z4=;
+        b=nZEvQmf6uAOW2qS8vmhA5JnieVaPl3/T2pwH3w3jIIjgSnm9dXRhSkMl3WO/BHlUSk
+         ZWRxArZmPu1ubKWXmpP7a1O94ZtDaZJRoEi9GiKy2G+QhXyN6ecdhOD7QxQzWxhaVPZh
+         sMpsdBeRDz57yao6mx7x2vXXdk7E7xTjJhULrrcJxkXGRukb4caxpaXViADG6LYLwBLR
+         7lTtNr5IR71TV9iHTyFaOw2YZuZsyD0LFaSh7SIGt9LXutGjS/o6e4xb4D74w0FKgZ/v
+         RxqAxuAJKFVQ0Kb/uc/dAP9J4mPkBJyjguSGdQrKn/nh3AuUsZpotBEJjNdy7yGS5/Qh
+         ipVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725373624; x=1725978424;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GoTw6t0Be8aKNozeOjjMtSaTe5hpCqncxCg69X7v8Z4=;
+        b=LBVZQHzOs25DhR647RXpAFm5Nj5EtVXkZ1u/ImCzm7uqKYTrreWBAdXY4r6dixFRir
+         eSxekOlR4BsfI47esRK3zVRRfExDZRzJ0Cz8Fb3YfNdAjcSoFJSUCnMEdolPdTZj4sq+
+         qfnExhr4DVNSHqpfjPi/3wCu3K3Gl+Jp4m2PkGhLguCCDTLCWZ63tsdeiJGC6oriM4iB
+         OCC/ac98QLibkq5E6g60jrAfGqBA3TyRsaSQtZUVtrKjq8PsIzZBIn/T4lTa77ofga3p
+         XhypjVFxDrHBFfwGj0iO5TRaMWSp/JaCg5jz/DQSrb/uEkG8Z0SQWlT7u1ZZjLhd7WcU
+         uHYA==
+X-Forwarded-Encrypted: i=1; AJvYcCUsjAlyRRJITlZ90qY0GZ4QNlT6foIzJvkf6JejIJFODrNU82DOyxOqXEDzSWjdBu78wblpAbQivTM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJzIfGdUNbnJyrRzl9OutDO0C5RFpSMkwP7zx4zcZPkKN4qflH
+	Y/JbbH9uM+P2O863i2qz35wBH/q1G7ei3DYHHkk1rQtp6O/iQa88aVgF55MHOho=
+X-Google-Smtp-Source: AGHT+IFEJHC4rZXRkLgfnKMPzqA7B9JvTzO3tbZukAMVMQi69t3KSZUdjoFwdxWGHbJK+agz7xqErg==
+X-Received: by 2002:a17:902:dace:b0:205:8b84:d5e8 with SMTP id d9443c01a7336-2058b84dad4mr100289045ad.18.1725373623730;
+        Tue, 03 Sep 2024 07:27:03 -0700 (PDT)
+Received: from localhost ([192.184.165.199])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2051555140csm82048875ad.244.2024.09.03.07.27.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Sep 2024 07:27:03 -0700 (PDT)
+Date: Tue, 03 Sep 2024 07:27:03 -0700 (PDT)
+X-Google-Original-Date: Tue, 03 Sep 2024 07:27:01 PDT (-0700)
+Subject:     Re: [PATCH 3/3] riscv: mm: Do not restrict mmap address based on hint
+In-Reply-To: <tencent_A414DA7D8E69B831317A21368D057C378208@qq.com>
+CC: Charlie Jenkins <charlie@rivosinc.com>, corbet@lwn.net,
+  Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu, shuah@kernel.org, rsworktech@outlook.com,
+  alexghiti@rivosinc.com, linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+  linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+From: Palmer Dabbelt <palmer@rivosinc.com>
+To: cyy@cyyself.name
+Message-ID: <mhng-ad0c8c3b-568a-484d-bc3d-49b56a11dcd6@palmer-ri-x1c9>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-Using a normal table, a line break in the first column would be
-recognized as two rows. Uses a list table instead as in MDS.
+On Mon, 26 Aug 2024 19:24:38 PDT (-0700), cyy@cyyself.name wrote:
+>
+>
+>> On Aug 27, 2024, at 00:36, Charlie Jenkins <charlie@rivosinc.com> wrote:
+>> 
+>> The hint address should not forcefully restrict the addresses returned
+>> by mmap as this causes mmap to report ENOMEM when there is memory still
+>> available.
+>> 
+>
+> Fixing in this way will break userspace on Sv57 machines as some
+> issues mentioned in the patch [1].
+>
+> I suggest restricting to BIT(47) by default, like patch [2], to
+> align with kernel behavior on x86 and aarch64, and this does exist
+> on x86 and aarch64 for quite a long time. In that way, we will also
+> solve the problem mentioned in the first patch [1], as QEMU enables
+> Sv57 by default now and will not break userspace.
+>
+> [1] https://lore.kernel.org/linux-riscv/20230809232218.849726-1-charlie@rivosinc.com/
+> [2] https://lore.kernel.org/linux-riscv/tencent_B2D0435BC011135736262764B511994F4805@qq.com/
 
-Signed-off-by: Takahiro Itazuri <itazur@amazon.com>
----
- .../hw-vuln/gather_data_sampling.rst          | 36 ++++++++++---------
- 1 file changed, 19 insertions(+), 17 deletions(-)
+I'm going to pick this up as it's a revert and a bug fix, so we can 
+backport it.  If the right answer is to just forget about the sv39 
+userspace and only worry about sv48 userspace then your patches are 
+likely the way to go, but there's a handful of discussions around that 
+which might take a bit.
 
-diff --git a/Documentation/admin-guide/hw-vuln/gather_data_sampling.rst b/Documentation/admin-guide/hw-vuln/gather_data_sampling.rst
-index 264bfa937f7d..4a2eaa80d20a 100644
---- a/Documentation/admin-guide/hw-vuln/gather_data_sampling.rst
-+++ b/Documentation/admin-guide/hw-vuln/gather_data_sampling.rst
-@@ -85,23 +85,25 @@ GDS this can be accessed by the following sysfs file:
- 
- The possible values contained in this file are:
- 
-- ============================== =============================================
-- Not affected                   Processor not vulnerable.
-- Vulnerable                     Processor vulnerable and mitigation disabled.
-- Vulnerable: No microcode       Processor vulnerable and microcode is missing
--                                mitigation.
-- Mitigation: AVX disabled,
-- no microcode                   Processor is vulnerable and microcode is missing
--                                mitigation. AVX disabled as mitigation.
-- Mitigation: Microcode          Processor is vulnerable and mitigation is in
--                                effect.
-- Mitigation: Microcode (locked) Processor is vulnerable and mitigation is in
--                                effect and cannot be disabled.
-- Unknown: Dependent on
-- hypervisor status              Running on a virtual guest processor that is
--                                affected but with no way to know if host
--                                processor is mitigated or vulnerable.
-- ============================== =============================================
-+  .. list-table::
-+
-+     * - 'Not affected'
-+       - Processor is not vulnerable.
-+     * - 'Vulnerable'
-+       - Processor is vulnerable and mitigation is disabled.
-+     * - 'Vulnerable: No microcode'
-+       - Processor is vulnerable and microcode is missing mitigation.
-+     * - 'Mitigation: AVX disabled, no microcode'
-+       - Processor is vulnerable and microcode is missing mitigation. AVX
-+         disabled as mitigation.
-+     * - 'Mitigation: Microcode'
-+       - Processor is vulnerable and mitigation is in effect.
-+     * - 'Mitigation: Microcode (locked)'
-+       - Processor is vulnerable and mitigation is in effect and cannot be
-+         disabled.
-+     * - 'Unknown: Dependent on hypervisor status'
-+       - Running on a virtual guest processor that is affected but with no way
-+         to know if host processor is mitigated or vulnerable.
- 
- GDS Default mitigation
- ----------------------
--- 
-2.40.1
-
+>
+> Thanks,
+> Yangyu Chen
+>
+>> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+>> Fixes: b5b4287accd7 ("riscv: mm: Use hint address in mmap if available")
+>> Fixes: add2cc6b6515 ("RISC-V: mm: Restrict address space for sv39,sv48,sv57")
+>> Closes: https://lore.kernel.org/linux-kernel/ZbxTNjQPFKBatMq+@ghost/T/#mccb1890466bf5a488c9ce7441e57e42271895765
+>> ---
+>> arch/riscv/include/asm/processor.h | 26 ++------------------------
+>> 1 file changed, 2 insertions(+), 24 deletions(-)
+>> 
+>> diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/asm/processor.h
+>> index 8702b8721a27..efa1b3519b23 100644
+>> --- a/arch/riscv/include/asm/processor.h
+>> +++ b/arch/riscv/include/asm/processor.h
+>> @@ -14,36 +14,14 @@
+>> 
+>> #include <asm/ptrace.h>
+>> 
+>> -/*
+>> - * addr is a hint to the maximum userspace address that mmap should provide, so
+>> - * this macro needs to return the largest address space available so that
+>> - * mmap_end < addr, being mmap_end the top of that address space.
+>> - * See Documentation/arch/riscv/vm-layout.rst for more details.
+>> - */
+>> #define arch_get_mmap_end(addr, len, flags) \
+>> ({ \
+>> - unsigned long mmap_end; \
+>> - typeof(addr) _addr = (addr); \
+>> - if ((_addr) == 0 || is_compat_task() || \
+>> -    ((_addr + len) > BIT(VA_BITS - 1))) \
+>> - mmap_end = STACK_TOP_MAX; \
+>> - else \
+>> - mmap_end = (_addr + len); \
+>> - mmap_end; \
+>> + STACK_TOP_MAX; \
+>> })
+>> 
+>> #define arch_get_mmap_base(addr, base) \
+>> ({ \
+>> - unsigned long mmap_base; \
+>> - typeof(addr) _addr = (addr); \
+>> - typeof(base) _base = (base); \
+>> - unsigned long rnd_gap = DEFAULT_MAP_WINDOW - (_base); \
+>> - if ((_addr) == 0 || is_compat_task() || \
+>> -    ((_addr + len) > BIT(VA_BITS - 1))) \
+>> - mmap_base = (_base); \
+>> - else \
+>> - mmap_base = (_addr + len) - rnd_gap; \
+>> - mmap_base; \
+>> + base; \
+>> })
+>> 
+>> #ifdef CONFIG_64BIT
+>> 
+>> -- 
+>> 2.45.0
+>> 
