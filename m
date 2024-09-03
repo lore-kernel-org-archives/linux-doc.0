@@ -1,132 +1,133 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.237.72.81])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8E9D18E741;
-	Tue,  3 Sep 2024 18:05:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.237.72.81
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A259618BB89;
+	Tue,  3 Sep 2024 18:17:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725386737; cv=none; b=nMiwG104CDhKsMc2CEviwk//UOdv2fhzLcPsTveTsBL23JU+nIHIW0fGNnKAKYkon3QhrIT+O0cBROrchTOCQRxb00jfmZjCi6nL2bG80n12pn1vPnJXO9FPPU8CC8Xw35+XxjQBZZJ+7+TWae6fGqwWLDI/42IZatI7Cc8iXEk=
+	t=1725387439; cv=none; b=TgvS+tsq0GaUN3PvbzLwZzxs4Gr2vqnjFNC34xlCnZAeo6b471rs4HSpZMXV/z5i0wAmKDtEu+GIv99FTQdpxUhMDY/WpKILgguekjFw5RQ1VqSd4ShxZw1dBjWVnPvOUwBjZgbGYcUFfIHO3Sd2A8LLfJRCuOYVrMZdTMbSVpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725386737; c=relaxed/simple;
-	bh=L196aYU9UueyMIOzECnCAlDtnBx/VY2q7XxBESvZZOg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n3/nQU+FreK/SX636fM7AgnWZnU2RbHsJIdZ7WVpJnIFyk3kKiFm/cd89gGa3u76TOGdcyP1SKqvidWSF/I5GKnF/ZJw3EQKwovG7qXIOrXh1PRCze4jNvJrdAus8S7B2B9BwCItWI1niLR2OlwLdL2hEYA94NEsXMgboZJN9Fk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=52.237.72.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with SMTP id HgEQrADHJmzmT9dmEuJnBQ--.42941S2;
-	Wed, 04 Sep 2024 02:05:26 +0800 (CST)
-Received: from [198.18.0.1] (unknown [10.12.177.116])
-	by gateway (Coremail) with SMTP id _____wB3UbrlT9dmyqAjAA--.30797S2;
-	Wed, 04 Sep 2024 02:05:26 +0800 (CST)
-Message-ID: <241be3d1-2630-471f-9c04-3b4004b5d832@hust.edu.cn>
-Date: Wed, 4 Sep 2024 02:05:23 +0800
+	s=arc-20240116; t=1725387439; c=relaxed/simple;
+	bh=72SwK870brWuO+1H7M3ZgRnMKAN3mk5VB6H1CyKczVk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=glfAPuT0mStrDuJdUktejeWm46u/JYnYuhFBU57Jw96pabtztcncZQfXCAVOzj8nPuPoM5nhevEPHmkVZ5aS1hFMHh3JnjwHTF2pEzQM5MaRnU+fOM/bWaKwMkZYwcwtwnnVMo/AWBeyctQTFD9nErAbvx4wnBXYJXbSTu4LGD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ka7gwTor; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ka7gwTor"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2d88ec20283so200492a91.0;
+        Tue, 03 Sep 2024 11:17:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725387437; x=1725992237; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iCRq6ERVuiYfqPwMIYcT8lbPZnFxke33M5BuFbK5HIg=;
+        b=Ka7gwTorlj2Fywai5mXwRlCuNaBaQpElz5O7QEltvWMQST6AbpJiLilfaSNDNHM1aN
+         D0HSUWrtH87B1HypBmwIqfYvFN0yCQPunRXAIGhzqiSy7/1Nyb+tdgrX+8YtTUfGr27G
+         IuK6KsBCJUXYScM1PIdxXqfSrJQ2dKeJbdqFXirIEC7fXCozaqAQaWzmo0skQS2i0dzv
+         v7vASJJtJDYbZ8TMxlQ9EjJ6XqM7qMJNJ0VqIFEKYLqfxHIOIFD8cpKvw59JDNbuCzO6
+         S8E9jjwhkt2YPW8/S20kxjLqZ9ZjJEvbiq6FqF66x9JU2EW6rkK+QwEmGbw5hKn6CHmN
+         phQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725387437; x=1725992237;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iCRq6ERVuiYfqPwMIYcT8lbPZnFxke33M5BuFbK5HIg=;
+        b=LJB7t2Rp3xKiwmPI3s6JPjbqbIPNYK+7UHuyVymVwkhjK13VTf3YkGYUrTO5ofVQ5L
+         fKu7FQlAsqLQ96JlVVOX9XKe8DOQRyhNFiM4o+VYpXR5wy+YyJ2V6AStfGg2rdQCSy8W
+         zKBAZwPejK61s07wS/Y3MuCBuUrjV8jpwTSJK2EYiSiytiCjtBOGoEC7himHVf9enfDG
+         zdQIJajAZCCFGlPaZ6Zp1g2+gGppz6ltmubN3q8O8IRF4CeIT4ZHVeIda5pL7kj4SW7D
+         ThZdd0//1cA1M8qwAhjWDg9GtP0/QHE+YbH9jjXOLERXDxFTEgRM5padN74K3yzcrexG
+         +Cng==
+X-Forwarded-Encrypted: i=1; AJvYcCU3GgEYeeoNbYT7NZ0bx8Mf9O+x6ZyDwyGNVlWUt8yU2X0AAiVBW0qo6SIDa4DDGaS5t0C3nqigg5M=@vger.kernel.org, AJvYcCVR3IXzzdrMYSQeKu5DPzdPUDyJfzL35Il2WZYZ0B/WrOu2oMe/CiDtiO4K9S4SYmvrqcKsa/VojcPL3oNt@vger.kernel.org, AJvYcCVcA+hq1dGgbUvB+C2/TQmzYEtp1uO3OaXmaMBlrdVPc//bnDuO7Apr+diDgMMWEZLgqAZf9IldRMawDu8m79o=@vger.kernel.org, AJvYcCWtohUHE1ZGkpYoG2DN2sazcIV7GFtJ1Lms1RtLZeCqkDXUu+KTQMa8JncO/BfoapCK4c8m5baW7+92MQ==@vger.kernel.org, AJvYcCXB8xVeRc0bc+Mb8EUL2ik19xbn8xAQBuuWzHGNaeGitqQygODXrw/CcjDDQDcJhWAiGAmswmU3/OhBv5YtCxnAPnrz@vger.kernel.org, AJvYcCXmzAXEFNDrmVjnvS8mKPMb6G2KM+iB3669EymwovNkqva1d4nT4EKwCp7JzflBvQISKBh/AYmK6mgdJZys@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjVfFmsCMPXZwPsRtCIHkc4vXeitMKzfm2JwDgj+7hRIWiaZTf
+	nAxRgA2dMQeu2IdhBpbjmcmX0CGDRHckWQpyeEFobyqv6wfc7RQ/eTbMdgdS8HqDTlb0GwN5cIA
+	5AhrEAo0UVsN+ntEZYK0abdwNE2k=
+X-Google-Smtp-Source: AGHT+IG32aDLtHKi6AhxBeXK5jquJ2AWi/0PseceBjRwkozuKShq4rru0SzsbIiSg4LmaHN2BLYJYbySTLJ6lDehrcs=
+X-Received: by 2002:a17:90a:ee8f:b0:2da:5aa5:5d5b with SMTP id
+ 98e67ed59e1d1-2da5aa560f4mr2043322a91.3.1725387436834; Tue, 03 Sep 2024
+ 11:17:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: update dev-tools/kcsan.rst url about KTSAN
-To: Marco Elver <elver@google.com>
-Cc: Dongliang Mu <dzm91@hust.edu.cn>, Dmitry Vyukov <dvyukov@google.com>,
- Jonathan Corbet <corbet@lwn.net>, hust-os-kernel-patches@googlegroups.com,
- kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240725174632.23803-1-tttturtleruss@hust.edu.cn>
- <a6285062-4e36-431e-b902-48f4bee620e0@hust.edu.cn>
- <CANpmjNOiMFUM8KxV8Gj_LTSbC_qLYSh+34Ma8gC1LFCgjtPRsA@mail.gmail.com>
- <bd647428-f74d-4f89-acd2-0a96c7f0478a@hust.edu.cn>
- <CANpmjNMHsbr=1+obzwGHcHT86fqpdPXOs-VayPmB8f2t=AmBbA@mail.gmail.com>
-From: Haoyang Liu <tttturtleruss@hust.edu.cn>
-In-Reply-To: <CANpmjNMHsbr=1+obzwGHcHT86fqpdPXOs-VayPmB8f2t=AmBbA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrADHJmzmT9dmEuJnBQ--.42941S2
-Authentication-Results: app1; spf=neutral smtp.mail=tttturtleruss@hust
-	.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxCrW7WFyDtw4fXr1fZr43Jrb_yoW5GF4rpF
-	1ruFyIkr4kJr13G342gw4vyFW8tF93tr4UX3WUJw1rXrnIvFn3tr42kw4F9FWDXryxCFW2
-	vF4UZa43Xw15AaUanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUm2b7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
-	z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAaw2AFwI
-	0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAq
-	x4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r4UJVWxJr1lYx0E74AGY7
-	Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1lOx8S6xCaFVCjc4AY6r1j
-	6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxAIw2
-	8IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AK
-	xVW8ZVWrXwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
-	AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI
-	42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMI
-	IF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVF
-	xhVjvjDU0xZFpf9x07jhhLnUUUUU=
-X-CM-SenderInfo: rxsqjiqrssiko6kx23oohg3hdfq/1tbiAQkJAmbWg7dAwQADsF
+References: <20240903-mips-rust-v1-0-0fdf0b2fd58f@flygoat.com>
+ <20240903-mips-rust-v1-3-0fdf0b2fd58f@flygoat.com> <CANiq72=z1yJm-B_ie=GfueOF1qksaSD9txgFU1YQo2tZx0qQPg@mail.gmail.com>
+ <d9591a84-9a0f-4046-9b2a-437061f6882b@app.fastmail.com>
+In-Reply-To: <d9591a84-9a0f-4046-9b2a-437061f6882b@app.fastmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 3 Sep 2024 20:17:04 +0200
+Message-ID: <CANiq72m5iFcqRU_qdUCZkoV8ayPhtQQq3TTEDRUYfMEsnNqTDg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] rust: Enable for MIPS
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Richard Weinberger <richard@nod.at>, 
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Alice Ryhl <aliceryhl@google.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>, 
+	Yanteng Si <siyanteng@loongson.cn>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-um@lists.infradead.org, 
+	rust-for-linux@vger.kernel.org, 
+	"linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-在 2024/9/4 2:01, Marco Elver 写道:
-> On Tue, 3 Sept 2024 at 19:58, Haoyang Liu <tttturtleruss@hust.edu.cn> wrote:
->>
->> 在 2024/7/26 16:38, Marco Elver 写道:
->>> On Fri, 26 Jul 2024 at 03:36, Dongliang Mu <dzm91@hust.edu.cn> wrote:
->>>> On 2024/7/26 01:46, Haoyang Liu wrote:
->>>>> The KTSAN doc has moved to
->>>>> https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md.
->>>>> Update the url in kcsan.rst accordingly.
->>>>>
->>>>> Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
->>>> Although the old link is still accessible, I agree to use the newer one.
->>>>
->>>> If this patch is merged, you need to change your Chinese version to
->>>> catch up.
->>>>
->>>> Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
->>>>
->>>>> ---
->>>>>     Documentation/dev-tools/kcsan.rst | 3 ++-
->>>>>     1 file changed, 2 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-tools/kcsan.rst
->>>>> index 02143f060b22..d81c42d1063e 100644
->>>>> --- a/Documentation/dev-tools/kcsan.rst
->>>>> +++ b/Documentation/dev-tools/kcsan.rst
->>>>> @@ -361,7 +361,8 @@ Alternatives Considered
->>>>>     -----------------------
->>>>>
->>>>>     An alternative data race detection approach for the kernel can be found in the
->>>>> -`Kernel Thread Sanitizer (KTSAN) <https://github.com/google/ktsan/wiki>`_.
->>>>> +`Kernel Thread Sanitizer (KTSAN)
->>>>> +<https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md>`_.
->>>>>     KTSAN is a happens-before data race detector, which explicitly establishes the
->>>>>     happens-before order between memory operations, which can then be used to
->>>>>     determine data races as defined in `Data Races`_.
->>> Acked-by: Marco Elver <elver@google.com>
->>>
->>> Do you have a tree to take your other patch ("docs/zh_CN: Add
->>> dev-tools/kcsan Chinese translation") through? If so, I would suggest
->>> that you ask that maintainer to take both patches, this and the
->>> Chinese translation patch. (Otherwise, I will queue this patch to be
->>> remembered but it'll be a while until it reaches mainline.)
->> Hi, Marco.
->>
->>
->> The patch "docs/zh_CN: Add dev-tools/kcsan Chinese translation" has been
->> applied, but they didn't take this one. How about you take it into your
->> tree?
-> I don't have a tree.
+On Tue, Sep 3, 2024 at 7:53=E2=80=AFPM Jiaxun Yang <jiaxun.yang@flygoat.com=
+> wrote:
 >
-> Since this is purely documentation changes, could Jon take it into the
-> Documentation tree?
-> Otherwise we have to ask Paul to take it into -rcu.
->
-> Thanks,
-> -- Marco
+> Thanks for your review!
 
-Ok, I will send this patch to Jon and see if he can take it.
+You're welcome!
 
+> Triples defined for MIPS bare-metal target is surprisingly lacking, we do=
+ have
+> little-endian 32-bit bare-metal target mipsel-unknown-none but big-endian=
+ and
+> 64 bit variants are missing.
 
-Thanks,
+Hmm... Sorry if this may be too naive, since I have no expertise on
+MIPS, but I see some triples that match the LLVM ones you specify in
+the patch:
 
-Haoyang
+    rustc --print target-list | grep mips
 
+> Also, those triples all assumed +mips32r2 as baseline ISA, but kernel act=
+ually needs
+> some other ISA variant features.
+
+I guess you mean you are getting the warning about the
+unknown/unstable feature passed to the backend? i.e. `rustc` knows
+about those LLVM ones and forwards them when enabled via
+`-Ctarget-feature` (with a warning):
+
+    rustc --target mips64-unknown-linux-gnuabi64 --print target-features
+
+So they would need to be added to the list at [1] (or targeted flags create=
+d).
+
+Until those do not emit a warning, it is fine using the `target.json`,
+but I wanted to understand if there is something else you may need,
+since we will need to eventually avoid the `target.json`, so it is
+best asking upstream as soon as possible.
+
+Thanks!
+
+[1] https://github.com/rust-lang/rust/blob/d6c8169c186ab16a3404cd0d08666740=
+18e8a19e/compiler/rustc_target/src/target_features.rs#L368
+
+Cheers,
+Miguel
