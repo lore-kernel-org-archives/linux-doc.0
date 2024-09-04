@@ -1,107 +1,211 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A461EBFEC;
-	Wed,  4 Sep 2024 20:20:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F38155324
+	for <linux-doc@vger.kernel.org>; Wed,  4 Sep 2024 21:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725481218; cv=none; b=HFE2OLyCbLjvOYCGuglkPCW2Y/v39mNMDTxhmOSLl6qH/FEZ6ELwLz5aE7dkPQql/v8NGrywKw0A0mKAptU+JyLV727wJejdOX4gI1tcGA8y22l+3lktUVIznSOvtwyCZB/jlxTY6N1ONGcuF6cuu1XC2y8DP579VFLItVdWb2A=
+	t=1725484069; cv=none; b=QM6x+dvj3JRKDOH7GiWGAIWW/whgoPVCKwM84QMrrgp2EB8GCuQe9sKyQBzno3SFwfPqF4v6DF9R5cyRGAXcuPJCTlPKtUan1eTHsOHKNtBPt/RaQ/CN0I4gikhaRJW0oMj2WHraPeC/sk6C3/L2jroiaxFitSkPvGDOnR1StE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725481218; c=relaxed/simple;
-	bh=AreiRYl4YMxl+1sotIvthQAw/hRlmJfOg8jh+NLyftE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=gQTLlWxFNt2inoMemTPDtPHn6YD2FzrAunsJm0jrnCNy+6qsQ9q0Xt/mZ2F+TsReR/0Qz0P74p4cDL2mZMMwLVET5gDobhlbrhGv9vujykhgg9LAbJVF+lZnk/pD6LLf561/KhU6yNCc8XTg3or3G0vjVxI6Nz69+Xna2o4RBXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iykJ4OQG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725484069; c=relaxed/simple;
+	bh=uqOzk7cpoKkEi2MG7rO8J+EGBTGB6GV6x/+HS5AP9MY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CwxkK3MygfFjEWWIS9KGdJFx2RUvIx5tY4XYGn9RYZQYdDpvZbVeNGcZKIAvUXo92LreXf5bCGN9yyZ38MA99f3cDeXSehoqxHLt2ra9GfTe8oPOXdRy9AWFfJxQpbQxxjdpYNzC2JomikYBIX/p+HPP40mTRtYhGUbwRiX040A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UfdzCB5s; arc=none smtp.client-ip=209.85.166.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iykJ4OQG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0C03C4CEC2;
-	Wed,  4 Sep 2024 20:20:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725481218;
-	bh=AreiRYl4YMxl+1sotIvthQAw/hRlmJfOg8jh+NLyftE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=iykJ4OQGXby6YoYFu7IWsK347j4YcGj6tQkIUm0IDHk8ao1mWNOozaxKCls1UcV2y
-	 q6yyH2yPvAY/KcvQzGEF/kG841xZgiayxEFDLtqQ1gFXg55dkCiP0WB8oV2My42jkM
-	 gdJjPS/H8uOcPOpXTCMRu0VgO3KSA4fNM/dhf5ICeusBDSQ4QhAgZGKHJZcD+wK48M
-	 l2bYx7NzcG81sPdSKLU4QnzZknFc/qT3ndKBH527BB9ItLmjVS3l5FD+gJvREWX1ye
-	 hsqLSy0+IcTMP4YR1LwbkxYog8Nc2gxUokd2daA6uf6P1dTfI336ESTEv7oTzmJ3pN
-	 LzIUgKRYEGLpg==
-Date: Wed, 4 Sep 2024 15:20:16 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Wei Huang <wei.huang2@amd.com>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-	Jonathan.Cameron@huawei.com, corbet@lwn.net, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	alex.williamson@redhat.com, gospo@broadcom.com,
-	michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
-	somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
-	manoj.panicker2@amd.com, Eric.VanTassell@amd.com,
-	vadim.fedorenko@linux.dev, horms@kernel.org, bagasdotme@gmail.com,
-	bhelgaas@google.com, lukas@wunner.de, paul.e.luse@intel.com,
-	jing2.liu@intel.com
-Subject: Re: [PATCH V4 00/12] PCIe TPH and cache direct injection support
-Message-ID: <20240904202016.GA345873@bhelgaas>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UfdzCB5s"
+Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-39d3ad05f8eso19565ab.1
+        for <linux-doc@vger.kernel.org>; Wed, 04 Sep 2024 14:07:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1725484067; x=1726088867; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=w42R7BNbzfV9m9Ak5XplqSqEhc1UT4kjpkgNMP3MoEY=;
+        b=UfdzCB5sHb6PJvB65wMCgLjR9cZnYete4t2lk0uR6fZBMaOJtgwrlFFa3SbMr/WuOp
+         2GkLviVRZyPS/EIssHzblOE3O4kgS0FbnopapRAjsRkR5AD4sAoepzD4lVEwr0Jl3jdh
+         GEV28fmd2xrV5u8vcw1tRr9koP30wMBWgsCoG32FjiGbngdNvFo3nbC/EMzEwewNckmO
+         y3re6TxfUehlRWcPUs8pjqUUJc8zVzr7+T9iyVLaQS1U4OEsPtLs8CpxpORAEWv7od8f
+         VioXN5x16Nzd61oRaAH+KDSZyr3O4KQtN9DRrU7v0MFnD1KdOqau9AXpcDOSBkRMSD20
+         tF/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725484067; x=1726088867;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=w42R7BNbzfV9m9Ak5XplqSqEhc1UT4kjpkgNMP3MoEY=;
+        b=L4GcQatDR8NtJe0sAVvYp321NJWJKop+zbNOTwvH0KQ3zrsskYi4CuCozs9T4/NMpx
+         ZUTc4t1MTFy88zm/6G42zvjp+kcnm+Aa/tWoWEagZ5W+IYYu1/QS/cFLxXSj33oE96ZI
+         6cCm53Fv4CSxax2+yvty6888YgJgHHb+4XRBRBgrCZPl2xmYq1aG24ZySn41OICGEMo5
+         NFsCYJVIuy6vHdHR0rdC9dZznmKQNUl740IBLTuR75lFT6g3baOAH6aiD2077J49cEnv
+         6MAw3MgK97Fz3Up3koW2MkQbpXwQ111scITU1NCXS9ix6qOoiBr0g74vnYU9fYBaVX2O
+         W2EQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWHfL6jvbVzrV5ytYQ/xBZdLipprfVCLSG8ARwo+stKFg2PlLz039NdAuKrEi70NXWNK98YzacJOF8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFTjT0KS7zAbTMoigXh25wTOqDBB1h96lYD/WCjknJfqppYuqd
+	AWX+fQFiE3B76AyVIlqq9XeqF+i/xKVXRO6jsd0IAwYfWQhJoCDAaRhRoWzovKT3LipCUkbjy6r
+	bfzr2GdklG1PW3Rs9MA54Ub4WnBJzg9oUQv1D
+X-Google-Smtp-Source: AGHT+IGl61F4f0ftYFMGsiQbwYzHE/z5H02ZJShnK57l4cZ0n0C26unhLmoZ1lt/9kS0S1twnCdNwstxD7QTkD9leS4=
+X-Received: by 2002:a05:6e02:194e:b0:377:14ab:42ea with SMTP id
+ e9e14a558f8ab-3a047199bb8mr996875ab.16.1725484066426; Wed, 04 Sep 2024
+ 14:07:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240822204120.3634-1-wei.huang2@amd.com>
+References: <20240902044128.664075-1-surenb@google.com> <20240902044128.664075-7-surenb@google.com>
+ <20240901221636.5b0af3694510482e9d9e67df@linux-foundation.org>
+ <CAJuCfpGNYgx0GW4suHRzmxVH28RGRnFBvFC6WO+F8BD4HDqxXA@mail.gmail.com>
+ <47c4ef47-3948-4e46-8ea5-6af747293b18@nvidia.com> <70ef75d9-a573-4989-9a9d-c8bc087f212b@nvidia.com>
+ <CAJuCfpEQLDW1A7EX8LAcaRYdxKYBvP1E1cmYDoFXrG_V+AXv+g@mail.gmail.com> <c55739ec-3f0c-4f37-ad86-fe337d71d5a2@nvidia.com>
+In-Reply-To: <c55739ec-3f0c-4f37-ad86-fe337d71d5a2@nvidia.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Wed, 4 Sep 2024 14:07:31 -0700
+Message-ID: <CAJuCfpH_BSiQiNyUs8Jx3WZHmEELW3_NESi8ii0XCQR_x+gxNg@mail.gmail.com>
+Subject: Re: [PATCH v2 6/6] alloc_tag: config to store page allocation tag
+ refs in page flags
+To: John Hubbard <jhubbard@nvidia.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, kent.overstreet@linux.dev, corbet@lwn.net, 
+	arnd@arndb.de, mcgrof@kernel.org, rppt@kernel.org, paulmck@kernel.org, 
+	thuth@redhat.com, tglx@linutronix.de, bp@alien8.de, 
+	xiongwei.song@windriver.com, ardb@kernel.org, david@redhat.com, 
+	vbabka@suse.cz, mhocko@suse.com, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
+	pasha.tatashin@soleen.com, souravpanda@google.com, keescook@chromium.org, 
+	dennis@kernel.org, yuzhao@google.com, vvvvvv@google.com, rostedt@goodmis.org, 
+	iamjoonsoo.kim@lge.com, rientjes@google.com, minchan@google.com, 
+	kaleshsingh@google.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 22, 2024 at 03:41:08PM -0500, Wei Huang wrote:
-> Hi All,
-> 
-> TPH (TLP Processing Hints) is a PCIe feature that allows endpoint
-> devices to provide optimization hints for requests that target memory
-> space. These hints, in a format called steering tag (ST), are provided
-> in the requester's TLP headers and allow the system hardware, including
-> the Root Complex, to optimize the utilization of platform resources
-> for the requests.
+On Wed, Sep 4, 2024 at 11:58=E2=80=AFAM 'John Hubbard' via kernel-team
+<kernel-team@android.com> wrote:
+>
+> On 9/4/24 9:08 AM, Suren Baghdasaryan wrote:
+> > On Tue, Sep 3, 2024 at 7:06=E2=80=AFPM 'John Hubbard' via kernel-team
+> > <kernel-team@android.com> wrote:
+> >> On 9/3/24 6:25 PM, John Hubbard wrote:
+> >>> On 9/3/24 11:19 AM, Suren Baghdasaryan wrote:
+> >>>> On Sun, Sep 1, 2024 at 10:16=E2=80=AFPM Andrew Morton <akpm@linux-fo=
+undation.org> wrote:
+> >>>>> On Sun,  1 Sep 2024 21:41:28 -0700 Suren Baghdasaryan <surenb@googl=
+e.com> wrote:
+> ...
+> >> The configuration should disable itself, in this case. But if that is
+> >> too big of a change for now, I suppose we could fall back to an error
+> >> message to the effect of, "please disable CONFIG_PGALLOC_TAG_USE_PAGEF=
+LAGS
+> >> because the kernel build system is still too primitive to do that for =
+you". :)
+> >
+> > I don't think we can detect this at build time. We need to know how
+> > many page allocations there are, which we find out only after we build
+> > the kernel image (from the section size that holds allocation tags).
+> > Therefore it would have to be a post-build check. So I think the best
+> > we can do is to generate the error like the one you suggested after we
+> > build the image.
+> > Dependency on CONFIG_PAGE_EXTENSION is yet another complexity because
+> > if we auto-disable CONFIG_PGALLOC_TAG_USE_PAGEFLAGS, we would have to
+> > also auto-enable CONFIG_PAGE_EXTENSION if it's not already enabled.
+> >
+> > I'll dig around some more to see if there is a better way.
+> >>
+> >>>> - If there are enough unused bits but we have to push last_cpupid ou=
+t
+> >>>> of page flags, we issue a warning and continue. The user can disable
+> >>>> CONFIG_PGALLOC_TAG_USE_PAGEFLAGS if last_cpupid has to stay in page
+> >>>> flags.
+> >>
+> >> Let's try to decide now, what that tradeoff should be. Just pick one b=
+ased
+> >> on what some of us perceive to be the expected usefulness and frequenc=
+y of
+> >> use between last_cpuid and these tag refs.
+> >>
+> >> If someone really needs to change the tradeoff for that one bit, then =
+that
+> >> someone is also likely able to hack up a change for it.
+> >
+> > Yeah, from all the feedback, I realize that by pursuing the maximum
+> > flexibility I made configuring this mechanism close to impossible. I
+> > think the first step towards simplifying this would be to identify
+> > usable configurations. From that POV, I can see 3 useful modes:
+> >
+> > 1. Page flags are not used. In this mode we will use direct pointer
+> > references and page extensions, like we do today. This mode is used
+> > when we don't have enough page flags. This can be a safe default which
+> > keeps things as they are today and should always work.
+>
+> Definitely my favorite so far.
+>
+> > 2. Page flags are used but not forced. This means we will try to use
+> > all free page flags bits (up to a reasonable limit of 16) without
+> > pushing out last_cpupid.
+>
+> This is a logical next step, agreed.
+>
+> > 3. Page flags are forced. This means we will try to use all free page
+> > flags bits after pushing last_cpupid out of page flags. This mode
+> > could be used if the user cares about memory profiling more than the
+> > performance overhead caused by last_cpupid.
+> >
+> > I'm not 100% sure (3) is needed, so I think we can skip it until
+> > someone asks for it. It should be easy to add that in the future.
+>
+> Right.
+>
+> > If we detect at build time that we don't have enough page flag bits to
+> > cover kernel allocations for modes (2) or (3), we issue an error
+> > prompting the user to reconfigure to mode (1).
+> >
+> > Ideally, I would like to have (2) as default mode and automatically
+> > fall back to (1) when it's impossible but as I mentioned before, I
+> > don't yet see a way to do that automatically.
+> >
+> > For loadable modules, I think my earlier suggestion should work fine.
+> > If a module causes us to run out of space for tags, we disable memory
+> > profiling at runtime and log a warning for the user stating that we
+> > disabled memory profiling and if the user needs it they should
+> > configure mode (1). I *think* I can even disable profiling only for
+> > that module and not globally but I need to try that first.
+> >
+> > I can start with modes (1) and (2) support which requires only
+> > CONFIG_PGALLOC_TAG_USE_PAGEFLAGS defaulted to N. Any user can try
+> > enabling this config and if that builds fine then keeping it for
+> > better performance and memory usage. Does that sound acceptable?
+> > Thanks,
+> > Suren.
+> >
+>
+> How badly do we need (2)? Because this is really expensive:
+>
+>     a) It adds complexity to a complex,delicate core part of mm.
+>
+>     b) It adds constraints, which prevent possible future features.
+>
+> It's not yet clear that (2) is valuable enough (compared to (1))
+> to compensate, at least from what I've read. Unless I missed
+> something big.
 
-> Paul Luse (1):
->   PCI/TPH: Add save/restore support for TPH
-> 
-> Wei Huang (9):
->   PCI: Introduce PCIe TPH support framework
->   PCI: Add TPH related register definition
->   PCI/TPH: Add pcie_tph_modes() to query TPH modes
->   PCI/TPH: Add pcie_enable_tph() to enable TPH
->   PCI/TPH: Add pcie_disable_tph() to disable TPH
->   PCI/TPH: Add pcie_tph_enabled() to check TPH state
->   PCI/TPH: Add pcie_tph_set_st_entry() to set ST tag
->   PCI/TPH: Add pcie_tph_get_cpu_st() to get ST tag
->   PCI/TPH: Add pci=nostmode to force TPH No ST Mode
+(1) is what we already have today.
+(2) would allow us to drop page_ext dependency, so there is
+considerable memory saving and performance improvement (no need to
+lookup the page extension on each tag reference). The benefits are
+described in the cover letter at:
+https://lore.kernel.org/all/20240902044128.664075-1-surenb@google.com/.
 
-To me, this series would make more sense if we squashed these
-together:
 
-  PCI: Introduce PCIe TPH support framework
-  PCI: Add TPH related register definition
-  PCI/TPH: Add pcie_enable_tph() to enable TPH
-  PCI/TPH: Add pcie_disable_tph() to disable TPH
-  PCI/TPH: Add save/restore support for TPH
-
-These would add the "minimum viable functionality", e.g., enable TPH
-just for Processing Hints, with no Steering Tag support at all.  Would
-also include "pci=notph".
-
-  PCI/TPH: Add pcie_tph_set_st_entry() to set ST tag
-  PCI/TPH: Add pcie_tph_get_cpu_st() to get ST tag
-
-And squash these also to add Steering Tag support in a single commit,
-including enhancing the save/restore.
-
-  PCI/TPH: Add pcie_tph_modes() to query TPH modes
-  PCI/TPH: Add pcie_tph_enabled() to check TPH state
-
-And maybe we can get away without these altogether.  I mentioned
-pcie_tph_modes() elsewhere; seems possibly unnecessary since drivers
-can just request the mode they want and we'll fail if it's not
-supported.
-
-Drivers should also be able to remember whether they enabled TPH
-successfully without us having to remind them.
+>
+>
+> thanks,
+> --
+> John Hubbard
+>
+> To unsubscribe from this group and stop receiving emails from it, send an=
+ email to kernel-team+unsubscribe@android.com.
+>
