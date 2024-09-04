@@ -1,162 +1,130 @@
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F0B39B;
-	Wed,  4 Sep 2024 00:57:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C7763D
+	for <linux-doc@vger.kernel.org>; Wed,  4 Sep 2024 01:07:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725411454; cv=none; b=fZCCqykurcnbvktlZtnyJ/vLF2p68uQlvgv9B8OsOGrayHLvhYaXH7E3YkCfzuJo8UzQI97VGzTiP4Qp4nyficwZgTmLr19TYVGdhmWpflN2h6iE1d0Eh0/3RaQQUKRWydl2e1vgf3vWb20rl1kzQPxfJ4tbnTXGXpAYXUcN7DE=
+	t=1725412064; cv=none; b=M0TGZ6JBJ0yBsFNLG5I8vw5/if0WCXhmfUupz1xKPpx6TjbSyqUXYIlAgtW0c9bM9NyhCKdUWboFmmwPrh1IKcAOshpWpIA4c6eKM0aLT0JiJkB5rj14kMB5oLwn8QrhX0XiHb/FbDnjah146OQidnrRJEsbj6Afws+80dQ/cII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725411454; c=relaxed/simple;
-	bh=8JvvfwcxoZGT5zbfnSHoqeDfuTlwgxPyBi8lhPLLp8s=;
+	s=arc-20240116; t=1725412064; c=relaxed/simple;
+	bh=DX5NSZHC7V9EGffvDIQaVtzuppthSm2cBnyQmbw3uR0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uF+BSn9KGsTLmim3PODOt4bnkiIq7XrrCwHtloNxYtJO6jv91fSz6KJc7qfzj3ErNmaT8eF1Cuw5N8ZVl7Cz3UCURshi06lAcGSenBLZa5BIQRg2Nnl8dQozGMhglJJg6BB3ybjwE9095GgwZYFxlQYuz/mXtw7PjTvuM9q4JUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CS8iyWu5; arc=none smtp.client-ip=209.85.161.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=ZLgWz8jETXShRRETXG8dpN//NSIsJ3bBknag+RkF2f7Ey+fZs5xqSSUEm69uoNZnLNl+SgOIn8v1RT6QRDeg7mcrIChFs8zjqwtNcYLSs3vqif93rkpOv2oZ200BFx+3DfAoJjwmDx2mBIVbLlU25wn5e+e0OF0of8Fayjojvuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VzhWyZSg; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CS8iyWu5"
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5de8b17db8dso3574633eaf.2;
-        Tue, 03 Sep 2024 17:57:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VzhWyZSg"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2056aa5cefcso53745ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 03 Sep 2024 18:07:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725411452; x=1726016252; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1725412062; x=1726016862; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7gdWZihFLmXnMT6aCYKGEU34zWd8T6tn0I3DQDEBdks=;
-        b=CS8iyWu5V65nwVZInmTjaj089uNmQz+16rnbP2jRXeDa1uRyE9FflJCHWxybPL2WSc
-         WcQ4faVxgxYe45ViVhG5kQzNimshlw5ipAWhHYyIQXr3PuyIDgUJbzyZwaIgiHfqhRdB
-         68FnE5UXkH328M0wEjIngO4WyCqEnbOhSIiZ2Zs7kgCDuk3ySUjE/0Cw0NPObKYmcaOJ
-         l1NrD4/Dbdr8pHL6MXDU80DJeRl/ekul07Mhrc5PslGcvbbaysZMuWEDj4l56Az8324R
-         p1UOVXiAyM840UVooLGTAS2o/NOn7ydZQhSdU/hjKAc06QkXb/SYXDEYr67zc0627cKr
-         ps9w==
+        bh=aiMCdeWSF+tl7YGOAELZGKbNlcDS1t44j3ggjkwtiLI=;
+        b=VzhWyZSgaDy2et+aRhDn3RP/F06NPFUNlPl7Lqc9tLf/BuosBQXOVmpR3OuKZKxA7W
+         fmoZZF6mDmPFyu0xnBqrC/WsOHBtHAS6DXsTW4+6pzmbVQ1FRM3F488YEQ9UO7ZW1nlP
+         KYQXwqJXbuYPsWVVtgdtGhYu59hnGv6THNE6Se5Cfun/Vk4ycAGQjToY06CLTAKOu0Qm
+         pxqMJO1/cRgvLYjE9htMhfcHEBdjlLRpcC8+wwCdyt115uX6BJTcznDM9+eLrmyEOJWp
+         sN/XxjLF5aDNB1gOLzGHPOi9vJJvMCazisXhQCb2JSkfa1xpHzBkERNosWhNNfUAQv/j
+         /gNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725411452; x=1726016252;
+        d=1e100.net; s=20230601; t=1725412062; x=1726016862;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7gdWZihFLmXnMT6aCYKGEU34zWd8T6tn0I3DQDEBdks=;
-        b=sg0alAXDAfaJfxMCmtrYK+Q+keTrQvx5ctlsEftX07yNBO6U8KLmxaTaM29jtxxdF/
-         ceMmuuL8wPnwNuuhQfAuGCprxHhlvRa+HleM8Vl8InykArGl2SUCx4zrvEq2WzQyp3e1
-         rE1idQFipbAlREA+dPeAvp21HA3wwg6itRrHt4o7RKXw5DqIpVmUyRxaJoseV5LVhkOm
-         cTW4EfN1sVxxmsA/uVb+c0p9UPMMKq/z0+TOD0a+cVeejp+G/lEF77Feyd/WQhE7e6N6
-         nhF2i7Apnhlsxh9RHRmYJ5dl2OV7X9Xt3oMGtRTWC7DJ7GdUNnTLTdGJBDs85V5/luw9
-         jz4w==
-X-Forwarded-Encrypted: i=1; AJvYcCUjRV4cDANIuWvyRiAJu6UXQ70k+5gWOD3B9PL8Ce1t6wRs6wRUzyYdChCqE5xHl4dqtQnWyeWqIyE=@vger.kernel.org, AJvYcCUtFvqJfOgNrOSsp3cRMeRkGNl22QuxxWZI49fcouytjpmouFcijhVyvp/gheFJI7yUr41WYNJNoXmAWnCx@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZ/s+sEKjDSz+N24KUjhOZqcMn9/AssoDDrLZTQNQgXIJoYIS7
-	gQ/9x7CStVOdg/rdTOl5v/a/JlyPCmJP9t7rma0LCVJ5RCIyXWQ6DwgqimrB4QaEHZpse6nRukx
-	mqEyNkBIwyxOO6jPqLsaqdMNWaUE=
-X-Google-Smtp-Source: AGHT+IH8LhzXuBDtphoV66oRGm71mpDc1Mo8k86cqV9gx9VexIPPk0UFLHgoaLEjrPALjrLNXfGVRqtzHKIpE5LtVW8=
-X-Received: by 2002:a05:6871:8ab:b0:270:1f1e:e3ea with SMTP id
- 586e51a60fabf-2779013e567mr23407349fac.28.1725411452015; Tue, 03 Sep 2024
- 17:57:32 -0700 (PDT)
+        bh=aiMCdeWSF+tl7YGOAELZGKbNlcDS1t44j3ggjkwtiLI=;
+        b=jxAoSdktjn8kXtcPh+eLk3Pwo2ZsflAr9Al60AQpmJa7qrNyEWPHAUVkiYHlh5tGxZ
+         LfDMs1iaAZ0PXWKVVw3PYgV+3pPC01jRVuKSkPMRMihYYnPAh1h2EMRpzLLqjMKDsvsA
+         auVPsYpyxuJYKfwbTFQJ9FQZzl00FHmmryDH2lpQttUg1G1oD3aaiOzOx/A37zbPxSfH
+         XV9d9wcOrTAKHNrsFkmrkGgerYU436bZ+899ECST7RX9MKRUef5Pk6Yx8NXl3ZCc7yIZ
+         nrekBZEFcAV9Vd1tUAcF56h1B9IeWiR6jpV7NMfV4U2TR8Ow9/CuoTQ4TpV9w4y0xsL4
+         dUfw==
+X-Forwarded-Encrypted: i=1; AJvYcCUmBJw7QKf26YWWrRb0I8tleJuJh1CHdJMQn3CawCMMxQJNpL8jdtvVQJx5Iz0teH0bBd5hkTBKeDs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfGdFtWr1O45Otl/mQhkFGOJUUCutrhPqEJG0cYqmEd0gcLV+i
+	e2uU0sRbjhpylYHhj64aLgpUTgQryABulxXoD5pFbl+6xI3APckD8eBA2NWB4IB4mPCDG2bwgqZ
+	IUdyxPhIFlXHDCZQBMaYW4XXF2aSdRpVkUm17
+X-Google-Smtp-Source: AGHT+IHMZ7W6FQKnT8cNzSPAoQtVn4rXVv70QDuyzkhCB6YXblkNORpk0oIaHX18vr/BWumo0bGcKw60Ta+8WLK79nY=
+X-Received: by 2002:a17:902:c412:b0:206:9e8f:7cb with SMTP id
+ d9443c01a7336-206b070e38cmr1640645ad.2.1725412061797; Tue, 03 Sep 2024
+ 18:07:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240725174632.23803-1-tttturtleruss@hust.edu.cn>
- <a6285062-4e36-431e-b902-48f4bee620e0@hust.edu.cn> <CANpmjNOiMFUM8KxV8Gj_LTSbC_qLYSh+34Ma8gC1LFCgjtPRsA@mail.gmail.com>
- <bd647428-f74d-4f89-acd2-0a96c7f0478a@hust.edu.cn> <CANpmjNMHsbr=1+obzwGHcHT86fqpdPXOs-VayPmB8f2t=AmBbA@mail.gmail.com>
- <241be3d1-2630-471f-9c04-3b4004b5d832@hust.edu.cn>
-In-Reply-To: <241be3d1-2630-471f-9c04-3b4004b5d832@hust.edu.cn>
-From: Dongliang Mu <mudongliangabcd@gmail.com>
-Date: Wed, 4 Sep 2024 08:57:05 +0800
-Message-ID: <CAD-N9QXVY8iKd6uMakpvfvRNSiKec+GtjJ9k3sic8GyqEMXe-w@mail.gmail.com>
-Subject: Re: [PATCH] docs: update dev-tools/kcsan.rst url about KTSAN
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Marco Elver <elver@google.com>, Dongliang Mu <dzm91@hust.edu.cn>, 
-	Dmitry Vyukov <dvyukov@google.com>, Haoyang Liu <tttturtleruss@hust.edu.cn>, 
-	hust-os-kernel-patches@googlegroups.com, kasan-dev@googlegroups.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240902044128.664075-1-surenb@google.com> <20240902044128.664075-6-surenb@google.com>
+ <20240901220931.53d3ad335ae9ac3fe7ef3928@linux-foundation.org>
+In-Reply-To: <20240901220931.53d3ad335ae9ac3fe7ef3928@linux-foundation.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Tue, 3 Sep 2024 18:07:28 -0700
+Message-ID: <CAJuCfpHL04DyQn5WLz0GZ_zMYyg1b6UwKd_+8DSko843uSk7Ww@mail.gmail.com>
+Subject: Re: [PATCH v2 5/6] alloc_tag: make page allocation tag reference size configurable
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: kent.overstreet@linux.dev, corbet@lwn.net, arnd@arndb.de, 
+	mcgrof@kernel.org, rppt@kernel.org, paulmck@kernel.org, thuth@redhat.com, 
+	tglx@linutronix.de, bp@alien8.de, xiongwei.song@windriver.com, 
+	ardb@kernel.org, david@redhat.com, vbabka@suse.cz, mhocko@suse.com, 
+	hannes@cmpxchg.org, roman.gushchin@linux.dev, dave@stgolabs.net, 
+	willy@infradead.org, liam.howlett@oracle.com, pasha.tatashin@soleen.com, 
+	souravpanda@google.com, keescook@chromium.org, dennis@kernel.org, 
+	jhubbard@nvidia.com, yuzhao@google.com, vvvvvv@google.com, 
+	rostedt@goodmis.org, iamjoonsoo.kim@lge.com, rientjes@google.com, 
+	minchan@google.com, kaleshsingh@google.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kernel-team@android.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 4, 2024 at 2:05=E2=80=AFAM Haoyang Liu <tttturtleruss@hust.edu.=
-cn> wrote:
+On Sun, Sep 1, 2024 at 10:09=E2=80=AFPM Andrew Morton <akpm@linux-foundatio=
+n.org> wrote:
 >
+> On Sun,  1 Sep 2024 21:41:27 -0700 Suren Baghdasaryan <surenb@google.com>=
+ wrote:
 >
-> =E5=9C=A8 2024/9/4 2:01, Marco Elver =E5=86=99=E9=81=93:
-> > On Tue, 3 Sept 2024 at 19:58, Haoyang Liu <tttturtleruss@hust.edu.cn> w=
-rote:
-> >>
-> >> =E5=9C=A8 2024/7/26 16:38, Marco Elver =E5=86=99=E9=81=93:
-> >>> On Fri, 26 Jul 2024 at 03:36, Dongliang Mu <dzm91@hust.edu.cn> wrote:
-> >>>> On 2024/7/26 01:46, Haoyang Liu wrote:
-> >>>>> The KTSAN doc has moved to
-> >>>>> https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md.
-> >>>>> Update the url in kcsan.rst accordingly.
-> >>>>>
-> >>>>> Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
-> >>>> Although the old link is still accessible, I agree to use the newer =
-one.
-> >>>>
-> >>>> If this patch is merged, you need to change your Chinese version to
-> >>>> catch up.
-> >>>>
-> >>>> Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
-> >>>>
-> >>>>> ---
-> >>>>>     Documentation/dev-tools/kcsan.rst | 3 ++-
-> >>>>>     1 file changed, 2 insertions(+), 1 deletion(-)
-> >>>>>
-> >>>>> diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-=
-tools/kcsan.rst
-> >>>>> index 02143f060b22..d81c42d1063e 100644
-> >>>>> --- a/Documentation/dev-tools/kcsan.rst
-> >>>>> +++ b/Documentation/dev-tools/kcsan.rst
-> >>>>> @@ -361,7 +361,8 @@ Alternatives Considered
-> >>>>>     -----------------------
-> >>>>>
-> >>>>>     An alternative data race detection approach for the kernel can =
-be found in the
-> >>>>> -`Kernel Thread Sanitizer (KTSAN) <https://github.com/google/ktsan/=
-wiki>`_.
-> >>>>> +`Kernel Thread Sanitizer (KTSAN)
-> >>>>> +<https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md>=
-`_.
-> >>>>>     KTSAN is a happens-before data race detector, which explicitly =
-establishes the
-> >>>>>     happens-before order between memory operations, which can then =
-be used to
-> >>>>>     determine data races as defined in `Data Races`_.
-> >>> Acked-by: Marco Elver <elver@google.com>
-> >>>
-> >>> Do you have a tree to take your other patch ("docs/zh_CN: Add
-> >>> dev-tools/kcsan Chinese translation") through? If so, I would suggest
-> >>> that you ask that maintainer to take both patches, this and the
-> >>> Chinese translation patch. (Otherwise, I will queue this patch to be
-> >>> remembered but it'll be a while until it reaches mainline.)
-> >> Hi, Marco.
-> >>
-> >>
-> >> The patch "docs/zh_CN: Add dev-tools/kcsan Chinese translation" has be=
-en
-> >> applied, but they didn't take this one. How about you take it into you=
-r
-> >> tree?
-> > I don't have a tree.
+> > Introduce CONFIG_PGALLOC_TAG_REF_BITS to control the size of the
+> > page allocation tag references. When the size is configured to be
+> > less than a direct pointer, the tags are searched using an index
+> > stored as the tag reference.
 > >
-> > Since this is purely documentation changes, could Jon take it into the
-> > Documentation tree?
-> > Otherwise we have to ask Paul to take it into -rcu.
+> > ...
 > >
-> > Thanks,
-> > -- Marco
+> > +config PGALLOC_TAG_REF_BITS
+> > +     int "Number of bits for page allocation tag reference (10-64)"
+> > +     range 10 64
+> > +     default "64"
+> > +     depends on MEM_ALLOC_PROFILING
+> > +     help
+> > +       Number of bits used to encode a page allocation tag reference.
+> > +
+> > +       Smaller number results in less memory overhead but limits the n=
+umber of
+> > +       allocations which can be tagged (including allocations from mod=
+ules).
+> > +
 >
-> Ok, I will send this patch to Jon and see if he can take it.
+> In other words, "we have no idea what's best for you, you're on your
+> own".
+>
+> I pity our poor users.
+>
+> Can we at least tell them what they should look at to determine whether
+> whatever random number they chose was helpful or harmful?
 
-Hi Jon,
+At the end of my reply in
+https://lore.kernel.org/all/CAJuCfpGNYgx0GW4suHRzmxVH28RGRnFBvFC6WO+F8BD4HD=
+qxXA@mail.gmail.com/#t
+I suggested using all unused page flags. That would simplify things
+for the user at the expense of potentially using more memory than we
+need. In practice 13 bits should be more than enough to cover all
+kernel page allocations with enough headroom for page allocations
+coming from loadable modules. I guess using 13 as the default would
+cover most cases. In the unlikely case a specific system needs more
+tags, the user can increase this value. It can also be set to 64 to
+force direct references instead of indexing for better performance.
+Would that approach be acceptable?
 
-Could you please take this patch to lwn tree maintained by you?
-
-P.S., it seems Jon is in the cc list previously.
-
->
->
-> Thanks,
->
-> Haoyang
->
 >
