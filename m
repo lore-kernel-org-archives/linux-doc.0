@@ -1,116 +1,105 @@
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F90D15B555;
-	Wed,  4 Sep 2024 19:32:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B014D1E6321;
+	Wed,  4 Sep 2024 19:40:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725478352; cv=none; b=e/43Xk+EQja+n89ki31bnwlMwy+LYUq8Favu+mfbUglojMALJ50ZPUm29XMApIlW9LDz8HZBCmA1UM1llJE9ied4BRvWvJ+CuMtXJA/L1t7NC/SbbvDsoDgXdnpzCocYWGoMKlcCTP6LoS4i+ElQ1+juW06px6KxgkU56d6jIqs=
+	t=1725478854; cv=none; b=m7bYS+n9SOyU86Oz4qyqB+yGNxmpOyqlMyceUbbQUn2vrcUlVJOsmI2Hor4paEPMRBzYpO0dnL+buJBiqLKoL72Y/C7STye7rDjfGh/Jj2QhmfjPX6fqrFesRT8AfA2OJk/LATxGbaqxyLBzudAMfutW0+LREoDYZshcaT0sVus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725478352; c=relaxed/simple;
-	bh=PyQrDfXI4pIKyfzh+YcSygARqjBWQaMniKKisbOo8oQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LPw0FY08YlE30jSuuoDUbmDI4hXpI0+9QPu5yOiRWYebpmej2Ez7TEXNNhFhX8pCYm1UkkyaclbX9vmWeDzhXRMtrrPoa28i4+DFP3v4guoy28vTNTaJzjo4JI623sJUp3MKSgIWGjODqxIJYpnadX+9JUEoT3338FmB6HBhjSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G1ykBlfb; arc=none smtp.client-ip=209.85.219.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1725478854; c=relaxed/simple;
+	bh=bQK+yFu5fRg8+syHRGxnt1pzKtg69U9NOvqBoa1Brlw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=Q5AbebltciRKsY7/5AZzdAUH9bvQAx9+iX1Ci3MNPLgiYAm6eyZwSwtAIv+Z+3Hjdeko1/0to2m8jATEmq0yn509D9xvzhl4h/+De5I7c0s9j1IzHZCvN/0J44wZY8/BFyTGc6YlFq3Uboagjso29vx+t9Hn97i9L4pzb+ySGu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RbgTmhu1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G1ykBlfb"
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6c35427935eso29383516d6.3;
-        Wed, 04 Sep 2024 12:32:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725478350; x=1726083150; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UQs3zpvLguyufYMw2L58yxG9r/VbEIBK+iwTQGmJNWY=;
-        b=G1ykBlfb7wtJ7vzSlemTTVucSO5PXduzqLp2+Jsyfeif7306HT3AstSxb1S/rjx32C
-         0wr2kNISp7zxldOLdvq5SflqU0LUTh59WULJJAXotAIhfA2RBe5i5+OrLwd3JFkegjy1
-         un9TflTYqfP5jRf2j+vw4HLOpRQlBQr18We2g+1z8/3oUwTVZ0Pqug66x04WcU3pZ+j/
-         KV9xzeDNrhOAYTiV4kZIW9G3KpvvHvJ2YZ9gfBUzOQvWeYKBF5h49vqQVUStcWj8rqR3
-         fnUPyupgawYh6CP3AnODdiZw60bdnmzWb++T0mtJxxRt54oCWnQCbsDy88Z37TVRkTbU
-         jKSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725478350; x=1726083150;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UQs3zpvLguyufYMw2L58yxG9r/VbEIBK+iwTQGmJNWY=;
-        b=rZLKz+ALHljXJCUCAMtDPWYE+ZOvzwYIO6mx3fy7XIrMrbLINyrXYTnsZhcHk3YEOT
-         PQAE3bs/eoYEFcOPoZiMpEqVuVJGasG6GchRCIWaT7Nh1Vqt0RDq5R0y7UYkuYpQyiRj
-         9ogMF23IPu0ZwvyzfrGVy6DM6Z+mkLSL9hFSP4bJ4dmoFAAhN+2a7VfzYKWrkaUnzKcI
-         IP3SGIspqE6j5hBxKGXROGDI8Dy6mHiiXBFVPGyqNpqxSfBfpJZreXMkaF/30bZzl42J
-         kZl39RDzmjUonfRIWQsF5Qd/+2k9fUxFrw7cyvhKIPnKBZkjgs3lPMt4vZBJLV3X5sLs
-         7/mg==
-X-Forwarded-Encrypted: i=1; AJvYcCU/g1YN/ZNqfYR+tmHMa+pQogPikuX8q3Ab9HUTe36AxzRGJKcvNlG1aeFSvibobLpSQ718Rcx8qBMUBhorYg==@vger.kernel.org, AJvYcCUWpCxibm9XPN7OkWA1g0Sas4eKvqNbCk5Rg5nHJGUUC8Dz6riPdlp02t4qJTSa1lbjf5++UpAbHvKElwT1@vger.kernel.org, AJvYcCVwIDmpnh1ciQRcaeJyRATkYZ8pz0KCTxodUEaF3aUra4nJmm8cDvG63DFa2UD4s6tWtcr9Myf2GWY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9hhaH3Wp6Pru8qYDzsemFXa3+VWcUI0v6DcmDp5RjCcSiLVDN
-	Fm15oXcTpT6pwp6r+TwSSXXHVCjm6G2FpVShYuo0X9Wj4JnfPCM3RS3hlwaqde0Yby5AGxUypOF
-	71TXn1PPUMrP/gbLWcpfvEyNCndw=
-X-Google-Smtp-Source: AGHT+IGRHjuOzYuw5iOar6gfXgnmHzCjlMooE6P9uwZGw4HYM+s7dZ/ezw4PlCGXkIkz6W4zgKk7VvfRZHckbaxEa1E=
-X-Received: by 2002:a05:6214:4585:b0:6c3:53fe:8182 with SMTP id
- 6a1803df08f44-6c355836c09mr204191836d6.44.1725478349745; Wed, 04 Sep 2024
- 12:32:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RbgTmhu1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02476C4CEC2;
+	Wed,  4 Sep 2024 19:40:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725478854;
+	bh=bQK+yFu5fRg8+syHRGxnt1pzKtg69U9NOvqBoa1Brlw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=RbgTmhu1X/pELnHTv8/3BSXPVlW1Mq6ZP4H+iGofs9wvYFpFLQPeKENdYGzXzA0gz
+	 FhjkQhIMTsR4JO6gkoCwLTXR+h/ibWGe4RLo1/m1V2jUeEkGltGuD9fOadX3uTi+pX
+	 F+9Pz39X6HMpcuaVlG43LylLf8oERXJuTui1xxklGZfPyXM3jJeGjv7fX+mYFgDV0I
+	 YExTlRyDuLkQcX12XzIzj/2JAOSywyjj7A+JveVoDBIKiqHGs5ZW3rE1HQseqymFdk
+	 oCVaYTJ/tou7bkpNyjk2jlrDeMuQ6Yg4kvwZxZpxsGX7+r0Jhqa05DInN2FFC2aWt2
+	 6b2NQFZOfKDIQ==
+Date: Wed, 4 Sep 2024 14:40:52 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Wei Huang <wei.huang2@amd.com>
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+	Jonathan.Cameron@huawei.com, corbet@lwn.net, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	alex.williamson@redhat.com, gospo@broadcom.com,
+	michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
+	somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
+	manoj.panicker2@amd.com, Eric.VanTassell@amd.com,
+	vadim.fedorenko@linux.dev, horms@kernel.org, bagasdotme@gmail.com,
+	bhelgaas@google.com, lukas@wunner.de, paul.e.luse@intel.com,
+	jing2.liu@intel.com
+Subject: Re: [PATCH V4 03/12] PCI/TPH: Add pcie_tph_modes() to query TPH modes
+Message-ID: <20240904194052.GA344429@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAOQ4uxiRGcPNsad==MtLFGrrwg_Sv-6g0tNwSVtvoSH+2VR5Lw@mail.gmail.com>
- <20240904165431.13974-1-yuriybelikov1@gmail.com>
-In-Reply-To: <20240904165431.13974-1-yuriybelikov1@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 4 Sep 2024 21:32:18 +0200
-Message-ID: <CAOQ4uxiaokAp4P+ADxX40onTxqBjR=2Gc=iagtVN3MW66QSc9Q@mail.gmail.com>
-Subject: Re: [PATCH v2] Update metacopy section in overlayfs documentation
-To: Yuriy Belikov <yuriybelikov1@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Jonathan Corbet <corbet@lwn.net>, 
-	"open list:OVERLAY FILESYSTEM" <linux-unionfs@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240822204120.3634-4-wei.huang2@amd.com>
 
-On Wed, Sep 4, 2024 at 6:54=E2=80=AFPM Yuriy Belikov <yuriybelikov1@gmail.c=
-om> wrote:
->
-> Changes since v1:
-> - Provide info about trusted.overlay.metacopy extended attribute.
-> - Minor rephrasing regarding copy-up operation with
->   metacopy=3Don
-> Signed-off-by: Yuriy Belikov <yuriybelikov1@gmail.com>
-> ---
->  Documentation/filesystems/overlayfs.rst | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/file=
-systems/overlayfs.rst
-> index 165514401441..e5ad43f4f4d7 100644
-> --- a/Documentation/filesystems/overlayfs.rst
-> +++ b/Documentation/filesystems/overlayfs.rst
-> @@ -367,8 +367,11 @@ Metadata only copy up
->
->  When the "metacopy" feature is enabled, overlayfs will only copy
->  up metadata (as opposed to whole file), when a metadata specific operati=
-on
-> -like chown/chmod is performed. Full file will be copied up later when
-> -file is opened for WRITE operation.
-> +like chown/chmod is performed. An upper file in this state is marked wit=
-h
-> +"trusted.overlayfs.metacopy" xattr which indicates that the upper file
-> +contains no data. Full data will be copied up later when file is opened =
-for
-> +WRITE operation. After the lower file's data is copied up,
-> +the "trusted.overlayfs.metacopy" xattr is removed from the upper file.
->
->  In other words, this is delayed data copy up operation and data is copie=
-d
->  up when there is a need to actually modify data.
-> --
-> 2.43.5
->
+On Thu, Aug 22, 2024 at 03:41:11PM -0500, Wei Huang wrote:
+> Add pcie_tph_modes() to allow drivers to query the TPH modes supported
+> by an endpoint device, as reported in the TPH Requester Capability
+> register. The modes are reported as a bitmask and current supported
+> modes include:
+> 
+>  - PCI_TPH_CAP_NO_ST: NO ST Mode Supported
+>  - PCI_TPH_CAP_INT_VEC: Interrupt Vector Mode Supported
+>  - PCI_TPH_CAP_DEV_SPEC: Device Specific Mode Supported
 
-Pushed to overlayfs-next with minor rephrasing of commit message.
-(v1 is irrelevant in the context of git history)
+> + * pcie_tph_modes - Get the ST modes supported by device
+> + * @pdev: PCI device
+> + *
+> + * Returns a bitmask with all TPH modes supported by a device as shown in the
+> + * TPH capability register. Current supported modes include:
+> + *   PCI_TPH_CAP_NO_ST - NO ST Mode Supported
+> + *   PCI_TPH_CAP_INT_VEC - Interrupt Vector Mode Supported
+> + *   PCI_TPH_CAP_DEV_SPEC - Device Specific Mode Supported
+> + *
+> + * Return: 0 when TPH is not supported, otherwise bitmask of supported modes
+> + */
+> +int pcie_tph_modes(struct pci_dev *pdev)
+> +{
+> +	if (!pdev->tph_cap)
+> +		return 0;
+> +
+> +	return get_st_modes(pdev);
+> +}
+> +EXPORT_SYMBOL(pcie_tph_modes);
 
-Thanks,
-Amir.
+I'm not sure I see the need for pcie_tph_modes().  The new bnxt code
+looks like this:
+
+  bnxt_request_irq
+    if (pcie_tph_modes(bp->pdev) & PCI_TPH_CAP_INT_VEC)
+      rc = pcie_enable_tph(bp->pdev, PCI_TPH_CAP_INT_VEC);
+
+What is the advantage of this over just this?
+
+  bnxt_request_irq
+    rc = pcie_enable_tph(bp->pdev, PCI_TPH_CAP_INT_VEC);
+
+It seems like drivers could just ask for what they want since
+pcie_enable_tph() has to verify support for it anyway.  If that fails,
+the driver can fall back to another mode.
+
+Returning a bitmask of supported modes might be useful if the driver
+could combine them, but IIUC the modes are all mutually exclusive, so
+the driver can't request a combination of them.
+
+Bjorn
