@@ -1,185 +1,116 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EED51E6DD2
-	for <linux-doc@vger.kernel.org>; Wed,  4 Sep 2024 19:16:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F90D15B555;
+	Wed,  4 Sep 2024 19:32:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725477367; cv=none; b=Ks3WiLgSc0Dy6n8yn7NlF7O5eLFeF9V+BKOXrD4hu0MpMNgOiH8M+ibKGtcQjniJumEXjo5Wev7S8Lx8O2rqsVlzNFmsWmlcYSd2iV1uCMpHJeTuc8OYj/cHXGQ0YFrlvJqKRqk5niYcXIm/pXugqLv66P3qgGP2xbQCDLdg2rg=
+	t=1725478352; cv=none; b=e/43Xk+EQja+n89ki31bnwlMwy+LYUq8Favu+mfbUglojMALJ50ZPUm29XMApIlW9LDz8HZBCmA1UM1llJE9ied4BRvWvJ+CuMtXJA/L1t7NC/SbbvDsoDgXdnpzCocYWGoMKlcCTP6LoS4i+ElQ1+juW06px6KxgkU56d6jIqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725477367; c=relaxed/simple;
-	bh=WfiusaYUI7NNzYn1hMW8VCzKpjGkVmzh//jhn7WhvkE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CXgU+zZ8sSVDwBVhdk6CLoD4OJ9AZxCr+M/8+B3DW3jIbw4dgRUMtFELWuXZJh9fu9jnPBpXiFGkdUe+1K0K5nocEN96LTbzdy0iC2gYEmBidSAgghcJeZYr1kkBq9fVL+l78qvXXXbtqH+LbbbdIDfxw6uE8B2qwYueK3pZpXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=fXzKZowl; arc=none smtp.client-ip=209.85.222.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1725478352; c=relaxed/simple;
+	bh=PyQrDfXI4pIKyfzh+YcSygARqjBWQaMniKKisbOo8oQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LPw0FY08YlE30jSuuoDUbmDI4hXpI0+9QPu5yOiRWYebpmej2Ez7TEXNNhFhX8pCYm1UkkyaclbX9vmWeDzhXRMtrrPoa28i4+DFP3v4guoy28vTNTaJzjo4JI623sJUp3MKSgIWGjODqxIJYpnadX+9JUEoT3338FmB6HBhjSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G1ykBlfb; arc=none smtp.client-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="fXzKZowl"
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7a8116a4233so347619085a.2
-        for <linux-doc@vger.kernel.org>; Wed, 04 Sep 2024 12:16:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G1ykBlfb"
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6c35427935eso29383516d6.3;
+        Wed, 04 Sep 2024 12:32:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1725477363; x=1726082163; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ryDbdQ2D/+rou29MCfRgv3SUSfdPjKb5CferA/8Ns4w=;
-        b=fXzKZowlbkqs/NlOpWRcR6KrIniw1FRcC4AYbwahzwJ6dD3TFtWhHMLCvee1beh488
-         Xrc8mslFybfN/7CEcVEutnck+e1dPHarX/chM7zlhgdfr51AoliBUG+bbdOpv5ip7nX6
-         rK2JUhV57+iMK/HKMrDBdIAJKcg9YxEauPvQEy3KdIF6RU5LQ7Mii9LMXt7BXI1+pCYk
-         43z7V9jhVAyvh+JRzg6dx64Plurv9llVZkl+027CI3ugJ+RRG3/qpYhHdC27bcMYir5D
-         hlhgb8y2IliMquK3oom+0LaOpu9H6GGwwSezhThLHUasMvCjS+mzfawxP8p/j2IbsEtI
-         q0ow==
+        d=gmail.com; s=20230601; t=1725478350; x=1726083150; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UQs3zpvLguyufYMw2L58yxG9r/VbEIBK+iwTQGmJNWY=;
+        b=G1ykBlfb7wtJ7vzSlemTTVucSO5PXduzqLp2+Jsyfeif7306HT3AstSxb1S/rjx32C
+         0wr2kNISp7zxldOLdvq5SflqU0LUTh59WULJJAXotAIhfA2RBe5i5+OrLwd3JFkegjy1
+         un9TflTYqfP5jRf2j+vw4HLOpRQlBQr18We2g+1z8/3oUwTVZ0Pqug66x04WcU3pZ+j/
+         KV9xzeDNrhOAYTiV4kZIW9G3KpvvHvJ2YZ9gfBUzOQvWeYKBF5h49vqQVUStcWj8rqR3
+         fnUPyupgawYh6CP3AnODdiZw60bdnmzWb++T0mtJxxRt54oCWnQCbsDy88Z37TVRkTbU
+         jKSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725477363; x=1726082163;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ryDbdQ2D/+rou29MCfRgv3SUSfdPjKb5CferA/8Ns4w=;
-        b=taSQRehBdUITradie2sI07LqQKrTtR2nj7mLW3LhKKMrYM0P+XfuPcoVONYlvW/MVS
-         GwdeDl3Zr7UaXyyKVziD4OsaH7hF+6eDvUCIMmfseyQCnyEorzE/1zZaA/q+XPlmQxT6
-         UEnVDBTiyEE520bc6bZKnK+pa+++l4/if4U+7Ng3M7lPbWbJBFRq+t5eJvM3OvOMjqnB
-         YFBMV5/cYcrwFgTBFlYBjFZxRcJ2QX5FKctcsMTuCn3p3c7X756LldEeFWsOcu46Jzi4
-         Q0gaJpf2SE7umgDjVlKwooA/LTI11a9fPY0tDYxNJnfFYVcmvxf93M00+jKSeybhgfuq
-         dsKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWwnCubG7eRV5db3Z7N+8QU0w+eIyE/JR0/dtcGAaEseaROC07wo+OANMjRfqvwcojZBsyk0PRnfv0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzz/9uVXxtgGGm4WQz4PL79BPkF05739S5n7ntsovsmeGot5bkW
-	uk3FegBo0ubkeJsXTi9xQUoTp0HxHvqdDFqCtePLVKdCOXMMJDboh7QUPf49+kk=
-X-Google-Smtp-Source: AGHT+IFiAMwM665JnKMTu/rsJXEnquw0Kjt7PP7GRDGavSs2IapuyxpuZ6LmY1UP4XZ7M7H6uU8GAA==
-X-Received: by 2002:a05:620a:2989:b0:7a2:32e:3c41 with SMTP id af79cd13be357-7a97bd2b1a5mr812257685a.60.1725477363333;
-        Wed, 04 Sep 2024 12:16:03 -0700 (PDT)
-Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a98ef4742fsm9940285a.58.2024.09.04.12.16.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Sep 2024 12:16:02 -0700 (PDT)
-Message-ID: <123c8bff-6623-4a3b-a49e-69b3ab6f8ab5@baylibre.com>
-Date: Wed, 4 Sep 2024 15:16:01 -0400
+        d=1e100.net; s=20230601; t=1725478350; x=1726083150;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UQs3zpvLguyufYMw2L58yxG9r/VbEIBK+iwTQGmJNWY=;
+        b=rZLKz+ALHljXJCUCAMtDPWYE+ZOvzwYIO6mx3fy7XIrMrbLINyrXYTnsZhcHk3YEOT
+         PQAE3bs/eoYEFcOPoZiMpEqVuVJGasG6GchRCIWaT7Nh1Vqt0RDq5R0y7UYkuYpQyiRj
+         9ogMF23IPu0ZwvyzfrGVy6DM6Z+mkLSL9hFSP4bJ4dmoFAAhN+2a7VfzYKWrkaUnzKcI
+         IP3SGIspqE6j5hBxKGXROGDI8Dy6mHiiXBFVPGyqNpqxSfBfpJZreXMkaF/30bZzl42J
+         kZl39RDzmjUonfRIWQsF5Qd/+2k9fUxFrw7cyvhKIPnKBZkjgs3lPMt4vZBJLV3X5sLs
+         7/mg==
+X-Forwarded-Encrypted: i=1; AJvYcCU/g1YN/ZNqfYR+tmHMa+pQogPikuX8q3Ab9HUTe36AxzRGJKcvNlG1aeFSvibobLpSQ718Rcx8qBMUBhorYg==@vger.kernel.org, AJvYcCUWpCxibm9XPN7OkWA1g0Sas4eKvqNbCk5Rg5nHJGUUC8Dz6riPdlp02t4qJTSa1lbjf5++UpAbHvKElwT1@vger.kernel.org, AJvYcCVwIDmpnh1ciQRcaeJyRATkYZ8pz0KCTxodUEaF3aUra4nJmm8cDvG63DFa2UD4s6tWtcr9Myf2GWY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9hhaH3Wp6Pru8qYDzsemFXa3+VWcUI0v6DcmDp5RjCcSiLVDN
+	Fm15oXcTpT6pwp6r+TwSSXXHVCjm6G2FpVShYuo0X9Wj4JnfPCM3RS3hlwaqde0Yby5AGxUypOF
+	71TXn1PPUMrP/gbLWcpfvEyNCndw=
+X-Google-Smtp-Source: AGHT+IGRHjuOzYuw5iOar6gfXgnmHzCjlMooE6P9uwZGw4HYM+s7dZ/ezw4PlCGXkIkz6W4zgKk7VvfRZHckbaxEa1E=
+X-Received: by 2002:a05:6214:4585:b0:6c3:53fe:8182 with SMTP id
+ 6a1803df08f44-6c355836c09mr204191836d6.44.1725478349745; Wed, 04 Sep 2024
+ 12:32:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/3] iio: adc: add new ad7625 driver
-To: Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- David Lechner <dlechner@baylibre.com>,
- Uwe Kleine-Konig <u.kleine-koenig@baylibre.com>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20240904-ad7625_r1-v4-0-78bc7dfb2b35@baylibre.com>
-Content-Language: en-US
-From: Trevor Gamblin <tgamblin@baylibre.com>
-In-Reply-To: <20240904-ad7625_r1-v4-0-78bc7dfb2b35@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <CAOQ4uxiRGcPNsad==MtLFGrrwg_Sv-6g0tNwSVtvoSH+2VR5Lw@mail.gmail.com>
+ <20240904165431.13974-1-yuriybelikov1@gmail.com>
+In-Reply-To: <20240904165431.13974-1-yuriybelikov1@gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Wed, 4 Sep 2024 21:32:18 +0200
+Message-ID: <CAOQ4uxiaokAp4P+ADxX40onTxqBjR=2Gc=iagtVN3MW66QSc9Q@mail.gmail.com>
+Subject: Re: [PATCH v2] Update metacopy section in overlayfs documentation
+To: Yuriy Belikov <yuriybelikov1@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Jonathan Corbet <corbet@lwn.net>, 
+	"open list:OVERLAY FILESYSTEM" <linux-unionfs@vger.kernel.org>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Sep 4, 2024 at 6:54=E2=80=AFPM Yuriy Belikov <yuriybelikov1@gmail.c=
+om> wrote:
+>
+> Changes since v1:
+> - Provide info about trusted.overlay.metacopy extended attribute.
+> - Minor rephrasing regarding copy-up operation with
+>   metacopy=3Don
+> Signed-off-by: Yuriy Belikov <yuriybelikov1@gmail.com>
+> ---
+>  Documentation/filesystems/overlayfs.rst | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/file=
+systems/overlayfs.rst
+> index 165514401441..e5ad43f4f4d7 100644
+> --- a/Documentation/filesystems/overlayfs.rst
+> +++ b/Documentation/filesystems/overlayfs.rst
+> @@ -367,8 +367,11 @@ Metadata only copy up
+>
+>  When the "metacopy" feature is enabled, overlayfs will only copy
+>  up metadata (as opposed to whole file), when a metadata specific operati=
+on
+> -like chown/chmod is performed. Full file will be copied up later when
+> -file is opened for WRITE operation.
+> +like chown/chmod is performed. An upper file in this state is marked wit=
+h
+> +"trusted.overlayfs.metacopy" xattr which indicates that the upper file
+> +contains no data. Full data will be copied up later when file is opened =
+for
+> +WRITE operation. After the lower file's data is copied up,
+> +the "trusted.overlayfs.metacopy" xattr is removed from the upper file.
+>
+>  In other words, this is delayed data copy up operation and data is copie=
+d
+>  up when there is a need to actually modify data.
+> --
+> 2.43.5
+>
 
-On 2024-09-04 3:14 p.m., Trevor Gamblin wrote:
-> This series adds a new driver for the Analog Devices Inc. AD7625,
-> AD7626, AD7960, and AD7961. These chips are part of a family of
-> LVDS-based SAR ADCs. The initial driver implementation does not support
-> the devices' self-clocked mode, although that can be added later.
->
-> The devices make use of two offset PWM signals, one to trigger
-> conversions and the other as a burst signal for transferring data to the
-> host. These rely on the new PWM waveform functionality being
-> reviewed in [1] and also available at [2].
->
-> This work is being done by BayLibre and on behalf of Analog Devices
-> Inc., hence the maintainers are @analog.com.
->
-> Special thanks to David Lechner for his guidance and reviews.
->
-> [1]: https://lore.kernel.org/linux-pwm/cover.1722261050.git.u.kleine-koenig@baylibre.com
-> [2]: https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git/log/?h=pwm/chardev
->
-> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-Realizing that I forgot to pick up Conor's Reviewed-by on the v3 binding 
-before sending. Can that be picked up?
-> ---
-> Changes in v4:
-> - Link to v3: https://lore.kernel.org/r/20240819-ad7625_r1-v3-0-75d5217c76b5@baylibre.com
-> - Rebase on top of latest pwm/chardev branch at:
->    https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git/log/?h=pwm/chardev
->
->    [PATCH 1/3]
->    - No change
->
->    [PATCH 2/3]
->    - Add 'depends on PWM' under 'CONFIG AD7625' in
->      drivers/iio/adc/Kconfig, based on v3 discussions
->    - Cleanup whitespace usage in Kconfig, bandwidth logic to match
->      Jonathan's suggestions
->
->    [PATCH 3/3]
->    - No change
->
-> Changes in v3:
-> - Link to v2: https://lore.kernel.org/r/20240809-ad7625_r1-v2-0-f85e7ac83150@baylibre.com
->    
->    [PATCH 1/3]
->    - Add gpio bindings header, en0-gpios and en1-gpios to binding example
->    - Remove unnecessary comments
->
->    [PATCH 2/3]
->    - No change
->
->    [PATCH 3/3]
->    - No change
->
-> Changes in v2:
-> - Link to v1 (marked as RFC): https://lore.kernel.org/r/20240731-ad7625_r1-v1-0-a1efef5a2ab9@baylibre.com
-> - Include link to required PWM patch series in cover letter (missing before)
-> - Include new link to the pwm/chardev branch of Uwe's kernel tree
->    
->    [PATCH 1/3]
->    - Rework dt bindings to be compliant using make dt_binding_check
->    - Add "adi,no-dco" flag to address indication of how DCO lines are
->      configured
->    - Fix binding patch message
->    - Remove chip packaging info from binding description
->    - Move comments around to be clearer
->
->    [PATCH 2/3]
->    - Remove ad7625_pwm_disable(), call pwm_disable() directly
->    - Add ad7625_buffer_preenable() and ad7625_buffer_postdisable()
->      functions
->    - Add devm_ad7625_regulator_setup() function, move all regulator logic
->      to it, consolidate the comment blocks related to it above
->    - Add have_refin flag in ad7625_state struct
->    - Add pwm_waveform structs to ad7625_state struct for storing
->      requested waveform characteristics
->    - Refactor ad7625_set_sampling_freq() to set the pwm_waveform struct
->      values in ad7625_state, limiting PWM enable/disable to
->      preenable/postdisable functions
->    - Remove redundant dev_err_probe() after devm_ad7625_pwm_get()
->    - Use device_property_read_bool() instead of device_property_present()
->    - General alignment and line wrapping fixes
->
->    [PATCH 3/3]
->    - No change
->
-> ---
-> Trevor Gamblin (3):
->        dt-bindings: iio: adc: add AD762x/AD796x ADCs
->        iio: adc: ad7625: add driver
->        docs: iio: new docs for ad7625 driver
->
->   .../devicetree/bindings/iio/adc/adi,ad7625.yaml    | 176 ++++++
->   Documentation/iio/ad7625.rst                       |  91 +++
->   MAINTAINERS                                        |  11 +
->   drivers/iio/adc/Kconfig                            |  16 +
->   drivers/iio/adc/Makefile                           |   1 +
->   drivers/iio/adc/ad7625.c                           | 684 +++++++++++++++++++++
->   6 files changed, 979 insertions(+)
-> ---
-> base-commit: 1ebd3850421749eb44bd040b249bd4db88d35b33
-> change-id: 20240730-ad7625_r1-60d17ea28958
->
-> Best regards,
+Pushed to overlayfs-next with minor rephrasing of commit message.
+(v1 is irrelevant in the context of git history)
+
+Thanks,
+Amir.
