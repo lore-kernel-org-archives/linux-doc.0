@@ -1,87 +1,110 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DB9E2AD02;
-	Wed,  4 Sep 2024 18:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ACE41E4114;
+	Wed,  4 Sep 2024 18:49:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725474684; cv=none; b=UZ88hn8VwxgCn4T+xOVFe7tD0zQjtzq+8FhN3d8qegesVFe3s2scFxuSPeL+LBrCwV59kAh+/8SWyOglTB/5dZ7JwuODanO/5587o4hAZC+KgoaXs9gF3aPSw7k7v+afMInye8iyLM7t06LTwQK7IIYCPwTrDT1AsILS3pQvLl8=
+	t=1725475753; cv=none; b=i7d2Au7xkE2PGMhTOfEkDZVtrngBdMMfTxrkGxPP82lXODzmEO5AZmTvFqsL1XdmEvwNsIanvJjnLXk8VJwq58jiT8xej4jiM6LLKz3NcgrGntUxpRhguH2aK/QMrNhhBK8GIJRK8yhKEDauWRArFdX1GgAcrjDLevZrfi5FVm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725474684; c=relaxed/simple;
-	bh=cqZTeCKtiWRNmN3gcAtdrz7XjCzXiplabvraNaLf8FE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oPfya0E5xc4iZ7vlfAAtmS4nPwmCuVDRssL6i/6HZbzwbKWPoZEypk4j/E204K09Z35WIGQAivegnIuw5MyJcV4XfA0yOJiWEekUy9yqzGzT9Ute0/fNyiVFynQd3mDwPfAgVaUkiHz9D5v/5ebChHQ2OOdENiFJ3xK25u2ySJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=enJ88dFg; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1725475753; c=relaxed/simple;
+	bh=NVJy7a9hzOZfICfnRGCKRFnKJQ0Sx2x47tJN20jKhus=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=AqqzVrdqioJlw8kriynTgKAlKRhfjFkJtK1zQ9wjDQ9/gbw5cW2C5wB+MP6hjfgdo0An0Cluk/0w8R1/sM7O1qVCCnwMM493n1EAAModyldhzlmPkjAyzSAiqRK22RmZCsUwWxo4MGOJ5+mCprWLTPWYV7fPdM2UUVrLlor895k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MK0Z2LM2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="enJ88dFg"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-533496017f8so9131585e87.0;
-        Wed, 04 Sep 2024 11:31:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725474681; x=1726079481; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cqZTeCKtiWRNmN3gcAtdrz7XjCzXiplabvraNaLf8FE=;
-        b=enJ88dFg5uaMgJMx+c0QcHEzpcahrmREoEiOTxtwKFw5m5PU1moGtpnuyoNK5kCJT8
-         B9dlg5mvEip8wIASvmq6x1zSU3FKhsh8k8N7FL9Yn+8BS/xJT83AodfedIq7szgGNgAq
-         7LhuOidCAS+2OlZRE3M2Pb9XuCkf8X7K+QNbaeIwOa1y9HKathKvIft+SiMTjOxkJI5R
-         npDXSkSSVa2Rxxp9NI13nG6MRQLrAsZZjfbDctCr4DIm8DLhqWClMPlWmYGtiOypjBom
-         t9jUrwb/w1MddR7SxMD6gDefI5b1EidC6CS28llGWCFSWWJzFOY6W6+w90eONS9PFh6a
-         uMrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725474681; x=1726079481;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cqZTeCKtiWRNmN3gcAtdrz7XjCzXiplabvraNaLf8FE=;
-        b=UAbnAa1sTCSCX5qkdD6vilwMWsZsvFatyFwX+uPVVEUln9KLLUJlAQyR1QusZcVucn
-         hZWOIatxTVIu07UUnJg81wpZbFuaSn7hsnBHs9Z7vGvrO3xyQXJ+NZtb/0hC5CRWpBBw
-         hwP2Q3MFS3U6J2GSADFCoVW9JAuCT09/hyprVEpkAfgo2/QoA/mhQ6iuFCKPwBiOsJa4
-         caTEcRsXH6FFPf8CVWl35FmutaG5XVTR1ZYEurNxg9RJO2a8rOuHI4eu7oIXReKnCVro
-         mOY2mgUnc5wnIS6933DbxbxiLih2Q6w/DdAyrldEd/P/s0FFwzZ7GA3ouigHjQsH9Ue2
-         hrHA==
-X-Forwarded-Encrypted: i=1; AJvYcCUwp38OaigefazEBWN0QJyA7lFBEgavJBfPab1k47NVZx9oRgkQYZ5Z3GcKzRtUKGTr9KM18VKXxwHIur/B@vger.kernel.org, AJvYcCWAO1W3IQBLZ8OVHPoSyFkSaNfR1j2UGN4cFvVkaqja3oCgituYLETESOkDKZRX12fkyU2EdCNso1aQ@vger.kernel.org, AJvYcCWFzqg0CJVk3RQvyyh0vTr+JZzZKeSWdKdaHx5pqvterVMxs9RV2Mdwm4uPaCMBqCJEyNd/sWKjW+d4@vger.kernel.org
-X-Gm-Message-State: AOJu0YysMHY04m2OF16ah/9375ZegzTaAFByp6L8CCew+mFok7Wefb03
-	M2Ftog81OUClST3y7AbGDCQBFmTuAa5aX+vKMEn56jn3AIIas6ICDewrX8fStT4nMdEkYdLWUDi
-	HVTZY0bnvBd/TnM6a9hE8Todvl5w=
-X-Google-Smtp-Source: AGHT+IFPTDmBPzfMHi+JBca0iBl6QnzPcfCv2Mi+TGhi7mW9W3f/6R0U2aXmin1rHR0zhBgKT/q01r6RE4rYphIlEjY=
-X-Received: by 2002:a05:6512:159a:b0:52c:e047:5c38 with SMTP id
- 2adb3069b0e04-53546b0401cmr12698659e87.15.1725474680916; Wed, 04 Sep 2024
- 11:31:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MK0Z2LM2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F56EC4CEC2;
+	Wed,  4 Sep 2024 18:49:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725475753;
+	bh=NVJy7a9hzOZfICfnRGCKRFnKJQ0Sx2x47tJN20jKhus=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=MK0Z2LM2sEoLcQactCH04EZbfL3YQrPNmkMnQfRli1kjLn19utVIF5SsnOIfLLdD9
+	 YuV6PtJudoDvx/I3pUM3R/c1xlDZDEmRpSifttS4E0xURO48r05aPPdhzOaK6RkD9B
+	 auJRS4e0+nQ4mqmac2i9k0v1XRyxq0//h6KwvM5VXVVuBatIwODFTJkSm3Y/TbkIWq
+	 dxZ4H/vuJt1/5YdH7JXlDLWmGmjWr1PZ8LizWsOD3cRruvZy4H7Uxwzt3wL5YdhhUk
+	 Dd98E9B8UkavLodhAvshLgKygAu488ry8gDMUzDHmibWbqqYMkerAlXVuHDxemmaMt
+	 2DruypS2JYrwA==
+Date: Wed, 4 Sep 2024 13:49:11 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Wei Huang <wei.huang2@amd.com>
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+	Jonathan.Cameron@huawei.com, corbet@lwn.net, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	alex.williamson@redhat.com, gospo@broadcom.com,
+	michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
+	somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
+	manoj.panicker2@amd.com, Eric.VanTassell@amd.com,
+	vadim.fedorenko@linux.dev, horms@kernel.org, bagasdotme@gmail.com,
+	bhelgaas@google.com, lukas@wunner.de, paul.e.luse@intel.com,
+	jing2.liu@intel.com
+Subject: Re: [PATCH V4 00/12] PCIe TPH and cache direct injection support
+Message-ID: <20240904184911.GA340610@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240904-imx-se-if-v7-0-5afd2ab74264@nxp.com> <Zth7LdsV/KbjzB2b@lizhi-Precision-Tower-5810>
- <AM9PR04MB86049FFFCBB357E3BC1E4C90959C2@AM9PR04MB8604.eurprd04.prod.outlook.com>
-In-Reply-To: <AM9PR04MB86049FFFCBB357E3BC1E4C90959C2@AM9PR04MB8604.eurprd04.prod.outlook.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Wed, 4 Sep 2024 15:31:09 -0300
-Message-ID: <CAOMZO5DdujNkL91+8tzO2VzS20ipRGDCyzo8ppa0A33V0ZvabA@mail.gmail.com>
-Subject: Re: [PATCH v7 0/5] Changes in v7:
-To: Pankaj Gupta <pankaj.gupta@nxp.com>
-Cc: Frank Li <frank.li@nxp.com>, Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240822204120.3634-1-wei.huang2@amd.com>
 
-On Wed, Sep 4, 2024 at 1:09=E2=80=AFPM Pankaj Gupta <pankaj.gupta@nxp.com> =
-wrote:
+On Thu, Aug 22, 2024 at 03:41:08PM -0500, Wei Huang wrote:
+> Hi All,
+> 
+> TPH (TLP Processing Hints) is a PCIe feature that allows endpoint
+> devices to provide optimization hints for requests that target memory
+> space. These hints, in a format called steering tag (ST), are provided
+> in the requester's TLP headers and allow the system hardware, including
+> the Root Complex, to optimize the utilization of platform resources
+> for the requests.
+> 
+> Upcoming AMD hardware implement a new Cache Injection feature that
+> leverages TPH. Cache Injection allows PCIe endpoints to inject I/O
+> Coherent DMA writes directly into an L2 within the CCX (core complex)
+> closest to the CPU core that will consume it. This technology is aimed
+> at applications requiring high performance and low latency, such as
+> networking and storage applications.
 
-> Thanks for pointing it out. Will ensure not to repeat it.
+Thanks for this example, it's a great intro.  Suggest adding something
+similar to a patch commit log, since the cover letter is harder to
+find after this appears in git.
 
-Please trim your replies.
+> This series introduces generic TPH support in Linux, allowing STs to be
+> retrieved and used by PCIe endpoint drivers as needed. As a
+> demonstration, it includes an example usage in the Broadcom BNXT driver.
+> When running on Broadcom NICs with the appropriate firmware, it shows
+> substantial memory bandwidth savings and better network bandwidth using
+> real-world benchmarks. This solution is vendor-neutral and implemented
+> based on industry standards (PCIe Spec and PCI FW Spec).
+> 
+> V3->V4:
+>  * Rebase on top of the latest pci/next tree (tag: 6.11-rc1)
 
-Your email had 341 lines and your response was on a single line.
+No need to rebase to pci/next; pci/main is where it will be applied.
+But it currently applies cleanly to either, so no problem.
 
-Please remove unneeded noise in your replies.
+>  * Add new API functioins to query/enable/disable TPH support
+>  * Make pcie_tph_set_st() completely independent from pcie_tph_get_cpu_st()
+>  * Rewrite bnxt.c based on new APIs
+>  * Remove documentation for now due to constantly changing API
+
+I'd like to see this documentation included.  And updated if the API
+changes, of course.
+
+>  * Remove pci=notph, but keep pci=nostmode with better flow (Bjorn)
+
+This seems backward to me.  I think "pci=notph" makes sense as a way
+to completely disable the TPH feature in case a user trips over a
+hardware or driver defect.
+
+But "pci=nostmode" is advertised as a way to quantify the benefit of
+Steering Tags, and that seems like it's of interest to developers but
+not users.
+
+So my advice would be to keep "pci=notph" and drop "pci=nostmode".
+
+Bjorn
