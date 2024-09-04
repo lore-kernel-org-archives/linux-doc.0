@@ -1,278 +1,184 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2041.outbound.protection.outlook.com [40.107.223.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA1481723;
-	Wed,  4 Sep 2024 18:58:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725476295; cv=fail; b=LSbcse91umVP4v3VIN4f2q7MKwgmgx8NzkB1nmQ2WA8iDWcrzs7XLpyPBRpCwPZyRcKvBmSoL/zGTmRBgjALroAOABRXGw0JD6ZvnEMvxWZEM3pXWT1StGa6LcT7X7sbFX8nqNVl0MspiCE6DZZghRzt0lhj9d1z+E1jUnYPddU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725476295; c=relaxed/simple;
-	bh=o+2CB3GZW+oD7nyRh8SG+Ft3uqB0XcCbzUGSSHYaObo=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=AeHN8ibXjgI/PIdxYiLWRHl7GFBj1iA0H8Givu/YTPcZROohfz4A7/W0GMjBOHd1BoPMYV6XXEopyu0vb/wDIH7F1MMKZM/sg+gDNoDy8y/S7d2+1f7K9OJf1avNTVH+F1JRTySkgYhBvgE42LZzPmM422LeJw/69ouNyHihTz4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=RbG4+sos; arc=fail smtp.client-ip=40.107.223.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE1401E4922
+	for <linux-doc@vger.kernel.org>; Wed,  4 Sep 2024 19:14:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725477264; cv=none; b=SjBVTiI3WdHVZj9NIOroqJoSN/by2pCtROCa7pIREAsVSn5fbEg0non17XlMeL8agJ0lktecowCNs1auVFTWShv/WjnSVj4A5DeX5iXzMAxfPqFDTkJfpflid154L7efeRn9j0QxLkWpOpmtfP0ZGGq+Y9DIKgl4mCCgeKtlebc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725477264; c=relaxed/simple;
+	bh=Vtten7PC1xqHnHPuVTSUmBPwlkryC6zBmnXV+zy4KR4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=cVbsyt5Fju3aYUSczyxF/bvrscRA44q1epvXwmAKCuRptzgv+g5oNfc/wIo3ts6NmKomz7H9PiESUV99tMtwmbqOgm5fpBweLs3W4kPRkHdjKS7BHd94OCypL2zEepg4mpM3K14atWHo1dXv5cju6EBGRu5CY8OkdQvE9X0SzBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ryUyajmQ; arc=none smtp.client-ip=209.85.160.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="RbG4+sos"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Hk8qBLycRGl2Up1G4PpPbd8syAZBBFVaGLaHdn6N4YNkolAKhpWyJ3JE6v1G15GcdSR/z+Tav/07AjRO1cF6uWTQzFjt4rC5AHL5MAmt6RkXpAKF0ciDJDMK7JCVMRUI4xSPsGEkr3B5jlKZBB9OXpg3MoN/3Glt/RhND0nZrrXkaipIzz9/TXs6BOEdkGJCOtGKpIi381+SQ/TMMEeHQwYMLnudt0zqoStJCkogO4kdt0JNrw0ZGp519ZSLpHR1R00Kc/Z1eiq6+OxMu2muHZ5LHpv96xAJDvslvEIoEo9URcOYy9A6+twsdJZasXySo+2giCbBCP1JF4eogsipqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FcpkGuHoWDPoVNkOxue6j/Ackq6i7a3wGCbnP9Vp3Rw=;
- b=Xqmc8OZnduxu3S+iqarM4kjmgCGNyZlkdi6b5u2B98FMjCAsXMiOAqJu48yx8mwWwddbvAhkl9wxN+LFN/609eT+XgRd2ZLPLs64JtLE5FA1L4jZtLXURgMuSGtiZS8yNDCvQm17+r9AgPIP5ItUvE9N10ETvOfqL1ma/wNrGL3NjWvBQJ2JmIOdfSfbK4soPocBUW5fe7uGY3LBp2suHlDRTyrBMLIyW+mX3SOe6rkvZbSjthi1EtK6sWZ2Q5UzdQed1XxGZg4Xdx/nm09CfKr0w5eihn+DgNXWDMvQ76wXWp7VO2966sO8o0scm7I6T8wEZvwoRb3C/b8Mivr+mw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FcpkGuHoWDPoVNkOxue6j/Ackq6i7a3wGCbnP9Vp3Rw=;
- b=RbG4+sosq6fUBYLsYR9MFuD7dOCwuoVi0U1yvRgZ/7OP7HzjES0w/IDlXz4MXapE/xY5rf6npGChJ6ToBpuzqgjbTqmIkhCFTrtp1q3zctWjBMhf+20p7WbQxynnkJcFURndDA/1coFaCUBSTK/CZoBQUzvehlDBd5wRaRHyak/kzh4ZnHt6S1IDFnEHUEPlL4p9APIvCYC5U74VNTtLhPrCiwgEDn/Uk5LGpBH12YHSzvLNmd5t4BfDgKXX736tACXpRxZQIW/GUBPYWlSGJ4nOcwrqF426BAAnxcsW6T+XgyRKWJj/BA1yFTVuRLh5Xx/8QbnNYU3fVpu5ZWrsHA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SJ0PR12MB5469.namprd12.prod.outlook.com (2603:10b6:a03:37f::16)
- by IA0PR12MB9012.namprd12.prod.outlook.com (2603:10b6:208:485::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.27; Wed, 4 Sep
- 2024 18:58:09 +0000
-Received: from SJ0PR12MB5469.namprd12.prod.outlook.com
- ([fe80::ff21:d180:55f2:d0c0]) by SJ0PR12MB5469.namprd12.prod.outlook.com
- ([fe80::ff21:d180:55f2:d0c0%5]) with mapi id 15.20.7918.024; Wed, 4 Sep 2024
- 18:58:09 +0000
-Message-ID: <c55739ec-3f0c-4f37-ad86-fe337d71d5a2@nvidia.com>
-Date: Wed, 4 Sep 2024 11:58:07 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/6] alloc_tag: config to store page allocation tag
- refs in page flags
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, kent.overstreet@linux.dev,
- corbet@lwn.net, arnd@arndb.de, mcgrof@kernel.org, rppt@kernel.org,
- paulmck@kernel.org, thuth@redhat.com, tglx@linutronix.de, bp@alien8.de,
- xiongwei.song@windriver.com, ardb@kernel.org, david@redhat.com,
- vbabka@suse.cz, mhocko@suse.com, hannes@cmpxchg.org,
- roman.gushchin@linux.dev, dave@stgolabs.net, willy@infradead.org,
- liam.howlett@oracle.com, pasha.tatashin@soleen.com, souravpanda@google.com,
- keescook@chromium.org, dennis@kernel.org, yuzhao@google.com,
- vvvvvv@google.com, rostedt@goodmis.org, iamjoonsoo.kim@lge.com,
- rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-mm@kvack.org,
- linux-modules@vger.kernel.org, kernel-team@android.com
-References: <20240902044128.664075-1-surenb@google.com>
- <20240902044128.664075-7-surenb@google.com>
- <20240901221636.5b0af3694510482e9d9e67df@linux-foundation.org>
- <CAJuCfpGNYgx0GW4suHRzmxVH28RGRnFBvFC6WO+F8BD4HDqxXA@mail.gmail.com>
- <47c4ef47-3948-4e46-8ea5-6af747293b18@nvidia.com>
- <70ef75d9-a573-4989-9a9d-c8bc087f212b@nvidia.com>
- <CAJuCfpEQLDW1A7EX8LAcaRYdxKYBvP1E1cmYDoFXrG_V+AXv+g@mail.gmail.com>
-Content-Language: en-US
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <CAJuCfpEQLDW1A7EX8LAcaRYdxKYBvP1E1cmYDoFXrG_V+AXv+g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR03CA0385.namprd03.prod.outlook.com
- (2603:10b6:a03:3a1::30) To SJ0PR12MB5469.namprd12.prod.outlook.com
- (2603:10b6:a03:37f::16)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ryUyajmQ"
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-277c861d9f6so1691fac.2
+        for <linux-doc@vger.kernel.org>; Wed, 04 Sep 2024 12:14:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1725477262; x=1726082062; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=icxQYjZ5lhVTHRZxV1n+KW9S/3qh7ut35wj8uDEJc2Y=;
+        b=ryUyajmQc7l7hy5gXHPISS2rwADV9Be29M6OIoQWgDQT4nRJRIpCcMzfpUvtZtvNRQ
+         vGbLWV+4Ov4G89ThR3bguw0Lqx4T+NvlpMNFILIkcMf/ERGsV+bACPTbMxytgqu0kxxi
+         yBKTxGG+YS34Jk0dTvp1k2vhOT7Gj8sTDuTL7dlx2rqdGwZdnNhz1G2gr4KUJRdqYyRw
+         Yn7Q9gCGcejQusTw2BnemXPe6pEQFazjMl/0zsOt1nEbFtmg0tOnmTbpRJLXhahxQB1m
+         yYO573CAvL/GylY/cc+luRApdFLfWQ3b3BBtvjXjJPJAF2d5i3y05aWGh4BvW1N19/8q
+         qQxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725477262; x=1726082062;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=icxQYjZ5lhVTHRZxV1n+KW9S/3qh7ut35wj8uDEJc2Y=;
+        b=rwMKFVtzEPY6j1hb/sxDnZa/nxZAcwEWMGHroA/FHAS7ejKwwR10v/vzroFR/MBSwk
+         EGQMMiRpcyinYz4OUX4hHvWaTOjS/B8EoXWHdCK9Re/FmevVpWYFdpq1P/t3Ag9dLbrm
+         QUOgYLR+URNKdDwia5TQTgZU5DmoEed+hOCmbe15xjDIQUsUZ1LICJgOWzqYroPcQCwn
+         FKCpOEHchH5B33+/tPiY8cLWaHeFVOgU3kC1Nl4/9fq/R2Oeasia3LGYQa+fYPcBbVBq
+         7Fu0RprhUES4McXmIlaKTk/tvE/mGexw0jQEK3XM4HFclKn/cJS8xfLXTWNZOOr2H8aO
+         VKAw==
+X-Forwarded-Encrypted: i=1; AJvYcCWGr0ai0+t1auYX3tUVvQadpvM5gCvn47JXPMx9RyXDgx6HapzBkeLN6F3YlfosRC/4cWiHM1NJ738=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOZHbswfgRNwNCjlnEvadAc9BM3vonu5YZHy0kVfeXJv14fidU
+	+5Xk+KhsfaGsNCHk1x25TW5Q8SeW3iE6TPuD/hbVg5OJ8jIh9d1Q5zkOFh04XcE=
+X-Google-Smtp-Source: AGHT+IESzRKYSh7VbzJurKo07781IgfN0d2D3CHqQv4yUKjlusFL4WO3+KU5g7ujtYaN/T6E8/7FeQ==
+X-Received: by 2002:a05:6870:910a:b0:278:8fe:6293 with SMTP id 586e51a60fabf-27810b246c2mr9305971fac.1.1725477261565;
+        Wed, 04 Sep 2024 12:14:21 -0700 (PDT)
+Received: from [127.0.1.1] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a98f026caesm8861085a.135.2024.09.04.12.14.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Sep 2024 12:14:21 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+Subject: [PATCH v4 0/3] iio: adc: add new ad7625 driver
+Date: Wed, 04 Sep 2024 15:14:17 -0400
+Message-Id: <20240904-ad7625_r1-v4-0-78bc7dfb2b35@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR12MB5469:EE_|IA0PR12MB9012:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8f8a55cb-6e75-4ef4-dce0-08dccd138471
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?RmRjRnQvcVMwYVNBOGJQUmFNTGt0UWVoQUV3T2p5djlTZDZyeUpLZ2ord2xt?=
- =?utf-8?B?d1d1K2NHdnZVbTVlL2FBS25KVHA4NlVRbUhGM1EzcHBscmFZdFE3ME1nS0N6?=
- =?utf-8?B?QU5vOTdEVk5vY1RiSlNNemJZQW1lRnFDVlhVYzVjSHVQaVI1aGl0TFFFdTBx?=
- =?utf-8?B?TEVxQ2VtM0ZwckF5eWhIQ3ZIaWlqYWRIR1FBSU03L0J6aGxmeXFuWnlrekpG?=
- =?utf-8?B?em8xSU9TeFZwTndEaUxUa1V0TzVVN1F6WWJkL3FobjdOamR3cURyWXdsTlJo?=
- =?utf-8?B?WkJWR1hLQk0yclRHY2RXSzJnSEVicXozQkJ6OHV1NVQxaXV6YUVSQzIyMERn?=
- =?utf-8?B?UGo1cHhndER6RDJlRDJlcDNNUjBVdlR3YXFNZGk4eDEweTdxTURNVGd6VzVU?=
- =?utf-8?B?RlhLZDduSU1wWTdnS00yZVRURkkveC83L1RYZkxmdk5UcE9NZ2o1NFhsamdB?=
- =?utf-8?B?elkrNVZmam01dDVFeW0vNGhTSzZSS0JxemltNDFsZUN3d1g0Zk11eTRTTXVH?=
- =?utf-8?B?MmFuSkt1VE9yblVBTnZsQzdsdUxjYkF2aEoxTGJFSTN3dFEwdTVlTjVzL3dH?=
- =?utf-8?B?SzNLcCtQSlFKZW5FUWRweHUrUW53MjBlQWxHak1jTWRNUnJVb2dFaTRPRVFy?=
- =?utf-8?B?VDNDVGRWWGdtbG50RnlpRmhLaStDd2tCRDh6V3RMcVhhRllUNmFISElXVlRD?=
- =?utf-8?B?RDRlVXRJRkhBRUw0aG5XY0ZaSXpYRXFySHl2NmVNdmVjcUdXZDFCM3Y0RUU2?=
- =?utf-8?B?c1dGcTF3Tk1CcGdMQVFMdU9OcFZZeDBKL3YzTXEyaFp6Q3RkWnJqSnVROUZH?=
- =?utf-8?B?Q1dMdll3ZkRvak9ncVhzQ1NGR05EbDJzL05nSDMrWUVnRmxMQlg2a0pwUkVq?=
- =?utf-8?B?NGs4RFFWUG00c0pIbEZPVUc3OERtMS9lcXJlbGgzN0Z2MVM5MlJIbS9XOUVC?=
- =?utf-8?B?UU4vT1hLa1lWUWJhLzVTbGxiU253Y0xJOHhwdGtiWng0VmdjK0Q0VytmYXJ1?=
- =?utf-8?B?VzRLY0ZGQkIrNUZuSG1oMTQ0N0ZzSFJnZy9WUFd3bm1kcU1yVkJmNHllMWht?=
- =?utf-8?B?MktSZTBreEY4QURjaFZCSEFSUktiVXR6ZWJxeWd0TFQ3REFyZXd1QkRjaWtF?=
- =?utf-8?B?ejdaOXZFd3NDdEEySmVXU0tKQjQza2JnWkxNeHRPVXZzaDhOMHI4SkoyRFF1?=
- =?utf-8?B?NnZFL3JaMnY5SGF3NXR3N0dsWTZVZVpLQzBZeTNBWWZzWlAvcVljajhRQTNy?=
- =?utf-8?B?MDFhS0FpdFA1ZTJmOGx5Vy9DMkRkLzA0a2s3UHZwMW1iNDl1K2V4ZjRjelZE?=
- =?utf-8?B?M25CcXVYSTBya0Fmdy83M0M5d09PVHZOT29iNXpvdGVTWmswRzhDNnRRenVa?=
- =?utf-8?B?RUNGMG9YNElMRjdCY2Y3WldzQ004SEdSU29SZTkzYktoaTlxT0RyeHp3cEpT?=
- =?utf-8?B?NmtwS2NiRFpnVmQ0R0VLTXUwc1RydmpWYTJHdDh0dFFFU0xjTFN1aTZyN1k2?=
- =?utf-8?B?TG43M0pqUTA4U0VYd1h4NWZPRWE1S2oxRFRiK3BYRHZDeUpHSXFrKys1eVVG?=
- =?utf-8?B?UHNBTUplM0thNlBadEl0WnBocjUxUXdwNXI0S0krRkJ4cDB6VDIwNE1FRFRP?=
- =?utf-8?B?VlI3aE9wZnZJWnJNaDg5bFBFNXlaSFdjVlViS3JVRXlkZjA3N1lveW15c29v?=
- =?utf-8?B?Sy9MTmxTdklIWXY2ay8vcUw1US9BUm03UFlqQkxZdmVraEtabVJHOUdad2JX?=
- =?utf-8?B?V2ljcUJZZmZ1UHdyVlJXZG5JTWZqTitmTU9sU1BXc2o2QmJnL1hVeEtJKzdT?=
- =?utf-8?B?WEh4MlN5dThYTUdZUWF0UT09?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR12MB5469.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QVVUMjdESG1sVUloMlZqV1kzRWQzYWFraktSRWU3azYzOWdVOExCdTJRL294?=
- =?utf-8?B?azBYeWJGUGljUzh2NHBiSDIxbnRZbk0zZ0Z5Q1ZvN0UvdE92cGZkQllxWE9i?=
- =?utf-8?B?NjNmZHBnVWNOS2JwbFNzQlBQeHlIc2d4M25LNlpnUW5oSmgzU2FXV0puL3RI?=
- =?utf-8?B?RmZjUVZUb0dZVjgzNlNneGlCVyszTWhLY1JQdzd6MlF0LzlCZEszZ3BWWXJz?=
- =?utf-8?B?SjV2Q21qbGRLZnlhZmRpQmxHNk1DTHQyODgzelF5TFpCSTl0elZaM0RrbHlF?=
- =?utf-8?B?dkp2MHcrMkNtSFJRS3VCQTFqdDdkL0tEZGludThPRWpOMmpYZGZiZ0xReXRu?=
- =?utf-8?B?OGdlbTRCU0FvYnMrcDhsNlZLQnNaampnM0lzaFdEcy9Id2ZTR2tkbUk1N0I4?=
- =?utf-8?B?V3Z5aklsR3dBRE0yOGpMMmk3ZlJvY3dRZi9zOUN0U1RKajlFUTRNeFpzaUNG?=
- =?utf-8?B?THNzT0N5b3pMRkRBU1hoMG5oclZMVjN5VnkyMFpnb051ckdEY3BoWnhWK0Ey?=
- =?utf-8?B?cmU0UTl6cDFXNVkrR3k2TmZBTCtveFNYbmNQQjB1R0NCZzA5SjVTYzVpUTI3?=
- =?utf-8?B?cWVUdjVpQmtNVTY2dmp3ODhUZnlJWGJvTzdnSG5nTDVhMUNBUEI1ZTZUWEg2?=
- =?utf-8?B?aWNmTUlkMGVSSkRGeVMzaUFiaW9UU3R0bHRsUys4cFliV3FBdlBGYVRFVWtG?=
- =?utf-8?B?dnZRczR2N3h4MVFVYjhHamRVNklmZmNVWnFjMlNNU3NpZDhta3BCTHp0Ym5l?=
- =?utf-8?B?ZkdueEx1VUQ0YXltbURIY2k5V1NKZ25ld1JRU2tuOUdITGVZNk15cm5rU1Bx?=
- =?utf-8?B?bW91Mmp1aWlxT281Skw1cVVuWEQzVEgvbVRiL0ZORUhnc3cwQnB1My9rOHBD?=
- =?utf-8?B?UFhTZDBNZUpzN0pha0Z0VlJ5cW1zN1Z1Z01FK2d1Z0xud2VpaXVDTFg4bmYv?=
- =?utf-8?B?QkRVS2FGdUZjbURnTE13YW8xalFObDFuMjE5eUJEek5MOGVRYmRZczR2UmdB?=
- =?utf-8?B?M3JwSzBwdmVjaDIzc2F0Mk41Tzd6WE94MGlJdmphOStGNThDY21PN0k3MS9t?=
- =?utf-8?B?K000Wm91MGNCbUkxVkZ6OXJOK3ZiUXFwTUdwQnVGTDJJOUVZMlNWem16NUdu?=
- =?utf-8?B?azJ4N3hFanRuYXdZRFFvWDhnQkJUbVAzaEJFMmlnODVzVENhVUJYL2hKaE1h?=
- =?utf-8?B?b1o2ckY5dmxrRXFEa3N0U3g5aWY4WkZTWEVlVEltck0zNWlkYk11WjRPVm5T?=
- =?utf-8?B?Y25oMW55SVRacnZMK0FMVWIwazRvZTBOL3luZGUwTXhaSVVKMVRQNzNGVUFZ?=
- =?utf-8?B?V2lsbk95NGpXS2xsUmFqNnZhVFpOQzN3ZUlMQzVBZmF4cGRZdUZpemdkUEpY?=
- =?utf-8?B?enZha3ZVdVFhQndQdUZOV0RsMW1jMjdDK1ViWFduR1o2QmFDT1cvSzM5RXhU?=
- =?utf-8?B?TjFpeHlueFFSSTByN0RuMVJ4NCtOdTJVbWQwbGp3SzNtc0xuTkJ0VnhEeW1L?=
- =?utf-8?B?YmR3eTdlZG43VCtUS1M3M1NmUGtQRFJTNzZCM0tZeG90TUJaRG5tREZ5Zlox?=
- =?utf-8?B?YWJUQ3BTK2tNcFV1R0NOVENSS0dsV1JWZEE5T0lVelc3Q3AzY0s1QlF3Y1Rs?=
- =?utf-8?B?LzNxVy9CbzdvMUMralRwVmNKeEl3UEFUVGc0eGNCY0tsSUxCSVJOMnQ0YkZ6?=
- =?utf-8?B?UTBNRFZmS2xubVBNZ25DanlSMTlDenpHTjhSVDhyMlJXdWNsQVhnTTNidE5h?=
- =?utf-8?B?TjBiZDB4SzVweTlVUWpPMi9paWVoajMra2tYN0RqT3NTa25jVFZnWEpscjVo?=
- =?utf-8?B?aU0zSUFiQU92c3dUb0ZGT0ttQkFIVkFvTDRKOGFRb2drdmdBbWk5OGlYOWxx?=
- =?utf-8?B?TVU2Z1BIeEZTV0pvZDFDRkZERVJ6RjRRUGNNOEt3dHZxMHlOcDJuWHFhMkx2?=
- =?utf-8?B?Z3hEVmordjlycjErUUZscVhPTGFvOTI4KzdoQUtkV3lJK1BWUlpNS1RPVzda?=
- =?utf-8?B?Y3ZIRVpFRGE2ZVRaWit4VFZYV0lrZTk4Zm16QnVnVERpUVBabWFzRHVMNks2?=
- =?utf-8?B?dWhnNk9MRFJXM2dVRmdzUXNXNE8vZnIvVlA0cEszUkUxR3lyRzI1bG8xU0dw?=
- =?utf-8?B?T0FJVmsvRURZOE5xUGY0VnFWbGhETTUwakNVNjZyUE5yL3NkbjJuQUpoT1F4?=
- =?utf-8?B?SlE9PQ==?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8f8a55cb-6e75-4ef4-dce0-08dccd138471
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5469.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2024 18:58:09.0806
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IxsmGjRO9VET3YThErhxetSwJeqo/RebSzxSELAxnr3LYD+PH0G8XqL7zo2xEqKIeTqwG2f0LSe02324u/4RnQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB9012
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAImx2GYC/23M3wqCMBTH8VeJXWfsTI+bXfUeEbE/xxyUxhaSi
+ O/eFCKLLn+H8/mOLFLwFNl+M7JAvY++a9MothtmG91eKPMubSa4KLjMeaadLAWeA2QldyBJC1W
+ hYun/Hqj2z6V1PKXd+PjowrCke5iv7wqsKj1kKQpUU41aaFMdjB6u3gTa2e7G5lAvPljxao1Fw
+ rVCktqqHJD/wfkKwxfOE5boUIC0sjT4g6dpegHD+Oj7HwEAAA==
+To: Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ David Lechner <dlechner@baylibre.com>, 
+ Uwe Kleine-Konig <u.kleine-koenig@baylibre.com>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Trevor Gamblin <tgamblin@baylibre.com>
+X-Mailer: b4 0.14.1
 
-On 9/4/24 9:08 AM, Suren Baghdasaryan wrote:
-> On Tue, Sep 3, 2024 at 7:06 PM 'John Hubbard' via kernel-team
-> <kernel-team@android.com> wrote:
->> On 9/3/24 6:25 PM, John Hubbard wrote:
->>> On 9/3/24 11:19 AM, Suren Baghdasaryan wrote:
->>>> On Sun, Sep 1, 2024 at 10:16 PM Andrew Morton <akpm@linux-foundation.org> wrote:
->>>>> On Sun,  1 Sep 2024 21:41:28 -0700 Suren Baghdasaryan <surenb@google.com> wrote:
-...
->> The configuration should disable itself, in this case. But if that is
->> too big of a change for now, I suppose we could fall back to an error
->> message to the effect of, "please disable CONFIG_PGALLOC_TAG_USE_PAGEFLAGS
->> because the kernel build system is still too primitive to do that for you". :)
-> 
-> I don't think we can detect this at build time. We need to know how
-> many page allocations there are, which we find out only after we build
-> the kernel image (from the section size that holds allocation tags).
-> Therefore it would have to be a post-build check. So I think the best
-> we can do is to generate the error like the one you suggested after we
-> build the image.
-> Dependency on CONFIG_PAGE_EXTENSION is yet another complexity because
-> if we auto-disable CONFIG_PGALLOC_TAG_USE_PAGEFLAGS, we would have to
-> also auto-enable CONFIG_PAGE_EXTENSION if it's not already enabled.
-> 
-> I'll dig around some more to see if there is a better way.
->>
->>>> - If there are enough unused bits but we have to push last_cpupid out
->>>> of page flags, we issue a warning and continue. The user can disable
->>>> CONFIG_PGALLOC_TAG_USE_PAGEFLAGS if last_cpupid has to stay in page
->>>> flags.
->>
->> Let's try to decide now, what that tradeoff should be. Just pick one based
->> on what some of us perceive to be the expected usefulness and frequency of
->> use between last_cpuid and these tag refs.
->>
->> If someone really needs to change the tradeoff for that one bit, then that
->> someone is also likely able to hack up a change for it.
-> 
-> Yeah, from all the feedback, I realize that by pursuing the maximum
-> flexibility I made configuring this mechanism close to impossible. I
-> think the first step towards simplifying this would be to identify
-> usable configurations. From that POV, I can see 3 useful modes:
-> 
-> 1. Page flags are not used. In this mode we will use direct pointer
-> references and page extensions, like we do today. This mode is used
-> when we don't have enough page flags. This can be a safe default which
-> keeps things as they are today and should always work.
+This series adds a new driver for the Analog Devices Inc. AD7625,
+AD7626, AD7960, and AD7961. These chips are part of a family of
+LVDS-based SAR ADCs. The initial driver implementation does not support
+the devices' self-clocked mode, although that can be added later.
 
-Definitely my favorite so far.
+The devices make use of two offset PWM signals, one to trigger
+conversions and the other as a burst signal for transferring data to the
+host. These rely on the new PWM waveform functionality being
+reviewed in [1] and also available at [2].
 
-> 2. Page flags are used but not forced. This means we will try to use
-> all free page flags bits (up to a reasonable limit of 16) without
-> pushing out last_cpupid.
+This work is being done by BayLibre and on behalf of Analog Devices
+Inc., hence the maintainers are @analog.com.
 
-This is a logical next step, agreed.
+Special thanks to David Lechner for his guidance and reviews.
 
-> 3. Page flags are forced. This means we will try to use all free page
-> flags bits after pushing last_cpupid out of page flags. This mode
-> could be used if the user cares about memory profiling more than the
-> performance overhead caused by last_cpupid.
-> 
-> I'm not 100% sure (3) is needed, so I think we can skip it until
-> someone asks for it. It should be easy to add that in the future.
+[1]: https://lore.kernel.org/linux-pwm/cover.1722261050.git.u.kleine-koenig@baylibre.com
+[2]: https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git/log/?h=pwm/chardev
 
-Right.
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+---
+Changes in v4:
+- Link to v3: https://lore.kernel.org/r/20240819-ad7625_r1-v3-0-75d5217c76b5@baylibre.com
+- Rebase on top of latest pwm/chardev branch at:
+  https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git/log/?h=pwm/chardev
 
-> If we detect at build time that we don't have enough page flag bits to
-> cover kernel allocations for modes (2) or (3), we issue an error
-> prompting the user to reconfigure to mode (1).
-> 
-> Ideally, I would like to have (2) as default mode and automatically
-> fall back to (1) when it's impossible but as I mentioned before, I
-> don't yet see a way to do that automatically.
-> 
-> For loadable modules, I think my earlier suggestion should work fine.
-> If a module causes us to run out of space for tags, we disable memory
-> profiling at runtime and log a warning for the user stating that we
-> disabled memory profiling and if the user needs it they should
-> configure mode (1). I *think* I can even disable profiling only for
-> that module and not globally but I need to try that first.
-> 
-> I can start with modes (1) and (2) support which requires only
-> CONFIG_PGALLOC_TAG_USE_PAGEFLAGS defaulted to N. Any user can try
-> enabling this config and if that builds fine then keeping it for
-> better performance and memory usage. Does that sound acceptable?
-> Thanks,
-> Suren.
-> 
+  [PATCH 1/3]
+  - No change
 
-How badly do we need (2)? Because this is really expensive:
+  [PATCH 2/3]
+  - Add 'depends on PWM' under 'CONFIG AD7625' in
+    drivers/iio/adc/Kconfig, based on v3 discussions
+  - Cleanup whitespace usage in Kconfig, bandwidth logic to match
+    Jonathan's suggestions
 
-    a) It adds complexity to a complex,delicate core part of mm.
+  [PATCH 3/3]
+  - No change
 
-    b) It adds constraints, which prevent possible future features.
+Changes in v3:
+- Link to v2: https://lore.kernel.org/r/20240809-ad7625_r1-v2-0-f85e7ac83150@baylibre.com
+  
+  [PATCH 1/3]
+  - Add gpio bindings header, en0-gpios and en1-gpios to binding example
+  - Remove unnecessary comments
 
-It's not yet clear that (2) is valuable enough (compared to (1))
-to compensate, at least from what I've read. Unless I missed
-something big.
+  [PATCH 2/3]
+  - No change
 
+  [PATCH 3/3]
+  - No change
 
-thanks,
+Changes in v2:
+- Link to v1 (marked as RFC): https://lore.kernel.org/r/20240731-ad7625_r1-v1-0-a1efef5a2ab9@baylibre.com
+- Include link to required PWM patch series in cover letter (missing before)
+- Include new link to the pwm/chardev branch of Uwe's kernel tree
+  
+  [PATCH 1/3]
+  - Rework dt bindings to be compliant using make dt_binding_check
+  - Add "adi,no-dco" flag to address indication of how DCO lines are
+    configured
+  - Fix binding patch message
+  - Remove chip packaging info from binding description
+  - Move comments around to be clearer
+
+  [PATCH 2/3]
+  - Remove ad7625_pwm_disable(), call pwm_disable() directly
+  - Add ad7625_buffer_preenable() and ad7625_buffer_postdisable()
+    functions
+  - Add devm_ad7625_regulator_setup() function, move all regulator logic
+    to it, consolidate the comment blocks related to it above
+  - Add have_refin flag in ad7625_state struct
+  - Add pwm_waveform structs to ad7625_state struct for storing
+    requested waveform characteristics
+  - Refactor ad7625_set_sampling_freq() to set the pwm_waveform struct
+    values in ad7625_state, limiting PWM enable/disable to
+    preenable/postdisable functions
+  - Remove redundant dev_err_probe() after devm_ad7625_pwm_get()
+  - Use device_property_read_bool() instead of device_property_present()
+  - General alignment and line wrapping fixes
+
+  [PATCH 3/3]
+  - No change
+
+---
+Trevor Gamblin (3):
+      dt-bindings: iio: adc: add AD762x/AD796x ADCs
+      iio: adc: ad7625: add driver
+      docs: iio: new docs for ad7625 driver
+
+ .../devicetree/bindings/iio/adc/adi,ad7625.yaml    | 176 ++++++
+ Documentation/iio/ad7625.rst                       |  91 +++
+ MAINTAINERS                                        |  11 +
+ drivers/iio/adc/Kconfig                            |  16 +
+ drivers/iio/adc/Makefile                           |   1 +
+ drivers/iio/adc/ad7625.c                           | 684 +++++++++++++++++++++
+ 6 files changed, 979 insertions(+)
+---
+base-commit: 1ebd3850421749eb44bd040b249bd4db88d35b33
+change-id: 20240730-ad7625_r1-60d17ea28958
+
+Best regards,
 -- 
-John Hubbard
+Trevor Gamblin <tgamblin@baylibre.com>
 
