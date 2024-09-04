@@ -1,64 +1,58 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE041CEE86
-	for <linux-doc@vger.kernel.org>; Wed,  4 Sep 2024 09:56:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851411CF5D5
+	for <linux-doc@vger.kernel.org>; Wed,  4 Sep 2024 09:56:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725443805; cv=none; b=eQtLZj95+/mz5ZVX/3x/KHI3cwFKJVvqkXvDlAUCi6/wXQAD6Ch/T4pjt6rNCfaw+4BdPu5SFRjflic6eLHUNNDgA0fRDV8B5V7y6d9D9HyfmgLR8y/iS7LmVm5odZaGaW4Nbwr5ChwSRWYqGc0kTrUjCnNzguJ6xYaREQpvClo=
+	t=1725443810; cv=none; b=iInS/p/RcRWMVuSgPzoYgqwDypltxk/TzIuJBmntT5m09Xdu4ta/S7w7a3RGC7J7QFNZLVe2UmVCBU1D5eie3nmRy9EbdxwjZlX9yzbWO3YdLSddfdZeNz8dtkHaKlG55yr1L0iqvuOtd1ixTctXVhvdqqv0xCuQ5av+4iXrt+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725443805; c=relaxed/simple;
-	bh=tCuk2mV1y4PiVJvxpU2GLPmf58V5xXMb8LK0IYQ95Lg=;
+	s=arc-20240116; t=1725443810; c=relaxed/simple;
+	bh=aCDidHUhuCuDHfNZLIqA/sxxjHTRtbuYO3SM1pB/9EY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XMxcN8z8xNggTm8Vzr5GDT9ew7JoFbVJrZVMeXEw267U9HHnA/eLukrHy3Xw6pYypQsaM/6jX9sYXIrwpY1ebIgB0bZmHMDMXBp4wTDP86Jnqq+K2XzqVfA5DyGV8nvTjk+pnfeRInE9ADlti10yiBfY17CSfvlmk02st5bwNjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cdYJKsYc; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=EUMkjfpPJTH3GjNKwzPXu2gsFCi3O2lQvl/mKCE9wNcVhkJ2AplLGjtRo1I1+dO5Va0+ZamMWax7wIePdoKvXOxTdGAzKjggZXFjrl/3z/YE0DWx8/plyQCKrbDxmiid89lvMilgVJZtEKg988A0cZvVVim3+JA7k3pGqtbB62g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EuxRxFvK; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cdYJKsYc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1725443801;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rMDEvCKdCk4WIymhHfyU1DYt7Mm9yUFTwXqHIwpMZWg=;
-	b=cdYJKsYcNva0kpCsjCteVnvUD5wG+Bo5DyLfWDnS5yGXrFc5lDRAH52wNFnu9gzOGuC550
-	goPJnSWAhlBsawL1HgXLDfj/hN2E3Rq9jnvli96pUKjyCxUCIzuU0UWPN8v+HrgAD+T1QX
-	0a14Xg3nhysckyWu0V85z8W5LdGm3n8=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-562-6s7x5Si8OIuWUDV4mF6VOg-1; Wed, 04 Sep 2024 05:56:40 -0400
-X-MC-Unique: 6s7x5Si8OIuWUDV4mF6VOg-1
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-5c250f3b18aso496725a12.2
-        for <linux-doc@vger.kernel.org>; Wed, 04 Sep 2024 02:56:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EuxRxFvK"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-42bac9469e8so5040015e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 04 Sep 2024 02:56:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725443807; x=1726048607; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=U/W78Be/eQHD22S5iu13BDeYflw4dGDs26BDBayFTqk=;
+        b=EuxRxFvKDdeAROzz2wpkm1PZK/6UBeKTmcwFuCoI2snoL1zQzQFSrRADlHMWgPUpt2
+         toWI2zNYEsD8d5Gsg0mGyiYaJDvdO18aUSbKUHodnZGmEwaAmk+ibOp8ooCf94Q5UEEK
+         SFVGkU8CTflFhLWAyXweQGtD5hhV6mygtEBIDZsLY8MhrPty+sseXlccoj2PKxfH8tCL
+         A/Bvh6JD8+MzVt/PbFrywmJZtrBZqXEvSoE+t6RwPjHJaJDW0eQJDJxcauxXyTlQWNyE
+         JEYuR8doowlUSj6pmIp0hsLHfRQyaDR+r+7a44UShPW9n0mSSHq2ZXd4MN1AfqFK98rB
+         q/ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725443799; x=1726048599;
+        d=1e100.net; s=20230601; t=1725443807; x=1726048607;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rMDEvCKdCk4WIymhHfyU1DYt7Mm9yUFTwXqHIwpMZWg=;
-        b=vuxUiGpB+JpRQ6KoCzXNCgWxu6NOk2lqi1vcDsGwmpIy0XoC41jrUxN8B+287zC+GS
-         oZSidWo4R9pavyvcElb/sDFm0luXYSbT3WzMslVaoT4dvlUORAOuRc2orw8vB/vVWOMd
-         dc4yrOfQUzOGIqj9Pv5/nWMxtqh7bB+nD2Q4YiFBMBFX/K+WOVdxkTrAV4lpf+SoZJKE
-         tekjjdVOESSYZ1LBY/dyHct4LZNGmbnKMRDx0YLCJoDYFDywR7loOfDMA+p8NlKGVY+V
-         +1xafXjYD1OAQ1neND5om2/K/evAHjGOu2mIlOivGoR1PCoV3UIgP1461NKqE7TOA2gy
-         xhOg==
-X-Gm-Message-State: AOJu0Yx0Cojrqw4H5yXYDh3HBK3xqzsRWo7KaiJTSGzZ/z3EXY8BAnb0
-	p2THSkt6d1hSMctEEUa5pEaFzI0bCTxCzh5aCz175UK3FMaJMJiK6EzflOaHAK9A5IPxFFxO0nS
-	JKXaa7jKB/q/ciwbHYVvWuHq0L8nNOQ6Y+e+j2KVmBbScE3u8pxd8+TXAEg==
-X-Received: by 2002:a05:6402:42cd:b0:5b8:d362:3f46 with SMTP id 4fb4d7f45d1cf-5c2caf33337mr1558402a12.35.1725443799058;
-        Wed, 04 Sep 2024 02:56:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHlnycoV76oDP9U5UM2YYaIAmUl0Ei3c0MAuEAupv04gX5cU6djy/efboDKaYePfle0+YiXGQ==
-X-Received: by 2002:a05:6402:42cd:b0:5b8:d362:3f46 with SMTP id 4fb4d7f45d1cf-5c2caf33337mr1558377a12.35.1725443798497;
-        Wed, 04 Sep 2024 02:56:38 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c226c73042sm7846700a12.33.2024.09.04.02.56.37
+        bh=U/W78Be/eQHD22S5iu13BDeYflw4dGDs26BDBayFTqk=;
+        b=ShRR4kcHANrJqeuLNHR+c7km+WhtWGwnTUQH48S5VIvvVcFs2Vu3IEWrQVnXeklcEZ
+         wfplTqBje78FftcbKavaj7HkITcmFzo1HImxDEkIBQCzjT16lUN0R5znN2RFOFyvJbVp
+         pC7rlSwkD4n/Vd3abjL0Q0Mw4u9WnXNvy2UpwwWvNNVf//x70KJoZZIwPXoK+oQkvr4T
+         KVDVdOmo5j41wtGRtK/EO9hzyR4y0UsoOb/HiFy2EuR726FausLWDQF2TA3PNoRqpqB4
+         DOYe3tFEq3RGx7YtNjv4HeoGQdi93jrUIytccPCtGn1rUn5m6vXvi4zt6k3pqGlEshqu
+         adNA==
+X-Gm-Message-State: AOJu0Yy1GU090urCS+6ge6kdGP9700japrrKYqoChHlf9UvWNKAHAubl
+	1rq8K+N0DGj6MBaRRa+5FQ5j0qYLUKVe0fdFlcdyEQ3NLi4TLZpHB5fj3/nNZSI=
+X-Google-Smtp-Source: AGHT+IFlA/9+wXJR00TBKlcv7t++BLgC83AND2/h5r1U9gBA4bpgaKPOAUnFNgxosCfz41BlVAzrEQ==
+X-Received: by 2002:a05:600c:1ca4:b0:427:dac4:d36 with SMTP id 5b1f17b1804b1-42c9542506fmr12927985e9.7.1725443806315;
+        Wed, 04 Sep 2024 02:56:46 -0700 (PDT)
+Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-42bb6e274b6sm199624165e9.33.2024.09.04.02.56.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Sep 2024 02:56:38 -0700 (PDT)
-Message-ID: <8ed458fc-7a3c-4b1e-838b-0bc020e91308@redhat.com>
-Date: Wed, 4 Sep 2024 11:56:37 +0200
+        Wed, 04 Sep 2024 02:56:45 -0700 (PDT)
+Message-ID: <53f963f1-7e0a-4add-848f-efcce3681609@linaro.org>
+Date: Wed, 4 Sep 2024 11:56:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,51 +62,46 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] platform/x86:intel/pmc: Fix comment for the
  pmc_core_acpi_pm_timer_suspend_resume function
-To: Marek Maslanka <mmaslanka@google.com>, daniel.lezcano@linaro.org
+To: Marek Maslanka <mmaslanka@google.com>, hdegoede@redhat.com
 Cc: linux-doc@vger.kernel.org, lkp@intel.com, oe-kbuild-all@lists.linux.dev
 References: <d5e6a9b4-f9e2-4c6a-ac2d-bba1b12d7675@redhat.com>
  <20240904094753.1615549-1-mmaslanka@google.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
+Content-Language: en-US
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
 In-Reply-To: <20240904094753.1615549-1-mmaslanka@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi,
-
-On 9/4/24 11:47 AM, Marek Maslanka wrote:
+On 04/09/2024 11:47, Marek Maslanka wrote:
 > Change incorrect kernel-doc comment to regular comment for the
 > pmc_core_acpi_pm_timer_suspend_resume function.
 > 
 > Signed-off-by: Marek Maslanka <mmaslanka@google.com>
 > Reported-by: kernel test robot <lkp@intel.com>
 > Closes: https://lore.kernel.org/oe-kbuild-all/202409031410.a9beukFc-lkp@intel.com/
-
-Looks good, thank you.
-
-Daniel can you add this to the timers/drivers/next branch please?
-
-Regards,
-
-Hans
-
-
-
 > ---
->  drivers/platform/x86/intel/pmc/core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/platform/x86/intel/pmc/core.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/drivers/platform/x86/intel/pmc/core.c b/drivers/platform/x86/intel/pmc/core.c
 > index c91c753b120e..e2b4c74ce7f6 100644
 > --- a/drivers/platform/x86/intel/pmc/core.c
 > +++ b/drivers/platform/x86/intel/pmc/core.c
 > @@ -1209,7 +1209,7 @@ static bool pmc_core_is_pson_residency_enabled(struct pmc_dev *pmcdev)
->  	return val == 1;
->  }
->  
+>   	return val == 1;
+>   }
+>   
 > -/**
 > +/*
->   * Enable or disable ACPI PM Timer
->   *
->   * This function is intended to be a callback for ACPI PM suspend/resume event.
+>    * Enable or disable ACPI PM Timer
+>    *
+>    * This function is intended to be a callback for ACPI PM suspend/resume event.
 
+Applied, thanks
+
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
