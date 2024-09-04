@@ -1,99 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A25F05B1E0;
-	Wed,  4 Sep 2024 11:30:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C708F1D0976
+	for <linux-doc@vger.kernel.org>; Wed,  4 Sep 2024 11:48:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725449433; cv=none; b=BbbLzrhhDFW/pQBRRGkd70ijuphVdtTFJmcLXnycjJyK8HAtSK6UzIWkGMxs8TNUUbicl5SXAb54687A4K1xVKk5uA2IUdYINIGOwgu2wv/faHSxyZhSQs6vagtt3vhqe0cylI5bMW+vuxUEW5ER3wjCG0ZdrpK5gpiE4xzsHrs=
+	t=1725450521; cv=none; b=oX2kbDrcRMZeTJ3YmpqZ1oi0a4P/0Mcceztq7pnOQpIsgA4gysdDyz2uF9Dl0vcg8UHrHGPNckNjbJ75oQ0hzrDqmbo1IyQLuWgLzSRb+W0ILrDPqBW+x3WM+D1U1ZN0lh1nh2teITHA+9P8mI9qRkyIVQQe5uLASQhsfVU8rD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725449433; c=relaxed/simple;
-	bh=5Aj+Yl/rXBgCGweDXox10GeE9CAueq0f0fU8ZeIbr1Q=;
+	s=arc-20240116; t=1725450521; c=relaxed/simple;
+	bh=9grxJBulqA4M7mTry0HLRVP5zF0PSNYxyQ99ICIse5s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cPlCxm7XXR5ZWljyxOenPjLCrdAm0LLu9rsj6u6GtBaE5XF0fCFcNGUDezuF6vHcupCKef/2kMbcBTLAlrttmUusLBFnQpPPFcbgEn9IpqNbMXHKVQlTETS3X4wZvOnaoYfOrzoM/op9JP4f9FNPQURz2fIcibnUnME8r7/gjG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vEMRaWvE; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=i/+81QpnfLenHlSK7A0F6KRdq+cpbHcD13J13pxKN5LRKDGA2jWDyhhZAJPNAvT9w2mY6RNz3YqGp2/1f7O4g7no5Iss+ghNOSVSG/KWAxL7hMnlbzth6OWYEW8nAwkv1ZkzNtvwOG/WhJ/S6mIWg4BO8RXv/1HOnQiELYWqpxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=RWRQVciS; arc=none smtp.client-ip=209.85.208.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vEMRaWvE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA969C4CEC2;
-	Wed,  4 Sep 2024 11:30:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725449433;
-	bh=5Aj+Yl/rXBgCGweDXox10GeE9CAueq0f0fU8ZeIbr1Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vEMRaWvEgpMx1JiXXMbipWn7gT/SWrsvX834OdcJnZ8wMadYaGYPBTiO9+p8tPEAE
-	 qXkj0XD32K/6wc01wlrwIh2u7KjmnK5X4nJdEhwbCvMqqNIq5NhNbXqNTywDF+dSEm
-	 IxPHUMKOw1R3NzBl/IRFAAOmd6K9FFQ00KmE5cfejxNKEPBs4a3BoGcl3sLWHNiBvI
-	 +B5BqW9MDovr3IV3Y1xzNql+ICypBxyLR3yXNgO5rOG4af0/mHORJvka7wZ/BitjFg
-	 Y/+K6zHo6lDgOTrugMvolroZHNSuElel6EUkFgv4Foy3mACDoB6Sabu5+2QNfzvcDE
-	 CuTYX0uD/50jA==
-Date: Wed, 4 Sep 2024 12:30:28 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: submitting-patches: Advertise b4
-Message-ID: <bbe54c4e-dd0c-488c-bffd-f9dddf6b13f8@sirena.org.uk>
-References: <20240903-documentation-b4-advert-v1-1-c89d6f5db7b1@kernel.org>
- <20240904044443.309aabb1@foz.lan>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="RWRQVciS"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2f4f24263acso97475481fa.0
+        for <linux-doc@vger.kernel.org>; Wed, 04 Sep 2024 04:48:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1725450517; x=1726055317; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7c+oJIY6rjOiXmpMYXeuDRnxHvChpBfHfXKg9Xvladg=;
+        b=RWRQVciSMykfeypt0UcljqVDSyQsPyDPi2vjphZINHqUmq2sW5GpPCeJUHzibmuL6A
+         mo6hE55jY8b138Yoa5n6Hc/QXYCMHvrwQxJPfg565XJ4WMCqSKa6cKsh/fCVPqT4RxZo
+         Tp6N5J2SHAF+G0YEon2kCf1fFf4N3E4usFW9+VA08QrWFyk+E1fnmxDJiZtlcpZSoMbK
+         26M5f+FxJ+VJjfS0MMV165MUbFal+bYaFX0f1v/FvqvtzIaTrbxoYu0zrDYLMubvbGJ0
+         LV7fS4zNqg8E1rGtA3bQb2VQD8Cm7jxs2U5WhN9DWWWRoLbh7BCvEldaRfSkD9l935wu
+         zSnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725450517; x=1726055317;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7c+oJIY6rjOiXmpMYXeuDRnxHvChpBfHfXKg9Xvladg=;
+        b=epfmg6zWBQh2eq4DQMX/2IkzeDtFl0j5eCV3lJn+Ekzv+6UMofjM/OEv09EoiS53J6
+         i2CvtLur0Faqq0kLcy+e5GKEuUu7KQnp6fsfNRi3YRcL+hBidrfs5OmnA0nIHs5lHVVZ
+         qpyqqfON/nGgHCwO/GGlUgsQRSzFSss4cPpMC58qqBr3VIAem0HVH/6whCeG0v9OOzeN
+         98QDl3OIw9k2SnvSQnoZ9ew+1NHvrI3hOpxvgcjrJJuiDB8plz3+paY9bAT+ibg5+/Ns
+         qyNTz7AG9jyg506ENont9i+jB0ydUGVjg7yNfNWX2u0MRNhLCLCD4xbAWzc4ViiDKSt8
+         ldCw==
+X-Forwarded-Encrypted: i=1; AJvYcCX24DHA+ZY2rWj25lvjeEC4dVnZGAfnpCKxJ2vwrUV7UgSAD+0NLp/StrjGWdkiMDTHG4WOJL4/BEQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzh+eEEs0TKeKgBvnPe/lsKjm2VLsgy0X3dvKLicw55YYbZPLWt
+	q+GsXLOBpWV6sZJ3BZWeY0GGcjbEoD9OueIaAhp6jADP4of+iSKCUoa+idt54ts=
+X-Google-Smtp-Source: AGHT+IGWQuArwLoBWGS3FkJMZjNYcq/QeFma7aPLpSFDWBKQmp/WL+6f16yVurrf2i0A8WqhB+DPoQ==
+X-Received: by 2002:a2e:f19:0:b0:2f3:cd65:cf65 with SMTP id 38308e7fff4ca-2f6107080ccmr150312881fa.28.1725450516688;
+        Wed, 04 Sep 2024 04:48:36 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.50])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a89891dc6a1sm810537966b.175.2024.09.04.04.48.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Sep 2024 04:48:36 -0700 (PDT)
+Date: Wed, 4 Sep 2024 13:48:34 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Kernel Livepatching <live-patching@vger.kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
+	Joe Lawrence <joe.lawrence@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Marcos Paulo de Souza <mpdesouza@suse.com>
+Subject: Re: [PATCH] Documentation: livepatch: Correct release locks antonym
+Message-ID: <ZthJEsogeqfVj8jg@pathway.suse.cz>
+References: <20240903024753.104609-1-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fmW3RxZUn8nqYSox"
-Content-Disposition: inline
-In-Reply-To: <20240904044443.309aabb1@foz.lan>
-X-Cookie: Linux is obsolete
-
-
---fmW3RxZUn8nqYSox
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240903024753.104609-1-bagasdotme@gmail.com>
 
-On Wed, Sep 04, 2024 at 04:44:51AM +0200, Mauro Carvalho Chehab wrote:
-> Mark Brown <broonie@kernel.org> escreveu:
+On Tue 2024-09-03 09:47:53, Bagas Sanjaya wrote:
+> "get" doesn't properly fit as an antonym for "release" in the context
+> of locking. Correct it with "acquire".
+> 
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-> > +Tooling
-> > +-------
+Reviewed-by: Petr Mladek <pmladek@suse.com>
 
-> > +Many of the technical aspects of this process can be automated using
-> > +b4, documented at <https://b4.docs.kernel.org/en/latest/>. This can
-> > +help with things like tracking dependencies, running checkpatch and
-> > +with formatting and sending mails.
-> > +
-> > +
+The patch is trivial. I have have committed it into livepatching.git,
+branch for-6.12/trivial.
 
-> No need for two blank lines (yeah, there's a mix on this file of using
-> one or two blank lines for paragraphs).
-
-I have to say that the double lines between sections do help with
-native readability of the document.
-
-> I would also add quick example(s) on how to use it for common workflows.
-
-The b4 documentation is already pretty good and the submitter side is
-focused on a single task so it's much easier for people to navigate
-than something like git where there's a lot of flexibility, I'm not sure
-rewriting an abbreviated version is a great idea.  Someone with a better
-idea of what would be useful could always follow up and add that.
-
---fmW3RxZUn8nqYSox
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbYRNQACgkQJNaLcl1U
-h9AKXAf/QfT66Emr7d698Cu3+HT2XqcZ6wCEE3BdchyCYPCaEUMbjC5Bb9QosL2U
-+/lcM6MnBZ/4j9w0UktlzKiduYVnhwi5pbls8EJAgB65pERpCJ8wLqSG6rI+hkn5
-Ge/X3m1VTHZ/i/ChgRGd4LmzmTxfSQHxazCXq0jvw5kmBqeM/Rb8y4P85eek7c+m
-XF3A+4dmNxRRaGVlrkBWll4wXqy0S3uSAqTFtTsDqimWcmipZlP3nsBx6T9t6f9o
-wWq8Jb6KjTD6Sqwy+QOmYL6kN/kWqsUsOpbajjeHfFtRdzFN9IvYGY4HHKfXelr9
-crf5HyEDFWelacDK15Co3G/fbwp3Xg==
-=cTQF
------END PGP SIGNATURE-----
-
---fmW3RxZUn8nqYSox--
+Best Regards,
+Petr
