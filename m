@@ -1,153 +1,117 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7761482FE
-	for <linux-doc@vger.kernel.org>; Wed,  4 Sep 2024 07:58:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA1783CC8;
+	Wed,  4 Sep 2024 08:12:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725436741; cv=none; b=vGhR45n7719KGJykFiTRmRO7MJIsfCaXnxEjSomUQqYowilmErE4Vgcf/p7hzSRTUzHSt//L+qklmToQeTy4AqS1kb0EfTKe71LeLDezaXVQAbLzMFLvb3LTUQythNiCjnkBmAvJIxbtLFTP6h/qSV3GjHnCUWCOqsunQjyr3hc=
+	t=1725437573; cv=none; b=D75olnDBRhfcPYsmkfPuhnZxXA1IYZ3ULdYugy7VQpiZcKpPYRXQ70qXxu8VSD1tK4Xw/B0Af8qNnyVO6w5noX4rOD5zI6m+qF1bZm1Ymf5TV3Pkex4aQhi2E8DM7sk6H93JRp3zn7Vm7GkZzSP64TFtS8pWoKVahG2/dXGhfSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725436741; c=relaxed/simple;
-	bh=c2jAvJRISFmKTJLAivo6CZeVFTI+zZ70Yr/35SjCgB0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZuHn0zpqQp8r/ZZVgzQ4r1Z3UNNG9nUlcvtkIjFv2eo7JV1V47TeB3AMuT+VpHUnZdcOnPoNp4zlOifKkeTOXW1cBQYiQfynsw+21nLNic1lURuGJkorCcItBKDvcU96knapNcN8JSo8RkylRG9CYzehsoXXaExA09CzshWDY9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=OWJVwDHn; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="OWJVwDHn"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a86e5e9ff05so723304366b.1
-        for <linux-doc@vger.kernel.org>; Wed, 04 Sep 2024 00:58:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1725436738; x=1726041538; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=o38ll/1shPkcH2c9qDR658TMHisQqMl2xPlWoUMdupM=;
-        b=OWJVwDHnMvMCmaRJW7HdKr2jeHfY8//F0rB92qh1tL5zV2KubY62VlnZh43eMojbC1
-         e/ibN1Ky5R35wpXUkrpNi5z38Is8EIm3QkUbLFknEWTf0DZMYgoZKaqpw6sHpNNnVRiZ
-         ewhuwAXtlOEXZJ8hHjvxkB3YyuBPEtJe+DrhYKlJmmYzSC8A9LTu++Aw7tFOorLvSQXP
-         TqKcPddE2278eDMlkRkuUKO1RZlgEmTfw/dfrpWStHKZ+SdxMjd8P/y45pf8EhGOYi1i
-         ltCWJHrwRU8UVnC2VTxFYHkwFsX0zxUGyxH6oyRjCy0eMpGEUQxDPjFtugNMxzraACoA
-         GX+Q==
+	s=arc-20240116; t=1725437573; c=relaxed/simple;
+	bh=65cQQU+M2UnU5X6Ms72kWMCyjT6kucVE8wcCMX9suS4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bhmWsOhhMVKaKp7QEsKm4tTg9dwxKIk2u3vxQpf4uIosAfaA6JhIHa2OAwKh6GGsdFIzAe66WZ4Zeky3+VukYIkcVrnV5s5V9YYbrZOhgJoi77F9smFczaP0dGJ8nKaLd/WidHjV2jTRIZwRuYOuB2CATTTEn2pJAut2MeU5JZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e17c1881a52so331758276.0;
+        Wed, 04 Sep 2024 01:12:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725436738; x=1726041538;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o38ll/1shPkcH2c9qDR658TMHisQqMl2xPlWoUMdupM=;
-        b=NX9HbLghh1vaY+ZXWHEgMY8px+OBeX/vLZucOpHjtJwwaUJ2ofmAnjX2MDLKNJFn3/
-         w5Ypgkj9It9BROf/3snbSxQMscHzML7KqfaW247NcqKoDa5ZKRXslrh+coCqCHbHPOx2
-         uQKWkp8IXmR0BsUJ8oV8T5z44u8lZDQxaM1c+j+eapDVmnFcQ46GpA6+PVXw/Maq/s/E
-         HqPlY1LDo+sUiVurVm2UrxKWr4g4/xGX7ozJXKpkCVcVkme2WCNC/kde6BiCiEZlE3Kz
-         Bbek6G2yp8PpoydmP2U2jQXuVqDQo3DydqoWUOCibNXbyAbxjj8comJ6jESWL9CSx/7o
-         DA9w==
-X-Forwarded-Encrypted: i=1; AJvYcCXS+2MF1CeCEcF+9c4kkXTdNZ4205SOaiTTaWESb1azbpGrlh0ngRGgFBJ/vqU/LMjG0oxcNZKHl+k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwASPbGBoyLUwa/W3sVyx8lF9C1DpdVdLrOmACcrFflxQJzm7Iz
-	FW3qOm6+qTh0BY+WYixgzRjqFxllkvLcf4lRuj4/Qt8+CAOfu8GpK8mqCkXBlp8=
-X-Google-Smtp-Source: AGHT+IHbXWBNh7i4cmQrik4TDTg1G8pCMakv2oa+Dk+9s51s/80FIoXVDzhEC95r4WGClTNuCsuPdA==
-X-Received: by 2002:a17:907:97d1:b0:a86:bb5f:ebbd with SMTP id a640c23a62f3a-a8a32fe029cmr183723666b.63.1725436737475;
-        Wed, 04 Sep 2024 00:58:57 -0700 (PDT)
-Received: from localhost (p5dc68f76.dip0.t-ipconnect.de. [93.198.143.118])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a89892232c7sm768623066b.222.2024.09.04.00.58.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Sep 2024 00:58:56 -0700 (PDT)
-Date: Wed, 4 Sep 2024 09:58:55 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: kernel test robot <lkp@intel.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	David Lechner <dlechner@baylibre.com>, oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] iio: adc: ad7625: add driver
-Message-ID: <mgsig2v65adwgfhofxk3snfbtibgjfeiqqj4iw5r2aquak22ve@3ssolag3ousl>
-References: <20240819-ad7625_r1-v3-2-75d5217c76b5@baylibre.com>
- <202408201520.lFtco3eF-lkp@intel.com>
- <7658aca4-a408-480c-98b6-4637bb86b5ad@baylibre.com>
+        d=1e100.net; s=20230601; t=1725437569; x=1726042369;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Mclf5cWZ7doo82bxSJ1tInXWyUxki/hxkifyVYswtWM=;
+        b=F4mpiC22ZpflfuiiM4/lXrLRY7OTfbMPuyK0m02iXhQ12pQ09GBA2LOn/QR7SiD2tM
+         v9WzaavnTELgxXj8HS0or7kb9dDQoPKlTSTs6R0GpPGFqsi89HrQepYPvvhieCuQBySq
+         pwwRN3iLShnrbvKJ6RX4KNNP387/6QfKB/0k+OEO0nFn+rrBMaRd4/SFzCW1pLSjrA/N
+         OfS1vOWLNN2F8taVa4oKLequnpBVAV1y3FboDpE3vj2q1fkJ/YNqqcRk8FIuSw1zSIxU
+         gSFgi7997Z3YR4L9zNaOAEITd7OBG93mTD/ClYPUtRzIRlm1oeZk0vEP4sB7/OXDR7JW
+         6PPg==
+X-Forwarded-Encrypted: i=1; AJvYcCVNxlvzZLvtMI4bLAO4xhamq08x3Bjy/r4N/DeulADzx5+JcgeqzLhD/+0WGT++62PTP3rFSoJKF9XXlg==@vger.kernel.org, AJvYcCWDE65JwsnppsfM4k3wi5gvzxl8wtGPy6zkNXUmIO863pWx1QO/P8ORvdCkwNHANDoEMs+Foc9w37w10Drk@vger.kernel.org, AJvYcCWgylu+nNOq02xF+2JTjgImOeTuiFzX2kWbMLFMg40P131T+/PBjjaavvOO71PEb4tJyXWMEvqxpuCrDQnm@vger.kernel.org, AJvYcCXh6mf9foRHjZUC+DUDvg9YDZGOj7aApDL/pxwKmYpcgI9jwWb4qVPTO4nvFiR+xFLJtazQ/cwLiOQvh+496PU=@vger.kernel.org, AJvYcCXkFkvc+fMzuGhZfWVKjOTHuo8ab+gQJLKVcBS9arUbL/hwlonUwO5sopuAFU0ZKyZxVU+SEMZli8wvlmy2S7v8/Ejk@vger.kernel.org, AJvYcCXsb3RVq/rBMfBpJ8b3Zmdb9Nv3Hg+T8UJhGmy6l2a8snoyyrOPIrNrlrGcIW/ecntlskFSv4qac2c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YztjeZBgIp1axkogJpgPacomNq9zUREAnHhHDLd4sbZwPPwcb8J
+	bgWe2fEPWfavTxiXfpXyo7r+sVNjjjiOmcSeeL7LX7kBMbm5YuCeQ0q4PKNu
+X-Google-Smtp-Source: AGHT+IGRFCsdqQLGpdas9pt7jPkVnbSeR+ActkhCb/ltZa/ps8gT/D14Xk053ij4LbbTQow/uahxRQ==
+X-Received: by 2002:a05:6902:2d02:b0:e1a:7333:d63a with SMTP id 3f1490d57ef6-e1d10553609mr888235276.5.1725437569256;
+        Wed, 04 Sep 2024 01:12:49 -0700 (PDT)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e1a62361829sm2600860276.0.2024.09.04.01.12.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Sep 2024 01:12:47 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-6cdae28014dso3826967b3.1;
+        Wed, 04 Sep 2024 01:12:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUwL81FgK9JRh5pGD2eupah9vvwSMLkHqUB7WGFq0O2XSAXp538ew5KXLLW1aqsTqrcEH3lRAzN2YNIIV7u@vger.kernel.org, AJvYcCW66kLPAwy2Rmhr5/0YhI2bG91A/CKCp1kj/tRUjIPp3r3U+zyjuqQhfwW8nYmS+OMb1cNfpAJMW9QPWw==@vger.kernel.org, AJvYcCWDIaxAZtHjy8TPJRNZEwuzAredARe01SEguBiy4AcPmxiMDPjrNGIcfbq2LswyTsnraxEDrMJTmD4ovOsi@vger.kernel.org, AJvYcCWpnwnRTKnPDhGt1ESxmxfhXCPVAd88MFLKqXW1K7/F6Pqqe7LKbRxjqOYO6U9uevQYTUau10iAgOQ=@vger.kernel.org, AJvYcCWqi9RGEnR1cwWYA5mVB9aLjD+YRRxGrmO1jsYQkA1Dt6iCQi5r5DaPAl+Z/XcI301hOYR4mMFKmZqHuDBavSY=@vger.kernel.org, AJvYcCXwmOUKuPi7uTUBiV3kNhozGqG07S/DIEPCHCvdz2Kv+/ckAh2w47HjEeBKZArXR9LsvR+lmK7A5p4B5ylfvSjHE9m/@vger.kernel.org
+X-Received: by 2002:a05:690c:680b:b0:664:74cd:5548 with SMTP id
+ 00721157ae682-6db25f47819mr8680237b3.1.1725437566641; Wed, 04 Sep 2024
+ 01:12:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3yytpvatfhmknuuz"
-Content-Disposition: inline
-In-Reply-To: <7658aca4-a408-480c-98b6-4637bb86b5ad@baylibre.com>
-
-
---3yytpvatfhmknuuz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240903-mips-rust-v1-0-0fdf0b2fd58f@flygoat.com> <20240903-mips-rust-v1-2-0fdf0b2fd58f@flygoat.com>
+In-Reply-To: <20240903-mips-rust-v1-2-0fdf0b2fd58f@flygoat.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 4 Sep 2024 10:12:35 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXC0ZBJibi=60VVG5mW1rwz=VgWxduph7SUxA4uyL5Mvw@mail.gmail.com>
+Message-ID: <CAMuHMdXC0ZBJibi=60VVG5mW1rwz=VgWxduph7SUxA4uyL5Mvw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] MIPS: Rename mips_instruction type to workaround
+ bindgen issue
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Richard Weinberger <richard@nod.at>, 
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Alice Ryhl <aliceryhl@google.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>, 
+	Yanteng Si <siyanteng@loongson.cn>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-um@lists.infradead.org, 
+	rust-for-linux@vger.kernel.org, linux-mips@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Trevor,
+Hi Jiaxun,
 
-On Tue, Aug 20, 2024 at 05:07:27PM -0400, Trevor Gamblin wrote:
-> On 2024-08-20 3:19 a.m., kernel test robot wrote:
-> > Hi Trevor,
-> >=20
-> > kernel test robot noticed the following build errors:
-> >=20
-> > [auto build test ERROR on ac6a258892793f0a255fe7084ec2b612131c67fc]
-> >=20
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Trevor-Gamblin/d=
-t-bindings-iio-adc-add-AD762x-AD796x-ADCs/20240819-221425
-> > base:   ac6a258892793f0a255fe7084ec2b612131c67fc
-> > patch link:    https://lore.kernel.org/r/20240819-ad7625_r1-v3-2-75d521=
-7c76b5%40baylibre.com
-> > patch subject: [PATCH v3 2/3] iio: adc: ad7625: add driver
-> > config: alpha-randconfig-r132-20240820 (https://download.01.org/0day-ci=
-/archive/20240820/202408201520.lFtco3eF-lkp@intel.com/config)
-> > compiler: alpha-linux-gcc (GCC) 13.3.0
-> > reproduce: (https://download.01.org/0day-ci/archive/20240820/2024082015=
-20.lFtco3eF-lkp@intel.com/reproduce)
-> Seems to be a problem with missing static inline definitions in pwm.h if
-> CONFIG_PWM isn't set. I've replied to the relevant series on the PWM mail=
-ing
-> list and will add "select PWM" to Kconfig for this driver.
+Thanks for your patch!
 
-I'm not a big fan of the dummy static inlines. It seems to be a somewhat
-subjective thing, but I think that usually if a driver makes use of PWM
-functions it doesn't work at all if CONFIG_PWM=3Dn. Does your driver work
-with CONFIG_PWM=3Dn? If not, even if the dummy inline was there, I'd
-recommend at least a
+On Tue, Sep 3, 2024 at 7:15=E2=80=AFPM Jiaxun Yang <jiaxun.yang@flygoat.com=
+> wrote:
+> We have a union and a type both named after mips_instruction,
+> rust bindgen is not happy with this kind of naming alias.
+>
+> Given that union mips_instruction is a part of UAPI, the only
+> thing we can do is to rename mips_instruction type.
+>
+> Rename it as mips_insn, which is not conflicting with anything
+> and fits the name of header.
 
-	depends on PWM || COMPILE_TEST
+Nit: the header is called inst.h, not insn.h.
 
-=2E (This is also the implicit recommendation to use "depends" and not
-"select". Currently all drivers needing PWM use "depends" and mixing
-yields strange effects in menuconfig.)
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> ---
+>  arch/mips/include/asm/dsemul.h |  2 +-
+>  arch/mips/include/asm/inst.h   |  6 +++---
 
-Currently there is only a single driver that uses "depends on PWM ||
-COMPILE_TEST" (i.e. SENSORS_PWM_FAN). I already considered changing that
-to plain "depends on PWM" and get rid of the dummy defines. While I
-didn't tackle that one yet, I'd like to not introduce dummys for the new
-waveform functions. So I suggest you either stick to
+Gr{oetje,eeting}s,
 
-	depends on PWM
+                        Geert
 
-or try to convince me that these dummys are a good idea (and then
-probably use "... || COMPILE_TEST").
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-Best regards
-Uwe
-
---3yytpvatfhmknuuz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmbYEzwACgkQj4D7WH0S
-/k5SvQf+NO8vcbtNzPEQ93q8b0bUlyJ0RMbzu+c2gvXGTNCZfFrxMknBXCxauxnk
-NsFS69G2JzB3Q/LG/Lny6rguZd9gkvYDBVKSjid2wdf4Kekr/2cKXSbAkPaFVQHu
-QQndCDqL6XKMpug1f5f3ehcxFnL7LVw5ZMSWMqO19bzpYGa6zgEH1JJVTmpVPDa5
-ZoOJoTb3njfPDLqGjBgdaZVaI0dAgwkP7Nf8DUbzXKqdZEl7d50T8c2LoJOEpZ1I
-NP/Jl0xMi8oWc3KtVuLvslL87nmXyRsW8bGdDFOlg+i7tYO3bJlBO4zoJ+2Nm0tx
-pSJaiqTBJkyu0HmnLg2VtkcQBqwZzA==
-=Ps67
------END PGP SIGNATURE-----
-
---3yytpvatfhmknuuz--
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
