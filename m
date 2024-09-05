@@ -1,47 +1,50 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29DE27F7FC;
-	Thu,  5 Sep 2024 15:12:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E793A16F908;
+	Thu,  5 Sep 2024 15:14:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725549179; cv=none; b=ohG05xSy6xCC2skW8jR2wvIhlNpuzd7nhnf42bLlIbzkU/9qHsS4uBqcDCniMp8Z98j+UNqyJNTpMbma1APhj8kItRBz4+bIl4eEXlVjRLzgl2jhsoYsxtNx/qKYTH7/e2IN4lma7KbcIvwWxcQP9vqNjbsbRHlMJxdvlXucE0I=
+	t=1725549242; cv=none; b=SGORPrKDVb9e0lDAHVlfro1GAeq+eDUmfLYJx42MPIQhPjRt1ORQ/ylR37VOm9a+aBIjprCPb8mXNY7S3AWVXacF2kNNA0nhPJiuB9i2MPLe0FDPQQWbwguvPB4BF6Dv8bxGugoGjJi3WgyPKY0ANhomoke0vxns8m0/bqrD+0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725549179; c=relaxed/simple;
-	bh=gt4zfm7i1JDzZaNEJcCxqSDG24cX7wC/xMpQg9oLIDY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=BoPtAatUK/+V9p38j/391hAqGnTQigtfRdzZELoPQ9Xeccx9BRQ17Gc/3aiSVBOi8Gc614QLtuPT1/8MqGhkCY5jWlRXJkywHFXknaY5levBO273Nm49K7WIbim7b4BRacaFwKBI8s3rohk4nfTdfrjLJgaQmEJ4H11Sh18W2wA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MOYuJdG8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725549242; c=relaxed/simple;
+	bh=fSm2APFItgpqcaLONseReVFvV7CdMHA5twyw+retTCQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BxC9cMPP+UmoHcgcNxJO6pD7As9d4Vhv1Ox+zt7UPZYT0qnqpjvyroNRvQzCqCzyfylkFaBPM6A70yNWgBvxajsnLqLB9z+5QYNT4VUi49gJdkmpbPihKMaWs0E0k8aQmdAdfnhkO2ZMOJtv5kwIHZa5IJO3Wqvll7tGzyOKgsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=M/9E/qtt; arc=none smtp.client-ip=85.214.250.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MOYuJdG8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F960C4CEC5;
-	Thu,  5 Sep 2024 15:12:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725549178;
-	bh=gt4zfm7i1JDzZaNEJcCxqSDG24cX7wC/xMpQg9oLIDY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=MOYuJdG8Qe7Wx0Dx9xY8Kk64S7DadpZdNXf4NSaOWIFsgMzYTbLp1QDgUSSSKvtfR
-	 052yWxPw40tf7d6M5Tmy/I7G5bwkKXJILfeMcKTIFe9T595jOFT/PdTUeKilktHoLX
-	 0Kns0iEk8mNrd2klisiwEUlm6+1d0YOakTd44JWMu/bpkm0q3uHfmCx8n7gX7dW5Yj
-	 mzwoFu4PgvjcBNO/UIyk1csVuldTyonhsm8FXqDFBNRmwv2dWWf6QvaiJht8UtIzg6
-	 cNiojCIKHF45AMvF92je/hAUJkoAEeYSPfsOjJ3X+eVQ0cP/tJ/Xtewwqjtmw3DuYO
-	 KdBLO+LmuqWeA==
-Date: Thu, 5 Sep 2024 10:12:25 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Wei Huang <wei.huang2@amd.com>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-	Jonathan.Cameron@huawei.com, corbet@lwn.net, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	alex.williamson@redhat.com, gospo@broadcom.com,
-	michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
-	somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
-	manoj.panicker2@amd.com, Eric.VanTassell@amd.com,
-	vadim.fedorenko@linux.dev, horms@kernel.org, bagasdotme@gmail.com,
-	bhelgaas@google.com, lukas@wunner.de, paul.e.luse@intel.com,
-	jing2.liu@intel.com
-Subject: Re: [PATCH V4 03/12] PCI/TPH: Add pcie_tph_modes() to query TPH modes
-Message-ID: <20240905151225.GA387183@bhelgaas>
+	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="M/9E/qtt"
+Received: from 8bytes.org (p4ffe1f47.dip0.t-ipconnect.de [79.254.31.71])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.8bytes.org (Postfix) with ESMTPSA id 3CBC9288723;
+	Thu,  5 Sep 2024 17:13:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+	s=default; t=1725549234;
+	bh=fSm2APFItgpqcaLONseReVFvV7CdMHA5twyw+retTCQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=M/9E/qttFn1bzMGap9dH4u3pb2hzSEOSTjRFJpK7XVARpU2wSiHxIJIA25JxBVBoG
+	 9zIR88oxPi4XteRdah4aleprvBETYkhOMRlot7CUGaWV84H/JO5PsOjd8W0MgpAG3a
+	 J8F5miVJ+FzF7FomaHgyBbq6BSlYy0Mbqr0LMwEHEX3C1rzyzk9yjSxdBlk6ghREcy
+	 egg1jVLsRmKYquV3zs5KYlzaD/xfkIHOz4ut1gYQ5xnzMztNa7UkGTbDgBbwT8aTj1
+	 g25yr/8ySyOwSUdhC0C2x9Xs5hr1jnLlEqoOBbsgfPyrg9KK3jOJ/Xg4lgKCWL9UC5
+	 boWvVxmSP3K4g==
+Date: Thu, 5 Sep 2024 17:13:53 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Baolu Lu <baolu.lu@linux.intel.com>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, linux-doc@vger.kernel.org,
+	iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Joerg Roedel <jroedel@suse.de>
+Subject: Re: [PATCH] iommu/amd: Add kernel parameters to limit V1 page-sizes
+Message-ID: <ZtnKsf71piBohHt_@8bytes.org>
+References: <20240905072240.253313-1-joro@8bytes.org>
+ <45a3ae40-6e59-43b4-ae57-d159bd2b54df@linux.intel.com>
+ <Ztle72HfrjBjlJGa@8bytes.org>
+ <20240905120531.GD1358970@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,74 +53,24 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <50d9910b-dbd4-48d1-ad43-f298d14986fe@amd.com>
+In-Reply-To: <20240905120531.GD1358970@nvidia.com>
 
-On Thu, Sep 05, 2024 at 09:46:44AM -0500, Wei Huang wrote:
-> On 9/4/24 14:40, Bjorn Helgaas wrote:
-> > On Thu, Aug 22, 2024 at 03:41:11PM -0500, Wei Huang wrote:
-> >> Add pcie_tph_modes() to allow drivers to query the TPH modes supported
-> >> by an endpoint device, as reported in the TPH Requester Capability
-> >> register. The modes are reported as a bitmask and current supported
-> >> modes include:
-> >>
-> >>  - PCI_TPH_CAP_NO_ST: NO ST Mode Supported
-> >>  - PCI_TPH_CAP_INT_VEC: Interrupt Vector Mode Supported
-> >>  - PCI_TPH_CAP_DEV_SPEC: Device Specific Mode Supported
+On Thu, Sep 05, 2024 at 09:05:31AM -0300, Jason Gunthorpe wrote:
+> On Thu, Sep 05, 2024 at 09:34:07AM +0200, Joerg Roedel wrote:
+> > On Thu, Sep 05, 2024 at 03:31:08PM +0800, Baolu Lu wrote:
+> > > "iommu.nohugepages=1"?
 > > 
-> >> + * pcie_tph_modes - Get the ST modes supported by device
-> >> + * @pdev: PCI device
-> >> + *
-> >> + * Returns a bitmask with all TPH modes supported by a device as shown in the
-> >> + * TPH capability register. Current supported modes include:
-> >> + *   PCI_TPH_CAP_NO_ST - NO ST Mode Supported
-> >> + *   PCI_TPH_CAP_INT_VEC - Interrupt Vector Mode Supported
-> >> + *   PCI_TPH_CAP_DEV_SPEC - Device Specific Mode Supported
-> >> + *
-> >> + * Return: 0 when TPH is not supported, otherwise bitmask of supported modes
-> >> + */
-> >> +int pcie_tph_modes(struct pci_dev *pdev)
-> >> +{
-> >> +	if (!pdev->tph_cap)
-> >> +		return 0;
-> >> +
-> >> +	return get_st_modes(pdev);
-> >> +}
-> >> +EXPORT_SYMBOL(pcie_tph_modes);
-> > 
-> > I'm not sure I see the need for pcie_tph_modes().  The new bnxt code
-> > looks like this:
-> > 
-> >   bnxt_request_irq
-> >     if (pcie_tph_modes(bp->pdev) & PCI_TPH_CAP_INT_VEC)
-> >       rc = pcie_enable_tph(bp->pdev, PCI_TPH_CAP_INT_VEC);
-> > 
-> > What is the advantage of this over just this?
-> > 
-> >   bnxt_request_irq
-> >     rc = pcie_enable_tph(bp->pdev, PCI_TPH_CAP_INT_VEC);
-> > 
-> > It seems like drivers could just ask for what they want since
-> > pcie_enable_tph() has to verify support for it anyway.  If that fails,
-> > the driver can fall back to another mode.
+> > Generally yes, but that requires to touch all drivers to make the
+> > behavior consistent. We can start this effort on-top of this change, if
+> > desired.
 > 
-> I can get rid of pcie_tph_modes() if unnecessary.
-> 
-> The design logic was that a driver can be used on various devices from
-> the same company. Some of these devices might not be TPH capable. So
-> instead of using trial-and-error (i.e. try INT_VEC ==> DEV_SPEC ==> give
-> up), we provide a way for the driver to query the device TPH
-> capabilities and pick a mode explicitly. IMO the code will be a bit cleaner.
->
-> > Returning a bitmask of supported modes might be useful if the driver
-> > could combine them, but IIUC the modes are all mutually exclusive, so
-> > the driver can't request a combination of them.
-> 
-> In the real world cases I saw, this is true. In the spec I didn't find
-> that these bits are mutually exclusive though.
+> Let's at least use the same keyword that already exists though??
 
-A device may advertise *support* for multiple modes in TPH Requester
-Capability, of course.  
+You mean amd_iommu=sp_off? I am not in favour of that, in the Linux
+world the term 'hugepage' is more common than 'superpage'. So I
+would avoid spreading the use of the later. We can extend that later to
+the iommu.nohugepages parameter suggested by Baolu.
 
-What I meant by "driver can't request a combination" is that we can
-only *select* one of them via the ST Mode select in TPH Requester
-Control.
+Regards,
+
+	Joerg
