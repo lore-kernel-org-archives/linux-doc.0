@@ -1,178 +1,103 @@
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA217464
-	for <linux-doc@vger.kernel.org>; Thu,  5 Sep 2024 18:05:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD6F15F3FB
+	for <linux-doc@vger.kernel.org>; Thu,  5 Sep 2024 18:38:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725559525; cv=none; b=JWHYon8IdAR98FXr+i4XGWMSkz3QKOA65RyCJLUdib7QGdY6YWa0RlRlrRYkG7iJSVgkVYpY4o7bCY+wbA6TbU2IzcMcF7JPRruWw/KcznOtOhLr6wwQCw8b85+vrF9imHEM5/Geja0lI8m74MyHzSwTCqlJTb8fFBzffYwVWxI=
+	t=1725561499; cv=none; b=bPFTbrFJNjdIoPBwyEM5wWx4tz4FDTQddSN04Fm6ydYvfjnxHGPtBRnF6vn31UptrN71Tq+rZFlksxT5x+yDENbVpiU33f3i5C7r5z5v1BB/10CpzBGEjFt7frDpZBrVpjS4po0F2acT6P18v91oT8C9w/mnyVLw7Um0mFkUNIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725559525; c=relaxed/simple;
-	bh=fwuuqbt3N9ugUJJfYfPVVFnFlJUxa8Rgv1DY93ny0PA=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=SCsB/vRp/Jo/8P9I8ZOorkAMeMkAHqpzz6xCPhcJazmzH8QuA/nyaHwxzstuKGbSNCWCj46Q5D/6YmRd27xBm2sInBkrcN9lc1hS1HgGqtbJqmrHU+oHTGR732i78gZLZ0fbt8XdBcRrPGr+DscTgOPaEqq548M25IGjrYjo8KM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xhaE1xtv; arc=none smtp.client-ip=209.85.166.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1725561499; c=relaxed/simple;
+	bh=1JfP/XFFGmfPfhnMawDphPt9pvxCF+aNnm+8UBhY7q8=;
+	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=VCMJCoaj+OfZcquAgpky5jtuAmEiS0q+KCCnhK9LdeiaZstJFOUaJDnSR2zC0rapRwmrO7v7tDqdS91v2l5AJUNsL54v3JCO1BdE6FXVPFXj032Rk3IWeTHZaWxRLW/MPr500+isc14sBmV5bQ/W/jo9NOpg2F9ZwqznJFiMis4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DVH5+8Dl; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xhaE1xtv"
-Received: by mail-il1-f171.google.com with SMTP id e9e14a558f8ab-3a0436958d9so3978865ab.0
-        for <linux-doc@vger.kernel.org>; Thu, 05 Sep 2024 11:05:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1725559523; x=1726164323; darn=vger.kernel.org;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JACy3LsEORLfoHEGD7EKNLc5Lwvyz2oKImXIztt5wps=;
-        b=xhaE1xtvmnE22YaBuEsb9bBmHzgbW3Z1TImd2tXwewHjZbJKGiiBjVuMGW/Lizwsvg
-         1N9SO9EEp/tH52Yv85LHfIOg+rOpjVlQMOJK8qbWqs+YtXSrHybYVG3zwfH0rk1vyRFn
-         Rdyf8fFQfo6ndhduh2JM9P5sLGMAwppIlS5QOsBpsj5iYzytuPPewt8eN1QjYRsyiWu7
-         dHf4mdgt+dWqeehLZeMcRFE+su7EH+4KFPyZQx5uYZk1t6r0p6UsNKIRIJSgtW71e+hB
-         +jlsg60FsQwB7WgZyYIaKUirtHOyUPQy6Cr3SSjwUgNBktg5EEMkk/sqfU9SUlOo5dtE
-         Y91g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725559523; x=1726164323;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JACy3LsEORLfoHEGD7EKNLc5Lwvyz2oKImXIztt5wps=;
-        b=AZ/RGaMZxwCQFdqat+ltFNcE/ELOB4V2LH3ytKpPHp6UhLah7B9cWjzvI/aMJlDT2f
-         reoLYELHQaHYsFoHWgM0CGTH+RLtjlgaPI/XlAn5xVpOuRJELwNEBxDq9QNrwmcgP+Fm
-         QA7bI5lCFhL9nOE6D1tBnqW3s/RIB2ukohuMgXBco9ytDIe57lqV8ScQpKSItb7OtYJ8
-         YqWl01ddll4d+opJj8vZeHkyIHvCZ0jkBlknhVPy3fNKJ3ZI+tu6Q6Xy7+fhcmDCUvrt
-         lHlYuLOzPihd5DvDT+eFgcB415MHA30eHJAUnyKQJBu8d9VfF8TT6cOgatM7cbZ6GP8D
-         XS1w==
-X-Forwarded-Encrypted: i=1; AJvYcCXHgaWb+M9MvIW2L2TZIfdgOBltsfZy35cIDpfzplgX+wWoh0UiDD0fvIfINeJAOH95FzVG65jDI94=@vger.kernel.org
-X-Gm-Message-State: AOJu0YysschlfUh+GGMkvkqR/8IaStPnsOgSduwmzqteknTqwhHoZGZn
-	ymMEFEFXeB+O6M2QPEa20rjFpUYvYPiuvCctPosWMj3Mh4YwCqTyZBTorVLBPA==
-X-Google-Smtp-Source: AGHT+IFw+wD+B0uqAGFnbHubKac3f2t2ytAlhpUog4fT3ny3a9crryvc6Qd33jM6Y3o1nron34LN/g==
-X-Received: by 2002:a05:6e02:1569:b0:3a0:1828:31d9 with SMTP id e9e14a558f8ab-3a018283360mr66660025ab.24.1725559522462;
-        Thu, 05 Sep 2024 11:05:22 -0700 (PDT)
-Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7d5119668aasm510809a12.1.2024.09.05.11.05.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Sep 2024 11:05:21 -0700 (PDT)
-Date: Thu, 5 Sep 2024 11:05:09 -0700 (PDT)
-From: Hugh Dickins <hughd@google.com>
-To: Usama Arif <usamaarif642@gmail.com>
-cc: Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-    Yu Zhao <yuzhao@google.com>, linux-mm@kvack.org, hannes@cmpxchg.org, 
-    riel@surriel.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev, 
-    david@redhat.com, npache@redhat.com, baohua@kernel.org, 
-    ryan.roberts@arm.com, rppt@kernel.org, willy@infradead.org, 
-    cerasuolodomenico@gmail.com, ryncsn@gmail.com, corbet@lwn.net, 
-    linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-    kernel-team@meta.com, Shuang Zhai <zhais@google.com>
-Subject: Re: [PATCH v5 1/6] mm: free zapped tail pages when splitting isolated
- thp
-In-Reply-To: <1ffdf94d-ce3f-4dac-8ed3-0681f98beebf@gmail.com>
-Message-ID: <5efa255b-3689-0c91-1980-c0f0562d84e9@google.com>
-References: <20240830100438.3623486-1-usamaarif642@gmail.com> <20240830100438.3623486-2-usamaarif642@gmail.com> <1d490ab5-5cf8-4c16-65d0-37a62999fcd5@google.com> <1ffdf94d-ce3f-4dac-8ed3-0681f98beebf@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DVH5+8Dl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725561498; x=1757097498;
+  h=from:to:subject:in-reply-to:references:date:message-id:
+   mime-version;
+  bh=1JfP/XFFGmfPfhnMawDphPt9pvxCF+aNnm+8UBhY7q8=;
+  b=DVH5+8Dl/YRPHx/UrMoiZQx2rv9NmSb9ZD9lcN/CSQkL5GAgNnQXUI3A
+   45g8HYPjqHfPDl8uEJSi4dTdGKqQ+6bhwXxUwb14/MgPPBDiEHUF3aLt7
+   F0hPI67AKVp3PUiX6pqYm/KsDGBPNUQG+b9SuWMs+/6wmv9WDAsJW3QXS
+   iJu36wzsXTkUDcqecwH13yYs5DbFfI2KCd6pvfQc6Nr0j1VyGlXaL640Y
+   ENaMopR2D9wF6z3Hnk7M+AgawprQMVg1222zEpLYktvpJ8yDQvH/fMdRl
+   xZU4aX7THq4nM6bv+dbzxi4wL3AYx8gfZubP7gcxmfQBk+Ifjy4DTUtJI
+   Q==;
+X-CSE-ConnectionGUID: 1tdmh1SvR1Gf+Tc0e/EZFg==
+X-CSE-MsgGUID: iFyAQa/6R2OPIU1t1uPkgg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="28092763"
+X-IronPort-AV: E=Sophos;i="6.10,205,1719903600"; 
+   d="scan'208";a="28092763"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 11:38:17 -0700
+X-CSE-ConnectionGUID: adt+VdcpQNqTfjjmbGbUgQ==
+X-CSE-MsgGUID: yj/VuknFSBeKAfpeDaDtDg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,205,1719903600"; 
+   d="scan'208";a="65541174"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.246.216])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 11:38:15 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Jonathan Corbet <corbet@lwn.net>, "Bernhard M. Wiedemann"
+ <bwiedemann@suse.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: Build kernel docs deterministically
+In-Reply-To: <87ed5yj7ye.fsf@trenco.lwn.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240905113531.65375-1-bernhard+linux-doc@lsmod.de>
+ <878qw6qpbu.fsf@intel.com> <18f6aafd-3a96-42fc-9a65-b1b03ab8ae2a@suse.de>
+ <87y146p7tp.fsf@intel.com> <87ed5yj7ye.fsf@trenco.lwn.net>
+Date: Thu, 05 Sep 2024 21:38:11 +0300
+Message-ID: <87wmjqndyk.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain
 
-On Thu, 5 Sep 2024, Usama Arif wrote:
-> On 05/09/2024 09:46, Hugh Dickins wrote:
-> > On Fri, 30 Aug 2024, Usama Arif wrote:
-> > 
-> >> From: Yu Zhao <yuzhao@google.com>
-> >>
-> >> If a tail page has only two references left, one inherited from the
-> >> isolation of its head and the other from lru_add_page_tail() which we
-> >> are about to drop, it means this tail page was concurrently zapped.
-> >> Then we can safely free it and save page reclaim or migration the
-> >> trouble of trying it.
-> >>
-> >> Signed-off-by: Yu Zhao <yuzhao@google.com>
-> >> Tested-by: Shuang Zhai <zhais@google.com>
-> >> Acked-by: Johannes Weiner <hannes@cmpxchg.org>
-> >> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
-> > 
-> > I'm sorry, but I think this patch (just this 1/6) needs to be dropped:
-> > it is only an optimization, and unless a persuasive performance case
-> > can be made to extend it, it ought to go (perhaps revisited later).
-> > 
-> 
-> I am ok for patch 1 only to be dropped. Patches 2-6 are not dependent on it.
-> 
-> Its an optimization and underused shrinker doesn't depend on it.
-> Its possible that folio->new_folio below might fix it? But if it doesn't,
-> I can retry later on to make this work and resend it only if it alone shows
-> a significant performance improvement.
-> 
-> Thanks a lot for debugging this! and sorry it caused an issue.
-> 
-> 
-> > The problem I kept hitting was that all my work, requiring compaction and
-> > reclaim, got (killably) stuck in or repeatedly calling reclaim_throttle():
-> > because nr_isolated_anon had grown high - and remained high even when the
-> > load had all been killed.
-> > 
-> > Bisection led to the 2/6 (remap to shared zeropage), but I'd say this 1/6
-> > is the one to blame. I was intending to send this patch to "fix" it:
-> > 
-> > --- a/mm/huge_memory.c
-> > +++ b/mm/huge_memory.c
-> > @@ -3295,6 +3295,8 @@ static void __split_huge_page(struct pag
-> >  			folio_clear_active(new_folio);
-> >  			folio_clear_unevictable(new_folio);
-> >  			list_del(&new_folio->lru);
-> > +			node_stat_sub_folio(folio, NR_ISOLATED_ANON +
-> > +						folio_is_file_lru(folio));
-> 
-> Maybe this should have been below? (Notice the folio->new_folio)
-> 
-> +			node_stat_sub_folio(new_folio, NR_ISOLATED_ANON +
-> +						folio_is_file_lru(new_folio));
+On Thu, 05 Sep 2024, Jonathan Corbet <corbet@lwn.net> wrote:
+> Jani Nikula <jani.nikula@linux.intel.com> writes:
+>
+>>> However my patch for sphinx -j1 did give good test results, too.
+>>> Maybe in your case that would result in 8 sphinx calls with 1 thread 
+>>> each, which would be more appropriate for your machine.
+>>
+>> The right thing to do is to have one sphinx-build process and pass -j<N>
+>> to that.
+>
+> [I wouldn't have minded being CC'd on this conversation...]
 
-Yes, how very stupid of me (I'm well aware of the earlier bugfixes here,
-and ought not to have done a blind copy and paste of those lines): thanks.
+Yes, sorry about that.
 
-However... it makes no difference. I gave yours a run, expecting a
-much smaller negative number, but actually it works out much the same:
-because, of course, by this point in the code "folio" is left pointing
-to a small folio, and is almost equivalent to new_folio for the
-node_stat calculations.
+> I, too, have never seen the behavior Jani reports.
+>
+> I, too, would like to get rid of as much of the makefile hackery as
+> possible, but it all did end up there for a reason.
+>
+> The business around parallelism was intended to make sphinx play well
+> with other targets being built in the same make invocation.  If you do a
+> "make -j8 this that theother htmldocs" and there are five processes
+> working on this, that, and theother, then sphinx should not create more
+> than three.  See 51e46c7a4007 for more.
+>
+> In Jani's case, it sounds like the job-slot reservation isn't working
+> right somehow?
 
-(I say "almost" because I guess there's a chance that the page at
-folio got reused as part of a larger folio meanwhile, which would
-throw the stats off (if they weren't off already).)
+Looking at the -j<N> results on an unrelated project, PEBKAC is a
+distinct possibility here, and this part may be a red herring. I'll need
+to look into it.
 
-So, even with your fix to my fix, this code doesn't work.
-Whereas a revert of this 1/6 does work: nr_isolated_anon and
-nr_isolated_file come to 0 when the system is at rest, as expected
-(and as silence from vmstat_refresh confirms - /proc/vmstat itself
-presents negative stats as 0, in order to hide transient oddities).
+BR,
+Jani.
 
-Hugh
 
-> 
-> >  			if (!folio_batch_add(&free_folios, new_folio)) {
-> >  				mem_cgroup_uncharge_folios(&free_folios);
-> >  				free_unref_folios(&free_folios);
-> > 
-> > And that ran nicely, until I terminated the run and did
-> > grep nr_isolated /proc/sys/vm/stat_refresh /proc/vmstat
-> > at the end: stat_refresh kindly left a pr_warn in dmesg to say
-> > nr_isolated_anon -334013737
-> > 
-> > My patch is not good enough. IIUC, some split_huge_pagers (reclaim?)
-> > know how many pages they isolated and decremented the stats by, and
-> > increment by that same number at the end; whereas other split_huge_pagers
-> > (migration?) decrement one by one as they go through the list afterwards.
-> > 
-> > I've run out of time (I'm about to take a break): I gave up researching
-> > who needs what, and was already feeling this optimization does too much
-> > second guessing of what's needed (and its array of VM_WARN_ON_ONCE_FOLIOs
-> > rather admits to that).
-> > 
-> > And I don't think it's as simple as moving the node_stat_sub_folio()
-> > into 2/6 where the zero pte is substituted: that would probably handle
-> > the vast majority of cases, but aren't there others which pass the
-> > folio_ref_freeze(new_folio, 2) test - the title's zapped tail pages,
-> > or racily truncated now that the folio has been unlocked, for example?
-> > 
-> > Hugh
+-- 
+Jani Nikula, Intel
