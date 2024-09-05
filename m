@@ -1,143 +1,75 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 874E4188017;
-	Thu,  5 Sep 2024 19:44:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF0314F125
+	for <linux-doc@vger.kernel.org>; Thu,  5 Sep 2024 19:56:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725565486; cv=none; b=Qf9luHs4IEE/TN0h/4cmKjdSN2Erx3sojrZp2oLzdlb+1WmSYaMc2VMP/DPp7DVhYnmYp8Ihkpg8pWej8M+x/agDnd40v8jm80x6IaP4rJurM3NeJjImwz6h6J9WDSkVtQveiDCMJFXiK4EmAUHL/UQGkAlNvAmOKkAhGmM2nQg=
+	t=1725566207; cv=none; b=U/P7+nbXV6xbLHyaQGMQF0m1zWwQ7Lgh4oe6vN0cmntdEYfHb9qnnz+hNzjak0bn3mc54jp7bdit8M7/XTvpBHIwIIcqOdC81QCbBC+M9Lr7J6pcoP22OgXQwEFNInDJuGZCytvmDl1/Nf/4AxVs1ZyEnCwGr42auU7UoBMUlCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725565486; c=relaxed/simple;
-	bh=fue0HDW/3+IS1tus8cXU1jw98GqL1Ym+HsM/Iofut+Q=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IzPj44pxwdrt2Fs0QN1/zXKV/CYokSkqfxjxs2V7Oq/hybjHtrw087wKxpFAKV7zZeV+dfUft9u8JpAGXDoRDcmTduq5seOzs549RB0KRCEImwQTMlzUsCL4BVN97FI5oZIrEN/wcOhe2cd2SCLoWd46VQUu1/ZlnfTT+2qBb54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kZLrYLIk; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1725566207; c=relaxed/simple;
+	bh=s5dzrUd6DTnOuj2TMUDGRQ4PUxo1RN7pYbi0hD+all0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=kMJYwKkj+8TMgzYbqdyKjVkhegDm1V9/YwSLFrbfsoM8DqTd8mlUEQMAp2WhD7F8A8fw9fV6I0tTrzba7U7+sBarAgs5DTTongRKM21UINji59/cCAcnv3dct1kRp+Yxo4wbW6pXjbv+VAUZ588oh3S6T6U+pgawBmn0Syk516A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=m0BgN1L+; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kZLrYLIk"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-715abede256so1016517b3a.3;
-        Thu, 05 Sep 2024 12:44:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725565485; x=1726170285; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8blKARCK9hIi8qeqcpQY8FMcJR6skaNK4+MKzRO1q9A=;
-        b=kZLrYLIkKkmzr/7siKqbfXf3gjohD1PsZ121BTwVhtQegYgmQ1rVY7t3r6F83xmHsD
-         tf88rQWzgni/Z6cuEgx9PMSbwY0UOhndaOo5En0lW64OD7vnN+3xiNmf8V58TFFxpcdf
-         hbEiQbN1WBoNx1UTcnw8pUtY0rcFBwEOkQeEFeZKMbrfXHG24YWwDWbSIe8Nt2ja9iWC
-         zstKL8WJ19lSESDemqzZ7WMTNgZCnKolsqRyBH29SJG9HY2blX6YSBJ8hVY9BgLOARn5
-         dOOGJfXpIu9gzzCsPHL0P1vmpeYMBX+2Jd0oHgNFcrKZxndKiYcits+OO+tRSmDmLI1L
-         z7Bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725565485; x=1726170285;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8blKARCK9hIi8qeqcpQY8FMcJR6skaNK4+MKzRO1q9A=;
-        b=Hl16CtTXI0MnADQGJ+k2x+31xgSEtogkBpwSysNqCA7ykqHUkWLHGnnf+4EigMAm4t
-         T6ZwQMx6cYX+hHqvLNkoTvfaf/930l1AWkgoY2wmnw7mmu6/ATWdfT+7z+fb4P/AMaCc
-         aB4+3g9ohG9IOiKflbAit31n2PWIRp5379AmM+tCQzHhx9tApK5oyIxVzMiibswdp+8V
-         hHq0SPrvdhmDcxleB0BhulE2fcmObCPOpE/PSFxbtsgcGVBU24qZ/rtW3ziMsQ0/t1QJ
-         Rrwy33VtO1n5OFXVZOeALqF0yI04F2h7VnM2LORtFfBLgbXYuPOh2UJtPqbbta+cxix4
-         t69Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU2lasIu6KmawZ6qDSrD7JKtxtmuWfKmrYTX8CvNe1Wq+O/SdO5l5R+NtrLQI/P5EVd0ulilDhy9ujAC5Bw@vger.kernel.org, AJvYcCUTOoWXZ/DcoeLZLINop19eunSZL/n2TgzCOAI7xgK2BXzbN5plgdmIIDbMKibWcsiHAnxSbZ5/WSi/@vger.kernel.org, AJvYcCV/jQRR9tt0n/+COjQW4JDEKEefO6DtyU54DINl4xFQXcPNpH8fPqgSB7f2kUUNS5ebJvvTB+RHv2VA@vger.kernel.org, AJvYcCV9x6ndcRcBOiOexqycY/164CmCeBBqBmPP/ws4YJfCCvqJzxEa+i0ibPPhKazeqWRjSQHb9j6YOwDEBQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzE8aGscXD9uYSQxlaB444qqVlP51jHfcayl/ZpZgNksdP1CEvq
-	MRn9CwakN3Ky75P0tf6B6xo+lo4unV4nSg/xCkZv/peLVu3+hybw
-X-Google-Smtp-Source: AGHT+IH4+fX/yHmOeAuqwoSbrIHi2omPpjNgufLcJxCjb0muDVPuPNm2103Rdbup4SGV09v81le2FA==
-X-Received: by 2002:a05:6300:44:b0:1ce:ebb7:dcb8 with SMTP id adf61e73a8af0-1cf1d05864amr60468637.3.1725565484771;
-        Thu, 05 Sep 2024 12:44:44 -0700 (PDT)
-Received: from leg ([2601:646:8f03:9fee:1d73:7db5:2b4a:dfdd])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7178e39a188sm1473548b3a.219.2024.09.05.12.44.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Sep 2024 12:44:44 -0700 (PDT)
-From: Fan Ni <nifan.cxl@gmail.com>
-X-Google-Original-From: Fan Ni <fan.ni@samsung.com>
-Date: Thu, 5 Sep 2024 12:44:24 -0700
-To: Ira Weiny <ira.weiny@intel.com>
-Cc: Dave Jiang <dave.jiang@intel.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Navneet Singh <navneet.singh@intel.com>, Chris Mason <clm@fb.com>,
-	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	linux-btrfs@vger.kernel.org, linux-cxl@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	nvdimm@lists.linux.dev
-Subject: Re: [PATCH v3 04/25] cxl/pci: Delay event buffer allocation
-Message-ID: <ZtoKGEEhNHByhXyw@leg>
-References: <20240816-dcd-type2-upstream-v3-0-7c9b96cba6d7@intel.com>
- <20240816-dcd-type2-upstream-v3-4-7c9b96cba6d7@intel.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="m0BgN1L+"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6BC1942B25
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1725566204; bh=eBjQ58iXdKtY24t4H3qf+iuZIxcJp9o2bEeOFlqePbM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=m0BgN1L+zjFf6fY2lu4a/EuyBiGqEWDWg//xcYGLWS6vwQ9zjAmEI5kHHf3iSZnsL
+	 /nTB+Gh4T+Jlik8Zkz6iCMTcUKVeLNbOeNebK5V1tnFfFR+OT5/lMkMtoILDQpuwBD
+	 8rDznI2aDkCw08gUUVDllIvq0g3znyrcDwS7+n0NwFr29qAUkYSDKEPASDWSidHFdP
+	 nk2Abt2tGkTqlv8SKtFXDG/17QisOpfsOxXPgLVmAoPczrxQLD2t1u7GSDC/f2ntG/
+	 8mOwXeUNQYmt3yH0YvPVrZsHjyk3MCWtcC0SelKc3OmHQMA0JKwBjCoGLSDcWIZdAf
+	 v9uNy+f6WEMcg==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 6BC1942B25;
+	Thu,  5 Sep 2024 19:56:44 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>, linux-doc@vger.kernel.org
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>, Rae Moar <rmoar@google.com>
+Subject: Re: [PATCH] kernel-doc: Allow whitespace before comment start
+In-Reply-To: <20240829202529.1660-1-michal.wajdeczko@intel.com>
+References: <20240829202529.1660-1-michal.wajdeczko@intel.com>
+Date: Thu, 05 Sep 2024 13:56:43 -0600
+Message-ID: <87plphho1w.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240816-dcd-type2-upstream-v3-4-7c9b96cba6d7@intel.com>
+Content-Type: text/plain
 
-On Fri, Aug 16, 2024 at 09:44:12AM -0500, Ira Weiny wrote:
-> The event buffer does not need to be allocated if something has failed in
-> setting up event irq's.
-> 
-> In prep for adjusting event configuration for DCD events move the buffer
-> allocation to the end of the event configuration.
-> 
-> Reviewed-by: Davidlohr Bueso <dave@stgolabs.net>
-> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> 
+Michal Wajdeczko <michal.wajdeczko@intel.com> writes:
+
+> There is some existing documentation that is formatted with some
+> indent at the beginning (like one in include/kunit/visibility.h).
+>
+> However, such notation is not recognized by the script and attempt
+> to include that in kernel documentation fails with:
+>
+> ../include/kunit/visibility.h:1: warning: no structured comments found
+>
+> Change the doc_start regex to also match /** with some whitespaces
+> at beginning of the line.
+>
+> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
 > ---
-
-Reviewed-by: Fan Ni <fan.ni@samsung.com>
-
-> Changes:
-> [iweiny: keep tags for early simple patch]
-> [Davidlohr, Jonathan, djiang: move to beginning of series]
-> 	[Dave feel free to pick this up if you like]
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Rae Moar <rmoar@google.com>
 > ---
->  drivers/cxl/pci.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/cxl/pci.c b/drivers/cxl/pci.c
-> index 4be35dc22202..3a60cd66263e 100644
-> --- a/drivers/cxl/pci.c
-> +++ b/drivers/cxl/pci.c
-> @@ -760,10 +760,6 @@ static int cxl_event_config(struct pci_host_bridge *host_bridge,
->  		return 0;
->  	}
->  
-> -	rc = cxl_mem_alloc_event_buf(mds);
-> -	if (rc)
-> -		return rc;
-> -
->  	rc = cxl_event_get_int_policy(mds, &policy);
->  	if (rc)
->  		return rc;
-> @@ -777,6 +773,10 @@ static int cxl_event_config(struct pci_host_bridge *host_bridge,
->  		return -EBUSY;
->  	}
->  
-> +	rc = cxl_mem_alloc_event_buf(mds);
-> +	if (rc)
-> +		return rc;
-> +
->  	rc = cxl_event_irqsetup(mds);
->  	if (rc)
->  		return rc;
-> 
-> -- 
-> 2.45.2
-> 
+>  scripts/kernel-doc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+
+This patch adds vast numbers of build errors and warnings; did you try a
+build with it?
+
+jon
