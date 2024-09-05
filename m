@@ -1,164 +1,91 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0EC619D095;
-	Thu,  5 Sep 2024 10:21:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B81197A95
+	for <linux-doc@vger.kernel.org>; Thu,  5 Sep 2024 11:08:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725531689; cv=none; b=aIng4cpwP9Xr5rvniaaNOncZulOzrOBkILC/8Dd8UBdLT8vj9jtLcBiMv7+J2X5EetdcmtE/wMpFGj6IdmstURiNksIGca/zxNXNh4LWMZRGgFnaRM9Fdj0Z4XlYNX86XhaSEQE5TdVc92H2lAy5KM4NUd/qIz0d59KHTM8FamE=
+	t=1725534502; cv=none; b=f14+moECMC44hJ4YKQJj2oAu/42NogXFyouvS6KEqB1fopjNr6IbodWJCacf8v5U63d9dEngC3KdR+y6KLfFBa2tACiEYRnBo4UGbRAUXDfCQNfbR4OUixMAgVNAcLSIsTCTT0Ve6oeHYhD2bw9ujVFK8Hc7EqYlM7CEZXE45hA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725531689; c=relaxed/simple;
-	bh=TaJcLnRPtL91S/LQ+7NpJUuA6OprloQJTvp6vXOn0FM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CgaoP0foRnud8Awy6PM4XGaf5ijJYWHa5lp/8qbiT8+zscfU70jXEUqiraREHd49RQJvoTkL6hok3ZvzJLsEaZ1fRpI5322X4bwQ9LZxzyjPG7z6lR+lkATze/Av2/ARjZ3G/MTnycH+BVReng3PwkqTfX08w0DiVSaURBgjy9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lF0/jBF9; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1725534502; c=relaxed/simple;
+	bh=LqwjAMWIXfLAiDh3IzhpRtZkBQ4I8ll+8WXMQlVGHJc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Fyh7Wl0oegXhn3qSs0JgL4KOU4FIJOKInWw2ErtsiGqvcfwfHHCjkHO40QldE0CnqtQll01AhDPz+dzYguQE4D1EZzpjfAEJdlJKDt8WOKhQxKp2bdF9RgVldbhzBz88xL4VjhRuQ5G5MdWO8YnFDBf2OJ69DB0db/zinyvE5NY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JxFQI31w; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lF0/jBF9"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2f4f505118fso6600431fa.3;
-        Thu, 05 Sep 2024 03:21:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JxFQI31w"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5c251ba0d1cso693095a12.3
+        for <linux-doc@vger.kernel.org>; Thu, 05 Sep 2024 04:08:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725531686; x=1726136486; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eWUmOKRHUFdWNzdh5pw1Ez/2T72/kqrXnIrfhfqLjOw=;
-        b=lF0/jBF9Q4x/eW18WcQFXpOeS2D+uUI71OJfmYQJ1dELXwBSbZkwp3wzzLji+xxGlC
-         j5pRfxOhIFzePzv21BIW+7kpaYRBOeZO0lF9ffCcg1JIWboMzakzdYeZGA5DpAgkO89Q
-         ALang7vOJ+m70CbO3uFyXWNjcqI7l0IM+RMjnfCr9pY2gt6IoUNeTXJkTCs18wSBS4qb
-         cGb+Hot2EJQQ1+OzkDrdkONna2RsT+Bt3vSSylu6YAUUIaa93tB9pT+OUEK+Af5LTfns
-         F7B/OBLFc/oU6YDpTOa8bQUlCJtMDLO+cYPVIIynAFW2yA5Bx1lsCr8O0c4qv50V32T3
-         H1Mg==
+        d=google.com; s=20230601; t=1725534499; x=1726139299; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LqwjAMWIXfLAiDh3IzhpRtZkBQ4I8ll+8WXMQlVGHJc=;
+        b=JxFQI31whJSZUzkWMvjtTdT53GIDOTUKUF4EnUjz35s9SJUfwuMb0YrJzYg8pTC4Wj
+         /mLSjuvyfsUCTBHZH/ZSwL+KfQ2JEsxxjMEFQIR+wOBEo+ac/m2+zJhU+p1ydSeU1JY2
+         H/0r5xG53eMAVWo7AL/Msh5rfsNncY/ZxVei3lkuBJG52szhdWRzFWL7nCJNg58X0b/2
+         UfEDop+8nCbak8MitOgjpBDOIhlqFDMh+foVGAmpZpbC3bkh9TnjpMQ1s6ioCSq2ZcJ/
+         Fv9I8JmYayGIkzbepEhbYLtn2RT/xbdD6vPnouaj2Evml94+Mdqmln+WIHMhytQ28QT+
+         EWQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725531686; x=1726136486;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eWUmOKRHUFdWNzdh5pw1Ez/2T72/kqrXnIrfhfqLjOw=;
-        b=YSWM570+upo5YLeV4zRQ4QqczJy1W4QZLWo7JrYzSESzCsZfwg2kMSdox220z8q7Sb
-         Glqz0VGAngFFA6Ufuhw+ElqbCp7/PpkaQt27brLb/gBAPLLEI09/hLIEARyIc54VdbuJ
-         jjyoEG9+uz4xjGE90usYg7hBpLlQHbpUg9WtL0mNxt6ONGqxAz0PVrBdvYXHlXhT8D6q
-         6QaUMRiCGNWDznGz3AARttIYepdey479i6nqlD2itpphw1xvq+BLqub7YHBECJGoS3r7
-         8C4G9P8XY8/iQJ2cg6o8yOTsVA0mYoBxswx0Jt9tiuB1AFzQQuy3njoKSvexENZpa/Gn
-         JO4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVgTtzV/k2cpV/jcTdbnHAS0ueiG8p9UJ4CXYynuhGlAZm5rIBPXbp/CM4z3ZJ8meJK+NNft80/67kby9zK@vger.kernel.org, AJvYcCXfiUkWWRRUTb9fJjpFdmKwVumBLbRJEbvkdYofeVSc1aFPftsXdy3+nJcqZtaVXCiatpPGBB9Jxss=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyID7k0CpAB+UZu5MhSmUr5OfgnC3wEwmRjhXB90O9rhCYE+PNg
-	+ux8A+NZpv13ct21JRNxTCcA5JIqfzCnuleYItHGHY1o0T8csftq
-X-Google-Smtp-Source: AGHT+IE4tuR7i13hi7xoa6Z32tZC3aqE0CEUTpKvkNhLfuBTyGVZxY/7WThhqRCv/GWXoJeYnISRhA==
-X-Received: by 2002:a2e:a544:0:b0:2ef:2b06:e554 with SMTP id 38308e7fff4ca-2f626565176mr137523161fa.15.1725531685237;
-        Thu, 05 Sep 2024 03:21:25 -0700 (PDT)
-Received: from ?IPV6:2a03:83e0:1126:4:eb:d0d0:c7fd:c82c? ([2620:10d:c092:500::5:decd])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c3cc568559sm1031499a12.42.2024.09.05.03.21.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Sep 2024 03:21:24 -0700 (PDT)
-Message-ID: <1ffdf94d-ce3f-4dac-8ed3-0681f98beebf@gmail.com>
-Date: Thu, 5 Sep 2024 11:21:24 +0100
+        d=1e100.net; s=20230601; t=1725534499; x=1726139299;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LqwjAMWIXfLAiDh3IzhpRtZkBQ4I8ll+8WXMQlVGHJc=;
+        b=uZ1033jCmd9cdYBDCxFv9MH7Yx6YNJigLaEb33sghGJTiJsE5b5oSvuFCfXYYhN2KT
+         87ljQsOS4F1MbVbpqtybLEdJQ4/uaSyW2kOCKFjqvmy0aZy/HcUP72BxVAYu3Z581sDN
+         aJOra16c672t2R7kJU5JUAn6OpO8wsxuou2e1WcWD1AKeJz3e1wVGvqtSf8SchEWLQtY
+         BjAurldVYx5BGkcja5Jq6MClCDHnncvVpLbxguCOQsmxxdujZE075TMgsf+YxU13yavD
+         jvJZUdWGSwcQsjaj8Z0M7a6xX/5Kt/cfENpqfSLGy6AxKrOI9aTXm0ek3stPwWKIQlgN
+         VfCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVzCCOFVV3fKQ/FitS0Lim5hgWcLyIJPkd/drR/EyVJoNaqijQfdkg+a/m84LanLCpJM4wXsUUICME=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywx+6iuR0jEJyCoy/TH2Q8siSKjQM8Mqf13cq19aHNR0d8SiImI
+	MbcVY88tq/a8dwRJbEaHHX5RtLtDIWjQ2bAAio0kJmzylJ+TUXp+mlQSkCTADOFO+/HdIgCZE8F
+	0/ET+gwnKnP7jCmwn6dG/qaW6R/K0bBqMR49J
+X-Google-Smtp-Source: AGHT+IFFX3kl9UZMNdkzkdtZItwLqtVU50rbw+IBqYKGDGFu+Kv+f8YYap3rC0kXwlqF5GAgbv/+LYO15fn+hBspXo0=
+X-Received: by 2002:a05:6402:2742:b0:5c2:70a2:5e41 with SMTP id
+ 4fb4d7f45d1cf-5c270a25e94mr5743031a12.28.1725534497559; Thu, 05 Sep 2024
+ 04:08:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/6] mm: free zapped tail pages when splitting isolated
- thp
-To: Hugh Dickins <hughd@google.com>, Andrew Morton
- <akpm@linux-foundation.org>, Yu Zhao <yuzhao@google.com>
-Cc: linux-mm@kvack.org, hannes@cmpxchg.org, riel@surriel.com,
- shakeel.butt@linux.dev, roman.gushchin@linux.dev, david@redhat.com,
- npache@redhat.com, baohua@kernel.org, ryan.roberts@arm.com, rppt@kernel.org,
- willy@infradead.org, cerasuolodomenico@gmail.com, ryncsn@gmail.com,
- corbet@lwn.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kernel-team@meta.com, Shuang Zhai <zhais@google.com>
-References: <20240830100438.3623486-1-usamaarif642@gmail.com>
- <20240830100438.3623486-2-usamaarif642@gmail.com>
- <1d490ab5-5cf8-4c16-65d0-37a62999fcd5@google.com>
-Content-Language: en-US
-From: Usama Arif <usamaarif642@gmail.com>
-In-Reply-To: <1d490ab5-5cf8-4c16-65d0-37a62999fcd5@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240904153431.307932-1-jdamato@fastly.com>
+In-Reply-To: <20240904153431.307932-1-jdamato@fastly.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Thu, 5 Sep 2024 13:08:05 +0200
+Message-ID: <CANn89i+=HiffVo9iv2NKMC2LFT15xFLG16h7wN3MCrTiKT3zQQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v2] net: napi: Prevent overflow of napi_defer_hard_irqs
+To: Joe Damato <jdamato@fastly.com>
+Cc: netdev@vger.kernel.org, mkarsten@uwaterloo.ca, 
+	Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, Paolo Abeni <pabeni@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Breno Leitao <leitao@debian.org>, 
+	Alexander Lobakin <aleksander.lobakin@intel.com>, Johannes Berg <johannes.berg@intel.com>, 
+	Jamie Bainbridge <jamie.bainbridge@gmail.com>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Sep 4, 2024 at 5:34=E2=80=AFPM Joe Damato <jdamato@fastly.com> wrot=
+e:
+>
+> In commit 6f8b12d661d0 ("net: napi: add hard irqs deferral feature")
+> napi_defer_irqs was added to net_device and napi_defer_irqs_count was
+> added to napi_struct, both as type int.
+>
+> This value never goes below zero, so there is not reason for it to be a
+> signed int. Change the type for both from int to u32, and add an
+> overflow check to sysfs to limit the value to S32_MAX.
+>
+> The limit of S32_MAX was chosen because the practical limit before this
+> patch was S32_MAX (anything larger was an overflow) and thus there are
+> no behavioral changes introduced. If the extra bit is needed in the
+> future, the limit can be raised.
 
-
-On 05/09/2024 09:46, Hugh Dickins wrote:
-> On Fri, 30 Aug 2024, Usama Arif wrote:
-> 
->> From: Yu Zhao <yuzhao@google.com>
->>
->> If a tail page has only two references left, one inherited from the
->> isolation of its head and the other from lru_add_page_tail() which we
->> are about to drop, it means this tail page was concurrently zapped.
->> Then we can safely free it and save page reclaim or migration the
->> trouble of trying it.
->>
->> Signed-off-by: Yu Zhao <yuzhao@google.com>
->> Tested-by: Shuang Zhai <zhais@google.com>
->> Acked-by: Johannes Weiner <hannes@cmpxchg.org>
->> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
-> 
-> I'm sorry, but I think this patch (just this 1/6) needs to be dropped:
-> it is only an optimization, and unless a persuasive performance case
-> can be made to extend it, it ought to go (perhaps revisited later).
-> 
-
-I am ok for patch 1 only to be dropped. Patches 2-6 are not dependent on it.
-
-Its an optimization and underused shrinker doesn't depend on it.
-Its possible that folio->new_folio below might fix it? But if it doesn't,
-I can retry later on to make this work and resend it only if it alone shows
-a significant performance improvement.
-
-Thanks a lot for debugging this! and sorry it caused an issue.
-
-
-> The problem I kept hitting was that all my work, requiring compaction and
-> reclaim, got (killably) stuck in or repeatedly calling reclaim_throttle():
-> because nr_isolated_anon had grown high - and remained high even when the
-> load had all been killed.
-> 
-> Bisection led to the 2/6 (remap to shared zeropage), but I'd say this 1/6
-> is the one to blame. I was intending to send this patch to "fix" it:
-> 
-> --- a/mm/huge_memory.c
-> +++ b/mm/huge_memory.c
-> @@ -3295,6 +3295,8 @@ static void __split_huge_page(struct pag
->  			folio_clear_active(new_folio);
->  			folio_clear_unevictable(new_folio);
->  			list_del(&new_folio->lru);
-> +			node_stat_sub_folio(folio, NR_ISOLATED_ANON +
-> +						folio_is_file_lru(folio));
-
-Maybe this should have been below? (Notice the folio->new_folio)
-
-+			node_stat_sub_folio(new_folio, NR_ISOLATED_ANON +
-+						folio_is_file_lru(new_folio));
-
->  			if (!folio_batch_add(&free_folios, new_folio)) {
->  				mem_cgroup_uncharge_folios(&free_folios);
->  				free_unref_folios(&free_folios);
-> 
-> And that ran nicely, until I terminated the run and did
-> grep nr_isolated /proc/sys/vm/stat_refresh /proc/vmstat
-> at the end: stat_refresh kindly left a pr_warn in dmesg to say
-> nr_isolated_anon -334013737
-> 
-> My patch is not good enough. IIUC, some split_huge_pagers (reclaim?)
-> know how many pages they isolated and decremented the stats by, and
-> increment by that same number at the end; whereas other split_huge_pagers
-> (migration?) decrement one by one as they go through the list afterwards.
-> 
-> I've run out of time (I'm about to take a break): I gave up researching
-> who needs what, and was already feeling this optimization does too much
-> second guessing of what's needed (and its array of VM_WARN_ON_ONCE_FOLIOs
-> rather admits to that).
-> 
-> And I don't think it's as simple as moving the node_stat_sub_folio()
-> into 2/6 where the zero pte is substituted: that would probably handle
-> the vast majority of cases, but aren't there others which pass the
-> folio_ref_freeze(new_folio, 2) test - the title's zapped tail pages,
-> or racily truncated now that the folio has been unlocked, for example?
-> 
-> Hugh
-
+Reviewed-by: Eric Dumazet <edumazet@google.com>
