@@ -1,59 +1,59 @@
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FE1219FA98
-	for <linux-doc@vger.kernel.org>; Thu,  5 Sep 2024 16:18:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8EE31A0734
+	for <linux-doc@vger.kernel.org>; Thu,  5 Sep 2024 16:32:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725553125; cv=none; b=avdiQ2YsmLMZGby+3RB0WvAl39/4jdHBm5I/HZ/KpuLYTyZDBVJg8H9P7Xiw1WakQO4nJuVijy5YE2C3/bac8zUpTdzFJpRHsX/jWB22u5txaFGDC9EROnkeEZfl3RJl1xK9emQ0QLr2jOjyz6wPNYQGZTW31TPkYaHFA8Sk4yc=
+	t=1725553951; cv=none; b=d4/rc6wPkjsKl0nEPkrFcv4QPJvAH9p4mKmlmHIlHbWKW91cEDdb5/3RsEYcvZC6Z4EUSqU1Wji/CN1ixk9KPBEFNBinv45HNWrjR/Oh8r8H1tN1+hywqFXpGULdO5lZUCoqIuHj+YlwOfiK1X3UmRhMWVUqll40jpw8/0yqoBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725553125; c=relaxed/simple;
-	bh=0KZJ5QCgut0qXAf4CtRoBblHiHy87RUQ10uqP8m1WTI=;
+	s=arc-20240116; t=1725553951; c=relaxed/simple;
+	bh=LJxf2I+qDEKWcF/MHgukLX50wTfnukOCB0ZkYL4/G7w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Dvl033Kg7TxG/HxfqB2TZ/ZWLugOMJ5LXqitN18py3covRCZ+YBjrxN6Q+4lereV10aNeAbm9gui/cIXXiI4PL+FccsGgK757BI7iY5na/coPR9XBngkJ1wenqkOzdk7U6Qe1ZBf3PDGRCeSSC5hYRK2FL6B2xnu2q2BrzsqUV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=H0KfeP3m; arc=none smtp.client-ip=209.85.166.172
+	 In-Reply-To:Content-Type; b=ZMMNy8ul2ECmtxweSFSOu4aerZRhfWnx0wqM82MCwiBKzCq+GGm+m9EBUSG6ph0FW+NjF4LTCj+9k+jWQCp5YtvmTFqCD0rhwZngdXkprF4SftJfbXM9wdvaSP7N83LTeL3YmMCFcnvEDMoLktApPIByBkM5siqgTRCYGYgLnwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ip5oX0CT; arc=none smtp.client-ip=209.85.166.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="H0KfeP3m"
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-39d4a4e4931so3351575ab.2
-        for <linux-doc@vger.kernel.org>; Thu, 05 Sep 2024 09:18:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ip5oX0CT"
+Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-82a35ea3edaso44661239f.3
+        for <linux-doc@vger.kernel.org>; Thu, 05 Sep 2024 09:32:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1725553122; x=1726157922; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1725553948; x=1726158748; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=YCC51npM/9ttAM5Vwg9IW4X3HmAK9BDVmPhlPGQ+c5o=;
-        b=H0KfeP3m+vzfkOadmlHkrI57gWMV29XMXDFjBZrt5M2c7ZZDYX1l9m6khvz2Lhwydb
-         CrSq+pq6pAdbJUi2c0eyfrHuhG8OqJr+yptenR2swtodQgKNn0VelDesp4vO/ZPSTS/r
-         hDYJHoOG71oINqTDJlDBYUt5RIA1jlGLe+IYJ7gZmeN6+IWNHZ6Sd9e48IkMsfn2bliS
-         NKrmbqolRaYGirX8fQ5Og3yYyLsbjv6D+MDdCvScVQNbfS+bvorIwZ+ZbddUv3OyjBZU
-         IIzFEQJ/HAsNKu8EwauG3tzGjo8vVfQZCKeHb7va4dd0mrHyzmbxgOyD0frYiwm41Nub
-         e1IA==
+        bh=LJxf2I+qDEKWcF/MHgukLX50wTfnukOCB0ZkYL4/G7w=;
+        b=ip5oX0CTQai1QHiEqVhFIdHFsZb6qf1FDLp9vEtJZziouIxA6LSUWMdQ3PwozvC8/x
+         Bljb2DcuHe/2AaR7UZClmu52ImTbAyWYYHgdMSeSSX+aHNjdPertdCQWOij3+jl7+bGm
+         abcftyfjdZ/D5aX7oiaSrS3agGXcsbSqklgQkPqESlIMXAZ8jUEWRFc0Igx5TsRBfoRy
+         8Y3WDP+SUR7OZQ8W8wBOcd2sd8apnw348Ru4zXaWpr0DJ9CURgNhjO3T7A/wVzFyU8cr
+         FAn6W8ieyaGQ+LQ7iCpmFDMFTODXmfQwU/MOI4RhvjUaAAIf+kWUBSg9YETScXnnJcBK
+         N3DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725553122; x=1726157922;
+        d=1e100.net; s=20230601; t=1725553948; x=1726158748;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YCC51npM/9ttAM5Vwg9IW4X3HmAK9BDVmPhlPGQ+c5o=;
-        b=lBN53i2OqlJd4hv0Te83bQv3pxFrlf+iyczneCHyLW3D8ilOXF6jDhwUMldnNDI/jE
-         3URB2K/LmgrTYY26wyjgi4EYqswq3s/kGn5r6829tPASFVjrWDYsG7gYCWjO4bJf1JJP
-         HdM9s5QcJwbH+dOvZWgPHtLdWU4q++GnEf4bqKFv6JkHjQzHLxAunVI28MkFaneHi1GI
-         5zDBnQzR3kHYYVQRbuWSN3TM0zAWPgFva9FRJk6efMMbRP+NTqOtX5rAhPlUu9Qrwm3U
-         KbwWnjJu/JdyLXejhL/x+UfeCiYNZKa7UuAnhGvsYjs4X9Ac1OfPVnN45gSp2Cxe4J0Q
-         pgsg==
-X-Forwarded-Encrypted: i=1; AJvYcCXv1UFnhbNKYI255MgsI/DYAMiffFTDr/Hvdk+gSUpD6j5jPefxAKRwW7nbwQ0/VcKDlnkvVXzdUSs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyaALOzwwlwrGHQlWmj7cioyV7RJjA0r4pQ37MuvJUKwEbX4+CY
-	zxE0F5yPgoueMKPes1Aw4S30WBwhO+PVD1YU85YqQAh4Ls7+jCnkmhKRbTx+XyM=
-X-Google-Smtp-Source: AGHT+IHhPd/S0vkF4Ol3BNci9fQmLXAbOXM8hhWK6GTvykR7qWrFYPoXnNyiBlsPYluhsEE5PinLjw==
-X-Received: by 2002:a05:6e02:1988:b0:39d:2e35:4d88 with SMTP id e9e14a558f8ab-39f379e6c36mr252106895ab.28.1725553121583;
-        Thu, 05 Sep 2024 09:18:41 -0700 (PDT)
+        bh=LJxf2I+qDEKWcF/MHgukLX50wTfnukOCB0ZkYL4/G7w=;
+        b=FYFbJQXJHfBvFkt8oZw5UTc0v/cZ2/ZkWuW+HuQQ4WhH8QNkxcJCs/5s2+hSnHj62p
+         ejJaCs7ai22tujwtz7xLorCuQleadhdOAHYsNqM7QElwU/Mw/a/mbxo46ffoEITpGogr
+         +Sm5CoMh4IP/r68cE8u4JUO/v85XCo6C+Wa09f4ng9wPZ7FGxvX3/FAmnBEQDeKfv2tj
+         8xoH0Jngoj34VAKACmLgFx7q0isnXI+yPJCPheLOp0ylNatguIqjK4gRPseNCTUjdMqe
+         pJ8B244HzOV/FJ0W04g0O5TdAj65QmBxgzni6VkUPpNDbul7mNHjHCt7uDmloBuyF+tM
+         hz5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWgf8Cc1BT17Vlv2gWIXN6fSjrHqgEbURFB7HAhF0Tu/kp801fFNE/vlt6M9tXf9lvyTM+TqygjD/M=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywv5cX7/17u+8p0rXbr8R4BVfrssoibdOF8T6+P5I3itkEp0kGL
+	lalI89VzEtLL/KYUjTRSYBXKkKq0IcFrSbucGBTNJG9+EuAUQmEUaNqUx/RVjMk=
+X-Google-Smtp-Source: AGHT+IHLXHN533tm5TH7tUvxq+IeFjjRqnOq284J4kEiNtv3uK/fJkUwLvtz9f9jhxc51r33P1fF3A==
+X-Received: by 2002:a05:6602:1595:b0:82a:3dc3:cfc6 with SMTP id ca18e2360f4ac-82a88ca2f9bmr345501939f.8.1725553948029;
+        Thu, 05 Sep 2024 09:32:28 -0700 (PDT)
 Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-39f3afaf930sm43021215ab.29.2024.09.05.09.18.40
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-82a1a42664esm411072739f.19.2024.09.05.09.32.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Sep 2024 09:18:41 -0700 (PDT)
-Message-ID: <ce99d0a4-2a52-43f3-92ea-6e3ed9174956@baylibre.com>
-Date: Thu, 5 Sep 2024 12:18:39 -0400
+        Thu, 05 Sep 2024 09:32:27 -0700 (PDT)
+Message-ID: <37535a4e-e121-4824-aad6-f169b2442e0f@baylibre.com>
+Date: Thu, 5 Sep 2024 12:32:26 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,8 +61,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/3] iio: adc: ad7625: add driver
-To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
+Subject: Re: [PATCH v4 0/3] iio: adc: add new ad7625 driver
+To: Krzysztof Kozlowski <krzk@kernel.org>,
  Lars-Peter Clausen <lars@metafoo.de>,
  Michael Hennerich <Michael.Hennerich@analog.com>,
  =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
@@ -74,138 +74,42 @@ To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
 Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 References: <20240904-ad7625_r1-v4-0-78bc7dfb2b35@baylibre.com>
- <20240904-ad7625_r1-v4-2-78bc7dfb2b35@baylibre.com>
- <23c81d6735075c0b9d98833641606a661fab7194.camel@gmail.com>
+ <123c8bff-6623-4a3b-a49e-69b3ab6f8ab5@baylibre.com>
+ <4d156c5a-daea-4e9a-8623-8042b5fe7911@kernel.org>
 Content-Language: en-US
 From: Trevor Gamblin <tgamblin@baylibre.com>
-In-Reply-To: <23c81d6735075c0b9d98833641606a661fab7194.camel@gmail.com>
+In-Reply-To: <4d156c5a-daea-4e9a-8623-8042b5fe7911@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
-On 2024-09-05 3:58 a.m., Nuno Sá wrote:
-> On Wed, 2024-09-04 at 15:14 -0400, Trevor Gamblin wrote:
->> Add a driver for the AD762x and AD796x family of ADCs. These are
->> pin-compatible devices using an LVDS interface for data transfer,
->> capable of sampling at rates of 6 (AD7625), 10 (AD7626), and 5
->> (AD7960/AD7961) MSPS, respectively. They also feature multiple voltage
->> reference options based on the configuration of the EN1/EN0 pins, which
->> can be set in the devicetree.
->>
->> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
->> ---
-> Hi Trevor,
+On 2024-09-05 4:01 a.m., Krzysztof Kozlowski wrote:
+> On 04/09/2024 21:16, Trevor Gamblin wrote:
+>> On 2024-09-04 3:14 p.m., Trevor Gamblin wrote:
+>>> This series adds a new driver for the Analog Devices Inc. AD7625,
+>>> AD7626, AD7960, and AD7961. These chips are part of a family of
+>>> LVDS-based SAR ADCs. The initial driver implementation does not support
+>>> the devices' self-clocked mode, although that can be added later.
+>>>
+>>> The devices make use of two offset PWM signals, one to trigger
+>>> conversions and the other as a burst signal for transferring data to the
+>>> host. These rely on the new PWM waveform functionality being
+>>> reviewed in [1] and also available at [2].
+>>>
+>>> This work is being done by BayLibre and on behalf of Analog Devices
+>>> Inc., hence the maintainers are @analog.com.
+>>>
+>>> Special thanks to David Lechner for his guidance and reviews.
+>>>
+>>> [1]: https://lore.kernel.org/linux-pwm/cover.1722261050.git.u.kleine-koenig@baylibre.com
+>>> [2]: https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git/log/?h=pwm/chardev
+>>>
+>>> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+>> Realizing that I forgot to pick up Conor's Reviewed-by on the v3 binding
+>> before sending. Can that be picked up?
+> Only you can run `b4 ty -u`. We cannot.
+My mistake. I'll make sure they're there for the next revision.
 >
-> It LGTM, just some minor stuff from me...
->
-> With that,
->
-> Reviewed-by: Nuno Sa <nuno.sa@analog.com>
->
->>   MAINTAINERS              |   1 +
->>   drivers/iio/adc/Kconfig  |  16 ++
->>   drivers/iio/adc/Makefile |   1 +
->>   drivers/iio/adc/ad7625.c | 684
->> +++++++++++++++++++++++++++++++++++++++++++++++
->>
-> ...
->
->> +
->> +static int ad7625_set_sampling_freq(struct ad7625_state *st, int freq)
->> +{
->> +	u64 target;
->> +	struct pwm_waveform clk_gate_wf = { }, cnv_wf = { };
->> +	int ret;
->> +
->> +	target = DIV_ROUND_UP_ULL(NSEC_PER_SEC, freq);
-> Not seeing any reason why it can't be DIV_ROUND_UP()?
-Uwe rightly pointed out (internally) that freq probably shouldn't be 
-signed, so I'll adjust that instead and resubmit.
->
->> +	cnv_wf.period_length_ns = clamp(target, 100, 10 * KILO);
->> +
->> +	/*
->> +	 * Use the maximum conversion time t_CNVH from the datasheet as
->> +	 * the duty_cycle for ref_clk, cnv, and clk_gate
->> +	 */
->> +	cnv_wf.duty_length_ns = st->info->timing_spec->conv_high_ns;
->> +
->> +	ret = pwm_round_waveform_might_sleep(st->cnv_pwm, &cnv_wf);
->> +	if (ret)
->> +		return ret;
->> +
->> +	/*
->> +	 * Set up the burst signal for transferring data. period and
->> +	 * offset should mirror the CNV signal
->> +	 */
->> +	clk_gate_wf.period_length_ns = cnv_wf.period_length_ns;
->> +
->> +	clk_gate_wf.duty_length_ns = DIV_ROUND_UP_ULL((u64)NSEC_PER_SEC *
->> +		st->info->chan_spec.scan_type.realbits,
->> +		st->ref_clk_rate_hz);
->> +
->> +	/* max t_MSB from datasheet */
->> +	clk_gate_wf.duty_offset_ns = st->info->timing_spec->conv_msb_ns;
->> +
->> +	ret = pwm_round_waveform_might_sleep(st->clk_gate_pwm, &clk_gate_wf);
->> +	if (ret)
->> +		return ret;
->> +
->> +	st->cnv_wf = cnv_wf;
->> +	st->clk_gate_wf = clk_gate_wf;
->> +
->> +	/* TODO: Add a rounding API for PWMs that can simplify this */
->> +	target = DIV_ROUND_CLOSEST_ULL(st->ref_clk_rate_hz, freq);
-> ditto...
->
->> +	st->sampling_freq_hz = DIV_ROUND_CLOSEST_ULL(st->ref_clk_rate_hz,
->> +						     target);
->> +
->> +	return 0;
->> +}
->> +
->>
-> ...
->
->> +
->> +static int ad7625_buffer_preenable(struct iio_dev *indio_dev)
->> +{
->> +	struct ad7625_state *st = iio_priv(indio_dev);
->> +	int ret;
->> +
->> +	ret = pwm_set_waveform_might_sleep(st->cnv_pwm, &st->cnv_wf, false);
->> +	if (ret)
->> +		return ret;
->> +
->> +	ret = pwm_set_waveform_might_sleep(st->clk_gate_pwm,
->> +					   &st->clk_gate_wf, false);
->> +	if (ret) {
->> +		/* Disable cnv PWM if clk_gate setup failed */
->> +		pwm_disable(st->cnv_pwm);
->> +		return ret;
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static int ad7625_buffer_postdisable(struct iio_dev *indio_dev)
->> +{
->> +	struct ad7625_state *st = iio_priv(indio_dev);
->> +
->> +	pwm_disable(st->cnv_pwm);
->> +	pwm_disable(st->clk_gate_pwm);
->> +
->> +	return 0;
->> +}
->> +
-> Might not matter but it is a good practise to disable things in the reverse
-> order.
-
-Good point, I'll change that too.
-
-Thanks!
-
->
-> - Nuno Sá
->
+> Best regards,
+> Krzysztof
 >
