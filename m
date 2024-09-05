@@ -1,148 +1,221 @@
-Received: from sender4-of-o51.zoho.com (sender4-of-o51.zoho.com [136.143.188.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4048D747F;
-	Thu,  5 Sep 2024 01:03:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725498208; cv=pass; b=O6JQFjsizKPNKB44ETJ3Zpfki8R2G1KcFZEGpeBS4c7Y8H31aftosSxOfFqaOwMD+KpsCtJUUUK5d0NK4m7kIBvCkucm000tBMAZVqR+kvYlNcV3M9niuzc/08KCZUnkK8VdzG2mgNa7h+cCwIjlktbD7udmBOpIYnVzFi1pB0s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725498208; c=relaxed/simple;
-	bh=xvwm9ULyMATN4LUA3hXl7b+4PDyb925p3YwCKiJ8Ud8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nWtZmMLJsfax72NqysVLJCIjEwfLuSwah1B9ndnMDRNNfk3Pm7IsWmgUucncmYmg9LZ5rDZqtitMDeDaRZFtj/EPu0d5T0EAZ7YviMzRTC9mGlid5WqMV1SK0voTMEshpOUImOxYrjYAzgfUpfR7mw+1qzMc+QuTfJZl1CV1JZQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apertussolutions.com; spf=pass smtp.mailfrom=apertussolutions.com; dkim=pass (1024-bit key) header.d=apertussolutions.com header.i=dpsmith@apertussolutions.com header.b=I1LE+zDb; arc=pass smtp.client-ip=136.143.188.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apertussolutions.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apertussolutions.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C185D635;
+	Thu,  5 Sep 2024 01:44:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725500678; cv=none; b=c1ZrFuOpQxe+ot39ojq8Hs9W7wGUMgc4BhLoGPuW3aqBJj5MdQfE+YNvMM3dJeS4nDpKFgD9Ju7Cr/4yPEhr+SOJnEzoBPrkLNtG0B+9aYZlun1APYmlTBHgYI6qdrEsnded1jzDGc//LLqLP3azl3HtJCWFZkcAVuEIM+4or8I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725500678; c=relaxed/simple;
+	bh=4i2uC5hyOgFUSDqHUCGYYwvnxKpRZHOaOW//nRc2gEw=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=cIYLHrsKnOFMPS+gSvCiPuWoDoMY5HWBxD2IsHItVPSMAWeomyzBE/v4zTSfXtXuxSKyFAO+qhE6KUJqMxnDuqpGU4MIAWYhURw46DOQR89SV/RINQ0YUMUIUYxLXz1bQqvgIcUr1Xk9LGiWjpRnlZlwjC9PUd+X4Jc/96vqiFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=M2o8Q8rD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cymQDEGW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=M2o8Q8rD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cymQDEGW; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=apertussolutions.com header.i=dpsmith@apertussolutions.com header.b="I1LE+zDb"
-ARC-Seal: i=1; a=rsa-sha256; t=1725498125; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=n1GwapKlqf/G11f9bXZyxIoD7k1R7NbcQOIf95YR2qUGUiwderqOqQrraRlVfwxxRmR7Re8k3NeGCmtIy2TiXvQ+zKn62wu26gh7hkiumSYANKK1u21gQgWZHbpTZl0/cgMaDaT0S7xvzFbJUhmcuijt+lurWYeobverSdHkkmQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1725498125; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=MHhhgvQoIAOSgBKwKAFzW1nw5ZFZN5DJupDzq3j2bCE=; 
-	b=GnTIR0gSukchwjgWOItZ87i59diBhrbv1skYdEbrSqqZAONm+7S3KqrsBqEsYyOOqZj8dHTuDwBXLot2xYpClR5gjGUVW/mbeADllJ80vbvfFg9TMghEUFFa7W15JVS6l4pm9kzZrI1x9hxlHRE+UVUVGbgQPzjUxuGIRicNjXo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=apertussolutions.com;
-	spf=pass  smtp.mailfrom=dpsmith@apertussolutions.com;
-	dmarc=pass header.from=<dpsmith@apertussolutions.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1725498125;
-	s=zoho; d=apertussolutions.com; i=dpsmith@apertussolutions.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=MHhhgvQoIAOSgBKwKAFzW1nw5ZFZN5DJupDzq3j2bCE=;
-	b=I1LE+zDbqGpOlfJl+BMuEOWTcR58dv4I/SqGYrYELweuXSrWu940A6fkSzqPXilW
-	JjrMes/NSWEf39/p6FkNSCnlDXf1zVEviNihPq/lT6Tz6DsS6XbwKS/d2sp56PINbGM
-	b/FYT7akWAq84UiE+6YlPxp0pbVAFdENRxnGF+OA=
-Received: by mx.zohomail.com with SMTPS id 1725498123590524.2720733626318;
-	Wed, 4 Sep 2024 18:02:03 -0700 (PDT)
-Message-ID: <1a1f0c41-70de-4f46-b91d-6dc7176893ee@apertussolutions.com>
-Date: Wed, 4 Sep 2024 21:01:59 -0400
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M2o8Q8rD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cymQDEGW";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M2o8Q8rD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cymQDEGW"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BFB9221A61;
+	Thu,  5 Sep 2024 01:44:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725500674; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dTi9sXVnnFjpBjJesi3UR5hVhx3v23LG1PtFEXVp71M=;
+	b=M2o8Q8rDpHawI0s0xyHhyMrU/jTAeOpjnySxF2k+3kObyLvGCj1hHYvz9OSNzhHsqHtWZJ
+	LBabVtViKA+9jI1QYjkgg9AjGPKO5nkSu/hmZEd3JP/HxGi9ioVCJ4HC6z1JGSDWLPZBrJ
+	xVO9I3Wk0miDpAUPMLNwbV2eDIWvHAc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725500674;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dTi9sXVnnFjpBjJesi3UR5hVhx3v23LG1PtFEXVp71M=;
+	b=cymQDEGWOADoKN1LyZ03d1GlVDNw0dRcXfrSODgwuzUAHuPCr3kGQ1Ns9kUzE3kITnGhjo
+	Iq7YTdPKKll+VAAw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=M2o8Q8rD;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=cymQDEGW
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725500674; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dTi9sXVnnFjpBjJesi3UR5hVhx3v23LG1PtFEXVp71M=;
+	b=M2o8Q8rDpHawI0s0xyHhyMrU/jTAeOpjnySxF2k+3kObyLvGCj1hHYvz9OSNzhHsqHtWZJ
+	LBabVtViKA+9jI1QYjkgg9AjGPKO5nkSu/hmZEd3JP/HxGi9ioVCJ4HC6z1JGSDWLPZBrJ
+	xVO9I3Wk0miDpAUPMLNwbV2eDIWvHAc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725500674;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dTi9sXVnnFjpBjJesi3UR5hVhx3v23LG1PtFEXVp71M=;
+	b=cymQDEGWOADoKN1LyZ03d1GlVDNw0dRcXfrSODgwuzUAHuPCr3kGQ1Ns9kUzE3kITnGhjo
+	Iq7YTdPKKll+VAAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6B39E1398F;
+	Thu,  5 Sep 2024 01:44:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id QhGVCP0M2WY7MwAAD6G6ig
+	(envelope-from <neilb@suse.de>); Thu, 05 Sep 2024 01:44:29 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 06/19] x86: Add early SHA-1 support for Secure Launch
- early measurements
-To: Andy Lutomirski <luto@amacapital.net>,
- Thomas Gleixner <tglx@linutronix.de>
-Cc: "Eric W. Biederman" <ebiederm@xmission.com>,
- Eric Biggers <ebiggers@kernel.org>,
- Ross Philipson <ross.philipson@oracle.com>, linux-kernel@vger.kernel.org,
- x86@kernel.org, linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
- linux-efi@vger.kernel.org, iommu@lists.linux-foundation.org,
- mingo@redhat.com, bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
- ardb@kernel.org, mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
- peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca, nivedita@alum.mit.edu,
- herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net,
- dwmw2@infradead.org, baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
- andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com
-References: <20240531010331.134441-1-ross.philipson@oracle.com>
- <20240531010331.134441-7-ross.philipson@oracle.com>
- <20240531021656.GA1502@sol.localdomain>
- <874jaegk8i.fsf@email.froward.int.ebiederm.org>
- <5b1ce8d3-516d-4dfd-a976-38e5cee1ef4e@apertussolutions.com>
- <87ttflli09.ffs@tglx>
- <CALCETrXQ7rChWLDqTG0+KY7rsfajSPguMnHO1G4VJi_mgwN9Zw@mail.gmail.com>
-Content-Language: en-US
-From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
-In-Reply-To: <CALCETrXQ7rChWLDqTG0+KY7rsfajSPguMnHO1G4VJi_mgwN9Zw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+From: "NeilBrown" <neilb@suse.de>
+To: "Chuck Lever III" <chuck.lever@oracle.com>
+Cc: "Jeff Layton" <jlayton@kernel.org>, "Olga Kornievskaia" <kolga@netapp.com>,
+ "Dai Ngo" <dai.ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
+ "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
+ "Olga Kornievskaia" <okorniev@redhat.com>,
+ "Al Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>,
+ "Jan Kara" <jack@suse.cz>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Tom Haynes" <loghyr@gmail.com>,
+ "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+ "Linux NFS Mailing List" <linux-nfs@vger.kernel.org>,
+ "Linux FS Devel" <linux-fsdevel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v3 03/13] nfsd: drop the ncf_cb_bmap field
+In-reply-to: <59DF9B68-4D5F-4E2D-A208-B8EE86D61A85@oracle.com>
+References: <>, <59DF9B68-4D5F-4E2D-A208-B8EE86D61A85@oracle.com>
+Date: Thu, 05 Sep 2024 11:44:21 +1000
+Message-id: <172550066195.4433.11555037330378400882@noble.neil.brown.name>
+X-Rspamd-Queue-Id: BFB9221A61
+X-Spam-Score: -4.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,netapp.com,oracle.com,talpey.com,redhat.com,zeniv.linux.org.uk,suse.cz,lwn.net,gmail.com,vger.kernel.org];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	R_RATELIMIT(0.00)[from(RLewrxuus8mos16izbn)];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-Hi Luto.
+On Thu, 05 Sep 2024, Chuck Lever III wrote:
+>=20
+>=20
+> > On Sep 4, 2024, at 1:39=E2=80=AFPM, Jeff Layton <jlayton@kernel.org> wrot=
+e:
+> >=20
+> > On Wed, 2024-09-04 at 17:28 +0000, Chuck Lever III wrote:
+> >>=20
+> >>> On Sep 4, 2024, at 12:58=E2=80=AFPM, Jeff Layton <jlayton@kernel.org> w=
+rote:
+> >>>=20
+> >>> On Wed, 2024-09-04 at 11:20 -0400, Chuck Lever wrote:
+> >>>> On Thu, Aug 29, 2024 at 09:26:41AM -0400, Jeff Layton wrote:
+> >>>>> This is always the same value, and in a later patch we're going to ne=
+ed
+> >>>>> to set bits in WORD2. We can simplify this code and save a little spa=
+ce
+> >>>>> in the delegation too. Just hardcode the bitmap in the callback encode
+> >>>>> function.
+> >>>>>=20
+> >>>>> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> >>>>=20
+> >>>> OK, lurching forward on this ;-)
+> >>>>=20
+> >>>> - The first patch in v3 was applied to v6.11-rc.
+> >>>> - The second patch is now in nfsd-next.
+> >>>> - I've squashed the sixth and eighth patches into nfsd-next.
+> >>>>=20
+> >>>> I'm replying to this patch because this one seems like a step
+> >>>> backwards to me: the bitmap values are implementation-dependent,
+> >>>> and this code will eventually be automatically generated based only
+> >>>> on the protocol, not the local implementation. IMO, architecturally,
+> >>>> bitmap values should be set at the proc layer, not in the encoders.
+> >>>>=20
+> >>>> I've gone back and forth on whether to just go with it for now, but
+> >>>> I thought I'd mention it here to see if this change is truly
+> >>>> necessary for what follows. If it can't be replaced, I will suck it
+> >>>> up and fix it up later when this encoder is converted to an xdrgen-
+> >>>> manufactured one.
+> >>>=20
+> >>> It's not truly necessary, but I don't see why it's important that we
+> >>> keep a record of the full-blown bitmap here. The ncf_cb_bmap field is a
+> >>> field in the delegation record, and it has to be carried around in
+> >>> perpetuity. This value is always set by the server and there are only a
+> >>> few legit bit combinations that can be set in it.
+> >>>=20
+> >>> We certainly can keep this bitmap around, but as I said in the
+> >>> description, the delstid draft grows this bitmap to 3 words, and if we
+> >>> want to be a purists about storing a bitmap,
+> >>=20
+> >> Fwiw, it isn't purism about storing the bitmap, it's
+> >> purism about adopting machine-generated XDR marshaling/
+> >> unmarshaling code. The patch adds non-marshaling logic
+> >> in the encoder. Either we'll have to add a way to handle
+> >> that in xdrgen eventually, or we'll have to exclude this
+> >> encoder from machine generation. (This is a ways down the
+> >> road, of course)
+> >>=20
+> >=20
+> > Understood. I'll note that this function works with a nfs4_delegation
+> > pointer too, which is not part of the protocol spec.
+> >=20
+> > Once we move to autogenerated code, we will always have a hand-rolled
+> > "glue" layer that morphs our internal representation of these sorts of
+> > objects into a form that the xdrgen code requires. Storing this info as
+> > a flag in the delegation makes more sense to me, as the glue layer
+> > should massage that into the needed form.
+>=20
+> My thought was the existing proc functions would do
+> the massaging for us. But that's an abstract,
+> architectural kind of thought. I'm just starting to
+> integrate this idea into lockd.
 
-On 8/28/24 23:17, Andy Lutomirski wrote:
-> On Thu, Aug 15, 2024 at 12:10 PM Thomas Gleixner <tglx@linutronix.de> wrote:
->>
->> On Thu, Aug 15 2024 at 13:38, Daniel P. Smith wrote:
->>> On 5/31/24 09:54, Eric W. Biederman wrote:
->>>> Eric Biggers <ebiggers@kernel.org> writes:
->>>>> That paragraph is also phrased as a hypothetical, "Even if we'd prefer to use
->>>>> SHA-256-only".  That implies that you do not, in fact, prefer SHA-256 only.  Is
->>>>> that the case?  Sure, maybe there are situations where you *have* to use SHA-1,
->>>>> but why would you not at least *prefer* SHA-256?
->>>>
->>>> Yes.  Please prefer to use SHA-256.
->>>>
->>>> Have you considered implementing I think it is SHA1-DC (as git has) that
->>>> is compatible with SHA1 but blocks the known class of attacks where
->>>> sha1 is actively broken at this point?
->>>
->>> We are using the kernel's implementation, addressing what the kernel
->>> provides is beyond our efforts. Perhaps someone who is interested in
->>> improving the kernel's SHA1 could submit a patch implementing/replacing
->>> it with SHA1-DC, as I am sure the maintainers would welcome the help.
->>
->> Well, someone who is interested to get his "secure" code merged should
->> have a vested interested to have a non-broken SHA1 implementation if
->> there is a sensible requirement to use SHA1 in that new "secure" code,
->> no?
->>
->> Just for the record. The related maintainers can rightfully decide to
->> reject known broken "secure" code on a purely technical argument.
->>
-> 
-> Wait, hold on a second.
-> 
-> SHA1-DC isn't SHA1.  It's a different hash function that is mostly
-> compatible with SHA1, is different on some inputs, and is maybe more
-> secure.  But the _whole point_ of using SHA1 in the TPM code (well,
-> this really should be the whole point for new applications) is to
-> correctly cap the SHA1 PCRs so we can correctly _turn them off_ in the
-> best way without breaking compatibility with everything that might
-> read the event log.  I think that anyone suggesting using SHA1-DC for
-> this purpose should give some actual analysis as to why they think
-> it's an improvement, let alone even valid.
+So presumably xdrgen defines a bunch of structs.  The proc code fills
+those in (on the stack?) and passes them to the generated xdr code which
+encodes them to the network stream??  That seems reasonable.
 
-I would say at a minimum it is to provide a means to cap the PCRs. 
-Devices with TPM1.2 are still prevalent in the wild for which members of 
-the TrenchBoot community support, and there are still valid (and secure) 
-verification uses for SHA1 that I outlined in my previous response.
+We still don't want ncf_cb_bmap in struct nfs4_cb_fattr, we only need it
+in the generated struct.
 
-> Ross et al, can you confirm that your code actually, at least by
-> default and with a monstrous warning to anyone who tries to change the
-> default, caps SHA1 PCRs if SHA256 is available?  And then can we maybe
-> all stop hassling the people trying to develop this series about the
-> fact that they're doing their best with the obnoxious system that the
-> TPM designers gave them?
+Thanks,
+NeilBrown
 
-Our goal is to keep control in the hands of the user, not making 
-unilateral decisions on their behalf. In the currently deployed 
-solutions it is left to the initrd (user) to cap the PCRs. After some 
-thinking, we can still ensure user control and give an option to cap the 
-PCRs earlier. We hope to post a v11 later this week or early next week 
-that introduces a new policy field to the existing measurement policy 
-framework. Will add/update the kernel docs with respect to the policy 
-expansion. We are also looking the best way we might add a warning to 
-the kernel log if the SHA1 bank is used beyond capping the PCRs.
-
-Hopefully this answers the outstanding comments on the SHA1 thread.
-
-v/r,
-dps
