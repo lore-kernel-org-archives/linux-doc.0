@@ -1,48 +1,56 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C3E1A4E97;
-	Thu,  5 Sep 2024 20:33:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941521A2C3D;
+	Thu,  5 Sep 2024 20:36:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725568399; cv=none; b=FuvFdluEXon2ZEylR+cz3VdTq0e4MNVv9djD32hD7jBbhhth8FDGcJV5wREyg2TCDTSNR0ELjmJ9TcRXPkvLXawjmV6Ojj2uTyEtvsdYPgCZ2owITpbuITIbXqb9laVx0sEhscHVSZ7s2+JIxlFrQn0mRIFmC+DeSSffgOtwNto=
+	t=1725568600; cv=none; b=Xm5jOJiEozpH9lKP58U3OttscqA5KVfIj3J1QejVVisxsqa0u8VKqGB1f6hFYLYMnfqqniGWHLqaKn/MTJCxOT6LJC7mx0k5Dlrs0SX7mLnMuMDLGuRzZfNAzkwcIcXQRB4SJlLWr/d0i3ydEv/w5w3M3UWuCsaxrFm4LlFuMhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725568399; c=relaxed/simple;
-	bh=riBV2lfApg2Ld7xZtFtQGkOUs7EVTDr5KDFicVRWsgw=;
-	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=CW6WCYL+D3UjNku7msYXQta78LPsP/X4VVSKvaYEEfDBqoxo3uF8Tpr1Xsvms7NiUBDWM9KNlRh3t8ZqwvN9V71toNEbaSvqegXgMa3BlzIGxOEdCTiMUdXTA04BuxU1aIcR5HfGu92EQofFANdfey2C0DqgAbOL8HcXxObsU6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=P7oN37b3; arc=none smtp.client-ip=45.79.88.28
+	s=arc-20240116; t=1725568600; c=relaxed/simple;
+	bh=JM2T45xkDtlvthbGkhpdgiyICNhya4XmwB99ESMCAZM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=es847T94wnYmcrMlswq7JOATi8dRIVQrQ0JBOQj8NbjtHO5q19AlU7cPSICtjMh2rScwtYJu5KGDDDQ8tVTqCWtesS3mAxMR3ZUdS66r1s/Z1WiXjYBGiNl/eIrTrhMDj2LhCtKZ9Y5tkxlHOLsfkUkchPOjP6K3Nd+w0KGc/oQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=h0zoMm50; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="P7oN37b3"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3287E42B25
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="h0zoMm50"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8461E42B25
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1725568397; bh=JuyDqlVA1do2mubnFAhREgX39ZXWLY4Qa+TRYZIPESM=;
-	h=From:To:Subject:In-Reply-To:References:Date:From;
-	b=P7oN37b3ddBaO1YpgGdkHEvev6o1O5rIHRrRfj0THLWdllwWN3B+NmZ0ssPa24yaX
-	 6rTbDv116PjMg3oO8DF1goFohdRbRu7EpvYGlvyL/hHH4WUPg7tw4y8WouAT8HyTwx
-	 pJPwlTTXe0WHsIRlOWIDK18ZYkAjZta+Sf1wQO1WH7/bxfCoEbSbJgCa4xJYPxy50y
-	 3Px/b8HHkw4IP8rRyRoC6l8BevEPGYhqM+JT8UHR6klMUoOK8AXsq0scHmzyeGI2Z/
-	 fTIUbu2NWejmLjf1V1JowHDGefLoUr44m2Gb7ZsUrgJOOOSh0JCWMpdlBRERMIqdDg
-	 StTeHevN9aIkg==
+	t=1725568598; bh=xNa+Q8PSCW7m4DRccVXfDl/4+sYRB5egVm1KwZDSX3o=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=h0zoMm502MrG8P+tHBYLhudhoCbq24HA1qpkZtuUbwUtZTwObc1fXJaRRAVp8FhcR
+	 nWvUYpxqk7s1CCA6d4ZAu87f2KG0CbR/VnnoPVuk9lrJafWcQ1J34H85Lvl6QXMctk
+	 KLTGOAz5vZsqRLCTwY9a6AuRjwhTz367BjTSMbmRf5Iv/RsBJPWZ45b6pQ4Mlc2N5P
+	 vKT+2Shk+oU/VZ6d+wxHOr8TVRNEzFrKQFe2xrVDnNqA1EOotMhzWEag/bPIy+p1na
+	 7RliLaleNk/AA3A5S6ceD25TJtqPxGrLtpWu453Kgj/JqRPvQXrzr0sGXm5eSVPugh
+	 nVaTWsMGo1sYA==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 3287E42B25;
-	Thu,  5 Sep 2024 20:33:17 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 8461E42B25;
+	Thu,  5 Sep 2024 20:36:38 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Aryabhatta Dey <aryabhattadey35@gmail.com>, liviu.dudau@arm.com,
- airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation/gpu: Fix typo in
- Documentation/gpu/komeda-kms.rst
-In-Reply-To: <l5wzytcamcc43eadaquqbrfqilq6ajfnnseh37c77eceamtw35@hhtdipi4h22c>
-References: <l5wzytcamcc43eadaquqbrfqilq6ajfnnseh37c77eceamtw35@hhtdipi4h22c>
-Date: Thu, 05 Sep 2024 14:33:16 -0600
-Message-ID: <87y145g7sj.fsf@trenco.lwn.net>
+To: Amit Vadhavana <av2082000@gmail.com>, linux-doc@vger.kernel.org,
+ ricardo@marliere.net
+Cc: av2082000@gmail.com, linux-kernel-mentees@lists.linux.dev,
+ skhan@linuxfoundation.org, amelie.delaunay@foss.st.com,
+ mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+ catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au,
+ npiggin@gmail.com, christophe.leroy@csgroup.eu, naveen@kernel.org,
+ paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+ bhelgaas@google.com, conor.dooley@microchip.com, costa.shul@redhat.com,
+ dmaengine@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, workflows@vger.kernel.org
+Subject: Re: [PATCH V2] Documentation: Fix spelling mistakes
+In-Reply-To: <20240817072724.6861-1-av2082000@gmail.com>
+References: <20240817072724.6861-1-av2082000@gmail.com>
+Date: Thu, 05 Sep 2024 14:36:37 -0600
+Message-ID: <87ttetg7my.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,26 +59,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Aryabhatta Dey <aryabhattadey35@gmail.com> writes:
+Amit Vadhavana <av2082000@gmail.com> writes:
 
-> Change 'indenpendently' to 'independently'.
+> Correct spelling mistakes in the documentation to improve readability.
 >
-> Signed-off-by: Aryabhatta Dey <aryabhattadey35@gmail.com>
+> Signed-off-by: Amit Vadhavana <av2082000@gmail.com>
 > ---
->  Documentation/gpu/komeda-kms.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> V1: https://lore.kernel.org/all/20240810183238.34481-1-av2082000@gmail.com
+> V1 -> V2:
+> - Write the commit description in imperative mode.
+> - Fix grammer mistakes in the sentence.
+> ---
+>  Documentation/arch/arm/stm32/stm32-dma-mdma-chaining.rst | 4 ++--
+>  Documentation/arch/arm64/cpu-hotplug.rst                 | 2 +-
+>  Documentation/arch/powerpc/ultravisor.rst                | 2 +-
+>  Documentation/arch/riscv/vector.rst                      | 2 +-
+>  Documentation/arch/x86/mds.rst                           | 2 +-
+>  Documentation/arch/x86/x86_64/fsgs.rst                   | 4 ++--
+>  Documentation/process/backporting.rst                    | 6 +++---
+>  7 files changed, 11 insertions(+), 11 deletions(-)
 >
-> diff --git a/Documentation/gpu/komeda-kms.rst b/Documentation/gpu/komeda-kms.rst
-> index 633a016563ae..eaea40eb725b 100644
-> --- a/Documentation/gpu/komeda-kms.rst
-> +++ b/Documentation/gpu/komeda-kms.rst
-> @@ -86,7 +86,7 @@ types of working mode:
->  -   Single display mode
->      Two pipelines work together to drive only one display output.
->  
-> -    On this mode, pipeline_B doesn't work indenpendently, but outputs its
-> +    On this mode, pipeline_B doesn't work independently, but outputs its
->      composition result into pipeline_A, and its pixel timing also derived from
 
 Applied, thanks.
 
