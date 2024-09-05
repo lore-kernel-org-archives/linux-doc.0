@@ -1,86 +1,236 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from trager.us (trager.us [52.5.81.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B305381B
-	for <linux-doc@vger.kernel.org>; Thu,  5 Sep 2024 23:35:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720F65381B;
+	Thu,  5 Sep 2024 23:39:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.5.81.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725579323; cv=none; b=A6apHKu4BPkUUbJgV34JoTzrjH1MW2BniIVEnB3cQJujeSNgPzZAXi29Aaq7KbYX9LVmb+t80qCvd6XPMWFYQOu+zBJ9yEr5z/8Bf5dn5m69rpQTuDyVwtUhju6kmdcATf7NCOEtUvFz8LOaXR5cFr4193Bnlb3UcuukXD69fco=
+	t=1725579551; cv=none; b=XaxDKm/Byf/W1bCt3B+WgjUq82+kgeNd8t70YtwkduLTGcQu9YegIlhhZGaILDq7kn9HiCRPMtRbpzOwGShTZ43R4SBmrCO4vGtt15J+eqH8LEPXzwZvRnRt20etBoap0hAyISKfNxcR5xUh+oLq/EnsrwjQvNcjf12mgZor/q4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725579323; c=relaxed/simple;
-	bh=ApnFC/T14NVmUv/TA68Xqe3p3OMhR/FsWOkCNdPVr2A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d7IAQAHf2gUfkoJNZ2m5J19XDkCxMWhyf7oGv9NKlQFwH4756V6DJjR0usMyWmVUaqrudL0u1pZoOfYTuuyVY7PS8/XujoHKIVbWuUA2lrPDF6UC4dtuiC9KdiAK/rJSc2lHB1G5Kdm3TU0yHSBZuW/Qe8tVp+v+L5ljqC8rR1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hzEQvkV7; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hzEQvkV7"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-71788bfe60eso1176163b3a.1
-        for <linux-doc@vger.kernel.org>; Thu, 05 Sep 2024 16:35:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725579321; x=1726184121; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UZHqkVBOGl2Zdjxn3jx4VhZEIB1GDSKNhyPqNImMqx8=;
-        b=hzEQvkV78FM64hHowtJXSGM0kqB5holP2gZu/LP2S7kr7+sxXv/zfRP1V3AEDfx7+s
-         3Qec29oIVD54VPiMpcGb8zmUNcHaeGMq2Zq0V0R7LL1C0E5kMBSWLoIUZZzypa2O2dRD
-         7IfMxwftYU8eTNVRHC2GVDbjTb3nflbF69/4ADXzCP+lEv7XFk9D8TkpNZkcjMs7K0H9
-         9/24cVy+9iQZtRXeNm6JxOf7lesiU7Ne9YvKwAKkwTCWVqnIwzQxSfdVmcnNzu3d8j3K
-         y0jZJNaed/He4Et1wZIGr+HnexcOXRGRPxOUXgK3M1WRtDjNZBaIn3zMHFovhObGtuQ4
-         I7/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725579321; x=1726184121;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UZHqkVBOGl2Zdjxn3jx4VhZEIB1GDSKNhyPqNImMqx8=;
-        b=fu6qSvKNijPUVD+KxzF5VOP/ecFCAAL9vorsInCeaO2W9KXoZSOpyruuzArfm3PNZy
-         OMlQQHxoxmmudoDMe5V/mbk7Mg9IOcL3X4Ij1h0cCEEzjyZD9DaONvVU/BIS84VSy8sr
-         aVIiMx3gOFKsn+QJDmkVqK6J3Ixuie/Wb8KY8bCwffNwsR6tWj6uskSqWNFJAsAKa1Dz
-         ylHEx26uTfqCPSwB+27fZGDE5EAoEBuEK5WcKeFiFor5ei5Tc0jb8YroFAuTuUleTVx5
-         8kLvCxPjgd8SPcF3QMyhxp41gWvi+2oFe7GKJt9tD8m0Nx5i8yBPN6V0DVfJY09cNdoc
-         bdbQ==
-X-Gm-Message-State: AOJu0YyKCWB46QnIIeCNbjaILkVE5i3n4SUgBnS1wYN5GDOwD6uZtb+8
-	X3KNqip/SdZ9Rdc7KBP7iCz2KmUApI3dSqigNNH5mtbu+OdKnHRQV+ATzw==
-X-Google-Smtp-Source: AGHT+IHvKa/hUUDWi9vLOoIwKF0G16lc8kFrPa6OiUQXateoN5YrTD+ITJZqqYUHBnFU25OfnBee1Q==
-X-Received: by 2002:a05:6a21:39b:b0:1cc:ef31:da6d with SMTP id adf61e73a8af0-1ccef31dc1emr23086704637.52.1725579320891;
-        Thu, 05 Sep 2024 16:35:20 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206aea54f06sm33378755ad.207.2024.09.05.16.35.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Sep 2024 16:35:20 -0700 (PDT)
-Message-ID: <bb98d966-8c3f-4351-84ae-961c7776bd8f@gmail.com>
-Date: Fri, 6 Sep 2024 08:35:19 +0900
+	s=arc-20240116; t=1725579551; c=relaxed/simple;
+	bh=cQQmJ5AgekB3x6oTYMEqlDF58JG5FJt2/c46w/qfVsE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=stSRxcqex+VOUlv1GOIGfXUf4AwUR2twnxf/DLAMlBwTVL44Rogs4vx4sWphupVuOhPmHP4iZMd8an+wmBL4PYYDhJw6AHV+orgrDM1MWbJuLhYZgXSZArpe0q4m7ur6FlZ5tJbJUM6abrx0WNe0wrioL55gFEuo2kMpqMO5kTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=trager.us; spf=pass smtp.mailfrom=trager.us; arc=none smtp.client-ip=52.5.81.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=trager.us
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trager.us
+Received: from c-76-104-255-50.hsd1.wa.comcast.net ([76.104.255.50] helo=localhost)
+	by trager.us with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+	(Exim 4.92.3)
+	(envelope-from <lee@trager.us>)
+	id 1smM44-00024n-O4; Thu, 05 Sep 2024 23:39:01 +0000
+From: Lee Trager <lee@trager.us>
+To: netdev@vger.kernel.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Alexander Duyck <alexanderduyck@fb.com>,
+	kernel-team@meta.com,
+	Shinas Rasheed <srasheed@marvell.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Phani Burra <phani.r.burra@intel.com>,
+	Lee Trager <lee@trager.us>,
+	Joshua Hay <joshua.a.hay@intel.com>,
+	Sanman Pradhan <sanmanpradhan@meta.com>
+Cc: Sridhar Samudrala <sridhar.samudrala@intel.com>,
+	Alan Brady <alan.brady@intel.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net-next] eth: fbnic: Add devlink firmware version info
+Date: Thu,  5 Sep 2024 16:37:51 -0700
+Message-ID: <20240905233820.1713043-1-lee@trager.us>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: kerneldoc-preamble.sty: Suppress extra spaces in
- CJK literal blocks
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <20240905050941.31439-1-akiyks@gmail.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20240905050941.31439-1-akiyks@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu,  5 Sep 2024 14:09:41 +0900, Akira Yokosawa wrote:
-> Note for Jon:
->   Current docs-next won't complete full "make htmldocs".
+This adds support to show firmware version information for both stored and
+running firmware versions. The version and commit is displayed separately
+to aid monitoring tools which only care about the version.
 
-Oh well...
-I made a typo here, I wanted to say       "make pdfdocs"
+Example output:
+  # devlink dev info
+  pci/0000:01:00.0:
+    driver fbnic
+    serial_number 88-25-08-ff-ff-01-50-92
+    versions:
+        running:
+          fw 24.07.15-017
+          fw.commit h999784ae9df0
+          fw.bootloader 24.07.10-000
+          fw.bootloader.commit hfef3ac835ce7
+        stored:
+          fw 24.07.24-002
+          fw.commit hc9d14a68b3f2
+          fw.bootloader 24.07.22-000
+          fw.bootloader.commit h922f8493eb96
+          fw.undi 01.00.03-000
 
-Jon, looks like it affected the change log of the back merge.
+Signed-off-by: Lee Trager <lee@trager.us>
+---
+ .../device_drivers/ethernet/index.rst         |  1 +
+ .../device_drivers/ethernet/meta/fbnic.rst    | 29 +++++++
+ MAINTAINERS                                   |  1 +
+ .../net/ethernet/meta/fbnic/fbnic_devlink.c   | 75 +++++++++++++++++++
+ 4 files changed, 106 insertions(+)
+ create mode 100644 Documentation/networking/device_drivers/ethernet/meta/fbnic.rst
 
-Is it too late to amend it?
+diff --git a/Documentation/networking/device_drivers/ethernet/index.rst b/Documentation/networking/device_drivers/ethernet/index.rst
+index 6932d8c043c2..6fc1961492b7 100644
+--- a/Documentation/networking/device_drivers/ethernet/index.rst
++++ b/Documentation/networking/device_drivers/ethernet/index.rst
+@@ -44,6 +44,7 @@ Contents:
+    marvell/octeon_ep
+    marvell/octeon_ep_vf
+    mellanox/mlx5/index
++   meta/fbnic
+    microsoft/netvsc
+    neterion/s2io
+    netronome/nfp
+diff --git a/Documentation/networking/device_drivers/ethernet/meta/fbnic.rst b/Documentation/networking/device_drivers/ethernet/meta/fbnic.rst
+new file mode 100644
+index 000000000000..32ff114f5c26
+--- /dev/null
++++ b/Documentation/networking/device_drivers/ethernet/meta/fbnic.rst
+@@ -0,0 +1,29 @@
++.. SPDX-License-Identifier: GPL-2.0+
++
++=====================================
++Meta Platforms Host Network Interface
++=====================================
++
++Firmware Versions
++-----------------
++
++fbnic has three components stored on the flash which are provided in one PLDM
++image:
++
++1. fw - The control firmware used to view and modify firmware settings, request
++   firmware actions, and retrieve firmware counters outside of the data path.
++   This is the firmware which fbnic_fw.c interacts with.
++2. bootloader - The firmware which validate firmware security and control basic
++   operations including loading and updating the firmware. This is also known
++   as the cmrt firmware.
++3. undi - This is the UEFI driver which is based on the Linux driver.
++
++fbnic stores two copies of these three components on flash. This allows fbnic
++to fall back to an older version of firmware automatically in case firmware
++fails to boot. Version information for both is provided as running and stored.
++The undi is only provided in stored as it is not actively running once the Linux
++driver takes over.
++
++devlink dev info provides version information for all three components. In
++addition to the version the hg commit hash of the build is included as a
++separate entry.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index baf88e74c907..fae13f784226 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14819,6 +14819,7 @@ M:	Alexander Duyck <alexanderduyck@fb.com>
+ M:	Jakub Kicinski <kuba@kernel.org>
+ R:	kernel-team@meta.com
+ S:	Supported
++F:	Documentation/networking/device_drivers/ethernet/meta/
+ F:	drivers/net/ethernet/meta/
 
-        Thanks, Akira
+ METHODE UDPU SUPPORT
+diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c b/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c
+index e87049dfd223..ef05ae8f5039 100644
+--- a/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c
++++ b/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c
+@@ -10,6 +10,56 @@
 
+ #define FBNIC_SN_STR_LEN	24
+
++static int fbnic_version_running_put(struct devlink_info_req *req,
++				     struct fbnic_fw_ver *fw_ver,
++				     char *ver_name)
++{
++	char running_ver[FBNIC_FW_VER_MAX_SIZE];
++	int err;
++
++	fbnic_mk_fw_ver_str(fw_ver->version, running_ver);
++	err = devlink_info_version_running_put(req, ver_name, running_ver);
++	if (err)
++		return err;
++
++	if (strlen(fw_ver->commit) > 0) {
++		char commit_name[FBNIC_SN_STR_LEN];
++
++		snprintf(commit_name, FBNIC_SN_STR_LEN, "%s.commit", ver_name);
++		err = devlink_info_version_running_put(req, commit_name,
++						       fw_ver->commit);
++		if (err)
++			return err;
++	}
++
++	return 0;
++}
++
++static int fbnic_version_stored_put(struct devlink_info_req *req,
++				    struct fbnic_fw_ver *fw_ver,
++				    char *ver_name)
++{
++	char stored_ver[FBNIC_FW_VER_MAX_SIZE];
++	int err;
++
++	fbnic_mk_fw_ver_str(fw_ver->version, stored_ver);
++	err = devlink_info_version_stored_put(req, ver_name, stored_ver);
++	if (err)
++		return err;
++
++	if (strlen(fw_ver->commit) > 0) {
++		char commit_name[FBNIC_SN_STR_LEN];
++
++		snprintf(commit_name, FBNIC_SN_STR_LEN, "%s.commit", ver_name);
++		err = devlink_info_version_stored_put(req, commit_name,
++						      fw_ver->commit);
++		if (err)
++			return err;
++	}
++
++	return 0;
++}
++
+ static int fbnic_devlink_info_get(struct devlink *devlink,
+ 				  struct devlink_info_req *req,
+ 				  struct netlink_ext_ack *extack)
+@@ -17,6 +67,31 @@ static int fbnic_devlink_info_get(struct devlink *devlink,
+ 	struct fbnic_dev *fbd = devlink_priv(devlink);
+ 	int err;
+
++	err = fbnic_version_running_put(req, &fbd->fw_cap.running.mgmt,
++					DEVLINK_INFO_VERSION_GENERIC_FW);
++	if (err)
++		return err;
++
++	err = fbnic_version_running_put(req, &fbd->fw_cap.running.bootloader,
++					DEVLINK_INFO_VERSION_GENERIC_FW_BOOTLOADER);
++	if (err)
++		return err;
++
++	err = fbnic_version_stored_put(req, &fbd->fw_cap.stored.mgmt,
++				       DEVLINK_INFO_VERSION_GENERIC_FW);
++	if (err)
++		return err;
++
++	err = fbnic_version_stored_put(req, &fbd->fw_cap.stored.bootloader,
++				       DEVLINK_INFO_VERSION_GENERIC_FW_BOOTLOADER);
++	if (err)
++		return err;
++
++	err = fbnic_version_stored_put(req, &fbd->fw_cap.stored.undi,
++				       DEVLINK_INFO_VERSION_GENERIC_FW_UNDI);
++	if (err)
++		return err;
++
+ 	if (fbd->dsn) {
+ 		unsigned char serial[FBNIC_SN_STR_LEN];
+ 		u8 dsn[8];
+--
+2.43.5
