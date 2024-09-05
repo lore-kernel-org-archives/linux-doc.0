@@ -1,166 +1,177 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from out162-62-58-211.mail.qq.com (out162-62-58-211.mail.qq.com [162.62.58.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DD9D19DFB8;
-	Thu,  5 Sep 2024 17:11:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208A8522F
+	for <linux-doc@vger.kernel.org>; Thu,  5 Sep 2024 17:15:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725556299; cv=none; b=E4/eY2OL129i3KxTv36k5/EHAOCzC3n/Ca29BP2ljo+gNnlAFcPdBbXcYRe5qcsopWnXbeONhL9iEAQwo8DFRn+mEUK+KqKWEuDpuCnUWiiYS8XINjZDAc1NcS4JNpdY4lGfLQYnOqwtj+1CX+7qLDc7zi3KWnTJhwSFsjm1mf4=
+	t=1725556542; cv=none; b=PrdUTPs0mKO7FFn9V/hYNLLmgkOaDFSp/38TvC33CFaj1BQmraKgNOREdJKZJfSy58pNw1VHMyeCf7kJR4kB2ddjbYPYTDch5fieBe6Q2Ah+RP1ITqACO0HfVqE+IbulEIfE5TQaOkTUTCtMh9hpVE7SKWeMV/qqdXK2TtHqfNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725556299; c=relaxed/simple;
-	bh=UgUKwC+htmQ64BydR+9gR8Mz2CbId2/rj3nOjpSfpeU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=H8Ym/6fV69Ahj2TIEudMvxOBQ5SWaFzsIldfItGMqStFyrT2+x1lPganEo3TzD+D5e8YO1ul6PTZyevJpjitn5SFqX7ij8/PGtjsmykMgS5sEMn8tW8BqsvXymbzB8R+D/HSgllfrgMlizw1wy05RLoGq5NHwSG53CD1ELaWiCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=Td++fBf9; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1725556542; c=relaxed/simple;
+	bh=b3J0zmDqUTroBSZmui7RtRtrLz5VtHqzff2jtxVhDnk=;
+	h=Message-ID:Content-Type:Mime-Version:Subject:From:In-Reply-To:
+	 Date:Cc:References:To; b=Uj2C1UQ4NiTNbaElWguBowQSgf36dKw4/bFbOPqF91PyOMzJIxHqsZopWqAOfnpiqjgH6mU89oG6+OtF+0+x86ViuikHDzBAC6F19zzQ5SQmWQ+sv/GEids3t+TG6p6rF1SwL9LtgQnUMdy27nb/YpvE5plqTOvOG+rXLNBnz1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name; spf=none smtp.mailfrom=cyyself.name; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=XsUmZi5H; arc=none smtp.client-ip=162.62.58.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cyyself.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="Td++fBf9"
-Received: from [192.168.7.205] ([71.202.166.45])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 485H9en23712765
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Thu, 5 Sep 2024 10:09:41 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 485H9en23712765
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2024081601; t=1725556182;
-	bh=UP5S89Q8T/Q5EsxqhRyQ8f9BJnQqaRl+80CV7+1PjiY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Td++fBf985x/z0uESDRnIoaMDjnC8j2FiRd+xXLy9mgYmLI6IS7D9wTqmPYaqaHlR
-	 CA6x65DAFqM/8/iAXlI4b1xOn6nIRFQscrXw96TKLvIsbBXCTRSPGpxTKTZ4Z3HwFo
-	 +fd0hZCtR2Bj4UZwYnuaIcC3UhRgfQkTTpdq7rPVs+lJME38yR3Bi5WwhJ57q/XwJG
-	 KT+7olRlKhg72DbQtiWMwkZgRt196aqOoA4Czaj3FCPe0lpNVOeXIop54h2KOWBeS+
-	 D/gSJtiyZUhaHa/S6CaWMU6BFRndwWJZ2ZqVnqkDiT9LnpSbPHJk5WEnRwRELNIYpr
-	 82B5itYZvyvuA==
-Message-ID: <feefa9d1-f266-414f-bb7b-b770ef0d8ec6@zytor.com>
-Date: Thu, 5 Sep 2024 10:09:39 -0700
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="XsUmZi5H"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1725556518; bh=IdmLzzE4Y30s9YeYCM0UVuwavqz/aTp5LLdmTh4K8f0=;
+	h=Subject:From:In-Reply-To:Date:Cc:References:To;
+	b=XsUmZi5HPqQjER2B98kOFc2PPfFs8IGDZYwGuoonrTzf9KFuX8IJjXUIxr8wTFikf
+	 5f366F/4LO6GWGn1TbgtVF+juAFuzy1Mg+1iDo7z9qu1SxNdiVwQ+tP2PccyjRCqaI
+	 oxL4xwV5gzqX76ew2bykD20WrZw/Pf7UWpCQla2M=
+Received: from smtpclient.apple ([2001:da8:c800:d084:a0ed:5d47:36ee:f762])
+	by newxmesmtplogicsvrszc19-0.qq.com (NewEsmtp) with SMTP
+	id 3CF3FE5C; Fri, 06 Sep 2024 01:15:15 +0800
+X-QQ-mid: xmsmtpt1725556515tl5azvo8d
+Message-ID: <tencent_B49BC6F11F5737662664B35196CF50904805@qq.com>
+X-QQ-XMAILINFO: ODdZrkDuTlAgtf9EojIpmtCpfUBNWoLW0j3WAfyUMzA3bmwJ7yeQCYEc7UNFBn
+	 dgh4i/ubTQJldg/Ixe82HlksCUKuP6ZB9TbSRJBKn41i3yBB2sRE7UvmO3YIC1QadIh8rIj/U8Ob
+	 xH7bwli6OntCsqeLXERo7Y0XmcVZVpp1clpxOMdhqTinb81fAts36L1vK8A+E7h2Mf5Hldqx5cw1
+	 Yh1mPCbyW5t+OXe9JQuZiQHaBL5Tgi+M8fqLuqsqpn2IOD6+uiIq3lfhyh4XjmrrH7DdlZ6Jzkib
+	 kVJz16UBYU8LzQHK1p4nAPJrBTi7vHY4UZNzZ/5grKw7LomY+65wIzlpDI+bKGJqB9A6tjY/U24G
+	 QkI6/AcMcoh1NoUKktLykS5V1O7JTc72+tHKbZhrP2UpPXaWITkdAhdVW1HGgAG+kXTlZpcvLh/Y
+	 8cpdW+BsQI0yAsgApBmRlPDdPDE/ZrbPs8dicFV9WM8cZwe9x48K/ZBKXKCTqVxqnOiKqXEyz72l
+	 ZCEhLxim4Nn/TV4mxzfNuiu+Da5NUfHJ3+w2yPm9qk1A0127lY/g/Pk0kL08DiDn5mQz8jdY4tdl
+	 8bs9yiNxXxzyqzwRNBOts1bSTKhyPoDOSDVpGRR0It1732B7jTZvZ2ZxB1/b9c4pMZfX7vuXSQNw
+	 2UuHfqJH6fhYR7CUn72aJtd8RIZR+2YbwsI8lZvt2dvJrJ8nuuBMZgHjqN+0CmzCFrkTU1irKZNm
+	 2Meayw7xkV0dXhvVEmvLrzv375PBa8l7NAjRa9C0wnDMGPMWduh8lpGneRF0E3V/nNOj6vCaALJk
+	 B8AEFCvseA/R67BkrBlCzy7HjhoKhEzOzq2YodvvCsYqH6lgwH2nzVcn5Zkr2R5wXd2D71Zlq/yF
+	 ow3eN1KFSzysK54VOaYlROVEN801XV85jm9ownawFqEtQ1NDGDvayh16w3Ot3KgCCu8Y8Wy4ZdBv
+	 qxg4sXU4K+3FSYX4TYO/9OJF01ZzV4O6nmyo/XVJzdPzuwYjBm9/mYtXGswYJ1suUI3Ztp28A=
+X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 07/25] KVM: VMX: Set intercept for FRED MSRs
-To: Sean Christopherson <seanjc@google.com>, Chao Gao <chao.gao@intel.com>
-Cc: Xin Li <xin3.li@intel.com>, linux-kernel@vger.kernel.org,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        shuah@kernel.org, vkuznets@redhat.com, peterz@infradead.org,
-        ravi.v.shankar@intel.com
-References: <20240207172646.3981-1-xin3.li@intel.com>
- <20240207172646.3981-8-xin3.li@intel.com> <ZiJzFsoHR41Sd8lE@chao-email>
- <ZmoT0jaX_3Ww3Uzu@google.com>
-Content-Language: en-US
-From: Xin Li <xin@zytor.com>
-Autocrypt: addr=xin@zytor.com; keydata=
- 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
- l75w1xInsg==
-In-Reply-To: <ZmoT0jaX_3Ww3Uzu@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 6/12/2024 2:32 PM, Sean Christopherson wrote:
-> On Fri, Apr 19, 2024, Chao Gao wrote:
->> On Wed, Feb 07, 2024 at 09:26:27AM -0800, Xin Li wrote:
->>> Add FRED MSRs to the valid passthrough MSR list and set FRED MSRs intercept
->>> based on FRED enumeration.
-> 
-> This needs a *much* more verbose explanation.  It's pretty darn obvious _what_
-> KVM is doing, but it's not at all clear _why_ KVM is passing through FRED MSRs.
-> E.g. why is FRED_SSP0 not included in the set of passthrough MSRs?
-> 
->>> static void vmx_vcpu_config_fred_after_set_cpuid(struct kvm_vcpu *vcpu)
->>> {
->>> 	struct vcpu_vmx *vmx = to_vmx(vcpu);
->>> +	bool fred_enumerated;
->>>
->>> 	kvm_governed_feature_check_and_set(vcpu, X86_FEATURE_FRED);
->>> +	fred_enumerated = guest_can_use(vcpu, X86_FEATURE_FRED);
->>>
->>> -	if (guest_can_use(vcpu, X86_FEATURE_FRED)) {
->>> +	if (fred_enumerated) {
->>> 		vm_entry_controls_setbit(vmx, VM_ENTRY_LOAD_IA32_FRED);
->>> 		secondary_vm_exit_controls_setbit(vmx,
->>> 						  SECONDARY_VM_EXIT_SAVE_IA32_FRED |
->>> @@ -7788,6 +7793,16 @@ static void vmx_vcpu_config_fred_after_set_cpuid(struct kvm_vcpu *vcpu)
->>> 						    SECONDARY_VM_EXIT_SAVE_IA32_FRED |
->>> 						    SECONDARY_VM_EXIT_LOAD_IA32_FRED);
->>> 	}
->>> +
->>> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP0, MSR_TYPE_RW, !fred_enumerated);
->>> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP1, MSR_TYPE_RW, !fred_enumerated);
->>> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP2, MSR_TYPE_RW, !fred_enumerated);
->>> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP3, MSR_TYPE_RW, !fred_enumerated);
->>> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_STKLVLS, MSR_TYPE_RW, !fred_enumerated);
->>> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_SSP1, MSR_TYPE_RW, !fred_enumerated);
->>> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_SSP2, MSR_TYPE_RW, !fred_enumerated);
->>> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_SSP3, MSR_TYPE_RW, !fred_enumerated);
->>> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_CONFIG, MSR_TYPE_RW, !fred_enumerated);
->>
->> Use a for-loop here? e.g.,
->> 	for (i = MSR_IA32_FRED_RSP0; i <= MSR_IA32_FRED_CONFIG; i++)
-> 
-> Hmm, I'd prefer to keep the open coded version.  It's not pretty, but I don't
-> expect this to have much, if any, maintenance cost.  And using a loop makes it
-> harder to both understand _exactly_ what's happening, and to search for relevant
-> code.  E.g. it's quite difficult to see that FRED_SSP0 is still intercepted (see
-> my comment regarding the changelog).
-
-
-I owe you an explanation; I have been thinking about figuring out a way
-to include FRED SSP0 in the FRED KVM patch set...
-
-MSR_IA32_FRED_SSP0 is an alias of the CET MSR_IA32_PL0_SSP and likely to
-be used in the same way as FRED RSP0, i.e., host FRED SSP0 _should_ be
-restored in arch_exit_to_user_mode_prepare().  However as of today Linux
-has no plan to utilize kernel shadow stack thus no one cares host FRED
-SSP0 (no?).  But lets say anyway it is host's responsibility to manage
-host FRED SSP0, then KVM only needs to take care of guest FRED SSP0
-(just like how KVM should handle guest FRED RSP0) even before the
-supervisor shadow stack feature is advertised to guest.
-
-Another question is should KVM handle userspace request to set/get FRED
-SSP0?  IMO, it should be part of CET state management.
-
-Your suggestion?
-
-Thanks!
-     Xin
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51\))
+Subject: Re: [PATCH 3/3] riscv: mm: Do not restrict mmap address based on hint
+From: Yangyu Chen <cyy@cyyself.name>
+In-Reply-To: <mhng-ad0c8c3b-568a-484d-bc3d-49b56a11dcd6@palmer-ri-x1c9>
+Date: Fri, 6 Sep 2024 01:15:04 +0800
+Cc: Charlie Jenkins <charlie@rivosinc.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ Shuah Khan <shuah@kernel.org>,
+ Levi Zim <rsworktech@outlook.com>,
+ Alexandre Ghiti <alexghiti@rivosinc.com>,
+ linux-doc@vger.kernel.org,
+ linux-riscv@lists.infradead.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-kselftest@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+X-OQ-MSGID: <AFED66DE-BE37-467B-A7FD-BF6D530CE0D3@cyyself.name>
+References: <mhng-ad0c8c3b-568a-484d-bc3d-49b56a11dcd6@palmer-ri-x1c9>
+To: Palmer Dabbelt <palmer@rivosinc.com>
+X-Mailer: Apple Mail (2.3776.700.51)
 
 
 
+> On Sep 3, 2024, at 22:27, Palmer Dabbelt <palmer@rivosinc.com> wrote:
+>=20
+> On Mon, 26 Aug 2024 19:24:38 PDT (-0700), cyy@cyyself.name wrote:
+>>=20
+>>=20
+>>> On Aug 27, 2024, at 00:36, Charlie Jenkins <charlie@rivosinc.com> =
+wrote:
+>>> The hint address should not forcefully restrict the addresses =
+returned
+>>> by mmap as this causes mmap to report ENOMEM when there is memory =
+still
+>>> available.
+>>=20
+>> Fixing in this way will break userspace on Sv57 machines as some
+>> issues mentioned in the patch [1].
+>>=20
+>> I suggest restricting to BIT(47) by default, like patch [2], to
+>> align with kernel behavior on x86 and aarch64, and this does exist
+>> on x86 and aarch64 for quite a long time. In that way, we will also
+>> solve the problem mentioned in the first patch [1], as QEMU enables
+>> Sv57 by default now and will not break userspace.
+>>=20
+>> [1] =
+https://lore.kernel.org/linux-riscv/20230809232218.849726-1-charlie@rivosi=
+nc.com/
+>> [2] =
+https://lore.kernel.org/linux-riscv/tencent_B2D0435BC011135736262764B51199=
+4F4805@qq.com/
+>=20
+> I'm going to pick this up as it's a revert and a bug fix, so we can =
+backport it.  If the right answer is to just forget about the sv39 =
+userspace and only worry about sv48 userspace then your patches are =
+likely the way to go,
+
+I think we don't need to care about restricting to sv39 now since
+the ASAN bug has been fixed. We should care about what to do to not
+break userspace on sv57 machines as QEMU enables sv57 by default,
+which is widely used.
+
+> but there's a handful of discussions around that which might take a =
+bit.
+>=20
+>>=20
+>> Thanks,
+>> Yangyu Chen
+>>=20
+>>> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+>>> Fixes: b5b4287accd7 ("riscv: mm: Use hint address in mmap if =
+available")
+>>> Fixes: add2cc6b6515 ("RISC-V: mm: Restrict address space for =
+sv39,sv48,sv57")
+>>> Closes: =
+https://lore.kernel.org/linux-kernel/ZbxTNjQPFKBatMq+@ghost/T/#mccb1890466=
+bf5a488c9ce7441e57e42271895765
+>>> ---
+>>> arch/riscv/include/asm/processor.h | 26 ++------------------------
+>>> 1 file changed, 2 insertions(+), 24 deletions(-)
+>>> diff --git a/arch/riscv/include/asm/processor.h =
+b/arch/riscv/include/asm/processor.h
+>>> index 8702b8721a27..efa1b3519b23 100644
+>>> --- a/arch/riscv/include/asm/processor.h
+>>> +++ b/arch/riscv/include/asm/processor.h
+>>> @@ -14,36 +14,14 @@
+>>> #include <asm/ptrace.h>
+>>> -/*
+>>> - * addr is a hint to the maximum userspace address that mmap should =
+provide, so
+>>> - * this macro needs to return the largest address space available =
+so that
+>>> - * mmap_end < addr, being mmap_end the top of that address space.
+>>> - * See Documentation/arch/riscv/vm-layout.rst for more details.
+>>> - */
+>>> #define arch_get_mmap_end(addr, len, flags) \
+>>> ({ \
+>>> - unsigned long mmap_end; \
+>>> - typeof(addr) _addr =3D (addr); \
+>>> - if ((_addr) =3D=3D 0 || is_compat_task() || \
+>>> -    ((_addr + len) > BIT(VA_BITS - 1))) \
+>>> - mmap_end =3D STACK_TOP_MAX; \
+>>> - else \
+>>> - mmap_end =3D (_addr + len); \
+>>> - mmap_end; \
+>>> + STACK_TOP_MAX; \
+>>> })
+>>> #define arch_get_mmap_base(addr, base) \
+>>> ({ \
+>>> - unsigned long mmap_base; \
+>>> - typeof(addr) _addr =3D (addr); \
+>>> - typeof(base) _base =3D (base); \
+>>> - unsigned long rnd_gap =3D DEFAULT_MAP_WINDOW - (_base); \
+>>> - if ((_addr) =3D=3D 0 || is_compat_task() || \
+>>> -    ((_addr + len) > BIT(VA_BITS - 1))) \
+>>> - mmap_base =3D (_base); \
+>>> - else \
+>>> - mmap_base =3D (_addr + len) - rnd_gap; \
+>>> - mmap_base; \
+>>> + base; \
+>>> })
+>>> #ifdef CONFIG_64BIT
+>>> --=20
+>>> 2.45.0
 
