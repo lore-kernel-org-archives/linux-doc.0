@@ -1,48 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F8B17741;
-	Thu,  5 Sep 2024 20:32:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C3E1A4E97;
+	Thu,  5 Sep 2024 20:33:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725568370; cv=none; b=jcVkMETDbtL4xNTe0S9S3CVGTuNZmH9PCj30VF2TNfsVfadA76d7vQ7rpCiXBJDKUQ+7oM9umto+ZJBEpJmubmtWTyKK12Bs5yqYnBV8pcVjCzDUpEakMAsVhW4LTLdQ3RRzy+2TsELrhKvP48G7NICuyfyFXFYxx92t1Wrz1jg=
+	t=1725568399; cv=none; b=FuvFdluEXon2ZEylR+cz3VdTq0e4MNVv9djD32hD7jBbhhth8FDGcJV5wREyg2TCDTSNR0ELjmJ9TcRXPkvLXawjmV6Ojj2uTyEtvsdYPgCZ2owITpbuITIbXqb9laVx0sEhscHVSZ7s2+JIxlFrQn0mRIFmC+DeSSffgOtwNto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725568370; c=relaxed/simple;
-	bh=SxFjYVkiumLY1N1oUnrdP0QrXBGiREuwKSNReawCjVM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=M0/47M3IiRM5Pz4IBNsGE7IdRmG4uCCVJjKjulCqHyMlNsR2UYWa0ITM8/Jb9dOCuEbBANwlOvtuuA9A17HtnuZLyywJ2Qa3m634hDp26NvTYR+2iLa4p6Pj0ncDpRvH0KyyJWcHZh7VxeTGxmb3ZdYT2ZrVszCtCrKo1B7yPxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=jlPilkk8; arc=none smtp.client-ip=45.79.88.28
+	s=arc-20240116; t=1725568399; c=relaxed/simple;
+	bh=riBV2lfApg2Ld7xZtFtQGkOUs7EVTDr5KDFicVRWsgw=;
+	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=CW6WCYL+D3UjNku7msYXQta78LPsP/X4VVSKvaYEEfDBqoxo3uF8Tpr1Xsvms7NiUBDWM9KNlRh3t8ZqwvN9V71toNEbaSvqegXgMa3BlzIGxOEdCTiMUdXTA04BuxU1aIcR5HfGu92EQofFANdfey2C0DqgAbOL8HcXxObsU6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=P7oN37b3; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="jlPilkk8"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2074542B25
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="P7oN37b3"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3287E42B25
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1725568368; bh=F77LXWSP3jf5dTKjOCvd2CxWgDPIhzPhhUGbaIEFyYI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=jlPilkk8EhaItXbW6Sv/laQ8gGaFv98icdG0ZxTKxQsk6Y6NJSrN6gdZ+zjQHDKHP
-	 3n87nY8i6eXnEpxcwoftwcLuotA/0mJGPs2RWtMXwfH9OfrbmdFpBHIckSKlWuIYrr
-	 Ozme2RJRs6TG3u0caye40uhYwxZq0bw8HEncE+dWiotRzztv6TW77VK7Cm3rFHOPQu
-	 7OuLnHBQF9Np/MuYsKfvXCEC+IgU4hY/TrvaxlniIzyuFcQwnPFxbMLUK49aXdF9QB
-	 4k7ujegCeNNO1YVzrspva77AdEhxNjQV9hxk9b9wsgcFY9JDZZEkr/w9Cf0Lfq+2SH
-	 VDfPxZNsveYvw==
+	t=1725568397; bh=JuyDqlVA1do2mubnFAhREgX39ZXWLY4Qa+TRYZIPESM=;
+	h=From:To:Subject:In-Reply-To:References:Date:From;
+	b=P7oN37b3ddBaO1YpgGdkHEvev6o1O5rIHRrRfj0THLWdllwWN3B+NmZ0ssPa24yaX
+	 6rTbDv116PjMg3oO8DF1goFohdRbRu7EpvYGlvyL/hHH4WUPg7tw4y8WouAT8HyTwx
+	 pJPwlTTXe0WHsIRlOWIDK18ZYkAjZta+Sf1wQO1WH7/bxfCoEbSbJgCa4xJYPxy50y
+	 3Px/b8HHkw4IP8rRyRoC6l8BevEPGYhqM+JT8UHR6klMUoOK8AXsq0scHmzyeGI2Z/
+	 fTIUbu2NWejmLjf1V1JowHDGefLoUr44m2Gb7ZsUrgJOOOSh0JCWMpdlBRERMIqdDg
+	 StTeHevN9aIkg==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 2074542B25;
-	Thu,  5 Sep 2024 20:32:48 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 3287E42B25;
+	Thu,  5 Sep 2024 20:33:17 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Sebastian Muxel <sebastian@muxel.dev>, Mauro Carvalho Chehab
- <mchehab@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Sebastian Muxel
- <sebastian@muxel.dev>
-Subject: Re: [PATCH] scripts: sphinx-pre-install: remove unnecessary double
- check for $cur_version
-In-Reply-To: <20240827133224.160776-1-sebastian@muxel.dev>
-References: <20240827133224.160776-1-sebastian@muxel.dev>
-Date: Thu, 05 Sep 2024 14:32:47 -0600
-Message-ID: <8734mdhmds.fsf@trenco.lwn.net>
+To: Aryabhatta Dey <aryabhattadey35@gmail.com>, liviu.dudau@arm.com,
+ airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation/gpu: Fix typo in
+ Documentation/gpu/komeda-kms.rst
+In-Reply-To: <l5wzytcamcc43eadaquqbrfqilq6ajfnnseh37c77eceamtw35@hhtdipi4h22c>
+References: <l5wzytcamcc43eadaquqbrfqilq6ajfnnseh37c77eceamtw35@hhtdipi4h22c>
+Date: Thu, 05 Sep 2024 14:33:16 -0600
+Message-ID: <87y145g7sj.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,31 +51,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Sebastian Muxel <sebastian@muxel.dev> writes:
+Aryabhatta Dey <aryabhattadey35@gmail.com> writes:
 
-> $cur_version is currently being tested twice with the first test
-> resulting in an unhelpful "$sphinx returned an error", not continuing to
-> the more helpful "$sphinx didn't return its version".
+> Change 'indenpendently' to 'independently'.
 >
-> This patch removes the first test to return the more useful message.
->
-> Fixes: a8b380c379ef ("scripts: sphinx-pre-install: only ask to activate valid venvs")
-> Signed-off-by: Sebastian Muxel <sebastian@muxel.dev>
+> Signed-off-by: Aryabhatta Dey <aryabhattadey35@gmail.com>
 > ---
->  scripts/sphinx-pre-install | 2 --
->  1 file changed, 2 deletions(-)
+>  Documentation/gpu/komeda-kms.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-> index c1121f098542..ad9945ccb0cf 100755
-> --- a/scripts/sphinx-pre-install
-> +++ b/scripts/sphinx-pre-install
-> @@ -300,8 +300,6 @@ sub check_sphinx()
->  	}
+> diff --git a/Documentation/gpu/komeda-kms.rst b/Documentation/gpu/komeda-kms.rst
+> index 633a016563ae..eaea40eb725b 100644
+> --- a/Documentation/gpu/komeda-kms.rst
+> +++ b/Documentation/gpu/komeda-kms.rst
+> @@ -86,7 +86,7 @@ types of working mode:
+>  -   Single display mode
+>      Two pipelines work together to drive only one display output.
 >  
->  	$cur_version = get_sphinx_version($sphinx);
-> -	die ("$sphinx returned an error") if (!$cur_version);
-> -
->  	die "$sphinx didn't return its version" if (!$cur_version);
+> -    On this mode, pipeline_B doesn't work indenpendently, but outputs its
+> +    On this mode, pipeline_B doesn't work independently, but outputs its
+>      composition result into pipeline_A, and its pixel timing also derived from
 
 Applied, thanks.
 
