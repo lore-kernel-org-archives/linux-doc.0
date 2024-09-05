@@ -1,200 +1,195 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE0818037;
-	Thu,  5 Sep 2024 19:24:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B0442C0B;
+	Thu,  5 Sep 2024 19:30:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725564294; cv=none; b=siswqzN9Q0ag8IBUdPJSZVEw3SldBE5lmphEToKr/0hypJkpJYkv1kuDweRIAdKBexI4IzuoGrI4naWn9+8ySBdcnoEqedn8Zw/oE/ER4az9JReoNKTBbrliUa8rgtvc/HtFNDAUuPf7MVNgpPPh05QeN/Rf4fagiNU+lgOHk9Y=
+	t=1725564639; cv=none; b=L0vYvkF8zW21hbvjAmxw9tPgdH4o6czYmf0imVn3/dHir/qcSiYRRyOAw2CLeGhQ/FFxEsRRNx31EMtTFtLJwYyAGERSdQ//TA6aUG3y02R/0FzlDP/WNgjp+VY0FSp9I/W2GKw/zzKi54dQMqFSSl0nzbmSuWJG9e5tjlaYjlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725564294; c=relaxed/simple;
-	bh=rVqsUhOV9LZSBwXHthn2eX3X1YxvCMvvqNhKmkvsDQQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DYHVC+YqJgOdCb9/HKwaPq4UL3tYguUVo16Rt02pzD7JO3QrFT4yLdDT4JI1ZI3JD7Ebp1zBo7t9ShCNofZ5Idx/i3C9xkxBNjT7pqm4O+CjiVz1FxxBkkSWLkPkab3MkJc0NsQ5EmN140utCZECFN3eFAF4BSAcxTs4fmnJ1gc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YAoZOyj4; arc=none smtp.client-ip=209.85.128.50
+	s=arc-20240116; t=1725564639; c=relaxed/simple;
+	bh=edz1Y8cPH7nK/wkJBWl60AZ/9Ibna25B5YaZsnfzETQ=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iDaRZt9A6igEOQjD6Zc1ei7IwpSpUZp51o4AIu/SdKiBDI9w6kxcXpiQjHmWFqFb1asezRmW5N4WhDjTdfzwwYEF7dj6lSnGwO7jslSPFGaBwMCWKBE4D5xnOaWOjQcUJfANqExJCJhqum+4WVdyU7VjVXrhE/uUL8bYQPSDk2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nEPogOrr; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YAoZOyj4"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-42c7856ed66so9052125e9.3;
-        Thu, 05 Sep 2024 12:24:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nEPogOrr"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-205722ba00cso11659955ad.0;
+        Thu, 05 Sep 2024 12:30:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725564291; x=1726169091; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CbVNl1AsNveIurDxg2UqvATkpgD+3xfOD/Vx+6xl1Ys=;
-        b=YAoZOyj43BPJ8GqiWVaI+H7oR2xOrHfLbUoDPhyLuLO4XTr/+QI19VLIJH/fGnfSL1
-         pQgakVOVICn+SvAOe7yRJ3nqTkpHheKEIJNwNmm4ENbicBMZO6EhWxmdNCKn72wHclFA
-         kGMEgFdCADFClHcr7FZj4NeYLFmTqET+Ypz+FB6qLMgddMOxo3nfoCXaAgkyFRGufxBY
-         h5yiceNILf9eVmaxQpqfYddhu/yj+xLFl8X0LckVv7mz+0fy8eJZQ3XiJ5SWU34KTO8n
-         s11SoNjYzZ/OaZ81NLPpxI5n7mPT+xtkZOqz8+9q16aQROpMax1V+XHhv5WeXNoOUE+I
-         KaXg==
+        d=gmail.com; s=20230601; t=1725564637; x=1726169437; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MbrEFO3D2q7bIKaAwLKYWbNKa6L/7Ep2zWdh3jV7Rr4=;
+        b=nEPogOrrrL877llBwbpI1R4EA8/g5PL3ghN5BnLBPNx8QlGyVM/f8f4FFbtoBmqddh
+         VffcwxjPMvRqJ5/lpcyGd0SSq/6jLExBp0/DvSCe3M09a5Hrm+SqdU0lI8G4zHb6u6xR
+         E6R0b+094PMbAUAuUn3+EK52Q3b4qUuPeeN8zeusylWFgEm8lmjmSrgq6frbRwLHaraw
+         BwTI+pecEwOIxKVfzzSIMQLQ/UyReV08nGJ7gCpretBLlEGXQH6x7/NiU2//KtOlRjbk
+         y8q9/PDmAugAqyfrxuJ4Sc6Sgf4VXPIitFPkbSYbCzpVVyfQib1xQGfnpZf/mqDtg0GN
+         OwVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725564291; x=1726169091;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CbVNl1AsNveIurDxg2UqvATkpgD+3xfOD/Vx+6xl1Ys=;
-        b=Y5lVPjx90R9i+qVTfixuqidKrpEymgzCUVFrTWwVqRfdYxSgvT9cldY50SD22vSf3T
-         Rz8oaiFNA/B/vPQhHFHtHw9bedYJ2x//z3B9fDxWNk1LnHBMW2wRfvdP5iknmE0mwB/1
-         9HBrt9I37eSv3oYXsmvncl3zB77ob1oZLmoQrepj6/40nL2JzVVIFdkXTDYojVpzjez5
-         00H/0u8sszZV7HQk+jXw8WWiJU1IVSDgB2cAxJpstWY3XMvreLNS9LZqyY5zVJMjMbiW
-         bXjfH/WuJd8sY9EE65NLsWEuAWUJlV4UcJNfXAUWDA7wbMflwttWNrOZQGw3VP1zOtyo
-         aUIw==
-X-Forwarded-Encrypted: i=1; AJvYcCU99Q70+M7pIOjsZRxU8slRyDMrkYwpvm7ockrY2JRDbdrDBP0Ez9gZft3mo/lY2iVN1Js+2+Nhqr0=@vger.kernel.org, AJvYcCVDCQp5uv4HIZnjYN4E46EtDHrybSLdLdilWrQe/6Psq6dP5U5bx3ORuccHwZjqHibTrejgFZNeHcB77OBa@vger.kernel.org
-X-Gm-Message-State: AOJu0YzOlHVdPHmzk7lQpYlNFc1VlWTlfLXmw2KprZrWofczggxda6Uq
-	rE+fRcuzvjo6r1Sy/7rz1W8F0AGAhZ+ZkZIxDzZJkpMRkhk/abTz
-X-Google-Smtp-Source: AGHT+IHZa/rGu6zLqp1a+czg0eJcLBEk6NINPiW6JvwpJnLQEhN78I2SNiqDWkiUB3iGN4vbyXkRLA==
-X-Received: by 2002:a5d:5244:0:b0:374:c1cc:2eb7 with SMTP id ffacd0b85a97d-374c1cc2f6cmr11980228f8f.35.1725564290600;
-        Thu, 05 Sep 2024 12:24:50 -0700 (PDT)
-Received: from ?IPV6:2a02:6b6f:e750:7600:c5:51ce:2b5:970b? ([2a02:6b6f:e750:7600:c5:51ce:2b5:970b])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378885ee8bdsm228660f8f.68.2024.09.05.12.24.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Sep 2024 12:24:50 -0700 (PDT)
-Message-ID: <25da676b-f87d-4cbc-8df7-93528c601d62@gmail.com>
-Date: Thu, 5 Sep 2024 20:24:49 +0100
+        d=1e100.net; s=20230601; t=1725564637; x=1726169437;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MbrEFO3D2q7bIKaAwLKYWbNKa6L/7Ep2zWdh3jV7Rr4=;
+        b=QcvRxw1sMd9WBu44/KifVGQi61mZJ7yHe1xP3ROyY2UU5FluVdzZzXX+Sy6WGGxzAg
+         RWTUDHyB9Vq9JzWXKFoxmXlpvd9dIvZXKdeu4xmaIKYLazN6g9DKsSOUQsTRmEezxZqv
+         7Wq2FTa0HOWR+Tb1aXCTq3MCOon+bYbqcXw6mODH4gDHiO7UPEVLr4y2zk0Evyn3GoXp
+         nXgz2v4U02CTBHsVTWVUi5n6KQ9SyRMPC51EGnZ9zFHnzG/PW2VsTwNC9WvwA49gFDqp
+         fPqDAeOkZbk9OSpROwrUKG9iynMkBuaC5uGfoHHslCTU9EjU8KDs7+5lxmTfNp21UR9w
+         zT8g==
+X-Forwarded-Encrypted: i=1; AJvYcCUwHlpW8vKCM5aM6yuTcoW90s12E8adX8AquRDySobcQX3vzc+lQVwZnKErfF76R1i/QGjIxLkMrWPA@vger.kernel.org, AJvYcCV2/5TZrQclhdLqwyhG1EVuxIbIjVvuF8Xipioj/97I3usZPLGwH2TvI0mR08nU1PmxqL83o3EQnmzM@vger.kernel.org, AJvYcCVVPYBCq4mEAuGcGfzOjgP8jvIx4mp5SESQEpjrigZRZQw+TNHArvrYgn28uYj2m90/q5ka5hUugtFn5VHt@vger.kernel.org, AJvYcCWVNwR0CTnUzzno7Y7+RO5AciUZnvq+wWxGS+808EreyXypkPeGJKOkca+yftstKHU7BQYbooQlODGnIA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwrS7YXAlS+pX28WQAch/+GrIwDfG2MltZKEcBKbpwA/gw041Dm
+	ZSqWoep66PPfzXQ0eFaWCvFj1lxx+oNzysNxEzOGuhYFYWS0GcOu
+X-Google-Smtp-Source: AGHT+IEXZGO8hCMMHsv0PnNONyTrag4Qx3WBh3WvRsXRhE+inBwlwGH8ekc0KBbwTXHDLfyibHm8iQ==
+X-Received: by 2002:a17:902:cec9:b0:206:8c37:bcd0 with SMTP id d9443c01a7336-206f052e090mr1367825ad.27.1725564636900;
+        Thu, 05 Sep 2024 12:30:36 -0700 (PDT)
+Received: from leg ([2601:646:8f03:9fee:1d73:7db5:2b4a:dfdd])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206ae952bd4sm31818995ad.113.2024.09.05.12.30.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Sep 2024 12:30:35 -0700 (PDT)
+From: Fan Ni <nifan.cxl@gmail.com>
+X-Google-Original-From: Fan Ni <fan.ni@samsung.com>
+Date: Thu, 5 Sep 2024 12:30:20 -0700
+To: ira.weiny@intel.com
+Cc: Dave Jiang <dave.jiang@intel.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Navneet Singh <navneet.singh@intel.com>, Chris Mason <clm@fb.com>,
+	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	linux-btrfs@vger.kernel.org, linux-cxl@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	nvdimm@lists.linux.dev
+Subject: Re: [PATCH v3 18/25] cxl/extent: Process DCD events and realize
+ region extents
+Message-ID: <ZtoGzNhrCOPvrnGV@leg>
+References: <20240816-dcd-type2-upstream-v3-0-7c9b96cba6d7@intel.com>
+ <20240816-dcd-type2-upstream-v3-18-7c9b96cba6d7@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/6] mm: free zapped tail pages when splitting isolated
- thp
-To: Hugh Dickins <hughd@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Yu Zhao <yuzhao@google.com>,
- linux-mm@kvack.org, hannes@cmpxchg.org, riel@surriel.com,
- shakeel.butt@linux.dev, roman.gushchin@linux.dev, david@redhat.com,
- npache@redhat.com, baohua@kernel.org, ryan.roberts@arm.com, rppt@kernel.org,
- willy@infradead.org, cerasuolodomenico@gmail.com, ryncsn@gmail.com,
- corbet@lwn.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kernel-team@meta.com, Shuang Zhai <zhais@google.com>
-References: <20240830100438.3623486-1-usamaarif642@gmail.com>
- <20240830100438.3623486-2-usamaarif642@gmail.com>
- <1d490ab5-5cf8-4c16-65d0-37a62999fcd5@google.com>
- <1ffdf94d-ce3f-4dac-8ed3-0681f98beebf@gmail.com>
- <5efa255b-3689-0c91-1980-c0f0562d84e9@google.com>
-Content-Language: en-US
-From: Usama Arif <usamaarif642@gmail.com>
-In-Reply-To: <5efa255b-3689-0c91-1980-c0f0562d84e9@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240816-dcd-type2-upstream-v3-18-7c9b96cba6d7@intel.com>
 
-
-
-On 05/09/2024 19:05, Hugh Dickins wrote:
-> On Thu, 5 Sep 2024, Usama Arif wrote:
->> On 05/09/2024 09:46, Hugh Dickins wrote:
->>> On Fri, 30 Aug 2024, Usama Arif wrote:
->>>
->>>> From: Yu Zhao <yuzhao@google.com>
->>>>
->>>> If a tail page has only two references left, one inherited from the
->>>> isolation of its head and the other from lru_add_page_tail() which we
->>>> are about to drop, it means this tail page was concurrently zapped.
->>>> Then we can safely free it and save page reclaim or migration the
->>>> trouble of trying it.
->>>>
->>>> Signed-off-by: Yu Zhao <yuzhao@google.com>
->>>> Tested-by: Shuang Zhai <zhais@google.com>
->>>> Acked-by: Johannes Weiner <hannes@cmpxchg.org>
->>>> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
->>>
->>> I'm sorry, but I think this patch (just this 1/6) needs to be dropped:
->>> it is only an optimization, and unless a persuasive performance case
->>> can be made to extend it, it ought to go (perhaps revisited later).
->>>
->>
->> I am ok for patch 1 only to be dropped. Patches 2-6 are not dependent on it.
->>
->> Its an optimization and underused shrinker doesn't depend on it.
->> Its possible that folio->new_folio below might fix it? But if it doesn't,
->> I can retry later on to make this work and resend it only if it alone shows
->> a significant performance improvement.
->>
->> Thanks a lot for debugging this! and sorry it caused an issue.
->>
->>
->>> The problem I kept hitting was that all my work, requiring compaction and
->>> reclaim, got (killably) stuck in or repeatedly calling reclaim_throttle():
->>> because nr_isolated_anon had grown high - and remained high even when the
->>> load had all been killed.
->>>
->>> Bisection led to the 2/6 (remap to shared zeropage), but I'd say this 1/6
->>> is the one to blame. I was intending to send this patch to "fix" it:
->>>
->>> --- a/mm/huge_memory.c
->>> +++ b/mm/huge_memory.c
->>> @@ -3295,6 +3295,8 @@ static void __split_huge_page(struct pag
->>>  			folio_clear_active(new_folio);
->>>  			folio_clear_unevictable(new_folio);
->>>  			list_del(&new_folio->lru);
->>> +			node_stat_sub_folio(folio, NR_ISOLATED_ANON +
->>> +						folio_is_file_lru(folio));
->>
->> Maybe this should have been below? (Notice the folio->new_folio)
->>
->> +			node_stat_sub_folio(new_folio, NR_ISOLATED_ANON +
->> +						folio_is_file_lru(new_folio));
+On Fri, Aug 16, 2024 at 09:44:26AM -0500, ira.weiny@intel.com wrote:
+> From: Navneet Singh <navneet.singh@intel.com>
 > 
-> Yes, how very stupid of me (I'm well aware of the earlier bugfixes here,
-> and ought not to have done a blind copy and paste of those lines): thanks.
+> A dynamic capacity device (DCD) sends events to signal the host for
+> changes in the availability of Dynamic Capacity (DC) memory.  These
+> events contain extents describing a DPA range and meta data for memory
+> to be added or removed.  Events may be sent from the device at any time.
 > 
-> However... it makes no difference. I gave yours a run, expecting a
-> much smaller negative number, but actually it works out much the same:
-> because, of course, by this point in the code "folio" is left pointing
-> to a small folio, and is almost equivalent to new_folio for the
-> node_stat calculations.
+> Three types of events can be signaled, Add, Release, and Force Release.
 > 
-> (I say "almost" because I guess there's a chance that the page at
-> folio got reused as part of a larger folio meanwhile, which would
-> throw the stats off (if they weren't off already).)
+> On add, the host may accept or reject the memory being offered.  If no
+> region exists, or the extent is invalid, the extent should be rejected.
+> Add extent events may be grouped by a 'more' bit which indicates those
+> extents should be processed as a group.
 > 
-> So, even with your fix to my fix, this code doesn't work.
-> Whereas a revert of this 1/6 does work: nr_isolated_anon and
-> nr_isolated_file come to 0 when the system is at rest, as expected
-> (and as silence from vmstat_refresh confirms - /proc/vmstat itself
-> presents negative stats as 0, in order to hide transient oddities).
+> On remove, the host can delay the response until the host is safely not
+> using the memory.  If no region exists the release can be sent
+> immediately.  The host may also release extents (or partial extents) at
+> any time.  Thus the 'more' bit grouping of release events is of less
+> value and can be ignored in favor of sending multiple release capacity
+> responses for groups of release events.
 > 
-> Hugh
+> Force removal is intended as a mechanism between the FM and the device
+> and intended only when the host is unresponsive, out of sync, or
+> otherwise broken.  Purposely ignore force removal events.
+> 
+> Regions are made up of one or more devices which may be surfacing memory
+> to the host.  Once all devices in a region have surfaced an extent the
+> region can expose a corresponding extent for the user to consume.
+> Without interleaving a device extent forms a 1:1 relationship with the
+> region extent.  Immediately surface a region extent upon getting a
+> device extent.
+> 
+> Per the specification the device is allowed to offer or remove extents
+> at any time.  However, anticipated use cases can expect extents to be
+> offered, accepted, and removed in well defined chunks.
+> 
+> Simplify extent tracking with the following restrictions.
+> 
+> 	1) Flag for removal any extent which overlaps a requested
+> 	   release range.
+> 	2) Refuse the offer of extents which overlap already accepted
+> 	   memory ranges.
+> 	3) Accept again a range which has already been accepted by the
+> 	   host.  (It is likely the device has an error because it
+> 	   should already know that this range was accepted.  But from
+> 	   the host point of view it is safe to acknowledge that
+> 	   acceptance again.)
+> 
+> Management of the region extent devices must be synchronized with
+> potential uses of the memory within the DAX layer.  Create region extent
+> devices as children of the cxl_dax_region device such that the DAX
+> region driver can co-drive them and synchronize with the DAX layer.
+> Synchronization and management is handled in a subsequent patch.
+> 
+> Process DCD events and create region devices.
+> 
+> Signed-off-by: Navneet Singh <navneet.singh@intel.com>
+> Co-developed-by: Ira Weiny <ira.weiny@intel.com>
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> 
+One more minor inline.
+> +static int cxl_validate_extent(struct cxl_memdev_state *mds,
+> +			       struct cxl_extent *extent)
+> +{
+> +	u64 start = le64_to_cpu(extent->start_dpa);
+> +	u64 length = le64_to_cpu(extent->length);
+> +	struct device *dev = mds->cxlds.dev;
+> +
+> +	struct range ext_range = (struct range){
+> +		.start = start,
+> +		.end = start + length - 1,
+> +	};
+> +
+> +	if (le16_to_cpu(extent->shared_extn_seq) != 0) {
+> +		dev_err_ratelimited(dev,
+> +				    "DC extent DPA %par (%*phC) can not be shared\n",
+> +				    &ext_range.start, CXL_EXTENT_TAG_LEN,
+> +				    extent->tag);
+> +		return -ENXIO;
+> +	}
+> +
+> +	/* Extents must not cross DC region boundary's */
+> +	for (int i = 0; i < mds->nr_dc_region; i++) {
+> +		struct cxl_dc_region_info *dcr = &mds->dc_region[i];
+> +		struct range region_range = (struct range) {
+> +			.start = dcr->base,
+> +			.end = dcr->base + dcr->decode_len - 1,
+> +		};
+> +
+> +		if (range_contains(&region_range, &ext_range)) {
+> +			dev_dbg(dev, "DC extent DPA %par (DCR:%d:%#llx)(%*phC)\n",
+> +				&ext_range, i, start - dcr->base,
+> +				CXL_EXTENT_TAG_LEN, extent->tag);
+> +			return 0;
+> +		}
+> +	}
 
-Thanks for trying. I was hoping you had mTHPs enabled and then
-the folio -> new_folio change would have fixed it.
+For extent validation, we may need to ensure its size is not 0 based on the spec.
+Noted that during testing, do not see issue for the case as 0-sized
+extents will be rejected when trying to add even though it passes the
+validation.
 
-Happy for patch 1 only to be dropped. I can try to figure it out
-later and send if I can actually show any performance numbers
-for the fixed version on real world cases.
-
-Thanks,
-Usama
-> 
->>
->>>  			if (!folio_batch_add(&free_folios, new_folio)) {
->>>  				mem_cgroup_uncharge_folios(&free_folios);
->>>  				free_unref_folios(&free_folios);
->>>
->>> And that ran nicely, until I terminated the run and did
->>> grep nr_isolated /proc/sys/vm/stat_refresh /proc/vmstat
->>> at the end: stat_refresh kindly left a pr_warn in dmesg to say
->>> nr_isolated_anon -334013737
->>>
->>> My patch is not good enough. IIUC, some split_huge_pagers (reclaim?)
->>> know how many pages they isolated and decremented the stats by, and
->>> increment by that same number at the end; whereas other split_huge_pagers
->>> (migration?) decrement one by one as they go through the list afterwards.
->>>
->>> I've run out of time (I'm about to take a break): I gave up researching
->>> who needs what, and was already feeling this optimization does too much
->>> second guessing of what's needed (and its array of VM_WARN_ON_ONCE_FOLIOs
->>> rather admits to that).
->>>
->>> And I don't think it's as simple as moving the node_stat_sub_folio()
->>> into 2/6 where the zero pte is substituted: that would probably handle
->>> the vast majority of cases, but aren't there others which pass the
->>> folio_ref_freeze(new_folio, 2) test - the title's zapped tail pages,
->>> or racily truncated now that the folio has been unlocked, for example?
->>>
->>> Hugh
-
+Fan
+ 
