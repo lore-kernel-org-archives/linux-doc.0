@@ -1,155 +1,135 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2049.outbound.protection.outlook.com [40.107.236.49])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518041991B0;
-	Thu,  5 Sep 2024 12:05:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725537937; cv=fail; b=t0q5Q8gzmDzJPO6HkCyJgdU12xLCkkDzCznD+09DoCEol61m4K3CeYCsXuInYWb1MwAHLqZqQOZwIzpEuCYJ38fP6fSEXq6qhqrKxxXQbakZDI2qj5H/YVZyswviHPODSpSzkxpy7+YJZ2MPKXCcN5AhyRV4ewOXZuXtw/kMgAg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725537937; c=relaxed/simple;
-	bh=L4Fm4c2wYZSashPYfY8l9L6SB6ssJv1iM/+Ebhd+Jpk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=CF3X2LAykOjHU6c6yy/y6vjEabV+JN+zIemIIs51xQ7jwWEGwFlXwJunutW7zGYNqRR5BqKctliPCjM7/XlNq6eVQz0Yu0i29SMxC8zNlKKeVBG9Us8Dkd+tztuH/yrgU4GOqw5xSgbNxf1u0ztML+TiOum5TjZ7UbsBMp8U97Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=QDwcTqSo; arc=fail smtp.client-ip=40.107.236.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F061A2570
+	for <linux-doc@vger.kernel.org>; Thu,  5 Sep 2024 12:20:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725538852; cv=none; b=skrmDGR/Ixcyr/xvanQcJb5K5boSLqYfHHkYr1nv+r6h4tf6M0xMKKaVYpHTzIm7ipuj8T6ys/LyGqmE5MWO9NZvx2Cy1Cc81UCTe9q43aOnnDcJjj1vi8+jRMEmGmqxpO1tF3s5unPOqb69tSm/Yu5qkKJu7lyl/9Jw76A9m0U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725538852; c=relaxed/simple;
+	bh=edhhjQ8EWhG+zOMTEE9w13COt9ker4VTPe7c56B1cHs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=G8B9n8Tbe16c5BlnDo71qCx+XRDR/mqVjCoUQd1YGUy+qt/7nPXrqDfs1x1lbEfk5MyxrlzKBthzQ15knypCZ2lzg9Zb0DdKWevUppyKXd03GLCQGIY93/Xg2K/bJLeirTuVrfNzHFHBKOQ0YMjvsGvNczX9fk2kitF3vCctiME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fM8nj0Pz; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="QDwcTqSo"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=h3hSyRM9AKXJXucGfe9PBvW/i41lNzA8ebqZZq8Rv9uUTT87OzquJtIH928bLnx78OvGkWPXJ/m+79ZbkG9yWXzd5kBYI4WkJ67ixcL6ymJjz6BcxfiptlqkmQnktRKpmZ9rL6UVFh/UQQIQftWZv5U2rpYy+QZX137++efmL4TNXjOuyOFrTJHYX4q8i6sooyDOWN9VZKG+uGaH8f7ksS+mPsZ7E1LPj++9aDd2a5QPgacpIrmfHkNpCFZTOyhQH3fU442Jclki7XBoPFkMW0dqFIYakbwGgrwyM7S76GSUI+0DHL4syl7KQ886MLGBaALjUe8GW8S6YpEpnRymEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/r6fzjxMbKiGKk9qqiQ4TzmgeGmxa9tkTIjd/6upth8=;
- b=Q4ge64FTjMQTENw9TiVXo125zvJ2XE4rzK1S1RWn8zU3/XkCvgf+e0BgvTvmVmDIKUVF/RgfdCkEaQaqcOGyLjqO/UngIaN2/Pcr4VgoGAhaNoU6BKLALN+YFRnfK2pp73xON1ywqQPXFPh1ocxpOwaK/QpL3/TDPWYB5HoLxIdkHkvDKBFzvxDwbgxPMcQ01F7IBLr3vKzdRmsw3c5jOOApoRNVWrEKZwwRm0v1RdHsPYG/dVaV//rpBgEPaxuQDoFlQm9iCbJx0Pi3RL6fTX6e5fg9fv8GCodBloO5K/vfBSy3H95SZCs9+TkCqMTkJw/16weLJjLueTrzljjpTg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/r6fzjxMbKiGKk9qqiQ4TzmgeGmxa9tkTIjd/6upth8=;
- b=QDwcTqSo2wwCvtKWrb/rEEWtGkwiJCgNTSwWh3wZ5G8JW8fxAtqf3SKohN4Ol9mnhHlju04h3MNkCjtVp8oEiTjCo/6GIiQ8FbJ13ZqtctNAH/m7wdTqWKjR8C9rFew3VbFVIzgyCGQDXp7kTGc5JHTN+brwBbZ/3Dc2SMufSzA6g+tMyascvL6Ah+4wwhgfxnHrRSPae4v2APaqKjI3mKOv8nBi6nF2qM/wXCy1jlsWKHjTPzjCfas3HGS6kmS3/IWulwgV/RZXro2RxUamvc/7cvFu/K+PyR7XPYQTa6kCfEJtcJLYANlkoWw23KDLxA/cjwNa5CTHgEgd8qAKIg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB7763.namprd12.prod.outlook.com (2603:10b6:610:145::10)
- by SN7PR12MB6672.namprd12.prod.outlook.com (2603:10b6:806:26c::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.27; Thu, 5 Sep
- 2024 12:05:32 +0000
-Received: from CH3PR12MB7763.namprd12.prod.outlook.com
- ([fe80::8b63:dd80:c182:4ce8]) by CH3PR12MB7763.namprd12.prod.outlook.com
- ([fe80::8b63:dd80:c182:4ce8%3]) with mapi id 15.20.7918.024; Thu, 5 Sep 2024
- 12:05:32 +0000
-Date: Thu, 5 Sep 2024 09:05:31 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Joerg Roedel <joro@8bytes.org>
-Cc: Baolu Lu <baolu.lu@linux.intel.com>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, linux-doc@vger.kernel.org,
-	iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Joerg Roedel <jroedel@suse.de>
-Subject: Re: [PATCH] iommu/amd: Add kernel parameters to limit V1 page-sizes
-Message-ID: <20240905120531.GD1358970@nvidia.com>
-References: <20240905072240.253313-1-joro@8bytes.org>
- <45a3ae40-6e59-43b4-ae57-d159bd2b54df@linux.intel.com>
- <Ztle72HfrjBjlJGa@8bytes.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Ztle72HfrjBjlJGa@8bytes.org>
-X-ClientProxiedBy: BN0PR04CA0131.namprd04.prod.outlook.com
- (2603:10b6:408:ed::16) To CH3PR12MB7763.namprd12.prod.outlook.com
- (2603:10b6:610:145::10)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fM8nj0Pz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725538850; x=1757074850;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=edhhjQ8EWhG+zOMTEE9w13COt9ker4VTPe7c56B1cHs=;
+  b=fM8nj0PzIkRvo3v03ITK4ZmTZUWddXxKaRgeqrl2DEnGi2hImoQ8RMMX
+   PuCdynMiTSfmWKqfLkln4pLqLTW8aV9g6jPdbPU6A49K6MtnGP6UyL/K8
+   nZclN4eOShuFbCdAm/0wJK/t3idK7rbnan46WgyAFneYHWORbRGvT5R8t
+   ak6FFti1Ky/ZXaiZFR3+3cBmIZN6REOrOSBIXr5YLy6ISIB9wP79c9Uoa
+   EkPD2Crmwccf904DF9y8HtEWuO4++w6HJ1JSBQFaa3eFRY6d0AIPsTtkw
+   Ad85pGPLRObekmba2zZlpytIEGlyLG4wif0amCHSOPQrb8zjmHKqrkPRI
+   g==;
+X-CSE-ConnectionGUID: ACxLp95sQyqAJr0vPsBM/A==
+X-CSE-MsgGUID: 9ikTw7Q7TSqui84TVB1BOA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="34916167"
+X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; 
+   d="scan'208";a="34916167"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 05:20:49 -0700
+X-CSE-ConnectionGUID: b4KDMjy5S1GLMnkIFQ4oWQ==
+X-CSE-MsgGUID: JCCPP161QZWGOnW17yMqBA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; 
+   d="scan'208";a="65926938"
+Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.160])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 05:20:48 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: bernhard+linux-doc@lsmod.de, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-doc@vger.kernel.org
+Cc: "Bernhard M. Wiedemann" <bwiedemann@suse.de>
+Subject: Re: [PATCH] docs: Build kernel docs deterministically
+In-Reply-To: <878qw6qpbu.fsf@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240905113531.65375-1-bernhard+linux-doc@lsmod.de>
+ <878qw6qpbu.fsf@intel.com>
+Date: Thu, 05 Sep 2024 15:20:44 +0300
+Message-ID: <874j6uqokj.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB7763:EE_|SN7PR12MB6672:EE_
-X-MS-Office365-Filtering-Correlation-Id: 681a4e16-ce53-49c3-77f8-08dccda30abb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Jnwj8h0pWmAP+l1YieZJIHgP7Du6IyHcynhO3hUln1U/F+UcbpxPfwEPnDBl?=
- =?us-ascii?Q?BPziYYconk4YorhsPAo1wcfs1BUZTSe6E5BvHI9i1woeujZ4YKPuVJOXtFZJ?=
- =?us-ascii?Q?nPzrunl3OooLtSgXzd3MqI1N3J8nQMX9+jL0ibDrV6aT5dG7QrxRbtvfAd3k?=
- =?us-ascii?Q?YmFcX53Q6e3JJRA6j5Uq6QmolA0t85L2pqBgUFCoa1rAzL/jmPEc7yqdr5qp?=
- =?us-ascii?Q?Zg2XqcRXFQfNDXzaCvdL3GPJEslafwwsJwt2ilDj3Kr15G4TaC94rFh3fFKz?=
- =?us-ascii?Q?FpCDBECsr6Cle5QD5TeRu4qLtzIyKUyi2vvtUllG78Ns9BjuVnk9Jr6Mijgl?=
- =?us-ascii?Q?/9BSXDQ3GizUxNCj6Deu/QhJr81T568g7sHm0M8F4QiCCRJGKcVnaInsdqQ5?=
- =?us-ascii?Q?ZP91RO9mMajYQgKDzMbL9WimXZRk8lxh5ugiYvmPYXzB6Sof4TLMRfWVSZxH?=
- =?us-ascii?Q?YfE4+Ab9/D8GZ2KM2ibhTCDly8g3dDFQQbWsEQbrm+KfjV1q6QKTL7YQrimD?=
- =?us-ascii?Q?J58xQUu967kKNFnr0HzZZJ+eVbDlm+nkvQFos5PAK0AOlSKF34cdHZ4QAoTx?=
- =?us-ascii?Q?lXbyUSl/DCYH03RE+DRUkJXVAPUjMBeVFYBkubwl1cWAZ+TpuESfTYQ+D3gJ?=
- =?us-ascii?Q?1ZWRSexgCIrnfztW/B64myw4yag2sBfTxq3kzbGRfVXaR14cr0HlA7+wKDSd?=
- =?us-ascii?Q?HqEm4v+bYxI7s84eyA/GpRNfJvmF9ngxAoxfcAuCdV9Ep2OuYKHgFdwTBvtU?=
- =?us-ascii?Q?N72nEgKqSCznpxnQv62m596w/4ZHAX0mVUgTjR3xnuF3iZbxGelMmh0kj5sx?=
- =?us-ascii?Q?FCjlFydZt76G9SRUC2QTYLhe8Y/eyhFr8D8oCWSZIlGtCxbmDgmI0dOBHbww?=
- =?us-ascii?Q?Y8lfJ6O6c/diCWz/hTK0FqN35Y8CtXjitkFm+Tjz7O0TBESnof93r0gsSGsC?=
- =?us-ascii?Q?DhCF7MV0r2ZsjB+QNjg582/vnBOMXhuFszxghbQ4vSjWliMz2Uert3swJcn/?=
- =?us-ascii?Q?Ck9g1yAD+2tmMOo8/KExiNLCKcwR5SJp46sCjI4mcbAfyXzyM5E55oAijthK?=
- =?us-ascii?Q?nEp1bKhgNU67jtk1lIOYiFKHdZUqcu9p9dQ+iyWy7lRLdeaN7718SCeq62SZ?=
- =?us-ascii?Q?/R2OriEf83FFnb4uGa+Vi/tRuisCT0A8ntU41GD/3kVS8Jt1qqpJqh9sHPaQ?=
- =?us-ascii?Q?oaG+hA6TL3WEUVHK2OkOmAyvqioxQ3DHX8MLLcCGtrXezPin7HEKSvbyarQF?=
- =?us-ascii?Q?OH98ZGxPFI8a6NPYlpo3y0vZgAex0FklgK3SreVpKzMuxWpFywNpQgy9MeJH?=
- =?us-ascii?Q?AuE+e60ESK/36Ht0AnpWr2mUfnHQr5zjxEq/KWuBfqfLag=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB7763.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?/NrHdZ/lXbmf2umstPQ/rNjSssoOAaUnvlKD+8O7jxfNGaI+ACaPGGr05RNq?=
- =?us-ascii?Q?36DWF1YlEwcLEOCGi/zzF4Ukr4nxOZ6twMqrP7FU/G36QvR20qia3bGxS3iQ?=
- =?us-ascii?Q?mqdulXh3ij+PJSsaibYiQtWPwuHfjzlWvvGmm04G/2IFqBsb4vZJ6nwgJWHd?=
- =?us-ascii?Q?pHl+dTohgFfJwS6OXITlIPZVJr6yKlvKGqPDHjF5vizpxMI1odOfV/aoIyLD?=
- =?us-ascii?Q?UqDutEiC0fRgxbKELppHPLZuyZa5uzd3DaLr49Q+Ewu7RCOK08KwoTdbDaUN?=
- =?us-ascii?Q?+DOJbIoAJtyQG6FDZy/M2Q9EG1jHPM/DDyXUUjyQh1+Vn5PY6/bWfUzYIJ59?=
- =?us-ascii?Q?MKmBsox/Wp8cgtSiEfVALZTM4mDf+Y49tZfbWJNsthSE+hrpc9vCPo9cSU0l?=
- =?us-ascii?Q?ngcxe9jcplEQ8fyvW1/xeeMgdcmfITmVLBoGS/gjUpSHDfg+lbOoG3LvDt8a?=
- =?us-ascii?Q?lDE7oo6btlEOMmO1B4EBgAjyPOg2xBRrypQ7aodSR1NKoiT4xmFssxEbZs/b?=
- =?us-ascii?Q?wH6bkjuZGA8ugGOSL0WlckEAlPDtPuubE1qMMEUpxMw3yymwN10918dJCDPk?=
- =?us-ascii?Q?RM+8C7AOKv/GD07haUhnHhALEm0khPlBovPg88uFBHlihWZymJps0ZR3z9Vq?=
- =?us-ascii?Q?T/7eL0A0F++n/ygopgY+OLHH0wV4LlH/3LcZRyRItFeIlfgqtc4V1PBqHBJC?=
- =?us-ascii?Q?wO92T16cTTII88ganwA323zAbjdScQXz+bRerzRMPTEGNYqpVXmwz9cRCbwW?=
- =?us-ascii?Q?vYRNm8TkpmEv6Qf8XdYF3r9FKLI7/n9WSxS2MkIJvDy2wktW8az4m8pctIUp?=
- =?us-ascii?Q?doCm/mtUpclXoYs95BewzfTHj3S3BVA4ybYENzzhJP+ixGjSJqrEr3jFByip?=
- =?us-ascii?Q?ru8RTUAd1KEqCFY0Gaul8TlpXWj2a1NmMlh51KNNHrevNCWkAXnDpehbdixh?=
- =?us-ascii?Q?Kle10tBcU07f6eV0Ftj8Ftp4+akAHlHvQ6ijLjRLHFCHOJOfBQmnNb5rlyyn?=
- =?us-ascii?Q?nZz0g1RkrIppmzLEG/A7ZKcj1zx2NlJnKZFI1wzzeLbkKg/mCOHB7uLOK3rA?=
- =?us-ascii?Q?6yvwt+j951/lLgOkMBaNmm22gx1caF+V84YqkK5YbKb8AXKkBE5GGLYf4Txj?=
- =?us-ascii?Q?1yZT+Pf8NiDUwzb3hZOEtVAgJbqHZtrYy0XJRzUUrNWpLGibHF/ki/1wzbde?=
- =?us-ascii?Q?bRYI9/GIebW3xtf0rihRZv6YZAEuS6iMEmpcZLSL5j5CcVyeoWr3MkMLZ8sl?=
- =?us-ascii?Q?zuw5Zq8AGyKRuWakXR1+YzefEkY0SPKjAi+bwkpJJsDTHzyfeIHVRSKjidhg?=
- =?us-ascii?Q?dEsr4ibmRlwelUc/JkV2NtqWGFXERr5+4/3ajtp6+erYIY+KMMQl314M/h69?=
- =?us-ascii?Q?GvGdDOlsZ3C15VuRDcOhGaxiLrZrMNkFIqme9nbfAOStN5WOBCfVMKN0cliX?=
- =?us-ascii?Q?g0wVaNn1DeG39jvRMTFZMTxDiM4aBQAMk5bXg8D/1lXt1hWbqCLBxJiEdP86?=
- =?us-ascii?Q?Iqm+rNMY5/Cq446RZTwE72wKe2Ht3ytuQkMxmANBntf9gmSHa3l3EI1uR2bS?=
- =?us-ascii?Q?zFdA4bZhcY1d0x93Er5YT7YfFU75xpa3ZOlX3hdI?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 681a4e16-ce53-49c3-77f8-08dccda30abb
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB7763.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2024 12:05:32.4686
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WELQp28sIrhn/Z17c8WplQ5mt6X1WycPZvvShgu2+RVx6pmR+nS9WjU28W5BMrQI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6672
+Content-Type: text/plain
 
-On Thu, Sep 05, 2024 at 09:34:07AM +0200, Joerg Roedel wrote:
-> On Thu, Sep 05, 2024 at 03:31:08PM +0800, Baolu Lu wrote:
-> > Is it possible to consolidate these two into a single
-> > "iommu.nohugepages=1"?
-> 
-> Generally yes, but that requires to touch all drivers to make the
-> behavior consistent. We can start this effort on-top of this change, if
-> desired.
+On Thu, 05 Sep 2024, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+> On Thu, 05 Sep 2024, bernhard+linux-doc@lsmod.de wrote:
+>> From: "Bernhard M. Wiedemann" <bwiedemann@suse.de>
+>>
+>> Because we want reproducible builds
+>> and https://github.com/sphinx-doc/sphinx/issues/6714
+>> did not receive any love from Sphinx devs in five years,
+>> let's disable parallel doc builds until that Sphinx issue is fixed.
+>
+> You mention in [1] that this is likely a duplicate of [2] i.e. multiple
+> Sphinx instances running in parallel and racing in doctree access.
+>
+> In kernel, does the issue then boil down to:
+>
+> htmldocs:
+> 	@$(srctree)/scripts/sphinx-pre-install --version-check
+> 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
+>
+> i.e. multiple Sphinx invocations instead of just one?
+>
+> Broken record, I still think we should axe the Makefile hacks out of the
+> Sphinx build altogether, and let Sphinx handle everything, via
+> extensions if necessary.
 
-Let's at least use the same keyword that already exists though??
+Indeed. On my machine, 'make htmldocs' spawns eight sphinx-build
+processes, each running with -j8, and each racing for the same
+doctrees. And the whole thing is apparently parallelized to 64 threads,
+which is unlikely to be the most efficient.
 
-Jason
+There's no reason to blame Sphinx upstream before we get our end
+together, and run Sphinx as it was designed.
+
+
+BR,
+Jani.
+
+
+>
+> BR,
+> Jani.
+>
+>
+> [1] https://github.com/sphinx-doc/sphinx/issues/6714#issuecomment-1848975385
+> [2] https://github.com/sphinx-doc/sphinx/issues/2946
+>
+>>
+>> This patch was done while working on reproducible builds for openSUSE,
+>> sponsored by the NLnet NGI0 fund.
+>>
+>> Signed-off-by: Bernhard M. Wiedemann <bwiedemann@suse.de>
+>> ---
+>>  Documentation/sphinx/parallel-wrapper.sh | 3 +++
+>>  1 file changed, 3 insertions(+)
+>>
+>> diff --git a/Documentation/sphinx/parallel-wrapper.sh b/Documentation/sphinx/parallel-wrapper.sh
+>> index e54c44ce117d..cb93626bd86e 100644
+>> --- a/Documentation/sphinx/parallel-wrapper.sh
+>> +++ b/Documentation/sphinx/parallel-wrapper.sh
+>> @@ -10,6 +10,9 @@ sphinx="$1"
+>>  shift || true
+>>  
+>>  parallel="$PARALLELISM"
+>> +# Because of issues in Sphinx(https://github.com/sphinx-doc/sphinx/issues/6714)
+>> +# we disable parallel doc generation to get deterministic build results
+>> +parallel=1
+>>  if [ -z "$parallel" ] ; then
+>>  	# If no parallelism is specified at the top-level make, then
+>>  	# fall back to the expected "-jauto" mode that the "htmldocs"
+
+-- 
+Jani Nikula, Intel
