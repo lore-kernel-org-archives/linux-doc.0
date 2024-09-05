@@ -1,118 +1,84 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 254C4149013
-	for <linux-doc@vger.kernel.org>; Thu,  5 Sep 2024 05:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E40E38B;
+	Thu,  5 Sep 2024 06:35:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725513095; cv=none; b=bJ2Ek6vi1x9obcOYluyLmgJNJ2IpBgbUDP8oiF6Lgy/F43jyleAuR+5VXhNZptJw6KCtemXkx+I2oHe1amsOYC0aekIRKzOxePXdGc2/cI4wQ+lt3JcHgzpD6LL3zAYgJ3ktiKHptfO8GzgiXYEtyw4NTTfg3sMbi1S7+f12n8Q=
+	t=1725518126; cv=none; b=HQZYnsDh4+qntZEfjSyIFVG+IbnA6p+fcrXAUAZjM1IuwqaQYW1UR7AY47jJ1/PDpoNbORA5CqlLFPcEwEFpHFcNu3qgSa/a9klirL45gSJcLo3Ym86SccEjhL+Q+yEGOxJoKLMyL6FJdXQIMzuJWGDyeAtAXXYnthU1CKnBqgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725513095; c=relaxed/simple;
-	bh=CnV0MNQyMfYXqrRJIuj+Svi/jQlTDoU5NYQigaPa72k=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=bPeivG24H5RA96TALav29yBM5KA9gFpLWj+B971fyHUz3jePMinY6whiAndmScRgPMKB6rn/ZkvlWLd6nxrTPBhqHxmLtwukuA5BVIFoxNGwqJ9srakD6c5jNpeqAwFvVMEIrv3cL4kX6CGzKRGdXubsZzJNjDZnZ+5XfEYHlto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CSY15vNg; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1725518126; c=relaxed/simple;
+	bh=qz9hhEzi+LKyX6ILtUo6RYKTAdTrb4WxFnWnlXwkIwg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rh1t/Ed+6B6VXUx9OyzJUszYgkHGxTJ6mnfNAFd3wQWO6Y5O21X/aUCt1o+Ys8G+CUwn+FY+FYva3TbQusPNP5di1JXptcyGD7NdvaqS9SNoSrfbg2yXpbd/nQ5rB+slDORRVv+mMJzUGfDvTs0jnyaEfK38ZQ4xwGJtrwFWc5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tBX2HOVI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CSY15vNg"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1fc47abc040so3710135ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 04 Sep 2024 22:11:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725513093; x=1726117893; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=J9NPQ32iTCKbBaIL+MHUtZwE6DYWCjWjKz8ZX8dGswg=;
-        b=CSY15vNgvrygj2o4+BfSkTv1vheeiqiht+kWu/VD80oxv6IcxapKWUQ9jRRUgU7yEE
-         3k6r9/fmljWvOUYfIT6Eo1VRCMmiDKFT/ESwG3/B/P7sGn5r4oS3FAFT+ya6atRvojfd
-         RA5B/1VV7myM5Pe8ZUyGQkOHzJhc3bEX/qk+utRYXbg4Q1+1WbUKFKFC1cgQVAh/AiT+
-         jzeAqkKRXU+lL0V3VIns3DypKZcQm9LaJ7tI9bY93Kuzh/5u8T4GQekpO4nsnlFDxj8P
-         PS2p1E0iTfjOc9K6BtHvXIzDKu9eGI4U3ObZEcxtT+rVUMe0SCRPE4wa2gp07qdMv1KS
-         jMPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725513093; x=1726117893;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=J9NPQ32iTCKbBaIL+MHUtZwE6DYWCjWjKz8ZX8dGswg=;
-        b=VAYAudQQIGh6LmeA3gzMO8kNtPhN2qZDWOiht3YK/C4W0ZUvvIrH1nMJUa8rc3NqgX
-         ggN4DrZz8nMB8xTjPbi9wgP2ZZdXjUnMiQgA9ypJYb6FgyV1GMHHxPqV/IA1rOC1qJqz
-         r54ibm/w7afJXimXUfR2JfUxgIEdWhH77peKd1g3U9grk67bQS/qjWkU6VTT1iHY6AJ8
-         VRZB4PribEVMsjVNhAWiMK/G6JUvdI3dY66nIAlG7dJZKm5Xl+oGA4XjS2EbEgI+qXuq
-         B0GnjTk8ddTXgWrXCd4M5V+ePuxYSxq02a9pBeQowPwJlXNeZeH+n7mHGD2rN71+1Xqw
-         vQAQ==
-X-Gm-Message-State: AOJu0YwZWCvorMU6oH24U/VLdcl7+0et7vXapCBuOM9B3p44yTa0bOKb
-	jqBjQAp+pYivJsVlnyi4gSlWNCvQZorfUx8Humkp6YwEy9we1HlM
-X-Google-Smtp-Source: AGHT+IEQmW7EGRtiuRO5hI9A7r+jeN7bTUyagiG6C3QArhp9/5Xn8MbeYg+HsrK9SqAGHTEZL/DeNQ==
-X-Received: by 2002:a17:903:234b:b0:206:90ac:4412 with SMTP id d9443c01a7336-20690ac4594mr86135485ad.2.1725513093211;
-        Wed, 04 Sep 2024 22:11:33 -0700 (PDT)
-Received: from ubuntu-2204.. (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206aea6898dsm21213965ad.284.2024.09.04.22.11.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Sep 2024 22:11:32 -0700 (PDT)
-From: Akira Yokosawa <akiyks@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org,
-	Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] docs: kerneldoc-preamble.sty: Suppress extra spaces in CJK literal blocks
-Date: Thu,  5 Sep 2024 14:09:41 +0900
-Message-Id: <20240905050941.31439-1-akiyks@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tBX2HOVI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17752C4CEC4;
+	Thu,  5 Sep 2024 06:35:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725518125;
+	bh=qz9hhEzi+LKyX6ILtUo6RYKTAdTrb4WxFnWnlXwkIwg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tBX2HOVIi9IRWHUIbNzKW5MeghrvvAdRmpXaibPkpqRldAUOEephKkqiIb10CMuDU
+	 kTN7kc9jaeHNquVussLIqbJWPD0c+IzoZ14au0YysXi8RY2Lr03zTX5Upz+WaQ++Zi
+	 5Rm9ICT+rn+OacKPIdILUqEfHnAVrGyu/NQ+2SE0wqbYYkVsT37/BFJH+jzLXTJlTS
+	 Ds/4rgqf7NTcjAMhMnOBe1Lv5PGuKfYRFcLHlVc171rUdLS5DryilSr7KVeakOvokM
+	 rvQPNpN/EhuHRHQa6OAoisqZoKefhCAhC6NypvV9bk/colItT5Y8qfnUvzCrXx979t
+	 5/iQ8WtN7SKdw==
+Date: Thu, 5 Sep 2024 08:35:22 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, David Lechner <dlechner@baylibre.com>, 
+	Uwe Kleine-Konig <u.kleine-koenig@baylibre.com>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] dt-bindings: iio: adc: add AD762x/AD796x ADCs
+Message-ID: <v2p2zrxu2fnd3ok2hxduufiid6ho6jbhmxpppwqczo4676ojsp@gehjl7npdbpw>
+References: <20240904-ad7625_r1-v4-0-78bc7dfb2b35@baylibre.com>
+ <20240904-ad7625_r1-v4-1-78bc7dfb2b35@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240904-ad7625_r1-v4-1-78bc7dfb2b35@baylibre.com>
 
-In zh_CN part of translations.pdf, there are several ASCII-art
-diagrams whose vertical lines look sometimes jagged.
-This is due to the interference between default settings of xeCJK
-and fancyvrb (employed in sphinxVerbatim env), where extra space
-is inserted between a latin char and a non-latin char when they
-are next to each other (i.e., no explicit white space).
+On Wed, Sep 04, 2024 at 03:14:18PM -0400, Trevor Gamblin wrote:
+> Add a binding specification for the Analog Devices Inc. AD7625,
+> AD7626, AD7960, and AD7961 ADCs.
+> 
+> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+> ---
+>  .../devicetree/bindings/iio/adc/adi,ad7625.yaml    | 176 +++++++++++++++++++++
+>  MAINTAINERS                                        |   9 ++
+>  2 files changed, 185 insertions(+)
+>
 
-This issue can be suppressed by invoking \CJKsetecglue{} at the
-beginning of every sphinxVerbatim enviornment.
+<form letter>
+This is a friendly reminder during the review process.
 
-\AtBeginEnvironment, provided by the etoolbox package, is useful in
-this case.
+It looks like you received a tag and forgot to add it.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
-The issue can be seen in, e.g., an ASCII-art diagram in section
-"ACRN 超级管理器介绍" in the zh_CN translation.
+If you do not know the process, here is a short explanation: Please add
+Acked-by/Reviewed-by/Tested-by tags when posting new versions, under
+or above your Signed-off-by tag. Tag is "received", when provided
+in a message replied to you on the mailing list. Tools like b4 can help
+here. However, there's no need to repost patches *only* to add the tags.
+The upstream maintainer will do that for tags received on the version
+they apply.
 
-Note for Jon:
-  Current docs-next won't complete full "make htmldocs".
-  If you'd like to see the effect of this change, please use
-  "SPHINXDIRS=translations" option.
+https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
 
-  Fix to the build issue was merged as of v6.11-rc2 as:
-  commit 914f8961879d ("media: v4l: Fix missing tabular column hint
-  for Y14P format").
+If a tag was not added on purpose, please state why and what changed.
+</form letter>
 
-        Thanks, Akira
----
- Documentation/sphinx/kerneldoc-preamble.sty | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/Documentation/sphinx/kerneldoc-preamble.sty b/Documentation/sphinx/kerneldoc-preamble.sty
-index d479cfa73658..5d68395539fe 100644
---- a/Documentation/sphinx/kerneldoc-preamble.sty
-+++ b/Documentation/sphinx/kerneldoc-preamble.sty
-@@ -199,6 +199,8 @@
-     % Inactivate CJK after tableofcontents
-     \apptocmd{\sphinxtableofcontents}{\kerneldocCJKoff}{}{}
-     \xeCJKsetup{CJKspace = true}% For inter-phrase space of Korean TOC
-+    % Suppress extra white space at latin .. non-latin in literal blocks
-+    \AtBeginEnvironment{sphinxVerbatim}{\CJKsetecglue{}}
- }{ % Don't enable CJK
-     % Custom macros to on/off CJK and switch CJK fonts (Dummy)
-     \newcommand{\kerneldocCJKon}{}
-
-base-commit: f92a24ae7c953263600fc7ea3f0594676ea82138
--- 
-2.34.1
+Best regards,
+Krzysztof
 
