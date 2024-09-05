@@ -1,223 +1,573 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2075.outbound.protection.outlook.com [40.107.236.75])
+Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com [14.137.139.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9945E1A256E;
-	Thu,  5 Sep 2024 15:08:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.75
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725548927; cv=fail; b=ElYYRtJ8FrLz7JPdp2JilNL6YQ0M/zLqLQpkk2gIBwp7QBADqxpfS5psEBJdMXNkx2pCNAdRyIRr6HCwysAfBdTx/ugVXPXUCalqyYvT/jbjiih2O4/tZaKnOE7wUpAo40s/h0JjWBDbfIZE/espLVaBIaJeyBagfwYv+XkHI00=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725548927; c=relaxed/simple;
-	bh=MrlUGY4xdWYizITQ5hwl50XHSx84rbk7f60y8Lb85wY=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=B+cNbs+4ZbVOUANAuSoaZ6ng9asHtmQyNSs/Hi2ZviSgsic8Jn5aFgAm0aYl1+BrqqvUEFoFzYI8EiHLBPuE7Duakvxw6oc5OEbxd+6ok4Rf+UzXaQRv8/uGwxHrd8MBsw0rB9N/uNAtgHnloWHvtCsJP+i9nQBHWSjrUtU5CoU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=dl/YrbjN; arc=fail smtp.client-ip=40.107.236.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="dl/YrbjN"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=f6XoMP6vQQjWvRkHx3fo/E2TgI3m3QW77n2+oMvcBAfxoO4HgCLBArN9vA5DMsupo6bvARxDzpWQJ5gi5kQzzJk+DosjYKR7Qmm5NvkfHJTOlPRd3E+X4XisFQiNmoPvlAd+y+YObaIhqLIVHyHTLfijDBTHezNCdfSyqMB3YOtIycdkeyxxLmQesmrbKTOS3WXBZNk9CB4p1OLNlwh3sc44vDIqoiP9j2vrB2pKc8JI2Tp7bws7bimCzOm1QrTkOXOAPp5kFgNde4pXvM1jZRvc/lLkRMwvXQnYm3ZdkRUrN408w+NVKr3oJLmSP9881SSLjOFfzSgmtM1sWvHQjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aulzC8BDXiULH2TKsH0k0MvmIBoMnrJBMXiQEWu4A7c=;
- b=sKWaYWrEqGGUUFxLVPMhJS9byuHOq6fgoCL2cBi/y48o4hFkjal6Sw/jD8zLnVuuHMPowYN1dj5CuZ9fTY66w6+6a5VYAXJXzAD5SX2AYQZRnftEWwkhrDIs8B0v+uImLD/kjmAa7RBZWYnKnmWivfjylU+I8tnOf3s5kDND1NKE98PPQL1uwfUIIHpgeUml3pu6WOR0E18u5A4XkJQr010dQkMr8CldwEFjLl2muWUz2g6E9TaKq2SqVvUsBYPHdQY4tB7I0WNpxEVLqL22Lq5gSKczVmgn9UfcSnfJZ/Z+Xa7OnbHjm4afhMB1NZaMn/X0T1GE4f0dCs7cAtlPWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aulzC8BDXiULH2TKsH0k0MvmIBoMnrJBMXiQEWu4A7c=;
- b=dl/YrbjNfsdXGTtZfBimbQ8wA6yEKg8nrTqq1+amNAX+movtfD8BCzZwPfobwyWyzbpfFznP9flkIepFcvO9mN/3KwmNTJfwWk52fH42Wpp5Zg5TQ0y4uQ8+46gSYDEeJG+Q8lbO/C82iBkq7KyeRWnz9B8e7pL/ttNTjowhtqQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4877.namprd12.prod.outlook.com (2603:10b6:5:1bb::24)
- by SA1PR12MB5669.namprd12.prod.outlook.com (2603:10b6:806:237::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.25; Thu, 5 Sep
- 2024 15:08:35 +0000
-Received: from DM6PR12MB4877.namprd12.prod.outlook.com
- ([fe80::92ad:22ff:bff2:d475]) by DM6PR12MB4877.namprd12.prod.outlook.com
- ([fe80::92ad:22ff:bff2:d475%5]) with mapi id 15.20.7918.024; Thu, 5 Sep 2024
- 15:08:35 +0000
-Message-ID: <91a05b5b-a642-4cef-9c81-cba246435aa9@amd.com>
-Date: Thu, 5 Sep 2024 10:08:33 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V4 02/12] PCI: Add TPH related register definition
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, netdev@vger.kernel.org,
- Jonathan.Cameron@huawei.com, corbet@lwn.net, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- alex.williamson@redhat.com, gospo@broadcom.com, michael.chan@broadcom.com,
- ajit.khaparde@broadcom.com, somnath.kotur@broadcom.com,
- andrew.gospodarek@broadcom.com, manoj.panicker2@amd.com,
- Eric.VanTassell@amd.com, vadim.fedorenko@linux.dev, horms@kernel.org,
- bagasdotme@gmail.com, bhelgaas@google.com, lukas@wunner.de,
- paul.e.luse@intel.com, jing2.liu@intel.com
-References: <20240904195254.GA344807@bhelgaas>
-Content-Language: en-US
-From: Wei Huang <wei.huang2@amd.com>
-In-Reply-To: <20240904195254.GA344807@bhelgaas>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN6PR08CA0032.namprd08.prod.outlook.com
- (2603:10b6:805:66::45) To DM6PR12MB4877.namprd12.prod.outlook.com
- (2603:10b6:5:1bb::24)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F7BD1BF54;
+	Thu,  5 Sep 2024 15:10:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725549007; cv=none; b=NeVBMYrGJoPPx+8cBJPs4R0BFP4mXv3joLfFulvfMrTstMK/dondhl4yKP8BivWNuT2u7wCBeqCsKtHM3osto7m8ALErdAmeW+FTSBLqVBToDWgEnZgrK7B9PLwka3dEXEqQrb/ujWGTkRG4vpcT6uF0GUoMh5bSaZGGSC8Jr9o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725549007; c=relaxed/simple;
+	bh=I5uyUPPo6SLqmGokRmFn/umS5mBDW4TOGjWbrTxI9zg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=oiK7SMPeIDjerVYHiuM0XeIyGvXnW2jgQwIAsOqB5OrNM1JF4TpRYPdeQa2S72AZLtTR1AoUGg7sG4BYKU25kAbf8JEW9eR/hfxrlb1xmp8iQWGmhZVP/3xrn0mLiPc9GTgIdsEBDdpxAabRhkDughMZJoWgQx+n/ntWDZUVSLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.186.51])
+	by frasgout13.his.huawei.com (SkyGuard) with ESMTP id 4X02NL1mv5z9v7NJ;
+	Thu,  5 Sep 2024 22:50:42 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.47])
+	by mail.maildlp.com (Postfix) with ESMTP id C058D140B3C;
+	Thu,  5 Sep 2024 23:09:54 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.204.63.22])
+	by APP1 (Coremail) with SMTP id LxC2BwAHmTCzydlmEFVUAA--.29644S2;
+	Thu, 05 Sep 2024 16:09:54 +0100 (CET)
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+To: zohar@linux.ibm.com,
+	dmitry.kasatkin@gmail.com,
+	eric.snowberg@oracle.com,
+	corbet@lwn.net,
+	akpm@linux-foundation.org,
+	paul@paul-moore.com,
+	jmorris@namei.org,
+	serge@hallyn.com,
+	shuah@kernel.org,
+	mcoquelin.stm32@gmail.com,
+	alexandre.torgue@foss.st.com
+Cc: linux-integrity@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	wufan@linux.microsoft.com,
+	pbrobinson@gmail.com,
+	zbyszek@in.waw.pl,
+	hch@lst.de,
+	mjg59@srcf.ucam.org,
+	pmatilai@redhat.com,
+	jannh@google.com,
+	dhowells@redhat.com,
+	jikos@kernel.org,
+	mkoutny@suse.com,
+	ppavlu@suse.com,
+	petr.vorel@gmail.com,
+	mzerqung@0pointer.de,
+	kgold@linux.ibm.com,
+	Roberto Sassu <roberto.sassu@huawei.com>
+Subject: [PATCH v5 10/14] digest_cache: Add support for directories
+Date: Thu,  5 Sep 2024 17:05:39 +0200
+Message-Id: <20240905150543.3766895-11-roberto.sassu@huaweicloud.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240905150543.3766895-1-roberto.sassu@huaweicloud.com>
+References: <20240905150543.3766895-1-roberto.sassu@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4877:EE_|SA1PR12MB5669:EE_
-X-MS-Office365-Filtering-Correlation-Id: 25ce5d96-5e91-4ac8-5200-08dccdbc9d48
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?VVgrT2lEbUU3V2xnK205aldjenZpQkFUY3FtTW1UVnV1MTAvMEw3SmJFSlE2?=
- =?utf-8?B?cFF5cS9VSERWUlZHNXk2b1gzUGdQRG9hNkVjUWRSZFpYdlY5enpNWUNYSTJJ?=
- =?utf-8?B?akU0VC9VTnpZK296ekNDOHk5b2JOTFUwMCtEU3JXekFmM2xEeC9aZURtbEw1?=
- =?utf-8?B?ZzdvQWNEclN0TU8xY1JZek5ITXBQMG9QUy80ckJ0bW5WL3l4UXZnVFdxVmRS?=
- =?utf-8?B?NlFMQXBTSThkMWpxY29aNzhFaVFVeXF5a2VnbHdlREJsbk1TdjNKL0hXbE5E?=
- =?utf-8?B?cTQvM2NqWkNOaFZ5UlN3VzNXRWZaSk91Q1NaUzhTc3JlRmgrNmpWRk40anVD?=
- =?utf-8?B?K0h5M1hmUUFWd1krK0h6MFlEd0RCMkxNZnZYbHJLRHdONmFuMWxZalBWR29E?=
- =?utf-8?B?T1AydCtPODlJU0RlZWl4YUpJOUVRQzVSM005NVBiQjB2RWdRWkJJQlNyZlNy?=
- =?utf-8?B?YmdKNHBGeWh2Y3d6WXpVK0FGeDdwRDgrRGpLd1RzT0Jodm5BNjJoeUsrWE1x?=
- =?utf-8?B?YTBFMVB5TllLN2xXSlk0eDIwNGlvQjNLQVJBYWR1OG9ZSmtpbFFvTGl5MDRY?=
- =?utf-8?B?LzVXMUIwZUVMNHFzNHFxb1dpRHVkdzdhUG83SHY3eWx5Y3R4R2NldlZYZTBu?=
- =?utf-8?B?L1lKaEJPaGk3cW1RV3FQYXRvODMrZzg2VjZZb3ZtSXJsb1h0dm4wb0JCYm5w?=
- =?utf-8?B?RUlCL1VGWDd4OTBTUzZxT1VpZlBNK0VSVFpidGhselY3c1JEamw5b3B2RXlp?=
- =?utf-8?B?MVEzL0lkSUJGRW90L2ZoNG9ENjgvcGFFWHZPUXR0ZXQrbG81anVYTWtoNFhV?=
- =?utf-8?B?dHZGUzU5TFgwRDk2VGVGYTI1NjZsaXBsMzBrWWxMMXh0WjNEM1pUWWhyOXh6?=
- =?utf-8?B?Z0pmT2U4U00vdC9VZHplREplb0ZpU2xUYmhzY3RJcGZMSzh1cFJFYVRnaG5q?=
- =?utf-8?B?UUtBVHRhclgrd3FNN0FLRWlrSDJoRzFOeTU2cm5PM0FDMjI3Umx0WVZzS0Vt?=
- =?utf-8?B?dVJwUVVNbVl0OXhGQnIwYW5zZmJTdnB4MS9rbkZ1VVI2cFUyaUI0ZEVLSTVw?=
- =?utf-8?B?ZFIyM2tKZnRCZFMrZ2YyYklWVHpuTEZCMk50Zk54cEM5Nk9MbnNzNmNOQUxm?=
- =?utf-8?B?a1J4dUhKY0MwTlk3S0NvK1FwdDErc0gyWjRqTGhzWkVST3JmQnhnaWVHV1JQ?=
- =?utf-8?B?TTJLNENjR0QrY2NjbnlCRGRja3Y1ZFEwdXljQmZZbWNsb2h3WHV4NUdRU1Rp?=
- =?utf-8?B?bHYrYkdvUnR6QVhDRG54Z25rZDduV29wRXJ3ZDQ0RVNuS0dDbVozQnh4Y0Zn?=
- =?utf-8?B?N1B5OFh4MzlaUW02bkY2VjVpYzQ4UkV3OHFnMXhEU0k5N1c0enJrQlVhbmZx?=
- =?utf-8?B?Q0E0QysweEtCZmJ2emhNdDQrMWxxU3JRNUg2OTVlM3l6U3huQXBNVzNBRWVs?=
- =?utf-8?B?bDFUNU1jSFlKZTlrYXg1WXNoS1NucUlScHoxekJmdDdYK3lnWU5zcTBsZHFu?=
- =?utf-8?B?amp4bWZOUEh3c0RTNGRsRDNVM2NKNmJrTFlNempzWmdmT21OMVdQRUNncXcw?=
- =?utf-8?B?ck44WHBRckJtMUV2bW8yNHdZNmRiK0twai92SjYyREIzNDJCV0EwbjhIMmxl?=
- =?utf-8?B?WTYwbTNCRVpwSWhCaHBCVDZjMkR0dGFjWHdFV1pKZUJhYWtvNE5OMGp5M2Zn?=
- =?utf-8?B?QWl4OFNuMkQ1VWJtbHU1NHA0Y2I5WEViUzgyK3AraGRyK0RBZEZXeUNqbFpH?=
- =?utf-8?B?Z1oySHRCdjhJWUthSHRRS0o1UEIydWs3c0pLNjgyQ2FFc3N4K0tmR0pBLzFy?=
- =?utf-8?B?TEVoRDVtL2FQNmtqYXVwZz09?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4877.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WlJWQ2dtMnBFU29KK3ZYRFZwd1I2TzNvQlk0SVB6S0pXaWMydmZ6c0VPa2I0?=
- =?utf-8?B?MkRrTlgycnRPMVNnOWNYWndhV0VZWWJiOFF1WnAvOGs4T3o2NTlKQkFoNCt4?=
- =?utf-8?B?TGhtcGtRT2FaZUtRV2NhZlhBWW9mKzFWb3Rac0lEUWhkaGlIZUhKVU5KOG5i?=
- =?utf-8?B?ZXArWG5HVHYrbzAwejlmNlp4ci9qTGppSm9LbnpQLy9PM2RKQkRNOWU4QUNN?=
- =?utf-8?B?RkFJZGgxbE96QTEzVkl1c1ErdFNyUVViWnJiNnU0WHpUWWx6VmFTKy81NWJZ?=
- =?utf-8?B?dEw3eXhDN3BEcVhvdk5tUHlIUDZnOTltRHNCRU9UR2RGY3lURTljT2pqVm9U?=
- =?utf-8?B?UUR4Z0xPZFFBOUhnZ1FzNEcydTZQN3pySUhJRjl1QVJBTXRkbTRlZkFQbXdU?=
- =?utf-8?B?QnFNbkVSVStkRnRmR0RFT0hhT3dBa2RJSmo2OThqQ0NhL2h3UGZjeThGT2lJ?=
- =?utf-8?B?ZElJRi9hTjh5NzRLQnBFSGlITUdLU2Fpa1RJdUU5M0xkVnY1WU1IeGlndFBz?=
- =?utf-8?B?OWxCQlBxQUxZbzJNeGluSi9wSVZTZFY3aFRXQVFscTVyZ1lpdG1zeklDTjlO?=
- =?utf-8?B?V3k3MTBFMFJ5Smp3aUVGb2lDK1Z0SXRMaXpoN0R4QmJpMHhnZWx4eVFETDEr?=
- =?utf-8?B?VzJycXhCSFVmL2c4ZzViRkV1bStGOGpoVzdZL0FaMkFsWHNqcWNOcyt1Yzlh?=
- =?utf-8?B?Y0ZSQUpneVF5U0FCV2R1VTdiTzJkSkM1RTlFdW1QRHpsUEJZR3NyZGp6SVVi?=
- =?utf-8?B?NjVSMVNQVjU2YVhMZmhuRERmcDVsNlY5aWtJNlpRWFNyT0RMUVJUOExGb3VY?=
- =?utf-8?B?VmxaeDE1bVYvL3hoS3pvQVdTZmJqekJ1WFZWZlM5eGVxMXZhN2dxS1p1MllK?=
- =?utf-8?B?N3haYnlrRVFxRWVlK1MvOHBXKzMzZ2JnM0JwT2I1YzhSZHFteHhlaUtLdmdB?=
- =?utf-8?B?UXJUZkpxQmd1WGZvT2Y0b0hYNE1wWHBGY3J4MzBzSFdlQytEOTZHODhtbS94?=
- =?utf-8?B?akxZeWkrWjAzbVRIc09hd1lZZDk2MTdXd2xkcFBCVDFKaXFmaVFWcGJLNDhl?=
- =?utf-8?B?TW1ldytFR1l4VXhhWlZsZGpTSnpQbi9RbFArQ1pxQkkvT2p2SHM2NllObit4?=
- =?utf-8?B?ejRlMzJXRFRHZFU4NEhKSzdYVk1xN01TdmMzMXhPa1lLT0w4MFk0dmh0NjZD?=
- =?utf-8?B?N0tOcDlrVDdvUEdrS3kzK3RmMWNrNmVLVUhraDJ3V0kwbDhGcmtNWExTeTJi?=
- =?utf-8?B?UHJoeXZkejBrM0JVbTZvWkVPYXMra09WajF5TXBESFJnWWt1Y1dFMENLWWV4?=
- =?utf-8?B?SklWVTdhR1JRRE55aVVMaW9YSkF3cDBRaURmVXpmdlNBalpyc3BGMUZzUVVp?=
- =?utf-8?B?YXg2ODBHTkFLUmNuUFJqZ1p3UFdmazNUbCtMYzBQVjQ2Q0h6cFl3UXU0azQz?=
- =?utf-8?B?NmUvL2pVeHpTUzN6RGVicFJpOXFheCtlR2FkR3lqbU14WUpIbWlZQVZHMlRP?=
- =?utf-8?B?dW9GMCtYNnN5YUpkNk5HZnUzYnljTUlhZUdIRE5XMjhVNVF2MjNQZzdBenFh?=
- =?utf-8?B?ME43N3VmNis5ckRobHNCNTR0ZXQ2OFVBUEhta3d3ckJ2ZDJzdWthYTVLc0Ji?=
- =?utf-8?B?YWkwVDJIZ3hCa0YwaTkraFlrL3kvSG44RCt1bW5RN2w2aXhsS0kwZWhpV3RF?=
- =?utf-8?B?eXg4NklGeVdnUm9PWk5yYjUrVERNUFh0bmRKY0FUQ1ZJaS9HQ1BWTjNJLzNj?=
- =?utf-8?B?dmJDNDdQVVRqcENBYmI0aE1YaVdpaDdUOERPOUlNODF4MnBmY1prMC9VQnN1?=
- =?utf-8?B?WmZrL25iaGpXTXpPbVhVaHdmejFLN2N3Tm9hVUdTNklEMUkxaUluQmNOb21C?=
- =?utf-8?B?QTlyTzVoSytmdnYwN0ZPWjFWZ2J0Yk5BaVFFTW0rdUZEb3gzSXZzNTkzR1Fq?=
- =?utf-8?B?bXVNcGwvSlIydHN4bzQzTHFjRlBhZGJ1bHNRSnJadEgxQzRXUnVrRitjV0Vp?=
- =?utf-8?B?bm85YzhrNDZFMzB4NHREa05KemprcGluMVlEUExxS2FFK2wyVjFhNHlrYnZW?=
- =?utf-8?B?TDNJVktnUForMURxc3BTVVNUejNXdDlkUU9MNFVpYlFsZUtOQnh3TnpPV1g5?=
- =?utf-8?Q?YVJzBFtKLkqdkhKRwnMvLsoKH?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 25ce5d96-5e91-4ac8-5200-08dccdbc9d48
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4877.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2024 15:08:35.7356
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xK7SXAdMdXOjV+y5KJtOcqe5FWUO6i+jUD500wPNlv1PrLdpACUH3ZYsji8gCeGC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB5669
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:LxC2BwAHmTCzydlmEFVUAA--.29644S2
+X-Coremail-Antispam: 1UD129KBjvAXoW3uFyDXFW5Wr4xKF1UCF18AFb_yoW8ArW8Ko
+	ZayF47Aw18WFyUuF4DCF17A3WUW3yFqw1xAr1kXFWDZ3WxXFWUJasrCF1DJFy5Xr18JFZ7
+	Awn7Jw4DJFy8tr97n29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+	AaLaJ3UjIYCTnIWjp_UUUYI7kC6x804xWl14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK
+	8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4
+	AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF
+	7I0E14v26F4UJVW0owA2z4x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x
+	0267AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8C
+	rVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4
+	IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x02
+	62kKe7AKxVWrXVW3AwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s
+	026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_
+	GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW5JVW7JwCI42IY6xIIjxv20x
+	vEc7CjxVAFwI0_Cr1j6rxdMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv
+	67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26F4UJVW0obIYCTnIWIevJa73UjIFyT
+	uYvjxUV6pBDUUUU
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQARBGbZE3MK4gAAsj
 
+From: Roberto Sassu <roberto.sassu@huawei.com>
 
+In the environments where xattrs are not available (e.g. in the initial ram
+disk), the Integrity Digest Cache cannot precisely determine which digest
+list in a directory contains the desired reference digest. However,
+although slower, it would be desirable to search the digest in all digest
+lists of that directory.
 
-On 9/4/24 14:52, Bjorn Helgaas wrote:
->> -#define PCI_TPH_CAP_ST_MASK	0x07FF0000	/* ST table mask */
->> -#define PCI_TPH_CAP_ST_SHIFT	16	/* ST table shift */
->> -#define PCI_TPH_BASE_SIZEOF	0xc	/* size with no ST table */
->> +#define  PCI_TPH_CAP_NO_ST	0x00000001 /* No ST Mode Supported */
->> +#define  PCI_TPH_CAP_INT_VEC	0x00000002 /* Interrupt Vector Mode Supported */
->> +#define  PCI_TPH_CAP_DEV_SPEC	0x00000004 /* Device Specific Mode Supported */
-> 
-> I think these modes should all include "ST" to clearly delineate
-> Steering Tags from the Processing Hints.  E.g.,
-> 
->   PCI_TPH_CAP_ST_NO_ST       or maybe PCI_TPH_CAP_ST_NONE
+This done in three steps. First, a directory digest cache is created like
+the other digest caches. The only differences are that this digest cache
+has the IS_DIR bit set, to distinguish it from those created from regular
+files and, consequently, that it stores a list of directory entries file
+names instead of hash tables for digests.
 
-Can I keep "NO_ST" instead of switching over to "ST_NONE"? First, it
-matches with PCIe spec. Secondly, IMO "ST_NONE" implies no ST support at
-all.
+Second, the directory digest cache is populated with current directory
+entries, by calling digest_cache_dir_add_entries().
 
->   PCI_TPH_CAP_ST_INT_VEC
->   PCI_TPH_CAP_ST_DEV_SPEC
+Finally, digest_cache_dir_lookup_digest() is called with the directory
+digest cache passed as argument, to iteratively search on each digest cache
+for each directory entry.
 
-Will change
+The function first calls digest_cache_dir_create() to create/obtain the
+current directory digest cache for the directory. If this function returns
+a different one than the one passed, it means that the directory was
+modified between the get and lookup operations, and it uses the new one.
 
-> 
->> +#define  PCI_TPH_CAP_EXT_TPH	0x00000100 /* Ext TPH Requester Supported */
->> +#define  PCI_TPH_CAP_LOC_MASK	0x00000600 /* ST Table Location */
->> +#define   PCI_TPH_LOC_NONE	0x00000000 /* Not present */
->> +#define   PCI_TPH_LOC_CAP	0x00000200 /* In capability */
->> +#define   PCI_TPH_LOC_MSIX	0x00000400 /* In MSI-X */
-> 
-> These are existing symbols just being tidied, so can't really add "ST"
-> here unless we just add aliases.  Since they're just used internally,
-> not by drivers, I think they're fine as-is.
-> 
+Then, digest_cache_dir_lookup_digest() starts the lookup and iteratively
+searches the passed digest in each directory entry. If there is no digest
+cache associated to the current directory entry,
+digest_cache_dir_lookup_digest() creates/obtains one by calling
+digest_cache_create(). It also keeps a digest cache reference, so that it
+is available for next searches.
 
-Yes. In V1 review, Alex Williamson and Jonathan Cameron asked not to
-change these definitions as they might be used by existing software.
+The iteration stops when the digest is found. Since the digest cache
+containing the digest has been found, digest_cache_dir_update_dig_user()
+is called to replace dig_user, set by digest_cache_get() to the directory
+digest cache, with the found one. It can also happen that dig_user is
+updated with a directory digest cache, if the digest is not found and there
+was a directory modification between get and lookup.
 
->> +#define  PCI_TPH_CAP_ST_MASK	0x07FF0000 /* ST Table Size */
->> +#define  PCI_TPH_CAP_ST_SHIFT	16	/* ST Table Size shift */
->> +#define PCI_TPH_BASE_SIZEOF	0xc	/* Size with no ST table */
->> +
->> +#define PCI_TPH_CTRL		8	/* control register */
->> +#define  PCI_TPH_CTRL_MODE_SEL_MASK	0x00000007 /* ST Mode Select */
->> +#define   PCI_TPH_NO_ST_MODE		0x0 /* No ST Mode */
->> +#define   PCI_TPH_INT_VEC_MODE		0x1 /* Interrupt Vector Mode */
->> +#define   PCI_TPH_DEV_SPEC_MODE		0x2 /* Device Specific Mode */
-> 
-> These are also internal, but they're new and I think they should also
-> include "ST" to match the CAP #defines.
-> 
-> Even better, maybe we only add these and use them for both CAP and
-> CTRL since they're defined with identical values.
+digest_cache_dir_lookup_digest() returns the digest cache reference of the
+current directory entry as the uintptr_t type, so that callers
+of digest_cache_lookup() don't mistakenly try to call digest_cache_put()
+with that reference.
 
-Can you elaborate here? In CTRL register, "ST Mode Select" is defined as
-a 2-bit field. The possible values are 0, 1, 2. But in CAP register, the
-modes are individual bit masked. So I cannot use CTRL definitions in CAP
-register directly unless I do shifting.
+The returned digest cache reference can be converted back to
+(struct digest_cache *) and used to retrieve information about the
+digest cache containing the digest, which is not known in advance in the
+case of directories until the digest search is performed.
+
+Finally, digest_cache_dir_free() releases the digest cache references
+stored in the list of directory entries, and frees the list itself.
+
+Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+---
+ security/integrity/digest_cache/Makefile   |   2 +-
+ security/integrity/digest_cache/dir.c      | 273 +++++++++++++++++++++
+ security/integrity/digest_cache/htable.c   |   4 +
+ security/integrity/digest_cache/internal.h |  43 ++++
+ security/integrity/digest_cache/main.c     |  13 +
+ 5 files changed, 334 insertions(+), 1 deletion(-)
+ create mode 100644 security/integrity/digest_cache/dir.c
+
+diff --git a/security/integrity/digest_cache/Makefile b/security/integrity/digest_cache/Makefile
+index 77dd98a1a07d..aef7f97d1407 100644
+--- a/security/integrity/digest_cache/Makefile
++++ b/security/integrity/digest_cache/Makefile
+@@ -4,7 +4,7 @@
+ 
+ obj-$(CONFIG_INTEGRITY_DIGEST_CACHE) += digest_cache.o
+ 
+-digest_cache-y := main.o secfs.o htable.o populate.o modsig.o verif.o
++digest_cache-y := main.o secfs.o htable.o populate.o modsig.o verif.o dir.o
+ 
+ digest_cache-y += parsers/tlv.o
+ digest_cache-y += parsers/rpm.o
+diff --git a/security/integrity/digest_cache/dir.c b/security/integrity/digest_cache/dir.c
+new file mode 100644
+index 000000000000..f0a2cb9618ba
+--- /dev/null
++++ b/security/integrity/digest_cache/dir.c
+@@ -0,0 +1,273 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2023-2024 Huawei Technologies Duesseldorf GmbH
++ *
++ * Author: Roberto Sassu <roberto.sassu@huawei.com>
++ *
++ * Manage digest caches from directories.
++ */
++
++#define pr_fmt(fmt) "digest_cache: "fmt
++#include <linux/init_task.h>
++#include <linux/namei.h>
++
++#include "internal.h"
++
++/**
++ * digest_cache_dir_iter - Digest cache directory iterator
++ * @__ctx: iterate_dir() context
++ * @name: Name of file in the accessed directory
++ * @namelen: String length of @name
++ * @offset: Current position in the directory stream (see man readdir)
++ * @ino: Inode number
++ * @d_type: File type
++ *
++ * This function stores the names of the files in the containing directory in
++ * a linked list. If they are in the format <seq num>-<format>-<name>, this
++ * function orders them by seq num, so that digest lists are processed in the
++ * desired order. Otherwise, if <seq num>- is not included, it adds the name at
++ * the end of the list.
++ *
++ * Return: True to continue processing, false to stop.
++ */
++static bool digest_cache_dir_iter(struct dir_context *__ctx, const char *name,
++				  int namelen, loff_t offset, u64 ino,
++				  unsigned int d_type)
++{
++	struct readdir_callback *ctx = container_of(__ctx, typeof(*ctx), ctx);
++	struct dir_entry *new_entry, *p;
++	unsigned int seq_num;
++	char *separator;
++	int ret;
++
++	if (!strcmp(name, ".") || !strcmp(name, ".."))
++		return true;
++
++	if (d_type != DT_REG)
++		return true;
++
++	new_entry = kmalloc(sizeof(*new_entry) + namelen + 1, GFP_KERNEL);
++	if (!new_entry)
++		return false;
++
++	memcpy(new_entry->name, name, namelen);
++	new_entry->name[namelen] = '\0';
++	new_entry->seq_num = UINT_MAX;
++	new_entry->digest_cache = NULL;
++	mutex_init(&new_entry->digest_cache_mutex);
++
++	if (new_entry->name[0] < '0' || new_entry->name[0] > '9')
++		goto out;
++
++	separator = strchr(new_entry->name, '-');
++	if (!separator)
++		goto out;
++
++	*separator = '\0';
++	ret = kstrtouint(new_entry->name, 10, &seq_num);
++	*separator = '-';
++	if (ret < 0)
++		goto out;
++
++	new_entry->seq_num = seq_num;
++
++	list_for_each_entry(p, ctx->head, list) {
++		if (seq_num <= p->seq_num) {
++			list_add(&new_entry->list, p->list.prev);
++			pr_debug("Added %s before %s in dir list\n",
++				 new_entry->name, p->name);
++			return true;
++		}
++	}
++out:
++	list_add_tail(&new_entry->list, ctx->head);
++	pr_debug("Added %s to tail of dir list\n", new_entry->name);
++	return true;
++}
++
++/**
++ * digest_cache_dir_add_entries - Add dir entries to a dir digest cache
++ * @digest_cache: Dir digest cache
++ * @digest_list_path: Path structure of the digest list directory
++ *
++ * This function iterates over the entries of a directory, and creates a linked
++ * list of file names from that directory.
++ *
++ * Return: Zero on success, a POSIX error code otherwise.
++ */
++int digest_cache_dir_add_entries(struct digest_cache *digest_cache,
++				 struct path *digest_list_path)
++{
++	struct file *dir_file;
++	struct readdir_callback buf = {
++		.ctx.actor = digest_cache_dir_iter,
++		.ctx.pos = 0,
++		.head = &digest_cache->dir_entries,
++	};
++	int ret;
++
++	dir_file = dentry_open(digest_list_path, O_RDONLY, &init_cred);
++	if (IS_ERR(dir_file)) {
++		pr_debug("Cannot access %s, ret: %ld\n", digest_cache->path_str,
++			 PTR_ERR(dir_file));
++		return PTR_ERR(dir_file);
++	}
++
++	ret = iterate_dir(dir_file, &buf.ctx);
++	if (ret < 0)
++		pr_debug("Failed to iterate directory %s\n",
++			 digest_cache->path_str);
++
++	fput(dir_file);
++	return ret;
++}
++
++/**
++ * digest_cache_dir_create - Create and initialize a directory digest cache
++ * @dentry: Dentry of the file whose digest is looked up
++ * @digest_list_path: Path structure of the digest list directory (updated)
++ * @path_str: Path string of the digest list directory
++ *
++ * This function creates and initializes (or obtains if it already exists) a
++ * directory digest cache. It updates the path that digest cache was
++ * created/obtained from, so that the caller can use it to perform lookup
++ * operations.
++ *
++ * Return: A directory digest cache on success, NULL otherwise.
++ */
++static struct digest_cache *
++digest_cache_dir_create(struct dentry *dentry, struct path *digest_list_path,
++			char *path_str)
++{
++	struct digest_cache *digest_cache;
++	int ret;
++
++	ret = kern_path(path_str, 0, digest_list_path);
++	if (ret < 0) {
++		pr_debug("Cannot find path %s\n", path_str);
++		return NULL;
++	}
++
++	digest_cache = digest_cache_create(dentry, digest_list_path, path_str,
++					   "");
++	if (digest_cache)
++		digest_cache = digest_cache_init(dentry, digest_cache);
++
++	return digest_cache;
++}
++
++/**
++ * digest_cache_dir_update_dig_user - Update dig_user with passed digest cache
++ * @dentry: Dentry of the file whose digest is looked up
++ * @digest_cache: Dir digest cache
++ *
++ * This function updates dig_user of the inode being verified, with the passed
++ * digest cache. The digest cache can differ if the directory inode was evicted
++ * or modified, or if the digest searched was found in a directory entry. In the
++ * latter case, dig_user is replaced with the digest cache of that directory
++ * entry.
++ */
++static void digest_cache_dir_update_dig_user(struct dentry *dentry,
++					     struct digest_cache *digest_cache)
++{
++	struct inode *inode = d_backing_inode(dentry);
++	struct digest_cache_security *dig_sec;
++
++	dig_sec = digest_cache_get_security(inode);
++	if (unlikely(!dig_sec))
++		return;
++
++	/* Serialize accesses to inode for which the digest cache is used. */
++	mutex_lock(&dig_sec->dig_user_mutex);
++	if (dig_sec->dig_user != digest_cache) {
++		digest_cache_put(dig_sec->dig_user);
++		dig_sec->dig_user = digest_cache_ref(digest_cache);
++	}
++	mutex_unlock(&dig_sec->dig_user_mutex);
++}
++
++/**
++ * digest_cache_dir_lookup_digest - Lookup a digest
++ * @dentry: Dentry of the file whose digest is looked up
++ * @digest_cache: Dir digest cache
++ * @digest: Digest to search
++ * @algo: Algorithm of the digest to search
++ *
++ * This function iterates over the linked list created by
++ * digest_cache_dir_add_entries() and looks up the digest in the digest cache
++ * of each entry.
++ *
++ * Return: A positive uintptr_t value if the digest if found, zero otherwise.
++ */
++uintptr_t digest_cache_dir_lookup_digest(struct dentry *dentry,
++					 struct digest_cache *digest_cache,
++					 u8 *digest, enum hash_algo algo)
++{
++	struct dir_entry *dir_entry;
++	struct digest_cache *dir_cache, *cache, *found = NULL;
++	struct path digest_list_path;
++	int ret;
++
++	/* Try to reacquire the dir digest cache, and use the new if changed. */
++	dir_cache = digest_cache_dir_create(dentry, &digest_list_path,
++					    digest_cache->path_str);
++	if (!dir_cache)
++		return 0UL;
++
++	/* Continue to use the new one. */
++	list_for_each_entry(dir_entry, &dir_cache->dir_entries, list) {
++		mutex_lock(&dir_entry->digest_cache_mutex);
++		if (!dir_entry->digest_cache) {
++			cache = digest_cache_create(dentry, &digest_list_path,
++						    dir_cache->path_str,
++						    dir_entry->name);
++			if (cache)
++				cache = digest_cache_init(dentry, cache);
++
++			/* Ignore digest caches that cannot be instantiated. */
++			if (!cache) {
++				mutex_unlock(&dir_entry->digest_cache_mutex);
++				continue;
++			}
++
++			/* Consume extra ref. from digest_cache_create(). */
++			dir_entry->digest_cache = cache;
++		}
++		mutex_unlock(&dir_entry->digest_cache_mutex);
++
++		ret = digest_cache_htable_lookup(dentry,
++						 dir_entry->digest_cache,
++						 digest, algo);
++		if (!ret) {
++			found = dir_entry->digest_cache;
++			break;
++		}
++	}
++
++	digest_cache_dir_update_dig_user(dentry, found ?: dir_cache);
++
++	digest_cache_put(dir_cache);
++	path_put(&digest_list_path);
++	return (uintptr_t)found;
++}
++
++/**
++ * digest_cache_dir_free - Free the stored file list and put digest caches
++ * @digest_cache: Dir digest cache
++ *
++ * This function frees the file list created by digest_cache_dir_add_entries(),
++ * and puts the digest cache of each directory entry, if a reference exists.
++ */
++void digest_cache_dir_free(struct digest_cache *digest_cache)
++{
++	struct dir_entry *p, *q;
++
++	list_for_each_entry_safe(p, q, &digest_cache->dir_entries, list) {
++		if (p->digest_cache)
++			digest_cache_put(p->digest_cache);
++
++		list_del(&p->list);
++		mutex_destroy(&p->digest_cache_mutex);
++		kfree(p);
++	}
++}
+diff --git a/security/integrity/digest_cache/htable.c b/security/integrity/digest_cache/htable.c
+index 385f81047b0c..1aa884ef18f0 100644
+--- a/security/integrity/digest_cache/htable.c
++++ b/security/integrity/digest_cache/htable.c
+@@ -209,6 +209,10 @@ uintptr_t digest_cache_lookup(struct dentry *dentry,
+ {
+ 	int ret;
+ 
++	if (test_bit(IS_DIR, &digest_cache->flags))
++		return digest_cache_dir_lookup_digest(dentry, digest_cache,
++						      digest, algo);
++
+ 	ret = digest_cache_htable_lookup(dentry, digest_cache, digest, algo);
+ 	if (ret < 0)
+ 		return 0UL;
+diff --git a/security/integrity/digest_cache/internal.h b/security/integrity/digest_cache/internal.h
+index 9083a87374a5..34a26576a5aa 100644
+--- a/security/integrity/digest_cache/internal.h
++++ b/security/integrity/digest_cache/internal.h
+@@ -17,6 +17,39 @@
+ #define INIT_IN_PROGRESS	0	/* Digest cache being initialized. */
+ #define INIT_STARTED		1	/* Digest cache init started. */
+ #define INVALID			2	/* Digest cache marked as invalid. */
++#define IS_DIR			3	/* Digest cache created from dir. */
++
++/**
++ * struct readdir_callback - Structure to store information for dir iteration
++ * @ctx: Context structure
++ * @head: Head of linked list of directory entries
++ *
++ * This structure stores information to be passed from the iterate_dir() caller
++ * to the directory iterator.
++ */
++struct readdir_callback {
++	struct dir_context ctx;
++	struct list_head *head;
++};
++
++/**
++ * struct dir_entry - Directory entry
++ * @list: Linked list of directory entries
++ * @digest_cache: Digest cache associated to the directory entry
++ * @digest_cache_mutex: Protects @digest_cache
++ * @seq_num: Sequence number of the directory entry from file name
++ * @name: File name of the directory entry
++ *
++ * This structure represents a directory entry with a digest cache created
++ * from that entry.
++ */
++struct dir_entry {
++	struct list_head list;
++	struct digest_cache *digest_cache;
++	struct mutex digest_cache_mutex;
++	unsigned int seq_num;
++	char name[];
++};
+ 
+ /**
+  * struct digest_cache_verif
+@@ -84,6 +117,7 @@ struct htable {
+ /**
+  * struct digest_cache - Digest cache
+  * @htables: Hash tables (one per algorithm)
++ * @dir_entries: List of files in a directory and the digest cache
+  * @ref_count: Number of references to the digest cache
+  * @path_str: Path of the digest list the digest cache was created from
+  * @flags: Control flags
+@@ -95,6 +129,7 @@ struct htable {
+  */
+ struct digest_cache {
+ 	struct list_head htables;
++	struct list_head dir_entries;
+ 	atomic_t ref_count;
+ 	char *path_str;
+ 	unsigned long flags;
+@@ -208,4 +243,12 @@ size_t digest_cache_strip_modsig(__u8 *data, size_t data_len);
+ /* verif.c */
+ void digest_cache_verif_free(struct digest_cache *digest_cache);
+ 
++/* dir.c */
++int digest_cache_dir_add_entries(struct digest_cache *digest_cache,
++				 struct path *digest_cache_path);
++uintptr_t digest_cache_dir_lookup_digest(struct dentry *dentry,
++					 struct digest_cache *digest_cache,
++					 u8 *digest, enum hash_algo algo);
++void digest_cache_dir_free(struct digest_cache *digest_cache);
++
+ #endif /* _DIGEST_CACHE_INTERNAL_H */
+diff --git a/security/integrity/digest_cache/main.c b/security/integrity/digest_cache/main.c
+index fda6ac599a2d..d050ebad3cbb 100644
+--- a/security/integrity/digest_cache/main.c
++++ b/security/integrity/digest_cache/main.c
+@@ -54,6 +54,7 @@ static struct digest_cache *digest_cache_alloc_init(char *path_str,
+ 	INIT_LIST_HEAD(&digest_cache->htables);
+ 	INIT_LIST_HEAD(&digest_cache->verif_data);
+ 	spin_lock_init(&digest_cache->verif_data_lock);
++	INIT_LIST_HEAD(&digest_cache->dir_entries);
+ 
+ 	pr_debug("New digest cache %s (ref count: %d)\n",
+ 		 digest_cache->path_str, atomic_read(&digest_cache->ref_count));
+@@ -71,6 +72,7 @@ static void digest_cache_free(struct digest_cache *digest_cache)
+ {
+ 	digest_cache_htable_free(digest_cache);
+ 	digest_cache_verif_free(digest_cache);
++	digest_cache_dir_free(digest_cache);
+ 
+ 	pr_debug("Freed digest cache %s\n", digest_cache->path_str);
+ 	kfree(digest_cache->path_str);
+@@ -283,6 +285,17 @@ struct digest_cache *digest_cache_init(struct dentry *dentry,
+ 			/* Prevent usage of partially-populated digest cache. */
+ 			set_bit(INVALID, &digest_cache->flags);
+ 		}
++	} else if (S_ISDIR(inode->i_mode)) {
++		set_bit(IS_DIR, &digest_cache->flags);
++
++		ret = digest_cache_dir_add_entries(digest_cache,
++					&digest_cache->digest_list_path);
++		if (ret < 0) {
++			pr_debug("Failed to add dir entries to dir digest cache, ret: %d (keep digest cache)\n",
++				 ret);
++			/* Prevent usage of partially-populated digest cache. */
++			set_bit(INVALID, &digest_cache->flags);
++		}
+ 	}
+ 
+ 	path_put(&digest_cache->digest_list_path);
+-- 
+2.34.1
 
