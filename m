@@ -1,500 +1,223 @@
-Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2075.outbound.protection.outlook.com [40.107.236.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 912A919DFA4;
-	Thu,  5 Sep 2024 15:08:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.154
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725548921; cv=none; b=MSL9yXxoKJ9fzeFw7lwqf284Zx9zBauwPihhYd73+IzH7VXdCBBDdil5sG0MoALmGSjxqUjDoRiHCCQF4pG248A9k474BBWhj9Q3ed7HkMjqBRYBWcspqLv+x+R7Mv1iDInT305yVmZoiVO8EHd3D35/zQZIQb99trG82G2HJK4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725548921; c=relaxed/simple;
-	bh=YzxpC1adSZX1DE1u2jed4h3rwZgAsj1hxxRm44BH92c=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=omdSB9uj9RlrdV5HZRzykXRQavfOdI73LecvE+BRp7KfBFAVWb//G1YL0V9+KkGYGESwkPrG6BFbGhCiccLk0SDk5tWoZSfIVsM7xIolIsUWt7y3dUWT0uQHVUCLKbE/PrPzjbGqYva/Lq5+gJaWscghmlc3d+AIiYjp9Ld/vzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.186.51])
-	by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4X02D73cP7z9v7Jk;
-	Thu,  5 Sep 2024 22:43:35 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.47])
-	by mail.maildlp.com (Postfix) with ESMTP id B51EA14065B;
-	Thu,  5 Sep 2024 23:08:36 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.204.63.22])
-	by APP1 (Coremail) with SMTP id LxC2BwDXZy_myNlmE0tUAA--.16274S11;
-	Thu, 05 Sep 2024 16:08:36 +0100 (CET)
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: zohar@linux.ibm.com,
-	dmitry.kasatkin@gmail.com,
-	eric.snowberg@oracle.com,
-	corbet@lwn.net,
-	akpm@linux-foundation.org,
-	paul@paul-moore.com,
-	jmorris@namei.org,
-	serge@hallyn.com,
-	shuah@kernel.org,
-	mcoquelin.stm32@gmail.com,
-	alexandre.torgue@foss.st.com
-Cc: linux-integrity@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	wufan@linux.microsoft.com,
-	pbrobinson@gmail.com,
-	zbyszek@in.waw.pl,
-	hch@lst.de,
-	mjg59@srcf.ucam.org,
-	pmatilai@redhat.com,
-	jannh@google.com,
-	dhowells@redhat.com,
-	jikos@kernel.org,
-	mkoutny@suse.com,
-	ppavlu@suse.com,
-	petr.vorel@gmail.com,
-	mzerqung@0pointer.de,
-	kgold@linux.ibm.com,
-	Roberto Sassu <roberto.sassu@huawei.com>
-Subject: [PATCH v5 09/14] digest_cache: Add management of verification data
-Date: Thu,  5 Sep 2024 17:05:38 +0200
-Message-Id: <20240905150543.3766895-10-roberto.sassu@huaweicloud.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240905150543.3766895-1-roberto.sassu@huaweicloud.com>
-References: <20240905150543.3766895-1-roberto.sassu@huaweicloud.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9945E1A256E;
+	Thu,  5 Sep 2024 15:08:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.75
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725548927; cv=fail; b=ElYYRtJ8FrLz7JPdp2JilNL6YQ0M/zLqLQpkk2gIBwp7QBADqxpfS5psEBJdMXNkx2pCNAdRyIRr6HCwysAfBdTx/ugVXPXUCalqyYvT/jbjiih2O4/tZaKnOE7wUpAo40s/h0JjWBDbfIZE/espLVaBIaJeyBagfwYv+XkHI00=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725548927; c=relaxed/simple;
+	bh=MrlUGY4xdWYizITQ5hwl50XHSx84rbk7f60y8Lb85wY=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=B+cNbs+4ZbVOUANAuSoaZ6ng9asHtmQyNSs/Hi2ZviSgsic8Jn5aFgAm0aYl1+BrqqvUEFoFzYI8EiHLBPuE7Duakvxw6oc5OEbxd+6ok4Rf+UzXaQRv8/uGwxHrd8MBsw0rB9N/uNAtgHnloWHvtCsJP+i9nQBHWSjrUtU5CoU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=dl/YrbjN; arc=fail smtp.client-ip=40.107.236.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="dl/YrbjN"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=f6XoMP6vQQjWvRkHx3fo/E2TgI3m3QW77n2+oMvcBAfxoO4HgCLBArN9vA5DMsupo6bvARxDzpWQJ5gi5kQzzJk+DosjYKR7Qmm5NvkfHJTOlPRd3E+X4XisFQiNmoPvlAd+y+YObaIhqLIVHyHTLfijDBTHezNCdfSyqMB3YOtIycdkeyxxLmQesmrbKTOS3WXBZNk9CB4p1OLNlwh3sc44vDIqoiP9j2vrB2pKc8JI2Tp7bws7bimCzOm1QrTkOXOAPp5kFgNde4pXvM1jZRvc/lLkRMwvXQnYm3ZdkRUrN408w+NVKr3oJLmSP9881SSLjOFfzSgmtM1sWvHQjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aulzC8BDXiULH2TKsH0k0MvmIBoMnrJBMXiQEWu4A7c=;
+ b=sKWaYWrEqGGUUFxLVPMhJS9byuHOq6fgoCL2cBi/y48o4hFkjal6Sw/jD8zLnVuuHMPowYN1dj5CuZ9fTY66w6+6a5VYAXJXzAD5SX2AYQZRnftEWwkhrDIs8B0v+uImLD/kjmAa7RBZWYnKnmWivfjylU+I8tnOf3s5kDND1NKE98PPQL1uwfUIIHpgeUml3pu6WOR0E18u5A4XkJQr010dQkMr8CldwEFjLl2muWUz2g6E9TaKq2SqVvUsBYPHdQY4tB7I0WNpxEVLqL22Lq5gSKczVmgn9UfcSnfJZ/Z+Xa7OnbHjm4afhMB1NZaMn/X0T1GE4f0dCs7cAtlPWg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aulzC8BDXiULH2TKsH0k0MvmIBoMnrJBMXiQEWu4A7c=;
+ b=dl/YrbjNfsdXGTtZfBimbQ8wA6yEKg8nrTqq1+amNAX+movtfD8BCzZwPfobwyWyzbpfFznP9flkIepFcvO9mN/3KwmNTJfwWk52fH42Wpp5Zg5TQ0y4uQ8+46gSYDEeJG+Q8lbO/C82iBkq7KyeRWnz9B8e7pL/ttNTjowhtqQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB4877.namprd12.prod.outlook.com (2603:10b6:5:1bb::24)
+ by SA1PR12MB5669.namprd12.prod.outlook.com (2603:10b6:806:237::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.25; Thu, 5 Sep
+ 2024 15:08:35 +0000
+Received: from DM6PR12MB4877.namprd12.prod.outlook.com
+ ([fe80::92ad:22ff:bff2:d475]) by DM6PR12MB4877.namprd12.prod.outlook.com
+ ([fe80::92ad:22ff:bff2:d475%5]) with mapi id 15.20.7918.024; Thu, 5 Sep 2024
+ 15:08:35 +0000
+Message-ID: <91a05b5b-a642-4cef-9c81-cba246435aa9@amd.com>
+Date: Thu, 5 Sep 2024 10:08:33 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V4 02/12] PCI: Add TPH related register definition
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+ Jonathan.Cameron@huawei.com, corbet@lwn.net, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ alex.williamson@redhat.com, gospo@broadcom.com, michael.chan@broadcom.com,
+ ajit.khaparde@broadcom.com, somnath.kotur@broadcom.com,
+ andrew.gospodarek@broadcom.com, manoj.panicker2@amd.com,
+ Eric.VanTassell@amd.com, vadim.fedorenko@linux.dev, horms@kernel.org,
+ bagasdotme@gmail.com, bhelgaas@google.com, lukas@wunner.de,
+ paul.e.luse@intel.com, jing2.liu@intel.com
+References: <20240904195254.GA344807@bhelgaas>
+Content-Language: en-US
+From: Wei Huang <wei.huang2@amd.com>
+In-Reply-To: <20240904195254.GA344807@bhelgaas>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN6PR08CA0032.namprd08.prod.outlook.com
+ (2603:10b6:805:66::45) To DM6PR12MB4877.namprd12.prod.outlook.com
+ (2603:10b6:5:1bb::24)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:LxC2BwDXZy_myNlmE0tUAA--.16274S11
-X-Coremail-Antispam: 1UD129KBjvAXoWfGr15Kr1rJrW8KFW3ur47XFb_yoW8Xr1xWo
-	ZIka9rtw48WFyUZr4vyF17AayUWw4Fg3yxAr1kGFWUuFyIyryUJasrGFn8JFW5Xr1rGFZ7
-	Aw18Aw4DJFW8tr93n29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-	AaLaJ3UjIYCTnIWjp_UUUOe7kC6x804xWl14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK
-	8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF
-	0E3s1l82xGYIkIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
-	j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxV
-	AFwI0_Cr1j6rxdM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E
-	14v26F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I
-	80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCj
-	c4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4
-	kS14v26rWY6Fy7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E
-	5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZV
-	WrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26ryj6F1UMIIF0xvE2Ix0cI8IcVCY
-	1x0267AKxVWxJr0_GcWlIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14
-	v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdYxBIdaVFxhVjvjDU0xZFpf9x
-	07jhXo7UUUUU=
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQARBGbZE3MK3AAAsd
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4877:EE_|SA1PR12MB5669:EE_
+X-MS-Office365-Filtering-Correlation-Id: 25ce5d96-5e91-4ac8-5200-08dccdbc9d48
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?VVgrT2lEbUU3V2xnK205aldjenZpQkFUY3FtTW1UVnV1MTAvMEw3SmJFSlE2?=
+ =?utf-8?B?cFF5cS9VSERWUlZHNXk2b1gzUGdQRG9hNkVjUWRSZFpYdlY5enpNWUNYSTJJ?=
+ =?utf-8?B?akU0VC9VTnpZK296ekNDOHk5b2JOTFUwMCtEU3JXekFmM2xEeC9aZURtbEw1?=
+ =?utf-8?B?ZzdvQWNEclN0TU8xY1JZek5ITXBQMG9QUy80ckJ0bW5WL3l4UXZnVFdxVmRS?=
+ =?utf-8?B?NlFMQXBTSThkMWpxY29aNzhFaVFVeXF5a2VnbHdlREJsbk1TdjNKL0hXbE5E?=
+ =?utf-8?B?cTQvM2NqWkNOaFZ5UlN3VzNXRWZaSk91Q1NaUzhTc3JlRmgrNmpWRk40anVD?=
+ =?utf-8?B?K0h5M1hmUUFWd1krK0h6MFlEd0RCMkxNZnZYbHJLRHdONmFuMWxZalBWR29E?=
+ =?utf-8?B?T1AydCtPODlJU0RlZWl4YUpJOUVRQzVSM005NVBiQjB2RWdRWkJJQlNyZlNy?=
+ =?utf-8?B?YmdKNHBGeWh2Y3d6WXpVK0FGeDdwRDgrRGpLd1RzT0Jodm5BNjJoeUsrWE1x?=
+ =?utf-8?B?YTBFMVB5TllLN2xXSlk0eDIwNGlvQjNLQVJBYWR1OG9ZSmtpbFFvTGl5MDRY?=
+ =?utf-8?B?LzVXMUIwZUVMNHFzNHFxb1dpRHVkdzdhUG83SHY3eWx5Y3R4R2NldlZYZTBu?=
+ =?utf-8?B?L1lKaEJPaGk3cW1RV3FQYXRvODMrZzg2VjZZb3ZtSXJsb1h0dm4wb0JCYm5w?=
+ =?utf-8?B?RUlCL1VGWDd4OTBTUzZxT1VpZlBNK0VSVFpidGhselY3c1JEamw5b3B2RXlp?=
+ =?utf-8?B?MVEzL0lkSUJGRW90L2ZoNG9ENjgvcGFFWHZPUXR0ZXQrbG81anVYTWtoNFhV?=
+ =?utf-8?B?dHZGUzU5TFgwRDk2VGVGYTI1NjZsaXBsMzBrWWxMMXh0WjNEM1pUWWhyOXh6?=
+ =?utf-8?B?Z0pmT2U4U00vdC9VZHplREplb0ZpU2xUYmhzY3RJcGZMSzh1cFJFYVRnaG5q?=
+ =?utf-8?B?UUtBVHRhclgrd3FNN0FLRWlrSDJoRzFOeTU2cm5PM0FDMjI3Umx0WVZzS0Vt?=
+ =?utf-8?B?dVJwUVVNbVl0OXhGQnIwYW5zZmJTdnB4MS9rbkZ1VVI2cFUyaUI0ZEVLSTVw?=
+ =?utf-8?B?ZFIyM2tKZnRCZFMrZ2YyYklWVHpuTEZCMk50Zk54cEM5Nk9MbnNzNmNOQUxm?=
+ =?utf-8?B?a1J4dUhKY0MwTlk3S0NvK1FwdDErc0gyWjRqTGhzWkVST3JmQnhnaWVHV1JQ?=
+ =?utf-8?B?TTJLNENjR0QrY2NjbnlCRGRja3Y1ZFEwdXljQmZZbWNsb2h3WHV4NUdRU1Rp?=
+ =?utf-8?B?bHYrYkdvUnR6QVhDRG54Z25rZDduV29wRXJ3ZDQ0RVNuS0dDbVozQnh4Y0Zn?=
+ =?utf-8?B?N1B5OFh4MzlaUW02bkY2VjVpYzQ4UkV3OHFnMXhEU0k5N1c0enJrQlVhbmZx?=
+ =?utf-8?B?Q0E0QysweEtCZmJ2emhNdDQrMWxxU3JRNUg2OTVlM3l6U3huQXBNVzNBRWVs?=
+ =?utf-8?B?bDFUNU1jSFlKZTlrYXg1WXNoS1NucUlScHoxekJmdDdYK3lnWU5zcTBsZHFu?=
+ =?utf-8?B?amp4bWZOUEh3c0RTNGRsRDNVM2NKNmJrTFlNempzWmdmT21OMVdQRUNncXcw?=
+ =?utf-8?B?ck44WHBRckJtMUV2bW8yNHdZNmRiK0twai92SjYyREIzNDJCV0EwbjhIMmxl?=
+ =?utf-8?B?WTYwbTNCRVpwSWhCaHBCVDZjMkR0dGFjWHdFV1pKZUJhYWtvNE5OMGp5M2Zn?=
+ =?utf-8?B?QWl4OFNuMkQ1VWJtbHU1NHA0Y2I5WEViUzgyK3AraGRyK0RBZEZXeUNqbFpH?=
+ =?utf-8?B?Z1oySHRCdjhJWUthSHRRS0o1UEIydWs3c0pLNjgyQ2FFc3N4K0tmR0pBLzFy?=
+ =?utf-8?B?TEVoRDVtL2FQNmtqYXVwZz09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4877.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WlJWQ2dtMnBFU29KK3ZYRFZwd1I2TzNvQlk0SVB6S0pXaWMydmZ6c0VPa2I0?=
+ =?utf-8?B?MkRrTlgycnRPMVNnOWNYWndhV0VZWWJiOFF1WnAvOGs4T3o2NTlKQkFoNCt4?=
+ =?utf-8?B?TGhtcGtRT2FaZUtRV2NhZlhBWW9mKzFWb3Rac0lEUWhkaGlIZUhKVU5KOG5i?=
+ =?utf-8?B?ZXArWG5HVHYrbzAwejlmNlp4ci9qTGppSm9LbnpQLy9PM2RKQkRNOWU4QUNN?=
+ =?utf-8?B?RkFJZGgxbE96QTEzVkl1c1ErdFNyUVViWnJiNnU0WHpUWWx6VmFTKy81NWJZ?=
+ =?utf-8?B?dEw3eXhDN3BEcVhvdk5tUHlIUDZnOTltRHNCRU9UR2RGY3lURTljT2pqVm9U?=
+ =?utf-8?B?UUR4Z0xPZFFBOUhnZ1FzNEcydTZQN3pySUhJRjl1QVJBTXRkbTRlZkFQbXdU?=
+ =?utf-8?B?QnFNbkVSVStkRnRmR0RFT0hhT3dBa2RJSmo2OThqQ0NhL2h3UGZjeThGT2lJ?=
+ =?utf-8?B?ZElJRi9hTjh5NzRLQnBFSGlITUdLU2Fpa1RJdUU5M0xkVnY1WU1IeGlndFBz?=
+ =?utf-8?B?OWxCQlBxQUxZbzJNeGluSi9wSVZTZFY3aFRXQVFscTVyZ1lpdG1zeklDTjlO?=
+ =?utf-8?B?V3k3MTBFMFJ5Smp3aUVGb2lDK1Z0SXRMaXpoN0R4QmJpMHhnZWx4eVFETDEr?=
+ =?utf-8?B?VzJycXhCSFVmL2c4ZzViRkV1bStGOGpoVzdZL0FaMkFsWHNqcWNOcyt1Yzlh?=
+ =?utf-8?B?Y0ZSQUpneVF5U0FCV2R1VTdiTzJkSkM1RTlFdW1QRHpsUEJZR3NyZGp6SVVi?=
+ =?utf-8?B?NjVSMVNQVjU2YVhMZmhuRERmcDVsNlY5aWtJNlpRWFNyT0RMUVJUOExGb3VY?=
+ =?utf-8?B?VmxaeDE1bVYvL3hoS3pvQVdTZmJqekJ1WFZWZlM5eGVxMXZhN2dxS1p1MllK?=
+ =?utf-8?B?N3haYnlrRVFxRWVlK1MvOHBXKzMzZ2JnM0JwT2I1YzhSZHFteHhlaUtLdmdB?=
+ =?utf-8?B?UXJUZkpxQmd1WGZvT2Y0b0hYNE1wWHBGY3J4MzBzSFdlQytEOTZHODhtbS94?=
+ =?utf-8?B?akxZeWkrWjAzbVRIc09hd1lZZDk2MTdXd2xkcFBCVDFKaXFmaVFWcGJLNDhl?=
+ =?utf-8?B?TW1ldytFR1l4VXhhWlZsZGpTSnpQbi9RbFArQ1pxQkkvT2p2SHM2NllObit4?=
+ =?utf-8?B?ejRlMzJXRFRHZFU4NEhKSzdYVk1xN01TdmMzMXhPa1lLT0w4MFk0dmh0NjZD?=
+ =?utf-8?B?N0tOcDlrVDdvUEdrS3kzK3RmMWNrNmVLVUhraDJ3V0kwbDhGcmtNWExTeTJi?=
+ =?utf-8?B?UHJoeXZkejBrM0JVbTZvWkVPYXMra09WajF5TXBESFJnWWt1Y1dFMENLWWV4?=
+ =?utf-8?B?SklWVTdhR1JRRE55aVVMaW9YSkF3cDBRaURmVXpmdlNBalpyc3BGMUZzUVVp?=
+ =?utf-8?B?YXg2ODBHTkFLUmNuUFJqZ1p3UFdmazNUbCtMYzBQVjQ2Q0h6cFl3UXU0azQz?=
+ =?utf-8?B?NmUvL2pVeHpTUzN6RGVicFJpOXFheCtlR2FkR3lqbU14WUpIbWlZQVZHMlRP?=
+ =?utf-8?B?dW9GMCtYNnN5YUpkNk5HZnUzYnljTUlhZUdIRE5XMjhVNVF2MjNQZzdBenFh?=
+ =?utf-8?B?ME43N3VmNis5ckRobHNCNTR0ZXQ2OFVBUEhta3d3ckJ2ZDJzdWthYTVLc0Ji?=
+ =?utf-8?B?YWkwVDJIZ3hCa0YwaTkraFlrL3kvSG44RCt1bW5RN2w2aXhsS0kwZWhpV3RF?=
+ =?utf-8?B?eXg4NklGeVdnUm9PWk5yYjUrVERNUFh0bmRKY0FUQ1ZJaS9HQ1BWTjNJLzNj?=
+ =?utf-8?B?dmJDNDdQVVRqcENBYmI0aE1YaVdpaDdUOERPOUlNODF4MnBmY1prMC9VQnN1?=
+ =?utf-8?B?WmZrL25iaGpXTXpPbVhVaHdmejFLN2N3Tm9hVUdTNklEMUkxaUluQmNOb21C?=
+ =?utf-8?B?QTlyTzVoSytmdnYwN0ZPWjFWZ2J0Yk5BaVFFTW0rdUZEb3gzSXZzNTkzR1Fq?=
+ =?utf-8?B?bXVNcGwvSlIydHN4bzQzTHFjRlBhZGJ1bHNRSnJadEgxQzRXUnVrRitjV0Vp?=
+ =?utf-8?B?bm85YzhrNDZFMzB4NHREa05KemprcGluMVlEUExxS2FFK2wyVjFhNHlrYnZW?=
+ =?utf-8?B?TDNJVktnUForMURxc3BTVVNUejNXdDlkUU9MNFVpYlFsZUtOQnh3TnpPV1g5?=
+ =?utf-8?Q?YVJzBFtKLkqdkhKRwnMvLsoKH?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 25ce5d96-5e91-4ac8-5200-08dccdbc9d48
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4877.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2024 15:08:35.7356
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xK7SXAdMdXOjV+y5KJtOcqe5FWUO6i+jUD500wPNlv1PrLdpACUH3ZYsji8gCeGC
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB5669
 
-From: Roberto Sassu <roberto.sassu@huawei.com>
 
-The Integrity Digest Cache can support other LSMs in their decisions of
-granting access to file data and metadata.
 
-However, the information alone about whether a digest was found in a digest
-cache might not be sufficient, because for example those LSMs wouldn't know
-about the integrity of the digest list digests were extracted from.
+On 9/4/24 14:52, Bjorn Helgaas wrote:
+>> -#define PCI_TPH_CAP_ST_MASK	0x07FF0000	/* ST table mask */
+>> -#define PCI_TPH_CAP_ST_SHIFT	16	/* ST table shift */
+>> -#define PCI_TPH_BASE_SIZEOF	0xc	/* size with no ST table */
+>> +#define  PCI_TPH_CAP_NO_ST	0x00000001 /* No ST Mode Supported */
+>> +#define  PCI_TPH_CAP_INT_VEC	0x00000002 /* Interrupt Vector Mode Supported */
+>> +#define  PCI_TPH_CAP_DEV_SPEC	0x00000004 /* Device Specific Mode Supported */
+> 
+> I think these modes should all include "ST" to clearly delineate
+> Steering Tags from the Processing Hints.  E.g.,
+> 
+>   PCI_TPH_CAP_ST_NO_ST       or maybe PCI_TPH_CAP_ST_NONE
 
-Introduce digest_cache_verif_set() to let the same LSMs (or a chosen
-integrity provider) evaluate the digest list being read during the creation
-of the digest cache, by implementing the kernel_post_read_file LSM hook,
-and let them attach their verification data to that digest cache.
+Can I keep "NO_ST" instead of switching over to "ST_NONE"? First, it
+matches with PCIe spec. Secondly, IMO "ST_NONE" implies no ST support at
+all.
 
-Reserve space in the file descriptor security blob for the digest cache
-pointer (through IMA). Also introduce digest_cache_to_file_sec() to set
-that pointer before reading the digest list, and
-digest_cache_from_file_sec() to retrieve the pointer back from the file
-descriptor passed by LSMs with digest_cache_verif_set().
+>   PCI_TPH_CAP_ST_INT_VEC
+>   PCI_TPH_CAP_ST_DEV_SPEC
 
-Multiple providers are supported, in the event there are multiple
-integrity LSMs active. Each provider should also provide a unique verifier
-ID as an argument to digest_cache_verif_set(), so that verification data
-can be distinguished. Concurrent set are protected by the verif_data_lock
-spinlock.
+Will change
 
-A caller of digest_cache_get() can retrieve back the verification data by
-calling digest_cache_verif_get() and passing a digest cache pointer and the
-desired verifier ID.
+> 
+>> +#define  PCI_TPH_CAP_EXT_TPH	0x00000100 /* Ext TPH Requester Supported */
+>> +#define  PCI_TPH_CAP_LOC_MASK	0x00000600 /* ST Table Location */
+>> +#define   PCI_TPH_LOC_NONE	0x00000000 /* Not present */
+>> +#define   PCI_TPH_LOC_CAP	0x00000200 /* In capability */
+>> +#define   PCI_TPH_LOC_MSIX	0x00000400 /* In MSI-X */
+> 
+> These are existing symbols just being tidied, so can't really add "ST"
+> here unless we just add aliases.  Since they're just used internally,
+> not by drivers, I think they're fine as-is.
+> 
 
-Since directory digest caches are not populated themselves, LSMs have to do
-a lookup first to get the digest cache containing the digest, and pass the
-uintptr_t value cast to (struct digest_cache *) to
-digest_cache_verif_get().
+Yes. In V1 review, Alex Williamson and Jonathan Cameron asked not to
+change these definitions as they might be used by existing software.
 
-Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
----
- include/linux/digest_cache.h               |  17 +++
- security/integrity/digest_cache/Makefile   |   2 +-
- security/integrity/digest_cache/internal.h |  43 ++++++-
- security/integrity/digest_cache/main.c     |   8 +-
- security/integrity/digest_cache/populate.c |   2 +
- security/integrity/digest_cache/verif.c    | 127 +++++++++++++++++++++
- security/integrity/ima/ima_main.c          |   5 +-
- 7 files changed, 200 insertions(+), 4 deletions(-)
- create mode 100644 security/integrity/digest_cache/verif.c
+>> +#define  PCI_TPH_CAP_ST_MASK	0x07FF0000 /* ST Table Size */
+>> +#define  PCI_TPH_CAP_ST_SHIFT	16	/* ST Table Size shift */
+>> +#define PCI_TPH_BASE_SIZEOF	0xc	/* Size with no ST table */
+>> +
+>> +#define PCI_TPH_CTRL		8	/* control register */
+>> +#define  PCI_TPH_CTRL_MODE_SEL_MASK	0x00000007 /* ST Mode Select */
+>> +#define   PCI_TPH_NO_ST_MODE		0x0 /* No ST Mode */
+>> +#define   PCI_TPH_INT_VEC_MODE		0x1 /* Interrupt Vector Mode */
+>> +#define   PCI_TPH_DEV_SPEC_MODE		0x2 /* Device Specific Mode */
+> 
+> These are also internal, but they're new and I think they should also
+> include "ST" to match the CAP #defines.
+> 
+> Even better, maybe we only add these and use them for both CAP and
+> CTRL since they're defined with identical values.
 
-diff --git a/include/linux/digest_cache.h b/include/linux/digest_cache.h
-index 53a7edc04310..92e17100e9c9 100644
---- a/include/linux/digest_cache.h
-+++ b/include/linux/digest_cache.h
-@@ -19,6 +19,10 @@ void digest_cache_put(struct digest_cache *digest_cache);
- uintptr_t digest_cache_lookup(struct dentry *dentry,
- 			      struct digest_cache *digest_cache,
- 			      u8 *digest, enum hash_algo algo);
-+int digest_cache_verif_set(struct file *file, const char *verif_id, void *data,
-+			   size_t size);
-+void *digest_cache_verif_get(struct digest_cache *digest_cache,
-+			     const char *verif_id);
- 
- #else
- static inline struct digest_cache *digest_cache_get(struct dentry *dentry)
-@@ -37,5 +41,18 @@ static inline uintptr_t digest_cache_lookup(struct dentry *dentry,
- 	return 0UL;
- }
- 
-+static inline int digest_cache_verif_set(struct file *file,
-+					 const char *verif_id, void *data,
-+					 size_t size)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
-+static inline void *digest_cache_verif_get(struct digest_cache *digest_cache,
-+					   const char *verif_id)
-+{
-+	return NULL;
-+}
-+
- #endif /* CONFIG_INTEGRITY_DIGEST_CACHE */
- #endif /* _LINUX_DIGEST_CACHE_H */
-diff --git a/security/integrity/digest_cache/Makefile b/security/integrity/digest_cache/Makefile
-index 681276a4c756..77dd98a1a07d 100644
---- a/security/integrity/digest_cache/Makefile
-+++ b/security/integrity/digest_cache/Makefile
-@@ -4,7 +4,7 @@
- 
- obj-$(CONFIG_INTEGRITY_DIGEST_CACHE) += digest_cache.o
- 
--digest_cache-y := main.o secfs.o htable.o populate.o modsig.o
-+digest_cache-y := main.o secfs.o htable.o populate.o modsig.o verif.o
- 
- digest_cache-y += parsers/tlv.o
- digest_cache-y += parsers/rpm.o
-diff --git a/security/integrity/digest_cache/internal.h b/security/integrity/digest_cache/internal.h
-index f8ec51405bae..9083a87374a5 100644
---- a/security/integrity/digest_cache/internal.h
-+++ b/security/integrity/digest_cache/internal.h
-@@ -18,6 +18,21 @@
- #define INIT_STARTED		1	/* Digest cache init started. */
- #define INVALID			2	/* Digest cache marked as invalid. */
- 
-+/**
-+ * struct digest_cache_verif
-+ * @list: Linked list
-+ * @verif_id: Identifier of who verified the digest list
-+ * @data: Opaque data set by the digest list verifier
-+ *
-+ * This structure contains opaque data containing the result of verification
-+ * of the digest list by a verifier.
-+ */
-+struct digest_cache_verif {
-+	struct list_head list;
-+	char *verif_id;
-+	void *data;
-+};
-+
- /**
-  * struct read_work - Structure to schedule reading a digest list
-  * @work: Work structure
-@@ -73,6 +88,8 @@ struct htable {
-  * @path_str: Path of the digest list the digest cache was created from
-  * @flags: Control flags
-  * @digest_list_path: Path structure of the digest list
-+ * @verif_data: Verification data regarding the digest list
-+ * @verif_data_lock: Protects verification data modifications
-  *
-  * This structure represents a cache of digests extracted from a digest list.
-  */
-@@ -82,6 +99,8 @@ struct digest_cache {
- 	char *path_str;
- 	unsigned long flags;
- 	struct path digest_list_path;
-+	struct list_head verif_data;
-+	spinlock_t verif_data_lock;
- };
- 
- /**
-@@ -102,6 +121,7 @@ struct digest_cache_security {
- };
- 
- extern loff_t inode_sec_offset;
-+extern loff_t file_sec_offset;
- extern char *default_path_str;
- extern struct rw_semaphore default_path_sem;
- 
-@@ -138,6 +158,24 @@ digest_cache_unref(struct digest_cache *digest_cache)
- 	return (ref_is_zero) ? digest_cache : NULL;
- }
- 
-+static inline void digest_cache_to_file_sec(const struct file *file,
-+					    struct digest_cache *digest_cache)
-+{
-+	struct digest_cache **digest_cache_sec;
-+
-+	digest_cache_sec = file->f_security + file_sec_offset;
-+	*digest_cache_sec = digest_cache;
-+}
-+
-+static inline struct digest_cache *
-+digest_cache_from_file_sec(const struct file *file)
-+{
-+	struct digest_cache **digest_cache_sec;
-+
-+	digest_cache_sec = file->f_security + file_sec_offset;
-+	return *digest_cache_sec;
-+}
-+
- /* main.c */
- struct digest_cache *digest_cache_create(struct dentry *dentry,
- 					 struct path *digest_list_path,
-@@ -145,7 +183,7 @@ struct digest_cache *digest_cache_create(struct dentry *dentry,
- struct digest_cache *digest_cache_init(struct dentry *dentry,
- 				       struct digest_cache *digest_cache);
- int __init digest_cache_do_init(const struct lsm_id *lsm_id,
--				loff_t inode_offset);
-+				loff_t inode_offset, loff_t file_offset);
- 
- /* secfs.c */
- int __init digest_cache_secfs_init(struct dentry *dir);
-@@ -167,4 +205,7 @@ int digest_cache_populate(struct digest_cache *digest_cache,
- /* modsig.c */
- size_t digest_cache_strip_modsig(__u8 *data, size_t data_len);
- 
-+/* verif.c */
-+void digest_cache_verif_free(struct digest_cache *digest_cache);
-+
- #endif /* _DIGEST_CACHE_INTERNAL_H */
-diff --git a/security/integrity/digest_cache/main.c b/security/integrity/digest_cache/main.c
-index 6878ebe5b779..fda6ac599a2d 100644
---- a/security/integrity/digest_cache/main.c
-+++ b/security/integrity/digest_cache/main.c
-@@ -17,6 +17,7 @@ static int digest_cache_enabled __ro_after_init;
- static struct kmem_cache *digest_cache_cache __read_mostly;
- 
- loff_t inode_sec_offset;
-+loff_t file_sec_offset;
- 
- char *default_path_str = CONFIG_DIGEST_LIST_DEFAULT_PATH;
- 
-@@ -51,6 +52,8 @@ static struct digest_cache *digest_cache_alloc_init(char *path_str,
- 	atomic_set(&digest_cache->ref_count, 1);
- 	digest_cache->flags = 0UL;
- 	INIT_LIST_HEAD(&digest_cache->htables);
-+	INIT_LIST_HEAD(&digest_cache->verif_data);
-+	spin_lock_init(&digest_cache->verif_data_lock);
- 
- 	pr_debug("New digest cache %s (ref count: %d)\n",
- 		 digest_cache->path_str, atomic_read(&digest_cache->ref_count));
-@@ -67,6 +70,7 @@ static struct digest_cache *digest_cache_alloc_init(char *path_str,
- static void digest_cache_free(struct digest_cache *digest_cache)
- {
- 	digest_cache_htable_free(digest_cache);
-+	digest_cache_verif_free(digest_cache);
- 
- 	pr_debug("Freed digest cache %s\n", digest_cache->path_str);
- 	kfree(digest_cache->path_str);
-@@ -421,17 +425,19 @@ static struct security_hook_list digest_cache_hooks[] __ro_after_init = {
-  * digest_cache_do_init - Initialize the Integrity Digest Cache
-  * @lsm_id: ID of LSM registering the LSM hooks
-  * @inode_offset: Offset in the inode security blob
-+ * @file_offset: Offset in the file security blob
-  *
-  * Initialize the Integrity Digest Cache, by instantiating a cache for the
-  * digest_cache structure and by registering the LSM hooks as part of the
-  * calling LSM.
-  */
- int __init digest_cache_do_init(const struct lsm_id *lsm_id,
--				loff_t inode_offset)
-+				loff_t inode_offset, loff_t file_offset)
- {
- 	init_rwsem(&default_path_sem);
- 
- 	inode_sec_offset = inode_offset;
-+	file_sec_offset = file_offset;
- 
- 	digest_cache_cache = kmem_cache_create("digest_cache_cache",
- 					       sizeof(struct digest_cache),
-diff --git a/security/integrity/digest_cache/populate.c b/security/integrity/digest_cache/populate.c
-index 1c68d957bf1d..1ebf3a11f50b 100644
---- a/security/integrity/digest_cache/populate.c
-+++ b/security/integrity/digest_cache/populate.c
-@@ -115,6 +115,8 @@ int digest_cache_populate(struct digest_cache *digest_cache,
- 		return PTR_ERR(file);
- 	}
- 
-+	digest_cache_to_file_sec(file, digest_cache);
-+
- 	w.data = NULL;
- 	w.file = file;
- 	INIT_WORK_ONSTACK(&w.work, digest_cache_read_digest_list);
-diff --git a/security/integrity/digest_cache/verif.c b/security/integrity/digest_cache/verif.c
-new file mode 100644
-index 000000000000..de47bd9dc388
---- /dev/null
-+++ b/security/integrity/digest_cache/verif.c
-@@ -0,0 +1,127 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2023-2024 Huawei Technologies Duesseldorf GmbH
-+ *
-+ * Author: Roberto Sassu <roberto.sassu@huawei.com>
-+ *
-+ * Manage verification data regarding digest lists.
-+ */
-+
-+#define pr_fmt(fmt) "digest_cache: "fmt
-+#include "internal.h"
-+
-+/**
-+ * free_verif - Free a digest_cache_verif structure
-+ * @verif: digest_cache_verif structure
-+ *
-+ * Free the space allocated for a digest_cache_verif structure.
-+ */
-+static void free_verif(struct digest_cache_verif *verif)
-+{
-+	kfree(verif->data);
-+	kfree(verif->verif_id);
-+	kfree(verif);
-+}
-+
-+/**
-+ * digest_cache_verif_set - Set digest cache verification data
-+ * @file: File descriptor of the digest list being read to populate digest cache
-+ * @verif_id: Verifier ID
-+ * @data: Verification data (opaque)
-+ * @size: Size of @data
-+ *
-+ * This function lets a verifier supply verification data about a digest list
-+ * being read to populate the digest cache. Verifier ID must be unique.
-+ *
-+ * Return: Zero on success, a POSIX error code otherwise.
-+ */
-+int digest_cache_verif_set(struct file *file, const char *verif_id, void *data,
-+			   size_t size)
-+{
-+	struct digest_cache *digest_cache = digest_cache_from_file_sec(file);
-+	struct digest_cache_verif *new_verif, *verif;
-+	/* All allocations done by kprobe must be atomic (non-sleepable). */
-+	gfp_t flags = !strncmp(verif_id, "kprobe", 6) ? GFP_ATOMIC : GFP_KERNEL;
-+	int ret = 0;
-+
-+	new_verif = kzalloc(sizeof(*new_verif), flags);
-+	if (!new_verif)
-+		return -ENOMEM;
-+
-+	new_verif->verif_id = kstrdup(verif_id, flags);
-+	if (!new_verif->verif_id) {
-+		free_verif(new_verif);
-+		return -ENOMEM;
-+	}
-+
-+	new_verif->data = kmemdup(data, size, flags);
-+	if (!new_verif->data) {
-+		free_verif(new_verif);
-+		return -ENOMEM;
-+	}
-+
-+	spin_lock(&digest_cache->verif_data_lock);
-+	list_for_each_entry(verif, &digest_cache->verif_data, list) {
-+		if (!strcmp(verif->verif_id, verif_id)) {
-+			ret = -EEXIST;
-+			goto out;
-+		}
-+	}
-+
-+	list_add_tail_rcu(&new_verif->list, &digest_cache->verif_data);
-+out:
-+	spin_unlock(&digest_cache->verif_data_lock);
-+
-+	if (ret < 0)
-+		free_verif(new_verif);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(digest_cache_verif_set);
-+
-+/**
-+ * digest_cache_verif_get - Get digest cache verification data
-+ * @digest_cache: Digest cache
-+ * @verif_id: Verifier ID
-+ *
-+ * This function returns the verification data previously set by a verifier
-+ * with digest_cache_verif_set().
-+ *
-+ * Return: Verification data if found, NULL otherwise.
-+ */
-+void *digest_cache_verif_get(struct digest_cache *digest_cache,
-+			     const char *verif_id)
-+{
-+	struct digest_cache_verif *verif;
-+	void *verif_data = NULL;
-+
-+	rcu_read_lock();
-+	list_for_each_entry_rcu(verif, &digest_cache->verif_data, list) {
-+		if (!strcmp(verif->verif_id, verif_id)) {
-+			verif_data = verif->data;
-+			break;
-+		}
-+	}
-+	rcu_read_unlock();
-+
-+	return verif_data;
-+}
-+EXPORT_SYMBOL_GPL(digest_cache_verif_get);
-+
-+/**
-+ * digest_cache_verif_free - Free all digest_cache_verif structures
-+ * @digest_cache: Digest cache
-+ *
-+ * This function frees the space allocated for all digest_cache_verif
-+ * structures in the digest cache.
-+ */
-+void digest_cache_verif_free(struct digest_cache *digest_cache)
-+{
-+	struct digest_cache_verif *p, *q;
-+
-+	/* No need to lock, called when nobody else has a digest cache ref. */
-+	list_for_each_entry_safe(p, q, &digest_cache->verif_data, list) {
-+		list_del(&p->list);
-+		free_verif(p);
-+	}
-+}
-diff --git a/security/integrity/ima/ima_main.c b/security/integrity/ima/ima_main.c
-index 7cbd78ca3be5..646d900828e0 100644
---- a/security/integrity/ima/ima_main.c
-+++ b/security/integrity/ima/ima_main.c
-@@ -1208,7 +1208,8 @@ static int __init init_ima_lsm(void)
- 	init_ima_appraise_lsm(&ima_lsmid);
- 	if (IS_ENABLED(CONFIG_INTEGRITY_DIGEST_CACHE))
- 		digest_cache_do_init(&ima_lsmid, ima_blob_sizes.lbs_inode +
--				     sizeof(struct ima_iint_cache *));
-+				     sizeof(struct ima_iint_cache *),
-+				     ima_blob_sizes.lbs_file);
- 	return 0;
- }
- 
-@@ -1217,6 +1218,8 @@ struct lsm_blob_sizes ima_blob_sizes __ro_after_init = {
- #ifdef CONFIG_INTEGRITY_DIGEST_CACHE
- 	 + sizeof(struct digest_cache_security)
- #endif
-+	,
-+	.lbs_file = sizeof(struct digest_cache *),
- };
- 
- DEFINE_LSM(ima) = {
--- 
-2.34.1
+Can you elaborate here? In CTRL register, "ST Mode Select" is defined as
+a 2-bit field. The possible values are 0, 1, 2. But in CAP register, the
+modes are individual bit masked. So I cannot use CTRL definitions in CAP
+register directly unless I do shifting.
 
