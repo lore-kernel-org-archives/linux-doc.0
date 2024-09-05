@@ -1,50 +1,52 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF4EE175BF;
-	Thu,  5 Sep 2024 20:19:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7152317623F;
+	Thu,  5 Sep 2024 20:30:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725567549; cv=none; b=mPVkOQtAsmkhCzmxMvfNAoqTy7IDnWGRYBnB5G5wQFGPFy499e9bKdjDSzEia0XTult00TseaJYkeFi8cvSdsQc8F3DfKMpp6sX6Zq4BBILlA2gu2WigWSvldNOQjmmXX/eJkvEAyMn1tVa8UWlX5EKXmZcjuQ8TQneQkPrWORY=
+	t=1725568232; cv=none; b=RJZM1ZAPkC+k5XhH3AA9n3chJj76KRZvLGyH/XKVQGkaF4jpNWvSq1kNDnHl+G2p9MYny1IBIghv0Xw6K0SE8MMy6AiSDmhz+X9Q6Gc1MlLmeU/RufaXoFSyPWsilntAhKy/WneJoU5tbbsH0D9BcjZvvbrj8H265rILi23qfFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725567549; c=relaxed/simple;
-	bh=dSxDom7EipPIlOqbePYFsJJ9UrMmg2qtFlqtq0cX7vk=;
+	s=arc-20240116; t=1725568232; c=relaxed/simple;
+	bh=hLlYloO5J1K9pI8X2i8QN3FuAA9tOJN5UUnlOrlCvd4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=N0BeqxuyEu9RL0CyGYPc5AR9GIdRKy4lU7w6UOZJKaqPjIBfShShAIYAYfwl6kHsiWl7r+EGbbUu6ncjjjuD2Obb+tUoESttw/+uQGPQbdgtOhkep/fROfqq1c5zlCWUz4kLWIuZeNST7DpdVHDvWFLZGdF775+iOahU2mlS2dE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=BPJP4AOp; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=kOCx+rQ9MIj26s+8sMX+dffmVnLPIvesWHLqw2kSxQ3c/k5uobMS3a7CwNCnx94Oe+UeOioRqRJZKQ0w/HicTSD97ROlYVGUoA7nKQijkJfG5DaTtk/qBjXSin/UM5ok4P6+iLu4oTDEap3weDvJGJ04oeq/RrKtDyoYCScSNZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=XjDGhJQS; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="BPJP4AOp"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BF1A742B25
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="XjDGhJQS"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7712542B29
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1725567546; bh=dSxDom7EipPIlOqbePYFsJJ9UrMmg2qtFlqtq0cX7vk=;
+	t=1725568230; bh=EYICUJzOiUjxu7bcKA/cuRv1FEZYbIes1M0Y/sxIaLQ=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=BPJP4AOploLiilgYBNEBBlMlzee7P8adCjbZxYhNyytj8CV60RYbsOPkNZZZuzywD
-	 2ae38vkyZ4dc4hLiLNL4qT18rk7fiirq9k6p7fe5etg9pnpMpNErRXBSCfqICD0T1X
-	 b6C55Ca/EUTYnNv1HZZ7CQfzMlF4dj02YBoyOeRQo0BFL3Fyu6yfxlcJ6iov3PcunY
-	 xPFJrf8aHnBh4o8ONGwZARndutcO2bPkCfLR1CTVVXIXv1C3hQBqe3sjV8lL3lcG+m
-	 xgqwC+FFMUgF087TzEtivWIxeWHGLvbutROZW5yX5Y8GqRsVCi89HqGgTD8FpOB4Os
-	 hzsqiztR6E9tg==
+	b=XjDGhJQS4LQ1RUBIbVt3VSqicyb3MsLCo/MgCmHxJJXYTfYFGFQXBPdoXyjGLlxzs
+	 TxLX0QimyBhKdV7lcR8Xkk5GMbPpy7Kj2ejpXAHSyr3MvRv31sUIQaIT8YvaBZITdM
+	 NOf9Xwrz9syxrdVwc9ZLO4WURVEc84AkVg0VGU9qszUFPia3Sf2UqweeDJNKDDty9e
+	 4CapLoNKzvF45yvTzWCdH3TToDy+/Cvd2TrlsF1jIzN7GjF3LVSKRaKFrdYkg4m4Rv
+	 oA46MYzAzPmWUCQJ7fE9IxGWc7cc7FNewzDK1oWS0EVO+BvLwlD7DCKVJkeptsETA8
+	 4kx799LXzOV1A==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id BF1A742B25;
-	Thu,  5 Sep 2024 20:19:06 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 7712542B29;
+	Thu,  5 Sep 2024 20:30:30 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>, linux-doc@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
- kernel-dev@igalia.com, kernel@gpiccoli.net, "Guilherme G. Piccoli"
- <gpiccoli@igalia.com>, Bart Van Assche <bvanassche@acm.org>, "Darrick J.
- Wong" <djwong@kernel.org>, Jens Axboe <axboe@kernel.dk>, Jan Kara
- <jack@suse.cz>
-Subject: Re: [PATCH V5] Documentation: Document the kernel flag
- bdev_allow_write_mounted
-In-Reply-To: <20240828145045.309835-1-gpiccoli@igalia.com>
-References: <20240828145045.309835-1-gpiccoli@igalia.com>
-Date: Thu, 05 Sep 2024 14:19:05 -0600
-Message-ID: <87cylhhn0m.fsf@trenco.lwn.net>
+To: Dandan Zhang <zhangdandan@uniontech.com>, pbonzini@redhat.com,
+ zhaotianrui@loongson.cn, maobibo@loongson.cn, chenhuacai@kernel.org,
+ zenghui.yu@linux.dev
+Cc: kernel@xen0n.name, kvm@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ guanwentao@uniontech.com, wangyuli@uniontech.com,
+ baimingcong@uniontech.com, Xianglai Li <lixianglai@loongson.cn>, Mingcong
+ Bai <jeffbai@aosc.io>, Dandan Zhang <zhangdandan@uniontech.com>
+Subject: Re: [PATCH v3] Loongarch: KVM: Add KVM hypercalls documentation for
+ LoongArch
+In-Reply-To: <4769C036576F8816+20240828045950.3484113-1-zhangdandan@uniontech.com>
+References: <4769C036576F8816+20240828045950.3484113-1-zhangdandan@uniontech.com>
+Date: Thu, 05 Sep 2024 14:30:29 -0600
+Message-ID: <877cbphmhm.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,24 +55,47 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-"Guilherme G. Piccoli" <gpiccoli@igalia.com> writes:
+Dandan Zhang <zhangdandan@uniontech.com> writes:
 
-> Commit ed5cc702d311 ("block: Add config option to not allow writing to mounted
-> devices") added a Kconfig option along with a kernel command-line tuning to
-> control writes to mounted block devices, as a means to deal with fuzzers like
-> Syzkaller, that provokes kernel crashes by directly writing on block devices
-> bypassing the filesystem (so the FS has no awareness and cannot cope with that).
+> From: Bibo Mao <maobibo@loongson.cn>
 >
-> The patch just missed adding such kernel command-line option to the kernel
-> documentation, so let's fix that.
+> Add documentation topic for using pv_virt when running as a guest
+> on KVM hypervisor.
 >
-> Cc: Bart Van Assche <bvanassche@acm.org>
-> Cc: Darrick J. Wong <djwong@kernel.org>
-> Cc: Jens Axboe <axboe@kernel.dk>
-> Reviewed-by: Jan Kara <jack@suse.cz>
-> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+> Signed-off-by: Bibo Mao <maobibo@loongson.cn>
+> Signed-off-by: Xianglai Li <lixianglai@loongson.cn>
+> Co-developed-by: Mingcong Bai <jeffbai@aosc.io>
+> Signed-off-by: Mingcong Bai <jeffbai@aosc.io>
+> Link: https://lore.kernel.org/all/5c338084b1bcccc1d57dce9ddb1e7081@aosc.io/
+> Signed-off-by: Dandan Zhang <zhangdandan@uniontech.com>
 > ---
+>  Documentation/virt/kvm/index.rst              |  1 +
+>  .../virt/kvm/loongarch/hypercalls.rst         | 89 +++++++++++++++++++
+>  Documentation/virt/kvm/loongarch/index.rst    | 10 +++
+>  MAINTAINERS                                   |  1 +
+>  4 files changed, 101 insertions(+)
+>  create mode 100644 Documentation/virt/kvm/loongarch/hypercalls.rst
+>  create mode 100644 Documentation/virt/kvm/loongarch/index.rst
 
-Applied, thanks.
+So this generates a nifty build error:
+
+> Documentation/virt/kvm/loongarch/hypercalls.rst:46: ERROR: Malformed table.
+> Text in column margin in table line 5.
+> 
+> ========        ================        ================
+> Register        IN                      OUT
+> ========        ================        ================
+> a0              function number         Return  code
+> a1              1st     parameter       -
+> a2              2nd     parameter       -
+> a3              3rd     parameter       -
+> a4              4th     parameter       -
+> a5              5th     parameter       -
+> ========        ================        ================
+
+The "====" bar for the middle column is too short.  *Please* be sure
+that the documentation actually builds after you make a change.
+
+I have fixed this and applied the patch.
 
 jon
