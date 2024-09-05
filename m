@@ -1,94 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D091428F3;
-	Thu,  5 Sep 2024 16:44:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86D1D54F87;
+	Thu,  5 Sep 2024 17:04:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725554689; cv=none; b=EbI6jwn7OwAg9TqYtYgq74qHecjuLyCSpW0DfZEK2TXHljP20Q1GcE5XqITEZfkHbbhjEG0qpTDNwhAnW9DYp8KEKS6eY7txfM+rRpwpRbSL1bUaaKVXGlmQc2QPYTwOO/IxuzYRnxYbnxT/+Uy1QYQ4btkO50RRFJq6JGsDfp4=
+	t=1725555896; cv=none; b=gSrPGdEVdo+CITEHQI8IftGgx4/SPBe5G9eec+Ecq+d5Fyb5XEUyvJhC4sAsZdZxog+NQG47OggZR0XJp/0DyAXW4HcjA3SumsrCWkwwD+2eE7Ll8kdNSkW8Mz1VDUT24tjZh3fIdsx+eaq+l6uKrcYl3mNXkIkpyZ497R5srXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725554689; c=relaxed/simple;
-	bh=f1B6hzv/N33wS2vfox0OnxEoRfvPhb5MO9IpFoGSJwU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=KSUlOmd/0t0YJ2Utd97l8xcswPc80/5y7vuBc+Z/RENffMojJVxnMPgKhRzMVz/Cbn4wvTo9HblvZRzMoDLxAMs3ChLLt10xx7Pfq7AVeRJx8DS3GgRwmev0+T2FfXA6BM/gdlVhbS3O+Ad7uXsghg/+L1KHUDZhJS6/TmbaJ8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KRtP7uNU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725555896; c=relaxed/simple;
+	bh=dszasaLQ5F2bOpdRX6ozfhPf0Kh1rM87y0FL2yxR4h8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=YlK63jEKMu4urJL2iW9rNXuiYA5xuj5QushuFlJeL4ypSzvgzLy4kai71hh3yIUwjhhq83XzKS4iJ75MWu5nTWEKPKdezMWqa1OnM1JIfSTUhUfQkrtBFPgBJdQ0wAnl+d+rNnPrY2ENQA23QZYh4saWwF3GiL392yEzpjYQC1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=f3hgaQx4; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KRtP7uNU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 856D6C4CEC5;
-	Thu,  5 Sep 2024 16:44:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725554688;
-	bh=f1B6hzv/N33wS2vfox0OnxEoRfvPhb5MO9IpFoGSJwU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=KRtP7uNU+wA+5IfTixJzHj2LR7A2+TgmiHjflW9v121YPUKuGHuU5cETEXdqtE0fW
-	 n6rDi8SDiQFU9rwsQ7bAiY4kOBjGJD1dI7mBWsclpH5JC8NJ5ZoP02APgYtW9g9bPz
-	 gpjT5P92SbZmmPeCFlhdiMIc9XfcjjEe26gFWS0L8vU1eoolo32UVqtACPM38u8Onf
-	 TpRFeYn45CskZOY3GGYU3ascmdbF+UqUCjn6ybjlosf9ZWKzD6RNfT5xrS1DbMOnI/
-	 V3ZxZDSeEhRxnUVEFVz7uwp24BGELwWXrJqrUOd6MO6EZnrQCLCZ3zMMmExcXqNcDf
-	 NOaCIyDMDujtw==
-Date: Thu, 5 Sep 2024 11:44:47 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Wei Huang <wei.huang2@amd.com>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-	Jonathan.Cameron@huawei.com, corbet@lwn.net, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	alex.williamson@redhat.com, gospo@broadcom.com,
-	michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
-	somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
-	manoj.panicker2@amd.com, Eric.VanTassell@amd.com,
-	vadim.fedorenko@linux.dev, horms@kernel.org, bagasdotme@gmail.com,
-	bhelgaas@google.com, lukas@wunner.de, paul.e.luse@intel.com,
-	jing2.liu@intel.com
-Subject: Re: [PATCH V4 00/12] PCIe TPH and cache direct injection support
-Message-ID: <20240905164447.GA391162@bhelgaas>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="f3hgaQx4"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48597LPe026135;
+	Thu, 5 Sep 2024 17:02:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	dszasaLQ5F2bOpdRX6ozfhPf0Kh1rM87y0FL2yxR4h8=; b=f3hgaQx4NdOewLhD
+	hhaHl2ZN1VHZHeP3W6Ts/wlyKkLxO287pf5DJ57U02vt+LjCIW99qsQhHl98ltVv
+	s9Kfz83W8E3/mxf0Z5QZWltukw0oZQ/wKfXqelC14ueojYROEWqRPUUzbnPmdU2u
+	sNC7VCGCvvcyN8ek6SbJSwyW7r6BOWRcvbS8mE+u0vCY9vQdBkfRQcHuPyR5qkcK
+	sYFI6efbP0OC0B6Pven119lJ7pJIL20DL0IBbkb4K5mt8IVpw6QnBCXYOZOdpQD5
+	dSk1d94nLG01U9llv17kiiugw226nY7C+qtwZH5AcMnEKzNPxCGzpE1WyLPFfysM
+	v+ASWw==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41drqe93ud-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 05 Sep 2024 17:02:05 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 485H23qG015981
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 5 Sep 2024 17:02:03 GMT
+Received: from [10.81.24.74] (10.49.16.6) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 5 Sep 2024
+ 10:02:03 -0700
+Message-ID: <c6ac95bd-df49-4db7-8f5c-1281a9f95ecd@quicinc.com>
+Date: Thu, 5 Sep 2024 10:02:02 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0d9b0e83-9f54-4471-bdef-5bbe84cc7aec@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 13/14] selftests/digest_cache: Add selftests for the
+ Integrity Digest Cache
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>, <zohar@linux.ibm.com>,
+        <dmitry.kasatkin@gmail.com>, <eric.snowberg@oracle.com>,
+        <corbet@lwn.net>, <akpm@linux-foundation.org>, <paul@paul-moore.com>,
+        <jmorris@namei.org>, <serge@hallyn.com>, <shuah@kernel.org>,
+        <mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>
+CC: <linux-integrity@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-security-module@vger.kernel.org>,
+        <linux-kselftest@vger.kernel.org>, <wufan@linux.microsoft.com>,
+        <pbrobinson@gmail.com>, <zbyszek@in.waw.pl>, <hch@lst.de>,
+        <mjg59@srcf.ucam.org>, <pmatilai@redhat.com>, <jannh@google.com>,
+        <dhowells@redhat.com>, <jikos@kernel.org>, <mkoutny@suse.com>,
+        <ppavlu@suse.com>, <petr.vorel@gmail.com>, <mzerqung@0pointer.de>,
+        <kgold@linux.ibm.com>, Roberto Sassu <roberto.sassu@huawei.com>
+References: <20240905150543.3766895-1-roberto.sassu@huaweicloud.com>
+ <20240905150543.3766895-14-roberto.sassu@huaweicloud.com>
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <20240905150543.3766895-14-roberto.sassu@huaweicloud.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: IWHkMbE2UMqP4SDX7b2uvUjjfPgW9-Pc
+X-Proofpoint-ORIG-GUID: IWHkMbE2UMqP4SDX7b2uvUjjfPgW9-Pc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-05_12,2024-09-04_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0 mlxscore=0
+ phishscore=0 adultscore=0 suspectscore=0 priorityscore=1501 clxscore=1011
+ impostorscore=0 spamscore=0 mlxlogscore=983 bulkscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
+ definitions=main-2409050127
 
-On Thu, Sep 05, 2024 at 10:45:57AM -0500, Wei Huang wrote:
-> On 9/4/24 15:20, Bjorn Helgaas wrote:
-> > To me, this series would make more sense if we squashed these
-> > together:
-> > 
-> >   PCI: Introduce PCIe TPH support framework
-> >   PCI: Add TPH related register definition
-> >   PCI/TPH: Add pcie_enable_tph() to enable TPH
-> >   PCI/TPH: Add pcie_disable_tph() to disable TPH
-> >   PCI/TPH: Add save/restore support for TPH
-> > 
-> > These would add the "minimum viable functionality", e.g., enable TPH
-> > just for Processing Hints, with no Steering Tag support at all.  Would
-> > also include "pci=notph".
-> 
-> >   PCI/TPH: Add pcie_tph_set_st_entry() to set ST tag
-> >   PCI/TPH: Add pcie_tph_get_cpu_st() to get ST tag
-> > 
-> > And squash these also to add Steering Tag support in a single commit,
-> > including enhancing the save/restore.
-> 
-> Can you elaborate on save/restore enhancement? Assuming that the first
-> combined patch will have save/restore support as suggested. Are you
-> talking about the ST entries save/restore as the enhancements (see
-> below), because the second combined patch deals with ST?
-> 
->         st_entry = (u16 *)cap;
->         offset = PCI_TPH_BASE_SIZEOF;
-> 	num_entries = get_st_table_size(pdev);
->         for (i = 0; i < num_entries; i++) {
->                 pci_write_config_word(pdev, pdev->tph_cap + offset,
->  	                              *st_entry++);
->                 offset += sizeof(u16);
-> 	}
+On 9/5/24 08:05, Roberto Sassu wrote:
+...
+> +module_init(digest_cache_test_init);
+> +module_exit(digest_cache_test_fini);
+> +MODULE_LICENSE("GPL");
 
-I meant that since the first patch knows nothing about ST, it would
-save/restore TPH control but not the ST entries.
+Missing MODULE_DESCRIPTION()
 
-The second patch would add ST support and also add save/restore of the
-ST entries.
+Since commit 1fffe7a34c89 ("script: modpost: emit a warning when the
+description is missing"), a module without a MODULE_DESCRIPTION() will
+result in a warning when built with make W=1. Recently, multiple
+developers have been eradicating these warnings treewide, and very few
+are left, so please don't introduce a new one :)
+
