@@ -1,84 +1,183 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E40E38B;
-	Thu,  5 Sep 2024 06:35:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 085AA193093;
+	Thu,  5 Sep 2024 07:22:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725518126; cv=none; b=HQZYnsDh4+qntZEfjSyIFVG+IbnA6p+fcrXAUAZjM1IuwqaQYW1UR7AY47jJ1/PDpoNbORA5CqlLFPcEwEFpHFcNu3qgSa/a9klirL45gSJcLo3Ym86SccEjhL+Q+yEGOxJoKLMyL6FJdXQIMzuJWGDyeAtAXXYnthU1CKnBqgc=
+	t=1725520974; cv=none; b=Cj7JjJKW8E3iPeZV84n8fP1KJMIdurssbyd6NL8kd0Xkisra1uk1SMmJ+uq3GbWUulUsUtqNP8iRQSUYQxrdbZvCHyaZVo2vSo6iY/qPltH5Y8V57H0YgGHrAb/cL3Q5HKIjmEsZoF+ZbfWfq/9qlSMRcKGva2QfCiUCgpfUF4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725518126; c=relaxed/simple;
-	bh=qz9hhEzi+LKyX6ILtUo6RYKTAdTrb4WxFnWnlXwkIwg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rh1t/Ed+6B6VXUx9OyzJUszYgkHGxTJ6mnfNAFd3wQWO6Y5O21X/aUCt1o+Ys8G+CUwn+FY+FYva3TbQusPNP5di1JXptcyGD7NdvaqS9SNoSrfbg2yXpbd/nQ5rB+slDORRVv+mMJzUGfDvTs0jnyaEfK38ZQ4xwGJtrwFWc5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tBX2HOVI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725520974; c=relaxed/simple;
+	bh=OlKQTydSLYfSzGLWaKzn+3UqDr6nSljVW7vlF9x1xLc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eXDiHWu9YEj5DvWqRFFWTJVAcLS7jlty54PBFRbUGhHwZ3r6hrOZjkASNEtrThlPImdf0WprqarQ8ZoPdyNqhQVyym5Hx6qYC+SpIxH3yAL8g9+TKMhwqYrqRFY7Fk+9bHyv1GU2bqzD21e6sVM99gl3/Rkn+YKc7AW2gtndT/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=SCZbC90B; arc=none smtp.client-ip=85.214.250.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tBX2HOVI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17752C4CEC4;
-	Thu,  5 Sep 2024 06:35:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725518125;
-	bh=qz9hhEzi+LKyX6ILtUo6RYKTAdTrb4WxFnWnlXwkIwg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tBX2HOVIi9IRWHUIbNzKW5MeghrvvAdRmpXaibPkpqRldAUOEephKkqiIb10CMuDU
-	 kTN7kc9jaeHNquVussLIqbJWPD0c+IzoZ14au0YysXi8RY2Lr03zTX5Upz+WaQ++Zi
-	 5Rm9ICT+rn+OacKPIdILUqEfHnAVrGyu/NQ+2SE0wqbYYkVsT37/BFJH+jzLXTJlTS
-	 Ds/4rgqf7NTcjAMhMnOBe1Lv5PGuKfYRFcLHlVc171rUdLS5DryilSr7KVeakOvokM
-	 rvQPNpN/EhuHRHQa6OAoisqZoKefhCAhC6NypvV9bk/colItT5Y8qfnUvzCrXx979t
-	 5/iQ8WtN7SKdw==
-Date: Thu, 5 Sep 2024 08:35:22 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, David Lechner <dlechner@baylibre.com>, 
-	Uwe Kleine-Konig <u.kleine-koenig@baylibre.com>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 1/3] dt-bindings: iio: adc: add AD762x/AD796x ADCs
-Message-ID: <v2p2zrxu2fnd3ok2hxduufiid6ho6jbhmxpppwqczo4676ojsp@gehjl7npdbpw>
-References: <20240904-ad7625_r1-v4-0-78bc7dfb2b35@baylibre.com>
- <20240904-ad7625_r1-v4-1-78bc7dfb2b35@baylibre.com>
+	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="SCZbC90B"
+Received: from cap.home.8bytes.org (p4ffe1f47.dip0.t-ipconnect.de [79.254.31.71])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.8bytes.org (Postfix) with ESMTPSA id E1B92288172;
+	Thu,  5 Sep 2024 09:22:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+	s=default; t=1725520970;
+	bh=OlKQTydSLYfSzGLWaKzn+3UqDr6nSljVW7vlF9x1xLc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=SCZbC90BNLxqNGCJJUERQF8bbODvE9qfO6lx/rulvDeZKRf+ClvYgrGHtb99LHCP0
+	 O3oJw2oC/msunb3QC4dPFI1tZ00Tde5FyO8M5LHqjW1sSUYa09y9TX1SKQcqsk1GVs
+	 pPk0eJQGc5Euruh5rJMUSo561n2BdL/UGgfu/otVo4ztM7MIoCcc4owz90DCUYg2vV
+	 UKk1i4p8s4Hrluf+Xe7f7qxhFnuKIru9GweUomRzivLe9ph2AOZJ/fUUiA8jMgCnKa
+	 LrCEntwSnA7kGumOU6NJwWi8hIEUCUoDGtVnKCZi8PZRBuhy8M8IkdbGotoJW2yg5Y
+	 kRTDGFyS7DTXg==
+From: Joerg Roedel <joro@8bytes.org>
+To: Joerg Roedel <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Vasant Hegde <vasant.hegde@amd.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>,
+	linux-doc@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Joerg Roedel <jroedel@suse.de>
+Subject: [PATCH] iommu/amd: Add kernel parameters to limit V1 page-sizes
+Date: Thu,  5 Sep 2024 09:22:40 +0200
+Message-ID: <20240905072240.253313-1-joro@8bytes.org>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240904-ad7625_r1-v4-1-78bc7dfb2b35@baylibre.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 04, 2024 at 03:14:18PM -0400, Trevor Gamblin wrote:
-> Add a binding specification for the Analog Devices Inc. AD7625,
-> AD7626, AD7960, and AD7961 ADCs.
-> 
-> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-> ---
->  .../devicetree/bindings/iio/adc/adi,ad7625.yaml    | 176 +++++++++++++++++++++
->  MAINTAINERS                                        |   9 ++
->  2 files changed, 185 insertions(+)
->
+From: Joerg Roedel <jroedel@suse.de>
 
-<form letter>
-This is a friendly reminder during the review process.
+Add two new kernel command line parameters to limit the page-sizes
+used for v1 page-tables:
 
-It looks like you received a tag and forgot to add it.
+	nohugepages     - Limits page-sizes to 4KiB
 
-If you do not know the process, here is a short explanation: Please add
-Acked-by/Reviewed-by/Tested-by tags when posting new versions, under
-or above your Signed-off-by tag. Tag is "received", when provided
-in a message replied to you on the mailing list. Tools like b4 can help
-here. However, there's no need to repost patches *only* to add the tags.
-The upstream maintainer will do that for tags received on the version
-they apply.
+	v2_pgsizes_only - Limits page-sizes to 4Kib/2Mib/1GiB; The
+	                  same as the sizes used with v2 page-tables
 
-https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
+This is needed for multiple scenarios. When assigning devices to
+SEV-SNP guests the IOMMU page-sizes need to match the sizes in the RMP
+table, otherwise the device will not be able to access all shared
+memory.
 
-If a tag was not added on purpose, please state why and what changed.
-</form letter>
+Also, some ATS devices do not work properly with arbitrary IO
+page-sizes as supported by AMD-Vi, so limiting the sizes used by the
+driver is a suitable workaround.
 
-Best regards,
-Krzysztof
+All-in-all, these parameters are only workarounds until the IOMMU core
+and related APIs gather the ability to negotiate the page-sizes in a
+better way.
+
+Signed-off-by: Joerg Roedel <jroedel@suse.de>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 17 +++++++++++------
+ drivers/iommu/amd/amd_iommu.h                   |  1 +
+ drivers/iommu/amd/amd_iommu_types.h             |  4 ++++
+ drivers/iommu/amd/init.c                        |  8 ++++++++
+ drivers/iommu/amd/io_pgtable.c                  |  2 +-
+ 5 files changed, 25 insertions(+), 7 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 09126bb8cc9f..6d6630aec46c 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -333,12 +333,17 @@
+ 					  allowed anymore to lift isolation
+ 					  requirements as needed. This option
+ 					  does not override iommu=pt
+-			force_enable - Force enable the IOMMU on platforms known
+-				       to be buggy with IOMMU enabled. Use this
+-				       option with care.
+-			pgtbl_v1     - Use v1 page table for DMA-API (Default).
+-			pgtbl_v2     - Use v2 page table for DMA-API.
+-			irtcachedis  - Disable Interrupt Remapping Table (IRT) caching.
++			force_enable    - Force enable the IOMMU on platforms known
++				          to be buggy with IOMMU enabled. Use this
++				          option with care.
++			pgtbl_v1        - Use v1 page table for DMA-API (Default).
++			pgtbl_v2        - Use v2 page table for DMA-API.
++			irtcachedis     - Disable Interrupt Remapping Table (IRT) caching.
++			nohugepages     - Limit page-sizes used for v1 page-tables
++				          to 4 KiB.
++			v2_pgsizes_only - Limit page-sizes used for v1 page-tables
++				          to 4KiB/2Mib/1GiB.
++
+ 
+ 	amd_iommu_dump=	[HW,X86-64]
+ 			Enable AMD IOMMU driver option to dump the ACPI table
+diff --git a/drivers/iommu/amd/amd_iommu.h b/drivers/iommu/amd/amd_iommu.h
+index 29e6e71f7f9a..6386fa4556d9 100644
+--- a/drivers/iommu/amd/amd_iommu.h
++++ b/drivers/iommu/amd/amd_iommu.h
+@@ -43,6 +43,7 @@ int amd_iommu_enable_faulting(unsigned int cpu);
+ extern int amd_iommu_guest_ir;
+ extern enum io_pgtable_fmt amd_iommu_pgtable;
+ extern int amd_iommu_gpt_level;
++extern unsigned long amd_iommu_pgsize_bitmap;
+ 
+ /* Protection domain ops */
+ struct protection_domain *protection_domain_alloc(unsigned int type, int nid);
+diff --git a/drivers/iommu/amd/amd_iommu_types.h b/drivers/iommu/amd/amd_iommu_types.h
+index 35aa4ff020f5..601fb4ee6900 100644
+--- a/drivers/iommu/amd/amd_iommu_types.h
++++ b/drivers/iommu/amd/amd_iommu_types.h
+@@ -293,6 +293,10 @@
+  * Page sizes >= the 52 bit max physical address of the CPU are not supported.
+  */
+ #define AMD_IOMMU_PGSIZES	(GENMASK_ULL(51, 12) ^ SZ_512G)
++
++/* Special mode where page-sizes are limited to 4 KiB */
++#define AMD_IOMMU_PGSIZES_4K	(PAGE_SIZE)
++
+ /* 4K, 2MB, 1G page sizes are supported */
+ #define AMD_IOMMU_PGSIZES_V2	(PAGE_SIZE | (1ULL << 21) | (1ULL << 30))
+ 
+diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
+index 6b15ce09e78d..43131c3a2172 100644
+--- a/drivers/iommu/amd/init.c
++++ b/drivers/iommu/amd/init.c
+@@ -192,6 +192,8 @@ bool amdr_ivrs_remap_support __read_mostly;
+ 
+ bool amd_iommu_force_isolation __read_mostly;
+ 
++unsigned long amd_iommu_pgsize_bitmap __ro_after_init = AMD_IOMMU_PGSIZES;
++
+ /*
+  * AMD IOMMU allows up to 2^16 different protection domains. This is a bitmap
+  * to know which ones are already in use.
+@@ -3492,6 +3494,12 @@ static int __init parse_amd_iommu_options(char *str)
+ 			amd_iommu_pgtable = AMD_IOMMU_V2;
+ 		} else if (strncmp(str, "irtcachedis", 11) == 0) {
+ 			amd_iommu_irtcachedis = true;
++		} else if (strncmp(str, "nohugepages", 11) == 0) {
++			pr_info("Restricting V1 page-sizes to 4KiB");
++			amd_iommu_pgsize_bitmap = AMD_IOMMU_PGSIZES_4K;
++		} else if (strncmp(str, "v2_pgsizes_only", 15) == 0) {
++			pr_info("Restricting V1 page-sizes to 4KiB/2MiB/1GiB");
++			amd_iommu_pgsize_bitmap = AMD_IOMMU_PGSIZES_V2;
+ 		} else {
+ 			pr_notice("Unknown option - '%s'\n", str);
+ 		}
+diff --git a/drivers/iommu/amd/io_pgtable.c b/drivers/iommu/amd/io_pgtable.c
+index 14f62c420e4a..804b788f3f16 100644
+--- a/drivers/iommu/amd/io_pgtable.c
++++ b/drivers/iommu/amd/io_pgtable.c
+@@ -548,7 +548,7 @@ static struct io_pgtable *v1_alloc_pgtable(struct io_pgtable_cfg *cfg, void *coo
+ 		return NULL;
+ 	pgtable->mode = PAGE_MODE_3_LEVEL;
+ 
+-	cfg->pgsize_bitmap  = AMD_IOMMU_PGSIZES;
++	cfg->pgsize_bitmap  = amd_iommu_pgsize_bitmap;
+ 	cfg->ias            = IOMMU_IN_ADDR_BIT_SIZE;
+ 	cfg->oas            = IOMMU_OUT_ADDR_BIT_SIZE;
+ 
+-- 
+2.46.0
 
