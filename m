@@ -1,71 +1,178 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A2E7464;
-	Thu,  5 Sep 2024 18:03:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA217464
+	for <linux-doc@vger.kernel.org>; Thu,  5 Sep 2024 18:05:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725559398; cv=none; b=iAQtSY4w8gAUJCA/kyc0fE3s8y5szP0pDAxs3pd1ZUpCHCw+6SuGnCZUhNUq6Ul286BzXEMZKw/ilXYs1rLSEvOAgrDeDzsIHNV0y2n6CwLWY9pskdctxslgYqiISu77aAhNtgrgRgBCH68gHRIFOTGF2td/LWhK/zYpo4NRP2g=
+	t=1725559525; cv=none; b=JWHYon8IdAR98FXr+i4XGWMSkz3QKOA65RyCJLUdib7QGdY6YWa0RlRlrRYkG7iJSVgkVYpY4o7bCY+wbA6TbU2IzcMcF7JPRruWw/KcznOtOhLr6wwQCw8b85+vrF9imHEM5/Geja0lI8m74MyHzSwTCqlJTb8fFBzffYwVWxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725559398; c=relaxed/simple;
-	bh=mKcvdx+iWVZ2zzidPNlMM6ss5Oo+nEsUbCeSr4gp4Uc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=aEi4/PNBzozWKyhQwdoqN5+SNspoZeKQnNx1uTwCwg4844TxDaoRn7w/msztquPBseri/msZjdByoPuHASuplaDDh5b2oGe75jlMBi9t4MLCMb+FG0CY6ZisCWlQJf2+vDkbMkAqbzjPe/ieHj5CunO8/Cd8s/R/1n7PQ0ARmPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=UD83NBa1; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1725559525; c=relaxed/simple;
+	bh=fwuuqbt3N9ugUJJfYfPVVFnFlJUxa8Rgv1DY93ny0PA=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=SCsB/vRp/Jo/8P9I8ZOorkAMeMkAHqpzz6xCPhcJazmzH8QuA/nyaHwxzstuKGbSNCWCj46Q5D/6YmRd27xBm2sInBkrcN9lc1hS1HgGqtbJqmrHU+oHTGR732i78gZLZ0fbt8XdBcRrPGr+DscTgOPaEqq548M25IGjrYjo8KM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xhaE1xtv; arc=none smtp.client-ip=209.85.166.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="UD83NBa1"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 925CF42B25
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1725559395; bh=mKcvdx+iWVZ2zzidPNlMM6ss5Oo+nEsUbCeSr4gp4Uc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=UD83NBa1ghmdmu3ZcT4z941To/hfiS1IQ0A8zFwxRc5xPtCSxXnh/Z4TSpcIT8Hyx
-	 t77Wrwzpler5QfC9acQaiQGXJnL1vRk55KcPXvjS9/jzz0QCOBcTjZsYx6JYNDciRZ
-	 7IGWiCphDS/30ntFv2KIUKS5+ZmtydJ6OjqCh5PTL/PyVTNJpsb9yWoEhJHB/MeG1P
-	 o1biDkfYeCY4jtQ7OkcAvveghwn4j4nM7pxcsTwZccyZPUZDOaKXHtsE1Ws9vW0fKQ
-	 X9TdQfNmrI0FCSwHJRZAHVM+AsFcChd8PWSGZAc7mqCI7Mzgxs+TYqdvbEOdCMTsw+
-	 RFBJ++obnUGdQ==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 925CF42B25;
-	Thu,  5 Sep 2024 18:03:15 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mark Brown <broonie@kernel.org>
-Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>, Mark
- Brown <broonie@kernel.org>
-Subject: Re: [PATCH v2] docs: submitting-patches: Advertise b4
-In-Reply-To: <20240905-documentation-b4-advert-v2-1-24d686ba4117@kernel.org>
-References: <20240905-documentation-b4-advert-v2-1-24d686ba4117@kernel.org>
-Date: Thu, 05 Sep 2024 12:03:14 -0600
-Message-ID: <87a5gmj7vh.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xhaE1xtv"
+Received: by mail-il1-f171.google.com with SMTP id e9e14a558f8ab-3a0436958d9so3978865ab.0
+        for <linux-doc@vger.kernel.org>; Thu, 05 Sep 2024 11:05:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1725559523; x=1726164323; darn=vger.kernel.org;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JACy3LsEORLfoHEGD7EKNLc5Lwvyz2oKImXIztt5wps=;
+        b=xhaE1xtvmnE22YaBuEsb9bBmHzgbW3Z1TImd2tXwewHjZbJKGiiBjVuMGW/Lizwsvg
+         1N9SO9EEp/tH52Yv85LHfIOg+rOpjVlQMOJK8qbWqs+YtXSrHybYVG3zwfH0rk1vyRFn
+         Rdyf8fFQfo6ndhduh2JM9P5sLGMAwppIlS5QOsBpsj5iYzytuPPewt8eN1QjYRsyiWu7
+         dHf4mdgt+dWqeehLZeMcRFE+su7EH+4KFPyZQx5uYZk1t6r0p6UsNKIRIJSgtW71e+hB
+         +jlsg60FsQwB7WgZyYIaKUirtHOyUPQy6Cr3SSjwUgNBktg5EEMkk/sqfU9SUlOo5dtE
+         Y91g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725559523; x=1726164323;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JACy3LsEORLfoHEGD7EKNLc5Lwvyz2oKImXIztt5wps=;
+        b=AZ/RGaMZxwCQFdqat+ltFNcE/ELOB4V2LH3ytKpPHp6UhLah7B9cWjzvI/aMJlDT2f
+         reoLYELHQaHYsFoHWgM0CGTH+RLtjlgaPI/XlAn5xVpOuRJELwNEBxDq9QNrwmcgP+Fm
+         QA7bI5lCFhL9nOE6D1tBnqW3s/RIB2ukohuMgXBco9ytDIe57lqV8ScQpKSItb7OtYJ8
+         YqWl01ddll4d+opJj8vZeHkyIHvCZ0jkBlknhVPy3fNKJ3ZI+tu6Q6Xy7+fhcmDCUvrt
+         lHlYuLOzPihd5DvDT+eFgcB415MHA30eHJAUnyKQJBu8d9VfF8TT6cOgatM7cbZ6GP8D
+         XS1w==
+X-Forwarded-Encrypted: i=1; AJvYcCXHgaWb+M9MvIW2L2TZIfdgOBltsfZy35cIDpfzplgX+wWoh0UiDD0fvIfINeJAOH95FzVG65jDI94=@vger.kernel.org
+X-Gm-Message-State: AOJu0YysschlfUh+GGMkvkqR/8IaStPnsOgSduwmzqteknTqwhHoZGZn
+	ymMEFEFXeB+O6M2QPEa20rjFpUYvYPiuvCctPosWMj3Mh4YwCqTyZBTorVLBPA==
+X-Google-Smtp-Source: AGHT+IFw+wD+B0uqAGFnbHubKac3f2t2ytAlhpUog4fT3ny3a9crryvc6Qd33jM6Y3o1nron34LN/g==
+X-Received: by 2002:a05:6e02:1569:b0:3a0:1828:31d9 with SMTP id e9e14a558f8ab-3a018283360mr66660025ab.24.1725559522462;
+        Thu, 05 Sep 2024 11:05:22 -0700 (PDT)
+Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7d5119668aasm510809a12.1.2024.09.05.11.05.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Sep 2024 11:05:21 -0700 (PDT)
+Date: Thu, 5 Sep 2024 11:05:09 -0700 (PDT)
+From: Hugh Dickins <hughd@google.com>
+To: Usama Arif <usamaarif642@gmail.com>
+cc: Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+    Yu Zhao <yuzhao@google.com>, linux-mm@kvack.org, hannes@cmpxchg.org, 
+    riel@surriel.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev, 
+    david@redhat.com, npache@redhat.com, baohua@kernel.org, 
+    ryan.roberts@arm.com, rppt@kernel.org, willy@infradead.org, 
+    cerasuolodomenico@gmail.com, ryncsn@gmail.com, corbet@lwn.net, 
+    linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+    kernel-team@meta.com, Shuang Zhai <zhais@google.com>
+Subject: Re: [PATCH v5 1/6] mm: free zapped tail pages when splitting isolated
+ thp
+In-Reply-To: <1ffdf94d-ce3f-4dac-8ed3-0681f98beebf@gmail.com>
+Message-ID: <5efa255b-3689-0c91-1980-c0f0562d84e9@google.com>
+References: <20240830100438.3623486-1-usamaarif642@gmail.com> <20240830100438.3623486-2-usamaarif642@gmail.com> <1d490ab5-5cf8-4c16-65d0-37a62999fcd5@google.com> <1ffdf94d-ce3f-4dac-8ed3-0681f98beebf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
 
-Mark Brown <broonie@kernel.org> writes:
+On Thu, 5 Sep 2024, Usama Arif wrote:
+> On 05/09/2024 09:46, Hugh Dickins wrote:
+> > On Fri, 30 Aug 2024, Usama Arif wrote:
+> > 
+> >> From: Yu Zhao <yuzhao@google.com>
+> >>
+> >> If a tail page has only two references left, one inherited from the
+> >> isolation of its head and the other from lru_add_page_tail() which we
+> >> are about to drop, it means this tail page was concurrently zapped.
+> >> Then we can safely free it and save page reclaim or migration the
+> >> trouble of trying it.
+> >>
+> >> Signed-off-by: Yu Zhao <yuzhao@google.com>
+> >> Tested-by: Shuang Zhai <zhais@google.com>
+> >> Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+> >> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
+> > 
+> > I'm sorry, but I think this patch (just this 1/6) needs to be dropped:
+> > it is only an optimization, and unless a persuasive performance case
+> > can be made to extend it, it ought to go (perhaps revisited later).
+> > 
+> 
+> I am ok for patch 1 only to be dropped. Patches 2-6 are not dependent on it.
+> 
+> Its an optimization and underused shrinker doesn't depend on it.
+> Its possible that folio->new_folio below might fix it? But if it doesn't,
+> I can retry later on to make this work and resend it only if it alone shows
+> a significant performance improvement.
+> 
+> Thanks a lot for debugging this! and sorry it caused an issue.
+> 
+> 
+> > The problem I kept hitting was that all my work, requiring compaction and
+> > reclaim, got (killably) stuck in or repeatedly calling reclaim_throttle():
+> > because nr_isolated_anon had grown high - and remained high even when the
+> > load had all been killed.
+> > 
+> > Bisection led to the 2/6 (remap to shared zeropage), but I'd say this 1/6
+> > is the one to blame. I was intending to send this patch to "fix" it:
+> > 
+> > --- a/mm/huge_memory.c
+> > +++ b/mm/huge_memory.c
+> > @@ -3295,6 +3295,8 @@ static void __split_huge_page(struct pag
+> >  			folio_clear_active(new_folio);
+> >  			folio_clear_unevictable(new_folio);
+> >  			list_del(&new_folio->lru);
+> > +			node_stat_sub_folio(folio, NR_ISOLATED_ANON +
+> > +						folio_is_file_lru(folio));
+> 
+> Maybe this should have been below? (Notice the folio->new_folio)
+> 
+> +			node_stat_sub_folio(new_folio, NR_ISOLATED_ANON +
+> +						folio_is_file_lru(new_folio));
 
-> b4 is now widely used and is quite helpful for a lot of the things that
-> submitting-patches covers, let's advertise it to submitters to try to make
-> their lives easier and reduce the number of procedural issues maintainers
-> see.
->
-> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
-> Changes in v2:
-> - Remove some blank lines.
-> - Link to v1: https://lore.kernel.org/r/20240903-documentation-b4-advert-v1-1-c89d6f5db7b1@kernel.org
-> ---
+Yes, how very stupid of me (I'm well aware of the earlier bugfixes here,
+and ought not to have done a blind copy and paste of those lines): thanks.
 
-Applied, thanks.
+However... it makes no difference. I gave yours a run, expecting a
+much smaller negative number, but actually it works out much the same:
+because, of course, by this point in the code "folio" is left pointing
+to a small folio, and is almost equivalent to new_folio for the
+node_stat calculations.
 
-jon
+(I say "almost" because I guess there's a chance that the page at
+folio got reused as part of a larger folio meanwhile, which would
+throw the stats off (if they weren't off already).)
+
+So, even with your fix to my fix, this code doesn't work.
+Whereas a revert of this 1/6 does work: nr_isolated_anon and
+nr_isolated_file come to 0 when the system is at rest, as expected
+(and as silence from vmstat_refresh confirms - /proc/vmstat itself
+presents negative stats as 0, in order to hide transient oddities).
+
+Hugh
+
+> 
+> >  			if (!folio_batch_add(&free_folios, new_folio)) {
+> >  				mem_cgroup_uncharge_folios(&free_folios);
+> >  				free_unref_folios(&free_folios);
+> > 
+> > And that ran nicely, until I terminated the run and did
+> > grep nr_isolated /proc/sys/vm/stat_refresh /proc/vmstat
+> > at the end: stat_refresh kindly left a pr_warn in dmesg to say
+> > nr_isolated_anon -334013737
+> > 
+> > My patch is not good enough. IIUC, some split_huge_pagers (reclaim?)
+> > know how many pages they isolated and decremented the stats by, and
+> > increment by that same number at the end; whereas other split_huge_pagers
+> > (migration?) decrement one by one as they go through the list afterwards.
+> > 
+> > I've run out of time (I'm about to take a break): I gave up researching
+> > who needs what, and was already feeling this optimization does too much
+> > second guessing of what's needed (and its array of VM_WARN_ON_ONCE_FOLIOs
+> > rather admits to that).
+> > 
+> > And I don't think it's as simple as moving the node_stat_sub_folio()
+> > into 2/6 where the zero pte is substituted: that would probably handle
+> > the vast majority of cases, but aren't there others which pass the
+> > folio_ref_freeze(new_folio, 2) test - the title's zapped tail pages,
+> > or racily truncated now that the folio has been unlocked, for example?
+> > 
+> > Hugh
