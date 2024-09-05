@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6411A19DF4F;
-	Thu,  5 Sep 2024 16:41:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D091428F3;
+	Thu,  5 Sep 2024 16:44:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725554490; cv=none; b=i6IFwEjNW1qF2KdrW8t3Sd/jYtMxcBHbJQFSp/MxmyWOt6Ps+Pa606DLHP/crS+clj7/DXQSVrZyn0un2DwEde0rnr/gT+ZtS8HGuwjS6kHvnoLJiyTabRacfSIT0uTkoqh3qqnjELHP1583NcP6ap8j8ndPo2LCguDJ9dsm9gs=
+	t=1725554689; cv=none; b=EbI6jwn7OwAg9TqYtYgq74qHecjuLyCSpW0DfZEK2TXHljP20Q1GcE5XqITEZfkHbbhjEG0qpTDNwhAnW9DYp8KEKS6eY7txfM+rRpwpRbSL1bUaaKVXGlmQc2QPYTwOO/IxuzYRnxYbnxT/+Uy1QYQ4btkO50RRFJq6JGsDfp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725554490; c=relaxed/simple;
-	bh=t81NYhEdgyeGvQV8hXjxb4ycQfRyFlKdKW21pIiInew=;
+	s=arc-20240116; t=1725554689; c=relaxed/simple;
+	bh=f1B6hzv/N33wS2vfox0OnxEoRfvPhb5MO9IpFoGSJwU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=HuP62XDFxYVO2oZOVCAWOKMdREFI99jnZN5E9Bja/DxdW+J3E3mhQDt1IrN9ZEMzMmUv7YuwrA7xAG6ubdaVtDeYmU6AyxBFeuqrhr29TJXUH2NGOMpWIdnk2QlDLzLYSKfkswGTVpQZhU6Dua3l/UWjal2OSq2hTxUILbKCquw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IkESTD/C; arc=none smtp.client-ip=10.30.226.201
+	 Content-Disposition:In-Reply-To; b=KSUlOmd/0t0YJ2Utd97l8xcswPc80/5y7vuBc+Z/RENffMojJVxnMPgKhRzMVz/Cbn4wvTo9HblvZRzMoDLxAMs3ChLLt10xx7Pfq7AVeRJx8DS3GgRwmev0+T2FfXA6BM/gdlVhbS3O+Ad7uXsghg/+L1KHUDZhJS6/TmbaJ8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KRtP7uNU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IkESTD/C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2AFFC4CEC3;
-	Thu,  5 Sep 2024 16:41:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KRtP7uNU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 856D6C4CEC5;
+	Thu,  5 Sep 2024 16:44:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725554489;
-	bh=t81NYhEdgyeGvQV8hXjxb4ycQfRyFlKdKW21pIiInew=;
+	s=k20201202; t=1725554688;
+	bh=f1B6hzv/N33wS2vfox0OnxEoRfvPhb5MO9IpFoGSJwU=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=IkESTD/CsIlgw1ao2GOpqDx/htfJLjnYtVBmVpX5Flh/zO2e6iP32Ta6a0/La0PMy
-	 mDQeTXhaXVXtvk+4AK8n9UZ/7QbQLH8K2sXrhwaMxl36EYUNBUr6xrT6olaQ2z8piZ
-	 +g2IpnZSHVAKV3hxyxBGVu2nTJn4sbkivWE+goUl0YCelK9NT6W6YHPJFVtln6iJYL
-	 ELZ2dhy2LqEgsV0UIHKe7aF7rZvdSF2aLv23aezagM2n5wxsqRjxVPmQx9EWv+Y98Z
-	 MjOQhKQDXYB9hrIoBTu80ZykEhDdmJRg1Fpg4/8d7JtsKICQnrM+2+XWeomIByT4MQ
-	 gNxWEZYMncWlA==
-Date: Thu, 5 Sep 2024 11:41:28 -0500
+	b=KRtP7uNU+wA+5IfTixJzHj2LR7A2+TgmiHjflW9v121YPUKuGHuU5cETEXdqtE0fW
+	 n6rDi8SDiQFU9rwsQ7bAiY4kOBjGJD1dI7mBWsclpH5JC8NJ5ZoP02APgYtW9g9bPz
+	 gpjT5P92SbZmmPeCFlhdiMIc9XfcjjEe26gFWS0L8vU1eoolo32UVqtACPM38u8Onf
+	 TpRFeYn45CskZOY3GGYU3ascmdbF+UqUCjn6ybjlosf9ZWKzD6RNfT5xrS1DbMOnI/
+	 V3ZxZDSeEhRxnUVEFVz7uwp24BGELwWXrJqrUOd6MO6EZnrQCLCZ3zMMmExcXqNcDf
+	 NOaCIyDMDujtw==
+Date: Thu, 5 Sep 2024 11:44:47 -0500
 From: Bjorn Helgaas <helgaas@kernel.org>
 To: Wei Huang <wei.huang2@amd.com>
 Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -40,8 +40,8 @@ Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
 	vadim.fedorenko@linux.dev, horms@kernel.org, bagasdotme@gmail.com,
 	bhelgaas@google.com, lukas@wunner.de, paul.e.luse@intel.com,
 	jing2.liu@intel.com
-Subject: Re: [PATCH V4 02/12] PCI: Add TPH related register definition
-Message-ID: <20240905164128.GA391042@bhelgaas>
+Subject: Re: [PATCH V4 00/12] PCIe TPH and cache direct injection support
+Message-ID: <20240905164447.GA391162@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,54 +50,45 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <91a05b5b-a642-4cef-9c81-cba246435aa9@amd.com>
+In-Reply-To: <0d9b0e83-9f54-4471-bdef-5bbe84cc7aec@amd.com>
 
-On Thu, Sep 05, 2024 at 10:08:33AM -0500, Wei Huang wrote:
-> On 9/4/24 14:52, Bjorn Helgaas wrote:
-> >> -#define PCI_TPH_CAP_ST_MASK	0x07FF0000	/* ST table mask */
-> >> -#define PCI_TPH_CAP_ST_SHIFT	16	/* ST table shift */
-> >> -#define PCI_TPH_BASE_SIZEOF	0xc	/* size with no ST table */
-> >> +#define  PCI_TPH_CAP_NO_ST	0x00000001 /* No ST Mode Supported */
-> >> +#define  PCI_TPH_CAP_INT_VEC	0x00000002 /* Interrupt Vector Mode Supported */
-> >> +#define  PCI_TPH_CAP_DEV_SPEC	0x00000004 /* Device Specific Mode Supported */
+On Thu, Sep 05, 2024 at 10:45:57AM -0500, Wei Huang wrote:
+> On 9/4/24 15:20, Bjorn Helgaas wrote:
+> > To me, this series would make more sense if we squashed these
+> > together:
 > > 
-> > I think these modes should all include "ST" to clearly delineate
-> > Steering Tags from the Processing Hints.  E.g.,
+> >   PCI: Introduce PCIe TPH support framework
+> >   PCI: Add TPH related register definition
+> >   PCI/TPH: Add pcie_enable_tph() to enable TPH
+> >   PCI/TPH: Add pcie_disable_tph() to disable TPH
+> >   PCI/TPH: Add save/restore support for TPH
 > > 
-> >   PCI_TPH_CAP_ST_NO_ST       or maybe PCI_TPH_CAP_ST_NONE
+> > These would add the "minimum viable functionality", e.g., enable TPH
+> > just for Processing Hints, with no Steering Tag support at all.  Would
+> > also include "pci=notph".
 > 
-> Can I keep "NO_ST" instead of switching over to "ST_NONE"? First, it
-> matches with PCIe spec. Secondly, IMO "ST_NONE" implies no ST support at
-> all.
-
-Sure.  Does PCI_TPH_CAP_ST_NO_ST work for you?  That follows the same
-PCI_TPH_CAP_ST_* pattern as below.
-
-> >   PCI_TPH_CAP_ST_INT_VEC
-> >   PCI_TPH_CAP_ST_DEV_SPEC
-> 
-> Will change
-
-> >> +#define  PCI_TPH_CAP_ST_MASK	0x07FF0000 /* ST Table Size */
-> >> +#define  PCI_TPH_CAP_ST_SHIFT	16	/* ST Table Size shift */
-> >> +#define PCI_TPH_BASE_SIZEOF	0xc	/* Size with no ST table */
-> >> +
-> >> +#define PCI_TPH_CTRL		8	/* control register */
-> >> +#define  PCI_TPH_CTRL_MODE_SEL_MASK	0x00000007 /* ST Mode Select */
-> >> +#define   PCI_TPH_NO_ST_MODE		0x0 /* No ST Mode */
-> >> +#define   PCI_TPH_INT_VEC_MODE		0x1 /* Interrupt Vector Mode */
-> >> +#define   PCI_TPH_DEV_SPEC_MODE		0x2 /* Device Specific Mode */
+> >   PCI/TPH: Add pcie_tph_set_st_entry() to set ST tag
+> >   PCI/TPH: Add pcie_tph_get_cpu_st() to get ST tag
 > > 
-> > These are also internal, but they're new and I think they should also
-> > include "ST" to match the CAP #defines.
-> > 
-> > Even better, maybe we only add these and use them for both CAP and
-> > CTRL since they're defined with identical values.
+> > And squash these also to add Steering Tag support in a single commit,
+> > including enhancing the save/restore.
 > 
-> Can you elaborate here? In CTRL register, "ST Mode Select" is defined as
-> a 2-bit field. The possible values are 0, 1, 2. But in CAP register, the
-> modes are individual bit masked. So I cannot use CTRL definitions in CAP
-> register directly unless I do shifting.
+> Can you elaborate on save/restore enhancement? Assuming that the first
+> combined patch will have save/restore support as suggested. Are you
+> talking about the ST entries save/restore as the enhancements (see
+> below), because the second combined patch deals with ST?
+> 
+>         st_entry = (u16 *)cap;
+>         offset = PCI_TPH_BASE_SIZEOF;
+> 	num_entries = get_st_table_size(pdev);
+>         for (i = 0; i < num_entries; i++) {
+>                 pci_write_config_word(pdev, pdev->tph_cap + offset,
+>  	                              *st_entry++);
+>                 offset += sizeof(u16);
+> 	}
 
-Oops, sorry, I thought they were the same values, but they're not, so
-ignore this comment.
+I meant that since the first patch knows nothing about ST, it would
+save/restore TPH control but not the ST entries.
+
+The second patch would add ST support and also add save/restore of the
+ST entries.
