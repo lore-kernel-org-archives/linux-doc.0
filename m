@@ -1,99 +1,66 @@
-Received: from sonic313-20.consmr.mail.sg3.yahoo.com (sonic313-20.consmr.mail.sg3.yahoo.com [106.10.240.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356F11D4615
-	for <linux-doc@vger.kernel.org>; Fri,  6 Sep 2024 21:07:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=106.10.240.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0B9156861;
+	Fri,  6 Sep 2024 21:23:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725656845; cv=none; b=KOTTM7u4kXMAXPTkuDrgiBTOer4BcoZSxTwxWJSd+t8cJcEjwBc3L8qOg+w+iUf9D4cABaDryxyTaqY7w86RH2qTKVFutcgoQ+mqqBM5QcICknF4oGOGsAJFNBl7mdANhRCuH5z4ThZ6/ghlXA+kTl6dPcIH8BiR5CiBRRh0VRk=
+	t=1725657852; cv=none; b=IQlUQZAhuz8TkBYx2bq6nEMXCeNI9TbM5hfCwMeUdoRmEBB9L3rjCt7E3rl1JdAXfC39WPq9knPW8ppdZ7w7b+EVNQmLcGmJIcjeKfLV6cN9vxHEsSTVPjc0uXRwIl/MxSlHZ4Z9ksuOe3f5ID5MyoX6mPMybTz74VYDhwKZrWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725656845; c=relaxed/simple;
-	bh=9iLES3dkWmyBh4NwcYvdX7nP5e5csA5/64UXJbMhOBE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:References; b=l82LhDHmmY40OILRpxzPLtiNf3XFqhASYL7MngnaUbMjsEyQSR7+YIoLvtBM1UvbRWU1q092ixj83cnXlkMUUohDW4l6OQQI/84C2905c8Laay1UKTKDICGp30wGKMPl0+0qD+nicHCIPurpcURP0j6rKO63ZGTOZikcn4ogJvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=myyahoo.com; spf=pass smtp.mailfrom=myyahoo.com; dkim=pass (2048-bit key) header.d=myyahoo.com header.i=@myyahoo.com header.b=YaCrrmHW; arc=none smtp.client-ip=106.10.240.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=myyahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=myyahoo.com
+	s=arc-20240116; t=1725657852; c=relaxed/simple;
+	bh=POyHvh5jBdNKAMswZTPKyPSJD46HSvOVie/HW8PnVGI=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=KIkrGj7A/VtMzlXYLsjshynaCM3+xKUeEk1hUzIBMAU/0vxjdzR1lO68rBnzclBrd8ZekakROsd5r4AoYCdMRoKhdq9kNYdYMNs0zwpgXt9FJXeHFJ2rDxsJfQRDJrzU/w7fRcMbEJLOcLGYK0HIpibmYFiicR6+uTOPXdYMzDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=G6PRxXv4; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=myyahoo.com header.i=@myyahoo.com header.b="YaCrrmHW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=myyahoo.com; s=s2048; t=1725656842; bh=awJ6MhJmZhkmmWzLZ7jdz51ALBXVdPkmU9GJhavpEv8=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=YaCrrmHWI34VSP0NxEIRLx1osmuH+AUl3RUFjco/HSt9y2w+R3jyswl4140xCS26WT9B6sF2KXColBwdmL3+WOwKkIaQeeDiZnQqHaY4faowL9jHUWtZM/YSdfHPRtmoCcyzItkMGJqBHdWMpmHe+jLKmQiqIf73V7xfpnwE8vaJ5DrYGCMBQGHvKM6CnWQpD+RMTjUGs7uY162ZTYD6WivX3IvSrZZdGMBlw5wvojVi+0eYQB7sqk03xJOws5w3mmPDhcKD4l+wuydxZA+YL4JZAnjyRBUN9BDqKuTzJXYd3UTx9mOmYMfn26u1kFP8Weg+VcBQ7A0kqo7Gl05Giw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1725656842; bh=E1jti1PlfGD0ugTWPKsRTWynOkMwXUF9edUCQjQ7iTk=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=GSAMnjnVMco5OeUPQIZ+684WjgZq9+Bb1xegtiYZ9Wc1loP1RfQFxn04GNL8+mTWOhAddNjz0Onym0P5/KkCrimQYx9kg5aM6EApFGXgZGvv5kQRgkS+eSn95KmtTM/FLwgSxXEISEeuJkNPf04TqqfbN6bulEFy58hozZ9kxwlrhfnylRHqizPnw966Mi2KWWtpzCJ8gGpIvizyXsdredeRWgKMpa+oa2JEwf3cEwFJ9bSv5kUdjJMQ6n82yxis9nkazc+OWPgWynLt9v7XA+HmYcdrdSdyBFdcFFtUg+Hh5hQt8zBrPVQYfT8ZjvnYIcERbyd9JEjN+fbbQJoBtg==
-X-YMail-OSG: Z6W6wCsVM1nWQv0sVVX0tq2hYzmYBa2fdzOtVcQZwYBXj5XWepWaB3l4c6BivL7
- VZfujvgZKmJWmOlz1jgaQjPbzT2TUy8_6V5svWV3aldHdTKwmHJKieHswtiXn6ZsqnUXvhzD6G0r
- rU3SNHFed.JrN_xDnAuZPHr.b5fCXVTqUTChnPuXbbpPap95EUEsPduxKe7sj163WRWwiAy6vwbC
- OczADWC2bu6RbcT6V7h2vpvnNMcsD9RL8GtLt4IgTcDLQolJC7N3DgaFhbdyuIY8oJE06ukXOYYt
- FIINi1kNMdHLOBj8_CRvUVDsZ__kK97OVhFRQBikZyWRh5HvWoaus552SAGuiQTeQQgA72TQTUe2
- MK3rS1r9DK3p0S.hU0AQ8XvhI20qPW4ubpgSVzR8DIoGTMxLd3y0lCRNVrXusQJmIkJuYR5zzRDJ
- _UKkf8lx9hQGF8iKoCpm57KRNRNsbpRF8ynLHik0sMTW0SIN1tXuler9mOEhiusykC8lf9YeGByJ
- rkuWDwu5qT2hwCojlQnB8xZ6emlcHNjJK_0pTr8TUARvX1q4KkQ6L4vlLjy3upgTJQTry24s7C4E
- HvBwQVyT0NrYwi6n7s6ejJ374L82.upPx378xsDDuelK4lgPL7Way5B6M2kJeVg9OTUtZQs8vSiG
- 6JgxQ0THGxpdXNHvlXgY9sne_C0WU2r.U2_6CJVY7j1KD6XIAFSM2PhOBX8pRUKreFSCjFZwJyLh
- J0icuCz.SN7a6zFsjg21ztX5jpO3zqBv_N0.l0axDC_4R3IhkUNohr4heRBTFhsru6iScs95_4Ft
- TdseDYATdoaB_lW8OxnbdHM8g07eEZrXe2v8cd9KzlIXDzaop7NdRTpMY8tyZ4P0AXSFfDACekoM
- rdstcGKVE0amWPrxUlUNSj_zBUexiHceaQTEy8XSSwq3xi1_b1dij888BNLrsaae0btL_yS17JW8
- .SHQj9Tvv_cDgUqqtK7VQmJu13A7nmYwlJKP_loFPsmKnfniznnDfU3JIFYbSIV7tleuiunilc_3
- EW1vAIpLAKo7shxCK9m3IDHvW67xCTOOawBKHEGLGPpf0mz9tvl.N_TYvKgjE5NmTk6nf8x93sTz
- 6S0iGZXysM5TyWb_Y.moqqkM4P7hChSDcxRzDuhnT1EbqAKVzeE8vsdXDJdMWGNSQekO1G4RXiNh
- XfwGJ1jSmLqaRKEF0tVjLD5aBIX.6vJcAeNso2Wu8njZ.Q1WPI2gScgFDzkCHAMGVK62o6RO4yb_
- go_Es0LhFIQ5qlHAejFtplDbCD5nTgQmfwjo9MoroL3YK0Fg9BgL50s.4DVJgaZJ92CDDNcMW87V
- CYKK7HWV1jDFxumLazYidB0OxTD4d8W96vnDd_nA4W8GG.ani_x5jTjL5jITKlpLIuBP7zZjIMko
- ADndDIK33CIluOcCgmUFuvLmSkjwl1_yDXFTWl7pEEHe9TmE6Y9yEAFKdAHj4B8JLcQO.FymI0VB
- FJagnYEBENC0uvxvE05sj8nLl7DsdajUVJLR.FkruTfTVsELBQ4p9tDExHOuTv53oWeCwGE70ADk
- q3ng_3MewmcZpmP9QWZBIwNJOunGNNPSp.m1ReRduATaFrSkj9EyBhF6E9l782uXfvT4Juz2SH5o
- Ghmifc0F.9S03IKW8Diu5mVk3U7aRSqxAhXVVvCv3pinASxj6P0EoCnO6EVGDdh3qlDXMj9UqPff
- o4U5Nk9icZHP.l7mx4Ory1W7qEsAw41uyAXyNtszlJmQRGiSwi0jOpS3X6WkfTVef9eLbMDJ5_iY
- wUcOdDSzTGVXfHWVRMO_RMVhFT7MAAueBSXM6K8gESIfpQy8aCkG9E3oZBbI0R1aZ9_7.khx6q6i
- 8lVQWGKb0esLU6.oPA83VucVRHbm3sUHRhzWU8oDN4YpU2.hz0p9_pT3gILFpXm5hcSFiojkapbm
- KYbCRso2jQf5A29V_NbEe6fXt5sCaJj71gXF7DbUf0Xle9CJ_Rn7OuGU7V7TbCqTBr3JOvfgF0c6
- FuwGzYnrm_cyhfXmtwCuKryV.TxBHR8FIoF9D3xolW.L90PyNYnnKmjsTy79xdYYI2V24.P_FBoi
- id1q4KscEdhSaFSa0wPnPH72WxbFfnqUF5YqpX8s0uaW.25rhIfzrigVk9knZAGaVGlZww.YcLKm
- fGd3QycUcktvVXixTl0Fbu_3Y73c4qwx7MXbEizA3TiyQTyustdZ3Rs0SELZFcuzNmPSH9XLipgX
- BIOWPAj2ylzW4h3fbO6OFiQBrMhxVRqC__vihq.gzWh4aD49bChVLNJTwPmAQ1Q--
-X-Sonic-MF: <abdul.rahim@myyahoo.com>
-X-Sonic-ID: c09ad32f-2021-4edb-a6dc-1d43a6352aaa
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.sg3.yahoo.com with HTTP; Fri, 6 Sep 2024 21:07:22 +0000
-Received: by hermes--production-sg3-fc85cddf6-kdpzj (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 412f38eebffa696b3206e5fb186b72bc;
-          Fri, 06 Sep 2024 20:57:10 +0000 (UTC)
-From: Abdul Rahim <abdul.rahim@myyahoo.com>
-To: bhelgaas@google.com,
-	corbet@lwn.net
-Cc: helgaas@kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Abdul Rahim <abdul.rahim@myyahoo.com>
-Subject: [PATCH] Documentation: PCI: fix typo in pci.rst
-Date: Sat,  7 Sep 2024 02:26:56 +0530
-Message-ID: <20240906205656.8261-1-abdul.rahim@myyahoo.com>
-X-Mailer: git-send-email 2.46.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="G6PRxXv4"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:MIME-Version:Message-ID:References:In-Reply-To:Subject:CC:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=POyHvh5jBdNKAMswZTPKyPSJD46HSvOVie/HW8PnVGI=; b=G6PRxXv44pAwraFVu3et1TPQ6/
+	gFFnS1tMlLJTSqWE9U6ucjwuqMGcCD3nPZM93pPvsVam/KwYFZhV7ne2i/qCRR1bUUf3fc8TfV16F
+	PL2QpfcQ9h4Ucl7FTh/8cTbBAEZ45skgQyV9rVsITNShRWdSlIvtROmGFrVYTTfO9ZUQsbRHu0yH2
+	UCDWoy23oJau8uzuhJkPHFinR3f8mkkzpgmwUHJm0ss3hIW4x1zc4WMSxhI+7e4lzytUjMxKv9A3t
+	et7GL40ZzTxqlB9JvLgvyX7qaqvtuyMKApucq4AakL77dQ77m7Qb2rT1Ph5P6LCzusv4lwEX3KnIh
+	G9auOEtg==;
+Received: from [129.95.245.248] (helo=[127.0.0.1])
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1smgQg-000000002lA-3yZ6;
+	Fri, 06 Sep 2024 21:23:43 +0000
+Date: Fri, 06 Sep 2024 14:23:40 -0700
+From: Randy Dunlap <rdunlap@infradead.org>
+To: Dennis Lam <dennis.lamerice@gmail.com>, corbet@lwn.net, nir@lichtman.org
+CC: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH=5D_docs=3Amm=3A_fixed_spelling_and_gr?=
+ =?US-ASCII?Q?ammar_mistakes_on_vmalloc_kernel_stack_page?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20240906204914.42698-2-dennis.lamerice@gmail.com>
+References: <20240906204914.42698-2-dennis.lamerice@gmail.com>
+Message-ID: <C4132FDB-4D4D-4014-8FE1-6F853B71F0B4@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-References: <20240906205656.8261-1-abdul.rahim.ref@myyahoo.com>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Fix typo: "follow" -> "following" in pci.rst
+Reviewed-by: Randy Dunlap <rdunlap@infradead=2Eorg>=20
 
-Signed-off-by: Abdul Rahim <abdul.rahim@myyahoo.com>
----
- Documentation/PCI/pci.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks=2E
 
-diff --git a/Documentation/PCI/pci.rst b/Documentation/PCI/pci.rst
-index dd7b1c0c21da..f4d2662871ab 100644
---- a/Documentation/PCI/pci.rst
-+++ b/Documentation/PCI/pci.rst
-@@ -52,7 +52,7 @@ driver generally needs to perform the following initialization:
-   - Enable DMA/processing engines
- 
- When done using the device, and perhaps the module needs to be unloaded,
--the driver needs to take the follow steps:
-+the driver needs to take the following steps:
- 
-   - Disable the device from generating IRQs
-   - Release the IRQ (free_irq())
--- 
-2.46.0
 
+On September 6, 2024 1:49:13 PM PDT, Dennis Lam <dennis=2Elamerice@gmail=
+=2Ecom> wrote:
+>Signed-off-by: Dennis Lam <dennis=2Elamerice@gmail=2Ecom>
+>---
+> Documentation/mm/vmalloced-kernel-stacks=2Erst | 8 ++++----
+> 1 file changed, 4 insertions(+), 4 deletions(-)
+
+
+~Randy
