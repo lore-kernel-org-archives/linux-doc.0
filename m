@@ -1,693 +1,606 @@
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
+Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC3915530C;
-	Fri,  6 Sep 2024 07:43:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A1D21581F9;
+	Fri,  6 Sep 2024 07:45:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725608594; cv=none; b=IqtDymd3qQDH3RzaxGsSPyl5byBkkJ7S3RALAfN8MgteaHwDWtYPJEvZqHVQL36LBA3aFZ1WWW44oduHCR7dTrhvBkE7azy6IoD3Z3Ddu93nDNAZo0oZVtZAog4fQN7MtiEil48+xt6R6TW21QvJdfqU/FCoT3yNkraNvbLC+ps=
+	t=1725608750; cv=none; b=skjlSYjN47wEApzU9Ng+N8N5jTDmMOSWxu1AF7E5UvY0IbLrp9Mh+SWc3xksyZqrrQFoYVeakc2c81HyIYCP0eDwKc1P/p3Ve9OiqMlYBPu9VOLXGhGet81kK6NERA17v5NbJagXG/r5qh6vcM06GAJHpBRgWJxXeusL+GSDKBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725608594; c=relaxed/simple;
-	bh=SoMfTaEx4qMsC4wo579LZaqSZTH/7PhTTPOLOQtM0rs=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oW4Oe12b4DeXxAbPwSJCnXGdem9rb63LUzwR57LmuYKR0m8Vp1Nl4IOU9mPuMlYTq4TmDA9Gd/FOksRcyKycNaCf5lhyzJFKSb7wlrVbmVRVkLnyubEtquQxCadtmAnnW+juGYrYFKvmi1x7S2r6yaIByQN9dWOroVwNVJdGf9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.44])
-	by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4X0Sr56Wc3z1S9mZ;
-	Fri,  6 Sep 2024 15:42:45 +0800 (CST)
-Received: from dggpemf200006.china.huawei.com (unknown [7.185.36.61])
-	by mail.maildlp.com (Postfix) with ESMTPS id 3F5E21401F0;
-	Fri,  6 Sep 2024 15:43:09 +0800 (CST)
-Received: from localhost.localdomain (10.90.30.45) by
- dggpemf200006.china.huawei.com (7.185.36.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 6 Sep 2024 15:43:08 +0800
-From: Yunsheng Lin <linyunsheng@huawei.com>
-To: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Yunsheng Lin
-	<linyunsheng@huawei.com>, Alexander Duyck <alexander.duyck@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
-	<linux-mm@kvack.org>, <linux-doc@vger.kernel.org>
-Subject: [PATCH net-next v18 13/14] mm: page_frag: update documentation for page_frag
-Date: Fri, 6 Sep 2024 15:36:45 +0800
-Message-ID: <20240906073646.2930809-14-linyunsheng@huawei.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20240906073646.2930809-1-linyunsheng@huawei.com>
-References: <20240906073646.2930809-1-linyunsheng@huawei.com>
+	s=arc-20240116; t=1725608750; c=relaxed/simple;
+	bh=fRMKl8BAvC3hwEdq8HFO/eJSktOLaScN1SBMwp9wegA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=q6nni2A8vHRjb6Md3TNdo7i7XiR9J/UgW2zrI/uw6Cc0bLv05wUSipvSFR5dXhHVAqjj8Db3/6x5pCDp0pjE3WRE+Mgy3jg+UfuPIhYvVJpqyzmzL1kxS0ly/ww8SfGcAuVGIkd/nIxYB/LsFa8ishtZFpEECwqzgDXAzSx0tAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.186.51])
+	by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4X0SLc09SVz9v7Jf;
+	Fri,  6 Sep 2024 15:20:40 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.47])
+	by mail.maildlp.com (Postfix) with ESMTP id 6F8D6140155;
+	Fri,  6 Sep 2024 15:45:42 +0800 (CST)
+Received: from [127.0.0.1] (unknown [10.204.63.22])
+	by APP1 (Coremail) with SMTP id LxC2BwDndy8Us9pmPrpfAA--.21290S2;
+	Fri, 06 Sep 2024 08:45:41 +0100 (CET)
+Message-ID: <f0b4867451dd5fe2ba59e2dad4274314aa0660f9.camel@huaweicloud.com>
+Subject: Re: [PATCH v5 01/14] lib: Add TLV parser
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>, zohar@linux.ibm.com, 
+	dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, corbet@lwn.net, 
+	akpm@linux-foundation.org, paul@paul-moore.com, jmorris@namei.org, 
+	serge@hallyn.com, shuah@kernel.org, mcoquelin.stm32@gmail.com, 
+	alexandre.torgue@foss.st.com
+Cc: linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, wufan@linux.microsoft.com,
+ pbrobinson@gmail.com,  zbyszek@in.waw.pl, hch@lst.de, mjg59@srcf.ucam.org,
+ pmatilai@redhat.com,  jannh@google.com, dhowells@redhat.com,
+ jikos@kernel.org, mkoutny@suse.com,  ppavlu@suse.com, petr.vorel@gmail.com,
+ mzerqung@0pointer.de, kgold@linux.ibm.com,  Roberto Sassu
+ <roberto.sassu@huawei.com>
+Date: Fri, 06 Sep 2024 09:45:21 +0200
+In-Reply-To: <87ikvaovnf.fsf@intel.com>
+References: <20240905150543.3766895-1-roberto.sassu@huaweicloud.com>
+	 <20240905150543.3766895-2-roberto.sassu@huaweicloud.com>
+	 <87ikvaovnf.fsf@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemf200006.china.huawei.com (7.185.36.61)
+X-CM-TRANSID:LxC2BwDndy8Us9pmPrpfAA--.21290S2
+X-Coremail-Antispam: 1UD129KBjvAXoW3Kw15KFWDKr43KFyDZFWDArb_yoW8Ar1kJo
+	ZxuFW7Ar45Zr1UC3WUAw48Zr1UArWrWr43Aw43G3y3ua409a1UKr45Kw43W3yfCws8KF4U
+	tasxX343Za1jgrn5n29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+	AaLaJ3UjIYCTnIWjp_UUUY27kC6x804xWl14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK
+	8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4
+	AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF
+	7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv6xkF7I
+	0E14v26r4j6r4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWrXVW8
+	Jr1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+	CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v2
+	6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07
+	jxCztUUUUU=
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgASBGbaZXoDDAABs5
 
-Update documentation about design, implementation and API usages
-for page_frag.
+On Thu, 2024-09-05 at 20:30 +0300, Jani Nikula wrote:
+> On Thu, 05 Sep 2024, Roberto Sassu <roberto.sassu@huaweicloud.com> wrote:
+> > From: Roberto Sassu <roberto.sassu@huawei.com>
+> >=20
+> > Add a parser of a generic Type-Length-Value (TLV) format:
+> >=20
+> > +-----------------+------------------+-----------------+
+> > > data type (u64) | num fields (u64) | total len (u64) | # header
+> > +--------------+--+---------+--------+---------+-------+
+> > > field1 (u64) | len1 (u64) | value1 (u8 len1) |
+> > +--------------+------------+------------------+
+> > >     ...      |    ...     |        ...       |         # data
+> > +--------------+------------+------------------+
+> > > fieldN (u64) | lenN (u64) | valueN (u8 lenN) |
+> > +--------------+------------+------------------+
+>=20
+> Okay, take this with a grain of salt. I'm actually not interested in
+> your use case, but the generic part here. But hear me out.
+>=20
+> Why do you need to have num fields in the header? I'd think the generic
+> TLV would have tag/length/value, where value may contain more TLV, or
+> not, depending on the use case specific tag. The same parser can parse
+> everything recursively, with no special handling for headers. To me,
+> that's the great part about TLV.
 
-CC: Alexander Duyck <alexander.duyck@gmail.com>
-Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
----
- Documentation/mm/page_frags.rst | 177 +++++++++++++++++++++-
- include/linux/page_frag_cache.h | 259 +++++++++++++++++++++++++++++++-
- mm/page_frag_cache.c            |  26 +++-
- 3 files changed, 451 insertions(+), 11 deletions(-)
+Hi Jani
 
-diff --git a/Documentation/mm/page_frags.rst b/Documentation/mm/page_frags.rst
-index 503ca6cdb804..5eec04a3fe90 100644
---- a/Documentation/mm/page_frags.rst
-+++ b/Documentation/mm/page_frags.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ==============
- Page fragments
- ==============
-@@ -40,4 +42,177 @@ page via a single call.  The advantage to doing this is that it allows for
- cleaning up the multiple references that were added to a page in order to
- avoid calling get_page per allocation.
- 
--Alexander Duyck, Nov 29, 2016.
-+
-+Architecture overview
-+=====================
-+
-+.. code-block:: none
-+
-+                      +----------------------+
-+                      | page_frag API caller |
-+                      +----------------------+
-+                                  |
-+                                  |
-+                                  v
-+    +------------------------------------------------------------------+
-+    |                   request page fragment                          |
-+    +------------------------------------------------------------------+
-+             |                                 |                     |
-+             |                                 |                     |
-+             |                          Cache not enough             |
-+             |                                 |                     |
-+             |                         +-----------------+           |
-+             |                         | reuse old cache |--Usable-->|
-+             |                         +-----------------+           |
-+             |                                 |                     |
-+             |                             Not usable                |
-+             |                                 |                     |
-+             |                                 v                     |
-+        Cache empty                   +-----------------+            |
-+             |                        | drain old cache |            |
-+             |                        +-----------------+            |
-+             |                                 |                     |
-+             v_________________________________v                     |
-+                              |                                      |
-+                              |                                      |
-+             _________________v_______________                       |
-+            |                                 |              Cache is enough
-+            |                                 |                      |
-+ PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE         |                      |
-+            |                                 |                      |
-+            |               PAGE_SIZE >= PAGE_FRAG_CACHE_MAX_SIZE    |
-+            v                                 |                      |
-+    +----------------------------------+      |                      |
-+    | refill cache with order > 0 page |      |                      |
-+    +----------------------------------+      |                      |
-+      |                    |                  |                      |
-+      |                    |                  |                      |
-+      |              Refill failed            |                      |
-+      |                    |                  |                      |
-+      |                    v                  v                      |
-+      |      +------------------------------------+                  |
-+      |      |   refill cache with order 0 page   |                  |
-+      |      +----------------------------------=-+                  |
-+      |                       |                                      |
-+ Refill succeed               |                                      |
-+      |                 Refill succeed                               |
-+      |                       |                                      |
-+      v                       v                                      v
-+    +------------------------------------------------------------------+
-+    |             allocate fragment from cache                         |
-+    +------------------------------------------------------------------+
-+
-+API interface
-+=============
-+As the design and implementation of page_frag API implies, the allocation side
-+does not allow concurrent calling. Instead it is assumed that the caller must
-+ensure there is not concurrent alloc calling to the same page_frag_cache
-+instance by using its own lock or rely on some lockless guarantee like NAPI
-+softirq.
-+
-+Depending on different aligning requirement, the page_frag API caller may call
-+page_frag_*_align*() to ensure the returned virtual address or offset of the
-+page is aligned according to the 'align/alignment' parameter. Note the size of
-+the allocated fragment is not aligned, the caller needs to provide an aligned
-+fragsz if there is an alignment requirement for the size of the fragment.
-+
-+Depending on different use cases, callers expecting to deal with va, page or
-+both va and page for them may call page_frag_alloc, page_frag_refill, or
-+page_frag_alloc_refill API accordingly.
-+
-+There is also a use case that needs minimum memory in order for forward progress,
-+but more performant if more memory is available. Using page_frag_*_prepare() and
-+page_frag_commit*() related API, the caller requests the minimum memory it needs
-+and the prepare API will return the maximum size of the fragment returned. The
-+caller needs to either call the commit API to report how much memory it actually
-+uses, or not do so if deciding to not use any memory.
-+
-+.. kernel-doc:: include/linux/page_frag_cache.h
-+   :identifiers: page_frag_cache_init page_frag_cache_is_pfmemalloc
-+		 page_frag_cache_page_offset __page_frag_alloc_align
-+		 page_frag_alloc_align page_frag_alloc
-+		 __page_frag_refill_align page_frag_refill_align
-+		 page_frag_refill __page_frag_refill_prepare_align
-+		 page_frag_refill_prepare_align page_frag_refill_prepare
-+		 __page_frag_alloc_refill_prepare_align
-+		 page_frag_alloc_refill_prepare_align
-+		 page_frag_alloc_refill_prepare page_frag_alloc_refill_probe
-+		 page_frag_refill_probe page_frag_commit
-+		 page_frag_commit_noref page_frag_alloc_abort
-+
-+.. kernel-doc:: mm/page_frag_cache.c
-+   :identifiers: page_frag_cache_drain page_frag_free
-+		 __page_frag_alloc_refill_probe_align
-+
-+Coding examples
-+===============
-+
-+Init & Drain API
-+----------------
-+
-+.. code-block:: c
-+
-+   page_frag_cache_init(nc);
-+   ...
-+   page_frag_cache_drain(nc);
-+
-+
-+Alloc & Free API
-+----------------
-+
-+.. code-block:: c
-+
-+    void *va;
-+
-+    va = page_frag_alloc_align(nc, size, gfp, align);
-+    if (!va)
-+        goto do_error;
-+
-+    err = do_something(va, size);
-+    if (err) {
-+        page_frag_abort(nc, size);
-+        goto do_error;
-+    }
-+
-+    ...
-+
-+    page_frag_free(va);
-+
-+
-+Prepare & Commit API
-+--------------------
-+
-+.. code-block:: c
-+
-+    struct page_frag page_frag, *pfrag;
-+    bool merge = true;
-+    void *va;
-+
-+    pfrag = &page_frag;
-+    va = page_frag_alloc_refill_prepare(nc, 32U, pfrag, GFP_KERNEL);
-+    if (!va)
-+        goto wait_for_space;
-+
-+    copy = min_t(unsigned int, copy, pfrag->size);
-+    if (!skb_can_coalesce(skb, i, pfrag->page, pfrag->offset)) {
-+        if (i >= max_skb_frags)
-+            goto new_segment;
-+
-+        merge = false;
-+    }
-+
-+    copy = mem_schedule(copy);
-+    if (!copy)
-+        goto wait_for_space;
-+
-+    err = copy_from_iter_full_nocache(va, copy, iter);
-+    if (err)
-+        goto do_error;
-+
-+    if (merge) {
-+        skb_frag_size_add(&skb_shinfo(skb)->frags[i - 1], copy);
-+        page_frag_commit_noref(nc, pfrag, copy);
-+    } else {
-+        skb_fill_page_desc(skb, i, pfrag->page, pfrag->offset, copy);
-+        page_frag_commit(nc, pfrag, copy);
-+    }
-diff --git a/include/linux/page_frag_cache.h b/include/linux/page_frag_cache.h
-index 4e9018051956..dff68d8e0f30 100644
---- a/include/linux/page_frag_cache.h
-+++ b/include/linux/page_frag_cache.h
-@@ -30,16 +30,43 @@ static inline bool page_frag_encoded_page_pfmemalloc(unsigned long encoded_page)
- 	return !!(encoded_page & PAGE_FRAG_CACHE_PFMEMALLOC_BIT);
- }
- 
-+/**
-+ * page_frag_cache_init() - Init page_frag cache.
-+ * @nc: page_frag cache from which to init
-+ *
-+ * Inline helper to init the page_frag cache.
-+ */
- static inline void page_frag_cache_init(struct page_frag_cache *nc)
- {
- 	nc->encoded_page = 0;
- }
- 
-+/**
-+ * page_frag_cache_is_pfmemalloc() - Check for pfmemalloc.
-+ * @nc: page_frag cache from which to check
-+ *
-+ * Used to check if the current page in page_frag cache is pfmemalloc'ed.
-+ * It has the same calling context expectation as the alloc API.
-+ *
-+ * Return:
-+ * true if the current page in page_frag cache is pfmemalloc'ed, otherwise
-+ * return false.
-+ */
- static inline bool page_frag_cache_is_pfmemalloc(struct page_frag_cache *nc)
- {
- 	return page_frag_encoded_page_pfmemalloc(nc->encoded_page);
- }
- 
-+/**
-+ * page_frag_cache_page_offset() - Return the current page fragment's offset.
-+ * @nc: page_frag cache from which to check
-+ *
-+ * The API is only used in net/sched/em_meta.c for historical reason, do not use
-+ * it for new caller unless there is a strong reason.
-+ *
-+ * Return:
-+ * the offset of the current page fragment in the page_frag cache.
-+ */
- static inline unsigned int page_frag_cache_page_offset(const struct page_frag_cache *nc)
- {
- 	return nc->offset;
-@@ -68,6 +95,19 @@ static inline unsigned int __page_frag_cache_commit(struct page_frag_cache *nc,
- 	return __page_frag_cache_commit_noref(nc, pfrag, used_sz);
- }
- 
-+/**
-+ * __page_frag_alloc_align() - Alloc a page fragment with aligning
-+ * requirement.
-+ * @nc: page_frag cache from which to allocate
-+ * @fragsz: the requested fragment size
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ * @align_mask: the requested aligning requirement for the 'va'
-+ *
-+ * Alloc a page fragment from page_frag cache with aligning requirement.
-+ *
-+ * Return:
-+ * Virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *__page_frag_alloc_align(struct page_frag_cache *nc,
- 					    unsigned int fragsz, gfp_t gfp_mask,
- 					    unsigned int align_mask)
-@@ -85,6 +125,19 @@ static inline void *__page_frag_alloc_align(struct page_frag_cache *nc,
- 	return va;
- }
- 
-+/**
-+ * page_frag_alloc_align() - Alloc a page fragment with aligning requirement.
-+ * @nc: page_frag cache from which to allocate
-+ * @fragsz: the requested fragment size
-+ * @gfp_mask: the allocation gfp to use when cache needs to be refilled
-+ * @align: the requested aligning requirement for the fragment
-+ *
-+ * WARN_ON_ONCE() checking for @align before allocing a page fragment from
-+ * page_frag cache with aligning requirement.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *page_frag_alloc_align(struct page_frag_cache *nc,
- 					  unsigned int fragsz, gfp_t gfp_mask,
- 					  unsigned int align)
-@@ -93,12 +146,36 @@ static inline void *page_frag_alloc_align(struct page_frag_cache *nc,
- 	return __page_frag_alloc_align(nc, fragsz, gfp_mask, -align);
- }
- 
-+/**
-+ * page_frag_alloc() - Alloc a page fragment.
-+ * @nc: page_frag cache from which to allocate
-+ * @fragsz: the requested fragment size
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ *
-+ * Alloc a page fragment from page_frag cache.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *page_frag_alloc(struct page_frag_cache *nc,
- 				    unsigned int fragsz, gfp_t gfp_mask)
- {
- 	return __page_frag_alloc_align(nc, fragsz, gfp_mask, ~0u);
- }
- 
-+/**
-+ * __page_frag_refill_align() - Refill a page_frag with aligning requirement.
-+ * @nc: page_frag cache from which to refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ * @align_mask: the requested aligning requirement for the fragment
-+ *
-+ * Refill a page_frag from page_frag cache with aligning requirement.
-+ *
-+ * Return:
-+ * True if refill succeeds, otherwise return false.
-+ */
- static inline bool __page_frag_refill_align(struct page_frag_cache *nc,
- 					    unsigned int fragsz,
- 					    struct page_frag *pfrag,
-@@ -113,6 +190,20 @@ static inline bool __page_frag_refill_align(struct page_frag_cache *nc,
- 	return true;
- }
- 
-+/**
-+ * page_frag_refill_align() - Refill a page_frag with aligning requirement.
-+ * @nc: page_frag cache from which to refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache needs to be refilled
-+ * @align: the requested aligning requirement for the fragment
-+ *
-+ * WARN_ON_ONCE() checking for @align before refilling a page_frag from
-+ * page_frag cache with aligning requirement.
-+ *
-+ * Return:
-+ * True if refill succeeds, otherwise return false.
-+ */
- static inline bool page_frag_refill_align(struct page_frag_cache *nc,
- 					  unsigned int fragsz,
- 					  struct page_frag *pfrag,
-@@ -122,6 +213,18 @@ static inline bool page_frag_refill_align(struct page_frag_cache *nc,
- 	return __page_frag_refill_align(nc, fragsz, pfrag, gfp_mask, -align);
- }
- 
-+/**
-+ * page_frag_refill() - Refill a page_frag.
-+ * @nc: page_frag cache from which to refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ *
-+ * Refill a page_frag from page_frag cache.
-+ *
-+ * Return:
-+ * True if refill succeeds, otherwise return false.
-+ */
- static inline bool page_frag_refill(struct page_frag_cache *nc,
- 				    unsigned int fragsz,
- 				    struct page_frag *pfrag, gfp_t gfp_mask)
-@@ -129,6 +232,20 @@ static inline bool page_frag_refill(struct page_frag_cache *nc,
- 	return __page_frag_refill_align(nc, fragsz, pfrag, gfp_mask, ~0u);
- }
- 
-+/**
-+ * __page_frag_refill_prepare_align() - Prepare refilling a page_frag with
-+ * aligning requirement.
-+ * @nc: page_frag cache from which to refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ * @align_mask: the requested aligning requirement for the fragment
-+ *
-+ * Prepare refill a page_frag from page_frag cache with aligning requirement.
-+ *
-+ * Return:
-+ * True if prepare refilling succeeds, otherwise return false.
-+ */
- static inline bool __page_frag_refill_prepare_align(struct page_frag_cache *nc,
- 						    unsigned int fragsz,
- 						    struct page_frag *pfrag,
-@@ -139,6 +256,21 @@ static inline bool __page_frag_refill_prepare_align(struct page_frag_cache *nc,
- 					   align_mask);
- }
- 
-+/**
-+ * page_frag_refill_prepare_align() - Prepare refilling a page_frag with
-+ * aligning requirement.
-+ * @nc: page_frag cache from which to refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache needs to be refilled
-+ * @align: the requested aligning requirement for the fragment
-+ *
-+ * WARN_ON_ONCE() checking for @align before prepare refilling a page_frag from
-+ * page_frag cache with aligning requirement.
-+ *
-+ * Return:
-+ * True if prepare refilling succeeds, otherwise return false.
-+ */
- static inline bool page_frag_refill_prepare_align(struct page_frag_cache *nc,
- 						  unsigned int fragsz,
- 						  struct page_frag *pfrag,
-@@ -150,6 +282,18 @@ static inline bool page_frag_refill_prepare_align(struct page_frag_cache *nc,
- 						-align);
- }
- 
-+/**
-+ * page_frag_refill_prepare() - Prepare refilling a page_frag.
-+ * @nc: page_frag cache from which to refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ *
-+ * Prepare refilling a page_frag from page_frag cache.
-+ *
-+ * Return:
-+ * True if refill succeeds, otherwise return false.
-+ */
- static inline bool page_frag_refill_prepare(struct page_frag_cache *nc,
- 					    unsigned int fragsz,
- 					    struct page_frag *pfrag,
-@@ -159,6 +303,20 @@ static inline bool page_frag_refill_prepare(struct page_frag_cache *nc,
- 						~0u);
- }
- 
-+/**
-+ * __page_frag_alloc_refill_prepare_align() - Prepare allocing a fragment and
-+ * refilling a page_frag with aligning requirement.
-+ * @nc: page_frag cache from which to allocate and refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ * @align_mask: the requested aligning requirement for the fragment.
-+ *
-+ * Prepare allocing a fragment and refilling a page_frag from page_frag cache.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *__page_frag_alloc_refill_prepare_align(struct page_frag_cache *nc,
- 							   unsigned int fragsz,
- 							   struct page_frag *pfrag,
-@@ -168,6 +326,21 @@ static inline void *__page_frag_alloc_refill_prepare_align(struct page_frag_cach
- 	return __page_frag_cache_prepare(nc, fragsz, pfrag, gfp_mask, align_mask);
- }
- 
-+/**
-+ * page_frag_alloc_refill_prepare_align() - Prepare allocing a fragment and
-+ * refilling a page_frag with aligning requirement.
-+ * @nc: page_frag cache from which to allocate and refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ * @align: the requested aligning requirement for the fragment.
-+ *
-+ * WARN_ON_ONCE() checking for @align before prepare allocing a fragment and
-+ * refilling a page_frag from page_frag cache.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *page_frag_alloc_refill_prepare_align(struct page_frag_cache *nc,
- 							 unsigned int fragsz,
- 							 struct page_frag *pfrag,
-@@ -179,6 +352,19 @@ static inline void *page_frag_alloc_refill_prepare_align(struct page_frag_cache
- 						      gfp_mask, -align);
- }
- 
-+/**
-+ * page_frag_alloc_refill_prepare() - Prepare allocing a fragment and refilling
-+ * a page_frag.
-+ * @nc: page_frag cache from which to allocate and refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ *
-+ * Prepare allocing a fragment and refilling a page_frag from page_frag cache.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *page_frag_alloc_refill_prepare(struct page_frag_cache *nc,
- 						   unsigned int fragsz,
- 						   struct page_frag *pfrag,
-@@ -188,6 +374,18 @@ static inline void *page_frag_alloc_refill_prepare(struct page_frag_cache *nc,
- 						      gfp_mask, ~0u);
- }
- 
-+/**
-+ * page_frag_alloc_refill_probe() - Probe allocing a fragment and refilling
-+ * a page_frag.
-+ * @nc: page_frag cache from which to allocate and refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled
-+ *
-+ * Probe allocing a fragment and refilling a page_frag from page_frag cache.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *page_frag_alloc_refill_probe(struct page_frag_cache *nc,
- 						 unsigned int fragsz,
- 						 struct page_frag *pfrag)
-@@ -195,6 +393,17 @@ static inline void *page_frag_alloc_refill_probe(struct page_frag_cache *nc,
- 	return __page_frag_alloc_refill_probe_align(nc, fragsz, pfrag, ~0u);
- }
- 
-+/**
-+ * page_frag_refill_probe() - Probe refilling a page_frag.
-+ * @nc: page_frag cache from which to refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled
-+ *
-+ * Probe refilling a page_frag from page_frag cache.
-+ *
-+ * Return:
-+ * True if refill succeeds, otherwise return false.
-+ */
- static inline bool page_frag_refill_probe(struct page_frag_cache *nc,
- 					  unsigned int fragsz,
- 					  struct page_frag *pfrag)
-@@ -202,20 +411,54 @@ static inline bool page_frag_refill_probe(struct page_frag_cache *nc,
- 	return !!page_frag_alloc_refill_probe(nc, fragsz, pfrag);
- }
- 
--static inline void page_frag_commit(struct page_frag_cache *nc,
--				    struct page_frag *pfrag,
--				    unsigned int used_sz)
-+/**
-+ * page_frag_commit - Commit allocing a page fragment.
-+ * @nc: page_frag cache from which to commit
-+ * @pfrag: the page_frag to be committed
-+ * @used_sz: size of the page fragment has been used
-+ *
-+ * Commit the actual used size for the allocation that was either prepared
-+ * or probed.
-+ *
-+ * Return:
-+ * The true size of the fragment considering the offset alignment.
-+ */
-+static inline unsigned int page_frag_commit(struct page_frag_cache *nc,
-+					    struct page_frag *pfrag,
-+					    unsigned int used_sz)
- {
--	__page_frag_cache_commit(nc, pfrag, used_sz);
-+	return __page_frag_cache_commit(nc, pfrag, used_sz);
- }
- 
--static inline void page_frag_commit_noref(struct page_frag_cache *nc,
--					  struct page_frag *pfrag,
--					  unsigned int used_sz)
-+/**
-+ * page_frag_commit_noref - Commit allocing a page fragment without taking
-+ * page refcount.
-+ * @nc: page_frag cache from which to commit
-+ * @pfrag: the page_frag to be committed
-+ * @used_sz: size of the page fragment has been used
-+ *
-+ * Commit the alloc preparing or probing by passing the actual used size, but
-+ * not taking refcount. Mostly used for fragmemt coalescing case when the
-+ * current fragment can share the same refcount with previous fragment.
-+ *
-+ * Return:
-+ * The true size of the fragment considering the offset alignment.
-+ */
-+static inline unsigned int page_frag_commit_noref(struct page_frag_cache *nc,
-+						  struct page_frag *pfrag,
-+						  unsigned int used_sz)
- {
--	__page_frag_cache_commit_noref(nc, pfrag, used_sz);
-+	return __page_frag_cache_commit_noref(nc, pfrag, used_sz);
- }
- 
-+/**
-+ * page_frag_alloc_abort - Abort the page fragment allocation.
-+ * @nc: page_frag cache to which the page fragment is aborted back
-+ * @fragsz: size of the page fragment to be aborted
-+ *
-+ * It is expected to be called from the same context as the alloc API.
-+ * Mostly used for error handling cases where the fragment is no longer needed.
-+ */
- static inline void page_frag_alloc_abort(struct page_frag_cache *nc,
- 					 unsigned int fragsz)
- {
-diff --git a/mm/page_frag_cache.c b/mm/page_frag_cache.c
-index c052c77a96eb..209cc1e278ab 100644
---- a/mm/page_frag_cache.c
-+++ b/mm/page_frag_cache.c
-@@ -75,6 +75,10 @@ static struct page *__page_frag_cache_refill(struct page_frag_cache *nc,
- 	return page;
- }
- 
-+/**
-+ * page_frag_cache_drain - Drain the current page from page_frag cache.
-+ * @nc: page_frag cache from which to drain
-+ */
- void page_frag_cache_drain(struct page_frag_cache *nc)
- {
- 	if (!nc->encoded_page)
-@@ -117,6 +121,20 @@ unsigned int __page_frag_cache_commit_noref(struct page_frag_cache *nc,
- }
- EXPORT_SYMBOL(__page_frag_cache_commit_noref);
- 
-+/**
-+ * __page_frag_alloc_refill_probe_align() - Probe allocing a fragment and
-+ * refilling a page_frag with aligning requirement.
-+ * @nc: page_frag cache from which to allocate and refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @align_mask: the requested aligning requirement for the fragment.
-+ *
-+ * Probe allocing a fragment and refilling a page_frag from page_frag cache with
-+ * aligning requirement.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- void *__page_frag_alloc_refill_probe_align(struct page_frag_cache *nc,
- 					   unsigned int fragsz,
- 					   struct page_frag *pfrag,
-@@ -208,8 +226,12 @@ void *__page_frag_cache_prepare(struct page_frag_cache *nc, unsigned int fragsz,
- }
- EXPORT_SYMBOL(__page_frag_cache_prepare);
- 
--/*
-- * Frees a page fragment allocated out of either a compound or order 0 page.
-+/**
-+ * page_frag_free - Free a page fragment.
-+ * @addr: va of page fragment to be freed
-+ *
-+ * Free a page fragment allocated out of either a compound or order 0 page by
-+ * virtual address.
-  */
- void page_frag_free(void *addr)
- {
--- 
-2.33.0
+the purpose of the number of entries is that the kernel uses it to
+correctly size the hash table, before adding digests to it.
+
+It also allows to group digests together and define attributes for all
+of them (e.g. the hash algorithm).
+
+You can also have multiple data blocks in the same file, and the header
+allows to go to the ones of interest.
+
+> Also, making generic TLV have u64 tag and length is huge waste in most
+> use cases. Saving one byte requires 16 bytes of tag and length. You
+> could encode tag and length with UTF-8. Sure, it's wasteful if you need
+> an enormous amount of tags or huge lengths, but it's efficient for most
+> use cases.
+
+You are right, it is a huge size. You can introduce new fields, but not
+modify the tag and length size for retrocompatibility.
+
+Ok, I see your point for UTF-8. Let's see, I like how simple is the
+parser now.
+
+Thanks
+
+Roberto
+
+> Anyway, just my thoughts.
+>=20
+>=20
+> BR,
+> Jani.
+>=20
+> >=20
+> > [same as above, repeated N times]
+> >=20
+> > Each adopter can define its own data types and fields. The TLV parser d=
+oes
+> > not need to be aware of those, but lets the adopter obtain the data and
+> > decide how to continue.
+> >=20
+> > After parsing each TLV header, call the header callback function with t=
+he
+> > callback data provided by the adopter. The latter can return 0, to skip
+> > processing of the TLV data, 1 to process the TLV data, or a negative va=
+lue
+> > to stop processing the TLV data.
+> >=20
+> > After processing a TLV data entry, call the data callback function also
+> > with the callback data provided by the adopter. The latter can decide h=
+ow
+> > to interpret the TLV data entry depending on the field ID.
+> >=20
+> > Nesting TLVs is also possible, the data callback function can call
+> > tlv_parse() to parse the inner structure.
+> >=20
+> > Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+> > ---
+> >  MAINTAINERS                     |   8 ++
+> >  include/linux/tlv_parser.h      |  48 +++++++
+> >  include/uapi/linux/tlv_parser.h |  62 +++++++++
+> >  lib/Kconfig                     |   3 +
+> >  lib/Makefile                    |   2 +
+> >  lib/tlv_parser.c                | 221 ++++++++++++++++++++++++++++++++
+> >  lib/tlv_parser.h                |  17 +++
+> >  7 files changed, 361 insertions(+)
+> >  create mode 100644 include/linux/tlv_parser.h
+> >  create mode 100644 include/uapi/linux/tlv_parser.h
+> >  create mode 100644 lib/tlv_parser.c
+> >  create mode 100644 lib/tlv_parser.h
+> >=20
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 8766f3e5e87e..ba8d5c137bef 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -23055,6 +23055,14 @@ W:	http://sourceforge.net/projects/tlan/
+> >  F:	Documentation/networking/device_drivers/ethernet/ti/tlan.rst
+> >  F:	drivers/net/ethernet/ti/tlan.*
+> > =20
+> > +TLV PARSER
+> > +M:	Roberto Sassu <roberto.sassu@huawei.com>
+> > +L:	linux-kernel@vger.kernel.org
+> > +S:	Maintained
+> > +F:	include/linux/tlv_parser.h
+> > +F:	include/uapi/linux/tlv_parser.h
+> > +F:	lib/tlv_parser.*
+> > +
+> >  TMIO/SDHI MMC DRIVER
+> >  M:	Wolfram Sang <wsa+renesas@sang-engineering.com>
+> >  L:	linux-mmc@vger.kernel.org
+> > diff --git a/include/linux/tlv_parser.h b/include/linux/tlv_parser.h
+> > new file mode 100644
+> > index 000000000000..6d9a655d9ec9
+> > --- /dev/null
+> > +++ b/include/linux/tlv_parser.h
+> > @@ -0,0 +1,48 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright (C) 2023-2024 Huawei Technologies Duesseldorf GmbH
+> > + *
+> > + * Author: Roberto Sassu <roberto.sassu@huawei.com>
+> > + *
+> > + * Header file of TLV parser.
+> > + */
+> > +
+> > +#ifndef _LINUX_TLV_PARSER_H
+> > +#define _LINUX_TLV_PARSER_H
+> > +
+> > +#include <uapi/linux/tlv_parser.h>
+> > +
+> > +/**
+> > + * typedef hdr_callback - Callback after parsing TLV header
+> > + * @callback_data: Opaque data to supply to the header callback functi=
+on
+> > + * @data_type: TLV data type
+> > + * @num_entries: Number of TLV data entries
+> > + * @total_len: Total length of TLV data
+> > + *
+> > + * This callback is invoked after a TLV header is parsed.
+> > + *
+> > + * Return: 0 to skip processing, 1 to do processing, a negative value =
+on error.
+> > + */
+> > +typedef int (*hdr_callback)(void *callback_data, __u64 data_type,
+> > +			    __u64 num_entries, __u64 total_len);
+> > +
+> > +/**
+> > + * typedef data_callback - Callback after parsing TLV data entry
+> > + * @callback_data: Opaque data to supply to the data callback function
+> > + * @field: TLV field ID
+> > + * @field_data: Data of a TLV data field
+> > + * @field_len: Length of @field_data
+> > + *
+> > + * This callback is invoked after a TLV data entry is parsed.
+> > + *
+> > + * Return: 0 on success, a negative value on error.
+> > + */
+> > +typedef int (*data_callback)(void *callback_data, __u64 field,
+> > +			     const __u8 *field_data, __u64 field_len);
+> > +
+> > +int tlv_parse(hdr_callback hdr_callback, void *hdr_callback_data,
+> > +	      data_callback data_callback, void *data_callback_data,
+> > +	      const __u8 *data, size_t data_len, const char **data_types,
+> > +	      __u64 num_data_types, const char **fields, __u64 num_fields);
+> > +
+> > +#endif /* _LINUX_TLV_PARSER_H */
+> > diff --git a/include/uapi/linux/tlv_parser.h b/include/uapi/linux/tlv_p=
+arser.h
+> > new file mode 100644
+> > index 000000000000..fbd4fc403ac7
+> > --- /dev/null
+> > +++ b/include/uapi/linux/tlv_parser.h
+> > @@ -0,0 +1,62 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> > +/*
+> > + * Copyright (C) 2023-2024 Huawei Technologies Duesseldorf GmbH
+> > + *
+> > + * Author: Roberto Sassu <roberto.sassu@huawei.com>
+> > + *
+> > + * Implement the user space interface for the TLV parser.
+> > + */
+> > +
+> > +#ifndef _UAPI_LINUX_TLV_PARSER_H
+> > +#define _UAPI_LINUX_TLV_PARSER_H
+> > +
+> > +#include <linux/types.h>
+> > +
+> > +/*
+> > + * TLV format:
+> > + *
+> > + * +-----------------+------------------+-----------------+
+> > + * | data type (u64) | num fields (u64) | total len (u64) | # header
+> > + * +--------------+--+---------+--------+---------+-------+
+> > + * | field1 (u64) | len1 (u64) | value1 (u8 len1) |
+> > + * +--------------+------------+------------------+
+> > + * |     ...      |    ...     |        ...       |         # data
+> > + * +--------------+------------+------------------+
+> > + * | fieldN (u64) | lenN (u64) | valueN (u8 lenN) |
+> > + * +--------------+------------+------------------+
+> > + *
+> > + * [same as above, repeated N times]
+> > + *
+> > + */
+> > +
+> > +/**
+> > + * struct tlv_hdr - Header of TLV format
+> > + * @data_type: Type of data to parse
+> > + * @num_entries: Number of data entries provided
+> > + * @_reserved: Reserved for future use (must be equal to zero)
+> > + * @total_len: Total length of the data blob, excluding the header
+> > + *
+> > + * This structure represents the header of the TLV data format.
+> > + */
+> > +struct tlv_hdr {
+> > +	__u64 data_type;
+> > +	__u64 num_entries;
+> > +	__u64 _reserved;
+> > +	__u64 total_len;
+> > +} __attribute__((packed));
+> > +
+> > +/**
+> > + * struct tlv_data_entry - Data entry of TLV format
+> > + * @field: Data field identifier
+> > + * @length: Data length
+> > + * @data: Data
+> > + *
+> > + * This structure represents a TLV data entry.
+> > + */
+> > +struct tlv_data_entry {
+> > +	__u64 field;
+> > +	__u64 length;
+> > +	__u8 data[];
+> > +} __attribute__((packed));
+> > +
+> > +#endif /* _UAPI_LINUX_TLV_PARSER_H */
+> > diff --git a/lib/Kconfig b/lib/Kconfig
+> > index b38849af6f13..9141dcfc1704 100644
+> > --- a/lib/Kconfig
+> > +++ b/lib/Kconfig
+> > @@ -777,3 +777,6 @@ config POLYNOMIAL
+> > =20
+> >  config FIRMWARE_TABLE
+> >  	bool
+> > +
+> > +config TLV_PARSER
+> > +	bool
+> > diff --git a/lib/Makefile b/lib/Makefile
+> > index 322bb127b4dc..c6c3614c4293 100644
+> > --- a/lib/Makefile
+> > +++ b/lib/Makefile
+> > @@ -392,6 +392,8 @@ obj-$(CONFIG_USERCOPY_KUNIT_TEST) +=3D usercopy_kun=
+it.o
+> >  obj-$(CONFIG_GENERIC_LIB_DEVMEM_IS_ALLOWED) +=3D devmem_is_allowed.o
+> > =20
+> >  obj-$(CONFIG_FIRMWARE_TABLE) +=3D fw_table.o
+> > +obj-$(CONFIG_TLV_PARSER) +=3D tlv_parser.o
+> > +CFLAGS_tlv_parser.o +=3D -I lib
+> > =20
+> >  # FORTIFY_SOURCE compile-time behavior tests
+> >  TEST_FORTIFY_SRCS =3D $(wildcard $(src)/test_fortify/*-*.c)
+> > diff --git a/lib/tlv_parser.c b/lib/tlv_parser.c
+> > new file mode 100644
+> > index 000000000000..5d54844ab8d7
+> > --- /dev/null
+> > +++ b/lib/tlv_parser.c
+> > @@ -0,0 +1,221 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright (C) 2023-2024 Huawei Technologies Duesseldorf GmbH
+> > + *
+> > + * Author: Roberto Sassu <roberto.sassu@huawei.com>
+> > + *
+> > + * Implement the TLV parser.
+> > + */
+> > +
+> > +#define pr_fmt(fmt) "tlv_parser: "fmt
+> > +#include <tlv_parser.h>
+> > +
+> > +/**
+> > + * tlv_parse_hdr - Parse TLV header
+> > + * @hdr_callback: Callback function to call after parsing header
+> > + * @hdr_callback_data: Opaque data to supply to the header callback fu=
+nction
+> > + * @data: Data to parse (updated)
+> > + * @data_len: Length of @data (updated)
+> > + * @parsed_num_entries: Parsed number of data entries (updated)
+> > + * @parsed_total_len: Parsed length of TLV data, excluding the header =
+(updated)
+> > + * @data_types: Array of data type strings
+> > + * @num_data_types: Number of elements of @data_types
+> > + *
+> > + * Parse the header of the TLV data format, move the data pointer to t=
+he TLV
+> > + * data part, decrease the data length by the length of the header, an=
+d provide
+> > + * the number of entries and the total data length extracted from the =
+header.
+> > + *
+> > + * Before returning, call the header callback to let the callback supp=
+lier
+> > + * decide whether or not to process the subsequent TLV data.
+> > + *
+> > + * Return: 1 to process the data entries, 0 to skip, a negative value =
+on error.
+> > + */
+> > +static int tlv_parse_hdr(hdr_callback hdr_callback, void *hdr_callback=
+_data,
+> > +			 const __u8 **data, size_t *data_len,
+> > +			 __u64 *parsed_num_entries, __u64 *parsed_total_len,
+> > +			 const char **data_types, __u64 num_data_types)
+> > +{
+> > +	__u64 parsed_data_type;
+> > +	struct tlv_hdr *hdr;
+> > +
+> > +	if (*data_len < sizeof(*hdr)) {
+> > +		pr_debug("Data blob too short, %lu bytes, expected %lu\n",
+> > +			 *data_len, sizeof(*hdr));
+> > +		return -EBADMSG;
+> > +	}
+> > +
+> > +	hdr =3D (struct tlv_hdr *)*data;
+> > +
+> > +	*data +=3D sizeof(*hdr);
+> > +	*data_len -=3D sizeof(*hdr);
+> > +
+> > +	parsed_data_type =3D __be64_to_cpu(hdr->data_type);
+> > +	if (parsed_data_type >=3D num_data_types) {
+> > +		pr_debug("Invalid data type %llu, max: %llu\n",
+> > +			 parsed_data_type, num_data_types - 1);
+> > +		return -EBADMSG;
+> > +	}
+> > +
+> > +	*parsed_num_entries =3D __be64_to_cpu(hdr->num_entries);
+> > +
+> > +	if (hdr->_reserved !=3D 0) {
+> > +		pr_debug("_reserved must be zero\n");
+> > +		return -EBADMSG;
+> > +	}
+> > +
+> > +	*parsed_total_len =3D __be64_to_cpu(hdr->total_len);
+> > +	if (*parsed_total_len > *data_len) {
+> > +		pr_debug("Invalid total length %llu, expected: %lu\n",
+> > +			 *parsed_total_len, *data_len);
+> > +		return -EBADMSG;
+> > +	}
+> > +
+> > +	pr_debug("Header: type: %s, num entries: %llu, total len: %lld\n",
+> > +		 data_types[parsed_data_type], *parsed_num_entries,
+> > +		 *parsed_total_len);
+> > +
+> > +	return hdr_callback(hdr_callback_data, parsed_data_type,
+> > +			    *parsed_num_entries, *parsed_total_len);
+> > +}
+> > +
+> > +/**
+> > + * tlv_parse_data - Parse TLV data
+> > + * @data_callback: Callback function to call to parse the data entries
+> > + * @data_callback_data: Opaque data to supply to the data callback fun=
+ction
+> > + * @num_entries: Number of data entries to parse
+> > + * @data: Data to parse
+> > + * @data_len: Length of @data
+> > + * @fields: Array of field strings
+> > + * @num_fields: Number of elements of @fields
+> > + *
+> > + * Parse the data part of the TLV data format and call the supplied ca=
+llback
+> > + * function for each data entry, passing also the opaque data pointer.
+> > + *
+> > + * The data callback function decides how to process data depending on=
+ the
+> > + * field.
+> > + *
+> > + * Return: 0 on success, a negative value on error.
+> > + */
+> > +static int tlv_parse_data(data_callback data_callback, void *data_call=
+back_data,
+> > +			  __u64 num_entries, const __u8 *data, size_t data_len,
+> > +			  const char **fields, __u64 num_fields)
+> > +{
+> > +	const __u8 *data_ptr =3D data;
+> > +	struct tlv_data_entry *entry;
+> > +	__u64 parsed_field, len, i, max_num_entries;
+> > +	int ret;
+> > +
+> > +	max_num_entries =3D data_len / sizeof(*entry);
+> > +
+> > +	/* Possibly lower limit on num_entries loop. */
+> > +	if (num_entries > max_num_entries)
+> > +		return -EBADMSG;
+> > +
+> > +	for (i =3D 0; i < num_entries; i++) {
+> > +		if (data_len < sizeof(*entry))
+> > +			return -EBADMSG;
+> > +
+> > +		entry =3D (struct tlv_data_entry *)data_ptr;
+> > +		data_ptr +=3D sizeof(*entry);
+> > +		data_len -=3D sizeof(*entry);
+> > +
+> > +		parsed_field =3D __be64_to_cpu(entry->field);
+> > +		if (parsed_field >=3D num_fields) {
+> > +			pr_debug("Invalid field %llu, max: %llu\n",
+> > +				 parsed_field, num_fields - 1);
+> > +			return -EBADMSG;
+> > +		}
+> > +
+> > +		len =3D __be64_to_cpu(entry->length);
+> > +
+> > +		if (data_len < len)
+> > +			return -EBADMSG;
+> > +
+> > +		pr_debug("Data: field: %s, len: %llu\n", fields[parsed_field],
+> > +			 len);
+> > +
+> > +		if (!len)
+> > +			continue;
+> > +
+> > +		ret =3D data_callback(data_callback_data, parsed_field, data_ptr,
+> > +				    len);
+> > +		if (ret < 0) {
+> > +			pr_debug("Parsing of field %s failed, ret: %d\n",
+> > +				 fields[parsed_field], ret);
+> > +			return ret;
+> > +		}
+> > +
+> > +		data_ptr +=3D len;
+> > +		data_len -=3D len;
+> > +	}
+> > +
+> > +	if (data_len) {
+> > +		pr_debug("Excess data: %lu bytes\n", data_len);
+> > +		return -EBADMSG;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +/**
+> > + * tlv_parse - Parse data in TLV format
+> > + * @hdr_callback: Callback function to call after parsing header
+> > + * @hdr_callback_data: Opaque data to supply to the header callback fu=
+nction
+> > + * @data_callback: Callback function to call to parse the data entries
+> > + * @data_callback_data: Opaque data to supply to the data callback fun=
+ction
+> > + * @data: Data to parse
+> > + * @data_len: Length of @data
+> > + * @data_types: Array of data type strings
+> > + * @num_data_types: Number of elements of @data_types
+> > + * @fields: Array of field strings
+> > + * @num_fields: Number of elements of @fields
+> > + *
+> > + * Parse data in TLV format and call tlv_parse_data() each time tlv_pa=
+rse_hdr()
+> > + * returns 1.
+> > + *
+> > + * Return: 0 on success, a negative value on error.
+> > + */
+> > +int tlv_parse(hdr_callback hdr_callback, void *hdr_callback_data,
+> > +	      data_callback data_callback, void *data_callback_data,
+> > +	      const __u8 *data, size_t data_len, const char **data_types,
+> > +	      __u64 num_data_types, const char **fields, __u64 num_fields)
+> > +{
+> > +	__u64 parsed_num_entries, parsed_total_len;
+> > +	const __u8 *data_ptr =3D data;
+> > +	int ret =3D 0;
+> > +
+> > +	pr_debug("Start parsing data blob, size: %lu\n", data_len);
+> > +
+> > +	while (data_len) {
+> > +		ret =3D tlv_parse_hdr(hdr_callback, hdr_callback_data, &data_ptr,
+> > +				    &data_len, &parsed_num_entries,
+> > +				    &parsed_total_len, data_types,
+> > +				    num_data_types);
+> > +		switch (ret) {
+> > +		case 0:
+> > +			/*
+> > +			 * tlv_parse_hdr() already checked that
+> > +			 * parsed_total_len <=3D data_len.
+> > +			 */
+> > +			data_ptr +=3D parsed_total_len;
+> > +			data_len -=3D parsed_total_len;
+> > +			continue;
+> > +		case 1:
+> > +			break;
+> > +		default:
+> > +			goto out;
+> > +		}
+> > +
+> > +		ret =3D tlv_parse_data(data_callback, data_callback_data,
+> > +				     parsed_num_entries, data_ptr,
+> > +				     parsed_total_len, fields, num_fields);
+> > +		if (ret < 0)
+> > +			goto out;
+> > +
+> > +		data_ptr +=3D parsed_total_len;
+> > +		data_len -=3D parsed_total_len;
+> > +	}
+> > +out:
+> > +	pr_debug("End of parsing data blob, ret: %d\n", ret);
+> > +	return ret;
+> > +}
+> > diff --git a/lib/tlv_parser.h b/lib/tlv_parser.h
+> > new file mode 100644
+> > index 000000000000..8fa8127bd13e
+> > --- /dev/null
+> > +++ b/lib/tlv_parser.h
+> > @@ -0,0 +1,17 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright (C) 2023-2024 Huawei Technologies Duesseldorf GmbH
+> > + *
+> > + * Author: Roberto Sassu <roberto.sassu@huawei.com>
+> > + *
+> > + * Header file of TLV parser.
+> > + */
+> > +
+> > +#ifndef _LIB_TLV_PARSER_H
+> > +#define _LIB_TLV_PARSER_H
+> > +
+> > +#include <linux/kernel.h>
+> > +#include <linux/err.h>
+> > +#include <linux/tlv_parser.h>
+> > +
+> > +#endif /* _LIB_TLV_PARSER_H */
+>=20
 
