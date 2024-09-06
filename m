@@ -1,89 +1,152 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A1114BF8D
-	for <linux-doc@vger.kernel.org>; Fri,  6 Sep 2024 13:49:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05CA51C86F2
+	for <linux-doc@vger.kernel.org>; Fri,  6 Sep 2024 13:56:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725630563; cv=none; b=qwsAuYj7ymcM9I1yFe8fTXV0IEwjjCxgLwu2uIv/dTNN//NfkAuU7789WU7KyPrJ5yULkf4tiNU80MtW3mlNg31IzZLyEspfIhl3cB4IPw6PI1KB1GoPiCHAfpeaKw7PE5wl1IF6Zpb4cTuLtPkXoCuLOsncFuayIdeFbKRui0U=
+	t=1725630976; cv=none; b=b0rAXuIteJffIRcLZbUFoCDCp6T7WXY6c+3b/0u42LmcXmdD7gzZuRRsRiz6t5NkoQw40Es53tmKw8uyERP0F1o+xVQfSIKOynHVVeswVVxirFtuHFkt6eyPoDnaQ6MnW9tl4plChyotisdvq/T6jq2Qme/9lfumkdLqKR83wnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725630563; c=relaxed/simple;
-	bh=DM7FI/AYfzTtArzRlVr9wS6BouDbUEEMgeXn8vcJisc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=s/0jIIdsezKdq0NuGoljvznBBCEDNXczVkhrkndVMX8w7sG7bN117Q1S2XzoZkh9mDkFHV/RZqpRgpo+FsmoKjCoKvKscfqUr+Hkv6boPhu/mCkipHWg6rkVIVOFqvAAVzJyDRih7hemdq1BMTzva+VospqMBkqjmOBkXg3h8pQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ZDd6uVoF; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1725630976; c=relaxed/simple;
+	bh=S7qeP4AgFyrys7E/qD0lixs1EpOuiQj4fLU7Q1zbpls=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=U4otq/x4dQgEPXB6rJ6WFa9T6ofj/Asy+siAIB7gUa1CBl4nTFofRqWCkoYMB8xHm4DAWKHUZMJZ2Ds30nbsB+UyFQNcMIdAmzxgL5tBKohuEotJt3NylFw2pog/r+GgzRSDIhpX/pV0wisp9414HWZcfYK9Wc4q8tu5PFVnAV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ubawF4tM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9+rtdGiP; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sdti1D5N; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WUnldVRz; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ZDd6uVoF"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E8F42418A0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1725630554; bh=0tbjRiyURHZmKQSd/X5kzcC0a7dX2YXYo4C2091Kkxo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ZDd6uVoFJQK0eq9edRep/cE2o34zBmCMSGfSp+2KbwdwpwHyqsLwi8FUhV8m6ty51
-	 lAFg9W6ALpbePzK6ALtGLRsR5bqbN5O1IO6gicWZJ9ku0S4vX0RUMBaneAikYplNiF
-	 gsd6DGueXHzsp6W9ZCm/J1nQLkB61kpiHBIctdEORuZ9zlQcqhm+ZPAAIXhAbMA/jh
-	 SKTNsnUdLjRbZ+9Nhh7NI14yY0+FsbhycDldeypBKqUaFeE+H+ou/UxUWFFNgLtw0Z
-	 ymQZ6stDp5QUBnK7IwvL57lDN/y8M/vJk7dy8t+iet7Zr4xHhycSY4T1FZ5tuZNZ8V
-	 wUn3HfcAqqsJQ==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625:67c:16ff:fe81:5f9b])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ubawF4tM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9+rtdGiP";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sdti1D5N";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WUnldVRz"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id E8F42418A0;
-	Fri,  6 Sep 2024 13:49:13 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>, linux-doc@vger.kernel.org
-Cc: Rae Moar <rmoar@google.com>
-Subject: Re: [PATCH] kernel-doc: Allow whitespace before comment start
-In-Reply-To: <d780dfd8-79fb-4b4c-8764-bb18d32e98c2@intel.com>
-References: <20240829202529.1660-1-michal.wajdeczko@intel.com>
- <87plphho1w.fsf@trenco.lwn.net>
- <d780dfd8-79fb-4b4c-8764-bb18d32e98c2@intel.com>
-Date: Fri, 06 Sep 2024 07:49:13 -0600
-Message-ID: <87cylggaee.fsf@trenco.lwn.net>
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 047B71F8B5;
+	Fri,  6 Sep 2024 13:56:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725630972; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sRO6E959etYXzxivOUYwWDXYbrwo7ojvygaHM7nRaXc=;
+	b=ubawF4tMl56TYdOBY8xEjsPgbN2OyW3XwUMgzl8+FT2rgblpYUcKPzZBlr74fX3YiXAeG1
+	Ol/5fQb3093zxZiJuzItUAtYqL14I95QQh6ev0DzHhmp9DhjWjYNxPWevsHr/DrDyY6KpD
+	nF7RB+vWfpOF6p58f7jke/CePAvwfnk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725630972;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sRO6E959etYXzxivOUYwWDXYbrwo7ojvygaHM7nRaXc=;
+	b=9+rtdGiP2R3jVMN5uerYR/NXnX434FckZzpizwUqGnBe9ZYPLdPserGPRwH62nZyeLb2uM
+	8c4XyRA07U7A0jAw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725630971; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sRO6E959etYXzxivOUYwWDXYbrwo7ojvygaHM7nRaXc=;
+	b=sdti1D5N3Ct/TjXFspYtjZLHJIBQDauIIVYHNY47FN9IW6DxNKvr1QwQHiJxnNek6Cfnz6
+	1gmm9LKfsLyS4/rglchNNQ2sYoUFdquO9azTCmKbXXO5PYWJsugQCoH7KNNHNGovQmbkDQ
+	7phpRivey+hBCIRodvvG1Gh+7Ln73Q4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725630971;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sRO6E959etYXzxivOUYwWDXYbrwo7ojvygaHM7nRaXc=;
+	b=WUnldVRzzQnhgYB1bvD6t3z7QDjIGfHfj4X0koVhIRHo7iGnYznIPVC9K+c+MN+QayhlMn
+	mmNKSExhZ1+aMDCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BC7591395F;
+	Fri,  6 Sep 2024 13:56:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ko9cLPoJ22YBLAAAD6G6ig
+	(envelope-from <bwiedemann@suse.de>); Fri, 06 Sep 2024 13:56:10 +0000
+Message-ID: <33018311-0bdf-4258-b0c0-428a548c710d@suse.de>
+Date: Fri, 6 Sep 2024 15:56:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: Build kernel docs deterministically
+To: Vegard Nossum <vegard.nossum@oracle.com>, bernhard+linux-doc@lsmod.de,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-doc@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>
+References: <20240905113531.65375-1-bernhard+linux-doc@lsmod.de>
+ <be85300d-74f4-4e9d-998d-26d09fe96563@oracle.com>
+Content-Language: en-US
+From: "Bernhard M. Wiedemann" <bwiedemann@suse.de>
+In-Reply-To: <be85300d-74f4-4e9d-998d-26d09fe96563@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-doc];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,lsmod.de:email,suse.de:email,suse.de:mid,parallel-wrapper.sh:url]
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
 
-Michal Wajdeczko <michal.wajdeczko@intel.com> writes:
+On 06/09/2024 11.11, Vegard Nossum wrote:
+> On 05/09/2024 13:35, bernhard+linux-doc@lsmod.de wrote:
+>> From: "Bernhard M. Wiedemann" <bwiedemann@suse.de>
 
-> Oops, I'm pretty sure that I tried, but likely didn't rerun on fresh
-> tree, so seen just changes resulted from adding visibility.h
->
-> Sorry about that.
->
-> But looking now at those new errors/warnings and IMO it seems that all
-> of them are valid, mostly due to mistakes with formatting of the
-> comments, not that tool is now broken.
->
->
-> Few examples:
->
-> ../kernel/resource.c:148: warning: This comment starts with '/**', but
-> isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
->          * If the resource was allocated using memblock early during
->
->     145 static void free_resource(struct resource *res)
->     146 {
->     147         /**
->     148          * If the resource was allocated using memblock early
->
-> this should be formatted as normal multi-line comment inside the
-> function, not in a kernel-doc fashion
+> If you need reproducibility and the solution/workaround is to limit it
+> to 1 concurrent sphinx-build invocation, why can't you just run
+> 'make -j1 htmldocs ...' explicitly?
 
-I won't disagree with that.  But we really can't add that many more
-warnings to a docs build.  Even though getting rid of all the warnings
-seems like a hopeless task, it is still a goal; adding another pile will
-cause any other new warnings to be completely buried.
+I had tried that and it did not help.
 
-How hard would it to talk you into submitting patches to all of the
-relevant maintainers fixing the erroneous comments? :)
+however, an
+export PARALLELISM=1
+did help to make results reproducible.
+This is converted in parallel-wrapper.sh into a sphinx -j1 $ARGS
+call instead of sphinx -jauto.
+And that points towards sphinx-internal parallelism as the issue here, 
+rather than parallelism from kernel/make.
 
-Thanks,
+And that means https://github.com/sphinx-doc/sphinx/issues/6714
+for kernel-docs, is not exactly the same issue as
+https://github.com/sphinx-doc/sphinx/issues/2946
 
-jon
+
+While I could add that workaround into our openSUSE kernel-docs.spec 
+file, there are still Debian, Archlinux and others that desire 
+reproducible builds and those would need to discover and apply that 
+workaround as well. So would be nicer to have it reproducible by 
+default, possibly with an option to sacrifice correct results for 
+processing-speed.
+
+Ciao
+Bernhard M.
