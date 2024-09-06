@@ -1,112 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BFFE1D4611;
-	Fri,  6 Sep 2024 18:58:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717403398E;
+	Fri,  6 Sep 2024 18:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725649137; cv=none; b=XCsuTD/do6LSSWDYi0QgQvh01JoMJ7JnhVq8RubPB42CQezIuKyO0JDYslJMKzUEXYJaeX6L9UN3p5DEJGeWVcGFBAex2kNhiXi3okX7Zs+e9906fmvK7HIcHHZugiuGvHAaRx0tSFwaYlpM7Hw5MemdLt8LYqULDf0BM0Txb0c=
+	t=1725649170; cv=none; b=OYUALJs0uPLvkDkDqztbDLejLm2VaxAiYbPMlErGYt+vtVUQSulwVasM+uNATx2fcZPOX3k4rDkAoduzsB2wRP1biIGo/EVI0A0dwW2cTK5IGup91YNBQgeoWWu+zG6zBQjec5Q3miJ6R2o8i0z/KtmsV14FiQDWAHnQXttGbHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725649137; c=relaxed/simple;
-	bh=K86qHkz4k9f+n37Ufn7RJNnR1F5LFAqXIee8+QUk3iU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tUhDn5KBrVFbGfZ7QmiswxJhBHhHfa1Zg4T8QfMYxC7m5PA/m/pLVK6y4oXpAUzjkUywZoFxS1rNOSMWfjKP9rEuITvSfTy4sb/NPynlN9s8HjMoMvqXMjOt+Zu50zTG8YYM60fyZLdTTYeoZHw49rAFFJUToyzKdci9X1CShOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iST5gZpV; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725649170; c=relaxed/simple;
+	bh=FeFiU2RQCm12lf/G35s+LptqEV/4ZnlRsXE2aVu6Mm4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Cm6H5b2I5VDkcNJUl99caWF2tjv9JRU+j3zs8I/re0vE554Z/rTIuyPJNBWr7taxij0KTKOlsgRg1kod59Y0QF9dOJKYBvPbZnDaWeADsB0hZy+udYrBJlamH0yvQbgB6aMSrcMVcpKZS6GynbgUrJZfh25ODQvWMVOT38j9hVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=prk3V34/; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iST5gZpV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725649136; x=1757185136;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=K86qHkz4k9f+n37Ufn7RJNnR1F5LFAqXIee8+QUk3iU=;
-  b=iST5gZpVvY4aMbyazjd+w4Z3MdcYeU1CMTuLv/zi1GvR0In0UtqeWQ34
-   Ha4MYbDuGkpbhXCbYHJ5iEG8/gf3f59C1R1KKxnPSHXil5IKpAbY4qCvH
-   156Ae4D1Fywy4TzEkCbaXRgPDf5Bc84q+RtpqfeWwQlw5QPGSrjAR1W9y
-   PaqMkCYdTygFRkK9geGX+ymk6GpSmCjt+kXWY8dY2SrZUPRLmDT0d2bqf
-   uHHUWuboW88Lz82Xrk4NrTd9KQ4bVk/TXnNaHQNGogHHJPeO0pqrVCzZb
-   biaro10TibF5JegcACKGDXN5Ve6B8dNPq+j+n2PanoSn5T7PnDMori9bG
-   w==;
-X-CSE-ConnectionGUID: O1V08nvAS7yqJBn6O2oaIA==
-X-CSE-MsgGUID: kAgiw1sxTeSoOSnVwSaocA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11187"; a="13414537"
-X-IronPort-AV: E=Sophos;i="6.10,208,1719903600"; 
-   d="scan'208";a="13414537"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2024 11:58:55 -0700
-X-CSE-ConnectionGUID: MW3h8rjTRkeVw3bXotiyPQ==
-X-CSE-MsgGUID: cvw9WHRnRJS3VAwyDRmA3g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,208,1719903600"; 
-   d="scan'208";a="96820651"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 06 Sep 2024 11:58:51 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1smeAS-000BcF-2B;
-	Fri, 06 Sep 2024 18:58:48 +0000
-Date: Sat, 7 Sep 2024 02:58:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Carsten =?iso-8859-1?Q?Spie=DF?= <mail@carsten-spiess.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v6 1/3] hwmon: (isl28022) new driver for ISL28022 power
- monitor
-Message-ID: <202409070217.1YB4gnfd-lkp@intel.com>
-References: <20240906061421.9392-2-Delphine_CC_Chiu@wiwynn.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="prk3V34/"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CDF1942B32
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1725648800; bh=lx6igYfktFv/HLabqfYLn2bMTPo2JbeZaHvnRymqUx0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=prk3V34/u2gYj/HwnfH+S5t85S6+9fVc543BQj2sSZh3vz2K9CYLdr5FKUCYjRU45
+	 zfK7N5r/ZfpogcNNpQNs2PnTgQ2AUCYiBVPhLXJ//3Z2f+b/r08Zn38AQ2zRP6F2qY
+	 NEl7rxRy1XNhpRVMH7sYPEoTwX0cVUZMe6YNT9QcJelYY+w83RwkHmPVP+ddYnX8mu
+	 QKtqahiN2x75gxmzwF3IJ9MefYHt5YO6Rb3UDvxZUWbKyw/hcl09R0uCpkuF9jWhnj
+	 mAeLzX5wD11X0DGMcoIGm17TNpodzMF7wDOhOy0fb6o2r5nklHZJmcJTYARrNb6gqs
+	 DN073ZKLgwynw==
+Received: from localhost (c-24-9-249-71.hsd1.co.comcast.net [24.9.249.71])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id CDF1942B32;
+	Fri,  6 Sep 2024 18:53:19 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Abdul Rahim <abdul.rahim@myyahoo.com>, Bjorn Helgaas <helgaas@kernel.org>
+Cc: bhelgaas@google.com, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+ abdul.rahim@myyahoo.com
+Subject: Re: [PATCH] PCI: Fixed spelling in Documentation/PCI/pci.rst
+In-Reply-To: <i432epqedna43bnow5twmm7bdf7dlms54kt5xjewalf5koamks@6kn4bx5lrubz>
+References: <20240906124518.10308-1-abdul.rahim@myyahoo.com>
+ <20240906164152.GA424952@bhelgaas>
+ <i432epqedna43bnow5twmm7bdf7dlms54kt5xjewalf5koamks@6kn4bx5lrubz>
+Date: Fri, 06 Sep 2024 12:53:18 -0600
+Message-ID: <87cylgehr5.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240906061421.9392-2-Delphine_CC_Chiu@wiwynn.com>
+Content-Type: text/plain
 
-Hi Delphine,
+Abdul Rahim <abdul.rahim@myyahoo.com> writes:
 
-kernel test robot noticed the following build warnings:
+> On Fri, Sep 06, 2024 at 11:41:52AM GMT, Bjorn Helgaas wrote:
+>> On Fri, Sep 06, 2024 at 06:15:18PM +0530, Abdul Rahim wrote:
+>> > Fixed spelling and edited for clarity.
+>> > 
+>> > Signed-off-by: Abdul Rahim <abdul.rahim@myyahoo.com>
+>> > ---
+>> >  Documentation/PCI/pci.rst | 2 +-
+>> >  1 file changed, 1 insertion(+), 1 deletion(-)
+>> > 
+>> > diff --git a/Documentation/PCI/pci.rst b/Documentation/PCI/pci.rst
+>> > index dd7b1c0c21da..344c2c2d94f9 100644
+>> > --- a/Documentation/PCI/pci.rst
+>> > +++ b/Documentation/PCI/pci.rst
+>> > @@ -52,7 +52,7 @@ driver generally needs to perform the following initialization:
+>> >    - Enable DMA/processing engines
+>> >  
+>> >  When done using the device, and perhaps the module needs to be unloaded,
+>> > -the driver needs to take the follow steps:
+>> > +the driver needs to perform the following steps:
+>> 
+>> I don't see a spelling fix here, and personally I wouldn't bother with
+>> changing "take" to "perform" unless we have other more significant
+>> changes to make at the same time.
+>
+> - "follow" has been corrected to "following", which is more appriopriate
+> in this context.
+> - I know its trivial, but can disturb the readers flow
+> - do you want me to change the message to "Edited for clarity"
 
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on linus/master v6.11-rc6 next-20240906]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The problem is not s/follow/following/, it is the other, unrelated
+change you made that does not improve the text.  There are reasons why
+we ask people not to mix multiple changes.  If you submit just the
+"following" fix, it will surely be applied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Delphine-CC-Chiu/hwmon-isl28022-new-driver-for-ISL28022-power-monitor/20240906-141717
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20240906061421.9392-2-Delphine_CC_Chiu%40wiwynn.com
-patch subject: [PATCH v6 1/3] hwmon: (isl28022) new driver for ISL28022 power monitor
-reproduce: (https://download.01.org/0day-ci/archive/20240907/202409070217.1YB4gnfd-lkp@intel.com/reproduce)
+Thanks,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409070217.1YB4gnfd-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
->> Warning: Documentation/hwmon/isl28022.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/isl,isl28022.yaml
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/exynos/
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
-   Using alabaster theme
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+jon
