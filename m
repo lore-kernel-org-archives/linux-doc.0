@@ -1,96 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D691E49B;
-	Fri,  6 Sep 2024 13:40:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 039FB1C9ED8
+	for <linux-doc@vger.kernel.org>; Fri,  6 Sep 2024 13:43:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725630011; cv=none; b=TGLMirorWh2MbrXuw9qZ3vGaxuXS4VOv5JgINk7atQsI43GnKHVv45x1e3GXXGlc8M5SWMNZR6zfe8c4vYw0cBd3mJ9Y+e84WywKzkuC5C3rIxMQTYupIIKJ9m8uKIqhMA7A501IT6sOE0R0lXFmhIOXJqThQUNqnpRqcV5KJ2g=
+	t=1725630220; cv=none; b=cpKS04QxaEqyqX/ZfOF4QLK0EN7RK8UmTmcpsP9boTfhGg/ItbPte+ADBVQRVGnbk+bHQOT4EtY66icXi1grGlSfdOWTQ0Z/QiRWhLvN7MCRiS+CkTw/dE/61Ijs22+tilcMRvTRcvAEjFHoAXnZftkg4Xg5msIAJiDjgxojHKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725630011; c=relaxed/simple;
-	bh=3X47wiK7Z53owlSZ6EkvqXjKfYY8m0qVta1OE1ylsh4=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=rh2+lP+jBlAVfmszO1kC0j8+P/4C3MinHTLREtAph+HAV6r8vJVI5ixcdMhT7nBollIwkOoaA/InQfh4c0EdO+2AFI1/IsYTKU1jM1rM1owMLuRwVYoSR93je8UaQ69s3Egu9AZtPV6O0z5vV4G2K85gwcE3/iVqacbD4P7upss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QtRUpSdV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725630220; c=relaxed/simple;
+	bh=sKuluqnwIsBPMAlp7oejy0CyZ+fiG45THI2vkou9XSo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=eG++CK5OuTUTW9T+TTwWimdA1cDK+P2rMYOJd7OlsOKF4agCAFd4b3dVjboZrHfhv0AWLm0+K1lXLMILZ6aOoWBWceD66j32OCdEqW+gK6J4sTv3nBgn4oYhxvn7IHcCMJ3LUSN1zb0SlFTFh/hGem+NdpvtxwzWFTAkINEt1lA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1ksUwQ1y; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pfhRpJEY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1ksUwQ1y; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pfhRpJEY; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QtRUpSdV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 492EDC4CEC5;
-	Fri,  6 Sep 2024 13:40:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725630010;
-	bh=3X47wiK7Z53owlSZ6EkvqXjKfYY8m0qVta1OE1ylsh4=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=QtRUpSdVRoGcXwVENYf8lux421Hr7+xhFIlobZYRJouGo25hZ7hdqr7xAa1vGV+/4
-	 Q886fRhUxmBvmZ+ZNUJK7LbrTjNeidc/pD022y0BS2q9ztrvZ68nDpTehepSgsLTOM
-	 1GtBGQiWbCb/+1nTSIiDKTqwD3QTofSpk8UAWU4402X2k1qwyZ7/ULPEQ6XJrpn55t
-	 T18yqHQsfbOi/N1iflsKaQwmT4BtQs8iBOGUHMd1yffEtRAFov9d9lbAGHDKx9jy8b
-	 TjxvCWNAOxteukoKwcSEDUV/1lzjhB134nfunlRNotn1oUMWfeDD/Fom3OeSVQGjH2
-	 I2CnDYMfz++MA==
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1ksUwQ1y";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pfhRpJEY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1ksUwQ1y";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pfhRpJEY"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 170CC21AC6;
+	Fri,  6 Sep 2024 13:43:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725630217; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bSIdAw94DvEKiuaIKAWci801YGMaKi5IrT8RbMF4Y2Q=;
+	b=1ksUwQ1ysivGC4S27OJCKLMiKhtrUEy+JsfTyn+65N27J1dZEt1CemRLjHFiuVPB1wunTx
+	P9qBmnvWaYJgNAMZ6P3bYHKSojkjCFLjDIlty4Yed7CHhm/5z85iRsOMwBVtjET0nvi8ZG
+	VjYGp/QmP/mRm3MOWFfbQ5RjUQ1NBII=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725630217;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bSIdAw94DvEKiuaIKAWci801YGMaKi5IrT8RbMF4Y2Q=;
+	b=pfhRpJEYfUpiD/N8MAXVvcYaG3aoZjw8kTQhAHJlXO55Ek6R3AOQ9YQAG1T1+VgK0cyBbO
+	4dF5rBCctNZSN9Ag==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725630217; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bSIdAw94DvEKiuaIKAWci801YGMaKi5IrT8RbMF4Y2Q=;
+	b=1ksUwQ1ysivGC4S27OJCKLMiKhtrUEy+JsfTyn+65N27J1dZEt1CemRLjHFiuVPB1wunTx
+	P9qBmnvWaYJgNAMZ6P3bYHKSojkjCFLjDIlty4Yed7CHhm/5z85iRsOMwBVtjET0nvi8ZG
+	VjYGp/QmP/mRm3MOWFfbQ5RjUQ1NBII=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725630217;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bSIdAw94DvEKiuaIKAWci801YGMaKi5IrT8RbMF4Y2Q=;
+	b=pfhRpJEYfUpiD/N8MAXVvcYaG3aoZjw8kTQhAHJlXO55Ek6R3AOQ9YQAG1T1+VgK0cyBbO
+	4dF5rBCctNZSN9Ag==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DF8FC1395F;
+	Fri,  6 Sep 2024 13:43:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 4szVNAgH22aHKAAAD6G6ig
+	(envelope-from <bwiedemann@suse.de>); Fri, 06 Sep 2024 13:43:36 +0000
+Message-ID: <b4e30cf2-096f-4fd0-8dd7-8dfef706c958@suse.de>
+Date: Fri, 6 Sep 2024 15:43:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 06 Sep 2024 16:40:06 +0300
-Message-Id: <D3Z8S9922SIU.QD22EOW9RGT0@kernel.org>
-Cc: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-integrity@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
- <wufan@linux.microsoft.com>, <pbrobinson@gmail.com>, <zbyszek@in.waw.pl>,
- <hch@lst.de>, <mjg59@srcf.ucam.org>, <pmatilai@redhat.com>,
- <jannh@google.com>, <dhowells@redhat.com>, <jikos@kernel.org>,
- <mkoutny@suse.com>, <ppavlu@suse.com>, <petr.vorel@gmail.com>,
- <mzerqung@0pointer.de>, <kgold@linux.ibm.com>, "Roberto Sassu"
- <roberto.sassu@huawei.com>
-Subject: Re: [RFC][PATCH v3 01/10] ima: Introduce hook DIGEST_LIST_CHECK
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "Roberto Sassu" <roberto.sassu@huaweicloud.com>, <corbet@lwn.net>,
- <zohar@linux.ibm.com>, <dmitry.kasatkin@gmail.com>,
- <eric.snowberg@oracle.com>, <paul@paul-moore.com>, <jmorris@namei.org>,
- <serge@hallyn.com>
-X-Mailer: aerc 0.18.2
-References: <20240905152512.3781098-1-roberto.sassu@huaweicloud.com>
- <20240905152512.3781098-2-roberto.sassu@huaweicloud.com>
- <D3Z3PDARWOV4.1CBB4U4NW846J@kernel.org>
- <81fd98ce8a43c209e909144a13dcdbf3239e15ff.camel@huaweicloud.com>
-In-Reply-To: <81fd98ce8a43c209e909144a13dcdbf3239e15ff.camel@huaweicloud.com>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: Build kernel docs deterministically
+To: Jonathan Corbet <corbet@lwn.net>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-doc@vger.kernel.org
+References: <20240905113531.65375-1-bernhard+linux-doc@lsmod.de>
+ <878qw6qpbu.fsf@intel.com> <18f6aafd-3a96-42fc-9a65-b1b03ab8ae2a@suse.de>
+ <87y146p7tp.fsf@intel.com> <87ed5yj7ye.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: "Bernhard M. Wiedemann" <bwiedemann@suse.de>
+In-Reply-To: <87ed5yj7ye.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_THREE(0.00)[4]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Fri Sep 6, 2024 at 2:22 PM EEST, Roberto Sassu wrote:
-> On Fri, 2024-09-06 at 12:41 +0300, Jarkko Sakkinen wrote:
-> > On Thu Sep 5, 2024 at 6:25 PM EEST, Roberto Sassu wrote:
-> > > From: Roberto Sassu <roberto.sassu@huawei.com>
-> > >=20
-> > > Introduce a new hook to check the integrity of digest lists.
-> >=20
-> > "Introduce DIGEST_LIST_CHECK, a new hook..."
-> >=20
-> > >=20
-> > > The new hook is invoked during a kernel read with file type
-> >=20
-> > "with the file type"
-> >=20
-> >=20
-> > > READING_DIGEST LIST, which is done by the Integrity Digest Cache when=
- it is
-> > > populating a digest cache with a digest list.
-> >=20
-> > The patch creates a new struct imap_rule_entry instance when it parses
-> > the corresponding rule, which means that there are couple slices of
-> > information missing here:
-> >=20
-> > 1. The commit message does not tell what the code change effectively
-> >    is. I scavenged this information from [1].
->
-> Sorry, to me it seems a bit redundant to state what a IMA hook is. The
-> new hook will be handled by IMA like the other existing hooks.
+On 05/09/2024 20.01, Jonathan Corbet wrote:
+> [I wouldn't have minded being CC'd on this conversation...]
 
-I think with documentation (scoping also to commit messages) it is in
-general a good strategy to put it less rather than more. No
-documentation is better than polluted documentation ;-)
+Will do next time.
 
-Just remarking what might not be obvious with someone who might not
-be obvious, unless being a pro-active contributor.
+Looking at one of the diffs I got:
+https://rb.zq1.de/compare.factory-20240904/diffs/kernel-source-compare.out
+whatisRCU.html seems to have a dozen missing lines in one case.
+Possibly, because it depends on which other files have already been 
+processed at that moment.
 
-BR, Jarkko
+Ciao
+Bernhard M.
