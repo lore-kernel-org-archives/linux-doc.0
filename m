@@ -1,104 +1,74 @@
-Received: from sonic314-19.consmr.mail.sg3.yahoo.com (sonic314-19.consmr.mail.sg3.yahoo.com [106.10.240.143])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF291D54E0
-	for <linux-doc@vger.kernel.org>; Fri,  6 Sep 2024 17:44:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=106.10.240.143
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07AD1D4611
+	for <linux-doc@vger.kernel.org>; Fri,  6 Sep 2024 17:50:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725644683; cv=none; b=qvVA1lgKqyylKeQLmwBsVFMltlj0oA0Aww3g/jgo7oJs5+CDh4EVSgpQxDlXIwsLkuWBge/m3EJ2fAmoMwYXMk95Yw3lu81SusESllbWV79c7a3pekYgW3VbllyHJHqHcYBEG+hkRLrLkdyqkC2arlIjtTQiecskg37mMUV3fOk=
+	t=1725645020; cv=none; b=pLm6ZH3dHNbPv+hRzT5Tb0uNJOs+WE1PfxRl3Q4d/yAWFXz/EPDyt8rntbEFKdw9vlLBss8mLoqI3KfCukNxpOvs4wAuVlu3dOulc+z5l1FFYSraXhFuMJAv+8/ib8cYpgoe3/3x1k6bqZdaV9Zn00XiMW8dbJpHa9FI3Cm2DIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725644683; c=relaxed/simple;
-	bh=ZNzSESrmnfYfC8WerZmh7uWbTuXGbUiGVU7tagoPiKU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LgbFyW7XhDHbrwTGzeL3NpcCwX3eI1kzgnryPGwYWvJZ5GHPmJZMdgJBN4CKVa8a8sKO6BJ8jzSVXKODDIBP7ebXX5XkQsAo//QoK8BMUmt9+BW+3SPvY9DqdgCAOlYGCB8BNVVbxQYhrfL4b772DyycoYfT5HH9K9jrk+zZ+Lw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=myyahoo.com; spf=pass smtp.mailfrom=myyahoo.com; dkim=pass (2048-bit key) header.d=myyahoo.com header.i=@myyahoo.com header.b=Ck8NTVmZ; arc=none smtp.client-ip=106.10.240.143
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=myyahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=myyahoo.com
+	s=arc-20240116; t=1725645020; c=relaxed/simple;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pR4WN90zUOyWynSU46C8SnKRjxwMLPUbDbuhcspBHxcJBFN7YXPEda0A2yYH9iv28J0MJcMcvNDIpUOFEEYWclOxmqKMgirlfkvcQ5Y2w40v1TnhPSFKwni2Mx8KeviVw0p0hoxBR9ejS1uDTXDu0fTC7QjqEUtIAYSVNkrvTfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=S9ik7q7/; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=myyahoo.com header.i=@myyahoo.com header.b="Ck8NTVmZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=myyahoo.com; s=s2048; t=1725644679; bh=TemEgEvPZ/peg1vfcBnLLL322AhBvVptPy2jSO3rR+g=; h=Date:From:To:Cc:Subject:References:In-Reply-To:From:Subject:Reply-To; b=Ck8NTVmZOtAQbQ3A/mNF0QFcfzw4SlhvNGQYCOcOLB9Qn0rCgsYaiulBo4DTCaBz5Z58gwcSmENe4m12z3e1svkcY6NkX8GHwhDVACdj5r57kMz+zR5dRs6GT66D8FDn2LRTVc5Wv7kvbrkNBKpaLB1zN4qJuaWWNjdG9hO75NapzH3EZwPJey5vm9hpp/UZ7DKAOVOyCA1fUu8lembAvWl/nqz55ny4JCTgNTgp8s18fp5DZGyH+5AhQ5btRVtrF3O9BNZ8BcOPg3df4hJPKXFL13RorrfoHhHYjfc4ULaOG+1EQLlxsCs2SnHKeSD4gbLgbPxas+yWuhZSFxBEzA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1725644679; bh=QTOvfh4qNoQNgSoWjkqWvAw5njUTTya5deN0sh9h4o1=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=mRFqSqaIbqDr7nKsyTDXelLzMIM1o2YgmaVPF6p2nz/KqRQ0FBEXC9sxYMO9Ba2SwhwYA8yd4ljpoDqwRCAtiVtYcjqKXm/kC60KLb0eySUeZnWFTh6zjEypDRqiCoNz+b1eVdHunxuzgVhGymB7nV3GQbOnQTO3bYFAVaBZKB0hnwRzFDYRfYoRxBuJvwizfWVFrK41+66No6hc/zXggAbWYX+5fOZKO6QWvqvTPGtWiiv/fzTYItkrV2ekF8vwYx21pbVx7fWtvw68eBlxO2ox9i1TA2l0izdxDX6zbEUwahfJEtj2ncPbqYypJLVhd0B0FkJt1L98P07MI47UIA==
-X-YMail-OSG: lGxF_v0VM1lmSLZDM45qMiBLP9r8OnTNbR72Hqc3qrtGR73ys7jY5DTXDBtxCSm
- hPJDQfEwcU1I4V69NjMUp_KsaalxKv7X6GZi_FlzpXvn5zACQAY_Z6ZM3qhsKdvE1Egss9M7K4Nm
- haf0YrbHcXU_rmJ3kY3sZCOvrMwcYaIteegZIbWGw5ABhSoOj6r7a33FGNGY5Ooa7IvwgJrWUwfF
- 4epP4YtsVI8QwAtU7U4m0EURprgRsZ1cUusivrh7tpL8LUk66KTuz01TVY.opoJUSt48tMVLnjN_
- pA2gRORrMWphPi7QLNx6fmJLzTFrBNgeih3mneO3LTng.X3hNFMMEFjvmn2XLi4lYJGGl3Ih1Qtg
- 8TExc6Z_LufMOV4Q4Tah6po46tBUamSK8V5tNjrKylCFdmeBhAjHsf58Fi_XjOyn5HaWU._nSmIg
- .8Q1Z_4IOwQTtBlnaoVdXdaE87VJmv8OhJTasMUI1nlqFtNwghhWJc5nuB47nI.g2EqciDKZg9I1
- EewQI8.4ABL_AWySPC7nzcgvhhn6ZjwLWqjGKmcRd.H5KJkZxylG9bVg0y2KRlBpaJvf39llOLs4
- qTf97ikO1Hc9lbjcBsRcEq.svasoy3rHgvAiWLwmj0VADA01dRzFi.jb2yy9F3fXuOu0IqZRFYj6
- U4aBjRvru7tUJsfjEOpumemb0Wd99rfX_3vetyrcfZs6xLHam9ZMi_oY8WdJgC0Yk9paQflWMe28
- ZpzTMVQby_wbK.UTJzPJuTBIkOW.aIixIQ4NcQuVmTG4pI.O5MalFefvKUAKdkgHMuj_HUDbQpup
- B9wrllUauj9Q2iC2cmAw9y9Ooe3qGXZ1.xXq1BMtFeHqHJLa3j6mQlbk1KGGYDixVTSP1Pvq413m
- zRUNOF2IQyoIrUFxCOirmRwWDRSFTPAspFazuDsJVe9SwVKYHnyHm3M4i_P3.PHliL5eQciWVKFX
- _ZIFMOryP3QbyqojnNE_Wt1i53DD6ttaqUpNw0v0hh9wzkg8dchB6dXYUpkLpwFyMDz39Ymgdqp_
- IRttIBa9v5RpsGZiVQ.0RhzpaTsu50ruwLBw31R1.2jJwBkMdPh7khDgX6gFuiCwz.sGQ_MK4jtO
- i_NJ6FcQnP9VI9joq36oUNe_unsOkTw395CNO3yudDcqUiLzaUnoc_uoQrZo2OI0AVuPIts6pk6v
- ujiZkTx6z0_0XXBtr5Tsit_c5eDaZoRjuxK65N_O4LVoIqx8QCL803FK.rRfhWgtx2PSma3bYWR2
- Vq.rM0hGJS4gryiujV5It6N7t0xshFZfh47TEo8a2OERci4fSk5nkekjOJy2kmVgp2jZihScXzGi
- jwm98r0sYGCl0.qWX_Uwh.bF6qWFj5kgRnq3GkEKCpFpPRjRj8W_ZMfsobTJwpbqZjelnIg0I_3I
- yb3uZIODkSkgLFef3q98ZuVHwGe6peXl4RGq4UcOB4asgz7mCJRNgMZQwErW2V2ZkYG1qk97rcge
- B4L6z95CGXEMF2o25e4qanS74yymHBEllAXA9DJTFUXSswIzgNwLuffB74LXYbCwRPWpBAuiZem6
- VOP.yqdclxxjpaniGvtfpJIVBwbX2B.UfHBDJFOJ8ga7h7G0GDwS8ie2vf5ktL77lunAaYQHY8yx
- AniNH.2b2K8wuwmnOLKSuVyEXeutRO2NvR9Dco0t6s9FyBOn_Z1qPbT3r7Jlaekyo7Wwhj87T6zH
- CCEBycQg_i8cFrXz4HfkpQDMnByu_fxzvw0Wv6sBfXAhwG6NSXFBJoltrxr2YG97PDByrPWDnMLP
- AqsedQttUQeHYqE6foCgpvwbMwBdiZd97vQJQkd8jO2eJp8GMGAmev__ZvWjkiggMkUd407Dt25L
- 2NkRsLySLd7wraWuOjsPbZyt8WsK3gTbHBNAHSGY8NyBtAC31t6f31MWwBQPaQzFY08mf9c_RcA5
- BI7jUjeB_nNAFXr8wp6vrFInuSO5WUebNlfbRbbVQfEvKQJog3eYbE.d1qos2Xix5fW2CjB31lKS
- Z9lR11LzQOH_ZsA4Wy41MUzGEI4yUBTCcawPQXpO4F0PnNKpQy3U3t.wJxpoKqCuHQd1aFgxH17O
- .rC18qZaiz1l0.HcXR36QXDx6bp3jyZOeiWoVbwQgr0RT7l4zudyBpuRfZA9.ct7tfcIZhoh.UGc
- MQEncXMamBZYTuRRmpKz6.vFn4m5X_aAZ4kzwh4vJBiqPOmYe55rhCupXukHMDi0Gxn_de_D03FW
- .QO4O1O7aU6YjiMzLRrUw4qAVyrbf4wS7Y4lCPhE-
-X-Sonic-MF: <abdul.rahim@myyahoo.com>
-X-Sonic-ID: 5831fb12-e2bb-4acc-a5bf-07c0fa5aec38
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic314.consmr.mail.sg3.yahoo.com with HTTP; Fri, 6 Sep 2024 17:44:39 +0000
-Received: by hermes--production-sg3-fc85cddf6-tm2cm (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 917e767aa2fce9f9c6aa56fa3f0d446e;
-          Fri, 06 Sep 2024 17:34:26 +0000 (UTC)
-Date: Fri, 6 Sep 2024 23:04:19 +0530
-From: Abdul Rahim <abdul.rahim@myyahoo.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: corbet@lwn.net, bhelgaas@google.com, linux-kernel@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, abdul.rahim@myyahoo.com
-Subject: Re: [PATCH] PCI: Fixed spelling in Documentation/PCI/pci.rst
-Message-ID: <i432epqedna43bnow5twmm7bdf7dlms54kt5xjewalf5koamks@6kn4bx5lrubz>
-References: <20240906124518.10308-1-abdul.rahim@myyahoo.com>
- <20240906164152.GA424952@bhelgaas>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="S9ik7q7/"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-42ca580f4c8so135e9.0
+        for <linux-doc@vger.kernel.org>; Fri, 06 Sep 2024 10:50:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1725645017; x=1726249817; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=S9ik7q7/k29xUOpJQRD3mc+GL+x/r+ZRglHfWZzWlrqbw9wvYyEa3qbzbhI4x2tddn
+         cKifEPDSUS4v05RMEUmTunZTWmf3/zpnBjEY4AR+L0lkCG3gh0ZL7ldCLQKfA1XEr1C7
+         d07flH4+TqPVFOINEth9POE+r+B75eoX9b3YUvfyU7NXzmy2NqM5yHCRr772Ph3t+Zpn
+         fL0WSKhWTEt9Vyrfec3UHtt84n7UcgaqCr6kORf30glzaM0jiHdNc5WO+R+Dgz3BuTc5
+         v6e7X8cE0tpM0zfGoVgVjmHMAJxs/c48JMlCNrgSC9FTdLUOejAL3ocPYWiDITAHerbC
+         I7DA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725645017; x=1726249817;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=aX0pmod9/M0gHQ61wwxvLIvRkyr7jQaTySmnG7cyMQrIyEHchjTdjE5+YeoqdhLO+9
+         rCaxr3TzerzFaqD+V75JwVNID5FLi1a+SGpnAQRfmEZ8tj1D67+huZ0Fdd5QKajXtST8
+         93kb8OLp9s0d05wO3dO3mADDCC3CNTCOwwmMZkebH/t5dONCPB8v3Ii40BLk2Xmv3dZq
+         rMAyjOrbsTnTl3D0K1cg4pPHqKbdpdAfRQn4mF7zTNbsVfhC9ymvv5jTkjqpzPzWMSJa
+         bZ3WMjvdHdaBOpsFhQxtnd1U8Q8+///8ozbZ02+tiycNwJnKo5a9e2jw/Bme618QFKbq
+         MvFA==
+X-Forwarded-Encrypted: i=1; AJvYcCVz20jMxxRHBZy1vhzdfKdcc0B24CPTsiOwtf/bCPSCgB8csby8KTrNkixhxXlm0wqB4S4SZ1MCGz0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwM+6jyiuD/eb19SC9FkGsyh193LSRWlMh8jrrJYiLDblZ12t1S
+	h9Ow4fhcAaVIRjcNmjOZleIISU0aGXrKvVzmAO+ZkmAabndmvcRe1id0f5NXmWSi3tprriDUbk+
+	k5rXZndnT8Z8JugH9ZAO/uzl7emdnvihsvOg=
+X-Gm-Gg: ASbGncu/QWRNAJOPeJazNg2ABxMo2Kv2TsaSMdC7HtpLJanvBqS7/RoXExFNBhXWZK4
+	SDPq9re0NCiYh4IuW+PS+E1j7EUPoIrv6hC0L1jhclDMdndnjD3nc9VViGg==
+X-Google-Smtp-Source: AGHT+IHOlcv7vqlkgAnGOoFg/Cdu9KrQD+OEz5m6AJTBmUsgUHU751o/ZDkQMZfiOBrlPwGBZScRBDsy3iuUbw5u8dk=
+X-Received: by 2002:a05:600c:254:b0:424:a2ae:8d1d with SMTP id
+ 5b1f17b1804b1-42cacd3ab7cmr25915e9.2.1725645016574; Fri, 06 Sep 2024 10:50:16
+ -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240906164152.GA424952@bhelgaas>
-X-Mailer: WebService/1.1.22645 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+References: <CAFs7P=jk=wfo0nbHzqd1NrGX3NKpOezD4-u=nAMqzq7mq4Lidg@mail.gmail.com>
+ <CAFs7P=jPqv2Zr6Fnw584TKhj5joBRt7X7gMidE4MiK1ABAMiRQ@mail.gmail.com>
+In-Reply-To: <CAFs7P=jPqv2Zr6Fnw584TKhj5joBRt7X7gMidE4MiK1ABAMiRQ@mail.gmail.com>
+From: Joshua Pius <joshuapius@google.com>
+Date: Fri, 6 Sep 2024 13:49:39 -0400
+Message-ID: <CAFs7P=jfzE6V4EMdVZ73ShdWLavv41kU_NdK-=CO+Cv8dfGBGw@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: Add logitech Audio profile quirk
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	Takashi Iwai <tiwai@suse.de>, Mark Brown <broonie@kernel.org>, alsa-devel@alsa-project.org
+Cc: devicetree@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Sep 06, 2024 at 11:41:52AM GMT, Bjorn Helgaas wrote:
-> On Fri, Sep 06, 2024 at 06:15:18PM +0530, Abdul Rahim wrote:
-> > Fixed spelling and edited for clarity.
-> > 
-> > Signed-off-by: Abdul Rahim <abdul.rahim@myyahoo.com>
-> > ---
-> >  Documentation/PCI/pci.rst | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/PCI/pci.rst b/Documentation/PCI/pci.rst
-> > index dd7b1c0c21da..344c2c2d94f9 100644
-> > --- a/Documentation/PCI/pci.rst
-> > +++ b/Documentation/PCI/pci.rst
-> > @@ -52,7 +52,7 @@ driver generally needs to perform the following initialization:
-> >    - Enable DMA/processing engines
-> >  
-> >  When done using the device, and perhaps the module needs to be unloaded,
-> > -the driver needs to take the follow steps:
-> > +the driver needs to perform the following steps:
-> 
-> I don't see a spelling fix here, and personally I wouldn't bother with
-> changing "take" to "perform" unless we have other more significant
-> changes to make at the same time.
 
-- "follow" has been corrected to "following", which is more appriopriate
-in this context.
-- I know its trivial, but can disturb the readers flow
-- do you want me to change the message to "Edited for clarity"
