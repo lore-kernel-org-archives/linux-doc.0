@@ -1,125 +1,483 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-fw-2101.amazon.com (smtp-fw-2101.amazon.com [72.21.196.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181161CB145;
-	Fri,  6 Sep 2024 09:45:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE6B81745;
+	Fri,  6 Sep 2024 10:49:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=72.21.196.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725615907; cv=none; b=Nvr6nxYjT2pTeNeYJd+j1aG/uBMw1a+61K5LATfRAtGq9DgQWMC2a6D3gyd319QKkKgGHJK4fTnVKZ094YKREe3bPQI2D8Y97RiR54syIp7hXuWoxPj0Bi6ThenbkBbFIrBQyoqZSaD5LxZie9Kr4Blh4cW8qA49mhWBJkO4KBA=
+	t=1725619790; cv=none; b=n7AXGCpXB1mZ2avXw5eydtFAyelKpUBiyfYAUatdRhC1pACjmXvsRfMrY4hj7VjWuNKmQZ1h4HRnEMXECN3hSwJIoJ1HHHhQpuodG+/U1YteerddUvDHRrZRrVoBt2DADNonnyQ9oep7r6gEDLMRk5XzP7R+HfAyGhklVkVj5sA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725615907; c=relaxed/simple;
-	bh=h6tMVK3hUBDyNHoKcfua8I1SEiAjO/LajNuZV1loc14=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=C8ZENN9fpUAuascFQ8xrFTE7dA7Hgpv1jJ61YmVGDzpMmW554L1+6S11mlomGQvwlYiYCWqJMnhYyszk408Zs3w4sIvTtAYQkSs1kSHnifCdDtWJCYHNw9YXq6xCtS0h8TvyHm+FUgTIeuEbZ+ttSc3B9zKV885hZE4v1q49urs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CclR5XKV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725619790; c=relaxed/simple;
+	bh=4K0E2IyzitApeYg9mDwYc+t/tsR74FtzrArJll1VuNw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DeCrQhTpWcQxCQwjSUVAylBNRNXUP7jEDNJhF5MKBpOEXQlmN9TF+rNyMG7LxeAXaVRGxqrHCgsJSWVvECXwNq5m84v2DgTgXMBc4rEkn2d7k6MW/Nlnc7eZ6uMauZ+pJAzCuqKS3BbXiHdwSgiqAmtLZDkrd9YX8hMV5ginCjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=oydiRIJC; arc=none smtp.client-ip=72.21.196.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CclR5XKV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 254B1C4CEC8;
-	Fri,  6 Sep 2024 09:45:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725615906;
-	bh=h6tMVK3hUBDyNHoKcfua8I1SEiAjO/LajNuZV1loc14=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=CclR5XKVX+vY89v50ULWz36stcErhdsU39M/DOohlVC/ZsSaSe+y3L2IVBJjbPScH
-	 GXOn0glHUhAT0iOZk62N3cY7PkUOSJGILlYDN3lY0iTk6LWbYD1GnbNXI9pmF9EGgg
-	 sJTAp9ln8Jydc29cP4RJop1LNuwYibdDa7bWNnnddaUZQgkULn/SRTob/OB5uoQAfX
-	 cq01Mi6KkHOKwteAKlxrlMmy8JD+h7QtHwgu8P4aSfXTaLlzvo9JK7hDejHRlEoBGU
-	 8ALB9zWGb77EYUlbWUzVdRneP+6mUMRKEOgAT6Jg2OtKa8mBMNQ6XKTr40zW9OWwyL
-	 8W+OTBBNXxt0Q==
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="oydiRIJC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1725619788; x=1757155788;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=YlJkwc7o0S1aTS/rvhzlAXNLvyMkdLbJRU2SAjbOMrc=;
+  b=oydiRIJC8y5tRYKPvEBsLungkA46fhcuHfQx464SpNmYLT0xN91Qan5b
+   0i94t42AGgIGQaloFPHZrcvlRgECpqvDCUM9Ruhsn4h3wStBJtFb0b1FF
+   eQ3sPseDYJMs/5czfR0XXr7L4oOD7pHfK6SA0rQ3c2cdjCEGkoG39uwFe
+   c=;
+X-IronPort-AV: E=Sophos;i="6.10,207,1719878400"; 
+   d="scan'208";a="425971812"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.6])
+  by smtp-border-fw-2101.iad2.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2024 10:49:44 +0000
+Received: from EX19MTAUWA002.ant.amazon.com [10.0.21.151:55306]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.55.175:2525] with esmtp (Farcaster)
+ id bd08bdf5-e25b-41a9-9336-62441350f5e7; Fri, 6 Sep 2024 10:49:42 +0000 (UTC)
+X-Farcaster-Flow-ID: bd08bdf5-e25b-41a9-9336-62441350f5e7
+Received: from EX19D002AND004.ant.amazon.com (10.37.240.230) by
+ EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Fri, 6 Sep 2024 10:49:41 +0000
+Received: from EX19MTAUWA001.ant.amazon.com (10.250.64.204) by
+ EX19D002AND004.ant.amazon.com (10.37.240.230) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.35;
+ Fri, 6 Sep 2024 10:49:40 +0000
+Received: from dev-dsk-itazur-1b-8445a99b.eu-west-1.amazon.com (10.13.227.122)
+ by mail-relay.amazon.com (10.250.64.204) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34
+ via Frontend Transport; Fri, 6 Sep 2024 10:49:38 +0000
+From: Takahiro Itazuri <itazur@amazon.com>
+To: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<corbet@lwn.net>
+CC: <bp@alien8.de>, <itazur@amazon.com>, <zulinx86@gmail.com>,
+	<jpoimboe@kernel.org>, <pawan.kumar.gupta@linux.intel.com>,
+	<peterz@infradead.org>, <tglx@linutronix.de>
+Subject: [PATCH v2] Documentation: Use grid table over list table
+Date: Fri, 6 Sep 2024 10:49:36 +0000
+Message-ID: <20240906104936.15558-1-itazur@amazon.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 06 Sep 2024 12:45:02 +0300
-Message-Id: <D3Z3S9Z6B4BC.2OSFJZYTZOPZD@kernel.org>
-Cc: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-integrity@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
- <wufan@linux.microsoft.com>, <pbrobinson@gmail.com>, <zbyszek@in.waw.pl>,
- <hch@lst.de>, <mjg59@srcf.ucam.org>, <pmatilai@redhat.com>,
- <jannh@google.com>, <dhowells@redhat.com>, <jikos@kernel.org>,
- <mkoutny@suse.com>, <ppavlu@suse.com>, <petr.vorel@gmail.com>,
- <mzerqung@0pointer.de>, <kgold@linux.ibm.com>, "Roberto Sassu"
- <roberto.sassu@huawei.com>
-Subject: Re: [RFC][PATCH v3 04/10] ima: Add digest_cache_measure/appraise
- boot-time built-in policies
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "Roberto Sassu" <roberto.sassu@huaweicloud.com>, <corbet@lwn.net>,
- <zohar@linux.ibm.com>, <dmitry.kasatkin@gmail.com>,
- <eric.snowberg@oracle.com>, <paul@paul-moore.com>, <jmorris@namei.org>,
- <serge@hallyn.com>
-X-Mailer: aerc 0.18.2
-References: <20240905152512.3781098-1-roberto.sassu@huaweicloud.com>
- <20240905152512.3781098-5-roberto.sassu@huaweicloud.com>
-In-Reply-To: <20240905152512.3781098-5-roberto.sassu@huaweicloud.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Thu Sep 5, 2024 at 6:25 PM EEST, Roberto Sassu wrote:
-> From: Roberto Sassu <roberto.sassu@huawei.com>
->
-> Specify the 'digest_cache_measure' boot-time policy with 'ima_policy=3D' =
-in
-> the kernel command line to add the following rule at the beginning of the
-> IMA policy, before other rules:
->
-> measure func=3DDIGEST_LIST_CHECK pcr=3D12
->
-> which will measure digest lists into PCR 12 (or the value in
-> CONFIG_IMA_DIGEST_CACHE_MEASURE_PCR_IDX).
->
-> Specify 'digest_cache_appraise' to add the following rule at the beginnin=
-g,
-> before other rules:
->
-> appraise func=3DDIGEST_LIST_CHECK appraise_type=3Dimasig|modsig
->
-> which will appraise digest lists with IMA signatures or module-style
-> appended signatures.
->
-> Adding those rule at the beginning rather than at the end is necessary to
-> ensure that digest lists are measured and appraised in the initial ram
-> disk, which would be otherwise prevented by the dont_ rules.
->
-> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
-> ---
->  .../admin-guide/kernel-parameters.txt         | 10 +++++-
->  security/integrity/ima/Kconfig                | 10 ++++++
->  security/integrity/ima/ima_policy.c           | 35 +++++++++++++++++++
->  3 files changed, 54 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
-ion/admin-guide/kernel-parameters.txt
-> index 09126bb8cc9f..afaaf125a237 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -2077,7 +2077,8 @@
->  	ima_policy=3D	[IMA]
->  			The builtin policies to load during IMA setup.
->  			Format: "tcb | appraise_tcb | secure_boot |
-> -				 fail_securely | critical_data"
-> +				 fail_securely | critical_data |
-> +				 digest_cache_measure | digest_cache_appraise"
-> =20
->  			The "tcb" policy measures all programs exec'd, files
->  			mmap'd for exec, and all files opened with the read
-> @@ -2099,6 +2100,13 @@
->  			The "critical_data" policy measures kernel integrity
->  			critical data.
-> =20
-> +			The "digest_cache_measure" policy measures digest lists
-> +			into PCR 12 (can be changed with kernel config).
-> +
-> +			The "digest_cache_appraise" policy appraises digest
-> +			lists with IMA signatures or module-style appended
-> +			signatures.
-> +
->  	ima_tcb		[IMA] Deprecated.  Use ima_policy=3D instead.
->  			Load a policy which meets the needs of the Trusted
->  			Computing Base.  This means IMA will measure all
+Using a simple table, a line break in the first column would be
+recognized as two rows. To avoid that, list table was used but it
+is unreadable for plain text readers. Uses grid table instead.
 
-Must be updated as a separate commit as kernel-parameters.txt not
-part of IMA. Consider it as a different subsystem in this context.
+Signed-off-by: Takahiro Itazuri <itazur@amazon.com>
+---
+Changes in v2:
+- Use grid table over list table (applying to not only GDS but also
+  other vulnerabilities)
+- Link to v1: https://lore.kernel.org/all/20240903132533.26458-1-itazur@amazon.com/
 
-BR, Jarkko
+---
+ .../hw-vuln/gather_data_sampling.rst          | 40 +++++++------
+ Documentation/admin-guide/hw-vuln/mds.rst     | 50 ++++++++--------
+ .../admin-guide/hw-vuln/multihit.rst          | 27 +++++----
+ .../hw-vuln/processor_mmio_stale_data.rst     | 57 ++++++++++---------
+ .../hw-vuln/reg-file-data-sampling.rst        | 23 ++++----
+ Documentation/admin-guide/hw-vuln/spectre.rst | 55 +++++++++---------
+ .../admin-guide/hw-vuln/tsx_async_abort.rst   | 57 +++++++++++--------
+ 7 files changed, 170 insertions(+), 139 deletions(-)
+
+diff --git a/Documentation/admin-guide/hw-vuln/gather_data_sampling.rst b/Documentation/admin-guide/hw-vuln/gather_data_sampling.rst
+index 264bfa937f7d..15d124fe979a 100644
+--- a/Documentation/admin-guide/hw-vuln/gather_data_sampling.rst
++++ b/Documentation/admin-guide/hw-vuln/gather_data_sampling.rst
+@@ -85,23 +85,29 @@ GDS this can be accessed by the following sysfs file:
+ 
+ The possible values contained in this file are:
+ 
+- ============================== =============================================
+- Not affected                   Processor not vulnerable.
+- Vulnerable                     Processor vulnerable and mitigation disabled.
+- Vulnerable: No microcode       Processor vulnerable and microcode is missing
+-                                mitigation.
+- Mitigation: AVX disabled,
+- no microcode                   Processor is vulnerable and microcode is missing
+-                                mitigation. AVX disabled as mitigation.
+- Mitigation: Microcode          Processor is vulnerable and mitigation is in
+-                                effect.
+- Mitigation: Microcode (locked) Processor is vulnerable and mitigation is in
+-                                effect and cannot be disabled.
+- Unknown: Dependent on
+- hypervisor status              Running on a virtual guest processor that is
+-                                affected but with no way to know if host
+-                                processor is mitigated or vulnerable.
+- ============================== =============================================
++ +----------------------------+----------------------------------------------+
++ | 'Not affected'             | Processor is not vulnerable.                 |
++ +----------------------------+----------------------------------------------+
++ | 'Vulnerable'               | Processor is vulnerable and mitigation       |
++ |                            | disabled.                                    |
++ +----------------------------+----------------------------------------------+
++ | 'Vulnerable: No microcode' | Processor is vulnerable and microcode is     |
++ |                            | missing mitigation.                          |
++ +----------------------------+----------------------------------------------+
++ | 'Mitigation: AVX disabled, | Processor is vulnerable and microcode is     |
++ | no microcode'              | missing mitigation. AVX disabled as          |
++ |                            | mitigation.                                  |
++ +----------------------------+----------------------------------------------+
++ | 'Mitigation: Microcode'    | Processor is vulnerable and mitigation is in |
++ |                            | effect.                                      |
++ +----------------------------+----------------------------------------------+
++ | 'Mitigation: Microcode     | Processor is vulnerable and mitigation is in |
++ | (locked)'                  | effect and cannot be disabled.               |
++ +----------------------------+----------------------------------------------+
++ | 'Unknown: Dependent on     | Running on a virtual guest processor that is |
++ | hypervisor status'         | affected but with no way to know if host     |
++ |                            | processor is mitigated or vulnerable.        |
++ +----------------------------+----------------------------------------------+
+ 
+ GDS Default mitigation
+ ----------------------
+diff --git a/Documentation/admin-guide/hw-vuln/mds.rst b/Documentation/admin-guide/hw-vuln/mds.rst
+index 48c7b0b72aed..a57f50233d42 100644
+--- a/Documentation/admin-guide/hw-vuln/mds.rst
++++ b/Documentation/admin-guide/hw-vuln/mds.rst
+@@ -95,29 +95,33 @@ mitigations are active. The relevant sysfs file is:
+ 
+ The possible values in this file are:
+ 
+-  .. list-table::
+-
+-     * - 'Not affected'
+-       - The processor is not vulnerable
+-     * - 'Vulnerable'
+-       - The processor is vulnerable, but no mitigation enabled
+-     * - 'Vulnerable: Clear CPU buffers attempted, no microcode'
+-       - The processor is vulnerable but microcode is not updated. The
+-         mitigation is enabled on a best effort basis.
+-
+-         If the processor is vulnerable but the availability of the microcode
+-         based mitigation mechanism is not advertised via CPUID, the kernel
+-         selects a best effort mitigation mode. This mode invokes the mitigation
+-         instructions without a guarantee that they clear the CPU buffers.
+-
+-         This is done to address virtualization scenarios where the host has the
+-         microcode update applied, but the hypervisor is not yet updated to
+-         expose the CPUID to the guest. If the host has updated microcode the
+-         protection takes effect; otherwise a few CPU cycles are wasted
+-         pointlessly.
+-     * - 'Mitigation: Clear CPU buffers'
+-       - The processor is vulnerable and the CPU buffer clearing mitigation is
+-         enabled.
++  +------------------------+---------------------------------------------------+
++  | 'Not affected'         | The processor is not vulnerable.                  |
++  +------------------------+---------------------------------------------------+
++  | 'Vulnerable'           | The processor is vulnerable, but no mitigation    |
++  |                        | enabled.                                          |
++  +------------------------+---------------------------------------------------+
++  | 'Vulnerable: Clear CPU | The processor is vulnerable but microcode is not  |
++  | buffers attempted, no  | updated. The mitigation is enabled on a best      |
++  | microcode'             | effort basis.                                     |
++  |                        |                                                   |
++  |                        | If the processor is vulnerable but the            |
++  |                        | availability of the microcode based mitigation    |
++  |                        | mechanism is not advertised via CPUID, the kernel |
++  |                        | selects a best effort mitigation mode. This mode  |
++  |                        | invokes the mitigation instructions without a     |
++  |                        | guarantee that they clear the CPU buffers.        |
++  |                        |                                                   |
++  |                        | This is done to address virtualization scenarios  |
++  |                        | where the host has the microcode update applied,  |
++  |                        | but the hypervisor is not yet updated to expose   |
++  |                        | the CPUID to the guest. If the host has updated   |
++  |                        | microcode the protection takes effect; otherwise  |
++  |                        | a few CPU cycles are wasted pointlessly.          |
++  +------------------------+---------------------------------------------------+
++  | 'Mitigation: Clear CPU | The processor is vulnerable and the CPU buffer    |
++  | buffers'               | clearning mitigation is enabled.                  |
++  +------------------------+---------------------------------------------------+
+ 
+ If the processor is vulnerable then the following information is appended
+ to the above information:
+diff --git a/Documentation/admin-guide/hw-vuln/multihit.rst b/Documentation/admin-guide/hw-vuln/multihit.rst
+index 140e4cec38c3..4870afa5b40a 100644
+--- a/Documentation/admin-guide/hw-vuln/multihit.rst
++++ b/Documentation/admin-guide/hw-vuln/multihit.rst
+@@ -74,18 +74,21 @@ mitigations are active. The relevant sysfs file is:
+ 
+ The possible values in this file are:
+ 
+-.. list-table::
+-
+-     * - Not affected
+-       - The processor is not vulnerable.
+-     * - KVM: Mitigation: Split huge pages
+-       - Software changes mitigate this issue.
+-     * - KVM: Mitigation: VMX unsupported
+-       - KVM is not vulnerable because Virtual Machine Extensions (VMX) is not supported.
+-     * - KVM: Mitigation: VMX disabled
+-       - KVM is not vulnerable because Virtual Machine Extensions (VMX) is disabled.
+-     * - KVM: Vulnerable
+-       - The processor is vulnerable, but no mitigation enabled
++  +-------------------+-------------------------------------------------+
++  | 'Not affected'    | The processor is not vulnerable.                |
++  +-------------------+-------------------------------------------------+
++  | 'KVM mitigation:  | Software changes mitigate this issue.           |
++  | Split huge pages' |                                                 |
++  +-------------------+-------------------------------------------------+
++  | 'KVM mitigation:  | KVM is not vulnerable because Virtual Machine   |
++  | VMX unsupported'  | Extensions (VMX) is not supported.              |
++  +-------------------+-------------------------------------------------+
++  | 'KVM mitigation:  | KVM is not vulnerable because Virtual Machine   |
++  | VMX disabled'     | Extensions (VMX) is disabled.                   |
++  +-------------------+-------------------------------------------------+
++  | 'KVM: Vulnerable' | The processor is vulnerable, but no mitigation  |
++  |                   | enabled.                                        |
++  +-------------------+-------------------------------------------------+
+ 
+ 
+ Enumeration of the erratum
+diff --git a/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst b/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
+index 1302fd1b55e8..7f9a5d8de10a 100644
+--- a/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
++++ b/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
+@@ -218,32 +218,37 @@ which mitigations are active. The relevant sysfs file is:
+ 
+ The possible values in this file are:
+ 
+-  .. list-table::
+-
+-     * - 'Not affected'
+-       - The processor is not vulnerable
+-     * - 'Vulnerable'
+-       - The processor is vulnerable, but no mitigation enabled
+-     * - 'Vulnerable: Clear CPU buffers attempted, no microcode'
+-       - The processor is vulnerable but microcode is not updated. The
+-         mitigation is enabled on a best effort basis.
+-
+-         If the processor is vulnerable but the availability of the microcode
+-         based mitigation mechanism is not advertised via CPUID, the kernel
+-         selects a best effort mitigation mode. This mode invokes the mitigation
+-         instructions without a guarantee that they clear the CPU buffers.
+-
+-         This is done to address virtualization scenarios where the host has the
+-         microcode update applied, but the hypervisor is not yet updated to
+-         expose the CPUID to the guest. If the host has updated microcode the
+-         protection takes effect; otherwise a few CPU cycles are wasted
+-         pointlessly.
+-     * - 'Mitigation: Clear CPU buffers'
+-       - The processor is vulnerable and the CPU buffer clearing mitigation is
+-         enabled.
+-     * - 'Unknown: No mitigations'
+-       - The processor vulnerability status is unknown because it is
+-	 out of Servicing period. Mitigation is not attempted.
++  +------------------------+--------------------------------------------------+
++  | 'Not affected'         | The processor is not vulnerable.                 |
++  +------------------------+--------------------------------------------------+
++  | 'Vulnerable'           | The processor is vulnerable, but no mitigation   |
++  |                        | enabled.                                         |
++  +------------------------+--------------------------------------------------+
++  | 'Vulnerable: Clear CPU | The processor is vulnerable but microcode is not |
++  | buffers attempted, no  | updated. The mitigation is enabled on a best     |
++  | microcode'             | effort basis.                                    |
++  |                        |                                                  |
++  |                        | The processor is vulnerable but the availability |
++  |                        | of the microcode based mitigation mechanism is   |
++  |                        | not advertised via CPUID, the kernel selects a   |
++  |                        | best effort mitigation mode. This mode invokes   |
++  |                        | the mitigation instructions without a guarantee  |
++  |                        | that they clear the CPU buffers.                 |
++  |                        |                                                  |
++  |                        | This is done to address virtualization scenarios |
++  |                        | where the host has the microcode update applied, |
++  |                        | but the hypervisor is not yet updated to expose  |
++  |                        | the CPUID to the guest. If the host has updated  |
++  |                        | microcode the protection takes effect; otherwise |
++  |                        | a few CPU cycles are wasted pointlessly.         |
++  +------------------------+--------------------------------------------------+
++  | 'Mitigation: Clear CPU | The processor is vulnerable and the CPU buffer   |
++  | buffers'               | clearing mitigation is enabled.                  |
++  +------------------------+--------------------------------------------------+
++  | 'Unknown: No           | The processor vulnerability status is unknown    |
++  | mitigations'           | because it is out of Servicing period.           |
++  |                        | Mitigation is not attempted.                     |
++  +------------------------+--------------------------------------------------+
+ 
+ Definitions:
+ ------------
+diff --git a/Documentation/admin-guide/hw-vuln/reg-file-data-sampling.rst b/Documentation/admin-guide/hw-vuln/reg-file-data-sampling.rst
+index 0585d02b9a6c..e5f324206bed 100644
+--- a/Documentation/admin-guide/hw-vuln/reg-file-data-sampling.rst
++++ b/Documentation/admin-guide/hw-vuln/reg-file-data-sampling.rst
+@@ -86,17 +86,18 @@ which mitigations are active. The relevant sysfs file is:
+ 
+ The possible values in this file are:
+ 
+-  .. list-table::
+-
+-     * - 'Not affected'
+-       - The processor is not vulnerable
+-     * - 'Vulnerable'
+-       - The processor is vulnerable, but no mitigation enabled
+-     * - 'Vulnerable: No microcode'
+-       - The processor is vulnerable but microcode is not updated.
+-     * - 'Mitigation: Clear Register File'
+-       - The processor is vulnerable and the CPU buffer clearing mitigation is
+-	 enabled.
++  +--------------------+---------------------------------------------------+
++  | 'Not affected'     | The processor is not vulnerable.                  |
++  +--------------------+---------------------------------------------------+
++  | 'Vulnerable'       | The processor is vulnerable, but no mitigation    |
++  |                    | enabled.                                          |
++  +--------------------+---------------------------------------------------+
++  | 'Vulnerable: No    | The processor is vulnerable but microcode is not  |
++  | microcode'         | updated.                                          |
++  +--------------------+---------------------------------------------------+
++  | 'Mitigation: Clear | The processor is vulnerable and the CPU buffer    |
++  | Register File'     | clearing mitigation is enabled.                   |
++  +--------------------+---------------------------------------------------+
+ 
+ References
+ ----------
+diff --git a/Documentation/admin-guide/hw-vuln/spectre.rst b/Documentation/admin-guide/hw-vuln/spectre.rst
+index 132e0bc6007e..114139f86d1a 100644
+--- a/Documentation/admin-guide/hw-vuln/spectre.rst
++++ b/Documentation/admin-guide/hw-vuln/spectre.rst
+@@ -336,18 +336,20 @@ The sysfs file showing Spectre variant 1 mitigation status is:
+ 
+ The possible values in this file are:
+ 
+-  .. list-table::
+-
+-     * - 'Not affected'
+-       - The processor is not vulnerable.
+-     * - 'Vulnerable: __user pointer sanitization and usercopy barriers only; no swapgs barriers'
+-       - The swapgs protections are disabled; otherwise it has
+-         protection in the kernel on a case by case base with explicit
+-         pointer sanitation and usercopy LFENCE barriers.
+-     * - 'Mitigation: usercopy/swapgs barriers and __user pointer sanitization'
+-       - Protection in the kernel on a case by case base with explicit
+-         pointer sanitation, usercopy LFENCE barriers, and swapgs LFENCE
+-         barriers.
++  +------------------------------+--------------------------------------------+
++  | 'Not affected'               | The processor is not vulnerable.           |
++  +------------------------------+--------------------------------------------+
++  | 'Vulnerable: __user pointer  | The swapgs protections are disabled;       |
++  | sanitization and usercopy    | otherwise it has protection in the kernel  |
++  | barriers only; no swapgs     | on a case by case basis with explicit      |
++  | barriers'                    | pointer sanitization and usercopy LFENCE   |
++  |                              | barriers.                                  |
++  +------------------------------+--------------------------------------------+
++  | 'Mitigation: usercopy/swapgs | Protection in the kernel on a case by case |
++  | barriers and __user pointer  | basis with explicit pointer sanitization,  |
++  | sanitization'                | usercopy LFENCE barriers, and swapgs       |
++  |                              | LFENCE barriers.                           |
++  +------------------------------+--------------------------------------------+
+ 
+ However, the protections are put in place on a case by case basis,
+ and there is no guarantee that all possible attack vectors for Spectre
+@@ -431,20 +433,21 @@ The possible values in this file are:
+ 
+   - Branch History Injection (BHI) protection status:
+ 
+-.. list-table::
+-
+- * - BHI: Not affected
+-   - System is not affected
+- * - BHI: Retpoline
+-   - System is protected by retpoline
+- * - BHI: BHI_DIS_S
+-   - System is protected by BHI_DIS_S
+- * - BHI: SW loop, KVM SW loop
+-   - System is protected by software clearing sequence
+- * - BHI: Vulnerable
+-   - System is vulnerable to BHI
+- * - BHI: Vulnerable, KVM: SW loop
+-   - System is vulnerable; KVM is protected by software clearing sequence
++  +---------------------+----------------------------------------------------+
++  | 'BHI: Not affected' | System is not affected.                            |
++  +---------------------+----------------------------------------------------+
++  | 'BHI: Retpoline'    | System is protected by retpoline.                  |
++  +---------------------+----------------------------------------------------+
++  | 'BHI: BHI_DIS_S'    | System is protected by BHI_DIS_S.                  |
++  +---------------------+----------------------------------------------------+
++  | 'BHI: SW loop, KVM  | System is protected by software clearing sequence. |
++  | SW loop'            |                                                    |
++  +---------------------+----------------------------------------------------+
++  | 'BHI: Vulnerable'   | System is vulnerable to BHI.                       |
++  +---------------------+----------------------------------------------------+
++  | 'BHI: Vulnerable,   | System is vulnerable; KVM is protected by software |
++  | KVM: SW loop'       | clearing sequence.                                 |
++  +---------------------+----------------------------------------------------+
+ 
+ Full mitigation might require a microcode update from the CPU
+ vendor. When the necessary microcode is not available, the kernel will
+diff --git a/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst b/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
+index 444f84e22a91..24811752d9a9 100644
+--- a/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
++++ b/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
+@@ -93,30 +93,39 @@ of mitigated systems. The relevant sysfs file is:
+ 
+ The possible values in this file are:
+ 
+-.. list-table::
+-
+-   * - 'Vulnerable'
+-     - The CPU is affected by this vulnerability and the microcode and kernel mitigation are not applied.
+-   * - 'Vulnerable: Clear CPU buffers attempted, no microcode'
+-     - The processor is vulnerable but microcode is not updated. The
+-       mitigation is enabled on a best effort basis.
+-
+-       If the processor is vulnerable but the availability of the microcode
+-       based mitigation mechanism is not advertised via CPUID, the kernel
+-       selects a best effort mitigation mode. This mode invokes the mitigation
+-       instructions without a guarantee that they clear the CPU buffers.
+-
+-       This is done to address virtualization scenarios where the host has the
+-       microcode update applied, but the hypervisor is not yet updated to
+-       expose the CPUID to the guest. If the host has updated microcode the
+-       protection takes effect; otherwise a few CPU cycles are wasted
+-       pointlessly.
+-   * - 'Mitigation: Clear CPU buffers'
+-     - The microcode has been updated to clear the buffers. TSX is still enabled.
+-   * - 'Mitigation: TSX disabled'
+-     - TSX is disabled.
+-   * - 'Not affected'
+-     - The CPU is not affected by this issue.
++  +------------------------+--------------------------------------------------+
++  | 'Not affected'         | The processor is not affected by this            |
++  |                        | vulnerability.                                   |
++  +------------------------+--------------------------------------------------+
++  | 'Vulnerable'           | The processor is affected by this vulnerability  |
++  |                        | and the microcode and kernel mitigation are not  |
++  |                        | applied.                                         |
++  +------------------------+--------------------------------------------------+
++  | 'Vulnerable: Clear CPU | The processor is vulnerable but microcode is not |
++  | buffers attempted, no  | updated. The mitigation is enabled on a best     |
++  | microcode'             | effort basis.                                    |
++  |                        |                                                  |
++  |                        | If the processor is vulnerable but the           |
++  |                        | availability of the microcode based mitigation   |
++  |                        | mechanism is not advertised via CPUID, the       |
++  |                        | kernel selects a best effort mitigation mode.    |
++  |                        | This mode invokes the mitigation instructions    |
++  |                        | without a guarantee that they clear the CPU      |
++  |                        | buffers.                                         |
++  |                        |                                                  |
++  |                        | This is done to address virtualization scenarios |
++  |                        | where the host has the microcode update applied, |
++  |                        | but the hypervisor is not yet updated to expose  |
++  |                        | the CPUID to the guest. If the host has updated  |
++  |                        | microcode the protection takes effect; otherwise |
++  |                        | a few CPU cycles are wasted pointlessly.         |
++  +------------------------+--------------------------------------------------+
++  | 'Mitigation: Clear CPU | The microcode has been updated to clear the      |
++  | buffers'               | buffers. TSX is still enabled.                   |
++  +------------------------+--------------------------------------------------+
++  | 'Mitigation: TSX       | TSX is disabled.                                 |
++  | disabled'              |                                                  |
++  +------------------------+--------------------------------------------------+
+ 
+ Mitigation mechanism
+ --------------------
+-- 
+2.40.1
+
