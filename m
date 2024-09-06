@@ -1,46 +1,35 @@
-Received: from trager.us (trager.us [52.5.81.116])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720F65381B;
-	Thu,  5 Sep 2024 23:39:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.5.81.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78DB349627;
+	Fri,  6 Sep 2024 03:31:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725579551; cv=none; b=XaxDKm/Byf/W1bCt3B+WgjUq82+kgeNd8t70YtwkduLTGcQu9YegIlhhZGaILDq7kn9HiCRPMtRbpzOwGShTZ43R4SBmrCO4vGtt15J+eqH8LEPXzwZvRnRt20etBoap0hAyISKfNxcR5xUh+oLq/EnsrwjQvNcjf12mgZor/q4=
+	t=1725593462; cv=none; b=iTtPBDv/kwVbJTu1gVP7L3x+t/wqHXvGMwm3aia6/3cp27v90siisysJwUXkLN5vznKLnPP1ypMKXseA2Pj92FYoE6kJPzDGVe6Chgi1gLV+sGwCqkxb1YHpGbS8atcGqiwimAsuEseAWfAnyHUzwCsl4InEWHnNroV66eqxalk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725579551; c=relaxed/simple;
-	bh=cQQmJ5AgekB3x6oTYMEqlDF58JG5FJt2/c46w/qfVsE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=stSRxcqex+VOUlv1GOIGfXUf4AwUR2twnxf/DLAMlBwTVL44Rogs4vx4sWphupVuOhPmHP4iZMd8an+wmBL4PYYDhJw6AHV+orgrDM1MWbJuLhYZgXSZArpe0q4m7ur6FlZ5tJbJUM6abrx0WNe0wrioL55gFEuo2kMpqMO5kTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=trager.us; spf=pass smtp.mailfrom=trager.us; arc=none smtp.client-ip=52.5.81.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=trager.us
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trager.us
-Received: from c-76-104-255-50.hsd1.wa.comcast.net ([76.104.255.50] helo=localhost)
-	by trager.us with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-	(Exim 4.92.3)
-	(envelope-from <lee@trager.us>)
-	id 1smM44-00024n-O4; Thu, 05 Sep 2024 23:39:01 +0000
-From: Lee Trager <lee@trager.us>
-To: netdev@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alexander Duyck <alexanderduyck@fb.com>,
-	kernel-team@meta.com,
-	Shinas Rasheed <srasheed@marvell.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Phani Burra <phani.r.burra@intel.com>,
-	Lee Trager <lee@trager.us>,
-	Joshua Hay <joshua.a.hay@intel.com>,
-	Sanman Pradhan <sanmanpradhan@meta.com>
-Cc: Sridhar Samudrala <sridhar.samudrala@intel.com>,
-	Alan Brady <alan.brady@intel.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next] eth: fbnic: Add devlink firmware version info
-Date: Thu,  5 Sep 2024 16:37:51 -0700
-Message-ID: <20240905233820.1713043-1-lee@trager.us>
-X-Mailer: git-send-email 2.43.5
+	s=arc-20240116; t=1725593462; c=relaxed/simple;
+	bh=JFpYOVn/44Ce2ylA+aIfBxLo+51Gsl6VpzW/3PYS8dM=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=UhDclCkMU/h5F37E8mvyRo6IkaQ6c0NxeHsSL3TeYdv8n+2K+L69t5NO8lhQkUswko2y+u7jdOqxoNRulSUzWBv7BpB2FzKFGEKzJl3GNswjLoWRpdaeB5x72ZN4MoDK1Q1kSU0RPjYdWUqLUGG/kIH98B3ngRnQP5/JSSxg5oY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kfeAMdJd; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kfeAMdJd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B75DC4CEC9;
+	Fri,  6 Sep 2024 03:31:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725593462;
+	bh=JFpYOVn/44Ce2ylA+aIfBxLo+51Gsl6VpzW/3PYS8dM=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=kfeAMdJd9yRGCdZnQ5mkjDI5A2ObfNHPR4RRpe2o9FtItxTZl3jHjh5j3EAVQhTtC
+	 DXftEiloz5yb3DyX1EVVdpnEGth6s8wJjsaHD20tRzBkRsRRG10xQfS2FxkVWDujMf
+	 JPkWtWE+DZjT6NUtgozvRvH+cMqLBBk4nwx5EqVB2afw6wvvKj/GkyFcxk+bPmiUi+
+	 A4guZJIoHGPS88lMxOQxsQufVV2GIVKEMc8KPImQb+m7sD/Ll2DhwO/kel+PxCURTD
+	 Z8zUFSxTu8qpbmxUrpDQu4sqT0RdZzRjQmEGwDhyYaHkisFWx8JayUlZJSYbEg4nzX
+	 zKSxKLDs2WEZQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 50A973806654;
+	Fri,  6 Sep 2024 03:31:04 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,189 +37,44 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v2] net: napi: Prevent overflow of
+ napi_defer_hard_irqs
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <172559346306.1921528.17445029403392757877.git-patchwork-notify@kernel.org>
+Date: Fri, 06 Sep 2024 03:31:03 +0000
+References: <20240904153431.307932-1-jdamato@fastly.com>
+In-Reply-To: <20240904153431.307932-1-jdamato@fastly.com>
+To: Joe Damato <jdamato@fastly.com>
+Cc: netdev@vger.kernel.org, mkarsten@uwaterloo.ca, edumazet@google.com,
+ kuba@kernel.org, davem@davemloft.net, pabeni@redhat.com, corbet@lwn.net,
+ leitao@debian.org, aleksander.lobakin@intel.com, johannes.berg@intel.com,
+ jamie.bainbridge@gmail.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 
-This adds support to show firmware version information for both stored and
-running firmware versions. The version and commit is displayed separately
-to aid monitoring tools which only care about the version.
+Hello:
 
-Example output:
-  # devlink dev info
-  pci/0000:01:00.0:
-    driver fbnic
-    serial_number 88-25-08-ff-ff-01-50-92
-    versions:
-        running:
-          fw 24.07.15-017
-          fw.commit h999784ae9df0
-          fw.bootloader 24.07.10-000
-          fw.bootloader.commit hfef3ac835ce7
-        stored:
-          fw 24.07.24-002
-          fw.commit hc9d14a68b3f2
-          fw.bootloader 24.07.22-000
-          fw.bootloader.commit h922f8493eb96
-          fw.undi 01.00.03-000
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-Signed-off-by: Lee Trager <lee@trager.us>
----
- .../device_drivers/ethernet/index.rst         |  1 +
- .../device_drivers/ethernet/meta/fbnic.rst    | 29 +++++++
- MAINTAINERS                                   |  1 +
- .../net/ethernet/meta/fbnic/fbnic_devlink.c   | 75 +++++++++++++++++++
- 4 files changed, 106 insertions(+)
- create mode 100644 Documentation/networking/device_drivers/ethernet/meta/fbnic.rst
+On Wed,  4 Sep 2024 15:34:30 +0000 you wrote:
+> In commit 6f8b12d661d0 ("net: napi: add hard irqs deferral feature")
+> napi_defer_irqs was added to net_device and napi_defer_irqs_count was
+> added to napi_struct, both as type int.
+> 
+> This value never goes below zero, so there is not reason for it to be a
+> signed int. Change the type for both from int to u32, and add an
+> overflow check to sysfs to limit the value to S32_MAX.
+> 
+> [...]
 
-diff --git a/Documentation/networking/device_drivers/ethernet/index.rst b/Documentation/networking/device_drivers/ethernet/index.rst
-index 6932d8c043c2..6fc1961492b7 100644
---- a/Documentation/networking/device_drivers/ethernet/index.rst
-+++ b/Documentation/networking/device_drivers/ethernet/index.rst
-@@ -44,6 +44,7 @@ Contents:
-    marvell/octeon_ep
-    marvell/octeon_ep_vf
-    mellanox/mlx5/index
-+   meta/fbnic
-    microsoft/netvsc
-    neterion/s2io
-    netronome/nfp
-diff --git a/Documentation/networking/device_drivers/ethernet/meta/fbnic.rst b/Documentation/networking/device_drivers/ethernet/meta/fbnic.rst
-new file mode 100644
-index 000000000000..32ff114f5c26
---- /dev/null
-+++ b/Documentation/networking/device_drivers/ethernet/meta/fbnic.rst
-@@ -0,0 +1,29 @@
-+.. SPDX-License-Identifier: GPL-2.0+
-+
-+=====================================
-+Meta Platforms Host Network Interface
-+=====================================
-+
-+Firmware Versions
-+-----------------
-+
-+fbnic has three components stored on the flash which are provided in one PLDM
-+image:
-+
-+1. fw - The control firmware used to view and modify firmware settings, request
-+   firmware actions, and retrieve firmware counters outside of the data path.
-+   This is the firmware which fbnic_fw.c interacts with.
-+2. bootloader - The firmware which validate firmware security and control basic
-+   operations including loading and updating the firmware. This is also known
-+   as the cmrt firmware.
-+3. undi - This is the UEFI driver which is based on the Linux driver.
-+
-+fbnic stores two copies of these three components on flash. This allows fbnic
-+to fall back to an older version of firmware automatically in case firmware
-+fails to boot. Version information for both is provided as running and stored.
-+The undi is only provided in stored as it is not actively running once the Linux
-+driver takes over.
-+
-+devlink dev info provides version information for all three components. In
-+addition to the version the hg commit hash of the build is included as a
-+separate entry.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index baf88e74c907..fae13f784226 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14819,6 +14819,7 @@ M:	Alexander Duyck <alexanderduyck@fb.com>
- M:	Jakub Kicinski <kuba@kernel.org>
- R:	kernel-team@meta.com
- S:	Supported
-+F:	Documentation/networking/device_drivers/ethernet/meta/
- F:	drivers/net/ethernet/meta/
+Here is the summary with links:
+  - [net-next,v2] net: napi: Prevent overflow of napi_defer_hard_irqs
+    https://git.kernel.org/netdev/net-next/c/08062af0a521
 
- METHODE UDPU SUPPORT
-diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c b/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c
-index e87049dfd223..ef05ae8f5039 100644
---- a/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c
-+++ b/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c
-@@ -10,6 +10,56 @@
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
- #define FBNIC_SN_STR_LEN	24
 
-+static int fbnic_version_running_put(struct devlink_info_req *req,
-+				     struct fbnic_fw_ver *fw_ver,
-+				     char *ver_name)
-+{
-+	char running_ver[FBNIC_FW_VER_MAX_SIZE];
-+	int err;
-+
-+	fbnic_mk_fw_ver_str(fw_ver->version, running_ver);
-+	err = devlink_info_version_running_put(req, ver_name, running_ver);
-+	if (err)
-+		return err;
-+
-+	if (strlen(fw_ver->commit) > 0) {
-+		char commit_name[FBNIC_SN_STR_LEN];
-+
-+		snprintf(commit_name, FBNIC_SN_STR_LEN, "%s.commit", ver_name);
-+		err = devlink_info_version_running_put(req, commit_name,
-+						       fw_ver->commit);
-+		if (err)
-+			return err;
-+	}
-+
-+	return 0;
-+}
-+
-+static int fbnic_version_stored_put(struct devlink_info_req *req,
-+				    struct fbnic_fw_ver *fw_ver,
-+				    char *ver_name)
-+{
-+	char stored_ver[FBNIC_FW_VER_MAX_SIZE];
-+	int err;
-+
-+	fbnic_mk_fw_ver_str(fw_ver->version, stored_ver);
-+	err = devlink_info_version_stored_put(req, ver_name, stored_ver);
-+	if (err)
-+		return err;
-+
-+	if (strlen(fw_ver->commit) > 0) {
-+		char commit_name[FBNIC_SN_STR_LEN];
-+
-+		snprintf(commit_name, FBNIC_SN_STR_LEN, "%s.commit", ver_name);
-+		err = devlink_info_version_stored_put(req, commit_name,
-+						      fw_ver->commit);
-+		if (err)
-+			return err;
-+	}
-+
-+	return 0;
-+}
-+
- static int fbnic_devlink_info_get(struct devlink *devlink,
- 				  struct devlink_info_req *req,
- 				  struct netlink_ext_ack *extack)
-@@ -17,6 +67,31 @@ static int fbnic_devlink_info_get(struct devlink *devlink,
- 	struct fbnic_dev *fbd = devlink_priv(devlink);
- 	int err;
-
-+	err = fbnic_version_running_put(req, &fbd->fw_cap.running.mgmt,
-+					DEVLINK_INFO_VERSION_GENERIC_FW);
-+	if (err)
-+		return err;
-+
-+	err = fbnic_version_running_put(req, &fbd->fw_cap.running.bootloader,
-+					DEVLINK_INFO_VERSION_GENERIC_FW_BOOTLOADER);
-+	if (err)
-+		return err;
-+
-+	err = fbnic_version_stored_put(req, &fbd->fw_cap.stored.mgmt,
-+				       DEVLINK_INFO_VERSION_GENERIC_FW);
-+	if (err)
-+		return err;
-+
-+	err = fbnic_version_stored_put(req, &fbd->fw_cap.stored.bootloader,
-+				       DEVLINK_INFO_VERSION_GENERIC_FW_BOOTLOADER);
-+	if (err)
-+		return err;
-+
-+	err = fbnic_version_stored_put(req, &fbd->fw_cap.stored.undi,
-+				       DEVLINK_INFO_VERSION_GENERIC_FW_UNDI);
-+	if (err)
-+		return err;
-+
- 	if (fbd->dsn) {
- 		unsigned char serial[FBNIC_SN_STR_LEN];
- 		u8 dsn[8];
---
-2.43.5
