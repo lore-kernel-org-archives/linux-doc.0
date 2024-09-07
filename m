@@ -1,235 +1,128 @@
-Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41BE31B85EF;
-	Sat,  7 Sep 2024 07:03:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
+Received: from sonic305-19.consmr.mail.sg3.yahoo.com (sonic305-19.consmr.mail.sg3.yahoo.com [106.10.241.82])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCE954656
+	for <linux-doc@vger.kernel.org>; Sat,  7 Sep 2024 10:12:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=106.10.241.82
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725692603; cv=none; b=J88DTZeNK88Iadedw30ulu970ROf7aRRukl3DP0TMEbiu0KslM1upxDBJTB9GFQlV++zfu2L3FW0HRERK+5EuwoogO5AKBHVbr0O3vkTMz3MuZ2JvE9r4MTtRtOv0NCkFdXYQkQx0DnFa0xi8LEYyzz1wG+aPRrmcUjswmnblJQ=
+	t=1725703923; cv=none; b=D5WyGrLUagrXfI1DHLsEWodoU4unGUb1NJdBVGtqFoG3GegimxNIhN5dz34UkSqhKSHkjA+GS1ya310a08xw3XtGZt0la2cnyHGR1aEVWyW1w54d3tMwmBgwp+352HSKbpX5biEFQod8gL19/zY1k/U4/ZoI4qwhbr/TwngV5Zc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725692603; c=relaxed/simple;
-	bh=+/LcFYTp7KLv58itnht7DYnfbBPKyPA8iVJckCrOOQM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ryh0mxSj7SwpGzrcjw7Uid4wnPHi5lNFj1NsaM+JloWU0IXSzd7MCb/jzTgO2QLwYlXVk4BH+hmsJdt/Ltnae6d7CG1Ih9nsm94MOGgbWzVt6hQX5qFGfC62BjkNXuUXHNUoSGOJFFi8GoWpL0jbrKyvusER5fW1G62hOpQOO1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.79.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with SMTP id HgEQrAA3PHyc+ttmGFurBQ--.48142S2;
-	Sat, 07 Sep 2024 15:02:52 +0800 (CST)
-Received: from pride-PowerEdge-R740.. (unknown [222.20.126.129])
-	by gateway (Coremail) with SMTP id _____wBXXlKW+ttmNH1CAA--.25340S2;
-	Sat, 07 Sep 2024 15:02:47 +0800 (CST)
-From: Dongliang Mu <dzm91@hust.edu.cn>
-To: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Dongliang Mu <dzm91@hust.edu.cn>
-Cc: hust-os-kernel-patches@googlegroups.cm,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH v3] docs/zh_CN: add the translation of kbuild/gcc-plugins.rst
-Date: Sat,  7 Sep 2024 15:02:08 +0800
-Message-ID: <20240907070244.206808-1-dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1725703923; c=relaxed/simple;
+	bh=kkiHYYOtW+BApMBwN6H60TlyXxOO+Zx4IxGpk5W/e1M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G4HqMMTqV7IEshN4s+UcD8fVMozvBI0p8cbXly/dz76Dxym/Gmxx1qGACcWjsCvFSBtmqdwimxlEoSAJdGKJkpxiWkxju8OL4oyI9W3fK59Gh+tORw9z8ASfmtB6xJnO9ekyrw1mypBXfpXatVjFzTV/Ub2tFr1sZneJ4TJPwq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=myyahoo.com; spf=pass smtp.mailfrom=myyahoo.com; dkim=pass (2048-bit key) header.d=myyahoo.com header.i=@myyahoo.com header.b=A4HvNY6j; arc=none smtp.client-ip=106.10.241.82
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=myyahoo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=myyahoo.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=myyahoo.com header.i=@myyahoo.com header.b="A4HvNY6j"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=myyahoo.com; s=s2048; t=1725703913; bh=zkTKJA2FhwivzUz5wJO2Jlnry0Ls8XEBLwuxnqUiJM4=; h=Date:From:To:Cc:Subject:References:In-Reply-To:From:Subject:Reply-To; b=A4HvNY6j8WN+DHYNsG3CYj5q9MeLKgWPBz8Y50j+fOi+wdLz8S9kY/H4ENHPfXKplujas5Eu3Nb+Dytqvhf/mVBpvymkePoWZEvheTvg+vlCeOfnIdzT0YNsEjSAj8OFaWotTYZjg844qdV1kw4PMvvyRNnpUoWLism2bUZQyTOLVm/qLv4+NB52sH87JAo9LTCMbNw8+kuhoo98wYH9jSScDJ8mtulLgNwl7kPA1rfDAuzo7OZyU3GNruBh4PvPxbr+EtEO119BdkbUaBavpN4Hr+FvoX2BEsiFqwHP2WYqYujRkk8YyhhHnaVGb9uwMyrEpwVQAEdwwunrRhUB4A==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1725703913; bh=PKlfI6ejtF957zv0BOG039EtP2cZDnlRKEyeKMeQt5K=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=AVdVy2pRop3YzPaIGT9ilASB7TOep6Zqfp/1+xzlXPS4F5NyN4xmGoLOnDMQwr3VRW3dfep3xHjFKtkZ5ZLBCGxSVfoKLelae8C5PMjL1CIK3/eZHyPvxLXadGbtr6176IelgQ8nUEzQk0CAS7ZsV6xXkmvtISMF5JiDPVCrZ6lVm0wT/Y8eH2DGcg3TcA4GzoPe57nmar/yXfN8EvaquLT/dE8Duwh7JaR8QtIttum6GgbJ/l6cK9XuXkEF1y9lppCNg4U6iimHLYiAWOV8eLv001Y4Kk8UbYR+up+DKS4/FgN/qMlxtW7Y0iVdvGtISdxTqoMJAO/uBtlySQZ67Q==
+X-YMail-OSG: 40OVdcgVM1ngXn783d.sjWsogtiPN9AGriMrM4Hf.fdDnv8sNj_4WQc.wHkMzVL
+ Y4E4uICd82AqGk_UEJfQxgdT6qTldRfMcSmCZYVrGZGzz1AX0ASOluosqupMG_QRbMTkNDa2Da.S
+ aHQlmJQ.JvLZNqdkRv7VpDlfySWfR4oELhr1I1GJ29fz_HsKySlD_S40zbjxZTTHBTW3gDP_JK_w
+ QMGdi98a_OSoikDyagzFPjwSc4r3gSmYrLlGnw7Udq7IB6QGU_HLTvGA7LjCphrLieoQIaAkVO1g
+ RdlcgMnbrxPHhY9uV4wdctgdBnSycUYyVMlFI5Fvjd25nDnNe2_ASSjE13SgwKcM61YXchm0ucbW
+ d2GEau48rhE5wMMlz9kDlt5yqRT8iKjzJDUDFADv7J6XyYgRkwUQsIFND2yXdl0VLNNOgwQeiY5W
+ cvpw0_PhaJxsu8W8JodhjGgfMMwramYYR3hKv4BTydDUIgNiYP2u0lzN2GTIsqOJSuBMDUoYv_Lv
+ xMr79TL8hju1TkBYIJ6fyTbsnWX7hHeBC2Wu0tobKhfSuyjVrBUoMCoAShHdxeNy2Ue5KvSnIU1k
+ sCxDLZkkoYmYOKYJvZRXq9FsI8slBQSLq5A9UV0Rd..lqMkCGozm7coYJhS5m8TZammVRtLOwLUQ
+ 8h_qtFKUWWnNAlqCy29Bm8h85REe6_mZatKqv5dJXNZpqV3ag_hIKUNwl86dqvRAl7WRpkkfRMMq
+ QpVOwfCiWhZeBLEv0cjqaWMJsvHbkRnacNRVZ6e72jeZWlED72JMb2ztiAzyY1udQxyPyJNWIZP7
+ EW0kWTsa46kYi7GHEiA3plpvNtL8YA63qbrBKj1W2k7kLGdZUfIP5.H7l9GJMQ_gd1BXjUD3LiJM
+ dIfXBwYsNQXfOjaTDmg7F9IjQYU93aGEyM0whXD97R3GzrnAwONLCSLPlw5rSdG1eeM2NfUWvd1m
+ T1IxwRAFrWvSxm8t1p8TeXL37KY1DJ5eg_utn2zYxRiwZanWflrL2s1E4uQ8xt7NCqyxt7oV_5V2
+ xvUJRM0zcFuXmeMq4T1eSnaCFDhogqb3itFblN4UDKCXxfCm_6Uxj62wx6d21MbusXbSPFN6Vb3E
+ GOcJgSjMqPPvEeqeQuHJN50mgyhfcCOb63zcuD8jn2lnfUbRQ5KLNmL4upC_PBmyBfJfqYBOnlx_
+ 2RX5sQszb3n5W_yM0h._iEvN8uEQcjtpdSGtkHsKueZMsoRROz7P5HZNQ38fSNYz51C1UYxQ9AAR
+ Gh6Ra7I4sP1xvNvz_7N1EY.7tf3aNjuaAMrqvF9dn9_vJvBSXOqRX9GwyN7WYqnVJiPFos_rfr4r
+ UFGxXpL4LQJr4dSCIlYoouU524.6EPKAHWXhfeM_uD7qzSKjZJEx4oBJX.Ir7xJWsTE8Qavpw6iA
+ z6rCzrvhtGHG9cfNCYCKCsBPqcHnPIho7X4GlrsiqGcb65t09hyd_jibooZA6QwmnJbnZ2DoyJK5
+ X8x9Es6DcKatzbrvO9WFA25uE56FCSpsGNHA9caoppdUlOuZPcSW4oC5zTs.1FFCC3aO_HghfXvF
+ MB.Pf11fTXxPflGpXfMsmsP7qQ4_i4yGapqBlASuvcBOAw0mTzX2zK9i_LQIz1hnXq4rLeJl2UtM
+ 2_2MoaTIs3IEtonOaHuawO_dwF1N7h6Mg005D_CqpqVmdllrrsAcOMpEmJO_VjfT7mTbbueJFzos
+ VHMFEvNpOiqseFwsE4JtbUAKRHAsLrvnuLUJDByai2b_inOUT4Vcjb9X5sJqK.4x_pK66MFUMReu
+ Gn7JyxAIzbmq6hBKh9SIs8fT44B3artC_FAapQlvIic1jetvaf59KF1DkTmjUcJFssKjcfzqdzoq
+ m6fXAf7w9dJt.0iJG65QEMYSZDVutEhViYJl.nNoSk9ZLNjPg9HVTaij0NfrdDIV8zKYy6oPPMP_
+ VcLEghgx4QXSF2goqP3Q6HWnaRI3d4LWoELeBzoOLIM9YQyszX_xrcF_qF7j76px9iVBog2.Bd.e
+ 5mpIyVVQYGh4dHSVtL6QDiXeqQ995c0bQ0kH5611osX3GEgFwXkX.AgINGEwBPpZDV4Pb2Hh_P_C
+ uCHdQc6FjkAdVpoWVarNmAeTujHPEOL7q5sRzO9X9xQQ45lbLvEXfQlOmpjLN5dwt4AF0jOS3JXA
+ n76WFWGA8ER5Yucxld1Lke1O.VW2IUZJNwOqnjEDPY_OD_xNHjc1k5J4kzB063mxsviEZcmz63RV
+ Xv_Kt_V84YJfBznKabkKe.i4zYdoXMzjJAmS7wFuqvngdnzxL5iP4
+X-Sonic-MF: <abdul.rahim@myyahoo.com>
+X-Sonic-ID: ddf9fd8a-a61d-455e-a8bb-19462d5aa010
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic305.consmr.mail.sg3.yahoo.com with HTTP; Sat, 7 Sep 2024 10:11:53 +0000
+Received: by hermes--production-sg3-fc85cddf6-kdpzj (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 9082047fd5155f96c2e5472233bc10ec;
+          Sat, 07 Sep 2024 10:11:48 +0000 (UTC)
+Date: Sat, 7 Sep 2024 15:41:38 +0530
+From: Abdul Rahim <abdul.rahim@myyahoo.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, bhelgaas@google.com, 
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] PCI: Fixed spelling in Documentation/PCI/pci.rst
+Message-ID: <n7gabykujjulz5dg4eyrc6pcbvn6wzkw6opol3pclaychqnssx@prjklcr7qh34>
+References: <u4xan54bdxf5sniwhtvrixw3b2vg4c7magey6q3rsd4ssq6ihk@xfbijuhadyw4>
+ <20240906192429.GA430486@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrAA3PHyc+ttmGFurBQ--.48142S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxtry3CrWrKr13Gr4xKryfJFb_yoWxXF47pw
-	4vk34SgFWIyFy093yfKr1xuF15JFs3Ww1UKa48Gwn7tF1kJrZ0y3y3try5GryfWFy8ZrW3
-	XF4ayrWUuw1UZa7anT9S1TB71UUUUjJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQIb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
-	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I0En4kS14v26r1q6r43Mx
-	AIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkE
-	bVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E74
-	80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0
-	I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
-	k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7Cj
-	xVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU0pbytUUUUU==
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240906192429.GA430486@bhelgaas>
+X-Mailer: WebService/1.1.22645 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 
-Finish the translation of kbuild/gcc-plugins.rst and move gcc-plugins
-from TODO to the main body.
+On Fri, Sep 06, 2024 at 02:24:29PM GMT, Bjorn Helgaas wrote:
+> On Sat, Sep 07, 2024 at 12:44:13AM +0530, Abdul Rahim wrote:
+> > On Fri, Sep 06, 2024 at 12:53:18PM GMT, Jonathan Corbet wrote:
+> > > Abdul Rahim <abdul.rahim@myyahoo.com> writes:
+> > > 
+> > > > On Fri, Sep 06, 2024 at 11:41:52AM GMT, Bjorn Helgaas wrote:
+> > > >> On Fri, Sep 06, 2024 at 06:15:18PM +0530, Abdul Rahim wrote:
+> > > >> > Fixed spelling and edited for clarity.
+> > > >> > 
+> > > >> > Signed-off-by: Abdul Rahim <abdul.rahim@myyahoo.com>
+> > > >> > ---
+> > > >> >  Documentation/PCI/pci.rst | 2 +-
+> > > >> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >> > 
+> > > >> > diff --git a/Documentation/PCI/pci.rst b/Documentation/PCI/pci.rst
+> > > >> > index dd7b1c0c21da..344c2c2d94f9 100644
+> > > >> > --- a/Documentation/PCI/pci.rst
+> > > >> > +++ b/Documentation/PCI/pci.rst
+> > > >> > @@ -52,7 +52,7 @@ driver generally needs to perform the following initialization:
+> > > >> >    - Enable DMA/processing engines
+> > > >> >  
+> > > >> >  When done using the device, and perhaps the module needs to be unloaded,
+> > > >> > -the driver needs to take the follow steps:
+> > > >> > +the driver needs to perform the following steps:
+> > > >> 
+> > > >> I don't see a spelling fix here, and personally I wouldn't bother with
+> > > >> changing "take" to "perform" unless we have other more significant
+> > > >> changes to make at the same time.
+> > > >
+> > > > - "follow" has been corrected to "following", which is more appriopriate
+> > > > in this context.
+> > > > - I know its trivial, but can disturb the readers flow
+> > > > - do you want me to change the message to "Edited for clarity"
+> > > 
+> > > The problem is not s/follow/following/, it is the other, unrelated
+> > > change you made that does not improve the text.  There are reasons why
+> > > we ask people not to mix multiple changes.  If you submit just the
+> > > "following" fix, it will surely be applied.
+> > 
+> > Understood, will take care next time. I will resend this patch with:
+> > "follow" -> "following", with commit message "Fixed spelling"
+> 
+> Sorry I missed the "follow" change, which is indeed worth fixing.  If
+> you resend it, make your subject and commit log say "fix" (not
+> "fixed"), like it's a command.
+> 
+> https://chris.beams.io/posts/git-commit/
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/maintainer-tip.rst?id=v6.9#n134
+> 
 
-Update to commit 3832d1fd84b6 ("docs/core-api: expand Fedora instructions
-for GCC plugins")
-
-Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
----
-v2->v3: fix sign incorrect pointed by Alex
-v1->v2: fix comments from yanteng
- .../translations/zh_CN/kbuild/gcc-plugins.rst | 126 ++++++++++++++++++
- .../translations/zh_CN/kbuild/index.rst       |   2 +-
- 2 files changed, 127 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/kbuild/gcc-plugins.rst
-
-diff --git a/Documentation/translations/zh_CN/kbuild/gcc-plugins.rst b/Documentation/translations/zh_CN/kbuild/gcc-plugins.rst
-new file mode 100644
-index 000000000000..67a8abbf5887
---- /dev/null
-+++ b/Documentation/translations/zh_CN/kbuild/gcc-plugins.rst
-@@ -0,0 +1,126 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/kbuild/gcc-plugins.rst
-+:Translator: 慕冬亮 Dongliang Mu <dzm91@hust.edu.cn>
-+
-+================
-+GCC 插件基础设施
-+================
-+
-+
-+介绍
-+====
-+
-+GCC 插件是为编译器提供额外功能的可加载模块 [1]_。它们对于运行时插装和静态分析非常有用。
-+我们可以在编译过程中通过回调 [2]_，GIMPLE [3]_，IPA [4]_ 和 RTL Passes [5]_
-+（译者注：Pass 是编译器所采用的一种结构化技术，用于完成编译对象的分析、优化或转换等功能）
-+来分析、修改和添加更多的代码。
-+
-+内核的 GCC 插件基础设施支持构建树外模块、交叉编译和在单独的目录中构建。插件源文件必须由
-+C++ 编译器编译。
-+
-+目前 GCC 插件基础设施只支持一些架构。搜索 "select HAVE_GCC_PLUGINS" 来查找支持
-+GCC 插件的架构。
-+
-+这个基础设施是从 grsecurity [6]_  和 PaX [7]_ 移植过来的。
-+
-+--
-+
-+.. [1] https://gcc.gnu.org/onlinedocs/gccint/Plugins.html
-+.. [2] https://gcc.gnu.org/onlinedocs/gccint/Plugin-API.html#Plugin-API
-+.. [3] https://gcc.gnu.org/onlinedocs/gccint/GIMPLE.html
-+.. [4] https://gcc.gnu.org/onlinedocs/gccint/IPA.html
-+.. [5] https://gcc.gnu.org/onlinedocs/gccint/RTL.html
-+.. [6] https://grsecurity.net/
-+.. [7] https://pax.grsecurity.net/
-+
-+
-+目的
-+====
-+
-+GCC 插件的设计目的是提供一个用于试验 GCC 或 Clang 上游没有的潜在编译器功能的场所。
-+一旦它们的实用性得到验证，这些功能将被添加到 GCC（和 Clang）的上游。随后，在所有
-+支持的 GCC 版本都支持这些功能后，它们会被从内核中移除。
-+
-+具体来说，新插件应该只实现上游编译器（GCC 和 Clang）不支持的功能。
-+
-+当 Clang 中存在 GCC 中不存在的某项功能时，应努力将该功能做到 GCC 上游（而不仅仅
-+是作为内核专用的 GCC 插件），以使整个生态都能从中受益。
-+
-+类似的，如果 GCC 插件提供的功能在 Clang 中 **不** 存在，但该功能被证明是有用的，也应
-+努力将该功能上传到 GCC（和 Clang）。
-+
-+在上游 GCC 提供了某项功能后，该插件将无法在相应的 GCC 版本（以及更高版本）下编译。
-+一旦所有内核支持的 GCC 版本都提供了该功能，该插件将从内核中移除。
-+
-+
-+文件
-+====
-+
-+**$(src)/scripts/gcc-plugins**
-+
-+	这是 GCC 插件的目录。
-+
-+**$(src)/scripts/gcc-plugins/gcc-common.h**
-+
-+	这是 GCC 插件的兼容性头文件。
-+	应始终包含它，而不是单独的 GCC 头文件。
-+
-+**$(src)/scripts/gcc-plugins/gcc-generate-gimple-pass.h,
-+$(src)/scripts/gcc-plugins/gcc-generate-ipa-pass.h,
-+$(src)/scripts/gcc-plugins/gcc-generate-simple_ipa-pass.h,
-+$(src)/scripts/gcc-plugins/gcc-generate-rtl-pass.h**
-+
-+	这些头文件可以自动生成 GIMPLE、SIMPLE_IPA、IPA 和 RTL passes 的注册结构。
-+	与手动创建结构相比，它们更受欢迎。
-+
-+
-+用法
-+====
-+
-+你必须为你的 GCC 版本安装 GCC 插件头文件，以 Ubuntu 上的 gcc-10 为例::
-+
-+	apt-get install gcc-10-plugin-dev
-+
-+或者在 Fedora 上::
-+
-+	dnf install gcc-plugin-devel libmpc-devel
-+
-+或者在 Fedora 上使用包含插件的交叉编译器时::
-+
-+	dnf install libmpc-devel
-+
-+在内核配置中启用 GCC 插件基础设施与一些你想使用的插件::
-+
-+	CONFIG_GCC_PLUGINS=y
-+	CONFIG_GCC_PLUGIN_LATENT_ENTROPY=y
-+	...
-+
-+运行 gcc（本地或交叉编译器），确保能够检测到插件头文件::
-+
-+	gcc -print-file-name=plugin
-+	CROSS_COMPILE=arm-linux-gnu- ${CROSS_COMPILE}gcc -print-file-name=plugin
-+
-+"plugin" 这个词意味着它们没有被检测到::
-+
-+	plugin
-+
-+完整的路径则表示插件已经被检测到::
-+
-+       /usr/lib/gcc/x86_64-redhat-linux/12/plugin
-+
-+编译包括插件在内的最小工具集::
-+
-+	make scripts
-+
-+或者直接在内核中运行 make，使用循环复杂性 GCC 插件编译整个内核。
-+
-+
-+4. 如何添加新的 GCC 插件
-+========================
-+
-+GCC 插件位于 scripts/gcc-plugins/。你需要将插件源文件放在 scripts/gcc-plugins/ 目录下。
-+子目录创建并不支持，你必须添加在 scripts/gcc-plugins/Makefile、scripts/Makefile.gcc-plugins
-+和相关的 Kconfig 文件中。
-diff --git a/Documentation/translations/zh_CN/kbuild/index.rst b/Documentation/translations/zh_CN/kbuild/index.rst
-index d906a4e88d0f..b51655d981f6 100644
---- a/Documentation/translations/zh_CN/kbuild/index.rst
-+++ b/Documentation/translations/zh_CN/kbuild/index.rst
-@@ -13,6 +13,7 @@
-     :maxdepth: 1
- 
-     headers_install
-+    gcc-plugins
- 
- TODO:
- 
-@@ -24,7 +25,6 @@ TODO:
- - modules
- - issues
- - reproducible-builds
--- gcc-plugins
- - llvm
- 
- .. only::  subproject and html
--- 
-2.43.0
-
+Thanks for reviewing, i've resent this patch here: 
+https://lore.kernel.org/lkml/20240906205656.8261-1-abdul.rahim@myyahoo.com/
