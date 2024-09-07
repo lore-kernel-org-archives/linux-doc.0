@@ -1,110 +1,157 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9351B85DC;
-	Sat,  7 Sep 2024 12:25:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8A515C14B;
+	Sat,  7 Sep 2024 13:38:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725711953; cv=none; b=KJWVSus9PDguRCkQczoxe5JXqohV1T8PHEQzwILI/YJLIIIfcvpl+8agEaw7RLBwP3nr3s1IjDcIFUeCznGtaU5YdVCFtQaqbPA1x6OFvymPkEZTESpGLbeCA+kPc0VMi4aM4viZ+5KedHUEV5UHQU9jqFAQUT/GF6wdH8EclDM=
+	t=1725716285; cv=none; b=t7vvx2Kspc+5TltkY7+Fo3MWdCOBwyAULDH4CIKl3IYoOPW8e3YpZzIa2W6b3tcstWwftIdmg8h2snPXhRdmeAJ6OL1RsPq64FyzqMm7OgCFlMnBcI/KHd5Ifq8/uZKtbc90yARUJ6SFhTHFuSyx+vNY/U3hmId3QD37dIyClt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725711953; c=relaxed/simple;
-	bh=IDFLMWF0sr98Nz6o04LtSrB1FRNk7wAxpS/OlCHOCHQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DmbxwImVSpMqwCq/9xxaFaI6isXsti3A5Nu4CvreJZ1H+zNHbIusW0wvVR+3qSsdlH27wkq+bNCEIpTqtLkOkS4LKX5AtOGjymjYYIrJ6O5X8ZOXB8yWgCgsjIpmUG0+ham6cyj31q+clr87TVEKPdGcZzgoOOvCrl2cwdd1ULM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R5h9AzWH; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1725716285; c=relaxed/simple;
+	bh=PmRMBiGpEYZ5ZlHp1rYoWZQiWna2cIWEzbmQr+h8KsM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NrSSNj3UDuSMASjWAuZrlYmuC8GpBgk9BYaCHL1ZCqeHLIhIN0cbYwqVYWValNLzeIgejHIvszsauDlUiBMJCwspBjyhV5puI8GtGUq17pjChDTLPZwCoNzqeI57n2IraO3zMm3+6u07XvJFszqCLQWmfU54+fns+sv5HCViFRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XsIJfc3O; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R5h9AzWH"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-42bb6d3e260so23651215e9.1;
-        Sat, 07 Sep 2024 05:25:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725711950; x=1726316750; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mGLn13vOqyi02McjuZ5o91VC854GNRyf9UZYfl60p2U=;
-        b=R5h9AzWHEXm1rJjP1+CHpKVyZTyZmtlxiQ/urLXS4IGcpWhnVKzCo5RL990kR+SU+p
-         MFHsxJcpZCCe+RwGGjR0L1XneGrRQzkeX96skd5JzzDcKugd1ZMnn7w3+vObE7uMet0o
-         Usq4BM/01x1+fO/5cB3oWQ74k3Bdm3ut3COcjnZoDPHvmklL8r1vPcfEG/hwbPlhJ5J7
-         3Ffd81qeDmH3Gthdo8XKbhZfoNf/PWTrShPNdycky9RznQ2TuPcNHtMY+lSGw7DQrhr2
-         MIzakALvTVd6wE3LQhTBqbvhtlmRKw8B+FlYoWOhA61nKfCoztkSaSH3V4dXjwqTwO6u
-         /sQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725711950; x=1726316750;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mGLn13vOqyi02McjuZ5o91VC854GNRyf9UZYfl60p2U=;
-        b=JliEasM0yBItA8nAsDDr4VlbGwS9AY//R2KFu0ER36aaA8o+GDwPrxO98UOhhV1pQS
-         ZCCR5WH01C0rKw3in4AKpSVTby8ujUgywlNhRIUmkYm/EVFraztDLc8lDTSfjvbn7f+U
-         DUOvhGRYD7vFa4dOZqcn2DDaCeVO6+ronT0QhXxWJ8OKhWjo20dMH8IG+Tt053DxCAZ6
-         DdB3Uo/8hRHrfnKUMjP5kLobeh9vHnZxAk2spPNXOJ/YI4Eg8RDEgIukZ8rN76O3jW5v
-         7IScUQSI5CwTLcFmAaZxfLPLfY/kvxBuAsNMop7AHeQuD/1g7lghVfpajzPotBnxTOU8
-         v2OA==
-X-Forwarded-Encrypted: i=1; AJvYcCUGlEbadZYysVa4wgyPxMT2qH/4DhXE3SJavcBfKSDLT985fyvqFSgxYEqVCelToU/HP+KyLHTyCMi5@vger.kernel.org, AJvYcCUhR9Y5bFwnnE97tD8le/ydXjFZBnWiraHPvyT3NGuDNCls4OAYKgucQyM0tbPTfgOnxKVySWEojDA2L5DQ@vger.kernel.org, AJvYcCW5fklROKAnrAHHN+iuJASS8ChAMpHv2b8RydSdtQ0h9E9qXgLbHYehwnzH3189L9DEsa39p79j3+PRjdZH8uA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHw8QTrmSbKYVitaRn0dgafqTdHP9/YYw+2ZHCfaAKyONv6KPE
-	EuY4qUDN/2qKPM5o7CPiWU9102S1BINEWqNHjyGRUxigFVQ/lYi4
-X-Google-Smtp-Source: AGHT+IEWcsjHo2WKugFYtP7kKcQJFOspfwt7F8M04DVXmlxk6PgC0zpj9mYba8M2nW76d8HrHT9vIQ==
-X-Received: by 2002:a05:600c:22cf:b0:42c:a8cb:6a75 with SMTP id 5b1f17b1804b1-42ca8cb6c5amr25868885e9.17.1725711949317;
-        Sat, 07 Sep 2024 05:25:49 -0700 (PDT)
-Received: from void.void ([141.226.8.125])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ca0600639sm47346445e9.37.2024.09.07.05.25.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Sep 2024 05:25:46 -0700 (PDT)
-From: Andrew Kreimer <algonell@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Andrew Kreimer <algonell@gmail.com>
-Subject: [PATCH v2] docs/process: fix typos
-Date: Sat,  7 Sep 2024 15:21:39 +0300
-Message-ID: <20240907122534.15998-1-algonell@gmail.com>
-X-Mailer: git-send-email 2.46.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XsIJfc3O"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83C35C4CEC2;
+	Sat,  7 Sep 2024 13:37:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725716284;
+	bh=PmRMBiGpEYZ5ZlHp1rYoWZQiWna2cIWEzbmQr+h8KsM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=XsIJfc3Ol3cBA4KSar5Ki99v3QRJyCi13+UVxzmQRdjLYdlLDfCZIaRNfOI6GOHC8
+	 sLPltt3f4v38wkWUpncdoUprfIHBnLMOCSJ31D3L0esvtq3IabG+biVBXclzjb0DU5
+	 jopxttKvwcDPNelCCyczIp7hv0CFpyI7YtiC505S0SqwxeVoeUUUu7hWW8oqvFOiYq
+	 OzwmGcx+IP8pwgpcHfctrPX/1M2Gdifk5wOqQro1JLDQKoImWoyNyM6a9lJXquPu8p
+	 otTA4Fyopw9ZAucdrwUqWIUfVmrDjC+x7K2cN4DGoyB9Hr9EEyi4v1840Br39nBVh2
+	 gI8J5aeuxnnZQ==
+Date: Sat, 7 Sep 2024 14:37:53 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Guillaume Stols <gstols@baylibre.com>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5p?=
+ =?UTF-8?B?Zw==?= <ukleinek@kernel.org>, Lars-Peter Clausen
+ <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, linux-pwm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, aardelean@baylibre.com
+Subject: Re: [PATCH 2/8] dt-bindings: iio: adc: ad7606: Add iio backend
+ bindings
+Message-ID: <20240907143753.4ef594c0@jic23-huawei>
+In-Reply-To: <b7cae260-19ca-485d-b9c5-4b9209ee4886@baylibre.com>
+References: <20240815-ad7606_add_iio_backend_support-v1-0-cea3e11b1aa4@baylibre.com>
+	<20240815-ad7606_add_iio_backend_support-v1-2-cea3e11b1aa4@baylibre.com>
+	<20240817160900.01224c80@jic23-huawei>
+	<b7cae260-19ca-485d-b9c5-4b9209ee4886@baylibre.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Fix typos in documentation.
+On Wed, 4 Sep 2024 11:54:30 -0500
+David Lechner <dlechner@baylibre.com> wrote:
 
-Signed-off-by: Andrew Kreimer <algonell@gmail.com>
----
-Synced with docs-next as requested.
+> On 8/17/24 10:09 AM, Jonathan Cameron wrote:
+> > On Thu, 15 Aug 2024 12:11:56 +0000
+> > Guillaume Stols <gstols@baylibre.com> wrote:
+> >   
+> >> Add the required properties for iio-backend support, as well as an
+> >> example and the conditions to mutually exclude interruption and
+> >> conversion trigger with iio-backend.
+> >> The iio-backend's function is to controls the communication, and thus the
+> >> interruption pin won't be available anymore.
+> >> As a consequence, the conversion pin must be controlled externally since
+> >> we will miss information about when every single conversion cycle (i.e
+> >> conversion + data transfert) ends, hence a PWM is introduced to trigger  
+> > 
+> > transfer
+> >   
+> >> the conversions.
+> >>
+> >> Signed-off-by: Guillaume Stols <gstols@baylibre.com>
+> >> ---
+> >>  .../devicetree/bindings/iio/adc/adi,ad7606.yaml    | 75 +++++++++++++++++++++-
+> >>  1 file changed, 72 insertions(+), 3 deletions(-)
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
+> >> index c0008d36320f..4b324f7e3207 100644
+> >> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
+> >> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
+> >> @@ -114,13 +114,28 @@ properties:
+> >>        assumed that the pins are hardwired to VDD.
+> >>      type: boolean
+> >>  
+> >> +  pwms:
+> >> +    description:
+> >> +      In case the conversion is triggered by a PWM instead of a GPIO plugged to
+> >> +      the CONVST pin, the PWM must be referenced.
+> >> +    minItems: 1
+> >> +    maxItems: 2
+> >> +
+> >> +  pwm-names:
+> >> +    minItems: 1
+> >> +    maxItems: 2
+> >> +
+> >> +  io-backends:
+> >> +    description:
+> >> +      A reference to the iio-backend, which is responsible handling the BUSY
+> >> +      pin's falling edge and communication.
+> >> +      An example of backend can be found at
+> >> +      http://analogdevicesinc.github.io/hdl/library/axi_ad7606x/index.html
+> >> +
+> >>  required:
+> >>    - compatible
+> >> -  - reg  
+> > 
+> > I think we still want a reg, but only to differentiate multiple instances
+> > perhaps.  
+> 
+> In light of the recent discussions on the similar AXI DAC
+> support for AD3552R [1], should we consider some of the same
+> things here?
+> 
+> Essentially, the AXI ADC IP block in this series is acting as
+> a parallel bus provider for the AD7606 chip. This is used both
+> for configuring registers on the chip and "offloading" for high
+> speed data capture.
+> 
+> So this would mean...
+> 
+> 1. We should add a new compatible string to iio/adc/adi,axi-adc.yaml
+>    for the specialized version of the AXI ADC IP that is used with
+>    AD7606 and similar ADCs.
+> 2. In the .dts, the AXI ADC node should be the parent of the ADC node
+>    since the AXI ADC IP is providing the parallel bus to the ADC.
 
- Documentation/process/coding-style.rst   | 2 +-
- Documentation/process/maintainer-tip.rst | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Ah. I'd completely failed to notice this didn't have a separate control
+bus.  The existing ad7606 only does reading so I assumed that the
+data path couldn't carry configuration data.  Looking at this patch
+is that still the case?
 
-diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-index 8e30c8f7697d..19d2ed47ff79 100644
---- a/Documentation/process/coding-style.rst
-+++ b/Documentation/process/coding-style.rst
-@@ -986,7 +986,7 @@ that can go into these 5 milliseconds.
- 
- A reasonable rule of thumb is to not put inline at functions that have more
- than 3 lines of code in them. An exception to this rule are the cases where
--a parameter is known to be a compiletime constant, and as a result of this
-+a parameter is known to be a compile time constant, and as a result of this
- constantness you *know* the compiler will be able to optimize most of your
- function away at compile time. For a good example of this later case, see
- the kmalloc() inline function.
-diff --git a/Documentation/process/maintainer-tip.rst b/Documentation/process/maintainer-tip.rst
-index ba312345d030..349a27a53343 100644
---- a/Documentation/process/maintainer-tip.rst
-+++ b/Documentation/process/maintainer-tip.rst
-@@ -154,7 +154,7 @@ Examples for illustration:
- 
-     We modify the hot cpu handling to cancel the delayed work on the dying
-     cpu and run the worker immediately on a different cpu in same domain. We
--    donot flush the worker because the MBM overflow worker reschedules the
-+    do not flush the worker because the MBM overflow worker reschedules the
-     worker on same CPU and scans the domain->cpu_mask to get the domain
-     pointer.
- 
--- 
-2.46.0
+If so I think it is less critical to represent the bus given the history
+of not doing so in this driver.   It would be a nice to have though.
+
+Jonathan
+
+
+> 
+> 
+> [1]: https://lore.kernel.org/linux-iio/20240903203935.358a1423@jic23-huawei/
+> 
+> >   
+> >>    - avcc-supply
+> >>    - vdrive-supply  
+> > 
+> > 
+> >   
+> 
 
