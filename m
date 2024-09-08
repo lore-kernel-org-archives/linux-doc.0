@@ -1,142 +1,169 @@
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 423E3A2D
-	for <linux-doc@vger.kernel.org>; Sun,  8 Sep 2024 20:49:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E680A12B17C
+	for <linux-doc@vger.kernel.org>; Sun,  8 Sep 2024 21:11:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725828571; cv=none; b=WaicQj8UsWm8L3mj/PQ1c7ZNHlF/Fg6d+uXn63vbFn5wZvhgCnPUBKuPUwIbN5U/NcQu8C8s2ki8kth2VxezvsW6av4TpDEmycGcXEdJ3YUY7beMm65pM3kNFA71uZDYtBFZu8Xzx/ZhpAY+rRiu8aywETrqlAlPz5FX7jMoePQ=
+	t=1725829868; cv=none; b=IQ43KNya66KNCTNgmvAXUnnsK3B0DsabS+G/QZLTqJcTDcn6gcqvFYLKFX7lm0bv0lMIe62+Z6MQ2ACWUSsvgbzBnnXZIUhlSwUC9wosZzXJ9HpCIIq/bntxIYYXJm6ZinXQ2hpqAGh+D9cfMb2o6uIfLa/cICUlHshHJAE/Uv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725828571; c=relaxed/simple;
-	bh=EoBKEDH3k4qBQyLBQhS51btl8ruh9qqZSDp7H6obE4Y=;
+	s=arc-20240116; t=1725829868; c=relaxed/simple;
+	bh=zN3q3bvVxr+IRbcTF7Mt9+0mGWCJvt/L/HlTFdTrw2c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DqOIntYWLdm5f0s8UEAruIQ+f014v7o/wUPFmyPE+4BOTZHM5w3tXcFa+xFyEGMFhRRrZE4rT6HMPG+zYMbF4XEDlgYtPvwqY9jR67J32uhpvPwSXsNld4SXwgHgbdrY9MQeWWP/tzRG6ZKy4Ydgubl6S9RG6tiCHhM1Z6ZW1IA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=DsTGXWoz; arc=none smtp.client-ip=209.85.218.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="DsTGXWoz"
-Received: by mail-ej1-f66.google.com with SMTP id a640c23a62f3a-a8d2daa2262so106667066b.1
-        for <linux-doc@vger.kernel.org>; Sun, 08 Sep 2024 13:49:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1725828567; x=1726433367; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zEC4wQ1JIXOpeG5hhCNp2MQwBTDr5gpJ3bo6M3CBVtc=;
-        b=DsTGXWozC0utvVsJa3InhG1XGU+B/yEZ+wok3O0ikK+btkJIuqrUeaZwhLy/IZUI2X
-         rv8CxMqnTYwQa3C5tE9rJM04dRkkb/pA5cc79fj5t1xU5m7UNAkQLNjKIVjRGOhpHB2W
-         NoCc8FEKttJ3NnC/gTuP53/q78Zcme5e+lhvY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725828567; x=1726433367;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zEC4wQ1JIXOpeG5hhCNp2MQwBTDr5gpJ3bo6M3CBVtc=;
-        b=CFpJO/sbsPqxYdQsAZPH4hl7QgP3taUy6GzjCUe4yCFU6VzZSPrnJiu+n0UOS8SHSQ
-         budfwXbWeVRtqFkseo6D9ueOgRrgu8DaR1a08TSbITPpnO0wnlGjQf6RgV/+TqS9PUI8
-         j4Gj251YD0Mgd/E82Kq8HM0y1REa69TDm5mDEnqYfYG3uZ3HeKBsd23tz7YpbuqS5VcB
-         DxBvAiZe/Z/llevfdrtI5oAdF8kEkIM81q/U4o+LkLnGDMJtlcWPr/30lJHyFfwCKYw7
-         rj4bmBno3ZSQaFs2ns3hFJR5PCisUpIBVkGqejgPCdlc/VgPS/FInXeeG6mpKGdePdDT
-         2a7w==
-X-Forwarded-Encrypted: i=1; AJvYcCX8r9htVh30hphcAEIfPqDQIF7G+FVE0KRMcXjV4Tx8uwUnYljRJ/5iMRdbvZ5m/cy7MPCb+F5opNE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3YDBZm4CBFNWb735mcW0+wiJzl/dTQ/N+uzTEqTZ5Tt3/ra1v
-	60CSoRG/4I+/XThIZk/BNklLWkId7nzc6VXgexGpI26ay6zKgLiBmoRuKWDyc/8=
-X-Google-Smtp-Source: AGHT+IEpMGHYf5BD/zUKQTqTgiisAQ1anJ5u/AzUGtH+fTD6Vnd38+tGUnUUgp5rDSrfzmoVdpGKVA==
-X-Received: by 2002:a17:907:97d2:b0:a8d:5472:b56c with SMTP id a640c23a62f3a-a8d5472bbf6mr81751866b.22.1725828567442;
-        Sun, 08 Sep 2024 13:49:27 -0700 (PDT)
-Received: from LQ3V64L9R2.homenet.telecomitalia.it (host-79-23-194-51.retail.telecomitalia.it. [79.23.194.51])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d25a2844fsm247389666b.88.2024.09.08.13.49.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Sep 2024 13:49:27 -0700 (PDT)
-Date: Sun, 8 Sep 2024 22:49:25 +0200
-From: Joe Damato <jdamato@fastly.com>
-To: netdev@vger.kernel.org
-Cc: mkarsten@uwaterloo.ca, kuba@kernel.org, skhawaja@google.com,
-	sdf@fomichev.me, bjorn@rivosinc.com, amritha.nambiar@intel.com,
-	sridhar.samudrala@intel.com,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jiri Pirko <jiri@resnulli.us>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC net-next v2 1/9] net: napi: Add napi_storage
-Message-ID: <Zt4N1RoplScF2Dbw@LQ3V64L9R2.homenet.telecomitalia.it>
-Mail-Followup-To: Joe Damato <jdamato@fastly.com>, netdev@vger.kernel.org,
-	mkarsten@uwaterloo.ca, kuba@kernel.org, skhawaja@google.com,
-	sdf@fomichev.me, bjorn@rivosinc.com, amritha.nambiar@intel.com,
-	sridhar.samudrala@intel.com,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jiri Pirko <jiri@resnulli.us>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-References: <20240908160702.56618-1-jdamato@fastly.com>
- <20240908160702.56618-2-jdamato@fastly.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=fFwXG/MK8ETjnYpMryKiOmXVgXlYGEDEvmTLj011pPotAQ1rSm3vI7k2j8bJ8Uem+Y/ks2MHnRlCzp0OdeA4JUXZUHDVJ6Y8Yvu3PayMBDivmF3CVzTgB8NJuo5TfyUb1xWOXA47+mOfZH8WFRd3m3eqwUPx13rjrpCokbP6DtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1snOvn-0002CA-Jf; Sun, 08 Sep 2024 22:54:47 +0200
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1snOvi-006Uad-Jx; Sun, 08 Sep 2024 22:54:42 +0200
+Received: from mgr by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1snOvi-00DtLg-1c;
+	Sun, 08 Sep 2024 22:54:42 +0200
+Date: Sun, 8 Sep 2024 22:54:42 +0200
+From: Michael Grzeschik <mgr@pengutronix.de>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux USB <linux-usb@vger.kernel.org>,
+	Linux Next Mailing List <linux-next@vger.kernel.org>,
+	v9fs@lists.linux.dev, Eric Van Hensbergen <ericvh@kernel.org>,
+	Latchesar Ionkov <lucho@ionkov.net>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	Christian Schoenebeck <linux_oss@crudebyte.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jan Luebbe <jlu@pengutronix.de>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH] tools: usb: p9_fwd: wrap USBG shell command examples in
+ literal code blocks
+Message-ID: <Zt4PEp8z1rfhFZCm@pengutronix.de>
+References: <20240908113423.158352-1-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="2GlOQuJU+wYS6vhG"
 Content-Disposition: inline
-In-Reply-To: <20240908160702.56618-2-jdamato@fastly.com>
+In-Reply-To: <20240908113423.158352-1-bagasdotme@gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Sun, Sep 08, 2024 at 04:06:35PM +0000, Joe Damato wrote:
-> Add a persistent NAPI storage area for NAPI configuration to the core.
-> Drivers opt-in to setting the storage for a NAPI by passing an index
-> when calling netif_napi_add_storage.
-> 
-> napi_storage is allocated in alloc_netdev_mqs, freed in free_netdev
-> (after the NAPIs are deleted), and set to 0 when napi_enable is called.
-> 
-> Signed-off-by: Joe Damato <jdamato@fastly.com>
-> ---
->  .../networking/net_cachelines/net_device.rst  |  1 +
->  include/linux/netdevice.h                     | 34 +++++++++++++++++++
->  net/core/dev.c                                | 18 +++++++++-
->  3 files changed, 52 insertions(+), 1 deletion(-)
-> 
 
-[...]
+--2GlOQuJU+wYS6vhG
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> --- a/net/core/dev.c
-> +++ b/net/core/dev.c
-> @@ -6719,6 +6719,9 @@ void napi_enable(struct napi_struct *n)
->  		if (n->dev->threaded && n->thread)
->  			new |= NAPIF_STATE_THREADED;
->  	} while (!try_cmpxchg(&n->state, &val, new));
-> +
-> +	if (n->napi_storage)
-> +		memset(n->napi_storage, 0, sizeof(*n->napi_storage));
+Thanks for taking care of this.
 
-This part is very obviously wrong ;)
+On Sun, Sep 08, 2024 at 06:34:23PM +0700, Bagas Sanjaya wrote:
+>Stephen Rothwell reported htmldocs warning when merging usb tree:
+>
+>Documentation/filesystems/9p.rst:99: ERROR: Unexpected indentation.
+>
+>That's because Sphinx tries rendering p9_fwd.py output as a grid table
+>instead.
+>
+>Wrap shell commands in "USBG Example" section in literal code blocks
+>to fix above warning and to be in line with rest of commands in the doc.
+>
+>Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+>Closes: https://lore.kernel.org/linux-next/20240905184059.0f30ff9a@canb.au=
+ug.org.au/
+>Fixes: 673f0c3ffc75 ("tools: usb: p9_fwd: add usb gadget packet forwarder =
+script")
+>Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-I think when I was reading the other thread about resetting on
-channel change [1] I got a bit confused.
+Acked-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 
-Maybe what was intended was on napi_enable, do nothing / remove the
-above code (which I suppose would give the persistence desired?).
+>---
+> Documentation/filesystems/9p.rst | 6 +++---
+> 1 file changed, 3 insertions(+), 3 deletions(-)
+>
+>diff --git a/Documentation/filesystems/9p.rst b/Documentation/filesystems/=
+9p.rst
+>index 2cc85f3e8659ff..514ed13a0122b0 100644
+>--- a/Documentation/filesystems/9p.rst
+>+++ b/Documentation/filesystems/9p.rst
+>@@ -86,11 +86,11 @@ When using the usbg transport, for now there is no nat=
+ive usb host
+> service capable to handle the requests from the gadget driver. For
+> this we have to use the extra python tool p9_fwd.py from tools/usb.
+>
+>-Just start the 9pfs capable network server like diod/nfs-ganesha e.g.:
+>+Just start the 9pfs capable network server like diod/nfs-ganesha e.g.::
+>
+>         $ diod -f -n -d 0 -S -l 0.0.0.0:9999 -e $PWD
+>
+>-Optionaly scan your bus if there are more then one usbg gadgets to find t=
+heir path:
+>+Optionaly scan your bus if there are more then one usbg gadgets to find t=
+heir path::
+>
+>         $ python $kernel_dir/tools/usb/p9_fwd.py list
+>
+>@@ -99,7 +99,7 @@ Optionaly scan your bus if there are more then one usbg =
+gadgets to find their pa
+>           2 |   67 | unknown          | unknown          | 1d6b:0109 | 2-=
+1.1.2
+>           2 |   68 | unknown          | unknown          | 1d6b:0109 | 2-=
+1.1.3
+>
+>-Then start the python transport:
+>+Then start the python transport::
+>
+>         $ python $kernel_dir/tools/usb/p9_fwd.py --path 2-1.1.2 connect -=
+p 9999
+>
+>
+>base-commit: 9c0c11bb87b09a8b7cdc21ca1090e7b36abe9d09
+>--=20
+>An old man doll... just what I always wanted! - Clara
+>
+>
 
-But modify net/ethtool/channels.c to reset NAPIs to the global
-(sysfs) settings? Not sure how to balance both persistence with
-queue count changes in a way that makes sense for users of the API.
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
-And, I didn't quite follow the bits about:
-  1. The proposed ring to NAPI mapping
-  2. The two step "takeover" which seemed to imply that we might
-     pull napi_id into napi_storage? Or maybe I just read that part
-     wrong?
+--2GlOQuJU+wYS6vhG
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I'll go back re-re-(re?)-read those emails to see if I can figure
-out what the desired implementation is.
+-----BEGIN PGP SIGNATURE-----
 
-I'd welcome any/all feedback/clarifications on this part in
-particular.
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmbeDw8ACgkQC+njFXoe
+LGTkwBAArdhWO1zhxAGW/ByLL4IiT1YV1Lbkg+uvEfThLHZeVp2jwg4dfko/K3yn
+I1nEaIwg3cbbiU0IY93yZjXGwCULzhJxP8PeQ8o97DleU918Onphp7Wt4Vt74vag
+0GG6i9mzx7J6rd9P9aW+Wcnixm7hO8lCkDNda8jrlXuNWLD/a+fz+3RdOdgj1EaC
+AW1HqYRKBA/wA4fCHn8U7bjCP1cbBU67mJgopm2TxA+L82D0+l9r3l8ncb4fgmNr
+mIcNwIuxmiHvKEZck/n9FKc+TW18AKG9YND+iPcLXEGNG1GCUmflR2IZgKtLXVjf
+gp32r8o7c8OVy34DcJh57y3zwlL+4eYR59Bn4MGS8vaF9z907phi4OttfrpgBDU4
+fKBX4Mfnxldflj0S3eeb6pXs01NLH13oI7HdIWMinTjLLmFacNYDelvlc6PFKKP6
+uxLfHZ8PeVYHxVmjSurBqwXqCwzN7dMzMdSPTf5ZG+OCr5/AHMoFgpRVSgYnVKQF
+UEvpg2pVgxsw0oZrB6A5xFjd1j3v7qdBeoA4hDEbYeLaBng0i7oF/8mPWXNOhRyy
+vxrSEvwWvb4AmJfImiBiSsIUrUPJnL39Kz79knYOwCDwx2znfpjIrcii9gvWEXOZ
+kGqPqnH9QRiZq8GPMA2GE2q3/3I6dEM1sHEawvA26lDu2Hin5R4=
+=ZSZ5
+-----END PGP SIGNATURE-----
 
-[1]: https://lore.kernel.org/netdev/20240903124008.4793c087@kernel.org/
+--2GlOQuJU+wYS6vhG--
