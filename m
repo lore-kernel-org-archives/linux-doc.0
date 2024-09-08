@@ -1,132 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D47166308
-	for <linux-doc@vger.kernel.org>; Sat,  7 Sep 2024 23:22:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BBDD1547D4;
+	Sun,  8 Sep 2024 11:34:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725751354; cv=none; b=CdNaVZvWCgt2bNAEzglIvNrmdDT3zvM2xWEmlHX2XU/epdQrnIgmVewvhjJfZ9dEr3b3BRwzwQE3nxEsYfw2nUj+8iQFaAXNE/8BJW8vy2YP1kIJ0D6EIuKzKN8PVJQvO6jN13GNRaJfZAorpRMNd7FqNqHVLKZabtxL4fLEzSM=
+	t=1725795281; cv=none; b=c5z1qsdqIE1Cayw3dSacelEmS6McGGIfku18UgtpwKGlknjfqjHcdEv6rvTxZ/QYpT2570E70Y7TIxCvxlCJt+peAFKdk+m3mg91B9XovCy11rq/7aUuv8mMN3l/bxWYh1HT/r/l6+G4mD8r6NX/5VC5Y1CwhnEaPqq1IpxOYYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725751354; c=relaxed/simple;
-	bh=iLPFVcu+ydDuDP79vRjCNUFFAnq2KBTtpyHLmMVyQY0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=S8mhUlxUIibTr1/IG+COeMfJEefbRrhK25uf2vtxbmRvdjuiKMRcsTc0E2qI1fZBP9FAhpK4HdmFnKuJj8CVC1nO2S9JsxbL/D8yNR85Zce8oaNczbzM3lwbPBdYxN9Wt7fDM4uM8cibmorD0j+ROIchmftgmRc5I9zo2gbE++s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Npqo8Q3Z; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725795281; c=relaxed/simple;
+	bh=l8Afgqu3WXAVFAIqNvZ59IhIs09LB+0FmnTuuXCr790=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n+5FOm03+xnrEjOKB823ga77sbfFvmqI0i5s+n4sS4qi4jOR+d6p0iNcSxb9mm2A40CC/IL2A5oM26yRkMV6tjfOI8EJAPzs+Dm8pESjR/hZvPesUeYN3gqXp/eUaLit4ZX0m6eB6KmltkME0gJ8MLr29K4MrL0wbFGNWXuefc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AMxaaB52; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Npqo8Q3Z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725751353; x=1757287353;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iLPFVcu+ydDuDP79vRjCNUFFAnq2KBTtpyHLmMVyQY0=;
-  b=Npqo8Q3ZAH4VRqqGTj3q40PwpDQ3rDruIOeUVfUIDGVweqOV8o/9ensQ
-   B/EiWo24CUHymtTgphzNfizE4SbUG3GTNVxxTPSWeJA4CNqGvoUoUoJ9Y
-   vsLFkHlNh/50qcSTj7RqWdchW2yYO/eYK/X32waTxTkaYL69HtYfjxRxp
-   6Lo9KTlovCS0I/VvJ6mKm8fIatMcDZwpFBRrlsXG/vUnQtufvS0PlbeI6
-   2FOCXQA/Ilf3vp1ghULBJ9lTB9+Ulds65WdkalJVsqQMXbsLxnpwyDB/q
-   Ta1XCAJjKGtR7UZfN+OOMefEgtFkMSC2oiORyXzxZVeb9Tn27/VwvmaIn
-   A==;
-X-CSE-ConnectionGUID: ojOz8GTcRFi3m04lM9QyBw==
-X-CSE-MsgGUID: cPFW/mXiTX6a9VgkvUJmoQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11188"; a="24341448"
-X-IronPort-AV: E=Sophos;i="6.10,211,1719903600"; 
-   d="scan'208";a="24341448"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2024 16:22:33 -0700
-X-CSE-ConnectionGUID: eRRe9eEPRl6FK5mTGp60GQ==
-X-CSE-MsgGUID: EfdfcVklQNuO8zpZ2DAyfw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,211,1719903600"; 
-   d="scan'208";a="71252855"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 07 Sep 2024 16:22:31 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sn4lA-000D6N-2p;
-	Sat, 07 Sep 2024 23:22:28 +0000
-Date: Sun, 8 Sep 2024 07:22:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Steve Jeong <how2soft@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Dongjin Kim <tobetter@gmail.com>,
-	linux-doc@vger.kernel.org
-Subject: [tobetter:odroid-6.6.y 42/82] drivers/char/rk3568-gpiomem.c:2:
- warning: This comment starts with '/**', but isn't a kernel-doc comment.
- Refer Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202409080704.MMudSJIX-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AMxaaB52"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-20696938f86so29849445ad.3;
+        Sun, 08 Sep 2024 04:34:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725795279; x=1726400079; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TevhFPkg0ehgq3/IrZZMrhzq3fN8W8bdolBRTCGu5DA=;
+        b=AMxaaB52Pacbf0mzujeBqi5RpPm8aaDxX0j2HO/KfXrrRmCFeiHkhnLNL3TJp19CY+
+         MPWFiJ1nc90TsyMgAmGROBNQ/aE6UyoZScRN7Lvn5nzvatFZL4z0mAga4W8W58MTeXNt
+         kpAK/gQuV3ZPB4SjbmyJllLjim8B/T4JtkUj3bg3+cfoB67kt3cICb9RRgI5ssdaqbfk
+         Paisj9jhw/NrvdXYDNQdonvsNq/kOpeypRz8XcNgp/1lL+skWOOBkJILjPGsY+qmjy5K
+         +143Kt9w4oU8ejl4FrcN1/l4viRIW9y04phZPIY9VFe7quRBC32eIj8OhBCmhCHbHtZx
+         JqMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725795279; x=1726400079;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TevhFPkg0ehgq3/IrZZMrhzq3fN8W8bdolBRTCGu5DA=;
+        b=Sg/CHvFfbweaiot2HtK7qNh0OjgJ8AyRrzF9XkR5ghJSrShLZznb26XFPXzNEMP4V/
+         UmULit0Eqeax18bxacymuMQRrS0zx7+X+yzB3gB50T6FdZxsnmRefbJjLq3zFo+QQq7F
+         CkyjpOJYYIv7jk1glHJsIKb3erj/8MGZZcDx953+5NkcHG8FPFMcMHE9AkUJ42V1LRlJ
+         0c1QFFAG2+OCQQLItsgHuEL66O2/cfDIYVFEVcJ/VHvvRrs1n6weHu2tunWS/nEr8InS
+         kLMXDMGlQnKZi0fLT02nKvvGsDlfMXmynw6N2VSl6uQ6ARlEMaOwR9ERVtUKffQw5PLF
+         nJtw==
+X-Forwarded-Encrypted: i=1; AJvYcCVIs1yFJ0yt0cURDKO7F0xQ8JoiP5Z4nX1VYRsEIBNSUEN6Ukkb1NWU8hIfulfcSr1HYH0Wo4ugoBM=@vger.kernel.org, AJvYcCX0SVYDVdmGOrUmQ/YYoE+pi5n281jdNwAITLNLevCwdrCq8Vp5WLlOX1Nq9oLuM83OZJSNMCRfPmw0@vger.kernel.org, AJvYcCX3G3pduJGDlPwTr6F+xq99ot+Z+FXct4LC15Stx6pYQJatDmBWp8FUokAIy2f1As9mFKyNFzQeqFi9mQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxwhXqtBBzTuNPh7Aa4BC/y/c4LiA1mbRjhF6xWwHFsKt/7xdVb
+	TEdM2vDs0xRdmeu9C20cV/FOC7JQWpu1DJ1iXEaaMRZwc6h9EalI
+X-Google-Smtp-Source: AGHT+IH6GPQK9EkkIM7ZYRVSmYXzhsKD5YcP8izmijFJcd7CdVzsEBDd4KL7pL76B3SbTRorF5l+dQ==
+X-Received: by 2002:a17:902:f547:b0:206:ae88:417f with SMTP id d9443c01a7336-206f04e17fdmr111199545ad.6.1725795278085;
+        Sun, 08 Sep 2024 04:34:38 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2071a6109cfsm13980345ad.175.2024.09.08.04.34.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Sep 2024 04:34:37 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id A1ABB4A19C6E; Sun, 08 Sep 2024 18:34:31 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux USB <linux-usb@vger.kernel.org>,
+	Linux Next Mailing List <linux-next@vger.kernel.org>,
+	v9fs@lists.linux.dev
+Cc: Eric Van Hensbergen <ericvh@kernel.org>,
+	Latchesar Ionkov <lucho@ionkov.net>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	Christian Schoenebeck <linux_oss@crudebyte.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Grzeschik <m.grzeschik@pengutronix.de>,
+	Jan Luebbe <jlu@pengutronix.de>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH] tools: usb: p9_fwd: wrap USBG shell command examples in literal code blocks
+Date: Sun,  8 Sep 2024 18:34:23 +0700
+Message-ID: <20240908113423.158352-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2171; i=bagasdotme@gmail.com; h=from:subject; bh=l8Afgqu3WXAVFAIqNvZ59IhIs09LB+0FmnTuuXCr790=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDGl3uw48Tfu/RCuuck9OdunT1UdCLn944Nl8dsskHollK qqXIr9+6yhlYRDjYpAVU2SZlMjXdHqXkciF9rWOMHNYmUCGMHBxCsBEjtsxMkw8xnBop8Aap+KN O1+cKlqz79IftZsZvI+6tvJnr0kR9f/B8L9+53RdkbCzO1rnHdz6QMzJtYxvUZaNP3tK66q0R1z vrXgB
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/tobetter/linux odroid-6.6.y
-head:   c970a63609188f53cf758a3dcd395e777150a29a
-commit: 905d94c26ec85e35bcc9d727a5c49130603afbb9 [42/82] ODROID-M1: Add /dev/gpiomem device
-config: arm64-randconfig-001-20240907 (https://download.01.org/0day-ci/archive/20240908/202409080704.MMudSJIX-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240908/202409080704.MMudSJIX-lkp@intel.com/reproduce)
+Stephen Rothwell reported htmldocs warning when merging usb tree:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409080704.MMudSJIX-lkp@intel.com/
+Documentation/filesystems/9p.rst:99: ERROR: Unexpected indentation.
 
-All warnings (new ones prefixed by >>):
+That's because Sphinx tries rendering p9_fwd.py output as a grid table
+instead.
 
->> drivers/char/rk3568-gpiomem.c:2: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * GPIO memory device driver
+Wrap shell commands in "USBG Example" section in literal code blocks
+to fix above warning and to be in line with rest of commands in the doc.
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dts:106.17-110.4: Warning (unit_address_vs_reg): /rk3568-gpiomem: node has a reg or ranges property, but no unit name
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/linux-next/20240905184059.0f30ff9a@canb.auug.org.au/
+Fixes: 673f0c3ffc75 ("tools: usb: p9_fwd: add usb gadget packet forwarder script")
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/filesystems/9p.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-vim +2 drivers/char/rk3568-gpiomem.c
+diff --git a/Documentation/filesystems/9p.rst b/Documentation/filesystems/9p.rst
+index 2cc85f3e8659ff..514ed13a0122b0 100644
+--- a/Documentation/filesystems/9p.rst
++++ b/Documentation/filesystems/9p.rst
+@@ -86,11 +86,11 @@ When using the usbg transport, for now there is no native usb host
+ service capable to handle the requests from the gadget driver. For
+ this we have to use the extra python tool p9_fwd.py from tools/usb.
+ 
+-Just start the 9pfs capable network server like diod/nfs-ganesha e.g.:
++Just start the 9pfs capable network server like diod/nfs-ganesha e.g.::
+ 
+         $ diod -f -n -d 0 -S -l 0.0.0.0:9999 -e $PWD
+ 
+-Optionaly scan your bus if there are more then one usbg gadgets to find their path:
++Optionaly scan your bus if there are more then one usbg gadgets to find their path::
+ 
+         $ python $kernel_dir/tools/usb/p9_fwd.py list
+ 
+@@ -99,7 +99,7 @@ Optionaly scan your bus if there are more then one usbg gadgets to find their pa
+           2 |   67 | unknown          | unknown          | 1d6b:0109 | 2-1.1.2
+           2 |   68 | unknown          | unknown          | 1d6b:0109 | 2-1.1.3
+ 
+-Then start the python transport:
++Then start the python transport::
+ 
+         $ python $kernel_dir/tools/usb/p9_fwd.py --path 2-1.1.2 connect -p 9999
+ 
 
-   > 2	 * GPIO memory device driver
-     3	 *
-     4	 * Creates a chardev /dev/gpiomem which will provide user access to
-     5	 * the rk3568's GPIO registers when it is mmap()'d.
-     6	 * No longer need root for user GPIO access, but without relaxing permissions
-     7	 * on /dev/mem.
-     8	 *
-     9	 * Written by Luke Wren <luke@raspberrypi.org>
-    10	 * Copyright (c) 2015, Raspberry Pi (Trading) Ltd.
-    11	 *
-    12	 * Redistribution and use in source and binary forms, with or without
-    13	 * modification, are permitted provided that the following conditions
-    14	 * are met:
-    15	 * 1. Redistributions of source code must retain the above copyright
-    16	 *    notice, this list of conditions, and the following disclaimer,
-    17	 *    without modification.
-    18	 * 2. Redistributions in binary form must reproduce the above copyright
-    19	 *    notice, this list of conditions and the following disclaimer in the
-    20	 *    documentation and/or other materials provided with the distribution.
-    21	 * 3. The names of the above-listed copyright holders may not be used
-    22	 *    to endorse or promote products derived from this software without
-    23	 *    specific prior written permission.
-    24	 *
-    25	 * ALTERNATIVELY, this software may be distributed under the terms of the
-    26	 * GNU General Public License ("GPL") version 2, as published by the Free
-    27	 * Software Foundation.
-    28	 *
-    29	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-    30	 * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-    31	 * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-    32	 * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-    33	 * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-    34	 * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-    35	 * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-    36	 * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-    37	 * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-    38	 * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-    39	 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-    40	 */
-    41	
-
+base-commit: 9c0c11bb87b09a8b7cdc21ca1090e7b36abe9d09
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+An old man doll... just what I always wanted! - Clara
+
