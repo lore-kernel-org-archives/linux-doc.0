@@ -1,100 +1,83 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53DF4177991;
-	Sun,  8 Sep 2024 19:23:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C0B0175D4C;
+	Sun,  8 Sep 2024 20:43:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.133.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725823436; cv=none; b=Onado79lGRmFAxYuyut6nN2NfvTqiSHLH9d+M83A64MDbUmbCS8hFUt10eV5TpO88BbhpGok0+C8dipRmvwaacaxGphH/P2uIjGCr8q5DbxiddJvTWsH4XSMbyAQIAhTxO0Tm6rvm77ubu1lRJ3OJaHUMKp+QRlRwY8ipMS7gvA=
+	t=1725828193; cv=none; b=RUG+FA8pGqz4fLgnGzlIOhn6QSaHW0kL4aAxgNaFolJHv+u1095hU0zeZmQ7bec72w9EGsx+oj4Pz8WPGnazgg/fG1nsDOdekj3flOnRBiY8D3z+vjI+vL2C5ZG2GKiUjMrHamWCSzO5JNJUQxSysQAuCyxoJGH9pMhk5kPMMtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725823436; c=relaxed/simple;
-	bh=m/W0s303G6CAVDATz7o5LzmdnZ3kzZdIQCH0Cbz1fgQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Mv75iY3ABj1JsWlWhXfp36/eN6Sz+mPBAph8Z0v4/rsO/fGlZ3+xpO79x5P7CwXImwmZRcj8NvlYhI2Ou9w9QfMwA5NriyU5GF4WSGsNjp7ClXRIwOPU61z3n9JcWTi7DnPvpa5V9PV0KlZTB8hWcKLTfmFF7grZCfq2jP3256k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RH7DVrYY; arc=none smtp.client-ip=209.85.222.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RH7DVrYY"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7a99de9beb2so119103785a.3;
-        Sun, 08 Sep 2024 12:23:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725823434; x=1726428234; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JXrFgzwbiTSr4Ylz2mlW0T8OOl+bUrZIiSty64NIZsA=;
-        b=RH7DVrYYBDtING8D4bs6m4l2mVr6oALwVsqQj/ONyBNQkUeuuV6KEQJ/LgrKAnX7a+
-         2UtDHUII+Ovo0NqfoGtdxntd+dJwvsGl+E57UCRBz6wA7l/wkIeUH0JhJ0HeGXndbZ+9
-         mc2o5FDp0VtLG7wcca7Pi92DAN92tXw7Xgju+sI74M6nL6M9fkk+9QOS8jhvn5Urklt4
-         MnHTnzU0xFuSRJRSRfxJeQVgv9Spb4i+U3unv4eacfJZ493iBoH43LfEAQMISmbT/Uvw
-         6JWDnPOeZJ1rpxavjurTWfhfXRVGZAbSA2UcKHI2ZKt5rnyjTyLuzC/B5ibOCo/619Qt
-         ABmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725823434; x=1726428234;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JXrFgzwbiTSr4Ylz2mlW0T8OOl+bUrZIiSty64NIZsA=;
-        b=ROd5KGfX2ZTDJOdCsAulBOqjIbwegMpWH7YxCRL1PXZxrTcfUC3WiMqnSEOb8H+dcl
-         YqE7tYWLYAZsN5q5L3n9w5PlQ0FfC3Bdp40HEZ6ZJjfQpUCmcGqAviimHVqhRMt35Sp0
-         SXUoCsrmlUIZBX/KRrQdim1MbeSyHB0k8HroNuh5rbDGHW3S0eWxN2XD+84QqjNowxuf
-         Edb5fMW11Xnx0Ag8jX699PJQA6SRyNSDuDzNiF7EN8sukSayaR+AvpZlnlwg7dpZJ9yb
-         46X+BFsZ1mWqIA0nGp13PsXHxXM6aBhN7aBdaCERmg0Kn0C5Myd2BQsQ6tOr4kP7IqwT
-         xL+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUTq4yClqTLYZp6U7Xb0ldtdVUMrTywuDaCDCKE4RhTWiN+sDSmXbLLqxICMjs8H6HbjSCB8hctzldZ50141A==@vger.kernel.org, AJvYcCUe+PKQsDUc14MbDy0Kh64tOMTHwpapFpiiAOJ8WaMuHlVD03nZvLGu2jqhxozb8CpVItuRml+heNc=@vger.kernel.org, AJvYcCVfoOeSNxvemZxJPIZ4gcCk8ltcraI+G+A9n0ViWEwXtHfVqcg+pcxARY/IRAeY0DM7SkEBzrP7yaNvES2c@vger.kernel.org
-X-Gm-Message-State: AOJu0YxlLJmQsHZk+shldToXLVq9cy6uecMTl97WkQ3ef1K1uWteUR9U
-	i11Y1IXIymhfpRW1OqaQsUBQ+wbkL/QwvSQrXQpoq6ai8ReUvI1Y
-X-Google-Smtp-Source: AGHT+IGgKnSGL4uaFiJd97SurDl/WRYL/3PCh4JiAicvu+wT8MBh5XrPuZh99WHUqGS9aW7p6JSFXg==
-X-Received: by 2002:a05:620a:40cf:b0:79f:793:9a63 with SMTP id af79cd13be357-7a99737a8ffmr1464157785a.44.1725823434041;
-        Sun, 08 Sep 2024 12:23:54 -0700 (PDT)
-Received: from localhost.localdomain (d24-150-189-55.home.cgocable.net. [24.150.189.55])
-        by smtp.googlemail.com with ESMTPSA id af79cd13be357-7a9a7969043sm151309485a.44.2024.09.08.12.23.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Sep 2024 12:23:53 -0700 (PDT)
-From: Dennis Lam <dennis.lamerice@gmail.com>
-To: dhowells@redhat.com,
-	jlayton@kernel.org,
-	corbet@lwn.net
-Cc: netfs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Dennis Lam <dennis.lamerice@gmail.com>
-Subject: [PATCH] docs:filesystems: fix spelling and grammar mistakes on netfs library page
-Date: Sun,  8 Sep 2024 15:23:09 -0400
-Message-ID: <20240908192307.20733-3-dennis.lamerice@gmail.com>
-X-Mailer: git-send-email 2.46.0
+	s=arc-20240116; t=1725828193; c=relaxed/simple;
+	bh=f90I9bwSj2dxzrEciXcFScy+CumS9+bcyiuMt83JQhA=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=ur4HbL2YTEUvSvNqF88fAjo/jXP7cUxwD1uh2ziIgqGFLTIQ0bCnpLrDqKDZinFxoyYa1rukIGez4f9dK5hpCYsdsdceNisIuaf9KaLMkoRWa6w8lvmXG195dReqiOVWVQOUs7N48OZUD+XGqyLDbRaynwKgQ3s4VAq0jATHGV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk; spf=none smtp.mailfrom=orcam.me.uk; arc=none smtp.client-ip=78.133.224.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
+Received: by angie.orcam.me.uk (Postfix, from userid 500)
+	id 96E4792009C; Sun,  8 Sep 2024 22:43:02 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by angie.orcam.me.uk (Postfix) with ESMTP id 8806B92009B;
+	Sun,  8 Sep 2024 21:43:02 +0100 (BST)
+Date: Sun, 8 Sep 2024 21:43:02 +0100 (BST)
+From: "Maciej W. Rozycki" <macro@orcam.me.uk>
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+cc: Masahiro Yamada <masahiroy@kernel.org>, 
+    Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+    Richard Weinberger <richard@nod.at>, 
+    Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
+    Johannes Berg <johannes@sipsolutions.net>, 
+    Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+    Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+    x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+    Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+    Wedson Almeida Filho <wedsonaf@gmail.com>, 
+    Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+    =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+    Benno Lossin <benno.lossin@proton.me>, 
+    Andreas Hindborg <a.hindborg@samsung.com>, 
+    Alice Ryhl <aliceryhl@google.com>, 
+    Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+    Steven Rostedt <rostedt@goodmis.org>, 
+    Masami Hiramatsu <mhiramat@kernel.org>, 
+    Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+    Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>, 
+    Nick Desaulniers <ndesaulniers@google.com>, 
+    Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+    linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+    linux-um@lists.infradead.org, rust-for-linux@vger.kernel.org, 
+    linux-mips@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+    linux-doc@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v2 3/3] rust: Enable for MIPS
+In-Reply-To: <20240905-mips-rust-v2-3-409d66819418@flygoat.com>
+Message-ID: <alpine.DEB.2.21.2409082138160.60835@angie.orcam.me.uk>
+References: <20240905-mips-rust-v2-0-409d66819418@flygoat.com> <20240905-mips-rust-v2-3-409d66819418@flygoat.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-Signed-off-by: Dennis Lam <dennis.lamerice@gmail.com>
----
- Documentation/filesystems/netfs_library.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Thu, 5 Sep 2024, Jiaxun Yang wrote:
 
-diff --git a/Documentation/filesystems/netfs_library.rst b/Documentation/filesystems/netfs_library.rst
-index 4cc657d743f7..cc8e7a249de5 100644
---- a/Documentation/filesystems/netfs_library.rst
-+++ b/Documentation/filesystems/netfs_library.rst
-@@ -111,12 +111,12 @@ The following services are provided:
-  * Allow the netfs to expand a readahead request in both directions to meet its
-    needs.
- 
-- * Allow the netfs to partially fulfil a read, which will then be resubmitted.
-+ * Allow the netfs to partially fulfill a read, which will then be resubmitted.
- 
-  * Handle local caching, allowing cached data and server-read data to be
-    interleaved for a single request.
- 
-- * Handle clearing of bufferage that aren't on the server.
-+ * Handle clearing of bufferages that aren't on the server.
- 
-  * Handle retrying of reads that failed, switching reads from the cache to the
-    server as necessary.
--- 
-2.46.0
+> diff --git a/scripts/generate_rust_target.rs b/scripts/generate_rust_target.rs
+> index 863720777313..bbdf8a4dd169 100644
+> --- a/scripts/generate_rust_target.rs
+> +++ b/scripts/generate_rust_target.rs
+[...]
+> +        } else {
+> +            ts.push("arch", "mips");
+> +            cfg.get("TARGET_ISA_REV").map(|isa_rev| {
+> +                let feature = match isa_rev.as_str() {
+> +                    "1" => ",+mips32",
+> +                    "2" => ",+mips32r2",
+> +                    "5" => ",+mips32r5",
+> +                    "6" => ",+mips32r6",
+> +                    _ => ",+mips2",
 
+ What's the consequence of using `mips2' rather than `mips1' here?  How 
+about other ISA revisions, e.g. `mips4' (that also applies to the 64BIT 
+leg)?
+
+  Maciej
