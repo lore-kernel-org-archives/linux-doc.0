@@ -1,67 +1,63 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B631E26281;
-	Sun,  8 Sep 2024 17:28:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8738226281;
+	Sun,  8 Sep 2024 18:37:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725816541; cv=none; b=XLKq2rZWEkC4MURy59rEHYxHuQRsU8fJsHr5kGTs+50srQKV9vj5BtoYvcnojOi5Sk0YYySW5Vwcpjl3Bs1iKRN5Y+EMsLys99FnyDr3Rgv7JGkBeyOJIhpf25ahalRWOeJCjf9PLjQeuVduBoFXDgAgR24h3eBY2zby3itT2n4=
+	t=1725820677; cv=none; b=YuMqIsp7X14eTX9L1VKqv/QyS4+9q6Xfd9C0aVFIY2ILlcHelhbP7sX281Ob+EylSs88KEBUYPXfu5u17sucLqcrpGQiM/d5QtHc1o/01P/8l7OVVg3+AYVaeBZA52OhQoHojTccL14gH6m3+OXloKL/LoZajBw49rKFOmR69C8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725816541; c=relaxed/simple;
-	bh=ODeLpK4Af15QLuBE5+94jWGI6ekq3Rl0Ngi9ZJdlkvw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Mo/erU8V9FTf0tpYu1jjPEIwn+eT5TZermcE2J6zqBlWOqW86d+nMEOFxObyxyvJmBROm94xvYtfBzoeAYEqxSisITMhSju3AhB4XvNnOxqweFkHB8xIDdAjFuR78WHaOzT+4bd2Fkub0EevSw/BAyrTzknab32VdkQJpr6XZO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S9xKHqRP; arc=none smtp.client-ip=209.85.222.171
+	s=arc-20240116; t=1725820677; c=relaxed/simple;
+	bh=b+Q7cPnCeO/yx+y2/RMNcMrxOGmRA0EmdFI5lGTo+oc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=d/rvh1qfNgYoUxVcS9NqUr7KfKJcn1SDxWbDoBmOQcC8J5U5Bst+72zukxaGS8icIzX77/d2ezd+zK4NNdFuCh6OWdG+GTHUDPJVA8xnhOE7/DrNedvXFlWa6VzuY1jHl02sFh5q+EbjK/PdEre20VzSOr/gI0gGw34BToN5hjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lClReZ9H; arc=none smtp.client-ip=209.85.219.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S9xKHqRP"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7a99c99acf7so219052485a.1;
-        Sun, 08 Sep 2024 10:28:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lClReZ9H"
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6c34c2a7dc7so24874866d6.3;
+        Sun, 08 Sep 2024 11:37:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725816539; x=1726421339; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1725820674; x=1726425474; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zsm4RBB/t1W/avz/RLFv9t+SfuXFUhmHDDisoJZDHX4=;
-        b=S9xKHqRPQQM7xPhEStgC00isOr/r4gEGd8azrYHW2eHIwEIhTU6j+lO8in92a9dDjG
-         Tqh0c7Io9+HgaupshO/OJMb1+L+7GO80OhOdv3rdMXHMceeYMKMPD/kdrO/m6cw42fIE
-         RP2WHlJPVsBkrJFMCikbcZPkbXHqHi04Egt8TqgZLA5GL+BajET1V2GTfqRtayCFIi/M
-         UfFCFgJCOT0X4UcgiK7/1c4uKjQ70zZY1owGr1KG2VvnsvcRAGjcpX1VJ0M9JlboCS0J
-         GQmZVuXJ2czNrl9uCF8JKiIkD3cZHDEZM5gPkEPdA1AY/UIPmbKkxza0rdd8jRRj/QW4
-         UijA==
+        bh=cokJ6ZaY1NJlTrapog+7pjsTEDaduw1R6NmGJPrMiuA=;
+        b=lClReZ9HXgyGuNwPV+RBdoFrA7dBpTpHL7vOLrvc0R5J6brU/A2e41i2awwc2xR9xB
+         9hzZS491IOViVvdmLCa4/RYav1XiG5K1QwvAYbvtZkqnWtTM8mjaRVJLFIBx55TX0f7E
+         iacw6e4DSCdoP88saqtwSMF/JtH89QBpcCJjRTPqGsqIiJn15Dey6bFWOdXO7yWx/eZs
+         yr9IH4vE+/F4Qopx4w8Gr6T0jtSr51BpkcJIRFKQdA8R5hY0G6cU+14Z5VtTiydNo1jK
+         WarF6mZGQx0RDxFpMlHo6hCsEGS3Gps9/m5HZjLT1BbdOotsFw44UaJwmtjOAUCgBi5z
+         zW+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725816539; x=1726421339;
+        d=1e100.net; s=20230601; t=1725820674; x=1726425474;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Zsm4RBB/t1W/avz/RLFv9t+SfuXFUhmHDDisoJZDHX4=;
-        b=B3wqw35L928dDQ6wnVY1jOwV/mP2NLWObM+BsV8WyHj4qayHl3b9K43MkO6PgJcd1k
-         nnj9/irXdO+6JCTMPUDXphNtfPtlztmlvaJhqVDjSVh+IL1Uhzi8Wb4KnyK8MOuJN+a6
-         gIBi8cxtzuJagMDsFHaFNllvpUNrUDYibbRXTK7SIeXZ3UwmnxDv2Td4GgjwU+jYe8zk
-         nMVUW/6ToxbX/LK8JDaLxHXMaUu/mBjRmkI1Cv+F3URxVi4cwx6LtFJdDkYXTDFxXvLH
-         JCbkTY4ESC4/d+f7g7qo5rigPdjG5GJLgEs6NuKTVk/lc3ROrzUMFRbXINykU4htx1rh
-         JZeg==
-X-Forwarded-Encrypted: i=1; AJvYcCW+0ORQRj3az9mP0rFMd400eUkby26l2G40tSctfaECfeZ8JaEzGsOvVmX2W53SrFK5ukCDrWreW4Drg7Ls@vger.kernel.org, AJvYcCWHG5lLIr7kGznmT8m8c9RtjadyCDRQN1BQzdXEqEEpLJrSV/e5HS1n5buReeBJ+gvU0/wjyF8/7Q4wVFE6og==@vger.kernel.org, AJvYcCWxOJCKfKVIaHrYM2btYj4v1A8PUwQhSsm1e78FYmYdVRzP/XDoP7O+FQ9VcmtBj6SzqxLBd6iekvc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6KAuroSOVRz8RnL7OugNBCkLje6MQky7+yyGRDNmQfjY2gvR7
-	j3WUUCEMIc/FMBSwX9/miSEcUxqQODKTQu3avo2NOfUqZSjLP48f
-X-Google-Smtp-Source: AGHT+IFsyFIKWpHy038Lxs6Jr/2PCnsALaerIi1bPVPX58yVKn+KBHywpybD0Fvqok+idKj5a7aUew==
-X-Received: by 2002:a05:620a:40c7:b0:7a9:b9c6:ab3e with SMTP id af79cd13be357-7a9b9c6ba9dmr10025185a.4.1725816538546;
-        Sun, 08 Sep 2024 10:28:58 -0700 (PDT)
+        bh=cokJ6ZaY1NJlTrapog+7pjsTEDaduw1R6NmGJPrMiuA=;
+        b=RNBS6rqW2SxLFHS2RyYviQpEHQOP3PPqcClIGY7es6WRuxHLWqsj8kA3+a/MaLFoBG
+         UmJ6fnu4HUqWEaCnftQopDjeptRwPw6UwT4+PF1OyRzBWhaHnowjAvg/tcUUgQ1IvLGS
+         IR6WoYlKcN4xuUmM2w3gTX2tC1Dr3nb/xSfSaimyLaW5HjmyEY2U/IvQzW0WinUqOSzX
+         aUbQDA3uwKLNA7sz8e90vVsY/45j1MSurybvshlV0ijslSz9GQGg3waRct4xpijovuCI
+         FOdsLgvYlHuZTw3pCveaA2qthC1SyFyt2x+EG9oT2mo8e+NjDlIXdoaHF709qcsfekt2
+         6nOA==
+X-Forwarded-Encrypted: i=1; AJvYcCW5EkCkCoTmC6jtnQFzYPMkaC9vWYhl8LTkJGNEwqK48N1jjGC2TYjctoB8hCGjQaWoZoewQ4uc5hetjYs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxcwNnOVfQpYAWZ2AVf40nlSk9mB3sWQX7duYytM2tyz6ZrV7G5
+	7bsFWw38F4vpc8Yc+OmRCTxSfooERnCnDT/4Wiq39uKnlSuEkL0NKigyyp0j
+X-Google-Smtp-Source: AGHT+IEHrt6A7TzSa0lTe2OJ1NUtGz3fRD6hrOwD5WIiB6XtDqt1h6LlKgqKAg3IsDyg1I1kLSHQMw==
+X-Received: by 2002:a0c:fa88:0:b0:6c3:69be:a3e with SMTP id 6a1803df08f44-6c532b2cd39mr80096156d6.43.1725820674287;
+        Sun, 08 Sep 2024 11:37:54 -0700 (PDT)
 Received: from localhost.localdomain (d24-150-189-55.home.cgocable.net. [24.150.189.55])
-        by smtp.googlemail.com with ESMTPSA id af79cd13be357-7a9a7a040dbsm144713585a.86.2024.09.08.10.28.57
+        by smtp.googlemail.com with ESMTPSA id 6a1803df08f44-6c53433989fsm14462516d6.31.2024.09.08.11.37.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Sep 2024 10:28:58 -0700 (PDT)
+        Sun, 08 Sep 2024 11:37:53 -0700 (PDT)
 From: Dennis Lam <dennis.lamerice@gmail.com>
-To: brauner@kernel.org,
-	djwong@kernel.org,
-	corbet@lwn.net
-Cc: linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
+To: corbet@lwn.net
+Cc: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Dennis Lam <dennis.lamerice@gmail.com>
-Subject: [PATCH] docs:filesystems: fix spelling and grammar mistakes in iomap design page
-Date: Sun,  8 Sep 2024 13:28:42 -0400
-Message-ID: <20240908172841.9616-2-dennis.lamerice@gmail.com>
+Subject: [PATCH] docs:filesystem: fix mispelled words on autofs page
+Date: Sun,  8 Sep 2024 14:37:42 -0400
+Message-ID: <20240908183741.15352-2-dennis.lamerice@gmail.com>
 X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -73,34 +69,31 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Dennis Lam <dennis.lamerice@gmail.com>
 ---
- Documentation/filesystems/iomap/design.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/filesystems/autofs.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/filesystems/iomap/design.rst b/Documentation/filesystems/iomap/design.rst
-index f8ee3427bc1a..e2d34085dd0e 100644
---- a/Documentation/filesystems/iomap/design.rst
-+++ b/Documentation/filesystems/iomap/design.rst
-@@ -142,9 +142,9 @@ Definitions
-  * **pure overwrite**: A write operation that does not require any
-    metadata or zeroing operations to perform during either submission
-    or completion.
--   This implies that the fileystem must have already allocated space
-+   This implies that the filesystem must have already allocated space
-    on disk as ``IOMAP_MAPPED`` and the filesystem must not place any
--   constaints on IO alignment or size.
-+   constraints on IO alignment or size.
-    The only constraints on I/O alignment are device level (minimum I/O
-    size and alignment, typically sector size).
+diff --git a/Documentation/filesystems/autofs.rst b/Documentation/filesystems/autofs.rst
+index 3b6e38e646cd..1ac576458c69 100644
+--- a/Documentation/filesystems/autofs.rst
++++ b/Documentation/filesystems/autofs.rst
+@@ -18,7 +18,7 @@ key advantages:
  
-@@ -426,7 +426,7 @@ iomap is concerned:
+ 2. The names and locations of filesystems can be stored in
+    a remote database and can change at any time.  The content
+-   in that data base at the time of access will be used to provide
++   in that database at the time of access will be used to provide
+    a target for the access.  The interpretation of names in the
+    filesystem can even be programmatic rather than database-backed,
+    allowing wildcards for example, and can vary based on the user who
+@@ -423,7 +423,7 @@ The available ioctl commands are:
+ 	and objects are expired if the are not in use.
  
- The exact locking requirements are specific to the filesystem; for
- certain operations, some of these locks can be elided.
--All further mention of locking are *recommendations*, not mandates.
-+All further mentions of locking are *recommendations*, not mandates.
- Each filesystem author must figure out the locking for themself.
+ 	**AUTOFS_EXP_FORCED** causes the in use status to be ignored
+-	and objects are expired ieven if they are in use. This assumes
++	and objects are expired even if they are in use. This assumes
+ 	that the daemon has requested this because it is capable of
+ 	performing the umount.
  
- Bugs and Limitations
 -- 
 2.46.0
 
