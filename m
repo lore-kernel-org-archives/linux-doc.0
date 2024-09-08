@@ -1,54 +1,54 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 086EE175D27
-	for <linux-doc@vger.kernel.org>; Sun,  8 Sep 2024 16:08:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25188178368
+	for <linux-doc@vger.kernel.org>; Sun,  8 Sep 2024 16:08:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725811717; cv=none; b=VQgavDbAtbH6fk1GhKtT6elNdhAPqjCauisHnF2gos4VTIkuZ+aY0ZjjVUySSxe61XagnkcVIX1KdyRe+DSB84GjgsdZBV6ycA5kynkOLz+PwdmVwXVbV4HNNQGh15nRE5XJSw792EKbc/DLF+0KbXlaeE8RUvZOmojm/XUBf6o=
+	t=1725811725; cv=none; b=LR2pfzOWTTVuLnvwO3yc2xnDpmDue9FPZq9m8GfDLa8RcAwz0ufztiVUXDCz0ziBNFqVllILNFj5xia8pk+ArZnA80XQ8m44aivZoy5OrJ3JDDhNJRx9MNptsKX76ULGBf7f3dFZ2F3BrxLMkk+YeOqetXXet6WnrkBSzg3X3VQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725811717; c=relaxed/simple;
-	bh=TEopUeuNpArQzjNi0/ijxKYlco4fqs+wda8kEBuhDiU=;
+	s=arc-20240116; t=1725811725; c=relaxed/simple;
+	bh=qZ0T8CKExRvD5T2B1Yh7TajT/3Et+GX0HYMbFOGpRZQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=fP+zZn18LYokVvqYYpbUKvE3hf0yuBHX7WFcAhV8bM70fK5u1BlMy25MGkt/lzyqpszHVkYUWOOXdJwFRBNytXLgB95tW0q0QUn5f3JvS6eaQwPI52/q/JFo7v7kM1xCapruOsGM6/cnVu4+T/GPYor/G3kkF/yW1+vq92EBsis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=dKuGZRhq; arc=none smtp.client-ip=209.85.214.178
+	 MIME-Version; b=oy0UyJEsA3tJHSEjBcleHB1xOrzvolvGYCl8OzPRsCwgGnlqL1EkLL41H0EOFJsQrEz5G7utBrXFftRleFGGEXQc+mHeoFOG5xjLp1NHz2+JvUHjW/bwJRemos7kn5kce4lDogJmDz39iDc82oNSnwF5JpezLqSZx5sPNQK7iAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=X35UlQLr; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="dKuGZRhq"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-20551e2f1f8so34370665ad.2
-        for <linux-doc@vger.kernel.org>; Sun, 08 Sep 2024 09:08:35 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="X35UlQLr"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2053f6b8201so33673195ad.2
+        for <linux-doc@vger.kernel.org>; Sun, 08 Sep 2024 09:08:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1725811715; x=1726416515; darn=vger.kernel.org;
+        d=fastly.com; s=google; t=1725811723; x=1726416523; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=x49fADX7wQzdDZdnsJnfx2RtW4EZX6aPDebcZANzv7Q=;
-        b=dKuGZRhqdIJrtKr0C/6GnrYPGUVAXSHtBbi1OKNpUy7/DFwDC70T3UOtzgwxXUHRAm
-         R9N728pgf0cTg1mgEhO9FEeR7hpV3Z57z4ETx6pCUV7+BXzif+O6/n4JQmCCjkcJp5KD
-         Cbe6xKBDrIlbMbfPNj8F1GlTdJClUdGk6O1Mo=
+        bh=iiyI3KUrh2IbLXgMecroHUMIkcTz7Cey6giPzmfBc6M=;
+        b=X35UlQLrm27ddHTcUnU2CVgp3rFZosh/uCoNiay7/1ArTVzzq9dU5qCTSMhgMnUhow
+         1hxVXG0GdsdSpwW4rjTpSvQbF2mP9xVdE95BLRQG/fIPyqJy2A2obBkSjqXejdUpiKwS
+         d5yKr66ITZi6A0fmPcJFKYZ9O/SKHEEuXVkuI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725811715; x=1726416515;
+        d=1e100.net; s=20230601; t=1725811723; x=1726416523;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=x49fADX7wQzdDZdnsJnfx2RtW4EZX6aPDebcZANzv7Q=;
-        b=YZAcNR6RWXCEendaWeujj6DzLLEtrKdccT0gDoODd3Ne5gdE4HzFfbMm+15Kk2GRok
-         ibUYoJHUyoyhqjVX1HWk/VNCBi9LcUsmnd0HVmU9tNCPPjwAy1UyNUd2nY4KpnySx6tO
-         vPqxqZyyAhSy2zZF8G3I7CIL/BD9aQMigJl1uYKzqOfeaU9yjCkbfDDFRzbHmboh3C3J
-         Ayq0F1xhiTHmZxH6zlH54mCV3hHb/6VtRaUVlXzdkxsi1Zb6pq2pJkXQjx/StHoEgJMq
-         lHIgJW8Xr7qWAyUDwQ9sDBZ2h5Ev7PnTfxUdiZXzsINQFJos/PdcVvaIZ4b88zNlMMxM
-         dJBA==
-X-Forwarded-Encrypted: i=1; AJvYcCWyMHC0cv0y+MUottoD5NCUNqGsHNU32ukXi/ApFOFr62oC4q0QefKlcrOOt8YMGCvh39LeFzsMFHE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmhbvhgFkt/qnOX5078XoEN56RVuE9VDmKmMqMZ2ygl6KtdPO9
-	Hdw0b9PeLsMtcHSBdcAxI5dAyILuatcLfSxlebPGAxT/H85n2yrZmvvoWKluIqc=
-X-Google-Smtp-Source: AGHT+IE3kHdpTxCt3sf1n/2nkPKmrrFiS28bSOkpaARZ0WbViQPWroW4ok4KOIVg7NpKcj3hfUxghg==
-X-Received: by 2002:a17:902:ec8f:b0:202:4666:f018 with SMTP id d9443c01a7336-206f04e55c3mr118419965ad.15.1725811715224;
-        Sun, 08 Sep 2024 09:08:35 -0700 (PDT)
+        bh=iiyI3KUrh2IbLXgMecroHUMIkcTz7Cey6giPzmfBc6M=;
+        b=nm+c0XJODyYZH5upFHKLwDX1ZqflFoPz1bRcWX4gI+Ynch/fJEh7PWub+a+KXepZ4q
+         zR/Bg9ugWQrjyTo05AE0FblHCpR+xwGo+qDLJ9hqxU5yCRwqxHjkjRbsmavp7KdY9Ipq
+         NoAtsUOuoB69mSkqqfVK7X7Kdr6epZbjE6N3q9/AeVhFPghcfDvdTrNsVSnxfy8WXPx8
+         kIG/OERukn6vcIHrXP6DmTaHCSduIp/BZ2to4qIMVLCfXDLi9npt2Bn0fgeGaCtRT40d
+         htOCqdtNVQYbVkienPszzuncF5mOlgcn5u2mUcQo9UhgwVDBsKOQXXJ0S+Y1sMgZbssy
+         z5ag==
+X-Forwarded-Encrypted: i=1; AJvYcCUtnlsqVrK/58JaaY/5IgwvvzSloKly0gRBZMuCIBJrgpvjhNUXMqhxNUYHp6ZLCY309r3bAQ/DFuY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrZWGLVz4XsI9Wo2kttzIuhG/JgmchUIzOE9dUaIK4IhiPDaEc
+	IH80HA59QrRxDGwYY16/RqY0Q+mzDc0Sk1yJDw95fPXtYoCYPxK3l+Ytm0EEsQo=
+X-Google-Smtp-Source: AGHT+IGn8u85dwq4o1reUH1GhhZmDtmxxPG4rQjIJ7eMol+kaITAp2KDE1rStg8cebOoGXifDmTKXQ==
+X-Received: by 2002:a17:902:e888:b0:202:2fc8:da35 with SMTP id d9443c01a7336-206f06241femr125103985ad.55.1725811723333;
+        Sun, 08 Sep 2024 09:08:43 -0700 (PDT)
 Received: from localhost.localdomain ([2620:11a:c019:0:65e:3115:2f58:c5fd])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20710f3179fsm21412535ad.258.2024.09.08.09.08.33
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20710f3179fsm21412535ad.258.2024.09.08.09.08.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Sep 2024 09:08:34 -0700 (PDT)
+        Sun, 08 Sep 2024 09:08:42 -0700 (PDT)
 From: Joe Damato <jdamato@fastly.com>
 To: netdev@vger.kernel.org
 Cc: mkarsten@uwaterloo.ca,
@@ -66,11 +66,15 @@ Cc: mkarsten@uwaterloo.ca,
 	Jiri Pirko <jiri@resnulli.us>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Lorenzo Bianconi <lorenzo@kernel.org>,
+	David Ahern <dsahern@kernel.org>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Breno Leitao <leitao@debian.org>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
 	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
 	linux-kernel@vger.kernel.org (open list)
-Subject: [RFC net-next v2 1/9] net: napi: Add napi_storage
-Date: Sun,  8 Sep 2024 16:06:35 +0000
-Message-Id: <20240908160702.56618-2-jdamato@fastly.com>
+Subject: [RFC net-next v2 3/9] net: napi: Make napi_defer_hard_irqs per-NAPI
+Date: Sun,  8 Sep 2024 16:06:37 +0000
+Message-Id: <20240908160702.56618-4-jdamato@fastly.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240908160702.56618-1-jdamato@fastly.com>
 References: <20240908160702.56618-1-jdamato@fastly.com>
@@ -82,176 +86,180 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a persistent NAPI storage area for NAPI configuration to the core.
-Drivers opt-in to setting the storage for a NAPI by passing an index
-when calling netif_napi_add_storage.
+Allow per-NAPI defer_hard_irqs setting.
 
-napi_storage is allocated in alloc_netdev_mqs, freed in free_netdev
-(after the NAPIs are deleted), and set to 0 when napi_enable is called.
+The existing sysfs parameter is respected; writes to sysfs will write to
+all NAPI structs for the device and the net_device defer_hard_irq field.
+Reads from sysfs will read from the net_device field.
+
+sysfs code was updated to guard against what appears to be a potential
+overflow as the field is an int, but the value passed in is an unsigned
+long.
+
+The ability to set defer_hard_irqs on specific NAPI instances will be
+added in a later commit, via netdev-genl.
 
 Signed-off-by: Joe Damato <jdamato@fastly.com>
 ---
- .../networking/net_cachelines/net_device.rst  |  1 +
- include/linux/netdevice.h                     | 34 +++++++++++++++++++
- net/core/dev.c                                | 18 +++++++++-
- 3 files changed, 52 insertions(+), 1 deletion(-)
+ .../networking/net_cachelines/net_device.rst  |  1 -
+ include/linux/netdevice.h                     |  2 +-
+ net/core/dev.c                                | 10 ++---
+ net/core/dev.h                                | 40 +++++++++++++++++++
+ net/core/net-sysfs.c                          |  2 +-
+ 5 files changed, 47 insertions(+), 8 deletions(-)
 
 diff --git a/Documentation/networking/net_cachelines/net_device.rst b/Documentation/networking/net_cachelines/net_device.rst
-index 22b07c814f4a..a82751c88d18 100644
+index a82751c88d18..4cd801398c4e 100644
 --- a/Documentation/networking/net_cachelines/net_device.rst
 +++ b/Documentation/networking/net_cachelines/net_device.rst
-@@ -106,6 +106,7 @@ rx_handler_func_t*                  rx_handler              read_mostly
- void*                               rx_handler_data         read_mostly         -                   
- struct_netdev_queue*                ingress_queue           read_mostly         -                   
- struct_bpf_mprog_entry              tcx_ingress             -                   read_mostly         sch_handle_ingress
-+struct napi_storage*                napi_storage            -                   read_mostly         napi_complete_done
- struct_nf_hook_entries*             nf_hooks_ingress                                                
- unsigned_char                       broadcast[32]                                                   
- struct_cpu_rmap*                    rx_cpu_rmap                                                     
+@@ -99,7 +99,6 @@ unsigned_int                        num_rx_queues
+ unsigned_int                        real_num_rx_queues      -                   read_mostly         get_rps_cpu
+ struct_bpf_prog*                    xdp_prog                -                   read_mostly         netif_elide_gro()
+ unsigned_long                       gro_flush_timeout       -                   read_mostly         napi_complete_done
+-u32                                 napi_defer_hard_irqs    -                   read_mostly         napi_complete_done
+ unsigned_int                        gro_max_size            -                   read_mostly         skb_gro_receive
+ unsigned_int                        gro_ipv4_max_size       -                   read_mostly         skb_gro_receive
+ rx_handler_func_t*                  rx_handler              read_mostly         -                   __netif_receive_skb_core
 diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index b47c00657bd0..54da1c800e65 100644
+index 54da1c800e65..5a58cf61539e 100644
 --- a/include/linux/netdevice.h
 +++ b/include/linux/netdevice.h
-@@ -342,6 +342,14 @@ struct gro_list {
-  */
- #define GRO_HASH_BUCKETS	8
+@@ -2088,7 +2088,6 @@ struct net_device {
+ 	unsigned int		real_num_rx_queues;
+ 	struct netdev_rx_queue	*_rx;
+ 	unsigned long		gro_flush_timeout;
+-	u32			napi_defer_hard_irqs;
+ 	unsigned int		gro_max_size;
+ 	unsigned int		gro_ipv4_max_size;
+ 	rx_handler_func_t __rcu	*rx_handler;
+@@ -2412,6 +2411,7 @@ struct net_device {
  
-+/*
-+ * Structure for per-NAPI storage
-+ */
-+struct napi_storage {
-+	u64 gro_flush_timeout;
-+	u32 defer_hard_irqs;
-+};
-+
- /*
-  * Structure for NAPI scheduling similar to tasklet but with weighting
-  */
-@@ -377,6 +385,8 @@ struct napi_struct {
- 	struct list_head	dev_list;
- 	struct hlist_node	napi_hash_node;
- 	int			irq;
-+	int			index;
-+	struct napi_storage	*napi_storage;
- };
+ 	/** @irq_moder: dim parameters used if IS_ENABLED(CONFIG_DIMLIB). */
+ 	struct dim_irq_moder	*irq_moder;
++	u32			napi_defer_hard_irqs;
  
- enum {
-@@ -2009,6 +2019,9 @@ enum netdev_reg_state {
-  *	@dpll_pin: Pointer to the SyncE source pin of a DPLL subsystem,
-  *		   where the clock is recovered.
-  *
-+ *	@napi_storage: An array of napi_storage structures containing per-NAPI
-+ *		       settings.
-+ *
-  *	FIXME: cleanup struct net_device such that network protocol info
-  *	moves out.
-  */
-@@ -2087,6 +2100,7 @@ struct net_device {
- #ifdef CONFIG_NET_XGRESS
- 	struct bpf_mprog_entry __rcu *tcx_ingress;
+ 	u8			priv[] ____cacheline_aligned
+ 				       __counted_by(priv_len);
+diff --git a/net/core/dev.c b/net/core/dev.c
+index ca90e8cab121..9495448fedaa 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -6228,7 +6228,7 @@ bool napi_complete_done(struct napi_struct *n, int work_done)
+ 	if (work_done) {
+ 		if (n->gro_bitmask)
+ 			timeout = READ_ONCE(n->dev->gro_flush_timeout);
+-		n->defer_hard_irqs_count = READ_ONCE(n->dev->napi_defer_hard_irqs);
++		n->defer_hard_irqs_count = napi_get_defer_hard_irqs(n);
+ 	}
+ 	if (n->defer_hard_irqs_count > 0) {
+ 		n->defer_hard_irqs_count--;
+@@ -6366,7 +6366,7 @@ static void busy_poll_stop(struct napi_struct *napi, void *have_poll_lock,
+ 	bpf_net_ctx = bpf_net_ctx_set(&__bpf_net_ctx);
+ 
+ 	if (flags & NAPI_F_PREFER_BUSY_POLL) {
+-		napi->defer_hard_irqs_count = READ_ONCE(napi->dev->napi_defer_hard_irqs);
++		napi->defer_hard_irqs_count = napi_get_defer_hard_irqs(napi);
+ 		timeout = READ_ONCE(napi->dev->gro_flush_timeout);
+ 		if (napi->defer_hard_irqs_count && timeout) {
+ 			hrtimer_start(&napi->timer, ns_to_ktime(timeout), HRTIMER_MODE_REL_PINNED);
+@@ -6648,6 +6648,7 @@ void netif_napi_add_weight(struct net_device *dev, struct napi_struct *napi,
+ 	INIT_HLIST_NODE(&napi->napi_hash_node);
+ 	hrtimer_init(&napi->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL_PINNED);
+ 	napi->timer.function = napi_watchdog;
++	napi_set_defer_hard_irqs(napi, READ_ONCE(dev->napi_defer_hard_irqs));
+ 	init_gro_hash(napi);
+ 	napi->skb = NULL;
+ 	INIT_LIST_HEAD(&napi->rx_list);
+@@ -11033,7 +11034,7 @@ void netdev_sw_irq_coalesce_default_on(struct net_device *dev)
+ 
+ 	if (!IS_ENABLED(CONFIG_PREEMPT_RT)) {
+ 		dev->gro_flush_timeout = 20000;
+-		dev->napi_defer_hard_irqs = 1;
++		netdev_set_defer_hard_irqs(dev, 1);
+ 	}
+ }
+ EXPORT_SYMBOL_GPL(netdev_sw_irq_coalesce_default_on);
+@@ -11982,7 +11983,6 @@ static void __init net_dev_struct_check(void)
+ 	CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, real_num_rx_queues);
+ 	CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, _rx);
+ 	CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, gro_flush_timeout);
+-	CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, napi_defer_hard_irqs);
+ 	CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, gro_max_size);
+ 	CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, gro_ipv4_max_size);
+ 	CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, rx_handler);
+@@ -11995,7 +11995,7 @@ static void __init net_dev_struct_check(void)
+ 	CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, tcx_ingress);
  #endif
-+	struct napi_storage	*napi_storage;
- 	__cacheline_group_end(net_device_read_rx);
+ 	CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, napi_storage);
+-	CACHELINE_ASSERT_GROUP_SIZE(struct net_device, net_device_read_rx, 112);
++	CACHELINE_ASSERT_GROUP_SIZE(struct net_device, net_device_read_rx, 108);
+ }
  
- 	char			name[IFNAMSIZ];
-@@ -2648,6 +2662,24 @@ netif_napi_add_tx_weight(struct net_device *dev,
- 	netif_napi_add_weight(dev, napi, poll, weight);
+ /*
+diff --git a/net/core/dev.h b/net/core/dev.h
+index 5654325c5b71..2584a7de189f 100644
+--- a/net/core/dev.h
++++ b/net/core/dev.h
+@@ -138,6 +138,46 @@ static inline void netif_set_gro_ipv4_max_size(struct net_device *dev,
+ 	WRITE_ONCE(dev->gro_ipv4_max_size, size);
  }
  
 +/**
-+ * netif_napi_add_storage - initialize a NAPI context and set storage area
-+ * @dev: network device
-+ * @napi: NAPI context
-+ * @poll: polling function
-+ * @weight: the poll weight of this NAPI
-+ * @index: the NAPI index
++ * napi_get_defer_hard_irqs - get the NAPI's defer_hard_irqs
++ * @n: napi struct to get the defer_hard_irqs field from
++ *
++ * Return: the per-NAPI value of the defar_hard_irqs field.
 + */
-+static inline void
-+netif_napi_add_storage(struct net_device *dev, struct napi_struct *napi,
-+		       int (*poll)(struct napi_struct *, int), int weight,
-+		       int index)
++static inline u32 napi_get_defer_hard_irqs(const struct napi_struct *n)
 +{
-+	napi->index = index;
-+	napi->napi_storage = &dev->napi_storage[index];
-+	netif_napi_add_weight(dev, napi, poll, weight);
++	if (n->napi_storage)
++		return READ_ONCE(n->napi_storage->defer_hard_irqs);
++	else
++		return READ_ONCE(n->dev->napi_defer_hard_irqs);
 +}
 +
- /**
-  * netif_napi_add_tx() - initialize a NAPI context to be used for Tx only
-  * @dev:  network device
-@@ -2683,6 +2715,8 @@ void __netif_napi_del(struct napi_struct *napi);
-  */
- static inline void netif_napi_del(struct napi_struct *napi)
- {
-+	napi->napi_storage = NULL;
-+	napi->index = -1;
- 	__netif_napi_del(napi);
- 	synchronize_net();
- }
-diff --git a/net/core/dev.c b/net/core/dev.c
-index 22c3f14d9287..ca90e8cab121 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -6719,6 +6719,9 @@ void napi_enable(struct napi_struct *n)
- 		if (n->dev->threaded && n->thread)
- 			new |= NAPIF_STATE_THREADED;
- 	} while (!try_cmpxchg(&n->state, &val, new));
-+
++/**
++ * napi_set_defer_hard_irqs - set the defer_hard_irqs for a napi
++ * @n: napi_struct to set the defer_hard_irqs field
++ * @defer: the value the field should be set to
++ */
++static inline void napi_set_defer_hard_irqs(struct napi_struct *n, u32 defer)
++{
 +	if (n->napi_storage)
-+		memset(n->napi_storage, 0, sizeof(*n->napi_storage));
- }
- EXPORT_SYMBOL(napi_enable);
- 
-@@ -11054,6 +11057,8 @@ struct net_device *alloc_netdev_mqs(int sizeof_priv, const char *name,
- 		unsigned int txqs, unsigned int rxqs)
- {
- 	struct net_device *dev;
-+	size_t napi_storage_sz;
-+	unsigned int maxqs;
- 
- 	BUG_ON(strlen(name) >= sizeof(dev->name));
- 
-@@ -11067,6 +11072,9 @@ struct net_device *alloc_netdev_mqs(int sizeof_priv, const char *name,
- 		return NULL;
- 	}
- 
-+	WARN_ON_ONCE(txqs != rxqs);
-+	maxqs = max(txqs, rxqs);
++		WRITE_ONCE(n->napi_storage->defer_hard_irqs, defer);
++}
 +
- 	dev = kvzalloc(struct_size(dev, priv, sizeof_priv),
- 		       GFP_KERNEL_ACCOUNT | __GFP_RETRY_MAYFAIL);
- 	if (!dev)
-@@ -11141,6 +11149,11 @@ struct net_device *alloc_netdev_mqs(int sizeof_priv, const char *name,
- 	if (!dev->ethtool)
- 		goto free_all;
- 
-+	napi_storage_sz = array_size(maxqs, sizeof(*dev->napi_storage));
-+	dev->napi_storage = kvzalloc(napi_storage_sz, GFP_KERNEL_ACCOUNT);
-+	if (!dev->napi_storage)
-+		goto free_all;
++/**
++ * netdev_set_defer_hard_irqs - set defer_hard_irqs for all NAPIs of a netdev
++ * @netdev: the net_device for which all NAPIs will have their defer_hard_irqs set
++ * @defer: the defer_hard_irqs value to set
++ */
++static inline void netdev_set_defer_hard_irqs(struct net_device *netdev,
++					      u32 defer)
++{
++	struct napi_struct *napi;
 +
- 	strscpy(dev->name, name);
- 	dev->name_assign_type = name_assign_type;
- 	dev->group = INIT_NETDEV_GROUP;
-@@ -11202,6 +11215,8 @@ void free_netdev(struct net_device *dev)
- 	list_for_each_entry_safe(p, n, &dev->napi_list, dev_list)
- 		netif_napi_del(p);
- 
-+	kvfree(dev->napi_storage);
++	WRITE_ONCE(netdev->napi_defer_hard_irqs, defer);
++	list_for_each_entry(napi, &netdev->napi_list, dev_list)
++		napi_set_defer_hard_irqs(napi, defer);
++}
 +
- 	ref_tracker_dir_exit(&dev->refcnt_tracker);
- #ifdef CONFIG_PCPU_DEV_REFCNT
- 	free_percpu(dev->pcpu_refcnt);
-@@ -11979,7 +11994,8 @@ static void __init net_dev_struct_check(void)
- #ifdef CONFIG_NET_XGRESS
- 	CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, tcx_ingress);
- #endif
--	CACHELINE_ASSERT_GROUP_SIZE(struct net_device, net_device_read_rx, 104);
-+	CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, napi_storage);
-+	CACHELINE_ASSERT_GROUP_SIZE(struct net_device, net_device_read_rx, 112);
+ int rps_cpumask_housekeeping(struct cpumask *mask);
+ 
+ #if defined(CONFIG_DEBUG_NET) && defined(CONFIG_BPF_SYSCALL)
+diff --git a/net/core/net-sysfs.c b/net/core/net-sysfs.c
+index 0648dbf0e234..0a0bbbfb39b4 100644
+--- a/net/core/net-sysfs.c
++++ b/net/core/net-sysfs.c
+@@ -429,7 +429,7 @@ static int change_napi_defer_hard_irqs(struct net_device *dev, unsigned long val
+ 	if (val > S32_MAX)
+ 		return -ERANGE;
+ 
+-	WRITE_ONCE(dev->napi_defer_hard_irqs, val);
++	netdev_set_defer_hard_irqs(dev, (u32)val);
+ 	return 0;
  }
  
- /*
 -- 
 2.25.1
 
