@@ -1,66 +1,70 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B502B9B5;
-	Sun,  8 Sep 2024 16:20:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13DAB26281;
+	Sun,  8 Sep 2024 17:23:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725812435; cv=none; b=ad9aKvIcdw85hONIQvlTtMjUTyChwijdsS26h2ysflOhcpp+EC4Gh+x9P6NwYTN8ItxLJQkWBySm6nlWXkDzxGZ5nipIoljTf8rmHRpQtnnEv23zkdGFnF6eZczQPR8jcrru/jmDZC7EuKA2EcGDwiMDwi08lOIePSDr/xZX09o=
+	t=1725816228; cv=none; b=qaz8eGLZ/z21e0ns5JoyuyI1X9tZrLRXAdVsCwWYZhjzaXFRrGZPsqQwDkei4/uCAwlkTiv6rOQUWNbop4iAPmlSr+IvWtiO9ftefrjKwkx8bnz9HjttYzWHioQdMLGFdBulZ4ERr9jB0hb9anr0WoQlPJwZetsO9wSUm4dpV4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725812435; c=relaxed/simple;
-	bh=hiPiTepAb+Fpvuy0MqNdPFDvMpFOPNQ50AG2OJe8f7Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T7IJdHSQLZX2609r1MqkmS+qe/na2SCIEKl8a+3d6M7rzFB24XxikmFn8HHYWGZAP49I+PWbj40fhnF/oj4cvPgfLyfLIKletic15NP0T14rjK0Kj4aNq2Cg4osUkC5wDaUTj6SPh4P5H7EoQvLaN2bOWd2KyRj0nnsf0Cz8TpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S/VaaMII; arc=none smtp.client-ip=209.85.222.178
+	s=arc-20240116; t=1725816228; c=relaxed/simple;
+	bh=d3JyulI1YkWBehu99lvw/J7ZVW1shJYR0a1nM3qSO9E=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bsQoP49HEEaZ30FT5WuaQmq5pnT4rNvBrqydkWUOYpNLBWiNQrVNyzUyIRchHvHrIzGuQXGF2jTP3to8RwUaEAFGZ5RID7WY0nyvGgT8K4Rte48ev9z15205FQedxZzekQy57tJH3xy2LQKiJyctdzJNPK4HqTnfEbb7mKKVob0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R2GRixWI; arc=none smtp.client-ip=209.85.160.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S/VaaMII"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-7a9aa913442so60767985a.1;
-        Sun, 08 Sep 2024 09:20:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R2GRixWI"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4582a0b438aso6245141cf.0;
+        Sun, 08 Sep 2024 10:23:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725812433; x=1726417233; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1725816225; x=1726421025; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=R+KJF6T6XBCWzZ+orANPx7bX+BJ+F0qpNOws7FrO2Ek=;
-        b=S/VaaMIIJchlufs6QLml/n+Z9HVGgmcEO06nQ+wu7NsuX/AymD8iUM15vRsItA4I2D
-         0KHI6pFBqXZoNhGHtT8HDlXmKpjyYM9oIL9LwhpLBu9gv1mZxOvRoRqArnJpdfUVh6/r
-         akfrFtYRd+OQDm8+8mjBe/ZoleMbnu1bkW+ciqZZX8kRo+FRzQwtqVJVPInLCXxqZaVi
-         KFQC3D+TGAMXWbwTQylWnvdZZ2HBGsIAaqv+03kfjYH6J7FOul9A2pTNgIG2/zjywCd3
-         5Cy508R24zABCrq5Xs+Br4+Y4BCaomXWWIF6FIQcTEtoU7Ds/cCijOaYLHgQ0VkE4jzy
-         ov+A==
+        bh=wIxoUlkfEly4H78q6CgnMvXEL//MI3ToZCRp9mLEJJY=;
+        b=R2GRixWI/a3oSEiq9C/i1jqlv0nh4W81TVD006MGW9dalKbHX9I6LgRhBYNpAFXDQu
+         OeM5A2WcIJQzhR4LeMXRzefln+dSBTUh8o9JTaF0IKbeJrcrDRR84Hvr+JCg1dro7DrZ
+         Mx34MgvBhsICJnv1Wpb3zpYIgNHZsPRWbNZbgQ77lBT6Fo9EmxoF/uQTQ692nfsxKSPG
+         xxp0LV/+5Gr7gW4ZfDpIK1mI0hH6iLZHQ6Hfq8vZSeivHO35+ggg2nlyXmlCuwZv7AKj
+         j5syYofVqc6uMScwyXiW1dGcLHMtrbwNLzHOlxKPApOcu8eMrGyJDMK+8kbQs0m33baS
+         Qigw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725812433; x=1726417233;
+        d=1e100.net; s=20230601; t=1725816225; x=1726421025;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=R+KJF6T6XBCWzZ+orANPx7bX+BJ+F0qpNOws7FrO2Ek=;
-        b=sizf3QiIFg2GIVdEfcHAcKpcogmETawRq9cgw2MT4RE7hQGTEj95RywTKfhQHgtMCQ
-         0TvWPYMM+ED+SHfeOSkNTUnGgJuYqkSZmYpDoSUKY5hdDrEKwA+tXYqJQfo5ftwUzopv
-         LCtHfQp86g4aNp2SpHxfKFsIo5U1movhwY99Ewl/1KqXs+cQNG1D05bKmpjkPSC+d/EO
-         oMGVTSQ2b/Qe33wRiJWW9mwOXc7AMCgci9D7h0Kb0FTIItu5GYLAexeq80yP1Sm5rY3Q
-         igJTPXtb2by8KliBxDRcNmNmuvXRu0wql/OFdh8EtUOPY5t+CaQ7HIBKN+IRTqqXPbfv
-         CdSA==
-X-Forwarded-Encrypted: i=1; AJvYcCUkRwmBFVfRNhqOCsIZ8FRq0fh1tJdCHwFcr5FHDkO7gfaimzWzcQ/SaAM2PcB8gsk8GYI31+eA5A1lxxUM@vger.kernel.org, AJvYcCXwyQsSR+jzY5ERWmAf61x7y3xemH71WYFv3ra3MVNTZYMxEC817eZWCYTGFOLJXxu43iv4nxIFQI0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCUATK+tSxtqSYkLyxmyXBr8Fno8Cj+BCgvQNx1J6+WOIYOtUz
-	xeAaGXOIugfmqMXHal7QWin7/op9xeQU5peBmVMLvqYuKs1PiNN8qr7rsGib
-X-Google-Smtp-Source: AGHT+IGWDM3DwoIoL/vXTEgHYvo5VkmJMcLfpXnfszmZQCj0MNu7rhwgZQmWCAM6dDFsg9ve+yfHtw==
-X-Received: by 2002:a05:620a:4547:b0:7a9:ac57:ff5a with SMTP id af79cd13be357-7a9ac58052dmr522393885a.39.1725812432755;
-        Sun, 08 Sep 2024 09:20:32 -0700 (PDT)
-Received: from localhost.localdomain (d24-150-189-55.home.cgocable.net. [24.150.189.55])
-        by smtp.googlemail.com with ESMTPSA id af79cd13be357-7a9a7a1ff6bsm139874185a.122.2024.09.08.09.20.31
+        bh=wIxoUlkfEly4H78q6CgnMvXEL//MI3ToZCRp9mLEJJY=;
+        b=gxC1r52g25syiUhAuLjpTfUqjJeVwOTrBTZNYHgEG9pzyy6HBSuR7cYYDMEzqI3VHJ
+         glBUgndTfC/hUobw6I+kCDKZqWzLrGsvEEda2iiFmPpeAxHvBWKjJ4Hfz9/eJ2i4Qkaq
+         Es48TDQQovBwRX8TO4WKhHRuWWaw0wSB/joTzNAczZZC2nTQRXvfm96uX2KPrrayQtyD
+         gMmgMDtu8ZubZddGffSIZ1/z9dR0PXxWmraNiOadUMXJoXdRrjUjlBiuMA/WfrTqtAXX
+         q1SpgyeFeY6b//X5I2ch2P7yw4w91Ie7b/ApfNIYlRFbEQ26GZqZM6F3DkVssGXqgY67
+         WTvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXRAOuaGH/Q397mNyauQRi3XSgkAowx/rvh1TZMHO1JGbopI6U33ZV3PJIm+pjzkzR/bd73I/YoMxQ48rE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVOOxtuZftFtbT165avN5hK4VTWj1TLZN9DYgGninzcwISQLHp
+	cPkY+WEodPwpeolYLSRC5HzlnnWljVNZe5+IYuQv0vFkJqbNKSxqDKNGJN7VNdE=
+X-Google-Smtp-Source: AGHT+IH4Sh+w1lojndLbehsEbJW+koQdBHSAZywohICDSKK2ndSLuYVttkZcVnbpG5sWjpHl8MnCEg==
+X-Received: by 2002:a05:622a:1448:b0:458:2a24:6ed6 with SMTP id d75a77b69052e-4582a24719fmr52560311cf.21.1725816224227;
+        Sun, 08 Sep 2024 10:23:44 -0700 (PDT)
+Received: from ip-172-31-16-54.ec2.internal (ec2-52-90-172-172.compute-1.amazonaws.com. [52.90.172.172])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45822f94e8asm13959931cf.85.2024.09.08.10.23.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Sep 2024 09:20:32 -0700 (PDT)
-From: Dennis Lam <dennis.lamerice@gmail.com>
-To: jglisse@redhat.com,
+        Sun, 08 Sep 2024 10:23:43 -0700 (PDT)
+From: Takahiro Itazuri <zulinx86@gmail.com>
+To: linux-doc@vger.kernel.org,
 	corbet@lwn.net
-Cc: linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
+Cc: zulinx86@gmail.com,
+	bp@alien8.de,
+	jani.nikula@linux.intel.com,
+	jpoimboe@kernel.org,
 	linux-kernel@vger.kernel.org,
-	Dennis Lam <dennis.lamerice@gmail.com>
-Subject: [PATCH] docs:mm: fix spelling mistakes in heterogeneous memory management page
-Date: Sun,  8 Sep 2024 12:19:28 -0400
-Message-ID: <20240908161928.3700-1-dennis.lamerice@gmail.com>
-X-Mailer: git-send-email 2.46.0
+	pawan.kumar.gupta@linux.intel.com,
+	peterz@infradead.org,
+	tglx@linutronix.de
+Subject: [PATCH v3] Documentation: Unify format for vuln sysfs
+Date: Sun,  8 Sep 2024 17:23:41 +0000
+Message-Id: <20240908172341.571476-1-zulinx86@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,60 +73,861 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Dennis Lam <dennis.lamerice@gmail.com>
----
- Documentation/mm/hmm.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+The format for vuln sysfs files was diverge across pages. Unifies the
+format as follows:
 
-diff --git a/Documentation/mm/hmm.rst b/Documentation/mm/hmm.rst
-index 0595098a74d9..f6d53c37a2ca 100644
---- a/Documentation/mm/hmm.rst
-+++ b/Documentation/mm/hmm.rst
-@@ -66,7 +66,7 @@ combinatorial explosion in the library entry points.
- Finally, with the advance of high level language constructs (in C++ but in
- other languages too) it is now possible for the compiler to leverage GPUs and
- other devices without programmer knowledge. Some compiler identified patterns
--are only do-able with a shared address space. It is also more reasonable to use
-+are only doable with a shared address space. It is also more reasonable to use
- a shared address space for all other patterns.
+* Use list table for possible values for the sysfs files, because simple
+  table does not allow line breaks for the first column; otherwise
+  recognized as two different rows
+
+* Insert 2-spaces indentation before the sysfs paths
+
+* Wrap each possible value with single quotes
+
+* End description with a full stop
+
+Signed-off-by: Takahiro Itazuri <zulinx86@gmail.com>
+---
+Changes in v3
+- Return to list table in favor of presevation of the existing HTML appearance
+  and readability/editability in plain text format.
+- Link to v2: https://lore.kernel.org/all/20240906104936.15558-1-itazur@amazon.com/
+
+Changes in v2:
+- Use grid table over list table (applying to not only GDS but also
+  other vulnerabilities)
+- Link to v1: https://lore.kernel.org/all/20240903132533.26458-1-itazur@amazon.com/
+
+---
+ .../hw-vuln/gather_data_sampling.rst          |  44 +++---
+ Documentation/admin-guide/hw-vuln/l1tf.rst    |  37 +++--
+ Documentation/admin-guide/hw-vuln/mds.rst     |  70 ++++----
+ .../admin-guide/hw-vuln/multihit.rst          |  26 +--
+ .../hw-vuln/processor_mmio_stale_data.rst     |  72 +++++----
+ .../hw-vuln/reg-file-data-sampling.rst        |  27 ++--
+ .../special-register-buffer-data-sampling.rst |  39 +++--
+ Documentation/admin-guide/hw-vuln/spectre.rst | 149 +++++++++++-------
+ Documentation/admin-guide/hw-vuln/srso.rst    |  81 +++++-----
+ .../admin-guide/hw-vuln/tsx_async_abort.rst   |  52 +++---
+ 10 files changed, 342 insertions(+), 255 deletions(-)
+
+diff --git a/Documentation/admin-guide/hw-vuln/gather_data_sampling.rst b/Documentation/admin-guide/hw-vuln/gather_data_sampling.rst
+index 264bfa937f7d..815c78acc4be 100644
+--- a/Documentation/admin-guide/hw-vuln/gather_data_sampling.rst
++++ b/Documentation/admin-guide/hw-vuln/gather_data_sampling.rst
+@@ -81,27 +81,35 @@ GDS System Information
+ The kernel provides vulnerability status information through sysfs. For
+ GDS this can be accessed by the following sysfs file:
+ 
+-/sys/devices/system/cpu/vulnerabilities/gather_data_sampling
++  /sys/devices/system/cpu/vulnerabilities/gather_data_sampling
+ 
+ The possible values contained in this file are:
+ 
+- ============================== =============================================
+- Not affected                   Processor not vulnerable.
+- Vulnerable                     Processor vulnerable and mitigation disabled.
+- Vulnerable: No microcode       Processor vulnerable and microcode is missing
+-                                mitigation.
+- Mitigation: AVX disabled,
+- no microcode                   Processor is vulnerable and microcode is missing
+-                                mitigation. AVX disabled as mitigation.
+- Mitigation: Microcode          Processor is vulnerable and mitigation is in
+-                                effect.
+- Mitigation: Microcode (locked) Processor is vulnerable and mitigation is in
+-                                effect and cannot be disabled.
+- Unknown: Dependent on
+- hypervisor status              Running on a virtual guest processor that is
+-                                affected but with no way to know if host
+-                                processor is mitigated or vulnerable.
+- ============================== =============================================
++.. list-table::
++
++  * - 'Not affected'
++    - Processor not vulnerable.
++
++  * - 'Vulnerable'
++    - Processor vulnerable and mitigation disabled.
++
++  * - 'Vulnerable: No microcode'
++    - Processor vulnerable and microcode is missing migitation.
++
++  * - 'Mitigation: AVX disabled, no microcode'
++    - Processor is vulnerable and microcode is missing mitigation. AVX disbaled
++      as mitigation.
++
++  * - 'Mitigation: Microcode'
++    - Processor is vulnerable and mitigation is in effect.
++
++  * - 'Mitigation: Microcode (locked)'
++    - Processor is vulnerable and mitigation is in effect and cannot be
++      disabled.
++
++  * - 'Unknown: Dependent on hypervisor status'
++    - Running on a virtual guest processor that is affected but with no way to
++      know if host processor is mitigated or vulnerable.
+ 
+ GDS Default mitigation
+ ----------------------
+diff --git a/Documentation/admin-guide/hw-vuln/l1tf.rst b/Documentation/admin-guide/hw-vuln/l1tf.rst
+index 3eeeb488d955..a049e1ab935c 100644
+--- a/Documentation/admin-guide/hw-vuln/l1tf.rst
++++ b/Documentation/admin-guide/hw-vuln/l1tf.rst
+@@ -123,34 +123,43 @@ The Linux kernel provides a sysfs interface to enumerate the current L1TF
+ status of the system: whether the system is vulnerable, and which
+ mitigations are active. The relevant sysfs file is:
+ 
+-/sys/devices/system/cpu/vulnerabilities/l1tf
++  /sys/devices/system/cpu/vulnerabilities/l1tf
+ 
+ The possible values in this file are:
+ 
+-  ===========================   ===============================
+-  'Not affected'		The processor is not vulnerable
+-  'Mitigation: PTE Inversion'	The host protection is active
+-  ===========================   ===============================
++.. list-table::
++
++  * - 'Not affected'
++    - The processor is not vulnerable.
++
++  * - 'Mitigation: PTE Inversion'
++    - The host protection is active.
+ 
+ If KVM/VMX is enabled and the processor is vulnerable then the following
+ information is appended to the 'Mitigation: PTE Inversion' part:
+ 
+   - SMT status:
+ 
+-    =====================  ================
+-    'VMX: SMT vulnerable'  SMT is enabled
+-    'VMX: SMT disabled'    SMT is disabled
+-    =====================  ================
++    .. list-table::
++
++      * - 'VMX: SMT vulnerable'
++        - SMT is enabled.
++
++      * - 'VMX: SMT disabled'
++        - SMT is disabled.
+ 
+   - L1D Flush mode:
+ 
+-    ================================  ====================================
+-    'L1D vulnerable'		      L1D flushing is disabled
++    .. list-table::
++
++      * - 'L1D vulnerable'
++        - L1D flushing is disabled.
+ 
+-    'L1D conditional cache flushes'   L1D flush is conditionally enabled
++      * - 'L1D conditional cache flushes'
++        - L1D flush is conditionally enabled.
+ 
+-    'L1D cache flushes'		      L1D flush is unconditionally enabled
+-    ================================  ====================================
++      * - 'L1D cache flushes'
++        - L1D flush is unconditionally enabled.
+ 
+ The resulting grade of protection is discussed in the following sections.
+ 
+diff --git a/Documentation/admin-guide/hw-vuln/mds.rst b/Documentation/admin-guide/hw-vuln/mds.rst
+index 48c7b0b72aed..542b6c1ee56d 100644
+--- a/Documentation/admin-guide/hw-vuln/mds.rst
++++ b/Documentation/admin-guide/hw-vuln/mds.rst
+@@ -91,43 +91,53 @@ The Linux kernel provides a sysfs interface to enumerate the current MDS
+ status of the system: whether the system is vulnerable, and which
+ mitigations are active. The relevant sysfs file is:
+ 
+-/sys/devices/system/cpu/vulnerabilities/mds
++  /sys/devices/system/cpu/vulnerabilities/mds
+ 
+ The possible values in this file are:
+ 
+-  .. list-table::
+-
+-     * - 'Not affected'
+-       - The processor is not vulnerable
+-     * - 'Vulnerable'
+-       - The processor is vulnerable, but no mitigation enabled
+-     * - 'Vulnerable: Clear CPU buffers attempted, no microcode'
+-       - The processor is vulnerable but microcode is not updated. The
+-         mitigation is enabled on a best effort basis.
+-
+-         If the processor is vulnerable but the availability of the microcode
+-         based mitigation mechanism is not advertised via CPUID, the kernel
+-         selects a best effort mitigation mode. This mode invokes the mitigation
+-         instructions without a guarantee that they clear the CPU buffers.
+-
+-         This is done to address virtualization scenarios where the host has the
+-         microcode update applied, but the hypervisor is not yet updated to
+-         expose the CPUID to the guest. If the host has updated microcode the
+-         protection takes effect; otherwise a few CPU cycles are wasted
+-         pointlessly.
+-     * - 'Mitigation: Clear CPU buffers'
+-       - The processor is vulnerable and the CPU buffer clearing mitigation is
+-         enabled.
++.. list-table::
++
++  * - 'Not affected'
++    - The processor is not vulnerable.
++
++  * - 'Vulnerable'
++    - The processor is vulnerable, but no mitigation enabled.
++
++  * - 'Vulnerable: Clear CPU buffers attempted, no microcode'
++    - The processor is vulnerable but microcode is not updated. The
++      mitigation is enabled on a best effort basis.
++
++      If the processor is vulnerable but the availability of the microcode
++      based mitigation mechanism is not advertised via CPUID, the kernel
++      selects a best effort mitigation mode. This mode invokes the mitigation
++      instructions without a guarantee that they clear the CPU buffers.
++
++      This is done to address virtualization scenarios where the host has the
++      microcode update applied, but the hypervisor is not yet updated to
++      expose the CPUID to the guest. If the host has updated microcode the
++      protection takes effect; otherwise a few CPU cycles are wasted
++      pointlessly.
++
++  * - 'Mitigation: Clear CPU buffers'
++    - The processor is vulnerable and the CPU buffer clearing mitigation is
++      enabled.
+ 
+ If the processor is vulnerable then the following information is appended
+ to the above information:
+ 
+-    ========================  ============================================
+-    'SMT vulnerable'          SMT is enabled
+-    'SMT mitigated'           SMT is enabled and mitigated
+-    'SMT disabled'            SMT is disabled
+-    'SMT Host state unknown'  Kernel runs in a VM, Host SMT state unknown
+-    ========================  ============================================
++.. list-table::
++
++  * - 'SMT vulnerable'
++    - SMT is enabled.
++
++  * - 'SMT mitigated'
++    - SMT is enabled and mitigated.
++
++  * - 'SMT disabled'
++    - SMT is disabled.
++
++  * - 'SMT Host state unknown'
++    - Kernel runs in a VM, Host SMT state unknown.
+ 
+ Mitigation mechanism
+ -------------------------
+diff --git a/Documentation/admin-guide/hw-vuln/multihit.rst b/Documentation/admin-guide/hw-vuln/multihit.rst
+index 140e4cec38c3..8aff9640c216 100644
+--- a/Documentation/admin-guide/hw-vuln/multihit.rst
++++ b/Documentation/admin-guide/hw-vuln/multihit.rst
+@@ -70,22 +70,26 @@ The Linux kernel provides a sysfs interface to enumerate the current iTLB
+ multihit status of the system:whether the system is vulnerable and which
+ mitigations are active. The relevant sysfs file is:
+ 
+-/sys/devices/system/cpu/vulnerabilities/itlb_multihit
++  /sys/devices/system/cpu/vulnerabilities/itlb_multihit
+ 
+ The possible values in this file are:
+ 
+ .. list-table::
+ 
+-     * - Not affected
+-       - The processor is not vulnerable.
+-     * - KVM: Mitigation: Split huge pages
+-       - Software changes mitigate this issue.
+-     * - KVM: Mitigation: VMX unsupported
+-       - KVM is not vulnerable because Virtual Machine Extensions (VMX) is not supported.
+-     * - KVM: Mitigation: VMX disabled
+-       - KVM is not vulnerable because Virtual Machine Extensions (VMX) is disabled.
+-     * - KVM: Vulnerable
+-       - The processor is vulnerable, but no mitigation enabled
++  * - 'Not affected'
++    - The processor is not vulnerable.
++
++  * - 'KVM: Mitigation: Split huge pages'
++    - Software changes mitigate this issue.
++
++  * - 'KVM: Mitigation: VMX unsupported'
++    - KVM is not vulnerable because Virtual Machine Extensions (VMX) is not supported.
++
++  * - 'KVM: Mitigation: VMX disabled'
++    - KVM is not vulnerable because Virtual Machine Extensions (VMX) is disabled.
++
++  * - 'KVM: Vulnerable'
++    - The processor is vulnerable, but no mitigation enabled.
  
  
-@@ -267,7 +267,7 @@ functions are designed to make drivers easier to write and to centralize common
- code across drivers.
+ Enumeration of the erratum
+diff --git a/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst b/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
+index 1302fd1b55e8..e86188ae107c 100644
+--- a/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
++++ b/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
+@@ -214,36 +214,39 @@ The Linux kernel provides a sysfs interface to enumerate the current
+ vulnerability status of the system: whether the system is vulnerable, and
+ which mitigations are active. The relevant sysfs file is:
  
- Before migrating pages to device private memory, special device private
--``struct page`` need to be created. These will be used as special "swap"
-+``struct page`` needs to be created. These will be used as special "swap"
- page table entries so that a CPU process will fault if it tries to access
- a page that has been migrated to device private memory.
+-	/sys/devices/system/cpu/vulnerabilities/mmio_stale_data
++  /sys/devices/system/cpu/vulnerabilities/mmio_stale_data
  
-@@ -322,7 +322,7 @@ between device driver specific code and shared common code:
-    The ``invalidate_range_start()`` callback is passed a
-    ``struct mmu_notifier_range`` with the ``event`` field set to
-    ``MMU_NOTIFY_MIGRATE`` and the ``owner`` field set to
--   the ``args->pgmap_owner`` field passed to migrate_vma_setup(). This is
-+   the ``args->pgmap_owner`` field passed to migrate_vma_setup(). This
-    allows the device driver to skip the invalidation callback and only
-    invalidate device private MMU mappings that are actually migrating.
-    This is explained more in the next section.
-@@ -405,7 +405,7 @@ can be used to make a memory range inaccessible from userspace.
+ The possible values in this file are:
  
- This replaces all mappings for pages in the given range with special swap
- entries. Any attempt to access the swap entry results in a fault which is
--resovled by replacing the entry with the original mapping. A driver gets
-+resolved by replacing the entry with the original mapping. A driver gets
- notified that the mapping has been changed by MMU notifiers, after which point
- it will no longer have exclusive access to the page. Exclusive access is
- guaranteed to last until the driver drops the page lock and page reference, at
-@@ -431,7 +431,7 @@ Same decision was made for memory cgroup. Device memory pages are accounted
- against same memory cgroup a regular page would be accounted to. This does
- simplify migration to and from device memory. This also means that migration
- back from device memory to regular memory cannot fail because it would
--go above memory cgroup limit. We might revisit this choice latter on once we
-+go above memory cgroup limit. We might revisit this choice later on once we
- get more experience in how device memory is used and its impact on memory
- resource control.
+-  .. list-table::
+-
+-     * - 'Not affected'
+-       - The processor is not vulnerable
+-     * - 'Vulnerable'
+-       - The processor is vulnerable, but no mitigation enabled
+-     * - 'Vulnerable: Clear CPU buffers attempted, no microcode'
+-       - The processor is vulnerable but microcode is not updated. The
+-         mitigation is enabled on a best effort basis.
+-
+-         If the processor is vulnerable but the availability of the microcode
+-         based mitigation mechanism is not advertised via CPUID, the kernel
+-         selects a best effort mitigation mode. This mode invokes the mitigation
+-         instructions without a guarantee that they clear the CPU buffers.
+-
+-         This is done to address virtualization scenarios where the host has the
+-         microcode update applied, but the hypervisor is not yet updated to
+-         expose the CPUID to the guest. If the host has updated microcode the
+-         protection takes effect; otherwise a few CPU cycles are wasted
+-         pointlessly.
+-     * - 'Mitigation: Clear CPU buffers'
+-       - The processor is vulnerable and the CPU buffer clearing mitigation is
+-         enabled.
+-     * - 'Unknown: No mitigations'
+-       - The processor vulnerability status is unknown because it is
+-	 out of Servicing period. Mitigation is not attempted.
++.. list-table::
++
++  * - 'Not affected'
++    - The processor is not vulnerable.
++
++  * - 'Vulnerable'
++    - The processor is vulnerable, but no mitigation enabled.
++
++  * - 'Vulnerable: Clear CPU buffers attempted, no microcode'
++    - The processor is vulnerable but microcode is not updated. The mitigation
++      is enabled on a best effort basis.
++
++      If the processor is vulnerable but the availability of the microcode
++      based mitigation mechanism is not advertised via CPUID, the kernel
++      selects a best effort mitigation mode. This mode invokes the mitigation
++      instructions without a guarantee that they clear the CPU buffers.
++
++      This is done to address virtualization scenarios where the host has the
++      microcode update applied, but the hypervisor is not yet updated to expose
++      the CPUID to the guest. If the host has updated microcode the protection
++      takes effect; otherwise a few CPU cycles are wasted pointlessly.
++
++  * - 'Mitigation: Clear CPU buffers'
++    - The processor is vulnerable and the CPU buffer clearing mitigation is
++      enabled.
++
++  * - 'Unknown: No mitigations'
++    - The processor vulnerability status is unknown because it is out of
++      Servicing period. Mitigation is not attempted.
  
+ Definitions:
+ ------------
+@@ -259,11 +262,16 @@ processes. ESU dates will typically be aligned to end of quarter.
+ If the processor is vulnerable then the following information is appended to
+ the above information:
+ 
+-  ========================  ===========================================
+-  'SMT vulnerable'          SMT is enabled
+-  'SMT disabled'            SMT is disabled
+-  'SMT Host state unknown'  Kernel runs in a VM, Host SMT state unknown
+-  ========================  ===========================================
++.. list-table::
++
++  * - 'SMT vulnerable'
++    - SMT is enabled.
++
++  * - 'SMT disabled'
++    - SMT is disabled.
++
++  * - 'SMT Host state unknown'
++    - Kernel runs in a VM, Host SMT state unknown.
+ 
+ References
+ ----------
+diff --git a/Documentation/admin-guide/hw-vuln/reg-file-data-sampling.rst b/Documentation/admin-guide/hw-vuln/reg-file-data-sampling.rst
+index 0585d02b9a6c..00bcc0424980 100644
+--- a/Documentation/admin-guide/hw-vuln/reg-file-data-sampling.rst
++++ b/Documentation/admin-guide/hw-vuln/reg-file-data-sampling.rst
+@@ -82,21 +82,24 @@ The Linux kernel provides a sysfs interface to enumerate the current
+ vulnerability status of the system: whether the system is vulnerable, and
+ which mitigations are active. The relevant sysfs file is:
+ 
+-	/sys/devices/system/cpu/vulnerabilities/reg_file_data_sampling
++  /sys/devices/system/cpu/vulnerabilities/reg_file_data_sampling
+ 
+ The possible values in this file are:
+ 
+-  .. list-table::
+-
+-     * - 'Not affected'
+-       - The processor is not vulnerable
+-     * - 'Vulnerable'
+-       - The processor is vulnerable, but no mitigation enabled
+-     * - 'Vulnerable: No microcode'
+-       - The processor is vulnerable but microcode is not updated.
+-     * - 'Mitigation: Clear Register File'
+-       - The processor is vulnerable and the CPU buffer clearing mitigation is
+-	 enabled.
++.. list-table::
++
++  * - 'Not affected'
++    - The processor is not vulnerable.
++
++  * - 'Vulnerable'
++    - The processor is vulnerable, but no mitigation enabled.
++
++  * - 'Vulnerable: No microcode'
++    - The processor is vulnerable but microcode is not updated.
++
++  * - 'Mitigation: Clear Register File'
++    - The processor is vulnerable and the CPU buffer clearing mitigation is
++      enabled.
+ 
+ References
+ ----------
+diff --git a/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst b/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst
+index 966c9b3296ea..5b8c4e816e9e 100644
+--- a/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst
++++ b/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst
+@@ -122,25 +122,32 @@ SRBDS System Information
+ ------------------------
+ The Linux kernel provides vulnerability status information through sysfs.  For
+ SRBDS this can be accessed by the following sysfs file:
+-/sys/devices/system/cpu/vulnerabilities/srbds
++
++  /sys/devices/system/cpu/vulnerabilities/srbds
+ 
+ The possible values contained in this file are:
+ 
+- ============================== =============================================
+- Not affected                   Processor not vulnerable
+- Vulnerable                     Processor vulnerable and mitigation disabled
+- Vulnerable: No microcode       Processor vulnerable and microcode is missing
+-                                mitigation
+- Mitigation: Microcode          Processor is vulnerable and mitigation is in
+-                                effect.
+- Mitigation: TSX disabled       Processor is only vulnerable when TSX is
+-                                enabled while this system was booted with TSX
+-                                disabled.
+- Unknown: Dependent on
+- hypervisor status              Running on virtual guest processor that is
+-                                affected but with no way to know if host
+-                                processor is mitigated or vulnerable.
+- ============================== =============================================
++.. list-table::
++
++  * - 'Not affected'
++    - Processor not vulnerable.
++
++  * - 'Vulnerable'
++    - Processor vulnerable and mitigation disabled.
++
++  * - 'Vulnerable: No microcode'
++    - Processor vulnerable and microcode is missing mitigation.
++
++  * - 'Mitigation: Microcode'
++    - Processor is vulnerable and mitigation is in effect.
++
++  * - 'Mitigation: TSX disabled'
++    - Processor is only vulnerable when TSX is enabled while this system was
++      booted with TSX disabled.
++
++  * - 'Unknown: Dependent on hypervisor status'
++    - Running on virtual guest processor that is affected but with no way to
++      know if host processor is mitigated or vulnerable.
+ 
+ SRBDS Default mitigation
+ ------------------------
+diff --git a/Documentation/admin-guide/hw-vuln/spectre.rst b/Documentation/admin-guide/hw-vuln/spectre.rst
+index 132e0bc6007e..f8d5e3c10fdd 100644
+--- a/Documentation/admin-guide/hw-vuln/spectre.rst
++++ b/Documentation/admin-guide/hw-vuln/spectre.rst
+@@ -332,22 +332,24 @@ vulnerable, and which mitigations are active.
+ 
+ The sysfs file showing Spectre variant 1 mitigation status is:
+ 
+-   /sys/devices/system/cpu/vulnerabilities/spectre_v1
++  /sys/devices/system/cpu/vulnerabilities/spectre_v1
+ 
+ The possible values in this file are:
+ 
+-  .. list-table::
++.. list-table::
++
++  * - 'Not affected'
++    - The processor is not vulnerable.
+ 
+-     * - 'Not affected'
+-       - The processor is not vulnerable.
+-     * - 'Vulnerable: __user pointer sanitization and usercopy barriers only; no swapgs barriers'
+-       - The swapgs protections are disabled; otherwise it has
+-         protection in the kernel on a case by case base with explicit
+-         pointer sanitation and usercopy LFENCE barriers.
+-     * - 'Mitigation: usercopy/swapgs barriers and __user pointer sanitization'
+-       - Protection in the kernel on a case by case base with explicit
+-         pointer sanitation, usercopy LFENCE barriers, and swapgs LFENCE
+-         barriers.
++  * - 'Vulnerable: __user pointer sanitization and usercopy barriers only; no
++      swapgs barriers'
++    - The swapgs protections are disabled; otherwise it has protection in the
++      kernel on a case by case base with explicit pointer sanitation and
++      usercopy LFENCE barriers.
++
++  * - 'Mitigation: usercopy/swapgs barriers and __user pointer sanitization'
++    - Protection in the kernel on a case by case base with explicit pointer
++      sanitation, usercopy LFENCE barriers, and swapgs LFENCE barriers.
+ 
+ However, the protections are put in place on a case by case basis,
+ and there is no guarantee that all possible attack vectors for Spectre
+@@ -370,81 +372,116 @@ per process on a case-by-case base.
+ 
+ The sysfs file showing Spectre variant 2 mitigation status is:
+ 
+-   /sys/devices/system/cpu/vulnerabilities/spectre_v2
++  /sys/devices/system/cpu/vulnerabilities/spectre_v2
+ 
+ The possible values in this file are:
+ 
+   - Kernel status:
+ 
+-  ========================================  =================================
+-  'Not affected'                            The processor is not vulnerable
+-  'Mitigation: None'                        Vulnerable, no mitigation
+-  'Mitigation: Retpolines'                  Use Retpoline thunks
+-  'Mitigation: LFENCE'                      Use LFENCE instructions
+-  'Mitigation: Enhanced IBRS'               Hardware-focused mitigation
+-  'Mitigation: Enhanced IBRS + Retpolines'  Hardware-focused + Retpolines
+-  'Mitigation: Enhanced IBRS + LFENCE'      Hardware-focused + LFENCE
+-  ========================================  =================================
++    .. list-table::
++
++      * - 'Not affected'
++        - The processor is not vulnerable.
++
++      * - 'Mitigation: None'
++        - Vulnerable, no mitigation.
++
++      * - 'Mitigation: Retpolines'
++        - Use Retpoline thunks.
++
++      * - 'Mitigation: LFENCE'
++        - Use LFENCE instructions.
++
++      * - 'Mitigation: Enhanced IBRS'
++        - Hardware-focused mitigation.
++
++      * - 'Mitigation: Enhanced IBRS + Retpolines'
++        - Hardware-focused + Retpolines.
++
++      * - 'Mitigation: Enhanced IBRS + LFENCE'
++        - Hardware-focused + LFENCE.
+ 
+   - Firmware status: Show if Indirect Branch Restricted Speculation (IBRS) is
+     used to protect against Spectre variant 2 attacks when calling firmware (x86 only).
+ 
+-  ========== =============================================================
+-  'IBRS_FW'  Protection against user program attacks when calling firmware
+-  ========== =============================================================
++    .. list-table::
++
++      * - 'IBRS_FW'
++        - Protection against user program attacks when calling firmware.
+ 
+   - Indirect branch prediction barrier (IBPB) status for protection between
+     processes of different users. This feature can be controlled through
+     prctl() per process, or through kernel command line options. This is
+     an x86 only feature. For more details see below.
+ 
+-  ===================   ========================================================
+-  'IBPB: disabled'      IBPB unused
+-  'IBPB: always-on'     Use IBPB on all tasks
+-  'IBPB: conditional'   Use IBPB on SECCOMP or indirect branch restricted tasks
+-  ===================   ========================================================
++    .. list-table::
++
++      * - 'IBPB: disabled'
++        - IBPB unused.
++
++      * - 'IBPB: always-on'
++        - Use IBPB on all tasks.
++
++      * - 'IBPB: conditional'
++        - Use IBPB on SECCOMP or indirect branch restricted tasks.
+ 
+   - Single threaded indirect branch prediction (STIBP) status for protection
+     between different hyper threads. This feature can be controlled through
+     prctl per process, or through kernel command line options. This is x86
+     only feature. For more details see below.
+ 
+-  ====================  ========================================================
+-  'STIBP: disabled'     STIBP unused
+-  'STIBP: forced'       Use STIBP on all tasks
+-  'STIBP: conditional'  Use STIBP on SECCOMP or indirect branch restricted tasks
+-  ====================  ========================================================
++    .. list-table::
++
++      * - 'STIBP: disabled'
++        - STIBP unused.
++
++      * - 'STIBP: forced'
++        - Use STIBP on all tasks.
++
++      * - 'STIBP: conditional'
++        - Use STIBP on SECCOMP or indirect branch restricted tasks.
+ 
+   - Return stack buffer (RSB) protection status:
+ 
+-  =============   ===========================================
+-  'RSB filling'   Protection of RSB on context switch enabled
+-  =============   ===========================================
++    .. list-table::
++
++      * - 'RSB filling'
++        - Protection of RSB on context switch enabled.
+ 
+   - EIBRS Post-barrier Return Stack Buffer (PBRSB) protection status:
+ 
+-  ===========================  =======================================================
+-  'PBRSB-eIBRS: SW sequence'   CPU is affected and protection of RSB on VMEXIT enabled
+-  'PBRSB-eIBRS: Vulnerable'    CPU is vulnerable
+-  'PBRSB-eIBRS: Not affected'  CPU is not affected by PBRSB
+-  ===========================  =======================================================
++    .. list-table::
++
++      * - 'PBRSB-eIBRS: SW sequence'
++        - CPU is affected and protection of RSB on VMEXIT enabled.
++
++      * - 'PBRSB-eIBRS: Vulnerable'
++        - CPU is vulnerable.
++
++      * - 'PBRSB-eIBRS: Not affected'
++        - CPU is not affected by PBRSB.
+ 
+   - Branch History Injection (BHI) protection status:
+ 
+-.. list-table::
++    .. list-table::
++
++      * - 'BHI: Not affected'
++        - System is not affected.
++
++      * - 'BHI: Retpoline'
++        - System is protected by retpoline.
++
++      * - 'BHI: BHI_DIS_S'
++        - System is protected by BHI_DIS_S.
++
++      * - 'BHI: SW loop, KVM SW loop'
++        - System is protected by software clearing sequence.
++
++      * - 'BHI: Vulnerable'
++        - System is vulnerable to BHI.
+ 
+- * - BHI: Not affected
+-   - System is not affected
+- * - BHI: Retpoline
+-   - System is protected by retpoline
+- * - BHI: BHI_DIS_S
+-   - System is protected by BHI_DIS_S
+- * - BHI: SW loop, KVM SW loop
+-   - System is protected by software clearing sequence
+- * - BHI: Vulnerable
+-   - System is vulnerable to BHI
+- * - BHI: Vulnerable, KVM: SW loop
+-   - System is vulnerable; KVM is protected by software clearing sequence
++      * - 'BHI: Vulnerable, KVM: SW loop'
++        - System is vulnerable; KVM is protected by software clearing sequence.
+ 
+ Full mitigation might require a microcode update from the CPU
+ vendor. When the necessary microcode is not available, the kernel will
+diff --git a/Documentation/admin-guide/hw-vuln/srso.rst b/Documentation/admin-guide/hw-vuln/srso.rst
+index 4bd3ce3ba171..63343e3a04fd 100644
+--- a/Documentation/admin-guide/hw-vuln/srso.rst
++++ b/Documentation/admin-guide/hw-vuln/srso.rst
+@@ -42,67 +42,62 @@ The sysfs file showing SRSO mitigation status is:
+ 
+ The possible values in this file are:
+ 
+- * 'Not affected':
++.. list-table::
+ 
+-   The processor is not vulnerable
++  * - 'Not affected'
++    - The processor is not vulnerable.
+ 
+-* 'Vulnerable':
++  * - 'Vulnerable'
++    - The processor is vulnerable and no mitigations have been applied.
+ 
+-   The processor is vulnerable and no mitigations have been applied.
++  * - 'Vulnerable: No microcode'
++    - The processor is vulnerable, no microcode extending IBPB functionality to
++      address the vulnerability has been applied.
+ 
+- * 'Vulnerable: No microcode':
++  * - 'Vulnerable: Safe RET, no microcode'
++    - The "Safe RET" mitigation (see below) has been applied to protect the
++      kernel, but the IBPB-extending microcode has not been applied. User space
++      tasks may still be vulnerable.
+ 
+-   The processor is vulnerable, no microcode extending IBPB
+-   functionality to address the vulnerability has been applied.
++  * - 'Vulnerable: Microcode, no safe RET'
++    - Extended IBPB functionality microcode patch has been applied. It does not
++      address User->Kernel and Guest->Host transitions protection but it does
++      address User->User and VM->VM attack vectors.
+ 
+- * 'Vulnerable: Safe RET, no microcode':
++      Note that User->User mitigation is controlled by how the IBPB aspect in
++      the Spectre v2 mitigation is selected:
+ 
+-   The "Safe RET" mitigation (see below) has been applied to protect the
+-   kernel, but the IBPB-extending microcode has not been applied.  User
+-   space tasks may still be vulnerable.
++      * 'conditional IBPB'
+ 
+- * 'Vulnerable: Microcode, no safe RET':
++        where each process can select whether it needs an IBPB issued around it
++        PR_SPEC_DISABLE/_ENABLE etc, see :doc:`spectre`
+ 
+-   Extended IBPB functionality microcode patch has been applied. It does
+-   not address User->Kernel and Guest->Host transitions protection but it
+-   does address User->User and VM->VM attack vectors.
++      * 'strict'
+ 
+-   Note that User->User mitigation is controlled by how the IBPB aspect in
+-   the Spectre v2 mitigation is selected:
++        i.e., always on - by supplying spectre_v2_user=on on the kernel command
++        line
+ 
+-    * conditional IBPB:
++      (spec_rstack_overflow=microcode)
+ 
+-      where each process can select whether it needs an IBPB issued
+-      around it PR_SPEC_DISABLE/_ENABLE etc, see :doc:`spectre`
++  * - 'Mitigation: Safe RET'
++    - Combined microcode/software mitigation. It complements the extended IBPB
++      microcode patch functionality by addressing User->Kernel and Guest->Host
++      transitions protection.
+ 
+-    * strict:
++      Selected by default or by spec_rstack_overflow=safe-ret
+ 
+-      i.e., always on - by supplying spectre_v2_user=on on the kernel
+-      command line
++  * - 'Mitigation: IBPB'
++    - Similar protection as "safe RET" above but employs an IBPB barrier on
++      privilege domain crossings (User->Kernel, Guest->Host).
+ 
+-   (spec_rstack_overflow=microcode)
++      (spec_rstack_overflow=ibpb)
+ 
+- * 'Mitigation: Safe RET':
++  * - 'Mitigation: IBPB on VMEXIT'
+ 
+-   Combined microcode/software mitigation. It complements the
+-   extended IBPB microcode patch functionality by addressing
+-   User->Kernel and Guest->Host transitions protection.
++    - Mitigation addressing the cloud provider scenario - the Guest->Host
++      transitions only.
+ 
+-   Selected by default or by spec_rstack_overflow=safe-ret
+-
+- * 'Mitigation: IBPB':
+-
+-   Similar protection as "safe RET" above but employs an IBPB barrier on
+-   privilege domain crossings (User->Kernel, Guest->Host).
+-
+-  (spec_rstack_overflow=ibpb)
+-
+- * 'Mitigation: IBPB on VMEXIT':
+-
+-   Mitigation addressing the cloud provider scenario - the Guest->Host
+-   transitions only.
+-
+-   (spec_rstack_overflow=ibpb-vmexit)
++      (spec_rstack_overflow=ibpb-vmexit)
+ 
+ 
+ 
+diff --git a/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst b/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
+index 444f84e22a91..478590e8a419 100644
+--- a/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
++++ b/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
+@@ -89,34 +89,40 @@ TAA system information
+ The Linux kernel provides a sysfs interface to enumerate the current TAA status
+ of mitigated systems. The relevant sysfs file is:
+ 
+-/sys/devices/system/cpu/vulnerabilities/tsx_async_abort
++  /sys/devices/system/cpu/vulnerabilities/tsx_async_abort
+ 
+ The possible values in this file are:
+ 
+ .. list-table::
+ 
+-   * - 'Vulnerable'
+-     - The CPU is affected by this vulnerability and the microcode and kernel mitigation are not applied.
+-   * - 'Vulnerable: Clear CPU buffers attempted, no microcode'
+-     - The processor is vulnerable but microcode is not updated. The
+-       mitigation is enabled on a best effort basis.
+-
+-       If the processor is vulnerable but the availability of the microcode
+-       based mitigation mechanism is not advertised via CPUID, the kernel
+-       selects a best effort mitigation mode. This mode invokes the mitigation
+-       instructions without a guarantee that they clear the CPU buffers.
+-
+-       This is done to address virtualization scenarios where the host has the
+-       microcode update applied, but the hypervisor is not yet updated to
+-       expose the CPUID to the guest. If the host has updated microcode the
+-       protection takes effect; otherwise a few CPU cycles are wasted
+-       pointlessly.
+-   * - 'Mitigation: Clear CPU buffers'
+-     - The microcode has been updated to clear the buffers. TSX is still enabled.
+-   * - 'Mitigation: TSX disabled'
+-     - TSX is disabled.
+-   * - 'Not affected'
+-     - The CPU is not affected by this issue.
++  * - 'Vulnerable'
++    - The CPU is affected by this vulnerability and the microcode and kernel
++      mitigation are not applied.
++
++  * - 'Vulnerable: Clear CPU buffers attempted, no microcode'
++    - The processor is vulnerable but microcode is not updated. The mitigation
++      is enabled on a best effort basis.
++
++      If the processor is vulnerable but the availability of the microcode
++      based mitigation mechanism is not advertised via CPUID, the kernel
++      selects a best effort mitigation mode. This mode invokes the mitigation
++      instructions without a guarantee that they clear the CPU buffers.
++
++      This is done to address virtualization scenarios where the host has the
++      microcode update applied, but the hypervisor is not yet updated to
++      expose the CPUID to the guest. If the host has updated microcode the
++      protection takes effect; otherwise a few CPU cycles are wasted
++      pointlessly.
++
++  * - 'Mitigation: Clear CPU buffers'
++    - The microcode has been updated to clear the buffers. TSX is still
++      enabled.
++
++  * - 'Mitigation: TSX disabled'
++    - TSX is disabled.
++
++  * - 'Not affected'
++    - The CPU is not affected by this issue.
+ 
+ Mitigation mechanism
+ --------------------
 -- 
-2.46.0
+2.34.1
 
