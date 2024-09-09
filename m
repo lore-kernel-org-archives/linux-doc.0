@@ -1,48 +1,48 @@
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A497A1AF4FA;
-	Mon,  9 Sep 2024 08:26:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB1F1AF4F8;
+	Mon,  9 Sep 2024 08:26:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725870396; cv=none; b=ro6pxW+Kpamcp1OfQTagkK85t3FgHdHMEjkh92hPFlTg0tgJ4LVyCNvjrA7fzYNSZKgrzmkFqXZFTGdAeTM4zT0hlrzPYLUxHms4JZhlSV4V6q3VH/GsSNq0vR9blTnIV0axBSFYB2UL0S+C7GnNhnlHJesRrtUwaUQL5eqdlM4=
+	t=1725870398; cv=none; b=GonvwOjvshNzvIeKJoFh0XzyCSRafsNKjAxea/7VBL6zi7mS4Do2oq5fUKj02jrOvqtdG9pg4SvOWPlsunHeCdHQ495oY/bgCROQVfOaV1nF+1kpznTvFujIEx5q1xXEL9wAWRUXG2kl0M5FfnguYjMbSazGdFoeJA7yn4bdDj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725870396; c=relaxed/simple;
-	bh=049uuilb9z/YbFT1C82V6wGOnQJt5Pm3yY/25FZjxCQ=;
+	s=arc-20240116; t=1725870398; c=relaxed/simple;
+	bh=5Ze3ak7szOHjF+pnjdFZp69ShAxNT7Poi5W3RGkCbyY=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gLTCkwnPFEjZ+wRRmt0BfKU+fIAMOvYbFL/klxFmYMdfdx/SqC4LDpFgKOianKGXkPYiy1AYifr8q32uVwZh9MlhYCq//Yts1ZEARHyzmFFve+mW3aDxMOJ41W7TpxCzwNnEIrEqrLeiwg9kLcoSbaB+w1XxAF71IGJU58UVzc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=U9JqtBSP; arc=none smtp.client-ip=68.232.153.233
+	 MIME-Version:Content-Type; b=baaNnfZCJ8pDpN0QHPlZg3x4ek3QgJYZqVoJnbGA0sHkeMC2l/BTZwbTLtUMatmSK1VhPXES5ofqfjYKtm2VJSr5ob4dj5vCno/8KrKKQ3rjnwV9152UqryKl3ccFihvgKsQ7hm7x6eD0SKWgBAvxjyFZ3+TRaDNBjV/4Ea5JFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=0JzTG8/o; arc=none smtp.client-ip=68.232.153.233
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="U9JqtBSP"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="0JzTG8/o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1725870394; x=1757406394;
+  t=1725870396; x=1757406396;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=049uuilb9z/YbFT1C82V6wGOnQJt5Pm3yY/25FZjxCQ=;
-  b=U9JqtBSPPIeA8GtFEckJH/dazR/OCUJgJSC9OQyjgFKCJFFi22G5Qu/q
-   tS23B0mdvfTVqzuJw4tyeAGMECIAoJSoHEHqN6G7eAinuv1kmpDCbJk0q
-   8rikD1cVvRybDXwizYJNdb3njO+L4sK3B5d51iK9ShRFTOOdPml2prngi
-   Cb2CUyxwLpczxyccb0+pxlDNx1jbaAY2luXRyDa9Q6DPzDUMr+Q0kgD8C
-   QmaWeP9uki1Mr/5fS0ZdvRfVG++/6nmNKjxP0b+2+BE98E7HEKfVWu8lq
-   /jPJlwV2GXElMoyKCidsLNiR5DHDoksajxJHJKCa2AhCydS10gFz13aAH
-   w==;
-X-CSE-ConnectionGUID: Kn1cgKzKTtGAejKkN2A+wA==
-X-CSE-MsgGUID: Y7X7t/soSeOJ3oNN1SrKdw==
+  bh=5Ze3ak7szOHjF+pnjdFZp69ShAxNT7Poi5W3RGkCbyY=;
+  b=0JzTG8/opgdtWhEhgafJO2QdBqRvt1A5adhmh2aH26zCXMwN/lA8EPxX
+   qC507mPBroJwnfXZdfVZkiUNUcRBLu8le6z8rHqwJ7dCIl0CCQ3tdVUN/
+   LSKQqGPmyy48872Ar0JKdRGTC8dymGcGD2mox4r0L3ETswuKtUtQoIbuJ
+   x7HRnkDKT1J0Fqc/3+javE44gfdIKVZV7VypPbGs2FKqSkueTJMerg3e1
+   I07TvtuKndQr3NLkpBV9L8Y2KDukPvKJU5MWIy8vF3trc8WvrF0oZa/WQ
+   ECQ6fFtKLtujZGnE8VhIykoPz3aElDSaTuxgBX0mB5HoXgpk2wSoWFwuC
+   Q==;
+X-CSE-ConnectionGUID: d/w4Y2PcQAuCOQlGJPomLA==
+X-CSE-MsgGUID: DOi4i7aFSEC/b0sSq9DYZg==
 X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="34622036"
+   d="scan'208";a="34622048"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 09 Sep 2024 01:26:33 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
- chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
+  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 09 Sep 2024 01:26:34 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 9 Sep 2024 01:26:21 -0700
+ 15.1.2507.35; Mon, 9 Sep 2024 01:25:59 -0700
 Received: from che-ll-i17164.microchip.com (10.10.85.11) by
  chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Mon, 9 Sep 2024 01:26:11 -0700
+ 15.1.2507.35 via Frontend Transport; Mon, 9 Sep 2024 01:25:49 -0700
 From: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
 To: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
 	<pabeni@redhat.com>, <horms@kernel.org>, <saeedm@nvidia.com>,
@@ -61,9 +61,9 @@ CC: <parthiban.veerasooran@microchip.com>, <masahiroy@kernel.org>,
 	<Nicolas.Ferre@microchip.com>, <benjamin.bigler@bernformulastudent.ch>,
 	<linux@bigler.io>, <markku.vorne@kempower.com>, Parthiban Veerasooran
 	<Parthiban.Veerasooran@microchip.com>
-Subject: [PATCH net-next v8 05/14] net: ethernet: oa_tc6: implement error interrupts unmasking
-Date: Mon, 9 Sep 2024 13:55:05 +0530
-Message-ID: <20240909082514.262942-6-Parthiban.Veerasooran@microchip.com>
+Subject: [PATCH net-next v8 03/14] net: ethernet: oa_tc6: implement register read operation
+Date: Mon, 9 Sep 2024 13:55:03 +0530
+Message-ID: <20240909082514.262942-4-Parthiban.Veerasooran@microchip.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240909082514.262942-1-Parthiban.Veerasooran@microchip.com>
 References: <20240909082514.262942-1-Parthiban.Veerasooran@microchip.com>
@@ -76,77 +76,154 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-This will unmask the following error interrupts from the MAC-PHY.
-  tx protocol error
-  rx buffer overflow error
-  loss of framing error
-  header error
-The MAC-PHY will signal an error by setting the EXST bit in the receive
-data footer which will then allow the host to read the STATUS0 register
-to find the source of the error.
+Implement register read operation according to the control communication
+specified in the OPEN Alliance 10BASE-T1x MACPHY Serial Interface
+document. Control read commands are used by the SPI host to read
+registers within the MAC-PHY. Each control read commands are composed of
+a 32 bits control command header.
+
+The MAC-PHY ignores all data from the SPI host following the control
+header for the remainder of the control read command. Control read
+commands can read either a single register or multiple consecutive
+registers. When multiple consecutive registers are read, the address is
+automatically post-incremented by the MAC-PHY. Reading any unimplemented
+or undefined registers shall return zero.
 
 Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 Signed-off-by: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
 ---
- drivers/net/ethernet/oa_tc6.c | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ drivers/net/ethernet/oa_tc6.c | 84 ++++++++++++++++++++++++++++++++++-
+ include/linux/oa_tc6.h        |  3 ++
+ 2 files changed, 85 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/net/ethernet/oa_tc6.c b/drivers/net/ethernet/oa_tc6.c
-index f774ed397213..86b032cdbee1 100644
+index 24e9fd92d717..72bab9234436 100644
 --- a/drivers/net/ethernet/oa_tc6.c
 +++ b/drivers/net/ethernet/oa_tc6.c
-@@ -18,6 +18,13 @@
- #define OA_TC6_REG_STATUS0			0x0008
- #define STATUS0_RESETC				BIT(6)	/* Reset Complete */
+@@ -38,6 +38,7 @@ enum oa_tc6_header_type {
+ };
  
-+/* Interrupt Mask Register #0 */
-+#define OA_TC6_REG_INT_MASK0			0x000C
-+#define INT_MASK0_HEADER_ERR_MASK		BIT(5)
-+#define INT_MASK0_LOSS_OF_FRAME_ERR_MASK	BIT(4)
-+#define INT_MASK0_RX_BUFFER_OVERFLOW_ERR_MASK	BIT(3)
-+#define INT_MASK0_TX_PROTOCOL_ERR_MASK		BIT(0)
-+
- /* Control command header */
- #define OA_TC6_CTRL_HEADER_DATA_NOT_CTRL	BIT(31)
- #define OA_TC6_CTRL_HEADER_WRITE_NOT_READ	BIT(29)
-@@ -327,6 +334,23 @@ static int oa_tc6_sw_reset_macphy(struct oa_tc6 *tc6)
- 	return oa_tc6_write_register(tc6, OA_TC6_REG_STATUS0, regval);
+ enum oa_tc6_register_op {
++	OA_TC6_CTRL_REG_READ = 0,
+ 	OA_TC6_CTRL_REG_WRITE = 1,
+ };
+ 
+@@ -113,7 +114,8 @@ static void oa_tc6_prepare_ctrl_spi_buf(struct oa_tc6 *tc6, u32 address,
+ 
+ 	*tx_buf = oa_tc6_prepare_ctrl_header(address, length, reg_op);
+ 
+-	oa_tc6_update_ctrl_write_data(tc6, value, length);
++	if (reg_op == OA_TC6_CTRL_REG_WRITE)
++		oa_tc6_update_ctrl_write_data(tc6, value, length);
  }
  
-+static int oa_tc6_unmask_macphy_error_interrupts(struct oa_tc6 *tc6)
+ static int oa_tc6_check_ctrl_write_reply(struct oa_tc6 *tc6, u8 size)
+@@ -132,6 +134,30 @@ static int oa_tc6_check_ctrl_write_reply(struct oa_tc6 *tc6, u8 size)
+ 	return 0;
+ }
+ 
++static int oa_tc6_check_ctrl_read_reply(struct oa_tc6 *tc6, u8 size)
 +{
-+	u32 regval;
-+	int ret;
++	u32 *rx_buf = tc6->spi_ctrl_rx_buf + OA_TC6_CTRL_IGNORED_SIZE;
++	u32 *tx_buf = tc6->spi_ctrl_tx_buf;
 +
-+	ret = oa_tc6_read_register(tc6, OA_TC6_REG_INT_MASK0, &regval);
++	/* The echoed control read header must match with the one that was
++	 * transmitted.
++	 */
++	if (*tx_buf != *rx_buf)
++		return -EPROTO;
++
++	return 0;
++}
++
++static void oa_tc6_copy_ctrl_read_data(struct oa_tc6 *tc6, u32 value[],
++				       u8 length)
++{
++	__be32 *rx_buf = tc6->spi_ctrl_rx_buf + OA_TC6_CTRL_IGNORED_SIZE +
++			 OA_TC6_CTRL_HEADER_SIZE;
++
++	for (int i = 0; i < length; i++)
++		value[i] = be32_to_cpu(*rx_buf++);
++}
++
+ static int oa_tc6_perform_ctrl(struct oa_tc6 *tc6, u32 address, u32 value[],
+ 			       u8 length, enum oa_tc6_register_op reg_op)
+ {
+@@ -152,8 +178,62 @@ static int oa_tc6_perform_ctrl(struct oa_tc6 *tc6, u32 address, u32 value[],
+ 	}
+ 
+ 	/* Check echoed/received control write command reply for errors */
+-	return oa_tc6_check_ctrl_write_reply(tc6, size);
++	if (reg_op == OA_TC6_CTRL_REG_WRITE)
++		return oa_tc6_check_ctrl_write_reply(tc6, size);
++
++	/* Check echoed/received control read command reply for errors */
++	ret = oa_tc6_check_ctrl_read_reply(tc6, size);
 +	if (ret)
 +		return ret;
 +
-+	regval &= ~(INT_MASK0_TX_PROTOCOL_ERR_MASK |
-+		    INT_MASK0_RX_BUFFER_OVERFLOW_ERR_MASK |
-+		    INT_MASK0_LOSS_OF_FRAME_ERR_MASK |
-+		    INT_MASK0_HEADER_ERR_MASK);
++	oa_tc6_copy_ctrl_read_data(tc6, value, length);
 +
-+	return oa_tc6_write_register(tc6, OA_TC6_REG_INT_MASK0, regval);
++	return 0;
 +}
 +
- /**
-  * oa_tc6_init - allocates and initializes oa_tc6 structure.
-  * @spi: device with which data will be exchanged.
-@@ -369,6 +393,13 @@ struct oa_tc6 *oa_tc6_init(struct spi_device *spi)
- 		return NULL;
- 	}
- 
-+	ret = oa_tc6_unmask_macphy_error_interrupts(tc6);
-+	if (ret) {
-+		dev_err(&tc6->spi->dev,
-+			"MAC-PHY error interrupts unmask failed: %d\n", ret);
-+		return NULL;
++/**
++ * oa_tc6_read_registers - function for reading multiple consecutive registers.
++ * @tc6: oa_tc6 struct.
++ * @address: address of the first register to be read in the MAC-PHY.
++ * @value: values to be read from the starting register address @address.
++ * @length: number of consecutive registers to be read from @address.
++ *
++ * Maximum of 128 consecutive registers can be read starting at @address.
++ *
++ * Return: 0 on success otherwise failed.
++ */
++int oa_tc6_read_registers(struct oa_tc6 *tc6, u32 address, u32 value[],
++			  u8 length)
++{
++	int ret;
++
++	if (!length || length > OA_TC6_CTRL_MAX_REGISTERS) {
++		dev_err(&tc6->spi->dev, "Invalid register length parameter\n");
++		return -EINVAL;
 +	}
 +
- 	return tc6;
++	mutex_lock(&tc6->spi_ctrl_lock);
++	ret = oa_tc6_perform_ctrl(tc6, address, value, length,
++				  OA_TC6_CTRL_REG_READ);
++	mutex_unlock(&tc6->spi_ctrl_lock);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(oa_tc6_read_registers);
++
++/**
++ * oa_tc6_read_register - function for reading a MAC-PHY register.
++ * @tc6: oa_tc6 struct.
++ * @address: register address of the MAC-PHY to be read.
++ * @value: value read from the @address register address of the MAC-PHY.
++ *
++ * Return: 0 on success otherwise failed.
++ */
++int oa_tc6_read_register(struct oa_tc6 *tc6, u32 address, u32 *value)
++{
++	return oa_tc6_read_registers(tc6, address, value, 1);
  }
- EXPORT_SYMBOL_GPL(oa_tc6_init);
++EXPORT_SYMBOL_GPL(oa_tc6_read_register);
+ 
+ /**
+  * oa_tc6_write_registers - function for writing multiple consecutive registers.
+diff --git a/include/linux/oa_tc6.h b/include/linux/oa_tc6.h
+index 99c490f1c8a8..85aeecf87306 100644
+--- a/include/linux/oa_tc6.h
++++ b/include/linux/oa_tc6.h
+@@ -15,3 +15,6 @@ struct oa_tc6 *oa_tc6_init(struct spi_device *spi);
+ int oa_tc6_write_register(struct oa_tc6 *tc6, u32 address, u32 value);
+ int oa_tc6_write_registers(struct oa_tc6 *tc6, u32 address, u32 value[],
+ 			   u8 length);
++int oa_tc6_read_register(struct oa_tc6 *tc6, u32 address, u32 *value);
++int oa_tc6_read_registers(struct oa_tc6 *tc6, u32 address, u32 value[],
++			  u8 length);
 -- 
 2.34.1
 
