@@ -1,191 +1,246 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E08A01B375B;
-	Mon,  9 Sep 2024 08:28:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C48931B29CC
+	for <linux-doc@vger.kernel.org>; Mon,  9 Sep 2024 08:58:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725870514; cv=none; b=iGnu0zs1rwRMJORrNS70B4lvGkGrKxTTiMM/WxEFWIj2slgArYNGy8Gn1Ep1L+F0GxfoQmgjf5vwld0DewPBFt+XbjbN9qqzZjJHLY/OqbUo4DCOSPa0t+ZAbI+bOEVANmEfd189WbqBWlWrn9zjxwhNhQsbucFb3l7rAGVFOJM=
+	t=1725872318; cv=none; b=Y/Dnjfl3206Nc4q+qJkpF4ubwDJEAufhUgIxQL0tR37lQdQW2QwMi6gNEV06fbVA4V2fCk8yjrgJ6axPq6lpFg6hvKdiNiWX72oZ4thpKKu8sKP6Ndaa/XzYuwmvPGIDHS3t/c5unAoP7lx2jw1s4SZba5+w2pDloqmXqbZ3PrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725870514; c=relaxed/simple;
-	bh=sfvsNr5K/hiEOOk8WIX3Bn/QtJvcLwOU4UcxKthOj3c=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OYVqyQqxcKd6KkkoIzR8MEXy74n5a80G3lF+N5lvO1gMElODsNLrvJoACG7G6xOLXHVfJQMaAZFXR9luFi2XWXd7kJq/uy73FniD2igFcjQpxo4t1ehCahSlBVM4v3BjqgcJDB1x3G8cWueKGaXASt4eKV3eeXRC/Pad02ZrJ5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=a1L81H8R; arc=none smtp.client-ip=68.232.154.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1725872318; c=relaxed/simple;
+	bh=hMgy8bX6Ok+Sly2wQ3k/uCmFxdR1J21buj1Oj+8Tu2k=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=od2VB5ztjkqT3Yv11NjL98Hlzl/+A+6jzB3kLQU+NwUVlMyHPmveOjhAvqqoDHLm6JFAbBs9oYF/eIgbmAh0HhhGKWCRe/5RosEBECo9ldgEhSXPZtMdLP9dXqH224nsjiCBCHFqxL4DJSwinqB20s73R0vn30huwX6cwEjwpA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=d5MHBE/6; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="a1L81H8R"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1725870512; x=1757406512;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=sfvsNr5K/hiEOOk8WIX3Bn/QtJvcLwOU4UcxKthOj3c=;
-  b=a1L81H8RKoARe32cd8Z5Fljkbai8RtsLuJDoGEs2QeXU8bXc7XvCgmOz
-   4rxPEcIrzC3UW7oIEM1e5SEzUEYd1EhfY5wSqRG1826frH0GPJ0z2rsVy
-   g7HNDY1kd47rA+GCJ23QiVEMTTm5aeqb917badgIpIZIXeh0C1ls+FwIx
-   tENdLdbq8bOk6pOG4HD+gJacpI7Wh17c6ARWTaghUKlz9+9qE6LG6vVqV
-   mn3CDIByPpAQZYqeMr+n8wrtIYv3xpoU15yBAOGdsgW+64ROx+HLdFY6U
-   WEl1EB+xxxjne1S6PRt0YJIdoNluajDNQxteWKFRy0CsfwEQTzPR6DfTT
-   A==;
-X-CSE-ConnectionGUID: ASzx8kNERhu8wJ4WimobFg==
-X-CSE-MsgGUID: oQQFZyUeT2esqUXJBqlJJg==
-X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="198940031"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 09 Sep 2024 01:28:30 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
- chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 9 Sep 2024 01:28:00 -0700
-Received: from che-ll-i17164.microchip.com (10.10.85.11) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Mon, 9 Sep 2024 01:27:50 -0700
-From: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
-To: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-	<pabeni@redhat.com>, <horms@kernel.org>, <saeedm@nvidia.com>,
-	<anthony.l.nguyen@intel.com>, <netdev@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <andrew@lunn.ch>, <corbet@lwn.net>,
-	<linux-doc@vger.kernel.org>, <robh+dt@kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-	<devicetree@vger.kernel.org>, <horatiu.vultur@microchip.com>,
-	<ruanjinjie@huawei.com>, <steen.hegelund@microchip.com>,
-	<vladimir.oltean@nxp.com>
-CC: <parthiban.veerasooran@microchip.com>, <masahiroy@kernel.org>,
-	<alexanderduyck@fb.com>, <krzk+dt@kernel.org>, <robh@kernel.org>,
-	<rdunlap@infradead.org>, <hkallweit1@gmail.com>, <linux@armlinux.org.uk>,
-	<UNGLinuxDriver@microchip.com>, <Thorsten.Kummermehr@microchip.com>,
-	<Pier.Beruto@onsemi.com>, <Selvamani.Rajagopal@onsemi.com>,
-	<Nicolas.Ferre@microchip.com>, <benjamin.bigler@bernformulastudent.ch>,
-	<linux@bigler.io>, <markku.vorne@kempower.com>, Parthiban Veerasooran
-	<Parthiban.Veerasooran@microchip.com>, Conor Dooley
-	<conor.dooley@microchip.com>
-Subject: [PATCH net-next v8 14/14] dt-bindings: net: add Microchip's LAN865X 10BASE-T1S MACPHY
-Date: Mon, 9 Sep 2024 13:55:14 +0530
-Message-ID: <20240909082514.262942-15-Parthiban.Veerasooran@microchip.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240909082514.262942-1-Parthiban.Veerasooran@microchip.com>
-References: <20240909082514.262942-1-Parthiban.Veerasooran@microchip.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="d5MHBE/6"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42ca6ba750eso14162615e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 09 Sep 2024 01:58:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725872314; x=1726477114; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PMvHs5Ab7mHAlvlrWenHe3/+itZxK87jYym+SorE/SA=;
+        b=d5MHBE/6nV+q3S16jwp9mTU0YKD+3PL9RxdDFilnfCN/sOL49WpQqSGFjp9mHijrqZ
+         tUJ6Bqi5A/qSqJMJ9rZAN89zezDJkGTapOpIWrbZekkWsUUEGcuV4lJ3yUmdfu5Nrn3A
+         OuPFDb1O/BCL8Fq09KwiIQXoYHCwWZCAL2Pu8yF1ypVLz8Nf7OgO6+MBiabzU4nTsC4r
+         IdGvmNbwl5Rswb88gxKHjUo+vwYYI/0n6jX9ErZqraaQ96ws/0MOlqybPi8ZWVXFjkiI
+         4HVO6B9QP4pnDVl91nPIk4v7HJwNqIF3qseXJg9mlimPEix/a8XejffrsL/nkMhiG4Ew
+         BMFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725872314; x=1726477114;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=PMvHs5Ab7mHAlvlrWenHe3/+itZxK87jYym+SorE/SA=;
+        b=cWC7CpiMZ20Jodnf+zec+KYtVJSaJMulZfTj55v9OfG/qNFHg29dSk3Gy+G9pyDDzo
+         Ubsd7c52GeS9PTJMqIJml3R0H7LWMgWcZEfsenrW88PY1pvDmuEy4Y8dSeZAJU1NLxSj
+         rWPwS73R5imebnDSBEHhWTKbymNIn+1s4psf2Jo3LMCSgaqXsMjJBx72WuqDfU1gAK5X
+         H1wpi1BNllLcLsmE/yXnfyPIomP66G39FxPv2u7dt3MfxQIgMhqbqKvopCoWVqs5fGBq
+         Q0pCpKKQazIax5nff335h0FCNnhY5+HE9BoANyiYJEg7gzV/IinigQGC4OECSTyLGD5F
+         qR8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXsYbA9mnyEE9DXjXXGvAemy0wcn95K3I2/1Q4c8Xos734ElMx6sqsfOcsVwvHv9ocL1dDLiWg85/w=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7hwu1jlm00quM3DEoZoTWPPtyIak2SlraNMer9pwnAFIuUmpb
+	/+Aghiibe00GVQJ8UOybtNKgmWSqyZkm/QX+M236T0xPmv6EP+KEb5q1/+DY0iQ=
+X-Google-Smtp-Source: AGHT+IG6v8/1xNArCrOhm5mi79N9gIxXGtQTCtPLSsLWPvDJATIAkCocS/kMp98RIRO0ro21ssL4Yw==
+X-Received: by 2002:a05:600c:468a:b0:428:b4a:7001 with SMTP id 5b1f17b1804b1-42c95be865emr103023695e9.15.1725872313704;
+        Mon, 09 Sep 2024 01:58:33 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:63a3:6883:a358:b850? ([2a01:e0a:982:cbb0:63a3:6883:a358:b850])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956654f4sm5446815f8f.43.2024.09.09.01.58.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Sep 2024 01:58:33 -0700 (PDT)
+Message-ID: <66953e65-2468-43b8-9ccf-54671613c4ab@linaro.org>
+Date: Mon, 9 Sep 2024 10:58:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH v6 09/17] soc: qcom: ice: add HWKM support to the ICE
+ driver
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+ Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+ Mikulas Patocka <mpatocka@redhat.com>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ Asutosh Das <quic_asutoshd@quicinc.com>,
+ Ritesh Harjani <ritesh.list@gmail.com>, Ulf Hansson
+ <ulf.hansson@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Avri Altman <avri.altman@wdc.com>, Bart Van Assche <bvanassche@acm.org>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Eric Biggers <ebiggers@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>,
+ Jaegeuk Kim <jaegeuk@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Gaurav Kashyap <quic_gaurkash@quicinc.com>, linux-block@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dm-devel@lists.linux.dev, linux-mmc@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-fscrypt@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+References: <20240906-wrapped-keys-v6-0-d59e61bc0cb4@linaro.org>
+ <20240906-wrapped-keys-v6-9-d59e61bc0cb4@linaro.org>
+ <7uoq72bpiqmo2olwpnudpv3gtcowpnd6jrifff34ubmfpijgc6@k6rmnalu5z4o>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <7uoq72bpiqmo2olwpnudpv3gtcowpnd6jrifff34ubmfpijgc6@k6rmnalu5z4o>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The LAN8650/1 combines a Media Access Controller (MAC) and an Ethernet
-PHY to enable 10BASE-T1S networks. The Ethernet Media Access Controller
-(MAC) module implements a 10 Mbps half duplex Ethernet MAC, compatible
-with the IEEE 802.3 standard and a 10BASE-T1S physical layer transceiver
-integrated into the LAN8650/1. The communication between the Host and the
-MAC-PHY is specified in the OPEN Alliance 10BASE-T1x MACPHY Serial
-Interface (TC6).
+On 07/09/2024 00:07, Dmitry Baryshkov wrote:
+> On Fri, Sep 06, 2024 at 08:07:12PM GMT, Bartosz Golaszewski wrote:
+>> From: Gaurav Kashyap <quic_gaurkash@quicinc.com>
+>>
+>> Qualcomm's ICE (Inline Crypto Engine) contains a proprietary key
+>> management hardware called Hardware Key Manager (HWKM). Add HWKM support
+>> to the ICE driver if it is available on the platform. HWKM primarily
+>> provides hardware wrapped key support where the ICE (storage) keys are
+>> not available in software and instead protected in hardware.
+>>
+>> When HWKM software support is not fully available (from Trustzone), there
+>> can be a scenario where the ICE hardware supports HWKM, but it cannot be
+>> used for wrapped keys. In this case, raw keys have to be used without
+>> using the HWKM. We query the TZ at run-time to find out whether wrapped
+>> keys support is available.
+>>
+>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> Signed-off-by: Gaurav Kashyap <quic_gaurkash@quicinc.com>
+>> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+>> ---
+>>   drivers/soc/qcom/ice.c | 152 +++++++++++++++++++++++++++++++++++++++++++++++--
+>>   include/soc/qcom/ice.h |   1 +
+>>   2 files changed, 149 insertions(+), 4 deletions(-)
+>>
+>>   int qcom_ice_enable(struct qcom_ice *ice)
+>>   {
+>> +	int err;
+>> +
+>>   	qcom_ice_low_power_mode_enable(ice);
+>>   	qcom_ice_optimization_enable(ice);
+>>   
+>> -	return qcom_ice_wait_bist_status(ice);
+>> +	if (ice->use_hwkm)
+>> +		qcom_ice_enable_standard_mode(ice);
+>> +
+>> +	err = qcom_ice_wait_bist_status(ice);
+>> +	if (err)
+>> +		return err;
+>> +
+>> +	if (ice->use_hwkm)
+>> +		qcom_ice_hwkm_init(ice);
+>> +
+>> +	return err;
+>>   }
+>>   EXPORT_SYMBOL_GPL(qcom_ice_enable);
+>>   
+>> @@ -150,6 +282,10 @@ int qcom_ice_resume(struct qcom_ice *ice)
+>>   		return err;
+>>   	}
+>>   
+>> +	if (ice->use_hwkm) {
+>> +		qcom_ice_enable_standard_mode(ice);
+>> +		qcom_ice_hwkm_init(ice);
+>> +	}
+>>   	return qcom_ice_wait_bist_status(ice);
+>>   }
+>>   EXPORT_SYMBOL_GPL(qcom_ice_resume);
+>> @@ -157,6 +293,7 @@ EXPORT_SYMBOL_GPL(qcom_ice_resume);
+>>   int qcom_ice_suspend(struct qcom_ice *ice)
+>>   {
+>>   	clk_disable_unprepare(ice->core_clk);
+>> +	ice->hwkm_init_complete = false;
+>>   
+>>   	return 0;
+>>   }
+>> @@ -206,6 +343,12 @@ int qcom_ice_evict_key(struct qcom_ice *ice, int slot)
+>>   }
+>>   EXPORT_SYMBOL_GPL(qcom_ice_evict_key);
+>>   
+>> +bool qcom_ice_hwkm_supported(struct qcom_ice *ice)
+>> +{
+>> +	return ice->use_hwkm;
+>> +}
+>> +EXPORT_SYMBOL_GPL(qcom_ice_hwkm_supported);
+>> +
+>>   static struct qcom_ice *qcom_ice_create(struct device *dev,
+>>   					void __iomem *base)
+>>   {
+>> @@ -240,6 +383,7 @@ static struct qcom_ice *qcom_ice_create(struct device *dev,
+>>   		engine->core_clk = devm_clk_get_enabled(dev, NULL);
+>>   	if (IS_ERR(engine->core_clk))
+>>   		return ERR_CAST(engine->core_clk);
+>> +	engine->use_hwkm = qcom_scm_has_wrapped_key_support();
+> 
+> This still makes the decision on whether to use HW-wrapped keys on
+> behalf of a user. I suppose this is incorrect. The user must be able to
+> use raw keys even if HW-wrapped keys are available on the platform. One
+> of the examples for such use-cases is if a user prefers to be able to
+> recover stored information in case of a device failure (such recovery
+> will be impossible if SoC is damaged and HW-wrapped keys are used).
 
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-Signed-off-by: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
----
- .../bindings/net/microchip,lan8650.yaml       | 74 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 2 files changed, 75 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/net/microchip,lan8650.yaml
+Isn't that already the case ? the BLK_CRYPTO_KEY_TYPE_HW_WRAPPED size is
+here to select HW-wrapped key, otherwise the ol' raw key is passed.
+Just look the next patch.
 
-diff --git a/Documentation/devicetree/bindings/net/microchip,lan8650.yaml b/Documentation/devicetree/bindings/net/microchip,lan8650.yaml
-new file mode 100644
-index 000000000000..61e11d4a07c4
---- /dev/null
-+++ b/Documentation/devicetree/bindings/net/microchip,lan8650.yaml
-@@ -0,0 +1,74 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/net/microchip,lan8650.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Microchip LAN8650/1 10BASE-T1S MACPHY Ethernet Controllers
-+
-+maintainers:
-+  - Parthiban Veerasooran <parthiban.veerasooran@microchip.com>
-+
-+description:
-+  The LAN8650/1 combines a Media Access Controller (MAC) and an Ethernet
-+  PHY to enable 10BASE‑T1S networks. The Ethernet Media Access Controller
-+  (MAC) module implements a 10 Mbps half duplex Ethernet MAC, compatible
-+  with the IEEE 802.3 standard and a 10BASE-T1S physical layer transceiver
-+  integrated into the LAN8650/1. The communication between the Host and
-+  the MAC-PHY is specified in the OPEN Alliance 10BASE-T1x MACPHY Serial
-+  Interface (TC6).
-+
-+allOf:
-+  - $ref: /schemas/net/ethernet-controller.yaml#
-+  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - const: microchip,lan8650
-+      - items:
-+          - const: microchip,lan8651
-+          - const: microchip,lan8650
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    description:
-+      Interrupt from MAC-PHY asserted in the event of Receive Chunks
-+      Available, Transmit Chunk Credits Available and Extended Status
-+      Event.
-+    maxItems: 1
-+
-+  spi-max-frequency:
-+    minimum: 15000000
-+    maximum: 25000000
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - spi-max-frequency
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    spi {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      ethernet@0 {
-+        compatible = "microchip,lan8651", "microchip,lan8650";
-+        reg = <0>;
-+        pinctrl-names = "default";
-+        pinctrl-0 = <&eth0_pins>;
-+        interrupt-parent = <&gpio>;
-+        interrupts = <6 IRQ_TYPE_EDGE_FALLING>;
-+        local-mac-address = [04 05 06 01 02 03];
-+        spi-max-frequency = <15000000>;
-+      };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 89d038c2e94b..1dd3347d8f01 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14983,6 +14983,7 @@ MICROCHIP LAN8650/1 10BASE-T1S MACPHY ETHERNET DRIVER
- M:	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>
- L:	netdev@vger.kernel.org
- S:	Maintained
-+F:	Documentation/devicetree/bindings/net/microchip,lan8650.yaml
- F:	drivers/net/ethernet/microchip/lan865x/lan865x.c
- 
- MICROCHIP LAN87xx/LAN937x T1 PHY DRIVER
--- 
-2.34.1
+Or did I miss something ?
+
+Neil
+
+> 
+>>   
+>>   	if (!qcom_ice_check_supported(engine))
+>>   		return ERR_PTR(-EOPNOTSUPP);
+>> diff --git a/include/soc/qcom/ice.h b/include/soc/qcom/ice.h
+>> index 9dd835dba2a7..1f52e82e3e1c 100644
+>> --- a/include/soc/qcom/ice.h
+>> +++ b/include/soc/qcom/ice.h
+>> @@ -34,5 +34,6 @@ int qcom_ice_program_key(struct qcom_ice *ice,
+>>   			 const struct blk_crypto_key *bkey,
+>>   			 u8 data_unit_size, int slot);
+>>   int qcom_ice_evict_key(struct qcom_ice *ice, int slot);
+>> +bool qcom_ice_hwkm_supported(struct qcom_ice *ice);
+>>   struct qcom_ice *of_qcom_ice_get(struct device *dev);
+>>   #endif /* __QCOM_ICE_H__ */
+>>
+>> -- 
+>> 2.43.0
+>>
+> 
 
