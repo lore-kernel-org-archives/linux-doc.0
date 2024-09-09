@@ -1,174 +1,202 @@
-Received: from fout8-smtp.messagingengine.com (fout8-smtp.messagingengine.com [103.168.172.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0BD4C81;
-	Mon,  9 Sep 2024 02:03:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC59C1422A8;
+	Mon,  9 Sep 2024 02:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725847423; cv=none; b=K++CqWaoKgwhPewL7DTAScqb0qR9LeBR0CwCeBA0E6rmDg0CYqjHSe2o6RY/FZJqEeyld9qSVZlVdqrY/ciH0DclYbY2hYMKizF15fsYd21KEtF6DTshDFvKvojl3rksgDb3v95bE2qBTVgxm0sb/kkZNatgIsVWmDH0DxGj7tA=
+	t=1725849448; cv=none; b=hDKu9XIjLMr77TYOb82szkmt7znIfYSI6VIFlzviuV0C51MQ0u/r9W8EJejqqQt2NJvrT+clqP5YsrivKdDSTJ3jLnVW+ocjQxBbbvFwQO/UA8VaUdFJV5z5T1Z3RPY6Uk9a89LpPASXr0kpeNO0llvBVf7s7UWRNbRHscHZta0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725847423; c=relaxed/simple;
-	bh=iq3nvBmfllRTiJyTA94ksSdjaG4lbdwMfupgOFpV+nk=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=QspLAUOXl2hRilSQCmnoKoX9K+egiv5UrL3GSeey4urTkDnWQ8/6Zsbs4Ri3UYEBo1qEWCtO2M1Vz8YQc5bg4WSIAKYBt1Gn+rGDSYoiD2+4qFGuRbHEEvEz81x0SAJPAu5wdjwxRsavo01Pkrhp1FgNz68aD+7yTWVURJjaMco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com; spf=pass smtp.mailfrom=flygoat.com; dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b=Bk5lpu29; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AiMcD2ed; arc=none smtp.client-ip=103.168.172.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flygoat.com
+	s=arc-20240116; t=1725849448; c=relaxed/simple;
+	bh=O+0mjkCthsATG7MeX0u3pNw32ndnergdq01LWGku7oo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uIiHZMmvtyvvLsP5de3CvwWKQbLJiYngAVMUaRBKN80MhrTwuzZDu2OgwaSkwVwyP7UYin9RhxGvCTcgNtRUCEd8u2T3+vXKkCbFfmnm9Xil7dX5DwQJA2KgF9ZS19WOnkttX+B4VMWjPyaYLiRMjld1xxUZkK/hzQOLcIwKajY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gTC7grNA; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b="Bk5lpu29";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AiMcD2ed"
-Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
-	by mailfout.phl.internal (Postfix) with ESMTP id AA4701380204;
-	Sun,  8 Sep 2024 22:03:40 -0400 (EDT)
-Received: from phl-imap-12 ([10.202.2.86])
-  by phl-compute-09.internal (MEProxy); Sun, 08 Sep 2024 22:03:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1725847420;
-	 x=1725933820; bh=q7tWMu/BR29AlMFdHva1ZVq5cMfk2jme775waWAHW4I=; b=
-	Bk5lpu29vUgR/3Yn+f0b5v7DMMh0IzJ/nuAymzxv9M6NlzFcmgIQSk4PHOfdnGI0
-	5YDNexb9uJJl0C9xYm3R0A1Own2HWMHuacJRBynPJ/vc1pxEBB6YWDv1hERcSNFu
-	YD3RJmNUAHLOMeuJx/mYmLdI05rqDslLRSrZNN73CaEW7Jqchs0qvzNXOzVXJRYc
-	HFMtM12CTC2svJYGvroc3YHDCRsIFWwHw036986plVOpUFBH075vrz9stlx6uI9Z
-	Ye30mY4T2D4Ahf79p9IbuQT9PB4/kXjtyeX9H2wgcxHpiqA5C1E6tp6ZOwBVcoZT
-	h0p+uSjlwrBL0u51wAzlRA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1725847420; x=
-	1725933820; bh=q7tWMu/BR29AlMFdHva1ZVq5cMfk2jme775waWAHW4I=; b=A
-	iMcD2edf/MFm2reD7Pe+RDelZuG6Af9igc3mlePjx6rRBlIP720RhVqIrLm5goo2
-	0sDpFNUPjTcPk6jvO+rHmWookXLeBF40nhmGTUVWbTbj0ppFyIBkkeQ8ZM4rJ0CO
-	OrSkoa1M69vVOwbVQO5dRRyoQKg1t4qFG9py/KOUjC7KvbTzN2Qd+NTql/atqMLo
-	zK+xRokwW36er0DVdFNWPBKEc2v2Se+kDzQ7MJ6c4PUw8GXuhnL1+4Q9m/WpN86r
-	kUp3Vf3+lQj2dKf1uzqbRMPVZ+7+UbLGAFQ6YWtVLOw21zW+HpZKbx26ggHGadsQ
-	TukFb3B2I+I0jcrcy9z5g==
-X-ME-Sender: <xms:eVfeZga7McnadKJCaQQWsb2eJcqBlYfKCjYh9WXuqj4pFtNXHIfy9A>
-    <xme:eVfeZrYhsj0Kpuysh4j38emYhQh2PihN-Pt_4hoycuAN625NgrynsstYDZRWrbSKr
-    65R7PfRgQjMqLiY4_E>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudeiiedgheeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdej
-    necuhfhrohhmpedflfhirgiguhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfh
-    hlhihgohgrthdrtghomheqnecuggftrfgrthhtvghrnhepjeehfeduvddtgffgvdffkeet
-    hefhlefgvdevvdekuefffeekheehgeevhfevteejnecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgr
-    thdrtghomhdpnhgspghrtghpthhtohepgedtpdhmohguvgepshhmthhpohhuthdprhgtph
-    htthhopegsphesrghlihgvnhekrdguvgdprhgtphhtthhopehtshgsohhgvghnugesrghl
-    phhhrgdrfhhrrghnkhgvnhdruggvpdhrtghpthhtohepmhgrrhhkrdhruhhtlhgrnhguse
-    grrhhmrdgtohhmpdhrtghpthhtoheprghnthhonhdrihhvrghnohhvsegtrghmsghrihgu
-    ghgvghhrvgihshdrtghomhdprhgtphhtthhopehnihgtohhlrghssehfjhgrshhlvgdrvg
-    hupdhrtghpthhtohepghgrrhihsehgrghrhihguhhordhnvghtpdhrtghpthhtoheprghl
-    vgigrdhgrgihnhhorhesghhmrghilhdrtghomhdprhgtphhtthhopegsohhquhhnrdhfvg
-    hnghesghhmrghilhdrtghomhdprhgtphhtthhopeifvggushhonhgrfhesghhmrghilhdr
-    tghomh
-X-ME-Proxy: <xmx:eVfeZq82Si7Ov1P0ceKc9b73LdRBt8tM9bl11ajO0H9HMSey8fBmew>
-    <xmx:eVfeZqru8dIgbxqlpz6eU85vngqVk1J42POs9tLH2koG0mcEdAphlw>
-    <xmx:eVfeZroea9p-6eaSAdAFy43eTiDrsJXCZGdRMaWD7ztowxSVvv0I9A>
-    <xmx:eVfeZoTNlV0UHz4H3XGfD6_2zkin4Y6FcnMzKZjcMDfcQ0AoycKivQ>
-    <xmx:fFfeZr5uL035KrNYQjYTCr3GGysD5Rwts1Yq1o6WsVSlM70w6h-BuAyR>
-Feedback-ID: ifd894703:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id CAC1D1C20065; Sun,  8 Sep 2024 22:03:37 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gTC7grNA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725849446; x=1757385446;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=O+0mjkCthsATG7MeX0u3pNw32ndnergdq01LWGku7oo=;
+  b=gTC7grNA1vlB7yNoIYi7KwZCIY0kArnqzQxt9y+wO6LYv1YXkTc1R5fg
+   TLiNtMPUYhMKvlTQK6qjwxdCmDxga9tdfNe+NmrWJzmChC3v0mX+Ue2PH
+   RAt/58rq2m1AgOgwpquzRYxKY+yl5FujZ8SK9nA6UPgqB8roFWE61O+Fh
+   ajtLZro3jXyKA4cnpLkTfVfcw4ewNhRf8pvXF139kBndjjBNvUz4aSy5m
+   +9FJtYgG4xQGRMRJ79uU9CXgzg+Wclze2RzfS3HVmTKCvR2AWwqM34va3
+   dGxS66Y4/FufdX5A47sxKt5lVfkW5VkXs7a/xRKt7OrTpzZw2KrgQo8kN
+   A==;
+X-CSE-ConnectionGUID: y4/1RfehSESzRjtwrB8Qtw==
+X-CSE-MsgGUID: MAYxHBOqR769yiPTPhxLDw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="35116338"
+X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
+   d="scan'208";a="35116338"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 19:37:25 -0700
+X-CSE-ConnectionGUID: Hn3HVCeLScqiIBMtNxxKEQ==
+X-CSE-MsgGUID: 12+elI1BSBqCKsDT8dkM9w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
+   d="scan'208";a="66511125"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 08 Sep 2024 19:37:18 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1snUHE-000EDZ-1I;
+	Mon, 09 Sep 2024 02:37:16 +0000
+Date: Mon, 9 Sep 2024 10:36:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>, Jens Axboe <axboe@kernel.dk>,
+	Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Asutosh Das <quic_asutoshd@quicinc.com>,
+	Ritesh Harjani <ritesh.list@gmail.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Avri Altman <avri.altman@wdc.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Gaurav Kashyap <quic_gaurkash@quicinc.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dm-devel@lists.linux.dev
+Subject: Re: [PATCH v6 11/17] soc: qcom: ice: add support for generating,
+ importing and preparing keys
+Message-ID: <202409091043.FwxHoaRd-lkp@intel.com>
+References: <20240906-wrapped-keys-v6-11-d59e61bc0cb4@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 09 Sep 2024 03:01:45 +0100
-From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
-To: "Maciej W. Rozycki" <macro@orcam.me.uk>
-Cc: "Masahiro Yamada" <masahiroy@kernel.org>,
- "Nathan Chancellor" <nathan@kernel.org>,
- "Nicolas Schier" <nicolas@fjasle.eu>,
- "Richard Weinberger" <richard@nod.at>,
- "Anton Ivanov" <anton.ivanov@cambridgegreys.com>,
- "Johannes Berg" <johannes@sipsolutions.net>,
- "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
- "Borislav Petkov" <bp@alien8.de>,
- "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, "Miguel Ojeda" <ojeda@kernel.org>,
- "Alex Gaynor" <alex.gaynor@gmail.com>,
- "Wedson Almeida Filho" <wedsonaf@gmail.com>,
- "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- "Benno Lossin" <benno.lossin@proton.me>,
- "Andreas Hindborg" <a.hindborg@samsung.com>,
- "Alice Ryhl" <aliceryhl@google.com>,
- "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
- "Steven Rostedt" <rostedt@goodmis.org>,
- "Masami Hiramatsu" <mhiramat@kernel.org>,
- "Mark Rutland" <mark.rutland@arm.com>,
- "Jonathan Corbet" <corbet@lwn.net>, "Alex Shi" <alexs@kernel.org>,
- "Yanteng Si" <siyanteng@loongson.cn>,
- "Nick Desaulniers" <ndesaulniers@google.com>,
- "Bill Wendling" <morbo@google.com>,
- "Justin Stitt" <justinstitt@google.com>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
- rust-for-linux@vger.kernel.org,
- "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- llvm@lists.linux.dev
-Message-Id: <035ccfe5-c368-4cd9-8e0d-34e0e355cb05@app.fastmail.com>
-In-Reply-To: <alpine.DEB.2.21.2409082138160.60835@angie.orcam.me.uk>
-References: <20240905-mips-rust-v2-0-409d66819418@flygoat.com>
- <20240905-mips-rust-v2-3-409d66819418@flygoat.com>
- <alpine.DEB.2.21.2409082138160.60835@angie.orcam.me.uk>
-Subject: Re: [PATCH v2 3/3] rust: Enable for MIPS
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240906-wrapped-keys-v6-11-d59e61bc0cb4@linaro.org>
+
+Hi Bartosz,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on ad40aff1edffeccc412cde93894196dca7bc739e]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/blk-crypto-add-basic-hardware-wrapped-key-support/20240907-023147
+base:   ad40aff1edffeccc412cde93894196dca7bc739e
+patch link:    https://lore.kernel.org/r/20240906-wrapped-keys-v6-11-d59e61bc0cb4%40linaro.org
+patch subject: [PATCH v6 11/17] soc: qcom: ice: add support for generating, importing and preparing keys
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240909/202409091043.FwxHoaRd-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409091043.FwxHoaRd-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409091043.FwxHoaRd-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/soc/qcom/ice.c:470: warning: Function parameter or struct member 'ice' not described in 'qcom_ice_generate_key'
+>> drivers/soc/qcom/ice.c:495: warning: Function parameter or struct member 'ice' not described in 'qcom_ice_prepare_key'
+>> drivers/soc/qcom/ice.c:519: warning: Function parameter or struct member 'ice' not described in 'qcom_ice_import_key'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
+   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
+   Selected by [y]:
+   - TI_K3_M4_REMOTEPROC [=y] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
 
 
+vim +470 drivers/soc/qcom/ice.c
 
-=E5=9C=A82024=E5=B9=B49=E6=9C=888=E6=97=A5=E4=B9=9D=E6=9C=88 =E4=B8=8B=E5=
-=8D=889:43=EF=BC=8CMaciej W. Rozycki=E5=86=99=E9=81=93=EF=BC=9A
-> On Thu, 5 Sep 2024, Jiaxun Yang wrote:
->
->> diff --git a/scripts/generate_rust_target.rs b/scripts/generate_rust_=
-target.rs
->> index 863720777313..bbdf8a4dd169 100644
->> --- a/scripts/generate_rust_target.rs
->> +++ b/scripts/generate_rust_target.rs
-> [...]
->> +        } else {
->> +            ts.push("arch", "mips");
->> +            cfg.get("TARGET_ISA_REV").map(|isa_rev| {
->> +                let feature =3D match isa_rev.as_str() {
->> +                    "1" =3D> ",+mips32",
->> +                    "2" =3D> ",+mips32r2",
->> +                    "5" =3D> ",+mips32r5",
->> +                    "6" =3D> ",+mips32r6",
->> +                    _ =3D> ",+mips2",
->
->  What's the consequence of using `mips2' rather than `mips1' here?  Ho=
-w=20
-> about other ISA revisions, e.g. `mips4' (that also applies to the 64BI=
-T=20
-> leg)?
+   457	
+   458	/**
+   459	 * qcom_ice_generate_key() - Generate a wrapped key for inline encryption
+   460	 * @lt_key: long-term wrapped key to be generated, which is
+   461	 *          BLK_CRYPTO_MAX_HW_WRAPPED_KEY_SIZE in size.
+   462	 *
+   463	 * Make a scm call into trustzone to generate a wrapped key for storage
+   464	 * encryption using hwkm.
+   465	 *
+   466	 * Returns: 0 on success, -errno on failure.
+   467	 */
+   468	int qcom_ice_generate_key(struct qcom_ice *ice,
+   469				  u8 lt_key[BLK_CRYPTO_MAX_HW_WRAPPED_KEY_SIZE])
+ > 470	{
+   471		size_t wk_size = QCOM_ICE_HWKM_WRAPPED_KEY_SIZE(ice->hwkm_version);
+   472	
+   473		if (!qcom_scm_generate_ice_key(lt_key, wk_size))
+   474			return wk_size;
+   475	
+   476		return 0;
+   477	}
+   478	EXPORT_SYMBOL_GPL(qcom_ice_generate_key);
+   479	
+   480	/**
+   481	 * qcom_ice_prepare_key() - Prepare a long-term wrapped key for inline encryption
+   482	 * @lt_key: longterm wrapped key that was generated or imported.
+   483	 * @lt_key_size: size of the longterm wrapped_key
+   484	 * @eph_key: wrapped key returned which has been wrapped with a per-boot ephemeral key,
+   485	 *           size of which is BLK_CRYPTO_MAX_HW_WRAPPED_KEY_SIZE in size.
+   486	 *
+   487	 * Make a scm call into trustzone to prepare a wrapped key for storage
+   488	 * encryption by rewrapping the longterm wrapped key with a per boot ephemeral
+   489	 * key using hwkm.
+   490	 *
+   491	 * Return: 0 on success; -errno on failure.
+   492	 */
+   493	int qcom_ice_prepare_key(struct qcom_ice *ice, const u8 *lt_key, size_t lt_key_size,
+   494				 u8 eph_key[BLK_CRYPTO_MAX_HW_WRAPPED_KEY_SIZE])
+ > 495	{
+   496		size_t wk_size = QCOM_ICE_HWKM_WRAPPED_KEY_SIZE(ice->hwkm_version);
+   497	
+   498		if (!qcom_scm_prepare_ice_key(lt_key, lt_key_size, eph_key, wk_size))
+   499			return wk_size;
+   500	
+   501		return 0;
+   502	}
+   503	EXPORT_SYMBOL_GPL(qcom_ice_prepare_key);
+   504	
+   505	/**
+   506	 * qcom_ice_import_key() - Import a raw key for inline encryption
+   507	 * @imp_key: raw key that has to be imported
+   508	 * @imp_key_size: size of the imported key
+   509	 * @lt_key: longterm wrapped key that is imported, which is
+   510	 *          BLK_CRYPTO_MAX_HW_WRAPPED_KEY_SIZE in size.
+   511	 *
+   512	 * Make a scm call into trustzone to import a raw key for storage encryption
+   513	 * and generate a longterm wrapped key using hwkm.
+   514	 *
+   515	 * Return: 0 on success; -errno on failure.
+   516	 */
+   517	int qcom_ice_import_key(struct qcom_ice *ice, const u8 *imp_key, size_t imp_key_size,
+   518				u8 lt_key[BLK_CRYPTO_MAX_HW_WRAPPED_KEY_SIZE])
+ > 519	{
+   520		size_t wk_size = QCOM_ICE_HWKM_WRAPPED_KEY_SIZE(ice->hwkm_version);
+   521	
+   522		if (!qcom_scm_import_ice_key(imp_key, imp_key_size, lt_key, wk_size))
+   523			return wk_size;
+   524	
+   525		return 0;
+   526	}
+   527	EXPORT_SYMBOL_GPL(qcom_ice_import_key);
+   528	
 
-LLVM's mips1 backend is a little bit broken beyond repair, so I tried to=
- use mips2
-as a baseline. I should probably let HAVE_RUST depend on !CPU_R3000 to g=
-et it covered.
-
-We have no good way to tell ISA reversion prior to R1 just from Kconfig =
-TARGET_ISA_REV,
-valid numbers for TARGET_ISA_REV are only 1, 2, 5, 6 from Kconfig.
-
-Given that mips 2 and 3 binaries (Rust object files) can link run flawle=
-ssly on all pre-R6
-(despite R3000) hardware with matching bitness, they were chosen as fall=
-back here.
-
-Thanks
->
->   Maciej
-
---=20
-- Jiaxun
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
