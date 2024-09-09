@@ -1,48 +1,48 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7931B141E;
-	Mon,  9 Sep 2024 08:28:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E08A01B375B;
+	Mon,  9 Sep 2024 08:28:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725870498; cv=none; b=s00GuMO8bmPnkap6iOS9jF2dg+M0Or1WGNHawIeEuC1ak8qQwCOB0ld4uwdIfwnrTYDnd3pAHYqpnqDyyDgqO7bafa1DUbOy6lRJTXIAxkRP/4DtXQZ4xpJdk1meXlykt7wCwibqjka4gKND86JR8pEkURJkEhtxFuSSFN0Jh/M=
+	t=1725870514; cv=none; b=iGnu0zs1rwRMJORrNS70B4lvGkGrKxTTiMM/WxEFWIj2slgArYNGy8Gn1Ep1L+F0GxfoQmgjf5vwld0DewPBFt+XbjbN9qqzZjJHLY/OqbUo4DCOSPa0t+ZAbI+bOEVANmEfd189WbqBWlWrn9zjxwhNhQsbucFb3l7rAGVFOJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725870498; c=relaxed/simple;
-	bh=h7a40xJEsSy5K3OxX1zTNWZaRI04YfSGn4CI0EKDF8g=;
+	s=arc-20240116; t=1725870514; c=relaxed/simple;
+	bh=sfvsNr5K/hiEOOk8WIX3Bn/QtJvcLwOU4UcxKthOj3c=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OoxqihjvjGyQt3Fkc2dWi9xJ7igpYooi/G2xPlWuzf9MG8lWGWkACH4M+CRTXT8BFZFul/0jRFIHKHcf7Xh5vyfQQBd5Pp1ulL8ZITRJ/pFzWWGeEGYBOzZgDIjbeSceVApl02nFo3OrGYYj35LAByyuQbU8tiybEMQt9Cf5mGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=VPNz+2Dt; arc=none smtp.client-ip=68.232.153.233
+	 MIME-Version:Content-Type; b=OYVqyQqxcKd6KkkoIzR8MEXy74n5a80G3lF+N5lvO1gMElODsNLrvJoACG7G6xOLXHVfJQMaAZFXR9luFi2XWXd7kJq/uy73FniD2igFcjQpxo4t1ehCahSlBVM4v3BjqgcJDB1x3G8cWueKGaXASt4eKV3eeXRC/Pad02ZrJ5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=a1L81H8R; arc=none smtp.client-ip=68.232.154.123
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="VPNz+2Dt"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="a1L81H8R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1725870498; x=1757406498;
+  t=1725870512; x=1757406512;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=h7a40xJEsSy5K3OxX1zTNWZaRI04YfSGn4CI0EKDF8g=;
-  b=VPNz+2Dt7jcPQ+iKLG1x5Ymd2VdijrgOnWzHYGgWBVsQihdXtsJTTxWR
-   o+5KINjaPIYTNlkp8f48c5g52naeAbbC8HhuKKwfDLc76MnR9obuz6Gz1
-   v8PCXMTo4K8PB0q7VGAkAF8ErcQZOfAhxAm8gAU23wQVBd4ATSWtUZFb1
-   +isqXALFymMB0av65u7kSdKXcli3s3yBkJJt+f+hIBFG77RUI0IINggno
-   5C1gnR9Fgs+LlqbJsEgtm0JJcwHEZ5qM27Q8MMYWvZPnZsq6hzJwleshv
-   +IZSM5Y+GGIxora65zS77QQZDQFp+DGnQjf0DxIAMKL2KcYOX5wERIEgE
-   g==;
-X-CSE-ConnectionGUID: Z/y7ygwVR+qaQBBhmAQUgg==
-X-CSE-MsgGUID: g6yRFxW9Q3epg1iX8o+ZTw==
+  bh=sfvsNr5K/hiEOOk8WIX3Bn/QtJvcLwOU4UcxKthOj3c=;
+  b=a1L81H8RKoARe32cd8Z5Fljkbai8RtsLuJDoGEs2QeXU8bXc7XvCgmOz
+   4rxPEcIrzC3UW7oIEM1e5SEzUEYd1EhfY5wSqRG1826frH0GPJ0z2rsVy
+   g7HNDY1kd47rA+GCJ23QiVEMTTm5aeqb917badgIpIZIXeh0C1ls+FwIx
+   tENdLdbq8bOk6pOG4HD+gJacpI7Wh17c6ARWTaghUKlz9+9qE6LG6vVqV
+   mn3CDIByPpAQZYqeMr+n8wrtIYv3xpoU15yBAOGdsgW+64ROx+HLdFY6U
+   WEl1EB+xxxjne1S6PRt0YJIdoNluajDNQxteWKFRy0CsfwEQTzPR6DfTT
+   A==;
+X-CSE-ConnectionGUID: ASzx8kNERhu8wJ4WimobFg==
+X-CSE-MsgGUID: oQQFZyUeT2esqUXJBqlJJg==
 X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="31495050"
+   d="scan'208";a="198940031"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 09 Sep 2024 01:28:16 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 09 Sep 2024 01:28:30 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
+ chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 9 Sep 2024 01:27:38 -0700
+ 15.1.2507.35; Mon, 9 Sep 2024 01:28:00 -0700
 Received: from che-ll-i17164.microchip.com (10.10.85.11) by
  chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Mon, 9 Sep 2024 01:27:28 -0700
+ 15.1.2507.35 via Frontend Transport; Mon, 9 Sep 2024 01:27:50 -0700
 From: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
 To: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
 	<pabeni@redhat.com>, <horms@kernel.org>, <saeedm@nvidia.com>,
@@ -60,10 +60,11 @@ CC: <parthiban.veerasooran@microchip.com>, <masahiroy@kernel.org>,
 	<Pier.Beruto@onsemi.com>, <Selvamani.Rajagopal@onsemi.com>,
 	<Nicolas.Ferre@microchip.com>, <benjamin.bigler@bernformulastudent.ch>,
 	<linux@bigler.io>, <markku.vorne@kempower.com>, Parthiban Veerasooran
-	<Parthiban.Veerasooran@microchip.com>
-Subject: [PATCH net-next v8 12/14] net: ethernet: oa_tc6: add helper function to enable zero align rx frame
-Date: Mon, 9 Sep 2024 13:55:12 +0530
-Message-ID: <20240909082514.262942-13-Parthiban.Veerasooran@microchip.com>
+	<Parthiban.Veerasooran@microchip.com>, Conor Dooley
+	<conor.dooley@microchip.com>
+Subject: [PATCH net-next v8 14/14] dt-bindings: net: add Microchip's LAN865X 10BASE-T1S MACPHY
+Date: Mon, 9 Sep 2024 13:55:14 +0530
+Message-ID: <20240909082514.262942-15-Parthiban.Veerasooran@microchip.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240909082514.262942-1-Parthiban.Veerasooran@microchip.com>
 References: <20240909082514.262942-1-Parthiban.Veerasooran@microchip.com>
@@ -73,73 +74,118 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-Zero align receive frame feature can be enabled to align all receive
-ethernet frames data to start at the beginning of any receive data chunk
-payload with a start word offset (SWO) of zero. Receive frames may begin
-anywhere within the receive data chunk payload when this feature is not
-enabled.
+The LAN8650/1 combines a Media Access Controller (MAC) and an Ethernet
+PHY to enable 10BASE-T1S networks. The Ethernet Media Access Controller
+(MAC) module implements a 10 Mbps half duplex Ethernet MAC, compatible
+with the IEEE 802.3 standard and a 10BASE-T1S physical layer transceiver
+integrated into the LAN8650/1. The communication between the Host and the
+MAC-PHY is specified in the OPEN Alliance 10BASE-T1x MACPHY Serial
+Interface (TC6).
 
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 Signed-off-by: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
 ---
- drivers/net/ethernet/oa_tc6.c | 24 ++++++++++++++++++++++++
- include/linux/oa_tc6.h        |  1 +
- 2 files changed, 25 insertions(+)
+ .../bindings/net/microchip,lan8650.yaml       | 74 +++++++++++++++++++
+ MAINTAINERS                                   |  1 +
+ 2 files changed, 75 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/net/microchip,lan8650.yaml
 
-diff --git a/drivers/net/ethernet/oa_tc6.c b/drivers/net/ethernet/oa_tc6.c
-index d3510dc19273..f9c0dcd965c2 100644
---- a/drivers/net/ethernet/oa_tc6.c
-+++ b/drivers/net/ethernet/oa_tc6.c
-@@ -23,6 +23,7 @@
- /* Configuration Register #0 */
- #define OA_TC6_REG_CONFIG0			0x0004
- #define CONFIG0_SYNC				BIT(15)
-+#define CONFIG0_ZARFE_ENABLE			BIT(12)
+diff --git a/Documentation/devicetree/bindings/net/microchip,lan8650.yaml b/Documentation/devicetree/bindings/net/microchip,lan8650.yaml
+new file mode 100644
+index 000000000000..61e11d4a07c4
+--- /dev/null
++++ b/Documentation/devicetree/bindings/net/microchip,lan8650.yaml
+@@ -0,0 +1,74 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/net/microchip,lan8650.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Microchip LAN8650/1 10BASE-T1S MACPHY Ethernet Controllers
++
++maintainers:
++  - Parthiban Veerasooran <parthiban.veerasooran@microchip.com>
++
++description:
++  The LAN8650/1 combines a Media Access Controller (MAC) and an Ethernet
++  PHY to enable 10BASE‑T1S networks. The Ethernet Media Access Controller
++  (MAC) module implements a 10 Mbps half duplex Ethernet MAC, compatible
++  with the IEEE 802.3 standard and a 10BASE-T1S physical layer transceiver
++  integrated into the LAN8650/1. The communication between the Host and
++  the MAC-PHY is specified in the OPEN Alliance 10BASE-T1x MACPHY Serial
++  Interface (TC6).
++
++allOf:
++  - $ref: /schemas/net/ethernet-controller.yaml#
++  - $ref: /schemas/spi/spi-peripheral-props.yaml#
++
++properties:
++  compatible:
++    oneOf:
++      - const: microchip,lan8650
++      - items:
++          - const: microchip,lan8651
++          - const: microchip,lan8650
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    description:
++      Interrupt from MAC-PHY asserted in the event of Receive Chunks
++      Available, Transmit Chunk Credits Available and Extended Status
++      Event.
++    maxItems: 1
++
++  spi-max-frequency:
++    minimum: 15000000
++    maximum: 25000000
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - spi-max-frequency
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/gpio/gpio.h>
++
++    spi {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      ethernet@0 {
++        compatible = "microchip,lan8651", "microchip,lan8650";
++        reg = <0>;
++        pinctrl-names = "default";
++        pinctrl-0 = <&eth0_pins>;
++        interrupt-parent = <&gpio>;
++        interrupts = <6 IRQ_TYPE_EDGE_FALLING>;
++        local-mac-address = [04 05 06 01 02 03];
++        spi-max-frequency = <15000000>;
++      };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 89d038c2e94b..1dd3347d8f01 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14983,6 +14983,7 @@ MICROCHIP LAN8650/1 10BASE-T1S MACPHY ETHERNET DRIVER
+ M:	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>
+ L:	netdev@vger.kernel.org
+ S:	Maintained
++F:	Documentation/devicetree/bindings/net/microchip,lan8650.yaml
+ F:	drivers/net/ethernet/microchip/lan865x/lan865x.c
  
- /* Status Register #0 */
- #define OA_TC6_REG_STATUS0			0x0008
-@@ -1163,6 +1164,29 @@ static irqreturn_t oa_tc6_macphy_isr(int irq, void *data)
- 	return IRQ_HANDLED;
- }
- 
-+/**
-+ * oa_tc6_zero_align_receive_frame_enable - function to enable zero align
-+ * receive frame feature.
-+ * @tc6: oa_tc6 struct.
-+ *
-+ * Return: 0 on success otherwise failed.
-+ */
-+int oa_tc6_zero_align_receive_frame_enable(struct oa_tc6 *tc6)
-+{
-+	u32 regval;
-+	int ret;
-+
-+	ret = oa_tc6_read_register(tc6, OA_TC6_REG_CONFIG0, &regval);
-+	if (ret)
-+		return ret;
-+
-+	/* Set Zero-Align Receive Frame Enable */
-+	regval |= CONFIG0_ZARFE_ENABLE;
-+
-+	return oa_tc6_write_register(tc6, OA_TC6_REG_CONFIG0, regval);
-+}
-+EXPORT_SYMBOL_GPL(oa_tc6_zero_align_receive_frame_enable);
-+
- /**
-  * oa_tc6_start_xmit - function for sending the tx skb which consists ethernet
-  * frame.
-diff --git a/include/linux/oa_tc6.h b/include/linux/oa_tc6.h
-index 5c7811ac9cbe..15f58e3c56c7 100644
---- a/include/linux/oa_tc6.h
-+++ b/include/linux/oa_tc6.h
-@@ -21,3 +21,4 @@ int oa_tc6_read_register(struct oa_tc6 *tc6, u32 address, u32 *value);
- int oa_tc6_read_registers(struct oa_tc6 *tc6, u32 address, u32 value[],
- 			  u8 length);
- netdev_tx_t oa_tc6_start_xmit(struct oa_tc6 *tc6, struct sk_buff *skb);
-+int oa_tc6_zero_align_receive_frame_enable(struct oa_tc6 *tc6);
+ MICROCHIP LAN87xx/LAN937x T1 PHY DRIVER
 -- 
 2.34.1
 
