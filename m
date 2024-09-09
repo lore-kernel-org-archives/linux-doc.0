@@ -1,131 +1,174 @@
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout8-smtp.messagingengine.com (fout8-smtp.messagingengine.com [103.168.172.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB4817BAF;
-	Mon,  9 Sep 2024 01:56:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0BD4C81;
+	Mon,  9 Sep 2024 02:03:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725847002; cv=none; b=jTaSOn1Hg30vYeVY+8WwUX0BwoH+LPcg+iBd5EezTmLbcBnoouGz5j+HyD+FLOtX4Y7pJwq/2hACBclPHCJkppqs58Ss8sRAAtmPRpFM2eU3C0DeW0ZULjGWOMLGQawA6RvOJ31On5XF4LG3Rlf7wGx/Q9mvqeEWeRfItXd6WqE=
+	t=1725847423; cv=none; b=K++CqWaoKgwhPewL7DTAScqb0qR9LeBR0CwCeBA0E6rmDg0CYqjHSe2o6RY/FZJqEeyld9qSVZlVdqrY/ciH0DclYbY2hYMKizF15fsYd21KEtF6DTshDFvKvojl3rksgDb3v95bE2qBTVgxm0sb/kkZNatgIsVWmDH0DxGj7tA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725847002; c=relaxed/simple;
-	bh=uxJr8HI575cU2I9eRQ0A18f0JZR5HN+ogm4wbuf+hzo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Gi7nTPmScNgDXDy7g0ZHycyPBSdAdFMKAGWqYLhWyYYfw1//MLb8yvLtcZIkEwJvPmzLCdUCI6p05/04TY1unz07RvFL9weiEojEgYAgSVH3LZYW7LXzLdg20tbPgM3R4Ne/cFsvGlKGSqiEJxHoMYJrKJL1NWNC1BBRtcLYxVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cPJKxqVp; arc=none smtp.client-ip=209.85.160.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1725847423; c=relaxed/simple;
+	bh=iq3nvBmfllRTiJyTA94ksSdjaG4lbdwMfupgOFpV+nk=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=QspLAUOXl2hRilSQCmnoKoX9K+egiv5UrL3GSeey4urTkDnWQ8/6Zsbs4Ri3UYEBo1qEWCtO2M1Vz8YQc5bg4WSIAKYBt1Gn+rGDSYoiD2+4qFGuRbHEEvEz81x0SAJPAu5wdjwxRsavo01Pkrhp1FgNz68aD+7yTWVURJjaMco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com; spf=pass smtp.mailfrom=flygoat.com; dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b=Bk5lpu29; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AiMcD2ed; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flygoat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cPJKxqVp"
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-2781cb281abso2418763fac.1;
-        Sun, 08 Sep 2024 18:56:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725846999; x=1726451799; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kyyARlWipjDoS0SXZOFTgBRApilxAcItlWIAe+irTHY=;
-        b=cPJKxqVptBcHzeRpBiDZinvN8295d0xWN0Mxo8d0XRdZNInwLDpba3mJnY0sYaLdbi
-         esa9hbO1PjLDHgBFagEiNsAARRDtF5xcwCvyuPw0ksghKEDfnqKdEiUU5NjiDy9awLQe
-         ayflvc/Nl2FAeKcrMEAGLwSs/sv6hSxEjPCCpg+YVXAUkSAAxeNk2g25q98oxoZTDzWJ
-         LE+1Dlz32Dnp0sLsscT9LzvlTkP+m15j4hQleGzzi5h4hKv2Xdqx4PpLE6393rWAIP4O
-         t6kujlbKTqCF24ojJ/trhsaSD7zpZWpHd0cz/P+32DAWsCoZQZFKwRzX+8K/IF4rXi65
-         08BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725846999; x=1726451799;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kyyARlWipjDoS0SXZOFTgBRApilxAcItlWIAe+irTHY=;
-        b=YpAfWjPsWYx02VGElAS0JpAWhurXKsArNfoK9T/DM06l1WDcgdeiv9qzpUok47PVC7
-         MWw5qA9Alj0kPCWSF3ZltzKPZiVdQnFvwKkL4BedX+TOMNhB7Cxs3eookY6MhKRCBYYy
-         I98Qh7/VrjYl/Not9iQlBwgsgm7zF1MUcxdOBGxx1dDMHn2bvARlcmNVnizeWs128DeS
-         Z5xtdeonBJ64h5VPB5P9KLArECXLFTFhhRCftpUu8wcyTf/DBvb6NhMhCLAerkTn4ego
-         FLxNmDVaNvKFE/dHE3dfIjs4zPySOygJZP5lKNUnE14UVDQ0OMbTIc+tI1f6PhGzNUEj
-         Rlvg==
-X-Forwarded-Encrypted: i=1; AJvYcCU4Ls3eVbh+TDL4Db+wwaUJAm5kU6148PqmBXTw9wqLDqnlWiUxXEZJOCWu9kMqhea5uAIKNaA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9cXnxTSF1gSbBV9bSo3p0JiA8DI1hysxmmwChOfcpQBwH0pP7
-	YITdVCBKvKrpcOFV99JsdtfENNLKwuMxE904z3bTcpl1dvDLePdydgReSRgvk6w=
-X-Google-Smtp-Source: AGHT+IHIcMfR6tKoVLZBNHKv5FNTdutQDAsjuGdjLHy/AfrRBRx6UpYJw5MYPopSaUWwp5GeoCS4kw==
-X-Received: by 2002:a05:6870:b4a2:b0:277:f9d5:e85 with SMTP id 586e51a60fabf-27b9d8dcd2emr7760897fac.22.1725846999599;
-        Sun, 08 Sep 2024 18:56:39 -0700 (PDT)
-Received: from KERNELXING-MC1.tencent.com ([43.132.141.20])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-718e5982f09sm2645616b3a.149.2024.09.08.18.56.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Sep 2024 18:56:39 -0700 (PDT)
-From: Jason Xing <kerneljasonxing@gmail.com>
-To: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	dsahern@kernel.org,
-	willemdebruijn.kernel@gmail.com,
-	willemb@google.com,
-	corbet@lwn.net
-Cc: linux-doc@vger.kernel.org,
-	netdev@vger.kernel.org,
-	Jason Xing <kernelxing@tencent.com>
-Subject: [PATCH net-next v6 2/2] net-timestamp: add selftests for SOF_TIMESTAMPING_OPT_RX_FILTER
-Date: Mon,  9 Sep 2024 09:56:12 +0800
-Message-Id: <20240909015612.3856-3-kerneljasonxing@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20240909015612.3856-1-kerneljasonxing@gmail.com>
-References: <20240909015612.3856-1-kerneljasonxing@gmail.com>
+	dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b="Bk5lpu29";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AiMcD2ed"
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
+	by mailfout.phl.internal (Postfix) with ESMTP id AA4701380204;
+	Sun,  8 Sep 2024 22:03:40 -0400 (EDT)
+Received: from phl-imap-12 ([10.202.2.86])
+  by phl-compute-09.internal (MEProxy); Sun, 08 Sep 2024 22:03:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1725847420;
+	 x=1725933820; bh=q7tWMu/BR29AlMFdHva1ZVq5cMfk2jme775waWAHW4I=; b=
+	Bk5lpu29vUgR/3Yn+f0b5v7DMMh0IzJ/nuAymzxv9M6NlzFcmgIQSk4PHOfdnGI0
+	5YDNexb9uJJl0C9xYm3R0A1Own2HWMHuacJRBynPJ/vc1pxEBB6YWDv1hERcSNFu
+	YD3RJmNUAHLOMeuJx/mYmLdI05rqDslLRSrZNN73CaEW7Jqchs0qvzNXOzVXJRYc
+	HFMtM12CTC2svJYGvroc3YHDCRsIFWwHw036986plVOpUFBH075vrz9stlx6uI9Z
+	Ye30mY4T2D4Ahf79p9IbuQT9PB4/kXjtyeX9H2wgcxHpiqA5C1E6tp6ZOwBVcoZT
+	h0p+uSjlwrBL0u51wAzlRA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1725847420; x=
+	1725933820; bh=q7tWMu/BR29AlMFdHva1ZVq5cMfk2jme775waWAHW4I=; b=A
+	iMcD2edf/MFm2reD7Pe+RDelZuG6Af9igc3mlePjx6rRBlIP720RhVqIrLm5goo2
+	0sDpFNUPjTcPk6jvO+rHmWookXLeBF40nhmGTUVWbTbj0ppFyIBkkeQ8ZM4rJ0CO
+	OrSkoa1M69vVOwbVQO5dRRyoQKg1t4qFG9py/KOUjC7KvbTzN2Qd+NTql/atqMLo
+	zK+xRokwW36er0DVdFNWPBKEc2v2Se+kDzQ7MJ6c4PUw8GXuhnL1+4Q9m/WpN86r
+	kUp3Vf3+lQj2dKf1uzqbRMPVZ+7+UbLGAFQ6YWtVLOw21zW+HpZKbx26ggHGadsQ
+	TukFb3B2I+I0jcrcy9z5g==
+X-ME-Sender: <xms:eVfeZga7McnadKJCaQQWsb2eJcqBlYfKCjYh9WXuqj4pFtNXHIfy9A>
+    <xme:eVfeZrYhsj0Kpuysh4j38emYhQh2PihN-Pt_4hoycuAN625NgrynsstYDZRWrbSKr
+    65R7PfRgQjMqLiY4_E>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudeiiedgheeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdej
+    necuhfhrohhmpedflfhirgiguhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfh
+    hlhihgohgrthdrtghomheqnecuggftrfgrthhtvghrnhepjeehfeduvddtgffgvdffkeet
+    hefhlefgvdevvdekuefffeekheehgeevhfevteejnecuvehluhhsthgvrhfuihiivgeptd
+    enucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgr
+    thdrtghomhdpnhgspghrtghpthhtohepgedtpdhmohguvgepshhmthhpohhuthdprhgtph
+    htthhopegsphesrghlihgvnhekrdguvgdprhgtphhtthhopehtshgsohhgvghnugesrghl
+    phhhrgdrfhhrrghnkhgvnhdruggvpdhrtghpthhtohepmhgrrhhkrdhruhhtlhgrnhguse
+    grrhhmrdgtohhmpdhrtghpthhtoheprghnthhonhdrihhvrghnohhvsegtrghmsghrihgu
+    ghgvghhrvgihshdrtghomhdprhgtphhtthhopehnihgtohhlrghssehfjhgrshhlvgdrvg
+    hupdhrtghpthhtohepghgrrhihsehgrghrhihguhhordhnvghtpdhrtghpthhtoheprghl
+    vgigrdhgrgihnhhorhesghhmrghilhdrtghomhdprhgtphhtthhopegsohhquhhnrdhfvg
+    hnghesghhmrghilhdrtghomhdprhgtphhtthhopeifvggushhonhgrfhesghhmrghilhdr
+    tghomh
+X-ME-Proxy: <xmx:eVfeZq82Si7Ov1P0ceKc9b73LdRBt8tM9bl11ajO0H9HMSey8fBmew>
+    <xmx:eVfeZqru8dIgbxqlpz6eU85vngqVk1J42POs9tLH2koG0mcEdAphlw>
+    <xmx:eVfeZroea9p-6eaSAdAFy43eTiDrsJXCZGdRMaWD7ztowxSVvv0I9A>
+    <xmx:eVfeZoTNlV0UHz4H3XGfD6_2zkin4Y6FcnMzKZjcMDfcQ0AoycKivQ>
+    <xmx:fFfeZr5uL035KrNYQjYTCr3GGysD5Rwts1Yq1o6WsVSlM70w6h-BuAyR>
+Feedback-ID: ifd894703:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id CAC1D1C20065; Sun,  8 Sep 2024 22:03:37 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Mon, 09 Sep 2024 03:01:45 +0100
+From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
+To: "Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc: "Masahiro Yamada" <masahiroy@kernel.org>,
+ "Nathan Chancellor" <nathan@kernel.org>,
+ "Nicolas Schier" <nicolas@fjasle.eu>,
+ "Richard Weinberger" <richard@nod.at>,
+ "Anton Ivanov" <anton.ivanov@cambridgegreys.com>,
+ "Johannes Berg" <johannes@sipsolutions.net>,
+ "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, "Miguel Ojeda" <ojeda@kernel.org>,
+ "Alex Gaynor" <alex.gaynor@gmail.com>,
+ "Wedson Almeida Filho" <wedsonaf@gmail.com>,
+ "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ "Benno Lossin" <benno.lossin@proton.me>,
+ "Andreas Hindborg" <a.hindborg@samsung.com>,
+ "Alice Ryhl" <aliceryhl@google.com>,
+ "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
+ "Steven Rostedt" <rostedt@goodmis.org>,
+ "Masami Hiramatsu" <mhiramat@kernel.org>,
+ "Mark Rutland" <mark.rutland@arm.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Alex Shi" <alexs@kernel.org>,
+ "Yanteng Si" <siyanteng@loongson.cn>,
+ "Nick Desaulniers" <ndesaulniers@google.com>,
+ "Bill Wendling" <morbo@google.com>,
+ "Justin Stitt" <justinstitt@google.com>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
+ rust-for-linux@vger.kernel.org,
+ "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ llvm@lists.linux.dev
+Message-Id: <035ccfe5-c368-4cd9-8e0d-34e0e355cb05@app.fastmail.com>
+In-Reply-To: <alpine.DEB.2.21.2409082138160.60835@angie.orcam.me.uk>
+References: <20240905-mips-rust-v2-0-409d66819418@flygoat.com>
+ <20240905-mips-rust-v2-3-409d66819418@flygoat.com>
+ <alpine.DEB.2.21.2409082138160.60835@angie.orcam.me.uk>
+Subject: Re: [PATCH v2 3/3] rust: Enable for MIPS
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Jason Xing <kernelxing@tencent.com>
 
-Test a few possible cases where we use SOF_TIMESTAMPING_OPT_RX_FILTER
-with software or hardware report/generation flag.
 
-Signed-off-by: Jason Xing <kernelxing@tencent.com>
----
-1. add a new combination test when both flags are set at once
----
- tools/testing/selftests/net/rxtimestamp.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+=E5=9C=A82024=E5=B9=B49=E6=9C=888=E6=97=A5=E4=B9=9D=E6=9C=88 =E4=B8=8B=E5=
+=8D=889:43=EF=BC=8CMaciej W. Rozycki=E5=86=99=E9=81=93=EF=BC=9A
+> On Thu, 5 Sep 2024, Jiaxun Yang wrote:
+>
+>> diff --git a/scripts/generate_rust_target.rs b/scripts/generate_rust_=
+target.rs
+>> index 863720777313..bbdf8a4dd169 100644
+>> --- a/scripts/generate_rust_target.rs
+>> +++ b/scripts/generate_rust_target.rs
+> [...]
+>> +        } else {
+>> +            ts.push("arch", "mips");
+>> +            cfg.get("TARGET_ISA_REV").map(|isa_rev| {
+>> +                let feature =3D match isa_rev.as_str() {
+>> +                    "1" =3D> ",+mips32",
+>> +                    "2" =3D> ",+mips32r2",
+>> +                    "5" =3D> ",+mips32r5",
+>> +                    "6" =3D> ",+mips32r6",
+>> +                    _ =3D> ",+mips2",
+>
+>  What's the consequence of using `mips2' rather than `mips1' here?  Ho=
+w=20
+> about other ISA revisions, e.g. `mips4' (that also applies to the 64BI=
+T=20
+> leg)?
 
-diff --git a/tools/testing/selftests/net/rxtimestamp.c b/tools/testing/selftests/net/rxtimestamp.c
-index 9eb42570294d..16ac4df55fdb 100644
---- a/tools/testing/selftests/net/rxtimestamp.c
-+++ b/tools/testing/selftests/net/rxtimestamp.c
-@@ -57,6 +57,8 @@ static struct sof_flag sof_flags[] = {
- 	SOF_FLAG(SOF_TIMESTAMPING_SOFTWARE),
- 	SOF_FLAG(SOF_TIMESTAMPING_RX_SOFTWARE),
- 	SOF_FLAG(SOF_TIMESTAMPING_RX_HARDWARE),
-+	SOF_FLAG(SOF_TIMESTAMPING_OPT_RX_FILTER),
-+	SOF_FLAG(SOF_TIMESTAMPING_RAW_HARDWARE),
- };
- 
- static struct socket_type socket_types[] = {
-@@ -97,6 +99,22 @@ static struct test_case test_cases[] = {
- 			| SOF_TIMESTAMPING_RX_HARDWARE },
- 		{}
- 	},
-+	{
-+		{ .so_timestamping = SOF_TIMESTAMPING_RAW_HARDWARE
-+			| SOF_TIMESTAMPING_OPT_RX_FILTER },
-+		{}
-+	},
-+	{
-+		{ .so_timestamping = SOF_TIMESTAMPING_SOFTWARE
-+			| SOF_TIMESTAMPING_OPT_RX_FILTER },
-+		{}
-+	},
-+	{
-+		{ .so_timestamping = SOF_TIMESTAMPING_SOFTWARE
-+			| SOF_TIMESTAMPING_RX_SOFTWARE
-+			| SOF_TIMESTAMPING_OPT_RX_FILTER },
-+		{ .swtstamp = true }
-+	},
- 	{
- 		{ .so_timestamping = SOF_TIMESTAMPING_SOFTWARE
- 			| SOF_TIMESTAMPING_RX_SOFTWARE },
--- 
-2.37.3
+LLVM's mips1 backend is a little bit broken beyond repair, so I tried to=
+ use mips2
+as a baseline. I should probably let HAVE_RUST depend on !CPU_R3000 to g=
+et it covered.
 
+We have no good way to tell ISA reversion prior to R1 just from Kconfig =
+TARGET_ISA_REV,
+valid numbers for TARGET_ISA_REV are only 1, 2, 5, 6 from Kconfig.
+
+Given that mips 2 and 3 binaries (Rust object files) can link run flawle=
+ssly on all pre-R6
+(despite R3000) hardware with matching bitness, they were chosen as fall=
+back here.
+
+Thanks
+>
+>   Maciej
+
+--=20
+- Jiaxun
