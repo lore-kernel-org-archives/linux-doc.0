@@ -1,213 +1,167 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F327A1B2EDC
-	for <linux-doc@vger.kernel.org>; Mon,  9 Sep 2024 09:44:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06FA81B6521;
+	Mon,  9 Sep 2024 11:21:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725875049; cv=none; b=OWjKihaFINqU1JS6gQCoetr3l+QmfbMDBSKEfGrv33ZNAM0c6s7iwn+ozhH57vokqgzEcJxB2Q/RzTUzOx6TiSki33hP3rzqspvr2lucVa4pNK/DkPKDZDr6xVo5arOaJgTQTDIpAkzfTKDfzdgQYIW6p6OjsrVNIM2siFeQKqg=
+	t=1725880879; cv=none; b=WIlk2qmlacjvxjsTBasZjLd38TEjj0MH8WEWoDkInhQ61/L38l/oc/qqM8XbuK4u7ll97VATLNlGb+O7/A+tN8Lrvgj5X+BHRS/HlKFjQuzp41RmetOJCcGkbHJ4Q2cPn62Dwr8i4obv418EASIckD08nAc4qaSKPIRpMjjLR1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725875049; c=relaxed/simple;
-	bh=bX5jM3kyQKkVdtMEpnz0qCHRxu0QYubOxMm9Z4e9e5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZmaPe7rrX3bjmDw0RNF4jkhSdmRwY98K0Ky7YxffPlyXRBsaqqE5CJCSnR83HT3Yg3/tJpI9/lgWE5OvDcq7v+UFMZw+XBcdMPl1Olle5L0J5mr8XcLVmdCOtiSZMyBGELyeHU7BSeYtFeFc2KPVbQCieYgZC/L4jOQ8ITYuboM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=erF4b8WV; arc=none smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="erF4b8WV"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2f74b6e1810so35547511fa.2
-        for <linux-doc@vger.kernel.org>; Mon, 09 Sep 2024 02:44:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725875045; x=1726479845; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ayxt9tW30pARsBtY4uNjtVx6woJrfLpJGoVganqLqLs=;
-        b=erF4b8WVYYjPBBInFSA5pdPTCmm8ktqbUjqKsGrppLo+LC/gX4YB7cVT4dQW2zbSEF
-         DJOPr4Ckb++NmzuVVxl68oxyc/taBSqCauZCybvuWvTWOXye+G1jDEkGV91kse94tmFm
-         1lX1V4F78W789A4wMYkQjlnji0+hQd6E6UgzqPZO9DXTLhBAU73OFA1JwyJtBR8GTahL
-         Lw5Y7XjgZNses3QmN47MGQwHcQa0rqLOvbU7MwF0QVhuw7Rmu+UCS7/+kpsZLGkklWH7
-         2/wSiLvpXI4WdvIXhtBPeWMO7EZDAiH8TsD24RbVyl8wq6uvQzoyenekgvRmY/D9uG2/
-         8bXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725875045; x=1726479845;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ayxt9tW30pARsBtY4uNjtVx6woJrfLpJGoVganqLqLs=;
-        b=QSV4I2sbItuxGnuX4DJl9so3LDLkQZfSw/fxFTlUsTrne0ac4wm+ZxM7GUVsdkSdfZ
-         zEJbelX9Gz9MmgkXeVLcXRUyD9zI5dHl66fpStd68eJ4RBxsjPl2miDfYlFobhBZsuWP
-         /18/fLnO8c1MHsJvbtiCaqkBnsnj+DkBaoAp5K8EbukpAJ8JjtAYzWcMfG7YjwG20ml1
-         rqgjEvMBkvyCRw8KuOmh96QkjAdI/OGw2diJCBDZBTlwGqvs/i0yGhzDFrHJq/H/bpIP
-         St3A6UYwCSwDT6oYEuBm0F7QXUXoAyTl9z/QxLzbqiqsMB9wZc5xra07Hf3BUIhrfxOI
-         UDKA==
-X-Forwarded-Encrypted: i=1; AJvYcCVVIZvdieqiOYTH9HwGVb7FQVHoIIJJH7ZByzUjkF6d1OSc7+yan02xKrpVVzo1E9N56uGzCTd10XM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnoZ1g21gnUCmTtCFivyf4R5zTskPh8UrXivN3B5NW7mcvYplp
-	2svfc2rDWQBHZQNocS8857u6z1BugnVbLopfJ9xySTYbq4MSV0MR6llYmStzU08=
-X-Google-Smtp-Source: AGHT+IFfJZf4aCicpleqZE+fxLlnGBGZEfKHivmNdx0kcBfFkbzhf0hjKD5P+CTHE0X5P4PgDl4WVQ==
-X-Received: by 2002:a05:651c:211e:b0:2ef:251f:785 with SMTP id 38308e7fff4ca-2f751eb30d8mr74440981fa.1.1725875044071;
-        Mon, 09 Sep 2024 02:44:04 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f75c098cd3sm7416661fa.113.2024.09.09.02.44.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Sep 2024 02:44:03 -0700 (PDT)
-Date: Mon, 9 Sep 2024 12:44:02 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Jens Axboe <axboe@kernel.dk>, 
-	Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>, 
-	Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, 
-	Adrian Hunter <adrian.hunter@intel.com>, Asutosh Das <quic_asutoshd@quicinc.com>, 
-	Ritesh Harjani <ritesh.list@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Avri Altman <avri.altman@wdc.com>, 
-	Bart Van Assche <bvanassche@acm.org>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Eric Biggers <ebiggers@kernel.org>, 
-	"Theodore Y. Ts'o" <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Gaurav Kashyap <quic_gaurkash@quicinc.com>, 
-	linux-block@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	dm-devel@lists.linux.dev, linux-mmc@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH v6 09/17] soc: qcom: ice: add HWKM support to the ICE
- driver
-Message-ID: <ivibs6qqxhbikaevys3iga7s73xq6dzq3u43gwjri3lozkrblx@jxlmwe5wiq7e>
-References: <20240906-wrapped-keys-v6-0-d59e61bc0cb4@linaro.org>
- <20240906-wrapped-keys-v6-9-d59e61bc0cb4@linaro.org>
- <7uoq72bpiqmo2olwpnudpv3gtcowpnd6jrifff34ubmfpijgc6@k6rmnalu5z4o>
- <66953e65-2468-43b8-9ccf-54671613c4ab@linaro.org>
+	s=arc-20240116; t=1725880879; c=relaxed/simple;
+	bh=5iq6aZDboxm6ZGBWINtqBy3Uim6XKZaYNeKYLJYVdrw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=T+QWNY54DCqy2zPPoRVSSJkjj/8uwEAgnKXVw2dSQREBsXaWSt9Hw0Ja/hQCu7pfykQLvUYrMxnddHws8bYTwatmDsPArnoyA0m4xW2lxXO4i7QM+l8X8Nxa3GtVk9YDMHLdviWi5ihRH19TvZFqUOCeOIF3Xmyqm2WTVi/ZerU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.44])
+	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4X2PXm2Sy2z1xv0C;
+	Mon,  9 Sep 2024 19:21:12 +0800 (CST)
+Received: from dggpemf200006.china.huawei.com (unknown [7.185.36.61])
+	by mail.maildlp.com (Postfix) with ESMTPS id EE4911400DC;
+	Mon,  9 Sep 2024 19:21:13 +0800 (CST)
+Received: from [10.67.120.129] (10.67.120.129) by
+ dggpemf200006.china.huawei.com (7.185.36.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 9 Sep 2024 19:21:13 +0800
+Message-ID: <42c202e6-8c4c-494f-8c28-17d66ed75880@huawei.com>
+Date: Mon, 9 Sep 2024 19:21:05 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <66953e65-2468-43b8-9ccf-54671613c4ab@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v25 00/13] Device Memory TCP
+To: Mina Almasry <almasrymina@google.com>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-alpha@vger.kernel.org>, <linux-mips@vger.kernel.org>,
+	<linux-parisc@vger.kernel.org>, <sparclinux@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+	<bpf@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
+CC: Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Richard
+ Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky
+	<ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, Thomas
+ Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+	<James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+	<hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+	<arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert Xu
+	<herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem de
+ Bruijn <willemdebruijn.kernel@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
+	<bjorn@kernel.org>, Magnus Karlsson <magnus.karlsson@intel.com>, Maciej
+ Fijalkowski <maciej.fijalkowski@intel.com>, Jonathan Lemon
+	<jonathan.lemon@gmail.com>, Shuah Khan <shuah@kernel.org>, Alexei Starovoitov
+	<ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, John Fastabend
+	<john.fastabend@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, Pavel Begunkov
+	<asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe
+	<jgg@ziepe.ca>, Shailend Chand <shailend@google.com>, Harshitha Ramamurthy
+	<hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de
+ Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
+	Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>
+References: <20240909054318.1809580-1-almasrymina@google.com>
+Content-Language: en-US
+From: Yunsheng Lin <linyunsheng@huawei.com>
+In-Reply-To: <20240909054318.1809580-1-almasrymina@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemf200006.china.huawei.com (7.185.36.61)
 
-On Mon, Sep 09, 2024 at 10:58:30AM GMT, Neil Armstrong wrote:
-> On 07/09/2024 00:07, Dmitry Baryshkov wrote:
-> > On Fri, Sep 06, 2024 at 08:07:12PM GMT, Bartosz Golaszewski wrote:
-> > > From: Gaurav Kashyap <quic_gaurkash@quicinc.com>
-> > > 
-> > > Qualcomm's ICE (Inline Crypto Engine) contains a proprietary key
-> > > management hardware called Hardware Key Manager (HWKM). Add HWKM support
-> > > to the ICE driver if it is available on the platform. HWKM primarily
-> > > provides hardware wrapped key support where the ICE (storage) keys are
-> > > not available in software and instead protected in hardware.
-> > > 
-> > > When HWKM software support is not fully available (from Trustzone), there
-> > > can be a scenario where the ICE hardware supports HWKM, but it cannot be
-> > > used for wrapped keys. In this case, raw keys have to be used without
-> > > using the HWKM. We query the TZ at run-time to find out whether wrapped
-> > > keys support is available.
-> > > 
-> > > Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
-> > > Signed-off-by: Gaurav Kashyap <quic_gaurkash@quicinc.com>
-> > > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> > > ---
-> > >   drivers/soc/qcom/ice.c | 152 +++++++++++++++++++++++++++++++++++++++++++++++--
-> > >   include/soc/qcom/ice.h |   1 +
-> > >   2 files changed, 149 insertions(+), 4 deletions(-)
-> > > 
-> > >   int qcom_ice_enable(struct qcom_ice *ice)
-> > >   {
-> > > +	int err;
-> > > +
-> > >   	qcom_ice_low_power_mode_enable(ice);
-> > >   	qcom_ice_optimization_enable(ice);
-> > > -	return qcom_ice_wait_bist_status(ice);
-> > > +	if (ice->use_hwkm)
-> > > +		qcom_ice_enable_standard_mode(ice);
-> > > +
-> > > +	err = qcom_ice_wait_bist_status(ice);
-> > > +	if (err)
-> > > +		return err;
-> > > +
-> > > +	if (ice->use_hwkm)
-> > > +		qcom_ice_hwkm_init(ice);
-> > > +
-> > > +	return err;
-> > >   }
-> > >   EXPORT_SYMBOL_GPL(qcom_ice_enable);
-> > > @@ -150,6 +282,10 @@ int qcom_ice_resume(struct qcom_ice *ice)
-> > >   		return err;
-> > >   	}
-> > > +	if (ice->use_hwkm) {
-> > > +		qcom_ice_enable_standard_mode(ice);
-> > > +		qcom_ice_hwkm_init(ice);
-> > > +	}
-> > >   	return qcom_ice_wait_bist_status(ice);
-> > >   }
-> > >   EXPORT_SYMBOL_GPL(qcom_ice_resume);
-> > > @@ -157,6 +293,7 @@ EXPORT_SYMBOL_GPL(qcom_ice_resume);
-> > >   int qcom_ice_suspend(struct qcom_ice *ice)
-> > >   {
-> > >   	clk_disable_unprepare(ice->core_clk);
-> > > +	ice->hwkm_init_complete = false;
-> > >   	return 0;
-> > >   }
-> > > @@ -206,6 +343,12 @@ int qcom_ice_evict_key(struct qcom_ice *ice, int slot)
-> > >   }
-> > >   EXPORT_SYMBOL_GPL(qcom_ice_evict_key);
-> > > +bool qcom_ice_hwkm_supported(struct qcom_ice *ice)
-> > > +{
-> > > +	return ice->use_hwkm;
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(qcom_ice_hwkm_supported);
-> > > +
-> > >   static struct qcom_ice *qcom_ice_create(struct device *dev,
-> > >   					void __iomem *base)
-> > >   {
-> > > @@ -240,6 +383,7 @@ static struct qcom_ice *qcom_ice_create(struct device *dev,
-> > >   		engine->core_clk = devm_clk_get_enabled(dev, NULL);
-> > >   	if (IS_ERR(engine->core_clk))
-> > >   		return ERR_CAST(engine->core_clk);
-> > > +	engine->use_hwkm = qcom_scm_has_wrapped_key_support();
-> > 
-> > This still makes the decision on whether to use HW-wrapped keys on
-> > behalf of a user. I suppose this is incorrect. The user must be able to
-> > use raw keys even if HW-wrapped keys are available on the platform. One
-> > of the examples for such use-cases is if a user prefers to be able to
-> > recover stored information in case of a device failure (such recovery
-> > will be impossible if SoC is damaged and HW-wrapped keys are used).
-> 
-> Isn't that already the case ? the BLK_CRYPTO_KEY_TYPE_HW_WRAPPED size is
-> here to select HW-wrapped key, otherwise the ol' raw key is passed.
-> Just look the next patch.
-> 
-> Or did I miss something ?
-
-That's a good question. If use_hwkm is set, ICE gets programmed to use
-hwkm (see qcom_ice_hwkm_init() call above). I'm not sure if it is
-expected to work properly if after such a call we pass raw key.
+On 2024/9/9 13:43, Mina Almasry wrote:
 
 > 
-> Neil
+> Perf - page-pool benchmark:
+> ---------------------------
 > 
-> > 
-> > >   	if (!qcom_ice_check_supported(engine))
-> > >   		return ERR_PTR(-EOPNOTSUPP);
-> > > diff --git a/include/soc/qcom/ice.h b/include/soc/qcom/ice.h
-> > > index 9dd835dba2a7..1f52e82e3e1c 100644
-> > > --- a/include/soc/qcom/ice.h
-> > > +++ b/include/soc/qcom/ice.h
-> > > @@ -34,5 +34,6 @@ int qcom_ice_program_key(struct qcom_ice *ice,
-> > >   			 const struct blk_crypto_key *bkey,
-> > >   			 u8 data_unit_size, int slot);
-> > >   int qcom_ice_evict_key(struct qcom_ice *ice, int slot);
-> > > +bool qcom_ice_hwkm_supported(struct qcom_ice *ice);
-> > >   struct qcom_ice *of_qcom_ice_get(struct device *dev);
-> > >   #endif /* __QCOM_ICE_H__ */
-> > > 
-> > > -- 
-> > > 2.43.0
-> > > 
-> > 
+> bench_page_pool_simple.ko tests with and without these changes:
+> https://pastebin.com/raw/ncHDwAbn
+> 
+> AFAIK the number that really matters in the perf tests is the
+> 'tasklet_page_pool01_fast_path Per elem'. This one measures at about 8
+> cycles without the changes but there is some 1 cycle noise in some
+> results.
+> 
+> With the patches this regresses to 9 cycles with the changes but there
+> is 1 cycle noise occasionally running this test repeatedly.
+> 
+> Lastly I tried disable the static_branch_unlikely() in
+> netmem_is_net_iov() check. To my surprise disabling the
+> static_branch_unlikely() check reduces the fast path back to 8 cycles,
+> but the 1 cycle noise remains.
+
+Sorry for the late report, as I was adding a testing page_pool ko basing
+on [1] to avoid introducing performance regression when fixing the bug in
+[2].
+I used it to test the performance impact of devmem patchset for page_pool
+too, it seems there might be some noticable performance impact quite stably
+for the below testcases, about 5%~16% performance degradation as below in
+the arm64 system:
+
+Before the devmem patchset:
+ Performance counter stats for 'insmod ./page_pool_test.ko test_push_cpu=16 test_pop_cpu=16 nr_test=100000000 test_napi=1' (100 runs):
+
+         17.167561      task-clock (msec)         #    0.003 CPUs utilized            ( +-  0.40% )
+                 8      context-switches          #    0.474 K/sec                    ( +-  0.65% )
+                 0      cpu-migrations            #    0.001 K/sec                    ( +-100.00% )
+                84      page-faults               #    0.005 M/sec                    ( +-  0.13% )
+          44576552      cycles                    #    2.597 GHz                      ( +-  0.40% )
+          59627412      instructions              #    1.34  insn per cycle           ( +-  0.03% )
+          14370325      branches                  #  837.063 M/sec                    ( +-  0.02% )
+             21902      branch-misses             #    0.15% of all branches          ( +-  0.27% )
+
+       6.818873600 seconds time elapsed                                          ( +-  0.02% )
+
+ Performance counter stats for 'insmod ./page_pool_test.ko test_push_cpu=16 test_pop_cpu=16 nr_test=100000000 test_napi=1 test_direct=1' (100 runs):
+
+         17.595423      task-clock (msec)         #    0.004 CPUs utilized            ( +-  0.01% )
+                 8      context-switches          #    0.460 K/sec                    ( +-  0.50% )
+                 0      cpu-migrations            #    0.000 K/sec
+                84      page-faults               #    0.005 M/sec                    ( +-  0.15% )
+          45693020      cycles                    #    2.597 GHz                      ( +-  0.01% )
+          59676212      instructions              #    1.31  insn per cycle           ( +-  0.00% )
+          14385384      branches                  #  817.564 M/sec                    ( +-  0.00% )
+             21786      branch-misses             #    0.15% of all branches          ( +-  0.14% )
+
+       4.098627802 seconds time elapsed                                          ( +-  0.11% )
+
+After the devmem patchset:
+Performance counter stats for 'insmod ./page_pool_test.ko test_push_cpu=16 test_pop_cpu=16 nr_test=100000000 test_napi=1' (100 runs):
+
+         17.047973      task-clock (msec)         #    0.002 CPUs utilized            ( +-  0.39% )
+                 8      context-switches          #    0.488 K/sec                    ( +-  0.82% )
+                 0      cpu-migrations            #    0.001 K/sec                    ( +- 70.35% )
+                84      page-faults               #    0.005 M/sec                    ( +-  0.12% )
+          44269558      cycles                    #    2.597 GHz                      ( +-  0.39% )
+          59594383      instructions              #    1.35  insn per cycle           ( +-  0.02% )
+          14362599      branches                  #  842.481 M/sec                    ( +-  0.02% )
+             21949      branch-misses             #    0.15% of all branches          ( +-  0.25% )
+
+       7.964890303 seconds time elapsed                                          ( +-  0.16% )
+
+ Performance counter stats for 'insmod ./page_pool_test.ko test_push_cpu=16 test_pop_cpu=16 nr_test=100000000 test_napi=1 test_direct=1' (100 runs):
+
+         17.660975      task-clock (msec)         #    0.004 CPUs utilized            ( +-  0.02% )
+                 8      context-switches          #    0.458 K/sec                    ( +-  0.57% )
+                 0      cpu-migrations            #    0.003 K/sec                    ( +- 43.81% )
+                84      page-faults               #    0.005 M/sec                    ( +-  0.17% )
+          45862652      cycles                    #    2.597 GHz                      ( +-  0.02% )
+          59764866      instructions              #    1.30  insn per cycle           ( +-  0.01% )
+          14404323      branches                  #  815.602 M/sec                    ( +-  0.01% )
+             21826      branch-misses             #    0.15% of all branches          ( +-  0.19% )
+
+       4.304644609 seconds time elapsed                                          ( +-  0.75% )
+
+1. https://lore.kernel.org/all/20240906073646.2930809-2-linyunsheng@huawei.com/
+2. https://lore.kernel.org/lkml/8067f204-1380-4d37-8ffd-007fc6f26738@kernel.org/T/
+
 > 
 
--- 
-With best wishes
-Dmitry
