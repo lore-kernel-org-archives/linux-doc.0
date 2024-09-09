@@ -1,162 +1,293 @@
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2058.outbound.protection.outlook.com [40.107.96.58])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673071BAEE0;
-	Mon,  9 Sep 2024 14:40:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725892822; cv=none; b=pA0FnQVwezSiHUSUoEaGjR6DBMV5gkDyPmPmCNwMnfvSnd5z9G8L36V4vqH01LveVDLOPjYpmZs5N8bd7nRE51Ujotgt/PiQsGBhuTnFRiHseJKt++lZYOO0pgMXLX2ZVJfxdG98Cfy7fTwRSizq9kHRc/Ovc278D8pt4fDzVQI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725892822; c=relaxed/simple;
-	bh=Jc+ZsSx86eZg9sUzrN9bm8FO1FtzH3dV9nqloyRxL7Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RuZz9epid71T2tek6lAhXZ64V7MFVI2t4hx7rlIMKqrHMF179Mqf3/+eG7hwBFSp01rtBCaWUmwMZ3cSH5bTjbGzXFNYRGHFwqMFrpG+517qXpNbsg/ktL2wXIh1jR9mMBqt9UPjYQwF1Anrg808zsq8zd0QSRg+u/ZTWD+yE3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e811aRvq; arc=none smtp.client-ip=209.85.166.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A451BAECD;
+	Mon,  9 Sep 2024 14:50:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.96.58
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725893425; cv=fail; b=Ic43jXrfaza77amC6o3vsWqso2ATUMIJ4eLvQE8AiyfKNACHT+TTMT69tZpw3WcGQ55LoQwJ1TBhRR9mM+xGxMoU/slQ0w0lb7iOISnTNEGRCf7l9j9HtPVBNMZTjjrZAVMrS1xq5bk+L4bUhRs84Huim8aYk5h4mowkJ9E4Gek=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725893425; c=relaxed/simple;
+	bh=xLPgUGVgzLzimLxEU7Bd/uJAbk/cYXQZ6zK76aw1+OQ=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=XSFI+IQYHHy/lVuBlhgZyL7XXeMOxoW2JhgymUFI2X5PRtkPIXB2iKrcEtz3JSe32hAfOu3m6PcKR2lOFJBT/oKyFg/NN7FDVAw0P36/11lu6nqg3yK4ZFV6jZXlPaUoF0fEwlQU4vS/Wv/vV44zVSrckguKmTuihgu3McFe8d4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=OR4KkU/s; arc=fail smtp.client-ip=40.107.96.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e811aRvq"
-Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-82ade877fbeso87552539f.0;
-        Mon, 09 Sep 2024 07:40:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725892819; x=1726497619; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yADGgFh0Qr9khviAqSL4T0j/ayR5ihAosN0nFeWJtFw=;
-        b=e811aRvqFQ8cLujjZjd/rCaZL4xPeseRISEj6++0WfqLJl7LKhMX5ndMmZXI9cGnLp
-         S/ITxGYj56RIYmY0PU/dla1oySpIpVnlPwK2UrgLjw0a9PQ7Mn73hRrH4zBF0/4G1Y9C
-         7EuXPcXGqFEo1WVF7JxbQ7N54i2hUK4U41RnLOJR2N3i8G0MZR9Jjz/guw7yUbd7ARwU
-         YMacT+XKN61stEMv3qzcZ0LOiYcMCjBeH4JDGepKmUtHG0JAqBgeUWZBHHbFjTEf2Bgz
-         SO6858VXXgXaVG//kWas0p2UIxbtIW5NPZHGpkfh5s4KIAaF8TXjIlYvTe0sJf34HxOh
-         uxRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725892819; x=1726497619;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yADGgFh0Qr9khviAqSL4T0j/ayR5ihAosN0nFeWJtFw=;
-        b=f5PmAm1cBngFv/0G0SMe/KXB40lbnI2mmcqXlwqM1RPGV4/NiuqxEXg+BpYfGKN6tT
-         4kUaXA3TpA4Jcs8s8KmpDj+1K6iGWAAWzKEnFpl4o89dg4TmXFH6ocn5+N6Ao+yXJvTe
-         /EJWK1o0FF3LFEljrahHMJBke95Z5gBaHRnhrN0lGJWnEI+emgzRxftaQ3iizxoa31Mf
-         immdw5h8AR39bkoOfXnN7iftr9q+29R69kfxk+00upSjlD6BeW/1Qd/cHmLDy5hqXfac
-         COMm5kSK59co+0wQinOPv7fNsNw1RF831jUezj9uWtVK6QkLYibol1tAQ2GAx+LrvKhT
-         ig7w==
-X-Forwarded-Encrypted: i=1; AJvYcCVBu/YFzYIqvGmTl265kGx/ucNUZjK8Nabt9Mw+/SFD6pp6/vnXNpS2LwcUKkubApsHPeRfsp1vTtUWyk4w@vger.kernel.org, AJvYcCVlNB6Z9GQoXNQ/oiosVrEx4bGeGos9lsoLQFkJ9YHFOeH3K7tlWkYn36x58X9qGjXdslFC7fhxzwWRdPFA@vger.kernel.org, AJvYcCWBQRRVGoRSl47mZfxOag7fqif3NlKfzqwFNEkTEP8S0JHgYJO+vm8WXTLnTc7+tG0n99bFgBrpUbYq@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTD0r78y0s3bo5lrhLrlAOpSIt/OWrEuLDVFzfwEr3Q58CIqBd
-	RPpyxB11AkL31uKOlVZX/l4x1QRrKlTUB/Z4TIjonAEPsWeizNuVS/LjlEd78eSNL0Yuz+CNsnO
-	3GnB3Ji1wnyeXRtWg7UtsnK5EG8A=
-X-Google-Smtp-Source: AGHT+IG/zidy3pUha3J4vBn+TgE6JlPVQqsYOcZPn1/PZgtYteEn9j/NJ/+ZfxxiFMsg3wdTfHQX1c5/CxyHbAkt+Ic=
-X-Received: by 2002:a05:6e02:1d06:b0:3a0:4a63:e7ac with SMTP id
- e9e14a558f8ab-3a04f0ccccfmr140661735ab.18.1725892819444; Mon, 09 Sep 2024
- 07:40:19 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="OR4KkU/s"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kQL8rrr177SwseeudZ3ZBlQBxKvC6tLJ+bLF76hiGu751uGGtH1iwOFP4a9P8YLErHaXxCPSXixleownO7M2DyoqtbBglCEWPLpqzv6ZjtsfNpIxsko9cymioI8Hj2xiyRL4fSqcNtXSoX5YqcTsy9uQDmHxEz4Xh9jta8cNQh9pMWdfUwKOlXKxTLJFz6aZSCaJHPmR53kDu/jy5xGzF1J7jQsgD/ZCJMG2DeNZGCOU8MRcpnpbogNLwYpy4okOu9KX7hAGNs4nrIoTqZXVhd20IYyLj0EBLaJwGqfc+0a9mmz/WSi0bSGk111uix0QJE2K6RwwdsN4M7w5VhQgEg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=d5pWLEoamAgWSvfczjoc+icy4OzgAEtsMjXtdorWFDc=;
+ b=uXDtaFLy6mUL6J9sPJMNVyeuw71f9tgr5dFFQFk492XsuRl90cv7/1cShS66oA2PRMJfxHCcnFaP0EKNovmowhmM1eBNgfjJQOUdPpQ8Wigm8n/h9yEkscWW9q0BHadxy6IJjadDrDi8/6MgT97bqIzeeUC7tY5db+W4302VjXDcPmSyXEmEg90J33jgS2irEUmIN7L4PUXpIWyU7GFgBb9UgSBRsdb7UyVGeCNOAD9LxDofWr8rNDYfGDbGynh2DIfQx0y9f7LX5EhN68gIJvCCkaxESv8TIzZvYYeaSUZr5P70KYPRlMRok143jo1PCzkDgE19zd98o7tK2iaSMQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d5pWLEoamAgWSvfczjoc+icy4OzgAEtsMjXtdorWFDc=;
+ b=OR4KkU/sW8XhIMeIWOOAAuNqS4LrHgvj/6VQguUPlBVS4hmjPfj9DxiCEefRCpUUjkVDinY725WmTyfgayfZice22YsIXomHlVWNBDOAeIPlTJwRawApwj8rAUmvxpfYQrTfbDO7DORVBbotf1JaSFACAL4gGNJa7Bpuo2ZMsCg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS7PR12MB6048.namprd12.prod.outlook.com (2603:10b6:8:9f::5) by
+ CY8PR12MB7244.namprd12.prod.outlook.com (2603:10b6:930:57::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7918.27; Mon, 9 Sep 2024 14:50:20 +0000
+Received: from DS7PR12MB6048.namprd12.prod.outlook.com
+ ([fe80::6318:26e5:357a:74a5]) by DS7PR12MB6048.namprd12.prod.outlook.com
+ ([fe80::6318:26e5:357a:74a5%5]) with mapi id 15.20.7918.024; Mon, 9 Sep 2024
+ 14:50:20 +0000
+Message-ID: <73703ae1-f4ca-4f78-b8c3-e912f398b485@amd.com>
+Date: Mon, 9 Sep 2024 20:20:12 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] iommu/amd: Add kernel parameters to limit V1 page-sizes
+To: Joerg Roedel <joro@8bytes.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, linux-doc@vger.kernel.org,
+ iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Joerg Roedel <jroedel@suse.de>
+References: <20240905072240.253313-1-joro@8bytes.org>
+Content-Language: en-US
+From: Vasant Hegde <vasant.hegde@amd.com>
+In-Reply-To: <20240905072240.253313-1-joro@8bytes.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA1PR01CA0179.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:d::22) To DS7PR12MB6048.namprd12.prod.outlook.com
+ (2603:10b6:8:9f::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240905-preemption-a750-t-v3-0-fd947699f7bc@gmail.com>
- <20240905-preemption-a750-t-v3-4-fd947699f7bc@gmail.com> <20240906195444.owz4eralirekr7r7@hu-akhilpo-hyd.qualcomm.com>
- <df85bf24-651c-4a35-929b-4de6c05555a1@gmail.com> <CACu1E7GSMQHa6258hV2OwS5nTGh+kTeZ-qQPMfGTy5YVP5kX3g@mail.gmail.com>
-In-Reply-To: <CACu1E7GSMQHa6258hV2OwS5nTGh+kTeZ-qQPMfGTy5YVP5kX3g@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 9 Sep 2024 07:40:07 -0700
-Message-ID: <CAF6AEGvv60CS43dCijsUCzELLn=t1PJQVCzMx01cFJsNJ1Uk9g@mail.gmail.com>
-Subject: Re: [PATCH v3 04/10] drm/msm/A6xx: Implement preemption for A7XX targets
-To: Connor Abbott <cwabbott0@gmail.com>
-Cc: Antonino Maniscalco <antomani103@gmail.com>, Akhil P Oommen <quic_akhilpo@quicinc.com>, 
-	Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	Marijn Suijten <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-arm-msm@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Sharat Masetty <smasetty@codeaurora.org>, Neil Armstrong <neil.armstrong@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB6048:EE_|CY8PR12MB7244:EE_
+X-MS-Office365-Filtering-Correlation-Id: e40f3902-3f15-4e87-8851-08dcd0deba28
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?cDNGR211Zm0zMWQ4bTFwVkZYWFF6SmpyZzcwNUJWN0JWZnI2QW9sZUNpME0x?=
+ =?utf-8?B?aHpkbXgrdzl6TkFrckh4Z0FyMTBGK2hERjUyREtjSFJKNmpiZ2tMN0RiK0ZT?=
+ =?utf-8?B?cFlJSHk3THF6Tk5VOTY0aHJXSG9HZGtoQ3lqK20rR1FTanlVWlI1MWdoM095?=
+ =?utf-8?B?azU3Z29IS0hOTldpN0VQS0NWSzNvbmZLTFIybHAxbU5BVGVUZnl4L2FpWURz?=
+ =?utf-8?B?L3N1ZUxSS2FCNmJYVC9MQWR2MG5hRzFabkNUK0JPbWZRTy8ybHBaYVNrRWs4?=
+ =?utf-8?B?UjkreXErNGg1N2dxeFU3S3hOWXNzWUNKK0F2aXQ0dTBHUlIrcE1JSjFLOHhQ?=
+ =?utf-8?B?RnhyQnltK0cvOEZNMnEvOUxmaTJuZjZwY1lqcEc3ZlM3WEQxODZvTHA0OU5Y?=
+ =?utf-8?B?dUVFY1FRRlkzYkt3Q3VjWTVZcmdyNTNtZEEyZ3lXNU9FKzJ4KzllclhqT2ZP?=
+ =?utf-8?B?ZXREVERsSHpOUmlzcE1EWjNCb3ZSMTluNHNFNkFCVDlpMUIvcldUSGxlYlh0?=
+ =?utf-8?B?Y1dMQkpmYUY1a3VPZm1YNVoydFRXUEgrZ2lYaVRQdlVobm92YmVINis0Ukxx?=
+ =?utf-8?B?d0t4TGRvM1RDN2M2MzlUZmJ2VWVpcHF5MCs4QmdTbjdxTmliZ1UzN2ZTWlpO?=
+ =?utf-8?B?UC9qWGhnTDYra3JtRmxuNzd5OUs4ZitGNDFXck5hZXpmdi9UYld4aG5CWGg1?=
+ =?utf-8?B?OS9yYWNSSkU4YnRQcVd2VHN0Y1BuNmM4cEpsREN1WTc4NXdWK0NhMFYrbERH?=
+ =?utf-8?B?LzJNWVBxU3BEK1hUVGtWdCtIQUdmNnQyTGRrRDk1djZJZWdTL2RFN2tvMTNX?=
+ =?utf-8?B?TW1tYVBvVmdoR2J5RFJzR1dIWThwQU1jUnR2N2lpSWJBQzRrcXUwanZCVFNG?=
+ =?utf-8?B?OHFOWGtrOHN2QUFqL0FlTWV6eGtPSEhvSGxNcG40NzVXWGZjVEFvU05DeU1h?=
+ =?utf-8?B?cnppWG4xRytZM0xpb1NrdFRtRDF3OERHbkRUYURzNXRTenR1eC9oME5OTGlE?=
+ =?utf-8?B?Q1FIZVF1azlJWDVkMUV6bkFKcndxbWV1dG05V1RSZnhMNjkxT2dIdDFoTmx2?=
+ =?utf-8?B?ZnlZbE5NMHhvMTFEakRReWhzbzl2QWZ5eGJZL0plYXl3aGdyODRsd2tKN29J?=
+ =?utf-8?B?ZXNKQVJtUE1pdTZIZWkyVHFlWHljUFlJU2JnUVdDcWw4ZmQ1WVlsMDdRNXRt?=
+ =?utf-8?B?aXdGVldSSVN4Zjd1VHg0Z1BOVWNDSWFCNFRodGhreXFuV28wcHRRVFFzaGtD?=
+ =?utf-8?B?RU1jdTBTbzV2clE0cFpvMmVhVzhGOFVnM1JabGw0U2c1VUo2ZTRDWE1nYVY5?=
+ =?utf-8?B?Q2RkcWowd1RwYWIyUDVZNlBoNmQrSUo4UXB3eUpraS9KU0hjT3NySjNDRUo0?=
+ =?utf-8?B?NzRwM0wvR0NXUndFL1VEU1VWMVB4T2czblh6NjZiNys1REw5WXhBS2VZNGFV?=
+ =?utf-8?B?V2pJc1ErWEsrY1hGY1ZpczU0TE9Fc3lRb0RZSStoNEo0cS9sNnNQYlJaS1d3?=
+ =?utf-8?B?S3ErWExlNVBjZUdYR3E2WlNqZ0FFT1FiNW5naTNHM2M1aUEzeEhmMlZUL0NV?=
+ =?utf-8?B?VTFBZjlXRWhNbk1nUHZuaVZnQnFwZHBiZXlteGhWNW1hMnJlWjZmcEsvb0Y1?=
+ =?utf-8?B?ZEphOUNXRXVtTHJDVUt6Vk9GZ2dSYkFibW1rVjdTRHVVaG9PaHJuRGNxNmZC?=
+ =?utf-8?B?WkVNNGZSTFN6aTZFRUZ3YWRXUUc3TEpRSTh1VHRvenF6d2trN0k4UWpmNVgr?=
+ =?utf-8?B?cFk2aWhzWUltQ0pJNkFkZFBQSjBuYXRKWGRiVTlwVFNlU1pIQzZWNnVXNDlN?=
+ =?utf-8?B?UkUzRXgwbTJVRzBxc21FZz09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB6048.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Nlh6UHRUTmNSMVl6TUZIVVZiT2pYamoyM3doSlk1TFlNMTVEQVpmVlhMcXI4?=
+ =?utf-8?B?LzhoNVd5eEZhRkcwdmV5ZWRpMFBCTTVwRVU3NDc4Mm4zZW9YRGdDc2RCQlF4?=
+ =?utf-8?B?aHA5M0xNRDFnMjJ1b3lOVERKcWNVTVJtK29PNkphTmVVMTlDM1l3ZEtDaEpM?=
+ =?utf-8?B?cnY1UXZUUk5Md0V3YUorbXppM3lzZEhwemRBd0E0dUVQSkoySWdNNkxnTWtG?=
+ =?utf-8?B?VzZGTklCTEdhQ3pRQUIzZUtINUljakZpejJXYWZZN2drT282eGlrdFFJdUxQ?=
+ =?utf-8?B?MXo4Vy91S25vMEFacjMxZWx6MnBTclg3RHQxdTdjM1UzSUphWFpRRTZxSVlw?=
+ =?utf-8?B?THVjbGc0UDRkNFhYZStXTk9EU2F1NXdhTmJxYWVLOU9MQmVpbHhKd2NiM2RP?=
+ =?utf-8?B?MkhpaUxQd1NEdkJOS1AyQ1lLTzJ1YVFadU5yaXl5NGVySzFKNEpWcTJWTlJ1?=
+ =?utf-8?B?Q1JYQVhoekNUUjNTb2tZVnJZaEpkdXdEellaQzIvc3U2b3hRRXZpejhCZjBs?=
+ =?utf-8?B?eVMvQ1B5Y2FURTBwMFNtQkFkRVEyVlRwQS80c3ZCYjliaHM1eTJzZmJLeS9M?=
+ =?utf-8?B?TXRNdXR2M0VTOXhnbTlpVm9LdU5OVDNwR29UenBTeXdZbWlFVUpSVmxuekQz?=
+ =?utf-8?B?QTg5Nzd6QzNpZ2xOUFFlTi9wVlYvYlUxOGx5U3VTd1hEN0JxWi9XSGV1WldF?=
+ =?utf-8?B?UmlxeUpUSG85NGZDcDBGVExDMEFNN3E2TkxBc081c1RvUzVuMDJvWkNSS2E4?=
+ =?utf-8?B?Q2h3ZnpTd0dqbWVjWUtlSEVteFNBeGZZK3dlY2JZMW1RRUhldzBBc2VKTmlB?=
+ =?utf-8?B?ckdqN2xzaVZwb3kzUUVuRDRzeDNyemVMaHdZaXFXRXN0VWF6cHZUck5EYkxH?=
+ =?utf-8?B?bW5JNDJ3VnFjSXVkZnZzZHdTRWZYUTZaNnhoelhyUzdmaXRibklmVE0yRXkx?=
+ =?utf-8?B?Q09NaVlLa3dISk1FTGRVa0FQdTRXb0RlbXNObE1OaHl4WEFQd2tKZlRtMkNF?=
+ =?utf-8?B?VEszcWRzVjFxMHVheDBiTUtYZzVQWHMzYURGSDg3RGRaQmNOK3hGZFE5UE1P?=
+ =?utf-8?B?TDJ4dVhJZE40ejAvN0hyMVFQTHZ1OGpPS21mZWZueFhubkl1aDBVRVh5WEJO?=
+ =?utf-8?B?RlBaYUM0M0RuQS96bGZhYnlFSGJzMStjVUtnUGYyKy9zcVpNT2ExdHRoSjdp?=
+ =?utf-8?B?RTd6cFhjUyt0a0JvU0J4YU9KM2J1TGxTM1FLWmNsblgvYVdIdUgzRnh1ellw?=
+ =?utf-8?B?cHJBUWNKeHM0QUpyZlF4SlQwV3B5SHkwU3dEYmRpZG80TFFXWDg2WUhCbEUy?=
+ =?utf-8?B?cVNhTGovTUp5aHRCZEdlOXBlNldRN0VnZ05NRlhDN3VmQWtsTUdDK1BlWkxM?=
+ =?utf-8?B?RzM2NG9rVkpoSzhXaXFRQ3FrekRyQmt6T0pyU3JsVlNIQnRWNjZGWi9TRVg1?=
+ =?utf-8?B?dkU1aDgzM0pVZGVNbzY3dG5vamQzK3VEMk1idmNNNVprVy9EQ1o3YW5uTUdC?=
+ =?utf-8?B?ZEQwdnlhWU9pdmNvSmFtd0xobnQrS3FPeFRQZzNUcm9vUnNvbHdHaS9MYnB1?=
+ =?utf-8?B?bzB4c2FCdlFkUXZOc1lvdW9JakdhNFBlbUJNTVpSYTVFS3JFVk9CTWE3cGtK?=
+ =?utf-8?B?S010TE9mRVVRbE9iTDZ3di9FL2MxaEhHN0xJbFNISUdMNlFsZzhjS0FtYjFD?=
+ =?utf-8?B?NzJETk8vTWpBRFZkUWFrd3phWW1VNHd6K0pIUTRoSjdIckUxOHJSV3ZkM241?=
+ =?utf-8?B?bmNlRUlzcm5FNkYxZ2hKT3R3S1BJekg0Ukw5UmlJS2h1eFVFTjNHeEl0a0p4?=
+ =?utf-8?B?Z1Y0cU5nTDJTMnVKM25QWUM1N1d4clRRbDM4RWpGOGpzTFdLa0NzUWJjOFBY?=
+ =?utf-8?B?ZjhOaVFuc3JNV001VTZVSXhTcXcxYzhtVXJsblpGdkxNU2VjTGVCYzBTQmhp?=
+ =?utf-8?B?YjhjU3p5ZUhpYmgxa1QwWHNLZlRLUm40bEVqTk1LOXlRcHh1cUxkS1pQckUy?=
+ =?utf-8?B?K0hVOTF0VHJGQ1ozVVc2QmRhdU1RYTJHMGFqSDVLdVBmeENsY2R0TGxFYWpY?=
+ =?utf-8?B?SGRlWERGTko3S3VCbXo5b29HQzZ5VW1ZNTQ2UW4wcDVaOVlzMDJpV1Q5RmV1?=
+ =?utf-8?Q?Fq3n6NHjLnVxBukYdkxbqErNh?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e40f3902-3f15-4e87-8851-08dcd0deba28
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB6048.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2024 14:50:20.8523
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ANBjoIG4qtscCLLULa+ai5ECsjknvLdXYbI8DrjQLvlGRK/PboaV5CYZYbLKFRKtYxmPneD0Z/B+lmbZM4XE8g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7244
 
-On Mon, Sep 9, 2024 at 6:43=E2=80=AFAM Connor Abbott <cwabbott0@gmail.com> =
-wrote:
->
-> On Mon, Sep 9, 2024 at 2:15=E2=80=AFPM Antonino Maniscalco
-> <antomani103@gmail.com> wrote:
-> >
-> > On 9/6/24 9:54 PM, Akhil P Oommen wrote:
-> > > On Thu, Sep 05, 2024 at 04:51:22PM +0200, Antonino Maniscalco wrote:
-> > >> This patch implements preemption feature for A6xx targets, this allo=
-ws
-> > >> the GPU to switch to a higher priority ringbuffer if one is ready. A=
-6XX
-> > >> hardware as such supports multiple levels of preemption granularitie=
-s,
-> > >> ranging from coarse grained(ringbuffer level) to a more fine grained
-> > >> such as draw-call level or a bin boundary level preemption. This pat=
-ch
-> > >> enables the basic preemption level, with more fine grained preemptio=
-n
-> > >> support to follow.
-> > >>
-> > >> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
-> > >> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
-> > >> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QR=
-D
-> > >> ---
-> > >>   drivers/gpu/drm/msm/Makefile              |   1 +
-> > >>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 293 ++++++++++++++++++=
-+++-
-> > >>   drivers/gpu/drm/msm/adreno/a6xx_gpu.h     | 161 ++++++++++++
-> > ...
-> > >
-> > > we can use the lighter smp variant here.
-> > >
-> > >> +
-> > >> +            if (a6xx_gpu->cur_ring =3D=3D ring)
-> > >> +                    gpu_write(gpu, REG_A6XX_CP_RB_WPTR, wptr);
-> > >> +            else
-> > >> +                    ring->skip_inline_wptr =3D true;
-> > >> +    } else {
-> > >> +            ring->skip_inline_wptr =3D true;
-> > >> +    }
-> > >> +
-> > >> +    spin_unlock_irqrestore(&ring->preempt_lock, flags);
-> > >>   }
-> > >>
-> > >>   static void get_stats_counter(struct msm_ringbuffer *ring, u32 cou=
-nter,
-> > >> @@ -138,12 +231,14 @@ static void a6xx_set_pagetable(struct a6xx_gpu=
- *a6xx_gpu,
-> > >
-> > > set_pagetable checks "cur_ctx_seqno" to see if pt switch is needed or
-> > > not. This is currently not tracked separately for each ring. Can you
-> > > please check that?
-> >
-> > I totally missed that. Thanks for catching it!
-> >
-> > >
-> > > I wonder why that didn't cause any gpu errors in testing. Not sure if=
- I
-> > > am missing something.
-> > >
-> >
-> > I think this is because, so long as a single context doesn't submit to
-> > two different rings with differenr priorities, we will only be incorrec=
-t
-> > in the sense that we emit more page table switches than necessary and
-> > never less. However untrusted userspace could create a context that
-> > submits to two different rings and that would lead to execution in the
-> > wrong context so we must fix this.
->
-> FWIW, in Mesa in the future we may want to expose multiple Vulkan
-> queues per device. Then this would definitely blow up.
 
-This will actually be required by future android versions, with the
-switch to vk hwui backend (because apparently locking is hard, the
-solution was to use different queue's for different threads)
 
-https://gitlab.freedesktop.org/mesa/mesa/-/issues/11326
+On 9/5/2024 12:52 PM, Joerg Roedel wrote:
+> From: Joerg Roedel <jroedel@suse.de>
+> 
+> Add two new kernel command line parameters to limit the page-sizes
+> used for v1 page-tables:
+> 
+> 	nohugepages     - Limits page-sizes to 4KiB
+> 
+> 	v2_pgsizes_only - Limits page-sizes to 4Kib/2Mib/1GiB; The
+> 	                  same as the sizes used with v2 page-tables
+> 
+> This is needed for multiple scenarios. When assigning devices to
+> SEV-SNP guests the IOMMU page-sizes need to match the sizes in the RMP
+> table, otherwise the device will not be able to access all shared
+> memory.
+> 
+> Also, some ATS devices do not work properly with arbitrary IO
+> page-sizes as supported by AMD-Vi, so limiting the sizes used by the
+> driver is a suitable workaround.
+> 
+> All-in-all, these parameters are only workarounds until the IOMMU core
+> and related APIs gather the ability to negotiate the page-sizes in a
+> better way.
 
-BR,
--R
+Thanks! Patch looks good to me.
+
+Reviewed-by: Vasant Hegde <vasant.hegde@amd.com>
+
+-Vasant
+
+> 
+> Signed-off-by: Joerg Roedel <jroedel@suse.de>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 17 +++++++++++------
+>  drivers/iommu/amd/amd_iommu.h                   |  1 +
+>  drivers/iommu/amd/amd_iommu_types.h             |  4 ++++
+>  drivers/iommu/amd/init.c                        |  8 ++++++++
+>  drivers/iommu/amd/io_pgtable.c                  |  2 +-
+>  5 files changed, 25 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 09126bb8cc9f..6d6630aec46c 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -333,12 +333,17 @@
+>  					  allowed anymore to lift isolation
+>  					  requirements as needed. This option
+>  					  does not override iommu=pt
+> -			force_enable - Force enable the IOMMU on platforms known
+> -				       to be buggy with IOMMU enabled. Use this
+> -				       option with care.
+> -			pgtbl_v1     - Use v1 page table for DMA-API (Default).
+> -			pgtbl_v2     - Use v2 page table for DMA-API.
+> -			irtcachedis  - Disable Interrupt Remapping Table (IRT) caching.
+> +			force_enable    - Force enable the IOMMU on platforms known
+> +				          to be buggy with IOMMU enabled. Use this
+> +				          option with care.
+> +			pgtbl_v1        - Use v1 page table for DMA-API (Default).
+> +			pgtbl_v2        - Use v2 page table for DMA-API.
+> +			irtcachedis     - Disable Interrupt Remapping Table (IRT) caching.
+> +			nohugepages     - Limit page-sizes used for v1 page-tables
+> +				          to 4 KiB.
+> +			v2_pgsizes_only - Limit page-sizes used for v1 page-tables
+> +				          to 4KiB/2Mib/1GiB.
+> +
+>  
+>  	amd_iommu_dump=	[HW,X86-64]
+>  			Enable AMD IOMMU driver option to dump the ACPI table
+> diff --git a/drivers/iommu/amd/amd_iommu.h b/drivers/iommu/amd/amd_iommu.h
+> index 29e6e71f7f9a..6386fa4556d9 100644
+> --- a/drivers/iommu/amd/amd_iommu.h
+> +++ b/drivers/iommu/amd/amd_iommu.h
+> @@ -43,6 +43,7 @@ int amd_iommu_enable_faulting(unsigned int cpu);
+>  extern int amd_iommu_guest_ir;
+>  extern enum io_pgtable_fmt amd_iommu_pgtable;
+>  extern int amd_iommu_gpt_level;
+> +extern unsigned long amd_iommu_pgsize_bitmap;
+>  
+>  /* Protection domain ops */
+>  struct protection_domain *protection_domain_alloc(unsigned int type, int nid);
+> diff --git a/drivers/iommu/amd/amd_iommu_types.h b/drivers/iommu/amd/amd_iommu_types.h
+> index 35aa4ff020f5..601fb4ee6900 100644
+> --- a/drivers/iommu/amd/amd_iommu_types.h
+> +++ b/drivers/iommu/amd/amd_iommu_types.h
+> @@ -293,6 +293,10 @@
+>   * Page sizes >= the 52 bit max physical address of the CPU are not supported.
+>   */
+>  #define AMD_IOMMU_PGSIZES	(GENMASK_ULL(51, 12) ^ SZ_512G)
+> +
+> +/* Special mode where page-sizes are limited to 4 KiB */
+> +#define AMD_IOMMU_PGSIZES_4K	(PAGE_SIZE)
+> +
+>  /* 4K, 2MB, 1G page sizes are supported */
+>  #define AMD_IOMMU_PGSIZES_V2	(PAGE_SIZE | (1ULL << 21) | (1ULL << 30))
+>  
+> diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
+> index 6b15ce09e78d..43131c3a2172 100644
+> --- a/drivers/iommu/amd/init.c
+> +++ b/drivers/iommu/amd/init.c
+> @@ -192,6 +192,8 @@ bool amdr_ivrs_remap_support __read_mostly;
+>  
+>  bool amd_iommu_force_isolation __read_mostly;
+>  
+> +unsigned long amd_iommu_pgsize_bitmap __ro_after_init = AMD_IOMMU_PGSIZES;
+> +
+>  /*
+>   * AMD IOMMU allows up to 2^16 different protection domains. This is a bitmap
+>   * to know which ones are already in use.
+> @@ -3492,6 +3494,12 @@ static int __init parse_amd_iommu_options(char *str)
+>  			amd_iommu_pgtable = AMD_IOMMU_V2;
+>  		} else if (strncmp(str, "irtcachedis", 11) == 0) {
+>  			amd_iommu_irtcachedis = true;
+> +		} else if (strncmp(str, "nohugepages", 11) == 0) {
+> +			pr_info("Restricting V1 page-sizes to 4KiB");
+> +			amd_iommu_pgsize_bitmap = AMD_IOMMU_PGSIZES_4K;
+> +		} else if (strncmp(str, "v2_pgsizes_only", 15) == 0) {
+> +			pr_info("Restricting V1 page-sizes to 4KiB/2MiB/1GiB");
+> +			amd_iommu_pgsize_bitmap = AMD_IOMMU_PGSIZES_V2;
+>  		} else {
+>  			pr_notice("Unknown option - '%s'\n", str);
+>  		}
+> diff --git a/drivers/iommu/amd/io_pgtable.c b/drivers/iommu/amd/io_pgtable.c
+> index 14f62c420e4a..804b788f3f16 100644
+> --- a/drivers/iommu/amd/io_pgtable.c
+> +++ b/drivers/iommu/amd/io_pgtable.c
+> @@ -548,7 +548,7 @@ static struct io_pgtable *v1_alloc_pgtable(struct io_pgtable_cfg *cfg, void *coo
+>  		return NULL;
+>  	pgtable->mode = PAGE_MODE_3_LEVEL;
+>  
+> -	cfg->pgsize_bitmap  = AMD_IOMMU_PGSIZES;
+> +	cfg->pgsize_bitmap  = amd_iommu_pgsize_bitmap;
+>  	cfg->ias            = IOMMU_IN_ADDR_BIT_SIZE;
+>  	cfg->oas            = IOMMU_OUT_ADDR_BIT_SIZE;
+>  
