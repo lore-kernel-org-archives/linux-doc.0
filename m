@@ -1,88 +1,63 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 827A43CF51;
-	Mon,  9 Sep 2024 20:15:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5A8E17623C;
+	Mon,  9 Sep 2024 20:31:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725912949; cv=none; b=tSXiXVhp4c0usPgnZJmhA3LT5Narw+HMxFundoze5hE4RuS7gHOM62IIwTTRArGTrJ7H5Q/QK++7VkYIh3sLmOmYHhUNcVdYP22vAArwqGEfvkoBb5Hu0iU6JYtQ2hSdGjbsGrznwuwu/fNQMG5A6z0mKUmCyhvu+mGn0mxmJTw=
+	t=1725913865; cv=none; b=pbsuXapRADytH79756xIpYiPKot8aX38Y//PYDJ3Tl2lEet27/P98gcGW7+6pbGcJxAK0o6363voY/HQdwYKPCrLvOuf5oNfPSZFvCsqwZzVw4TRna4Wte/BLpL//vE6KgPd0hzEvZEYV3GFaL1JR9+TPFAL9IrVeB3L68MpdOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725912949; c=relaxed/simple;
-	bh=VcR2FbwmPv0Gj9qmkH9BdXMgSSSwUnB+WT2o/Sfe8uY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=srcvFhQmUVsP49/V+OqRYCxB6wifXzhGgm1KkeLbUUQAE/ayj2rkYTCHHxwyOltvsP6klZ6Nv9hg8x+ekrEGNPGYJamnRe6PozqP1Q+puwCuEvmz1KmVqt5EkLF3nz9MPukkeTqKxyz0L+16/QMdZIVzdDDw3OR9yByYVAFTuc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=JanhGMzk; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1725913865; c=relaxed/simple;
+	bh=PXwFjHOhvl1OGXlLUXPGJTt7tq0EMk8uWYaP/NemlFM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gVfdgx0TIgjQ9FZIsqINx4L4+ALxCeaIEeGk8L9NTzHnDLVCdu5QcvBoKO0zYdk++1lscMZJe+NPCQBcGaQbobz4A+hjeCjqD/l6A9qzVtlUD5XcJ4MhCD632KzAo3qPhSBOwAWdYamLXmnqiTvOHMz1qKBulzxxZHR7x3SrtRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MVE4BxzG; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="JanhGMzk"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 72BA84188F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1725912946; bh=XF5+qiqDiKQFsBWRRA9xBf5qeeLlXYgufgEO4/vQZmc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=JanhGMzk/8/zKfpNu4Ja1MFiPTyV8umxI15SBUsbmfF4QJvvg2V3kydaLHS7HMNbx
-	 lfriljO0VTh49cJbmEEdXcSD9+ykDKrvEG7VD7p1B0hzjAL5YJzfHEfl8Xx0h3IiLQ
-	 X6DXiYgFzrP9nt0LrKLtO+PwHbi+9tBhHWC/ShPQzSiMRmggkP39xWN5I+v+Q+5GAC
-	 ZTCBKx+hZL5xVO6h5LC+g6vI7ieM9mddfrmUvkRacFTK/eJrWKpBiswbsq8egbX/P9
-	 +aR3vEVQZH8FUOylBDkIt5xPnGo3i+l1fpNWd0gFVhsnooiRp585RDzGctkWMRTlbP
-	 gxg0/xPwCmFMA==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 72BA84188F;
-	Mon,  9 Sep 2024 20:15:46 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: cvam <cvam0000@gmail.com>, kbusch@kernel.org, axboe@kernel.dk
-Cc: hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, cvam
- <cvam0000@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MVE4BxzG"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=hPiKzQ2MFgE8BNowohQU42Vyju/yIvsh/2C5Lasvj9c=; b=MVE4BxzGQdJ74a4mS+kwBR1h3u
+	HCwBLsIKiiscT2NcrvIFqyds1q4V3G+RJbjsvKDvNrmW2xqXVUSHhklRBXulTsOFjps+z9uRpGSay
+	JGoYLLIxyslVu3Wi2YjR+M69o02LLaZVq4rXo8ydf1b26IqcZPApYwKVGXuqN3r7i9YoQril15N6C
+	DdE2kdnUDnnTza1cWfrsESSbZf22BOpWkvxVFHcEoqwzOgntXdu1CpnnEVEPiCGcynSzjhrb/sAvZ
+	1AvOzXnHvwX4J7S00b3HYonCP79vm8Fp/oJLRgfBFkf1oj8vuUuMul+YIdmiEs+7tiNxMh9cpFrfu
+	0uOgX1Ow==;
+Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1snl2E-0000000H9JD-2Yxy;
+	Mon, 09 Sep 2024 20:30:54 +0000
+Date: Mon, 9 Sep 2024 21:30:54 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: cvam <cvam0000@gmail.com>, kbusch@kernel.org, axboe@kernel.dk,
+	hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] Typo in the file 'feature-and-quirk-policy.rst'.
-In-Reply-To: <20240909200253.19818-1-cvam0000@gmail.com>
+Message-ID: <Zt9a_lSCXWwXKdDk@casper.infradead.org>
 References: <20240909200253.19818-1-cvam0000@gmail.com>
-Date: Mon, 09 Sep 2024 14:15:45 -0600
-Message-ID: <8734m8h9ce.fsf@trenco.lwn.net>
+ <8734m8h9ce.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8734m8h9ce.fsf@trenco.lwn.net>
 
-Thanks for working to improve our documentation.  Some notes...
+On Mon, Sep 09, 2024 at 02:15:45PM -0600, Jonathan Corbet wrote:
+> >  =======================================
+> > -Linux NVMe feature and and quirk policy
+> > +Linux NVMe feature and quirk policy
+> >  =======================================
+> 
+> A nice touch would be to adjust the width of the "====" lines to match.
 
-cvam <cvam0000@gmail.com> writes:
-
-> location: 'Documentation/nvme/feature-and-quirk-policy.rst'
-> tested: Not breaking anything.
-
-I don't stress a lot over changelogs for simple tweaks like this, but
-you could still try to write something in our normal imperative style.
-
-> Signed-off-by: cvam <cvam0000@gmail.com>
-
-There needs to be a blank line before the signed-off-by, and it should
-have a full name in it please.
-
-> ---
->  Documentation/nvme/feature-and-quirk-policy.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/nvme/feature-and-quirk-policy.rst b/Documentation/nvme/feature-and-quirk-policy.rst
-> index c01d836d8e41..b5461aa303a4 100644
-> --- a/Documentation/nvme/feature-and-quirk-policy.rst
-> +++ b/Documentation/nvme/feature-and-quirk-policy.rst
-> @@ -1,7 +1,7 @@
->  .. SPDX-License-Identifier: GPL-2.0
->  
->  =======================================
-> -Linux NVMe feature and and quirk policy
-> +Linux NVMe feature and quirk policy
->  =======================================
-
-A nice touch would be to adjust the width of the "====" lines to match.
-
-Thanks,
-
-jon
+Actually, I wouldn't.  The tooling only complains about lines which are
+too short (and honestly, I wish it wouldn't).  Lines which are a bit too
+long are fine with the tool, and I don't object to how they look in a
+text editor either.
