@@ -1,175 +1,156 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2051.outbound.protection.outlook.com [40.107.93.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D9A46A039;
-	Mon,  9 Sep 2024 15:39:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725896373; cv=fail; b=g5v1mKmsqRm/S+g0MuHI5JDzIrZZHRxJg+OQ/LHoUlJv3irn6HMm1adePshIOwadkOto1mP5rNBE35+tWZycwQSKRV33589kno/uzhlPhHIuXM2RaoNIaRkqIFTe3qt8K+LhGsqwmTzvQH4VeahTdJRsT+R8cXNlqiSGQVWTWh4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725896373; c=relaxed/simple;
-	bh=uJSgc+HbjGxoxqP8LcTFnfPBfCzmxFHXrQbAJRIxUcU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=PqEvab7Hnn/XMIcL1R/HkFKOiCpGYRAdujmoaBr92ypyy0SbYQ7GOcC4ABcC1d72vkIZfa6+JZI8RZ5reX3k0MnxStiqEnbm5uPRbNESlx4/Z4ZDYamM30LEXOYcQNz2FjNaem5W99JeYFKMh537WtPyoEmRsiCJPoEG1YP/4rs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=WEUoz46D; arc=fail smtp.client-ip=40.107.93.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998F61BC40
+	for <linux-doc@vger.kernel.org>; Mon,  9 Sep 2024 16:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725900872; cv=none; b=JFO8NOHQZzcgPMYnpsxpcAJo9k6gtn6MC49rYS+WaR5E6He58qnm5nVF3ZjVRkNeyHIu62Sm1IyCe7trp+07cIfTJu2gRI8CGELeYvxi3NkswYsN9qjC+4qlauNYMuLlUpVtO5wBHTtb/5KIvUvfDE7BaMGAenobNZwdnk++gEg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725900872; c=relaxed/simple;
+	bh=6Q+C9ogz7U8bywbJQGcpiixXLogu0mto8kJ/rFDq1hM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NXjyOKL7JxkX7Bnq1clBojRPpJw6mT+PLyYF3fu7wcTbDqWtkyrgdxYZwFXoiBhd9WfDxj0bTVsjzHpPpbgXlR7Vad1InuX0jD7iBl1d+tHuR1hUXYWTjEZRSVbKe3O1ErBCQjvM+IpMNL31mC1+Sj0P6jqxSAczYTTyxOFS9LI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zftvtENv; arc=none smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="WEUoz46D"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SGyP12otlESxGZpPDRWLbLu8hLW279rpMRXg4onvYiwZ3GRoihpV2u52B1CN7b4WH9XGZsHARPLMQRu9CwxEabO7bIdR8pYV4z/kuBqbNO6IevECt5ZOIDFAsNuAGqlRv4PtJ7/MSXRd2fE47XZRKVgdcX8DHcPrbYclvgjDQ51NKthQpjKueKm6rJ5GWvygxR+8boE5t8oQeN6kUzckLX4vTcZX+duqv9IG9/9zu/EvLLjUC+NEkIwZNh8wJD/KfdY7tzHvuv64Zjple8YYZ5ttzFDhTuQUwxWR2PltlC5q/DHARWvlxVGgQ0XEEzMMyhNtckZcjqrGT/z2Zk9ysQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+glMV2PM1lYAbMNVrUt7l1d3HY1xP7qB6ixQzvrnsNo=;
- b=PK4m1W3A8vGfJncpDzg2fM23mHZUjc0hvqimU+7JEkCu/vf+UVKCYtG9UtszzfbU5PqXSXmkj7dZCE5ulWFPoXsjO76EhQ6u8U/tIJaf4z5x6jkgKtYRTHxeOpgZVClxhmNlB5d7kONHNmf+GfdaKclJhd3YTLgJ3vC2GUI7Za4q0OpBUBAEtBdg9149b1YIJGp/UuZXY6dYtTo2pJuGT5UmUI6wnBO/6cLpp5m+o1i4iOuMtzolS6MY01QeEtHv1aBMpJ/c09LddBqecNH/2g8TQFsvApWtWvifsNWON6SWhFzsyB1BnR/8vc/O3p9Kj6XLqakd+11AqfLpRW21vw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+glMV2PM1lYAbMNVrUt7l1d3HY1xP7qB6ixQzvrnsNo=;
- b=WEUoz46Dip2EbZoL4qvQWFZHdntaklBWLR9nA9CNmkuWUVKhOCBp0jc8h+J44Qdkgl0Hy4MeYg80VfV4JYqkjLEwSTFzGf0Oaiallbn3/my45PYYmQBCJSKqwnRcA/zPX7CsrV0FyLsoiatYbcogKUkA4mokiK/4QGl7Xrj+oCK89j9Je2tTzo9a6iWEFahHoYl8wrkk1EtKF7XyLaio6VY368enDCk3MZChR0k+B2fGAj7V7zN+1+s603EMXil04mCLqGORHUK4vFGhnBrS3Fe9guIFauVhLF73pk4YjC1Qja7FJNT2Dw78BtFprAgFzlaTd+8hJ7eMQZ51S0dn3A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB7763.namprd12.prod.outlook.com (2603:10b6:610:145::10)
- by PH8PR12MB7182.namprd12.prod.outlook.com (2603:10b6:510:229::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.17; Mon, 9 Sep
- 2024 15:39:26 +0000
-Received: from CH3PR12MB7763.namprd12.prod.outlook.com
- ([fe80::8b63:dd80:c182:4ce8]) by CH3PR12MB7763.namprd12.prod.outlook.com
- ([fe80::8b63:dd80:c182:4ce8%3]) with mapi id 15.20.7918.024; Mon, 9 Sep 2024
- 15:39:26 +0000
-Date: Mon, 9 Sep 2024 12:39:25 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Joerg Roedel <joro@8bytes.org>
-Cc: Baolu Lu <baolu.lu@linux.intel.com>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, linux-doc@vger.kernel.org,
-	iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Joerg Roedel <jroedel@suse.de>
-Subject: Re: [PATCH] iommu/amd: Add kernel parameters to limit V1 page-sizes
-Message-ID: <20240909153925.GA189374@nvidia.com>
-References: <20240905072240.253313-1-joro@8bytes.org>
- <45a3ae40-6e59-43b4-ae57-d159bd2b54df@linux.intel.com>
- <Ztle72HfrjBjlJGa@8bytes.org>
- <20240905120531.GD1358970@nvidia.com>
- <ZtnKsf71piBohHt_@8bytes.org>
- <20240905175206.GX1358970@nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240905175206.GX1358970@nvidia.com>
-X-ClientProxiedBy: BL1PR13CA0427.namprd13.prod.outlook.com
- (2603:10b6:208:2c3::12) To CH3PR12MB7763.namprd12.prod.outlook.com
- (2603:10b6:610:145::10)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zftvtENv"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4582b71df40so3511cf.1
+        for <linux-doc@vger.kernel.org>; Mon, 09 Sep 2024 09:54:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1725900869; x=1726505669; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6Q+C9ogz7U8bywbJQGcpiixXLogu0mto8kJ/rFDq1hM=;
+        b=zftvtENvf4uW4nTJnM1KzDdzsjU/F6GJgfAfeBgXXP2uuc5R0x0Kin63bhC9hvd/vH
+         lOfRESNkXIoUeuO16b3giev/BkoRw7HYGj2RZ8Lvd9He0RUoi88r8+K3kPT1CoOLj4/Q
+         usEGOwEPS+E/A3x6BI69rphus4gz+2y9PLzEtKsUTePo6eeOEWQGGvbVRhz1y2fmHjMC
+         99BOrVbl1AxyGX4XP5qEycLLC6+4z0njV0eGcMUD/+tvUU+W2czbSU+g7M+ms3vNBMUl
+         x2mDCVPwq0Ouv1sjdvlcfWatCwNaWuDoFUgH7or5cgIBrnlgKvOKQYOhkTRB9ftp5kzZ
+         rc8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725900869; x=1726505669;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6Q+C9ogz7U8bywbJQGcpiixXLogu0mto8kJ/rFDq1hM=;
+        b=XJRwM7qz4saCAtPj4lsDQEVSv7LnyahTVBdGFottK+BRyOzYkD6qe164SsHFTp74YT
+         57GPRClEiWnQfzQlgAyJRPx6/WfVtprRvdH8adsOhsw0XTBSfqPTanDOJLbPf+bqTV9b
+         zeh3fnd1F6jUS62asEWzYZF1OCjkunb6WIRSkIwODRn7M6avIqtcDkK5NBJ8/DzkoU8T
+         2Lov7jI4sAeNsdPGV39iMGKQh5Sk3U1HVkzzXK201gjs6tm0JP7Oa2+3mkEdIb8jMFIQ
+         mau59fquxqXDuCa6Xw2025K4pUOevM4GULLCvAMF6jFqQHSA1SBxL+lulL3GJKhMZexC
+         OkOA==
+X-Forwarded-Encrypted: i=1; AJvYcCXVje6gFuBYpIxm8AFbf+FyTE31hzj0FFOwS9bC3ur14r7souyuneakNl1BsPcKko/RRef1ql2A708=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0u+Jxc2/G3FpgHWMPPUaFGxMfLIYlm9QgenFOWOx+MKoMbygB
+	kG/HTFfRDLWR/+hfWybVlpWiRVjIK9UpSJLTRE/2sipEwfZRSNsDjq+uQEwa6iiZfmkSo4P6YeF
+	Wk8LFAAf8gNgFDAnHSjDtQPuOsbPd2CuLXq7W
+X-Google-Smtp-Source: AGHT+IH5CAMa7jyagoL/SPMKxnbKYwRciBwcTHNa9+5fhr4aw1DzDFUIylCWU3J1Sf54qZeykPAuKVr/EjpKtXIeTYU=
+X-Received: by 2002:ac8:7f0f:0:b0:456:7501:7c4d with SMTP id
+ d75a77b69052e-458214943fbmr5401741cf.9.1725900869141; Mon, 09 Sep 2024
+ 09:54:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB7763:EE_|PH8PR12MB7182:EE_
-X-MS-Office365-Filtering-Correlation-Id: 59de6cb9-b4e2-461d-9587-08dcd0e595fb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?4YSaYoo05YM1vTJZYi01hCFyhiI5cKdZClfLO3ICm4EWsBkyW5dLgeWxBL94?=
- =?us-ascii?Q?nKCowQ4zwC4iBxsPXaYLLbdynLncWK6/MLaGbB6fQVf8LdQaUddY0/jPjacg?=
- =?us-ascii?Q?dbH6u+YWhvqD32hQsZmzoxH7FIu5quDTHL4UMy7vUSr2ISmsatht1zfpOdjJ?=
- =?us-ascii?Q?P2Bu0lK2NY7Eg/cOC2FpWEqbIV9C4kWCa5w3CJepUFA0ZawwZTug1dVwL2ld?=
- =?us-ascii?Q?EeR7HvoAPIMZzxyuTHYnQa15hRD+vfPCohdJpJghATsBUBjYvVzZGvPxlB3X?=
- =?us-ascii?Q?KPOAOYJLsbLd6Gv0SuGCIkn32XeSWTX5BnDeLV0xMTxQaEh/rXSzQBWnuasW?=
- =?us-ascii?Q?bhwpUS1O6uyP4aHzCqKCBVIJstu/SrmFGNCWUC4Xtqz5x4KxLlh/2NXO5R5S?=
- =?us-ascii?Q?QGzthqHxJUbma1zaW7G8de9IsQ8Ura6KsbOqUvgN23DJJHVXjdlgZ3bECuUr?=
- =?us-ascii?Q?QMu1FXRKZIs6qD+Mf8vrt1XmmCTJeyIukDH4dpjuk+tz8heUa5TXpIQnTl8v?=
- =?us-ascii?Q?jEq9Zk55r1GPUKk5xD92POzHmaDK6BAECwOzPK3vBcrd1glzISSZnHx/eSHz?=
- =?us-ascii?Q?NTEAGRtyIQXL6NJhs6JWJLptPQmhmTO2w5igGKut9RZRsvX1tOGVmxhfFFI+?=
- =?us-ascii?Q?lajaIz7ElV8qhME/HF0nQNdlXRe4/31w3ZqD7uKNwLFCNLXopjm8bS3Zrcq9?=
- =?us-ascii?Q?P1fKTK7x/pzWOtqMuC9PDPWNVGm/Ln7I220h4Nw7JsAPdtHjVXbQUIBIjSl2?=
- =?us-ascii?Q?ghkRxDpd7/clGmGmFh1tg2YUxmSleK/xfBlxeC8KDPj7Ag8DqO0sQGA9GPnr?=
- =?us-ascii?Q?+waoY9lCH6cuYozWJQxREwoLnnIN0Tl0Nz0s+goy0YjXnSxLoMXehGU+z9pq?=
- =?us-ascii?Q?rdDZd5y8/fHFZjkKqj9CR/8hQp1/lewVSGPPcXQACHxUrNguApQIRKYBZia9?=
- =?us-ascii?Q?2z/qlTP9SEHmN/PoI+p8zg/DoUPNHNwrwqtGpDR3MZmeQM0uXPBWQCId7PQH?=
- =?us-ascii?Q?yrxX8hvTPbCJ0G93YaCP9V1wz5d5NPvXMJtO3g3/zhaiwVG8Or2qcU8WMLWu?=
- =?us-ascii?Q?U469CBpBquOYa+xNYeM2wwi2/j2tX3HGCB9xRv+IWSVQt7G1JgR0ohNM2HD0?=
- =?us-ascii?Q?pYrAFCBuglwhUqTHfqqOoYPOuDDpDkd4Rh0R+zwWvSxZlAOPp0Xe0AwBIsBf?=
- =?us-ascii?Q?pOj6Wjyev0vItLW0VRQmH/uQPozfNosxfZHedYvPgACv+xr+Mht7oW/+yrN0?=
- =?us-ascii?Q?5IhN5Nr81NqveaWW0qok/OutubhSSp8AQ6odBy68w8BGgIaSeN7AWxTz2toH?=
- =?us-ascii?Q?4QgiqKNG2yp1Q4x4aC9Fq98xZOQsRsDbhGmjqKDpGnM91A=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB7763.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?bgyWccommztdZwGYabatiY+zmjGmcyjxNiX3ZNiK03Q/cTGstp8iWPbAn7Q4?=
- =?us-ascii?Q?Re6VnCiCcWIUcLJt5ip9lKU2sbsgMJS9OkaNxpjvKFBudDz07UgsKuKa5PA9?=
- =?us-ascii?Q?xMQ1hCBS4O9BoPsX7K8Cj9wYGjAhQHybcZ6Spo4q2sOEraM0RZwVoLdJ4FEw?=
- =?us-ascii?Q?RMJGnEpAXND0tKyLIR19EUMuG2rmSr5emE/CcVXLuLQT/8yzeLB3RsrE8xHV?=
- =?us-ascii?Q?bwV0HVeukCXX6hryS9HH7zXP7B6FIsABPtZfjew2ySphzb8p1IiM8iUK/Z7m?=
- =?us-ascii?Q?v4JJyqdK3bcvRgYyJINdhJ9jITFpK2tDTIHgFmdinBnZOSxRPYiWxbqeE7Wl?=
- =?us-ascii?Q?HezD+dniveromoJzmqCFPExVHK/a9Wz7PdUb0weHmS/xxYNg5fen+1gApkIU?=
- =?us-ascii?Q?T3Nan8MJE8pZRyziBt7oKSyAa93YeCllWfHQo+7o6c4+YkwVgvuc5Y9rwhIH?=
- =?us-ascii?Q?t03LM+hVTtu5YvdtSjDueff5RIPGME0ySKeP+c3M0f3wAGbiORzURbcyXAUF?=
- =?us-ascii?Q?rUYHWNb8noQvCZ/wfc88RlghEGiY3IlCCjrLs84B4Xw7TbcF5/HmkWLmTgAR?=
- =?us-ascii?Q?ELhPceDNkZ2NiV21lcMASsGwFEYpU+rpFychGkuHJHnKUfLNK/5NgSTxGWdj?=
- =?us-ascii?Q?uwlfk8JRp+QD6LpnOcplcZgR4bshRWgUuDYit9ss+UvP1PUjSWsDptv0zTcn?=
- =?us-ascii?Q?tjneAPpG6JDSFvGem119YcjEjdeCUX3kuHzlyXc7iMRZBVtEEBsQbObJ80Ak?=
- =?us-ascii?Q?Mg6sHeWt/J1TPpdpVhdTz7RKKn0BHunRFAYkworBf1JzL0s/QUByReJB/zDZ?=
- =?us-ascii?Q?MBlLAYPG4uC64amCuV9MMHgIHV2aTg7+zv0tyuLjHUaQBICnROpl3eyKFRZi?=
- =?us-ascii?Q?P5BVzYjaD4NeXxjv2vYdZNfKueZLl7rQmDdcJolDHrgkn9nQ+sdcUaSKmp7s?=
- =?us-ascii?Q?F8/bqgzK95FhT3OxpCBnDlOi4LcMCgGBmqjTwbahuqWyF2Q3xTtDvTQp7fD1?=
- =?us-ascii?Q?5/XRjf8YX9mox104Hs4ArPhP0nsl9W6WDrBGYrxlS7sdKUGNTYetE0v3GQ5p?=
- =?us-ascii?Q?x31RRh8vkCLKk2AC0maTbae/QILvoRdu48WHM3jWUvMSAz3DGaO20wleUgAM?=
- =?us-ascii?Q?4KBo4/XaY/9rmmew/SAYvQGKNhsxeAlTFM+dvF0scihgF5iLGM9qNEoRVH8r?=
- =?us-ascii?Q?kMEnfJIFnKHZ/3ieEzWqfdxxHg+iOMNCxGSpD9ONd8BuZqMvy/Vpu9bMsbAb?=
- =?us-ascii?Q?OjGATokg1efm2SBPdaPRf6dkM9ITneQqRP5Ib6HwhTM7+vuchaFAfZu34b5v?=
- =?us-ascii?Q?+kyi15pYL58gsTTkC9y01/x/iOGaNTu85Bt20dWeUoMjGZngkTfrXDUWeyXf?=
- =?us-ascii?Q?RJdqu3Q1yN1qr7u5KdD+b6u3O4m1pMaSGrN93idEj02wtCNC71nNAN5vwRU/?=
- =?us-ascii?Q?FoNUgi21c/ozvSpeMzAF+dLgQwC5c1pO7zw3nLXN85EJO+MfKCdJqhQ5ezC1?=
- =?us-ascii?Q?sYWCpjAQsuVGwJD0gk5W+nufSRvLVT5kB+4zq/PXIh9CeL3eZMI8au2X975F?=
- =?us-ascii?Q?mdUYT5zvJxFpm0psoKDeB+kTJTkgdV3q8Tp1pDSu?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59de6cb9-b4e2-461d-9587-08dcd0e595fb
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB7763.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2024 15:39:26.3746
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: apHbbPHZdZEVWKjxoGZlIuOLlodXQqPbKO5oi2VgkahIntOrC/lfDqfPdLCdUx1L
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7182
+References: <20240909054318.1809580-1-almasrymina@google.com> <42c202e6-8c4c-494f-8c28-17d66ed75880@huawei.com>
+In-Reply-To: <42c202e6-8c4c-494f-8c28-17d66ed75880@huawei.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Mon, 9 Sep 2024 09:54:16 -0700
+Message-ID: <CAHS8izMX+9F1NngbPx6w7ikKR9TgPvm+jMwZ8168NJYhFC7sVQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v25 00/13] Device Memory TCP
+To: Yunsheng Lin <linyunsheng@huawei.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>, 
+	Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>, 
+	Magnus Karlsson <magnus.karlsson@intel.com>, 
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>, 
+	Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Christoph Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 05, 2024 at 02:52:06PM -0300, Jason Gunthorpe wrote:
-> On Thu, Sep 05, 2024 at 05:13:53PM +0200, Joerg Roedel wrote:
-> > On Thu, Sep 05, 2024 at 09:05:31AM -0300, Jason Gunthorpe wrote:
-> > > On Thu, Sep 05, 2024 at 09:34:07AM +0200, Joerg Roedel wrote:
-> > > > On Thu, Sep 05, 2024 at 03:31:08PM +0800, Baolu Lu wrote:
-> > > > > "iommu.nohugepages=1"?
-> > > > 
-> > > > Generally yes, but that requires to touch all drivers to make the
-> > > > behavior consistent. We can start this effort on-top of this change, if
-> > > > desired.
-> > > 
-> > > Let's at least use the same keyword that already exists though??
-> > 
-> > You mean amd_iommu=sp_off? I am not in favour of that, in the Linux
-> > world the term 'hugepage' is more common than 'superpage'. So I
-> > would avoid spreading the use of the later. We can extend that later to
-> > the iommu.nohugepages parameter suggested by Baolu.
-> 
-> I see, okay, let me check with some people if the mlx5 part is Ok
+On Mon, Sep 9, 2024 at 4:21=E2=80=AFAM Yunsheng Lin <linyunsheng@huawei.com=
+> wrote:
+>
+> On 2024/9/9 13:43, Mina Almasry wrote:
+>
+> >
+> > Perf - page-pool benchmark:
+> > ---------------------------
+> >
+> > bench_page_pool_simple.ko tests with and without these changes:
+> > https://pastebin.com/raw/ncHDwAbn
+> >
+> > AFAIK the number that really matters in the perf tests is the
+> > 'tasklet_page_pool01_fast_path Per elem'. This one measures at about 8
+> > cycles without the changes but there is some 1 cycle noise in some
+> > results.
+> >
+> > With the patches this regresses to 9 cycles with the changes but there
+> > is 1 cycle noise occasionally running this test repeatedly.
+> >
+> > Lastly I tried disable the static_branch_unlikely() in
+> > netmem_is_net_iov() check. To my surprise disabling the
+> > static_branch_unlikely() check reduces the fast path back to 8 cycles,
+> > but the 1 cycle noise remains.
+>
+> Sorry for the late report, as I was adding a testing page_pool ko basing
+> on [1] to avoid introducing performance regression when fixing the bug in
+> [2].
+> I used it to test the performance impact of devmem patchset for page_pool
+> too, it seems there might be some noticable performance impact quite stab=
+ly
+> for the below testcases, about 5%~16% performance degradation as below in
+> the arm64 system:
+>
 
-Apparently we have cases that rely on some other single page sizes (eg
-like 64G or something), a bitmap would probably be better. There was an
-ask that this apply to Intel as well.
+Correct me if I'm wrong here, but on the surface here it seems that
+you're re-reporting a known issue. Consensus seems to be that it's a
+non-issue.
 
-So, I think this would be better to start as a generic iommu parameter
-with a bitmap, and do the pagesize fixing in the core code, after
-domains are allocated, instead of in the AMD driver.
+In v6 I reported that the bench_page_pool_simple.ko test reports a 1
+cycle regression with these patches, from 8->9 cycles. That is roughly
+consistent with the 5-15% you're reporting.
 
-Jason
+I root caused the reason for the regression to be the
+netmem_is_net_iov() check in the fast path. I removed this regression
+in v7 (see the change log) by conditionally compiling the check in
+that function.
+
+In v8, Pavel/Jens/David pushed back on the ifdef check. See this
+entire thread, but in particular this response from Jens:
+
+https://lore.kernel.org/lkml/11f52113-7b67-4b45-ba1d-29b070050cec@kernel.dk=
+/
+
+Seems consensus that it's 'not really worth it in this scenario'.
+
+--=20
+Thanks,
+Mina
