@@ -1,59 +1,61 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A2E178CC8;
-	Mon,  9 Sep 2024 17:24:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AB88524C4;
+	Mon,  9 Sep 2024 18:16:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725902664; cv=none; b=RnTyghTsYTP7AO+mwvcGPurb5bn3GaZiCi8X3cWzKbGoFBFGezIYQBH/GRJtnEkk5/43EAAW2+E8kAT/CesgQ6rFZ8wHMaQCt7HVl/r7Hka6VsGYvo4lWKBimNqFyrW2Sem7M82O/QbTCPeRgsg/6PXK/y/AWEQ6WNauF6WqBaM=
+	t=1725905806; cv=none; b=R/IGdYrbSUGAoC01WQQ9T3aYkL0f+nu1mJz89IqrvuYtFwE58oxxOhIqdVmrmtvHHAMc0om0/yl0QDV5axrxuMUV5JGYzdac07bSbLdTLTtMp7yG1kw85anvnhoJo2GXU2qjCWSmAleEJnFu4qFKwVuCWEdJaLoEpDgCLygILSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725902664; c=relaxed/simple;
-	bh=7jiSeWv8650EDek+o8j6WiWCPM2M1ozrJNSg8x76fhs=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=kd93qcDm9mvSPnuUwSVOi95raQkceBIjoSWnY2U431YboNXsuJqNw+0QrUBIfjo5VUFU50FmuqIDN4Ps2YHzwv+f7vW0d52pm6q02/Rk7uLkamt0fvXY228OrJPG9Y/+D48QrFe8/jtbQivlL/4kCxtRayjldt7OKJbuZdNaviI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DZ2l1zNU; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1725905806; c=relaxed/simple;
+	bh=qcr5MOHYJhKsitzdAiM0iybFMvgqUPw4gHKBKCHGWv0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p/5WXwiUHrBr6EKG5lvE+N4gsSNT85Zf7q5UwrRheRnxHTf+q8IQPr/kJby8/6Bw+tShZaFOL8+NjG8SgooAU0tFENc6GtsU2wCLSQ+zpoYQ1e9d4g7ltdbRP/w9KPkTdsRNMy8Gc/gR6yafbr8XXGrPR69c6rslHOdAZi061R8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CUGVgh+x; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DZ2l1zNU"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5365c512b00so3913269e87.3;
-        Mon, 09 Sep 2024 10:24:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CUGVgh+x"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-206aee4073cso47869155ad.1;
+        Mon, 09 Sep 2024 11:16:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725902660; x=1726507460; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=SzINnm2Ya0afTbpAAfgnl7iTn2CTj7St4+vT2jNDuJQ=;
-        b=DZ2l1zNUlOYQzUy7ZPy99rFnxiwb3SPEs2pkP61q+f7IppUlOQhj7ITkzgz91BBUY7
-         jCk5WLHM4/VT6gxleDKOGj6MIJk5GMiQ6NkpLha+FgS6jdaYN0tRrn74pkU0vnXlZUqd
-         qn9U6EwZPw7SqDUBDaKP7a1WsbOoii9Ys5fwbfsxZeOkXAldZMAAgkh7v5PEkeqq/tPD
-         hyrDadJdXISmFmlZN+jM0B8efMtELRQTHjJiWEAQC68RDf/o4MXYq0r/swRNCHu2fQj0
-         UlWj6L7DUR+VLQeC433klcUfjXHEWH2OsQP5KYcqjPhbryeZut/L7xE8LLEBVQPFiPLf
-         NMZA==
+        d=gmail.com; s=20230601; t=1725905804; x=1726510604; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=zrATOHe5XjPdhMztHbQbQTeeUa2zuUhhA4iaEWDma3M=;
+        b=CUGVgh+xjscfO6W6KzgWu2XmhKSAQcEREWGodwlf7zQDc4Hh5iX13cAejZM0K3rUIG
+         YFm7HD+hCPGbuBD38frClHUY39vnPWRbPIuACvq7KaITMpGFQPEhQJGZadwWijOxvHc1
+         +TMEiBSYCtWIx5b/Wd7pE0GTmMy/ly509ceoROhb1MiTh0wiMtW92HBeTKd261a/Qrmy
+         eplN0GG/Y5DKVFWYmD371MR5SQJV3z6BK/z6+L0wVHzUiZF0g0HFRrWFX8d3Cana6wtR
+         ueJH3hjsz+Ku8tzJPFV0M7rZWSGtI2Oazq84KKgSa7PHorIRq7aBhnvejtZlpUTogNi0
+         oC3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725902660; x=1726507460;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SzINnm2Ya0afTbpAAfgnl7iTn2CTj7St4+vT2jNDuJQ=;
-        b=MRpBTfLqNI/k3Lf5qbWHqNN+BaztcHjGKH5YhWrGSjK6ARE17L9EQTrhjvGvDBy068
-         zjebBqqBAAUWxrYo+UXho/HF4HEMo2ijorT6BEsUj+SEXhOtUqzS1UNxoiBinN5RBgsY
-         i7mHdPnfOiRBZ9+C8JpcgprA/6Oww94HoiJSdhkuXRR+Wqwr/XmtyTuSPgH5SsR29N9n
-         TvXg2dwLu6xEnaYe/uZBEBF9esv55vFIWnE5w/Mu0vwYXJSytcHn5wycm05thI4o3xg+
-         xGjAElH7zvJTs62NEbQQGxmayD3keycjXz6odmJVaUb9L+Q/DdyYXT/0x2QeJqHkTNTq
-         bmMg==
-X-Forwarded-Encrypted: i=1; AJvYcCV1V5AGnBJHTtybw2zJi5HrDQEhAInR+FR866AVxpLqJ1xdgW7yepYQ02FQuaQRkFKKIn9HeeG9IUHzeobh@vger.kernel.org, AJvYcCX7Na98hunSYXus5/kbVzGkDH2ZoZG37Sv9kfPdVdWcmBJl1TNAQN1Nddy3qyQduesxarzu+fDb47G+@vger.kernel.org, AJvYcCXTsq0gfnTeNKvaj3z99wEnnEvZbWxw81W2CopfHgPbpcymt5ipLmZYOYlGylcade4VLm8ej2vHetnpEsp7@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+y7prkY6tuNU01LS22aYlw2HZEe+xKRlTpGZJVl5Ii5QRFvXU
-	WNdfTCHrECWkxBtBGWalhPzGA8FcaEiKoLrDQNANiGAC/rscSnAC
-X-Google-Smtp-Source: AGHT+IFkmOYlKeogDazf8XMnSUXgNmiAwvfoh3FwHyhTcsMIT75dT3NSUUQNHfQeSC4vcrbssokFxg==
-X-Received: by 2002:a05:6512:b24:b0:535:3d15:e718 with SMTP id 2adb3069b0e04-536587fcf0fmr8663373e87.50.1725902659411;
-        Mon, 09 Sep 2024 10:24:19 -0700 (PDT)
-Received: from [192.168.1.17] (host-95-246-172-178.retail.telecomitalia.it. [95.246.172.178])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c3ebd52010sm3275587a12.43.2024.09.09.10.24.16
+        d=1e100.net; s=20230601; t=1725905804; x=1726510604;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zrATOHe5XjPdhMztHbQbQTeeUa2zuUhhA4iaEWDma3M=;
+        b=Cgea947C0zUewrjMT9L71WfJvPrpduuFmnPlfcLUIUAiaiSFZx8wZCC26Bf1Vg+7v5
+         mOKKWbB4nWsCgbkmtfaX6qPrsdpvElpJvVlqZNj2IcSD+VK+csF+ZWea5VZdhqoTPO72
+         g88UqIBoYfaPx/MOz/76pl8LZtMZNeS6mkG2yy60ljp5XRva+NnS81e5YTYPLKCps6sY
+         VcraR18DpAnyZr9dgLsW++7nAxAREsjcdToar3FfJ5pkDJ6ImP6Iti/5oj+xc6yptr99
+         tk6hzLuoA8zu0kLHv8VrjnjcFIcRV7AXRMqSd3BglYMH7pELxxDVCHqicSXdvbuNzfUN
+         fBFw==
+X-Forwarded-Encrypted: i=1; AJvYcCVuXTCHDGjrCy5qPkeJQnSw6bjA1ZGi5rJpt0J5YVngthammmv2ZY1sg+fvnQEozy1C0N8nMsx/Jj10GXkD@vger.kernel.org, AJvYcCWhEVziqpw89lAfXsb2kthR8sZbGtkR4Y88vk6HneHMF6j0/Q+Hj6EUeHTrARsjrjh8MDEgd+qDZYTq@vger.kernel.org, AJvYcCXJRoEQ2MJJsdA8skR24lvcxNEN5YkcrT4vdriwGePdtCKgm2DwfhYZv59SPY0+nEnEBYC4flaUTJNz@vger.kernel.org, AJvYcCXnpmrSPF5q4ow6U1/SIUZKhH/QkcnI8oQGUQJNbPkzoatlwkJWrqs8aFbQpgrZ/R6T58UR+Khk9AP2@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzr3Fch3JpvIE/nr+bsmB+RHIf5Ji2vrnuI1RSOsOKpPbHjlk6e
+	xIhdoMxkvIgWmewbDI+GHVXabrqXxhT8s7lafUSHxIrycgvMJr2p27wLKg==
+X-Google-Smtp-Source: AGHT+IFirGzM0CCUfiXl/kaXhL3US9esvMkev6/AQ2dfwTH+uze+N8uCelG8kf4lIJfPOETvDE9aiA==
+X-Received: by 2002:a17:902:ce0b:b0:202:51ca:9823 with SMTP id d9443c01a7336-206f05f62f3mr225447475ad.46.1725905804488;
+        Mon, 09 Sep 2024 11:16:44 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20710e1a63csm36850415ad.13.2024.09.09.11.16.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Sep 2024 10:24:17 -0700 (PDT)
-Message-ID: <86b02057-3e25-45c4-afaf-597394132a37@gmail.com>
-Date: Mon, 9 Sep 2024 19:24:16 +0200
+        Mon, 09 Sep 2024 11:16:44 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <d76290e0-f5e7-4192-92b8-94f260270fe3@roeck-us.net>
+Date: Mon, 9 Sep 2024 11:16:41 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,175 +63,130 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 04/10] drm/msm/A6xx: Implement preemption for A7XX
- targets
-From: Antonino Maniscalco <antomani103@gmail.com>
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+Subject: Re: [PATCH 2/3] hwmon: (pmbus/core) add POWER_GOOD signal limits
+ support
+To: Jerome Brunet <jbrunet@baylibre.com>, Jean Delvare <jdelvare@suse.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Sharat Masetty <smasetty@codeaurora.org>,
- Neil Armstrong <neil.armstrong@linaro.org>
-References: <20240905-preemption-a750-t-v3-0-fd947699f7bc@gmail.com>
- <20240905-preemption-a750-t-v3-4-fd947699f7bc@gmail.com>
- <20240906195444.owz4eralirekr7r7@hu-akhilpo-hyd.qualcomm.com>
- <df85bf24-651c-4a35-929b-4de6c05555a1@gmail.com>
+ linux-i2c@vger.kernel.org
+References: <20240909-tps25990-v1-0-39b37e43e795@baylibre.com>
+ <20240909-tps25990-v1-2-39b37e43e795@baylibre.com>
 Content-Language: en-US
-In-Reply-To: <df85bf24-651c-4a35-929b-4de6c05555a1@gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20240909-tps25990-v1-2-39b37e43e795@baylibre.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 9/9/24 3:15 PM, Antonino Maniscalco wrote:
-> On 9/6/24 9:54 PM, Akhil P Oommen wrote:
->> On Thu, Sep 05, 2024 at 04:51:22PM +0200, Antonino Maniscalco wrote:
->>> This patch implements preemption feature for A6xx targets, this allows
->>> the GPU to switch to a higher priority ringbuffer if one is ready. A6XX
->>> hardware as such supports multiple levels of preemption granularities,
->>> ranging from coarse grained(ringbuffer level) to a more fine grained
->>> such as draw-call level or a bin boundary level preemption. This patch
->>> enables the basic preemption level, with more fine grained preemption
->>> support to follow.
->>>
->>> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
->>> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
->>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
->>> ---
->>>   drivers/gpu/drm/msm/Makefile              |   1 +
->>>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 293 +++++++++++++++++++++-
->>>   drivers/gpu/drm/msm/adreno/a6xx_gpu.h     | 161 ++++++++++++
-> ...
->>
->> we can use the lighter smp variant here.
->>
->>> +
->>> +        if (a6xx_gpu->cur_ring == ring)
->>> +            gpu_write(gpu, REG_A6XX_CP_RB_WPTR, wptr);
->>> +        else
->>> +            ring->skip_inline_wptr = true;
->>> +    } else {
->>> +        ring->skip_inline_wptr = true;
->>> +    }
->>> +
->>> +    spin_unlock_irqrestore(&ring->preempt_lock, flags);
->>>   }
->>>   static void get_stats_counter(struct msm_ringbuffer *ring, u32 
->>> counter,
->>> @@ -138,12 +231,14 @@ static void a6xx_set_pagetable(struct a6xx_gpu 
->>> *a6xx_gpu,
->>
->> set_pagetable checks "cur_ctx_seqno" to see if pt switch is needed or
->> not. This is currently not tracked separately for each ring. Can you
->> please check that?
+On 9/9/24 08:39, Jerome Brunet wrote:
+> Add support for POWER_GOOD_ON and POWER_GOOD_OFF standard PMBus commands.
 > 
-> I totally missed that. Thanks for catching it!
+> For PMBus devices that offer a POWER_GOOD signal, these commands are used
+> for setting the output voltage at which a power good signal should be
+> asserted and negated.
 > 
->>
->> I wonder why that didn't cause any gpu errors in testing. Not sure if I
->> am missing something.
->>
+> Power Good signals are device and manufacturer specific. Many factors other
+> than output voltage may be used to determine whether or not the POWER_GOOD
+> signal is to be asserted. PMBus device users are instructed to consult the
+> device manufacturer’s product literature for the specifics of the device
+> they are using.
 > 
-> I think this is because, so long as a single context doesn't submit to 
-> two different rings with differenr priorities, we will only be incorrect 
-> in the sense that we emit more page table switches than necessary and 
-> never less. However untrusted userspace could create a context that 
-> submits to two different rings and that would lead to execution in the 
-> wrong context so we must fix this.
+> Note that depending on the choice of the device manufacturer that a device
+> may drive a POWER_GOOD signal high or low to indicate that the signal is
+> asserted.
 > 
->>>       /*
->>>        * Write the new TTBR0 to the memstore. This is good for 
->>> debugging.
->>> +     * Needed for preemption
->>>        */
->>> -    OUT_PKT7(ring, CP_MEM_WRITE, 4);
->>> +    OUT_PKT7(ring, CP_MEM_WRITE, 5);
->>>       OUT_RING(ring, CP_MEM_WRITE_0_ADDR_LO(lower_32_bits(memptr)));
->>>       OUT_RING(ring, CP_MEM_WRITE_1_ADDR_HI(upper_32_bits(memptr)));
->>>       OUT_RING(ring, lower_32_bits(ttbr));
->>> -    OUT_RING(ring, (asid << 16) | upper_32_bits(ttbr));
->>> +    OUT_RING(ring, upper_32_bits(ttbr));
->>> +    OUT_RING(ring, ctx->seqno);
->>>       /*
->>>        * Sync both threads after switching pagetables and enable BR only
->>> @@ -268,6 +363,43 @@ static void a6xx_submit(struct msm_gpu *gpu, 
->>> struct msm_gem_submit *submit)
->>>       a6xx_flush(gpu, ring);
->>>   }
-> ...
->>> +    struct a6xx_preempt_record *record_ptr =
->>> +        a6xx_gpu->preempt[ring->id] + PREEMPT_OFFSET_PRIV_NON_SECURE;
->>> +    u64 ttbr0 = ring->memptrs->ttbr0;
->>> +    u32 context_idr = ring->memptrs->context_idr;
->>> +
->>> +    smmu_info_ptr->ttbr0 = ttbr0;
->>> +    smmu_info_ptr->context_idr = context_idr;
->>> +    record_ptr->wptr = get_wptr(ring);
->>> +
->>> +    /*
->>> +     * The GPU will write the wptr we set above when we preempt. Reset
->>> +     * skip_inline_wptr to make sure that we don't write WPTR to the 
->>> same
->>> +     * thing twice. It's still possible subsequent submissions will 
->>> update
->>> +     * wptr again, in which case they will set the flag to true. 
->>> This has
->>> +     * to be protected by the lock for setting the flag and updating 
->>> wptr
->>> +     * to be atomic.
->>> +     */
->>> +    ring->skip_inline_wptr = false;
->>> +
->>> +    spin_unlock_irqrestore(&ring->preempt_lock, flags);
->>> +
->>> +    gpu_write64(gpu,
->>> +        REG_A6XX_CP_CONTEXT_SWITCH_SMMU_INFO,
->>> +        a6xx_gpu->preempt_iova[ring->id] + PREEMPT_OFFSET_SMMU_INFO);
->>> +
->>> +    gpu_write64(gpu,
->>> +        REG_A6XX_CP_CONTEXT_SWITCH_PRIV_NON_SECURE_RESTORE_ADDR,
->>> +        a6xx_gpu->preempt_iova[ring->id] + 
->>> PREEMPT_OFFSET_PRIV_NON_SECURE);
->>> +
->>> +    preempt_offset_priv_secure =
->>> +        
->>> PREEMPT_OFFSET_PRIV_SECURE(adreno_gpu->info->preempt_record_size);
->>> +    gpu_write64(gpu,
->>> +        REG_A6XX_CP_CONTEXT_SWITCH_PRIV_SECURE_RESTORE_ADDR,
->>> +        a6xx_gpu->preempt_iova[ring->id] + preempt_offset_priv_secure);
->>
->> Secure buffers are not supported currently, so we can skip this and the
->> context record allocation. Anyway this has to be a separate buffer
->> mapped in secure pagetable which don't currently have. We can skip the
->> same in pseudo register packet too.
->>
+> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+> ---
+>   drivers/hwmon/pmbus/pmbus.h      | 3 +++
+>   drivers/hwmon/pmbus/pmbus_core.c | 6 ++++++
+>   2 files changed, 9 insertions(+)
 > 
-> Mmm it would appear that not setting it causes an hang very early. I'll 
-> see if I can find out more about what is going on.
+> diff --git a/drivers/hwmon/pmbus/pmbus.h b/drivers/hwmon/pmbus/pmbus.h
+> index 5d5dc774187b..e322d2dd9fb7 100644
+> --- a/drivers/hwmon/pmbus/pmbus.h
+> +++ b/drivers/hwmon/pmbus/pmbus.h
+> @@ -78,6 +78,9 @@ enum pmbus_regs {
+>   	PMBUS_IIN_OC_FAULT_LIMIT	= 0x5B,
+>   	PMBUS_IIN_OC_WARN_LIMIT		= 0x5D,
+>   
+> +	PMBUS_POWER_GOOD_ON		= 0x5E,
+> +	PMBUS_POWER_GOOD_OFF		= 0x5F,
+> +
+>   	PMBUS_POUT_OP_FAULT_LIMIT	= 0x68,
+>   	PMBUS_POUT_OP_WARN_LIMIT	= 0x6A,
+>   	PMBUS_PIN_OP_WARN_LIMIT		= 0x6B,
+> diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbus_core.c
+> index 0ea6fe7eb17c..94ddf0166770 100644
+> --- a/drivers/hwmon/pmbus/pmbus_core.c
+> +++ b/drivers/hwmon/pmbus/pmbus_core.c
+> @@ -1768,6 +1768,12 @@ static const struct pmbus_limit_attr vout_limit_attrs[] = {
+>   		.attr = "crit",
+>   		.alarm = "crit_alarm",
+>   		.sbit = PB_VOLTAGE_OV_FAULT,
+> +	}, {
+> +		.reg = PMBUS_POWER_GOOD_ON,
+> +		.attr = "good_on",
+> +	}, {
+> +		.reg = PMBUS_POWER_GOOD_OFF,
+> +		.attr = "good_off",
+>   	}, {
+>   		.reg = PMBUS_VIRT_READ_VOUT_AVG,
+>   		.update = true,
+> 
 
-Actually it was a mistake I had made when testing. The secure record 
-will be gone from the next revision.
+Those attributes are not hardware monitoring attributes and therefore not
+acceptable. In general I am not sure if they should be configurable in the
+first place, but definitely not from the hardware monitoring subsystem.
+Maybe the regulator subsystem callbacks set_over_voltage_protection and
+set_under_voltage_protection would be appropriate (with severity
+REGULATOR_SEVERITY_PROT), but that should be discussed with regulator
+subsystem maintainers.
 
-> 
->>> +
->>> +    a6xx_gpu->next_ring = ring;
->>> +
-> ...
->>>   struct msm_ringbuffer *msm_ringbuffer_new(struct msm_gpu *gpu, int id,
->>>
->>> -- 
->>> 2.46.0
->>>
-> 
-> Best regards,
-
-Best regards,
--- 
-Antonino Maniscalco <antomani103@gmail.com>
+Thanks,
+Guenter
 
