@@ -1,97 +1,107 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D6C1304BA;
-	Mon,  9 Sep 2024 20:03:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4F7188CAF;
+	Mon,  9 Sep 2024 20:09:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725912186; cv=none; b=LZqmMo3GyArfw14cuLYM9LDE6N9sMDiPXdOTiYzvEDcvpY+1ylKCUvRA8hIe3jyGwdu6cI1OyLNoIsUJrdHM2q+7xjTlF+Ibl6xjH2nAeXHYW0THBATH5b5WQomWjtodn4VAxXNKu9jTQEjW4HrpBx9C81c+Qau9UAlk/7bEPgg=
+	t=1725912597; cv=none; b=OQjKENHrRowx8yVyG0SzdhaJehz9X+DWduBDO+8QKXjQPL8oOa37MNfJ4EI/y6bX/uupZpNyp2zk1jKp0Cm2B7MwZJ2+LbI8gOC6CmDrTOVAsrrZC2nEH68fOjmNmrj6soEUCWWj08t++FYPvUhG70Qnm/eA3inS/wWqL8Q/SOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725912186; c=relaxed/simple;
-	bh=98ATOqRpPlw66eNskJRZJR4j0GxcPt3Mqkps8rzxzXI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Q9Ibmbi+ri1xI6rb/OFAs7F/p5Ztm8ChutEn0/duxB/XVcvgljqilgFo2P005BCEQmpAFa9SbkenFEtJtjInHQih/E6SzxAr/MCbJuUFRUltaIA1iD6rr0Wh9DIlUeDEx6jzyJI90m6kmzJY5hFy4hdi1Mq71yBkwXhAnjvMFQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cYb7epX4; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1725912597; c=relaxed/simple;
+	bh=dgEMI3wGf4QoZWLUf+u2E3CCQEsBsqk1dmls2e6pdGk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=A/hpemzCuHZV64FIhhhOjkM6KOUQKPL8rx7AGlX3TKZ4ZeblRkjstflxEM6H7Y4n7VUTnazHY1SsvPVv6lLuvrXhD9pmBlY/YYQZJTxRvT+60ap0pYKoa2bCF9n7mD6bACaxk6FA+fcdCTT4Kknx32TQPlXWSQbOGEviBut/d5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QaidQYDS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cYb7epX4"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-718e482930bso1460483b3a.2;
-        Mon, 09 Sep 2024 13:03:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725912184; x=1726516984; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XIpVNTIU7AkD5qFomoi/slMfyi8wrL5+kfsNJ7Mu8EY=;
-        b=cYb7epX4QuIBXakh3b7oVVB6kz3Lrdig12yXgKKF35UhyCHjjq2343dApswxhIm/Yb
-         szLEtLj/p4JlRK6WlOZ8S1JROu+9ZgmVrhGTa5BbyASMdSTk7TQFLI6CTk1xcZA81PMB
-         khIFjytazcZ9i4beIuAJHuQOU2kouT7abITXUbior7l6jZVcat7cmAA+mbAVoVkAIsA8
-         YiiOPdFhj1CQolkDsx1He0lX9vxRzEcKD8i2pfEPAHN01p++mAzURdAI8KogLMmyttia
-         TAN+jlJ0F1f3TicagncN3X8zK87XMKh5P1PCxY+z1rauY6JQgQHAQddH8RAh/326fXx1
-         ZrEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725912184; x=1726516984;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XIpVNTIU7AkD5qFomoi/slMfyi8wrL5+kfsNJ7Mu8EY=;
-        b=A6WGS0vwpER7BVmGX8CcZOKMLKeTwm1NUR8/u3UNfv3w7YinUezVFy6/2OnRDOUZVT
-         9BB5cILjugFycLFKt78WoG1uT4Jbqe6cIKqFSc/XY3yJFYv0iJqFY8/6aQPDL5CHgW5n
-         296DMw71SzuFlcdrgv/5TZAEJ4Ja+tddgaSTI1FS4sRMVRxKA8uvi4v1DPKf8XmVSy4T
-         v1SPIUuYOWo73oStR3LHaqpezrZl5qcu29/ODnlHgPK2DePtCp8LoLRuXNj0kbTrHIoZ
-         dASilSap56SxFM+1WkaJDcVvtoF+UwIXcXj300pQ/bR9jZB9pwUQJT3vR+93pEA2rGu1
-         LJIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU3SEAtUEA66KhrSidhWJsbHx7hpgw2eZeuTvePFEEIwqqDjkRSexI0f/9oEh63YB4jUYgmlw1bhuM=@vger.kernel.org, AJvYcCUNWLZnlich0ry7m2SeEoURVCWOPzC3A3VOM0CJZ4vfUSeOiTicRwHoOwXKofwURMLejgSUeR3Sr506fo3U@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyqk18BaEiA/rGKhQIvyWcI4c1HdAfaAzWHzf0mucrUGRC3Ji7J
-	Chi4Qh0lSjCNvShetCB4EzIgHcCPUMrtgzhezodD8SXiprgcp29I
-X-Google-Smtp-Source: AGHT+IHPYLUqDL9wxAHrYhKP1C7rVJvZOr82JaMztbBhc457FG8zFTv3sXRmmYAsW5VdVnxAsMdvRA==
-X-Received: by 2002:a05:6300:4c:b0:1cf:32b6:bcd with SMTP id adf61e73a8af0-1cf32b60ca3mr9822622637.33.1725912183946;
-        Mon, 09 Sep 2024 13:03:03 -0700 (PDT)
-Received: from Kuchus.. ([27.7.2.211])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7190909222bsm110594b3a.115.2024.09.09.13.03.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Sep 2024 13:03:03 -0700 (PDT)
-From: cvam <cvam0000@gmail.com>
-To: kbusch@kernel.org,
-	axboe@kernel.dk
-Cc: hch@lst.de,
-	sagi@grimberg.me,
-	corbet@lwn.net,
-	linux-nvme@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	cvam <cvam0000@gmail.com>
-Subject: [PATCH] Typo in the file 'feature-and-quirk-policy.rst'.
-Date: Tue, 10 Sep 2024 01:32:53 +0530
-Message-Id: <20240909200253.19818-1-cvam0000@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QaidQYDS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6148AC4CEC5;
+	Mon,  9 Sep 2024 20:09:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725912597;
+	bh=dgEMI3wGf4QoZWLUf+u2E3CCQEsBsqk1dmls2e6pdGk=;
+	h=From:Subject:Date:To:Cc:From;
+	b=QaidQYDStABvEz91IKdOY4uT1baJ83j/AI5oe763X/6ZdiiweP/Zn9zu5sO6+RRFb
+	 8GPRZlyITkpHupRBD51GTJBf+NzZfLSDmxpWAMtevT5yl/nnEy56/RqFhOcwpKj5Ef
+	 HTUQ7xaw/AqARU2BI2JoSYObtDqgFgKHHFhyX9rrcvpO38B8KjmiIl7hLtviWCo3uX
+	 CAJUZSGX7+48VXRfszLGZ7prQyK9BzXP+FyGLdBGoc41yT4QujFf7V5ePNdEWIcf16
+	 t4FAI1f3s1h1Uuu8WSi4YPDrCzSvKukC+Y9fZTGKUvDGRXyTsUfm/t/6qGQxeKyhe4
+	 9OyWJ4p6Msj1Q==
+From: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
+Subject: [PATCH net-next 0/3] mptcp: fallback to TCP after 3 MPC drop +
+ cache
+Date: Mon, 09 Sep 2024 22:09:20 +0200
+Message-Id: <20240909-net-next-mptcp-fallback-x-mpc-v1-0-da7ebb4cd2a3@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPBV32YC/zWMQQqDMBBFryKz7sA0FTS9SukippM6qGlIQgmId
+ +8gdPEX78N7OxTOwgXu3Q6Zv1LkExWulw787OKbUV7KYMj0ZMli5KprFbdUfcLg1nVyfsGmh0c
+ aaDBhNLdgJ9BGyhyknf0H/FV4HscPltUUt3kAAAA=
+To: mptcp@lists.linux.dev, Mat Martineau <martineau@kernel.org>, 
+ Geliang Tang <geliang@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, David Ahern <dsahern@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1708; i=matttbe@kernel.org;
+ h=from:subject:message-id; bh=dgEMI3wGf4QoZWLUf+u2E3CCQEsBsqk1dmls2e6pdGk=;
+ b=owEBbQKS/ZANAwAIAfa3gk9CaaBzAcsmYgBm31YP5itjq7vsuUpGMUuDXA8grh7Q9pjSGINKJ
+ YCw5pbFHkqJAjMEAAEIAB0WIQToy4X3aHcFem4n93r2t4JPQmmgcwUCZt9WDwAKCRD2t4JPQmmg
+ cxjQD/45Tw02DE47iFEG6myAKi/Xbw6SPrvZwxmvX4BEzQVEPCAsxjfkoCRgjn1Ahlv7NYyxhNW
+ wn2ELdrjbFeY/7o6FkuMfJnXiXfA+5E8TrwWxWGSl6rCZoYPcRPQPZjsVp3G33QS74AvrVFSu7F
+ nQaYGfSz0PejkF3HRE+HuoMGdCHMz7zB+uHt5dD/gkQ40dMHVOPGYcd35bCAx2DP6aL3iro/ZvZ
+ DYcoA8UDd6pNcx3MSM2+WIB/p7SkvNQcgsRatz43QpNA0DYkpqQXDAZzmJG4kBBDYcCB5ixc//u
+ KXy+TJgQ0xoJuekpx4mLA7y0lhYeaaXA3qOm4td682jtAsDjgkOQGHP4w3avrBKcpop7lUjgIJP
+ Qn1S5x8MwaGULkD/PBroDiognbNePeoqOOVRihQnBCG3U0jLzt69HZl/h/g3H4RqPBQNS5prjDq
+ nn6Dt6wPCs+BaeeF/B3I5ndya4k8Lpqg+ir7Cc6+ZiPkiGkrU6bdaZ6bvPdavNTRYPtSUI1jy4m
+ bmJ65hIWqWxoYh3cFcgA5tWok1yxzoFVLrbPfWVP9OdlMqvMR81hU1/lFY4Q3+xaYkyB5li7yBO
+ A5ldWxTzuVLQ/BiXDps1m5trVEuvLJu+HEN9sB+DsaSD0mxFysMceVCFMv/NuWzfghmb5ttGBA6
+ 8shW2AAL49FsOdA==
+X-Developer-Key: i=matttbe@kernel.org; a=openpgp;
+ fpr=E8CB85F76877057A6E27F77AF6B7824F4269A073
 
-location: 'Documentation/nvme/feature-and-quirk-policy.rst'
-tested: Not breaking anything.
-Signed-off-by: cvam <cvam0000@gmail.com>
+The SYN + MPTCP_CAPABLE packets could be explicitly dropped by firewalls
+somewhere in the network, e.g. if they decide to drop packets based on
+the TCP options, instead of stripping them off.
+
+The idea of this series is to fallback to TCP after 3 SYN+MPC drop
+(patch 2). If the connection succeeds after the fallback, it very likely
+means a blackhole has been detected. In this case (patch 3), MPTCP can
+be disabled for a certain period of time, 1h by default. If after this
+period, MPTCP is still blocked, the period is doubled. This technique is
+inspired by the one used by TCP FastOpen.
+
+This should help applications which want to use MPTCP by default on the
+client side if available.
+
+Signed-off-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
 ---
- Documentation/nvme/feature-and-quirk-policy.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Matthieu Baerts (NGI0) (3):
+      mptcp: export mptcp_subflow_early_fallback()
+      mptcp: fallback to TCP after SYN+MPC drops
+      mptcp: disable active MPTCP in case of blackhole
 
-diff --git a/Documentation/nvme/feature-and-quirk-policy.rst b/Documentation/nvme/feature-and-quirk-policy.rst
-index c01d836d8e41..b5461aa303a4 100644
---- a/Documentation/nvme/feature-and-quirk-policy.rst
-+++ b/Documentation/nvme/feature-and-quirk-policy.rst
-@@ -1,7 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- =======================================
--Linux NVMe feature and and quirk policy
-+Linux NVMe feature and quirk policy
- =======================================
- 
- This file explains the policy used to decide what is supported by the
+ Documentation/networking/mptcp-sysctl.rst |  11 +++
+ include/net/mptcp.h                       |   4 +
+ net/ipv4/tcp_timer.c                      |   1 +
+ net/mptcp/ctrl.c                          | 133 ++++++++++++++++++++++++++++++
+ net/mptcp/mib.c                           |   3 +
+ net/mptcp/mib.h                           |   3 +
+ net/mptcp/protocol.c                      |  18 ++--
+ net/mptcp/protocol.h                      |  16 +++-
+ net/mptcp/subflow.c                       |   4 +
+ 9 files changed, 182 insertions(+), 11 deletions(-)
+---
+base-commit: bfba7bc8b7c2c100b76edb3a646fdce256392129
+change-id: 20240909-net-next-mptcp-fallback-x-mpc-07072f823f9b
+
+Best regards,
 -- 
-2.34.1
+Matthieu Baerts (NGI0) <matttbe@kernel.org>
 
