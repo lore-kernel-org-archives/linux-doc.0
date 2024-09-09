@@ -1,156 +1,235 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998F61BC40
-	for <linux-doc@vger.kernel.org>; Mon,  9 Sep 2024 16:54:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A2E178CC8;
+	Mon,  9 Sep 2024 17:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725900872; cv=none; b=JFO8NOHQZzcgPMYnpsxpcAJo9k6gtn6MC49rYS+WaR5E6He58qnm5nVF3ZjVRkNeyHIu62Sm1IyCe7trp+07cIfTJu2gRI8CGELeYvxi3NkswYsN9qjC+4qlauNYMuLlUpVtO5wBHTtb/5KIvUvfDE7BaMGAenobNZwdnk++gEg=
+	t=1725902664; cv=none; b=RnTyghTsYTP7AO+mwvcGPurb5bn3GaZiCi8X3cWzKbGoFBFGezIYQBH/GRJtnEkk5/43EAAW2+E8kAT/CesgQ6rFZ8wHMaQCt7HVl/r7Hka6VsGYvo4lWKBimNqFyrW2Sem7M82O/QbTCPeRgsg/6PXK/y/AWEQ6WNauF6WqBaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725900872; c=relaxed/simple;
-	bh=6Q+C9ogz7U8bywbJQGcpiixXLogu0mto8kJ/rFDq1hM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NXjyOKL7JxkX7Bnq1clBojRPpJw6mT+PLyYF3fu7wcTbDqWtkyrgdxYZwFXoiBhd9WfDxj0bTVsjzHpPpbgXlR7Vad1InuX0jD7iBl1d+tHuR1hUXYWTjEZRSVbKe3O1ErBCQjvM+IpMNL31mC1+Sj0P6jqxSAczYTTyxOFS9LI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zftvtENv; arc=none smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1725902664; c=relaxed/simple;
+	bh=7jiSeWv8650EDek+o8j6WiWCPM2M1ozrJNSg8x76fhs=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=kd93qcDm9mvSPnuUwSVOi95raQkceBIjoSWnY2U431YboNXsuJqNw+0QrUBIfjo5VUFU50FmuqIDN4Ps2YHzwv+f7vW0d52pm6q02/Rk7uLkamt0fvXY228OrJPG9Y/+D48QrFe8/jtbQivlL/4kCxtRayjldt7OKJbuZdNaviI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DZ2l1zNU; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zftvtENv"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4582b71df40so3511cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 09 Sep 2024 09:54:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DZ2l1zNU"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5365c512b00so3913269e87.3;
+        Mon, 09 Sep 2024 10:24:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1725900869; x=1726505669; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6Q+C9ogz7U8bywbJQGcpiixXLogu0mto8kJ/rFDq1hM=;
-        b=zftvtENvf4uW4nTJnM1KzDdzsjU/F6GJgfAfeBgXXP2uuc5R0x0Kin63bhC9hvd/vH
-         lOfRESNkXIoUeuO16b3giev/BkoRw7HYGj2RZ8Lvd9He0RUoi88r8+K3kPT1CoOLj4/Q
-         usEGOwEPS+E/A3x6BI69rphus4gz+2y9PLzEtKsUTePo6eeOEWQGGvbVRhz1y2fmHjMC
-         99BOrVbl1AxyGX4XP5qEycLLC6+4z0njV0eGcMUD/+tvUU+W2czbSU+g7M+ms3vNBMUl
-         x2mDCVPwq0Ouv1sjdvlcfWatCwNaWuDoFUgH7or5cgIBrnlgKvOKQYOhkTRB9ftp5kzZ
-         rc8Q==
+        d=gmail.com; s=20230601; t=1725902660; x=1726507460; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=SzINnm2Ya0afTbpAAfgnl7iTn2CTj7St4+vT2jNDuJQ=;
+        b=DZ2l1zNUlOYQzUy7ZPy99rFnxiwb3SPEs2pkP61q+f7IppUlOQhj7ITkzgz91BBUY7
+         jCk5WLHM4/VT6gxleDKOGj6MIJk5GMiQ6NkpLha+FgS6jdaYN0tRrn74pkU0vnXlZUqd
+         qn9U6EwZPw7SqDUBDaKP7a1WsbOoii9Ys5fwbfsxZeOkXAldZMAAgkh7v5PEkeqq/tPD
+         hyrDadJdXISmFmlZN+jM0B8efMtELRQTHjJiWEAQC68RDf/o4MXYq0r/swRNCHu2fQj0
+         UlWj6L7DUR+VLQeC433klcUfjXHEWH2OsQP5KYcqjPhbryeZut/L7xE8LLEBVQPFiPLf
+         NMZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725900869; x=1726505669;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6Q+C9ogz7U8bywbJQGcpiixXLogu0mto8kJ/rFDq1hM=;
-        b=XJRwM7qz4saCAtPj4lsDQEVSv7LnyahTVBdGFottK+BRyOzYkD6qe164SsHFTp74YT
-         57GPRClEiWnQfzQlgAyJRPx6/WfVtprRvdH8adsOhsw0XTBSfqPTanDOJLbPf+bqTV9b
-         zeh3fnd1F6jUS62asEWzYZF1OCjkunb6WIRSkIwODRn7M6avIqtcDkK5NBJ8/DzkoU8T
-         2Lov7jI4sAeNsdPGV39iMGKQh5Sk3U1HVkzzXK201gjs6tm0JP7Oa2+3mkEdIb8jMFIQ
-         mau59fquxqXDuCa6Xw2025K4pUOevM4GULLCvAMF6jFqQHSA1SBxL+lulL3GJKhMZexC
-         OkOA==
-X-Forwarded-Encrypted: i=1; AJvYcCXVje6gFuBYpIxm8AFbf+FyTE31hzj0FFOwS9bC3ur14r7souyuneakNl1BsPcKko/RRef1ql2A708=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0u+Jxc2/G3FpgHWMPPUaFGxMfLIYlm9QgenFOWOx+MKoMbygB
-	kG/HTFfRDLWR/+hfWybVlpWiRVjIK9UpSJLTRE/2sipEwfZRSNsDjq+uQEwa6iiZfmkSo4P6YeF
-	Wk8LFAAf8gNgFDAnHSjDtQPuOsbPd2CuLXq7W
-X-Google-Smtp-Source: AGHT+IH5CAMa7jyagoL/SPMKxnbKYwRciBwcTHNa9+5fhr4aw1DzDFUIylCWU3J1Sf54qZeykPAuKVr/EjpKtXIeTYU=
-X-Received: by 2002:ac8:7f0f:0:b0:456:7501:7c4d with SMTP id
- d75a77b69052e-458214943fbmr5401741cf.9.1725900869141; Mon, 09 Sep 2024
- 09:54:29 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1725902660; x=1726507460;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SzINnm2Ya0afTbpAAfgnl7iTn2CTj7St4+vT2jNDuJQ=;
+        b=MRpBTfLqNI/k3Lf5qbWHqNN+BaztcHjGKH5YhWrGSjK6ARE17L9EQTrhjvGvDBy068
+         zjebBqqBAAUWxrYo+UXho/HF4HEMo2ijorT6BEsUj+SEXhOtUqzS1UNxoiBinN5RBgsY
+         i7mHdPnfOiRBZ9+C8JpcgprA/6Oww94HoiJSdhkuXRR+Wqwr/XmtyTuSPgH5SsR29N9n
+         TvXg2dwLu6xEnaYe/uZBEBF9esv55vFIWnE5w/Mu0vwYXJSytcHn5wycm05thI4o3xg+
+         xGjAElH7zvJTs62NEbQQGxmayD3keycjXz6odmJVaUb9L+Q/DdyYXT/0x2QeJqHkTNTq
+         bmMg==
+X-Forwarded-Encrypted: i=1; AJvYcCV1V5AGnBJHTtybw2zJi5HrDQEhAInR+FR866AVxpLqJ1xdgW7yepYQ02FQuaQRkFKKIn9HeeG9IUHzeobh@vger.kernel.org, AJvYcCX7Na98hunSYXus5/kbVzGkDH2ZoZG37Sv9kfPdVdWcmBJl1TNAQN1Nddy3qyQduesxarzu+fDb47G+@vger.kernel.org, AJvYcCXTsq0gfnTeNKvaj3z99wEnnEvZbWxw81W2CopfHgPbpcymt5ipLmZYOYlGylcade4VLm8ej2vHetnpEsp7@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+y7prkY6tuNU01LS22aYlw2HZEe+xKRlTpGZJVl5Ii5QRFvXU
+	WNdfTCHrECWkxBtBGWalhPzGA8FcaEiKoLrDQNANiGAC/rscSnAC
+X-Google-Smtp-Source: AGHT+IFkmOYlKeogDazf8XMnSUXgNmiAwvfoh3FwHyhTcsMIT75dT3NSUUQNHfQeSC4vcrbssokFxg==
+X-Received: by 2002:a05:6512:b24:b0:535:3d15:e718 with SMTP id 2adb3069b0e04-536587fcf0fmr8663373e87.50.1725902659411;
+        Mon, 09 Sep 2024 10:24:19 -0700 (PDT)
+Received: from [192.168.1.17] (host-95-246-172-178.retail.telecomitalia.it. [95.246.172.178])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c3ebd52010sm3275587a12.43.2024.09.09.10.24.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Sep 2024 10:24:17 -0700 (PDT)
+Message-ID: <86b02057-3e25-45c4-afaf-597394132a37@gmail.com>
+Date: Mon, 9 Sep 2024 19:24:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240909054318.1809580-1-almasrymina@google.com> <42c202e6-8c4c-494f-8c28-17d66ed75880@huawei.com>
-In-Reply-To: <42c202e6-8c4c-494f-8c28-17d66ed75880@huawei.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Mon, 9 Sep 2024 09:54:16 -0700
-Message-ID: <CAHS8izMX+9F1NngbPx6w7ikKR9TgPvm+jMwZ8168NJYhFC7sVQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v25 00/13] Device Memory TCP
-To: Yunsheng Lin <linyunsheng@huawei.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>, 
-	Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>, 
-	Magnus Karlsson <magnus.karlsson@intel.com>, 
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>, 
-	Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	Christoph Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 04/10] drm/msm/A6xx: Implement preemption for A7XX
+ targets
+From: Antonino Maniscalco <antomani103@gmail.com>
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+References: <20240905-preemption-a750-t-v3-0-fd947699f7bc@gmail.com>
+ <20240905-preemption-a750-t-v3-4-fd947699f7bc@gmail.com>
+ <20240906195444.owz4eralirekr7r7@hu-akhilpo-hyd.qualcomm.com>
+ <df85bf24-651c-4a35-929b-4de6c05555a1@gmail.com>
+Content-Language: en-US
+In-Reply-To: <df85bf24-651c-4a35-929b-4de6c05555a1@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 9, 2024 at 4:21=E2=80=AFAM Yunsheng Lin <linyunsheng@huawei.com=
-> wrote:
->
-> On 2024/9/9 13:43, Mina Almasry wrote:
->
-> >
-> > Perf - page-pool benchmark:
-> > ---------------------------
-> >
-> > bench_page_pool_simple.ko tests with and without these changes:
-> > https://pastebin.com/raw/ncHDwAbn
-> >
-> > AFAIK the number that really matters in the perf tests is the
-> > 'tasklet_page_pool01_fast_path Per elem'. This one measures at about 8
-> > cycles without the changes but there is some 1 cycle noise in some
-> > results.
-> >
-> > With the patches this regresses to 9 cycles with the changes but there
-> > is 1 cycle noise occasionally running this test repeatedly.
-> >
-> > Lastly I tried disable the static_branch_unlikely() in
-> > netmem_is_net_iov() check. To my surprise disabling the
-> > static_branch_unlikely() check reduces the fast path back to 8 cycles,
-> > but the 1 cycle noise remains.
->
-> Sorry for the late report, as I was adding a testing page_pool ko basing
-> on [1] to avoid introducing performance regression when fixing the bug in
-> [2].
-> I used it to test the performance impact of devmem patchset for page_pool
-> too, it seems there might be some noticable performance impact quite stab=
-ly
-> for the below testcases, about 5%~16% performance degradation as below in
-> the arm64 system:
->
+On 9/9/24 3:15 PM, Antonino Maniscalco wrote:
+> On 9/6/24 9:54 PM, Akhil P Oommen wrote:
+>> On Thu, Sep 05, 2024 at 04:51:22PM +0200, Antonino Maniscalco wrote:
+>>> This patch implements preemption feature for A6xx targets, this allows
+>>> the GPU to switch to a higher priority ringbuffer if one is ready. A6XX
+>>> hardware as such supports multiple levels of preemption granularities,
+>>> ranging from coarse grained(ringbuffer level) to a more fine grained
+>>> such as draw-call level or a bin boundary level preemption. This patch
+>>> enables the basic preemption level, with more fine grained preemption
+>>> support to follow.
+>>>
+>>> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+>>> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
+>>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
+>>> ---
+>>>   drivers/gpu/drm/msm/Makefile              |   1 +
+>>>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 293 +++++++++++++++++++++-
+>>>   drivers/gpu/drm/msm/adreno/a6xx_gpu.h     | 161 ++++++++++++
+> ...
+>>
+>> we can use the lighter smp variant here.
+>>
+>>> +
+>>> +        if (a6xx_gpu->cur_ring == ring)
+>>> +            gpu_write(gpu, REG_A6XX_CP_RB_WPTR, wptr);
+>>> +        else
+>>> +            ring->skip_inline_wptr = true;
+>>> +    } else {
+>>> +        ring->skip_inline_wptr = true;
+>>> +    }
+>>> +
+>>> +    spin_unlock_irqrestore(&ring->preempt_lock, flags);
+>>>   }
+>>>   static void get_stats_counter(struct msm_ringbuffer *ring, u32 
+>>> counter,
+>>> @@ -138,12 +231,14 @@ static void a6xx_set_pagetable(struct a6xx_gpu 
+>>> *a6xx_gpu,
+>>
+>> set_pagetable checks "cur_ctx_seqno" to see if pt switch is needed or
+>> not. This is currently not tracked separately for each ring. Can you
+>> please check that?
+> 
+> I totally missed that. Thanks for catching it!
+> 
+>>
+>> I wonder why that didn't cause any gpu errors in testing. Not sure if I
+>> am missing something.
+>>
+> 
+> I think this is because, so long as a single context doesn't submit to 
+> two different rings with differenr priorities, we will only be incorrect 
+> in the sense that we emit more page table switches than necessary and 
+> never less. However untrusted userspace could create a context that 
+> submits to two different rings and that would lead to execution in the 
+> wrong context so we must fix this.
+> 
+>>>       /*
+>>>        * Write the new TTBR0 to the memstore. This is good for 
+>>> debugging.
+>>> +     * Needed for preemption
+>>>        */
+>>> -    OUT_PKT7(ring, CP_MEM_WRITE, 4);
+>>> +    OUT_PKT7(ring, CP_MEM_WRITE, 5);
+>>>       OUT_RING(ring, CP_MEM_WRITE_0_ADDR_LO(lower_32_bits(memptr)));
+>>>       OUT_RING(ring, CP_MEM_WRITE_1_ADDR_HI(upper_32_bits(memptr)));
+>>>       OUT_RING(ring, lower_32_bits(ttbr));
+>>> -    OUT_RING(ring, (asid << 16) | upper_32_bits(ttbr));
+>>> +    OUT_RING(ring, upper_32_bits(ttbr));
+>>> +    OUT_RING(ring, ctx->seqno);
+>>>       /*
+>>>        * Sync both threads after switching pagetables and enable BR only
+>>> @@ -268,6 +363,43 @@ static void a6xx_submit(struct msm_gpu *gpu, 
+>>> struct msm_gem_submit *submit)
+>>>       a6xx_flush(gpu, ring);
+>>>   }
+> ...
+>>> +    struct a6xx_preempt_record *record_ptr =
+>>> +        a6xx_gpu->preempt[ring->id] + PREEMPT_OFFSET_PRIV_NON_SECURE;
+>>> +    u64 ttbr0 = ring->memptrs->ttbr0;
+>>> +    u32 context_idr = ring->memptrs->context_idr;
+>>> +
+>>> +    smmu_info_ptr->ttbr0 = ttbr0;
+>>> +    smmu_info_ptr->context_idr = context_idr;
+>>> +    record_ptr->wptr = get_wptr(ring);
+>>> +
+>>> +    /*
+>>> +     * The GPU will write the wptr we set above when we preempt. Reset
+>>> +     * skip_inline_wptr to make sure that we don't write WPTR to the 
+>>> same
+>>> +     * thing twice. It's still possible subsequent submissions will 
+>>> update
+>>> +     * wptr again, in which case they will set the flag to true. 
+>>> This has
+>>> +     * to be protected by the lock for setting the flag and updating 
+>>> wptr
+>>> +     * to be atomic.
+>>> +     */
+>>> +    ring->skip_inline_wptr = false;
+>>> +
+>>> +    spin_unlock_irqrestore(&ring->preempt_lock, flags);
+>>> +
+>>> +    gpu_write64(gpu,
+>>> +        REG_A6XX_CP_CONTEXT_SWITCH_SMMU_INFO,
+>>> +        a6xx_gpu->preempt_iova[ring->id] + PREEMPT_OFFSET_SMMU_INFO);
+>>> +
+>>> +    gpu_write64(gpu,
+>>> +        REG_A6XX_CP_CONTEXT_SWITCH_PRIV_NON_SECURE_RESTORE_ADDR,
+>>> +        a6xx_gpu->preempt_iova[ring->id] + 
+>>> PREEMPT_OFFSET_PRIV_NON_SECURE);
+>>> +
+>>> +    preempt_offset_priv_secure =
+>>> +        
+>>> PREEMPT_OFFSET_PRIV_SECURE(adreno_gpu->info->preempt_record_size);
+>>> +    gpu_write64(gpu,
+>>> +        REG_A6XX_CP_CONTEXT_SWITCH_PRIV_SECURE_RESTORE_ADDR,
+>>> +        a6xx_gpu->preempt_iova[ring->id] + preempt_offset_priv_secure);
+>>
+>> Secure buffers are not supported currently, so we can skip this and the
+>> context record allocation. Anyway this has to be a separate buffer
+>> mapped in secure pagetable which don't currently have. We can skip the
+>> same in pseudo register packet too.
+>>
+> 
+> Mmm it would appear that not setting it causes an hang very early. I'll 
+> see if I can find out more about what is going on.
 
-Correct me if I'm wrong here, but on the surface here it seems that
-you're re-reporting a known issue. Consensus seems to be that it's a
-non-issue.
+Actually it was a mistake I had made when testing. The secure record 
+will be gone from the next revision.
 
-In v6 I reported that the bench_page_pool_simple.ko test reports a 1
-cycle regression with these patches, from 8->9 cycles. That is roughly
-consistent with the 5-15% you're reporting.
+> 
+>>> +
+>>> +    a6xx_gpu->next_ring = ring;
+>>> +
+> ...
+>>>   struct msm_ringbuffer *msm_ringbuffer_new(struct msm_gpu *gpu, int id,
+>>>
+>>> -- 
+>>> 2.46.0
+>>>
+> 
+> Best regards,
 
-I root caused the reason for the regression to be the
-netmem_is_net_iov() check in the fast path. I removed this regression
-in v7 (see the change log) by conditionally compiling the check in
-that function.
+Best regards,
+-- 
+Antonino Maniscalco <antomani103@gmail.com>
 
-In v8, Pavel/Jens/David pushed back on the ifdef check. See this
-entire thread, but in particular this response from Jens:
-
-https://lore.kernel.org/lkml/11f52113-7b67-4b45-ba1d-29b070050cec@kernel.dk=
-/
-
-Seems consensus that it's 'not really worth it in this scenario'.
-
---=20
-Thanks,
-Mina
