@@ -1,202 +1,177 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC59C1422A8;
-	Mon,  9 Sep 2024 02:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9333014277;
+	Mon,  9 Sep 2024 02:54:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725849448; cv=none; b=hDKu9XIjLMr77TYOb82szkmt7znIfYSI6VIFlzviuV0C51MQ0u/r9W8EJejqqQt2NJvrT+clqP5YsrivKdDSTJ3jLnVW+ocjQxBbbvFwQO/UA8VaUdFJV5z5T1Z3RPY6Uk9a89LpPASXr0kpeNO0llvBVf7s7UWRNbRHscHZta0=
+	t=1725850499; cv=none; b=DGfHTILWXeIdckNAf3enBchVyLhpClyaEAT3reJLPB7Z2vT1AiCPGkAzfF/0HOonxyHcVjaH6HYbGzKsbSXHxgueLSJHCJXejuc4LABE+vxBpH+aEBty1vBu56dFWAkMO2EXyd7MLQgW63d5gFZshbtNFXfiENNWJnVng531RcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725849448; c=relaxed/simple;
-	bh=O+0mjkCthsATG7MeX0u3pNw32ndnergdq01LWGku7oo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uIiHZMmvtyvvLsP5de3CvwWKQbLJiYngAVMUaRBKN80MhrTwuzZDu2OgwaSkwVwyP7UYin9RhxGvCTcgNtRUCEd8u2T3+vXKkCbFfmnm9Xil7dX5DwQJA2KgF9ZS19WOnkttX+B4VMWjPyaYLiRMjld1xxUZkK/hzQOLcIwKajY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gTC7grNA; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725850499; c=relaxed/simple;
+	bh=+H+M3ENHF8DeJz871/hlq4SMcqVAU6b8wD4kL6PNem4=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 Mime-Version:Content-Type; b=gHXPMj9MpXDeo0d05YGEyneA7t9MIlxu0nn9yOnkL1oREpQTEgNjTuGuqzj6+kJYWj3dsIXlZOHw851cbK1KxJq+M4TEckvtfBP/tKQw2dHAmQEiMLYMR+/ROsiDXyAHsLb1wCXs2Pom8oNMBdzH5TteakC0MrG3XKvlAQVh/oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g7rPlLAR; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gTC7grNA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725849446; x=1757385446;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=O+0mjkCthsATG7MeX0u3pNw32ndnergdq01LWGku7oo=;
-  b=gTC7grNA1vlB7yNoIYi7KwZCIY0kArnqzQxt9y+wO6LYv1YXkTc1R5fg
-   TLiNtMPUYhMKvlTQK6qjwxdCmDxga9tdfNe+NmrWJzmChC3v0mX+Ue2PH
-   RAt/58rq2m1AgOgwpquzRYxKY+yl5FujZ8SK9nA6UPgqB8roFWE61O+Fh
-   ajtLZro3jXyKA4cnpLkTfVfcw4ewNhRf8pvXF139kBndjjBNvUz4aSy5m
-   +9FJtYgG4xQGRMRJ79uU9CXgzg+Wclze2RzfS3HVmTKCvR2AWwqM34va3
-   dGxS66Y4/FufdX5A47sxKt5lVfkW5VkXs7a/xRKt7OrTpzZw2KrgQo8kN
-   A==;
-X-CSE-ConnectionGUID: y4/1RfehSESzRjtwrB8Qtw==
-X-CSE-MsgGUID: MAYxHBOqR769yiPTPhxLDw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="35116338"
-X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="35116338"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 19:37:25 -0700
-X-CSE-ConnectionGUID: Hn3HVCeLScqiIBMtNxxKEQ==
-X-CSE-MsgGUID: 12+elI1BSBqCKsDT8dkM9w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="66511125"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 08 Sep 2024 19:37:18 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1snUHE-000EDZ-1I;
-	Mon, 09 Sep 2024 02:37:16 +0000
-Date: Mon, 9 Sep 2024 10:36:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>, Jens Axboe <axboe@kernel.dk>,
-	Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Asutosh Das <quic_asutoshd@quicinc.com>,
-	Ritesh Harjani <ritesh.list@gmail.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Avri Altman <avri.altman@wdc.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	"Theodore Y. Ts'o" <tytso@mit.edu>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Gaurav Kashyap <quic_gaurkash@quicinc.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dm-devel@lists.linux.dev
-Subject: Re: [PATCH v6 11/17] soc: qcom: ice: add support for generating,
- importing and preparing keys
-Message-ID: <202409091043.FwxHoaRd-lkp@intel.com>
-References: <20240906-wrapped-keys-v6-11-d59e61bc0cb4@linaro.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g7rPlLAR"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6c35a23b378so26905976d6.2;
+        Sun, 08 Sep 2024 19:54:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725850496; x=1726455296; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NYKf2iGU8oDDbFampRKw0Ks3iwulGNXwMhS0x+IoybU=;
+        b=g7rPlLARr7Msok8+hyv++dPSPRjKvSXKTAOlmSyi8l8AXJ/GjBq+v6Qdjx3zlm5D1l
+         K4QYUxDL1IMTVsKXh7T9GudB8b1YT71Uya3hJxNcmOLaMg5R7yny4udIcbhl1PASOp3S
+         cIppadqhQNbKMy/3NPv4XaNvHpvS5fYQl45kzo8e9ZOP4pf59qQZdhzSqCU8QdklxQmJ
+         LLpk8MQfyuMkbhp4zNT6101jLj1ytGvRDz2o5Qvs5PwlBqBUvH0PcNE5cNzOGP7Zlo4e
+         xOzFfjoKnQ71TJwKGCjySWEnnEJwD/b3ZLdnzR1uciFw8keLa4ghfG8z/8Tw0/9jJS/A
+         X2sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725850496; x=1726455296;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=NYKf2iGU8oDDbFampRKw0Ks3iwulGNXwMhS0x+IoybU=;
+        b=TRieahdFssuPkflZCymvIsIpId5d46W6gOuHXipx1eXoDmlCIBvm8zzu1wORf8SgGb
+         LpXJv1vsILml46L9ZW8vGZ6ff85OUftLgOegfWYs4JK8hmBqkdZP5UHNgWrpJClrBtLb
+         LJyJXPkLXLjVf0T3bv+xfEO/auiUU/gXMwmLGjH8c9eGTdmLmWTxo24zM+DB6q5Mjgqc
+         ODI4eqID0ZxTiP7gHubHYKrQPM0sEz2B7MoKS/oChoKBQX8rUa41c9NwJsaE4JWIAuln
+         +Fc3V/bFBmO1CArVgzf2DvlQ7meOm4nsle4oLOeQaZ2P3nPA16TPgkmLaMPD6oDbh+d/
+         zLbA==
+X-Forwarded-Encrypted: i=1; AJvYcCVHCZuTYJgr/+9n3JAIcI40/L5GmlZAOTD6bB9KGFPYCC72IMQx859qvxUZYcZ5Kog248KXnd4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzYN+puNCmgvrFVlP+a/fyHLohjp0cFlmmxeRxnPjvfTGvBzZ+o
+	UMAnR8JMQPlx9AeK1N+sNTXgDv3Hwx1+so2DB+4ISsQ+feYY4NWWCCGlJA==
+X-Google-Smtp-Source: AGHT+IEGKo8ck2j66sV3v3W/W44c657fsAdr6qsZ0cbKCZRx3mB0dBzkp332aUoXzNEMpURZoYI3oA==
+X-Received: by 2002:a0c:fa88:0:b0:6c3:69be:a3e with SMTP id 6a1803df08f44-6c532b2cd39mr92696136d6.43.1725850496260;
+        Sun, 08 Sep 2024 19:54:56 -0700 (PDT)
+Received: from localhost (23.67.48.34.bc.googleusercontent.com. [34.48.67.23])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6c5343470d3sm16731456d6.67.2024.09.08.19.54.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Sep 2024 19:54:55 -0700 (PDT)
+Date: Sun, 08 Sep 2024 22:54:55 -0400
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: Jason Xing <kerneljasonxing@gmail.com>, 
+ davem@davemloft.net, 
+ edumazet@google.com, 
+ kuba@kernel.org, 
+ pabeni@redhat.com, 
+ dsahern@kernel.org, 
+ willemdebruijn.kernel@gmail.com, 
+ willemb@google.com, 
+ corbet@lwn.net
+Cc: linux-doc@vger.kernel.org, 
+ netdev@vger.kernel.org, 
+ Jason Xing <kernelxing@tencent.com>
+Message-ID: <66de637f78072_bb412948d@willemb.c.googlers.com.notmuch>
+In-Reply-To: <20240909015612.3856-2-kerneljasonxing@gmail.com>
+References: <20240909015612.3856-1-kerneljasonxing@gmail.com>
+ <20240909015612.3856-2-kerneljasonxing@gmail.com>
+Subject: Re: [PATCH net-next v6 1/2] net-timestamp: introduce
+ SOF_TIMESTAMPING_OPT_RX_FILTER flag
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240906-wrapped-keys-v6-11-d59e61bc0cb4@linaro.org>
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-Hi Bartosz,
+Jason Xing wrote:
+> From: Jason Xing <kernelxing@tencent.com>
+> 
+> introduce a new flag SOF_TIMESTAMPING_OPT_RX_FILTER in the receive
+> path. User can set it with SOF_TIMESTAMPING_SOFTWARE to filter
+> out rx software timestamp report, especially after a process turns on
+> netstamp_needed_key which can time stamp every incoming skb.
+> 
+> Previously, we found out if an application starts first which turns on
+> netstamp_needed_key, then another one only passing SOF_TIMESTAMPING_SOFTWARE
+> could also get rx timestamp. Now we handle this case by introducing this
+> new flag without breaking users.
+> 
+> Quoting Willem to explain why we need the flag:
+> "why a process would want to request software timestamp reporting, but
+> not receive software timestamp generation. The only use I see is when
+> the application does request
+> SOF_TIMESTAMPING_SOFTWARE | SOF_TIMESTAMPING_TX_SOFTWARE."
+> 
+> Similarly, this new flag could also be used for hardware case where we
+> can set it with SOF_TIMESTAMPING_RAW_HARDWARE, then we won't receive
+> hardware receive timestamp.
+> 
+> Another thing about errqueue in this patch I have a few words to say:
+> In this case, we need to handle the egress path carefully, or else
+> reporting the tx timestamp will fail. Egress path and ingress path will
+> finally call sock_recv_timestamp(). We have to distinguish them.
+> Errqueue is a good indicator to reflect the flow direction.
+> 
+> Suggested-by: Willem de Bruijn <willemb@google.com>
+> Signed-off-by: Jason Xing <kernelxing@tencent.com>
 
-kernel test robot noticed the following build warnings:
+Reviewed-by: Willem de Bruijn <willemb@google.com>
 
-[auto build test WARNING on ad40aff1edffeccc412cde93894196dca7bc739e]
+I really only suggested making this a new flag, not the main idea of
+filtering.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/blk-crypto-add-basic-hardware-wrapped-key-support/20240907-023147
-base:   ad40aff1edffeccc412cde93894196dca7bc739e
-patch link:    https://lore.kernel.org/r/20240906-wrapped-keys-v6-11-d59e61bc0cb4%40linaro.org
-patch subject: [PATCH v6 11/17] soc: qcom: ice: add support for generating, importing and preparing keys
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240909/202409091043.FwxHoaRd-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409091043.FwxHoaRd-lkp@intel.com/reproduce)
+> ---
+> v6
+> Link: https://lore.kernel.org/all/20240906095640.77533-1-kerneljasonxing@gmail.com/
+> 1. add the description in doc provided by Willem
+> 2. align the if statements (Willem)
+> 
+> v5
+> Link: https://lore.kernel.org/all/20240905071738.3725-1-kerneljasonxing@gmail.com/
+> 1. squash the hardware case patch into this one (Willem)
+> 2. update corresponding commit message and doc (Willem)
+> 3. remove the limitation in sock_set_timestamping() and restore the
+> simplification branches. (Willem)
+> 
+> v4
+> Link: https://lore.kernel.org/all/20240830153751.86895-2-kerneljasonxing@gmail.com/
+> 1. revise the commit message and doc (Willem)
+> 2. simplify the test statement (Jakub)
+> 3. add Willem's reviewed-by tag (Willem)
+> 
+> v3
+> 1. Willem suggested this alternative way to solve the issue, so I
+> added his Suggested-by tag here. Thanks!
+> ---
+>  Documentation/networking/timestamping.rst | 17 +++++++++++++++++
+>  include/uapi/linux/net_tstamp.h           |  3 ++-
+>  net/ethtool/common.c                      |  1 +
+>  net/ipv4/tcp.c                            |  9 +++++++--
+>  net/socket.c                              | 10 ++++++++--
+>  5 files changed, 35 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/networking/timestamping.rst b/Documentation/networking/timestamping.rst
+> index 9c7773271393..8199e6917671 100644
+> --- a/Documentation/networking/timestamping.rst
+> +++ b/Documentation/networking/timestamping.rst
+> @@ -267,6 +267,23 @@ SOF_TIMESTAMPING_OPT_TX_SWHW:
+>    two separate messages will be looped to the socket's error queue,
+>    each containing just one timestamp.
+>  
+> +SOF_TIMESTAMPING_OPT_RX_FILTER:
+> +  Filter out spurious receive timestamps: report a receive timestamp
+> +  only if the matching timestamp generation flag is enabled.
+> +
+> +  Receive timestamps are generated early in the ingress path, before a
+> +  packet's destination socket is known. If any socket enables receive
+> +  timestamps, packets for all socket will receive timestamped packets.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409091043.FwxHoaRd-lkp@intel.com/
+nit: s/packets for all socket/all sockets/
 
-All warnings (new ones prefixed by >>):
+My error in my suggestion.
 
->> drivers/soc/qcom/ice.c:470: warning: Function parameter or struct member 'ice' not described in 'qcom_ice_generate_key'
->> drivers/soc/qcom/ice.c:495: warning: Function parameter or struct member 'ice' not described in 'qcom_ice_prepare_key'
->> drivers/soc/qcom/ice.c:519: warning: Function parameter or struct member 'ice' not described in 'qcom_ice_import_key'
+Not important enough to respin.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
-   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
-   Selected by [y]:
-   - TI_K3_M4_REMOTEPROC [=y] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
-
-
-vim +470 drivers/soc/qcom/ice.c
-
-   457	
-   458	/**
-   459	 * qcom_ice_generate_key() - Generate a wrapped key for inline encryption
-   460	 * @lt_key: long-term wrapped key to be generated, which is
-   461	 *          BLK_CRYPTO_MAX_HW_WRAPPED_KEY_SIZE in size.
-   462	 *
-   463	 * Make a scm call into trustzone to generate a wrapped key for storage
-   464	 * encryption using hwkm.
-   465	 *
-   466	 * Returns: 0 on success, -errno on failure.
-   467	 */
-   468	int qcom_ice_generate_key(struct qcom_ice *ice,
-   469				  u8 lt_key[BLK_CRYPTO_MAX_HW_WRAPPED_KEY_SIZE])
- > 470	{
-   471		size_t wk_size = QCOM_ICE_HWKM_WRAPPED_KEY_SIZE(ice->hwkm_version);
-   472	
-   473		if (!qcom_scm_generate_ice_key(lt_key, wk_size))
-   474			return wk_size;
-   475	
-   476		return 0;
-   477	}
-   478	EXPORT_SYMBOL_GPL(qcom_ice_generate_key);
-   479	
-   480	/**
-   481	 * qcom_ice_prepare_key() - Prepare a long-term wrapped key for inline encryption
-   482	 * @lt_key: longterm wrapped key that was generated or imported.
-   483	 * @lt_key_size: size of the longterm wrapped_key
-   484	 * @eph_key: wrapped key returned which has been wrapped with a per-boot ephemeral key,
-   485	 *           size of which is BLK_CRYPTO_MAX_HW_WRAPPED_KEY_SIZE in size.
-   486	 *
-   487	 * Make a scm call into trustzone to prepare a wrapped key for storage
-   488	 * encryption by rewrapping the longterm wrapped key with a per boot ephemeral
-   489	 * key using hwkm.
-   490	 *
-   491	 * Return: 0 on success; -errno on failure.
-   492	 */
-   493	int qcom_ice_prepare_key(struct qcom_ice *ice, const u8 *lt_key, size_t lt_key_size,
-   494				 u8 eph_key[BLK_CRYPTO_MAX_HW_WRAPPED_KEY_SIZE])
- > 495	{
-   496		size_t wk_size = QCOM_ICE_HWKM_WRAPPED_KEY_SIZE(ice->hwkm_version);
-   497	
-   498		if (!qcom_scm_prepare_ice_key(lt_key, lt_key_size, eph_key, wk_size))
-   499			return wk_size;
-   500	
-   501		return 0;
-   502	}
-   503	EXPORT_SYMBOL_GPL(qcom_ice_prepare_key);
-   504	
-   505	/**
-   506	 * qcom_ice_import_key() - Import a raw key for inline encryption
-   507	 * @imp_key: raw key that has to be imported
-   508	 * @imp_key_size: size of the imported key
-   509	 * @lt_key: longterm wrapped key that is imported, which is
-   510	 *          BLK_CRYPTO_MAX_HW_WRAPPED_KEY_SIZE in size.
-   511	 *
-   512	 * Make a scm call into trustzone to import a raw key for storage encryption
-   513	 * and generate a longterm wrapped key using hwkm.
-   514	 *
-   515	 * Return: 0 on success; -errno on failure.
-   516	 */
-   517	int qcom_ice_import_key(struct qcom_ice *ice, const u8 *imp_key, size_t imp_key_size,
-   518				u8 lt_key[BLK_CRYPTO_MAX_HW_WRAPPED_KEY_SIZE])
- > 519	{
-   520		size_t wk_size = QCOM_ICE_HWKM_WRAPPED_KEY_SIZE(ice->hwkm_version);
-   521	
-   522		if (!qcom_scm_import_ice_key(imp_key, imp_key_size, lt_key, wk_size))
-   523			return wk_size;
-   524	
-   525		return 0;
-   526	}
-   527	EXPORT_SYMBOL_GPL(qcom_ice_import_key);
-   528	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> +  Including those that request timestamp reporting with
+> +  SOF_TIMESTAMPING_SOFTWARE and/or SOF_TIMESTAMPING_RAW_HARDWARE, but
+> +  do not request receive timestamp generation. This can happen when
+> +  requesting transmit timestamps only.
