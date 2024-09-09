@@ -1,169 +1,177 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E680A12B17C
-	for <linux-doc@vger.kernel.org>; Sun,  8 Sep 2024 21:11:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F557494
+	for <linux-doc@vger.kernel.org>; Mon,  9 Sep 2024 00:21:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725829868; cv=none; b=IQ43KNya66KNCTNgmvAXUnnsK3B0DsabS+G/QZLTqJcTDcn6gcqvFYLKFX7lm0bv0lMIe62+Z6MQ2ACWUSsvgbzBnnXZIUhlSwUC9wosZzXJ9HpCIIq/bntxIYYXJm6ZinXQ2hpqAGh+D9cfMb2o6uIfLa/cICUlHshHJAE/Uv8=
+	t=1725841299; cv=none; b=ueRygb5c1XQeUorGgMw+UnyVZDydBibdK4jOQlTqYCvGh7G46bD2fBET65yUeGIuoBF1K8hSTjh+F/yp9lQ4si0l4kgwZjbevboGZEc6pYMIyX5SrQ2dWGdwmM8A/Ad6MIt7ULlLXKkU0M+FnqTWvpep/AnifwhRUCbRIwucp2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725829868; c=relaxed/simple;
-	bh=zN3q3bvVxr+IRbcTF7Mt9+0mGWCJvt/L/HlTFdTrw2c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fFwXG/MK8ETjnYpMryKiOmXVgXlYGEDEvmTLj011pPotAQ1rSm3vI7k2j8bJ8Uem+Y/ks2MHnRlCzp0OdeA4JUXZUHDVJ6Y8Yvu3PayMBDivmF3CVzTgB8NJuo5TfyUb1xWOXA47+mOfZH8WFRd3m3eqwUPx13rjrpCokbP6DtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1snOvn-0002CA-Jf; Sun, 08 Sep 2024 22:54:47 +0200
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1snOvi-006Uad-Jx; Sun, 08 Sep 2024 22:54:42 +0200
-Received: from mgr by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1snOvi-00DtLg-1c;
-	Sun, 08 Sep 2024 22:54:42 +0200
-Date: Sun, 8 Sep 2024 22:54:42 +0200
-From: Michael Grzeschik <mgr@pengutronix.de>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux USB <linux-usb@vger.kernel.org>,
-	Linux Next Mailing List <linux-next@vger.kernel.org>,
-	v9fs@lists.linux.dev, Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jan Luebbe <jlu@pengutronix.de>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH] tools: usb: p9_fwd: wrap USBG shell command examples in
- literal code blocks
-Message-ID: <Zt4PEp8z1rfhFZCm@pengutronix.de>
-References: <20240908113423.158352-1-bagasdotme@gmail.com>
+	s=arc-20240116; t=1725841299; c=relaxed/simple;
+	bh=KVZMNnMYMnNRh9XEUd/AbAsrshEQNXgSkDB5lDD5qq8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jBTUzzWYrYwyMiHr55EhJgDCko5QYU4zOwRA5JlV507adoANcJouPS+RyP18xajYiAjmdy0KdVoK7MWt/NXepKH2ehWQfp20GZ5Wh2YMRXuMrNFRuuLoENjQAxCwIgBQr5so+xrtadzGvwNIeahdFruAl+vtW6d0/BLI3uSfMME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=L1Phm7wG; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="L1Phm7wG"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4582a5b495cso163411cf.1
+        for <linux-doc@vger.kernel.org>; Sun, 08 Sep 2024 17:21:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1725841296; x=1726446096; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+M1qVooEyNPT1gAAftfRiR4Q5Ah3XuHi08JSkLTfyCg=;
+        b=L1Phm7wGMuZuJebhYKnd+JQyBUyE9C1zk1fQHdZNxb97P8m+M+PxEraXZjvXXUAMxN
+         YgeLRp+lFQS66t9ESCBstlYEggoxa0L1O/PC+UpZxl6L665n3Rv4OnKWpcbaTlaXpWf0
+         9c/7mIYxN3/DmAJu6trHAsXv8hyRFuuFoFHjV/iJGToGgpxTbH2z/J2T93C6Ekh9D9Xw
+         mKakVQhQm860axVGd1VHj7SIRv/pB5vXfMZqrzwpugZo5E1rbuACJ0d/qs9z36lc0gC4
+         v+H5OuBq9pX20rpRn3oES5ryQ4nnoL4jusdt9JjBhzBLJ3hxIViJUR2dmGv04meKCtBN
+         ye6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725841296; x=1726446096;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+M1qVooEyNPT1gAAftfRiR4Q5Ah3XuHi08JSkLTfyCg=;
+        b=k+FLPEaJXPTl9jqHD/Y64kCRyvUGdd3ow8xP1gsDdC3rS16NtTPVuV6hkeUSRM0L+i
+         o/+F/ty2ULr5rCPAtAYb12PaB9J1WSjpn/FvHdZvBg45UJ0+c5EAcvknmmswTeuOn0DI
+         1TQjc4D2oT2nVVNHbTgUBs1HmdBompsRxBKRUx8ZHOxHl39KVjhoX9SO5nCF/w4eZU04
+         R7og3nGjv8SRcQhndJFRiM6eVVAQy+1Lf1qRd69kIDGvZjYQkNowpJDMzaoj8UT/HN8U
+         C57bXGDx9cQZ9t+WoOKrDr15Hg9bwrSzfFY1a84jExyKGu3FrSQmAwlME5PAWHkpF3GP
+         DTNg==
+X-Forwarded-Encrypted: i=1; AJvYcCUfCrv2g42RnjOKve26endCk9WxN2UaQU5E1KlCDG5mwFxyxKtPUc+hDP6/wTSsmSGBjJG7hXCqGxc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxROTeo/zI/hS/ztL4lJf9Veq1kWrq6qymRoqgORL24s5YL0Bz4
+	ZS+1mBZOlFWPWv5bAQOwPv03mcvoXFNZiHFuBwCkusOHfeTqwDsxxw+pTOpYH3j2Lo1pIVZ8aM3
+	sJ8G/a4vwbUR1tRQ5xKLGxWaGS+FJVl54Erf2
+X-Google-Smtp-Source: AGHT+IHeebo47LrVuqQNlmWSroknDWyh0p2+ySnmSfFMd++vvWmH0RLig1T8xF/sYDtVArFYD/iKIyTthz+4Y2vdWxE=
+X-Received: by 2002:ac8:5714:0:b0:456:796b:2fe5 with SMTP id
+ d75a77b69052e-4582147fdcamr3000151cf.9.1725841295262; Sun, 08 Sep 2024
+ 17:21:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2GlOQuJU+wYS6vhG"
-Content-Disposition: inline
-In-Reply-To: <20240908113423.158352-1-bagasdotme@gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
-
-
---2GlOQuJU+wYS6vhG
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
+References: <20240831004313.3713467-1-almasrymina@google.com>
+ <20240831004313.3713467-7-almasrymina@google.com> <20240903141948.269e22bb@kernel.org>
+In-Reply-To: <20240903141948.269e22bb@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Sun, 8 Sep 2024 17:21:23 -0700
+Message-ID: <CAHS8izN_6_0VUWJzyXZ60kDjvGpdJv1a=-6mGOURapHdfHbcMQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v24 06/13] memory-provider: dmabuf devmem memory provider
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>, 
+	Magnus Karlsson <magnus.karlsson@intel.com>, 
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>, 
+	Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, 
+	Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Thanks for taking care of this.
-
-On Sun, Sep 08, 2024 at 06:34:23PM +0700, Bagas Sanjaya wrote:
->Stephen Rothwell reported htmldocs warning when merging usb tree:
+On Tue, Sep 3, 2024 at 2:19=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wro=
+te:
 >
->Documentation/filesystems/9p.rst:99: ERROR: Unexpected indentation.
+> On Sat, 31 Aug 2024 00:43:06 +0000 Mina Almasry wrote:
+> > diff --git a/include/net/mp_dmabuf_devmem.h b/include/net/mp_dmabuf_dev=
+mem.h
+> > new file mode 100644
+> > index 000000000000..6d1cf2a77f6b
+> > --- /dev/null
+> > +++ b/include/net/mp_dmabuf_devmem.h
 >
->That's because Sphinx tries rendering p9_fwd.py output as a grid table
->instead.
->
->Wrap shell commands in "USBG Example" section in literal code blocks
->to fix above warning and to be in line with rest of commands in the doc.
->
->Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
->Closes: https://lore.kernel.org/linux-next/20240905184059.0f30ff9a@canb.au=
-ug.org.au/
->Fixes: 673f0c3ffc75 ("tools: usb: p9_fwd: add usb gadget packet forwarder =
-script")
->Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
-Acked-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-
->---
-> Documentation/filesystems/9p.rst | 6 +++---
-> 1 file changed, 3 insertions(+), 3 deletions(-)
->
->diff --git a/Documentation/filesystems/9p.rst b/Documentation/filesystems/=
-9p.rst
->index 2cc85f3e8659ff..514ed13a0122b0 100644
->--- a/Documentation/filesystems/9p.rst
->+++ b/Documentation/filesystems/9p.rst
->@@ -86,11 +86,11 @@ When using the usbg transport, for now there is no nat=
-ive usb host
-> service capable to handle the requests from the gadget driver. For
-> this we have to use the extra python tool p9_fwd.py from tools/usb.
->
->-Just start the 9pfs capable network server like diod/nfs-ganesha e.g.:
->+Just start the 9pfs capable network server like diod/nfs-ganesha e.g.::
->
->         $ diod -f -n -d 0 -S -l 0.0.0.0:9999 -e $PWD
->
->-Optionaly scan your bus if there are more then one usbg gadgets to find t=
-heir path:
->+Optionaly scan your bus if there are more then one usbg gadgets to find t=
-heir path::
->
->         $ python $kernel_dir/tools/usb/p9_fwd.py list
->
->@@ -99,7 +99,7 @@ Optionaly scan your bus if there are more then one usbg =
-gadgets to find their pa
->           2 |   67 | unknown          | unknown          | 1d6b:0109 | 2-=
-1.1.2
->           2 |   68 | unknown          | unknown          | 1d6b:0109 | 2-=
-1.1.3
->
->-Then start the python transport:
->+Then start the python transport::
->
->         $ python $kernel_dir/tools/usb/p9_fwd.py --path 2-1.1.2 connect -=
-p 9999
->
->
->base-commit: 9c0c11bb87b09a8b7cdc21ca1090e7b36abe9d09
->--=20
->An old man doll... just what I always wanted! - Clara
->
+> this header can live under net/core/ like netmem_priv.h right?
+> devmem internals should be of no interest outside of core networking.
 >
 
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Yes, those can be moved under net/core trivially. done.
 
---2GlOQuJU+wYS6vhG
-Content-Type: application/pgp-signature; name="signature.asc"
+> In fact the same is true for include/net/devmem.h ?
+>
 
------BEGIN PGP SIGNATURE-----
+This turned out to be possible, but with a minor moving around of some
+helpers. Basically netmem.h included devmem.h to get access to some
+devmem internals for some of the net_iov helpers specific to devmem.
+Moving these helpers to devmem.h enabled me to keep
+include/net/netmem.h but put devmem.h under net/core. Now netmem.h
+doesn't need to include devmem.h. I think this is an improvement.
 
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmbeDw8ACgkQC+njFXoe
-LGTkwBAArdhWO1zhxAGW/ByLL4IiT1YV1Lbkg+uvEfThLHZeVp2jwg4dfko/K3yn
-I1nEaIwg3cbbiU0IY93yZjXGwCULzhJxP8PeQ8o97DleU918Onphp7Wt4Vt74vag
-0GG6i9mzx7J6rd9P9aW+Wcnixm7hO8lCkDNda8jrlXuNWLD/a+fz+3RdOdgj1EaC
-AW1HqYRKBA/wA4fCHn8U7bjCP1cbBU67mJgopm2TxA+L82D0+l9r3l8ncb4fgmNr
-mIcNwIuxmiHvKEZck/n9FKc+TW18AKG9YND+iPcLXEGNG1GCUmflR2IZgKtLXVjf
-gp32r8o7c8OVy34DcJh57y3zwlL+4eYR59Bn4MGS8vaF9z907phi4OttfrpgBDU4
-fKBX4Mfnxldflj0S3eeb6pXs01NLH13oI7HdIWMinTjLLmFacNYDelvlc6PFKKP6
-uxLfHZ8PeVYHxVmjSurBqwXqCwzN7dMzMdSPTf5ZG+OCr5/AHMoFgpRVSgYnVKQF
-UEvpg2pVgxsw0oZrB6A5xFjd1j3v7qdBeoA4hDEbYeLaBng0i7oF/8mPWXNOhRyy
-vxrSEvwWvb4AmJfImiBiSsIUrUPJnL39Kz79knYOwCDwx2znfpjIrcii9gvWEXOZ
-kGqPqnH9QRiZq8GPMA2GE2q3/3I6dEM1sHEawvA26lDu2Hin5R4=
-=ZSZ5
------END PGP SIGNATURE-----
+> > +static inline netmem_ref mp_dmabuf_devmem_alloc_netmems(struct page_po=
+ol *pool,
+> > +                                                     gfp_t gfp)
+>
+> Please break the lines after the return type if the line gets long:
+>
+> static inline netmem_ref
+> mp_dmabuf_devmem_alloc_netmems(struct page_pool *pool, gfp_t gfp)
+>
+> Please fix where you can (at least where it cases going over 80 chars)
+>
 
---2GlOQuJU+wYS6vhG--
+FWIW I use a formatting tool (clang-format) which seems to prefer
+breaking in between the args, but I'll fix this manually and wherever
+else I notice.
+
+> >       struct_group_tagged(page_pool_params_slow, slow,
+> >               struct net_device *netdev;
+> > +             struct netdev_rx_queue *queue;
+>
+> Why set a pointer? It should work but drivers don't usually deal with
+> netdev_rx_queue struct directly. struct xdp_rxq_info takes an integer
+> queue id, and it serves a somewhat similar function.
+>
+> Keep in mind that there will be more drivers than core code, so
+> convenience for them matters more.
+>
+
+Makes sense.
+
+> > +bool mp_dmabuf_devmem_release_page(struct page_pool *pool, netmem_ref =
+netmem)
+> > +{
+> > +     if (WARN_ON_ONCE(!netmem_is_net_iov(netmem)))
+> > +             return false;
+> > +
+> > +     if (WARN_ON_ONCE(atomic_long_read(netmem_get_pp_ref_count_ref(net=
+mem)) !=3D
+> > +                  1))
+>
+> something needs factoring out here, to make this line shorter, please..
+> either netmem -> net_iov conversion or at least reading of the ref
+> count?
+>
+
+Ah, sorry I think you pointed this out earlier and I missed applying
+it. Should be done in the next iteration.
+
+--
+Thanks,
+Mina
