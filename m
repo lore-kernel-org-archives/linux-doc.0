@@ -1,55 +1,77 @@
-Received: from s959244.srvape.com (unknown [91.184.248.174])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB0E81AB51F
-	for <linux-doc@vger.kernel.org>; Tue, 10 Sep 2024 21:30:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.184.248.174
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12211AB50B;
+	Tue, 10 Sep 2024 21:31:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726003855; cv=none; b=VnjDtJ3yrlEibu9AL80xaHiNyKxNMizHeeeZUeHIeVUDIMc9YjGi6FykhBKdkw/exP8RevGl6wvI31vnFisGKkmPW9gmFfKgMbf5MLc0cM3fB8He4W/X6pnqwfxbQg6sc2cSvWRD8aDjX5reaM9zvSHhU0YwxRZUXUPRoIzzSIM=
+	t=1726003863; cv=none; b=kFNGWbVviTwiuq3Ut94ENqj0YM/qK0RdtARdA9lLufqn0A+PvaXUsHqEYDXHTSbLTyTUGy9cn3+zqToBagLNj/TDhVMEJDd9k12SEOvaUfkg3Aw+F+44FLD+lZWbebuz3wg5H4c8LNWqAaaeG779X6MBewtNizLDFSpnK059unE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726003855; c=relaxed/simple;
-	bh=/TDL9kAqKPBL91Q13HiwjFooHQVVtwSDIlPWE3vdLxg=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GiL2Fh4aNuzxffSMSlXMaxtEscswmwAeF3m5Wg7WYupx3P3GtvSHib+K8yILQtQo9UyJmAKfjufdp8pvBEMetsq27w1CJLud8g8cffs2Y4UYtcLrPX+zGgzS0gWqkvjK1Pn3bp/ZdDGXa6uCWb12Ws2sObbNHA8dD7m40LJj1VI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=serviceetihadaviationgroup.com; spf=fail smtp.mailfrom=serviceetihadaviationgroup.com; arc=none smtp.client-ip=91.184.248.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=serviceetihadaviationgroup.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=serviceetihadaviationgroup.com
-Received: from ip32.ip-198-50-226.net (localhost [IPv6:::1])
-	by s959244.srvape.com (Postfix) with ESMTP id 2C13629B6D5
-	for <linux-doc@vger.kernel.org>; Tue, 10 Sep 2024 23:25:00 +0200 (CEST)
-Reply-To: vendorscontractor@serviceetihadaviationgroup.com
-From: Etihad Aviation Group PJSC<admin@serviceetihadaviationgroup.com>
-To: linux-doc@vger.kernel.org
-Subject: Vendor Registration
-Date: 10 Sep 2024 14:25:00 -0700
-Message-ID: <20240910142500.C207A867F2E2E08D@serviceetihadaviationgroup.com>
+	s=arc-20240116; t=1726003863; c=relaxed/simple;
+	bh=Y9w8XYe4T6ICOB2jkY6L4dNZBgF6NHp0JTtiFIbQagc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=dGrJNDfrS748wjNaS5BTzMH+YL2egSFvMbZjw6o81oL52Cqi4cqYYaLgVttxupEcy8Kwr0h6jv9d3DvY5rxkIX2umG4Oxn4Jhuv0QjPoet813GIiqv5GPVTqynIUasWJVAQbAGKzijihF1/wG3PBQkF4yr5nXAbFgmEoMBPmRrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Q5MYehw4; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Q5MYehw4"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D844B4188E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1726003861; bh=YNMg7zF25Lr6SZelCgmkTffdM2izIqHbF/4JqRWFuNc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Q5MYehw47ZovqUrHYjyOIlyI3Seey4BvPEgaW/SW/k157nOHFiKrkSxbwUJ1/M+M2
+	 S1dtmZS6VhyyKp3Wv2vXyImp/0stkOyGTwrbvqv8QaG5XZ9eDd3dGqTURh9c8eiFRl
+	 ntkg8sXhVOb1QT5f7pwQLw/1oqzxuRtPUJclPB4Og6kPHNxqoDGPVURt33N8PYPKE6
+	 IDudbFwnZp7eNsi5TcDcN6Lb7Pa4eJqNmwTYnRS+QRvpeqdvNesYjKloXZWx3dkV3Q
+	 BD/MxG+2eX9uRcX14Mk+U+EYMSaz7Uo5jvjzJQZJRhpl6ff2HTTj0SFNAIOPfPgyBE
+	 n9vx6LoQdtIbg==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id D844B4188E;
+	Tue, 10 Sep 2024 21:31:00 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Abdul Rahim <abdul.rahim@myyahoo.com>, bhelgaas@google.com
+Cc: helgaas@kernel.org, linux-pci@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Abdul Rahim
+ <abdul.rahim@myyahoo.com>
+Subject: Re: [PATCH] Documentation: PCI: fix typo in pci.rst
+In-Reply-To: <20240906205656.8261-1-abdul.rahim@myyahoo.com>
+References: <20240906205656.8261-1-abdul.rahim.ref@myyahoo.com>
+ <20240906205656.8261-1-abdul.rahim@myyahoo.com>
+Date: Tue, 10 Sep 2024 15:30:59 -0600
+Message-ID: <87a5gf6vsc.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Attn: Sir/Madam,
+Abdul Rahim <abdul.rahim@myyahoo.com> writes:
 
-Greetings from Etihad Aviation Group, UAE.
+> Fix typo: "follow" -> "following" in pci.rst
+>
+> Signed-off-by: Abdul Rahim <abdul.rahim@myyahoo.com>
+> ---
+>  Documentation/PCI/pci.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/PCI/pci.rst b/Documentation/PCI/pci.rst
+> index dd7b1c0c21da..f4d2662871ab 100644
+> --- a/Documentation/PCI/pci.rst
+> +++ b/Documentation/PCI/pci.rst
+> @@ -52,7 +52,7 @@ driver generally needs to perform the following initialization:
+>    - Enable DMA/processing engines
+>  
+>  When done using the device, and perhaps the module needs to be unloaded,
+> -the driver needs to take the follow steps:
+> +the driver needs to take the following steps:
+>  
 
-We are happy to contact your company and also extend our=20
-invitation to your esteemed company to Vendor/Contractor=20
-Partnership registration with Etihad Aviation Group, UAE 2024/
-2025 projects. If your company has intention to participate in=20
-the process, please confirm your interest by asking for Vendor=20
-Questionnaire and EOI.
+Applied, thanks.
 
-We appreciate your interest in this invitation, and look forward=20
-to your early response.
-
-Kind Regards,
-
-Mr. Ben Stokes
-Contractors Coordinator
-Group Procurement & Contracts Shared Services Center
-Etihad Aviation Group PJSC
-Etihad Airways - Head office, New Airport Road,
-Khalifa City, PO Box 35566, Abu Dhabi
-United Arab Emirates.
+jon
