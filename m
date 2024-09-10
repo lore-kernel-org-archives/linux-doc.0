@@ -1,193 +1,96 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DCC6181CE1
-	for <linux-doc@vger.kernel.org>; Tue, 10 Sep 2024 09:31:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A09B172BA8;
+	Tue, 10 Sep 2024 10:27:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725960684; cv=none; b=HdpOidZPBGwr00s+tmdBRZpOP9M+BHwZuuLPwCzBz7CHSxT9gswTFpAbFdxtJTidc9LL1ex6Q9UuND9DMJq+h+Vy3CB9ZuQd6QkscY5LSvirco6K7lyygD1oxA+EPfdgrtB1LaL2IiAIW/lGq7IrZTtgIsHQFiWmYVETNLYKwFI=
+	t=1725964072; cv=none; b=a0MwEwvfxwSwRLMd5Q3DwvURgtI+VRAAb4khgWlyM6nx1as7nhpIprmWhWdSTqVebroD3t0qwApucD1VUo4VhcVSvEVbm2wLE7FvXzguI1xlOBYZoRkbCPE7VTq6+7ACRTXItsZ5u7Co2lDxQyJ5/rXd+ntVM8NJTBi/j2GimfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725960684; c=relaxed/simple;
-	bh=/yBirLlbsXe5irgaHtC/VRx4dXEPb1T0JzXJA9JBoD8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Q+fIxbr4bLNrXGakd936NPI+UZiT9MzZ4CoXpOVGkejBL/i5KOO3DPe9ZRqTsiKh17kHBjj1Gv9vxrrObS2VCur8R8PlZTWiPBOO7kz/FlQPsUK1NMphDynC6geP2XLfMm297WXvnjE8UCJEb7ff3M0OJuLf8FftoQMR/ASBD2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=i/9hIIwP; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1725964072; c=relaxed/simple;
+	bh=PbymxaNYKWisICEPVN+Os7ZJit3MRfZQfFqNVukMdxs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sp/6VEQtGaEpDUvDIBnkmFo9u5Fg2Vcfkytf5n0BnxpGWbjYQJoezey9LwHFQr6iC5j7p5zNG/5jpb+6KjXpbHNnbPPrK9zxR5xfH2la+bvg2W+aSLqOv8+hA1Ae4jxbrNLis3rg0/KPpvI/43Jce/WmCC4mGZDje4zFy9jlV4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BUTUbbqu; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="i/9hIIwP"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-42cbb08a1a5so5215185e9.3
-        for <linux-doc@vger.kernel.org>; Tue, 10 Sep 2024 02:31:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BUTUbbqu"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2059204f448so44200735ad.0;
+        Tue, 10 Sep 2024 03:27:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1725960680; x=1726565480; darn=vger.kernel.org;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NuS9MAxsmvjSgFrYtBO34391Uw04VZwdaHe4kRwnHIs=;
-        b=i/9hIIwPb26ABV+w+ANhRNtPKPtpsEqV90b14y07k1blmy2dTwqgXybA4D06hQO/9C
-         EBjfxlcS+88hXD2DOZMlE9jyFS3N0detA8wupak4v2FOHed1pbcydCKSyObHLwlhWu3M
-         P11AFZeCBpj4sMlavcT4p13OmjPwwyKgsqC2GeN+PST4Yz1HW9PdWMhIypj3P6qFw8ht
-         FecDX5zK2Od4xQATCS3xdxIFf6AOO/bKxyNsDv8H8GV0xzUtmZDpVVb+wLa8FZKIUgHX
-         JbEXeAH7WURAoXARISxbycymvzYB0Y/43F5yyPMX0tJ5X82Ds3Cbz5/mB8Aa0ai33jQ6
-         Frwg==
+        d=gmail.com; s=20230601; t=1725964071; x=1726568871; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zIyR38y07x529tvCfbRZKMKVYOciOW8f0OoLScjnlLA=;
+        b=BUTUbbqugpVz4SLf+jWKXxzHikZ+gK/nugYbUEF529QVUYvriGn2Wq4LoROv1+NVIO
+         bUIWzLhiLV10NssyycnTbjplroXqn6AIk5sLJEQkq6hp1GsMDOWnrO8HN4KnyZ0VnImp
+         YgOeLC2MHCwdnjYxoQi+A6WSDh3qEBfY2v925ZYfrAV/wsvU0oUDbPTC63YrsIhbXQGD
+         o2lUZRVCID9HBOTnRclgPegT4CsQO1PwXPIgpYy2rWs9oQwUWLYqsfwsW1QiB2jnurUj
+         sAnMG5R/2WM8VI/PxZzC/z793LGHwP3fNCh6pVGHuyGmXYeZD/CwNFL+vn/kpqpmp5JI
+         EPAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725960680; x=1726565480;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NuS9MAxsmvjSgFrYtBO34391Uw04VZwdaHe4kRwnHIs=;
-        b=VWNPHyZUrtD+XUHl0OPTaaVvcVXq5X4BVDi1EoMxDk+jWTWe8age7JJXmGASzT+M8j
-         9N35rxCrMjykx90gIYXeRckmzcIPKKhu1kuvnLgGKxbOrT8/K/lLd9NWZLpKtcIBedKa
-         cNhEsvBzbxhK4hEqY9RFBEZT9bz6QHb4Ne1bSu64zxbyUOdG0mM5LdplG1tFdI7qiwq1
-         +XwxfxonGf8o1Hr+brYEHzOOmxHz3xid4Em2kY2dK3Jnty+3nU+gaW4VW/0ZaxcWRxtu
-         XsZKUl6OC7mVXBYcg5IiNL4QqjU73mY7bFgo0aYF5W9QC6SUimukr9Jud7IZXGE5C0ku
-         68QQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWl0OrxqtrSy+E+00iIbGPTV290+vCNcKA2VeGxGeMY32A9J9kHZp5XHIFuAV0GDdgSEEGP3GjAm44=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKJT0ntujkM8DOdKzZn+YBYTuKykDBUub7wFJMUx7APmXT9vO3
-	0tInFlY8hRk9cfBLZwADmp9M8rwn0zcFM827VQQtQNiZBLSzqyl3oS1KTBqxtws=
-X-Google-Smtp-Source: AGHT+IHWU9Nsx/+0aSjXLCuH8M7pxPwtBJFXd4QA9DnNUUZvDz4yyjRr1z1CDQ306/ZYKfm0hlNraQ==
-X-Received: by 2002:a5d:54c2:0:b0:374:bb00:31eb with SMTP id ffacd0b85a97d-378895c5c5amr7565976f8f.6.1725960679056;
-        Tue, 10 Sep 2024 02:31:19 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:8ba7:bfe4:fea9:65b])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3789564aef9sm8353891f8f.5.2024.09.10.02.31.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Sep 2024 02:31:18 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Jean Delvare <jdelvare@suse.com>,  Guenter Roeck <linux@roeck-us.net>,
-  Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>,
-  Conor Dooley <conor+dt@kernel.org>,  Jonathan Corbet <corbet@lwn.net>,
-  Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-  linux-hwmon@vger.kernel.org,  devicetree@vger.kernel.org,
-  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
-  linux-i2c@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: hwmon: pmbus: add ti tps25990
- documentation
-In-Reply-To: <3efbzcys4762rhx2h2cbhqvi6dgik7pfrxcziccdko34pb5z54@joodcym6c3s4>
-	(Krzysztof Kozlowski's message of "Tue, 10 Sep 2024 09:48:34 +0200")
-References: <20240909-tps25990-v1-0-39b37e43e795@baylibre.com>
-	<20240909-tps25990-v1-1-39b37e43e795@baylibre.com>
-	<3efbzcys4762rhx2h2cbhqvi6dgik7pfrxcziccdko34pb5z54@joodcym6c3s4>
-Date: Tue, 10 Sep 2024 11:31:18 +0200
-Message-ID: <1jzfofsvmh.fsf@starbuckisacylon.baylibre.com>
+        d=1e100.net; s=20230601; t=1725964071; x=1726568871;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zIyR38y07x529tvCfbRZKMKVYOciOW8f0OoLScjnlLA=;
+        b=FeS9MFrUezQOZCnicB7pIegKL7WeU4rsSUpx5FQzU7O0sJd7Gh+bytK99CwY162cQ6
+         +1yrbPMhTGQErdcsRhsOGZT5AErsUXrEKSaUdnngJ5OPxU0o5CesTnT3ic1rFmIx+hO7
+         IuVLtM+XjnQ56fHtcqmwwTe0p8RRbsd+6POktDtndf6KKebabziJpuNTVEyzUKOYDG0l
+         no5vdcImDTcWNSFPfBFguncJ6W3H0d+VAz/DmwfV87SNdaLrwqst9eFXWlp/9kmkPUeM
+         8Vc124iOuflBr8exo12ePUWUIjNKXzW5LHk/FQr4CLpkCE6NRv/MZCwccSooBWuXZkaF
+         aIEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWS0DpyOGua9h7dShsbDmOVzD/aARYbZniF7JCmF5T9dy6J2h7mvgxZvHH02rUry2GsFuA/vlIXKFs=@vger.kernel.org, AJvYcCWVRfpGeqjKsa1hOW2Gw6sleW3qxth7gqWsKthFPaq2OM8re+lteEC5tFe/yEid0T3mTtqUf7QiAceG608MJw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YylVxgmFbZw+K9uChQ0wIs45PSe3aZoUs0F5S9ZeQ//WdEI7zfC
+	eZ+rJp78EVl5fy5vXc2CfZOhACILr/OwJGfugRAzCl3FfOef57IW79FAQg==
+X-Google-Smtp-Source: AGHT+IE0cOCoZz2a6Eq/RhwCR1w/LeizFbIS4+1ET66eUPsxYlSvO3gMXgqxdNfia9R4+ZvvCAQjfw==
+X-Received: by 2002:a17:902:d586:b0:206:c5cf:9727 with SMTP id d9443c01a7336-2074c60a65cmr2875625ad.31.1725964070554;
+        Tue, 10 Sep 2024 03:27:50 -0700 (PDT)
+Received: from [192.168.0.106] ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2071ac25428sm40793195ad.306.2024.09.10.03.27.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Sep 2024 03:27:50 -0700 (PDT)
+Message-ID: <cd1340e4-f726-4ac4-9caa-8e8a3c369203@gmail.com>
+Date: Tue, 10 Sep 2024 17:27:42 +0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: livepatch: Correct release locks antonym
+To: Petr Mladek <pmladek@suse.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Kernel Livepatching <live-patching@vger.kernel.org>,
+ Josh Poimboeuf <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+ Miroslav Benes <mbenes@suse.cz>, Joe Lawrence <joe.lawrence@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Marcos Paulo de Souza <mpdesouza@suse.com>
+References: <20240903024753.104609-1-bagasdotme@gmail.com>
+ <ZthJEsogeqfVj8jg@pathway.suse.cz>
+Content-Language: en-US
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <ZthJEsogeqfVj8jg@pathway.suse.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue 10 Sep 2024 at 09:48, Krzysztof Kozlowski <krzk@kernel.org> wrote:
-
-> On Mon, Sep 09, 2024 at 05:39:03PM +0200, Jerome Brunet wrote:
->> Add DT binding documentation for the Texas Instruments TPS25990 eFuse
->> 
->> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
->> ---
->>  .../bindings/hwmon/pmbus/ti,tps25990.yaml          | 73 ++++++++++++++++++++++
->>  1 file changed, 73 insertions(+)
+On 9/4/24 18:48, Petr Mladek wrote:
+> On Tue 2024-09-03 09:47:53, Bagas Sanjaya wrote:
+>> "get" doesn't properly fit as an antonym for "release" in the context
+>> of locking. Correct it with "acquire".
 >>
->
-> A nit, subject: drop second/last, redundant "documentation". The
-> "dt-bindings" prefix is already stating that these are bindings/docs.
-> See also:
-> https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
->
->> diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/ti,tps25990.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/ti,tps25990.yaml
->> new file mode 100644
->> index 000000000000..e717942b3598
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/hwmon/pmbus/ti,tps25990.yaml
->> @@ -0,0 +1,73 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +
->
-> Drop blank line.
->
->> +$id: http://devicetree.org/schemas/hwmon/pmbus/ti,tps25990.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Texas Instruments TPS25990 Stackable eFuse
->> +
->> +maintainers:
->> +  - Jerome Brunet <jbrunet@baylibre.com>
->> +
->> +description: |
->
-> Do not need '|' unless you need to preserve formatting.
->
->> +  The TI TPS25990 is an integrated, high-current circuit
->> +  protection and power management device with PMBUS interface
->> +
->> +properties:
->> +  compatible:
->> +    const: ti,tps25990
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  ti,rimon-milli-ohms:
->> +    description:
->> +      milli Ohms value of the resistance installed between the Imon pin
->> +      and the ground reference.
->
-> Ohms is not enough? We don't have mOhm in property units.
-> https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/property-units.yaml
->
+>> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> 
+> Reviewed-by: Petr Mladek <pmladek@suse.com>
+> 
+> The patch is trivial. I have have committed it into livepatching.git,
+> branch for-6.12/trivial.
+> 
 
-Same discussion as we've had on the driver change.
-At the moment Ohms is enough for the cases I've seen.
-
-Will it be, not sure.
-Using mOhms is' way to avoid "S**t, R is 80.2 Ohms, I
-need another digit to not loose precision " kind of situation and
-introduce a second property just for that.
-
-No idea if Rimon will get that low. Probably not.
-
-I'll switch to Ohms.
-
->> +
->> +  interrupts:
->> +    description: PMBUS SMB Alert Interrupt.
->> +    maxItems: 1
->> +
->> +  regulators:
->> +    type: object
->> +    description:
->> +      list of regulators provided by this controller.
->
-> You have just one regulator, so drop "regulators" node and use directly
-> vout here.
-
-Just took the example the other pmbus device and did the same for
-consistency.
-
-In that case, there other (possible) regulator called gpdac1 and gpdac2.
-I haven't even tried to implement the support for those.
-
-Since it would not break old DTs to add that later, I thought it would be OK
-to add them later. Should I add them now ?
-
->
->> +
->> +    properties:
->> +      vout:
->> +        $ref: /schemas/regulator/regulator.yaml#
->> +        type: object
->> +        unevaluatedProperties: false
->> +    additionalProperties: false
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - ti,rimon-milli-ohms
->> +
->> +additionalProperties: false
->
-> Best regards,
-> Krzysztof
+Shouldn't this for 6.11 instead? I'm expecting that though...
 
 -- 
-Jerome
+An old man doll... just what I always wanted! - Clara
