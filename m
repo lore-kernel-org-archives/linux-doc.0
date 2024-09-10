@@ -1,105 +1,106 @@
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A5318FC80
-	for <linux-doc@vger.kernel.org>; Tue, 10 Sep 2024 13:03:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.136.65.226
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1178114F12C;
+	Tue, 10 Sep 2024 13:42:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725973425; cv=none; b=uCM5gXqAUXo3SlyvA1tNmlYU8QyqrcUtR/1AAcMItf9ITVKrWFpB4WZMCpqXQIZRPFb0ucUbdic/eM9uSrJraN8O+Xkw6NAvNF/dc1w/+9XaQ17oNaQimFXlM6Lcys1V7cxjCqXAMcG7DmTPA5YD+EvYDbeJjIFWI7rHyVX58dw=
+	t=1725975727; cv=none; b=VHhwkZCj+LcR+927F0xs69yt9kNVr6EQFKjzzCKJWTtgeC1uFw8raFSlQdReTya5lHvztIMuQ8Ck1ZGvTu6QvRYwWwGo0OZ1KDizrUctnc8eAnqCtc1xzb3vwGRWOjwK1m2WpJg1EeF1HptQe++T5Hrw/YLr0u/lA4Vufdrn/00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725973425; c=relaxed/simple;
-	bh=+7grqSkriePg/LjEHXVfrqlm1ZflzOJdQryqxAmonlM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ougvC8g0bp2s6GGIcKaWj48sg5edgTNLr/XzG9amCyiA8IALNbtC1t499fqnGD6ndUXiX/kM17c/9aeGSRiOjhH5CTDQ4S5YA31nLrgbnKjeY2QJZEfe8qlHUi684wfnIxJGkqjXtEzhOOTdlCUwYQCxPK7+flFIaJ30iRo6H+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com; dkim=pass (2048-bit key) header.d=siemens.com header.i=alexander.sverdlin@siemens.com header.b=YiMHe17p; arc=none smtp.client-ip=185.136.65.226
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com
+	s=arc-20240116; t=1725975727; c=relaxed/simple;
+	bh=T1DrTVHH1sfUlag/CA8DuPaKKivrIip5vD+w1SHJCO8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZQiCPiZs9ylcmzwcIVTktQHbIp7kVqInKEnoyewN/UXfLcp5j6qbcKvR5osSF141YyZN//8HiQwuLy7LvlVHl38sB+a0mZ0SKvL8l+dnAyQh3ISchFaog05N0yoiVIOy7tKokZFhJqbKw0YXTqXBR6Gzb+O907yEA8XfyYgk4S0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Ql4vqC8b; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=siemens.com header.i=alexander.sverdlin@siemens.com header.b="YiMHe17p"
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 2024091013033564706c6d1f4887c60b
-        for <linux-doc@vger.kernel.org>;
-        Tue, 10 Sep 2024 15:03:35 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=alexander.sverdlin@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=/RQZWTb0amL4ldY4wF3tI5y4Df0ypyhlaY78wvfdEGE=;
- b=YiMHe17pm9fqzsq6P5hEGjccDrYj5fX8utu81OdMtBEEbVrmih1wHqiMqBPjBWbiwKTe90
- FXPu8ARUbHALOphGmrx3Fwhbk4xlfzP/jwA9o/hcy8W+hstF3nVObKqBaRy4SxzwQj1Smrps
- UrkdVkR3k//lny7cLMHWpXhx5Q8o6dZlXUrYicI73i6BAsPFHFuQj8e94YiFnCorpJVMIU9b
- OF7uAjB40t+ARQKnZlDldCfTF1bg35eZGAk0Xum3VxcvexKAExcXG83lskh+wVJaYTK5VtJn
- cOW0RkewUpu8q3+OMvGNbpFsjLU+o6txpedwrG9dz45ztObKx06sjGWA==;
-From: "A. Sverdlin" <alexander.sverdlin@siemens.com>
-To: netdev@vger.kernel.org
-Cc: Alexander Sverdlin <alexander.sverdlin@siemens.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 2/2] docs: net: dsa: RCU protection of dsa_ptr in struct net_device
-Date: Tue, 10 Sep 2024 15:03:16 +0200
-Message-ID: <20240910130321.337154-3-alexander.sverdlin@siemens.com>
-In-Reply-To: <20240910130321.337154-1-alexander.sverdlin@siemens.com>
-References: <20240910130321.337154-1-alexander.sverdlin@siemens.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Ql4vqC8b"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=wxzBgx3kqKVoI3jlEN02U0lcelhmIv1peZoDYksnKQE=; b=Ql4vqC8boH+fZrAUoC8Aa6Psgt
+	RErCIrXi9ls6VySEg6mIvd5hNzYoDFZSKEE6w4Arli+Aomfx2k3AURv9IZ3Kq1epkDAwAQjQKn9/i
+	bdIHlb6dv6AcFIp5giL3Z44FyGQFNieKtbiAFfOFmYChI7TokimX33nB17CcKexqNaagFgQnuYSUe
+	lW6RaJtU/ATEI1WyTW2IeJ6aPH9c/nH6dQWFaPAnTTAVoVCgam2fDn62Bq8/zTH+MXWY717GziaJv
+	iT+Smj0GKJzb/HC8YKyB5p9m9J/58ZrBG/Mh9dmVp4oeUm7NI6VzeLt0ZcigAvPv6y+dUCpJf672/
+	cPFt8iiQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1so17l-0000000BLwy-1gHR;
+	Tue, 10 Sep 2024 13:41:41 +0000
+Date: Tue, 10 Sep 2024 14:41:41 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Alistair Popple <apopple@nvidia.com>
+Cc: dan.j.williams@intel.com, linux-mm@kvack.org, vishal.l.verma@intel.com,
+	dave.jiang@intel.com, logang@deltatee.com, bhelgaas@google.com,
+	jack@suse.cz, jgg@ziepe.ca, catalin.marinas@arm.com,
+	will@kernel.org, mpe@ellerman.id.au, npiggin@gmail.com,
+	dave.hansen@linux.intel.com, ira.weiny@intel.com, djwong@kernel.org,
+	tytso@mit.edu, linmiaohe@huawei.com, david@redhat.com,
+	peterx@redhat.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, nvdimm@lists.linux.dev,
+	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
+	jhubbard@nvidia.com, hch@lst.de, david@fromorbit.com,
+	Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH 04/12] mm: Allow compound zone device pages
+Message-ID: <ZuBMlUK-v24-9m3G@casper.infradead.org>
+References: <cover.9f0e45d52f5cff58807831b6b867084d0b14b61c.1725941415.git-series.apopple@nvidia.com>
+ <c7026449473790e2844bb82012216c57047c7639.1725941415.git-series.apopple@nvidia.com>
+ <Zt_PbIADa4baLEBw@casper.infradead.org>
+ <87v7z4gfi7.fsf@nvdebian.thelocal>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-456497:519-21489:flowmailer
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87v7z4gfi7.fsf@nvdebian.thelocal>
 
-From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+On Tue, Sep 10, 2024 at 04:57:41PM +1000, Alistair Popple wrote:
+> 
+> Matthew Wilcox <willy@infradead.org> writes:
+> 
+> > On Tue, Sep 10, 2024 at 02:14:29PM +1000, Alistair Popple wrote:
+> >> @@ -337,6 +341,7 @@ struct folio {
+> >>  	/* private: */
+> >>  				};
+> >>  	/* public: */
+> >> +			struct dev_pagemap *pgmap;
+> >
+> > Shouldn't that be indented by one more tab stop?
+> >
+> > And for ease of reading, perhaps it should be placed either immediately
+> > before or after 'struct list_head lru;'?
+> >
+> >> +++ b/include/linux/mmzone.h
+> >> @@ -1134,6 +1134,12 @@ static inline bool is_zone_device_page(const struct page *page)
+> >>  	return page_zonenum(page) == ZONE_DEVICE;
+> >>  }
+> >>  
+> >> +static inline struct dev_pagemap *page_dev_pagemap(const struct page *page)
+> >> +{
+> >> +	WARN_ON(!is_zone_device_page(page));
+> >> +	return page_folio(page)->pgmap;
+> >> +}
+> >
+> > I haven't read to the end yet, but presumably we'll eventually want:
+> >
+> > static inline struct dev_pagemap *folio_dev_pagemap(const struct folio *folio)
+> > {
+> > 	WARN_ON(!folio_is_zone_device(folio))
+> > 	return folio->pgmap;
+> > }
+> >
+> > and since we'll want it eventually, maybe now is the time to add it,
+> > and make page_dev_pagemap() simply call it?
+> 
+> Sounds reasonable. I had open-coded folio->pgmap where it's needed
+> because at those points it's "obviously" a ZONE_DEVICE folio. Will add
+> it.
 
-Mention new netdev_uses_dsa_currently() and use rtnl_dereference() for
-dsa_ptr access.
-
-Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
----
- Documentation/networking/dsa/dsa.rst | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/Documentation/networking/dsa/dsa.rst b/Documentation/networking/dsa/dsa.rst
-index 7b2e69cd7ef0..858c6d2842c4 100644
---- a/Documentation/networking/dsa/dsa.rst
-+++ b/Documentation/networking/dsa/dsa.rst
-@@ -255,7 +255,7 @@ Conduit network device (e.g.: e1000e):
- 2. net/ethernet/eth.c::
- 
-           eth_type_trans(skb, dev)
--                  if (dev->dsa_ptr != NULL)
-+                  if (netdev_uses_dsa_currently(dev))
-                           -> skb->protocol = ETH_P_XDSA
- 
- 3. drivers/net/ethernet/\*::
-@@ -656,14 +656,14 @@ Switch configuration
-   represents the index of the user port, and the ``conduit`` argument represents
-   the new DSA conduit ``net_device``. The CPU port associated with the new
-   conduit can be retrieved by looking at ``struct dsa_port *cpu_dp =
--  conduit->dsa_ptr``. Additionally, the conduit can also be a LAG device where
--  all the slave devices are physical DSA conduits. LAG DSA  also have a
--  valid ``conduit->dsa_ptr`` pointer, however this is not unique, but rather a
--  duplicate of the first physical DSA conduit's (LAG slave) ``dsa_ptr``. In case
--  of a LAG DSA conduit, a further call to ``port_lag_join`` will be emitted
--  separately for the physical CPU ports associated with the physical DSA
--  conduits, requesting them to create a hardware LAG associated with the LAG
--  interface.
-+  rtnl_dereference(conduit->dsa_ptr)``. Additionally, the conduit can also be a
-+  LAG device where all the slave devices are physical DSA conduits. LAG DSA
-+  also have a valid ``conduit->dsa_ptr`` pointer, however this is not unique,
-+  but rather a duplicate of the first physical DSA conduit's (LAG slave)
-+  ``dsa_ptr``. In case of a LAG DSA conduit, a further call to ``port_lag_join``
-+  will be emitted separately for the physical CPU ports associated with the
-+  physical DSA conduits, requesting them to create a hardware LAG associated
-+  with the LAG interface.
- 
- PHY devices and link management
- -------------------------------
--- 
-2.46.0
-
+Oh, if it's obvious then just do the dereference.
