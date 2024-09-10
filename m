@@ -1,88 +1,228 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D600189903;
-	Tue, 10 Sep 2024 14:56:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1DB6156C69
+	for <linux-doc@vger.kernel.org>; Tue, 10 Sep 2024 15:00:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725980168; cv=none; b=oqz+IKNOxF6zvkyRIwOOD8VRTl+dK6ejqbEfd336gNn1ii/iXhaQ6iimWLeFQKDCvLBswDcVwf29DagObjXPvRh+3O962jEl679uxEnatqyTc+uTvSuu5btwWe7V+5oo00Rpd34hKL9vnoswu62Fk6a/EbS1gHymIgHoMzX8RLA=
+	t=1725980455; cv=none; b=YHyXUv/OrG6Odw4tsbNz1p/5h+NbyuhEYPOIVDF0dOM+K0yP6uYDEjJ+7ko1H9zTS3v2kJakr2LorsdsKcK1NcdgUev30ZyM4OotKEHuvR+kNCS4U3KBPhBkoruD7EGWCL1muKyWE/5f3d6ljAmdifddz5FCGbq0M5vkSQeZ2IM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725980168; c=relaxed/simple;
-	bh=Knj+/+ZTNcHkhCPeQwfM9SbZokQitCPm0oFSvWrF6/s=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oRi0F96sCfVqNCztdW6wmYwep++PU6njF6UYh5IyleYJeO2HwBLUmOLC85s6veVUTBWTmDz54KyPJPDY/a8RMQT2ZJITbKfUDoK36fgXNTImqRCq7dnk/l/UiwvEh1aJHs8y+AYQWkEBowwU4TWRkET5tHqIMVGtBed/W//tvwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=afRV7+ld; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725980455; c=relaxed/simple;
+	bh=AV+bZEikSbgiTFjF5uYp023i/NLpDIKEW9JH0HUq9Kg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=RI2Juy+3j6Zp9+5qK/DWpZL4AhH7Ie14DgzSP/bufX0sObLEiTmB8CNiOxJUh+mMGsvYjeuN4ZYl1cdjndbHCp2HiGafUhjKBPkXDgc0G8V2J3BgwyyiRpScMJ/OMFCauiIl8LPX4FpRIA2LjIanNOvPf6PNuBMCvEUK6Zlv0fg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=rPteJHj/; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="afRV7+ld"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BCA8C4CEC3;
-	Tue, 10 Sep 2024 14:56:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725980168;
-	bh=Knj+/+ZTNcHkhCPeQwfM9SbZokQitCPm0oFSvWrF6/s=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=afRV7+ldQirMVUJ6HP3r0uJ8N3BOfaLJwphabsueb3xu4Zos3wRJuDGtROtF97qjc
-	 tnV9d0OQ1LO0tQkv9ojMVVjxvw4i/rId4St/zv8PjCvfNhzoHu8Q5uDMh/bsUQh6J4
-	 Q5HlB2NIYWBsYE/vUM3U8cn5DrXCTd6K/z14JYfdyX3j2Gk9iJkOvfjzhPE37J6gLA
-	 Fkfrk9xpKuIhpkNWDhjeKSM/Hr0YVnB9KO3xQMPB6PMivf0+yjicIcjO4rAplitnF7
-	 0J4vtTC447mEs7PV2IiSbtiACMdsPZEkRW9LkQJh7oFucbWtR6Y5yEhkUIYEw4GySz
-	 eGN37L0Qtp0NA==
-Date: Tue, 10 Sep 2024 07:56:06 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Joe Damato <jdamato@fastly.com>
-Cc: Stanislav Fomichev <stfomichev@gmail.com>, netdev@vger.kernel.org,
- mkarsten@uwaterloo.ca, skhawaja@google.com, sdf@fomichev.me,
- bjorn@rivosinc.com, amritha.nambiar@intel.com, sridhar.samudrala@intel.com,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Jiri Pirko <jiri@resnulli.us>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Lorenzo Bianconi <lorenzo@kernel.org>, "open
- list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list
- <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC net-next v2 1/9] net: napi: Add napi_storage
-Message-ID: <20240910075606.565fae97@kernel.org>
-In-Reply-To: <Zt_kJT9jCy1rLLCr@LQ3V64L9R2.homenet.telecomitalia.it>
-References: <20240908160702.56618-1-jdamato@fastly.com>
-	<20240908160702.56618-2-jdamato@fastly.com>
-	<Zt4N1RoplScF2Dbw@LQ3V64L9R2.homenet.telecomitalia.it>
-	<Zt94tXG_lzGLWo1w@mini-arch>
-	<Zt_kJT9jCy1rLLCr@LQ3V64L9R2.homenet.telecomitalia.it>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="rPteJHj/"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-374b25263a3so3449420f8f.0
+        for <linux-doc@vger.kernel.org>; Tue, 10 Sep 2024 08:00:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1725980451; x=1726585251; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2hr9Fc/Cxch33RdNkyPqNKXWz12st/NBG82QCWR7Y3c=;
+        b=rPteJHj//3aRs/HsvKNtXDYCCpGHO1ZpvKst4XwCoTb4LXZ3K1OEwffLQPVRrhG8zj
+         dJzXq9EXrg3XnYGTgC0TYmFVjIR0fRdf2kBrH95TyJVLBXlL2GD6weUfk0Wc4KSssMv+
+         W7HvCHZcenDFc9K9eu9pYKUAlZvo8G7aH3pMi98MwSZBFaEYV7pXJ7pa7vh76iM4DVZJ
+         yaRVuYc2toD+pzVwHr+YFF4YWgQXjHgW/jMvMf6gEFYfYShMj/CFl1xCblkxL0JBDb81
+         NEzlOxVktrAEVtyeYp1kXXlBbVT1mfZJmJ6CkXmKflIhtJphbstpNO7GKdP1UU5wZmr5
+         DYYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725980451; x=1726585251;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2hr9Fc/Cxch33RdNkyPqNKXWz12st/NBG82QCWR7Y3c=;
+        b=Qe4eEyczzfwgS+QQEy0PrFF0Iiq0w2XfTrMXtXiofdeAt3SpiCNi4dCDnPW5LVtlBk
+         FYVbq3bmXQVsIvF5OE15Ip9Ru9E6Um/lgJa9AXF06F3z/WZfTH89Sx96nWvI9NaytAIJ
+         FJqd1ncVuwVQHROA3b+znoA0emzK+I2MJP326jIxy5SZ4PE42KdwvO0gpwtf54ff+RXX
+         CTOesCkiFhzukeLe8St5mJ+H32mjMU4MhEsZSusoMiI5ZawmaiExWvGDdXsKO4hfGJpI
+         KiLH6Oef7kEjr1/nrUgw4T/GXkjzQjYgBeQAQffPgOc1Fpno8109yA7baQNPjVQ935Ye
+         x9Xg==
+X-Forwarded-Encrypted: i=1; AJvYcCVowvPzAMUZFkI0q+Fr78MjPQ8+lpawQY7DIanjfwWNfS0SFJAkP2b5ZMMsg5SDF69r8TPM4MMHAS4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7LY/HGwV3awwLCkAfJ/jHmQL6d9wOmM2+RQ5JHAmWpIndIDmI
+	sxJxwAuZ6CvhvFYieduV5kQyayJE0HA8HyYLIrpzCirYKQEuIjzvkcpC9AEcq9s=
+X-Google-Smtp-Source: AGHT+IFhCLPyTLBtd41NDEC+LPfICx6brFq87NJZa0zlOyce74MQhtfSCKZlYGpLhIP7wd2Pwa2MrA==
+X-Received: by 2002:adf:f7ce:0:b0:374:c847:85c with SMTP id ffacd0b85a97d-378949fa718mr6955822f8f.24.1725980450611;
+        Tue, 10 Sep 2024 08:00:50 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:8ba7:bfe4:fea9:65b])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956de00fsm9164949f8f.99.2024.09.10.08.00.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Sep 2024 08:00:50 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Jean Delvare <jdelvare@suse.com>,  Rob Herring <robh@kernel.org>,
+  Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
+ <conor+dt@kernel.org>,  Jonathan Corbet <corbet@lwn.net>,  Delphine CC
+ Chiu <Delphine_CC_Chiu@Wiwynn.com>,  linux-hwmon@vger.kernel.org,
+  devicetree@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  linux-doc@vger.kernel.org,  linux-i2c@vger.kernel.org
+Subject: Re: [PATCH 2/3] hwmon: (pmbus/core) add POWER_GOOD signal limits
+ support
+In-Reply-To: <08b6d9af-51b7-4eda-a4f6-62b688665fd9@roeck-us.net> (Guenter
+	Roeck's message of "Tue, 10 Sep 2024 07:37:09 -0700")
+References: <20240909-tps25990-v1-0-39b37e43e795@baylibre.com>
+	<20240909-tps25990-v1-2-39b37e43e795@baylibre.com>
+	<d76290e0-f5e7-4192-92b8-94f260270fe3@roeck-us.net>
+	<1j8qw0t3ej.fsf@starbuckisacylon.baylibre.com>
+	<08b6d9af-51b7-4eda-a4f6-62b688665fd9@roeck-us.net>
+Date: Tue, 10 Sep 2024 17:00:49 +0200
+Message-ID: <1jr09rsgda.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 10 Sep 2024 08:16:05 +0200 Joe Damato wrote:
-> > >   2. The two step "takeover" which seemed to imply that we might
-> > >      pull napi_id into napi_storage? Or maybe I just read that part
-> > >      wrong?  
-> > 
-> > Yes, the suggestion here is to drop patch #2 from your series and
-> > keep napi_id as a user facing 'id' for the persistent storage. But,
-> > obviously, this requires persistent napi_id(s) that survive device
-> > resets.
-> > 
-> > The function that allocates new napi_id is napi_hash_add
-> > from netif_napi_add_weight. So we can do either of the following:
-> > 1. Keep everything as is, but add the napi_rehash somewhere
-> >    around napi_enable to 'takeover' previously allocated napi_id.
-> > 2. (preferred) Separate napi_hash_add out of netif_napi_add_weight.
-> >    And have some new napi_hash_with_id(previous_napi_id) to expose it to the
-> >    userspace. Then convert mlx5 to this new interface.  
-> 
-> Jakub is this what you were thinking too?
-> 
-> If this is the case, then the netlink code needs to be tweaked to
-> operate on NAPI IDs again (since they are persistent) instead of
-> ifindex + napi_storage index?
+On Tue 10 Sep 2024 at 07:37, Guenter Roeck <linux@roeck-us.net> wrote:
 
-No strong preference on the driver facing API, TBH, your
-netif_napi_add_storage() with some additional 'ifs' in the existing
-functions should work.
+> On 9/9/24 23:43, Jerome Brunet wrote:
+>> On Mon 09 Sep 2024 at 11:16, Guenter Roeck <linux@roeck-us.net> wrote:
+>>=20
+>>> On 9/9/24 08:39, Jerome Brunet wrote:
+>>>> Add support for POWER_GOOD_ON and POWER_GOOD_OFF standard PMBus comman=
+ds.
+>>>> For PMBus devices that offer a POWER_GOOD signal, these commands are u=
+sed
+>>>> for setting the output voltage at which a power good signal should be
+>>>> asserted and negated.
+>>>> Power Good signals are device and manufacturer specific. Many factors
+>>>> other
+>>>> than output voltage may be used to determine whether or not the POWER_=
+GOOD
+>>>> signal is to be asserted. PMBus device users are instructed to consult=
+ the
+>>>> device manufacturer=E2=80=99s product literature for the specifics of =
+the device
+>>>> they are using.
+>>>> Note that depending on the choice of the device manufacturer that a
+>>>> device
+>>>> may drive a POWER_GOOD signal high or low to indicate that the signal =
+is
+>>>> asserted.
+>>>> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+>>>> ---
+>>>>    drivers/hwmon/pmbus/pmbus.h      | 3 +++
+>>>>    drivers/hwmon/pmbus/pmbus_core.c | 6 ++++++
+>>>>    2 files changed, 9 insertions(+)
+>>>> diff --git a/drivers/hwmon/pmbus/pmbus.h b/drivers/hwmon/pmbus/pmbus.h
+>>>> index 5d5dc774187b..e322d2dd9fb7 100644
+>>>> --- a/drivers/hwmon/pmbus/pmbus.h
+>>>> +++ b/drivers/hwmon/pmbus/pmbus.h
+>>>> @@ -78,6 +78,9 @@ enum pmbus_regs {
+>>>>    	PMBUS_IIN_OC_FAULT_LIMIT	=3D 0x5B,
+>>>>    	PMBUS_IIN_OC_WARN_LIMIT		=3D 0x5D,
+>>>>    +	PMBUS_POWER_GOOD_ON		=3D 0x5E,
+>>>> +	PMBUS_POWER_GOOD_OFF		=3D 0x5F,
+>>>> +
+>>>>    	PMBUS_POUT_OP_FAULT_LIMIT	=3D 0x68,
+>>>>    	PMBUS_POUT_OP_WARN_LIMIT	=3D 0x6A,
+>>>>    	PMBUS_PIN_OP_WARN_LIMIT		=3D 0x6B,
+>>>> diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pm=
+bus_core.c
+>>>> index 0ea6fe7eb17c..94ddf0166770 100644
+>>>> --- a/drivers/hwmon/pmbus/pmbus_core.c
+>>>> +++ b/drivers/hwmon/pmbus/pmbus_core.c
+>>>> @@ -1768,6 +1768,12 @@ static const struct pmbus_limit_attr vout_limit=
+_attrs[] =3D {
+>>>>    		.attr =3D "crit",
+>>>>    		.alarm =3D "crit_alarm",
+>>>>    		.sbit =3D PB_VOLTAGE_OV_FAULT,
+>>>> +	}, {
+>>>> +		.reg =3D PMBUS_POWER_GOOD_ON,
+>>>> +		.attr =3D "good_on",
+>>>> +	}, {
+>>>> +		.reg =3D PMBUS_POWER_GOOD_OFF,
+>>>> +		.attr =3D "good_off",
+>>>>    	}, {
+>>>>    		.reg =3D PMBUS_VIRT_READ_VOUT_AVG,
+>>>>    		.update =3D true,
+>>>>
+>>>
+>>> Those attributes are not hardware monitoring attributes and therefore n=
+ot
+>>> acceptable. In general I am not sure if they should be configurable in =
+the
+>>> first place, but definitely not from the hardware monitoring subsystem.
+>>> Maybe the regulator subsystem callbacks set_over_voltage_protection and
+>>> set_under_voltage_protection would be appropriate (with severity
+>>> REGULATOR_SEVERITY_PROT), but that should be discussed with regulator
+>>> subsystem maintainers.
+>> According to PMBUS spec, there is no protection associated with that
+>> command. It just tells when the output voltage is considered good, when
+>> it is not. What it does after that really depends the device, it may
+>> drive a pin for example (or an LED indicator in my case).
+>>=20
+>
+> It is much more likely that it connects to the reset signal on the board,
+> or it enables/disables power to parts of the board.
 
-Also no strong preference on the uAPI, avoiding adding new fields is
-a little bit tempting. But if you think NAPI ID won't work or is less
-clean - we can stick the index in.
+That's not what PMBus spec says about it:
+
+"""
+15.32. POWER_GOOD Signal Limits
+For PMBus devices that offer a POWER_GOOD signal, these commands are used f=
+or
+setting the output voltage at which a power good signal should be asserted =
+and negated.
+Power Good signals will be device and manufacturer specific. Many factors o=
+ther than
+output voltage may be used to determine whether or not the POWER_GOOD signa=
+l is to
+be asserted. PMBus device users are instructed to consult the device manufa=
+cturer=E2=80=99s
+product literature for the specifics of the device they are using.
+"""
+
+It's only supposed to have an effect on the power_good signal, not the
+reset. I guess someone could wire that signal to a reset. Same could be
+done with the alert or the fault one, I suppose
+
+>
+>> It is very similar to 'crit' or other limits in that sense,
+>> I think. I don't really get why such property is not OK in hwmon then
+>> and why it should not be configurable, if the other limits are ?
+>>=20
+>
+> Its use is for hardware control, not monitoring, even if it may be connec=
+ted
+> to a status LED. MAX15301, for example, groups the command under "Voltage
+> Sequencing Commands".
+>
+> On top of that, the voltages are value/hysteresis values. The "off" volta=
+ge
+> is lower than the "on" voltage.
+>
+> TPS25990 doesn't even support the command according to its datasheet, so =
+I am
+> at loss about your use case in the context of this patch series (the PGOO=
+D pin
+> on this chip signals to the downstream load that it is ok to draw
+> power).
+
+It does support GOOD_OFF, althought TI renamed the register to
+VOUT_PGTH (Section 8.3.14.7.1.52, p87):
+
+"""
+VOUT_PGTH is a standard PMBus=C2=AE command for setting or reading an 8-bit
+output voltage threshold at which Power Good (PGOOD) is be de-asserted.
+"""
+
+Same as the PMBus spec. Changing the value through this command does
+affect the signal as intented. How the signal is depends on the
+implementation. It just drives an LED on the EVM.
+
+Anyway, I don't want to hold things on this. I'll drop it from the next ver=
+sion.
+
+>
+> Guenter
+
+--=20
+Jerome
