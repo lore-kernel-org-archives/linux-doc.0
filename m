@@ -1,49 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE3E91957F9;
-	Tue, 10 Sep 2024 14:52:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D600189903;
+	Tue, 10 Sep 2024 14:56:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725979939; cv=none; b=dIpLN7Mjw60phuzy9U1gI25sL800arNru7h2IAqgTIUC8wIz9DbVQC6eHckDWLJGFG2ig1EDziiF7iRgXHH1hONujhDAa9/fqFoAznr7yIhbSdX1udr27g8++SQo1a4A8LTz9LoxeouAEeFSoT0mkVv+rkqX/6GfbPXFs4y4oGY=
+	t=1725980168; cv=none; b=oqz+IKNOxF6zvkyRIwOOD8VRTl+dK6ejqbEfd336gNn1ii/iXhaQ6iimWLeFQKDCvLBswDcVwf29DagObjXPvRh+3O962jEl679uxEnatqyTc+uTvSuu5btwWe7V+5oo00Rpd34hKL9vnoswu62Fk6a/EbS1gHymIgHoMzX8RLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725979939; c=relaxed/simple;
-	bh=pQ/DJDwBz9sdXFZh80HIa5hsy6UQVemtDbUkxYwlaH8=;
+	s=arc-20240116; t=1725980168; c=relaxed/simple;
+	bh=Knj+/+ZTNcHkhCPeQwfM9SbZokQitCPm0oFSvWrF6/s=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HoMcrfwK0PYmST0Jtl3ci+mxwqOnJoFy0cmCqzyBMQMh04DjyGBlgGQ7pLS4VE82M2uZ4/z7G/rAZ987QK5zoTnZZhEWv0KhH1YS0IbOKkNZn+owwM7pO8BAFjEehZwjwLnGsZATTj4SPcX43QrYm2Un8F5bVOaK+pgJrxXJtIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M3PpaTFV; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=oRi0F96sCfVqNCztdW6wmYwep++PU6njF6UYh5IyleYJeO2HwBLUmOLC85s6veVUTBWTmDz54KyPJPDY/a8RMQT2ZJITbKfUDoK36fgXNTImqRCq7dnk/l/UiwvEh1aJHs8y+AYQWkEBowwU4TWRkET5tHqIMVGtBed/W//tvwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=afRV7+ld; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M3PpaTFV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86D8BC4CEC3;
-	Tue, 10 Sep 2024 14:52:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="afRV7+ld"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BCA8C4CEC3;
+	Tue, 10 Sep 2024 14:56:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725979939;
-	bh=pQ/DJDwBz9sdXFZh80HIa5hsy6UQVemtDbUkxYwlaH8=;
+	s=k20201202; t=1725980168;
+	bh=Knj+/+ZTNcHkhCPeQwfM9SbZokQitCPm0oFSvWrF6/s=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=M3PpaTFV9AsjrZRN4Jn2waUapazBBG/P6RB6wJuEXjfB+lWE4QnpSH+ECaiy25w5+
-	 VaYq/QNr9p4AQkLlM5wpyyg7eQd8ePnglSPS3bvdK4ovqWHiXNdrpG9bhfLKmBQZrs
-	 1j4vKxzRV3RnxfHnWhmyZJDv/dtl2xdsdZewhrcTzteTEqhW1dCrswmChMv4jgcP1+
-	 LS+MDLyM5Mn5C3gqXgOO35CR/egq+aZ7i/ERcFd7p7FRRg+p0diWPV4L1m0doia7SW
-	 QLuE+++69xsJRYB5dI6CDV/hsmjlqUTBfzrxo8xEp0iZ4V40OjnVWLjIcgzPLEglly
-	 kJp2Zr7T8evZw==
-Date: Tue, 10 Sep 2024 07:52:17 -0700
+	b=afRV7+ldQirMVUJ6HP3r0uJ8N3BOfaLJwphabsueb3xu4Zos3wRJuDGtROtF97qjc
+	 tnV9d0OQ1LO0tQkv9ojMVVjxvw4i/rId4St/zv8PjCvfNhzoHu8Q5uDMh/bsUQh6J4
+	 Q5HlB2NIYWBsYE/vUM3U8cn5DrXCTd6K/z14JYfdyX3j2Gk9iJkOvfjzhPE37J6gLA
+	 Fkfrk9xpKuIhpkNWDhjeKSM/Hr0YVnB9KO3xQMPB6PMivf0+yjicIcjO4rAplitnF7
+	 0J4vtTC447mEs7PV2IiSbtiACMdsPZEkRW9LkQJh7oFucbWtR6Y5yEhkUIYEw4GySz
+	 eGN37L0Qtp0NA==
+Date: Tue, 10 Sep 2024 07:56:06 -0700
 From: Jakub Kicinski <kuba@kernel.org>
 To: Joe Damato <jdamato@fastly.com>
-Cc: netdev@vger.kernel.org, mkarsten@uwaterloo.ca, skhawaja@google.com,
- sdf@fomichev.me, bjorn@rivosinc.com, amritha.nambiar@intel.com,
- sridhar.samudrala@intel.com, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
- Corbet <corbet@lwn.net>, Jiri Pirko <jiri@resnulli.us>, Sebastian Andrzej
- Siewior <bigeasy@linutronix.de>, Lorenzo Bianconi <lorenzo@kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list
+Cc: Stanislav Fomichev <stfomichev@gmail.com>, netdev@vger.kernel.org,
+ mkarsten@uwaterloo.ca, skhawaja@google.com, sdf@fomichev.me,
+ bjorn@rivosinc.com, amritha.nambiar@intel.com, sridhar.samudrala@intel.com,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Jiri Pirko <jiri@resnulli.us>, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>, Lorenzo Bianconi <lorenzo@kernel.org>, "open
+ list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list
  <linux-kernel@vger.kernel.org>
 Subject: Re: [RFC net-next v2 1/9] net: napi: Add napi_storage
-Message-ID: <20240910075217.45f66523@kernel.org>
-In-Reply-To: <Zt_jn5RQAndpKjoE@LQ3V64L9R2.homenet.telecomitalia.it>
+Message-ID: <20240910075606.565fae97@kernel.org>
+In-Reply-To: <Zt_kJT9jCy1rLLCr@LQ3V64L9R2.homenet.telecomitalia.it>
 References: <20240908160702.56618-1-jdamato@fastly.com>
 	<20240908160702.56618-2-jdamato@fastly.com>
-	<20240909164039.501dd626@kernel.org>
-	<Zt_jn5RQAndpKjoE@LQ3V64L9R2.homenet.telecomitalia.it>
+	<Zt4N1RoplScF2Dbw@LQ3V64L9R2.homenet.telecomitalia.it>
+	<Zt94tXG_lzGLWo1w@mini-arch>
+	<Zt_kJT9jCy1rLLCr@LQ3V64L9R2.homenet.telecomitalia.it>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,85 +55,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, 10 Sep 2024 08:13:51 +0200 Joe Damato wrote:
-> On Mon, Sep 09, 2024 at 04:40:39PM -0700, Jakub Kicinski wrote:
-> > On Sun,  8 Sep 2024 16:06:35 +0000 Joe Damato wrote:  
-> > > Add a persistent NAPI storage area for NAPI configuration to the core.
-> > > Drivers opt-in to setting the storage for a NAPI by passing an index
-> > > when calling netif_napi_add_storage.
-> > > 
-> > > napi_storage is allocated in alloc_netdev_mqs, freed in free_netdev
-> > > (after the NAPIs are deleted), and set to 0 when napi_enable is called.  
-> >   
-> > >  enum {
-> > > @@ -2009,6 +2019,9 @@ enum netdev_reg_state {
-> > >   *	@dpll_pin: Pointer to the SyncE source pin of a DPLL subsystem,
-> > >   *		   where the clock is recovered.
-> > >   *
-> > > + *	@napi_storage: An array of napi_storage structures containing per-NAPI
-> > > + *		       settings.  
+On Tue, 10 Sep 2024 08:16:05 +0200 Joe Damato wrote:
+> > >   2. The two step "takeover" which seemed to imply that we might
+> > >      pull napi_id into napi_storage? Or maybe I just read that part
+> > >      wrong?  
 > > 
-> > FWIW you can use inline kdoc, with the size of the struct it's easier
-> > to find it. Also this doesn't need to be accessed from fastpath so you
-> > can move it down.  
-> 
-> OK. I figured since it was being deref'd in napi_complete_done
-> (where we previously read napi_defer_hard_irqs and
-> gro_flush_timeout) it needed to be in the fast path.
-> 
-> I'll move it down for the next RFC.
-
-Hm, fair point. In my mind I expected we still add the fast path fields
-to NAPI instances. And the storage would only be there to stash that
-information for the period of time when real NAPI instances are not
-present (napi_disable() -> napi_enable() cycles).
-
-But looking at napi_struct, all the cachelines seem full, anyway, so we
-can as well split the info. No strong preference, feel free to keep as
-is, then. But maybe rename from napi_storage to napi_config or such?
-
-> > > diff --git a/net/core/dev.c b/net/core/dev.c
-> > > index 22c3f14d9287..ca90e8cab121 100644
-> > > --- a/net/core/dev.c
-> > > +++ b/net/core/dev.c
-> > > @@ -6719,6 +6719,9 @@ void napi_enable(struct napi_struct *n)
-> > >  		if (n->dev->threaded && n->thread)
-> > >  			new |= NAPIF_STATE_THREADED;
-> > >  	} while (!try_cmpxchg(&n->state, &val, new));
-> > > +
-> > > +	if (n->napi_storage)
-> > > +		memset(n->napi_storage, 0, sizeof(*n->napi_storage));  
-> 
-> OK, your comments below will probably make more sense to me after I
-> try implementing it, but I'll definitely have some questions.
-> 
-> > And here inherit the settings and the NAPI ID from storage, then call
-> > napi_hash_add(). napi_hash_add() will need a minor diff to use the
-> > existing ID if already assigned.  
-> 
-> I don't think I realized we settled on the NAPI ID being persistent.
-> I'm not opposed to that, I just think I missed that part in the
-> previous conversation.
-> 
-> I'll give it a shot and see what the next RFC looks like.
-
-The main reason to try to make NAPI ID persistent from the start is that
-if it works we don't have to add index to the uAPI. I don't feel
-strongly about it, if you or anyone else has arguments against / why
-it won't work.
-
-> > And the inverse of that has to happen in napi_disable() (unhash, save
-> > settings to storage), and __netif_napi_del() (don't unhash if it has
-> > index).
+> > Yes, the suggestion here is to drop patch #2 from your series and
+> > keep napi_id as a user facing 'id' for the persistent storage. But,
+> > obviously, this requires persistent napi_id(s) that survive device
+> > resets.
 > > 
-> > I think that should work?  
+> > The function that allocates new napi_id is napi_hash_add
+> > from netif_napi_add_weight. So we can do either of the following:
+> > 1. Keep everything as is, but add the napi_rehash somewhere
+> >    around napi_enable to 'takeover' previously allocated napi_id.
+> > 2. (preferred) Separate napi_hash_add out of netif_napi_add_weight.
+> >    And have some new napi_hash_with_id(previous_napi_id) to expose it to the
+> >    userspace. Then convert mlx5 to this new interface.  
 > 
-> Only one way to find out ;)
+> Jakub is this what you were thinking too?
 > 
-> Separately: your comment about documenting rings to NAPIs... I am
-> not following that bit.
-> 
-> Is that a thing you meant should be documented for driver writers to
-> follow to reduce churn ?
+> If this is the case, then the netlink code needs to be tweaked to
+> operate on NAPI IDs again (since they are persistent) instead of
+> ifindex + napi_storage index?
 
-Which comment?
+No strong preference on the driver facing API, TBH, your
+netif_napi_add_storage() with some additional 'ifs' in the existing
+functions should work.
+
+Also no strong preference on the uAPI, avoiding adding new fields is
+a little bit tempting. But if you think NAPI ID won't work or is less
+clean - we can stick the index in.
