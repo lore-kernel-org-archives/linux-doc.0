@@ -1,75 +1,98 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B31016C854;
-	Tue, 10 Sep 2024 21:45:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0EBD1A3BAF;
+	Tue, 10 Sep 2024 22:28:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.133.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726004737; cv=none; b=XLAi5rYL2+EF7Mp0t/udYUzL9pJb6yDKc0q+LRg/LRDi3F3NhGxh0fBCCYdRlDko90NUuy+L3rPLlBCsXZwVWqLKfvUcuRB9mYc4ULEAQvjJLuan+JhRKb8MazL7IobnY59y3XDTHUAaa+KcnvxeQeLPM6HINvuXYjrFw3XYfCM=
+	t=1726007308; cv=none; b=Uch7/nWFycpWVMVMqaJ8ip+W/pImMRHmbV1nO/90GV1fpt0gopDfRKR8FTfLREkl77B46XQ+yudgpRMVMLXKAl4MN3P2qxtlHGdSj5H0Z8hO3smJmmr3XOzOBcYkP77iZ9tBWzGlNOHBIb8643EfUfmfTrze2Oi/BhT0Hg67gZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726004737; c=relaxed/simple;
-	bh=As0yOJXwtJM0tpBuEPwuKlk+dnPAkaqlDI1BM8P67jo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Qkk341anB7alhAK2D8XUCl7wJlsJa9vhVktTFUBrG4V609yTe2auNOQJCo+vlWw9rJvyQJEw1zAXnXm4/91zs0L8bkSH6Gse/lrszx96qecERL95IxDr5VVr2cySt11UIhLebTDMceuPxNytX3dxZ1yC5kEa5BsW6jP9Oz2nMwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=SLjTh1qf; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="SLjTh1qf"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9BA554188E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1726004735; bh=F9JRazt1XcPxIBi4ezj1dV5LBjiEeHbt/v/TTg13crs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=SLjTh1qf1DQ1TSqjPe4hXo7/rORNZ8+0s+ilj2cAifj3n6GtQh/+i+mZuu3cDWSXn
-	 gi91mMWq3A2eQQsB4FmtW2hciDc5FhuQPmuLEpyaEfV8o8Knh4JlSXNV2iMEQNLaAv
-	 nnOF0N5aBcpyMPGXlKA9EYW9LI5QSTHaJD+C2pounFtsSRaYlpKrvgSBSEEBb1s+Xb
-	 5dy3CyqTAg1zWu1245UzH+ZeUA/JOh0PfWUIyBNAgy/0wagHW68YYRxObDLe5rQV3X
-	 yMf/4NPXkxQpXcG5kEONXzi5KsmztLWeQx9VhfukytwjJbgZNho7zNv9D6lT8V6Myj
-	 WvZm506Pwr1sA==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 9BA554188E;
-	Tue, 10 Sep 2024 21:45:35 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Shivam Chaudhary <cvam0000@gmail.com>, kbusch@kernel.org, axboe@kernel.dk
-Cc: hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, cvam
- <cvam0000@gmail.com>
-Subject: Re: [PATCH v2] Remove duplicate "and" in 'Linux NVMe docs.
-In-Reply-To: <20240910052737.30579-1-cvam0000@gmail.com>
-References: <8734m8h9ce.fsf@trenco.lwn.net>
- <20240910052737.30579-1-cvam0000@gmail.com>
-Date: Tue, 10 Sep 2024 15:45:34 -0600
-Message-ID: <87o74v5gjl.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1726007308; c=relaxed/simple;
+	bh=m6bZTfRafhQeKF0FHn4HDoue1BzzxhJP3n0bqBSUuiY=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=hUnQvMMADoHdedtl5lvRg8jWRdfmgUPTPNljPCPaQEypZO2U5sZJjjUPhoRSIBzHzB5bOt0EkBk0t0+KJQb0cVn14cCiu3UxquraNB8oeawsTRnkLszK+/Z0ZaH9EAwJgYOT1wmjLY5gZHZT354UNhjYeMBlEiRBV36TETzJzGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk; spf=none smtp.mailfrom=orcam.me.uk; arc=none smtp.client-ip=78.133.224.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
+Received: by angie.orcam.me.uk (Postfix, from userid 500)
+	id 24E6892009C; Wed, 11 Sep 2024 00:28:18 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by angie.orcam.me.uk (Postfix) with ESMTP id 1E05C92009B;
+	Tue, 10 Sep 2024 23:28:18 +0100 (BST)
+Date: Tue, 10 Sep 2024 23:28:18 +0100 (BST)
+From: "Maciej W. Rozycki" <macro@orcam.me.uk>
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+cc: Masahiro Yamada <masahiroy@kernel.org>, 
+    Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+    Richard Weinberger <richard@nod.at>, 
+    Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
+    Johannes Berg <johannes@sipsolutions.net>, 
+    Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+    Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+    x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+    Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+    Wedson Almeida Filho <wedsonaf@gmail.com>, 
+    Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+    =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+    Benno Lossin <benno.lossin@proton.me>, 
+    Andreas Hindborg <a.hindborg@samsung.com>, 
+    Alice Ryhl <aliceryhl@google.com>, 
+    Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+    Steven Rostedt <rostedt@goodmis.org>, 
+    Masami Hiramatsu <mhiramat@kernel.org>, 
+    Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+    Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>, 
+    Nick Desaulniers <ndesaulniers@google.com>, 
+    Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+    linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+    linux-um@lists.infradead.org, rust-for-linux@vger.kernel.org, 
+    "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>, 
+    linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+    llvm@lists.linux.dev
+Subject: Re: [PATCH v2 3/3] rust: Enable for MIPS
+In-Reply-To: <54ce7574-43fd-40ee-9ae9-dd72283d1040@app.fastmail.com>
+Message-ID: <alpine.DEB.2.21.2409102318270.60835@angie.orcam.me.uk>
+References: <20240905-mips-rust-v2-0-409d66819418@flygoat.com> <20240905-mips-rust-v2-3-409d66819418@flygoat.com> <alpine.DEB.2.21.2409082138160.60835@angie.orcam.me.uk> <035ccfe5-c368-4cd9-8e0d-34e0e355cb05@app.fastmail.com> <alpine.DEB.2.21.2409101643210.60835@angie.orcam.me.uk>
+ <54ce7574-43fd-40ee-9ae9-dd72283d1040@app.fastmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
 
-Shivam Chaudhary <cvam0000@gmail.com> writes:
+On Tue, 10 Sep 2024, Jiaxun Yang wrote:
 
-> From: cvam <cvam0000@gmail.com>
->
-> Remove duplicate occurrence of 'and' in
-> 'Linux NVMe Feature and Quirk Policy' title heading.
->
-> tested: Not breaking anything.
->
-> Signed-off-by: Shivam Chaudhary <cvam0000@gmail.com>
-> ---
->  Documentation/nvme/feature-and-quirk-policy.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> >> We have no good way to tell ISA reversion prior to R1 just from Kconfig TARGET_ISA_REV,
+> >> valid numbers for TARGET_ISA_REV are only 1, 2, 5, 6 from Kconfig.
+> >
+> >  This approach doesn't work for some MIPS architecture processor configs 
+> > anyway, e.g. what ISA revision will CPU_P5600 imply here?
+> 
+> TARGET_ISA_REV will be set to 5 for CPU_P5600 (CPU_MIPSR5 will default to y
+> on CPU_P5600, and CPU_MIPSR5 sets TARGET_ISA_REV to 5). 
+> >
+> >  However if there's a need (and previously there wasn't), then I think it 
+> > can be sorted in a straightforward way.  We have just a bunch of CPU_* 
+> > settings and we can define corresponding ISA_* settings to select, e.g. 
+> > ISA_MIPS1, ISA_MIPS3, ISA_MIPS32_R1, ISA_MIPS64_R6, and so on, based on 
+> > information extracted from per-CPU_* `-march=' compilation flags from 
+> > arch/mips/Makefile (possibly combined with ISA data obtained from 
+> > GCC/binutils for said flags).
+> >
+> >  It could be a bit tedious to write, but not a big challenge really, just 
+> > mechanical work.
+> 
+> TARGET_ISA_REV is guaranteed to be aligned with CPU's supported ISA for now,
+> so I see no reason to invent another set of symbols....
 
-I have applied this, thanks.
+ Ah, OK then, I missed these bits, thanks for pointing them out.
 
-For future reference, a remark like "tested: not breaking anything" is
-not helpful.  If you have done testing, reviewers will want to know
-*how* you have tested it.  For a patch like this, of course, that
-doesn't matter.
+ So we only need to define CPU_MIPS1, CPU_MIPS3, and CPU_MIPS4 settings
+(we have no support for any MIPS II CPU; there was the R6000 only at that 
+ISA level, exeedingly rare and unreliable) analogously to and along with 
+the existing CPU_MIPSR1, CPU_MIPSR2, etc., which is even simpler.  They 
+can then be used accordingly for TARGET_ISA_REV == 0, either directly or 
+perhaps via an additional TARGET_LEGACY_ISA_REV setting.
 
-jon
+  Maciej
