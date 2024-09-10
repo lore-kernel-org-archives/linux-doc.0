@@ -1,718 +1,963 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59CD74A02;
-	Tue, 10 Sep 2024 17:07:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADDC81A2C15
+	for <linux-doc@vger.kernel.org>; Tue, 10 Sep 2024 17:15:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725988059; cv=none; b=R7cSau6h473Y4gvO0yJJMWR/P+1tnNPyUec5/NTFk/uP3pUlIuddYIj3uYKQuXPI6zUnWJv7dAv6JOeGvl6PdHw6VH5g4n6H27ZhlmODbF2oD37ajvVuIJ0e2gz2khK6puCQKRsyZ3YW+9JOSZjSMt5/TsaSgablNLbuinSreFc=
+	t=1725988506; cv=none; b=bbno3r7Q6jzzzvjaglV/jPNb51qc28rJnpxqdItQORuWWxT77jnNF2SOc+4OqULsutiwllEWZiCixyurG6xA+xl8/FsVp3g4ZP0O6wvOGTFP/MT6eARnMVXw/t1BT2Dq9MNn2915gGyYIcdwYfRewHeu9eGnjTJDAtDZnFSF+Kc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725988059; c=relaxed/simple;
-	bh=yYTYnz2AVM8Nw9M3XfnP7cqoHppMlPgfim7AqwjA5gk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PdGSDlnCzIXstIOwKbrlNhyH4EnhSuVd+MGFdqQgleaVBr587ZEY7nbnIkzMkRJbFh8RbYQYF/cRFhm43Hk98+qjkTbe+ebK8oe/K+Nt9zjts8ErROIf/q1xj+LZEOvWlfJmc6Cp9kao2pC7EQkE6daqrS5qwJLjnhj01HrwIos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a4XA9jMW; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1725988506; c=relaxed/simple;
+	bh=bFHN2SAaMnLuFoHqRrsfXL8i7N8QxuxX+4dO9A9uvog=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=DLJdTtTGHoR7xBRfq88qrwVi9eZmJwhTpVAWJe/6XHox/aaAcWV9d6andKYs4pRogGkR/yfL1Q3KOE30zTj9CQY+hdXKS54fRBneoA5xH0Zj7uubeIHo8TvmjgEPfoex08cE7adqNmnNN6bYz0bVpPBh82UcD/KWAR/miHYS98A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UGV7ax5P; arc=none smtp.client-ip=209.85.219.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a4XA9jMW"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-20551eeba95so51776015ad.2;
-        Tue, 10 Sep 2024 10:07:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UGV7ax5P"
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-e1a8de19f5fso11830437276.3
+        for <linux-doc@vger.kernel.org>; Tue, 10 Sep 2024 10:15:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725988056; x=1726592856; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=muIg0BkDsfGcqVdx559nwKG+22VMdMdJ0AoWurb/Kbo=;
-        b=a4XA9jMWRe+tbKhPieu34ZEi2AscY9B3c8YWOTmroHVGCEj6bZmDV4r+Z1n6jfg+kJ
-         dnDCEnt3bgKLHMKtCQsCRlpxxI4IjaXmOdQfQapd6ar+xdsFz5HmsigU++PYeMYvbk23
-         cclxpbBWrS6TVmkXBxKKaCAD0EKFoW3BxPnBTpfBO53mZVOfnRBP3thKywidiGl7eFxT
-         tHqWScszm9MaXscyazyR/dbV+ErkLgo1diipczirfni+8tRQs4wTMae28c+hm8m4BsWy
-         yHOgc62D2BrDI2a8RYSylyJ01QiptR4si3GM5SGryKKRtS+wOe4VfWX/6QWC/aqKqgyp
-         +42w==
+        d=google.com; s=20230601; t=1725988502; x=1726593302; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GAx7nMgY2RRlB3pX4wy18iZTOKa1kV+1JCca7Bm0fyg=;
+        b=UGV7ax5P7gd4gdz2yHCatB0P124Zy3tIzeAl0Eo9oMo7bzH6KemGjCc+NXde5cLht+
+         gfdNqaj2gO1OthI5DeByVQUaxVcYHj0Q7EXFoE1YW/Q//gT/hSEchFaBWg6GicjHc6P6
+         jA4KKiWF/9237gNAsAdbXrcYS+sbpL6Uvi+bJ1PSwzYTUxWrhDxv69PBHdYd57NOEoSL
+         uM2R65BK7ezgD+/91dC+nhQTLiiWKWVWjG21Jcuw6zt4vXq55K9a6ru4awJqaJfoyWS3
+         f+nNHg6D46R//6NPx2T5ZtVLxQYASqHPaZgHgKsUbxpw9SkaMcA/sLADO+AuHNfqqMXA
+         IXfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725988056; x=1726592856;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=muIg0BkDsfGcqVdx559nwKG+22VMdMdJ0AoWurb/Kbo=;
-        b=otUoQOCIT8HcKjwFc9wQPsE/5fe2YaFn6q1rUONemQTSZfJ5BMMNc5UvWK0Yw9v3lY
-         PeBYnEiZX8YBZL6084nidcSpyiTq0ovyLFxFrePuTzY/SaRPigXSH21iTr6xJU5+qGpv
-         MQ5TzTFKlQJZxAwxfm4V1dt9X5W/hV58/JdQ5mrCy+qOtC8gYKkry9l2H0P+kmZP0VLj
-         nXGPf+NAz2tRdXoOS98B7Oze6wkvFSV39zQTE90b54ejdpAp2+F+UC8mKZ1C0MNBy1gu
-         WPi87pqSqlXFio5Fwu0FYuGlOihjB/NMUwbwjh1MKU0dzNB9qaJaC0ie7eCFANe8yKJO
-         e6lQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU0U7oUMEOoIZvDQHCIMPGlgN/4n1jj4NSCg6lGhQge5McR/+lQubZhS7TPr2fYKiIY7Xtm40et0A9T@vger.kernel.org, AJvYcCVN8Rv+B4ZztTRzlnA0fWS1kc1wVlkJ8pS9HxJbVvjALPEcPliB2AQYqTLUgHAGdm0Qs1KONnWWtKQf@vger.kernel.org, AJvYcCVYywHvdLl2k+Ic5gcpg5BbxvsUesEjM6+UsWFpzxlZL/5y1y8gVeok1ZqjwzqhKRtOdXbt2wImdHaRPDpL@vger.kernel.org, AJvYcCW2jCPYG4j2wV9bo+LqsKRIItMSt+mSex50gdNhnPIhj9rBoIKoK2SaoLZCfcJYNa27pt/Ap5pBGbpD@vger.kernel.org, AJvYcCWiJWYxS03swY9ttXszprw2br9WSPCiU+PhyBMxgFb+P+Y9nmuwGCqdu6acSNAuphflOgaZ+YJsgvBkDyc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywtb6eH7p9FcVpv2hK8ePRfGGVsaUty9Tr0MygQQpcvJdnmDDP6
-	ri+1xI4MjjGN08NimlBZ631wdIu3y1en87FtFHj1rAJTChFqo+Tz
-X-Google-Smtp-Source: AGHT+IGqB1KUGdAQ9ytYD9CaIHtPGhgandO9J2pM4ME3XSdw39u+hsstsBEngtf4I1wVv9c30WRecg==
-X-Received: by 2002:a17:903:2447:b0:205:7e3f:9e31 with SMTP id d9443c01a7336-2074c7be0d8mr17348475ad.60.1725988056204;
-        Tue, 10 Sep 2024 10:07:36 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20710f31f31sm50901105ad.243.2024.09.10.10.07.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Sep 2024 10:07:35 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 10 Sep 2024 10:07:33 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Jean Delvare <jdelvare@suse.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH 3/3] hwmon: (pmbus/tps25990): add initial support
-Message-ID: <dde186e0-829b-4408-9f7d-d1ce079cf963@roeck-us.net>
-References: <20240909-tps25990-v1-0-39b37e43e795@baylibre.com>
- <20240909-tps25990-v1-3-39b37e43e795@baylibre.com>
- <d0d53027-8897-47c3-94fb-7e369bff8f18@roeck-us.net>
- <1j4j6nub9u.fsf@starbuckisacylon.baylibre.com>
+        d=1e100.net; s=20230601; t=1725988502; x=1726593302;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GAx7nMgY2RRlB3pX4wy18iZTOKa1kV+1JCca7Bm0fyg=;
+        b=hcaiyoiEsUB73buJq6F8oV/p+kh6E2gbwn0y4UdS6//jTA9neb/GiRm1F+HiYSKY1v
+         jO/9i3z7TxsGOOMNA/m1CLUFVWXn/7H/IRaDTAUqSc5F2C2Y/F2mEcIU5lbswBx34X5C
+         sTBIBhSaPeZHSrMenikR4LAdz9KzPvR3uCl5GoQzyyhJhHQftTnuRIC08xI/6qPbNvVs
+         Y198y8iSUbPa12+I+PAN0lKdYkQ6H9PUpYOxrPNZZFH8XmAIUa18FRUjnUko4gL+sCSE
+         hCOgNLAsPl3RUvACv82G1eBtoDrBvnsKQDOA8cTUfVEfkHXGBJ4nWYiSzngGqiX33QEz
+         ea3g==
+X-Forwarded-Encrypted: i=1; AJvYcCXxNfamoGnMEvvnxY9i0eLpiIi9TszZPeN8A8zWsNkFwpBhUpVm/SHiyun6v+ynq5ATEzS7THxDB1s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4GBczYVVscYr2OaqVj4Imt0mNNdq5ydpgCBViCx50QYf+Rk14
+	XubjVTQXeswJL+q2yNMS/P+TYMyiAK3W87suZPsk8LhvQ7oXGT5AI85T70fOyErzjL3AaiN6G+V
+	Ea09qCVNqQZB7nZkDOlc+YQ==
+X-Google-Smtp-Source: AGHT+IFxuiedNRGLRN5KNhaxKdFDzueKWtTDUnAZH3u6My4itypK4BzO0workrHDzwMc4O6nrPU2eqAlac1rhLvsNw==
+X-Received: from almasrymina.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:4bc5])
+ (user=almasrymina job=sendgmr) by 2002:a25:744c:0:b0:dfb:22ca:1efd with SMTP
+ id 3f1490d57ef6-e1d34a44d18mr127206276.9.1725988501675; Tue, 10 Sep 2024
+ 10:15:01 -0700 (PDT)
+Date: Tue, 10 Sep 2024 17:14:44 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1j4j6nub9u.fsf@starbuckisacylon.baylibre.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.46.0.598.g6f2099f65c-goog
+Message-ID: <20240910171458.219195-1-almasrymina@google.com>
+Subject: [PATCH net-next v26 00/13] Device Memory TCP
+From: Mina Almasry <almasrymina@google.com>
+To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org
+Cc: Mina Almasry <almasrymina@google.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+	"=?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?=" <bjorn@kernel.org>, Magnus Karlsson <magnus.karlsson@intel.com>, 
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>, 
+	Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, 
+	"=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, 
+	David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
+	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Christoph Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 10, 2024 at 11:07:57AM +0200, Jerome Brunet wrote:
-> On Mon 09 Sep 2024 at 15:52, Guenter Roeck <linux@roeck-us.net> wrote:
-> 
-> [...]
-> 
-Unrelated to the other comments:
+v26: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D888227&s=
+tate=3D*
+=3D=3D=3D=3D
 
- Documentation/hwmon/tps25990.rst | 141 ++++++++++++
+No major changes. Only applied Reviewed-by tags from Jakub and addressed
+reported nits.
 
-Needs to be added to Documentation/hwmon/index.rst.
+v25: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D885396&s=
+tate=3D*
+=3D=3D=3D
 
-+config SENSORS_TPS25990_REGULATOR
-+	bool "Regulator support for TPS25990 and compatibles"
-+	depends on SENSORS_TPS25990 && REGULATOR
-+	default SENSORS_TPS2599
-                ^^^^^^^^^^^^^^^ TPS2599 ???
+Major changes:
+- Moved devmem.h and mp_dmabuf_devmem.h to internal header files.
+- Changed the page_pool_params to take in a queue_idx rather than
+  a struct netdev_rx_queue.
+- Added WARN_ON_ONCE around __skb_checksum readability check and added
+  check to skb_checksum_help().
 
-> >> +
-> >> +#define TPS25990_DEFAULT_RIMON		910000
+Other more minor feedback addressed as well.
 
-Where does the default come from anyway ? I don't immediately see the number
-in the datasheet.
+v24: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D884556&s=
+tate=3D*
+=3D=3D=3D=3D
 
-> >> +static int tps25990_write_protect_get(void *data, u64 *val)
-> >> +{
-> >> +	struct i2c_client *client = data;
-> >> +
-> >> +	return tps25990_mfr_write_protect_active(client);
-> >> +}
-> >> +
-> >> +static int tps25990_write_protect_set(void *data, u64 val)
-> >> +{
-> >> +	struct i2c_client *client = data;
-> >> +
-> >> +	if (val > 1)
-> >> +		return -EINVAL;
-> >> +
-> >> +	return tps25990_mfr_write_protect(client, val);
-> >> +}
-> >> +
-> >> +DEFINE_DEBUGFS_ATTRIBUTE(tps25990_write_protect_fops,
-> >> +			 tps25990_write_protect_get,
-> >> +			 tps25990_write_protect_set,
-> >> +			 "%llu\n");
-> >> +
-> >> +static int tps25990_init_debugfs(struct i2c_client *client)
-> >> +{
-> >> +	struct dentry *dir;
-> >> +
-> >> +	dir = pmbus_get_debugfs_dir(client);
-> >> +	if (!dir)
-> >> +		return -ENOENT;
-> >> +
-> >> +	debugfs_create_file("write_protect", 0644, dir,
-> >> +			    client, &tps25990_write_protect_fops);
-> >> +
-> >> +	return 0;
-> >> +}
-> >> +
-> >> +#else
-> >> +static inline int tps25990_init_debugfs(struct i2c_client *client)
-> >> +{
-> >> +	return 0;
-> >> +}
-> >> +#endif
-> >> +
-> >
-> > In general it is extremely undesirable to overwrite write protection.
-> > Many chips support such attributes. If write protection is enabled,
-> > it means that the board vendor does not want to have them changed.
-> 
-> According to documentation, it protects against "unintented" writes,
-> not 'wrong' or 'malicious'. If one goes in debugfs and write just '0' to
-> a file, there is an intent at least.
-> 
-> > Granted, that can be overwritten with direct i2c commands, but that
-> > is what it should be. Anyone who really wants to disable write protection
-> > should have to dig deeper than just writing into a debugfs or sysfs attribute.
-> > Otherwise the protection becomes worthless.
-> > If this is, for example, needed
-> > for production to write initial settings, the production scripts should
-> > disable (or enable) write protection by writing directly into command
-> > registers.
-> 
-> As I wrote in the cover letter, the write protection is always active on
-> chip startup and it locks down almost everything, including things you may
-> need to write past production, in the field. The history reset below is
-> an example of such thing.
-> 
-> To 'safely' remove the protection by writing i2c commands from
-> userspace:
->  * the device will need be unbinded first,
->  * call i2cset
->  * bind the device again
-> 
-> That seems really cumbersome to do something like an history
-> reset. Is this what you are suggesting ?
-> 
-> bind/unbind could be skipped by forcing i2cset but that would add danger
-> where we certainly don't want it.
-> 
+No major changes. Mostly addressing issues in the error paths of dmabuf
+binding, and code cleanups/improvements from reviewers:
 
-Not sure I understand the "danger" part. Either case, the problem is deeper.
-The driver enables regulator support, which includes enabling and disabling
-the output voltage. But that doesn't work unles write protect is disabled.
-debugfs doesn't help there; that is way too late.
+Changes:
+- Fix failing ynl regen error.
+- Error path fixes & extack error messages in dmabuf binding.
+- Code cleanup in introspection.
+- gitignore ynl.d generated file.
 
-> >
-> >> +/*
-> >> + * TPS25990 has history reset based on MIN/AVG/PEAK instead of per sensor type
-> >> + * Emulate the behaviour a pmbus limit_attr would have for consistency
-> >> + *  - Read: Do nothing and emit 0
-> >> + *  - Write: Check the input is a number and reset
-> >> + */
-> >> +static ssize_t tps25990_history_reset_show(struct device *dev,
-> >> +					   struct device_attribute *devattr,
-> >> +					   char *buf)
-> >> +{
-> >> +	return sysfs_emit(buf, "0\n");
-> >> +}
-> >> +
-> >> +static ssize_t tps25990_history_reset_store(struct device *dev,
-> >> +					    struct device_attribute *devattr,
-> >> +					    const char *buf, size_t count)
-> >> +{
-> >> +	struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
-> >> +	struct i2c_client *client = to_i2c_client(dev->parent);
-> >> +	s64 val;
-> >> +	int ret;
-> >> +
-> >> +	if (kstrtos64(buf, 10, &val) < 0)
-> >> +		return -EINVAL;
-> >> +
-> >> +	ret = pmbus_update_byte_data(client, 0, TPS25990_PK_MIN_AVG,
-> >> +				     BIT(attr->index), BIT(attr->index));
-> >> +	if (ret < 0)
-> >> +		return ret;
-> >> +
-> >> +	return count;
-> >> +}
-> >> +
-> >> +static SENSOR_DEVICE_ATTR_RW(highest_history_reset, tps25990_history_reset, 7);
-> >> +static SENSOR_DEVICE_ATTR_RW(average_history_reset, tps25990_history_reset, 6);
-> >> +static SENSOR_DEVICE_ATTR_RW(lowest_history_reset,  tps25990_history_reset, 5);
-> >
-> > That is not a unique problem, and not a reason to introduce non-standard attributes.
-> > Just attach the attribute to the first channel and document that it resets all
-> > channels.
-> 
-> Not sure I got this right so I'll rephrase. I should:
-> * Pick a channel, say vin
-> * Map the virtual reset register to hit the 3 resets above
-> * Put in the documentation that it resets the other channels as well
-> * Not allow independent resets of min/max/avg, just all 3 together ?
-> 
-Correct. It is amazing what hardware designers come up with (here:
-resetting history based on min/max/average instead of the sensor type
-is novel), but I really don't want to introduce new attributes to
-accommodate each variant. I'd be open to introducing a global
-PMBUS_VIRT_RESET_HISTORY virtual register and reset_history attribute
-if you want to go there, but that would have to be in the PMBus core.
+Full devmem TCP changes including the full GVE driver implementation is
+here:
 
-> >
-> >> +
-> >> +static struct attribute *tps25990_attrs[] = {
-> >> +	&sensor_dev_attr_highest_history_reset.dev_attr.attr,
-> >> +	&sensor_dev_attr_average_history_reset.dev_attr.attr,
-> >> +	&sensor_dev_attr_lowest_history_reset.dev_attr.attr,
-> >> +	NULL,
-> >> +};
-> >> +
-> >> +ATTRIBUTE_GROUPS(tps25990);
-> >> +
-> >> +static int tps25990_get_addr(int reg)
-> >> +{
-> >> +	switch (reg) {
-> >> +	case PMBUS_SMBALERT_MASK:
-> >> +		/*
-> >> +		 * Note: PMBUS_SMBALERT_MASK is not implemented on this chip
-> >> +		 * Writing to this address raises CML errors.
-> >> +		 * Instead it provides ALERT_MASK which allows to set the mask
-> >> +		 * for each of the status registers, but not the specific bits
-> >> +		 * in them.
-> >> +		 * The default setup assert SMBA# if any bit is set in any of the
-> >> +		 * status registers the chip has. This is as close as we can get
-> >> +		 * to what pmbus_irq_setup() would set, sooo ... do nothing.
-> >> +		 */
-> >> +		return -ENXIO;
-> >
-> > Many chips have that problem. The core code ignores errors, and attempts to write
-> > the command are limited to initialization. This is not a reason to overwrite
-> > the command like this. If this does cause a real a problem wit hthe chip (other
-> > than setting CML errors, which many chips not supporting the command do),
-> > we should define a flag in include/linux/pmbus.h and explain its need.
-> 
-> CML is error is the problem. Following pmbus_irq_setup() there is an
-> uncleared fault because there is no register check on PMBUS_SMBALERT_MASK.
-> 
-> When pmbus_core then gets here:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/hwmon/pmbus/pmbus_core.c?h=v6.11-rc7#n3386
-> 
-> pmbus_check_block_register() fails because of the uncleared fault and
-> the 'mfr_id' property is silently not registered, eventhough the
-> register is supported by the chip. This is how I noticed the problem.
-> 
-> So, should I add flag in include/linux/pmbus.h to skip
-> PMBUS_SMBALERT_MASK setup ?
-> 
-> Another possibility is to call register_check()
-> on it before using PMBUS_SMBALERT_MASK in pmbus_core.
-> 
+https://github.com/mina/linux/commits/tcpdevmem-v24/
 
-The problem, as you point out, is in pmbus_irq_setup(). Since the function
-explicitly ignores errors from accessing PMBUS_SMBALERT_MASK, it should
-either clear faults after it is done. I don't think we can rely on
-register_check() because the register might exist but be read-only.
+v23: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D882978&s=
+tate=3D*
+=3D=3D=3D=3D
 
-> >
-> >> +	case PMBUS_IIN_OC_FAULT_LIMIT:
-> >> +		/*
-> >> +		 * VIREF directly sets the over-current limit at which the eFuse
-> >> +		 * will turn the FET off and trigger a fault. Expose it through
-> >> +		 * this generic property instead of a manufacturer specific one.
-> >> +		 */
-> >> +		return TPS25990_VIREF;
-> >
-> > I don't see the value in this override. See below.
-> >
-> >> +	case PMBUS_VIRT_READ_VIN_MAX:
-> >> +		return TPS25990_READ_VIN_PEAK;
-> >> +	case PMBUS_VIRT_READ_VIN_MIN:
-> >> +		return TPS25990_READ_VIN_MIN;
-> >> +	case PMBUS_VIRT_READ_VIN_AVG:
-> >> +		return TPS25990_READ_VIN_AVG;
-> >> +	case PMBUS_VIRT_READ_VOUT_MIN:
-> >> +		return TPS25990_READ_VOUT_MIN;
-> >> +	case PMBUS_VIRT_READ_VOUT_AVG:
-> >> +		return TPS25990_READ_VOUT_AVG;
-> >> +	case PMBUS_VIRT_READ_IIN_AVG:
-> >> +		return TPS25990_READ_IIN_AVG;
-> >> +	case PMBUS_VIRT_READ_IIN_MAX:
-> >> +		return TPS25990_READ_IIN_PEAK;
-> >> +	case PMBUS_VIRT_READ_TEMP_AVG:
-> >> +		return TPS25990_READ_TEMP_AVG;
-> >> +	case PMBUS_VIRT_READ_TEMP_MAX:
-> >> +		return TPS25990_READ_TEMP_PEAK;
-> >> +	case PMBUS_VIRT_READ_PIN_AVG:
-> >> +		return TPS25990_READ_PIN_AVG;
-> >> +	case PMBUS_VIRT_READ_PIN_MAX:
-> >> +		return TPS25990_READ_PIN_PEAK;
-> >> +	case PMBUS_VIRT_READ_VMON:
-> >> +		return TPS25990_READ_VAUX;
-> >> +	case PMBUS_VIRT_SAMPLES:
-> >> +		return TPS25990_PK_MIN_AVG;
-> >
-> > default: missing.
-> >
-> >> +	}
-> >> +
-> >> +	/* Let the register check do its job */
-> >> +	if (reg < PMBUS_VIRT_BASE)
-> >> +		return reg;
-> >> +
-> >> +	return -ENXIO;
-> >
-> > This needs to be more specific: The code should only return -ENXIO
-> > if auto-detection can not handle the case. "Return -ENXIO for all
-> > unsupported virtual registers" is unexpected. That situation should
-> > be handled by the PMBus core.
-> >
-> >> +}
-> >> +
-> >> +/*
-> >> + * Some registers use a different scale than the one registered with
-> >> + * pmbus_driver_info. An extra conversion step is necessary to adapt
-> >> + * the register value to the conversion on the sensor type
-> >> + */
-> >> +static int tps25990_read_adapt_value(int reg, int val)
-> >> +{
-> >> +	switch (reg) {
-> >> +	case PMBUS_VIN_UV_WARN_LIMIT:
-> >> +	case PMBUS_VIN_UV_FAULT_LIMIT:
-> >> +	case PMBUS_VIN_OV_WARN_LIMIT:
-> >> +	case PMBUS_VOUT_UV_WARN_LIMIT:
-> >> +	case PMBUS_IIN_OC_WARN_LIMIT:
-> >> +	case PMBUS_OT_WARN_LIMIT:
-> >> +	case PMBUS_OT_FAULT_LIMIT:
-> >> +	case PMBUS_PIN_OP_WARN_LIMIT:
-> >> +	case PMBUS_POWER_GOOD_OFF:
-> >> +		/*
-> >> +		 * These registers provide an 8 bits value instead of a
-> >> +		 * 10bits one. Just shifting twice the register value is
-> >> +		 * enough to make the sensor type conversion work, even
-> >> +		 * if the datasheet provides different m, b and R for
-> >> +		 * those.
-> >> +		 */
-> >> +		val <<= TPS25990_8B_SHIFT;
-> >> +		break;
-> >> +
-> >> +	case PMBUS_VIN_OV_FAULT_LIMIT:
-> >> +		val = DIV_ROUND_CLOSEST(val * TPS25990_VIN_OVF_NUM, TPS25990_VIN_OVF_DIV);
-> >> +		val += TPS25990_VIN_OVF_OFF;
-> >> +		break;
-> >> +
-> >> +	case PMBUS_IIN_OC_FAULT_LIMIT:
-> >> +		val = DIV_ROUND_CLOSEST(val * TPS25990_IIN_OCF_NUM, TPS25990_IIN_OCF_DIV);
-> >> +		val += TPS25990_IIN_OCF_OFF;
-> >> +		break;
-> >> +
-> >> +	case PMBUS_VIRT_SAMPLES:
-> >> +		val = 1 << val;
-> >> +		break;
-> >
-> > default case missing.
-> >
-> >> +	}
-> >> +
-> >> +	return val;
-> >> +}
-> >> +
-> >> +static int tps25990_read_word(struct i2c_client *client,
-> >> +			      int page, int phase, int reg)
-> >> +{
-> >> +	int ret, addr;
-> >> +
-> >> +	addr = tps25990_get_addr(reg);
-> >> +	if (addr < 0)
-> >> +		return addr;
-> >> +
-> >> +	switch (reg) {
-> >> +	case PMBUS_VIRT_SAMPLES:
-> >> +		ret = pmbus_read_byte_data(client, page, addr);
-> >
-> > Mapping the register name in tps25990_get_addr() is unnecessary
-> > and misleading. It is well known that TPS25990_PK_MIN_AVG is to be
-> > used. Do it here.
-> 
-> My intent was to do the mapping in one place instead of repeating for
-> both read and write, not be misleading. I'll change it.
-> 
+Fixing relatively minor issues called out in v22. (thanks again!)
 
-Mapping is only needed in the default: case below, and should be limited
-to that.
+Mostly code cleanups, extack error messages, and minor reworks. Nothing
+major really changed, so the exact changes per commit is called in the
+commit messages.
 
-> >
-> >> +		ret = FIELD_GET(PK_MIN_AVG_AVG_CNT, ret);
-> >> +		break;
-> >> +
-> >> +	case PMBUS_IIN_OC_FAULT_LIMIT:
-> >> +		ret = pmbus_read_byte_data(client, page, addr);
-> >> +		break;
-> >> +
-> > Same here.
-> >
-> >> +	default:
-> >> +		ret = pmbus_read_word_data(client, page, -1, addr);
-> >
-> > This is unexpected for registers not handled locally. Expectation is
-> > that -ENODATA is returned for those, to be handled in the core.
-> 
-> Got it. Thanks.
-> 
-> >
-> >> +		break;
-> >> +	}
-> >> +
-> >> +	if (ret >= 0)
-> >> +		ret = tps25990_read_adapt_value(reg, ret);
-> >> +
-> >> +	return ret;
-> >> +}
-> >> +
-> >> +static int tps25990_write_adapt_value(int reg, int val)
-> >> +{
-> >> +	switch (reg) {
-> >> +	case PMBUS_VIN_UV_WARN_LIMIT:
-> >> +	case PMBUS_VIN_UV_FAULT_LIMIT:
-> >> +	case PMBUS_VIN_OV_WARN_LIMIT:
-> >> +	case PMBUS_VOUT_UV_WARN_LIMIT:
-> >> +	case PMBUS_IIN_OC_WARN_LIMIT:
-> >> +	case PMBUS_OT_WARN_LIMIT:
-> >> +	case PMBUS_OT_FAULT_LIMIT:
-> >> +	case PMBUS_PIN_OP_WARN_LIMIT:
-> >> +	case PMBUS_POWER_GOOD_OFF:
-> >> +		val >>= TPS25990_8B_SHIFT;
-> >> +		val = clamp(val, 0, 0xff);
-> >
-> > Why clamp() here but clamp_val() elsewhere ?
-> >
-> >> +		break;
-> >> +
-> >> +	case PMBUS_VIN_OV_FAULT_LIMIT:
-> >> +		val -= TPS25990_VIN_OVF_OFF;
-> >> +		val = DIV_ROUND_CLOSEST(val * TPS25990_VIN_OVF_DIV, TPS25990_VIN_OVF_NUM);
-> >> +		val = clamp_val(val, 0, 0xf);
-> >> +		break;
-> >> +
-> >> +	case PMBUS_IIN_OC_FAULT_LIMIT:
-> >> +		val -= TPS25990_IIN_OCF_OFF;
-> >> +		val = DIV_ROUND_CLOSEST(val * TPS25990_IIN_OCF_DIV, TPS25990_IIN_OCF_NUM);
-> >> +		val = clamp_val(val, 0, 0x3f);
-> >> +		break;
-> >> +
-> >> +	case PMBUS_VIRT_SAMPLES:
-> >> +		val = clamp_val(val, 1, 1 << PK_MIN_AVG_AVG_CNT);
-> >> +		val = ilog2(val);
-> >> +		break;
-> >
-> > default: missing.
-> >
-> >> +	}
-> >> +
-> >> +	return val;
-> >> +}
-> >> +
-> >> +static int tps25990_write_word(struct i2c_client *client,
-> >> +			       int page, int reg, u16 value)
-> >> +{
-> >> +	int addr, ret;
-> >> +
-> >> +	addr = tps25990_get_addr(reg);
-> >> +	if (addr < 0)
-> >> +		return addr;
-> >> +
-> >> +	value = tps25990_write_adapt_value(reg, value);
-> >> +
-> >> +	switch (reg) {
-> >> +	case PMBUS_VIRT_SAMPLES:
-> >> +		ret = pmbus_update_byte_data(client, page, addr,
-> >> +					     PK_MIN_AVG_AVG_CNT,
-> >> +					     FIELD_PREP(PK_MIN_AVG_AVG_CNT, value));
-> >> +		break;
-> >> +
-> >> +	case PMBUS_IIN_OC_FAULT_LIMIT:
-> >> +		ret = pmbus_write_byte_data(client, page, addr,
-> >> +					    value);
-> >> +		break;
-> >> +
-> >> +	default:
-> >> +		ret = pmbus_write_word_data(client, page, addr, value);
-> >> +		break;
-> >
-> > Same comments as for read functions.
-> >
-> >> +	}
-> >> +
-> >> +	return ret;
-> >> +}
-> >> +
-> >> +#if IS_ENABLED(CONFIG_SENSORS_TPS25990_REGULATOR)
-> >> +static const struct regulator_desc tps25990_reg_desc[] = {
-> >> +	PMBUS_REGULATOR_ONE("vout"),
-> >> +};
-> >> +#endif
-> >> +
-> >> +static const struct pmbus_driver_info tps25990_base_info = {
-> >> +	.pages = 1,
-> >> +	.format[PSC_VOLTAGE_IN] = direct,
-> >> +	.m[PSC_VOLTAGE_IN] = 5251,
-> >> +	.b[PSC_VOLTAGE_IN] = 0,
-> >> +	.R[PSC_VOLTAGE_IN] = -2,
-> >> +	.format[PSC_VOLTAGE_OUT] = direct,
-> >> +	.m[PSC_VOLTAGE_OUT] = 5251,
-> >> +	.b[PSC_VOLTAGE_OUT] = 0,
-> >> +	.R[PSC_VOLTAGE_OUT] = -2,
-> >> +	.format[PSC_TEMPERATURE] = direct,
-> >> +	.m[PSC_TEMPERATURE] = 140,
-> >> +	.b[PSC_TEMPERATURE] = 32100,
-> >> +	.R[PSC_TEMPERATURE] = -2,
-> >> +	/*
-> >> +	 * Current and Power measurement depends on the ohm value
-> >> +	 * of Rimon. m is multiplied by 1000 below to have an integer
-> >> +	 * and -3 is added to R to compensate.
-> >> +	 */
-> >> +	.format[PSC_CURRENT_IN] = direct,
-> >> +	.m[PSC_CURRENT_IN] = 9538,
-> >> +	.b[PSC_CURRENT_IN] = 0,
-> >> +	.R[PSC_CURRENT_IN] = -6,
-> >> +	.format[PSC_POWER] = direct,
-> >> +	.m[PSC_POWER] = 4901,
-> >> +	.b[PSC_POWER] = 0,
-> >> +	.R[PSC_POWER] = -7,
-> >> +	.func[0] = (PMBUS_HAVE_VIN |
-> >> +		    PMBUS_HAVE_VOUT |
-> >> +		    PMBUS_HAVE_VMON |
-> >> +		    PMBUS_HAVE_IIN |
-> >> +		    PMBUS_HAVE_PIN |
-> >> +		    PMBUS_HAVE_TEMP |
-> >> +		    PMBUS_HAVE_STATUS_VOUT |
-> >> +		    PMBUS_HAVE_STATUS_IOUT |
-> >> +		    PMBUS_HAVE_STATUS_INPUT |
-> >> +		    PMBUS_HAVE_STATUS_TEMP |
-> >> +		    PMBUS_HAVE_SAMPLES),
-> >> +	.read_word_data = tps25990_read_word,
-> >> +	.write_word_data = tps25990_write_word,
-> >> +	.groups = tps25990_groups,
-> >> +
-> >> +#if IS_ENABLED(CONFIG_SENSORS_TPS25990_REGULATOR)
-> >> +	.reg_desc = tps25990_reg_desc,
-> >> +	.num_regulators = ARRAY_SIZE(tps25990_reg_desc),
-> >> +#endif
-> >> +};
-> >> +
-> >> +static const struct i2c_device_id tps25990_i2c_id[] = {
-> >> +	{ "tps25990" },
-> >> +	{}
-> >> +};
-> >> +MODULE_DEVICE_TABLE(i2c, tps25990_i2c_id);
-> >> +
-> >> +static const struct of_device_id tps25990_of_match[] = {
-> >> +	{ .compatible = "ti,tps25990" },
-> >> +	{}
-> >> +};
-> >> +MODULE_DEVICE_TABLE(of, tps25990_of_match);
-> >> +
-> >> +static int tps25990_probe(struct i2c_client *client)
-> >> +{
-> >> +	struct device *dev = &client->dev;
-> >> +	struct pmbus_driver_info *info;
-> >> +	u32 rimon = TPS25990_DEFAULT_RIMON;
-> >> +	int ret;
-> >> +
-> >> +	ret = device_property_read_u32(dev, "ti,rimon-milli-ohms", &rimon);
-> >> +	if (ret == -EINVAL) {
-> >> +		dev_warn(dev,
-> >> +			 "using default rimon: current and power scale possibly wrong\n");
-> >
-> > This is not an appropriate warning. It is perfectly fine to load the driver
-> > if there is no ti,rimon-milli-ohms property.
-> 
-> I should have commented more on the default value. It is meant for the
-> case where the device is instanciated through i2c sys 'new_device',
-> which is meant for debugging purpose. In that particular case, it does
-> not really matter if the current and power scale are wrong.
-> 
-> There is no way to pass device properties when instanciating device
-> through that interface, as far as I know. 
-> 
-> In every other cases, a correct Rimon value is expected.
-> I could turn the above to an error. It means loading through i2c sys
-> would not possible for this driver.
-> 
-> Would it be better ?
-> 
+Full devmem TCP changes including the full GVE driver implementation is
+here:
 
-We use default values for pretty much all drivers, so I don't see why
-this one should be different. The driver should still be usable on a
-system without devicetree support. There is a reason for the sensors
-configuration file.
+https://github.com/mina/linux/commits/tcpdevmem-v23/
 
-> >
-> >> +	} else if (ret < 0) {
-> >> +		return dev_err_probe(dev, ret, "failed get rimon\n");
-> >> +	}
-> >> +
-> >> +	/*
-> >> +	 * TPS25990 may be stacked with several TPS25895, allowing a higher
-> >> +	 * current. The higher the allowed current is, the lower rimon
-> >> +	 * will be. How low it can realistically get is unknown.
-> >> +	 * To avoid problems with precision later on, rimon is provided in
-> >> +	 * milli Ohms. This is a precaution to keep a stable ABI.
-> >> +	 * At the moment, doing the calculation with rimon in milli Ohms
-> >> +	 * would overflow the s32 'm' in the direct conversion. Convert it
-> >> +	 * back to Ohms until greater precision is actually needed.
-> >> +	 */
-> >> +	rimon /= 1000;
-> >> +
-> >
-> > Seems to me it would make more sense to limit the valid range of ti,rimon-milli-ohms
-> > to avoid the overflow. But then I really don't understand the reasoning to provide
-> > the property in milli-ohm, given the default value of 910 Ohm. What is a realistic
-> > lowest value that would make sense ?
-> 
-> The highest value I've seen, when the tps25990 is alone, is 1370
-> Ohms. That means a 30A overcurrent fault limit.
-> 
-> With one TPS25895, I've seen 608 Ohms (110A limit)
-> 
-> I have no idea what the realistic low limit is. To get to ~100 Ohms, you'd
-> need 8 devices (not hundreds ;) ) If one gets there, it might be
-> desirable to have 3 digits to play with, and not be limited by the unit.
-> 
-> The DT folks really don't like when a property changes. Going with
-> milli-Ohms is way to anticipate the problem.
-> 
-> The other way could be to use Ohms now, and if we ever get to point
-> where milli-Ohms precision is needed, add it then. The downside is that
-> the driver will need to support both properties.
-> 
-> Would you prefer this ?
-> 
+v22: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D881158&s=
+tate=3D*
+=3D=3D=3D=3D
 
-In practice the driver, as submitted, does _not_ support milli-Ohms
-to start with. It only supports Ohms. Worse, it doesn't range check the
-value, causing bad behavior (everything will be reported 0) if a value
-below 1,000 is provided, and still overflows if the value gets close to
-UINT_MAX.
+v22 aims to resolve the pending issue pointed to in v21, which is the
+interaction with xdp. In this series I rebase on top of the minor
+refactor which refactors propagating xdp configuration to slave devices:
 
-> 
-> > But even if it is less than 1 Ohm I don't
-> > understand why it would make sense to completely ignore it.
-> 
-> It would not make sense to ignore it.
-> 
-But you do ... by setting m to 0 in that case.
+https://patchwork.kernel.org/project/netdevbpf/list/?series=3D881994&state=
+=3D*
 
-> >
-> >> +	info = devm_kmemdup(dev, &tps25990_base_info, sizeof(*info), GFP_KERNEL);
-> >> +	if (!info)
-> >> +		return -ENOMEM;
-> >> +
-> >> +	/* Adapt the current and power scale for each instance */
-> >> +	info->m[PSC_CURRENT_IN] *= rimon;
-> >> +	info->m[PSC_POWER] *= rimon;
-> >
-> > Any rimon value < 1000 mOhm will result in m values of 0.
-> 
-> Indeed. Such Rimon value would mean an over current limit > 50kA. I admit
-> I did really think much about such value.
-> 
-> The idea was more keep some precision if we get somewhere near a 100 Ohms.
-> 
+I then disable setting xdp on devices using memory providers, and
+propagating xdp configuration to devices using memory providers.
 
-It doesn't, though, since the provided milli-Ohm value is divided by 1,000
-(and the division doesn't even use DIV_ROUND_CLOSEST). Even though certain
-values don't make sense, there still needs to be a range check. And that
-missing range check triggers the next question: Why not just limit the upper
-range instead of ignoring the milli-part of the value ?
+Full devmem TCP changes including the full GVE driver implementation is
+here:
 
-Note that you might have used micro-Ohm (which is a standard devicetree
-resolution) and divide it by 1,000. That would have been perfectly fine.
-It would result in an upper resistor limit of 4,294 Ohm, which I'd assume
-should be acceptable. Overflows due to large values of m could have been
-avoided by adjusting .R if .m gets otherwise too large.
+https://github.com/mina/linux/commits/tcpdevmem-v22/
 
-Guenter
+v21: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D880735&s=
+tate=3D*
+=3D=3D=3D=3D
+
+v20 addressed some comments and resolved a test failure, but introduced
+an unfortunate build error with a config edge case I wasn't testing. v21
+simply resolves that error.
+
+Major Changes:
+- Resolve build error with CONFIG_PAGE_POOL=3Dn && CONFIG_NET=3Dy
+
+Full devmem TCP changes including the full GVE driver implementation is
+here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v21/
+
+v20: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D879373&s=
+tate=3D*
+=3D=3D=3D=3D
+
+v20 aims to resolve a couple of bug reports against v19, and addresses
+some review comments around the page_pool_check_memory_provider
+mechanism.
+
+Major changes:
+- Test edge cases such as header split disabled in selftest.
+- Change `offset =3D 0` back to `offset =3D offset - start` to resolve issu=
+e
+  found in RX path by Taehee (thanks!)
+- Address a few comments around page_pool_check_memory_provider() from
+  Pavel & Jakub.
+- Removed some unnecessary includes across various patches in the
+  series.
+- Removed unnecessary EXPORT_SYMBOL(page_pool_mem_providers) (Jakub).
+- Fix regression caused by incorrect dev_get_max_mp_channel check, along
+  with rename (Jakub).
+
+Full devmem TCP changes including the full GVE driver implementation is
+here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v20/
+
+v19: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D876852&s=
+tate=3D*
+=3D=3D=3D=3D
+
+v18 got a thorough review (thanks!), and this iteration addresses the
+feedback.
+
+Major changes:
+- Prevent deactivating mp bound queues.
+- Prevent installing xdp on mp bound netdevs, or installing mps on xdp
+  installed netdevs.
+- Fix corner cases in netlink API vis-a-vis missing attributes.
+- Iron out the unreadable netmem driver support story. To be honest, the
+  conversation with Jakub & Pavel got a bit confusing for me. I've
+  implemented an approach in this set that makes sense to me, and
+  AFAICT, addresses the requirements. It may be good as-is, or it
+  may be a conversation starter/continuer. To be honest IMO there
+  are many ways to skin this cat and I don't see an extremely strong
+  reason to go for one approach over another. Here is one approach you
+  may like.
+- Don't reset niov dma_addr on allocation & free.
+- Add some tests to the selftest that catches some of the issues around
+  missing netlink attributes or deactivating mp-bound queues.
+
+Full devmem TCP changes including the full GVE driver implementation is
+here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v19/
+
+v18: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D874848&s=
+tate=3D*
+=3D=3D=3D=3D
+
+v17 got minor feedback: (a) to beef up the description on patch 1 and (b)
+to remove the leading underscores in the header definition.
+
+I applied (a). (b) seems to be against current conventions so I did not
+apply before further discussion.
+
+Full devmem TCP changes including the full GVE driver implementation is
+here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v17/
+
+v17: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D869900&s=
+tate=3D*
+=3D=3D=3D=3D
+
+v16 also got a very thorough review and some testing (thanks again!).
+Thes version addresses all the concerns reported on v15, in terms of
+feedback and issues reported.
+
+Major changes:
+- Use ASSERT_RTNL.
+- Moved around some of the page_pool helpers definitions so I can hide
+  some netmem helpers in private files as Jakub suggested.
+- Don't make every net_iov hold a ref on the binding as Jakub suggested.
+- Fix issue reported by Taehee where we access queues after they have
+  been freed.
+
+Full devmem TCP changes including the full GVE driver implementation is
+here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v17/
+
+v16: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D866353&s=
+tate=3D*
+=3D=3D=3D=3D
+
+v15 got a thorough review and some testing, and this version addresses almo=
+st
+all the feedback. Some more minor comments where the authors said it
+could be done later, I left out.
+
+Major changes:
+- Addition of dma-buf introspection to page-pool-get and queue-get.
+- Fixes to selftests suggested by Taehee.
+- Fixes to documentation suggested by Donald.
+- A couple of suggestions and fixes to TCP patches by Eric and David.
+- Fixes to number assignements suggested by Arnd.
+- Use rtnl_lock()ing to guard against queue reconfiguration while the
+  page_pool initialization is happening. (Jakub).
+- Fixes to a few warnings reproduced by Taehee.
+- Fixes to dma-buf binding suggested by Taehee and Jakub.
+- Fixes to netlink UAPI suggested by Jakub
+- Applied a number of Reviewed-bys and Acked-bys (including ones I lost
+  from v13+).
+
+Full devmem TCP changes including the full GVE driver implementation is
+here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v16/
+
+One caveat: Taehee reproduced a KASAN warning and reported it here:
+
+https://lore.kernel.org/netdev/CAMArcTUdCxOBYGF3vpbq=3DeBvqZfnc44KBaQTN7H-w=
+qdUxZdziw@mail.gmail.com/
+
+I estimate the issue to be minor and easily fixable:
+
+https://lore.kernel.org/netdev/CAHS8izNgaqC--GGE2xd85QB=3DutUnOHmioCsDd1TNx=
+JWKemaD_g@mail.gmail.com/
+
+I hope to be able to follow up with a fix to net tree as net-next closes
+imminently, but if this iteration doesn't make it in, I will repost with
+a fix squashed after net-next reopens, no problem.
+
+v15: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D865481&s=
+tate=3D*
+=3D=3D=3D=3D
+
+No material changes in this version, only a fix to linking against
+libynl.a from the last version. Per Jakub's instructions I've pulled one
+of his patches into this series, and now use the new libynl.a correctly,
+I hope.
+
+As usual, the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v15/
+
+v14: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D865135&a=
+rchive=3Dboth&state=3D*
+=3D=3D=3D=3D
+
+No material changes in this version. Only rebase and re-verification on
+top of net-next. v13, I think, raced with commit ebad6d0334793
+("net/ipv4: Use nested-BH locking for ipv4_tcp_sk.") being merged to
+net-next that caused a patchwork failure to apply. This series should
+apply cleanly on commit c4532232fa2a4 ("selftests: net: remove unneeded
+IP_GRE config").
+
+I did not wait the customary 24hr as Jakub said it's OK to repost as soon
+as I build test the rebased version:
+
+https://lore.kernel.org/netdev/20240625075926.146d769d@kernel.org/
+
+v13: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D861406&a=
+rchive=3Dboth&state=3D*
+=3D=3D=3D=3D
+
+Major changes:
+--------------
+
+This iteration addresses Pavel's review comments, applies his
+reviewed-by's, and seeks to fix the patchwork build error (sorry!).
+
+As usual, the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v13/
+
+v12: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D859747&s=
+tate=3D*
+=3D=3D=3D=3D
+
+Major changes:
+--------------
+
+This iteration only addresses one minor comment from Pavel with regards
+to the trace printing of netmem, and the patchwork build error
+introduced in v11 because I missed doing an allmodconfig build, sorry.
+
+Other than that v11, AFAICT, received no feedback. There is one
+discussion about how the specifics of  plugging io uring memory through
+the page pool, but not relevant to content in this particular patchset,
+AFAICT.
+
+As usual, the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v12/
+
+v11: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D857457&s=
+tate=3D*
+=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+v11 addresses feedback received in v10. The major change is the removal
+of the memory provider ops as requested by Christoph. We still
+accomplish the same thing, but utilizing direct function calls with if
+statements rather than generic ops.
+
+Additionally address sparse warnings, bugs and review comments from
+folks that reviewed.
+
+As usual, the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v11/
+
+Detailed changelog:
+-------------------
+
+- Fixes in netdev_rx_queue_restart() from Pavel & David.
+- Remove commit e650e8c3a36f5 ("net: page_pool: create hooks for
+custom page providers") from the series to address Christoph's
+feedback and rebased other patches on the series on this change.
+- Fixed build errors with CONFIG_DMA_SHARED_BUFFER &&
+  !CONFIG_GENERIC_ALLOCATOR build.
+- Fixed sparse warnings pointed out by Paolo.
+- Drop unnecessary gro_pull_from_frag0 checks.
+- Added Bagas reviewed-by to docs.
+
+v10: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D852422&s=
+tate=3D*
+=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+v9 was sent right before the merge window closed (sorry!). v10 is almost
+a re-send of the series now that the merge window re-opened. Only
+rebased to latest net-next and addressed some minor iterative comments
+received on v9.
+
+As usual, the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v10/
+
+Detailed changelog:
+-------------------
+
+- Fixed tokens leaking in DONTNEED setsockopt (Nikolay).
+- Moved net_iov_dma_addr() to devmem.c and made it a devmem specific
+  helpers (David).
+- Rename hook alloc_pages to alloc_netmems as alloc_pages is now
+  preprocessor macro defined and causes a build error.
+
+v9:
+=3D=3D=3D
+
+Major Changes:
+--------------
+
+GVE queue API has been merged. Submitting this version as non-RFC after
+rebasing on top of the merged API, and dropped the out of tree queue API
+I was carrying on github. Addressed the little feedback v8 has received.
+
+Detailed changelog:
+------------------
+- Added new patch from David Wei to this series for
+  netdev_rx_queue_restart()
+  - Fixed sparse error.
+  - Removed CONFIG_ checks in netmem_is_net_iov()
+  - Flipped skb->readable to skb->unreadable
+  - Minor fixes to selftests & docs.
+
+RFC v8:
+=3D=3D=3D=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+- Fixed build error generated by patch-by-patch build.
+- Applied docs suggestions from Randy.
+
+RFC v7:
+=3D=3D=3D=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+This revision largely rebases on top of net-next and addresses the feedback
+RFCv6 received from folks, namely Jakub, Yunsheng, Arnd, David, & Pavel.
+
+The series remains in RFC because the queue-API ndos defined in this
+series are not yet implemented. I have a GVE implementation I carry out
+of tree for my testing. A upstreamable GVE implementation is in the
+works. Aside from that, in my estimation all the patches are ready for
+review/merge. Please do take a look.
+
+As usual the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v7/
+
+Detailed changelog:
+
+- Use admin-perm in netlink API.
+- Addressed feedback from Jakub with regards to netlink API
+  implementation.
+- Renamed devmem.c functions to something more appropriate for that
+  file.
+- Improve the performance seen through the page_pool benchmark.
+- Fix the value definition of all the SO_DEVMEM_* uapi.
+- Various fixes to documentation.
+
+Perf - page-pool benchmark:
+---------------------------
+
+Improved performance of bench_page_pool_simple.ko tests compared to v6:
+
+https://pastebin.com/raw/v5dYRg8L
+
+      net-next base: 8 cycle fast path.
+      RFC v6: 10 cycle fast path.
+      RFC v7: 9 cycle fast path.
+      RFC v7 with CONFIG_DMA_SHARED_BUFFER disabled: 8 cycle fast path,
+                                                     same as baseline.
+
+Perf - Devmem TCP benchmark:
+---------------------
+
+Perf is about the same regardless of the changes in v7, namely the
+removal of the static_branch_unlikely to improve the page_pool benchmark
+performance:
+
+189/200gbps bi-directional throughput with RX devmem TCP and regular TCP
+TX i.e. ~95% line rate.
+
+RFC v6:
+=3D=3D=3D=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+This revision largely rebases on top of net-next and addresses the little
+feedback RFCv5 received.
+
+The series remains in RFC because the queue-API ndos defined in this
+series are not yet implemented. I have a GVE implementation I carry out
+of tree for my testing. A upstreamable GVE implementation is in the
+works. Aside from that, in my estimation all the patches are ready for
+review/merge. Please do take a look.
+
+As usual the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v6/
+
+This version also comes with some performance data recorded in the cover
+letter (see below changelog).
+
+Detailed changelog:
+
+- Rebased on top of the merged netmem_ref changes.
+
+- Converted skb->dmabuf to skb->readable (Pavel). Pavel's original
+  suggestion was to remove the skb->dmabuf flag entirely, but when I
+  looked into it closely, I found the issue that if we remove the flag
+  we have to dereference the shinfo(skb) pointer to obtain the first
+  frag to tell whether an skb is readable or not. This can cause a
+  performance regression if it dirties the cache line when the
+  shinfo(skb) was not really needed. Instead, I converted the skb->dmabuf
+  flag into a generic skb->readable flag which can be re-used by io_uring
+  0-copy RX.
+
+- Squashed a few locking optimizations from Eric Dumazet in the RX path
+  and the DEVMEM_DONTNEED setsockopt.
+
+- Expanded the tests a bit. Added validation for invalid scenarios and
+  added some more coverage.
+
+Perf - page-pool benchmark:
+---------------------------
+
+bench_page_pool_simple.ko tests with and without these changes:
+https://pastebin.com/raw/ncHDwAbn
+
+AFAIK the number that really matters in the perf tests is the
+'tasklet_page_pool01_fast_path Per elem'. This one measures at about 8
+cycles without the changes but there is some 1 cycle noise in some
+results.
+
+With the patches this regresses to 9 cycles with the changes but there
+is 1 cycle noise occasionally running this test repeatedly.
+
+Lastly I tried disable the static_branch_unlikely() in
+netmem_is_net_iov() check. To my surprise disabling the
+static_branch_unlikely() check reduces the fast path back to 8 cycles,
+but the 1 cycle noise remains.
+
+Perf - Devmem TCP benchmark:
+---------------------
+
+189/200gbps bi-directional throughput with RX devmem TCP and regular TCP
+TX i.e. ~95% line rate.
+
+Major changes in RFC v5:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+1. Rebased on top of 'Abstract page from net stack' series and used the
+   new netmem type to refer to LSB set pointers instead of re-using
+   struct page.
+
+2. Downgraded this series back to RFC and called it RFC v5. This is
+   because this series is now dependent on 'Abstract page from net
+   stack'[1] and the queue API. Both are removed from the series to
+   reduce the patch # and those bits are fairly independent or
+   pre-requisite work.
+
+3. Reworked the page_pool devmem support to use netmem and for some
+   more unified handling.
+
+4. Reworked the reference counting of net_iov (renamed from
+   page_pool_iov) to use pp_ref_count for refcounting.
+
+The full changes including the dependent series and GVE page pool
+support is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-rfcv5/
+
+[1] https://patchwork.kernel.org/project/netdevbpf/list/?series=3D810774
+
+Major changes in v1:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+1. Implemented MVP queue API ndos to remove the userspace-visible
+   driver reset.
+
+2. Fixed issues in the napi_pp_put_page() devmem frag unref path.
+
+3. Removed RFC tag.
+
+Many smaller addressed comments across all the patches (patches have
+individual change log).
+
+Full tree including the rest of the GVE driver changes:
+https://github.com/mina/linux/commits/tcpdevmem-v1
+
+Changes in RFC v3:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+1. Pulled in the memory-provider dependency from Jakub's RFC[1] to make the
+   series reviewable and mergeable.
+
+2. Implemented multi-rx-queue binding which was a todo in v2.
+
+3. Fix to cmsg handling.
+
+The sticking point in RFC v2[2] was the device reset required to refill
+the device rx-queues after the dmabuf bind/unbind. The solution
+suggested as I understand is a subset of the per-queue management ops
+Jakub suggested or similar:
+
+https://lore.kernel.org/netdev/20230815171638.4c057dcd@kernel.org/
+
+This is not addressed in this revision, because:
+
+1. This point was discussed at netconf & netdev and there is openness to
+   using the current approach of requiring a device reset.
+
+2. Implementing individual queue resetting seems to be difficult for my
+   test bed with GVE. My prototype to test this ran into issues with the
+   rx-queues not coming back up properly if reset individually. At the
+   moment I'm unsure if it's a mistake in the POC or a genuine issue in
+   the virtualization stack behind GVE, which currently doesn't test
+   individual rx-queue restart.
+
+3. Our usecases are not bothered by requiring a device reset to refill
+   the buffer queues, and we'd like to support NICs that run into this
+   limitation with resetting individual queues.
+
+My thought is that drivers that have trouble with per-queue configs can
+use the support in this series, while drivers that support new netdev
+ops to reset individual queues can automatically reset the queue as
+part of the dma-buf bind/unbind.
+
+The same approach with device resets is presented again for consideration
+with other sticking points addressed.
+
+This proposal includes the rx devmem path only proposed for merge. For a
+snapshot of my entire tree which includes the GVE POC page pool support &
+device memory support:
+
+https://github.com/torvalds/linux/compare/master...mina:linux:tcpdevmem-v3
+
+[1] https://lore.kernel.org/netdev/f8270765-a27b-6ccf-33ea-cda097168d79@red=
+hat.com/T/
+[2] https://lore.kernel.org/netdev/CAHS8izOVJGJH5WF68OsRWFKJid1_huzzUK+hpKb=
+LcL4pSOD1Jw@mail.gmail.com/T/
+
+Changes in RFC v2:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+The sticking point in RFC v1[1] was the dma-buf pages approach we used to
+deliver the device memory to the TCP stack. RFC v2 is a proof-of-concept
+that attempts to resolve this by implementing scatterlist support in the
+networking stack, such that we can import the dma-buf scatterlist
+directly. This is the approach proposed at a high level here[2].
+
+Detailed changes:
+1. Replaced dma-buf pages approach with importing scatterlist into the
+   page pool.
+2. Replace the dma-buf pages centric API with a netlink API.
+3. Removed the TX path implementation - there is no issue with
+   implementing the TX path with scatterlist approach, but leaving
+   out the TX path makes it easier to review.
+4. Functionality is tested with this proposal, but I have not conducted
+   perf testing yet. I'm not sure there are regressions, but I removed
+   perf claims from the cover letter until they can be re-confirmed.
+5. Added Signed-off-by: contributors to the implementation.
+6. Fixed some bugs with the RX path since RFC v1.
+
+Any feedback welcome, but specifically the biggest pending questions
+needing feedback IMO are:
+
+1. Feedback on the scatterlist-based approach in general.
+2. Netlink API (Patch 1 & 2).
+3. Approach to handle all the drivers that expect to receive pages from
+   the page pool (Patch 6).
+
+[1] https://lore.kernel.org/netdev/dfe4bae7-13a0-3c5d-d671-f61b375cb0b4@gma=
+il.com/T/
+[2] https://lore.kernel.org/netdev/CAHS8izPm6XRS54LdCDZVd0C75tA1zHSu6jLVO8n=
+zTLXCc=3DH7Nw@mail.gmail.com/
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+* TL;DR:
+
+Device memory TCP (devmem TCP) is a proposal for transferring data to and/o=
+r
+from device memory efficiently, without bouncing the data to a host memory
+buffer.
+
+* Problem:
+
+A large amount of data transfers have device memory as the source and/or
+destination. Accelerators drastically increased the volume of such transfer=
+s.
+Some examples include:
+- ML accelerators transferring large amounts of training data from storage =
+into
+  GPU/TPU memory. In some cases ML training setup time can be as long as 50=
+% of
+  TPU compute time, improving data transfer throughput & efficiency can hel=
+p
+  improving GPU/TPU utilization.
+
+- Distributed training, where ML accelerators, such as GPUs on different ho=
+sts,
+  exchange data among them.
+
+- Distributed raw block storage applications transfer large amounts of data=
+ with
+  remote SSDs, much of this data does not require host processing.
+
+Today, the majority of the Device-to-Device data transfers the network are
+implemented as the following low level operations: Device-to-Host copy,
+Host-to-Host network transfer, and Host-to-Device copy.
+
+The implementation is suboptimal, especially for bulk data transfers, and c=
+an
+put significant strains on system resources, such as host memory bandwidth,
+PCIe bandwidth, etc. One important reason behind the current state is the
+kernel=E2=80=99s lack of semantics to express device to network transfers.
+
+* Proposal:
+
+In this patch series we attempt to optimize this use case by implementing
+socket APIs that enable the user to:
+
+1. send device memory across the network directly, and
+2. receive incoming network packets directly into device memory.
+
+Packet _payloads_ go directly from the NIC to device memory for receive and=
+ from
+device memory to NIC for transmit.
+Packet _headers_ go to/from host memory and are processed by the TCP/IP sta=
+ck
+normally. The NIC _must_ support header split to achieve this.
+
+Advantages:
+
+- Alleviate host memory bandwidth pressure, compared to existing
+ network-transfer + device-copy semantics.
+
+- Alleviate PCIe BW pressure, by limiting data transfer to the lowest level
+  of the PCIe tree, compared to traditional path which sends data through t=
+he
+  root complex.
+
+* Patch overview:
+
+** Part 1: netlink API
+
+Gives user ability to bind dma-buf to an RX queue.
+
+** Part 2: scatterlist support
+
+Currently the standard for device memory sharing is DMABUF, which doesn't
+generate struct pages. On the other hand, networking stack (skbs, drivers, =
+and
+page pool) operate on pages. We have 2 options:
+
+1. Generate struct pages for dmabuf device memory, or,
+2. Modify the networking stack to process scatterlist.
+
+Approach #1 was attempted in RFC v1. RFC v2 implements approach #2.
+
+** part 3: page pool support
+
+We piggy back on page pool memory providers proposal:
+https://github.com/kuba-moo/linux/tree/pp-providers
+
+It allows the page pool to define a memory provider that provides the
+page allocation and freeing. It helps abstract most of the device memory
+TCP changes from the driver.
+
+** part 4: support for unreadable skb frags
+
+Page pool iovs are not accessible by the host; we implement changes
+throughput the networking stack to correctly handle skbs with unreadable
+frags.
+
+** Part 5: recvmsg() APIs
+
+We define user APIs for the user to send and receive device memory.
+
+Not included with this series is the GVE devmem TCP support, just to
+simplify the review. Code available here if desired:
+https://github.com/mina/linux/tree/tcpdevmem
+
+This series is built on top of net-next with Jakub's pp-providers changes
+cherry-picked.
+
+* NIC dependencies:
+
+1. (strict) Devmem TCP require the NIC to support header split, i.e. the
+   capability to split incoming packets into a header + payload and to put
+   each into a separate buffer. Devmem TCP works by using device memory
+   for the packet payload, and host memory for the packet headers.
+
+2. (optional) Devmem TCP works better with flow steering support & RSS supp=
+ort,
+   i.e. the NIC's ability to steer flows into certain rx queues. This allow=
+s the
+   sysadmin to enable devmem TCP on a subset of the rx queues, and steer
+   devmem TCP traffic onto these queues and non devmem TCP elsewhere.
+
+The NIC I have access to with these properties is the GVE with DQO support
+running in Google Cloud, but any NIC that supports these features would suf=
+fice.
+I may be able to help reviewers bring up devmem TCP on their NICs.
+
+* Testing:
+
+The series includes a udmabuf kselftest that show a simple use case of
+devmem TCP and validates the entire data path end to end without
+a dependency on a specific dmabuf provider.
+
+** Test Setup
+
+Kernel: net-next with this series and memory provider API cherry-picked
+locally.
+
+Hardware: Google Cloud A3 VMs.
+
+NIC: GVE with header split & RSS & flow steering support.
+
+Cc: Pavel Begunkov <asml.silence@gmail.com>
+Cc: David Wei <dw@davidwei.uk>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Yunsheng Lin <linyunsheng@huawei.com>
+Cc: Shailend Chand <shailend@google.com>
+Cc: Harshitha Ramamurthy <hramamurthy@google.com>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Jeroen de Borst <jeroendb@google.com>
+Cc: Praveen Kaligineedi <pkaligineedi@google.com>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Christoph Hellwig <hch@infradead.org>
+Cc: Nikolay Aleksandrov <razor@blackwall.org>
+Cc: Taehee Yoo <ap420073@gmail.com>
+Cc: Donald Hunter <donald.hunter@gmail.com>
+
+
+
+Mina Almasry (13):
+  netdev: add netdev_rx_queue_restart()
+  net: netdev netlink api to bind dma-buf to a net device
+  netdev: support binding dma-buf to netdevice
+  netdev: netdevice devmem allocator
+  page_pool: devmem support
+  memory-provider: dmabuf devmem memory provider
+  net: support non paged skb frags
+  net: add support for skbs with unreadable frags
+  tcp: RX path for devmem TCP
+  net: add SO_DEVMEM_DONTNEED setsockopt to release RX frags
+  net: add devmem TCP documentation
+  selftests: add ncdevmem, netcat for devmem TCP
+  netdev: add dmabuf introspection
+
+ Documentation/netlink/specs/netdev.yaml |  61 +++
+ Documentation/networking/devmem.rst     | 269 +++++++++++
+ Documentation/networking/index.rst      |   1 +
+ arch/alpha/include/uapi/asm/socket.h    |   6 +
+ arch/mips/include/uapi/asm/socket.h     |   6 +
+ arch/parisc/include/uapi/asm/socket.h   |   6 +
+ arch/sparc/include/uapi/asm/socket.h    |   6 +
+ include/linux/netdevice.h               |   2 +
+ include/linux/skbuff.h                  |  61 ++-
+ include/linux/skbuff_ref.h              |   9 +-
+ include/linux/socket.h                  |   1 +
+ include/net/netdev_rx_queue.h           |   5 +
+ include/net/netmem.h                    | 132 +++++-
+ include/net/page_pool/helpers.h         |  39 +-
+ include/net/page_pool/types.h           |  23 +-
+ include/net/sock.h                      |   2 +
+ include/net/tcp.h                       |   3 +-
+ include/trace/events/page_pool.h        |  12 +-
+ include/uapi/asm-generic/socket.h       |   6 +
+ include/uapi/linux/netdev.h             |  13 +
+ include/uapi/linux/uio.h                |  18 +
+ net/Kconfig                             |   5 +
+ net/core/Makefile                       |   2 +
+ net/core/datagram.c                     |   6 +
+ net/core/dev.c                          |  33 +-
+ net/core/devmem.c                       | 389 ++++++++++++++++
+ net/core/devmem.h                       | 180 ++++++++
+ net/core/gro.c                          |   3 +-
+ net/core/mp_dmabuf_devmem.h             |  44 ++
+ net/core/netdev-genl-gen.c              |  23 +
+ net/core/netdev-genl-gen.h              |   6 +
+ net/core/netdev-genl.c                  | 139 +++++-
+ net/core/netdev_rx_queue.c              |  81 ++++
+ net/core/netmem_priv.h                  |  31 ++
+ net/core/page_pool.c                    | 119 +++--
+ net/core/page_pool_priv.h               |  46 ++
+ net/core/page_pool_user.c               |  32 +-
+ net/core/skbuff.c                       |  77 +++-
+ net/core/sock.c                         |  68 +++
+ net/ethtool/common.c                    |   8 +
+ net/ipv4/esp4.c                         |   3 +-
+ net/ipv4/tcp.c                          | 263 ++++++++++-
+ net/ipv4/tcp_input.c                    |  13 +-
+ net/ipv4/tcp_ipv4.c                     |  16 +
+ net/ipv4/tcp_minisocks.c                |   2 +
+ net/ipv4/tcp_output.c                   |   5 +-
+ net/ipv6/esp6.c                         |   3 +-
+ net/packet/af_packet.c                  |   4 +-
+ net/xdp/xsk_buff_pool.c                 |   5 +
+ tools/include/uapi/linux/netdev.h       |  13 +
+ tools/net/ynl/lib/.gitignore            |   1 +
+ tools/testing/selftests/net/.gitignore  |   1 +
+ tools/testing/selftests/net/Makefile    |   9 +
+ tools/testing/selftests/net/ncdevmem.c  | 570 ++++++++++++++++++++++++
+ 54 files changed, 2757 insertions(+), 124 deletions(-)
+ create mode 100644 Documentation/networking/devmem.rst
+ create mode 100644 net/core/devmem.c
+ create mode 100644 net/core/devmem.h
+ create mode 100644 net/core/mp_dmabuf_devmem.h
+ create mode 100644 net/core/netdev_rx_queue.c
+ create mode 100644 net/core/netmem_priv.h
+ create mode 100644 tools/testing/selftests/net/ncdevmem.c
+
+--=20
+2.46.0.598.g6f2099f65c-goog
+
