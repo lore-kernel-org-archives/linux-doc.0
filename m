@@ -1,288 +1,153 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C770B18595E;
-	Tue, 10 Sep 2024 10:33:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F07BA46444;
+	Tue, 10 Sep 2024 10:44:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725964389; cv=none; b=B+T8L02rx3Kgy6/pntf5hdKWMuQuIwJq634l7uOM0LdadgCckNSdoOQVkTCJ6BkoPX+7V08AEswlrtbU9xsUBfGCiDeDb8uKBnt6jdaIp+zet8jHW8gfLxI7stNPBmSjbBpE2H5332rqhxKd+5Ovs+oVEpu9Xt4V+KuRAm3lLvA=
+	t=1725965098; cv=none; b=f6eTPSoq/hD6tfkwTr1X7WCnDipoHQWfdmtV7+ue9txRJ+QnQf3uo93r7tUpxrI4PYsH1hndNlHs+GI47cKtRuychri0Mi4xDzhMTF301PZghgPEOegMqdia3WsFAk/wzMcIIf95OsOw5cTrLe23TmRepmvVrOPaaKUrXc7qRRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725964389; c=relaxed/simple;
-	bh=m4rLZiBxy1v0tyc+rkItksP01I5QS7BSDV6XBZRddM4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AnhwS3NVClXnI9uHTF/H5CljJcq0spBLrDXBe60yBi53jsp5LPOOoPnnbyrf+ZaI21sgsLi0qqy0+bDZLuI0bNRd1fEuuyPOfsWxOHJJPakxaHmO5yU+ai8CcTrqBAFSz5RTrMMKcjdEdBAhEBw1uHCwWZac8Ri7prjQrfMfhPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ts3Yzfq+; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ts3Yzfq+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725964387; x=1757500387;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=m4rLZiBxy1v0tyc+rkItksP01I5QS7BSDV6XBZRddM4=;
-  b=Ts3Yzfq+6ql54ALFS7aziWBdVLQzJC9mPhVV1l3bX+45ov+hcNOfp/3N
-   YzQp2jce0bmx+u93bp+eXNoTbrD1IITXVMBHy5kTVbRpysJ+Bd+tKkntg
-   pTZyNW0BDRbW+hDqGr/cau/6Le7rBflh2vtCV5fMEY5VW6125yJi18O3S
-   ykX9xg+gSA8N0yIeHPKwky0CWqMojCMdgvjCgmvSfwZKWJub3NPDFkCIo
-   PL1+6bKxsVQEpAdUGnS+cPW1HIatkRjvC8lSkdDxZJQcAPP1HfWL0y1FG
-   JHXDaqvORNv0iTnmzasCti/AQrGmM8kPQL0BNdTVRXOoFhGOV7uG1rg9d
-   Q==;
-X-CSE-ConnectionGUID: la59HlZ5TRGXFsMgISfezA==
-X-CSE-MsgGUID: Z1LtTAr7TkqQUSHrM6G2eA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="24846318"
-X-IronPort-AV: E=Sophos;i="6.10,216,1719903600"; 
-   d="scan'208";a="24846318"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 03:32:57 -0700
-X-CSE-ConnectionGUID: gkCTnSf3SbK9cWkk6ZBOTw==
-X-CSE-MsgGUID: YoVJC/vlQDeMAQbmagT15g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,216,1719903600"; 
-   d="scan'208";a="97683495"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Sep 2024 03:32:53 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1snyB1-0001WW-0R;
-	Tue, 10 Sep 2024 10:32:51 +0000
-Date: Tue, 10 Sep 2024 18:32:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jerome Brunet <jbrunet@baylibre.com>, Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH 3/3] hwmon: (pmbus/tps25990): add initial support
-Message-ID: <202409101807.GjHADcvQ-lkp@intel.com>
-References: <20240909-tps25990-v1-3-39b37e43e795@baylibre.com>
+	s=arc-20240116; t=1725965098; c=relaxed/simple;
+	bh=F8sISKqp3IEU8uMytKNoaGuZbOEzp2sNMpq+JwuhFk0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=bXaAl3vj0bYxyro30eMtw23Q5OWsK/b1uKsFlOFf+WftW4NJvViiEWPyAybVOrJU3g6MyjGOm086QRoGxKKThnYzjQ98U+JiCKwNuhxgZ91PhspCZHdp4g1WqdM8iOvv8oDwKe66DTNAbvU+uHqR9pG66wKYbB36O8MhK7G52Fw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.190
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.234])
+	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4X30gr3F0jz2Dc4S;
+	Tue, 10 Sep 2024 18:44:24 +0800 (CST)
+Received: from dggpemf200006.china.huawei.com (unknown [7.185.36.61])
+	by mail.maildlp.com (Postfix) with ESMTPS id 7AD5E1402E0;
+	Tue, 10 Sep 2024 18:44:52 +0800 (CST)
+Received: from [10.67.120.129] (10.67.120.129) by
+ dggpemf200006.china.huawei.com (7.185.36.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 10 Sep 2024 18:44:51 +0800
+Message-ID: <95e6c282-1e4f-458b-9e40-9b626d64b3bd@huawei.com>
+Date: Tue, 10 Sep 2024 18:44:51 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240909-tps25990-v1-3-39b37e43e795@baylibre.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v25 00/13] Device Memory TCP
+To: Mina Almasry <almasrymina@google.com>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-alpha@vger.kernel.org>,
+	<linux-mips@vger.kernel.org>, <linux-parisc@vger.kernel.org>,
+	<sparclinux@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
+	<linux-arch@vger.kernel.org>, <bpf@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <linux-media@vger.kernel.org>,
+	<dri-devel@lists.freedesktop.org>, Donald Hunter <donald.hunter@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
+ Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+	<James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>,
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+	<hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+	<arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert Xu
+	<herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem de
+ Bruijn <willemdebruijn.kernel@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
+	<bjorn@kernel.org>, Magnus Karlsson <magnus.karlsson@intel.com>, Maciej
+ Fijalkowski <maciej.fijalkowski@intel.com>, Jonathan Lemon
+	<jonathan.lemon@gmail.com>, Shuah Khan <shuah@kernel.org>, Alexei Starovoitov
+	<ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, John Fastabend
+	<john.fastabend@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, Pavel Begunkov
+	<asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe
+	<jgg@ziepe.ca>, Shailend Chand <shailend@google.com>, Harshitha Ramamurthy
+	<hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de
+ Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
+	Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>
+References: <20240909054318.1809580-1-almasrymina@google.com>
+ <42c202e6-8c4c-494f-8c28-17d66ed75880@huawei.com>
+ <CAHS8izMX+9F1NngbPx6w7ikKR9TgPvm+jMwZ8168NJYhFC7sVQ@mail.gmail.com>
+Content-Language: en-US
+From: Yunsheng Lin <linyunsheng@huawei.com>
+In-Reply-To: <CAHS8izMX+9F1NngbPx6w7ikKR9TgPvm+jMwZ8168NJYhFC7sVQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemf200006.china.huawei.com (7.185.36.61)
 
-Hi Jerome,
+On 2024/9/10 0:54, Mina Almasry wrote:
+> On Mon, Sep 9, 2024 at 4:21 AM Yunsheng Lin <linyunsheng@huawei.com> wrote:
+>>
+>> On 2024/9/9 13:43, Mina Almasry wrote:
+>>
+>>>
+>>> Perf - page-pool benchmark:
+>>> ---------------------------
+>>>
+>>> bench_page_pool_simple.ko tests with and without these changes:
+>>> https://pastebin.com/raw/ncHDwAbn
+>>>
+>>> AFAIK the number that really matters in the perf tests is the
+>>> 'tasklet_page_pool01_fast_path Per elem'. This one measures at about 8
+>>> cycles without the changes but there is some 1 cycle noise in some
+>>> results.
+>>>
+>>> With the patches this regresses to 9 cycles with the changes but there
+>>> is 1 cycle noise occasionally running this test repeatedly.
+>>>
+>>> Lastly I tried disable the static_branch_unlikely() in
+>>> netmem_is_net_iov() check. To my surprise disabling the
+>>> static_branch_unlikely() check reduces the fast path back to 8 cycles,
+>>> but the 1 cycle noise remains.
+>>
+>> Sorry for the late report, as I was adding a testing page_pool ko basing
+>> on [1] to avoid introducing performance regression when fixing the bug in
+>> [2].
+>> I used it to test the performance impact of devmem patchset for page_pool
+>> too, it seems there might be some noticable performance impact quite stably
+>> for the below testcases, about 5%~16% performance degradation as below in
+>> the arm64 system:
+>>
+> 
+> Correct me if I'm wrong here, but on the surface here it seems that
+> you're re-reporting a known issue. Consensus seems to be that it's a
+> non-issue.
+> 
+> In v6 I reported that the bench_page_pool_simple.ko test reports a 1
+> cycle regression with these patches, from 8->9 cycles. That is roughly
+> consistent with the 5-15% you're reporting.
 
-kernel test robot noticed the following build errors:
+From the description above in the cover letter, I thought the performance
+data using the out of tree testing ko is not stable enough to justify the
+performance impact.
 
-[auto build test ERROR on d22bd451d5606411895ef55cb105277e4f4f6e54]
+> 
+> I root caused the reason for the regression to be the
+> netmem_is_net_iov() check in the fast path. I removed this regression
+> in v7 (see the change log) by conditionally compiling the check in
+> that function.
+> 
+> In v8, Pavel/Jens/David pushed back on the ifdef check. See this
+> entire thread, but in particular this response from Jens:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jerome-Brunet/dt-bindings-hwmon-pmbus-add-ti-tps25990-documentation/20240909-234152
-base:   d22bd451d5606411895ef55cb105277e4f4f6e54
-patch link:    https://lore.kernel.org/r/20240909-tps25990-v1-3-39b37e43e795%40baylibre.com
-patch subject: [PATCH 3/3] hwmon: (pmbus/tps25990): add initial support
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240910/202409101807.GjHADcvQ-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 05f5a91d00b02f4369f46d076411c700755ae041)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409101807.GjHADcvQ-lkp@intel.com/reproduce)
+It seemed the main objection is about how to enable this feature
+for the io_uring?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409101807.GjHADcvQ-lkp@intel.com/
+And it seemed that you had added the CONFIG_NET_DEVMEM for this
+devmem thing, why not use it for that?
 
-All errors (new ones prefixed by >>):
+> 
+> https://lore.kernel.org/lkml/11f52113-7b67-4b45-ba1d-29b070050cec@kernel.dk/
+> 
+> Seems consensus that it's 'not really worth it in this scenario'.
 
-   In file included from drivers/hwmon/pmbus/tps25990.c:9:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:25:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/hwmon/pmbus/tps25990.c:9:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:25:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/hwmon/pmbus/tps25990.c:9:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:25:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/hwmon/pmbus/tps25990.c:9:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/hwmon/pmbus/tps25990.c:267:9: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     267 |                 ret = FIELD_GET(PK_MIN_AVG_AVG_CNT, ret);
-         |                       ^
->> drivers/hwmon/pmbus/tps25990.c:337:11: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     337 |                                              FIELD_PREP(PK_MIN_AVG_AVG_CNT, value));
-         |                                              ^
-   7 warnings and 2 errors generated.
+I was only reading through the above thread, it didn't seemed to
+reach to consensus as Jesper pointed out the performance impact
+for the XDP DROP case in the same thread.
 
+https://lore.kernel.org/lkml/779b9542-4170-483a-af54-ca0dd471f774@kernel.org/
 
-vim +/FIELD_GET +267 drivers/hwmon/pmbus/tps25990.c
-
-   254	
-   255	static int tps25990_read_word(struct i2c_client *client,
-   256				      int page, int phase, int reg)
-   257	{
-   258		int ret, addr;
-   259	
-   260		addr = tps25990_get_addr(reg);
-   261		if (addr < 0)
-   262			return addr;
-   263	
-   264		switch (reg) {
-   265		case PMBUS_VIRT_SAMPLES:
-   266			ret = pmbus_read_byte_data(client, page, addr);
- > 267			ret = FIELD_GET(PK_MIN_AVG_AVG_CNT, ret);
-   268			break;
-   269	
-   270		case PMBUS_IIN_OC_FAULT_LIMIT:
-   271			ret = pmbus_read_byte_data(client, page, addr);
-   272			break;
-   273	
-   274		default:
-   275			ret = pmbus_read_word_data(client, page, -1, addr);
-   276			break;
-   277		}
-   278	
-   279		if (ret >= 0)
-   280			ret = tps25990_read_adapt_value(reg, ret);
-   281	
-   282		return ret;
-   283	}
-   284	
-   285	static int tps25990_write_adapt_value(int reg, int val)
-   286	{
-   287		switch (reg) {
-   288		case PMBUS_VIN_UV_WARN_LIMIT:
-   289		case PMBUS_VIN_UV_FAULT_LIMIT:
-   290		case PMBUS_VIN_OV_WARN_LIMIT:
-   291		case PMBUS_VOUT_UV_WARN_LIMIT:
-   292		case PMBUS_IIN_OC_WARN_LIMIT:
-   293		case PMBUS_OT_WARN_LIMIT:
-   294		case PMBUS_OT_FAULT_LIMIT:
-   295		case PMBUS_PIN_OP_WARN_LIMIT:
-   296		case PMBUS_POWER_GOOD_OFF:
-   297			val >>= TPS25990_8B_SHIFT;
-   298			val = clamp(val, 0, 0xff);
-   299			break;
-   300	
-   301		case PMBUS_VIN_OV_FAULT_LIMIT:
-   302			val -= TPS25990_VIN_OVF_OFF;
-   303			val = DIV_ROUND_CLOSEST(val * TPS25990_VIN_OVF_DIV, TPS25990_VIN_OVF_NUM);
-   304			val = clamp_val(val, 0, 0xf);
-   305			break;
-   306	
-   307		case PMBUS_IIN_OC_FAULT_LIMIT:
-   308			val -= TPS25990_IIN_OCF_OFF;
-   309			val = DIV_ROUND_CLOSEST(val * TPS25990_IIN_OCF_DIV, TPS25990_IIN_OCF_NUM);
-   310			val = clamp_val(val, 0, 0x3f);
-   311			break;
-   312	
-   313		case PMBUS_VIRT_SAMPLES:
-   314			val = clamp_val(val, 1, 1 << PK_MIN_AVG_AVG_CNT);
-   315			val = ilog2(val);
-   316			break;
-   317		}
-   318	
-   319		return val;
-   320	}
-   321	
-   322	static int tps25990_write_word(struct i2c_client *client,
-   323				       int page, int reg, u16 value)
-   324	{
-   325		int addr, ret;
-   326	
-   327		addr = tps25990_get_addr(reg);
-   328		if (addr < 0)
-   329			return addr;
-   330	
-   331		value = tps25990_write_adapt_value(reg, value);
-   332	
-   333		switch (reg) {
-   334		case PMBUS_VIRT_SAMPLES:
-   335			ret = pmbus_update_byte_data(client, page, addr,
-   336						     PK_MIN_AVG_AVG_CNT,
- > 337						     FIELD_PREP(PK_MIN_AVG_AVG_CNT, value));
-   338			break;
-   339	
-   340		case PMBUS_IIN_OC_FAULT_LIMIT:
-   341			ret = pmbus_write_byte_data(client, page, addr,
-   342						    value);
-   343			break;
-   344	
-   345		default:
-   346			ret = pmbus_write_word_data(client, page, addr, value);
-   347			break;
-   348		}
-   349	
-   350		return ret;
-   351	}
-   352	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
