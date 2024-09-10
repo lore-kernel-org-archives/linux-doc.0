@@ -1,70 +1,132 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B924318F2D5;
-	Tue, 10 Sep 2024 12:26:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F9A1E493;
+	Tue, 10 Sep 2024 12:27:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725971215; cv=none; b=l6OJT1e8xzGG7S1O4qR2vOQYHq6yebs6Z2pSiNC3p2BqWTgr7EnuzOnYwgb5lqWTeWQWfWbed430xItQ9I6kdRcYeNT15DgODZttngRSI36Qee5EmIXBp8VAt7mdtiZ+/8x+nbHSJS/T6RwkYWsu0iqipn68giBIeTRNbpxg6ic=
+	t=1725971256; cv=none; b=l4EYPBHTl53I+c4+LpL9jrDcYQP8EUhvBFKrKNDmz+FHTWkAJEORwaqDORTb3ZAphSUh4/uXcPKam6lbFqkxnn1Z/ax7/lLyjSSk8HzEC0EnfUbl8F6Yzwjy6UCwIaNgkKvKbPTiRk5dqZjES0QBzwnQp8WDnIZdUMNEQ+3PDiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725971215; c=relaxed/simple;
-	bh=eCxtRRUtCONF7YwhRWfZP98comlS1zguG2c64TB5SfQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=APg++Y3DvwJNDjc3TltQx0v4AD6nrYDYsV+jJG9LinnXrBuyg9gLikR7BGIt8ybTVZ4epkWoonojUz9OOGGU1lNFGK5V60huN8am9XEQRVpbeH53+aGKPo2ytNyZ8aMUyw6+ZVvFNySWTWORgZQFT0LL/pK2EayTB1KR1GjGMfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=VwiH5bwk; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=7vnA5xGk; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1725971256; c=relaxed/simple;
+	bh=gwKzcskD+Xvx79IytQ+gKqrFgMZsQ/6AZGY6f4DtPVs=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Q6ncpnCMaFDg0e+JDfkkjRiHrbJFdfbIZS1YZh118yV/6Idvwb/oV+10QKfTmvb/C821U+ORGN7mwbm8gugFHXVV6F5TXcfmyYEsKCO3km75wAEaTxlIjvVr6yj0kcUNSf2pmiHEuooxxI9KgWoVr101Oag1YUMHyfVBqvG485k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XTxhbBv6; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VwiH5bwk";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="7vnA5xGk"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1725971212;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DqeTKCQjOO2h+bjkR2b85aOCc2SbJBgvaCo9ECjf/bY=;
-	b=VwiH5bwkROweDIARITZuAsl3kp9VcoL5Ut00iORY8SwNZJEwD8IIoY+aPQe5+ManZDWc7e
-	y1pAGKavpLVPTLbDfBL+RQTnWYizhALaORV3njgDCdaWlqWqtBfEEC5v13kuQNngMJ60Pf
-	9CDSZNwnbmH1oTmIZFjaNzJsx/RJg5ur8B0xp5QK2rPAPEKH5accBsigjgf+P6DID1QlZ0
-	eyt1/IaUIyOooQMXGvVEYSQuRK6y0kNNZ0pkZNJnQ3Xo8pad/sJBWhrUGBZnOW1JSma8EM
-	E5tjzOStKA03CqlsQqRfjtTltOYoXekWINze7tzzEqBnBqEtbKxcVReWtV2+GA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1725971212;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DqeTKCQjOO2h+bjkR2b85aOCc2SbJBgvaCo9ECjf/bY=;
-	b=7vnA5xGkSUZY6Vq+jMkLy+hvRFzBJUdHShW+/XOu/mIRkNAXSWxVVTsBNkI3MqLdRe17go
-	3p0uGQnqCNwa/9CQ==
-To: Takahiro Itazuri <zulinx86@gmail.com>, linux-doc@vger.kernel.org,
- corbet@lwn.net
-Cc: zulinx86@gmail.com, bp@alien8.de, jani.nikula@linux.intel.com,
- jpoimboe@kernel.org, linux-kernel@vger.kernel.org,
- pawan.kumar.gupta@linux.intel.com, peterz@infradead.org
-Subject: Re: [PATCH v3] Documentation: Unify format for vuln sysfs
-In-Reply-To: <20240908172341.571476-1-zulinx86@gmail.com>
-References: <20240908172341.571476-1-zulinx86@gmail.com>
-Date: Tue, 10 Sep 2024 14:26:51 +0200
-Message-ID: <87wmjjae44.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XTxhbBv6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725971254; x=1757507254;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=gwKzcskD+Xvx79IytQ+gKqrFgMZsQ/6AZGY6f4DtPVs=;
+  b=XTxhbBv6G7CWDV3PJD+Qgl/GwoCaRdYpI+fp3GT9ujIBSaAyTOCyepFZ
+   qIfRI+NZXl7ckS4NuEC/Ji7O/AhpDlSGhwfh6XjtNjElZjTW8HjBsTvcu
+   1JW5M4nePeZ7EcGCji28lQz/d17RRgaWN3x7WJp1oFhVlCIQWPbjZgqom
+   0TkmiKg+ium6KY96N80MnLnwDePu1+fH1LdWij9PbDRrPPKglarIsCwy+
+   AvOIdZxYpP0B1GBhA/8ffejAkE6p+CYsowcRjWkdhJdMv1iHMeNS4Jxv0
+   TpWrKwlP66XOjwkBRRiUHwcto6w8Do4dAm9JMIuuDQkJjpkP5wnLqLljS
+   w==;
+X-CSE-ConnectionGUID: eSy8KJy+R7KVVacDHrGF+g==
+X-CSE-MsgGUID: 0kGbs5O3TlqAYVQfuSdDSg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="27634204"
+X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; 
+   d="scan'208";a="27634204"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 05:27:33 -0700
+X-CSE-ConnectionGUID: c79Vi7k2TtuoW0BQ13Tslg==
+X-CSE-MsgGUID: tTnLFkRQQIOvwgmwbjzu3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; 
+   d="scan'208";a="66968067"
+Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.245.224])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 05:27:26 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: linux-pci@vger.kernel.org,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+	"Maciej W. Rozycki" <macro@orcam.me.uk>,
+	Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Alexandru Gagniuc <mr.nuke.me@gmail.com>,
+	Krishna chaitanya chundru <quic_krichai@quicinc.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	linux-pm@vger.kernel.org,
+	Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Amit Kucheria <amitk@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH v7 1/8] PCI: Protect Link Control 2 Register with RMW locking
+Date: Tue, 10 Sep 2024 15:26:58 +0300
+Message-Id: <20240910122705.4068-2-ilpo.jarvinen@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240910122705.4068-1-ilpo.jarvinen@linux.intel.com>
+References: <20240910122705.4068-1-ilpo.jarvinen@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sun, Sep 08 2024 at 17:23, Takahiro Itazuri wrote:
+PCIe Bandwidth Controller performs RMW accesses the Link Control 2
+Register which can occur concurrently to other sources of Link Control
+2 Register writes. Therefore, add Link Control 2 Register among the PCI
+Express Capability Registers that need RMW locking.
 
-> The format for vuln sysfs files was diverge across pages. Unifies the
-> format as follows:
+Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+Reviewed-by: Lukas Wunner <lukas@wunner.de>
+---
+ Documentation/PCI/pciebus-howto.rst | 14 +++++++++-----
+ include/linux/pci.h                 |  1 +
+ 2 files changed, 10 insertions(+), 5 deletions(-)
 
-What is a vuln sysfs file?
+diff --git a/Documentation/PCI/pciebus-howto.rst b/Documentation/PCI/pciebus-howto.rst
+index f344452651e1..375d9ce171f6 100644
+--- a/Documentation/PCI/pciebus-howto.rst
++++ b/Documentation/PCI/pciebus-howto.rst
+@@ -217,8 +217,12 @@ capability structure except the PCI Express capability structure,
+ that is shared between many drivers including the service drivers.
+ RMW Capability accessors (pcie_capability_clear_and_set_word(),
+ pcie_capability_set_word(), and pcie_capability_clear_word()) protect
+-a selected set of PCI Express Capability Registers (Link Control
+-Register and Root Control Register). Any change to those registers
+-should be performed using RMW accessors to avoid problems due to
+-concurrent updates. For the up-to-date list of protected registers,
+-see pcie_capability_clear_and_set_word().
++a selected set of PCI Express Capability Registers:
++
++* Link Control Register
++* Root Control Register
++* Link Control 2 Register
++
++Any change to those registers should be performed using RMW accessors to
++avoid problems due to concurrent updates. For the up-to-date list of
++protected registers, see pcie_capability_clear_and_set_word().
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 4cf89a4b4cbc..25362d577824 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -1270,6 +1270,7 @@ static inline int pcie_capability_clear_and_set_word(struct pci_dev *dev,
+ {
+ 	switch (pos) {
+ 	case PCI_EXP_LNKCTL:
++	case PCI_EXP_LNKCTL2:
+ 	case PCI_EXP_RTCTL:
+ 		return pcie_capability_clear_and_set_word_locked(dev, pos,
+ 								 clear, set);
+-- 
+2.39.2
 
-Can we please avoid random acronyms and abbreviations in change logs?
-There is enough space and it's not twatter.
-
-Thanks
-
-        tglx
