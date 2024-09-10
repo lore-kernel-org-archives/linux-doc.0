@@ -1,99 +1,70 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF653170853
-	for <linux-doc@vger.kernel.org>; Tue, 10 Sep 2024 11:01:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B924318F2D5;
+	Tue, 10 Sep 2024 12:26:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725966079; cv=none; b=HCCylP51Emxnrsqy9XYDsncTv9gDTGmD4DT0ROhjiY2u8oS1AdvRTg9BtQWdy76YzSuKqKX70Co0NKDc8nU11gJX+A3v9RCQw4Y7P4/Kf1s9IGPkQFVyfS8+fkqzUh1bXzuCrK1YS7GODKcwdqe1VePtydt3zfoLuBcJbYyKi8Y=
+	t=1725971215; cv=none; b=l6OJT1e8xzGG7S1O4qR2vOQYHq6yebs6Z2pSiNC3p2BqWTgr7EnuzOnYwgb5lqWTeWQWfWbed430xItQ9I6kdRcYeNT15DgODZttngRSI36Qee5EmIXBp8VAt7mdtiZ+/8x+nbHSJS/T6RwkYWsu0iqipn68giBIeTRNbpxg6ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725966079; c=relaxed/simple;
-	bh=94DGp3C5AYMl/BFVYCl5gdrTM5mEcrQgTCi/e5Jdbl8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fYVFaFqg4+9/imm717s8e9h5TeGU2mPb2a/h15u2mL2jQ4oRCXqgMwhhB0n4wRO2AUUlxS9wwouLVX6W1hoi/qzG0Ag0BBeuNniRQl2hCJIZjWVJB0n3XHEqxMXYSdDQLR58RrZbtB+tuZ/6NTgDD2InO6WsRNR6k2EIz006O80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=VO209v2F; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1725971215; c=relaxed/simple;
+	bh=eCxtRRUtCONF7YwhRWfZP98comlS1zguG2c64TB5SfQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=APg++Y3DvwJNDjc3TltQx0v4AD6nrYDYsV+jJG9LinnXrBuyg9gLikR7BGIt8ybTVZ4epkWoonojUz9OOGGU1lNFGK5V60huN8am9XEQRVpbeH53+aGKPo2ytNyZ8aMUyw6+ZVvFNySWTWORgZQFT0LL/pK2EayTB1KR1GjGMfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=VwiH5bwk; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=7vnA5xGk; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="VO209v2F"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a7aa086b077so496771766b.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Sep 2024 04:01:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1725966076; x=1726570876; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nUeSoh4W/z0aMfTXKQTAeunZCl4Gx5YQHg82epMm3uc=;
-        b=VO209v2F0tCysHW+6wAGgMYOJtU/EOcybXFZQMSx1dc0WDxNGDSfHkDK8UmFDBGyrx
-         X+KGVVdmjwxS7ujxFoQABFlHgCmRNTMlMbEyF4dF62dSCw2ewIIyAKOeoZ2zQCx8Qb9i
-         UDvIYhjcjlEYII4RpHuXL6gVOPpi6XMYXYzhLYESluzU8EucLE5PYpj0wmvJMzU5GPdm
-         7qObMt2eAWhiEqGeu6O2KaGvybPForWCoK4yYKu/5mJ9c6Q+883CUnSgHrG0gdRzoz1e
-         IZowiot+nge5cWfdadY9cAhRTlfcaR5k2AhdFevtc5DLiOTkSvwgcMjpE5ytpFUAa/vh
-         8vyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725966076; x=1726570876;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nUeSoh4W/z0aMfTXKQTAeunZCl4Gx5YQHg82epMm3uc=;
-        b=Ps+li3+hjxytdVZWvsohde3lAhUq7fJ/KKp91ux28gJTaLIfhS7voPCJGIbHk0HYFv
-         yICWoR6eVgLW+uYVTLkRX6gb5akGAjXxg6mo7gcvBrw5dn6S9kSrdBqmiVu5VxosPp7r
-         weZxQ8V3GD/mnBWPpgcr3wsuXhxWtgMRytJenjbZ+Ss4z0zigzxfqa97KDUH5evA6PNz
-         pD751wJGucUNa3NQYZGMW2kZSe9bxlLoSn1ZG0hWkgwmaw4Xiy4U18IZk8OYf0J3LAOS
-         YeTHiqfCqi2ZKP33U2EP4H+lWFfHoVrUu/MjdDE61AbWd/IJZrnU8fkoFBWu3UChTTnN
-         hPIg==
-X-Forwarded-Encrypted: i=1; AJvYcCVwqDFeVaQObUznBMa/6Ow7qmEECA+2QlLadZ9qrh2ujkKxpxEaeARt2LH1YGRfXG5nxAEGddpaV4M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyknL5uZneBCU3WIH09drRbmIAVu8ijekzSyh2FHdWk0I3ZAheC
-	aaGiYo/woknuSp7m1S6h5nZUJS28ifoBPNqbEDxuvQya9mdp8kJbTzK1fi651YU=
-X-Google-Smtp-Source: AGHT+IGlGSxo9U+KpP/ntytYsSppmVMzvkuoneIV9p/r4iqRyDAfQ7t5IQvknumFf+IAujZlTFQ2SA==
-X-Received: by 2002:a17:907:3d8e:b0:a8d:4e13:55f9 with SMTP id a640c23a62f3a-a8ffaae3670mr36705966b.19.1725966075820;
-        Tue, 10 Sep 2024 04:01:15 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.50])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d25c61263sm466968566b.128.2024.09.10.04.01.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Sep 2024 04:01:15 -0700 (PDT)
-Date: Tue, 10 Sep 2024 13:01:14 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Kernel Livepatching <live-patching@vger.kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
-	Joe Lawrence <joe.lawrence@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Marcos Paulo de Souza <mpdesouza@suse.com>
-Subject: Re: [PATCH] Documentation: livepatch: Correct release locks antonym
-Message-ID: <ZuAm-pgXO4SySyB5@pathway.suse.cz>
-References: <20240903024753.104609-1-bagasdotme@gmail.com>
- <ZthJEsogeqfVj8jg@pathway.suse.cz>
- <cd1340e4-f726-4ac4-9caa-8e8a3c369203@gmail.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VwiH5bwk";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="7vnA5xGk"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1725971212;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DqeTKCQjOO2h+bjkR2b85aOCc2SbJBgvaCo9ECjf/bY=;
+	b=VwiH5bwkROweDIARITZuAsl3kp9VcoL5Ut00iORY8SwNZJEwD8IIoY+aPQe5+ManZDWc7e
+	y1pAGKavpLVPTLbDfBL+RQTnWYizhALaORV3njgDCdaWlqWqtBfEEC5v13kuQNngMJ60Pf
+	9CDSZNwnbmH1oTmIZFjaNzJsx/RJg5ur8B0xp5QK2rPAPEKH5accBsigjgf+P6DID1QlZ0
+	eyt1/IaUIyOooQMXGvVEYSQuRK6y0kNNZ0pkZNJnQ3Xo8pad/sJBWhrUGBZnOW1JSma8EM
+	E5tjzOStKA03CqlsQqRfjtTltOYoXekWINze7tzzEqBnBqEtbKxcVReWtV2+GA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1725971212;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DqeTKCQjOO2h+bjkR2b85aOCc2SbJBgvaCo9ECjf/bY=;
+	b=7vnA5xGkSUZY6Vq+jMkLy+hvRFzBJUdHShW+/XOu/mIRkNAXSWxVVTsBNkI3MqLdRe17go
+	3p0uGQnqCNwa/9CQ==
+To: Takahiro Itazuri <zulinx86@gmail.com>, linux-doc@vger.kernel.org,
+ corbet@lwn.net
+Cc: zulinx86@gmail.com, bp@alien8.de, jani.nikula@linux.intel.com,
+ jpoimboe@kernel.org, linux-kernel@vger.kernel.org,
+ pawan.kumar.gupta@linux.intel.com, peterz@infradead.org
+Subject: Re: [PATCH v3] Documentation: Unify format for vuln sysfs
+In-Reply-To: <20240908172341.571476-1-zulinx86@gmail.com>
+References: <20240908172341.571476-1-zulinx86@gmail.com>
+Date: Tue, 10 Sep 2024 14:26:51 +0200
+Message-ID: <87wmjjae44.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cd1340e4-f726-4ac4-9caa-8e8a3c369203@gmail.com>
+Content-Type: text/plain
 
-On Tue 2024-09-10 17:27:42, Bagas Sanjaya wrote:
-> On 9/4/24 18:48, Petr Mladek wrote:
-> > On Tue 2024-09-03 09:47:53, Bagas Sanjaya wrote:
-> > > "get" doesn't properly fit as an antonym for "release" in the context
-> > > of locking. Correct it with "acquire".
-> > > 
-> > > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> > 
-> > Reviewed-by: Petr Mladek <pmladek@suse.com>
-> > 
-> > The patch is trivial. I have have committed it into livepatching.git,
-> > branch for-6.12/trivial.
-> > 
-> 
-> Shouldn't this for 6.11 instead? I'm expecting that though...
+On Sun, Sep 08 2024 at 17:23, Takahiro Itazuri wrote:
 
-I am sorry but the change is not urgent enough to be rushed into 6.11.
+> The format for vuln sysfs files was diverge across pages. Unifies the
+> format as follows:
 
-Best Regards,
-Petr
+What is a vuln sysfs file?
+
+Can we please avoid random acronyms and abbreviations in change logs?
+There is enough space and it's not twatter.
+
+Thanks
+
+        tglx
