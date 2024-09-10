@@ -1,66 +1,39 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12521DFF0;
-	Tue, 10 Sep 2024 02:34:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5CDE1386C0
+	for <linux-doc@vger.kernel.org>; Tue, 10 Sep 2024 03:14:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725935693; cv=none; b=VvQHgwrbi8l4B97ogB1NOg3W+7W0TrpqYZl87IGwIa0Tnwcs2X0GpOz6utBDwUg/Xgh9pLN87Cu9UoFjkTJ38a1GqwXtcpZwdBOqEEvdORiHFqwpXimd82Ekjg6P/IXL0dFpXrA7ejR/Q90V6MnKqWbdil0I9CvJq9ygjVEWEhw=
+	t=1725938067; cv=none; b=hoxeR+emI1MwAlIGowX1H1Q4DaIn/+2JFPYQrCG2sA77OJ21FJgNyqLZUzKe4MRNQfgRr1In3gx/6+tJn9ep5LNUQg/PlmnjlrXhGP/o78t5z3mWhuvFA3uNBkp2NQYODGHpgPX3Unjctlo1QRVfzs8otm9B/sMb+ezGMVX9DLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725935693; c=relaxed/simple;
-	bh=veXA8/aEIcvbJ4tdLTLkNwd/cTiLdA9uvb6N55XyEZc=;
+	s=arc-20240116; t=1725938067; c=relaxed/simple;
+	bh=XZ/dizzuFlggz8N7mbiSBg50/BhHibOeNR0BlwyvmJg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p5DlfjFb5rNvRMhkCzRGoZq5KXX5rF0udGMbcLn3dkoi3M7ZgqlY9Vk59tvhAhm3yRAuiYW8cTTTV0qeGEGrBQvH74yDnYfzU2FrAxDpiHi3GXBVF3C8JcrG73OOa6n/14XUp5AqwOURWO5cUBoObQwUHCSM2rN0KgXNWcJQtSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SuNa+cUm; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=u3500fGQyBqMam2BAI+Gx/P+jjj7yJIZ1Ne+uSS1hyzscf4ZCkYwakWYe2lo4NQdER3Myzz379MEptT36F0jlhJPsFVQ70LIA2mMKCjM3WIj5Srj6pGxSPj+fHoJWgntAQQYpGvDaUI6XZ5LKEMWwGlgldDEsmPx9IRgK4pD2gM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=stYe1fd9; arc=none smtp.client-ip=91.218.175.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SuNa+cUm"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7d4f8a1626cso3917662a12.3;
-        Mon, 09 Sep 2024 19:34:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725935691; x=1726540491; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JbGFjI1Jm4RL1Dvc7yvqZW7MuzgcmJKxyv77P01RY7g=;
-        b=SuNa+cUmFJya6/lLECF/h90LbT4M/rbGeN866WE7BnRtEpo/rM3li/oTQ5/AoEWwGC
-         vdshSnmUsvv7y2608lEqQjfYVZ4z/jNAEryWzrC4R79AFrvVRyOdHeJpikPCjnix5Fdx
-         rMxvlrc/phV0usiO2/yiGGOd7iLS4ztEP6cuOLhoHoSDJqxBet7Liu/Pueza+NY5ChBb
-         36KfGh9vA8kgwFMA8HScn9SYM+MyJyYtXQaqCCR/TiCsjP6MXCihvkJBB8iEhq/WiJkg
-         dlYf1d1tyX5vc7xl6tUNRRrM7iSLFySmvWecslGkdX8GTe2vKZrr9kUZ4sgRfan3JaG5
-         JHUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725935691; x=1726540491;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JbGFjI1Jm4RL1Dvc7yvqZW7MuzgcmJKxyv77P01RY7g=;
-        b=lJAPn3eNg8xzrl+kcw+eIuh6hYQTHsA4rQtsleR+Ri+9MDM9A4qxSHLk0IGD8xyePb
-         qthksmsWVjvsGioA7HtaBKxIfvcgxCnl97i1oZIvZUg01Q3qeS9lki/XXl6P1xhTf9nt
-         zsk8Gbo+p4B5HzJ9cg45BhjsVgeHj/Gqndz5ETJ17E1crj43ch1S9T524MOhGlyE2GDi
-         4hD40f46qTSZt7zCfwEvWcjA58yc1n8+qKAJKOtzqHNFbRdUen1+L52wRhseASb80enG
-         TOnv2Bt8B9vf5NwAIiH8mi/jHYtXw8x4XHPnp7suwOoEZ/BEeBePmCx8jwGOZL/s5/4u
-         Fb/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWHAdhcyywIpY6Km4Gx0imxA3KfpI/SGr0QU3ohhz3QF8N8h77pyZKL4FbFkrjxTcOSQbZ2uDpJerU=@vger.kernel.org, AJvYcCXUZsgLTA19vGoGNaw/1A1TkTykPoRXJDW9Wu6LwhZpczcd8ZY0YC8mdDzzqc/L+brJsrNP3Jb/TmPdlFhB@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzhm3dYo0o5a3OYkLD2Fzk6WooyxOoiWekgl8F6p4NosJUeEqM7
-	mlQIqvUGxWnAQvukIBZzzrBSGtJuWdADK4+aol2dR6Z5wQtkTLjTrf6t+9aS
-X-Google-Smtp-Source: AGHT+IEfbDIfIWEWl9+hGeO41iqQlYwbmdVvslDHL+mdRN/85/Dbu+yZ/qjViZE/76xB3gtzWv1L+g==
-X-Received: by 2002:a17:902:eccf:b0:205:6a9b:7e3e with SMTP id d9443c01a7336-206f05faedcmr193772175ad.56.1725935690772;
-        Mon, 09 Sep 2024 19:34:50 -0700 (PDT)
-Received: from [192.168.255.10] ([43.132.141.21])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20710f3121fsm39794215ad.257.2024.09.09.19.34.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Sep 2024 19:34:50 -0700 (PDT)
-Message-ID: <f98a792c-3ee0-478f-8696-f0d153ade931@gmail.com>
-Date: Tue, 10 Sep 2024 10:34:46 +0800
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="stYe1fd9"
+Message-ID: <47e6a637-fe2c-4099-92bd-a2acdf1e0b3d@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1725938062;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zOk3T4QNOS8F4QZutG3gxnZiBZHpX7piGLxJ1CtpCEI=;
+	b=stYe1fd9ofOy2VXU90yQCIXm8JHOgjVG3QF0mCeO2ODlTQHK5LyDLEer8q5Gp568fdANa1
+	CKGHBg0oGRRIZP49g1m6DHk4GFCXUmjQHUEFlF+xqFIJsjtgt3qmEiqbRPOd+qrG0Epj7D
+	W+P315ubkSqRZMPHM7L8B7qUR1W0x2k=
+Date: Tue, 10 Sep 2024 11:14:01 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3] docs/zh_CN: add the translation of
  kbuild/gcc-plugins.rst
 To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
@@ -72,32 +45,37 @@ Cc: hust-os-kernel-patches@googlegroups.cm, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, llvm@lists.linux.dev
 References: <20240907070244.206808-1-dzm91@hust.edu.cn>
 Content-Language: en-US
-From: Alex Shi <seakeel@gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: YanTeng Si <si.yanteng@linux.dev>
 In-Reply-To: <20240907070244.206808-1-dzm91@hust.edu.cn>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
 
-LGTM,
 
-Reviewed-by: Alex Shi <alexs@kernel.org>
 
-On 9/7/24 3:02 PM, Dongliang Mu wrote:
+在 2024/9/7 15:02, Dongliang Mu 写道:
 > Finish the translation of kbuild/gcc-plugins.rst and move gcc-plugins
 > from TODO to the main body.
-> 
+>
 > Update to commit 3832d1fd84b6 ("docs/core-api: expand Fedora instructions
 > for GCC plugins")
-> 
+>
 > Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
+
+
+Thanks,
+Yanteng
 > ---
 > v2->v3: fix sign incorrect pointed by Alex
 > v1->v2: fix comments from yanteng
->  .../translations/zh_CN/kbuild/gcc-plugins.rst | 126 ++++++++++++++++++
->  .../translations/zh_CN/kbuild/index.rst       |   2 +-
->  2 files changed, 127 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/kbuild/gcc-plugins.rst
-> 
+>   .../translations/zh_CN/kbuild/gcc-plugins.rst | 126 ++++++++++++++++++
+>   .../translations/zh_CN/kbuild/index.rst       |   2 +-
+>   2 files changed, 127 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/translations/zh_CN/kbuild/gcc-plugins.rst
+>
 > diff --git a/Documentation/translations/zh_CN/kbuild/gcc-plugins.rst b/Documentation/translations/zh_CN/kbuild/gcc-plugins.rst
 > new file mode 100644
 > index 000000000000..67a8abbf5887
@@ -235,18 +213,19 @@ On 9/7/24 3:02 PM, Dongliang Mu wrote:
 > --- a/Documentation/translations/zh_CN/kbuild/index.rst
 > +++ b/Documentation/translations/zh_CN/kbuild/index.rst
 > @@ -13,6 +13,7 @@
->      :maxdepth: 1
->  
->      headers_install
+>       :maxdepth: 1
+>   
+>       headers_install
 > +    gcc-plugins
->  
->  TODO:
->  
+>   
+>   TODO:
+>   
 > @@ -24,7 +25,6 @@ TODO:
->  - modules
->  - issues
->  - reproducible-builds
+>   - modules
+>   - issues
+>   - reproducible-builds
 > -- gcc-plugins
->  - llvm
->  
->  .. only::  subproject and html
+>   - llvm
+>   
+>   .. only::  subproject and html
+
