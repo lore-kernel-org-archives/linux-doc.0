@@ -1,247 +1,165 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 528201CD2A
-	for <linux-doc@vger.kernel.org>; Tue, 10 Sep 2024 06:29:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC124175D4F
+	for <linux-doc@vger.kernel.org>; Tue, 10 Sep 2024 06:43:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725949751; cv=none; b=Lq4rZ6zFQItGF97sNILZ17t2epY8B5Sgf6796IFnq3G5p2xYLNj2f8SqcJu0nTxdC2lY3R0LW09vxJEWBN/SULsUV9WffQKFMxcsE+TUQcqh0Ai7rKrD817VaqLi5gyT3gXvNDXuj0EU96kJdYhOzA+nUMSxSfPgpyAWUMNTVCs=
+	t=1725950603; cv=none; b=PNMMi2KdVq2+U3cHNVxxrS1luutaGOPpMVG5tul2XJitCZYG4d1SOQt/HPAt3BwLo86qFn9+BkO4ZZdGZu4bWnPQtAYuDOMyrdi6aVEdtl4L6LqGWZZAdAmWtK31iC17JjYYURDsRhFurxVciBq+AxAtbpoRSmNuKOpl8bs7wRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725949751; c=relaxed/simple;
-	bh=XaQZaTfk+la0ZZ6tSTFKn63D4zVyBwKjnuPD291hcIs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dBba8o+o5tyKCj/Zy5owmWXkITiPSRYgc4M5pVhzENh9O1C5p1xCvXn12S6Wh3BShx5hjOmqfKNV+x9sECPcWhsiHnRjmYL2N1M7xeonDYgx4bDZla0BRfaO0qQA7ofGUguUhHBMotVyDIznPNjxAregyS03r8pjVaE8WUQ4KAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dysA5KLm; arc=none smtp.client-ip=209.85.128.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1725950603; c=relaxed/simple;
+	bh=na/rRKAm0dtxvPFcGIyuBVMyz7/vq21KrFg6CQhI+Jg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=BBt4CMHEehRF5q5VFHgjJsOPlmJzGMb8eXpetY1Rac33YRtk7QwAqK7IrATufbVc01FY031HxGDVKC96edc+Q1BIYqP2PS6dLa6UCChFoiQJmGTUtzyRPLg3jxk1o0gimpxTc7YX63cuJyNsTFypO11cy7+u+NLfLlLT7S6UHBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=bzYO1fCz; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dysA5KLm"
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6d7073a39dcso55223947b3.1
-        for <linux-doc@vger.kernel.org>; Mon, 09 Sep 2024 23:29:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="bzYO1fCz"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-42cb57f8b41so25668115e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 09 Sep 2024 23:43:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725949748; x=1726554548; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=nEFwTDycDGvgp9HATFRtFGrgCewYQik9kM4B0MY3fOI=;
-        b=dysA5KLmqAyBweRt2T4h621AV13N+MKncHObFdiWm1YdZi7+JmH5gnq2Blo3pA2DMI
-         39YEDpmchH9s67fiW7TC8U72jc7YwvZuwCEu+Yy0wmTYE2M1CgyvvA8mhrBrXwFwI8AK
-         ge7Imj1dMtpZE2G2MoTfvRpV+XaLadSOjT+o0p8qa8+a0QZa2vtzalps9b72G3zxJq7l
-         aB3WUWiraONMVkEDSkSf/6EqH58XMhjNixHnthWdGdov2Fu0fVZ+GUtf3OHbLvjfWiKb
-         4pVuXQwNosjE+Pl3qC0zPhToIJOUlixVcF+6uDEbDRprhxK1+/V5AE9Picv6YGRY062z
-         gqLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725949748; x=1726554548;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1725950598; x=1726555398; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nEFwTDycDGvgp9HATFRtFGrgCewYQik9kM4B0MY3fOI=;
-        b=v7fTFl46wTe0lg7X6Oq/hEFo5et52Qa8LtTLulpTJrNL2GSxApWA5xUlh1DQt9YWX/
-         2orZaxX0bzbs1BRBRo1RIHTyftWwFwKa91PIg2rWoRYLDdZxd0eTDfJFL8RB5BOgV/ij
-         /nVEDrXq+KqEWIjSsTe0Hj2/Mco1D92dOW2G5cMjpdSk1XGfnu80OCVPTEt3REVI79RQ
-         0qKXb6rNGulF1QVh0OWRSlLxk+f3T4UjL9yyZpIfNQfH/Cw4BDCUgZCCSVcbZQRZN0sH
-         kEqd/3ZnWJllnkZWy1aOXOiLu+s6rquTcjBQL5cjgZof8KRv6PI/rvtyNkbwGs2SPdR7
-         EJBA==
-X-Forwarded-Encrypted: i=1; AJvYcCWqdAQz7YRR7eyEcPLJI3qP0ZJYUmw3wxAkQHqOf4KktNpKxGXgDUgxz/Eb07gE4aSHil0HTKGTqRs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwG6Vhu+AuHqwy5UdZLfvMP71cPzF0cz+FqxxfX4jfbLUKsTnwS
-	AhJfzVGwY6ZH0Mr+xSy43uFl75BjVRiSHYXWc9ZBOJJ7ZzC/ogWEtkGevsgJukIUbUzZ4UR5yZc
-	Qp3R3wOdgCtN/dPhWjTQq+esDgmFdQw7sw9Xz5Q==
-X-Google-Smtp-Source: AGHT+IEBZZt2cdxLKZyy+e7siGVV18SEl42Tj+Khn8l0KILxGsWjLsPof0c5bcFrSsgmQWetWJ2qfPyKs0QRrhKeqaY=
-X-Received: by 2002:a05:690c:48c8:b0:6ac:3043:168a with SMTP id
- 00721157ae682-6db953817a1mr17208177b3.10.1725949748085; Mon, 09 Sep 2024
- 23:29:08 -0700 (PDT)
+        bh=YHIjfVpopAQsFYDysnM68orgUpUrGZh7owWOhiV6j1E=;
+        b=bzYO1fCzYrmv5YPWOEB9bycB8uZjylGJeE3W/gthNYYr9OcE5qvRx24/QUaAmZdovt
+         YH216OrZFnaMNIo1QWI207ywRnn7gjdwJbSiXmiDdyQyHyCYEwYYYhrhq9Oc7VYOrxxY
+         /CXygSFXaAwbybAyl4j9MS8y2ROQwrJwLgwWeY3XXXbhmZvtZ6KdRFpRsUp3olXjDzTD
+         MlCdfXyhp8+4FPM46z4/NXJEV5dn0rD8skOVTd2asQ+tyYtXp1powov1cJSFpU08WvDQ
+         9qjbguqFVdcRoAQWoif8PNahiyPRbSR0OCGgOfPmGj3/iG0hC6Z3pEU3DaYgJg8WX9TH
+         LuIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725950598; x=1726555398;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YHIjfVpopAQsFYDysnM68orgUpUrGZh7owWOhiV6j1E=;
+        b=NQYepJjkk5SZUpy/dvFGjm+6hh+ps/mbX+0ua5lbhEGvAAZosKMusPkHzDYZhJ3RsB
+         eAuXEs64neSCjUgp4csIgiHZeO8NyfgD8bRDTdZXAm30B48SjsqVZ9kSBtvi6TZfdwVd
+         HH3s9SNRY/n3Ib76uRdPLBTbvpChWooQR2AfoN8EfDh7rwwIxzyCiNae4+42Vipl6fhC
+         HNFSjSiYOmLck9DYauR7k9aKeGO5m3f7lEsJKApOxFkoTcREhiWBMi3t0/isjwvJ48No
+         Vq9JwTUfNsXarUnMbSpNv/59fvwNCZC1XaY+aKgzPYV0MGkwlvSx8/J727zsVskYbVlG
+         8ntg==
+X-Forwarded-Encrypted: i=1; AJvYcCWUL8whaNPE5ApdbjncRWSTX936tIVbbb0LTAjUWQHXuSXzIzqP/Z49RoyQv8Xj+kRrDMdtghbmkeo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyduP6fes5LTmrF0hX+3TgYbo/xmjbi4NxZhPXFd0tZbjAEZ88N
+	M/HcHiQbLOWZ7TylnACRi9gEa8dQNt75TE+eNWTgCkUKW5VX1NwnDph5elD0ixk=
+X-Google-Smtp-Source: AGHT+IEGTUNHbTSsmZjzta3HrF24ou/pG5zqXuiZFFF8PEDIjWSL6u1zq98mgz76KtjH/M2c0b8JiQ==
+X-Received: by 2002:a05:600c:1d9f:b0:42c:b220:4769 with SMTP id 5b1f17b1804b1-42cb2204a93mr73976985e9.32.1725950597453;
+        Mon, 09 Sep 2024 23:43:17 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:8ba7:bfe4:fea9:65b])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956d375asm7872010f8f.66.2024.09.09.23.43.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Sep 2024 23:43:16 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Jean Delvare <jdelvare@suse.com>,  Rob Herring <robh@kernel.org>,
+  Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
+ <conor+dt@kernel.org>,  Jonathan Corbet <corbet@lwn.net>,  Delphine CC
+ Chiu <Delphine_CC_Chiu@Wiwynn.com>,  linux-hwmon@vger.kernel.org,
+  devicetree@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  linux-doc@vger.kernel.org,  linux-i2c@vger.kernel.org
+Subject: Re: [PATCH 2/3] hwmon: (pmbus/core) add POWER_GOOD signal limits
+ support
+In-Reply-To: <d76290e0-f5e7-4192-92b8-94f260270fe3@roeck-us.net> (Guenter
+	Roeck's message of "Mon, 9 Sep 2024 11:16:41 -0700")
+References: <20240909-tps25990-v1-0-39b37e43e795@baylibre.com>
+	<20240909-tps25990-v1-2-39b37e43e795@baylibre.com>
+	<d76290e0-f5e7-4192-92b8-94f260270fe3@roeck-us.net>
+Date: Tue, 10 Sep 2024 08:43:16 +0200
+Message-ID: <1j8qw0t3ej.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240906-wrapped-keys-v6-0-d59e61bc0cb4@linaro.org>
- <20240906-wrapped-keys-v6-9-d59e61bc0cb4@linaro.org> <7uoq72bpiqmo2olwpnudpv3gtcowpnd6jrifff34ubmfpijgc6@k6rmnalu5z4o>
- <66953e65-2468-43b8-9ccf-54671613c4ab@linaro.org> <ivibs6qqxhbikaevys3iga7s73xq6dzq3u43gwjri3lozkrblx@jxlmwe5wiq7e>
- <98cc8d71d5d9476297a54774c382030d@quicinc.com>
-In-Reply-To: <98cc8d71d5d9476297a54774c382030d@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 10 Sep 2024 09:28:57 +0300
-Message-ID: <CAA8EJpp_HY+YmMCRwdteeAHnSHtjuHb=nFar60O_PwLwjk0mNA@mail.gmail.com>
-Subject: Re: [PATCH v6 09/17] soc: qcom: ice: add HWKM support to the ICE driver
-To: "Gaurav Kashyap (QUIC)" <quic_gaurkash@quicinc.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>, 
-	Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, 
-	Adrian Hunter <adrian.hunter@intel.com>, Asutosh Das <quic_asutoshd@quicinc.com>, 
-	Ritesh Harjani <ritesh.list@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Avri Altman <avri.altman@wdc.com>, 
-	Bart Van Assche <bvanassche@acm.org>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Eric Biggers <ebiggers@kernel.org>, 
-	"Theodore Y. Ts'o" <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	"manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>, 
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"dm-devel@lists.linux.dev" <dm-devel@lists.linux.dev>, 
-	"linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>, 
-	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, 
-	"linux-fscrypt@vger.kernel.org" <linux-fscrypt@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>, 
-	"bartosz.golaszewski" <bartosz.golaszewski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 10 Sept 2024 at 03:51, Gaurav Kashyap (QUIC)
-<quic_gaurkash@quicinc.com> wrote:
->
-> Hello Dmitry and Neil
->
-> On Monday, September 9, 2024 2:44 AM PDT, Dmitry Baryshkov wrote:
-> > On Mon, Sep 09, 2024 at 10:58:30AM GMT, Neil Armstrong wrote:
-> > > On 07/09/2024 00:07, Dmitry Baryshkov wrote:
-> > > > On Fri, Sep 06, 2024 at 08:07:12PM GMT, Bartosz Golaszewski wrote:
-> > > > > From: Gaurav Kashyap <quic_gaurkash@quicinc.com>
-> > > > >
-> > > > > Qualcomm's ICE (Inline Crypto Engine) contains a proprietary key
-> > > > > management hardware called Hardware Key Manager (HWKM). Add
-> > HWKM
-> > > > > support to the ICE driver if it is available on the platform. HWKM
-> > > > > primarily provides hardware wrapped key support where the ICE
-> > > > > (storage) keys are not available in software and instead protected in
-> > hardware.
-> > > > >
-> > > > > When HWKM software support is not fully available (from
-> > > > > Trustzone), there can be a scenario where the ICE hardware
-> > > > > supports HWKM, but it cannot be used for wrapped keys. In this
-> > > > > case, raw keys have to be used without using the HWKM. We query
-> > > > > the TZ at run-time to find out whether wrapped keys support is
-> > available.
-> > > > >
-> > > > > Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
-> > > > > Signed-off-by: Gaurav Kashyap <quic_gaurkash@quicinc.com>
-> > > > > Signed-off-by: Bartosz Golaszewski
-> > > > > <bartosz.golaszewski@linaro.org>
-> > > > > ---
-> > > > >   drivers/soc/qcom/ice.c | 152
-> > +++++++++++++++++++++++++++++++++++++++++++++++--
-> > > > >   include/soc/qcom/ice.h |   1 +
-> > > > >   2 files changed, 149 insertions(+), 4 deletions(-)
-> > > > >
-> > > > >   int qcom_ice_enable(struct qcom_ice *ice)
-> > > > >   {
-> > > > > + int err;
-> > > > > +
-> > > > >           qcom_ice_low_power_mode_enable(ice);
-> > > > >           qcom_ice_optimization_enable(ice);
-> > > > > - return qcom_ice_wait_bist_status(ice);
-> > > > > + if (ice->use_hwkm)
-> > > > > +         qcom_ice_enable_standard_mode(ice);
-> > > > > +
-> > > > > + err = qcom_ice_wait_bist_status(ice); if (err)
-> > > > > +         return err;
-> > > > > +
-> > > > > + if (ice->use_hwkm)
-> > > > > +         qcom_ice_hwkm_init(ice);
-> > > > > +
-> > > > > + return err;
-> > > > >   }
-> > > > >   EXPORT_SYMBOL_GPL(qcom_ice_enable);
-> > > > > @@ -150,6 +282,10 @@ int qcom_ice_resume(struct qcom_ice *ice)
-> > > > >                   return err;
-> > > > >           }
-> > > > > + if (ice->use_hwkm) {
-> > > > > +         qcom_ice_enable_standard_mode(ice);
-> > > > > +         qcom_ice_hwkm_init(ice); }
-> > > > >           return qcom_ice_wait_bist_status(ice);
-> > > > >   }
-> > > > >   EXPORT_SYMBOL_GPL(qcom_ice_resume);
-> > > > > @@ -157,6 +293,7 @@ EXPORT_SYMBOL_GPL(qcom_ice_resume);
-> > > > >   int qcom_ice_suspend(struct qcom_ice *ice)
-> > > > >   {
-> > > > >           clk_disable_unprepare(ice->core_clk);
-> > > > > + ice->hwkm_init_complete = false;
-> > > > >           return 0;
-> > > > >   }
-> > > > > @@ -206,6 +343,12 @@ int qcom_ice_evict_key(struct qcom_ice *ice,
-> > int slot)
-> > > > >   }
-> > > > >   EXPORT_SYMBOL_GPL(qcom_ice_evict_key);
-> > > > > +bool qcom_ice_hwkm_supported(struct qcom_ice *ice) {  return
-> > > > > +ice->use_hwkm; }
-> > EXPORT_SYMBOL_GPL(qcom_ice_hwkm_supported);
-> > > > > +
-> > > > >   static struct qcom_ice *qcom_ice_create(struct device *dev,
-> > > > >                                           void __iomem *base)
-> > > > >   {
-> > > > > @@ -240,6 +383,7 @@ static struct qcom_ice *qcom_ice_create(struct
-> > device *dev,
-> > > > >                   engine->core_clk = devm_clk_get_enabled(dev, NULL);
-> > > > >           if (IS_ERR(engine->core_clk))
-> > > > >                   return ERR_CAST(engine->core_clk);
-> > > > > + engine->use_hwkm = qcom_scm_has_wrapped_key_support();
-> > > >
-> > > > This still makes the decision on whether to use HW-wrapped keys on
-> > > > behalf of a user. I suppose this is incorrect. The user must be able
-> > > > to use raw keys even if HW-wrapped keys are available on the
-> > > > platform. One of the examples for such use-cases is if a user
-> > > > prefers to be able to recover stored information in case of a device
-> > > > failure (such recovery will be impossible if SoC is damaged and HW-
-> > wrapped keys are used).
-> > >
-> > > Isn't that already the case ? the BLK_CRYPTO_KEY_TYPE_HW_WRAPPED
-> > size
-> > > is here to select HW-wrapped key, otherwise the ol' raw key is passed.
-> > > Just look the next patch.
-> > >
-> > > Or did I miss something ?
-> >
-> > That's a good question. If use_hwkm is set, ICE gets programmed to use
-> > hwkm (see qcom_ice_hwkm_init() call above). I'm not sure if it is expected
-> > to work properly if after such a call we pass raw key.
-> >
->
-> Once ICE has moved to a HWKM mode, the firmware key programming currently does not support raw keys.
-> This support is being added for the next Qualcomm chipset in Trustzone to support both at he same time, but that will take another year or two to hit the market.
-> Until that time, due to TZ (firmware) limitations , the driver can only support one or the other.
->
-> We also cannot keep moving ICE modes, due to the HWKM enablement being a one-time configurable value at boot.
+On Mon 09 Sep 2024 at 11:16, Guenter Roeck <linux@roeck-us.net> wrote:
 
-So the init of HWKM should be delayed until the point where the user
-tells if HWKM or raw keys should be used.
+> On 9/9/24 08:39, Jerome Brunet wrote:
+>> Add support for POWER_GOOD_ON and POWER_GOOD_OFF standard PMBus commands.
+>> For PMBus devices that offer a POWER_GOOD signal, these commands are used
+>> for setting the output voltage at which a power good signal should be
+>> asserted and negated.
+>> Power Good signals are device and manufacturer specific. Many factors
+>> other
+>> than output voltage may be used to determine whether or not the POWER_GO=
+OD
+>> signal is to be asserted. PMBus device users are instructed to consult t=
+he
+>> device manufacturer=E2=80=99s product literature for the specifics of th=
+e device
+>> they are using.
+>> Note that depending on the choice of the device manufacturer that a
+>> device
+>> may drive a POWER_GOOD signal high or low to indicate that the signal is
+>> asserted.
+>> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+>> ---
+>>   drivers/hwmon/pmbus/pmbus.h      | 3 +++
+>>   drivers/hwmon/pmbus/pmbus_core.c | 6 ++++++
+>>   2 files changed, 9 insertions(+)
+>> diff --git a/drivers/hwmon/pmbus/pmbus.h b/drivers/hwmon/pmbus/pmbus.h
+>> index 5d5dc774187b..e322d2dd9fb7 100644
+>> --- a/drivers/hwmon/pmbus/pmbus.h
+>> +++ b/drivers/hwmon/pmbus/pmbus.h
+>> @@ -78,6 +78,9 @@ enum pmbus_regs {
+>>   	PMBUS_IIN_OC_FAULT_LIMIT	=3D 0x5B,
+>>   	PMBUS_IIN_OC_WARN_LIMIT		=3D 0x5D,
+>>   +	PMBUS_POWER_GOOD_ON		=3D 0x5E,
+>> +	PMBUS_POWER_GOOD_OFF		=3D 0x5F,
+>> +
+>>   	PMBUS_POUT_OP_FAULT_LIMIT	=3D 0x68,
+>>   	PMBUS_POUT_OP_WARN_LIMIT	=3D 0x6A,
+>>   	PMBUS_PIN_OP_WARN_LIMIT		=3D 0x6B,
+>> diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbu=
+s_core.c
+>> index 0ea6fe7eb17c..94ddf0166770 100644
+>> --- a/drivers/hwmon/pmbus/pmbus_core.c
+>> +++ b/drivers/hwmon/pmbus/pmbus_core.c
+>> @@ -1768,6 +1768,12 @@ static const struct pmbus_limit_attr vout_limit_a=
+ttrs[] =3D {
+>>   		.attr =3D "crit",
+>>   		.alarm =3D "crit_alarm",
+>>   		.sbit =3D PB_VOLTAGE_OV_FAULT,
+>> +	}, {
+>> +		.reg =3D PMBUS_POWER_GOOD_ON,
+>> +		.attr =3D "good_on",
+>> +	}, {
+>> +		.reg =3D PMBUS_POWER_GOOD_OFF,
+>> +		.attr =3D "good_off",
+>>   	}, {
+>>   		.reg =3D PMBUS_VIRT_READ_VOUT_AVG,
+>>   		.update =3D true,
+>>=20
+>
+> Those attributes are not hardware monitoring attributes and therefore not
+> acceptable. In general I am not sure if they should be configurable in the
+> first place, but definitely not from the hardware monitoring subsystem.
+> Maybe the regulator subsystem callbacks set_over_voltage_protection and
+> set_under_voltage_protection would be appropriate (with severity
+> REGULATOR_SEVERITY_PROT), but that should be discussed with regulator
+> subsystem maintainers.
+
+According to PMBUS spec, there is no protection associated with that
+command. It just tells when the output voltage is considered good, when
+it is not. What it does after that really depends the device, it may
+drive a pin for example (or an LED indicator in my case).
+
+It is very similar to 'crit' or other limits in that sense,
+I think. I don't really get why such property is not OK in hwmon then
+and why it should not be configurable, if the other limits are ?
+
+I don't mind dropping that completly, that change is not critical to me.
+The intent was to contribute something to overall pmbus support.
 
 >
-> > >
-> > > Neil
-> > >
-> > > >
-> > > > >           if (!qcom_ice_check_supported(engine))
-> > > > >                   return ERR_PTR(-EOPNOTSUPP); diff --git
-> > > > > a/include/soc/qcom/ice.h b/include/soc/qcom/ice.h index
-> > > > > 9dd835dba2a7..1f52e82e3e1c 100644
-> > > > > --- a/include/soc/qcom/ice.h
-> > > > > +++ b/include/soc/qcom/ice.h
-> > > > > @@ -34,5 +34,6 @@ int qcom_ice_program_key(struct qcom_ice *ice,
-> > > > >                            const struct blk_crypto_key *bkey,
-> > > > >                            u8 data_unit_size, int slot);
-> > > > >   int qcom_ice_evict_key(struct qcom_ice *ice, int slot);
-> > > > > +bool qcom_ice_hwkm_supported(struct qcom_ice *ice);
-> > > > >   struct qcom_ice *of_qcom_ice_get(struct device *dev);
-> > > > >   #endif /* __QCOM_ICE_H__ */
-> > > > >
-> > > > > --
-> > > > > 2.43.0
-> > > > >
-> > > >
-> > >
-> >
-> > --
-> > With best wishes
-> > Dmitry
->
-> Regards,
-> Gaurav
+> Thanks,
+> Guenter
 
-
-
--- 
-With best wishes
-Dmitry
+--=20
+Jerome
