@@ -1,61 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E88D1A2C3C;
-	Tue, 10 Sep 2024 22:47:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54E01AC8BF;
+	Tue, 10 Sep 2024 23:29:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726008433; cv=none; b=PyIXIOJ3RMx9b3KMc/83TwH610EtqmkSmfmSn28Hh73RKpdqomCZLd0mfPG0nRgKw/gbGJkK1YpXsmXj801XUPXor35Hwg22ip7VBxs92HT2oM3+5VEFTkO9u6IxslPc2lFOP8V6xl4V6HR4EMpODiuGa7Jx0Z7xNUl/pVhj3WY=
+	t=1726010964; cv=none; b=NltZweLOdw0TibCP1K2dNMzB478D6GMqb6R+ppuoysX2IYpXGT6NBPyaXkv43WB+gxRELlwKsXbD9v3IewFSUORYOTmKEiVP7cQlXol65hIvT26Qh/YweMqT/AC0nq2VfmnIbSYnpgvs32QKD6fMwv8lAsT8HyKYjz/QZVSflG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726008433; c=relaxed/simple;
-	bh=awCwBvOZqjZ4k43u7ObQtippMTkO+H2VcKzFTlCYDdU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YQE8yRLS9mfXkeTwD6MToFJtjd065dXWsmOh50FSHbcQEqT0GRgaBMpyD98hY8WCRDloqcNn+Y1NagCGJSt6UX3ZGtCZWV4vtC59cVqVyDWvYkJd4WZoEncQtlXLXlizu15xTm9pqyVoTvXWF834uSrsDqrqewzQvxczmuucOQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VSq7NH49; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726010964; c=relaxed/simple;
+	bh=DXHCh5WmbOQLHsWyY3zP3RNF0hy1wNjNDwcSpCG436w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=d7EW7qtV8QKJ7wOwvUoAxMiJpw38NkuQJRltNXuIU8C8KY65pInt3sVSvnxD2I3+78fvXD+LpKjGaW5y+D/esQMkZF4h0PLYAO+24yMOu6pnhUycHz3lGIKE4tEdglSaOZ99sdc/q62FakYM2a35fC5e93TH62A9tabdtI7jrv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PlKWhr3G; arc=none smtp.client-ip=209.85.222.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VSq7NH49"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E667BC4CEC3;
-	Tue, 10 Sep 2024 22:47:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726008432;
-	bh=awCwBvOZqjZ4k43u7ObQtippMTkO+H2VcKzFTlCYDdU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=VSq7NH49L+evfVF6RzeqwEgKVGM3G/SdsnctGU+kQLogLF9id6FeBG1rZuz7uBRX1
-	 YoWhuYM/XFxSwgD4LcOftE8xirRUEdHK7idWU0tTR5R21xB1ZXTMrQfzqUZga/V7mR
-	 BaSf/Ll5q+zBWVWLuxKKMnjymvf8qIG8XcC7Hq3XYmvUUFV+PY4eD1aZohKAqt775x
-	 EIEU33dopP2ciUJw9jyysOAcByFr1ZPbyxLENzIO9Bjh7EDuvJcF1jmNf52rivnGc/
-	 ANNyAEZCZEYrps6QEcnIwddyNjEJKQjMo66RluyuxVRo26I3FjxhmTwj8pUUwALUMY
-	 55cxKj4YyKKfQ==
-Date: Tue, 10 Sep 2024 15:47:11 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Lee Trager <lee@trager.us>
-Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
- Corbet <corbet@lwn.net>, Alexander Duyck <alexanderduyck@fb.com>,
- kernel-team@meta.com, Shinas Rasheed <srasheed@marvell.com>, Tony Nguyen
- <anthony.l.nguyen@intel.com>, Phani Burra <phani.r.burra@intel.com>, Joshua
- Hay <joshua.a.hay@intel.com>, Sanman Pradhan <sanmanpradhan@meta.com>,
- Sridhar Samudrala <sridhar.samudrala@intel.com>, Alan Brady
- <alan.brady@intel.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next] eth: fbnic: Add devlink firmware version info
-Message-ID: <20240910154711.57c6557a@kernel.org>
-In-Reply-To: <20240905233820.1713043-1-lee@trager.us>
-References: <20240905233820.1713043-1-lee@trager.us>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PlKWhr3G"
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-846bc787b3dso1740087241.2;
+        Tue, 10 Sep 2024 16:29:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726010961; x=1726615761; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=DXHCh5WmbOQLHsWyY3zP3RNF0hy1wNjNDwcSpCG436w=;
+        b=PlKWhr3GdIT1csEmL2qmXpPxzJpiDuDXkiJiHZZLWk7TCDQQRmGz4V0oatkDoiz/uf
+         8dcY/Zb0pPq4CCULSG7vr+jy8HIU4fMeUUUYUMkNM7L77iJe4Zn0jC4Z0P/XuRSfKm+V
+         +Bo48F//EVvkIKKWqiy+afT8KZTBoDye558FnKg1LDCqf7MFdZpf8JAeHFT0GQ5goIDr
+         rOKL9Q6uy8mr+mcPmN2ohE5kc9CA5MWBuZhi1g2zvLAWwd5vwn/aMM6xHoJiZGwujR8Q
+         bl8qqerqkYNcuQGurCjMC0+Eno/3IB/qlxX9QNuzY6ZgtGYEUsxtoG28EeaGR9cNqDF+
+         /YDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726010961; x=1726615761;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DXHCh5WmbOQLHsWyY3zP3RNF0hy1wNjNDwcSpCG436w=;
+        b=Os9g3FA0MWL7jd9yy1HmM61p0E/v5x5/e/afrBdA7Km+YjVcR82qGXE9/+Ec2D3o/o
+         eUoaBu0PvG2a8pFq0IGDn8SF18OX0E06Ok0XiuuD6P4diPRzW23L2lwvH2SfKhC7+z9x
+         sbSZCWcaxsavnhlnyYISPp8O4Fv7nsWD9QebiVhykDIEFJRqY8nlgzIK4ZONscAYd/Vd
+         5f/kxfegQVqlY69AbnorWPaEmGOAUlD8CIZup1JDTWY+Tnj1eUglDlF/CB8HCWoBve6N
+         VSo4fN7rK/2eRZBiBiT+lUHUgfF14KEr8SgLw0ySk46eqQTb7km2tGp5EvpFVywGl7cb
+         n1rQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVZTLHXW8A9J86FQAEG0/GPhCA27JDOSe8g4x0cnovWp9/xFMAnRlACyAPWNR5Gy4/536WDsyLjGzA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+VzPVUv/2jvrcA+cJI5w5jOB5wECraKXpxSz/0F4HeTetRC2y
+	JOYuP+VmasPvHXibWuEZDaps0lR0XxkxwijtFedjgqdxsnhKsnmhvfS8VAx87x7AYzFR1Qsig6B
+	TYtyxTrInw8p9803gk6UPo4tf9u4Z7ylu
+X-Google-Smtp-Source: AGHT+IEfrJYNqPD8bm7ECaGcqp9j5cVS4QzAB3ai6dRYtgUFK3juxVos7j2KEu1To1ee28aD0zU47js8xIHquRQ4JAs=
+X-Received: by 2002:a05:6102:3f15:b0:498:e25c:738f with SMTP id
+ ada2fe7eead31-49bde2667f2mr19897660137.18.1726010961582; Tue, 10 Sep 2024
+ 16:29:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20240906195400.39949-1-dennis.lamerice@gmail.com> <87wmjj5gx4.fsf@trenco.lwn.net>
+In-Reply-To: <87wmjj5gx4.fsf@trenco.lwn.net>
+From: Dennis Lam <dennis.lamerice@gmail.com>
+Date: Tue, 10 Sep 2024 19:29:10 -0400
+Message-ID: <CAGZfcdmg_tw7_aT9TwvdUg4FD6P71J8=LG_UvGRhAoNtJp6vQg@mail.gmail.com>
+Subject: Re: [PATCH] docs:filesystems: fix spelling and grammar mistakes
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu,  5 Sep 2024 16:37:51 -0700 Lee Trager wrote:
-> This adds support to show firmware version information for both stored and
-> running firmware versions. The version and commit is displayed separately
-> to aid monitoring tools which only care about the version.
+> Applied, thanks.
+>
+> jon
+>
+> P.S. For extra credit, you can go back and get rid of all the :c:func:
+> usage... :)
 
-I don't see a reply from the bots, so FTR Paolo applied this to net-next
-as commit 0246388b9b79 ("eth: fbnic: Add devlink firmware version info").
-Thank you!
+Thanks for the info! I'll be sure to create a patch that gets rid of
+the :c:func: usage.
+
+Dennis
