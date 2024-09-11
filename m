@@ -1,88 +1,194 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51A164A8F
-	for <linux-doc@vger.kernel.org>; Wed, 11 Sep 2024 07:41:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0768E7E107
+	for <linux-doc@vger.kernel.org>; Wed, 11 Sep 2024 07:47:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726040466; cv=none; b=QwpXm98SKKFdVeRkD5dcmddPWigzAjVGW10nMBK61UazSF1ugO8HCSIwkdEcWK6GJbgvVFVWyGJ/1bSheNLKMaaRYHWwMMGoYEsm/Of4B1FlbVXgf0NzH/o4JeNONUR+4zvW1YTiSdHxvcH5Twju31XerNy/RmVN+JUn4Wd1Dxs=
+	t=1726040841; cv=none; b=PdtbxgzA64V/WTwqWObHt3Z4lMH+h4sQVwpPGZsaADRJSWQyCHzAqI38omInbcjbYD19evmUDdJnM5LF1lqS/Y4psBWdnQ6qI9wMaPghCYvKOhYILNktOs/AkKMAakncpFOcaetuU1UmtsYiQcXAluFd7aOzRL7M1u9rpUMEBZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726040466; c=relaxed/simple;
-	bh=uRFvJ5+hV7kipzY0KzGsnYB/ROapPXaG8FBdZsIx3Hg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AVhMrnIMXI50e82faXWw+xYIOHL/hkCYcNMiYrk3uKMpM6uK6SSd3XTRS8ubA8p2Q8WfBz4RuWqZPwjLXLqfp5UUfTrCFMVVtLSnedExl8dpK497V5wbmbfgXhZE8MoicjLcWzmI10aMGkbB+sSeA1rNMEcgcdaBzCF99xRpw3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tXCS2lwL; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1726040841; c=relaxed/simple;
+	bh=OSECwwry7omDw6kVuf9LHDYXkSDxt9YPV7Chpakq6C8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pp+xr5GspwasTcrq7OLxcdo4pDO+qP6jm8c+YpV1N5+VG3C0w8mM2o/WjTi7AmGO5hxU89xOXZHjpRQuDBwiKxNgSPpwtVES3CwGGjg1Tz4YSJlu0FdgSGTWtytf0bxo6O8lzJUsabDwxTQWjnTYtZlETgT3hLCZUjvRV/4wtl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=SLeotUed; arc=none smtp.client-ip=209.85.218.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tXCS2lwL"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5356aa9a0afso10922713e87.2
-        for <linux-doc@vger.kernel.org>; Wed, 11 Sep 2024 00:41:04 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="SLeotUed"
+Received: by mail-ej1-f67.google.com with SMTP id a640c23a62f3a-a8a7cdfdd80so565441266b.0
+        for <linux-doc@vger.kernel.org>; Wed, 11 Sep 2024 00:47:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1726040463; x=1726645263; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uRFvJ5+hV7kipzY0KzGsnYB/ROapPXaG8FBdZsIx3Hg=;
-        b=tXCS2lwLRtCgolf7w83k0KAFOeB6oUtzw+UvRuZYlsB7PfKRST4Fw43RA4D3rzdsJE
-         ebwAoMsCJdJyGRyRoWD4lYc5pj3Qbjk4a+Ww5BR8U+VjVyktrNenimzOBprMBvwLzQgu
-         WUQeLqn41QSfCfSfFhNVSRpqi4Cs9CT1xFylayRhkrZLdgXyRMa0LvCLbgZiMV3BL6D3
-         lNTGOCuafkTi7cKqI7qClb4jZ0r5UqyqEfgQC/97ucFhtw+8Hj+3Sr3VD9knc9w50EmW
-         biCmkPDCb87tJ5CA9Ql4/lBHsnM4Ei94ttFKunbZ2kM3kFnewcAWLOBoJsPUE8XdAi3e
-         9wWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726040463; x=1726645263;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=fastly.com; s=google; t=1726040838; x=1726645638; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uRFvJ5+hV7kipzY0KzGsnYB/ROapPXaG8FBdZsIx3Hg=;
-        b=hsSm13R4oIDXsECEj1ivRhn1R8nrpkvSbgtFR/OZSuGi7indsTlI27BHIN8inAuQd+
-         krOm6/a9pvAV8Ot99Jrpu3rZVg5fMGOX+hDHX0M523s1hGGOEdXNRuNn0zXBhbl000WU
-         PRnPfn2NqVGukfhRRu1goLOerWn3oZMZrcBrTZvPYpj6H5/rjyYcLOUnrmgc4RUezsJ4
-         3eySXko0u6yF8MXNnFmS27QMsFyvdqlbcfvtJibpt+hVy1ph5cqQ/iG1KI+dxLqIGb/q
-         CmS99E4N0Bj8Nr/wu+pu7K7n27K/qi+8G8MoxpREAoYG2gO7LY/8dijIAR8N+BRSc7Re
-         322g==
-X-Forwarded-Encrypted: i=1; AJvYcCWFuz49imPYcUxCSrFqW2FN3IVRFsJsrY6WASqnQzOHTzCcohbPoASR0tXkRecZ+H7nVIXs6Ik/LWU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/nORZgCnNhN+aYrdn2IANto9qR+y8okytAkDmCEqX7bdo2eLh
-	uVk5ZywHN5FBtWR9W/vd5doou0IrTXjXGC+YBwiI9coloRjUfYEEgghOITKv4ukzUHsdPrsOo+9
-	jAhzHPxqf0yEPcCL5JztGSRc+XBZSZk7blusB
-X-Google-Smtp-Source: AGHT+IFRO94eFk8lyGieG6bzBf83rb2Yj1ldYiU+jYKRj3JF723mkSoRslv3qc8t/lvhC6jB+C0t4gg/v8XUz/zgTtI=
-X-Received: by 2002:a05:6512:3ba4:b0:533:483f:9562 with SMTP id
- 2adb3069b0e04-536587f87damr12970563e87.42.1726040462052; Wed, 11 Sep 2024
- 00:41:02 -0700 (PDT)
+        bh=SrC/2SxsXmHRQDCmsuooXppFrVV7rFAi0NzzJwvVREs=;
+        b=SLeotUedzuMBPYTjKneko6JwucYlvGxuwUa6tvu59iDQH3ziiCt5L0UN3c5yLrNINx
+         8wh3ocW2XIQcguM8ReazAS5Gp2rBoFYgOfzIOvzwE1zEasQfL0Ya16nuZxs2pwxRyGLG
+         aVctwYYM00MiLpqW7wGCZZnuG9lVMXapfYGNQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726040838; x=1726645638;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SrC/2SxsXmHRQDCmsuooXppFrVV7rFAi0NzzJwvVREs=;
+        b=I8QpndTW4Qa2GqvKvwQa7GA0St8UUh7BDBIRaI0eJMSv2a9TJQlpHVE8nQhA2xYgt+
+         WlakL4cOVjuwI+vIEm+1oq/WX9jIKuGhDD90MXOLS9FeXReENMPS387Gkm9/osdAWuJV
+         edVLo7MkwSh2ebDtBufCvNIcPaA0TS7HQFSHN8rP8DkdlcpQUlhPPELAMCVQHpUxDiB8
+         t3r042VU2vJ4DiAp+Sy2L8uTuxEY+GkH4P+SjRFgQW8FxHDCZu8i0spPTmbGf+Md9Aku
+         ah7m/gxDaAM+DTjkamHtPDD6OMyFDFK7TBOS8eiqo3usrqouVM/j8riazEHy15ltjUJl
+         34XA==
+X-Forwarded-Encrypted: i=1; AJvYcCUKyqJOxmBkpqL65iA/Xq0Eynu8+5c06Pgu5IHom0QUJMUl8XfpCdaZHyKksizzIKLh1i6hwZG+hwg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwacoKpQdP+kizyYG/BHp0llGRPfoYkyYE+Il10LTvxx4jkqyll
+	6IC3iow12Ldu3eeWgqKRd31htfQsEckvT9wjXXloeiAksLM+mQvZJW5j48irUX8=
+X-Google-Smtp-Source: AGHT+IEIx/mVHa5yX7Ld738n4e5sy7cq4wrJvNFFRjI3e4hFieDqXbaBbnIg+7b98YiMjPfGwEdfrQ==
+X-Received: by 2002:a17:906:4fcc:b0:a86:7a84:abb7 with SMTP id a640c23a62f3a-a8ffab2a178mr347062666b.20.1726040837395;
+        Wed, 11 Sep 2024 00:47:17 -0700 (PDT)
+Received: from LQ3V64L9R2.homenet.telecomitalia.it (host-79-23-194-51.retail.telecomitalia.it. [79.23.194.51])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d25d63c0fsm583648666b.213.2024.09.11.00.47.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Sep 2024 00:47:16 -0700 (PDT)
+Date: Wed, 11 Sep 2024 09:47:14 +0200
+From: Joe Damato <jdamato@fastly.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, mkarsten@uwaterloo.ca, skhawaja@google.com,
+	sdf@fomichev.me, bjorn@rivosinc.com, amritha.nambiar@intel.com,
+	sridhar.samudrala@intel.com,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jiri Pirko <jiri@resnulli.us>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC net-next v2 1/9] net: napi: Add napi_storage
+Message-ID: <ZuFLAnheyMGrJjym@LQ3V64L9R2.homenet.telecomitalia.it>
+Mail-Followup-To: Joe Damato <jdamato@fastly.com>,
+	Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+	mkarsten@uwaterloo.ca, skhawaja@google.com, sdf@fomichev.me,
+	bjorn@rivosinc.com, amritha.nambiar@intel.com,
+	sridhar.samudrala@intel.com,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jiri Pirko <jiri@resnulli.us>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+References: <20240908160702.56618-1-jdamato@fastly.com>
+ <20240908160702.56618-2-jdamato@fastly.com>
+ <20240909164039.501dd626@kernel.org>
+ <Zt_jn5RQAndpKjoE@LQ3V64L9R2.homenet.telecomitalia.it>
+ <20240910075217.45f66523@kernel.org>
+ <ZuBvgpW_iRDjICTH@LQ3V64L9R2.homenet.telecomitalia.it>
+ <20240910171048.768a62b0@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240909-net-next-mptcp-fallback-x-mpc-v1-0-da7ebb4cd2a3@kernel.org>
- <20240909-net-next-mptcp-fallback-x-mpc-v1-2-da7ebb4cd2a3@kernel.org>
-In-Reply-To: <20240909-net-next-mptcp-fallback-x-mpc-v1-2-da7ebb4cd2a3@kernel.org>
-From: Eric Dumazet <edumazet@google.com>
-Date: Wed, 11 Sep 2024 09:40:49 +0200
-Message-ID: <CANn89i+6yPqdEsf7gEWSys0ibYwq7CLm70ikC5F2Rahync4yOg@mail.gmail.com>
-Subject: Re: [PATCH net-next 2/3] mptcp: fallback to TCP after SYN+MPC drops
-To: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
-Cc: mptcp@lists.linux.dev, Mat Martineau <martineau@kernel.org>, 
-	Geliang Tang <geliang@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, David Ahern <dsahern@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240910171048.768a62b0@kernel.org>
 
-On Mon, Sep 9, 2024 at 10:10=E2=80=AFPM Matthieu Baerts (NGI0)
-<matttbe@kernel.org> wrote:
->
-> Some middleboxes might be nasty with MPTCP, and decide to drop packets
-> with MPTCP options, instead of just dropping the MPTCP options (or
-> letting them pass...).
->
-> In this case, it sounds better to fallback to "plain" TCP after 2
-> retransmissions, and try again.
->
-> Closes: https://github.com/multipath-tcp/mptcp_net-next/issues/477
-> Signed-off-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
+On Tue, Sep 10, 2024 at 05:10:48PM -0700, Jakub Kicinski wrote:
+> On Tue, 10 Sep 2024 18:10:42 +0200 Joe Damato wrote:
+> > On Tue, Sep 10, 2024 at 07:52:17AM -0700, Jakub Kicinski wrote:
+> > > Hm, fair point. In my mind I expected we still add the fast path fields
+> > > to NAPI instances. And the storage would only be there to stash that
+> > > information for the period of time when real NAPI instances are not
+> > > present (napi_disable() -> napi_enable() cycles).  
+> > 
+> > I see, I hadn't understood that part. It sounds like you were
+> > thinking we'd stash the values in between whereas I thought we were
+> > reading from the struct directly (hence the implementation of the
+> > static inline wrappers).
+> > 
+> > I don't really have a preference one way or the other.
+> 
+> Me neither. I suspect having the fields in napi_struct to be slightly
+> more optimal. No need for indirect accesses via napi->storage->$field,
+> and conditions to check if napi->storage is set. We can make sure we
+> populate the fields in NAPIs when they are created and when sysfs writes
+> happen. So slightly better fastpath locality at the expense of more
+> code on the control path keeping it in sync.
+> 
+> FWIW the more we discuss this the less I like the word "storage" :)
+> If you could sed -i 's/storage/config/' on the patches that'd great :)
 
-Reviewed-by: Eric Dumazet <edumazet@google.com>
+Yup, I actually did that yesterday. I also like config more.
+
+Right now, I have:
+  - struct napi_config
+  - in the napi_struct its a struct napi_config *config
+  - in the net_device its a struct napi_config *napi_config
+
+I figured in the second case you are already de-refing through a
+"napi_struct" so writing "napi->napi_config->..." seemed a bit wordy
+compared to "napi->config->...".
+ 
+> > > > I don't think I realized we settled on the NAPI ID being persistent.
+> > > > I'm not opposed to that, I just think I missed that part in the
+> > > > previous conversation.
+> > > > 
+> > > > I'll give it a shot and see what the next RFC looks like.  
+> > > 
+> > > The main reason to try to make NAPI ID persistent from the start is that
+> > > if it works we don't have to add index to the uAPI. I don't feel
+> > > strongly about it, if you or anyone else has arguments against / why
+> > > it won't work.  
+> > 
+> > Yea, I think not exposing the index in the uAPI is probably a good
+> > idea? Making the NAPI IDs persistent let's us avoid that so I can
+> > give that a shot because it's easier from the user app perspective,
+> > IMO.
+> 
+> Right, basically we can always add it later. Removing it later won't
+> be possible :S
+
+Yup, I totally get that.
+ 
+> > > > Only one way to find out ;)
+> > > > 
+> > > > Separately: your comment about documenting rings to NAPIs... I am
+> > > > not following that bit.
+> > > > 
+> > > > Is that a thing you meant should be documented for driver writers to
+> > > > follow to reduce churn ?  
+> > > 
+> > > Which comment?  
+> > 
+> > In this message:
+> > 
+> > https://lore.kernel.org/netdev/20240903124008.4793c087@kernel.org/
+> > 
+> > You mentioned this, which I interpreted as a thing that core needs
+> > to solve for, but perhaps this intended as advice for drivers?
+> > 
+> >   Maybe it's enough to document how rings are distributed to NAPIs?
+> >   
+> >   First set of NAPIs should get allocated to the combined channels,
+> >   then for remaining rx- and tx-only NAPIs they should be interleaved
+> >   starting with rx?
+> >   
+> >   Example, asymmetric config: combined + some extra tx:
+> >   
+> >       combined        tx
+> >    [0..#combined-1] [#combined..#combined+#tx-1]
+> >   
+> >   Split rx / tx - interleave:
+> >   
+> >    [0 rx0] [1 tx0] [2 rx1] [3 tx1] [4 rx2] [5 tx2] ...
+> >   
+> >   This would limit the churn when changing channel counts.
+> 
+> Oh, yes. I'm not sure _where_ to document it. But if the driver supports
+> asymmetric ring count or dedicated Rx and Tx NAPIs - this is the
+> recommended way to distributing the rings to NAPIs, to, as you say,
+> limit the config churn / mismatch after ring count changes.
+
+OK, so that seems like it's related but separate from the changes I
+am proposing via RFC, so I don't think I need to include that in my
+next RFC.
