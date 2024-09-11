@@ -1,235 +1,129 @@
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4508118C344;
-	Wed, 11 Sep 2024 18:59:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C8C1B5808
+	for <linux-doc@vger.kernel.org>; Wed, 11 Sep 2024 19:43:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726081176; cv=none; b=peZZLzdb0pa+00+f+xJOvjZN0BnThkJTk+UeC/IvwmOZc7bjgy+ZnBqqlwPnJthGkjE+qPN1uaciG3/Zg59C5fn7PQ4p/1yo8Ll0Q+forjiCSuyLSq13b/QPJGXbe/LZLDrB5vrXG+FUyPZua5Mg4yYLd0Sx1GF5gOInDVDKgFE=
+	t=1726083794; cv=none; b=pbC1TFhvt/6G1W/iggqKkJnD15C8jQja1TN9Cvk8t4xoQPEQzT10jrWVuT5o2PwcN2cASqZW2tiNDgNfo9bWx9f/Bdx1R1NNgPzUaWeqaenbO8soL1NiFe4dosg31HLwtVA2fhUb4G1aXpW4cpgD1lJsuFIQ0W0IwZ+Kc701q3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726081176; c=relaxed/simple;
-	bh=31fX0mqF11YiBkL12YdfveYdX1XS8aNbLaEy2k8GHMw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WarIM9F4wu3BPp9il0OCc20SYxZpee8Fo1FrsXIDuqxGEcB/Y/lxlqUcwlbXG+AQsBRTbcM1PSkIXTYsFUJn0pYCSB4o50EDwf6obmFHb6GzMUsSX3ZO0hBYWUaIzqBzVK16gzo55ob4KcMHc9gq4W/MjxJigCFdx98qdilAOQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bfP+h2Z6; arc=none smtp.client-ip=209.85.161.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1726083794; c=relaxed/simple;
+	bh=fc23IZuIEY2URFYPzyp37ykpohdad+TCX5KOlULCAQg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IRvTRcqbAeQuoO9JyD8svN7vQ7N21ckFsMY/mxfGN2ElGdBtoZVg5Gi7v3faXQC7SG/NjwamoF49ECaiCFnWzI+UOx3QZoP4xm2SNN0kAl7WrYDIwm+R14WDt7l2oKqTP0zW2SAa40dC1K0FMT02e5xG+FqFDsBjRQbrUIAO1WA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HIVgrlLV; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bfP+h2Z6"
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5e1cdfe241eso88563eaf.1;
-        Wed, 11 Sep 2024 11:59:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726081174; x=1726685974; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RSKooU1U1hQ/VIwbHIM1KYqC3Tngd/M3BbIpyV3X5N0=;
-        b=bfP+h2Z6gZpQvWknNaYm7aLfuagRDbnuEleefT0ndVqSLIWX1vBiFzFf3ABiNf9b67
-         +To4qgmZUpob1YMNSSznzoT45emqW8Be3aG/QK6+Imtj0yLeDqhUGLO1FjCSpIqTwTTW
-         8QClxk1/FyjJlysEzd15VeWWd2PyO8U4wxGI3Ei/Dp0U1t3Ro5hv+MvBi1tb/+IGcZNj
-         mGc7Gr8wIe/7Q27bGzw6fYkM/giclP9mHfVwjuedxXq7XGq7emiu3kqAwUWKpsEwnrMC
-         XVE1Z6VqnBsbkakfeAlJaBQFCII5M3b8wbBy1Nb9NjUlEBFL9d7ffjmiCdo4A93s3b78
-         HbFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726081174; x=1726685974;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RSKooU1U1hQ/VIwbHIM1KYqC3Tngd/M3BbIpyV3X5N0=;
-        b=r/eNA4OKFDWAUYs2f2PRuzd81vNbBG8TVS8KR1kx7BDU6RsVPBeM/NDjzEKFXTX1fs
-         5nuYPPtZYK5HQn3lyDh9YLicGrA2IdEIvCLsOAX4MH7gEHDFVkTBQ3Ccf/uFfwmf0cVA
-         +Uf31PigGqOrtpreN9mD0hy1K+xcsIf3W9MDRhaFYTZCAbpe7833251/kkturdUNkBcR
-         xqY+usST6P2gfXIZzEGFwNr1fbbyBPt/0F4FSS5Tv/Yu9+nbXWdZojh8Tngh5sIumDLY
-         S3/B25bz/4J4kSx8daXJ9+AHryHYHhGfOp+U45VVxA7c2n25ClU7K09BzPZen6EWMh5D
-         p5Rg==
-X-Forwarded-Encrypted: i=1; AJvYcCUuxq2UsGyRx9DF6c0LBUK7Zq3nLZZGst+e/GWY7K1XKv9XkoNg2UbMsZfgzJDacnTIgJfnkyVZQ2s=@vger.kernel.org, AJvYcCVoCThxsBp/ys9FzMmFKl7ivFJcb4yS2SVmF8/lGzDs7GOpClMUl8YX0Qu7ue8elX8MwTwR35dyGsL9@vger.kernel.org, AJvYcCVw3qqPZKjkk69deoPZmPe069QedFpNHvtIfVZAT2JVAGil9C10iSE597hYRRtqpkRu/frWeyqSJDQe28Yu@vger.kernel.org, AJvYcCWHKva5JcISt2QuxSeFGJhx2SfJ5eJK0GfX5V9CkxWCFAOXSwAN6F1OL15C+9QpbiqgSiToJTZoOCnIy+6KC5E=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw29U6WZCmQxT19mScNPQEur9pGXBOJFj2oEoRWIt8P1+285CVl
-	3SGvNUBn2I7hwbUqbe3nZX4Vznka7oXoiuwxG45yoNl/LoL2t8pU
-X-Google-Smtp-Source: AGHT+IGFYrD2JsWDGvuTdxMxZqchPY23mKraBaSmrroUVisCVdQH8qxiNZMnli2UZNlAI3MPeGVniA==
-X-Received: by 2002:a05:6830:3c09:b0:710:ec4a:b394 with SMTP id 46e09a7af769-7110957134cmr502026a34.29.1726081174149;
-        Wed, 11 Sep 2024 11:59:34 -0700 (PDT)
-Received: from pipaware.tx.rr.com ([2603:8080:7400:36da:dff5:4180:2562:4c1e])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-710d9db2ce0sm2440293a34.57.2024.09.11.11.59.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Sep 2024 11:59:33 -0700 (PDT)
-From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-To: corbet@lwn.net,
-	ojeda@kernel.org
-Cc: alex.gaynor@gmail.com,
-	boqun.feng@gmail.com,
-	gary@garyguo.net,
-	benno.lossin@proton.me,
-	a.hindborg@samsung.com,
-	aliceryhl@google.com,
-	workflows@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HIVgrlLV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1726083791;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=jfjK+0U85uvSGEsnGWsahhya+Xw2ihZr5BH0W7SsSlQ=;
+	b=HIVgrlLVVKXyyyodCEC1pZSceU6ZhBE6xUaw1q6d4+K+d57lUGFSIHTrD3vRLuNH9hiSQK
+	7taa1uNJyECDyX+3aepix04AvBwmdUINRiQKWdpySQ5Eg4o2ngZiJ5UqO1rM3q+KdfYNFv
+	p+mTR3bk/bH1HdOJBlec9AkwHI1+73c=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-677-6tuEGQ03PWuP78CkMOpNrg-1; Wed,
+ 11 Sep 2024 15:43:10 -0400
+X-MC-Unique: 6tuEGQ03PWuP78CkMOpNrg-1
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 659D71955D45;
+	Wed, 11 Sep 2024 19:43:07 +0000 (UTC)
+Received: from bcodding.csb.redhat.com (unknown [10.22.48.7])
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 16F221956086;
+	Wed, 11 Sep 2024 19:43:01 +0000 (UTC)
+From: Benjamin Coddington <bcodding@redhat.com>
+To: Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Neil Brown <neilb@suse.de>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	Mark Fasheh <mark@fasheh.com>,
+	Joel Becker <jlbec@evilplan.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Alexander Ahring Oder Aring <aahringo@redhat.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	bilbao@vt.edu,
-	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-Subject: [PATCH] kernel-docs: Add new section for Rust learning materials
-Date: Wed, 11 Sep 2024 13:59:30 -0500
-Message-ID: <20240911185931.16971-1-carlos.bilbao.osdev@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	gfs2@lists.linux.dev,
+	ocfs2-devel@lists.linux.dev
+Subject: [PATCH v1 0/4] Fixup NLM and kNFSD file lock callbacks
+Date: Wed, 11 Sep 2024 15:42:56 -0400
+Message-ID: <cover.1726083391.git.bcodding@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 
-Include a new section in the Index of Further Kernel Documentation with
-resources to learn Rust. Reference it in the Rust index.
+Last year both GFS2 and OCFS2 had some work done to make their locking more
+robust when exported over NFS.  Unfortunately, part of that work caused both
+NLM (for NFS v3 exports) and kNFSD (for NFSv4.1+ exports) to no longer send
+lock notifications to clients.
 
-Signed-off-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
----
- Documentation/process/kernel-docs.rst | 111 +++++++++++++++++++++++---
- Documentation/rust/index.rst          |   3 +
- 2 files changed, 103 insertions(+), 11 deletions(-)
+This in itself is not a huge problem because most NFS clients will still
+poll the server in order to acquire a conflicted lock, but now that I've
+noticed it I can't help but try to fix it because there are big advantages
+for setups that might depend on timely lock notifications, and we've
+supported that as a feature for a long time.
 
-diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process/kernel-docs.rst
-index 55552ec4b043..d917accd7fc3 100644
---- a/Documentation/process/kernel-docs.rst
-+++ b/Documentation/process/kernel-docs.rst
-@@ -72,17 +72,6 @@ On-line docs
-         programming. Lots of examples. Currently the new version is being
-         actively maintained at https://github.com/sysprog21/lkmpg.
- 
--    * Title: **Rust for Linux**
--
--      :Author: various
--      :URL: https://rust-for-linux.com/
--      :Date: rolling version
--      :Keywords: glossary, terms, linux-kernel.
--      :Description: From the website: "Rust for Linux is the project adding
--        support for the Rust language to the Linux kernel. This website is
--        intended as a hub of links, documentation and resources related to
--        the project".
--
- Published books
- ---------------
- 
-@@ -220,6 +209,106 @@ Miscellaneous
-         other original research and content related to Linux and software
-         development.
- 
-+Rust
-+----
-+
-+    * Title: **Rust for Linux**
-+
-+      :Author: various
-+      :URL: https://rust-for-linux.com/
-+      :Date: rolling version
-+      :Keywords: glossary, terms, linux-kernel, rust.
-+      :Description: From the website: "Rust for Linux is the project adding
-+        support for the Rust language to the Linux kernel. This website is
-+        intended as a hub of links, documentation and resources related to
-+        the project".
-+
-+    * Title: **Learning Rust the Dangerous Way**
-+
-+      :Author: Cliff L. Biffle
-+      :URL: https://cliffle.com/p/dangerust/
-+      :Date: Accessed Sep 11 2024
-+      :Keywords: rust, blog.
-+      :Description: From the website: "LRtDW is a series of articles
-+        putting Rust features in context for low-level C programmers who
-+        maybe don’t have a formal CS background — the sort of people who
-+        work on firmware, game engines, OS kernels, and the like.
-+        Basically, people like me.". It illustrates line-by-line
-+        conversions from C to Rust.
-+
-+    * Title: **The Rust Book**
-+
-+      :Author: Steve Klabnik and Carol Nichols, with contributions from the
-+        Rust community
-+      :URL: https://doc.rust-lang.org/book/
-+      :Date: Accessed Sep 11 2024
-+      :Keywords: rust, book.
-+      :Description: From the website: "This book fully embraces the
-+        potential of Rust to empower its users. It’s a friendly and
-+        approachable text intended to help you level up not just your
-+        knowledge of Rust, but also your reach and confidence as a
-+        programmer in general. So dive in, get ready to learn—and welcome
-+        to the Rust community!".
-+
-+    * Title: **Rust for the Polyglot Programmer**
-+
-+      :Author: Ian Jackson
-+      :URL: https://www.chiark.greenend.org.uk/~ianmdlvl/rust-polyglot/index.html
-+      :Date: December 2022
-+      :Keywords: rust, blog, tooling.
-+      :Description: From the website: "There are many guides and
-+        introductions to Rust. This one is something different: it is
-+        intended for the experienced programmer who already knows many
-+        other programming languages. I try to be comprehensive enough to be
-+        a starting point for any area of Rust, but to avoid going into too
-+        much detail except where things are not as you might expect. Also
-+        this guide is not entirely free of opinion, including
-+        recommendations of libraries (crates), tooling, etc.".
-+
-+    * Title: **Fasterthanli.me**
-+
-+      :Author: Amos Wenger
-+      :URL: https://fasterthanli.me/
-+      :Date: Accessed Sep 11 2024
-+      :Keywords: rust, blog, news.
-+      :Description: From the website: "I make articles and videos about how
-+        computers work. My content is long-form, didactic and exploratory
-+        — and often an excuse to teach Rust!".
-+
-+    * Title: **You Can't Spell Trust Without Rust**
-+
-+      :Author: Alexis Beingessner
-+      :URL: https://repository.library.carleton.ca/downloads/1j92g820w?locale=en
-+      :Date: 2015
-+      :Keywords: rust, master, thesis.
-+      :Description: This thesis focuses on Rust's ownership system, which
-+        ensures memory safety by controlling data manipulation and
-+        lifetime, while also highlighting its limitations and comparing it
-+        to similar systems in Cyclone and C++.
-+
-+    * Name: **Linux Plumbers (LPC) Rust presentations**
-+
-+      :Title: Rust microconference
-+      :URL: https://lpc.events/event/18/sessions/186/#20240918
-+      :Title: Rust for Linux
-+      :URL: https://lpc.events/event/18/contributions/1912/
-+      :Title: Journey of a C kernel engineer starting a Rust driver project
-+      :URL: https://lpc.events/event/18/contributions/1911/
-+      :Title: Crafting a Linux kernel scheduler that runs in user-space
-+        using Rust
-+      :URL: https://lpc.events/event/18/contributions/1723/
-+      :Title: openHCL: A Linux and Rust based paravisor
-+      :URL: https://lpc.events/event/18/contributions/1956/
-+      :Keywords: rust, lpc, presentations.
-+      :Description: A number of LPC talks related to Rust.
-+
-+    * Name: **The Rustacean Station Podcast**
-+
-+      :URL: https://rustacean-station.org/
-+      :Keywords: rust, podcasts.
-+      :Description: A community project for creating podcast content for
-+        the Rust programming language.
-+
- -------
- 
- This document was originally based on:
-diff --git a/Documentation/rust/index.rst b/Documentation/rust/index.rst
-index 46d35bd395cf..01f09216c229 100644
---- a/Documentation/rust/index.rst
-+++ b/Documentation/rust/index.rst
-@@ -42,6 +42,9 @@ configurations.
-     arch-support
-     testing
- 
-+You can also find learning materials for Rust in its section in
-+:doc:`../process/kernel-docs`.
-+
- .. only::  subproject and html
- 
-    Indices
+Its important for NLM and kNFSD that they do not block their kernel threads
+inside filesystem's file_lock implementations because that can produce
+deadlocks.  We used to make sure of this by only trusting that
+posix_lock_file() can correctly handle blocking lock calls asynchronously,
+so the lock managers would only setup their file_lock requests for async
+callbacks if the filesystem did not define its own lock() file operation.
+
+However, when GFS2 and OCFS2 grew the capability to correctly
+handle blocking lock requests asynchronously, they started signalling this
+behavior with EXPORT_OP_ASYNC_LOCK, and the check for also trusting
+posix_lock_file() was inadvertently dropped, so now most filesystems no
+longer produce lock notifications when exported over NFS.
+
+I tried to fix this by simply including the old check for lock(), but the
+resulting include mess and layering violations was more than I could accept.
+There's a much cleaner way presented here using an fop_flag, which while
+potentially flag-greedy, greatly simplifies the problem and grooms the
+way for future uses by both filesystems and lock managers alike.
+
+Criticism welcomed,
+Ben
+
+Benjamin Coddington (4):
+  fs: Introduce FOP_ASYNC_LOCK
+  gfs2/ocfs2: set FOP_ASYNC_LOCK
+  NLM/NFSD: Fix lock notifications for async-capable filesystems
+  exportfs: Remove EXPORT_OP_ASYNC_LOCK
+
+ Documentation/filesystems/nfs/exporting.rst |  7 -------
+ fs/gfs2/export.c                            |  1 -
+ fs/gfs2/file.c                              |  2 ++
+ fs/lockd/svclock.c                          |  5 ++---
+ fs/nfsd/nfs4state.c                         | 19 ++++---------------
+ fs/ocfs2/export.c                           |  1 -
+ fs/ocfs2/file.c                             |  2 ++
+ include/linux/exportfs.h                    | 13 -------------
+ include/linux/filelock.h                    |  5 +++++
+ include/linux/fs.h                          |  2 ++
+ 10 files changed, 17 insertions(+), 40 deletions(-)
+
 -- 
-2.43.0
+2.44.0
 
