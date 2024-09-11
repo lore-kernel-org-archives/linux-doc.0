@@ -1,69 +1,68 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6F0185954;
-	Wed, 11 Sep 2024 15:53:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9117F1AC8B3;
+	Wed, 11 Sep 2024 16:03:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726070027; cv=none; b=PENcIfTM1Rl4wYltCk20tXttTfnRqyFrkk9kwo7ls/Z7tW/FdVGo41v5JxqmmdzpV08CfzwVuz2q95qrm/E6RsLaInyL/aQ0OP/lqxZpRlVXhtFQyFy7nBRrE9p8AX1SmGO7b986aeT12xfd2noao9ewDnTHb+a+oyx2ARr1vBE=
+	t=1726070626; cv=none; b=KtAE4fmucFRzIW7Ozd573tJSngOGdwI1p42PYVHSkCPzAbBuL/DwcyJHLonKTGl1hGbOzIz715SLsiNf1/eJmooTyu+sMG+bu9jSs8fuI7piErqTlzj4X36rCLOASQdvOwm5+k6wXUmms+jCLyZw3PQ2uudjLZmL2sNOrYhC82M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726070027; c=relaxed/simple;
-	bh=PykaLIQc5PFb9VZbYJD1u6reZe5uMqUmFEqmoBKOKEA=;
+	s=arc-20240116; t=1726070626; c=relaxed/simple;
+	bh=6UJNWcYhZ0+Abc5v3gWuTGkOC/BBkRHnVdgHXiveTvA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OO41MxUKNtumEwSOyWKFLaGWWHOaILqcHZhNzu7bxkgc1sYEvW8Y5NFmxM3SKhhzqpXR7pGKTt8GpJrz6IO197yg8T4PAuIydutRseL1ix4o6fl2Z9sLGJ7sFmYGm1tICEqB5fICtzcUZGITayjO7yrmfCQrG/zi5ktUimM9BmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A60jFxyz; arc=none smtp.client-ip=209.85.208.181
+	 To:Cc:Content-Type; b=PomiHp/IN0muJpDNC/6yL2SYfm127XRecWXeWBGb1qZeguSIjUILEB62q2FwcRItxCxk8pO6iv9zP2N4jwmgbgE9S4Is9n45sNjGypQ95Rok2OBBukWHO3YZni7CkTz4GnLnPOesdyllSiH5nrCGz1KZTFiqyGSEeHvUrnATSus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i3+mFxcb; arc=none smtp.client-ip=209.85.208.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A60jFxyz"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2f75aa08a96so24939151fa.1;
-        Wed, 11 Sep 2024 08:53:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i3+mFxcb"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5c3d2f9f896so7629289a12.1;
+        Wed, 11 Sep 2024 09:03:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726070024; x=1726674824; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1726070623; x=1726675423; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PykaLIQc5PFb9VZbYJD1u6reZe5uMqUmFEqmoBKOKEA=;
-        b=A60jFxyzxVGivX9jZXsWehLVwf8G3qkpDfnBOHav/QDAdJbpw7IGgNMh09J/swCEwS
-         0RBwYR2ybtnUiB30NDmSaXlihxwvSphu5M0fjJWf8sedq2gGlh6nKikUviMh5w6VlKtW
-         FjClduoau/YUx3rG8D+wCPl44CZpPVDtSewZE+d7tgqGEShmh/JdnAHGoN+Gh1tge5Dq
-         S1S0j2nID7SSsDsBb4lnpz3vOC1k3yLIIZ7zmuyi3GsYveFejOi1Y1u29PJIJ2eRAu83
-         vtL6ZqLY7bAW59z7yGF1uv+Tmep175ONbsL6hArltMrQSprxN2HP8fDZQXhUSEGVNhBR
-         iWIQ==
+        bh=ElpmT7FAh3dblRYoaSgM75lYxXLYXY/hphJl7+bVEIc=;
+        b=i3+mFxcbLKQ48aTzuembeW3wIpBKZvESn2gMs6v59gPIc649HEZh5p+XLRLX0VRqyk
+         O/yJoBaXJ8dZF5er/GfwmycuIo41sBica9DoVjtyLfE87GaAIqAGtN3Wder56Fj+HIxV
+         29n+UcrzLgJ2VXmkAr3NnJhLJlxVXEHI38HAbH+yRGK5Ixo2FuduOO39sJAhEvRNnHK+
+         QnutYvvdMeTNXa1YItqtmCTU4xiMU8qMd7+g9aMOys1CULLklWNyEUK77Io7xv2xRnSf
+         9Y74V/M99GGXXi3gSgg4j2xi6Ap5rf+vCbkLWRvJxKl6Fj1l6C+Zr4RzgcaMgRcjr2Rt
+         AxZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726070024; x=1726674824;
+        d=1e100.net; s=20230601; t=1726070623; x=1726675423;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PykaLIQc5PFb9VZbYJD1u6reZe5uMqUmFEqmoBKOKEA=;
-        b=OvY8mnTzA2EDh3EG7q8pGxb+uJucauX6n664Y6IiWPw0lrwyi2xogoYjp1enbi+EAk
-         jaH8XyQuxWft+mbBYtZ0bATBr1ek0guqLSRjN5MdycRNZqwFvPG34Lsxp9meQWigoACB
-         0PoWGklS6ZD9G1RRKLBQda3LgoCsOcEA/eL5AmgdHoOlxoqMawQZnFw63i+RqhN7inCV
-         53CRUJ8cpISxDpiBZOm3f8O3OHp8xaIsVFBY1HqXWl7L2Po6roH/vBetU2VS67NVb0Wc
-         svFZmLqloG9pX/lQax5g79qHjvxvaA6pj9cCzfowxV5etuBHIuZ0b5QMzMwQVrddRfR6
-         6kJA==
-X-Forwarded-Encrypted: i=1; AJvYcCUQB+IjPySbi5ns+64a//re8wEActg+xgsGtqPp2y03iSd/KEKIlkZvdoDs5R3TE99UheA3HsIg@vger.kernel.org, AJvYcCUUQudooeFrN1QNxIcK9iFdDI702U6p6OBTsYBWHjMZv7WHdWvOy4s5wJH0/fR1qfWF8RivNgtJC1A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YylHxNZmnsMCvRIGS2ZtDecMtg9y6ykFbcszGE0z0SQiYLQe7gm
-	7pv1muV7asiKNGyeFEgtY8gfyv1d5q1YTBKRvfPnxJe6L50U1NwM1qosPv0ppaw/QYMcqpXwsqQ
-	/mcn3AAEMoOBBbRPHLxJBBdvfi1g=
-X-Google-Smtp-Source: AGHT+IG6HDeJrRkkQpPrvy9ow4vpOrfE8vFYsk0y/hRRcHirnJZMGNx+8B7kHrtWZy9vnnEoyjG4KnGVlKIt4JGzul0=
-X-Received: by 2002:a05:651c:b2b:b0:2f3:b078:8490 with SMTP id
- 38308e7fff4ca-2f77b73af57mr22133291fa.6.1726070023460; Wed, 11 Sep 2024
- 08:53:43 -0700 (PDT)
+        bh=ElpmT7FAh3dblRYoaSgM75lYxXLYXY/hphJl7+bVEIc=;
+        b=t6XnRVEJmXvcE/JIGkuI59shjheeXrN4fj06R6pTTtbi0/DKkfK7ObJkD2Fl0s6d+g
+         DVYJfop2/cH9PIJ35p+CJ5cZhnvM2A6fXhwWhAmEk35/DIIVil9nuR8njhZoQcjy+IxN
+         cDirm0O4nJjSgeZBKnRE00XjwPUEzNnPK99KTe11UnUGQhZ9XTPB82eZtHu38W+75uu8
+         5VclHLCRE0HQzVr7V9RRt0n6qlxyGIkRI0grXlDKbNqPXH/zxq2YemrmM7HYQkIhV9U9
+         ticaBXqVE8/HYbOi95FE4JKZyn/1ZeogZww7Lx/r1fBS8YR3+fJXZMYxUooJ8SnOKRjs
+         MIvg==
+X-Forwarded-Encrypted: i=1; AJvYcCWcxuw/6IeyRdIiaHEfmGQvFrL6hYa9OqqYDvMJH8K9UvWXFCWrdkNY1lXDahHnjR9bOB6GDHeG@vger.kernel.org, AJvYcCWob3vJF629c6nymjL8m9Od2d/XDntowjPFPNh/fcETHtQG4bdqPwXHJdtXlKagfHtKmDCdDnlQ4ZI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz133lIJuz9DMVvlcGjR7X5z5kbiGUQVE5C2iuEPQOT6dLeBIjm
+	ZPBN9w2zsyy6JlctMnbp17V52gc8e0/lCkxP6S3xIsAD9k0twoGfOiO1mlOrbPNBeoU/KrKA8nM
+	Mcq0rhYtDf6kkl3jqc6CJuhUKdtiudOD9
+X-Google-Smtp-Source: AGHT+IHF1nMy1cqURZvWhIvgNoyynyIp1R7cYQpSvBQSVGY24NV7e1TqIRlIui0IdwI0RpXkqJKPvxgUzZSpTXvyGQ4=
+X-Received: by 2002:a05:6402:2807:b0:5c2:4a98:7520 with SMTP id
+ 4fb4d7f45d1cf-5c3e974d66dmr11577003a12.31.1726070622545; Wed, 11 Sep 2024
+ 09:03:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240911145555.318605-1-ap420073@gmail.com> <20240911145555.318605-2-ap420073@gmail.com>
- <a5939151-adc6-4385-9072-ce4ff57bf67f@amd.com>
-In-Reply-To: <a5939151-adc6-4385-9072-ce4ff57bf67f@amd.com>
+References: <20240911145555.318605-1-ap420073@gmail.com> <20240911145555.318605-4-ap420073@gmail.com>
+ <1eec50e5-6a6d-4ad8-a3ad-b0bbb8e72724@amd.com>
+In-Reply-To: <1eec50e5-6a6d-4ad8-a3ad-b0bbb8e72724@amd.com>
 From: Taehee Yoo <ap420073@gmail.com>
-Date: Thu, 12 Sep 2024 00:53:31 +0900
-Message-ID: <CAMArcTVH9fRU3kHf8g4U+e3fawMGiBNy1UctWG1Ni5rS=x6QQA@mail.gmail.com>
-Subject: Re: [PATCH net-next v2 1/4] bnxt_en: add support for rx-copybreak
- ethtool command
+Date: Thu, 12 Sep 2024 01:03:31 +0900
+Message-ID: <CAMArcTXh9+s_JUEh4AgLuYVnWSnqzr7zzQq3m+Hc2dc4Nd2jQQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v2 3/4] ethtool: Add support for configuring tcp-data-split-thresh
 To: Brett Creeley <bcreeley@amd.com>
 Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
 	edumazet@google.com, corbet@lwn.net, michael.chan@broadcom.com, 
@@ -75,11 +74,11 @@ Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 12, 2024 at 12:36=E2=80=AFAM Brett Creeley <bcreeley@amd.com> w=
+On Thu, Sep 12, 2024 at 12:47=E2=80=AFAM Brett Creeley <bcreeley@amd.com> w=
 rote:
 
 Hi Brett,
-Thank you so much for your review!
+Thanks a lot for your review!
 
 >
 >
@@ -89,149 +88,198 @@ Thank you so much for your review!
 ution when opening attachments, clicking links, or responding.
 > >
 > >
-> > The bnxt_en driver supports rx-copybreak, but it couldn't be set by
-> > userspace. Only the default value(256) has worked.
-> > This patch makes the bnxt_en driver support following command.
-> > `ethtool --set-tunable <devname> rx-copybreak <value> ` and
-> > `ethtool --get-tunable <devname> rx-copybreak`.
+> > The tcp-data-split-thresh option configures the threshold value of
+> > the tcp-data-split.
+> > If a received packet size is larger than this threshold value, a packet
+> > will be split into header and payload.
+> > The header indicates TCP header, but it depends on driver spec.
+> > The bnxt_en driver supports HDS(Header-Data-Split) configuration at
+> > FW level, affecting TCP and UDP too.
+> > So, like the tcp-data-split option, If tcp-data-split-thresh is set,
+> > it affects UDP and TCP packets.
+> >
+> > The tcp-data-split-thresh has a dependency, that is tcp-data-split
+> > option. This threshold value can be get/set only when tcp-data-split
+> > option is enabled.
+> >
+> > Example:
+> >     # ethtool -G <interface name> tcp-data-split-thresh <value>
+> >
+> >     # ethtool -G enp14s0f0np0 tcp-data-split on tcp-data-split-thresh 2=
+56
+> >     # ethtool -g enp14s0f0np0
+> >     Ring parameters for enp14s0f0np0:
+> >     Pre-set maximums:
+> >     ...
+> >     Current hardware settings:
+> >     ...
+> >     TCP data split:         on
+> >     TCP data split thresh:  256
+> >
+> > The tcp-data-split is not enabled, the tcp-data-split-thresh will
+> > not be used and can't be configured.
+> >
+> >     # ethtool -G enp14s0f0np0 tcp-data-split off
+> >     # ethtool -g enp14s0f0np0
+> >     Ring parameters for enp14s0f0np0:
+> >     Pre-set maximums:
+> >     ...
+> >     Current hardware settings:
+> >     ...
+> >     TCP data split:         off
+> >     TCP data split thresh:  n/a
+> >
+> > The default/min/max values are not defined in the ethtool so the driver=
+s
+> > should define themself.
+> > The 0 value means that all TCP and UDP packets' header and payload
+> > will be split.
+> > Users should consider the overhead due to this feature.
 > >
 > > Signed-off-by: Taehee Yoo <ap420073@gmail.com>
 > > ---
 > >
 > > v2:
-> > - Define max/vim rx_copybreak value.
+> >   - Patch added.
 > >
-> > drivers/net/ethernet/broadcom/bnxt/bnxt.c | 24 ++++++----
-> > drivers/net/ethernet/broadcom/bnxt/bnxt.h | 6 ++-
-> > .../net/ethernet/broadcom/bnxt/bnxt_ethtool.c | 47 ++++++++++++++++++-
-> > 3 files changed, 66 insertions(+), 11 deletions(-)
+> >   Documentation/networking/ethtool-netlink.rst | 31 +++++++++++--------
+> >   include/linux/ethtool.h                      |  2 ++
+> >   include/uapi/linux/ethtool_netlink.h         |  1 +
+> >   net/ethtool/netlink.h                        |  2 +-
+> >   net/ethtool/rings.c                          | 32 +++++++++++++++++--=
+-
+> >   5 files changed, 51 insertions(+), 17 deletions(-)
 > >
-> > diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/et=
-hernet/broadcom/bnxt/bnxt.c
 >
 > <snip>
 >
-> > +static void bnxt_init_ring_params(struct bnxt *bp)
-> > +{
-> > + bp->rx_copybreak =3D BNXT_DEFAULT_RX_COPYBREAK;
-> > +}
-> > +
-> > /* bp->rx_ring_size, bp->tx_ring_size, dev->mtu, BNXT_FLAG_{G|L}RO flag=
-s must
-> > * be set on entry.
-> > */
-> > @@ -4465,7 +4470,6 @@ void bnxt_set_ring_params(struct bnxt *bp)
-> > rx_space =3D rx_size + ALIGN(max(NET_SKB_PAD, XDP_PACKET_HEADROOM), 8) =
-+
-> > SKB_DATA_ALIGN(sizeof(struct skb_shared_info));
+> > diff --git a/net/ethtool/rings.c b/net/ethtool/rings.c
+> > index b7865a14fdf8..0b68ea316815 100644
+> > --- a/net/ethtool/rings.c
+> > +++ b/net/ethtool/rings.c
+> > @@ -61,7 +61,8 @@ static int rings_reply_size(const struct ethnl_req_in=
+fo *req_base,
+> >                 nla_total_size(sizeof(u8))  +    /* _RINGS_TX_PUSH */
+> >                 nla_total_size(sizeof(u8))) +    /* _RINGS_RX_PUSH */
+> >                 nla_total_size(sizeof(u32)) +    /* _RINGS_TX_PUSH_BUF_=
+LEN */
+> > -              nla_total_size(sizeof(u32));     /* _RINGS_TX_PUSH_BUF_L=
+EN_MAX */
+> > +              nla_total_size(sizeof(u32)) +    /* _RINGS_TX_PUSH_BUF_L=
+EN_MAX */
+> > +              nla_total_size(sizeof(u32));     /* _RINGS_TCP_DATA_SPLI=
+T_THRESH */
+> >   }
 > >
-> > - bp->rx_copy_thresh =3D BNXT_RX_COPY_THRESH;
-> > ring_size =3D bp->rx_ring_size;
-> > bp->rx_agg_ring_size =3D 0;
-> > bp->rx_agg_nr_pages =3D 0;
-> > @@ -4510,7 +4514,8 @@ void bnxt_set_ring_params(struct bnxt *bp)
-> > ALIGN(max(NET_SKB_PAD, XDP_PACKET_HEADROOM), 8) -
-> > SKB_DATA_ALIGN(sizeof(struct skb_shared_info));
-> > } else {
-> > - rx_size =3D SKB_DATA_ALIGN(BNXT_RX_COPY_THRESH + NET_IP_ALIGN);
-> > + rx_size =3D SKB_DATA_ALIGN(bp->rx_copybreak +
-> > + NET_IP_ALIGN);
->
-> Tiny nit, but why did you wrap NET_IP_ALIGN to the next line?
-
-Because It exceeds 80 characters line.
-
->
-> > rx_space =3D rx_size + NET_SKB_PAD +
-> > SKB_DATA_ALIGN(sizeof(struct skb_shared_info));
-> > }
-> > @@ -6424,8 +6429,8 @@ static int bnxt_hwrm_vnic_set_hds(struct bnxt *bp=
-, struct bnxt_vnic_info *vnic)
-> > VNIC_PLCMODES_CFG_REQ_FLAGS_HDS_IPV6);
-> > req->enables |=3D
-> > cpu_to_le32(VNIC_PLCMODES_CFG_REQ_ENABLES_HDS_THRESHOLD_VALID);
-> > - req->jumbo_thresh =3D cpu_to_le16(bp->rx_copy_thresh);
-> > - req->hds_threshold =3D cpu_to_le16(bp->rx_copy_thresh);
-> > + req->jumbo_thresh =3D cpu_to_le16(bp->rx_copybreak);
-> > + req->hds_threshold =3D cpu_to_le16(bp->rx_copybreak);
-> > }
-> > req->vnic_id =3D cpu_to_le32(vnic->fw_vnic_id);
-> > return hwrm_req_send(bp, req);
-> > @@ -15864,6 +15869,7 @@ static int bnxt_init_one(struct pci_dev *pdev, =
-const struct pci_device_id *ent)
-> > bnxt_init_l2_fltr_tbl(bp);
-> > bnxt_set_rx_skb_mode(bp, false);
-> > bnxt_set_tpa_flags(bp);
-> > + bnxt_init_ring_params(bp);
-> > bnxt_set_ring_params(bp);
-> > bnxt_rdma_aux_device_init(bp);
-> > rc =3D bnxt_set_dflt_rings(bp, true);
->
-> <snip>
->
-> > diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c b/driver=
-s/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-> > index f71cc8188b4e..201c3fcba04e 100644
-> > --- a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-> > +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-> > @@ -4319,6 +4319,49 @@ static int bnxt_get_eee(struct net_device *dev, =
-struct ethtool_keee *edata)
-> > return 0;
-> > }
+> >   static int rings_fill_reply(struct sk_buff *skb,
+> > @@ -108,7 +109,10 @@ static int rings_fill_reply(struct sk_buff *skb,
+> >               (nla_put_u32(skb, ETHTOOL_A_RINGS_TX_PUSH_BUF_LEN_MAX,
+> >                            kr->tx_push_buf_max_len) ||
+> >                nla_put_u32(skb, ETHTOOL_A_RINGS_TX_PUSH_BUF_LEN,
+> > -                         kr->tx_push_buf_len))))
+> > +                         kr->tx_push_buf_len))) ||
+> > +           (kr->tcp_data_split =3D=3D ETHTOOL_TCP_DATA_SPLIT_ENABLED &=
+&
+> > +            (nla_put_u32(skb, ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THRESH,
+> > +                        kr->tcp_data_split_thresh))))
+> >                  return -EMSGSIZE;
 > >
-> > +static int bnxt_set_tunable(struct net_device *dev,
-> > + const struct ethtool_tunable *tuna,
-> > + const void *data)
-> > +{
-> > + struct bnxt *bp =3D netdev_priv(dev);
-> > + u32 rx_copybreak;
+> >          return 0;
+> > @@ -130,6 +134,7 @@ const struct nla_policy ethnl_rings_set_policy[] =
+=3D {
+> >          [ETHTOOL_A_RINGS_TX_PUSH]               =3D NLA_POLICY_MAX(NLA=
+_U8, 1),
+> >          [ETHTOOL_A_RINGS_RX_PUSH]               =3D NLA_POLICY_MAX(NLA=
+_U8, 1),
+> >          [ETHTOOL_A_RINGS_TX_PUSH_BUF_LEN]       =3D { .type =3D NLA_U3=
+2 },
+> > +       [ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THRESH] =3D { .type =3D NLA_U32=
+ },
+> >   };
+> >
+> >   static int
+> > @@ -155,6 +160,14 @@ ethnl_set_rings_validate(struct ethnl_req_info *re=
+q_info,
+> >                  return -EOPNOTSUPP;
+> >          }
+> >
+> > +       if (tb[ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THRESH] &&
+> > +           !(ops->supported_ring_params & ETHTOOL_RING_USE_TCP_DATA_SP=
+LIT)) {
+> > +               NL_SET_ERR_MSG_ATTR(info->extack,
+> > +                                   tb[ETHTOOL_A_RINGS_TCP_DATA_SPLIT_T=
+HRESH],
+> > +                                   "setting TDS threshold is not suppo=
+rted");
+>
+> Small nit.
+>
+> Here you use "TDS threshold", but based on the TCP data split extack
+> message, it seems like it should be the following for consistency:
+>
+> "setting TCP data split threshold is not supported"
+>
+> > +               return -EOPNOTSUPP;
+> > +       }
 > > +
-> > + switch (tuna->id) {
-> > + case ETHTOOL_RX_COPYBREAK:
-> > + rx_copybreak =3D *(u32 *)data;
-> > + if (rx_copybreak < BNXT_MIN_RX_COPYBREAK ||
-> > + rx_copybreak > BNXT_MAX_RX_COPYBREAK)
-> > + return -EINVAL;
-> > + if (rx_copybreak !=3D bp->rx_copybreak) {
-> > + bp->rx_copybreak =3D rx_copybreak;
+> >          if (tb[ETHTOOL_A_RINGS_CQE_SIZE] &&
+> >              !(ops->supported_ring_params & ETHTOOL_RING_USE_CQE_SIZE))=
+ {
+> >                  NL_SET_ERR_MSG_ATTR(info->extack,
+> > @@ -196,9 +209,9 @@ ethnl_set_rings(struct ethnl_req_info *req_info, st=
+ruct genl_info *info)
+> >          struct kernel_ethtool_ringparam kernel_ringparam =3D {};
+> >          struct ethtool_ringparam ringparam =3D {};
+> >          struct net_device *dev =3D req_info->dev;
+> > +       bool mod =3D false, thresh_mod =3D false;
+> >          struct nlattr **tb =3D info->attrs;
+> >          const struct nlattr *err_attr;
+> > -       bool mod =3D false;
+> >          int ret;
+> >
+> >          dev->ethtool_ops->get_ringparam(dev, &ringparam,
+> > @@ -222,9 +235,20 @@ ethnl_set_rings(struct ethnl_req_info *req_info, s=
+truct genl_info *info)
+> >                          tb[ETHTOOL_A_RINGS_RX_PUSH], &mod);
+> >          ethnl_update_u32(&kernel_ringparam.tx_push_buf_len,
+> >                           tb[ETHTOOL_A_RINGS_TX_PUSH_BUF_LEN], &mod);
+> > -       if (!mod)
+> > +       ethnl_update_u32(&kernel_ringparam.tcp_data_split_thresh,
+> > +                        tb[ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THRESH],
+> > +                        &thresh_mod);
+> > +       if (!mod && !thresh_mod)
+> >                  return 0;
+> >
+> > +       if (kernel_ringparam.tcp_data_split =3D=3D ETHTOOL_TCP_DATA_SPL=
+IT_DISABLED &&
+> > +           thresh_mod) {
+> > +               NL_SET_ERR_MSG_ATTR(info->extack,
+> > +                                   tb[ETHTOOL_A_RINGS_TCP_DATA_SPLIT_T=
+HRESH],
+> > +                                   "tcp-data-split-thresh can not be u=
+pdated while tcp-data-split is disabled");
+> > +               return -EINVAL;
 >
-> Should bp->rx_copybreak get set before closing the interface in the
-> netif_running case? Can changing this while traffic is running cause any
-> unexpected issues?
->
-> I wonder if this would be better/safer?
->
-> if (netif_running(dev)) {
-> bnxt_close_nic(bp, false, false);
-> bp->rx_copybreak =3D rx_copybreak;
-> bnxt_set_ring_params(bp);
-> bnxt_open_nic(bp, false, false);
-> } else {
-> bp->rx_copybreak =3D rx_copybreak;
-> }
+> I think using the userspace command line argument names makes sense for
+> this extack message.
 
-I think your suggestion is much safer!
-I will use your suggestion in the v3 patch.
+I agree, that using "TDS" is not good for users.
+I will use "tcp-data-split-threshold" instead of "TDS threshold".
 
 >
 > Thanks,
 >
 > Brett
 >
-> > + if (netif_running(dev)) {
-> > + bnxt_close_nic(bp, false, false);
-> > + bnxt_set_ring_params(bp);
-> > + bnxt_open_nic(bp, false, false);
-> > + }
-> > + }
-> > + return 0;
-> > + default:
-> > + return -EOPNOTSUPP;
-> > + }
-> > +}
+> > +       }
 > > +
->
-> <snip>
+> >          /* ensure new ring parameters are within limits */
+> >          if (ringparam.rx_pending > ringparam.rx_max_pending)
+> >                  err_attr =3D tb[ETHTOOL_A_RINGS_RX];
+> > --
+> > 2.34.1
+> >
+> >
 
 Thanks a lot!
 Taehee Yoo
