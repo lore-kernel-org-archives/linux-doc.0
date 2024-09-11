@@ -1,85 +1,67 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C6D91AB52C;
-	Wed, 11 Sep 2024 14:56:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 677BA18EFC6;
+	Wed, 11 Sep 2024 14:59:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726066600; cv=none; b=OtBsOKO+eSvqiuNWqUS2axM7MDHCei4m8Q5OVzBZseCpdDEZvdOhSJlYXTbd3xRvfxOVn1Eqj5Ij86explfmhSJK1dH9eMZ3PK6jdd+f6uw5yMZ+1PFIiJQzYRX4dy80sYRdk2s5N9+AUXsH20UCvhzdjLZFerfugigtrH1ncVc=
+	t=1726066757; cv=none; b=KGB4R7D6x61VMJSdXYAHQPulmWJXRJcRe4RqCHSVDItmQy6wuZoZoADUJoEj9xbXwMv8KZ/dFxPbQxJuuGfA8IuWalGjkvzjjsGpxGXVNYFM2MpkLPIolBZdTyCTE2mH2npiFhjd9UFVNwtGKASsN+4ZZAWgLVMCubCIZfAB9CA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726066600; c=relaxed/simple;
-	bh=EVKiSEr7Zmf+toAJhWkO8ac2WuWLD0rTI5Vk+3jNtCw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=t/RCEXsNXuq9/8n0qyCuZFXLA1kh1qmXd8KQkcc0g60kQKlpk37T+VPHO6BxR569GSysHw4fwi5GyxzJrU2PtoNxVrvip2RSEzfTKqsJjCa6msSMBPBEt+IbLgd8x9vmyWkwzTysmsdYbpK2bpZkypK8MyWLkVTZcN/St4YqSEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HNtevY0j; arc=none smtp.client-ip=209.85.210.169
+	s=arc-20240116; t=1726066757; c=relaxed/simple;
+	bh=EqeoGGKYxejcimh8ipTluV/rKmHEBTKVxt+XCWO4Ng8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YWWpFfFzQlKKejvQGWbKCBkKUxnfhPSI8DZoq7ILpARd+c64nMakFGfQR1+dY5QnDKqfqzqXq+MsGZdxHc1a16WVjVp5bcXpfQDLbngLuCvUKtlt3fCNekOA281Uptv8yhsANsHxfWM3OLFey3Fn4qSP+ECPoeoi05qtCbJRe3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E7vFI/9t; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HNtevY0j"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7179802b8fcso4995463b3a.1;
-        Wed, 11 Sep 2024 07:56:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E7vFI/9t"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-42cb9a0c300so19585385e9.0;
+        Wed, 11 Sep 2024 07:59:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726066599; x=1726671399; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8APndETeuPsExoHgnwBfUz0vE90PM6EECgehWNUr71I=;
-        b=HNtevY0jIiU9o5hv06Yk1J9NH2A4eO2OVVlYyYf9AfDrSo068m4GZbDRO+CJ8hmobc
-         oh7Wc9rWKRZVuAChqgYwyJTNwEnzi/UwF19pjkbjcz+kuILVhwbDnPVCvT954ktQB4+3
-         t0XEdsUamP3osbd0WWrnvHSNG6ai9DPygKHSmRW/ZTCqQzU3pW79XiCAJPTGRgmDepb+
-         g+CF/QODVC5t+VrXyGnD8cA8eqSnRqF6Lf+9BeUVMzZnP2b0UOsKXymZDW7HeUU06cra
-         b3Ub5Fn5Cr1EiLVRSFEGdL8bEDVCx5xgm2b+BHd0wLkzdXCttqowJFgXWGHzuKPfwqgL
-         60CQ==
+        d=gmail.com; s=20230601; t=1726066753; x=1726671553; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+vPknzLVW9/P4LhuPBju+jLE/L8k7OTaPSStuKbZs4E=;
+        b=E7vFI/9ttMzyIP/Ll4ISB9WIUzYFtF/A3qdEuObyeTxRSyzFff2F80AavIAfVRpS/H
+         pSzf9C4P8rZMjNWTSQVZOi+UMu3KF0vGEJcut57fy3xzaLkSyYM/UEh5XL4Vh25EJXAq
+         RtmA7guwF+HKuI5ik9CHt+pPPBBzH145STBUJq+i8rzWno5z0UasYaeXA9BfjO1Deo4L
+         CUYmB9/Qm0ik2y3Pzqe3zH3aaF4sOOY3tf4WvBU6NyadTH46jLl7qyjw7XtpIqyQdKIb
+         rBsgSjtEHhXvQIqfmVSNGcIrQTWA0XrKWeLK92sJl1aQjnG1Y8txppubXD0Yy66Cw1RL
+         iXJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726066599; x=1726671399;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8APndETeuPsExoHgnwBfUz0vE90PM6EECgehWNUr71I=;
-        b=AjW/VqC/iKh3oqS8o4ULAZ6C0RutKGkBE1XlPwQeIjPP/9SR/C6eql+l8tHEpRthIM
-         YlNg6ZQA0xKjl8dejJqzrZCinF8ktWXSlqu+FdRxGh9THCgL/d8kkvE9knBe1iehOo8F
-         cZAm55uWgAocY1hzCBRmzuDFC8sTe8bj6vzyKl5AzimxHOTIZiBe5PmqqCwnv2z6vp4p
-         wYaRElwpqDQ3e+AhZN0U4vHsl1abSa2IW7ic5xAxSH3LLHz8Xben5Bqy603ttbXrq+xt
-         HHtZzX6dn4sBKD1sNCUcc/owNvE3EEx5hXaBqHLr4wxL/39OIA3oKTa2Blv585cRBCPq
-         lj+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWGOJho+gEdRdwrmEhDvdRyDeEbkg8iUkLAgUAhOXgq3Tjny/xrG5jRcvGl8H6BkXH88TuIijEcgRY=@vger.kernel.org, AJvYcCWzNBUSivbWKdRc94y7WoESDP6Hm9SoP2zAnMfoC7ugExQkPso14+6CGTgrBl/wcjsqYnMUUOez@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxk5XIf3x6e9v7KYkbRJcCMg6XpYjnLN/hfhTH8Hr5lRZK6mqnu
-	H9Q43z3YvP4CbQSUNeeTi3G7wbOHYGQ534GsEmOQmhjqQF8AdwL9
-X-Google-Smtp-Source: AGHT+IGy9OSvr42m8WJ46ZATfSY9G59MIEIg3PMHu7SfwmYHtI8wBF7ebNJ9knnfQmsre2+z+7QF+A==
-X-Received: by 2002:a05:6a20:551f:b0:1cf:66a1:4d8e with SMTP id adf61e73a8af0-1cf66a14e2bmr3142494637.17.1726066598732;
-        Wed, 11 Sep 2024 07:56:38 -0700 (PDT)
-Received: from ap.. ([182.213.254.91])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2076af278aasm664995ad.28.2024.09.11.07.56.31
+        d=1e100.net; s=20230601; t=1726066753; x=1726671553;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+vPknzLVW9/P4LhuPBju+jLE/L8k7OTaPSStuKbZs4E=;
+        b=ojIqBDN/EeLuG7lmsKiK7xvBX0WNQ8OLCzmCY+lVmmURZClKL9vnPwiJvZn8cmfNnm
+         6bPRwBa8kctNycvREYm74nKTARtaN5eV2m5XK3a0UZwq9xCtupYltMm89H/c+QjFIT65
+         7MQy6j+RzXvvY02V1RJe4erpteIbqFKhO2s5GpjVm2V0+S/1egtMWgsd5Ta9ZdNGDPO5
+         no1wISU919Wp9OrTy34bh8iYkXqKYQg1xFNAtSrTpKs472hzfuZpJ77ICjzK2DjkVzNS
+         JVjj1QB6ymZt25LnBaKJSn3P5WJJ1iHv6vW/va2LuSTCmEFLa2bN68q4A3dZZ/A8T0dw
+         S/9g==
+X-Forwarded-Encrypted: i=1; AJvYcCUHfadbpEutBGkbGRsmdSm0asC1jKE+mbTCfH01+HYJim2JOJrSNGHZU6n8zby+ZGb8fCtLuoceRWA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YySLXCMAO/qrdDHbrb+SrsMY/tvN9h58BOVoFvGGTQIfiBqaxmp
+	qrOoyVChzNuB2cwZKQtid0GksO/aYVFP7tKNqIgL+t+97pevSNxeuzaNTg==
+X-Google-Smtp-Source: AGHT+IHbbMGDnBgiMdzBb7jXm6RmAw/LVu9dMUGLWDMnWSKu2Ind9p2nouMzQpdZnkzO2L2E7nfssw==
+X-Received: by 2002:a05:600c:1d1f:b0:42c:b22e:fc23 with SMTP id 5b1f17b1804b1-42ccd32dde5mr24665565e9.15.1726066753011;
+        Wed, 11 Sep 2024 07:59:13 -0700 (PDT)
+Received: from imac.fritz.box ([2a02:8010:60a0:0:68be:b85e:1dba:191c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956d35e5sm11843507f8f.76.2024.09.11.07.59.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Sep 2024 07:56:36 -0700 (PDT)
-From: Taehee Yoo <ap420073@gmail.com>
-To: davem@davemloft.net,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	edumazet@google.com,
-	corbet@lwn.net,
-	michael.chan@broadcom.com,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: ecree.xilinx@gmail.com,
-	przemyslaw.kitszel@intel.com,
-	andrew@lunn.ch,
-	hkallweit1@gmail.com,
-	kory.maincent@bootlin.com,
-	ahmed.zaki@intel.com,
-	paul.greenwalt@intel.com,
-	rrameshbabu@nvidia.com,
-	idosch@nvidia.com,
-	maxime.chevallier@bootlin.com,
-	danieller@nvidia.com,
-	aleksander.lobakin@intel.com,
-	ap420073@gmail.com
-Subject: [PATCH net-next v2 4/4] bnxt_en: add support for tcp-data-split-thresh ethtool command
-Date: Wed, 11 Sep 2024 14:55:55 +0000
-Message-Id: <20240911145555.318605-5-ap420073@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240911145555.318605-1-ap420073@gmail.com>
-References: <20240911145555.318605-1-ap420073@gmail.com>
+        Wed, 11 Sep 2024 07:59:11 -0700 (PDT)
+From: Donald Hunter <donald.hunter@gmail.com>
+To: bpf@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Donald Hunter <donald.hunter@gmail.com>
+Subject: [PATCH bpf-next v1] docs/bpf: Add missing BPF program types to docs
+Date: Wed, 11 Sep 2024 15:59:08 +0100
+Message-ID: <20240911145908.34680-1-donald.hunter@gmail.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -88,118 +70,76 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The bnxt_en driver has configured the hds_threshold value automatically
-when TPA is enabled based on the rx-copybreak default value.
-Now the tcp-data-split-thresh ethtool command is added, so it adds an
-implementation of tcp-data-split-thresh option.
+Update the table of program types in the libbpf documentation with the
+recently added program types.
 
-Configuration of the tcp-data-split-thresh is allowed only when
-the tcp-data-split is enabled. The default value of
-tcp-data-split-thresh is 256, which is the default value of rx-copybreak,
-which used to be the hds_thresh value.
-
-   # Example:
-   # ethtool -G enp14s0f0np0 tcp-data-split on tcp-data-split-thresh 256
-   # ethtool -g enp14s0f0np0
-   Ring parameters for enp14s0f0np0:
-   Pre-set maximums:
-   ...
-   Current hardware settings:
-   ...
-   TCP data split:         on
-   TCP data split thresh:  256
-
-It enables tcp-data-split and sets tcp-data-split-thresh value to 256.
-
-   # ethtool -G enp14s0f0np0 tcp-data-split off
-   # ethtool -g enp14s0f0np0
-   Ring parameters for enp14s0f0np0:
-   Pre-set maximums:
-   ...
-   Current hardware settings:
-   ...
-   TCP data split:         off
-   TCP data split thresh:  n/a
-
-Signed-off-by: Taehee Yoo <ap420073@gmail.com>
+Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
 ---
+ Documentation/bpf/libbpf/program_types.rst | 29 +++++++++++++++++++---
+ 1 file changed, 25 insertions(+), 4 deletions(-)
 
-v2:
- - Patch added.
-
- drivers/net/ethernet/broadcom/bnxt/bnxt.c         | 3 ++-
- drivers/net/ethernet/broadcom/bnxt/bnxt.h         | 2 ++
- drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c | 9 +++++++++
- 3 files changed, 13 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-index f046478dfd2a..872b15842b11 100644
---- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-+++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-@@ -4455,6 +4455,7 @@ static void bnxt_init_ring_params(struct bnxt *bp)
- {
- 	bp->rx_copybreak = BNXT_DEFAULT_RX_COPYBREAK;
- 	bp->flags |= BNXT_FLAG_HDS;
-+	bp->hds_threshold = BNXT_DEFAULT_RX_COPYBREAK;
- }
- 
- /* bp->rx_ring_size, bp->tx_ring_size, dev->mtu, BNXT_FLAG_{G|L}RO flags must
-@@ -6429,7 +6430,7 @@ static int bnxt_hwrm_vnic_set_hds(struct bnxt *bp, struct bnxt_vnic_info *vnic)
- 					  VNIC_PLCMODES_CFG_REQ_FLAGS_HDS_IPV6);
- 		req->enables |=
- 			cpu_to_le32(VNIC_PLCMODES_CFG_REQ_ENABLES_HDS_THRESHOLD_VALID);
--		req->hds_threshold = cpu_to_le16(bp->rx_copybreak);
-+		req->hds_threshold = cpu_to_le16(bp->hds_threshold);
- 	}
- 	req->vnic_id = cpu_to_le32(vnic->fw_vnic_id);
- 	return hwrm_req_send(bp, req);
-diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.h b/drivers/net/ethernet/broadcom/bnxt/bnxt.h
-index 35601c71dfe9..48f390519c35 100644
---- a/drivers/net/ethernet/broadcom/bnxt/bnxt.h
-+++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.h
-@@ -2311,6 +2311,8 @@ struct bnxt {
- 	int			rx_agg_nr_pages;
- 	int			rx_nr_rings;
- 	int			rsscos_nr_ctxs;
-+#define BNXT_HDS_THRESHOLD_MAX	256
-+	u16			hds_threshold;
- 
- 	u32			tx_ring_size;
- 	u32			tx_ring_mask;
-diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-index ab64d7f94796..5b1f3047bf84 100644
---- a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-+++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-@@ -839,6 +839,8 @@ static void bnxt_get_ringparam(struct net_device *dev,
- 	else
- 		kernel_ering->tcp_data_split = ETHTOOL_TCP_DATA_SPLIT_DISABLED;
- 
-+	kernel_ering->tcp_data_split_thresh = bp->hds_threshold;
-+
- 	ering->tx_max_pending = BNXT_MAX_TX_DESC_CNT;
- 
- 	ering->rx_pending = bp->rx_ring_size;
-@@ -864,6 +866,12 @@ static int bnxt_set_ringparam(struct net_device *dev,
- 		return -EINVAL;
- 	}
- 
-+	if (kernel_ering->tcp_data_split_thresh > BNXT_HDS_THRESHOLD_MAX) {
-+		NL_SET_ERR_MSG_MOD(extack,
-+				   "tcp-data-split-thresh size too big");
-+		return -EINVAL;
-+	}
-+
- 	if (netif_running(dev))
- 		bnxt_close_nic(bp, false, false);
- 
-@@ -871,6 +879,7 @@ static int bnxt_set_ringparam(struct net_device *dev,
- 	case ETHTOOL_TCP_DATA_SPLIT_UNKNOWN:
- 	case ETHTOOL_TCP_DATA_SPLIT_ENABLED:
- 		bp->flags |= BNXT_FLAG_HDS;
-+		bp->hds_threshold = (u16)kernel_ering->tcp_data_split_thresh;
- 		break;
- 	case ETHTOOL_TCP_DATA_SPLIT_DISABLED:
- 		bp->flags &= ~BNXT_FLAG_HDS;
+diff --git a/Documentation/bpf/libbpf/program_types.rst b/Documentation/bpf/libbpf/program_types.rst
+index 63bb88846e50..fa80a82d5681 100644
+--- a/Documentation/bpf/libbpf/program_types.rst
++++ b/Documentation/bpf/libbpf/program_types.rst
+@@ -121,6 +121,8 @@ described in more detail in the footnotes.
+ +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
+ | ``BPF_PROG_TYPE_LWT_XMIT``                |                                        | ``lwt_xmit``                     |           |
+ +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
++| ``BPF_PROG_TYPE_NETFILTER``               |                                        | ``netfilter``                    |           |
+++-------------------------------------------+----------------------------------------+----------------------------------+-----------+
+ | ``BPF_PROG_TYPE_PERF_EVENT``              |                                        | ``perf_event``                   |           |
+ +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
+ | ``BPF_PROG_TYPE_RAW_TRACEPOINT_WRITABLE`` |                                        | ``raw_tp.w+`` [#rawtp]_          |           |
+@@ -131,11 +133,23 @@ described in more detail in the footnotes.
+ +                                           +                                        +----------------------------------+-----------+
+ |                                           |                                        | ``raw_tracepoint+``              |           |
+ +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
+-| ``BPF_PROG_TYPE_SCHED_ACT``               |                                        | ``action``                       |           |
++| ``BPF_PROG_TYPE_SCHED_ACT``               |                                        | ``action`` [#tc_legacy]_         |           |
+ +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
+-| ``BPF_PROG_TYPE_SCHED_CLS``               |                                        | ``classifier``                   |           |
++| ``BPF_PROG_TYPE_SCHED_CLS``               |                                        | ``classifier`` [#tc_legacy]_     |           |
+ +                                           +                                        +----------------------------------+-----------+
+-|                                           |                                        | ``tc``                           |           |
++|                                           |                                        | ``tc`` [#tc_legacy]_             |           |
+++                                           +----------------------------------------+----------------------------------+-----------+
++|                                           | ``BPF_NETKIT_PRIMARY``                 | ``netkit/primary``               |           |
+++                                           +----------------------------------------+----------------------------------+-----------+
++|                                           | ``BPF_NETKIT_PEER``                    | ``netkit/peer``                  |           |
+++                                           +----------------------------------------+----------------------------------+-----------+
++|                                           | ``BPF_TCX_INGRESS``                    | ``tc/ingress``                   |           |
+++                                           +----------------------------------------+----------------------------------+-----------+
++|                                           | ``BPF_TCX_EGRESS``                     | ``tc/egress``                    |           |
+++                                           +----------------------------------------+----------------------------------+-----------+
++|                                           | ``BPF_TCX_INGRESS``                    | ``tcx/ingress``                  |           |
+++                                           +----------------------------------------+----------------------------------+-----------+
++|                                           | ``BPF_TCX_EGRESS``                     | ``tcx/egress``                   |           |
+ +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
+ | ``BPF_PROG_TYPE_SK_LOOKUP``               | ``BPF_SK_LOOKUP``                      | ``sk_lookup``                    |           |
+ +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
+@@ -155,7 +169,9 @@ described in more detail in the footnotes.
+ +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
+ | ``BPF_PROG_TYPE_SOCK_OPS``                | ``BPF_CGROUP_SOCK_OPS``                | ``sockops``                      |           |
+ +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
+-| ``BPF_PROG_TYPE_STRUCT_OPS``              |                                        | ``struct_ops+``                  |           |
++| ``BPF_PROG_TYPE_STRUCT_OPS``              |                                        | ``struct_ops+`` [#struct_ops]_   |           |
+++                                           +                                        +----------------------------------+-----------+
++|                                           |                                        | ``struct_ops.s+`` [#struct_ops]_ | Yes       |
+ +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
+ | ``BPF_PROG_TYPE_SYSCALL``                 |                                        | ``syscall``                      | Yes       |
+ +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
+@@ -209,5 +225,10 @@ described in more detail in the footnotes.
+               ``a-zA-Z0-9_.*?``.
+ .. [#lsm] The ``lsm`` attachment format is ``lsm[.s]/<hook>``.
+ .. [#rawtp] The ``raw_tp`` attach format is ``raw_tracepoint[.w]/<tracepoint>``.
++.. [#tc_legacy] The ``tc``, ``classifier`` and ``action`` attach types are deprecated, use
++                ``tcx/*`` instead.
++.. [#struct_ops] The ``struct_ops`` attach format is ``struct_ops[.s]/<name>``, but name appears
++                 to be ignored. The attachments are defined in a struct initializer that is
++                 tagged with ``SEC(".struct_ops[.link]")``.
+ .. [#tp] The ``tracepoint`` attach format is ``tracepoint/<category>/<name>``.
+ .. [#iter] The ``iter`` attach format is ``iter[.s]/<struct-name>``.
 -- 
-2.34.1
+2.45.2
 
