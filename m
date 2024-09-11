@@ -1,145 +1,117 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 677BA18EFC6;
-	Wed, 11 Sep 2024 14:59:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2F9119CC05;
+	Wed, 11 Sep 2024 15:09:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726066757; cv=none; b=KGB4R7D6x61VMJSdXYAHQPulmWJXRJcRe4RqCHSVDItmQy6wuZoZoADUJoEj9xbXwMv8KZ/dFxPbQxJuuGfA8IuWalGjkvzjjsGpxGXVNYFM2MpkLPIolBZdTyCTE2mH2npiFhjd9UFVNwtGKASsN+4ZZAWgLVMCubCIZfAB9CA=
+	t=1726067372; cv=none; b=QFSyWW5egkyMWwG/ULSR0d8mgPPD1MeoMedH3GSMqjSpkicndMc913PMpvUl6TKD5Z4b4SwBjY3WwLty37HiE1mjXoAYcqsVEOt9OIgWkKYIXER8jWw4H+A5E3cPAHaMdAxpT4l4IsC6PN2Afjf3ze73vlFZptqR7QmiP1/fD8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726066757; c=relaxed/simple;
-	bh=EqeoGGKYxejcimh8ipTluV/rKmHEBTKVxt+XCWO4Ng8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YWWpFfFzQlKKejvQGWbKCBkKUxnfhPSI8DZoq7ILpARd+c64nMakFGfQR1+dY5QnDKqfqzqXq+MsGZdxHc1a16WVjVp5bcXpfQDLbngLuCvUKtlt3fCNekOA281Uptv8yhsANsHxfWM3OLFey3Fn4qSP+ECPoeoi05qtCbJRe3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E7vFI/9t; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1726067372; c=relaxed/simple;
+	bh=DsOykjHm/e9S8pqqMWtSTJsg+VaQITzEXDggV8z/ugw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CYLttW/wVcbt011kmN1X3IISlaClVr0umV5Taeglm4gQr81ajM5RvrCJdiY010VnccZ2faIcGBaCB4hB41oVDlcRx8ANNVjI3eNAJOvyDgGkM8qcpUSgX9emixNbQH66xCWZosAn2RJgp6CYfk6ad0Pt1y8pcu3m0WmDOy6yh7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=r+UhIyBW; arc=none smtp.client-ip=178.60.130.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E7vFI/9t"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-42cb9a0c300so19585385e9.0;
-        Wed, 11 Sep 2024 07:59:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726066753; x=1726671553; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+vPknzLVW9/P4LhuPBju+jLE/L8k7OTaPSStuKbZs4E=;
-        b=E7vFI/9ttMzyIP/Ll4ISB9WIUzYFtF/A3qdEuObyeTxRSyzFff2F80AavIAfVRpS/H
-         pSzf9C4P8rZMjNWTSQVZOi+UMu3KF0vGEJcut57fy3xzaLkSyYM/UEh5XL4Vh25EJXAq
-         RtmA7guwF+HKuI5ik9CHt+pPPBBzH145STBUJq+i8rzWno5z0UasYaeXA9BfjO1Deo4L
-         CUYmB9/Qm0ik2y3Pzqe3zH3aaF4sOOY3tf4WvBU6NyadTH46jLl7qyjw7XtpIqyQdKIb
-         rBsgSjtEHhXvQIqfmVSNGcIrQTWA0XrKWeLK92sJl1aQjnG1Y8txppubXD0Yy66Cw1RL
-         iXJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726066753; x=1726671553;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+vPknzLVW9/P4LhuPBju+jLE/L8k7OTaPSStuKbZs4E=;
-        b=ojIqBDN/EeLuG7lmsKiK7xvBX0WNQ8OLCzmCY+lVmmURZClKL9vnPwiJvZn8cmfNnm
-         6bPRwBa8kctNycvREYm74nKTARtaN5eV2m5XK3a0UZwq9xCtupYltMm89H/c+QjFIT65
-         7MQy6j+RzXvvY02V1RJe4erpteIbqFKhO2s5GpjVm2V0+S/1egtMWgsd5Ta9ZdNGDPO5
-         no1wISU919Wp9OrTy34bh8iYkXqKYQg1xFNAtSrTpKs472hzfuZpJ77ICjzK2DjkVzNS
-         JVjj1QB6ymZt25LnBaKJSn3P5WJJ1iHv6vW/va2LuSTCmEFLa2bN68q4A3dZZ/A8T0dw
-         S/9g==
-X-Forwarded-Encrypted: i=1; AJvYcCUHfadbpEutBGkbGRsmdSm0asC1jKE+mbTCfH01+HYJim2JOJrSNGHZU6n8zby+ZGb8fCtLuoceRWA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YySLXCMAO/qrdDHbrb+SrsMY/tvN9h58BOVoFvGGTQIfiBqaxmp
-	qrOoyVChzNuB2cwZKQtid0GksO/aYVFP7tKNqIgL+t+97pevSNxeuzaNTg==
-X-Google-Smtp-Source: AGHT+IHbbMGDnBgiMdzBb7jXm6RmAw/LVu9dMUGLWDMnWSKu2Ind9p2nouMzQpdZnkzO2L2E7nfssw==
-X-Received: by 2002:a05:600c:1d1f:b0:42c:b22e:fc23 with SMTP id 5b1f17b1804b1-42ccd32dde5mr24665565e9.15.1726066753011;
-        Wed, 11 Sep 2024 07:59:13 -0700 (PDT)
-Received: from imac.fritz.box ([2a02:8010:60a0:0:68be:b85e:1dba:191c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956d35e5sm11843507f8f.76.2024.09.11.07.59.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Sep 2024 07:59:11 -0700 (PDT)
-From: Donald Hunter <donald.hunter@gmail.com>
-To: bpf@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH bpf-next v1] docs/bpf: Add missing BPF program types to docs
-Date: Wed, 11 Sep 2024 15:59:08 +0100
-Message-ID: <20240911145908.34680-1-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.44.0
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="r+UhIyBW"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=StjhS8B78DcDy6BGi67+Cz5YOv6C9jIwH3H6WigF/WM=; b=r+UhIyBWzMNTcNYxUJSUllsIDu
+	bu2ZKt5cxVuYjqUkhKZKxQ3tFhHQQ8UFlpvwKu31tci73Zl6s8gQYkX+Bt9kqCGfsG8Bou9iJKm3J
+	iT8mrpkRdPgL0hXNAI11wDl+Q2Y+WDt9wfTTB+70Wf3WfhOTX5TZjxMc3NFqqFSQCkWRzWlEgo4WL
+	NKo6QFhEvNJJzk/KAmqtNJE94OqnR9N5dN4ui+dZ8O0rMEf6lmNxMbhJsZrIzpGcYHtaJQWYW6wOK
+	zNUdsbzl6vJ/n+Qx48V0sQMPsyLlg0brzgAiSi1+RKrLlOBjd/s7VELVgnsKekMzJni/4Sn1Zq4Zo
+	9tS8nxvg==;
+Received: from [195.69.0.8] (helo=[172.21.208.109])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1soOy6-00CUTT-Gv; Wed, 11 Sep 2024 17:09:18 +0200
+Message-ID: <d954da78-87cf-d7d9-a620-0c2fae5dd242@igalia.com>
+Date: Wed, 11 Sep 2024 17:09:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH V2] Documentation: Improve crash_kexec_post_notifiers
+ description
+Content-Language: en-US
+To: Baoquan He <bhe@redhat.com>
+Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org, vgoyal@redhat.com,
+ dyoung@redhat.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
+ linux-debuggers@vger.kernel.org, stephen.s.brennan@oracle.com,
+ kernel@gpiccoli.net, kernel-dev@igalia.com
+References: <20240830182219.485065-1-gpiccoli@igalia.com>
+ <ZtUrX4n+HPYhyQ9z@MiWiFi-R3L-srv>
+From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <ZtUrX4n+HPYhyQ9z@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Update the table of program types in the libbpf documentation with the
-recently added program types.
+On 02/09/2024 05:05, Baoquan He wrote:
+> On 08/30/24 at 03:21pm, Guilherme G. Piccoli wrote:
+>> Be more clear about the downsides, the upsides (yes, there are some!)
+>> and about code that unconditionally sets that.
+>>
+>> Reviewed-by: Stephen Brennan <stephen.s.brennan@oracle.com>
+>> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+>>
+>> ---
+>>
+>> V2: Some wording improvements from Stephen, thanks!
+>> Also added his review tag.
+>>
+>> V1 link: https://lore.kernel.org/r/20240830140401.458542-1-gpiccoli@igalia.com/
+>>
+>>
+>>  Documentation/admin-guide/kernel-parameters.txt | 16 ++++++++++------
+>>  1 file changed, 10 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index efc52ddc6864..351730108c58 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -913,12 +913,16 @@
+>>  			the parameter has no effect.
+>>  
+>>  	crash_kexec_post_notifiers
+>> -			Run kdump after running panic-notifiers and dumping
+>> -			kmsg. This only for the users who doubt kdump always
+>> -			succeeds in any situation.
+>> -			Note that this also increases risks of kdump failure,
+>> -			because some panic notifiers can make the crashed
+>> -			kernel more unstable.
+>> +			Only jump to kdump kernel after running the panic
+>> +			notifiers and dumping kmsg. This option increases the
+>> +			risks of a kdump failure, since some panic notifiers
+>> +			can make the crashed kernel more unstable. In the
+>> +			configurations where kdump may not be reliable,
+>> +			running the panic notifiers can allow collecting more
+>> +			data on dmesg, like stack traces from other CPUS or
+>> +			extra data dumped by panic_print. Notice that some
+>> +			code enables this option unconditionally, like
+>> +			Hyper-V, PowerPC (fadump) and AMD SEV.
+>                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> I know Hyper-V enable panic-notifiers by default, but don't remember how
+> PowerPC and AMD SEC behave in this aspect. While at it, can you add a
+> little more words to state them in log so that people can learn it?
+> Thanks.
+> 
+Hi Baoquan, tnx for the suggestion! You mean mention that in the commit
+message? If so, I can certainly do - will sent a new version soon(tm)
+and include it =)
 
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
- Documentation/bpf/libbpf/program_types.rst | 29 +++++++++++++++++++---
- 1 file changed, 25 insertions(+), 4 deletions(-)
+Cheers,
 
-diff --git a/Documentation/bpf/libbpf/program_types.rst b/Documentation/bpf/libbpf/program_types.rst
-index 63bb88846e50..fa80a82d5681 100644
---- a/Documentation/bpf/libbpf/program_types.rst
-+++ b/Documentation/bpf/libbpf/program_types.rst
-@@ -121,6 +121,8 @@ described in more detail in the footnotes.
- +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
- | ``BPF_PROG_TYPE_LWT_XMIT``                |                                        | ``lwt_xmit``                     |           |
- +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
-+| ``BPF_PROG_TYPE_NETFILTER``               |                                        | ``netfilter``                    |           |
-++-------------------------------------------+----------------------------------------+----------------------------------+-----------+
- | ``BPF_PROG_TYPE_PERF_EVENT``              |                                        | ``perf_event``                   |           |
- +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
- | ``BPF_PROG_TYPE_RAW_TRACEPOINT_WRITABLE`` |                                        | ``raw_tp.w+`` [#rawtp]_          |           |
-@@ -131,11 +133,23 @@ described in more detail in the footnotes.
- +                                           +                                        +----------------------------------+-----------+
- |                                           |                                        | ``raw_tracepoint+``              |           |
- +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
--| ``BPF_PROG_TYPE_SCHED_ACT``               |                                        | ``action``                       |           |
-+| ``BPF_PROG_TYPE_SCHED_ACT``               |                                        | ``action`` [#tc_legacy]_         |           |
- +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
--| ``BPF_PROG_TYPE_SCHED_CLS``               |                                        | ``classifier``                   |           |
-+| ``BPF_PROG_TYPE_SCHED_CLS``               |                                        | ``classifier`` [#tc_legacy]_     |           |
- +                                           +                                        +----------------------------------+-----------+
--|                                           |                                        | ``tc``                           |           |
-+|                                           |                                        | ``tc`` [#tc_legacy]_             |           |
-++                                           +----------------------------------------+----------------------------------+-----------+
-+|                                           | ``BPF_NETKIT_PRIMARY``                 | ``netkit/primary``               |           |
-++                                           +----------------------------------------+----------------------------------+-----------+
-+|                                           | ``BPF_NETKIT_PEER``                    | ``netkit/peer``                  |           |
-++                                           +----------------------------------------+----------------------------------+-----------+
-+|                                           | ``BPF_TCX_INGRESS``                    | ``tc/ingress``                   |           |
-++                                           +----------------------------------------+----------------------------------+-----------+
-+|                                           | ``BPF_TCX_EGRESS``                     | ``tc/egress``                    |           |
-++                                           +----------------------------------------+----------------------------------+-----------+
-+|                                           | ``BPF_TCX_INGRESS``                    | ``tcx/ingress``                  |           |
-++                                           +----------------------------------------+----------------------------------+-----------+
-+|                                           | ``BPF_TCX_EGRESS``                     | ``tcx/egress``                   |           |
- +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
- | ``BPF_PROG_TYPE_SK_LOOKUP``               | ``BPF_SK_LOOKUP``                      | ``sk_lookup``                    |           |
- +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
-@@ -155,7 +169,9 @@ described in more detail in the footnotes.
- +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
- | ``BPF_PROG_TYPE_SOCK_OPS``                | ``BPF_CGROUP_SOCK_OPS``                | ``sockops``                      |           |
- +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
--| ``BPF_PROG_TYPE_STRUCT_OPS``              |                                        | ``struct_ops+``                  |           |
-+| ``BPF_PROG_TYPE_STRUCT_OPS``              |                                        | ``struct_ops+`` [#struct_ops]_   |           |
-++                                           +                                        +----------------------------------+-----------+
-+|                                           |                                        | ``struct_ops.s+`` [#struct_ops]_ | Yes       |
- +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
- | ``BPF_PROG_TYPE_SYSCALL``                 |                                        | ``syscall``                      | Yes       |
- +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
-@@ -209,5 +225,10 @@ described in more detail in the footnotes.
-               ``a-zA-Z0-9_.*?``.
- .. [#lsm] The ``lsm`` attachment format is ``lsm[.s]/<hook>``.
- .. [#rawtp] The ``raw_tp`` attach format is ``raw_tracepoint[.w]/<tracepoint>``.
-+.. [#tc_legacy] The ``tc``, ``classifier`` and ``action`` attach types are deprecated, use
-+                ``tcx/*`` instead.
-+.. [#struct_ops] The ``struct_ops`` attach format is ``struct_ops[.s]/<name>``, but name appears
-+                 to be ignored. The attachments are defined in a struct initializer that is
-+                 tagged with ``SEC(".struct_ops[.link]")``.
- .. [#tp] The ``tracepoint`` attach format is ``tracepoint/<category>/<name>``.
- .. [#iter] The ``iter`` attach format is ``iter[.s]/<struct-name>``.
--- 
-2.45.2
+
+Guilherme
 
