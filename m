@@ -1,108 +1,222 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C118927446;
-	Wed, 11 Sep 2024 01:55:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D833D39FE4;
+	Wed, 11 Sep 2024 02:13:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726019732; cv=none; b=bdLN7uuXpLtRjCpVcPvPs27h6v6bXXtshUPusw7aX5/RceQ3OoHnTPPZ62MtHJbLMTrfeDjnb48rtPTAjPY5La/vCgnH7ZwdOxTD8yTTaFqANaKAv7h6Q7wB6PiF6iwf92t5wlfLBbcOmkyNknF/X97p3BdgPlK3k3rR6ONjYQE=
+	t=1726020800; cv=none; b=spbQY+Np0qrKifF22bFOnWKx63WO156V9iAEElt8Rp/tcMQvrfwvIC3F318n7ngzACiR9k/7eUiyEIKQRd4axcswdAbetq/S6B99bfvRLtzMnLk0lspm8tGWga9RxlAkg9dNYL1DaT755bITTiwaFAFEOZl2gpS8DdlebHIkbQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726019732; c=relaxed/simple;
-	bh=8butQKKyRn3hnqeVHrgtVu+CTLHq0RkmOSFk94x8Guc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UuKsvg9r+PPTlBK77E2iIPAEvH1TuxlVJOtr0ETKBeMzAp1/chU+93nboXe7yJC51hLYUwokqFV6rw3CLCgakDeJmWQovhrWOxkDKmNPEMiQiRMGGhFsmkpHgOeIpOaQiA8m2l6EDjPUTMjiB868p2P1yk1MVt4HyM4VDnsl8uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IazZ/49A; arc=none smtp.client-ip=209.85.216.54
+	s=arc-20240116; t=1726020800; c=relaxed/simple;
+	bh=2dO+R1LckxvNT8IJ2u0yIjONA/5/I/RS8hvjUMm3CtE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I4vt7Y+uYnBcrNnFRrni2rQo3LTYzyg8yA7G0tspYoAZOrIxGlQgzIzcY/mMC/Vb5KXB5rg+TsEPPyn+U9YNsR3LPyyO0wZZgHrAGs1lyvgsjrLTON3cLWNYNeWV6svmiYg6gGerIgRwqldXuznF34wx78kAJkl3OJOp4+0Doog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iUeS+tvL; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IazZ/49A"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2d8b96c18f0so4877322a91.2;
-        Tue, 10 Sep 2024 18:55:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iUeS+tvL"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2053525bd90so53738805ad.0;
+        Tue, 10 Sep 2024 19:13:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726019729; x=1726624529; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2eMvk/O7eAPCOv1mMP8o+KkhjDZ2EnCpGJ2GRMSBEiQ=;
-        b=IazZ/49AW9KJ07fnVqhdx1P9exhZYCT58kcWX276hE4TECvZvsmGbF4PM0sEK2g91T
-         gg9uce3d+8YTCQ7EksnCsm2y6R/Aqbmmu8JHLSa8ra9iQm5WQtzPeWO6L9BusIxL0hTI
-         Uyjy0liHrIaisQYtQIArKlm2Hzteql1jhzC9dH1kqkPobaXScclPzDvHKWoUOf1dfo+g
-         PELtgiF5AfKK3MLin/4A/oAvS8vO6sA4wWXM1VTihAQfcM299w9LPpjEy5rdn5tkedEm
-         9BT9NEc1SzZdhVV7mVJR12knUcCjAVuiU5iscs1ddjEVOHQ8fYJ8vSUc6h1aGPP4QCDm
-         q5vw==
+        d=gmail.com; s=20230601; t=1726020798; x=1726625598; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Up5aAc37wiZUjA07VRYBFQt8t+5bxdupJEMSmpLJ8uQ=;
+        b=iUeS+tvLdYxke3i3Bs7EQo6GsfwjNIEmpzRLEQeOEgTgEDur90hrATNiY8VatNf6CU
+         ad2r1A4FndqF/iPOROgcMR60nr/mqtFL1EX+cz2+mymHo0hWyp/13ZsFiOPkFogdotkU
+         rHzGd4q50ylRz9ncENYtltPUthNF+P3LLPpdPwTSwi3lRIs54IX7d7OnB1pvKHk8Ewia
+         4+w3THEK8Ua7ckADUf/nH7P7mIbUuEHA9fVHawbwtPdylDXTKdhuGI7toLD4+SRB5zlq
+         ehGN8fyu8z2t2Wzu4BjVIwBWIM2D+AwKBVrFs5nuYLHMUoEbP4IJnEKMhyd7S9UHl0BI
+         WCUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726019729; x=1726624529;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2eMvk/O7eAPCOv1mMP8o+KkhjDZ2EnCpGJ2GRMSBEiQ=;
-        b=i+h5eiAlQ1vL814ZGPLNAHlseP/WVs4ghXYpmCZYj+50vEv9FsK5kTGAEPEbG4VSVh
-         rP1aG2JicX/JopK1sL4YQ7Sz8T0o3xA6Yd5NNgWDEz+x+pvJVHsgrmbKz8SHTEyUejbo
-         VdHhbLxsAxh8RYhfk0vBGsjV2Bzk63fyCIe9lMPacTUUg6I9qUlxYY9Ee4cmZvAQ8n6u
-         x+w8EvZXHp/MqmLMM9SiODEcWJVIHi2tYLIFzXskCiWhsi/4BUMnXbLkfQ3JoYVAttmF
-         WYADzJPijGe59atx5wr2KVmP8aWR+bbWbjq+Wo8J0nR6z5AlrbpmXBg94DOY98Kbvr5j
-         hSRA==
-X-Forwarded-Encrypted: i=1; AJvYcCW8KNdsOQlKgB9YZSFW2/Z3xiyskNeXpJJcmwUH7ilLp4wmgqeHfWG2ffbsPlQOsfxnjYK1wukKlLI0XMMc@vger.kernel.org, AJvYcCWe4Bcjae7dw7MgHzeO09aG1FrRxdKgEEoImog4AOMl8JGpTASKt0oUDVWu5kKegMLO9NclGWsxSkM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywith+6QQ81jgl/DzgOJn7GFCW1fC/2rHRkli+D8d51srNN3j7C
-	h8DNnMBgVoVEQZKJ6Aul2ajj3wVCulPGwfara4DcRmIjxOayOOtN
-X-Google-Smtp-Source: AGHT+IFMav+SiIWQSr/EKSXW8Qi/0IE0Jer5qrGzpap7wrxZT9TyB0UyNrcHPaRpf6qBdXupp/rYrw==
-X-Received: by 2002:a17:90a:fe06:b0:2d8:859b:931c with SMTP id 98e67ed59e1d1-2dad50f3eddmr22934298a91.33.1726019728877;
-        Tue, 10 Sep 2024 18:55:28 -0700 (PDT)
-Received: from [192.168.255.10] ([43.132.141.25])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2db04507cb1sm7084986a91.33.2024.09.10.18.55.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Sep 2024 18:55:28 -0700 (PDT)
-Message-ID: <db636067-7995-48a9-9bf1-88f64389d701@gmail.com>
-Date: Wed, 11 Sep 2024 09:55:23 +0800
+        d=1e100.net; s=20230601; t=1726020798; x=1726625598;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Up5aAc37wiZUjA07VRYBFQt8t+5bxdupJEMSmpLJ8uQ=;
+        b=DqmR+5ZCF1HK56vvkISGsKxlaZZBWdCKnoNTARrlBXcXPm6+mGyMJRHMoT1RsJ/EgK
+         WYk8GiOIOWD4oFmZwfkZF+W4ghJEuMaoPBJk6Dr2AJCJesmMyuyTT6rY40aQm3Y7P3pW
+         abT1VAjFVqKXsLC5p8HfyKvKWRmPAkbb/SqJxyFuZZBxsVyw/89eJD95QnKry4YRPMYh
+         9NgRn4KxX3ZZHrGt8yocsIc2iTMdzejCIIq5UZpkhfq1NNg976RPCY+7ym1GlHTemi4t
+         duPbI7aVJr7vRWEnHy0awLKZVhPdVC0VtOXKtYmQGy2Xd5Zb4vjwb6J7c9rT0JFiwUyx
+         49JA==
+X-Forwarded-Encrypted: i=1; AJvYcCVKyx6Yxdwgtnb1jdeuP5cNhjRr43cYd0ii2KLnyN0Lff/r6Mnn+iMfVpP7+uTouwKlGIY1M4jYW+I=@vger.kernel.org, AJvYcCVumSrSzVcjLpyraod05lJGyM6K1elR6/n5Ng9IzRXPvHhboR8xk+q5KSGffKXoPNyT/bjw+uNRXa8NuDo1@vger.kernel.org
+X-Gm-Message-State: AOJu0YybItSQ+G4UayuNkImPCSyKIExeKbJbEuV0KqRUPf5wdQEBQxnR
+	GptGuFsD2rtsZtqhuHRGstg508yCIJTF0os+285n2s02ARH2Fd2H
+X-Google-Smtp-Source: AGHT+IFcqn+IrTCB5YA14HVO4XXkklrs9Z6HiKvHeMXYHpWbuWAB5hsLrX/yPnKWiWQKUA2+dX39dg==
+X-Received: by 2002:a17:90a:ac16:b0:2d8:7f5c:6030 with SMTP id 98e67ed59e1d1-2dad512c8eemr15785165a91.38.1726020797556;
+        Tue, 10 Sep 2024 19:13:17 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2db049873b0sm7162501a91.47.2024.09.10.19.13.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Sep 2024 19:13:17 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 5B2014A0EB87; Wed, 11 Sep 2024 09:13:11 +0700 (WIB)
+Date: Wed, 11 Sep 2024 09:13:10 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Nicolin Chen <nicolinc@nvidia.com>, jgg@nvidia.com,
+	kevin.tian@intel.com
+Cc: corbet@lwn.net, iommu@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, yi.l.liu@intel.com,
+	eric.auger@redhat.com, shameerali.kolothum.thodi@huawei.com,
+	smostafa@google.com, baolu.lu@linux.intel.com
+Subject: Re: [PATCH] Documentation: userspace-api: iommufd: Update
+ HWPT_PAGING and HWPT_NESTED
+Message-ID: <ZuD8tsci0JPikUYL@archie.me>
+References: <20240910204111.7969-1-nicolinc@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Documentation/mm: Translate physical_memory.rst to
- Simplified Chinese
-To: Jonathan Corbet <corbet@lwn.net>, jiang.kun2@zte.com.cn,
- alexs@kernel.org, siyanteng@loongson.cn, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: wang.yaxin@zte.com.cn, fan.yu9@zte.com.cn, xu.xin16@zte.com.cn,
- he.peilin@zte.com.cn, tu.qiang35@zte.com.cn, qiu.yutan@zte.com.cn,
- zhang.yunkai@zte.com.cn, Pengyu Zhang <zpenya1314@gmail.com>
-References: <20240904112020232OieLhsFZ_M10gBxJtUieP@zte.com.cn>
- <87seu75gs6.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Alex Shi <seakeel@gmail.com>
-In-Reply-To: <87seu75gs6.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="l5WlQuJtypFpj+Ea"
+Content-Disposition: inline
+In-Reply-To: <20240910204111.7969-1-nicolinc@nvidia.com>
 
 
+--l5WlQuJtypFpj+Ea
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 9/11/24 5:40 AM, Jonathan Corbet wrote:
-> <jiang.kun2@zte.com.cn> writes:
-> 
->> From: Yaxin Wang <wang.yaxin@zte.com.cn>
->>
->> This patch translates the "physical_memory.rst" document into
->> Simplified Chinese to improve accessibility for Chinese-speaking
->> developers and users.
->>
->> The translation was done with attention to technical accuracy
->> and readability, ensuring that the document remains informative
->> and useful in its translated form.
->>
->> Signed-off-by: Yaxin Wang <wang.yaxin@zte.com.cn>
-> 
-> So I have a couple of simplified-Chinese translations (this one and
-> 20240830133230.7988-1-zpenya1314@gmail.com) sitting in my queue, but I
-> have no way to evaluate them for accuracy.  Is there anybody who can
-> help to review these?
-> 
-I will take this one.
+On Tue, Sep 10, 2024 at 01:41:11PM -0700, Nicolin Chen wrote:
+> +- IOMMUFD_OBJ_HWPT_NESTED, representing an actual hardware I/O page table
+> +  (i.e. a single struct iommu_domain) managed by user space (e.g. guest =
+OS).
+> +  "NESTED" indicates that this type of HWPT can be linked to an HWPT_PAG=
+ING.
+> +  It also indicates that it is backed by an iommu_domain that has a type=
+ of
+> +  IOMMU_DOMAIN_NESTED. This must be a stage-1 domain for a device runnin=
+g in
+> +  the user space (e.g. in a guest VM enabling the IOMMU nested translati=
+on
+> +  feature.) So it must be created with a given nesting parent stage-2 do=
+main
+              "As such, it must be ..."
+> +  to associate to. This nested stage-1 page table managed by the user sp=
+ace
+> +  usually has mappings from guest-level I/O virtual addresses to guest-l=
+evel
+> +  physical addresses.
+> =20
+> <snipped>...=20
+> +   this completes the device could do DMA. Note that every iommu_domain =
+inside
+> +   the IOAS is also represented to userspace as an IOMMUFD_OBJ_HWPT_PAGI=
+NG.
+> +
+> +   IOMMUFD_OBJ_HWPT_PAGING can be also manually created via the IOMMU_HW=
+PT_ALLOC
+> +   uAPI, provided an ioas_id via @pt_id to associate the new HWPT_PAGING=
+ object
+> +   to the corresponding IOAS object. The benefit of this manual allocati=
+on is to
+> +   provide allocation flags (defined in enum iommufd_hwpt_alloc_flags), =
+e.g. it
+> +   allocates a nesting parent HWPT_PAGING, if the IOMMU_HWPT_ALLOC_NEST_=
+PARENT
+> +   flag is set.
 
-20240830133230.7988-1-zpenya1314@gmail.com, I asked the author to resend
-his patch following the submit process. but didn't see the response..
+Nested bullet list fits:
 
-Thanks
+---- >8 ---
+diff --git a/Documentation/userspace-api/iommufd.rst b/Documentation/usersp=
+ace-api/iommufd.rst
+index 3b0e46017dce22..e3ff476aba097e 100644
+--- a/Documentation/userspace-api/iommufd.rst
++++ b/Documentation/userspace-api/iommufd.rst
+@@ -115,21 +115,21 @@ creating the objects and links::
+=20
+ 3. IOMMUFD_OBJ_HWPT_PAGING can be created in two ways:
+=20
+-   IOMMUFD_OBJ_HWPT_PAGING is created when an external driver calls the IO=
+MMUFD
+-   kAPI to attach a bound device to an IOAS. Similarly the external driver=
+ uAPI
+-   allows userspace to initiate the attaching operation. If a compatible
+-   pagetable already exists then it is reused for the attachment. Otherwis=
+e a
+-   new pagetable object and iommu_domain is created. Successful completion=
+ of
+-   this operation sets up the linkages among IOAS, device and iommu_domain=
+=2E Once
+-   this completes the device could do DMA. Note that every iommu_domain in=
+side
+-   the IOAS is also represented to userspace as an IOMMUFD_OBJ_HWPT_PAGING.
++   * IOMMUFD_OBJ_HWPT_PAGING is created when an external driver calls the =
+IOMMUFD
++     kAPI to attach a bound device to an IOAS. Similarly the external driv=
+er uAPI
++     allows userspace to initiate the attaching operation. If a compatible
++     pagetable already exists then it is reused for the attachment. Otherw=
+ise a
++     new pagetable object and iommu_domain is created. Successful completi=
+on of
++     this operation sets up the linkages among IOAS, device and iommu_doma=
+in. Once
++     this completes the device could do DMA. Note that every iommu_domain =
+inside
++     the IOAS is also represented to userspace as an IOMMUFD_OBJ_HWPT_PAGI=
+NG.
+=20
+-   IOMMUFD_OBJ_HWPT_PAGING can be also manually created via the IOMMU_HWPT=
+_ALLOC
+-   uAPI, provided an ioas_id via @pt_id to associate the new HWPT_PAGING o=
+bject
+-   to the corresponding IOAS object. The benefit of this manual allocation=
+ is to
+-   provide allocation flags (defined in enum iommufd_hwpt_alloc_flags), e.=
+g. it
+-   allocates a nesting parent HWPT_PAGING, if the IOMMU_HWPT_ALLOC_NEST_PA=
+RENT
+-   flag is set.
++   * IOMMUFD_OBJ_HWPT_PAGING can be also manually created via the IOMMU_HW=
+PT_ALLOC
++     uAPI, provided an ioas_id via @pt_id to associate the new HWPT_PAGING=
+ object
++     to the corresponding IOAS object. The benefit of this manual allocati=
+on is to
++     provide allocation flags (defined in enum iommufd_hwpt_alloc_flags), =
+e.g. it
++     allocates a nesting parent HWPT_PAGING, if the IOMMU_HWPT_ALLOC_NEST_=
+PARENT
++     flag is set.
+=20
+ 4. IOMMUFD_OBJ_HWPT_NESTED can be only manually created via the IOMMU_HWPT=
+_ALLOC
+    uAPI, provided an hwpt_id via @pt_id to associate the new HWPT_NESTED o=
+bject
 
+> <snipped>...
+> +      When @pt_id carries an ioas_id to an IOAS object, the IOMMU_HWPT_A=
+LLOC
+> +      call is instructed to allocate an HWPT_PAGING object only.
+> +      When @pt_id carries an hwpt_id to an HWPT_PAGING object, the uAPI =
+call
+         "If instead @pt_id ..."
+> +      is instructed to allocate an HWPT_NESTED object only.
+> +      If any other type of object is passed in via the @pt_id, the uAPI =
+call
+> +      will fail.
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--l5WlQuJtypFpj+Ea
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZuD8rQAKCRD2uYlJVVFO
+o/PNAP9gmYscQYFW4myLa5hHVblURAm3B+6QurV16tg1ViEvKQEA4VWBaSrSVH4c
+0yXoOOp2DmReQzFIioBwAfvC+oEZigE=
+=nnk7
+-----END PGP SIGNATURE-----
+
+--l5WlQuJtypFpj+Ea--
