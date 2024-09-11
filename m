@@ -1,117 +1,205 @@
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFB721BA263;
-	Wed, 11 Sep 2024 20:03:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BADD6152532;
+	Wed, 11 Sep 2024 20:44:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726084987; cv=none; b=MUiLynN2Y19f5eOLzz+YxxBXKaj4f1GsHCI/J8FX41fWZUznzK3PSI/RSggLsZoUheTNqHeRcp4vJdgA8DGsH0dpYk9jrU2zqgf1TlpLTeM+8aDWBMKr4DCdZC/4s0Qq2IPh/WimCjvP/tSbUwDQq21fJ+cc2FZEZJhltJrdJJk=
+	t=1726087471; cv=none; b=HGHXQUUrZIVJU1tZPs1Z0FDNruVvM/G374lSPgrOM1L/FClDRUi/NkXpDq8hMvttSOzwQfxMB2o50mEiBrFDkGWZp9dN/6USkTuoImpN+qGfrhKRbcFt1HpKRPg/um96acgZGbpsOH/daRcWEPSpvzmAQKSEBKWYA6ORW8ZvnF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726084987; c=relaxed/simple;
-	bh=Ua2dyT0bhSolwHUdXhnJ62p4G9dhMQk2hp7qVP5oi2I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eRWigY6vsBQjAXrwOz1kfZpgh6i4nQfbONZ8SWQUeplhYh3G33geis7lryhJ3a28nqZlfbI0JRhReRPw6wEjC6dU8KBBF2tBd7DX5cbBxA89Mq6zrm7IFC2PE8se7Nq5Wj5BD8+27+vuEpgTTW2rVtKeqjLY7kzY+HNSZmRWV5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R7QxJN3i; arc=none smtp.client-ip=209.85.160.49
+	s=arc-20240116; t=1726087471; c=relaxed/simple;
+	bh=Sb1htiv6VrNavcXh5X8AZ+KAkMKWD/uvhcNJbImwjF4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MgnHVRR8bcC6IDLibzk6KHecpgdWASbsQsLeIcOtUQ1bLq9PxSy/SwxkuZEJd5TH+ANeiaQ1Cb0iXWqeJF+vJgXnPL0l4P6OVDBASGwpBxn5KtvU+hI+4te0LjPlsk9usHrbrxENYfWkZ/cipp3cc1avS5zU3qzMdtB31jTl+6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FfaAHShq; arc=none smtp.client-ip=209.85.216.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R7QxJN3i"
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-2705d31a35cso114382fac.0;
-        Wed, 11 Sep 2024 13:03:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FfaAHShq"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2d8a7c50607so163798a91.1;
+        Wed, 11 Sep 2024 13:44:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726084985; x=1726689785; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HQHsFhjPJ4u+X/sv7+YjlA9uC7lJnoJfGgxEewlbqwE=;
-        b=R7QxJN3iZ7SUPQMLbjgQeTGh8yfky1ftIy6Keo/glCzRJi9Ec8pZdplkB+Cm8rqd9N
-         /oIjTyvOxgyeMaaG9i14SkKJhkb8pzZy2FiOR6keB7JMFcnRbghR6FYGcqT4QaQf8naM
-         ODolX9a4mdmXYZ8RCNsPp5Shjb6xhqPCnWOVHjD/s54RlnoOAyx+8tmMK/I4vqMZumGz
-         Nub1b/xFb3SlobWM5jhdctiOzteqn6nH1Rfji+12QKHy7lLZLpn175V6db5mLwEf7EpZ
-         C/lIE22croo76jS9liHStBRVj0w9VlPXGCYYDkvd2jycq/b+m0p0i2V4B9dmEMVh12h1
-         GjTA==
+        d=gmail.com; s=20230601; t=1726087469; x=1726692269; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=A+gqTYdURsKk/owrE4/HaTfPm9ceyYMB8i+83jcRAbE=;
+        b=FfaAHShq4/dRKFUnxNEULrCzo3C+B2Euqhej1dIYK9DI4T1HzxnRIEFX6qsdZayQ1s
+         Mm6dbZpt0EuFgZ7udTyTIkVBmt3J37Cs4dawgt25O8mz60M5KNWXqXXM1ObZBAEq/7op
+         aWUKeEVFlaTmf/I+nSXxYSWpILOlDYZcuLfMqZkMI524yqkPBD9gCblKVLTgg9XZLJ0w
+         MBFe9LWFFQNkE51BbhfHVNonNH5epd+XyhfP8j+h+YobatDBH2CgC5uu6neIuSzodhou
+         SSeKccMqw+dCe3emPdkfNgPlDuaHhHx8B8RuZjADjvGgBGb5yU6kG5BGL/6nStbyZTqf
+         Kn0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726084985; x=1726689785;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HQHsFhjPJ4u+X/sv7+YjlA9uC7lJnoJfGgxEewlbqwE=;
-        b=Uvk0p3DcXDkJE8pFY/qVv7lyVYg7/t1cU7bWVB/j81xRWKSC2547TeBW7KCc6PgWeo
-         YipeK89EbOVKkXR3LUJuC0tHdsPE/DXDAIeYNiRhwNoKRzP7qPrxeUCECzP1Rjt9t1PK
-         n0/B3FcuayYqa/0+jVlwHF077ZjES3Y+ExNc0NfyGQtJHeQzNl9vEOWwKS6hrEpF91u3
-         lchDcI/zogZvMhmNoLXoJM5JIcc+rqXgNAoz+QBJpm8qi3sz38xmzb+Hp/PDekfRosaL
-         nHcgF0VHO7XyfYkYmmGyi+dG69C/STUuuD7wJacShgme7HNGgaC25/ocB+UuVwQ4yq7b
-         JcIw==
-X-Forwarded-Encrypted: i=1; AJvYcCV8rq1IgHJCv25HUES5Q1ukTi63MUu7XQHxCEKjVkPHZvi76WMVrKBaVPgYHwF+nlw7+pNveiYVHaYUjKkn@vger.kernel.org, AJvYcCXrUKtokBPA25s317D8keQPNZBAmEaK60RuldopIrhlueSHWdHhTeuREcaJ7P0hg/WqLRpXgXsMBJ0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1tJTPEbgk/dBj+ZmitfbK/NCa/QKHTWksMF1l11cy8LJXUpU8
-	ZqsNyc8RjfqYVzH28aYx/FpbDi+AWTOf65B+0hfpU5HlKRh9LBdk
-X-Google-Smtp-Source: AGHT+IGoEN7tjp8D0vGuh4GjGOzfj9HpsxK+4aKeSYIebuZstvT9U6+BsV6Ie18HdRlFYsfu54Zeog==
-X-Received: by 2002:a05:6870:b296:b0:261:211:9d0d with SMTP id 586e51a60fabf-27c3f6a6e05mr399337fac.40.1726084984794;
-        Wed, 11 Sep 2024 13:03:04 -0700 (PDT)
-Received: from ?IPV6:2603:8080:7400:36da:dff5:4180:2562:4c1e? ([2603:8080:7400:36da:dff5:4180:2562:4c1e])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-710d9d6fb1bsm2515215a34.48.2024.09.11.13.03.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Sep 2024 13:03:04 -0700 (PDT)
-Message-ID: <200ce66b-845f-4f20-8838-619646f5f44d@gmail.com>
-Date: Wed, 11 Sep 2024 15:03:03 -0500
+        d=1e100.net; s=20230601; t=1726087469; x=1726692269;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=A+gqTYdURsKk/owrE4/HaTfPm9ceyYMB8i+83jcRAbE=;
+        b=fKnhVgdTv3PrbFtSs59gDZEOqNp+8W7LdlaPYlXJk9gylNAso8qEyJwTLzx+vChvjt
+         dTzdKrlZZjYMO2TuhvWRJR7G2ElLWpRoQ6HXvApuUe+YeUe0CYzka6rj9ht7aqvyXyPv
+         ZFRn7d6e+JaJKGWtoWzGZT3TdrKslQdUW6ikj9BdhvLqn2iDJ27udje0RoM38T9rcFal
+         xAwHZxx0qzZPJu/LnYf1rGLXGb9r8t+8m1HN9cv0hELW/YaMUgwZ3N43g1mHCa0TC/D/
+         PfHCO6NyE/m7Ih+T++WlBo20wtpqR/EIhLE11zG1rKxv18s2CW0W3TBsqsfIMJ4jLCmq
+         K8YQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUWf5o+RrKLEqiWomuzy2GFHr6vhE+c9PtvTuH42R5yD3sHjtw/BTj+6KZRDJVYr//ZhndVAyE1oZE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwrXGQOKqgX/u2IKtS2HbMN1O92sWpxjst7AWc2xq9J2TYm+V7X
+	c+Y5h/UY1VSGx4ExyFdG7Fe0sJ90wbDdzParhqc0Jwua3JiCiQi54Eb97onKqdpTrkEN5WudjFr
+	0d8gZLDXRNC7LoNVb5+PDk+PwDBY=
+X-Google-Smtp-Source: AGHT+IGe1NZloAxLhu0GnFex0Nzudo2wsxrEb5Wy5puQAkmbN15eajU6O6vlYPMkscGIxa+fpq6nhtYUpr/u2CyL3rQ=
+X-Received: by 2002:a17:90b:4c41:b0:2c9:9eb3:8477 with SMTP id
+ 98e67ed59e1d1-2db9ffcabffmr413397a91.16.1726087468984; Wed, 11 Sep 2024
+ 13:44:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs:fs:fixed some spelling mistakes in the bcachefs
- coding style page
-To: Dennis Lam <dennis.lamerice@gmail.com>, kent.overstreet@linux.dev,
- corbet@lwn.net
-Cc: linux-bcachefs@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240906195720.40315-1-dennis.lamerice@gmail.com>
-Content-Language: en-US
-From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-In-Reply-To: <20240906195720.40315-1-dennis.lamerice@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240911145908.34680-1-donald.hunter@gmail.com>
+In-Reply-To: <20240911145908.34680-1-donald.hunter@gmail.com>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Wed, 11 Sep 2024 13:44:17 -0700
+Message-ID: <CAEf4Bzbo=vNwn329eBcX5oqYmQBq1DxcxubFk4D6HQmXHRFD7w@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v1] docs/bpf: Add missing BPF program types to docs
+To: Donald Hunter <donald.hunter@gmail.com>
+Cc: bpf@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
-
-On 9/6/24 14:57, Dennis Lam wrote:
-> ---
-
-
-Change the subject, it needs spaces to be readable:
-
-"docs: fs: fixed spelling mistakes [...]"
-
-Also, you need a body in the commit which includes an explanation of what
-the patch does (even if it is almost the same as the Subject) and your
-signature. See: https://docs.kernel.org/process/submitting-patches.html
-
-
->  Documentation/filesystems/bcachefs/CodingStyle.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+On Wed, Sep 11, 2024 at 7:59=E2=80=AFAM Donald Hunter <donald.hunter@gmail.=
+com> wrote:
 >
-> diff --git a/Documentation/filesystems/bcachefs/CodingStyle.rst b/Documentation/filesystems/bcachefs/CodingStyle.rst
-> index 0c45829a4899..b29562a6bf55 100644
-> --- a/Documentation/filesystems/bcachefs/CodingStyle.rst
-> +++ b/Documentation/filesystems/bcachefs/CodingStyle.rst
-> @@ -175,7 +175,7 @@ errors in our thinking by running our code and seeing what happens. If your
->  time is being wasted because your tools are bad or too slow - don't accept it,
->  fix it.
->  
-> -Put effort into your documentation, commmit messages, and code comments - but
-> +Put effort into your documentation, commit messages, and code comments - but
->  don't go overboard. A good commit message is wonderful - but if the information
->  was important enough to go in a commit message, ask yourself if it would be
->  even better as a code comment.
-> @@ -183,4 +183,4 @@ even better as a code comment.
->  A good code comment is wonderful, but even better is the comment that didn't
->  need to exist because the code was so straightforward as to be obvious;
->  organized into small clean and tidy modules, with clear and descriptive names
-> -for functions and variable, where every line of code has a clear purpose.
-> +for functions and variables, where every line of code has a clear purpose.
+> Update the table of program types in the libbpf documentation with the
+> recently added program types.
+>
+> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+> ---
+>  Documentation/bpf/libbpf/program_types.rst | 29 +++++++++++++++++++---
+>  1 file changed, 25 insertions(+), 4 deletions(-)
+>
+> diff --git a/Documentation/bpf/libbpf/program_types.rst b/Documentation/b=
+pf/libbpf/program_types.rst
+> index 63bb88846e50..fa80a82d5681 100644
+> --- a/Documentation/bpf/libbpf/program_types.rst
+> +++ b/Documentation/bpf/libbpf/program_types.rst
+> @@ -121,6 +121,8 @@ described in more detail in the footnotes.
+>  +-------------------------------------------+---------------------------=
+-------------+----------------------------------+-----------+
+>  | ``BPF_PROG_TYPE_LWT_XMIT``                |                           =
+             | ``lwt_xmit``                     |           |
+>  +-------------------------------------------+---------------------------=
+-------------+----------------------------------+-----------+
+> +| ``BPF_PROG_TYPE_NETFILTER``               |                           =
+             | ``netfilter``                    |           |
+> ++-------------------------------------------+---------------------------=
+-------------+----------------------------------+-----------+
+>  | ``BPF_PROG_TYPE_PERF_EVENT``              |                           =
+             | ``perf_event``                   |           |
+>  +-------------------------------------------+---------------------------=
+-------------+----------------------------------+-----------+
+>  | ``BPF_PROG_TYPE_RAW_TRACEPOINT_WRITABLE`` |                           =
+             | ``raw_tp.w+`` [#rawtp]_          |           |
+> @@ -131,11 +133,23 @@ described in more detail in the footnotes.
+>  +                                           +                           =
+             +----------------------------------+-----------+
+>  |                                           |                           =
+             | ``raw_tracepoint+``              |           |
+>  +-------------------------------------------+---------------------------=
+-------------+----------------------------------+-----------+
+> -| ``BPF_PROG_TYPE_SCHED_ACT``               |                           =
+             | ``action``                       |           |
+> +| ``BPF_PROG_TYPE_SCHED_ACT``               |                           =
+             | ``action`` [#tc_legacy]_         |           |
+>  +-------------------------------------------+---------------------------=
+-------------+----------------------------------+-----------+
+> -| ``BPF_PROG_TYPE_SCHED_CLS``               |                           =
+             | ``classifier``                   |           |
+> +| ``BPF_PROG_TYPE_SCHED_CLS``               |                           =
+             | ``classifier`` [#tc_legacy]_     |           |
+>  +                                           +                           =
+             +----------------------------------+-----------+
+> -|                                           |                           =
+             | ``tc``                           |           |
+> +|                                           |                           =
+             | ``tc`` [#tc_legacy]_             |           |
+> ++                                           +---------------------------=
+-------------+----------------------------------+-----------+
+> +|                                           | ``BPF_NETKIT_PRIMARY``    =
+             | ``netkit/primary``               |           |
+> ++                                           +---------------------------=
+-------------+----------------------------------+-----------+
+> +|                                           | ``BPF_NETKIT_PEER``       =
+             | ``netkit/peer``                  |           |
+> ++                                           +---------------------------=
+-------------+----------------------------------+-----------+
+> +|                                           | ``BPF_TCX_INGRESS``       =
+             | ``tc/ingress``                   |           |
+> ++                                           +---------------------------=
+-------------+----------------------------------+-----------+
+> +|                                           | ``BPF_TCX_EGRESS``        =
+             | ``tc/egress``                    |           |
+> ++                                           +---------------------------=
+-------------+----------------------------------+-----------+
+> +|                                           | ``BPF_TCX_INGRESS``       =
+             | ``tcx/ingress``                  |           |
+> ++                                           +---------------------------=
+-------------+----------------------------------+-----------+
+> +|                                           | ``BPF_TCX_EGRESS``        =
+             | ``tcx/egress``                   |           |
+>  +-------------------------------------------+---------------------------=
+-------------+----------------------------------+-----------+
+>  | ``BPF_PROG_TYPE_SK_LOOKUP``               | ``BPF_SK_LOOKUP``         =
+             | ``sk_lookup``                    |           |
+>  +-------------------------------------------+---------------------------=
+-------------+----------------------------------+-----------+
+> @@ -155,7 +169,9 @@ described in more detail in the footnotes.
+>  +-------------------------------------------+---------------------------=
+-------------+----------------------------------+-----------+
+>  | ``BPF_PROG_TYPE_SOCK_OPS``                | ``BPF_CGROUP_SOCK_OPS``   =
+             | ``sockops``                      |           |
+>  +-------------------------------------------+---------------------------=
+-------------+----------------------------------+-----------+
+> -| ``BPF_PROG_TYPE_STRUCT_OPS``              |                           =
+             | ``struct_ops+``                  |           |
+> +| ``BPF_PROG_TYPE_STRUCT_OPS``              |                           =
+             | ``struct_ops+`` [#struct_ops]_   |           |
+> ++                                           +                           =
+             +----------------------------------+-----------+
+> +|                                           |                           =
+             | ``struct_ops.s+`` [#struct_ops]_ | Yes       |
+>  +-------------------------------------------+---------------------------=
+-------------+----------------------------------+-----------+
+>  | ``BPF_PROG_TYPE_SYSCALL``                 |                           =
+             | ``syscall``                      | Yes       |
+>  +-------------------------------------------+---------------------------=
+-------------+----------------------------------+-----------+
+> @@ -209,5 +225,10 @@ described in more detail in the footnotes.
+>                ``a-zA-Z0-9_.*?``.
+>  .. [#lsm] The ``lsm`` attachment format is ``lsm[.s]/<hook>``.
+>  .. [#rawtp] The ``raw_tp`` attach format is ``raw_tracepoint[.w]/<tracep=
+oint>``.
+> +.. [#tc_legacy] The ``tc``, ``classifier`` and ``action`` attach types a=
+re deprecated, use
+> +                ``tcx/*`` instead.
+> +.. [#struct_ops] The ``struct_ops`` attach format is ``struct_ops[.s]/<n=
+ame>``, but name appears
+> +                 to be ignored. The attachments are defined in a struct =
+initializer that is
+> +                 tagged with ``SEC(".struct_ops[.link]")``.
 
+libbpf will happily accept just SEC("struct_ops"). So it would be more
+correct to say that "struct_ops[.s]/<name>" is accepted, but name is
+ignored. But other than that, just SEC("struct_ops") probably makes
+most sense.
 
-Thanks, Carlos
+pw-bot: cr
 
+>  .. [#tp] The ``tracepoint`` attach format is ``tracepoint/<category>/<na=
+me>``.
+>  .. [#iter] The ``iter`` attach format is ``iter[.s]/<struct-name>``.
+> --
+> 2.45.2
+>
