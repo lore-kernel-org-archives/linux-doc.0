@@ -1,137 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8297D27713;
-	Wed, 11 Sep 2024 14:45:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041A71E50B;
+	Wed, 11 Sep 2024 14:47:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726065934; cv=none; b=I/AxTagOVE2P5b8pchf7pPRvZ3LJwDRMf5OVpn6J5oZdKPJVdj3c+7Se6Qq/Xeq3TgzjOVPMNsArXWPvCV0TvkLSOo2Qko6UE3O3xAJjjYWQfu3ii8fU5E/lu0zbzwGPhX4rUMvx21CF+ncEsp7OYJMfaRTvkWIae1ZtBFTfIjE=
+	t=1726066050; cv=none; b=PVC6Hvb1CepqAhP1Hec5zUIBHWkowJzjswexw3e7IM6YveSUfSaJzhLTg6u0RkQ34U4YFnRNcG+dGadSzTd7p/yPFPk399RKW7Xjbqf2XdZCpHcwkvwU3e1kpCDckErgMYtA+Aj0F84XEXTKUviSiRtkBh6kiOCYDpJ2TvecYrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726065934; c=relaxed/simple;
-	bh=z7r9sC95kQfnORF/MXv5p7BPRF1PGeUCRk6SxIm93dM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XSnaJ1ZxCmLQhUmN6t6BdpKv5detD1uGRLajVEUcpDKm73QAtdNM3TFb0ndckUpxTwJAy8BfTZIyJ3K75B7mleW7Tjw13XoewikAkD9cSWeYWzFzZ4SUrPO8+fmcYN3hutHkp41Z3mSId0GMFqhfA5woWzn4uHlVtaMQ+AoMKro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BuRVAhNq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726066050; c=relaxed/simple;
+	bh=Jk9sM3WSppSXZ5GFNuGb0uqqwzkDmHlVY6tlSZiILdo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Zgp8hwqV8HpqnpHT+qd0e9kHGRWl2DaD0N1Xe14yqggkoC2dZwg5bsRw/5UWDGc6w7a0Oa6yjCK9mAsBjpsomyWwuIJjKrX6xM3KhBg2SpXI6PkI02Gy05mZq7YuoRpaRpQBSMKLonYUlrNFrj3y3uMUy/6VPJImuUMjCCqKAuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=kEVH4LO2; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BuRVAhNq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5072C4CEC0;
-	Wed, 11 Sep 2024 14:45:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726065933;
-	bh=z7r9sC95kQfnORF/MXv5p7BPRF1PGeUCRk6SxIm93dM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BuRVAhNq/du/429/es1wHIju+QoyfEMgnVRRXB2SB3R1YYZmRvumNInoQhl+EGh3F
-	 aAy0rf7udbsPm/01hRaQlVIyr9fyTx2Fa7G9D7tw5I367TaTnjFrVrKCalHVl/pOwj
-	 0ebQ95MJH5jDueYktqOynfCCcumX+UZOnHGDmL4y6w9i1dgvRWZm0VshlvmoYexsVw
-	 kt7i8n4iMFOmaHe8EEhsR49Q5LaXOS8IwIbq5LV/Wp7JDGm7mXrIUbSNbRHOoWXwB3
-	 UUZzbk64u6b9HY/3RUN/gOsfcywF+u9NimnDVceh10mH4AdOInQmv5VsxJGUNhShHl
-	 tmkzcuxcze7dA==
-Date: Wed, 11 Sep 2024 09:45:32 -0500
-From: Rob Herring <robh@kernel.org>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: hwmon: pmbus: add ti tps25990
- documentation
-Message-ID: <20240911144532.GA154835-robh@kernel.org>
-References: <20240909-tps25990-v1-0-39b37e43e795@baylibre.com>
- <20240909-tps25990-v1-1-39b37e43e795@baylibre.com>
- <3efbzcys4762rhx2h2cbhqvi6dgik7pfrxcziccdko34pb5z54@joodcym6c3s4>
- <1jzfofsvmh.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="kEVH4LO2"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id BF3D6C0006;
+	Wed, 11 Sep 2024 14:47:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1726066038;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=mevpMli+Ir0LCy4bWmSREdhaCAndezP3bc2kWgPkQ1I=;
+	b=kEVH4LO2Jk3B/d3bzJdE9D1vmm9FZL7JcSPP430UN2hztQeN8jUDsQFaN5ddwl37MS/jAu
+	5vjvDtL4GXlnFu6fE+BOahkOi6Fj/4EJnOjT2YNiF92OBRisevPBSxIGvcgMpovLKg2p+6
+	kcM6zvJ4ntQ60Z+TWWGnKu/a8sIrCdx/nNI9wt3ZzAnp4CQqSXLVmE1ZJCCC+bNVOxDl4j
+	EkepAnnMRNT9PnYn6JLWepInDNI1L2Gx3EnOgRwqD9l9HSEgWy0aRURnqCrLaNFwbfCEsR
+	wkW23g9ei9ZPkLMETGR2M4ak63IpDp0cYmZmOzaV7rwCAS4hjYv58Gb7r2xV4Q==
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Jakub Kicinski <kuba@kernel.org>,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	thomas.petazzoni@bootlin.com,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH net-next] Documentation: networking: Fix missing PSE documentation issue
+Date: Wed, 11 Sep 2024 16:47:11 +0200
+Message-Id: <20240911144711.693216-1-kory.maincent@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1jzfofsvmh.fsf@starbuckisacylon.baylibre.com>
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: kory.maincent@bootlin.com
 
-gOn Tue, Sep 10, 2024 at 11:31:18AM +0200, Jerome Brunet wrote:
-> On Tue 10 Sep 2024 at 09:48, Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> 
-> > On Mon, Sep 09, 2024 at 05:39:03PM +0200, Jerome Brunet wrote:
-> >> Add DT binding documentation for the Texas Instruments TPS25990 eFuse
-> >> 
-> >> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
-> >> ---
-> >>  .../bindings/hwmon/pmbus/ti,tps25990.yaml          | 73 ++++++++++++++++++++++
-> >>  1 file changed, 73 insertions(+)
-> >>
-> >
-> > A nit, subject: drop second/last, redundant "documentation". The
-> > "dt-bindings" prefix is already stating that these are bindings/docs.
-> > See also:
-> > https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
-> >
-> >> diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/ti,tps25990.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/ti,tps25990.yaml
-> >> new file mode 100644
-> >> index 000000000000..e717942b3598
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/hwmon/pmbus/ti,tps25990.yaml
-> >> @@ -0,0 +1,73 @@
-> >> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> >> +%YAML 1.2
-> >> +---
-> >> +
-> >
-> > Drop blank line.
-> >
-> >> +$id: http://devicetree.org/schemas/hwmon/pmbus/ti,tps25990.yaml#
-> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >> +
-> >> +title: Texas Instruments TPS25990 Stackable eFuse
-> >> +
-> >> +maintainers:
-> >> +  - Jerome Brunet <jbrunet@baylibre.com>
-> >> +
-> >> +description: |
-> >
-> > Do not need '|' unless you need to preserve formatting.
-> >
-> >> +  The TI TPS25990 is an integrated, high-current circuit
-> >> +  protection and power management device with PMBUS interface
+Fix a missing end of phrase in the documentation. It describes the
+ETHTOOL_A_C33_PSE_ACTUAL_PW attribute, which was not fully explained.
 
-And wrap at 80.
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+---
+ Documentation/networking/ethtool-netlink.rst | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-> >> +
-> >> +properties:
-> >> +  compatible:
-> >> +    const: ti,tps25990
-> >> +
-> >> +  reg:
-> >> +    maxItems: 1
-> >> +
-> >> +  ti,rimon-milli-ohms:
-> >> +    description:
-> >> +      milli Ohms value of the resistance installed between the Imon pin
-> >> +      and the ground reference.
-> >
-> > Ohms is not enough? We don't have mOhm in property units.
-> > https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/property-units.yaml
-> >
-> 
-> Same discussion as we've had on the driver change.
-> At the moment Ohms is enough for the cases I've seen.
-> 
-> Will it be, not sure.
-> Using mOhms is' way to avoid "S**t, R is 80.2 Ohms, I
-> need another digit to not loose precision " kind of situation and
-> introduce a second property just for that.
-> 
-> No idea if Rimon will get that low. Probably not.
-> 
-> I'll switch to Ohms.
+diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
+index ba90457b8b2d..b1390878ba84 100644
+--- a/Documentation/networking/ethtool-netlink.rst
++++ b/Documentation/networking/ethtool-netlink.rst
+@@ -1801,8 +1801,9 @@ the PSE and the PD. This option is corresponding to ``IEEE 802.3-2022``
+ 30.9.1.1.8 aPSEPowerClassification.
+ 
+ When set, the optional ``ETHTOOL_A_C33_PSE_ACTUAL_PW`` attribute identifies
+-This option is corresponding to ``IEEE 802.3-2022`` 30.9.1.1.23 aPSEActualPower.
+-Actual power is reported in mW.
++the actual power drawn by the C33 PSE. This option is corresponding to
++``IEEE 802.3-2022`` 30.9.1.1.23 aPSEActualPower. Actual power is reported
++in mW.
+ 
+ When set, the optional ``ETHTOOL_A_C33_PSE_EXT_STATE`` attribute identifies
+ the extended error state of the C33 PSE. Possible values are:
+-- 
+2.34.1
 
-You can can use "-micro-ohms" too. The reason we don't have every 
-possible unit is so we have everyone picking their own.
-
-Rob
