@@ -1,103 +1,154 @@
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C61F1DA5E;
-	Wed, 11 Sep 2024 15:10:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D3E91A3055;
+	Wed, 11 Sep 2024 15:26:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726067434; cv=none; b=VKkKnAfpq9ccdVbmU9ck1s0fQndYsBDa8kKBeDVmZtT4S37C7a7vOLnMlZw/vjsbwAft/OqsB/8yUrliJDYtKBUX4ze50LUi5bOsAf75oUCPMz8C57x3b2rJAgKgfU5At5QxXq4AnczOoKJuxdXVWQSrZ14BiOdoD92dwzmRG3I=
+	t=1726068410; cv=none; b=EDVHdvgGYlcTSo59FziLpwRPndK/Vhy1bEF0j9JB4NdE9NlXgjtojsg+rHdWvKKFMZcL/n/vrQJTP0mQV7sUguT/BrxPWHBWigDOUtrNbkqrImlCr4sXvTtZKfPssBiL5Dk3DrKRV9tUxhfFkI8pgnzzy3RLbH4mk+pp/I8q0fg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726067434; c=relaxed/simple;
-	bh=jKRMmVrA0oabeJgO6HQmJU/Kq/BN+bLc7Eq02gvZhTs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Avm+zsgP6tKZ9cfk9IuDSbOk0ryhtUHRACpA64Y5w818XgDxP5nSU7kSbpbAu+i+ziOvd4SkGGaJjmtGVYKTP5tyZaCXYWKWT3ge4a9eoBFc42lxWiphF8fpVp0cLq7nsHF9vU0Ra5DPLiZMF2e+y9ihY9cH0AUkx2G8zIvwu4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=CZKvIOj7; arc=none smtp.client-ip=178.60.130.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1726068410; c=relaxed/simple;
+	bh=i5ZfnZIZHvNGti0+/63muvmz2AcEKBTMi/9XHRpOmg0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZYE4pR2tl4NuE48BACoRYKyspU6iVcMoOB4Q4TLF4aVQ9EuPobHlQHh0WiyOjPwA/00O3Kfa3HP6TIQnirdIVFAgTAs3glz2uUG2z4B726uPst0mM9giKqMCdXDT31YY2vttFUmcXW7hFJ5QpwXGXNU8VztiCo9RFq9IqcJLA6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=SLpYLMWA; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="CZKvIOj7"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=iSUmAoKbkFC1zgzAwsv+m6BjssQM8FyL0ByRqeFy6+I=; b=CZKvIOj7HFsJS0sdHhYovrfpue
-	oo92pRbxJYzGUfB2zrQwfScKO4eESbCllOLYBd6xMu4DIFZ5hQjmPaN6p+FSw/zaAPn99YsB8o483
-	FFW+GGCJHG8uedG1UApHD93E3r55OaLsWXNKe+gfZnhhaKFK7BPxJeuKdJmWKC3xRiaB7BaVjnNLU
-	GkHusTCXSwzDr2eLMIwMJTIQmx9E3QoWTiNpXcEMm+w56j7+N7zT8aDU5fwuqOo9TbExjAygmHnIe
-	HKcNAymcqlf64ASd/BMN686Z49TG/j8/r2/TlOXW5J4M/3jh1AY1p7NNvos8B8QW6E+0VzKQ4biCk
-	0Xo7ZPcA==;
-Received: from [195.69.0.8] (helo=[172.21.208.109])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1soOzD-00CUVu-4l; Wed, 11 Sep 2024 17:10:27 +0200
-Message-ID: <121b62a7-bd2d-0ded-97a7-ac890831ca63@igalia.com>
-Date: Wed, 11 Sep 2024 17:10:25 +0200
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="SLpYLMWA"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 6516B40004;
+	Wed, 11 Sep 2024 15:26:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1726068405;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jpgSvr4q2tPSBkTFpj+s4HBz32nJx+isEIcaFhq6+1g=;
+	b=SLpYLMWAeR92h3xEUOqcWOFqTxrNdVJYJkxMjLiSuIvhBRJYLvjrO7lOStxhEEa9fJSLq3
+	htO3inoR412wflFnZLmifHmM7WXo13/Qy/Ci0E2P1IljdFhv6SNfc6RgLYbE+NgwaFwsI5
+	Itpr6VhCfwG5pdnzKqXsRZe7c6QrTaft3OJ7wCTcDfumaUkbdU18+0RtkW7v0Doz7fcllX
+	c4PUdFF5hxawRYNFVvCZ4s4Rb3rOp6hE4qPP7M/gDUcSP3FR2dU1gR4uSxbPy1oNCgsiGd
+	dfuFM/vhFnAtWs5cPkxztJ9VlqwZQx7LEozHEvKOCaR+jXjNSt1raDuSlKd8wA==
+Date: Wed, 11 Sep 2024 17:26:42 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Taehee Yoo <ap420073@gmail.com>
+Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+ edumazet@google.com, corbet@lwn.net, michael.chan@broadcom.com,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org, ecree.xilinx@gmail.com,
+ przemyslaw.kitszel@intel.com, andrew@lunn.ch, hkallweit1@gmail.com,
+ ahmed.zaki@intel.com, paul.greenwalt@intel.com, rrameshbabu@nvidia.com,
+ idosch@nvidia.com, maxime.chevallier@bootlin.com, danieller@nvidia.com,
+ aleksander.lobakin@intel.com
+Subject: Re: [PATCH net-next v2 3/4] ethtool: Add support for configuring
+ tcp-data-split-thresh
+Message-ID: <20240911172642.28c7cb96@kmaincent-XPS-13-7390>
+In-Reply-To: <20240911145555.318605-4-ap420073@gmail.com>
+References: <20240911145555.318605-1-ap420073@gmail.com>
+	<20240911145555.318605-4-ap420073@gmail.com>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH V2] Documentation: Improve crash_kexec_post_notifiers
- description
-Content-Language: en-US
-To: Simon Horman <horms@kernel.org>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org, bhe@redhat.com,
- corbet@lwn.net, kernel@gpiccoli.net, linux-kernel@vger.kernel.org,
- stephen.s.brennan@oracle.com, kernel-dev@igalia.com, dyoung@redhat.com,
- vgoyal@redhat.com, linux-debuggers@vger.kernel.org
-References: <20240830182219.485065-1-gpiccoli@igalia.com>
- <20240902082342.GC23170@kernel.org>
-From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <20240902082342.GC23170@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On 02/09/2024 10:23, Simon Horman wrote:
-> 
-> Hi Guilherme,
-> 
-> Some subjective grammar nits.
-> 
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index efc52ddc6864..351730108c58 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -913,12 +913,16 @@
->>  			the parameter has no effect.
->>  
->>  	crash_kexec_post_notifiers
->> -			Run kdump after running panic-notifiers and dumping
->> -			kmsg. This only for the users who doubt kdump always
->> -			succeeds in any situation.
->> -			Note that this also increases risks of kdump failure,
->> -			because some panic notifiers can make the crashed
->> -			kernel more unstable.
->> +			Only jump to kdump kernel after running the panic
->> +			notifiers and dumping kmsg. This option increases the
->> +			risks of a kdump failure, since some panic notifiers
->> +			can make the crashed kernel more unstable. In the
-> 
-> nit: In the configurations -> In configurations
-> 
->> +			configurations where kdump may not be reliable,
->> +			running the panic notifiers can allow collecting more
->> +			data on dmesg, like stack traces from other CPUS or
->> +			extra data dumped by panic_print. Notice that some
-> 
-> nit: Notice that -> Note that
-> 
->> +			code enables this option unconditionally, like
-> 
-> Maybe: some code enables -> some configurations enable
-> 
+On Wed, 11 Sep 2024 14:55:54 +0000
+Taehee Yoo <ap420073@gmail.com> wrote:
 
-Hey Simon, tnx for the suggestions, will change in the next version.
-Cheers,
+> The tcp-data-split-thresh option configures the threshold value of
+> the tcp-data-split.
+> If a received packet size is larger than this threshold value, a packet
+> will be split into header and payload.
+> The header indicates TCP header, but it depends on driver spec.
+> The bnxt_en driver supports HDS(Header-Data-Split) configuration at
+> FW level, affecting TCP and UDP too.
+> So, like the tcp-data-split option, If tcp-data-split-thresh is set,
+> it affects UDP and TCP packets.
 
+Could you add a patch to modify the specs accordingly?
+The specs are located here: Documentation/netlink/specs/ethtool.yaml
+You can use ./tools/net/ynl tool and these specs to test ethtool netlink
+messages.
 
-Guilherme
+Use this to verify that your specs update are well written.
+$ make -C tools/net/ynl
+
+> diff --git a/Documentation/networking/ethtool-netlink.rst
+> b/Documentation/networking/ethtool-netlink.rst index
+> ba90457b8b2d..bb74e108c8c1 100644 ---
+> a/Documentation/networking/ethtool-netlink.rst +++
+> b/Documentation/networking/ethtool-netlink.rst @@ -892,6 +892,7 @@ Kernel
+> response contents: ``ETHTOOL_A_RINGS_RX_PUSH``               u8      flag=
+ of
+> RX Push mode ``ETHTOOL_A_RINGS_TX_PUSH_BUF_LEN``       u32     size of TX
+> push buffer ``ETHTOOL_A_RINGS_TX_PUSH_BUF_LEN_MAX``   u32     max size of=
+ TX
+> push buffer
+> +  ``ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THRESH`` u32     threshold of TDS
+>    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D   =3D=3D=3D=3D=3D=3D
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=20
+
+It seems there is a misalignment here. You need two more '=3D=3D'
+
+>  ``ETHTOOL_A_RINGS_TCP_DATA_SPLIT`` indicates whether the device is usable
+> with @@ -927,18 +928,20 @@ Sets ring sizes like ``ETHTOOL_SRINGPARAM`` io=
+ctl
+> request.=20
+>  Request contents:
+> =20
+> -  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> -  ``ETHTOOL_A_RINGS_HEADER``            nested  reply header
+> -  ``ETHTOOL_A_RINGS_RX``                u32     size of RX ring
+> -  ``ETHTOOL_A_RINGS_RX_MINI``           u32     size of RX mini ring
+> -  ``ETHTOOL_A_RINGS_RX_JUMBO``          u32     size of RX jumbo ring
+> -  ``ETHTOOL_A_RINGS_TX``                u32     size of TX ring
+> -  ``ETHTOOL_A_RINGS_RX_BUF_LEN``        u32     size of buffers on the r=
+ing
+> -  ``ETHTOOL_A_RINGS_CQE_SIZE``          u32     Size of TX/RX CQE
+> -  ``ETHTOOL_A_RINGS_TX_PUSH``           u8      flag of TX Push mode
+> -  ``ETHTOOL_A_RINGS_RX_PUSH``           u8      flag of RX Push mode
+> -  ``ETHTOOL_A_RINGS_TX_PUSH_BUF_LEN``   u32     size of TX push buffer
+> -  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D   =3D=3D=3D=3D=3D=3D
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> +  ``ETHTOOL_A_RINGS_HEADER``                nested  reply header
+> +  ``ETHTOOL_A_RINGS_RX``                    u32     size of RX ring
+> +  ``ETHTOOL_A_RINGS_RX_MINI``               u32     size of RX mini ring
+> +  ``ETHTOOL_A_RINGS_RX_JUMBO``              u32     size of RX jumbo ring
+> +  ``ETHTOOL_A_RINGS_TX``                    u32     size of TX ring
+> +  ``ETHTOOL_A_RINGS_RX_BUF_LEN``            u32     size of buffers on t=
+he
+> ring
+> +  ``ETHTOOL_A_RINGS_TCP_DATA_SPLIT``        u8      TCP header / data sp=
+lit
+> +  ``ETHTOOL_A_RINGS_CQE_SIZE``              u32     Size of TX/RX CQE
+> +  ``ETHTOOL_A_RINGS_TX_PUSH``               u8      flag of TX Push mode
+> +  ``ETHTOOL_A_RINGS_RX_PUSH``               u8      flag of RX Push mode
+> +  ``ETHTOOL_A_RINGS_TX_PUSH_BUF_LEN``       u32     size of TX push buff=
+er
+> +  ``ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THRESH`` u32     threshold of TDS
+> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D   =3D=3D=3D=3D=3D=3D
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=20
+
+same here.
+
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
