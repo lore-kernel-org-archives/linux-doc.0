@@ -1,81 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C212746E;
-	Wed, 11 Sep 2024 00:20:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE63BBA20;
+	Wed, 11 Sep 2024 00:49:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=204.191.154.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726014032; cv=none; b=ElD8YmJu45vTvhp8Q99+t+5M9AD9m6nW7V+xXR/jBXzbPyslkh8NxBwXq0e23xcdtPBWMivrf+i4S7um+oO31xQtoxKqB9Am5kYMKTrhtWlvuicGdJHxNowsNmklhy9c8CN+YGRCeetREe/rM0Ff459d3PWxU9kLm74fr7NdsHA=
+	t=1726015793; cv=none; b=fGvvG5NDrKrcdBm0kf/6PaYPl9sz3mCHAdMmrLorqBvd8WR4BoGjyce03HQZL78kDunPUGWse8/mzTCmx9Iiw76Q0929HHsk/mw7dWlzknToikwFaFu8VgMSkv5P7CsYwoCI1PifmUAtNXGDQm1iU20xrA8rDtCefutogk8Omk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726014032; c=relaxed/simple;
-	bh=PY1O0A0R/pfoRTcw5WV6CQa8X2D5lqJ8LYaGP73jnEU=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=FfAxm9TQTWCwYwSERAlU5OmbYDk917g//RmKAyENzF8HLzBgeGufHB9qzUbjUQMdwoEltD8PdONTKZjX6OFHHUe9bUfIeUWDVZw/kZ0alOsMKF7awwiKI3ahPeR4JryY09p1Oox12gIzhK4KN/eYhiOP+rSXm2Yp8Q/Jceude4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u50MFV3V; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726015793; c=relaxed/simple;
+	bh=dH7fv14lgnC0D0A5OnxBGGxWTkAjfmvEzxeklRot7jA=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:From:In-Reply-To:
+	 Content-Type:Subject; b=J4urWD9EEVnvFtLwxlG/iRZNMXXEkyRg/u22lGDm0rk43AcI8HcgF7qsOapRqprm5+m3F+YKIG+9VpS/oO7k+GJvxhbm3JePIxFykA11JFRjM/araytNFymkEhfWdH9nIsuaeEcdJnUJUIg90iHi3oL5ORVtm+je8pyOTS4fPC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com; spf=pass smtp.mailfrom=deltatee.com; dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b=PfU+CRym; arc=none smtp.client-ip=204.191.154.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deltatee.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u50MFV3V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB06AC4CEC3;
-	Wed, 11 Sep 2024 00:20:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726014032;
-	bh=PY1O0A0R/pfoRTcw5WV6CQa8X2D5lqJ8LYaGP73jnEU=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=u50MFV3VjsxzH3/WDVcmYRhDXFKDRCmb2tO4jgcK7YN0hB7TaraQt24oR1G9KSJEU
-	 AhttR3EX+ra7JJtIA9ZQ+r+LCOSjDzabvr/Pl+38REQWZEe9hS65I2iSp6JwRDco+B
-	 2KGrFCZzi1GXcAqArDxmA11Lqct6V67YFCUTjRaNeQ8UyqFpLQ9uD13kWdy7n+LGPN
-	 u5PMjYMzCad4T0lD7fgXNH3gUo44DHCD1jTZ53vzjDYbfmE0bgOrZAlH+TbX57DAk5
-	 qkAXiod8yTz+vu2xXy6gJaWLauGB+FQ7RAcbUqpD5SfjFRC4qGQ4n45i5Qo6uRo7IX
-	 eu7Qt+zY068UA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 34AB43822FA4;
-	Wed, 11 Sep 2024 00:20:34 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="PfU+CRym"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:content-disposition;
+	bh=nTtMb9H3dXUpUSnSef+Be8oMvAgnwIOToyszkwVy8e4=; b=PfU+CRymWcXZGU8mYwkDuJY5Nt
+	KxhnN6hTdnUpKK6c3FLfnreXMcwDl5uXgI0f+QVr9IAL/a7U4alJzvox0Hu/jx8FdVvfCvk6K23RF
+	lK8vn7f2TcsKwePi8XAAm+Do+v3+uwGtpS1ailTPFQB4bfs203NzQnnCCUXb/sMVlet5HU1E6m9vy
+	zcwHt8C4DgCDQe3olE14BG0oSvKMkpTZrdceJIxDReKKpwni+aYI+Z20uWIsMZDYZ8HVFkh+hCtJv
+	YV4oSurTolqbMlZJN15P2PVDkvC2Zg5xnEPszFLT8tR9OOrTm8xYZG/nJd2oKo02MXEmzvmD9xZuB
+	l6TfHBVA==;
+Received: from d104-157-31-28.abhsia.telus.net ([104.157.31.28] helo=[192.168.1.250])
+	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.96)
+	(envelope-from <logang@deltatee.com>)
+	id 1soBXi-000ozM-2O;
+	Tue, 10 Sep 2024 18:49:11 -0600
+Message-ID: <6f3402ae-01ad-4764-8941-f88bc77f5227@deltatee.com>
+Date: Tue, 10 Sep 2024 18:48:48 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v6 0/2] net-timestamp: introduce a flag to filter out
- rx software and hardware report
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <172601403300.437762.14539964956688733812.git-patchwork-notify@kernel.org>
-Date: Wed, 11 Sep 2024 00:20:33 +0000
-References: <20240909015612.3856-1-kerneljasonxing@gmail.com>
-In-Reply-To: <20240909015612.3856-1-kerneljasonxing@gmail.com>
-To: Jason Xing <kerneljasonxing@gmail.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, dsahern@kernel.org, willemdebruijn.kernel@gmail.com,
- willemb@google.com, corbet@lwn.net, linux-doc@vger.kernel.org,
- netdev@vger.kernel.org, kernelxing@tencent.com
+User-Agent: Mozilla Thunderbird
+To: Alistair Popple <apopple@nvidia.com>, dan.j.williams@intel.com,
+ linux-mm@kvack.org
+Cc: vishal.l.verma@intel.com, dave.jiang@intel.com, bhelgaas@google.com,
+ jack@suse.cz, jgg@ziepe.ca, catalin.marinas@arm.com, will@kernel.org,
+ mpe@ellerman.id.au, npiggin@gmail.com, dave.hansen@linux.intel.com,
+ ira.weiny@intel.com, willy@infradead.org, djwong@kernel.org, tytso@mit.edu,
+ linmiaohe@huawei.com, david@redhat.com, peterx@redhat.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de,
+ david@fromorbit.com
+References: <cover.9f0e45d52f5cff58807831b6b867084d0b14b61c.1725941415.git-series.apopple@nvidia.com>
+ <4f8326d9d9e81f1cb893c2bd6f17878b138cf93d.1725941415.git-series.apopple@nvidia.com>
+Content-Language: en-CA
+From: Logan Gunthorpe <logang@deltatee.com>
+In-Reply-To: <4f8326d9d9e81f1cb893c2bd6f17878b138cf93d.1725941415.git-series.apopple@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 104.157.31.28
+X-SA-Exim-Rcpt-To: apopple@nvidia.com, dan.j.williams@intel.com, linux-mm@kvack.org, vishal.l.verma@intel.com, dave.jiang@intel.com, bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca, catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au, npiggin@gmail.com, dave.hansen@linux.intel.com, ira.weiny@intel.com, willy@infradead.org, djwong@kernel.org, tytso@mit.edu, linmiaohe@huawei.com, david@redhat.com, peterx@redhat.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de, david@fromorbit.com
+X-SA-Exim-Mail-From: logang@deltatee.com
+X-Spam-Level: 
+Subject: Re: [PATCH 02/12] pci/p2pdma: Don't initialise page refcount to one
+X-SA-Exim-Version: 4.2.1 (built Wed, 06 Jul 2022 17:57:39 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 
-Hello:
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
 
-On Mon,  9 Sep 2024 09:56:10 +0800 you wrote:
-> From: Jason Xing <kernelxing@tencent.com>
+On 2024-09-09 22:14, Alistair Popple wrote:
+> The reference counts for ZONE_DEVICE private pages should be
+> initialised by the driver when the page is actually allocated by the
+> driver allocator, not when they are first created. This is currently
+> the case for MEMORY_DEVICE_PRIVATE and MEMORY_DEVICE_COHERENT pages
+> but not MEMORY_DEVICE_PCI_P2PDMA pages so fix that up.
 > 
-> When one socket is set SOF_TIMESTAMPING_RX_SOFTWARE which means the
-> whole system turns on the netstamp_needed_key button, other sockets
-> that only have SOF_TIMESTAMPING_SOFTWARE will be affected and then
-> print the rx timestamp information even without setting
-> SOF_TIMESTAMPING_RX_SOFTWARE generation flag.
+> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> ---
+>  drivers/pci/p2pdma.c |  6 ++++++
+>  mm/memremap.c        | 17 +++++++++++++----
+>  mm/mm_init.c         | 22 ++++++++++++++++++----
+>  3 files changed, 37 insertions(+), 8 deletions(-)
 > 
-> [...]
+> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+> index 4f47a13..210b9f4 100644
+> --- a/drivers/pci/p2pdma.c
+> +++ b/drivers/pci/p2pdma.c
+> @@ -129,6 +129,12 @@ static int p2pmem_alloc_mmap(struct file *filp, struct kobject *kobj,
+>  	}
+>  
+>  	/*
+> +	 * Initialise the refcount for the freshly allocated page. As we have
+> +	 * just allocated the page no one else should be using it.
+> +	 */
+> +	set_page_count(virt_to_page(kaddr), 1);
+> +
+> +	/*
+>  	 * vm_insert_page() can sleep, so a reference is taken to mapping
+>  	 * such that rcu_read_unlock() can be done before inserting the
+>  	 * pages
+This seems to only set reference count to the first page, when there can
+be more than one page referenced by kaddr.
 
-Here is the summary with links:
-  - [net-next,v6,1/2] net-timestamp: introduce SOF_TIMESTAMPING_OPT_RX_FILTER flag
-    https://git.kernel.org/netdev/net-next/c/be8e9eb37506
-  - [net-next,v6,2/2] net-timestamp: add selftests for SOF_TIMESTAMPING_OPT_RX_FILTER
-    https://git.kernel.org/netdev/net-next/c/fffe8efd689f
+I suspect the page count adjustment should be done in the for loop
+that's a few lines lower than this.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+I think a similar mistake was made by other recent changes.
 
+Thanks,
 
+Logan
