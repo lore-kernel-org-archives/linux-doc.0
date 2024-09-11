@@ -1,138 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62328161;
-	Wed, 11 Sep 2024 00:10:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42180182B4;
+	Wed, 11 Sep 2024 00:20:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726013451; cv=none; b=bMYZN7uGseTnMfd44X6dvXI3zBTNUTGyFkYgGe1kMlP5ySJ4ibSxAUqNHjNCDYCnLqHeBAFTzNdVVhXWSC3xiHhX0dqvmjDGGDZ0Tne65+evL/pivxKm0m8ZlhU0FAPzfqeJ9qigwcQSioPlUEMF5yhoEm2FJjg/ChIOXxhiPrQ=
+	t=1726014031; cv=none; b=FxP/+e7GCIL42qT4/7o93Bx3SKEXvuj6VUZ4sse35F64NBkvr9ZJ9C23ppra80uj8l5EaN4vh4mrGi9+RgJtaWePo+tYwjFneYDBEyLoD5ZHq/pR6FkSQ+fa555KyVov6FFpiqLzHtJGpGD/NUIq5r9jCYQuvFVUZKauVgX4aj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726013451; c=relaxed/simple;
-	bh=dHIdRcR5mTgJHf2WyepD+aXCWnQw4zMiEb95qQFo4WM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gJY5BCCZeW2Wp3UGcT5GBmzYHvUsLpWxhNyJAg9BBR4q/vgORGFfNVdvelQ1cq1Q05Jmlfur97rYPxFfV9q/esRfRYq/L0KO6lW+4S52WmnUwiCDYS4ftJ7txGS37OhAkqYv8WtxwdhfogSlmPcHVi+I1b6tcCEHSzQCG6kkYig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eFXBisme; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726014031; c=relaxed/simple;
+	bh=gfqlHdUJ9QK/+OjJ/MnbGLnMW9y1JOfw3xO6bcvwCGc=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=ZMCg+o/CpPJ0HAW45ARs/RtQjrp0E8h0tgz9Knq9XKnSmUxEv5ptlUrOHo44J8WzmTidXK3UucHh52jzvfYXEtijtzICOTMUFPy24ewTCeqBLfpcDQ0G9bqQU91fQEoANS0g1cQhILkY9zN1wRApb0TZ8uWJg9YHGkgG9X4fNTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O18en7C9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eFXBisme"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AB50C4CEC3;
-	Wed, 11 Sep 2024 00:10:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O18en7C9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABE3BC4CEC3;
+	Wed, 11 Sep 2024 00:20:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726013450;
-	bh=dHIdRcR5mTgJHf2WyepD+aXCWnQw4zMiEb95qQFo4WM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=eFXBismetIxuW8kAtXFmYRkZcZF3t+EsfiMQLTAyT/Qw+Vei8rQMQuGeobJfa3sU8
-	 3cPQWiXup1KV7XisZItr+2jTThuIKUHO6ULP2ozODLV+puuS6sHOOtHtBu3w6vJjR7
-	 p5DhIKgLX1a2pg7TmFfKKJmDkw0fRY2GRSr4dgu/P7eIpgUfwgwN/oFokiK9vgePub
-	 OK2UYkcEgsF/tKowrZEfA5z7i8w6CzcIGb6mVWfGjwr9MxdewwN+UzWl2hQ4tY8Uut
-	 5l/crkMoV7srMvPmYqiO/gruQBCEvsrsIVytpnakjvO2sbpIV2nEDF4K8A7mR0VaQy
-	 AUQ3vmKuClQPA==
-Date: Tue, 10 Sep 2024 17:10:48 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Joe Damato <jdamato@fastly.com>
-Cc: netdev@vger.kernel.org, mkarsten@uwaterloo.ca, skhawaja@google.com,
- sdf@fomichev.me, bjorn@rivosinc.com, amritha.nambiar@intel.com,
- sridhar.samudrala@intel.com, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
- Corbet <corbet@lwn.net>, Jiri Pirko <jiri@resnulli.us>, Sebastian Andrzej
- Siewior <bigeasy@linutronix.de>, Lorenzo Bianconi <lorenzo@kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list
- <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC net-next v2 1/9] net: napi: Add napi_storage
-Message-ID: <20240910171048.768a62b0@kernel.org>
-In-Reply-To: <ZuBvgpW_iRDjICTH@LQ3V64L9R2.homenet.telecomitalia.it>
-References: <20240908160702.56618-1-jdamato@fastly.com>
-	<20240908160702.56618-2-jdamato@fastly.com>
-	<20240909164039.501dd626@kernel.org>
-	<Zt_jn5RQAndpKjoE@LQ3V64L9R2.homenet.telecomitalia.it>
-	<20240910075217.45f66523@kernel.org>
-	<ZuBvgpW_iRDjICTH@LQ3V64L9R2.homenet.telecomitalia.it>
+	s=k20201202; t=1726014030;
+	bh=gfqlHdUJ9QK/+OjJ/MnbGLnMW9y1JOfw3xO6bcvwCGc=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=O18en7C9QlemKMUAV/Jvccg3r1ZiIFDWNifkhDUD0s/lTwPgkBl9gwhK6KnKblsIw
+	 rNIiykasMZRAlYOllrzwbTGQgUCaUruVla9Z5CN1JR1szbOcQsAwofv1v4sYoVOn4t
+	 67n69OiafkC+YZdDiG4dTP/obUVpquxNsX0q3IkHtQdLkzE7ePOLNajyyavu/vZxDA
+	 nsSuHU3EnjOpfEAK/XaR15ewwH+eNLOuPB7WqVZoNS1bspBAsFjlejXXfzWoE7FtVD
+	 IkF3YuyjQJLM9wL2xv//Y33ERLWw4fMrsaqELmHmsZQmWwn8HNjOg8L6iSyRdgtOZK
+	 RqOjBnnWLrDYQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EB35D3822FA4;
+	Wed, 11 Sep 2024 00:20:32 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 net-next] net-timestamp: correct the use of
+ SOF_TIMESTAMPING_RAW_HARDWARE
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <172601403178.437762.10162604322786981714.git-patchwork-notify@kernel.org>
+Date: Wed, 11 Sep 2024 00:20:31 +0000
+References: <20240908124141.39628-1-kerneljasonxing@gmail.com>
+In-Reply-To: <20240908124141.39628-1-kerneljasonxing@gmail.com>
+To: Jason Xing <kerneljasonxing@gmail.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, willemdebruijn.kernel@gmail.com, willemb@google.com,
+ corbet@lwn.net, linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+ kernelxing@tencent.com
 
-On Tue, 10 Sep 2024 18:10:42 +0200 Joe Damato wrote:
-> On Tue, Sep 10, 2024 at 07:52:17AM -0700, Jakub Kicinski wrote:
-> > Hm, fair point. In my mind I expected we still add the fast path fields
-> > to NAPI instances. And the storage would only be there to stash that
-> > information for the period of time when real NAPI instances are not
-> > present (napi_disable() -> napi_enable() cycles).  
-> 
-> I see, I hadn't understood that part. It sounds like you were
-> thinking we'd stash the values in between whereas I thought we were
-> reading from the struct directly (hence the implementation of the
-> static inline wrappers).
-> 
-> I don't really have a preference one way or the other.
+Hello:
 
-Me neither. I suspect having the fields in napi_struct to be slightly
-more optimal. No need for indirect accesses via napi->storage->$field,
-and conditions to check if napi->storage is set. We can make sure we
-populate the fields in NAPIs when they are created and when sysfs writes
-happen. So slightly better fastpath locality at the expense of more
-code on the control path keeping it in sync.
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-FWIW the more we discuss this the less I like the word "storage" :)
-If you could sed -i 's/storage/config/' on the patches that'd great :)
+On Sun,  8 Sep 2024 20:41:41 +0800 you wrote:
+> From: Jason Xing <kernelxing@tencent.com>
+> 
+> SOF_TIMESTAMPING_RAW_HARDWARE is a report flag which passes the
+> timestamps generated by either SOF_TIMESTAMPING_TX_HARDWARE or
+> SOF_TIMESTAMPING_RX_HARDWARE to the userspace all the time.
+> 
+> So let us revise the doc here.
+> 
+> [...]
 
-> > > I don't think I realized we settled on the NAPI ID being persistent.
-> > > I'm not opposed to that, I just think I missed that part in the
-> > > previous conversation.
-> > > 
-> > > I'll give it a shot and see what the next RFC looks like.  
-> > 
-> > The main reason to try to make NAPI ID persistent from the start is that
-> > if it works we don't have to add index to the uAPI. I don't feel
-> > strongly about it, if you or anyone else has arguments against / why
-> > it won't work.  
-> 
-> Yea, I think not exposing the index in the uAPI is probably a good
-> idea? Making the NAPI IDs persistent let's us avoid that so I can
-> give that a shot because it's easier from the user app perspective,
-> IMO.
+Here is the summary with links:
+  - [v2,net-next] net-timestamp: correct the use of SOF_TIMESTAMPING_RAW_HARDWARE
+    https://git.kernel.org/netdev/net-next/c/e503f82e304b
 
-Right, basically we can always add it later. Removing it later won't
-be possible :S
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-> > > Only one way to find out ;)
-> > > 
-> > > Separately: your comment about documenting rings to NAPIs... I am
-> > > not following that bit.
-> > > 
-> > > Is that a thing you meant should be documented for driver writers to
-> > > follow to reduce churn ?  
-> > 
-> > Which comment?  
-> 
-> In this message:
-> 
-> https://lore.kernel.org/netdev/20240903124008.4793c087@kernel.org/
-> 
-> You mentioned this, which I interpreted as a thing that core needs
-> to solve for, but perhaps this intended as advice for drivers?
-> 
->   Maybe it's enough to document how rings are distributed to NAPIs?
->   
->   First set of NAPIs should get allocated to the combined channels,
->   then for remaining rx- and tx-only NAPIs they should be interleaved
->   starting with rx?
->   
->   Example, asymmetric config: combined + some extra tx:
->   
->       combined        tx
->    [0..#combined-1] [#combined..#combined+#tx-1]
->   
->   Split rx / tx - interleave:
->   
->    [0 rx0] [1 tx0] [2 rx1] [3 tx1] [4 rx2] [5 tx2] ...
->   
->   This would limit the churn when changing channel counts.
 
-Oh, yes. I'm not sure _where_ to document it. But if the driver supports
-asymmetric ring count or dedicated Rx and Tx NAPIs - this is the
-recommended way to distributing the rings to NAPIs, to, as you say,
-limit the config churn / mismatch after ring count changes.
