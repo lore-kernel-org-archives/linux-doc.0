@@ -1,105 +1,138 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0E851A7062;
-	Tue, 10 Sep 2024 23:53:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62328161;
+	Wed, 11 Sep 2024 00:10:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726012411; cv=none; b=EKCGlS4RVDq2unkdenZ/YpHy84VN5WEqPqu7O+eFJiBgsM97PCg8Fq/bfsHnzu1+RN3uBny4RVjwz2Jc37aREeQ73DIFNMkeVeogMpwHoYTIExFSZdIognRaFvUVwE13MiUtWoubrinwE1Y0Am6Xt/I0XgHT7p6Bu5bBz+5oSvU=
+	t=1726013451; cv=none; b=bMYZN7uGseTnMfd44X6dvXI3zBTNUTGyFkYgGe1kMlP5ySJ4ibSxAUqNHjNCDYCnLqHeBAFTzNdVVhXWSC3xiHhX0dqvmjDGGDZ0Tne65+evL/pivxKm0m8ZlhU0FAPzfqeJ9qigwcQSioPlUEMF5yhoEm2FJjg/ChIOXxhiPrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726012411; c=relaxed/simple;
-	bh=QBUPbzW5Ujw6G55VRiUeoU7BkiPTrZ8t6vx6VzGLmoE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OLfKAoA5hsEN5R1udAcqLu1e1+t5lUug/Um6SoYp9mrBxXt45NnyA0c056mERqsJ7uSP6mIUq4CDEo978EZQXkYeneh3KngvgWVKNBf0j0YfWFeuuhHtZPtcQIwFy7T2FNp8P3N7IHbiwfGmVS1SSjUI7YQUmpHGmD6Q2YBBgwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DINhkYsf; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1726013451; c=relaxed/simple;
+	bh=dHIdRcR5mTgJHf2WyepD+aXCWnQw4zMiEb95qQFo4WM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gJY5BCCZeW2Wp3UGcT5GBmzYHvUsLpWxhNyJAg9BBR4q/vgORGFfNVdvelQ1cq1Q05Jmlfur97rYPxFfV9q/esRfRYq/L0KO6lW+4S52WmnUwiCDYS4ftJ7txGS37OhAkqYv8WtxwdhfogSlmPcHVi+I1b6tcCEHSzQCG6kkYig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eFXBisme; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DINhkYsf"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2d8a54f1250so4033135a91.0;
-        Tue, 10 Sep 2024 16:53:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726012409; x=1726617209; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ci3pK1EZN53j2koe7RgM9dHEDcCi2B70OXSAa1k1MsA=;
-        b=DINhkYsfQufQM0jk5oCHSdX7ngSKYkst4XlLNkBLAdkD4sDxTtrOIOf5ZxD0RwIYew
-         NxC+3TyKvyi2YprLlYrk4gX8sdAmY0qVrtDk5UmDEiqWPZLoNEylxdvsLRQzJCDtfjhJ
-         8oEzm8r/rR5fcmq1kX40ZpoMTKoc/EdPDFhXGrq4YBgHdOZrJWVaYCLtZlyEi+orNIZz
-         7Fjm/HzNoP1dkLp465Iub3qAKT7pTbdroSygVaaGnk615zPGIQJGjU03THhQbg1L5hJ0
-         TlJtoUQpGgHQw92tND9w6IblJBRV7k7WEAoJsBKBPu//dgmKIQQ210RaWmrpL+ayxrQ8
-         aGsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726012409; x=1726617209;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ci3pK1EZN53j2koe7RgM9dHEDcCi2B70OXSAa1k1MsA=;
-        b=UY1xmDWY8/wj975IcUZWrr9WD3kuvktX4Pl/F7aTCIdXaUfvuChKn7sNWUYxjErqFn
-         tjILjttfN2pUUCq02K8DnOceiXnDfUpla2J9AbUyzVz863v/ja2p35Mzu4bR1sh4u+wH
-         y2sUG8zEq0CWjNmCW2AaaX7e36f002Tqzgwm+eUjSc5w6AdZFxY+sW8MffkSfyzIXB+z
-         P5RM4WC33O/3QEPqMrm7drP7LN6Ug3LWpJzuoYHa1MO726dyW5zmRMdFrIn5c2TUMnC/
-         Ru27popJcZMKu+jSSoPg1bM8UEKv2JRwoowcs8JzuiW+RgsPoJPpX10r6GPX0i2Fv38n
-         VKMA==
-X-Forwarded-Encrypted: i=1; AJvYcCWbyRTKTuXIGyoZZvQGuGBNCOG6s++L/B6RDfbNsO8Tgw1I7OXP9j6c+iI1ROszdTXlgzHsuqkC+yo=@vger.kernel.org, AJvYcCX0pVFLTxCOCF/KZ0buE7HZlha0Vd/2wYCHHzo294RRaHqPCocEaIMUAN1UQaEqd/26z0wmWdzuH9xYRMDw1Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxrhfTgrFPd7pAK4NToZLcqXjSiUHdxt4jJfEsXM53KC6wjIlkh
-	Fm7KXdM87ePyIvN+XT3/1hJfAEyMo2pNrG95o/DalUJoGnzP3Bla
-X-Google-Smtp-Source: AGHT+IHLdk3yW2rzj6Myza6eYvFTIJyl7/R6WiSmi8f2nxW0Px5jDXFR7AF9QAWLORdGmuPapoPENA==
-X-Received: by 2002:a17:90a:bc9:b0:2d3:ba42:775c with SMTP id 98e67ed59e1d1-2dad4de1446mr19735939a91.1.1726012408905;
-        Tue, 10 Sep 2024 16:53:28 -0700 (PDT)
-Received: from [192.168.0.106] ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7d8242b3d13sm6268729a12.52.2024.09.10.16.53.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Sep 2024 16:53:28 -0700 (PDT)
-Message-ID: <ea2988dd-966a-4ee2-b6d5-9eeceadead7e@gmail.com>
-Date: Wed, 11 Sep 2024 06:53:22 +0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eFXBisme"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AB50C4CEC3;
+	Wed, 11 Sep 2024 00:10:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726013450;
+	bh=dHIdRcR5mTgJHf2WyepD+aXCWnQw4zMiEb95qQFo4WM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=eFXBismetIxuW8kAtXFmYRkZcZF3t+EsfiMQLTAyT/Qw+Vei8rQMQuGeobJfa3sU8
+	 3cPQWiXup1KV7XisZItr+2jTThuIKUHO6ULP2ozODLV+puuS6sHOOtHtBu3w6vJjR7
+	 p5DhIKgLX1a2pg7TmFfKKJmDkw0fRY2GRSr4dgu/P7eIpgUfwgwN/oFokiK9vgePub
+	 OK2UYkcEgsF/tKowrZEfA5z7i8w6CzcIGb6mVWfGjwr9MxdewwN+UzWl2hQ4tY8Uut
+	 5l/crkMoV7srMvPmYqiO/gruQBCEvsrsIVytpnakjvO2sbpIV2nEDF4K8A7mR0VaQy
+	 AUQ3vmKuClQPA==
+Date: Tue, 10 Sep 2024 17:10:48 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Joe Damato <jdamato@fastly.com>
+Cc: netdev@vger.kernel.org, mkarsten@uwaterloo.ca, skhawaja@google.com,
+ sdf@fomichev.me, bjorn@rivosinc.com, amritha.nambiar@intel.com,
+ sridhar.samudrala@intel.com, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
+ Corbet <corbet@lwn.net>, Jiri Pirko <jiri@resnulli.us>, Sebastian Andrzej
+ Siewior <bigeasy@linutronix.de>, Lorenzo Bianconi <lorenzo@kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC net-next v2 1/9] net: napi: Add napi_storage
+Message-ID: <20240910171048.768a62b0@kernel.org>
+In-Reply-To: <ZuBvgpW_iRDjICTH@LQ3V64L9R2.homenet.telecomitalia.it>
+References: <20240908160702.56618-1-jdamato@fastly.com>
+	<20240908160702.56618-2-jdamato@fastly.com>
+	<20240909164039.501dd626@kernel.org>
+	<Zt_jn5RQAndpKjoE@LQ3V64L9R2.homenet.telecomitalia.it>
+	<20240910075217.45f66523@kernel.org>
+	<ZuBvgpW_iRDjICTH@LQ3V64L9R2.homenet.telecomitalia.it>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: livepatch: Correct release locks antonym
-To: Petr Mladek <pmladek@suse.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Kernel Livepatching <live-patching@vger.kernel.org>,
- Josh Poimboeuf <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>,
- Miroslav Benes <mbenes@suse.cz>, Joe Lawrence <joe.lawrence@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Marcos Paulo de Souza <mpdesouza@suse.com>
-References: <20240903024753.104609-1-bagasdotme@gmail.com>
- <ZthJEsogeqfVj8jg@pathway.suse.cz>
- <cd1340e4-f726-4ac4-9caa-8e8a3c369203@gmail.com>
- <ZuAm-pgXO4SySyB5@pathway.suse.cz>
-Content-Language: en-US
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <ZuAm-pgXO4SySyB5@pathway.suse.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 9/10/24 18:01, Petr Mladek wrote:
-> On Tue 2024-09-10 17:27:42, Bagas Sanjaya wrote:
->> On 9/4/24 18:48, Petr Mladek wrote:
->>> On Tue 2024-09-03 09:47:53, Bagas Sanjaya wrote:
->>>> "get" doesn't properly fit as an antonym for "release" in the context
->>>> of locking. Correct it with "acquire".
->>>>
->>>> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
->>>
->>> Reviewed-by: Petr Mladek <pmladek@suse.com>
->>>
->>> The patch is trivial. I have have committed it into livepatching.git,
->>> branch for-6.12/trivial.
->>>
->>
->> Shouldn't this for 6.11 instead? I'm expecting that though...
+On Tue, 10 Sep 2024 18:10:42 +0200 Joe Damato wrote:
+> On Tue, Sep 10, 2024 at 07:52:17AM -0700, Jakub Kicinski wrote:
+> > Hm, fair point. In my mind I expected we still add the fast path fields
+> > to NAPI instances. And the storage would only be there to stash that
+> > information for the period of time when real NAPI instances are not
+> > present (napi_disable() -> napi_enable() cycles).  
 > 
-> I am sorry but the change is not urgent enough to be rushed into 6.11.
+> I see, I hadn't understood that part. It sounds like you were
+> thinking we'd stash the values in between whereas I thought we were
+> reading from the struct directly (hence the implementation of the
+> static inline wrappers).
 > 
+> I don't really have a preference one way or the other.
 
-OK, thanks!
+Me neither. I suspect having the fields in napi_struct to be slightly
+more optimal. No need for indirect accesses via napi->storage->$field,
+and conditions to check if napi->storage is set. We can make sure we
+populate the fields in NAPIs when they are created and when sysfs writes
+happen. So slightly better fastpath locality at the expense of more
+code on the control path keeping it in sync.
 
--- 
-An old man doll... just what I always wanted! - Clara
+FWIW the more we discuss this the less I like the word "storage" :)
+If you could sed -i 's/storage/config/' on the patches that'd great :)
+
+> > > I don't think I realized we settled on the NAPI ID being persistent.
+> > > I'm not opposed to that, I just think I missed that part in the
+> > > previous conversation.
+> > > 
+> > > I'll give it a shot and see what the next RFC looks like.  
+> > 
+> > The main reason to try to make NAPI ID persistent from the start is that
+> > if it works we don't have to add index to the uAPI. I don't feel
+> > strongly about it, if you or anyone else has arguments against / why
+> > it won't work.  
+> 
+> Yea, I think not exposing the index in the uAPI is probably a good
+> idea? Making the NAPI IDs persistent let's us avoid that so I can
+> give that a shot because it's easier from the user app perspective,
+> IMO.
+
+Right, basically we can always add it later. Removing it later won't
+be possible :S
+
+> > > Only one way to find out ;)
+> > > 
+> > > Separately: your comment about documenting rings to NAPIs... I am
+> > > not following that bit.
+> > > 
+> > > Is that a thing you meant should be documented for driver writers to
+> > > follow to reduce churn ?  
+> > 
+> > Which comment?  
+> 
+> In this message:
+> 
+> https://lore.kernel.org/netdev/20240903124008.4793c087@kernel.org/
+> 
+> You mentioned this, which I interpreted as a thing that core needs
+> to solve for, but perhaps this intended as advice for drivers?
+> 
+>   Maybe it's enough to document how rings are distributed to NAPIs?
+>   
+>   First set of NAPIs should get allocated to the combined channels,
+>   then for remaining rx- and tx-only NAPIs they should be interleaved
+>   starting with rx?
+>   
+>   Example, asymmetric config: combined + some extra tx:
+>   
+>       combined        tx
+>    [0..#combined-1] [#combined..#combined+#tx-1]
+>   
+>   Split rx / tx - interleave:
+>   
+>    [0 rx0] [1 tx0] [2 rx1] [3 tx1] [4 rx2] [5 tx2] ...
+>   
+>   This would limit the churn when changing channel counts.
+
+Oh, yes. I'm not sure _where_ to document it. But if the driver supports
+asymmetric ring count or dedicated Rx and Tx NAPIs - this is the
+recommended way to distributing the rings to NAPIs, to, as you say,
+limit the config churn / mismatch after ring count changes.
