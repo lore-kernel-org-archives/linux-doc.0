@@ -1,119 +1,179 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E1764A8F;
-	Wed, 11 Sep 2024 07:48:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D72322C190
+	for <linux-doc@vger.kernel.org>; Wed, 11 Sep 2024 07:51:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726040883; cv=none; b=NHaSnGR9Ha/+nE2p/mX+aFv5qpzHum8jHXDtBb5gRsntJoIBYepQQp+srusmei2YGlKg+VdZwlfY0xHz2JzZc1ywX9GQ2N6Jh83vC9mh6EftmdyDR/du3Pk7f18Mu+rM5xivt+NBcJwDBSGb3S1xD0lJDSptvnXUdMRmyJORVx0=
+	t=1726041104; cv=none; b=WK7Gj//Rl4vxsVcZ1DQS17r6avsIhQ9JgO5YNXeDeQxJoJ79ebRETHJpvdILuOr27t5pTgxczNWSxjDtlDf9GsynMrTy+44LUxHhwx2GCqdNRS0coL6BAc/3zyiw9ITEjEqLpiPgoR17IGbcuE/fDUX1QbW+aTDYQ6rZdrv25Yw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726040883; c=relaxed/simple;
-	bh=dWI3Pd8hUNwX1F9lfw5/Q7Gvrg7f+xf+2lh6v/Vvvfc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j76xDepQcbvN0Bvg/oeLus6U4qnAJ1WPpdyJT4biZQy8Yv7CK8zh2AHsWeVLN11rwl00dVvWpj5bdz4AayCvI8uFJbBeONbNsePGwW2FjrtRJu8LTpxUkZrOBewp4aKBX559ha/n5CqLzrTbHG7CwjYwuZ9P2qlPfqjTWmbNEMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m6EPFghP; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1726041104; c=relaxed/simple;
+	bh=NKir++yKg6qIFt5diuBLaxpcrvVxtXH7i+aodtCpXo8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mhOWK4eivInRX1FE63tYcY6SG8HO7l0TDjOl4j9Al4yqSE/z/nPBQomfIZ1QxGQIdR7LSE7pkgQ9W20dLW59mtRfCTdIm3YzpFtltn5ZbWvoRmmlMRlI9qWmxYVlER6hKJ+hQAl1hIH5va9VFhGZnFFNrSn/MaX/loG4FEZgiKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=LBazfXtA; arc=none smtp.client-ip=209.85.218.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m6EPFghP"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a8a837cec81so326571966b.2;
-        Wed, 11 Sep 2024 00:48:01 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="LBazfXtA"
+Received: by mail-ej1-f66.google.com with SMTP id a640c23a62f3a-a8d0d82e76aso102996466b.3
+        for <linux-doc@vger.kernel.org>; Wed, 11 Sep 2024 00:51:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726040880; x=1726645680; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DAqoY6jIAjc3xzIZO9ujMSqjm0EX+JGfOEbTRNWh9ek=;
-        b=m6EPFghPydfytZDJWMfCAQEaEKkcJQ74hzZLvZVw3pb05TqdMXaC5SEimVq7SMvwF2
-         FQlxvdt+ud8uuRXApNhBVpZXEmU2XzVrU1mCqSWvK0Dx62zbkTCEuAlqScmlldwsKR7D
-         4l6rmX7i5dYX52FqOiCkVytroRxVq0NbEeDINVnnfVEZw1Tplx/uJQ5sBjl+ekPmS9fA
-         qEvtvx317SDeTohgpjENEhsqRD87hXvyg1lZQwXrCtl5GWNQS/6632u20+6hkhJCNtZm
-         E2XsRNkMOvkQN3oq1pMYBzQmB9KLs/Y4gWEOKoE7R6cTq8BMTBUxSXEihg+eOXUQLrr6
-         Gbnw==
+        d=fastly.com; s=google; t=1726041101; x=1726645901; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EqhOEnN7I1NfnKs5yoj/51R0usVuimIfU3tAa/E8LUE=;
+        b=LBazfXtAk6QnKbefeuXr1ONUvktLdgW+HEExtCgob22xaO2TaRt42YRzgN+MSYjhps
+         Wng8VugBo7S8sohwOCO9IJzhLjVnvDwE0/X6rJlVXvGy0KiSVdDZG0RvbVj0n4kX52xA
+         fSfkIKuiY+S/Cg7nhBxQLYOGgZ1VPT3lE7wac=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726040880; x=1726645680;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DAqoY6jIAjc3xzIZO9ujMSqjm0EX+JGfOEbTRNWh9ek=;
-        b=wLRoeyRUntRUH6k2Zdh763/MRRc4K9Sm66TZCumewl3qsb3f1I6ybDta7/knRMtPe+
-         xF43ZgiC+ESD0He1ZK0Xw6xHxSdBNi79ZzAxT8U+Te7ke3nH3Csevx2E88Q0Q/j1UDxi
-         CGUjYNO+ItUef126V+kzdIqNbY/KHe7B+KZw1Zen9ZWFjo4zaHhlP7mG72M8tcsX+3rD
-         gT9IRwfVZ3BcxMWPhKBOK+wTqT+DD0PAccsQMmj+daZlSv1U5x90Swh/A2XVgfGxzeYn
-         WGEAg/Mh3cZbBf1iXkNHf4wGsyVzad+oNnFAziTA859iXJzAuxjIHypkdKSXOCGQRw0E
-         mCeg==
-X-Forwarded-Encrypted: i=1; AJvYcCU4u/TyTRuWTmYrh4tiaQG6HG7NfVskl3tD4d2XnHGd8i0sOlmyYQrvrp4ZwHYdqrpp48fBjf3Onw+W9w==@vger.kernel.org, AJvYcCVNEP1I6I07IJ9oB75rjLs5l2uuUQTTp2eVxB1l6C+SiwMZAj8Tmu3Hq9buY+MsAg32ROpT0Dfx817VrGFY4A==@vger.kernel.org, AJvYcCVegRNo2Qkz4ghyC09xdlUYJ4aGKPTTuvEY+kmEQ8SmtvBr4KBllXkR2ETlUJH/Kmi8fT8VGJQTSk8x@vger.kernel.org, AJvYcCWFWyJ3FHonq/NEL/BSOoFhOsfaY2FP4+vYbaxDHzdezsrBneMJZcyqOhwxS6ZntnUxpq0ngrLO+T0=@vger.kernel.org, AJvYcCWKIPPpZT9UsqXuoFm3qlu+n+gFSvbVBg76KGE2pTg50zVqjqUy7KOhPCmKczouCgEtN11eMC6eL+EC@vger.kernel.org, AJvYcCWR+bTzKYC0PucYHRIy4MmIfuKDOKjlBlfOHidgO3uZCwlVg+FAwwTU6gvu8fUjH5qQBN+2po/BMDlcx4sH@vger.kernel.org
-X-Gm-Message-State: AOJu0YywKHfaxK0K8Se9GXa43rwST3gTnMD6PNh4ffvBPQ7O5VFCTpYa
-	obR/Atu0oUGuHETynbUyLgXMrO/YISxfej0ohAemVbvjyBja31rMoqlJhuxcaBT0/9Y1jSqB3qC
-	rp6N19xWje+y+8FgknL2/U04v/X0=
-X-Google-Smtp-Source: AGHT+IFIM8V4DC0Z/5BWC5YRsJ9oRKTopRmw4RDrk2NBxBFwPDaaIWbAeLPw628HCYH5EvgpHLChk4iqxgrwnmbG4z4=
-X-Received: by 2002:a05:6402:40d4:b0:5c3:d0e1:9f81 with SMTP id
- 4fb4d7f45d1cf-5c3dc77ab97mr18285042a12.7.1726040879000; Wed, 11 Sep 2024
- 00:47:59 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1726041101; x=1726645901;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EqhOEnN7I1NfnKs5yoj/51R0usVuimIfU3tAa/E8LUE=;
+        b=bT2xx6reDvRZMMZ8Hy+e/aRtJcrTjEKmmRLH8KwtPsTtcvtt/zISNhDD0uxU17IWGx
+         xe8N5/w9bH0p1aLL+bRntCGZzzL2KEYACMms3NXxma3Vpgid7qbPbkuBIX1rWCrIZ1de
+         vvalMiobWbPxgAtDIcYtltswjeH2vU3jbaL/KzKPRMbBLPxgK0onpKAy4kjMDYgqYJeh
+         kNF7tFtk6o97juK7prWI9emcMnRY4umFMnLSK6Whkc0MUDvg/smvnfh3Hap508k0WdXL
+         BUhGNKPW4RDd4uk4h+7g3vNUYpNz8P5IRtCqwYZLOKLGSzrgim4/hDKz/a4YaGEIsJXu
+         gfdA==
+X-Forwarded-Encrypted: i=1; AJvYcCUVWRvE7xqhI7VFsF5qyLn7yTiqe3/6y5HIu13QaomxuLSqny55Q6xnt66oEiUDL6274EPOevq06Hg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzVDdijmN5DAt8Ojc68ydMUpnsZ1Mw1Q1nVU6AY2f63vuEXhrTb
+	icLLuR6PBwH0JIWhGJYo2YppFFY1eniwYxUWSsiWKbKvNN3PLgDNlE0FnG9sVJo=
+X-Google-Smtp-Source: AGHT+IHfl4wUSekHQff7+1uJioix71uW7NP/VwOhy8UsjvFLMD59myAjxRkXduY2WsfEVdSUA5M/Sw==
+X-Received: by 2002:a17:906:7310:b0:a86:c372:14c3 with SMTP id a640c23a62f3a-a8ffadf0438mr308127066b.48.1726041100563;
+        Wed, 11 Sep 2024 00:51:40 -0700 (PDT)
+Received: from LQ3V64L9R2.homenet.telecomitalia.it (host-79-23-194-51.retail.telecomitalia.it. [79.23.194.51])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d25d556e8sm580483466b.204.2024.09.11.00.51.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Sep 2024 00:51:40 -0700 (PDT)
+Date: Wed, 11 Sep 2024 09:51:38 +0200
+From: Joe Damato <jdamato@fastly.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, mkarsten@uwaterloo.ca, skhawaja@google.com,
+	sdf@fomichev.me, bjorn@rivosinc.com, amritha.nambiar@intel.com,
+	sridhar.samudrala@intel.com,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jiri Pirko <jiri@resnulli.us>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC net-next v2 1/9] net: napi: Add napi_storage
+Message-ID: <ZuFMClzrGwDDFm01@LQ3V64L9R2.homenet.telecomitalia.it>
+Mail-Followup-To: Joe Damato <jdamato@fastly.com>,
+	Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+	mkarsten@uwaterloo.ca, skhawaja@google.com, sdf@fomichev.me,
+	bjorn@rivosinc.com, amritha.nambiar@intel.com,
+	sridhar.samudrala@intel.com,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jiri Pirko <jiri@resnulli.us>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+References: <20240908160702.56618-1-jdamato@fastly.com>
+ <20240908160702.56618-2-jdamato@fastly.com>
+ <20240909164039.501dd626@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.9f0e45d52f5cff58807831b6b867084d0b14b61c.1725941415.git-series.apopple@nvidia.com>
- <39b1a78aa16ebe5db1c4b723e44fbdd217d302ac.1725941415.git-series.apopple@nvidia.com>
-In-Reply-To: <39b1a78aa16ebe5db1c4b723e44fbdd217d302ac.1725941415.git-series.apopple@nvidia.com>
-From: Chunyan Zhang <zhang.lyra@gmail.com>
-Date: Wed, 11 Sep 2024 15:47:22 +0800
-Message-ID: <CAOsKWHCEFSw6d7nC3A1Z4DKMNuUjirt-oULSr7hCWqT2GfnUDQ@mail.gmail.com>
-Subject: Re: [PATCH 12/12] mm: Remove devmap related functions and page table bits
-To: Alistair Popple <apopple@nvidia.com>
-Cc: dan.j.williams@intel.com, linux-mm@kvack.org, vishal.l.verma@intel.com, 
-	dave.jiang@intel.com, logang@deltatee.com, bhelgaas@google.com, jack@suse.cz, 
-	jgg@ziepe.ca, catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au, 
-	npiggin@gmail.com, dave.hansen@linux.intel.com, ira.weiny@intel.com, 
-	willy@infradead.org, djwong@kernel.org, tytso@mit.edu, linmiaohe@huawei.com, 
-	david@redhat.com, peterx@redhat.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linuxppc-dev@lists.ozlabs.org, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, jhubbard@nvidia.com, 
-	hch@lst.de, david@fromorbit.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240909164039.501dd626@kernel.org>
 
-Hi Alistair,
+On Mon, Sep 09, 2024 at 04:40:39PM -0700, Jakub Kicinski wrote:
+> On Sun,  8 Sep 2024 16:06:35 +0000 Joe Damato wrote:
+> > Add a persistent NAPI storage area for NAPI configuration to the core.
+> > Drivers opt-in to setting the storage for a NAPI by passing an index
+> > when calling netif_napi_add_storage.
+> > 
+> > napi_storage is allocated in alloc_netdev_mqs, freed in free_netdev
+> > (after the NAPIs are deleted), and set to 0 when napi_enable is called.
+> 
+> >  enum {
+> > @@ -2009,6 +2019,9 @@ enum netdev_reg_state {
+> >   *	@dpll_pin: Pointer to the SyncE source pin of a DPLL subsystem,
+> >   *		   where the clock is recovered.
+> >   *
+> > + *	@napi_storage: An array of napi_storage structures containing per-NAPI
+> > + *		       settings.
+> 
+> FWIW you can use inline kdoc, with the size of the struct it's easier
+> to find it. Also this doesn't need to be accessed from fastpath so you
+> can move it down.
+> 
+> > +/**
+> > + * netif_napi_add_storage - initialize a NAPI context and set storage area
+> > + * @dev: network device
+> > + * @napi: NAPI context
+> > + * @poll: polling function
+> > + * @weight: the poll weight of this NAPI
+> > + * @index: the NAPI index
+> > + */
+> > +static inline void
+> > +netif_napi_add_storage(struct net_device *dev, struct napi_struct *napi,
+> > +		       int (*poll)(struct napi_struct *, int), int weight,
+> > +		       int index)
+> > +{
+> > +	napi->index = index;
+> > +	napi->napi_storage = &dev->napi_storage[index];
+> > +	netif_napi_add_weight(dev, napi, poll, weight);
+> 
+> You can drop the weight param, just pass NAPI_POLL_WEIGHT.
+> 
+> Then -- change netif_napi_add_weight() to prevent if from
+> calling napi_hash_add() if it has index >= 0
+> 
+> > diff --git a/net/core/dev.c b/net/core/dev.c
+> > index 22c3f14d9287..ca90e8cab121 100644
+> > --- a/net/core/dev.c
+> > +++ b/net/core/dev.c
+> > @@ -6719,6 +6719,9 @@ void napi_enable(struct napi_struct *n)
+> >  		if (n->dev->threaded && n->thread)
+> >  			new |= NAPIF_STATE_THREADED;
+> >  	} while (!try_cmpxchg(&n->state, &val, new));
+> > +
+> > +	if (n->napi_storage)
+> > +		memset(n->napi_storage, 0, sizeof(*n->napi_storage));
+> 
+> And here inherit the settings and the NAPI ID from storage, then call
+> napi_hash_add(). napi_hash_add() will need a minor diff to use the
+> existing ID if already assigned.
+> 
+> And the inverse of that has to happen in napi_disable() (unhash, save
+> settings to storage), and __netif_napi_del() (don't unhash if it has
+> index).
+> 
+> I think that should work?
 
-On Tue, 10 Sept 2024 at 12:21, Alistair Popple <apopple@nvidia.com> wrote:
->
-> Now that DAX and all other reference counts to ZONE_DEVICE pages are
-> managed normally there is no need for the special devmap PTE/PMD/PUD
-> page table bits. So drop all references to these, freeing up a
-> software defined page table bit on architectures supporting it.
->
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> Acked-by: Will Deacon <will@kernel.org> # arm64
-> ---
->  Documentation/mm/arch_pgtable_helpers.rst     |  6 +--
->  arch/arm64/Kconfig                            |  1 +-
->  arch/arm64/include/asm/pgtable-prot.h         |  1 +-
->  arch/arm64/include/asm/pgtable.h              | 24 +--------
->  arch/powerpc/Kconfig                          |  1 +-
->  arch/powerpc/include/asm/book3s/64/hash-4k.h  |  6 +--
->  arch/powerpc/include/asm/book3s/64/hash-64k.h |  7 +--
->  arch/powerpc/include/asm/book3s/64/pgtable.h  | 52 +------------------
->  arch/powerpc/include/asm/book3s/64/radix.h    | 14 +-----
->  arch/x86/Kconfig                              |  1 +-
->  arch/x86/include/asm/pgtable.h                | 50 +-----------------
->  arch/x86/include/asm/pgtable_types.h          |  5 +--
+I made the changes you suggested above yesterday and I had also
+renamed the struct to napi_config because I also liked that better
+than storage.
 
-RISC-V's references also need to be cleanup, it simply can be done by
-reverting the commit
+I'll update the code to put the values in the napi_struct and copy
+them over as you suggested in your other message.
 
-216e04bf1e4d (riscv: mm: Add support for ZONE_DEVICE)
+That said: the copying thing is more of an optimization, so the
+changes I have should be almost (?) working and adding that copying
+of the values into the napi_struct should only be a performance
+thing and not a functionality/correctness thing.
 
-Thanks,
-Chunyan
+I say that because there's still a bug I'm trying to work out with
+mlx5 and it's almost certainly in the codepath Stanislav pointed out
+in his messages [1] [2]. Haven't had much time to debug it just yet,
+but I am hoping to be able to debug it and submit another RFC before
+the end of this week.
 
->  include/linux/mm.h                            |  7 +--
->  include/linux/pfn_t.h                         | 20 +-------
->  include/linux/pgtable.h                       | 19 +------
->  mm/Kconfig                                    |  4 +-
->  mm/debug_vm_pgtable.c                         | 59 +--------------------
->  mm/hmm.c                                      |  3 +-
->  18 files changed, 11 insertions(+), 269 deletions(-)
->
+FWIW: I too have fallen down this code path in mlx5 in the past for
+other reasons. It appears it is time to fall down it again.
+
+[1]: https://lore.kernel.org/netdev/Ztjv-dgNFwFBnXwd@mini-arch/
+[2]: https://lore.kernel.org/netdev/Zt94tXG_lzGLWo1w@mini-arch/
