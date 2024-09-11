@@ -1,154 +1,230 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2070.outbound.protection.outlook.com [40.107.92.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C891BBBFE
-	for <linux-doc@vger.kernel.org>; Wed, 11 Sep 2024 19:43:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726083813; cv=none; b=QXXsAXqEIbs2HxPgcmgeCnRu8BRhKXmg26UZw8EFDpkvvfLDODw2xi37pgEZXng5/vYJQtkePnmFWVBzyK+2djHY2kGf5v+QnUDTrP9PzLTgmFVNFge17HkLG7f0NZYMEVVlYHlLz6bcAFmfn3Cc8TLTbeWjoj481UuPK6aF6jE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726083813; c=relaxed/simple;
-	bh=ePfUocyP7grZ5CDYVXoBDNFKwP41bxMPDU//9kt//Gw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SMxtBRWOn5xxrGPRCyGQTsSR9fmN/dk9lryD06vP8musOcexZutdKpl5c7304cTNjKtKTPswdnTcdoi+cn62o4WCT/UlAJ9yJXykaKEFdgMe40zagHtEx4bYbCnjkvnfNYVLzNTw/e7NZ4jtYtJUrD4mEkoenh7aVZ92Ylm/9bE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CtZZS776; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F4331B9B57;
+	Wed, 11 Sep 2024 19:52:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.70
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726084372; cv=fail; b=Uxc5XgqIjvqYPKhDLvzSdIbSVjd4DGJ21+cXObuVcut4637Z1PzVTNjDZyqW9H3RoQQUhjLV10SYl+3Kuis9Ir4LpOtbIVT4ANi/+cQ0cwVUWgEWddwdb6fgzyKTxxXV9+9u0to92GrI1b5+xYioSchKyI7RcwzMlNyb5klcYQw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726084372; c=relaxed/simple;
+	bh=6eBLBaPlkUhXWNBUEZkqHrGZCH9gk2mccMKtIGRFFts=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iPi97m8SXmajRHniUyXxWhB5LQznmo6XceIe5odABjnOVzdXPZZAv4lZoll1VXTTGHhdRzgt4tT2gzF4/lqzjLlx+3jotdCB9/ogNsdKuhW9HD1ATF6rMhF6DB6on4M6enQAsVc9NAk6LwKrQShSnFH13MpoLpkDPltZitZ+nJs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=TGuVW6wI; arc=fail smtp.client-ip=40.107.92.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CtZZS776"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1726083811;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/RZ3edwXcia6MZkZjPsBRO16l+GEAsyaTjIaabh2Mx0=;
-	b=CtZZS776xyivJoPsQx3/PfP6cHjRoSxDcMjWQrw/NnHEZpIU66GL7EDvmXwhmHd8Z2SLas
-	GDGIwZaxFnMnAQeSYW4gfa5dfg0RrI0x8aowLXKkBVpQIuqTzIqAWryyCsJyxqPQyiCDB6
-	w8/Wtn65sp8JRklWROAHvgac1iEtUUw=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-682-Vl4PSZm0M46c4jBtI8fjnw-1; Wed,
- 11 Sep 2024 15:43:29 -0400
-X-MC-Unique: Vl4PSZm0M46c4jBtI8fjnw-1
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 861721956089;
-	Wed, 11 Sep 2024 19:43:26 +0000 (UTC)
-Received: from bcodding.csb.redhat.com (unknown [10.22.48.7])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 16B8B1956086;
-	Wed, 11 Sep 2024 19:43:21 +0000 (UTC)
-From: Benjamin Coddington <bcodding@redhat.com>
-To: Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Neil Brown <neilb@suse.de>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	Mark Fasheh <mark@fasheh.com>,
-	Joel Becker <jlbec@evilplan.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Alexander Ahring Oder Aring <aahringo@redhat.com>
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	gfs2@lists.linux.dev,
-	ocfs2-devel@lists.linux.dev
-Subject: [PATCH v1 4/4] exportfs: Remove EXPORT_OP_ASYNC_LOCK
-Date: Wed, 11 Sep 2024 15:43:00 -0400
-Message-ID: <0a114db814fec3086f937ae3d44a086f13b8de26.1726083391.git.bcodding@redhat.com>
-In-Reply-To: <cover.1726083391.git.bcodding@redhat.com>
-References: <cover.1726083391.git.bcodding@redhat.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="TGuVW6wI"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KXiDMgzVAL1Yhe5hms01B90fd/cns7yLtK/twVchpEwM+YxOnRBsihqISdKMGoCrs2jxRh/4IoGNh12YSn5SFZtyJfmW8sv/cDcRaREk+S9/YhzYMJiJqf1gNreDsp09l0kxtQvH5kog1ThINZ8mPA7vUIVycnziYtUuIEcK7iIQoiaW18xs4W6CIY6/ryG+TxECldISKnAvYFUWmQGOqUKRvz95Kzgh9Umiy8x28c+BewDHUVCm+DVau1n+4WC8mF5sfxQaBkIGzzatej2j2/lkaLxQCtLZLZQJYBOgKlr9W3T3uNudKuSbp5wb+xZ9txNzfx/7Acqsh9f4GS1A8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=C0KYMmtwimmIOZ2AoYDyDF7RGEXva8wqPLHX9Kmz5rI=;
+ b=OnJUm6XFpF3TJYQV6oPUHzvNtKwOEFmDJJTlmygxgJiZBW07efbQiyMfSgCyDHY8ucmVatTU9ZLl9fodMTubIZpvFCEzDtXOCsQVsPRV/IMv8I4KqqysyHPElIQZWyH+yFnPff1/XmND8EoRcY0RWeuedhGFivcdcdM2KUWDpYRI+ldHKY6n2b3ld2Nqx0QohUWBRNDULCYXC2Cde8UQkNXB9IG48la3lCGN8T58Tu+IC8K6BpkvsHi2Khhs6grzJAziEuf4lqRYR7L9L6gh4bllsiIbZYL9wfDOTgdp5oBBWMzIzGOWRiUz80ozpvU/lb3HUVhOw4XwamHS5hvoJA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=intel.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=C0KYMmtwimmIOZ2AoYDyDF7RGEXva8wqPLHX9Kmz5rI=;
+ b=TGuVW6wII8tDMuEmAEG6YlKbdkahrR8GeYjm20Bc8EpZXpuJROXp4GrZQ0WkqhpzRtce5dJ0g97TY1Z+meTfdnTiKgDvOOc98EmZdQWChapaJ0r3h5eUsMZ6ULHg2wTgNUdKqcnFCxLdPizDMp+qpZrDSVixBHNRui8kpaihRpTzPO5iNHR0aroMKTkczHCpjveU2e29p3rQ6o1GE7/7jmCqAyrauXY7uv+nN0H5lXZFRIQefW0IZksEmH0WfQc88icZBpPAE8HtMe/FoF50kl1t74ixy0TjZMtNtO5J6bCdoYcEvGnK1Lu2Z/QJ+bHaa/oAoZXsYWvZmKXXvXduCg==
+Received: from SA0PR11CA0187.namprd11.prod.outlook.com (2603:10b6:806:1bc::12)
+ by DM4PR12MB6088.namprd12.prod.outlook.com (2603:10b6:8:af::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.23; Wed, 11 Sep
+ 2024 19:52:37 +0000
+Received: from SA2PEPF00003F61.namprd04.prod.outlook.com
+ (2603:10b6:806:1bc:cafe::13) by SA0PR11CA0187.outlook.office365.com
+ (2603:10b6:806:1bc::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.25 via Frontend
+ Transport; Wed, 11 Sep 2024 19:52:37 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ SA2PEPF00003F61.mail.protection.outlook.com (10.167.248.36) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7918.13 via Frontend Transport; Wed, 11 Sep 2024 19:52:36 +0000
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 11 Sep
+ 2024 12:52:23 -0700
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail202.nvidia.com
+ (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 11 Sep
+ 2024 12:52:22 -0700
+Received: from nvidia.com (10.127.8.9) by mail.nvidia.com (10.129.68.8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4 via Frontend
+ Transport; Wed, 11 Sep 2024 12:52:20 -0700
+Date: Wed, 11 Sep 2024 12:52:20 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+CC: "jgg@nvidia.com" <jgg@nvidia.com>, "corbet@lwn.net" <corbet@lwn.net>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "Liu, Yi L" <yi.l.liu@intel.com>,
+	"eric.auger@redhat.com" <eric.auger@redhat.com>,
+	"shameerali.kolothum.thodi@huawei.com"
+	<shameerali.kolothum.thodi@huawei.com>, "smostafa@google.com"
+	<smostafa@google.com>, "baolu.lu@linux.intel.com" <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH] Documentation: userspace-api: iommufd: Update
+ HWPT_PAGING and HWPT_NESTED
+Message-ID: <ZuH09DoinsRJ9sCq@nvidia.com>
+References: <20240910204111.7969-1-nicolinc@nvidia.com>
+ <BN9PR11MB5276142EF52299176BA3179F8C9B2@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <ZuFHGHd2S+r6XzyN@nvidia.com>
+ <BN9PR11MB5276C5EEA6AAF9540707AD238C9B2@BN9PR11MB5276.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+In-Reply-To: <BN9PR11MB5276C5EEA6AAF9540707AD238C9B2@BN9PR11MB5276.namprd11.prod.outlook.com>
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003F61:EE_|DM4PR12MB6088:EE_
+X-MS-Office365-Filtering-Correlation-Id: 44e15f7c-a67b-4dd8-98d6-08dcd29b493d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|36860700013|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?eUJVQ2w1ak9CZFk2UXB0RitUMC9TbVNmVXFiTGRISWhkOHVkY2dRYkwwMFdZ?=
+ =?utf-8?B?NzR2WmRkTktsNXJPczhuaUxLZlRsN2wwZzFuNjJNVHF1WmovUVkraCtHWWkr?=
+ =?utf-8?B?b2l5OXljbFI3QW5XZkZiQ1UraE9rV2k4aE1EdFhtZk9COEFLL0VmM0poaEU0?=
+ =?utf-8?B?a1hZSldnYUxGTWtzY0N4NWF4S1l0WEdSazNiV2hVdnI1NTB4R3BzbFFhY1NX?=
+ =?utf-8?B?SDVaa2xHZ3N6b2dPUXN2UnNKZjBrVWJwRENqcGJ0RUN4emtpT2hpd0t4UURX?=
+ =?utf-8?B?cTdxakIrcnFqOXZtOEZsVkowT3lIaHRWcklVd05JNFpNRmMrVkdjY2UwaUJ0?=
+ =?utf-8?B?YVZSTFcwemNjUXFsNC9kM0lTRU5NYWpKZWpFL3dUdUt3U29FSnplQnEyQ0Jw?=
+ =?utf-8?B?ZjlGck1wMTVqRVdqRFJsVFkwaStzT3VRNnEvTzI3ODZ3KzdxekJoTEhXbFJi?=
+ =?utf-8?B?VWVZTktPbGlraHQyb1ZmNlJxQnVUYUF5NUJsV0c2YjNQVWE1RldDaEF5UFlW?=
+ =?utf-8?B?RGdXOSt5ZnYvWk4vSEwyTzdYS2VVc213c2VSS2ZuRTF4UDU0MjJMM252c2lO?=
+ =?utf-8?B?dHFhV0FxN2dqK2dLbGlRWUw3MEIrZ2JrVldMcmJjL3hCYzJVeEpicHA2aUpm?=
+ =?utf-8?B?WmhyZEVtcDA3eUkxYUdDQ0lhbitNVktEM3F1ZG15cDVtMHNheDhrVG5nUUdU?=
+ =?utf-8?B?MHpYaGh4MlpjcHBTdWN5cnRrWDFDQWNKcjRXR3dwRnpOR1p4bWtKTS9yV2p4?=
+ =?utf-8?B?UWZHeVJDUTQzVW9ncU12NEdTZTcvY1k4UWh5WWxLN2JBcFlnZ0x6OE5MS0VL?=
+ =?utf-8?B?VzFSbVhsYThFY3lYdVowZmdYbkxIaW4zZU9oZFI3S09VdGFXdHptUWdjdFBS?=
+ =?utf-8?B?ZE5SQ05Yak1PSjlEUlgxNnNqUFFhaWZIL09hbFRkZXhpYUx5ZW5ydVhDaVNz?=
+ =?utf-8?B?ZGxQWTJ1TUpGay9iZTNTZldLSXlFVFBJNlFMaWt3YUVtdlZkVHNPZ1FTYVdO?=
+ =?utf-8?B?cStaRXExd2RDaVhlSVJTSWh5L2M3NzkwcDZiNnR2UmZKUG9CQ1AzQUtjMzFU?=
+ =?utf-8?B?dW5NOTRZTHZ5aTNlNkxTRWRhLzhKNXVYUStSckQ4eGdpb3p2bDQ3OGN4NXc5?=
+ =?utf-8?B?clFWYUNXZEk0SGhaZWtmVTRDSWNTTU5rRCtCYU1ieEtNSnlCQWZHc1oySmlY?=
+ =?utf-8?B?RDhWOVp6cm1OcXhFTWUvZktocVJkWm91SlVhK2lLU0pVc3E3R210elVGeUxv?=
+ =?utf-8?B?VnM5aHZYYS8wb3BRUlRveDNiUzY1UmNuWU9iSjNsSm54OGJrQ2hDakl5ZHdX?=
+ =?utf-8?B?emk1d0xtWUtiNUlzZDQ0MDIvaXVrNFhubmRHVkxCNzhSUzZrUTYyS2JjVkwv?=
+ =?utf-8?B?MmZhVGlRK0JyWlRKaVkwamxTL3RTS0NPWC9NSFlPLy9PVGlZVDFrVnB5eFBu?=
+ =?utf-8?B?NFRnZmlMNE43UnNFOGQzdlJReFEvU2FSK0FDQXNkZlc1V0hpVmhlU1VxSHI1?=
+ =?utf-8?B?TGs1aStndEJMUitoNVhJUGJhKzAwMlhiaU9pcXorcjcwTjJ4cGRwWE5ManBx?=
+ =?utf-8?B?d1hRaG9iUE9DQlRNdFBVSWs0SHh6d0lnYkxNaGdqazRvck00MzY1UGtvVmVu?=
+ =?utf-8?B?alBoVHRxYlRiWk5OZVovMFVjc2tKdGtoSjZSZitCYjVDZkw4UjN0UWp2eTMr?=
+ =?utf-8?B?Nm1rdEdiWWZ5TjV4QXYzamxSVVdya0lXZmVHOHZOc2JRUzFkSzJob3lBTTA1?=
+ =?utf-8?B?eTRMOHJYSnMydzNTMGV3dk11K0N0OEdVVE1sdkJ4cXpKMkhqVktNREdWc0I2?=
+ =?utf-8?B?aG9ibWlwWURYbTZUeWdFVTIvemtadFNQaG1qK29XbEQwczBtbUlwb3lrbkpN?=
+ =?utf-8?B?OHNEN1R5bVk5TmRNVkZTekxYLzhjOTBEN2NxU3ZFYWVYdUVsVXFIOUh2TG1v?=
+ =?utf-8?Q?oTbJd2FBnvWhnpq1T3enf4ghoNhqOTHN?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700013)(7416014)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2024 19:52:36.8898
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44e15f7c-a67b-4dd8-98d6-08dcd29b493d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SA2PEPF00003F61.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6088
 
-Now that GFS2 and OCFS2 are signalling async ->lock() support with
-FOP_ASYNC_LOCK and checks for support are converted, we can remove
-EXPORT_OP_ASYNC_LOCK.
+On Wed, Sep 11, 2024 at 08:06:48AM +0000, Tian, Kevin wrote:
+> > From: Nicolin Chen <nicolinc@nvidia.com>
+> > Sent: Wednesday, September 11, 2024 3:31 PM
+> >
+> > On Wed, Sep 11, 2024 at 07:09:15AM +0000, Tian, Kevin wrote:
+> > > > From: Nicolin Chen <nicolinc@nvidia.com>
+> > > > Sent: Wednesday, September 11, 2024 4:41 AM
+> > > >
+> > > > -3. IOMMUFD_OBJ_HW_PAGETABLE is created when an external driver
+> > calls
+> > > > the IOMMUFD
+> > > > +3. IOMMUFD_OBJ_HWPT_PAGING can be created in two ways:
+> > > > +
+> > > > +   IOMMUFD_OBJ_HWPT_PAGING is created when an external driver
+> > calls
+> > > > the IOMMUFD
+> > > >     kAPI to attach a bound device to an IOAS. Similarly the external driver
+> > uAPI
+> > > >     allows userspace to initiate the attaching operation. If a compatible
+> > > >     pagetable already exists then it is reused for the attachment. Otherwise
+> > a
+> > > >     new pagetable object and iommu_domain is created. Successful
+> > > > completion of
+> > > >     this operation sets up the linkages among IOAS, device and
+> > > > iommu_domain. Once
+> > > > -   this completes the device could do DMA.
+> > > > -
+> > > > -   Every iommu_domain inside the IOAS is also represented to userspace
+> > as
+> > > > a
+> > > > -   HW_PAGETABLE object.
+> > > > +   this completes the device could do DMA. Note that every
+> > iommu_domain
+> > > > inside
+> > > > +   the IOAS is also represented to userspace as an
+> > > > IOMMUFD_OBJ_HWPT_PAGING.
+> > >
+> > > the last sentence is redundant. here we are talking about how
+> > HWPT_PAGING
+> > > is created so it's implied. probably you can state that HWPT_PAGING object
+> > > is created when talking about "otherwise a new page table object and
+> > > iommu_domain is created".
+> >
+> > I don't quite get this part...where is the redundancy? And where
+> > is "otherwise a new page table object .."?
+> 
+> the original text:
+> 
+>    allows userspace to initiate the attaching operation. If a compatible
+>    pagetable already exists then it is reused for the attachment. Otherwise a
+>    new pagetable object and iommu_domain is created. Successful completion of
+> 
+> it's clear to say that HWPT_PAGING object is created upon successful
+> completion there. Then naturally every iommu_domain in an IOAS
+> is represented to userspace as HWPT_PAGING. Not added by you
+> but could be cleaned up while at it. 😊
 
-Signed-off-by: Benjamin Coddington <bcodding@redhat.com>
----
- Documentation/filesystems/nfs/exporting.rst |  7 -------
- fs/gfs2/export.c                            |  1 -
- fs/ocfs2/export.c                           |  1 -
- include/linux/exportfs.h                    | 13 -------------
- 4 files changed, 22 deletions(-)
+I see. I did this:
 
-diff --git a/Documentation/filesystems/nfs/exporting.rst b/Documentation/filesystems/nfs/exporting.rst
-index f04ce1215a03..de64d2d002a2 100644
---- a/Documentation/filesystems/nfs/exporting.rst
-+++ b/Documentation/filesystems/nfs/exporting.rst
-@@ -238,10 +238,3 @@ following flags are defined:
-     all of an inode's dirty data on last close. Exports that behave this
-     way should set EXPORT_OP_FLUSH_ON_CLOSE so that NFSD knows to skip
-     waiting for writeback when closing such files.
--
--  EXPORT_OP_ASYNC_LOCK - Indicates a capable filesystem to do async lock
--    requests from lockd. Only set EXPORT_OP_ASYNC_LOCK if the filesystem has
--    it's own ->lock() functionality as core posix_lock_file() implementation
--    has no async lock request handling yet. For more information about how to
--    indicate an async lock request from a ->lock() file_operations struct, see
--    fs/locks.c and comment for the function vfs_lock_file().
-diff --git a/fs/gfs2/export.c b/fs/gfs2/export.c
-index d418d8b5367f..3334c394ce9c 100644
---- a/fs/gfs2/export.c
-+++ b/fs/gfs2/export.c
-@@ -190,6 +190,5 @@ const struct export_operations gfs2_export_ops = {
- 	.fh_to_parent = gfs2_fh_to_parent,
- 	.get_name = gfs2_get_name,
- 	.get_parent = gfs2_get_parent,
--	.flags = EXPORT_OP_ASYNC_LOCK,
- };
- 
-diff --git a/fs/ocfs2/export.c b/fs/ocfs2/export.c
-index 96b684763b39..b95724b767e1 100644
---- a/fs/ocfs2/export.c
-+++ b/fs/ocfs2/export.c
-@@ -280,5 +280,4 @@ const struct export_operations ocfs2_export_ops = {
- 	.fh_to_dentry	= ocfs2_fh_to_dentry,
- 	.fh_to_parent	= ocfs2_fh_to_parent,
- 	.get_parent	= ocfs2_get_parent,
--	.flags		= EXPORT_OP_ASYNC_LOCK,
- };
-diff --git a/include/linux/exportfs.h b/include/linux/exportfs.h
-index 893a1d21dc1c..1ab165c2939f 100644
---- a/include/linux/exportfs.h
-+++ b/include/linux/exportfs.h
-@@ -250,19 +250,6 @@ struct export_operations {
- 	unsigned long	flags;
- };
- 
--/**
-- * exportfs_lock_op_is_async() - export op supports async lock operation
-- * @export_ops:	the nfs export operations to check
-- *
-- * Returns true if the nfs export_operations structure has
-- * EXPORT_OP_ASYNC_LOCK in their flags set
-- */
--static inline bool
--exportfs_lock_op_is_async(const struct export_operations *export_ops)
--{
--	return export_ops->flags & EXPORT_OP_ASYNC_LOCK;
--}
--
- extern int exportfs_encode_inode_fh(struct inode *inode, struct fid *fid,
- 				    int *max_len, struct inode *parent,
- 				    int flags);
--- 
-2.44.0
++3. IOMMUFD_OBJ_HWPT_PAGING can be created in two ways:
++
++   * IOMMUFD_OBJ_HWPT_PAGING is automatically created when an external driver
++     calls the IOMMUFD kAPI to attach a bound device to an IOAS. Similarly the
++     external driver uAPI allows userspace to initiate the attaching operation.
++     If a compatible member HWPT_PAGING object exists in the IOAS's HWPT_PAGING
++     list, then it will be reused. Otherwise a new HWPT_PAGING that represents
++     an iommu_domain to userspace will be created, and then added to the list.
++     Successful completion of this operation sets up the linkages among IOAS,
++     device and iommu_domain. Once this completes the device could do DMA.
++
++   * IOMMUFD_OBJ_HWPT_PAGING can be manually created via the IOMMU_HWPT_ALLOC
++     uAPI, provided an ioas_id via @pt_id to associate the new HWPT_PAGING to
++     the corresponding IOAS object. The benefit of this manual allocation is to
++     allow allocation flags (defined in enum iommufd_hwpt_alloc_flags), e.g. it
++     allocates a nesting parent HWPT_PAGING if the IOMMU_HWPT_ALLOC_NEST_PARENT
++     flag is set.
 
+Thanks
+Nicolin
