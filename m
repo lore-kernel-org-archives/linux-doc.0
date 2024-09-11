@@ -1,238 +1,533 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0B713AD29;
-	Wed, 11 Sep 2024 08:06:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.16
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726042014; cv=fail; b=f6Jegklx8qvmEePLBS2FsQU1YMgMrU9CBail5UXmHkEEI0gGCw4z8Jg/IKU49HlKdyqJZ1y63U2OF18Y+zjuweq7hygFsiTkdwHx14KOQTsnLjOn1xIHWQT2EQqjzzNTRetmGI6v3GTm7zLiHPsjdymUEI7dpuF6Eeyp5ppvgtg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726042014; c=relaxed/simple;
-	bh=StgLVTQ4Q8CoBkiBUMWkTiuvdkF1UOA574Q0i0t2Sg8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=daUcddax1p9pNdbw1DFd+vmw8NctuJaB/9Wr1nHDyIi3Vl8roPNXhFh+lpQCm0326nnT/l0QoQAivwyDmDtwTGSiOyzN6Fp3xfLSTZ/wARQWu9SJesf5erv6/KCaNzuRX7P5PzYM5UivJw1iiEdeVhakXiTsx/NXtmnuCU9LFC4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FVyJf46l; arc=fail smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A274317E008
+	for <linux-doc@vger.kernel.org>; Wed, 11 Sep 2024 09:37:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726047481; cv=none; b=gfv4jds+DsN60WkJoV037pN0oXoiQ9Uw1e78eRtJOHQCfDKeJM9eMSHsilp+HHxHiZErYT5FxVWzOjGYKH0df1ulV4edBDYflmMB8AUbj62YzU4UiEGqytWXXUWOioUnJJpQACVKcsSOryUXUZeiXnxPRhbypH6xgBm5MLbPC/4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726047481; c=relaxed/simple;
+	bh=juNLBnH+vojpxTE0lbJHf6ETP1gO1BwGdmvR3z3rqyY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=o5WZhJ1X8NMc3aQp20qJ6omvueNtR24zlV5vhCQe1UmzVchWKINZC91eVhJQLZ88+TrZ7dPSywPVCQrpBmhybMQ8aynoRaOU3AFEX+UL/mYRbsF7Jy3i47WgbWKqUxXsCsMx6tfzSeb2WJygdUwICe6z1l32SPnsR1+KGEKQz/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Pvv8xoxS; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FVyJf46l"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726042013; x=1757578013;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=StgLVTQ4Q8CoBkiBUMWkTiuvdkF1UOA574Q0i0t2Sg8=;
-  b=FVyJf46lnimInlJwi+y1tBjCOZLX9lD+SmxRlE+FVsDyb3tAuPp9STzf
-   4OtqGiVodEs3/6xtvBeA18V8fhWwlXWq6ckrztm5nv89zOahOiIR6xUYA
-   DY08ICwVn7tZK3v2clOWx11ijgnYp9o84dQooMF240mSvipfhEOsaBPD1
-   Mlq3dy4cHtJrwCPULLG7V1iRpxHQQqUgVJNojwUUUsOF1/F8TM9vpxuaB
-   9WOgy5vxr7+5ZqzsyjhTLFViwWEw7UG3afaOsfwfZhAz55QzfPKhB2wgn
-   62kEGzeYsPO0oq/GPa0nY6cahowk2elTIugIO/YSaSn/77MecZdpUosy0
-   A==;
-X-CSE-ConnectionGUID: +KCzzR07R3uEnR1KVmz0Ug==
-X-CSE-MsgGUID: vd9m5Qf/T0WhUmt9d5zNpQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="13468521"
-X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; 
-   d="scan'208";a="13468521"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 01:06:52 -0700
-X-CSE-ConnectionGUID: BVacyo+GSNGxOehxaHR3Cg==
-X-CSE-MsgGUID: KtGiSQnPQFurjbbhKrFNjw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; 
-   d="scan'208";a="67516778"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 11 Sep 2024 01:06:52 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 11 Sep 2024 01:06:51 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Wed, 11 Sep 2024 01:06:51 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.174)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 11 Sep 2024 01:06:51 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GyVqK3emPxIj8m5nKKgh8NeJZhHc/RLcUl9TC3kUl8/Q+u+wnWSgLWE0ZwNLMFF8tMpdBtYzwYlcAgsfIBgn5NBCxOVkduW0KfJ9BKXSP3zd0klywNhg8KR8xXZfS2xECCpWCl71yd1efGHfHyRLuHYu4zFUsjfcOJ3PsHf8aQKTqSK1kAOfxCcRkP9RZkGV0OWW3qdZbOU5ExDYpzCxc+LVyJvsdXIcLZJKy4v5Jt9xLIneVsISeVBDYEV/W/476IxE2mVRTjGkMfzpBdDMcP0Y0WTsaQmLqaC2FNFAPV7R4x72+mVkg7wzSqN5nSQ2uzN+z5EOd9gB0TatqAMrIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=StgLVTQ4Q8CoBkiBUMWkTiuvdkF1UOA574Q0i0t2Sg8=;
- b=WNWUofaD3T+ShbMFnyCV8HhwTJloqfyhErTDxNpJLgO7nEdEG5hcpeN13iGAuNQmF79fcbsvVFqcq5t45LOBV3MCrYiGDPOk/+cFkH4nQl2KmOpYgU0n1qTAvYfoMZ0if+f2Zlp9WknkFmu+/HPlkt3nAKhBphbqoYVIM3jjeGI9kIe6//NccgvWSSzAW2Bv2P+UT75qg46CpaxDi15E0k1gkstueYG/MvktxAfcjMjO3xJXiavqP9eFRs5VPqQXd84OZLYnphETTMoIF9vaSSvnii7sY1sHnwMbwqaw0xXdlurY6giQmHty/TdNJl/2BQrcEnNxS4KGlNK0o3LoBw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
- by DS7PR11MB5990.namprd11.prod.outlook.com (2603:10b6:8:71::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7918.28; Wed, 11 Sep 2024 08:06:48 +0000
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::b576:d3bd:c8e0:4bc1]) by BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::b576:d3bd:c8e0:4bc1%5]) with mapi id 15.20.7962.016; Wed, 11 Sep 2024
- 08:06:48 +0000
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: Nicolin Chen <nicolinc@nvidia.com>
-CC: "jgg@nvidia.com" <jgg@nvidia.com>, "corbet@lwn.net" <corbet@lwn.net>,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "Liu, Yi L" <yi.l.liu@intel.com>,
-	"eric.auger@redhat.com" <eric.auger@redhat.com>,
-	"shameerali.kolothum.thodi@huawei.com"
-	<shameerali.kolothum.thodi@huawei.com>, "smostafa@google.com"
-	<smostafa@google.com>, "baolu.lu@linux.intel.com" <baolu.lu@linux.intel.com>
-Subject: RE: [PATCH] Documentation: userspace-api: iommufd: Update HWPT_PAGING
- and HWPT_NESTED
-Thread-Topic: [PATCH] Documentation: userspace-api: iommufd: Update
- HWPT_PAGING and HWPT_NESTED
-Thread-Index: AQHbA8HilXdinS6eGEuxGnxiyd221rJSKXpAgAAH+QCAAAjYMA==
-Date: Wed, 11 Sep 2024 08:06:48 +0000
-Message-ID: <BN9PR11MB5276C5EEA6AAF9540707AD238C9B2@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <20240910204111.7969-1-nicolinc@nvidia.com>
- <BN9PR11MB5276142EF52299176BA3179F8C9B2@BN9PR11MB5276.namprd11.prod.outlook.com>
- <ZuFHGHd2S+r6XzyN@nvidia.com>
-In-Reply-To: <ZuFHGHd2S+r6XzyN@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|DS7PR11MB5990:EE_
-x-ms-office365-filtering-correlation-id: 1f7e3717-1a2c-4346-631d-08dcd238af94
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?eGxFVmRIbHNFakljaWZOTlJqbFQ5VWRnVjJrdEZQUS9WcFFyUWYvWjg1MjRW?=
- =?utf-8?B?R0o3cUcwbThjeXI0YlIweGN2UXFmUzdYS0dwZzUvS3VNZGFLRlk5U1Z2emZC?=
- =?utf-8?B?QUZQVkIxWkFxeUFBRmtybmwvYVR5WHVUVHdiZ1JWUERkKzU5RjFjUmFkaDhX?=
- =?utf-8?B?VkhXeVZjQ3pDQU5wVFo3dUdNQ1ZleXB0NmZUNEU3MEs4aURZa0RQa2s3VThP?=
- =?utf-8?B?SkZsZmtrTWhlc0QrTC94VjdhSjEzSTY3ODhvTDNmbUtQaDdUL2thcy84aDNz?=
- =?utf-8?B?NkxqRHFRTTdHZ0hnWlVzd0xMOWdQR3U4NHJsZHFmL2Q0K05ES3VCa0tGdS90?=
- =?utf-8?B?MFVzYndMOUVZOXF1R2VsZkFPVWx2bW1qdFBwdDhRb2FLdUFTQ2R0SlNxMEht?=
- =?utf-8?B?YnJwU1hqQXpSYXpjWFd3OE9BR3FVOG5xRUY1bXdab3pvOXh6dE5acG45Nllx?=
- =?utf-8?B?Wk9CcnV5RDNJUDdCakF1UWd4THF5eXQvZE5ab2pmSXZFaEtxa1NPVm9MTU01?=
- =?utf-8?B?T0psc0ZaQ25vbkpvZGJ6dHhuSXJmZE4yR2IwZWt2c3VjQVJuc25wQ2Ixb051?=
- =?utf-8?B?OVcxek9UT1l0ZkVZblFuSG5uNm5ydEdENG9JTE9iMFhoYU1BMmFiQ1p6Q2FK?=
- =?utf-8?B?SDcwdDJ6ZldCbi96cmNGQlFkVmk5ZjRzNE54cW50anp5b2RsV08zRmx6bXEy?=
- =?utf-8?B?VEVMSzdNQWdPUFlyaHF3RlZDTkpFWGx1S3ljUDhua1hlRXEwU0h4UE9tZGlD?=
- =?utf-8?B?LzN4YUYrYVliOThXVk56aWo2UXZyMUF5TVNVdUpRSExkTWVCQm51cWVibHEw?=
- =?utf-8?B?bDZLL3RMMWpTZjdHODR6MmtwWEw0SEltRjRyZjJvSitkbVQxL3dzcXpPczhU?=
- =?utf-8?B?ZnYvbXdjYXdyOWFsSFQrM3VsUmZRM28rNzZVWG9IYko2RDJFWHJjSUFwVGRH?=
- =?utf-8?B?b2JTRmFUZEZyM3E2N252TGM4emRrNnI3SmdNZ3BVaEVKOGo5aHRBUEFaQ0Rx?=
- =?utf-8?B?RkhZVWpTTFJlb1M0T29PN3hNMXJWdEZ1R1hZVHZPNUdHb3dzMVliTG16OWFo?=
- =?utf-8?B?MEkrSEtwME9CYXJxSHg3dHNiYktFVUVWTUJ2UU41dFNEMDlobGlESWR1L2pt?=
- =?utf-8?B?OVdLeXZMWHZQaHhKeGl6QUpBTEc1T0ZGcXFCVnY3T2FKSlEyVXkwY1ZZNldm?=
- =?utf-8?B?OTZ2RE9mRE5FOTBWdzBoZndrS0NSelk1ekJXSVJheDdVREZSMXBHM0Fuc2JM?=
- =?utf-8?B?blVyTzl3eE9VN0Q1Y0l3UnVVZXdtdTZwempEaWFSdkZLY2NFamdHN3AzZ3lH?=
- =?utf-8?B?TXBPdnIrREM2YmVmbnRrOVU1dlFWRnlCc1VtVkJ5MjdDaUpwZHliL2dpbnVE?=
- =?utf-8?B?REQ0Y2t6UThMU3lOenF0MmlodG4xZ0FuTzE4TWJiWWRwQzhwVVJBRlMyRjd2?=
- =?utf-8?B?cFBBYjFQUHZIQ2RHRTVlTkxQMVJXRW9LL0xNTXZEdHNIaERGNmZ1dGJhRkhl?=
- =?utf-8?B?MDNKSDZGUUdTcUd1QjVROUhRcmNRdlNnWG01MFRhRW85OWlTMWMvdHExQ2Vy?=
- =?utf-8?B?UXUwZHJTWXZQVHRtQWJoOTJpTWhqSmE1Nnd5djdGTDV1TVpMaC9hcGFJUEUv?=
- =?utf-8?B?cGRYbTJZeEpUdjVOOS9EYWpaeThUZlhkUWpOU3NvYXJRM3ZvTXhrTy9sVGY0?=
- =?utf-8?B?bk1zODVmcWoxcy9sRjlHaHF6TGwzbjZ4ajhLUCtRVnpIdlVwUmxSSzYyZFdi?=
- =?utf-8?B?Nk1laXd4eTc0eWFsRHZDdnZHYnpQREpiUitvSW45amgzcWJIQ0wraVAvOFdn?=
- =?utf-8?B?VW4vdUo4OXNyMVliWkxJTFA4YktyeUdZTzZVajI0TzVGNlZ4dlhubm0yTDBM?=
- =?utf-8?B?TzJpMWlGR3BWMkdZdk41WWZ6MDhxSENOS2s5SWhCb29Uc3c9PQ==?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MUFlYm43MEFZd0FvU0J5a3JFdllUOG5KRXpUVkhJMTVtUW5LK3dzRXV3VWdS?=
- =?utf-8?B?elJCYkFMVGZUYTVLdmdWT3NsalRpWklCS01HckpWUTNFeDRJb0IwYzRacFhI?=
- =?utf-8?B?SXJ6ZE5iK0ROSGRCS0liMEVTY1BWMTZOUis1TlROYlRZLzRjcWx2Z3BpQ0tr?=
- =?utf-8?B?YkdJTWw5NVNMbndodFlZSU9UL0tEemswdisvK096dDBOZ3Q0MUJJTXI0Y0VQ?=
- =?utf-8?B?Ymg1QTVHZzAxZWZleHVXRVpxTTFOeWtjY0VvL3BjdHJYaDZLWStNaFJITTNv?=
- =?utf-8?B?VVJVYWtVK3VUckUwN2RGQ0JENUY2TVdVQ3JwUXMrZ0loaVFHNXkvV29FVDBz?=
- =?utf-8?B?UitjbUxiN3RpUncxR3g1MmE0a2E5WEo3SitiTnU2UXpQcGZKWHgzc3ZpMVdp?=
- =?utf-8?B?ZStDWFFPSWE1QzVSQmNKU3MwMDFjOWVIbE82SjB1dVNmbmJtZWhqalJJR2xj?=
- =?utf-8?B?TWo5ZDZDL2x3dnNLRGFXckxQam02NEpzeC84dFNEQllTTXFqMWNKQzV0bElw?=
- =?utf-8?B?ZWV5dDI0aTA2STBPRXRaUkRFN1k0OC83cDBNVXpMVnp5N2xpWHQ1R2tyT0Vz?=
- =?utf-8?B?NWpTVFJ4R3JabThmS0EwQXlMU3A1NTZoTmJ3dnhnS3EzYlNWcDFsTld5VlAr?=
- =?utf-8?B?bTdlM0pHVXhxTlp5dk4yMnVRQ0NhQUdrdUpWdEhOdUY3ZUw2bDB1N05meHc2?=
- =?utf-8?B?Um4wbW4yNXZvSWFiN3BNQ2Y1MFAyckZDUVE2N3Zmc243bFVWNjB6cG50Z1NZ?=
- =?utf-8?B?TGFLOWVjZGwweE5EekN4ZjN2aE5TZWRPdkpjVDU3M1VtYWYyNEtoWVRoYzBQ?=
- =?utf-8?B?TjYxZm5KKy82ckJzcnNhUGcvOTlqVVNxOVJkSHUvNG80VStQMnFTekFpM0hR?=
- =?utf-8?B?Q05DWXNOWEZPdmU3Ni8xaHlrWHc0VUp4Y2puTzNWckdxQ3NRZ2VRTGtad29m?=
- =?utf-8?B?Y2RSMWtZVVEyWGhCQlh5OGR0MGFuaUUvOXRuRHdqdVB2UFBVdHZuNXRPWWVN?=
- =?utf-8?B?YkcrQWhuNXJqZm9NU0gxQUV4TW83c253Nk1GbFNHZzIvYzIvYWRnTlpDUGtl?=
- =?utf-8?B?VnBtT0JGZWZtK0l2RFJNaXJXQ0ZLeXNCcjRDMXoxbUNvRFY1bTk3cWlVTzVr?=
- =?utf-8?B?ekpwS1JNcmRTT1cwV05Gb3A0OHJyLzY2Q2thSFBaMVI3NzJLY0dERmZ6RXF3?=
- =?utf-8?B?VUpwRTRHckhRemxHcDUxWnlacTRtcngvYlgzYXh1SGp6OTBoQ3BWVXFTci9m?=
- =?utf-8?B?eDNvNVZkQit6dTB3cVR5TDMyeE5HejJIZ1hTL2Zxb0Zma004UGtzQ2MxT2FR?=
- =?utf-8?B?V3h1SEl3WHBmdVZaWXVGbTR5U3NETHV4M0RPdG9rN2JPR2VnR295ei8zemJa?=
- =?utf-8?B?YXY5UUFhNzJtOExTZVdsZFY1TGRWTmhsdzIxQUVhWG1pVHJFem9XY2RERVNW?=
- =?utf-8?B?K3M5NS9rZ2NBd3dCVTFQc1Rpekt1TTlBM0Z3SDhMVS9uaENGNXJhbWtqSklN?=
- =?utf-8?B?c2RvZDRReDZTeWMxby9KTjdaUVo4NGtQU3IyT3huTXFjNmIyRjY0aE0yU1ls?=
- =?utf-8?B?anN1aDI1anMrUHZZazB5NThQODdDVm1QK1d1REJNK1NOQnQ0ZG1KTVBEOEha?=
- =?utf-8?B?blJMSmtVUU50ZTRYMnFUOHVBcFhtOVN0YjVtTVY1SE5hcEI1SlZkWGswL2JD?=
- =?utf-8?B?aCt6UHdEMFVqbi85TGFpa09jclNxeVFxeGlLM1JKN3FJL0RlWUpmZjhxQ1Jt?=
- =?utf-8?B?TkdmSkdmVmV2c0tEY0dEbHhkcXhFTnFRZHJzTlh4UjVzNWZwQ1ZCNDhFOGtX?=
- =?utf-8?B?am1SaitLaXRrOUNiY3NCZ2grdzFNS2RhbmcvelliZUJJNzRkaUd4K1UyYUdq?=
- =?utf-8?B?L2VObGRzYS9NZjNJeE94MWl3VFRjSzJUdytOZXk4bW0zVzEvVWxHb3E0c2JI?=
- =?utf-8?B?VU8vb2dwMU9JelprTWptaTFsT1hnSTJncmQzQTlhbExlMHE4N2NHVlZ1R1gv?=
- =?utf-8?B?QW40WFFnTzlNTDFvdC83d2ora3RyYjJscytHZ1JYNUdwdm5kNVFtbStiYU9m?=
- =?utf-8?B?NUMyYm1melU4ZXNJa0dJWGtVL3YrZCtHUGxydS9DdnRmV2ZJQ2xMbnNzU05Y?=
- =?utf-8?Q?I2wDg5TtdXgT2wMd9r1Az0b4D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Pvv8xoxS"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4280ca0791bso61241375e9.1
+        for <linux-doc@vger.kernel.org>; Wed, 11 Sep 2024 02:37:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1726047477; x=1726652277; darn=vger.kernel.org;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=d9VWmFYnIHEELfiTATB7zav9tGqQEMCyUPBjKEuNY0U=;
+        b=Pvv8xoxSTRxOZttHOUlE7Vo7HBEQbkkyNM6XGyCPtkxhtpeUigOGoq5IWPZnMFQCIS
+         XIaAVBV3IAc6rOkC33m8+2ydudq3uFbZMvyvaoXkahTf0GL2vL14PHaaRMhrInahALDE
+         GPtPfvup7ANqGuiCIz1fFGxSnD+fgtRPa+khLw2R2ymvNVhV9pprGQasJNNWZk2Q2D7T
+         TJiNx27xXqqXtdKlIPiMxEga4NpgrL8SrhXdQAKJiKLtFYvIjwXODkyTrn0Jp3in5gOq
+         hizBjkzydE8LRCE9wyEOc3k8bYwSRimmAvTYGdPxmSyzfNRxV6vKg5qX+MQmxhkLcpRo
+         aEKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726047477; x=1726652277;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=d9VWmFYnIHEELfiTATB7zav9tGqQEMCyUPBjKEuNY0U=;
+        b=sntgdGZ9LiFGQ4tjLWTMQ5sYuUP0SeA8/nvsEjjIWfletoZJNWSYzB1m178iDp+chR
+         elScjwmfyY+cLm7v7uV3CBkxVCnSUaLzft6rstr3jvV2NCdLIhBEFB96uV2GY7obI5Y7
+         625KePn2l9UOM0e+rjJsE3MSBLmuanVwd2bN15ZNqIYrIljKg/q3zDdEnV0r10eFZbVV
+         8yjtEjdq9Rp43z8PonSe+4Z5TmwwE3zLyoNSD9CWc3O/g/au6gji0PLWUpK1IYWH9NQg
+         BBlk0B9odlHbi0C7vf8feN+Tkqm/iq9/cU1DBUaYfkelXhK06y2OQxB5oQeqof2TlpS/
+         SVyw==
+X-Forwarded-Encrypted: i=1; AJvYcCXm/40ZogyRzC86WxxyOZY+BmhSvX9U/hQwy1WRHQS1Ay9ZNc+UPDnvka7rFuKy7GfTn3BuDXS81ck=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8JUIucphTGT16ewepAyM/mCob4MahfvX+sNTcUwwlOfXMlVDY
+	OgzAqDpluX3HrPBEju0BStipii1BUQ5fnPrUvLZ/V4Z842ix1YXLLGLrDAofRDo=
+X-Google-Smtp-Source: AGHT+IF6Q/aPF2dK+Bp1/HGyTi713o7/34kK9RVIiRTwXA9n0kxv96+6JlseZcAVuEDQisz4z/m74Q==
+X-Received: by 2002:a05:600c:1e04:b0:42c:b8da:c791 with SMTP id 5b1f17b1804b1-42cb8daca53mr77038695e9.1.1726047476116;
+        Wed, 11 Sep 2024 02:37:56 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:7388:2adc:a5d5:ff63])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37895675c11sm11007769f8f.55.2024.09.11.02.37.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Sep 2024 02:37:55 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Jean Delvare <jdelvare@suse.com>,  Rob Herring <robh@kernel.org>,
+  Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
+ <conor+dt@kernel.org>,  Jonathan Corbet <corbet@lwn.net>,  Delphine CC
+ Chiu <Delphine_CC_Chiu@wiwynn.com>,  linux-hwmon@vger.kernel.org,
+  devicetree@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  linux-doc@vger.kernel.org,  linux-i2c@vger.kernel.org
+Subject: Re: [PATCH 3/3] hwmon: (pmbus/tps25990): add initial support
+In-Reply-To: <dde186e0-829b-4408-9f7d-d1ce079cf963@roeck-us.net> (Guenter
+	Roeck's message of "Tue, 10 Sep 2024 10:07:33 -0700")
+References: <20240909-tps25990-v1-0-39b37e43e795@baylibre.com>
+	<20240909-tps25990-v1-3-39b37e43e795@baylibre.com>
+	<d0d53027-8897-47c3-94fb-7e369bff8f18@roeck-us.net>
+	<1j4j6nub9u.fsf@starbuckisacylon.baylibre.com>
+	<dde186e0-829b-4408-9f7d-d1ce079cf963@roeck-us.net>
+Date: Wed, 11 Sep 2024 11:37:54 +0200
+Message-ID: <1jmskesf7x.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f7e3717-1a2c-4346-631d-08dcd238af94
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2024 08:06:48.4978
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: GOShbeGVX9jlpMYhrlguRzDSHHIJqT9UHgUvMYgMWAB5TGdsI5NABTOlIn5asbgJZC9pYzAFRoqeJNeokrzGsA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB5990
-X-OriginatorOrg: intel.com
+Content-Type: text/plain
 
-PiBGcm9tOiBOaWNvbGluIENoZW4gPG5pY29saW5jQG52aWRpYS5jb20+DQo+IFNlbnQ6IFdlZG5l
-c2RheSwgU2VwdGVtYmVyIDExLCAyMDI0IDM6MzEgUE0NCj4gDQo+IE9uIFdlZCwgU2VwIDExLCAy
-MDI0IGF0IDA3OjA5OjE1QU0gKzAwMDAsIFRpYW4sIEtldmluIHdyb3RlOg0KPiA+ID4gRnJvbTog
-Tmljb2xpbiBDaGVuIDxuaWNvbGluY0BudmlkaWEuY29tPg0KPiA+ID4gU2VudDogV2VkbmVzZGF5
-LCBTZXB0ZW1iZXIgMTEsIDIwMjQgNDo0MSBBTQ0KPiA+ID4NCj4gPiA+IC0zLiBJT01NVUZEX09C
-Sl9IV19QQUdFVEFCTEUgaXMgY3JlYXRlZCB3aGVuIGFuIGV4dGVybmFsIGRyaXZlcg0KPiBjYWxs
-cw0KPiA+ID4gdGhlIElPTU1VRkQNCj4gPiA+ICszLiBJT01NVUZEX09CSl9IV1BUX1BBR0lORyBj
-YW4gYmUgY3JlYXRlZCBpbiB0d28gd2F5czoNCj4gPiA+ICsNCj4gPiA+ICsgICBJT01NVUZEX09C
-Sl9IV1BUX1BBR0lORyBpcyBjcmVhdGVkIHdoZW4gYW4gZXh0ZXJuYWwgZHJpdmVyDQo+IGNhbGxz
-DQo+ID4gPiB0aGUgSU9NTVVGRA0KPiA+ID4gICAgIGtBUEkgdG8gYXR0YWNoIGEgYm91bmQgZGV2
-aWNlIHRvIGFuIElPQVMuIFNpbWlsYXJseSB0aGUgZXh0ZXJuYWwgZHJpdmVyDQo+IHVBUEkNCj4g
-PiA+ICAgICBhbGxvd3MgdXNlcnNwYWNlIHRvIGluaXRpYXRlIHRoZSBhdHRhY2hpbmcgb3BlcmF0
-aW9uLiBJZiBhIGNvbXBhdGlibGUNCj4gPiA+ICAgICBwYWdldGFibGUgYWxyZWFkeSBleGlzdHMg
-dGhlbiBpdCBpcyByZXVzZWQgZm9yIHRoZSBhdHRhY2htZW50LiBPdGhlcndpc2UNCj4gYQ0KPiA+
-ID4gICAgIG5ldyBwYWdldGFibGUgb2JqZWN0IGFuZCBpb21tdV9kb21haW4gaXMgY3JlYXRlZC4g
-U3VjY2Vzc2Z1bA0KPiA+ID4gY29tcGxldGlvbiBvZg0KPiA+ID4gICAgIHRoaXMgb3BlcmF0aW9u
-IHNldHMgdXAgdGhlIGxpbmthZ2VzIGFtb25nIElPQVMsIGRldmljZSBhbmQNCj4gPiA+IGlvbW11
-X2RvbWFpbi4gT25jZQ0KPiA+ID4gLSAgIHRoaXMgY29tcGxldGVzIHRoZSBkZXZpY2UgY291bGQg
-ZG8gRE1BLg0KPiA+ID4gLQ0KPiA+ID4gLSAgIEV2ZXJ5IGlvbW11X2RvbWFpbiBpbnNpZGUgdGhl
-IElPQVMgaXMgYWxzbyByZXByZXNlbnRlZCB0byB1c2Vyc3BhY2UNCj4gYXMNCj4gPiA+IGENCj4g
-PiA+IC0gICBIV19QQUdFVEFCTEUgb2JqZWN0Lg0KPiA+ID4gKyAgIHRoaXMgY29tcGxldGVzIHRo
-ZSBkZXZpY2UgY291bGQgZG8gRE1BLiBOb3RlIHRoYXQgZXZlcnkNCj4gaW9tbXVfZG9tYWluDQo+
-ID4gPiBpbnNpZGUNCj4gPiA+ICsgICB0aGUgSU9BUyBpcyBhbHNvIHJlcHJlc2VudGVkIHRvIHVz
-ZXJzcGFjZSBhcyBhbg0KPiA+ID4gSU9NTVVGRF9PQkpfSFdQVF9QQUdJTkcuDQo+ID4NCj4gPiB0
-aGUgbGFzdCBzZW50ZW5jZSBpcyByZWR1bmRhbnQuIGhlcmUgd2UgYXJlIHRhbGtpbmcgYWJvdXQg
-aG93DQo+IEhXUFRfUEFHSU5HDQo+ID4gaXMgY3JlYXRlZCBzbyBpdCdzIGltcGxpZWQuIHByb2Jh
-Ymx5IHlvdSBjYW4gc3RhdGUgdGhhdCBIV1BUX1BBR0lORyBvYmplY3QNCj4gPiBpcyBjcmVhdGVk
-IHdoZW4gdGFsa2luZyBhYm91dCAib3RoZXJ3aXNlIGEgbmV3IHBhZ2UgdGFibGUgb2JqZWN0IGFu
-ZA0KPiA+IGlvbW11X2RvbWFpbiBpcyBjcmVhdGVkIi4NCj4gDQo+IEkgZG9uJ3QgcXVpdGUgZ2V0
-IHRoaXMgcGFydC4uLndoZXJlIGlzIHRoZSByZWR1bmRhbmN5PyBBbmQgd2hlcmUNCj4gaXMgIm90
-aGVyd2lzZSBhIG5ldyBwYWdlIHRhYmxlIG9iamVjdCAuLiI/DQoNCnRoZSBvcmlnaW5hbCB0ZXh0
-Og0KDQogICBhbGxvd3MgdXNlcnNwYWNlIHRvIGluaXRpYXRlIHRoZSBhdHRhY2hpbmcgb3BlcmF0
-aW9uLiBJZiBhIGNvbXBhdGlibGUNCiAgIHBhZ2V0YWJsZSBhbHJlYWR5IGV4aXN0cyB0aGVuIGl0
-IGlzIHJldXNlZCBmb3IgdGhlIGF0dGFjaG1lbnQuIE90aGVyd2lzZSBhDQogICBuZXcgcGFnZXRh
-YmxlIG9iamVjdCBhbmQgaW9tbXVfZG9tYWluIGlzIGNyZWF0ZWQuIFN1Y2Nlc3NmdWwgY29tcGxl
-dGlvbiBvZg0KDQppdCdzIGNsZWFyIHRvIHNheSB0aGF0IEhXUFRfUEFHSU5HIG9iamVjdCBpcyBj
-cmVhdGVkIHVwb24gc3VjY2Vzc2Z1bCANCmNvbXBsZXRpb24gdGhlcmUuIFRoZW4gbmF0dXJhbGx5
-IGV2ZXJ5IGlvbW11X2RvbWFpbiBpbiBhbiBJT0FTDQppcyByZXByZXNlbnRlZCB0byB1c2Vyc3Bh
-Y2UgYXMgSFdQVF9QQUdJTkcuIE5vdCBhZGRlZCBieSB5b3UNCmJ1dCBjb3VsZCBiZSBjbGVhbmVk
-IHVwIHdoaWxlIGF0IGl0LiDwn5iKIA0KDQo=
+On Tue 10 Sep 2024 at 10:07, Guenter Roeck <linux@roeck-us.net> wrote:
+
+> On Tue, Sep 10, 2024 at 11:07:57AM +0200, Jerome Brunet wrote:
+>> On Mon 09 Sep 2024 at 15:52, Guenter Roeck <linux@roeck-us.net> wrote:
+>> 
+>> [...]
+>> 
+> Unrelated to the other comments:
+>
+>  Documentation/hwmon/tps25990.rst | 141 ++++++++++++
+>
+> Needs to be added to Documentation/hwmon/index.rst.
+>
+> +config SENSORS_TPS25990_REGULATOR
+> +	bool "Regulator support for TPS25990 and compatibles"
+> +	depends on SENSORS_TPS25990 && REGULATOR
+> +	default SENSORS_TPS2599
+>                 ^^^^^^^^^^^^^^^ TPS2599 ???
+>
+>> >> +
+>> >> +#define TPS25990_DEFAULT_RIMON		910000
+>
+> Where does the default come from anyway ? I don't immediately see the number
+> in the datasheet.
+
+It is Rimon value for the  maximum current supported when the TPS25990
+is alone (60A) with Viref on its default value: 1V - Section 8.3.4.2.
+
+There is no reason for it beside that. 
+
+>
+>> >> +static int tps25990_write_protect_get(void *data, u64 *val)
+>> >> +{
+>> >> +	struct i2c_client *client = data;
+>> >> +
+>> >> +	return tps25990_mfr_write_protect_active(client);
+>> >> +}
+>> >> +
+>> >> +static int tps25990_write_protect_set(void *data, u64 val)
+>> >> +{
+>> >> +	struct i2c_client *client = data;
+>> >> +
+>> >> +	if (val > 1)
+>> >> +		return -EINVAL;
+>> >> +
+>> >> +	return tps25990_mfr_write_protect(client, val);
+>> >> +}
+>> >> +
+>> >> +DEFINE_DEBUGFS_ATTRIBUTE(tps25990_write_protect_fops,
+>> >> +			 tps25990_write_protect_get,
+>> >> +			 tps25990_write_protect_set,
+>> >> +			 "%llu\n");
+>> >> +
+>> >> +static int tps25990_init_debugfs(struct i2c_client *client)
+>> >> +{
+>> >> +	struct dentry *dir;
+>> >> +
+>> >> +	dir = pmbus_get_debugfs_dir(client);
+>> >> +	if (!dir)
+>> >> +		return -ENOENT;
+>> >> +
+>> >> +	debugfs_create_file("write_protect", 0644, dir,
+>> >> +			    client, &tps25990_write_protect_fops);
+>> >> +
+>> >> +	return 0;
+>> >> +}
+>> >> +
+>> >> +#else
+>> >> +static inline int tps25990_init_debugfs(struct i2c_client *client)
+>> >> +{
+>> >> +	return 0;
+>> >> +}
+>> >> +#endif
+>> >> +
+>> >
+>> > In general it is extremely undesirable to overwrite write protection.
+>> > Many chips support such attributes. If write protection is enabled,
+>> > it means that the board vendor does not want to have them changed.
+>> 
+>> According to documentation, it protects against "unintented" writes,
+>> not 'wrong' or 'malicious'. If one goes in debugfs and write just '0' to
+>> a file, there is an intent at least.
+>> 
+>> > Granted, that can be overwritten with direct i2c commands, but that
+>> > is what it should be. Anyone who really wants to disable write protection
+>> > should have to dig deeper than just writing into a debugfs or sysfs attribute.
+>> > Otherwise the protection becomes worthless.
+>> > If this is, for example, needed
+>> > for production to write initial settings, the production scripts should
+>> > disable (or enable) write protection by writing directly into command
+>> > registers.
+>> 
+>> As I wrote in the cover letter, the write protection is always active on
+>> chip startup and it locks down almost everything, including things you may
+>> need to write past production, in the field. The history reset below is
+>> an example of such thing.
+>> 
+>> To 'safely' remove the protection by writing i2c commands from
+>> userspace:
+>>  * the device will need be unbinded first,
+>>  * call i2cset
+>>  * bind the device again
+>> 
+>> That seems really cumbersome to do something like an history
+>> reset. Is this what you are suggesting ?
+>> 
+>> bind/unbind could be skipped by forcing i2cset but that would add danger
+>> where we certainly don't want it.
+>> 
+>
+> Not sure I understand the "danger" part. Either case, the problem is
+> deeper.
+
+If the driver is bound, i2cset will require the '-f' flag. Man page says
+it is dangerous do so, if 2 i2c commands happens at the same time I suppose.
+
+> The driver enables regulator support, which includes enabling and disabling
+> the output voltage. But that doesn't work unles write protect is disabled.
+> debugfs doesn't help there; that is way too late.
+
+Indeed OPERATION command is locked as well, I missed that.
+I'll drop that from the initial submission.
+
+The fact that is comes too late is also why I did not add extra features
+yet, things like GPIO support, GPDAC regulators, NVMEM blackbox, etc...
+
+I know we are not supposed to (and never will) support all the shiny
+features HW designers can think of, but it would be nice to unlock some
+of its potential. 
+
+Do you have an idea ? (for later I mean)
+A module parm to do the unlock might work but seems a bit extreme.
+
+>
+>> >
+>> >> +/*
+>> >> + * TPS25990 has history reset based on MIN/AVG/PEAK instead of per sensor type
+>> >> + * Emulate the behaviour a pmbus limit_attr would have for consistency
+>> >> + *  - Read: Do nothing and emit 0
+>> >> + *  - Write: Check the input is a number and reset
+>> >> + */
+>> >> +static ssize_t tps25990_history_reset_show(struct device *dev,
+>> >> +					   struct device_attribute *devattr,
+>> >> +					   char *buf)
+>> >> +{
+>> >> +	return sysfs_emit(buf, "0\n");
+>> >> +}
+>> >> +
+>> >> +static ssize_t tps25990_history_reset_store(struct device *dev,
+>> >> +					    struct device_attribute *devattr,
+>> >> +					    const char *buf, size_t count)
+>> >> +{
+>> >> +	struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
+>> >> +	struct i2c_client *client = to_i2c_client(dev->parent);
+>> >> +	s64 val;
+>> >> +	int ret;
+>> >> +
+>> >> +	if (kstrtos64(buf, 10, &val) < 0)
+>> >> +		return -EINVAL;
+>> >> +
+>> >> +	ret = pmbus_update_byte_data(client, 0, TPS25990_PK_MIN_AVG,
+>> >> +				     BIT(attr->index), BIT(attr->index));
+>> >> +	if (ret < 0)
+>> >> +		return ret;
+>> >> +
+>> >> +	return count;
+>> >> +}
+>> >> +
+>> >> +static SENSOR_DEVICE_ATTR_RW(highest_history_reset, tps25990_history_reset, 7);
+>> >> +static SENSOR_DEVICE_ATTR_RW(average_history_reset, tps25990_history_reset, 6);
+>> >> +static SENSOR_DEVICE_ATTR_RW(lowest_history_reset,  tps25990_history_reset, 5);
+>> >
+>> > That is not a unique problem, and not a reason to introduce non-standard attributes.
+>> > Just attach the attribute to the first channel and document that it resets all
+>> > channels.
+>> 
+>> Not sure I got this right so I'll rephrase. I should:
+>> * Pick a channel, say vin
+>> * Map the virtual reset register to hit the 3 resets above
+>> * Put in the documentation that it resets the other channels as well
+>> * Not allow independent resets of min/max/avg, just all 3 together ?
+>> 
+> Correct. It is amazing what hardware designers come up with (here:
+> resetting history based on min/max/average instead of the sensor type
+> is novel), but I really don't want to introduce new attributes to
+> accommodate each variant.
+
+Sure. Make sense
+
+> I'd be open to introducing a global
+> PMBUS_VIRT_RESET_HISTORY virtual register and reset_history attribute
+> if you want to go there, but that would have to be in the PMBus core.
+
+Both solutions are fine by me.
+Do you have a preference ?
+
+>
+>> >
+>> >> +
+>> >> +static struct attribute *tps25990_attrs[] = {
+>> >> +	&sensor_dev_attr_highest_history_reset.dev_attr.attr,
+>> >> +	&sensor_dev_attr_average_history_reset.dev_attr.attr,
+>> >> +	&sensor_dev_attr_lowest_history_reset.dev_attr.attr,
+>> >> +	NULL,
+>> >> +};
+>> >> +
+>> >> +ATTRIBUTE_GROUPS(tps25990);
+>> >> +
+>> >> +static int tps25990_get_addr(int reg)
+>> >> +{
+>> >> +	switch (reg) {
+>> >> +	case PMBUS_SMBALERT_MASK:
+>> >> +		/*
+>> >> +		 * Note: PMBUS_SMBALERT_MASK is not implemented on this chip
+>> >> +		 * Writing to this address raises CML errors.
+>> >> +		 * Instead it provides ALERT_MASK which allows to set the mask
+>> >> +		 * for each of the status registers, but not the specific bits
+>> >> +		 * in them.
+>> >> +		 * The default setup assert SMBA# if any bit is set in any of the
+>> >> +		 * status registers the chip has. This is as close as we can get
+>> >> +		 * to what pmbus_irq_setup() would set, sooo ... do nothing.
+>> >> +		 */
+>> >> +		return -ENXIO;
+>> >
+>> > Many chips have that problem. The core code ignores errors, and attempts to write
+>> > the command are limited to initialization. This is not a reason to overwrite
+>> > the command like this. If this does cause a real a problem wit hthe chip (other
+>> > than setting CML errors, which many chips not supporting the command do),
+>> > we should define a flag in include/linux/pmbus.h and explain its need.
+>> 
+>> CML is error is the problem. Following pmbus_irq_setup() there is an
+>> uncleared fault because there is no register check on PMBUS_SMBALERT_MASK.
+>> 
+>> When pmbus_core then gets here:
+>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/hwmon/pmbus/pmbus_core.c?h=v6.11-rc7#n3386
+>> 
+>> pmbus_check_block_register() fails because of the uncleared fault and
+>> the 'mfr_id' property is silently not registered, eventhough the
+>> register is supported by the chip. This is how I noticed the problem.
+>> 
+>> So, should I add flag in include/linux/pmbus.h to skip
+>> PMBUS_SMBALERT_MASK setup ?
+>> 
+>> Another possibility is to call register_check()
+>> on it before using PMBUS_SMBALERT_MASK in pmbus_core.
+>> 
+>
+> The problem, as you point out, is in pmbus_irq_setup(). Since the function
+> explicitly ignores errors from accessing PMBUS_SMBALERT_MASK, it should
+> either clear faults after it is done. I don't think we can rely on
+> register_check() because the register might exist but be read-only.
+>
+
+Noted. I'll add the fault clearing.
+
+>> >
+>> >> +	case PMBUS_IIN_OC_FAULT_LIMIT:
+
+[...]
+
+>> >> +static int tps25990_probe(struct i2c_client *client)
+>> >> +{
+>> >> +	struct device *dev = &client->dev;
+>> >> +	struct pmbus_driver_info *info;
+>> >> +	u32 rimon = TPS25990_DEFAULT_RIMON;
+>> >> +	int ret;
+>> >> +
+>> >> +	ret = device_property_read_u32(dev, "ti,rimon-milli-ohms", &rimon);
+>> >> +	if (ret == -EINVAL) {
+>> >> +		dev_warn(dev,
+>> >> +			 "using default rimon: current and power scale possibly wrong\n");
+>> >
+>> > This is not an appropriate warning. It is perfectly fine to load the driver
+>> > if there is no ti,rimon-milli-ohms property.
+>> 
+>> I should have commented more on the default value. It is meant for the
+>> case where the device is instanciated through i2c sys 'new_device',
+>> which is meant for debugging purpose. In that particular case, it does
+>> not really matter if the current and power scale are wrong.
+>> 
+>> There is no way to pass device properties when instanciating device
+>> through that interface, as far as I know. 
+>> 
+>> In every other cases, a correct Rimon value is expected.
+>> I could turn the above to an error. It means loading through i2c sys
+>> would not possible for this driver.
+>> 
+>> Would it be better ?
+>> 
+>
+> We use default values for pretty much all drivers, so I don't see why
+> this one should be different. The driver should still be usable on a
+> system without devicetree support. There is a reason for the sensors
+> configuration file.
+>
+
+Supporting more than DT is a concern. That is why I did not use the DT
+specific API. In theory, the one used should support other sources, such
+as ACPI, I think.
+
+Thanks for pointing out the sensor configuration file. I did not know
+calculation were possible, and acceptable, at that stage.
+
+So, IIUC, I could just drop the device property, then the device would
+be used in the same way on all the platform, DT or not ?
+I like that a lot.
+
+All I would have to do is add something in the documentation about it, I
+guess. With default value of 1000, instead 910, the range would still be
+good in sysfs and calculation simple in userspace.
+
+That would solve the unit discussion as well, a nice bonus ;)
+
+>> >
+>> >> +	} else if (ret < 0) {
+>> >> +		return dev_err_probe(dev, ret, "failed get rimon\n");
+>> >> +	}
+>> >> +
+>> >> +	/*
+>> >> +	 * TPS25990 may be stacked with several TPS25895, allowing a higher
+>> >> +	 * current. The higher the allowed current is, the lower rimon
+>> >> +	 * will be. How low it can realistically get is unknown.
+>> >> +	 * To avoid problems with precision later on, rimon is provided in
+>> >> +	 * milli Ohms. This is a precaution to keep a stable ABI.
+>> >> +	 * At the moment, doing the calculation with rimon in milli Ohms
+>> >> +	 * would overflow the s32 'm' in the direct conversion. Convert it
+>> >> +	 * back to Ohms until greater precision is actually needed.
+>> >> +	 */
+>> >> +	rimon /= 1000;
+>> >> +
+>> >
+>> > Seems to me it would make more sense to limit the valid range of ti,rimon-milli-ohms
+>> > to avoid the overflow. But then I really don't understand the reasoning to provide
+>> > the property in milli-ohm, given the default value of 910 Ohm. What is a realistic
+>> > lowest value that would make sense ?
+>> 
+>> The highest value I've seen, when the tps25990 is alone, is 1370
+>> Ohms. That means a 30A overcurrent fault limit.
+>> 
+>> With one TPS25895, I've seen 608 Ohms (110A limit)
+>> 
+>> I have no idea what the realistic low limit is. To get to ~100 Ohms, you'd
+>> need 8 devices (not hundreds ;) ) If one gets there, it might be
+>> desirable to have 3 digits to play with, and not be limited by the unit.
+>> 
+>> The DT folks really don't like when a property changes. Going with
+>> milli-Ohms is way to anticipate the problem.
+>> 
+>> The other way could be to use Ohms now, and if we ever get to point
+>> where milli-Ohms precision is needed, add it then. The downside is that
+>> the driver will need to support both properties.
+>> 
+>> Would you prefer this ?
+>> 
+>
+> In practice the driver, as submitted, does _not_ support milli-Ohms
+> to start with. It only supports Ohms. Worse, it doesn't range check the
+> value, causing bad behavior (everything will be reported 0) if a value
+> below 1,000 is provided, and still overflows if the value gets close to
+> UINT_MAX.
+
+Yes I relied on the value being sane-ish. 4 MOhms (or even 2) is not. 
+
+>
+>> 
+>> > But even if it is less than 1 Ohm I don't
+>> > understand why it would make sense to completely ignore it.
+>> 
+>> It would not make sense to ignore it.
+>> 
+> But you do ... by setting m to 0 in that case.
+
+I did not intentionally set 0. Let's just call it for what it is: a
+bug that needs fixing, if the property stays.
+
+>
+>> >
+>> >> +	info = devm_kmemdup(dev, &tps25990_base_info, sizeof(*info), GFP_KERNEL);
+>> >> +	if (!info)
+>> >> +		return -ENOMEM;
+>> >> +
+>> >> +	/* Adapt the current and power scale for each instance */
+>> >> +	info->m[PSC_CURRENT_IN] *= rimon;
+>> >> +	info->m[PSC_POWER] *= rimon;
+>> >
+>> > Any rimon value < 1000 mOhm will result in m values of 0.
+>> 
+>> Indeed. Such Rimon value would mean an over current limit > 50kA. I admit
+>> I did really think much about such value.
+>> 
+>> The idea was more keep some precision if we get somewhere near a 100 Ohms.
+>> 
+>
+> It doesn't, though, since the provided milli-Ohm value is divided by 1,000
+> (and the division doesn't even use DIV_ROUND_CLOSEST). Even though certain
+> values don't make sense, there still needs to be a range check. And that
+> missing range check triggers the next question: Why not just limit the upper
+> range instead of ignoring the milli-part of the value ?
+
+If there was an actual range in the documentation, I'd be happy to check
+it, but there is not one. I don't think I should make a range out of
+thin air.
+
+That being said, we are not going get into Mega-Ohms or Micro-Ohms
+territory with this chip, that's for sure. I was trying to strike a
+balance in between.
+
+The upper limit of Rimon would be set by what you consider the lower
+acceptable limit for over current protection (Iocp). Isn't 10A ? or 5A
+or even 1A ? I don't know. I'm not sure the driver should disallow any
+sane value if the HW can do it.
+
+What is sane then ...
+
+>
+> Note that you might have used micro-Ohm (which is a standard devicetree
+> resolution) and divide it by 1,000.
+
+Take Rimon = 1370 Ohms, which provide an Iocp of 30A.
+Micro-Ohms divided by 1000: 13700000000 / 1000 = 1370000.
+For current: m = 9538 * 1370000 = 13067060000
+
+This will overflow m on 32bits systems for struct pmbus_driver_info.
+In pmbus_reg2data_direct, m is an s32 so it would overflow there as
+well regardless of the arch.
+
+Micro or milli-Ohms, the matter is the same. Solution might simply be to
+do m calculation over 64bits then divide result so it fits the 32bits
+type used in pmbus_core.
+
+> That would have been perfectly fine.
+> It would result in an upper resistor limit of 4,294 Ohm, which I'd assume
+> should be acceptable.
+
+Means the driver will not allow a Iocp lower that 234mA.
+It is probably realistic.
+
+> Overflows due to large values of m could have been
+> avoided by adjusting .R if .m gets otherwise too large.
+
+I think we are down 2 solutions then:
+1) Drop the device property completely, use a sane default and rely on
+   libsensor for the final calculation.
+2) Property in micro-ohms, with some calculation to fit m in 32bits.
+   Probably need to expose Rimon in debugfs too, so the users may check
+   the value used and revert back to lib-sensor calc if necessary.
+
+I tend to prefer 1) for its simplicity and lack of added constraints.
+Is it Ok with you ?
+
+>
+> Guenter
+
+-- 
+Jerome
