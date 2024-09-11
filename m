@@ -1,51 +1,51 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2053.outbound.protection.outlook.com [40.107.243.53])
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2053.outbound.protection.outlook.com [40.107.92.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F9711AC433;
-	Wed, 11 Sep 2024 15:47:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF761ABED6;
+	Wed, 11 Sep 2024 15:52:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726069662; cv=fail; b=i7vZNithig2GsTktOclJJHFxAaUzH+ZLmAQr2PVviZze6mvuOtVbR6gwuiGP2TFSFkHzsU71PThbY9IQg4QxLMTuIwYEDeJ83DDk/SwAsDTurqURgRwArlTeAsDQQKOq+sDa/3IoCOsdjMxwrwCGUGCHHHUiSFAafpZt3+0ZBLg=
+	t=1726069935; cv=fail; b=YFoM+QIF80GZ7Ax2FMApJfloAVnknXXkWGcEWSFPOAihvE34VMWsxVXG68nyViGdDdbhQTAW4ldUn+mRrIxzU8EowyGh66WD7kpOBrmwJXNbvwmJ2JqlV0UQg2ysPYJy2AM3xMtVPUFPbBwGSFzfYHSNkAQI2Zw3SLWO1BRREdo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726069662; c=relaxed/simple;
-	bh=VoL13qn/kyUUw+vs9MbTIcTjGPHZo4Jm6iUqWA0v3o8=;
+	s=arc-20240116; t=1726069935; c=relaxed/simple;
+	bh=phFMPV8p8ajr1tMAb8AD35B2jbYFcQxvp7Um1WoZDQ4=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=sUKi2O50a2e5wrEILELSr54SWlQ68Tgwaw//skp1QP96O3OE6MMYfHyon3214c4uflL75pUMwjLobr05wQBJYVCQhCWTDXlYBE9IsrZnYj2yXxEAbxNoHnBqPbdLU41Hc5/QC+sE/BeNfFw1rZQBEr0cBgdsrbTb512XFoJQfl8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=QQofq4qc; arc=fail smtp.client-ip=40.107.243.53
+	 Content-Type:MIME-Version; b=bn8KrUEmhfcn/jMBUEgFC8UtJH07xOtWFBOD9BURliTKVlkV1pJucuC6xxJwSEC+hG/L1HBu5tfeeEwsv0TAesTi2OWcVotk/ThQ02tmNB8VGttigqfdxieA7v6KG9NjF7209QjZT4DQBIJHp/2AAUFXGv0QGB+7l/FoMHR3xIk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=VyFQ69Ww; arc=fail smtp.client-ip=40.107.92.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="QQofq4qc"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="VyFQ69Ww"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iasHWlB7iV15P3PDfChmht7g6TOCCPYCFBI/uKZeOQ3CwO6T/lEtNmxeQuHeMKlQzha1gQ3k+Qu2ceEM8xTRA7RYiad0Cw5RQvcUB2ierI5McXgcNTQRc7kMp9zUf+Rm8vgNz+aTwTY+5lOfYY82bJrvHUvHeYpbZY6vZzId93NXxwQjLlpR04Pywb3BWGZP18P7vIez+S+U9txtkJs5IRVcRQwwDGZZ/Jz6Qz09qNIs4eJxkHLve23GmW0KMmsm18EcsGUQD2Z4k+cTawfrEzc+K2ttSfDnzhFCZhptz8/ZpIuOglfZgZ5Je/m8ihSU4jKPW/iLZ1NOzUegXlgEEg==
+ b=aAzWLcyQ9S2EAo48x/l3/Gh9LAaTvtC0A0LLYk8sNsCLxbRakGFe30vgTIpJIgrXEwB82ve2kk73xnuqkUwtcEihCJI0DJ57vgRZ2/F3Pp9Vj6viRQOeAJFGyx/01qdvVhjDZu7BgpN4DrunQ5xUESQ7Kw8FHIwlg7cqSXpqR4e5TwFt28lFqghPDyzjUSM6fP81guIMtG1xrAlh9qg9+0NlWiTL4+QK/Po2nesoawjyqIOXESsiBjtoVH/TC0BgmHpaiECtsWVDu/83sGui7JTVAfhfOfLkUY30z59oQfY7jXz2ppK9CIovPQBHLiUg0cnoOhy80dH/yQ5EKBLh+w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YrJQZN7xtsKCnqIhkqvJZIgiEIDQ/wqapQKgG0MWo7A=;
- b=PAWC3qLdr0i0VOotM3vyBg6fetPApoOYEDTzUni4bj+RUW4X4nm/IwBXiMQT+vvAnm8mex6+ML41ySaHvfLAd9ioqKFQJfYVp6kvnwh/mgzqplSdDIAIkCnmji6B2KkIsnboLDoexLdC7GDSO3l4dhbT8zVoTkoHLidibc7LSRqTplwGfNlRpXfxZp+N47dx/YLB5goG8Yv7Mujpt1UhubYc7pe43gU4feSdZhsJCq7+K19h78CzukJEVmCHzFYY0h6eo6yPse/Oy7ylFdwRkoxfpNthy1BeNbOltnlc2e6HeMLkltRmQ0PMXYEJeJtDHosauaUDIxtt4Is3p8ddaA==
+ bh=dKr0t5L4XQATlneixNpM5Fhjqt7ayELgA4cETYTJPyQ=;
+ b=VOzVYWfZEHlnAS5MAuDtC+7ni7ooQ0q5vtGplDd0vUqz7W+1ap7QUCG7jBIog9y/2qjqZ1lWPTJgd8K9ikT5WcQ3mJhosi2WQ5RJh1EMzAfYr+Vt086HE1+oQHh157t1YpU+xJtikL9X5rykPOA5zqISrE1T5MDqgdDW0BD/+OAaakQHojV5zn0YOwNk2vcBaz4bEc/0ERna8m6cSlJdEzEJCS1KsVmV+kf6iogm/CoiiAMTX4BvL/E10t+XnlaMlB6ATMG7r6/oFDIGbn3fuM9RNRw5cCGFwSfpV/WaUBsRk2xPkNWiE6YRm/lw/vrnGTBArsl6asxgk+qTlT5B8A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YrJQZN7xtsKCnqIhkqvJZIgiEIDQ/wqapQKgG0MWo7A=;
- b=QQofq4qcxVwCEMOVjMfjwfh1P9s4uWMGoakf/Jr/uV6hYasP8yP65f0pLRoBlWP3UUyxZxyIuwCegxZb/Y6DNt9SxylKEJDczA3/we4je5mLkQOIka0pZ4rkderVmNd+NFjsMpF9iDkV1+FsB736GNf2X3trDNRuUdteW/rKMkU=
+ bh=dKr0t5L4XQATlneixNpM5Fhjqt7ayELgA4cETYTJPyQ=;
+ b=VyFQ69Ww2h6sWu8xwods/Lu130g45XY5fF8tGW1G8RkE1tEWbPbNeaWltuh4cJplfQRKThGOeOhEvM/ir+qDAsc7hiC8pjdQrV1MoFWG5frSN+Phxanz9Sdx1oV4CTQGej4lF6R8mfK1ahNVJ/hBM3K+th/r2n010tJb1is9dQQ=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH0PR12MB7982.namprd12.prod.outlook.com (2603:10b6:510:28d::5)
- by PH7PR12MB8179.namprd12.prod.outlook.com (2603:10b6:510:2b8::20) with
+ by PH7PR12MB7937.namprd12.prod.outlook.com (2603:10b6:510:270::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.27; Wed, 11 Sep
- 2024 15:47:37 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7962.17; Wed, 11 Sep
+ 2024 15:52:09 +0000
 Received: from PH0PR12MB7982.namprd12.prod.outlook.com
  ([fe80::bfd5:ffcf:f153:636a]) by PH0PR12MB7982.namprd12.prod.outlook.com
  ([fe80::bfd5:ffcf:f153:636a%3]) with mapi id 15.20.7962.016; Wed, 11 Sep 2024
- 15:47:37 +0000
-Message-ID: <1eec50e5-6a6d-4ad8-a3ad-b0bbb8e72724@amd.com>
-Date: Wed, 11 Sep 2024 08:47:32 -0700
+ 15:52:09 +0000
+Message-ID: <4973cca2-9e58-42cd-8b28-98fe08bf95a2@amd.com>
+Date: Wed, 11 Sep 2024 08:52:04 -0700
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 3/4] ethtool: Add support for configuring
- tcp-data-split-thresh
+Subject: Re: [PATCH net-next v2 4/4] bnxt_en: add support for
+ tcp-data-split-thresh ethtool command
 To: Taehee Yoo <ap420073@gmail.com>, davem@davemloft.net, kuba@kernel.org,
  pabeni@redhat.com, edumazet@google.com, corbet@lwn.net,
  michael.chan@broadcom.com, netdev@vger.kernel.org, linux-doc@vger.kernel.org
@@ -55,14 +55,14 @@ Cc: ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, andrew@lunn.ch,
  maxime.chevallier@bootlin.com, danieller@nvidia.com,
  aleksander.lobakin@intel.com
 References: <20240911145555.318605-1-ap420073@gmail.com>
- <20240911145555.318605-4-ap420073@gmail.com>
+ <20240911145555.318605-5-ap420073@gmail.com>
 Content-Language: en-US
 From: Brett Creeley <bcreeley@amd.com>
-In-Reply-To: <20240911145555.318605-4-ap420073@gmail.com>
+In-Reply-To: <20240911145555.318605-5-ap420073@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH2PR07CA0055.namprd07.prod.outlook.com
- (2603:10b6:610:5b::29) To PH0PR12MB7982.namprd12.prod.outlook.com
+X-ClientProxiedBy: CH0PR08CA0006.namprd08.prod.outlook.com
+ (2603:10b6:610:33::11) To PH0PR12MB7982.namprd12.prod.outlook.com
  (2603:10b6:510:28d::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -71,94 +71,94 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR12MB7982:EE_|PH7PR12MB8179:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2eb71923-f4f5-4755-fc5d-08dcd2790fa9
+X-MS-TrafficTypeDiagnostic: PH0PR12MB7982:EE_|PH7PR12MB7937:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9f2d1dbc-718c-419b-63a7-08dcd279b180
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?M1I5dVdmTjArNE5DeXQxZGJYUUhkdUY4NU94U2tMRWxDc2FPNmVSOUdISUJy?=
- =?utf-8?B?NG5MUnlnNDlTNWNKdHEvSDJvNzZ6T05EckNGYzZuNlFiUXk5Vm1rc2lrWkZR?=
- =?utf-8?B?N3oyMmVTY2tkNkRqVGxONkJDSDhkQTZBSUZhOHRodHhJV284UUp6VFE3Nm44?=
- =?utf-8?B?WUtTcC9uVDZiU25pVFVzWG03R2g1a2VxNTU5TkhkSVh0Wk1xRFI4WXA2azVo?=
- =?utf-8?B?ZGRTZGg2TFBTcU1HQjJySWJVKzZIT25PV3hXdE1QN3VsYlNQN2syK3JwYm1H?=
- =?utf-8?B?S0o5Yi9yOUlPdEF2bTZMVE42bUhLNFVEdjhFcXAwcW55Yjc2c3NKbFVxajNG?=
- =?utf-8?B?eGZxTjlha2NMZ0xEUWNjT2JqMmNJVWpEWE9oUEpRUjRCTW51TVI0cFpFczhW?=
- =?utf-8?B?NGhuVFFwMTYrZ2NqOVE4R0dqNjREb1UxVjR4a0dMRnQ2TVd4UDJuSHhrNGcz?=
- =?utf-8?B?aFgyV1VsNXdNRTlPM1dScmZSeDYxMnJBRU4zMkhHY0hNRndoenFwQVc1NHNN?=
- =?utf-8?B?WkhhRytpanNvNUR1VVVXOFp4UTdIaEcyY2dvaGRqNDIvS1pkMW5LVi9tVm04?=
- =?utf-8?B?OW9rUDFDaVpwaWVjeEppNUNHMzJwZmpMQ0NXVlhMb2dzL2xhSE1ZQVJScjVx?=
- =?utf-8?B?STBrVUUreGRKOGxtS1VXa2JzRU1GdDBvcVZzbTZscElKbXQ5WlpUWnRySXFi?=
- =?utf-8?B?cG9LU0NjcllSU05qVmc1aVBGcUpQSFd3cThRMWZqTWNpbEY4NDNZOFRzdmhk?=
- =?utf-8?B?WEJDdzkyV1BWTkxvODVTQ24xbmdmYjNleXI4OUR0dzVXdDNmYzZvbzFZYXM4?=
- =?utf-8?B?T0VrWGpsRkhCZWpMenE5MjBkVWZTdXRVWklvdXN6cXZEM2ZoaFlaN0czZHdJ?=
- =?utf-8?B?K3hXQW5qbmxVOU9ZRjVmaTgwWWJXMEk5NGEzTjhEWnVuczE4d1RRTytTZm1W?=
- =?utf-8?B?djBpVWNoTmgza0cvWmpEalFNeVpteUR5RlJFZENkR3N0dTZWMGk1dForYmVj?=
- =?utf-8?B?bmxYQys1YmJrY2NNdVJpcTZGaDh5eGxRSHd3SDdLZUd4V052OCtmUjlMaTk1?=
- =?utf-8?B?a3crUjA1VnluTG1MZzNIMllkMDhFbUdFVzgvOE5XZnVpaGZqODFjdFlmczhx?=
- =?utf-8?B?QTUxL2Z0Vjg5N00vNnFDVWhNVnh3MWFTNSs2U0MzMHk2RDJJWFpPUVgzUlFu?=
- =?utf-8?B?VU41ZVAxdHJra1Q0Z1o3Ymg4NW1YNjk0TUY4QmR5UktOOHNjd1gxR09RQm1p?=
- =?utf-8?B?MmlWUzFTQXhBcE5DZ1REbVhhOHpoVytoa0d5QVYxME03SjlWTkxNc0FBUHdI?=
- =?utf-8?B?L3ZUYk00djd0cnFGQSt0OWN5Q0hVTWk0ZnpxV2lheC9UcXI2dXI0MHNWNkZt?=
- =?utf-8?B?bzF5SkptRENPZGNvQnBKVzNyVmRqYnhoRllMV2lRemxzRlpKV1gwOWhudlVI?=
- =?utf-8?B?K3hOclprY2pDU1BIOVdoSkIxSUtTSGFUNHVqWmNiOWV4OGYvQTNkaHl1d1Nj?=
- =?utf-8?B?VnhMVFo0VWoyQ3hyZ3pvdmt1Y0ZnRWVYQ0M0TXJrOEdLRk1XS1RuVTgweDcy?=
- =?utf-8?B?WlozV0Z6dm15NWFwUktWQlMvanExN3BTQmUwVUthbVNmN0llU0lMYXFzSk9Y?=
- =?utf-8?B?ck9GbjJDaXR1d2pHUWJWdTloTHJMa2c0eFBjcmxjL1hSMEZZMUtaa3EwWFBk?=
- =?utf-8?B?ZVZrSWJCQmdXSW81dVZYNDkydGVrU1ppWVVOQlJoWXRpRmtvUnpIeEJPaHM0?=
- =?utf-8?B?TlVTTkR4UHVZWVg0YWlDT1RlMHpPTS93R2lOSEUxYTY5cmFhMWE2RXhpejF4?=
- =?utf-8?B?VzN2T2FLN3lSYkJHM0VaZz09?=
+	=?utf-8?B?UnozUXRTSkNMMUxWd3FXQytVVVlhc1Nkb08xZFMvMEZUSlJUenRLTFV5NG1t?=
+ =?utf-8?B?c1N1UHcvaVNZT09BU0Y1aSt0eU5KRlJMemh6QTdsQWRxck5mOFpmZ0FJRmRS?=
+ =?utf-8?B?YUlpeVdWWm1TSVZMTkREdU9DRXpyTW1lNU1KaW9LS2dmVEFmckRHMUR6N1Zr?=
+ =?utf-8?B?bGlOTHhzMWU0bFNWYTN5cGxsL3ZpcE9CbW5oQWswUjNsakVRRjJJR0tmZDJq?=
+ =?utf-8?B?UXhOWTV4eEpRcmFmZzhHNElCUmt4d2RBL3FjVXk3eVBZR1M4dlJZcDg0bWRT?=
+ =?utf-8?B?R2ZNdktzRDhJMlM1OWtzaytnblBkZnNZWmp3RFlHT0lLODM4L0hybDhIV3JL?=
+ =?utf-8?B?MGEwNFpEMnp0SlM1T01kd0wrYUpBYndoTEhUSDRRYVNCb3ZpOEU1Uy9MSGxI?=
+ =?utf-8?B?ZmlyTjM0OGJzOGVFY1cxb2NlNGlSdFpTdGtxZEQ5RkF6enNsUFdLVyt1S2Za?=
+ =?utf-8?B?Tlp5TEhCNHRCYm9jdXZ5eFdGcGpwTXRTQmVaVnA5QytBSGx6VlhRQ3RzSUFP?=
+ =?utf-8?B?VTZhbVpabGlTWG9iWEdib2d0MnRxTDBzbmNnNVUyZHp2VEhCbU90N0pVWTl3?=
+ =?utf-8?B?Y3ozc0lJWFJEMjdBUjlEVzBKdjU0VWIvODNZYzEzN29NTXNLQlk5b3p1TUll?=
+ =?utf-8?B?UkR1TkZMWDM1WTZxeTZsOC9iV2JIRzdLekN1RWU0MUFXeU15bUdxVk52YUhy?=
+ =?utf-8?B?dGdoZmI2ZHNxaXZvQ005N3o0Z0RYUndqaDNLUXF5R1d6UGlFdU9maDhwSlo5?=
+ =?utf-8?B?TWd4M3dPbytMazQ3UFVpa29oMTBuRFFxMDRtSW8zQWdUQldpMmlKb3FDeFl2?=
+ =?utf-8?B?UmhVMjk0Yml0cDZxeCt5Q0p5NXJzcm1sc2Y2RTVWT0E3QWFNbkp2YThtV1ZO?=
+ =?utf-8?B?ZHF6ZVpsZXdGT2JKKzNKNi9wLzkwQk0wMm9RT01HZDBLQXhEZXlVLzEwWDNk?=
+ =?utf-8?B?NU94U2Z1M1c2M1AyWjF3dlJpbTA0OGYzR25LUDU0eUx3ZXh0OUpTZ0V2emFY?=
+ =?utf-8?B?RStjTTV0WjRIMlZxMTg1anM1ajZ5U1RNWHZPRmNpMHQxL1lrdE03amNRQ2Z1?=
+ =?utf-8?B?Njd1TUpxNVlXT0F0dXFsTkZWdEMvejhWdEVsdDZiRS94TEhYSzBJb3lFTlBa?=
+ =?utf-8?B?WWhWY1U4TXhvMFlnSUl6Wm1zMnhuVXlmdE5ZaHpHRmUyTUhHWE43ZXZON1Bq?=
+ =?utf-8?B?Y3N2d0FXendqKzJjam0rcndjV3RnRmwySFBUdlFTWU9EbTZURDNyMUE4b2xC?=
+ =?utf-8?B?QnFxVCtTN2lRb2RUOE95MXNuSFlOZzJRNFl6MFBheEtYSTFzcDVZY0p0ZHAz?=
+ =?utf-8?B?NG1kSk9pNURiN0lGL0p1USs0bmgrTzQ5NTM0MVF1U0dWRFRQc1pEOUQ0VmI5?=
+ =?utf-8?B?RXUvdnVXZU5CQUkvdnNDbllHMEVGQUx1TlRyYjFYeUphSU41NUFZaUZUTERI?=
+ =?utf-8?B?emJEYjVxOVc5cUkzNGxUWWxRQjJyenZlc1NmV1pndDU4R3BnaVFuZytFcWFx?=
+ =?utf-8?B?RXdoS0Z6bDF1V25rTTNtQkhxOFptNmpvQy9NOFI2M01YdGFITk0vRlczZ2lG?=
+ =?utf-8?B?ZUZTVm1jVEJha3BMYnBDd1RvSGN2aFJLNi9VMVgwOXgyem1IdWtVY2tTOFRY?=
+ =?utf-8?B?L01Ea0IwcG5DbWdRanhjRjZwaDhzZXVER2loWGVQL0hjYyt2OVlxWElDRXNk?=
+ =?utf-8?B?T2EvUWpZZzQzL2p1cGdmdWxXbTNOdHdZWks1K0ZwM1Zhck00N1FrekpSeTU0?=
+ =?utf-8?B?ekRGQm5LZkZYeVhIR1MrRis1T0VSeTBIT2U5UGwwRE51UGRpQjlyeC92dXR4?=
+ =?utf-8?B?UiszWUp1TXplZzFmU1FVdz09?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR12MB7982.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR12MB7982.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WURCSk5oOU1saE5rYUVtL09YV3EzQjgvVnYzWUN1cUFyK1hQSjliY1BBMzVH?=
- =?utf-8?B?RXdYVUc1M1pUMk5lY2hPTndNcUs4bzh0ZE5GKzgrcDNuNFB4V0R2SitmM1h0?=
- =?utf-8?B?QTMyTk1PemwxMzFiN01zMTMyVElRa2NNS0x0eCttRHlPaW5heFhBRzBVd2t1?=
- =?utf-8?B?eVZzajQ0Q0pnVzV1WjJOYVVPRXRVR1BFQkFOakxUcUZKblZ3T1pPd2JUdGVE?=
- =?utf-8?B?WlVCOHRLbTlYc045S1Zib3Fxb0ExcGFLRERWU2k4c3FrRk5SbzhUWjJyZ05Z?=
- =?utf-8?B?M1A0QTF6UVdvUEt5ZEwvZ3VrT096MmhUeHl4ZDRzWUtKdWlERFVZbkhYaS92?=
- =?utf-8?B?K3pmSEhCdVFHNnR1TlpJTVhhbTJOWnh4N0psdTlLcTgrOGJ5NEl3WldxVUZT?=
- =?utf-8?B?TGFpL1c4aTBZVW5sbTB3Mzdqdk5IUVZuQS9mRG1qK0JHMjc0czlrQWhsUThU?=
- =?utf-8?B?RWhzbTBVd2lNV2ZDU1VrQjB6TXp1ekJMVjVvRUxrOG9ValZFUnpIc0UyL3RS?=
- =?utf-8?B?QWFuWk84aTlJNGFXRnYxQ1VzQ2dQbUVzZFN0aEF2RWJsa3ByM21HeUNzeFNz?=
- =?utf-8?B?djlMM1EvYnpTMUNDMWVNbEVybTdWUHNpdE54T2VNSmdsc2dQZFphM0hoQW9V?=
- =?utf-8?B?WkRwRjhmVm9GZDgzd0hiNFdUS2pKK1lramZiM2NVUCtTTWpSWDk2REpyL0JB?=
- =?utf-8?B?L0wreGlzbDVGZjJXOGhwK0hFZHJSeUJOdFl0bWFnTzhjalpaSlZ6d1ZNbVJW?=
- =?utf-8?B?cVkvTFgrUEVKRmQxVzBaM3FWenlneTBZZVphZTFUaWFMV3lrZ0pLZFhMV3Zo?=
- =?utf-8?B?OEdYbTI3SjVCZ3JVaEZGMEhFRVk3aUFOUjZoczEyV2c2dis2NzdVQThQa0ND?=
- =?utf-8?B?N3FzV0I3NVlnajYwSW1QdUhlZVVpSlJrNjBTUFN2US9UeDcvTmRpdW81RXUr?=
- =?utf-8?B?YTc1T3ZXS09yTzlKdml6VlUvQjRqb1VBWm5NazAyTGdvUDU4MUJuU2JtUTh2?=
- =?utf-8?B?bnFvZjU5VDkxMXFRWDdMUHFudFpkNWRuTjQycFJOb3ZaTUp6QmZGNFNxaGdE?=
- =?utf-8?B?MDlSTXZUcW9KVGxrT3BudzlSbERXaERrWmExSFQ1L091ZzY0WHU1UWhNV0Rr?=
- =?utf-8?B?OUhwZmZwUTdPRnh4b2hORU43VTNPR0NLL0RsWTN0d00zend5N2x5KzlSb2Vr?=
- =?utf-8?B?Q1JDUHdjNmYzcTVMMEFCekRDampRNWpUVy9zMi9mdHRaM0psdkNUMnAzbHEz?=
- =?utf-8?B?cG5qNnlETXVocDM3eWlCT2RQam10MTlwR1VndDZWRFliaVZCTmM5TTVnU2VS?=
- =?utf-8?B?Rmw0bTVhSDFDMWc4Q2hUNWxmdVV3dmNiT240SDBTbU1oRnZqdGtPSHh2SVdU?=
- =?utf-8?B?Yy9DZnV4WkpQcm9Mc1RxV2psTFRrTURWTDB0YXZaOTRoY3BUZzh0Y1lKL2NU?=
- =?utf-8?B?b2lHQklBYWI1d05aeG9VeHQ1NlZSdldHRkJWNnZmemVYclMxM0I1SzUyNlRO?=
- =?utf-8?B?SjVMUnhGdlp1M3ZEdWJ1RFFNWDNwVWJaU1RZV2ZPb2YwazFMMzI2QzczWEZI?=
- =?utf-8?B?OVZEamNNSjRJbDNSSlcvWDF1S0VWM1lpQnJhRWRxd2ZlYkhqQU9kZE1wNmRI?=
- =?utf-8?B?d1BDRERsOWRJcG5Qb2FnY3NQQTNqSnoyMkFmODlRblNicndmZUk1N0hraW5T?=
- =?utf-8?B?blBRMGhuREpuWmN6QmM1a2NoOTRab3lEY2QrNHNxMnNIK0xJSVZtLzFWZlhY?=
- =?utf-8?B?SGIxeGVZNVprSDdXQXNMRWtWM1lTRGFSUURGN2MxSXhwcTJFWnRwc2tOeXcy?=
- =?utf-8?B?c1FBdkd4aDdtRnFYWEo1L3VhTlZoTEdPL2RMQU5RYnJtL3huaTU5eTA1V05U?=
- =?utf-8?B?a0tGY1VrOVlGY0Y2SzE1YUNUVjljbnQ1RnpQNm5IWFdpZWlrbXJtV3VOcmxn?=
- =?utf-8?B?NFZZV0d4Z1Z5R0NLc0pGR2o1cFR6MDh2ZndYa0IyZE5aYWxhNE55Y3cvQmNo?=
- =?utf-8?B?cE1zamphZ25yM2hucjlzWUU2VzZTclczRWJ4UE1pTXBlTVg0aERQWklFVWZr?=
- =?utf-8?B?Y2hWOUdWUzVIMFNsNkdkTElDcm1CdnkrcUhIL2ZMaDVqTC9aU29nVDRhWHFi?=
- =?utf-8?Q?hALV3tHRusfs1gVzTXTJbAG/D?=
+	=?utf-8?B?LzFaVTJ6RE9ZWUdYQ2RSd2xvQjRTVkg0SWhubkdGdGhQSTl3RGxoVm1NeENv?=
+ =?utf-8?B?cG54UGRCbFJGSUFuZVlqc0lsK1ZQUDB1WEhhS201emF5WDN6blNqN3V3UlFr?=
+ =?utf-8?B?K1k3UjRnL1JmekVMRWRHSElLU0Y0SUtjU2R5blN6NHF4emVpdG5TdW1EUGpt?=
+ =?utf-8?B?VC9LYWp4Y0ducTl1S0hwblVtVXpNbFJtS0FqWTd1a1k0WFg2eEEzaW1YT2dU?=
+ =?utf-8?B?WkRQTmJlQWpRQXBMZ1YvYmN1Y0drWG84T3ZvcVUwQUhZdWsxUHdsMFVjL3By?=
+ =?utf-8?B?WWJjbXNxdFA3ZEU5NE5kRlE3U3J4Ym5ZNE93Mk11UENlQ25GKzhTVE9sY1VW?=
+ =?utf-8?B?ckJmd2VQY3k1YUYrNnJ5Y1RqclZrYzdXVnFVNEV0RXRlN2VzUk1sUjE3bFVk?=
+ =?utf-8?B?VVhBZWJvVUZtamZKR1Y4cXlicnJybjBZQWtPaitnc0FFTFpsc0tXVmVwNjBK?=
+ =?utf-8?B?UHNaRGF0c0pWWW5sRzJjN1ZlQmlmMVhWdCt0TGxjWXJVZlU0bmpiaXZ4Vmxy?=
+ =?utf-8?B?Z0F4V2Rwa2RBMFc5WHVuMGtvVlNnZEJxcUI1amdNRWRlczF3MHJSSkQzT0Vt?=
+ =?utf-8?B?emJCTGRFUlN2RWZldFdmL2ZqYUx5bUptWnA3Y2wxUW5TMTd5eHlJN0R6dVJh?=
+ =?utf-8?B?VzJxUTZuODMzY0dVRC9qME1pM0cwOUdKcHpMaVF4R1EwUFFlQXhIZkF6S0VY?=
+ =?utf-8?B?R3JzWUZHZGgrNFdVRVdPdTJodjgvVVdPZFhVTkNTMVdGV2FnWitqeE5ZS0RX?=
+ =?utf-8?B?YWVTbklEc3hGa0R3bWpKOHhjK0F1L1R6Ukpldlo4bVp4ckpGWUhLeGVIVHNM?=
+ =?utf-8?B?RVZveEZidzRkaGt2eitucExsMjBMbEZpM3FJSU56UEVyUnBzcVNYS2NTT0Rp?=
+ =?utf-8?B?RVE4U3RvZEJNR2p2UkI2VHpzdXN4aFB3c0RZeHplWU9pKzVpeEJDdlNqd2cr?=
+ =?utf-8?B?MkFKWmtBLzFxMGdzb1Z5RjNlamVDNnM2Wlp5TnhyNEQyYUZNR0xSeTJTUGtE?=
+ =?utf-8?B?M3pDbWFxZmp5MC81c1BvcjR2SkJ1SWVSUGlMcTBvTXh3Q3cvd2NHQUxUTk9s?=
+ =?utf-8?B?MTFsb2pMMEF1MG83U3hZZ3ZVaDBuTXVSZ2xOQjVXTXBlYmhPd1RRRk1UMTVw?=
+ =?utf-8?B?LzFMS3dIMlQvNkMwL2VrbXJFQW83NHJEMUhBRmJyaU1ZQStLa2FaMXZBcURz?=
+ =?utf-8?B?ZUN0enNaQUd6U0wweFYyYkhxbGU4bi9sYWZ1MlBKTklMM3FVb0VhT3BqNC9U?=
+ =?utf-8?B?bGdpTWxIdlRlakN1cEtFNjg0SUl1VDR2SmF3RjZ4SS9YV0F3Zk9mQ1JTcUJa?=
+ =?utf-8?B?cTh2eDFEQWRTK2U3ejBPV1U2ZENpa2M0WVhBbGEyeVZZQ1RuNkJJbitGVEdP?=
+ =?utf-8?B?S3RiUmxxRXRJV0p6TXROa0tBVXJUSm5zSzdHaXBnUVdKREJ4OWdWYjk1OVpR?=
+ =?utf-8?B?T0Z1OHdpNk55emhxdjNzeWcwTFg3RnJGZXVZcmFobkFtK2FDd0MwakFMQjMx?=
+ =?utf-8?B?SE9xRE0xTlEwTW8wT3ZuVjFGOEpmbk5XRTlmbTNUSWlvUHJFK3pvdTVJY29D?=
+ =?utf-8?B?VzdtdmRuZzhINGxGRXpxYkRKTHFKRHpTSHZGcTFJTzlSQXptSE9uMWMzMTZD?=
+ =?utf-8?B?bmduNDNGOTNEODhjcGdwT0wrR1ppN2lEZmpBYURhSXhobFRiMWlhMWtyMXRS?=
+ =?utf-8?B?YjJlVGJIcGpCVU8zRkduRTlpclk4a2k5WFRrZkFYRXdOU3dPeTg0U25oVHNX?=
+ =?utf-8?B?K2dtVXBncXpPNlhoUzZxSjNLNWs4M2RSeDFWdXl4TUNQRkp0S0FPRTFZQWpn?=
+ =?utf-8?B?T3hnZko0Z2kvTHpmSmF5RnVVSWZtc2RMeTk3YURianpCdFQ2WnRJVVBNdm1H?=
+ =?utf-8?B?ekxoeDZoQW92d0s5eTZxcSs4d3M2bmx3V3BaUXc3OWFoc1ZUdkR1dVBQQ1RN?=
+ =?utf-8?B?SVIvTlBXWi9JMXRZVzk4d3FaL2Viby9zY0c4TjYrTW9FcjdzSzhQY0k5cHpt?=
+ =?utf-8?B?Vml6U25LanQzY1FZZm9ldEpaRnN2TjNIVkNEWTVDZDRMQjRKOVJZL0xUMUJU?=
+ =?utf-8?B?U1M4QUN0Q0gyQTlIVEMxM1QwbGsxZVFPcEEvOU4rbjJIWVlHdzBFcUNmMkpJ?=
+ =?utf-8?Q?KXuuDpF1LB2JAYhrwTQ2IJMu9?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2eb71923-f4f5-4755-fc5d-08dcd2790fa9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f2d1dbc-718c-419b-63a7-08dcd279b180
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR12MB7982.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2024 15:47:37.7016
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2024 15:52:09.2488
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8/JOM1adKSLOkKyQvQ/s20z47xnhnsf4yd466EkxQfGuUTpLeMkcBv5Xi6648ZDRoBoxfTit35KIuK3wYlMecA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8179
+X-MS-Exchange-CrossTenant-UserPrincipalName: tYwdXynbWrDCDie2v486+orLTFKU0Durilvcht++QoWyv+pFWZ6LfahPbEPxxIHah1YvhQW9/QzqH2OoBJW5uA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7937
 
 
 
@@ -166,23 +166,17 @@ On 9/11/2024 7:55 AM, Taehee Yoo wrote:
 > Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
 > 
 > 
-> The tcp-data-split-thresh option configures the threshold value of
-> the tcp-data-split.
-> If a received packet size is larger than this threshold value, a packet
-> will be split into header and payload.
-> The header indicates TCP header, but it depends on driver spec.
-> The bnxt_en driver supports HDS(Header-Data-Split) configuration at
-> FW level, affecting TCP and UDP too.
-> So, like the tcp-data-split option, If tcp-data-split-thresh is set,
-> it affects UDP and TCP packets.
+> The bnxt_en driver has configured the hds_threshold value automatically
+> when TPA is enabled based on the rx-copybreak default value.
+> Now the tcp-data-split-thresh ethtool command is added, so it adds an
+> implementation of tcp-data-split-thresh option.
 > 
-> The tcp-data-split-thresh has a dependency, that is tcp-data-split
-> option. This threshold value can be get/set only when tcp-data-split
-> option is enabled.
+> Configuration of the tcp-data-split-thresh is allowed only when
+> the tcp-data-split is enabled. The default value of
+> tcp-data-split-thresh is 256, which is the default value of rx-copybreak,
+> which used to be the hds_thresh value.
 > 
-> Example:
->     # ethtool -G <interface name> tcp-data-split-thresh <value>
-> 
+>     # Example:
 >     # ethtool -G enp14s0f0np0 tcp-data-split on tcp-data-split-thresh 256
 >     # ethtool -g enp14s0f0np0
 >     Ring parameters for enp14s0f0np0:
@@ -193,8 +187,7 @@ On 9/11/2024 7:55 AM, Taehee Yoo wrote:
 >     TCP data split:         on
 >     TCP data split thresh:  256
 > 
-> The tcp-data-split is not enabled, the tcp-data-split-thresh will
-> not be used and can't be configured.
+> It enables tcp-data-split and sets tcp-data-split-thresh value to 256.
 > 
 >     # ethtool -G enp14s0f0np0 tcp-data-split off
 >     # ethtool -g enp14s0f0np0
@@ -206,126 +199,97 @@ On 9/11/2024 7:55 AM, Taehee Yoo wrote:
 >     TCP data split:         off
 >     TCP data split thresh:  n/a
 > 
-> The default/min/max values are not defined in the ethtool so the drivers
-> should define themself.
-> The 0 value means that all TCP and UDP packets' header and payload
-> will be split.
-> Users should consider the overhead due to this feature.
-> 
 > Signed-off-by: Taehee Yoo <ap420073@gmail.com>
 > ---
 > 
 > v2:
 >   - Patch added.
 > 
->   Documentation/networking/ethtool-netlink.rst | 31 +++++++++++--------
->   include/linux/ethtool.h                      |  2 ++
->   include/uapi/linux/ethtool_netlink.h         |  1 +
->   net/ethtool/netlink.h                        |  2 +-
->   net/ethtool/rings.c                          | 32 +++++++++++++++++---
->   5 files changed, 51 insertions(+), 17 deletions(-)
+>   drivers/net/ethernet/broadcom/bnxt/bnxt.c         | 3 ++-
+>   drivers/net/ethernet/broadcom/bnxt/bnxt.h         | 2 ++
+>   drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c | 9 +++++++++
+>   3 files changed, 13 insertions(+), 1 deletion(-)
 > 
-
-<snip>
-
-> diff --git a/net/ethtool/rings.c b/net/ethtool/rings.c
-> index b7865a14fdf8..0b68ea316815 100644
-> --- a/net/ethtool/rings.c
-> +++ b/net/ethtool/rings.c
-> @@ -61,7 +61,8 @@ static int rings_reply_size(const struct ethnl_req_info *req_base,
->                 nla_total_size(sizeof(u8))  +    /* _RINGS_TX_PUSH */
->                 nla_total_size(sizeof(u8))) +    /* _RINGS_RX_PUSH */
->                 nla_total_size(sizeof(u32)) +    /* _RINGS_TX_PUSH_BUF_LEN */
-> -              nla_total_size(sizeof(u32));     /* _RINGS_TX_PUSH_BUF_LEN_MAX */
-> +              nla_total_size(sizeof(u32)) +    /* _RINGS_TX_PUSH_BUF_LEN_MAX */
-> +              nla_total_size(sizeof(u32));     /* _RINGS_TCP_DATA_SPLIT_THRESH */
+> diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> index f046478dfd2a..872b15842b11 100644
+> --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> @@ -4455,6 +4455,7 @@ static void bnxt_init_ring_params(struct bnxt *bp)
+>   {
+>          bp->rx_copybreak = BNXT_DEFAULT_RX_COPYBREAK;
+>          bp->flags |= BNXT_FLAG_HDS;
+> +       bp->hds_threshold = BNXT_DEFAULT_RX_COPYBREAK;
 >   }
 > 
->   static int rings_fill_reply(struct sk_buff *skb,
-> @@ -108,7 +109,10 @@ static int rings_fill_reply(struct sk_buff *skb,
->               (nla_put_u32(skb, ETHTOOL_A_RINGS_TX_PUSH_BUF_LEN_MAX,
->                            kr->tx_push_buf_max_len) ||
->                nla_put_u32(skb, ETHTOOL_A_RINGS_TX_PUSH_BUF_LEN,
-> -                         kr->tx_push_buf_len))))
-> +                         kr->tx_push_buf_len))) ||
-> +           (kr->tcp_data_split == ETHTOOL_TCP_DATA_SPLIT_ENABLED &&
-> +            (nla_put_u32(skb, ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THRESH,
-> +                        kr->tcp_data_split_thresh))))
->                  return -EMSGSIZE;
+>   /* bp->rx_ring_size, bp->tx_ring_size, dev->mtu, BNXT_FLAG_{G|L}RO flags must
+> @@ -6429,7 +6430,7 @@ static int bnxt_hwrm_vnic_set_hds(struct bnxt *bp, struct bnxt_vnic_info *vnic)
+>                                            VNIC_PLCMODES_CFG_REQ_FLAGS_HDS_IPV6);
+>                  req->enables |=
+>                          cpu_to_le32(VNIC_PLCMODES_CFG_REQ_ENABLES_HDS_THRESHOLD_VALID);
+> -               req->hds_threshold = cpu_to_le16(bp->rx_copybreak);
+> +               req->hds_threshold = cpu_to_le16(bp->hds_threshold);
+>          }
+>          req->vnic_id = cpu_to_le32(vnic->fw_vnic_id);
+>          return hwrm_req_send(bp, req);
+> diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.h b/drivers/net/ethernet/broadcom/bnxt/bnxt.h
+> index 35601c71dfe9..48f390519c35 100644
+> --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.h
+> +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.h
+> @@ -2311,6 +2311,8 @@ struct bnxt {
+>          int                     rx_agg_nr_pages;
+>          int                     rx_nr_rings;
+>          int                     rsscos_nr_ctxs;
+> +#define BNXT_HDS_THRESHOLD_MAX 256
+> +       u16                     hds_threshold;
 > 
->          return 0;
-> @@ -130,6 +134,7 @@ const struct nla_policy ethnl_rings_set_policy[] = {
->          [ETHTOOL_A_RINGS_TX_PUSH]               = NLA_POLICY_MAX(NLA_U8, 1),
->          [ETHTOOL_A_RINGS_RX_PUSH]               = NLA_POLICY_MAX(NLA_U8, 1),
->          [ETHTOOL_A_RINGS_TX_PUSH_BUF_LEN]       = { .type = NLA_U32 },
-> +       [ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THRESH] = { .type = NLA_U32 },
->   };
+>          u32                     tx_ring_size;
+>          u32                     tx_ring_mask;
+> diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
+> index ab64d7f94796..5b1f3047bf84 100644
+> --- a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
+> +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
+> @@ -839,6 +839,8 @@ static void bnxt_get_ringparam(struct net_device *dev,
+>          else
+>                  kernel_ering->tcp_data_split = ETHTOOL_TCP_DATA_SPLIT_DISABLED;
 > 
->   static int
-> @@ -155,6 +160,14 @@ ethnl_set_rings_validate(struct ethnl_req_info *req_info,
->                  return -EOPNOTSUPP;
+> +       kernel_ering->tcp_data_split_thresh = bp->hds_threshold;
+> +
+>          ering->tx_max_pending = BNXT_MAX_TX_DESC_CNT;
+> 
+>          ering->rx_pending = bp->rx_ring_size;
+> @@ -864,6 +866,12 @@ static int bnxt_set_ringparam(struct net_device *dev,
+>                  return -EINVAL;
 >          }
 > 
-> +       if (tb[ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THRESH] &&
-> +           !(ops->supported_ring_params & ETHTOOL_RING_USE_TCP_DATA_SPLIT)) {
-> +               NL_SET_ERR_MSG_ATTR(info->extack,
-> +                                   tb[ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THRESH],
-> +                                   "setting TDS threshold is not supported");
+> +       if (kernel_ering->tcp_data_split_thresh > BNXT_HDS_THRESHOLD_MAX) {
+> +               NL_SET_ERR_MSG_MOD(extack,
+> +                                  "tcp-data-split-thresh size too big");
 
-Small nit.
+Should you print the BNXT_HDS_THRESHOLD_MAX value here so the user knows 
+the max size?
 
-Here you use "TDS threshold", but based on the TCP data split extack 
-message, it seems like it should be the following for consistency:
-
-"setting TCP data split threshold is not supported"
-
-> +               return -EOPNOTSUPP;
-> +       }
-> +
->          if (tb[ETHTOOL_A_RINGS_CQE_SIZE] &&
->              !(ops->supported_ring_params & ETHTOOL_RING_USE_CQE_SIZE)) {
->                  NL_SET_ERR_MSG_ATTR(info->extack,
-> @@ -196,9 +209,9 @@ ethnl_set_rings(struct ethnl_req_info *req_info, struct genl_info *info)
->          struct kernel_ethtool_ringparam kernel_ringparam = {};
->          struct ethtool_ringparam ringparam = {};
->          struct net_device *dev = req_info->dev;
-> +       bool mod = false, thresh_mod = false;
->          struct nlattr **tb = info->attrs;
->          const struct nlattr *err_attr;
-> -       bool mod = false;
->          int ret;
-> 
->          dev->ethtool_ops->get_ringparam(dev, &ringparam,
-> @@ -222,9 +235,20 @@ ethnl_set_rings(struct ethnl_req_info *req_info, struct genl_info *info)
->                          tb[ETHTOOL_A_RINGS_RX_PUSH], &mod);
->          ethnl_update_u32(&kernel_ringparam.tx_push_buf_len,
->                           tb[ETHTOOL_A_RINGS_TX_PUSH_BUF_LEN], &mod);
-> -       if (!mod)
-> +       ethnl_update_u32(&kernel_ringparam.tcp_data_split_thresh,
-> +                        tb[ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THRESH],
-> +                        &thresh_mod);
-> +       if (!mod && !thresh_mod)
->                  return 0;
-> 
-> +       if (kernel_ringparam.tcp_data_split == ETHTOOL_TCP_DATA_SPLIT_DISABLED &&
-> +           thresh_mod) {
-> +               NL_SET_ERR_MSG_ATTR(info->extack,
-> +                                   tb[ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THRESH],
-> +                                   "tcp-data-split-thresh can not be updated while tcp-data-split is disabled");
-> +               return -EINVAL;
-
-I think using the userspace command line argument names makes sense for 
-this extack message.
+Actually, does it make more sense for ethtool get_ringparam to query the 
+max threshold size from the driver and reject this in the core so all 
+drivers don't have to have this same kind of check?
 
 Thanks,
 
 Brett
 
+> +               return -EINVAL;
 > +       }
 > +
->          /* ensure new ring parameters are within limits */
->          if (ringparam.rx_pending > ringparam.rx_max_pending)
->                  err_attr = tb[ETHTOOL_A_RINGS_RX];
+>          if (netif_running(dev))
+>                  bnxt_close_nic(bp, false, false);
+> 
+> @@ -871,6 +879,7 @@ static int bnxt_set_ringparam(struct net_device *dev,
+>          case ETHTOOL_TCP_DATA_SPLIT_UNKNOWN:
+>          case ETHTOOL_TCP_DATA_SPLIT_ENABLED:
+>                  bp->flags |= BNXT_FLAG_HDS;
+> +               bp->hds_threshold = (u16)kernel_ering->tcp_data_split_thresh;
+>                  break;
+>          case ETHTOOL_TCP_DATA_SPLIT_DISABLED:
+>                  bp->flags &= ~BNXT_FLAG_HDS;
 > --
 > 2.34.1
 > 
