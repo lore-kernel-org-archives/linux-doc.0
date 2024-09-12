@@ -1,125 +1,207 @@
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495851BD004
-	for <linux-doc@vger.kernel.org>; Thu, 12 Sep 2024 17:39:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4478450FA;
+	Thu, 12 Sep 2024 17:57:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726162749; cv=none; b=nLmoYFokmW0tWxs56v+NnP+U95E+z7b+xaRokXfdoFqFFX0YLQp+DL2ZIXFL05CDsblmYHn47vW9kWRrnCehKTa0NrgQaK7OR2mDQS5Y2ABxl/hdke0DNtPdgWGNnEGXuJdC6WMwHoRKPXA5ygAbo2FEWzsWYRo20N3ni/5FEZo=
+	t=1726163867; cv=none; b=rW9zgHGwcprdGZvoNkO7ERL4KD+rflrOJxXj4Y0Mou3PmQy0L75rHR1qFhpf/2TAvW2lmRRPz6XCv5hZ4v7/wVozBLNoXitHnSA/Fb3eEGclpv7ziH1BvSoschVq4dB0vnSRfNnkKXviWPRIpCwoPeh3bIL0rcibemp8jAR2T0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726162749; c=relaxed/simple;
-	bh=trPHxilhW2oQjHu87GszVwwwDkweNgsvTDl73YHBlYM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YIF+2KA7gvj78TyCWdCK3dmAg+4ArOrmjhT/bxKp/NtDjWY5cOjMzYNjzfH43QXXifGP912uC33Ycj9QZTnuUmcngcdYRGv9CaKJWSnw+i1O7Ktu+IKtFG3yzP8MZ7gJFxDX26zZNDykzwuUX1KW69BnaBnZDZV737y8oOlWe3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=i4b0atWb; arc=none smtp.client-ip=209.85.166.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1726163867; c=relaxed/simple;
+	bh=gRNIKQe8LPHbkpainpuCj1mpKe3jnYTWPByOYplkE7I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TGyvGQS8fdehr2cmNzNUr5RL8xVMNvsQzPl7fg0IUgp6JLeOgBAlxr/UqQWlSwkT4d/G14AtLQuJv2DriMmUiyKd9iC3jz5+FaNHqkj1XRUIn/qE2mCTQQpvOA/TBNAe1h84iiKF45T3FPKTiYkrkd5E62F+p6nXbq0qjUa658M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hz7zPrrT; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="i4b0atWb"
-Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-3a043390078so5741875ab.2
-        for <linux-doc@vger.kernel.org>; Thu, 12 Sep 2024 10:39:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hz7zPrrT"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2d8a4bad409so940477a91.0;
+        Thu, 12 Sep 2024 10:57:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1726162747; x=1726767547; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1726163865; x=1726768665; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Sf/bniYlfRZYtTAiPueeb667UzLVb/sHpgqtAEqZ4pY=;
-        b=i4b0atWb4UH/DYTK80I8JccIpQUzFG8s8vX71cSawAuw6p6hOXOZ7jQOrVIN6DITpv
-         GqlUX5XYVMjXPIzu73kU9jsPQBxN3j80omSu5zLpcpDWQB7rEmjpwMR38oSIWVxl99Yt
-         CbGlv+FrswpNvaTbjyWDQEWW3hA97nQVQ2tTM=
+        bh=yAxla2V/jbE96IFDHkffqVnvDP474rGr0BFWJRieBj4=;
+        b=Hz7zPrrTwKOMGtiq4H+2l9cTyv72yJQ3c7PWVtw3Xb6pT0rRrAl7hn+toY9ppqSF+l
+         8T/TGtaVpyXhrmo9nLrgQQDTSx9l0NVU7h9ZOAAdY3RdEKB4fmh+q5E6wBcbtBlgmY+9
+         Ji5ChlSxlb0msVPikyH3nRT69qQkum4BE2DBnTfg9PZfNIqHN9XBtmXT4bTUtG8FEtCs
+         tnvLVENUmQyNilGmvPHUofoSYgaN10oqmEHAmXOFyfbr+ilsyGNIUYbuyKl4pBxUhgsX
+         M43QPwwQPEh9ZU310lh19biOxOfSt/7yMXQZJ/4rUhH5F8JuTbkJW/KS4uICARcJZF5b
+         d/6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726162747; x=1726767547;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1726163865; x=1726768665;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Sf/bniYlfRZYtTAiPueeb667UzLVb/sHpgqtAEqZ4pY=;
-        b=KbUhMAwuL1u1ZDjC3gwfgc/vRlSRP42BhOL96Nk26ilbwMKPRBY/EGjm3HTQ+YtGsA
-         d6HzsEPvqUDCUnUiBhXnKMDMXpjOzWrnS5Pl+UF9O+spHyp5OOdI3FweUMZF0T+8YsRt
-         7KfW8qYjdbVuv8q1KjfvCyKuyuHaWayGZbdS9jq4k4Y4qbH4xcIlRypnaVv4nWKrcZjy
-         jNv8DTMumyfNSD371QXppLMlZdGD+/s9Wca/Lci8CVOU5TrUK6YKnbC5FuI/ia+Iv/zD
-         POOZbO9COvEMpAMtAkbt7CrPjTHigDB1MPnwdUZofT44fFD6KTZfHPaY2kZid4dbX2SZ
-         eeAA==
-X-Forwarded-Encrypted: i=1; AJvYcCUs/vyADVWrQEV3Uf/NGn/3iASei1npLckJH4wKABJIh0/0bNJQDggXk+BbpAYpJ/WzdC0iRWOp9c8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzavFr4W/o03rJFbJarr3yyv/29feEyyBEnNgonCYxHEvuVPorT
-	QOdbYWwHz5LGuY9RnkPVGIONrUC7+wljhQ+xb502aGI89UOd51LB/ABWwKSTSw==
-X-Google-Smtp-Source: AGHT+IExDtgB/Ne9u3i8tSQpAY6TV0WOITGF0nQgTQhik+IHprM4Ev1fywxaGsBdNhJ6OdksXiIa1g==
-X-Received: by 2002:a05:6e02:164f:b0:39b:330b:bb25 with SMTP id e9e14a558f8ab-3a0848f7e52mr36649725ab.12.1726162747309;
-        Thu, 12 Sep 2024 10:39:07 -0700 (PDT)
-Received: from rrangel920.bld.corp.google.com (h24-56-189-226.arvdco.broadband.dynamic.tds.net. [24.56.189.226])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3a05900e618sm32570135ab.55.2024.09.12.10.39.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Sep 2024 10:39:06 -0700 (PDT)
-From: Raul E Rangel <rrangel@chromium.org>
-To: linux-serial@vger.kernel.org
-Cc: pmladek@suse.com,
-	rafael.j.wysocki@intel.com,
-	ribalda@chromium.org,
-	Raul E Rangel <rrangel@chromium.org>,
-	Adrian Ratiu <adrian.ratiu@collabora.com>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Ingo Molnar <mingo@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Xiongwei Song <xiongwei.song@windriver.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] Documentation: kernel-parameters: Add uartclk to console=uart
-Date: Thu, 12 Sep 2024 11:36:19 -0600
-Message-ID: <20240912113616.1.Ic8770cb6e660110359b245808105e5310d3fa528@changeid>
-X-Mailer: git-send-email 2.46.0.662.g92d0881bb0-goog
-In-Reply-To: <20240912173901.3969597-1-rrangel@chromium.org>
-References: <20240912173901.3969597-1-rrangel@chromium.org>
+        bh=yAxla2V/jbE96IFDHkffqVnvDP474rGr0BFWJRieBj4=;
+        b=BLzDOJ+eIu12TbVod6fGapOpDfp9uMh2dMbid/VNq5uTqkq3w2ROzU4PoQdidcGRbD
+         sQhM6MnUD3FQgSjpVTYY4ec652KaiFbeNZnhOxCRTlH7AkXJ0BHECbGOnGTVGymVJT1V
+         0a7pmHiRmiwPFV8OkworkWI5zv89WKSB3ScUiZPsxq3nNSanspYKnMgbGdnp53L5pSa8
+         dtpyaFQuWfjZx9YxnyeNNFA3z5Hd02KPJvtBhDUBpL/9jAzl5Z4p1QzZazl8Ng5n4Msc
+         jwIGJoiN/ilFL0FG4bg6Eh8vjdKCxw7/WDnOhqKSfR3sbNQKcgtnif0/ZzCxufv790q+
+         WjvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVhVdLKIVo9DvSliYVtDSDVl4quvKBiQZHOspdytJiMk1RkUbfm8aanGgcu98ku54iaAW7o/wSRnEo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZ4wF6Dq2tpneFd111u2ODeyqtKKNMrK8lHTG+NjrqAvwl8nAO
+	8uilK6pzlezCayjIuRS3QgmCConsUdoDdVu3XL+eTWkgAWsw0Crf01YdRIdziTlMqyp6c2KmtU3
+	+v9nBrbe5+x997KmMf7c7HAgu3fw=
+X-Google-Smtp-Source: AGHT+IFCxGmCPTnEc/uS/G3IMnElnGyhiHYr0464wQ6QkNgEa8mKcQr/ztZ51OuzeEYuYsaWyVNxrsxDl4guLZ3koYY=
+X-Received: by 2002:a17:90a:114f:b0:2c8:64a:5f77 with SMTP id
+ 98e67ed59e1d1-2dba0084dabmr4186190a91.37.1726163864936; Thu, 12 Sep 2024
+ 10:57:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240912095944.6386-1-donald.hunter@gmail.com>
+In-Reply-To: <20240912095944.6386-1-donald.hunter@gmail.com>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Thu, 12 Sep 2024 10:57:32 -0700
+Message-ID: <CAEf4BzYv-q5tCfKXSFDuq-dpjVLZ9S59ow3Mk4-Ug7pJtJuD6g@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v2] docs/bpf: Add missing BPF program types to docs
+To: Donald Hunter <donald.hunter@gmail.com>
+Cc: bpf@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The console=uartXXXXX parameter is just an alias for earlycon=uartXXXX.
-This means it also accepts the uartclk parameter.
+On Thu, Sep 12, 2024 at 2:59=E2=80=AFAM Donald Hunter <donald.hunter@gmail.=
+com> wrote:
+>
+> Update the table of program types in the libbpf documentation with the
+> recently added program types.
+>
+> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+> ---
+>  Documentation/bpf/libbpf/program_types.rst | 30 +++++++++++++++++++---
+>  1 file changed, 26 insertions(+), 4 deletions(-)
+>
+> diff --git a/Documentation/bpf/libbpf/program_types.rst b/Documentation/b=
+pf/libbpf/program_types.rst
+> index 63bb88846e50..09bb834aa827 100644
+> --- a/Documentation/bpf/libbpf/program_types.rst
+> +++ b/Documentation/bpf/libbpf/program_types.rst
+> @@ -121,6 +121,8 @@ described in more detail in the footnotes.
+>  +-------------------------------------------+---------------------------=
+-------------+----------------------------------+-----------+
+>  | ``BPF_PROG_TYPE_LWT_XMIT``                |                           =
+             | ``lwt_xmit``                     |           |
+>  +-------------------------------------------+---------------------------=
+-------------+----------------------------------+-----------+
+> +| ``BPF_PROG_TYPE_NETFILTER``               |                           =
+             | ``netfilter``                    |           |
+> ++-------------------------------------------+---------------------------=
+-------------+----------------------------------+-----------+
+>  | ``BPF_PROG_TYPE_PERF_EVENT``              |                           =
+             | ``perf_event``                   |           |
+>  +-------------------------------------------+---------------------------=
+-------------+----------------------------------+-----------+
+>  | ``BPF_PROG_TYPE_RAW_TRACEPOINT_WRITABLE`` |                           =
+             | ``raw_tp.w+`` [#rawtp]_          |           |
+> @@ -131,11 +133,23 @@ described in more detail in the footnotes.
+>  +                                           +                           =
+             +----------------------------------+-----------+
+>  |                                           |                           =
+             | ``raw_tracepoint+``              |           |
+>  +-------------------------------------------+---------------------------=
+-------------+----------------------------------+-----------+
+> -| ``BPF_PROG_TYPE_SCHED_ACT``               |                           =
+             | ``action``                       |           |
+> +| ``BPF_PROG_TYPE_SCHED_ACT``               |                           =
+             | ``action`` [#tc_legacy]_         |           |
+>  +-------------------------------------------+---------------------------=
+-------------+----------------------------------+-----------+
+> -| ``BPF_PROG_TYPE_SCHED_CLS``               |                           =
+             | ``classifier``                   |           |
+> +| ``BPF_PROG_TYPE_SCHED_CLS``               |                           =
+             | ``classifier`` [#tc_legacy]_     |           |
+>  +                                           +                           =
+             +----------------------------------+-----------+
+> -|                                           |                           =
+             | ``tc``                           |           |
+> +|                                           |                           =
+             | ``tc`` [#tc_legacy]_             |           |
+> ++                                           +---------------------------=
+-------------+----------------------------------+-----------+
+> +|                                           | ``BPF_NETKIT_PRIMARY``    =
+             | ``netkit/primary``               |           |
+> ++                                           +---------------------------=
+-------------+----------------------------------+-----------+
+> +|                                           | ``BPF_NETKIT_PEER``       =
+             | ``netkit/peer``                  |           |
+> ++                                           +---------------------------=
+-------------+----------------------------------+-----------+
+> +|                                           | ``BPF_TCX_INGRESS``       =
+             | ``tc/ingress``                   |           |
+> ++                                           +---------------------------=
+-------------+----------------------------------+-----------+
+> +|                                           | ``BPF_TCX_EGRESS``        =
+             | ``tc/egress``                    |           |
+> ++                                           +---------------------------=
+-------------+----------------------------------+-----------+
+> +|                                           | ``BPF_TCX_INGRESS``       =
+             | ``tcx/ingress``                  |           |
+> ++                                           +---------------------------=
+-------------+----------------------------------+-----------+
+> +|                                           | ``BPF_TCX_EGRESS``        =
+             | ``tcx/egress``                   |           |
+>  +-------------------------------------------+---------------------------=
+-------------+----------------------------------+-----------+
+>  | ``BPF_PROG_TYPE_SK_LOOKUP``               | ``BPF_SK_LOOKUP``         =
+             | ``sk_lookup``                    |           |
+>  +-------------------------------------------+---------------------------=
+-------------+----------------------------------+-----------+
+> @@ -155,7 +169,9 @@ described in more detail in the footnotes.
+>  +-------------------------------------------+---------------------------=
+-------------+----------------------------------+-----------+
+>  | ``BPF_PROG_TYPE_SOCK_OPS``                | ``BPF_CGROUP_SOCK_OPS``   =
+             | ``sockops``                      |           |
+>  +-------------------------------------------+---------------------------=
+-------------+----------------------------------+-----------+
+> -| ``BPF_PROG_TYPE_STRUCT_OPS``              |                           =
+             | ``struct_ops+``                  |           |
+> +| ``BPF_PROG_TYPE_STRUCT_OPS``              |                           =
+             | ``struct_ops+`` [#struct_ops]_   |           |
+> ++                                           +                           =
+             +----------------------------------+-----------+
+> +|                                           |                           =
+             | ``struct_ops.s+`` [#struct_ops]_ | Yes       |
+>  +-------------------------------------------+---------------------------=
+-------------+----------------------------------+-----------+
+>  | ``BPF_PROG_TYPE_SYSCALL``                 |                           =
+             | ``syscall``                      | Yes       |
+>  +-------------------------------------------+---------------------------=
+-------------+----------------------------------+-----------+
+> @@ -209,5 +225,11 @@ described in more detail in the footnotes.
+>                ``a-zA-Z0-9_.*?``.
+>  .. [#lsm] The ``lsm`` attachment format is ``lsm[.s]/<hook>``.
+>  .. [#rawtp] The ``raw_tp`` attach format is ``raw_tracepoint[.w]/<tracep=
+oint>``.
+> +.. [#tc_legacy] The ``tc``, ``classifier`` and ``action`` attach types a=
+re deprecated, use
+> +                ``tcx/*`` instead.
+> +.. [#struct_ops] The ``struct_ops`` attach format is ``struct_ops[.s]/<n=
+ame>``, but ``name`` is
 
-Signed-off-by: Raul E Rangel <rrangel@chromium.org>
+I slightly modified this to:
 
----
+The ``struct_ops`` attach format supports ``struct_ops[.s]/<name>``
+convention, but ...
 
- Documentation/admin-guide/kernel-parameters.txt | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
+Pushed to bpf-next, thanks.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index bc1036e73bc0b4..cd3d44db60457d 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -788,20 +788,16 @@
- 			Documentation/networking/netconsole.rst for an
- 			alternative.
- 
--		uart[8250],io,<addr>[,options]
--		uart[8250],mmio,<addr>[,options]
--		uart[8250],mmio16,<addr>[,options]
--		uart[8250],mmio32,<addr>[,options]
-+		uart[8250],io,<addr>[,options[,uartclk]]
-+		uart[8250],mmio,<addr>[,options[,uartclk]]
-+		uart[8250],mmio16,<addr>[,options[,uartclk]]
-+		uart[8250],mmio32,<addr>[,options[,uartclk]]
- 		uart[8250],0x<addr>[,options]
- 			Start an early, polled-mode console on the 8250/16550
- 			UART at the specified I/O port or MMIO address,
- 			switching to the matching ttyS device later.
--			MMIO inter-register address stride is either 8-bit
--			(mmio), 16-bit (mmio16), or 32-bit (mmio32).
--			If none of [io|mmio|mmio16|mmio32], <addr> is assumed
--			to be equivalent to 'mmio'. 'options' are specified in
--			the same format described for ttyS above; if unspecified,
--			the h/w is not re-initialized.
-+
-+			See the documentation for earlycon=uart
- 
- 		hvc<n>	Use the hypervisor console device <n>. This is for
- 			both Xen and PowerPC hypervisors.
--- 
-2.46.0.662.g92d0881bb0-goog
-
+> +                 ignored and it is recommended to just use ``SEC("struct=
+_ops[.s]")``. The
+> +                 attachments are defined in a struct initializer that is=
+ tagged with
+> +                 ``SEC(".struct_ops[.link]")``.
+>  .. [#tp] The ``tracepoint`` attach format is ``tracepoint/<category>/<na=
+me>``.
+>  .. [#iter] The ``iter`` attach format is ``iter[.s]/<struct-name>``.
+> --
+> 2.45.2
+>
