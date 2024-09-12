@@ -1,373 +1,294 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C71E11917EE
-	for <linux-doc@vger.kernel.org>; Thu, 12 Sep 2024 05:56:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B58EF10FF;
+	Thu, 12 Sep 2024 07:13:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726120577; cv=none; b=mA5PHSsNQn2N4Nb8kPXvysHf3N+qJvtL+2HRoJU2cOE5f1ZP426cnLjNrKcDwR+WMsGrou3w7k/o0ZQMBAyQilGxJFSmO4oKtKEMCpW7is+rByo07V/Hw3N1xuLnEIBIqzokG85/zJjmsqi3y2D19i7+pN4GfuUlgy9pIo4o3TA=
+	t=1726125185; cv=none; b=J26g/7kRRq09lIjUc1Ku8Yp6aOXk89KIbUIYqq03oUdFb88p9eHH+0OBxaAaImKBblC9iUxMWXV08ngRuRGslekO7vaT1dJ7UlfGOPA9LFgrcBl3Tn2gdY/wLYy9/OuVhs54JWfY14GDj8ZngUULGejasMp1ZvSf4WPYkCoCIhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726120577; c=relaxed/simple;
-	bh=2MZb8AJQZs0wG05Wps2DKInawqFPfqgCL1L5PflC7B4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qbZDLmAopPgCveX3+5Yf5eKaHc/c4B2Ns+j8zQGgnOKCyWMXcQ3lMzcflB4eBrYcUzPY/nh1hzI1iccwtXxs3XhKTiP15A77yKmtMURx68QSKbtIkxHXpo0i7/xV7f0yna/IWSbMXLtZy+lzyX7nBtv3l8s0xXnZHWQj5fJfAZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=hyDPEtRC; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1726125185; c=relaxed/simple;
+	bh=So/rwsIix22luMrcHzq8LEdK2uoCDRLUe+jdi8HFRJs=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GV/8/1tYDrYKVUgz68SmguqqBwYPSV+BtKmS5qTGq3Aah/NzOLi18aQ4p/8QmXQPoPiRqWH/zGkxZzpMvYfuAQJZ6gQWkclOg+M9FCNUmbZTVlRSP4INgPmopAMQaiYSQdiD/5Fk66pbGt1xvOmqAhRYJ+YCwHZYLL8bWEvINfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Vcunucx2; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="hyDPEtRC"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-20688fbaeafso7444975ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 11 Sep 2024 22:56:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1726120575; x=1726725375; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lZGiXXErbLpwtJqQgRszC/20gA32B7VjfeYUlTIyz2Y=;
-        b=hyDPEtRC1YSt8HY3ToJaylrg4hdczZZ7pciTOXe+yihIExv3zUrO8PnhsYZbWaRyMA
-         vHbQFClUH8soXWFxs1mFaHU5YqJ61s+BSVUu84mqvPNaMgeIOUXTbx/W6yQPlvgSU+as
-         3KEU2sKqXGjI3HBAHWUmZVOKie3tji/kp3kkK2itynJ9XFrRNWy8Odton1NaE79ODav7
-         iUPTYb8YC/THRXe04ylG9vB+MIknaT30hCo0bX5xaeW7D41oBOfZbSn+P4HpTeRTJ0rs
-         I3n6S60AuXHDo0CBJ41Xe50BQBzby8JPLIureTLUQWFWKUIF9WXtuLvDMX34OTpppE5S
-         XyEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726120575; x=1726725375;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lZGiXXErbLpwtJqQgRszC/20gA32B7VjfeYUlTIyz2Y=;
-        b=fsHY6htdXmoDN7I0TKsXd5+K9UeqBFOn/clkukUoe3rV78vrTR1yuXCVkVh55vga6R
-         YAT3CAIoPpOXeJjzyu+hFM1C6E3RlkdHx5Wr9QjSdTMLAOxyfy+dTQDcJkWRsLGFCcIr
-         2Xb9VkNnwVITA9yD8ySYP+dEDu9ZZosR4w4vvQWO7sIknrVIvLGx2KQ1Jnxih1a5wjow
-         VtNcq1z1/Gm0lQEt96o/rKfaF7mkt++lArZgH7DDeiCpIY26vinqldeZXUcsc6cVkmto
-         QNc7a1Ox4UDsMlW/mBBnYuuEVifhi+BIcQoKgWdSZJflTiH8lc9zaWcNxPGp79A1tHvp
-         VZmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWkubmVN9eUPLvozpSc2Y8Z2kWBCKvqvgB2uipv7MTvOigeDOjoqf7ELa4A+lgErjcbGcl0M/8Sg3M=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6cB9/Eq36+oiVTV48WYJQ4ORMgXOEtkIntvfhl0/U/EXVvJ7k
-	ag9VkViy9dtVZyYNKPpw3VumYK2Q3//GKcMsaiH2oZ6E6wo3IRcnCQx14Pk3+RcBnQ17xs4sPra
-	V
-X-Google-Smtp-Source: AGHT+IEP6KKwUZUW8OkMBb/fzUUdV4ELJioR4iSAdt1JCFUkRDRHnlZjxlI1+ScQqzaBoVsDlqO0MA==
-X-Received: by 2002:a17:902:e852:b0:205:8407:6321 with SMTP id d9443c01a7336-2076e32e467mr26718025ad.9.1726120574663;
-        Wed, 11 Sep 2024 22:56:14 -0700 (PDT)
-Received: from charlie.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2076afe99b6sm7870465ad.209.2024.09.11.22.56.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Sep 2024 22:56:13 -0700 (PDT)
-From: Charlie Jenkins <charlie@rivosinc.com>
-Date: Wed, 11 Sep 2024 22:55:22 -0700
-Subject: [PATCH v10 14/14] riscv: Add ghostwrite vulnerability
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Vcunucx2"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48C2KvsC014387;
+	Thu, 12 Sep 2024 07:12:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=z/zk32GemZOvbBq6i9BiWq7Q
+	o8EolbBULw19yXplCY0=; b=Vcunucx2kK+Ec/rUV0x9HFiM/TxaWYYagoiY2wAn
+	FxsEaZHx/bCChghZmu+LpwcseRX2N681IT4t/V6gCOLiBqMrLnH24HPVoTr5Bz+N
+	BBfTIYDksEy8Gjfo2J0iG+4gmmiNtJatZFalXE75yAMtK+zwosPOS6zfBEnBsEtH
+	+b6VrEZfVgQ6iI1zKKtMsNs3QyzzX4roYDXsO04PkI5caxfVqBaDEGndRfA8gxQU
+	9zHiBDuj64ZQPzEozUO7qV4NMDQq92qagi6gMHDvtth/XKyNG5vMqPlqM3QR9E5f
+	kFrZoQKTdH/iHYFm6tcH1Q2I6Qqt98TVdiRzzCSSEUjxiQ==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41gy5a49wv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 Sep 2024 07:12:45 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48C7CiIL013911
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 Sep 2024 07:12:44 GMT
+Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Thu, 12 Sep 2024 00:12:39 -0700
+Date: Thu, 12 Sep 2024 12:42:35 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: Antonino Maniscalco <antomani103@gmail.com>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+        "Konrad
+ Dybcio" <konrad.dybcio@linaro.org>,
+        Abhinav Kumar
+	<quic_abhinavk@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        David Airlie
+	<airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
+        Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-arm-msm@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v3 06/10] drm/msm/A6xx: Use posamble to reset counters on
+ preemption
+Message-ID: <20240912071235.cuhe6nhd6gufsmpm@hu-akhilpo-hyd.qualcomm.com>
+References: <20240905-preemption-a750-t-v3-0-fd947699f7bc@gmail.com>
+ <20240905-preemption-a750-t-v3-6-fd947699f7bc@gmail.com>
+ <20240906200847.ajcrpikzl65fwbjz@hu-akhilpo-hyd.qualcomm.com>
+ <69efbf90-7ce1-429f-bf3a-d19acd7d649d@gmail.com>
+ <20240910213412.xfw6abex5aqp7b66@hu-akhilpo-hyd.qualcomm.com>
+ <39d9e3bf-ad37-43f0-a7d9-edbfdedede8e@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240911-xtheadvector-v10-14-8d3930091246@rivosinc.com>
-References: <20240911-xtheadvector-v10-0-8d3930091246@rivosinc.com>
-In-Reply-To: <20240911-xtheadvector-v10-0-8d3930091246@rivosinc.com>
-To: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Paul Walmsley <paul.walmsley@sifive.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Samuel Holland <samuel.holland@sifive.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
- Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>, 
- Andy Chiu <andy.chiu@sifive.com>, Jessica Clarke <jrtc27@jrtc27.com>, 
- Andrew Jones <ajones@ventanamicro.com>
-Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Charlie Jenkins <charlie@rivosinc.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9377; i=charlie@rivosinc.com;
- h=from:subject:message-id; bh=2MZb8AJQZs0wG05Wps2DKInawqFPfqgCL1L5PflC7B4=;
- b=owGbwMvMwCHWx5hUnlvL8Y3xtFoSQ9qjptiFMw5nP9trcGhyZOLbtRZvpOqP7b6X2+nx55Y4v
- 1rzq847HaUsDGIcDLJiiiw81xqYW+/olx0VLZsAM4eVCWQIAxenAEzkRikjw8kZu9hvVjGoXk3b
- vvRgabHQ1BfzTnhorbhbdZajvjUkTp7hf/4B+f1yv02/VcdquBxsSyl53Xbll6Ms+zxRa+/jDSu
- DWAE=
-X-Developer-Key: i=charlie@rivosinc.com; a=openpgp;
- fpr=7D834FF11B1D8387E61C776FFB10D1F27D6B1354
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <39d9e3bf-ad37-43f0-a7d9-edbfdedede8e@gmail.com>
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 5dMJTIUQoPIFVIDFahpZRjayJDd5NzJf
+X-Proofpoint-ORIG-GUID: 5dMJTIUQoPIFVIDFahpZRjayJDd5NzJf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
+ bulkscore=0 mlxlogscore=999 phishscore=0 impostorscore=0 mlxscore=0
+ priorityscore=1501 clxscore=1015 adultscore=0 lowpriorityscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409120049
 
-Follow the patterns of the other architectures that use
-GENERIC_CPU_VULNERABILITIES for riscv to introduce the ghostwrite
-vulnerability and mitigation. The mitigation is to disable all vector
-which is accomplished by clearing the bit from the cpufeature field.
+On Wed, Sep 11, 2024 at 12:35:08AM +0200, Antonino Maniscalco wrote:
+> On 9/10/24 11:34 PM, Akhil P Oommen wrote:
+> > On Mon, Sep 09, 2024 at 05:07:42PM +0200, Antonino Maniscalco wrote:
+> > > On 9/6/24 10:08 PM, Akhil P Oommen wrote:
+> > > > On Thu, Sep 05, 2024 at 04:51:24PM +0200, Antonino Maniscalco wrote:
+> > > > > Use the postamble to reset perf counters when switching between rings,
+> > > > > except when sysprof is enabled, analogously to how they are reset
+> > > > > between submissions when switching pagetables.
+> > > > > 
+> > > > > Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
+> > > > > ---
+> > > > >    drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 20 ++++++++++++++++++-
+> > > > >    drivers/gpu/drm/msm/adreno/a6xx_gpu.h     |  5 +++++
+> > > > >    drivers/gpu/drm/msm/adreno/a6xx_preempt.c | 32 +++++++++++++++++++++++++++++++
+> > > > >    drivers/gpu/drm/msm/adreno/adreno_gpu.h   |  7 +++++--
+> > > > >    4 files changed, 61 insertions(+), 3 deletions(-)
+> > > > > 
+> > > > > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > > > > index ed0b138a2d66..710ec3ce2923 100644
+> > > > > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > > > > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > > > > @@ -366,7 +366,8 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+> > > > >    static void a6xx_emit_set_pseudo_reg(struct msm_ringbuffer *ring,
+> > > > >    		struct a6xx_gpu *a6xx_gpu, struct msm_gpu_submitqueue *queue)
+> > > > >    {
+> > > > > -	u64 preempt_offset_priv_secure;
+> > > > > +	bool sysprof = refcount_read(&a6xx_gpu->base.base.sysprof_active) > 1;
+> > > > > +	u64 preempt_offset_priv_secure, preempt_postamble;
+> > > > >    	OUT_PKT7(ring, CP_SET_PSEUDO_REG, 15);
+> > > > > @@ -398,6 +399,23 @@ static void a6xx_emit_set_pseudo_reg(struct msm_ringbuffer *ring,
+> > > > >    	/* seems OK to set to 0 to disable it */
+> > > > >    	OUT_RING(ring, 0);
+> > > > >    	OUT_RING(ring, 0);
+> > > > > +
+> > > > > +	/* if not profiling set postamble to clear perfcounters, else clear it */
+> > > > > +	if (!sysprof && a6xx_gpu->preempt_postamble_len) {
+> > 
+> > Setting len = 0 is enough to skip processing postamble packets. So how
+> > about a simpler:
+> > 
+> > len = a6xx_gpu->preempt_postamble_len;
+> > if (sysprof)
+> > 	len = 0;
+> > 
+> > OUT_PKT7(ring, CP_SET_AMBLE, 3);
+> > OUT_RING(ring, lower_32_bits(preempt_postamble));
+> > OUT_RING(ring, upper_32_bits(preempt_postamble));
+> > OUT_RING(ring, CP_SET_AMBLE_2_DWORDS(len) |
+> > 		CP_SET_AMBLE_2_TYPE(KMD_AMBLE_TYPE));
+> > 
+> > > > > +		preempt_postamble = a6xx_gpu->preempt_postamble_iova;
+> > > > > +
+> > > > > +		OUT_PKT7(ring, CP_SET_AMBLE, 3);
+> > > > > +		OUT_RING(ring, lower_32_bits(preempt_postamble));
+> > > > > +		OUT_RING(ring, upper_32_bits(preempt_postamble));
+> > > > > +		OUT_RING(ring, CP_SET_AMBLE_2_DWORDS(
+> > > > > +					a6xx_gpu->preempt_postamble_len) |
+> > > > > +				CP_SET_AMBLE_2_TYPE(KMD_AMBLE_TYPE));
+> > > > > +	} else {
+> > > > 
+> > > > Why do we need this else part?
+> > > 
+> > > Wouldn't the postmable remain set if we don't explicitly set it to 0?
+> > 
+> > Aah, that is a genuine concern. I am not sure! Lets keep it.
+> > 
+> > > 
+> > > > 
+> > > > > +		OUT_PKT7(ring, CP_SET_AMBLE, 3);
+> > > > > +		OUT_RING(ring, 0);
+> > > > > +		OUT_RING(ring, 0);
+> > > > > +		OUT_RING(ring, CP_SET_AMBLE_2_TYPE(KMD_AMBLE_TYPE));
+> > > > > +	}
+> > > > >    }
+> > > > >    static void a7xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+> > > > > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> > > > > index da10060e38dc..b009732c08c5 100644
+> > > > > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> > > > > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> > > > > @@ -71,6 +71,11 @@ struct a6xx_gpu {
+> > > > >    	bool uses_gmem;
+> > > > >    	bool skip_save_restore;
+> > > > > +	struct drm_gem_object *preempt_postamble_bo;
+> > > > > +	void *preempt_postamble_ptr;
+> > > > > +	uint64_t preempt_postamble_iova;
+> > > > > +	uint64_t preempt_postamble_len;
+> > > > > +
+> > > > >    	struct a6xx_gmu gmu;
+> > > > >    	struct drm_gem_object *shadow_bo;
+> > > > > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c b/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
+> > > > > index 1caff76aca6e..ec44f44d925f 100644
+> > > > > --- a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
+> > > > > +++ b/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
+> > > > > @@ -346,6 +346,28 @@ static int preempt_init_ring(struct a6xx_gpu *a6xx_gpu,
+> > > > >    	return 0;
+> > > > >    }
+> > > > > +static void preempt_prepare_postamble(struct a6xx_gpu *a6xx_gpu)
+> > > > > +{
+> > > > > +	u32 *postamble = a6xx_gpu->preempt_postamble_ptr;
+> > > > > +	u32 count = 0;
+> > > > > +
+> > > > > +	postamble[count++] = PKT7(CP_REG_RMW, 3);
+> > > > > +	postamble[count++] = REG_A6XX_RBBM_PERFCTR_SRAM_INIT_CMD;
+> > > > > +	postamble[count++] = 0;
+> > > > > +	postamble[count++] = 1;
+> > > > > +
+> > > > > +	postamble[count++] = PKT7(CP_WAIT_REG_MEM, 6);
+> > > > > +	postamble[count++] = CP_WAIT_REG_MEM_0_FUNCTION(WRITE_EQ);
+> > > > > +	postamble[count++] = CP_WAIT_REG_MEM_1_POLL_ADDR_LO(
+> > > > > +				REG_A6XX_RBBM_PERFCTR_SRAM_INIT_STATUS);
+> > > > > +	postamble[count++] = CP_WAIT_REG_MEM_2_POLL_ADDR_HI(0);
+> > > > > +	postamble[count++] = CP_WAIT_REG_MEM_3_REF(0x1);
+> > > > > +	postamble[count++] = CP_WAIT_REG_MEM_4_MASK(0x1);
+> > > > > +	postamble[count++] = CP_WAIT_REG_MEM_5_DELAY_LOOP_CYCLES(0);
+> > > > 
+> > > > Isn't it better to just replace this with NOP packets when sysprof is
+> > > > enabled, just before triggering preemption? It will help to have an
+> > > > immediate effect.
+> > > > 
+> > > > -Akhil
+> > > > 
+> > > 
+> > > Mmm, this being a postamble I wonder whether we have the guarantee that it
+> > > finishes execution before the IRQ is called so updating it doesn't race with
+> > > the CP executing it.
+> > 
+> > Yes, it will be complete. But on a second thought now, this suggestion from me
+> > looks like an overkill.
+> 
+> Thanks for confirming! I have actually already implemented something similar
+> to what you proposed https://gitlab.com/pac85/inux/-/commit/8b8ab1d89b0f611cfdbac4c3edba4192be91a7f9
+> so we can chose between the two. Let me know your prefence.
 
-Ghostwrite only affects thead c9xx CPUs that impelment xtheadvector, so
-the vulerability will only be mitigated on these CPUs.
+That looks fine. Can we try to simplify that patch further? We can lean
+towards readability instead of saving few writes. I don't think there
+will be frequent sysprof toggles.
 
-Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
----
- arch/riscv/Kconfig.errata            | 11 ++++++++
- arch/riscv/errata/thead/errata.c     | 28 ++++++++++++++++++
- arch/riscv/include/asm/bugs.h        | 22 +++++++++++++++
- arch/riscv/include/asm/errata_list.h |  3 +-
- arch/riscv/kernel/Makefile           |  2 ++
- arch/riscv/kernel/bugs.c             | 55 ++++++++++++++++++++++++++++++++++++
- arch/riscv/kernel/cpufeature.c       |  9 +++++-
- drivers/base/cpu.c                   |  3 ++
- include/linux/cpu.h                  |  1 +
- 9 files changed, 132 insertions(+), 2 deletions(-)
+-Akhil
 
-diff --git a/arch/riscv/Kconfig.errata b/arch/riscv/Kconfig.errata
-index 2acc7d876e1f..e318119d570d 100644
---- a/arch/riscv/Kconfig.errata
-+++ b/arch/riscv/Kconfig.errata
-@@ -119,4 +119,15 @@ config ERRATA_THEAD_PMU
- 
- 	  If you don't know what to do here, say "Y".
- 
-+config ERRATA_THEAD_GHOSTWRITE
-+	bool "Apply T-Head Ghostwrite errata"
-+	depends on ERRATA_THEAD && RISCV_ISA_XTHEADVECTOR
-+	default y
-+	help
-+	  The T-Head C9xx cores have a vulnerability in the xtheadvector
-+	  instruction set. When this errata is enabled, the CPUs will be probed
-+	  to determine if they are vulnerable and disable xtheadvector.
-+
-+	  If you don't know what to do here, say "Y".
-+
- endmenu # "CPU errata selection"
-diff --git a/arch/riscv/errata/thead/errata.c b/arch/riscv/errata/thead/errata.c
-index f5120e07c318..5cc008ab41a8 100644
---- a/arch/riscv/errata/thead/errata.c
-+++ b/arch/riscv/errata/thead/errata.c
-@@ -10,6 +10,7 @@
- #include <linux/string.h>
- #include <linux/uaccess.h>
- #include <asm/alternative.h>
-+#include <asm/bugs.h>
- #include <asm/cacheflush.h>
- #include <asm/cpufeature.h>
- #include <asm/dma-noncoherent.h>
-@@ -142,6 +143,31 @@ static bool errata_probe_pmu(unsigned int stage,
- 	return true;
- }
- 
-+static bool errata_probe_ghostwrite(unsigned int stage,
-+				    unsigned long arch_id, unsigned long impid)
-+{
-+	if (!IS_ENABLED(CONFIG_ERRATA_THEAD_GHOSTWRITE))
-+		return false;
-+
-+	/*
-+	 * target-c9xx cores report arch_id and impid as 0
-+	 *
-+	 * While ghostwrite may not affect all c9xx cores that implement
-+	 * xtheadvector, there is no futher granularity than c9xx. Assume
-+	 * vulnerable for this entire class of processors when xtheadvector is
-+	 * enabled.
-+	 */
-+	if (arch_id != 0 || impid != 0)
-+		return false;
-+
-+	if (stage != RISCV_ALTERNATIVES_EARLY_BOOT)
-+		return false;
-+
-+	ghostwrite_set_vulnerable();
-+
-+	return true;
-+}
-+
- static u32 thead_errata_probe(unsigned int stage,
- 			      unsigned long archid, unsigned long impid)
- {
-@@ -155,6 +181,8 @@ static u32 thead_errata_probe(unsigned int stage,
- 	if (errata_probe_pmu(stage, archid, impid))
- 		cpu_req_errata |= BIT(ERRATA_THEAD_PMU);
- 
-+	errata_probe_ghostwrite(stage, archid, impid);
-+
- 	return cpu_req_errata;
- }
- 
-diff --git a/arch/riscv/include/asm/bugs.h b/arch/riscv/include/asm/bugs.h
-new file mode 100644
-index 000000000000..e294b15bf78e
---- /dev/null
-+++ b/arch/riscv/include/asm/bugs.h
-@@ -0,0 +1,22 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Interface for managing mitigations for riscv vulnerabilities.
-+ *
-+ * Copyright (C) 2024 Rivos Inc.
-+ */
-+
-+#ifndef __ASM_BUGS_H
-+#define __ASM_BUGS_H
-+
-+/* Watch out, ordering is important here. */
-+enum mitigation_state {
-+	UNAFFECTED,
-+	MITIGATED,
-+	VULNERABLE,
-+};
-+
-+void ghostwrite_set_vulnerable(void);
-+void ghostwrite_enable_mitigation(void);
-+enum mitigation_state ghostwrite_get_state(void);
-+
-+#endif /* __ASM_BUGS_H */
-diff --git a/arch/riscv/include/asm/errata_list.h b/arch/riscv/include/asm/errata_list.h
-index 7c8a71a526a3..6e426ed7919a 100644
---- a/arch/riscv/include/asm/errata_list.h
-+++ b/arch/riscv/include/asm/errata_list.h
-@@ -25,7 +25,8 @@
- #ifdef CONFIG_ERRATA_THEAD
- #define	ERRATA_THEAD_MAE 0
- #define	ERRATA_THEAD_PMU 1
--#define	ERRATA_THEAD_NUMBER 2
-+#define	ERRATA_THEAD_GHOSTWRITE 2
-+#define	ERRATA_THEAD_NUMBER 3
- #endif
- 
- #ifdef __ASSEMBLY__
-diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
-index 06d407f1b30b..d7a54e34178e 100644
---- a/arch/riscv/kernel/Makefile
-+++ b/arch/riscv/kernel/Makefile
-@@ -113,3 +113,5 @@ obj-$(CONFIG_COMPAT)		+= compat_vdso/
- obj-$(CONFIG_64BIT)		+= pi/
- obj-$(CONFIG_ACPI)		+= acpi.o
- obj-$(CONFIG_ACPI_NUMA)	+= acpi_numa.o
-+
-+obj-$(CONFIG_GENERIC_CPU_VULNERABILITIES) += bugs.o
-diff --git a/arch/riscv/kernel/bugs.c b/arch/riscv/kernel/bugs.c
-new file mode 100644
-index 000000000000..0c19691b4cd5
---- /dev/null
-+++ b/arch/riscv/kernel/bugs.c
-@@ -0,0 +1,55 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2024 Rivos Inc.
-+ */
-+
-+#include <linux/cpu.h>
-+#include <linux/device.h>
-+#include <linux/sprintf.h>
-+
-+#include <asm/bugs.h>
-+#include <asm/vendor_extensions/thead.h>
-+
-+static enum mitigation_state ghostwrite_state;
-+
-+void ghostwrite_set_vulnerable(void)
-+{
-+	ghostwrite_state = VULNERABLE;
-+}
-+
-+/*
-+ * Vendor extension alternatives will use the value set at the time of boot
-+ * alternative patching, thus this must be called before boot alternatives are
-+ * patched (and after extension probing) to be effective.
-+ */
-+void ghostwrite_enable_mitigation(void)
-+{
-+	if (IS_ENABLED(CONFIG_RISCV_ISA_XTHEADVECTOR) &&
-+	    ghostwrite_state == VULNERABLE && !cpu_mitigations_off()) {
-+		disable_xtheadvector();
-+		ghostwrite_state = MITIGATED;
-+	}
-+}
-+
-+enum mitigation_state ghostwrite_get_state(void)
-+{
-+	return ghostwrite_state;
-+}
-+
-+ssize_t cpu_show_ghostwrite(struct device *dev, struct device_attribute *attr, char *buf)
-+{
-+	if (IS_ENABLED(CONFIG_RISCV_ISA_XTHEADVECTOR)) {
-+		switch (ghostwrite_state) {
-+		case UNAFFECTED:
-+			return sprintf(buf, "Not affected\n");
-+		case MITIGATED:
-+			return sprintf(buf, "Mitigation: xtheadvector disabled\n");
-+		case VULNERABLE:
-+			fallthrough;
-+		default:
-+			return sprintf(buf, "Vulnerable\n");
-+		}
-+	} else {
-+		return sprintf(buf, "Not affected\n");
-+	}
-+}
-diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-index 56b5054b8f86..1f4329bb8a9d 100644
---- a/arch/riscv/kernel/cpufeature.c
-+++ b/arch/riscv/kernel/cpufeature.c
-@@ -17,6 +17,7 @@
- #include <linux/of.h>
- #include <asm/acpi.h>
- #include <asm/alternative.h>
-+#include <asm/bugs.h>
- #include <asm/cacheflush.h>
- #include <asm/cpufeature.h>
- #include <asm/hwcap.h>
-@@ -867,7 +868,13 @@ static int __init riscv_fill_hwcap_from_ext_list(unsigned long *isa2hwcap)
- 		riscv_fill_vendor_ext_list(cpu);
- 	}
- 
--	if (has_xtheadvector_no_alternatives() && has_thead_homogeneous_vlenb() < 0) {
-+	/*
-+	 * Execute ghostwrite mitigation immediately after detecting extensions
-+	 * to disable xtheadvector if necessary.
-+	 */
-+	if (ghostwrite_get_state() == VULNERABLE) {
-+		ghostwrite_enable_mitigation();
-+	} else if (has_xtheadvector_no_alternatives() && has_thead_homogeneous_vlenb() < 0) {
- 		pr_warn("Unsupported heterogeneous vlenb detected, vector extension disabled.\n");
- 		disable_xtheadvector();
- 	}
-diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
-index fdaa24bb641a..a7e511849875 100644
---- a/drivers/base/cpu.c
-+++ b/drivers/base/cpu.c
-@@ -599,6 +599,7 @@ CPU_SHOW_VULN_FALLBACK(retbleed);
- CPU_SHOW_VULN_FALLBACK(spec_rstack_overflow);
- CPU_SHOW_VULN_FALLBACK(gds);
- CPU_SHOW_VULN_FALLBACK(reg_file_data_sampling);
-+CPU_SHOW_VULN_FALLBACK(ghostwrite);
- 
- static DEVICE_ATTR(meltdown, 0444, cpu_show_meltdown, NULL);
- static DEVICE_ATTR(spectre_v1, 0444, cpu_show_spectre_v1, NULL);
-@@ -614,6 +615,7 @@ static DEVICE_ATTR(retbleed, 0444, cpu_show_retbleed, NULL);
- static DEVICE_ATTR(spec_rstack_overflow, 0444, cpu_show_spec_rstack_overflow, NULL);
- static DEVICE_ATTR(gather_data_sampling, 0444, cpu_show_gds, NULL);
- static DEVICE_ATTR(reg_file_data_sampling, 0444, cpu_show_reg_file_data_sampling, NULL);
-+static DEVICE_ATTR(ghostwrite, 0444, cpu_show_ghostwrite, NULL);
- 
- static struct attribute *cpu_root_vulnerabilities_attrs[] = {
- 	&dev_attr_meltdown.attr,
-@@ -630,6 +632,7 @@ static struct attribute *cpu_root_vulnerabilities_attrs[] = {
- 	&dev_attr_spec_rstack_overflow.attr,
- 	&dev_attr_gather_data_sampling.attr,
- 	&dev_attr_reg_file_data_sampling.attr,
-+	&dev_attr_ghostwrite.attr,
- 	NULL
- };
- 
-diff --git a/include/linux/cpu.h b/include/linux/cpu.h
-index bdcec1732445..6a0a8f1c7c90 100644
---- a/include/linux/cpu.h
-+++ b/include/linux/cpu.h
-@@ -77,6 +77,7 @@ extern ssize_t cpu_show_gds(struct device *dev,
- 			    struct device_attribute *attr, char *buf);
- extern ssize_t cpu_show_reg_file_data_sampling(struct device *dev,
- 					       struct device_attribute *attr, char *buf);
-+extern ssize_t cpu_show_ghostwrite(struct device *dev, struct device_attribute *attr, char *buf);
- 
- extern __printf(4, 5)
- struct device *cpu_device_create(struct device *parent, void *drvdata,
-
--- 
-2.45.0
-
+> 
+> > 
+> > -Akhil.
+> > 
+> > > 
+> > > > > +
+> > > > > +	a6xx_gpu->preempt_postamble_len = count;
+> > > > > +}
+> > > > > +
+> > > > >    void a6xx_preempt_fini(struct msm_gpu *gpu)
+> > > > >    {
+> > > > >    	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+> > > > > @@ -376,6 +398,16 @@ void a6xx_preempt_init(struct msm_gpu *gpu)
+> > > > >    	a6xx_gpu->uses_gmem = 1;
+> > > > >    	a6xx_gpu->skip_save_restore = 1;
+> > > > > +	a6xx_gpu->preempt_postamble_ptr  = msm_gem_kernel_new(gpu->dev,
+> > > > > +			PAGE_SIZE, MSM_BO_WC | MSM_BO_MAP_PRIV,
+> > > > > +			gpu->aspace, &a6xx_gpu->preempt_postamble_bo,
+> > > > > +			&a6xx_gpu->preempt_postamble_iova);
+> > > > > +
+> > > > > +	preempt_prepare_postamble(a6xx_gpu);
+> > > > > +
+> > > > > +	if (IS_ERR(a6xx_gpu->preempt_postamble_ptr))
+> > > > > +		goto fail;
+> > > > > +
+> > > > >    	timer_setup(&a6xx_gpu->preempt_timer, a6xx_preempt_timer, 0);
+> > > > >    	return;
+> > > > > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> > > > > index 6b1888280a83..87098567483b 100644
+> > > > > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> > > > > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> > > > > @@ -610,12 +610,15 @@ OUT_PKT4(struct msm_ringbuffer *ring, uint16_t regindx, uint16_t cnt)
+> > > > >    	OUT_RING(ring, PKT4(regindx, cnt));
+> > > > >    }
+> > > > > +#define PKT7(opcode, cnt) \
+> > > > > +	(CP_TYPE7_PKT | (cnt << 0) | (PM4_PARITY(cnt) << 15) | \
+> > > > > +		((opcode & 0x7F) << 16) | (PM4_PARITY(opcode) << 23))
+> > > > > +
+> > > > >    static inline void
+> > > > >    OUT_PKT7(struct msm_ringbuffer *ring, uint8_t opcode, uint16_t cnt)
+> > > > >    {
+> > > > >    	adreno_wait_ring(ring, cnt + 1);
+> > > > > -	OUT_RING(ring, CP_TYPE7_PKT | (cnt << 0) | (PM4_PARITY(cnt) << 15) |
+> > > > > -		((opcode & 0x7F) << 16) | (PM4_PARITY(opcode) << 23));
+> > > > > +	OUT_RING(ring, PKT7(opcode, cnt));
+> > > > >    }
+> > > > >    struct msm_gpu *a2xx_gpu_init(struct drm_device *dev);
+> > > > > 
+> > > > > -- 
+> > > > > 2.46.0
+> > > > > 
+> > > 
+> > > Best regards,
+> > > -- 
+> > > Antonino Maniscalco <antomani103@gmail.com>
+> > > 
+> 
+> Best regards,
+> -- 
+> Antonino Maniscalco <antomani103@gmail.com>
+> 
