@@ -1,49 +1,63 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A427919F430;
-	Thu, 12 Sep 2024 11:52:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8CBF1A3AB2;
+	Thu, 12 Sep 2024 11:52:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726141952; cv=none; b=ZtySKq2eNtM3RwAJr+FCC0DG9WeW4m0pki6Yx6IlS3cnJxZbH2pqQMxiLzjXYzwogc/N+tH5X6b1yasdi4BuQV3U0y6OTbsI+V7t9gw2OQqefzzauF4wFV9Dp17ATwhA7zJ+xX3va8oT/nqoNjoklGpzb4QjeHi9QChaePd7Srk=
+	t=1726141978; cv=none; b=YhGuM1hW5PkHRzwAb78OcssTnwOrhpjBPPOTg3NAc8q31619gZ7C5pu8MTUS+MRkbTEaFpN5MsSf/zpBNYPeFxKJ43h6Z5msnFQZ4CjPbiBDy7O+009S7nTzxAGS6QT5GPSWJuiQV1i68tRzz7cFVpXhUNi2gtdlppd4gIjl7DQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726141952; c=relaxed/simple;
-	bh=UxGGqGI6lmlwBTsPjmRmmN0QPm0qGEImDfB/sQVQ8bE=;
+	s=arc-20240116; t=1726141978; c=relaxed/simple;
+	bh=RYDm5Sxu5zrgBnEy4z/i2TH7rbJhd7Gc8K8TI0achpU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=In8lOIXlcBbQY1Ir5/0qahGE56L6nyQysCx2ESgFJZ47IuJnaiTIakQdBXIMgKkCD80o32rJNX6NAe0T3LjQklxB2zZQYw9X2LZz1VlYN7C/TyHajlTxQupJUzFcifLIyTfz2tyekbDHU4Q1GP3RV6wlrofM9f27dBfKo93vnUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pankajraghav.com; spf=pass smtp.mailfrom=pankajraghav.com; dkim=pass (2048-bit key) header.d=pankajraghav.com header.i=@pankajraghav.com header.b=k2PeLr5o; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pankajraghav.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pankajraghav.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tia7MuyD/1cUCbm1W35jvfxwXAX+XW6FyTHOog22nUgntM8ixDS3Y6LAxNLQjcxdV8wK78rpwVZga5SP3fc6veLi4quIR7KVnwbLRtdmOClnnQ3mwyktO4DZS6xsKe/OJasmE70CmfSiGI6qqgEcIAbrGKoDOFtsGmRmd7siCZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U02Iawe7; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pankajraghav.com header.i=@pankajraghav.com header.b="k2PeLr5o"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4X4G5J6BGvz9sqq;
-	Thu, 12 Sep 2024 13:52:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pankajraghav.com;
-	s=MBO0001; t=1726141940;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2efnxzDfw9QXH50hbL3FzD+55QgECys/ru4yn8zfnU8=;
-	b=k2PeLr5oWvWf7IS9oipKD9+QOfKjHdHpgSJYEFz+iqb6wTTVmreXdXUbugtgqUkZUIuvov
-	nKBOD0sHqVg5c+hzNQ3LRrOqIJ8YUScQJvzfxoOKvs1hPFba6ATJE/MbVxUUgmNqLfaSMp
-	sIBYj+JbENONVdT3dbHzgflJT4O0Dx51bsI5veNB0ditUZYoHYZx2Lyd/+Q3roZ7TPoTIh
-	AbSWizv7VoM9EEpaiEEcxY9wNnYKTR/A2gmcJ9mr2lglVpSuqZfRU4XecEvLgcQGe1j/9Y
-	wtLtmDgWFHPGOM8V6dxRTn1Az2Vb0dvlcNjzd5QrHu2Z0qe30NEZBDnak7IUTg==
-Date: Thu, 12 Sep 2024 11:52:14 +0000
-From: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	"Darrick J . Wong" <djwong@kernel.org>,
-	Christian Brauner <brauner@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-xfs@vger.kernel.org,
-	Pankaj Raghav <p.raghav@samsung.com>
-Subject: Re: [PATCH] Documentation: iomap: fix a typo
-Message-ID: <20240912115214.omoenw2bdz5zi4rt@quentin>
-References: <20240820161329.1293718-1-kernel@pankajraghav.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U02Iawe7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726141977; x=1757677977;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RYDm5Sxu5zrgBnEy4z/i2TH7rbJhd7Gc8K8TI0achpU=;
+  b=U02Iawe7zR01roilk1f1SA/Bz2vDzdYnKhidnvc4Z3tWkFZRPsoDG6vn
+   ao3P81VeiqayZAx37do1YtNiiJ1usypZukr0MBvDIrY+5Dmq50bkAF+zd
+   VYIGub245ZsbBSL88lsBWxnRiu5FU9wCs7rj0kB15EZPdQ6gXZjb1bz8M
+   fvAVxOg2VvzYN05RRM+tSniI8tREEzFUOaQHozxarEuN6JOC3E8uBCIPo
+   d1DiP0jWQfNHxeJirTe0uftqxrKZlV+UJbzw47STmFKNehmAPQkVgpZcm
+   WMuHYjkvOr/rG7Ie3vPDWUfwhp2GByVrmrPCciL8awvLltjBjKdq3DIgd
+   Q==;
+X-CSE-ConnectionGUID: erIEs4MoR3es7P/DR9NAnA==
+X-CSE-MsgGUID: CV6Mk4dqSc+BhusUHLU0xQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="25137408"
+X-IronPort-AV: E=Sophos;i="6.10,222,1719903600"; 
+   d="scan'208";a="25137408"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 04:52:56 -0700
+X-CSE-ConnectionGUID: LM0uj5UlSAOM/vqLMa5gwA==
+X-CSE-MsgGUID: fCvNLip+TeO4cLZkcPnhTw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,222,1719903600"; 
+   d="scan'208";a="67751446"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 12 Sep 2024 04:52:54 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1soiNX-000564-1w;
+	Thu, 12 Sep 2024 11:52:51 +0000
+Date: Thu, 12 Sep 2024 19:52:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jing Leng <3090101217@zju.edu.cn>, masahiroy@kernel.org,
+	nathan@kernel.org, nicolas@fjasle.eu, corbet@lwn.net
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Jing Leng <3090101217@zju.edu.cn>
+Subject: Re: [PATCH] kbuild: Support separating source and output of the
+ external module
+Message-ID: <202409121947.7NkNsyuC-lkp@intel.com>
+References: <20240911112017.14427-1-3090101217@zju.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,36 +66,52 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240820161329.1293718-1-kernel@pankajraghav.com>
+In-Reply-To: <20240911112017.14427-1-3090101217@zju.edu.cn>
 
-ping @Christian.
+Hi Jing,
 
-On Tue, Aug 20, 2024 at 06:13:29PM +0200, Pankaj Raghav (Samsung) wrote:
-> From: Pankaj Raghav <p.raghav@samsung.com>
-> 
-> Change voidw -> void.
-> 
-> Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
-> ---
->  Documentation/filesystems/iomap/design.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/filesystems/iomap/design.rst b/Documentation/filesystems/iomap/design.rst
-> index 37594e1c5914..7261b1b2c379 100644
-> --- a/Documentation/filesystems/iomap/design.rst
-> +++ b/Documentation/filesystems/iomap/design.rst
-> @@ -165,7 +165,7 @@ structure below:
->       u16                 flags;
->       struct block_device *bdev;
->       struct dax_device   *dax_dev;
-> -     voidw               *inline_data;
-> +     void                *inline_data;
->       void                *private;
->       const struct iomap_folio_ops *folio_ops;
->       u64                 validity_cookie;
-> -- 
-> 2.44.1
-> 
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on masahiroy-kbuild/fixes]
+[also build test ERROR on linus/master v6.11-rc7]
+[cannot apply to masahiroy-kbuild/for-next next-20240912]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jing-Leng/kbuild-Support-separating-source-and-output-of-the-external-module/20240911-192242
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git fixes
+patch link:    https://lore.kernel.org/r/20240911112017.14427-1-3090101217%40zju.edu.cn
+patch subject: [PATCH] kbuild: Support separating source and output of the external module
+config: x86_64-kexec (attached as .config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240912/202409121947.7NkNsyuC-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409121947.7NkNsyuC-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> make[3]: *** No rule to make target 'scripts/kconfig/lexer.lex.c', needed by 'scripts/kconfig/lexer.lex.o'.
+>> make[3]: *** No rule to make target 'scripts/kconfig/parser.tab.c', needed by 'scripts/kconfig/parser.tab.o'.
+   make[3]: Target 'oldconfig' not remade because of errors.
+   make[2]: *** [Makefile:680: oldconfig] Error 2
+   make[1]: *** [Makefile:224: __sub-make] Error 2
+   make[1]: Target 'oldconfig' not remade because of errors.
+   make: *** [Makefile:224: __sub-make] Error 2
+   make: Target 'oldconfig' not remade because of errors.
+--
+>> make[3]: *** No rule to make target 'scripts/kconfig/lexer.lex.c', needed by 'scripts/kconfig/lexer.lex.o'.
+>> make[3]: *** No rule to make target 'scripts/kconfig/parser.tab.c', needed by 'scripts/kconfig/parser.tab.o'.
+   make[3]: Target 'olddefconfig' not remade because of errors.
+   make[2]: *** [Makefile:680: olddefconfig] Error 2
+   make[1]: *** [Makefile:224: __sub-make] Error 2
+   make[1]: Target 'olddefconfig' not remade because of errors.
+   make: *** [Makefile:224: __sub-make] Error 2
+   make: Target 'olddefconfig' not remade because of errors.
 
 -- 
-Pankaj Raghav
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
