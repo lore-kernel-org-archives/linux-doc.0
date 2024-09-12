@@ -1,86 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA1018BBB6;
-	Thu, 12 Sep 2024 08:09:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A253F18B49C;
+	Thu, 12 Sep 2024 08:44:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726128574; cv=none; b=Cw9Mx58i/HRFoaBkoO77opI9oU4B4yxzcPzUwu8PdnQNz4JDy6oizro7Yku5h3Iy4YU8yC5qvys5NVaVqN6eYmiwp4Mt3NtDWgTCISeBzBh2RPNaQUo9yE8/uVRW3T1XShNh1uSBXG8/V/t+qL0n7CEtvD57zpSyqSaL4zc2kn0=
+	t=1726130664; cv=none; b=H18uQb4KsArtvA0MKLpSDa8QRfibW//ucQRCjVDYIR6KL3dCRb23a27m64849FYy8r3MxRZVqFzSl5YgzHEmZjawUk9Nk4ZBnlqxCbDty6K2AEpKfuEfo7/sZl3yKfTLLi5nzok8lzZ6/DyEw5GcDZnRX0jBoPpVDL5H0U5K0yk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726128574; c=relaxed/simple;
-	bh=SES32wNoIGrGed28oBc2F5wQIjRruZj+eJv3fRuFOgM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L8Rzpy7fEQcI76hvrBY5zvLTdxMV64VcjLxVdyAOyXcW3v6W8Apc4yzS5NqR7QVgjXLFGDk2ihtDo9IhXWQoNIQ7m977/ovXR9ZA3nStjujudGwXPwFplVcfpCftI0jlnn+CxznBX051DBfQfMsczQA0INpB3eIW+XkpbJafzhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jnjBzjON; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726130664; c=relaxed/simple;
+	bh=VQjosUghJOaOzKlqWeYd555PkuimuuK42yzjskD7nGw=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
+	 MIME-Version:Content-Type; b=WpixtdNgiWBfw4lux1H8c00XFy2Fas8jnPA9h1nQ03V3yZNP8v2QB7eAaVgCj3Oq/TLnSQevEgA9eAa0GAVIeLYkVOGHJrflNDAx5da1jCGcbtZ0sHU30ijK5KvlkE19ZO9TSwiEemmWaVs1Bs0iBbG790ColoEUQyxIDiOXD/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MrfuSorH; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jnjBzjON"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7046C4CEC3;
-	Thu, 12 Sep 2024 08:09:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726128574;
-	bh=SES32wNoIGrGed28oBc2F5wQIjRruZj+eJv3fRuFOgM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jnjBzjONOKd5NBx/TMxrHMdgJkPExfk3Qf6fErCrrlEOQNURa2YUtyrps27kbKwzy
-	 rErspzq4hsieZJbg5HO5OjegNnRonh2tiHjaN0TDAZgc8xbFcgB8nFfboNMJhjDEaa
-	 7QXumVS7YM1b0lQVUDmq5PYkh2rAgiR1I22dC/FAM8JWQszkd6IY4EX//4If9nIXqz
-	 Mu4g5raHbRkOqh4xJY7NrlUjL6ML46CuAzb4CiT/tmnGAuQ7qjlwQl0U/ErDD3he89
-	 dRz1/R1MLAWxZmHKw9dOKt/GGFxy9M9Z3F7QR4UIdwNFpPHXUmdxJAjzX6m0wjkccy
-	 SAdXHse8argzQ==
-Date: Thu, 12 Sep 2024 09:09:29 +0100
-From: Simon Horman <horms@kernel.org>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-	Oleksij Rempel <o.rempel@pengutronix.de>,
-	thomas.petazzoni@bootlin.com,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH net-next] Documentation: networking: Fix missing PSE
- documentation issue
-Message-ID: <20240912080929.GD572255@kernel.org>
-References: <20240911144711.693216-1-kory.maincent@bootlin.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MrfuSorH"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-42cbbb1727eso5433745e9.2;
+        Thu, 12 Sep 2024 01:44:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726130661; x=1726735461; darn=vger.kernel.org;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=68iFw7qYbVcyQDFf0RiRp4aVHspyENI9JwXtbOUMCEU=;
+        b=MrfuSorHHfW8BsoRqrVl7iq27soc4+eb5d7p5aX6fPvcIB6q7XXHdBVG1KwhBM4ip2
+         yauIhc+JVDGgRw4Iwx9Y+qeYcqSVaXiRUHnhUdKOymw06mGDC9Z2bNs5QwGwpJM4iSjr
+         W7NVz647RX4W+Q7LQwyz03wkiCaQoLGA/MTL+KRHjCdwGFmeZgrsjXSZbwzHXWMS6dD8
+         EAwskJ3h4t4m3t7S0Zt8pQGpys9wRKAW7foZhkZWGdFSJyXul8/UjCdDJ17LOoK/P3xd
+         bfGOk6Q7WcCV4BJ502CYEzbCD/7ynk12vyDdymsxBB7bZnRkrgk3yJQwhGs5twDLQGBK
+         qIiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726130661; x=1726735461;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=68iFw7qYbVcyQDFf0RiRp4aVHspyENI9JwXtbOUMCEU=;
+        b=Ln+lMykBbCKKfKAkADkz9weHuZZ8vvYDgAMb9Y2dIaIGuN0hB/PCY7MwtfYNZEI/2J
+         yvOK6s3BwOrGZq02LAdxY4qxPFsCQHTzhDPKA6I95gclfi356G/EUJgMBSqdud3K6vBa
+         Aqv2Yc+av5Wb24hb5ZWgjU4daTeulNAYR2sye71MEepDFfaobzeAwP2KOIQMWZTNGFgP
+         T2efETgIswdjEUnPzd+ho/RwqUJAdP2s0kEqUFdsEMMfGmpRSLKzN1aK6zLiCQQCrvvU
+         gW7P4lskQPr1O4YyPh5qTqGdciyaI/XFT5R3skzm7HD0ICybnFnLrVxolI/ZMJkoSzJ9
+         lH9w==
+X-Forwarded-Encrypted: i=1; AJvYcCXmE2MClLSxttKhHAOZNBl0Fy4wdB34rEYXqE0vFZgKUgJGeSCrXBLvX6Ki2UtDGCbHwiAuojJ7ihU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvhwGLhM0nBy/O9YkQHpopyMy/jvLKdszZKhexscFLjJCS7wbS
+	1buoRSMQCNFRFkiTiYpAcDInYgrB3CJdRlDuE56V2MW2KpcP+EdM
+X-Google-Smtp-Source: AGHT+IGHOE8+b3ktBnz86gdkaQRKCSOaWTtdlUG8s3gIujKKl4tyjvENOzca2qmC88bpEsecCXoFRg==
+X-Received: by 2002:a5d:6291:0:b0:374:c481:3f7 with SMTP id ffacd0b85a97d-378c2cd5ed9mr1218710f8f.6.1726130660527;
+        Thu, 12 Sep 2024 01:44:20 -0700 (PDT)
+Received: from imac ([2a02:8010:60a0:0:c4fd:1041:7607:289c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956e8a98sm13735410f8f.117.2024.09.12.01.44.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Sep 2024 01:44:20 -0700 (PDT)
+From: Donald Hunter <donald.hunter@gmail.com>
+To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc: bpf@vger.kernel.org,  linux-doc@vger.kernel.org,  Alexei Starovoitov
+ <ast@kernel.org>,  Daniel Borkmann <daniel@iogearbox.net>,  Andrii
+ Nakryiko <andrii@kernel.org>,  Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH bpf-next v1] docs/bpf: Add missing BPF program types to
+ docs
+In-Reply-To: <CAEf4Bzbo=vNwn329eBcX5oqYmQBq1DxcxubFk4D6HQmXHRFD7w@mail.gmail.com>
+	(Andrii Nakryiko's message of "Wed, 11 Sep 2024 13:44:17 -0700")
+Date: Thu, 12 Sep 2024 09:43:56 +0100
+Message-ID: <m21q1pb6sz.fsf@gmail.com>
+References: <20240911145908.34680-1-donald.hunter@gmail.com>
+	<CAEf4Bzbo=vNwn329eBcX5oqYmQBq1DxcxubFk4D6HQmXHRFD7w@mail.gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240911144711.693216-1-kory.maincent@bootlin.com>
+Content-Type: text/plain
 
-On Wed, Sep 11, 2024 at 04:47:11PM +0200, Kory Maincent wrote:
-> Fix a missing end of phrase in the documentation. It describes the
-> ETHTOOL_A_C33_PSE_ACTUAL_PW attribute, which was not fully explained.
-> 
-> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
-> ---
->  Documentation/networking/ethtool-netlink.rst | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
-> index ba90457b8b2d..b1390878ba84 100644
-> --- a/Documentation/networking/ethtool-netlink.rst
-> +++ b/Documentation/networking/ethtool-netlink.rst
-> @@ -1801,8 +1801,9 @@ the PSE and the PD. This option is corresponding to ``IEEE 802.3-2022``
->  30.9.1.1.8 aPSEPowerClassification.
->  
->  When set, the optional ``ETHTOOL_A_C33_PSE_ACTUAL_PW`` attribute identifies
-> -This option is corresponding to ``IEEE 802.3-2022`` 30.9.1.1.23 aPSEActualPower.
-> -Actual power is reported in mW.
-> +the actual power drawn by the C33 PSE. This option is corresponding to
+Andrii Nakryiko <andrii.nakryiko@gmail.com> writes:
+>>
+>> +.. [#struct_ops] The ``struct_ops`` attach format is ``struct_ops[.s]/<name>``, but name appears
+>> +                 to be ignored. The attachments are defined in a struct initializer that is
+>> +                 tagged with ``SEC(".struct_ops[.link]")``.
+>
+> libbpf will happily accept just SEC("struct_ops"). So it would be more
+> correct to say that "struct_ops[.s]/<name>" is accepted, but name is
+> ignored. But other than that, just SEC("struct_ops") probably makes
+> most sense.
 
-nit: While we are here, perhaps we can also update the grammar.
-
-     This attribute corresponds to...
-
-> +``IEEE 802.3-2022`` 30.9.1.1.23 aPSEActualPower. Actual power is reported
-> +in mW.
->  
->  When set, the optional ``ETHTOOL_A_C33_PSE_EXT_STATE`` attribute identifies
->  the extended error state of the C33 PSE. Possible values are:
-> -- 
-> 2.34.1
-> 
-> 
+I'll reword to recommend SEC("struct_ops"), thanks!
