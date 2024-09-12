@@ -1,400 +1,370 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED8B1A265E
-	for <linux-doc@vger.kernel.org>; Thu, 12 Sep 2024 10:08:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C28FC193426
+	for <linux-doc@vger.kernel.org>; Thu, 12 Sep 2024 10:13:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726135710; cv=none; b=Woqpunq7G9+cHqc3GPC5n6oKdgDwkkIeuepuLTmKsQ6lxsf848LyPdezeYEGYDn8+MFrWXqWf50Cput4xBScgPw7Gn8yuv46T2M2KOZGA7PZMhhlSGliSDVW6637qRIB85mIdx3ghbiStlEANA3v2C9VSkew0amVzRqxfKDjxuo=
+	t=1726136038; cv=none; b=dnqRQjbCU1xLK8d6POR1/Qm+8j4ftO5u5WSVPENJ0Vi3OSmrIv0DVFw4K5uKwtZZmLL/asmAooziAoxg/RIU5Sweimy6isAxYPjQzlIzYbtqj2oiwJ6BCplXKm8Wmh5y+d4oYVAXsGPfWyXGw/+/f6gds0OMln5STXfJrqrfvYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726135710; c=relaxed/simple;
-	bh=5139h/vAdKZH/+hDF4LGpoq5rzZ4VB7cmq7cSonzbF4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=sLkd0bgOEFaRYNA+HQ9lo2mxfGD2cpir7Jd6EBOzJYQ+hFa0ukXAy78G6R+Y2CaGd6oc7FFU+Py/eqC86kX5rraOh/1lH2a/Geu1SbukEElidLm6a4kjEpGoExuWt8tw66xAZfoSGMil1z1NNcOWLo3Kw86jXMTpumY+eu9wqu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=v31dPbir; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
+	s=arc-20240116; t=1726136038; c=relaxed/simple;
+	bh=pWuYnZdetnnnu+3BlcUE/4gNPjsDaaKXpqGIDigZmfw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OeWeWSgUJ8oiYox2q4IC5KjcvjL6jxA06b7viGTjxEyIf94JdP4PtuAsN2vsq8XZC69byOjURQ23Jo8S/TuADjTcQvTImPai4psHvT79GpBukOHgAq4NqFpiFklEpVf3T7WwJAdHdP76TejafjYxXdF4Fq1n14eQ4s7u9vyP574=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=JokuuGst; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="v31dPbir"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-205909af9b5so8003305ad.3
-        for <linux-doc@vger.kernel.org>; Thu, 12 Sep 2024 03:08:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="JokuuGst"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-374c4c6cb29so741699f8f.3
+        for <linux-doc@vger.kernel.org>; Thu, 12 Sep 2024 03:13:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1726135708; x=1726740508; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fuCU47ydUGB46V/ndRRnE6AYBHpF+SD0efezkXvrbTk=;
-        b=v31dPbirvwABJYZzxag5gCjSrdRjmXQfLVRpqxQ0akMq/Su+Ia2zxOFJjCXLqOTxI6
-         zZNujkb+p3xSl6Cu0VYDR0nqTeC4THK/uXueH8GVKWR0y6ohNHeyS/5X+mIV3toiLSU7
-         X1y40IbSD2TR+fiPe5cnF8qpmRiacLvxRQhWw=
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1726136034; x=1726740834; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ax7dbBbCuzQUcfZcqCi06hx4jCIx6kiT7TrMLm6qkD0=;
+        b=JokuuGstRYcrSol6rHF/9RQNn64YhBGHUl6S/EZTgWdA0EUDqUwl5diQvGkE/vF2Nc
+         T3u05t7H5HchK7hV25w6vwUI0ouqHTdRtzTvxX07VXCnuFAiIXcMnnYJdF0SHOWCQGlG
+         jDr2rdFU42Tqu6t5If0wksq7yOIUHem0WyegHbgR+8Y/7qGVwVAPmZrU6JhVhWGzQCzF
+         +DQtswEyex8LsMsaJN941rUO6bGfYB7NiXxio+TY0vtuuSFvcD7v1S/8rc7To4IH1K38
+         ml+8+Z8NCZIXWpCAHPgRKv5Kq0I636kKbZjaLJGFZgqjF4cckmNKTaPVTuvQOHjSxJ8E
+         74gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726135708; x=1726740508;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fuCU47ydUGB46V/ndRRnE6AYBHpF+SD0efezkXvrbTk=;
-        b=oI7oMHHFWJmMg1qWgxEONX7WWnkq4uQnCYRPbtlEspyWkgGiuYAIR24rExLyNGzRKX
-         BVSmhVX8QMy5E1U/hTFwcXktnPwa9/Y2jPvpM8oCv+UMtdB0A18VQByrXPytrBelammw
-         uLLBqlMqT8h6tT1Au77TOZC907WLlebE8ZC4wNJyLqkD/9kyBpf6f21pqxZRheFWzsWa
-         0uY7GfLHGJrOpybOfqrILok+F/gcL/8sp8Gw7hHYGBNMHsK0T+pymAHYJTw+lYCrVBwn
-         ekDblrfYapXv60JmGkB2fDLcapVGdvMJizijgllK03KHzcNnnbOE6v/8R3xgiB2sGuZj
-         OXDA==
-X-Forwarded-Encrypted: i=1; AJvYcCUnlaH/KonbVwizWzBY5r/uYccM87/i1ge8VnK+CpGj5TVE7Hbh/tGpNsRpQ84zEAWQqRqj7RXvKgg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRcwDY0jcMY1QkDa/u+1qYtBi/7g22+asOxKuXWV2vhrscSjiz
-	2fxJqTbNRKuKBgrClimrZqBHTGjveJSgKu7LGkW9J0PvdIjGVbx00ieVjwINjWw=
-X-Google-Smtp-Source: AGHT+IFcb8zMj6HbZ7uiJi9b+LJKIWJQoRMly1GMxYKLr2MRNBXzWLfzWLRfmYBY2BPTmecCsd3Row==
-X-Received: by 2002:a17:903:2302:b0:207:20c5:42c with SMTP id d9443c01a7336-2076e40be2dmr38709985ad.45.1726135707779;
-        Thu, 12 Sep 2024 03:08:27 -0700 (PDT)
-Received: from localhost.localdomain ([2620:11a:c019:0:65e:3115:2f58:c5fd])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2076afe9da3sm11583795ad.239.2024.09.12.03.08.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Sep 2024 03:08:27 -0700 (PDT)
-From: Joe Damato <jdamato@fastly.com>
-To: netdev@vger.kernel.org
-Cc: mkarsten@uwaterloo.ca,
-	kuba@kernel.org,
-	skhawaja@google.com,
-	sdf@fomichev.me,
-	bjorn@rivosinc.com,
-	amritha.nambiar@intel.com,
-	sridhar.samudrala@intel.com,
-	Joe Damato <jdamato@fastly.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	David Ahern <dsahern@kernel.org>,
-	Johannes Berg <johannes.berg@intel.com>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [RFC net-next v3 5/9] net: napi: Add napi_config
-Date: Thu, 12 Sep 2024 10:07:13 +0000
-Message-Id: <20240912100738.16567-6-jdamato@fastly.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240912100738.16567-1-jdamato@fastly.com>
-References: <20240912100738.16567-1-jdamato@fastly.com>
+        d=1e100.net; s=20230601; t=1726136034; x=1726740834;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ax7dbBbCuzQUcfZcqCi06hx4jCIx6kiT7TrMLm6qkD0=;
+        b=jBWOEApUV+o7e6Yy+hRKuU+rdF2aJjE0vO3t4iyt7sdOmbqUrSHh/wTiclyKJJle6C
+         7TkuJOf9AhjK9tXxz/YFV6n3roFss1enIfFVqjuCP6HRwfUxwEg20R5wuxozJYti6nVu
+         RVsL7ehxHt0Vf9z+2dY2sMUmxELYppsX7oUqt7/fwPr/3Tkvl33Yj23x6CyXaRc8kAND
+         guwooClr5Is0eliilXc4p8/OpNUsna3tLmnt26Et/JnmCQ5N4eyaesWT4xJaqInLqdzk
+         I/DRRgCwmCheS0I/B4xmrqS4A6LVU7wTRFQlV8wVqZa6Z33H7n/6oIOBbpiZwalDHWBb
+         PBkA==
+X-Forwarded-Encrypted: i=1; AJvYcCWQgSRALWp4mfzDCSXK8YF9u87f0MK0GmQ5kcEH6iVBToBoRWKOHLathUX/DZJbFS/6BOt9Ecqs8Jc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzk62PQnuMDLh/zRO+RyNRpM43M4whFS61zGfC3h7VU3Rkln5kD
+	DvOTaSkQEu4wuhL62DKpJJgqyzv6upfyA1LWIiOKjs0r+pPKvgGZxDzKd8wTrlg=
+X-Google-Smtp-Source: AGHT+IGupFXKL8Oc6nvWjZJWcoxASYjloZVWY9tJWtiOtX2e41F+Jn5Rq4bbYQ4F3WiAHGg87siCJA==
+X-Received: by 2002:adf:eec5:0:b0:374:c231:a5ea with SMTP id ffacd0b85a97d-378c2cd39f8mr1794861f8f.5.1726136033785;
+        Thu, 12 Sep 2024 03:13:53 -0700 (PDT)
+Received: from ?IPV6:2a02:8428:e55b:1101:a464:2bc6:7cd8:5d56? (2a02-8428-e55b-1101-a464-2bc6-7cd8-5d56.rev.sfr.net. [2a02:8428:e55b:1101:a464:2bc6:7cd8:5d56])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956d3941sm13981214f8f.84.2024.09.12.03.13.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Sep 2024 03:13:53 -0700 (PDT)
+Message-ID: <31a1dfeb-2d72-44bc-b3ca-36b4115c3010@baylibre.com>
+Date: Thu, 12 Sep 2024 12:13:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 8/8] iio:adc:ad7606: Add iio-backend support
+To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ 20240705211452.1157967-2-u.kleine-koenig@baylibre.com,
+ 20240712171821.1470833-2-u.kleine-koenig@baylibre.com,
+ cover.1721040875.git.u.kleine-koenig@baylibre.com, aardelean@baylibre.com
+References: <20240815-ad7606_add_iio_backend_support-v1-0-cea3e11b1aa4@baylibre.com>
+ <20240815-ad7606_add_iio_backend_support-v1-8-cea3e11b1aa4@baylibre.com>
+ <5dedf51d8ec19b7b3bd0c6cb136048344f1c1007.camel@gmail.com>
+Content-Language: en-US
+From: Guillaume Stols <gstols@baylibre.com>
+In-Reply-To: <5dedf51d8ec19b7b3bd0c6cb136048344f1c1007.camel@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Add a persistent NAPI config area for NAPI configuration to the core.
-Drivers opt-in to setting the storage for a NAPI by passing an index
-when calling netif_napi_add_storage.
+On 9/5/24 10:40, Nuno Sá wrote:
+> On Thu, 2024-08-15 at 12:12 +0000, Guillaume Stols wrote:
+>> - Basic support for iio backend.
+>> - Supports IIO_CHAN_INFO_SAMP_FREQ R/W.
+>> - Only hardware mode is available, and that IIO_CHAN_INFO_RAW is not
+>>    supported if iio-backend mode is selected.
+>>
+>> A small correction was added to the driver's file name in the Kconfig
+>> file's description.
+>>
+>> Signed-off-by: Guillaume Stols <gstols@baylibre.com>
+>> ---
+> Hi Guillaume,
+>
+> Some initial feedback from me...
+>
+>>   drivers/iio/adc/Kconfig      |   3 +-
+>>   drivers/iio/adc/ad7606.c     | 103 +++++++++++++++++++++++++++++++++++-------
+>> -
+>>   drivers/iio/adc/ad7606.h     |  16 +++++++
+>>   drivers/iio/adc/ad7606_par.c |  98 +++++++++++++++++++++++++++++++++++++++-
+>>   4 files changed, 200 insertions(+), 20 deletions(-)
+>>
+>> diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
+>> index 88e8ce2e78b3..01248b6df868 100644
+>> --- a/drivers/iio/adc/Kconfig
+>> +++ b/drivers/iio/adc/Kconfig
+>> @@ -227,9 +227,10 @@ config AD7606_IFACE_PARALLEL
+>>   	help
+>>   	  Say yes here to build parallel interface support for Analog
+>> Devices:
+>>   	  ad7605-4, ad7606, ad7606-6, ad7606-4 analog to digital converters
+>> (ADC).
+>> +	  It also support iio_backended devices for AD7606B.
+>>   
+>>   	  To compile this driver as a module, choose M here: the
+>> -	  module will be called ad7606_parallel.
+>> +	  module will be called ad7606_par.
+>>   
+>>   config AD7606_IFACE_SPI
+>>   	tristate "Analog Devices AD7606 ADC driver with spi interface
+>> support"
+>> diff --git a/drivers/iio/adc/ad7606.c b/drivers/iio/adc/ad7606.c
+>> index 99d5ca5c2348..a753d5caa9f8 100644
+>> --- a/drivers/iio/adc/ad7606.c
+>> +++ b/drivers/iio/adc/ad7606.c
+>> @@ -21,6 +21,7 @@
+>>   #include <linux/util_macros.h>
+>>   #include <linux/units.h>
+>> +
+>> +	/* backend manages interruptions by itself.*/
+> missing space before closing the comment (also not sure the comments adds much)
 
-napi_config is allocated in alloc_netdev_mqs, freed in free_netdev
-(after the NAPIs are deleted), and set to 0 when napi_enable is called.
 
-Drivers which implement call netif_napi_add_storage will have persistent
-NAPI IDs.
+thx, will check again
 
-Signed-off-by: Joe Damato <jdamato@fastly.com>
----
- .../networking/net_cachelines/net_device.rst  |  1 +
- include/linux/netdevice.h                     | 34 +++++++++
- net/core/dev.c                                | 74 +++++++++++++++++--
- net/core/dev.h                                | 12 +++
- 4 files changed, 113 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/networking/net_cachelines/net_device.rst b/Documentation/networking/net_cachelines/net_device.rst
-index 3d02ae79c850..11d659051f5e 100644
---- a/Documentation/networking/net_cachelines/net_device.rst
-+++ b/Documentation/networking/net_cachelines/net_device.rst
-@@ -183,3 +183,4 @@ struct hlist_head                   page_pools
- struct dim_irq_moder*               irq_moder
- unsigned_long                       gro_flush_timeout
- u32                                 napi_defer_hard_irqs
-+struct napi_config*                 napi_config
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index 3e07ab8e0295..08afc96179f9 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -342,6 +342,15 @@ struct gro_list {
-  */
- #define GRO_HASH_BUCKETS	8
- 
-+/*
-+ * Structure for per-NAPI storage
-+ */
-+struct napi_config {
-+	u64 gro_flush_timeout;
-+	u32 defer_hard_irqs;
-+	unsigned int napi_id;
-+};
-+
- /*
-  * Structure for NAPI scheduling similar to tasklet but with weighting
-  */
-@@ -379,6 +388,8 @@ struct napi_struct {
- 	int			irq;
- 	unsigned long		gro_flush_timeout;
- 	u32			defer_hard_irqs;
-+	int			index;
-+	struct napi_config	*config;
- };
- 
- enum {
-@@ -2011,6 +2022,9 @@ enum netdev_reg_state {
-  *	@dpll_pin: Pointer to the SyncE source pin of a DPLL subsystem,
-  *		   where the clock is recovered.
-  *
-+ *	@napi_config: An array of napi_config structures containing per-NAPI
-+ *		      settings.
-+ *
-  *	FIXME: cleanup struct net_device such that network protocol info
-  *	moves out.
-  */
-@@ -2400,6 +2414,7 @@ struct net_device {
- 	struct dim_irq_moder	*irq_moder;
- 	unsigned long		gro_flush_timeout;
- 	u32			napi_defer_hard_irqs;
-+	struct napi_config	*napi_config;
- 
- 	u8			priv[] ____cacheline_aligned
- 				       __counted_by(priv_len);
-@@ -2650,6 +2665,23 @@ netif_napi_add_tx_weight(struct net_device *dev,
- 	netif_napi_add_weight(dev, napi, poll, weight);
- }
- 
-+/**
-+ * netif_napi_add_storage - initialize a NAPI context and set storage area
-+ * @dev: network device
-+ * @napi: NAPI context
-+ * @poll: polling function
-+ * @weight: the poll weight of this NAPI
-+ * @index: the NAPI index
-+ */
-+static inline void
-+netif_napi_add_storage(struct net_device *dev, struct napi_struct *napi,
-+		       int (*poll)(struct napi_struct *, int), int index)
-+{
-+	napi->index = index;
-+	napi->config = &dev->napi_config[index];
-+	netif_napi_add_weight(dev, napi, poll, NAPI_POLL_WEIGHT);
-+}
-+
- /**
-  * netif_napi_add_tx() - initialize a NAPI context to be used for Tx only
-  * @dev:  network device
-@@ -2685,6 +2717,8 @@ void __netif_napi_del(struct napi_struct *napi);
-  */
- static inline void netif_napi_del(struct napi_struct *napi)
- {
-+	napi->config = NULL;
-+	napi->index = -1;
- 	__netif_napi_del(napi);
- 	synchronize_net();
- }
-diff --git a/net/core/dev.c b/net/core/dev.c
-index f2fd503516de..ca2227d0b8ed 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -6493,6 +6493,18 @@ EXPORT_SYMBOL(napi_busy_loop);
- 
- #endif /* CONFIG_NET_RX_BUSY_POLL */
- 
-+static void napi_hash_add_with_id(struct napi_struct *napi, unsigned int napi_id)
-+{
-+	spin_lock(&napi_hash_lock);
-+
-+	napi->napi_id = napi_id;
-+
-+	hlist_add_head_rcu(&napi->napi_hash_node,
-+			   &napi_hash[napi->napi_id % HASH_SIZE(napi_hash)]);
-+
-+	spin_unlock(&napi_hash_lock);
-+}
-+
- static void napi_hash_add(struct napi_struct *napi)
- {
- 	if (test_bit(NAPI_STATE_NO_BUSY_POLL, &napi->state))
-@@ -6505,12 +6517,13 @@ static void napi_hash_add(struct napi_struct *napi)
- 		if (unlikely(++napi_gen_id < MIN_NAPI_ID))
- 			napi_gen_id = MIN_NAPI_ID;
- 	} while (napi_by_id(napi_gen_id));
--	napi->napi_id = napi_gen_id;
--
--	hlist_add_head_rcu(&napi->napi_hash_node,
--			   &napi_hash[napi->napi_id % HASH_SIZE(napi_hash)]);
- 
- 	spin_unlock(&napi_hash_lock);
-+
-+	napi_hash_add_with_id(napi, napi_gen_id);
-+
-+	if (napi->config)
-+		napi->config->napi_id = napi_gen_id;
- }
- 
- /* Warning : caller is responsible to make sure rcu grace period
-@@ -6631,6 +6644,21 @@ void netif_queue_set_napi(struct net_device *dev, unsigned int queue_index,
- }
- EXPORT_SYMBOL(netif_queue_set_napi);
- 
-+static void napi_restore_config(struct napi_struct *n)
-+{
-+	n->defer_hard_irqs = n->config->defer_hard_irqs;
-+	n->gro_flush_timeout = n->config->gro_flush_timeout;
-+	napi_hash_add_with_id(n, n->config->napi_id);
-+}
-+
-+static void napi_save_config(struct napi_struct *n)
-+{
-+	n->config->defer_hard_irqs = n->defer_hard_irqs;
-+	n->config->gro_flush_timeout = n->gro_flush_timeout;
-+	n->config->napi_id = n->napi_id;
-+	napi_hash_del(n);
-+}
-+
- void netif_napi_add_weight(struct net_device *dev, struct napi_struct *napi,
- 			   int (*poll)(struct napi_struct *, int), int weight)
- {
-@@ -6641,8 +6669,6 @@ void netif_napi_add_weight(struct net_device *dev, struct napi_struct *napi,
- 	INIT_HLIST_NODE(&napi->napi_hash_node);
- 	hrtimer_init(&napi->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL_PINNED);
- 	napi->timer.function = napi_watchdog;
--	napi_set_defer_hard_irqs(napi, READ_ONCE(dev->napi_defer_hard_irqs));
--	napi_set_gro_flush_timeout(napi, READ_ONCE(dev->gro_flush_timeout));
- 	init_gro_hash(napi);
- 	napi->skb = NULL;
- 	INIT_LIST_HEAD(&napi->rx_list);
-@@ -6660,7 +6686,15 @@ void netif_napi_add_weight(struct net_device *dev, struct napi_struct *napi,
- 	set_bit(NAPI_STATE_SCHED, &napi->state);
- 	set_bit(NAPI_STATE_NPSVC, &napi->state);
- 	list_add_rcu(&napi->dev_list, &dev->napi_list);
--	napi_hash_add(napi);
-+	/* if there is no config associated with this NAPI, generate a fresh
-+	 * NAPI ID and hash it. Otherwise, settings will be restored in napi_enable.
-+	 */
-+	if (!napi->config || (napi->config && !napi->config->napi_id)) {
-+		napi_hash_add(napi);
-+		napi_set_defer_hard_irqs(napi, READ_ONCE(dev->napi_defer_hard_irqs));
-+		napi_set_gro_flush_timeout(napi, READ_ONCE(dev->gro_flush_timeout));
-+	}
-+
- 	napi_get_frags_check(napi);
- 	/* Create kthread for this napi if dev->threaded is set.
- 	 * Clear dev->threaded if kthread creation failed so that
-@@ -6692,6 +6726,9 @@ void napi_disable(struct napi_struct *n)
- 
- 	hrtimer_cancel(&n->timer);
- 
-+	if (n->config)
-+		napi_save_config(n);
-+
- 	clear_bit(NAPI_STATE_DISABLE, &n->state);
- }
- EXPORT_SYMBOL(napi_disable);
-@@ -6714,6 +6751,9 @@ void napi_enable(struct napi_struct *n)
- 		if (n->dev->threaded && n->thread)
- 			new |= NAPIF_STATE_THREADED;
- 	} while (!try_cmpxchg(&n->state, &val, new));
-+
-+	if (n->config)
-+		napi_restore_config(n);
- }
- EXPORT_SYMBOL(napi_enable);
- 
-@@ -6736,7 +6776,13 @@ void __netif_napi_del(struct napi_struct *napi)
- 	if (!test_and_clear_bit(NAPI_STATE_LISTED, &napi->state))
- 		return;
- 
--	napi_hash_del(napi);
-+	if (!napi->config) {
-+		napi_hash_del(napi);
-+	} else {
-+		napi->index = -1;
-+		napi->config = NULL;
-+	}
-+
- 	list_del_rcu(&napi->dev_list);
- 	napi_free_frags(napi);
- 
-@@ -11049,6 +11095,8 @@ struct net_device *alloc_netdev_mqs(int sizeof_priv, const char *name,
- 		unsigned int txqs, unsigned int rxqs)
- {
- 	struct net_device *dev;
-+	size_t napi_config_sz;
-+	unsigned int maxqs;
- 
- 	BUG_ON(strlen(name) >= sizeof(dev->name));
- 
-@@ -11062,6 +11110,9 @@ struct net_device *alloc_netdev_mqs(int sizeof_priv, const char *name,
- 		return NULL;
- 	}
- 
-+	WARN_ON_ONCE(txqs != rxqs);
-+	maxqs = max(txqs, rxqs);
-+
- 	dev = kvzalloc(struct_size(dev, priv, sizeof_priv),
- 		       GFP_KERNEL_ACCOUNT | __GFP_RETRY_MAYFAIL);
- 	if (!dev)
-@@ -11136,6 +11187,11 @@ struct net_device *alloc_netdev_mqs(int sizeof_priv, const char *name,
- 	if (!dev->ethtool)
- 		goto free_all;
- 
-+	napi_config_sz = array_size(maxqs, sizeof(*dev->napi_config));
-+	dev->napi_config = kvzalloc(napi_config_sz, GFP_KERNEL_ACCOUNT);
-+	if (!dev->napi_config)
-+		goto free_all;
-+
- 	strscpy(dev->name, name);
- 	dev->name_assign_type = name_assign_type;
- 	dev->group = INIT_NETDEV_GROUP;
-@@ -11197,6 +11253,8 @@ void free_netdev(struct net_device *dev)
- 	list_for_each_entry_safe(p, n, &dev->napi_list, dev_list)
- 		netif_napi_del(p);
- 
-+	kvfree(dev->napi_config);
-+
- 	ref_tracker_dir_exit(&dev->refcnt_tracker);
- #ifdef CONFIG_PCPU_DEV_REFCNT
- 	free_percpu(dev->pcpu_refcnt);
-diff --git a/net/core/dev.h b/net/core/dev.h
-index a9d5f678564a..9eb3f559275c 100644
---- a/net/core/dev.h
-+++ b/net/core/dev.h
-@@ -167,11 +167,17 @@ static inline void napi_set_defer_hard_irqs(struct napi_struct *n, u32 defer)
- static inline void netdev_set_defer_hard_irqs(struct net_device *netdev,
- 					      u32 defer)
- {
-+	unsigned int count = max(netdev->num_rx_queues,
-+				 netdev->num_tx_queues);
- 	struct napi_struct *napi;
-+	int i;
- 
- 	WRITE_ONCE(netdev->napi_defer_hard_irqs, defer);
- 	list_for_each_entry(napi, &netdev->napi_list, dev_list)
- 		napi_set_defer_hard_irqs(napi, defer);
-+
-+	for (i = 0; i < count; i++)
-+		netdev->napi_config[i].defer_hard_irqs = defer;
- }
- 
- /**
-@@ -206,11 +212,17 @@ static inline void napi_set_gro_flush_timeout(struct napi_struct *n,
- static inline void netdev_set_gro_flush_timeout(struct net_device *netdev,
- 						unsigned long timeout)
- {
-+	unsigned int count = max(netdev->num_rx_queues,
-+				 netdev->num_tx_queues);
- 	struct napi_struct *napi;
-+	int i;
- 
- 	WRITE_ONCE(netdev->gro_flush_timeout, timeout);
- 	list_for_each_entry(napi, &netdev->napi_list, dev_list)
- 		napi_set_gro_flush_timeout(napi, timeout);
-+
-+	for (i = 0; i < count; i++)
-+		netdev->napi_config[i].gro_flush_timeout = timeout;
- }
- 
- int rps_cpumask_housekeeping(struct cpumask *mask);
--- 
-2.25.1
+>
+>> +	if (!st->back) {
+>> +		ret = wait_for_completion_timeout(&st->completion,
+>> +						  msecs_to_jiffies(1000));
+>> +		if (!ret) {
+>> +			ret = -ETIMEDOUT;
+>> +			goto error_ret;
+>> +		}
+>>   	}
+>>   
+>>   	ret = ad7606_read_samples(st);
+>> @@ -271,6 +284,12 @@ static int ad7606_read_raw(struct iio_dev *indio_dev,
+>>   	case IIO_CHAN_INFO_OVERSAMPLING_RATIO:
+>>   		*val = st->oversampling;
+>>   		return IIO_VAL_INT;
+>> +	case IIO_CHAN_INFO_SAMP_FREQ:
+>> +		pwm_get_state_hw(st->cnvst_pwm, &cnvst_pwm_state);
+>> +		/* If the PWM is swinging, return the real frequency,
+>> otherwise 0 */
+>> +		*val = ad7606_pwm_is_swinging(st) ?
+>> +			DIV_ROUND_CLOSEST_ULL(NSEC_PER_SEC,
+>> cnvst_pwm_state.period) : 0;
+>> +		return IIO_VAL_INT;
+>>   	}
+>>   	return -EINVAL;
+>>   }
+>> @@ -360,6 +379,8 @@ static int ad7606_write_raw(struct iio_dev *indio_dev,
+>>   			return ret;
+>>   
+>>   		return 0;
+>> +	case IIO_CHAN_INFO_SAMP_FREQ:
+>> +		return ad7606_set_sampling_freq(st, val);
+>>   	default:
+>>   		return -EINVAL;
+>>   	}
+>> @@ -482,7 +503,6 @@ static int ad7606_buffer_postenable(struct iio_dev
+>> *indio_dev)
+>>   	struct ad7606_state *st = iio_priv(indio_dev);
+>>   
+>>   	gpiod_set_value(st->gpio_convst, 1);
+>> -	ad7606_pwm_set_swing(st);
+>>   
+>>   	return 0;
+>>   }
+>> @@ -492,19 +512,53 @@ static int ad7606_buffer_predisable(struct iio_dev
+>> *indio_dev)
+>>   	struct ad7606_state *st = iio_priv(indio_dev);
+>>   
+>>   	gpiod_set_value(st->gpio_convst, 0);
+>> -	ad7606_pwm_set_low(st);
+>>   
+>>   	return 0;
+>>   }
+>>   
+>> +static int ad7606_pwm_buffer_postenable(struct iio_dev *indio_dev)
+>> +{
+>> +	struct ad7606_state *st = iio_priv(indio_dev);
+>> +
+>> +	return ad7606_pwm_set_swing(st);
+>> +}
+>> +
+>> +static int ad7606_pwm_buffer_predisable(struct iio_dev *indio_dev)
+>> +{
+>> +	struct ad7606_state *st = iio_priv(indio_dev);
+>> +
+>> +	return ad7606_pwm_set_low(st);
+>> +}
+> Maybe I'm missing something but are we removing the gpiod calls?
 
+
+Well actually the pwm is meant to be used only with backend. Though it 
+could be used without it, I dont think it is a very good idea because 
+interrupt handling + transmission init takes quite some time, and a new 
+rising edge could happen before the current samples are effectively 
+transferred. However, since PWM and backend are two separate things, I 
+wanted to show an usage for the PWM when introducing it, and one way to 
+do it was to use it to emulate a GPIO by setting the duty cycle 100% for 
+having a 1 (set_high) and 0% for having a 0 (set_low). Then on this 
+patch, since we introduce iio-backend, I removed this 'mock' usage of it.
+
+But I think that I should separate the removal into an additional patch 
+to avoid confusions. Or shall I just remove the mock usage from the PWM 
+patch ?
+
+
+>> +
+>> +static int ad7606_update_scan_mode(struct iio_dev *indio_dev,
+>> +				   const unsigned long *scan_mask)
+>> +{
+>> +	struct ad7606_state *st = iio_priv(indio_dev);
+>> +
+>> +	/* The update scan mode is only for iio backend compatible drivers.
+>> +	 * If the specific update_scan_mode is not defined in the bus ops,
+>> +	 * just do nothing and return 0.
+>> +	 */
+>> +	if (st->bops->update_scan_mode)
+>> +		return st->bops->update_scan_mode(indio_dev, scan_mask);
+>> +	else
+>> +		return 0;
+> Redundant else
+
+
+ack
+
+>> -	if (ret)
+>> -		return ret;
+>>   
+>> +	if (st->bops->iio_backend_config) {
+>> +		st->bops->iio_backend_config(dev, indio_dev);
+>> +		indio_dev->setup_ops = &ad7606_pwm_buffer_ops;
+> Ignoring error code
+
+
+will handle
+
+
+>
+>> +	} else {
+>> +		/* Reserve the PWM use only for backend (force gpio_convst
+>> definition)*/
+>> +		if (!st->gpio_convst)
+>> +			return dev_err_probe(dev, -EINVAL,
+>> +					     "Convst pin must be defined when
+>> not in backend mode");
+>> +
+>> +		init_completion(&st->completion);
+>> +		ret = devm_request_threaded_irq(dev, irq,
+>> +						NULL,
+>> +						&ad7606_interrupt,
+>> +						IRQF_TRIGGER_FALLING |
+>> IRQF_ONESHOT,
+>> +						chip_info->name, indio_dev);
+>> +		if (ret)
+>> +			return ret;
+>> +	}
+> Are we still calling devm_iio_triggered_buffer_setup() in case we have a backend
+> device?
+
+
+No, this portion of code is only executed if convst is defined 
+(conversion trigger GPIO), which is not the case if there is a backend.
+
+
+>
+>>   	return devm_iio_device_register(dev, indio_dev);
+>>   }
+> ...
+>
+>> +#ifdef CONFIG_IIO_BACKEND
+> Not a fan of this #ifef... It's not that much code so I would just select
+> IIO_BACKEND for this driver. In fact, I don't think we can separately enable
+> IIO_BACKEND in the menuconfig menu?
+
+
+OK I can do it that way.
+
+>> +static int ad7606_bi_setup_iio_backend(struct device *dev, struct iio_dev
+>> *indio_dev)
+>> +{
+>> +		struct ad7606_state *st = iio_priv(indio_dev);
+>> +		unsigned int ret, c;
+>> +
+>> +		st->back = devm_iio_backend_get(dev, NULL);
+>> +		if (IS_ERR(st->back))
+>> +			return PTR_ERR(st->back);
+>> +
+>> +		/* If the device is iio_backend powered the PWM is mandatory
+>> */
+>> +		if (!st->cnvst_pwm)
+>> +			return -EINVAL;
+>> +
+>> +		ret = devm_iio_backend_request_buffer(dev, st->back,
+>> indio_dev);
+>> +		if (ret)
+>> +			return ret;
+>> +
+>> +		ret = devm_iio_backend_enable(dev, st->back);
+>> +		if (ret)
+>> +			return ret;
+>> +
+>> +		struct iio_backend_data_fmt data = {
+>> +			.sign_extend = true,
+>> +			.enable = true,
+>> +		};
+> I would follow typical kernel coding style and have this declared at the
+> beginning of the function.
+
+
+aouch, yes !
+
+
+>> -
+>> +#ifdef CONFIG_IIO_BACKEND
+>> +	struct iio_backend *back;
+>> +
+>> +	/*For now, only the AD7606B is backend compatible.*/
+>> +	if (chip_info->has_backend) {
+>> +		back = devm_iio_backend_get(&pdev->dev, NULL);
+>> +		if (IS_ERR(back))
+>> +			return PTR_ERR(back);
+>> +
+>> +		return ad7606_probe(&pdev->dev, 0, NULL,
+>> +				    chip_info,
+>> +				    &ad7606_bi_bops);
+>> +	}
+>> +#endif
+> Not sure I follow the above? You also get the backend in
+> ad7606_bi_setup_iio_backend()? So it seems to be that the has_backend flag is
+> not really needed?
+
+
+The first call to devm_iio_backend_get checks if there is a backend 
+available, and if so the backend bops (ad7606_bi_bops)are passed to the 
+generic probe function.
+
+At this stage, the backend cannot be stored in the ad7606_state 
+structure because it is not initialized yet, it will be in the generic 
+probe function, hence the second call.
+
+The has_backend flag is discussed in my answer to Jonathan's comment, 
+and will probably be removed.
+
+>
+> - Nuno Sá
+>
+>
