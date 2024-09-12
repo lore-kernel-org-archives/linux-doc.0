@@ -1,316 +1,941 @@
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4441A2844;
-	Thu, 12 Sep 2024 14:04:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5B61B12E8;
+	Thu, 12 Sep 2024 14:25:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726149876; cv=none; b=KCnI2LW9Ah7flp7ZBJzxIh5NLhbuUgCAkVI11WyDLvBookJe98pL5dat6/6EaTR0WzLEXGsCvagbBDDeoPc8ctQgHt6+zG7EVJZ9VXeomDH0lhHvRJB/S8E5/gnPU5AL27Bkg/UZ5rT1yJBPvyEZAr3evNC5EcRoMtlMg80BFHI=
+	t=1726151149; cv=none; b=LcE04gFbY6lIUHZ2pewQzlLc6NwtBYpg63ksngnbMC3riofwoXNyjdjavQEdpWSXfyf/b9pUpvKANgaZVsN+7s9usdM/xj98vd4XjmiNd4j08wz0zDa6dexcqrQFelSx4Wl8BB7gzzh2bBwaAEFmLGl3H/qYdt7vtc4G9Xv1iag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726149876; c=relaxed/simple;
-	bh=hvaKpfn2DdAxxgbod+RqRvLfKoAeUljeIU8pyeGxmcg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UUh/hDerx+YJb1YUdxLqt2rX94NLa6tuJKjlOrSTgSf1BSnfWDmaZMNfUTS5zePPQJW+96P38Vkk7WGeUW+RV/mggSQFO3wpdgbKtJKh8mY65Slelc9a1CIf3D3SEYCBpgjQOOb7GozaD62YgzFmuG/TP0y7tc7Jbi9jkmXOzTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AvTjV0rD; arc=none smtp.client-ip=209.85.160.51
+	s=arc-20240116; t=1726151149; c=relaxed/simple;
+	bh=V/27BTJSPpWZpoZ+//KFUjhDLJCpsUHMazu7huPl3KU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TK3UgLwXd2EkWPuD8DI4niWUvBuM962CZpEmO7oNpfQHMxaj3E8RZMtTB8EZoxRooYNMhSVLm5PSeSxsFLfnJIiEBYN7+nZACWEGVYDMFPk7w1NKFHohtSLE9DqiD/7UP89++8s3wDH8lhLqgcYt3qq3OZ/hAcD6Ma1XPkIZGFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i7kXxdB8; arc=none smtp.client-ip=209.85.160.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AvTjV0rD"
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-27b55c4b35eso309326fac.3;
-        Thu, 12 Sep 2024 07:04:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i7kXxdB8"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4585e250f9dso5875361cf.1;
+        Thu, 12 Sep 2024 07:25:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726149873; x=1726754673; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hvaKpfn2DdAxxgbod+RqRvLfKoAeUljeIU8pyeGxmcg=;
-        b=AvTjV0rDKLqms8H3QNYRHE8s2JWWTFLqJXX4p9usMTl8y9o7qZ0rbQ4k8reBhtJnnb
-         Gz/4Za+D/9dFRMG1VE7HqiMZlQFNLV/ePQBXDBNqkdL/0QRiUiFCd6iWb5OSuFyNO4KF
-         SjwkLm5sVtEfozmBdBvdQlAZ1mW1ibV80XBgjYhOTXTo6YNsetd6sHHhdXEGzUkZKRo7
-         G1kkkDt9as626Trt36/Kd1xQt0dLh1Pr0pg6s87WNC7U6DVJIwrXMcnHYQtyyTL01Ssz
-         L781ucgCWyw6DWBO4eCfw8sS2EtPy/HrlegfUvV3RBm37LKPF1I3yVKZJyDRzrrSe/NN
-         HmQQ==
+        d=gmail.com; s=20230601; t=1726151145; x=1726755945; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GXT5cgnnfX8anm66ad5KKPSEt+y4rn8O/hAi+IZL2/U=;
+        b=i7kXxdB8czWdpOWpyZbVFtSt7NC2hye36JmTlD36t0GggnuMhnYgRsOOQtcR2cS9Ug
+         BT+I7UJ3ItUpr+3YpJRUGTB7qr8i7izKbTkKx9B8Jz2ufm9aDjlP485Q/pA+3/rptz6t
+         RUu2Q/z5gQwNkfjmr98tksLgSRXNU305v8rAyH8zta+wYRzwUL1ftHgJrsCMSPdAftM/
+         40MTwOxDt38mb1BUvuyYYmYdyTcX4Ng9TmHSr9MdWOrR+UupoST4peMlF2rr4ta2ui3b
+         zR5bmdvGh89kq+e6dBa/qUKWo0YpFkCOfMvL55mXFvI/N/LSwmmLSCYeNf4HGFH5QrcT
+         L+Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726149873; x=1726754673;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hvaKpfn2DdAxxgbod+RqRvLfKoAeUljeIU8pyeGxmcg=;
-        b=qMB8lvsi+6KBNnjIFxJdhQmD3rYVgBwoLERM4SmLJats1P/EzjATrJeLV4vM4h8g5v
-         aMPO++xDGDXCsnkQchp4/C4Vb2HTf2cCeclO8cwLEkKHnzJhDZzGknl7+WAGWRjeWkx8
-         MhpFn9loNw4FQawW/+/ZyJYgapA0anqb80AZuwN9UKQp8PbsSil6lbXes/rWeupL6p0q
-         zkmA4BgLgvilq0HzLXGEpbzM56ns0qPo82am4pBZ7lZP/BAvuJzz6rcFRSbojGgJB6/J
-         5KOPd70jJQStZuBX26qnAuvwWhXhS6+2QVJf9HhrBpOc7NscIjWvs0drQ//LPxCYErU+
-         7/bQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV9Kvn4aba1kskytjbitcGo3g68+Pnpv1YJCI5bGSjGaeYZ1nh8ZBGNc/xP2gBZAs5qUR1CcSQluHPxJgJP@vger.kernel.org, AJvYcCXRERXXFrLaPN2dshzYUz4auFPfU7Yc0JDatoHoZIUDgfUrSrwFcHdCmF978UHUYue4MkdaFg51g3M=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyp41UPIeUryk0w/uSkTPptdmOLgNB0fMdlj856omZ96LyuuGfa
-	Hh5cuNYSE7qFDnCEG6LULF3OJ/JO7xnJWgyL4qwTPbYNnq8QD7Lx+5psyIW9BVPdQuFUlC3LUE2
-	gOMGWuAFuOISHLW97St/UJtUof9M=
-X-Google-Smtp-Source: AGHT+IF69S1aNuPUq1Mc+1CR5B814wpKLqXGXnbmRlGTqKplQsPskHxeKZLcdVZoSeS4qrv9/CngszsmLBxDZ8bJkO8=
-X-Received: by 2002:a05:6870:829f:b0:261:21e9:1f0f with SMTP id
- 586e51a60fabf-27c3f6279cemr1471639fac.36.1726149872385; Thu, 12 Sep 2024
- 07:04:32 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1726151145; x=1726755945;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GXT5cgnnfX8anm66ad5KKPSEt+y4rn8O/hAi+IZL2/U=;
+        b=M8aOicPWORXN32RWWCjRuCebc3eO6SDv0TZdHwoy4hRzJ/8rfmsT/Eq/fh2NU9IdtD
+         PVZiYPY3zH0RGHhC963bMngce/KwZU+1EGbo00dEfF/vlhoFb+WUaJe+q15PHuaXra/P
+         m2xMKVUSPszcVtxLs4CfNYNHYlDOLG4TVTC0v9wR8+YGm9NylEBUP5nQCw7e8AxSg+iC
+         cw5nkLWHmoUS5vwbDyFHAurYOGB55TmyY116hgOYX6/PR/bR3Unr0Ao5fMLEFpTHOEUx
+         LVDxXds92qKA+5nJzBBPPTViU/SnYLzh2tOS6zIq/Tr3zaezQRuukuxzKnFOzwJGnUIa
+         gOZA==
+X-Forwarded-Encrypted: i=1; AJvYcCUlOCqos35QBv0Uk4dv9eQimbmJEvf1SnjEnnVTEpbOMNfRY/OLdzBVwOt/Jl/TxFCjylf/R9YnyigbrXQA@vger.kernel.org, AJvYcCXSQ85lXvQhJkdAU5XPpRJ04abNTM67l7pSHqKOlG7vryJAIID4FRSJP6Lw5Qn7gPGkABOGaPUF0iU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtUTeoq06USp7cYNqnCYFNo6fDs7NMw7vMTkmk96ouF9w+T/s2
+	8AS6NQdUeqnJT1D68m9g3cibqheZ2h+pCTllZjSwKZ6//a+8n4j0
+X-Google-Smtp-Source: AGHT+IHQr9MVQcz40Dg6aOJVM6WwhbyEotvzNqdnGBiw75Z0IchM6K6n92h4ZKHXwrM3xDUjQCjUug==
+X-Received: by 2002:a05:622a:178b:b0:450:4788:ac93 with SMTP id d75a77b69052e-4586031cfa2mr38394971cf.26.1726151145003;
+        Thu, 12 Sep 2024 07:25:45 -0700 (PDT)
+Received: from ip-172-31-16-54.ec2.internal (ec2-52-90-172-172.compute-1.amazonaws.com. [52.90.172.172])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45822f9a129sm53410071cf.95.2024.09.12.07.25.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Sep 2024 07:25:44 -0700 (PDT)
+From: Takahiro Itazuri <zulinx86@gmail.com>
+To: Thomas Gleixner <tglx@linutronix.de>,
+	Borislav Petkov <bp@alien8.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Takahiro Itazuri <zulinx86@gmail.com>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: Unify format for vulnerability sysfs
+Date: Thu, 12 Sep 2024 14:25:42 +0000
+Message-Id: <20240912142542.590907-1-zulinx86@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240912134743.1760-1-zpenya1314@gmail.com>
-In-Reply-To: <20240912134743.1760-1-zpenya1314@gmail.com>
-From: Dongliang Mu <mudongliangabcd@gmail.com>
-Date: Thu, 12 Sep 2024 22:04:06 +0800
-Message-ID: <CAD-N9QXoiRKzGBXSqRABkn=Na6GSmkeTL3-82eVEP+VYARp09g@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/mm: Translate page_tables.rst to Simplified Chinese
-To: Pengyu Zhang <zpenya1314@gmail.com>
-Cc: alexs@kernel.org, siyanteng@loongson.cn, corbet@lwn.net, seakeel@gmail.com, 
-	si.yanteng@linux.dev, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	yaxin_wang_uestc@163.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 
-T24gVGh1LCBTZXAgMTIsIDIwMjQgYXQgOTo0OOKAr1BNIFBlbmd5dSBaaGFuZyA8enBlbnlhMTMx
-NEBnbWFpbC5jb20+IHdyb3RlOg0KPg0KPiBUaGlzIHBhdGNoIHByb3ZpZGVzIGEgU2ltcGxpZmll
-ZCBDaGluZXNlIHRyYW5zbGF0aW9uIG9mIHRoZQ0KPiAicGFnZV90YWJsZXMucnN0IiBkb2N1bWVu
-dCwgYWltZWQgYXQgaW1wcm92aW5nIGFjY2Vzc2liaWxpdHkNCj4gZm9yIENoaW5lc2Utc3BlYWtp
-bmcgZGV2ZWxvcGVycyBhbmQgdXNlcnMuDQo+DQo+IFRoZSB0cmFuc2xhdGlvbiBwcmlvcml0aXpl
-cyB0ZWNobmljYWwgYWNjdXJhY3kgYW5kIHJlYWRhYmlsaXR5LA0KPiBlbnN1cmluZyB0aGF0IHRo
-ZSBjb250ZW50IHJlbWFpbnMgY2xlYXIgYW5kIGluZm9ybWF0aXZlIGZvcg0KPiBpdHMgaW50ZW5k
-ZWQgYXVkaWVuY2Uu77yaDQo+DQo+IFNpZ25lZC1vZmYtYnk6IFBlbmd5dSBaaGFuZyA8enBlbnlh
-MTMxNEBnbWFpbC5jb20+DQo+IC0tLQ0KDQpQZW5neXUsDQoNCndoZW4geW91IHNlbmQgYSBuZXh0
-IHZlcnNpb24oZS5nLiwgdjIpLCBwbGVhc2UgdXNlIHRoZSBmb2xsb3dpbmcgaW5zdHJ1Y3Rpb246
-DQoNCmdpdCBmb3JtYXQtcGF0Y2ggLS1zdWJqZWN0LXByZWZpeD0iUEFUQ0ggdjIiDQoNClRoZW4g
-YWRkIGNoYW5nZWxvZyBhZnRlciAiLS0tIiwgZm9yIGV4YW1wbGUsDQoNCnYxLT52MjogZml4IGlz
-c3VlcyBtZW50aW9uZWQgYnkgQWxleCwgWFhYDQoNClRoaXMgY2FuIGhlbHAgcmV2aWV3ZXJzIHRv
-IHVuZGVyc3RhbmQgd2hhdCB5b3UgaGF2ZSBjaGFuZ2VkIHRvIHRoZQ0KcHJldmlvdXMgdmVyc2lv
-bi4NCg0KPiAgLi4uL3RyYW5zbGF0aW9ucy96aF9DTi9tbS9wYWdlX3RhYmxlcy5yc3QgICAgIHwg
-MjA1ICsrKysrKysrKysrKysrKysrKw0KPiAgMSBmaWxlIGNoYW5nZWQsIDIwNSBpbnNlcnRpb25z
-KCspDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhf
-Q04vbW0vcGFnZV90YWJsZXMucnN0DQo+DQo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3Ry
-YW5zbGF0aW9ucy96aF9DTi9tbS9wYWdlX3RhYmxlcy5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5z
-bGF0aW9ucy96aF9DTi9tbS9wYWdlX3RhYmxlcy5yc3QNCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQN
-Cj4gaW5kZXggMDAwMDAwMDAwMDAwLi4wYTE3YzNjZWY0ZDUNCj4gLS0tIC9kZXYvbnVsbA0KPiAr
-KysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9tbS9wYWdlX3RhYmxlcy5yc3QN
-Cj4gQEAgLTAsMCArMSwyMDUgQEANCj4gKy4uIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwt
-Mi4wDQo+ICsNCj4gKz09PT09PT09PT09DQo+ICsgICDpobUg6KGoDQo+ICs9PT09PT09PT09PQ0K
-PiArDQo+ICvliIbpobXomZrmi5/lhoXlrZjpmo/omZrmi5/lhoXlrZjnmoTmpoLlv7XkuIDotbfk
-uo4xOTYy5bm05ZyoRmVycmFudGkgQXRsYXPorqHnrpfmnLrkuIrooqvmj5Dlh7rnmoTvvIwNCj4g
-K+i/meaYr+esrOS4gOWPsOacieWIhumhteiZmuaLn+WGheWtmOeahOiuoeeul+acuuOAgumaj+ed
-gOaXtumXtOaOqOenu++8jOi/meS4queJueaAp+iiq+i/geenu+WIsOabtOaWsOeahOiuoeeul+ac
-uuS4ig0KPiAr5bm25LiU5oiQ5Li65omA5pyJ57G7VW5peOezu+e7n+WunumZheeahOeJueaAp+OA
-guWcqDE5ODXlubTvvIzov5nkuKrnibnmgKfooqvljIXlkKvlnKjkuoboi7HnibnlsJQ4MDM4NuS4
-re+8jA0KPiAr5Lmf5bCx5pivTGludXggMS4w5Z+65LqO55qEQ1BV44CCDQo+ICsNCj4gK+mhteih
-qOWwhkNQVeeci+WIsOeahOiZmuaLn+WcsOWdgOaYoOWwhOWIsOWklumDqOWGheWtmOaAu+e6v+S4
-iueci+WIsOeahOeJqeeQhuWcsOWdgOOAgg0KPiArDQo+ICtMaW51eOWwhumhteihqOWumuS5ieS4
-uuS4gOS4quWIhue6p+e7k+aehO+8jOebruWJjeacieS6lOe6p+OAguWvueS6juaUr+aMgeeahOav
-j+enjeaetuaehO+8jOWFtuS7o+eggeS8muagueaNruehrOS7tumZkOWItg0KPiAr5a+56L+Z5Liq
-5bGC57qn57uT5p6E6L+b6KGM5pig5bCE44CCDQo+ICsNCj4gK+iZmuaLn+WcsOWdgOWvueW6lOea
-hOeJqeeQhuWcsOWdgOmAmuW4uOeUseW6leWxgueJqeeQhumhteW4p+W8leeUqOOAgiAqKumhteW4
-p+WPtyhwYWdlIGZyYW1lIG51bWJlcu+8jCBwZm4pKioNCj4gK+aYr+mhteeahOeJqeeQhuWcsOWd
-gO+8iOWcqOWklumDqOWGheWtmOaAu+e6v+eci+WIsOeahOWcsOWdgO+8iemZpOS7pSBgUEFHRV9T
-SVpFIGDlvpfliLDnmoTlgLzjgIINCj4gKw0KPiAr54mp55CG5YaF5a2Y5Zyw5Z2AMOWvueW6lCpw
-Zm4gMCrvvIzogIzmnIDlpKfnmoRwZm7lr7nlupTlpITnkIblmajlpJbpg6jlnLDlnYDmgLvnur/m
-iYDog73lr7vlnYDniannkIblnLDlnYDnmoTmnIDlkI7kuIDpobXjgIINCj4gKw0KPiAr5Zyo6aG1
-57KS5bqm5Li6NEtC5LiU5Zyw5Z2A6IyD5Zu05Li6MzLkvY3nmoTmg4XlhrXkuIvvvIxwZm4gMOWv
-ueW6lOWcsOWdgDB4MDAwMDAwMDDvvIxwZm4gMeWvueW6lA0KPiAr5Zyw5Z2AMHgwMDAwMTAwMO+8
-jHBmbiAy5a+55bqU5Zyw5Z2AMHgwMDAwMjAwMO+8jOS7peatpOexu+aOqO+8jOebtOWIsHBmbiAw
-eGZmZmZm5a+55bqUDQo+ICsweGZmZmZmMDAw44CC5aaC5p6c6aG157KS5bqm5Li6MTZLQu+8jOWI
-mXBmbuWIhuWIq+WvueW6lOWcsOWdgDB4MDAwMDQwMDDjgIENCj4gKzB4MDAwMDgwMDAuLi4weGZm
-ZmZjMDAw77yMcGZu55qE6IyD5Zu05LuOMOWIsDB4M2ZmZmZm44CCDQo+ICsNCj4gK+WmguS9oOaJ
-gOinge+8jOWvueS6jjRLQumhtemdoueykuW6pu+8jOmhteWfuuWdgOS9v+eUqOWcsOWdgOeahDEy
-LTMx5L2N77yM6L+Z5bCx5piv5Li65LuA5LmI5Zyo6L+Z56eN5oOF5Ya15LiLDQo+ICtgUEFHRV9T
-SElGVGDooqvlrprkuYnkuLoxMu+8jOW5tuS4lCBgUEFHRV9TSVpFYOmAmuW4uOeUsemhteWBj+en
-u+WumuS5ie+8jOS4uiBgKDEgPDwgUEFHRV9TSElGVClg44CCDQo+ICsNCj4gK+maj+edgOWGheWt
-mOWuuemHj+eahOWinuWKoO+8jOS5heiAjOS5heS5i+Wxgue6p+e7k+aehOmAkOa4kOWKoOa3seOA
-gkxpbnV45pyA5Yid5L2/55SoNEtC6aG16Z2i5ZKM5LiA5Liq6KKr56ew5Li6DQo+ICtgc3dhcHBl
-cl9wZ19kaXJgIOeahOmhteihqO+8jOivpemhteihqOaLpeaciTEwMjTkuKrmnaHnm64oZW50cmll
-cynvvIzopobnm5Y0TULnmoTlhoXlrZjvvIzkuovlrp7kuIpUb3J2YWxkDQo+ICvnmoTnrKzkuIDl
-j7DorqHnrpfmnLrmraPlpb3lsLHmnIk0TULniannkIblhoXlrZjjgILmnaHnm67lnKjov5nlvKDo
-oajkuK3ooqvnp7DkuLoqUFRFKjpzIC3pobXooajpobkocGFnZSB0YWJsZSBlbnRyaWVzKeOAgg0K
-PiArDQo+ICvova/ku7bpobXooajlsYLnuqfnu5PmnoTlj43mmKDkuobpobXooajnoazku7blt7Ln
-u4/lj5jlvpfliIblsYLljJbnmoTkuovlrp7vvIzogIzov5nnp43liIblsYLljJbnmoTnm67nmoTm
-mK/kuLrkuoYNCj4gK+iKguecgemhteihqOWGheWtmOW5tuWKoOW/q+WcsOWdgOaYoOWwhOmAn+W6
-puOAgg0KPiArDQo+ICvlvZPnhLbvvIzkurrku6zlj6/ku6Xmg7PosaHkuIDlvKDmi6XmnInlpKfp
-h4/mnaHnm67nmoTljZXkuIDnur/mgKfnmoTpobXooajlsIbmlbTkuKrlhoXlrZjliIbkuLrkuIDk
-uKrkuKrpobXjgILogIzkuJTvvIzov5nmoLfnmoQNCj4gK+mhteihqOS8mumdnuW4uOeogOeWj++8
-jOWboOS4uuiZmuaLn+WGheWtmOS4reWkp+mDqOWIhuS9jee9rumAmuW4uOaYr+acquS9v+eUqOea
-hOOAgumAmui/h+mhteihqOWIhuWxgu+8jOiZmuaLn+WGheWtmOS4reeahOWkp+mHj+epuua0ng0K
-PiAr5LiN5Lya5rWq6LS55a6d6LS155qE6aG16KGo5YaF5a2Y77yM5Zug5Li65Y+q6ZyA6KaB5Zyo
-5LiK5bGC6aG16KGo5Lit5bCG5aSn5Z2X55qE5Yy65Z+f5qCH6K6w5Li65pyq5pig5bCE5Y2z5Y+v
-44CCDQo+ICsNCj4gK+WPpuWklu+8jOWcqOeOsOS7o+WkhOeQhuWZqOS4re+8jOS4iuWxgumhteih
-qOadoeebruWPr+S7peebtOaOpeaMh+WQkeS4gOS4queJqeeQhuWcsOWdgOiMg+WbtO+8jOi/meS9
-v+W+l+WNleS4quS4iuWxgumhteihqOadoeebrg0KPiAr5Y+v5Lul6L+e57ut5pig5bCE5Yeg5YWG
-5a2X6IqC55Sa6Iez5Yeg5Y2D5YWG5a2X6IqC55qE5YaF5a2Y6IyD5Zu077yM5LuO6ICM5b+r5o23
-5Zyw5a6e546w6Jma5ouf5Zyw5Z2A5Yiw54mp55CG5Zyw5Z2A55qE5pig5bCE77yaDQo+ICvlvZPk
-vaDmib7liLDkuIDkuKrlg4/ov5nmoLfnmoTlpKflnovmmKDlsITojIPlm7Tml7bvvIzml6DpnIDl
-nKjlsYLnuqfnu5PmnoTkuK3ov5vkuIDmraXpgY3ljobjgIINCj4gKw0KPiAr6aG16KGo55qE5bGC
-57qn57uT5p6E55uu5YmN5Y+R5bGV5Li65aaC5LiL5omA56S6OjoNCj4gKw0KPiArICArLS0tLS0r
-DQo+ICsgIHwgUEdEIHwNCj4gKyAgKy0tLS0tKw0KPiArICAgICB8DQo+ICsgICAgIHwgICArLS0t
-LS0rDQo+ICsgICAgICstLT58IFA0RCB8DQo+ICsgICAgICAgICArLS0tLS0rDQo+ICsgICAgICAg
-ICAgICB8DQo+ICsgICAgICAgICAgICB8ICAgKy0tLS0tKw0KPiArICAgICAgICAgICAgKy0tPnwg
-UFVEIHwNCj4gKyAgICAgICAgICAgICAgICArLS0tLS0rDQo+ICsgICAgICAgICAgICAgICAgICAg
-fA0KPiArICAgICAgICAgICAgICAgICAgIHwgICArLS0tLS0rDQo+ICsgICAgICAgICAgICAgICAg
-ICAgKy0tPnwgUE1EIHwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgKy0tLS0tKw0KPiArICAg
-ICAgICAgICAgICAgICAgICAgICAgICB8DQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgIHwg
-ICArLS0tLS0rDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICstLT58IFBURSB8DQo+ICsg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICArLS0tLS0rDQo+ICsNCj4gKw0KPiAr5LiN5ZCM
-6aG16KGo5bGC57qn55qE56ym5Y+35ZCr5LmJ5LuO5pyA5bqV5bGC5byA5aeL5aaC5LiL77yaDQo+
-ICsNCj4gKy0gKipwdGUqKiwgYHB0ZV90YCwgYHB0ZXZhbF90YCA9ICoq6aG16KGo5p2h55uuKiog
-LSDliY3pnaLmj5DliLDov4cuDQo+ICsgICpwdGUq5piv5LiA5Liq55SxIGBQVFJTX1BFUl9QVEVg
-5LiqIGBwdGV2YWxfdGDnsbvlnovlhYPntKDnu4TmiJDnmoTmlbDnu4TvvIzmr4/kuKrlhYPntKDl
-sIbkuIDkuKoNCj4gKyAg6Jma5ouf5YaF5a2Y6aG15pig5bCE5Yiw5LiA5Liq54mp55CG5YaF5a2Y
-6aG144CC5L2T57O757uT5p6E5a6a5LmJ5LqGIGBwdGV2YWxfdGDnmoTlpKflsI/lkozlhoXlrrnj
-gIINCj4gKw0KPiArICDkuIDkuKrlhbjlnovnmoTkvovlrZDmmK8gYHB0ZXZhbF90YOaYr+S4gOS4
-qjMy5oiW6ICFNjTkvY3nmoTlgLzvvIzlhbbkuK3pq5jkvY3mmK8qKnBmbioqKOmhteW4p+WPtynv
-vIwNCj4gKyAg6ICM5L2O5L2N5YiZ5LiA5Lqb54m55a6a5L2T57O75p625p6E55u45YWz55qE5L2N
-77yM5aaC5YaF5a2Y5L+d5oqk44CCDQo+ICsNCj4gKyAgKirmnaHnm64oZW50cnkpKirov5nkuKrl
-kI3lrZfmnInngrnku6Tkurrlm7Dmg5HvvIzlm6DkuLrlnKhMaW51eCAxLjDkuK3lroPnoa7lrp7m
-jIfnmoTmmK/ljZXlsYLpobbnuqfpobXooajkuK3nmoTljZXkuKoNCj4gKyAg6aG16KGo6aG577yM
-5L2G5Zyo6aaW5qyh5byV5YWl5LqM57qn6aG16KGo5pe277yM5a6D6KKr6KKr6YeN5paw5a6a5LmJ
-5Li65pig5bCE5YWD57Sg55qE5pWw57uE44CC5Zug5q2k77yMKnB0ZSrnjrDlnKjmjIfnmoQNCj4g
-KyAg5piv5pyA5bqV5bGC55qE6aG1KuihqCrvvIzogIzkuI3mmK/kuIDkuKrpobXooagq5p2h55uu
-KuOAgg0KPiArDQo+ICstICoqcG1kKiosIGBwbWRfdGAsIGBwbWR2YWxfdGAgPSAqKumhteS4remX
-tOebruW9lShQYWdlIE1pZGRsZSBEaXJlY3RvcnkpKiosDQo+ICsgIOS9jeS6jipwdGUq5LmL5LiK
-55qE5bGC57qn57uT5p6E77yM5YyF5ZCrIGBQVFJTX1BFUl9QTURgIOS4quaMh+WQkSpwdGUq55qE
-5byV55So44CCDQo+ICsNCj4gKy0gKipwdWQqKiwgYHB1ZF90YCwgYHB1ZHZhbF90YCA9ICoq6aG1
-5LiK57qn55uu5b2VKFBhZ2UgVXBwZXIgRGlyZWN0b3J5KSoq5pivDQo+ICsgIOWcqOWFtuS7luWx
-gue6p+S5i+WQjuW8leWFpeeahO+8jOeUqOS6juWkhOeQhuWbm+e6p+mhteihqOOAguWug+WPr+iD
-veacquiiq+S9v+eUqO+8jOaIluiAheWDj+aIkeS7rOeojeWQjuiuqOiuuueahOmCo+agtw0KPiAr
-ICDooqvigJzmipjlj6DigJ3jgIINCj4gKw0KPiArLSAqKnA0ZCoqLCBgcDRkX3RgLCBgcDRkdmFs
-X3RgID0gKirpobXlm5vnuqfnm67lvZUoUGFnZSBMZXZlbCA0IERpcmVjdG9yeSkqKg0KPiArICDm
-mK/lnKgqcHVkKuS5i+WQjueUqOS6juWkhOeQhuS6lOe6p+mhteihqOW8leWFpeeahOOAguiHs+at
-pO+8jOaYvueEtumcgOimgeeUqOaVsOWtl+adpeabv+S7oypwZ2Qq44CBKnBtZCrjgIENCj4gKyAg
-KnB1ZCrnrYnnm67lvZXlsYLnuqfnmoTlkI3np7DvvIzkuI3og73lho3nu6fnu63kvb/nlKjkuLTm
-l7bnmoTlkb3lkI3mlrnlvI/jgILov5nkuKrnm67lvZXlsYLnuqflj6rlnKjlrp7pmYXmi6XmnIkN
-Cj4gKyAg5LqU57qn6aG16KGo55qE57O757uf5LiK5L2/55So77yM5ZCm5YiZ5a6D5Lya6KKr5oqY
-5Y+g44CCDQo+ICsNCj4gKy0gKipwZ2QqKiwgYHBnZF90YCwgYHBnZHZhbF90YCA9ICoq6aG15YWo
-5bGA55uu5b2VKFBhZ2UgR2xvYmFsIERpcmVjdG9yeSkqKiAtDQo+ICsgIExpbnV45YaF5qC455So
-5LqO5aSE55CG5YaF5qC45YaF5a2Y55qEKlBHRCrkuLvpobXooajku43nhLbkvY3kuo4gYHN3YXBw
-ZXJfcGdfZGlyYOOAgg0KPiArICDkvYbns7vnu5/kuK3nmoTmr4/kuKrnlKjmiLfnqbrpl7Tov5vn
-qIvkuZ/mnInoh6rlt7HnmoTlhoXlrZjkuIrkuIvmlofvvIzlm6DmraTkuZ/mnInoh6rlt7HnmoQq
-cGdkKu+8jA0KPiArICDlroPkvY3kuo4gYHN0cnVjdCBtbV9zdHJ1Y3Rg5Lit77yM6ICMIGBzdHJ1
-Y3QgbW1fc3RydWN0YOWPiOWcqOavj+S4qiBgc3RydWN0IHRhc2tfc3RydWN0YA0KPiArICDkuK3m
-nInlvJXnlKjjgILmiYDku6XvvIzku7vliqHvvIjov5vnqIvvvInlrZjlnKjkuIDkuKrlvaLlvI/k
-uLogYHN0cnVjdCBtbV9zdHJ1Y3Rg55qE5YaF5a2Y5LiK5LiL5paH77yMDQo+ICsgIOiAjOi/meS4
-que7k+aehOS9k+S4reacieS4gOS4quaMh+WQkeaMh+WQkeebuOW6lOeahOmhteWFqOWxgOebruW9
-lSBgc3RydWN0IHBndF90ICpwZ2Rg5oyH6ZKI44CCDQo+ICsNCj4gK+mHjeeUs+S4gOS4i++8mumh
-teihqOWxgue6p+e7k+aehOS4reeahOavj+S4gOWxgumDveaYr+S4gOS4qirmjIfpkojmlbDnu4Qq
-77yM5omA5LulKnBnZCrljIXlkKsgYFBUUlNfUEVSX1BHRGAg5LiqDQo+ICvmjIflkJHkuIvkuIDl
-sYLnmoTmjIfpkojvvIwqcDRkKiDljIXlkKsgYFBUUlNfUEVSX1A0RGAg5Liq5oyH5ZCRICpwdWQq
-IOmhueeahOaMh+mSiO+8jOS+neatpOexu+aOqOOAgg0KPiAr5q+P5LiA5bGC55qE5oyH6ZKI5pWw
-6YeP55Sx5L2T57O757uT5p6E5a6a5LmJ44CCOjoNCj4gKw0KPiArICAgICAgICBQTUQNCj4gKyAg
-LS0+ICstLS0tLSsgICAgICAgICAgIFBURQ0KPiArICAgICAgfCBwdHIgfC0tLS0tLS0+ICstLS0t
-LSsNCj4gKyAgICAgIHwgcHRyIHwtICAgICAgICB8IHB0ciB8LS0tLS0tLT4gUEFHRQ0KPiArICAg
-ICAgfCBwdHIgfCBcICAgICAgIHwgcHRyIHwNCj4gKyAgICAgIHwgcHRyIHwgIFwgICAgICAgIC4u
-Lg0KPiArICAgICAgfCAuLi4gfCAgIFwNCj4gKyAgICAgIHwgcHRyIHwgICAgXCAgICAgICAgIFBU
-RQ0KPiArICAgICAgKy0tLS0tKyAgICAgKy0tLS0+ICstLS0tLSsNCj4gKyAgICAgICAgICAgICAg
-ICAgICAgICAgICB8IHB0ciB8LS0tLS0tLT4gUEFHRQ0KPiArICAgICAgICAgICAgICAgICAgICAg
-ICAgIHwgcHRyIHwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgIC4uLg0KPiArDQo+ICvp
-obXooajmipjlj6ANCj4gKz09PT09PT09PT09PT09PT09PQ0KPiAr5aaC5p6c5p625p6E5LiN5L2/
-55So5omA5pyJ55qE6aG16KGo5bGC57qn77yM6YKj5LmI6L+Z5Lqb5bGC57qn5Y+v5Lul6KKrKuaK
-mOWPoCrvvIzkuZ/lsLHmmK/or7Tooqvot7Pov4fjgIINCj4gK+WcqOiuv+mXruS4i+S4gOWxguaX
-tu+8jOaJgOacieWcqOmhteihqOS4iuaJp+ihjOeahOaTjeS9nOmDveS8muWcqOe8luivkeaXtuWi
-nuW8uu+8jOS7pei3s+i/h+i/meS4gOWxguOAgg0KPiArDQo+ICvluIzmnJvkuI7mnrbmnoTml6Dl
-hbPnmoTpobXooajlpITnkIbku6PnoIHvvIjkvovlpoLomZrmi5/lhoXlrZjnrqHnkIblmajvvInp
-nIDopoHnvJblhpnlvpfog73lpJ/pgY3ljoblvZPliY3nmoQNCj4gK+aJgOacieS6lOS4quWxgue6
-p+OAguWvueS6jueJueWumuaetuaehOeahOS7o+egge+8jOS5n+W6lOS8mOWFiOmHh+eUqOi/meen
-jemjjuagvO+8jOS7peS+v+WvueacquadpeeahOWPmOWMluWFt+aciQ0KPiAr5pu05aW955qE6YCC
-5bqU5oCn44CCDQo+ICsNCj4gK01NVSwgVExCLCBhbmQg57y66aG15byC5bi4DQo+ICs9PT09PT09
-PT09PT09PT09PT09PT09PT09DQo+ICsNCj4gK2DlhoXlrZjnrqHnkIbljZXlhYMoTU1VKWDmmK/l
-pITnkIbomZrmi5/lnLDlnYDliLDniannkIblnLDlnYDovazmjaLnmoTnoazku7bnu4Tku7bjgILl
-roPlj6/og73kvJrkvb/nlKgNCj4gK+ebuOWvuei+g+Wwj+eahOehrOS7tue8k+WtmO+8jOWmgiBg
-6L2s5o2i5ZCO5aSH57yT5Yay5Yy6KFRMQilg5ZKMIGDpobXpgY3ljobnvJPlrZhg77yM5Lul5Yqg
-5b+r6L+Z5Lqb5Zyw5Z2A57+76K+R6L+H56iL44CCDQo+ICsNCj4gK+W9k0NQVeiuv+WtmOaXtu+8
-jOWug+S8muWQkU1NVeaPkOS+m+S4gOS4quiZmuaLn+WcsOWdgOOAgk1NVeS8mummluWFiOajgOaf
-pVRMQuaIluiAhemhtemBjeWOhue8k+WtmCjlnKjmlK/mjIHnmoTmnrbmnoTkuIopDQo+ICvmmK/l
-kKblrZjlnKjlr7nlupTnmoTovazmjaLnu5PmnpzjgILlpoLmnpzmsqHmnInvvIxNTVXkvJrpgJro
-v4fpgY3ljobmnaXnoa7lrprniannkIblnLDlnYDlubbkuJTlu7rnq4vmmKDlsITjgIINCj4gKw0K
-PiAr5b2T6aG16Z2i6KKr5YaZ5YWl5pe277yM6K+l6aG155qE6ISP5L2N5Lya6KKr6K6+572uKOWN
-s+aJk+W8gCnjgILmr4/kuKrlhoXlrZjpobXpnaLpg73mnInnm7jlhbPnmoTmnYPpmZDkvY3lkozo
-hI/kvY3jgILlkI7ogIXooajmmI7ov5nkuKrpobUNCj4gK+iHquS7juiiq+WKoOi9veWIsOWGheWt
-mOS7peadpeaYr+WQpuiiq+S/ruaUueOAgg0KPiArDQo+ICvlpoLmnpzmsqHmnInku7vkvZXpmLvn
-oo3vvIzniannkIblhoXlrZjliLDlpLTmnaXlj6/ku6Xooqvku7vmhI/orr/pl67lubbkuJTlr7nn
-iannkIbluKfov5vooYzor7fmsYLnmoTmk43kvZzjgIINCj4gKw0KPiArTU1V5peg5rOV5om+5Yiw
-5p+Q5Lqb6L2s5o2i5pyJ5aSa56eN5Y6f5Zug44CC5pyJ5Y+v6IO95pivQ1BV6K+V5Zu+5Y676K6/
-6Zeu5b2T5YmN6L+b56iL5rKh5pyJ5p2D6ZmQ6K6/6Zeu55qE5YaF5a2Y77yMDQo+ICvmiJbogIXl
-m6DkuLrorr/pl67nmoTmlbDmja7ov5jkuI3lnKjniannkIblhoXlrZjkuK3jgIINCj4gKw0KPiAr
-5b2T6L+Z5Lqb5oOF5Ya15Y+R55Sf5pe277yMTU1V5Lya6Kem5Y+R57y66aG15byC5bi477yM6L+Z
-5piv5LiA56eN5byC5bi457G75Z6L77yM55So5LqO6YCa55+lQ1BV5pqC5YGc5b2T5YmN5omn6KGM
-DQo+ICvlubbov5DooYzkuIDkuKrnibnmrornmoTlh73mlbDljrvlpITnkIbov5nkupvlvILluLjj
-gIINCj4gKw0KPiAr57y66aG15byC5bi45pyJ5LiA5Lqb5bi46KeB5LiU6aKE5pyf55qE5Y6f5Zug
-44CC6L+Z5Lqb5Zug57Sg5piv55Sx56ew5Li64oCc5oeS5Yqg6L294oCd5ZKM4oCc5YaZ5pe25aSN
-5Yi24oCd55qE6L+b56iL566h55CG5LyY5YyW5oqA5pyvDQo+ICvmnaXop6blj5HjgILnvLrpobXl
-vILluLjkuZ/lj6/og73lj5HnlJ/lnKjlvZPpobXluKfooqvkuqTmjaLliLDmjIHkuYXlrZjlgqgo
-5Lqk5o2i5YiG5Yy65oiW6ICF5paH5Lu2KeW5tuS7juWFtueJqeeQhuWcsOWdgOenu+WHuuaXtuOA
-gg0KPiArDQo+ICvov5nkupvmioDmnK/mj5Dpq5jkuoblhoXlrZjmlYjnjofvvIzlh4/lsJHkuobl
-u7bov5/vvIzlubbkuJTmnIDlsI/ljJbkuobnqbrpl7TljaDnlKjjgILmnKzmlofmoaPkuI3kvJrm
-t7HlhaXorqjorrrigJzmh5LliqDovb3igJ0NCj4gK+WSjOKAnOWGmeaXtuWkjeWItueahOe7huiK
-gu+8jOWboOS4uui/meS6m+eahOS4u+mimOWxnuS6jui/m+eoi+WcsOWdgOeuoeeQhuiMg+eVtO+8
-jOi2heWHuuS6huacrOaWh+iMg+WbtOOAgg0KPiArDQo+ICvkuqTmjaLmioDmnK/lkozliY3pnaLm
-j5DliLDnmoTlhbbku5bmioDmnK/kuI3lkIzvvIzlm6DkuLrlroPmmK/lnKjljovlipvov4flpKfk
-uIvmg4XlhrXkuIvlh4/lsJHlhoXlrZjmtojogJfnmoTkuIDnp43ov6vkuI3lvpflt7LnmoTmiYvm
-rrUNCj4gK++8jOWboOatpOaYr+S4jeWPl+asoui/jueahOOAgg0KPiArDQo+ICvkuqTmjaLkuI3p
-gILnlKjkuo7nlLHlhoXmoLjpgLvovpHlnLDlnYDmmKDlsITnmoTlhoXlrZjjgILov5nkupvlnLDl
-nYDmmK/lhoXmoLjomZrmi5/lnLDlnYDnqbrpl7TnmoTlrZDpm4bvvIznm7TmjqXmmKDlsIQNCj4g
-K+S4gOautei/nue7reeahOeJqeeQhuWGheWtmOOAguWvueS6juaPkOS+m+eahOS7u+aEj+mAu+i+
-keWcsOWdgO+8jOWug+eahOeJqeeQhuWcsOWdgOWPr+S7pemAmui/h+WvueWBj+enu+mHj+i/m+ih
-jOeugOWNleeahA0KPiAr566X5pWw6L+Q566X5p2l56Gu5a6a44CC5a+56YC76L6R5Zyw5Z2A55qE
-6K6/6Zeu5b6I5b+r77yM5Zug5Li66L+Z6YG/5YWN5LqG5aSN5p2C55qE6aG16KGo5p+l5om+77yM
-5L2G5Luj5Lu35piv6L+Z5Lqb5YaF5a2YDQo+ICvkuI3og73ooqvpqbHpgJDmiJbnva7mjaLjgIIN
-Cj4gKw0KPiAr5aaC5p6c5YaF5qC45peg5rOV5Li65b+F6aG75a2Y5Zyo54mp55CG5bin5Lit55qE
-5pWw5o2u6IW+5Ye656m66Ze077yM6YKj5LmI5a6D5Lya6LCD55So5YaF5a2Y5LiN6LazKG91dC1p
-Zi1tZW1vcnksIE9PTSnmnYDmiYvvvIwNCj4gK+mAmui/h+adgOaOieS9juS8mOWFiOe6p+eahOi/
-m+eoi+adpeiFvuWHuuepuumXtO+8jOebtOWIsOWGheWtmOWOi+WKm+S4i+mZjeWIsOWuieWFqOmY
-iOWAvOS5i+S4i+OAgg0KPiArDQo+ICvlj6blpJbvvIzku6PnoIHmvI/mtJ7miJZDUFXooqvmjIfn
-pLrorr/pl67nmoTnsr7lv4PliLbkvZznmoTmgbbmhI/lnLDlnYDkuZ/lj6/og73lr7zoh7TnvLrp
-obXlvILluLjjgIINCj4gK+S4gOS4qui/m+eoi+eahOe6v+eoi+WPr+S7peWIqeeUqOaMh+S7pOad
-peiuv+mXruS4jeWxnuS6juWFtuWcsOWdgOepuumXtOeahCjpnZ7lhbHkuqsp5YaF5a2Y77yM5oiW
-6ICF6K+V5Zu+5omn6KGMDQo+ICvlhpnlhaXlj6ror7vkvY3nva7nmoTmjIfku6TjgIINCj4gKw0K
-PiAr5aaC5p6c5LiK6L+w5oOF5Ya15Y+R55Sf5Zyo55So5oi35oCB77yM5YaF5qC45Lya5ZCR5b2T
-5YmN57q/56iL5Y+R6YCBIGDmrrXplJnor69gIChTSUdTRUdWKeS/oeWPt+OAgui/meS/oeWPtw0K
-PiAr6YCa5bi45a+86Ie057q/56iL5Y+K5YW25omA5bGe55qE6L+b56iL57uI5q2i44CCDQo+ICsN
-Cj4gK+acrOaWh+WwhueugOWMluW5tuamgui/sExpbnV45YaF5qC45aaC5L2V5aSE55CG6L+Z5Lqb
-6aG16Z2i6ZSZ6K+v44CB5Yib5bu66KGo5ZKM6KGo6aG544CB5qOA5p+l5YaF5a2Y5piv5ZCm5a2Y
-5Zyo77yMDQo+ICvku6Xlj4rlvZPlhoXlrZjkuI3lrZjlnKjml7bvvIzlpoLkvZXor7fmsYLku47m
-jIHkuYXlrZjlgqjmiJblhbbku5borr7lpIfliqDovb3mlbDmja7vvIzlubbmm7TmlrBNTVXlj4rl
-hbbnvJPlrZjjgIINCj4gKw0KPiAr5YmN5Yeg5q2l5Y+W5Yaz5LqO6K6+5aSH5L6d6LWW44CC5aSn
-5aSa5piv5p625p6E6Lez6L2s5YiwIGBkb19wYWdlX2ZhdWx0KClg77yM6ICMeDg25Lit5pat5aSE
-55CG56iL5bqP55SxDQo+ICtgREVGSU5FX0lEVEVOVFJZX1JBV19FUlJPUkNPREUoKWDlro/lrprk
-uYnnmoTvvIzor6Xlro/osIPnlKggYGhhbmRsZV9wYWdlX2ZhdWx0KClg44CCDQo+ICsNCj4gK+aX
-oOiuuuiwg+eUqOi3r+W+hOWmguS9le+8jOaJgOacieaetuaehOacgOe7iOmDveS8muiwg+eUqCBg
-aGFuZGxlX21tX2ZhdWx0KClg77yM6K+l5Ye95pWw6YCa5bi45Lya6LCD55SoDQo+ICtgX19oYW5k
-bGVfbW1fZmF1bHQoKWDmnaXmiafooYzlrp7pmYXliIbphY3pobXooajnmoTku7vliqHjgIINCj4g
-Kw0KPiAr5aaC5p6c5LiN5bm45peg5rOV6LCD55SoIGBfX2hhbmRsZV9tbV9mYXVsdCgpYOWImeaE
-j+WRs+edgOiZmuaLn+WcsOWdgOaMh+WQkeS6huaXoOadg+iuv+mXrueahOeJqeeQhuWGheWtmOWM
-uuWfnw0KPiArKOiHs+WwkeWvueS6juW9k+WJjeS4iuS4i+aWh+WmguatpCnjgILov5nnp43mg4Xl
-hrXkvJrlr7zoh7TlhoXmoLjlkJHor6Xov5vnqIvlj5HpgIHkuIrov7DnmoRTSUdTRUdW5L+h5Y+3
-77yMDQo+ICvlubblvJXlj5HliY3pnaLmj5DliLDnmoTlkI7mnpzjgIINCj4gKw0KPiAr5p+l6K+i
-5YGP56e76YeP55qE5Ye95pWw5pyJ5YOPIGAqX29mZnNldCgpYOagvOW8j+eahOWQjeWtl++8jOWF
-tuS4reKAnCrigJ3ku6PooahwZ2TvvIxwNGTvvIxwdWTvvIxwbWTvvIxwdGXvvJsNCj4gK+iAjOWI
-huWxguWIhumFjeWvueW6lOmhteihqOeahOWHveaVsOWRveWQjeS4uiBgKl9hbGxvY2DvvIzkvb/n
-lKjkuIrov7Dlkb3lkI3nuqblrprku6XlsYLnuqflkb3lkI3ov5nkupvlh73mlbDjgIINCj4gKw0K
-PiAr6aG16KGo6YGN5Y6G5Y+v6IO95Zyo5Lit6Ze05oiW6ICF5LiK5bGC57uT5p2fKFBNRO+8jFBV
-RCnjgIINCj4gKw0KPiArTGludXjmlK/mjIHmr5TpgJrluLg0S0Lmm7TlpKfnmoTpobXpnaIo5Y2z
-5omA6LCT55qEIGDlpKfpobVgKeOAguW9k+S9v+eUqOi/meenjei+g+Wkp+eahOmhtemdouaXtu+8
-jOayoeacieW/heimgeS9v+eUqOabtOS9juWxgg0KPiAr55qE6aG16KGo6aG5KFBURSnjgILlpKfp
-obXpgJrluLjljIXlkKsyTULliLAxR0LnmoTlpKflnZfov57nu63niannkIbljLrln5/vvIzliIbl
-iKvnlLFQTUTlkoxQVUTpobXooajpobnmmKDlsITjgIINCj4gKw0KPiAr5aSn6aG15bim5p2l6K64
-5aSa5aW95aSE77yM5aaC5YeP5bCRVExC5Y6L5Yqb77yM5YeP5bCR6aG16KGo5byA6ZSA77yM5o+Q
-6auY5YaF5a2Y5YiG6YWN5pWI546H77yM5Lul5Y+K5pS55ZaE54m55a6a5bel5L2cDQo+ICvotJ/o
-vb3nmoTmgKfog73jgILnhLbogIzvvIzov5nkupvlpb3lpITkuZ/kvLTpmo/nnYDmnYPooaHvvIzl
-poLlhoXlrZjmtarotLnlkozliIbphY3pmr7luqblop7liqDjgIINCj4gKw0KPiAr5Zyo6YGN5Y6G
-5ZKM5YiG6YWN55qE5pyA5ZCO77yM5aaC5p6c5rKh5pyJ6L+U5Zue6ZSZ6K+v77yMIGBfX2hhbmRs
-ZV9tbV9mYXVsdCgpYOacgOe7iOiwg+eUqCBgaGFuZGxlX3B0ZV9mYXVsdCgpYA0KPiAr6YCa6L+H
-IGBkb19mYXVsdCgpYOaJp+ihjCBgZG9fcmVhZF9mYXVsdCgpYOOAgSBgZG9fY293X2ZhdWx0KClg
-5ZKMIGBkb19zaGFyZWRfZmF1bHQoKWDjgIINCj4gK+KAnHJlYWTigJ3vvIzigJxjb3figJ3lkozi
-gJxzaGFyZWTigJ3liIbliKvmmpfnpLrkuoblroPlpITnkIbplJnor6/nmoTnsbvlnovlkozljp/l
-m6DjgIINCj4gKw0KPiAr5a6e6ZmF55qE5bel5L2c5rWB56iL5a6e546w5piv6Z2e5bi45aSN5p2C
-55qE44CC5YW26K6+6K6h5YWB6K64IExpbnV4IOagueaNruavj+enjeaetuaehOeahOeJueWumueJ
-ueaAp+WkhOeQhue8uumhteW8guW4uO+8jA0KPiAr5ZCM5pe25LuN54S25YWx5Lqr5LiA5Liq6YCa
-55So55qE5pW05L2T57uT5p6E44CCDQo+ICsNCj4gK+S4uuS6huaAu+e7kyBMaW51eCDlpoLkvZXl
-pITnkIbnvLrpobXkuK3mlq3nmoTmpoLov7DvvIzpnIDopoHooaXlhYXnmoTmmK/vvIznvLrpobXl
-vILluLjlpITnkIbnqIvluo/lj6/ku6XpgJrov4cNCj4gK2BwYWdlZmF1bHRfZGlzYWJsZSgpYOWS
-jCBgcGFnZWZhdWx0X2VuYWJsZSgpYOWIhuWIq+emgeeUqOWSjOWQr+eUqOOAgg0KPiArDQo+ICvo
-rrjlpJrku6PnoIHot6/lvoTkvb/nlKjkuobov5nkuKTkuKrlh73mlbDvvIzlm6DkuLrlroPku6zp
-nIDopoHnpoHmraLpmbflhaXnvLrpobXlvILluLjlpITnkIbnqIvluo/vvIzkuLvopoHmmK/kuLrk
-uobpmLLmraLmrbvplIHjgIINCj4gKw0KPiAtLQ0KPiAyLjI1LjENCj4NCj4NCg==
+The format for vulnerability sysfs files was diverge across pages.
+
+Unifies the format as follows:
+
+* Use list table for possible values for the sysfs files, because simple
+  table does not allow line breaks for the first column; otherwise
+  recognized as multiple different rows
+
+* Insert 2-spaces indentation before a sysfs path
+
+* Wrap each possible value with single quotes
+
+* End description with a full stop
+
+* Apply 80 columns rule
+
+Signed-off-by: Takahiro Itazuri <zulinx86@gmail.com>
+---
+Changes in v4:
+- Rename vuln to vulnerability in commit message
+- Apply 80 columns rule
+- Link to v3: https://lore.kernel.org/all/20240908172341.571476-1-zulinx86@gmail.com/
+
+Changes in v3:
+- Return to list table in favor of presevation of the existing HTML appearance
+  and readability/editability in plain text format.
+- Link to v2: https://lore.kernel.org/all/20240906104936.15558-1-itazur@amazon.com/
+
+Changes in v2:
+- Use grid table over list table (applying to not only GDS but also
+  other vulnerabilities)
+- Link to v1: https://lore.kernel.org/all/20240903132533.26458-1-itazur@amazon.com/
+
+---
+ .../hw-vuln/gather_data_sampling.rst          |  44 +++---
+ Documentation/admin-guide/hw-vuln/l1tf.rst    |  37 +++--
+ Documentation/admin-guide/hw-vuln/mds.rst     |  69 ++++----
+ .../admin-guide/hw-vuln/multihit.rst          |  28 ++--
+ .../hw-vuln/processor_mmio_stale_data.rst     |  72 +++++----
+ .../hw-vuln/reg-file-data-sampling.rst        |  27 ++--
+ .../special-register-buffer-data-sampling.rst |  39 +++--
+ Documentation/admin-guide/hw-vuln/spectre.rst | 149 +++++++++++-------
+ Documentation/admin-guide/hw-vuln/srso.rst    |  81 +++++-----
+ .../admin-guide/hw-vuln/tsx_async_abort.rst   |  52 +++---
+ 10 files changed, 343 insertions(+), 255 deletions(-)
+
+diff --git a/Documentation/admin-guide/hw-vuln/gather_data_sampling.rst b/Documentation/admin-guide/hw-vuln/gather_data_sampling.rst
+index 264bfa937f7d..815c78acc4be 100644
+--- a/Documentation/admin-guide/hw-vuln/gather_data_sampling.rst
++++ b/Documentation/admin-guide/hw-vuln/gather_data_sampling.rst
+@@ -81,27 +81,35 @@ GDS System Information
+ The kernel provides vulnerability status information through sysfs. For
+ GDS this can be accessed by the following sysfs file:
+
+-/sys/devices/system/cpu/vulnerabilities/gather_data_sampling
++  /sys/devices/system/cpu/vulnerabilities/gather_data_sampling
+
+ The possible values contained in this file are:
+
+- ============================== =============================================
+- Not affected                   Processor not vulnerable.
+- Vulnerable                     Processor vulnerable and mitigation disabled.
+- Vulnerable: No microcode       Processor vulnerable and microcode is missing
+-                                mitigation.
+- Mitigation: AVX disabled,
+- no microcode                   Processor is vulnerable and microcode is missing
+-                                mitigation. AVX disabled as mitigation.
+- Mitigation: Microcode          Processor is vulnerable and mitigation is in
+-                                effect.
+- Mitigation: Microcode (locked) Processor is vulnerable and mitigation is in
+-                                effect and cannot be disabled.
+- Unknown: Dependent on
+- hypervisor status              Running on a virtual guest processor that is
+-                                affected but with no way to know if host
+-                                processor is mitigated or vulnerable.
+- ============================== =============================================
++.. list-table::
++
++  * - 'Not affected'
++    - Processor not vulnerable.
++
++  * - 'Vulnerable'
++    - Processor vulnerable and mitigation disabled.
++
++  * - 'Vulnerable: No microcode'
++    - Processor vulnerable and microcode is missing migitation.
++
++  * - 'Mitigation: AVX disabled, no microcode'
++    - Processor is vulnerable and microcode is missing mitigation. AVX disabled
++      as mitigation.
++
++  * - 'Mitigation: Microcode'
++    - Processor is vulnerable and mitigation is in effect.
++
++  * - 'Mitigation: Microcode (locked)'
++    - Processor is vulnerable and mitigation is in effect and cannot be
++      disabled.
++
++  * - 'Unknown: Dependent on hypervisor status'
++    - Running on a virtual guest processor that is affected but with no way to
++      know if host processor is mitigated or vulnerable.
+
+ GDS Default mitigation
+ ----------------------
+diff --git a/Documentation/admin-guide/hw-vuln/l1tf.rst b/Documentation/admin-guide/hw-vuln/l1tf.rst
+index 3eeeb488d955..a049e1ab935c 100644
+--- a/Documentation/admin-guide/hw-vuln/l1tf.rst
++++ b/Documentation/admin-guide/hw-vuln/l1tf.rst
+@@ -123,34 +123,43 @@ The Linux kernel provides a sysfs interface to enumerate the current L1TF
+ status of the system: whether the system is vulnerable, and which
+ mitigations are active. The relevant sysfs file is:
+
+-/sys/devices/system/cpu/vulnerabilities/l1tf
++  /sys/devices/system/cpu/vulnerabilities/l1tf
+
+ The possible values in this file are:
+
+-  ===========================   ===============================
+-  'Not affected'		The processor is not vulnerable
+-  'Mitigation: PTE Inversion'	The host protection is active
+-  ===========================   ===============================
++.. list-table::
++
++  * - 'Not affected'
++    - The processor is not vulnerable.
++
++  * - 'Mitigation: PTE Inversion'
++    - The host protection is active.
+
+ If KVM/VMX is enabled and the processor is vulnerable then the following
+ information is appended to the 'Mitigation: PTE Inversion' part:
+
+   - SMT status:
+
+-    =====================  ================
+-    'VMX: SMT vulnerable'  SMT is enabled
+-    'VMX: SMT disabled'    SMT is disabled
+-    =====================  ================
++    .. list-table::
++
++      * - 'VMX: SMT vulnerable'
++        - SMT is enabled.
++
++      * - 'VMX: SMT disabled'
++        - SMT is disabled.
+
+   - L1D Flush mode:
+
+-    ================================  ====================================
+-    'L1D vulnerable'		      L1D flushing is disabled
++    .. list-table::
++
++      * - 'L1D vulnerable'
++        - L1D flushing is disabled.
+
+-    'L1D conditional cache flushes'   L1D flush is conditionally enabled
++      * - 'L1D conditional cache flushes'
++        - L1D flush is conditionally enabled.
+
+-    'L1D cache flushes'		      L1D flush is unconditionally enabled
+-    ================================  ====================================
++      * - 'L1D cache flushes'
++        - L1D flush is unconditionally enabled.
+
+ The resulting grade of protection is discussed in the following sections.
+
+diff --git a/Documentation/admin-guide/hw-vuln/mds.rst b/Documentation/admin-guide/hw-vuln/mds.rst
+index 48c7b0b72aed..a31b44716937 100644
+--- a/Documentation/admin-guide/hw-vuln/mds.rst
++++ b/Documentation/admin-guide/hw-vuln/mds.rst
+@@ -91,43 +91,52 @@ The Linux kernel provides a sysfs interface to enumerate the current MDS
+ status of the system: whether the system is vulnerable, and which
+ mitigations are active. The relevant sysfs file is:
+
+-/sys/devices/system/cpu/vulnerabilities/mds
++  /sys/devices/system/cpu/vulnerabilities/mds
+
+ The possible values in this file are:
+
+-  .. list-table::
+-
+-     * - 'Not affected'
+-       - The processor is not vulnerable
+-     * - 'Vulnerable'
+-       - The processor is vulnerable, but no mitigation enabled
+-     * - 'Vulnerable: Clear CPU buffers attempted, no microcode'
+-       - The processor is vulnerable but microcode is not updated. The
+-         mitigation is enabled on a best effort basis.
+-
+-         If the processor is vulnerable but the availability of the microcode
+-         based mitigation mechanism is not advertised via CPUID, the kernel
+-         selects a best effort mitigation mode. This mode invokes the mitigation
+-         instructions without a guarantee that they clear the CPU buffers.
+-
+-         This is done to address virtualization scenarios where the host has the
+-         microcode update applied, but the hypervisor is not yet updated to
+-         expose the CPUID to the guest. If the host has updated microcode the
+-         protection takes effect; otherwise a few CPU cycles are wasted
+-         pointlessly.
+-     * - 'Mitigation: Clear CPU buffers'
+-       - The processor is vulnerable and the CPU buffer clearing mitigation is
+-         enabled.
++.. list-table::
++
++  * - 'Not affected'
++    - The processor is not vulnerable.
++
++  * - 'Vulnerable'
++    - The processor is vulnerable, but no mitigation enabled.
++
++  * - 'Vulnerable: Clear CPU buffers attempted, no microcode'
++    - The processor is vulnerable but microcode is not updated. The mitigation
++      is enabled on a best effort basis.
++
++      If the processor is vulnerable but the availability of the microcode
++      based mitigation mechanism is not advertised via CPUID, the kernel
++      selects a best effort mitigation mode. This mode invokes the mitigation
++      instructions without a guarantee that they clear the CPU buffers.
++
++      This is done to address virtualization scenarios where the host has the
++      microcode update applied, but the hypervisor is not yet updated to expose
++      the CPUID to the guest. If the host has updated microcode the protection
++      takes effect; otherwise a few CPU cycles are wasted pointlessly.
++
++  * - 'Mitigation: Clear CPU buffers'
++    - The processor is vulnerable and the CPU buffer clearing mitigation is
++      enabled.
+
+ If the processor is vulnerable then the following information is appended
+ to the above information:
+
+-    ========================  ============================================
+-    'SMT vulnerable'          SMT is enabled
+-    'SMT mitigated'           SMT is enabled and mitigated
+-    'SMT disabled'            SMT is disabled
+-    'SMT Host state unknown'  Kernel runs in a VM, Host SMT state unknown
+-    ========================  ============================================
++.. list-table::
++
++  * - 'SMT vulnerable'
++    - SMT is enabled.
++
++  * - 'SMT mitigated'
++    - SMT is enabled and mitigated.
++
++  * - 'SMT disabled'
++    - SMT is disabled.
++
++  * - 'SMT Host state unknown'
++    - Kernel runs in a VM, Host SMT state unknown.
+
+ Mitigation mechanism
+ -------------------------
+diff --git a/Documentation/admin-guide/hw-vuln/multihit.rst b/Documentation/admin-guide/hw-vuln/multihit.rst
+index 140e4cec38c3..618552fb7149 100644
+--- a/Documentation/admin-guide/hw-vuln/multihit.rst
++++ b/Documentation/admin-guide/hw-vuln/multihit.rst
+@@ -70,22 +70,28 @@ The Linux kernel provides a sysfs interface to enumerate the current iTLB
+ multihit status of the system:whether the system is vulnerable and which
+ mitigations are active. The relevant sysfs file is:
+
+-/sys/devices/system/cpu/vulnerabilities/itlb_multihit
++  /sys/devices/system/cpu/vulnerabilities/itlb_multihit
+
+ The possible values in this file are:
+
+ .. list-table::
+
+-     * - Not affected
+-       - The processor is not vulnerable.
+-     * - KVM: Mitigation: Split huge pages
+-       - Software changes mitigate this issue.
+-     * - KVM: Mitigation: VMX unsupported
+-       - KVM is not vulnerable because Virtual Machine Extensions (VMX) is not supported.
+-     * - KVM: Mitigation: VMX disabled
+-       - KVM is not vulnerable because Virtual Machine Extensions (VMX) is disabled.
+-     * - KVM: Vulnerable
+-       - The processor is vulnerable, but no mitigation enabled
++  * - 'Not affected'
++    - The processor is not vulnerable.
++
++  * - 'KVM: Mitigation: Split huge pages'
++    - Software changes mitigate this issue.
++
++  * - 'KVM: Mitigation: VMX unsupported'
++    - KVM is not vulnerable because Virtual Machine Extensions (VMX) is not
++      supported.
++
++  * - 'KVM: Mitigation: VMX disabled'
++    - KVM is not vulnerable because Virtual Machine Extensions (VMX) is
++      disabled.
++
++  * - 'KVM: Vulnerable'
++    - The processor is vulnerable, but no mitigation enabled.
+
+
+ Enumeration of the erratum
+diff --git a/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst b/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
+index 1302fd1b55e8..e86188ae107c 100644
+--- a/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
++++ b/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
+@@ -214,36 +214,39 @@ The Linux kernel provides a sysfs interface to enumerate the current
+ vulnerability status of the system: whether the system is vulnerable, and
+ which mitigations are active. The relevant sysfs file is:
+
+-	/sys/devices/system/cpu/vulnerabilities/mmio_stale_data
++  /sys/devices/system/cpu/vulnerabilities/mmio_stale_data
+
+ The possible values in this file are:
+
+-  .. list-table::
+-
+-     * - 'Not affected'
+-       - The processor is not vulnerable
+-     * - 'Vulnerable'
+-       - The processor is vulnerable, but no mitigation enabled
+-     * - 'Vulnerable: Clear CPU buffers attempted, no microcode'
+-       - The processor is vulnerable but microcode is not updated. The
+-         mitigation is enabled on a best effort basis.
+-
+-         If the processor is vulnerable but the availability of the microcode
+-         based mitigation mechanism is not advertised via CPUID, the kernel
+-         selects a best effort mitigation mode. This mode invokes the mitigation
+-         instructions without a guarantee that they clear the CPU buffers.
+-
+-         This is done to address virtualization scenarios where the host has the
+-         microcode update applied, but the hypervisor is not yet updated to
+-         expose the CPUID to the guest. If the host has updated microcode the
+-         protection takes effect; otherwise a few CPU cycles are wasted
+-         pointlessly.
+-     * - 'Mitigation: Clear CPU buffers'
+-       - The processor is vulnerable and the CPU buffer clearing mitigation is
+-         enabled.
+-     * - 'Unknown: No mitigations'
+-       - The processor vulnerability status is unknown because it is
+-	 out of Servicing period. Mitigation is not attempted.
++.. list-table::
++
++  * - 'Not affected'
++    - The processor is not vulnerable.
++
++  * - 'Vulnerable'
++    - The processor is vulnerable, but no mitigation enabled.
++
++  * - 'Vulnerable: Clear CPU buffers attempted, no microcode'
++    - The processor is vulnerable but microcode is not updated. The mitigation
++      is enabled on a best effort basis.
++
++      If the processor is vulnerable but the availability of the microcode
++      based mitigation mechanism is not advertised via CPUID, the kernel
++      selects a best effort mitigation mode. This mode invokes the mitigation
++      instructions without a guarantee that they clear the CPU buffers.
++
++      This is done to address virtualization scenarios where the host has the
++      microcode update applied, but the hypervisor is not yet updated to expose
++      the CPUID to the guest. If the host has updated microcode the protection
++      takes effect; otherwise a few CPU cycles are wasted pointlessly.
++
++  * - 'Mitigation: Clear CPU buffers'
++    - The processor is vulnerable and the CPU buffer clearing mitigation is
++      enabled.
++
++  * - 'Unknown: No mitigations'
++    - The processor vulnerability status is unknown because it is out of
++      Servicing period. Mitigation is not attempted.
+
+ Definitions:
+ ------------
+@@ -259,11 +262,16 @@ processes. ESU dates will typically be aligned to end of quarter.
+ If the processor is vulnerable then the following information is appended to
+ the above information:
+
+-  ========================  ===========================================
+-  'SMT vulnerable'          SMT is enabled
+-  'SMT disabled'            SMT is disabled
+-  'SMT Host state unknown'  Kernel runs in a VM, Host SMT state unknown
+-  ========================  ===========================================
++.. list-table::
++
++  * - 'SMT vulnerable'
++    - SMT is enabled.
++
++  * - 'SMT disabled'
++    - SMT is disabled.
++
++  * - 'SMT Host state unknown'
++    - Kernel runs in a VM, Host SMT state unknown.
+
+ References
+ ----------
+diff --git a/Documentation/admin-guide/hw-vuln/reg-file-data-sampling.rst b/Documentation/admin-guide/hw-vuln/reg-file-data-sampling.rst
+index 0585d02b9a6c..00bcc0424980 100644
+--- a/Documentation/admin-guide/hw-vuln/reg-file-data-sampling.rst
++++ b/Documentation/admin-guide/hw-vuln/reg-file-data-sampling.rst
+@@ -82,21 +82,24 @@ The Linux kernel provides a sysfs interface to enumerate the current
+ vulnerability status of the system: whether the system is vulnerable, and
+ which mitigations are active. The relevant sysfs file is:
+
+-	/sys/devices/system/cpu/vulnerabilities/reg_file_data_sampling
++  /sys/devices/system/cpu/vulnerabilities/reg_file_data_sampling
+
+ The possible values in this file are:
+
+-  .. list-table::
+-
+-     * - 'Not affected'
+-       - The processor is not vulnerable
+-     * - 'Vulnerable'
+-       - The processor is vulnerable, but no mitigation enabled
+-     * - 'Vulnerable: No microcode'
+-       - The processor is vulnerable but microcode is not updated.
+-     * - 'Mitigation: Clear Register File'
+-       - The processor is vulnerable and the CPU buffer clearing mitigation is
+-	 enabled.
++.. list-table::
++
++  * - 'Not affected'
++    - The processor is not vulnerable.
++
++  * - 'Vulnerable'
++    - The processor is vulnerable, but no mitigation enabled.
++
++  * - 'Vulnerable: No microcode'
++    - The processor is vulnerable but microcode is not updated.
++
++  * - 'Mitigation: Clear Register File'
++    - The processor is vulnerable and the CPU buffer clearing mitigation is
++      enabled.
+
+ References
+ ----------
+diff --git a/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst b/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst
+index 966c9b3296ea..5b8c4e816e9e 100644
+--- a/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst
++++ b/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst
+@@ -122,25 +122,32 @@ SRBDS System Information
+ ------------------------
+ The Linux kernel provides vulnerability status information through sysfs.  For
+ SRBDS this can be accessed by the following sysfs file:
+-/sys/devices/system/cpu/vulnerabilities/srbds
++
++  /sys/devices/system/cpu/vulnerabilities/srbds
+
+ The possible values contained in this file are:
+
+- ============================== =============================================
+- Not affected                   Processor not vulnerable
+- Vulnerable                     Processor vulnerable and mitigation disabled
+- Vulnerable: No microcode       Processor vulnerable and microcode is missing
+-                                mitigation
+- Mitigation: Microcode          Processor is vulnerable and mitigation is in
+-                                effect.
+- Mitigation: TSX disabled       Processor is only vulnerable when TSX is
+-                                enabled while this system was booted with TSX
+-                                disabled.
+- Unknown: Dependent on
+- hypervisor status              Running on virtual guest processor that is
+-                                affected but with no way to know if host
+-                                processor is mitigated or vulnerable.
+- ============================== =============================================
++.. list-table::
++
++  * - 'Not affected'
++    - Processor not vulnerable.
++
++  * - 'Vulnerable'
++    - Processor vulnerable and mitigation disabled.
++
++  * - 'Vulnerable: No microcode'
++    - Processor vulnerable and microcode is missing mitigation.
++
++  * - 'Mitigation: Microcode'
++    - Processor is vulnerable and mitigation is in effect.
++
++  * - 'Mitigation: TSX disabled'
++    - Processor is only vulnerable when TSX is enabled while this system was
++      booted with TSX disabled.
++
++  * - 'Unknown: Dependent on hypervisor status'
++    - Running on virtual guest processor that is affected but with no way to
++      know if host processor is mitigated or vulnerable.
+
+ SRBDS Default mitigation
+ ------------------------
+diff --git a/Documentation/admin-guide/hw-vuln/spectre.rst b/Documentation/admin-guide/hw-vuln/spectre.rst
+index 132e0bc6007e..f8d5e3c10fdd 100644
+--- a/Documentation/admin-guide/hw-vuln/spectre.rst
++++ b/Documentation/admin-guide/hw-vuln/spectre.rst
+@@ -332,22 +332,24 @@ vulnerable, and which mitigations are active.
+
+ The sysfs file showing Spectre variant 1 mitigation status is:
+
+-   /sys/devices/system/cpu/vulnerabilities/spectre_v1
++  /sys/devices/system/cpu/vulnerabilities/spectre_v1
+
+ The possible values in this file are:
+
+-  .. list-table::
++.. list-table::
++
++  * - 'Not affected'
++    - The processor is not vulnerable.
+
+-     * - 'Not affected'
+-       - The processor is not vulnerable.
+-     * - 'Vulnerable: __user pointer sanitization and usercopy barriers only; no swapgs barriers'
+-       - The swapgs protections are disabled; otherwise it has
+-         protection in the kernel on a case by case base with explicit
+-         pointer sanitation and usercopy LFENCE barriers.
+-     * - 'Mitigation: usercopy/swapgs barriers and __user pointer sanitization'
+-       - Protection in the kernel on a case by case base with explicit
+-         pointer sanitation, usercopy LFENCE barriers, and swapgs LFENCE
+-         barriers.
++  * - 'Vulnerable: __user pointer sanitization and usercopy barriers only; no
++      swapgs barriers'
++    - The swapgs protections are disabled; otherwise it has protection in the
++      kernel on a case by case base with explicit pointer sanitation and
++      usercopy LFENCE barriers.
++
++  * - 'Mitigation: usercopy/swapgs barriers and __user pointer sanitization'
++    - Protection in the kernel on a case by case base with explicit pointer
++      sanitation, usercopy LFENCE barriers, and swapgs LFENCE barriers.
+
+ However, the protections are put in place on a case by case basis,
+ and there is no guarantee that all possible attack vectors for Spectre
+@@ -370,81 +372,116 @@ per process on a case-by-case base.
+
+ The sysfs file showing Spectre variant 2 mitigation status is:
+
+-   /sys/devices/system/cpu/vulnerabilities/spectre_v2
++  /sys/devices/system/cpu/vulnerabilities/spectre_v2
+
+ The possible values in this file are:
+
+   - Kernel status:
+
+-  ========================================  =================================
+-  'Not affected'                            The processor is not vulnerable
+-  'Mitigation: None'                        Vulnerable, no mitigation
+-  'Mitigation: Retpolines'                  Use Retpoline thunks
+-  'Mitigation: LFENCE'                      Use LFENCE instructions
+-  'Mitigation: Enhanced IBRS'               Hardware-focused mitigation
+-  'Mitigation: Enhanced IBRS + Retpolines'  Hardware-focused + Retpolines
+-  'Mitigation: Enhanced IBRS + LFENCE'      Hardware-focused + LFENCE
+-  ========================================  =================================
++    .. list-table::
++
++      * - 'Not affected'
++        - The processor is not vulnerable.
++
++      * - 'Mitigation: None'
++        - Vulnerable, no mitigation.
++
++      * - 'Mitigation: Retpolines'
++        - Use Retpoline thunks.
++
++      * - 'Mitigation: LFENCE'
++        - Use LFENCE instructions.
++
++      * - 'Mitigation: Enhanced IBRS'
++        - Hardware-focused mitigation.
++
++      * - 'Mitigation: Enhanced IBRS + Retpolines'
++        - Hardware-focused + Retpolines.
++
++      * - 'Mitigation: Enhanced IBRS + LFENCE'
++        - Hardware-focused + LFENCE.
+
+   - Firmware status: Show if Indirect Branch Restricted Speculation (IBRS) is
+     used to protect against Spectre variant 2 attacks when calling firmware (x86 only).
+
+-  ========== =============================================================
+-  'IBRS_FW'  Protection against user program attacks when calling firmware
+-  ========== =============================================================
++    .. list-table::
++
++      * - 'IBRS_FW'
++        - Protection against user program attacks when calling firmware.
+
+   - Indirect branch prediction barrier (IBPB) status for protection between
+     processes of different users. This feature can be controlled through
+     prctl() per process, or through kernel command line options. This is
+     an x86 only feature. For more details see below.
+
+-  ===================   ========================================================
+-  'IBPB: disabled'      IBPB unused
+-  'IBPB: always-on'     Use IBPB on all tasks
+-  'IBPB: conditional'   Use IBPB on SECCOMP or indirect branch restricted tasks
+-  ===================   ========================================================
++    .. list-table::
++
++      * - 'IBPB: disabled'
++        - IBPB unused.
++
++      * - 'IBPB: always-on'
++        - Use IBPB on all tasks.
++
++      * - 'IBPB: conditional'
++        - Use IBPB on SECCOMP or indirect branch restricted tasks.
+
+   - Single threaded indirect branch prediction (STIBP) status for protection
+     between different hyper threads. This feature can be controlled through
+     prctl per process, or through kernel command line options. This is x86
+     only feature. For more details see below.
+
+-  ====================  ========================================================
+-  'STIBP: disabled'     STIBP unused
+-  'STIBP: forced'       Use STIBP on all tasks
+-  'STIBP: conditional'  Use STIBP on SECCOMP or indirect branch restricted tasks
+-  ====================  ========================================================
++    .. list-table::
++
++      * - 'STIBP: disabled'
++        - STIBP unused.
++
++      * - 'STIBP: forced'
++        - Use STIBP on all tasks.
++
++      * - 'STIBP: conditional'
++        - Use STIBP on SECCOMP or indirect branch restricted tasks.
+
+   - Return stack buffer (RSB) protection status:
+
+-  =============   ===========================================
+-  'RSB filling'   Protection of RSB on context switch enabled
+-  =============   ===========================================
++    .. list-table::
++
++      * - 'RSB filling'
++        - Protection of RSB on context switch enabled.
+
+   - EIBRS Post-barrier Return Stack Buffer (PBRSB) protection status:
+
+-  ===========================  =======================================================
+-  'PBRSB-eIBRS: SW sequence'   CPU is affected and protection of RSB on VMEXIT enabled
+-  'PBRSB-eIBRS: Vulnerable'    CPU is vulnerable
+-  'PBRSB-eIBRS: Not affected'  CPU is not affected by PBRSB
+-  ===========================  =======================================================
++    .. list-table::
++
++      * - 'PBRSB-eIBRS: SW sequence'
++        - CPU is affected and protection of RSB on VMEXIT enabled.
++
++      * - 'PBRSB-eIBRS: Vulnerable'
++        - CPU is vulnerable.
++
++      * - 'PBRSB-eIBRS: Not affected'
++        - CPU is not affected by PBRSB.
+
+   - Branch History Injection (BHI) protection status:
+
+-.. list-table::
++    .. list-table::
++
++      * - 'BHI: Not affected'
++        - System is not affected.
++
++      * - 'BHI: Retpoline'
++        - System is protected by retpoline.
++
++      * - 'BHI: BHI_DIS_S'
++        - System is protected by BHI_DIS_S.
++
++      * - 'BHI: SW loop, KVM SW loop'
++        - System is protected by software clearing sequence.
++
++      * - 'BHI: Vulnerable'
++        - System is vulnerable to BHI.
+
+- * - BHI: Not affected
+-   - System is not affected
+- * - BHI: Retpoline
+-   - System is protected by retpoline
+- * - BHI: BHI_DIS_S
+-   - System is protected by BHI_DIS_S
+- * - BHI: SW loop, KVM SW loop
+-   - System is protected by software clearing sequence
+- * - BHI: Vulnerable
+-   - System is vulnerable to BHI
+- * - BHI: Vulnerable, KVM: SW loop
+-   - System is vulnerable; KVM is protected by software clearing sequence
++      * - 'BHI: Vulnerable, KVM: SW loop'
++        - System is vulnerable; KVM is protected by software clearing sequence.
+
+ Full mitigation might require a microcode update from the CPU
+ vendor. When the necessary microcode is not available, the kernel will
+diff --git a/Documentation/admin-guide/hw-vuln/srso.rst b/Documentation/admin-guide/hw-vuln/srso.rst
+index 4bd3ce3ba171..63343e3a04fd 100644
+--- a/Documentation/admin-guide/hw-vuln/srso.rst
++++ b/Documentation/admin-guide/hw-vuln/srso.rst
+@@ -42,67 +42,62 @@ The sysfs file showing SRSO mitigation status is:
+
+ The possible values in this file are:
+
+- * 'Not affected':
++.. list-table::
+
+-   The processor is not vulnerable
++  * - 'Not affected'
++    - The processor is not vulnerable.
+
+-* 'Vulnerable':
++  * - 'Vulnerable'
++    - The processor is vulnerable and no mitigations have been applied.
+
+-   The processor is vulnerable and no mitigations have been applied.
++  * - 'Vulnerable: No microcode'
++    - The processor is vulnerable, no microcode extending IBPB functionality to
++      address the vulnerability has been applied.
+
+- * 'Vulnerable: No microcode':
++  * - 'Vulnerable: Safe RET, no microcode'
++    - The "Safe RET" mitigation (see below) has been applied to protect the
++      kernel, but the IBPB-extending microcode has not been applied. User space
++      tasks may still be vulnerable.
+
+-   The processor is vulnerable, no microcode extending IBPB
+-   functionality to address the vulnerability has been applied.
++  * - 'Vulnerable: Microcode, no safe RET'
++    - Extended IBPB functionality microcode patch has been applied. It does not
++      address User->Kernel and Guest->Host transitions protection but it does
++      address User->User and VM->VM attack vectors.
+
+- * 'Vulnerable: Safe RET, no microcode':
++      Note that User->User mitigation is controlled by how the IBPB aspect in
++      the Spectre v2 mitigation is selected:
+
+-   The "Safe RET" mitigation (see below) has been applied to protect the
+-   kernel, but the IBPB-extending microcode has not been applied.  User
+-   space tasks may still be vulnerable.
++      * 'conditional IBPB'
+
+- * 'Vulnerable: Microcode, no safe RET':
++        where each process can select whether it needs an IBPB issued around it
++        PR_SPEC_DISABLE/_ENABLE etc, see :doc:`spectre`
+
+-   Extended IBPB functionality microcode patch has been applied. It does
+-   not address User->Kernel and Guest->Host transitions protection but it
+-   does address User->User and VM->VM attack vectors.
++      * 'strict'
+
+-   Note that User->User mitigation is controlled by how the IBPB aspect in
+-   the Spectre v2 mitigation is selected:
++        i.e., always on - by supplying spectre_v2_user=on on the kernel command
++        line
+
+-    * conditional IBPB:
++      (spec_rstack_overflow=microcode)
+
+-      where each process can select whether it needs an IBPB issued
+-      around it PR_SPEC_DISABLE/_ENABLE etc, see :doc:`spectre`
++  * - 'Mitigation: Safe RET'
++    - Combined microcode/software mitigation. It complements the extended IBPB
++      microcode patch functionality by addressing User->Kernel and Guest->Host
++      transitions protection.
+
+-    * strict:
++      Selected by default or by spec_rstack_overflow=safe-ret
+
+-      i.e., always on - by supplying spectre_v2_user=on on the kernel
+-      command line
++  * - 'Mitigation: IBPB'
++    - Similar protection as "safe RET" above but employs an IBPB barrier on
++      privilege domain crossings (User->Kernel, Guest->Host).
+
+-   (spec_rstack_overflow=microcode)
++      (spec_rstack_overflow=ibpb)
+
+- * 'Mitigation: Safe RET':
++  * - 'Mitigation: IBPB on VMEXIT'
+
+-   Combined microcode/software mitigation. It complements the
+-   extended IBPB microcode patch functionality by addressing
+-   User->Kernel and Guest->Host transitions protection.
++    - Mitigation addressing the cloud provider scenario - the Guest->Host
++      transitions only.
+
+-   Selected by default or by spec_rstack_overflow=safe-ret
+-
+- * 'Mitigation: IBPB':
+-
+-   Similar protection as "safe RET" above but employs an IBPB barrier on
+-   privilege domain crossings (User->Kernel, Guest->Host).
+-
+-  (spec_rstack_overflow=ibpb)
+-
+- * 'Mitigation: IBPB on VMEXIT':
+-
+-   Mitigation addressing the cloud provider scenario - the Guest->Host
+-   transitions only.
+-
+-   (spec_rstack_overflow=ibpb-vmexit)
++      (spec_rstack_overflow=ibpb-vmexit)
+
+
+
+diff --git a/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst b/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
+index 444f84e22a91..478590e8a419 100644
+--- a/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
++++ b/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
+@@ -89,34 +89,40 @@ TAA system information
+ The Linux kernel provides a sysfs interface to enumerate the current TAA status
+ of mitigated systems. The relevant sysfs file is:
+
+-/sys/devices/system/cpu/vulnerabilities/tsx_async_abort
++  /sys/devices/system/cpu/vulnerabilities/tsx_async_abort
+
+ The possible values in this file are:
+
+ .. list-table::
+
+-   * - 'Vulnerable'
+-     - The CPU is affected by this vulnerability and the microcode and kernel mitigation are not applied.
+-   * - 'Vulnerable: Clear CPU buffers attempted, no microcode'
+-     - The processor is vulnerable but microcode is not updated. The
+-       mitigation is enabled on a best effort basis.
+-
+-       If the processor is vulnerable but the availability of the microcode
+-       based mitigation mechanism is not advertised via CPUID, the kernel
+-       selects a best effort mitigation mode. This mode invokes the mitigation
+-       instructions without a guarantee that they clear the CPU buffers.
+-
+-       This is done to address virtualization scenarios where the host has the
+-       microcode update applied, but the hypervisor is not yet updated to
+-       expose the CPUID to the guest. If the host has updated microcode the
+-       protection takes effect; otherwise a few CPU cycles are wasted
+-       pointlessly.
+-   * - 'Mitigation: Clear CPU buffers'
+-     - The microcode has been updated to clear the buffers. TSX is still enabled.
+-   * - 'Mitigation: TSX disabled'
+-     - TSX is disabled.
+-   * - 'Not affected'
+-     - The CPU is not affected by this issue.
++  * - 'Vulnerable'
++    - The CPU is affected by this vulnerability and the microcode and kernel
++      mitigation are not applied.
++
++  * - 'Vulnerable: Clear CPU buffers attempted, no microcode'
++    - The processor is vulnerable but microcode is not updated. The mitigation
++      is enabled on a best effort basis.
++
++      If the processor is vulnerable but the availability of the microcode
++      based mitigation mechanism is not advertised via CPUID, the kernel
++      selects a best effort mitigation mode. This mode invokes the mitigation
++      instructions without a guarantee that they clear the CPU buffers.
++
++      This is done to address virtualization scenarios where the host has the
++      microcode update applied, but the hypervisor is not yet updated to
++      expose the CPUID to the guest. If the host has updated microcode the
++      protection takes effect; otherwise a few CPU cycles are wasted
++      pointlessly.
++
++  * - 'Mitigation: Clear CPU buffers'
++    - The microcode has been updated to clear the buffers. TSX is still
++      enabled.
++
++  * - 'Mitigation: TSX disabled'
++    - TSX is disabled.
++
++  * - 'Not affected'
++    - The CPU is not affected by this issue.
+
+ Mitigation mechanism
+ --------------------
+--
+2.34.1
+
