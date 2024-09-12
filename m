@@ -1,100 +1,120 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB455684;
-	Thu, 12 Sep 2024 01:17:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657AA3C39
+	for <linux-doc@vger.kernel.org>; Thu, 12 Sep 2024 01:22:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726103822; cv=none; b=JYmMVDfbiXGKeYCUfkp8kIDx+96Y24cJvud9Rp3lMOg8RAsDsbUrV5hqQFT/e3t3BMRhWWERSqYgc/Cp/HJcWp9K/J8Ns29372sg/aDDYX2+Z9DZp4eFeHiKVc4In33IgL7m9tkzLiOCETETE7DRvH6bP86+vhXbj7qYzieXgio=
+	t=1726104142; cv=none; b=prjtby5OpH914zYgd8gpRtynki1i+lnfw04rzY7O8fYxhDEmyjTeky6g+6O5Nhb4QsYrbRIxfEyiOqEn0oOevreyQoY+RdwbXRWQpNLC51Ze5mg+g6wDs7ltMMvuZQVFF1h2J+cBjMhzjxCdrR5t167MV/tEcw38kCdVa4J3Ytc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726103822; c=relaxed/simple;
-	bh=QHsU8N87ajGHNvG7SkWHAwdOP5xSbhjxwmgb8LHviJI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bNnQ9l58Zba24vNqJ2Bjsg1oai17XVlDb+dPHie7TE3QpUv2QzAyA95pQAxUmGIVx6miOmrzZUg1JlmYquPD24mGmcRa3BNOWNZLh16DeUWRga1N6Wp9wocuuodMo0iYprdxEzQSwheEvADdX/LQX4IBNo+MkeP6vH1+AmZ6DGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DsOzGFmV; arc=none smtp.client-ip=209.85.160.169
+	s=arc-20240116; t=1726104142; c=relaxed/simple;
+	bh=vRSkSmYO8WmwUwfg7ohdSZR+53E6V7rsRYnlk/bjAas=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EKrYNbnIkOchmd+ujVA9dwblhkM2Z6o3TnrxKNVbgMLhA3LziZHw2PQeUB19r77Zl0PlSz7Q54n08xYY/xl7H/pIc8I1RWhgu71G5jtJFF/jLqjjF2pwazDDyX50LbexDEu0Mp+NIbqLo8tps4no05gFacUJJETsvIIZjD0YZMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EtGb6v7p; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DsOzGFmV"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4585721f6edso3011711cf.2;
-        Wed, 11 Sep 2024 18:17:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EtGb6v7p"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-206aee40676so4059145ad.0
+        for <linux-doc@vger.kernel.org>; Wed, 11 Sep 2024 18:22:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726103819; x=1726708619; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z9Ce9nGjZFP5vHJs9bz+yR3wENufdBul9eEWmrVfgH8=;
-        b=DsOzGFmV9CanGAhjbCakQMxL3cAjYPIhXYMEvh5Y0JY7TRdFKZbBGxAyH85YIRsi2Y
-         QJ3igGwsl+f8GPnnxcMjg0JQ4SixdcIONKMplawGVXlmHiSjG4K1Db5b+epP82CyvHLT
-         AJP2raGQZqdvobTDT2hio+FpMtu8sILpzJPqFwEboKek+0TQbvk7Lk3+vsNM9FbUd7Bi
-         jkAAhStPnyKRa7etrY94IIZSTi5Gz6E7aS6oi6C0Tvl4uxJHLimGVOoFMzXHsmCmTadU
-         Slm2iV9K3CvNA79sBOWeQstVeAe9uoBi5RRDteQpEEroo+PXDtVS42ZcLi9Ejj8N8YAD
-         do8A==
+        d=gmail.com; s=20230601; t=1726104141; x=1726708941; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3V5ePtrpD3YcQBIs0Utaf71h1PbMB20wA8EZdi/NDyI=;
+        b=EtGb6v7pgMKpAG9Zb69jL2zBSH8rWRiTi+rORIjHbziAewgmd0XjbNVl9uEUKJj6j/
+         Zb//t+dQcR6MdBqqOVY+D2azos2At6UJSeI3z5sCGSzXk9mLt4RArYttcNjsd6q6Om/S
+         p9ds838KcA83RxEhNVuaaQ2/0kpuQB+9WSVszfQJFCc2DWEIp7HPaPXVnw401eiypaD8
+         K9Bj89Q4dQnIoQSFj0bHxd9QcHAgi3MM/S9dAOkGgqqvn+Ffu4Xikosg3SFMfGniQM/s
+         VPMtpins8L0YpW13EZVUG4N7EnUjMGGtaymhXKSuBnqmlPho8J4o/jXtAen5p99nKJ2x
+         l+UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726103819; x=1726708619;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Z9Ce9nGjZFP5vHJs9bz+yR3wENufdBul9eEWmrVfgH8=;
-        b=bdw2SlXFPDcEkM5limOmmZnYsdW6ZZlRN4bTrZN5wnlZX0MwajI2kGtzhWSyK3VHjt
-         B/JMdSVjbtrgij+s6fg/VlF+QyvQUKSvbTHJWshf8XpltTkc0FNVqwiOEt2os9ZW4enA
-         eGKdF2obakDAQMJRxzxCMubCjVDkQmeMueFSUQrG138e9dU3o5WqQDf5rqTEDSnHH9Lw
-         a8WZB0d6FLHQZLjjE6FvlRY67CEvWMlUtAhnN2uDuLxYlhAE+w2VhnYWfIFIUi5qsgZe
-         PRK06MYKxELeJY4ByPOlBs05AgT1I/IiCRu+J5GXMHWH2OkFq8vQe8eqkkLPdhw96EXF
-         IpDw==
-X-Forwarded-Encrypted: i=1; AJvYcCVDKiOscacgLIldJgFvxqw0uEDxpUcJ54Y+UHQhFcvAsrReplv+UOM4O7co7udMFbCcQPM6FmPN3e8lpFG8@vger.kernel.org, AJvYcCVRqPDeVBwbaZpe4plVh0uxYR1Oe0kfY3TjPKeOYiSg1p1yahplZzMqJnVO3yLOpCfnaiEulpCP06A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjWTAfjO2C5zqmAKQT8mD88Wv2LDJgsg+k2NkTZOebM4clp/AA
-	6ejnXOZ/Uw2QyL/C+Dcp7ksvk8X9yGarVlt3ipyNQQRQJs7eP71k
-X-Google-Smtp-Source: AGHT+IFblIHJnaDVwGh4GzETKTU5M0uWbRP7F8yh0VAq3YMWQXVcBEBz7bfKQ3ON8am6DPt38xlgsg==
-X-Received: by 2002:a05:622a:205:b0:458:2619:36c with SMTP id d75a77b69052e-45860358394mr17039931cf.35.1726103819397;
-        Wed, 11 Sep 2024 18:16:59 -0700 (PDT)
-Received: from localhost.localdomain (d24-150-189-55.home.cgocable.net. [24.150.189.55])
-        by smtp.googlemail.com with ESMTPSA id d75a77b69052e-458320392cbsm34695801cf.61.2024.09.11.18.16.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Sep 2024 18:16:59 -0700 (PDT)
-From: Dennis Lam <dennis.lamerice@gmail.com>
-To: kent.overstreet@linux.dev,
-	corbet@lwn.net
-Cc: linux-bcachefs@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Dennis Lam <dennis.lamerice@gmail.com>
-Subject: [PATCH] docs: filesystems: bcachefs: fixed some spelling mistakes in the bcachefs coding style page
-Date: Wed, 11 Sep 2024 21:16:28 -0400
-Message-ID: <20240912011626.11614-3-dennis.lamerice@gmail.com>
-X-Mailer: git-send-email 2.46.0
+        d=1e100.net; s=20230601; t=1726104141; x=1726708941;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3V5ePtrpD3YcQBIs0Utaf71h1PbMB20wA8EZdi/NDyI=;
+        b=TfyKhu8qWaDHYntsqrnUO2Oyzvd6q3o0kxj8dD/uyFhdmwvIHYRC70O8CQDj58ytb3
+         eZ3PjPBIHYI3M6M/tiWDX0E3zHTzLh1Ah+NMIrh+sU/xD4fma7zmxlUcBdyM/pPprDAI
+         znAo+iZyuj31cre7lbSLxtP/TTMrA5PoVvuM7HcOUFRZ1/g+K2TskqKx9QLlNrhwlcJk
+         2Ehhea5BmP3Pwn0QmFww8jTuCz6OPnwrn9AUkl3LYCp0VQXrpesG+6eU2ozV0gzY5fcP
+         VLm+6EUoaA4ds3aeDQSvzoZTt2K2Y+GhPBtrY8nduDY+7Bg7+5oWEtZWVEEmtUs5ZK/z
+         vifQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVh7Cd+E5V118ZARc7aSXW7sabViZ+FqgYv5YIe0T8go6aTBv/mvz8S3ooDmlXlo/0bn9hB56tpU9U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzIGcrBpvgfd26C9pH+cc8LTpX/c7V6/0wSACD6fQDaphf3eL5n
+	al63T5BjFGr+h5s52jQ2eZ+a2DGNiS7y5n0+7aTPqEkl+AJ7UjJU
+X-Google-Smtp-Source: AGHT+IHpWM3RXl0/krNQCr6ykmg/F0QPdXAStd+cON/kczT12gc2rMjSJupt2Yu12EQEb782Qb0EKw==
+X-Received: by 2002:a17:903:987:b0:206:d73c:971b with SMTP id d9443c01a7336-2076e43ba28mr17441545ad.55.1726104140472;
+        Wed, 11 Sep 2024 18:22:20 -0700 (PDT)
+Received: from [192.168.255.10] (23.105.223.42.16clouds.com. [23.105.223.42])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2076af20e1csm5254015ad.5.2024.09.11.18.22.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Sep 2024 18:22:19 -0700 (PDT)
+Message-ID: <c8eeba2b-99cf-4b4d-a8ab-145b7266cef4@gmail.com>
+Date: Thu, 12 Sep 2024 09:22:16 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: original file finding
+To: Dongliang Mu <mudongliangabcd@gmail.com>,
+ Cheng Ziqiu <chengziqiu@hust.edu.cn>
+Cc: Dongliang Mu <dzm91@hust.edu.cn>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <75028548-2c1b-4ffd-91e5-9f3ae72d9c3e@gmail.com>
+ <CAD-N9QVuQ2+mG+S7Acp2HuUSOzqb2Bj4XW2UGWXKHx0zWbgBRw@mail.gmail.com>
+Content-Language: en-US
+From: Alex Shi <seakeel@gmail.com>
+In-Reply-To: <CAD-N9QVuQ2+mG+S7Acp2HuUSOzqb2Bj4XW2UGWXKHx0zWbgBRw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Specifically, fixed spelling of "commit" and pluralization of last sentence.
 
-Signed-off-by: Dennis Lam <dennis.lamerice@gmail.com>
----
- Documentation/filesystems/bcachefs/CodingStyle.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/filesystems/bcachefs/CodingStyle.rst b/Documentation/filesystems/bcachefs/CodingStyle.rst
-index 0c45829a4899..b29562a6bf55 100644
---- a/Documentation/filesystems/bcachefs/CodingStyle.rst
-+++ b/Documentation/filesystems/bcachefs/CodingStyle.rst
-@@ -175,7 +175,7 @@ errors in our thinking by running our code and seeing what happens. If your
- time is being wasted because your tools are bad or too slow - don't accept it,
- fix it.
- 
--Put effort into your documentation, commmit messages, and code comments - but
-+Put effort into your documentation, commit messages, and code comments - but
- don't go overboard. A good commit message is wonderful - but if the information
- was important enough to go in a commit message, ask yourself if it would be
- even better as a code comment.
-@@ -183,4 +183,4 @@ even better as a code comment.
- A good code comment is wonderful, but even better is the comment that didn't
- need to exist because the code was so straightforward as to be obvious;
- organized into small clean and tidy modules, with clear and descriptive names
--for functions and variable, where every line of code has a clear purpose.
-+for functions and variables, where every line of code has a clear purpose.
--- 
-2.46.0
+On 9/11/24 9:29 PM, Dongliang Mu wrote:
+> On Wed, Sep 11, 2024 at 6:11 PM Alex Shi <seakeel@gmail.com> wrote:
+>>
+>> Hi Dongliang:
+>>
+>> In scripts/checktransupdate.py,
+>> def get_origin_path(file_path):
+>>     paths = file_path.split("/")
+>>     tidx = paths.index("translations")
+>>     opaths = paths[:tidx]
+>>     opaths += paths[tidx + 2 :]
+>>     return "/".join(opaths)
+> 
+> cc +ziqiu
+> 
+> Could you take a look at this function?
+> 
+>>
+>> It use a different way instead of the ':Original:' line to find out the origin file.
+>> That may cause file finding failed if we have a different dir map for translation.
+> 
+> Yes, this is more reasonable. BTW, is this enforced in the Chinese or
+> other language translation?
 
+It should be used in all language.
+
+> 
+>>
+>> Yes, we have no worry since all of them are same. But could we take the ':Original:' usage for a possible dir map changes?
+> 
+> Yeah, at least we can take the current method as backup for original
+> file location.
+
+good idea!
+
+> 
+>>
+>> Anyway, just a quick idea.
+>>
+>> Thanks
+>> Alex
+>>
