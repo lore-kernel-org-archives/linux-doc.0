@@ -1,122 +1,87 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E4612F3E
-	for <linux-doc@vger.kernel.org>; Thu, 12 Sep 2024 00:54:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D85851C3E;
+	Thu, 12 Sep 2024 00:59:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726102462; cv=none; b=mINKwMNTZBCpCpUKZBCk3MtnyDh3sRXuU+LF7iz5ZaAMr/uzfuN8TfY+0BvCPeX904wNk2Bndxebcc+nU+lNmC6KtyN5mddNb29fcwM19qNd34wMcuDm5y/GPZ41X/u2Ne46dTYW+uWI+hMrI6YJ+NQBKS4QJhM5floVIplmJH0=
+	t=1726102761; cv=none; b=J9HFbkfY8O9M6J8Tyg0bnCX+ccTaHUhqqfIbEBTVfExEWDhXLZ5tgGBGekNkKaIOHbI0x6ud8ytDK5EnI5SW9RLwnEhLYVmfYyPXcNxp9hkJypCDNmdMLhV4qtIkH1c6gAbwjx1i/NEoGfdoOFt99nmhH7vEmBMvFj5UkGJ+yl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726102462; c=relaxed/simple;
-	bh=G7GLqn0KRULSA/DzBkbf6bmbo4/NSkTPF7BwhLKPfZc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gp1tTZvhnDR4TlU2V4yFphehgVeaj0LipI9lmMFl/WsmabU3iOAFsMf39b8u0hLhXO4vx+ENfaMyYwqOngoCXDFpG4jW2pZPIBJ4t6JFFUGYPGoKh/CV6qYeoHSwYtF0u1Uj/pZoB3JDssdWQlH/ppQtUnrnCybPpRrDYl0ke0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=McZcCbfg; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1726102761; c=relaxed/simple;
+	bh=Wtk+NZ17eG6o/WTYLkvBZ/8lcqFKouTKLchh8GISpBw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HUEt7c758nN6AP+/m1gNK77eGuoP/F3t2TBRakTjZ05SUN7QjHsMpNz3eAeg5boTwAJu5m2gety8ZhnFPHI8X42hvlsyW57hqSJyx2reupkolhEhrxPMPsfOACgiFWkKQ4dm/V7Wr6ui3xh5CcrBUH7Bg4i0cHDtn2KpsDrr3Mc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iXNxUO15; arc=none smtp.client-ip=209.85.217.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="McZcCbfg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1726102459;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=b68u0e0/6l3aTcwgwyF4H+GXM1gl+kB/qAh1zau1jhw=;
-	b=McZcCbfg5Nd7nNng1NNW0LxHndGbch2wfLdAdMGKRwvy9vf6MfmJrYr+val5XRcc2Vr8sR
-	+On6Fd512aFCXKhvpNgNbsizlShd4CVJMxgRYwpy11dd94ICiZYY5EmX4hnrk9YOy2hBl4
-	2pH/eb0rwcYSb2QnmQjhd/R2psIKwTk=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-18-xjkabQI1MU-6C18y-nGYWQ-1; Wed,
- 11 Sep 2024 20:54:15 -0400
-X-MC-Unique: xjkabQI1MU-6C18y-nGYWQ-1
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 471501955F68;
-	Thu, 12 Sep 2024 00:54:12 +0000 (UTC)
-Received: from localhost (unknown [10.72.112.58])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DF62F19560A3;
-	Thu, 12 Sep 2024 00:54:07 +0000 (UTC)
-Date: Thu, 12 Sep 2024 08:54:02 +0800
-From: Baoquan He <bhe@redhat.com>
-To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org, vgoyal@redhat.com,
-	dyoung@redhat.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
-	linux-debuggers@vger.kernel.org, stephen.s.brennan@oracle.com,
-	kernel@gpiccoli.net, kernel-dev@igalia.com
-Subject: Re: [PATCH V2] Documentation: Improve crash_kexec_post_notifiers
- description
-Message-ID: <ZuI7qkE/6EVEGajs@MiWiFi-R3L-srv>
-References: <20240830182219.485065-1-gpiccoli@igalia.com>
- <ZtUrX4n+HPYhyQ9z@MiWiFi-R3L-srv>
- <d954da78-87cf-d7d9-a620-0c2fae5dd242@igalia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iXNxUO15"
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-49bd40d77e5so159932137.0;
+        Wed, 11 Sep 2024 17:59:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726102758; x=1726707558; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lgX4sccRi8NJbo5dbrCJ26d2m0ZxHHlk5FqkNXTA4qQ=;
+        b=iXNxUO15uZuz2ApcOLm3O2oSVKNtO9GB5+P/il8PuQph+Hq8nG0/xG42UcuGOSUDVE
+         UHm7Yw5bPzxI9ELRwwz2AJppfBfP4/VHJ1a0GePPfUTrOKC1Lzg7NrTAucA1gp5AdbRD
+         v5tNogv7H/DJlxTM5mxsiaItF0WRv/rIp2gIZOVSyVq2mv/3TRdtaQAHhAH2Xd6clg6H
+         11627ScwMoZkgzS+BAtKDErRQLOthTUXD723+Tcxi7FIPob4K42hCEBuy9Y5S6cM/DIn
+         uvJRJaGnQvGxnsN5xdvAXaWRGVtLh9ijgEQUKAtyvYlY0FD9FQhs9okOMBdqV6ruwx8a
+         a73w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726102758; x=1726707558;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lgX4sccRi8NJbo5dbrCJ26d2m0ZxHHlk5FqkNXTA4qQ=;
+        b=kNOrR6fl/ZG6NzR10JXaiCccsLekaRLe49CW1ZjK2g2AU5H1e3PiBdS3OmZvkU69Tr
+         7RzYSl3J7SGV0ROPwljwuvRIhSXCaI8UxDhJQfREESwCEOSK86PSu4d5O1D18R8SanjP
+         AJfG5QYlyVbnL8rGSC7eenvn9vOjD8WTdpJi5BLUcVMbEuN/Bx8f48FosuvwUHB2M6rx
+         malUhVMY62V5P/NBT38EOLgn+cHWbJ0FVkCFiyiAgRZCwktMw5Ehof1QitcxaiTMUnW+
+         dAS+mDM6uHKbnU/azl2GNjN96Wgf373gW376e9W7e3plKoK2WloCukTkozGE/2p7uqhn
+         ZjRg==
+X-Forwarded-Encrypted: i=1; AJvYcCWATaXE8xKBjeHnE0bN+zrXeG4hty6r+JbEj185O7JPoTr/jmJeIRLKPpAtzQu0yZMgh2TwzA0WNlQb65I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPKKdm8WS+mJY5596KXWFnsQeetBhUG7FA0vOOJLxjOmbCXc9p
+	eQFxz9dtdQRhxk0oepmm1dqp//OLINnzUbIqsgQLgtwswAFsH6G2Mk6gLr7QO1QHQsGqmz+e4f1
+	6hwt6XsJCl3diXJWX6fV6AKIoW/EIVw==
+X-Google-Smtp-Source: AGHT+IEmqE1+LHxlcQWdn5sh6AQNRcr4az7NeDC//sBs8XprlYeT/G3iNb84SLPYkUdpvkA+29zR7DDGaTqjbNjk1jo=
+X-Received: by 2002:a05:6102:26c4:b0:492:a11f:a878 with SMTP id
+ ada2fe7eead31-49d4156b1d4mr1234032137.23.1726102758504; Wed, 11 Sep 2024
+ 17:59:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d954da78-87cf-d7d9-a620-0c2fae5dd242@igalia.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+References: <20240912004747.5417-2-dennis.lamerice@gmail.com>
+In-Reply-To: <20240912004747.5417-2-dennis.lamerice@gmail.com>
+From: Dennis Lam <dennis.lamerice@gmail.com>
+Date: Wed, 11 Sep 2024 20:59:07 -0400
+Message-ID: <CAGZfcdk9i7psbTxPah6banb7wCwXuE7tueTpWcpxZESSbZ-HZw@mail.gmail.com>
+Subject: Re: [PATCH 0/1]
+To: dennis.lamerice@gmail.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 09/11/24 at 05:09pm, Guilherme G. Piccoli wrote:
-> On 02/09/2024 05:05, Baoquan He wrote:
-> > On 08/30/24 at 03:21pm, Guilherme G. Piccoli wrote:
-> >> Be more clear about the downsides, the upsides (yes, there are some!)
-> >> and about code that unconditionally sets that.
-> >>
-> >> Reviewed-by: Stephen Brennan <stephen.s.brennan@oracle.com>
-> >> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
-> >>
-> >> ---
-> >>
-> >> V2: Some wording improvements from Stephen, thanks!
-> >> Also added his review tag.
-> >>
-> >> V1 link: https://lore.kernel.org/r/20240830140401.458542-1-gpiccoli@igalia.com/
-> >>
-> >>
-> >>  Documentation/admin-guide/kernel-parameters.txt | 16 ++++++++++------
-> >>  1 file changed, 10 insertions(+), 6 deletions(-)
-> >>
-> >> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> >> index efc52ddc6864..351730108c58 100644
-> >> --- a/Documentation/admin-guide/kernel-parameters.txt
-> >> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> >> @@ -913,12 +913,16 @@
-> >>  			the parameter has no effect.
-> >>  
-> >>  	crash_kexec_post_notifiers
-> >> -			Run kdump after running panic-notifiers and dumping
-> >> -			kmsg. This only for the users who doubt kdump always
-> >> -			succeeds in any situation.
-> >> -			Note that this also increases risks of kdump failure,
-> >> -			because some panic notifiers can make the crashed
-> >> -			kernel more unstable.
-> >> +			Only jump to kdump kernel after running the panic
-> >> +			notifiers and dumping kmsg. This option increases the
-> >> +			risks of a kdump failure, since some panic notifiers
-> >> +			can make the crashed kernel more unstable. In the
-> >> +			configurations where kdump may not be reliable,
-> >> +			running the panic notifiers can allow collecting more
-> >> +			data on dmesg, like stack traces from other CPUS or
-> >> +			extra data dumped by panic_print. Notice that some
-> >> +			code enables this option unconditionally, like
-> >> +			Hyper-V, PowerPC (fadump) and AMD SEV.
-> >                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > I know Hyper-V enable panic-notifiers by default, but don't remember how
-> > PowerPC and AMD SEC behave in this aspect. While at it, can you add a
-> > little more words to state them in log so that people can learn it?
-> > Thanks.
-> > 
-> Hi Baoquan, tnx for the suggestion! You mean mention that in the commit
-> message? If so, I can certainly do - will sent a new version soon(tm)
-> and include it =)
+On Wed, Sep 11, 2024 at 8:48=E2=80=AFPM Dennis Lam <dennis.lamerice@gmail.c=
+om> wrote:
+>
+> Removed the :c:func usage in the journaling filesystems page.
+>
+> Dennis Lam (1):
+>   docs: filesystems: removed the :c:func usage in the journaling page
+>
+>  Documentation/filesystems/journalling.rst | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> --
+> 2.46.0
+>
 
-You are right, thanks for the effort.
+Please ignore the post, this email was an accident.
 
+Dennis
