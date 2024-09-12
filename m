@@ -1,50 +1,67 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF7E136338;
-	Thu, 12 Sep 2024 09:06:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0F0D18BB9E;
+	Thu, 12 Sep 2024 09:59:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726131987; cv=none; b=mY+RRJ63mN1NufB5oNnHLKns8Wqg00+zr+C4O58SmpMmmwrivWImGeuIbpmv9xb2972ndx0R31FLCKoPrFoKSeyLHB/Ypu5guvRritppdtAtT1JWj+u3aH+Aww5uRBHImgXGaZ8wxTR7w6L1azoru7xgM6TA1sttT8nXZuUJkKU=
+	t=1726135192; cv=none; b=g/QMM9Fl5CTaRsyMLLfBCGuVmLKQhMEg7gWWm7yjJdpl601bbgLV2WkQNnvc35EzDw/u5QDV+0/BDUolFh3javZ+4VZUvs3il4Cr2xuhAELLnublW6Joatr8G708I6v/LGvYW7cA2Bvk1ZLqvWLLLEEtSXYPkl7vcQM+zyVFISk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726131987; c=relaxed/simple;
-	bh=gmWaGnaYgvGtbS+/WmvQDW233G9+1neW7bCLMHLlyQY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LdeD6P6/MYfddpNzqsbek6/O9bMUZWCmxsqhDNXA8UXrR6X4vnaRau2eoFKq8OHPQKe1NR8+KgrRPVwpInm0BkBf1YZvaJxRb7iE1q5sASkQ1KpaMBfyKUu3bRhtxWixNZJAdZ10AxR4unExjuAu0ZrVVM08P1YSq8eAxzJVfEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=hJcTxavP; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1726135192; c=relaxed/simple;
+	bh=+eC9LwoKU/0hryseT1PuMLp7OtuNBsxxiX6MZcVBpRQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f/viSwJUL20ZD9fyo8WB6jx0bakfzS/nIck87l7LGZou8uMhVFfrXgDny5F2SkNZZ0vfE8uNiXAEuh14pBY5Pj7TqwM3ABBGNBeb5ER0QVCT64/9PniW9Wh8mnR50QcRuM9mm5PVnn2LRaKWNDCfBIR2LxxF8IJ6Hh+YOZ8V26M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GEedDX+D; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="hJcTxavP"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 830EB24000A;
-	Thu, 12 Sep 2024 09:06:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1726131982;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=IF+Eaipz1NUyYQfRLpw/7X4WaLCiU+z8IzAnLdbUwUQ=;
-	b=hJcTxavPDHghkve0RstAdi2ef2NNqHjw2MxQEDkpMRuz3G0m4iEF05cjhuexy1lfJDZeyS
-	LxQNYsljFGd/OVcU+lOxw34N1WiuqYHnpc8ZTk58AoILmF7vjf4MOEQDoEnTwe1CWRmT03
-	8fNywin7C88k2rVdGM7ccykm84fILrS3J7k4z9rVg00ytxHmSjWJiQ7EQFmBl00enOMhh1
-	Kv44vOqy4XAhVJRmh/1O+rFiDHqCgD7Krc2nlRKjrlpfYq/GdE2uRAaVuu5TYZsTDylSCM
-	iSAqlhRivio+zaeRT2u3C1ZaWHNicnGmDCx39LQvupZchWcSeon5fPgx9dmI0Q==
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: netdev@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GEedDX+D"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42cd46f3ac9so6851875e9.3;
+        Thu, 12 Sep 2024 02:59:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726135188; x=1726739988; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=R68n0WpZ7NAMs//wrAMdNTn+ob5hHmatDwrx6WqrR6E=;
+        b=GEedDX+DerAhREATiFweFJaFit6+Lxen0TN6fgCqOv/4eKTQg24vlWlvSjxnmO21Ic
+         8N5bG2UCcgbNWfyLwlLcoZWSa6D9RnwhkfN9G9kVkHU6m1o01Z5odWPOiuCpFxA/xSDU
+         u1WznTX0odqhE4k1ZFtiiWkEZdsDtCiPxskLjEt6E+ciaeA6dvobImN40M2+4UH7aoME
+         bvxcaQFYNGxFtLkBisFanM6MXWT05jsrNfurPiMBPCYQyrKb+V5xHYj2N5kT2Tiwfs2k
+         qKBVn8lHT0KkyjOISFEPvYW3XZbLBvu0I8LpocUQuaMx0SSfTTo7ACPP5bef0VG8SWcq
+         KckQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726135188; x=1726739988;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=R68n0WpZ7NAMs//wrAMdNTn+ob5hHmatDwrx6WqrR6E=;
+        b=gr5c668r7hcj+/JFPA4eW112B6fhFmqpa3xPEAF7hLVuPYnZcmMwSBcUYRDt3pR83f
+         o9lIPRWmWrxT97NFXX910i9C1wMXf9diOAetNGHVXPRk23xkQNEyX28mRiPbtrw0rman
+         Uu7wh37+CYwsN4EPoppwlAeRzW0JGCmGo6Ysn6QotjmmSSg7tu2qhXzJ4AkQtwzvoDlA
+         T/9KZHeB1Pt0itNag4LIMp/gL+hUwbZM7KpW0j9Qb9g5ZmCjCLcibf0zkB4ibqauhKdt
+         yTW64vLRfFlLdrTcqY5cbyRbA9CdoPU3vNXX8WDlqbmOuyVBsFWQkuicofLZgCD3b052
+         CeYw==
+X-Forwarded-Encrypted: i=1; AJvYcCWgkJKdVoNp0wAUbFJE4UjILXtpoQsSW1gSMsnsvIRGT2gI51fRG9xGR/DX/bxFZdmL/3HwciSdBEo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0hdhI4AnM+19DrLCUrUciFbFk+WSYPeGBlO/JK3ORLbsVe1/x
+	WwBRTDG6vRLTMdbHfTzwbKmUvI0DEooOp2iHqELd588js7AXOsh2It6miQ==
+X-Google-Smtp-Source: AGHT+IH/JFGMcLnxAyELo+XxOIqJWUK72/01yc0uML7I0RbSY4WEbbWkzGhyf4bbETJZg5e+VebaOw==
+X-Received: by 2002:a05:600c:510f:b0:42c:bb10:7292 with SMTP id 5b1f17b1804b1-42cdb5389acmr18701695e9.1.1726135188088;
+        Thu, 12 Sep 2024 02:59:48 -0700 (PDT)
+Received: from imac.fritz.box ([2a02:8010:60a0:0:c4fd:1041:7607:289c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956e8674sm14098064f8f.115.2024.09.12.02.59.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Sep 2024 02:59:47 -0700 (PDT)
+From: Donald Hunter <donald.hunter@gmail.com>
+To: bpf@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Jakub Kicinski <kuba@kernel.org>,
-	Oleksij Rempel <o.rempel@pengutronix.de>,
-	Simon Horman <horms@kernel.org>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	thomas.petazzoni@bootlin.com,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH net-next v2] Documentation: networking: Fix missing PSE documentation and grammar issues
-Date: Thu, 12 Sep 2024 11:05:50 +0200
-Message-Id: <20240912090550.743174-1-kory.maincent@bootlin.com>
-X-Mailer: git-send-email 2.34.1
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Donald Hunter <donald.hunter@gmail.com>
+Subject: [PATCH bpf-next v2] docs/bpf: Add missing BPF program types to docs
+Date: Thu, 12 Sep 2024 10:59:44 +0100
+Message-ID: <20240912095944.6386-1-donald.hunter@gmail.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,74 +69,78 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-GND-Sasl: kory.maincent@bootlin.com
 
-Fix a missing end of phrase in the documentation. It describes the
-ETHTOOL_A_C33_PSE_ACTUAL_PW attribute, which was not fully explained.
+Update the table of program types in the libbpf documentation with the
+recently added program types.
 
-Also, fix grammar issues by using simple present tense instead of
-present continuous.
-
-Reviewed-by: Oleksij Rempel <o.rempel@pengutronix.de>
-Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
 ---
+ Documentation/bpf/libbpf/program_types.rst | 30 +++++++++++++++++++---
+ 1 file changed, 26 insertions(+), 4 deletions(-)
 
-Change in v2:
-- Add grammar issue fixes.
----
- Documentation/networking/ethtool-netlink.rst | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
-
-diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
-index ba90457b8b2d..295563e91082 100644
---- a/Documentation/networking/ethtool-netlink.rst
-+++ b/Documentation/networking/ethtool-netlink.rst
-@@ -1768,7 +1768,7 @@ Kernel response contents:
- When set, the optional ``ETHTOOL_A_PODL_PSE_ADMIN_STATE`` attribute identifies
- the operational state of the PoDL PSE functions.  The operational state of the
- PSE function can be changed using the ``ETHTOOL_A_PODL_PSE_ADMIN_CONTROL``
--action. This option is corresponding to ``IEEE 802.3-2018`` 30.15.1.1.2
-+action. This attribute corresponds to ``IEEE 802.3-2018`` 30.15.1.1.2
- aPoDLPSEAdminState. Possible values are:
- 
- .. kernel-doc:: include/uapi/linux/ethtool.h
-@@ -1782,8 +1782,8 @@ The same goes for ``ETHTOOL_A_C33_PSE_ADMIN_STATE`` implementing
- 
- When set, the optional ``ETHTOOL_A_PODL_PSE_PW_D_STATUS`` attribute identifies
- the power detection status of the PoDL PSE.  The status depend on internal PSE
--state machine and automatic PD classification support. This option is
--corresponding to ``IEEE 802.3-2018`` 30.15.1.1.3 aPoDLPSEPowerDetectionStatus.
-+state machine and automatic PD classification support. This attribute
-+corresponds to ``IEEE 802.3-2018`` 30.15.1.1.3 aPoDLPSEPowerDetectionStatus.
- Possible values are:
- 
- .. kernel-doc:: include/uapi/linux/ethtool.h
-@@ -1797,12 +1797,13 @@ The same goes for ``ETHTOOL_A_C33_PSE_ADMIN_PW_D_STATUS`` implementing
- 
- When set, the optional ``ETHTOOL_A_C33_PSE_PW_CLASS`` attribute identifies
- the power class of the C33 PSE. It depends on the class negotiated between
--the PSE and the PD. This option is corresponding to ``IEEE 802.3-2022``
-+the PSE and the PD. This attribute corresponds to ``IEEE 802.3-2022``
- 30.9.1.1.8 aPSEPowerClassification.
- 
- When set, the optional ``ETHTOOL_A_C33_PSE_ACTUAL_PW`` attribute identifies
--This option is corresponding to ``IEEE 802.3-2022`` 30.9.1.1.23 aPSEActualPower.
--Actual power is reported in mW.
-+the actual power drawn by the C33 PSE. This attribute corresponds to
-+``IEEE 802.3-2022`` 30.9.1.1.23 aPSEActualPower. Actual power is reported
-+in mW.
- 
- When set, the optional ``ETHTOOL_A_C33_PSE_EXT_STATE`` attribute identifies
- the extended error state of the C33 PSE. Possible values are:
-@@ -1851,7 +1852,7 @@ Request contents:
-   ======================================  ======  =============================
- 
- When set, the optional ``ETHTOOL_A_PODL_PSE_ADMIN_CONTROL`` attribute is used
--to control PoDL PSE Admin functions. This option is implementing
-+to control PoDL PSE Admin functions. This option implements
- ``IEEE 802.3-2018`` 30.15.1.2.1 acPoDLPSEAdminControl. See
- ``ETHTOOL_A_PODL_PSE_ADMIN_STATE`` for supported values.
- 
+diff --git a/Documentation/bpf/libbpf/program_types.rst b/Documentation/bpf/libbpf/program_types.rst
+index 63bb88846e50..09bb834aa827 100644
+--- a/Documentation/bpf/libbpf/program_types.rst
++++ b/Documentation/bpf/libbpf/program_types.rst
+@@ -121,6 +121,8 @@ described in more detail in the footnotes.
+ +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
+ | ``BPF_PROG_TYPE_LWT_XMIT``                |                                        | ``lwt_xmit``                     |           |
+ +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
++| ``BPF_PROG_TYPE_NETFILTER``               |                                        | ``netfilter``                    |           |
+++-------------------------------------------+----------------------------------------+----------------------------------+-----------+
+ | ``BPF_PROG_TYPE_PERF_EVENT``              |                                        | ``perf_event``                   |           |
+ +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
+ | ``BPF_PROG_TYPE_RAW_TRACEPOINT_WRITABLE`` |                                        | ``raw_tp.w+`` [#rawtp]_          |           |
+@@ -131,11 +133,23 @@ described in more detail in the footnotes.
+ +                                           +                                        +----------------------------------+-----------+
+ |                                           |                                        | ``raw_tracepoint+``              |           |
+ +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
+-| ``BPF_PROG_TYPE_SCHED_ACT``               |                                        | ``action``                       |           |
++| ``BPF_PROG_TYPE_SCHED_ACT``               |                                        | ``action`` [#tc_legacy]_         |           |
+ +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
+-| ``BPF_PROG_TYPE_SCHED_CLS``               |                                        | ``classifier``                   |           |
++| ``BPF_PROG_TYPE_SCHED_CLS``               |                                        | ``classifier`` [#tc_legacy]_     |           |
+ +                                           +                                        +----------------------------------+-----------+
+-|                                           |                                        | ``tc``                           |           |
++|                                           |                                        | ``tc`` [#tc_legacy]_             |           |
+++                                           +----------------------------------------+----------------------------------+-----------+
++|                                           | ``BPF_NETKIT_PRIMARY``                 | ``netkit/primary``               |           |
+++                                           +----------------------------------------+----------------------------------+-----------+
++|                                           | ``BPF_NETKIT_PEER``                    | ``netkit/peer``                  |           |
+++                                           +----------------------------------------+----------------------------------+-----------+
++|                                           | ``BPF_TCX_INGRESS``                    | ``tc/ingress``                   |           |
+++                                           +----------------------------------------+----------------------------------+-----------+
++|                                           | ``BPF_TCX_EGRESS``                     | ``tc/egress``                    |           |
+++                                           +----------------------------------------+----------------------------------+-----------+
++|                                           | ``BPF_TCX_INGRESS``                    | ``tcx/ingress``                  |           |
+++                                           +----------------------------------------+----------------------------------+-----------+
++|                                           | ``BPF_TCX_EGRESS``                     | ``tcx/egress``                   |           |
+ +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
+ | ``BPF_PROG_TYPE_SK_LOOKUP``               | ``BPF_SK_LOOKUP``                      | ``sk_lookup``                    |           |
+ +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
+@@ -155,7 +169,9 @@ described in more detail in the footnotes.
+ +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
+ | ``BPF_PROG_TYPE_SOCK_OPS``                | ``BPF_CGROUP_SOCK_OPS``                | ``sockops``                      |           |
+ +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
+-| ``BPF_PROG_TYPE_STRUCT_OPS``              |                                        | ``struct_ops+``                  |           |
++| ``BPF_PROG_TYPE_STRUCT_OPS``              |                                        | ``struct_ops+`` [#struct_ops]_   |           |
+++                                           +                                        +----------------------------------+-----------+
++|                                           |                                        | ``struct_ops.s+`` [#struct_ops]_ | Yes       |
+ +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
+ | ``BPF_PROG_TYPE_SYSCALL``                 |                                        | ``syscall``                      | Yes       |
+ +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
+@@ -209,5 +225,11 @@ described in more detail in the footnotes.
+               ``a-zA-Z0-9_.*?``.
+ .. [#lsm] The ``lsm`` attachment format is ``lsm[.s]/<hook>``.
+ .. [#rawtp] The ``raw_tp`` attach format is ``raw_tracepoint[.w]/<tracepoint>``.
++.. [#tc_legacy] The ``tc``, ``classifier`` and ``action`` attach types are deprecated, use
++                ``tcx/*`` instead.
++.. [#struct_ops] The ``struct_ops`` attach format is ``struct_ops[.s]/<name>``, but ``name`` is
++                 ignored and it is recommended to just use ``SEC("struct_ops[.s]")``. The
++                 attachments are defined in a struct initializer that is tagged with
++                 ``SEC(".struct_ops[.link]")``.
+ .. [#tp] The ``tracepoint`` attach format is ``tracepoint/<category>/<name>``.
+ .. [#iter] The ``iter`` attach format is ``iter[.s]/<struct-name>``.
 -- 
-2.34.1
+2.45.2
 
