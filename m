@@ -1,305 +1,398 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6312C1BBBFE
-	for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 07:23:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182F31D54CC;
+	Fri, 13 Sep 2024 08:14:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726212194; cv=none; b=gaor9Voyppp3cJgK3nUkysFbAUmmqlB3OhtATb65VIrnvW7gUdDQiMkUttNy1IXP2klh6xZzntc2Pcc09sAA2rdLUJS4mn2G/jJ2/sNIMKmXi/OPsRvz6bguB5FRd1ykFEm4f9LyCKDMKz/NvaEvbK+QhZYwtkANIwA3+tonMTs=
+	t=1726215253; cv=none; b=p8IWIONbQTW2fqBVzOdc2OEoVGBeKvTS504Qc1BpAWY/Hkiu/N70a3zKu5TqwdkkS4rr2AVFHrqp8f0PcgANhQp8Wag3/8s9XzpI0ZUeQtKd6a9L0TsLTlPEZIosN3wdr5RgcO0Z8MRa+d69BptYWnC4M0n9dvKCi6Ekeb/uSoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726212194; c=relaxed/simple;
-	bh=UoQvQHYGxHBDOs2/dmrweaC1tYX8GUXP716exDgc0XM=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=auWIwXY8/h1xjjbL5isENdI4CFurr5+Ct7iO55QC8i1Ij0Ns3y2CJFjcJCA8YWdEnbsQP8XqMjsX8Aw67bvKtHu4CiFBd4lmLE4jJ/APch5voeUPaRKcVCqSjjAMojvUgA4Vm2X9bAlqxipmzBioxuA+5dZmrEOnlV1A8kCDxpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oqs8q5F0; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1726215253; c=relaxed/simple;
+	bh=eVz5Oq/QKf8lAddR0QlaGyYVcSvIMN+rucM08tf506I=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=jMR8kR9HTtoMi0ydmkKjxlSqY6kRKXeZ9K1nfsLuOyFrkHjQfmdUCuYow3lA+Ga31YnW7NHc7QVK2OvinR1/pmPwmjoVpp8Ai9qyU7mwwQ6FIUTHk684kwHL2a5T0ctv8wIyH+it7FrDqkMS5lqRR/dNhSBQv8NK9WVYrxJKHvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hpCbTRbn; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oqs8q5F0"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-374ba74e9b6so607773f8f.0
-        for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 00:23:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hpCbTRbn"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3780c8d689aso1292642f8f.0;
+        Fri, 13 Sep 2024 01:14:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1726212191; x=1726816991; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hc7XAJGHyBbhpa7pUAxA88nI2GB75BPUQErsezn/2vI=;
-        b=oqs8q5F0WJLIvKrzdLZUrLEZuBIncnCgNBauScugmHO0z6Z7L5tQCMi02auUlkCu0C
-         hdPpxvcpM0PkdqePjq0FNY7medb4SqqiwmYMX/UxfznG/+EkP38xvtxepxOlUKzZb6Ia
-         BLQtnoDLjAeNOfonkUQlCODaWc6Gd2J27WZaSpoVcTTrtgnGsp2snWLHdgp7OstUVOmR
-         ye+Bf1NdeeRXUOIRB5hMQBKVIq8ZGbfvPGcKy1a/1B8x2u/ZcbqNtCe2PXhSOSs3tY8l
-         mXZU7lZr3ppBkBrnfeVUj4v0aFbJm/oc/ZYouidDFivwrx4kKlBYhXeToMCg8KxfJN0y
-         NbZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726212191; x=1726816991;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+        d=gmail.com; s=20230601; t=1726215249; x=1726820049; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=hc7XAJGHyBbhpa7pUAxA88nI2GB75BPUQErsezn/2vI=;
-        b=BwGOuezpw2rReyLbBhlJLCVNlth+mgtRlR2Aym0py3grGnEH60YNRyYAwC/ilHJXJW
-         N2L2grkH0BFdPPuMuQbVVYAGi5SUURwhLtvkmIXRR7FTK80ghNvSYs5LepFqRq6VzueD
-         /ln1hh0tQ8GipdLcuaKuYXkIVvDdaeVP9gCCGBiQGekdBqIr9XIkpSZQK6fUt4TITkI2
-         9cku+rjvcKtnVlYqzQcs37jOl4Bm76xw9PQwAIYIBAzwjDAH7OXSVdZqsYy9DKwQscvW
-         n9FsQ0OXRIYyh+lcfADvzE25+v19dXrGqGDeowswtc2uMgFXlXIkIWWMOLDGKyp1ofkT
-         sJ5g==
-X-Forwarded-Encrypted: i=1; AJvYcCWBLfjlMGkYsbIqBQCld/h3ePl/4tz8Fze2cjJPj+MNV2O0E6fvTcFaDZ298rKM7eTMQXT21iOu2yg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwuTN+TjBvjtZaTtKffWmCAPpEMhEzEHm1RFoF9lLEFnaSOPSlG
-	W9jAQGPKmhELvyeh3tmwp8NriX9xeG7M6kIYfH9FZZKMv92MnP6VYJR9ZeZxEEI=
-X-Google-Smtp-Source: AGHT+IEGeVMesYuQRs6//xfsVlQ05Zrqp5vZ+akDeM/9fyQLz5ToIyJ2Nzu6idt5KlUBsg7GpBh5Bg==
-X-Received: by 2002:adf:e2d1:0:b0:374:bcdc:6257 with SMTP id ffacd0b85a97d-378d6243b93mr1166797f8f.54.1726212190403;
-        Fri, 13 Sep 2024 00:23:10 -0700 (PDT)
-Received: from [192.168.7.202] ([212.114.21.58])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956655fcsm15975167f8f.38.2024.09.13.00.23.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Sep 2024 00:23:09 -0700 (PDT)
-Message-ID: <f416c319-07ef-4b81-946d-ab72a368c8b7@linaro.org>
-Date: Fri, 13 Sep 2024 09:23:08 +0200
+        bh=OUpZYWJHNms3nGNITBFXq/IMDKxt7l067rR2xQ4gtBY=;
+        b=hpCbTRbnhzz46jw9Y46fDWKr/+GBCvPe/d87ed27MJnZir8KgkqyuEMflRik0z5jur
+         nmrH3pi2Nq/GObBXDIt1c74puVW16Gaebqsh6c9w/lb9NZZxfH24b9ye1cL5tCdH2RV6
+         TZZ573IJuU2vRNuxsW1+OjQnG3bpQVjmqIVMMuUo2ivU0zIM5zoiKlFg6rd5uwU9ygF+
+         5HkESfFBp76zXx6L90j2SA3CPb+B9MHe7C7c3O8ud9cv+zNBdSC9l+tRMm5T9erfcMsL
+         K6JIFXDmUHBxZzEfd0v8lKbje671d2njBDtUcubrQbuQuJtyQkcuqg3A2N//3oClMHBC
+         BXbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726215249; x=1726820049;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OUpZYWJHNms3nGNITBFXq/IMDKxt7l067rR2xQ4gtBY=;
+        b=ayQjod3cziKheHHJzvxQW8Xj3RLLGS9heb+9qylAXYbt/9rBXV6/QGabM4PkybpCRd
+         +R9c4z3QxqKboTSn1MKfpHbkZ9R2EfYnO8srhkATKIwD5sHY3O1ZA5B3YbPMy3uPeo56
+         cdpa7CtiMAe+x120GnUGuGFMJ1vT79WOpUTz61edb0em0xXmVRaIVfkhvwR3VQSfY0Ro
+         H+MOCPM7KLeMFcVcvPFCoThIEKlNgo90rj1TSUM5k/6f8Yu7aZ/EkFok9PzFM8HbR1WD
+         3ebZAlB8pwYjJiydMIPgx6HL4BKUtZ/wnfFfkyQIkYQ1siAdYWa7VnEw8nVXzOo5Y6j8
+         TUDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUCPOodVlfZldhMP4lSHoNX+sg/POQuiQtDmugh5TgoQI9ciIIrIpdeE9ti9/kzwoE9isUMfAEDIvaxiJ4=@vger.kernel.org, AJvYcCUf/7DeKy7nq/2TvpDGapM1xAoqF2YkbBzRAeK0QkbHH1+0wI2qD5NEkFXSgmygn9Ske6DULSzyEa0E@vger.kernel.org, AJvYcCVJk8lqXvXnrF2XmZcnz5YbtWZ38GifSoMqgQOGQQykJ/tJi+LR6vyhonkiGNDkuXiLp8PSwdbfr/5V@vger.kernel.org, AJvYcCWM96+tFEQZHfFFBdgkREzLadZcWipsmCOT9gwnHoEvH2AT+lT1DXkiJNmldokBdPub5VhZNIBkRkoC@vger.kernel.org, AJvYcCXL9tsP0mxO03eyDPs0t3pNp8wKCPspThFRy5uvMCYd0JKi/twG0aqxkqltyDblNVJHkvhaOp6BSqZ+e5jU@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJOUD8o4invB9HU4Av29zQ5XfvI/+hb0wZDAPYs9HJkKuojF7V
+	O2DH219i4D1YbAXn2IkQ2w9ZFuT+Q790KhGV3igsK94zsnQtDvIK
+X-Google-Smtp-Source: AGHT+IH0nsJjNKBUR7RoSFEOwZT35nsdpzzT6hlUcPSM/kdZ1H3tgfife+989nbabMsrd4jW4iSnPA==
+X-Received: by 2002:a5d:5ccd:0:b0:374:c35e:de72 with SMTP id ffacd0b85a97d-378c2cfee06mr2918355f8f.2.1726215248416;
+        Fri, 13 Sep 2024 01:14:08 -0700 (PDT)
+Received: from ?IPv6:2001:a61:341e:1201:c434:b5b1:98a6:efed? ([2001:a61:341e:1201:c434:b5b1:98a6:efed])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42d9b1947e2sm15348145e9.44.2024.09.13.01.14.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Sep 2024 01:14:07 -0700 (PDT)
+Message-ID: <9c90286c366d064aa08dc001df0619b6bc49b427.camel@gmail.com>
+Subject: Re: [PATCH 8/8] iio:adc:ad7606: Add iio-backend support
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Guillaume Stols <gstols@baylibre.com>, Uwe
+ =?ISO-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>, Lars-Peter Clausen
+ <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	20240705211452.1157967-2-u.kleine-koenig@baylibre.com, 
+	20240712171821.1470833-2-u.kleine-koenig@baylibre.com, 
+	cover.1721040875.git.u.kleine-koenig@baylibre.com, aardelean@baylibre.com
+Date: Fri, 13 Sep 2024 10:14:07 +0200
+In-Reply-To: <31a1dfeb-2d72-44bc-b3ca-36b4115c3010@baylibre.com>
+References: 
+	<20240815-ad7606_add_iio_backend_support-v1-0-cea3e11b1aa4@baylibre.com>
+	 <20240815-ad7606_add_iio_backend_support-v1-8-cea3e11b1aa4@baylibre.com>
+	 <5dedf51d8ec19b7b3bd0c6cb136048344f1c1007.camel@gmail.com>
+	 <31a1dfeb-2d72-44bc-b3ca-36b4115c3010@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH v6 09/17] soc: qcom: ice: add HWKM support to the ICE
- driver
-To: Eric Biggers <ebiggers@kernel.org>,
- "Gaurav Kashyap (QUIC)" <quic_gaurkash@quicinc.com>
-Cc: "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Jens Axboe <axboe@kernel.dk>,
- Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
- Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
- Adrian Hunter <adrian.hunter@intel.com>,
- Asutosh Das <quic_asutoshd@quicinc.com>,
- Ritesh Harjani <ritesh.list@gmail.com>, Ulf Hansson
- <ulf.hansson@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>,
- Avri Altman <avri.altman@wdc.com>, Bart Van Assche <bvanassche@acm.org>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- "Theodore Y. Ts'o" <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- "manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dm-devel@lists.linux.dev" <dm-devel@lists.linux.dev>,
- "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "linux-fscrypt@vger.kernel.org" <linux-fscrypt@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- "bartosz.golaszewski" <bartosz.golaszewski@linaro.org>
-References: <20240906-wrapped-keys-v6-0-d59e61bc0cb4@linaro.org>
- <20240906-wrapped-keys-v6-9-d59e61bc0cb4@linaro.org>
- <7uoq72bpiqmo2olwpnudpv3gtcowpnd6jrifff34ubmfpijgc6@k6rmnalu5z4o>
- <66953e65-2468-43b8-9ccf-54671613c4ab@linaro.org>
- <ivibs6qqxhbikaevys3iga7s73xq6dzq3u43gwjri3lozkrblx@jxlmwe5wiq7e>
- <98cc8d71d5d9476297a54774c382030d@quicinc.com>
- <CAA8EJpp_HY+YmMCRwdteeAHnSHtjuHb=nFar60O_PwLwjk0mNA@mail.gmail.com>
- <9bd0c9356e2b471385bcb2780ff2425b@quicinc.com>
- <20240912231735.GA2211970@google.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20240912231735.GA2211970@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 13/09/2024 01:17, Eric Biggers wrote:
-> On Thu, Sep 12, 2024 at 10:17:03PM +0000, Gaurav Kashyap (QUIC) wrote:
->>
->> On Monday, September 9, 2024 11:29 PM PDT, Dmitry Baryshkov wrote:
->>> On Tue, 10 Sept 2024 at 03:51, Gaurav Kashyap (QUIC)
->>> <quic_gaurkash@quicinc.com> wrote:
->>>>
->>>> Hello Dmitry and Neil
->>>>
->>>> On Monday, September 9, 2024 2:44 AM PDT, Dmitry Baryshkov wrote:
->>>>> On Mon, Sep 09, 2024 at 10:58:30AM GMT, Neil Armstrong wrote:
->>>>>> On 07/09/2024 00:07, Dmitry Baryshkov wrote:
->>>>>>> On Fri, Sep 06, 2024 at 08:07:12PM GMT, Bartosz Golaszewski wrote:
->>>>>>>> From: Gaurav Kashyap <quic_gaurkash@quicinc.com>
->>>>>>>>
->>>>>>>> Qualcomm's ICE (Inline Crypto Engine) contains a proprietary
->>>>>>>> key management hardware called Hardware Key Manager (HWKM).
->>>>>>>> Add
->>>>> HWKM
->>>>>>>> support to the ICE driver if it is available on the platform.
->>>>>>>> HWKM primarily provides hardware wrapped key support where
->>> the
->>>>>>>> ICE
->>>>>>>> (storage) keys are not available in software and instead
->>>>>>>> protected in
->>>>> hardware.
->>>>>>>>
->>>>>>>> When HWKM software support is not fully available (from
->>>>>>>> Trustzone), there can be a scenario where the ICE hardware
->>>>>>>> supports HWKM, but it cannot be used for wrapped keys. In this
->>>>>>>> case, raw keys have to be used without using the HWKM. We
->>>>>>>> query the TZ at run-time to find out whether wrapped keys
->>>>>>>> support is
->>>>> available.
->>>>>>>>
->>>>>>>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
->>>>>>>> Signed-off-by: Gaurav Kashyap <quic_gaurkash@quicinc.com>
->>>>>>>> Signed-off-by: Bartosz Golaszewski
->>>>>>>> <bartosz.golaszewski@linaro.org>
->>>>>>>> ---
->>>>>>>>    drivers/soc/qcom/ice.c | 152
->>>>> +++++++++++++++++++++++++++++++++++++++++++++++--
->>>>>>>>    include/soc/qcom/ice.h |   1 +
->>>>>>>>    2 files changed, 149 insertions(+), 4 deletions(-)
->>>>>>>>
->>>>>>>>    int qcom_ice_enable(struct qcom_ice *ice)
->>>>>>>>    {
->>>>>>>> + int err;
->>>>>>>> +
->>>>>>>>            qcom_ice_low_power_mode_enable(ice);
->>>>>>>>            qcom_ice_optimization_enable(ice);
->>>>>>>> - return qcom_ice_wait_bist_status(ice);
->>>>>>>> + if (ice->use_hwkm)
->>>>>>>> +         qcom_ice_enable_standard_mode(ice);
->>>>>>>> +
->>>>>>>> + err = qcom_ice_wait_bist_status(ice); if (err)
->>>>>>>> +         return err;
->>>>>>>> +
->>>>>>>> + if (ice->use_hwkm)
->>>>>>>> +         qcom_ice_hwkm_init(ice);
->>>>>>>> +
->>>>>>>> + return err;
->>>>>>>>    }
->>>>>>>>    EXPORT_SYMBOL_GPL(qcom_ice_enable);
->>>>>>>> @@ -150,6 +282,10 @@ int qcom_ice_resume(struct qcom_ice
->>> *ice)
->>>>>>>>                    return err;
->>>>>>>>            }
->>>>>>>> + if (ice->use_hwkm) {
->>>>>>>> +         qcom_ice_enable_standard_mode(ice);
->>>>>>>> +         qcom_ice_hwkm_init(ice); }
->>>>>>>>            return qcom_ice_wait_bist_status(ice);
->>>>>>>>    }
->>>>>>>>    EXPORT_SYMBOL_GPL(qcom_ice_resume);
->>>>>>>> @@ -157,6 +293,7 @@ EXPORT_SYMBOL_GPL(qcom_ice_resume);
->>>>>>>>    int qcom_ice_suspend(struct qcom_ice *ice)
->>>>>>>>    {
->>>>>>>>            clk_disable_unprepare(ice->core_clk);
->>>>>>>> + ice->hwkm_init_complete = false;
->>>>>>>>            return 0;
->>>>>>>>    }
->>>>>>>> @@ -206,6 +343,12 @@ int qcom_ice_evict_key(struct qcom_ice
->>>>>>>> *ice,
->>>>> int slot)
->>>>>>>>    }
->>>>>>>>    EXPORT_SYMBOL_GPL(qcom_ice_evict_key);
->>>>>>>> +bool qcom_ice_hwkm_supported(struct qcom_ice *ice) {  return
->>>>>>>> +ice->use_hwkm; }
->>>>> EXPORT_SYMBOL_GPL(qcom_ice_hwkm_supported);
->>>>>>>> +
->>>>>>>>    static struct qcom_ice *qcom_ice_create(struct device *dev,
->>>>>>>>                                            void __iomem *base)
->>>>>>>>    {
->>>>>>>> @@ -240,6 +383,7 @@ static struct qcom_ice
->>>>>>>> *qcom_ice_create(struct
->>>>> device *dev,
->>>>>>>>                    engine->core_clk = devm_clk_get_enabled(dev, NULL);
->>>>>>>>            if (IS_ERR(engine->core_clk))
->>>>>>>>                    return ERR_CAST(engine->core_clk);
->>>>>>>> + engine->use_hwkm = qcom_scm_has_wrapped_key_support();
->>>>>>>
->>>>>>> This still makes the decision on whether to use HW-wrapped keys
->>>>>>> on behalf of a user. I suppose this is incorrect. The user must
->>>>>>> be able to use raw keys even if HW-wrapped keys are available on
->>>>>>> the platform. One of the examples for such use-cases is if a
->>>>>>> user prefers to be able to recover stored information in case of
->>>>>>> a device failure (such recovery will be impossible if SoC is
->>>>>>> damaged and HW-
->>>>> wrapped keys are used).
->>>>>>
->>>>>> Isn't that already the case ? the
->>> BLK_CRYPTO_KEY_TYPE_HW_WRAPPED
->>>>> size
->>>>>> is here to select HW-wrapped key, otherwise the ol' raw key is passed.
->>>>>> Just look the next patch.
->>>>>>
->>>>>> Or did I miss something ?
->>>>>
->>>>> That's a good question. If use_hwkm is set, ICE gets programmed to
->>>>> use hwkm (see qcom_ice_hwkm_init() call above). I'm not sure if it
->>>>> is expected to work properly if after such a call we pass raw key.
->>>>>
->>>>
->>>> Once ICE has moved to a HWKM mode, the firmware key programming
->>> currently does not support raw keys.
->>>> This support is being added for the next Qualcomm chipset in Trustzone to
->>> support both at he same time, but that will take another year or two to hit
->>> the market.
->>>> Until that time, due to TZ (firmware) limitations , the driver can only
->>> support one or the other.
->>>>
->>>> We also cannot keep moving ICE modes, due to the HWKM enablement
->>> being a one-time configurable value at boot.
->>>
->>> So the init of HWKM should be delayed until the point where the user tells if
->>> HWKM or raw keys should be used.
->>
->> Ack.
->> I'll work with Bartosz to look into moving to HWKM mode only during the first key program request
->>
-> 
-> That would mean the driver would have to initially advertise support for both
-> HW-wrapped keys and raw keys, and then it would revoke the support for one of
-> them later (due to the other one being used).  However, runtime revocation of
-> crypto capabilities is not supported by the blk-crypto framework
-> (Documentation/block/inline-encryption.rst), and there is no clear path to
-> adding such support.  Upper layers may have already checked the crypto
-> capabilities and decided to use them.  It's too late to find out that the
-> support was revoked in the middle of an I/O request.  Upper layer code
-> (blk-crypto, fscrypt, etc.) is not prepared for this.  And even if it was, the
-> best it could do is cleanly fail the I/O, which is too late as e.g. it may
-> happen during background writeback and cause user data to be thrown away.
-> 
-> So, the choice of support for HW-wrapped vs. raw will need to be made ahead of
-> time, rather than being implicitly set by the first use.  That is most easily
-> done using a module parameter like qcom_ice.hw_wrapped_keys=1.  Yes, it's a bit
-> inconvenient, but there's no realistic way around this currently.
+On Thu, 2024-09-12 at 12:13 +0200, Guillaume Stols wrote:
+> On 9/5/24 10:40, Nuno S=C3=A1 wrote:
+> > On Thu, 2024-08-15 at 12:12 +0000, Guillaume Stols wrote:
+> > > - Basic support for iio backend.
+> > > - Supports IIO_CHAN_INFO_SAMP_FREQ R/W.
+> > > - Only hardware mode is available, and that IIO_CHAN_INFO_RAW is not
+> > > =C2=A0=C2=A0 supported if iio-backend mode is selected.
+> > >=20
+> > > A small correction was added to the driver's file name in the Kconfig
+> > > file's description.
+> > >=20
+> > > Signed-off-by: Guillaume Stols <gstols@baylibre.com>
+> > > ---
+> > Hi Guillaume,
+> >=20
+> > Some initial feedback from me...
+> >=20
+> > > =C2=A0=C2=A0drivers/iio/adc/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0=C2=A0 3 +-
+> > > =C2=A0=C2=A0drivers/iio/adc/ad7606.c=C2=A0=C2=A0=C2=A0=C2=A0 | 103 ++=
++++++++++++++++++++++++++++++++++-------
+> > > -
+> > > =C2=A0=C2=A0drivers/iio/adc/ad7606.h=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 =
+16 +++++++
+> > > =C2=A0=C2=A0drivers/iio/adc/ad7606_par.c |=C2=A0 98 +++++++++++++++++=
+++++++++++++++++++++++-
+> > > =C2=A0=C2=A04 files changed, 200 insertions(+), 20 deletions(-)
+> > >=20
+> > > diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
+> > > index 88e8ce2e78b3..01248b6df868 100644
+> > > --- a/drivers/iio/adc/Kconfig
+> > > +++ b/drivers/iio/adc/Kconfig
+> > > @@ -227,9 +227,10 @@ config AD7606_IFACE_PARALLEL
+> > > =C2=A0=C2=A0	help
+> > > =C2=A0=C2=A0	=C2=A0 Say yes here to build parallel interface support =
+for Analog
+> > > Devices:
+> > > =C2=A0=C2=A0	=C2=A0 ad7605-4, ad7606, ad7606-6, ad7606-4 analog to di=
+gital converters
+> > > (ADC).
+> > > +	=C2=A0 It also support iio_backended devices for AD7606B.
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0	=C2=A0 To compile this driver as a module, choose M here=
+: the
+> > > -	=C2=A0 module will be called ad7606_parallel.
+> > > +	=C2=A0 module will be called ad7606_par.
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0config AD7606_IFACE_SPI
+> > > =C2=A0=C2=A0	tristate "Analog Devices AD7606 ADC driver with spi inte=
+rface
+> > > support"
+> > > diff --git a/drivers/iio/adc/ad7606.c b/drivers/iio/adc/ad7606.c
+> > > index 99d5ca5c2348..a753d5caa9f8 100644
+> > > --- a/drivers/iio/adc/ad7606.c
+> > > +++ b/drivers/iio/adc/ad7606.c
+> > > @@ -21,6 +21,7 @@
+> > > =C2=A0=C2=A0#include <linux/util_macros.h>
+> > > =C2=A0=C2=A0#include <linux/units.h>
+> > > +
+> > > +	/* backend manages interruptions by itself.*/
+> > missing space before closing the comment (also not sure the comments ad=
+ds much)
+>=20
+>=20
+> thx, will check again
+>=20
+>=20
+> >=20
+> > > +	if (!st->back) {
+> > > +		ret =3D wait_for_completion_timeout(&st->completion,
+> > > +						=C2=A0 msecs_to_jiffies(1000));
+> > > +		if (!ret) {
+> > > +			ret =3D -ETIMEDOUT;
+> > > +			goto error_ret;
+> > > +		}
+> > > =C2=A0=C2=A0	}
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0	ret =3D ad7606_read_samples(st);
+> > > @@ -271,6 +284,12 @@ static int ad7606_read_raw(struct iio_dev *indio=
+_dev,
+> > > =C2=A0=C2=A0	case IIO_CHAN_INFO_OVERSAMPLING_RATIO:
+> > > =C2=A0=C2=A0		*val =3D st->oversampling;
+> > > =C2=A0=C2=A0		return IIO_VAL_INT;
+> > > +	case IIO_CHAN_INFO_SAMP_FREQ:
+> > > +		pwm_get_state_hw(st->cnvst_pwm, &cnvst_pwm_state);
+> > > +		/* If the PWM is swinging, return the real frequency,
+> > > otherwise 0 */
+> > > +		*val =3D ad7606_pwm_is_swinging(st) ?
+> > > +			DIV_ROUND_CLOSEST_ULL(NSEC_PER_SEC,
+> > > cnvst_pwm_state.period) : 0;
+> > > +		return IIO_VAL_INT;
+> > > =C2=A0=C2=A0	}
+> > > =C2=A0=C2=A0	return -EINVAL;
+> > > =C2=A0=C2=A0}
+> > > @@ -360,6 +379,8 @@ static int ad7606_write_raw(struct iio_dev *indio=
+_dev,
+> > > =C2=A0=C2=A0			return ret;
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0		return 0;
+> > > +	case IIO_CHAN_INFO_SAMP_FREQ:
+> > > +		return ad7606_set_sampling_freq(st, val);
+> > > =C2=A0=C2=A0	default:
+> > > =C2=A0=C2=A0		return -EINVAL;
+> > > =C2=A0=C2=A0	}
+> > > @@ -482,7 +503,6 @@ static int ad7606_buffer_postenable(struct iio_de=
+v
+> > > *indio_dev)
+> > > =C2=A0=C2=A0	struct ad7606_state *st =3D iio_priv(indio_dev);
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0	gpiod_set_value(st->gpio_convst, 1);
+> > > -	ad7606_pwm_set_swing(st);
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0	return 0;
+> > > =C2=A0=C2=A0}
+> > > @@ -492,19 +512,53 @@ static int ad7606_buffer_predisable(struct iio_=
+dev
+> > > *indio_dev)
+> > > =C2=A0=C2=A0	struct ad7606_state *st =3D iio_priv(indio_dev);
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0	gpiod_set_value(st->gpio_convst, 0);
+> > > -	ad7606_pwm_set_low(st);
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0	return 0;
+> > > =C2=A0=C2=A0}
+> > > =C2=A0=20
+> > > +static int ad7606_pwm_buffer_postenable(struct iio_dev *indio_dev)
+> > > +{
+> > > +	struct ad7606_state *st =3D iio_priv(indio_dev);
+> > > +
+> > > +	return ad7606_pwm_set_swing(st);
+> > > +}
+> > > +
+> > > +static int ad7606_pwm_buffer_predisable(struct iio_dev *indio_dev)
+> > > +{
+> > > +	struct ad7606_state *st =3D iio_priv(indio_dev);
+> > > +
+> > > +	return ad7606_pwm_set_low(st);
+> > > +}
+> > Maybe I'm missing something but are we removing the gpiod calls?
+>=20
+>=20
+> Well actually the pwm is meant to be used only with backend. Though it=
+=20
+> could be used without it, I dont think it is a very good idea because=20
+> interrupt handling + transmission init takes quite some time, and a new=
+=20
+> rising edge could happen before the current samples are effectively=20
+> transferred. However, since PWM and backend are two separate things, I=
+=20
+> wanted to show an usage for the PWM when introducing it, and one way to=
+=20
+> do it was to use it to emulate a GPIO by setting the duty cycle 100% for=
+=20
+> having a 1 (set_high) and 0% for having a 0 (set_low). Then on this=20
+> patch, since we introduce iio-backend, I removed this 'mock' usage of it.
+>=20
+> But I think that I should separate the removal into an additional patch=
+=20
+> to avoid confusions. Or shall I just remove the mock usage from the PWM=
+=20
+> patch ?
+>=20
+>=20
 
-Considering the arguments, I'll vote in favor of a module parameter, since using
-hw_wrapped_keys is a system design choice, it's fine to enable it via a module
-parameter. It will complicate CI, but in the actual case we just can't disable
-RAW keys support just because the firmware can potentially use wrapper keys.
+Yeah, probably better (with a proper commit message explaining the reasonin=
+g)
 
-Neil
+> > > +
+> > > +static int ad7606_update_scan_mode(struct iio_dev *indio_dev,
+> > > +				=C2=A0=C2=A0 const unsigned long *scan_mask)
+> > > +{
+> > > +	struct ad7606_state *st =3D iio_priv(indio_dev);
+> > > +
+> > > +	/* The update scan mode is only for iio backend compatible drivers.
+> > > +	 * If the specific update_scan_mode is not defined in the bus ops,
+> > > +	 * just do nothing and return 0.
+> > > +	 */
+> > > +	if (st->bops->update_scan_mode)
+> > > +		return st->bops->update_scan_mode(indio_dev, scan_mask);
+> > > +	else
+> > > +		return 0;
+> > Redundant else
+>=20
+>=20
+> ack
+>=20
+> > > -	if (ret)
+> > > -		return ret;
+> > > =C2=A0=20
+> > > +	if (st->bops->iio_backend_config) {
+> > > +		st->bops->iio_backend_config(dev, indio_dev);
+> > > +		indio_dev->setup_ops =3D &ad7606_pwm_buffer_ops;
+> > Ignoring error code
+>=20
+>=20
+> will handle
+>=20
+>=20
+> >=20
+> > > +	} else {
+> > > +		/* Reserve the PWM use only for backend (force gpio_convst
+> > > definition)*/
+> > > +		if (!st->gpio_convst)
+> > > +			return dev_err_probe(dev, -EINVAL,
+> > > +					=C2=A0=C2=A0=C2=A0=C2=A0 "Convst pin must be defined when
+> > > not in backend mode");
+> > > +
+> > > +		init_completion(&st->completion);
+> > > +		ret =3D devm_request_threaded_irq(dev, irq,
+> > > +						NULL,
+> > > +						&ad7606_interrupt,
+> > > +						IRQF_TRIGGER_FALLING |
+> > > IRQF_ONESHOT,
+> > > +						chip_info->name, indio_dev);
+> > > +		if (ret)
+> > > +			return ret;
+> > > +	}
+> > Are we still calling devm_iio_triggered_buffer_setup() in case we have =
+a backend
+> > device?
+>=20
+>=20
+> No, this portion of code is only executed if convst is defined=20
+> (conversion trigger GPIO), which is not the case if there is a backend.
+>=20
+>=20
+> >=20
+> > > =C2=A0=C2=A0	return devm_iio_device_register(dev, indio_dev);
+> > > =C2=A0=C2=A0}
+> > ...
+> >=20
+> > > +#ifdef CONFIG_IIO_BACKEND
+> > Not a fan of this #ifef... It's not that much code so I would just sele=
+ct
+> > IIO_BACKEND for this driver. In fact, I don't think we can separately e=
+nable
+> > IIO_BACKEND in the menuconfig menu?
+>=20
+>=20
+> OK I can do it that way.
+>=20
+> > > +static int ad7606_bi_setup_iio_backend(struct device *dev, struct ii=
+o_dev
+> > > *indio_dev)
+> > > +{
+> > > +		struct ad7606_state *st =3D iio_priv(indio_dev);
+> > > +		unsigned int ret, c;
+> > > +
+> > > +		st->back =3D devm_iio_backend_get(dev, NULL);
+> > > +		if (IS_ERR(st->back))
+> > > +			return PTR_ERR(st->back);
+> > > +
+> > > +		/* If the device is iio_backend powered the PWM is mandatory
+> > > */
+> > > +		if (!st->cnvst_pwm)
+> > > +			return -EINVAL;
+> > > +
+> > > +		ret =3D devm_iio_backend_request_buffer(dev, st->back,
+> > > indio_dev);
+> > > +		if (ret)
+> > > +			return ret;
+> > > +
+> > > +		ret =3D devm_iio_backend_enable(dev, st->back);
+> > > +		if (ret)
+> > > +			return ret;
+> > > +
+> > > +		struct iio_backend_data_fmt data =3D {
+> > > +			.sign_extend =3D true,
+> > > +			.enable =3D true,
+> > > +		};
+> > I would follow typical kernel coding style and have this declared at th=
+e
+> > beginning of the function.
+>=20
+>=20
+> aouch, yes !
+>=20
+>=20
+> > > -
+> > > +#ifdef CONFIG_IIO_BACKEND
+> > > +	struct iio_backend *back;
+> > > +
+> > > +	/*For now, only the AD7606B is backend compatible.*/
+> > > +	if (chip_info->has_backend) {
+> > > +		back =3D devm_iio_backend_get(&pdev->dev, NULL);
+> > > +		if (IS_ERR(back))
+> > > +			return PTR_ERR(back);
+> > > +
+> > > +		return ad7606_probe(&pdev->dev, 0, NULL,
+> > > +				=C2=A0=C2=A0=C2=A0 chip_info,
+> > > +				=C2=A0=C2=A0=C2=A0 &ad7606_bi_bops);
+> > > +	}
+> > > +#endif
+> > Not sure I follow the above? You also get the backend in
+> > ad7606_bi_setup_iio_backend()? So it seems to be that the has_backend f=
+lag is
+> > not really needed?
+>=20
+>=20
+> The first call to devm_iio_backend_get checks if there is a backend=20
+> available, and if so the backend bops (ad7606_bi_bops)are passed to the=
+=20
+> generic probe function.
+>=20
 
-> 
-> - Eric
+Why not checking for the presence of the DT property? We should only get th=
+e backend
+when ready for that.
 
+- Nuno S=C3=A1
+>=20
