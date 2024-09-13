@@ -1,98 +1,163 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC7A1BD510;
-	Fri, 13 Sep 2024 08:32:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23DC1D6DB1
+	for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 09:55:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726216368; cv=none; b=GB4Z6Ja+NmWQG1gQi6BwOnJuJJ07Q/bBCha60r2WMom1HcrXzXg7QHfOi2dJahpK6tQv8z4IqYnJVoDNRKwNyBeDHIp8JnYPXMe+aIpwDBmv6Yhu5DSieO9EqSeZbqeceCLlYjO8TZneZ2zJN9OMGa3hH5rHMh64dhSzIDOjG3w=
+	t=1726221334; cv=none; b=ShQ+mkSy8WlsdxwFtLrvMYEzbWVlYWGNRbS1vsngKcFkls3LEArM6Ri0hpiWKo7tP950VEzJIqfIqh9oC34cuCUi6c1/zP/iCOGh/XMbcpmv1fUeghuUc/VsICb9xLyG0IXBs3YQuCKhfqfaRmLr9rFRvr4PzCAY8aziTRZ1ej8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726216368; c=relaxed/simple;
-	bh=DmD/oFS9ztHwN6LHCihrKLQc89zTH//9v3d7Pudf0gE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:MIME-Version:
-	 Content-Type; b=ExR9PH9Cx3NzViorSwBLe9VVppdJWLLsAavJ8abUytViDxbY5D8f3gUr1irXBN5vLR5TZLGcDs/YpnUi+F/vyjz0HxlUSWzp1qcyo1Sjvd4K4HQbK4qJgY+hl5qW8SDVf+xGJK2OcoLdc/NcuhNamr8KwR7gDrGR/BrlVvTDZ68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jhx/fTcJ; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1726221334; c=relaxed/simple;
+	bh=QdwlMldGdphejuyA0j4+krFypkdA83svh79wzoxEj0w=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=VdEJ4YB82qpEA8urmuTtJZa4NQK31a0/LqgNE2Lb1FTxtP6XVasuJcAIGnIRkSeVv3LhMFxTmWN/AyJhBTLk5sexyqyvCNUkaI+dnGB+Sku19HpOr+Q5eUkiAA2OYK1CgtHbpk6AjuW0pWCZpALS3/02z5ax3YyQW+BfiNLfU8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=arhh5NWE; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jhx/fTcJ"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42bb7298bdeso8398455e9.1;
-        Fri, 13 Sep 2024 01:32:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="arhh5NWE"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4280ca0791bso18695335e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 02:55:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726216364; x=1726821164; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:in-reply-to:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wp9Y737ViR4EfOInl3nplGoJAcdlB+yuFRrQ0BSzktk=;
-        b=Jhx/fTcJPNndRUuB9lLIkr6H2oVl3Y3IgpPLrXQ+E1a0nBioMhXnID93eZbuFyCWts
-         mG7zgAbtomkavBn8aZdut71HWvmuL0jnSka1+IgbriASbZudnlAihbnT7Ee10MBQhr0Z
-         fRCKmBjgb+G0rmPAnt7Cs0mXneVLBEyyumOOLwsYDOWS14TWfcQBoTK+MrSGbHKTdpF2
-         1xrXWzDvsn7t3SdZovQQVffRdpTFRoJsmyWqc7JS3svST+2mGmIdJUU6iP1fK+E7FEks
-         Q2ytItjS5b7uf5IYPjjdKMwtO/ltg8YmuXiqyEOoTI5+R7uDRewheb9X4LQuraJi8ogO
-         q9YA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726216364; x=1726821164;
-        h=content-transfer-encoding:mime-version:in-reply-to:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1726221330; x=1726826130; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Wp9Y737ViR4EfOInl3nplGoJAcdlB+yuFRrQ0BSzktk=;
-        b=CC2kPq0NMpoQlyvwwQGJ5vEUO0TSKAQH1rh87lfmxyC95t99ic+JyaUzFove18EiD+
-         ZUyzw1cHZlmVFGc7x6gbOmzgPTvDP/EnhsnvP+DNeg3Xn+xyKYj+Ro8j1nkgK3EU0rVp
-         C4SDNyGL8cQBThaF115qzW7tr8DHYBlwhrCrnAIf9qsCOj0zvnrTq9jklqmXSD3cfBfK
-         BaQLmiwTbppqxkyALFKkBp86519C7zGjephYCDFMSUc1C03UMhUnPVSVtnbulhY6DcqP
-         9S3X1PNxNmeclJ9WZv88hOhncNnkITcT+XTlV1x5JM46e0hwrgilXFOQ00UKpC/7+0PA
-         jkZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVIlyw8Iqifmi6QO3W27gpL5Yps4Umbel6VfeHenqDICDkRCf4GOEb5uZgUTuXPvp+AdepMo5MD8tdKs01X@vger.kernel.org, AJvYcCVZhtCsE7fBQBoh9sEfBVptj41j3+fAbDhSJe69+D2YXrCjgfEVEgROnTtaxZyDNBxarIHYQ4f+7LQZ@vger.kernel.org, AJvYcCVgwjQVBFTp3C5NMyVk9yyRFMN8JuC3KojXOZIvdBAxBWLGLDQNGbcRHi3Fjtwb47nMOEXeHi16dQul@vger.kernel.org, AJvYcCWZm4I9Psi60SeNFjWZ7cFwDORxH+zRMM849RkJ8171oHYqXKjV7ZSjQ6wSq5YhvKr4SNlbtOdOLc+cYk9ARQ==@vger.kernel.org, AJvYcCWwEPwpvI3d+Q/A5RLV9L0UySQGRUzvaMqHrlJ0ym9jM6Ep1BoL81xWty5bwfnyezFEOd6CYJW9Fp5Y@vger.kernel.org, AJvYcCXAtFR1aRpti65x7wjtc1ykiku5SrqYe8c1YRRpzkbgBxjqBHUipS9Y+EHuE2LCcneUSH5O4X5pKln/IJs=@vger.kernel.org, AJvYcCXQ9Zm3YR3Wdqj/qTd4FAKG4E3bCHA0bxcdZfdJXQP/IXADUeyzUvVnJVBsWXLy7IjpiHW3p/rMzMXDHgg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxoXlD9a7RE+14evReJdk7rJUMOEwqyQ5v3PaDxvLSfJe+SEOkd
-	Z3TnVu8LxefjBRrXOnnvBAyqaMlT9ZIRmNXhcySWedeVszspEWFq
-X-Google-Smtp-Source: AGHT+IE2Ku5Yqa7DnoqdH5xDY5dD9ozv14FV0pNO09UH2LmGbvbqmw1nTSHM8AvIojolJCXpaHwH8w==
-X-Received: by 2002:a5d:5150:0:b0:374:bd48:fae8 with SMTP id ffacd0b85a97d-378d61f090fmr1570895f8f.25.1726216363746;
-        Fri, 13 Sep 2024 01:32:43 -0700 (PDT)
-Received: from foxbook (bio60.neoplus.adsl.tpnet.pl. [83.28.130.60])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d25cf03ccsm846921566b.183.2024.09.13.01.32.41
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Fri, 13 Sep 2024 01:32:43 -0700 (PDT)
-Date: Fri, 13 Sep 2024 10:32:37 +0200
-From: =?UTF-8?B?TWljaGHFgg==?= Pecio <michal.pecio@gmail.com>
-To: quic_wcheng@quicinc.com, mathias.nyman@linux.intel.com
-Cc: Thinh.Nguyen@synopsys.com, alsa-devel@alsa-project.org,
- bgoswami@quicinc.com, broonie@kernel.org, conor+dt@kernel.org,
- corbet@lwn.net, devicetree@vger.kernel.org, dmitry.torokhov@gmail.com,
- gregkh@linuxfoundation.org, krzk+dt@kernel.org, lgirdwood@gmail.com,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- mathias.nyman@intel.com, perex@perex.cz,
- pierre-louis.bossart@linux.intel.com, robh@kernel.org,
- srinivas.kandagatla@linaro.org, tiwai@suse.com
-Subject: Re: [PATCH v27 01/32] xhci: add helper to stop endpoint and wait
- for completion
-Message-ID: <20240913103237.2f5dc796@foxbook>
-In-Reply-To: <20240912193935.1916426-2-quic_wcheng@quicinc.com>
+        bh=8IimCEQjw+RxgJwL7dEaHdlom89dp2Edr+TPjCTDc1c=;
+        b=arhh5NWEy49xdC8Rpv58dGQlK0ydVbRg9QdBUG47wMgAaNFpL8Y1CsoOhYcwb8nJXw
+         bEnoKrbJKQnaCVrwIUSpTRp1QaipudZUmJcbNqiSzfI+sDjdZRqE8/z13JRYhMUyBMho
+         Ny52fdZVdwMyoQlCtSEOxw5eevGlx0KCiCZ3VYWA5IdU0q7/AIJCxzSHK3wnOJL5lDsg
+         0PvNCSDJpuj2KdLDnqbVRTyVEcm3JYvBa5pqSmMxswQ/C6HXYYp7wHRKLkLjjyJDRm5P
+         FfVeN6R+/NChkWAdv395GfQQ6PwCW7QCs+2x0rpWOzyXO9zziUy7Z7IEFDZdEtXbXUuH
+         T2nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726221330; x=1726826130;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=8IimCEQjw+RxgJwL7dEaHdlom89dp2Edr+TPjCTDc1c=;
+        b=CVAmPridaxJ9FQqDfZCFW2dEW1ymL/rS0KhVi0oOur+3xzI+9mMUECuh/Pmmr6JCdk
+         iFRmOxd0qO459UsfBlWu9nkqh7AP+EpZaCDuJxv/6wm0vsSNhmWrquUls/CGeVUIgNWo
+         W9y39GGEopYLJ2aGbKCkadnPpwFc6V1bYyaE78jnUh4x8BkjQv/GDrcColVVZNGN4hsd
+         HyBrLjzKHpw4xEj6DZKZirIJxEl2BQmwulkparktAS0GbPKcKhRzg4kiJCi+WyAvl/VP
+         e0rvlGa/OWjBIYxGfkI9gnTUZgva3S4He7ZPneoIpY9FfeNWbodF/a/1X5cJQsBKLsvU
+         B2Og==
+X-Forwarded-Encrypted: i=1; AJvYcCWHTuP+lzWF8N5fDEJpwGgpcYIchAuF3wkmW5zqruHbZzoOrfojSBXWE8ohjlIXtkV2dhmI+DtPxWE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJxyxL4cMCr5ajFsgS0g/wGICHJxXP3AGWvYygItjQAmONjBJC
+	xsxkw1Ko19wS8OOqx8bibvl3FWjekpI+1gZrBgZ5exOfvFDEGgq61PYh2JYtlJo=
+X-Google-Smtp-Source: AGHT+IF4CvTAu/JtSSJx1DTcjPw9Y2oWznPE0a2seSirQo3gZlG7JOgoRrPbVmWsUTwVrl3EsyiV5A==
+X-Received: by 2002:a05:600c:35cf:b0:42c:bc22:e074 with SMTP id 5b1f17b1804b1-42cdb575036mr52128725e9.29.1726221329829;
+        Fri, 13 Sep 2024 02:55:29 -0700 (PDT)
+Received: from localhost (amontpellier-556-1-151-252.w109-210.abo.wanadoo.fr. [109.210.7.252])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42d9b1948fasm18463575e9.43.2024.09.13.02.55.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Sep 2024 02:55:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 13 Sep 2024 09:55:28 +0000
+Message-Id: <D452E2M75XCM.13OQGAPJ7JJ4A@baylibre.com>
+Cc: "Lars-Peter Clausen" <lars@metafoo.de>, "Michael Hennerich"
+ <Michael.Hennerich@analog.com>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Nuno Sa" <nuno.sa@analog.com>, "Jonathan Corbet" <corbet@lwn.net>,
+ <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "David Lechner" <dlechner@baylibre.com>,
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 4/6] iio: adc: ad4030: add support for ad4630-24 and
+ ad4630-16
+From: "Esteban Blanc" <eblanc@baylibre.com>
+To: "Jonathan Cameron" <jic23@kernel.org>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20240822-eblanc-ad4630_v1-v1-0-5c68f3327fdd@baylibre.com>
+ <20240822-eblanc-ad4630_v1-v1-4-5c68f3327fdd@baylibre.com>
+ <20240826102748.4be0b642@jic23-huawei>
+In-Reply-To: <20240826102748.4be0b642@jic23-huawei>
 
-Hi,
+On Mon Aug 26, 2024 at 9:27 AM UTC, Jonathan Cameron wrote:
+> On Thu, 22 Aug 2024 14:45:20 +0200
+> Esteban Blanc <eblanc@baylibre.com> wrote:
+> > @@ -460,12 +517,21 @@ static int ad4030_conversion(struct ad4030_state =
+*st,
+> >  	if (ret)
+> >  		return ret;
+> > =20
+> > -	if (st->mode !=3D AD4030_OUT_DATA_MD_24_DIFF_8_COM)
+> > +	if (st->chip->num_channels =3D=3D 2)
+> > +		ad4030_extract_interleaved(st->rx_data.raw,
+> > +					   &st->rx_data.diff[0],
+> > +					   &st->rx_data.diff[1]);
+> > +
+> > +	if (st->mode !=3D AD4030_OUT_DATA_MD_16_DIFF_8_COM &&
+> > +	    st->mode !=3D AD4030_OUT_DATA_MD_24_DIFF_8_COM)
+> >  		return 0;
+> > =20
+> >  	byte_index =3D BITS_TO_BYTES(chan->scan_type.realbits);
+> > -	for (i =3D 0; i < st->chip->num_channels; i++)
+> > -		st->rx_data.buffered[i].common =3D ((u8 *)&st->rx_data.buffered[i].v=
+al)[byte_index];
+> > +	/* Doing it backward to avoid overlap when reordering */
+> > +	for (i =3D st->chip->num_channels - 1; i > 0; i--) {
+> > +		st->rx_data.buffered_common[i].diff =3D st->rx_data.diff[i];
+> > +		st->rx_data.buffered_common[i].common =3D ((u8 *)&st->rx_data.diff[i=
+])[byte_index];
+> > +	}
+>
+> I wonder if doing it in place is actually worthwhile.  Maybe unpack into =
+a second
+> array? That is still fairly small and may make code easier to read.
 
-> Expose xhci_stop_endpoint_sync() which is a synchronous variant of
-> xhci_queue_stop_endpoint().  This is useful for client drivers that are
-> using the secondary interrupters, and need to stop/clean up the current
-> session.  The stop endpoint command handler will also take care of
-> cleaning up the ring.
+Okay sure
 
-I'm not entirely sure what you meant by "cleaning up the ring" (maybe a
-comment would be in order?), but I see nothing being done here after the
-command completes and FYI xhci-ring.c will not run the default handler if
-the command is queued with a completion, like here.
+> > +static const unsigned long ad4630_channel_masks[] =3D {
+> > +	/* Differential only */
+> > +	BIT(0) | BIT(2),
+> > +	/* Differential with common byte */
+> > +	GENMASK(3, 0),
+> The packing of data isn't going to be good. How bad to shuffle
+> to put the two small channels next to each other?
+> Seems like it means you will want to combine your deinterleave
+> and channel specific handling above, which is a bit fiddly but
+> not much worse than current code.
 
-At least that's the case for certain command types and there is probably
-a story behind each of them. I know that xhci_stop_device() queues a
-Stop EP with completion (and also a few without(?)). Maybe it's a bug...
+I can do it since that was what I had done in the RFC in the first place.
+Nuno asked for in this email https://lore.kernel.org/r/0036d44542f8cf45c91c=
+867f0ddd7b45d1904d6b.camel@gmail.com/:
 
-Regards,
-Michal
+>>> * You're pushing the CM channels into the end. So when we a 2 channel d=
+evice
+>>> we'll have:
+
+>>> in_voltage0 - diff
+>>> in_voltage1 - diff
+>>> in_voltage2 - CM associated with chan0
+>>> in_voltage0 - CM associated with chan1
+>>>
+>>> I think we could make it so the CM channel comes right after the channe=
+l where
+>>> it's data belongs too. So for example, odd channels would be CM channel=
+s (and
+>>> labels could also make sense).
+
+So that's what I did here :D
+
+For the software side off things here it doesn't change a lot of things
+since we have to manipulate the data anyway, putting the extra byte at the
+end or in between is no extra work.
+For the offload engine however, it should be easier to ask for 24 bits
+then 8 bits for each channel as it would return two u32 per "hardware
+channel".
+
+In order to avoid having two different layouts, I was kind of sold by
+Nuno's idea of having the CM in between each diff channel.
+
+Thanks for your time,
+
+--=20
+Esteban Blanc
+BayLibre
