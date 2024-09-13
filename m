@@ -1,143 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B739712D773;
-	Fri, 13 Sep 2024 18:33:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C4B3032A
+	for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 18:55:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726252405; cv=none; b=FdH9GclVMw0UpU8Y650Pxv06GspkNBLhyhEuy32SL+5DBrj7tWhxx/0oFFPEqOwSHpR+jOEBR/BhybmMldwobvDRArzmcJ8TXxrWs2hX7o7j21nqBJnfv1ugjsna+nRDslqw3+jzufPewWbBiwqDilihPB3x2ezf5khUMYqI3dI=
+	t=1726253737; cv=none; b=eXZixTvpEWxggCyN4nqP/xV+kWH53EpynqiuT/LwfNij+ijCUE7vIK+5+GsGTCVSZF7rEv5B3ykQN41xgtGdxkZ/SS5EAof1roUF8NqcbhcGoeIzL/5fITN1YzmqefTWhp1HV7KINPB/cjsan3dDfVWw1dXV2sWzemDnB0EVEmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726252405; c=relaxed/simple;
-	bh=A1W9jCfny74eDZ2Sq3AsHaoLeaw3yFn1FM9duxuPzpw=;
+	s=arc-20240116; t=1726253737; c=relaxed/simple;
+	bh=V+VmYPTZRE3hzK62YCRKPBn1g2RyukAfOJtc1OgpEBU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iZpBf12XnyGY5gjW5UIt51wjLgyKCi9L4fobuRjIW3065jetV3iCeRrto7VDxn3XSMbGXY/HqtCvA0krG1aeg9YSnA8iKqLzu0teHYMYQfwgJ66beiiRhF+J21Bpym+DMCk4QMyI3K6KGFoqvmJDOskyXm5C6xDV9+8iRaGz7do=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xse7L38f; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=UwQbNrlNNsAcOQ8JB1jUvw2hELXjS7b0oBOYmoCOXv+MbGs8XvK0jWUFv//UWzrT66Fit3wPwO9Bl6nl4i5nShEC9ZuFWK/tRRvTGQFE7cb7vbU8mj10yqw2Zvmos4BvaVrb8KZctfMZL1eMwJCPWs0KGbA36o2fKFzhRaRCgdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=nJ8l+26h; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xse7L38f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05299C4CEC0;
-	Fri, 13 Sep 2024 18:33:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726252405;
-	bh=A1W9jCfny74eDZ2Sq3AsHaoLeaw3yFn1FM9duxuPzpw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Xse7L38f6kbjvUpu6KuIcVvQkUwvvSdpQAM+baUWBOxKHwkNfN5n2a4WPozZqBe8H
-	 wK0MzQxo8HaBbxuUeFJXh3/RW+hMjig/4aZGdSxtxD3LD8GbD3DRZcbszWLIfS3u+T
-	 +C1yA4kCqVrgK0dsD4o3gsiA0TZa8JVM1HU/f8BtZlm8MQBlP8HkJcDN5H+1fbF5jI
-	 ndbaCs1vA15EeSzoQc+9usB98O311e5c8s64OxS6Xxc1uJ16cXD1TaIJd3pdwK4a4D
-	 07izK89AKA0KtL0Q249Alsfdaz8Zn0MATGInL83hMy59wNE/n9GB0mXHAaewkqPYn8
-	 4wIslCdEw1Wyg==
-Date: Fri, 13 Sep 2024 19:33:07 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Deepak Gupta <debug@rivosinc.com>
-Cc: paul.walmsley@sifive.com, palmer@sifive.com, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-arch@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, corbet@lwn.net, palmer@dabbelt.com,
-	aou@eecs.berkeley.edu, robh@kernel.org, krzk+dt@kernel.org,
-	oleg@redhat.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-	peterz@infradead.org, akpm@linux-foundation.org, arnd@arndb.de,
-	ebiederm@xmission.com, kees@kernel.org, Liam.Howlett@oracle.com,
-	vbabka@suse.cz, lorenzo.stoakes@oracle.com, shuah@kernel.org,
-	brauner@kernel.org, samuel.holland@sifive.com, andy.chiu@sifive.com,
-	jerry.shih@sifive.com, greentime.hu@sifive.com,
-	charlie@rivosinc.com, evan@rivosinc.com, cleger@rivosinc.com,
-	xiao.w.wang@intel.com, ajones@ventanamicro.com, anup@brainfault.org,
-	mchitale@ventanamicro.com, atishp@rivosinc.com, sameo@rivosinc.com,
-	bjorn@rivosinc.com, alexghiti@rivosinc.com, david@redhat.com,
-	libang.li@antgroup.com, jszhang@kernel.org, leobras@redhat.com,
-	guoren@kernel.org, samitolvanen@google.com,
-	songshuaishuai@tinylab.org, costa.shul@redhat.com, bhe@redhat.com,
-	zong.li@sifive.com, puranjay@kernel.org, namcaov@gmail.com,
-	antonb@tenstorrent.com, sorear@fastmail.com,
-	quic_bjorande@quicinc.com, ancientmodern4@gmail.com,
-	ben.dooks@codethink.co.uk, quic_zhonhan@quicinc.com,
-	cuiyunhui@bytedance.com, yang.lee@linux.alibaba.com,
-	ke.zhao@shingroup.cn, sunilvl@ventanamicro.com,
-	tanzhasanwork@gmail.com, schwab@suse.de, dawei.li@shingroup.cn,
-	rppt@kernel.org, willy@infradead.org, usama.anjum@collabora.com,
-	osalvador@suse.de, ryan.roberts@arm.com, andrii@kernel.org,
-	alx@kernel.org, catalin.marinas@arm.com, broonie@kernel.org,
-	revest@chromium.org, bgray@linux.ibm.com, deller@gmx.de,
-	zev@bewilderbeest.net
-Subject: Re: [PATCH v4 07/30] riscv: zicfilp / zicfiss in dt-bindings
- (extensions.yaml)
-Message-ID: <20240913-woven-droplet-1f25d0d5a33b@spud>
-References: <20240912231650.3740732-1-debug@rivosinc.com>
- <20240912231650.3740732-8-debug@rivosinc.com>
+	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="nJ8l+26h"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a8d2b24b7a8so652615466b.1
+        for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 11:55:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fastly.com; s=google; t=1726253732; x=1726858532; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5SDYQ7lzcTR7t7MivDajHBL9N4FwFQeM0m9Pk7CbHHE=;
+        b=nJ8l+26hEJhxdnD+J5xpJKSaXOgr1fwaCJFlBl8x438jI8WpiYraJD9V8NsQn5UsgC
+         tZ3GyGhb/Rc1T0ZpSUJFqQmmKc45QLeetKr75fe9msLMfWhWHYYDfutJcYVzUwdm4H+7
+         MQk8QnTYU3L/Yne1jRwcyQLSA51lapkYmgl6c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726253732; x=1726858532;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5SDYQ7lzcTR7t7MivDajHBL9N4FwFQeM0m9Pk7CbHHE=;
+        b=CIUS/MCOBdzKDjGCEWeQfXIbmjdjOyrxW9p5LqEn5D6ZU/DN6SJquNcQ9Xr3BrfjMY
+         iau1iOJwGke5WDkJH0DsNKi/9VTsMcRC8cxT7FbVUz34uMTyP+lAlpVgf5Fq1OsYj2pO
+         bOisD7aufU61bpGPp2JE4pFxn5uSjS9pQs/ad7aYo37ml9EGZdrThbClqxhIjKLkV4HN
+         WegSPeCEKuWjTakSM8XsqseuD0WoVxjhKkGfWHT8OKW2XXSRHK3Swl+9tJBAFVc4DQq2
+         B9Z+Tat7hTP6BAG2ZXHsh7lQFUetekLtJDKNRIColpcyDj4atv3II1ATDBGStH+xcgMi
+         XjYA==
+X-Forwarded-Encrypted: i=1; AJvYcCXhcqUyEvCt8jSUwfv/jazlghkriZWPJzA8qY+/yaqnc5SS603E0XO24exAgQZfuyEiNDJDJBzpiz8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzYhE0o0G5SgbswSy/pSBvRW4Hsek1o+KzGyB8jT6wDSgrE5pdb
+	TpUM7uPN/uC69em35MRCAMktK1zCnE0K5cI4gmnJoiKd3cLMdsI5d5zmIqs8Zpw=
+X-Google-Smtp-Source: AGHT+IHnCvCp+xq1tGI3ArJ6ViTY+PYeT7JnNVeEAe4ZbrJxfhBSFEIBXJggCl2+kXNhZMsIaMn+kQ==
+X-Received: by 2002:a17:907:9721:b0:a80:c0ed:2145 with SMTP id a640c23a62f3a-a902a3d105cmr839070866b.2.1726253731882;
+        Fri, 13 Sep 2024 11:55:31 -0700 (PDT)
+Received: from LQ3V64L9R2.homenet.telecomitalia.it (host-79-23-194-51.retail.telecomitalia.it. [79.23.194.51])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d25d63bebsm898006366b.207.2024.09.13.11.55.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Sep 2024 11:55:31 -0700 (PDT)
+Date: Fri, 13 Sep 2024 20:55:29 +0200
+From: Joe Damato <jdamato@fastly.com>
+To: Stanislav Fomichev <stfomichev@gmail.com>
+Cc: netdev@vger.kernel.org, mkarsten@uwaterloo.ca, kuba@kernel.org,
+	skhawaja@google.com, sdf@fomichev.me, bjorn@rivosinc.com,
+	amritha.nambiar@intel.com, sridhar.samudrala@intel.com,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jiri Pirko <jiri@resnulli.us>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	David Ahern <dsahern@kernel.org>,
+	Johannes Berg <johannes.berg@intel.com>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC net-next v3 5/9] net: napi: Add napi_config
+Message-ID: <ZuSKofgZbfn_n8tb@LQ3V64L9R2.homenet.telecomitalia.it>
+Mail-Followup-To: Joe Damato <jdamato@fastly.com>,
+	Stanislav Fomichev <stfomichev@gmail.com>, netdev@vger.kernel.org,
+	mkarsten@uwaterloo.ca, kuba@kernel.org, skhawaja@google.com,
+	sdf@fomichev.me, bjorn@rivosinc.com, amritha.nambiar@intel.com,
+	sridhar.samudrala@intel.com,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jiri Pirko <jiri@resnulli.us>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	David Ahern <dsahern@kernel.org>,
+	Johannes Berg <johannes.berg@intel.com>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+References: <20240912100738.16567-1-jdamato@fastly.com>
+ <20240912100738.16567-6-jdamato@fastly.com>
+ <ZuR5jU3BGbsut-q6@mini-arch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Wo0WH8RKXYiALMcP"
-Content-Disposition: inline
-In-Reply-To: <20240912231650.3740732-8-debug@rivosinc.com>
-
-
---Wo0WH8RKXYiALMcP
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <ZuR5jU3BGbsut-q6@mini-arch>
 
-On Thu, Sep 12, 2024 at 04:16:26PM -0700, Deepak Gupta wrote:
-> Make an entry for cfi extensions in extensions.yaml.
->=20
-> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
-> ---
->  .../devicetree/bindings/riscv/extensions.yaml        | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Do=
-cumentation/devicetree/bindings/riscv/extensions.yaml
-> index a06dbc6b4928..b7c86fb91984 100644
-> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> @@ -361,6 +361,18 @@ properties:
->              The standard Zicboz extension for cache-block zeroing as rat=
-ified
->              in commit 3dd606f ("Create cmobase-v1.0.pdf") of riscv-CMOs.
-> =20
-> +        - const: zicfilp
-> +          description:
-> +            The standard Zicfilp extension for enforcing forward edge co=
-ntrol-flow
-> +            integrity as ratified in commit 3f8e450 ("merge pull request=
- #227 from
-> +            ved-rivos/0709") of riscv-cfi github repo.
-> +
-> +        - const: zicfiss
-> +          description:
-> +            The standard Zicfilp extension for enforcing forward edge co=
-ntrol-flow
-> +            integrity as ratified in commit 3f8e450 ("merge pull request=
- #227 from
-> +            ved-rivos/0709") of riscv-cfi github repo.
+On Fri, Sep 13, 2024 at 10:42:37AM -0700, Stanislav Fomichev wrote:
+> On 09/12, Joe Damato wrote:
 
-Because both of these have a # in them you need to have a | after
-description:. Please run dt_binding_check :)
+[...]
 
-> +
->          - const: zicntr
->            description:
->              The standard Zicntr extension for base counters and timers, =
-as
-> --=20
-> 2.45.0
->=20
+> > @@ -6505,12 +6517,13 @@ static void napi_hash_add(struct napi_struct *napi)
+> >  		if (unlikely(++napi_gen_id < MIN_NAPI_ID))
+> >  			napi_gen_id = MIN_NAPI_ID;
+> >  	} while (napi_by_id(napi_gen_id));
+> 
+> [..]
+> 
+> > -	napi->napi_id = napi_gen_id;
+> > -
+> > -	hlist_add_head_rcu(&napi->napi_hash_node,
+> > -			   &napi_hash[napi->napi_id % HASH_SIZE(napi_hash)]);
+> >  
+> >  	spin_unlock(&napi_hash_lock);
+> > +
+> > +	napi_hash_add_with_id(napi, napi_gen_id);
+> 
+> nit: it is very unlikely that napi_gen_id is gonna wrap around after the
+> spin_unlock above, but maybe it's safer to have the following?
+> 
+> static void __napi_hash_add_with_id(struct napi_struct *napi, unsigned int napi_id)
+> {
+> 	napi->napi_id = napi_id;
+> 	hlist_add_head_rcu(&napi->napi_hash_node,
+> 			   &napi_hash[napi->napi_id % HASH_SIZE(napi_hash)]);
+> }
+> 
+> static void napi_hash_add_with_id(struct napi_struct *napi, unsigned int napi_id)
+> {
+> 	spin_lock(&napi_hash_lock);
+> 	__napi_hash_add_with_id(...);
+> 	spin_unlock(&napi_hash_lock);
+> }
+> 
+> And use __napi_hash_add_with_id here before spin_unlock?
 
---Wo0WH8RKXYiALMcP
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks for taking a look.
 
------BEGIN PGP SIGNATURE-----
+Sure, that seems reasonable. I can add that for the rfcv4.
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZuSFYwAKCRB4tDGHoIJi
-0vnMAP4jAcike3nNkua8hG9QWEW4+qazPoSFmDREmFEymZqK8wD/R5K+u0LGQlr6
-Bci3roI9osxHgbbuooL8Ckvlomw/wAc=
-=cQDJ
------END PGP SIGNATURE-----
-
---Wo0WH8RKXYiALMcP--
+I'll probably hold off on posting the rfcv4 until either after LPC
+and/or after I have some time to debug the mlx5/page_pool thing.
