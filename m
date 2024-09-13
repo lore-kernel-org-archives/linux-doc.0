@@ -1,313 +1,163 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C661C1AB8
-	for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 12:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 619CF1D9337
+	for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 12:55:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726230075; cv=none; b=ZFOqUvIfRau8NoO9pl5WH2W6XW2GJJGu/n+3m4V0eG4dpGcDKg1llzJUrWEJMJ9w3LsKcCcjYdK7YyuJwyTOl+rrazvdJ673kjsMXQIOS2qb9k8ulve4XMU3HXO4hXY6TYbTSUgaKUNBe2h/gs8p6SnQkQ32DSvfSlbewVjszc0=
+	t=1726232110; cv=none; b=UPSRb1btBxHMKQuIpIZVd9gEDzVoB8Hz1RJdco5hvlDWlgLBQoIPBPrz7vlB2EiSzeXsXFkU1Luj0Kawh23MRx+Qg9lCUsR8C6OwEplh/+RsB517SHHN/JIHb0rT7xtPwg57vYeykIb5GayYrl7+Y7UwYGGxXNsB753WnBq6bqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726230075; c=relaxed/simple;
-	bh=625Oo2NDSYSjj2f8r/wEx8RCA+JzmVNn6YN3FDWjQJg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oPIiEepGBW1p/ECoRaL6EEggtzz5TkBOwAfAxiD8eXE3LxBlc8KLPDU1ZJ21UxVOufMRRLmDoQvGrwhFiaWWcH5r1IN0l7aYK7x/5HtvQlwamorT6iNj9/uUr+J0yljP4TBTviglnQxc7MeXvJobqGcLZ8PbHu03LvKFFF2xPKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Eu97YHXZ; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1726232110; c=relaxed/simple;
+	bh=It4b7WTIeTTkxjWZyTXy4+yUt95s6XCv7qwUASihMzA=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=MpdljsoYYSo76yrtqYdLnyBD8Ddt+jmJOmm0WCwZ1Vtp6fH5l7Yn+Kmiy1FCmmLPTDh3d1zRNY8UcWbp9/ueIuUK8EG54wproPGPm1fbW2gQcsUYdwK2LE0st9QWpFEpY+09bOdrJLBOUAROrL8yww1SQTEFX+TOf/KunaeF9o8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=I1hMY1Ic; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Eu97YHXZ"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-53661a131b4so1213369e87.1
-        for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 05:21:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="I1hMY1Ic"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-374c326c638so642188f8f.2
+        for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 05:55:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1726230071; x=1726834871; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lo4ZVnqapTTwf1TxU7CAaNVwjVyFLb9hYsDih6bfwrs=;
-        b=Eu97YHXZyx5dZxnkiHhBiSqijn1aOemcZbk7d8yO/MW2i2G96SmdzZnGvXdaK5m37m
-         s/eHY0tYn9SykYxWZFc9EFWLryJidaO6bdAzxbpivfBgh3qo/ub7hJBL9h7JzLOUfC1+
-         6e36Y66JRGz5VNyLjV2MVjXZsRM71uvfPWGZmHI08dQVXolHYtrgfGfJSwdkaAyqmAja
-         IyD1NpnSrZhC5fNCFAD3WtHYbE/rfm/0ElMe5vrZSyP5r8BBn/JaV8wuI/JK0B9OTISS
-         rgjNwqR8i/HS7hjjx7hIGFjNRvApapAhuUaxIF1MKufEnRSVmgXrSxa+zQn5Vv/uNZ60
-         TTbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726230071; x=1726834871;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1726232107; x=1726836907; darn=vger.kernel.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lo4ZVnqapTTwf1TxU7CAaNVwjVyFLb9hYsDih6bfwrs=;
-        b=eUk+bg8WPflCvkeuNuFzkLJ2TVYKdFfYgZYt/ElMLBFJnJQaojfhJibtgblvrnrZEe
-         lQeakebXoU3/ZHdeeGLzQ+Om4mylEEM+/awTor6tZHlgdX7qj2FbGgmA8kGT3Qa8JJ9P
-         4bGDD2/2/PDiVy47qA8BNvGE1QTSneVIpwfG9uBoUs0Haq9VGAZzTJE8ybCOvOGWN9Ye
-         J0Q44DwX0UMoTKlfyNeWSL+jHoQKGZP5XhqCfDRZLLeec1VFjob3lscipybT9P0fCoxw
-         H8EPFYZ/LwepMfRIlknKw43H5KTZiEtj0OZfrlHTWPIr4apEQ6h3RbmNDBFV8OdQ5xg7
-         xrhw==
-X-Forwarded-Encrypted: i=1; AJvYcCUVRUd7j3Rz5eJL9lHsGJcpSkgxn+UaSLAOJkg5WGIHUybdFP5+cBerbaG0naF4DvgkhN2teBt7PFs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzo6KXmGDP3PFTBl+TQZiDka2JepsdO/mp1Jl723cZpED5RW/GI
-	SaK5IcDgaMQaZIxbntnwuhHv3xH3UWwF5H6vo6JcBcu7I8Qm2fgWtWaKdONBFBE=
-X-Google-Smtp-Source: AGHT+IHTw5M9AaVBseki1oFupqjrbJ5LF7PaDftiWnMSBPnVi9nRpuuPAvJasGEWRAVEgo0fmUCmjg==
-X-Received: by 2002:a05:6512:6d2:b0:530:aeea:27e1 with SMTP id 2adb3069b0e04-5367ff33789mr1789612e87.50.1726230069590;
-        Fri, 13 Sep 2024 05:21:09 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5365f90e3besm2252267e87.299.2024.09.13.05.21.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Sep 2024 05:21:09 -0700 (PDT)
-Date: Fri, 13 Sep 2024 15:21:07 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: "Gaurav Kashyap (QUIC)" <quic_gaurkash@quicinc.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, 
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, 
-	Mikulas Patocka <mpatocka@redhat.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Asutosh Das <quic_asutoshd@quicinc.com>, Ritesh Harjani <ritesh.list@gmail.com>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Avri Altman <avri.altman@wdc.com>, Bart Van Assche <bvanassche@acm.org>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
-	"Theodore Y. Ts'o" <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	"manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>, "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"dm-devel@lists.linux.dev" <dm-devel@lists.linux.dev>, "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>, 
-	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, "linux-fscrypt@vger.kernel.org" <linux-fscrypt@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>, 
-	"bartosz.golaszewski" <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH v6 09/17] soc: qcom: ice: add HWKM support to the ICE
- driver
-Message-ID: <egtwyk2rp3mtnw2ry6npq5xjfhjvtnymbxy66zevtdi7yvaav4@gcnmrmtqro4b>
-References: <20240906-wrapped-keys-v6-9-d59e61bc0cb4@linaro.org>
- <7uoq72bpiqmo2olwpnudpv3gtcowpnd6jrifff34ubmfpijgc6@k6rmnalu5z4o>
- <66953e65-2468-43b8-9ccf-54671613c4ab@linaro.org>
- <ivibs6qqxhbikaevys3iga7s73xq6dzq3u43gwjri3lozkrblx@jxlmwe5wiq7e>
- <98cc8d71d5d9476297a54774c382030d@quicinc.com>
- <CAA8EJpp_HY+YmMCRwdteeAHnSHtjuHb=nFar60O_PwLwjk0mNA@mail.gmail.com>
- <9bd0c9356e2b471385bcb2780ff2425b@quicinc.com>
- <20240912231735.GA2211970@google.com>
- <CAA8EJpq3sjfB0BsJTs3_r_ZFzhrrpy-A=9Dx9ks2KrDNYCntdg@mail.gmail.com>
- <20240913045716.GA2292625@google.com>
+        bh=Hc8v0R6GDF5PLdJH56j48gvXNERk+5hUHxBGHTh8r8E=;
+        b=I1hMY1IcY0zGjDPZCiV38fQlP2u9o0Vq/vSTFRxVPcWo/UwvBjdUwFnixwJH3p7oWv
+         PY0faWP1afH54YEVtCBAotVA0DkahJEz3RWn6NmWcmSqllTixaiVytvNFqK9i1P5QH9U
+         GslkPeKj+o/HvV8hKng0DkFb1LgWT8QWDqCp1QCvxNJ9LCQCE2dkuc4YiTXZLMw52mQK
+         pWoVed9HfFuLhbCTNfJzN8N/Y4Fr/2B1GFLTLCPK0iginUMgwzIaTYSuIOUu4JZAWQ0G
+         rx1LjqKNxVhYOnS3dh0MXWy4l170k/jGX0mf+bnjuUPC6zPZeYQrW3xeAwG27ERJoDAj
+         38Yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726232107; x=1726836907;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Hc8v0R6GDF5PLdJH56j48gvXNERk+5hUHxBGHTh8r8E=;
+        b=Dr0tArjdC5ciHvHMM9RNDsPOvurZ1R3fpdgnfVnF6igE62EmuqrK6cW3pOKG56sTkY
+         U8Vg+wzFsIKdzrH3uGjZokmmmIec3mcAEl+ab6J2ocPGV6n5iz+apjWwl7TN6odU4BIK
+         gwBc7oQDuHTT4NpzoT7Nu0ABG6iUdmKuJGL+OGTzqwqmPl3DF5Uv04ubNcaHorYFRmTQ
+         w79VLfUHoPjxAYFGcZ0ozSa+YHNfriHg8BLFnr5E6I+f9lhGHmNT6iWxs47BChhKj7eO
+         xGHphv5yyQaxedMUp3qXTRxv2QN+XCAtfXlleeg3B5E/u1jmrbuP08ZCH0bUqvEcy+ZV
+         ffkg==
+X-Forwarded-Encrypted: i=1; AJvYcCVlmYeKcj5qKadKKv40hdwBrmeMpfZsJve7xSZQhP+XWOSlXRY+TOCKZqd5Zq+qjAoeCZr4KX62wGo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy24FsLVHE9JDdWpBYOnuezdcp/qbYQNO63WtaK44s1ALOSbuSB
+	4AncLmomUvUEUXSPK1dnedVULGYQVcsZfPu9qcTpO29Tn69gDHTU1M+GUzsHXb0=
+X-Google-Smtp-Source: AGHT+IGuxOqBic27IcdAV/ufZJdHJH6P9HTUargjaKKwS2U8i3tVdW9oMa5vfdAciNNzAQoU2peu6w==
+X-Received: by 2002:adf:e647:0:b0:374:ae04:c7c5 with SMTP id ffacd0b85a97d-378d6241dacmr1435602f8f.36.1726232106543;
+        Fri, 13 Sep 2024 05:55:06 -0700 (PDT)
+Received: from localhost (amontpellier-556-1-151-252.w109-210.abo.wanadoo.fr. [109.210.7.252])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42d9b16bf68sm24508295e9.27.2024.09.13.05.55.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Sep 2024 05:55:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240913045716.GA2292625@google.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 13 Sep 2024 12:55:05 +0000
+Message-Id: <D4567LFFTYJQ.2YC5OODKOVPNB@baylibre.com>
+Subject: Re: [PATCH 4/6] iio: adc: ad4030: add support for ad4630-24 and
+ ad4630-16
+From: "Esteban Blanc" <eblanc@baylibre.com>
+To: =?utf-8?q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>, "Jonathan Cameron"
+ <jic23@kernel.org>
+Cc: "Lars-Peter Clausen" <lars@metafoo.de>, "Michael Hennerich"
+ <Michael.Hennerich@analog.com>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Nuno Sa" <nuno.sa@analog.com>, "Jonathan Corbet" <corbet@lwn.net>,
+ <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "David Lechner" <dlechner@baylibre.com>,
+ <linux-doc@vger.kernel.org>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20240822-eblanc-ad4630_v1-v1-0-5c68f3327fdd@baylibre.com>
+ <20240822-eblanc-ad4630_v1-v1-4-5c68f3327fdd@baylibre.com>
+ <20240826102748.4be0b642@jic23-huawei>
+ <D452E2M75XCM.13OQGAPJ7JJ4A@baylibre.com>
+ <0a4e7fe39cf36774b28c86f6baab5ef8c20e3d6b.camel@gmail.com>
+In-Reply-To: <0a4e7fe39cf36774b28c86f6baab5ef8c20e3d6b.camel@gmail.com>
 
-On Fri, Sep 13, 2024 at 04:57:16AM GMT, Eric Biggers wrote:
-> On Fri, Sep 13, 2024 at 07:28:33AM +0300, Dmitry Baryshkov wrote:
-> > On Fri, 13 Sept 2024 at 02:17, Eric Biggers <ebiggers@kernel.org> wrote:
-> > >
-> > > On Thu, Sep 12, 2024 at 10:17:03PM +0000, Gaurav Kashyap (QUIC) wrote:
-> > > >
-> > > > On Monday, September 9, 2024 11:29 PM PDT, Dmitry Baryshkov wrote:
-> > > > > On Tue, 10 Sept 2024 at 03:51, Gaurav Kashyap (QUIC)
-> > > > > <quic_gaurkash@quicinc.com> wrote:
-> > > > > >
-> > > > > > Hello Dmitry and Neil
-> > > > > >
-> > > > > > On Monday, September 9, 2024 2:44 AM PDT, Dmitry Baryshkov wrote:
-> > > > > > > On Mon, Sep 09, 2024 at 10:58:30AM GMT, Neil Armstrong wrote:
-> > > > > > > > On 07/09/2024 00:07, Dmitry Baryshkov wrote:
-> > > > > > > > > On Fri, Sep 06, 2024 at 08:07:12PM GMT, Bartosz Golaszewski wrote:
-> > > > > > > > > > From: Gaurav Kashyap <quic_gaurkash@quicinc.com>
-> > > > > > > > > >
-> > > > > > > > > > Qualcomm's ICE (Inline Crypto Engine) contains a proprietary
-> > > > > > > > > > key management hardware called Hardware Key Manager (HWKM).
-> > > > > > > > > > Add
-> > > > > > > HWKM
-> > > > > > > > > > support to the ICE driver if it is available on the platform.
-> > > > > > > > > > HWKM primarily provides hardware wrapped key support where
-> > > > > the
-> > > > > > > > > > ICE
-> > > > > > > > > > (storage) keys are not available in software and instead
-> > > > > > > > > > protected in
-> > > > > > > hardware.
-> > > > > > > > > >
-> > > > > > > > > > When HWKM software support is not fully available (from
-> > > > > > > > > > Trustzone), there can be a scenario where the ICE hardware
-> > > > > > > > > > supports HWKM, but it cannot be used for wrapped keys. In this
-> > > > > > > > > > case, raw keys have to be used without using the HWKM. We
-> > > > > > > > > > query the TZ at run-time to find out whether wrapped keys
-> > > > > > > > > > support is
-> > > > > > > available.
-> > > > > > > > > >
-> > > > > > > > > > Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
-> > > > > > > > > > Signed-off-by: Gaurav Kashyap <quic_gaurkash@quicinc.com>
-> > > > > > > > > > Signed-off-by: Bartosz Golaszewski
-> > > > > > > > > > <bartosz.golaszewski@linaro.org>
-> > > > > > > > > > ---
-> > > > > > > > > >   drivers/soc/qcom/ice.c | 152
-> > > > > > > +++++++++++++++++++++++++++++++++++++++++++++++--
-> > > > > > > > > >   include/soc/qcom/ice.h |   1 +
-> > > > > > > > > >   2 files changed, 149 insertions(+), 4 deletions(-)
-> > > > > > > > > >
-> > > > > > > > > >   int qcom_ice_enable(struct qcom_ice *ice)
-> > > > > > > > > >   {
-> > > > > > > > > > + int err;
-> > > > > > > > > > +
-> > > > > > > > > >           qcom_ice_low_power_mode_enable(ice);
-> > > > > > > > > >           qcom_ice_optimization_enable(ice);
-> > > > > > > > > > - return qcom_ice_wait_bist_status(ice);
-> > > > > > > > > > + if (ice->use_hwkm)
-> > > > > > > > > > +         qcom_ice_enable_standard_mode(ice);
-> > > > > > > > > > +
-> > > > > > > > > > + err = qcom_ice_wait_bist_status(ice); if (err)
-> > > > > > > > > > +         return err;
-> > > > > > > > > > +
-> > > > > > > > > > + if (ice->use_hwkm)
-> > > > > > > > > > +         qcom_ice_hwkm_init(ice);
-> > > > > > > > > > +
-> > > > > > > > > > + return err;
-> > > > > > > > > >   }
-> > > > > > > > > >   EXPORT_SYMBOL_GPL(qcom_ice_enable);
-> > > > > > > > > > @@ -150,6 +282,10 @@ int qcom_ice_resume(struct qcom_ice
-> > > > > *ice)
-> > > > > > > > > >                   return err;
-> > > > > > > > > >           }
-> > > > > > > > > > + if (ice->use_hwkm) {
-> > > > > > > > > > +         qcom_ice_enable_standard_mode(ice);
-> > > > > > > > > > +         qcom_ice_hwkm_init(ice); }
-> > > > > > > > > >           return qcom_ice_wait_bist_status(ice);
-> > > > > > > > > >   }
-> > > > > > > > > >   EXPORT_SYMBOL_GPL(qcom_ice_resume);
-> > > > > > > > > > @@ -157,6 +293,7 @@ EXPORT_SYMBOL_GPL(qcom_ice_resume);
-> > > > > > > > > >   int qcom_ice_suspend(struct qcom_ice *ice)
-> > > > > > > > > >   {
-> > > > > > > > > >           clk_disable_unprepare(ice->core_clk);
-> > > > > > > > > > + ice->hwkm_init_complete = false;
-> > > > > > > > > >           return 0;
-> > > > > > > > > >   }
-> > > > > > > > > > @@ -206,6 +343,12 @@ int qcom_ice_evict_key(struct qcom_ice
-> > > > > > > > > > *ice,
-> > > > > > > int slot)
-> > > > > > > > > >   }
-> > > > > > > > > >   EXPORT_SYMBOL_GPL(qcom_ice_evict_key);
-> > > > > > > > > > +bool qcom_ice_hwkm_supported(struct qcom_ice *ice) {  return
-> > > > > > > > > > +ice->use_hwkm; }
-> > > > > > > EXPORT_SYMBOL_GPL(qcom_ice_hwkm_supported);
-> > > > > > > > > > +
-> > > > > > > > > >   static struct qcom_ice *qcom_ice_create(struct device *dev,
-> > > > > > > > > >                                           void __iomem *base)
-> > > > > > > > > >   {
-> > > > > > > > > > @@ -240,6 +383,7 @@ static struct qcom_ice
-> > > > > > > > > > *qcom_ice_create(struct
-> > > > > > > device *dev,
-> > > > > > > > > >                   engine->core_clk = devm_clk_get_enabled(dev, NULL);
-> > > > > > > > > >           if (IS_ERR(engine->core_clk))
-> > > > > > > > > >                   return ERR_CAST(engine->core_clk);
-> > > > > > > > > > + engine->use_hwkm = qcom_scm_has_wrapped_key_support();
-> > > > > > > > >
-> > > > > > > > > This still makes the decision on whether to use HW-wrapped keys
-> > > > > > > > > on behalf of a user. I suppose this is incorrect. The user must
-> > > > > > > > > be able to use raw keys even if HW-wrapped keys are available on
-> > > > > > > > > the platform. One of the examples for such use-cases is if a
-> > > > > > > > > user prefers to be able to recover stored information in case of
-> > > > > > > > > a device failure (such recovery will be impossible if SoC is
-> > > > > > > > > damaged and HW-
-> > > > > > > wrapped keys are used).
-> > > > > > > >
-> > > > > > > > Isn't that already the case ? the
-> > > > > BLK_CRYPTO_KEY_TYPE_HW_WRAPPED
-> > > > > > > size
-> > > > > > > > is here to select HW-wrapped key, otherwise the ol' raw key is passed.
-> > > > > > > > Just look the next patch.
-> > > > > > > >
-> > > > > > > > Or did I miss something ?
-> > > > > > >
-> > > > > > > That's a good question. If use_hwkm is set, ICE gets programmed to
-> > > > > > > use hwkm (see qcom_ice_hwkm_init() call above). I'm not sure if it
-> > > > > > > is expected to work properly if after such a call we pass raw key.
-> > > > > > >
-> > > > > >
-> > > > > > Once ICE has moved to a HWKM mode, the firmware key programming
-> > > > > currently does not support raw keys.
-> > > > > > This support is being added for the next Qualcomm chipset in Trustzone to
-> > > > > support both at he same time, but that will take another year or two to hit
-> > > > > the market.
-> > > > > > Until that time, due to TZ (firmware) limitations , the driver can only
-> > > > > support one or the other.
-> > > > > >
-> > > > > > We also cannot keep moving ICE modes, due to the HWKM enablement
-> > > > > being a one-time configurable value at boot.
-> > > > >
-> > > > > So the init of HWKM should be delayed until the point where the user tells if
-> > > > > HWKM or raw keys should be used.
-> > > >
-> > > > Ack.
-> > > > I'll work with Bartosz to look into moving to HWKM mode only during the first key program request
-> > > >
-> > >
-> > > That would mean the driver would have to initially advertise support for both
-> > > HW-wrapped keys and raw keys, and then it would revoke the support for one of
-> > > them later (due to the other one being used).  However, runtime revocation of
-> > > crypto capabilities is not supported by the blk-crypto framework
-> > > (Documentation/block/inline-encryption.rst), and there is no clear path to
-> > > adding such support.  Upper layers may have already checked the crypto
-> > > capabilities and decided to use them.  It's too late to find out that the
-> > > support was revoked in the middle of an I/O request.  Upper layer code
-> > > (blk-crypto, fscrypt, etc.) is not prepared for this.  And even if it was, the
-> > > best it could do is cleanly fail the I/O, which is too late as e.g. it may
-> > > happen during background writeback and cause user data to be thrown away.
-> > 
-> > Can we check crypto capabilities when the user sets the key?
-> 
-> I think you mean when a key is programmed into a keyslot?  That happens during
-> I/O, which is too late as I've explained above.
-> 
-> > Compare this to the actual HSM used to secure communication or
-> > storage. It has certain capabilities, which can be enumerated, etc.
-> > But then at the time the user sets the key it is perfectly normal to
-> > return an error because HSM is out of resources. It might even have
-> > spare key slots, but it might be not enough to be able to program the
-> > required key (as a really crazy example, consider the HSM having at
-> > this time a single spare DES key slot, while the user wants to program
-> > 3DES key).
-> 
-> That isn't how the kernel handles inline encryption keyslots.  They are only
-> programmed as needed for I/O.  If they are all in-use by pending I/O requests,
-> then the kernel waits for an I/O request to finish and reprograms the keyslot it
-> was using.  There is never an error reported due to lack of keyslots.
+On Fri Sep 13, 2024 at 10:18 AM UTC, Nuno S=C3=A1 wrote:
+> On Fri, 2024-09-13 at 09:55 +0000, Esteban Blanc wrote:
+> > On Mon Aug 26, 2024 at 9:27 AM UTC, Jonathan Cameron wrote:
+> > > On Thu, 22 Aug 2024 14:45:20 +0200
+> > > Esteban Blanc <eblanc@baylibre.com> wrote:
+> > > > +static const unsigned long ad4630_channel_masks[] =3D {
+> > > > +	/* Differential only */
+> > > > +	BIT(0) | BIT(2),
+> > > > +	/* Differential with common byte */
+> > > > +	GENMASK(3, 0),
+> > > The packing of data isn't going to be good. How bad to shuffle
+> > > to put the two small channels next to each other?
+> > > Seems like it means you will want to combine your deinterleave
+> > > and channel specific handling above, which is a bit fiddly but
+> > > not much worse than current code.
+> >=20
+> > I can do it since that was what I had done in the RFC in the first plac=
+e.
+> > Nuno asked for in this email
+> > https://lore.kernel.org/r/0036d44542f8cf45c91c867f0ddd7b45d1904d6b.came=
+l@gmail.com/
+> > :
+> >=20
+> > > > > * You're pushing the CM channels into the end. So when we a 2 cha=
+nnel device
+> > > > > we'll have:
+> >=20
+> > > > > in_voltage0 - diff
+> > > > > in_voltage1 - diff
+> > > > > in_voltage2 - CM associated with chan0
+> > > > > in_voltage0 - CM associated with chan1
+> > > > >=20
+> > > > > I think we could make it so the CM channel comes right after the =
+channel
+> > > > > where
+> > > > > it's data belongs too. So for example, odd channels would be CM c=
+hannels (and
+> > > > > labels could also make sense).
+> >=20
+> > So that's what I did here :D
+> >=20
+> > For the software side off things here it doesn't change a lot of things
+> > since we have to manipulate the data anyway, putting the extra byte at =
+the
+> > end or in between is no extra work.
+> > For the offload engine however, it should be easier to ask for 24 bits
+> > then 8 bits for each channel as it would return two u32 per "hardware
+> > channel".
+> >=20
+> > In order to avoid having two different layouts, I was kind of sold by
+> > Nuno's idea of having the CM in between each diff channel.
+> >=20
+>
+> Tbh, I was not even thinking about the layout when I proposed the arrange=
+ment. Just
+> made sense to me (from a logical point of view) to have them together as =
+they relate
+> to the same physical channel. FWIW, we're also speaking bytes in here so =
+not sure if
+> it's that important (or bad).
 
-Does that mean that the I/O can be outstanding for the very long period
-of time? Or that if the ICE hardware has just a single keyslot, but
-there are two concurrent I/O processes using two different keys, the
-framework will be constantly swapping the keys programmed to the HW?
+The best we can do (if we managed to do it HDL wise) is to reorder the
+data to get both CM byte in a single u32 after the 2 u32 of both diff
+channel. That would be 3 u32 instead of 4.
 
-I think it might be prefereable for the drivers and the framework to
-support "preprogramming" of the keys, when the key is programmed to the
-hardware when it is set by the user.
+I don't have a strong opinion other than what we have with the V1 should
+be simpler to rework for the offload engine since we can manage to
+get the same layout from the offload engine. And if there is
+some performance issue we could still try to rework the HDL but I can't
+say for sure if there will be some drawback with that.
 
-Another option might be to let the drivers validate the keys being set
-by userspace. This way in our case the driver might report that it
-supports both raw and wrapped keys, but start rejecting the keys once
-it gets notified that the user has programmed other kind of keys. This
-way key setup can fail, but the actual I/O can not. WDYT?
+If you or Jonathan prefers the RFC version let's do that, no problem I
+already have the code for it :D
 
-> If I/O requests could randomly fail at any time when using inline encryption,
-> then no one would use inline encryption because it would not be reliable.
+Best regards,
 
-Yes, I agree here.
-
-> 
-> > > So, the choice of support for HW-wrapped vs. raw will need to be made ahead of
-> > > time, rather than being implicitly set by the first use.  That is most easily
-> > > done using a module parameter like qcom_ice.hw_wrapped_keys=1.  Yes, it's a bit
-> > > inconvenient, but there's no realistic way around this currently.
-> > 
-> > This doesn't work for Android usecase. The user isn't able to setup modparams.
-> 
-> It does work for Android.  The encryption setting that Android uses is
-> configured in the build of Android for the device (by the OEM, or by whoever
-> made the build in the case of a custom build).  Refer to
-> https://source.android.com/docs/security/features/encryption/file-based#enabling-file-based-encryption
-> 
-> Anyone who can change that can also change the kernel command line.
-
-Ok. I think if the 'validation' or 'notify' proposal is declined, I'll
-have to agree to the modparam.
-
--- 
-With best wishes
-Dmitry
+--=20
+Esteban "Skallwar" Blanc
+BayLibre
