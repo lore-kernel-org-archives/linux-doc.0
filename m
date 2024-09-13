@@ -1,111 +1,105 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE191145B01
-	for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 19:17:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5A2149C52
+	for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 19:19:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726255063; cv=none; b=L0KMKOtJgXXsUdmx3VcKrFLchwOafXuKrbt0PBb0h3YH+F3k4PeNJMTqeWkkukVDAz3J1IJ6Owa8nV5gjMPb7H6u2qyyGeUFAFtY1gwThfMbC/ac3VKWai3PxsfIt9zD+jmcqzkUb0DbdsNDSgyMFtekpn3Bm+vfkK6g93jQQcs=
+	t=1726255161; cv=none; b=b0liwA2TMY0amLSRNzdisLsP93IeLCackrs+8YOMdhLaZmVLTrnlHuR/Tg0n40MPUp6cQHmy8OXQSPCanBg8QXUJC8iOUAhqqeNo75Xp18d5FLtQo1liPBh1ZU7adoL9G1JF3aXeHFxRXoHb0NSzn50LNhliI8QjW1Npms7AiY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726255063; c=relaxed/simple;
-	bh=exqxgPF0UdQfaGbZs7b/izy4FYKifj1m0sHOrBIOdKU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lChgaEFXOBViYmQGoznVYtKF5B6L7/205pOK2F8k9JcvX/N+XbBmnG/r8IeErxLWmb/6ziUc6IztnX2FSqnrTlzLbubAoQARbR5rnUm/nWyYYD02AlzjeUL0tKAiFm6svDnyvDr2/QtITNoOhmGe8CprzajHome28yYiA9MDPkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tkZGX+pb; arc=none smtp.client-ip=209.85.218.46
+	s=arc-20240116; t=1726255161; c=relaxed/simple;
+	bh=KdqA4DCfyuTo+ba0MlGe2lwMx112ipnTw4TXPWoYZCc=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=BHQpvDJulNMayqHc2okAweso0obU1moHdhl8816Nwb7DPEazpLJYi2r/5gKnApj54IPH8gfcOe73Cd/N/F8F5oFocX6J7m2lWsK+hopPrM4XM+V4EImjjqI1DN911AmM8t4mTVTYOZGU4Ne2CKUPtEtvKmYNeWTIiUJW1B/5cmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SaMD/DM3; arc=none smtp.client-ip=209.85.210.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tkZGX+pb"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a8d51a7d6f5so297594266b.2
-        for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 12:17:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SaMD/DM3"
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-718e2757e5dso2594454b3a.0
+        for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 12:19:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1726255060; x=1726859860; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iEBBs3ZiKkkyF3FXeUJY6bD8zJrCWtH/rjqnceHaQ0Y=;
-        b=tkZGX+pblNhUp7hX0wYoxhvsjZMhTceLEI0xdJKqcjvjnGD9/RUb2rEayaYURlm5Wi
-         i/jppDwIA/4oSKMWyQgGxL9gilEXA6iMhP13K53c00UA4eQarvc99EeDt1b6W7joPa/v
-         +3zRpO/0XMdVEGKzuTEQU9H2dfdvV1TsOMZVkikItinUj9mR5dMYAclq5AzZPVJ5aC4b
-         yVaz8p2ue0sbsqoKQfUK5UCKzeY7kuP85dPJ/gnd3yNpIVc2UEQSMwfEAgPR2Hl5VQKm
-         jJUAhw2s8dtCi/5sF8y+NaQPsmkgjK47H4KXdw2rUlJe7UT/P7ZSH+OyzH30AmI69K+Z
-         b9dw==
+        d=google.com; s=20230601; t=1726255160; x=1726859960; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KygmwJLmIe2nR4CdVNrvjxv0ydC1BigODAK7NzKvrLY=;
+        b=SaMD/DM3iHhfZq+KTOOEVbBQ3ES/g53YZwROvYvomdUUkOyr29bvex2yM7xaFYb1nW
+         UqtYCwIv2+Zh51xQZarLIIupKzqic/57TMTRLQpTN+Hz9rG5ACc9yWCkQ1cJ8o4SQTgx
+         weAJvEFgIajyUdVEFfJ0ps20YMwLE/9qdL8tdSVrr4SncUlwggDXLdffpVjT8go8Kd2E
+         yZ+RdJYGFBHIPr0vY2aiaFZwD3TDvDTtuDb2FMPHgVSoBZFBX5QO2MwZACMm8YuCcvou
+         UR9WmsjndgrP4TkJaP8FUJGs7ZzZgM8iiQNodU35X80wEFyy50KgEreQvc17LUE4LP2L
+         Ccog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726255060; x=1726859860;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iEBBs3ZiKkkyF3FXeUJY6bD8zJrCWtH/rjqnceHaQ0Y=;
-        b=Ez7bNWPt1QVOVQapnq2T8PRuHKOGG3AaG/pbZP8WcvylArcCS8k3kUweXQ5VIwy247
-         N7P2UTE72BRpjVMyHmOt/rrsPVUKlPOrT1UiN6Ve3FbY2s7wQaw/SCUxA3e4avJ9+wZ5
-         aYLRhngYIEfsf3Kxe1NW++u/3UG26p8XgiIq3xPPdlXIKorIGI7WjQRlZck9UHHsL/k1
-         cHfWxnEvU3UxhjlRZ4lUI0japCpSGtYfHHXyRjj8/3/d7bcWZQkfXsJ+39ygIHj1QTKv
-         lAlM930eLQegeZL9lgz/68gegWe1ZGpid+Fi0yoraiP79seZZLKAHoTa0PCnQ0FUf4YJ
-         N6lA==
-X-Forwarded-Encrypted: i=1; AJvYcCVA5aTr/fWPZW1YUhk8eXlDnb9FJkGtqVt2jXBQvvH2fWN+EjjGJD7K6OvtqXsoo4oagXdbAwDcHMM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBs0GAqcjMYANRbkbDT8tRpTovvA0ULKphPCQ+aafAciToTbag
-	+K71PCf7DAj4AnUJ5a+RN16DGrxA/XOGG2xLKrScRCZeiKvGr6fRSjOtfZOlg7EYTNfLJdu8XiJ
-	nHd1IbPbbfxUfy6/s5yKNMpWcNdV4XbcmD30=
-X-Google-Smtp-Source: AGHT+IHWtZ8oBZ/r75IG/ZCzOt2Io2yL14++IpNnUCKri/jsmh7LErkKNbEwqZih9dC/IIe59HK21E10WSAVnPAmuFA=
-X-Received: by 2002:a17:907:1b20:b0:a86:9c41:cfc1 with SMTP id
- a640c23a62f3a-a90293dab74mr710886366b.8.1726255059557; Fri, 13 Sep 2024
- 12:17:39 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1726255160; x=1726859960;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KygmwJLmIe2nR4CdVNrvjxv0ydC1BigODAK7NzKvrLY=;
+        b=jNJym+Ms5cbsGOELRQtWJq9KAauB6aY+MYhh1uFuQMdgWZf6mCj1UHmr1zf7jmTHt+
+         2BccFFTgPB/cgBOLpnE8CT1TYJKhJRE1PxwgKeQ+plU6eyFTBk1rcpn8o8inAh/ZS2Uj
+         UWmd+x4UTs1PNlqSZ3lga+YDjLtWlkE87eLVQB6HyI7zq10xeD9ZWjz40js+tehXMLnb
+         ffmMoKWKzEoD2C2L4jYEX8H5ay1TkIHCQqba9qIza/GqWcwoPFjEK7dzIWsQO74leRO5
+         pYeKoK6jj9CC8/jMoxXgmr5J0HEbW5+kikQZKFKEEXdbRdTJeHAKx6zyLgQIq8q0cGRt
+         UnBw==
+X-Forwarded-Encrypted: i=1; AJvYcCUDdQTLGeBjtnbr5rmly7j7NgoWkcS1leTgRHMomVyvZGNB8ZDoWQNjcg5lQiwIBs2EcOArzT76XWw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfZzViWovOw73RGW6pHlXiSdUqNLSe93U0djxYe0QErD9049Fr
+	NmdOI7bR0TFN1Hpscy8vc+1hCMi9erpJ/9RUHqdJO5iHJU0hxqEo+mrpMRzRhxD+313ZU1sLPuh
+	t8Q==
+X-Google-Smtp-Source: AGHT+IH/IGVZ8XQwZZNAwLj6rrOnsFpPB4v5CQ6jVNhQ4gVq1+yWAmZL7Sj8qjscTbab1nLQs6mmPd32wXk=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:aa7:8d83:0:b0:718:d9ff:a392 with SMTP id
+ d2e1a72fcca58-71907f308b6mr87141b3a.2.1726255159186; Fri, 13 Sep 2024
+ 12:19:19 -0700 (PDT)
+Date: Fri, 13 Sep 2024 12:19:17 -0700
+In-Reply-To: <20240609154945.55332-1-nsaenz@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240913-mgtime-v7-0-92d4020e3b00@kernel.org> <20240913-mgtime-v7-1-92d4020e3b00@kernel.org>
- <CANDhNCof7+q+-XzQoP=w0pcrS_-ifH9pmAmtq8H++tbognBv1A@mail.gmail.com> <8756a43fe0b7c3f418b351adb05e7a146d33bdfe.camel@kernel.org>
-In-Reply-To: <8756a43fe0b7c3f418b351adb05e7a146d33bdfe.camel@kernel.org>
-From: John Stultz <jstultz@google.com>
-Date: Fri, 13 Sep 2024 12:17:26 -0700
-Message-ID: <CANDhNCpPr-MvQhV7P6at9fQ-UpM_Q9R+S9oVqjHyguOgzrrZZQ@mail.gmail.com>
-Subject: Re: [PATCH v7 01/11] timekeeping: move multigrain timestamp floor
- handling into timekeeper
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Stephen Boyd <sboyd@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Chandan Babu R <chandan.babu@oracle.com>, "Darrick J. Wong" <djwong@kernel.org>, 
-	"Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, Chris Mason <clm@fb.com>, 
-	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, Hugh Dickins <hughd@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chuck Lever <chuck.lever@oracle.com>, 
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-xfs@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-btrfs@vger.kernel.org, 
-	linux-nfs@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+References: <20240609154945.55332-1-nsaenz@amazon.com>
+Message-ID: <ZuSQNZYWfeHTpAKN@google.com>
+Subject: Re: [PATCH 00/18] Introducing Core Building Blocks for Hyper-V VSM Emulation
+From: Sean Christopherson <seanjc@google.com>
+To: Nicolas Saenz Julienne <nsaenz@amazon.com>
+Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org, pbonzini@redhat.com, 
+	vkuznets@redhat.com, linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	graf@amazon.de, dwmw2@infradead.org, paul@amazon.com, mlevitsk@redhat.com, 
+	jgowans@amazon.com, corbet@lwn.net, decui@microsoft.com, tglx@linutronix.de, 
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
+	amoorthy@google.com
+Content-Type: text/plain; charset="us-ascii"
 
-On Fri, Sep 13, 2024 at 12:06=E2=80=AFPM Jeff Layton <jlayton@kernel.org> w=
-rote:
-> On Fri, 2024-09-13 at 11:59 -0700, John Stultz wrote:
-> > > +/**
-> > > + * ktime_get_real_ts64_mg - attempt to update floor value and return=
- result
-> > > + * @ts:                pointer to the timespec to be set
-> > > + * @cookie:    opaque cookie from earlier call to ktime_get_coarse_r=
-eal_ts64_mg()
-> > > + *
-> > > + * Get a current monotonic fine-grained time value and attempt to sw=
-ap
-> > > + * it into the floor using @cookie as the "old" value. @ts will be
-> > > + * filled with the resulting floor value, regardless of the outcome =
-of
-> > > + * the swap.
-> >
-> > I'd add more detail here to clarify that this can return a coarse
-> > floor value if the cookie is stale.
-> >
->
-> Sure, or I can just drop the cookie, if that's better.
+On Sun, Jun 09, 2024, Nicolas Saenz Julienne wrote:
+> This series introduces core KVM functionality necessary to emulate Hyper-V's
+> Virtual Secure Mode in a Virtual Machine Monitor (VMM).
 
-That seems like the simpler approach, but I don't have a sense of the
-actual performance impact, so I'll leave that decision to you.
+...
 
-thanks
--john
+> As discussed at LPC2023 and in our previous RFC [2], we decided to model each
+> VTL as a distinct KVM VM. With this approach, and the RWX memory attributes
+> introduced in this series, we have been able to implement VTL memory
+> protections in a non-intrusive way, using generic KVM APIs. Additionally, each
+> CPU's VTL is modeled as a distinct KVM vCPU, owned by the KVM VM tracking that
+> VTL's state. VTL awareness is fully removed from KVM, and the responsibility
+> for VTL-aware hypercalls, VTL scheduling, and state transfer is delegated to
+> userspace.
+> 
+> Series overview:
+> - 1-8: Introduce a number of Hyper-V hyper-calls, all of which are VTL-aware and
+>        expected to be handled in userspace. Additionally an new VTL-specifc MP
+>        state is introduced.
+> - 9-10: Pass the instruction length as part of the userspace fault exit data
+>         in order to simplify VSM's secure intercept generation.
+> - 11-17: Introduce RWX memory attributes as well as extend userspace faults.
+> - 18: Introduces the main VSM CPUID bit which gates all VTL configuration and
+>       runtime hypercalls.
+
+Aside from the RWX attributes, which to no one's surprise will need a lot of work
+to get them performant and functional, are there any "big" TODO items that you see
+in KVM?
+
+If this series is more or less code complete, IMO modeling VTLs as distinct VM
+structures is a clear win.  Except for the "idle VTL" stuff, which I think we can
+simplify, this series is quite boring, and I mean that in the best possible way :-)
