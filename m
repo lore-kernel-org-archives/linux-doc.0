@@ -1,337 +1,209 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2080.outbound.protection.outlook.com [40.107.92.80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D72A17BB3A;
-	Fri, 13 Sep 2024 11:36:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.80
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726227365; cv=fail; b=bEO3Dw4oWUKqwgaEpjiLvRzVz5AB3vUj3qYt98dKSslBoFEWFeHYZL4VKJ4140iOgjrLrLvTLTjt8w8YN9XC1Xt4jtoUIZu9phPJ906qa32JvY5TKkMzK1sPIMt3dB/D4VHJBVzStw8+qOx0f8Z1t628+K9SpyoSZHJLBHpLsRo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726227365; c=relaxed/simple;
-	bh=Tv6U4HCIAbjSqE5fzrEZL781trH/JBAtKNeS8QDOj4c=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=WS6C7d/TFFFk0IoGn+dgkC68H19SUVeXsOcl04ZcKrPySB38a8ct+Ce89av4crsp7v0yqc63II+cnmGz6DBr8ckxLHJDRRwhhd8CnJS3Tr9D6Uk3jZBuitfnbBkmYQIICNWLSyKp75nZVvYRmRxQiibTI6e3aqqkE+rcfinrtAU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=jII1tZSQ; arc=fail smtp.client-ip=40.107.92.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EAE81D88D7
+	for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 12:04:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726229055; cv=none; b=Xrb4Lq9mbGzCYoYdfLLBnOjfA+P1CuKzJgs51SzGM/t2zDFt+doCugvfjXiSApDpxOxPiYoytZBYsYUi+wFX+0ZoD/Cxnb8eLeectiNuXe0kiAghrCHIJOtAMoR4k18wM01yfNbOASqT9xRlJkw1yqvMFRVrjabKN5LLgBcNY5s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726229055; c=relaxed/simple;
+	bh=k9kZPHPhjlFedxi2BTcX+2wc3SebhNfzustyrKJeAmM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=DeTevvHxD8eN5Pf/lTfTwCVdCYSlE4evzCwwVdCGkEK52jsEoagXp6YoHc6cF1rCiyg+C028cQV3m0EJ6SNjPND4VfU/nePfa1NSbrY11Sms9bTR/gR+dcdEpVcoH8zTiqVjG9bU1F+l7qqD/UyfA5rbWIdbnGDINNvXjWhkXgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=QPaFNfe/; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="jII1tZSQ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oZmLtobR0LVlu+glO3DRcE0ykDC0k3gTq+bq5XVGLhDvjpSWn16/2m2giTLPDk8A6jTfaiSZGRSbcpr5JjfrCxPXQ2xGMWPNyXHm1qKLr8+J6v5wIfuFrbWkdWn2Kmp2FUMbjUaw5EEMd74YZsZn7bFQghvG2B8i+aCMGAwvTnQC9Bth/YyS/m1OCDB6926WurPqlQKIYCqLODL1Xn+RAEHZt936yZXszOKLpNtyLSoG3SH3Q/2niwd85yxbZpvzaWz2QNFf0kHFoAIvKSZdVZhMxQwC/MthEfM98iEAU27WuiT16JULU5AlhaZtLQ/Xl4Qk9GjjhD7XytE46RXL+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JbcubEGgjgZeNl75c91M+MecqnWSovKLzIZReNDrzRE=;
- b=HVBo+czR//VTF4iK00R9vDNyLPFcX9hFzzx7WjL8KlcIm+JNYb0ZQnB4qkW/8uJkaGQkYmCLrusijXQE3J3cpwnTM18x4bw2852j/vOr+B6RAHyDXYX/ZY5HD1+H1jgBNnN8GSdQEgOu2oviVBWxT66W+bbzxVAcFbqNJXmV6clTTnBnq7ecUqhrWVLLsDct2ADjQ6nXI/zJ5iPWZElRbwsS918HPsEVFJsmqWexg9blqUBOW7ygnt6cJUWACs7x82EnV+EROdwxH7NlyXLQrWMLXMARJtRzbTdMXcHkQnBxeuCXcmacQxBvKQ6m+3KIxznZU8JTjf8Qm98hiiFKeg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JbcubEGgjgZeNl75c91M+MecqnWSovKLzIZReNDrzRE=;
- b=jII1tZSQL/qO47kxNQXz3xZyi+zLQJln+TI5Iqtqe778OxuRTM5wOKWeJGibV6dmxfOMtp0rDy2WYE1zKu3nYYmI7iEMH+f49bC6ZQoarlYTLhJSFzt+K/32DvnRe88IQdcq5B5NY0o+hjX0p9aBSBMuSdTtDJNZ2x5tM0ZBUPo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4202.namprd12.prod.outlook.com (2603:10b6:5:219::22)
- by CH3PR12MB8725.namprd12.prod.outlook.com (2603:10b6:610:170::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.27; Fri, 13 Sep
- 2024 11:36:00 +0000
-Received: from DM6PR12MB4202.namprd12.prod.outlook.com
- ([fe80::f943:600c:2558:af79]) by DM6PR12MB4202.namprd12.prod.outlook.com
- ([fe80::f943:600c:2558:af79%4]) with mapi id 15.20.7962.021; Fri, 13 Sep 2024
- 11:36:00 +0000
-Message-ID: <fda48ab0-35bc-48ab-4b62-77e09758c760@amd.com>
-Date: Fri, 13 Sep 2024 12:35:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH V4 04/12] PCI/TPH: Add pcie_enable_tph() to enable TPH
-Content-Language: en-US
-To: Wei Huang <wei.huang2@amd.com>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- netdev@vger.kernel.org
-Cc: Jonathan.Cameron@Huawei.com, helgaas@kernel.org, corbet@lwn.net,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, alex.williamson@redhat.com, gospo@broadcom.com,
- michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
- somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
- manoj.panicker2@amd.com, Eric.VanTassell@amd.com, vadim.fedorenko@linux.dev,
- horms@kernel.org, bagasdotme@gmail.com, bhelgaas@google.com,
- lukas@wunner.de, paul.e.luse@intel.com, jing2.liu@intel.com
-References: <20240822204120.3634-1-wei.huang2@amd.com>
- <20240822204120.3634-5-wei.huang2@amd.com>
-From: Alejandro Lucero Palau <alucerop@amd.com>
-In-Reply-To: <20240822204120.3634-5-wei.huang2@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P265CA0004.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2ad::13) To DM6PR12MB4202.namprd12.prod.outlook.com
- (2603:10b6:5:219::22)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="QPaFNfe/"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-42cb0f28bfbso18951145e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 05:04:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1726229050; x=1726833850; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XGSAMjSOLd61VP4y6gqf8nhkY/Om2FO5l8i4tEiPSrQ=;
+        b=QPaFNfe/Nss2JR5mABWmHv5joXy2v2KumpzdT2xz9gMywbZPQrWbaM8i5UTMMAgqhe
+         mmnHDb39K2emPhmb5MOMQmrXDJeCe0wsZMNQO4BbKgrZmOsfxhOoZbsWl7IJod0i8075
+         cmj59utulQZF5d1ymJmSnn6a8weHgCOqKS0uxXHSTZN5a370WkqG1q0Z5WODRgntyMz4
+         LEid829yPzbiOX1tPWIkhzpx9xsJW3v40IqPlr/rZVQff4gp41JXXEL2yu4WexbNqecF
+         41jb+L8bKUpVBPbSCkwYmalAl2F8GWBAVNuiLeC6/CvP0RCCo1JBGWaXbK61+ejtd3CU
+         Jtxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726229050; x=1726833850;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=XGSAMjSOLd61VP4y6gqf8nhkY/Om2FO5l8i4tEiPSrQ=;
+        b=KZFdrdqsOGgGzgY9Jsjvw20w5PBYNKbixkoiwvnGMe9jFmAQ1gyQW+wx/HfAi/cezN
+         iBnajJc3wRfzeBhq+1hzRWoyHnq4fyoY+Ja2JBoTGdAEqxY92gu+fGP18moHh5BnlC/O
+         P44hISvIZMNQfYnD9CGqXl6YVtXo2osziy5liNweDwiIywxEVB/WFuF5A3A2ZwpK/q2t
+         CY6k/v+gDOB5QeMAp2eTqemCntE8HwSuaFLfANXuZksFeAbpcH5/lycAdcnq23JeWwlH
+         DGOe4O74bLWIMkg8dtGg5R1chxec3qhxPqim7JquUhTLeFIvJ3Gt/oka3Lj+jr136886
+         LX2A==
+X-Forwarded-Encrypted: i=1; AJvYcCVFrwTg6siwu34UreyX6TLaoFqFqOlg7mYY/ENrlJlUmIxjWSC2YqPhZwB10TNVyLBPrm1hnsvMvas=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxHpBKFVa1dAAISXhSgc76DEFelQAulvX+XdNoxgVesNQ5OHB1z
+	DCSpVxQs8xIXZBQR6uBv9EDWdaPSIbdoA8r5Wl7VdhVGnRf6KMNpWRCJZVzYwgM=
+X-Google-Smtp-Source: AGHT+IHZnZr0EqY02Ab2sJcM/6QWgSbf9WyIXNplySB+jxpY2oqGPEbn2ZL+hIT8UFSIR08Co35uCA==
+X-Received: by 2002:adf:f94f:0:b0:371:8e0d:c1d9 with SMTP id ffacd0b85a97d-378c2d07281mr3732080f8f.19.1726229050140;
+        Fri, 13 Sep 2024 05:04:10 -0700 (PDT)
+Received: from localhost (amontpellier-556-1-151-252.w109-210.abo.wanadoo.fr. [109.210.7.252])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956d3738sm16689605f8f.69.2024.09.13.05.04.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Sep 2024 05:04:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4202:EE_|CH3PR12MB8725:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0a0216d6-2de6-414a-e7e3-08dcd3e83d65
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?NnVSZWU0aVA1dG56RVpOSFlzcjhGTEdlUXc5dFNHOE0rTFNwaC8rajd5QjZh?=
- =?utf-8?B?N0NhVXBVb2tWT3B0UEtaYmY3SDR6V2hlclRQZ2VzTHUzUlpZd1RQR0x4TW9Q?=
- =?utf-8?B?SDlobzFQZHY1TTBGemNZbnZuUEdwQmV5a3gzN1oyWWM4QXFFUTFuMEdtRE1y?=
- =?utf-8?B?ZWdKL2FhQWVDOG1rZ0RaOWRXcGVoZENxRXQ1dGhkK3RFN0xLNW5OK3FSbEJ3?=
- =?utf-8?B?Y2NON0wvanBpa2lNbkw3K29yOTJ1Q0M1NTZoUXRRMFgwejEwR0dRL0JtZ05o?=
- =?utf-8?B?d2NIc09nenAxRVpocm80ellVK3ZzSGJ5d0FwUzNvblkwL1pkclVBSWJuZnBt?=
- =?utf-8?B?QitvVFNjYy9JREtubzNZSWZ2enZmV3ZEVXpTQm83U3lWT2MrRU13bDVOMUFH?=
- =?utf-8?B?eXZsU3QwY2xHRjNJTEhGOExwTU5GSC9ucmVOWjlpS3VQdUJpUHVFUS9vd09O?=
- =?utf-8?B?T1JYQmlHVkgreUNVUW05ekcwd0IrZVdYR3RsWEZzRzR1bWV3c29FckFQMHBy?=
- =?utf-8?B?TmJCOW42SFFkU05KTHlJQUQzYVd6RnFyVm43TEk4TkIzVjlJSVdJdS9BYUJY?=
- =?utf-8?B?ZjFnRDFickxWVHVkWW5lRVgrRkFuWVhNeEZSSmJib0JYRmszbnpwNFdFbGV2?=
- =?utf-8?B?QUpnMWRDZGhwbFNTQXVzUGVGM1BpSTNIZC9ycWt5Ynl0dEZKSHlZYk5qbm1X?=
- =?utf-8?B?RkRVL0NSTjdjeEJRcEd0RHlVSWVFVUM1dXB6endvclpldjAwRGJtR2hXTHc4?=
- =?utf-8?B?Z1o0cWxucVVlMVl2bU1jTno2czlOOHVHQUk1YVdHRkQ4UCtrOVNaUGtFdlA3?=
- =?utf-8?B?c0dKUnE5QnF2WGxnbzZ1MHBmOHBadGg1ZHIybDJKSzMxVEE0MEZkdnhJNC9U?=
- =?utf-8?B?dzJ6NDd4ZVRCaWpsWHRwZXFXWlpFUmF6K3l4NjZyWmJtRnNGRzVLL2drNTlt?=
- =?utf-8?B?aEo4Sjgwc2l4YndBTmdLazdTVEszdEV6V0lLZTJ3MlNRUjBoNUIwL1k5Y2Zi?=
- =?utf-8?B?dmhXOFltc3J0Y1R2UWUxVDIvc2ZIWkhTeld1cGtsekx2UjRrb3pha0pRYnpG?=
- =?utf-8?B?c09SK3c2cW5kSmRldXRudjVMamtEcUJOb0VKWTA5S3dRRGZaTktYcEsxajUy?=
- =?utf-8?B?K21oTHdLbDBoTWRTdEJTaXB1YjEwcERCMkNpMUIyY05wZ0Y4US9EYk95cVFX?=
- =?utf-8?B?UlErdkc2NFhnNDZ0aFJ3anJtSHhyaU96MG1aM3N2eExDNEJmUjFZUXF6SzBm?=
- =?utf-8?B?ZHRtSE9acFphWnhRWkJjYmNSdzU1RVk3RHRwbXhLbjQ5cWprVHJvam9Ub3R4?=
- =?utf-8?B?TXdsQnpiUHIzdnBtb1ozcjdleFkwL3RVTDgrVXFKTDQzYnNzY2NvOHZPSkpX?=
- =?utf-8?B?dW55REJ6cXh0emdnQXZsWGNiZEt5c21PRTdncEtWRTdXRysrWkR2WWwzTmJq?=
- =?utf-8?B?Y2I5d0I2MXlRNzU0UnVlN29xM3NoMFM4c2hLeXhXa2tucjEyQmcxVEJvdDdu?=
- =?utf-8?B?QkNwUUdJOFBCZ3gxUGtnaUtOYkhWZ0VvbkJCeXBjY2lVNFFyV0pXbm9Ca1pX?=
- =?utf-8?B?QUtFaTI1RlRZK1dqTkYwWnk2azJEdWM5dDhyWjZRY1ErWm9idGx6MVc1Rzc4?=
- =?utf-8?B?YzBCWlUxa290dE13cHFIL0xwazdyNktPc3pOQ2cwaVZXZC8xSmQrWXpEQlV6?=
- =?utf-8?B?YWtZaFN0dW1lMUhsVkRwQkoxWGVudUt5QlJFREl6WFZiaHdZaGNiNC9OMlFE?=
- =?utf-8?B?cjg2QytBVmNmQ2JrTG1hekNXZmpKa3c5VmYyUUlNU1lTN3FoNWRDNzd5ZmNO?=
- =?utf-8?B?ZEZlNW1TSmZCcnQwbGVHQT09?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4202.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?blVPREVXSkVTWGJ3ZE1qZUk5MUNnSXppdHZFeVlyaUxWRzY4QlR6TTRMRmE5?=
- =?utf-8?B?bGs0U0w3UnhRTlUvY3lUbGF2cFJ5WjZ2UVY2bVJkeGZMUUkxUHZXUFlhTXVW?=
- =?utf-8?B?Um0wb0dhcTFCb1piTlg1bjAzczg2R0IzbUFRMXZQbEFsRmFPeTlBd1labGZo?=
- =?utf-8?B?aTVwdmxjY2M5VVdrVUNBVC9LNnNqVEdoOVJRT0JXOUJ2UXdIZjNSdlJKM09F?=
- =?utf-8?B?bWtpdVRRSmJtWjJ0anVjZFRiWTFyQ2Z4azl1aXhxNFRiMGJrUE5Ma21zekZM?=
- =?utf-8?B?VExJQ0NCUmxNbkJBU0ZkUWhhNzZpRmVwMmNhM2taN04yWmhjL3J4YStjelRL?=
- =?utf-8?B?bXErTXVUYm9Sc0JEeWJhREZ5dWtJQ2dDUjBhdzNMZUE2MjRpT3MrbEh6QmF5?=
- =?utf-8?B?MC9hMG5EYzJxUGttUTJzdCtZRnZ3d21MU25zYVRJd3R3NUdxc2xESS95YVZE?=
- =?utf-8?B?cXByUDJnYWRnRFlibHNuSDNsYitMNDVIZkNNTVBIWldlSStqSVJTREFubXps?=
- =?utf-8?B?dWdWd2h6aG83bFEzdlp6ZmJDQlBhRU40eUlsYXEvUWJQNmtybU9SZGVOV1JZ?=
- =?utf-8?B?U2pnYjFONVdpWHJJOUZxRXVmam1mMHZGK2h4TWVNOEpsYmZUWnBYR3dETi9O?=
- =?utf-8?B?cU1NaXdCWWNOMTRxWWZmRjhkSlZIblhLbVdtTHlPaHRQMk9NTTFLRG5tb2RI?=
- =?utf-8?B?ZDllZEtWRDRKaFNvQ2dBS0ZWemlQOWRROVpLd3RHaUJkKzcvaVZXU1gva2xB?=
- =?utf-8?B?R2cvdS9aZTJuREwxQk5qT2FXcTlmb0dnQW5qZ0dwMlFqMk5hSkdyYUc3QmJj?=
- =?utf-8?B?TXd0U3dGYVRqZFJIN29zYVBma3VZTVBCemxBRkc3YzRDRHF2VTd2dWpFWlgr?=
- =?utf-8?B?TnlMd0dEaUtuMGhGVll2ZHFRcjNBK2htVlF1UUp3Zms0VkVSdTB5RDdJY0px?=
- =?utf-8?B?VVpCaVNFck5DNXNibHE2VnBGRUJoN2svVkc4RERMVjBZUlVTY3lMTnZJR1pq?=
- =?utf-8?B?Mlh0cG5rb1I3Z25NWklqelZ4SlFmS3BxbStDbHpkSkJBWUJ1R1dBcFkrTmhn?=
- =?utf-8?B?SDl1dm1WT1p6aFJMdzRiQkZHQmtBZVlsQXdiNUkwc0M1OW9sMDBUSkFHZEdz?=
- =?utf-8?B?WDdIRkk5YThjNGphN3V0OHZuR01EdHdrdHd3aExFZHpoTHdJSEtITmdFNUdj?=
- =?utf-8?B?VnMwQnd3b1QwSUo5TG9NMWdDc3hPTVJpOFJ3Rm43ejlmbElLc1R2VTczY1Bt?=
- =?utf-8?B?aFpHTTMzVWE1cDMydXdJdE1KQlpuV29MSzRqUk1wYnhsbXlpbko4NFpBc2xD?=
- =?utf-8?B?QTlaSzN2ZXJBdXpRVFBtbGZZU01FOEJpdmZDQ1VrRnpzQ3E0aHh2RXdFRFpO?=
- =?utf-8?B?UW1jcStEZVg5VVAvTm5MeW1pUlg3ZzYzVU04dkVJekl1TEFVakNxeUV2V1cy?=
- =?utf-8?B?NzdWcm5kWnlCbGtnSmZ4dXhXMHcrVWtBcmJnVUlBT2FBZDh4UVk2eWF0SzU5?=
- =?utf-8?B?WnZDVzZzSDRJRlZlSkEyZFlLNnlCOXNBb3VjS05BRXBVa1p1Z051NDQvdmp4?=
- =?utf-8?B?T1dxQUtMQlpPZ0JEbjVtcnJvYXJrd0JSTXFTVzhaRWE0cEFrano0VmJJRXRJ?=
- =?utf-8?B?STUyank0QUlXdk5RMG91SUZpWlFPYTZ2cC9PTU5qTTlSRHBFMU9vWGsxVjJZ?=
- =?utf-8?B?UFhFeVQwVkxCZ01mUnpWUjBUMGJrYVV2dGQ5a20wMnhYQ3Y0VkZNamxBYzFu?=
- =?utf-8?B?anVURUliMXdudlB4TStCV2xhT1pFanVIdVRiZW85a2hEbHYwRWl6ZW1UcHJq?=
- =?utf-8?B?cllGU2hEN2FGUWtZOXRLbEVDQklpVGovUUg1bVl3OVZoVnZ6Ri9ydml6ZHAx?=
- =?utf-8?B?K1NEMDR0VDFXT1Nld0M1SDNIMVBlZTA0d0xXS0JFSjlqcW5tZGZGbXpocnQw?=
- =?utf-8?B?T0dCVGtoSHpWbTh4VFcvVWZPS3N6blIrSUdwRnhuNHNEQnIxeUQvY3Jpa21i?=
- =?utf-8?B?R3Bkc0U1SUNXUCs4Q1ZBaFBzTHA5SXFIOHkrV1RJbzJOMk5oOU8zRExPVjVn?=
- =?utf-8?B?b1JFUjdEZW4vYVI0QWdPRTc1VG5TNkZGNjVuZU1nemxsOWlUN3RzRkQ0N3hv?=
- =?utf-8?Q?LKveJd1BI91aHhht+2o0t4blB?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a0216d6-2de6-414a-e7e3-08dcd3e83d65
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4202.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Sep 2024 11:35:59.8697
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YgC8VOL3cVHFRe+maHQe6I2kT7s02pkrizM4Y/3O5CQkQEubO8hpuSzzu6GA3F0eoB98MzvBbXagzC0f+BJS4w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8725
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 13 Sep 2024 12:04:08 +0000
+Message-Id: <D4554LAXBVEX.2Z0H6XMUIPOUB@baylibre.com>
+Cc: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 2/6] iio: adc: ad4030: add driver for ad4030-24
+From: "Esteban Blanc" <eblanc@baylibre.com>
+To: =?utf-8?q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>, "David Lechner"
+ <dlechner@baylibre.com>, "Lars-Peter Clausen" <lars@metafoo.de>, "Michael
+ Hennerich" <Michael.Hennerich@analog.com>, "Jonathan Cameron"
+ <jic23@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
+ <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Nuno Sa"
+ <nuno.sa@analog.com>, "Jonathan Corbet" <corbet@lwn.net>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20240822-eblanc-ad4630_v1-v1-0-5c68f3327fdd@baylibre.com>
+ <20240822-eblanc-ad4630_v1-v1-2-5c68f3327fdd@baylibre.com>
+ <28fa2ba9-9b02-43ac-b070-85a173a5db60@baylibre.com>
+ <3c2e0d65225f20c04722f017f7866a47c346782e.camel@gmail.com>
+In-Reply-To: <3c2e0d65225f20c04722f017f7866a47c346782e.camel@gmail.com>
 
-
-On 8/22/24 21:41, Wei Huang wrote:
-> Allow drivers to enable TPH support using a specific ST mode. It checks
-> whether the mode is actually supported by the device before enabling.
-> Additionally determines what types of requests, TPH (8-bit) or Extended
-> TPH (16-bit), can be issued by the device based on the device's TPH
-> Requester capability and its Root Port's Completer capability.
+On Fri Sep 13, 2024 at 10:22 AM UTC, Nuno S=C3=A1 wrote:
+> Hi Esteban,
 >
-> Co-developed-by: Eric Van Tassell <Eric.VanTassell@amd.com>
-> Signed-off-by: Eric Van Tassell <Eric.VanTassell@amd.com>
-> Signed-off-by: Wei Huang <wei.huang2@amd.com>
-> Reviewed-by: Ajit Khaparde <ajit.khaparde@broadcom.com>
-> Reviewed-by: Somnath Kotur <somnath.kotur@broadcom.com>
-> Reviewed-by: Andy Gospodarek <andrew.gospodarek@broadcom.com>
-> ---
->   drivers/pci/pcie/tph.c  | 92 +++++++++++++++++++++++++++++++++++++++++
->   include/linux/pci-tph.h |  3 ++
->   include/linux/pci.h     |  3 ++
->   3 files changed, 98 insertions(+)
+> Just one remark...
 >
-> diff --git a/drivers/pci/pcie/tph.c b/drivers/pci/pcie/tph.c
-> index a28dced3097d..14ad8c5e895c 100644
-> --- a/drivers/pci/pcie/tph.c
-> +++ b/drivers/pci/pcie/tph.c
-> @@ -7,6 +7,7 @@
->    *     Wei Huang <wei.huang2@amd.com>
->    */
->   #include <linux/pci.h>
-> +#include <linux/bitfield.h>
->   #include <linux/pci-tph.h>
->   
->   #include "../pci.h"
-> @@ -21,6 +22,97 @@ static u8 get_st_modes(struct pci_dev *pdev)
->   	return reg;
->   }
->   
-> +/* Return device's Root Port completer capability */
-> +static u8 get_rp_completer_type(struct pci_dev *pdev)
-> +{
-> +	struct pci_dev *rp;
-> +	u32 reg;
-> +	int ret;
-> +
-> +	rp = pcie_find_root_port(pdev);
-> +	if (!rp)
-> +		return 0;
-> +
-> +	ret = pcie_capability_read_dword(rp, PCI_EXP_DEVCAP2, &reg);
-> +	if (ret)
-> +		return 0;
-> +
-> +	return FIELD_GET(PCI_EXP_DEVCAP2_TPH_COMP_MASK, reg);
-> +}
-> +
-> +/**
-> + * pcie_enable_tph - Enable TPH support for device using a specific ST mode
-> + * @pdev: PCI device
-> + * @mode: ST mode to enable, as returned by pcie_tph_modes()
-> + *
-> + * Checks whether the mode is actually supported by the device before enabling
-> + * and returns an error if not. Additionally determines what types of requests,
-> + * TPH or extended TPH, can be issued by the device based on its TPH requester
-> + * capability and the Root Port's completer capability.
-> + *
-> + * Return: 0 on success, otherwise negative value (-errno)
-> + */
-> +int pcie_enable_tph(struct pci_dev *pdev, int mode)
-> +{
-> +	u32 reg;
-> +	u8 dev_modes;
-> +	u8 rp_req_type;
-> +
-> +	if (!pdev->tph_cap)
-> +		return -EINVAL;
-> +
-> +	if (pdev->tph_enabled)
-> +		return -EBUSY;
-> +
-> +	/* Check ST mode comptability */
-> +	dev_modes = get_st_modes(pdev);
-> +	if (!(mode & dev_modes))
-> +		return -EINVAL;
-> +
-> +	/* Select a supported mode */
-> +	switch (mode) {
-> +	case PCI_TPH_CAP_INT_VEC:
-> +		pdev->tph_mode = PCI_TPH_INT_VEC_MODE;
-> +		break;
-> +	case PCI_TPH_CAP_DEV_SPEC:
-> +		pdev->tph_mode = PCI_TPH_DEV_SPEC_MODE;
-> +		break;
-> +	case PCI_TPH_CAP_NO_ST:
-> +		pdev->tph_mode = PCI_TPH_NO_ST_MODE;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* Get req_type supported by device and its Root Port */
-> +	reg = pci_read_config_dword(pdev, pdev->tph_cap + PCI_TPH_CAP, &reg);
-> +	if (FIELD_GET(PCI_TPH_CAP_EXT_TPH, reg))
-> +		pdev->tph_req_type = PCI_TPH_REQ_EXT_TPH;
-> +	else
-> +		pdev->tph_req_type = PCI_TPH_REQ_TPH_ONLY;
-> +
-> +	rp_req_type = get_rp_completer_type(pdev);
-> +
-> +	/* Final req_type is the smallest value of two */
-> +	pdev->tph_req_type = min(pdev->tph_req_type, rp_req_type);
-> +
-> +	/* Write them into TPH control register */
-> +	pci_read_config_dword(pdev, pdev->tph_cap + PCI_TPH_CTRL, &reg);
+> On Thu, 2024-08-22 at 14:39 -0500, David Lechner wrote:
+> > On 8/22/24 7:45 AM, Esteban Blanc wrote:
+> > > This adds a new driver for the Analog Devices INC. AD4030-24 ADC.
+> > >=20
+> > > The driver implements basic support for the AD4030-24 1 channel
+> > > differential ADC with hardware gain and offset control.
+> > >=20
+> > > Signed-off-by: Esteban Blanc <eblanc@baylibre.com>
+> > > ---
+> > > =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> > > =C2=A0drivers/iio/adc/Kconfig=C2=A0 |=C2=A0 13 +
+> > > =C2=A0drivers/iio/adc/Makefile |=C2=A0=C2=A0 1 +
+> > > =C2=A0drivers/iio/adc/ad4030.c | 854 ++++++++++++++++++++++++++++++++=
++++++++++++++++
+> > > =C2=A04 files changed, 869 insertions(+)
+> > >=20
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index f17c42bea19c..6a5a0e7b7a51 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -420,6 +420,7 @@ R:	Esteban Blanc <eblanc@baylibre.com>
+> > > =C2=A0S:	Supported
+> > > =C2=A0W:	https://ez.analog.com/linux-software-drivers
+> > > =C2=A0F:	Documentation/devicetree/bindings/iio/adc/adi,ad4030.yaml
+> > > +F:	drivers/iio/adc/ad4030.c
+> > > =C2=A0
+> > > =C2=A0AD5110 ANALOG DEVICES DIGITAL POTENTIOMETERS DRIVER
+> > > =C2=A0M:	Mugilraj Dhavachelvan <dmugil2000@gmail.com>
+> > > diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
+> > > index 88e8ce2e78b3..f4bd05780f6f 100644
+> > > --- a/drivers/iio/adc/Kconfig
+> > > +++ b/drivers/iio/adc/Kconfig
+> > > @@ -33,6 +33,19 @@ config AD4000
+> > > =C2=A0	=C2=A0 To compile this driver as a module, choose M here: the =
+module will be
+> > > =C2=A0	=C2=A0 called ad4000.
+> > > =C2=A0
+> > > +config AD4030
+> > > +	tristate "Analog Device AD4630 ADC Driver"
+> > > +	depends on SPI
+> > > +	depends on GPIOLIB
+> > > +	select REGMAP_SPI
+> >=20
+> > It looks like we are just using REGMAP, not REGMAP_SPI.
+> >=20
+> > > +	select IIO_BUFFER
+> >=20
+> > And also select IIO_TRIGGERED_BUFFER?
+> >=20
+> > > +	help
+> > > +	=C2=A0 Say yes here to build support for Analog Devices AD4030 and =
+AD4630
+> > > high speed
+> > > +	=C2=A0 SPI analog to digital converters (ADC).
+> > > +
+> > > +	=C2=A0 To compile this driver as a module, choose M here: the modul=
+e will be
+> > > +	=C2=A0 called ad4030.
+> > > +
+> > > =C2=A0config AD4130
+> > > =C2=A0	tristate "Analog Device AD4130 ADC Driver"
+> > > =C2=A0	depends on SPI
+> > > diff --git a/drivers/iio/adc/Makefile b/drivers/iio/adc/Makefile
+> > > index 8b80664c6d6b..0e4f833abf0b 100644
+> > > --- a/drivers/iio/adc/Makefile
+> > > +++ b/drivers/iio/adc/Makefile
+> > > @@ -7,6 +7,7 @@
+> > > =C2=A0obj-$(CONFIG_AB8500_GPADC) +=3D ab8500-gpadc.o
+> > > =C2=A0obj-$(CONFIG_AD_SIGMA_DELTA) +=3D ad_sigma_delta.o
+> > > =C2=A0obj-$(CONFIG_AD4000) +=3D ad4000.o
+> > > +obj-$(CONFIG_AD4030) +=3D ad4030.o
+> > > =C2=A0obj-$(CONFIG_AD4130) +=3D ad4130.o
+> > > =C2=A0obj-$(CONFIG_AD4695) +=3D ad4695.o
+> > > =C2=A0obj-$(CONFIG_AD7091R) +=3D ad7091r-base.o
+> > > diff --git a/drivers/iio/adc/ad4030.c b/drivers/iio/adc/ad4030.c
+> > > new file mode 100644
+> > > index 000000000000..a981dce988e5
+> > > --- /dev/null
+> > > +++ b/drivers/iio/adc/ad4030.c
+> > > @@ -0,0 +1,854 @@
+> > > +// SPDX-License-Identifier: GPL-2.0-only
+> > > +/*
+> > > + * Analog Devices AD4030 and AD4630 ADC family driver.
+> > > + *
+> > > + * Copyright 2024 Analog Devices, Inc.
+> > > + * Copyright 2024 BayLibre, SAS
+> > > + *
+> > > + * based on code from:
+> > > + *	Analog Devices, Inc.
+> > > + *	=C2=A0 Sergiu Cuciurean <sergiu.cuciurean@analog.com>
+> > > + *	=C2=A0 Nuno Sa <nuno.sa@analog.com>
+> > > + *	=C2=A0 Marcelo Schmitt <marcelo.schmitt@analog.com>
+> > > + *	=C2=A0 Liviu Adace <liviu.adace@analog.com>
+> > > + */
+> > > +	.type =3D IIO_VOLTAGE,						\
+> > > +	.indexed =3D 1,							\
+> > > +	.channel =3D _idx * 2 + 2,					\
+> > > +	.scan_index =3D _idx * 2 + 1,					\
+> > > +	.extend_name =3D "Channel" #_idx " common byte part",		\
+> >=20
+> > Labels are usually one word and reflect the datasheet name.
+> >=20
+> > Suggest `"common-mode" #_idx` or `"CM" #_idx` for this one.
+> >=20
+>
+> Also, .extend_name is not to be used anymore... In the end of the day IIO=
+ will create
+> label files anyways but from what I remember about this, extend_name is n=
+ot to be
+> directly used this anymore (so other think it's still fine). Instead, use=
+ the label
+> callback.
 
+Yeah, Jonathan or David mentioned it. I'm using `.read_label` callback
+now.
 
-No error checked. Same with below pci_write_config_dword.
+Thanks for your time,
 
+--=20
+Esteban Blanc
+BayLibre
 
-> +
-> +	reg &= ~PCI_TPH_CTRL_MODE_SEL_MASK;
-> +	reg |= FIELD_PREP(PCI_TPH_CTRL_MODE_SEL_MASK, pdev->tph_mode);
-> +
-> +	reg &= ~PCI_TPH_CTRL_REQ_EN_MASK;
-> +	reg |= FIELD_PREP(PCI_TPH_CTRL_REQ_EN_MASK, pdev->tph_req_type);
-> +
-> +	pci_write_config_dword(pdev, pdev->tph_cap + PCI_TPH_CTRL, reg);
-> +
-> +	pdev->tph_enabled = 1;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(pcie_enable_tph);
-> +
->   /**
->    * pcie_tph_modes - Get the ST modes supported by device
->    * @pdev: PCI device
-> diff --git a/include/linux/pci-tph.h b/include/linux/pci-tph.h
-> index fa378afe9c7e..cdf561076484 100644
-> --- a/include/linux/pci-tph.h
-> +++ b/include/linux/pci-tph.h
-> @@ -10,8 +10,11 @@
->   #define LINUX_PCI_TPH_H
->   
->   #ifdef CONFIG_PCIE_TPH
-> +int pcie_enable_tph(struct pci_dev *pdev, int mode);
->   int pcie_tph_modes(struct pci_dev *pdev);
->   #else
-> +static inline int pcie_enable_tph(struct pci_dev *pdev, int mode)
-> +{ return -EINVAL; }
->   static inline int pcie_tph_modes(struct pci_dev *pdev) { return 0; }
->   #endif
->   
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index c59e7ecab491..6f05deb6a0bf 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -433,6 +433,7 @@ struct pci_dev {
->   	unsigned int	ats_enabled:1;		/* Address Translation Svc */
->   	unsigned int	pasid_enabled:1;	/* Process Address Space ID */
->   	unsigned int	pri_enabled:1;		/* Page Request Interface */
-> +	unsigned int	tph_enabled:1;		/* TLP Processing Hints */
->   	unsigned int	is_managed:1;		/* Managed via devres */
->   	unsigned int	is_msi_managed:1;	/* MSI release via devres installed */
->   	unsigned int	needs_freset:1;		/* Requires fundamental reset */
-> @@ -533,6 +534,8 @@ struct pci_dev {
->   
->   #ifdef CONFIG_PCIE_TPH
->   	u16		tph_cap;	/* TPH capability offset */
-> +	u8		tph_mode;	/* TPH mode */
-> +	u8		tph_req_type;	/* TPH requester type */
->   #endif
->   };
->   
