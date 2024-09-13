@@ -1,141 +1,259 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C4B3032A
-	for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 18:55:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB93513C90B
+	for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 19:00:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726253737; cv=none; b=eXZixTvpEWxggCyN4nqP/xV+kWH53EpynqiuT/LwfNij+ijCUE7vIK+5+GsGTCVSZF7rEv5B3ykQN41xgtGdxkZ/SS5EAof1roUF8NqcbhcGoeIzL/5fITN1YzmqefTWhp1HV7KINPB/cjsan3dDfVWw1dXV2sWzemDnB0EVEmo=
+	t=1726254012; cv=none; b=Dch3fK6TOb3dOYh6mNtsxLIASupJDyytYmHjDVT8xIoEH/J6Z4gPNiSuz4In8yVioKaS5NlAjvCWmPXaM0eRARpw9p+ahMKsOWUJ+w0GsSlS6PNUEdhlp1Y9mDN582Kt3IFd1iAjU2xKUR0lIbM98ARRdnVOSLADLv4QSo6fc9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726253737; c=relaxed/simple;
-	bh=V+VmYPTZRE3hzK62YCRKPBn1g2RyukAfOJtc1OgpEBU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UwQbNrlNNsAcOQ8JB1jUvw2hELXjS7b0oBOYmoCOXv+MbGs8XvK0jWUFv//UWzrT66Fit3wPwO9Bl6nl4i5nShEC9ZuFWK/tRRvTGQFE7cb7vbU8mj10yqw2Zvmos4BvaVrb8KZctfMZL1eMwJCPWs0KGbA36o2fKFzhRaRCgdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=nJ8l+26h; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
+	s=arc-20240116; t=1726254012; c=relaxed/simple;
+	bh=f0/qHNroIZs6VOcePLiioAm+uTAbOHcEwWrIFuPphM8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HSA5AC7VukkWN6nNOUMKZS2ju0D1X5HxprpxUpHAwevdJOm0kBYdNEvcOe0rhCGsL1aJOfCZcOEXALHt5mpJSdgtNapeeGeRshi23CB1YYwXU+igUiZPjNAB3vdGL2wEREJncJ78nhC7A67cTzRnFOafXFyyGH+JNOHpU3YpTuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MNIqm060; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="nJ8l+26h"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a8d2b24b7a8so652615466b.1
-        for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 11:55:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MNIqm060"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a8a789c4fc5so581065066b.0
+        for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 12:00:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1726253732; x=1726858532; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5SDYQ7lzcTR7t7MivDajHBL9N4FwFQeM0m9Pk7CbHHE=;
-        b=nJ8l+26hEJhxdnD+J5xpJKSaXOgr1fwaCJFlBl8x438jI8WpiYraJD9V8NsQn5UsgC
-         tZ3GyGhb/Rc1T0ZpSUJFqQmmKc45QLeetKr75fe9msLMfWhWHYYDfutJcYVzUwdm4H+7
-         MQk8QnTYU3L/Yne1jRwcyQLSA51lapkYmgl6c=
+        d=google.com; s=20230601; t=1726254009; x=1726858809; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cZf2aYMb8Zlk0CPpJeIXHbW7WWQiG41ie4dpVzhJSlI=;
+        b=MNIqm060n/GP04KJLUWbp3Q+iu4zZRWCmq0y54/MKekUsC+Ii42LeNtOdBzkp5rnm7
+         KiBnmcwGyPxRCE7XnG2ACKeZmT75ghd6wIbLgAS372GyAMmVxtIm7+PkOHmZQJQm2mCa
+         shGmIInv5HS92o08HTLWXqfcQ9g/Ltu5PB8mu9DfwADtFWWizHF+rvcfQtdqykT60byO
+         6yINcotfPoo1X8JROsCZa5KTn+Ls0bsyyEifR/rpwJb1MuKd2EJ4NBBaD0EtZRhG5q0B
+         s9INIq1cMfT8n46zIFnsxJ4rY5bQ3Q0oTFN8PSAa87kDuM9nYhg7aILWvdDEDKDynC9C
+         0jbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726253732; x=1726858532;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5SDYQ7lzcTR7t7MivDajHBL9N4FwFQeM0m9Pk7CbHHE=;
-        b=CIUS/MCOBdzKDjGCEWeQfXIbmjdjOyrxW9p5LqEn5D6ZU/DN6SJquNcQ9Xr3BrfjMY
-         iau1iOJwGke5WDkJH0DsNKi/9VTsMcRC8cxT7FbVUz34uMTyP+lAlpVgf5Fq1OsYj2pO
-         bOisD7aufU61bpGPp2JE4pFxn5uSjS9pQs/ad7aYo37ml9EGZdrThbClqxhIjKLkV4HN
-         WegSPeCEKuWjTakSM8XsqseuD0WoVxjhKkGfWHT8OKW2XXSRHK3Swl+9tJBAFVc4DQq2
-         B9Z+Tat7hTP6BAG2ZXHsh7lQFUetekLtJDKNRIColpcyDj4atv3II1ATDBGStH+xcgMi
-         XjYA==
-X-Forwarded-Encrypted: i=1; AJvYcCXhcqUyEvCt8jSUwfv/jazlghkriZWPJzA8qY+/yaqnc5SS603E0XO24exAgQZfuyEiNDJDJBzpiz8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzYhE0o0G5SgbswSy/pSBvRW4Hsek1o+KzGyB8jT6wDSgrE5pdb
-	TpUM7uPN/uC69em35MRCAMktK1zCnE0K5cI4gmnJoiKd3cLMdsI5d5zmIqs8Zpw=
-X-Google-Smtp-Source: AGHT+IHnCvCp+xq1tGI3ArJ6ViTY+PYeT7JnNVeEAe4ZbrJxfhBSFEIBXJggCl2+kXNhZMsIaMn+kQ==
-X-Received: by 2002:a17:907:9721:b0:a80:c0ed:2145 with SMTP id a640c23a62f3a-a902a3d105cmr839070866b.2.1726253731882;
-        Fri, 13 Sep 2024 11:55:31 -0700 (PDT)
-Received: from LQ3V64L9R2.homenet.telecomitalia.it (host-79-23-194-51.retail.telecomitalia.it. [79.23.194.51])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d25d63bebsm898006366b.207.2024.09.13.11.55.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Sep 2024 11:55:31 -0700 (PDT)
-Date: Fri, 13 Sep 2024 20:55:29 +0200
-From: Joe Damato <jdamato@fastly.com>
-To: Stanislav Fomichev <stfomichev@gmail.com>
-Cc: netdev@vger.kernel.org, mkarsten@uwaterloo.ca, kuba@kernel.org,
-	skhawaja@google.com, sdf@fomichev.me, bjorn@rivosinc.com,
-	amritha.nambiar@intel.com, sridhar.samudrala@intel.com,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jiri Pirko <jiri@resnulli.us>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	David Ahern <dsahern@kernel.org>,
-	Johannes Berg <johannes.berg@intel.com>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC net-next v3 5/9] net: napi: Add napi_config
-Message-ID: <ZuSKofgZbfn_n8tb@LQ3V64L9R2.homenet.telecomitalia.it>
-Mail-Followup-To: Joe Damato <jdamato@fastly.com>,
-	Stanislav Fomichev <stfomichev@gmail.com>, netdev@vger.kernel.org,
-	mkarsten@uwaterloo.ca, kuba@kernel.org, skhawaja@google.com,
-	sdf@fomichev.me, bjorn@rivosinc.com, amritha.nambiar@intel.com,
-	sridhar.samudrala@intel.com,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jiri Pirko <jiri@resnulli.us>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	David Ahern <dsahern@kernel.org>,
-	Johannes Berg <johannes.berg@intel.com>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-References: <20240912100738.16567-1-jdamato@fastly.com>
- <20240912100738.16567-6-jdamato@fastly.com>
- <ZuR5jU3BGbsut-q6@mini-arch>
+        d=1e100.net; s=20230601; t=1726254009; x=1726858809;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cZf2aYMb8Zlk0CPpJeIXHbW7WWQiG41ie4dpVzhJSlI=;
+        b=Yvf/HlIhl69We3yWFwHgk8SsyUUDamwWaLzyhg7O3pqrRNS/7iaafpbsaZQNf4FtL/
+         RV5AgjEpSdb2NInCjxSHKiOfOqUqUKUHQPE4jHlNk+U0eP5VD1s+kNnJ1FJyQyID2YmK
+         zkzmd4Puurkn6RyGGHR0FH5YzRf+SVdHgfmEzQnFbkUZuo0ho51T2gpYKfNFqNsz0NHt
+         jxjTfECorGeacInVNFlk6QY8MWilkru1TTMoRuJqYm3iTYdm5TipA0tmKB+PUvH2AzSQ
+         5B1UOPtmqgnGy6lbd8Ir+QPQIWw4JFM0eCbskf1VFlX9//BPzPSucTyPH0Dm1Ok7CoRP
+         4b4g==
+X-Forwarded-Encrypted: i=1; AJvYcCXeA79YzOEUljsqXJeKPTbLLU3U5rLg/dki4M8Pza9TbZWz7zjB/Fia3HpH1St6FmA+30zjwAx0ZA0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuRRFGqX8KGtf09kkfcd6qR8pmvwHmPPF2xM5lYBHgZyyq0lIY
+	GOG3rkcLziigRy7wWz5A7q8AXgcwKAIp3lNGVz3SlY4mIhteJCGpUQKV20XFTfMzysACjCnXKyU
+	DVu8dSPxOFHjxDmJO8Efwkwm2bua4l4hdwoY=
+X-Google-Smtp-Source: AGHT+IHcpW0D1DrK3lVMKL+Vimy/qbLz1ntvEPc5JnGQtAjSuYw2dvEcnvfRgLvohNaDJWzygVp9zoxdzZKfoDHquNE=
+X-Received: by 2002:a17:906:c10b:b0:a86:8f9b:ef6e with SMTP id
+ a640c23a62f3a-a902a438f77mr781205166b.13.1726254007768; Fri, 13 Sep 2024
+ 12:00:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZuR5jU3BGbsut-q6@mini-arch>
+References: <20240913-mgtime-v7-0-92d4020e3b00@kernel.org> <20240913-mgtime-v7-1-92d4020e3b00@kernel.org>
+In-Reply-To: <20240913-mgtime-v7-1-92d4020e3b00@kernel.org>
+From: John Stultz <jstultz@google.com>
+Date: Fri, 13 Sep 2024 11:59:56 -0700
+Message-ID: <CANDhNCof7+q+-XzQoP=w0pcrS_-ifH9pmAmtq8H++tbognBv1A@mail.gmail.com>
+Subject: Re: [PATCH v7 01/11] timekeeping: move multigrain timestamp floor
+ handling into timekeeper
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Stephen Boyd <sboyd@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Chandan Babu R <chandan.babu@oracle.com>, "Darrick J. Wong" <djwong@kernel.org>, 
+	"Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, Chris Mason <clm@fb.com>, 
+	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, Hugh Dickins <hughd@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chuck Lever <chuck.lever@oracle.com>, 
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-btrfs@vger.kernel.org, 
+	linux-nfs@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 13, 2024 at 10:42:37AM -0700, Stanislav Fomichev wrote:
-> On 09/12, Joe Damato wrote:
+On Fri, Sep 13, 2024 at 6:54=E2=80=AFAM Jeff Layton <jlayton@kernel.org> wr=
+ote:
+>
+> For multigrain timestamps, we must keep track of the latest timestamp
+> that has ever been handed out, and never hand out a coarse time below
+> that value.
+>
+> Add a static singleton atomic64_t into timekeeper.c that we can use to
+> keep track of the latest fine-grained time ever handed out. This is
 
-[...]
+Maybe drop "ever" and  add "handed out through a specific interface",
+as timestamps can be accessed in a lot of ways that don't keep track
+of what was returned.
 
-> > @@ -6505,12 +6517,13 @@ static void napi_hash_add(struct napi_struct *napi)
-> >  		if (unlikely(++napi_gen_id < MIN_NAPI_ID))
-> >  			napi_gen_id = MIN_NAPI_ID;
-> >  	} while (napi_by_id(napi_gen_id));
-> 
-> [..]
-> 
-> > -	napi->napi_id = napi_gen_id;
-> > -
-> > -	hlist_add_head_rcu(&napi->napi_hash_node,
-> > -			   &napi_hash[napi->napi_id % HASH_SIZE(napi_hash)]);
-> >  
-> >  	spin_unlock(&napi_hash_lock);
-> > +
-> > +	napi_hash_add_with_id(napi, napi_gen_id);
-> 
-> nit: it is very unlikely that napi_gen_id is gonna wrap around after the
-> spin_unlock above, but maybe it's safer to have the following?
-> 
-> static void __napi_hash_add_with_id(struct napi_struct *napi, unsigned int napi_id)
-> {
-> 	napi->napi_id = napi_id;
-> 	hlist_add_head_rcu(&napi->napi_hash_node,
-> 			   &napi_hash[napi->napi_id % HASH_SIZE(napi_hash)]);
-> }
-> 
-> static void napi_hash_add_with_id(struct napi_struct *napi, unsigned int napi_id)
-> {
-> 	spin_lock(&napi_hash_lock);
-> 	__napi_hash_add_with_id(...);
-> 	spin_unlock(&napi_hash_lock);
-> }
-> 
-> And use __napi_hash_add_with_id here before spin_unlock?
 
-Thanks for taking a look.
+> tracked as a monotonic ktime_t value to ensure that it isn't affected by
+> clock jumps.
+>
+> Add two new public interfaces:
+>
+> - ktime_get_coarse_real_ts64_mg() fills a timespec64 with the later of th=
+e
+>   coarse-grained clock and the floor time
+>
+> - ktime_get_real_ts64_mg() gets the fine-grained clock value, and tries
+>   to swap it into the floor. A timespec64 is filled with the result.
+>
+> Since the floor is global, we take great pains to avoid updating it
+> unless it's absolutely necessary. If we do the cmpxchg and find that the
+> value has been updated since we fetched it, then we discard the
+> fine-grained time that was fetched in favor of the recent update.
+>
+> To maximize the window of this occurring when multiple tasks are racing
+> to update the floor, ktime_get_coarse_real_ts64_mg returns a cookie
+> value that represents the state of the floor tracking word, and
+> ktime_get_real_ts64_mg accepts a cookie value that it uses as the "old"
+> value when calling cmpxchg().
+>
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+>  include/linux/timekeeping.h |  4 +++
+>  kernel/time/timekeeping.c   | 81 +++++++++++++++++++++++++++++++++++++++=
+++++++
+>  2 files changed, 85 insertions(+)
+>
+> diff --git a/include/linux/timekeeping.h b/include/linux/timekeeping.h
+> index fc12a9ba2c88..cf2293158c65 100644
+> --- a/include/linux/timekeeping.h
+> +++ b/include/linux/timekeeping.h
+> @@ -45,6 +45,10 @@ extern void ktime_get_real_ts64(struct timespec64 *tv)=
+;
+>  extern void ktime_get_coarse_ts64(struct timespec64 *ts);
+>  extern void ktime_get_coarse_real_ts64(struct timespec64 *ts);
+>
+> +/* Multigrain timestamp interfaces */
+> +extern u64 ktime_get_coarse_real_ts64_mg(struct timespec64 *ts);
+> +extern void ktime_get_real_ts64_mg(struct timespec64 *ts, u64 cookie);
+> +
+>  void getboottime64(struct timespec64 *ts);
+>
+>  /*
+> diff --git a/kernel/time/timekeeping.c b/kernel/time/timekeeping.c
+> index 5391e4167d60..ee11006a224f 100644
+> --- a/kernel/time/timekeeping.c
+> +++ b/kernel/time/timekeeping.c
+> @@ -114,6 +114,13 @@ static struct tk_fast tk_fast_raw  ____cacheline_ali=
+gned =3D {
+>         .base[1] =3D FAST_TK_INIT,
+>  };
+>
+> +/*
+> + * This represents the latest fine-grained time that we have handed out =
+as a
+> + * timestamp on the system. Tracked as a monotonic ktime_t, and converte=
+d to the
+> + * realtime clock on an as-needed basis.
+> + */
+> +static __cacheline_aligned_in_smp atomic64_t mg_floor;
+> +
+>  static inline void tk_normalize_xtime(struct timekeeper *tk)
+>  {
+>         while (tk->tkr_mono.xtime_nsec >=3D ((u64)NSEC_PER_SEC << tk->tkr=
+_mono.shift)) {
+> @@ -2394,6 +2401,80 @@ void ktime_get_coarse_real_ts64(struct timespec64 =
+*ts)
+>  }
+>  EXPORT_SYMBOL(ktime_get_coarse_real_ts64);
+>
+> +/**
+> + * ktime_get_coarse_real_ts64_mg - get later of coarse grained time or f=
+loor
+> + * @ts: timespec64 to be filled
+> + *
+> + * Adjust floor to realtime and compare it to the coarse time. Fill
+> + * @ts with the latest one. Returns opaque cookie suitable for passing
+> + * to ktime_get_real_ts64_mg().
+> + */
+> +u64 ktime_get_coarse_real_ts64_mg(struct timespec64 *ts)
+> +{
+> +       struct timekeeper *tk =3D &tk_core.timekeeper;
+> +       u64 floor =3D atomic64_read(&mg_floor);
+> +       ktime_t f_real, offset, coarse;
+> +       unsigned int seq;
+> +
+> +       WARN_ON(timekeeping_suspended);
+> +
+> +       do {
+> +               seq =3D read_seqcount_begin(&tk_core.seq);
+> +               *ts =3D tk_xtime(tk);
+> +               offset =3D *offsets[TK_OFFS_REAL];
+> +       } while (read_seqcount_retry(&tk_core.seq, seq));
+> +
+> +       coarse =3D timespec64_to_ktime(*ts);
+> +       f_real =3D ktime_add(floor, offset);
+> +       if (ktime_after(f_real, coarse))
+> +               *ts =3D ktime_to_timespec64(f_real);
+> +       return floor;
+> +}
+> +EXPORT_SYMBOL_GPL(ktime_get_coarse_real_ts64_mg);
+> +
+> +/**
+> + * ktime_get_real_ts64_mg - attempt to update floor value and return res=
+ult
+> + * @ts:                pointer to the timespec to be set
+> + * @cookie:    opaque cookie from earlier call to ktime_get_coarse_real_=
+ts64_mg()
+> + *
+> + * Get a current monotonic fine-grained time value and attempt to swap
+> + * it into the floor using @cookie as the "old" value. @ts will be
+> + * filled with the resulting floor value, regardless of the outcome of
+> + * the swap.
 
-Sure, that seems reasonable. I can add that for the rfcv4.
+I'd add more detail here to clarify that this can return a coarse
+floor value if the cookie is stale.
 
-I'll probably hold off on posting the rfcv4 until either after LPC
-and/or after I have some time to debug the mlx5/page_pool thing.
+> +void ktime_get_real_ts64_mg(struct timespec64 *ts, u64 cookie)
+> +{
+> +       struct timekeeper *tk =3D &tk_core.timekeeper;
+> +       ktime_t offset, mono, old =3D (ktime_t)cookie;
+> +       unsigned int seq;
+> +       u64 nsecs;
+> +
+> +       WARN_ON(timekeeping_suspended);
+> +
+> +       do {
+> +               seq =3D read_seqcount_begin(&tk_core.seq);
+> +
+> +               ts->tv_sec =3D tk->xtime_sec;
+> +               mono =3D tk->tkr_mono.base;
+> +               nsecs =3D timekeeping_get_ns(&tk->tkr_mono);
+> +               offset =3D *offsets[TK_OFFS_REAL];
+> +       } while (read_seqcount_retry(&tk_core.seq, seq));
+> +
+> +       mono =3D ktime_add_ns(mono, nsecs);
+> +
+> +       if (atomic64_try_cmpxchg(&mg_floor, &old, mono)) {
+> +               ts->tv_nsec =3D 0;
+> +               timespec64_add_ns(ts, nsecs);
+> +       } else {
+> +               /*
+> +                * Something has changed mg_floor since "old" was
+> +                * fetched. That value is just as valid, so accept it.
+> +                */
+
+Mostly because I embarrassingly tripped over this in front of
+everyone, I might suggest:
+/*
+ * mg_floor was updated since the cookie was fetched, so the
+ * the try_cmpxchg failed. However try_cmpxchg updated old
+ * with the current mg_floor, so use that to return the current
+ * coarse floor value
+ */
+
+:)
+
+thanks
+-john
