@@ -1,247 +1,192 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CAC179DC7;
-	Fri, 13 Sep 2024 17:42:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42967BA50
+	for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 18:02:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726249361; cv=none; b=aN7YKxGtg5tXD1DGc2rewAYx9Gf8OQtJXSH7Ga8uQvRJrKs/oOldqZGnp1uxD/X3C/He9WNAFKKnkCcO4rxuGJLQoj65YEPWP2JTXTVLJh0mtMBxrT5q5wSxMfTxqYhlF2+bJTUwvgQDEf6Qk2dGL+oV80OzBmJcsCi/ihOclIE=
+	t=1726250572; cv=none; b=f72NGtaMkSu93EDRFv2Lgh3FRB88SpZJUbmkAzjTw9cxv4F8ssJysLe1WXEjkq8gr1Nh/AfYYtAanBiTNLwC8PZ1o75ef+E98GpDa/5MBCJayKJjoAK4v4R7R9qKxYTEPMiKt3m4O3VBvJ1Js8c3kyJfbvr1i8B7BeKVTDYfVVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726249361; c=relaxed/simple;
-	bh=fN7BkmVny58QLjARfISHyOWbDwfMXmVa1FlpEq3RklY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a1TtyHSO+pN6NgyVOQBNZ8PrSFLkNKquhUc4KTTjvDv4ozQsxsBFalOj1xWk+T3iUxjwln/LRqzV7BNw/EnOUfoYLKr6v+pFp1yqmRu2BuHVwcuMzvIIHiSwegkp/gwOa4A1S2tE4xHyG4JjTYZdDPBxAOT2iDU4yi269RUebkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FfymHwl3; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1726250572; c=relaxed/simple;
+	bh=aGCUDXfV/u877/fkGI51wat4K8lT5ShFVAK8Wj6tNt4=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=K1M7FFq9Ud3CE6qnfLqeAg3Jx/JBZTnjoWbwqVlR40vr4XQXSmUT42bDcC+jwHDkEwpcgvDnEIlkeUryCzrYDkPU15JKZjEzGOHRPalK1id0cu1/ki5YXScVmBd8vyctF4mUE7aZQqLzhp61N3zf0UFncNGX5Q62AmHTCfgG+sQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=eyd6t+6J; arc=none smtp.client-ip=209.85.128.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FfymHwl3"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2d89dbb60bdso1800294a91.1;
-        Fri, 13 Sep 2024 10:42:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="eyd6t+6J"
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-6d3aa5a672dso55124267b3.2
+        for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 11:02:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726249359; x=1726854159; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IyyEBCTPsvp/ttqnBo0nJUmrFbpdSowy9pfVr+wVois=;
-        b=FfymHwl3pEB0imERCT1ZbgvXwbpSCWkLJzHJCmqkh420+9P1ycYUmT9a4peJWJolOc
-         EEPcMTEtnk5iXcwf3CvChsq2u7KGpwYH/b/tl5zgBf7SNmWqQxaipbG7pU0tdwLcFCof
-         66hiqtbw4P4/QA0ERAYGtYTW5Rz+3L/XrVoGNMwxqvnFPIPRblu2hQkoYqb74PhbpVkZ
-         Z8yOoNvjKNXrYwpdidLFGQMfcX/gNNgPs9IC1O/ZJRJ0nhLr3i7MsbMTFN7TcGt9cg0O
-         FE5+CfG0dZrdkJPoQ1FFWcRKU8BABDSWH3UhQFaRYIIqt45Ghm5spVUFb6XThdmRbzUM
-         IYxQ==
+        d=google.com; s=20230601; t=1726250570; x=1726855370; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=SdKtMk3zFpIjWQQtYnxSCkrmfWA0I64F86jP4xgplJo=;
+        b=eyd6t+6J3YIemQOT4ft7gvNG0mImDRIyXa09JbpLgTu27NSWSJAVgBmhWv1qZtCjkX
+         xZprwB6PrcnusHDuVUbdr89Mo2i56cDpkfKWvb3SPEecYp2YLOJGJ4UL8yw/icFD56Pt
+         +S7ysWPwnnnTU3/fSTbe54r49ldVv3cRs2YV3cYOW+EbLDmGXKmQlfAitG2gkacCp7K8
+         yRKQ0unGkXReFP5wsrWe29ZQ+w7O3W1TOmPsN2kQ9AqbxxqDdFpZXbxiTmMwlchvsQJp
+         gaeLcW44zKdaCmzw1DbzEwtocX8NlebuTQrG8VM4NxeFVeapieboDeTZlqcPmqz41eiw
+         RBPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726249359; x=1726854159;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IyyEBCTPsvp/ttqnBo0nJUmrFbpdSowy9pfVr+wVois=;
-        b=kTxbHQH9jr6ETUz5ukGV2VNvsdfotohN18/i99kSLUYhNWW2/vY46F/fRxDHZfI61j
-         M3wVhP7KiktT1x5fnoumVmE5v/Hcsh14qwEwS61mGsnsyvuaEE7szynKarhYeXE76afd
-         9UlOFWN1peiAyDCg587cgtEcJQcM4qvTgjiirvoZRU5RMkRy/FO9SWGeonq2nHRgj/zB
-         bY2G2bAdUnIyFgbpwa3huqDYtr97gpyfBk6imFGAdP8CtOFcz2NIBkG1dGDqPtaACqSk
-         ab17CtCzmEbtmowurNYPHX9S3gLm+EMUUW0I8E/GA8ZzqY0Kx0OgsJFORVFQPBPWhkCP
-         4/JA==
-X-Forwarded-Encrypted: i=1; AJvYcCUp1RA/bMwySXFkZaip2KuYk/p4c/956SLeGiSev7vkByPuLUjOB8dObcPo190IEj/3YkmWViZZE6uFAL8O@vger.kernel.org, AJvYcCV7P9WvgEMLQa6Xbrp7pk2FOR2DzGrRPrqQu12Zlxni26gJjPqnQx/qtTnnGFQwh0HwXQZekjbkVNM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFPC+cxdp0ZsfQcXNAgtqbuyZG9R+qlYy9Cs6owzyBs9HrEl9M
-	zpQRbEHbT5Oe7mHTRBufa7SJ9mnqRYQ0P3WKRMYEgj7ua/0pHO8=
-X-Google-Smtp-Source: AGHT+IFLVAxbpcNpPyXUd4RHvwZRR74cLegwhcpbAvrxVTVD7dzv1jSn7LHuiVNBpAbr/qejtegpQw==
-X-Received: by 2002:a17:90a:5ae6:b0:2d8:a672:1869 with SMTP id 98e67ed59e1d1-2dba0048720mr7153723a91.32.1726249359143;
-        Fri, 13 Sep 2024 10:42:39 -0700 (PDT)
-Received: from localhost ([2601:646:9e00:f56e:2844:3d8f:bf3e:12cc])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2dbb9d3464fsm2052975a91.51.2024.09.13.10.42.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Sep 2024 10:42:38 -0700 (PDT)
-Date: Fri, 13 Sep 2024 10:42:37 -0700
-From: Stanislav Fomichev <stfomichev@gmail.com>
-To: Joe Damato <jdamato@fastly.com>
-Cc: netdev@vger.kernel.org, mkarsten@uwaterloo.ca, kuba@kernel.org,
-	skhawaja@google.com, sdf@fomichev.me, bjorn@rivosinc.com,
-	amritha.nambiar@intel.com, sridhar.samudrala@intel.com,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jiri Pirko <jiri@resnulli.us>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	David Ahern <dsahern@kernel.org>,
-	Johannes Berg <johannes.berg@intel.com>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC net-next v3 5/9] net: napi: Add napi_config
-Message-ID: <ZuR5jU3BGbsut-q6@mini-arch>
-References: <20240912100738.16567-1-jdamato@fastly.com>
- <20240912100738.16567-6-jdamato@fastly.com>
+        d=1e100.net; s=20230601; t=1726250570; x=1726855370;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SdKtMk3zFpIjWQQtYnxSCkrmfWA0I64F86jP4xgplJo=;
+        b=tC80WlUAi1J01iK4Z5Nkooq59xM1mlmkfoKKAtBVkyFNMy8wwV4mYwG5xy6qMm+CwA
+         OWZ1eYKidGxIMuSzljO/xdz0MJxnZdQgLxum/shvNKoCZQe7e6+Rcn2Nt0oUI3t4LpzX
+         yyBPFy1POr874wvyaTTP0rTAN7cENsmLwYzfZ0Dq7ilBDBbaLK59sDNiieV2Brthza5V
+         5N9CSVClvA4V1vPxhD7XXu9453L4BuGGQaIjAI3G8oQ/n0IMfGWJx0tRRv+PlHzehBO1
+         nS9Rsc+yclmNJ732wJM2K96+DBGehPxcue6ZVds2CGBhpOBm5uYjFsFI4IneXyagiRer
+         6LoA==
+X-Forwarded-Encrypted: i=1; AJvYcCUhjvljupbnaA6FsDWOZocqw75cbKQ48xeGPE5jvLmvhXH8nCup6/r1aAnpjucZpNiB3LkahtKX9S0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIPer3YT4h/ng/yE86yNaZxdpLJ4ml2AgMVATjQRFLQ+VC3nuO
+	l6RPBMyrIYqqe41bcY1AaAn3PWTaKts/eL+jv425brQM76fF/7djkkrmJRVv0QbTKA09TsecBPn
+	gdQ==
+X-Google-Smtp-Source: AGHT+IGT5Cq9F/Hq6fJKYSOkySIR4cK8FdX4I3mm6MNrBQ/Kg+JyiB86l9pHtdUOjWBXR4MFXaP3rIm2mPU=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a05:690c:4d43:b0:6db:cd39:4dad with SMTP id
+ 00721157ae682-6dbcd395214mr2114647b3.5.1726250570352; Fri, 13 Sep 2024
+ 11:02:50 -0700 (PDT)
+Date: Fri, 13 Sep 2024 11:02:48 -0700
+In-Reply-To: <20240609154945.55332-5-nsaenz@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240912100738.16567-6-jdamato@fastly.com>
+Mime-Version: 1.0
+References: <20240609154945.55332-1-nsaenz@amazon.com> <20240609154945.55332-5-nsaenz@amazon.com>
+Message-ID: <ZuR-SPaaTBwLTxW3@google.com>
+Subject: Re: [PATCH 04/18] KVM: x86: hyper-v: Introduce VTL awareness to
+ Hyper-V's PV-IPIs
+From: Sean Christopherson <seanjc@google.com>
+To: Nicolas Saenz Julienne <nsaenz@amazon.com>
+Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org, pbonzini@redhat.com, 
+	vkuznets@redhat.com, linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	graf@amazon.de, dwmw2@infradead.org, paul@amazon.com, mlevitsk@redhat.com, 
+	jgowans@amazon.com, corbet@lwn.net, decui@microsoft.com, tglx@linutronix.de, 
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
+	amoorthy@google.com
+Content-Type: text/plain; charset="us-ascii"
 
-On 09/12, Joe Damato wrote:
-> Add a persistent NAPI config area for NAPI configuration to the core.
-> Drivers opt-in to setting the storage for a NAPI by passing an index
-> when calling netif_napi_add_storage.
+On Sun, Jun 09, 2024, Nicolas Saenz Julienne wrote:
+> HvCallSendSyntheticClusterIpi and HvCallSendSyntheticClusterIpiEx allow
+> sending VTL-aware IPIs. Honour the hcall by exiting to user-space upon
+> receiving a request with a valid VTL target. This behaviour is only
+> available if the VSM CPUID flag is available and exposed to the guest.
+> It doesn't introduce a behaviour change otherwise.
 > 
-> napi_config is allocated in alloc_netdev_mqs, freed in free_netdev
-> (after the NAPIs are deleted), and set to 0 when napi_enable is called.
+> User-space is accountable for the correct processing of the PV-IPI
+> before resuming execution.
 > 
-> Drivers which implement call netif_napi_add_storage will have persistent
-> NAPI IDs.
-> 
-> Signed-off-by: Joe Damato <jdamato@fastly.com>
+> Signed-off-by: Nicolas Saenz Julienne <nsaenz@amazon.com>
 > ---
->  .../networking/net_cachelines/net_device.rst  |  1 +
->  include/linux/netdevice.h                     | 34 +++++++++
->  net/core/dev.c                                | 74 +++++++++++++++++--
->  net/core/dev.h                                | 12 +++
->  4 files changed, 113 insertions(+), 8 deletions(-)
+>  arch/x86/kvm/hyperv.c | 19 ++++++++++++++++++-
+>  1 file changed, 18 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/networking/net_cachelines/net_device.rst b/Documentation/networking/net_cachelines/net_device.rst
-> index 3d02ae79c850..11d659051f5e 100644
-> --- a/Documentation/networking/net_cachelines/net_device.rst
-> +++ b/Documentation/networking/net_cachelines/net_device.rst
-> @@ -183,3 +183,4 @@ struct hlist_head                   page_pools
->  struct dim_irq_moder*               irq_moder
->  unsigned_long                       gro_flush_timeout
->  u32                                 napi_defer_hard_irqs
-> +struct napi_config*                 napi_config
-> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-> index 3e07ab8e0295..08afc96179f9 100644
-> --- a/include/linux/netdevice.h
-> +++ b/include/linux/netdevice.h
-> @@ -342,6 +342,15 @@ struct gro_list {
->   */
->  #define GRO_HASH_BUCKETS	8
+> diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
+> index 42f44546fe79c..d00baf3ffb165 100644
+> --- a/arch/x86/kvm/hyperv.c
+> +++ b/arch/x86/kvm/hyperv.c
+> @@ -2217,16 +2217,20 @@ static void kvm_hv_send_ipi_to_many(struct kvm *kvm, u32 vector,
 >  
-> +/*
-> + * Structure for per-NAPI storage
-> + */
-> +struct napi_config {
-> +	u64 gro_flush_timeout;
-> +	u32 defer_hard_irqs;
-> +	unsigned int napi_id;
-> +};
-> +
->  /*
->   * Structure for NAPI scheduling similar to tasklet but with weighting
->   */
-> @@ -379,6 +388,8 @@ struct napi_struct {
->  	int			irq;
->  	unsigned long		gro_flush_timeout;
->  	u32			defer_hard_irqs;
-> +	int			index;
-> +	struct napi_config	*config;
->  };
->  
->  enum {
-> @@ -2011,6 +2022,9 @@ enum netdev_reg_state {
->   *	@dpll_pin: Pointer to the SyncE source pin of a DPLL subsystem,
->   *		   where the clock is recovered.
->   *
-> + *	@napi_config: An array of napi_config structures containing per-NAPI
-> + *		      settings.
-> + *
->   *	FIXME: cleanup struct net_device such that network protocol info
->   *	moves out.
->   */
-> @@ -2400,6 +2414,7 @@ struct net_device {
->  	struct dim_irq_moder	*irq_moder;
->  	unsigned long		gro_flush_timeout;
->  	u32			napi_defer_hard_irqs;
-> +	struct napi_config	*napi_config;
->  
->  	u8			priv[] ____cacheline_aligned
->  				       __counted_by(priv_len);
-> @@ -2650,6 +2665,23 @@ netif_napi_add_tx_weight(struct net_device *dev,
->  	netif_napi_add_weight(dev, napi, poll, weight);
->  }
->  
-> +/**
-> + * netif_napi_add_storage - initialize a NAPI context and set storage area
-> + * @dev: network device
-> + * @napi: NAPI context
-> + * @poll: polling function
-> + * @weight: the poll weight of this NAPI
-> + * @index: the NAPI index
-> + */
-> +static inline void
-> +netif_napi_add_storage(struct net_device *dev, struct napi_struct *napi,
-> +		       int (*poll)(struct napi_struct *, int), int index)
-> +{
-> +	napi->index = index;
-> +	napi->config = &dev->napi_config[index];
-> +	netif_napi_add_weight(dev, napi, poll, NAPI_POLL_WEIGHT);
-> +}
-> +
->  /**
->   * netif_napi_add_tx() - initialize a NAPI context to be used for Tx only
->   * @dev:  network device
-> @@ -2685,6 +2717,8 @@ void __netif_napi_del(struct napi_struct *napi);
->   */
->  static inline void netif_napi_del(struct napi_struct *napi)
+>  static u64 kvm_hv_send_ipi(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
 >  {
-> +	napi->config = NULL;
-> +	napi->index = -1;
->  	__netif_napi_del(napi);
->  	synchronize_net();
->  }
-> diff --git a/net/core/dev.c b/net/core/dev.c
-> index f2fd503516de..ca2227d0b8ed 100644
-> --- a/net/core/dev.c
-> +++ b/net/core/dev.c
-> @@ -6493,6 +6493,18 @@ EXPORT_SYMBOL(napi_busy_loop);
+> +	bool vsm_enabled = kvm_hv_cpuid_vsm_enabled(vcpu);
+>  	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
+>  	u64 *sparse_banks = hv_vcpu->sparse_banks;
+>  	struct kvm *kvm = vcpu->kvm;
+>  	struct hv_send_ipi_ex send_ipi_ex;
+>  	struct hv_send_ipi send_ipi;
+> +	union hv_input_vtl *in_vtl;
+>  	u64 valid_bank_mask;
+> +	int rsvd_shift;
+>  	u32 vector;
+>  	bool all_cpus;
 >  
->  #endif /* CONFIG_NET_RX_BUSY_POLL */
+>  	if (hc->code == HVCALL_SEND_IPI) {
+> +		in_vtl = &send_ipi.in_vtl;
+
+I don't see any value in having a local pointer to a union.  Just use send_ipi.in_vtl.
+
+>  		if (!hc->fast) {
+>  			if (unlikely(kvm_read_guest(kvm, hc->ingpa, &send_ipi,
+>  						    sizeof(send_ipi))))
+> @@ -2235,16 +2239,22 @@ static u64 kvm_hv_send_ipi(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
+>  			vector = send_ipi.vector;
+>  		} else {
+>  			/* 'reserved' part of hv_send_ipi should be 0 */
+> -			if (unlikely(hc->ingpa >> 32 != 0))
+> +			rsvd_shift = vsm_enabled ? 40 : 32;
+> +			if (unlikely(hc->ingpa >> rsvd_shift != 0))
+>  				return HV_STATUS_INVALID_HYPERCALL_INPUT;
+
+The existing error handling doesn't make any sense to me.  Why is this the _only_
+path that enforces reserved bits?
+
+Regarding the shift, I think it makes more sense to do:
+
+			/* Bits 63:40 are always reserved. */
+			if (unlikely(hc->ingpa >> 40 != 0))
+				return HV_STATUS_INVALID_HYPERCALL_INPUT;
+
+			send_ipi.in_vtl.as_uint8 = (u8)(hc->ingpa >> 32);
+			if (unlikely(!vsm_enabled && send_ipi.in_vtl.as_uint8))
+				return HV_STATUS_INVALID_HYPERCALL_INPUT;
+
+so that it's more obvious exactly what is/isn't reserved when VSM isn't/is enabled.
+
+> +			in_vtl->as_uint8 = (u8)(hc->ingpa >> 32);
+>  			sparse_banks[0] = hc->outgpa;
+>  			vector = (u32)hc->ingpa;
+>  		}
+>  		all_cpus = false;
+>  		valid_bank_mask = BIT_ULL(0);
 >  
-> +static void napi_hash_add_with_id(struct napi_struct *napi, unsigned int napi_id)
-> +{
-> +	spin_lock(&napi_hash_lock);
-> +
-> +	napi->napi_id = napi_id;
-> +
-> +	hlist_add_head_rcu(&napi->napi_hash_node,
-> +			   &napi_hash[napi->napi_id % HASH_SIZE(napi_hash)]);
-> +
-> +	spin_unlock(&napi_hash_lock);
-> +}
-> +
->  static void napi_hash_add(struct napi_struct *napi)
->  {
->  	if (test_bit(NAPI_STATE_NO_BUSY_POLL, &napi->state))
-> @@ -6505,12 +6517,13 @@ static void napi_hash_add(struct napi_struct *napi)
->  		if (unlikely(++napi_gen_id < MIN_NAPI_ID))
->  			napi_gen_id = MIN_NAPI_ID;
->  	} while (napi_by_id(napi_gen_id));
+> +		if (in_vtl->use_target_vtl)
 
-[..]
+Due to the lack of error checking for the !hc->fast case, this will do the wrong
+thing if vsm_enabled=false.
 
-> -	napi->napi_id = napi_gen_id;
-> -
-> -	hlist_add_head_rcu(&napi->napi_hash_node,
-> -			   &napi_hash[napi->napi_id % HASH_SIZE(napi_hash)]);
+> +			return -ENODEV;
+> +
+>  		trace_kvm_hv_send_ipi(vector, sparse_banks[0]);
+>  	} else {
+> +		in_vtl = &send_ipi_ex.in_vtl;
+>  		if (!hc->fast) {
+>  			if (unlikely(kvm_read_guest(kvm, hc->ingpa, &send_ipi_ex,
+>  						    sizeof(send_ipi_ex))))
+> @@ -2253,8 +2263,12 @@ static u64 kvm_hv_send_ipi(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
+>  			send_ipi_ex.vector = (u32)hc->ingpa;
+>  			send_ipi_ex.vp_set.format = hc->outgpa;
+>  			send_ipi_ex.vp_set.valid_bank_mask = sse128_lo(hc->xmm[0]);
+> +			in_vtl->as_uint8 = (u8)(hc->ingpa >> 32);
+>  		}
 >  
->  	spin_unlock(&napi_hash_lock);
+> +		if (vsm_enabled && in_vtl->use_target_vtl)
+> +			return -ENODEV;
 > +
-> +	napi_hash_add_with_id(napi, napi_gen_id);
+>  		trace_kvm_hv_send_ipi_ex(send_ipi_ex.vector,
+>  					 send_ipi_ex.vp_set.format,
+>  					 send_ipi_ex.vp_set.valid_bank_mask);
+> @@ -2682,6 +2696,9 @@ int kvm_hv_hypercall(struct kvm_vcpu *vcpu)
+>  			break;
+>  		}
+>  		ret = kvm_hv_send_ipi(vcpu, &hc);
+> +		/* VTL-enabled ipi, let user-space handle it */
+> +		if (ret == -ENODEV)
 
-nit: it is very unlikely that napi_gen_id is gonna wrap around after the
-spin_unlock above, but maybe it's safer to have the following?
+I generally don't love "magic" error codes, but I don't see an obvious better
+solution either.  The other weird thing is that "ret" is a u64, versus the more
+common int or even long.  I doubt it's problematic in practice, just a bit odd.
 
-static void __napi_hash_add_with_id(struct napi_struct *napi, unsigned int napi_id)
-{
-	napi->napi_id = napi_id;
-	hlist_add_head_rcu(&napi->napi_hash_node,
-			   &napi_hash[napi->napi_id % HASH_SIZE(napi_hash)]);
-}
-
-static void napi_hash_add_with_id(struct napi_struct *napi, unsigned int napi_id)
-{
-	spin_lock(&napi_hash_lock);
-	__napi_hash_add_with_id(...);
-	spin_unlock(&napi_hash_lock);
-}
-
-And use __napi_hash_add_with_id here before spin_unlock?
+> +			goto hypercall_userspace_exit;
+>  		break;
+>  	case HVCALL_POST_DEBUG_DATA:
+>  	case HVCALL_RETRIEVE_DEBUG_DATA:
+> -- 
+> 2.40.1
+> 
