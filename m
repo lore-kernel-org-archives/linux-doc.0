@@ -1,59 +1,59 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948B82B9C6;
-	Fri, 13 Sep 2024 15:39:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A2B2EB02;
+	Fri, 13 Sep 2024 15:51:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726241966; cv=none; b=VA+xPouuXtZEQnjXna2BsvEwVfJiO5V9t6VRCnue77Io+XvmCIgcY/dINe1nizrkZ5oWBNnkt0hxrNU6SSD6yxFYntTBycKVpgfjBOmHyGO/Ro0hGtbJsgkRA+MM4y2dIyh94gsn3Gs5YQu1tdjRvSydKNSuVV7PuMBNgR2mUt0=
+	t=1726242672; cv=none; b=ZD8tsaWok+Mv3iWiGuyMiFOujPLElB0tXbVXl9V5MkUsvQQ0WkQgk4ZkLRR3Dre7GrT+4qEi2+d+AsPPEczmoHXSZhyjJ1PM8AJO0gpfYkPc3fdqrFnl5RUgYd0QDPmaDBFbAaGDgo/bOPsf7GeEYwgHAqX9apSKa6qlsP5xeZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726241966; c=relaxed/simple;
-	bh=tVkTgk+LeTaa5RpxrUvJK0VmFnJFAl1Lszvb2A/94Hs=;
+	s=arc-20240116; t=1726242672; c=relaxed/simple;
+	bh=ecz4eJEVPDt26YmFuv0POtj0jecJSvSuFAGuu1dxlPs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mrCTCv96UsNsu9WGtWN1rVoj9TmbHwHe2qTsooWDmuzRKtHmgAHv9pbANX8SaunpPLsg8lOD1QRzm8cYZFZhinDAwL9c+xesxt91rn3MnzwtLbkd+6szuNiH7lZXYJGaYk128FU+4xH/cMi0v4hQF4teGv9AHc0dmm2A2mCGxdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jCkXYRzP; arc=none smtp.client-ip=209.85.210.51
+	 In-Reply-To:Content-Type; b=lw/QD0HiBcoYfZJs8/hWFb/fMcMVUebqHRkw1vYVg7T3txSRQImy89sAWAOYimQRe6S7pG9azp6458Jua/GtiyVMwaWaZKWScnR4kmQidW1vhR5XfJMoAJAzkJShqTjvV3WHhC+oEZucjKfkM3adABg7GoX77CYcYAweIgCm2bQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZSnZEqbf; arc=none smtp.client-ip=209.85.160.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jCkXYRzP"
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-709340f1cb1so254676a34.3;
-        Fri, 13 Sep 2024 08:39:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZSnZEqbf"
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-277cfd3f07aso1038165fac.3;
+        Fri, 13 Sep 2024 08:51:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726241964; x=1726846764; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1726242670; x=1726847470; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=tVkTgk+LeTaa5RpxrUvJK0VmFnJFAl1Lszvb2A/94Hs=;
-        b=jCkXYRzPPvWMiyAB1rWPQf5XixPQ3toeYY4qIbFXsDJyTRUUEYLIhcWzF6pRIcRzJq
-         XPPrQx7ztT3XNesWtlPrsfsZ4kp4tcif6E3CUs0k++L6vik/STbWsEsR/tmLyB5b+yOR
-         z4VnfFVs1H10EKT0B9hq2PdWFj8TPbRbzsxsHw9znhi7fM+iFZuufbhp8wy56PsV6ePv
-         vgAdZTzGpvt0tDgON1F23mLjyWheAcY0rCvsrM8vXRLwno45vi5xiKULKtUDg0TWLWbO
-         D2U/eIXO0Iv7QvJUHSCie4F56HQ7ZMHrhmV+itfHtZLEyCMQ7Y3zQ53Dgc0oDYyVxNOp
-         sRMg==
+        bh=Ehs9yLbkVlOBEgkAu8IxC2ecxN3bEC7UNanNZJEoFLs=;
+        b=ZSnZEqbfrsKroStwuSqiYqz5TPdo8h9torfCDIwj+Z1sfF9ZjJAYvGLa/Yq+LfYw5n
+         9YoTLFa1FrjXGfbznkXST5UoHom9ykmhXDn0NQ8ZG6lQUdkchiY7hf6GRmXnzTD1/3Cs
+         knjqpWRuM8wxrAIBHwkyQcsWjAls9reT6hDtU/mO+wpt/+VYsePJZPwO3oLbxSvHeUSl
+         RahBPIcH5x4Zq30P4x6CKErjVpW7hn/b0qTgxWAWrRo/hxdGfPqy2FfjbohMMZHQ9Bdr
+         mHw/inct6gmUqMljmmoUh5WM4ghh9Fj87ZZ9I64Ix85GAYU43ijdYyPXTOfDr8YuHC/X
+         Lk4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726241964; x=1726846764;
+        d=1e100.net; s=20230601; t=1726242670; x=1726847470;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tVkTgk+LeTaa5RpxrUvJK0VmFnJFAl1Lszvb2A/94Hs=;
-        b=ueaX0hFlm9sbElNubIvKuUWC6kZuH95JYozXk0kSIpVG8VTnkzLfEAc6Ql1G3HoOEP
-         Nct12tmn8EtYoJ5m9Y8zICyqQANF1ZfXX64zMsimXn5Zhomy2omXf0+4PrHxCxABeq7y
-         G4qglPfIdYdT6GnNqS37TCPnosxBG6HqFIw1jPOFGWjIDhFXSBHKPkOaOs/8ur0RZCwl
-         bXhDskoaZ6XoaqL23p+uwErtKNylhT3UIVFofev7RfJdhMVIvka92f11fnCTMXwpO1qy
-         X6+8bVAFGKd/+M7Jl71d8F4+Flkjrostla342y5guT8Pq/bxiJVatboqxJuKJl9fHryW
-         Hdqw==
-X-Forwarded-Encrypted: i=1; AJvYcCVaupt1YDhOrMzOtdnA5kcqNL8wDJ5LMdKUuJZIp7II8yBvP9lUw03plpm7K9pzPpGQwNzB8DCrdk1oYCHrww==@vger.kernel.org, AJvYcCVh6h7jmM6UfkS7J5JjREz2eK7oKyzXMi448nXN4KKpOaL6BcOonB7ZsYLA2GExYeE+AqrA5Z3NvqS8@vger.kernel.org, AJvYcCXwWXi3vLq8KPxxWnjUUPuSCr8IpHSeME2vnk22KFxWpVt2ltRyWF33Gsp1Fu5FngJXKLgR9+uLoFY2Tymw@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLGGYPiACsB1shCurjpUg9SRDFepKJvCq4iYCmcaWzGcp2Uxwe
-	vp+m8ECwLgXF32fOkPL6mIYXQ/Vx1ffJRYCR/FuV6tTn+0OhAMl0
-X-Google-Smtp-Source: AGHT+IG9tEow0/ffMRBLGDbvZjNd48PgUXS2fL1HCRd1QL3UHQ60Ee0i8iP9mguf0Vh8UsoT/0KBMQ==
-X-Received: by 2002:a05:6830:90d:b0:710:e987:2659 with SMTP id 46e09a7af769-71116c67ac7mr2287118a34.22.1726241964635;
-        Fri, 13 Sep 2024 08:39:24 -0700 (PDT)
+        bh=Ehs9yLbkVlOBEgkAu8IxC2ecxN3bEC7UNanNZJEoFLs=;
+        b=TyYhK24END3FFGMCIRvfDBTkIuG4YyINv7xv6vUIwEFTQGEUxrjdpowog1vmSfE22P
+         H2gxTug/ITPggqygH477AgtAUCPdcDf+BOzVmd05w5AMf2d3eljGgXWOjQEMA4p5zKVx
+         4xb6dA7h2/muSAFDArIJiQOTUvpi0oYjaOOJWL1chahQpSvWCehR7JrIkB8nta+R1i73
+         496MJdux/VyRxEzYAGwb6cTctktSLcc7yhstiShMhCpr88CSxD9NkfQ0m48Fv+v7hJn5
+         7UIihCoMJ3kAVcH76oGAz73zUbd17E2UgAvgI6pctojmamzadou82NlO8l5uoW57kuGs
+         4Fkg==
+X-Forwarded-Encrypted: i=1; AJvYcCUTwpmJB64/HCIJ+1xNP5wjZc5UM4I7+AlBqu/+jZa6E8GB+zDmGKfwx9H3lo1/Cx10BpGGeUJGF5oq@vger.kernel.org, AJvYcCUcLPCEi1BOFK1LIqn0KF+YyFR2dOT5kbX0WcBVba1PKldkht8W1GuSEfUzmkBfeP7gLpOTIku+PbN+tqtt@vger.kernel.org, AJvYcCUfv3VH0N7KiarGtYPITjZnWZBiRLpnQ2n3ZrxlyRW5//c09gbWyJSKfwbv79uN7lhwFRjv7h1pkjlTRg==@vger.kernel.org, AJvYcCV5DtwEPDWFMtAwPKSmz804u6jXcwBCrpWI6hz4NkU2y7UYEGF0olO4eTYyhTus9ONCVNB6+wFSHIce@vger.kernel.org, AJvYcCW571Lk7l6h9rfhktMmfOBonDcaqacZfAz9s3Tle3/qCZ4sYOVhAtwbUgKgqwzLfpXdMzp5tDXmp+6p/4nEJufq@vger.kernel.org, AJvYcCXDJDCPxGmrJwvLd19BQxIWQb03CKpQ5jz/twNmol8+rTTYx6L9+VxtQU0LySLjQwTzHLmx9NxzTUmGwdLStQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwK/w07WkEaNhHiAYtURq8sJWDbUYY18b06ocnwUgRMcnfwpTWl
+	cnQ3qJCFSc5/QAw86FNK/2cfUFyfiA3Azw88g9vLTTfrMkGtLBuH
+X-Google-Smtp-Source: AGHT+IGwspwIdcxizms74BUEV11s0x25xQw3otEtykkXT6P5qLAwtjFU5Aef8TBprXa84EXBrlG8AA==
+X-Received: by 2002:a05:6870:df92:b0:27c:475c:ab2c with SMTP id 586e51a60fabf-27c475cad93mr3175704fac.43.1726242670341;
+        Fri, 13 Sep 2024 08:51:10 -0700 (PDT)
 Received: from ?IPV6:2603:8080:7400:36da:dff5:4180:2562:4c1e? ([2603:8080:7400:36da:dff5:4180:2562:4c1e])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5e1bf2f5bc4sm2863461eaf.38.2024.09.13.08.39.23
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-27ba40b0bb0sm3632948fac.41.2024.09.13.08.51.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Sep 2024 08:39:23 -0700 (PDT)
-Message-ID: <d3e30736-4396-4a53-afbc-243a2f64c909@gmail.com>
-Date: Fri, 13 Sep 2024 10:39:22 -0500
+        Fri, 13 Sep 2024 08:51:09 -0700 (PDT)
+Message-ID: <5cc36aa7-e064-42b3-b52e-fb471d99d338@gmail.com>
+Date: Fri, 13 Sep 2024 10:51:04 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,46 +61,127 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs:fs:fixed some spelling mistakes in the bcachefs
- coding style page
-To: Dennis Lam <dennis.lamerice@gmail.com>
-Cc: kent.overstreet@linux.dev, corbet@lwn.net,
- linux-bcachefs@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240906195720.40315-1-dennis.lamerice@gmail.com>
- <200ce66b-845f-4f20-8838-619646f5f44d@gmail.com>
- <CAGZfcd=MZbt94__wek3v5e5DUfLZbgZ2uyw6i+gRWRXXrbDX3A@mail.gmail.com>
+Subject: Re: [PATCH v4 01/30] mm: Introduce ARCH_HAS_USER_SHADOW_STACK
+To: Deepak Gupta <debug@rivosinc.com>, paul.walmsley@sifive.com,
+ palmer@sifive.com, conor@kernel.org, linux-doc@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-arch@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+Cc: corbet@lwn.net, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+ robh@kernel.org, krzk+dt@kernel.org, oleg@redhat.com, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+ hpa@zytor.com, peterz@infradead.org, akpm@linux-foundation.org,
+ arnd@arndb.de, ebiederm@xmission.com, kees@kernel.org,
+ Liam.Howlett@oracle.com, vbabka@suse.cz, lorenzo.stoakes@oracle.com,
+ shuah@kernel.org, brauner@kernel.org, samuel.holland@sifive.com,
+ andy.chiu@sifive.com, jerry.shih@sifive.com, greentime.hu@sifive.com,
+ charlie@rivosinc.com, evan@rivosinc.com, cleger@rivosinc.com,
+ xiao.w.wang@intel.com, ajones@ventanamicro.com, anup@brainfault.org,
+ mchitale@ventanamicro.com, atishp@rivosinc.com, sameo@rivosinc.com,
+ bjorn@rivosinc.com, alexghiti@rivosinc.com, david@redhat.com,
+ libang.li@antgroup.com, jszhang@kernel.org, leobras@redhat.com,
+ guoren@kernel.org, samitolvanen@google.com, songshuaishuai@tinylab.org,
+ costa.shul@redhat.com, bhe@redhat.com, zong.li@sifive.com,
+ puranjay@kernel.org, namcaov@gmail.com, antonb@tenstorrent.com,
+ sorear@fastmail.com, quic_bjorande@quicinc.com, ancientmodern4@gmail.com,
+ ben.dooks@codethink.co.uk, quic_zhonhan@quicinc.com,
+ cuiyunhui@bytedance.com, yang.lee@linux.alibaba.com, ke.zhao@shingroup.cn,
+ sunilvl@ventanamicro.com, tanzhasanwork@gmail.com, schwab@suse.de,
+ dawei.li@shingroup.cn, rppt@kernel.org, willy@infradead.org,
+ usama.anjum@collabora.com, osalvador@suse.de, ryan.roberts@arm.com,
+ andrii@kernel.org, alx@kernel.org, catalin.marinas@arm.com,
+ broonie@kernel.org, revest@chromium.org, bgray@linux.ibm.com, deller@gmx.de,
+ zev@bewilderbeest.net, Rick Edgecombe <rick.p.edgecombe@intel.com>
+References: <20240912231650.3740732-1-debug@rivosinc.com>
+ <20240912231650.3740732-2-debug@rivosinc.com>
 Content-Language: en-US
 From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-In-Reply-To: <CAGZfcd=MZbt94__wek3v5e5DUfLZbgZ2uyw6i+gRWRXXrbDX3A@mail.gmail.com>
+In-Reply-To: <20240912231650.3740732-2-debug@rivosinc.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 9/11/24 19:17, Dennis Lam wrote:
+On 9/12/24 18:16, Deepak Gupta wrote:
 
-> On Wed, Sep 11, 2024 at 4:03 PM Carlos Bilbao
-> <carlos.bilbao.osdev@gmail.com> wrote:
->> Hello,
->>
->> On 9/6/24 14:57, Dennis Lam wrote:
->>> ---
->>
->> Change the subject, it needs spaces to be readable:
->>
->> "docs: fs: fixed spelling mistakes [...]"
->>
->> Also, you need a body in the commit which includes an explanation of what
->> the patch does (even if it is almost the same as the Subject) and your
->> signature. See: https://docs.kernel.org/process/submitting-patches.html
->>
-> Thanks for the response, I'll be sure to send a new better formatted patch.
-
-
-Awesome! Feel free to CC me :)
-
-
+> From: Mark Brown <broonie@kernel.org>
 >
-> Dennis
+> Since multiple architectures have support for shadow stacks and we need to
+> select support for this feature in several places in the generic code
+> provide a generic config option that the architectures can select.
+>
+> Suggested-by: David Hildenbrand <david@redhat.com>
+> Acked-by: David Hildenbrand <david@redhat.com>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> Reviewed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Reviewed-by: Deepak Gupta <debug@rivosinc.com>
+> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+> ---
+>  arch/x86/Kconfig   | 1 +
+>  fs/proc/task_mmu.c | 2 +-
+>  include/linux/mm.h | 2 +-
+>  mm/Kconfig         | 6 ++++++
+>  4 files changed, 9 insertions(+), 2 deletions(-)
+>
+> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> index 007bab9f2a0e..320e1f411163 100644
+> --- a/arch/x86/Kconfig
+> +++ b/arch/x86/Kconfig
+> @@ -1957,6 +1957,7 @@ config X86_USER_SHADOW_STACK
+>  	depends on AS_WRUSS
+>  	depends on X86_64
+>  	select ARCH_USES_HIGH_VMA_FLAGS
+> +	select ARCH_HAS_USER_SHADOW_STACK
+>  	select X86_CET
+>  	help
+>  	  Shadow stack protection is a hardware feature that detects function
+> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> index 5f171ad7b436..0ea49725f524 100644
+> --- a/fs/proc/task_mmu.c
+> +++ b/fs/proc/task_mmu.c
+> @@ -984,7 +984,7 @@ static void show_smap_vma_flags(struct seq_file *m, struct vm_area_struct *vma)
+>  #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_MINOR
+>  		[ilog2(VM_UFFD_MINOR)]	= "ui",
+>  #endif /* CONFIG_HAVE_ARCH_USERFAULTFD_MINOR */
+> -#ifdef CONFIG_X86_USER_SHADOW_STACK
+> +#ifdef CONFIG_ARCH_HAS_USER_SHADOW_STACK
+>  		[ilog2(VM_SHADOW_STACK)] = "ss",
+>  #endif
+>  #ifdef CONFIG_64BIT
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 147073601716..e39796ea17db 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -346,7 +346,7 @@ extern unsigned int kobjsize(const void *objp);
+>  #endif
+>  #endif /* CONFIG_ARCH_HAS_PKEYS */
+>  
+> -#ifdef CONFIG_X86_USER_SHADOW_STACK
+> +#ifdef CONFIG_ARCH_HAS_USER_SHADOW_STACK
+>  /*
+>   * VM_SHADOW_STACK should not be set with VM_SHARED because of lack of
+>   * support core mm.
+> diff --git a/mm/Kconfig b/mm/Kconfig
+> index b72e7d040f78..3167be663bca 100644
+> --- a/mm/Kconfig
+> +++ b/mm/Kconfig
+> @@ -1263,6 +1263,12 @@ config IOMMU_MM_DATA
+>  config EXECMEM
+>  	bool
+>  
+> +config ARCH_HAS_USER_SHADOW_STACK
+> +	bool
+> +	help
+> +	  The architecture has hardware support for userspace shadow call
+> +          stacks (eg, x86 CET, arm64 GCS or RISC-V Zicfiss).
+> +
+>  source "mm/damon/Kconfig"
+
+
+Reviewed-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+
+
+>  
+>  endmenu
 
 
 Thanks, Carlos
