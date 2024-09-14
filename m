@@ -1,129 +1,187 @@
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D635D1C32
-	for <linux-doc@vger.kernel.org>; Sat, 14 Sep 2024 01:26:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 888FC8831;
+	Sat, 14 Sep 2024 01:54:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726277177; cv=none; b=dJ+9yRyZl2cfTX1xCQiTkouK4gL6gB+GYcoEY9F/btlRj1xSjDP3JMuMh9nFDYzsSOs1AtI5siSdDCqYJMP4TekYFCQcFWlm+NivTYaDcXmF5awM5BhHBITKUsmrWbkT6Gh3FzCQpAC1h52Bjmp/iFjRLJ0nFxGyUQWjCGfehyU=
+	t=1726278885; cv=none; b=kv5nVEldfpTF2nLDCDi0gPz0Put8dJrSh850GOsE/5GeGcw6P/l4dxV5RomRT56qHReThiH/FujWtKXDbZckPL56MXjClfE5SgHAJ+2QlLNFRNEnxY2eGZUOEZ8TQvqZxkIhq60AHJnaTEeosQ1CqDDnPV5idqdC1sVTmmxg93Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726277177; c=relaxed/simple;
-	bh=bGF0ZZkqjb9cy6ahRbU5l34hSRO90C3GGZ7Hm9PS9XY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BlYbgZBhKy+b9daPapszcwv0TzlNfCqx7ANxM5vnkDCJTTfI+/YVohJiywCiZgfq+oXvpIhCLVe2sboApuoquCevU41EPubo7I+3+mjPNt5uFek1Im4EAmZc0XPcV1HR+b7oSPHXjBBkgh5Pr0sTkATIuHMSmolCzvD9HchY8GA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VODqzijB; arc=none smtp.client-ip=209.85.160.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1726278885; c=relaxed/simple;
+	bh=TLXeBUebCUeA7FDBNQ7Y62aN1d7vguuNY9Dg5smqFKw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vf6j/9hDU9Wils1i+gnr3e+06dTBfEhU5klVzfjbAGL1c6WWHemPCuMgc1YVyRUIpCfPXcaMBsE/TaiOTdfaP5mt6s1GDcCglkkGcCB0gJoFbP6eHIAUeekoAZ+oP7t1vD9gzuOtbLGb8+gB9V9aO/Cr1Du6F73nN0MZuuBBaS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iC1SMSZg; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VODqzijB"
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-27b7a1480bdso1237106fac.2
-        for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 18:26:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726277175; x=1726881975; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Wu4dx5V6e14gPWRXDPQTE2r/Ot0rZku1c0omrTWQ0is=;
-        b=VODqzijB8OLm3DQ/Iqlu2yOy2WoY+TXSzfTccLXBItjzQ27OtiZh1scyWoris93pKt
-         m7s5+vWbhbberTjP8l77Tl6zVbQi9/dvrp4SakqvVFeETljf8M7yDoVkV9KvX4Zs+88o
-         6sVEDEt4gBoU66kECOYbqkhr8DyA8UyYFaSlV9BqMw0OPMfBAdj0+9syq+HrIvVFFmH1
-         bpMT8e+8LLbtRzChVlsz6aKv+bXah3RKcjH5RqXSU3EFANmcdVuZWq7fFVFiRYiEDP0i
-         X5dwuf86gPxdjc33M4iVYUsMrDXjiBvFFBAJdEdt5Qkf9V5Z2gnkd+kEI8v8AwElrHPx
-         Gvww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726277175; x=1726881975;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Wu4dx5V6e14gPWRXDPQTE2r/Ot0rZku1c0omrTWQ0is=;
-        b=l+ZBB8KoCVvRb0onYJtkq6Z6SDRZM9qEEzzkuQ5TnuI5NdqKec69on3wd7k8Ty6ivD
-         WM2cFNZJt1qgZaW9lLpY8YBnSrH8AL9iInuIsaWsANe+9j039btHIPW3sJ7DB1zMYCfa
-         bu+Lc5GfZrNwkqeMIU9iS9pyhQCFQ5vo/il9uIKQXcg2I9BXaXQx50DOnzEef1VzWb+E
-         tYv/S8M2GEyPizIeDTnHMwHQijL/kQ+mxLutk4Y4t9GcvcWOBj8tMn2H0qGgUSTmM6TT
-         deNX+WWhNH7uWimzAeAUgm88XKzCw+yK1IgZYsugrRILXMvw+EEuPfhpHXTVKy0HS2x/
-         BZHA==
-X-Forwarded-Encrypted: i=1; AJvYcCWWCLl3kg4Lf1XHLJBVcd1RS2owwaPaNep7X1W/BgEjgly1q3+fnjs19HqSaHXcC/cPh+QRfBkrtgA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxWt3aCs6jFmn8ACfp2BzoDWD8NkYzol+OH5UtrE7rjE4rkyHRy
-	0twwrYW+MBwmspgBiykwN00fWLtZYkceZS72RPofUFX3/xNCqUBfM82FJkec1NPYIHq0lS/Ul+7
-	avz68LbbpJ49NWVFwrf/XeH+xPcw=
-X-Google-Smtp-Source: AGHT+IHrz72MVEVu95yBNThqpalJJX3gpbQTRFlwqk5jTPOU8Y4fAJdpQ/iyAmyfSN9SMLJZznck2+Z5bDeg8hVrwbY=
-X-Received: by 2002:a05:6870:d181:b0:270:449:291e with SMTP id
- 586e51a60fabf-27c3f66649cmr5279275fac.36.1726277174629; Fri, 13 Sep 2024
- 18:26:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iC1SMSZg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726278883; x=1757814883;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TLXeBUebCUeA7FDBNQ7Y62aN1d7vguuNY9Dg5smqFKw=;
+  b=iC1SMSZgdTYS74S2jZF/JMBSqTmam9t/3GowyHLIlo2320k77tgoS55c
+   RcQPnOjND0CCjccScVkbxtvDUPV+w+dZk2CGfNAloPbjxoMLXuQuNOC2I
+   SriMuKI7dLkfULM2eD4rHoCrand4uXmTLISYNpxSmLLbzLTG8k7trkob9
+   nHG6o3PRqbEB9ZugGv84hsOeTYzKzQxHYT8HsSyGk86UlZwdBNQiIhTAs
+   rLulAQMARBSrKPqejtxvc019bdBBqEGSxztrqEICcw+XG7XbVSTmYUM07
+   C/XuaWomrpNqCgvvvTfuI/ZHe15R72YIIc7mVDS8SbGFdqQq+vGr0wm6L
+   A==;
+X-CSE-ConnectionGUID: S58WrIBpSYq6GuzfB8cOnw==
+X-CSE-MsgGUID: /GTPAQsvScqjnTtbTf5hhQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="25392356"
+X-IronPort-AV: E=Sophos;i="6.10,227,1719903600"; 
+   d="scan'208";a="25392356"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 18:54:42 -0700
+X-CSE-ConnectionGUID: 8/RVo9fwTHKmd/RxSkbmmA==
+X-CSE-MsgGUID: 6noWOEqXTIaiVBZhuyPnbQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,227,1719903600"; 
+   d="scan'208";a="72381126"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 13 Sep 2024 18:54:35 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1spHzc-0007Eu-2R;
+	Sat, 14 Sep 2024 01:54:32 +0000
+Date: Sat, 14 Sep 2024 09:54:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Deepak Gupta <debug@rivosinc.com>, paul.walmsley@sifive.com,
+	palmer@sifive.com, conor@kernel.org, linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-arch@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, corbet@lwn.net,
+	palmer@dabbelt.com, aou@eecs.berkeley.edu, robh@kernel.org,
+	krzk+dt@kernel.org, oleg@redhat.com, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, akpm@linux-foundation.org,
+	arnd@arndb.de, ebiederm@xmission.com, kees@kernel.org,
+	Liam.Howlett@oracle.com, vbabka@suse.cz
+Subject: Re: [PATCH v4 16/30] riscv/shstk: If needed allocate a new shadow
+ stack on clone
+Message-ID: <202409140913.73qFCOmB-lkp@intel.com>
+References: <20240912231650.3740732-17-debug@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <75028548-2c1b-4ffd-91e5-9f3ae72d9c3e@gmail.com>
- <CAD-N9QVuQ2+mG+S7Acp2HuUSOzqb2Bj4XW2UGWXKHx0zWbgBRw@mail.gmail.com> <c8eeba2b-99cf-4b4d-a8ab-145b7266cef4@gmail.com>
-In-Reply-To: <c8eeba2b-99cf-4b4d-a8ab-145b7266cef4@gmail.com>
-From: Dongliang Mu <mudongliangabcd@gmail.com>
-Date: Sat, 14 Sep 2024 09:25:48 +0800
-Message-ID: <CAD-N9QW1cdpmcXEb9bWj-ezvH3Mi52KGcAyq_6iqqTjr8tVjDw@mail.gmail.com>
-Subject: Re: original file finding
-To: Alex Shi <seakeel@gmail.com>
-Cc: Cheng Ziqiu <chengziqiu@hust.edu.cn>, Dongliang Mu <dzm91@hust.edu.cn>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240912231650.3740732-17-debug@rivosinc.com>
 
-On Thu, Sep 12, 2024 at 9:22=E2=80=AFAM Alex Shi <seakeel@gmail.com> wrote:
->
->
->
-> On 9/11/24 9:29 PM, Dongliang Mu wrote:
-> > On Wed, Sep 11, 2024 at 6:11=E2=80=AFPM Alex Shi <seakeel@gmail.com> wr=
-ote:
-> >>
-> >> Hi Dongliang:
-> >>
-> >> In scripts/checktransupdate.py,
-> >> def get_origin_path(file_path):
-> >>     paths =3D file_path.split("/")
-> >>     tidx =3D paths.index("translations")
-> >>     opaths =3D paths[:tidx]
-> >>     opaths +=3D paths[tidx + 2 :]
-> >>     return "/".join(opaths)
-> >
-> > cc +ziqiu
-> >
-> > Could you take a look at this function?
-> >
-> >>
-> >> It use a different way instead of the ':Original:' line to find out th=
-e origin file.
-> >> That may cause file finding failed if we have a different dir map for =
-translation.
-> >
-> > Yes, this is more reasonable. BTW, is this enforced in the Chinese or
-> > other language translation?
->
-> It should be used in all language.
+Hi Deepak,
 
-Hi Alex,
+kernel test robot noticed the following build warnings:
 
-Why can't I find this thread in the LKML? We have cc-ed the linux-doc
-mailing list.
+[auto build test WARNING on shuah-kselftest/next]
+[also build test WARNING on shuah-kselftest/fixes tip/x86/core robh/for-next tip/smp/core kees/for-next/execve linus/master v6.11-rc7]
+[cannot apply to akpm-mm/mm-everything next-20240913]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Jon has different ideas about this origin file finding.
+url:    https://github.com/intel-lab-lkp/linux/commits/Deepak-Gupta/mm-Introduce-ARCH_HAS_USER_SHADOW_STACK/20240913-072124
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+patch link:    https://lore.kernel.org/r/20240912231650.3740732-17-debug%40rivosinc.com
+patch subject: [PATCH v4 16/30] riscv/shstk: If needed allocate a new shadow stack on clone
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240914/202409140913.73qFCOmB-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bf684034844c660b778f0eba103582f582b710c9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140913.73qFCOmB-lkp@intel.com/reproduce)
 
->
-> >
-> >>
-> >> Yes, we have no worry since all of them are same. But could we take th=
-e ':Original:' usage for a possible dir map changes?
-> >
-> > Yeah, at least we can take the current method as backup for original
-> > file location.
->
-> good idea!
->
-> >
-> >>
-> >> Anyway, just a quick idea.
-> >>
-> >> Thanks
-> >> Alex
-> >>
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409140913.73qFCOmB-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:7:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:8:
+   In file included from include/linux/spinlock.h:56:
+   In file included from include/linux/preempt.h:79:
+   In file included from ./arch/riscv/include/generated/asm/preempt.h:1:
+   In file included from include/asm-generic/preempt.h:5:
+   In file included from include/linux/thread_info.h:60:
+   In file included from arch/riscv/include/asm/thread_info.h:37:
+   In file included from arch/riscv/include/asm/processor.h:17:
+>> arch/riscv/include/asm/usercfi.h:44:15: warning: no previous prototype for function 'get_shstk_base' [-Wmissing-prototypes]
+      44 | unsigned long get_shstk_base(struct task_struct *task, unsigned long *size)
+         |               ^
+   arch/riscv/include/asm/usercfi.h:44:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      44 | unsigned long get_shstk_base(struct task_struct *task, unsigned long *size)
+         | ^
+         | static 
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:2233:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   2 warnings generated.
+--
+   In file included from arch/riscv/kernel/soc.c:7:
+   In file included from include/linux/pgtable.h:6:
+   In file included from arch/riscv/include/asm/pgtable.h:9:
+   In file included from include/linux/mmzone.h:8:
+   In file included from include/linux/spinlock.h:56:
+   In file included from include/linux/preempt.h:79:
+   In file included from ./arch/riscv/include/generated/asm/preempt.h:1:
+   In file included from include/asm-generic/preempt.h:5:
+   In file included from include/linux/thread_info.h:60:
+   In file included from arch/riscv/include/asm/thread_info.h:37:
+   In file included from arch/riscv/include/asm/processor.h:17:
+>> arch/riscv/include/asm/usercfi.h:44:15: warning: no previous prototype for function 'get_shstk_base' [-Wmissing-prototypes]
+      44 | unsigned long get_shstk_base(struct task_struct *task, unsigned long *size)
+         |               ^
+   arch/riscv/include/asm/usercfi.h:44:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      44 | unsigned long get_shstk_base(struct task_struct *task, unsigned long *size)
+         | ^
+         | static 
+   1 warning generated.
+--
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:7:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:8:
+   In file included from include/linux/spinlock.h:56:
+   In file included from include/linux/preempt.h:79:
+   In file included from ./arch/riscv/include/generated/asm/preempt.h:1:
+   In file included from include/asm-generic/preempt.h:5:
+   In file included from include/linux/thread_info.h:60:
+   In file included from arch/riscv/include/asm/thread_info.h:37:
+   In file included from arch/riscv/include/asm/processor.h:17:
+>> arch/riscv/include/asm/usercfi.h:44:15: warning: no previous prototype for function 'get_shstk_base' [-Wmissing-prototypes]
+      44 | unsigned long get_shstk_base(struct task_struct *task, unsigned long *size)
+         |               ^
+   arch/riscv/include/asm/usercfi.h:44:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      44 | unsigned long get_shstk_base(struct task_struct *task, unsigned long *size)
+         | ^
+         | static 
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:2233:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   2 warnings generated.
+
+
+vim +/get_shstk_base +44 arch/riscv/include/asm/usercfi.h
+
+    43	
+  > 44	unsigned long get_shstk_base(struct task_struct *task, unsigned long *size)
+    45	{
+    46		return 0;
+    47	}
+    48	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
