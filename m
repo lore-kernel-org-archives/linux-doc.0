@@ -1,113 +1,129 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 907101465BD;
-	Fri, 13 Sep 2024 22:14:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D635D1C32
+	for <linux-doc@vger.kernel.org>; Sat, 14 Sep 2024 01:26:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726265666; cv=none; b=TcRpqRpJ9G1V2gJqrJo03MRdtYHwbOyTBH2SgoxxESKq6+FwDQkVBU4HL5OTYXNR8Ag136KKHJRdA31TeidrktMg3uof2svRrJuA/y2p/SQWsAWarZeiWemokU8qjFnZzE/DAq5nItMQg6vnQHg+20v4AW/JxIEtEY2z6NT404o=
+	t=1726277177; cv=none; b=dJ+9yRyZl2cfTX1xCQiTkouK4gL6gB+GYcoEY9F/btlRj1xSjDP3JMuMh9nFDYzsSOs1AtI5siSdDCqYJMP4TekYFCQcFWlm+NivTYaDcXmF5awM5BhHBITKUsmrWbkT6Gh3FzCQpAC1h52Bjmp/iFjRLJ0nFxGyUQWjCGfehyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726265666; c=relaxed/simple;
-	bh=T9DzavKcLabQzYB5iHOUE1B4T8eJcT1KtWWq6NbNHbU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=PKSJBzGb5jeQ4bEmowRK/q0MeqDcy3N957W+b3ImBu5uPL9tSL3NGD31AZYudaOB5J5RdlnNiTOA/IDdeqpPvnSEsZXSxAlwoBzRnsYJDMncj2u7ExP+h6PF065eHUurliDV0vFgFUB8TzRMQZ9QRcpYDgEh2saLMgHSRmN0xkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=fZG6TdZe; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1726277177; c=relaxed/simple;
+	bh=bGF0ZZkqjb9cy6ahRbU5l34hSRO90C3GGZ7Hm9PS9XY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BlYbgZBhKy+b9daPapszcwv0TzlNfCqx7ANxM5vnkDCJTTfI+/YVohJiywCiZgfq+oXvpIhCLVe2sboApuoquCevU41EPubo7I+3+mjPNt5uFek1Im4EAmZc0XPcV1HR+b7oSPHXjBBkgh5Pr0sTkATIuHMSmolCzvD9HchY8GA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VODqzijB; arc=none smtp.client-ip=209.85.160.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="fZG6TdZe"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48DAslFN003394;
-	Fri, 13 Sep 2024 22:14:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	kYznQ95DJKtpP23L3CyjW0yB9e5K+e0VQ0yg2e7udL4=; b=fZG6TdZeibjZMWYK
-	4Mt/59sDFfv10g+Db8d9cdogdKEVpypoqkZtb7P/n5k9khLdFne5/VJWZTIRGMJ/
-	9s3GtW5PrrSJrBsD3XErYs5B6p8FnCksHW3MRrBjtAOI8ltcv4XF9zzf+oqrcYz6
-	aIPlvPiJoUntoqtiUkRrqJiCWghTukFk1qjf0gQ9nfNvaE12j1Bemy7kgU/KAXGX
-	vbiEYMh/+LJSGlvKq3glDDMn1lOD4AMtaYAOyai4WTG8xv0EP/B8Ot5fPD0sXjem
-	ZspgBYRJapjUa022af8m/KZVV38YY57G2LAUvqTWFvLsLik7FVqOoi+Yi3r2dQMF
-	CtDwnQ==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41gybq1xjd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 13 Sep 2024 22:14:02 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48DME1BI022104
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 13 Sep 2024 22:14:01 GMT
-Received: from [10.71.114.155] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 13 Sep
- 2024 15:14:01 -0700
-Message-ID: <a9dcaa5a-4f5d-451a-93aa-7457798fc243@quicinc.com>
-Date: Fri, 13 Sep 2024 15:14:00 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VODqzijB"
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-27b7a1480bdso1237106fac.2
+        for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 18:26:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726277175; x=1726881975; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Wu4dx5V6e14gPWRXDPQTE2r/Ot0rZku1c0omrTWQ0is=;
+        b=VODqzijB8OLm3DQ/Iqlu2yOy2WoY+TXSzfTccLXBItjzQ27OtiZh1scyWoris93pKt
+         m7s5+vWbhbberTjP8l77Tl6zVbQi9/dvrp4SakqvVFeETljf8M7yDoVkV9KvX4Zs+88o
+         6sVEDEt4gBoU66kECOYbqkhr8DyA8UyYFaSlV9BqMw0OPMfBAdj0+9syq+HrIvVFFmH1
+         bpMT8e+8LLbtRzChVlsz6aKv+bXah3RKcjH5RqXSU3EFANmcdVuZWq7fFVFiRYiEDP0i
+         X5dwuf86gPxdjc33M4iVYUsMrDXjiBvFFBAJdEdt5Qkf9V5Z2gnkd+kEI8v8AwElrHPx
+         Gvww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726277175; x=1726881975;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Wu4dx5V6e14gPWRXDPQTE2r/Ot0rZku1c0omrTWQ0is=;
+        b=l+ZBB8KoCVvRb0onYJtkq6Z6SDRZM9qEEzzkuQ5TnuI5NdqKec69on3wd7k8Ty6ivD
+         WM2cFNZJt1qgZaW9lLpY8YBnSrH8AL9iInuIsaWsANe+9j039btHIPW3sJ7DB1zMYCfa
+         bu+Lc5GfZrNwkqeMIU9iS9pyhQCFQ5vo/il9uIKQXcg2I9BXaXQx50DOnzEef1VzWb+E
+         tYv/S8M2GEyPizIeDTnHMwHQijL/kQ+mxLutk4Y4t9GcvcWOBj8tMn2H0qGgUSTmM6TT
+         deNX+WWhNH7uWimzAeAUgm88XKzCw+yK1IgZYsugrRILXMvw+EEuPfhpHXTVKy0HS2x/
+         BZHA==
+X-Forwarded-Encrypted: i=1; AJvYcCWWCLl3kg4Lf1XHLJBVcd1RS2owwaPaNep7X1W/BgEjgly1q3+fnjs19HqSaHXcC/cPh+QRfBkrtgA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxWt3aCs6jFmn8ACfp2BzoDWD8NkYzol+OH5UtrE7rjE4rkyHRy
+	0twwrYW+MBwmspgBiykwN00fWLtZYkceZS72RPofUFX3/xNCqUBfM82FJkec1NPYIHq0lS/Ul+7
+	avz68LbbpJ49NWVFwrf/XeH+xPcw=
+X-Google-Smtp-Source: AGHT+IHrz72MVEVu95yBNThqpalJJX3gpbQTRFlwqk5jTPOU8Y4fAJdpQ/iyAmyfSN9SMLJZznck2+Z5bDeg8hVrwbY=
+X-Received: by 2002:a05:6870:d181:b0:270:449:291e with SMTP id
+ 586e51a60fabf-27c3f66649cmr5279275fac.36.1726277174629; Fri, 13 Sep 2024
+ 18:26:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v27 01/32] xhci: add helper to stop endpoint and wait for
- completion
-To: =?UTF-8?Q?Micha=C5=82_Pecio?= <michal.pecio@gmail.com>,
-        <mathias.nyman@linux.intel.com>
-CC: <Thinh.Nguyen@synopsys.com>, <alsa-devel@alsa-project.org>,
-        <bgoswami@quicinc.com>, <broonie@kernel.org>, <conor+dt@kernel.org>,
-        <corbet@lwn.net>, <devicetree@vger.kernel.org>,
-        <dmitry.torokhov@gmail.com>, <gregkh@linuxfoundation.org>,
-        <krzk+dt@kernel.org>, <lgirdwood@gmail.com>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <mathias.nyman@intel.com>, <perex@perex.cz>,
-        <pierre-louis.bossart@linux.intel.com>, <robh@kernel.org>,
-        <srinivas.kandagatla@linaro.org>, <tiwai@suse.com>
-References: <20240913103237.2f5dc796@foxbook>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <20240913103237.2f5dc796@foxbook>
+References: <75028548-2c1b-4ffd-91e5-9f3ae72d9c3e@gmail.com>
+ <CAD-N9QVuQ2+mG+S7Acp2HuUSOzqb2Bj4XW2UGWXKHx0zWbgBRw@mail.gmail.com> <c8eeba2b-99cf-4b4d-a8ab-145b7266cef4@gmail.com>
+In-Reply-To: <c8eeba2b-99cf-4b4d-a8ab-145b7266cef4@gmail.com>
+From: Dongliang Mu <mudongliangabcd@gmail.com>
+Date: Sat, 14 Sep 2024 09:25:48 +0800
+Message-ID: <CAD-N9QW1cdpmcXEb9bWj-ezvH3Mi52KGcAyq_6iqqTjr8tVjDw@mail.gmail.com>
+Subject: Re: original file finding
+To: Alex Shi <seakeel@gmail.com>
+Cc: Cheng Ziqiu <chengziqiu@hust.edu.cn>, Dongliang Mu <dzm91@hust.edu.cn>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: Ea9Dy7IqYhLusQtkdmuC5WmSVcZRbLXp
-X-Proofpoint-GUID: Ea9Dy7IqYhLusQtkdmuC5WmSVcZRbLXp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 spamscore=0 adultscore=0
- lowpriorityscore=0 mlxlogscore=999 clxscore=1011 bulkscore=0
- impostorscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2408220000 definitions=main-2409130157
+Content-Transfer-Encoding: quoted-printable
 
-Hi Michal,
-
-On 9/13/2024 1:32 AM, Michał Pecio wrote:
-> Hi,
+On Thu, Sep 12, 2024 at 9:22=E2=80=AFAM Alex Shi <seakeel@gmail.com> wrote:
 >
->> Expose xhci_stop_endpoint_sync() which is a synchronous variant of
->> xhci_queue_stop_endpoint().  This is useful for client drivers that are
->> using the secondary interrupters, and need to stop/clean up the current
->> session.  The stop endpoint command handler will also take care of
->> cleaning up the ring.
-> I'm not entirely sure what you meant by "cleaning up the ring" (maybe a
-> comment would be in order?), but I see nothing being done here after the
-> command completes and FYI xhci-ring.c will not run the default handler if
-> the command is queued with a completion, like here.
 >
-> At least that's the case for certain command types and there is probably
-> a story behind each of them. I know that xhci_stop_device() queues a
-> Stop EP with completion (and also a few without(?)). Maybe it's a bug...
+>
+> On 9/11/24 9:29 PM, Dongliang Mu wrote:
+> > On Wed, Sep 11, 2024 at 6:11=E2=80=AFPM Alex Shi <seakeel@gmail.com> wr=
+ote:
+> >>
+> >> Hi Dongliang:
+> >>
+> >> In scripts/checktransupdate.py,
+> >> def get_origin_path(file_path):
+> >>     paths =3D file_path.split("/")
+> >>     tidx =3D paths.index("translations")
+> >>     opaths =3D paths[:tidx]
+> >>     opaths +=3D paths[tidx + 2 :]
+> >>     return "/".join(opaths)
+> >
+> > cc +ziqiu
+> >
+> > Could you take a look at this function?
+> >
+> >>
+> >> It use a different way instead of the ':Original:' line to find out th=
+e origin file.
+> >> That may cause file finding failed if we have a different dir map for =
+translation.
+> >
+> > Yes, this is more reasonable. BTW, is this enforced in the Chinese or
+> > other language translation?
+>
+> It should be used in all language.
 
-Maybe the last sentence is not needed.  When we are using the secondary interrupters, at least in the offload use case that I've verified with, the XHCI is completely unaware of what TDs have been queued, etc...  So technically, even if we did call the default handler (ie xhci_handle_cmd_stop_ep), most of the routines to invalidate TDs are going to be no-ops.
+Hi Alex,
 
-Thanks
+Why can't I find this thread in the LKML? We have cc-ed the linux-doc
+mailing list.
 
-Wesley Cheng
+Jon has different ideas about this origin file finding.
 
+>
+> >
+> >>
+> >> Yes, we have no worry since all of them are same. But could we take th=
+e ':Original:' usage for a possible dir map changes?
+> >
+> > Yeah, at least we can take the current method as backup for original
+> > file location.
+>
+> good idea!
+>
+> >
+> >>
+> >> Anyway, just a quick idea.
+> >>
+> >> Thanks
+> >> Alex
+> >>
