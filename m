@@ -1,182 +1,201 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868C3154BE0;
-	Sat, 14 Sep 2024 11:25:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FFEB1805E
+	for <linux-doc@vger.kernel.org>; Sat, 14 Sep 2024 13:00:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726313139; cv=none; b=m7d5HOUjMPmmQad71AW1UgA6LwnLkVSUo45sQAWo/emsnitGxae8m19G8BbY0ScOnV62JXSMHuAMquDfERRbhWc8TEkSvWORSwK9u1ScksyiD+ZtiesOtYKA6IamV9uVPMeIv0ixWHsQQglrQfJBFU2oLKBr6YSGsnMVWb3UiiM=
+	t=1726318848; cv=none; b=AqcZnHRar0W9IHBMUoQGpDRxbPA4BWL6BZL1NqyTHD0dkJ8WXOKZr1NytQcmCOcihvGBRZ7I5MZt1kO8Sx67S68Mlxx7rOyXNeYaMBrXEQOl7dbMj1Y+kS48ym5AWh6NfVkWU8f3FCcbZAfWWZwNfpSrEiauFYK2HzDXUkNavQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726313139; c=relaxed/simple;
-	bh=GfS5z4KzP0QM7VZHYxwcQ8lO2YebsYDNdHBpezQQCUY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ghru4CUu6b3M7nZqnI8tz+xW7RQdHSS6tH4IOdkyWOjKVIWpPbTwgkopjs8mgh+6+ZIwgF+65ZsBHmfUOAtubsYiI01YpQi2vEcFczUYb6Vgw4QOa1PonkIh0QRexnskX601U+1jRH9nJgE/CYKSUVKAS3NVJfRJlF6Pz0kuC2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VcRILbhr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726318848; c=relaxed/simple;
+	bh=FlPnTkHRww/0HfCm3LSt7YGaZ1A8XeP5eOeIzOuK9CQ=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gQ33SLPDuuYScFdvDHeTWaNxnmA73QLLeQcMzfaOpu7e1dlSCD5fENwKYQmLumLPh42ablyn39yBa+nxX6DKVWHQNKEdQi8M5cVYKbgdGb2bJptxiORdFgM9LQaXnV0w7AnYDH8akn7AdXQvuL8aZ2IOsPMcqhpRxsBVkOvGJSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=IpQoebab; arc=none smtp.client-ip=209.85.221.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VcRILbhr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 457EFC4CEC0;
-	Sat, 14 Sep 2024 11:25:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726313139;
-	bh=GfS5z4KzP0QM7VZHYxwcQ8lO2YebsYDNdHBpezQQCUY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=VcRILbhrT6jeiCApcj5mJKsAwM3ZR30MkIBktUrd7O6JBrfVlSToIaxxqioAVoVTz
-	 di8kmayl71aRQBRX3eo5fbwjdAw2KX02uQsH44x6YrCu5qe+4JqJp1gghNRPM4CUdH
-	 v56+BxmAexD1DsDRNeMYW7OvudHLIZUfYwli3Qm0cMr/oUAXiemrPIiR8ndDYH1C0t
-	 vQak+dznngURbTpqMhwhTlnIO8EaUC3JNb3rjpryFA1x2D5NZ30bD3tMlPNDBSS9Ch
-	 8ee1Tg60JfPTLheLcpbkx5Urxjntq3Fcu4HgkwCMytc0Je2h5sseLyxqwr0J7kjYmf
-	 YTRACQ6dQ9Mwg==
-Date: Sat, 14 Sep 2024 12:25:29 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Nuno =?UTF-8?B?U8Oh?= <noname.nuno@gmail.com>
-Cc: Esteban Blanc <eblanc@baylibre.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Nuno Sa <nuno.sa@analog.com>, Jonathan Corbet
- <corbet@lwn.net>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, David Lechner <dlechner@baylibre.com>,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH 4/6] iio: adc: ad4030: add support for ad4630-24 and
- ad4630-16
-Message-ID: <20240914122529.14759e63@jic23-huawei>
-In-Reply-To: <84961c1f857dfc8498c41ac97235a037111ed6d5.camel@gmail.com>
-References: <20240822-eblanc-ad4630_v1-v1-0-5c68f3327fdd@baylibre.com>
-	<20240822-eblanc-ad4630_v1-v1-4-5c68f3327fdd@baylibre.com>
-	<20240826102748.4be0b642@jic23-huawei>
-	<D452E2M75XCM.13OQGAPJ7JJ4A@baylibre.com>
-	<0a4e7fe39cf36774b28c86f6baab5ef8c20e3d6b.camel@gmail.com>
-	<D4567LFFTYJQ.2YC5OODKOVPNB@baylibre.com>
-	<84961c1f857dfc8498c41ac97235a037111ed6d5.camel@gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="IpQoebab"
+Received: by mail-wr1-f65.google.com with SMTP id ffacd0b85a97d-374c4c6cb29so1852866f8f.3
+        for <linux-doc@vger.kernel.org>; Sat, 14 Sep 2024 06:00:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fastly.com; s=google; t=1726318844; x=1726923644; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=sVykr97z0XR3OpTPbKddEnashI6uWHYzWI7Isl1zQgQ=;
+        b=IpQoebaboEKbcc6XzaakyF7Iyj9mvxR1L2j5eeG9CpNUqGCzqsmAaWWdIVtaHTiBLo
+         iEjIJ6BxuyNCxQbNlbAmiCPJXu2sKp0MyLYuko6zeMhqRhUUMdBoXRU4VsIEFZk+402p
+         t+e6Qr+eM50SGq7YnUSBzYo/ETV3DgWXIEg8A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726318844; x=1726923644;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sVykr97z0XR3OpTPbKddEnashI6uWHYzWI7Isl1zQgQ=;
+        b=nIErYbz2YLxhSbxBUbVgo3YVV/6d9Num3TF+hRp33fsdMbnbYxowNW6TJ1T++FZLn+
+         qoGEg0A6NRjKvyv97D/yxMy7KI1ht0vfU0uRKi9Tei+QyNXnyrO11DyQPIwHBgcoICM+
+         BhaGrvv6ITm/i0GYkj1cmNQriUiabGF18YZ9mIutt9/j/mqUxPYh/5f/lgsHSYnPrzGH
+         k8VDE43WyVgSmeBX4Hv6NZzEuUvgtFruwmFrqsHY5XmH2FZ3u7AF0Z3e6aqVoELEld64
+         Op7I0fRWUBebFJRMssbq30CSpD9c1P9sASamVJ/m8ej7pjyQKNy+bUoDKzKfsqD5BBV+
+         gTWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVPekyH6yLQba2YPBYf2OcYr6XyC421sWZcz+Q8Ut9d8rtjumhQNMQHAa2dPMwL+p7PRHtbvFVRh8I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxiEMECpIMVYMp2KcOoBY01G/8r+1coXlP7Hi5AU/XdyjB+6Xu1
+	mir3Fqe3HXwhPRHSxcxf3z3PypjD/2r2PbaN9sVBBY5uubut4LTreSse+g9BOWM=
+X-Google-Smtp-Source: AGHT+IG0jBTYaRSVHOu857guVqz4tS/j9DE0cDdQvqOUBnuEaA4yEb8hhcixepV+eRSC65bpXaDyNg==
+X-Received: by 2002:a05:6000:bd2:b0:374:c512:87ce with SMTP id ffacd0b85a97d-378d61f0beemr5130162f8f.30.1726318843553;
+        Sat, 14 Sep 2024 06:00:43 -0700 (PDT)
+Received: from LQ3V64L9R2.homenet.telecomitalia.it (host-79-23-194-51.retail.telecomitalia.it. [79.23.194.51])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90612e1a55sm77946166b.157.2024.09.14.06.00.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Sep 2024 06:00:43 -0700 (PDT)
+Date: Sat, 14 Sep 2024 15:00:40 +0200
+From: Joe Damato <jdamato@fastly.com>
+To: Stanislav Fomichev <stfomichev@gmail.com>, netdev@vger.kernel.org,
+	mkarsten@uwaterloo.ca, kuba@kernel.org, skhawaja@google.com,
+	sdf@fomichev.me, bjorn@rivosinc.com, amritha.nambiar@intel.com,
+	sridhar.samudrala@intel.com,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jiri Pirko <jiri@resnulli.us>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	David Ahern <dsahern@kernel.org>,
+	Johannes Berg <johannes.berg@intel.com>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC net-next v3 5/9] net: napi: Add napi_config
+Message-ID: <ZuWI-BVwTYll2l43@LQ3V64L9R2.homenet.telecomitalia.it>
+Mail-Followup-To: Joe Damato <jdamato@fastly.com>,
+	Stanislav Fomichev <stfomichev@gmail.com>, netdev@vger.kernel.org,
+	mkarsten@uwaterloo.ca, kuba@kernel.org, skhawaja@google.com,
+	sdf@fomichev.me, bjorn@rivosinc.com, amritha.nambiar@intel.com,
+	sridhar.samudrala@intel.com,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jiri Pirko <jiri@resnulli.us>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	David Ahern <dsahern@kernel.org>,
+	Johannes Berg <johannes.berg@intel.com>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+References: <20240912100738.16567-1-jdamato@fastly.com>
+ <20240912100738.16567-6-jdamato@fastly.com>
+ <ZuR5jU3BGbsut-q6@mini-arch>
+ <ZuSVBfgrN5wigT90@LQ3V64L9R2.homenet.telecomitalia.it>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZuSVBfgrN5wigT90@LQ3V64L9R2.homenet.telecomitalia.it>
 
-On Fri, 13 Sep 2024 15:46:17 +0200
-Nuno S=C3=A1 <noname.nuno@gmail.com> wrote:
+On Fri, Sep 13, 2024 at 09:39:49PM +0200, Joe Damato wrote:
+> On Fri, Sep 13, 2024 at 10:42:37AM -0700, Stanislav Fomichev wrote:
+> > On 09/12, Joe Damato wrote:
+> 
+> [...]
+> 
+> > > --- a/net/core/dev.c
+> > > +++ b/net/core/dev.c
+> > > @@ -6493,6 +6493,18 @@ EXPORT_SYMBOL(napi_busy_loop);
+> > >  
+> > >  #endif /* CONFIG_NET_RX_BUSY_POLL */
+> > >  
+> > > +static void napi_hash_add_with_id(struct napi_struct *napi, unsigned int napi_id)
+> > > +{
+> > > +	spin_lock(&napi_hash_lock);
+> > > +
+> > > +	napi->napi_id = napi_id;
+> > > +
+> > > +	hlist_add_head_rcu(&napi->napi_hash_node,
+> > > +			   &napi_hash[napi->napi_id % HASH_SIZE(napi_hash)]);
+> > > +
+> > > +	spin_unlock(&napi_hash_lock);
+> > > +}
+> > > +
+> > >  static void napi_hash_add(struct napi_struct *napi)
+> > >  {
+> > >  	if (test_bit(NAPI_STATE_NO_BUSY_POLL, &napi->state))
+> > > @@ -6505,12 +6517,13 @@ static void napi_hash_add(struct napi_struct *napi)
+> > >  		if (unlikely(++napi_gen_id < MIN_NAPI_ID))
+> > >  			napi_gen_id = MIN_NAPI_ID;
+> > >  	} while (napi_by_id(napi_gen_id));
+> > 
+> > [..]
+> > 
+> > > -	napi->napi_id = napi_gen_id;
+> > > -
+> > > -	hlist_add_head_rcu(&napi->napi_hash_node,
+> > > -			   &napi_hash[napi->napi_id % HASH_SIZE(napi_hash)]);
+> > >  
+> > >  	spin_unlock(&napi_hash_lock);
+> > > +
+> > > +	napi_hash_add_with_id(napi, napi_gen_id);
+> > 
+> > nit: it is very unlikely that napi_gen_id is gonna wrap around after the
+> > spin_unlock above, but maybe it's safer to have the following?
+> > 
+> > static void __napi_hash_add_with_id(struct napi_struct *napi, unsigned int napi_id)
+> > {
+> > 	napi->napi_id = napi_id;
+> > 	hlist_add_head_rcu(&napi->napi_hash_node,
+> > 			   &napi_hash[napi->napi_id % HASH_SIZE(napi_hash)]);
+> > }
+> > 
+> > static void napi_hash_add_with_id(struct napi_struct *napi, unsigned int napi_id)
+> > {
+> > 	spin_lock(&napi_hash_lock);
+> > 	__napi_hash_add_with_id(...);
+> > 	spin_unlock(&napi_hash_lock);
+> > }
+> > 
+> > And use __napi_hash_add_with_id here before spin_unlock?
+> 
+> After making this change and re-testing on a couple reboots, I haven't
+> been able to reproduce the page pool issue I mentioned in the other
+> email [1].
+> 
+> Not sure if I've just been... "getting lucky" or if this fixed
+> something that I won't fully grasp until I read the mlx5 source
+> again.
+> 
+> Will test it a few more times, though.
+> 
+> [1]: https://lore.kernel.org/netdev/ZuMC2fYPPtWggB2w@LQ3V64L9R2.homenet.telecomitalia.it/
 
-> On Fri, 2024-09-13 at 12:55 +0000, Esteban Blanc wrote:
-> > On Fri Sep 13, 2024 at 10:18 AM UTC, Nuno S=C3=A1 wrote: =20
-> > > On Fri, 2024-09-13 at 09:55 +0000, Esteban Blanc wrote: =20
-> > > > On Mon Aug 26, 2024 at 9:27 AM UTC, Jonathan Cameron wrote: =20
-> > > > > On Thu, 22 Aug 2024 14:45:20 +0200
-> > > > > Esteban Blanc <eblanc@baylibre.com> wrote: =20
-> > > > > > +static const unsigned long ad4630_channel_masks[] =3D {
-> > > > > > +	/* Differential only */
-> > > > > > +	BIT(0) | BIT(2),
-> > > > > > +	/* Differential with common byte */
-> > > > > > +	GENMASK(3, 0), =20
-> > > > > The packing of data isn't going to be good. How bad to shuffle
-> > > > > to put the two small channels next to each other?
-> > > > > Seems like it means you will want to combine your deinterleave
-> > > > > and channel specific handling above, which is a bit fiddly but
-> > > > > not much worse than current code. =20
-> > > >=20
-> > > > I can do it since that was what I had done in the RFC in the first =
-place.
-> > > > Nuno asked for in this email
-> > > > https://lore.kernel.org/r/0036d44542f8cf45c91c867f0ddd7b45d1904d6b.=
-camel@gmail.com/
-> > > > :
-> > > >  =20
-> > > > > > > * You're pushing the CM channels into the end. So when we a 2=
- channel
-> > > > > > > device
-> > > > > > > we'll have: =20
-> > > >  =20
-> > > > > > > in_voltage0 - diff
-> > > > > > > in_voltage1 - diff
-> > > > > > > in_voltage2 - CM associated with chan0
-> > > > > > > in_voltage0 - CM associated with chan1
-> > > > > > >=20
-> > > > > > > I think we could make it so the CM channel comes right after =
-the channel
-> > > > > > > where
-> > > > > > > it's data belongs too. So for example, odd channels would be =
-CM channels
-> > > > > > > (and
-> > > > > > > labels could also make sense). =20
-> > > >=20
-> > > > So that's what I did here :D
-> > > >=20
-> > > > For the software side off things here it doesn't change a lot of th=
-ings
-> > > > since we have to manipulate the data anyway, putting the extra byte=
- at the
-> > > > end or in between is no extra work.
-> > > > For the offload engine however, it should be easier to ask for 24 b=
-its
-> > > > then 8 bits for each channel as it would return two u32 per "hardwa=
-re
-> > > > channel".
-> > > >=20
-> > > > In order to avoid having two different layouts, I was kind of sold =
-by
-> > > > Nuno's idea of having the CM in between each diff channel.
-> > > >  =20
-> > >=20
-> > > Tbh, I was not even thinking about the layout when I proposed the arr=
-angement.
-> > > Just
-> > > made sense to me (from a logical point of view) to have them together=
- as they
-> > > relate
-> > > to the same physical channel. FWIW, we're also speaking bytes in here=
- so not sure
-> > > if
-> > > it's that important (or bad). =20
-> >=20
-> > The best we can do (if we managed to do it HDL wise) is to reorder the
-> > data to get both CM byte in a single u32 after the 2 u32 of both diff
-> > channel. That would be 3 u32 instead of 4.
+I was able to reproduce the issue by running a simple script
+(suggested by Martin):
 
-Entirely up to you. :)
-> >  =20
->=20
-> We are starting to see more and more devices that do stuff like this. Hav=
-e one
-> physical channel that reflects in more than one IIO channel. For SW buffe=
-ring it's
-> not really a big deal but for HW buffering it's not ideal.=20
->=20
-> I feel that at some point we should think about having a way to map a cha=
-nnel scan
-> element (being kind of a virtual scan element) into the storage_bits of a=
-nother one.
-> So in this case, one sample (for one channel) would be the 32bits and thi=
-ngs should
-> work the same either in SW or HW buffering.
->=20
-> That said, it's probably easier said than done in practice :)
+  for ((i=0;i<100;i++)); do for q in 1 2 4 8 16 32; do sudo ethtool -L eth4 combined $q ;done;done
 
-Yeah. That could get ugly fast + All existing userspace will fail to handle=
- it
-so I'm not keen. Maybe it's doable if we assume the 'virtual channels' are =
-all
-meta data we don't mind loosing with existing software stacks and define
-a non overlapping ABI to identify the metadata.  Still smells bad to me so
-I'll take quite a bit of convincing!
+It does not seem to reproduce on net-next/main, so it is almost certainly a bug
+introduced in patch 5 and the suggested changes above didn't solve the problem.
 
-Adding something to clearly 'associate' multiple related channels would be =
-fine
-as that wouldn't change the data interpretation, just provide more info on =
-top.
-Kind of a structured _label=20
+That said, the changes I have queued for the RFCv4:
+  - Updated commit messages of most patches
+  - Renamed netif_napi_add_storage to netif_napi_add_config in patch 5 and
+    updated the driver patches.
+  - Added a NULL check in netdev_set_defer_hard_irqs and
+    netdev_set_gro_flush_timeout for netdev->napi_config in patch 5
+  - Add Stanislav's suggestion for more safe handling of napi_gen_id in
+    patch 5
+  - Fixed merge conflicts in patch 6 so it applies cleanly
 
-Maybe a _channelgroup attribute?   Would be const and all the channels with
-the same index would reflect that they were measured on same 'thing'.
-Typically thing might be a pin or differential pair, but we might be measur=
-ing
-different types of signals - e.g. current and power.
+The outstanding items at this point are:
+  - Getting rid of the WARN_ON_ONCE (assuming we all agree on this)
+  - Deciding if we are allocating max(rxqs, txqs) or something else
+  - Debugging the page pool issue
 
-Joanthan
+Jakub suggested the first two items on the list above, so I'm hoping to hear
+his thoughts on them :) I have no strong preference on those two.
 
->=20
-> - Nuno S=C3=A1
->=20
+Once those two are solved, I can send an RFCv4 to see where we are at and I'll
+call out the outstanding page pool issue in the cover letter.
 
+I likely won't have time to debug the page pool thing until after LPC, though
+:(
