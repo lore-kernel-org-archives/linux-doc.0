@@ -1,198 +1,118 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 832BC1758E
-	for <linux-doc@vger.kernel.org>; Sat, 14 Sep 2024 03:57:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13001474B9
+	for <linux-doc@vger.kernel.org>; Sat, 14 Sep 2024 09:21:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726286261; cv=none; b=H8J0ARveRokqeeIVSTGtFI7GUuu559CcMBHlIGvYaI4pSg6tfMsMFSQeNdvHPw+FP/NtGXjC/Xg/6STo1V8im9sauJ83jeFBy/g/3CdlPh3HGQPid1SgX+ujRzKCAVAbcrEKLujhMGxJWIz6PfiOSqQ0J9hqLNFTsYd+uDCCqHw=
+	t=1726305702; cv=none; b=FfQ/uLvruaXKHTk0iWaBXjs6I62AUV5G6wcF8JX0Bvhc4vX1wOoL1cM+/P/LptH1g4828PjICOsS3QxXivaa5owiWOybf9W70vGupQjZiAsm9NGg9QqvM9pXsIBliR305MYY8myU+24AODUhTlNBzleBAMiKzEY8NwlVyFnN77I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726286261; c=relaxed/simple;
-	bh=aRgmPo7f3AmEdTXRKPcw6X/eIdDGPE6hhYHHXau80y0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dQ8AxnSXqTgLYGIBQmx1pAGJPqbmctEDzxRCbVFZneLhjZZuydJs4rnqBs7yhPjxWkCoUaN8ZOXkq6Zjri+XOkuUWQt1H8Uco5XZ/U1mXzoN+4HnAKhMJG+6wCQUgo3eXRy9fK3pSzDv02h+6lZH+f3Mxn1dDFtIhX0cgCoh0Pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b=vR7au40n; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+	s=arc-20240116; t=1726305702; c=relaxed/simple;
+	bh=QWLN81duHcC98U8Wgfo/hW2STVBwULFC4YNBCXuyjVU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Yp7Zr5yCfiu45tELXrAjsYG4kvSrBBBTaPZlChvqR008m4hkId1xGrDhYUfuG3ur37Iw+0+h33SK+y1HHCxBq8rdtn1Dt1EEQ7m0bYjwygJ/K9nGvgSdHldyBuUGqPYUW6ZkGZCB5GZ2wfRYLbT5FyiRDgNAghitrdqsTS9nwIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=bMFxqsqy; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b="vR7au40n"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a8d56155f51so335298066b.2
-        for <linux-doc@vger.kernel.org>; Fri, 13 Sep 2024 20:57:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="bMFxqsqy"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-42cacabd2e0so26010725e9.3
+        for <linux-doc@vger.kernel.org>; Sat, 14 Sep 2024 02:21:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20230601.gappssmtp.com; s=20230601; t=1726286255; x=1726891055; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=frVOq4/VrOFSBx4qkzHXmRGBdSpABDY2CbvRjZSeHl4=;
-        b=vR7au40nmoUd/bkD7oG92swR6jeZzYrEWFeuOpib874KEJjSh8Gd7DVfXzyI4HBdBg
-         bzafgWsfDS3ZzMkRVJwfSWZKx5EvsyhsNcCGZZPKynmy08389hcSYbXNvpW5vZEx3p+A
-         Q+rQ/+kQQ/dRqtsCtVPbmsam00uJsXdRIDe5KwOPA3/VwNLbV1wKxIqKUL9dgJrERAXR
-         M9VwXlGTgOugrKPh/BFsL0ip6wGbXni7FGxRgg6Y2Y1+zMYxdHU1EZfrmNbAxBfAmdFI
-         DOCu1YHaTn4ycrXnQGWwrIphBSklLaK0mu1TixbHgLkNub9pdCqyhmqDqD4t1bKgVCEN
-         uexg==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1726305698; x=1726910498; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=W0vwYUdOyrcmqsU8fkyOeRsFNoi3+GuwHokLYeTePag=;
+        b=bMFxqsqyWEjPrbHHUC9TCakNJgnrB5KppFykmlFKAaHSV8UbbR30zYdJlZf/LMGJVV
+         GNIO14YfippErn0PqCSVgGgsyxzCnuooFOpQ2FmDCKljxjL4fJNJjd62AhYOlLs2i4NJ
+         U/vz2577IwD1NG0cRrOgkMTDWPB0WcD0037Ml2qqU2I5KWDZsD74OJ2FiK4dVfAIemiY
+         XgcWdBrVtUsFd3ewqMC5vKwZK0RKEQQ7FH6zsEfKIYYbrC/F8PkCGv06c2REWPNN3ICl
+         6qNxDzvsk5r6jqEokatD20dmfFyi4RYtsIcLNvaiHCsqxywpRz5wWm+E29A+XDkPQYvM
+         IseQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726286255; x=1726891055;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=frVOq4/VrOFSBx4qkzHXmRGBdSpABDY2CbvRjZSeHl4=;
-        b=A+gKoiNRfUSIHp4iU0qQ3N4iZb5EcQaRwN+K/cqfZ3XP7yEUKGxGZIy0QI6YRlNhvX
-         IhLTm4mtKiSyFTo7Bbs4ZJ9q6Qol/0+aYlcXor0DTgEwSSDxMX2v8inch4zKDoZUlgvF
-         w6chpchtHCq7uMFtVMy6PaQsLJNzpu9eD90+xNXqwXYKYl5AdRebsIVBpCOA4cg5qPEP
-         YKjjyw5CJq3CA/CSPRNhDsuPqZ94yEzozeavaEfEBRgFG7pc8rh9jHHSpAqdnL4s4Swc
-         X5PTdDVYBUkLhI25ryGiURhPrltdhQEo0rRQVZiVvtBprJG0YCmMJioi9P3GLDdDOC49
-         1vLA==
-X-Forwarded-Encrypted: i=1; AJvYcCUVNfXWHbC4gFsNz3ERbJUaHpja3Vesn9YWVSWFPa2PRFOOO5ZOq22hUt/+wF/3R6kqeYITUZzs1Vc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3ojdnSo/CV4NB3sc1L9IUxsjYlmbhSqGX7MuPYdCOdO9DYHLb
-	bI9zEcf4UReTjQ+CRPaiCf6mKu6cKY5O5P/AxRsu5MLSG0zt4BcGyCaiCOYNpuciXK0arMICxde
-	7U4dSJXDgimtv8NCArF1VhqkXVNE1AWEPspBn
-X-Google-Smtp-Source: AGHT+IFF2MbJ6XCRo0MrZkYw3trl3AWEems+cbTpyeTHsgyTn4kgHQumH79FhKTJSbYKsaxyQDqJvjTVXWhQXbeHEQ0=
-X-Received: by 2002:a17:907:e2a5:b0:a8a:926a:d012 with SMTP id
- a640c23a62f3a-a9029490673mr781104466b.26.1726286254571; Fri, 13 Sep 2024
- 20:57:34 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1726305698; x=1726910498;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=W0vwYUdOyrcmqsU8fkyOeRsFNoi3+GuwHokLYeTePag=;
+        b=uZPeGavHICF0r0NmevOBibkWQRRfqrVtAk3hIfBp3XqWyTFDBMKF+9JEctWxslYExU
+         upKOz69RmtKCqQ9SZMD4QgMNl7j9RrSTsOfLz4K0rlgeSxGYIdN64ruTbin3HFy4jlGB
+         V8u+RWwN9TT5cvXWMubF0vHXDv5GziwZmJPUYZ1GPJpDVyNCsXMW5hP6d+QGrZIb+WPi
+         75Whd7KZEV5PLS235oFd2/O+dsLK0pUWmCkJ1jMOMLTjV8hGF7BEWEpHET4+SEPTaLkG
+         2MOzZ0ADVK/bZykHGr5GR7uqWVF5cxBkYcg8bONAJ3JeOvmTCXTblKNzE7cPrcMmJnxo
+         m1iw==
+X-Forwarded-Encrypted: i=1; AJvYcCXgkTwVEqSl5M5RKMrcvbjq985WTDcKyNsDWhfXypaGkuPDeSfUa6lPpdy94r8F7yYETPj9b/G9gv8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YybeajMxT0w+LA4pgn0fNtos1aZwtXcDxaogvi5NwpvRSWAL+Dk
+	enAaM2l3rPxI7z33x4MWRSp6rr5TCeKpu7jlmOgi2YstorbZh/gTKoFgITb/0D4=
+X-Google-Smtp-Source: AGHT+IH45xR6Gog1ZY7V2YLrPhCGhfQF/3R1gLbHp9LuneqGr615sJyZ4/UcDCFDXXJAze+fTRg3rg==
+X-Received: by 2002:a5d:4f12:0:b0:374:ccb0:66c7 with SMTP id ffacd0b85a97d-378c2d0623bmr5708624f8f.16.1726305696892;
+        Sat, 14 Sep 2024 02:21:36 -0700 (PDT)
+Received: from ?IPV6:2a04:cec2:24:e9b5:6dd7:b979:f3bd:3baf? ([2a04:cec2:24:e9b5:6dd7:b979:f3bd:3baf])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378e73e837csm1242741f8f.27.2024.09.14.02.21.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 14 Sep 2024 02:21:36 -0700 (PDT)
+Message-ID: <e6d3926a-002d-445a-8ac5-8d47b2be27b0@baylibre.com>
+Date: Sat, 14 Sep 2024 11:21:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240531010331.134441-1-ross.philipson@oracle.com>
- <20240531010331.134441-7-ross.philipson@oracle.com> <20240531021656.GA1502@sol.localdomain>
- <874jaegk8i.fsf@email.froward.int.ebiederm.org> <5b1ce8d3-516d-4dfd-a976-38e5cee1ef4e@apertussolutions.com>
- <87ttflli09.ffs@tglx> <CALCETrXQ7rChWLDqTG0+KY7rsfajSPguMnHO1G4VJi_mgwN9Zw@mail.gmail.com>
- <1a1f0c41-70de-4f46-b91d-6dc7176893ee@apertussolutions.com> <8a0b59a4-a5a2-42ae-bc1c-1ddc8f2aad16@apertussolutions.com>
-In-Reply-To: <8a0b59a4-a5a2-42ae-bc1c-1ddc8f2aad16@apertussolutions.com>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Fri, 13 Sep 2024 20:57:23 -0700
-Message-ID: <CALCETrX8caT5qvCUu24hQfxUF_wUC2XdGpS2YFP6SR++7FiM3Q@mail.gmail.com>
-Subject: Re: [PATCH v9 06/19] x86: Add early SHA-1 support for Secure Launch
- early measurements
-To: "Daniel P. Smith" <dpsmith@apertussolutions.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, "Eric W. Biederman" <ebiederm@xmission.com>, 
-	Eric Biggers <ebiggers@kernel.org>, Ross Philipson <ross.philipson@oracle.com>, 
-	linux-kernel@vger.kernel.org, x86@kernel.org, linux-integrity@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	kexec@lists.infradead.org, linux-efi@vger.kernel.org, 
-	iommu@lists.linux-foundation.org, mingo@redhat.com, bp@alien8.de, 
-	hpa@zytor.com, dave.hansen@linux.intel.com, ardb@kernel.org, 
-	mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de, 
-	jarkko@kernel.org, jgg@ziepe.ca, nivedita@alum.mit.edu, 
-	herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net, 
-	dwmw2@infradead.org, baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com, 
-	andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 7/8] iio: adc: ad7606: Switch to xxx_get_device_match_data
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org, aardelean@baylibre.com
+References: <20240815-ad7606_add_iio_backend_support-v1-0-cea3e11b1aa4@baylibre.com>
+ <20240815-ad7606_add_iio_backend_support-v1-7-cea3e11b1aa4@baylibre.com>
+ <20240817163354.68ec95f4@jic23-huawei>
+Content-Language: en-US
+From: Guillaume Stols <gstols@baylibre.com>
+In-Reply-To: <20240817163354.68ec95f4@jic23-huawei>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 12, 2024 at 5:34=E2=80=AFPM Daniel P. Smith
-<dpsmith@apertussolutions.com> wrote:
+
+On 8/17/24 17:33, Jonathan Cameron wrote:
+> On Thu, 15 Aug 2024 12:12:01 +0000
+> Guillaume Stols <gstols@baylibre.com> wrote:
 >
-> Hey again,
+>> On the parallel version, the current implementation is only compatible
+>> with id tables and won't work with fx_nodes. So in this commit, the goal
+>> is to switch to use get_device_match_data, in order to simplify the
+>> logic of retrieving chip data.
+>>
+>> Also, chip info is moved in the .h file so to be accessible to all the
+>> driver files that can set a pointer to the corresponding chip as the
+>> driver data.
+> This means each driver gets their own copy.
 >
-> On 9/4/24 21:01, Daniel P. Smith wrote:
-> > Hi Luto.
-> >
-> > On 8/28/24 23:17, Andy Lutomirski wrote:
-> >> On Thu, Aug 15, 2024 at 12:10=E2=80=AFPM Thomas Gleixner <tglx@linutro=
-nix.de>
-> >> wrote:
-> >>>
-> >>> On Thu, Aug 15 2024 at 13:38, Daniel P. Smith wrote:
-> >>>> On 5/31/24 09:54, Eric W. Biederman wrote:
-> >>>>> Eric Biggers <ebiggers@kernel.org> writes:
-> >>>>>> That paragraph is also phrased as a hypothetical, "Even if we'd
-> >>>>>> prefer to use
-> >>>>>> SHA-256-only".  That implies that you do not, in fact, prefer
-> >>>>>> SHA-256 only.  Is
-> >>>>>> that the case?  Sure, maybe there are situations where you *have*
-> >>>>>> to use SHA-1,
-> >>>>>> but why would you not at least *prefer* SHA-256?
-> >>>>>
-> >>>>> Yes.  Please prefer to use SHA-256.
-> >>>>>
-> >>>>> Have you considered implementing I think it is SHA1-DC (as git has)
-> >>>>> that
-> >>>>> is compatible with SHA1 but blocks the known class of attacks where
-> >>>>> sha1 is actively broken at this point?
-> >>>>
-> >>>> We are using the kernel's implementation, addressing what the kernel
-> >>>> provides is beyond our efforts. Perhaps someone who is interested in
-> >>>> improving the kernel's SHA1 could submit a patch implementing/replac=
-ing
-> >>>> it with SHA1-DC, as I am sure the maintainers would welcome the help=
-.
-> >>>
-> >>> Well, someone who is interested to get his "secure" code merged shoul=
-d
-> >>> have a vested interested to have a non-broken SHA1 implementation if
-> >>> there is a sensible requirement to use SHA1 in that new "secure" code=
-,
-> >>> no?
-> >>>
-> >>> Just for the record. The related maintainers can rightfully decide to
-> >>> reject known broken "secure" code on a purely technical argument.
-> >>>
-> >>
-> >> Wait, hold on a second.
-> >>
-> >> SHA1-DC isn't SHA1.  It's a different hash function that is mostly
-> >> compatible with SHA1, is different on some inputs, and is maybe more
-> >> secure.  But the _whole point_ of using SHA1 in the TPM code (well,
-> >> this really should be the whole point for new applications) is to
-> >> correctly cap the SHA1 PCRs so we can correctly _turn them off_ in the
-> >> best way without breaking compatibility with everything that might
-> >> read the event log.  I think that anyone suggesting using SHA1-DC for
-> >> this purpose should give some actual analysis as to why they think
-> >> it's an improvement, let alone even valid.
-> >
-> > I would say at a minimum it is to provide a means to cap the PCRs.
-> > Devices with TPM1.2 are still prevalent in the wild for which members o=
-f
-> > the TrenchBoot community support, and there are still valid (and secure=
-)
-> > verification uses for SHA1 that I outlined in my previous response.
-> >
-> >> Ross et al, can you confirm that your code actually, at least by
-> >> default and with a monstrous warning to anyone who tries to change the
-> >> default, caps SHA1 PCRs if SHA256 is available?  And then can we maybe
-> >> all stop hassling the people trying to develop this series about the
-> >> fact that they're doing their best with the obnoxious system that the
-> >> TPM designers gave them?
-> >
-> > Our goal is to keep control in the hands of the user, not making
-> > unilateral decisions on their behalf. In the currently deployed
-> > solutions it is left to the initrd (user) to cap the PCRs. After some
-> > thinking, we can still ensure user control and give an option to cap th=
-e
-> > PCRs earlier. We hope to post a v11 later this week or early next week
-> > that introduces a new policy field to the existing measurement policy
-> > framework. Will add/update the kernel docs with respect to the policy
-> > expansion. We are also looking the best way we might add a warning to
-> > the kernel log if the SHA1 bank is used beyond capping the PCRs.
->
-> As the attempt was made to lay in the policy logic, it started to become
-> convoluted and unnecessarily complicated. Thus creating more risk with
-> all the bookkeeping and yet sha1 hashes still have to be sent, the null
-> hash in this case, since the TPM driver will reject extends that do not
-> have hashes for all active banks. At this point, we have opted to keep
-> the logic simple and add a section to our documentation advising of the
-> potential risk should one choose to incorporate SHA1 in their
-> attestations of the platform.
->
+> Better to use an extern in the header and keep the actual data
+> in the core module.
 
-I've read the TPM standard a bit, but it's been awhile, and it's too
-complicated anyway.  So, can you remind me (and probably 3/4 of the
-other people on this thread, too):
+ack.
 
-What, exactly, is your patchset doing that requires hashing at all?
-(I assume it's extending a PCR and generating an event log entry.).
-What, exactly, does it mean to "cap" a PCR?  How is this different
-from what your patchset does?
+Given your previous comment about introducing 
+platform_device_get_match_data, I guess I should instead do it directly 
+in the driver's probe, like its done in axp20x_adc.c ? Somehting like that:
 
-With that answered, it will hopefully be easy to see that you're
-making the right call :)
+if (!dev_fwnode(&pdev->dev)) {
+     const struct platform_device_id *id;
 
---Andy
+     id = platform_get_device_id(pdev);
+     chip_info = (const struct ad7606_chip_info *)id->driver_data;
+} else {
+     struct device *dev = &pdev->dev;
+     chip_info = device_get_match_data(dev);
+}
 
---=20
-Andy Lutomirski
-AMA Capital Management, LLC
