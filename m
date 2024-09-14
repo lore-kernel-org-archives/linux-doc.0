@@ -1,131 +1,113 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A72711CCEE7
-	for <linux-doc@vger.kernel.org>; Sat, 14 Sep 2024 10:38:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC627A15A;
+	Sat, 14 Sep 2024 11:09:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726310316; cv=none; b=aYD5Ajaw+HvDmT3kymbGLG4yt48nIbiD4Ob1HcH4gdBZXD1AGEsL4b5pAcHWKgMWr70vAw3i9Zj+chOiItrpZI/jrY2Da6XGQabVQPVfN2aom+BMBmwRQKICFFlPEd8MT8Su4ejV8DbO4WQL3NSOtOgXMc1aCwC/XOwNtbHcrMY=
+	t=1726312187; cv=none; b=tSUBqwQQ8WCHUZYXIGlRD+SS71vAxR7/c2n2SakhkReYpsReD2essj3QYAkXaDc1OhuLyL7mk/6ybE6ShkHO32nAZbEkkXI59Wsospv0fWfgM8thE88WezmEodSgfefSHoW8BkQbuJPAbl+IXQqwwQ1TimVZh7mvl2smJDJ7LG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726310316; c=relaxed/simple;
-	bh=57/2GphAPx5obXHWPZWIax5Wgl8eLu5f9xixLf1PWAU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F+JhQBUSXkYeHArh2gIZjT0F6ZZKjGB/a77w2DFQTqZT7CrL3WGx+mztMolY7C5srUuEWIWrcHIzv+JsdtNj4kIoXRg4B36toe0aJoH3KhUCCFNARL4OhMVB2yUZB10wUQTZ1sWo153XNeiYthGLUAoGM1v5uRIyKWODbLG9LwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Miht6sw4; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1726312187; c=relaxed/simple;
+	bh=dj3RBJNoLKQBK3vq1ElWbWaAStCLklS2fV4ce+qLNLw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=npXadbZT0wVoKEkp2R0HeIMTl2VaIEaHAItCpFXTcQlRAryLPVwNi56sgz4kZXC+9Mru5mdH+B/9nQeGFORKMyI61Kqdavz05tldKNUDdofEhag0GXOpJ2MlC+ZtqDU0JUYEtw4m2Z452hM8/jflekvrCTl9PCbFdbbfwZPpT/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A3AFowFB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Miht6sw4"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-206bd1c6ccdso15826305ad.3
-        for <linux-doc@vger.kernel.org>; Sat, 14 Sep 2024 03:38:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726310314; x=1726915114; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Mvaai/+JCpmPqW2psbUiimtH3qzxaNWO/Y/3QNW92XI=;
-        b=Miht6sw4YAbg+iWFhkewJ7sSx4LKEWnqF9N3ATfSvu8sBuD8tekPZZupFq0Wjb7cOe
-         lOLizPEgL/+Mu/nlO6qQnbdnKVFU/mvEDn58Er9J8SX1UKvpiSLAo+a1JAsly/52MWBw
-         m2CXVyZS02Yn2f8+vjC5F/uvE85CSVYCYFAm9gRytZMXQU1oFOqUR01VFJr/vHjwngFC
-         X3aJuOJR44A5WI4pCQ5ek0sEBSHttaci6GjTvNsoHPZnS0N4YlO+f+thpRmuA/AcmzYP
-         NShls4Z1ix/zt824M3bCs9lcAa4fvURLIU81kiZq6Pl4HvarjtS6qnZGEavwxzjitwBM
-         AwRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726310314; x=1726915114;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Mvaai/+JCpmPqW2psbUiimtH3qzxaNWO/Y/3QNW92XI=;
-        b=ocrtUyKS+fnElHiRN5cji6E+HdLq04VmjDx1MPnjaSjV3ioqIB+Un+0FpGsAk4m23q
-         9LK8ZCN8KlAuKLu646+UnP1OFBft+QPrCvIoVtNXWbFdxrJWiB5yPSvH2PSY1XB98ZGt
-         GpZLPbo9JuMHwy5Mpv+pXzZDKa5AkXmnpHeTR2Bjk/w3IWz6IWGmbR4HOcylO8/61D8c
-         x2C6oJ/27KVJV1MtX5/t+wd8kn5Tl6x4VP5i0m72Ux4RbhWN06lrT/fKuTTX+Q1sbI0l
-         5iuw/GWNwKdl6exoTkUx2J3dXXneEvMIUck0RiEEHr5HKDm6/OpM7NjK/ZOTcgpc5cJM
-         PS8w==
-X-Forwarded-Encrypted: i=1; AJvYcCW7poAXrCXot0YnEDaiA9w3XKRnjsOEopLmA5SL1viiRnH1q/VAww/0HouNypq/qoH0QXErY7b4csk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzftWdrVczUcSbLWz2j6qYaDfhDUTs5WXptgKD3mCYp54YyLjv3
-	ZSaxJIQsfAk8BxVoS+F7WAPxU0YTqSnp48dzT8SLeS9bBjCLxe4NvHziwxYr
-X-Google-Smtp-Source: AGHT+IHYkiiIVTJ5azBltAs72VUOrvrThLwulsLaF3RiIYojWOIz25/OGeOjSsZFTgxNZSrADHfMog==
-X-Received: by 2002:a17:902:e54e:b0:206:c43f:7896 with SMTP id d9443c01a7336-20781d5f7a7mr76393165ad.21.1726310313549;
-        Sat, 14 Sep 2024 03:38:33 -0700 (PDT)
-Received: from [192.168.255.10] (23.105.223.42.16clouds.com. [23.105.223.42])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20794731a30sm7684915ad.268.2024.09.14.03.38.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 14 Sep 2024 03:38:32 -0700 (PDT)
-Message-ID: <bc5e5979-7c8e-41e0-9c94-9877fde9caa6@gmail.com>
-Date: Sat, 14 Sep 2024 18:38:29 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A3AFowFB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43321C4CEC0;
+	Sat, 14 Sep 2024 11:09:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726312186;
+	bh=dj3RBJNoLKQBK3vq1ElWbWaAStCLklS2fV4ce+qLNLw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=A3AFowFBpYHm3nEXBsh3KY+x69JVDf+m+f2xnGnr/5M3fRQDzUsqxBbp1VK4Xe5Jz
+	 XL6KwzGdfp8Tob718K9bFBbD8mu+Q6PVKpTG7Z3vfdNpNm0ecEZ9Ljk7WpvFx9UVpY
+	 pAD5OLo7Jzw5qMmjcZpvIItjpZ0IIY9bEYXydbrWEs2BkHjYaj+mrpXGAU7zE6qNIN
+	 I+5GJwVAg5zNwYxUigqH9XdOQqifOWpWmuJR0Vweje6uBMGNC0jr2TenJWxT0hkYDN
+	 uGJRrJbTWH2XYn3KohTR1QLabVJ/IM9ZY8hyiBiLm44VQrym4WDnLmQGHahZemO6s3
+	 NDewcY92WN7/Q==
+Date: Sat, 14 Sep 2024 12:09:36 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Guillaume Stols <gstols@baylibre.com>
+Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Lars-Peter
+ Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ aardelean@baylibre.com
+Subject: Re: [PATCH 7/8] iio: adc: ad7606: Switch to
+ xxx_get_device_match_data
+Message-ID: <20240914120936.01e3d694@jic23-huawei>
+In-Reply-To: <e6d3926a-002d-445a-8ac5-8d47b2be27b0@baylibre.com>
+References: <20240815-ad7606_add_iio_backend_support-v1-0-cea3e11b1aa4@baylibre.com>
+	<20240815-ad7606_add_iio_backend_support-v1-7-cea3e11b1aa4@baylibre.com>
+	<20240817163354.68ec95f4@jic23-huawei>
+	<e6d3926a-002d-445a-8ac5-8d47b2be27b0@baylibre.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: original file finding
-To: Dongliang Mu <mudongliangabcd@gmail.com>
-Cc: Cheng Ziqiu <chengziqiu@hust.edu.cn>, Dongliang Mu <dzm91@hust.edu.cn>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <75028548-2c1b-4ffd-91e5-9f3ae72d9c3e@gmail.com>
- <CAD-N9QVuQ2+mG+S7Acp2HuUSOzqb2Bj4XW2UGWXKHx0zWbgBRw@mail.gmail.com>
- <c8eeba2b-99cf-4b4d-a8ab-145b7266cef4@gmail.com>
- <CAD-N9QW1cdpmcXEb9bWj-ezvH3Mi52KGcAyq_6iqqTjr8tVjDw@mail.gmail.com>
-Content-Language: en-US
-From: Alex Shi <seakeel@gmail.com>
-In-Reply-To: <CAD-N9QW1cdpmcXEb9bWj-ezvH3Mi52KGcAyq_6iqqTjr8tVjDw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+
+On Sat, 14 Sep 2024 11:21:34 +0200
+Guillaume Stols <gstols@baylibre.com> wrote:
+
+> On 8/17/24 17:33, Jonathan Cameron wrote:
+> > On Thu, 15 Aug 2024 12:12:01 +0000
+> > Guillaume Stols <gstols@baylibre.com> wrote:
+> > =20
+> >> On the parallel version, the current implementation is only compatible
+> >> with id tables and won't work with fx_nodes. So in this commit, the go=
+al
+> >> is to switch to use get_device_match_data, in order to simplify the
+> >> logic of retrieving chip data.
+> >>
+> >> Also, chip info is moved in the .h file so to be accessible to all the
+> >> driver files that can set a pointer to the corresponding chip as the
+> >> driver data. =20
+> > This means each driver gets their own copy.
+> >
+> > Better to use an extern in the header and keep the actual data
+> > in the core module. =20
+>=20
+> ack.
+>=20
+> Given your previous comment about introducing=20
+> platform_device_get_match_data, I guess I should instead do it directly=20
+> in the driver's probe, like its done in axp20x_adc.c ? Somehting like tha=
+t:
+>=20
+> if (!dev_fwnode(&pdev->dev)) {
+>  =C2=A0=C2=A0=C2=A0 const struct platform_device_id *id;
+>=20
+>  =C2=A0=C2=A0=C2=A0 id =3D platform_get_device_id(pdev);
+>  =C2=A0=C2=A0=C2=A0 chip_info =3D (const struct ad7606_chip_info *)id->dr=
+iver_data;
+> } else {
+>  =C2=A0=C2=A0=C2=A0 struct device *dev =3D &pdev->dev;
+>  =C2=A0=C2=A0=C2=A0 chip_info =3D device_get_match_data(dev);
+> }
+
+Yes, something along those lines makes sense.
+
+If there are enough instances of this we can have a standard
+definition for this similar to the i2c / spi ones that defaults
+to device_get_match_data() if available, and falls back to the old
+way if not.
+
+If you want to add that great, if not it can be a separate
+bit of work for another day.
+
+Jonathan
 
 
-On 9/14/24 9:25 AM, Dongliang Mu wrote:
-> On Thu, Sep 12, 2024 at 9:22 AM Alex Shi <seakeel@gmail.com> wrote:
->>
->>
->> On 9/11/24 9:29 PM, Dongliang Mu wrote:
->>> On Wed, Sep 11, 2024 at 6:11 PM Alex Shi <seakeel@gmail.com> wrote:
->>>> Hi Dongliang:
->>>>
->>>> In scripts/checktransupdate.py,
->>>> def get_origin_path(file_path):
->>>>     paths = file_path.split("/")
->>>>     tidx = paths.index("translations")
->>>>     opaths = paths[:tidx]
->>>>     opaths += paths[tidx + 2 :]
->>>>     return "/".join(opaths)
->>> cc +ziqiu
->>>
->>> Could you take a look at this function?
->>>
->>>> It use a different way instead of the ':Original:' line to find out the origin file.
->>>> That may cause file finding failed if we have a different dir map for translation.
->>> Yes, this is more reasonable. BTW, is this enforced in the Chinese or
->>> other language translation?
->> It should be used in all language.
-> Hi Alex,
->
-> Why can't I find this thread in the LKML? We have cc-ed the linux-doc
-> mailing list.
->
-> Jon has different ideas about this origin file finding.
-
-Hi Dongliang, 
-
-I just copy to linux-doc, not lkml. but Jon could see the thread in linux-doc too. He reply there may just because more people in LKML. :)
-
-As to his and others' comments want to do further check, to confirm if the Original file exists. That further checking make sense too, and could be easy to add, isn't it?
 
 
-Thanks
-
-Alex
-
->
->>>> Yes, we have no worry since all of them are same. But could we take the ':Original:' usage for a possible dir map changes?
->>> Yeah, at least we can take the current method as backup for original
->>> file location.
->> good idea!
->>
->>>> Anyway, just a quick idea.
->>>>
->>>> Thanks
->>>> Alex
->>>>
