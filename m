@@ -1,255 +1,201 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2057.outbound.protection.outlook.com [40.107.236.57])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E7DE433BB
-	for <linux-doc@vger.kernel.org>; Sat, 14 Sep 2024 20:11:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726344671; cv=none; b=lr8L6vu8fPW2Xw81Ssgz1FftVxw5hhsJ7yRJlpwbeGnGCnFY92syKp4dih6YEwxhz5pCv3FB621r/TNUayPQ0lmVN54fV60sAxDcDD+GlkCxt2b4/OFLjUZ+btP//Xj7ctPoiE8c4QKxJk8fikvRWAsTQUc3Xj8AMZ99Ebiotn4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726344671; c=relaxed/simple;
-	bh=/8lm/VXRISAhE5jgmVX9FAfI4c15JR3dQ/kV9AmQ4s4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eM65OSI2e5XdM3qSpEGehZzmniNiFF0zMGDTvQBBCHJrEh6U7X9JgAPs1NMcCZjwjbdvA+tVQAPq673zlBSUVXflCeRJ5oHmHp0egUV3Gsxk4YSm9STi/t8C2vfrmaZpuUJ6iT7rmOXQxX3uLkEqK+pzUEMSdcGaESM5SRggKfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=x/1thsOn; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2BD143C72;
+	Sat, 14 Sep 2024 23:13:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.57
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726355584; cv=fail; b=N9qvdHId+Bq+jV5Lzeftb4xmcEo2XFW3wFgs4F0iIKaJgWDIX+b4WajI6VWZ84a/XM/vPG3KcwIRjmscsfN3IvReuUyDMofFVbqKZHYqPGua1S+RY8IEjRdp4zavgW8ZIq+1xWN6nwuPmRjV0gprF6WEe3cYz8h3OZZzph+Myhg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726355584; c=relaxed/simple;
+	bh=qDHOIkf90oPu35+GfNvshCkE9wuPfprx/2Fi0/+mwFI=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=AyLPJYyd1DMXaQGDJtLapX1rbHDryAxDflYoHMyx+LEBCcSG9199OW9OjFnQXs2Ay96lXS4nuxwJ7QEGc6KSh/ixcg+JpIg+n8LWqRfOK9ux9IKgCAd2cIo/eM+rp2AmYfd+sN9blJTZ+Hce0bjusLfnKBSkfyREbkEowH7K5yI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=0WUpJpAv; arc=fail smtp.client-ip=40.107.236.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="x/1thsOn"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5c27067b81aso2225645a12.0
-        for <linux-doc@vger.kernel.org>; Sat, 14 Sep 2024 13:11:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1726344666; x=1726949466; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/6BEqsMQwTfqIOsLh2idDV9ULwQH/It7+hyl6N9v7o0=;
-        b=x/1thsOna1b4xxRCuYEkmbfSdvGV+ri2FbMkR6yMe+V2XihSzAOYHTHO84SWSA8daX
-         pBErJvvsmQxv64oSaXa84BPb+FFn94bUhxKxCx47FGT0ZT1H+2ppmTD4lWbw4hpCLKbL
-         1dMCCLSrLZfVXWpS5g/vmZpBNsr4oXilGAIZx1d3AEgN4XMt8zNDX//hFGbJmAU+uAFS
-         +aPCJzTWeUJaEnVVXNh2VQxHd2fA1iJVolDnOAhLhIz3OIoVDk/NBItdT3qZ0JtMMB/+
-         p8T4y/IBh8OlApjJm2Yvk40JJu73dxg/NEYAPL/26NRkWcbL1wwjkuXR/LL3miiuBg1d
-         BTKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726344666; x=1726949466;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/6BEqsMQwTfqIOsLh2idDV9ULwQH/It7+hyl6N9v7o0=;
-        b=c6v3ggWFh315w37FpREpuECC4K2YPrUBbcVLRoQQW9gbq8/clKpv3Gsp6T1QJVvtlo
-         HeUaISfMw+1f9Hunja+O/H1XxElEF9VLDbBlF7xqc1zg25b/8F1jxFQFJ9eiszjfD9EF
-         WZW3AHa9acqa+UmLDVQTJYVtIUg44VV4JkwnRdINzT3Cs5wSTEnSwTrUmFvPG8s5/hvk
-         xPbm8v1JQ09r3UNt9Q7EXlv/gzQJRy6EZtpPfeDmPjem7/rDQIP7AiPv8O8pw8QS+lLD
-         3IvMqNJcNf3FqwPi02qKTk9MkFfcxVEWHbgnMO4MeVBEwXmvzBV0CUt5N7O3poC6U+2L
-         pqzw==
-X-Forwarded-Encrypted: i=1; AJvYcCVc1hAJydOkV/usk2L5svNtNubPB5GoE1kXexfiXH7J1p3bwtDgTeoeW3UihHUGnC0FoCb1+HSLDG0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzw2uaaDE91nBDdjveJQAaZ0LaLZTXus5fRODFKMC1+piL495qf
-	R/3BpJIrHYaMA1lPAvJxaI8sADqFY+K9LCax22VNVECgMk761b02c23L59PrNb1t0RwysEBfKCC
-	d7m1YLhSGOqK8GKm6fLFoU+1hxztD6EH7KGc=
-X-Google-Smtp-Source: AGHT+IFs1sXaKM4VOxehK4mNhVRQjd3/gDCwMPvCwIMtQ05vol5GnMxRAUVkjsh8/C1xzMc9AivKp9raF20+AN2HOxc=
-X-Received: by 2002:a17:907:7da1:b0:a86:96ca:7f54 with SMTP id
- a640c23a62f3a-a9047ca3bebmr634617166b.21.1726344665517; Sat, 14 Sep 2024
- 13:11:05 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="0WUpJpAv"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ym2UUIAe9Pt8b9abe6BEB7Aebjy+4KzJ0LdpzSHJlhG7xIoYhJ58XohxY/mC7GNbyjHtAFjixXl0W4q6jJwSup0aGtuHlDkBj1VSxPIvOYL0UiVpYWBGlg1+fnT5dmHBfTiX3Kv3+m4qBvxRYg9ABWVt503PfPkFnBcElrfomfAxVeuFGtRTWOSgXdXIskgcstGwK1e83rWaB+kLUkrOAWs7qn3mQy97C0fmkYy5MdBXrkEGEa8yHkTe174G5PlcJP/fOjhxlG/DBusqM/PIa71okHtoY4Gl39yBpeaZchFolGAMUkWZXGiLWKcMJLSPoMa9hyLENgUjtpLMGiZ/Kw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hq1Ckxz0+R2yyQsdwcFfCSEEMGivgpkZcr77I1GE1fs=;
+ b=p+g3ikKjP4zqIM38YxHh8/bzpyicqWSEbLxG+VoOVc7zeULv4YBmO2gjVyeARCRC5/N5THe5GxnratjLXfStp9aFa3cl5HlHGOKnv82NQJ1XjvKebsu+JVbosEKGkHX81BqvXj44Hb3dBipWhreTShPgeFNLM5YbW+ZzpRCRIHU1yXe7q9upxgS4pCoUwHlHk7R18XDQNT3XAk/ZqueEtlusC9NKeHnBtOpjXsD30sywxCQhvH81/1c8Up3FRAJI5BI+6unfOP/iutB3EUiPDfVee8WlLwM1myh/Vwge9T++4ndI27ONmq7eeZtY6gMNm8v9feZvrKchkCbSqBePFQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hq1Ckxz0+R2yyQsdwcFfCSEEMGivgpkZcr77I1GE1fs=;
+ b=0WUpJpAv5ltC9o0y7JaOFKmq9urX8TJJqRq9JpXWrUZ+ImMnKAjgJadqkm/j0H6A12RMZjG/Q3FMX0qITYHSacMzdiDThQOU8jlI74B+DSTydxEq8EPkEDKgue5XO5x6wp3A/ZTZEsc2sLmIPeIxmI2AttevG4PKQ9R/6dJcow0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SA0PR12MB4447.namprd12.prod.outlook.com (2603:10b6:806:9b::23)
+ by PH7PR12MB7116.namprd12.prod.outlook.com (2603:10b6:510:1ef::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.25; Sat, 14 Sep
+ 2024 23:12:58 +0000
+Received: from SA0PR12MB4447.namprd12.prod.outlook.com
+ ([fe80::b4ba:6991:ab76:86d2]) by SA0PR12MB4447.namprd12.prod.outlook.com
+ ([fe80::b4ba:6991:ab76:86d2%5]) with mapi id 15.20.7962.021; Sat, 14 Sep 2024
+ 23:12:58 +0000
+Message-ID: <f1f8e625-0771-4d25-cb1f-8949ad264954@amd.com>
+Date: Sun, 15 Sep 2024 04:42:45 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v3 1/2] x86, KVM:SVM: Move sev specific parsing into
+ arch/x86/virt/svm
+To: Borislav Petkov <bp@alien8.de>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Eric Van Tassell <Eric.VanTassell@amd.com>,
+ Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Michael Roth <michael.roth@amd.com>, "H . Peter Anvin" <hpa@zytor.com>,
+ Peter Zijlstra <peterz@infradead.org>
+References: <20240905143056.48216-1-papaluri@amd.com>
+ <20240905143056.48216-2-papaluri@amd.com>
+ <20240912112847.GGZuLQb4Z2Vvor5-JM@fat_crate.local>
+Content-Language: en-US
+From: "Paluri, PavanKumar" <papaluri@amd.com>
+In-Reply-To: <20240912112847.GGZuLQb4Z2Vvor5-JM@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA0PR11CA0089.namprd11.prod.outlook.com
+ (2603:10b6:806:d2::34) To SA0PR12MB4447.namprd12.prod.outlook.com
+ (2603:10b6:806:9b::23)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240914-mgtime-v8-0-5bd872330bed@kernel.org> <20240914-mgtime-v8-1-5bd872330bed@kernel.org>
-In-Reply-To: <20240914-mgtime-v8-1-5bd872330bed@kernel.org>
-From: John Stultz <jstultz@google.com>
-Date: Sat, 14 Sep 2024 13:10:54 -0700
-Message-ID: <CANDhNCpaySH5HmkEb9BS738Fo+Kk=6s0_zNwB=uYtOQ63uc6xw@mail.gmail.com>
-Subject: Re: [PATCH v8 01/11] timekeeping: move multigrain timestamp floor
- handling into timekeeper
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Stephen Boyd <sboyd@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Chandan Babu R <chandan.babu@oracle.com>, "Darrick J. Wong" <djwong@kernel.org>, 
-	"Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, Chris Mason <clm@fb.com>, 
-	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, Hugh Dickins <hughd@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chuck Lever <chuck.lever@oracle.com>, 
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>, Randy Dunlap <rdunlap@infradead.org>, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	linux-btrfs@vger.kernel.org, linux-nfs@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4447:EE_|PH7PR12MB7116:EE_
+X-MS-Office365-Filtering-Correlation-Id: e3f0bf53-3489-4a2a-5b6b-08dcd512c541
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?TUloa3N0VnNhQWREdklwSmR5ZkFqZmlNZGdHdUtiRVBVdExsTXhWMWN0WTQ3?=
+ =?utf-8?B?TWpaNEpBdEVsd29JN3ZUMDIyYVluM1dZYzJLRVpENGxFR3BJa2RBUEJSOTBK?=
+ =?utf-8?B?NlA0Tmw1N2pVVVl3dDJPQmRKbm5qbEg3WEZrM3RJanZXWHNtWktxLzJTamhE?=
+ =?utf-8?B?bHU5T2VkV3crb05wQXlYV3ZiMGFCbUZLUE4yOFNSTUdqeWp2N1hvZ3k1ODFO?=
+ =?utf-8?B?VzJFYWZYZnRyRTFoYnNlTlZpa3hzWVJhNVF4eGhUNjBBUy9Mc25oaFJCTy9Z?=
+ =?utf-8?B?NmExY0E0WTV4eE9KYnZlYlI2UUhQWGdvY2tnTVVZQTdNNmNOZEFyNUJ5V1hE?=
+ =?utf-8?B?THBYaTlvWGFpai9RY2lhKzJ5djAyQUI3TUdadzVYYnFBaGdQV3dFV3BDdlRK?=
+ =?utf-8?B?YXF1QjRMaEIzTENXYjZxSEM5S2pXcGNPblRxbWMySDY4eU96TFlHQnFZd3dL?=
+ =?utf-8?B?aXg1eml6UlllNTE0ei9xdTNkTE1mdDJaRzZIRWdmQzJHeWtLd2g5ZndFUEZQ?=
+ =?utf-8?B?VXR4U29ubGM1Y1dId0dLTDZsWURzTzY3ck03ZktQTHNlWmZnV2lRd2VqdWxq?=
+ =?utf-8?B?dU04TmZva05oVjU3bmpOeGdBS3dvS21HZEczQWROOERXL1dOajVHY0lDRk1v?=
+ =?utf-8?B?aUh3WmFuRjZ3cE5FNXNIcHkvbEVPQm9QUE5vRU5sYnhBNkQxRXNwWk1QSWFt?=
+ =?utf-8?B?eURjcGJGbnprU04rZCtZZVhDQWlQSzQ2NmsvSmFlc2pWMml4cWFTVVhRY0x1?=
+ =?utf-8?B?SlVJRWE4bDhXVTJoK2JneTRqQzY2Z1MrckFQTzd5RjlYblFjdkZpcG5wazlz?=
+ =?utf-8?B?cEJwaDhmTFNBWHBzL1lCMVZ2M3JtaGJuaFBDaGxTSzU0RDVOTktRQzZoNmJ1?=
+ =?utf-8?B?RXpOMENRaHgvQXBRcURjQ2VZUjE2TkFvN1U1ZWcxTGs1dUMrRVpNM2dSRitV?=
+ =?utf-8?B?S1dDaktFWjNzQjBMaUV2elU2a1pvbi83b3pwajdXTEwrMjBWcmFVdjREOVAv?=
+ =?utf-8?B?MnZrL3RGb3RxZnI3OXVpMy9LTUZodFVqUkFjcXpTR3U4RThMQmh5VUsyWHVn?=
+ =?utf-8?B?K1FQLzcxWkhxN0N6aWt6dHNUQTlubFFEaHBUUVlTVUZRWm1qV2UrWXlYNmNl?=
+ =?utf-8?B?dFRqQUJuQkROYXR4M1A1anNFSTVsWjNiNStRV3R3QU9HN2J2aEV5UGN4dExN?=
+ =?utf-8?B?S1I0UzFsSzNnaGNaTlFQMk5aQXoxTGdUaEVVL0Mxa3VQbGhaaER2cDE4YnhO?=
+ =?utf-8?B?c3ZQdGJmMVpycTREZVloYXhwSG9ITG1rU1ZHVVl5VExZUTdOWEhXVWxrZ1J2?=
+ =?utf-8?B?bG0zVWVoUjAxbm5Jb2wvYTQrZlFGSnM2eTNQMkYyRWFqcEg1eER3dUNtLzlk?=
+ =?utf-8?B?anZPU0xrR1lEbjEvTGxHSFdrcmlRYTZrUnFuY2FHdVFCbWx5dVdzaVI5SldO?=
+ =?utf-8?B?YjQ2ZzAxODl1KzFmMzQzTCtwYVlaRmV4UDlSWlQ2VkRqa0FLOHdVSnBUUDJU?=
+ =?utf-8?B?TlBDaUk2YWNxckpaS1Z3aW1jSkpDcHFMQnYxT3E3U251Q09WNWRLMzZYSWVD?=
+ =?utf-8?B?ZnFpVlNHcVZHbmh2REZmZXhvaEd0bVJvSWdWV0I2WHprT2NUd3NGVURyWFpZ?=
+ =?utf-8?B?MmFOM1U1MGQ2KzM5c014OGp3YmcyR29uUUNOMys4eDVpMnpSU0lUYWt4bXV2?=
+ =?utf-8?B?SDN5UTNVUU9DY1c0RXhsemU4MmZsUjQwYlJ1Z1JsYUc1eHpvK2xqWmdSUHk4?=
+ =?utf-8?B?eGc1TUY0L2RvMjA2dE1WVlJGZkpqcDVySHRHa1BUcEVvUTVudUVGNTJBS0FZ?=
+ =?utf-8?Q?RLYvdxdfQRH5y+PXthdCa76KqSXxl3PvsIHIk=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR12MB4447.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Wnh1eEloWUtWMTNGdHVWSkh4RFYzTGpPTFo3eWdKMlk2RlloK2JadDNEWHFi?=
+ =?utf-8?B?aEdlbktwVGllRHZoSzRGRUd3Q2JYNG1iUkZNMGtUVmdndjhhOWZSYTdXWmRp?=
+ =?utf-8?B?TkFhaHRXTFBBQW9ud2pKOXF4MFRQWXpDSXZRam9lcEZmeEM5TkJmVGxCRWV4?=
+ =?utf-8?B?MVhzT0h2UEFncGllYW9ZK2tBdXdtTjVqOUllOHRjOXRUQnRiRzN3Mm1DdVhW?=
+ =?utf-8?B?a0pVTE9IbEpIVWdyYjBRYWlNRk93VU5zcTJKRDlKSlFEeFptSWJZajRWYXNH?=
+ =?utf-8?B?WjZKMkRHajlLV0Y2WjRqZ3Zuc2tHK21TOUlIQitCdGRlR1llVXlPcmZDWXRF?=
+ =?utf-8?B?UTNnc1V2cUhZZHdkaC8wbEdhTnAwVmdaWmJoYTlWb1FqTTh6OUZISnY1MWxN?=
+ =?utf-8?B?TXE2MDNGQ1NVczQxVEh5OWxkYmhmTDF3bnRNZXc0bDFoL1EvWlRUS3VRYStH?=
+ =?utf-8?B?TCt1L1VmQngzNVIrUDFYMzIwcVo0K1kyQThMaUtpZmNOS1lxRHBkUVpYTnZD?=
+ =?utf-8?B?WUs0RGxPRlRCRjR2TDNscVJGMlhpRGlsRGljaElRRDI3WGR6VXVLVUZzR2dU?=
+ =?utf-8?B?RDlTSitnT1M1SXJwd3EraTBBakdRVTB6VGZSUTB1VDNKc0pZeWJHbTNrSUJj?=
+ =?utf-8?B?S3liY2JnTE8rNDhpQTlhNmFuekplaXpTaDRRUFRhZmwxODhmVWhadDBtVEVP?=
+ =?utf-8?B?dUc1ekpOWXkwRlVkUjJiNDdwODFCYkhJU3hUQ1NoZ0tBeHdNMU5ERC9UcUhz?=
+ =?utf-8?B?aFhzeUlMaFBnRzcrbnZvR0xaTEIzY2VhWkRYVGprdldLQzBFUG9YQU1sVWVO?=
+ =?utf-8?B?QmY4Mnp5TVhNM0ZWUFZ3L29FZFQ2M01abW9Dc00vblg4YUJmVUc3Z0Q2ZXZK?=
+ =?utf-8?B?T2xWYmxBZVZGamM2RGJMSHFRSHA0SUx0aXhOMVpKNGszZDZaSk5tTFdTRXg3?=
+ =?utf-8?B?YXpoZll0aFoxMmFqWE5iR1ZobVUvT0xKdkJRbEREbE1VZWc5VXhTZWxxSHB6?=
+ =?utf-8?B?QThXT2JXWjJDalV2cHk0Zkxqa0V6R1g0TkJnL0crcmVlYy90NTVpdnNPZFM3?=
+ =?utf-8?B?REtXSjFzM0JucDU0L3RnZ21YQ0dzU1NiZXlJQUlNdnpqc1hVWk1od2JnL1l5?=
+ =?utf-8?B?QVIzTmtaekt6T0ZIVyt3bnFCUjVYMlVCZStKTFd5ZjBaUkJDTkY5TWdQb1J0?=
+ =?utf-8?B?OUphODg1K0xsc0RlampjaHdQcWJyMldMWjlhblVKOVEra3FMMGNJa1I0dFRu?=
+ =?utf-8?B?NU9tam9sT3JUVGs1UGJPZml1dng1dUdsY0s3b0JRRFB1WVRRdFo4dSs1elAw?=
+ =?utf-8?B?NC8xQjd4dlJtS25qRnc4aEwyS3BUck9adGJIR1JuUkNuVmRZYW4vdVdlTzBU?=
+ =?utf-8?B?bEFxbTlnWFRvMlNseVdZbVdyMm1lTEJrOGp1Y2FKT24wOHFOQU9SNktnRTZO?=
+ =?utf-8?B?cnlpbjhMcmlsNkZteUMybEVrT05vRFhhMmlCSmtRenNadDdqZGJSL2EwZUE3?=
+ =?utf-8?B?NGFwWFlQZWdhNEJZSUlSQWFUVEtSNGpvYzVvOTFrZGVIR1NpUURGcmtFSVp1?=
+ =?utf-8?B?REEvYlNVSWlyOGFndWxNdjkzcWQ0d3F5dkEyN1MxTlpBc1JCN2JMMXlkcEJM?=
+ =?utf-8?B?c1dwVm5RalhIUFdxVWF3ZDlKaUJRUHNNSS96MGFwZERFa2xLa0N0aVZkMmxO?=
+ =?utf-8?B?d0pNR1dmcFpqRWJENkdjeldaQzZ3RXQ4TXJRcjVZWWdIOVNWYzM5TktrajZZ?=
+ =?utf-8?B?MkJOZDV4WUdSallQSHhwcDFHZHJRTlpWY2hPUVlVSXpKa0tEZ0pMNFJqdTZX?=
+ =?utf-8?B?NjRqTEd6WXlFYWd3WWMzYm83RllzN3lzVkRBMFN2Y0Vhak5FTnl2RHRwY3E4?=
+ =?utf-8?B?TzRsbms3eE9pUGdFWVlhd3ZCUzBVUmErODhEMXd0QmJGOTlGSVg0M1lRWXQz?=
+ =?utf-8?B?eG9RMnhnS3h0cGxtelpROGxQbE1QYXNGaHFtdXpJUTcwY09MZVBUb2FKeWpI?=
+ =?utf-8?B?TnN2TGVkdXNxOEpaUTJUdHQ3c2ZYVXFpVEVWZ2R0dTJUdTR3blpSU0p6YTVC?=
+ =?utf-8?B?V2ZGNWEyOFdKSlU3SjlndzFxWDRlazJBNTA2WklsRVl5am9wVld5R1FRSDNi?=
+ =?utf-8?Q?1oIcKhFIkG+EGZHWanZdfQdAj?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3f0bf53-3489-4a2a-5b6b-08dcd512c541
+X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4447.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2024 23:12:57.9180
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DY9xHlLb3mxUGPZPaqDOGfSl0JYiwleOyMO2gt81oq6DEI3XsUVHtPo+IPoPwlojq2hFPYCkdr+iLk2HkaAVeQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7116
 
-On Sat, Sep 14, 2024 at 10:07=E2=80=AFAM Jeff Layton <jlayton@kernel.org> w=
-rote:
->
-> For multigrain timestamps, we must keep track of the latest timestamp
-> that has ever been handed out, and never hand out a coarse time below
-> that value.
->
-> Add a static singleton atomic64_t into timekeeper.c that we can use to
-> keep track of the latest fine-grained time ever handed out. This is
-> tracked as a monotonic ktime_t value to ensure that it isn't affected by
-> clock jumps.
->
-> Add two new public interfaces:
->
-> - ktime_get_coarse_real_ts64_mg() fills a timespec64 with the later of th=
-e
->   coarse-grained clock and the floor time
->
-> - ktime_get_real_ts64_mg() gets the fine-grained clock value, and tries
->   to swap it into the floor. A timespec64 is filled with the result.
->
-> Since the floor is global, we take great pains to avoid updating it
-> unless it's absolutely necessary. If we do the cmpxchg and find that the
-> value has been updated since we fetched it, then we discard the
-> fine-grained time that was fetched in favor of the recent update.
->
-> To maximize the window of this occurring when multiple tasks are racing
-> to update the floor, ktime_get_coarse_real_ts64_mg returns a cookie
-> value that represents the state of the floor tracking word, and
-> ktime_get_real_ts64_mg accepts a cookie value that it uses as the "old"
-> value when calling cmpxchg().
+Hello Boris,
 
-This last bit seems out of date.
+On 9/12/2024 4:58 PM, Borislav Petkov wrote:
+> On Thu, Sep 05, 2024 at 09:30:55AM -0500, Pavan Kumar Paluri wrote:
+>> diff --git a/arch/x86/include/asm/sev-common.h b/arch/x86/include/asm/sev-common.h
+>> index 98726c2b04f8..d3e7f97e2a4a 100644
+>> --- a/arch/x86/include/asm/sev-common.h
+>> +++ b/arch/x86/include/asm/sev-common.h
+>> @@ -8,6 +8,9 @@
+>>  #ifndef __ASM_X86_SEV_COMMON_H
+>>  #define __ASM_X86_SEV_COMMON_H
+>>  
+>> +#include <asm/cache.h>
+> 
+> 
+>> +#include <asm/pgtable_types.h>
+> 
+> What is that include for?
+> 
 
-> ---
->  include/linux/timekeeping.h |  4 +++
->  kernel/time/timekeeping.c   | 82 +++++++++++++++++++++++++++++++++++++++=
-++++++
->  2 files changed, 86 insertions(+)
->
-> diff --git a/include/linux/timekeeping.h b/include/linux/timekeeping.h
-> index fc12a9ba2c88..7aa85246c183 100644
-> --- a/include/linux/timekeeping.h
-> +++ b/include/linux/timekeeping.h
-> @@ -45,6 +45,10 @@ extern void ktime_get_real_ts64(struct timespec64 *tv)=
-;
->  extern void ktime_get_coarse_ts64(struct timespec64 *ts);
->  extern void ktime_get_coarse_real_ts64(struct timespec64 *ts);
->
-> +/* Multigrain timestamp interfaces */
-> +extern void ktime_get_coarse_real_ts64_mg(struct timespec64 *ts);
-> +extern void ktime_get_real_ts64_mg(struct timespec64 *ts);
-> +
->  void getboottime64(struct timespec64 *ts);
->
->  /*
-> diff --git a/kernel/time/timekeeping.c b/kernel/time/timekeeping.c
-> index 5391e4167d60..16937242b904 100644
-> --- a/kernel/time/timekeeping.c
-> +++ b/kernel/time/timekeeping.c
-> @@ -114,6 +114,13 @@ static struct tk_fast tk_fast_raw  ____cacheline_ali=
-gned =3D {
->         .base[1] =3D FAST_TK_INIT,
->  };
->
-> +/*
-> + * This represents the latest fine-grained time that we have handed out =
-as a
-> + * timestamp on the system. Tracked as a monotonic ktime_t, and converte=
-d to the
-> + * realtime clock on an as-needed basis.
-> + */
-> +static __cacheline_aligned_in_smp atomic64_t mg_floor;
-> +
->  static inline void tk_normalize_xtime(struct timekeeper *tk)
->  {
->         while (tk->tkr_mono.xtime_nsec >=3D ((u64)NSEC_PER_SEC << tk->tkr=
-_mono.shift)) {
-> @@ -2394,6 +2401,81 @@ void ktime_get_coarse_real_ts64(struct timespec64 =
-*ts)
->  }
->  EXPORT_SYMBOL(ktime_get_coarse_real_ts64);
->
-> +/**
-> + * ktime_get_coarse_real_ts64_mg - get later of coarse grained time or f=
-loor
-> + * @ts: timespec64 to be filled
-> + *
-> + * Adjust floor to realtime and compare it to the coarse time. Fill
-> + * @ts with the latest one. Note that this is a filesystem-specific
-> + * interface and should be avoided outside of that context.
-> + */
-> +void ktime_get_coarse_real_ts64_mg(struct timespec64 *ts)
-> +{
-> +       struct timekeeper *tk =3D &tk_core.timekeeper;
-> +       u64 floor =3D atomic64_read(&mg_floor);
-> +       ktime_t f_real, offset, coarse;
-> +       unsigned int seq;
-> +
-> +       WARN_ON(timekeeping_suspended);
-> +
-> +       do {
-> +               seq =3D read_seqcount_begin(&tk_core.seq);
-> +               *ts =3D tk_xtime(tk);
-> +               offset =3D *offsets[TK_OFFS_REAL];
-> +       } while (read_seqcount_retry(&tk_core.seq, seq));
-> +
-> +       coarse =3D timespec64_to_ktime(*ts);
-> +       f_real =3D ktime_add(floor, offset);
-> +       if (ktime_after(f_real, coarse))
-> +               *ts =3D ktime_to_timespec64(f_real);
-> +}
-> +EXPORT_SYMBOL_GPL(ktime_get_coarse_real_ts64_mg);
-> +
-> +/**
-> + * ktime_get_real_ts64_mg - attempt to update floor value and return res=
-ult
-> + * @ts:                pointer to the timespec to be set
-> + *
-> + * Get a current monotonic fine-grained time value and attempt to swap
-> + * it into the floor. @ts will be filled with the resulting floor value,
-> + * regardless of the outcome of the swap. Note that this is a filesystem
-> + * specific interface and should be avoided outside of that context.
-> + */
-> +void ktime_get_real_ts64_mg(struct timespec64 *ts, u64 cookie)
+This include was a part of the diff you suggested when we had a
+discussion on including only those headers that provide the definitions
+for the functions we use. Here's the link to that diff:
 
-Still passing a cookie. It doesn't match the header definition, so I'm
-surprised this builds.
+https://lore.kernel.org/all/20240829132438.GCZtB2lqeYpleYk9c4@fat_crate.local/
 
-> +{
-> +       struct timekeeper *tk =3D &tk_core.timekeeper;
-> +       ktime_t old =3D atomic64_read(&mg_floor);
-> +       ktime_t offset, mono;
-> +       unsigned int seq;
-> +       u64 nsecs;
-> +
-> +       WARN_ON(timekeeping_suspended);
-> +
-> +       do {
-> +               seq =3D read_seqcount_begin(&tk_core.seq);
-> +
-> +               ts->tv_sec =3D tk->xtime_sec;
-> +               mono =3D tk->tkr_mono.base;
-> +               nsecs =3D timekeeping_get_ns(&tk->tkr_mono);
-> +               offset =3D *offsets[TK_OFFS_REAL];
-> +       } while (read_seqcount_retry(&tk_core.seq, seq));
-> +
-> +       mono =3D ktime_add_ns(mono, nsecs);
-> +
-> +       if (atomic64_try_cmpxchg(&mg_floor, &old, mono)) {
-> +               ts->tv_nsec =3D 0;
-> +               timespec64_add_ns(ts, nsecs);
-> +       } else {
-> +               /*
-> +                * Something has changed mg_floor since "old" was
-> +                * fetched. "old" has now been updated with the
-> +                * current value of mg_floor, so use that to return
-> +                * the current coarse floor value.
-> +                */
-> +               *ts =3D ktime_to_timespec64(ktime_add(old, offset));
-> +       }
-> +}
-> +EXPORT_SYMBOL_GPL(ktime_get_real_ts64_mg);
+I included the diff as-is and looked beyond for any more changes needed.
+Should've taken a look at why the above headers were necessary.
 
-Other than those issues, I'm ok with it. Thanks again for working
-through my concerns!
+Now that I see, <asm/pgtable_types.h> is not really needed here. While
+<asm/cache.h> is needed for __read_mostly.
 
-Since I'm traveling for LPC soon, to save the next cycle, once the
-fixes above are sorted:
- Acked-by: John Stultz <jstultz@google.com>
+I will fix this for v4.
 
-thanks
--john
+Thank you for raising this question.
+
+- Pavan
