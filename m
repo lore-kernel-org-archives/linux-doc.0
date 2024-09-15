@@ -1,110 +1,111 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8AD81B85E4
-	for <linux-doc@vger.kernel.org>; Sun, 15 Sep 2024 01:37:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A89A421A1C;
+	Sun, 15 Sep 2024 07:55:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726364232; cv=none; b=p3BkshVIrakKmqxhvGRexYiGQ3LNg5GbqBmALmiWMmV9zojT7sbSzzgVPlBuiqFUzkk22JGCY7R43CtcKTZ+/pyyHSxz06KQyw3VVPkbLxF6egWm5njlBvFQWXpotk3qai4EhKFcHDg31PT1YLlv2NQAJ3zd+MmTjWlTEI/G4Qg=
+	t=1726386924; cv=none; b=dfOChXxGIyqxlsdeOqDSGTUFLj+7bK5SKadnkf0RCqztJSGfZtNacBjofdO1+H2NAOETkfs5ClO1A0xHu/Mz9Mjk3I9yHEmVewXB//NPGEG6cpa2I0/4E1KtZ+ENxDRB16W65YcVqJ6zzkgB76jluUR4xRjCs0i9ATl8GiSkxDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726364232; c=relaxed/simple;
-	bh=e2DB0jY7CI7g9yMhLJrXFiC12wUCmyurX80yXHI+8ak=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=RsgTf6CYAZb4gUV7bUxmS6xyF3sPrrGoJa3EXQULGhw20vveCXANmUKya8BoR/46s9oyJN/m1x5b13rAGrJKxtHhVnAIR6jxc550397seW7YOiE/zvoMjHNsi33jRXSFCEU2XCLf3zJ/W8K0bwpkgyuvcdT3wymKvq9slkY3NbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=none smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=eHFH5Vv/; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=daynix.com
+	s=arc-20240116; t=1726386924; c=relaxed/simple;
+	bh=QralsGpTk/VE7c1/yICJm16dg/6F7TBywR1ptd4plqU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tb1/8fss8f8uXbZGmXbH5ecNq5u8yMiXos0R3p8DEGJ6EwGKnooabv7QUbcYIxikthCP2J2FA57CX5bQewoRzwlwptceTa2uXrYGSrw8uYdA/VkG8saxdqfxlKpBtyJDzjYaWsFjn3rpuo7RkTjJcTCxCBWK0Tdo+Tq6KJTM3LQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KhGp1eIz; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="eHFH5Vv/"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2d88edf1340so1520536a91.1
-        for <linux-doc@vger.kernel.org>; Sat, 14 Sep 2024 18:37:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KhGp1eIz"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a8a7596b7dfso508022966b.0;
+        Sun, 15 Sep 2024 00:55:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1726364231; x=1726969031; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qd+n/+pRJnLuOWSZ4DY2fGdQOZIdYewseGE889SHmks=;
-        b=eHFH5Vv/ej3b+HbyGqFufdbn2lWFX9udp1iJPBgwlA0SFYqx4XTSyIf4+qbJpm9cx/
-         G++AnBvpQnzph/mT5v90bXs69sPHbZ57peiOxVXpcuexhwq7jSFgpLchg7S4kJN8ZBSR
-         +ctNUoO/VCSSy+HTPmBWd8TcwzcysklDZFIaMEA9vMDE27HVKjecaKggw6rHp5DrHRj+
-         3P5QyKX4XykCN+SR3Nv/rI2qt+PrntaIoQ0S1/g6XCRiDxyY/7rLRlQH/rXFUNd7tL7i
-         eGgOhhbKII84JGaAa9tiRLfw9QMvQbmZhL0o+7lird2KILuZ/8CLfjBynn8+Rz3UiXFV
-         04eA==
+        d=gmail.com; s=20230601; t=1726386921; x=1726991721; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QralsGpTk/VE7c1/yICJm16dg/6F7TBywR1ptd4plqU=;
+        b=KhGp1eIzqWcE/Lp6mnIKvOQqqLM28ERUGXzJ3eXN0JNuhB1zd6idU56U7bC8u6xZe6
+         UPEu04DCcq+H7Hz2OnSyYLs/kc2Cbt/+P1rMF72tTloY1FtYxiu2Sc0Xpy7s7mbn2ADo
+         V3tLx/ndsYu7/NdkVhTwrLB0O2QLTfz33pj3atlclUFYvG2OO8W6a9kzaVExZkN2PWnQ
+         Z8mVYO+cbkT8udPqHndGpufnLRvY+Q8BMgw2IXYfPuaw2A4FTkELa1To5g3AEAkL04bX
+         ow90vXOc4jgG9eE6EDPkfN6sBDJrI0xGWoDgSdEdW+J6QKQW4Fe28lJyhCq8K/b41uip
+         W2Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726364231; x=1726969031;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qd+n/+pRJnLuOWSZ4DY2fGdQOZIdYewseGE889SHmks=;
-        b=To6wxKeX1Mjply+yWU9/J3AfklhdGa+C5Uke3pmnc46GQgzi9uchtGn+jhbwbReN1h
-         MaT5mf2D6bhjYuGIZ59DkNVsHAcPt1jJ6KsceH6P7nc3QgdhxKbAbrE31mliEByT7nOX
-         +xyjtMSv47cabe5vYHQTim6t5P5SxsGLx5gaxx+LdwTMjgUSkzVdo0aLBcD4PC0e8uo5
-         dV4jZoAWBB58NMkKlh0IaNwR1w/OiJ7LXIx42eWF3uZRVwU2b8xQSFNvvUqenut6+kA1
-         Y7vJj+VP41w914/sfQz551eRy334B9mwPjOBBNBGswXINJGhK4GgXqgum56jKI1ppXL/
-         Q6aw==
-X-Gm-Message-State: AOJu0Yzalmml0DF+AXSSIz2ZZwyPftQBbvAHTbc8zx5tyOWAKrgTKlGn
-	0C8JkaKPsq7z4RP7kD1C4k/ub31JkfNLfS8jm47VipPnEzXIF2cpxdT66Qf28X8=
-X-Google-Smtp-Source: AGHT+IGBzYZA6aqxcO/jlga0x7/3lidt29yrIn+ISrJpxc+g6woAA3sheKe9inzHSihEaDrpdgpEFQ==
-X-Received: by 2002:a17:90b:2249:b0:2cf:2bf6:b030 with SMTP id 98e67ed59e1d1-2dbb9f057a9mr10878850a91.33.1726364230768;
-        Sat, 14 Sep 2024 18:37:10 -0700 (PDT)
-Received: from localhost ([210.160.217.68])
-        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-2dbb9c3f21esm4431154a91.6.2024.09.14.18.37.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 14 Sep 2024 18:37:10 -0700 (PDT)
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-Date: Sun, 15 Sep 2024 10:36:58 +0900
-Subject: [PATCH] Documentation: Fix config_acs= example
+        d=1e100.net; s=20230601; t=1726386921; x=1726991721;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QralsGpTk/VE7c1/yICJm16dg/6F7TBywR1ptd4plqU=;
+        b=XJ1gfevuzcvjE3qstTEqObQIGG+yEITA1TDLe95t07A5e29uoZqX8A213kA8hcC8XU
+         pbgLnZO+FQUcR5919DhR3pwLE3u16p5IOsDrATdpNQIALznhnFfmzsNEOTaIB1kE4Rz5
+         RDw0Zrl6iEdQw8u5VhvI7dhNV6ENWdssO1y+rzX6PFNZE3Q+Iz0AmD9+0SireqbWEUmb
+         P8re4j3KB6LDsll6vjIp638Be7MR2lta3X0AENsNzX1vXxomikdESMnTfgV2o8r9pkx4
+         hIMSBggya4VRlRFpXHiXqmnygj5y1mEfOcY/VVWU8M/CVBSqpxkI31JrszwQwbO6HYId
+         zpQA==
+X-Forwarded-Encrypted: i=1; AJvYcCVc+TUHyifB1I89sxc5k59dXzzi9kAlxq5Y2QIsF8Ez1wmiUMVAqBAW3EnopM8pkatQMHsubm8C46fMhWY=@vger.kernel.org, AJvYcCVhiSQX6E9Gpew/touNRm9Rvw9zPl3bTCPx3UJGHHN6oiGln4c24cBhqJOVnsx8/mLyhcoD694ZAr/JDdI=@vger.kernel.org, AJvYcCW/u8IyvMOSBw42bZt05uudpnuLYl9ZehS+c9WT3zVSOIHjX/b7elEFVLg8FdCmBNS0Hf6vWzlLwpCT@vger.kernel.org, AJvYcCWslBRVf9IGmPAmH/WmbaYlMUPCJEh6zXYNcbRrsf6Y4mLBq7AH9gZSW/QdGggXtZm54L8FParzoAn3bfY8Lw==@vger.kernel.org, AJvYcCXFDP2D5CjGAEBPRCxbNCmLdnhR9eJQy4D4UuI3cCWm4Otu8wQp/q4fkW+lc2iNt6gFsaJd1xu6MgUkW1QR@vger.kernel.org, AJvYcCXQ8laiwz/vTGWPyyvgaOOBraqMNqqM2jyg3BWRMnIrPs3SiIU8XhngqMmnOgvBMyTSdi0fEi9SS0bH@vger.kernel.org, AJvYcCXWZ2HdmcVMdGy8TCUxbq1Im47/EqIfnr6Ymzphb0dD9GRRpHjGOq/aXllmYZNVGFNBLC42lWEVBrEf@vger.kernel.org
+X-Gm-Message-State: AOJu0YybRTt05DmhFbqrBlqRpxOac/6E+UYSHvaRoeluwLe9VZ+aylng
+	Iafr3iL3nTk0zj3iFrHlO87toI8H0/WecHSW9MzYCEe28OKVpImg
+X-Google-Smtp-Source: AGHT+IGPQI+t4lYTwiuu4hyJoLvLouchr9DqQvDvbSEOgzDQJG8ZpceHMqTZzT7/DgMVYuW1CsOVDg==
+X-Received: by 2002:a17:906:259a:b0:a90:126f:bcbf with SMTP id a640c23a62f3a-a90126fd1c5mr1196022766b.10.1726386920479;
+        Sun, 15 Sep 2024 00:55:20 -0700 (PDT)
+Received: from foxbook (bin105.neoplus.adsl.tpnet.pl. [83.28.129.105])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90610f4375sm166709266b.73.2024.09.15.00.55.18
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Sun, 15 Sep 2024 00:55:20 -0700 (PDT)
+Date: Sun, 15 Sep 2024 09:55:14 +0200
+From: =?UTF-8?B?TWljaGHFgg==?= Pecio <michal.pecio@gmail.com>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: <mathias.nyman@linux.intel.com>, <Thinh.Nguyen@synopsys.com>,
+ <alsa-devel@alsa-project.org>, <bgoswami@quicinc.com>,
+ <broonie@kernel.org>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+ <devicetree@vger.kernel.org>, <dmitry.torokhov@gmail.com>,
+ <gregkh@linuxfoundation.org>, <krzk+dt@kernel.org>, <lgirdwood@gmail.com>,
+ <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+ <mathias.nyman@intel.com>, <perex@perex.cz>,
+ <pierre-louis.bossart@linux.intel.com>, <robh@kernel.org>,
+ <srinivas.kandagatla@linaro.org>, <tiwai@suse.com>
+Subject: Re: [PATCH v27 01/32] xhci: add helper to stop endpoint and wait
+ for completion
+Message-ID: <20240915095514.6b01fefb@foxbook>
+In-Reply-To: <a9dcaa5a-4f5d-451a-93aa-7457798fc243@quicinc.com>
+References: <20240913103237.2f5dc796@foxbook>
+	<a9dcaa5a-4f5d-451a-93aa-7457798fc243@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240915-acs-v1-1-b9ee536ee9bd@daynix.com>
-X-B4-Tracking: v=1; b=H4sIADk65mYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDS0ND3cTkYl1jAxPjRCNzY/PkZEsloMqCotS0zAqwKdGxtbUAZEX2xlU
- AAAA=
-To: Jonathan Corbet <corbet@lwn.net>, Bjorn Helgaas <bhelgaas@google.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-pci@vger.kernel.org, Akihiko Odaki <akihiko.odaki@daynix.com>
-X-Mailer: b4 0.14-dev-fd6e3
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The documentation used to say:
-> For example,
->   pci=config_acs=10x
-> would configure all devices that support ACS to enable P2P Request
-> Redirect, disable Translation Blocking, and leave Source Validation
-> unchanged from whatever power-up or firmware set it to.
+Hi,
 
-However, a flag specification always needs to be suffixed with "@" and a
-PCI device string, which is missing in this example. It needs to be
-suffixed with "@pci:0:0" to configure all devices that support ACS in
-particular.
+> Maybe the last sentence is not needed.=C2=A0 When we are using the
+> secondary interrupters, at least in the offload use case that I've
+> verified with, the XHCI is completely unaware of what TDs have been
+> queued, etc...=C2=A0 So technically, even if we did call the default
+> handler (ie xhci_handle_cmd_stop_ep), most of the routines to
+> invalidate TDs are going to be no-ops.
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Yes, the cancellation machinery will return immediately if there are
+no TDs queued by xhci_hcd itself.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index ee2984e46c06..5611903c27a9 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4604,7 +4604,7 @@
- 				  '1' – force enabled
- 				  'x' – unchanged
- 				For example,
--				  pci=config_acs=10x
-+				  pci=config_acs=10x@pci:0:0
- 				would configure all devices that support
- 				ACS to enable P2P Request Redirect, disable
- 				Translation Blocking, and leave Source
+But xhci_handle_cmd_stop_ep() does a few more things for you - it
+checks if the command has actually succeeded, clears any halt condition
+which may be preventing stopping the endpoint, and it sometimes retries
+the command (only on "bad" chips, AFAIK).
 
----
-base-commit: 46a0057a5853cbdb58211c19e89ba7777dc6fd50
-change-id: 20240911-acs-3043a2737cc9
+This new code does none of the above, so in the general case it can't
+even guarantee that the endpoint is stopped when it returns zero. This
+should ideally be documented in some way, or fixed, before somebody is
+tempted to call it with unrealistically high expectations ;)
 
-Best regards,
--- 
-Akihiko Odaki <akihiko.odaki@daynix.com>
+As far as I see, it only works for you because isochronous never halts
+and Qualcomm HW is (hopefully) free of those stop-after-restart bugs.
+There will be problems if the SB tries to use any other endpoint type.
 
+Regards,
+Michal
