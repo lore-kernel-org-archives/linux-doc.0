@@ -1,143 +1,104 @@
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A6F4433A0
-	for <linux-doc@vger.kernel.org>; Sun, 15 Sep 2024 13:21:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E2A21C9EA0
+	for <linux-doc@vger.kernel.org>; Sun, 15 Sep 2024 19:48:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726406484; cv=none; b=Cqo3v/EXnS20P+zfk7LjkkEgGti9CvzfixSzKHYVl12sS7Hy4AUzPBzMYp9vnES7cAaBr4aZjLnifg2a/3obYoZ4SU3A+eAYeuHMl6nRkFx8fkY22KG+AOLd5EFLgPTiHyaZ2x/kCC1ud3iN8RoFKptC74fTOPrzsgIuBoJceHA=
+	t=1726429719; cv=none; b=H0YRcXwhGAe7MDpSO2VY1ALtvs/3G1MAvOWVxfQTjfIEqUr9PiA+/ykQNe5TACZMfUh/xZilJeT2ABpCqSplYBaFv5OM6vfQ7BeUJnykcUBodqTAtQBiQrBiHA4Z/X6COaQUG/j76SkiD62vz5J2dZLpUinVgSj98yWNcIPk4As=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726406484; c=relaxed/simple;
-	bh=GfO/oz2A9b6SDmugsKsJ70i9S+s3DyK2oJV2MQst5Wk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jMKsi83XON6jXQwAADTFj0Srs3aMj2J2Hr8QiQS6nrT03rkQhk0On33FzlVyFWqJxIQHprica6aNQO8aSyHbGTchiF6z3C3jetMTRzJFx6BNoHlhHfFN+JHTX/GfH3A8C8x9bSGoiSTxcdK40sQhryW1UnKt0dfKQu0l7uZUOaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MbdNlDTb; arc=none smtp.client-ip=209.85.160.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1726429719; c=relaxed/simple;
+	bh=MRhzl9kpuCHu74clIdzWjSROzs8qD6POOF2vur5Iqeg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=procgIdvZ9oX+eco4kLWngdHeuDin0Aix0PLQfvjHwP7PGUOwWPfstTd7ZzQ0Tx8IwmiNoNulqEbVKjgppQiq+TpDhy7GUt+Eo3DW5APL+VR9yh+Zd4qG8rkgb+KDluXnsLtvkKCu3aDOp2Kv1bRHQT47ithm1sa2UTA1I2ureI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=networkplumber.org; spf=pass smtp.mailfrom=networkplumber.org; dkim=pass (2048-bit key) header.d=networkplumber-org.20230601.gappssmtp.com header.i=@networkplumber-org.20230601.gappssmtp.com header.b=XHZ4JL2B; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=networkplumber.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=networkplumber.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MbdNlDTb"
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-277e4327c99so1305686fac.0
-        for <linux-doc@vger.kernel.org>; Sun, 15 Sep 2024 06:21:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=networkplumber-org.20230601.gappssmtp.com header.i=@networkplumber-org.20230601.gappssmtp.com header.b="XHZ4JL2B"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-206bd1c6ccdso22789285ad.3
+        for <linux-doc@vger.kernel.org>; Sun, 15 Sep 2024 12:48:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726406482; x=1727011282; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=networkplumber-org.20230601.gappssmtp.com; s=20230601; t=1726429718; x=1727034518; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0gN1S+vh//nH7X7/JOGxn+rOg0S8OhrMdQsADI0GagM=;
-        b=MbdNlDTb3TdCSrx5uvDQLRGS6wAaoI9bUKDwoijHVPr7CHk5XyKRHJHnynLyrNI0W6
-         WOJFj+Fr2g6hb32s5BzTO3CUzV3Cs5vyLpYjR02540shKpWWBbOhHe/qKOQ+n5yW0DMU
-         qbfpXOSKtfQTtNbAd6Ms/rJptRCJi5KWCWFBiuDev/0eMXSr0iVUuFP9dt6znx+5tGU5
-         ovrHbyllmo2gX+P5XWqcJB6Kew9UDw3v+fsk8nQ0Kb3rQv6Nt2CLDvlpxZT6l4BGUpME
-         M7uypKYx7ksYobWosQ/0sgA4nX3rqWv5jGw5Q1KBQofPfD2DVFsoul0hETkL4aVS09s0
-         9g3Q==
+        bh=SNp5/hnkOy9FrJ592XEPwxvQOfrqTwTwJ+m8OyrqXK0=;
+        b=XHZ4JL2BWrDWa0INYH/0+J9hDTt5HGc5rkpUodSn9B7azAag0j5aaQPl29QUjk8Wo9
+         i8yOIIBOXaHT7SrCSvZLiTWK5m6tk2VEWdIb4hzpo2A0IRSVwQOLSf8e+lVKkNIQ+7RG
+         EcZLZxJEi0n9kqVazwke4czQ1Vz3BImNzqivyMYvC+kKiuLflkqvzyQjx5GwsC0Rybj8
+         A94F6rp4lIpQed764AMj4dZ7Q2a50sPLUV1VMEZknZZmr6MIWCm3YOHF+ddLSulYUyLm
+         Zu2C1GRRowvuhIVfD0A0NaT7jc3u4O49glduaBtK0Zmb+BQi7KGDTjs/1sMZBlgYYU+K
+         MO3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726406482; x=1727011282;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1726429718; x=1727034518;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0gN1S+vh//nH7X7/JOGxn+rOg0S8OhrMdQsADI0GagM=;
-        b=JK9S++ByAC9zIZvAgmkMGPM6psqlskOP78w84bKhi5gFlYzzpLw0o5qK/abd+4l58N
-         gzUostCo0HKQRgT3D+T+XQ9YNP7SauPjsBcmYydVLvYQgkcVijAoVwxwxOW/mAPF2IrH
-         ARgRpa9VDnVxJbeIFqMcd9X8HvClhptnSih6q7T3uAtUaz3gX+cPK0lXRunVza/itb0p
-         5g6ziSX3rcJo++jsrT0iVsGbpif9V7YBej43FPIjMcfEj3yOiIAr/qt1XSeGubXshYZr
-         bjongvsd1852ocYrq9cWhxUC8okRwOgfnaEEjQ3wfwmXjsXu0wj5Xrn/eBNSsiN6m9bv
-         vFmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUhkTktsVRh802LVrF23mozKGF4aOsuN3Y11mxaLMpXop2hze8A6hhx/ZKzqlJZEUoLr3xSsFGs+FA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSjpS6p42YCleyR7xz2P6wh5An0ev/gOZBR1dYLm9mDLVXSiUQ
-	KUUQcIRS3dxnKpXG90Dt9LEi2QgsXRP7OoaQLg9W14NrsyI+sK+DqmrmAtlZlEYsgUdD+BdzjUs
-	G+X9lxEFeGt3jV6mEJaZRm5sZkTQ=
-X-Google-Smtp-Source: AGHT+IEU9Z4YrGFLUbg8iN0zxnmwns97KqROvYQWlPyj7oMOlMn+t4bVyk8DmJWing5pKNuhBr40c+eOO1uIaHHtJmE=
-X-Received: by 2002:a05:6870:7187:b0:270:1295:af54 with SMTP id
- 586e51a60fabf-27c68a262b2mr4995491fac.28.1726406481914; Sun, 15 Sep 2024
- 06:21:21 -0700 (PDT)
+        bh=SNp5/hnkOy9FrJ592XEPwxvQOfrqTwTwJ+m8OyrqXK0=;
+        b=IcJ7joCZqUhBiXvO9W3imInMYns5keMW1+5CpPm70NmGozRU1vAn542/eO0qbgQHjZ
+         M9W1BWOm4e4aQHhJGOrOpRefqxyt/awkRRIEKEDX9v/y6/8uTA4OLbodpe4Rxbg04cxp
+         +xL/sp47bfyLgiwM3z5rItbSSD9QmMxRyWR4vUanpiOtBUwxTiYAhREUO+LebTZj0Py8
+         7inGAdNg9GTRpSDV3JuESEXJwkQ6ZoC6apW4WofUwEpWJpo07HHslaQictEUJyRyKeVS
+         f3atKYlkAN0kYuVn7HpvmOGR0clT0YhBoGS9cT4hk62vZB8KZgvpnSiimOEa+Dq7O+Nr
+         zj8A==
+X-Forwarded-Encrypted: i=1; AJvYcCXzt6ssBF2v2s5MQluQwr54R1jIBtvYyQ/xrERJgC2sUZKJs+RBvHy7fa3IoG93ge3pNdqgTZF33A4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqTIRq5hpzTjCsN8CPp8oiGD4798iPOV2UhkNeavWqkfHj99BO
+	4/3RjIrhK2S8PVSY3boQm58Y0oJVK92sUbNIJqw7N9xbY93muuTF/kEIW80vLvY=
+X-Google-Smtp-Source: AGHT+IEIwQjnGlDPb3oEceDakpD1b1PWW6LbBCx4i0kZt1Rli+HqyHRriIrHVS++Yfgo5DfOZzymmg==
+X-Received: by 2002:a17:903:32c9:b0:206:ae39:9f4 with SMTP id d9443c01a7336-20781d5f6fcmr138044405ad.20.1726429717591;
+        Sun, 15 Sep 2024 12:48:37 -0700 (PDT)
+Received: from hermes.local (204-195-96-226.wavecable.com. [204.195.96.226])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20794735719sm24738385ad.275.2024.09.15.12.48.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Sep 2024 12:48:37 -0700 (PDT)
+Date: Sun, 15 Sep 2024 12:48:35 -0700
+From: Stephen Hemminger <stephen@networkplumber.org>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Willem de Bruijn
+ <willemdebruijn.kernel@gmail.com>, Jason Wang <jasowang@redhat.com>, "David
+ S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, "Michael S.
+ Tsirkin" <mst@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Shuah
+ Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, kvm@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
+ Yuri Benditovich <yuri.benditovich@daynix.com>, Andrew Melnychenko
+ <andrew@daynix.com>
+Subject: Re: [PATCH RFC v3 0/9] tun: Introduce virtio-net hashing feature
+Message-ID: <20240915124835.456676f0@hermes.local>
+In-Reply-To: <20240915-rss-v3-0-c630015db082@daynix.com>
+References: <20240915-rss-v3-0-c630015db082@daynix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <75028548-2c1b-4ffd-91e5-9f3ae72d9c3e@gmail.com>
- <CAD-N9QVuQ2+mG+S7Acp2HuUSOzqb2Bj4XW2UGWXKHx0zWbgBRw@mail.gmail.com>
- <c8eeba2b-99cf-4b4d-a8ab-145b7266cef4@gmail.com> <CAD-N9QW1cdpmcXEb9bWj-ezvH3Mi52KGcAyq_6iqqTjr8tVjDw@mail.gmail.com>
- <bc5e5979-7c8e-41e0-9c94-9877fde9caa6@gmail.com>
-In-Reply-To: <bc5e5979-7c8e-41e0-9c94-9877fde9caa6@gmail.com>
-From: Dongliang Mu <mudongliangabcd@gmail.com>
-Date: Sun, 15 Sep 2024 21:20:55 +0800
-Message-ID: <CAD-N9QX1iE0kvf2sApyQ__PBY0PeeCbyCfvT-g+Ktz0BaY-4hg@mail.gmail.com>
-Subject: Re: original file finding
-To: Alex Shi <seakeel@gmail.com>
-Cc: Cheng Ziqiu <chengziqiu@hust.edu.cn>, Dongliang Mu <dzm91@hust.edu.cn>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, Sep 14, 2024 at 6:38=E2=80=AFPM Alex Shi <seakeel@gmail.com> wrote:
->
->
-> On 9/14/24 9:25 AM, Dongliang Mu wrote:
-> > On Thu, Sep 12, 2024 at 9:22=E2=80=AFAM Alex Shi <seakeel@gmail.com> wr=
-ote:
-> >>
-> >>
-> >> On 9/11/24 9:29 PM, Dongliang Mu wrote:
-> >>> On Wed, Sep 11, 2024 at 6:11=E2=80=AFPM Alex Shi <seakeel@gmail.com> =
-wrote:
-> >>>> Hi Dongliang:
-> >>>>
-> >>>> In scripts/checktransupdate.py,
-> >>>> def get_origin_path(file_path):
-> >>>>     paths =3D file_path.split("/")
-> >>>>     tidx =3D paths.index("translations")
-> >>>>     opaths =3D paths[:tidx]
-> >>>>     opaths +=3D paths[tidx + 2 :]
-> >>>>     return "/".join(opaths)
-> >>> cc +ziqiu
-> >>>
-> >>> Could you take a look at this function?
-> >>>
-> >>>> It use a different way instead of the ':Original:' line to find out =
-the origin file.
-> >>>> That may cause file finding failed if we have a different dir map fo=
-r translation.
-> >>> Yes, this is more reasonable. BTW, is this enforced in the Chinese or
-> >>> other language translation?
-> >> It should be used in all language.
-> > Hi Alex,
-> >
-> > Why can't I find this thread in the LKML? We have cc-ed the linux-doc
-> > mailing list.
-> >
-> > Jon has different ideas about this origin file finding.
->
-> Hi Dongliang,
->
-> I just copy to linux-doc, not lkml. but Jon could see the thread in linux=
--doc too. He reply there may just because more people in LKML. :)
->
-> As to his and others' comments want to do further check, to confirm if th=
-e Original file exists. That further checking make sense too, and could be =
-easy to add, isn't it?
+On Sun, 15 Sep 2024 10:17:39 +0900
+Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
 
-+1
+> virtio-net have two usage of hashes: one is RSS and another is hash
+> reporting. Conventionally the hash calculation was done by the VMM.
+> However, computing the hash after the queue was chosen defeats the
+> purpose of RSS.
+> 
+> Another approach is to use eBPF steering program. This approach has
+> another downside: it cannot report the calculated hash due to the
+> restrictive nature of eBPF.
+> 
+> Introduce the code to compute hashes to the kernel in order to overcome
+> thse challenges.
+> 
+> An alternative solution is to extend the eBPF steering program so that it
+> will be able to report to the userspace, but it is based on context
+> rewrites, which is in feature freeze. We can adopt kfuncs, but they will
+> not be UAPIs. We opt to ioctl to align with other relevant UAPIs (KVM
+> and vhost_net).
 
-@Cheng Ziqiu , can you take care the v2 patch which checks the
-existing of original file instead of using original tag?
-
->
->
-> Thanks
->
-> Alex
->
-> >
-> >>>> Yes, we have no worry since all of them are same. But could we take =
-the ':Original:' usage for a possible dir map changes?
-> >>> Yeah, at least we can take the current method as backup for original
-> >>> file location.
-> >> good idea!
-> >>
-> >>>> Anyway, just a quick idea.
-> >>>>
-> >>>> Thanks
-> >>>> Alex
-> >>>>
+This will be useful for DPDK. But there still are cases where custom
+flow rules are needed. I.e the RSS happens after other TC rules.
+It would be a good if skbedit supported RSS as an option.
