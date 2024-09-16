@@ -1,143 +1,289 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E8981862
-	for <linux-doc@vger.kernel.org>; Mon, 16 Sep 2024 13:21:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB38D2E3FE;
+	Mon, 16 Sep 2024 13:35:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726492867; cv=none; b=hesHcymv6Vic9VL+0vUNMOE45FovghaR26wUfQE2vGITEvuCoP9acpohDSBrM2hb0a8mOf63opVLlhS26i/shEWFDDPHVa4jXiBvStcLpf8XQ14Rfbsa/VdPi1oyDOcLnYdSdYqAL6Ds3cwuhWF3T8aGm7sIwrJF4sqn37A6Sj4=
+	t=1726493741; cv=none; b=RjzhHhzTL7oH+RnogLmVi2mQIFb3UvTkt5UIokwm9sJxIgk1By5o9kbU7FsHjksSqGsQUn2KNidvJskaJ07nFwd0BW+6LNEHLsTufDq5NTwIVzTGITCLeXpYLQm87PYs5+3M4G3D9utcx79yzbXkwSq9wmeyRro4w9+oTFogzcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726492867; c=relaxed/simple;
-	bh=fzzMdMoVFp/EtI5oIKyJUrJ3zdZEzrKEW9RDoBpHNTY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XQwQKQ/XEi1776nBYZsDwxY/8Nk77SP+pDOCuE5tENTnmGu5bU+5IaM1WE1AHX8Ijs4464cnKOObg94cxjdftck7+bYUUXW8M8LLi+LkTsCD/OrhJv7Dr96HfcdQX4j9EBtsy4OIggzHu/B1nyhk03CylyP5X9KwoO60zEACmng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j/is73YR; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1726493741; c=relaxed/simple;
+	bh=Fy6jNVJ6f7Imm7sSNQ1G8/S9tEZRuuL/8RXI2evpOH4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=t6QdYrQP8/fcV/176ePqcrxXlSNWlrXzEYt+rxHKcYdB8NMFoYuf7is22zpObTG/FDjRgSLvpIBCX9eGNAMPt11P26wHtaQ7UkyPYEpCGSppL9EmFEuDyEg+V99bUaBGwzKIo85fCFk+KXDV/vISAmkh5/kG6/M+VpS+oh+kyKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=pAlnqzqD; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j/is73YR"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2d88edf1340so2182510a91.1
-        for <linux-doc@vger.kernel.org>; Mon, 16 Sep 2024 06:21:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726492865; x=1727097665; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zAyvGx5aEaJXRY5Pbgx+YJG1BpUdu6j1WkHCggwb0C8=;
-        b=j/is73YRMiYHhDmUnsPJURgVXoTMhS6FIqjinPGCZ9hyPRa7Q+4C31Rz81lIA9Q7TS
-         nPbPMIAldLW67HEbSbW1s+TJY7okbDkG14XBgqY91Zd6l5h2so0xiQTmfE/K7uRg2dBQ
-         nW3ldiS8vASBh/yPYBaW9PPvm83wiW2+VjeF4al78QKymOg4pX+2P7rKCxo1++rU/QlH
-         S/D7JZbSlGQOFK0Z4ckc9wrEqfSedPn7Fl8nDAPliszO3NA4fV3J8pgRwEEc/woYZLOh
-         ki6ZTHgLfukKEbq0XpK2ZvyIV1bJDRypajWJE4motTb8JynLOMHF2eYRrbq/E3D9vFqY
-         GPNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726492865; x=1727097665;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zAyvGx5aEaJXRY5Pbgx+YJG1BpUdu6j1WkHCggwb0C8=;
-        b=tmIOUJmDcKrlfVPaXfmZ1iJHlPM6TGKZRwpBUmFXR1wNOfikPckVAQPnrP9P34Wgvs
-         evmVYVwOxnypOIkivtDfHDF2UATnPXUrLgjDX2idHjOtgoIgt3WwqJGswPlkjG4NXyds
-         bZRUnzmwaSXeOaD9ZTpHxVPsJRoAZwjFVqWj1ko60USf3rFEWjxshDH/TOQDTr+G+Spb
-         YJTWB/+IzGRWbgAzCPIz2vsZ85QMshdbiEySokdWrx5GabgpAK8sPX8UWprCrMwtWLt0
-         i2547x52vwiVHdnOwzux5eCMcrNOY5HkgriXXue+H7UhydijfRalTTcHY3FojzYPe1ym
-         caIg==
-X-Forwarded-Encrypted: i=1; AJvYcCXkIffC5uHB8xLqDPK1oUAFRUQ1CMYy3F6IoTP6g5XrqMNLzXjPWnxuftlMt0UjqisJUYbpZuRTAIw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRbiEAYKHFWtOrPAoJhXUA8seiSiD8HUrxrOKIPAM6qHzhAmQh
-	GCwTz/P4yNTAieq0SamwI2Gp6OTP5ozoPTvIhY5KGwJKFak+Z1za
-X-Google-Smtp-Source: AGHT+IG6KZBLYW2VrpUrtar47vnch7z17JDzJtpNeoqudFUHbTe5dVm1mRPeUxL8RjXwpidNq499qw==
-X-Received: by 2002:a17:90a:e7cb:b0:2d8:7561:db6a with SMTP id 98e67ed59e1d1-2dbb9e207a2mr17000165a91.22.1726492865057;
-        Mon, 16 Sep 2024 06:21:05 -0700 (PDT)
-Received: from [192.168.255.10] (23.105.223.42.16clouds.com. [23.105.223.42])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2dbcfd252b1sm5088727a91.29.2024.09.16.06.21.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Sep 2024 06:21:04 -0700 (PDT)
-Message-ID: <6427e098-f18e-429f-8c5e-99e7d12e12bf@gmail.com>
-Date: Mon, 16 Sep 2024 21:20:58 +0800
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="pAlnqzqD"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1980C4188D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1726493733; bh=HI8A5/wD/g8ueu1EtEeB6MA3vULQ47vJU6tyhh9+UI8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=pAlnqzqDSTshHPitcHEhBFz10u3qCwRCY9KZB40qHsxtzSN+RjzbgM8gMBpWNlzRh
+	 cA8HiylfLSWj9/vcmrIb7oRP6x+6H58UZGi2ZotQy2LJE6Pg/cIdiyd4EZSbg/Ldki
+	 giX22m072+MXhxHXCEUldmymh5imHvqMMwsss+0B+EU85WbeCDAQVhkMuBqwPHpet5
+	 1xt2eQjngyfqPG7+CleAI3E/FAe319frm0LDEf9L7M+zVakrDuBEYaaUDIMNu2CJAX
+	 9uPlPq0ApQdF4qahx0E+fDIjfBvxi8zBVEv/OVFYLht7YpxSmPLglckAxn1WipcGKr
+	 7Hj7oAQkgFbZw==
+Received: from localhost (unknown [213.235.133.41])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 1980C4188D;
+	Mon, 16 Sep 2024 13:35:26 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Linus Torvalds <torvalds@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [GIT PULL] Documentation for 6.12
+Date: Mon, 16 Sep 2024 07:35:05 -0600
+Message-ID: <87a5g7wwl2.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: original file finding
-To: Dongliang Mu <mudongliangabcd@gmail.com>
-Cc: Cheng Ziqiu <chengziqiu@hust.edu.cn>, Dongliang Mu <dzm91@hust.edu.cn>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <75028548-2c1b-4ffd-91e5-9f3ae72d9c3e@gmail.com>
- <CAD-N9QVuQ2+mG+S7Acp2HuUSOzqb2Bj4XW2UGWXKHx0zWbgBRw@mail.gmail.com>
- <c8eeba2b-99cf-4b4d-a8ab-145b7266cef4@gmail.com>
- <CAD-N9QW1cdpmcXEb9bWj-ezvH3Mi52KGcAyq_6iqqTjr8tVjDw@mail.gmail.com>
- <bc5e5979-7c8e-41e0-9c94-9877fde9caa6@gmail.com>
- <CAD-N9QX1iE0kvf2sApyQ__PBY0PeeCbyCfvT-g+Ktz0BaY-4hg@mail.gmail.com>
-Content-Language: en-US
-From: Alex Shi <seakeel@gmail.com>
-In-Reply-To: <CAD-N9QX1iE0kvf2sApyQ__PBY0PeeCbyCfvT-g+Ktz0BaY-4hg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+The following changes since commit 431c1646e1f86b949fa3685efc50b660a364c2b6:
 
-On 9/15/24 9:20 PM, Dongliang Mu wrote:
-> On Sat, Sep 14, 2024 at 6:38 PM Alex Shi <seakeel@gmail.com> wrote:
->>
->> On 9/14/24 9:25 AM, Dongliang Mu wrote:
->>> On Thu, Sep 12, 2024 at 9:22 AM Alex Shi <seakeel@gmail.com> wrote:
->>>>
->>>> On 9/11/24 9:29 PM, Dongliang Mu wrote:
->>>>> On Wed, Sep 11, 2024 at 6:11 PM Alex Shi <seakeel@gmail.com> wrote:
->>>>>> Hi Dongliang:
->>>>>>
->>>>>> In scripts/checktransupdate.py,
->>>>>> def get_origin_path(file_path):
->>>>>>     paths = file_path.split("/")
->>>>>>     tidx = paths.index("translations")
->>>>>>     opaths = paths[:tidx]
->>>>>>     opaths += paths[tidx + 2 :]
->>>>>>     return "/".join(opaths)
->>>>> cc +ziqiu
->>>>>
->>>>> Could you take a look at this function?
->>>>>
->>>>>> It use a different way instead of the ':Original:' line to find out the origin file.
->>>>>> That may cause file finding failed if we have a different dir map for translation.
->>>>> Yes, this is more reasonable. BTW, is this enforced in the Chinese or
->>>>> other language translation?
->>>> It should be used in all language.
->>> Hi Alex,
->>>
->>> Why can't I find this thread in the LKML? We have cc-ed the linux-doc
->>> mailing list.
->>>
->>> Jon has different ideas about this origin file finding.
->> Hi Dongliang,
->>
->> I just copy to linux-doc, not lkml. but Jon could see the thread in linux-doc too. He reply there may just because more people in LKML. :)
->>
->> As to his and others' comments want to do further check, to confirm if the Original file exists. That further checking make sense too, and could be easy to add, isn't it?
-> +1
->
-> @Cheng Ziqiu , can you take care the v2 patch which checks the
-> existing of original file instead of using original tag?
+  Linux 6.11-rc6 (2024-09-01 19:46:02 +1200)
 
+are available in the Git repository at:
 
-As my understanding, Jon want the ':Original:' file, and next he want to check if the file, which get from tag,  exist ? :)
+  git://git.lwn.net/linux.git tags/docs-6.12
 
-Thanks
+for you to fetch changes up to 4f77c3462308c62ffe7129cc18b9ac937f44b5a5:
 
->
->>
->> Thanks
->>
->> Alex
->>
->>>>>> Yes, we have no worry since all of them are same. But could we take the ':Original:' usage for a possible dir map changes?
->>>>> Yeah, at least we can take the current method as backup for original
->>>>> file location.
->>>> good idea!
->>>>
->>>>>> Anyway, just a quick idea.
->>>>>>
->>>>>> Thanks
->>>>>> Alex
->>>>>>
+  Remove duplicate "and" in 'Linux NVMe docs. (2024-09-10 15:44:20 -0600)
+
+----------------------------------------------------------------
+Another relatively mundane cycle for docs:
+
+- The beginning of an EEVDF scheduler document
+
+- More Chinese translations
+
+- A rethrashing of our bisection documentation
+
+...plus the usual array of smaller fixes, and more than the usual number of
+typo fixes.
+
+----------------------------------------------------------------
+Abdul Rahim (1):
+      Documentation: PCI: fix typo in pci.rst
+
+Akira Yokosawa (1):
+      docs: kerneldoc-preamble.sty: Suppress extra spaces in CJK literal bl=
+ocks
+
+Alyssa Ross (1):
+      Documentation: ioctl: document 0x07 ioctl code
+
+Amit Vadhavana (1):
+      Documentation: Fix spelling mistakes
+
+Andrew Kreimer (2):
+      accel/qaic: Fix a typo
+      docs/process: fix typos
+
+Aryabhatta Dey (3):
+      docs: process: fix typos in Documentation/process/backporting.rst
+      docs: leds: fix typo in Documentation/leds/leds-mlxcpld.rst
+      Documentation/gpu: Fix typo in Documentation/gpu/komeda-kms.rst
+
+Benjamin Poirier (1):
+      Documentation: Add detailed explanation for 'N' taint flag
+
+Bibo Mao (1):
+      Loongarch: KVM: Add KVM hypercalls documentation for LoongArch
+
+Breno Leitao (1):
+      docs: fault-injection: document cache-filter feature for failslab
+
+Carlos Bilbao (1):
+      docs: scheduler: Start documenting the EEVDF scheduler
+
+Dave Martin (1):
+      docs/core-api: memory-allocation: GFP_NOWAIT doesn't need __GFP_NOWARN
+
+David Hunter (1):
+      Documentation: Capitalize Fahrenheit in watchdog-api.rst
+
+Dennis Lam (4):
+      docs:mm: fix spelling mistakes in heterogeneous memory management page
+      docs:mm: fixed spelling and grammar mistakes on vmalloc kernel stack =
+page
+      docs:filesystem: fix mispelled words on autofs page
+      docs:filesystems: fix spelling and grammar mistakes
+
+Dongliang Mu (6):
+      docs/zh_CN: add the translation of kbuild/headers_install.rst
+      scripts: fix all issues reported by pylint
+      doc-guide: add help documentation checktransupdate.rst
+      docs/zh_CN: fix a broken reference
+      docs/zh_CN: update the translation of security-bugs
+      docs/zh_CN: add the translation of kbuild/gcc-plugins.rst
+
+Dr. David Alan Gilbert (1):
+      Documentation/fs/9p: Expand goo.gl link
+
+Gianfranco Trad (1):
+      Fix typo "allocateed" to allocated
+
+Guilherme G. Piccoli (1):
+      Documentation: Document the kernel flag bdev_allow_write_mounted
+
+Haoyang Liu (2):
+      docs/zh_CN: Add dev-tools/kcsan Chinese translation
+      docs: update dev-tools/kcsan.rst url about KTSAN
+
+I Hsin Cheng (1):
+      docs: scheduler: completion: Update member of struct completion
+
+Jakub Kicinski (1):
+      MAINTAINERS: add Documentation/dev-tools/ to workflows@
+
+Jani Nikula (2):
+      get_maintainer: add --bug option to print bug reporting info
+      Documentation: admin-guide: direct people to bug trackers, if specifi=
+ed
+
+Jiamu Sun (1):
+      docs: improve comment consistency in .muttrc example configuration
+
+Jonathan Corbet (1):
+      Merge tag 'v6.11-rc6' into docs-mw
+
+Karol Przybylski (1):
+      docs: block: Fix grammar and spelling mistakes in bfq-iosched.rst
+
+Mark Brown (1):
+      docs: submitting-patches: Advertise b4
+
+Ming Lei (1):
+      Documentation: add ublk driver ioctl numbers
+
+Philipp Stanner (1):
+      Documentation: devres: fix error about PCI devres
+
+Sebastian Muxel (1):
+      scripts: sphinx-pre-install: remove unnecessary double check for $cur=
+_version
+
+SeongJae Park (2):
+      Docs/translations/ko_KR: link howto.rst with other language versions
+      Docs/translations/ko_KR: link memory-barriers wrapper with other lang=
+uage versions
+
+Sergio Gonz=C3=A1lez Collado (1):
+      docs/sp_Sp: Add translation to spanish of the documentation related t=
+o EEVDF
+
+Shibu Kumar (1):
+      docs: dm-crypt: Removal of unexpected indentation error
+
+Shivam Chaudhary (1):
+      Remove duplicate "and" in 'Linux NVMe docs.
+
+Thorsten Leemhuis (1):
+      docs: bug-bisect: rewrite to better match the other bisecting text
+
+Thorsten Scherer (1):
+      doc: iio: Fix sysfs paths
+
+ganjie (1):
+      Documentation: dontdiff: remove 'utf8data.h'
+
+ Documentation/PCI/pci.rst                          |   2 +-
+ Documentation/accel/qaic/qaic.rst                  |   2 +-
+ Documentation/admin-guide/bug-bisect.rst           | 208 +++++++++-----
+ Documentation/admin-guide/bug-hunting.rst          |  17 +-
+ .../admin-guide/device-mapper/dm-crypt.rst         |  11 +-
+ Documentation/admin-guide/kernel-parameters.txt    |  12 +
+ Documentation/admin-guide/tainted-kernels.rst      |   2 +
+ .../arch/arm/stm32/stm32-dma-mdma-chaining.rst     |   4 +-
+ Documentation/arch/arm64/cpu-hotplug.rst           |   2 +-
+ Documentation/arch/powerpc/ultravisor.rst          |   2 +-
+ Documentation/arch/riscv/vector.rst                |   2 +-
+ Documentation/arch/x86/mds.rst                     |   2 +-
+ Documentation/arch/x86/x86_64/fsgs.rst             |   4 +-
+ Documentation/block/bfq-iosched.rst                |  22 +-
+ Documentation/core-api/memory-allocation.rst       |   5 +-
+ Documentation/dev-tools/kcsan.rst                  |   3 +-
+ Documentation/doc-guide/checktransupdate.rst       |  54 ++++
+ Documentation/doc-guide/index.rst                  |   1 +
+ Documentation/dontdiff                             |   2 +-
+ Documentation/driver-api/driver-model/devres.rst   |   2 +-
+ Documentation/driver-api/iio/buffers.rst           |   8 +-
+ Documentation/driver-api/iio/core.rst              |  14 +-
+ Documentation/fault-injection/fault-injection.rst  |  22 +-
+ Documentation/filesystems/9p.rst                   |   2 +-
+ Documentation/filesystems/autofs.rst               |   4 +-
+ Documentation/filesystems/journalling.rst          |   6 +-
+ Documentation/gpu/komeda-kms.rst                   |   2 +-
+ Documentation/leds/leds-mlxcpld.rst                |   2 +-
+ Documentation/mm/hmm.rst                           |  10 +-
+ Documentation/mm/vmalloced-kernel-stacks.rst       |   8 +-
+ Documentation/nvme/feature-and-quirk-policy.rst    |   6 +-
+ Documentation/process/backporting.rst              |   6 +-
+ Documentation/process/coding-style.rst             |   2 +-
+ Documentation/process/email-clients.rst            |   2 +-
+ Documentation/process/maintainer-tip.rst           |   2 +-
+ Documentation/process/submitting-patches.rst       |   8 +
+ Documentation/scheduler/completion.rst             |   2 +-
+ Documentation/scheduler/index.rst                  |   1 +
+ Documentation/scheduler/sched-design-CFS.rst       |  10 +-
+ Documentation/scheduler/sched-eevdf.rst            |  43 +++
+ Documentation/sphinx/kerneldoc-preamble.sty        |   2 +
+ .../ko_KR/core-api/wrappers/memory-barriers.rst    |  18 ++
+ Documentation/translations/ko_KR/index.rst         |  16 +-
+ .../translations/ko_KR/{ =3D> process}/howto.rst     |   0
+ .../translations/sp_SP/scheduler/index.rst         |   1 +
+ .../sp_SP/scheduler/sched-design-CFS.rst           |   8 +-
+ .../translations/sp_SP/scheduler/sched-eevdf.rst   |  58 ++++
+ .../translations/zh_CN/admin-guide/index.rst       |   1 -
+ .../zh_CN/admin-guide/reporting-issues.rst         |   4 +-
+ .../translations/zh_CN/dev-tools/index.rst         |   2 +-
+ .../translations/zh_CN/dev-tools/kcsan.rst         | 320 +++++++++++++++++=
+++++
+ .../zh_CN/doc-guide/checktransupdate.rst           |  55 ++++
+ .../translations/zh_CN/doc-guide/index.rst         |   1 +
+ Documentation/translations/zh_CN/index.rst         |   2 +-
+ .../translations/zh_CN/kbuild/gcc-plugins.rst      | 126 ++++++++
+ .../translations/zh_CN/kbuild/headers_install.rst  |  39 +++
+ Documentation/translations/zh_CN/kbuild/index.rst  |  35 +++
+ Documentation/translations/zh_CN/process/index.rst |   3 +-
+ .../{admin-guide =3D> process}/security-bugs.rst     |  42 +--
+ .../zh_CN/process/submitting-patches.rst           |   2 +-
+ .../zh_TW/admin-guide/reporting-issues.rst         |   4 +-
+ .../zh_TW/process/submitting-patches.rst           |   2 +-
+ Documentation/userspace-api/ioctl/ioctl-number.rst |   2 +
+ Documentation/virt/kvm/index.rst                   |   1 +
+ Documentation/virt/kvm/loongarch/hypercalls.rst    |  89 ++++++
+ Documentation/virt/kvm/loongarch/index.rst         |  10 +
+ Documentation/watchdog/watchdog-api.rst            |   2 +-
+ MAINTAINERS                                        |   3 +
+ scripts/checktransupdate.py                        | 214 +++++++++-----
+ scripts/get_maintainer.pl                          |  17 +-
+ scripts/sphinx-pre-install                         |   2 -
+ 71 files changed, 1329 insertions(+), 271 deletions(-)
+ create mode 100644 Documentation/doc-guide/checktransupdate.rst
+ create mode 100644 Documentation/scheduler/sched-eevdf.rst
+ create mode 100644 Documentation/translations/ko_KR/core-api/wrappers/memo=
+ry-barriers.rst
+ rename Documentation/translations/ko_KR/{ =3D> process}/howto.rst (100%)
+ create mode 100644 Documentation/translations/sp_SP/scheduler/sched-eevdf.=
+rst
+ create mode 100644 Documentation/translations/zh_CN/dev-tools/kcsan.rst
+ create mode 100644 Documentation/translations/zh_CN/doc-guide/checktransup=
+date.rst
+ create mode 100644 Documentation/translations/zh_CN/kbuild/gcc-plugins.rst
+ create mode 100644 Documentation/translations/zh_CN/kbuild/headers_install=
+.rst
+ create mode 100644 Documentation/translations/zh_CN/kbuild/index.rst
+ rename Documentation/translations/zh_CN/{admin-guide =3D> process}/securit=
+y-bugs.rst (57%)
+ create mode 100644 Documentation/virt/kvm/loongarch/hypercalls.rst
+ create mode 100644 Documentation/virt/kvm/loongarch/index.rst
