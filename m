@@ -1,449 +1,224 @@
-Received: from mx0b-0016f401.pphosted.com (mx0a-0016f401.pphosted.com [67.231.148.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E799A156F57;
-	Mon, 16 Sep 2024 10:35:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.148.174
+Received: from wind.enjellic.com (wind.enjellic.com [76.10.64.91])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EC7E15445E;
+	Mon, 16 Sep 2024 10:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=76.10.64.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726482939; cv=none; b=PVpfwfAmCKxFzJRwhcHyftWAp3ZvJFWeIfXgVxEHYmuLA2Dd1ep31F6yn7M5TB9dOBnNevC52+LqI+3nPQSKZ55IbxQVPfCCnJ8L8ffMGJ/KUhpO5y2bK/Xc8pU4svCFkB77E9yBmz6H3psoKkq7DFmDuWCufQSJXEooc0yOTxs=
+	t=1726483010; cv=none; b=tpV1/h/hnn/WZgiaykUL/lqHKvDY/il2vwEBR5oTz8c3QQa3ed3/wqQDEKIZqMOh3lKOkBjc9EaFqJ56Y0BQEL5y5IEgnzavIjC2+8XMnnEcddjqTMZhzgkI2XnqHvTL+ChBHA1yMvJiGadqg+r1H4RIXwKcAkaQOcQLPjM/1qQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726482939; c=relaxed/simple;
-	bh=w/O3gplMd6DBFUHY9IPY+C5fZ3fPLmHe5dvQ+2tPLCk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FpFAHNGSiNvkgntEOClvntZ/lD1qBtwRJFHHE1eOB38HDZYUUtDOtLrqD/gYX4AzHf798Q8lXhKGOKFjlesY/E6CTCqNL1mFRik7/X2kqPzMCfI76J4vI/CHPKXJzRRXRhhoJjScg+hDlQGvTDBMKqqIjwmz7IAg1Fd//x4B6ro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=JiENvccQ; arc=none smtp.client-ip=67.231.148.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="JiENvccQ"
-Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
-	by mx0a-0016f401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48FMq4Ej014237;
-	Mon, 16 Sep 2024 03:35:28 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pfpt0220; bh=A
-	lHuinjm9AwEOER5E1i19Bk76vY0QTTp8b+rItNM0TU=; b=JiENvccQp2Wcs56Hg
-	XFC95ObDudnUVW8IgtA0498fOS9Pg7aWu6o9pBdt220xY5BcgbqkMfdvPNi72KQr
-	i2WtOxJk4krizZvabRQ55BkMkX957qL3yVz36wxawMbwUTND56ZxOuNwLFbjTbx9
-	WRCYKeNyoY8HRyebRtP9azAdUKUAxDMnh1QwMi6pDoWuCaT4mkE1xOtnG7ixvb8o
-	/p+WjQHuSPlpq4Naacb3Gi7+s5vzZtncf6OvMN+jz1gQBOE5PXv7oAQRa+vYOo7F
-	R+js6EE4t119gJz3gpJ9/VNQ3iKldCF8oIs6scR1ELC2uqvnCY3BoDYhMQ7J99bv
-	O8Wgg==
-Received: from dc5-exch05.marvell.com ([199.233.59.128])
-	by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 41n7ujndbb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 16 Sep 2024 03:35:27 -0700 (PDT)
-Received: from DC5-EXCH05.marvell.com (10.69.176.209) by
- DC5-EXCH05.marvell.com (10.69.176.209) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.4; Mon, 16 Sep 2024 03:35:26 -0700
-Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH05.marvell.com
- (10.69.176.209) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
- Transport; Mon, 16 Sep 2024 03:35:26 -0700
-Received: from virtx40.. (unknown [10.28.34.196])
-	by maili.marvell.com (Postfix) with ESMTP id 8DEF83F704A;
-	Mon, 16 Sep 2024 03:35:22 -0700 (PDT)
-From: Linu Cherian <lcherian@marvell.com>
-To: <suzuki.poulose@arm.com>, <mike.leach@linaro.org>, <james.clark@arm.com>
-CC: <linux-arm-kernel@lists.infradead.org>, <coresight@lists.linaro.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
-        <corbet@lwn.net>, <devicetree@vger.kernel.org>, <sgoutham@marvell.com>,
-        <gcherian@marvell.com>, Linu Cherian <lcherian@marvell.com>
-Subject: [PATCH v10 8/8] Documentation: coresight: Panic support
-Date: Mon, 16 Sep 2024 16:04:37 +0530
-Message-ID: <20240916103437.226816-9-lcherian@marvell.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240916103437.226816-1-lcherian@marvell.com>
-References: <20240916103437.226816-1-lcherian@marvell.com>
+	s=arc-20240116; t=1726483010; c=relaxed/simple;
+	bh=OQzx1VY3FA53WmYJxavNHFf3H1NYy38Zj5pmYpMWFGw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Mime-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lFlLS2XakK9Af6Np703XWd63O64MN62RmpTdB5Ia3+ZlAI6u1RtWFYEcnv6+ahzYtnkekZbvJRp6HZ5X5TZQHlQCX60+CZb1eIB2w4ZHspB9BL803N3928sg4KaH39fLivBrnV4GtB/BKHNHtZmIIulCvJFixHFeYcXLGEaedvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enjellic.com; spf=pass smtp.mailfrom=wind.enjellic.com; arc=none smtp.client-ip=76.10.64.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enjellic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wind.enjellic.com
+Received: from wind.enjellic.com (localhost [127.0.0.1])
+	by wind.enjellic.com (8.15.2/8.15.2) with ESMTP id 48GA5wMY005315;
+	Mon, 16 Sep 2024 05:05:58 -0500
+Received: (from greg@localhost)
+	by wind.enjellic.com (8.15.2/8.15.2/Submit) id 48GA5plc005314;
+	Mon, 16 Sep 2024 05:05:51 -0500
+Date: Mon, 16 Sep 2024 05:05:51 -0500
+From: "Dr. Greg" <greg@enjellic.com>
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>
+Cc: zohar@linux.ibm.com, dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com,
+        corbet@lwn.net, akpm@linux-foundation.org, paul@paul-moore.com,
+        jmorris@namei.org, serge@hallyn.com, shuah@kernel.org,
+        mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, wufan@linux.microsoft.com,
+        pbrobinson@gmail.com, zbyszek@in.waw.pl, hch@lst.de,
+        mjg59@srcf.ucam.org, pmatilai@redhat.com, jannh@google.com,
+        dhowells@redhat.com, jikos@kernel.org, mkoutny@suse.com,
+        ppavlu@suse.com, petr.vorel@gmail.com, mzerqung@0pointer.de,
+        kgold@linux.ibm.com, Roberto Sassu <roberto.sassu@huawei.com>,
+        torvalds@linux-foundation.org
+Subject: Re: [PATCH v5 00/14] integrity: Introduce the Integrity Digest Cache
+Message-ID: <20240916100551.GA5059@wind.enjellic.com>
+Reply-To: "Dr. Greg" <greg@enjellic.com>
+References: <20240905150543.3766895-1-roberto.sassu@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: Wcog7m0PQL297n61BwDdtnx5tw49u0wy
-X-Proofpoint-ORIG-GUID: Wcog7m0PQL297n61BwDdtnx5tw49u0wy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240905150543.3766895-1-roberto.sassu@huaweicloud.com>
+User-Agent: Mutt/1.4i
+X-Greylist: Sender passed SPF test, not delayed by milter-greylist-4.2.3 (wind.enjellic.com [127.0.0.1]); Mon, 16 Sep 2024 05:05:58 -0500 (CDT)
 
-Add documentation on using coresight during panic
-and watchdog.
+On Thu, Sep 05, 2024 at 05:05:29PM +0200, Roberto Sassu wrote:
 
-Signed-off-by: Linu Cherian <lcherian@marvell.com>
----
-Changelog from v9:
-This patch has been newly introduced.
+Good morning, I hope the week is starting well for everyone
 
- Documentation/trace/coresight/panic.rst | 356 ++++++++++++++++++++++++
- 1 file changed, 356 insertions(+)
- create mode 100644 Documentation/trace/coresight/panic.rst
+Apologies for the delay in getting these thoughts out, scrambling to
+catch up on my e-mail backlog.
 
-diff --git a/Documentation/trace/coresight/panic.rst b/Documentation/trace/coresight/panic.rst
-new file mode 100644
-index 000000000000..3b53d91cace8
---- /dev/null
-+++ b/Documentation/trace/coresight/panic.rst
-@@ -0,0 +1,356 @@
-+===================================================
-+Using Coresight for Kernel panic and Watchdog reset
-+===================================================
-+
-+Introduction
-+------------
-+This documentation is about using Linux coresight trace support to
-+debug kernel panic and watchdog reset scenarios.
-+
-+Coresight trace during Kernel panic
-+-----------------------------------
-+From the coresight driver point of view, addressing the kernel panic
-+situation has four main requirements.
-+
-+a. Support for allocation of trace buffer pages from reserved memory area.
-+   Platform can advertise this using a new device tree property added to
-+   relevant coresight nodes.
-+
-+b. Support for stopping coresight blocks at the time of panic
-+
-+c. Saving required metadata in the specified format
-+
-+d. Support for reading trace data captured at the time of panic
-+
-+Allocation of trace buffer pages from reserved RAM
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+A new optional device tree property "memory-region" is added to the
-+ETR/ETF device nodes, that would give the base address and size of trace
-+buffer.
-+
-+Static allocation of trace buffers would ensure that both IOMMU enabled
-+and disabled cases are handled. Also, platforms that support persistent
-+RAM will allow users to read trace data in the subsequent boot without
-+booting the crashdump kernel.
-+
-+Note:
-+For ETR sink devices, this reserved region will be used for both trace
-+capture and trace data retrieval.
-+For ETF sink devices, internal SRAM would be used for trace capture,
-+and they would be synced to reserved region for retrieval.
-+
-+
-+Disabling coresight blocks at the time of panic
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+In order to avoid the situation of losing relevant trace data after a
-+kernel panic, it would be desirable to stop the coresight blocks at the
-+time of panic.
-+
-+This can be achieved by configuring the comparator, CTI and sink
-+devices as below::
-+
-+           Trigger on panic
-+    Comparator --->External out --->CTI -->External In---->ETR/ETF stop
-+
-+Saving metadata at the time of kernel panic
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+Coresight metadata involves all additional data that are required for a
-+successful trace decode in addition to the trace data. This involves
-+ETR/ETF, ETE register snapshot etc.
-+
-+A new optional device property "memory-region" is added to
-+the ETR/ETF/ETE device nodes for this.
-+
-+Reading trace data captured at the time of panic
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+Trace data captured at the time of panic, can be read from rebooted kernel
-+or from crashdump kernel using a special device file /dev/crash_tmc_xxx.
-+This device file is created only when there is a valid crashdata available.
-+
-+General flow of trace capture and decode incase of kernel panic
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+1. Enable source and sink on all the cores using the sysfs interface.
-+   ETR sinks should have trace buffers allocated from reserved memory,
-+   by selecting "resrv" buffer mode from sysfs.
-+
-+2. Run relevant tests.
-+
-+3. On a kernel panic, all coresight blocks are disabled, necessary
-+   metadata is synced by kernel panic handler.
-+
-+   System would eventually reboot or boot a crashdump kernel.
-+
-+4. For  platforms that supports crashdump kernel, raw trace data can be
-+   dumped using the coresight sysfs interface from the crashdump kernel
-+   itself. Persistent RAM is not a requirement in this case.
-+
-+5. For platforms that supports persistent RAM, trace data can be dumped
-+   using the coresight sysfs interface in the subsequent Linux boot.
-+   Crashdump kernel is not a requirement in this case. Persistent RAM
-+   ensures that trace data is intact across reboot.
-+
-+Coresight trace during Watchdog reset
-+-------------------------------------
-+The main difference between addressing the watchdog reset and kernel panic
-+case are below,
-+
-+a. Saving coresight metadata need to be taken care by the
-+   SCP(system control processor) firmware in the specified format,
-+   instead of kernel.
-+
-+b. Reserved memory region given by firmware for trace buffer and metadata
-+   has to be in persistent RAM.
-+   Note: This is a requirement for watchdog reset case but optional
-+   in kernel panic case.
-+
-+Watchdog reset can be supported only on platforms that meet the above
-+two requirements.
-+
-+Sample commands for testing a Kernel panic case with ETR sink
-+-------------------------------------------------------------
-+
-+1. Boot Linux kernel with "crash_kexec_post_notifiers" added to the kernel
-+   bootargs. This is mandatory if the user would like to read the tracedata
-+   from the crashdump kernel.
-+
-+2. Enable the preloaded ETM configuration
-+
-+    #echo 1 > /sys/kernel/config/cs-syscfg/configurations/panicstop/enable
-+
-+3. Configure CTI using sysfs interface::
-+
-+    #./cti_setup.sh
-+
-+    #cat cti_setup.sh
-+
-+
-+    cd /sys/bus/coresight/devices/
-+
-+    ap_cti_config () {
-+      #ETM trig out[0] trigger to Channel 0
-+      echo 0 4 > channels/trigin_attach
-+    }
-+
-+    etf_cti_config () {
-+      #ETF Flush in trigger from Channel 0
-+      echo 0 1 > channels/trigout_attach
-+      echo 1 > channels/trig_filter_enable
-+    }
-+
-+    etr_cti_config () {
-+      #ETR Flush in from Channel 0
-+      echo 0 1 > channels/trigout_attach
-+      echo 1 > channels/trig_filter_enable
-+    }
-+
-+    ctidevs=`find . -name "cti*"`
-+
-+    for i in $ctidevs
-+    do
-+            cd $i
-+
-+            connection=`find . -name "ete*"`
-+            if [ ! -z "$connection" ]
-+            then
-+                    echo "AP CTI config for $i"
-+                    ap_cti_config
-+            fi
-+
-+            connection=`find . -name "tmc_etf*"`
-+            if [ ! -z "$connection" ]
-+            then
-+                    echo "ETF CTI config for $i"
-+                    etf_cti_config
-+            fi
-+
-+            connection=`find . -name "tmc_etr*"`
-+            if [ ! -z "$connection" ]
-+            then
-+                    echo "ETR CTI config for $i"
-+                    etr_cti_config
-+            fi
-+
-+            cd ..
-+    done
-+
-+Note: CTI connections are SOC specific and hence the above script is
-+added just for reference.
-+
-+4. Choose reserved buffer mode for ETR buffer
-+    #echo "resrv" > /sys/bus/coresight/devices/tmc_etr0/buf_mode_preferred
-+
-+5. Enable stop on flush trigger configuration
-+    #echo 1 > /sys/bus/coresight/devices/tmc_etr0/stop_on_flush
-+
-+6. Start Coresight tracing on cores 1 and 2 using sysfs interface
-+
-+7. Run some application on core 1
-+    #taskset -c 1 dd if=/dev/urandom of=/dev/null &
-+
-+8. Invoke kernel panic on core 2
-+    #echo 1 > /proc/sys/kernel/panic
-+    #taskset -c 2 echo c > /proc/sysrq-trigger
-+
-+9. From rebooted kernel or crashdump kernel, read crashdata
-+
-+    #dd if=/dev/crash_tmc_etr0 of=/trace/cstrace.bin
-+
-+10. Run opencsd decoder tools/scripts to generate the instruction trace.
-+
-+Sample instruction trace dump
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Core1 dump::
-+
-+    A                                  etm4_enable_hw: ffff800008ae1dd4
-+    CONTEXT EL2                        etm4_enable_hw: ffff800008ae1dd4
-+    I                                  etm4_enable_hw: ffff800008ae1dd4:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1dd8:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1ddc:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1de0:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1de4:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1de8:
-+    d503233f   paciasp
-+    I                                  etm4_enable_hw: ffff800008ae1dec:
-+    a9be7bfd   stp     x29, x30, [sp, #-32]!
-+    I                                  etm4_enable_hw: ffff800008ae1df0:
-+    910003fd   mov     x29, sp
-+    I                                  etm4_enable_hw: ffff800008ae1df4:
-+    a90153f3   stp     x19, x20, [sp, #16]
-+    I                                  etm4_enable_hw: ffff800008ae1df8:
-+    2a0003f4   mov     w20, w0
-+    I                                  etm4_enable_hw: ffff800008ae1dfc:
-+    900085b3   adrp    x19, ffff800009b95000 <reserved_mem+0xc48>
-+    I                                  etm4_enable_hw: ffff800008ae1e00:
-+    910f4273   add     x19, x19, #0x3d0
-+    I                                  etm4_enable_hw: ffff800008ae1e04:
-+    f8747a60   ldr     x0, [x19, x20, lsl #3]
-+    E                                  etm4_enable_hw: ffff800008ae1e08:
-+    b4000140   cbz     x0, ffff800008ae1e30 <etm4_starting_cpu+0x50>
-+    I    149.039572921                 etm4_enable_hw: ffff800008ae1e30:
-+    a94153f3   ldp     x19, x20, [sp, #16]
-+    I    149.039572921                 etm4_enable_hw: ffff800008ae1e34:
-+    52800000   mov     w0, #0x0                        // #0
-+    I    149.039572921                 etm4_enable_hw: ffff800008ae1e38:
-+    a8c27bfd   ldp     x29, x30, [sp], #32
-+
-+    ..snip
-+
-+        149.052324811           chacha_block_generic: ffff800008642d80:
-+    9100a3e0   add     x0,
-+    I    149.052324811           chacha_block_generic: ffff800008642d84:
-+    b86178a2   ldr     w2, [x5, x1, lsl #2]
-+    I    149.052324811           chacha_block_generic: ffff800008642d88:
-+    8b010803   add     x3, x0, x1, lsl #2
-+    I    149.052324811           chacha_block_generic: ffff800008642d8c:
-+    b85fc063   ldur    w3, [x3, #-4]
-+    I    149.052324811           chacha_block_generic: ffff800008642d90:
-+    0b030042   add     w2, w2, w3
-+    I    149.052324811           chacha_block_generic: ffff800008642d94:
-+    b8217882   str     w2, [x4, x1, lsl #2]
-+    I    149.052324811           chacha_block_generic: ffff800008642d98:
-+    91000421   add     x1, x1, #0x1
-+    I    149.052324811           chacha_block_generic: ffff800008642d9c:
-+    f100443f   cmp     x1, #0x11
-+
-+
-+Core 2 dump::
-+
-+    A                                  etm4_enable_hw: ffff800008ae1dd4
-+    CONTEXT EL2                        etm4_enable_hw: ffff800008ae1dd4
-+    I                                  etm4_enable_hw: ffff800008ae1dd4:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1dd8:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1ddc:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1de0:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1de4:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1de8:
-+    d503233f   paciasp
-+    I                                  etm4_enable_hw: ffff800008ae1dec:
-+    a9be7bfd   stp     x29, x30, [sp, #-32]!
-+    I                                  etm4_enable_hw: ffff800008ae1df0:
-+    910003fd   mov     x29, sp
-+    I                                  etm4_enable_hw: ffff800008ae1df4:
-+    a90153f3   stp     x19, x20, [sp, #16]
-+    I                                  etm4_enable_hw: ffff800008ae1df8:
-+    2a0003f4   mov     w20, w0
-+    I                                  etm4_enable_hw: ffff800008ae1dfc:
-+    900085b3   adrp    x19, ffff800009b95000 <reserved_mem+0xc48>
-+    I                                  etm4_enable_hw: ffff800008ae1e00:
-+    910f4273   add     x19, x19, #0x3d0
-+    I                                  etm4_enable_hw: ffff800008ae1e04:
-+    f8747a60   ldr     x0, [x19, x20, lsl #3]
-+    E                                  etm4_enable_hw: ffff800008ae1e08:
-+    b4000140   cbz     x0, ffff800008ae1e30 <etm4_starting_cpu+0x50>
-+    I    149.046243445                 etm4_enable_hw: ffff800008ae1e30:
-+    a94153f3   ldp     x19, x20, [sp, #16]
-+    I    149.046243445                 etm4_enable_hw: ffff800008ae1e34:
-+    52800000   mov     w0, #0x0                        // #0
-+    I    149.046243445                 etm4_enable_hw: ffff800008ae1e38:
-+    a8c27bfd   ldp     x29, x30, [sp], #32
-+    I    149.046243445                 etm4_enable_hw: ffff800008ae1e3c:
-+    d50323bf   autiasp
-+    E    149.046243445                 etm4_enable_hw: ffff800008ae1e40:
-+    d65f03c0   ret
-+    A                                ete_sysreg_write: ffff800008adfa18
-+
-+    ..snip
-+
-+    I     149.05422547                          panic: ffff800008096300:
-+    a90363f7   stp     x23, x24, [sp, #48]
-+    I     149.05422547                          panic: ffff800008096304:
-+    6b00003f   cmp     w1, w0
-+    I     149.05422547                          panic: ffff800008096308:
-+    3a411804   ccmn    w0, #0x1, #0x4, ne  // ne = any
-+    N     149.05422547                          panic: ffff80000809630c:
-+    540001e0   b.eq    ffff800008096348 <panic+0xe0>  // b.none
-+    I     149.05422547                          panic: ffff800008096310:
-+    f90023f9   str     x25, [sp, #64]
-+    E     149.05422547                          panic: ffff800008096314:
-+    97fe44ef   bl      ffff8000080276d0 <panic_smp_self_stop>
-+    A                                           panic: ffff80000809634c
-+    I     149.05422547                          panic: ffff80000809634c:
-+    910102d5   add     x21, x22, #0x40
-+    I     149.05422547                          panic: ffff800008096350:
-+    52800020   mov     w0, #0x1                        // #1
-+    E     149.05422547                          panic: ffff800008096354:
-+    94166b8b   bl      ffff800008631180 <bust_spinlocks>
-+    N    149.054225518                 bust_spinlocks: ffff800008631180:
-+    340000c0   cbz     w0, ffff800008631198 <bust_spinlocks+0x18>
-+    I    149.054225518                 bust_spinlocks: ffff800008631184:
-+    f000a321   adrp    x1, ffff800009a98000 <pbufs.0+0xbb8>
-+    I    149.054225518                 bust_spinlocks: ffff800008631188:
-+    b9405c20   ldr     w0, [x1, #92]
-+    I    149.054225518                 bust_spinlocks: ffff80000863118c:
-+    11000400   add     w0, w0, #0x1
-+    I    149.054225518                 bust_spinlocks: ffff800008631190:
-+    b9005c20   str     w0, [x1, #92]
-+    E    149.054225518                 bust_spinlocks: ffff800008631194:
-+    d65f03c0   ret
-+    A                                           panic: ffff800008096358
-+
-+Perf based testing
-+------------------
-+
-+Starting perf session
-+~~~~~~~~~~~~~~~~~~~~~
-+ETF:
-+perf record -e cs_etm/panicstop,@tmc_etf1/ -C 1
-+perf record -e cs_etm/panicstop,@tmc_etf2/ -C 2
-+
-+ETR:
-+perf record -e cs_etm/panicstop,@tmc_etr0/ -C 1,2
-+
-+Reading trace data after panic
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+Same sysfs based method explained above can be used to retrieve and
-+decode the trace data after the reboot on kernel panic.
--- 
-2.34.1
+I looped Linus in, secondary to the conversations surrounding the PGP
+verification infrastructure in the kernel, given that the primary use
+case at this time appears to be the digest cache and his concerns
+regarding that use.
 
+Our proposed TSEM LSM, most recent submission here:
+
+https://lore.kernel.org/linux-security-module/20240826103728.3378-1-greg@enjellic.com/T/#t
+
+Is a superset of IMA functionality and depends heavily on file
+checksums, hence our interest and reflections in your efforts with
+this.
+
+> From: Roberto Sassu <roberto.sassu@huawei.com>
+> 
+> Integrity detection and protection has long been a desirable feature, to
+> reach a large user base and mitigate the risk of flaws in the software
+> and attacks.
+> 
+> However, while solutions exist, they struggle to reach a large user base,
+> due to requiring higher than desired constraints on performance,
+> flexibility and configurability, that only security conscious people are
+> willing to accept.
+
+No argument here, inherent in better and more effective security
+architectures is better useability, pure and simple.
+
+> For example, IMA measurement requires the target platform to collect
+> integrity measurements, and to protect them with the TPM, which
+> introduces a noticeable overhead (up to 10x slower in a
+> microbenchmark) on frequently used system calls, like the open().
+
+The future for trusted systems will not be in TPM's, as unpopular a
+notion as that may be in some circles.  They represent a design from a
+quarter century ago that struggles to have relevance with our current
+system architectures.
+
+If a TPM is present, TSEM will extend the security coefficients for
+the root modeling namespace into a PCR to establish a root of trust
+that the rest of the trust orchestration system can be built on.  Ours
+is a worst case scenario beyond IMA since there is a coefficient
+generated for each LSM call that is being modeled.
+
+We had to go to asynchronous updates through an ordered workqueue in
+order to have something less than abysmal performance, even with
+vTPM's running in a Xen hypervisor domain.  This is without the
+current performance impacts being discussed with respect to HMAC based
+TPM session authentication.
+
+> IMA Appraisal currently requires individual files to be signed and
+> verified, and Linux distributions to rebuild all packages to include
+> file signatures (this approach has been adopted from Fedora
+> 39+). Like a TPM, also signature verification introduces a
+> significant overhead, especially if it is used to check the
+> integrity of many files.
+>
+> This is where the new Integrity Digest Cache comes into play, it
+> offers additional support for new and existing integrity solutions,
+> to make them faster and easier to deploy.
+>
+> The Integrity Digest Cache can help IMA to reduce the number of TPM
+> operations and to make them happen in a deterministic way. If IMA
+> knows that a file comes from a Linux distribution, it can measure
+> files in a different way: measure the list of digests coming from
+> the distribution (e.g. RPM package headers), and subsequently
+> measure a file if it is not found in that list.
+>
+> The performance improvement comes at the cost of IMA not reporting
+> which files from installed packages were accessed, and in which
+> temporal sequence. This approach might not be suitable for all use
+> cases.
+
+That, in and of itself, is certainly not the end of the world.
+
+With TSEM we offer the notion of the 'state' of a security namespace,
+which is the extension sum of the security coefficients after they
+have been sorted in natural (big-endian) hash order.  In this model
+you know what files have been accessed but you do not have a statement
+on temporal ordering of access.
+
+Given scheduling artifacts, let alone the almost absolute ubiquity of
+multi-core, the simple TPM/TCG linear extension model seems to
+struggle with respect to any relevancy as a security metric.
+
+> The Integrity Digest Cache can also help IMA for appraisal. IMA can simply
+> lookup the calculated digest of an accessed file in the list of digests
+> extracted from package headers, after verifying the header signature. It is
+> sufficient to verify only one signature for all files in the package, as
+> opposed to verifying a signature for each file.
+> 
+> The same approach can be followed by other LSMs, such as Integrity Policy
+> Enforcement (IPE), and BPF LSM.
+
+As we've noted above, TSEM would also be a potential consumer, which
+is why we wanted to seek clarifications on the architecture.
+
+We've reviewed the patch set and the documentation, and will freely
+admit that we may still misunderstand all of this, but it would seem
+that the architecture, as it stands, would be subject to Time Of
+Measurement Time Of Use (TOMTOU) challenges.
+
+The Time Of Measurement will be when the distribution generates an
+RPM, or equivalent construct, ie. .deb, and signs the digest list with
+their packaging key.  What is elusive to us is how can their be an
+expectation that the file, on medium, when accessed (Time Of Use),
+matches the digest of the file that was signed by the distribution?
+
+At a minimum, there would seem to be a need to have the kernel read
+and validate the on medium checksum of the file, as the in-kernel RPM
+parser reads each signature from the package list.  At that point, as
+long as the kernel is running, the digest cache will represent a valid
+statement on the cryptographic checksum of a file held in the digest
+cache, as your patch series seem to have invalidation support well in
+hand.
+
+After a system reboot, it would seem to be that all bets are off, and
+from a security perspective, there would be a need to re-verify that
+the on medium file checksums match those from a signed digest list.
+IMA has the ability to do protection against offline modification but
+you are then back to a possibly expensive operation on each file
+access.
+
+We see in the thread on PGP infrastructure in the kernel you make the
+following statement:
+
+"If the calculated digest of a file being accessed matches one
+extracted from the RPM header, access is granted otherwise it is
+denied."
+
+Which would seem to imply that you do compute the on-medium checksum
+of each file and verify it against a reference value from the RPM
+header, but it isn't clear where that happens in the patch series.
+The only kernel based file read operation we could find is what
+appears to be a call to read the digest list files.
+
+IMA already has the concept of a digest cache, as does TSEM.  If you
+need to read a file in order to match its medium based checksum
+against the value from a package list, in order to avoid a TOMTOU
+condition, it is unclear how one gains a performance improvement.
+Unless of course the objective is to prime the digest cache at boot so
+that all subsequent integrity verifications are answered from cache
+rather than by computing the checksum at file access time.
+
+In the thread on PGP access you indicate that all of this needs to be
+in the kernel in order to be tamper proof.  FWIW, the kernel has the
+ability to know if kernel + userspace should be trusted at any given
+time, that is one of the security statements that we seek to offer
+with TSEM.
+
+If the kernel can make a judgement, that in a limited execution
+context, such as system boot and initialization, that userspace has
+not acted in an untrusted manner, it can punt verification and parsing
+of RPM headers and priming of something like the digest cache to
+userspace.
+
+Again, apologies if we misunderstand the architecture, any
+clarifications would be appreciated.
+
+Have a good week.
+
+As always,
+Dr. Greg
+
+The Quixote Project - Flailing at the Travails of Cybersecurity
+              https://github.com/Quixote-Project
