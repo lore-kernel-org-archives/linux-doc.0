@@ -1,171 +1,385 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2081.outbound.protection.outlook.com [40.107.92.81])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA7115B964;
-	Mon, 16 Sep 2024 16:58:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.81
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726505928; cv=fail; b=SiQCfcbBO+Kvj70hrIMmYgoB86BkAKkJngouHjwFk4xB8+5f3qcvroNFNHoH4j7YTkiwFT5i2goaId+Q33FM1Mr1jhgVIgXBgMe5P22+MCqY+6wsVofLRDsmx6xmpwi+5YRhjJ1F2Tixhym1qlS9IEhdwRMDXzuGUt6Sq93dX3s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726505928; c=relaxed/simple;
-	bh=Ch/3BXRIDwXuwvGggJHTLNf/PCWdMgQZ54sRU6QlWZk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BxdMGjX9YfDdn9kFycKMRyjFNUM+XSTd8V6E8pndbTHL8VqFxBP1RmELT+W8ZyKM/sXQmTLaVshN00qtJvH9RcTniPQ86/eBBD1xOlol+PUrAsVH79eq84qmN9g16V98o0JOAJf8vLx72o0PiMldS4LwOp8wNPtVOz1d8i6uDTo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=QoxQZ1hH; arc=fail smtp.client-ip=40.107.92.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22082158870;
+	Mon, 16 Sep 2024 17:12:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726506732; cv=none; b=VSUrmrvUe7tH2MJ7y2uPUZZdLdEZELQrZsaQh1D3lFTn2L/AsZ3DJlHX5t7C99BrD7Gghy86AiF79OCT7ewBwP1Lqrt7+2cbVBcl1fZeRj/AkG/Kd8QNNmRtod4pAZdOdFVCYbKsmXDIJNDIgEqBOlp09Xruq37LSzsmBoppXLA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726506732; c=relaxed/simple;
+	bh=ESyQ19D7oY453VbqYsz3XtbEyH1pkWUw3SfThNLvBeM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CIayKTyWQxN107h+lVmflTFYT9CK8vJpWYU1OGKcenyGhjH+3hpX6aXynLyVNaqtuqFJrgvSTBkVHnH6tmBDn2Z2wnTH0p85FdfKLz8lsGj5nOUPX+rWnSjuQeAu37wlxGlut2spk1XaspydQy6xvBRtW9iR9gPOWNNAyh1230s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D3RBDNKq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="QoxQZ1hH"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=u5jIR95Kx2fG4Svhmo/jZ57vDaiWopGt1NRUJkPLZ1sr5b6OpvCqNr/b8CLLouCg6/Ngb0hKhGRQkiSXWwe0UFzWbpqitC4nHQwxmvvbeByxzrRP+FS4Ot6p4XD6P9+lfvlJefnGeGnquJ78iCNW4o95u3Xlgje7u+YDEjLEq0USwpyelgfggPN9PPY771lbLnTEcKz33L5GFinI1mlp+CkjODf4u6H+n8kmiDEjVa3VRk7ms1ev/BjBgwigcC65HD1lkXHz9gxg+/a8lk9pMMGlwBM/zGO+NkbsJ5PGbzZNVMsv4ZUs05RQNNqx718ilLeD+tX9ptC5z/XtcOlc7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t3TqfD3ymF6eqT4nlqJNmccBGoGKxBelhDPWPHnJ0q8=;
- b=zVJUD3LRylBHVZOH55tgjhN85vVulCoRXyuavhDntkWsEc8fo6yvE561c0aCcbjMkhXDawJAbeptmeXSzbOdIu+EW9hYrEUynwNWGFreUKqHm6JhUF53uW7xG5WEbR5K60exlvXW+K7aaf7p/+RZjDeftDKgfqUG5dQ94DUtOWBTyqitEGSRNEdodY8iWCS574kNKZsGVFNrIzL2aO54JtEFJalLLRGEKtbsL+BY4ybbAULwoN3PP1w2awqE//ygoEgHZu6t+i4pWIgTU/xHd5h2GCLo0GRKcJoJ4r28e2yWZGBnJ1jV677KZVZnm2RkB2uNuX9/owVQmf1QFXkCPw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t3TqfD3ymF6eqT4nlqJNmccBGoGKxBelhDPWPHnJ0q8=;
- b=QoxQZ1hHyr14fQxR3BKCC715xWenv4az8sx9Mrzu2+etVof4p+8WXwI4VqWHS0/l4tvjQGubQJvwBJW5UTJjJH81sABWMYbXEgUIpnzXgNOYr0PqZCveenYyXsmahFspj1rAidfg0cunaKZl31ujzyrUgAKS+bJT2pBgwScFflg=
-Received: from SA0PR11CA0114.namprd11.prod.outlook.com (2603:10b6:806:d1::29)
- by DM4PR12MB5796.namprd12.prod.outlook.com (2603:10b6:8:63::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7962.24; Mon, 16 Sep
- 2024 16:58:40 +0000
-Received: from SN1PEPF000252A1.namprd05.prod.outlook.com
- (2603:10b6:806:d1:cafe::40) by SA0PR11CA0114.outlook.office365.com
- (2603:10b6:806:d1::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.30 via Frontend
- Transport; Mon, 16 Sep 2024 16:58:39 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SN1PEPF000252A1.mail.protection.outlook.com (10.167.242.8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7918.13 via Frontend Transport; Mon, 16 Sep 2024 16:58:39 +0000
-Received: from kaveri.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 16 Sep
- 2024 11:58:32 -0500
-From: Shivank Garg <shivankg@amd.com>
-To: <pbonzini@redhat.com>, <corbet@lwn.net>, <akpm@linux-foundation.org>,
-	<willy@infradead.org>
-CC: <acme@redhat.com>, <namhyung@kernel.org>, <mpe@ellerman.id.au>,
-	<isaku.yamahata@intel.com>, <joel@jms.id.au>, <kvm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-mm@kvack.org>, <linux-fsdevel@vger.kernel.org>, <shivankg@amd.com>,
-	<shivansh.dhiman@amd.com>, <bharata@amd.com>, <nikunj@amd.com>
-Subject: [PATCH RFC 3/3] KVM: guest_memfd: Enforce NUMA mempolicy if available
-Date: Mon, 16 Sep 2024 16:57:43 +0000
-Message-ID: <20240916165743.201087-4-shivankg@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240916165743.201087-1-shivankg@amd.com>
-References: <20240916165743.201087-1-shivankg@amd.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D3RBDNKq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F43DC4CEC4;
+	Mon, 16 Sep 2024 17:12:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726506731;
+	bh=ESyQ19D7oY453VbqYsz3XtbEyH1pkWUw3SfThNLvBeM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=D3RBDNKqnKDFIMG0mPW/j5cOna+tieuvNQzY5kyyq91/e9nzLStnQVM7rhf9MXQVr
+	 wj2z96u9fAtlMT2N+5Bb5rvUczabmv479ylyy957Xa8rhmLkSZr8a960AJalIKwb/Y
+	 uuEqmDiNjIYDix+MB1Vu12/cIDRNvT5TTZoc5H9glGHAMiijHo/ij20SmXxhQwnaY7
+	 x7P9QMJrD0ea2CuxOaVAXnKGYl28713NWryQED2HaluTPLvgQTzkUMX8iTWIp/lJ82
+	 yPpRjGwDNP4iUfak9BqkzQBpZ3TXtGmzWvbVQqB8NTHZd8+RY/QvQ+ca1mGw4rOYwh
+	 e5gREl43NaYxQ==
+Date: Mon, 16 Sep 2024 18:12:04 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>,
+	Andy Chiu <andy.chiu@sifive.com>,
+	Jessica Clarke <jrtc27@jrtc27.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v10 14/14] riscv: Add ghostwrite vulnerability
+Message-ID: <20240916-pretext-freehand-20dca1376cd4@spud>
+References: <20240911-xtheadvector-v10-0-8d3930091246@rivosinc.com>
+ <20240911-xtheadvector-v10-14-8d3930091246@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF000252A1:EE_|DM4PR12MB5796:EE_
-X-MS-Office365-Filtering-Correlation-Id: f9f75e68-0ee6-488e-5b0f-08dcd670d051
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?+bwEEvAnMVEBX6U9xmGh4Fmg6LC4oZNUd5RW1KE4MImQuwJvVVQSmJStxXfb?=
- =?us-ascii?Q?MohnRy3/t1VO8Xcpk3Yaxrqyk3/FIKBISMYPjLVxVotgX73pFAReY+qKp/lR?=
- =?us-ascii?Q?PMbX8+g1t69fhT1ENYvWZXJrFuAJZFial2bSuH1GFWfmvdT6reG3l1r/8C86?=
- =?us-ascii?Q?beh4BpqRERejjZCAzmy76eh6jVf5JJY5OP5serfVMGlWDwskLYzPbb2pijQC?=
- =?us-ascii?Q?zyZjUfvqrZ/n4IUiVVvGLLCEZ3i5MgiwUf85ekM4mm9rSfLW0hBdstWQXTbU?=
- =?us-ascii?Q?Xv0UjIZw98ORE4sn+WWkhZGvgSYZMtvVQMAQIIrUvyfiZZWFub+q4ufUTtcy?=
- =?us-ascii?Q?N32ah2Aq3AUmt4OvhO9yrMvPLZ46IAoMdOECuKgLNlyjGm7xOMfjiA7yu9v8?=
- =?us-ascii?Q?XxDVzPPr1QtTyJQrDbLShEw3opunnNunwkKJPLOO0nsdJD4nPFOKyhnfSS1b?=
- =?us-ascii?Q?GUtHnoah7bteYw5Lf4VEUvo8GY9lXNwSSuEgUywBeR3SJF951SeAspf99ZwZ?=
- =?us-ascii?Q?Xs2xAh0jJg4Z8/B19pRtbFnemq338Swl1J4t/NMYsVOzvVZ0vYdOZG1oXikA?=
- =?us-ascii?Q?3pmAI85+FYwXiL5uqDbtOVsZpOEKNrepGr7n0kjnJMlZ9R/ugm/OGkfKJPr0?=
- =?us-ascii?Q?NzXDP4X5mIe81zSZxha+sAIhcMAuObmx17m/G3ofWcZr3+lKomLOT4XHDvqP?=
- =?us-ascii?Q?vE8SugY3F9CbUQld1T50ascSTyKCNUIjhfs4CTO/IhSRDgaCHqWyC0zozg7I?=
- =?us-ascii?Q?nmpp16cCuhLGJRi8obLqPt1GmR/DJ0J4AeJl2zui2xcAkf1OFdu2u2wZ6pZI?=
- =?us-ascii?Q?2IC/O3yyuAW1LVm91LSn8KQCsSDzVgpdREu/uWXQJ2sbuqMWEBttO/j3TWJX?=
- =?us-ascii?Q?uCtQ4/Yl9Gnqnl+WjQQC4duXcQpuQnftWPHqt7pZ1tfmrdAuRtrBG5r5Q+uQ?=
- =?us-ascii?Q?6yNzfTYLF0xTemHHzf2XvcwyOzi/UvOGKEUyu+WfyVCx5iV+Hbpl/B5zUaYG?=
- =?us-ascii?Q?Dz8sqQgN+25UB3krLmimbG1R8vvDskhXJfNBjx3epTwmG8DpayqXuGccKl0e?=
- =?us-ascii?Q?JDDYAvFxL7YPnD3d5v2+qr+6XL01qmAAqiofjIuByusr/h0fvTIOdhZj9Ekd?=
- =?us-ascii?Q?YEVEF95WlgeVsmruzVR05ZYmpRY+ryuAqaSzWGCCmnNe/ICdWHDK9vLUQXXV?=
- =?us-ascii?Q?/Rn+MHYGtpzWgLgp95OPAiVeS7cQ59UOHNzQ9m3URx+7psav6nX9bBm4k0WI?=
- =?us-ascii?Q?xNVfTXKtl1tadZpvMRkvS9+P778cE4NF4yzuQKdH4MScvoH+zHwlJ7tgA1az?=
- =?us-ascii?Q?2Jl1InxY6VnXjkITcGlcRpxSEC1L6ZtpX+4Gp5e0of2ipbDh6RWwTQyebuSz?=
- =?us-ascii?Q?6wYGPlM4NnhsFaffVjUEDbFYie95EVhCtKmjfpO4U0r8qXWsiMEViJAbZEqb?=
- =?us-ascii?Q?hzJCG1kDYfgUKguGmoa7RR/2DKZEydZb?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2024 16:58:39.8660
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f9f75e68-0ee6-488e-5b0f-08dcd670d051
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SN1PEPF000252A1.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5796
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="BDWQktOaFXWzZKLA"
+Content-Disposition: inline
+In-Reply-To: <20240911-xtheadvector-v10-14-8d3930091246@rivosinc.com>
 
-From: Shivansh Dhiman <shivansh.dhiman@amd.com>
 
-Enforce memory policy on guest-memfd to provide proper NUMA support.
-Previously, guest-memfd allocations were following local NUMA node id in
-absence of process mempolicy, resulting in random memory allocation.
-Moreover, it cannot use mbind() since memory isn't mapped to userspace.
+--BDWQktOaFXWzZKLA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-To support NUMA policies, retrieve the mempolicy struct from
-i_private_data part of memfd's inode. Use filemap_grab_folio_mpol() to
-ensure that allocations follow the specified memory policy.
+On Wed, Sep 11, 2024 at 10:55:22PM -0700, Charlie Jenkins wrote:
+> Follow the patterns of the other architectures that use
+> GENERIC_CPU_VULNERABILITIES for riscv to introduce the ghostwrite
+> vulnerability and mitigation. The mitigation is to disable all vector
+> which is accomplished by clearing the bit from the cpufeature field.
+>=20
+> Ghostwrite only affects thead c9xx CPUs that impelment xtheadvector, so
+> the vulerability will only be mitigated on these CPUs.
+>=20
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> ---
+>  arch/riscv/Kconfig.errata            | 11 ++++++++
+>  arch/riscv/errata/thead/errata.c     | 28 ++++++++++++++++++
+>  arch/riscv/include/asm/bugs.h        | 22 +++++++++++++++
+>  arch/riscv/include/asm/errata_list.h |  3 +-
+>  arch/riscv/kernel/Makefile           |  2 ++
+>  arch/riscv/kernel/bugs.c             | 55 ++++++++++++++++++++++++++++++=
+++++++
+>  arch/riscv/kernel/cpufeature.c       |  9 +++++-
+>  drivers/base/cpu.c                   |  3 ++
+>  include/linux/cpu.h                  |  1 +
+>  9 files changed, 132 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/arch/riscv/Kconfig.errata b/arch/riscv/Kconfig.errata
+> index 2acc7d876e1f..e318119d570d 100644
+> --- a/arch/riscv/Kconfig.errata
+> +++ b/arch/riscv/Kconfig.errata
+> @@ -119,4 +119,15 @@ config ERRATA_THEAD_PMU
+> =20
+>  	  If you don't know what to do here, say "Y".
+> =20
+> +config ERRATA_THEAD_GHOSTWRITE
+> +	bool "Apply T-Head Ghostwrite errata"
+> +	depends on ERRATA_THEAD && RISCV_ISA_XTHEADVECTOR
+> +	default y
+> +	help
+> +	  The T-Head C9xx cores have a vulnerability in the xtheadvector
+> +	  instruction set. When this errata is enabled, the CPUs will be probed
+> +	  to determine if they are vulnerable and disable xtheadvector.
+> +
+> +	  If you don't know what to do here, say "Y".
+> +
+>  endmenu # "CPU errata selection"
+> diff --git a/arch/riscv/errata/thead/errata.c b/arch/riscv/errata/thead/e=
+rrata.c
+> index f5120e07c318..5cc008ab41a8 100644
+> --- a/arch/riscv/errata/thead/errata.c
+> +++ b/arch/riscv/errata/thead/errata.c
+> @@ -10,6 +10,7 @@
+>  #include <linux/string.h>
+>  #include <linux/uaccess.h>
+>  #include <asm/alternative.h>
+> +#include <asm/bugs.h>
+>  #include <asm/cacheflush.h>
+>  #include <asm/cpufeature.h>
+>  #include <asm/dma-noncoherent.h>
+> @@ -142,6 +143,31 @@ static bool errata_probe_pmu(unsigned int stage,
+>  	return true;
+>  }
+> =20
+> +static bool errata_probe_ghostwrite(unsigned int stage,
+> +				    unsigned long arch_id, unsigned long impid)
+> +{
+> +	if (!IS_ENABLED(CONFIG_ERRATA_THEAD_GHOSTWRITE))
+> +		return false;
+> +
+> +	/*
+> +	 * target-c9xx cores report arch_id and impid as 0
+> +	 *
+> +	 * While ghostwrite may not affect all c9xx cores that implement
+> +	 * xtheadvector, there is no futher granularity than c9xx. Assume
+> +	 * vulnerable for this entire class of processors when xtheadvector is
+> +	 * enabled.
+> +	 */
 
-Signed-off-by: Shivansh Dhiman <shivansh.dhiman@amd.com>
-Signed-off-by: Shivank Garg <shivankg@amd.com>
----
- virt/kvm/guest_memfd.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Is it not possible to use the cpu compatible string for this? Given that
+we only know if xtheadvector is enabled once we are already parsing the
+cpu node devicetree, it seems, to me, as if it should be possible to be
+more granular. AFAIU, some T-Head c900 series devices are not venerable.
 
-diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-index 8f1877be4976..8553d7069ba8 100644
---- a/virt/kvm/guest_memfd.c
-+++ b/virt/kvm/guest_memfd.c
-@@ -130,12 +130,15 @@ static struct folio *__kvm_gmem_get_folio(struct inode *inode, pgoff_t index,
- 					  bool allow_huge)
- {
- 	struct folio *folio = NULL;
-+	struct mempolicy *mpol;
- 
- 	if (gmem_2m_enabled && allow_huge)
- 		folio = kvm_gmem_get_huge_folio(inode, index, PMD_ORDER);
- 
--	if (!folio)
--		folio = filemap_grab_folio(inode->i_mapping, index);
-+	if (!folio) {
-+		mpol = (struct mempolicy *)(inode->i_mapping->i_private_data);
-+		folio = filemap_grab_folio_mpol(inode->i_mapping, index, mpol);
-+	}
- 
- 	pr_debug("%s: allocate folio with PFN %lx order %d\n",
- 		 __func__, folio_pfn(folio), folio_order(folio));
--- 
-2.34.1
+Cheers,
+Conor.
 
+> +	if (arch_id !=3D 0 || impid !=3D 0)
+> +		return false;
+> +
+> +	if (stage !=3D RISCV_ALTERNATIVES_EARLY_BOOT)
+> +		return false;
+> +
+> +	ghostwrite_set_vulnerable();
+> +
+> +	return true;
+> +}
+> +
+>  static u32 thead_errata_probe(unsigned int stage,
+>  			      unsigned long archid, unsigned long impid)
+>  {
+> @@ -155,6 +181,8 @@ static u32 thead_errata_probe(unsigned int stage,
+>  	if (errata_probe_pmu(stage, archid, impid))
+>  		cpu_req_errata |=3D BIT(ERRATA_THEAD_PMU);
+> =20
+> +	errata_probe_ghostwrite(stage, archid, impid);
+> +
+>  	return cpu_req_errata;
+>  }
+> =20
+> diff --git a/arch/riscv/include/asm/bugs.h b/arch/riscv/include/asm/bugs.h
+> new file mode 100644
+> index 000000000000..e294b15bf78e
+> --- /dev/null
+> +++ b/arch/riscv/include/asm/bugs.h
+> @@ -0,0 +1,22 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Interface for managing mitigations for riscv vulnerabilities.
+> + *
+> + * Copyright (C) 2024 Rivos Inc.
+> + */
+> +
+> +#ifndef __ASM_BUGS_H
+> +#define __ASM_BUGS_H
+> +
+> +/* Watch out, ordering is important here. */
+> +enum mitigation_state {
+> +	UNAFFECTED,
+> +	MITIGATED,
+> +	VULNERABLE,
+> +};
+> +
+> +void ghostwrite_set_vulnerable(void);
+> +void ghostwrite_enable_mitigation(void);
+> +enum mitigation_state ghostwrite_get_state(void);
+> +
+> +#endif /* __ASM_BUGS_H */
+> diff --git a/arch/riscv/include/asm/errata_list.h b/arch/riscv/include/as=
+m/errata_list.h
+> index 7c8a71a526a3..6e426ed7919a 100644
+> --- a/arch/riscv/include/asm/errata_list.h
+> +++ b/arch/riscv/include/asm/errata_list.h
+> @@ -25,7 +25,8 @@
+>  #ifdef CONFIG_ERRATA_THEAD
+>  #define	ERRATA_THEAD_MAE 0
+>  #define	ERRATA_THEAD_PMU 1
+> -#define	ERRATA_THEAD_NUMBER 2
+> +#define	ERRATA_THEAD_GHOSTWRITE 2
+> +#define	ERRATA_THEAD_NUMBER 3
+>  #endif
+> =20
+>  #ifdef __ASSEMBLY__
+> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
+> index 06d407f1b30b..d7a54e34178e 100644
+> --- a/arch/riscv/kernel/Makefile
+> +++ b/arch/riscv/kernel/Makefile
+> @@ -113,3 +113,5 @@ obj-$(CONFIG_COMPAT)		+=3D compat_vdso/
+>  obj-$(CONFIG_64BIT)		+=3D pi/
+>  obj-$(CONFIG_ACPI)		+=3D acpi.o
+>  obj-$(CONFIG_ACPI_NUMA)	+=3D acpi_numa.o
+> +
+> +obj-$(CONFIG_GENERIC_CPU_VULNERABILITIES) +=3D bugs.o
+> diff --git a/arch/riscv/kernel/bugs.c b/arch/riscv/kernel/bugs.c
+> new file mode 100644
+> index 000000000000..0c19691b4cd5
+> --- /dev/null
+> +++ b/arch/riscv/kernel/bugs.c
+> @@ -0,0 +1,55 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2024 Rivos Inc.
+> + */
+> +
+> +#include <linux/cpu.h>
+> +#include <linux/device.h>
+> +#include <linux/sprintf.h>
+> +
+> +#include <asm/bugs.h>
+> +#include <asm/vendor_extensions/thead.h>
+> +
+> +static enum mitigation_state ghostwrite_state;
+> +
+> +void ghostwrite_set_vulnerable(void)
+> +{
+> +	ghostwrite_state =3D VULNERABLE;
+> +}
+> +
+> +/*
+> + * Vendor extension alternatives will use the value set at the time of b=
+oot
+> + * alternative patching, thus this must be called before boot alternativ=
+es are
+> + * patched (and after extension probing) to be effective.
+> + */
+> +void ghostwrite_enable_mitigation(void)
+> +{
+> +	if (IS_ENABLED(CONFIG_RISCV_ISA_XTHEADVECTOR) &&
+> +	    ghostwrite_state =3D=3D VULNERABLE && !cpu_mitigations_off()) {
+> +		disable_xtheadvector();
+> +		ghostwrite_state =3D MITIGATED;
+> +	}
+> +}
+> +
+> +enum mitigation_state ghostwrite_get_state(void)
+> +{
+> +	return ghostwrite_state;
+> +}
+> +
+> +ssize_t cpu_show_ghostwrite(struct device *dev, struct device_attribute =
+*attr, char *buf)
+> +{
+> +	if (IS_ENABLED(CONFIG_RISCV_ISA_XTHEADVECTOR)) {
+> +		switch (ghostwrite_state) {
+> +		case UNAFFECTED:
+> +			return sprintf(buf, "Not affected\n");
+> +		case MITIGATED:
+> +			return sprintf(buf, "Mitigation: xtheadvector disabled\n");
+> +		case VULNERABLE:
+> +			fallthrough;
+> +		default:
+> +			return sprintf(buf, "Vulnerable\n");
+> +		}
+> +	} else {
+> +		return sprintf(buf, "Not affected\n");
+> +	}
+> +}
+> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
+e.c
+> index 56b5054b8f86..1f4329bb8a9d 100644
+> --- a/arch/riscv/kernel/cpufeature.c
+> +++ b/arch/riscv/kernel/cpufeature.c
+> @@ -17,6 +17,7 @@
+>  #include <linux/of.h>
+>  #include <asm/acpi.h>
+>  #include <asm/alternative.h>
+> +#include <asm/bugs.h>
+>  #include <asm/cacheflush.h>
+>  #include <asm/cpufeature.h>
+>  #include <asm/hwcap.h>
+> @@ -867,7 +868,13 @@ static int __init riscv_fill_hwcap_from_ext_list(uns=
+igned long *isa2hwcap)
+>  		riscv_fill_vendor_ext_list(cpu);
+>  	}
+> =20
+> -	if (has_xtheadvector_no_alternatives() && has_thead_homogeneous_vlenb()=
+ < 0) {
+> +	/*
+> +	 * Execute ghostwrite mitigation immediately after detecting extensions
+> +	 * to disable xtheadvector if necessary.
+> +	 */
+> +	if (ghostwrite_get_state() =3D=3D VULNERABLE) {
+> +		ghostwrite_enable_mitigation();
+> +	} else if (has_xtheadvector_no_alternatives() && has_thead_homogeneous_=
+vlenb() < 0) {
+>  		pr_warn("Unsupported heterogeneous vlenb detected, vector extension di=
+sabled.\n");
+>  		disable_xtheadvector();
+>  	}
+> diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
+> index fdaa24bb641a..a7e511849875 100644
+> --- a/drivers/base/cpu.c
+> +++ b/drivers/base/cpu.c
+> @@ -599,6 +599,7 @@ CPU_SHOW_VULN_FALLBACK(retbleed);
+>  CPU_SHOW_VULN_FALLBACK(spec_rstack_overflow);
+>  CPU_SHOW_VULN_FALLBACK(gds);
+>  CPU_SHOW_VULN_FALLBACK(reg_file_data_sampling);
+> +CPU_SHOW_VULN_FALLBACK(ghostwrite);
+> =20
+>  static DEVICE_ATTR(meltdown, 0444, cpu_show_meltdown, NULL);
+>  static DEVICE_ATTR(spectre_v1, 0444, cpu_show_spectre_v1, NULL);
+> @@ -614,6 +615,7 @@ static DEVICE_ATTR(retbleed, 0444, cpu_show_retbleed,=
+ NULL);
+>  static DEVICE_ATTR(spec_rstack_overflow, 0444, cpu_show_spec_rstack_over=
+flow, NULL);
+>  static DEVICE_ATTR(gather_data_sampling, 0444, cpu_show_gds, NULL);
+>  static DEVICE_ATTR(reg_file_data_sampling, 0444, cpu_show_reg_file_data_=
+sampling, NULL);
+> +static DEVICE_ATTR(ghostwrite, 0444, cpu_show_ghostwrite, NULL);
+> =20
+>  static struct attribute *cpu_root_vulnerabilities_attrs[] =3D {
+>  	&dev_attr_meltdown.attr,
+> @@ -630,6 +632,7 @@ static struct attribute *cpu_root_vulnerabilities_att=
+rs[] =3D {
+>  	&dev_attr_spec_rstack_overflow.attr,
+>  	&dev_attr_gather_data_sampling.attr,
+>  	&dev_attr_reg_file_data_sampling.attr,
+> +	&dev_attr_ghostwrite.attr,
+>  	NULL
+>  };
+> =20
+> diff --git a/include/linux/cpu.h b/include/linux/cpu.h
+> index bdcec1732445..6a0a8f1c7c90 100644
+> --- a/include/linux/cpu.h
+> +++ b/include/linux/cpu.h
+> @@ -77,6 +77,7 @@ extern ssize_t cpu_show_gds(struct device *dev,
+>  			    struct device_attribute *attr, char *buf);
+>  extern ssize_t cpu_show_reg_file_data_sampling(struct device *dev,
+>  					       struct device_attribute *attr, char *buf);
+> +extern ssize_t cpu_show_ghostwrite(struct device *dev, struct device_att=
+ribute *attr, char *buf);
+> =20
+>  extern __printf(4, 5)
+>  struct device *cpu_device_create(struct device *parent, void *drvdata,
+>=20
+> --=20
+> 2.45.0
+>=20
+
+--BDWQktOaFXWzZKLA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZuhm5AAKCRB4tDGHoIJi
+0o/8AP46nRHLzYJMf/Kn0ccLu8HgFMl06xA2uZNL2DRsNcsvYwEA6UAJp/+RMDFw
+Rn7EJEd5f5gEMcMAQ8ZT4ak2Y/t3kws=
+=fR+0
+-----END PGP SIGNATURE-----
+
+--BDWQktOaFXWzZKLA--
