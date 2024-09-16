@@ -1,113 +1,144 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB4E149C57;
-	Mon, 16 Sep 2024 10:32:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E82CC38DC7;
+	Mon, 16 Sep 2024 10:35:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.156.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726482767; cv=none; b=bLVNFPISSqdn2QXiLs8CQoSeKbHqx3ZyPGp9onTJgdHb1t0qJdJ+wbwcp3rAz4ntHbz8BzlRXdxOa2Hnfjx5tTDIhYC9vByDwnBdG5YF6l6JzZv2ZxxsXyf9JPwXeLFArn1z41jw+zjy6N3GekglboIapi/1/06tOC8sbwX3Aas=
+	t=1726482911; cv=none; b=h8rNaiiKWjnHbEeSfGtO+1p5lvY9cBKSUrhruRKjWJpvPwbGFicw+rPt4L3rRMIMnwkHNRDNl+yogrK8rgrpUdtIpMtbEhLotvtCXnaxIceS1HDg6Cs0K8wtTOVD5nums0HnngKZ2BBfZIzFTmb0IkZV6JfbeBftLn4rlSgJzho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726482767; c=relaxed/simple;
-	bh=Zpz37HkUvrAbwT+DO7KcNA1oH1DGcUUR3N3ma8234+U=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=CbbWlfqqq3gL/oA0TIFisGZEt4iE6mCnSl/d2tn+CtTj14cHcD1PsiaNZ6dn9l5tJumtQRECFPtAdxoUSLb8uU3D3oNhCCFHnqiEkKVNk+izholKEl8+Xmd2AJnHdY/CR9KUHVbPrnRBLyaVtSqAogg6XMu1R/UxBle+w0YcOHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=y3CGWADL; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=WXteRppa; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1726482911; c=relaxed/simple;
+	bh=6hThVLAobU97EV9SddQBQCxC/TXSssVg2gPUMIGmyhM=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=a4RnArHd6S87y47iN6jpF4D51D61rHFtUbLpb/ZefYYIN98hnzWeilbK0cZqL+zsRDJ5aCr/PnIQa1WtscKrSZcC4BtLno1BnYVwOXLKTiXglmpJ5G1r38F75H0tYrSGQrSLJ0WfUt/B27Yb0TTFN2Szhyf9dppy/rNNqshRBAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=YkLlDIX9; arc=none smtp.client-ip=67.231.156.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="y3CGWADL";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="WXteRppa"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1726482764;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TgTtLOOHYrCqvUwF7dfP7WkadfDMZDQpzcSpIj2VBFo=;
-	b=y3CGWADLhxRdskU+nFNiS1vGNZ3BWsHvf1LllzZqUfQ1U4IJjSquxqiwWbVH3rtZKn5e1n
-	v51XNqEfW1+cdqFzN4XRE3rWmWce4dI0q57b4Rkip7Wn1vODnJ+amPCNGf5ng0QRYpgJul
-	0r/9S14Qohf8HlPNkYQWntaqKUgOwfoadwnKpXl5IS+ItPRScN2iNhIyFRHwwccQVCdPip
-	O7UvNkFfXyLBYOumwd8J+Pn+WcwF77Qnk37zeAWif27Tvl8NUushqMxPrX53/3USpoAAGW
-	cJUbmLwvIzUa6RTlH3Mp/TBsERyPhaH5Uh0cC4aDIRuFj5RtqU5lELKVAGChWA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1726482764;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TgTtLOOHYrCqvUwF7dfP7WkadfDMZDQpzcSpIj2VBFo=;
-	b=WXteRppaW9d3WJvS9/9s5wPnliTnVEYb5H5kAFYm3vjgMmg8IRelC6h8tWHC1sHrRFdcsS
-	kS28JHisBM727RDA==
-To: Jeff Layton <jlayton@kernel.org>, John Stultz <jstultz@google.com>,
- Stephen Boyd <sboyd@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Steven
- Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jonathan Corbet
- <corbet@lwn.net>, Chandan Babu R <chandan.babu@oracle.com>, "Darrick J.
- Wong" <djwong@kernel.org>, Theodore Ts'o <tytso@mit.edu>, Andreas Dilger
- <adilger.kernel@dilger.ca>, Chris Mason <clm@fb.com>, Josef Bacik
- <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, Hugh Dickins
- <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>, Chuck Lever
- <chuck.lever@oracle.com>, Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Cc: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-ext4@vger.kernel.org, linux-btrfs@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-mm@kvack.org, Jeff Layton
- <jlayton@kernel.org>
-Subject: Re: [PATCH v8 01/11] timekeeping: move multigrain timestamp floor
- handling into timekeeper
-In-Reply-To: <87a5g79aag.ffs@tglx>
-References: <20240914-mgtime-v8-0-5bd872330bed@kernel.org>
- <20240914-mgtime-v8-1-5bd872330bed@kernel.org> <87a5g79aag.ffs@tglx>
-Date: Mon, 16 Sep 2024 12:32:43 +0200
-Message-ID: <874j6f99dg.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="YkLlDIX9"
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+	by mx0b-0016f401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48FMdrZF016228;
+	Mon, 16 Sep 2024 03:34:56 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pfpt0220; bh=Q
+	+w7FYmhKTADAikeuxxH+97+wFkw7eBvOGmD2b/W4nc=; b=YkLlDIX90e6Vl+vI8
+	mtgQGc+0k28sggwHqBRN0+dBQaHDQ8jgI/aDZCrigbggOuuyK9MclaSXSd8ub5an
+	i462dFsPezpFAOh7h3EeMKX2AIFhXH4rWgpe3fkPSLURFlhI9HjDzc+kK+9LmnSc
+	uDHQDdncX9dQEwLLFMSuDVa04jIS59o72+YYxvJhKBvzbrhjhnaEjbs2ExfRY/e9
+	y2ayzVOBjfyjXvi9f+qLrEn+/U/5UlXONj9jBOMFZiGEo8BejaMMCDZSWimH1cF1
+	l5I5QXZyyQoQ49M7qgeXJaRPYT/Z2CGSR1YSrGJZvs+xCpgwDu1B96ML3tGRacd7
+	Wqzyw==
+Received: from dc5-exch05.marvell.com ([199.233.59.128])
+	by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 41na0fw3pv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 16 Sep 2024 03:34:55 -0700 (PDT)
+Received: from DC5-EXCH05.marvell.com (10.69.176.209) by
+ DC5-EXCH05.marvell.com (10.69.176.209) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.4; Mon, 16 Sep 2024 03:34:53 -0700
+Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH05.marvell.com
+ (10.69.176.209) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
+ Transport; Mon, 16 Sep 2024 03:34:53 -0700
+Received: from virtx40.. (unknown [10.28.34.196])
+	by maili.marvell.com (Postfix) with ESMTP id CCD7D3F704A;
+	Mon, 16 Sep 2024 03:34:49 -0700 (PDT)
+From: Linu Cherian <lcherian@marvell.com>
+To: <suzuki.poulose@arm.com>, <mike.leach@linaro.org>, <james.clark@arm.com>
+CC: <linux-arm-kernel@lists.infradead.org>, <coresight@lists.linaro.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+        <corbet@lwn.net>, <devicetree@vger.kernel.org>, <sgoutham@marvell.com>,
+        <gcherian@marvell.com>, Linu Cherian <lcherian@marvell.com>
+Subject: [PATCH v10 1/8] dt-bindings: arm: coresight-tmc: Add "memory-region" property
+Date: Mon, 16 Sep 2024 16:04:30 +0530
+Message-ID: <20240916103437.226816-2-lcherian@marvell.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240916103437.226816-1-lcherian@marvell.com>
+References: <20240916103437.226816-1-lcherian@marvell.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: EQP2SgR-2Gfe5zyRrAMMPrd0tcP9_6-3
+X-Proofpoint-GUID: EQP2SgR-2Gfe5zyRrAMMPrd0tcP9_6-3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 
-On Mon, Sep 16 2024 at 12:12, Thomas Gleixner wrote:
-> On Sat, Sep 14 2024 at 13:07, Jeff Layton wrote:
->> +	do {
->> +		seq = read_seqcount_begin(&tk_core.seq);
->> +
->> +		ts->tv_sec = tk->xtime_sec;
->> +		mono = tk->tkr_mono.base;
->> +		nsecs = timekeeping_get_ns(&tk->tkr_mono);
->> +		offset = *offsets[TK_OFFS_REAL];
->> +	} while (read_seqcount_retry(&tk_core.seq, seq));
->> +
->> +	mono = ktime_add_ns(mono, nsecs);
->> +
->> +	if (atomic64_try_cmpxchg(&mg_floor, &old, mono)) {
->> +		ts->tv_nsec = 0;
->> +		timespec64_add_ns(ts, nsecs);
->> +	} else {
->> +		/*
->> +		 * Something has changed mg_floor since "old" was
->> +		 * fetched. "old" has now been updated with the
->> +		 * current value of mg_floor, so use that to return
->> +		 * the current coarse floor value.
->
-> 'Something has changed' is a truly understandable technical
-> explanation.
+memory-region 0: Reserved trace buffer memory
 
-     old = mg_floor
-                                mono = T1;
-                                mg_floor = mono
-preemption
+  TMC ETR: When available, use this reserved memory region for
+  trace data capture. Same region is used for trace data
+  retention after a panic or watchdog reset.
 
-     do {
-        mono = T2;
-     }
+  TMC ETF: When available, use this reserved memory region for
+  trace data retention synced from internal SRAM after a panic or
+  watchdog reset.
 
-     cmpxchg fails and the function returns a value based on T1
+memory-region 1: Reserved meta data memory
 
-No?
+  TMC ETR, ETF: When available, use this memory for register
+  snapshot retention synced from hardware registers after a panic
+  or watchdog reset.
 
-Thanks,
+Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Linu Cherian <lcherian@marvell.com>
+---
+Changelog from v9:
+No changes.
 
-        tglx
+ .../bindings/arm/arm,coresight-tmc.yaml       | 26 +++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/arm/arm,coresight-tmc.yaml b/Documentation/devicetree/bindings/arm/arm,coresight-tmc.yaml
+index cb8dceaca70e..4787d7c6bac2 100644
+--- a/Documentation/devicetree/bindings/arm/arm,coresight-tmc.yaml
++++ b/Documentation/devicetree/bindings/arm/arm,coresight-tmc.yaml
+@@ -101,6 +101,29 @@ properties:
+           and ETF configurations.
+         $ref: /schemas/graph.yaml#/properties/port
+ 
++  memory-region:
++    items:
++      - description: Reserved trace buffer memory for ETR and ETF sinks.
++          For ETR, this reserved memory region is used for trace data capture.
++          Same region is used for trace data retention as well after a panic
++          or watchdog reset.
++          This reserved memory region is used as trace buffer or used for trace
++          data retention only if specifically selected by the user in sysfs
++          interface.
++          The default memory usage models for ETR in sysfs/perf modes are
++          otherwise unaltered.
++
++          For ETF, this reserved memory region is used by default for
++          retention of trace data synced from internal SRAM after a panic
++          or watchdog reset.
++      - description: Reserved meta data memory. Used for ETR and ETF sinks
++          for storing metadata.
++
++  memory-region-names:
++    items:
++      - const: tracedata
++      - const: metadata
++
+ required:
+   - compatible
+   - reg
+@@ -115,6 +138,9 @@ examples:
+     etr@20070000 {
+         compatible = "arm,coresight-tmc", "arm,primecell";
+         reg = <0x20070000 0x1000>;
++        memory-region = <&etr_trace_mem_reserved>,
++                       <&etr_mdata_mem_reserved>;
++        memory-region-names = "tracedata", "metadata";
+ 
+         clocks = <&oscclk6a>;
+         clock-names = "apb_pclk";
+-- 
+2.34.1
+
