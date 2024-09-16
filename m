@@ -1,105 +1,133 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D398288B1;
-	Mon, 16 Sep 2024 08:39:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0424F9DA;
+	Mon, 16 Sep 2024 08:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726475985; cv=none; b=K/0UxCaejAH9Q/r+cE6iq6/NjuptIl9idYinScrtU3p+Jde5mHTMpBJR+4xXKXll0r4DTg+KDCKPt5UshHB/P4KiMuZQ1F9ga4mirizCqXm/8t55bT/tn51i//KQJYcVVFIrl9AueGgcgYCgq07I41zLIaEcTLhnDPGp/NzCg9o=
+	t=1726476340; cv=none; b=CUySSc+Q2SdoSbzwRNteLTBQQe+QtgpiPfeL8G2AU6+sQl5Czyg72ifQYRZBb348KVbNE1KlYqDMeU/Rfn1vxpSy97okqKW5KZgm24Thnt1oBDsdfZAVmNEeq3sIO+TNp5y7E+sgiqplp464andoK+r8/IuKO9mY86iAE44Et+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726475985; c=relaxed/simple;
-	bh=r1aiawJAUvBE1ZAeT7ppZmQdx7tHrSaRGOpWfYAWL9o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZQQdGAy6LU9kYcwaBYMEfM3CF7hyUucdyh3JxI5uOSVUz5BrGySWFl/FxijnPVyBAh0OAFxxbjtR6MpFQnQDxVNUFW8jsrbUrg+gwiVeOoqSU0fvUb8pELnViljw6Qhc3dPKMBTGRB8i6hMt/dvGG9619AdElL2O7Wb2NPbnO+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c78mPFM9; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1726476340; c=relaxed/simple;
+	bh=7ZtDFdk/VT72J39y+PwJRLp2A1IMoARp02IK9JEskBI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=h7YPmect0lZy7vccD+DmubvXaCciTYmAaTZMuZ8DixzFwf6oYwV1kG9+zMu0O5snY9vMpGhl65dLqphny5LkheyAajZm2dhdTQVCpW9pZyQM8zrHWQ8LjE3GKRsWS2BHjPTtsSdb0oXpkwXa5SSSJJ9Pq0LIegyCFqQgrPqN4ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pqtI6mun; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c78mPFM9"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7db3e962c2aso101295a12.0;
-        Mon, 16 Sep 2024 01:39:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726475983; x=1727080783; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ubkh6TTC0SSzHx8qCL2vYBVaYHXk6OuKdRV5nCiZIw4=;
-        b=c78mPFM9jLYpmdMUVszxPL6TEys2JbSFgtw/nmVed1f7RlE23/kiOz+wmcHL//Cy8m
-         vz6cmFAuzE0skRqY86up9JiUuOfTZUXWQDSswmrAW5v7WBM8vWZVd90nNzjA+FobROkb
-         mK8uwGZAVSU4DmAZmcwiyWb2V5HoZsWLevyixTR1g0hJ+fSG6TiVRroRjSX/hrrcruXr
-         xXIfSkv7jOehclWjyoAHVr533dNDd6IBFYjioC+aTGXSv/4KwgVsTrIIBPG0g/qpwk2D
-         OBltXlCydY3+sUq+WaFWM3o8KpCrdPFGcP0Au+6t4tCkY+qxa3xa9Hd513e5M1o+ci+a
-         QT6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726475983; x=1727080783;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ubkh6TTC0SSzHx8qCL2vYBVaYHXk6OuKdRV5nCiZIw4=;
-        b=r+tEK/6swQ/Yk+FDpQ1VB2xQCWCmlJr4iJ1eMimRg4jaX1lEopNv2b0Bbd+kUcUA+G
-         v4dAA2fPhuxGpUlY++bzduok4sHfq2eaTrC5iqn0yIRAky87aAm4Sdd+Rv+n//n+dZYY
-         on/viZi/4e8OqvdqOOkOvmXdvHF3U7DI95/UytA4+6LoNp3ojV7W+GGY2HokCe+9BZCC
-         Emc6ekcK4zJ+qAfTGbrUNcqmzw8Xk3R0EjFq8WlYWOkO3AQhX358LlBaIq+ke1yRP2ZG
-         LF7ct4WZjYEfyXyi2usRVu7C4N8ycXR70QMpMQXx3IKcNenTQIP6taZc+zNiD8kyXGj0
-         3EsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUW4e8eazQ0pFsf5xjC5+k40lEnbJKNT8YExV3WwRZpm2omY0wdggoYqKLsBWQrWGm9n6hbuoFKZQOxcv7qIjY=@vger.kernel.org, AJvYcCVqV0E3h/KfPEV7fFpb8aboSTnt/mHzZ2O01ytEXeaKW2ObJbFgsY8cf3pMQII4Mnc9Q9H59s5VLwvHad9o@vger.kernel.org, AJvYcCX9op1CopeJ/vzM8AsJ1vsGoxSdytctYQIoMzXwJ8B3gvD/08wOuDnIBzXa+gDtdCBnInJ+TBZ20Vho@vger.kernel.org, AJvYcCXCjDzczsAY5CzOzD2R+Nb+iamlLIqvlEN+3c2ZK1qpQfkZ0sfdlJ08j+B3jNMwFujsG0QNbEI0FRU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWO50sBp0fqsL5e2Yz8ApdI+bZb+R0tdVGhalCGV5wTAnU/1fv
-	2rh/wjXi0TkrZyrAvbHuXQOR/zHX4Dbejkoq30nYOUdZvBRObofUcU9hkYS5BYa8DIbjtCeEhv2
-	gSZQXfxzlVa05ZtxMLQDt3F4Y2GI=
-X-Google-Smtp-Source: AGHT+IF0jWg/1gtEp2K/kG2nA1SdhPfAODOi8k+DBysvYjHaORRnI+et6X1UBrRFVN0szySihjj1APTsUldJpffBdiY=
-X-Received: by 2002:a17:902:e74e:b0:205:861c:5c37 with SMTP id
- d9443c01a7336-2076e370f21mr93895215ad.6.1726475983139; Mon, 16 Sep 2024
- 01:39:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pqtI6mun"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67D11C4CEC4;
+	Mon, 16 Sep 2024 08:45:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726476340;
+	bh=7ZtDFdk/VT72J39y+PwJRLp2A1IMoARp02IK9JEskBI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=pqtI6munYgqj3zBUUmEV+ausv/LlznH+BpGHW1EbH/YkvkaWYmKtMccgwEuC0ooyb
+	 DQtp1UYWjVCDogJMzKHO14wttdBfu1RIkRrtTXn2IacD0Vywg6hYIzUvz/Xy37t9iO
+	 xxaqpfyrUtpPxXJk9HQ3vZOUAaMobql2rTvO8iMkkZz2CzH+0XVxmpnslN8M3lttam
+	 MC8kZB8tu+gbH3PFQSHQ/IJcfaO1COhEH4+oUvMOX1VbrrABHKbfd15wD+Pm8+TNwK
+	 y2ysgmGAFZwaj3my4V2cGeAQD3GGow/qdJOp9hSiECVbVvMISsI7Ar4MM0WZ+pNPBi
+	 2NsHSfgNw/0vA==
+Message-ID: <9035e0e1-ea47-4f40-b0d1-38dc4d80acee@kernel.org>
+Date: Mon, 16 Sep 2024 10:45:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240911185931.16971-1-carlos.bilbao.osdev@gmail.com>
-In-Reply-To: <20240911185931.16971-1-carlos.bilbao.osdev@gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 16 Sep 2024 10:39:31 +0200
-Message-ID: <CANiq72nVp=xMQHBbKwayD0e8PpysbVz8eegx+meGqqw3y5HTtA@mail.gmail.com>
-Subject: Re: [PATCH] kernel-docs: Add new section for Rust learning materials
-To: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-Cc: corbet@lwn.net, ojeda@kernel.org, alex.gaynor@gmail.com, 
-	boqun.feng@gmail.com, gary@garyguo.net, benno.lossin@proton.me, 
-	a.hindborg@samsung.com, aliceryhl@google.com, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, bilbao@vt.edu
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dt-bindings: hwmon: pmbus: add ti tps25990
+ documentation
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, linux-hwmon@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org
+References: <20240909-tps25990-v1-0-39b37e43e795@baylibre.com>
+ <20240909-tps25990-v1-1-39b37e43e795@baylibre.com>
+ <3efbzcys4762rhx2h2cbhqvi6dgik7pfrxcziccdko34pb5z54@joodcym6c3s4>
+ <1jzfofsvmh.fsf@starbuckisacylon.baylibre.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <1jzfofsvmh.fsf@starbuckisacylon.baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 11, 2024 at 8:59=E2=80=AFPM Carlos Bilbao
-<carlos.bilbao.osdev@gmail.com> wrote:
->
-> Include a new section in the Index of Further Kernel Documentation with
-> resources to learn Rust. Reference it in the Rust index.
+On 10/09/2024 11:31, Jerome Brunet wrote:
+>>> +
+>>> +  interrupts:
+>>> +    description: PMBUS SMB Alert Interrupt.
+>>> +    maxItems: 1
+>>> +
+>>> +  regulators:
+>>> +    type: object
+>>> +    description:
+>>> +      list of regulators provided by this controller.
+>>
+>> You have just one regulator, so drop "regulators" node and use directly
+>> vout here.
+> 
+> Just took the example the other pmbus device and did the same for
+> consistency.
+> 
+> In that case, there other (possible) regulator called gpdac1 and gpdac2.
+> I haven't even tried to implement the support for those.
 
-Thanks for this, Carlos! It would be nice to mention that this came
-out of a session of Kangrejos with suggestions from people in the room
-(or who suggested it).
+Your binding should be complete. Does not matter whether you implemented
+it in drivers or not.
 
-Did you rank/filter them in some way? i.e. my plan was to perhaps make
-a poll or something in Zulip and then pick the best ones.
+> 
+> Since it would not break old DTs to add that later, I thought it would be OK
+> to add them later. Should I add them now ?
 
-A few extra that got mentioned: https://rust-book.cs.brown.edu
-(perhaps could go into the Rust book entry somehow; having said that,
-I am not sure if it is being updated, and it is part of an
-"experiment"), https://newrustacean.com, the reference,
-https://github.com/rust-lang/opsem-team/blob/main/fcps.md...
+This should be added now.
 
-> +    * Name: **Linux Plumbers (LPC) Rust presentations**
 
-I wonder if listing individual talks may be a bit too much, compared
-to other entries in the file that link to the overall resource.
-Perhaps LPC should be in a different section as a "global" resource,
-perhaps with links to the few latest years' full schedules?
 
-> +    * Name: **The Rustacean Station Podcast**
+Best regards,
+Krzysztof
 
-By the way, are these sorted in any particular way?
-
-Cheers,
-Miguel
