@@ -1,43 +1,52 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A532516087B;
-	Tue, 17 Sep 2024 16:19:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBD1175D5C;
+	Tue, 17 Sep 2024 16:24:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726589980; cv=none; b=b7YMsKj7ADvaSNOfjd6LES7bWSKjIpmYYWTLsB26gggT+GUrn1JdpbTQXhHK0gN1NGQKwtIAI2UBP0CwldIxV/1Bt/lfCfcS01g/MSx97zFRa+z5SCVCbjv6LfJ5Q/pWpP0mmR6XwtlRYwteKqbnycJmikJjQoj6rCko/OiyhRM=
+	t=1726590291; cv=none; b=b4wv9qfeLYWcxf7OOi2kga4tQNpi7x19dcy1ayrMoMYirDH7L54xfnKA4+edRIRgV/lY7N1Lnj5wm0Qab/71S56YwUr3P6KCl731BqEvw9QgLlnJ+PGsEHmnkuho66ZGnKyHTzpdhRi7MOvHMnOnhU9jYsEZ95aksCkTGWiWGC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726589980; c=relaxed/simple;
-	bh=NN9m8NfqK3If83ueuNG5dcHBTu5/SNVFoZo04xRw6b8=;
+	s=arc-20240116; t=1726590291; c=relaxed/simple;
+	bh=FSJzYyebJu6EW3JtLhOKiicsMZb4Rpff6c5JHt6r/Uc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QA4WMOX1yCm6dF73UHUmrQw7YPXXRepAKYaF4FtYxQepr40WnnYq54EYhMf3A9q7ZlTYpK5sFqhRHPM8Z6PXEcq9vQs4EWLFwfvajTOELmAnOTzDPe9K5A0k8lwpyumRUqEL1TT6E1kL0BKa7gbNkV9AuItJzd/ZAM9/hMJ/cKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jG6DhWt6; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=YNAMRzAgRcaCYw1Scm+b6MYbdlddlAVz2zyUDmWJwZAIOJXNkmkDYwtSJBijlwKKRws5ts7o5jNxs/B5W8iXBZIcmhV7j241IQgkUssh95w+jooYfmNE3MCDh3Pq69Imn2v7RjuDPX/CX9mDT10KuATUi7GvF/oWhmJd1HkvArY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R3yUgbQt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jG6DhWt6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 262EBC4CEC5;
-	Tue, 17 Sep 2024 16:19:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R3yUgbQt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6831FC4CEC5;
+	Tue, 17 Sep 2024 16:24:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726589980;
-	bh=NN9m8NfqK3If83ueuNG5dcHBTu5/SNVFoZo04xRw6b8=;
+	s=k20201202; t=1726590290;
+	bh=FSJzYyebJu6EW3JtLhOKiicsMZb4Rpff6c5JHt6r/Uc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jG6DhWt6w0s07Ozk0gztKd3I50b9LzszgG8/smjqdA6BFBkj4JXa/9RPFKL96W+m3
-	 I3BUTVGeANrKokdqRr7W0eotKeBCq4PekWuPvZBdLvMaAW3ZDBxZqD7OBYrCJyEMGn
-	 hlrJ+O/E67EM/Pv0macAnpgIWLiC7BPnMQs5i7gs6xALOU0r2OzJH0itg0qe1+BnX2
-	 1yiwTkAmlpeA3jbcz/Eqghi/Q3x+UmlEcUfLKQ/tD1635P/7O6liAkRIWa4H1S+jsP
-	 NuFbCAv+1Xegi2lqlizO6lc+iXwRi3gme0gS1uwc/E6s8Tsi0aMYX7ZDCYYRivDnUV
-	 idRfyUFn87nyA==
-Date: Tue, 17 Sep 2024 09:19:38 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-xfs@vger.kernel.org,
-	Pankaj Raghav <p.raghav@samsung.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] Documentation: iomap: fix a typo
-Message-ID: <20240917161938.GE182218@frogsfrogsfrogs>
-References: <20240820161329.1293718-1-kernel@pankajraghav.com>
- <20240912-frist-backfisch-a5badbdd5752@brauner>
+	b=R3yUgbQtV8tokG1/kV8PQm0MbBIf4yGJMYzMOVqL3YftanW05+prjHe//G1Pu3B9d
+	 bDcevZBzWinn4BdwWbpwDmt2ipSyNaM5+a/ZojefTgf1tKpFIRRLHDS2KMnaPHNxPg
+	 stRxN03aOiXPGDwijZuM2+wRNTi20wk4teUNIMSFKGntJBbMshkDG1utS2XDCivZU0
+	 iafMUy3dIE5przpHhFh5p/e4kJoYGGZkKOgOGJIlCWsLdZ0MmBcLg/2QokpFGHendm
+	 1B91XwDCuvTlYWhhgWMRAX0GRvLVZHY+ZAVjAg6id5VhPleH0Q78wxWcQtPdApgI2l
+	 /FGI00YRFKXJQ==
+Date: Tue, 17 Sep 2024 17:24:43 +0100
+From: Simon Horman <horms@kernel.org>
+To: Wei Huang <wei.huang2@amd.com>
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+	Jonathan.Cameron@huawei.com, helgaas@kernel.org, corbet@lwn.net,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, alex.williamson@redhat.com, gospo@broadcom.com,
+	michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
+	somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
+	manoj.panicker2@amd.com, Eric.VanTassell@amd.com,
+	vadim.fedorenko@linux.dev, bagasdotme@gmail.com,
+	bhelgaas@google.com, lukas@wunner.de, paul.e.luse@intel.com,
+	jing2.liu@intel.com
+Subject: Re: [PATCH V5 2/5] PCI/TPH: Add Steering Tag support
+Message-ID: <20240917162443.GQ167971@kernel.org>
+References: <20240916205103.3882081-1-wei.huang2@amd.com>
+ <20240916205103.3882081-3-wei.huang2@amd.com>
+ <20240917073215.GH167971@kernel.org>
+ <6efc219d-29e1-4169-8393-c7e4610347cc@amd.com>
+ <20240917161410.GP167971@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,34 +55,35 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240912-frist-backfisch-a5badbdd5752@brauner>
+In-Reply-To: <20240917161410.GP167971@kernel.org>
 
-On Thu, Sep 12, 2024 at 02:07:39PM +0200, Christian Brauner wrote:
-> On Tue, 20 Aug 2024 18:13:29 +0200, Pankaj Raghav (Samsung) wrote:
-> > Change voidw -> void.
+On Tue, Sep 17, 2024 at 05:14:10PM +0100, Simon Horman wrote:
+> On Tue, Sep 17, 2024 at 09:31:00AM -0500, Wei Huang wrote:
 > > 
 > > 
+> > On 9/17/24 02:32, Simon Horman wrote:
+> > > On Mon, Sep 16, 2024 at 03:51:00PM -0500, Wei Huang wrote:
+> > ...
+> > >> +	val = readl(vec_ctrl);
+> > >> +	mask = PCI_MSIX_ENTRY_CTRL_ST_LOWER | PCI_MSIX_ENTRY_CTRL_ST_UPPER;
+> > >> +	val &= ~mask;
+> > >> +	val |= FIELD_PREP(mask, (u32)tag);
+> > > 
+> > > Hi Wei Huang,
+> > > 
+> > > Unfortunately clang-18 (x86_64, allmodconfig, W=1, when applied to net-next)
+> > > complains about this.  I think it is because it expects FIELD_PREP to be
+> > > used with a mask that is a built-in constant.
+> > 
+> > I thought I fixed it, but apparently not enough for clang-18. I will
+> > address this problem, along with other comments from you and Bjorn (if any).
+> > 
+> > BTW there is another code in drivers/gpu/drm/ using a similar approach.
 > 
-> Applied to the vfs.blocksize branch of the vfs/vfs.git tree.
-> Patches in the vfs.blocksize branch should appear in linux-next soon.
+> Thanks,
+> 
+> I will run some checks over drivers/gpu/drm/ and let you know if they find
+> anything.
 
-Looks correct to me,
-Reviewed-by: Darrick J. Wong <djwong@kernel.org>
-
---D
-
-> 
-> Please report any outstanding bugs that were missed during review in a
-> new review to the original patch series allowing us to drop it.
-> 
-> It's encouraged to provide Acked-bys and Reviewed-bys even though the
-> patch has now been applied. If possible patch trailers will be updated.
-> 
-> Note that commit hashes shown below are subject to change due to rebase,
-> trailer updates or similar. If in doubt, please check the listed branch.
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-> branch: vfs.blocksize
-> 
-> [1/1] Documentation: iomap: fix a typo
->       https://git.kernel.org/vfs/vfs/c/71fdfcdd0dc8
+FWIIW, I did try compiling all the .c files under drivers/gpu/drm/ with
+clang-18, and it did not flag this problem.
