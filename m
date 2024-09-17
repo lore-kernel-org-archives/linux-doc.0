@@ -1,263 +1,236 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2081.outbound.protection.outlook.com [40.107.244.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED3D61E4A6;
-	Tue, 17 Sep 2024 11:21:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726572120; cv=none; b=InIuBmsf1hQC9kHIn9heeVPWXUIfSsuqeQgQKP8NCLPE/uK3H7wPMPMd3aGtFAASfEeOH513UBS/eovNsVGvGg0aFM1iXe5b1CLRFr03Yl1lHXSOcdL4UDVHnorx2nuGSU+hy9xjsFG6Fsan4i6lNQ4iCB7qPhW4EzD3HqTJjNY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726572120; c=relaxed/simple;
-	bh=wWJH4qthvkKah4YoqMVuhDK4KUnv3vBmdbn04K2tkuA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dz+6Qy/mBJw+zk017VlAiFIBehq6DdF6wxQ7lmtUiwu3M8w152Mblyq1OJy6eRN3lgqFy8EAgxBruwLSe/RIh2+fFQUV3Wys/Qf+egnyZlXRcNiE2vMwm4TtsPVAoVxtx3rNexmJSzRhPY3eNzNPfoSHhLfwbP6wp5Jl7jyn9Fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iGiR9O5e; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F140943150;
+	Tue, 17 Sep 2024 12:43:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.81
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726577011; cv=fail; b=Td9mmRCoNeDkt5AhFOSJUr4SERjfkIGY0zJQY+CzTeIB+QPhzn71l2ga7hmXxWARsSHp68Xyk2iOcA9fiGK6b8CXcS8fOCDQI1FUDcWF74+eK1PXMwARTwdIQzr1mfKQ0ZLbL2uDwdaWijwvomr0gcFBxAw1i3zl5RNHLXsOn5o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726577011; c=relaxed/simple;
+	bh=h/fKBuCOZdRLxKH+lR+w9s5UywzOYybYojgbe6JPPAw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ZdFgb1NfhTeAyqaUxs3tIuddFsn3uPbQOqy+KXJCxpI+TsDnoJc1k/iRQcqOOGRJBS1HWvfzY1XU8zfNqQYoGTxVgn1/Di8VtagOWHyBXXvM4yW6/z3OVlF7z1VOrBVXjAt5+H8i8xEhMUITvi6IOJ5c3OO1RURcVoXwjoh9yPs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=3reR2PxY; arc=fail smtp.client-ip=40.107.244.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iGiR9O5e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27D97C4CEC5;
-	Tue, 17 Sep 2024 11:21:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726572119;
-	bh=wWJH4qthvkKah4YoqMVuhDK4KUnv3vBmdbn04K2tkuA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=iGiR9O5eMWIb8wJqL9rnUmMdXKFXDhQPfVi+8D0HJQE6HsRuMn8m2PfuQUyGhj8ft
-	 2P7udfLTAoK+MU13t8w0g1HzKUik0b1ZYAGcB7MDrwHZ6rdD318K8ZDmScnJlk0Jl5
-	 yW5RFiG9A1K95nvXdwNrJHGC28elf9LdjPk5fVBgyW8hDk6W0NVavYv51+U/xRfuZA
-	 bsemn4x9HlaWXivm/730MYwu4BvnCdjAh2CNMADeVYTlx+NKO6+O9kfdjz0nLPvG2a
-	 VfI6c8kvCKBaKvHHzCZDAxSpmAvAgfCwBOebccHgsoEmJIsyTfFFJAIQ9ZFO9k8j8p
-	 MIEbokVh5qfUQ==
-Date: Tue, 17 Sep 2024 12:21:43 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Nuno =?UTF-8?B?U8Oh?= <noname.nuno@gmail.com>
-Cc: Esteban Blanc <eblanc@baylibre.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Nuno Sa <nuno.sa@analog.com>, Jonathan Corbet
- <corbet@lwn.net>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, David Lechner <dlechner@baylibre.com>,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH 4/6] iio: adc: ad4030: add support for ad4630-24 and
- ad4630-16
-Message-ID: <20240917121920.75e7edba@jic23-huawei>
-In-Reply-To: <2b319d9453f4fe8842e4c306d9e2071ad031c0e7.camel@gmail.com>
-References: <20240822-eblanc-ad4630_v1-v1-0-5c68f3327fdd@baylibre.com>
-	<20240822-eblanc-ad4630_v1-v1-4-5c68f3327fdd@baylibre.com>
-	<20240826102748.4be0b642@jic23-huawei>
-	<D452E2M75XCM.13OQGAPJ7JJ4A@baylibre.com>
-	<0a4e7fe39cf36774b28c86f6baab5ef8c20e3d6b.camel@gmail.com>
-	<D4567LFFTYJQ.2YC5OODKOVPNB@baylibre.com>
-	<84961c1f857dfc8498c41ac97235a037111ed6d5.camel@gmail.com>
-	<20240914122529.14759e63@jic23-huawei>
-	<2b319d9453f4fe8842e4c306d9e2071ad031c0e7.camel@gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="3reR2PxY"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sEjqOZ3k5pyIxbFdmzXCq+DedZLVXP1t5rqKrEavwKSIn8SSuHFlcosChxaJrIMNwAKQEb12scK8P3bCigZ2uZD7crmKaiiiuCrEHp+zsaxfIqoWVqAvr01/3NykzJYpVnRwxRK61+WmY3U85CgclMRMEGQCZsMfLpCPGzdwjNbk6rzuqixyMRmJzcjLXfC6OTR4+MkiibjHE/1GliZGC3FU2WMBAPaVpu1b6Dz2wxaO3nQJHRHVfE3libp1gGl0HZhlTF5VBF0CGpIosxVXhqxNvQ1h8orki+abEo+3lbJHd0u9sjVd1tqz0UwhRP7VJxnLmey2opn6NZZao5U3YA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+CYMhQXhVdNu2EXw9c3l7Tj2cyqAX7l8pKgrLPvOuZQ=;
+ b=EH1NwXLZ+QvCABRvu/TlECcgHphzsJx/v8GGkPIVA8FIloHWd2XkIC0BCQ0UtzI5iOs8Jbp06gdGOr1syjvZUtd/+1zut8w+ycTZN8FP9lRJ15/JWPKu25g0fStjQ6Gki/ONM7bcn9u5UTlHUUK7o8LaPyLsFuBEbjzJl+y1p/NHwxl6ybJWbNnOxwwbc54xqQG07jMgb7wraq+Kr4VgwDwxSlnBmT3nChl/pUfGFnPxlhW0iLLJ3pm35Gwun/0kAFB+HuH14vktzeIoia4xUH3SDxN5EyfBf+3PJfDa4RI0veuHwWcdwOJ06s882LLE1wEE5+OYqVq1ojBgeb3lUA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+CYMhQXhVdNu2EXw9c3l7Tj2cyqAX7l8pKgrLPvOuZQ=;
+ b=3reR2PxY0oYtms3LaKo+V8sPBKx9x3DEMuTd3cyKtbj2+Vw44xx+bxzzhwgQX4tbSlbN6iK5f1Mwb4aEVKNW/5bAnaozaJ/61qgokFSvHvQmnPshhU+P4DFWsMLfyg8iYGhem01Zo/V0taNHGnjYlTtAVEK8lWnQ1e0Rz74Fjvo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CH2PR12MB4262.namprd12.prod.outlook.com (2603:10b6:610:af::8)
+ by BY5PR12MB4290.namprd12.prod.outlook.com (2603:10b6:a03:20e::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7962.24; Tue, 17 Sep
+ 2024 12:43:26 +0000
+Received: from CH2PR12MB4262.namprd12.prod.outlook.com
+ ([fe80::3bdb:bf3d:8bde:7870]) by CH2PR12MB4262.namprd12.prod.outlook.com
+ ([fe80::3bdb:bf3d:8bde:7870%5]) with mapi id 15.20.7962.022; Tue, 17 Sep 2024
+ 12:43:25 +0000
+Message-ID: <e471ad3c-daf1-4a21-b800-9934d1d3d9df@amd.com>
+Date: Tue, 17 Sep 2024 18:13:13 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 2/3] mm: Add mempolicy support to the filemap layer
+To: Matthew Wilcox <willy@infradead.org>
+Cc: pbonzini@redhat.com, corbet@lwn.net, akpm@linux-foundation.org,
+ acme@redhat.com, namhyung@kernel.org, mpe@ellerman.id.au,
+ isaku.yamahata@intel.com, joel@jms.id.au, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, bharata@amd.com, nikunj@amd.com
+References: <20240916165743.201087-1-shivankg@amd.com>
+ <20240916165743.201087-3-shivankg@amd.com>
+ <ZuimLtrpv1dXczf5@casper.infradead.org>
+Content-Language: en-US
+From: Shivank Garg <shivankg@amd.com>
+In-Reply-To: <ZuimLtrpv1dXczf5@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN3PR01CA0130.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:bf::19) To CH2PR12MB4262.namprd12.prod.outlook.com
+ (2603:10b6:610:af::8)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB4262:EE_|BY5PR12MB4290:EE_
+X-MS-Office365-Filtering-Correlation-Id: 55c81d9e-d293-4687-3c40-08dcd7165148
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?KzBMdXp3bWNlT2I0dGZUbXJUS2tpYzZxY0dlMTV3ajhIaTYyaDBrMHZXSzFy?=
+ =?utf-8?B?YkZPbkw1dWMyTkw5THcvSW9DOTVmdG1wbFE3T0dtdkNySitkRW1PdGgwN1FH?=
+ =?utf-8?B?UkZVR3ZoOExoY201bHFxWkNPRHVOK3VnOTRrUzNEWkpJM1RHQ2xmRFpISmpQ?=
+ =?utf-8?B?a3ZKQnB3dy9kRDlVMWRsMkRhS2xvaUdxc2lwYWp0U0VBRVQxZ2xXOEswOUwy?=
+ =?utf-8?B?NVVsVENpRzE2U3BlZG1JdWdFQm83cFowVVlWMGxoS0VuTGM1MDBlM2dSL3N5?=
+ =?utf-8?B?U2ZxOUVFdHdranY0RXg5VFRaUTFCZTNLUFYvd05WcHJ3a052SW9zZlFKeTBk?=
+ =?utf-8?B?SURCcjg3Rzc4OWozVHRCR1djaVlQZW1kTCtwSnJIUzQza20reVZEL3JYWnRO?=
+ =?utf-8?B?SCtFUkoxODd5Qy9pa2trUVc5NlAwQ0JVM0hDYy94RmpaTHJVdGY2MEpxbEZa?=
+ =?utf-8?B?NGtnZS9BRUJweTdIay9COFpkT1h3VFlVUkJ0OUt1M0JwdEgzdTRkL0ZZbVBv?=
+ =?utf-8?B?WjBDc3NPcmIzekt5cXZZdi9ubXZzcDV5VkpLRm45TFh6bGpKeVcwM0JTUGUz?=
+ =?utf-8?B?SUZwS2hBN1dmWnRDMy9PRW8wUXRmQlR4eEtLbUZsL2o3KzV2b3A0QXNhdUZw?=
+ =?utf-8?B?ZjNGSmpoY29tNUJFY0J1L3ZHR3ZoQzNtMVRlV3ZFN3V0bSt2SEpvTW9kZ0pt?=
+ =?utf-8?B?YnZXdExVR1A0cTJnbGJ2eGd6M3h0SWYwZm5nQTJwSHRaRHUvbHhJRDB2QWdK?=
+ =?utf-8?B?YVZwVEEzaU1CL1BlUEFkZmJLR0x0WnJ5QXp6SjRKRzJsQnBMVll1UzZLcW56?=
+ =?utf-8?B?WVpSRU54dm5lYzkxNmsrSVlnemFjcnI4QTg3cDNMMTE2bE1tUExOYUs5ajhT?=
+ =?utf-8?B?WWhnSUhxSlF2LzVwdjJ3VVBad1libUE2T1N3RFV3U1ZQeFVNM0llcjN5MXBh?=
+ =?utf-8?B?U2JGRXlqOGRKSTRyU2IwVFV4RzRRNTNKd1phU0V6M1E2MHg2RGFnd3BGQnlx?=
+ =?utf-8?B?WlMrbC9zMUFRTVpoK3pFWmJyZHJ2aUxvbXBqSHc2dmZ0czFWRlZiVmJsT1lF?=
+ =?utf-8?B?Ums2MGsxQzZsaktiYUxNeHhJaTMxQkxvdGVYa3dTaWt3bnBqUXB3UEV6UmJM?=
+ =?utf-8?B?Qk1KZFVCMUN5R1EweVhlTk1RcUUrVWRLMWxQallpVklySVgrcEpNbDJHV0pF?=
+ =?utf-8?B?Zi9BS1l0MG4xK2g4dzlYejIySG93YkJoYTN2NGhsSjlJeWV4NWRCbXp0ejha?=
+ =?utf-8?B?czFBdnIySWp5VWdrMUh2akM1YytaTEtBZEx6U2NpOXBqODlrRkJEQkZoT0F2?=
+ =?utf-8?B?M09pL2h2Nm9tWVZHMjNIbFF4ZWtjY05LVVlsOEJoZlp3MG9yUkJOY2xsZU5P?=
+ =?utf-8?B?eGxLbkdvQy82TTNSQ1BrRUR3c2daQ3FYWVZGWWh1NHQ1cmV0bVYvbW93ZWo4?=
+ =?utf-8?B?aWNSVVNpZ0Jhb2hzZEVlNDhiRkpWUitLMjlyZ0NEUm94UGw2NWtPVFdFMUhG?=
+ =?utf-8?B?ZThsUklDWXI1OVNFdDJva0N0eG1XcW5pMGc5MlppSVRMWTN5VU1WdG15ejBt?=
+ =?utf-8?B?WFhUN1lEbDZ2algxL0RQM3hWb28zc01XTzRwTU5KUHo3UkwzMkdCZ1pZcmhE?=
+ =?utf-8?B?STZ5aUdhakZuZ3RJODlCR2xGdWZxMlZOMTBHR045eCtscVpzdFF1Zm1aS29C?=
+ =?utf-8?B?UlNISmd2NFJ3ckVLampTUmdLTkdFTXlLTDlVTXpITVd3WHZNNE41WGRHSFBv?=
+ =?utf-8?B?RUlsUzhPUXVFeTVXcjQ1VlFxT242OXU5SlBOckMwVlVvQzhmMksyaTROWUNW?=
+ =?utf-8?B?ZzBOa1hsWTNRU1BBV1p6dz09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB4262.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SlZKOWpiTVd0OURQa0pyamlwYkVWNW54am9LdndpNUcrWElGeTlTMmRMS3Fl?=
+ =?utf-8?B?Zm0rZTk1TG9qWE81Z0JNSnFLZkZxTXBFQzQ0aGVoQmc2ZitjbllXdDVjeG1G?=
+ =?utf-8?B?WjQzSkJKQmZ4R0JqWkpySXZ5VFpKWVZhRDNNWUtWZmp3MlJkekkrQWR0VSs1?=
+ =?utf-8?B?U2U0eVY1bnFkVi9LMm1MdE4wNjRjeDl0NmdUeDNtOHBXdDRHYzM5MXZFMTE0?=
+ =?utf-8?B?UkVxSHErQU94Ym9IUVIrVysrUVB3UE14OEhDVCtvWnBXN0lwZXVxbmpORllm?=
+ =?utf-8?B?TVZUL3FTeU1BZHdoYk43QWpNZjVsZVd1Q3ZFRjQ1b1VaLzR4SVd0c2R0ZGls?=
+ =?utf-8?B?d0JtcGFCd2hxQXdFWWRrVUVuQml3UzJmZXNrL3JORGhza1J6ZkkvZXYrOTNS?=
+ =?utf-8?B?ZEV0ZlRNZXUwWno2WDdzYzIrYmlndDVZZFBjRm95NmcrU2pBZWhwKytwTDho?=
+ =?utf-8?B?dThlVXpwTHRHVWtqU1N2bURwaDc2YXpQOHBDMnNqSld6VGtmNW9HWVRQNTRD?=
+ =?utf-8?B?NkwrcXdtNGJoQUtSVzc3dEdwQlJJRXhJa2lKVDE0UGJHUnJGS3pjajlnVmEv?=
+ =?utf-8?B?ZVJxSXV3dE9YNFRjYWpvZHRIaVBTNDNLaG5mUko4cGl0Y3VPazAzMnpsUmo1?=
+ =?utf-8?B?eU1UYlcrUTVPZ2Y0dlV4dm42WUNvYzdnMlcyc0RZeGt5SmtSM29EWTFQM3FN?=
+ =?utf-8?B?S3Y5a1RuT0tGZWZlb2J2S1JPakh3T2RSMjI5NU9EUTlJZkd5bjFHY0Y4ZTlp?=
+ =?utf-8?B?MXh5anVvRFM0V2NyeGduUDB6d2Y2WWJKSmxnU3FxMzQxclF4dy95UjJROFJC?=
+ =?utf-8?B?NEN1ZCs4Z1FXOCtTVWJYUlN2T2dQYW1BK2wwVlo1NzJ2WXc4NHlKVmFodnYr?=
+ =?utf-8?B?blBXYURHYXpTVEdKQ2dFUGREblVXWTdkeFhoYzlDdjUrbkdqcFNLSm1CV1NM?=
+ =?utf-8?B?RmQwUHNKQ3haeC9OZjQ4L0Qvb0Z2NDI1TWpQRzdIM0FpQndpQ3ltOGJMSWVQ?=
+ =?utf-8?B?dEVja0ZqbXVUNERhTnl2SS8xN3IzeWFkV1JheDdZNnV0N0JwSEVvR1p3NEpX?=
+ =?utf-8?B?U3hQYUhQdXRBc1F3bWpYdnhFK214c2hucHA4TUE2bFdvZ2Z6eGk0bzJTSzJ1?=
+ =?utf-8?B?SE5HK0xrZEJSUXRRTm9zQ0hZY21Bby9wUXdWc2c5emxsZDJVRTU0QkVZR0da?=
+ =?utf-8?B?bUdNUkxNdVg0eXJWbFJJcGtKb1AzRm9lTFo0cjdtQ1pnT2doblptcU15RGdN?=
+ =?utf-8?B?TTlwNndub3ptZmpOcFNRRXFCbTBYeEVBRGMyYUtXa1pGYk9hckJ3T1QreWV4?=
+ =?utf-8?B?UUhxdWg3OG55bGVYUW00R1JTbEFMQlVVZ2crNEVpYStvQ2FsZ2FCaEZ5OEU0?=
+ =?utf-8?B?RUNCdUdGczFMR0RRVnMydmxka2pGeHFGSEhYaVRabDBpTXBZZy9GU0wxcU9B?=
+ =?utf-8?B?WW9LYVgzYUhnT1FRQlhBZUdtYXFNMVZCUUNlZ0VhTE9LamhwZkRZNU11bGVX?=
+ =?utf-8?B?NHU5Z2s1cGt1WVZjbTR3aXFBeCtJRVM3aER3Yy8rdHhKcG9HWFk0Q1BHWWhE?=
+ =?utf-8?B?ZFJOQVFBZHltZXRyNitCYlV3U0VHZkFNRnh1djg3NFRHMENHMUQ1eDRoWmVo?=
+ =?utf-8?B?L1hKelVtb0tSaGJDWnhBeC8yKy9DbjBYb1c1R1E5ZWFHRXd6SXp2SUtyVWZ6?=
+ =?utf-8?B?cUpYeHVuZzIyTmRFQ2c0VGg2UnBxa3pKcGtpbXRVQ1ZtSnhwVkZWL1JjMmxr?=
+ =?utf-8?B?UzduNXdOY0xmVEc1Nk9TRmlzQVMxZitQM2F2T1FlY0NnRTgvMG9ud2N6TUVG?=
+ =?utf-8?B?UnMvUW5VdnRuelFuSlBUQjlMcStjM3BlUDFpa0hhZ2N2R0RTbWEyaDJQNlBF?=
+ =?utf-8?B?WE9Xamo3Z0ZRTy9PY0VMWXJuOHNLei9MdUpxSG40cXpXWFR1NG9iNGdtS0Er?=
+ =?utf-8?B?Z29QbHQzTjlXTTNiQWovaXFSWWt2eEQ3Vm9BcUQzTkE4NXF6OUYyVkhqOFl2?=
+ =?utf-8?B?ZUZuakJTdmx5Q0ZEdE5OalRUR1FGWEVSQkhtaFJsc3ZSK3E4TndTenY4YUky?=
+ =?utf-8?B?U2lSRGNvck54STJYUVFURnJ6UkVxOUQ1Rmg2TmVBWTc0Y1hBWjh0L2xXRE1P?=
+ =?utf-8?Q?R+1yAo6oM7cFlO4mNYq12ZbRo?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 55c81d9e-d293-4687-3c40-08dcd7165148
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4262.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2024 12:43:25.5668
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dhZTtnsTg29LkTpGLugeuiIuei1qSnCJJHShrxTEpjKqyWn/y88JELoe7IpCF889qnnatG1R04oTpFU8ZxWFPA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4290
 
-On Mon, 16 Sep 2024 08:12:24 +0200
-Nuno S=C3=A1 <noname.nuno@gmail.com> wrote:
+Hello Matthew,
 
-> On Sat, 2024-09-14 at 12:25 +0100, Jonathan Cameron wrote:
-> > On Fri, 13 Sep 2024 15:46:17 +0200
-> > Nuno S=C3=A1 <noname.nuno@gmail.com> wrote:
-> >  =20
-> > > On Fri, 2024-09-13 at 12:55 +0000, Esteban Blanc wrote: =20
-> > > > On Fri Sep 13, 2024 at 10:18 AM UTC, Nuno S=C3=A1 wrote:=C2=A0  =20
-> > > > > On Fri, 2024-09-13 at 09:55 +0000, Esteban Blanc wrote:=C2=A0  =20
-> > > > > > On Mon Aug 26, 2024 at 9:27 AM UTC, Jonathan Cameron wrote:=C2=
-=A0  =20
-> > > > > > > On Thu, 22 Aug 2024 14:45:20 +0200
-> > > > > > > Esteban Blanc <eblanc@baylibre.com> wrote:=C2=A0  =20
-> > > > > > > > +static const unsigned long ad4630_channel_masks[] =3D {
-> > > > > > > > +	/* Differential only */
-> > > > > > > > +	BIT(0) | BIT(2),
-> > > > > > > > +	/* Differential with common byte */
-> > > > > > > > +	GENMASK(3, 0),=C2=A0  =20
-> > > > > > > The packing of data isn't going to be good. How bad to shuffle
-> > > > > > > to put the two small channels next to each other?
-> > > > > > > Seems like it means you will want to combine your deinterleave
-> > > > > > > and channel specific handling above, which is a bit fiddly but
-> > > > > > > not much worse than current code.=C2=A0  =20
-> > > > > >=20
-> > > > > > I can do it since that was what I had done in the RFC in the fi=
-rst place.
-> > > > > > Nuno asked for in this email
-> > > > > > https://lore.kernel.org/r/0036d44542f8cf45c91c867f0ddd7b45d1904=
-d6b.camel@gmail.com/
-> > > > > > :
-> > > > > > =C2=A0  =20
-> > > > > > > > > * You're pushing the CM channels into the end. So when we=
- a 2 channel
-> > > > > > > > > device
-> > > > > > > > > we'll have:=C2=A0  =20
-> > > > > > =C2=A0  =20
-> > > > > > > > > in_voltage0 - diff
-> > > > > > > > > in_voltage1 - diff
-> > > > > > > > > in_voltage2 - CM associated with chan0
-> > > > > > > > > in_voltage0 - CM associated with chan1
-> > > > > > > > >=20
-> > > > > > > > > I think we could make it so the CM channel comes right af=
-ter the
-> > > > > > > > > channel
-> > > > > > > > > where
-> > > > > > > > > it's data belongs too. So for example, odd channels would=
- be CM
-> > > > > > > > > channels
-> > > > > > > > > (and
-> > > > > > > > > labels could also make sense).=C2=A0  =20
-> > > > > >=20
-> > > > > > So that's what I did here :D
-> > > > > >=20
-> > > > > > For the software side off things here it doesn't change a lot o=
-f things
-> > > > > > since we have to manipulate the data anyway, putting the extra =
-byte at the
-> > > > > > end or in between is no extra work.
-> > > > > > For the offload engine however, it should be easier to ask for =
-24 bits
-> > > > > > then 8 bits for each channel as it would return two u32 per "ha=
-rdware
-> > > > > > channel".
-> > > > > >=20
-> > > > > > In order to avoid having two different layouts, I was kind of s=
-old by
-> > > > > > Nuno's idea of having the CM in between each diff channel.
-> > > > > > =C2=A0  =20
-> > > > >=20
-> > > > > Tbh, I was not even thinking about the layout when I proposed the
-> > > > > arrangement.
-> > > > > Just
-> > > > > made sense to me (from a logical point of view) to have them toge=
-ther as they
-> > > > > relate
-> > > > > to the same physical channel. FWIW, we're also speaking bytes in =
-here so not
-> > > > > sure
-> > > > > if
-> > > > > it's that important (or bad).=C2=A0  =20
-> > > >=20
-> > > > The best we can do (if we managed to do it HDL wise) is to reorder =
-the
-> > > > data to get both CM byte in a single u32 after the 2 u32 of both di=
-ff
-> > > > channel. That would be 3 u32 instead of 4. =20
-> >=20
-> > Entirely up to you. :) =20
-> > > > =C2=A0  =20
-> > >=20
-> > > We are starting to see more and more devices that do stuff like this.=
- Have one
-> > > physical channel that reflects in more than one IIO channel. For SW b=
-uffering
-> > > it's
-> > > not really a big deal but for HW buffering it's not ideal.=20
-> > >=20
-> > > I feel that at some point we should think about having a way to map a=
- channel
-> > > scan
-> > > element (being kind of a virtual scan element) into the storage_bits =
-of another
-> > > one.
-> > > So in this case, one sample (for one channel) would be the 32bits and=
- things
-> > > should
-> > > work the same either in SW or HW buffering.
-> > >=20
-> > > That said, it's probably easier said than done in practice :) =20
-> >=20
-> > Yeah. That could get ugly fast + All existing userspace will fail to ha=
-ndle it
-> > so I'm not keen. Maybe it's doable if we assume the 'virtual channels' =
-are all
-> > meta data we don't mind loosing with existing software stacks and define
-> > a non overlapping ABI to identify the metadata.=C2=A0 Still smells bad =
-to me so
-> > I'll take quite a bit of convincing! =20
->=20
-> Naturally it would have to be done in a way that drivers not defining the=
- "special"
-> scan elements would not be affected.
+Thank you for the review comments.
 
-It's worse than that - it would need be defined so userspace running
-against the devices with the special channels would have to work without
-knowing anything about them. So we couldn't do the really nasty thing
-of setting scan_index the same for both of them with same storage size and
-different shifts and real_bits.  That would be the sort of things that might
-crash userspace code.
+On 9/17/2024 3:12 AM, Matthew Wilcox wrote:
+> On Mon, Sep 16, 2024 at 04:57:42PM +0000, Shivank Garg wrote:
 
-Driver effects are less of an issue than ABI breakage - or even just
-ABI a userspace author would not expect.
+>> +static inline struct folio *filemap_grab_folio_mpol(struct address_space *mapping,
+>> +					pgoff_t index, struct mempolicy *mpol)
+>> +{
+>> +	return __filemap_get_folio_mpol(mapping, index,
+>> +			FGP_LOCK | FGP_ACCESSED | FGP_CREAT,
+>> +			mapping_gfp_mask(mapping), mpol);
+>> +}
+> 
+> This should be conditional on CONFIG_NUMA, just like 
+> filemap_alloc_folio_mpol_noprof() above.
 
->=20
-> >=20
-> > Adding something to clearly 'associate' multiple related channels would=
- be fine
-> > as that wouldn't change the data interpretation, just provide more info=
- on top.
-> > Kind of a structured _label=20
-> >=20
-> > Maybe a _channelgroup attribute?=C2=A0=C2=A0 Would be const and all the=
- channels with
-> > the same index would reflect that they were measured on same 'thing'.
-> > Typically thing might be a pin or differential pair, but we might be me=
-asuring
-> > different types of signals - e.g. current and power.
-> >  =20
->=20
-> Sounds reasonable but I think the tricky part is always to have a sane wa=
-y of saying
-> that multiple scan elements relate to just one storage_bits so we could s=
-ay something
-> like (taking this as example):
->=20
-> scan0: //diff channel which describing the physical HW in terms of real s=
-ize
->  .storage_bits =3D 32
->  .real_bits =3D 24
->  .shift =3D 8
->=20
-> scan1: //CM data
->  //.storage - relates to scan0 so should add nothing to the sample size i=
-f both
-> enabled
->  .real_bits =3D 8
->=20
-Indeed - I get the concept, but don't like it.=20
-In general it's a dead end for general purpose channels - because of that
-pile of legacy userspace.  It 'might' just about be acceptable for 'meta da=
-ta' channels
-or where we are adding significant new interface for functionality purposes=
- (e.g.
-when we did the newer DMA buffer stuff).
++#ifdef CONFIG_NUMA
+ static inline struct folio *filemap_grab_folio_mpol(struct address_space *mapping,
+                                        pgoff_t index, struct mempolicy *mpol)
+ {
+@@ -739,6 +742,13 @@ static inline struct folio *filemap_grab_folio_mpol(struct address_space *mappin
+                        FGP_LOCK | FGP_ACCESSED | FGP_CREAT,
+                        mapping_gfp_mask(mapping), mpol);
+ }
++#else
++static inline struct folio *filemap_grab_folio_mpol(struct address_space *mapping,
++                                       pgoff_t index, struct mempolicy *mpol)
++{
++       return filemap_grab_folio(mapping, index);
++}
++#endif /* CONFIG_NUMA */
 
-> Likely not what you meant but one thing I took from your '_channelgroup' =
-idea was to
-> have something similar to extended_info maybe with a small top level desc=
-ription and
-> then an array of channels (that would form the group/aggregated channel).=
- Only on the
-> top level description we would be allowed to define the size of the scan =
-element (in
-> case of buffering). Still seems tricky to me :).
+> 
+>> @@ -1947,7 +1959,7 @@ struct folio *__filemap_get_folio(struct address_space *mapping, pgoff_t index,
+>>  			err = -ENOMEM;
+>>  			if (order > 0)
+>>  				alloc_gfp |= __GFP_NORETRY | __GFP_NOWARN;
+>> -			folio = filemap_alloc_folio(alloc_gfp, order);
+>> +			folio = filemap_alloc_folio_mpol_noprof(alloc_gfp, order, mpol);
+> 
+> Why use the _noprof variant here?
 
-Yeah.  The channel group thing was for normal naturally aligned packing, not
-data backed tighter than that.
+I've defined the filemap_alloc_folio_mpol variant for using here:
++#define filemap_alloc_folio_mpol(...)                          \
++       alloc_hooks(filemap_alloc_folio_mpol_noprof(__VA_ARGS__))
 
->=20
-> Anyways, Right now, I have no time for something like this but eventually=
- would like
-> to try something. But if someone wants to propose something sooner, pleas=
-e :)
++++ b/mm/filemap.c
+@@ -1959,7 +1959,7 @@ struct folio *__filemap_get_folio_mpol(struct address_space *mapping, pgoff_t in
+                        err = -ENOMEM;
+                        if (order > 0)
+                                alloc_gfp |= __GFP_NORETRY | __GFP_NOWARN;
+-                       folio = filemap_alloc_folio_mpol_noprof(alloc_gfp, order, mpol);
++                       folio = filemap_alloc_folio_mpol(alloc_gfp, order, mpol);
+                        if (!folio)
+   
 
-*looks doubtful*  Maybe I can be convinced.  We'll see.
+> 
+>> diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+>> index 9e9450433fcc..88da732cf2be 100644
+>> --- a/mm/mempolicy.c
+>> +++ b/mm/mempolicy.c
+>> @@ -2281,6 +2281,7 @@ struct folio *folio_alloc_mpol_noprof(gfp_t gfp, unsigned int order,
+>>  	return page_rmappable_folio(alloc_pages_mpol_noprof(gfp | __GFP_COMP,
+>>  							order, pol, ilx, nid));
+>>  }
+>> +EXPORT_SYMBOL(folio_alloc_mpol_noprof);
+> 
+> Why does this need to be exported?  What module will use itI've removed this EXPORT.
 
-Jonathan
->=20
-> - Nuno S=C3=A1=20
->=20
+Thank you for the suggestion.
+I overlooked those details and will post the replied changes in next version of this patchset.
 
+Best Regards,
+Shivank
