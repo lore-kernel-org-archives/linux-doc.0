@@ -1,205 +1,173 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 904E516A94B;
-	Tue, 17 Sep 2024 11:14:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866AB14F10E;
+	Tue, 17 Sep 2024 11:21:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726571677; cv=none; b=F/684cyTnuEcGyj4/fLc3OmWPuZfaCwHbPBYGYJgZmvzMWL1iwpXRe40gFwC2KIDLgOxNsJAlNzeF/C9g30yx2t/S3JXGVZXr1WW1k6G/T5qf9GjI9zbCxarei+axc73V5BOl4PDLaoqlpIlMsQbymsi2oPFiCEW6xzjc7BCfQo=
+	t=1726572089; cv=none; b=QUx8DNduG7mIfhmxu/dAKhGTvIJ/dHCy4xmzu/htWwidmIkl27IMFXcX+smuZ/sFLsrQzDhiveiW6ErNoaOsBe71nuwowyhFFMOBwoxPNek/BI3p2H6U741BUBXy4CAPW4wZ4dgjO+6KejrtHTIYYUqlBMAzZeFVkzEdgc+hzLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726571677; c=relaxed/simple;
-	bh=roRdoUA06OSktfkT3cuEuaM2HtScD0650/8+GaZZFy4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=LhEDFztIOeN2eDc/h9C6OTEr7vB4prlNzRLTQLpVwdGyufZooktS34X3xbvDIuG+ia/kU1E9qCu4HGnLCAQ8AZX8VaB3ritj2POFgDsqtjVpHwpFRE55knwD4vQkutv4olKRIuHExqseXTDUVJYNTtF890jf0x+f+vq+zR9EKMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZCKsMQ2C; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1726572089; c=relaxed/simple;
+	bh=wN/quzx53yxT8DLmO/UxxTHzRzSSJTQQ9ncoC/q8R9U=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=D9YDrtDQU1LF+ZwQvkIQvvA9uvsmd2vIF9tHoXmgIRcABz32CKNZ9EH8elVllmySU8YMA4kDTVHAe63XTf4wURZntZWJCEF285CkOp1GTpqFbr7gm4niBbtwH3DfJxmpZiscfq0oDmLW958AQH/xHrrrww8hdqVjJwjIicPG93o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mD5Ctc2I; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZCKsMQ2C"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a8a7cdfdd80so647439466b.0;
-        Tue, 17 Sep 2024 04:14:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726571674; x=1727176474; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Bo/Q+fVB0c2N2S+2tO3u0tNQvOs02ddpFS55PdIBqiM=;
-        b=ZCKsMQ2C2QkijTjt1FKdat4VS9xLVJXFsvwGrgSCbUiI5SZh/Y+eyBDqfMHZcGcOdb
-         kMV8lgI+DhyVAN59/31GY4VtD8nY1jHsnPLv38uO68INuSZ79m0aW9Ay6Jwv9L/fC278
-         h0VXgQnvJKivKtDGp/q4kDqWWcka55tkmc7wiupxV4cQlyrmJ8ECMnO6hhwiwlX/tJ7c
-         S4DmsmxW31mERlp5hDn1v5HdXQ9e0yHGWowsYzVR1lfthi3iTVYQ1HLl9ZvNLnHE93Sp
-         LUMARLlgiev1nZS99JcGZQ0Wqp5vOkkericjtNXtMYXMhWTmGd3GC1AuU5GPKkSEKwWG
-         bcWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726571674; x=1727176474;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Bo/Q+fVB0c2N2S+2tO3u0tNQvOs02ddpFS55PdIBqiM=;
-        b=tMbvf2lZ8w3LVm7IN5FiT4BG5wUzGEy0LC0F+VXmAOUu0/Cpj/MisoJbeG4wXyOZIU
-         IXAUScpfG+XqTVj17FOwrGSQwKldyUGSxXAKx9hL/9bCt/rGnSnWWFcEAoS4GdUp39nU
-         jtVReS1FFOowfYZ6Rqn9FLJWuI41836d22rUm3O3gaotEV+7cQG+WcCbuAB5gNT7cEeV
-         1o2rzEB51FevdIYYyhLeexOqGxPMA3GiMgnHlDfdDBQ1JvTIRwCBHIJ0QEiN7us7hzAg
-         UYCLpVeulhwQawa3Ia5hYAQIGbcN237lHw8VFYOcEaODxOZOgrHgSuhIi3XbYkuf4wI1
-         J+GA==
-X-Forwarded-Encrypted: i=1; AJvYcCWRWEovW8fYO7KdVcAWev5SykuZb3n3AlVKV2EgsPUX/EZO+D58g6dmYJvX2/mFP+khS/TPQkUVmfmZoJnU@vger.kernel.org, AJvYcCWXiBICZqHaP9tU/xEmMbIf4r7lxDFzHq2vvUh4+pIKeql3hCtrHjo5vyz8XivtGQgVysCECYclZPo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPAZ0TgjglQ/52r9xXT6aXz1E9JYVfDMTIA9Z/9XPRN5wdA5DD
-	pxhBBEsal29m9atMJ9pahn41loUtMK2r4nDchgnf8+B1T9qW3TiK
-X-Google-Smtp-Source: AGHT+IEo3KeisOhfYxWfOemIFnRDGajHBF3QYONL7b0c6BlfR/CJVVBqL7wK41v8Afv13g1KcnHV7A==
-X-Received: by 2002:a17:907:7f23:b0:a86:700f:93c0 with SMTP id a640c23a62f3a-a9047d1ac6dmr1292392066b.35.1726571673826;
-        Tue, 17 Sep 2024 04:14:33 -0700 (PDT)
-Received: from [192.168.1.17] (host-82-51-105-30.retail.telecomitalia.it. [82.51.105.30])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90612e1a55sm430745166b.157.2024.09.17.04.14.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Sep 2024 04:14:33 -0700 (PDT)
-From: Antonino Maniscalco <antomani103@gmail.com>
-Date: Tue, 17 Sep 2024 13:14:21 +0200
-Subject: [PATCH v4 11/11] Documentation: document adreno preemption
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mD5Ctc2I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A13A9C4CECE;
+	Tue, 17 Sep 2024 11:21:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726572088;
+	bh=wN/quzx53yxT8DLmO/UxxTHzRzSSJTQQ9ncoC/q8R9U=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=mD5Ctc2IAvRmr7CQfVvwy7+fhgl+Uvwm9kArohzcSxA+yVpzyDE2blTDzYs0RuV5Q
+	 bmRSudhhtcA38VOZmygxXZVWacgYFcCF6yyXuuQdrQGvAUjK/NxOYEbbb9uiTok5EU
+	 +T0jdLwqYu6QGlhkJblJgq1z+LklH0JoznwgdRclaE9NfNOIXBuLlRLcLf7bAbcdHx
+	 6cd6U633PVM2ERQgZYI0t5DL3c7VBQrudunhnbs4zdGrFzdoAXIkoMVkplNSRceLni
+	 XkuTObDUw8DshhyaPoSnixs6mbCZbAsOlTw0EK4XqYRKzQdVJ5CLoEpXtF5zCdN0Qm
+	 3oyGguB3/PxQQ==
+Date: Tue, 17 Sep 2024 12:21:15 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: "Esteban Blanc" <eblanc@baylibre.com>
+Cc: Nuno =?UTF-8?B?U8Oh?= <noname.nuno@gmail.com>, "Lars-Peter Clausen"
+ <lars@metafoo.de>, "Michael Hennerich" <Michael.Hennerich@analog.com>, "Rob
+ Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>, "Nuno Sa" <nuno.sa@analog.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, <linux-iio@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "David
+ Lechner" <dlechner@baylibre.com>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 4/6] iio: adc: ad4030: add support for ad4630-24 and
+ ad4630-16
+Message-ID: <20240917122115.02234530@jic23-huawei>
+In-Reply-To: <D47LHT5XPYTX.3OWFQR9N23FZH@baylibre.com>
+References: <20240822-eblanc-ad4630_v1-v1-0-5c68f3327fdd@baylibre.com>
+	<20240822-eblanc-ad4630_v1-v1-4-5c68f3327fdd@baylibre.com>
+	<20240826102748.4be0b642@jic23-huawei>
+	<D452E2M75XCM.13OQGAPJ7JJ4A@baylibre.com>
+	<0a4e7fe39cf36774b28c86f6baab5ef8c20e3d6b.camel@gmail.com>
+	<D4567LFFTYJQ.2YC5OODKOVPNB@baylibre.com>
+	<84961c1f857dfc8498c41ac97235a037111ed6d5.camel@gmail.com>
+	<20240914122529.14759e63@jic23-huawei>
+	<D47LHT5XPYTX.3OWFQR9N23FZH@baylibre.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240917-preemption-a750-t-v4-11-95d48012e0ac@gmail.com>
-References: <20240917-preemption-a750-t-v4-0-95d48012e0ac@gmail.com>
-In-Reply-To: <20240917-preemption-a750-t-v4-0-95d48012e0ac@gmail.com>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Antonino Maniscalco <antomani103@gmail.com>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1726571652; l=4842;
- i=antomani103@gmail.com; s=20240815; h=from:subject:message-id;
- bh=roRdoUA06OSktfkT3cuEuaM2HtScD0650/8+GaZZFy4=;
- b=DNGawWdMty8okiDt/7j6ItVwD17WNPGrPDbSn6xIln3BXwF6VZLrsXi+qTJkgXjZ0nc1r6J1j
- nOxyBYuU/5SB91rFRyxpLOw6+WqT369DmPmh3TVRpAnUPU2sdutlD24
-X-Developer-Key: i=antomani103@gmail.com; a=ed25519;
- pk=0zicFb38tVla+iHRo4kWpOMsmtUrpGBEa7LkFF81lyY=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Add documentation about the preemption feature supported by the msm
-driver.
+On Mon, 16 Sep 2024 09:19:02 +0000
+"Esteban Blanc" <eblanc@baylibre.com> wrote:
 
-Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
----
- Documentation/gpu/msm-preemption.rst | 98 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 98 insertions(+)
+> On Sat Sep 14, 2024 at 11:25 AM UTC, Jonathan Cameron wrote:
+> > On Fri, 13 Sep 2024 15:46:17 +0200
+> > Nuno S=C3=A1 <noname.nuno@gmail.com> wrote:
+> > =20
+> > > On Fri, 2024-09-13 at 12:55 +0000, Esteban Blanc wrote: =20
+> > > > On Fri Sep 13, 2024 at 10:18 AM UTC, Nuno S=C3=A1 wrote:   =20
+> > > > > On Fri, 2024-09-13 at 09:55 +0000, Esteban Blanc wrote:   =20
+> > > > > > On Mon Aug 26, 2024 at 9:27 AM UTC, Jonathan Cameron wrote:   =
+=20
+> > > > > > > On Thu, 22 Aug 2024 14:45:20 +0200
+> > > > > > > Esteban Blanc <eblanc@baylibre.com> wrote:   =20
+> > > > > > > > +static const unsigned long ad4630_channel_masks[] =3D {
+> > > > > > > > +	/* Differential only */
+> > > > > > > > +	BIT(0) | BIT(2),
+> > > > > > > > +	/* Differential with common byte */
+> > > > > > > > +	GENMASK(3, 0),   =20
+> > > > > > > The packing of data isn't going to be good. How bad to shuffle
+> > > > > > > to put the two small channels next to each other?
+> > > > > > > Seems like it means you will want to combine your deinterleave
+> > > > > > > and channel specific handling above, which is a bit fiddly but
+> > > > > > > not much worse than current code.   =20
+> > > > > >=20
+> > > > > > I can do it since that was what I had done in the RFC in the fi=
+rst place.
+> > > > > > Nuno asked for in this email
+> > > > > > https://lore.kernel.org/r/0036d44542f8cf45c91c867f0ddd7b45d1904=
+d6b.camel@gmail.com/
+> > > > > > :
+> > > > > >    =20
+> > > > > > > > > * You're pushing the CM channels into the end. So when we=
+ a 2 channel
+> > > > > > > > > device
+> > > > > > > > > we'll have:   =20
+> > > > > >    =20
+> > > > > > > > > in_voltage0 - diff
+> > > > > > > > > in_voltage1 - diff
+> > > > > > > > > in_voltage2 - CM associated with chan0
+> > > > > > > > > in_voltage0 - CM associated with chan1
+> > > > > > > > >=20
+> > > > > > > > > I think we could make it so the CM channel comes right af=
+ter the channel
+> > > > > > > > > where
+> > > > > > > > > it's data belongs too. So for example, odd channels would=
+ be CM channels
+> > > > > > > > > (and
+> > > > > > > > > labels could also make sense).   =20
+> > > > > >=20
+> > > > > > So that's what I did here :D
+> > > > > >=20
+> > > > > > For the software side off things here it doesn't change a lot o=
+f things
+> > > > > > since we have to manipulate the data anyway, putting the extra =
+byte at the
+> > > > > > end or in between is no extra work.
+> > > > > > For the offload engine however, it should be easier to ask for =
+24 bits
+> > > > > > then 8 bits for each channel as it would return two u32 per "ha=
+rdware
+> > > > > > channel".
+> > > > > >=20
+> > > > > > In order to avoid having two different layouts, I was kind of s=
+old by
+> > > > > > Nuno's idea of having the CM in between each diff channel.
+> > > > > >    =20
+> > > > >=20
+> > > > > Tbh, I was not even thinking about the layout when I proposed the=
+ arrangement.
+> > > > > Just
+> > > > > made sense to me (from a logical point of view) to have them toge=
+ther as they
+> > > > > relate
+> > > > > to the same physical channel. FWIW, we're also speaking bytes in =
+here so not sure
+> > > > > if
+> > > > > it's that important (or bad).   =20
+> > > >=20
+> > > > The best we can do (if we managed to do it HDL wise) is to reorder =
+the
+> > > > data to get both CM byte in a single u32 after the 2 u32 of both di=
+ff
+> > > > channel. That would be 3 u32 instead of 4. =20
+> >
+> > Entirely up to you. :) =20
+>=20
+> Ok so here is the plan I propose:
+>  1. Use the layout of this patch (common byte channels just after their
+>  respective diff channel) as it should work out of the box for the offload
+>  engine (once it's merged [1]).
+>  2. In case of performance issue, switch to the RFC layout (both diff
+>  channels then both common byte channels) and try to modify the HDL for
+>  the offload engine to reduce the memory footprint by one byte for the 2
+>  hardware channels case.
+It's a bit of a risk as you might get someone making too many assumptions a=
+bout
+channel ordering in some specific purpose code - at that point this change
+is an ABI break that someone noticed.
 
-diff --git a/Documentation/gpu/msm-preemption.rst b/Documentation/gpu/msm-preemption.rst
-new file mode 100644
-index 000000000000..c1203524da2e
---- /dev/null
-+++ b/Documentation/gpu/msm-preemption.rst
-@@ -0,0 +1,98 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+:orphan:
-+
-+=============
-+MSM Preemtion
-+=============
-+
-+Preemption allows Adreno GPUs to switch to an higher priority ring when work is
-+pushed to it, reducing latency for high priority submissions.
-+
-+When preemption is enabled 4 rings are initialized, corresponding to different
-+priority levels. Having multiple rings is purely a software concept as the GPU
-+only has registers to keep track of one graphics ring.
-+The kernel is able to switch which ring is currently being processed by
-+requesting preemption. When certain conditions are met, depending on the
-+priority level, the GPU will save its current state in a series of buffers,
-+then restores state from a similar set of buffers specified by the kernel. It
-+then resumes execution and fires an IRQ to let the kernel know the context
-+switch has completed.
-+
-+This mechanism can be used by the kernel to switch between rings. Whenever a
-+submission occurs the kernel finds the highest priority ring which isn't empty
-+and preempts to it if said ring is not the one being currently executed. This is
-+also done whenever a submission completes to make sure execution resumes on a
-+lower priority ring when a higher priority ring is done.
-+
-+Preemption levels
-+-----------------
-+
-+Preemption can only occur at certain boundaries. The exact conditions can be
-+configured by changing the preemption level, this allows to compromise between
-+latency (ie. the time that passes between when the kernel requests preemption
-+and when the SQE begins saving state) and overhead (the amount of state that
-+needs to be saved).
-+
-+The GPU offers 3 levels:
-+
-+Level 0
-+  Preemption only occurs at the submission level. This requires the least amount
-+  of state to be saved as the execution of userspace submitted IBs is never
-+  interrupted, however it offers very little benefit compared to not enabling
-+  preemption of any kind.
-+
-+Level 1
-+  Preemption occurs at either bin level, if using GMEM rendering, or draw level
-+  in the sysmem rendering case.
-+
-+Level 2
-+  Preemption occurs at draw level.
-+
-+Level 1 is the mode that is used by the msm driver.
-+
-+Additionally the GPU allows to specify a `skip_save_restore` option. This
-+disables the saving and restoring of certain registers which lowers the
-+overhead. When enabling this userspace is expected to set the state that isn't
-+preserved whenever preemption occurs which is done by specifying preamble and
-+postambles. Those are IBs that are executed before and after
-+preemption.
-+
-+Preemption buffers
-+------------------
-+
-+A series of buffers are necessary to store the state of rings while they are not
-+being executed. There are different kinds of preemption records and most of
-+those require one buffer per ring. This is because preemption never occurs
-+between submissions on the same ring, which always run in sequence when the ring
-+is active. This means that only one context per ring is effectively active.
-+
-+SMMU_INFO
-+  This buffer contains info about the current SMMU configuration such as the
-+  ttbr0 register. The SQE firmware isn't actually able to save this record.
-+  As a result SMMU info must be saved manually from the CP to a buffer and the
-+  SMMU record updated with info from said buffer before triggering
-+  preemption.
-+
-+NON_SECURE
-+  This is the main preemption record where most state is saved. It is mostly
-+  opaque to the kernel except for the first few words that must be initialized
-+  by the kernel.
-+
-+SECURE
-+  This saves state related to the GPU's secure mode.
-+
-+NON_PRIV
-+  The intended purpose of this record is unknown. The SQE firmware actually
-+  ignores it and therefore msm doesn't handle it.
-+
-+COUNTER
-+  This record is used to save and restore performance counters.
-+
-+Handling the permissions of those buffers is critical for security. All but the
-+NON_PRIV records need to be inaccessible from userspace, so they must be mapped
-+in the kernel address space with the MSM_BO_MAP_PRIV flag.
-+For example, making the NON_SECURE record accessible from userspace would allow
-+any process to manipulate a saved ring's RPTR which can be used to skip the
-+execution of some packets in a ring and execute user commands with higher
-+privileges.
+So I'd guess we'll stay with 1 for ever which is find.
 
--- 
-2.46.0
+Jonathan
+
+
+>=20
+> [1]: https://lore.kernel.org/lkml/20240722-dlech-mainline-spi-engine-offl=
+oad-2-v3-0-7420e45df69b@baylibre.com/
+>=20
+> Best regards,
+>=20
 
