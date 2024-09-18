@@ -1,145 +1,434 @@
-Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2122.outbound.protection.partner.outlook.cn [139.219.17.122])
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [58.251.27.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39DD61C01;
-	Wed, 18 Sep 2024 01:46:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.17.122
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726624002; cv=fail; b=FO3S6jOWkyWubmnVvrEozBUOkStnUQpVJxxk535teqpdrm8jyPpiYmslzsJkv7Jl1dm0zBwmutVjj/kgNMGyOHmVNxSZ360wxHu0xZTWsw/gyKyaSEdn/jHeGO+8Ur44ZM0YFxmduh55y3kHoXEhOi6GiVvcvX7S7jp1pJdPdLI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726624002; c=relaxed/simple;
-	bh=embT5T/6iiSfLEy6eHwNR+Pspd4/7+0HcErX+hzqmAw=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=ozfnR2l4E0GeKQuwp6dPHMCX6Yi5q0sSGFyu/NsDWUXAzOiRh8+Gx52m+sb590hq9VLO2krUrrOpDuStdJGmftgIrGBRDAxvfKi30tVysp1ex59sxFo0YUrnQZBiH3EqNqiJ5mRzeXvnjmgHhAuXX3oGtyFw+Frf3XmdURGprAU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.17.122
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KrJHeVkDaQUDgQOB/U3jXmy8lS1jZZnW+f7ZiJO/N+/m4BMy/W9f47JCVDtpkmFgZXUuxWThn+CAEheovqblLwqT6L0iUop9IlrOnmz99GIGqovNF1YYAg+31jHgIYa+aG7iV6DHMqC3zVkrkxWY7QjitH8dvbpJD8TGPBAjohDSjmXWI7ElnvetHcWVBd0PkF8jzSYQnYw1jt5mhx6lBWcSjHGzgm5uyYrvORk2IjTfsHrCDbSM2O3276D8U/icRm472LqzMX+oxtw066mloaP/eBoFOMJC2l6N2IJ9o/U1El3ONT8QoQOkMH3MaD2Tm+jMvMQejm42aWUdIB4AzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iEzOb6KomuQxBCSKjp70uRdoq+I42OufVzOKORTzk/Y=;
- b=euFAi6TirlgtucgQpEzqXvqUyQcDtxpLHbWxQ8baOGtxReJ5wWplujtEfatEMz24mmuGqQ5Sd7JwwX1D6xpbKW1PAA+6fxmDsu2wMKYoKxNg5kWr6vN1/LBZ3kwUeLiMTJu4/lxQI0ZZZjgyiMZnjNvvJbLm48/2h0uNUBjem9jf+GurF/6mn1n9n9rIhmg8p9Yt8ZhZIBkmQTFtPRHcKOJvIiG3yFEA24AFI+bjewYid+KibuOtSbFgJjY/K8h+aGcIwG0O/f9YXmpvnRyun2nQ8pMUHBS7TkWpB8nYqwhoRJIkzl27T8sUFqAXxviKWbU2/jxJzwZPZk1BIpSr2Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=starfivetech.com; dmarc=pass action=none
- header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=starfivetech.com;
-Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:1b::9) by ZQ0PR01MB0982.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:1::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7962.20; Wed, 18 Sep
- 2024 01:46:26 +0000
-Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
- ([fe80::64c5:50d8:4f2c:59aa]) by
- ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn ([fe80::64c5:50d8:4f2c:59aa%5])
- with mapi id 15.20.7962.022; Wed, 18 Sep 2024 01:46:26 +0000
-From: Changhuang Liang <changhuang.liang@starfivetech.com>
-To: Jason Wessel <jason.wessel@windriver.com>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Douglas Anderson <dianders@chromium.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Changhuang Liang <changhuang.liang@starfivetech.com>,
-	kgdb-bugreport@lists.sourceforge.net,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] Documentation: kgdb: Correct parameter error
-Date: Tue, 17 Sep 2024 18:46:19 -0700
-Message-Id: <20240918014619.1820659-1-changhuang.liang@starfivetech.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: NT0PR01CA0014.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c510::16) To ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:1b::9)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 564DA6FC5;
+	Wed, 18 Sep 2024 02:13:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=58.251.27.85
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726625613; cv=none; b=T/kwWa0a+A7ACPa1RgHb4GvTj9eiUPTOO98LJ8tbEuOXcgjo0309oqYr2wWAAAPfNDjf4Emlq2pd63byiNBHCcLvuQNjt4VTXbM1YRNcnE6LHdCD03NXAeOHpOG0FXpQKaZXqCFFzgHn+Tw5tBwgs7/VcUuCByfuI22nk5CxlyE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726625613; c=relaxed/simple;
+	bh=glXdsKhMVMxLdmiv+ShMmyVCjkKstc8QTAhKdy1vMbc=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=AmudC5V5CH/wTp1AxQE6XqLSR+asKqilOI64UBm494aWgOcyktzES1Nao7YYD3xHWKO7RLE89iyCnwFBfav5fc/rWfvCQDRTzA0jcthCUPYClJ9Q+c4vmX4WNZcYe1RxS1zQ3V0YL03prXwwDkAaChucseWmTGyAidaNsJUTF3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=58.251.27.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mxde.zte.com.cn (unknown [10.35.20.121])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4X7hr019PDzCh0p;
+	Wed, 18 Sep 2024 10:07:44 +0800 (CST)
+Received: from mxhk.zte.com.cn (unknown [192.168.250.137])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mxde.zte.com.cn (FangMail) with ESMTPS id 4X7hqs1BwZzBRHKX;
+	Wed, 18 Sep 2024 10:07:37 +0800 (CST)
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4X7hqf1QHHz8R04B;
+	Wed, 18 Sep 2024 10:07:26 +0800 (CST)
+Received: from njb2app05.zte.com.cn ([10.55.22.121])
+	by mse-fl2.zte.com.cn with SMTP id 48I27BlZ048510;
+	Wed, 18 Sep 2024 10:07:11 +0800 (+08)
+	(envelope-from jiang.kun2@zte.com.cn)
+Received: from mapi (njb2app05[null])
+	by mapi (Zmail) with MAPI id mid204;
+	Wed, 18 Sep 2024 10:07:12 +0800 (CST)
+Date: Wed, 18 Sep 2024 10:07:12 +0800 (CST)
+X-Zmail-TransId: 2afd66ea35d06f6-1744b
+X-Mailer: Zmail v1.0
+Message-ID: <20240918100712484feE1sZoJLFvOnK2pB5LqQ@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: ZQ0PR01MB1302:EE_|ZQ0PR01MB0982:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5d30169e-261b-4ae4-ab96-08dcd783b575
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|41320700013|1800799024|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	vcYyCOPCOcP1DUTZmCS+/2jgp+UgKZu0fRYD9veJoI3CIBzwc85SKvUZbtliFfBaayjoE+wYY2MN+9bP73mW7+f+yx/ztg//HqTfsEwcAlg2pYcaYnVK3ncYcNNxlco6vZ+vvBrP4EQjAuKRYyQrz2vpd28oNshcm5EpyrhkkwWwUuAcvma8BdvNNnsejbcrRuDbWg+FwMWG5AdgnY9dfgHtGdY00H13B47UbpNzlYZYxqdv4A9IyJxe0qWQs06Q9FliDGCFaMHv+KsF9WQzyzinu9SIDCPiwYKFpYAKLuI1gouTbGszPKQww6yDhNrwn176nMQqLXOtbuf96+S/c7AM2owBlvdsTQfoDYggqlS4BENHD+sSp41FkSyVaa7RyPiUmkh4w+WLw8mLx5SnJGZdlBopkdlkpHVb77PukcnPC+CuSMn0ttL3q/JsFdmNtxdCebqmK41YKtJ/aQ+kbXOx5zvDIS1A0odXIBzP1UidrnTVhxSXtsw9z7Ab4bb/lqfzq2BM5m9cVIwW9L6COXwIE+cjiTy25DDIx6d7hn+VN5P5Wa12Dd7HhQuvfkIusyKEz8ft1QKUK6iuiZLRia8mi2HhVp7GwkwMViM0EeOqJHTh6kX3b+dago4NmIYL
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(366016)(41320700013)(1800799024)(52116014)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?WGcUHyFseSeoRHLbHTthIrvP4Rl9Tj+60WcpB0PnQLFvmly31CfBEmqMY4xI?=
- =?us-ascii?Q?7SS4IwHfOoHixToyhw/cVDEW1KNO2TdZb/4i3bkkjArFXKQZP8liT3zqcxkq?=
- =?us-ascii?Q?gt05/hgUrDE1LcdT95c6NMviu0t04QeKODEi5Ow0C7v2T9L8tzr9CSjKLByC?=
- =?us-ascii?Q?0Tgwm7cX8C14ywqzLpXcAYtw1SZ9LNaKs2lunZbfQdNJfMre7Y8HFm0MT/rd?=
- =?us-ascii?Q?hBm8lmWiTMaFeYfKmAmJomRkMxhDa9RNYH+HR6S/4Ne5X8DN3WyhhsGqN1dz?=
- =?us-ascii?Q?zPEsRzfIXaRcdocv7c4lvPKN3x6HuP+9wbDZUSpfNJEzURUA7MUf5FItRTiD?=
- =?us-ascii?Q?vcj2gjGGobM5Y/2vlXBBiiDD6GOyXvHrMymO66QbGsZoGF0G24m9xsh+zSKC?=
- =?us-ascii?Q?UIHeDuVAJc/if0JFeC8bnMWFUm5A8bXUq8mcQjCDAp6J4UgKjEYudAlUlN2P?=
- =?us-ascii?Q?zM946v5KUhcSSc0bWc6syWIyoMttX9s35VfjqTP96mGP5TsBvy3+uLOme+At?=
- =?us-ascii?Q?KAN7PYdEBI/cLzQ9f1YGWetWqpWu4LSOxvS3aUTPrnyS88FjGSaCnkI/em0r?=
- =?us-ascii?Q?6uCHh8btjcQezy5BboEWyCKQAa36IMmArDgZDCTL0Ztsaxw8diHscSHqjGjF?=
- =?us-ascii?Q?K/lwjzIS/qLafv3yIpxPojS9ABi/BnawIm1E+X3T7jjAeDNNZA9r8OZDBmAR?=
- =?us-ascii?Q?vVUD0+zW5FmYiNs+Z/ZRFf/OPg1Sg46JxDxfwRScSaP5UvtPpKuVyPunLWnW?=
- =?us-ascii?Q?b4ZScvXvXmILXcuTYxbe7vOgFaX5d6S0/qCzbLJsLvTwXyUlZHcZvPmqYBKN?=
- =?us-ascii?Q?PyJ/QqoULqVkTdUdakhKpraqFCcAD8+qVGWznTsy1DN8YXByH1FTj7NX0gEq?=
- =?us-ascii?Q?c+9pm5HZnv7XFGjvcUSqJuT/q0dsgDbyrurqLVdbjvmmWmnnBZCpwnzU8fqG?=
- =?us-ascii?Q?BZ+TbJhx+uYTAVJmsAGEMRqhiTwYR6agZg/8I/fSOJQcm47/24GomwQWaZpY?=
- =?us-ascii?Q?GalipvKk6g0QxgKqziYOcMP7es76E7zqAUIXXuAbUiXIdo8hMc6aPv0ezetb?=
- =?us-ascii?Q?Oi8YXyu/M7o/mqGrYBGmgDjo0D8Fjbjzi53Rxh7o6uf8yez/0m8UdxoMeW17?=
- =?us-ascii?Q?UKqw0G8N0pD7HJayhrjTmiVbtyfNbIVG43pz/USokwcgaR8RRZ1SwRvW0JFO?=
- =?us-ascii?Q?+MC7SF+MeRFckCifNxd0FkU/+y2HOLzoURCNKdNUhqLBoH7fN7fYQb305ZHJ?=
- =?us-ascii?Q?0Eh6KGezFHULHJeO5t5ZlSE00AJ7dIp6WF+LYSAnYPP8ZLcYh5lWKVy3ium5?=
- =?us-ascii?Q?moAuyo/b2+pLcAZEtSqDdHi1GoNFqnXKhCxe7mAMkfSZWW5a7RqV3XvyVQG9?=
- =?us-ascii?Q?XZ5FqRIfn7qXRUhK6AFcq7/nhbRP6yWM/XslMIBSS7mFZX7HYVVQ10PEJEfh?=
- =?us-ascii?Q?G+DUK2rEIsFDnkQlJ0CIyZDZnIG6Bi93r0KGP6mT9bWhilJFP7yjbySgeUzN?=
- =?us-ascii?Q?Lk5kRdI5BPfGko36rmWoSdMyJzX08X7ri7WeHtXImm1OXZnS7wI6mUPVgK4e?=
- =?us-ascii?Q?OP03t+f/ZLTuK7THMCNmLZzrlsGXNjPqj7Tj5jz0/J9yNTxXso1fQR+pqf4f?=
- =?us-ascii?Q?WRoW4ffIQCu+N8y2QWujGBc=3D?=
-X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5d30169e-261b-4ae4-ab96-08dcd783b575
-X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2024 01:46:26.6606
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Kz9ULqlD6SKtqiaeZ88FNOAdtxbLOpfEfF5LJwtVYwu1nfunow+zwzZdtgKVaTrnri1aMqMPnDjIcpXmUZyXXsggKDC7q9FXFUCd6iqUTAA+Ol+Bn894LrhWfUeovc4I
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB0982
+Mime-Version: 1.0
+From: <jiang.kun2@zte.com.cn>
+To: <alexs@kernel.org>, <siyanteng@loongson.cn>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Cc: <wang.yaxin@zte.com.cn>, <fan.yu9@zte.com.cn>, <xu.xin16@zte.com.cn>,
+        <he.peilin@zte.com.cn>, <tu.qiang35@zte.com.cn>,
+        <qiu.yutan@zte.com.cn>, <zhang.yunkai@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIHYzXSBEb2NzL3poX0NOOiBUcmFuc2xhdGUgcGh5c2ljYWxfbWVtb3J5LnJzdCB0byBTaW1wbGlmaWVkIENoaW5lc2U=?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl2.zte.com.cn 48I27BlZ048510
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 66EA35EF.000/4X7hr019PDzCh0p
 
-Module kgdb had been converted to debug_core since commit c433820971ff
-("Move kernel/kgdb.c to kernel/debug/debug_core.c") be added, so let's
-correct the module parameter path.
+From: Yaxin Wang <wang.yaxin@zte.com.cn>
+This patch translates the "physical_memory.rst" document into
+Simplified Chinese to improve accessibility for Chinese-speaking
+developers and users.
 
-Fixes: c433820971ff ("Move kernel/kgdb.c to kernel/debug/debug_core.c")
-Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+The translation was done with attention to technical accuracy
+and readability, ensuring that the document remains informative
+and useful in its translated form.
+
+Signed-off-by: Yaxin Wang <wang.yaxin@zte.com.cn>
 ---
+v2->v3:
+Some fixes according to:
+https://lore.kernel.org/all/6ad87d5f-a1c6-4d41-9ca4-41bd84907463@linux.dev/
+1. added the index for physical_memory.rst in the index.rst.
+2. changed the subject prefix into &apos;Docs/zh_CN: Translate physical_memory.rst
+to Simplified&apos; instead of &apos;Documentation/mm: Translate physical_memory.rst to Simplified&apos;
+3. this page display correctly in a web browser after running the &apos;make htmldocs&apos;.
 
-Add "Fixes".
+Documentation/translations/zh_CN/mm/index.rst |   1 +
+../translations/zh_CN/mm/physical_memory.rst | 330 ++++++++++++++++++
+2 files changed, 331 insertions(+)
+create mode 100644 Documentation/translations/zh_CN/mm/physical_memory.rst
 
----
----
- Documentation/dev-tools/kgdb.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/dev-tools/kgdb.rst b/Documentation/dev-tools/kgdb.rst
-index f83ba2601e55..a87a58e6509a 100644
---- a/Documentation/dev-tools/kgdb.rst
-+++ b/Documentation/dev-tools/kgdb.rst
-@@ -329,7 +329,7 @@ ways to activate this feature.
- 
- 2. Use sysfs before configuring an I/O driver::
- 
--	echo 1 > /sys/module/kgdb/parameters/kgdb_use_con
-+	echo 1 > /sys/module/debug_core/parameters/kgdb_use_con
- 
- .. note::
- 
--- 
-2.25.1
-
+diff --git a/Documentation/translations/zh_CN/mm/index.rst b/Documentation/translations/zh_CN/mm/index.rst
+index b950dd118be7..eac20a7ec9a6 100644
+--- a/Documentation/translations/zh_CN/mm/index.rst
++++ b/Documentation/translations/zh_CN/mm/index.rst
+@@ -53,6 +53,7 @@ Linux内存管理文档
+page_migration
+page_owner
+page_table_check
++   physical_memory
+remap_file_pages
+split_page_table_lock
+vmalloced-kernel-stacks
+diff --git a/Documentation/translations/zh_CN/mm/physical_memory.rst b/Documentation/translations/zh_CN/mm/physical_memory.rst
+new file mode 100644
+index 000000000000..7d9f4c12146a
+--- /dev/null
++++ b/Documentation/translations/zh_CN/mm/physical_memory.rst
+@@ -0,0 +1,330 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/mm/physical_memory.rst
++
++:翻译:
++
++   王亚鑫 Yaxin Wang <wang.yaxin@zte.com.cn>
++
++========
++物理内存
++========
++
++Linux可用于多种架构，因此需要一个与架构无关的抽象来表示物理内存。本章描述了管理运行系统
++中物理内存的结构。
++
++第一个与内存管理相关的主要概念是`非一致性内存访问(NUMA)
++<https://en.wikipedia.org/wiki/Non-uniform_memory_access>`
++
++在多核和多插槽机器中，内存可能被组织成不同的存储区，这些存储区根据与处理器的
++“不同”而有不同的访问开销。例如，可能为每个CPU分配内存存储区，或者为外围设备
++在附近分配一个非常适合DMA的内存存储区。
++
++每个存储区被称为一个节点，节点在Linux中表示为 ``struct pglist_data``，即使是在UMA架构中
++也是这样表示。该结构总是通过 ``pg_data_t`` 来引用。特定节点的 ``pg_data_t`` 结构体可以通过
++NODE_DATA(nid)引用，其中nid被称为该节点的ID。
++
++对于非一致性内存访问（NUMA）架构，节点数据结构在引导时由特定于架构的代码早期分配。通常，这些
++结构在他们所在的内存区上本地分配。对于一致性内存访问（UMA）架构，只使用一个静态的 ``pg_data_t``
++结构体，称为 ``contig_page_data``。节点将会在 :ref:`节点 <nodes>` 章节中进一步讨论。
++
++整个物理内存被划分为一个或多个被称为区域的块，这些区域表示内存的范围。这些范围通常由访问内存
++的架构限制来决定。在节点内，与特定区域对应的内存范围由 ``struct zone`` 结构体描述，该结构被定义为
++``zone_t``，每种区域都属于以下描述类型的一种。
++
++* ``ZONE_DMA`` 和 ``ZONE_DMA32`` 在历史上代表适用于DMA的内存，这些内存由那些不能访问所
++  有可寻址内存的外设访问。多年来，已经有了更好、更稳固的接口来获取满足特定DMA需求的内存（这些
++  接口由 Documentation/core-api/dma-api.rst 文档描述），但是 ``ZONE_DMA`` 和 ``ZONE_DMA32``
++  仍然表示访问受限的内存范围。
++
++取决于架构的不同，这两种区域可以在构建时通过关闭 ``CONFIG_ZONE_DMA`` 和 ``CONFIG_ZONE_DMA32`` 配置选项
++来禁用。一些64位的平台可能需要这两种区域，因为他们支持具有不同DMA寻址限制的外设。
++
++* ``ZONE_NORMAL`` 是普通内存的区域，这种内存可以被内核随时访问。如果DMA设备支持将
++  数据传输到所有可寻址的内存区域，那么可以在该区域的页面上执行DMA操作。 ``ZONE_NORMAL`` 总是开启的。
++
++* ``ZONE_HIGHMEM`` 是指那些没有在内核页表中永久映射的物理内存部分。该区域的内存只能
++  通过临时映射被内核访问。该区域只在某些32位架构上可用，并且是通过 ``CONFIG_HIGHMEM`` 选项开启。
++
++* ``ZONE_MOVABLE`` 是用于可访问的普通内存区域，就像 ``ZONE_NORMAL`` 一样。不同之处在于
++  ``ZONE_MOVABLE`` 中的大多数页面内容是可移动的。这意味着这些页面的虚拟地址不会改变，
++  但它们的内容可能会在不同的物理 页面之间移动。通常，在内存热插拔期间填充 ``ZONE_MOVABLE``，
++  在启动时也可以使用 ``kernelcore`` 、 ``movablecore`` 和 ``movable_node``
++  这些内核命令行参数来填充。有关更多详细信息，请参阅内核文档
++  Documentation/mm/page_migration.rst 和
++  Documentation/admin-guide/mm/memory-hotplug.rst。
++
++* ``ZONE_DEVICE`` 表示位于诸如持久性内存（PMEM）和图形处理单元（GPU）等设备上的
++  内存。它与RAM区域类型有不同的特性，并且它的存在是为了提供 :ref:`struct page<Pages>`
++  结构和内存映射服务，以便设备驱动程序能识别物理地址范围。 ``ZONE_DEVICE`` 通过配置选项
++  ``CONFIG_ZONE_DEVICE`` 开启。
++
++需要注意的是，许多内核操作只能使用 ``ZONE_NORMAL`` 来执行，因此它是性能最关键区域。
++区域在 :ref:`区域 <zones>` 节中有更详细的讨论。
++
++节点和区域范围之间的关系由固件报告的物理内存映射决定，另外也由内存寻址的架构约束
++以及内核命令行中的某些参数决定。
++
++例如，在具有2GB RAM的x86统一内存架构（UMA）机器上运行32位内核时，整个内存将
++位于节点0，并且将有三个区域： ``ZONE_DMA``、 ``ZONE_NORMAL`` 和 ``ZONE_HIGHMEM``::
++
++  0                                                            2G
++  +-------------------------------------------------------------+
++  |                            node 0                           |
++  +-------------------------------------------------------------+
++
++  0         16M                    896M                        2G
++  +----------+-----------------------+--------------------------+
++  | ZONE_DMA |      ZONE_NORMAL      |       ZONE_HIGHMEM       |
++  +----------+-----------------------+--------------------------+
++
++
++在内核构建时关闭 ``ZONE_DMA`` 开启 ``ZONE_DMA32``，并且在具有16GB RAM平均分配在两个节点
++上的arm64机器上，使用 ``movablecore=80%`` 参数启动时， ``ZONE_DMA32`` 、
++``ZONE_NORMAL`` 和 ``ZONE_MOVABLE`` 位于节点0，而 ``ZONE_NORMAL`` 和
++``ZONE_MOVABLE`` 位于节点1::
++
++
++ 1G                                9G                         17G
++  +--------------------------------+ +--------------------------+
++  |              node 0            | |          node 1          |
++  +--------------------------------+ +--------------------------+
++
++  1G       4G        4200M          9G          9320M          17G
++  +---------+----------+-----------+ +------------+-------------+
++  |  DMA32  |  NORMAL  |  MOVABLE  | |   NORMAL   |   MOVABLE   |
++  +---------+----------+-----------+ +------------+-------------+
++
++
++内存存储区可能位于交错的节点。在下面的例子中，一台x86机器有16GB的RAM分布在4个内存存储区上，偶数编号的内存存储区
++属于节点0，奇数编号的内存条属于节点1::
++
++  0              4G              8G             12G            16G
++  +-------------+ +-------------+ +-------------+ +-------------+
++  |    node 0   | |    node 1   | |    node 0   | |    node 1   |
++  +-------------+ +-------------+ +-------------+ +-------------+
++
++  0   16M      4G
++  +-----+-------+ +-------------+ +-------------+ +-------------+
++  | DMA | DMA32 | |    NORMAL   | |    NORMAL   | |    NORMAL   |
++  +-----+-------+ +-------------+ +-------------+ +-------------+
++
++在这种情况下，节点0将覆盖从0到12GB的内存范围，而节点1将覆盖从4GB到16GB的内存范围。
++
++.. _nodes:
++
++节点
++====
++
++正如我们所提到的，内存中的每个节点都由 ``pg_data_t`` 描述，它是由 ``struct pglist_data`` 结构体的类型定义。
++在分配页面时，默认情况下，Linux使用节点本地分配策略，从离当前运行CPU的最近节点分配内存。由于进程倾向于在同一个
++CPU上运行，很可能会使用当前节点的内存。分配策略可以由用户控制，如内核文档
++Documentation/admin-guide/mm/numa_memory_policy.rst 中所述。
++
++大多数NUMA（非统一内存访问）架构维护了一个指向节点结构的指针数组。这些实际的结构在启动过程中的早期被分配，
++这时特定于架构的代码解析了固件报告的物理内存映射。节点初始化的大部分工作是在由 free_area_init()实现的启
++动过程之后完成，该函数在后面的小节 :ref:`初始化 <initialization>` 中有详细描述。
++
++除了节点结构，内核还维护了一个名为 ``node_states`` 的 ``nodemask_t`` 位掩码数组。这个数组中的每个位掩码
++代表一组特定属性的节点，这些属性由 ``enum node_states`` 定义，定义如下：
++
++``N_POSSIBLE``
++节点可能在某个时刻上线。
++
++``N_ONLINE``
++节点已经上线。
++
++``N_NORMAL_MEMORY``
++节点拥有普通内存。
++
++``N_HIGH_MEMORY``
++节点拥有普通或高端内存。当关闭 ``CONFIG_HIGHMEM`` 配置时，也可以称为 ``N_NORMAL_MEMORY`` 。
++
++``N_MEMORY``
++节点拥有（普通、高端、可移动）内存。
++
++``N_CPU``
++节点拥有一个或多个CPU。
++
++对于具有上述属性的每个节点， ``node_states[<property>]`` 掩码中对应于节点ID的位会被置位。
++
++例如，对于具有常规内存和CPU的节点2，第二个bit将被设置::
++
++  node_states[N_POSSIBLE]
++  node_states[N_ONLINE]
++  node_states[N_NORMAL_MEMORY]
++  node_states[N_HIGH_MEMORY]
++  node_states[N_MEMORY]
++  node_states[N_CPU]
++
++有关使用节点掩码（nodemasks）可能进行的各种操作，请参考 ``include/linux/nodemask.h``。
++
++除此之外，节点掩码（nodemasks）提供用于遍历节点的宏，即 ``for_each_node()`` 和
++ ``for_each_online_node()``。
++
++例如，要为每个在线节点调用函数 foo()，可以这样操作::
++
++  for_each_online_node(nid) {
++		  pg_data_t *pgdat = NODE_DATA(nid);
++
++		  foo(pgdat);
++	}
++
++节点数据结构
++------------
++
++节点结构 ``struct pglist_data`` 在 ``include/linux/mmzone.h`` 中声明。这里我们将简要描述
++这个结构体的字段：
++
++通用字段
++~~~~~~~~
++
++``node_zones``
++表示该节点的区域列表。并非所有区域都可能被填充，但这是完整的列表。它被该节点的node_zonelists以及其它
++节点的node_zonelists引用。
++
++``node_zonelists``
++所有节点中所有区域的列表。此列表定义了分配内存时首选的区域顺序。 ``node_zonelists`` 在核心内存管理
++结构初始化期间，由 ``mm/page_alloc.c`` 中的 ``build_zonelists()`` 函数设置。
++
++``nr_zones``
++表示此节点中已填充区域的数量。
++
++``node_mem_map``
++对于使用FLATMEM内存模型的UMA系统，0号节点的 ``node_mem_map`` 表示每个物理帧的struct pages数组。
++
++``node_page_ext``
++对于使用FLATMEM内存模型的UMA系统，0号节点的 ``node_page_ext`` 是struct pages的扩展数组。
++只有在构建时开启了 ``CONFIG_PAGE_EXTENSION`` 选项的内核中才可用。
++
++``node_start_pfn``
++表示此节点中起始页面帧的页面帧号。
++
++``node_present_pages``
++表示此节点中存在的物理页面的总数。
++
++``node_spanned_pages``
++表示包括空洞在内的物理页面范围的总大小。
++
++``node_size_lock``
++一个保护定义节点范围字段的锁。仅在开启了 ``CONFIG_MEMORY_HOTPLUG`` 或
++``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` 配置选项中的某一个时才定义。提供了
++``pgdat_resize_lock()`` 和 ``pgdat_resize_unlock()`` 用来操作 ``node_size_lock``，
++而无需检查 ``CONFIG_MEMORY_HOTPLUG`` 或 ``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` 选项。
++
++``node_id``
++节点的节点ID（NID），从0开始。
++
++``totalreserve_pages``
++这是每个节点保留的页面，这些页面不可用于用户空间分配。
++
++``first_deferred_pfn``
++如果大型机器上的内存初始化被推迟，那么第一个PFN（页帧号）是需要初始化的。在开启了
++``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` 选项时定义。
++
++``deferred_split_queue``
++每个节点的大页队列，这些大页的拆分被推迟了。仅在开启了 ``CONFIG_TRANSPARENT_HUGEPAGE``
++配置选项时定义。
++
++``__lruvec``
++每个节点的lruvec持有LRU（最近最少使用）列表和相关参数。仅在禁用了内存控制组（cgroups）
++时使用。它不应该直接访问，而应该使用 ``mem_cgroup_lruvec()`` 来查找 lruvecs。
++
++回收控制
++~~~~~~~~
++
++另见内核文档 Documentation/mm/page_reclaim.rst 文件。
++
++``kswapd``
++每个节点的kswapd内核线程实例。
++
++``kswapd_wait``, ``pfmemalloc_wait``, ``reclaim_wait``
++同步内存回收任务的工作队列。
++
++``nr_writeback_throttled``
++等待写回脏页时，被限制的任务数量。
++
++``kswapd_order``
++控制kswapd尝试回收的order。
++
++``kswapd_highest_zoneidx``
++kswapd线程可以回收的最高区域索引。
++
++``kswapd_failures``
++kswapd无法回收任何页面的运行次数。
++
++``min_unmapped_pages``
++无法回收的未映射文件支持的最小页面数量。由 ``vm.min_unmapped_ratio`` 系统控制台（sysctl）
++参数决定。在开启 ``CONFIG_NUMA`` 配置时定义。
++
++``min_slab_pages``
++无法回收的SLAB页面的最少数量。由 ``vm.min_slab_ratio`` 系统控制台（sysctl）参数决定。在
++开启 ``CONFIG_NUMA`` 时定义。
++
++``flags``
++控制回收行为的标志位。
++
++内存压缩控制
++~~~~~~~~~~~~
++
++``kcompactd_max_order``
++kcompactd应尝试实现的页面order。
++
++``kcompactd_highest_zoneidx``
++kcompactd可以压缩的最高区域索引。
++
++``kcompactd_wait``
++同步内存压缩任务的工作队列。
++
++``kcompactd``
++每个节点的kcompactd内核线程实例。
++
++``proactive_compact_trigger``
++决定是否使用主动压缩。由 ``vm.compaction_proactiveness`` 系统控制台（sysctl）参数控制。
++
++统计信息
++~~~~~~~~
++
++``per_cpu_nodestats``
++表示节点的Per-CPU虚拟内存统计信息。
++
++``vm_stat``
++表示节点的虚拟内存统计数据。
++
++.. _zones:
++
++区域
++====
++
++.. admonition:: Stub
++
++  本节内容不完整。请列出并描述相应的字段。
++
++.. _pages:
++
++页
++====
++
++.. admonition:: Stub
++
++  本节内容不完整。请列出并描述相应的字段。
++
++页码
++====
++
++.. admonition:: Stub
++
++  本节内容不完整。请列出并描述相应的字段。
++
++.. _initialization:
++
++初始化
++======
++
++.. admonition:: Stub
++
++  本节内容不完整。请列出并描述相应的字段。
++
++
+--
+2.27.0
