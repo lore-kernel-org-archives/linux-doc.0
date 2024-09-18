@@ -1,39 +1,59 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5353317798F;
-	Wed, 18 Sep 2024 08:36:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DDE4291E;
+	Wed, 18 Sep 2024 11:20:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726648603; cv=none; b=OTg1Z6PZCGdw4Rm+rYupLakLA4UzGQxpkmGNpyT29IoTvhWHmRCIHakqMrOxBicRTOAdcfJ1rCShH02Qt3pjucsKR1GYWEzsVBHqC8QsU72j+wqGJF50xsVUkmFbw1htNVGOVns65x8edSvEfQ52pqIYssg4OVCPPuovvm3ge8o=
+	t=1726658417; cv=none; b=q92RJ+1oY3iqgcWHmZhSyxrpUGms5RIdqfRazBYueW+3ii+bzTSwOc3Ec2zdaDWZ1h6m2DCgJ6VxVDP1OtuatGWTbpc4IMGNAmteYBT0QP9xsEVjVq78k57ld8JOy44mq47TBmBsSOO/+hFzvvnjf5U2Yv/jTjGq6dP53ahFw30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726648603; c=relaxed/simple;
-	bh=SPlYo2wbVPtywFZJvGZL5i8i+ocFuBwmMn6s5v97xHY=;
+	s=arc-20240116; t=1726658417; c=relaxed/simple;
+	bh=XiZ6+d8X7LwgUFmSBEdWE0PwprK122/IfjVSoBF/aoQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gbpA+aeVes0xDbMdMQC35PPLtA2zo9scLPQX1HktqNOfHblRwXr8ASRqVfKJt+9PtzdNM0OycdmQJAEVCaF7oZLHLnU6/ZEUoXo72eNe5Ux+IEI8PFGELD9CWvvSRmVdqZItuZQ3kdOVQUFxKGK70WlSrQaRcSyFlGnQG91he2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=iifoiFoa; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	 In-Reply-To:Content-Type; b=KUyGeGnOBN2v6w9OQF4hiEZVyyDXJz1YUisk1iLaViFft2017W9GRzzusowui1BG2dc5GloBpCfiEX1AamqtPLJTzEaaTzv1ZrgwjXN5TP5JcmK8PZc5fQDGDkDg6GwgA18FWh5qpUsbEUrwiLrQXhdT83J8nQDwRgHLV4FoFlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bSsRzUDZ; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="iifoiFoa"
-Received: from [192.168.7.205] ([71.202.166.45])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 48I8ZpZx1114904
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Wed, 18 Sep 2024 01:35:52 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 48I8ZpZx1114904
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2024091601; t=1726648555;
-	bh=x2GclNT1jGzmcwnuPezDBelGlqN1/8ggygWx7Pfpj6A=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=iifoiFoays4n2azeZw/XhgYRM2pwAMUNJTTSYdaIl+wLZlRFZye+Ff6YDMk8jblpR
-	 FCMuZZEJzGngGPObV982xZ8nFfvP+GkfHvPiLkPDOzwCrXdyKO6Zt2b1FdZaLYA6d0
-	 4yIJlgFYqG7Ew/MdHaW1bDCBYU8PztXl0uwwRFTqbGIF8DKXVBwympsBtbeURKIIut
-	 W9w4bnV1Q50Zs4ZV138U7SjEk4oklNRFCOHuLnBQnUwiRTt3umeYpoRPI6lCJj1czi
-	 3xz6v9eutDFpTTn4Dswsg5z8gRav0GmzEheCza9k6KMYunAb33RLiOFqyz6yip0tAN
-	 lE4zIHGzntXmw==
-Message-ID: <d65e62d2-ca64-4b29-8656-bb8411fe837d@zytor.com>
-Date: Wed, 18 Sep 2024 01:35:51 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bSsRzUDZ"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5c251ba0d1cso8607655a12.3;
+        Wed, 18 Sep 2024 04:20:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726658414; x=1727263214; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yJsWJdrG2Kc8YkboHwPy2HHcJI536qKQX7JA14yR9wk=;
+        b=bSsRzUDZN+Fx6R/YuFZYkWWLgiBfLZxemxMEDadL1GKq3SPYfIXeH3VOlgTVMLpXag
+         2vZTvnj04p2yX9INZ5FB4/srsH1xWWy+8XKmMKzNh0tUa4Z+0bdr4tFFFpoJa8mK5hob
+         XPbKxghmQD1d/OkxG/JRKErXRidNIUaR941Cq9ZnPOUc5l08VL+kg7f30dpjqYP0VH0q
+         Zo6H56f1d2bwtb2cnUUOYZasjkMGhsxwLBCWtV+LhEtyZw/OWizlTsmIKvb02PjCT50y
+         QfZxLrZYAx6Am7Pd7M4kLRfgsg367T/QdEm44LNdqujUykAiPVKq6HeE/rXInRwS/86A
+         7P7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726658414; x=1727263214;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yJsWJdrG2Kc8YkboHwPy2HHcJI536qKQX7JA14yR9wk=;
+        b=e4BYbldLAyyMZykbKcd60sojhkkqPVNl8AWwsPMRHg6IIdaJ8GG1/o5Xx67M7lHswj
+         Hkw04Xw/7mm3vslu44b4CYjdHPH7xC91wxBHGMpmMys5DgkLx0YJl2j5SSfKkn6ZbbeI
+         hD323/VIGik8ocu/Cv0F/iW6zMYS5rxNHCe/Wn7egF38PdPOdIjxrQByY4f6HAbie8Pt
+         u04mIqMbCoMNQ1OKGMXoDJs5raOORzIX2F/dlK8fYEd18r+79MjsfFaTmIX/M8CJJ2XZ
+         ux7LAZs8I+5FM2hzSb1jhWJ2X1jr3L2rNwlNIFGDF3bRt4rS6UDTUexzVaMOa8oh2Pgb
+         MmyA==
+X-Forwarded-Encrypted: i=1; AJvYcCWxVCh+sm9VTQzjfDZTB5EfJF9mmE9kFr1C3F/Y+DLIdjJJHJV/S675aNd9dYvAr+VdzwsISC56fIYjWDWq@vger.kernel.org, AJvYcCXoh9+pcF/J0/+hMmeZZIfvp+T6D9zNlp8BFPvylyNqG7G0gtXTNLnuWgnztWKnQGESHO41vpMRmts=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yybrdcqa8iE2mC5xCdL3LGbvMlK8qLNex4UxFltSq3V8EVFlrBH
+	XX2IKJhriaQl8Zg5EqdCb5g5HSUSMp2pbVr9RtkVYtgZoh/G8Emm
+X-Google-Smtp-Source: AGHT+IF/8Y7rQzca7C7eeHtlv/vvB8DA92bCfXIe1Qckye3K8XNz1VVfg44bg9L/JO+PBLc3z+8nYA==
+X-Received: by 2002:a17:907:d590:b0:a8d:470e:1793 with SMTP id a640c23a62f3a-a902950525emr2056039566b.21.1726658413115;
+        Wed, 18 Sep 2024 04:20:13 -0700 (PDT)
+Received: from [192.168.1.17] (host-82-59-132-21.retail.telecomitalia.it. [82.59.132.21])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90610968c4sm576863966b.4.2024.09.18.04.20.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Sep 2024 04:20:12 -0700 (PDT)
+Message-ID: <19925e9c-90c4-406f-9160-7f1e8da9352d@gmail.com>
+Date: Wed, 18 Sep 2024 13:20:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,152 +61,192 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 07/25] KVM: VMX: Set intercept for FRED MSRs
-To: Sean Christopherson <seanjc@google.com>
-Cc: Chao Gao <chao.gao@intel.com>, Xin Li <xin3.li@intel.com>,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        pbonzini@redhat.com, corbet@lwn.net, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, hpa@zytor.com, shuah@kernel.org, vkuznets@redhat.com,
-        peterz@infradead.org, ravi.v.shankar@intel.com
-References: <20240207172646.3981-1-xin3.li@intel.com>
- <20240207172646.3981-8-xin3.li@intel.com> <ZiJzFsoHR41Sd8lE@chao-email>
- <ZmoT0jaX_3Ww3Uzu@google.com>
- <feefa9d1-f266-414f-bb7b-b770ef0d8ec6@zytor.com>
- <ZuNJlzXntREQVb3n@google.com>
+Subject: Re: [PATCH v4 00/11] Preemption support for A7XX
+To: neil.armstrong@linaro.org, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Sharat Masetty <smasetty@codeaurora.org>
+References: <20240917-preemption-a750-t-v4-0-95d48012e0ac@gmail.com>
+ <c70392bb-bda1-48c7-824e-23d6f92f54ef@linaro.org>
 Content-Language: en-US
-From: Xin Li <xin@zytor.com>
-Autocrypt: addr=xin@zytor.com; keydata=
- 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
- l75w1xInsg==
-In-Reply-To: <ZuNJlzXntREQVb3n@google.com>
+From: Antonino Maniscalco <antomani103@gmail.com>
+In-Reply-To: <c70392bb-bda1-48c7-824e-23d6f92f54ef@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
->> MSR_IA32_FRED_SSP0 is an alias of the CET MSR_IA32_PL0_SSP and likely to
->> be used in the same way as FRED RSP0, i.e., host FRED SSP0 _should_ be
->> restored in arch_exit_to_user_mode_prepare().  However as of today Linux
->> has no plan to utilize kernel shadow stack thus no one cares host FRED
->> SSP0 (no?).  But lets say anyway it is host's responsibility to manage
->> host FRED SSP0, then KVM only needs to take care of guest FRED SSP0
->> (just like how KVM should handle guest FRED RSP0) even before the
->> supervisor shadow stack feature is advertised to guest.
+On 9/18/24 9:46 AM, Neil Armstrong wrote:
+> Hi,
 > 
-> Heh, I'm not sure what your question is, or if there even is a question.  KVM
-> needs to context switch FRED SSP0 if FRED is exposed to the guest, but presumably
-> that will be done through XSAVE state?  If that's the long term plan, I would
-> prefer to focus on merging CET virtualization first, and then land FRED virtualization
-> on top so that KVM doesn't have to carry intermediate code to deal with the aliased
-> MSR.
-
-You mean the following patch set, right?
-
-https://lore.kernel.org/kvm/20240531090331.13713-1-weijiang.yang@intel.com/
-
-I think it's probably better to do so.  Otherwise a patch to explicitly
-save/restore FRED SSP0 would be needed before the CET patch set lands
-and then reverted immediately after:
-
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index f828f03d48ab..c790cb7a7d6b 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -1343,8 +1343,10 @@ void vmx_prepare_switch_to_guest(struct kvm_vcpu 
-*vcpu)
-
-         wrmsrl(MSR_KERNEL_GS_BASE, vmx->msr_guest_kernel_gs_base);
-
--       if (cpu_feature_enabled(X86_FEATURE_FRED) && guest_can_use(vcpu, 
-X86_FEATURE_FRED))
-+       if (cpu_feature_enabled(X86_FEATURE_FRED) && guest_can_use(vcpu, 
-X86_FEATURE_FRED)) {
-                 wrmsrns(MSR_IA32_FRED_RSP0, vmx->msr_guest_fred_rsp0);
-+               wrmsrns(MSR_IA32_FRED_SSP0, vmx->msr_guest_fred_ssp0);
-+       }
-  #else
-         savesegment(fs, fs_sel);
-         savesegment(gs, gs_sel);
-@@ -1393,6 +1395,8 @@ static void vmx_prepare_switch_to_host(struct 
-vcpu_vmx *vmx)
-         if (cpu_feature_enabled(X86_FEATURE_FRED) && 
-guest_can_use(&vmx->vcpu, X86_FEATURE_FRED)) {
-                 vmx->msr_guest_fred_rsp0 = read_msr(MSR_IA32_FRED_RSP0);
-                 fred_sync_rsp0(vmx->msr_guest_fred_rsp0);
-+
-+               vmx->msr_guest_fred_ssp0 = read_msr(MSR_IA32_FRED_SSP0);
-         }
-  #endif
-         load_fixmap_gdt(raw_smp_processor_id());
-diff --git a/arch/x86/kvm/vmx/vmx.h b/arch/x86/kvm/vmx/vmx.h
-index 9012428984de..d1b9352f56c7 100644
---- a/arch/x86/kvm/vmx/vmx.h
-+++ b/arch/x86/kvm/vmx/vmx.h
-@@ -282,6 +282,7 @@ struct vcpu_vmx {
-         u64                   msr_host_kernel_gs_base;
-         u64                   msr_guest_kernel_gs_base;
-         u64                   msr_guest_fred_rsp0;
-+       u64                   msr_guest_fred_ssp0;
-  #endif
-
-         u64                   spec_ctrl;
-
+> On 17/09/2024 13:14, Antonino Maniscalco wrote:
+>> This series implements preemption for A7XX targets, which allows the 
+>> GPU to
+>> switch to an higher priority ring when work is pushed to it, reducing 
+>> latency
+>> for high priority submissions.
+>>
+>> This series enables L1 preemption with skip_save_restore which requires
+>> the following userspace patches to function:
+>>
+>> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30544
+>>
+>> A flag is added to `msm_submitqueue_create` to only allow submissions
+>> from compatible userspace to be preempted, therefore maintaining
+>> compatibility.
+>>
+>> Preemption is currently only enabled by default on A750, it can be
+>> enabled on other targets through the `enable_preemption` module
+>> parameter. This is because more testing is required on other targets.
+>>
+>> For testing on other HW it is sufficient to set that parameter to a
+>> value of 1, then using the branch of mesa linked above, `TU_DEBUG=hiprio`
+>> allows to run any application as high priority therefore preempting
+>> submissions from other applications.
+>>
+>> The `msm_gpu_preemption_trigger` and `msm_gpu_preemption_irq` traces
+>> added in this series can be used to observe preemption's behavior as
+>> well as measuring preemption latency.
+>>
+>> Some commits from this series are based on a previous series to enable
+>> preemption on A6XX targets:
+>>
+>> https://lkml.kernel.org/1520489185-21828-1-git-send-email-smasetty@codeaurora.org
+>>
+>> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
+>> ---
+>> Changes in v4:
+>> - Added missing register in pwrup list
+>> - Removed and rearrange barriers
+>> - Renamed `skip_inline_wptr` to `restore_wptr`
+>> - Track ctx seqno per ring
+>> - Removed secure preempt context
+>> - NOP out postamble to disable it instantly
+>> - Only emit pwrup reglist once
+>> - Document bv_rptr_addr
+>> - Removed unused A6XX_PREEMPT_USER_RECORD_SIZE
+>> - Set name on preempt record buffer
+>> - Link to v3: 
+>> https://lore.kernel.org/r/20240905-preemption-a750-t-v3-0-fd947699f7bc@gmail.com
+>>
+>> Changes in v3:
+>> - Added documentation about preemption
+>> - Use quirks to determine which target supports preemption
+>> - Add a module parameter to force disabling or enabling preemption
+>> - Clear postamble when profiling
+>> - Define A6XX_CP_CONTEXT_SWITCH_CNTL_LEVEL fields in a6xx.xml
+>> - Make preemption records MAP_PRIV
+>> - Removed user ctx record (NON_PRIV) and patch 2/9 as it's not needed
+>>    anymore
+>> - Link to v2: 
+>> https://lore.kernel.org/r/20240830-preemption-a750-t-v2-0-86aeead2cd80@gmail.com
+>>
+>> Changes in v2:
+>> - Added preept_record_size for X185 in PATCH 3/7
+>> - Added patches to reset perf counters
+>> - Dropped unused defines
+>> - Dropped unused variable (fixes warning)
+>> - Only enable preemption on a750
+>> - Reject MSM_SUBMITQUEUE_ALLOW_PREEMPT for unsupported targets
+>> - Added Akhil's Reviewed-By tags to patches 1/9,2/9,3/9
+>> - Added Neil's Tested-By tags
+>> - Added explanation for UAPI changes in commit message
+>> - Link to v1: 
+>> https://lore.kernel.org/r/20240815-preemption-a750-t-v1-0-7bda26c34037@gmail.com
+>>
+>> ---
+>> Antonino Maniscalco (11):
+>>        drm/msm: Fix bv_fence being used as bv_rptr
+>>        drm/msm/A6XX: Track current_ctx_seqno per ring
+>>        drm/msm: Add a `preempt_record_size` field
+>>        drm/msm: Add CONTEXT_SWITCH_CNTL bitfields
+>>        drm/msm/A6xx: Implement preemption for A7XX targets
+>>        drm/msm/A6xx: Sync relevant adreno_pm4.xml changes
+>>        drm/msm/A6xx: Use posamble to reset counters on preemption
+>>        drm/msm/A6xx: Add traces for preemption
+>>        drm/msm/A6XX: Add a flag to allow preemption to submitqueue_create
+>>        drm/msm/A6xx: Enable preemption for A750
+>>        Documentation: document adreno preemption
+>>
+>>   Documentation/gpu/msm-preemption.rst               |  98 +++++
+>>   drivers/gpu/drm/msm/Makefile                       |   1 +
+>>   drivers/gpu/drm/msm/adreno/a2xx_gpu.c              |   2 +-
+>>   drivers/gpu/drm/msm/adreno/a3xx_gpu.c              |   2 +-
+>>   drivers/gpu/drm/msm/adreno/a4xx_gpu.c              |   2 +-
+>>   drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |   6 +-
+>>   drivers/gpu/drm/msm/adreno/a6xx_catalog.c          |   7 +-
+>>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 325 
+>> ++++++++++++++-
+>>   drivers/gpu/drm/msm/adreno/a6xx_gpu.h              | 174 ++++++++
+>>   drivers/gpu/drm/msm/adreno/a6xx_preempt.c          | 440 
+>> +++++++++++++++++++++
+>>   drivers/gpu/drm/msm/adreno/adreno_gpu.h            |   9 +-
+>>   drivers/gpu/drm/msm/msm_drv.c                      |   4 +
+>>   drivers/gpu/drm/msm/msm_gpu.c                      |   2 +-
+>>   drivers/gpu/drm/msm/msm_gpu.h                      |  11 -
+>>   drivers/gpu/drm/msm/msm_gpu_trace.h                |  28 ++
+>>   drivers/gpu/drm/msm/msm_ringbuffer.h               |  18 +
+>>   drivers/gpu/drm/msm/msm_submitqueue.c              |   3 +
+>>   drivers/gpu/drm/msm/registers/adreno/a6xx.xml      |   7 +-
+>>   .../gpu/drm/msm/registers/adreno/adreno_pm4.xml    |  39 +-
+>>   include/uapi/drm/msm_drm.h                         |   5 +-
+>>   20 files changed, 1117 insertions(+), 66 deletions(-)
+>> ---
+>> base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
+>> change-id: 20240815-preemption-a750-t-fcee9a844b39
+>>
+>> Best regards,
 > 
-> Ugh, but what happens if a CPU (or the host kernel) supports FRED but not CET SS?
-> Or is that effectively an illegal combination?
+> I've been running vulkan-cts 
+> (1.3.7.3-0-gd71a36db16d98313c431829432a136dbda692a08 from Yocto)
+> on SM8650-QRD, SM8550-QRD & SM8450-HDK boards with enable_preemption in 
+> default value
+> and forced to 1, and I've seen no regression so far
+> 
+> On SM8550, I've seen a few:
+> platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0 [msm]] *ERROR* 
+> Message HFI_H2F_MSG_GX_BW_PERF_VOTE id 2743 timed out waiting for response
+> platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0 [msm]] *ERROR* 
+> Unexpected message id 2743 on the response queue
+> but it's unrelated to preempt
+> 
+> and on SM8450:
+> platform 3d6a000.gmu: [drm:a6xx_gmu_set_oob [msm]] *ERROR* Timeout 
+> waiting for GMU OOB set GPU_SET: 0x0
+> msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] 
+> *ERROR* 7.3.0.1: hangcheck detected gpu lockup rb 0!
+> msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] 
+> *ERROR* 7.3.0.1:     completed fence: 331235
+> msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] 
+> *ERROR* 7.3.0.1:     submitted fence: 331236
+> adreno 3d00000.gpu: [drm:a6xx_irq [msm]] *ERROR* gpu fault ring 0 fence 
+> 50de4 status 00800005 rb 0000/0699 ib1 0000000000000000/0000 ib2 
+> 0000000000000000/0000
+> msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR* 
+> 7.3.0.1: hangcheck recover!
+> msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR* 
+> 7.3.0.1: offending task: deqp-vk (/usr/lib/vulkan-cts/deqp-vk)
+> msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR* 
+> 7.3.0.1: hangcheck recover!
+> leading to a VK_ERROR_DEVICE_LOST, but again unrelated to preempt support.
+> 
+> So you can also add:
+> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
+> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8450-HDK
+> 
+> Thanks,
+> Neil
 
-The FRED Spec says:
+Thanks for testing! Enabling for those targets then.
 
-IA32_FRED_SSP1, IA32_FRED_SSP2, and IA32_FRED_SSP3 (MSR indices 1D1H–
-1D3H). Together with the existing MSR IA32_PL0_SSP (MSR index 6A4H), 
-these are the FRED SSP MSRs.
-
-The FRED SSP MSRs are supported by any processor that enumerates
-CPUID.(EAX=7,ECX=1):EAX.FRED[bit 17] as 1. If such a processor does not 
-support CET, FRED transitions will not use the MSRs (because shadow 
-stacks are not enabled), but the MSRs would still be accessible using 
-RDMSR and WRMSR.
-
-
-So they are independent, just that FRED SSP MSRs are NOT used if
-supervisor shadow stacks are not enabled (obviously Qemu can be
-configured to not advertise CET but FRED).
-
-When FRED is advertised to a guest, KVM should allow FRED SSP MSRs
-accesses through disabling FRED SSP MSRs interception no matter whether
-supervisor shadow stacks are enabled or not.
-
-Thanks!
-     Xin
+Best regards,
+-- 
+Antonino Maniscalco <antomani103@gmail.com>
 
