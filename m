@@ -1,252 +1,119 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA3E173336
-	for <linux-doc@vger.kernel.org>; Wed, 18 Sep 2024 07:46:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FD8316F0CA
+	for <linux-doc@vger.kernel.org>; Wed, 18 Sep 2024 07:56:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726645598; cv=none; b=Vly6VEQhvQO2WoIB7Dd10uzsFXbYlAMiiVNNx7Ty4cMPfmqNo6+NYz0b00oy/K1rM6fbHwuXF7dCePR9QhCB36ZEoRJcjrLadftHMU0QVQtzE1LMdv2D8FPJiIs3ED3/LyHUfckiAdTyRokXyASrw8jOByjlVlg/Kd3N5+OTVQc=
+	t=1726646180; cv=none; b=U8XAXsduYtbsgqAyT3X7OUEw2PewgQPS4WzKZhrQas74qnXlSjXYyPRGknCW4ebxm9UVgkQhr+dYtbTcJY8FjbUfTSBEYb5VfJOXcSNv+j3vCLPYYQvj4+o/jVrvKCa+GacVnj86HX9/ptjKsWOxjTF+utxPTguScf+rOjiAiH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726645598; c=relaxed/simple;
-	bh=u0YwTtmM57VeJdosy4dRHWDV2Ad4X+RMY6+Qg7YrRrU=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=GaSV8DWO8O0BrLWtOEFHHXVBpK4cUG5s1/eGzBFB+GzTKQ9ujXc5IFQ4qqrSVEasezX1KwnhtIen+abeCsaDAquUElVguDpgs721/GAecPqQhFRKD7BmX3BJorm5VEOej9pN5mFZMYwnPoh3Vqqf1ybzav8Ns2LmtWGjjbBTJ4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eg+y7d5K; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1726646180; c=relaxed/simple;
+	bh=E6sYje1FTSCQR6Phn3zxl12MQWQkG0ia5UJs7jeqW10=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=mZXFiSBThSkoexN6X8Us8Pkyim8IANvOTBEkkzxvzmP6zHnZCMnzLdnBOHiwgRP9AGF6UGe7Vg6JwIUaIdg14fmQAL9Iond2TGg3aUW5/AaJU1pMvyy733iPnNkz9ps6lxdbO2RVftbJ39na4fSYMES9I1Jgk99Gg/6IgYR8gak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gPk6lIPO; arc=none smtp.client-ip=209.85.128.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eg+y7d5K"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-374c1963cb6so4386275f8f.3
-        for <linux-doc@vger.kernel.org>; Wed, 18 Sep 2024 00:46:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gPk6lIPO"
+Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-6886cd07673so171224087b3.3
+        for <linux-doc@vger.kernel.org>; Wed, 18 Sep 2024 00:56:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1726645595; x=1727250395; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gQaTzkrOq6/kp5cHVFWeOEqBCRfMHF8F0wy39Qy5IOI=;
-        b=eg+y7d5KpRb5gRMtX0M84dOL9pGOlEIiqQMCOO3D/5daYvHptdVccIouk7xmm9UJjO
-         UdVi6MkAx+n3zQ1Au06yybb4COsXwIGgNSEaJ+6ljNyRKUHRonE2tdFxwxxiKhTiwRqW
-         VMB7DBJ6/ilkkXV8v8fVvUARUxRmXhkhr9PSeuwG7RGN+mG1pwRl6XlO97lvwoZlU79h
-         bicaHJvq9dTrurwIRaenouPR90d0Kk73p4+k6wMMIg2su4SetO3Pe0pALAChCja0Ss6O
-         cE8TIISYpnQTa9FpQMjcd2TRXdPUAYfog8ktkz0hgTXdWa7u/RL9sh4T+KEcQRQ/p2an
-         2ivA==
+        d=google.com; s=20230601; t=1726646178; x=1727250978; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GlQ4Yaq6kY+TAD4XQKPrVKTHn9jUpmIJO7M7toxIG6M=;
+        b=gPk6lIPOsqP16q1fdb3o6WNodLbzsTyU1ysSFXMqsaG/P4g2Pf2cvHCo/X2K140idI
+         wssA+PpidHLMZTG/qqroSwuJtLeKpLA+gZGSdEa8xkJKpFB0lfaFA3vzYLkmb0SvmhmA
+         CRaNDFR8DaNavU+EXZQI0r9gVBKBUdSAC/LNI9yKuAUa/sQ8/ddkfLDLqQ2UCMfGTCnG
+         XsuOtTMxW2IG+40XdrGiLCheMBtfp40Y7fVqW4EFJFF5jXdhNGCGawy5tmLTkAS+XnQA
+         eRwsLyFeTrG2ThfQwOOGOsICyhCtFoNFPrQj39CMeFqXzo1VJtMZDbZoccNmN8L3Yt3b
+         EfsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726645595; x=1727250395;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=gQaTzkrOq6/kp5cHVFWeOEqBCRfMHF8F0wy39Qy5IOI=;
-        b=CaUqkjGclEE32KXVOeeW3tLeRi0PQK0Wna6DDlx6PhR724IVfEjeUTdNTxjK9xlCwN
-         guX0y03TN52C7f1mOXrGrBUEPpH6/5vo7QytFK+yM90A9eD3qu0QmiUucvfD+awW3CaB
-         VAWy3Wi+o1u/ZDqippatnD9sbinWdkFoPOemrZ6gJZg4//3kobXIubEzqjC9ejOGCErK
-         FZdxiWwClV1VZ5Z3FB2Db5BxY55cRY6aNuoNNV9tkB0zO/V2cg6amFqAtP2IaHsXaCkS
-         uAMTWIm0I6s4g49Z8JQXbVAB1Inm4/UpfP/YsKEwufcEi/yxQ3OrIjJsKljkcDf/AMgl
-         M0+g==
-X-Forwarded-Encrypted: i=1; AJvYcCXyY3pWO7f1Odpk1KXO8pBVlNSzJRTvBBap52uLFG19gYT4RZsBwNoQvBCRvB3W6VMfEz8ywZEYiE8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxPGJ9JGcGXKd7saLOGw2DtLvnFjKnEoFBuGSw3iJigHYNqqhCX
-	IeUIE4WRzJNdBeLGrtW4sIZLTFr/URJPZnZ0ICu6KGO1KM6EKGB5O/yVHUYO108=
-X-Google-Smtp-Source: AGHT+IFSBQGV1AzgNI2mA8AdseO6QLgeyWriBLHes7xom/Y+b7LQ1ve9cGz8O4B1KR1An09BGC6n+g==
-X-Received: by 2002:a05:6000:4581:b0:374:cbc4:53b1 with SMTP id ffacd0b85a97d-378c2d5b269mr12250427f8f.40.1726645594641;
-        Wed, 18 Sep 2024 00:46:34 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:2782:e782:f1c:dcad? ([2a01:e0a:982:cbb0:2782:e782:f1c:dcad])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e70509220sm9678365e9.28.2024.09.18.00.46.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Sep 2024 00:46:34 -0700 (PDT)
-Message-ID: <c70392bb-bda1-48c7-824e-23d6f92f54ef@linaro.org>
-Date: Wed, 18 Sep 2024 09:46:33 +0200
+        d=1e100.net; s=20230601; t=1726646178; x=1727250978;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GlQ4Yaq6kY+TAD4XQKPrVKTHn9jUpmIJO7M7toxIG6M=;
+        b=koDB6DwxXSzGRG/WTnYwLkMyOdCc6vbL72Z8RGkptWM4YGp2hXvQkAWat8rEOyslHj
+         kwji53MXon8HcWH9Zb6gZYJ9fwyxvVtV6uy+UfPVU7YiADtbl3xwKJ6y08IhCgsyOEpV
+         HqK76UmBuKge+IEC7M/rtrTsS1EoAXznwce7tiAHyB5dCeEomButLHI0j3E8oLWo/4SQ
+         ftvqTz8HjHacAjob+y3nipwstimIPnGJd4PcgO9i+9GlHSsvHvDacAmJ0ANO8R5cuN+D
+         KKH1Opxue6fcDxVcAweA/arJ6J4qjE5ABVXYMJGT0hcNOYMtzjPHBDK8Ws5xHjxsrvmR
+         be5g==
+X-Forwarded-Encrypted: i=1; AJvYcCXYUog+SlVGRl5X8L4mv7IurL8gXfupFhF5eSnDRCngyW9iERambwXV5zJilkzd986Ai0jkEWJzNIE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjEUv/jt/p6QFx7Rs5uw70xrf1WMvnf5gPAPXJ3mUVsJ53MvrQ
+	7CxFAZpcIEIZdBNl9Ciw2rh9q8BdgGGZVis4ouzan9kinyrnHEd5cHuxzGZRWSrKPsImVnsj9dN
+	iGA==
+X-Google-Smtp-Source: AGHT+IG5J5++nWPV0aFihORTlQmC2H/Ah9MYQoDGjE3lVKqRoNKbWt/ZoG4m7Y5ovFCNYdEeJv75pFhcNIA=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a0d:e947:0:b0:6ae:d83e:9172 with SMTP id
+ 00721157ae682-6dbb6b865b6mr3800587b3.5.1726646178348; Wed, 18 Sep 2024
+ 00:56:18 -0700 (PDT)
+Date: Wed, 18 Sep 2024 00:56:16 -0700
+In-Reply-To: <D47TGLMWFTN2.2VCKLFM1K4GM8@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH v4 00/11] Preemption support for A7XX
-To: Antonino Maniscalco <antomani103@gmail.com>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Sharat Masetty <smasetty@codeaurora.org>
-References: <20240917-preemption-a750-t-v4-0-95d48012e0ac@gmail.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20240917-preemption-a750-t-v4-0-95d48012e0ac@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20240609154945.55332-1-nsaenz@amazon.com> <20240609154945.55332-6-nsaenz@amazon.com>
+ <ZuSL_FCfvVywCPxm@google.com> <D47TGLMWFTN2.2VCKLFM1K4GM8@amazon.com>
+Message-ID: <ZuqHoK1E8gyMC6Ew@google.com>
+Subject: Re: [PATCH 05/18] KVM: x86: hyper-v: Introduce MP_STATE_HV_INACTIVE_VTL
+From: Sean Christopherson <seanjc@google.com>
+To: Nicolas Saenz Julienne <nsaenz@amazon.com>
+Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org, pbonzini@redhat.com, 
+	vkuznets@redhat.com, linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	graf@amazon.de, dwmw2@infradead.org, mlevitsk@redhat.com, jgowans@amazon.com, 
+	corbet@lwn.net, decui@microsoft.com, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
+	amoorthy@google.com
+Content-Type: text/plain; charset="us-ascii"
 
-Hi,
+On Mon, Sep 16, 2024, Nicolas Saenz Julienne wrote:
+> On Fri Sep 13, 2024 at 7:01 PM UTC, Sean Christopherson wrote:
+> > On Sun, Jun 09, 2024, Nicolas Saenz Julienne wrote:
+> > E.g. extract the guts of vcpu_block() to a separate helper, and then wire that
+> > up to an ioctl().
+> >
+> > As for the RFLAGS.IF quirk, maybe handle that via a kvm_run flag?  That way,
+> > userspace doesn't need to do a round-trip just to set a single bit.  E.g. I think
+> > we should be able to squeeze it into "struct kvm_hyperv_exit".
+> 
+> It's things like the RFLAG.IF exemption that deterred me from building a
+> generic interface. We might find out that the generic blocking logic
+> doesn't match the expected VTL semantics and be stuck with a uAPI that
+> isn't enough for VSM, nor useful for any other use-case.
 
-On 17/09/2024 13:14, Antonino Maniscalco wrote:
-> This series implements preemption for A7XX targets, which allows the GPU to
-> switch to an higher priority ring when work is pushed to it, reducing latency
-> for high priority submissions.
-> 
-> This series enables L1 preemption with skip_save_restore which requires
-> the following userspace patches to function:
-> 
-> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30544
-> 
-> A flag is added to `msm_submitqueue_create` to only allow submissions
-> from compatible userspace to be preempted, therefore maintaining
-> compatibility.
-> 
-> Preemption is currently only enabled by default on A750, it can be
-> enabled on other targets through the `enable_preemption` module
-> parameter. This is because more testing is required on other targets.
-> 
-> For testing on other HW it is sufficient to set that parameter to a
-> value of 1, then using the branch of mesa linked above, `TU_DEBUG=hiprio`
-> allows to run any application as high priority therefore preempting
-> submissions from other applications.
-> 
-> The `msm_gpu_preemption_trigger` and `msm_gpu_preemption_irq` traces
-> added in this series can be used to observe preemption's behavior as
-> well as measuring preemption latency.
-> 
-> Some commits from this series are based on a previous series to enable
-> preemption on A6XX targets:
-> 
-> https://lkml.kernel.org/1520489185-21828-1-git-send-email-smasetty@codeaurora.org
-> 
-> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
-> ---
-> Changes in v4:
-> - Added missing register in pwrup list
-> - Removed and rearrange barriers
-> - Renamed `skip_inline_wptr` to `restore_wptr`
-> - Track ctx seqno per ring
-> - Removed secure preempt context
-> - NOP out postamble to disable it instantly
-> - Only emit pwrup reglist once
-> - Document bv_rptr_addr
-> - Removed unused A6XX_PREEMPT_USER_RECORD_SIZE
-> - Set name on preempt record buffer
-> - Link to v3: https://lore.kernel.org/r/20240905-preemption-a750-t-v3-0-fd947699f7bc@gmail.com
-> 
-> Changes in v3:
-> - Added documentation about preemption
-> - Use quirks to determine which target supports preemption
-> - Add a module parameter to force disabling or enabling preemption
-> - Clear postamble when profiling
-> - Define A6XX_CP_CONTEXT_SWITCH_CNTL_LEVEL fields in a6xx.xml
-> - Make preemption records MAP_PRIV
-> - Removed user ctx record (NON_PRIV) and patch 2/9 as it's not needed
->    anymore
-> - Link to v2: https://lore.kernel.org/r/20240830-preemption-a750-t-v2-0-86aeead2cd80@gmail.com
-> 
-> Changes in v2:
-> - Added preept_record_size for X185 in PATCH 3/7
-> - Added patches to reset perf counters
-> - Dropped unused defines
-> - Dropped unused variable (fixes warning)
-> - Only enable preemption on a750
-> - Reject MSM_SUBMITQUEUE_ALLOW_PREEMPT for unsupported targets
-> - Added Akhil's Reviewed-By tags to patches 1/9,2/9,3/9
-> - Added Neil's Tested-By tags
-> - Added explanation for UAPI changes in commit message
-> - Link to v1: https://lore.kernel.org/r/20240815-preemption-a750-t-v1-0-7bda26c34037@gmail.com
-> 
-> ---
-> Antonino Maniscalco (11):
->        drm/msm: Fix bv_fence being used as bv_rptr
->        drm/msm/A6XX: Track current_ctx_seqno per ring
->        drm/msm: Add a `preempt_record_size` field
->        drm/msm: Add CONTEXT_SWITCH_CNTL bitfields
->        drm/msm/A6xx: Implement preemption for A7XX targets
->        drm/msm/A6xx: Sync relevant adreno_pm4.xml changes
->        drm/msm/A6xx: Use posamble to reset counters on preemption
->        drm/msm/A6xx: Add traces for preemption
->        drm/msm/A6XX: Add a flag to allow preemption to submitqueue_create
->        drm/msm/A6xx: Enable preemption for A750
->        Documentation: document adreno preemption
-> 
->   Documentation/gpu/msm-preemption.rst               |  98 +++++
->   drivers/gpu/drm/msm/Makefile                       |   1 +
->   drivers/gpu/drm/msm/adreno/a2xx_gpu.c              |   2 +-
->   drivers/gpu/drm/msm/adreno/a3xx_gpu.c              |   2 +-
->   drivers/gpu/drm/msm/adreno/a4xx_gpu.c              |   2 +-
->   drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |   6 +-
->   drivers/gpu/drm/msm/adreno/a6xx_catalog.c          |   7 +-
->   drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 325 ++++++++++++++-
->   drivers/gpu/drm/msm/adreno/a6xx_gpu.h              | 174 ++++++++
->   drivers/gpu/drm/msm/adreno/a6xx_preempt.c          | 440 +++++++++++++++++++++
->   drivers/gpu/drm/msm/adreno/adreno_gpu.h            |   9 +-
->   drivers/gpu/drm/msm/msm_drv.c                      |   4 +
->   drivers/gpu/drm/msm/msm_gpu.c                      |   2 +-
->   drivers/gpu/drm/msm/msm_gpu.h                      |  11 -
->   drivers/gpu/drm/msm/msm_gpu_trace.h                |  28 ++
->   drivers/gpu/drm/msm/msm_ringbuffer.h               |  18 +
->   drivers/gpu/drm/msm/msm_submitqueue.c              |   3 +
->   drivers/gpu/drm/msm/registers/adreno/a6xx.xml      |   7 +-
->   .../gpu/drm/msm/registers/adreno/adreno_pm4.xml    |  39 +-
->   include/uapi/drm/msm_drm.h                         |   5 +-
->   20 files changed, 1117 insertions(+), 66 deletions(-)
-> ---
-> base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
-> change-id: 20240815-preemption-a750-t-fcee9a844b39
-> 
-> Best regards,
+That's only motivation for ensuring that we are as confident as we can reasonably
+be that the uAPI we merge will work for VSM, e.g. by building out userspace and
+proving that a generic ioctl() provides the necessary functionality.  If there's
+no other immediate use case, then there's no reason to merge a generic ioctl()
+until VSM support is imminent.  And if there is another use case, then the concern
+that a generic ioctl() isn't useful obviously goes away.
 
-I've been running vulkan-cts (1.3.7.3-0-gd71a36db16d98313c431829432a136dbda692a08 from Yocto)
-on SM8650-QRD, SM8550-QRD & SM8450-HDK boards with enable_preemption in default value
-and forced to 1, and I've seen no regression so far
+> We can always introduce 'flags' I guess.
+>
+> Note that I'm just being cautious here, AFAICT the generic approach
+> works, and I'm fine with going the "wait" ioctl.
+> 
+> > Actually, speaking of kvm_hyperv_exit, is there a reason we can't simply wire up
+> > HVCALL_VTL_CALL and/or HVCALL_VTL_RETURN to a dedicated complete_userspace_io()
+> > callback that blocks if some flag is set?  That would make it _much_ cleaner to
+> > scope the RFLAGS.IF check to kvm_hyperv_exit, and would require little to no new
+> > uAPI.
+> 
+> So IIUC, the approach is to have complete_userspace_io() block after
+> re-entering HVCALL_VTL_RETURN. Then, have it exit back onto user-space
+> whenever an event is made available (maybe re-using KVM_SYSTEM_EVENT_WAKEUP?).
 
-On SM8550, I've seen a few:
-platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0 [msm]] *ERROR* Message HFI_H2F_MSG_GX_BW_PERF_VOTE id 2743 timed out waiting for response
-platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0 [msm]] *ERROR* Unexpected message id 2743 on the response queue
-but it's unrelated to preempt
+Mostly out of curiosity, why does control need to return to userspace?
 
-and on SM8450:
-platform 3d6a000.gmu: [drm:a6xx_gmu_set_oob [msm]] *ERROR* Timeout waiting for GMU OOB set GPU_SET: 0x0
-msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] *ERROR* 7.3.0.1: hangcheck detected gpu lockup rb 0!
-msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] *ERROR* 7.3.0.1:     completed fence: 331235
-msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] *ERROR* 7.3.0.1:     submitted fence: 331236
-adreno 3d00000.gpu: [drm:a6xx_irq [msm]] *ERROR* gpu fault ring 0 fence 50de4 status 00800005 rb 0000/0699 ib1 0000000000000000/0000 ib2 0000000000000000/0000
-msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR* 7.3.0.1: hangcheck recover!
-msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR* 7.3.0.1: offending task: deqp-vk (/usr/lib/vulkan-cts/deqp-vk)
-msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR* 7.3.0.1: hangcheck recover!
-leading to a VK_ERROR_DEVICE_LOST, but again unrelated to preempt support.
+> That would work, but will need something extra to be compatible with
+> migration/live-update.
 
-So you can also add:
-Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
-Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8450-HDK
-
-Thanks,
-Neil
+Gah, right, because KVM's generic ABI is that userspace must complete I/O exits
+before saving/restoring state.  Yeah, having KVM automatically enter a blocking
+state is probably a bad idea.
