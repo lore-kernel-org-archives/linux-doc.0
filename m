@@ -1,357 +1,206 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89B1A3B1B5;
-	Thu, 19 Sep 2024 16:42:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726764157; cv=fail; b=eJ+jpHV8OD/nSsRBRqxct7t0AjB7QanjgJP3Tyn0rdvkjkHA3Oj3Bkqj6hO1v2CZ4nh1V3svrRz1j6yr/WVg0dAZwGr3c53YKPwgzXDq5E6tvU8XHI8kLzps00uXZQ+DOY0G3rwF0YtK3OPC98T4c/HHI8OaKklZa/pjzO1vZLI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726764157; c=relaxed/simple;
-	bh=7JDS3+9JrgvBze9CuuQeEp3DzLE0+MEnFNqPTesKiX0=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=RgkxN2SOCM08IolGbITDQpp/JxwMpfsWe8eV183so+G+B2XCRDCgQ/9nbuTBnlV6qLofQ9FJKFQP1vo7TcCn3qSLsQ57x+oszIq0guO+p+DlcLrqYFJkCwgM7fGXjMR8O90dsdrcBvq19G7mEs/WkQ69TNNQ+9AASNji6ZQvUZI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lrj48LVV; arc=fail smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0641E1A08C0;
+	Thu, 19 Sep 2024 16:51:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726764668; cv=none; b=XmU1yMxl51nPdP7em58x2pGgln6SutrG1PM/4XkIZz4Bf6Kkhcw0gRnQly/DklNkkS9zBNrwKXR9baMXLbnTueVTGY+nTBzR41DvudJpBzZnJ3eHxosedxdUFKBDEiKY9sn2Nb1hcYiW2ghCFR+vCHlhoBSCHQjh5mK06qxYqsU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726764668; c=relaxed/simple;
+	bh=YAEOhzR+Y6euCt+y7hPD810lAjNpW2lTOCl2WibGMWU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=XaZT3V/72r0hpg3e5Ejn6OP+E9x8ggzTdcIAxRlNdHNdf1tM6zYNDKzmRNtR1/KeazKO+QCwcWV+sRgWymRwL7dVOZjbutS71ysfZg9R/B2x9lshgJ/ksU53X3VvR0/46utj/7gKoQ6VHgFvXOhY2Fk9PukMu4HBWmzjyUljaCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pFtEyQji; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lrj48LVV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726764156; x=1758300156;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=7JDS3+9JrgvBze9CuuQeEp3DzLE0+MEnFNqPTesKiX0=;
-  b=lrj48LVVTXM9pGS6BNal3flKc0A+eCz/6wAcbXKBVqcIJXVkFtEhaZhL
-   GaWgGmPx7mFTtfmr9i5xbGUu7bEu34WDp+EAk124uRnaYD5hBElMx8loH
-   n1dSOU4Yj7nF8b8GOdrabhIxTBKvu04nG19THJQTX6upmDpzWxGmB6ZkT
-   9KiL+/F/EAX+MF4OkWiNcxx8hd4aNnkJI4pZmhSCag4q5caY+HkK2SjgW
-   tZGP5/p0JNkMHKjeqoJNfJSfWvVXOzA7v2bd04vJYxj0ZDolkxM4O9dCH
-   4Yk6MKkD1dJJFIzzFPe+pwc+YOtztwwCGeV/0aznTzR2qjdanrihgoVeY
-   A==;
-X-CSE-ConnectionGUID: hEFVqclvRf6i45+jVnxztA==
-X-CSE-MsgGUID: Vyo3ZFQxRyqg9ntDKnJllw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11200"; a="29483891"
-X-IronPort-AV: E=Sophos;i="6.10,242,1719903600"; 
-   d="scan'208";a="29483891"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2024 09:42:35 -0700
-X-CSE-ConnectionGUID: Ih+vlJsNRYaHDb4f8qkiKg==
-X-CSE-MsgGUID: iOZ/2MRrR6e3bfr4A0Z9kg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,242,1719903600"; 
-   d="scan'208";a="74965215"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orviesa004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 19 Sep 2024 09:42:34 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 19 Sep 2024 09:42:33 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 19 Sep 2024 09:42:33 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 19 Sep 2024 09:42:33 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Gvgbdg179tHZLrdFLfynsCobzjzNxLGFdZldJ5MZnQMmC/Wdq5x4H7MKbqJA5Me4Jmr9scJKZcyojs3BXs/1Bw4715kHziCURlrBEH8/XArdCjMVJz3s/JOiKF+J38Xo5/ytF9RpT0O1ULXxr0Z3lmSgN8XMSCjAgil8nKGVmIBgquTzKzRao+2ZOpzBbGYbyzspLSwh0ge+/z/XPsF9zxycdeUciT3ZP6qD2hxc2WXgKYxtXUmrQa5w/SUd3id0LNF3gEeWwkqBuGmkRe3YAxHVj71A+DGCzeBuwxUiI8fiXdyL365/uJTvUAv/kiQFveRla48VPTW8UhWzL2OOCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dKeZOjuqz/sFEYVz4OtcujDsI98ewuyvv6kZzEO+beI=;
- b=Q2hB4npuKjTW7Jv6yQwX7ScZ0hlGnKoOBt+lubtrmT1eaF9VtJ288V5BRZUdZp1EQxqxnhFYAqVMVbNKlGNdYVpmzrIEA0n0n2WK547w4xb2T7SL0IQgMOI97N0V44Tja9V4/cRm+aFd4F6JivYeJ63Nq6Q6WWVtH4a0CVBa86kK2Llo8Z11tXHpSywnLgh6bjiuNkzg14ctJijdfdOFcQUH0Es9G8OSWLiM/eFI8fHs4uzWvUtfFzWGIofbKw1L5umyumF2gJey37p8rNv8u5MlOZ3aFn7MalZc544wM5Cw5HxOtn0QnpZgQpUTAb18LpoFE1AyCbd9eW9ahb3xsA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by SA0PR11MB4639.namprd11.prod.outlook.com (2603:10b6:806:70::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.22; Thu, 19 Sep
- 2024 16:42:30 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf%3]) with mapi id 15.20.7982.012; Thu, 19 Sep 2024
- 16:42:30 +0000
-Message-ID: <50084b31-49e4-41c7-be1e-24773d03d5d3@intel.com>
-Date: Thu, 19 Sep 2024 09:42:27 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 09/24] x86/resctrl: Introduce bitmap mbm_cntr_free_map
- to track assignable counters
-To: Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>, <fenghua.yu@intel.com>,
-	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>
-CC: <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-	<rdunlap@infradead.org>, <tj@kernel.org>, <peterz@infradead.org>,
-	<yanjiewtw@gmail.com>, <kim.phillips@amd.com>, <lukas.bulwahn@gmail.com>,
-	<seanjc@google.com>, <jmattson@google.com>, <leitao@debian.org>,
-	<jpoimboe@kernel.org>, <rick.p.edgecombe@intel.com>,
-	<kirill.shutemov@linux.intel.com>, <jithu.joseph@intel.com>,
-	<kai.huang@intel.com>, <kan.liang@linux.intel.com>,
-	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
-	<sandipan.das@amd.com>, <ilpo.jarvinen@linux.intel.com>,
-	<peternewman@google.com>, <maciej.wieczor-retman@intel.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<eranian@google.com>, <james.morse@arm.com>
-References: <cover.1725488488.git.babu.moger@amd.com>
- <a94c14653c29e89bc76727addfcdf1f9c164b95d.1725488488.git.babu.moger@amd.com>
-From: Reinette Chatre <reinette.chatre@intel.com>
-Content-Language: en-US
-In-Reply-To: <a94c14653c29e89bc76727addfcdf1f9c164b95d.1725488488.git.babu.moger@amd.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pFtEyQji"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95D92C4CEC4;
+	Thu, 19 Sep 2024 16:51:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726764667;
+	bh=YAEOhzR+Y6euCt+y7hPD810lAjNpW2lTOCl2WibGMWU=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=pFtEyQji36orrRvxpz0SChn7R+ZxoDYIiut4QwqfezVCtIi2mSuT3J7zbhwxEls5t
+	 NTd4i3Ms8Mr/Wz8ZiO/E+uKl4Xi9H7URgkBU4N3aqCjL8wh2NT9AGkWd57ePhZWzdQ
+	 G/KhyQyyyb+a6+qMKdmgqqXuMEgzWH08WnzlPpvC56Hqk3fDxAf8POXIrGlkbvGqeB
+	 Kh+Xi8F/IgXxJIv9wksA2uMdIqgA8Lrjcex3EmrXTsIzf/LZ6FFbweBR3zBECOEOAh
+	 1hCiD7EdS+h6cN3NX/4VtF36h4hc1XFWxbfXfN4kMl4DUyHbbbKnz0WNVB96I8mf+i
+	 2dwTs+1qYKksg==
+Message-ID: <d771ea4d44f3c9da8470d0aa9d58ee1d96f5fb30.camel@kernel.org>
+Subject: Re: [PATCH v8 01/11] timekeeping: move multigrain timestamp floor
+ handling into timekeeper
+From: Jeff Layton <jlayton@kernel.org>
+To: Thomas Gleixner <tglx@linutronix.de>, John Stultz <jstultz@google.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jonathan Corbet
+ <corbet@lwn.net>, Chandan Babu R <chandan.babu@oracle.com>, "Darrick J.
+ Wong" <djwong@kernel.org>, Theodore Ts'o <tytso@mit.edu>, Andreas Dilger
+ <adilger.kernel@dilger.ca>, Chris Mason <clm@fb.com>, Josef Bacik
+ <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,  Hugh Dickins
+ <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>, Chuck Lever
+ <chuck.lever@oracle.com>, Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Cc: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-xfs@vger.kernel.org,
+ linux-ext4@vger.kernel.org,  linux-btrfs@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-mm@kvack.org
+Date: Thu, 19 Sep 2024 18:50:59 +0200
+In-Reply-To: <87a5g79aag.ffs@tglx>
+References: <20240914-mgtime-v8-0-5bd872330bed@kernel.org>
+	 <20240914-mgtime-v8-1-5bd872330bed@kernel.org> <87a5g79aag.ffs@tglx>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0299.namprd04.prod.outlook.com
- (2603:10b6:303:89::34) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|SA0PR11MB4639:EE_
-X-MS-Office365-Filtering-Correlation-Id: b98f28a7-eaad-485d-fd3e-08dcd8ca0d75
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?YWpHUWZoeDkySUNmVEZJR0xiV2labk93NDJQTXppekFTQ0RHeVNYb0w5Yk9V?=
- =?utf-8?B?b2hSUFlaa2x6bWdMMDVydC9OU1JIcXdrMUp5ZGNkN1NLU0t1UDhzNGUrbko5?=
- =?utf-8?B?MHRVZnpvS3g3b2wySGQ0VG5FOVRGR0hqY0tBUmVyYmdoUWY2cElreEVBS1Y0?=
- =?utf-8?B?clJMc0NZL0twTXNneDhRdHlQNE9JL3BES3JxM2hEMHoxU1hzREt5clpkVEVv?=
- =?utf-8?B?RzUraFp6RlRidVh5Y0xCSDR0TkhGdnJsNVdZbHdXQXNvWVQyc2FobWJpMm83?=
- =?utf-8?B?OWF0UlJmeGNGZEFnOWdjbzJTVXFEYVFSVXZTbTVCbUZXSW4zQlFpV0ZoNzhM?=
- =?utf-8?B?RnAyUmxURjc5MHE4U00xa25aazZkVWR1TTNtYUlXdzFQZmJPSDJNRzZMYU9D?=
- =?utf-8?B?eVZyZUpVbG9HKzIrczhVUnpNaERtV2ZrTzBXSThaLzlhY0FIa1phQi9Pb0xj?=
- =?utf-8?B?L0RJRWIxV05Bb0NKZ1FONDBKdGEvbXk0TWVxUlpKVjVac01kM0M0RmpuZFVp?=
- =?utf-8?B?UUtvalZiZUJCRlFhUTFkRmx3RkVTaDRKa3ZFN1FMTXBjNEJrVTZCeUpIUTVQ?=
- =?utf-8?B?c1NJdUJFc3dTTVdVcURGQS9JTm0rcnNwU09lb3hFZ1ZwK1lqWVFFYTlIVkgy?=
- =?utf-8?B?WSs0NERZYnJFUnFBQlNpKzBRbnZRQjAvZlBZR0d5bXA3VzRZSWE2ZDlOL2Zh?=
- =?utf-8?B?WnZjTmhyUHRsNmdUeEFqSVRCbERFclNOdThHRmk5UHJXczhsRE96TW5zSldu?=
- =?utf-8?B?elpRNlBZY25oaGVoNlBESmYzRmdQYlpqT1ZIMmF5dkJ3T2ZXTStSbkE1ekZF?=
- =?utf-8?B?R2lQUkpidmxtR0tXeHVNSUpSWUpNb2tHV3NoSkRzUzgwdkw1cjhaRzZTbklY?=
- =?utf-8?B?VVgzd2pJUkVlQ2dDZFdaNVFXN05RcW9vd0tzaVNMZk8ydEpNZGI5Nm5idXkv?=
- =?utf-8?B?NG1wSjBoSmh4MHdZZnBxdGh3aXlhMGplU0k0MHpWNmY5THBpMldrcHgzOHdY?=
- =?utf-8?B?S1QwK1VXSmtlL2wwL1NSWGJUTCsyOXZHck5mRWcxZnBhZmt2S25BMWZLdjcx?=
- =?utf-8?B?djJlTVNIaVN6ZmM1WW9LSU9ZeFBISi80SHQzNlc2akJTUkVicHFBUlVYejVt?=
- =?utf-8?B?MlQyN083U3h5NFdTVThnVHo0N1VvSktoT1ViaEZHamp2NWtLeHE3ZzNuYVRW?=
- =?utf-8?B?aTNIZm9XT1JJRlNDYk1EYlBmazlMU1J0UUZGK3JDc05ZOWNLK0dHM2F3Y3dU?=
- =?utf-8?B?NVJ4bFBqaUwvaytKb1l3azhtaGtsSjdnQzFFS1NPWjJNZllBVWpFOWJzcHJ2?=
- =?utf-8?B?SG13aUFNSnRrZzlmRllvOEUya1pKUUZZMTNma1RZSzdxNStlM1k5TXJ1SHp4?=
- =?utf-8?B?N0MxVnZKVTAvTjhyVlRLT2dBamJBR0NGQ09oelc5ZFg5K0JZeDhENjd4VEx1?=
- =?utf-8?B?eCszcFhLNTRHNm9kQ3ZjbU9aREVid1VFb3BqT1dYbEd3Z2owVTZTTWZkbE1R?=
- =?utf-8?B?eTRibXI5eVdkMDNjd0UrR1lDU3FIU2xHdDdqKzN0MFgwSjJ0THh5ZE8yRitU?=
- =?utf-8?B?SWhPSjhVeWVwbmpnMEE0bE1NdW9LS1VSZ0FIOVFnc21LclhqOHphYlE1cjJW?=
- =?utf-8?B?Ky9zUDF4cnR1Nnp1YmMwNzFSQzQ1dGJpcnJYM1JRYWx4RDFJMXNUVG5rSTh0?=
- =?utf-8?B?L0ZIQXA1VndpYm1FN25VSHpNcjFPSHJaUFNuN3BnV2wvWXlzaG1sdEFSVUUx?=
- =?utf-8?B?VEF1VUpzYzgyUldWZytmejEzWEhFZXAxUFZNVEZUbGYwWEZiVDhuaFVrOUdW?=
- =?utf-8?B?V3l0Zkt0L0lpdDNwdHIwZz09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UmpRMFRSSmF0RWZ4TFIvOVNxamhqZ3luYis5S1BqMFdwaDVFVjlLRjYxSWUx?=
- =?utf-8?B?WGhVYjN3ZlJ3b1VlcENSSWpQeVdnTFRzMDYvN2RYN09uNjZGQ2s5TElCUEp1?=
- =?utf-8?B?Tm1pOWxDcjZHOHo1R3lBcXQ2ckFRRE9MN0FlU2RXNzJFSGpwRTJnVkdkeEYy?=
- =?utf-8?B?R3BSSFJjRnVHUkxOTlBsTnp6VnNqRDg0M1BLQXVPVG02TC9xNWowMzFhZTl4?=
- =?utf-8?B?ajdHUExIbXpBVWJhRmlFRVBrMU1rc3pzWUt1Q2I0bnRqb20yd0pmZGM1TUVJ?=
- =?utf-8?B?Yk8yYTlrelNJSTY0TG15aUdWMWozVUxvcS9VRUlPU1JMR2VEQ2hrbCsxeUxu?=
- =?utf-8?B?MjZVZnlrVWJCQ1l3TTdWS0loeCtaeGExQUpIbU5naVhPOFNham90OFpKRGth?=
- =?utf-8?B?TFhyK2t3SU1qdG01dWRreWt3YndyUVVaOGk2dEVkeTMvT3dtY2NwUlN4VGgy?=
- =?utf-8?B?ZGhsWlRkLzRlWTdoSTE1ZFcxWnpRaGNHWkhJdXd3M0d3Qlh3c3pCNUlOb3VN?=
- =?utf-8?B?a3R0dVBQT241QTJCMzVjd2NDZmoyTWFPSUhxZFJDbEdhZ2ZXbmExRVhnWGhL?=
- =?utf-8?B?R2d6b1Q5VGpXTXFkVW8xRERXTVZ5dnpoeEpmdDdZcnpwc1l6MW93WW8wSFI0?=
- =?utf-8?B?ZTkzUnpkZS9tS055aWZROGZ2YkJhSVJDU2JvQkhoZjBmK1djOVpuZ3p5dG9B?=
- =?utf-8?B?MWpWNkFoelRhRkNPN1lWT3JVMnpBSHVlS3J1L2JlQ3ozcDRWWEFSS3dwQ1E5?=
- =?utf-8?B?Q1AydjZCUUpJd0lsRG1kbVE2amQ3dGlXcy9HY2M2YmlDL0lFSHE0VFcwdmJP?=
- =?utf-8?B?WDBqSnVpRkRXT1lyOUU2UjJPbW8wcmpqbU1FSnlmQ2p2VDBDZ00zanltRzlS?=
- =?utf-8?B?VlM1RXBzV1FPSzVRRDRISCtuUTRERk5KcGUzNkVkdENpL2VOQVIyU2I3YmZo?=
- =?utf-8?B?UkhWNUU3dE84cUNJaFBNNklXR0ltcmRxV0tidis5UWFQQysvc2x6V3lLaGxQ?=
- =?utf-8?B?azIyYWZCMlJtSkdRR3dJV2MvYzdHdThhSHZtOXA1Zlg2Skt6RENwMDJNK3lU?=
- =?utf-8?B?NTA4dUxkT3Vjd21EWElEcnVjZmpKa2lEcE5Lc05aQlFwM29Ja1ZEcUY2S0NJ?=
- =?utf-8?B?anZBaGc0UjhXY3l4NkljMDE2VzEwdjBGL2ZnMi81bTZjWlY0UkJ4clFBSGZ1?=
- =?utf-8?B?NUN3WWpzRmwwcU56bVlXbU4wTTNNaGJqbEI3R2h2MlFBZmJsSHduMWpsbEs4?=
- =?utf-8?B?R1hsN3NKWis5SGxJVENkSE5lRFZGWmhZcUlOT0FIQW05NEc4UlRhYkplMWIx?=
- =?utf-8?B?SHhWczNuV3VPaUpuVFlsMVA0NUlMQXFNQzUyR2RsU3hVNkJyNXkxZ3RPYThu?=
- =?utf-8?B?TjJmdG51N0NOT3ZmYmxXNWJFelE3UVN6T0FaMXo3M2VZaEw2MWFzVnlpZTVH?=
- =?utf-8?B?RWxUZlFBVEhEZzY0b3BiUVRUY1haelU2R256Z3JHMjkvaVJvQVdRMGFCOTB3?=
- =?utf-8?B?TGljWDVROTBYaFd4NkZMRlBsWW5VMCt5YVpwV1VJWTBidE9aem5QaDFLVGVV?=
- =?utf-8?B?Smk5Yjg4MXQrdTBYTlBDSlFUV1VKWDdyOUM5N1FhSi8xT2VYSWhVbHc3VXdv?=
- =?utf-8?B?MndaS2JoZllheEhockgvaDN0NUMzZDhpS1N5TVQ2WEdQMENiM2o3T0xJYUND?=
- =?utf-8?B?YktMc1NuRjV1L2NnaXltVGQ4ck40YVREeU1tYndCcFV5alFHd3JkYUxicStH?=
- =?utf-8?B?aHVxYXFsckZabFVnZUdCTkpjeExjWm53SkNqZEhiRVAyemJlTUcycG1OblVC?=
- =?utf-8?B?cGYraW9LUStEallyMDZ4NjgyRUFPUHpEWlJjTlR6WFc4OEw2dW9pRG0wQzR0?=
- =?utf-8?B?K210WVdnSDlXdDRBQTdEekM2cHhpSWJuSjNnbEJYKzMzRVZFK0d4Wi9HTUMy?=
- =?utf-8?B?ZXMxRC9zWDVCdFA2YVdRVk96YTVRNkZ2WXR6UERpY1ZwamNsaUxqVkVzQUVq?=
- =?utf-8?B?cENFRStQSkpxS2NteGQzNFZYeGZXdUxMYWhSUWp2dDN1NTU2Y2hROGF0MUZM?=
- =?utf-8?B?ZFBFeW05cDJ6RTFrWndyc2p0c0ZabG5nNGliRS9qZERrc1c0QkpQT1Bhd1pR?=
- =?utf-8?B?Wlc3RDI3QzZBd1JoSXIwTkpBTHVRTk83OTk5VjdQRjZZU3hsaVVrMXFmODlw?=
- =?utf-8?B?aHc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: b98f28a7-eaad-485d-fd3e-08dcd8ca0d75
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2024 16:42:30.1830
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JBg3RNAOaT1OZhd33ITkwGf6OrZxZKahPvFrZAoyYEQvOU8PFiVpNQHT09krzo25b+0tlejTASH8ontNtDhJgmUsPsm7Lt1eufTN2BPcy9I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4639
-X-OriginatorOrg: intel.com
 
-Hi Babu,
+On Mon, 2024-09-16 at 12:12 +0200, Thomas Gleixner wrote:
+> On Sat, Sep 14 2024 at 13:07, Jeff Layton wrote:
+> > For multigrain timestamps, we must keep track of the latest timestamp
+>=20
+> What is a multgrain timestamp? Can you please describe the concept
+> behind it? I'm not going to chase random documentation or whatever
+> because change logs have to self contained.
+>=20
+> And again 'we' do nothing. Describe the problem in technical terms and
+> do not impersonate code.
+>=20
 
-On 9/4/24 3:21 PM, Babu Moger wrote:
-> Hardware provides a set of counters when mbm_cntr_assignable feature is
-> supported. These counters are used for assigning the events in resctrl
-> a group when the feature is enabled. The kernel must manage and track the
+Hi Thomas!
 
-The second sentence ("These counters ...") is difficult to parse.
+Sorry for the delay in responding. I'll try to summarize below, but
+I'll also note that patch #7 in the v8 series adds a file to
+Documentation/ that explains this in a bit more depth:
 
-> number of available counters.
+Currently the kernel always stamps files (mtime, ctime, etc.) using the
+coarse-grained clock. This is usually a good thing, since it reduces
+the number of metadata updates, but means that you can't reliably use
+file timestamps to detect whether there have been changes to the file
+since it was last checked. This is particularly a problem for NFSv3
+clients, which use timestamps to know when to invalidate their
+pagecache for an inode [1].
 
-"The kernel must manage and track the number of available counters." ->
-"The kernel must manage and track the available counters." ?
+The idea is to allow the kernel to use fine-grained timestamps (mtime
+and ctime) on files when they are under direct observation. When a task
+does a ->getattr against an inode for STATX_MTIME or STATX_CTIME, a
+flag is set in the inode that tells the kernel to use the fine-grained
+clock for the timestamp update iff the current coarse-grained clock
+value would not cause a change to the mtime/ctime.
 
-> 
-> Introduce mbm_cntr_free_map bitmap to track available counters and set
-> of routines to allocate and free the counters.
-> 
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> ---
+This works, but there is a problem:
 
-...
+It's possible for one inode to get a fine-grained timestamp, and then
+another to get a coarse-grained timestamp. If this happens within a
+single coarse-grained timer tick, then the files may appear to have
+been modified in reverse order, which breaks POSIX guarantees (and
+obscure programs like "make").
 
-> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
-> index e3e71843401a..f98cc5b9bebc 100644
-> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
-> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
-> @@ -1175,6 +1175,30 @@ static __init int snc_get_config(void)
->  	return ret;
->  }
->  
-> +/*
-> + * Counter bitmap for tracking the available counters.
-> + * 'mbm_cntr_assign' mode provides set of hardware counters for assigning
-> + * RMID, event pair. Each RMID and event pair takes one hardware counter.
+The fix for this is to establish a floor value for the coarse-grained
+clock. When stamping a file with a fine-grained timestamp, we update
+the floor value with the current monotonic time (using cmpxchg). Then
+later, when a coarse-grained timestamp is requested, check whether the
+floor is later than the current coarse-grained time. If it is, then the
+kernel will return the floor value (converted to realtime) instead of
+the current coarse-grained clock. That allows us to maintain the
+ordering guarantees.
 
-(soft-ABMC may need to edit this comment)
+My original implementation of this tracked the floor value in
+fs/inode.c (also using cmpxchg), but that caused a performance
+regression, mostly due to multiple calls into the timekeeper functions
+with seqcount loops. By adding the floor to the timekeeper we can get
+that back down to 1 seqcount loop.
 
-> + * Kernel needs to keep track of the number of available counters.
+Let me know if you have more questions about this, or suggestions about
+how to do this better. The timekeeping code is not my area of expertise
+(obviously) so I'm open to doing this a better way if there is one.
 
-Last sentence seems to be duplicate of the first?
+Thanks for the review so far!
 
-> + */
-> +static int mbm_cntrs_init(struct rdt_resource *r)
-
-Needs __init?
-
-> +{
-> +	if (r->mon.mbm_cntr_assignable) {
-> +		r->mon.mbm_cntr_free_map = bitmap_zalloc(r->mon.num_mbm_cntrs,
-> +							 GFP_KERNEL);
-> +		if (!r->mon.mbm_cntr_free_map)
-> +			return -ENOMEM;
-> +		bitmap_fill(r->mon.mbm_cntr_free_map, r->mon.num_mbm_cntrs);
-> +	}
-> +	return 0;
-> +}
-> +
-> +static void __exit mbm_cntrs_exit(struct rdt_resource *r)
-> +{
-> +	if (r->mon.mbm_cntr_assignable)
-> +		bitmap_free(r->mon.mbm_cntr_free_map);
-> +}
-> +
->  int __init rdt_get_mon_l3_config(struct rdt_resource *r)
->  {
->  	unsigned int mbm_offset = boot_cpu_data.x86_cache_mbm_width_offset;
-> @@ -1240,6 +1264,10 @@ int __init rdt_get_mon_l3_config(struct rdt_resource *r)
->  		}
->  	}
->  
-> +	ret = mbm_cntrs_init(r);
-> +	if (ret)
-> +		return ret;
-
-Missing cleanup of earlier allocation on error path here. Even so, this does not
-seem to integrate with existing dom_data_init() wrt ordering and locking. Could
-this be more fitting when merged with dom_data_init() (after moving it)?
-
-> +
->  	l3_mon_evt_init(r);
->  
->  	r->mon_capable = true;
-> @@ -1247,9 +1275,10 @@ int __init rdt_get_mon_l3_config(struct rdt_resource *r)
->  	return 0;
->  }
->  
-> -void __exit rdt_put_mon_l3_config(void)
-> +void __exit rdt_put_mon_l3_config(struct rdt_resource *r)
->  {
->  	dom_data_exit();
-> +	mbm_cntrs_exit(r);
-
-There is a mismatch wrt locking used in dom_data_exit() and mbm_cntrs_exit() that is
-sure to cause confusion and difficulty in the MPAM transition.
-
->  }
->  
->  void __init intel_rdt_mbm_apply_quirk(void)
-> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> index ba737890d5c2..a51992984832 100644
-> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> @@ -185,6 +185,25 @@ bool closid_allocated(unsigned int closid)
->  	return !test_bit(closid, &closid_free_map);
->  }
->  
-> +int mbm_cntr_alloc(struct rdt_resource *r)
-> +{
-> +	int cntr_id;
-> +
-> +	cntr_id = find_first_bit(r->mon.mbm_cntr_free_map,
-> +				 r->mon.num_mbm_cntrs);
-> +	if (cntr_id >= r->mon.num_mbm_cntrs)
-> +		return -ENOSPC;
-> +
-> +	__clear_bit(cntr_id, r->mon.mbm_cntr_free_map);
-> +
-> +	return cntr_id;
-> +}
-> +
-> +void mbm_cntr_free(struct rdt_resource *r, u32 cntr_id)
-> +{
-> +	__set_bit(cntr_id, r->mon.mbm_cntr_free_map);
-> +}
-> +
->  /**
->   * rdtgroup_mode_by_closid - Return mode of resource group with closid
->   * @closid: closid if the resource group
-> diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
-> index f11d6fdfd977..aab22ff8e0c1 100644
-> --- a/include/linux/resctrl.h
-> +++ b/include/linux/resctrl.h
-> @@ -187,12 +187,14 @@ enum resctrl_scope {
->   * @num_rmid:		Number of RMIDs available
->   * @num_mbm_cntrs:	Number of assignable monitoring counters
->   * @mbm_cntr_assignable:Is system capable of supporting monitor assignment?
-> + * @mbm_cntr_free_map:	bitmap of number of assignable MBM counters
-
-The "number of" is not clear ... it seems to indicate tracking a count? How about
-just "bitmap of free MBM counters"
-
->   * @evt_list:		List of monitoring events
->   */
->  struct resctrl_mon {
->  	int			num_rmid;
->  	int			num_mbm_cntrs;
->  	bool			mbm_cntr_assignable;
-> +	unsigned long		*mbm_cntr_free_map;
->  	struct list_head	evt_list;
->  };
->  
-
-Reinette
+[1]: NFSv4 mandates an opaque change attribute (usually using
+inode->i_version), but only some filesystems have a proper
+implementation of it (XFS being the notable exception). For the others,
+we end up using the ctime to generate a change attribute, which means
+that NFSv4 has the same problem on those filesystems. i_version also
+doesn't help NFSv3 clients and servers.
+--=20
+Jeff Layton <jlayton@kernel.org>
