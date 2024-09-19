@@ -1,172 +1,134 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2044.outbound.protection.outlook.com [40.107.223.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CEB81A08CC;
-	Thu, 19 Sep 2024 09:45:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726739126; cv=fail; b=fbW0Gu49yStn46FKiT8sJJ/f6iHQtSLK+fDHOjhc1vOUZ4V05YfXsXGSDRbh3+X1FAJfJBvAXJV5wI/lm/RXDoufZtFaTlHn82WRpFquf+eQG+IRo4RrGdIFIs6uaa+Ql/dVK3nVV0KwgfvHX4dTDrxc935Mzf64/9yipSN7K7s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726739126; c=relaxed/simple;
-	bh=Ch/3BXRIDwXuwvGggJHTLNf/PCWdMgQZ54sRU6QlWZk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RSRBiaVIlht5Yrtmhb3T/ubz+nI0Ke+rB/OE74m4fbJUjzb19YP6aZFLzeKlB3mVzWmyUiwAhi6uXM76dt620DsKmiX/4vhT9paIZc+iqgdAj/WQ6qbSRzGSJ1XsYP1Ro0NkaL3NNSW3cZW8GXLT3ikjjxhTqq9GpwKT1rlOTE0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=AhlQYqts; arc=fail smtp.client-ip=40.107.223.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FEDD193432;
+	Thu, 19 Sep 2024 11:52:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726746772; cv=none; b=KMxpVI7fr3XZ2j5VA3CmeB4f0uZpGx4GGXyRMx9XP8d47lS+GPb5fr/Rq4U2NvOMNVx7N4ktiDyOrAgYAIiG8R0dVoGO+vgS3OOKB5pu5l3THezXscSQLy+6hSLS11NsysliXO5bFrEoArvmmL03yurM+rmPmbkrxM1+luJ4rAE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726746772; c=relaxed/simple;
+	bh=n2c8rCWw8z/lpoN5wgFADrTYkKDIlTR04TekYHp1qSo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bt63beBM0aj2ubebMvzIMrutSZIMq8AmUTluj9W4C7fKf71PQjOBV5z+Cv7k04Y+j49DWWS8uq+iyx9DpMyJyDLfYCvICyWU5F7d2dTH3WcGwCH4r/wRHTUnNrFH56YXqZGAr8IymXLc33GBmkSLizSoXQwxHx8o1WM/HZ6cTgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OhMpvkHE; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="AhlQYqts"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=T+/r3YmQNREDWg3zA3VcBAHmLBjLCq6NPvLuqy7k/3WY7TY3jYq3LLXCxwQh1QucbXr6/ZUbgTOrPZN+gJWHptiIqyz2hkqNAOvfRsh9QLpxer9LHX4vV0ErUQpcOUwn8FEM7Ag/ugqeZ7uORi/TxY6ZuugGfkX8SO37Vt5AEKDrBBxkbKIjzh+4xao8O5CMMIjij1z6/WrXQn33FC8wG7au9EISBlHE6qg48MU51jaNz2oVn+DOL0A9gbCJJ/85mzBdekwRFo3zCAx7iX75uxfiYkmv/rpBhzZH2mfKyFtiRo8TaAG2RbpZg95j2+HY0zZ08KAbi1OwvR85p+SKWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t3TqfD3ymF6eqT4nlqJNmccBGoGKxBelhDPWPHnJ0q8=;
- b=SOCsn7rRaYO6k4af9vn/53JJEZi7H1/WUP4n4otLqOQOaEYm/Yatm38fJQvkKFiiYfO1r6kUQsJmxWskLX7seXdcoo95YmqqdvKk3SuKAdNnllcc0/kRXcb8Y3uBCcWwZxi3biyvG1S0NcH8uFQ2Me01LcEW+diJMYMaOlS4aIWqKuJ+3NGG/tV703IaGIzuLxFuq5AXQduvC2kLyxqB0SotxQi9raIkTHV9iw4XYHsaurkpvqhTyUaCWQBuhtqmtJDx6jp5Kc0VEc80T1NqBr7oHpxQ2SEJ0+OQfK+/JlajGWW0Hzen5lnUlKE196QW7MSatj2dEyAD2MwgsHoeYw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t3TqfD3ymF6eqT4nlqJNmccBGoGKxBelhDPWPHnJ0q8=;
- b=AhlQYqtsfKDtZkZO2ypK528CjR61zshfcssxtXD2+6GT06xahb9TIt76EEXVEG1pDrdMQj+/+OD/a1OJe7WQeBXV1qYeCi0bBcFulbABHZWdoM92CxQ7/HrQewPKqNDFLDh2ve1q5ETPYWm/GZvPxaCKLkErzPMgs5W2zRNQ5bQ=
-Received: from BL1PR13CA0402.namprd13.prod.outlook.com (2603:10b6:208:2c2::17)
- by BY5PR12MB4307.namprd12.prod.outlook.com (2603:10b6:a03:20c::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.21; Thu, 19 Sep
- 2024 09:45:20 +0000
-Received: from BN1PEPF00004682.namprd03.prod.outlook.com
- (2603:10b6:208:2c2:cafe::20) by BL1PR13CA0402.outlook.office365.com
- (2603:10b6:208:2c2::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.25 via Frontend
- Transport; Thu, 19 Sep 2024 09:45:19 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN1PEPF00004682.mail.protection.outlook.com (10.167.243.88) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7918.13 via Frontend Transport; Thu, 19 Sep 2024 09:45:19 +0000
-Received: from kaveri.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 19 Sep
- 2024 04:45:13 -0500
-From: Shivank Garg <shivankg@amd.com>
-To: <pbonzini@redhat.com>, <corbet@lwn.net>, <akpm@linux-foundation.org>,
-	<willy@infradead.org>
-CC: <acme@redhat.com>, <namhyung@kernel.org>, <mpe@ellerman.id.au>,
-	<isaku.yamahata@intel.com>, <joel@jms.id.au>, <kvm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-mm@kvack.org>, <linux-fsdevel@vger.kernel.org>, <shivankg@amd.com>,
-	<bharata@amd.com>, <nikunj@amd.com>, Shivansh Dhiman
-	<shivansh.dhiman@amd.com>
-Subject: [RFC PATCH V2 3/3] KVM: guest_memfd: Enforce NUMA mempolicy if available
-Date: Thu, 19 Sep 2024 09:44:38 +0000
-Message-ID: <20240919094438.10987-4-shivankg@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240919094438.10987-1-shivankg@amd.com>
-References: <20240919094438.10987-1-shivankg@amd.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OhMpvkHE"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4582face04dso6581531cf.1;
+        Thu, 19 Sep 2024 04:52:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726746769; x=1727351569; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=n2c8rCWw8z/lpoN5wgFADrTYkKDIlTR04TekYHp1qSo=;
+        b=OhMpvkHEdrEcd46I9hl6lNb8nnvZuJRKYxN4HiaJdxe6d0ygRqYOAS7G/iusxZMkQn
+         7QLJpWeGV0ryE6XQcZKPz+zzLkWEAttxQ2K5ZYZ+s5q6sC0Nt6IpvBscjof8qckmA5cu
+         08WUcPs3LDwoMlCYwHkYh5GdHOguQQxpUAalcqMMGw7MjtKiK1rdfcCbAEd3/hruofdu
+         IFYZ8bcQ4QLKbhg+D8Z9Vf3OWMzzl0kuX77LlUrVRFsgT2TSRBYu8qKYYSC135J2m1ov
+         kywK6Xz2ac3GbhDY2+Xvc/aql3OHUH/L9Jo3YOM/bme0zFH+abHjtMYGCDIw/hOZXR6x
+         oBTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726746769; x=1727351569;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=n2c8rCWw8z/lpoN5wgFADrTYkKDIlTR04TekYHp1qSo=;
+        b=aX5zq4rlnrBzooFVkcwd0rLRfjhufIjtXS0gdJLll7sRuvGPgX79DTFKuQysP91nQU
+         cwfdBMPIsR01T/5gonwYeUj36n+kuT90D4hpdfR2kfAiOt+4oSgo+pMelf1ECjxeB+Te
+         4Ebz/Mt5bLfYSyqcA8VvoTXBtrc2VuAgjF/5WwZ5bAalFp7VynoQJ+VLqF7iW9AgEs2V
+         74uZTiiX4FtIx5VWzbNzEH0qng7f1gTZhr9CPAzaSsLwXF2N0zL8E3wV5WTX6T4pM+Mc
+         VSWPQlcHPjOGNI7m5yFeEo8xus3JtLkKYK2otMGaLZvjcgQD7k13gjH1hg5eFUJRd/dk
+         gCkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVF8Bc4uToV/790BRj8gFf0ZTHII9mlflkYdSCJQ1DMSvhprBQlC4aUD5/wPNM5xf6JehIBdFkCPyqYQSiC@vger.kernel.org, AJvYcCVaCUIWkKv4QbiZVdrsonc55eG03oMGbfDGsAKiBtgfWivVbDV1j/ORNbj4LJwdY7eaxd4pTbu7DgXZ@vger.kernel.org, AJvYcCWbZsLkUGxQqVBMfQw4YAgFrBnQ/qPq8IUssmpCGJVr7xaFHljDVQYMjVgtpZLHN1+quxwJwbG4/qEo+Kgh@vger.kernel.org, AJvYcCXBuVylbFLlTiv3bEF3KNWwhWx6VzlnymIsDH1vL2gpyj1pepGIiu3sNTDf65mFbrFj8PP0PSap5j8A@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJbgtUn6ov2J7WUeywtbzkxX0JxB/XTrwQF6u3oG9cA26qUV9+
+	3Z5ivlK72GHRMMp5viOpHlfrSNsRkhEU53CqIGu7XrHcuhaO7CfX
+X-Google-Smtp-Source: AGHT+IGQcZIp8iyJg2gTDfan3U3gpkE7chV5pJXxPcG09Udi1LvNQFGlfel4EdOFjiYN4XeQ62uD+g==
+X-Received: by 2002:a05:622a:1ba8:b0:456:953f:6fe6 with SMTP id d75a77b69052e-45b1602db49mr44449971cf.8.1726746769446;
+        Thu, 19 Sep 2024 04:52:49 -0700 (PDT)
+Received: from ?IPV6:2620:10d:c0a8:11d1::1023? ([2620:10d:c091:400::5:4589])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45b1788f56dsm6783921cf.56.2024.09.19.04.52.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Sep 2024 04:52:48 -0700 (PDT)
+Message-ID: <c65a07ef-6436-4e04-a263-7cad9758e9be@gmail.com>
+Date: Thu, 19 Sep 2024 13:52:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/6] Add Propeller configuration for kernel build.
+To: Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>,
+ Sriraman Tallam <tmsriram@google.com>, David Li <davidxl@google.com>,
+ Jonathan Corbet <corbet@lwn.net>, Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Ard Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Vegard Nossum <vegard.nossum@oracle.com>, John Moon <john@jmoon.dev>,
+ Andrew Morton <akpm@linux-foundation.org>, Heiko Carstens
+ <hca@linux.ibm.com>, Luis Chamberlain <mcgrof@kernel.org>,
+ Samuel Holland <samuel.holland@sifive.com>, Mike Rapoport <rppt@kernel.org>,
+ "Paul E . McKenney" <paulmck@kernel.org>, Rafael Aquini <aquini@redhat.com>,
+ Petr Pavlu <petr.pavlu@suse.com>, Eric DeVolder <eric.devolder@oracle.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Benjamin Segall <bsegall@google.com>, Breno Leitao <leitao@debian.org>,
+ Wei Yang <richard.weiyang@gmail.com>, Brian Gerst <brgerst@gmail.com>,
+ Juergen Gross <jgross@suse.com>, Palmer Dabbelt <palmer@rivosinc.com>,
+ Alexandre Ghiti <alexghiti@rivosinc.com>, Kees Cook <kees@kernel.org>,
+ Sami Tolvanen <samitolvanen@google.com>, Xiao Wang <xiao.w.wang@intel.com>,
+ Jan Kiszka <jan.kiszka@siemens.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-efi@vger.kernel.org,
+ linux-arch@vger.kernel.org, llvm@lists.linux.dev,
+ Krzysztof Pszeniczny <kpszeniczny@google.com>,
+ Stephane Eranian <eranian@google.com>
+References: <20240728203001.2551083-1-xur@google.com>
+ <20240728203001.2551083-7-xur@google.com>
+Content-Language: en-US
+From: Maksim Panchenko <max4bolt@gmail.com>
+In-Reply-To: <20240728203001.2551083-7-xur@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00004682:EE_|BY5PR12MB4307:EE_
-X-MS-Office365-Filtering-Correlation-Id: f510be3e-3ae5-4432-9f83-08dcd88fc63b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?CoH8PVwrVkFFuaqmWMh6HEMGGRoj7DTRG/ngW4R1N99ShmV/HedSKzqdxRwy?=
- =?us-ascii?Q?YZbIX1jXfipv9L5/gEtxGGMxV+M205EkJTM0VOtzKZGKZbgmoUNV3wJr8A63?=
- =?us-ascii?Q?IwCuw/VDU0xHwL4OdUM6XkuI3V5RxxAjxmM5UpBt5eUdAzGyYyqfGHaXQAEv?=
- =?us-ascii?Q?aT5kUpqfO47hK52JCTtRsRHo/GBGlF76Bz3GNWxkS2s9hVvIB/e8uddp2Im7?=
- =?us-ascii?Q?UOnBG12XEn7r2Ghq0qq6eS9l5o6hG6LXROfperp3ZlnR+pFFx+kcscYcXwc/?=
- =?us-ascii?Q?PkMK2qeUhxtJfUM9uuJxvFlksuA95M/XbFGx3+yv2XJQaT2jg+LbQk/Nep80?=
- =?us-ascii?Q?g7xX0jzZp+kymH05ig3runSHC7u7gtJiA+jND6tNDEndp6k7NW2ZU5a3sxky?=
- =?us-ascii?Q?jQl3h19h7pAumKVvt8QnAUgbj3E5nDTroDJSZ7xjK1kY0GrPplDEpIfIWZ7v?=
- =?us-ascii?Q?zbYzfCAwpd+rT2oghREkCX3/vm3LVPbJQqPvFVt8zdLjlJ+QqCXth3XSzBOJ?=
- =?us-ascii?Q?NjtlUKNBC/eH4sSRCqrPUgru3N4p8oIqSCX4ZzlCRXwzdloswjLFfIyJSeHU?=
- =?us-ascii?Q?Vy9AY7pNQK90lrURWk5egt6ssbxtobPyUq3ngVr6ygyWCMrYwuz1Qn9hAm5m?=
- =?us-ascii?Q?Ki6W97/zJLkWghaF6zPyV8Ou9uA/d+yy4azqEh+mn6FUTwpdt+sYVmvooi9x?=
- =?us-ascii?Q?70M+DsMAsU0a6dll3utSeVl8j1IKGz43r2x+dW6tlc/r6nCvGsw9i2iWXgkI?=
- =?us-ascii?Q?HJr1J7VOuTMKQpe9EMzZKTF5ht9nCsaLz8QVisl5ziJnSNVVfoN5rJVrN2EN?=
- =?us-ascii?Q?emo0PJxomt5KogA5rBGqAChjoqzsgHg2Rxyfmq9W1dA8BGOcp85iTSWAdjTx?=
- =?us-ascii?Q?G5HT7Id2D30L9Of9Xtne17aKwqVW5YUcL/Vlil6bNGfg6qt1SpIH6eUoHh+h?=
- =?us-ascii?Q?uo5kxQ2zo3mpr3OoeXA6npOGMgMPuzRlgtT6YP7NsftMoU/z4woGm/CmPqf8?=
- =?us-ascii?Q?mfcrVyh5+SFHtto4dwwCkfV8RtwvsTuh1dTQ/xGG2vWRbiC11NqqWHmQ/+mN?=
- =?us-ascii?Q?3S3piAO6m+47hYpKkeyJfOOpK8LHkj2n8j8B03RFoP1EM61eZju1Z3PyC5Ii?=
- =?us-ascii?Q?U9sPe/2wyL+e42KZZ2EGbcVwcp56AngHkCUSocDlZ6PNfYKs+utak3UNBAqB?=
- =?us-ascii?Q?qxp6/+4O3iT86uXdlFL4//iM3tZmbZ+VztKZ0VX6Pq1K6ZbfVZy5xBWqlTaY?=
- =?us-ascii?Q?mXXYIJfjCHgSLmtnc6YDz2N7VC62bW1WKFUF72dzLD0DSrr94CS1kYZkV6El?=
- =?us-ascii?Q?YuBG3wORTnl+c+tJWj10rX9ypzRdg7vGagZ/iwDM0yb1n60iteGMmESC2bxG?=
- =?us-ascii?Q?h9YvjqcNq5LV5VKvt8TtaoVWUSiuVZTAKlOg2XLoyNGPzlXiWhWCBvLaYD31?=
- =?us-ascii?Q?SIGGkQP105iPgiR1Ob21VlwNAvD9+33V?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2024 09:45:19.6861
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f510be3e-3ae5-4432-9f83-08dcd88fc63b
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN1PEPF00004682.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4307
 
-From: Shivansh Dhiman <shivansh.dhiman@amd.com>
+On Sun, Jul 28, 2024 at 01:29:56PM -0700, Rong Xu wrote:
+> Add the build support for using Clang's Propeller optimizer. Like
+> AutoFDO, Propeller uses hardware sampling to gather information
+> about the frequency of execution of different code paths within a
+> binary. This information is then used to guide the compiler's
+> optimization decisions, resulting in a more efficient binary.
 
-Enforce memory policy on guest-memfd to provide proper NUMA support.
-Previously, guest-memfd allocations were following local NUMA node id in
-absence of process mempolicy, resulting in random memory allocation.
-Moreover, it cannot use mbind() since memory isn't mapped to userspace.
+Thank you for submitting the patches with the latest compiler features.
 
-To support NUMA policies, retrieve the mempolicy struct from
-i_private_data part of memfd's inode. Use filemap_grab_folio_mpol() to
-ensure that allocations follow the specified memory policy.
+Regarding Propeller, I want to quickly mention that I plan to send a
+patch to include BOLT as a profile-based post-link optimizer for the
+kernel. I'd like it to be considered an alternative that is selectable
+at build time.
 
-Signed-off-by: Shivansh Dhiman <shivansh.dhiman@amd.com>
-Signed-off-by: Shivank Garg <shivankg@amd.com>
----
- virt/kvm/guest_memfd.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+BOLT also uses sampling, and the profile can be collected on virtually
+any kernel (with some caveats).  There are no constraints on the
+compiler (i.e., any version of GCC or Clang is acceptable), while Linux
+perf is the only external dependency used for profile collection and
+conversion. BOLT works on top of AutoFDO and LTO but can be used without
+them if the user desires. The build overhead is a few seconds.
 
-diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-index 8f1877be4976..8553d7069ba8 100644
---- a/virt/kvm/guest_memfd.c
-+++ b/virt/kvm/guest_memfd.c
-@@ -130,12 +130,15 @@ static struct folio *__kvm_gmem_get_folio(struct inode *inode, pgoff_t index,
- 					  bool allow_huge)
- {
- 	struct folio *folio = NULL;
-+	struct mempolicy *mpol;
- 
- 	if (gmem_2m_enabled && allow_huge)
- 		folio = kvm_gmem_get_huge_folio(inode, index, PMD_ORDER);
- 
--	if (!folio)
--		folio = filemap_grab_folio(inode->i_mapping, index);
-+	if (!folio) {
-+		mpol = (struct mempolicy *)(inode->i_mapping->i_private_data);
-+		folio = filemap_grab_folio_mpol(inode->i_mapping, index, mpol);
-+	}
- 
- 	pr_debug("%s: allocate folio with PFN %lx order %d\n",
- 		 __func__, folio_pfn(folio), folio_order(folio));
--- 
-2.34.1
+As you've heard from the LLVM discussion
+(https://discourse.llvm.org/t/optimizing-the-linux-kernel-with-autofdo-including-thinlto-and-propeller)
+and LPC talk (https://lpc.events/event/18/contributions/1921/), at Meta,
+we've also successfully optimized the kernel and got similar results.
+
+Again, this is a heads-up before the patch, and I would like to hear
+what people think about having a binary optimizer as a user-selectable
+alternative to Propeller.
+
+Thanks,
+Maksim
 
