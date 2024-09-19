@@ -1,59 +1,59 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FEDD193432;
-	Thu, 19 Sep 2024 11:52:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B93119DF83
+	for <linux-doc@vger.kernel.org>; Thu, 19 Sep 2024 12:51:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726746772; cv=none; b=KMxpVI7fr3XZ2j5VA3CmeB4f0uZpGx4GGXyRMx9XP8d47lS+GPb5fr/Rq4U2NvOMNVx7N4ktiDyOrAgYAIiG8R0dVoGO+vgS3OOKB5pu5l3THezXscSQLy+6hSLS11NsysliXO5bFrEoArvmmL03yurM+rmPmbkrxM1+luJ4rAE=
+	t=1726750308; cv=none; b=VcMkLuKJ4CD3aNUeqXAyNJxVeOvCfqjHPQXgYEqpFahKNnVVMB69S71hqSOO08+1nMWLdcjLnrEeu9C3A5wnSKLqwffzv1lUuz22iz06er5wjaGc1s7hywPfJVngX+WndIWAoYKNZqOCMIKc0CI2NeET9gsS355oPN45ihuLTLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726746772; c=relaxed/simple;
-	bh=n2c8rCWw8z/lpoN5wgFADrTYkKDIlTR04TekYHp1qSo=;
+	s=arc-20240116; t=1726750308; c=relaxed/simple;
+	bh=SlJmwhGl3SrJKXIOv4Gm2FmJKvlW3Kv5wJXm0Ihsfbs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bt63beBM0aj2ubebMvzIMrutSZIMq8AmUTluj9W4C7fKf71PQjOBV5z+Cv7k04Y+j49DWWS8uq+iyx9DpMyJyDLfYCvICyWU5F7d2dTH3WcGwCH4r/wRHTUnNrFH56YXqZGAr8IymXLc33GBmkSLizSoXQwxHx8o1WM/HZ6cTgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OhMpvkHE; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=Rv3Fxx8CDx3pdwyotjiygZoKTcJq150zU6tMWg0DLReUgNndJbMGuRXR58ueR0Veni1osD6zN3XwiYAlKxg/AZwkt3IaPPQinLxyBgxr4deBtIpeyMTzmECXOot+8e241Cgg3aSduz/2cZ+YHLwGcf/V6WH3nLryvdNDPchnvLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=none smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=xdswiPZ3; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=daynix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OhMpvkHE"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4582face04dso6581531cf.1;
-        Thu, 19 Sep 2024 04:52:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="xdswiPZ3"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a8d0d82e76aso107219366b.3
+        for <linux-doc@vger.kernel.org>; Thu, 19 Sep 2024 05:51:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726746769; x=1727351569; darn=vger.kernel.org;
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1726750305; x=1727355105; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=n2c8rCWw8z/lpoN5wgFADrTYkKDIlTR04TekYHp1qSo=;
-        b=OhMpvkHEdrEcd46I9hl6lNb8nnvZuJRKYxN4HiaJdxe6d0ygRqYOAS7G/iusxZMkQn
-         7QLJpWeGV0ryE6XQcZKPz+zzLkWEAttxQ2K5ZYZ+s5q6sC0Nt6IpvBscjof8qckmA5cu
-         08WUcPs3LDwoMlCYwHkYh5GdHOguQQxpUAalcqMMGw7MjtKiK1rdfcCbAEd3/hruofdu
-         IFYZ8bcQ4QLKbhg+D8Z9Vf3OWMzzl0kuX77LlUrVRFsgT2TSRBYu8qKYYSC135J2m1ov
-         kywK6Xz2ac3GbhDY2+Xvc/aql3OHUH/L9Jo3YOM/bme0zFH+abHjtMYGCDIw/hOZXR6x
-         oBTg==
+        bh=G2ods2eZT8RMxJfTBuByt96hZQnySzfhNv8GJfRYckM=;
+        b=xdswiPZ3zpI4ykYr/NoPyiNg5Cjuvudh40FXhFvATIpMm6YKJld59brEhi+RXEsXBU
+         9sE4iY9T2hzc9sttavp15D4N52vagV25k3I3/uHzb+Sjt1/yePPSTpqAV5VIBcbxHDfF
+         pP2fOht/6DLjwPkXmKIXu+RhrnjRyMTm4sksHN8BEMcOwLaTljH0BInRIJcgnaoawNhR
+         d4fIHeD2fMx19HOiy1niyZXm2LF81eXuA/MN1TItTniMBmHQF5KP5uRYYOP91HkVw8e/
+         lt8s52rmFKzO9ZFFyityDtvoscTzVMjbDyiNhg9p013aFAcbg/b17cqz9xxKLoOZ+Jfc
+         rugg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726746769; x=1727351569;
+        d=1e100.net; s=20230601; t=1726750305; x=1727355105;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=n2c8rCWw8z/lpoN5wgFADrTYkKDIlTR04TekYHp1qSo=;
-        b=aX5zq4rlnrBzooFVkcwd0rLRfjhufIjtXS0gdJLll7sRuvGPgX79DTFKuQysP91nQU
-         cwfdBMPIsR01T/5gonwYeUj36n+kuT90D4hpdfR2kfAiOt+4oSgo+pMelf1ECjxeB+Te
-         4Ebz/Mt5bLfYSyqcA8VvoTXBtrc2VuAgjF/5WwZ5bAalFp7VynoQJ+VLqF7iW9AgEs2V
-         74uZTiiX4FtIx5VWzbNzEH0qng7f1gTZhr9CPAzaSsLwXF2N0zL8E3wV5WTX6T4pM+Mc
-         VSWPQlcHPjOGNI7m5yFeEo8xus3JtLkKYK2otMGaLZvjcgQD7k13gjH1hg5eFUJRd/dk
-         gCkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVF8Bc4uToV/790BRj8gFf0ZTHII9mlflkYdSCJQ1DMSvhprBQlC4aUD5/wPNM5xf6JehIBdFkCPyqYQSiC@vger.kernel.org, AJvYcCVaCUIWkKv4QbiZVdrsonc55eG03oMGbfDGsAKiBtgfWivVbDV1j/ORNbj4LJwdY7eaxd4pTbu7DgXZ@vger.kernel.org, AJvYcCWbZsLkUGxQqVBMfQw4YAgFrBnQ/qPq8IUssmpCGJVr7xaFHljDVQYMjVgtpZLHN1+quxwJwbG4/qEo+Kgh@vger.kernel.org, AJvYcCXBuVylbFLlTiv3bEF3KNWwhWx6VzlnymIsDH1vL2gpyj1pepGIiu3sNTDf65mFbrFj8PP0PSap5j8A@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJbgtUn6ov2J7WUeywtbzkxX0JxB/XTrwQF6u3oG9cA26qUV9+
-	3Z5ivlK72GHRMMp5viOpHlfrSNsRkhEU53CqIGu7XrHcuhaO7CfX
-X-Google-Smtp-Source: AGHT+IGQcZIp8iyJg2gTDfan3U3gpkE7chV5pJXxPcG09Udi1LvNQFGlfel4EdOFjiYN4XeQ62uD+g==
-X-Received: by 2002:a05:622a:1ba8:b0:456:953f:6fe6 with SMTP id d75a77b69052e-45b1602db49mr44449971cf.8.1726746769446;
-        Thu, 19 Sep 2024 04:52:49 -0700 (PDT)
-Received: from ?IPV6:2620:10d:c0a8:11d1::1023? ([2620:10d:c091:400::5:4589])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45b1788f56dsm6783921cf.56.2024.09.19.04.52.41
+        bh=G2ods2eZT8RMxJfTBuByt96hZQnySzfhNv8GJfRYckM=;
+        b=LmYoQoL4jFbncwjOSDptnMf8Aeckz/6IC5jHEY1eUKKLv2vPSeEeTvalHy19Ho+q1A
+         qNY8P6LpGChFVGD2flAqOPHrq529jB8qgLZe4PBDK2LvoESgwft3tP6ArQZnV2eIHnOg
+         nT91iuuDrIX2dr7qr+hcpOzOzNMaVbAIa1pEZu/cW/2yO/vioTyzHZlVcoClUKpa6Oh9
+         h84PDJ/auSXSld8M/qIo+yEzF5yJuGavkZewcNhrpCbprBkKxujDZbKLbOjSCtdBD03a
+         1USO0Fb8SnLRZHtdkAmGXcTFG3XDijsWEt5p02RWaBvzfBmd9k2q2/Y6vwzoCTWlGDeh
+         4sGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVKZ9d9vgOfCNZIiI9+wcUmOHYJA70nJe8UJ71FGN0YGVWnirAQw4lATYtsuGuHURdp8P4aE62mX6s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywo0SPT+FrplAMjuc3ZFxcU8yhjm6/GPAEcZjKCiHOYAivtfC1t
+	1e0x8CiGDlPCA/RoS/PoKLhy3hfhdI2yJmApMD7qk7skrOWrk7PgpEOQqhCi6W4=
+X-Google-Smtp-Source: AGHT+IGZqgve+KamWKCTyn5ghHOmYZoUojN3YplaJpvEJ6WqeTRtpjQs7A0Ut18Ni9wirgc/SkN/uw==
+X-Received: by 2002:a17:907:36cd:b0:a90:b73f:61d7 with SMTP id a640c23a62f3a-a90b73f63bamr599108766b.42.1726750305479;
+        Thu, 19 Sep 2024 05:51:45 -0700 (PDT)
+Received: from [10.130.6.89] ([83.68.141.146])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90610968b9sm718971366b.5.2024.09.19.05.51.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Sep 2024 04:52:48 -0700 (PDT)
-Message-ID: <c65a07ef-6436-4e04-a263-7cad9758e9be@gmail.com>
-Date: Thu, 19 Sep 2024 13:52:37 +0200
+        Thu, 19 Sep 2024 05:51:44 -0700 (PDT)
+Message-ID: <18d61c52-be6f-4ef3-b020-d597ba7cdaeb@daynix.com>
+Date: Thu, 19 Sep 2024 14:51:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,74 +61,70 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/6] Add Propeller configuration for kernel build.
-To: Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>,
- Sriraman Tallam <tmsriram@google.com>, David Li <davidxl@google.com>,
- Jonathan Corbet <corbet@lwn.net>, Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Ard Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Vegard Nossum <vegard.nossum@oracle.com>, John Moon <john@jmoon.dev>,
- Andrew Morton <akpm@linux-foundation.org>, Heiko Carstens
- <hca@linux.ibm.com>, Luis Chamberlain <mcgrof@kernel.org>,
- Samuel Holland <samuel.holland@sifive.com>, Mike Rapoport <rppt@kernel.org>,
- "Paul E . McKenney" <paulmck@kernel.org>, Rafael Aquini <aquini@redhat.com>,
- Petr Pavlu <petr.pavlu@suse.com>, Eric DeVolder <eric.devolder@oracle.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Randy Dunlap <rdunlap@infradead.org>,
- Benjamin Segall <bsegall@google.com>, Breno Leitao <leitao@debian.org>,
- Wei Yang <richard.weiyang@gmail.com>, Brian Gerst <brgerst@gmail.com>,
- Juergen Gross <jgross@suse.com>, Palmer Dabbelt <palmer@rivosinc.com>,
- Alexandre Ghiti <alexghiti@rivosinc.com>, Kees Cook <kees@kernel.org>,
- Sami Tolvanen <samitolvanen@google.com>, Xiao Wang <xiao.w.wang@intel.com>,
- Jan Kiszka <jan.kiszka@siemens.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-efi@vger.kernel.org,
- linux-arch@vger.kernel.org, llvm@lists.linux.dev,
- Krzysztof Pszeniczny <kpszeniczny@google.com>,
- Stephane Eranian <eranian@google.com>
-References: <20240728203001.2551083-1-xur@google.com>
- <20240728203001.2551083-7-xur@google.com>
+Subject: Re: [PATCH RFC v3 2/9] virtio_net: Add functions for hashing
+To: gur.stavi@huawei.com
+Cc: andrew@daynix.com, corbet@lwn.net, davem@davemloft.net,
+ edumazet@google.com, jasowang@redhat.com, kuba@kernel.org,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ mst@redhat.com, netdev@vger.kernel.org, pabeni@redhat.com, shuah@kernel.org,
+ virtualization@lists.linux-foundation.org, willemdebruijn.kernel@gmail.com,
+ xuanzhuo@linux.alibaba.com, yuri.benditovich@daynix.com
+References: <20240916071253.462-1-gur.stavi@huawei.com>
+ <20240916080137.508-1-gur.stavi@huawei.com>
 Content-Language: en-US
-From: Maksim Panchenko <max4bolt@gmail.com>
-In-Reply-To: <20240728203001.2551083-7-xur@google.com>
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <20240916080137.508-1-gur.stavi@huawei.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jul 28, 2024 at 01:29:56PM -0700, Rong Xu wrote:
-> Add the build support for using Clang's Propeller optimizer. Like
-> AutoFDO, Propeller uses hardware sampling to gather information
-> about the frequency of execution of different code paths within a
-> binary. This information is then used to guide the compiler's
-> optimization decisions, resulting in a more efficient binary.
+On 2024/09/16 10:01, gur.stavi@huawei.com wrote:
+>> +
+>> +static inline void virtio_net_toeplitz(struct virtio_net_toeplitz_state *state,
+>> +				       const __be32 *input, size_t len)
+>>
+>> The function calculates a hash value but its name does not make it
+>> clear. Consider adding a 'calc'.
+>>
+>> +{
+>> +	u32 key;
+>> +
+>> +	while (len) {
+>> +		state->key++;
+>> +		key = be32_to_cpu(*state->key);
+>>
+>> You perform be32_to_cpu to support both CPU endianities.
+>> If you will follow with an unconditional swab32, you could run the
+>> following loop on a more natural 0 to 31 always referring to bit 0
+>> and avoiding !!(key & bit):
+>>
+>> key = swab32(be32_to_cpu(*state->key));
+>> for (i = 0; i < 32; i++, key >>= 1) {
+>> 	if (be32_to_cpu(*input) & 1)
+>> 		state->hash ^= state->key_buffer;
+>> 	state->key_buffer = (state->key_buffer << 1) | (key & 1);
+>> }
+>>
+> 
+> Fixing myself, in previous version 'input' was tested against same bit.
+> Advantage is less clear now, replacing !! with extra shift.
+> However, since little endian CPUs are more common, the combination of
+> swab32(be32_to_cpu(x) will actually become a nop.
+> Similar tactic may be applied to 'input' by assigning it to local
+> variable. This may produce more efficient version but not necessary
+> easier to understand.
+> 
+> key = bswap32(be32_to_cpu(*state->key));
+> for (u32 bit = BIT(31); bit; bit >>= 1, key >>= 1) {
+> 	if (be32_to_cpu(*input) & bit)
+> 		state->hash ^= state->key_buffer;
+> 	state->key_buffer =
+> 		(state->key_buffer << 1) | (key & 1);
+> }
 
-Thank you for submitting the patches with the latest compiler features.
+This unfortunately does not work. swab32() works at *byte*-level but we 
+need to reverse the order of *bits*. bitrev32() is what we need, but it 
+cannot eliminate be32_to_cpu().
 
-Regarding Propeller, I want to quickly mention that I plan to send a
-patch to include BOLT as a profile-based post-link optimizer for the
-kernel. I'd like it to be considered an alternative that is selectable
-at build time.
-
-BOLT also uses sampling, and the profile can be collected on virtually
-any kernel (with some caveats).  There are no constraints on the
-compiler (i.e., any version of GCC or Clang is acceptable), while Linux
-perf is the only external dependency used for profile collection and
-conversion. BOLT works on top of AutoFDO and LTO but can be used without
-them if the user desires. The build overhead is a few seconds.
-
-As you've heard from the LLVM discussion
-(https://discourse.llvm.org/t/optimizing-the-linux-kernel-with-autofdo-including-thinlto-and-propeller)
-and LPC talk (https://lpc.events/event/18/contributions/1921/), at Meta,
-we've also successfully optimized the kernel and got similar results.
-
-Again, this is a heads-up before the patch, and I would like to hear
-what people think about having a binary optimizer as a user-selectable
-alternative to Propeller.
-
-Thanks,
-Maksim
-
+Regards,
+Akihiko Odaki
