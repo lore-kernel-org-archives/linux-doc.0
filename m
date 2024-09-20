@@ -1,180 +1,196 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BEEC79C0;
-	Fri, 20 Sep 2024 16:54:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516B1181310
+	for <linux-doc@vger.kernel.org>; Fri, 20 Sep 2024 16:56:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726851291; cv=none; b=cplJJ/JkVDZgogrOaoPleIsQqvsgnUmG96faP1HhNAIKSLnP+RwpdcEEcx2bhS3bKdrTaeezgt5Hhxr7aWj8e3H6bFz7xZgV+x/NIpOEkJER+g+3hiC7nnnTGlKN0ocYwqmzVk8gZJeaep3AaQgG8dRRYjfFzB42AIFkFUUemNg=
+	t=1726851405; cv=none; b=Y9qEWwAWmjvj8KnGP9GzzbQg5YVGcAxSdaChAxi8sBWY2cYPwTKHj2ZB9GOL2lE+uAA1tDBYhci1XJxQuucfBB+ptsCcthRcU1GXukiPv3g5mbQduSkwSBRkGY0zG0BydarOGdt+Oul1yQXkOY0nm3RGLf20wRWD7O59apdQb0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726851291; c=relaxed/simple;
-	bh=ko6Ky/IOZiMbwaA0aCVHbv+HZ4tLrztg8zKOJEpiqsI=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vuxj76NkBdYTmSlter3ZXjcszTHlTUFjVVnwSzVRSc1WRjd0ulYtBPjS4uywAf0G1Pk3Gzwsnu3woiOZVydr1rXqpQ5jJxg/P6mDb8EefEHVXBikrqL6ymLa/iuICp+g4bBOwnR0ldHMA/0DohEl16D1yBAkPQoM8zcg0/hzh0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=UYI5qlAQ; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1726851405; c=relaxed/simple;
+	bh=nxe3bIXN89F9dHDYwRgVlJarGFig5lhOLs3Ek1wlg04=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=E7ipFOCYirtvB49E5U4Wo7GvX4FZY252WvcTgysH2s7ATbS80rRK6vCUoPgrltS+2l26ePVuLepR4qIoOFS5hP/v0dA/hYwtjogINopY0l6Pp3JKhmm96ifA4iBaFKgjo7Dkgya++Jvgii/i2s+cuzfzMdcHQmDfAny8scIadcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=0mHsWZaI; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="UYI5qlAQ"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48K83o6T006727;
-	Fri, 20 Sep 2024 16:54:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=fvYxS2fQ1DWtUltxJZdBT4oH
-	1hBwrXRzerbQSjMR43I=; b=UYI5qlAQgHR/vzpiHIx254NJLXzcpUWoGeMycoYk
-	O5F7tt5CdZVAkNiFh7rsfQOkOQocEMPDfhvnBictfRMSp67PAgRPaLAbmJ7OBrLa
-	G9VjjxUHHYoz+VxzBd+H5SE91yOhQRQlVra4c7DbeiNJu8blKb4Y5T0HYR3EE6Bn
-	Fg5mSYEAjuzK73Vc25MR1D5fLyMUUuNpRNYYO7ZG6kfeRDXEKs0dx5KkkFazQDfb
-	caHJgI92H0vNLXV9mTrjzyzDutetbjs+IWhWQC81wFEyEmMgY6XjgBSj/rsdFNTB
-	+KyUPWsASPNvJR9Nr7LXMpD5I3HBGizmEA1qGnLDrS3Msw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41n4k122hs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 20 Sep 2024 16:54:38 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48KGsaPC007883
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 20 Sep 2024 16:54:36 GMT
-Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Fri, 20 Sep 2024 09:54:31 -0700
-Date: Fri, 20 Sep 2024 22:24:27 +0530
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: Antonino Maniscalco <antomani103@gmail.com>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
-        "Konrad
- Dybcio" <konrad.dybcio@linaro.org>,
-        Abhinav Kumar
-	<quic_abhinavk@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        David Airlie
-	<airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
-        Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>, <linux-arm-msm@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v4 09/11] drm/msm/A6XX: Add a flag to allow preemption to
- submitqueue_create
-Message-ID: <20240920165427.wikjsywhbcb2kz7h@hu-akhilpo-hyd.qualcomm.com>
-References: <20240917-preemption-a750-t-v4-0-95d48012e0ac@gmail.com>
- <20240917-preemption-a750-t-v4-9-95d48012e0ac@gmail.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="0mHsWZaI"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-378e5d4a80eso1650741f8f.0
+        for <linux-doc@vger.kernel.org>; Fri, 20 Sep 2024 09:56:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1726851401; x=1727456201; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8TOqGOus+/DfL5mi4lAUgadC20uYV44UD6+sgPwKSng=;
+        b=0mHsWZaIK8LKlcFgqR6/2xJj12Z1ore1vh9fjsVxet9SZWmzdqQzYPYBSAHcc9qBjD
+         Ic3M8nb+0BZkRQLZtNMnCTvdfOdc/qmudaoi6bb0coE32HS8VxDpJiIK1bN+Val4+yd8
+         bWdQfYnIf/mCiZBBOagGrb7Tis6SD9kLDuHjZ4oMOttyvslaNv7jfhiYeWz2KOU7V/6I
+         LLKrdpiXs0hXEgT698YCs/GLEjh9O1GqtlD7aKumZvF/hdgwyVecbZ4tR1a2ZrIlKg9g
+         VmWoN7ZFtvZ3a6CJ/+Z6oyj6A0Ep0wqFMUXB3SJF/JVcYDoQF9Zn4oLnbad6BwX4DsDT
+         YOPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726851401; x=1727456201;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8TOqGOus+/DfL5mi4lAUgadC20uYV44UD6+sgPwKSng=;
+        b=HMKdCt/sFgYKT1NjpLuGCrvunK1Hifucsz64N+/C440L4v6RyxW1wVbazX09kgUjAC
+         O4VPOiM07BJ27y3wd2JQokkh3lemxF8O28CJcaCgAGNGpnaazsiF298N9EIp8WMPPEQe
+         Jm49zwoO59OUnHIH7n+jIRPdo46n++VXIkv+7KJDEtZWMHYIvmn9akMkj50UWH1PxTC5
+         rYQtqBjNtG45abko33kHyPIqL5Vllz98zfd50Tt5j1UiTCpYwG3L2kQp7lz9vo1mPQhF
+         HRk4V2VURNR3LR3OPRw/puYWOn+18I2Ym9nhcigXCFTe/9zPqeTfYCusp5KZzHdgJCZN
+         MsBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUgn2CbdZix2EF70dvT/c4Ve0nauqYJmDi8s42hMGc31BG9E88zzwRuiboL6Dff1s+6JTs4JSlhCK8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxY41duyd9tIEmSEn8VWk4z31w6+xL57GQQ0uR+LK66+WkMcVl8
+	IhJbFXCiuUal3SFBOs5enS1Z6FVrdZ7CVwqjDTpWx8cVfH7mrqlHe7EhfjxKtm0=
+X-Google-Smtp-Source: AGHT+IFttVJoArnneXwv88ZWzXUlfdFSTX3akKsFIhgdYV7ZxHvnByGtleg9cGiCtJY7qBU0OfI/aw==
+X-Received: by 2002:a5d:6752:0:b0:371:7e46:68cb with SMTP id ffacd0b85a97d-37a42380d9dmr1951442f8f.50.1726851401493;
+        Fri, 20 Sep 2024 09:56:41 -0700 (PDT)
+Received: from toaster.baylibre.com ([2a01:e0a:3c5:5fb1:8e69:83a7:a29a:ba83])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-42e6c718e40sm97430135e9.1.2024.09.20.09.56.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Sep 2024 09:56:41 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+Date: Fri, 20 Sep 2024 18:56:12 +0200
+Subject: [PATCH v2 1/3] dt-bindings: hwmon: pmbus: add ti tps25990 support
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240917-preemption-a750-t-v4-9-95d48012e0ac@gmail.com>
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: f02thMQb7fZY54CaWQH77Z5oUFjOnOtC
-X-Proofpoint-GUID: f02thMQb7fZY54CaWQH77Z5oUFjOnOtC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
- suspectscore=0 adultscore=0 phishscore=0 spamscore=0 malwarescore=0
- bulkscore=0 impostorscore=0 mlxlogscore=999 clxscore=1015
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2408220000 definitions=main-2409200122
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240920-tps25990-v2-1-f3e39bce5173@baylibre.com>
+References: <20240920-tps25990-v2-0-f3e39bce5173@baylibre.com>
+In-Reply-To: <20240920-tps25990-v2-0-f3e39bce5173@baylibre.com>
+To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>, 
+ Naresh Solanki <naresh.solanki@9elements.com>, 
+ Patrick Rudolph <patrick.rudolph@9elements.com>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-i2c@vger.kernel.org
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2570; i=jbrunet@baylibre.com;
+ h=from:subject:message-id; bh=nxe3bIXN89F9dHDYwRgVlJarGFig5lhOLs3Ek1wlg04=;
+ b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBm7alFWv3t0ARoCyw9ZNlcGGLAUU212y/x3vKIk
+ Uua6x+dhgOJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCZu2pRQAKCRDm/A8cN/La
+ hS9jEACLJzvpKDGir66Hf5BG6qGk0l32W2tEI99+Dd256SFxIwLAsKnx3t8TcYIF+flcKq8bz07
+ 94Rx4ZGsjpwK7D3XB3hRzaI9YWPcwicFFnqLef57JNV1skYQXZOGNSJOUn92aumMrI3HhF/kgyG
+ 9J0w6rlK6jzpiq3ROwmgFmb5yhLv+bCXhKyJ/Sp53mK093EqVg6W02oUgJdx8Zb256htqSe2KXI
+ pBVT/mrpxx41NH34rkaLmixQUT5N8meZ+Ri5Kg/DIi3iL+lJxp+klUVOVm7kC0HAmW8HhPO0C0g
+ AqGMyErKQK16NMOyPF3yimOOSd/LfvUBlpOh88w4/5kiUOR+AK7l15cfrMnq+k4lXgYxk310oTG
+ pvZt5Bu024aWAgptTP2EqeFpuwUkhZ0YpSUZXl29+gcw8Ggi4wG6xJEvlK/I3v5PauB2g2Sc6Ym
+ TwcbgasJoAuscZXV1o41Tj69jEIM+aK9GX8/VAFCxREHdKV5j++Z1kHXODebyWZbLWxOAdVj2hv
+ pfQ8ILxZJz68A2zIMlwTU4gA0D7Zzc0OVtrkXKihfxlKTL9CVOCqwpgZrtu7gpV+BruTZT6hlV6
+ F2DTAQxviJM+4s10ZC8VtrVsfzoCJ3QXt6Z7179iOqwQZviDV4EgpLhGuPQbbepF1P5Y5gbsZO+
+ RvddaMrXRjFT/sw==
+X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
+ fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
 
-On Tue, Sep 17, 2024 at 01:14:19PM +0200, Antonino Maniscalco wrote:
-> Some userspace changes are necessary so add a flag for userspace to
-> advertise support for preemption when creating the submitqueue.
-> 
-> When this flag is not set preemption will not be allowed in the middle
-> of the submitted IBs therefore mantaining compatibility with older
-> userspace.
-> 
-> The flag is rejected if preemption is not supported on the target, this
-> allows userspace to know whether preemption is supported.
+Add DT binding for the Texas Instruments TPS25990 eFuse
 
-Just curious, what is the motivation behind informing userspace about
-preemption support?
+Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+---
+ .../bindings/hwmon/pmbus/ti,tps25990.yaml          | 83 ++++++++++++++++++++++
+ 1 file changed, 83 insertions(+)
 
--Akhil
+diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/ti,tps25990.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/ti,tps25990.yaml
+new file mode 100644
+index 000000000000..f4115870e450
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwmon/pmbus/ti,tps25990.yaml
+@@ -0,0 +1,83 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++
++$id: http://devicetree.org/schemas/hwmon/pmbus/ti,tps25990.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Texas Instruments TPS25990 Stackable eFuse
++
++maintainers:
++  - Jerome Brunet <jbrunet@baylibre.com>
++
++description:
++  The TI TPS25990 is an integrated, high-current circuit
++  protection and power management device with PMBUS interface
++
++properties:
++  compatible:
++    const: ti,tps25990
++
++  reg:
++    maxItems: 1
++
++  ti,rimon-micro-ohms:
++    description:
++      micro Ohms value of the resistance installed between the Imon pin
++      and the ground reference.
++
++  interrupts:
++    description: PMBUS SMB Alert Interrupt.
++    maxItems: 1
++
++  regulators:
++    type: object
++    description:
++      list of regulators provided by this controller.
++
++    properties:
++      vout:
++        $ref: /schemas/regulator/regulator.yaml#
++        type: object
++        unevaluatedProperties: false
++
++      gpdac1:
++        $ref: /schemas/regulator/regulator.yaml#
++        type: object
++        unevaluatedProperties: false
++
++      gpdac2:
++        $ref: /schemas/regulator/regulator.yaml#
++        type: object
++        unevaluatedProperties: false
++    additionalProperties: false
++
++required:
++  - compatible
++  - reg
++  - ti,rimon-micro-ohms
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        hw-monitor@46 {
++            compatible = "ti,tps25990";
++            reg = <0x46>;
++
++            interrupt-parent = <&gpio>;
++            interrupts = <42 IRQ_TYPE_LEVEL_LOW>;
++            ti,rimon-micro-ohms = <1370000000>;
++
++            regulators {
++                cpu0_vout: vout {
++                    regulator-name = "main_cpu0";
++                };
++            };
++        };
++    };
 
-> 
-> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
-> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 12 ++++++++----
->  drivers/gpu/drm/msm/msm_submitqueue.c |  3 +++
->  include/uapi/drm/msm_drm.h            |  5 ++++-
->  3 files changed, 15 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> index 736f475d696f..edbcb6d229ba 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -430,8 +430,10 @@ static void a7xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
->  	OUT_PKT7(ring, CP_SET_MARKER, 1);
->  	OUT_RING(ring, 0x101); /* IFPC disable */
->  
-> -	OUT_PKT7(ring, CP_SET_MARKER, 1);
-> -	OUT_RING(ring, 0x00d); /* IB1LIST start */
-> +	if (submit->queue->flags & MSM_SUBMITQUEUE_ALLOW_PREEMPT) {
-> +		OUT_PKT7(ring, CP_SET_MARKER, 1);
-> +		OUT_RING(ring, 0x00d); /* IB1LIST start */
-> +	}
->  
->  	/* Submit the commands */
->  	for (i = 0; i < submit->nr_cmds; i++) {
-> @@ -462,8 +464,10 @@ static void a7xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
->  			update_shadow_rptr(gpu, ring);
->  	}
->  
-> -	OUT_PKT7(ring, CP_SET_MARKER, 1);
-> -	OUT_RING(ring, 0x00e); /* IB1LIST end */
-> +	if (submit->queue->flags & MSM_SUBMITQUEUE_ALLOW_PREEMPT) {
-> +		OUT_PKT7(ring, CP_SET_MARKER, 1);
-> +		OUT_RING(ring, 0x00e); /* IB1LIST end */
-> +	}
->  
->  	get_stats_counter(ring, REG_A7XX_RBBM_PERFCTR_CP(0),
->  		rbmemptr_stats(ring, index, cpcycles_end));
-> diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
-> index 0e803125a325..9b3ffca3f3b4 100644
-> --- a/drivers/gpu/drm/msm/msm_submitqueue.c
-> +++ b/drivers/gpu/drm/msm/msm_submitqueue.c
-> @@ -170,6 +170,9 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
->  	if (!priv->gpu)
->  		return -ENODEV;
->  
-> +	if (flags & MSM_SUBMITQUEUE_ALLOW_PREEMPT && priv->gpu->nr_rings == 1)
-> +		return -EINVAL;
-> +
->  	ret = msm_gpu_convert_priority(priv->gpu, prio, &ring_nr, &sched_prio);
->  	if (ret)
->  		return ret;
-> diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-> index 3fca72f73861..f37858db34e6 100644
-> --- a/include/uapi/drm/msm_drm.h
-> +++ b/include/uapi/drm/msm_drm.h
-> @@ -345,7 +345,10 @@ struct drm_msm_gem_madvise {
->   * backwards compatibility as a "default" submitqueue
->   */
->  
-> -#define MSM_SUBMITQUEUE_FLAGS (0)
-> +#define MSM_SUBMITQUEUE_ALLOW_PREEMPT	0x00000001
-> +#define MSM_SUBMITQUEUE_FLAGS		    ( \
-> +		MSM_SUBMITQUEUE_ALLOW_PREEMPT | \
-> +		0)
->  
->  /*
->   * The submitqueue priority should be between 0 and MSM_PARAM_PRIORITIES-1,
-> 
-> -- 
-> 2.46.0
-> 
+-- 
+2.45.2
+
