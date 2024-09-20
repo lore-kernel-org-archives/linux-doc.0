@@ -1,60 +1,60 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ECA41442F4
-	for <linux-doc@vger.kernel.org>; Fri, 20 Sep 2024 16:47:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A6E17AE00
+	for <linux-doc@vger.kernel.org>; Fri, 20 Sep 2024 16:47:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726850851; cv=none; b=mcfI5VFmiO18bAj2+Y8LVviYbkLjMAJNshAPVTBvcpdRqlrAsfa6hrPD0PxH0fkqgBgNOeiRoC+heX6QqxGq3t/JUc5awj+dp/HfLCmvFXHjEpzP3eXPp6DdE3giahFp2RsWaCI7aOCierqliTjzoDlOQZlg+VMscWQUBFABxvs=
+	t=1726850852; cv=none; b=hV9jX2PMO7yumPP1rFDyIRjWavstPljOvAceegehg6ZbkzRpGnd1a21+GvHLGlDCErKIyPtCT7+PNFiNTWQT9P1+gug8fTfPgdmkN+S3N2WCXGLZa2SMQWXXMfvL13pbrGRNsN4CvpaVyTJpuRbntqV68JBn/UuinlrVDtm0W64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726850851; c=relaxed/simple;
-	bh=2mrpQYS0durlIiTO7A9inQC+gazq8OIpoYV9W4sUykQ=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=JCa+8t2E9U2KDt5VzXhRkX9TdHG6M6rTIo06tFlxWFvch2lE8RtMK9krAuL4wGhIRDcuXae4IQVn6t7SWRFvvIDBp9jnw0S0F2IB+FEWp86QaQn+XuSfFlsxq9lqP4VwUjXQrM5Nxq9eQ7qvNbNc51qmDRxGl0gX5OrRiPVaFPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=WKJbGZJR; arc=none smtp.client-ip=209.85.128.42
+	s=arc-20240116; t=1726850852; c=relaxed/simple;
+	bh=kWmDB7nojGoj156gSMkRuwtglVlXdhF+7Ma/4bI48yE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=XyAUPHKaAneMhjteyW2RGnUmg7qgfJ7LmKn7ClnsHJswYUB4CRDkGUgwxm5DzJQJhRPOI6nUs0sxqPjDZ5KI4PfhonTR8kXvsHU1lnRkwXXhCe21YZ3vaWn4cNA/XUn8o8sw0oW/1tzmiJmQog3zDZtvEGw0Ypfb9X0RUFuUfeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=tJ9pNwkn; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="WKJbGZJR"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-42e7b7bef42so9390465e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 20 Sep 2024 09:47:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="tJ9pNwkn"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-42e5e1e6d37so21034145e9.3
+        for <linux-doc@vger.kernel.org>; Fri, 20 Sep 2024 09:47:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1726850846; x=1727455646; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zDzaQlV6GjyEQTNCzKM3UkvH+Kbl13+ehOFDQrsAvdU=;
-        b=WKJbGZJRmZbYQkB6LE/u9NWfJ6rqLdzPGhrKQx3kxnbK70qWR0rL1l7L+TqGOeHWkb
-         QyclYFV8miyAdh+8U2M6O7JPr86NH8VWBlllq/QfgJhxGvIQLtoBey/LZxNlqzIK3AcT
-         zA1HnpkQBwqlKL18XndQDjEHuDAJhTAkj549eNuXcjhTj5MxNdOdbD+BuWJZWg65CYsA
-         JeaAlJDMAZYsudG+ITxbsy3bOdmsIpjs3PXmrWououUE/7gPXjr5Meklng7G56DK2gj8
-         GGQlN52KizwRSc72DrTUBfF9sdpK4cBo8nceG65KBZxuZylUpz1X5g2hhO0JGH5IxQ79
-         HzbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726850846; x=1727455646;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1726850848; x=1727455648; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zDzaQlV6GjyEQTNCzKM3UkvH+Kbl13+ehOFDQrsAvdU=;
-        b=sLmys8fWneDoSJsN5rLoHGZE5FGAWmTPJKTHN7ICQUqCYqblseiQpqweSUfSJ2yvog
-         4m2HXINs8llk5dKBKg028jjEQ3UJR2lRQARdQsdukNnEz9293uKVEy/w/Txuh+qACfGD
-         n4nrF+cVhvgrNaWix5Bm3MC3xivzIYnfxqX2NpLjaJz9X/JfPnIpsBrjJeVxkEUhkiMj
-         aNEo/cDufG2A+GKCyaeOjyi1aJ0a4vXLD2ebHbDNvmhrLQ/cQPeL6gqL+hGCe4EnCJ0V
-         SDdseEJfo6nLEVmeiQn0Ua296R+O+ZMDNZMg5HhGjWUwokW3A7rtLvust47Sh80VjBbi
-         LDcg==
-X-Forwarded-Encrypted: i=1; AJvYcCW+BufNTO2SokxR0jEqVgCQLKQtm+ODL+ZKfsq7MjWTa7VuXp8T6rK/DgYMcR/Z3dLKZtNOsd/ShiE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxY/pmEyixMRn4TP3NwsLROe+FeFkvLw2s9ZGVeToai0FW0VcgL
-	SLPhALNMwJh5V1g4TZUwpvKMGhLhb/Nuvg7XxVRE0+z0uHV8LbkS9wxpE1GuJCo=
-X-Google-Smtp-Source: AGHT+IFjMc3vzunF6CNv8y3iWUpN3w06uz+/DgSL39Gi1S59RRBgBrAtij67Jp8U4eWzEAk8s8rVkw==
-X-Received: by 2002:a05:600c:a49:b0:42c:a802:a8cb with SMTP id 5b1f17b1804b1-42e7c16f939mr21203245e9.15.1726850846526;
-        Fri, 20 Sep 2024 09:47:26 -0700 (PDT)
+        bh=j2l/YT0SVwM2BKGIIcvG36vkjoblImIQN3qbMI+AN58=;
+        b=tJ9pNwknkdzccDeLhxn+N4AGuBfk8VylLBxb1rdRVVXSaf9Gz8in5TN8NL9Rt8wTt6
+         0Zf7C+gfNZEFkUM2kdCKSp7AiaXcsD31+LCQPY4LsSW9oEcLdraDOAkw3agsg9gUSoyN
+         b0QgqIlWHPlqISwoI+OmBHF+bHLoahFIyfel4tuIu6WCfe3X5NE5RtlMZoUhVnVPALdY
+         MllSM1rPMiel40/RUlGi0u2hQC+AQmuNvPyWpvK84E+lehGaJRE9NFMYR1NAOvDCTJ6O
+         woJG0JEtm1t03of37vEwT1vjIZeTTeq5YJ2UCrFTX+YoEjwgyJt2hOmG6ppvQtc8yOFM
+         pHuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726850848; x=1727455648;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=j2l/YT0SVwM2BKGIIcvG36vkjoblImIQN3qbMI+AN58=;
+        b=c2Zm6LxFfk6jBit3kIXT8VTusqfnUL0IzPp3v/tnLK4uOGH5vxBla6Rlf5rQCdz9tT
+         jXfPR9EBmnKMGQEnrPIilcVrKUz5ZcTxpL29hZmIDia9fYQTpfF0Ykwiar9e9Uj13yCo
+         4BhP0tovf87wtx686i6PHwxsPlyyaS8ExL4NI7g6usG3vlbqXhYRN2RlVhxheC7TlroL
+         xAkw183MHhUhmMiCm8SZzjLbMYQIzPNNua3QFgBKrvezHjq4O/vy1Uy1vTi9xj5wOG8h
+         ABbmE3LNV/Xfkh+K5eUisB35vIxhnbSB9+RI6AWHsxLdYW8zpo5XkAc0Da5MhbtR89Bt
+         oGBA==
+X-Forwarded-Encrypted: i=1; AJvYcCU6nMzExnuprs7tOMHjs/+B+ywOoFA1QZ2o7lUimL+gkBOKZdB8qrWItOnE6WAMXpvmcV6YzloWatc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWirshpAcet+ZyHJPHdNesbCTUlcG1hs7zL/cdvHUy7jGFyrZ3
+	ugHHYhxikl69lHvh4lTEIT3iRtQOns9+ZuOzdOiL9sA//nFhRx6H3QAhNcR+70Y=
+X-Google-Smtp-Source: AGHT+IGJkUkTnhqw6d3RXsoe5pIlfc7IWhH06fn71XCVrA7qhdEYf5C1n8nmKLARkeSlarPrXdjEiw==
+X-Received: by 2002:a05:600c:3486:b0:42c:bb10:7292 with SMTP id 5b1f17b1804b1-42e7c159dcdmr25826755e9.1.1726850847740;
+        Fri, 20 Sep 2024 09:47:27 -0700 (PDT)
 Received: from toaster.baylibre.com ([2a01:e0a:3c5:5fb1:8e69:83a7:a29a:ba83])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-378e7804476sm18172250f8f.90.2024.09.20.09.47.25
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-378e7804476sm18172250f8f.90.2024.09.20.09.47.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Sep 2024 09:47:25 -0700 (PDT)
+        Fri, 20 Sep 2024 09:47:26 -0700 (PDT)
 From: Jerome Brunet <jbrunet@baylibre.com>
-Subject: [PATCH 0/5] hwmon: (pmbus/core) support write protected pmbus
- regulators
-Date: Fri, 20 Sep 2024 18:47:01 +0200
-Message-Id: <20240920-pmbus-wp-v1-0-d679ef31c483@baylibre.com>
+Date: Fri, 20 Sep 2024 18:47:02 +0200
+Subject: [PATCH 1/5] regulator: core: add callback to perform runtime init
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,77 +63,76 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAWn7WYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDSyMD3YLcpNJi3fICXQMjC8M0U5Mk87RUIyWg8oKi1LTMCrBR0bG1tQD
- hlaBFWgAAAA==
+Message-Id: <20240920-pmbus-wp-v1-1-d679ef31c483@baylibre.com>
+References: <20240920-pmbus-wp-v1-0-d679ef31c483@baylibre.com>
+In-Reply-To: <20240920-pmbus-wp-v1-0-d679ef31c483@baylibre.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
  Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
  Jonathan Corbet <corbet@lwn.net>
 Cc: linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
  linux-doc@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2067; i=jbrunet@baylibre.com;
- h=from:subject:message-id; bh=2mrpQYS0durlIiTO7A9inQC+gazq8OIpoYV9W4sUykQ=;
- b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBm7acYTDjHdY2+lQrqA+9U5haYmGZr1chOY1lL1
- aO4bPhYN1uJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCZu2nGAAKCRDm/A8cN/La
- hZw4EACkpf8HJYhOshPUQ5iG3WA6Is9QFLS8e4Mm8lqstFfgwI9dHMifuXloyVeh5EF8prjJG5H
- gjtogm35QpfuWatiMzVmsHZbR2a9f780GoY262uC+oGDIAspSUcfJG1z74iUwx+LAgF3yRTh/26
- MuG2ban6Yo/+UYW0k/LFm0P7ZiTY4LPqAYXzxmU5fRxw16s5HbwHowlzAPnQYEilgjTOadIlZEQ
- Ye47ALUMeLgkzKg8abEY8foP4wnYc8wcYoPjLebgrYu95RzXxVERFjx0YGxdj5FgZRd/Xt5Ue1W
- zlh3gQ5pC9/fm7G1ljOGxHCm0eAEAbzGhpn09qDcZ8ZlCCcORC3NS3Qk8cEyTAAt3ao9YIOBUzS
- 3mQ4864Y9j7SfGovZnmASItmFMvZoCbN6motn4rpT/a+MDboAwxdkSUPTYWUktp2wsVrZWRY3XB
- /ujjQ7JV3U56EGlGOkt5zw2ZeTiSSUqObhAHCkQ/GNYk7yoxvbc5GJmIIliC6xm5y9bYXI+I2uq
- qG0kA3sMiCCHSpQbXWVHS8S4IPlDkS31Gv1qgUPRi4JCmQXHSPYAZQ0oztPY7NVd99NqMmZGoFR
- G3vzQkD8+rwWFeF8eL6NpS4ZxhHt6nikp2xdXO+NdTzNMISPRIy9J4/1Vg6UFgQ9rfo42ValMlp
- LR67zgVzvhchu4Q==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1560; i=jbrunet@baylibre.com;
+ h=from:subject:message-id; bh=kWmDB7nojGoj156gSMkRuwtglVlXdhF+7Ma/4bI48yE=;
+ b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBm7acZjTiI6NYDcqe/A6lJd9wte11A1ks5RZgzs
+ RVe7T000QOJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCZu2nGQAKCRDm/A8cN/La
+ hW52D/4yGNHNYs/Bd+K9A1vBnJCVbqpRd3EMOUqpTxOkIOnUFDHhmUoSfOSSwh7QKsXytEH0GLZ
+ 66qRDZPV+81S+h2gnrSaGBhUy9ymbKLIsi6VyKUvINvVFInEdqjb0isi9b4Y1AkA8YmULf2bdbh
+ 6n6ly35NtH449jTH5b+c1rX9D5urlYZzhzvNTdmybs6YS4KLDJrVMkRGhzIPfn+0l7LLXtjqN0j
+ TCYDyXvHVb7CX1KGoIgFqYQelQLA4rNNDO1JSM8uYQOgquyCS6b7tUONQqoh1qh8yg3bNpU18fr
+ DUQqVze8T1r25olUFlu0AmGmcpwdI7mf/d+iSrB29HHhsud58QL9T7of6VPE6dfxKB6zq67VEKT
+ 7XbY/1OVnaH/1pzKHQdDErG7dL3O8uWUp4xU+Cu8bEtCUGBLR9FJ5Y1cNffJw2A8irD/qppM8vg
+ KN6bnWOjhbjLHa71unWmaYBufmbgC46Md8ckZ3/9lA57He1Ka6wbkz828zqWqCn3iGrAlJh2BXM
+ 4LId6A2tDWJtrKOAST8PtMeowzHVesROoizRgXAhF7p3TPCJWtq6CjDts+ImL33+Q4ZVeizI1xd
+ JsSBKhX77pQ6AcUW8F3WGVQaq1NfNiQlJ/ciQPANrnnTNVsKZ29PE+nlUIfUDtVs+yf2EOMIVIJ
+ 8mX63BgY3kjQVDQ==
 X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
  fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
 
-Some PMBus chips may boot in write protected mode by default. If the PMBus
-chip is protected, it essentially becomes a read-only chip. Writing
-protected register will be ignored by the chips and a communication fault
-raised.
+Provide an initialisation callback to handle runtime parameters.
+The idea is similar to the regulator_init() callback, but it provides
+regulator specific structures, instead of just the driver specific data.
 
-PMBus chips may also provide regulators, but protected chip are not
-properly supported, since write are performed regardless of the protection.
-
-This patchset adds callback in the regulator framework for drivers to
-perform runtime init, such as checking the write protection status and
-adjust the regulator constraints accordingly.
-
-PMBus then make use of the added callback to adjust the validity of the
-ops. In the future, PMBus could even use this callback to adjust the
-constraints based on the supported registers.
-
-Last, a module parameter is added to allow to set or clear the pmbus write
-protection if necessary. These are 2 simple mode, more could be added
-later.
-
-The patchset targets 2 different subsystems. Please let me know if you
-prefer a respin with 2 patchsets, one for each subsystem.
+As an example, this allows the driver to amend the regulator constraints
+based on runtime parameters if necessary.
 
 Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
 ---
-Jerome Brunet (5):
-      regulator: core: add callback to perform runtime init
-      regulator: core: remove machine init callback from config
-      hwmon: (pmbus/core) allow drivers to override WRITE_PROTECT
-      hwmon: (pmbus/core) improve handling of write protected regulators
-      hwmon: (pmbus/core) add wp module param
+ drivers/regulator/core.c         | 6 ++++++
+ include/linux/regulator/driver.h | 2 ++
+ 2 files changed, 8 insertions(+)
 
- Documentation/admin-guide/kernel-parameters.txt |  4 ++
- drivers/hwmon/pmbus/pmbus.h                     |  4 ++
- drivers/hwmon/pmbus/pmbus_core.c                | 83 ++++++++++++++++++++++---
- drivers/regulator/core.c                        | 13 ++--
- include/linux/pmbus.h                           | 14 +++++
- include/linux/regulator/driver.h                |  2 +
- include/linux/regulator/machine.h               |  3 +-
- 7 files changed, 106 insertions(+), 17 deletions(-)
----
-base-commit: cd87a98b53518e44cf3c1a7c1c07c869ce33bf83
-change-id: 20240920-pmbus-wp-0281f54b7fe2
+diff --git a/drivers/regulator/core.c b/drivers/regulator/core.c
+index 1179766811f5..4c90ab5ad876 100644
+--- a/drivers/regulator/core.c
++++ b/drivers/regulator/core.c
+@@ -5747,6 +5747,12 @@ regulator_register(struct device *dev,
+ 		goto wash;
+ 	}
+ 
++	if (regulator_desc->init_cb) {
++		ret = regulator_desc->init_cb(rdev, config);
++		if (ret < 0)
++			goto wash;
++	}
++
+ 	if ((rdev->supply_name && !rdev->supply) &&
+ 		(rdev->constraints->always_on ||
+ 		 rdev->constraints->boot_on)) {
+diff --git a/include/linux/regulator/driver.h b/include/linux/regulator/driver.h
+index f230a472ccd3..d2f4427504f0 100644
+--- a/include/linux/regulator/driver.h
++++ b/include/linux/regulator/driver.h
+@@ -365,6 +365,8 @@ struct regulator_desc {
+ 	int (*of_parse_cb)(struct device_node *,
+ 			    const struct regulator_desc *,
+ 			    struct regulator_config *);
++	int (*init_cb)(struct regulator_dev *,
++		       struct regulator_config *);
+ 	int id;
+ 	unsigned int continuous_voltage_range:1;
+ 	unsigned n_voltages;
 
-Best regards,
 -- 
-Jerome
+2.45.2
 
