@@ -1,238 +1,174 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8A04F881;
-	Fri, 20 Sep 2024 21:14:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8090417A5BD
+	for <linux-doc@vger.kernel.org>; Fri, 20 Sep 2024 21:32:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726866843; cv=none; b=aBwS1U+UzpjuQOWT86GiSjm7TyTYOp1eASlbRaH/xPLKpuBnp9Ns4N90BC5pTyj1F4rgh0vVnxhZa3sHMTI1cfAUUXRvzGksj2vlE/cY+RwVIeGOptABgP2s7OgoazeY/OYjtumoaVHmbrYBSNN9LRfZ0KZcBKx2zh5ZNOLcFvQ=
+	t=1726867977; cv=none; b=LbDVtSWVio1VdxGQXYibk/E+iHUkeEpGQRJqP+GtkIoy/yExtFJp7JpHx0czP2wnCwk6FaVZMgNnyqFftv4+Zf9Nq/Bcq1JLUa8CxHx5hNQEAZNlQxgi3MHPLuQqdzxk1zNhtdWFKM1VlnydefWSyOzIFFKU1KkY4pYq46GKrL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726866843; c=relaxed/simple;
-	bh=TiRRmhbEVAwHGNWExA83r8+B/uNLuBnFcXDrnZT46EE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=II1z2BcKPLvqXgcfsDhH2+VgszdLGjUxc3pxAwDHNm27EJnS20LgOejyoq9p9S4lwLyn8Fpnwhze4yVvJxS6YgT2oHh3ZOptF2bP5+PaJOgeArXVL48x6T/Jash/9vZSPUXZRgSSTVYdaSEcObHFwbvElmh0OR5qJt8dzdziDxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SYGYvROI; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1726867977; c=relaxed/simple;
+	bh=jJbw/9xzyIfVzZRQtRUX26vvhoN6sO9ID/AnJLHVApQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hxTlgcsybwEQRTk8RFGTAyn9sAsdUsfcBY5SPdKUQaH/jeljwmZxO/MXXO7cWDsA0jJsE/+/e+3RKvXdRzJ3vgmInwsPkxyKdtvrpJBw/q7RsBvxi4XxCDpkYQiPbQpsh8A1XRqGl/+O8KCcMe1TIZ28DjAGZvj6VbbCt6zXiQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=R3R8Rv99; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SYGYvROI"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2068acc8b98so24867515ad.3;
-        Fri, 20 Sep 2024 14:14:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="R3R8Rv99"
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2f74e613a10so39920031fa.1
+        for <linux-doc@vger.kernel.org>; Fri, 20 Sep 2024 14:32:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726866841; x=1727471641; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=8nUdy8MPKPIAxGyxzJ3XFXFoEECowDzKOLs8aoZBzUo=;
-        b=SYGYvROIS8A6v5CPxOj0u1/yKF0k5QHhnJPwXG0Zn1mBNs3SwVX6+69kja8U6p6Wpe
-         QfxsdTHZb6Cr4fdcekYnBs8y64HsvR2savhALSPXHfN9L1H136stco1Mi1Q7Xw+cyIGk
-         rtpCTqoviHOgoLsQs/ypUoRR+0mrDVPCWLJQz0f6GVSng/KAMwmrKzm2bS15G77B9FAh
-         7sdjpuj7xhEv4rkl7hRNbZMNtkaHkuCY26Iw8v61qkhFT0rbe6YKK4/bnsWFgEfnPA74
-         hyJXGzOeibuDZT/MuJRPF2JLOSJc6vMbtmVzkYhd8Dqjh5zQUcHWbItbxywbtDEgf/1B
-         jDQg==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1726867974; x=1727472774; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yedMi0rr2m7jZhDqBPtfn8qdlTLdCHVXIS1wYbW0HHw=;
+        b=R3R8Rv99nofduYuM29gb847cmF53/p/mS0C8zq5x677LNYsQAtL8tggxW1sd7SDlLF
+         8cHZ4Go/4fBDNuBT5Bwa6WXrcCopZCpxhl3tFfPanZLfXEztph0b8/N5XD6T2bVEvEYn
+         IIu7syvjkMddUo+OLP8d0efU0U6kCRlFpKIjirc49Thv4dizqVnItMxvwdiInDTvuMVI
+         BAD3rm7r/C0fMmSov5JVVJNSL9xi9YOmDfmbh2Idmagnx5HWpcaFAQ6ab+vmNq42FXU/
+         wwS3rMPMAnZJnBbIt8QN45t600UI/kpDSAJKYTRd86QF6wCUSRcoNe33L/gH1V0/U7PE
+         gZ4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726866841; x=1727471641;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1726867974; x=1727472774;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8nUdy8MPKPIAxGyxzJ3XFXFoEECowDzKOLs8aoZBzUo=;
-        b=qxNegyMtRXkW900HNCfPbFeiUz1vT1LWLlmjSGHc98pDvG/b/qVvxLwQ8oqVDUfJcK
-         hY+M3UVlf0S2JK1gCRwq0OA+au6dp+yBr5kD8Ux3Dg2+70xE4HUkrNYvRWfOGOLlHUX2
-         GAnaBp3uAq7Liw7DKV5jpjhPBwp/pbfEEFA2rv0I81J3lGYoLRcwqJcWzusfrgsZ5nbY
-         Takkxq8WubDfKCP8MiQTdSFa++4tNR401+16TOLHjTWfv4Dppppyvsmxx9IQPIpGkxIP
-         ekB7GV3T9bj4Jqgn7gQJlUPA2uc7lCPgHYnyaB+jNQ/VHtzm1bPh8FWsZGQKDgolmMHv
-         RQxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWYNyezloFzjazgfh/ADHio2v/Mrwa07N61oqD/OzRWT3qu28nkY4n4PZLAQygXAN9yeGyKZpDRuXJfz9A=@vger.kernel.org, AJvYcCXIkBoow9OYY1R2PMURDa7/okl406NNcGbhK1/1sEx1hjhyxaCaumQ3gad6ONvs0h3vWdtm9VswN64=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6TAylCUoLi6UuvQCQ99fjYOgCQLEgX70U9h3MWBygOtB3+tpS
-	G9O/Z1+lzXEQGN2e7yf+qltrT7HKZQpclfnnPZMLTX9nAwRBA2Ky
-X-Google-Smtp-Source: AGHT+IEY4hz33BjyToclZJtvWi5dKNRs3veH0ThYp9YRW9HNEdRhduGZGnE5VaMm5byvelr9sk89xQ==
-X-Received: by 2002:a17:903:946:b0:207:20b0:1380 with SMTP id d9443c01a7336-208d84472c4mr47906575ad.44.1726866840880;
-        Fri, 20 Sep 2024 14:14:00 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-207946d27dasm99003585ad.172.2024.09.20.14.13.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Sep 2024 14:13:59 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <4052294e-7b7f-4238-9b47-92727de4d516@roeck-us.net>
-Date: Fri, 20 Sep 2024 14:13:58 -0700
+        bh=yedMi0rr2m7jZhDqBPtfn8qdlTLdCHVXIS1wYbW0HHw=;
+        b=d+oNtcxyes1i0Q6Ald5cQM2muCbA+c9C1PPh/pIy2OPTMCp2V7cOQyQZ7Ch861454B
+         m0J0bWT7Rsi8tW6Y2D2r5o7/VlFpb1V19eDatwRrN8hgA0i5bOWntwCceDjnzQdv5r6s
+         rtRBmoFFBIiuCEsX6afviKDdBhxu+5y4vJdzUIVcyPY1ns+43VXn0VjyHcASiRMitYA+
+         N7rH8UuVC2V8vqjPwFM4abvewF89j/BI2PCQc1CB2R6cKmi2Cc6O+my9PbfKDuBqnScD
+         tROv9XNuBm3pplPSMh7CdQ3Tcol0kuP2cbRncLi4VNDxHSdmuB9M3SyqIIdgVRF02wbH
+         Ogaw==
+X-Forwarded-Encrypted: i=1; AJvYcCUxJ2ejgzqqilOI+EK5+COKI295gT67MEbyL8202euWkdLFQoQ0SmprVwq3qx83yQLFAJP9AlMakoA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiRiaVf5GWYIKeexhKwk040ilky7qILGRopJlJN3P4rtZiMrwj
+	Kf7Ro3L+Hl0uYaN5OJV9gLFA4TJ6Cj1oqWcklbwAXaffVTRLZGv1Z2ldlcLsaq8=
+X-Google-Smtp-Source: AGHT+IEaFYnRpbuoQr3t3E0N+OSqX5dBzKegFela78N+6cNOl4laXXImQCFB5g8pd4nLbdJoGf0Uxw==
+X-Received: by 2002:a2e:602:0:b0:2f7:6653:8053 with SMTP id 38308e7fff4ca-2f7cb31b975mr27279601fa.18.1726867973513;
+        Fri, 20 Sep 2024 14:32:53 -0700 (PDT)
+Received: from ghost (93-43-80-122.ip91.fastwebnet.it. [93.43.80.122])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90612b33d9sm887542066b.114.2024.09.20.14.32.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Sep 2024 14:32:52 -0700 (PDT)
+Date: Fri, 20 Sep 2024 23:32:49 +0200
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: jesse@rivosinc.com, linux-riscv@lists.infradead.org, corbet@lwn.net,
+	Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu,
+	Conor Dooley <conor@kernel.org>, robh@kernel.org,
+	krzk+dt@kernel.org, cleger@rivosinc.com,
+	Evan Green <evan@rivosinc.com>, ajones@ventanamicro.com,
+	xiao.w.wang@intel.com, andy.chiu@sifive.com, ebiggers@google.com,
+	greentime.hu@sifive.com, Bjorn Topel <bjorn@rivosinc.com>,
+	Heiko Stuebner <heiko@sntech.de>, costa.shul@redhat.com,
+	akpm@linux-foundation.org, bhe@redhat.com, apatel@ventanamicro.com,
+	zong.li@sifive.com, samitolvanen@google.com,
+	ben.dooks@codethink.co.uk, alexghiti@rivosinc.com,
+	gustavoars@kernel.org, erick.archer@gmx.com, j.granados@samsung.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v9 0/6] RISC-V: Detect and report speed of unaligned
+ vector accesses
+Message-ID: <Zu3qAdGYJfNPTK15@ghost>
+References: <20240820152424.1973078-1-jesse@rivosinc.com>
+ <mhng-07137536-28ef-4262-a165-6388fffd2599@palmer-ri-x1c9>
+ <Zu3illShBOscs+zN@ghost>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] hwmon: (pmbus/core) improve handling of write
- protected regulators
-To: Jerome Brunet <jbrunet@baylibre.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20240920-pmbus-wp-v1-0-d679ef31c483@baylibre.com>
- <20240920-pmbus-wp-v1-4-d679ef31c483@baylibre.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20240920-pmbus-wp-v1-4-d679ef31c483@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zu3illShBOscs+zN@ghost>
 
-On 9/20/24 09:47, Jerome Brunet wrote:
-> Writing PMBus protected registers does succeed from the smbus perspective,
-> even if the write is ignored by the device and a communication fault is
-> raised. This fault will silently be caught and cleared by pmbus irq if one
-> has been registered.
+On Fri, Sep 20, 2024 at 11:01:10PM +0200, Charlie Jenkins wrote:
+> On Fri, Sep 20, 2024 at 05:57:22AM -0700, Palmer Dabbelt wrote:
+> > On Tue, 20 Aug 2024 08:24:18 PDT (-0700), jesse@rivosinc.com wrote:
+> > > Adds support for detecting and reporting the speed of unaligned vector
+> > > accesses on RISC-V CPUs. Adds vec_misaligned_speed key to the hwprobe
+> > > adds Zicclsm to cpufeature and fixes the check for scalar unaligned
+> > > emulated all CPUs. The vec_misaligned_speed key keeps the same format
+> > > as the scalar unaligned access speed key.
+> > > 
+> > > This set does not emulate unaligned vector accesses on CPUs that do not
+> > > support them. Only reports if userspace can run them and speed of
+> > > unaligned vector accesses if supported.
+> > > 
+> > > The Zicclsm is patches are no longer related to this set.
+> > > 
+> > > Changes in v6:
+> > >  Added ("RISC-V: Scalar unaligned access emulated on hotplug CPUs")
+> > > 
+> > > Changes in V8:
+> > >  Dropped Zicclsm
+> > >  s/RISCV_HWPROBE_VECTOR_MISALIGNED/RISCV_HWPROBE_MISALIGNED_VECTOR/g
+> > >   to match RISCV_HWPROBE_MISALIGNED_SCALAR_*
+> > >  Rebased onto palmer/fixes (32d5f7add080a936e28ab4142bfeea6b06999789)
+> > > 
+> > > Changes in V9:
+> > >  Missed a RISCV_HWPROBE_VECTOR_MISALIGNED...
+> > > 
+> > > Jesse Taube (6):
+> > >   RISC-V: Check scalar unaligned access on all CPUs
+> > >   RISC-V: Scalar unaligned access emulated on hotplug CPUs
+> > >   RISC-V: Replace RISCV_MISALIGNED with RISCV_SCALAR_MISALIGNED
+> > >   RISC-V: Detect unaligned vector accesses supported
+> > >   RISC-V: Report vector unaligned access speed hwprobe
+> > >   RISC-V: hwprobe: Document unaligned vector perf key
+> > > 
+> > >  Documentation/arch/riscv/hwprobe.rst       |  16 +++
+> > >  arch/riscv/Kconfig                         |  57 +++++++-
+> > >  arch/riscv/include/asm/cpufeature.h        |  10 +-
+> > >  arch/riscv/include/asm/entry-common.h      |  11 --
+> > >  arch/riscv/include/asm/hwprobe.h           |   2 +-
+> > >  arch/riscv/include/asm/vector.h            |   2 +
+> > >  arch/riscv/include/uapi/asm/hwprobe.h      |   5 +
+> > >  arch/riscv/kernel/Makefile                 |   3 +-
+> > >  arch/riscv/kernel/copy-unaligned.h         |   5 +
+> > >  arch/riscv/kernel/fpu.S                    |   4 +-
+> > >  arch/riscv/kernel/sys_hwprobe.c            |  41 ++++++
+> > >  arch/riscv/kernel/traps_misaligned.c       | 131 +++++++++++++++--
+> > >  arch/riscv/kernel/unaligned_access_speed.c | 156 +++++++++++++++++++--
+> > >  arch/riscv/kernel/vec-copy-unaligned.S     |  58 ++++++++
+> > >  arch/riscv/kernel/vector.c                 |   2 +-
+> > >  15 files changed, 465 insertions(+), 38 deletions(-)
+> > >  create mode 100644 arch/riscv/kernel/vec-copy-unaligned.S
+> > > 
+> > > base-commit: 32d5f7add080a936e28ab4142bfeea6b06999789
+> > 
+> > I get a
+> > 
+> > arch/riscv/kernel/traps_smisaligned.c: In function 'check_vector_unaligned_access_emulated':
+> > arch/riscv/kernel/traps_misaligned.c:591:9: error: unknown register name 'v0' in 'asm'
+> >  591 |         __asm__ __volatile__ (
+> >      |         ^~~~~~~
+> > 
+> > on rv32/defconfig.  Looks like just a missing Kconfg guard as this depends
+> > on V support in the toolchain.
 > 
-> This means that the regulator call may return succeed although the
-> operation was ignored.
-> 
-> With this change, the operation which are not supported will be properly
-> flagged as such and the regulator framework won't even try to execute them.
-> 
-> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
-> ---
->   drivers/hwmon/pmbus/pmbus.h      |  4 ++++
->   drivers/hwmon/pmbus/pmbus_core.c | 35 ++++++++++++++++++++++++++++++++++-
->   include/linux/pmbus.h            | 14 ++++++++++++++
->   3 files changed, 52 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hwmon/pmbus/pmbus.h b/drivers/hwmon/pmbus/pmbus.h
-> index 5d5dc774187b..76cff65f38d5 100644
-> --- a/drivers/hwmon/pmbus/pmbus.h
-> +++ b/drivers/hwmon/pmbus/pmbus.h
-> @@ -481,6 +481,8 @@ struct pmbus_driver_info {
->   /* Regulator ops */
->   
->   extern const struct regulator_ops pmbus_regulator_ops;
-> +int pmbus_regulator_init_cb(struct regulator_dev *rdev,
-> +			    struct regulator_config *config);
->   
->   /* Macros for filling in array of struct regulator_desc */
->   #define PMBUS_REGULATOR_STEP(_name, _id, _voltages, _step, _min_uV)  \
-> @@ -495,6 +497,7 @@ extern const struct regulator_ops pmbus_regulator_ops;
->   		.n_voltages = _voltages,			\
->   		.uV_step = _step,				\
->   		.min_uV = _min_uV,				\
-> +		.init_cb = pmbus_regulator_init_cb,		\
->   	}
->   
->   #define PMBUS_REGULATOR(_name, _id)   PMBUS_REGULATOR_STEP(_name, _id, 0, 0, 0)
-> @@ -510,6 +513,7 @@ extern const struct regulator_ops pmbus_regulator_ops;
->   		.n_voltages = _voltages,			\
->   		.uV_step = _step,				\
->   		.min_uV = _min_uV,				\
-> +		.init_cb = pmbus_regulator_init_cb,		\
->   	}
->   
->   #define PMBUS_REGULATOR_ONE(_name)   PMBUS_REGULATOR_STEP_ONE(_name, 0, 0, 0)
-> diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbus_core.c
-> index 82522fc9090a..363def768888 100644
-> --- a/drivers/hwmon/pmbus/pmbus_core.c
-> +++ b/drivers/hwmon/pmbus/pmbus_core.c
-> @@ -2714,8 +2714,21 @@ static int pmbus_init_common(struct i2c_client *client, struct pmbus_data *data,
->   	if (!(data->flags & PMBUS_NO_WRITE_PROTECT)) {
->   		ret = _pmbus_read_byte_data(client, 0xff, PMBUS_WRITE_PROTECT);
->   
-> -		if (ret > 0 && (ret & PB_WP_ANY))
-> +		switch (ret) {
-> +		case PB_WP_ALL:
-> +			data->flags |= PMBUS_OP_PROTECTED;
-> +			fallthrough;
-> +		case PB_WP_OP:
-> +			data->flags |= PMBUS_VOUT_PROTECTED;
-> +			fallthrough;
-> +		case PB_WP_VOUT:
->   			data->flags |= PMBUS_WRITE_PROTECTED | PMBUS_SKIP_STATUS_CHECK;
-> +			break;
-> +
-> +		default:
-> +			/* Ignore manufacturer specific and invalid as well as errors */
-> +			break;
-> +		}
->   	}
->   
->   	if (data->info->pages)
-> @@ -3172,8 +3185,12 @@ static int pmbus_regulator_list_voltage(struct regulator_dev *rdev,
->   {
->   	struct device *dev = rdev_get_dev(rdev);
->   	struct i2c_client *client = to_i2c_client(dev->parent);
-> +	struct pmbus_data *data = i2c_get_clientdata(client);
->   	int val, low, high;
->   
-> +	if (data->flags & PMBUS_VOUT_PROTECTED)
-> +		return 0;
-> +
->   	if (selector >= rdev->desc->n_voltages ||
->   	    selector < rdev->desc->linear_min_sel)
->   		return -EINVAL;
-> @@ -3208,6 +3225,22 @@ const struct regulator_ops pmbus_regulator_ops = {
->   };
->   EXPORT_SYMBOL_NS_GPL(pmbus_regulator_ops, PMBUS);
->   
-> +int pmbus_regulator_init_cb(struct regulator_dev *rdev,
-> +			    struct regulator_config *config)
-> +{
-> +	struct pmbus_data *data = config->driver_data;
-> +	struct regulation_constraints *constraints = rdev->constraints;
-> +
-> +	if (data->flags & PMBUS_OP_PROTECTED)
-> +		constraints->valid_ops_mask &= ~REGULATOR_CHANGE_STATUS;
-> +
-> +	if (data->flags & PMBUS_VOUT_PROTECTED)
-> +		constraints->valid_ops_mask &= ~REGULATOR_CHANGE_VOLTAGE;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_NS_GPL(pmbus_regulator_init_cb, PMBUS);
-> +
+> There was an interesting iteraction here!
+> RISCV_PROBE_VECTOR_UNALIGNED_ACCESS was selecting
+> RISCV_VECTOR_MISALIGNED but that bypasses the depends on check of
+> RISCV_ISA_V. I'll send an update for Jesse with the fix for that one
+> patch.
 
-I am a bit at loss trying to understand why the constraints can't be passed
-with the regulator init_data when registering the regulator. Care to explain ?
+I take it back, I am not able to reproduce this.
+RISCV_PROBE_VECTOR_UNALIGNED_ACCESS is hidden behind "Vector unaligned
+Accesses Support" which depends on RISCV_ISA_V. This function that is
+erroring has the code:
 
-Thanks,
-Guenter
+#ifdef CONFIG_RISCV_VECTOR_MISALIGNED
+void check_vector_unaligned_access_emulated(struct work_struct *work __always_unused)
+...
 
+Since it is hidden behind CONFIG_RISCV_VECTOR_MISALIGNED, I am unsure
+how it is possible that this error is leaking through. The error you
+posted is also kind of odd because the first file you have is
+"arch/riscv/kernel/traps_smisaligned.c" but the actual file is
+"arch/riscv/kernel/traps_misaligned.c".
+
+> - Charlie
+> 
