@@ -1,141 +1,128 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7124E16A94F
-	for <linux-doc@vger.kernel.org>; Fri, 20 Sep 2024 12:57:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2626417C7C9;
+	Fri, 20 Sep 2024 15:07:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726837045; cv=none; b=uMlleSAjvpSHk3YCNSItwl3xHMzhrsThRQbbkVpxjqucQal2QTgxSsO295agPRc3P3lm5hT7Xmwccf7g5rrXVDESgV4KQQ6flMcMICPu0W5cGzKvbP8TKOZxvNq10H+svwn7ejyL7Qhk4p6JByGkVirgctLo/yvPXTGxnH4sJh4=
+	t=1726844859; cv=none; b=JG1QUGd3IPDqNWfNeHWg5GqtivWtthP4s874TpbuxaaHbyGS5wGdqORnKOlZOnL1sxbOE1s7R6hWnqArbZc0eJhHCQLsajDGJrTUIJoTSfp7sj4fFjXNtuqcQSOYM1uY5qeAwqGL3IMBGEtIEv23p9XFjt6pPIzQNN6K47SRxjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726837045; c=relaxed/simple;
-	bh=c7QOjrhw6266N3BbYv4ZOi2g4euWje6OvrLBRKMmLUQ=;
-	h=Date:Subject:In-Reply-To:CC:From:To:Message-ID:Mime-Version:
-	 Content-Type; b=CfBjnKDtKH06ezBSvoYjgdKi4B3A3Swkz9+BOseJ7uIHdgVV+6ebTcE4R+Jnpgj8LmZXecRHQwrDGwxOaj0d/QeKaSdrBE0kGqN7chGl7NJJKNZ6c+66+ulKplgLciVP06BoZyAFKO3/+SizzJQjU0w6GmDQ7r0xI4K02uDKEZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com; spf=pass smtp.mailfrom=dabbelt.com; dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b=T2Z7t27L; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dabbelt.com
+	s=arc-20240116; t=1726844859; c=relaxed/simple;
+	bh=T3Bx79A9fpSpiBg/sM2LWVV+GyyLV76LWhZ1clxz26o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YgJj3nriLlPth1Buvx2Szz+j15MIDR5AtJzZ/v5IElO+8qt210byKyrrRNu1vlx+XvOfRMCYxJQcF6u0lzSFjAJOIkoisee43S+xPGSe70AzA5Kvm8c3PhO2J7Y8qg8+0AP3onD4ne2ujd+SkpHm7sE7irhSJvtQBqelKpiR6Qk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eYwDgtZo; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b="T2Z7t27L"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7191fb54147so1495560b3a.2
-        for <linux-doc@vger.kernel.org>; Fri, 20 Sep 2024 05:57:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eYwDgtZo"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-718d606726cso1492039b3a.3;
+        Fri, 20 Sep 2024 08:07:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20230601.gappssmtp.com; s=20230601; t=1726837043; x=1727441843; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0c3cLyg1YvGor2bDqxSzz6JVUFgRwHa9Wa4Or/oI7nI=;
-        b=T2Z7t27L3ne287i0RlRouMWEnhBJCmHBmquMUv0ypjHrr6D7CPl0NoKzej4TJBZ3jr
-         rYJbr4ZGj/yEGI6reD24z/JCJWABaciyK9DY76FlHFdaLVgASpsZfu9Nwb2owaHYkJ7e
-         +ppofoiNTEz0VK59uyyZzeALKYm7nHb8Ua+wnpTW5fFKJTwH1gOLGtupjVRDlhBfxYxs
-         iqvCOuBUHvy1Ghr0Cl+iQnDNAVtA0bS4/d1eMRMz8wvhT4cn9e0ssJxV7KsLWQOS4HWv
-         uFobCZQQKGy2KyNpc4xDw52I9PNPjklPluehkBzWaW1S6uGKHms7vlAQAiWD8tTmdhPo
-         vxFg==
+        d=gmail.com; s=20230601; t=1726844857; x=1727449657; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qqssmp9/Q4bMnylmVAyuApOL66R83xQywZPSLREzBdw=;
+        b=eYwDgtZoKnvDLvEolCIgRuQ5xEaQtLMVqHfLXUXpkLYPy/bbnt7MzDKUjeC0GeAy8I
+         WrI4jZjP7OI+4H6A7QsS+/y/RE9zhPwy55+cDOZjv/lUpOXeIgXDp60ywl/6oKTH1ByU
+         I7HEpzIwTEKWPqdqIRPJp8mWqKjMLue/hNlwVE4sjFLyXjzGexy8YdTt3ZyMP7UUrkna
+         +GC6Rxq6OseuGdU0HDRE4CAnGjPaPv2PLGd7r2Q2nFPWTFVl3orlAIVs9WBORo3x9/QD
+         ApTaw1NuMBiWLX7PLUl3BAHYag2lCm4Ap52zZ6VRJJmiA95YX5CH4StoOls1lwjJrqPv
+         ok6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726837043; x=1727441843;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0c3cLyg1YvGor2bDqxSzz6JVUFgRwHa9Wa4Or/oI7nI=;
-        b=FaNu/sUDSGnuTEeWs7Ms5X6EldUDXGUaWrVE/ZG73crZ59L+k4Fx/Aq1YkKB7+DvOj
-         pntwW8799frPvbMAv6fyIUc0C5hbev4+Lgm5YK8uKb0Kni0U2juDdolHPBgcBmYOzdGg
-         rJ74+6tNxgU7JaqfkO4wQC6+8lstbOno97px1Dlz14VSszELu+a53S5NdA5lNqMFRKuW
-         E1YO754K+spHtvQFbEPgDdgP7rJbQDi3oyXlkajq/qa3sPTNWOFKnsWUNlN4X38dSA99
-         r5/9g8ttI8y29JBvKafbYTsB2a5sruky4ZdkBDhwNQi9zGtOue12ucj/V0PkXUWENBOf
-         66Qg==
-X-Forwarded-Encrypted: i=1; AJvYcCX7I+CcLIAHn4LDlFshnyw1n6fBhL9FNRdN98pV3bHngqYv6NnYVnvJOD0W0/Vjli7BP9mK0kuK19g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQ7Zj+8yXLBi0huGTVWVE8XCaph++RwqL83Rh18Y/sIk47vjnv
-	oZ2N4iDcLliSPX28hUNENAKosGnkuBhtYL4fangvWL924zAq8+NbxlM8zE1/n8A=
-X-Google-Smtp-Source: AGHT+IFEcEmieepmhhCBAp9vyPOGM/uDpWpO0h0hkALABgjhyRBXGu+BM1BtirEkdZcOfqw0yZOT6A==
-X-Received: by 2002:a05:6a21:398e:b0:1d2:e888:fcd1 with SMTP id adf61e73a8af0-1d30cb1c91cmr4192601637.33.1726837042650;
-        Fri, 20 Sep 2024 05:57:22 -0700 (PDT)
-Received: from localhost ([213.164.21.132])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71944a973bbsm9757320b3a.27.2024.09.20.05.57.21
+        d=1e100.net; s=20230601; t=1726844857; x=1727449657;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qqssmp9/Q4bMnylmVAyuApOL66R83xQywZPSLREzBdw=;
+        b=RwKSVDEDdwbd12bx7bTvncYNaAHOXASEi7Qdz4k0zXG1CIgOTea3ss5vYBFJGetzm9
+         AcsCAVeCXikR+QIYLvT7LhZ9FY9Ga6mPpPsO2RDta846hM8RyM9Iu3zONSZYqgFdAi3s
+         HTdm/4ZGajTZ8BG4k/StAdtqt9R/97KF8a2Ar/axVPdJaKo6M7OvoyJhiZpG8hUNy34w
+         QMNaYsu/pqfsLJYx8ocKMnprit29W50+HNsefQ9ebLvPkVpvQHLzHNYiZU1B4OBd2XNK
+         RB2axtBnLtFoECFsQw7J0L5zces4deKjYdVjeYYwI5UMX3ElW9/xbktMbuTIPZwrjL2y
+         NVdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVPJw3E6i5vFu4sMUEgjjWPBnvHXgt1GQn6FtRFN9hKzLxH9Wqqc1mVVlnoPBPiJ2itJ5ZZ8js4d83/oQA=@vger.kernel.org, AJvYcCWenGfkoXF5aNGyogRY1K2mYfYfwsuNK/9LQRKO0YxsMtOewzg7E6OiNqJ7SPBK4bW2XPpfn3A00fR+@vger.kernel.org, AJvYcCWqDh0k82s148Bfb205IX/PVPRU2D0KpPjiF+jMtCOyfmp0BFsQOfnhrJIP8aMuRLrG9Osa9+t+iVHemChO@vger.kernel.org, AJvYcCXD6jqrBahn4en8EXCV8cjla6FghpcXnjVEExk+MRwZQ9U/6Je91G2fbEontauuD8SioaYnA+SMMmg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw95ImUaX2zyirVLLuZX8x6GzzcfECVD+jfPd729HVxgHKGMZzf
+	n4W67KWSsWyBVuO77lzcvg+SiRsKnZMbCRa4IwUqvpi3e7H06RngzYNlzVua
+X-Google-Smtp-Source: AGHT+IHEzdh15TOy6+vECMW1tVXFloHn7UQoapI0TK3/tNqpmkHmb5bjWq9xhi2e9iQ7SLX0EC4omQ==
+X-Received: by 2002:a05:6a21:3489:b0:1cf:2a85:722d with SMTP id adf61e73a8af0-1d30c9897d1mr4086676637.3.1726844857214;
+        Fri, 20 Sep 2024 08:07:37 -0700 (PDT)
+Received: from purva-IdeaPad-Gaming-3-15IHU6.lan ([2409:40c0:223:9c18:4232:3cbf:2f25:b7b])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71944a97799sm9910403b3a.23.2024.09.20.08.07.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Sep 2024 05:57:22 -0700 (PDT)
-Date: Fri, 20 Sep 2024 05:57:22 -0700 (PDT)
-X-Google-Original-Date: Fri, 20 Sep 2024 05:57:09 PDT (-0700)
-Subject:     Re: [PATCH v9 0/6] RISC-V: Detect and report speed of unaligned vector accesses
-In-Reply-To: <20240820152424.1973078-1-jesse@rivosinc.com>
-CC: linux-riscv@lists.infradead.org, corbet@lwn.net,
-  Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu, Conor Dooley <conor@kernel.org>, robh@kernel.org,
-  krzk+dt@kernel.org, cleger@rivosinc.com, Evan Green <evan@rivosinc.com>, ajones@ventanamicro.com,
-  jesse@rivosinc.com, Charlie Jenkins <charlie@rivosinc.com>, xiao.w.wang@intel.com,
-  andy.chiu@sifive.com, ebiggers@google.com, greentime.hu@sifive.com, Bjorn Topel <bjorn@rivosinc.com>,
-  Heiko Stuebner <heiko@sntech.de>, costa.shul@redhat.com, akpm@linux-foundation.org, bhe@redhat.com,
-  apatel@ventanamicro.com, zong.li@sifive.com, samitolvanen@google.com, ben.dooks@codethink.co.uk,
-  alexghiti@rivosinc.com, gustavoars@kernel.org, erick.archer@gmx.com, j.granados@samsung.com,
-  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: jesse@rivosinc.com
-Message-ID: <mhng-07137536-28ef-4262-a165-6388fffd2599@palmer-ri-x1c9>
+        Fri, 20 Sep 2024 08:07:36 -0700 (PDT)
+From: SurajSonawane2415 <surajsonawane0215@gmail.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org,
+	corbet@lwn.net,
+	linux-usb@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: SurajSonawane2415 <surajsonawane0215@gmail.com>
+Subject: [PATCH] docs: fix spelling and grammar mistakes
+Date: Fri, 20 Sep 2024 20:37:16 +0530
+Message-Id: <20240920150716.15821-1-surajsonawane0215@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Tue, 20 Aug 2024 08:24:18 PDT (-0700), jesse@rivosinc.com wrote:
-> Adds support for detecting and reporting the speed of unaligned vector
-> accesses on RISC-V CPUs. Adds vec_misaligned_speed key to the hwprobe
-> adds Zicclsm to cpufeature and fixes the check for scalar unaligned
-> emulated all CPUs. The vec_misaligned_speed key keeps the same format
-> as the scalar unaligned access speed key.
->
-> This set does not emulate unaligned vector accesses on CPUs that do not
-> support them. Only reports if userspace can run them and speed of
-> unaligned vector accesses if supported.
->
-> The Zicclsm is patches are no longer related to this set.
->
-> Changes in v6:
->  Added ("RISC-V: Scalar unaligned access emulated on hotplug CPUs")
->
-> Changes in V8:
->  Dropped Zicclsm
->  s/RISCV_HWPROBE_VECTOR_MISALIGNED/RISCV_HWPROBE_MISALIGNED_VECTOR/g
->   to match RISCV_HWPROBE_MISALIGNED_SCALAR_*
->  Rebased onto palmer/fixes (32d5f7add080a936e28ab4142bfeea6b06999789)
->
-> Changes in V9:
->  Missed a RISCV_HWPROBE_VECTOR_MISALIGNED...
->
-> Jesse Taube (6):
->   RISC-V: Check scalar unaligned access on all CPUs
->   RISC-V: Scalar unaligned access emulated on hotplug CPUs
->   RISC-V: Replace RISCV_MISALIGNED with RISCV_SCALAR_MISALIGNED
->   RISC-V: Detect unaligned vector accesses supported
->   RISC-V: Report vector unaligned access speed hwprobe
->   RISC-V: hwprobe: Document unaligned vector perf key
->
->  Documentation/arch/riscv/hwprobe.rst       |  16 +++
->  arch/riscv/Kconfig                         |  57 +++++++-
->  arch/riscv/include/asm/cpufeature.h        |  10 +-
->  arch/riscv/include/asm/entry-common.h      |  11 --
->  arch/riscv/include/asm/hwprobe.h           |   2 +-
->  arch/riscv/include/asm/vector.h            |   2 +
->  arch/riscv/include/uapi/asm/hwprobe.h      |   5 +
->  arch/riscv/kernel/Makefile                 |   3 +-
->  arch/riscv/kernel/copy-unaligned.h         |   5 +
->  arch/riscv/kernel/fpu.S                    |   4 +-
->  arch/riscv/kernel/sys_hwprobe.c            |  41 ++++++
->  arch/riscv/kernel/traps_misaligned.c       | 131 +++++++++++++++--
->  arch/riscv/kernel/unaligned_access_speed.c | 156 +++++++++++++++++++--
->  arch/riscv/kernel/vec-copy-unaligned.S     |  58 ++++++++
->  arch/riscv/kernel/vector.c                 |   2 +-
->  15 files changed, 465 insertions(+), 38 deletions(-)
->  create mode 100644 arch/riscv/kernel/vec-copy-unaligned.S
->
-> base-commit: 32d5f7add080a936e28ab4142bfeea6b06999789
+Fix grammatical and spelling errors in the HID documentation files. 
 
-I get a 
+Signed-off-by: SurajSonawane2415 <surajsonawane0215@gmail.com>
+---
+ Documentation/hid/hiddev.rst        | 4 ++--
+ Documentation/hid/intel-ish-hid.rst | 2 +-
+ Documentation/hid/uhid.rst          | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-arch/riscv/kernel/traps_smisaligned.c: In function 'check_vector_unaligned_access_emulated':
-arch/riscv/kernel/traps_misaligned.c:591:9: error: unknown register name 'v0' in 'asm'
-  591 |         __asm__ __volatile__ (
-      |         ^~~~~~~
+diff --git a/Documentation/hid/hiddev.rst b/Documentation/hid/hiddev.rst
+index 9b82c7f89..073485f84 100644
+--- a/Documentation/hid/hiddev.rst
++++ b/Documentation/hid/hiddev.rst
+@@ -15,10 +15,10 @@ To support these disparate requirements, the Linux USB system provides
+ HID events to two separate interfaces:
+ * the input subsystem, which converts HID events into normal input
+ device interfaces (such as keyboard, mouse and joystick) and a
+-normalised event interface - see Documentation/input/input.rst
++normalized event interface - see Documentation/input/input.rst
+ * the hiddev interface, which provides fairly raw HID events
+ 
+-The data flow for a HID event produced by a device is something like
++The data flow for an HID event produced by a device is something like
+ the following::
+ 
+  usb.c ---> hid-core.c  ----> hid-input.c ----> [keyboard/mouse/joystick/event]
+diff --git a/Documentation/hid/intel-ish-hid.rst b/Documentation/hid/intel-ish-hid.rst
+index 2adc174fb..fdabf6ec6 100644
+--- a/Documentation/hid/intel-ish-hid.rst
++++ b/Documentation/hid/intel-ish-hid.rst
+@@ -21,7 +21,7 @@ mainly use HID over I2C or USB. But ISH doesn't use either I2C or USB.
+ Overview
+ ========
+ 
+-Using a analogy with a usbhid implementation, the ISH follows a similar model
++Using an analogy with a usbhid implementation, the ISH follows a similar model
+ for a very high speed communication::
+ 
+ 	-----------------		----------------------
+diff --git a/Documentation/hid/uhid.rst b/Documentation/hid/uhid.rst
+index 2243a6b75..2681038cd 100644
+--- a/Documentation/hid/uhid.rst
++++ b/Documentation/hid/uhid.rst
+@@ -106,7 +106,7 @@ UHID_INPUT2:
+ 
+ UHID_GET_REPORT_REPLY:
+   If you receive a UHID_GET_REPORT request you must answer with this request.
+-  You  must copy the "id" field from the request into the answer. Set the "err"
++  You must copy the "id" field from the request into the answer. Set the "err"
+   field to 0 if no error occurred or to EIO if an I/O error occurred.
+   If "err" is 0 then you should fill the buffer of the answer with the results
+   of the GET_REPORT request and set "size" correspondingly.
+-- 
+2.34.1
 
-on rv32/defconfig.  Looks like just a missing Kconfg guard as this 
-depends on V support in the toolchain.
