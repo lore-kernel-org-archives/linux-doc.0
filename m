@@ -1,152 +1,145 @@
-Received: from mail.bmwiedemann.de (mail.bmwiedemann.de [188.40.142.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F013BB50
-	for <linux-doc@vger.kernel.org>; Fri, 20 Sep 2024 07:12:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.142.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 424C113E02B;
+	Fri, 20 Sep 2024 10:39:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726816338; cv=none; b=uM4iK16Nvo6yvtVGZOp73RHfbTTLiZ7mYEosKAMWqapg73cGTS+53D06h1QKzWBrwAA/+dnL2oikLcy/FpDw2fSEL9ijDZNskYLIntcr5Yvyt32lB1imObortlgs0PzPhznRNTa5VHekBIHOT5BMdzbMrvDgvt48/sYDKnxNdaI=
+	t=1726828790; cv=none; b=bAO9comvqdXeUJW9elpKjcq+QFvf1paxd0dkOUEHIsjgeLopKXOTimQUy1dSIDdMm/28R51yzzpsepcYnW2kDNpDGq5pGv8zDjQ2nFIeSeTn61vm4KRVCOcy7EGTs/hUAwO93uqabRlP1aKDth7PpE2fnJulEMJgLi51xncVBVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726816338; c=relaxed/simple;
-	bh=ApiwKMS8mRc8y2NHRt31498ga+FkSurvAhh5++s12KQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=H7vtv8BRMz5lXrwtUyjYAwcyR9ECmIWtz+9/g9EjV/8IbnsORIMTP/ha4FjzI6L9E98J/SvhKB49PQr+N3R8uFEaoz6hiZ7r0BmW1LkqFOEovp4NtNeKUrtf2DfKrNsGgGgNgHCk7sj9pGSYrTgF04qngNJohaIgiEkIyWtC6oU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=lsmod.de; spf=pass smtp.mailfrom=zq1.de; dkim=pass (2048-bit key) header.d=lsmod.de header.i=@lsmod.de header.b=kqOdtBPT; arc=none smtp.client-ip=188.40.142.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=lsmod.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zq1.de
+	s=arc-20240116; t=1726828790; c=relaxed/simple;
+	bh=ruDIGL9cknZF6atUXoTmt4B8Il/oLTo2DEPkSko8H8Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sQpXTOSFxhVjY+w7d8sls3MUH6cbEF2ZUwv8LYsDPnr/UteJMhuRuIA0HEusxAmqyX+AylGOo3Ro1C33lRkDDzuq/rP5mPvkHfJ2CyK21Gdf8inntwkV6CvYqRTFRZFoe1LOaoWx5nCYxnZuDobDuT7WOy940a4TurhMeWTbaT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ii7GrFgV; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lsmod.de header.i=@lsmod.de header.b="kqOdtBPT"
-Received: from mail.bmwiedemann.de (localhost [127.0.0.1])
-	by mail.bmwiedemann.de (Postfix) with ESMTP id 65E8916C3;
-	Fri, 20 Sep 2024 07:01:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lsmod.de; s=202205;
-	t=1726815712; bh=ApiwKMS8mRc8y2NHRt31498ga+FkSurvAhh5++s12KQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kqOdtBPTsKiJEXoKhuQi0EuhOY7MWyj4f+aJ8GYJvq9MV2YpGQ+c/cTTHhTjOQGrL
-	 jjxjtcCybX8qW9fLl9f5UiVfDnmXJ8pSvoEOgt8jfdyk7rm75PxZnY8HG3MoIw3DKr
-	 Hqth/4yByzcdKCmsqhJ6liquzWHklACTIefQN27LkzosM05dMEjYij4b6dfp7JD0T5
-	 ZpwKcHytDW/uLmwuBbiBrlAIebF+PPBha/yAyhDiSYve44HawuvCkDGzAGctdu+ICn
-	 cK0StINm2V4OXKeBKLoGLcLrC7gvE8PB4SkFhfPRjl++1n0mPqFhZD/ko5Pd1IAYK0
-	 iD6VjezCNWcQQ==
-X-Spam-Level: 
-Received: from zq1.de (unknown [10.8.5.115])
-	by mail.bmwiedemann.de (Postfix) with ESMTP;
-	Fri, 20 Sep 2024 07:01:51 +0000 (UTC)
-Received: by zq1.de (Postfix, from userid 1000)
-	id 11F001A083F; Fri, 20 Sep 2024 09:01:50 +0200 (CEST)
-From: bernhard+linux-doc@lsmod.de
-To: linux-doc@vger.kernel.org
-Cc: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Bernard Zhao <bernard@vivo.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Bernhard M. Wiedemann" <bwiedemann@suse.de>
-Subject: [PATCH] docs/zh_TW+zh_CN: Make rst references unique
-Date: Fri, 20 Sep 2024 09:01:44 +0200
-Message-Id: <20240920070144.26947-1-bernhard+linux-doc@lsmod.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20240905113531.65375-1-bernhard+linux-doc@lsmod.de>
-References: <20240905113531.65375-1-bernhard+linux-doc@lsmod.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ii7GrFgV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726828789; x=1758364789;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ruDIGL9cknZF6atUXoTmt4B8Il/oLTo2DEPkSko8H8Y=;
+  b=Ii7GrFgVMXakouXq46ynsiCfC7uSt4GQ2uO7jej3HjuRmWKmkIdlBCRf
+   ewQ+n9YrNv9ppITSxPvT0JkZHO7B3moLddt1h+6w9lvzuSjfjvJu6YIdX
+   dywr3PbwMTjh4HZHm0iYGQG40FlOqcqrbsZBRvcCkx9DdHWfnnCEULU/O
+   N84IogRbgF+EcK7HhcpvbL7d8i6aUK7CahKgTg6jAe8eBD5smTBCiy0Ur
+   dzmthf4uuUIjKbui7ALMoU35Q2Mx91RapcGR/c7fcCglmjk3L7Vm6ssNq
+   Dh+0G+eNMhauE8OQXt1rHAtrBo+K4R8qji73RO1+5LznkRJcjJQ2iAcii
+   g==;
+X-CSE-ConnectionGUID: MwzuaojNSAmdxWEjUr9/Yw==
+X-CSE-MsgGUID: 6aVQJHG3QciyuJ3eQNVosw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11200"; a="25702672"
+X-IronPort-AV: E=Sophos;i="6.10,244,1719903600"; 
+   d="scan'208";a="25702672"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2024 03:39:48 -0700
+X-CSE-ConnectionGUID: b424nWu5StaW2CWHCBOHwA==
+X-CSE-MsgGUID: LWE97G+kTmC2wr3pGvhRTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,244,1719903600"; 
+   d="scan'208";a="75214258"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 20 Sep 2024 03:39:41 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1srb34-000EHv-2s;
+	Fri, 20 Sep 2024 10:39:38 +0000
+Date: Fri, 20 Sep 2024 18:38:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Wei Huang <wei.huang2@amd.com>, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jonathan.Cameron@huawei.com,
+	helgaas@kernel.org, corbet@lwn.net, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	alex.williamson@redhat.com, gospo@broadcom.com,
+	michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
+	somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
+	manoj.panicker2@amd.com, Eric.VanTassell@amd.com,
+	wei.huang2@amd.com, vadim.fedorenko@linux.dev, horms@kernel.org,
+	bagasdotme@gmail.com, bhelgaas@google.com, lukas@wunner.de,
+	paul.e.luse@intel.com, jing2.liu@intel.com
+Subject: Re: [PATCH V5 4/5] bnxt_en: Add TPH support in BNXT driver
+Message-ID: <202409201831.ToruGbMs-lkp@intel.com>
+References: <20240916205103.3882081-5-wei.huang2@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240916205103.3882081-5-wei.huang2@amd.com>
 
-From: "Bernhard M. Wiedemann" <bwiedemann@suse.de>
+Hi Wei,
 
-We found that sphinx parallel processing would randomly pick
-one or the other
-https://github.com/sphinx-doc/sphinx/issues/6714#issuecomment-2362212754
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Bernhard M. Wiedemann <bwiedemann@suse.de>
----
- Documentation/translations/zh_CN/dev-tools/gcov.rst | 8 ++++----
- Documentation/translations/zh_TW/dev-tools/gcov.rst | 8 ++++----
- 2 files changed, 8 insertions(+), 8 deletions(-)
+[auto build test WARNING on linus/master]
+[also build test WARNING on next-20240920]
+[cannot apply to pci/next pci/for-linus v6.11]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/Documentation/translations/zh_CN/dev-tools/gcov.rst b/Documentation/translations/zh_CN/dev-tools/gcov.rst
-index 3158c9da1318..ea8f94852f41 100644
---- a/Documentation/translations/zh_CN/dev-tools/gcov.rst
-+++ b/Documentation/translations/zh_CN/dev-tools/gcov.rst
-@@ -120,7 +120,7 @@ gcov的内核分析插桩支持内核的编译和运行是在同一台机器上
- 如果内核编译和运行是不同的机器，那么需要额外的准备工作，这取决于gcov工具
- 是在哪里使用的:
- 
--.. _gcov-test_zh:
-+.. _gcov-test_zh_CN:
- 
- a) 若gcov运行在测试机上
- 
-@@ -140,7 +140,7 @@ a) 若gcov运行在测试机上
-     如果文件是软链接，需要替换成真正的目录文件（这是由make的当前工作
-     目录变量CURDIR引起的）。
- 
--.. _gcov-build_zh:
-+.. _gcov-build_zh_CN:
- 
- b) 若gcov运行在编译机上
- 
-@@ -205,7 +205,7 @@ kconfig会根据编译工具链的检查自动选择合适的gcov格式。
- --------------------------
- 
- 用于在编译机上收集覆盖率元文件的示例脚本
--（见 :ref:`编译机和测试机分离 a. <gcov-test_zh>` ）
-+（见 :ref:`编译机和测试机分离 a. <gcov-test_zh_CN>` ）
- 
- .. code-block:: sh
- 
-@@ -238,7 +238,7 @@ kconfig会根据编译工具链的检查自动选择合适的gcov格式。
- -------------------------
- 
- 用于在测试机上收集覆盖率数据文件的示例脚本
--（见 :ref:`编译机和测试机分离 b. <gcov-build_zh>` ）
-+（见 :ref:`编译机和测试机分离 b. <gcov-build_zh_CN>` ）
- 
- .. code-block:: sh
- 
-diff --git a/Documentation/translations/zh_TW/dev-tools/gcov.rst b/Documentation/translations/zh_TW/dev-tools/gcov.rst
-index ce1c9a97de16..39ac3fff44cd 100644
---- a/Documentation/translations/zh_TW/dev-tools/gcov.rst
-+++ b/Documentation/translations/zh_TW/dev-tools/gcov.rst
-@@ -120,7 +120,7 @@ gcov的內核分析插樁支持內核的編譯和運行是在同一臺機器上
- 如果內核編譯和運行是不同的機器，那麼需要額外的準備工作，這取決於gcov工具
- 是在哪裏使用的:
- 
--.. _gcov-test_zh:
-+.. _gcov-test_zh_TW:
- 
- a) 若gcov運行在測試機上
- 
-@@ -140,7 +140,7 @@ a) 若gcov運行在測試機上
-     如果文件是軟鏈接，需要替換成真正的目錄文件（這是由make的當前工作
-     目錄變量CURDIR引起的）。
- 
--.. _gcov-build_zh:
-+.. _gcov-build_zh_TW:
- 
- b) 若gcov運行在編譯機上
- 
-@@ -205,7 +205,7 @@ kconfig會根據編譯工具鏈的檢查自動選擇合適的gcov格式。
- --------------------------
- 
- 用於在編譯機上收集覆蓋率元文件的示例腳本
--（見 :ref:`編譯機和測試機分離 a. <gcov-test_zh>` ）
-+（見 :ref:`編譯機和測試機分離 a. <gcov-test_zh_TW>` ）
- 
- .. code-block:: sh
- 
-@@ -238,7 +238,7 @@ kconfig會根據編譯工具鏈的檢查自動選擇合適的gcov格式。
- -------------------------
- 
- 用於在測試機上收集覆蓋率數據文件的示例腳本
--（見 :ref:`編譯機和測試機分離 b. <gcov-build_zh>` ）
-+（見 :ref:`編譯機和測試機分離 b. <gcov-build_zh_TW>` ）
- 
- .. code-block:: sh
- 
+url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Huang/PCI-Add-TLP-Processing-Hints-TPH-support/20240917-045345
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240916205103.3882081-5-wei.huang2%40amd.com
+patch subject: [PATCH V5 4/5] bnxt_en: Add TPH support in BNXT driver
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240920/202409201831.ToruGbMs-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240920/202409201831.ToruGbMs-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409201831.ToruGbMs-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c: In function '__bnxt_irq_affinity_notify':
+>> drivers/net/ethernet/broadcom/bnxt/bnxt.c:10873:35: warning: variable 'rxr' set but not used [-Wunused-but-set-variable]
+   10873 |         struct bnxt_rx_ring_info *rxr;
+         |                                   ^~~
+
+
+vim +/rxr +10873 drivers/net/ethernet/broadcom/bnxt/bnxt.c
+
+ 10869	
+ 10870	static void __bnxt_irq_affinity_notify(struct irq_affinity_notify *notify,
+ 10871					       const cpumask_t *mask)
+ 10872	{
+ 10873		struct bnxt_rx_ring_info *rxr;
+ 10874		struct bnxt_irq *irq;
+ 10875		u16 tag;
+ 10876		int err;
+ 10877	
+ 10878		irq = container_of(notify, struct bnxt_irq, affinity_notify);
+ 10879		cpumask_copy(irq->cpu_mask, mask);
+ 10880	
+ 10881		if (pcie_tph_get_cpu_st(irq->bp->pdev, TPH_MEM_TYPE_VM,
+ 10882					cpumask_first(irq->cpu_mask), &tag))
+ 10883			return;
+ 10884	
+ 10885		if (pcie_tph_set_st_entry(irq->bp->pdev, irq->msix_nr, tag))
+ 10886			return;
+ 10887	
+ 10888		if (netif_running(irq->bp->dev)) {
+ 10889			rxr = &irq->bp->rx_ring[irq->ring_nr];
+ 10890			rtnl_lock();
+ 10891			err = netdev_rx_queue_restart(irq->bp->dev, irq->ring_nr);
+ 10892			if (err)
+ 10893				netdev_err(irq->bp->dev,
+ 10894					   "rx queue restart failed: err=%d\n", err);
+ 10895			rtnl_unlock();
+ 10896		}
+ 10897	}
+ 10898	
+
 -- 
-2.35.3
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
