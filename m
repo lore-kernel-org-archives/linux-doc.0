@@ -1,61 +1,61 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9804F185953
-	for <linux-doc@vger.kernel.org>; Fri, 20 Sep 2024 17:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85C3C185B71
+	for <linux-doc@vger.kernel.org>; Fri, 20 Sep 2024 17:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726853619; cv=none; b=Uf1OrhpWWECkd2NoP06SwA1Uu+DR0rzM8ztkyIyDKm3DFvZ6+meUwrXRaeBDu5CVo3qGIL+xm1t0xrOgySu/xYDUbRgpQmdNE6FJDfm2Nxdbrc1tEfqzMVsFMQTnp3A8sI26vNswHtJwhRxuTTCL1QFPYwurqjjbMJpu/fGYFKk=
+	t=1726853620; cv=none; b=CLpQ9YvI7Gm1AeAU8w+VQQHwBP+QO8PbgQaRSg7gcmgCJckORifNiWrrar7GMU3p2fSHSwlyUyhg5+Lc1eRsMkh8h34y1YH7in70SzqQHHLE9XvljI1GpgetN5uwhpWtjfOXtNCFgrVBXygGcMmKpiYIzadwaukmvFaS4P0A814=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726853619; c=relaxed/simple;
-	bh=fuWeZdZAtXd8rMGyPZJvoL1he1KOv88DgrMKYX9gf5A=;
+	s=arc-20240116; t=1726853620; c=relaxed/simple;
+	bh=oq1q/NzJfEdQoqtBhTXNe9ONaDj41XLOLIawsgCIdd8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=T8eSw2X4q21qCYutudQm+7mT3oLEiQJWP6Wbg8M7wEnjLrBzkVtf+tDSJSeyxgn99yUWuinwRg1Rd13mZMFQiY0TblWK0IJJ9R+X0R6WcBsuHKVP+D7CU7DP602nr7wO5kMPXtOc9X+T53OhOAR1OFmkH0hbMCW7nafed6+jndY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=W7pMnu3g; arc=none smtp.client-ip=209.85.128.52
+	 In-Reply-To:To:Cc; b=ZXGm6lAHEc5Zr3uCPNYK2n58oryOILTtxhprOGRYXR3mapxRMTRWKcJR0Q8JIk9C8Xjctm50LHIofufQlz9QM7pZM4LvDnrjOWqJSkIRVQrZ/LMN2lavSrx6F93HqkxGpLtghXlyCahapgSfruiy8ZZUs4J3erVou0ReX/h+FsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=zXGyZFmH; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="W7pMnu3g"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-42cb9a0c300so19784605e9.0
-        for <linux-doc@vger.kernel.org>; Fri, 20 Sep 2024 10:33:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="zXGyZFmH"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-42e748f78d6so18842565e9.0
+        for <linux-doc@vger.kernel.org>; Fri, 20 Sep 2024 10:33:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1726853613; x=1727458413; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1726853615; x=1727458415; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vv19IsM1bE4LEmErHqweMrxFva6RQxz/zQSSqYTyIdM=;
-        b=W7pMnu3gb7XeABh9C/uvNH1n9tSB9JVgFijVt7v6nlQgq3kves57eqBVnfh33fCMFv
-         MDImJzNUk0CDnzxmupVBOsUfLah4bym5v41yGo5IS3ui6EGniFDS0e3YPRcN4qFSSHxk
-         NT9MIysWaoyJuHCAuQojP9+i0l39OHT/sf/CKX65xNhNAhIK4hRECTF+MBe2Q/o1FNcG
-         gZFsOHb9P4YUphabLsQkTWyKMUn/DMAmdhaCYHaDd5q1CBfvAGsQWLbmWnO6xi20Q8Wr
-         6fumoKuZn12c/ovuCRsM40qAdJAkfqQzg52+FVQQPaLvgNeIfnIuwFGcsEQ9HdZfQF7A
-         hVfg==
+        bh=kLZnexWwOCOJyKY1ie+tZ2lwaSXrVIbed+TIq2zB4TM=;
+        b=zXGyZFmH/WA4EWNYOF9RUK+vSuzrzWxUxXz64rcKsW5DTx6RqNkGCbOylxe1Tb4VzH
+         AkZD/RpLhvjd2SKLyPNHe0C9TtyK0ENve2yoUlbK7SuMnrvNnKYQkhEQ07tHb1n9FN5C
+         if5aTyo+b9Bez8TXkMhTCklB+T30h6ofvD4PxUxYN7mw5s8MuxIkDsu1EYkVL7R5zTPw
+         cGv+Lsrtu0dC3v6C7yXJspuHTC7c0MnO2wift6RL2Jc7IRzD4qEzjFBG9N4pNxoIO4hl
+         HfCVm1EtlC5Od9syi7wGPO4vohGansga/Xm4MWX+agPEN5Xgk3b3ZhXCDPUgeaVFRYEE
+         LrFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726853613; x=1727458413;
+        d=1e100.net; s=20230601; t=1726853615; x=1727458415;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vv19IsM1bE4LEmErHqweMrxFva6RQxz/zQSSqYTyIdM=;
-        b=dN/YO5hPr4+U1fAMsEwrh7Q++JvufDPeO6Ef0MmqXOGmRAx0tYhHwp1+YfuLuL34X4
-         P7NKQQNC8ER49jN8mHxPankxhoV33h+npCOnbNVIYoDwdGwqgvPxtrabubWocJlRftKZ
-         eLaUbdXd11UvaSXb/+yzmn1qPMpxVrpJhKG9ClRixMTCwyEn3kDbOTGjnuPyn4bP2/4b
-         85V+idcrycgz1eCMm5E3DTmRCNAwveKOdRyP2yLdFWaUEXJyAMZL5hhuU524Uhup5rpP
-         XGr33uuwEA2rNcgbu6oAobMfEfcCbDy8GEvIZnSg1BGs4MisigFZapDdz8xSLS1KGwam
-         UKEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV1kmF+E5dbjKQR9VkXOrCE6ctH5HSIRiLM+Dw1cp8CfnkpAFi1K9Qk2hKCWVM7tM4swBeoe1RasF4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbJfdr2K2d4O96DD4VIIgzydgKMdSg8OgGiLICoAeCEPxf0FMh
-	vDdZtpTylB4FS8Hpeel9X+xWWSQz5hw/qHExQXsF1gXhZnmcfDYDCSzsZjBmhpw7f32AzX0kIww
-	d
-X-Google-Smtp-Source: AGHT+IGL6vfqfGi6Z7IWSrm4xlJwm4PF1Z7woAUfWI1dOX15RNSvnp51jlUH8XoytHh9rGsz/L7kSQ==
-X-Received: by 2002:a5d:6e92:0:b0:374:c945:2569 with SMTP id ffacd0b85a97d-37a4227192fmr1913676f8f.15.1726853612504;
-        Fri, 20 Sep 2024 10:33:32 -0700 (PDT)
+        bh=kLZnexWwOCOJyKY1ie+tZ2lwaSXrVIbed+TIq2zB4TM=;
+        b=BHYpDeKG6WOv6AKO4oBhhgW/rPxR4HcwhgH9RNQNHbifI81Dkp8I2VgwKjly8IezUO
+         wvLbOv21C9V+GiW8LEs50we5uHblIJIwDEdrLzNQHPWjW4n5TJ69Jwkn4pVkp8n4/L9j
+         kJwa/U4Sd4z1C1EblSmWRkd1tkcqwQ2CICV6/Ld3KD8lSWXZcOH5yAwGgu6fLZTcpx+1
+         LDuY9J7gzlHxgukWB56gZzdHWrefNTgYQMThhpOX1xhfHOATlbWPjxML+s19+rmutl4f
+         JaBxVJ+XicBgUdRb1AwvJlrz6z0rzgJruJXrl3Qzn8S6/zqZoMiXLLAdlC7A0nGC1jxv
+         0nrA==
+X-Forwarded-Encrypted: i=1; AJvYcCXrcW3KdA6hurwJ8/nt/0KsGqfacM2jV0+x+FN/66uYuNU+6j7CFRev+mYdq/aP6T5hWiWJYw0HqKA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyLLOKBwthu1zQOI5+MarCUTugSfj91bkVtk+5D/969QYgESD7v
+	h7Db3WNfEos4KXycUTRVJdmoagb9c2r/aWVlv1ouCmo/IEUG8C/j6QhefXbsugJeqh8YQEmha2i
+	G
+X-Google-Smtp-Source: AGHT+IHRqwfSRwCNWamNToJaGpWUDBjEwXhaz+zI66pN8+3VxydOa3lG6s44mAyPEDyvsz00F8g0Kw==
+X-Received: by 2002:adf:e58c:0:b0:374:c6a7:5bd2 with SMTP id ffacd0b85a97d-37a4313fef7mr1927548f8f.21.1726853614507;
+        Fri, 20 Sep 2024 10:33:34 -0700 (PDT)
 Received: from [127.0.1.1] (frhb82016ds.ikexpress.com. [185.246.87.17])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378e780e029sm18111177f8f.116.2024.09.20.10.33.31
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378e780e029sm18111177f8f.116.2024.09.20.10.33.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Sep 2024 10:33:31 -0700 (PDT)
+        Fri, 20 Sep 2024 10:33:34 -0700 (PDT)
 From: Guillaume Stols <gstols@baylibre.com>
-Date: Fri, 20 Sep 2024 17:33:27 +0000
-Subject: [PATCH v2 07/10] iio: adc: ad7606: Add compatibility to fw_nodes
+Date: Fri, 20 Sep 2024 17:33:29 +0000
+Subject: [PATCH v2 09/10] iio: adc: ad7606: Add iio-backend support
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240920-ad7606_add_iio_backend_support-v2-7-0e78782ae7d0@baylibre.com>
+Message-Id: <20240920-ad7606_add_iio_backend_support-v2-9-0e78782ae7d0@baylibre.com>
 References: <20240920-ad7606_add_iio_backend_support-v2-0-0e78782ae7d0@baylibre.com>
 In-Reply-To: <20240920-ad7606_add_iio_backend_support-v2-0-0e78782ae7d0@baylibre.com>
 To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
@@ -83,477 +83,451 @@ Cc: linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
  aardelean@baylibre.com, dlechner@baylibre.com, 
  Guillaume Stols <gstols@baylibre.com>, jstephan@baylibre.com
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1726853604; l=14598;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1726853604; l=14580;
  i=gstols@baylibre.com; s=20240417; h=from:subject:message-id;
- bh=fuWeZdZAtXd8rMGyPZJvoL1he1KOv88DgrMKYX9gf5A=;
- b=dbMIwK0lwOnaaMdTebmlSP9dy4cLxLrx9/I8U1qI/hBlefobVsgli89cD96H91ZdchZJPxhik
- 5cmLe6R7qozDRWGrCGMcseX9pBF0dBx5Bvge0212Q2Xky88dJkEdb+w
+ bh=oq1q/NzJfEdQoqtBhTXNe9ONaDj41XLOLIawsgCIdd8=;
+ b=SGthrUVrmseDOaiOn9+/Q4L+Cz/5RKwNTT++JdFZ1uwHM+3zEcSAir2M+jpv5pCEmcYXQ2qc4
+ sxx3ji7LU2yAmPJ0lxaxlR/An7GUnxrSmx4ZL0gnXoyueFJzXU/SCur
 X-Developer-Key: i=gstols@baylibre.com; a=ed25519;
  pk=XvMm5WHuV67sGYOJZqIYzXndbaJOlNd8Q6li6vnb4Cs=
 
-On the parallel version, the current implementation is only compatible
-with id tables and won't work with fw_nodes, this commit intends to fix
-it.
-
-Also, chip info is moved in the .h file so to be accessible to all the
-driver files that can set a pointer to the corresponding chip as the
-driver data.
+- Basic support for iio backend.
+- Supports IIO_CHAN_INFO_SAMP_FREQ R/W.
+- Only hardware mode is available, and that IIO_CHAN_INFO_RAW is not
+  supported if iio-backend mode is selected.
 
 Signed-off-by: Guillaume Stols <gstols@baylibre.com>
 ---
- drivers/iio/adc/ad7606.c     | 208 ++++++++++++++++++++++++-------------------
- drivers/iio/adc/ad7606.h     |  34 +++++--
- drivers/iio/adc/ad7606_par.c |  29 +++---
- drivers/iio/adc/ad7606_spi.c |  31 ++++---
- 4 files changed, 173 insertions(+), 129 deletions(-)
+ drivers/iio/adc/Kconfig      |  2 +
+ drivers/iio/adc/ad7606.c     | 94 +++++++++++++++++++++++++++++++++++++-------
+ drivers/iio/adc/ad7606.h     | 15 +++++++
+ drivers/iio/adc/ad7606_par.c | 91 ++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 187 insertions(+), 15 deletions(-)
 
+diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
+index 4ab1a3092d88..9b52d5b2c592 100644
+--- a/drivers/iio/adc/Kconfig
++++ b/drivers/iio/adc/Kconfig
+@@ -224,9 +224,11 @@ config AD7606_IFACE_PARALLEL
+ 	tristate "Analog Devices AD7606 ADC driver with parallel interface support"
+ 	depends on HAS_IOPORT
+ 	select AD7606
++	select IIO_BACKEND
+ 	help
+ 	  Say yes here to build parallel interface support for Analog Devices:
+ 	  ad7605-4, ad7606, ad7606-6, ad7606-4 analog to digital converters (ADC).
++	  It also support iio_backended devices for AD7606B.
+ 
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called ad7606_par.
 diff --git a/drivers/iio/adc/ad7606.c b/drivers/iio/adc/ad7606.c
-index b98057138295..7f2ff1674638 100644
+index 7f2ff1674638..f710445bdc22 100644
 --- a/drivers/iio/adc/ad7606.c
 +++ b/drivers/iio/adc/ad7606.c
-@@ -51,6 +51,116 @@ static const unsigned int ad7616_oversampling_avail[8] = {
- 	1, 2, 4, 8, 16, 32, 64, 128,
- };
+@@ -21,6 +21,7 @@
+ #include <linux/util_macros.h>
+ #include <linux/units.h>
  
-+static const struct iio_chan_spec ad7605_channels[] = {
-+	IIO_CHAN_SOFT_TIMESTAMP(4),
-+	AD7605_CHANNEL(0),
-+	AD7605_CHANNEL(1),
-+	AD7605_CHANNEL(2),
-+	AD7605_CHANNEL(3),
-+};
-+
-+static const struct iio_chan_spec ad7606_channels[] = {
-+	IIO_CHAN_SOFT_TIMESTAMP(8),
-+	AD7606_CHANNEL(0),
-+	AD7606_CHANNEL(1),
-+	AD7606_CHANNEL(2),
-+	AD7606_CHANNEL(3),
-+	AD7606_CHANNEL(4),
-+	AD7606_CHANNEL(5),
-+	AD7606_CHANNEL(6),
-+	AD7606_CHANNEL(7),
-+};
-+
-+/*
-+ * The current assumption that this driver makes for AD7616, is that it's
-+ * working in Hardware Mode with Serial, Burst and Sequencer modes activated.
-+ * To activate them, following pins must be pulled high:
-+ *	-SER/PAR
-+ *	-SEQEN
-+ * And following pins must be pulled low:
-+ *	-WR/BURST
-+ *	-DB4/SER1W
-+ */
-+static const struct iio_chan_spec ad7616_channels[] = {
-+	IIO_CHAN_SOFT_TIMESTAMP(16),
-+	AD7606_CHANNEL(0),
-+	AD7606_CHANNEL(1),
-+	AD7606_CHANNEL(2),
-+	AD7606_CHANNEL(3),
-+	AD7606_CHANNEL(4),
-+	AD7606_CHANNEL(5),
-+	AD7606_CHANNEL(6),
-+	AD7606_CHANNEL(7),
-+	AD7606_CHANNEL(8),
-+	AD7606_CHANNEL(9),
-+	AD7606_CHANNEL(10),
-+	AD7606_CHANNEL(11),
-+	AD7606_CHANNEL(12),
-+	AD7606_CHANNEL(13),
-+	AD7606_CHANNEL(14),
-+	AD7606_CHANNEL(15),
-+};
-+
-+const struct ad7606_chip_info ad7605_4_info = {
-+	.channels = ad7605_channels,
-+	.num_channels = 5,
-+	.name = "ad7605-4",
-+	.id = ID_AD7605_4,
-+};
-+EXPORT_SYMBOL_NS_GPL(ad7605_4_info, IIO_AD7606);
-+
-+const struct ad7606_chip_info ad7606_8_info = {
-+	.channels = ad7606_channels,
-+	.num_channels = 9,
-+	.oversampling_avail = ad7606_oversampling_avail,
-+	.oversampling_num = ARRAY_SIZE(ad7606_oversampling_avail),
-+	.name = "ad7606-8",
-+	.id = ID_AD7606_8,
-+};
-+EXPORT_SYMBOL_NS_GPL(ad7606_8_info, IIO_AD7606);
-+
-+const struct ad7606_chip_info ad7606_6_info = {
-+	.channels = ad7606_channels,
-+	.num_channels = 7,
-+	.oversampling_avail = ad7606_oversampling_avail,
-+	.oversampling_num = ARRAY_SIZE(ad7606_oversampling_avail),
-+	.name = "ad7606-6",
-+	.id = ID_AD7606_6,
-+};
-+EXPORT_SYMBOL_NS_GPL(ad7606_6_info, IIO_AD7606);
-+
-+const struct ad7606_chip_info ad7606_4_info = {
-+	.channels = ad7606_channels,
-+	.num_channels = 5,
-+	.oversampling_avail = ad7606_oversampling_avail,
-+	.oversampling_num = ARRAY_SIZE(ad7606_oversampling_avail),
-+	.name = "ad7606-4",
-+	.id = ID_AD7606_4,
-+};
-+EXPORT_SYMBOL_NS_GPL(ad7606_4_info, IIO_AD7606);
-+
-+const struct ad7606_chip_info ad7606b_info = {
-+	.channels = ad7606_channels,
-+	.num_channels = 9,
-+	.oversampling_avail = ad7606_oversampling_avail,
-+	.oversampling_num = ARRAY_SIZE(ad7606_oversampling_avail),
-+	.name = "ad7606B",
-+	.id = ID_AD7606B,
-+};
-+EXPORT_SYMBOL_NS_GPL(ad7606b_info, IIO_AD7606);
-+
-+const struct ad7606_chip_info ad7616_info = {
-+	.channels = ad7616_channels,
-+	.num_channels = 17,
-+	.oversampling_avail = ad7616_oversampling_avail,
-+	.oversampling_num = ARRAY_SIZE(ad7616_oversampling_avail),
-+	.os_req_reset = true,
-+	.init_delay_ms = 15,
-+	.name = "ad7616",
-+	.id = ID_AD7616,
-+};
-+EXPORT_SYMBOL_NS_GPL(ad7616_info, IIO_AD7606);
-+
- int ad7606_reset(struct ad7606_state *st)
- {
- 	if (st->gpio_reset) {
-@@ -395,96 +505,6 @@ static const struct attribute_group ad7606_attribute_group_range = {
- 	.attrs = ad7606_attributes_range,
- };
++#include <linux/iio/backend.h>
+ #include <linux/iio/iio.h>
+ #include <linux/iio/buffer.h>
+ #include <linux/iio/sysfs.h>
+@@ -271,7 +272,15 @@ static int ad7606_set_sampling_freq(struct ad7606_state *st, unsigned long freq)
  
--static const struct iio_chan_spec ad7605_channels[] = {
--	IIO_CHAN_SOFT_TIMESTAMP(4),
--	AD7605_CHANNEL(0),
--	AD7605_CHANNEL(1),
--	AD7605_CHANNEL(2),
--	AD7605_CHANNEL(3),
--};
--
--static const struct iio_chan_spec ad7606_channels[] = {
--	IIO_CHAN_SOFT_TIMESTAMP(8),
--	AD7606_CHANNEL(0),
--	AD7606_CHANNEL(1),
--	AD7606_CHANNEL(2),
--	AD7606_CHANNEL(3),
--	AD7606_CHANNEL(4),
--	AD7606_CHANNEL(5),
--	AD7606_CHANNEL(6),
--	AD7606_CHANNEL(7),
--};
--
--/*
-- * The current assumption that this driver makes for AD7616, is that it's
-- * working in Hardware Mode with Serial, Burst and Sequencer modes activated.
-- * To activate them, following pins must be pulled high:
-- *	-SER/PAR
-- *	-SEQEN
-- * And following pins must be pulled low:
-- *	-WR/BURST
-- *	-DB4/SER1W
-- */
--static const struct iio_chan_spec ad7616_channels[] = {
--	IIO_CHAN_SOFT_TIMESTAMP(16),
--	AD7606_CHANNEL(0),
--	AD7606_CHANNEL(1),
--	AD7606_CHANNEL(2),
--	AD7606_CHANNEL(3),
--	AD7606_CHANNEL(4),
--	AD7606_CHANNEL(5),
--	AD7606_CHANNEL(6),
--	AD7606_CHANNEL(7),
--	AD7606_CHANNEL(8),
--	AD7606_CHANNEL(9),
--	AD7606_CHANNEL(10),
--	AD7606_CHANNEL(11),
--	AD7606_CHANNEL(12),
--	AD7606_CHANNEL(13),
--	AD7606_CHANNEL(14),
--	AD7606_CHANNEL(15),
--};
--
--static const struct ad7606_chip_info ad7606_chip_info_tbl[] = {
--	/* More devices added in future */
--	[ID_AD7605_4] = {
--		.channels = ad7605_channels,
--		.num_channels = 5,
--	},
--	[ID_AD7606_8] = {
--		.channels = ad7606_channels,
--		.num_channels = 9,
--		.oversampling_avail = ad7606_oversampling_avail,
--		.oversampling_num = ARRAY_SIZE(ad7606_oversampling_avail),
--	},
--	[ID_AD7606_6] = {
--		.channels = ad7606_channels,
--		.num_channels = 7,
--		.oversampling_avail = ad7606_oversampling_avail,
--		.oversampling_num = ARRAY_SIZE(ad7606_oversampling_avail),
--	},
--	[ID_AD7606_4] = {
--		.channels = ad7606_channels,
--		.num_channels = 5,
--		.oversampling_avail = ad7606_oversampling_avail,
--		.oversampling_num = ARRAY_SIZE(ad7606_oversampling_avail),
--	},
--	[ID_AD7606B] = {
--		.channels = ad7606_channels,
--		.num_channels = 9,
--		.oversampling_avail = ad7606_oversampling_avail,
--		.oversampling_num = ARRAY_SIZE(ad7606_oversampling_avail),
--	},
--	[ID_AD7616] = {
--		.channels = ad7616_channels,
--		.num_channels = 17,
--		.oversampling_avail = ad7616_oversampling_avail,
--		.oversampling_num = ARRAY_SIZE(ad7616_oversampling_avail),
--		.os_req_reset = true,
--		.init_delay_ms = 15,
--	},
--};
--
- static int ad7606_request_gpios(struct ad7606_state *st)
+ static int ad7606_read_samples(struct ad7606_state *st)
  {
- 	struct device *dev = st->dev;
-@@ -624,7 +644,7 @@ static void ad7606_pwm_disable(void *data)
+-	unsigned int num = st->chip_info->num_channels - 1;
++	unsigned int num = st->chip_info->num_channels;
++
++	/*
++	 * Timestamp channel does not contain sample, and no timestamp channel if
++	 * backend is used.
++	 */
++	if (!st->back)
++		num--;
++
+ 	u16 *data = st->data;
+ 
+ 	return st->bops->read_block(st->dev, num, data);
+@@ -319,11 +328,14 @@ static int ad7606_scan_direct(struct iio_dev *indio_dev, unsigned int ch)
+ 		if (!ret)
+ 			return ret;
+ 	}
+-	ret = wait_for_completion_timeout(&st->completion,
+-					  msecs_to_jiffies(1000));
+-	if (!ret) {
+-		ret = -ETIMEDOUT;
+-		goto error_ret;
++
++	if (!st->back) {
++		ret = wait_for_completion_timeout(&st->completion,
++						  msecs_to_jiffies(1000));
++		if (!ret) {
++			ret = -ETIMEDOUT;
++			goto error_ret;
++		}
+ 	}
+ 
+ 	ret = ad7606_read_samples(st);
+@@ -349,6 +361,7 @@ static int ad7606_read_raw(struct iio_dev *indio_dev,
+ {
+ 	int ret, ch = 0;
+ 	struct ad7606_state *st = iio_priv(indio_dev);
++	struct pwm_state cnvst_pwm_state;
+ 
+ 	switch (m) {
+ 	case IIO_CHAN_INFO_RAW:
+@@ -369,6 +382,10 @@ static int ad7606_read_raw(struct iio_dev *indio_dev,
+ 	case IIO_CHAN_INFO_OVERSAMPLING_RATIO:
+ 		*val = st->oversampling;
+ 		return IIO_VAL_INT;
++	case IIO_CHAN_INFO_SAMP_FREQ:
++		pwm_get_state(st->cnvst_pwm, &cnvst_pwm_state);
++		*val = DIV_ROUND_CLOSEST_ULL(NSEC_PER_SEC, cnvst_pwm_state.period);
++		return IIO_VAL_INT;
+ 	}
+ 	return -EINVAL;
+ }
+@@ -458,6 +475,8 @@ static int ad7606_write_raw(struct iio_dev *indio_dev,
+ 			return ret;
+ 
+ 		return 0;
++	case IIO_CHAN_INFO_SAMP_FREQ:
++		return ad7606_set_sampling_freq(st, val);
+ 	default:
+ 		return -EINVAL;
+ 	}
+@@ -595,14 +614,49 @@ static int ad7606_buffer_predisable(struct iio_dev *indio_dev)
+ 	return 0;
  }
  
- int ad7606_probe(struct device *dev, int irq, void __iomem *base_address,
--		 const char *name, unsigned int id,
-+		 const struct ad7606_chip_info *chip_info,
- 		 const struct ad7606_bus_ops *bops)
- {
- 	struct ad7606_state *st;
-@@ -653,7 +673,7 @@ int ad7606_probe(struct device *dev, int irq, void __iomem *base_address,
- 		return dev_err_probe(dev, ret,
- 				     "Failed to enable specified AVcc supply\n");
++static int ad7606_pwm_buffer_postenable(struct iio_dev *indio_dev)
++{
++	struct ad7606_state *st = iio_priv(indio_dev);
++
++	return ad7606_pwm_set_swing(st);
++}
++
++static int ad7606_pwm_buffer_predisable(struct iio_dev *indio_dev)
++{
++	struct ad7606_state *st = iio_priv(indio_dev);
++
++	return ad7606_pwm_set_low(st);
++}
++
++static int ad7606_update_scan_mode(struct iio_dev *indio_dev,
++				   const unsigned long *scan_mask)
++{
++	struct ad7606_state *st = iio_priv(indio_dev);
++
++	/* The update scan mode is only for iio backend compatible drivers.
++	 * If the specific update_scan_mode is not defined in the bus ops,
++	 * just do nothing and return 0.
++	 */
++	if (st->bops->update_scan_mode)
++		return st->bops->update_scan_mode(indio_dev, scan_mask);
++	else
++		return 0;
++}
++
+ static const struct iio_buffer_setup_ops ad7606_buffer_ops = {
+ 	.postenable = &ad7606_buffer_postenable,
+ 	.predisable = &ad7606_buffer_predisable,
+ };
  
--	st->chip_info = &ad7606_chip_info_tbl[id];
-+	st->chip_info = chip_info;
++static const struct iio_buffer_setup_ops ad7606_pwm_buffer_ops = {
++	.postenable = &ad7606_pwm_buffer_postenable,
++	.predisable = &ad7606_pwm_buffer_predisable,
++};
++
+ static const struct iio_info ad7606_info_no_os_or_range = {
+ 	.read_raw = &ad7606_read_raw,
+ 	.validate_trigger = &ad7606_validate_trigger,
++	.update_scan_mode = &ad7606_update_scan_mode,
+ };
  
- 	if (st->chip_info->oversampling_num) {
- 		st->oversampling_avail = st->chip_info->oversampling_avail;
-@@ -676,7 +696,7 @@ int ad7606_probe(struct device *dev, int irq, void __iomem *base_address,
- 			indio_dev->info = &ad7606_info_no_os_or_range;
- 	}
- 	indio_dev->modes = INDIO_DIRECT_MODE;
--	indio_dev->name = name;
-+	indio_dev->name = chip_info->name;
+ static const struct iio_info ad7606_info_os_and_range = {
+@@ -610,6 +664,7 @@ static const struct iio_info ad7606_info_os_and_range = {
+ 	.write_raw = &ad7606_write_raw,
+ 	.attrs = &ad7606_attribute_group_os_and_range,
+ 	.validate_trigger = &ad7606_validate_trigger,
++	.update_scan_mode = &ad7606_update_scan_mode,
+ };
+ 
+ static const struct iio_info ad7606_info_os_range_and_debug = {
+@@ -618,6 +673,7 @@ static const struct iio_info ad7606_info_os_range_and_debug = {
+ 	.debugfs_reg_access = &ad7606_reg_access,
+ 	.attrs = &ad7606_attribute_group_os_and_range,
+ 	.validate_trigger = &ad7606_validate_trigger,
++	.update_scan_mode = &ad7606_update_scan_mode,
+ };
+ 
+ static const struct iio_info ad7606_info_os = {
+@@ -625,6 +681,7 @@ static const struct iio_info ad7606_info_os = {
+ 	.write_raw = &ad7606_write_raw,
+ 	.attrs = &ad7606_attribute_group_os,
+ 	.validate_trigger = &ad7606_validate_trigger,
++	.update_scan_mode = &ad7606_update_scan_mode,
+ };
+ 
+ static const struct iio_info ad7606_info_range = {
+@@ -632,6 +689,7 @@ static const struct iio_info ad7606_info_range = {
+ 	.write_raw = &ad7606_write_raw,
+ 	.attrs = &ad7606_attribute_group_range,
+ 	.validate_trigger = &ad7606_validate_trigger,
++	.update_scan_mode = &ad7606_update_scan_mode,
+ };
+ 
+ static const struct iio_trigger_ops ad7606_trigger_ops = {
+@@ -700,8 +758,6 @@ int ad7606_probe(struct device *dev, int irq, void __iomem *base_address,
  	indio_dev->channels = st->chip_info->channels;
  	indio_dev->num_channels = st->chip_info->num_channels;
  
-@@ -758,7 +778,7 @@ int ad7606_probe(struct device *dev, int irq, void __iomem *base_address,
- 					NULL,
- 					&ad7606_interrupt,
- 					IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
--					name, indio_dev);
-+					chip_info->name, indio_dev);
+-	init_completion(&st->completion);
+-
+ 	ret = ad7606_reset(st);
  	if (ret)
- 		return ret;
+ 		dev_warn(st->dev, "failed to RESET: no RESET GPIO specified\n");
+@@ -774,14 +830,22 @@ int ad7606_probe(struct device *dev, int irq, void __iomem *base_address,
+ 		if (ret)
+ 			return ret;
+ 	}
+-	ret = devm_request_threaded_irq(dev, irq,
+-					NULL,
+-					&ad7606_interrupt,
+-					IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
+-					chip_info->name, indio_dev);
+-	if (ret)
+-		return ret;
  
++	if (st->bops->iio_backend_config) {
++		ret = st->bops->iio_backend_config(dev, indio_dev);
++		if (ret)
++			return ret;
++		indio_dev->setup_ops = &ad7606_pwm_buffer_ops;
++	} else {
++		init_completion(&st->completion);
++		ret = devm_request_threaded_irq(dev, irq,
++						NULL,
++						&ad7606_interrupt,
++						IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
++						chip_info->name, indio_dev);
++		if (ret)
++			return ret;
++	}
+ 	return devm_iio_device_register(dev, indio_dev);
+ }
+ EXPORT_SYMBOL_NS_GPL(ad7606_probe, IIO_AD7606);
 diff --git a/drivers/iio/adc/ad7606.h b/drivers/iio/adc/ad7606.h
-index c13dda444526..18c87fe9a41a 100644
+index 18c87fe9a41a..53cd8eb4898e 100644
 --- a/drivers/iio/adc/ad7606.h
 +++ b/drivers/iio/adc/ad7606.h
-@@ -38,8 +38,19 @@
+@@ -34,6 +34,12 @@
+ 		BIT(IIO_CHAN_INFO_SCALE),		\
+ 		BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO))
+ 
++#define AD7606_BI_CHANNEL(num)				\
++	AD760X_CHANNEL(num, 0,				\
++		BIT(IIO_CHAN_INFO_SCALE),		\
++		BIT(IIO_CHAN_INFO_SAMP_FREQ) |		\
++		BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO))
++
+ #define AD7616_CHANNEL(num)	\
  	AD760X_CHANNEL(num, BIT(IIO_CHAN_INFO_RAW) | BIT(IIO_CHAN_INFO_SCALE),\
  		0, BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO))
- 
-+enum ad7606_supported_device_ids {
-+	ID_AD7605_4,
-+	ID_AD7606_8,
-+	ID_AD7606_6,
-+	ID_AD7606_4,
-+	ID_AD7606B,
-+	ID_AD7616,
-+};
-+
- /**
-  * struct ad7606_chip_info - chip specific information
-+ * @name		device name
-+ * @id			device id
-  * @channels:		channel specification
-  * @num_channels:	number of channels
-  * @oversampling_avail	pointer to the array which stores the available
-@@ -50,6 +61,8 @@
+@@ -59,6 +65,7 @@ enum ad7606_supported_device_ids {
+  * @os_req_reset	some devices require a reset to update oversampling
+  * @init_delay_ms	required delay in miliseconds for initialization
   *			after a restart
++ * @has_backend		defines if a backend is available for the given chip
   */
  struct ad7606_chip_info {
-+	enum ad7606_supported_device_ids id;
-+	const char			*name;
- 	const struct iio_chan_spec	*channels;
- 	unsigned int			num_channels;
- 	const unsigned int		*oversampling_avail;
-@@ -150,19 +163,22 @@ struct ad7606_bus_ops {
+ 	enum ad7606_supported_device_ids id;
+@@ -69,6 +76,7 @@ struct ad7606_chip_info {
+ 	unsigned int			oversampling_num;
+ 	bool				os_req_reset;
+ 	unsigned long			init_delay_ms;
++	bool				has_backend;
  };
  
- int ad7606_probe(struct device *dev, int irq, void __iomem *base_address,
--		 const char *name, unsigned int id,
-+		 const struct ad7606_chip_info *info,
- 		 const struct ad7606_bus_ops *bops);
+ /**
+@@ -115,6 +123,7 @@ struct ad7606_state {
+ 	unsigned int			num_scales;
+ 	const unsigned int		*oversampling_avail;
+ 	unsigned int			num_os_ratios;
++	struct iio_backend		*back;
+ 	int (*write_scale)(struct iio_dev *indio_dev, int ch, int val);
+ 	int (*write_os)(struct iio_dev *indio_dev, int val);
  
- int ad7606_reset(struct ad7606_state *st);
+@@ -139,16 +148,21 @@ struct ad7606_state {
  
--enum ad7606_supported_device_ids {
--	ID_AD7605_4,
--	ID_AD7606_8,
--	ID_AD7606_6,
--	ID_AD7606_4,
--	ID_AD7606B,
--	ID_AD7616,
--};
-+extern const struct ad7606_chip_info ad7605_4_info;
-+
-+extern const struct ad7606_chip_info ad7606_8_info;
-+
-+extern const struct ad7606_chip_info ad7606_6_info;
-+
-+extern const struct ad7606_chip_info ad7606_4_info;
-+
-+extern const struct ad7606_chip_info ad7606b_info;
-+
-+extern const struct ad7606_chip_info ad7616_info;
+ /**
+  * struct ad7606_bus_ops - driver bus operations
++ * @iio_backend_config	function pointer for configuring the iio_backend for
++ *			the compatibles that use it
+  * @read_block		function pointer for reading blocks of data
+  * @sw_mode_config:	pointer to a function which configured the device
+  *			for software mode
+  * @reg_read	function pointer for reading spi register
+  * @reg_write	function pointer for writing spi register
+  * @write_mask	function pointer for write spi register with mask
++ * @update_scan_mode	function pointer for handling the calls to iio_info's update_scan
++ *			mode when enabling/disabling channels.
+  * @rd_wr_cmd	pointer to the function which calculates the spi address
+  */
+ struct ad7606_bus_ops {
+ 	/* more methods added in future? */
++	int (*iio_backend_config)(struct device *dev, struct iio_dev *indio_dev);
+ 	int (*read_block)(struct device *dev, int num, void *data);
+ 	int (*sw_mode_config)(struct iio_dev *indio_dev);
+ 	int (*reg_read)(struct ad7606_state *st, unsigned int addr);
+@@ -159,6 +173,7 @@ struct ad7606_bus_ops {
+ 				 unsigned int addr,
+ 				 unsigned long mask,
+ 				 unsigned int val);
++	int (*update_scan_mode)(struct iio_dev *indio_dev, const unsigned long *scan_mask);
+ 	u16 (*rd_wr_cmd)(int addr, char isWriteOp);
+ };
  
- #ifdef CONFIG_PM_SLEEP
- extern const struct dev_pm_ops ad7606_pm_ops;
 diff --git a/drivers/iio/adc/ad7606_par.c b/drivers/iio/adc/ad7606_par.c
-index d651639c45eb..7bac39033955 100644
+index 7bac39033955..564284ede997 100644
 --- a/drivers/iio/adc/ad7606_par.c
 +++ b/drivers/iio/adc/ad7606_par.c
-@@ -11,6 +11,7 @@
- #include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
-+#include <linux/property.h>
+@@ -3,6 +3,8 @@
+  * AD7606 Parallel Interface ADC driver
+  *
+  * Copyright 2011 Analog Devices Inc.
++ * Copyright 2024 Analog Devices Inc.
++ * Copyright 2024 BayLibre SAS.
+  */
+ 
+ #include <linux/err.h>
+@@ -15,8 +17,80 @@
  #include <linux/types.h>
  
  #include <linux/iio/iio.h>
-@@ -89,12 +90,20 @@ static const struct ad7606_bus_ops ad7606_par8_bops = {
++#include <linux/iio/backend.h>
++
+ #include "ad7606.h"
  
- static int ad7606_par_probe(struct platform_device *pdev)
++static const struct iio_chan_spec ad7606b_bi_channels[] = {
++	AD7606_BI_CHANNEL(0),
++	AD7606_BI_CHANNEL(1),
++	AD7606_BI_CHANNEL(2),
++	AD7606_BI_CHANNEL(3),
++	AD7606_BI_CHANNEL(4),
++	AD7606_BI_CHANNEL(5),
++	AD7606_BI_CHANNEL(6),
++	AD7606_BI_CHANNEL(7),
++};
++
++static int ad7606_bi_update_scan_mode(struct iio_dev *indio_dev, const unsigned long *scan_mask)
++{
++	struct ad7606_state *st = iio_priv(indio_dev);
++	unsigned int c, ret;
++
++	for (c = 0; c < indio_dev->num_channels; c++) {
++		if (test_bit(c, scan_mask))
++			ret = iio_backend_chan_enable(st->back, c);
++		else
++			ret = iio_backend_chan_disable(st->back, c);
++		if (ret)
++			return ret;
++	}
++
++	return 0;
++}
++
++static int ad7606_bi_setup_iio_backend(struct device *dev, struct iio_dev *indio_dev)
++{
++	struct ad7606_state *st = iio_priv(indio_dev);
++	unsigned int ret, c;
++	struct iio_backend_data_fmt data = {
++		.sign_extend = true,
++		.enable = true,
++	};
++
++	st->back = devm_iio_backend_get(dev, NULL);
++	if (IS_ERR(st->back))
++		return PTR_ERR(st->back);
++
++	/* If the device is iio_backend powered the PWM is mandatory */
++	if (!st->cnvst_pwm)
++		return -EINVAL;
++
++	ret = devm_iio_backend_request_buffer(dev, st->back, indio_dev);
++	if (ret)
++		return ret;
++
++	ret = devm_iio_backend_enable(dev, st->back);
++	if (ret)
++		return ret;
++
++	for (c = 0; c < indio_dev->num_channels; c++) {
++		ret = iio_backend_data_format_set(st->back, c, &data);
++		if (ret)
++			return ret;
++	}
++
++	indio_dev->channels = ad7606b_bi_channels;
++	indio_dev->num_channels = 8;
++
++	return 0;
++}
++
++static const struct ad7606_bus_ops ad7606_bi_bops = {
++	.iio_backend_config = ad7606_bi_setup_iio_backend,
++	.update_scan_mode = ad7606_bi_update_scan_mode,
++};
++
+ static int ad7606_par16_read_block(struct device *dev,
+ 				   int count, void *buf)
  {
--	const struct platform_device_id *id = platform_get_device_id(pdev);
-+	const struct ad7606_chip_info *chip_info;
-+	const struct platform_device_id *id;
- 	struct resource *res;
+@@ -96,9 +170,23 @@ static int ad7606_par_probe(struct platform_device *pdev)
  	void __iomem *addr;
  	resource_size_t remap_size;
  	int irq;
++	struct iio_backend *back;
  
-+	if (dev_fwnode(&pdev->dev)) {
-+		chip_info = device_get_match_data(&pdev->dev);
-+	} else {
-+		id = platform_get_device_id(pdev);
-+		chip_info = (const struct ad7606_chip_info *)id->driver_data;
-+	}
-+
- 	irq = platform_get_irq(pdev, 0);
- 	if (irq < 0)
- 		return irq;
-@@ -106,25 +115,25 @@ static int ad7606_par_probe(struct platform_device *pdev)
- 	remap_size = resource_size(res);
- 
- 	return ad7606_probe(&pdev->dev, irq, addr,
--			    id->name, id->driver_data,
-+			    chip_info,
- 			    remap_size > 1 ? &ad7606_par16_bops :
- 			    &ad7606_par8_bops);
- }
- 
- static const struct platform_device_id ad7606_driver_ids[] = {
--	{ .name	= "ad7605-4", .driver_data = ID_AD7605_4, },
--	{ .name	= "ad7606-4", .driver_data = ID_AD7606_4, },
--	{ .name	= "ad7606-6", .driver_data = ID_AD7606_6, },
--	{ .name	= "ad7606-8", .driver_data = ID_AD7606_8, },
-+	{ .name	= "ad7605-4", .driver_data = (kernel_ulong_t)&ad7605_4_info, },
-+	{ .name	= "ad7606-4", .driver_data = (kernel_ulong_t)&ad7606_4_info, },
-+	{ .name	= "ad7606-6", .driver_data = (kernel_ulong_t)&ad7606_6_info, },
-+	{ .name	= "ad7606-8", .driver_data = (kernel_ulong_t)&ad7606_8_info, },
++	/*
++	 * If a firmware node is available (ACPI or DT), platform_device_id is null
++	 * and we must use get_match_data.
++	 */
+ 	if (dev_fwnode(&pdev->dev)) {
+ 		chip_info = device_get_match_data(&pdev->dev);
++		back = devm_iio_backend_get(&pdev->dev, NULL);
++		if (!IS_ERR(back))
++			/*
++			 * If a backend is available in the device tree, call the core
++			 * probe with backend bops, otherwise use the former bops.
++			 */
++			return ad7606_probe(&pdev->dev, 0, NULL,
++					    chip_info,
++					    &ad7606_bi_bops);
+ 	} else {
+ 		id = platform_get_device_id(pdev);
+ 		chip_info = (const struct ad7606_chip_info *)id->driver_data;
+@@ -125,6 +213,7 @@ static const struct platform_device_id ad7606_driver_ids[] = {
+ 	{ .name	= "ad7606-4", .driver_data = (kernel_ulong_t)&ad7606_4_info, },
+ 	{ .name	= "ad7606-6", .driver_data = (kernel_ulong_t)&ad7606_6_info, },
+ 	{ .name	= "ad7606-8", .driver_data = (kernel_ulong_t)&ad7606_8_info, },
++	{ .name	= "ad7606b", .driver_data = (kernel_ulong_t)&ad7606b_info, },
  	{ }
  };
  MODULE_DEVICE_TABLE(platform, ad7606_driver_ids);
- 
- static const struct of_device_id ad7606_of_match[] = {
--	{ .compatible = "adi,ad7605-4" },
--	{ .compatible = "adi,ad7606-4" },
--	{ .compatible = "adi,ad7606-6" },
--	{ .compatible = "adi,ad7606-8" },
-+	{ .compatible = "adi,ad7605-4", .data = &ad7605_4_info },
-+	{ .compatible = "adi,ad7606-4", .data = &ad7606_4_info },
-+	{ .compatible = "adi,ad7606-6", .data = &ad7606_6_info },
-+	{ .compatible = "adi,ad7606-8", .data = &ad7606_8_info },
+@@ -134,6 +223,7 @@ static const struct of_device_id ad7606_of_match[] = {
+ 	{ .compatible = "adi,ad7606-4", .data = &ad7606_4_info },
+ 	{ .compatible = "adi,ad7606-6", .data = &ad7606_6_info },
+ 	{ .compatible = "adi,ad7606-8", .data = &ad7606_8_info },
++	{ .compatible = "adi,ad7606b", .data = &ad7606b_info },
  	{ }
  };
  MODULE_DEVICE_TABLE(of, ad7606_of_match);
-diff --git a/drivers/iio/adc/ad7606_spi.c b/drivers/iio/adc/ad7606_spi.c
-index d3fbc7c7a823..719f9e09a5f7 100644
---- a/drivers/iio/adc/ad7606_spi.c
-+++ b/drivers/iio/adc/ad7606_spi.c
-@@ -307,10 +307,10 @@ static const struct ad7606_bus_ops ad7606B_spi_bops = {
- 
- static int ad7606_spi_probe(struct spi_device *spi)
- {
--	const struct spi_device_id *id = spi_get_device_id(spi);
-+	const struct ad7606_chip_info *chip_info = spi_get_device_match_data(spi);
- 	const struct ad7606_bus_ops *bops;
- 
--	switch (id->driver_data) {
-+	switch (chip_info->id) {
- 	case ID_AD7616:
- 		bops = &ad7616_spi_bops;
- 		break;
-@@ -323,28 +323,27 @@ static int ad7606_spi_probe(struct spi_device *spi)
- 	}
- 
- 	return ad7606_probe(&spi->dev, spi->irq, NULL,
--			    id->name, id->driver_data,
--			    bops);
-+			    chip_info, bops);
- }
- 
- static const struct spi_device_id ad7606_id_table[] = {
--	{ "ad7605-4", ID_AD7605_4 },
--	{ "ad7606-4", ID_AD7606_4 },
--	{ "ad7606-6", ID_AD7606_6 },
--	{ "ad7606-8", ID_AD7606_8 },
--	{ "ad7606b",  ID_AD7606B },
--	{ "ad7616",   ID_AD7616 },
-+	{ "ad7605-4", (kernel_ulong_t)&ad7605_4_info },
-+	{ "ad7606-4", (kernel_ulong_t)&ad7606_4_info },
-+	{ "ad7606-6", (kernel_ulong_t)&ad7606_6_info },
-+	{ "ad7606-8", (kernel_ulong_t)&ad7606_8_info },
-+	{ "ad7606b",  (kernel_ulong_t)&ad7606b_info },
-+	{ "ad7616",   (kernel_ulong_t)&ad7616_info },
- 	{ }
- };
- MODULE_DEVICE_TABLE(spi, ad7606_id_table);
- 
- static const struct of_device_id ad7606_of_match[] = {
--	{ .compatible = "adi,ad7605-4" },
--	{ .compatible = "adi,ad7606-4" },
--	{ .compatible = "adi,ad7606-6" },
--	{ .compatible = "adi,ad7606-8" },
--	{ .compatible = "adi,ad7606b" },
--	{ .compatible = "adi,ad7616" },
-+	{ .compatible = "adi,ad7605-4", &ad7605_4_info },
-+	{ .compatible = "adi,ad7606-4", &ad7606_4_info },
-+	{ .compatible = "adi,ad7606-6", &ad7606_6_info },
-+	{ .compatible = "adi,ad7606-8", &ad7606_8_info },
-+	{ .compatible = "adi,ad7606b", &ad7606b_info },
-+	{ .compatible = "adi,ad7616", &ad7616_info },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, ad7606_of_match);
+@@ -153,3 +243,4 @@ MODULE_AUTHOR("Michael Hennerich <michael.hennerich@analog.com>");
+ MODULE_DESCRIPTION("Analog Devices AD7606 ADC");
+ MODULE_LICENSE("GPL v2");
+ MODULE_IMPORT_NS(IIO_AD7606);
++MODULE_IMPORT_NS(IIO_BACKEND);
 
 -- 
 2.34.1
