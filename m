@@ -1,143 +1,157 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9062E181310
-	for <linux-doc@vger.kernel.org>; Fri, 20 Sep 2024 17:33:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C121C14A4FF
+	for <linux-doc@vger.kernel.org>; Fri, 20 Sep 2024 21:01:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726853621; cv=none; b=IXABnd1uAxzi05KfLHNpNhRsy/BAezAgFWgKK5oDHUsdO2XJXoUTWMYMDnE8bpBPb4ZRacnZBsgGwXMZaC8ezYfuGEQ50RNIUY/KmPDhRg6hX28g/5useQ3rnb+iSnIwv+d6u5Kg7It+gmZ15raN5amOFLBMLfbavXTwEvaqTT0=
+	t=1726866081; cv=none; b=KNNnk41G7fPMrOBQnmr7i10ClX1htO5RRbgx06ePADpNkncvI/4qAVz4E5hpeV8sh/cc6bz/nGTwXDwM4jQLiJTuos3hT0v+bJ6/KbWyG2oecuX4B+j7R61UcsLmnYUksUP9gg1Z1R/bmvVYqefj/w90YNLwna/Qyy26obE8Ljc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726853621; c=relaxed/simple;
-	bh=jH5AF1NUj11MGOXs+0oMMIR7SvlyPmokhbLME9mMNMs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=XSeeqdit80bZd85QiS1PcD7ONw5vySfrXua+2J03LG4K5K0pq8PLYJD6UCSX0WPbgJT94dV/Bd/BK65NUYZvhqQ4Qq1UjFnybuBRQaPbLRIrNXZxDf7K9C9fOhcuWrAtJKva8plHGtceZYV9RlflwvSS0U2ppSI8jSuTpe70/qI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=BIOrXG+r; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1726866081; c=relaxed/simple;
+	bh=G+719tl7SzvbLWjElYC0luKqEbiS8grCgsrMvzK1D0I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mbshJTODaKWEnYulMxjG17EYd8vfuzDi+Gf3gC/vCqzmRf5lsFeoJf1EFapCJlbH6ttLvhJahOcAnP8qxdxGAZ7J1mW7yMW/VnS1rqL6hfPXle2vaFQauRE5E9169Nzz1ZW5pHbxRO+ke2CvbPxFUd+4FMziCeo8OYJlIEbtsoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=pP+12XK+; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="BIOrXG+r"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-42cbbb1727eso19399715e9.2
-        for <linux-doc@vger.kernel.org>; Fri, 20 Sep 2024 10:33:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="pP+12XK+"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a8ce5db8668so346180766b.1
+        for <linux-doc@vger.kernel.org>; Fri, 20 Sep 2024 14:01:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1726853616; x=1727458416; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nqbTxoEOJj+E0EusJXu3vOo7bySZpM0E+tGgQhd2Qeo=;
-        b=BIOrXG+rj43PTDtF5s+7ZqEf+/6qZ3HmQoUZeQ0jFuq8PEtSzC8VI/ulrwfSYHDKUf
-         14iFj3+RFhTNas1qHu03RpWNtGKRF9KX0aGtcDWAsfqFTezhWVriczctcCVIGCRces2J
-         aGvDo5I+z/D8MBaKNeLgBB8g+2fQJbuqvOF99ary92LlyX0bKAYb/TcjJL2xUwJAh+Om
-         PYNW5drVNKSSoF1riQqLDYbaByoWbVPX3hVYM5v+3HFOG8Ctcfh2p9qlhlL7CKP/Ifm0
-         U6Ie8AvlJbn62W+q3AjlIswmyaPcaBTHNHf/g4HlJNHUxEsZMXk9TJ1ZBcAkb4M/dKSG
-         Erhw==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1726866076; x=1727470876; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=SHq5Ybd77fru22LRWAFMH7LcFDb7LOvBsmtZa3/3WKE=;
+        b=pP+12XK+yTSuKEzzYriLmbHIyx2/bQGx7OhA+guwzD64b9a3TWlzvUukswRdfRsFk3
+         BAkjw/sO7Oth3FDd+7uFR2tYQ/21qPSS5N7oaojbJ/X+k/1sIKzZhS/KTbX+R17aTqTN
+         4SigdiQZwY31FEPLBoLjt18kEC2EAy/nThM2K6kGcsoYbDDKl50ahCv+w5GjDuCu43Is
+         OUmLRleGUvz2stkAvZfrA0ySyPbZ6ggDWPIIkpZDGddWJuHYlbBHB3yCZb8otHhHsG7L
+         YZiAny+yTJppRsTLNBOrbCZtf3Vs3ufZukBGyIKHX6Rhw2NQruMDkmWMvDEs0Pi4tgcD
+         /cEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726853616; x=1727458416;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nqbTxoEOJj+E0EusJXu3vOo7bySZpM0E+tGgQhd2Qeo=;
-        b=AxdspBlnuGIEYyf6lcDgzjf56teAM/ZrSrSW9FhNUSOteZJURSeIpXHsiUZ3+ieJQf
-         cv+vxdCMN1vi8XMeCEZf0zuADtms9al/n4cTiFKLRFoqE8Vou6cT/4piVSgFjfy/Ncue
-         qRgzGLHxU7F+EnL8ET1XlJtGUpx3LhZJOjJ6k1h1kkYZf3SIF4oWjjDqcL+JKoRocQ1e
-         V/QYKgHNGtLKrqT0VKB7NDlZa32JwDFkdh8h19ekUqPD75499LDLk46+v73v0yMHHTnk
-         mHwYEZtG6QXwAkP1EQE2Qu6OOqkHBeSniI7QtvUoliFbNWBv6ApwDedkQy6HnwTEsS0y
-         vn5w==
-X-Forwarded-Encrypted: i=1; AJvYcCWytVRFMJaT2jUj2LJBbsz+P0Xn0tc1XgwkFxygYDtCHO6VG900KU/iXIPC3DiyjBgTtJEbFyLLv34=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzaWCwA++HYDMAJGC542jF7dqu+H1lnrFbFXY8F60qVHhHaruZo
-	G0X+1bRDllxzpIgLy04br56eMS3MP22KRnAoppQkQkLolR2CyFqS5ndirIuhrBBgmqH0C+rFZdI
-	q
-X-Google-Smtp-Source: AGHT+IFiSJQD4Z15/Xdx8nq9M3r3mKqhBJoDnK88r8s3gsfWDbUgSbXnNSZwYOc4QDNcmGmgZR2b6g==
-X-Received: by 2002:a05:6000:88e:b0:374:c17a:55b5 with SMTP id ffacd0b85a97d-37a4226bb7bmr1929359f8f.14.1726853616033;
-        Fri, 20 Sep 2024 10:33:36 -0700 (PDT)
-Received: from [127.0.1.1] (frhb82016ds.ikexpress.com. [185.246.87.17])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378e780e029sm18111177f8f.116.2024.09.20.10.33.34
+        d=1e100.net; s=20230601; t=1726866076; x=1727470876;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SHq5Ybd77fru22LRWAFMH7LcFDb7LOvBsmtZa3/3WKE=;
+        b=Kqb0lIlJqTq13pwbQlInxL/sOGS9Qd/ove2+wkCtJcEBdsxcICF+g/dVZE3RbC0Do3
+         g2Mwvhm10/sfJFi/JRivAhqRkqwwXh+XmNFWR50KFlbXlYFJ19Z1PORC0tBBhtUg2klg
+         puVCRN5LecXcGFGnZWsFL+Z9v0/XuufUWQmBpQiOUie2IF26/t2KVGRsApRG96AwebdP
+         S1tKluzVUs9caY9HZEs4GU7DPHgsRaS7yF4eBHV6TSJO5p0Kswm3QPvS6WV9cjNZYjLW
+         Z/ruEho/pGVY2XV5hVI9mZMH+4w4FUR0wNcvO+90d9J1MNmXT1liJS7NfyXK2A3C69Lp
+         fj+w==
+X-Forwarded-Encrypted: i=1; AJvYcCW0eK6xYGam2K5uUx28TXMGjzP0lkZmJ2Dar5fOCudMcL1xdSjjAdrDpNzOqsyg9Ke3/AHOhqhBXjU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxwDMUnP+/Aqqds2Uhv5wiyFZK2xts0MqnMjh2kZRh4EPdI82DT
+	s4BEiy65+NxF2QQK6S9ZQ9AsBWajpAmefMZCcUjRRI5LfDkeHF+HaoyoatvvLLA=
+X-Google-Smtp-Source: AGHT+IFvZutMv3hAi7GK/HNuGy//IeO1PNm9K5DKXlfZOUXeDoDuBbV9l54Y+bWxkkeq8g13dd//OA==
+X-Received: by 2002:a17:906:bc08:b0:a7a:a892:8e05 with SMTP id a640c23a62f3a-a90d56bcc1cmr337567866b.33.1726866076039;
+        Fri, 20 Sep 2024 14:01:16 -0700 (PDT)
+Received: from ghost (93-43-80-122.ip91.fastwebnet.it. [93.43.80.122])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9061116d67sm898128166b.94.2024.09.20.14.01.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Sep 2024 10:33:34 -0700 (PDT)
-From: Guillaume Stols <gstols@baylibre.com>
-Date: Fri, 20 Sep 2024 17:33:30 +0000
-Subject: [PATCH v2 10/10] iio: adc: ad7606: Disable PWM usage for non
- backend version
+        Fri, 20 Sep 2024 14:01:14 -0700 (PDT)
+Date: Fri, 20 Sep 2024 23:01:10 +0200
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: jesse@rivosinc.com, linux-riscv@lists.infradead.org, corbet@lwn.net,
+	Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu,
+	Conor Dooley <conor@kernel.org>, robh@kernel.org,
+	krzk+dt@kernel.org, cleger@rivosinc.com,
+	Evan Green <evan@rivosinc.com>, ajones@ventanamicro.com,
+	xiao.w.wang@intel.com, andy.chiu@sifive.com, ebiggers@google.com,
+	greentime.hu@sifive.com, Bjorn Topel <bjorn@rivosinc.com>,
+	Heiko Stuebner <heiko@sntech.de>, costa.shul@redhat.com,
+	akpm@linux-foundation.org, bhe@redhat.com, apatel@ventanamicro.com,
+	zong.li@sifive.com, samitolvanen@google.com,
+	ben.dooks@codethink.co.uk, alexghiti@rivosinc.com,
+	gustavoars@kernel.org, erick.archer@gmx.com, j.granados@samsung.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v9 0/6] RISC-V: Detect and report speed of unaligned
+ vector accesses
+Message-ID: <Zu3illShBOscs+zN@ghost>
+References: <20240820152424.1973078-1-jesse@rivosinc.com>
+ <mhng-07137536-28ef-4262-a165-6388fffd2599@palmer-ri-x1c9>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240920-ad7606_add_iio_backend_support-v2-10-0e78782ae7d0@baylibre.com>
-References: <20240920-ad7606_add_iio_backend_support-v2-0-0e78782ae7d0@baylibre.com>
-In-Reply-To: <20240920-ad7606_add_iio_backend_support-v2-0-0e78782ae7d0@baylibre.com>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Michal Marek <mmarek@suse.com>
-Cc: linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Michael Hennerich <michael.hennerich@analog.com>, 
- linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
- aardelean@baylibre.com, dlechner@baylibre.com, 
- Guillaume Stols <gstols@baylibre.com>, jstephan@baylibre.com
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1726853604; l=1655;
- i=gstols@baylibre.com; s=20240417; h=from:subject:message-id;
- bh=jH5AF1NUj11MGOXs+0oMMIR7SvlyPmokhbLME9mMNMs=;
- b=kSnZJIrPGfSq6YzbLJZ9p9mO7w2NOsG/iZXur554ypRAWkxnTvW2tYn3jiMYak1kdPyCLhejb
- hUajOoIJbZlAmnbA5Lm007KmnnbAvokXAsLS7hGMF50KRMfdAOuPIXg
-X-Developer-Key: i=gstols@baylibre.com; a=ed25519;
- pk=XvMm5WHuV67sGYOJZqIYzXndbaJOlNd8Q6li6vnb4Cs=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <mhng-07137536-28ef-4262-a165-6388fffd2599@palmer-ri-x1c9>
 
-Since the pwm was introduced before backend, there was an example use
-whit triggered buffers. However, using it may be dangerous, because if
-the PWM goes too fast, a new conversion can be triggered before the
-transmission is over, whit the associated mess in the buffers.
-Until a solution is found to mitigate this risk, for instante CRC
-support, the PWM will be disabled.
+On Fri, Sep 20, 2024 at 05:57:22AM -0700, Palmer Dabbelt wrote:
+> On Tue, 20 Aug 2024 08:24:18 PDT (-0700), jesse@rivosinc.com wrote:
+> > Adds support for detecting and reporting the speed of unaligned vector
+> > accesses on RISC-V CPUs. Adds vec_misaligned_speed key to the hwprobe
+> > adds Zicclsm to cpufeature and fixes the check for scalar unaligned
+> > emulated all CPUs. The vec_misaligned_speed key keeps the same format
+> > as the scalar unaligned access speed key.
+> > 
+> > This set does not emulate unaligned vector accesses on CPUs that do not
+> > support them. Only reports if userspace can run them and speed of
+> > unaligned vector accesses if supported.
+> > 
+> > The Zicclsm is patches are no longer related to this set.
+> > 
+> > Changes in v6:
+> >  Added ("RISC-V: Scalar unaligned access emulated on hotplug CPUs")
+> > 
+> > Changes in V8:
+> >  Dropped Zicclsm
+> >  s/RISCV_HWPROBE_VECTOR_MISALIGNED/RISCV_HWPROBE_MISALIGNED_VECTOR/g
+> >   to match RISCV_HWPROBE_MISALIGNED_SCALAR_*
+> >  Rebased onto palmer/fixes (32d5f7add080a936e28ab4142bfeea6b06999789)
+> > 
+> > Changes in V9:
+> >  Missed a RISCV_HWPROBE_VECTOR_MISALIGNED...
+> > 
+> > Jesse Taube (6):
+> >   RISC-V: Check scalar unaligned access on all CPUs
+> >   RISC-V: Scalar unaligned access emulated on hotplug CPUs
+> >   RISC-V: Replace RISCV_MISALIGNED with RISCV_SCALAR_MISALIGNED
+> >   RISC-V: Detect unaligned vector accesses supported
+> >   RISC-V: Report vector unaligned access speed hwprobe
+> >   RISC-V: hwprobe: Document unaligned vector perf key
+> > 
+> >  Documentation/arch/riscv/hwprobe.rst       |  16 +++
+> >  arch/riscv/Kconfig                         |  57 +++++++-
+> >  arch/riscv/include/asm/cpufeature.h        |  10 +-
+> >  arch/riscv/include/asm/entry-common.h      |  11 --
+> >  arch/riscv/include/asm/hwprobe.h           |   2 +-
+> >  arch/riscv/include/asm/vector.h            |   2 +
+> >  arch/riscv/include/uapi/asm/hwprobe.h      |   5 +
+> >  arch/riscv/kernel/Makefile                 |   3 +-
+> >  arch/riscv/kernel/copy-unaligned.h         |   5 +
+> >  arch/riscv/kernel/fpu.S                    |   4 +-
+> >  arch/riscv/kernel/sys_hwprobe.c            |  41 ++++++
+> >  arch/riscv/kernel/traps_misaligned.c       | 131 +++++++++++++++--
+> >  arch/riscv/kernel/unaligned_access_speed.c | 156 +++++++++++++++++++--
+> >  arch/riscv/kernel/vec-copy-unaligned.S     |  58 ++++++++
+> >  arch/riscv/kernel/vector.c                 |   2 +-
+> >  15 files changed, 465 insertions(+), 38 deletions(-)
+> >  create mode 100644 arch/riscv/kernel/vec-copy-unaligned.S
+> > 
+> > base-commit: 32d5f7add080a936e28ab4142bfeea6b06999789
+> 
+> I get a
+> 
+> arch/riscv/kernel/traps_smisaligned.c: In function 'check_vector_unaligned_access_emulated':
+> arch/riscv/kernel/traps_misaligned.c:591:9: error: unknown register name 'v0' in 'asm'
+>  591 |         __asm__ __volatile__ (
+>      |         ^~~~~~~
+> 
+> on rv32/defconfig.  Looks like just a missing Kconfg guard as this depends
+> on V support in the toolchain.
 
-Signed-off-by: Guillaume Stols <gstols@baylibre.com>
----
- drivers/iio/adc/ad7606.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+There was an interesting iteraction here!
+RISCV_PROBE_VECTOR_UNALIGNED_ACCESS was selecting
+RISCV_VECTOR_MISALIGNED but that bypasses the depends on check of
+RISCV_ISA_V. I'll send an update for Jesse with the fix for that one
+patch.
 
-diff --git a/drivers/iio/adc/ad7606.c b/drivers/iio/adc/ad7606.c
-index f710445bdc22..0c12ca237ee9 100644
---- a/drivers/iio/adc/ad7606.c
-+++ b/drivers/iio/adc/ad7606.c
-@@ -599,7 +599,6 @@ static int ad7606_buffer_postenable(struct iio_dev *indio_dev)
- 	struct ad7606_state *st = iio_priv(indio_dev);
- 
- 	gpiod_set_value(st->gpio_convst, 1);
--	ad7606_pwm_set_swing(st);
- 
- 	return 0;
- }
-@@ -609,7 +608,6 @@ static int ad7606_buffer_predisable(struct iio_dev *indio_dev)
- 	struct ad7606_state *st = iio_priv(indio_dev);
- 
- 	gpiod_set_value(st->gpio_convst, 0);
--	ad7606_pwm_set_low(st);
- 
- 	return 0;
- }
-@@ -838,6 +836,12 @@ int ad7606_probe(struct device *dev, int irq, void __iomem *base_address,
- 		indio_dev->setup_ops = &ad7606_pwm_buffer_ops;
- 	} else {
- 		init_completion(&st->completion);
-+
-+		/* Reserve the PWM use only for backend (force gpio_convst definition) */
-+		if (!st->gpio_convst)
-+			return dev_err_probe(dev, -EINVAL,
-+					     "No backend, connect convst to a GPIO");
-+
- 		ret = devm_request_threaded_irq(dev, irq,
- 						NULL,
- 						&ad7606_interrupt,
-
--- 
-2.34.1
+- Charlie
 
