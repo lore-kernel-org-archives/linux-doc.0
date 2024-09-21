@@ -1,194 +1,230 @@
-Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.153])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31720EBE;
-	Sat, 21 Sep 2024 22:04:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.103.80.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE3A257B;
+	Sat, 21 Sep 2024 22:19:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726956275; cv=none; b=RUYWsn4Y8VxJXpNhxaph7k1imTxyYBmzIwOTzltvDHIfOHbLEq0eIdpMOWqqPGzYpls30vQ20Yam+GE6cd5saLwQhxh+luIhKtqi7yRKO93pxlKqZvGDFgB5qe1B3J/53VmCbo9QVPi2z5NKg3L1WY20j9zDrjpqCmfs2NYf4DU=
+	t=1726957150; cv=none; b=ofVB5E05CAQFnvGlewBw4hBzEFvFydPLgfWbjvOeueYanQicOevdyDayJPMzmVTkX2vEMIf90CFqGvXr6+l1nd6XEUbizuhsy3kIRhoNN90hpK0QhFlYCTBkcIYTALBvuz/ZO89OgFmfceH9ztia6g+55hIX/socQgocdg+WDSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726956275; c=relaxed/simple;
-	bh=+/53jj+UpO74LBrKxvFpEk62+Y1azlF7xuXXd9WPa5I=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=K57nViN1To+ww5o2Pl6ZwvRPAadwU5ga/lwrue6c4J3F579GApB96Lx8MDqXJ+dcNUXBQy8G1J9N6+hGmfA/wHK4i9qah5NcGxXsqKd9uoIbbPON9QNHVJksD8tfzbsh9l5+iVqYs3tMixXZgLm4bnkxlWhW2wO87/KjPu2DNO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vaga.pv.it; spf=pass smtp.mailfrom=vaga.pv.it; dkim=pass (2048-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b=Iq5wSdtN; arc=none smtp.client-ip=212.103.80.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vaga.pv.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vaga.pv.it
+	s=arc-20240116; t=1726957150; c=relaxed/simple;
+	bh=kfR14K5vrihyjIzfXPTU8e1xRsbb7EB2RB9CxAyKGns=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uGR7lScVjz2isv/QhoSWV3GNZ0dbrKs2Rg2Cic/IFKjTF2EYbQbWzCbnM53/jqhtO5nhjeFpYb2hKZiVup6nGkl0jieQxgB8hQr1GCUh2Cwf646CbN2ChwlAeOHykl2rqarelBxzJLEnKO+h/VBHIVbTT7tubgZiDNerwDHUCnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LKtEWDwW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b="Iq5wSdtN"
-Received: from localhost (unknown [127.0.0.1])
-	by mx.kolabnow.com (Postfix) with ESMTP id 583E12F2D5A;
-	Sat, 21 Sep 2024 23:58:11 +0200 (CEST)
-Authentication-Results: ext-mx-out013.mykolab.com (amavis);
- dkim=pass (2048-bit key) reason="pass (just generated, assumed good)"
- header.d=kolabnow.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-	content-transfer-encoding:content-type:content-type:mime-version
-	:message-id:date:date:subject:subject:from:from:received
-	:received:received; s=dkim20240523; t=1726955888; x=1728770289;
-	 bh=lbXmCZEV/t8nONBA5lZliCrm/aSb+rxZyZG+sl2Dhbc=; b=Iq5wSdtN2vFR
-	5IY6iNABbYKZzHWqPdctLkOFhjEFJs4m41mmTmpRS/yg7ExjKp8Zc9rMx7tomhiV
-	M7QpEabA1mKGVtxDLKZ8a2VQ0UkIfNZFhz/2OUF4X2JmKdDIGDG6o64yjx4HXhWP
-	BxY82AVRhm6rIbsdzKBXAewkKNLp8tDiZYbvWcjNa6aNdYzqA9zt8TVSvPbEgmNN
-	MsEOJq0LhgdD4OCIV4IHtmgzmt2ls7/Whp/+fdjKcU0nCrq+MDXFAEyeSimViLYa
-	/ngzgXu/FYt1SXiSv+SeNfJgevVP3Ouw6cguVSFB/n30ipRBLCL/DDhc86nxeiin
-	+dDxfYpnZA==
-X-Virus-Scanned: amavis at mykolab.com
-X-Spam-Flag: NO
-X-Spam-Score: -0.9
-X-Spam-Level:
-Received: from mx.kolabnow.com ([127.0.0.1])
- by localhost (ext-mx-out013.mykolab.com [127.0.0.1]) (amavis, port 10024)
- with ESMTP id pKMtM8lv-d33; Sat, 21 Sep 2024 23:58:08 +0200 (CEST)
-Received: from int-mx009.mykolab.com (unknown [10.9.13.9])
-	by mx.kolabnow.com (Postfix) with ESMTPS id 3BB7D2F2D59;
-	Sat, 21 Sep 2024 23:58:07 +0200 (CEST)
-Received: from ext-subm010.mykolab.com (unknown [10.9.6.10])
-	by int-mx009.mykolab.com (Postfix) with ESMTPS id E688A211D841;
-	Sat, 21 Sep 2024 23:58:06 +0200 (CEST)
-From: Federico Vaga <federico.vaga@vaga.pv.it>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Davide Benini <davide.benini@gmail.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Federico Vaga <federico.vaga@vaga.pv.it>
-Subject: [PATCH] doc:it_IT: update I2C summary
-Date: Sat, 21 Sep 2024 23:57:29 +0200
-Message-Id: <20240921215729.23796-1-federico.vaga@vaga.pv.it>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LKtEWDwW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88A88C4CEC2;
+	Sat, 21 Sep 2024 22:19:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726957149;
+	bh=kfR14K5vrihyjIzfXPTU8e1xRsbb7EB2RB9CxAyKGns=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LKtEWDwWofb5y/OGX5gOxNGrMyVa8YcbIRHQu6UCj/KmRABpTVAnFHfdEFHEA9Fkf
+	 lyjBml+k7UppNw7slrDXufzcHG1EPQp3u9rhVpAOgqC/6eG4atC+4WKx7SjqbjqNN6
+	 8+PGvpylJ11aa4N44u7wkfDlkAzkaFOFcP2gSg9koZ0D7hBvaR8dyI8bB7rae9G3tW
+	 ++dUzQjreatME31JfJIqy/QdGbzYOC7twHAP5o1cY60yVp7G0jdyg/KOxJqGV5BUDt
+	 gOAo6LJHyX6W9hSlju+mYoF1vbWgIWumSOdP0ANHlqeGx6VxVcDdWpaZAmk6/yepUx
+	 bw10rLBy2IblQ==
+Date: Sat, 21 Sep 2024 23:19:03 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Guillaume Stols <gstols@baylibre.com>
+Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Michal Marek <mmarek@suse.com>,
+	linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	aardelean@baylibre.com, dlechner@baylibre.com,
+	jstephan@baylibre.com
+Subject: Re: [PATCH v2 03/10] dt-bindings: iio: adc: ad7606: Add iio backend
+ bindings
+Message-ID: <20240921-charter-grouped-9f77e0a640a0@spud>
+References: <20240920-ad7606_add_iio_backend_support-v2-0-0e78782ae7d0@baylibre.com>
+ <20240920-ad7606_add_iio_backend_support-v2-3-0e78782ae7d0@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="/E6hod+IHxfXaUGB"
+Content-Disposition: inline
+In-Reply-To: <20240920-ad7606_add_iio_backend_support-v2-3-0e78782ae7d0@baylibre.com>
 
-Update Italian translation following these changes
 
-commit d77367fff7c0 ("docs: i2c: summary: document use of inclusive language")
-commit 20738cb9fa7a ("docs: i2c: summary: be clearer with 'controller/target' and 'adapter/client' pairs")
-commit 1e926ea19003 ("docs: i2c: summary: document 'local' and 'remote' targets")
-commit d77367fff7c0 ("docs: i2c: summary: document use of inclusive language")
-commit a5b88cb9fdff ("docs: i2c: summary: update speed mode description")
-commit 75d148c90a34 ("docs: i2c: summary: update I2C specification link")
-commit d18b822c8f62 ("docs: i2c: summary: start sentences consistently.")
+--/E6hod+IHxfXaUGB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
----
- .../translations/it_IT/i2c/summary.rst        | 72 ++++++++++++-------
- 1 file changed, 46 insertions(+), 26 deletions(-)
+On Fri, Sep 20, 2024 at 05:33:23PM +0000, Guillaume Stols wrote:
+> Add the required properties for iio-backend support, as well as an
+> example and the conditions to mutually exclude interruption and
+> conversion trigger with iio-backend.
+> The iio-backend's function is to controls the communication, and thus the
+> interruption pin won't be available anymore.
+> As a consequence, the conversion pin must be controlled externally since
+> we will miss information about when every single conversion cycle (i.e
+> conversion + data transfer) ends, hence a PWM is introduced to trigger
+> the conversions.
+>=20
+> Signed-off-by: Guillaume Stols <gstols@baylibre.com>
+> ---
+>  .../devicetree/bindings/iio/adc/adi,ad7606.yaml    | 76 ++++++++++++++++=
++++++-
+>  1 file changed, 74 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml b/=
+Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
+> index 12995ebcddc2..74a8680904b1 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
+> @@ -118,13 +118,32 @@ properties:
+>        this property must be defined.
+>      type: boolean
+> =20
+> +  pwms:
+> +    description:
+> +      In case the conversion is triggered by a PWM instead of a GPIO plu=
+gged to
+> +      the CONVST pin, the PWM must be referenced.
+> +    minItems: 1
+> +    maxItems: 2
 
-diff --git a/Documentation/translations/it_IT/i2c/summary.rst b/Documentation/translations/it_IT/i2c/summary.rst
-index 1535e13a32e2..99a5b36cfb44 100644
---- a/Documentation/translations/it_IT/i2c/summary.rst
-+++ b/Documentation/translations/it_IT/i2c/summary.rst
-@@ -3,21 +3,17 @@ Introduzione a I2C e SMBus
- ==========================
- 
- I²C (letteralmente "I al quadrato C" e scritto I2C nella documentazione del
--kernel) è un protocollo sviluppato da Philips. É un protocollo lento a 2 fili
--(a velocità variabile, al massimo 400KHz), con un'estensione per le velocità
--elevate (3.4 MHz). Questo protocollo offre un bus a basso costo per collegare
--dispositivi di vario genere a cui si accede sporadicamente e utilizzando
--poca banda. Alcuni sistemi usano varianti che non rispettano i requisiti
--originali, per cui non sono indicati come I2C, ma hanno nomi diversi, per
--esempio TWI (Interfaccia a due fili), IIC.
-+kernel) è un protocollo sviluppato da Philips. É un protocollo a 2 fili (a
-+velocità variabile, solitamente fino a 400KHz, e in modalità alta velocità fino
-+a 5 MHz). Questo protocollo offre un bus a basso costo per collegare dispositivi
-+di vario genere a cui si accede sporadicamente e utilizzando poca banda. I2C è
-+ampiamente usato nei sistemi integrati. Alcuni sistemi usano varianti che non
-+rispettano i requisiti originali, per cui non sono indicati come I2C, ma hanno
-+nomi diversi, per esempio TWI (Interfaccia a due fili), IIC.
- 
- L'ultima specifica ufficiale I2C è la `"Specifica I2C-bus e manuale utente"
--(UM10204) <https://www.nxp.com/webapp/Download?colCode=UM10204>`_
--pubblicata da NXP Semiconductors. Tuttavia, è necessario effettuare il login
--al sito per accedere al PDF. Una versione precedente della specifica
--(revisione 6) è archiviata
--`qui <https://web.archive.org/web/20210813122132/
--https://www.nxp.com/docs/en/user-guide/UM10204.pdf>`_.
-+(UM10204) <https://www.nxp.com/docs/en/user-guide/UM10204.pdf>`_ pubblicata da
-+NXP Semiconductors, al momento della scrittura si tratta della versione 7
- 
- SMBus (Bus per la gestione del sistema) si basa sul protocollo I2C ed è
- principalmente un sottoinsieme di protocolli e segnali I2C. Molti dispositivi
-@@ -27,38 +23,62 @@ SMBus. I più comuni dispositivi collegati tramite SMBus sono moduli RAM
- configurati utilizzando EEPROM I2C, e circuiti integrati di monitoraggio
- hardware.
- 
--Poiché SMBus è principalmente un sottoinsieme del bus I2C,
--possiamo farne uso su molti sistemi I2C. Ci sono però sistemi che non
--soddisfano i vincoli elettrici sia di SMBus che di I2C; e altri che non possono
--implementare tutta la semantica o messaggi comuni del protocollo SMBus.
-+Poiché SMBus è principalmente un sottoinsieme del bus I2C, possiamo farne uso su
-+molti sistemi I2C. Ci sono però sistemi che non soddisfano i vincoli elettrici
-+sia di SMBus che di I2C; e altri che non possono implementare tutta la semantica
-+o messaggi comuni del protocollo SMBus.
- 
- 
- Terminologia
- ============
- 
--Utilizzando la terminologia della documentazione ufficiale, il bus I2C connette
--uno o più circuiti integrati *master* e uno o più circuiti integrati *slave*.
-+Il bus I2C connette uno o più circuiti integrati controllori a dei dispositivi.
- 
- .. kernel-figure::  ../../../i2c/i2c_bus.svg
--   :alt:    Un semplice bus I2C con un master e 3 slave
-+   :alt:    Un semplice bus I2C con un controllore e 3 dispositivi
- 
-    Un semplice Bus I2C
- 
--Un circuito integrato  **master** è un nodo che inizia le comunicazioni con gli
--slave. Nell'implementazione del kernel Linux è chiamato **adattatore** o bus. I
--driver degli adattatori si trovano nella sottocartella ``drivers/i2c/busses/``.
-+Un circuito integrato **controllore** (*controller*) è un nodo che inizia le
-+comunicazioni con i dispositivi (*targets*). Nell'implementazione del kernel
-+Linux è chiamato **adattatore** o bus. I driver degli adattatori si trovano
-+nella sottocartella ``drivers/i2c/busses/``.
- 
- Un **algoritmo** contiene codice generico che può essere utilizzato per
- implementare una intera classe di adattatori I2C. Ciascun driver dell'
- adattatore specifico dipende da un driver dell'algoritmo nella sottocartella
- ``drivers/i2c/algos/`` o include la propria implementazione.
- 
--Un circuito integrato **slave** è un nodo che risponde alle comunicazioni
--quando indirizzato dal master. In Linux è chiamato **client** (dispositivo). I
--driver dei dispositivi sono contenuti in una cartella specifica per la
-+Un circuito integrato **dispositivo** è un nodo che risponde alle comunicazioni
-+quando indirizzato dal controllore. In Linux è chiamato **client**. Nonostante i
-+dispositivi siano circuiti integrati esterni al sistema, Linux può agire come
-+dispositivo (se l'hardware lo permette) e rispondere alla richieste di altri
-+controllori sul bus. Questo verrà chiamato **dispositivo locale** (*local
-+target*). Negli altri casi si parla di **dispositivo remoto** (*remote target*).
-+
-+I driver dei dispositivi sono contenuti in una cartella specifica per la
- funzionalità che forniscono, ad esempio ``drivers/media/gpio/`` per espansori
- GPIO e ``drivers/media/i2c/`` per circuiti integrati relativi ai video.
- 
- Per la configurazione di esempio in figura, avrai bisogno di un driver per il
- tuo adattatore I2C e driver per i tuoi dispositivi I2C (solitamente un driver
- per ciascuno dispositivo).
-+
-+Sinonimi
-+--------
-+
-+Come menzionato precedentemente, per ragioni storiche l'implementazione I2C del
-+kernel Linux usa "adatattore" (*adapter*) per i controllori e "client" per i
-+dispositivi. Un certo numero di strutture dati usano questi sinonimi nei loro
-+nomi. Dunque, durante le discussioni riguardanti l'implementazione dovrete
-+essere a coscienza anche di questi termini. Tuttavia si preferiscono i termini
-+ufficiali.
-+
-+Terminologia obsoleta
-+---------------------
-+
-+Nelle prime specifiche di I2C, il controllore veniva chiamato "master" ed i
-+dispositivi "slave". Questi termini sono stati resi obsoleti con la versione 7
-+della specifica. Inoltre, il loro uso viene scoraggiato dal codice di condotta
-+del kernel Linux. Tuttavia, potreste ancora trovare questi termini in pagine non
-+aggiornate. In generale si cerca di usare i termini controllore e dispositivo.
--- 
-2.39.5
+Please use an items list to describe what each item is, rather than
+doing so in the pwm-names description below.
 
+> +
+> +  pwm-names:
+> +    description:
+> +      The name of each PWM, the first is connected to CONVST, and the se=
+cond is
+> +      connected to CONVST2 if CONVST2 is available and not connected to =
+CONVST1.
+> +    minItems: 1
+> +    maxItems: 2
+
+You need to define what the names actually are, otherwise you have no
+ABI.
+
+Cheers,
+Conor.
+
+> +
+> +  io-backends:
+> +    description:
+> +      A reference to the iio-backend, which is responsible handling the =
+BUSY
+> +      pin's falling edge and communication.
+> +      An example of backend can be found at
+> +      http://analogdevicesinc.github.io/hdl/library/axi_ad7606x/index.ht=
+ml
+> +
+>  required:
+>    - compatible
+>    - reg
+>    - avcc-supply
+>    - vdrive-supply
+> -  - interrupts
+> -  - adi,conversion-start-gpios
+> =20
+>  oneOf:
+>    - required:
+> @@ -138,6 +157,34 @@ oneOf:
+>            - spi-cpol
+> =20
+>  allOf:
+> +  - if:
+> +      properties:
+> +        pwms: false
+> +    then:
+> +      required:
+> +        - adi,conversion-start-gpios
+> +
+> +  - if:
+> +      properties:
+> +        adi,conversion-start-gpios: false
+> +    then:
+> +      required:
+> +        - pwms
+> +
+> +  - if:
+> +      properties:
+> +        interrupts: false
+> +    then:
+> +      required:
+> +        - io-backends
+> +
+> +  - if:
+> +      properties:
+> +        io-backends: false
+> +    then:
+> +      required:
+> +        - interrupts
+> +
+>    - if:
+>        properties:
+>          compatible:
+> @@ -179,12 +226,37 @@ allOf:
+>          adi,sw-mode: false
+>      else:
+>        properties:
+> +        pwms:
+> +          maxItems: 1
+> +        pwm-names:
+> +          maxItems: 1
+>          adi,conversion-start-gpios:
+>            maxItems: 1
+> =20
+>  unevaluatedProperties: false
+> =20
+>  examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    / {
+> +        adi_adc {
+> +            compatible =3D "adi,ad7606b";
+> +            parallel-interface;
+> +            pwms =3D <&axi_pwm_gen 0 0>;
+> +
+> +            avcc-supply =3D <&adc_vref>;
+> +            vdrive-supply =3D <&vdd_supply>;
+> +
+> +            reset-gpios =3D <&gpio0 91 GPIO_ACTIVE_HIGH>;
+> +            standby-gpios =3D <&gpio0 90 GPIO_ACTIVE_LOW>;
+> +            adi,range-gpios =3D <&gpio0 89 GPIO_ACTIVE_HIGH>;
+> +            adi,oversampling-ratio-gpios =3D <&gpio0 88 GPIO_ACTIVE_HIGH
+> +                                            &gpio0 87 GPIO_ACTIVE_HIGH
+> +                                            &gpio0 86 GPIO_ACTIVE_HIGH>;
+> +            io-backends =3D <&iio_backend>;
+> +        };
+> +    };
+> +
+>    - |
+>      #include <dt-bindings/gpio/gpio.h>
+>      #include <dt-bindings/interrupt-controller/irq.h>
+>=20
+> --=20
+> 2.34.1
+>=20
+
+--/E6hod+IHxfXaUGB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZu9GVwAKCRB4tDGHoIJi
+0sp1AP9PpuRy60rPk9JYWnURXlbuDdPob0rbthuXpOdAIPJZewD/bmxcvaFLN3N6
+mVszPN0fIfm39hSecA50i4isHCxlTwA=
+=cklL
+-----END PGP SIGNATURE-----
+
+--/E6hod+IHxfXaUGB--
