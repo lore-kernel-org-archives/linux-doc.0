@@ -1,163 +1,222 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA32315532E
-	for <linux-doc@vger.kernel.org>; Sat, 21 Sep 2024 09:11:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D627A15573F
+	for <linux-doc@vger.kernel.org>; Sat, 21 Sep 2024 11:32:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726909898; cv=none; b=sI7JTVbACWOEhxVSFsJ3X7a8v5xraw5JgvH1GlB7MRCpqAZWGTa+CBILoZlg3JnmhZhM3w5nfhbOO55Kk8/kiuGDYEUT4SdBn9gLxTGSk9H4KNkzvR/NdcRqSkkV+WQcWcGAcFMkNtnxfpBAcJbywNXA3G3bLKESGfBXDK9baEE=
+	t=1726918339; cv=none; b=nouNqtsYvWAEPvUR0/4nPHVuqFGjWGXdkbad7H+qo6HeJ29XTxfu0ewx56Yx0wXvWMv0oaSjve6amBRl7FqFX/DY1fNocVD+Kz2GA3/3PbW5/N/BXO0KGrSYYZwK1gaiv7x1cWd7XsiIRwEVlD3Hs9rIy2mt+wCmqRrHvTXPTM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726909898; c=relaxed/simple;
-	bh=LpJePFkpOCrmRcm2bsO+S0TBF/81jncGa0BOoDbOWMA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dbl7u0GOPdHoxcI3LQws6R+pWgutGa/QdbQE3rijj3FrLdiVuTtV+NYSrpZf3Gp0GqhC03LMV3Be4wTCCdle4vZIRa2uT5OY+BsY8nb9lUJLSKT5r675t7KDpglKLoV8UIzSIiwui8fzuuphyj43XX8UrWwIwNaRn9ZLPcJG8gI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=XaZKm2dB; arc=none smtp.client-ip=209.85.221.41
+	s=arc-20240116; t=1726918339; c=relaxed/simple;
+	bh=tgclWoRDKRZCOSSiD5kpfzSntukRaN6GHyK25OTnmI8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=s5MrVDm3UkNnFUvWKUP89ZFphmbd2rQP5iPId4w0UN7oK+8gts8Kmv4ok0909+nX1acuXwtfCIgPaPWg1NSeYe1wJXv2zr3QsEAaywnSGDWYflANzgmEr+6tL/yXQy2kCyTAKJmEKuY/RsyqgBk2VZwSLKqiXb9eEf3ErXv9Ikg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=G9FvwEAl; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="XaZKm2dB"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-374ba78f192so1958652f8f.3
-        for <linux-doc@vger.kernel.org>; Sat, 21 Sep 2024 02:11:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="G9FvwEAl"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-42cde6b5094so24888665e9.3
+        for <linux-doc@vger.kernel.org>; Sat, 21 Sep 2024 04:32:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1726909894; x=1727514694; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=C+92qmWOWTsTas7qxFq00TXpzuJdYrOV4QtxxZMwe1U=;
-        b=XaZKm2dBv5HUY4/EEmQCJIUGMHQ4CeVCcMeCBRv/7r4dGPocjvRrDllm+9khqqlfiN
-         U1b44TufL6gh+wBAUyt5YA+oyVoaDGogH1kt3EJrS4nZoZ/ew/yFq4roBLEbeeWyJbxT
-         pvL763sYKqQ46woOOhQKtdPhFHmA7xlpE9EB8Y2GDCjbxbcn5Fa/Uqnp8EwkTx3KvbvG
-         oK2KiQ864VjeXm3XQ55y87bxb7q2uATZFTTI5dJvm33I5b5bkJPGe3g4MGRTERhUfI04
-         lTahfcj81KqD8lKZX8+EpW6mTSKesBEVfCvxq+VYrIsh5svyTQDnvXezX7G2zzEnh27U
-         bOOA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1726918334; x=1727523134; darn=vger.kernel.org;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+ZQ3L7OUeikJuMGaBbthBREsBmXKajhlbyArgG1p4gk=;
+        b=G9FvwEAloC0ls+8KO80tYjVIBB4lIaxeLo5cDuj5iuYYEiyq3JMtQu08KtnwoqItnb
+         2XZM4QDDhbIfg4SUcIB/2opMY814ARQ247pBIiMJiuIYBIQyppfLvDQc124IPmiGoNbS
+         9M6hjCZfqlkKW5C3Ux6q9kLNhqvQQLIMnV4kMkQmKQOIeGKOx4/Jhq6iFZBlF+yIg+BH
+         s52/Y0kwNKO0jUWtCW34E4AGBR81VR5dN1cywXHcpUBejZ6tKWj6ypdKMA7GpXoEM1fd
+         0pv5wh7x36bot/8d4DF5fv3J2yP3tTNIXKUlisYAl8idNRn6m2RxMxRFdAOoPiZ1z4SR
+         oi7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726909894; x=1727514694;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C+92qmWOWTsTas7qxFq00TXpzuJdYrOV4QtxxZMwe1U=;
-        b=Dzqmc2S87zG4CNUGpisvWbh9utcs/t6TVj/ri0Z3Bm/cxBcYZH0ztutpCSjCd+0ZU/
-         n8awKy+ReqNsa+f2MGKva/+qtHMsZOETSmQKlDn2P2L25fJtnaFQHEwfpefEaTYhlvzm
-         HNxgAxhW85ri1YLtpwnRhn+WaRMrcyJxgYIg4Ma+UufwbwaocVU/HUgZiEYouUcz7xoX
-         arClCJSwprIx6V45OV3Y0fNVErcWPDMag+loAnjx1Ae1no1VZ6TdzOuJUsSKX1j43hBZ
-         tA+2IkxuEQjcqjPT9WFP1JnOvFmkFcisvuNDHL9ARVZqRUW66JlqtfvkzrK5es8+VOWP
-         MjYA==
-X-Forwarded-Encrypted: i=1; AJvYcCV4TYugn+w97+7hW1fjKEQsrBOyw4q52N77SX6eoaHF4jGos+LibR7ZKJvNWvwMBWNzXrioiB+jCbU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxW2J4OOc8aJ3PAYohOFELUA08mBHUV9OhdLC0U/+SgN9Rfd20u
-	NS16nHsEzcJ0zFpq/ZND5DJBpTizqKdrpzIIH6+7lqRLelLAdb2YgdPLNZ2ex1o=
-X-Google-Smtp-Source: AGHT+IFV5E3ga/jxa4eXGMk8POq04Bbel4E3r0fgnVOV8eR2jCM6IsYm+TrLRuBiPpwnTwd1oYZTXw==
-X-Received: by 2002:adf:fcc6:0:b0:374:caf6:ca2f with SMTP id ffacd0b85a97d-37a4318a753mr2912540f8f.45.1726909893833;
-        Sat, 21 Sep 2024 02:11:33 -0700 (PDT)
-Received: from localhost ([2a02:8071:b783:6940:a0b5:bea5:b768:cc22])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378e78044dfsm19461798f8f.94.2024.09.21.02.11.32
+        d=1e100.net; s=20230601; t=1726918334; x=1727523134;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+ZQ3L7OUeikJuMGaBbthBREsBmXKajhlbyArgG1p4gk=;
+        b=jCdnxNolz6qFLTgGfLQM2qQx8VTbhWtv1g77/priXvAfaYhc+aFnOG7l4xf+Q1z6tw
+         c3VyNQA4kIFdk9P5lq00FMNZv1DRHtvOUhfdlkTPqHBnvUKZdN2Q1hFMl7HZT53gIdaS
+         WKGncq0ZHQbHBjZVO7dvLmf+rIiec2DygWus7o/9LlLZk0w9U2tvf2WnFhpALHlfGDR7
+         bkFZim6+j7BQ4VZQFRyNYnGhxkD6xFK6GelqqEOk4HHi0raKGf1dX+EUdTOIMk5RQ4be
+         MfCC1g/JDRpZdhvf1zbuU4ioT0QuSP/6JxqWPPQxbkbwXsLGcA9V0ZFz8TI9dvI36ISk
+         o0jQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW8pMFYKWSDj7zfYNIk/6aVeY+D9GgS7XME4bBb2bBuHkP9b1VaBKgDubvsF7vExYND3LrrJ5qho7I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtmglXkyEeyE7kKcwV+VG/53VAQ21pnImVKjS6rWe3Zaxv/0ez
+	chuKxYowZU2T5A9ONfDR/ddWzk0Qz3a1XZVvMc9RWdA9HjmsIKWJgGTyut4wCZjqcgFBmVTP8ap
+	c
+X-Google-Smtp-Source: AGHT+IFidnTn2QQ5dzsI4+vZ+5O0GpiKtTnG3H8DKDvVo1s38sWxKVPZm7I5CGtivKliSwy2cDOnpw==
+X-Received: by 2002:a05:600c:310a:b0:42c:a89e:b0e6 with SMTP id 5b1f17b1804b1-42e7abe8e3emr42328335e9.11.1726918333444;
+        Sat, 21 Sep 2024 04:32:13 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:e023:26f7:6d8c:43fd])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e7afd7490sm47959925e9.28.2024.09.21.04.32.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Sep 2024 02:11:33 -0700 (PDT)
-Date: Sat, 21 Sep 2024 11:11:31 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Guillaume Stols <gstols@baylibre.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Michal Marek <mmarek@suse.com>, 
-	linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	aardelean@baylibre.com, dlechner@baylibre.com, jstephan@baylibre.com
-Subject: Re: [PATCH v2 01/10] dt-bindings: iio: adc: ad7606: Set the correct
- polarity
-Message-ID: <7mk56pxpgnlu637xo7yypzfdienyh3doch3l3fkinpqbwihf33@nu7v35gdw5zn>
-References: <20240920-ad7606_add_iio_backend_support-v2-0-0e78782ae7d0@baylibre.com>
- <20240920-ad7606_add_iio_backend_support-v2-1-0e78782ae7d0@baylibre.com>
+        Sat, 21 Sep 2024 04:32:12 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,  Mark Brown <broonie@kernel.org>,
+  Jean Delvare <jdelvare@suse.com>,  Jonathan Corbet <corbet@lwn.net>,
+  linux-kernel@vger.kernel.org,  linux-hwmon@vger.kernel.org,
+  linux-doc@vger.kernel.org
+Subject: Re: [PATCH 4/5] hwmon: (pmbus/core) improve handling of write
+ protected regulators
+In-Reply-To: <4052294e-7b7f-4238-9b47-92727de4d516@roeck-us.net> (Guenter
+	Roeck's message of "Fri, 20 Sep 2024 14:13:58 -0700")
+References: <20240920-pmbus-wp-v1-0-d679ef31c483@baylibre.com>
+	<20240920-pmbus-wp-v1-4-d679ef31c483@baylibre.com>
+	<4052294e-7b7f-4238-9b47-92727de4d516@roeck-us.net>
+Date: Sat, 21 Sep 2024 13:32:10 +0200
+Message-ID: <1jsettz1hh.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fon5yzoippkxiyy4"
-Content-Disposition: inline
-In-Reply-To: <20240920-ad7606_add_iio_backend_support-v2-1-0e78782ae7d0@baylibre.com>
+Content-Type: text/plain
 
+On Fri 20 Sep 2024 at 14:13, Guenter Roeck <linux@roeck-us.net> wrote:
 
---fon5yzoippkxiyy4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On 9/20/24 09:47, Jerome Brunet wrote:
+>> Writing PMBus protected registers does succeed from the smbus perspective,
+>> even if the write is ignored by the device and a communication fault is
+>> raised. This fault will silently be caught and cleared by pmbus irq if one
+>> has been registered.
+>> This means that the regulator call may return succeed although the
+>> operation was ignored.
+>> With this change, the operation which are not supported will be properly
+>> flagged as such and the regulator framework won't even try to execute them.
+>> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+>> ---
+>>   drivers/hwmon/pmbus/pmbus.h      |  4 ++++
+>>   drivers/hwmon/pmbus/pmbus_core.c | 35 ++++++++++++++++++++++++++++++++++-
+>>   include/linux/pmbus.h            | 14 ++++++++++++++
+>>   3 files changed, 52 insertions(+), 1 deletion(-)
+>> diff --git a/drivers/hwmon/pmbus/pmbus.h b/drivers/hwmon/pmbus/pmbus.h
+>> index 5d5dc774187b..76cff65f38d5 100644
+>> --- a/drivers/hwmon/pmbus/pmbus.h
+>> +++ b/drivers/hwmon/pmbus/pmbus.h
+>> @@ -481,6 +481,8 @@ struct pmbus_driver_info {
+>>   /* Regulator ops */
+>>     extern const struct regulator_ops pmbus_regulator_ops;
+>> +int pmbus_regulator_init_cb(struct regulator_dev *rdev,
+>> +			    struct regulator_config *config);
+>>     /* Macros for filling in array of struct regulator_desc */
+>>   #define PMBUS_REGULATOR_STEP(_name, _id, _voltages, _step, _min_uV)  \
+>> @@ -495,6 +497,7 @@ extern const struct regulator_ops pmbus_regulator_ops;
+>>   		.n_voltages = _voltages,			\
+>>   		.uV_step = _step,				\
+>>   		.min_uV = _min_uV,				\
+>> +		.init_cb = pmbus_regulator_init_cb,		\
+>>   	}
+>>     #define PMBUS_REGULATOR(_name, _id)   PMBUS_REGULATOR_STEP(_name,
+>> _id, 0, 0, 0)
+>> @@ -510,6 +513,7 @@ extern const struct regulator_ops pmbus_regulator_ops;
+>>   		.n_voltages = _voltages,			\
+>>   		.uV_step = _step,				\
+>>   		.min_uV = _min_uV,				\
+>> +		.init_cb = pmbus_regulator_init_cb,		\
+>>   	}
+>>     #define PMBUS_REGULATOR_ONE(_name)   PMBUS_REGULATOR_STEP_ONE(_name,
+>> 0, 0, 0)
+>> diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbus_core.c
+>> index 82522fc9090a..363def768888 100644
+>> --- a/drivers/hwmon/pmbus/pmbus_core.c
+>> +++ b/drivers/hwmon/pmbus/pmbus_core.c
+>> @@ -2714,8 +2714,21 @@ static int pmbus_init_common(struct i2c_client *client, struct pmbus_data *data,
+>>   	if (!(data->flags & PMBUS_NO_WRITE_PROTECT)) {
+>>   		ret = _pmbus_read_byte_data(client, 0xff, PMBUS_WRITE_PROTECT);
+>>   -		if (ret > 0 && (ret & PB_WP_ANY))
+>> +		switch (ret) {
+>> +		case PB_WP_ALL:
+>> +			data->flags |= PMBUS_OP_PROTECTED;
+>> +			fallthrough;
+>> +		case PB_WP_OP:
+>> +			data->flags |= PMBUS_VOUT_PROTECTED;
+>> +			fallthrough;
+>> +		case PB_WP_VOUT:
+>>   			data->flags |= PMBUS_WRITE_PROTECTED | PMBUS_SKIP_STATUS_CHECK;
+>> +			break;
+>> +
+>> +		default:
+>> +			/* Ignore manufacturer specific and invalid as well as errors */
+>> +			break;
+>> +		}
+>>   	}
+>>     	if (data->info->pages)
+>> @@ -3172,8 +3185,12 @@ static int pmbus_regulator_list_voltage(struct regulator_dev *rdev,
+>>   {
+>>   	struct device *dev = rdev_get_dev(rdev);
+>>   	struct i2c_client *client = to_i2c_client(dev->parent);
+>> +	struct pmbus_data *data = i2c_get_clientdata(client);
+>>   	int val, low, high;
+>>   +	if (data->flags & PMBUS_VOUT_PROTECTED)
+>> +		return 0;
+>> +
+>>   	if (selector >= rdev->desc->n_voltages ||
+>>   	    selector < rdev->desc->linear_min_sel)
+>>   		return -EINVAL;
+>> @@ -3208,6 +3225,22 @@ const struct regulator_ops pmbus_regulator_ops = {
+>>   };
+>>   EXPORT_SYMBOL_NS_GPL(pmbus_regulator_ops, PMBUS);
+>>   +int pmbus_regulator_init_cb(struct regulator_dev *rdev,
+>> +			    struct regulator_config *config)
+>> +{
+>> +	struct pmbus_data *data = config->driver_data;
+>> +	struct regulation_constraints *constraints = rdev->constraints;
+>> +
+>> +	if (data->flags & PMBUS_OP_PROTECTED)
+>> +		constraints->valid_ops_mask &= ~REGULATOR_CHANGE_STATUS;
+>> +
+>> +	if (data->flags & PMBUS_VOUT_PROTECTED)
+>> +		constraints->valid_ops_mask &= ~REGULATOR_CHANGE_VOLTAGE;
+>> +
+>> +	return 0;
+>> +}
+>> +EXPORT_SYMBOL_NS_GPL(pmbus_regulator_init_cb, PMBUS);
+>> +
+>
+> I am a bit at loss trying to understand why the constraints can't be passed
+> with the regulator init_data when registering the regulator. Care to explain ?
 
-Hello Guillaume,
+Sure it something I found while working the problem out.
 
-On Fri, Sep 20, 2024 at 05:33:21PM +0000, Guillaume Stols wrote:
-> According to the datasheet, "Data is clocked in from SDI on the falling
-> edge of SCLK, while data is clocked out on DOUTA on the rising edge of
-> SCLK".
-> Also, even if not stated textually in the datasheet, it is made clear on
-> the diagrams that sclk idles at high.
->=20
-> So the documentation is erroneously stating that spi-cpha is required, and
-> the example is erroneously setting both spi-cpol and spi-cpha.
+Simply put:
+ * you should be able to, in theory.
+ * currently it would not work
+ * when fixed I think it would still be more complex to do so.
 
-I would expect that the communication with the chip is at least
-unreliable if not outright broken with the wrong polarity. So maybe add
-something like:
+ATM, if you pass init_data, it will be ignored on DT platforms in
+favor of the internal DT parsing of the regulator framework. The DT
+parsing sets REGULATOR_CHANGE_STATUS as long as the always-on prop is
+not set ... including for write protected regulator obviously.
 
-	On $MyMachine dropping the spi-cpha property reduces IO errors / fixes
-	measurement readout / improves somehow differently.
+This is something that might get fix with this change [1]. Even with that
+fixed, passing init_data systematically would be convenient only if you
+plan on skipping DT provided constraints (there are lot of those), or
+redo the parsing in PMBus.
 
-to the commit log?
+Also a callback can be attached to regulator using the pmbus_ops, and
+only those. PMBus core just collect regulators provided by the drivers
+in pmbus_regulator_register(), there could other type of regulators in
+the provided table (something the tps25990 could use). It is difficult
+to set/modify the init_data (or the ops) in pmbus_regulator_register()
+because of that.
 
-> Fixes: 416f882c3b40 ("dt-bindings: iio: adc: Migrate AD7606 documentation=
- to yaml")
-> Fixes: 6e33a125df66 ("dt-bindings: iio: adc: Add docs for AD7606 ADC")
->=20
-> Signed-off-by: Guillaume Stols <gstols@baylibre.com>
+Using a callback allows to changes almost nothing to what is currently
+done, so it is safe and address the problem regardless of the
+platform type. I think the solution is fairly simple for both regulator
+and pmbus. It could be viewed as just as extending an existing
+callback. I chose to replace it make things more clear.
 
-The empty line between Fixes and S-o-b is unusual. Assuming you resend
-anyway, please drop it.
+Changes [1] and this patchset are independent because of how I implement
+the solution and [1] would still be relevant if this patchset was
+rejected. It is the reason why I sent it separately.
 
-> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml b/=
-Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
-> index 69408cae3db9..75334a033539 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
-> @@ -29,8 +29,6 @@ properties:
->    reg:
->      maxItems: 1
-> =20
-> -  spi-cpha: true
-> -
->    spi-cpol: true
-> =20
->    avcc-supply: true
-> @@ -117,7 +115,7 @@ properties:
->  required:
->    - compatible
->    - reg
-> -  - spi-cpha
-> +  - spi-cpol
+[1]: https://lore.kernel.org/r/20240920-regulator-ignored-data-v1-1-7ea4abfe1b0a@baylibre.com
 
-Adding cpol seems unrelated to this patch. (And you remove it again in
-patch #2.)
+>
+> Thanks,
+> Guenter
 
->    - avcc-supply
->    - vdrive-supply
->    - interrupts
-
-Best regards
-Uwe
-
---fon5yzoippkxiyy4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmbujbUACgkQj4D7WH0S
-/k5zDwf/UzSdDFwznnAQVwNU4Up1WB/17Sc+fFsZK7NmAl7vGDK+ucYNoVFnLlpj
-8rnZS4oVghQvHP4XVec0RdAN6IUraFrp65HErNSk1w/ggR/AyjQ+tkksGzWzpcQu
-NOm257ZP6D5f8CaSqw3C2z613vDtCLthp4Fnhr96EGM0d4Dz8CEB0/Afd5r8Axda
-r0nMXbg1xGlhoOnEUxKSOJHTtiFlyVx1nke+odinSs26zkmlY+suaeoTSDIQTw9d
-dFO+w2ICYF0qoTrDK2hOiIeW6pfUzkcmbAEhgXHTgWXvxnaMpxJtLUy7KqaAyIkE
-TehREFAYgFWvNzKEpIz/Ny6tGNbp7A==
-=LDVO
------END PGP SIGNATURE-----
-
---fon5yzoippkxiyy4--
+-- 
+Jerome
