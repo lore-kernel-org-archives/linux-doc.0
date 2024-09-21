@@ -1,242 +1,180 @@
-Received: from sender3-of-o57.zoho.com (sender3-of-o57.zoho.com [136.143.184.57])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE63B3BB48;
-	Sat, 21 Sep 2024 18:38:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.184.57
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726943915; cv=pass; b=DaCxcdBHBZlzl80N9uJ844kHe5WOf3nIdGwjm2SnjbnwX72DW6ON3fK08pi3ZYGd0GQifWjiBGNUV8QHhAlVWCWxK+Se9Bn8GnfMSBtb46+kPhg/psqaJKdGlKsnDZrf0k3fwwKElaEjQeTE4hwfXNnqFg4SowLtXbH6XpDI1xI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726943915; c=relaxed/simple;
-	bh=WpadbEHEfXCgwZTQEX+7bHS29I7aOtuKslLsrT04Dzw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GTZjLdyoNt/lFMNkqGZ/q9reNk0CQg5KyHTM/C9eAvlNpk0albWLsKVfUpu9P24zzgXTFZ7XRlTXHofhaFRnPUmhNRVvYe5i5JyXeXSPD2IltEfHj5FNvI1E/hTPFHPdpiLHSEB31gXDODU0qExGXtRuSqsQW0F1Lq2nNrZLcnQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apertussolutions.com; spf=pass smtp.mailfrom=apertussolutions.com; dkim=pass (1024-bit key) header.d=apertussolutions.com header.i=dpsmith@apertussolutions.com header.b=T1NF7p1R; arc=pass smtp.client-ip=136.143.184.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apertussolutions.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apertussolutions.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30AE92207A;
+	Sat, 21 Sep 2024 19:49:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726948183; cv=none; b=tImnfZlfjNgZnvwwrIjzj3bfIK4/3h4T0I2HfFhYwIc7eiyhQ2YMFIcTP0FAqTO1+d+hWK9gbVPH1N019hv2ykqAUaYvCUWHTcdJnNyn2CLIL6LR3beMPO0oV8hvVvYSHFGGCWqUKAv+ggiR6v/HIsZmr9UUFFcb6WkB+lgeP1A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726948183; c=relaxed/simple;
+	bh=GyW5qcG4VHURUn7l9UbukhxZDZOp3cCpAGUdYYIDVAY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S0Dx6I9QZgHTx3SPgQcxWyx+lbjXi83h+eSpx61BMLX1Zfn+CEyQD7USIPYiBaLJfCB7iyQ7WYMzZdamPuTp9UHvcVrh+oU2IhjRGzf4rywvK/zos9/TdIIsLO4g59Bkf7OL02u/SMLDt0DoZ3MMWqkAXn/bF1YD5MZjiZpCHqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uxlPos2w; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=apertussolutions.com header.i=dpsmith@apertussolutions.com header.b="T1NF7p1R"
-ARC-Seal: i=1; a=rsa-sha256; t=1726943834; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Isu+KNxmEdff4Yf8v+8NIVgqd1KCyNgZK+jRYblRct4+s63Fu1VdgNY+M14Y2pOA4BelJ1fkDlz6rpFcX2n9z+5hFvWgLO6UoLBdT3BokM9arPI4q4s+oaIj4sTIuuP1sl1/fJIdkhZjBibY1wVUqBQU0DG+TGZ9FlNn4/7RqWk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1726943834; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=epVfrURWgC20QBuvtkf5SBZ7wdGePGXbAnPnMOgBIC8=; 
-	b=akg5M36Efr83ZaGZr4tah8q5qwThdoBARKYSFfDrSEnLwQRYUe3CojwDtZhe7qga86BxANRNPH7H/t9vDdPD24UZCYUnEsc+4bJAPdb0yWs9nh+0CSkk6oN0MnLZclXDF3ziTf3S6u7Wf5N9qqYIseUjEIpRuaKjIt3gamJqESI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=apertussolutions.com;
-	spf=pass  smtp.mailfrom=dpsmith@apertussolutions.com;
-	dmarc=pass header.from=<dpsmith@apertussolutions.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726943834;
-	s=zoho; d=apertussolutions.com; i=dpsmith@apertussolutions.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=epVfrURWgC20QBuvtkf5SBZ7wdGePGXbAnPnMOgBIC8=;
-	b=T1NF7p1RrY7do2w/YnOlDlPCBTTaewBsDGRb3wToOj7vxq+uyrWbNkuXqe0v7ikm
-	fVyli/s99EXCa5tZkKzlfoMHeiNKS4LpdfvPMyvXyJTPWh5mC9Broq5SqKNAS9Y+uvq
-	X+P/OtTvPsQH9O+fB8+5pkmUQS7yT6rtiL+YDmWk=
-Received: by mx.zohomail.com with SMTPS id 1726943833180834.882107651291;
-	Sat, 21 Sep 2024 11:37:13 -0700 (PDT)
-Message-ID: <c466ed57-35a8-41c0-9647-c70e588ad1d3@apertussolutions.com>
-Date: Sat, 21 Sep 2024 14:36:58 -0400
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uxlPos2w"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A625AC4CEC2;
+	Sat, 21 Sep 2024 19:49:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726948182;
+	bh=GyW5qcG4VHURUn7l9UbukhxZDZOp3cCpAGUdYYIDVAY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uxlPos2w5FHgKlymMk0wB47bTleRHxvbVqulFxoLoRk6zM0gaolbwyqBdeVVr2Khw
+	 6q8h3FlKZqQcAtXCinhWaCqbqPn5wkI27oC47zTyPWp4t0ylpFbQkBNCXWaDPP5M88
+	 Bnb1eeOVMubmY0TDoWp8AAQst71suk/zuUaMNOylGnU8KChb262+B1owZZKzUAO7t6
+	 UD8jltyfj3qp9N3j1z1DnYxYTY3vY+Olx5uWXflQ5GOdmekcWxcfHr8f6h9pbiZNpL
+	 T6zF9KMx6Ic9qSprx1T3x3ETlLQktjj0IkGfudP+gO3LGpNiPVDX/3RkBWXtzyhFbS
+	 VsfrbfucOkQBg==
+Date: Sat, 21 Sep 2024 12:49:39 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: "Gaurav Kashyap (QUIC)" <quic_gaurkash@quicinc.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Jens Axboe <axboe@kernel.dk>,
+	Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Asutosh Das <quic_asutoshd@quicinc.com>,
+	Ritesh Harjani <ritesh.list@gmail.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Avri Altman <avri.altman@wdc.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	"manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"dm-devel@lists.linux.dev" <dm-devel@lists.linux.dev>,
+	"linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+	"linux-fscrypt@vger.kernel.org" <linux-fscrypt@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+	"bartosz.golaszewski" <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH v6 09/17] soc: qcom: ice: add HWKM support to the ICE
+ driver
+Message-ID: <20240921194939.GB2187@quark.localdomain>
+References: <7uoq72bpiqmo2olwpnudpv3gtcowpnd6jrifff34ubmfpijgc6@k6rmnalu5z4o>
+ <66953e65-2468-43b8-9ccf-54671613c4ab@linaro.org>
+ <ivibs6qqxhbikaevys3iga7s73xq6dzq3u43gwjri3lozkrblx@jxlmwe5wiq7e>
+ <98cc8d71d5d9476297a54774c382030d@quicinc.com>
+ <CAA8EJpp_HY+YmMCRwdteeAHnSHtjuHb=nFar60O_PwLwjk0mNA@mail.gmail.com>
+ <9bd0c9356e2b471385bcb2780ff2425b@quicinc.com>
+ <20240912231735.GA2211970@google.com>
+ <CAA8EJpq3sjfB0BsJTs3_r_ZFzhrrpy-A=9Dx9ks2KrDNYCntdg@mail.gmail.com>
+ <20240913045716.GA2292625@google.com>
+ <egtwyk2rp3mtnw2ry6npq5xjfhjvtnymbxy66zevtdi7yvaav4@gcnmrmtqro4b>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 06/19] x86: Add early SHA-1 support for Secure Launch
- early measurements
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Eric Biggers <ebiggers@kernel.org>,
- Ross Philipson <ross.philipson@oracle.com>, linux-kernel@vger.kernel.org,
- x86@kernel.org, linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
- linux-efi@vger.kernel.org, iommu@lists.linux-foundation.org,
- mingo@redhat.com, bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
- ardb@kernel.org, mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
- peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca, nivedita@alum.mit.edu,
- herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net,
- dwmw2@infradead.org, baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
- andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com
-References: <20240531010331.134441-1-ross.philipson@oracle.com>
- <20240531010331.134441-7-ross.philipson@oracle.com>
- <20240531021656.GA1502@sol.localdomain>
- <874jaegk8i.fsf@email.froward.int.ebiederm.org>
- <5b1ce8d3-516d-4dfd-a976-38e5cee1ef4e@apertussolutions.com>
- <87ttflli09.ffs@tglx>
- <CALCETrXQ7rChWLDqTG0+KY7rsfajSPguMnHO1G4VJi_mgwN9Zw@mail.gmail.com>
- <1a1f0c41-70de-4f46-b91d-6dc7176893ee@apertussolutions.com>
- <8a0b59a4-a5a2-42ae-bc1c-1ddc8f2aad16@apertussolutions.com>
- <CALCETrX8caT5qvCUu24hQfxUF_wUC2XdGpS2YFP6SR++7FiM3Q@mail.gmail.com>
-Content-Language: en-US
-From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
-In-Reply-To: <CALCETrX8caT5qvCUu24hQfxUF_wUC2XdGpS2YFP6SR++7FiM3Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <egtwyk2rp3mtnw2ry6npq5xjfhjvtnymbxy66zevtdi7yvaav4@gcnmrmtqro4b>
 
-On 9/13/24 23:57, Andy Lutomirski wrote:
-> On Thu, Sep 12, 2024 at 5:34 PM Daniel P. Smith
-> <dpsmith@apertussolutions.com> wrote:
->>
->> Hey again,
->>
->> On 9/4/24 21:01, Daniel P. Smith wrote:
->>> Hi Luto.
->>>
->>> On 8/28/24 23:17, Andy Lutomirski wrote:
->>>> On Thu, Aug 15, 2024 at 12:10 PM Thomas Gleixner <tglx@linutronix.de>
->>>> wrote:
->>>>>
->>>>> On Thu, Aug 15 2024 at 13:38, Daniel P. Smith wrote:
->>>>>> On 5/31/24 09:54, Eric W. Biederman wrote:
->>>>>>> Eric Biggers <ebiggers@kernel.org> writes:
->>>>>>>> That paragraph is also phrased as a hypothetical, "Even if we'd
->>>>>>>> prefer to use
->>>>>>>> SHA-256-only".  That implies that you do not, in fact, prefer
->>>>>>>> SHA-256 only.  Is
->>>>>>>> that the case?  Sure, maybe there are situations where you *have*
->>>>>>>> to use SHA-1,
->>>>>>>> but why would you not at least *prefer* SHA-256?
->>>>>>>
->>>>>>> Yes.  Please prefer to use SHA-256.
->>>>>>>
->>>>>>> Have you considered implementing I think it is SHA1-DC (as git has)
->>>>>>> that
->>>>>>> is compatible with SHA1 but blocks the known class of attacks where
->>>>>>> sha1 is actively broken at this point?
->>>>>>
->>>>>> We are using the kernel's implementation, addressing what the kernel
->>>>>> provides is beyond our efforts. Perhaps someone who is interested in
->>>>>> improving the kernel's SHA1 could submit a patch implementing/replacing
->>>>>> it with SHA1-DC, as I am sure the maintainers would welcome the help.
->>>>>
->>>>> Well, someone who is interested to get his "secure" code merged should
->>>>> have a vested interested to have a non-broken SHA1 implementation if
->>>>> there is a sensible requirement to use SHA1 in that new "secure" code,
->>>>> no?
->>>>>
->>>>> Just for the record. The related maintainers can rightfully decide to
->>>>> reject known broken "secure" code on a purely technical argument.
->>>>>
->>>>
->>>> Wait, hold on a second.
->>>>
->>>> SHA1-DC isn't SHA1.  It's a different hash function that is mostly
->>>> compatible with SHA1, is different on some inputs, and is maybe more
->>>> secure.  But the _whole point_ of using SHA1 in the TPM code (well,
->>>> this really should be the whole point for new applications) is to
->>>> correctly cap the SHA1 PCRs so we can correctly _turn them off_ in the
->>>> best way without breaking compatibility with everything that might
->>>> read the event log.  I think that anyone suggesting using SHA1-DC for
->>>> this purpose should give some actual analysis as to why they think
->>>> it's an improvement, let alone even valid.
->>>
->>> I would say at a minimum it is to provide a means to cap the PCRs.
->>> Devices with TPM1.2 are still prevalent in the wild for which members of
->>> the TrenchBoot community support, and there are still valid (and secure)
->>> verification uses for SHA1 that I outlined in my previous response.
->>>
->>>> Ross et al, can you confirm that your code actually, at least by
->>>> default and with a monstrous warning to anyone who tries to change the
->>>> default, caps SHA1 PCRs if SHA256 is available?  And then can we maybe
->>>> all stop hassling the people trying to develop this series about the
->>>> fact that they're doing their best with the obnoxious system that the
->>>> TPM designers gave them?
->>>
->>> Our goal is to keep control in the hands of the user, not making
->>> unilateral decisions on their behalf. In the currently deployed
->>> solutions it is left to the initrd (user) to cap the PCRs. After some
->>> thinking, we can still ensure user control and give an option to cap the
->>> PCRs earlier. We hope to post a v11 later this week or early next week
->>> that introduces a new policy field to the existing measurement policy
->>> framework. Will add/update the kernel docs with respect to the policy
->>> expansion. We are also looking the best way we might add a warning to
->>> the kernel log if the SHA1 bank is used beyond capping the PCRs.
->>
->> As the attempt was made to lay in the policy logic, it started to become
->> convoluted and unnecessarily complicated. Thus creating more risk with
->> all the bookkeeping and yet sha1 hashes still have to be sent, the null
->> hash in this case, since the TPM driver will reject extends that do not
->> have hashes for all active banks. At this point, we have opted to keep
->> the logic simple and add a section to our documentation advising of the
->> potential risk should one choose to incorporate SHA1 in their
->> attestations of the platform.
->>
+Hi Dmitry,
+
+On Fri, Sep 13, 2024 at 03:21:07PM +0300, Dmitry Baryshkov wrote:
+> > > > > > > Once ICE has moved to a HWKM mode, the firmware key programming
+> > > > > > currently does not support raw keys.
+> > > > > > > This support is being added for the next Qualcomm chipset in Trustzone to
+> > > > > > support both at he same time, but that will take another year or two to hit
+> > > > > > the market.
+> > > > > > > Until that time, due to TZ (firmware) limitations , the driver can only
+> > > > > > support one or the other.
+> > > > > > >
+> > > > > > > We also cannot keep moving ICE modes, due to the HWKM enablement
+> > > > > > being a one-time configurable value at boot.
+> > > > > >
+> > > > > > So the init of HWKM should be delayed until the point where the user tells if
+> > > > > > HWKM or raw keys should be used.
+> > > > >
+> > > > > Ack.
+> > > > > I'll work with Bartosz to look into moving to HWKM mode only during the first key program request
+> > > > >
+> > > >
+> > > > That would mean the driver would have to initially advertise support for both
+> > > > HW-wrapped keys and raw keys, and then it would revoke the support for one of
+> > > > them later (due to the other one being used).  However, runtime revocation of
+> > > > crypto capabilities is not supported by the blk-crypto framework
+> > > > (Documentation/block/inline-encryption.rst), and there is no clear path to
+> > > > adding such support.  Upper layers may have already checked the crypto
+> > > > capabilities and decided to use them.  It's too late to find out that the
+> > > > support was revoked in the middle of an I/O request.  Upper layer code
+> > > > (blk-crypto, fscrypt, etc.) is not prepared for this.  And even if it was, the
+> > > > best it could do is cleanly fail the I/O, which is too late as e.g. it may
+> > > > happen during background writeback and cause user data to be thrown away.
+> > > 
+> > > Can we check crypto capabilities when the user sets the key?
+> > 
+> > I think you mean when a key is programmed into a keyslot?  That happens during
+> > I/O, which is too late as I've explained above.
+> > 
+> > > Compare this to the actual HSM used to secure communication or
+> > > storage. It has certain capabilities, which can be enumerated, etc.
+> > > But then at the time the user sets the key it is perfectly normal to
+> > > return an error because HSM is out of resources. It might even have
+> > > spare key slots, but it might be not enough to be able to program the
+> > > required key (as a really crazy example, consider the HSM having at
+> > > this time a single spare DES key slot, while the user wants to program
+> > > 3DES key).
+> > 
+> > That isn't how the kernel handles inline encryption keyslots.  They are only
+> > programmed as needed for I/O.  If they are all in-use by pending I/O requests,
+> > then the kernel waits for an I/O request to finish and reprograms the keyslot it
+> > was using.  There is never an error reported due to lack of keyslots.
 > 
-> I've read the TPM standard a bit, but it's been awhile, and it's too
-> complicated anyway.  So, can you remind me (and probably 3/4 of the
-> other people on this thread, too):
+> Does that mean that the I/O can be outstanding for the very long period
+> of time? Or that if the ICE hardware has just a single keyslot, but
+> there are two concurrent I/O processes using two different keys, the
+> framework will be constantly swapping the keys programmed to the HW?
 
-Sure, but honestly if you were to ask me in person, I would have given 
-you the explanation as provided in the Secure Launch Overview in the 
-documentation patch.
+Yes for both.  Of course, system designers are supposed to put in enough
+keyslots for this to not be much of a problem.
 
-> What, exactly, is your patchset doing that requires hashing at all?
-> (I assume it's extending a PCR and generating an event log entry.).
-> What, exactly, does it mean to "cap" a PCR?  How is this different
-> from what your patchset does?
+So, the "wait for a keyslot" logic in the block layer is necessary in general so
+that applications don't unnecessarily get I/O errors.  But in a properly tuned
+system this logic should be rarely executed.
 
+And in cases where the keyslots really are a bottleneck, users can of course
+just use software encryption instead.
 
-The SINIT ACM is provided a structure that basically says, here is an 
-address and size of what it will execute next. It will use that 
-information to take its transitive trust measurement of the kernel 
-before handing control to the Linux kernel. The Secure Launch code is 
-responsible for ensuring everything that can influences its execution to 
-be measured and stored into the TPM for attestations to be made at a 
-latter time. The most important part is the transitive trust measurement 
-of the next part to be executed, the initramfs. Specifically, the Secure 
-Launch code must be able to handle the situation where the initramfs 
-independent of the kernel and loaded separately. Additionally, the 
-policy function provided for optional system state to also be measured 
-and recorded, as the attestation evaluator might want them.
+Note that the number of keyslots is reported in sysfs.
 
-At the end of the day, this capability is strictly a passive (mostly, 
-see note [1] below) solution with the responsibility to maintain the 
-DRTM trust chain by taking meaningful measurements. This includes the 
-next component in the trust chain and then hand execution to that next 
-component.
+> I think it might be prefereable for the drivers and the framework to
+> support "preprogramming" of the keys, when the key is programmed to the
+> hardware when it is set by the user.
 
-The TCG specs and good practices provide that a component in either SRTM 
-or DRTM trust chains should extend a non-event record to the tpm and/or 
-its log. This is to indicate the transition point from one component in 
-the trust chain to the next component. Under the client profile, 
-firmware is required to do this by extending an event of type 
-EV_SEPARATOR before "Ready to Boot".
+This doesn't sound particularly useful.  If there are always enough keyslots,
+then keyslots never get evicted and there is no advantage to this.  If there are
+*not* always enough keyslots, then it's sometimes necessary to evict keyslots,
+so it would not be desirable to have them permanently reserved.
 
-I did not see the term actually defined in the client profile, but the 
-term "cap" refers to the specific action of hashing a value across a set 
-of PCRs. This is to reflect that certain events have occurred and will 
-result in a different but predictable change to the PCR value. Often 
-times this is to ensure that if there are TPM objects sealed to the 
-system with either that event having or have not occurred, they cannot 
-be unsealed. Thus, one has "capped" the PCRs as a means to close access 
-to the “acceptable” system state.
+It could make sense to have some sort of hints mechanism, where frequently-used
+keys can be marked as high-priority to keep programmed in a keyslot.  I don't
+see much of a need for this though, given that the eviction policy is already
+LRU, so it already prefers to keep frequently-used keys in a keyslot.
 
-To close and reiterate, Secure Launch only responsibility is to send 
-measurements to the TPM. The TPM and TPM driver has an expectation that 
-every PCR extend event contains a hash for every active algorithm bank. 
-For Secure Launch, to send SHA1 measurements has zero impact on the 
-security of the system. Whether those measurements are used for TPM 
-integrity reporting and security policy enforcement by user space or an 
-enterprise is outside the scope of the Secure Launch capability and the 
-kernel.
+> Another option might be to let the drivers validate the keys being set
+> by userspace. This way in our case the driver might report that it
+> supports both raw and wrapped keys, but start rejecting the keys once
+> it gets notified that the user has programmed other kind of keys. This
+> way key setup can fail, but the actual I/O can not. WDYT?
 
-[1] A future expansion of Secure Launch will be to enable usage of 
-Intel's Hardware Shield, link below, to provide runtime trustworthy 
-determination of SMM. The full extent of this capability can only be 
-achieved under a DRTM launch of the system with Intel TXT. When enabled,
-this can be used to verify the SMM protections are in place and inform 
-the kernel's memory management which regions of memory are safe from SMM 
-tampering.
+Well, that has the same effect as the crypto capabilities check which is already
+done.  The problem is that your proposal effectively revokes a capability, and
+that is racy.
 
-https://www.intel.com/content/dam/www/central-libraries/us/en/documents/drtm-based-computing-whitepaper.pdf
-
-> With that answered, it will hopefully be easy to see that you're
-> making the right call :)
-> 
-> --Andy
-> 
+- Eric
