@@ -1,123 +1,163 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE7FA5D915;
-	Fri, 20 Sep 2024 23:50:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA32315532E
+	for <linux-doc@vger.kernel.org>; Sat, 21 Sep 2024 09:11:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726876228; cv=none; b=sesN2RUx03i+iJAIcQRTj3Taaxpsgj/+5EY0GoEAEF2I+XQoIsxQXD/ZFdXrtIBa/G9ocKmD6AlL3ogZQlUgfiIA3mXSSGGXBG5tsYHPLu1f+D2BqIQkNcxA7JG/34A6uC8hoAuYmi1i7xEuZece+iz0zwXtD1j5ReelO9JdLPM=
+	t=1726909898; cv=none; b=sI7JTVbACWOEhxVSFsJ3X7a8v5xraw5JgvH1GlB7MRCpqAZWGTa+CBILoZlg3JnmhZhM3w5nfhbOO55Kk8/kiuGDYEUT4SdBn9gLxTGSk9H4KNkzvR/NdcRqSkkV+WQcWcGAcFMkNtnxfpBAcJbywNXA3G3bLKESGfBXDK9baEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726876228; c=relaxed/simple;
-	bh=ipjxMYTJoUHV3BA3NQmOYPF7baYuN9ZnKpWZo3rOiu4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=k5hJOOKoIEd89oIChSlAG6W+ipKsRoKQUhbb1RfNtHMnn9NOLvVMgPrx9V6UCWuwXXapn0rj/b76dr5KkXANlCQvPffKthsacTnzttYwjHfQGrDyk8+tlfFrXD3BY9nyngkW6hhekiSKTmnKnXB6AKqvj0soKh6t17ElK224JDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=oJUhsjfE; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1726909898; c=relaxed/simple;
+	bh=LpJePFkpOCrmRcm2bsO+S0TBF/81jncGa0BOoDbOWMA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dbl7u0GOPdHoxcI3LQws6R+pWgutGa/QdbQE3rijj3FrLdiVuTtV+NYSrpZf3Gp0GqhC03LMV3Be4wTCCdle4vZIRa2uT5OY+BsY8nb9lUJLSKT5r675t7KDpglKLoV8UIzSIiwui8fzuuphyj43XX8UrWwIwNaRn9ZLPcJG8gI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=XaZKm2dB; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="oJUhsjfE"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48KKfbDf018634;
-	Fri, 20 Sep 2024 23:49:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ipjxMYTJoUHV3BA3NQmOYPF7baYuN9ZnKpWZo3rOiu4=; b=oJUhsjfEtGDyM+Xk
-	sT9Exk6FnRk/K6LyxiHaCDBqhVQbTf9oAsbilKHcPnCirdSxQW7Zu1BgW5oSfbOl
-	fZi+/Dg5P+46YauPnUtI1ShsqpNNTsKIxnWvPiRVF0Hl3tNcbs/mMeNeVPfGGI5W
-	WA71H3X71j6loxOa4Uop19VSgmmhYkd2pjOPqFrgcR+youl3vZYOR085mQ5eaqAp
-	MT/5pUUcu/2hkaGobdhEskM14ziOgL75PBULCWpJURYdIszjjkZ1vdUB9UoFMl0Z
-	8dq1uAhO9+I14V7FSfXVJ8axATi9KnrF/xg0onTL2vXjzp4MtEVigsfIOxkYHy7d
-	ANgOUw==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41n4hftsu2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 20 Sep 2024 23:49:58 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48KNnwf2011994
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 20 Sep 2024 23:49:58 GMT
-Received: from [10.71.112.62] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 20 Sep
- 2024 16:49:57 -0700
-Message-ID: <182938da-da86-49a4-800a-446954cc6c60@quicinc.com>
-Date: Fri, 20 Sep 2024 16:49:57 -0700
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="XaZKm2dB"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-374ba78f192so1958652f8f.3
+        for <linux-doc@vger.kernel.org>; Sat, 21 Sep 2024 02:11:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1726909894; x=1727514694; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=C+92qmWOWTsTas7qxFq00TXpzuJdYrOV4QtxxZMwe1U=;
+        b=XaZKm2dBv5HUY4/EEmQCJIUGMHQ4CeVCcMeCBRv/7r4dGPocjvRrDllm+9khqqlfiN
+         U1b44TufL6gh+wBAUyt5YA+oyVoaDGogH1kt3EJrS4nZoZ/ew/yFq4roBLEbeeWyJbxT
+         pvL763sYKqQ46woOOhQKtdPhFHmA7xlpE9EB8Y2GDCjbxbcn5Fa/Uqnp8EwkTx3KvbvG
+         oK2KiQ864VjeXm3XQ55y87bxb7q2uATZFTTI5dJvm33I5b5bkJPGe3g4MGRTERhUfI04
+         lTahfcj81KqD8lKZX8+EpW6mTSKesBEVfCvxq+VYrIsh5svyTQDnvXezX7G2zzEnh27U
+         bOOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726909894; x=1727514694;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C+92qmWOWTsTas7qxFq00TXpzuJdYrOV4QtxxZMwe1U=;
+        b=Dzqmc2S87zG4CNUGpisvWbh9utcs/t6TVj/ri0Z3Bm/cxBcYZH0ztutpCSjCd+0ZU/
+         n8awKy+ReqNsa+f2MGKva/+qtHMsZOETSmQKlDn2P2L25fJtnaFQHEwfpefEaTYhlvzm
+         HNxgAxhW85ri1YLtpwnRhn+WaRMrcyJxgYIg4Ma+UufwbwaocVU/HUgZiEYouUcz7xoX
+         arClCJSwprIx6V45OV3Y0fNVErcWPDMag+loAnjx1Ae1no1VZ6TdzOuJUsSKX1j43hBZ
+         tA+2IkxuEQjcqjPT9WFP1JnOvFmkFcisvuNDHL9ARVZqRUW66JlqtfvkzrK5es8+VOWP
+         MjYA==
+X-Forwarded-Encrypted: i=1; AJvYcCV4TYugn+w97+7hW1fjKEQsrBOyw4q52N77SX6eoaHF4jGos+LibR7ZKJvNWvwMBWNzXrioiB+jCbU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxW2J4OOc8aJ3PAYohOFELUA08mBHUV9OhdLC0U/+SgN9Rfd20u
+	NS16nHsEzcJ0zFpq/ZND5DJBpTizqKdrpzIIH6+7lqRLelLAdb2YgdPLNZ2ex1o=
+X-Google-Smtp-Source: AGHT+IFV5E3ga/jxa4eXGMk8POq04Bbel4E3r0fgnVOV8eR2jCM6IsYm+TrLRuBiPpwnTwd1oYZTXw==
+X-Received: by 2002:adf:fcc6:0:b0:374:caf6:ca2f with SMTP id ffacd0b85a97d-37a4318a753mr2912540f8f.45.1726909893833;
+        Sat, 21 Sep 2024 02:11:33 -0700 (PDT)
+Received: from localhost ([2a02:8071:b783:6940:a0b5:bea5:b768:cc22])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378e78044dfsm19461798f8f.94.2024.09.21.02.11.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Sep 2024 02:11:33 -0700 (PDT)
+Date: Sat, 21 Sep 2024 11:11:31 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Guillaume Stols <gstols@baylibre.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Michal Marek <mmarek@suse.com>, 
+	linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	aardelean@baylibre.com, dlechner@baylibre.com, jstephan@baylibre.com
+Subject: Re: [PATCH v2 01/10] dt-bindings: iio: adc: ad7606: Set the correct
+ polarity
+Message-ID: <7mk56pxpgnlu637xo7yypzfdienyh3doch3l3fkinpqbwihf33@nu7v35gdw5zn>
+References: <20240920-ad7606_add_iio_backend_support-v2-0-0e78782ae7d0@baylibre.com>
+ <20240920-ad7606_add_iio_backend_support-v2-1-0e78782ae7d0@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v27 01/32] xhci: add helper to stop endpoint and wait for
- completion
-To: =?UTF-8?Q?Micha=C5=82_Pecio?= <michal.pecio@gmail.com>
-CC: <mathias.nyman@linux.intel.com>, <Thinh.Nguyen@synopsys.com>,
-        <alsa-devel@alsa-project.org>, <bgoswami@quicinc.com>,
-        <broonie@kernel.org>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <devicetree@vger.kernel.org>, <dmitry.torokhov@gmail.com>,
-        <gregkh@linuxfoundation.org>, <krzk+dt@kernel.org>,
-        <lgirdwood@gmail.com>, <linux-arm-msm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <pierre-louis.bossart@linux.intel.com>,
-        <robh@kernel.org>, <srinivas.kandagatla@linaro.org>, <tiwai@suse.com>
-References: <20240913103237.2f5dc796@foxbook>
- <a9dcaa5a-4f5d-451a-93aa-7457798fc243@quicinc.com>
- <20240915095514.6b01fefb@foxbook>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <20240915095514.6b01fefb@foxbook>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: iytzgxK0RhtlpMsGzW7stpvgCpcQAXKb
-X-Proofpoint-ORIG-GUID: iytzgxK0RhtlpMsGzW7stpvgCpcQAXKb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- clxscore=1015 phishscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0
- impostorscore=0 adultscore=0 suspectscore=0 lowpriorityscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2408220000 definitions=main-2409200174
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fon5yzoippkxiyy4"
+Content-Disposition: inline
+In-Reply-To: <20240920-ad7606_add_iio_backend_support-v2-1-0e78782ae7d0@baylibre.com>
 
-Hi Michal,
 
-On 9/15/2024 12:55 AM, Michał Pecio wrote:
-> Hi,
->
->> Maybe the last sentence is not needed.  When we are using the
->> secondary interrupters, at least in the offload use case that I've
->> verified with, the XHCI is completely unaware of what TDs have been
->> queued, etc...  So technically, even if we did call the default
->> handler (ie xhci_handle_cmd_stop_ep), most of the routines to
->> invalidate TDs are going to be no-ops.
-> Yes, the cancellation machinery will return immediately if there are
-> no TDs queued by xhci_hcd itself.
->
-> But xhci_handle_cmd_stop_ep() does a few more things for you - it
-> checks if the command has actually succeeded, clears any halt condition
-> which may be preventing stopping the endpoint, and it sometimes retries
-> the command (only on "bad" chips, AFAIK).
->
-> This new code does none of the above, so in the general case it can't
-> even guarantee that the endpoint is stopped when it returns zero. This
-> should ideally be documented in some way, or fixed, before somebody is
-> tempted to call it with unrealistically high expectations ;)
->
-> As far as I see, it only works for you because isochronous never halts
-> and Qualcomm HW is (hopefully) free of those stop-after-restart bugs.
-> There will be problems if the SB tries to use any other endpoint type.
+--fon5yzoippkxiyy4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-So what I ended up doing was to split off the context error handling into a separate helper API, which can be also called for the sync ep stop API.  From there, based on say....the helper re queuing the stop EP command, it would return a specific value to signify that it has done so.  The sync based API will then re-wait for the completion of the subsequent stop endpoint command that was queued.  In all other context error cases, it'd return the error to the caller, and its up to them to handle it accordingly.
+Hello Guillaume,
 
-Thanks
+On Fri, Sep 20, 2024 at 05:33:21PM +0000, Guillaume Stols wrote:
+> According to the datasheet, "Data is clocked in from SDI on the falling
+> edge of SCLK, while data is clocked out on DOUTA on the rising edge of
+> SCLK".
+> Also, even if not stated textually in the datasheet, it is made clear on
+> the diagrams that sclk idles at high.
+>=20
+> So the documentation is erroneously stating that spi-cpha is required, and
+> the example is erroneously setting both spi-cpol and spi-cpha.
 
-Wesley Cheng
+I would expect that the communication with the chip is at least
+unreliable if not outright broken with the wrong polarity. So maybe add
+something like:
 
+	On $MyMachine dropping the spi-cpha property reduces IO errors / fixes
+	measurement readout / improves somehow differently.
+
+to the commit log?
+
+> Fixes: 416f882c3b40 ("dt-bindings: iio: adc: Migrate AD7606 documentation=
+ to yaml")
+> Fixes: 6e33a125df66 ("dt-bindings: iio: adc: Add docs for AD7606 ADC")
+>=20
+> Signed-off-by: Guillaume Stols <gstols@baylibre.com>
+
+The empty line between Fixes and S-o-b is unusual. Assuming you resend
+anyway, please drop it.
+
+> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml b/=
+Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
+> index 69408cae3db9..75334a033539 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
+> @@ -29,8 +29,6 @@ properties:
+>    reg:
+>      maxItems: 1
+> =20
+> -  spi-cpha: true
+> -
+>    spi-cpol: true
+> =20
+>    avcc-supply: true
+> @@ -117,7 +115,7 @@ properties:
+>  required:
+>    - compatible
+>    - reg
+> -  - spi-cpha
+> +  - spi-cpol
+
+Adding cpol seems unrelated to this patch. (And you remove it again in
+patch #2.)
+
+>    - avcc-supply
+>    - vdrive-supply
+>    - interrupts
+
+Best regards
+Uwe
+
+--fon5yzoippkxiyy4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmbujbUACgkQj4D7WH0S
+/k5zDwf/UzSdDFwznnAQVwNU4Up1WB/17Sc+fFsZK7NmAl7vGDK+ucYNoVFnLlpj
+8rnZS4oVghQvHP4XVec0RdAN6IUraFrp65HErNSk1w/ggR/AyjQ+tkksGzWzpcQu
+NOm257ZP6D5f8CaSqw3C2z613vDtCLthp4Fnhr96EGM0d4Dz8CEB0/Afd5r8Axda
+r0nMXbg1xGlhoOnEUxKSOJHTtiFlyVx1nke+odinSs26zkmlY+suaeoTSDIQTw9d
+dFO+w2ICYF0qoTrDK2hOiIeW6pfUzkcmbAEhgXHTgWXvxnaMpxJtLUy7KqaAyIkE
+TehREFAYgFWvNzKEpIz/Ny6tGNbp7A==
+=LDVO
+-----END PGP SIGNATURE-----
+
+--fon5yzoippkxiyy4--
