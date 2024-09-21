@@ -1,61 +1,59 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F1816DEDF;
-	Sat, 21 Sep 2024 15:22:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37AF821373
+	for <linux-doc@vger.kernel.org>; Sat, 21 Sep 2024 16:45:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726932167; cv=none; b=KlWUsz1Zw9MInscyPR/MFSK6Bh1Lo1it+FddLTtJSnSU4aaveKGU14B7F11Podq5y7nZg0gwThnVZHZBZyhLUxdv4a368NgOVzqj1e+2Y54GPotXiNgF1Rul5LfCgScTbP+axdKIVVrjBbfbSK7Pnqnd/AY+bn0N3kL3deinKJI=
+	t=1726937144; cv=none; b=UQcA0zDQliHWW8Ifif8aLz0hhQlPkyMvnqKQYoB7TQzU1nI+Qwmk0EtwGEWqZC74fa5dDGADLMzV2sqg1glW8shiUnBEhGCvAjQmrPciIobgqRLPD/qDifQGV4s+hqvgveOIfLNk/G7dbYfjyvYsj5vAHNewMld7/AGo4ySUNZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726932167; c=relaxed/simple;
-	bh=WQ6yDW7b2tKjPVQ62ud6jDohOYs1KFZBIqI0ZrtJf3U=;
+	s=arc-20240116; t=1726937144; c=relaxed/simple;
+	bh=oLLDjpM/8aA+Mikd7HVUUzW/DmPjCx2KJeRPL/RYebY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=puLt0GOwj4C68bHCpXPga54nseLS+BMIiBn2X+/7tGmrPSdrbPd0xt0n8QMfhVhfysSMGN+m3/qSxs/hLS82GL+pY4yosUaSnNGPlT0R2QzyYbNpZQPKTEasEZ4ZTIWFdMxtemFG3Iy4tT+LbZpp9z39T0WtP3rRKTo1/ihyKr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P+dSBOWR; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=e/wvAEngjHxDFPIdfDTUEKeKigMYX4NlOqIoD7dEMmO6vqOjJApcVsEcThM/7j1JgyA/3+VLHuouvMutLlHM+dL3mvHL5knziPLNLPtArQXTB6SVUhvoKG3cQky6HSXQ1UNudFyTF+ekTiAz0h/A1hVS0PdneLeNUoP6S4oSjjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vmvQkQz7; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P+dSBOWR"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-719858156f4so2430487b3a.3;
-        Sat, 21 Sep 2024 08:22:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vmvQkQz7"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-374c7d14191so2441133f8f.0
+        for <linux-doc@vger.kernel.org>; Sat, 21 Sep 2024 09:45:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726932165; x=1727536965; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=qItMsRsUonNcWrShZdDYD2bs8bIb2HIyKSV/onxmju4=;
-        b=P+dSBOWRxuzvEhT5J1M9LCJ7cOxutuBYoTSnXBfB/Lxv5W5d7reXuxrzVBRGh1yaZA
-         RtG0xt6ZD3sLaqXcI+fMLK2qAju2zjpSzN01VNZO4ZuYeMKDvjui9WG70ll0jWxR9DUK
-         Sk4V0asPiD6/LpBBFMqXxiHYkmwLiv/C/PnrIP4b0q0f8DcPiZSzYX/H2qhNcNPQZpXL
-         smNrHWEOXxQtWZ9BgAbEqs8q3umPL2jeH5mn0ob7mLNZxbVGmgbAXljKnaEnKvkONPk6
-         tgQPHhIEcePRaXRN09j9PL87viIVufCycklX5yvilVFxsmeeEbhSKxV2+vM2Uc3GpZ8d
-         NPWg==
+        d=linaro.org; s=google; t=1726937140; x=1727541940; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=11BcDD5IihY8sHkWDN4bZKYEHZDz5Md3HLgNTNoCcv8=;
+        b=vmvQkQz72MPVdBlwdv0SyO9V/nPM1S1tBQno0dRhQTjyZbQtxgcAnfc51R504mNeZ+
+         SA+6j93+f+NDiN/ULZ9pu1L0DYjcu+orgrhXblt1o06fVheGPcA9cIVbPIIWEuH5AP4P
+         6QvAZ1Lh7PlazRrPj2JZq3zggolcRRP3Fqqn32JwBPjuVH+HLD2f78BcoDHhgeJ1ol2x
+         MFspv+4evj/6R+bpMDasETJw3LDqurevE0kQ3/9U8LSaaKeIW9s4K0/JkEQfungcO0EL
+         43wL70CEjUOGEvxAa8oSUQj1OrKySrN/X81CT4plEk7SVKfLF8mpiVLReX5pU6Vc6Qw9
+         elaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726932165; x=1727536965;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qItMsRsUonNcWrShZdDYD2bs8bIb2HIyKSV/onxmju4=;
-        b=APV8fOKDKzX5asBUBaF04dRanaKdNQOXLZSRzeenPjbbtv59dDXb+wMnXTJG1ZU0CL
-         cBJ2wVYpzGGIzzXt/6cCYCcpj+vtzXgAeWFQEsgdnbAKX/CmbrZaLTBQ9+/HTovgMCpR
-         vK3HuaWPEHbPwpBFPhPfLpPX1lR3oVbPJT/rFF/E/VltzeFdnIwPLMdVaGEEPZZQ6ZFQ
-         irUFvWNXxYW56oheZ9WJQAQdnQ47kphxbhdBPUIYC+3Gv0GC4YbNFeF8154qWjR75u/t
-         i8svdBmsf2PZbmQ7dC/Vkeo2RD3AHQCzjRcGCYcg3CnuulSURupl5qWDMQV92PisTHZE
-         BXJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVuZTAqY8ykCeemwPnoG0OhzRagXfAPNAo8aJUfw3fgatDwCn64UqHaTrwGeswb38LZo3hLAWTL/fs=@vger.kernel.org, AJvYcCWkYluDSIk42WGjniwzYsGlA5j48gXzX2H8mL9An1/7XDhOJITZC4wPMdaL3Ph6TPfxZ6Yil43VB5lUogaa@vger.kernel.org, AJvYcCX1mETJFxFGLzVpdj2D0Rebp4xISOLMYof6DtM6WWHixa20VMVQaKj8mUuVqXY/P0fZ0WEdrVui0aCOTlY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZzskZ7BrchnIp5hcUBTEasYIghu5d3+qbspsEYmWS55MIYtMg
-	Nf5BSsHsSISZp1yP98E6EgK+koWsAdfWwZ0rs8XG/v6SNHdETl9f
-X-Google-Smtp-Source: AGHT+IFDe0HMTvo456NwCylAzGuOFcCVtZC7psj+pzFjX+o0ryxZt21ezalR4E+rZbHWDXvXXvlgRA==
-X-Received: by 2002:aa7:8891:0:b0:717:8d5d:94d6 with SMTP id d2e1a72fcca58-7199c9596efmr8703928b3a.12.1726932164896;
-        Sat, 21 Sep 2024 08:22:44 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71944abb7a0sm11400482b3a.73.2024.09.21.08.22.42
+        d=1e100.net; s=20230601; t=1726937140; x=1727541940;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=11BcDD5IihY8sHkWDN4bZKYEHZDz5Md3HLgNTNoCcv8=;
+        b=vhyo0cWo0F8QtykCN7oDbS2e/n9jzLtApu0vBdQuf57y73sRQOAZsLakdcg98aRLdg
+         6TvSvHz8sbuPtzsfmyJUPSiS/OnVaESC+ghzXmOZfHoe6PpjUDM9x9dQ/IMKoZpL2AmV
+         nT0wGO9X49HqzTvgyjXL1kxbIIVG2Q7G+PT0SxSKQG+JDj2Q3qw+1auVaM0aBtiZTXGD
+         KRH+TJ4v8+9hFqsdVafAFVPJ+fnrsjTSXzdY3JEscpFE6a6qqkG532Q72Snrli7r+DW9
+         XKJENN9/wY9VQVhejD+FOmgYk/qJx+frBCRfXU6xZDADUShHwyGn6s7Gxv+jFwoZSPPI
+         jyOA==
+X-Forwarded-Encrypted: i=1; AJvYcCVqZzlaSI57F/lNRXauy02iw2W9sT9todqrEq655VBK0y5BOm9/tvVRNtLdMh4wInDipjXKEqFj03k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxRbdHIthpbfOK5etZMuIr2BJG8BeevsMT5sapFZnd7cUphUuG
+	J9Iy/TsZ0uqi/n+CY5i5doST4DArH6ruumleEQiBo0Z4WbSu4sxoDJDfupHvQ3E=
+X-Google-Smtp-Source: AGHT+IGJxFMVH30eOyDamIi8EJSOxXEIYis2TfZ8Ked9m32LuYuazdpkQsz44vOA8nV3YSdj2nd1Vw==
+X-Received: by 2002:adf:f6cd:0:b0:374:d2a3:d213 with SMTP id ffacd0b85a97d-37a414f4b94mr3768151f8f.18.1726937140340;
+        Sat, 21 Sep 2024 09:45:40 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:7001:d575:d71f:f3b? ([2a01:e0a:982:cbb0:7001:d575:d71f:f3b])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37a47b58bfdsm3004926f8f.14.2024.09.21.09.45.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 Sep 2024 08:22:43 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <2f3cec6e-7b05-4510-8c62-244ed114ad17@roeck-us.net>
-Date: Sat, 21 Sep 2024 08:22:41 -0700
+        Sat, 21 Sep 2024 09:45:39 -0700 (PDT)
+Message-ID: <11cdd74f-683c-458e-bb18-8a0d8f8904e8@linaro.org>
+Date: Sat, 21 Sep 2024 18:45:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,158 +61,187 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] hwmon: (pmbus/core) improve handling of write
- protected regulators
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20240920-pmbus-wp-v1-0-d679ef31c483@baylibre.com>
- <20240920-pmbus-wp-v1-4-d679ef31c483@baylibre.com>
- <4052294e-7b7f-4238-9b47-92727de4d516@roeck-us.net>
- <1jsettz1hh.fsf@starbuckisacylon.baylibre.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <1jsettz1hh.fsf@starbuckisacylon.baylibre.com>
+Subject: Re: [PATCH v4 00/11] Preemption support for A7XX
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: Antonino Maniscalco <antomani103@gmail.com>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Sharat Masetty <smasetty@codeaurora.org>
+References: <20240917-preemption-a750-t-v4-0-95d48012e0ac@gmail.com>
+ <c70392bb-bda1-48c7-824e-23d6f92f54ef@linaro.org>
+ <20240920170949.vp3642gghhey3pjb@hu-akhilpo-hyd.qualcomm.com>
+Content-Language: en-GB
+From: Neil Armstrong <neil.armstrong@linaro.org>
+In-Reply-To: <20240920170949.vp3642gghhey3pjb@hu-akhilpo-hyd.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 9/21/24 04:32, Jerome Brunet wrote:
-> On Fri 20 Sep 2024 at 14:13, Guenter Roeck <linux@roeck-us.net> wrote:
-[ ... ]
-
->>>    +int pmbus_regulator_init_cb(struct regulator_dev *rdev,
->>> +			    struct regulator_config *config)
->>> +{
->>> +	struct pmbus_data *data = config->driver_data;
->>> +	struct regulation_constraints *constraints = rdev->constraints;
->>> +
->>> +	if (data->flags & PMBUS_OP_PROTECTED)
->>> +		constraints->valid_ops_mask &= ~REGULATOR_CHANGE_STATUS;
->>> +
->>> +	if (data->flags & PMBUS_VOUT_PROTECTED)
->>> +		constraints->valid_ops_mask &= ~REGULATOR_CHANGE_VOLTAGE;
->>> +
->>> +	return 0;
->>> +}
->>> +EXPORT_SYMBOL_NS_GPL(pmbus_regulator_init_cb, PMBUS);
->>> +
+Le 20/09/2024 à 19:09, Akhil P Oommen a écrit :
+> On Wed, Sep 18, 2024 at 09:46:33AM +0200, Neil Armstrong wrote:
+>> Hi,
 >>
->> I am a bit at loss trying to understand why the constraints can't be passed
->> with the regulator init_data when registering the regulator. Care to explain ?
+>> On 17/09/2024 13:14, Antonino Maniscalco wrote:
+>>> This series implements preemption for A7XX targets, which allows the GPU to
+>>> switch to an higher priority ring when work is pushed to it, reducing latency
+>>> for high priority submissions.
+>>>
+>>> This series enables L1 preemption with skip_save_restore which requires
+>>> the following userspace patches to function:
+>>>
+>>> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30544
+>>>
+>>> A flag is added to `msm_submitqueue_create` to only allow submissions
+>>> from compatible userspace to be preempted, therefore maintaining
+>>> compatibility.
+>>>
+>>> Preemption is currently only enabled by default on A750, it can be
+>>> enabled on other targets through the `enable_preemption` module
+>>> parameter. This is because more testing is required on other targets.
+>>>
+>>> For testing on other HW it is sufficient to set that parameter to a
+>>> value of 1, then using the branch of mesa linked above, `TU_DEBUG=hiprio`
+>>> allows to run any application as high priority therefore preempting
+>>> submissions from other applications.
+>>>
+>>> The `msm_gpu_preemption_trigger` and `msm_gpu_preemption_irq` traces
+>>> added in this series can be used to observe preemption's behavior as
+>>> well as measuring preemption latency.
+>>>
+>>> Some commits from this series are based on a previous series to enable
+>>> preemption on A6XX targets:
+>>>
+>>> https://lkml.kernel.org/1520489185-21828-1-git-send-email-smasetty@codeaurora.org
+>>>
+>>> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
+>>> ---
+>>> Changes in v4:
+>>> - Added missing register in pwrup list
+>>> - Removed and rearrange barriers
+>>> - Renamed `skip_inline_wptr` to `restore_wptr`
+>>> - Track ctx seqno per ring
+>>> - Removed secure preempt context
+>>> - NOP out postamble to disable it instantly
+>>> - Only emit pwrup reglist once
+>>> - Document bv_rptr_addr
+>>> - Removed unused A6XX_PREEMPT_USER_RECORD_SIZE
+>>> - Set name on preempt record buffer
+>>> - Link to v3: https://lore.kernel.org/r/20240905-preemption-a750-t-v3-0-fd947699f7bc@gmail.com
+>>>
+>>> Changes in v3:
+>>> - Added documentation about preemption
+>>> - Use quirks to determine which target supports preemption
+>>> - Add a module parameter to force disabling or enabling preemption
+>>> - Clear postamble when profiling
+>>> - Define A6XX_CP_CONTEXT_SWITCH_CNTL_LEVEL fields in a6xx.xml
+>>> - Make preemption records MAP_PRIV
+>>> - Removed user ctx record (NON_PRIV) and patch 2/9 as it's not needed
+>>>     anymore
+>>> - Link to v2: https://lore.kernel.org/r/20240830-preemption-a750-t-v2-0-86aeead2cd80@gmail.com
+>>>
+>>> Changes in v2:
+>>> - Added preept_record_size for X185 in PATCH 3/7
+>>> - Added patches to reset perf counters
+>>> - Dropped unused defines
+>>> - Dropped unused variable (fixes warning)
+>>> - Only enable preemption on a750
+>>> - Reject MSM_SUBMITQUEUE_ALLOW_PREEMPT for unsupported targets
+>>> - Added Akhil's Reviewed-By tags to patches 1/9,2/9,3/9
+>>> - Added Neil's Tested-By tags
+>>> - Added explanation for UAPI changes in commit message
+>>> - Link to v1: https://lore.kernel.org/r/20240815-preemption-a750-t-v1-0-7bda26c34037@gmail.com
+>>>
+>>> ---
+>>> Antonino Maniscalco (11):
+>>>         drm/msm: Fix bv_fence being used as bv_rptr
+>>>         drm/msm/A6XX: Track current_ctx_seqno per ring
+>>>         drm/msm: Add a `preempt_record_size` field
+>>>         drm/msm: Add CONTEXT_SWITCH_CNTL bitfields
+>>>         drm/msm/A6xx: Implement preemption for A7XX targets
+>>>         drm/msm/A6xx: Sync relevant adreno_pm4.xml changes
+>>>         drm/msm/A6xx: Use posamble to reset counters on preemption
+>>>         drm/msm/A6xx: Add traces for preemption
+>>>         drm/msm/A6XX: Add a flag to allow preemption to submitqueue_create
+>>>         drm/msm/A6xx: Enable preemption for A750
+>>>         Documentation: document adreno preemption
+>>>
+>>>    Documentation/gpu/msm-preemption.rst               |  98 +++++
+>>>    drivers/gpu/drm/msm/Makefile                       |   1 +
+>>>    drivers/gpu/drm/msm/adreno/a2xx_gpu.c              |   2 +-
+>>>    drivers/gpu/drm/msm/adreno/a3xx_gpu.c              |   2 +-
+>>>    drivers/gpu/drm/msm/adreno/a4xx_gpu.c              |   2 +-
+>>>    drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |   6 +-
+>>>    drivers/gpu/drm/msm/adreno/a6xx_catalog.c          |   7 +-
+>>>    drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 325 ++++++++++++++-
+>>>    drivers/gpu/drm/msm/adreno/a6xx_gpu.h              | 174 ++++++++
+>>>    drivers/gpu/drm/msm/adreno/a6xx_preempt.c          | 440 +++++++++++++++++++++
+>>>    drivers/gpu/drm/msm/adreno/adreno_gpu.h            |   9 +-
+>>>    drivers/gpu/drm/msm/msm_drv.c                      |   4 +
+>>>    drivers/gpu/drm/msm/msm_gpu.c                      |   2 +-
+>>>    drivers/gpu/drm/msm/msm_gpu.h                      |  11 -
+>>>    drivers/gpu/drm/msm/msm_gpu_trace.h                |  28 ++
+>>>    drivers/gpu/drm/msm/msm_ringbuffer.h               |  18 +
+>>>    drivers/gpu/drm/msm/msm_submitqueue.c              |   3 +
+>>>    drivers/gpu/drm/msm/registers/adreno/a6xx.xml      |   7 +-
+>>>    .../gpu/drm/msm/registers/adreno/adreno_pm4.xml    |  39 +-
+>>>    include/uapi/drm/msm_drm.h                         |   5 +-
+>>>    20 files changed, 1117 insertions(+), 66 deletions(-)
+>>> ---
+>>> base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
+>>> change-id: 20240815-preemption-a750-t-fcee9a844b39
+>>>
+>>> Best regards,
+>>
+>> I've been running vulkan-cts (1.3.7.3-0-gd71a36db16d98313c431829432a136dbda692a08 from Yocto)
+>> on SM8650-QRD, SM8550-QRD & SM8450-HDK boards with enable_preemption in default value
+>> and forced to 1, and I've seen no regression so far
+>>
+>> On SM8550, I've seen a few:
+>> platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0 [msm]] *ERROR* Message HFI_H2F_MSG_GX_BW_PERF_VOTE id 2743 timed out waiting for response
+>> platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0 [msm]] *ERROR* Unexpected message id 2743 on the response queue
+>> but it's unrelated to preempt
+>>
+>> and on SM8450:
+>> platform 3d6a000.gmu: [drm:a6xx_gmu_set_oob [msm]] *ERROR* Timeout waiting for GMU OOB set GPU_SET: 0x0
+>> msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] *ERROR* 7.3.0.1: hangcheck detected gpu lockup rb 0!
+>> msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] *ERROR* 7.3.0.1:     completed fence: 331235
+>> msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] *ERROR* 7.3.0.1:     submitted fence: 331236
+>> adreno 3d00000.gpu: [drm:a6xx_irq [msm]] *ERROR* gpu fault ring 0 fence 50de4 status 00800005 rb 0000/0699 ib1 0000000000000000/0000 ib2 0000000000000000/0000
+>> msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR* 7.3.0.1: hangcheck recover!
+>> msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR* 7.3.0.1: offending task: deqp-vk (/usr/lib/vulkan-cts/deqp-vk)
+>> msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR* 7.3.0.1: hangcheck recover!
+>> leading to a VK_ERROR_DEVICE_LOST, but again unrelated to preempt support.
+>>
+>> So you can also add:
+>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
+>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8450-HDK
+>>
 > 
-> Sure it something I found while working the problem out.
+> Niel,
 > 
-> Simply put:
->   * you should be able to, in theory.
->   * currently it would not work
->   * when fixed I think it would still be more complex to do so.
+> On my x1e device, all submissions were somehow going into only a single
+> ring, even the compositor's. Not sure why. So effectively preemption was
+> not really exercised. I had to force one of the two benchmark I ran
+> using the "highprio" mesa debug flag force submittions to ring 0.
 > 
-> ATM, if you pass init_data, it will be ignored on DT platforms in
-> favor of the internal DT parsing of the regulator framework. The DT
-> parsing sets REGULATOR_CHANGE_STATUS as long as the always-on prop is
-> not set ... including for write protected regulator obviously.
+> If possible it is a good idea to check the new preemption traces to
+> ensure preemption kicks in.
+
+Sure I'll run the test again on a750 and check if preemption kicks in.
+
+Neil
+
 > 
-
-If the chip is read-only, I'd argue that the always-on property should
-be set in devicetree. After all, that is what it is if the chip is
-in read-only state. In other words, if always-on is _not_ set in
-regulator constraints, I'd see that as request to override write-protect
-in the driver if there is a change request from regulator code.
-
-> This is something that might get fix with this change [1]. Even with that
-> fixed, passing init_data systematically would be convenient only if you
-> plan on skipping DT provided constraints (there are lot of those), or
-> redo the parsing in PMBus.
+> -Akhil
 > 
-
-I disagree. I am perfectly fine with DT overriding constraints provided
-by the driver. The driver can provide its own constraints, and if dt
-overrides them, so be it. This is not different to the current code.
-The driver provides a variety of limits to the regulator core.
-If dt says "No, I don't believe that the minimum voltage is 1.234V, I
-insist that it is 0.934V", it is not the driver's fault if setting
-the voltage to anything below 1.234V fails. I would actually argue
-that this is intentional, and that the driver should not on its own
-try to override values provided through devicetree. After all, this
-is a two-way problem: Devicetree may also limit voltage or current
-ranges to less than the range reported by the driver.
-
-Again, if devicetree provides constraints, and those do not include
-the always-on property, we should see that as request to override any
-chip write protection in the driver while the command is executed.
-We should not try to override devicetree constraints.
-
-> Also a callback can be attached to regulator using the pmbus_ops, and
-> only those. PMBus core just collect regulators provided by the drivers
-> in pmbus_regulator_register(), there could other type of regulators in
-> the provided table (something the tps25990 could use). It is difficult
-> to set/modify the init_data (or the ops) in pmbus_regulator_register()
-> because of that.
-> 
-
-The solution would be to copy the init data before manipulating it.
-I don't see why that would be a problem. After all, the data is not needed
-after the call to regulator_register() since the regulator code keeps
-its own copy.
-
-> Using a callback allows to changes almost nothing to what is currently
-> done, so it is safe and address the problem regardless of the
-> platform type. I think the solution is fairly simple for both regulator
-> and pmbus. It could be viewed as just as extending an existing
-> callback. I chose to replace it make things more clear.
-> 
-
-At the same time I see it as unnecessary and possibly even harmful.
-Maybe we have a different understanding of complexity, but I don't
-think that copying the init data and attaching constraints to it in
-the PMBus core would be more complex than introducing a new regulator
-callback and implementing it.
-
-Thanks,
-Guenter
+>> Thanks,
+>> Neil
 
