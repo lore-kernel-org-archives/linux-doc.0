@@ -1,127 +1,221 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E5E11712
-	for <linux-doc@vger.kernel.org>; Sun, 22 Sep 2024 04:07:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85EAC6FBF
+	for <linux-doc@vger.kernel.org>; Sun, 22 Sep 2024 09:55:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726978055; cv=none; b=Oj1HH1SUautwLqR7vrmfZ+KRtBoIZIn0kHwgSfixxeisasibdZWVOLYInzTng/22haTjFjOZcAt5Jrpfk37XHaTzJT8aDuTnQBYDZ4QD9HBYBRoOfbEyqzEo1CulqjM8gw5dNPA3Jri7zljpNCl+tVSjo/9SMAFLJQI/dar24rw=
+	t=1726998913; cv=none; b=fUMpmONp+861mf8ldr2GbXJXOxu9qRaXeutTLhe+L3Dh8n3hPadYP3V6tQvhhBd7XHvMi6nL8FsH/yTF0cajfBR62zcU0n1kx0uywxLH3pH8/vjpzjGs9hn/KwtvzZmxEhxg19gUa0Owz0YDoHHD1gXDt6DPFmQCJtyHC5Cl0iA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726978055; c=relaxed/simple;
-	bh=w5Wj5m9mDC/I3C7aKByt/Bh56UkWXtpnu1Ov7QbuECA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=iSY+3CyVp4CwCZ7eVWKlFhb4NQAnW9fD5K7Hn/ivo8HZMn7Ivg2y/3b+CjbI8oZIRnoVtH0ELxlIAfVkdiJv/wyR8lVdoB1rbszNLHGNFPLxMjX8Jkbw+mdiIrlxG2n8FOFkxnx36bZWFB0iTCbEFfy84dsSBqLcF7iWXLSYa8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jhf6EtFr; arc=none smtp.client-ip=209.85.216.54
+	s=arc-20240116; t=1726998913; c=relaxed/simple;
+	bh=CeDes7R2LpfAXtOku2fbpjXobwbDrU0kfBqni3o6Stk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=C8HwkIN12VWQahUEVTrxw0tc2sOPsPQQA2DyzXd7c2MBSAL91lQVid8RXkh9B7k1lmRf0F8FG6LFJebzUAwmsYNm9m0VLLpG40Isj2fJ1hUXsMihUm27FUKaOa19TfRPdAxK7+vto5hMg0L2SNPX/iAFifTUYKmBv5c7nvOEDss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NYkQzKbV; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jhf6EtFr"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2d8a4bad409so2186665a91.0
-        for <linux-doc@vger.kernel.org>; Sat, 21 Sep 2024 21:07:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NYkQzKbV"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2068a7c9286so34846435ad.1
+        for <linux-doc@vger.kernel.org>; Sun, 22 Sep 2024 02:55:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726978053; x=1727582853; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1726998911; x=1727603711; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QYnlCR+mJRvDB5uaSTj2gQFcHzYDHuvczZgM9uxSasc=;
-        b=Jhf6EtFrgdvnfwbRZGCo81daZhJ32eSdV3crbXIgI3fxOUujYsIPz8iSvyBvNUiXPg
-         g8WfoFdk2TrFLtKdReBxqL9ppNEPpNfNogUGgOTZ1f4fuQQyEcNHacTAP8xVbjJ18Cbb
-         K+R5LIw91UKgDAah/waIBBG5yEKp9JP6VfOQolw8OsgkP1Vol4iVyR6c/4gWNF4T2Bcq
-         dFRZrrq4EFQt39CgFWTml7ENrnUD5a6TQyCOt2BqeZXZNSgKJOe25vCEev6m/dkEiKDt
-         tReXVC01dP6HdT05aOchYZK37IXCrbtwFdv2tjwYEFnmqCP0G8LkwzvyuzXYhFa6LwI3
-         bQKQ==
+        bh=gGhASXP0YGE4ncucrvEzkGeI2BDKX774WZmNjI6QgXQ=;
+        b=NYkQzKbVVq+6jbQwSM397Er/4gyjTJs7g5gWhu8kFluSJf0YcSXYlGTv97SnCily59
+         xIg8RMuq34Tl4r3Fali/FYvJfmau2qvhMZrniOolTF8fdkRFtohrq98rcj91Xeufus3C
+         tRqLuI7XMW8DNokrctD6FyM6ZhwvOnfVWhYDPF7B5Zadn9gpTd3+YI0bPJgAsFABFoKT
+         iNrgHDv+wIWSU9rXTdidpWxXipN0pqmIaTn1UZLbgpYWVT/3/kcx/YmCtG6m8r6Tz9Om
+         BxeYv6c+jOVvImCWAonkMTM+u+rBjmzRQHw9WnphlZXnWhlmeCvBW/vKwgto7P76Ena3
+         RDng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726978053; x=1727582853;
+        d=1e100.net; s=20230601; t=1726998911; x=1727603711;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=QYnlCR+mJRvDB5uaSTj2gQFcHzYDHuvczZgM9uxSasc=;
-        b=ZYziZJTLcrYnMfDZf8lwddNb5q0K8HCJB0BdNKLV60ElIillaQJlh4r1uhitZIEYzS
-         hsbqYnOR1l8YrBOQcRMmVKnKjqHWzCE3NjUBUZc1VMLN5iqDbEzjvKFC6FT5KnRWO7di
-         ChtmOr75SdotW2anHv4qOU91GgPBURu3Y3NZ0Kz6WWfAG4ZwzzG/Rm4uCHWx6t8WpSh9
-         Ql/wdNXIxX6mZ8dlv/ljgpaONi5x2pJWi55WmiyPy3oTvVdCjecrf8fc0yWqoScAZAyn
-         phk3Q6w2TPLRF/xi0dezjLHYvkYe9XUmFdUuwvwCzlMj9Gkyc14vHAAqx+5fVZqyVTee
-         LvNQ==
-X-Gm-Message-State: AOJu0YxWG9n0SCMZ0Ps+VLE4C4jyJ2CHcK2sReaiJtcxOkIssTXs6S0B
-	pFfJr1vO0gZMCOZ1Cgq/Ed3WSgitaFt5GhJcLDFcnK9tsSYzqLoH
-X-Google-Smtp-Source: AGHT+IGP+5nHhwp+U75e9ynhWP+eaSP9Qp7UcZqeYLe4655tjDosK+hNGt7ONOZeVXvlakVQMpBKGw==
-X-Received: by 2002:a17:90b:1b45:b0:2c9:7616:dec7 with SMTP id 98e67ed59e1d1-2dd80c4cad3mr8449269a91.6.1726978052893;
-        Sat, 21 Sep 2024 21:07:32 -0700 (PDT)
-Received: from ubuntu-2204.. (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2dd6ef3666bsm6860822a91.45.2024.09.21.21.07.31
+        bh=gGhASXP0YGE4ncucrvEzkGeI2BDKX774WZmNjI6QgXQ=;
+        b=Kvuo43OnMpBsfet84tZdlKHaEghzbDJ+OUnz7hpfNALltIdutEFcGL4szKvwNEinCy
+         Na0y4/ZpQI2oX57TdhMeCOR6keBMbfP9cw7p+rpJVER0u7ewt6LjnN6ILev1iezJz6Sd
+         EHpa5OQBRUhnFKOvCHKZJ+qnwf7rRJOBLJMPuRIuHYYHM1b+FKCVsdBWLZYlbQ+DkTIo
+         h3peJNWa3bdf9SVKT3MLVh1gWBalqzvPhbv+tZAGWBOEzbJndfbzoTcsRt+MnrTA46Qv
+         +qHVB5hdnV9SbaQeRI8fB+z5Gq7Z3Z8dgkSR053fLNJiEdfnHLJj7fXOcbsjlkRlDbFd
+         vzFQ==
+X-Gm-Message-State: AOJu0YzEwy61u0r/K4KQ7m8ZWbk6taaID4ppDGCg4QIQM8yZWgIz1qF3
+	tQ0/LwtALs8580Q/FUj/5JrZY9aY7dBnfRmLsXrjXVtCrY6msMVq
+X-Google-Smtp-Source: AGHT+IEpbyRywRFf64s8nwAH9zd5Hq67CIGz2ZoafpEw6hajqm3BfXSFfz0CsVyfqgLyPb/cH5v7tQ==
+X-Received: by 2002:a17:903:24c:b0:207:625:cef1 with SMTP id d9443c01a7336-208d8339e94mr107679625ad.2.1726998910552;
+        Sun, 22 Sep 2024 02:55:10 -0700 (PDT)
+Received: from localhost ([183.226.245.34])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20794601083sm118459785ad.71.2024.09.22.02.55.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Sep 2024 21:07:32 -0700 (PDT)
-From: Akira Yokosawa <akiyks@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
+        Sun, 22 Sep 2024 02:55:10 -0700 (PDT)
+From: "qiwu.chen" <qiwuchen55@gmail.com>
+X-Google-Original-From: "qiwu.chen" <qiwu.chen@transsion.com>
+To: corbet@lwn.net,
+	oleg@redhat.com,
+	mhocko@suse.com,
+	jani.nikula@intel.com,
+	akpm@linux-foundation.org,
+	brauner@kernel.org,
+	paulmck@kernel.org
 Cc: linux-doc@vger.kernel.org,
-	Akira Yokosawa <akiyks@gmail.com>,
-	Tsugikazu Shibata <shibata@linuxfoundation.org>
-Subject: [PATCH] docs/ja_JP: howto: Catch up changes in v6.11
-Date: Sun, 22 Sep 2024 13:07:09 +0900
-Message-Id: <20240922040709.44490-1-akiyks@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	"qiwu.chen" <qiwu.chen@transsion.com>
+Subject: [PATCH v3 1/2] panic: add option to dump task maps info in panic_print
+Date: Sun, 22 Sep 2024 17:55:03 +0800
+Message-Id: <20240922095504.7182-1-qiwu.chen@transsion.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Apply changes made in commit 413e775efaec ("Documentation: fix links
-to mailing list services").
+Currently, it's hard to debug panic issues caused by kill init,
+since there is no debug info from user mode in current panic msg
+such as the user_regs and maps info.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Cc: Tsugikazu Shibata <shibata@linuxfoundation.org>
+This patch adds an option to dump task maps info in panic_print.
+
+Signed-off-by: qiwu.chen <qiwu.chen@transsion.com>
 ---
- Documentation/translations/ja_JP/process/howto.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ .../admin-guide/kernel-parameters.txt         |  1 +
+ Documentation/admin-guide/sysctl/kernel.rst   |  1 +
+ kernel/panic.c                                | 82 +++++++++++++++++++
+ 3 files changed, 84 insertions(+)
 
-diff --git a/Documentation/translations/ja_JP/process/howto.rst b/Documentation/translations/ja_JP/process/howto.rst
-index 872876c67896..d9ba40588e46 100644
---- a/Documentation/translations/ja_JP/process/howto.rst
-+++ b/Documentation/translations/ja_JP/process/howto.rst
-@@ -361,7 +361,7 @@ https://patchwork.kernel.org/ でリストされています。
- 全サブシステムツリーからほぼ毎日プルされてできる特別なテスト用のリポジ
- トリが存在します-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 8337d0fed311..f76709deef6c 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4253,6 +4253,7 @@
+ 			bit 5: print all printk messages in buffer
+ 			bit 6: print all CPUs backtrace (if available in the arch)
+ 			bit 7: print only tasks in uninterruptible (blocked) state
++			bit 8: print task maps info
+ 			*Be aware* that this option may print a _lot_ of lines,
+ 			so there are risks of losing older messages in the log.
+ 			Use this option carefully, maybe worth to setup a
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index f8bc1630eba0..558e365b76a9 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -872,6 +872,7 @@ bit 4  print ftrace buffer
+ bit 5  print all printk messages in buffer
+ bit 6  print all CPUs backtrace (if available in the arch)
+ bit 7  print only tasks in uninterruptible (blocked) state
++bit 8  print task maps info
+ =====  ============================================
  
--       https://git.kernel.org/?p=linux/kernel/git/next/linux-next.git
-+       https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+ So for example to print tasks and memory info on panic, user can::
+diff --git a/kernel/panic.c b/kernel/panic.c
+index 753d12f4dc8f..5b76ff92a6fc 100644
+--- a/kernel/panic.c
++++ b/kernel/panic.c
+@@ -77,6 +77,8 @@ EXPORT_SYMBOL_GPL(panic_timeout);
+ #define PANIC_PRINT_ALL_PRINTK_MSG	0x00000020
+ #define PANIC_PRINT_ALL_CPU_BT		0x00000040
+ #define PANIC_PRINT_BLOCKED_TASKS	0x00000080
++#define PANIC_PRINT_TASK_MAPS_INFO	0x00000100
++
+ unsigned long panic_print;
  
- このやり方によって、linux-next は次のマージ機会でどんなものがメイン
- ラインにマージされるか、おおまかな展望を提供します。
-@@ -401,12 +401,12 @@ https://bugzilla.kernel.org でバグ報告を調べようとする人もいる
- は Linux kernel メーリングリストに参加しています。このリストの登録/脱
- 退の方法については以下を参照してください-
+ ATOMIC_NOTIFIER_HEAD(panic_notifier_list);
+@@ -208,6 +210,83 @@ void nmi_panic(struct pt_regs *regs, const char *msg)
+ }
+ EXPORT_SYMBOL(nmi_panic);
  
--	http://vger.kernel.org/vger-lists.html#linux-kernel
-+	https://subspace.kernel.org/subscribing.html
++/*
++ * This function is called in panic proccess if the PANIC_PRINT_TASK_MAPS_INFO
++ * flag is specified in panic_print, which is helpful to debug panic issues due
++ * to an unhandled falut in user mode such as kill init.
++ */
++static void dump_task_maps_info(struct task_struct *tsk)
++{
++	struct pt_regs *user_ret = task_pt_regs(tsk);
++	struct mm_struct *mm = tsk->mm;
++	struct vm_area_struct *vma;
++
++	if (!mm || !user_mode(user_ret))
++		return;
++
++	pr_info("Dump task %s:%d maps start\n", tsk->comm, task_pid_nr(tsk));
++	mmap_read_lock(mm);
++	VMA_ITERATOR(vmi, mm, 0);
++	for_each_vma(vmi, vma) {
++		struct file *file = vma->vm_file;
++		int flags = vma->vm_flags;
++		unsigned long long pgoff = ((loff_t)vma->vm_pgoff) << PAGE_SHIFT;
++		struct anon_vma_name *anon_name = NULL;
++		struct mm_struct *mm = vma->vm_mm;
++		char buf[256] = {0};
++		const char *name = NULL;
++
++		if (mm)
++			anon_name = anon_vma_name(vma);
++
++		if (file) {
++			if (anon_name) {
++				snprintf(buf, sizeof(buf), "[anon_shmem:%s]", anon_name->name);
++				name = buf;
++			} else {
++				char *f_path = d_path(file_user_path(file), buf, sizeof(buf));
++
++				name = IS_ERR(f_path) ? "?" : f_path;
++			}
++			goto print;
++		}
++
++		if (vma->vm_ops && vma->vm_ops->name) {
++			name = vma->vm_ops->name(vma);
++			if (name)
++				goto print;
++		}
++
++		name = arch_vma_name(vma);
++		if (!name) {
++			if (mm) {
++				if (vma_is_initial_heap(vma))
++					name = "[heap]";
++				else if (vma_is_initial_stack(vma))
++					name = "[stack]";
++			} else
++				name = "[vdso]";
++
++			if (anon_name) {
++				snprintf(buf, sizeof(buf), "[anon:%s]", anon_name->name);
++				name = buf;
++			}
++		}
++
++print:
++		if (name)
++			pr_info("%08lx-%08lx %c%c%c%c %08llx %s\n",
++				vma->vm_start, vma->vm_end,
++				flags & VM_READ ? 'r' : '-',
++				flags & VM_WRITE ? 'w' : '-',
++				flags & VM_EXEC ? 'x' : '-',
++				flags & VM_MAYSHARE ? 's' : 'p',
++				pgoff, name);
++	}
++	mmap_read_unlock(mm);
++	pr_info("Dump task %s:%d maps end\n", tsk->comm, task_pid_nr(tsk));
++}
++
+ static void panic_print_sys_info(bool console_flush)
+ {
+ 	if (console_flush) {
+@@ -233,6 +312,9 @@ static void panic_print_sys_info(bool console_flush)
  
- このメーリングリストのアーカイブは web 上の多数の場所に存在します。こ
- れらのアーカイブを探すにはサーチエンジンを使いましょう。例えば-
+ 	if (panic_print & PANIC_PRINT_BLOCKED_TASKS)
+ 		show_state_filter(TASK_UNINTERRUPTIBLE);
++
++	if (panic_print & PANIC_PRINT_TASK_MAPS_INFO)
++		dump_task_maps_info(current);
+ }
  
--	https://lore.kernel.org/lkml/
-+	https://lore.kernel.org/linux-kernel/
- 
- リストに投稿する前にすでにその話題がアーカイブに存在するかどうかを検索
- することを是非やってください。多数の事がすでに詳細に渡って議論されてお
-@@ -419,13 +419,13 @@ MAINTAINERS ファイルにリストがありますので参照してくださ
- 多くのリストは kernel.org でホストされています。これらの情報は以下にあ
- ります -
- 
--	http://vger.kernel.org/vger-lists.html
-+	https://subspace.kernel.org
- 
- メーリングリストを使う場合、良い行動習慣に従うようにしましょう。少し安っ
- ぽいが、以下の URL は上のリスト(や他のリスト)で会話する場合のシンプル
- なガイドラインを示しています -
- 
--	http://www.albion.com/netiquette/
-+	https://subspace.kernel.org/etiquette.html
- 
- もし複数の人があなたのメールに返事をした場合、CC: で受ける人のリストは
- だいぶ多くなるでしょう。正当な理由がない限り、CC: リストから誰かを削除
-
-base-commit: 052f172ef127e3b76f31e11f71e957e552cdb94d
+ void check_panic_on_warn(const char *origin)
 -- 
-2.34.1
+2.25.1
 
