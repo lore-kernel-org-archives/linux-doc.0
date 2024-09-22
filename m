@@ -1,121 +1,123 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1429C1FBA
-	for <linux-doc@vger.kernel.org>; Sun, 22 Sep 2024 13:13:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 125E1376;
+	Sun, 22 Sep 2024 13:31:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727010827; cv=none; b=NMxE1RoJvQ7refeZfKyX9dfZCsj5Gy8o7Sn3Lzf0YsZ+FyHRsy3/d140eerV413IJP7ApNTtwhg1ulFhQHJH8M5IZP4qgVNFNU+lamy72Y8Egal9iKtD7ISKJ+yeG4WVJ7j2KJ9zJk40HjlrGTNBMHhrb68LjqG4Iz9x7u6TQEU=
+	t=1727011908; cv=none; b=tH95NPRsbfC9YQFL74eOrLzed3QoYgOb/T4ZoSOIWje7g0nyW65vPzbHmppjSLrNTcDuQ5pspE+h9Xe6YyDSpmkJ0IUdzpI8Gdti7dQ85DTdXdPw1ftvgtyKOTjSqZ3jay4P2IvxhLeUJSnoaHGfHGPQGMc5sVnngWhWaiZYMFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727010827; c=relaxed/simple;
-	bh=MiyF+tn+kcoh4mdbhtWHrOJ89UifnjpVtmP4/woYPFY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YRw/+RHTTLIttvo31dOY7Tld40OoU7iVdqXNbLERIrg3OiW00rfqCcTFvAkTFk0u3n2hCa/9WLcY2WHQKOpXbBlH/U1J2itM4PBMvlbGkVlL5Z4SabW46rs/A+GgWigkMx+JSbsuvfEaDzcEBrVqjfvDzEh3jEo2nFpJ3ah0h74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=d3o4QEKO; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1727011908; c=relaxed/simple;
+	bh=n1V31JdnsfrSdsVXN7bDlOoQ3BVtUu/IioetLfG4smc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=POoGWIK9WpN7XpoAashgLmaCxbZ6A7/tldOXiPUAGmOIwanmLnQpxEOKHw3pJYJZ9fLnLedOK4lEgKg8psxmiD+qKD40arik385LfIgFE0T3UjtoWtA/JewxdNskBIC1hmsdd08FaZCtEXKTpOhwUryBsJBsqfvFkItOkrSIvqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QJk/qhus; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="d3o4QEKO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1727010824;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o6w+52ZmAtp9Rr2ZpQpdI5p+hg7WT52Y4HB3TS11h84=;
-	b=d3o4QEKO9cAYXU5XdKDdvWP6ioZHXN33lbTu8jXZQOCCJ4cESzfzRpNLvDyr8vQygb/MSM
-	jp29/kAl/05QbaMp1k6jKVQ1YcC51hrZQ0AX6Z+SG/u9a3dR1XpbpSmkcPqcLVFEJU0bdd
-	YxmSboJpBHZ1BfkrM46Are8MIrD8n/E=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-350-5sZz3x38MweqNU-bHaTFTw-1; Sun,
- 22 Sep 2024 09:13:41 -0400
-X-MC-Unique: 5sZz3x38MweqNU-bHaTFTw-1
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (unknown [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8F6DD1934BCB;
-	Sun, 22 Sep 2024 13:13:39 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.42])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id F1E2C19560AD;
-	Sun, 22 Sep 2024 13:13:35 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Sun, 22 Sep 2024 15:13:26 +0200 (CEST)
-Date: Sun, 22 Sep 2024 15:13:22 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: "qiwu.chen" <qiwuchen55@gmail.com>
-Cc: corbet@lwn.net, mhocko@suse.com, jani.nikula@intel.com,
-	akpm@linux-foundation.org, brauner@kernel.org, paulmck@kernel.org,
-	linux-doc@vger.kernel.org, "qiwu.chen" <qiwu.chen@transsion.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] panic: add option to dump task maps info in
- panic_print
-Message-ID: <20240922131321.GC9426@redhat.com>
-References: <20240922095504.7182-1-qiwu.chen@transsion.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QJk/qhus"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2059112f0a7so30865295ad.3;
+        Sun, 22 Sep 2024 06:31:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727011906; x=1727616706; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FteN1NVxM87RoJV6pgBXiOh96b1d0IQZBxvTcTzb5no=;
+        b=QJk/qhusejDQI7hKdSJ0T1QoaDpS+Des+HZAdTGrCXIipN9rut6PwHnVsphM2sRbDG
+         U2c9fv9v1a/BCmr4LmTZBdhruBdjeq3wigm31bZM7xAOQvIKTLAFh/nozeiUcQp5+M7q
+         PFHQO0hsWppshj/2hnNthgrFI1IL3icMWRJDKpDnoOuhVFWui86HldGyV80W2cbUNiwy
+         c1D3/7KM+P4yBb09cdT2GnPYqbU1r7cNFlE1iaRhNJ/jsrYCyVIQmKI8TuWsvib6itih
+         qE1pRpKA9glo1xDtkA64leeqYUdMqYUZLog3Dc/uLL/qiTXF7RkZ32gNa7dO6vhu8CDb
+         1nFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727011906; x=1727616706;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FteN1NVxM87RoJV6pgBXiOh96b1d0IQZBxvTcTzb5no=;
+        b=Il4NVSyMkxV9Jl2bdRvigStcqIzHsG11QPSLDVTyhTl/A+x3gWZUiiT8/kQXkaoR7v
+         2Cz+mDAt3c3CHVg0Uew2DbOxHQGubjcYu8lFE9C2HXKHPfTroEYMa8/KMSlJapTwwCMO
+         802w7dB7hIgiuS9Bya1odn//siXLMS+6RkhZIhESL16fNToqMkH/Ywat2QJZV1lWCZTV
+         YtxlWrVznccNyM4Q+Xw+LRFPZOw8G0i7RQaH9KYv7hCuE17Ev1SbFMaV0sfXLlz7sjqb
+         YKAyd0nykmC0UaGvMQxdn/Ii0L9TCQ4V7/imrJCS175QqdCkdmz9GwQWWVdKaRmch37L
+         uY1w==
+X-Forwarded-Encrypted: i=1; AJvYcCV6I90KrGXq7o2a7+KVNjfpNbReBGJ57Y4GbnR/d8MlcrHJZ3ltzq0pTa5plZ9DZYmdQUKqe4v506snQP/lUjW8g5yV@vger.kernel.org, AJvYcCWDWOsEs8f2H5aOpScP7yjPLr1kiBHGCcrYRBHv+TyBm+KrlWpeiqjwGKXsjJC4bSr9YuSOhgrmYb0=@vger.kernel.org, AJvYcCXPXsC6sG+Wm7aVvOJUMb7skwIyd2UzaI9lfj6K5sPk6qKYwE2YoJJMuVoDR0aRs98m28CCLq3hSxAYGoPU@vger.kernel.org
+X-Gm-Message-State: AOJu0YysC+xj5w865/M5V9fy3Z5l/zN5zO+senCF1zcTBeQwiEklvsur
+	MW1JfsXBypNtUVFuc8XRUW3E1A9dl2DB7YuOZCcYqq4eQoX2pXbG
+X-Google-Smtp-Source: AGHT+IHhgNAHLVFJ4uCDYFpKauQ1a4rjzI1C6yXb7CGQvMsulRV1fZT4i2gUEYjDvoot92MxL2WJaw==
+X-Received: by 2002:a17:902:cecb:b0:207:6e51:41af with SMTP id d9443c01a7336-208d83fc79fmr135416405ad.43.1727011906111;
+        Sun, 22 Sep 2024 06:31:46 -0700 (PDT)
+Received: from 0x7f800001.hitronhub.home ([2407:4d00:3c04:81a0:f26f:1ad7:c7bb:baa7])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-207946d27dasm119972225ad.172.2024.09.22.06.31.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Sep 2024 06:31:45 -0700 (PDT)
+From: "Yo-Jung (Leo) Lin" <0xff07@gmail.com>
+To: 
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	ricardo@marliere.net,
+	skhan@linuxfoundation.org,
+	0xff07@gmail.com,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] trace doc: document the device_pm_callback events
+Date: Sun, 22 Sep 2024 21:26:28 +0800
+Message-ID: <20240922132636.34413-1-0xff07@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240922095504.7182-1-qiwu.chen@transsion.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+Content-Transfer-Encoding: 8bit
 
-On 09/22, qiwu.chen wrote:
->
-> +	for_each_vma(vmi, vma) {
-> +		struct file *file = vma->vm_file;
-> +		int flags = vma->vm_flags;
-> +		unsigned long long pgoff = ((loff_t)vma->vm_pgoff) << PAGE_SHIFT;
-> +		struct anon_vma_name *anon_name = NULL;
-> +		struct mm_struct *mm = vma->vm_mm;
-> +		char buf[256] = {0};
-> +		const char *name = NULL;
-> +
-> +		if (mm)
-> +			anon_name = anon_vma_name(vma);
-> +
-> +		if (file) {
-> +			if (anon_name) {
-> +				snprintf(buf, sizeof(buf), "[anon_shmem:%s]", anon_name->name);
-> +				name = buf;
-> +			} else {
-> +				char *f_path = d_path(file_user_path(file), buf, sizeof(buf));
-> +
-> +				name = IS_ERR(f_path) ? "?" : f_path;
-> +			}
-> +			goto print;
-> +		}
-> +
-> +		if (vma->vm_ops && vma->vm_ops->name) {
-> +			name = vma->vm_ops->name(vma);
-> +			if (name)
-> +				goto print;
-> +		}
-> +
-> +		name = arch_vma_name(vma);
-> +		if (!name) {
-> +			if (mm) {
-> +				if (vma_is_initial_heap(vma))
-> +					name = "[heap]";
-> +				else if (vma_is_initial_stack(vma))
-> +					name = "[stack]";
-> +			} else
-> +				name = "[vdso]";
-> +
-> +			if (anon_name) {
-> +				snprintf(buf, sizeof(buf), "[anon:%s]", anon_name->name);
-> +				name = buf;
-> +			}
-> +		}
-> +
+Add documentation for the device_pm_callback_{start, end} events
+under the "Subsystem Trace Points: power" section.
 
-Wouldn't it be better to export/reuse get_vma_name() rather than duplicate
-its code ?
+Signed-off-by: Yo-Jung (Leo) Lin <0xff07@gmail.com>
+---
+ Documentation/trace/events-power.rst | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-Oleg.
+diff --git a/Documentation/trace/events-power.rst b/Documentation/trace/events-power.rst
+index f45bf11fa88d..7031954f7ed3 100644
+--- a/Documentation/trace/events-power.rst
++++ b/Documentation/trace/events-power.rst
+@@ -102,3 +102,30 @@ And, there are events used for CPU latency QoS add/update/remove request.
+   pm_qos_remove_request     "value=%d"
+ 
+ The parameter is the value to be added/updated/removed.
++
++5. Device PM callback events
++============================
++The device PM callback events are placed right before and after an invocation of
++a device PM callback during a system-wide suspend/resume attempt.
++::
++
++  device_pm_callback_start     "%s %s, parent: %s, %s[%s]"
++  device_pm_callback_end       "%s %s, err=%d"
++
++The first two parameters in both events are the same. They are:
++
++  - The name of the driver.
++  - The device whose PM callbacks get called.
++
++For device_pm_callback_start, the rest of the parameters are:
++
++  - The parent device of the device (if any).
++  - Level in the power management hierarchy the callback belongs to (e.g. power
++    domain, type, class, bus, driver). Some stages (e.g. early, late, noirq)
++    will also be explicitly mentioned in this string.
++  - The ongoing PM event. You may find definitions of those events in the
++    PM_EVENT_* macros in include/linux/pm.h
++
++For device_pm_callback_end, the only remaining parameter is:
++
++  - The return value of the PM callback.
+-- 
+2.43.0
 
