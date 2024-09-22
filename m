@@ -1,123 +1,127 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 125E1376;
-	Sun, 22 Sep 2024 13:31:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9B7B652;
+	Sun, 22 Sep 2024 15:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727011908; cv=none; b=tH95NPRsbfC9YQFL74eOrLzed3QoYgOb/T4ZoSOIWje7g0nyW65vPzbHmppjSLrNTcDuQ5pspE+h9Xe6YyDSpmkJ0IUdzpI8Gdti7dQ85DTdXdPw1ftvgtyKOTjSqZ3jay4P2IvxhLeUJSnoaHGfHGPQGMc5sVnngWhWaiZYMFg=
+	t=1727018580; cv=none; b=MvI3srfMXLQ1fLAw22an3mvcT/4otMTzC40Wt+FBbZBSrrpi5bMg6awRPKlkZA1oBP8BMXJTCp5kHmh+6d0od2kFM5ujbghuu5/0QOd8GcYXO6QasrNRLZ+ifOWDuYXrmdtvdI0FR1fIwfpva+sBj6elNsSvMr1BjEvV7ZK/3Xo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727011908; c=relaxed/simple;
-	bh=n1V31JdnsfrSdsVXN7bDlOoQ3BVtUu/IioetLfG4smc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=POoGWIK9WpN7XpoAashgLmaCxbZ6A7/tldOXiPUAGmOIwanmLnQpxEOKHw3pJYJZ9fLnLedOK4lEgKg8psxmiD+qKD40arik385LfIgFE0T3UjtoWtA/JewxdNskBIC1hmsdd08FaZCtEXKTpOhwUryBsJBsqfvFkItOkrSIvqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QJk/qhus; arc=none smtp.client-ip=209.85.214.173
+	s=arc-20240116; t=1727018580; c=relaxed/simple;
+	bh=vEks30XG+J2MzciQrA/QX7ue128ALxFN/tguqw4FM2M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G/h6ws7zahXCaKrwIciuSQlpL4orit1QBTCIVrj5/7ZhdThNcJA9g3Z+SYlwRsYV8EDAvA8hSxT5rurK57rNBrNa4t244XzwYROMrEVU0mrQ/KrVae7ckP8h3cZBlIDwzaNAacInKYm/ooQQu9vHjeGhfKXNVKpi1QNp/qE4/lA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EQ4kosgc; arc=none smtp.client-ip=209.85.210.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QJk/qhus"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2059112f0a7so30865295ad.3;
-        Sun, 22 Sep 2024 06:31:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EQ4kosgc"
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-713aebfe8b8so295672a34.1;
+        Sun, 22 Sep 2024 08:22:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727011906; x=1727616706; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FteN1NVxM87RoJV6pgBXiOh96b1d0IQZBxvTcTzb5no=;
-        b=QJk/qhusejDQI7hKdSJ0T1QoaDpS+Des+HZAdTGrCXIipN9rut6PwHnVsphM2sRbDG
-         U2c9fv9v1a/BCmr4LmTZBdhruBdjeq3wigm31bZM7xAOQvIKTLAFh/nozeiUcQp5+M7q
-         PFHQO0hsWppshj/2hnNthgrFI1IL3icMWRJDKpDnoOuhVFWui86HldGyV80W2cbUNiwy
-         c1D3/7KM+P4yBb09cdT2GnPYqbU1r7cNFlE1iaRhNJ/jsrYCyVIQmKI8TuWsvib6itih
-         qE1pRpKA9glo1xDtkA64leeqYUdMqYUZLog3Dc/uLL/qiTXF7RkZ32gNa7dO6vhu8CDb
-         1nFg==
+        d=gmail.com; s=20230601; t=1727018578; x=1727623378; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=o0rK5v0Q5x3GJhtFt709TlT+VjbeaoHoLjvE3G3gB9o=;
+        b=EQ4kosgcIP29jkqqGgcLkJ0Wq5ZRasN/N58rY9KvDQKiboT8P9n63rx0AREqNF7eCy
+         TIU+ncGat3iMwsRktrG7cDoZcu1w57MGAPmpuxKqyzyGzgUHG+8Udu8Wi627Fzu6loWa
+         HbGBagT7zQTrLApWXR4d4OtHcLVl6cp1Y21pwOlRfunOvkEy3eHRKwZ1u/svPmMU3ciq
+         jUsePvM6oG7i61IUzMKjz0jDrCSSw3Mobm8tOSWt6G/0aIP9Df7PPhR1Grv7JXVsFqIC
+         BbISJLGovaXxlcf23APWhtWFCE8znRicFiSooi5OZv9JPfNI2C/1k7SeiaJsNrorC/G6
+         NczQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727011906; x=1727616706;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FteN1NVxM87RoJV6pgBXiOh96b1d0IQZBxvTcTzb5no=;
-        b=Il4NVSyMkxV9Jl2bdRvigStcqIzHsG11QPSLDVTyhTl/A+x3gWZUiiT8/kQXkaoR7v
-         2Cz+mDAt3c3CHVg0Uew2DbOxHQGubjcYu8lFE9C2HXKHPfTroEYMa8/KMSlJapTwwCMO
-         802w7dB7hIgiuS9Bya1odn//siXLMS+6RkhZIhESL16fNToqMkH/Ywat2QJZV1lWCZTV
-         YtxlWrVznccNyM4Q+Xw+LRFPZOw8G0i7RQaH9KYv7hCuE17Ev1SbFMaV0sfXLlz7sjqb
-         YKAyd0nykmC0UaGvMQxdn/Ii0L9TCQ4V7/imrJCS175QqdCkdmz9GwQWWVdKaRmch37L
-         uY1w==
-X-Forwarded-Encrypted: i=1; AJvYcCV6I90KrGXq7o2a7+KVNjfpNbReBGJ57Y4GbnR/d8MlcrHJZ3ltzq0pTa5plZ9DZYmdQUKqe4v506snQP/lUjW8g5yV@vger.kernel.org, AJvYcCWDWOsEs8f2H5aOpScP7yjPLr1kiBHGCcrYRBHv+TyBm+KrlWpeiqjwGKXsjJC4bSr9YuSOhgrmYb0=@vger.kernel.org, AJvYcCXPXsC6sG+Wm7aVvOJUMb7skwIyd2UzaI9lfj6K5sPk6qKYwE2YoJJMuVoDR0aRs98m28CCLq3hSxAYGoPU@vger.kernel.org
-X-Gm-Message-State: AOJu0YysC+xj5w865/M5V9fy3Z5l/zN5zO+senCF1zcTBeQwiEklvsur
-	MW1JfsXBypNtUVFuc8XRUW3E1A9dl2DB7YuOZCcYqq4eQoX2pXbG
-X-Google-Smtp-Source: AGHT+IHhgNAHLVFJ4uCDYFpKauQ1a4rjzI1C6yXb7CGQvMsulRV1fZT4i2gUEYjDvoot92MxL2WJaw==
-X-Received: by 2002:a17:902:cecb:b0:207:6e51:41af with SMTP id d9443c01a7336-208d83fc79fmr135416405ad.43.1727011906111;
-        Sun, 22 Sep 2024 06:31:46 -0700 (PDT)
-Received: from 0x7f800001.hitronhub.home ([2407:4d00:3c04:81a0:f26f:1ad7:c7bb:baa7])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-207946d27dasm119972225ad.172.2024.09.22.06.31.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Sep 2024 06:31:45 -0700 (PDT)
-From: "Yo-Jung (Leo) Lin" <0xff07@gmail.com>
-To: 
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
-	ricardo@marliere.net,
-	skhan@linuxfoundation.org,
-	0xff07@gmail.com,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] trace doc: document the device_pm_callback events
-Date: Sun, 22 Sep 2024 21:26:28 +0800
-Message-ID: <20240922132636.34413-1-0xff07@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1727018578; x=1727623378;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=o0rK5v0Q5x3GJhtFt709TlT+VjbeaoHoLjvE3G3gB9o=;
+        b=CuqpxGhFSTg608ufrrLP2xj0YILbkDxfdkz6zanTx3O2CpXBUWKLZhQtkTpaxldWyJ
+         W/RcnbXgLAWzoHcD6Yi0svC/ttj7d/agUqLjjNF3yDRUpZzh/0RbmjPNJga4DKDO0Pb4
+         k+TRE0NOaadBKQUPR+Fkw1QRZd5vkGjcQQUJhsi9hu7pR5f8JwIktXv7vKJyrflBpYZM
+         q7PnQpl14lZfNzqgc4YoI+Ru2K0/M2hrYfgxQIWsWE6g8ej1Cuw0QCAnfFo7xU2/a+Sc
+         Ku+n5P4uaPC4/SNCxiUjJlyBW4aw+SAk5nt6H5Hp/pCFyy/Tz2DJ+Xlcr75thkFjCNe2
+         DikQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUfm/mXwczk692SOk0aud0buOcZQmqkS2XXMNErSLZVfkdwiqt10sxIQlWwCL69h9Qk8pJF6JbuYIJmBkrz@vger.kernel.org, AJvYcCUr/uKxiF5Wdb0hi5eq1kDxVL6JUslWhwcCUPRBoQdERiKgjx3fJ8qe2JN650XkyQd3vsZ6Amj6hRfXHctshSA=@vger.kernel.org, AJvYcCUrqFRveh4PcsX7wV3/5+1YzmVH0Z841LKTuzye4sHKCm+XNHERldhwCe/WNsxeuXu6lAhZ4zu1KcQ=@vger.kernel.org, AJvYcCXAUTTKN3idRNfsa8zblUFOAZZCKY+1D4HF14sh2sfMoVORbpO4wJ8zVsF1pj6WBP3XB13CzR6KP7mw@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7t5dlI4BEh2cGJKtrJDbMqSP9nNGxQ7AVZW5aLnLKF+88+9HC
+	7plm2H9+6gAltSEzTaJt6qD1OUR1PGJ+Y5Mn7tDDgxTl4luvwDjU
+X-Google-Smtp-Source: AGHT+IENQHPBnNnxGrZL657GF5Q0NATAuF6B3WDHGqqmXLVTCWJK8uRt0HBsBkTQVDSfIAt1300t3w==
+X-Received: by 2002:a05:6830:4124:b0:704:470d:a470 with SMTP id 46e09a7af769-71393557ff2mr4484784a34.28.1727018577674;
+        Sun, 22 Sep 2024 08:22:57 -0700 (PDT)
+Received: from ?IPV6:2603:8080:7400:36da:dff5:4180:2562:4c1e? ([2603:8080:7400:36da:dff5:4180:2562:4c1e])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-71389bb318csm1646334a34.59.2024.09.22.08.22.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 22 Sep 2024 08:22:56 -0700 (PDT)
+Message-ID: <f6fd25ce-5eb0-4c3c-927c-ac6022b3c21f@gmail.com>
+Date: Sun, 22 Sep 2024 10:22:55 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] kernel-docs: Add new section for Rust learning
+ materials
+To: Dirk Behme <dirk.behme@de.bosch.com>, corbet@lwn.net, ojeda@kernel.org
+Cc: alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net,
+ benno.lossin@proton.me, a.hindborg@samsung.com, aliceryhl@google.com,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, bilbao@vt.edu
+References: <20240913153824.161150-1-carlos.bilbao.osdev@gmail.com>
+ <3a421753-07fa-451a-90fa-e04d1a731b1a@de.bosch.com>
+Content-Language: en-US
+From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+In-Reply-To: <3a421753-07fa-451a-90fa-e04d1a731b1a@de.bosch.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add documentation for the device_pm_callback_{start, end} events
-under the "Subsystem Trace Points: power" section.
+On 9/16/24 00:33, Dirk Behme wrote:
 
-Signed-off-by: Yo-Jung (Leo) Lin <0xff07@gmail.com>
----
- Documentation/trace/events-power.rst | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+> On 13.09.2024 17:38, Carlos Bilbao wrote:
+>> Include a new section in the Index of Further Kernel Documentation with
+>> resources to learn Rust. Reference it in the Rust index.
+>>
+>> Signed-off-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+>
+> Many thanks!
+>
+> Two minor things below. With these:
+>
+> Reviewed-by: Dirk Behme <dirk.behme@de.bosch.com>
 
-diff --git a/Documentation/trace/events-power.rst b/Documentation/trace/events-power.rst
-index f45bf11fa88d..7031954f7ed3 100644
---- a/Documentation/trace/events-power.rst
-+++ b/Documentation/trace/events-power.rst
-@@ -102,3 +102,30 @@ And, there are events used for CPU latency QoS add/update/remove request.
-   pm_qos_remove_request     "value=%d"
- 
- The parameter is the value to be added/updated/removed.
-+
-+5. Device PM callback events
-+============================
-+The device PM callback events are placed right before and after an invocation of
-+a device PM callback during a system-wide suspend/resume attempt.
-+::
-+
-+  device_pm_callback_start     "%s %s, parent: %s, %s[%s]"
-+  device_pm_callback_end       "%s %s, err=%d"
-+
-+The first two parameters in both events are the same. They are:
-+
-+  - The name of the driver.
-+  - The device whose PM callbacks get called.
-+
-+For device_pm_callback_start, the rest of the parameters are:
-+
-+  - The parent device of the device (if any).
-+  - Level in the power management hierarchy the callback belongs to (e.g. power
-+    domain, type, class, bus, driver). Some stages (e.g. early, late, noirq)
-+    will also be explicitly mentioned in this string.
-+  - The ongoing PM event. You may find definitions of those events in the
-+    PM_EVENT_* macros in include/linux/pm.h
-+
-+For device_pm_callback_end, the only remaining parameter is:
-+
-+  - The return value of the PM callback.
--- 
-2.43.0
+
+Thanks! will add fixes in v3.
+
+
+>
+> Dirk
+>
+>
+>> ---
+>>
+>> Changes since v1:
+>>   - Added two more Rust blogs proposed by Dirk Behme.
+>>
+>> ---
+>>   Documentation/process/kernel-docs.rst | 131 +++++++++++++++++++++++---
+>>   Documentation/rust/index.rst          |   3 +
+>>   2 files changed, 123 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process/kernel-docs.rst
+>> index 55552ec4b043..b56c2adcb954 100644
+>> --- a/Documentation/process/kernel-docs.rst
+>> +++ b/Documentation/process/kernel-docs.rst
+>> @@ -72,17 +72,6 @@ On-line docs
+> ...
+>> +    * Title: **Learning Rust the Dangerous Way**
+> It looks to me the that it is called "Learn" and not "Learning"?
+>
+> ...
+>> +    * Name: **Linux Plumbers (LPC) Rust presentations**
+> Here I would add the year "2024" somewhere. There have been previous 
+> LPCs and most probably there will be some in the next years ;)
+
+
+Thanks, Carlos
 
