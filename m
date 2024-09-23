@@ -1,331 +1,318 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2089.outbound.protection.outlook.com [40.107.236.89])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE2F146B5;
-	Mon, 23 Sep 2024 16:01:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.89
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727107283; cv=fail; b=aVcL4EQstgY2QSNkgFIavBkhK1LAUDIrGWdKOtQatjKvu/ef+davKBv/o0SdBOt0uvKOc0ZetXFi9LbXSbTShiprksGYDfXOJAz+l9XABLj7p/UwZzu2gWI6uwrdUf++orK1Y6KzJ66gU4JX/GqGFHcfn+A3rPaau5eNMmhSvrA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727107283; c=relaxed/simple;
-	bh=M6chUrbJ0I80XXk81R8H2hfzGmLKuMnIDo4qXprLs0Y=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ovIPFVdjuFgVHJRUyU1dBHEv5ItC9/obqFjLgXRU+J6vFd0MqyulJd4eRet4m+wGlagHRcTStvUVRQAm7p19PvMnGXU0WG7Sd4xnftWUy0RxyXB7Rre7aEVxOScagQ2nTG0ROpMQmHRxKqdJxCn3jDCefOE64jhywBJomV27v70=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=eW6Cxc+L; arc=fail smtp.client-ip=40.107.236.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A21A46B5;
+	Mon, 23 Sep 2024 16:09:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727107776; cv=none; b=uXzhnP/wnc1AfbuU9d84i9QXZwGEOmN04u/0URdBaCd9OQMSngXcunVfLTNbH7hL/OigSoNsWTZyz4KOLTNZs6wowhXhzxTDkEE6Xk0NF8j7ODp9Wq0eCl0Hxqix6qL4Gv22+X/+4bYNlmQa7VJICV79loqWMSHZ3Hj9bvYXyiA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727107776; c=relaxed/simple;
+	bh=ZAbMmXXVjqho4T7NkogHC0zle0UoSxjUKL0z5Po77EQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=du9GiURiLTaRYFdrp2NCumFr8vXXlq4E2CL2lTsW8/kbSuTFfw0OHGyg42SE960z4tnX8nOGTBocTXaR6aGRBoWpz6txmmT8L3FTS0Rnq1pF4zfyZ8sVqxpI5b0REdZOeLXfASw6F5h3BnMe/HvnpcZCCPoR2OddmrPX6GjhVew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F8iGYh8Q; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="eW6Cxc+L"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OqA4ktGq+hmc9MEQns4BhPKRpHUvqaphwKXN4BZMGOkafuwvC/U8mI/KwN3D4MOct0N+ucSOvmn7UWusIZj8iwjtXeMRfmTtOLOv4pgX8JiBhQ7uRryRMIgpoLkVdNvqvulKv/iQjIfZcs7KKpATbc/5EtxeHM8MD8JaCl8SpMXgzYMozZpZZs0eXF9JtN+LJ4qCyw1tUsbBdZJQtTLm14ZIyQJMkSvPogayGbCa4IdQYOX3hSn9O5xkEDX0z4K7UHpoYwr4wZGznC3Y92RLmN7X79CK0dgTMOR3CHZ6IecaYoFRuiFV6+iIfFJr7QpPvko2NfiH2Xvf8d8gt0JdzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CkC34kir9IqmnBouDkLYy6hPG4R2NUzHyMH4KJ54pKk=;
- b=kvhbYHy8JsO7dDjs4/IxckoioYkz8C/0OT8uZzBhAe3OToAptdpU/3W+uJnnQzuPME86IEQ/AEwTQ9/DgafBTpSASH+9Z/JQXKE0ViuBu18b9SiGDabtyk/ttMB6+BIxkAfQFAFCZ/TLUgUDNbHrEa1OmaBt7LufYNLf75b8a3OSL7YjbfnliA2X7z8v+xsk5O7Xmsbz3GDH3mZPg1MkacTM0ToFeBHkpWXOc9Mr6n53aKbEeyU3HKdfj+5DG5q981cwO1NS7xZhsNX8OIZXYlauovmrs7hehmtjI8/RLRGuA9SgKiJPP5Eb4X4PUDrB05h1jhJfwRjO1fZd9rchOQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CkC34kir9IqmnBouDkLYy6hPG4R2NUzHyMH4KJ54pKk=;
- b=eW6Cxc+LagyJiJ9xpKUzl44vtZqbJrmtz7v5xgquSm1hB6kIRA57JVVZusAEDAtWDA+q1ocFo8n/WyoKrbw4+dMPPfLvBSTvG+O3uL5woJfEimgkEaMzbsXp+CUYmf2HeW/SjjT1gjS2XiliQFYie55yMkNbL0xkmDGWFn58cRA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by IA1PR12MB6185.namprd12.prod.outlook.com (2603:10b6:208:3e7::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.25; Mon, 23 Sep
- 2024 16:01:17 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%4]) with mapi id 15.20.7982.022; Mon, 23 Sep 2024
- 16:01:17 +0000
-Message-ID: <efdc414d-cfe1-4e95-a5ad-179fcce1bd25@amd.com>
-Date: Mon, 23 Sep 2024 11:01:12 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v7 07/24] x86/resctrl: Introduce the interface to display
- monitor mode
-To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
- tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
- kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
- jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
- rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
- jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
- daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
- ilpo.jarvinen@linux.intel.com, peternewman@google.com,
- maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
-References: <cover.1725488488.git.babu.moger@amd.com>
- <e3ff30d647ab9bc452c882ce1dfb366eabb0cc25.1725488488.git.babu.moger@amd.com>
- <e848662b-23ee-4c3c-a848-976f944e8927@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <e848662b-23ee-4c3c-a848-976f944e8927@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA1P222CA0115.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:3c5::24) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F8iGYh8Q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727107774; x=1758643774;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZAbMmXXVjqho4T7NkogHC0zle0UoSxjUKL0z5Po77EQ=;
+  b=F8iGYh8QUWMBjHOjbv8EGyG59Ay14xcFHT1elxFTgmhd+tetQQo9+0BX
+   /3waS2aHeB9zaydoq005iAg9vu9Bd3ZmmR2d41l/sKYqed5dkSOyiGevH
+   oaqOwhtfIlycX9nxvJkiwIY1xHSoBGyV45vKZ+58LKeKpI+AeJNuR7lao
+   eo9qhZK3q4CpPvv2MUYMOiU9eUXEIGXv4qXRCx/rRPva0xr/V7ZiOWtbJ
+   NZoZunac0qyuG6oMhPR3dOAL40mmgtdDdZ78qrzsZxz5MvIEWsCAikzif
+   mLJt1ReQoPVIcQINB44Ug9srlGaFmSjULlCYkWE7FcN8aY3BmRuHqWH9V
+   g==;
+X-CSE-ConnectionGUID: ir2fyLdpRweiMflu9jm0Og==
+X-CSE-MsgGUID: mCGLO42SQWCnqPUdYmVcUQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="29850391"
+X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
+   d="scan'208";a="29850391"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 09:08:35 -0700
+X-CSE-ConnectionGUID: wAymrxdYTHGgarhjT4nP/g==
+X-CSE-MsgGUID: M4GS815lSyyKwWsJUUgd4Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
+   d="scan'208";a="71438039"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 23 Sep 2024 09:08:32 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sslbx-000HME-2E;
+	Mon, 23 Sep 2024 16:08:29 +0000
+Date: Tue, 24 Sep 2024 00:08:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alice Ryhl <aliceryhl@google.com>, Matthew Wilcox <willy@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	Alice Ryhl <aliceryhl@google.com>
+Subject: Re: [PATCH] xarray: rename xa_lock/xa_unlock to xa_enter/xa_leave
+Message-ID: <202409232343.7o1tQrIx-lkp@intel.com>
+References: <20240923-xa_enter_leave-v1-1-6ff365e8520a@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|IA1PR12MB6185:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5dfbf091-6009-40d5-bfe6-08dcdbe8f565
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MHJOK0hCRklvb2luMG1FMFkvZksyNUFNUG5NRXI1NEZ2S0FxUW1zRHFIQ1lZ?=
- =?utf-8?B?Wk1IOXNpdkRGa2NnRGkwTXlCUmxsZUdsbXgrT2lGR1hLNUxzR2VOcFBzM2Q0?=
- =?utf-8?B?WGc4aTEwT0xGcEFaczd6ZjVLSTd4YkV3NzBVbVgyRlI1dTVPM3daYmI0Vjdw?=
- =?utf-8?B?ZExyZUFaQXRvTzN6eGhXYXBTQ1l2bzdGTTFJYjU1bThuY2R5dFN3cjNobTBn?=
- =?utf-8?B?enJBZU9HZWo1WDlrVUU5V25nbEdoalBpdm1Eei8wa3NtK1BhaFJqdzJZNEFI?=
- =?utf-8?B?RkNpbnplN2Q3Ulc0ZlNRa012MHRjRGtIWEt0a1NReHFodUtPeGJ2VnIzdGN4?=
- =?utf-8?B?N2VWS2VJMG81Sk5wTzAvUEFDZVFBTzhJeTQzS1NQNld0MmVVZWx1T2JQOGhR?=
- =?utf-8?B?NDdYRFVLWjJIVjdTZE9yd2x5VDVKUEN5UUszNC9Zc0pHN0FEWXR1T00zbGpP?=
- =?utf-8?B?TDdmRDI3NUxPMTl6M0E5VUNkZGdiSDJOOGNVTnRNbHg3bGxkMEhyUVMvRlR0?=
- =?utf-8?B?R0MybEc5L0FhSVp5TzJWQ2NmdkJLcEVZcndhTnU0R1VaNVAySEhZNGdLVWRo?=
- =?utf-8?B?a014K0R2ZHlqMTZ1YWNxUW5hdXp6Q2JLbSsvNER2TGNtR3VTK3VtYlU0QWJ4?=
- =?utf-8?B?SDdSMDU2TWxLZ3o2ckI4Z1FBaGZKYUd1cFlLa0Uxd2VjSWEwNERvZmNSUEpQ?=
- =?utf-8?B?bDFaYm5KUkY1ZmhwelA4aDBwYlFsRkp1MllybENVVWZobGVSOE5XaGJoWDNR?=
- =?utf-8?B?LzlNTitvUUdVUkVUR2tTWXQ5dWkzSDZ0Q2cvWWxxYkJHNWlhKzlZK1VBMTNP?=
- =?utf-8?B?TFZXSW9MN1VNY1JsSXpwMDJJLzZpaDBmbjFwODk0RFFHeFZBQmtwZ1craUZD?=
- =?utf-8?B?dEp2ZWlHK0JUbkdObDhGUzZVeHo0VUNqUnlqV0pTQXY3NkY1dktCRnRCUUo2?=
- =?utf-8?B?VmlKNEk5MlFZeTUzQ2VCVzJTS3haS21EQnN3N2pLMVZMRStCS2xlSDdETUM4?=
- =?utf-8?B?TmFadVZkcVp1c1hza1VIaHFQZ0c0ZHN5OGxWWThibGNhd3pyOUdMTzdSRTdx?=
- =?utf-8?B?UkluUDFJaGR6c3Qwak9aaG1yWTZjalVTKzJwVWhWdTBRQnZKbXlGVGxmZXgz?=
- =?utf-8?B?Z1hZQlJKVmxza29WSVpBaks1cFBVK04yNjFtS1NIOE5Ba2JlTnpSQVF1KzVi?=
- =?utf-8?B?aXNxV1VRVFZCUStJOXhBZVhNMHhPUFZYNHRRM043c3FHYjVNZ2cxcFNuRHpG?=
- =?utf-8?B?NS83T3pvUWpyRTFjQUNWNWdvZUs2dGdBSE1DeFpNRGRSeWs2SElPRitXaHht?=
- =?utf-8?B?KzFPT2txKzF0a0ZQNDlZN25SYzltd0Qyb3ZYOWxZQ1dDOGd5NS8vdDVpYTFH?=
- =?utf-8?B?VENKZFdYSVJEeTd5WFAwRzY4R2JENXRNUUNUcjdMM010SHdRUTZlSXBTRU1m?=
- =?utf-8?B?S1kyRUticTBYc3VuZCtGbHk0byszcEx5Y1ZIOWJxdXNHTWtEdWp4Q1c1bklB?=
- =?utf-8?B?bEc0LzF3R2hndzhheDdLbGwvRUJHYmdPQllXaVNrUnhqdFdJdUQwbUd1SmE1?=
- =?utf-8?B?a0pZUWJ4dWg0NU9BbkhybTk2a3h3Y1J3NHdvUjl1S0gybVcyTmdwekdTSHVK?=
- =?utf-8?B?K0h2OUtnMlpqTnk5M3dlLzV1TDZJV3Z1TFBvb0Y4Q3cxZVpuY0pXY3ZpcGZX?=
- =?utf-8?B?YWl5RTRGcXZJZWJQUHZVanA5S0pyUklmRitTMGhma3JxYTdQTFFKVFN3PT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TGhndFBOc0dsbnZmVHVES2EvdzFibmhXTlg2K1BUa21FaHJ2ckdKdy95V28w?=
- =?utf-8?B?QWpqNncrSTh1TitUZHZzNkZHd0VGUUZkNkpOdE9ZbmVxY0w5WnpqNWhIU2FK?=
- =?utf-8?B?N3VYenlwOHFoUEZ2Wk9za3YvZUhNUXlBR01kTUR4YUNMekhUNjA5dEN3UnRY?=
- =?utf-8?B?TXc2aExpY2pjMFFZNzZMcE1KUDAzVTdXUXlEQXVrWHYxN28ram4yNVlSTExB?=
- =?utf-8?B?RGNxanRZZkRMQjlTelNmUlN3RVZnZDFWMFZDZUlyWlRsNThCVEVmTGpSZ2RV?=
- =?utf-8?B?MEZER2gyWEh4RG40OWsyRTVHR3ZZd29zL2FTUHMxZ2paQUhyOUpwT1NJNndr?=
- =?utf-8?B?d2lldmZUcytVTXNJWktqWEYvWU0wNkJQSXNaandFOUlGc1V6cGxpWU9uRTB2?=
- =?utf-8?B?WjRrMHdqYktWNTQrUDdPMHIvblB0K0Y0WFYrSld0dGVHbVBwaEhWbGo3Ky9Q?=
- =?utf-8?B?Z1B5L0RYUW0zWWU0d1o3bjhZdnBiOXl5TkdCek80SHZZZzJvbGNJYVhFeFVG?=
- =?utf-8?B?RndCVjM5ckkxaHFmU1ZuRlZ4TFQyeW8wakxDZHd3bUhmM1NRVVZUc0craG54?=
- =?utf-8?B?REQzYTllcnIzSHh2WHdkTUI2Visra0dxY1dhcXBJMmp5S3NLS2gwRlc1YzJJ?=
- =?utf-8?B?YTFIMXpETjM1ajVyRnpDbkFWaHRGM2FnYzFLVzlPc2FkaDI4b2JMb3cvTC9t?=
- =?utf-8?B?TWFsbHpGSHI2ZXR1R2F6OFIzclRpa1oyblVRbHVwWUphVVVLK3V6NXVjV21U?=
- =?utf-8?B?cFA5OFYzQk5mZzFEM21TRWRjL1djOUtVbXMrRmZXVmhrNkdqakFkclRQY1ZP?=
- =?utf-8?B?WmZCbTlwcU9GRTZRUitiUGlxbW9pQWRIR3BKL2pWWXJZRzZEbHNncHZ6WEM0?=
- =?utf-8?B?TXZ0N1NaT1RkdzMyYnYwQ2FwUjJ5T2U2b3VXWXJrell2QVVkQXl6bmF4V1ht?=
- =?utf-8?B?bWtSK0IzdlBnUUJtclpMNm9Yemk4VWFuMHJ0aTkreFZaeHA4eDRjMjBBcnZi?=
- =?utf-8?B?NW5GZjR6WWc5T093c2dNQU52dlh4UEpNWFd2ZGxOdXcwL0hHbW9kRHhCNzB0?=
- =?utf-8?B?aWZRNm1kSFdhcitRYWQ2YXRvMlcxOW9KOVppWVpYRWhOR0ZQekJVZGJSdjFT?=
- =?utf-8?B?ZVg1WWxndXd1RXdhRzMyVmRXYXlnblh0THYrN3pJQVdTanR3azQrNHpRVnlQ?=
- =?utf-8?B?M3NZR1VzS2tOcmd0bGM2UVhONzJmZHdnK0VyZjFEWFRMMzk4d1JoN1hpV2Zw?=
- =?utf-8?B?UlU3Q01ra3ZvUE9CYzJITU1VRkYwTlRxbGltOGVQbGJ6ZWlGOFJQZFYzZ3Av?=
- =?utf-8?B?MUt3QTNkQUdGaUUyWjhMZ0tzQTBPRVZORnJIUklrN1NYSjVFdlpyT0sySXI1?=
- =?utf-8?B?Q3hyTS9rWVhOSzJla1kxQW9TampWdTh1dlc4eTgxWTNUb0NnN2tCVWRHK1hQ?=
- =?utf-8?B?b1lUbzI2cjZ3YXA3SVhDVFhJL0N5cHhxK0lYbHhpdVF2eDZKZGJhYmx3UnRO?=
- =?utf-8?B?Vm12bDl3VDRYL1NSQVYvTWFuSytaU2JtSGp5UlJ1ODY1QXp5cVRVM3lnTW52?=
- =?utf-8?B?RS8yQ0N5WjcwQ1JKbjFKOXhMaEFFK1l6NERJUDZTVzJIN2NUcXA1YTJCWnky?=
- =?utf-8?B?VkNnWVJMdk9EK2dwczZRSDIwdUJxNkVEWGVGQWliditUVkRmdnJUaGQwbUVj?=
- =?utf-8?B?SHZjS0ZnZWFzSmhKbTNxb3VhRW5IY09oMmM3MFREM3A5YnhSd21seGJ2cGVR?=
- =?utf-8?B?bHJDbUdzN2l0VGw1RC84YTlHMVp1U1RQWjNXOHFhNy8vZFVabmlXQURPSkt6?=
- =?utf-8?B?TkFnNnRhUWlJZlFJNi9pUWFFTkc0dk9HR3lDbHg4aXdNdHJTblRKRmV3RzlZ?=
- =?utf-8?B?c01NYTZvOUxNSEZMMGo0UXMxT29kazNDU2ZVbm9XRWxJMUI2M1Fob2RoNTdu?=
- =?utf-8?B?SHo4aW9PTWw5ZTRsQm5neUF2V0hleVNCVlFCQnF2YU5UZWFQb0psWTdNUERl?=
- =?utf-8?B?V1JMWk53WTdnempLamw2c0hIUGNzMDA4VkRFNW1BNlE3cjBsd3RiblBPUTY0?=
- =?utf-8?B?cnJPSFlpeXZhS0tlM3BaVGpHZlN5UEF3K3hzZGhqVngxZXh0dnBXZHh6amU5?=
- =?utf-8?Q?+2hI=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5dfbf091-6009-40d5-bfe6-08dcdbe8f565
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2024 16:01:17.6939
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 204//917vB8vbC+Hg2hTiYeARv5Xl4D0hnraDpTLo/YLa76J0GMO8CO/dZKoYwFH
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6185
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240923-xa_enter_leave-v1-1-6ff365e8520a@google.com>
 
-Hi Reinette,
+Hi Alice,
 
-On 9/19/24 11:28, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 9/4/24 3:21 PM, Babu Moger wrote:
->> Introduce the interface file "mbm_assign_mode" to list monitor modes
->> supported.
->>
->> The "mbm_cntr_assign" mode provides the option to assign a hardware
->> counter to an RMID and monitor the bandwidth as long as it is assigned.
->>
->> On AMD systems "mbm_cntr_assign" is backed by the ABMC (Assignable
->> Bandwidth Monitoring Counters) hardware feature. "mbm_cntr_assign" mode
->> is enabled by default when supported.
-> 
-> As I understand this series changed this behavior to let the architecture
-> dictate whether "mbm_cntr_assign" is enabled by default.
+kernel test robot noticed the following build errors:
 
-Yes. Correct. Will change the test to mention that.
+[auto build test ERROR on 98f7e32f20d28ec452afb208f9cffc08448a2652]
 
-> 
->>
->> The "default" mode is the existing monitoring mode that works without the
->> explicit counter assignment, instead relying on dynamic counter assignment
->> by hardware that may result in hardware not dedicating a counter resulting
->> in monitoring data reads returning "Unavailable".
->>
->> Provide an interface to display the monitor mode on the system.
->> $cat /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
->> [mbm_cntr_assign]
->> default
->>
->> Switching the mbm_assign_mode will reset all the MBM counters of all
->> resctrl groups.
->>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> ---
->> v7: Updated the descriptions/commit log in resctrl.rst to generic text.
->>     Thanks to James and Reinette.
->>     Rename mbm_mode to mbm_assign_mode.
->>     Introduced mutex lock in rdtgroup_mbm_mode_show().
->>
->> v6: Added documentation for mbm_cntr_assign and legacy mode.
->>     Moved mbm_mode fflags initialization to static initialization.
->>
->> v5: Changed interface name to mbm_mode.
->>     It will be always available even if ABMC feature is not supported.
->>     Added description in resctrl.rst about ABMC mode.
->>     Fixed display abmc and legacy consistantly.
->>
->> v4: Fixed the checks for legacy and abmc mode. Default it ABMC.
->>
->> v3: New patch to display ABMC capability.
->> ---
->>  Documentation/arch/x86/resctrl.rst     | 33 ++++++++++++++++++++++++++
->>  arch/x86/kernel/cpu/resctrl/rdtgroup.c | 31 ++++++++++++++++++++++++
->>  2 files changed, 64 insertions(+)
->>
->> diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
->> index 30586728a4cd..a7b17ad8acb9 100644
->> --- a/Documentation/arch/x86/resctrl.rst
->> +++ b/Documentation/arch/x86/resctrl.rst
->> @@ -257,6 +257,39 @@ with the following files:
->>  	    # cat /sys/fs/resctrl/info/L3_MON/mbm_local_bytes_config
->>  	    0=0x30;1=0x30;3=0x15;4=0x15
->>  
->> +"mbm_assign_mode":
->> +	Reports the list of monitoring modes supported. The enclosed brackets
->> +	indicate which feature is enabled.
-> 
-> "which feature is enabled" -> "which mode is enabled"?
+url:    https://github.com/intel-lab-lkp/linux/commits/Alice-Ryhl/xarray-rename-xa_lock-xa_unlock-to-xa_enter-xa_leave/20240923-184045
+base:   98f7e32f20d28ec452afb208f9cffc08448a2652
+patch link:    https://lore.kernel.org/r/20240923-xa_enter_leave-v1-1-6ff365e8520a%40google.com
+patch subject: [PATCH] xarray: rename xa_lock/xa_unlock to xa_enter/xa_leave
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240923/202409232343.7o1tQrIx-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240923/202409232343.7o1tQrIx-lkp@intel.com/reproduce)
 
-Sure.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409232343.7o1tQrIx-lkp@intel.com/
 
-> 
->> +	::
->> +
->> +	  cat /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
->> +	  [mbm_cntr_assign]
->> +	  default
->> +
->> +	"mbm_cntr_assign":
->> +
->> +	In mbm_cntr_assign mode user-space is able to specify which control
->> +	or monitor groups in resctrl should have a hardware counter assigned
-> 
-> This documentation should ideally also be appropriate for when the "soft-ABMC"
-> support lands. Considering that, should all the "hardware counter" instances perhaps be
-> changed to just be "counter"?
+All errors (new ones prefixed by >>):
 
-Sure.
+>> lib/idr.c:453:2: error: call to undeclared function 'xas_leave_irqsave'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     453 |         xas_unlock_irqrestore(&xas, flags);
+         |         ^
+   include/linux/xarray.h:1453:43: note: expanded from macro 'xas_unlock_irqrestore'
+    1453 | #define xas_unlock_irqrestore(xas, flags)       xas_leave_irqsave(xas, flags)
+         |                                                 ^
+   lib/idr.c:521:2: error: call to undeclared function 'xas_leave_irqsave'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     521 |         xas_unlock_irqrestore(&xas, flags);
+         |         ^
+   include/linux/xarray.h:1453:43: note: expanded from macro 'xas_unlock_irqrestore'
+    1453 | #define xas_unlock_irqrestore(xas, flags)       xas_leave_irqsave(xas, flags)
+         |                                                 ^
+   lib/idr.c:553:2: error: call to undeclared function 'xas_leave_irqsave'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     553 |         xas_unlock_irqrestore(&xas, flags);
+         |         ^
+   include/linux/xarray.h:1453:43: note: expanded from macro 'xas_unlock_irqrestore'
+    1453 | #define xas_unlock_irqrestore(xas, flags)       xas_leave_irqsave(xas, flags)
+         |                                                 ^
+   3 errors generated.
+--
+>> lib/xarray.c:2256:2: error: call to undeclared function 'xas_leave_irqsave'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2256 |         xas_unlock_irqrestore(&xas, flags);
+         |         ^
+   include/linux/xarray.h:1453:43: note: expanded from macro 'xas_unlock_irqrestore'
+    1453 | #define xas_unlock_irqrestore(xas, flags)       xas_leave_irqsave(xas, flags)
+         |                                                 ^
+   1 error generated.
+--
+>> mm/page-writeback.c:2801:2: error: call to undeclared function 'xa_leave_irqsave'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2801 |         xa_unlock_irqrestore(&mapping->i_pages, flags);
+         |         ^
+   include/linux/xarray.h:567:41: note: expanded from macro 'xa_unlock_irqrestore'
+     567 | #define xa_unlock_irqrestore(xa, flags) xa_leave_irqsave(xa, flags)
+         |                                         ^
+   mm/page-writeback.c:3100:3: error: call to undeclared function 'xa_leave_irqsave'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    3100 |                 xa_unlock_irqrestore(&mapping->i_pages, flags);
+         |                 ^
+   include/linux/xarray.h:567:41: note: expanded from macro 'xa_unlock_irqrestore'
+     567 | #define xa_unlock_irqrestore(xa, flags) xa_leave_irqsave(xa, flags)
+         |                                         ^
+>> mm/page-writeback.c:3155:3: error: call to undeclared function 'xas_leave_irqsave'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    3155 |                 xas_unlock_irqrestore(&xas, flags);
+         |                 ^
+   include/linux/xarray.h:1453:43: note: expanded from macro 'xas_unlock_irqrestore'
+    1453 | #define xas_unlock_irqrestore(xas, flags)       xas_leave_irqsave(xas, flags)
+         |                                                 ^
+   3 errors generated.
 
-> 
->> +	using the 'mbm_control' file. The number of hardware counters available
->> +	is described in the 'num_mbm_cntrs' file. Changing to this mode will
->> +	cause all counters on a resource to reset.
-> 
-> Should resctrl commit to this? Resetting of the counters as implemented here
-> does seem to be an architecture specific action so this text could be
-> made more generic by stating "may cause all counters on a resource to reset".
 
-Ok. Sure.
+vim +/xas_leave_irqsave +453 lib/idr.c
 
-> 
->> +
->> +	The feature is needed on platforms which support more control and monitor
-> 
-> "The feature" -> "The mode"?
-
-Sure.
-> 
->> +	groups than hardware counters, meaning 'unassigned' control or monitor
->> +	groups will report 'Unavailable' or not count all the traffic in an
->> +	unpredictable way.
-> 
-> "or not count all the traffic in an unpredictable way" is a bit hard to parse ... how
-> about "or count traffic in an unpredictable way"?
-
-ok. Sure.
-
-> 
-> 
->> +
->> +	AMD Platforms with ABMC (Assignable Bandwidth Monitoring Counters) feature
->> +	enable this mode by default so that counters remain assigned even when the
->> +	corresponding RMID is not in use by any processor.
->> +
->> +	"default":
->> +
->> +	By default resctrl assumes each control and monitor group has a hardware counter.
->> +	Hardware without this property will still allow more control or monitor groups
->> +	than 'num_mbm_cntrs' to be created. Reading the mbm files may report 'Unavailable'
-> Please be specific what is meant with "the mbm files"
-
-Sure. Will change it to mbm_total_bytes and mbm_local_bytes.
-
-> 
->> +	if there is no hardware resource assigned.
-> 
-> "no hardware resource" -> "no counter"?
-
-Sure.
-
-> 
->> +
->>  "max_threshold_occupancy":
->>  		Read/write file provides the largest value (in
->>  		bytes) at which a previously used LLC_occupancy
->> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> index 0178555bf3f6..dbc8c5e63213 100644
->> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> @@ -845,6 +845,30 @@ static int rdtgroup_rmid_show(struct kernfs_open_file *of,
->>  	return ret;
->>  }
->>  
-> 
-> Reinette
-> 
+5806f07cd2c329 Jeff Mahoney            2006-06-26  307  
+56083ab17e0075 Randy Dunlap            2010-10-26  308  /**
+56083ab17e0075 Randy Dunlap            2010-10-26  309   * DOC: IDA description
+72dba584b695d8 Tejun Heo               2007-06-14  310   *
+0a835c4f090af2 Matthew Wilcox          2016-12-20  311   * The IDA is an ID allocator which does not provide the ability to
+0a835c4f090af2 Matthew Wilcox          2016-12-20  312   * associate an ID with a pointer.  As such, it only needs to store one
+0a835c4f090af2 Matthew Wilcox          2016-12-20  313   * bit per ID, and so is more space efficient than an IDR.  To use an IDA,
+0a835c4f090af2 Matthew Wilcox          2016-12-20  314   * define it using DEFINE_IDA() (or embed a &struct ida in a data structure,
+0a835c4f090af2 Matthew Wilcox          2016-12-20  315   * then initialise it using ida_init()).  To allocate a new ID, call
+5ade60dda43c89 Matthew Wilcox          2018-03-20  316   * ida_alloc(), ida_alloc_min(), ida_alloc_max() or ida_alloc_range().
+5ade60dda43c89 Matthew Wilcox          2018-03-20  317   * To free an ID, call ida_free().
+72dba584b695d8 Tejun Heo               2007-06-14  318   *
+b03f8e43c92618 Matthew Wilcox          2018-06-18  319   * ida_destroy() can be used to dispose of an IDA without needing to
+b03f8e43c92618 Matthew Wilcox          2018-06-18  320   * free the individual IDs in it.  You can use ida_is_empty() to find
+b03f8e43c92618 Matthew Wilcox          2018-06-18  321   * out whether the IDA has any IDs currently allocated.
+0a835c4f090af2 Matthew Wilcox          2016-12-20  322   *
+f32f004cddf86d Matthew Wilcox          2018-07-04  323   * The IDA handles its own locking.  It is safe to call any of the IDA
+f32f004cddf86d Matthew Wilcox          2018-07-04  324   * functions without synchronisation in your code.
+f32f004cddf86d Matthew Wilcox          2018-07-04  325   *
+0a835c4f090af2 Matthew Wilcox          2016-12-20  326   * IDs are currently limited to the range [0-INT_MAX].  If this is an awkward
+0a835c4f090af2 Matthew Wilcox          2016-12-20  327   * limitation, it should be quite straightforward to raise the maximum.
+72dba584b695d8 Tejun Heo               2007-06-14  328   */
+72dba584b695d8 Tejun Heo               2007-06-14  329  
+d37cacc5adace7 Matthew Wilcox          2016-12-17  330  /*
+d37cacc5adace7 Matthew Wilcox          2016-12-17  331   * Developer's notes:
+d37cacc5adace7 Matthew Wilcox          2016-12-17  332   *
+f32f004cddf86d Matthew Wilcox          2018-07-04  333   * The IDA uses the functionality provided by the XArray to store bitmaps in
+f32f004cddf86d Matthew Wilcox          2018-07-04  334   * each entry.  The XA_FREE_MARK is only cleared when all bits in the bitmap
+f32f004cddf86d Matthew Wilcox          2018-07-04  335   * have been set.
+d37cacc5adace7 Matthew Wilcox          2016-12-17  336   *
+f32f004cddf86d Matthew Wilcox          2018-07-04  337   * I considered telling the XArray that each slot is an order-10 node
+f32f004cddf86d Matthew Wilcox          2018-07-04  338   * and indexing by bit number, but the XArray can't allow a single multi-index
+f32f004cddf86d Matthew Wilcox          2018-07-04  339   * entry in the head, which would significantly increase memory consumption
+f32f004cddf86d Matthew Wilcox          2018-07-04  340   * for the IDA.  So instead we divide the index by the number of bits in the
+f32f004cddf86d Matthew Wilcox          2018-07-04  341   * leaf bitmap before doing a radix tree lookup.
+d37cacc5adace7 Matthew Wilcox          2016-12-17  342   *
+d37cacc5adace7 Matthew Wilcox          2016-12-17  343   * As an optimisation, if there are only a few low bits set in any given
+3159f943aafdba Matthew Wilcox          2017-11-03  344   * leaf, instead of allocating a 128-byte bitmap, we store the bits
+f32f004cddf86d Matthew Wilcox          2018-07-04  345   * as a value entry.  Value entries never have the XA_FREE_MARK cleared
+f32f004cddf86d Matthew Wilcox          2018-07-04  346   * because we can always convert them into a bitmap entry.
+f32f004cddf86d Matthew Wilcox          2018-07-04  347   *
+f32f004cddf86d Matthew Wilcox          2018-07-04  348   * It would be possible to optimise further; once we've run out of a
+f32f004cddf86d Matthew Wilcox          2018-07-04  349   * single 128-byte bitmap, we currently switch to a 576-byte node, put
+f32f004cddf86d Matthew Wilcox          2018-07-04  350   * the 128-byte bitmap in the first entry and then start allocating extra
+f32f004cddf86d Matthew Wilcox          2018-07-04  351   * 128-byte entries.  We could instead use the 512 bytes of the node's
+f32f004cddf86d Matthew Wilcox          2018-07-04  352   * data as a bitmap before moving to that scheme.  I do not believe this
+f32f004cddf86d Matthew Wilcox          2018-07-04  353   * is a worthwhile optimisation; Rasmus Villemoes surveyed the current
+f32f004cddf86d Matthew Wilcox          2018-07-04  354   * users of the IDA and almost none of them use more than 1024 entries.
+f32f004cddf86d Matthew Wilcox          2018-07-04  355   * Those that do use more than the 8192 IDs that the 512 bytes would
+f32f004cddf86d Matthew Wilcox          2018-07-04  356   * provide.
+f32f004cddf86d Matthew Wilcox          2018-07-04  357   *
+f32f004cddf86d Matthew Wilcox          2018-07-04  358   * The IDA always uses a lock to alloc/free.  If we add a 'test_bit'
+d37cacc5adace7 Matthew Wilcox          2016-12-17  359   * equivalent, it will still need locking.  Going to RCU lookup would require
+d37cacc5adace7 Matthew Wilcox          2016-12-17  360   * using RCU to free bitmaps, and that's not trivial without embedding an
+d37cacc5adace7 Matthew Wilcox          2016-12-17  361   * RCU head in the bitmap, which adds a 2-pointer overhead to each 128-byte
+d37cacc5adace7 Matthew Wilcox          2016-12-17  362   * bitmap, which is excessive.
+d37cacc5adace7 Matthew Wilcox          2016-12-17  363   */
+d37cacc5adace7 Matthew Wilcox          2016-12-17  364  
+f32f004cddf86d Matthew Wilcox          2018-07-04  365  /**
+f32f004cddf86d Matthew Wilcox          2018-07-04  366   * ida_alloc_range() - Allocate an unused ID.
+f32f004cddf86d Matthew Wilcox          2018-07-04  367   * @ida: IDA handle.
+f32f004cddf86d Matthew Wilcox          2018-07-04  368   * @min: Lowest ID to allocate.
+f32f004cddf86d Matthew Wilcox          2018-07-04  369   * @max: Highest ID to allocate.
+f32f004cddf86d Matthew Wilcox          2018-07-04  370   * @gfp: Memory allocation flags.
+f32f004cddf86d Matthew Wilcox          2018-07-04  371   *
+f32f004cddf86d Matthew Wilcox          2018-07-04  372   * Allocate an ID between @min and @max, inclusive.  The allocated ID will
+f32f004cddf86d Matthew Wilcox          2018-07-04  373   * not exceed %INT_MAX, even if @max is larger.
+f32f004cddf86d Matthew Wilcox          2018-07-04  374   *
+3b6742618ed921 Stephen Boyd            2020-10-15  375   * Context: Any context. It is safe to call this function without
+3b6742618ed921 Stephen Boyd            2020-10-15  376   * locking in your code.
+f32f004cddf86d Matthew Wilcox          2018-07-04  377   * Return: The allocated ID, or %-ENOMEM if memory could not be allocated,
+f32f004cddf86d Matthew Wilcox          2018-07-04  378   * or %-ENOSPC if there are no free IDs.
+f32f004cddf86d Matthew Wilcox          2018-07-04  379   */
+f32f004cddf86d Matthew Wilcox          2018-07-04  380  int ida_alloc_range(struct ida *ida, unsigned int min, unsigned int max,
+f32f004cddf86d Matthew Wilcox          2018-07-04  381  			gfp_t gfp)
+72dba584b695d8 Tejun Heo               2007-06-14  382  {
+f32f004cddf86d Matthew Wilcox          2018-07-04  383  	XA_STATE(xas, &ida->xa, min / IDA_BITMAP_BITS);
+f32f004cddf86d Matthew Wilcox          2018-07-04  384  	unsigned bit = min % IDA_BITMAP_BITS;
+f32f004cddf86d Matthew Wilcox          2018-07-04  385  	unsigned long flags;
+f32f004cddf86d Matthew Wilcox          2018-07-04  386  	struct ida_bitmap *bitmap, *alloc = NULL;
+f32f004cddf86d Matthew Wilcox          2018-07-04  387  
+f32f004cddf86d Matthew Wilcox          2018-07-04  388  	if ((int)min < 0)
+f32f004cddf86d Matthew Wilcox          2018-07-04  389  		return -ENOSPC;
+f32f004cddf86d Matthew Wilcox          2018-07-04  390  
+f32f004cddf86d Matthew Wilcox          2018-07-04  391  	if ((int)max < 0)
+f32f004cddf86d Matthew Wilcox          2018-07-04  392  		max = INT_MAX;
+f32f004cddf86d Matthew Wilcox          2018-07-04  393  
+f32f004cddf86d Matthew Wilcox          2018-07-04  394  retry:
+f32f004cddf86d Matthew Wilcox          2018-07-04  395  	xas_lock_irqsave(&xas, flags);
+f32f004cddf86d Matthew Wilcox          2018-07-04  396  next:
+f32f004cddf86d Matthew Wilcox          2018-07-04  397  	bitmap = xas_find_marked(&xas, max / IDA_BITMAP_BITS, XA_FREE_MARK);
+f32f004cddf86d Matthew Wilcox          2018-07-04  398  	if (xas.xa_index > min / IDA_BITMAP_BITS)
+0a835c4f090af2 Matthew Wilcox          2016-12-20  399  		bit = 0;
+f32f004cddf86d Matthew Wilcox          2018-07-04  400  	if (xas.xa_index * IDA_BITMAP_BITS + bit > max)
+f32f004cddf86d Matthew Wilcox          2018-07-04  401  		goto nospc;
+f32f004cddf86d Matthew Wilcox          2018-07-04  402  
+3159f943aafdba Matthew Wilcox          2017-11-03  403  	if (xa_is_value(bitmap)) {
+3159f943aafdba Matthew Wilcox          2017-11-03  404  		unsigned long tmp = xa_to_value(bitmap);
+f32f004cddf86d Matthew Wilcox          2018-07-04  405  
+f32f004cddf86d Matthew Wilcox          2018-07-04  406  		if (bit < BITS_PER_XA_VALUE) {
+f32f004cddf86d Matthew Wilcox          2018-07-04  407  			bit = find_next_zero_bit(&tmp, BITS_PER_XA_VALUE, bit);
+f32f004cddf86d Matthew Wilcox          2018-07-04  408  			if (xas.xa_index * IDA_BITMAP_BITS + bit > max)
+f32f004cddf86d Matthew Wilcox          2018-07-04  409  				goto nospc;
+f32f004cddf86d Matthew Wilcox          2018-07-04  410  			if (bit < BITS_PER_XA_VALUE) {
+f32f004cddf86d Matthew Wilcox          2018-07-04  411  				tmp |= 1UL << bit;
+f32f004cddf86d Matthew Wilcox          2018-07-04  412  				xas_store(&xas, xa_mk_value(tmp));
+f32f004cddf86d Matthew Wilcox          2018-07-04  413  				goto out;
+d37cacc5adace7 Matthew Wilcox          2016-12-17  414  			}
+f32f004cddf86d Matthew Wilcox          2018-07-04  415  		}
+f32f004cddf86d Matthew Wilcox          2018-07-04  416  		bitmap = alloc;
+f32f004cddf86d Matthew Wilcox          2018-07-04  417  		if (!bitmap)
+f32f004cddf86d Matthew Wilcox          2018-07-04  418  			bitmap = kzalloc(sizeof(*bitmap), GFP_NOWAIT);
+d37cacc5adace7 Matthew Wilcox          2016-12-17  419  		if (!bitmap)
+f32f004cddf86d Matthew Wilcox          2018-07-04  420  			goto alloc;
+3159f943aafdba Matthew Wilcox          2017-11-03  421  		bitmap->bitmap[0] = tmp;
+f32f004cddf86d Matthew Wilcox          2018-07-04  422  		xas_store(&xas, bitmap);
+f32f004cddf86d Matthew Wilcox          2018-07-04  423  		if (xas_error(&xas)) {
+f32f004cddf86d Matthew Wilcox          2018-07-04  424  			bitmap->bitmap[0] = 0;
+f32f004cddf86d Matthew Wilcox          2018-07-04  425  			goto out;
+f32f004cddf86d Matthew Wilcox          2018-07-04  426  		}
+d37cacc5adace7 Matthew Wilcox          2016-12-17  427  	}
+d37cacc5adace7 Matthew Wilcox          2016-12-17  428  
+0a835c4f090af2 Matthew Wilcox          2016-12-20  429  	if (bitmap) {
+f32f004cddf86d Matthew Wilcox          2018-07-04  430  		bit = find_next_zero_bit(bitmap->bitmap, IDA_BITMAP_BITS, bit);
+f32f004cddf86d Matthew Wilcox          2018-07-04  431  		if (xas.xa_index * IDA_BITMAP_BITS + bit > max)
+f32f004cddf86d Matthew Wilcox          2018-07-04  432  			goto nospc;
+0a835c4f090af2 Matthew Wilcox          2016-12-20  433  		if (bit == IDA_BITMAP_BITS)
+f32f004cddf86d Matthew Wilcox          2018-07-04  434  			goto next;
+72dba584b695d8 Tejun Heo               2007-06-14  435  
+0a835c4f090af2 Matthew Wilcox          2016-12-20  436  		__set_bit(bit, bitmap->bitmap);
+0a835c4f090af2 Matthew Wilcox          2016-12-20  437  		if (bitmap_full(bitmap->bitmap, IDA_BITMAP_BITS))
+f32f004cddf86d Matthew Wilcox          2018-07-04  438  			xas_clear_mark(&xas, XA_FREE_MARK);
+0a835c4f090af2 Matthew Wilcox          2016-12-20  439  	} else {
+3159f943aafdba Matthew Wilcox          2017-11-03  440  		if (bit < BITS_PER_XA_VALUE) {
+3159f943aafdba Matthew Wilcox          2017-11-03  441  			bitmap = xa_mk_value(1UL << bit);
+3159f943aafdba Matthew Wilcox          2017-11-03  442  		} else {
+f32f004cddf86d Matthew Wilcox          2018-07-04  443  			bitmap = alloc;
+72dba584b695d8 Tejun Heo               2007-06-14  444  			if (!bitmap)
+f32f004cddf86d Matthew Wilcox          2018-07-04  445  				bitmap = kzalloc(sizeof(*bitmap), GFP_NOWAIT);
+f32f004cddf86d Matthew Wilcox          2018-07-04  446  			if (!bitmap)
+f32f004cddf86d Matthew Wilcox          2018-07-04  447  				goto alloc;
+0a835c4f090af2 Matthew Wilcox          2016-12-20  448  			__set_bit(bit, bitmap->bitmap);
+3159f943aafdba Matthew Wilcox          2017-11-03  449  		}
+f32f004cddf86d Matthew Wilcox          2018-07-04  450  		xas_store(&xas, bitmap);
+72dba584b695d8 Tejun Heo               2007-06-14  451  	}
+f32f004cddf86d Matthew Wilcox          2018-07-04  452  out:
+f32f004cddf86d Matthew Wilcox          2018-07-04 @453  	xas_unlock_irqrestore(&xas, flags);
+f32f004cddf86d Matthew Wilcox          2018-07-04  454  	if (xas_nomem(&xas, gfp)) {
+f32f004cddf86d Matthew Wilcox          2018-07-04  455  		xas.xa_index = min / IDA_BITMAP_BITS;
+f32f004cddf86d Matthew Wilcox          2018-07-04  456  		bit = min % IDA_BITMAP_BITS;
+f32f004cddf86d Matthew Wilcox          2018-07-04  457  		goto retry;
+72dba584b695d8 Tejun Heo               2007-06-14  458  	}
+f32f004cddf86d Matthew Wilcox          2018-07-04  459  	if (bitmap != alloc)
+f32f004cddf86d Matthew Wilcox          2018-07-04  460  		kfree(alloc);
+f32f004cddf86d Matthew Wilcox          2018-07-04  461  	if (xas_error(&xas))
+f32f004cddf86d Matthew Wilcox          2018-07-04  462  		return xas_error(&xas);
+f32f004cddf86d Matthew Wilcox          2018-07-04  463  	return xas.xa_index * IDA_BITMAP_BITS + bit;
+f32f004cddf86d Matthew Wilcox          2018-07-04  464  alloc:
+f32f004cddf86d Matthew Wilcox          2018-07-04  465  	xas_unlock_irqrestore(&xas, flags);
+f32f004cddf86d Matthew Wilcox          2018-07-04  466  	alloc = kzalloc(sizeof(*bitmap), gfp);
+f32f004cddf86d Matthew Wilcox          2018-07-04  467  	if (!alloc)
+f32f004cddf86d Matthew Wilcox          2018-07-04  468  		return -ENOMEM;
+f32f004cddf86d Matthew Wilcox          2018-07-04  469  	xas_set(&xas, min / IDA_BITMAP_BITS);
+f32f004cddf86d Matthew Wilcox          2018-07-04  470  	bit = min % IDA_BITMAP_BITS;
+f32f004cddf86d Matthew Wilcox          2018-07-04  471  	goto retry;
+f32f004cddf86d Matthew Wilcox          2018-07-04  472  nospc:
+f32f004cddf86d Matthew Wilcox          2018-07-04  473  	xas_unlock_irqrestore(&xas, flags);
+a219b856a2b993 Matthew Wilcox (Oracle  2020-04-02  474) 	kfree(alloc);
+f32f004cddf86d Matthew Wilcox          2018-07-04  475  	return -ENOSPC;
+0a835c4f090af2 Matthew Wilcox          2016-12-20  476  }
+f32f004cddf86d Matthew Wilcox          2018-07-04  477  EXPORT_SYMBOL(ida_alloc_range);
+72dba584b695d8 Tejun Heo               2007-06-14  478  
 
 -- 
-Thanks
-Babu Moger
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
