@@ -1,337 +1,359 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2055.outbound.protection.outlook.com [40.107.102.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B943519F41C
-	for <linux-doc@vger.kernel.org>; Mon, 23 Sep 2024 18:15:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727115354; cv=none; b=K+HSpXI4PTFEqs7xtumV7vfZQO976IOYUJqu7abaLCeCQPtOiiBuhppki/Vy0Wmcgrjmmq9fd1LP2LyF6IkTbU8JmUT+xygCZ8ANlZXMUdRkIbTLiJswrXqXLrSJuS8FZI3L7GkbSrcu/yBCyO/djtCgaPYjj8Q6HZXFhJuhufc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727115354; c=relaxed/simple;
-	bh=sNv/aIqFNREWgvs0aF9POrMHph9hCDRCFllngZHkEsY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=mq3nb1yjtl6mEiys60J6gQ1Ge2PTAvDVAzWU+RGM+/LH1ky8VYawfaaDbb4XD40URtd+6WIiN/3iSS8rzTtozS44CHOyXLIVC0mNNjJc6OjVKSxEBLY6O4usA3cEccVMGEF5xCF9Giqdg+W+HLEBhU2L7W0Dzr/8nyLq9FLIu8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=none smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=KiGOoQkk; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=daynix.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A1BEFC0B;
+	Mon, 23 Sep 2024 18:33:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727116399; cv=fail; b=acO8svMyWerWNo4Y4M169qU7jVCaeSNq13WDJn3R/BjSDY/SM0nqs5eaBE0/AyOCbtJnOKMYPSL0+qvJFFilTeB8Sx5+S4RqO/5ut/Vb3l8bNCxmPLZuz5Xq/Q0zEc51cjSpnFs7VPC3lMjm9TKo5VwYiv5gsFK08fsfmdXr7nA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727116399; c=relaxed/simple;
+	bh=/CwujI0uPcS0/zRS1TTnuf77bwp6VmQ/WG+lpeoPysc=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=G9eVkxalWPY5922L9qOK888kJjQT7DOvmCBhuNnvPxtiKtlQ6AAPSmk3CoizvLXm+o37lNEHArn26kOQf3lr84kdnHpbXtyRmz6kbiOU3pgMBjJOStZCj2HfxP38mAb5VhdHaMc387umYW7WNJXs0U1+Rh76aJSso0+WUcG4490=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=jAqtQN0o; arc=fail smtp.client-ip=40.107.102.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="KiGOoQkk"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a83562f9be9so547525766b.0
-        for <linux-doc@vger.kernel.org>; Mon, 23 Sep 2024 11:15:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1727115349; x=1727720149; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LTpGY2HdjmD+19e8xZx45f/sOO4XJ/Cgbhm21X2+09E=;
-        b=KiGOoQkkIVOZ31wsL38ocOdBIQl0GWn5cgf0DC89KXV6CAXxXepXBy2FSbQy2jqa2H
-         23/aiwo3GaNMJ1x++B93Y0g6Bla1ErXTDPUjYsEuN35VXhq9lH6XafKDxN67T4XhYYfs
-         i06xzHETqTmcgl885QEcvBEia3OaEhkjLgPcbVAKx1uYZzrfPZqu/zDX68vtDo1uA7Wi
-         /+jK54FZEdo1cpgSAa8XwdZ8mLc50ZMJd62IqJFkwWVGpp0gdqQX++TTnf67oTp9ySuP
-         viHUEgH9+MVgUAakqVGG+gP5mY5EoEtzRPRqhYW0A4lisjJx8ZaJs1Zo3JGwryKkaPmM
-         ldlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727115349; x=1727720149;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LTpGY2HdjmD+19e8xZx45f/sOO4XJ/Cgbhm21X2+09E=;
-        b=i/GK4PR9Lcccie6bP45sQkOF6+8hRALS0FcQUkud4tM2hd5XYitRtmm+ZBKeA+/2M0
-         WAGyEsNCaDvHEtaNsgas1Sh2yc6Sathe/r9VrELuKgwKMhotms6GJVj90kAwmsvgsz/W
-         HXR+2d4BA5aFpp1LXXyuzu1LPWcRTZUS3O+dNHV8nROtERq2x+qtcMVaw1vbwy98spBh
-         5zasSYdP2TO1HtmYs++O/Z0Iz0AWDoFGIU0lWb46SYxe1+EoTdKOxO+TBqN/pqs4sUlv
-         dvFthnAlg6wh1t6oHo2NH3ocvciNaHeQ8gqoIn2tv5KRy6qQGrsPUi/y724NZlxXVKcD
-         71dA==
-X-Forwarded-Encrypted: i=1; AJvYcCVs9niEUqYYAhFoSa/YPpUr4V02jRRyiyay84+c8cNYt2NOylH/Z7fAa0nPAAHncXh7/zq2QGinYrE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKp9L7j7lzGm4moOJqLjKij9Jp06Yb7GhzUNg8p3ElMTZ4iCeu
-	wwVRZROROY8W/S9jAOYfXEonAMGD800q6dpbD4GzBA/nmfq3PzC6wopBc8ysBGU=
-X-Google-Smtp-Source: AGHT+IGpPI7fG4a4LTiKNkQuTwrb55WXPx6z+ZBeEe2uiGzK1oNL853fNzKzHMtEKbZf6pa6A0zTtQ==
-X-Received: by 2002:a17:907:3fa6:b0:a8d:55ce:fb7f with SMTP id a640c23a62f3a-a90d5163099mr1378220166b.62.1727115349136;
-        Mon, 23 Sep 2024 11:15:49 -0700 (PDT)
-Received: from [10.102.105.220] (brn-rj-tbond07.sa.cz. [185.94.55.136])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9061330c2asm1250099866b.204.2024.09.23.11.15.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Sep 2024 11:15:48 -0700 (PDT)
-Message-ID: <6efc6937-2da7-4eb1-a2de-c9e5146d10ea@daynix.com>
-Date: Mon, 23 Sep 2024 20:15:44 +0200
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="jAqtQN0o"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sRhBv9qCPQTnzF0aq7tcakBBd31y40jf3GtSDeX/DngKKLKIXzFeOFdFC3r13xJQtoCmxlQRp5RPYyuMT0k37PASMUVceLlYeM58e4GXcrP+OjXxpNFs2DnHHpVYmU6VhovCVeIk1m1Ht5hNtqGTbwpYND25m7UVhVR5bZ2VxDK1UAqN/ZhQoupMIF4l0irACJcedjllHMJItDWRgql+gS8I4HPSWCeHSzM0cvwPI0a73jbaFY7LMZKcy2avbbo0gEHY2YQoI+nMrVbiZu6Fo5wcSWDkosaOcb4n++sABCbZ/X3bVIaV7KGK1lvxms8p8mpZZ6S+F2ZLvwVLWhW33w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9mVG4KggC2FzLVIscrFBP17tSa6yNOa+BXTUrb9tu0s=;
+ b=DyQUYKarIsOl1pmcxmKkrvjSonq41H7G29Fjarqc5RRe2ziaeK6tkhaWzGfUTSccrFSgLHsU79YRxSokx0YWfPqBLUZYCfLWaaanjnDjk1ohVfaF250jUoH+yyYD1ukKZ8sPu0juZeKlCNI7ehguojVSM0WovdheNMMbOksMQUACMgN/TNEX1qP2oFu7VhI6en52Md3rRTRhzNPVU8idLNKcZvuoQTmXeP768jl39w3aeLNLJRCg/b79EymZCcj80hGhjkoKQQ0cqQcfgwUj2czeH/1+Sq8ag3Kv7bg03SFh4qEsy7+PHb7uw4JiNwVOskIm6wFaRcqzD7BbpOPN3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9mVG4KggC2FzLVIscrFBP17tSa6yNOa+BXTUrb9tu0s=;
+ b=jAqtQN0oLVxXJ+CkzBsBEkwZS8LydCx3Nhg3acH12LWQ9bcaWY17/W2Rc5SwEzPeYVJy7hV2dStDFy74SdvnzCa+ZMPw/I2hqbEcNTuFYC4QBax71SQv41+oGYpqz6Zl4oJonng654hIMtX9/o1T7Cb1IYxs9Rp5oImPyiqwkrk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by DS0PR12MB7534.namprd12.prod.outlook.com (2603:10b6:8:139::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.27; Mon, 23 Sep
+ 2024 18:33:14 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%4]) with mapi id 15.20.7982.022; Mon, 23 Sep 2024
+ 18:33:14 +0000
+Message-ID: <c333ce4d-3e4a-45b1-87b4-42a4d35d0ad0@amd.com>
+Date: Mon, 23 Sep 2024 13:33:10 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v7 09/24] x86/resctrl: Introduce bitmap mbm_cntr_free_map
+ to track assignable counters
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
+ tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
+ kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
+ jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
+ rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
+ jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
+ ilpo.jarvinen@linux.intel.com, peternewman@google.com,
+ maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
+References: <cover.1725488488.git.babu.moger@amd.com>
+ <a94c14653c29e89bc76727addfcdf1f9c164b95d.1725488488.git.babu.moger@amd.com>
+ <50084b31-49e4-41c7-be1e-24773d03d5d3@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <50084b31-49e4-41c7-be1e-24773d03d5d3@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA9PR10CA0013.namprd10.prod.outlook.com
+ (2603:10b6:806:a7::18) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v3 2/9] virtio_net: Add functions for hashing
-To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Jason Wang <jasowang@redhat.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, kvm@vger.kernel.org,
- virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Andrew Melnychenko <andrew@daynix.com>
-References: <20240915-rss-v3-0-c630015db082@daynix.com>
- <20240915-rss-v3-2-c630015db082@daynix.com>
- <66eacca7de803_29b986294ac@willemb.c.googlers.com.notmuch>
-Content-Language: en-US
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <66eacca7de803_29b986294ac@willemb.c.googlers.com.notmuch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DS0PR12MB7534:EE_
+X-MS-Office365-Filtering-Correlation-Id: fe42328f-efef-4ddf-501f-08dcdbfe2f7b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?OVM0WTBtUk5GOENrUWZoa0ZVU05QQ2xpa29lV21zTFMySFptRStueUppVFJk?=
+ =?utf-8?B?VWlvdDhhR3hzdVRxWGQ2M0ZVMDJscTZ6NGhNZWZXcmw2VVNEMkU5b0dVUHRq?=
+ =?utf-8?B?RVMwSERTMVNtQWJGYmdQcytHL2M4RHgrcDZjK3ZydERSVDhuVGswekloaU5F?=
+ =?utf-8?B?clV4ZkdEVnJwVWlWcTJOT3hONDNsdDdrdWlkVGwzNDVnbVc1M2RuRFJjQVNa?=
+ =?utf-8?B?QzJMRGRhamc1bEkrbW1STkJEVEIyUlU2L3U4eGgrSEczS1NtSGd3SzNBWnp6?=
+ =?utf-8?B?bmVVUWRPQ1dhV2ZtQ1Bsait3OXRpNGRTUVA1bjFmK2VaVWZWenBkcjl0VUUy?=
+ =?utf-8?B?NXRVTW9QTjAyRUNXVjkxNHkyTFJkcnUwb01BaXNmK1NyWHkzYTl1cytyUXN6?=
+ =?utf-8?B?SE9tNTAzRU55TDFnY0Z3MmRwM0JJdjFPTXVpMVluQy9EQnEyb2hFRXRhdUpn?=
+ =?utf-8?B?em04VkxkaURIOElSUHlMN1ZIUVA5WEdWMUtPYmpuWjNGUnNlMTRlUERZNzk4?=
+ =?utf-8?B?SDByQlNYTG5qSEl3R1l6cWV4Q1NxVkdPTGRjeXEzT0JtS0ZiZmJzVW1CVmE5?=
+ =?utf-8?B?NGhYb1FrOXA4T1g2WE5hWHdwdndBcytORDI3MDVNZCtKMXNkeVB5bThjRXdt?=
+ =?utf-8?B?MThvaG9sZFM2NDVLWGo0YXY3WkEyaEVNUEtabm9keWZuZXZkd3F1NTdRMUlv?=
+ =?utf-8?B?dGJORlJZa3FQT3BXYTQ4dmpQSitBRW9JSm56cGhpK0hnbjlvaHU5bTdCbW8w?=
+ =?utf-8?B?aWdoeVUyOFd3RGtGRElLMEFCVlBpbm9xWUo2SXpOd1UxNGE5VWkxZEExRnFW?=
+ =?utf-8?B?NklQK2tyMGxYRXJET3h3aXJ4RDFoOCt2b05qUlkvZXhBNW9HQ2tsVXA0eE1M?=
+ =?utf-8?B?dkxSV0RmM0MwMDdIVDBTUWxjQjV3OU9aNHFKK000ODFSTmZJa2d2V0kwQWM3?=
+ =?utf-8?B?dmlyWGJxTUJZSE82RVplNTgwM3Jjdy9sOXZaYTF1ZVBRT0IzWkZTSEJWcERH?=
+ =?utf-8?B?eDJlNXhUV2hyR29YQk5hZ2tZRC9hd0VOZU93NUNHODJRN0w2SkFnaW1NeXBi?=
+ =?utf-8?B?MjI2M0hiNWZyOGJwTVd3eWRBcUpNZ2lnYm5vaHBIdCtQTitKY2M3OGJmT2RU?=
+ =?utf-8?B?cFlsUVAwTVpsOXhtUXVkVHFSWUFyWFppVHZxUlozcFI2NFBoZGFsSHZIWkxF?=
+ =?utf-8?B?bUIyWGRFWDI4NkVUa1B2Y0VocjY3NlJVMWl6bU11WHpSWXkyS2lZVWVKSHZs?=
+ =?utf-8?B?cUNDcHJ0VHN1RjZlSUJnRExyWGREMmtTZnZ6VGdZaXhHKzdUYzBsdXV2eE0z?=
+ =?utf-8?B?QVpPVXNMRTJIMTZQZ3NtcWRHd1dJSmdlZ0hEa1JZaTVOMjJhM2VmZDVXT0du?=
+ =?utf-8?B?eWdHcGdVV0dSRW9MblJBUmlNR3RHb0RuelNEeTNlZ3NWZUdyVUdVSjQ3ZDNX?=
+ =?utf-8?B?L2RkeHFCQlZqY1Y0WW9sbVA2RVBOOTJ1OFVVU1I5azVqWTZsemdjaWc0S3BJ?=
+ =?utf-8?B?YlFtNFlvY1RneTB3K1dPbGV1R3VEdm1NdTNoREpYS2crNFpQQkFlaHp4QmIy?=
+ =?utf-8?B?SFRSbEJBMDdsMG1kTExvSUhYNUVwTlFiYkxtUE5MT2JHK1oyM2xya3h6c2Ny?=
+ =?utf-8?B?ckEzbzBLZE9Dcms5dm5mdFZWWkIwcjJjZ3o2WGJPc09WWDc4ZFlJRTZ2UE1h?=
+ =?utf-8?B?UkxnTytpOTBvZnd1WFNTR1NGcXRqajNlaFVFRlR2TTMzeVQzQno0QS9ZOElP?=
+ =?utf-8?B?ckJaSkhVNGZ4aGNMbVRIdTBDV3RrMjhiNUdRTU93dVRIM3puNERzTE91NWRq?=
+ =?utf-8?B?N3QwTEpVQ3lncmR3cG04UT09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dWpCZ0k5bis1cmo2Z3hqTDF5aURPMThxU095S2NYb1FEWmRBVnBYNXFZcEd3?=
+ =?utf-8?B?ODg5eXhQeEliR3JBSUxHTlhNLy9LWC9MMzhURHRQRkVrUmt2VVBBa3FYRENw?=
+ =?utf-8?B?cjhEdHBlc2FCbGdudWxLZTU0cWhyQW9STFNrZ2F5L1ZPSUo0bVpreXh2SENC?=
+ =?utf-8?B?ZzlQQm1rLy9zK1p0ZUpRNWt2MkM4Y1I2ZXJUSExnelJxaGN1Zk5MdUJ3K1RB?=
+ =?utf-8?B?QjZ5WkMzVkUzaFhDc1dtYXNYVEJVTE1iM1RzTlA4cnBkR0VKZ3M1emU2ZWF5?=
+ =?utf-8?B?dFhhMGxiWWpodDdwNFI5NlA5Y0xIaUhqMHlFYi9lWWtoaFJ3VDJLRTJXb2dO?=
+ =?utf-8?B?L0xhOURiY3IzSFhYRncvMFlHbDdDc2FiaHB4ZDVYdFJqSXFYdHVRRGpsYkZC?=
+ =?utf-8?B?VFgvYUZrTDlKb0lzK3FiRnJ1eXlHdFdaL1FtSGNpMENNdkNzZGNTWVNwYWdt?=
+ =?utf-8?B?T0Npd0NPT1FMRzN4RExDSjBHNTZ1ZzJjd2I2QlpzNlViUHVDSDI3R0FsN2Ir?=
+ =?utf-8?B?NURvYnpLYm9uN2Z2TmJDM090Mk9oeXhqZDdlQ0NRdzM5KzJJMjhCT1RvS3lY?=
+ =?utf-8?B?ZFhnVkhQbG84QkVsbitlY2hrallUZXBVc0lyVEJvUmNGV1Rldy9RZmhpZU43?=
+ =?utf-8?B?dnQxcGhrUVYzV3Zod3ZSSnZIVFZJZm1tY1FHaDRQNDRpdnlRUXpkc3dyNENX?=
+ =?utf-8?B?a2toc2pHU3dGQms1R2pVRitIYTVwY0Q2dFJ1WXRrL3dLUjAzUHZkc0xOR1pu?=
+ =?utf-8?B?UDNpWmFlQnNzQU9vRjFVN3k1WVJKMjFtSmpVYnRiNHJiZ3ZRSS9VcTBWYW82?=
+ =?utf-8?B?TWNJT2E5SjdjbXVQM0FWOUdycHFtYUs0czRweWVoYytPdytTcXVKSENJU1Rh?=
+ =?utf-8?B?K0dWRG40WG01L1J0MmdhTlgyTEl5dndLS3VpcWppUWxsNnJBWGlpUXlvRUp1?=
+ =?utf-8?B?eXQ1V2MrLys3bk9mOHphaXU5bFZkd1dsaDhlQ0VTOEVnK1NSMXFkNkFMUVVW?=
+ =?utf-8?B?ckJibzFnc1VrSVg3Nm0vT3VyS0kvYVNmRWVWSmdNQkxsRHNJdFhML1VoTDZi?=
+ =?utf-8?B?ZGZNTDNDSVhHei9xTSthYVYwMm01RnRBSTUzVS9FNTNVTmFNUVE2bGI3UmVK?=
+ =?utf-8?B?T0lsMCtLNUExVEFyWFhWRHd1alp5VEFqR1NTMittbitMcUMrVjFLcGNPWklk?=
+ =?utf-8?B?Ync3SmdzVkNnMUhhMTAyUzl3NCthT3h1VDVpTWF4eE9vRUMzRGQzS01uUjFz?=
+ =?utf-8?B?Z2NLVEZhMlYrYlZCcXpUMHM3d2VpMFZWUTB6cGNaS21XREdQa1l6amZ4ZHVy?=
+ =?utf-8?B?Vi9seEYwaWJvZ1pkeDJaNHE2Tisyb1ViOWs3MTVWNEFBbjFUUWNJVW01Nkxo?=
+ =?utf-8?B?WFlSN0xjelh4VTBHb0JYdkVuLzdvQ0hTZDl0VG1Ra2Y3MEZIcUp1OExnR3Ex?=
+ =?utf-8?B?b1E0c0c0NWNkbW1WczNLUDFRblJTZ2c1MFR3SmgvWHA0V085RUpmdFV0ZXAz?=
+ =?utf-8?B?aGM0TitrYmJoaFdVVVVZcm00RC9lcWVUSEd6bmNBNEF5dHEwOTlvcEdNWHNF?=
+ =?utf-8?B?TGtJZkxRZmZkUmdhOStOWlUzZkNBK1ZBeUE0SlU2d2NZOHZhd1BaSE1PdGVE?=
+ =?utf-8?B?bEVVbEJxeXBaNzJ6VkgzU0xNMnBxV0JzalNUbkNKcmdtSHFtQWNxeU5EVEcx?=
+ =?utf-8?B?Z3pacWVkUlQvR1NaaHdIUmJ1b1BBdm1KMzRlNHNyMEttOTNKQXVkeUFIR2FF?=
+ =?utf-8?B?NlF2MkhOZnZnYUszRE05UEhzOVJNUUM4NmVOVllrb2FGN3BBYksyNFl3bTFU?=
+ =?utf-8?B?N0thT01NWmtlb1duK0ExeUNwazc1WVJUdjVpTS9ZaUh6MmczMko4cmpOeHZB?=
+ =?utf-8?B?RGRtY0oyRkFRZTRpdEJOVGh6TUFDeGlvaXJzWElWS3Q0TlRDdGhHL2YyVHp1?=
+ =?utf-8?B?cWozQWFib1BnZE5GQWJVbTlJRkNFVjdDcFZreUgrL0VKK3ZacnR2TkpSR2Rr?=
+ =?utf-8?B?Y25TODlvZjRyaUQyY3Jrc09Bc2M0Qy9xVEtqamU0L094cW0wTSs0NWprTVNh?=
+ =?utf-8?B?R0xxWkM4UnFPeFVlUURFcDU4QnhUbUVxdDc1dFZCR2w0L1VQbjlDd2REZ1VC?=
+ =?utf-8?Q?rWBI=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe42328f-efef-4ddf-501f-08dcdbfe2f7b
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2024 18:33:14.6703
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CMobNYnsaw2MViAl2hNWFaxyamJ6XMJXafMEOJefegD+TbMcuQcx6ET5TG7AeSEZ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7534
 
-On 2024/09/18 14:50, Willem de Bruijn wrote:
-> Akihiko Odaki wrote:
->> They are useful to implement VIRTIO_NET_F_RSS and
->> VIRTIO_NET_F_HASH_REPORT.
+Hi Reinette,
+
+On 9/19/24 11:42, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 9/4/24 3:21 PM, Babu Moger wrote:
+>> Hardware provides a set of counters when mbm_cntr_assignable feature is
+>> supported. These counters are used for assigning the events in resctrl
+>> a group when the feature is enabled. The kernel must manage and track the
+> 
+> The second sentence ("These counters ...") is difficult to parse.
+
+How about?
+
+Counters are used for assigning the events in resctrl group.
+
+> 
+>> number of available counters.
+> 
+> "The kernel must manage and track the number of available counters." ->
+> "The kernel must manage and track the available counters." ?
+
+Sure.
+
+> 
 >>
->> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+>> Introduce mbm_cntr_free_map bitmap to track available counters and set
+>> of routines to allocate and free the counters.
+>>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
 >> ---
->>   include/linux/virtio_net.h | 198 +++++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 198 insertions(+)
->>
->> diff --git a/include/linux/virtio_net.h b/include/linux/virtio_net.h
->> index 6c395a2600e8..7ee2e2f2625a 100644
->> --- a/include/linux/virtio_net.h
->> +++ b/include/linux/virtio_net.h
->> @@ -9,6 +9,183 @@
->>   #include <uapi/linux/tcp.h>
->>   #include <uapi/linux/virtio_net.h>
->>   
->> +struct virtio_net_hash {
->> +	u32 value;
->> +	u16 report;
->> +};
->> +
->> +struct virtio_net_toeplitz_state {
->> +	u32 hash;
->> +	u32 key_buffer;
->> +	const __be32 *key;
->> +};
->> +
->> +#define VIRTIO_NET_SUPPORTED_HASH_TYPES (VIRTIO_NET_RSS_HASH_TYPE_IPv4 | \
->> +					 VIRTIO_NET_RSS_HASH_TYPE_TCPv4 | \
->> +					 VIRTIO_NET_RSS_HASH_TYPE_UDPv4 | \
->> +					 VIRTIO_NET_RSS_HASH_TYPE_IPv6 | \
->> +					 VIRTIO_NET_RSS_HASH_TYPE_TCPv6 | \
->> +					 VIRTIO_NET_RSS_HASH_TYPE_UDPv6)
->> +
->> +#define VIRTIO_NET_RSS_MAX_KEY_SIZE 40
->> +
->> +static inline void virtio_net_toeplitz(struct virtio_net_toeplitz_state *state,
->> +				       const __be32 *input, size_t len)
+> 
+> ...
+> 
+>> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
+>> index e3e71843401a..f98cc5b9bebc 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
+>> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
+>> @@ -1175,6 +1175,30 @@ static __init int snc_get_config(void)
+>>  	return ret;
+>>  }
+>>  
+>> +/*
+>> + * Counter bitmap for tracking the available counters.
+>> + * 'mbm_cntr_assign' mode provides set of hardware counters for assigning
+>> + * RMID, event pair. Each RMID and event pair takes one hardware counter.
+> 
+> (soft-ABMC may need to edit this comment)
+
+Agree..
+
+> 
+>> + * Kernel needs to keep track of the number of available counters.
+> 
+> Last sentence seems to be duplicate of the first?
+
+Will remove it.
+
+> 
+>> + */
+>> +static int mbm_cntrs_init(struct rdt_resource *r)
+> 
+> Needs __init?
+
+Did you mean to merge this with dom_data_init and don't have to have a
+separate function. Please clarify.
+
+
+> 
 >> +{
->> +	u32 key;
->> +
->> +	while (len) {
->> +		state->key++;
->> +		key = be32_to_cpu(*state->key);
->> +
->> +		for (u32 bit = BIT(31); bit; bit >>= 1) {
->> +			if (be32_to_cpu(*input) & bit)
->> +				state->hash ^= state->key_buffer;
->> +
->> +			state->key_buffer =
->> +				(state->key_buffer << 1) | !!(key & bit);
->> +		}
->> +
->> +		input++;
->> +		len--;
+>> +	if (r->mon.mbm_cntr_assignable) {
+>> +		r->mon.mbm_cntr_free_map = bitmap_zalloc(r->mon.num_mbm_cntrs,
+>> +							 GFP_KERNEL);
+>> +		if (!r->mon.mbm_cntr_free_map)
+>> +			return -ENOMEM;
+>> +		bitmap_fill(r->mon.mbm_cntr_free_map, r->mon.num_mbm_cntrs);
 >> +	}
+>> +	return 0;
 >> +}
 >> +
->> +static inline u8 virtio_net_hash_key_length(u32 types)
+>> +static void __exit mbm_cntrs_exit(struct rdt_resource *r)
 >> +{
->> +	size_t len = 0;
->> +
->> +	if (types & VIRTIO_NET_HASH_REPORT_IPv4)
->> +		len = max(len,
->> +			  sizeof(struct flow_dissector_key_ipv4_addrs));
->> +
->> +	if (types &
->> +	    (VIRTIO_NET_HASH_REPORT_TCPv4 | VIRTIO_NET_HASH_REPORT_UDPv4))
->> +		len = max(len,
->> +			  sizeof(struct flow_dissector_key_ipv4_addrs) +
->> +			  sizeof(struct flow_dissector_key_ports));
->> +
->> +	if (types & VIRTIO_NET_HASH_REPORT_IPv6)
->> +		len = max(len,
->> +			  sizeof(struct flow_dissector_key_ipv6_addrs));
->> +
->> +	if (types &
->> +	    (VIRTIO_NET_HASH_REPORT_TCPv6 | VIRTIO_NET_HASH_REPORT_UDPv6))
->> +		len = max(len,
->> +			  sizeof(struct flow_dissector_key_ipv6_addrs) +
->> +			  sizeof(struct flow_dissector_key_ports));
->> +
->> +	return 4 + len;
-> 
-> Avoid raw constants like this 4. What field does it capture?
-
-It is: sizeof_field(struct virtio_net_toeplitz_state, key_buffer)
-I'll replace it with v4.
-
-> 
-> Instead of working from shortest to longest and using max, how about
-> the inverse and return as soon as a match is found.
-
-I think it is less error-prone to use max() as it does not require to 
-sort the numbers. The compiler should properly optimize it in the way 
-you suggested.
-
-> 
+>> +	if (r->mon.mbm_cntr_assignable)
+>> +		bitmap_free(r->mon.mbm_cntr_free_map);
 >> +}
 >> +
->> +static inline u32 virtio_net_hash_report(u32 types,
->> +					 struct flow_dissector_key_basic key)
+>>  int __init rdt_get_mon_l3_config(struct rdt_resource *r)
+>>  {
+>>  	unsigned int mbm_offset = boot_cpu_data.x86_cache_mbm_width_offset;
+>> @@ -1240,6 +1264,10 @@ int __init rdt_get_mon_l3_config(struct rdt_resource *r)
+>>  		}
+>>  	}
+>>  
+>> +	ret = mbm_cntrs_init(r);
+>> +	if (ret)
+>> +		return ret;
+> 
+> Missing cleanup of earlier allocation on error path here. Even so, this does not
+> seem to integrate with existing dom_data_init() wrt ordering and locking. Could
+> this be more fitting when merged with dom_data_init() (after moving it)?
+
+Sure. Will do.
+
+> 
+>> +
+>>  	l3_mon_evt_init(r);
+>>  
+>>  	r->mon_capable = true;
+>> @@ -1247,9 +1275,10 @@ int __init rdt_get_mon_l3_config(struct rdt_resource *r)
+>>  	return 0;
+>>  }
+>>  
+>> -void __exit rdt_put_mon_l3_config(void)
+>> +void __exit rdt_put_mon_l3_config(struct rdt_resource *r)
+>>  {
+>>  	dom_data_exit();
+>> +	mbm_cntrs_exit(r);
+> 
+> There is a mismatch wrt locking used in dom_data_exit() and mbm_cntrs_exit() that is
+> sure to cause confusion and difficulty in the MPAM transition.
+
+Will merge this with dom_data_exit.
+
+> 
+>>  }
+>>  
+>>  void __init intel_rdt_mbm_apply_quirk(void)
+>> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>> index ba737890d5c2..a51992984832 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>> @@ -185,6 +185,25 @@ bool closid_allocated(unsigned int closid)
+>>  	return !test_bit(closid, &closid_free_map);
+>>  }
+>>  
+>> +int mbm_cntr_alloc(struct rdt_resource *r)
 >> +{
->> +	switch (key.n_proto) {
->> +	case htons(ETH_P_IP):
->> +		if (key.ip_proto == IPPROTO_TCP &&
->> +		    (types & VIRTIO_NET_RSS_HASH_TYPE_TCPv4))
->> +			return VIRTIO_NET_HASH_REPORT_TCPv4;
+>> +	int cntr_id;
 >> +
->> +		if (key.ip_proto == IPPROTO_UDP &&
->> +		    (types & VIRTIO_NET_RSS_HASH_TYPE_UDPv4))
->> +			return VIRTIO_NET_HASH_REPORT_UDPv4;
+>> +	cntr_id = find_first_bit(r->mon.mbm_cntr_free_map,
+>> +				 r->mon.num_mbm_cntrs);
+>> +	if (cntr_id >= r->mon.num_mbm_cntrs)
+>> +		return -ENOSPC;
 >> +
->> +		if (types & VIRTIO_NET_RSS_HASH_TYPE_IPv4)
->> +			return VIRTIO_NET_HASH_REPORT_IPv4;
+>> +	__clear_bit(cntr_id, r->mon.mbm_cntr_free_map);
 >> +
->> +		return VIRTIO_NET_HASH_REPORT_NONE;
->> +
->> +	case htons(ETH_P_IPV6):
->> +		if (key.ip_proto == IPPROTO_TCP &&
->> +		    (types & VIRTIO_NET_RSS_HASH_TYPE_TCPv6))
->> +			return VIRTIO_NET_HASH_REPORT_TCPv6;
->> +
->> +		if (key.ip_proto == IPPROTO_UDP &&
->> +		    (types & VIRTIO_NET_RSS_HASH_TYPE_UDPv6))
->> +			return VIRTIO_NET_HASH_REPORT_UDPv6;
->> +
->> +		if (types & VIRTIO_NET_RSS_HASH_TYPE_IPv6)
->> +			return VIRTIO_NET_HASH_REPORT_IPv6;
->> +
->> +		return VIRTIO_NET_HASH_REPORT_NONE;
->> +
->> +	default:
->> +		return VIRTIO_NET_HASH_REPORT_NONE;
->> +	}
+>> +	return cntr_id;
 >> +}
 >> +
->> +static inline bool virtio_net_hash_rss(const struct sk_buff *skb,
->> +				       u32 types, const __be32 *key,
->> +				       struct virtio_net_hash *hash)
+>> +void mbm_cntr_free(struct rdt_resource *r, u32 cntr_id)
 >> +{
->> +	u16 report;
-> 
-> nit: move below the struct declarations.
-
-I'll change accordingly with v4.
-
-> 
->> +	struct virtio_net_toeplitz_state toeplitz_state = {
->> +		.key_buffer = be32_to_cpu(*key),
->> +		.key = key
->> +	};
->> +	struct flow_keys flow;
->> +
->> +	if (!skb_flow_dissect_flow_keys(skb, &flow, 0))
->> +		return false;
->> +
->> +	report = virtio_net_hash_report(types, flow.basic);
->> +
->> +	switch (report) {
->> +	case VIRTIO_NET_HASH_REPORT_IPv4:
->> +		virtio_net_toeplitz(&toeplitz_state,
->> +				    (__be32 *)&flow.addrs.v4addrs,
->> +				    sizeof(flow.addrs.v4addrs) / 4);
->> +		break;
->> +
->> +	case VIRTIO_NET_HASH_REPORT_TCPv4:
->> +		virtio_net_toeplitz(&toeplitz_state,
->> +				    (__be32 *)&flow.addrs.v4addrs,
->> +				    sizeof(flow.addrs.v4addrs) / 4);
->> +		virtio_net_toeplitz(&toeplitz_state, &flow.ports.ports,
->> +				    1);
->> +		break;
->> +
->> +	case VIRTIO_NET_HASH_REPORT_UDPv4:
->> +		virtio_net_toeplitz(&toeplitz_state,
->> +				    (__be32 *)&flow.addrs.v4addrs,
->> +				    sizeof(flow.addrs.v4addrs) / 4);
->> +		virtio_net_toeplitz(&toeplitz_state, &flow.ports.ports,
->> +				    1);
->> +		break;
->> +
->> +	case VIRTIO_NET_HASH_REPORT_IPv6:
->> +		virtio_net_toeplitz(&toeplitz_state,
->> +				    (__be32 *)&flow.addrs.v6addrs,
->> +				    sizeof(flow.addrs.v6addrs) / 4);
->> +		break;
->> +
->> +	case VIRTIO_NET_HASH_REPORT_TCPv6:
->> +		virtio_net_toeplitz(&toeplitz_state,
->> +				    (__be32 *)&flow.addrs.v6addrs,
->> +				    sizeof(flow.addrs.v6addrs) / 4);
->> +		virtio_net_toeplitz(&toeplitz_state, &flow.ports.ports,
->> +				    1);
->> +		break;
->> +
->> +	case VIRTIO_NET_HASH_REPORT_UDPv6:
->> +		virtio_net_toeplitz(&toeplitz_state,
->> +				    (__be32 *)&flow.addrs.v6addrs,
->> +				    sizeof(flow.addrs.v6addrs) / 4);
->> +		virtio_net_toeplitz(&toeplitz_state, &flow.ports.ports,
->> +				    1);
->> +		break;
->> +
->> +	default:
->> +		return false;
->> +	}
->> +
->> +	hash->value = toeplitz_state.hash;
->> +	hash->report = report;
->> +
->> +	return true;
+>> +	__set_bit(cntr_id, r->mon.mbm_cntr_free_map);
 >> +}
 >> +
->>   static inline bool virtio_net_hdr_match_proto(__be16 protocol, __u8 gso_type)
->>   {
->>   	switch (gso_type & ~VIRTIO_NET_HDR_GSO_ECN) {
->> @@ -239,4 +416,25 @@ static inline int virtio_net_hdr_from_skb(const struct sk_buff *skb,
->>   	return 0;
->>   }
->>   
->> +static inline int virtio_net_hdr_v1_hash_from_skb(const struct sk_buff *skb,
->> +						  struct virtio_net_hdr_v1_hash *hdr,
->> +						  bool has_data_valid,
->> +						  int vlan_hlen,
->> +						  const struct virtio_net_hash *hash)
->> +{
->> +	int ret;
->> +
->> +	memset(hdr, 0, sizeof(*hdr));
->> +
->> +	ret = virtio_net_hdr_from_skb(skb, (struct virtio_net_hdr *)hdr,
->> +				      true, has_data_valid, vlan_hlen);
->> +	if (!ret) {
->> +		hdr->hdr.num_buffers = cpu_to_le16(1);
->> +		hdr->hash_value = cpu_to_le32(hash->value);
->> +		hdr->hash_report = cpu_to_le16(hash->report);
->> +	}
->> +
->> +	return ret;
->> +}
->> +
+>>  /**
+>>   * rdtgroup_mode_by_closid - Return mode of resource group with closid
+>>   * @closid: closid if the resource group
+>> diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
+>> index f11d6fdfd977..aab22ff8e0c1 100644
+>> --- a/include/linux/resctrl.h
+>> +++ b/include/linux/resctrl.h
+>> @@ -187,12 +187,14 @@ enum resctrl_scope {
+>>   * @num_rmid:		Number of RMIDs available
+>>   * @num_mbm_cntrs:	Number of assignable monitoring counters
+>>   * @mbm_cntr_assignable:Is system capable of supporting monitor assignment?
+>> + * @mbm_cntr_free_map:	bitmap of number of assignable MBM counters
 > 
-> I don't think that this helper is very helpful, as all the information
-> it sets are first passed in. Just set the hdr fields directy in the
-> caller. It is easier to follow the control flow.
+> The "number of" is not clear ... it seems to indicate tracking a count? How about
+> just "bitmap of free MBM counters"
 
-I'll remove it in v4.
+Sure.
 
-Regards,
-Akihiko Odaki
+> 
+>>   * @evt_list:		List of monitoring events
+>>   */
+>>  struct resctrl_mon {
+>>  	int			num_rmid;
+>>  	int			num_mbm_cntrs;
+>>  	bool			mbm_cntr_assignable;
+>> +	unsigned long		*mbm_cntr_free_map;
+>>  	struct list_head	evt_list;
+>>  };
+>>  
+> 
+> Reinette
+> 
+
+-- 
+Thanks
+Babu Moger
