@@ -1,610 +1,581 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27DFFD528
-	for <linux-doc@vger.kernel.org>; Mon, 23 Sep 2024 09:40:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 700C61953B9
+	for <linux-doc@vger.kernel.org>; Mon, 23 Sep 2024 10:39:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727084430; cv=none; b=OsLXieGftUisS3o9AmLAszhiPFoxv0au0Me/Otxdw1+RbHW04facDu6q1Ozjf1l+vOsIcmK/fEdB1aGXlnK3zTq33taODtVaPpkqsJfyu9JLDKTl7BZZ57l9kReLAQcKU1W1MWwRkicnUSPA/spFkRqhJtmvw5UCWwjR8z+PIwQ=
+	t=1727087957; cv=none; b=oy2uW82cz3YN04qGrn1c6tL9xQVWHhBMsRa2WS97guxSVh9Wj2dSwikD8jVot4Jote+fJMbShRneCe33fP796kuAxTq3ZyRQbctbws/ak7GPAdXWPHZw/2NLuJsyqfD1lrxpviKEL50u6Hr/CimShEG8dar2AKh32tlY/MRmzU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727084430; c=relaxed/simple;
-	bh=K7gYqpOdu86p0YAq0PAz0SunG1Wnt4nFKzstqYEdl6o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gAYduH2/b3UT9W8ujj3lymC+d4lZPE+BrWhhNituNXUu/wBXwywkTb0hZ2UGiX7m/OpiN4PP/F2dW3FRcZXsPhlQpu87/1Cab8DI5hVc2tPdFhPdm9+vXZxEAtMPw51sFd7VhQyjK4kEEa4LfmmozZRBSJqNDlUPDGDJZhnlHgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ct30iPyJ; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1727087957; c=relaxed/simple;
+	bh=CH65LImeA31V2gjQos723kYI2pAomGpkq/i+T/O62kQ=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=W1PdKPYCqvQRp1kA5oO1SOskIHapDjvQGDGpsvcHWBWuPlYGpIyTyYDrnLapHwfuvrbDQAWOljpm8cXPipBcfvjAvuhALhWbL2ZP7aUYjE2hWEAFo0RAlhiPnSoyYPsVYR//2D0UGZaZfNgIIYyCWjOCn7GsOe65HopNaBRBDxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NxBaIGhl; arc=none smtp.client-ip=209.85.128.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ct30iPyJ"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2f75129b3a3so39835921fa.2
-        for <linux-doc@vger.kernel.org>; Mon, 23 Sep 2024 02:40:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NxBaIGhl"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-42cb050acc3so21454255e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 23 Sep 2024 03:39:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1727084425; x=1727689225; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3BIFSWAh9BHN4VRAGH5ZmERVjoR+BTdeLvledqUTR/s=;
-        b=ct30iPyJaOK2tGYZjkoWaMjNQ2qWxIkI3xztRkSqkB128YtQNkjjwaOYnXrKdL04F6
-         tQm+R7sYp2Ar+Or33wDUL4jL05f08h5G+y47hET2bJvhgJydCNVMHVKX+eWJAaz6J3sf
-         XTfKCRKOgSx7ERuhHj83+Gq6mhmbgXRnJ1b3TBnrW0r08QqJCZe3PcEv3hnj8ruZdEY/
-         IWFhUjohvYeYNT+nqO9FmizxEWYI+XYKLg9Qi/0nCKcYIYUt6hA0kUGhxtxksY/9Uzkk
-         BFrCPGi5GHq2/LG3zN7/sN+4srhMzLv84jwwQ6dziS5eiVFajPJWAezHfEHeiv/Ob/aJ
-         6pXA==
+        d=google.com; s=20230601; t=1727087954; x=1727692754; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=+7IA8B4S/OjOJloT0o9UpFRo091wD5m6NGMGUoTT03Y=;
+        b=NxBaIGhlYGAwrGWZnWhT7rrsakAQeqNvx+7V3t05icEMuqPDubpzPeW3fr2hP+Rxy1
+         piN5s5pAS4crRCZmBsiB/txvbIhrfTrZhkQI1/+jtbSSnqOMxyEVRQZqe/EqCrddJfpz
+         oM1xDdj95yk3Gn87ra2vFb1Id1epmt8q39rUYhB7uCplJlHl0TxygzadVy4Q7rBu+8En
+         Lq1fXL//+vQn31xVyAgu0zZv/ehFX2U49coxuty1+cHYkqr3+WsX46PUSeK5ItXjkI/Y
+         7dySRew9N/cfz0CqdOY7lpVeB8jzUfhSFcbOZ1+ChclIhSlb9Z9O58MqqJWPTMrX02D/
+         JSIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727084425; x=1727689225;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3BIFSWAh9BHN4VRAGH5ZmERVjoR+BTdeLvledqUTR/s=;
-        b=pctAZNpTORErOfzuFMSKcqoXvfxlfI9c8qC1QYqBt4yqqewFZQq7FJMC0oZgi73YkX
-         X8fEf8V5hXu9eeL4ZYu2q69c20/432/w5Ht6tov0W2r1i+azAfC04D2/MiLKpO24Sv+n
-         PlA7HYOoXzYW3t09mqSqmqvR85eCS+Qf7sG87fsFZx/mXqTtmNitDNqAetPH3c2I47Jj
-         eIXbxb10lOd92WzqJYQpupzrW8zHJIS0MhwvZCRAItWidSoo0jyXwhgYLXmOIV3ZMaFM
-         /E+AseaIvyZOv2DhnxOf4BHhcJwUfDzYi6bxoHdiEjx0kZ496vXToi3ddqRckHPAYpXi
-         OXkA==
-X-Forwarded-Encrypted: i=1; AJvYcCXT9WoFb3H/niCuaL1vTXaWe3XGcYPXP0KVGYOOYNhRCksjmJgJQVXBDIG1SQ5uqXjxV3EjHKpibR8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwvUDJ/giBtM+ht+Ay5WKCS5t14nwScT2YS9lAyXVYZahk+0j7n
-	HdBlouR8bLWjaNIgeeMJ+r2Sic3RJuoPTgu3yGgd8Wlp1dXx7NWcl+2TLqWbNdXMDp/5Pxgc4cw
-	q/IzAomRjCbHYX9nedov0rTFVLY08x5rijerdmA==
-X-Google-Smtp-Source: AGHT+IElQHvlRkq48cnX8DzhA4UzbfGapr8aSqkqfRIPPwejqMZX+8ECof58f5lS6wVZ2zJ1Ia8StGFcvbFBMC0a/gs=
-X-Received: by 2002:a05:651c:2122:b0:2f6:6202:bfd5 with SMTP id
- 38308e7fff4ca-2f7cb335da1mr56862321fa.34.1727084425001; Mon, 23 Sep 2024
- 02:40:25 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1727087954; x=1727692754;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+7IA8B4S/OjOJloT0o9UpFRo091wD5m6NGMGUoTT03Y=;
+        b=tOPFKW6WcI69ZGJxtDCub/M5Wjcs2GNyNXspJ9wzxoHTXnBiLswqgNBiI7pO6BOMcq
+         I7weK/IIyzYWWNfKBVq3KquuFN7osJCuLaq495Oq92zthz5nG6UmuWJNXbHfiSRGfhhN
+         2ymMJIl+QdkQXTHR7bGXIGWr2oGIDRj7R3MxMl53bTFZKm9GqdCxV1QgTh5676bDAHJY
+         o8NBgi6rVNLb9TKP9Xw+iFHUefndmM/oaQo7HEoOgtRNJFIo4/YJJn2MauY+NLfZi9rE
+         +dC4BUF25ttx4tc+exij1hwCtWmSNMh7AGGN+kJs2LAYRDK3+MBwnLv6hjuG+/4BjDO9
+         SoWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV/oVxyrKKRs+1MosHlQ3sjgcJop48DkaxEsYMtI8S2Nbq3ndxWuBJ2z41xwV1kkLiDmVV7PoN7jOw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqhXgz3/gBZd6iMguZYV7EaNjFpkMCRj15ys8HMWeYTK94VAaV
+	Rz/f/qQEdwYqBQrVv26WqzD7Rt0m3jjB64Qxk7CkFGxG4gDebjGf7lkdDEGGw2rllCmdtyuxlI8
+	vDe40gEWhAH/2lw==
+X-Google-Smtp-Source: AGHT+IGnmDgpLMMur7aPg5uBT28jOb2AJr+cKC1CN46Ca0eTDLuzHjLPHmc/6gPU+glijQp5LkiefARc8INsayI=
+X-Received: from aliceryhl.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:35bd])
+ (user=aliceryhl job=sendgmr) by 2002:a7b:cb43:0:b0:42c:a8d4:2554 with SMTP id
+ 5b1f17b1804b1-42e7a9e4172mr1703825e9.4.1727087953720; Mon, 23 Sep 2024
+ 03:39:13 -0700 (PDT)
+Date: Mon, 23 Sep 2024 10:38:48 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240920-ad7606_add_iio_backend_support-v2-0-0e78782ae7d0@baylibre.com>
- <20240920-ad7606_add_iio_backend_support-v2-9-0e78782ae7d0@baylibre.com>
-In-Reply-To: <20240920-ad7606_add_iio_backend_support-v2-9-0e78782ae7d0@baylibre.com>
-From: David Lechner <dlechner@baylibre.com>
-Date: Mon, 23 Sep 2024 11:40:14 +0200
-Message-ID: <CAMknhBEErfs7LhyyjW=tAPbfz1B1SBEABAziU+xOC_6rE-e2jw@mail.gmail.com>
-Subject: Re: [PATCH v2 09/10] iio: adc: ad7606: Add iio-backend support
-To: Guillaume Stols <gstols@baylibre.com>
-Cc: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Michal Marek <mmarek@suse.com>, linux-pwm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-doc@vger.kernel.org, aardelean@baylibre.com, jstephan@baylibre.com
+Mime-Version: 1.0
+X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
+X-Developer-Signature: v=1; a=openpgp-sha256; l=18252; i=aliceryhl@google.com;
+ h=from:subject:message-id; bh=CH65LImeA31V2gjQos723kYI2pAomGpkq/i+T/O62kQ=;
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBm8UTB8rWceIYWmnvhfTXkX7Pd8EPJFuXbYmj3L
+ E2wLzwHIYWJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCZvFEwQAKCRAEWL7uWMY5
+ RuwtD/9tnxW/3xlZLDnRrvcc4Nm0nRM9oZTussFIJ5PxfauSgqZm+2N3C7B/gVRSc6T1sBQ1w4x
+ wxJs1K5mzOjhddFirMucA5lmCB5Kg89B2SkJzeILQQisReRw+hsIWqmSHaCwt7NQv+JtQq7grBg
+ Y9nElhLRXniIQEV8HBURYltKn7im7Z+TNdt38hUeOurXeYJTZ1zD6KxG9VtiVfJfUB1Bv7ptGGj
+ vSGZQPZGBjO+j179VyeXNw0jxEUDZGR444nlbzVONxpTPnljnCGhxnPkbAnJRlZ3WLQAOyNUksP
+ MEUOC+f4BHkJvNKnurW8P0d0S6HkVPo2elJwOEzlAMrEGZpHLk403LdvOGoxO0zFhahDYMR+DuA
+ UqhKYJTTVvrIOsB5MKj1Q/lBf0O/P+b/rRwtGdL9D3r1uPgxjhRT/njeqdUj/CJNmXU/AH6L2J+
+ JDSpE2XUA1PhFOP0Wt2lgJm2jdW+Gh8tOiPRJRaEmIPDuMJxx7wNndxqftA+Vj8X27YfwbhXxLh
+ E101ca/SKOAbQk4N+c/SHaGGZCdTt7faDly1vxPEl1nWu0UzYFW2gT9Lewlt/x04kROABrVuVLl
+ Aqi0WZYdjRrHf0uvHJLi1KrZC4swvMxE5k/UpuDCHM4me5OdgUmJpHwKebkD1PDqoDbrGxkA8G1 7Qs7bAuUjJvXViA==
+X-Mailer: git-send-email 2.46.0.792.g87dc391469-goog
+Message-ID: <20240923-xa_enter_leave-v1-1-6ff365e8520a@google.com>
+Subject: [PATCH] xarray: rename xa_lock/xa_unlock to xa_enter/xa_leave
+From: Alice Ryhl <aliceryhl@google.com>
+To: Matthew Wilcox <willy@infradead.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	Alice Ryhl <aliceryhl@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 20, 2024 at 7:33=E2=80=AFPM Guillaume Stols <gstols@baylibre.co=
-m> wrote:
->
-> - Basic support for iio backend.
-> - Supports IIO_CHAN_INFO_SAMP_FREQ R/W.
-> - Only hardware mode is available, and that IIO_CHAN_INFO_RAW is not
->   supported if iio-backend mode is selected.
->
-> Signed-off-by: Guillaume Stols <gstols@baylibre.com>
-> ---
->  drivers/iio/adc/Kconfig      |  2 +
->  drivers/iio/adc/ad7606.c     | 94 +++++++++++++++++++++++++++++++++++++-=
-------
->  drivers/iio/adc/ad7606.h     | 15 +++++++
->  drivers/iio/adc/ad7606_par.c | 91 ++++++++++++++++++++++++++++++++++++++=
-++++
->  4 files changed, 187 insertions(+), 15 deletions(-)
->
-> diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
-> index 4ab1a3092d88..9b52d5b2c592 100644
-> --- a/drivers/iio/adc/Kconfig
-> +++ b/drivers/iio/adc/Kconfig
-> @@ -224,9 +224,11 @@ config AD7606_IFACE_PARALLEL
->         tristate "Analog Devices AD7606 ADC driver with parallel interfac=
-e support"
->         depends on HAS_IOPORT
->         select AD7606
-> +       select IIO_BACKEND
->         help
->           Say yes here to build parallel interface support for Analog Dev=
-ices:
->           ad7605-4, ad7606, ad7606-6, ad7606-4 analog to digital converte=
-rs (ADC).
-> +         It also support iio_backended devices for AD7606B.
->
->           To compile this driver as a module, choose M here: the
->           module will be called ad7606_par.
-> diff --git a/drivers/iio/adc/ad7606.c b/drivers/iio/adc/ad7606.c
-> index 7f2ff1674638..f710445bdc22 100644
-> --- a/drivers/iio/adc/ad7606.c
-> +++ b/drivers/iio/adc/ad7606.c
-> @@ -21,6 +21,7 @@
->  #include <linux/util_macros.h>
->  #include <linux/units.h>
->
-> +#include <linux/iio/backend.h>
->  #include <linux/iio/iio.h>
->  #include <linux/iio/buffer.h>
->  #include <linux/iio/sysfs.h>
-> @@ -271,7 +272,15 @@ static int ad7606_set_sampling_freq(struct ad7606_st=
-ate *st, unsigned long freq)
->
->  static int ad7606_read_samples(struct ad7606_state *st)
->  {
-> -       unsigned int num =3D st->chip_info->num_channels - 1;
-> +       unsigned int num =3D st->chip_info->num_channels;
+Functions such as __xa_store() may temporarily unlock the internal
+spinlock if allocation is necessary. This means that code such as
 
-Probably better to introduce a new num_voltage_channels field to
-chip_info instead of trying to reverse engineer if there is a
-timestamp channel or not.
+	xa_lock(xa);
+	__xa_store(xa, idx1, ptr1, GFP_KERNEL);
+	__xa_store(xa, idx2, ptr2, GFP_KERNEL);
+	xa_unlock(xa);
 
-> +
-> +       /*
-> +        * Timestamp channel does not contain sample, and no timestamp ch=
-annel if
-> +        * backend is used.
-> +        */
-> +       if (!st->back)
-> +               num--;
-> +
->         u16 *data =3D st->data;
->
->         return st->bops->read_block(st->dev, num, data);
-> @@ -319,11 +328,14 @@ static int ad7606_scan_direct(struct iio_dev *indio=
-_dev, unsigned int ch)
->                 if (!ret)
->                         return ret;
->         }
-> -       ret =3D wait_for_completion_timeout(&st->completion,
-> -                                         msecs_to_jiffies(1000));
-> -       if (!ret) {
-> -               ret =3D -ETIMEDOUT;
-> -               goto error_ret;
-> +
-> +       if (!st->back) {
-> +               ret =3D wait_for_completion_timeout(&st->completion,
-> +                                                 msecs_to_jiffies(1000))=
-;
-> +               if (!ret) {
-> +                       ret =3D -ETIMEDOUT;
-> +                       goto error_ret;
-> +               }
->         }
+does not prevent the situation where another thread sees the first store
+without seeing the second store. Even if GFP_ATOMIC is used, this can
+still happen if the reader uses xa_load without taking the xa_lock. This
+is not the behavior that you would expect from a lock. We should not
+subvert the expectations of the reader.
 
-Would it be better to just make a different scan_direct function for
-the case when we don't have the BUSY interrtup?
+Thus, rename xa_lock/xa_unlock to xa_enter/xa_leave. Users of the XArray
+will have fewer implicit expectations about how functions with these
+names will behave, which encourages users to check the documentation.
+The documentation is amended with additional notes about these caveats.
 
->
->         ret =3D ad7606_read_samples(st);
-> @@ -349,6 +361,7 @@ static int ad7606_read_raw(struct iio_dev *indio_dev,
->  {
->         int ret, ch =3D 0;
->         struct ad7606_state *st =3D iio_priv(indio_dev);
-> +       struct pwm_state cnvst_pwm_state;
->
->         switch (m) {
->         case IIO_CHAN_INFO_RAW:
-> @@ -369,6 +382,10 @@ static int ad7606_read_raw(struct iio_dev *indio_dev=
-,
->         case IIO_CHAN_INFO_OVERSAMPLING_RATIO:
->                 *val =3D st->oversampling;
->                 return IIO_VAL_INT;
-> +       case IIO_CHAN_INFO_SAMP_FREQ:
-> +               pwm_get_state(st->cnvst_pwm, &cnvst_pwm_state);
-> +               *val =3D DIV_ROUND_CLOSEST_ULL(NSEC_PER_SEC, cnvst_pwm_st=
-ate.period);
-> +               return IIO_VAL_INT;
->         }
->         return -EINVAL;
->  }
-> @@ -458,6 +475,8 @@ static int ad7606_write_raw(struct iio_dev *indio_dev=
-,
->                         return ret;
->
->                 return 0;
-> +       case IIO_CHAN_INFO_SAMP_FREQ:
-> +               return ad7606_set_sampling_freq(st, val);
->         default:
->                 return -EINVAL;
->         }
-> @@ -595,14 +614,49 @@ static int ad7606_buffer_predisable(struct iio_dev =
-*indio_dev)
->         return 0;
->  }
->
-> +static int ad7606_pwm_buffer_postenable(struct iio_dev *indio_dev)
-> +{
-> +       struct ad7606_state *st =3D iio_priv(indio_dev);
-> +
-> +       return ad7606_pwm_set_swing(st);
-> +}
-> +
-> +static int ad7606_pwm_buffer_predisable(struct iio_dev *indio_dev)
-> +{
-> +       struct ad7606_state *st =3D iio_priv(indio_dev);
-> +
-> +       return ad7606_pwm_set_low(st);
-> +}
-> +
-> +static int ad7606_update_scan_mode(struct iio_dev *indio_dev,
-> +                                  const unsigned long *scan_mask)
-> +{
-> +       struct ad7606_state *st =3D iio_priv(indio_dev);
-> +
-> +       /* The update scan mode is only for iio backend compatible driver=
-s.
-> +        * If the specific update_scan_mode is not defined in the bus ops=
-,
-> +        * just do nothing and return 0.
-> +        */
-> +       if (st->bops->update_scan_mode)
-> +               return st->bops->update_scan_mode(indio_dev, scan_mask);
-> +       else
-> +               return 0;
-> +}
+The previous example becomes:
 
-Usually, we try to avoid else after return.
+	xa_enter(xa);
+	__xa_store(xa, idx1, ptr1, GFP_KERNEL);
+	__xa_store(xa, idx2, ptr2, GFP_KERNEL);
+	xa_leave(xa);
 
-So perhaps simpler:
+Existing users of the function will be updated to use the new name in
+follow-up patches. The old names will be deleted later to avoid
+conflicts with new code using xa_lock().
 
-if (!st->bops->update_scan_mode)
-        return 0;
+The idea to rename these functions came up during a discussion at
+the Linux Plumbers conference 2024. I was working on a Rust API for
+using the XArray from Rust code, but I was dissatisfied with the Rust
+API being too confusing for the same reasons as outlined above.
 
-return st->bops->update_scan_mode(indio_dev, scan_mask);
+Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+---
+ Documentation/core-api/xarray.rst |  75 ++++++++++++-------
+ include/linux/xarray.h            | 148 +++++++++++++++++++++++---------------
+ 2 files changed, 141 insertions(+), 82 deletions(-)
 
-> +
->  static const struct iio_buffer_setup_ops ad7606_buffer_ops =3D {
->         .postenable =3D &ad7606_buffer_postenable,
->         .predisable =3D &ad7606_buffer_predisable,
->  };
->
-> +static const struct iio_buffer_setup_ops ad7606_pwm_buffer_ops =3D {
-> +       .postenable =3D &ad7606_pwm_buffer_postenable,
-> +       .predisable =3D &ad7606_pwm_buffer_predisable,
-> +};
-> +
->  static const struct iio_info ad7606_info_no_os_or_range =3D {
->         .read_raw =3D &ad7606_read_raw,
->         .validate_trigger =3D &ad7606_validate_trigger,
-> +       .update_scan_mode =3D &ad7606_update_scan_mode,
->  };
->
->  static const struct iio_info ad7606_info_os_and_range =3D {
-> @@ -610,6 +664,7 @@ static const struct iio_info ad7606_info_os_and_range=
- =3D {
->         .write_raw =3D &ad7606_write_raw,
->         .attrs =3D &ad7606_attribute_group_os_and_range,
->         .validate_trigger =3D &ad7606_validate_trigger,
-> +       .update_scan_mode =3D &ad7606_update_scan_mode,
->  };
->
->  static const struct iio_info ad7606_info_os_range_and_debug =3D {
-> @@ -618,6 +673,7 @@ static const struct iio_info ad7606_info_os_range_and=
-_debug =3D {
->         .debugfs_reg_access =3D &ad7606_reg_access,
->         .attrs =3D &ad7606_attribute_group_os_and_range,
->         .validate_trigger =3D &ad7606_validate_trigger,
-> +       .update_scan_mode =3D &ad7606_update_scan_mode,
->  };
->
->  static const struct iio_info ad7606_info_os =3D {
-> @@ -625,6 +681,7 @@ static const struct iio_info ad7606_info_os =3D {
->         .write_raw =3D &ad7606_write_raw,
->         .attrs =3D &ad7606_attribute_group_os,
->         .validate_trigger =3D &ad7606_validate_trigger,
-> +       .update_scan_mode =3D &ad7606_update_scan_mode,
->  };
->
->  static const struct iio_info ad7606_info_range =3D {
-> @@ -632,6 +689,7 @@ static const struct iio_info ad7606_info_range =3D {
->         .write_raw =3D &ad7606_write_raw,
->         .attrs =3D &ad7606_attribute_group_range,
->         .validate_trigger =3D &ad7606_validate_trigger,
-> +       .update_scan_mode =3D &ad7606_update_scan_mode,
->  };
->
->  static const struct iio_trigger_ops ad7606_trigger_ops =3D {
-> @@ -700,8 +758,6 @@ int ad7606_probe(struct device *dev, int irq, void __=
-iomem *base_address,
->         indio_dev->channels =3D st->chip_info->channels;
->         indio_dev->num_channels =3D st->chip_info->num_channels;
->
-> -       init_completion(&st->completion);
-> -
->         ret =3D ad7606_reset(st);
->         if (ret)
->                 dev_warn(st->dev, "failed to RESET: no RESET GPIO specifi=
-ed\n");
-> @@ -774,14 +830,22 @@ int ad7606_probe(struct device *dev, int irq, void =
-__iomem *base_address,
->                 if (ret)
->                         return ret;
->         }
-> -       ret =3D devm_request_threaded_irq(dev, irq,
-> -                                       NULL,
-> -                                       &ad7606_interrupt,
-> -                                       IRQF_TRIGGER_FALLING | IRQF_ONESH=
-OT,
-> -                                       chip_info->name, indio_dev);
-> -       if (ret)
-> -               return ret;
->
-> +       if (st->bops->iio_backend_config) {
-> +               ret =3D st->bops->iio_backend_config(dev, indio_dev);
-> +               if (ret)
-> +                       return ret;
-> +               indio_dev->setup_ops =3D &ad7606_pwm_buffer_ops;
-> +       } else {
-> +               init_completion(&st->completion);
-> +               ret =3D devm_request_threaded_irq(dev, irq,
-> +                                               NULL,
-> +                                               &ad7606_interrupt,
-> +                                               IRQF_TRIGGER_FALLING | IR=
-QF_ONESHOT,
-> +                                               chip_info->name, indio_de=
-v);
-> +               if (ret)
-> +                       return ret;
-> +       }
->         return devm_iio_device_register(dev, indio_dev);
->  }
->  EXPORT_SYMBOL_NS_GPL(ad7606_probe, IIO_AD7606);
-> diff --git a/drivers/iio/adc/ad7606.h b/drivers/iio/adc/ad7606.h
-> index 18c87fe9a41a..53cd8eb4898e 100644
-> --- a/drivers/iio/adc/ad7606.h
-> +++ b/drivers/iio/adc/ad7606.h
-> @@ -34,6 +34,12 @@
->                 BIT(IIO_CHAN_INFO_SCALE),               \
->                 BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO))
->
-> +#define AD7606_BI_CHANNEL(num)                         \
-> +       AD760X_CHANNEL(num, 0,                          \
-> +               BIT(IIO_CHAN_INFO_SCALE),               \
-> +               BIT(IIO_CHAN_INFO_SAMP_FREQ) |          \
-> +               BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO))
-> +
->  #define AD7616_CHANNEL(num)    \
->         AD760X_CHANNEL(num, BIT(IIO_CHAN_INFO_RAW) | BIT(IIO_CHAN_INFO_SC=
-ALE),\
->                 0, BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO))
-> @@ -59,6 +65,7 @@ enum ad7606_supported_device_ids {
->   * @os_req_reset       some devices require a reset to update oversampli=
-ng
->   * @init_delay_ms      required delay in miliseconds for initialization
->   *                     after a restart
-> + * @has_backend                defines if a backend is available for the=
- given chip
->   */
->  struct ad7606_chip_info {
->         enum ad7606_supported_device_ids id;
-> @@ -69,6 +76,7 @@ struct ad7606_chip_info {
->         unsigned int                    oversampling_num;
->         bool                            os_req_reset;
->         unsigned long                   init_delay_ms;
-> +       bool                            has_backend;
+diff --git a/Documentation/core-api/xarray.rst b/Documentation/core-api/xarray.rst
+index 77e0ece2b1d6..2f3546cc2db2 100644
+--- a/Documentation/core-api/xarray.rst
++++ b/Documentation/core-api/xarray.rst
+@@ -200,7 +200,7 @@ Takes RCU read lock:
+  * xa_extract()
+  * xa_get_mark()
+ 
+-Takes xa_lock internally:
++Internally calls xa_enter to lock spinlock:
+  * xa_store()
+  * xa_store_bh()
+  * xa_store_irq()
+@@ -224,7 +224,7 @@ Takes xa_lock internally:
+  * xa_set_mark()
+  * xa_clear_mark()
+ 
+-Assumes xa_lock held on entry:
++Caller must use xa_enter:
+  * __xa_store()
+  * __xa_insert()
+  * __xa_erase()
+@@ -233,14 +233,41 @@ Assumes xa_lock held on entry:
+  * __xa_set_mark()
+  * __xa_clear_mark()
+ 
++Variants of xa_enter and xa_leave:
++ * xa_enter()
++ * xa_tryenter()
++ * xa_enter_bh()
++ * xa_enter_irq()
++ * xa_enter_irqsave()
++ * xa_enter_nested()
++ * xa_enter_bh_nested()
++ * xa_enter_irq_nested()
++ * xa_enter_irqsave_nested()
++ * xa_leave()
++ * xa_leave_bh()
++ * xa_leave_irq()
++ * xa_leave_irqrestore()
++
++The xa_enter() and xa_leave() functions correspond to spin_lock() and
++spin_unlock() on the internal spinlock.  Be aware that functions such as
++__xa_store() may temporarily unlock the internal spinlock to allocate memory.
++Because of that, if you have several calls to __xa_store() between a single
++xa_enter()/xa_leave() pair, other users of the XArray may see the first store
++without seeing the second store.  The xa_enter() function is not called xa_lock()
++to emphasize this distinction.
++
+-If you want to take advantage of the lock to protect the data structures
+-that you are storing in the XArray, you can call xa_lock()
+-before calling xa_load(), then take a reference count on the
+-object you have found before calling xa_unlock().  This will
+-prevent stores from removing the object from the array between looking
+-up the object and incrementing the refcount.  You can also use RCU to
+-avoid dereferencing freed memory, but an explanation of that is beyond
+-the scope of this document.
++If you want to take advantage of the lock to protect the data stored in the
++XArray, then you can use xa_enter() and xa_leave() to enter and leave the
++critical region of the internal spinlock. For example, you can enter the critcal
++region with xa_enter(), look up a value with xa_load(), increment the refcount,
++and then call xa_leave().  This will prevent stores from removing the object
++from the array between looking up the object and incrementing the refcount.
++
++Instead of xa_enter(), you can also use RCU to increment the refcount, but an
++explanation of that is beyond the scope of this document.
++
++Interrupts
++----------
+ 
+ The XArray does not disable interrupts or softirqs while modifying
+ the array.  It is safe to read the XArray from interrupt or softirq
+@@ -258,21 +285,21 @@ context and then erase them in softirq context, you can do that this way::
+     {
+         int err;
+ 
+-        xa_lock_bh(&foo->array);
++        xa_enter_bh(&foo->array);
+         err = xa_err(__xa_store(&foo->array, index, entry, GFP_KERNEL));
+         if (!err)
+             foo->count++;
+-        xa_unlock_bh(&foo->array);
++        xa_leave_bh(&foo->array);
+         return err;
+     }
+ 
+     /* foo_erase() is only called from softirq context */
+     void foo_erase(struct foo *foo, unsigned long index)
+     {
+-        xa_lock(&foo->array);
++        xa_enter(&foo->array);
+         __xa_erase(&foo->array, index);
+         foo->count--;
+-        xa_unlock(&foo->array);
++        xa_leave(&foo->array);
+     }
+ 
+ If you are going to modify the XArray from interrupt or softirq context,
+@@ -280,12 +307,12 @@ you need to initialise the array using xa_init_flags(), passing
+ ``XA_FLAGS_LOCK_IRQ`` or ``XA_FLAGS_LOCK_BH``.
+ 
+ The above example also shows a common pattern of wanting to extend the
+-coverage of the xa_lock on the store side to protect some statistics
+-associated with the array.
++coverage of the internal spinlock on the store side to protect some
++statistics associated with the array.
+ 
+ Sharing the XArray with interrupt context is also possible, either
+-using xa_lock_irqsave() in both the interrupt handler and process
+-context, or xa_lock_irq() in process context and xa_lock()
++using xa_enter_irqsave() in both the interrupt handler and process
++context, or xa_enter_irq() in process context and xa_enter()
+ in the interrupt handler.  Some of the more common patterns have helper
+ functions such as xa_store_bh(), xa_store_irq(),
+ xa_erase_bh(), xa_erase_irq(), xa_cmpxchg_bh()
+@@ -293,8 +320,8 @@ and xa_cmpxchg_irq().
+ 
+ Sometimes you need to protect access to the XArray with a mutex because
+ that lock sits above another mutex in the locking hierarchy.  That does
+-not entitle you to use functions like __xa_erase() without taking
+-the xa_lock; the xa_lock is used for lockdep validation and will be used
++not entitle you to use functions like __xa_erase() without calling
++xa_enter; the XArray lock is used for lockdep validation and will be used
+ for other purposes in the future.
+ 
+ The __xa_set_mark() and __xa_clear_mark() functions are also
+@@ -308,8 +335,8 @@ Advanced API
+ The advanced API offers more flexibility and better performance at the
+ cost of an interface which can be harder to use and has fewer safeguards.
+ No locking is done for you by the advanced API, and you are required
+-to use the xa_lock while modifying the array.  You can choose whether
+-to use the xa_lock or the RCU lock while doing read-only operations on
++to use xa_enter while modifying the array.  You can choose whether
++to use xa_enter or the RCU lock while doing read-only operations on
+ the array.  You can mix advanced and normal operations on the same array;
+ indeed the normal API is implemented in terms of the advanced API.  The
+ advanced API is only available to modules with a GPL-compatible license.
+@@ -320,8 +347,8 @@ This macro initialises the xa_state ready to start walking around the
+ XArray.  It is used as a cursor to maintain the position in the XArray
+ and let you compose various operations together without having to restart
+ from the top every time.  The contents of the xa_state are protected by
+-the rcu_read_lock() or the xas_lock().  If you need to drop whichever of
+-those locks is protecting your state and tree, you must call xas_pause()
++the rcu_read_lock() or the xas_enter() lock.  If you need to drop whichever
++of those locks is protecting your state and tree, you must call xas_pause()
+ so that future calls do not rely on the parts of the state which were
+ left unprotected.
+ 
+diff --git a/include/linux/xarray.h b/include/linux/xarray.h
+index 0b618ec04115..dde10de4e6bf 100644
+--- a/include/linux/xarray.h
++++ b/include/linux/xarray.h
+@@ -532,29 +532,48 @@ static inline bool xa_marked(const struct xarray *xa, xa_mark_t mark)
+ 	for (index = 0, entry = xa_find(xa, &index, ULONG_MAX, filter); \
+ 	     entry; entry = xa_find_after(xa, &index, ULONG_MAX, filter))
+ 
+-#define xa_trylock(xa)		spin_trylock(&(xa)->xa_lock)
+-#define xa_lock(xa)		spin_lock(&(xa)->xa_lock)
+-#define xa_unlock(xa)		spin_unlock(&(xa)->xa_lock)
+-#define xa_lock_bh(xa)		spin_lock_bh(&(xa)->xa_lock)
+-#define xa_unlock_bh(xa)	spin_unlock_bh(&(xa)->xa_lock)
+-#define xa_lock_irq(xa)		spin_lock_irq(&(xa)->xa_lock)
+-#define xa_unlock_irq(xa)	spin_unlock_irq(&(xa)->xa_lock)
+-#define xa_lock_irqsave(xa, flags) \
++#define xa_tryenter(xa)		spin_trylock(&(xa)->xa_lock)
++#define xa_enter(xa)		spin_lock(&(xa)->xa_lock)
++#define xa_leave(xa)		spin_unlock(&(xa)->xa_lock)
++#define xa_enter_bh(xa)		spin_lock_bh(&(xa)->xa_lock)
++#define xa_leave_bh(xa)		spin_unlock_bh(&(xa)->xa_lock)
++#define xa_enter_irq(xa)	spin_lock_irq(&(xa)->xa_lock)
++#define xa_leave_irq(xa)	spin_unlock_irq(&(xa)->xa_lock)
++#define xa_enter_irqsave(xa, flags) \
+ 				spin_lock_irqsave(&(xa)->xa_lock, flags)
+-#define xa_unlock_irqrestore(xa, flags) \
++#define xa_leave_irqrestore(xa, flags) \
+ 				spin_unlock_irqrestore(&(xa)->xa_lock, flags)
+-#define xa_lock_nested(xa, subclass) \
++#define xa_enter_nested(xa, subclass) \
+ 				spin_lock_nested(&(xa)->xa_lock, subclass)
+-#define xa_lock_bh_nested(xa, subclass) \
++#define xa_enter_bh_nested(xa, subclass) \
+ 				spin_lock_bh_nested(&(xa)->xa_lock, subclass)
+-#define xa_lock_irq_nested(xa, subclass) \
++#define xa_enter_irq_nested(xa, subclass) \
+ 				spin_lock_irq_nested(&(xa)->xa_lock, subclass)
+-#define xa_lock_irqsave_nested(xa, flags, subclass) \
++#define xa_enter_irqsave_nested(xa, flags, subclass) \
+ 		spin_lock_irqsave_nested(&(xa)->xa_lock, flags, subclass)
+ 
++/*
++ * These names are deprecated. Please use xa_enter instead of xa_lock, and
++ * xa_leave instead of xa_unlock.
++ */
++#define xa_trylock(xa)			xa_tryenter(xa)
++#define xa_lock(xa)			xa_enter(xa)
++#define xa_unlock(xa)			xa_leave(xa)
++#define xa_lock_bh(xa)			xa_enter_bh(xa)
++#define xa_unlock_bh(xa)		xa_leave_bh(xa)
++#define xa_lock_irq(xa)			xa_enter_irq(xa)
++#define xa_unlock_irq(xa)		xa_leave_irq(xa)
++#define xa_lock_irqsave(xa, flags)	xa_enter_irqsave(xa, flags)
++#define xa_unlock_irqrestore(xa, flags) xa_leave_irqsave(xa, flags)
++#define xa_lock_nested(xa, subclass)	xa_enter_nested(xa, subclass)
++#define xa_lock_bh_nested(xa, subclass) xa_enter_bh_nested(xa, subclass)
++#define xa_lock_irq_nested(xa, subclass) xa_enter_irq_nested(xa, subclass)
++#define xa_lock_irqsave_nested(xa, flags, subclass) \
++		xa_enter_irqsave_nested(xa, flags, subclass)
++
+ /*
+- * Versions of the normal API which require the caller to hold the
+- * xa_lock.  If the GFP flags allow it, they will drop the lock to
++ * Versions of the normal API which require the caller to use
++ * xa_enter.  If the GFP flags allow it, they will drop the lock to
+  * allocate memory, then reacquire it afterwards.  These functions
+  * may also re-enable interrupts if the XArray flags indicate the
+  * locking should be interrupt safe.
+@@ -592,9 +611,9 @@ static inline void *xa_store_bh(struct xarray *xa, unsigned long index,
+ 	void *curr;
+ 
+ 	might_alloc(gfp);
+-	xa_lock_bh(xa);
++	xa_enter_bh(xa);
+ 	curr = __xa_store(xa, index, entry, gfp);
+-	xa_unlock_bh(xa);
++	xa_leave_bh(xa);
+ 
+ 	return curr;
+ }
+@@ -619,9 +638,9 @@ static inline void *xa_store_irq(struct xarray *xa, unsigned long index,
+ 	void *curr;
+ 
+ 	might_alloc(gfp);
+-	xa_lock_irq(xa);
++	xa_enter_irq(xa);
+ 	curr = __xa_store(xa, index, entry, gfp);
+-	xa_unlock_irq(xa);
++	xa_leave_irq(xa);
+ 
+ 	return curr;
+ }
+@@ -643,9 +662,9 @@ static inline void *xa_erase_bh(struct xarray *xa, unsigned long index)
+ {
+ 	void *entry;
+ 
+-	xa_lock_bh(xa);
++	xa_enter_bh(xa);
+ 	entry = __xa_erase(xa, index);
+-	xa_unlock_bh(xa);
++	xa_leave_bh(xa);
+ 
+ 	return entry;
+ }
+@@ -667,9 +686,9 @@ static inline void *xa_erase_irq(struct xarray *xa, unsigned long index)
+ {
+ 	void *entry;
+ 
+-	xa_lock_irq(xa);
++	xa_enter_irq(xa);
+ 	entry = __xa_erase(xa, index);
+-	xa_unlock_irq(xa);
++	xa_leave_irq(xa);
+ 
+ 	return entry;
+ }
+@@ -695,9 +714,9 @@ static inline void *xa_cmpxchg(struct xarray *xa, unsigned long index,
+ 	void *curr;
+ 
+ 	might_alloc(gfp);
+-	xa_lock(xa);
++	xa_enter(xa);
+ 	curr = __xa_cmpxchg(xa, index, old, entry, gfp);
+-	xa_unlock(xa);
++	xa_leave(xa);
+ 
+ 	return curr;
+ }
+@@ -723,9 +742,9 @@ static inline void *xa_cmpxchg_bh(struct xarray *xa, unsigned long index,
+ 	void *curr;
+ 
+ 	might_alloc(gfp);
+-	xa_lock_bh(xa);
++	xa_enter_bh(xa);
+ 	curr = __xa_cmpxchg(xa, index, old, entry, gfp);
+-	xa_unlock_bh(xa);
++	xa_leave_bh(xa);
+ 
+ 	return curr;
+ }
+@@ -751,9 +770,9 @@ static inline void *xa_cmpxchg_irq(struct xarray *xa, unsigned long index,
+ 	void *curr;
+ 
+ 	might_alloc(gfp);
+-	xa_lock_irq(xa);
++	xa_enter_irq(xa);
+ 	curr = __xa_cmpxchg(xa, index, old, entry, gfp);
+-	xa_unlock_irq(xa);
++	xa_leave_irq(xa);
+ 
+ 	return curr;
+ }
+@@ -781,9 +800,9 @@ static inline int __must_check xa_insert(struct xarray *xa,
+ 	int err;
+ 
+ 	might_alloc(gfp);
+-	xa_lock(xa);
++	xa_enter(xa);
+ 	err = __xa_insert(xa, index, entry, gfp);
+-	xa_unlock(xa);
++	xa_leave(xa);
+ 
+ 	return err;
+ }
+@@ -811,9 +830,9 @@ static inline int __must_check xa_insert_bh(struct xarray *xa,
+ 	int err;
+ 
+ 	might_alloc(gfp);
+-	xa_lock_bh(xa);
++	xa_enter_bh(xa);
+ 	err = __xa_insert(xa, index, entry, gfp);
+-	xa_unlock_bh(xa);
++	xa_leave_bh(xa);
+ 
+ 	return err;
+ }
+@@ -841,9 +860,9 @@ static inline int __must_check xa_insert_irq(struct xarray *xa,
+ 	int err;
+ 
+ 	might_alloc(gfp);
+-	xa_lock_irq(xa);
++	xa_enter_irq(xa);
+ 	err = __xa_insert(xa, index, entry, gfp);
+-	xa_unlock_irq(xa);
++	xa_leave_irq(xa);
+ 
+ 	return err;
+ }
+@@ -874,9 +893,9 @@ static inline __must_check int xa_alloc(struct xarray *xa, u32 *id,
+ 	int err;
+ 
+ 	might_alloc(gfp);
+-	xa_lock(xa);
++	xa_enter(xa);
+ 	err = __xa_alloc(xa, id, entry, limit, gfp);
+-	xa_unlock(xa);
++	xa_leave(xa);
+ 
+ 	return err;
+ }
+@@ -907,9 +926,9 @@ static inline int __must_check xa_alloc_bh(struct xarray *xa, u32 *id,
+ 	int err;
+ 
+ 	might_alloc(gfp);
+-	xa_lock_bh(xa);
++	xa_enter_bh(xa);
+ 	err = __xa_alloc(xa, id, entry, limit, gfp);
+-	xa_unlock_bh(xa);
++	xa_leave_bh(xa);
+ 
+ 	return err;
+ }
+@@ -940,9 +959,9 @@ static inline int __must_check xa_alloc_irq(struct xarray *xa, u32 *id,
+ 	int err;
+ 
+ 	might_alloc(gfp);
+-	xa_lock_irq(xa);
++	xa_enter_irq(xa);
+ 	err = __xa_alloc(xa, id, entry, limit, gfp);
+-	xa_unlock_irq(xa);
++	xa_leave_irq(xa);
+ 
+ 	return err;
+ }
+@@ -977,9 +996,9 @@ static inline int xa_alloc_cyclic(struct xarray *xa, u32 *id, void *entry,
+ 	int err;
+ 
+ 	might_alloc(gfp);
+-	xa_lock(xa);
++	xa_enter(xa);
+ 	err = __xa_alloc_cyclic(xa, id, entry, limit, next, gfp);
+-	xa_unlock(xa);
++	xa_leave(xa);
+ 
+ 	return err;
+ }
+@@ -1014,9 +1033,9 @@ static inline int xa_alloc_cyclic_bh(struct xarray *xa, u32 *id, void *entry,
+ 	int err;
+ 
+ 	might_alloc(gfp);
+-	xa_lock_bh(xa);
++	xa_enter_bh(xa);
+ 	err = __xa_alloc_cyclic(xa, id, entry, limit, next, gfp);
+-	xa_unlock_bh(xa);
++	xa_leave_bh(xa);
+ 
+ 	return err;
+ }
+@@ -1051,9 +1070,9 @@ static inline int xa_alloc_cyclic_irq(struct xarray *xa, u32 *id, void *entry,
+ 	int err;
+ 
+ 	might_alloc(gfp);
+-	xa_lock_irq(xa);
++	xa_enter_irq(xa);
+ 	err = __xa_alloc_cyclic(xa, id, entry, limit, next, gfp);
+-	xa_unlock_irq(xa);
++	xa_leave_irq(xa);
+ 
+ 	return err;
+ }
+@@ -1408,17 +1427,30 @@ struct xa_state {
+ 			(1U << (order % XA_CHUNK_SHIFT)) - 1)
+ 
+ #define xas_marked(xas, mark)	xa_marked((xas)->xa, (mark))
+-#define xas_trylock(xas)	xa_trylock((xas)->xa)
+-#define xas_lock(xas)		xa_lock((xas)->xa)
+-#define xas_unlock(xas)		xa_unlock((xas)->xa)
+-#define xas_lock_bh(xas)	xa_lock_bh((xas)->xa)
+-#define xas_unlock_bh(xas)	xa_unlock_bh((xas)->xa)
+-#define xas_lock_irq(xas)	xa_lock_irq((xas)->xa)
+-#define xas_unlock_irq(xas)	xa_unlock_irq((xas)->xa)
+-#define xas_lock_irqsave(xas, flags) \
+-				xa_lock_irqsave((xas)->xa, flags)
+-#define xas_unlock_irqrestore(xas, flags) \
+-				xa_unlock_irqrestore((xas)->xa, flags)
++#define xas_tryenter(xas)	xa_tryenter((xas)->xa)
++#define xas_enter(xas)		xa_enter((xas)->xa)
++#define xas_leave(xas)		xa_leave((xas)->xa)
++#define xas_enter_bh(xas)	xa_enter_bh((xas)->xa)
++#define xas_leave_bh(xas)	xa_leave_bh((xas)->xa)
++#define xas_enter_irq(xas)	xa_enter_irq((xas)->xa)
++#define xas_leave_irq(xas)	xa_leave_irq((xas)->xa)
++#define xas_enter_irqsave(xas, flags) xa_enter_irqsave((xas)->xa, flags)
++#define xas_leave_irqrestore(xas, flags) xa_leave_irqrestore((xas)->xa, flags)
++
++
++/*
++ * These names are deprecated. Please use xas_enter instead of xas_lock, and
++ * xas_leave instead of xas_unlock.
++ */
++#define xas_trylock(xas)			xas_tryenter(xas)
++#define xas_lock(xas)				xas_enter(xas)
++#define xas_unlock(xas)				xas_leave(xas)
++#define xas_lock_bh(xas)			xas_enter_bh(xas)
++#define xas_unlock_bh(xas)			xas_leave_bh(xas)
++#define xas_lock_irq(xas)			xas_enter_irq(xas)
++#define xas_unlock_irq(xas)			xas_leave_irq(xas)
++#define xas_lock_irqsave(xas, flags)		xas_enter_irqsave(xas, flags)
++#define xas_unlock_irqrestore(xas, flags)	xas_leave_irqsave(xas, flags)
+ 
+ /**
+  * xas_error() - Return an errno stored in the xa_state.
 
-It isn't clear to me what this flag is for. If the flag is true, does
-it mean that the chip requires to use the IIO backend and not the
-older parallel interface? What if there is some chip that need to
-support both?
+---
+base-commit: 98f7e32f20d28ec452afb208f9cffc08448a2652
+change-id: 20240921-xa_enter_leave-b11552c3caa2
 
->  };
->
->  /**
-> @@ -115,6 +123,7 @@ struct ad7606_state {
->         unsigned int                    num_scales;
->         const unsigned int              *oversampling_avail;
->         unsigned int                    num_os_ratios;
-> +       struct iio_backend              *back;
->         int (*write_scale)(struct iio_dev *indio_dev, int ch, int val);
->         int (*write_os)(struct iio_dev *indio_dev, int val);
->
-> @@ -139,16 +148,21 @@ struct ad7606_state {
->
->  /**
->   * struct ad7606_bus_ops - driver bus operations
-> + * @iio_backend_config function pointer for configuring the iio_backend =
-for
-> + *                     the compatibles that use it
->   * @read_block         function pointer for reading blocks of data
->   * @sw_mode_config:    pointer to a function which configured the device
->   *                     for software mode
->   * @reg_read   function pointer for reading spi register
->   * @reg_write  function pointer for writing spi register
->   * @write_mask function pointer for write spi register with mask
-> + * @update_scan_mode   function pointer for handling the calls to iio_in=
-fo's update_scan
-> + *                     mode when enabling/disabling channels.
->   * @rd_wr_cmd  pointer to the function which calculates the spi address
->   */
->  struct ad7606_bus_ops {
->         /* more methods added in future? */
-> +       int (*iio_backend_config)(struct device *dev, struct iio_dev *ind=
-io_dev);
->         int (*read_block)(struct device *dev, int num, void *data);
->         int (*sw_mode_config)(struct iio_dev *indio_dev);
->         int (*reg_read)(struct ad7606_state *st, unsigned int addr);
-> @@ -159,6 +173,7 @@ struct ad7606_bus_ops {
->                                  unsigned int addr,
->                                  unsigned long mask,
->                                  unsigned int val);
-> +       int (*update_scan_mode)(struct iio_dev *indio_dev, const unsigned=
- long *scan_mask);
->         u16 (*rd_wr_cmd)(int addr, char isWriteOp);
->  };
->
-> diff --git a/drivers/iio/adc/ad7606_par.c b/drivers/iio/adc/ad7606_par.c
-> index 7bac39033955..564284ede997 100644
-> --- a/drivers/iio/adc/ad7606_par.c
-> +++ b/drivers/iio/adc/ad7606_par.c
-> @@ -3,6 +3,8 @@
->   * AD7606 Parallel Interface ADC driver
->   *
->   * Copyright 2011 Analog Devices Inc.
-> + * Copyright 2024 Analog Devices Inc.
+Best regards,
+-- 
+Alice Ryhl <aliceryhl@google.com>
 
-Can just add year to existing copyright line.
-
-> + * Copyright 2024 BayLibre SAS.
->   */
->
->  #include <linux/err.h>
-> @@ -15,8 +17,80 @@
->  #include <linux/types.h>
->
->  #include <linux/iio/iio.h>
-> +#include <linux/iio/backend.h>
-
-Alphabetical order?
-
-> +
->  #include "ad7606.h"
->
-> +static const struct iio_chan_spec ad7606b_bi_channels[] =3D {
-> +       AD7606_BI_CHANNEL(0),
-> +       AD7606_BI_CHANNEL(1),
-> +       AD7606_BI_CHANNEL(2),
-> +       AD7606_BI_CHANNEL(3),
-> +       AD7606_BI_CHANNEL(4),
-> +       AD7606_BI_CHANNEL(5),
-> +       AD7606_BI_CHANNEL(6),
-> +       AD7606_BI_CHANNEL(7),
-> +};
-> +
-> +static int ad7606_bi_update_scan_mode(struct iio_dev *indio_dev, const u=
-nsigned long *scan_mask)
-> +{
-> +       struct ad7606_state *st =3D iio_priv(indio_dev);
-> +       unsigned int c, ret;
-> +
-> +       for (c =3D 0; c < indio_dev->num_channels; c++) {
-> +               if (test_bit(c, scan_mask))
-> +                       ret =3D iio_backend_chan_enable(st->back, c);
-> +               else
-> +                       ret =3D iio_backend_chan_disable(st->back, c);
-> +               if (ret)
-> +                       return ret;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static int ad7606_bi_setup_iio_backend(struct device *dev, struct iio_de=
-v *indio_dev)
-> +{
-> +       struct ad7606_state *st =3D iio_priv(indio_dev);
-> +       unsigned int ret, c;
-> +       struct iio_backend_data_fmt data =3D {
-> +               .sign_extend =3D true,
-> +               .enable =3D true,
-> +       };
-> +
-> +       st->back =3D devm_iio_backend_get(dev, NULL);
-> +       if (IS_ERR(st->back))
-> +               return PTR_ERR(st->back);
-> +
-> +       /* If the device is iio_backend powered the PWM is mandatory */
-> +       if (!st->cnvst_pwm)
-> +               return -EINVAL;
-
-Probably useful to print an error message here since EINVAL can be a
-lot of things.
-
-> +
-> +       ret =3D devm_iio_backend_request_buffer(dev, st->back, indio_dev)=
-;
-> +       if (ret)
-> +               return ret;
-> +
-> +       ret =3D devm_iio_backend_enable(dev, st->back);
-> +       if (ret)
-> +               return ret;
-> +
-> +       for (c =3D 0; c < indio_dev->num_channels; c++) {
-> +               ret =3D iio_backend_data_format_set(st->back, c, &data);
-> +               if (ret)
-> +                       return ret;
-> +       }
-> +
-> +       indio_dev->channels =3D ad7606b_bi_channels;
-> +       indio_dev->num_channels =3D 8;
-
-Can use ARRAY_SIZE(ad7606b_bi_channels) instead of hard-coding 8.
-
-> +
-> +       return 0;
-> +}
-> +
-> +static const struct ad7606_bus_ops ad7606_bi_bops =3D {
-> +       .iio_backend_config =3D ad7606_bi_setup_iio_backend,
-> +       .update_scan_mode =3D ad7606_bi_update_scan_mode,
-> +};
-> +
->  static int ad7606_par16_read_block(struct device *dev,
->                                    int count, void *buf)
->  {
-> @@ -96,9 +170,23 @@ static int ad7606_par_probe(struct platform_device *p=
-dev)
->         void __iomem *addr;
->         resource_size_t remap_size;
->         int irq;
-> +       struct iio_backend *back;
->
-> +       /*
-> +        * If a firmware node is available (ACPI or DT), platform_device_=
-id is null
-> +        * and we must use get_match_data.
-> +        */
->         if (dev_fwnode(&pdev->dev)) {
->                 chip_info =3D device_get_match_data(&pdev->dev);
-> +               back =3D devm_iio_backend_get(&pdev->dev, NULL);
-> +               if (!IS_ERR(back))
-> +                       /*
-> +                        * If a backend is available in the device tree, =
-call the core
-> +                        * probe with backend bops, otherwise use the for=
-mer bops.
-> +                        */
-> +                       return ad7606_probe(&pdev->dev, 0, NULL,
-> +                                           chip_info,
-> +                                           &ad7606_bi_bops);
-
-It seems strange to be this adding inside the if statement for the DT
-case. It would be more future proof to have it after instead, e.g. if
-you bring back the patch for ad7606b_bi_channels().
-
->         } else {
->                 id =3D platform_get_device_id(pdev);
->                 chip_info =3D (const struct ad7606_chip_info *)id->driver=
-_data;
-> @@ -125,6 +213,7 @@ static const struct platform_device_id ad7606_driver_=
-ids[] =3D {
->         { .name =3D "ad7606-4", .driver_data =3D (kernel_ulong_t)&ad7606_=
-4_info, },
->         { .name =3D "ad7606-6", .driver_data =3D (kernel_ulong_t)&ad7606_=
-6_info, },
->         { .name =3D "ad7606-8", .driver_data =3D (kernel_ulong_t)&ad7606_=
-8_info, },
-> +       { .name =3D "ad7606b", .driver_data =3D (kernel_ulong_t)&ad7606b_=
-info, },
->         { }
->  };
->  MODULE_DEVICE_TABLE(platform, ad7606_driver_ids);
-> @@ -134,6 +223,7 @@ static const struct of_device_id ad7606_of_match[] =
-=3D {
->         { .compatible =3D "adi,ad7606-4", .data =3D &ad7606_4_info },
->         { .compatible =3D "adi,ad7606-6", .data =3D &ad7606_6_info },
->         { .compatible =3D "adi,ad7606-8", .data =3D &ad7606_8_info },
-> +       { .compatible =3D "adi,ad7606b", .data =3D &ad7606b_info },
->         { }
->  };
->  MODULE_DEVICE_TABLE(of, ad7606_of_match);
-> @@ -153,3 +243,4 @@ MODULE_AUTHOR("Michael Hennerich <michael.hennerich@a=
-nalog.com>");
->  MODULE_DESCRIPTION("Analog Devices AD7606 ADC");
->  MODULE_LICENSE("GPL v2");
->  MODULE_IMPORT_NS(IIO_AD7606);
-> +MODULE_IMPORT_NS(IIO_BACKEND);
->
-> --
-> 2.34.1
->ad7606b_bi_channels
