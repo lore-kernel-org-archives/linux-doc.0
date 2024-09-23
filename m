@@ -1,91 +1,160 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA71E1C36;
-	Mon, 23 Sep 2024 05:12:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA974A3E
+	for <linux-doc@vger.kernel.org>; Mon, 23 Sep 2024 05:36:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727068323; cv=none; b=eeib1W/Q/zKNSuujdAF6lGETXA85qciZVa7FXFSUO/JNzoHoGHn/qngEMZnYzKXSeDMGaugLnQ585y1GFgZB7cQORmpKgJapFDN+B3PZCWwQyQIVWOCP1cRuR2mSJqbCdSxYFPdcKRsRBRvrIPLyoX9FCXj/hFCYNO+TThdesBE=
+	t=1727069815; cv=none; b=eNYkLW7PhdQ38d/dT2zq4/K8Kp3dplj5ceRg9+H5wTnOzc7opbgQgt70PYuRkFxx6hWUKvDUb2tnBZE/iMVaczMSUyErr8nemvIcTvR3JQjHvifsP4ga+oPsHiad/iIiNmGNKSPxcp4W/5pj8FWl0s14/sATa5JTTpqodioSz84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727068323; c=relaxed/simple;
-	bh=tLrzH7cyt4PKwJlD9ZINZIh+1RSHsaBpokkMj0q80us=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XvY/8Jnk/08jhJrXKEtARSH3kldv2v+Kt83zLhc/UZhcY+Fdz+veVcSagBQ1DNjgjroegPmZuIBKH89Ckyz1omHHfKvtvdAdqdT0qvsr9oriROD47cVj/suLCCMs39WYvaD40LkvKoWALRb2arkZ85nw7Vd1WiADQ/8nOqLMZH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UauTYQKf; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727069815; c=relaxed/simple;
+	bh=0ICVLoPKV9hkYYqlpOYTjRYiJYLyrJPCy7lKsmb2ldk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LbiEexmVJ23svlc1u3N+XfBuTAiZTWu08inMKHOsjS3cBu0u/qzw/8qKupz1jPwWWeISNsY94Ad2sCv2Dc6LMAcWplUUNPdkmhGXNlZowK4EZwKyk/lcF7US7syqGN6F3wE8ak2zyUGigvH85Yln6Jv9Y0KjoYgJLrjv8ms7MSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VObjnp3i; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UauTYQKf"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-718e6299191so1975475b3a.2;
-        Sun, 22 Sep 2024 22:12:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727068322; x=1727673122; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nW6CPHpJvIaM3gpiDWQAQ1DWoqjRYJKxWMSCMCQcXLo=;
-        b=UauTYQKfa34kcF32tKVcFNhrybLcopxZWx2b0uxYFSGuIXV8ktyVOIHMQEPw81WGhW
-         lWpToZ3hHvybO5KaYgHJUIEbTYjtrGfk1Yr1JGFXLEtGOx7XSyY02RPT1iATjZpsjEI6
-         /JWx4nzSEWjH0Lftm8yqk/9rkmHhi0XM3JuuBT3XPMESX/zdgJPXXRlD4NXY7w/hz4gv
-         Stg1xRbhPAg+66ntOPnqb5CeZglGqecj2w6RlgKx3ouV6C6/vKSalqzSYe6uxaVNxljc
-         Bqp9MX0TBfQK8VIz3LUbT1ytJflLegXi8i36Mh44zmaECXocXXAWFQDrKThn/sBRkhR7
-         PpNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727068322; x=1727673122;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nW6CPHpJvIaM3gpiDWQAQ1DWoqjRYJKxWMSCMCQcXLo=;
-        b=ms/IjGbszKxZJS7UKcQ/BwbYlQWD4R+6iwYtecuVvqvy5Ygf8mxO9MGh6wII7GOVNz
-         3YHec9TIqjWAjATqliyy1zbPyP5hnQXVe1dB5FIvW8tn8ntOfgBD06TgF/ubxJhPnGBG
-         WxyyoroKT9NcZ8jgK3AjRn7lknRFnKFdS0Eyq+T138lqQchUGprXtwVEFpNwoxXhpyId
-         PQhKCpN8jdWDuZ+9tkaAPVHnJECcpE2Yl/+P+/Ecb4vBuE1eE5nJ0BmsOOy2sfNBalWB
-         N0y9+F+jpGuLhzmJdvUGcCFGgm0mO1svXq9bDWHid0ciVoQsAN3OWtnp1NRb+ccidyKW
-         uZEw==
-X-Forwarded-Encrypted: i=1; AJvYcCVBylf6Syc93VUQopmqMH2A5N7QYzktgjqQ1HNHhQ/CJajwmJL4l/WTG342oGtke3Ppz5d/rqtTXuZ1uzby@vger.kernel.org, AJvYcCVyUf6PGCUjkEhJo+bVb5CLwKQvQt3K17w7F2uQsUfr57HTyCPJyaKcD2sX0p5qdOfcqKjcrM1afpg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzysL9UdAobz/4HpydTlcok2hL4426b2FT89wpht+VUe722etxQ
-	dIZZbCfMSHcpiDAbvSLlUkxItuknyMBcFQ7iRUZ1+ajNYe7b5sw3
-X-Google-Smtp-Source: AGHT+IGPZ/WNBN33bCZrCAwOz50Jud3TglxTWM/rwe+QiAOAjA63/L5wOULAqZwuu6s8DD7MQjZqEQ==
-X-Received: by 2002:a05:6a00:23c2:b0:706:3329:5533 with SMTP id d2e1a72fcca58-7199ce5bc21mr16075257b3a.24.1727068321876;
-        Sun, 22 Sep 2024 22:12:01 -0700 (PDT)
-Received: from localhost ([183.226.245.34])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7db4b080b29sm12540607a12.33.2024.09.22.22.12.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Sep 2024 22:12:01 -0700 (PDT)
-From: chenqiwu <qiwuchen55@gmail.com>
-X-Google-Original-From: chenqiwu <qiwu.chen@transsion.com>
-Date: Mon, 23 Sep 2024 13:11:56 +0800
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: "qiwu.chen" <qiwuchen55@gmail.com>, corbet@lwn.net, mhocko@suse.com,
-	jani.nikula@intel.com, akpm@linux-foundation.org,
-	brauner@kernel.org, paulmck@kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] exit: dump current pt_regs info on global init
- exit
-Message-ID: <20240923051156.GA55819@rlk>
-References: <20240922095504.7182-1-qiwu.chen@transsion.com>
- <20240922095504.7182-2-qiwu.chen@transsion.com>
- <20240922125458.GA9426@redhat.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VObjnp3i"
+Message-ID: <069bc537-64a7-4a8f-9ac4-f8d5f3ef1abb@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1727069810;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v5ArjWYxitYWj5bI9i5/kXNBT6Dvx3pz/jtcB+Y8suQ=;
+	b=VObjnp3iYToqVYW/78nhthu/Q0VWlHDOtEnipp1lhx8bb4wYLEL+gF7ocFg1KN5j/Af/CO
+	C+ygB5FQ042BHY5oJnTCZ3l2rX8tcQE3lYUE2gagAxseiJKrsnU9p9BP6/p/eR/NJiMYqA
+	pZZl2667FVszuwV/cGBRcThWrj6jCh0=
+Date: Mon, 23 Sep 2024 13:36:42 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240922125458.GA9426@redhat.com>
+Subject: Re: [PATCH] docs/zh_TW+zh_CN: Make rst references unique
+To: bernhard+linux-doc@lsmod.de, linux-doc@vger.kernel.org
+Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
+ Bernard Zhao <bernard@vivo.com>, Jonathan Corbet <corbet@lwn.net>,
+ "Bernhard M. Wiedemann" <bwiedemann@suse.de>
+References: <20240905113531.65375-1-bernhard+linux-doc@lsmod.de>
+ <20240920070144.26947-1-bernhard+linux-doc@lsmod.de>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yanteng Si <si.yanteng@linux.dev>
+In-Reply-To: <20240920070144.26947-1-bernhard+linux-doc@lsmod.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Sun, Sep 22, 2024 at 02:54:59PM +0200, Oleg Nesterov wrote:
-> 
-> Well, this means that show_regs() will be called twice if CONFIG_DEBUG_BUGVERBOSE
-> at least on x86, see dump_stack() in panic(). See also show_regs_if_on_stack()
-> in show_trace_log_lvl().
-> 
-> Not good...
-> 
-Okay, I see. The dump_stack() is arch-dependent function, it doesn't call show_regs()
-on arm64. Do you have any suggestion where to dump regs without arch-dependence
-on task exiting flow?
 
-Thanks
-Qiwu
+在 2024/9/20 15:01, bernhard+linux-doc@lsmod.de 写道:
+> From: "Bernhard M. Wiedemann" <bwiedemann@suse.de>
+>
+> We found that sphinx parallel processing would randomly pick
+> one or the other
+> https://github.com/sphinx-doc/sphinx/issues/6714#issuecomment-2362212754
+
+It seems to be a problem left over from the initial conversion from
+
+Simplified Chinese to Traditional Chinese.
+
+
+For Simplified Chinese：
+
+Reviewed-by: Yanteng Si <siyanteng@linux.dev>
+
+
+Thanks,
+
+Yanteng
+
+>
+> Signed-off-by: Bernhard M. Wiedemann <bwiedemann@suse.de>
+> ---
+>   Documentation/translations/zh_CN/dev-tools/gcov.rst | 8 ++++----
+>   Documentation/translations/zh_TW/dev-tools/gcov.rst | 8 ++++----
+>   2 files changed, 8 insertions(+), 8 deletions(-)
+>
+> diff --git a/Documentation/translations/zh_CN/dev-tools/gcov.rst b/Documentation/translations/zh_CN/dev-tools/gcov.rst
+> index 3158c9da1318..ea8f94852f41 100644
+> --- a/Documentation/translations/zh_CN/dev-tools/gcov.rst
+> +++ b/Documentation/translations/zh_CN/dev-tools/gcov.rst
+> @@ -120,7 +120,7 @@ gcov的内核分析插桩支持内核的编译和运行是在同一台机器上
+>   如果内核编译和运行是不同的机器，那么需要额外的准备工作，这取决于gcov工具
+>   是在哪里使用的:
+>   
+> -.. _gcov-test_zh:
+> +.. _gcov-test_zh_CN:
+>   
+>   a) 若gcov运行在测试机上
+>   
+> @@ -140,7 +140,7 @@ a) 若gcov运行在测试机上
+>       如果文件是软链接，需要替换成真正的目录文件（这是由make的当前工作
+>       目录变量CURDIR引起的）。
+>   
+> -.. _gcov-build_zh:
+> +.. _gcov-build_zh_CN:
+>   
+>   b) 若gcov运行在编译机上
+>   
+> @@ -205,7 +205,7 @@ kconfig会根据编译工具链的检查自动选择合适的gcov格式。
+>   --------------------------
+>   
+>   用于在编译机上收集覆盖率元文件的示例脚本
+> -（见 :ref:`编译机和测试机分离 a. <gcov-test_zh>` ）
+> +（见 :ref:`编译机和测试机分离 a. <gcov-test_zh_CN>` ）
+>   
+>   .. code-block:: sh
+>   
+> @@ -238,7 +238,7 @@ kconfig会根据编译工具链的检查自动选择合适的gcov格式。
+>   -------------------------
+>   
+>   用于在测试机上收集覆盖率数据文件的示例脚本
+> -（见 :ref:`编译机和测试机分离 b. <gcov-build_zh>` ）
+> +（见 :ref:`编译机和测试机分离 b. <gcov-build_zh_CN>` ）
+>   
+>   .. code-block:: sh
+>   
+> diff --git a/Documentation/translations/zh_TW/dev-tools/gcov.rst b/Documentation/translations/zh_TW/dev-tools/gcov.rst
+> index ce1c9a97de16..39ac3fff44cd 100644
+> --- a/Documentation/translations/zh_TW/dev-tools/gcov.rst
+> +++ b/Documentation/translations/zh_TW/dev-tools/gcov.rst
+> @@ -120,7 +120,7 @@ gcov的內核分析插樁支持內核的編譯和運行是在同一臺機器上
+>   如果內核編譯和運行是不同的機器，那麼需要額外的準備工作，這取決於gcov工具
+>   是在哪裏使用的:
+>   
+> -.. _gcov-test_zh:
+> +.. _gcov-test_zh_TW:
+>   
+>   a) 若gcov運行在測試機上
+>   
+> @@ -140,7 +140,7 @@ a) 若gcov運行在測試機上
+>       如果文件是軟鏈接，需要替換成真正的目錄文件（這是由make的當前工作
+>       目錄變量CURDIR引起的）。
+>   
+> -.. _gcov-build_zh:
+> +.. _gcov-build_zh_TW:
+>   
+>   b) 若gcov運行在編譯機上
+>   
+> @@ -205,7 +205,7 @@ kconfig會根據編譯工具鏈的檢查自動選擇合適的gcov格式。
+>   --------------------------
+>   
+>   用於在編譯機上收集覆蓋率元文件的示例腳本
+> -（見 :ref:`編譯機和測試機分離 a. <gcov-test_zh>` ）
+> +（見 :ref:`編譯機和測試機分離 a. <gcov-test_zh_TW>` ）
+>   
+>   .. code-block:: sh
+>   
+> @@ -238,7 +238,7 @@ kconfig會根據編譯工具鏈的檢查自動選擇合適的gcov格式。
+>   -------------------------
+>   
+>   用於在測試機上收集覆蓋率數據文件的示例腳本
+> -（見 :ref:`編譯機和測試機分離 b. <gcov-build_zh>` ）
+> +（見 :ref:`編譯機和測試機分離 b. <gcov-build_zh_TW>` ）
+>   
+>   .. code-block:: sh
+>   
