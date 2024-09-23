@@ -1,119 +1,84 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C435D7711B;
-	Sun, 22 Sep 2024 23:23:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D35741103
+	for <linux-doc@vger.kernel.org>; Mon, 23 Sep 2024 04:08:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727047422; cv=none; b=gZm9gumr8A6DP/UNrt8sGqLVzZvSrtY4pqoI1XtnICvvbEQl0s7VjHUjPV7R9ZtK9YsG0hKaR5wzokc5U64x+qyb+wIiK/9cEz/P8Atsc/7oWsC/pW2P8xK/U3at45qt8xCXN6LXwYzJbGsNpFPjSWDLm2l925KSILSd+PPqaB8=
+	t=1727064509; cv=none; b=LWanpvGs2gp5hjKZlVjeFpXbQfsd0JpYFae7m433YWrrA5Kju+3IxRPCJJ1uCVuQHDcc/HKQD7rGWVMusQjPhUZyzhbFUMSwpr5vItw3jBEjg89Wn6Qn6Ls88mz+sUfmm/v+Qzhgz2VCgBeKUnAULCmO8OZZmiQYvPThRT/en8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727047422; c=relaxed/simple;
-	bh=q7eskfOPt+1rRCtOr6+tX3pkJAaYv+NDxxYgXtTbR9I=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uNaghgKHTA7B1c/r6+7MuRRbG2uAvhwv1eyemVLbNryVqn7dloEJWrk9VQvQBinEM+SOCnVrM9NAFK2xV67r44pkjAdtbQaDalPtvmKpzbb5Ct05UfuLhNpz3Y6idcf+aUpaJDKiRanEBPH06ROV4gh7Vr9AAcHQDZu69LYQ0gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SC5PvYNE; arc=none smtp.client-ip=209.85.208.169
+	s=arc-20240116; t=1727064509; c=relaxed/simple;
+	bh=IAXrrR1bdvcCNjpWx4TFxMw2ilG6jrPZI9P+J75cyaQ=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q4r7YkkDN0rjpRKT8MMqeCb758sP3bz3PG2CLwGtqiCSJF5UBnEdQiUbCWZR/XDuzUdy+XTqxnf/IAogviNu7yUvKm93O8cYAPPhCHpGeKyLL9YkrntyCP37cAuPwnZTR3nHDAoCGjFvbAfiFJ3TY8M52UKUF/eSgyTQj4cq3eA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XTfFtVdt; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SC5PvYNE"
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2f758f84dfbso28846761fa.0;
-        Sun, 22 Sep 2024 16:23:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XTfFtVdt"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2053f6b8201so33710765ad.2
+        for <linux-doc@vger.kernel.org>; Sun, 22 Sep 2024 21:08:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727047419; x=1727652219; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q7eskfOPt+1rRCtOr6+tX3pkJAaYv+NDxxYgXtTbR9I=;
-        b=SC5PvYNEJiMVXF92OfoQ8qNgOaV7DWt11Ibk3Cggy/9zGEmpgARnGmBhqiLmYKz83t
-         u3voWLIemDWCEYYUxUo79oXene1EQxII/KL6b9RF3bEGAUTLJDta3YCq2bXtR09iq8u+
-         Ns1vK5c3GORGpCEmVW5rMCPTKYnCLMEwPIzljSF2Bh1m1PdBpv6jeuRJ0L5E+QcY/jDw
-         vEmcOwvopL47IvOMPQA+bOvjl0FAJnvUq/X9iShm/hLE6pNaPwnTDVVL24a6QikzIvzL
-         XrDiAZMDqQmWBy4uausRPR0MXrVNBRfnUaOlCvJuc0x0YOhhzclixtoEAe0OxkW0VJSV
-         r+Lg==
+        d=gmail.com; s=20230601; t=1727064507; x=1727669307; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XQ3Ylc4/HRqYFFvYTagrb5osa5cNi/SQl1xgqVtschg=;
+        b=XTfFtVdtlShJ3zfODnoqdngyd/LuwWy1fsOZA08wgxMzFGvncFTsp/+EWThfpVpJ4N
+         tGmLfoFFOdHq8l9l1sLmm/BW8G5A+Qcw8StweFsrP7/CxyXrUMwWoZ3/XQpgdC5Hwe3M
+         OCyPxQb2V7mCfQs7848EGCplnuj4uSetmoEKd/I4VRCOI3xgu3lW0ntkkuVj9GSdHhLi
+         VjJbbyBJPgitp8ubw8UXntZf0E8M+9Yuq99xM9bOhvASkFEQi4KqwUmo4alI14fhemHB
+         R/PVeqaKd1rPTH2Q7KPeUs5/ijO8SJJx9troqUWXjVYTvfka9D5nYGNHaGDnjx93rqS/
+         KsTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727047419; x=1727652219;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=q7eskfOPt+1rRCtOr6+tX3pkJAaYv+NDxxYgXtTbR9I=;
-        b=VN8Cqz16/7VczhKot2EPIn2BEaqrMiU/i9796LNGA7mjZCZGcEVj4tYKd26pW79VuX
-         618ANMKUNKDhivzL8eX12FFp/0qyglW9o3rL4+LJhc2YxrQ/kYLkcdFomDTIpyM1n86O
-         B0yIORgrDhu+XsTiXgV4U318YmZYNewa9TbbwFWgkvrEa/G6YhMM93SrV3rekOg3BaeJ
-         KkwjWt+EMC+Ah30kcoCxxKMkeFLBbvUk3swIuzTeWdraO6aV+BZY5F0jBj/OeqiYDQ9l
-         nm/OIy6BYKYpsxdB0Qg27676tN+zuATI4wzEyWFnggtQoT0CYdfpLdrQ22qd4JwEfPAv
-         lVMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU5XpzQvIyZQ63stCsY2fbAvDNVRinF4OW0E3EEKpkvXOHPdFXozMUoICFCDMBWq8m5leaO6ulQVIGC6tM=@vger.kernel.org, AJvYcCU5hs2Mh/wwNFZxd9YtaYmxXdV/uCBZRb7I38fX5IQkeDIPQNoypvPSHlmvluRrimqECbTS7oMqUR4K@vger.kernel.org, AJvYcCU84EliJ2Yk1hYFZw8m9VZjFVWuw6WBirMD5HGJitzwR3bB3kCr6BrgPkYhG7DKqx3DGJFDYIQtCmQ6@vger.kernel.org, AJvYcCUJE7ISC4coYhKoFaLTzOKqRYGoXtyat+kHwVcriCLFPM0zkPWEKE+ftVc3kWretnZErHPszdbTjonJRvayrw==@vger.kernel.org, AJvYcCW4wWAPkN9CrsaagK395CNTtbplog1+us71R63P+UJWvBsCWU9OAAwVqsZbufaWxBxYgGSjb+t4x5R7@vger.kernel.org, AJvYcCWx/uUtunBpmgNNOc6KI3mitXM07aiaOoxlzSawJX7ffLf4qjcQSPnoiRwmRG3exNyD30WsI+JM6/smgc9m@vger.kernel.org, AJvYcCXsyYZmECsTqI94CgROwjd5XKiQyGjwIDFGl05b8YZ5bUBsWU5qXKSDu/Zc4LqSx//LhCreUtoGzEmx2Ow=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1juVBO8PNEHDGB6z54vS/7+PAlpOt5fufJ/LrXHDzPXLAfzap
-	7NyDI2pEG/CUEdAjr5uDzVlPojoP54UisH4g/xgwBTO4sj9kkKVR
-X-Google-Smtp-Source: AGHT+IFxxbTsRovcLK/IAIObXStATfMZ7Iuax45veoWqZPyjnMH/P/kvJozSKjZWi/qtWeIKTq4t3w==
-X-Received: by 2002:a2e:be9e:0:b0:2f7:cba9:6098 with SMTP id 38308e7fff4ca-2f7cba9614dmr49207831fa.19.1727047418324;
-        Sun, 22 Sep 2024 16:23:38 -0700 (PDT)
-Received: from foxbook (bgu157.neoplus.adsl.tpnet.pl. [83.28.84.157])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f79d2e1deesm27117811fa.10.2024.09.22.16.23.33
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sun, 22 Sep 2024 16:23:36 -0700 (PDT)
-Date: Mon, 23 Sep 2024 01:23:28 +0200
-From: =?UTF-8?B?TWljaGHFgg==?= Pecio <michal.pecio@gmail.com>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: <mathias.nyman@linux.intel.com>, <Thinh.Nguyen@synopsys.com>,
- <alsa-devel@alsa-project.org>, <bgoswami@quicinc.com>,
- <broonie@kernel.org>, <conor+dt@kernel.org>, <corbet@lwn.net>,
- <devicetree@vger.kernel.org>, <dmitry.torokhov@gmail.com>,
- <gregkh@linuxfoundation.org>, <krzk+dt@kernel.org>, <lgirdwood@gmail.com>,
- <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
- <mathias.nyman@intel.com>, <perex@perex.cz>,
- <pierre-louis.bossart@linux.intel.com>, <robh@kernel.org>,
- <srinivas.kandagatla@linaro.org>, <tiwai@suse.com>
-Subject: Re: [PATCH v27 01/32] xhci: add helper to stop endpoint and wait
- for completion
-Message-ID: <20240923012328.1e4d0bc6@foxbook>
-In-Reply-To: <182938da-da86-49a4-800a-446954cc6c60@quicinc.com>
-References: <20240913103237.2f5dc796@foxbook>
-	<a9dcaa5a-4f5d-451a-93aa-7457798fc243@quicinc.com>
-	<20240915095514.6b01fefb@foxbook>
-	<182938da-da86-49a4-800a-446954cc6c60@quicinc.com>
+        d=1e100.net; s=20230601; t=1727064507; x=1727669307;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XQ3Ylc4/HRqYFFvYTagrb5osa5cNi/SQl1xgqVtschg=;
+        b=VxuC0cjQqJd6Pumi9sldlF6xR0w2fj0U8RM07K+Zj5df3AO5jd1BHf5tlfRb0iUxF7
+         6OdDGDH5PE4ag10qZDipmKIN7NksPL1/oNVSC5zlAXM5YuwpxNIQaIkx4dSfeSYfdkQF
+         ukidn/CXLakQnsUrZQ36WS+K8ctQXHEd/XSNKRbQOnS9R0SSJ2Nf3qIY5atZla/47bpz
+         aZCfV0KtsLOJo/J6Yt+KkXcDTujVFuQ+opOUlxAkjx7zBqa2vFi4l2tHoROgNw9Vat3t
+         guKkb1CKGTLMulKWE9yHtXYu0+vk/wK5gZgZs0BZXZGykbkUciVDaC0MEeLoLlrIjUqA
+         s46w==
+X-Forwarded-Encrypted: i=1; AJvYcCXF1ah0e8WkqyHafp4vbAr+GpvVPFWSbuC77fpIp4MOsCRY5TYCh54ximYLZ2ckqWYD98q4tCJQ+fU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9/6Vf9KYi1T4A9o7AI7rgsqVSooBwr0uqZrC32CCmuuZsNCS/
+	mpSZIaNXksAOGt2GsMKFnlucAo7oUwAFZ+R9DKz6iX0Irf01+0At
+X-Google-Smtp-Source: AGHT+IEoKkiK4UmzEqgkPieEGPuvQncBt5iNhN2dbWy1YEFi+0Jiys77GZTPEuAccU5xjyY7KId0sQ==
+X-Received: by 2002:a17:902:d483:b0:206:aac4:b844 with SMTP id d9443c01a7336-208d97e3f78mr154096205ad.6.1727064507064;
+        Sun, 22 Sep 2024 21:08:27 -0700 (PDT)
+Received: from localhost ([183.226.245.34])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2079473d080sm125527165ad.284.2024.09.22.21.08.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Sep 2024 21:08:26 -0700 (PDT)
+From: chenqiwu <qiwuchen55@gmail.com>
+X-Google-Original-From: chenqiwu <qiwu.chen@transsion.com>
+Date: Mon, 23 Sep 2024 12:08:23 +0800
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: "qiwu.chen" <qiwuchen55@gmail.com>, corbet@lwn.net, mhocko@suse.com,
+	jani.nikula@intel.com, akpm@linux-foundation.org,
+	brauner@kernel.org, paulmck@kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] panic: add option to dump task maps info in
+ panic_print
+Message-ID: <20240923040823.GA3879@rlk>
+References: <20240922095504.7182-1-qiwu.chen@transsion.com>
+ <20240922131237.GB9426@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240922131237.GB9426@redhat.com>
 
-Hi,
-
-> So what I ended up doing was to split off the context error handling
-> into a separate helper API, which can be also called for the sync ep
-> stop API.=C2=A0 From there, based on say....the helper re queuing the stop
-> EP command, it would return a specific value to signify that it has
-> done so.=C2=A0 The sync based API will then re-wait for the completion of
-> the subsequent stop endpoint command that was queued.
-
-AFAIK retries are only necessary on buggy hardware. I don't see them on
-my controllers except for two old ones, both with the same buggy chip.
-
->=C2=A0In all other context error cases, it'd return the error to the calle=
-r,
-> and its up to them to handle it accordingly.
-
-For the record, all existing callers end up ignoring this return value.
-
-Honestly, I don't know if improving this function is worth your effort
-if it's working for you as-is. There are no users except xhci-sideband
-and probably shouldn't be - besides failing to fix stalled endpoints,
-this function also does nothing to prevent automatic restart of the EP
-when new URBs are submitted through xhci_hcd, so it is mainly relevant
-for sideband users who never submit URBs the usual way.
-
-My issue with this function is that it is simply poorly documented what
-it is or isn't expected to achieve (both here and in the calling code
-in xhci-sideband.c), and the changelog message is wrong to suggest that
-the default completion handler will run (unless somewhere there are
-patches to make it happen), making it look like this code can do things
-that it really cannot do. And this is apparently a public, exported API.
-
-Regards,
-Michal
+On Sun, Sep 22, 2024 at 03:12:37PM +0200, Oleg Nesterov wrote:
+> 
+> Wouldn't it be better to export/reuse get_vma_name() rather than duplicate
+> its code ?
+> 
+Sure, I will export get_vma_name() in task_mmu.c for reusing, and post
+it as v4.
+Thanks
+Qiwu
