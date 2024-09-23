@@ -1,186 +1,122 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 150AD77104
-	for <linux-doc@vger.kernel.org>; Mon, 23 Sep 2024 16:53:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 994AD19F40F
+	for <linux-doc@vger.kernel.org>; Mon, 23 Sep 2024 17:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727110391; cv=none; b=KgiaS5Pvvz9IM3zqSCJf+GqJsZz3T2vZGgZ8px7kLFKTB2MjkZJazfSq048HXmneaf60lAeGjc6MjIhNkhsr4owKYRos94dwe3AHnaMGtTOVu71vYV0zWbq/cbt4q8Hj2H68f93zqVPnQ+30QXc6pfee6Pf+LJYue+vzzeYj0BU=
+	t=1727114283; cv=none; b=myN2XzxTBjlLRuPQ4t2aMU9WWyMp+mBHsdsbKWQWyjf7EfFrdiQGLnzAqoTR1/CkEm/e9KHvyudOZeds0ftWOW0+cSmoaCqv6QlA3Hwyh50XIbPUyAjXRACiMff7ifhckHnxq9JJnlkxiO7BpX/+8BrzMmm5ccFvv9/+gKz2fuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727110391; c=relaxed/simple;
-	bh=OrByib6QyQXs78enEosOj5JJXpFtGcxdzlumnoE2lss=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=JPnoTLI3W1IWB7xYHqzjbfsj0zZN3BILjSmbFBnHk0jTjeLtHKHGb2buEFSMA93JfrGyxxCY7MhgLylvCm3qjya6jyPyCj35OOWqcfIFv0VPKaq5GVtHIV6WEMsHD+dI6PK0HRZRhgBWDU6OITAtvRJs4qZAAsaRSP2YgsApIHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=q2YNrH2J; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1727114283; c=relaxed/simple;
+	bh=uZwoYgcVajR3HZVdBXuMYB+l5DXtrqtEemr8LFR4GzI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tJa1eNWQwtylLpynxV+QEZWcYLj1tUua3QlS6Uk7hztVTIGDkuDdXPxBeZrZskjD4nFf7BeKLnrqy7y39OCitQQgrq2Zytq1vNy189RxRj0P1JGlarpE1w+aeRonnId4UGO05FJC6CLYmDVP+67onBGZ+7iS2dyyM6AGg838ehA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=none smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=3GGB5rFj; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=daynix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="q2YNrH2J"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-42cae4eb026so44899825e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 23 Sep 2024 09:53:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="3GGB5rFj"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5c40aea5c40so7016973a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 23 Sep 2024 10:58:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1727110388; x=1727715188; darn=vger.kernel.org;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+BQ8AKpdvW/WPM2kjR9dzh+1cjMp4pgt7p83yXQ1+sA=;
-        b=q2YNrH2JP5G6Yt886li5A+CMcs9mMMQL8CzgklB+NGHCg3gUH4SxjggwvS6n47pa/x
-         GTKW7avK5H/8QtQDZ4Z7b+9Mcd3ZcdUiXSwO2LvOix6KAMAc+nt9QopBpKfv2yfcZN0O
-         LpXctI+WZTur2SSXM065YUFefcwEpaNoP6ybNwPAAJD6bfFvT3A3uYgpRM2bhmSYYfzq
-         QabVVB2I8844EeI6r86Aud6AEQdvUTlVqA2nBXzDd25tvocuMUMeI3C9+/wltcZGfX4q
-         y0KZernEJOX3OBWyCm+6TQxVNjxrA7H2kK7l7g8cTW6ieAXrPxSI2KhSGRw7xByAUiOY
-         /NkQ==
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1727114280; x=1727719080; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=l8B2VxfA36wALlD20rKzanMGJ4TcWL9akGgnKfYckb4=;
+        b=3GGB5rFjaEnElX+BXftmX1UbycXreLPoXh3Y2MQlXU9SBBibKbhxrg8eUkr+Qlm/0t
+         kQtQbCkUXm9OL6fXM2E0MN7142+PntTODWqrJadvRj9qgM/MOf820J74jxaxO7MLf793
+         Netx/LzRmMimAyvB+4CFj2zPnRLeDrUoKqd3yOP0J1mj8PU76tt9Au8I9XiujYlsIZCu
+         b/hvhyl582JZZ9gePcbHZ1cXum2nHR4b9Vwkt1bnMyqfkdTSFxatYqYeISdzqalyqAVX
+         2hhjOWYyL38K6eMsKPY5I5iAno/JMa/xtya30pievCWBzOibn/pzEGuO/2OKKu/GbSrw
+         CSuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727110388; x=1727715188;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+BQ8AKpdvW/WPM2kjR9dzh+1cjMp4pgt7p83yXQ1+sA=;
-        b=ZxjLRbFj6HXOl4Ji5J/ZaGsQqojLjikUBhBJJJLpEYigYWGPss8hEtkFh7xqms69zw
-         y+N0Fn+scqDuVEGJnbhRzydqgN1wuNof13l2sf1iw7F8YBX1ddX9wWmHIGtEOH7gxf4H
-         7cTUcVqlGUWR2mhY7sGhx9wzhFj4IdAJ/+NHGE2rz1Ly/O+hbhPkzvHHd7Xm/M5xRsAP
-         1gAOCxolIY3Y1kCinktVADks654y7jW8SONpl6F45szlwJkKHUD9OitoN+Bp+NOhyinC
-         pbzyqJTNWvC/dgSsEmPwFAuqrSjd7AYE2arUd5OUoTu07GFyq0hCoCDmKPp8tUtMrZbo
-         QLdg==
-X-Forwarded-Encrypted: i=1; AJvYcCWNaDPcZeH08G06Os4HAvxWxpguHyoGBG+iLhlxS3eQ0Ku4pRge82+2+xDMMNYEXEyJOl7Of7yOERY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTUGOeGruYCn6BNtyqCeK6I+n3ob2BNxhIZfn6MAgK9/5l0Rv9
-	BqAtPThVvAgwegbbQxBoLISMIfom+4AY6KzVT1XAcJZ2YJrfjCLc2dzs+RCU62s=
-X-Google-Smtp-Source: AGHT+IH3ZltojwN2arF//ed1/wiTJ1j3O3wgJsmq7dF/AZJPxUrxJvg9xnS0Grg5Q982ZRh5aHuFQg==
-X-Received: by 2002:a05:600c:4fc8:b0:42c:d084:ed7e with SMTP id 5b1f17b1804b1-42e7c159b9bmr82031065e9.4.1727110388380;
-        Mon, 23 Sep 2024 09:53:08 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:885c:440c:fff5:ed00])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e754a6f82sm133009945e9.37.2024.09.23.09.53.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Sep 2024 09:53:08 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Guenter Roeck <linux@roeck-us.net>,  Liam Girdwood
- <lgirdwood@gmail.com>,  Jean Delvare <jdelvare@suse.com>,  Jonathan Corbet
- <corbet@lwn.net>,  linux-kernel@vger.kernel.org,
-  linux-hwmon@vger.kernel.org,  linux-doc@vger.kernel.org
-Subject: Re: [PATCH 4/5] hwmon: (pmbus/core) improve handling of write
- protected regulators
-In-Reply-To: <ZvFdYtwlqsr4mLym@finisterre.sirena.org.uk> (Mark Brown's message
-	of "Mon, 23 Sep 2024 14:21:54 +0200")
-References: <20240920-pmbus-wp-v1-0-d679ef31c483@baylibre.com>
-	<20240920-pmbus-wp-v1-4-d679ef31c483@baylibre.com>
-	<4052294e-7b7f-4238-9b47-92727de4d516@roeck-us.net>
-	<1jsettz1hh.fsf@starbuckisacylon.baylibre.com>
-	<2f3cec6e-7b05-4510-8c62-244ed114ad17@roeck-us.net>
-	<1jo74hymsh.fsf@starbuckisacylon.baylibre.com>
-	<ZvFdYtwlqsr4mLym@finisterre.sirena.org.uk>
-Date: Mon, 23 Sep 2024 18:53:07 +0200
-Message-ID: <1j7cb2z4zw.fsf@starbuckisacylon.baylibre.com>
+        d=1e100.net; s=20230601; t=1727114280; x=1727719080;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=l8B2VxfA36wALlD20rKzanMGJ4TcWL9akGgnKfYckb4=;
+        b=S4HOrxpuMyefv4eHQhDZcsgok/i4mr3LVV8v0QMrZZ+dRd1tCddGWrItF1UtQRIz1F
+         8FGir6XzbADV5Eg+59YkmxKzsfLniKULl8Z0jbBZXAhXZ+Aj5YdBY2CLHuwBspNjVO2d
+         q/LAgBfvYSMsN38ZAGh+tJz61dwjIWI+tdnF9Ftv34KBbQExvOdukkiC1RrtV+rZlXQU
+         iIY7L1v0aPxlXgv3kgOGqsc06vHkd6iZ01BCLcy02HkW4w0AwoymP+pr4jz8kH4lEeT/
+         dgHNOpvPlkcnijW9J444w7T27fW4su9PVbxtBx6LFluk12cq9GEFif27clMB/gr7Mh+b
+         /hmg==
+X-Forwarded-Encrypted: i=1; AJvYcCWab9gYkVDnfKIo86opt/TA5u6XWsd5sPnCyO+8kUWqsZK1OeLPMxFl+nN4UUQbd2q7bCYTPltAOY4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/bHp6RyhFRXPZPPLkM78NNrkYXFuQOjrfCcSvtS79w4T1kywi
+	oH4fkmWxhKp4b9rGcFM5Os4KFxjaNb2sFL+/d7ebPS/2H5LudhOH6klpStrOr5Y=
+X-Google-Smtp-Source: AGHT+IHxrY3ucRKh97wx+nkV5psN+Kb2p868ccznvAGCqF4s1A84WPgovtg4ccAlF/He1jwEhUdFDQ==
+X-Received: by 2002:a05:6402:40d5:b0:5c5:ce3d:41a2 with SMTP id 4fb4d7f45d1cf-5c5ce3d41ccmr501122a12.10.1727114279788;
+        Mon, 23 Sep 2024 10:57:59 -0700 (PDT)
+Received: from [10.102.105.220] (brn-rj-tbond07.sa.cz. [185.94.55.136])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c42bb89e2asm10550958a12.73.2024.09.23.10.57.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Sep 2024 10:57:59 -0700 (PDT)
+Message-ID: <e59f0525-4f3b-4f9c-a359-659fd47dc385@daynix.com>
+Date: Mon, 23 Sep 2024 19:57:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v3 0/9] tun: Introduce virtio-net hashing feature
+To: Stephen Hemminger <stephen@networkplumber.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, kvm@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Andrew Melnychenko <andrew@daynix.com>
+References: <20240915-rss-v3-0-c630015db082@daynix.com>
+ <20240915124835.456676f0@hermes.local>
+Content-Language: en-US
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <20240915124835.456676f0@hermes.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon 23 Sep 2024 at 14:21, Mark Brown <broonie@kernel.org> wrote:
+On 2024/09/15 21:48, Stephen Hemminger wrote:
+> On Sun, 15 Sep 2024 10:17:39 +0900
+> Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+> 
+>> virtio-net have two usage of hashes: one is RSS and another is hash
+>> reporting. Conventionally the hash calculation was done by the VMM.
+>> However, computing the hash after the queue was chosen defeats the
+>> purpose of RSS.
+>>
+>> Another approach is to use eBPF steering program. This approach has
+>> another downside: it cannot report the calculated hash due to the
+>> restrictive nature of eBPF.
+>>
+>> Introduce the code to compute hashes to the kernel in order to overcome
+>> thse challenges.
+>>
+>> An alternative solution is to extend the eBPF steering program so that it
+>> will be able to report to the userspace, but it is based on context
+>> rewrites, which is in feature freeze. We can adopt kfuncs, but they will
+>> not be UAPIs. We opt to ioctl to align with other relevant UAPIs (KVM
+>> and vhost_net).
+> 
+> This will be useful for DPDK. But there still are cases where custom
+> flow rules are needed. I.e the RSS happens after other TC rules.
+> It would be a good if skbedit supported RSS as an option.
 
-> On Sat, Sep 21, 2024 at 06:49:34PM +0200, Jerome Brunet wrote:
->> On Sat 21 Sep 2024 at 08:22, Guenter Roeck <linux@roeck-us.net> wrote:
->
->> > In other words, if always-on is _not_ set in
->> > regulator constraints, I'd see that as request to override write-protect
->> > in the driver if there is a change request from regulator code.
->
->> That's very much different from what we initially discussed. It can
->> certainly be done, what is proposed here already does 90% of the job in
->> that direction. However, I'm not sure that is what people intended when
->> they did not put anything. A chip that was previously locked, would be
->> unlocked following such change. It's an important behaviour change.
->
-> The general approach we take for regulators is to not touch the hardware
-> state unless we were explicitly asked to do something by firmware
-> configuration.  The theory is that this avoids us doing anything that
-> causes physical damage by mistake.
->
->> >> This is something that might get fix with this change [1]. Even with that
->> >> fixed, passing init_data systematically would be convenient only if you
->> >> plan on skipping DT provided constraints (there are lot of those), or
->> >> redo the parsing in PMBus.
->
->> > I disagree. I am perfectly fine with DT overriding constraints provided
->> > by the driver. The driver can provide its own constraints, and if dt
->> > overrides them, so be it.
->
->> That's not what the regulator framework does. At the moment, it is DT
->> and nothing else. After the linked change, it would be DT if no
->> init_data is passed - otherwise, the init_data.
->
->> If a something in between, whichever the one you want to give priority
->> to, that will have to re-implemented on the caller side.
->> This is what I meant by redo the parsing on pmbus side.
->
-> Right, and I've got a feeling that any attempt to combine constraints is
-> going to need to be done in a case by case manner since what's tasteful
-> is going to vary depending on how much we trust the various sources of
-> information.
->
->> It goes way beyond what I'm proposing.
->> The only thing done here is something you simply cannot put in DT
->> because DT is static. Following init, if the chip write protected,
->> REGULATOR_CHANGE_STATUS should not be set, regardless of what is in DT.
->> If it is not set, I'm not adding it.
->
->> Also, what I'm proposing does not get in the way of DT, or anything
->> else, providing constraints. What I propose allow to make adjustement in
->> the HW based on the constraint, if this is what you want to do. It also
->> allows to update the constaints based on what the HW actually is.
->> If the chip cannot be written, regulator needs to know.
->
-> So, I know we talked about this a bit on IRC but I didn't register the
-> specific use case.  Now I see that it's coming down to the fact that the
-> chip is simply write protected I'm wondering if it might not be simpler
-> to handle this at the ops level rather than the constraints level.  When
-> registering the driver could check for write protection and then instead
-> of registering the normal operations register an alternative set with
-> the relevant write operations removed.  That would have the same effect
-> that you're going for AFAICT.  Sorry for not thinking of it earlier.
+Hi,
 
-Actually I thaught about it, that was my first idea.
+It is nice to hear about a use case other than QEMU or virtualization. I 
+implemented RSS as tuntap ioctl because:
+- It is easier to configure for the user of tuntap (e.g., QEMU)
+- It implements hash reporting, which is specific to tuntap.
 
-There is tiny difference between the 2 approach:
-* A regulator that does not provide enable()/disable() is considered
-always-on, so it is not really checked if it is enabled or not
-* A regulator that does provide enable()/disable() but disallow status
-change will be checked with is_enabled()
+You can still add skbedit if you want to override RSS for some packets 
+with filter. Please tell me if it is not sufficient for your use case.
 
-In the second case, we will pick up on regulator that is disabled and we
-can't enable. In the first case, I don't think we do. I don't know if it
-is a bug of not but that makes the 2nd case more correct for what we do
-with pmbus regs I think
-
-The other thing, although is more a pmbus implemantion consideration,
-is that the type regulator is opaque in
-pmbus_regulator_register. Different types could be registered so
-manipulating the ops is tricky. That's where a callback is helpful 
-
-If building the ops dynamically is the preferred way, I'll find a way to
-make it happen. I'll need to way to identify which one need it, loose
-the 'const' qualifier in a lot of place, etc ... that will be a bit
-hackish I'm afraid.
-
->
->> > We should not try to override devicetree constraints.
->
->> I don't think I am. I'm just reading the chip state and adjusting the
->> constraint. Even after implementing what is suggested above, it will
->> still be necessary to readback and adjust the constraint based the
->> read protection. Unlock is not guranteed to succeed, the chip may be
->> permanently lock. Some provide the option to do that.
->
-> I'm not familiar with this hardware so I'll defer to the two of you on
-> what's tasteful with regard to handling this, based on the above it
-> might be a per device thing depending on how reversable the write
-> protection is.  It looks like currently we don't change this at runtime
-> but I might not be looking properly?
-
-At the moment, it does not. With this patch it might but only a
-registration. We've been discussing other modes but it would not impact
-regulator I think.
-
--- 
-Jerome
+Regards,
+Akihiko Odaki
