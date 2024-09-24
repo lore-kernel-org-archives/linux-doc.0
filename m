@@ -1,373 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1601084A2C;
-	Tue, 24 Sep 2024 22:32:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E30F1AAE38;
+	Tue, 24 Sep 2024 22:34:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727217130; cv=none; b=WaN/a6QRTy44HpzMT64GcfQfvqUewXjzLIlXX1/q+eBGE3kcWytWqiwKgJJSmPjlsiKsNWRMI1qjsiyPF/PB1m+pQkA6sv6RlnSTpvEE8IYB3E6nRkFdNWAUr3Iy91HUKSG54wnJPW6NP/NhgyPM/5+LRNSEvQ7+skzjbsNO8do=
+	t=1727217271; cv=none; b=uGaoWj8+GOOSThmnhUhwHvepedCydoBO/IKtDB4jTQmy0HjozXaYxZkTd7j24VeXp/ynUDq7zqwgZtF6GqQQ7ebGmRwOqOvxEEWrKO79PdyPM5Ync6ooDPe5B6ad3e89cha2ZBZhcpEzZ1pXYjmEL3i1dexC9T1a8mPiBqlVQko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727217130; c=relaxed/simple;
-	bh=v2/J5ptPpvS9K3Oo6tUvptEqsFQ42UvwBeVLEGwbh/Y=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=u4D3KtSPWf7UA7YNdO3/Z6PBwy8Mnq8Vgrm0x9ZHewreDCkfPn8xuNtXqel22VhkPFEhyOAjKaHya88dru8JoFChixk9WV3YVTr2c+WQoCZxxIzFeYLoFLumtFG33CEISp99gLO7sVnXyDxotHmsgkMCCXDumsqG8jVUCi66oyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VQmAHEfk; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1727217271; c=relaxed/simple;
+	bh=o32wRSGZq2HOlTpmFtvBCFqPM0veeLYszlXe6y3+U6Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ujPtJ6oIzuvZa/PpPyfajASOJUJPknX/GPAaKQZDTQgRVIPSSU+y1XU/YuzeisiXVNZGHQDCjTJiOEHM2uJC2rwN5ZrK5iuhl7wC8NpUPm368UeqSNkpMt25I1lBeWbghC6gJuMgPHilbQej008r6KVVl6GS63rCWCJAX0P+2YU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=di8rcl7V; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VQmAHEfk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="di8rcl7V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727217129; x=1758753129;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=v2/J5ptPpvS9K3Oo6tUvptEqsFQ42UvwBeVLEGwbh/Y=;
-  b=VQmAHEfkpNPTl8XaaJVuhFKsJWUsEV5H4ORRKxjgWIqZCM28JGN7AaKb
-   o8XUlUQ4Z8r7hQlH1MV1xDZ0ZxQ+P5hB/afaiQ9pY4D6re/SCmE2sby2t
-   GRltORpi5IoEwrMO4OHLsVARQ1cpXjpqpsYyA+RnMSFScuX4q2NHkL+6v
-   map6UCHo3RZkdPuKOVc+4QDXsRb3NFTtgVXJM1LGaASxYlCndiQEP50Z3
-   fORtuZ9nyq9Ijh13UaPrso32o+uqb4M87vdkiGc7giPKPQNzQS4aulgow
-   zdroeSfSLDyQMceUHsegsBcFWZTyPEpC13mS0vL1Y1q0uqJfNVpBaU32L
-   A==;
-X-CSE-ConnectionGUID: vimuY2HcSKutEg/x9hQ/Rg==
-X-CSE-MsgGUID: TFxf1zcYQEmUSOm1ppaUkQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="36908099"
+  t=1727217270; x=1758753270;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=o32wRSGZq2HOlTpmFtvBCFqPM0veeLYszlXe6y3+U6Q=;
+  b=di8rcl7Vt1Tmax3bjDgDjB7doagCc17s1JclaaCkE3QaUtdMb6jr3tht
+   QhpclE5pE+VpterKhDgsHxvu+dnGP6U6WwMSaDMFvW7Sv6wAe/+NWMUK8
+   eoGkJe/hsBq0PsY5QVHN6t9gXVfZfIw2GEOHL1mIuC6lKbAwsPrb7MpX9
+   6UQorLEW6UV5vOKNeLPVLyimSToifMcuUQ3eLNSGNQTKoDtlwmJ3PF1TL
+   HGmz17zNtgWOi6vpdTcTAwNdeUS8HiJ5enqxuTMdEJ7aDPVmCQeiLcIKW
+   nabkiTCEVOIjBjsS9NyQS8+RX1JFic2ArdkP2RBG7liX35k66IBPk0iTR
+   g==;
+X-CSE-ConnectionGUID: 8G30G+8VSUq01nNeiW8PFA==
+X-CSE-MsgGUID: 7I2Nr7qUSC2E1yQhlFA2Jg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="13869858"
 X-IronPort-AV: E=Sophos;i="6.10,255,1719903600"; 
-   d="scan'208";a="36908099"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 15:32:00 -0700
-X-CSE-ConnectionGUID: GAGHdPveQbiJEuWn7PZVLQ==
-X-CSE-MsgGUID: XsFlc0n4QXGy0/c4sCM1Fg==
+   d="scan'208";a="13869858"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 15:34:29 -0700
+X-CSE-ConnectionGUID: GkQYwE2zSGCUR6+Gzmr6og==
+X-CSE-MsgGUID: Z1pQXdaFSEOeXmt/13Fl/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,255,1719903600"; 
-   d="scan'208";a="102384854"
-Received: from laijusti-mobl.amr.corp.intel.com (HELO dsneddon-desk.sneddon.lan) ([10.125.17.198])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 15:31:58 -0700
-From: Daniel Sneddon <daniel.sneddon@linux.intel.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Borislav Petkov <bp@alien8.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org
-Cc: hpa@zytor.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	pawan.kumar.gupta@linux.intel.com
-Subject: [PATCH 6/6] x86/bugs: Clean-up verw mitigations
-Date: Tue, 24 Sep 2024 15:31:40 -0700
-Message-Id: <20240924223140.1054918-7-daniel.sneddon@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240924223140.1054918-1-daniel.sneddon@linux.intel.com>
-References: <20240924223140.1054918-1-daniel.sneddon@linux.intel.com>
+   d="scan'208";a="71855392"
+Received: from uaeoff-desk2.amr.corp.intel.com (HELO [10.124.221.107]) ([10.124.221.107])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 15:34:29 -0700
+Message-ID: <fa94df43-d2d7-478e-b74b-9afe6d624292@intel.com>
+Date: Tue, 24 Sep 2024 15:34:28 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/6] x86/bugs: Remove MDS command line
+To: Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+ Borislav Petkov <bp@alien8.de>, Peter Zijlstra <peterz@infradead.org>,
+ Josh Poimboeuf <jpoimboe@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org
+Cc: hpa@zytor.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ pawan.kumar.gupta@linux.intel.com
+References: <20240924223140.1054918-1-daniel.sneddon@linux.intel.com>
+ <20240924223140.1054918-3-daniel.sneddon@linux.intel.com>
+Content-Language: en-US
+From: Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <20240924223140.1054918-3-daniel.sneddon@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The current md_clear routines duplicate a lot of code, and have to be
-called twice because if one of the mitigations gets enabled they all
-get enabled since it's the same instruction. This approach leads to
-code duplication and extra complexity.
+On 9/24/24 15:31, Daniel Sneddon wrote:
+> -	mds=		[X86,INTEL,EARLY]
+> -			Control mitigation for the Micro-architectural Data
+> -			Sampling (MDS) vulnerability.
 
-The only piece that really changes between the first call of
-*_select_mitigation() and the second is X86_FEATURE_CLEAR_CPU_BUF
-being set.  Determine if this feature should be set prior to calling
-the _select_mitigation() routines. This not only means those functions
-only get called once, but it also simplifies them as well.
+As much as I'd love to remove old code, won't this surprise users if we
+just take this away?
 
-Signed-off-by: Daniel Sneddon <daniel.sneddon@linux.intel.com>
----
- arch/x86/kernel/cpu/bugs.c | 191 +++++++++++++++----------------------
- 1 file changed, 77 insertions(+), 114 deletions(-)
-
-diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
-index 45411880481c..412855391184 100644
---- a/arch/x86/kernel/cpu/bugs.c
-+++ b/arch/x86/kernel/cpu/bugs.c
-@@ -41,7 +41,6 @@ static void __init spectre_v2_user_select_mitigation(void);
- static void __init ssb_select_mitigation(void);
- static void __init l1tf_select_mitigation(void);
- static void __init mds_select_mitigation(void);
--static void __init md_clear_update_mitigation(void);
- static void __init md_clear_select_mitigation(void);
- static void __init taa_select_mitigation(void);
- static void __init mmio_select_mitigation(void);
-@@ -244,21 +243,9 @@ static const char * const mds_strings[] = {
- 
- static void __init mds_select_mitigation(void)
- {
--	if (!boot_cpu_has_bug(X86_BUG_MDS) || cpu_mitigations_off()) {
--		mds_mitigation = MDS_MITIGATION_OFF;
--		return;
--	}
--
--	if (mds_mitigation == MDS_MITIGATION_FULL) {
--		if (!boot_cpu_has(X86_FEATURE_MD_CLEAR))
--			mds_mitigation = MDS_MITIGATION_VMWERV;
--
--		setup_force_cpu_cap(X86_FEATURE_CLEAR_CPU_BUF);
--
--		if (!boot_cpu_has(X86_BUG_MSBDS_ONLY) &&
--		    (mds_nosmt || cpu_mitigations_auto_nosmt()))
--			cpu_smt_disable(false);
--	}
-+	if (mds_mitigation == MDS_MITIGATION_FULL &&
-+	    !boot_cpu_has(X86_FEATURE_MD_CLEAR))
-+		mds_mitigation = MDS_MITIGATION_VMWERV;
- }
- 
- #undef pr_fmt
-@@ -284,35 +271,17 @@ static const char * const taa_strings[] = {
- 
- static void __init taa_select_mitigation(void)
- {
--	if (!boot_cpu_has_bug(X86_BUG_TAA)) {
--		taa_mitigation = TAA_MITIGATION_OFF;
--		return;
--	}
--
- 	/* TSX previously disabled by tsx=off */
- 	if (!boot_cpu_has(X86_FEATURE_RTM)) {
- 		taa_mitigation = TAA_MITIGATION_TSX_DISABLED;
- 		return;
- 	}
- 
--	if (cpu_mitigations_off()) {
--		taa_mitigation = TAA_MITIGATION_OFF;
-+	if (!boot_cpu_has(X86_FEATURE_MD_CLEAR)) {
-+		taa_mitigation = TAA_MITIGATION_UCODE_NEEDED;
- 		return;
- 	}
- 
--	/*
--	 * TAA mitigation via VERW is turned off if both
--	 * tsx_async_abort=off and mds=off are specified.
--	 */
--	if (taa_mitigation == TAA_MITIGATION_OFF &&
--	    mds_mitigation == MDS_MITIGATION_OFF)
--		return;
--
--	if (boot_cpu_has(X86_FEATURE_MD_CLEAR))
--		taa_mitigation = TAA_MITIGATION_VERW;
--	else
--		taa_mitigation = TAA_MITIGATION_UCODE_NEEDED;
--
- 	/*
- 	 * VERW doesn't clear the CPU buffers when MD_CLEAR=1 and MDS_NO=1.
- 	 * A microcode update fixes this behavior to clear CPU buffers. It also
-@@ -325,18 +294,6 @@ static void __init taa_select_mitigation(void)
- 	if ( (x86_arch_cap_msr & ARCH_CAP_MDS_NO) &&
- 	    !(x86_arch_cap_msr & ARCH_CAP_TSX_CTRL_MSR))
- 		taa_mitigation = TAA_MITIGATION_UCODE_NEEDED;
--
--	/*
--	 * TSX is enabled, select alternate mitigation for TAA which is
--	 * the same as MDS. Enable MDS static branch to clear CPU buffers.
--	 *
--	 * For guests that can't determine whether the correct microcode is
--	 * present on host, enable the mitigation for UCODE_NEEDED as well.
--	 */
--	setup_force_cpu_cap(X86_FEATURE_CLEAR_CPU_BUF);
--
--	if (taa_nosmt || cpu_mitigations_auto_nosmt())
--		cpu_smt_disable(false);
- }
- 
- #undef pr_fmt
-@@ -360,24 +317,6 @@ static const char * const mmio_strings[] = {
- 
- static void __init mmio_select_mitigation(void)
- {
--	if (!boot_cpu_has_bug(X86_BUG_MMIO_STALE_DATA) ||
--	     boot_cpu_has_bug(X86_BUG_MMIO_UNKNOWN) ||
--	     cpu_mitigations_off()) {
--		mmio_mitigation = MMIO_MITIGATION_OFF;
--		return;
--	}
--
--	if (mmio_mitigation == MMIO_MITIGATION_OFF)
--		return;
--
--	/*
--	 * Enable CPU buffer clear mitigation for host and VMM, if also affected
--	 * by MDS or TAA. Otherwise, enable mitigation for VMM only.
--	 */
--	if (boot_cpu_has_bug(X86_BUG_MDS) || (boot_cpu_has_bug(X86_BUG_TAA) &&
--					      boot_cpu_has(X86_FEATURE_RTM)))
--		setup_force_cpu_cap(X86_FEATURE_CLEAR_CPU_BUF);
--
- 	/*
- 	 * X86_FEATURE_CLEAR_CPU_BUF could be enabled by other VERW based
- 	 * mitigations, disable KVM-only mitigation in that case.
-@@ -409,9 +348,6 @@ static void __init mmio_select_mitigation(void)
- 		mmio_mitigation = MMIO_MITIGATION_VERW;
- 	else
- 		mmio_mitigation = MMIO_MITIGATION_UCODE_NEEDED;
--
--	if (mmio_nosmt || cpu_mitigations_auto_nosmt())
--		cpu_smt_disable(false);
- }
- 
- #undef pr_fmt
-@@ -435,16 +371,7 @@ static const char * const rfds_strings[] = {
- 
- static void __init rfds_select_mitigation(void)
- {
--	if (!boot_cpu_has_bug(X86_BUG_RFDS) || cpu_mitigations_off()) {
--		rfds_mitigation = RFDS_MITIGATION_OFF;
--		return;
--	}
--	if (rfds_mitigation == RFDS_MITIGATION_OFF)
--		return;
--
--	if (x86_arch_cap_msr & ARCH_CAP_RFDS_CLEAR)
--		setup_force_cpu_cap(X86_FEATURE_CLEAR_CPU_BUF);
--	else
-+	if (!(x86_arch_cap_msr & ARCH_CAP_RFDS_CLEAR))
- 		rfds_mitigation = RFDS_MITIGATION_UCODE_NEEDED;
- }
- 
-@@ -485,41 +412,92 @@ static int __init clear_cpu_buffers_cmdline(char *str)
- }
- early_param("clear_cpu_buffers", clear_cpu_buffers_cmdline);
- 
--static void __init md_clear_update_mitigation(void)
-+static bool __init cpu_bug_needs_verw(void)
- {
--	if (cpu_mitigations_off())
--		return;
-+	return boot_cpu_has_bug(X86_BUG_MDS) ||
-+	       boot_cpu_has_bug(X86_BUG_TAA) ||
-+	       boot_cpu_has_bug(X86_BUG_MMIO_STALE_DATA) ||
-+	       boot_cpu_has_bug(X86_BUG_RFDS);
-+}
- 
--	if (!boot_cpu_has(X86_FEATURE_CLEAR_CPU_BUF))
--		goto out;
-+static bool __init verw_mitigations_disabled(void)
-+{
-+	/*
-+	 * TODO: Create a single mitigation variable that will allow for setting
-+	 * the location of the mitigation, i.e.:
-+	 *
-+	 * kernel->user
-+	 * kvm->guest
-+	 * kvm->guest if device passthrough
-+	 * kernel->idle
-+	 */
-+	return (mds_mitigation == MDS_MITIGATION_OFF &&
-+		taa_mitigation == TAA_MITIGATION_OFF &&
-+		mmio_mitigation == MMIO_MITIGATION_OFF &&
-+		rfds_mitigation == RFDS_MITIGATION_OFF);
-+}
- 
-+static void __init md_clear_select_mitigation(void)
-+{
- 	/*
--	 * X86_FEATURE_CLEAR_CPU_BUF is now enabled. Update MDS, TAA and MMIO
--	 * Stale Data mitigation, if necessary.
-+	 * If no CPU bug needs VERW, all VERW mitigations are disabled, or all
-+	 * mitigations are disabled we bail.
- 	 */
--	if (mds_mitigation == MDS_MITIGATION_OFF &&
--	    boot_cpu_has_bug(X86_BUG_MDS)) {
-+	if (!cpu_bug_needs_verw() || verw_mitigations_disabled() ||
-+	    cpu_mitigations_off()) {
-+		mds_mitigation = MDS_MITIGATION_OFF;
-+		taa_mitigation = TAA_MITIGATION_OFF;
-+		mmio_mitigation = MMIO_MITIGATION_OFF;
-+		rfds_mitigation = RFDS_MITIGATION_OFF;
-+		goto out;
-+	}
-+
-+	/* Check that at least one mitigation is using the verw mitigaiton.
-+	 * If the cpu doesn't have the correct ucode or if the BUG_* is mitigated
-+	 * by disabling a feature we won't want to use verw. Ignore MMIO
-+	 * for now since it depends on what the others choose.
-+	 */
-+
-+	if (boot_cpu_has_bug(X86_BUG_MDS)) {
- 		mds_mitigation = MDS_MITIGATION_FULL;
- 		mds_select_mitigation();
-+	}  else {
-+		mds_mitigation = MDS_MITIGATION_OFF;
- 	}
--	if (taa_mitigation == TAA_MITIGATION_OFF &&
--	    boot_cpu_has_bug(X86_BUG_TAA)) {
-+	if (boot_cpu_has_bug(X86_BUG_TAA)) {
- 		taa_mitigation = TAA_MITIGATION_VERW;
- 		taa_select_mitigation();
-+	} else {
-+		taa_mitigation = TAA_MITIGATION_OFF;
- 	}
--	/*
--	 * MMIO_MITIGATION_OFF is not checked here so that mmio_stale_data_clear
--	 * gets updated correctly as per X86_FEATURE_CLEAR_CPU_BUF state.
--	 */
-+	if (boot_cpu_has_bug(X86_BUG_RFDS)) {
-+		rfds_mitigation = RFDS_MITIGATION_VERW;
-+		rfds_select_mitigation();
-+	} else {
-+		rfds_mitigation = RFDS_MITIGATION_OFF;
-+	}
-+
-+	if (mds_mitigation == MDS_MITIGATION_FULL ||
-+	    taa_mitigation == TAA_MITIGATION_VERW ||
-+	    rfds_mitigation == RFDS_MITIGATION_VERW)
-+		setup_force_cpu_cap(X86_FEATURE_CLEAR_CPU_BUF);
-+
-+	/* Now handle MMIO since it may not use X86_FEATURE_CLEAR_CPU_BUF */
- 	if (boot_cpu_has_bug(X86_BUG_MMIO_STALE_DATA)) {
- 		mmio_mitigation = MMIO_MITIGATION_VERW;
- 		mmio_select_mitigation();
-+	} else {
-+		mmio_mitigation = MMIO_MITIGATION_OFF;
- 	}
--	if (rfds_mitigation == RFDS_MITIGATION_OFF &&
--	    boot_cpu_has_bug(X86_BUG_RFDS)) {
--		rfds_mitigation = RFDS_MITIGATION_VERW;
--		rfds_select_mitigation();
--	}
-+
-+	/* handle nosmt */
-+	if (!boot_cpu_has(X86_BUG_MSBDS_ONLY) &&
-+	    (mds_nosmt || cpu_mitigations_auto_nosmt()))
-+		cpu_smt_disable(false);
-+
-+	if (taa_nosmt || mmio_nosmt || cpu_mitigations_auto_nosmt())
-+		cpu_smt_disable(false);
-+
- out:
- 	if (boot_cpu_has_bug(X86_BUG_MDS))
- 		pr_info("MDS: %s\n", mds_strings[mds_mitigation]);
-@@ -533,21 +511,6 @@ static void __init md_clear_update_mitigation(void)
- 		pr_info("Register File Data Sampling: %s\n", rfds_strings[rfds_mitigation]);
- }
- 
--static void __init md_clear_select_mitigation(void)
--{
--	mds_select_mitigation();
--	taa_select_mitigation();
--	mmio_select_mitigation();
--	rfds_select_mitigation();
--
--	/*
--	 * As these mitigations are inter-related and rely on VERW instruction
--	 * to clear the microarchitural buffers, update and print their status
--	 * after mitigation selection is done for each of these vulnerabilities.
--	 */
--	md_clear_update_mitigation();
--}
--
- #undef pr_fmt
- #define pr_fmt(fmt)	"SRBDS: " fmt
- 
--- 
-2.25.1
-
+I suspect the _least_ we can do is warn folks if they use something that
+we recently ripped out.  But the right thing is probably to keep the old
+one around for at least a while. <sigh>
