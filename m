@@ -1,296 +1,111 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D191B85CC;
-	Tue, 24 Sep 2024 17:47:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D18B335C7
+	for <linux-doc@vger.kernel.org>; Tue, 24 Sep 2024 20:25:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727200071; cv=none; b=DvxSZchGuyg5tdQzFkq5bYAxdSS4EloWQLk7f4AK7KoHIkAiegE/1AuzOtX5HxNmwBwcOIY/fx9t6pkSmhDgy/eYmAKGL7ewYvGmfFBnWt6Gv0CiXY1Ixx7xUiyBD5308hf029BhKVT3+JqAT+cB8UgZc7M6oROWOak7ny+uzyk=
+	t=1727209544; cv=none; b=fvjwAb8Yb33Ad7wPGJ0ELtWVzODtZDQtPiGVxpw/3oBmb1mk/PmTOhO81YyUon0FztExGzdF9pXwiQqHfhzpQYr+b7aOpSuOH5OfSV2FR5cWf/5RgAsDkQYg/rXpa+yiAJoxC42IKfKBJeR/e8Dh8C57lSgkDAQAfMXQujVCFCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727200071; c=relaxed/simple;
-	bh=FfIwioOgbuz8U0PokePCI+WAe+L2gTD8mJT219VdwPw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MfyfEO4M4gHDYUPoWNutDZ1fKVmiLu6Emo0qaS4mGXyFk0ZZv6Y0eoCs4xV0MJyr0xRBmH4sCDN0xg53jIt3F+nqTM3h3xIGg2/dYLtTWgEvEty6xg/Vx+TeNBLAJ52W3eOg87XGeKoAPp9r+I8331Se4fF3mK9LWXpVTJKQzbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MMcJ29gK; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727209544; c=relaxed/simple;
+	bh=X2woXZ+NBe+U0sO+AejUPlyyeb0MryY2XP8gaIVag8s=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pYFTpzf96j+pP82THOTR7JWe60csjRjKM/kM41GZWxw8p8F+enlr+c4NY68U17TsaMigM/JqKBsH9IaKrhkBmLzGsDq9iebj3K5zfRd/6IGhKDsBZcJgMhjfbom/G0Gm+9DMjzKZJgzIBcoKxhwwuf1QoqHrBeLP6YPgQ0e71UI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oy4up45R; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MMcJ29gK"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a8d4979b843so736313966b.3;
-        Tue, 24 Sep 2024 10:47:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727200068; x=1727804868; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ASRWupmBNIvlINw+EpHXZh/Qnje8s/ZOIC7REwAIrcs=;
-        b=MMcJ29gKH8bJ/y38BKTcDUSntYrbe7xKX0w1u/ckbHOSz3U/UeETUYLcXKRsmWGTyN
-         PWUvRdp+R6EsLZBJM238d5NW+4mxces4IfCfRs0UwE45fiSaUrqP4yp+gj8iqyp5pByF
-         ObzK0xJWtVHOm3jxPo7t7cFApqQm+syxtnxBj8X6X5wnMnfEDU9kb/HcZR258zF+tOvW
-         0Z1dyiJEjnjEqE6EcfR34RdMjMAjzIJvp4OLB8hZu7UqjW6qf3zCeC/EFmTCOgOzhTYS
-         +cjCU/eioyUo9R918HA1kfZFuNGfLquUbExrG0CmTxUubcg8Yra40q05wqQryCq4qZtg
-         y6ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727200068; x=1727804868;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ASRWupmBNIvlINw+EpHXZh/Qnje8s/ZOIC7REwAIrcs=;
-        b=GMYiwfc27Ila5eWhmoPg3urzQss8bb08SD7lGCz0V+rJpXvL9Z1sxUMCfw7JLuhoCy
-         MGlPdUQmSTk9jdg+z5CmsTHii4bKbRtZhHtJBOu5MvLefwwCFhTE4XJA3ZlXlk4dMnnT
-         wwW5S2IZe+YKkeihU6CMP+1QtVvgHdGzyeXaMo49CRigC3tLU/mLtwHmkScQJ+DzET67
-         yyw75w26E/bp4q1kHcdURRpfP18CFz1yqN9n3nvAcC8oQrl25i3rOz5GVAcpa3la7qkp
-         /WbFpRND5wYg6Tt5dPA+myoFJuC5iL3SvgY67bpm7eQufeTOdm7nZbe8xd1tQDzAFCr3
-         ZO/w==
-X-Forwarded-Encrypted: i=1; AJvYcCVRVBNqzCDeud8GkALLXIZ+/KTThN3iMjRlaPXP1TqQ1x6MggN2ibSBT2qHZAMwowhjQ7etZLOJ6N7kSlnD@vger.kernel.org, AJvYcCWODWBljhyGUb8XlhGrFY5syMYPxce/gyddK6/iuSh7MC0q8ye2YvASnEG9FSxb9x+qXGiDZA8IIy2X@vger.kernel.org, AJvYcCWUiF/RFb415R0jbweiZDDNVtb23SEgdWDO8H+71oMg6JV3PASdK3ICrQPW+lkp+IAkwKJj41TA5KM2c8Qd@vger.kernel.org
-X-Gm-Message-State: AOJu0YwcUcOS+TeQZqwcPcgT/KrYN8v+oqgUKFxtKHMnRp1vXhxfK6X7
-	n89oeMnr7MubDBVAJkY+oOROH1C6M9vTWqe55z/gltgAMGtN0Fzy
-X-Google-Smtp-Source: AGHT+IHK1qo8LN8yIzPeZrS2oWlAOZf0RTqjBpB9oHxBotcpzm/H9+hwISEkalhmO/+zgBEEcKrdzQ==
-X-Received: by 2002:a17:906:f5a9:b0:a7a:8da1:eb00 with SMTP id a640c23a62f3a-a93a033056dmr10455666b.7.1727200067651;
-        Tue, 24 Sep 2024 10:47:47 -0700 (PDT)
-Received: from [192.168.1.17] (host-87-7-171-42.retail.telecomitalia.it. [87.7.171.42])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9392f34291sm113992066b.14.2024.09.24.10.47.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Sep 2024 10:47:47 -0700 (PDT)
-Message-ID: <0238749c-c276-48ef-99cd-0f7bd3da015f@gmail.com>
-Date: Tue, 24 Sep 2024 19:47:45 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oy4up45R"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727209542; x=1758745542;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=X2woXZ+NBe+U0sO+AejUPlyyeb0MryY2XP8gaIVag8s=;
+  b=Oy4up45RWZMzAO4fWohOZVT0V95dlae+9H+iEQ0abssSPN+Qhu/zD/o/
+   7wImkG23ic8cxhHzgbty1HFxX56ux2KDW7NI4bGvQqgK9GTpwNqBNXK8R
+   iZWjC8RARxpOUBEjwglc3nr5p1+weJAvl4f5V3imAl89uC3xmLgce6yJu
+   Kva4SOrWsjrWLgGw+uy+EQ94grKAYCnqPFliazEigL2oHtKgvVq4vnVhD
+   Zbe57BNK/mkrM2G9+fC+Si7o7YAFDv9QAkNW3HkO+MbLf46H5vqIjqePn
+   Mcl9+doBCbJXEQ/MYzc3ay/a375wgDLBH2tJtXMns11THYaUvY5IGK+hA
+   A==;
+X-CSE-ConnectionGUID: vT8ckpOqT1i9OcoEtA3wTA==
+X-CSE-MsgGUID: ryk5db0xSCyGiTbtqPfDjw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="25743929"
+X-IronPort-AV: E=Sophos;i="6.10,255,1719903600"; 
+   d="scan'208";a="25743929"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 13:25:41 -0700
+X-CSE-ConnectionGUID: ubKKTeBxTti0OU+kbXKbJQ==
+X-CSE-MsgGUID: nZXlCQeNRoyvvI1ZR2ywhg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,255,1719903600"; 
+   d="scan'208";a="102300168"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 24 Sep 2024 13:25:39 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1stC6K-000IoJ-2c;
+	Tue, 24 Sep 2024 20:25:36 +0000
+Date: Wed, 25 Sep 2024 04:25:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Naga Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>, linux-doc@vger.kernel.org
+Subject: [xilinx-xlnx:xlnx_rebase_v6.6_LTS_2024.1_update 703/1001] htmldocs:
+ Warning: arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a
+ file that doesn't exist: Documentation/hwmon/pmbus
+Message-ID: <202409250603.7achimjs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/11] Preemption support for A7XX
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>, Rob Clark <robdclark@gmail.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Sharat Masetty <smasetty@codeaurora.org>
-References: <20240917-preemption-a750-t-v4-0-95d48012e0ac@gmail.com>
- <c70392bb-bda1-48c7-824e-23d6f92f54ef@linaro.org>
- <20240920170949.vp3642gghhey3pjb@hu-akhilpo-hyd.qualcomm.com>
- <29fee642-440a-4b68-909b-a7c391d5a842@gmail.com>
- <CAF6AEGsuduEZDAg3nMpEiaA8nMO4fR8cH8j3k+K160+CvzaO6Q@mail.gmail.com>
- <20240924152225.tf6etddoiuiusber@hu-akhilpo-hyd.qualcomm.com>
-Content-Language: en-US
-From: Antonino Maniscalco <antomani103@gmail.com>
-In-Reply-To: <20240924152225.tf6etddoiuiusber@hu-akhilpo-hyd.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 9/24/24 5:22 PM, Akhil P Oommen wrote:
-> On Tue, Sep 24, 2024 at 07:47:12AM -0700, Rob Clark wrote:
->> On Tue, Sep 24, 2024 at 4:54 AM Antonino Maniscalco
->> <antomani103@gmail.com> wrote:
->>>
->>> On 9/20/24 7:09 PM, Akhil P Oommen wrote:
->>>> On Wed, Sep 18, 2024 at 09:46:33AM +0200, Neil Armstrong wrote:
->>>>> Hi,
->>>>>
->>>>> On 17/09/2024 13:14, Antonino Maniscalco wrote:
->>>>>> This series implements preemption for A7XX targets, which allows the GPU to
->>>>>> switch to an higher priority ring when work is pushed to it, reducing latency
->>>>>> for high priority submissions.
->>>>>>
->>>>>> This series enables L1 preemption with skip_save_restore which requires
->>>>>> the following userspace patches to function:
->>>>>>
->>>>>> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30544
->>>>>>
->>>>>> A flag is added to `msm_submitqueue_create` to only allow submissions
->>>>>> from compatible userspace to be preempted, therefore maintaining
->>>>>> compatibility.
->>>>>>
->>>>>> Preemption is currently only enabled by default on A750, it can be
->>>>>> enabled on other targets through the `enable_preemption` module
->>>>>> parameter. This is because more testing is required on other targets.
->>>>>>
->>>>>> For testing on other HW it is sufficient to set that parameter to a
->>>>>> value of 1, then using the branch of mesa linked above, `TU_DEBUG=hiprio`
->>>>>> allows to run any application as high priority therefore preempting
->>>>>> submissions from other applications.
->>>>>>
->>>>>> The `msm_gpu_preemption_trigger` and `msm_gpu_preemption_irq` traces
->>>>>> added in this series can be used to observe preemption's behavior as
->>>>>> well as measuring preemption latency.
->>>>>>
->>>>>> Some commits from this series are based on a previous series to enable
->>>>>> preemption on A6XX targets:
->>>>>>
->>>>>> https://lkml.kernel.org/1520489185-21828-1-git-send-email-smasetty@codeaurora.org
->>>>>>
->>>>>> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
->>>>>> ---
->>>>>> Changes in v4:
->>>>>> - Added missing register in pwrup list
->>>>>> - Removed and rearrange barriers
->>>>>> - Renamed `skip_inline_wptr` to `restore_wptr`
->>>>>> - Track ctx seqno per ring
->>>>>> - Removed secure preempt context
->>>>>> - NOP out postamble to disable it instantly
->>>>>> - Only emit pwrup reglist once
->>>>>> - Document bv_rptr_addr
->>>>>> - Removed unused A6XX_PREEMPT_USER_RECORD_SIZE
->>>>>> - Set name on preempt record buffer
->>>>>> - Link to v3: https://lore.kernel.org/r/20240905-preemption-a750-t-v3-0-fd947699f7bc@gmail.com
->>>>>>
->>>>>> Changes in v3:
->>>>>> - Added documentation about preemption
->>>>>> - Use quirks to determine which target supports preemption
->>>>>> - Add a module parameter to force disabling or enabling preemption
->>>>>> - Clear postamble when profiling
->>>>>> - Define A6XX_CP_CONTEXT_SWITCH_CNTL_LEVEL fields in a6xx.xml
->>>>>> - Make preemption records MAP_PRIV
->>>>>> - Removed user ctx record (NON_PRIV) and patch 2/9 as it's not needed
->>>>>>      anymore
->>>>>> - Link to v2: https://lore.kernel.org/r/20240830-preemption-a750-t-v2-0-86aeead2cd80@gmail.com
->>>>>>
->>>>>> Changes in v2:
->>>>>> - Added preept_record_size for X185 in PATCH 3/7
->>>>>> - Added patches to reset perf counters
->>>>>> - Dropped unused defines
->>>>>> - Dropped unused variable (fixes warning)
->>>>>> - Only enable preemption on a750
->>>>>> - Reject MSM_SUBMITQUEUE_ALLOW_PREEMPT for unsupported targets
->>>>>> - Added Akhil's Reviewed-By tags to patches 1/9,2/9,3/9
->>>>>> - Added Neil's Tested-By tags
->>>>>> - Added explanation for UAPI changes in commit message
->>>>>> - Link to v1: https://lore.kernel.org/r/20240815-preemption-a750-t-v1-0-7bda26c34037@gmail.com
->>>>>>
->>>>>> ---
->>>>>> Antonino Maniscalco (11):
->>>>>>          drm/msm: Fix bv_fence being used as bv_rptr
->>>>>>          drm/msm/A6XX: Track current_ctx_seqno per ring
->>>>>>          drm/msm: Add a `preempt_record_size` field
->>>>>>          drm/msm: Add CONTEXT_SWITCH_CNTL bitfields
->>>>>>          drm/msm/A6xx: Implement preemption for A7XX targets
->>>>>>          drm/msm/A6xx: Sync relevant adreno_pm4.xml changes
->>>>>>          drm/msm/A6xx: Use posamble to reset counters on preemption
->>>>>>          drm/msm/A6xx: Add traces for preemption
->>>>>>          drm/msm/A6XX: Add a flag to allow preemption to submitqueue_create
->>>>>>          drm/msm/A6xx: Enable preemption for A750
->>>>>>          Documentation: document adreno preemption
->>>>>>
->>>>>>     Documentation/gpu/msm-preemption.rst               |  98 +++++
->>>>>>     drivers/gpu/drm/msm/Makefile                       |   1 +
->>>>>>     drivers/gpu/drm/msm/adreno/a2xx_gpu.c              |   2 +-
->>>>>>     drivers/gpu/drm/msm/adreno/a3xx_gpu.c              |   2 +-
->>>>>>     drivers/gpu/drm/msm/adreno/a4xx_gpu.c              |   2 +-
->>>>>>     drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |   6 +-
->>>>>>     drivers/gpu/drm/msm/adreno/a6xx_catalog.c          |   7 +-
->>>>>>     drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 325 ++++++++++++++-
->>>>>>     drivers/gpu/drm/msm/adreno/a6xx_gpu.h              | 174 ++++++++
->>>>>>     drivers/gpu/drm/msm/adreno/a6xx_preempt.c          | 440 +++++++++++++++++++++
->>>>>>     drivers/gpu/drm/msm/adreno/adreno_gpu.h            |   9 +-
->>>>>>     drivers/gpu/drm/msm/msm_drv.c                      |   4 +
->>>>>>     drivers/gpu/drm/msm/msm_gpu.c                      |   2 +-
->>>>>>     drivers/gpu/drm/msm/msm_gpu.h                      |  11 -
->>>>>>     drivers/gpu/drm/msm/msm_gpu_trace.h                |  28 ++
->>>>>>     drivers/gpu/drm/msm/msm_ringbuffer.h               |  18 +
->>>>>>     drivers/gpu/drm/msm/msm_submitqueue.c              |   3 +
->>>>>>     drivers/gpu/drm/msm/registers/adreno/a6xx.xml      |   7 +-
->>>>>>     .../gpu/drm/msm/registers/adreno/adreno_pm4.xml    |  39 +-
->>>>>>     include/uapi/drm/msm_drm.h                         |   5 +-
->>>>>>     20 files changed, 1117 insertions(+), 66 deletions(-)
->>>>>> ---
->>>>>> base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
->>>>>> change-id: 20240815-preemption-a750-t-fcee9a844b39
->>>>>>
->>>>>> Best regards,
->>>>>
->>>>> I've been running vulkan-cts (1.3.7.3-0-gd71a36db16d98313c431829432a136dbda692a08 from Yocto)
->>>>> on SM8650-QRD, SM8550-QRD & SM8450-HDK boards with enable_preemption in default value
->>>>> and forced to 1, and I've seen no regression so far
->>>>>
->>>>> On SM8550, I've seen a few:
->>>>> platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0 [msm]] *ERROR* Message HFI_H2F_MSG_GX_BW_PERF_VOTE id 2743 timed out waiting for response
->>>>> platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0 [msm]] *ERROR* Unexpected message id 2743 on the response queue
->>>>> but it's unrelated to preempt
->>>>>
->>>>> and on SM8450:
->>>>> platform 3d6a000.gmu: [drm:a6xx_gmu_set_oob [msm]] *ERROR* Timeout waiting for GMU OOB set GPU_SET: 0x0
->>>>> msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] *ERROR* 7.3.0.1: hangcheck detected gpu lockup rb 0!
->>>>> msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] *ERROR* 7.3.0.1:     completed fence: 331235
->>>>> msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] *ERROR* 7.3.0.1:     submitted fence: 331236
->>>>> adreno 3d00000.gpu: [drm:a6xx_irq [msm]] *ERROR* gpu fault ring 0 fence 50de4 status 00800005 rb 0000/0699 ib1 0000000000000000/0000 ib2 0000000000000000/0000
->>>>> msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR* 7.3.0.1: hangcheck recover!
->>>>> msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR* 7.3.0.1: offending task: deqp-vk (/usr/lib/vulkan-cts/deqp-vk)
->>>>> msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR* 7.3.0.1: hangcheck recover!
->>>>> leading to a VK_ERROR_DEVICE_LOST, but again unrelated to preempt support.
->>>>>
->>>>> So you can also add:
->>>>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
->>>>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8450-HDK
->>>>>
->>>>
->>>> Niel,
->>>>
->>>> On my x1e device, all submissions were somehow going into only a single
->>>> ring, even the compositor's. Not sure why. So effectively preemption was
->>>> not really exercised. I had to force one of the two benchmark I ran
->>>> using the "highprio" mesa debug flag force submittions to ring 0.
->>>
->>> I think that is because GL applications (so most compositors) run
->>> through zink which does not forward GL preemption to vulkan so yeah, for
->>> GL applications the only way of getting preemption is the debug flag.
->>
->> I guess if it is mesa 24.2.x or newer it would be using the gallium
->> driver.  Which I guess would need xAMBLE stuff wired up.  Outside of
->> fd6_emit_restore() and fd6_gmem.cc there isn't really any state emit
->> in IB1, so I guess it probably wouldn't be too hard to get preemption
->> support wired up.
->>
->> BR,
->> -R
->>
->>> Unfortunately this is not easy to fix in Zink because it creates one
->>> VkDevice at screen creation and uses it for all GL contexts. Since GL
->>> priority is provided per context and at context creation time Zink has
->>> no way of handling this.
->>>
->>> Once TU will support more than one queue it will be possible for Zink to
->>> create one queue per priority then pick one at context creation time.
->>> Doing so would require a new vulkan extension for per queue global
->>> priority. I had started working on this some time ago
->>> https://gitlab.freedesktop.org/antonino/mesa/-/tree/priority_ext?ref_type=heads
->>> but this solution will only be viable once TU can expose more than one
->>> queue.
->>>
-> 
-> Thanks, both of you for the clarification. Glad about the
-> improvements planned for both freedreno and zink.
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.6_LTS_2024.1_update
+head:   5365c13a86998da06d845c918f849b30b8735538
+commit: 1dfb4885eaa39fb3269b13eee7d97481c409b8bb [703/1001] arm64: zynqmp: Add/Update/Sync DTs for xilinx platforms
+reproduce: (https://download.01.org/0day-ci/archive/20240925/202409250603.7achimjs-lkp@intel.com/reproduce)
 
-Np!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409250603.7achimjs-lkp@intel.com/
 
-BTW Thanks for all the reviews.
+All warnings (new ones prefixed by >>):
 
-> 
-> -Akhil.
-> 
->>>>
->>>> If possible it is a good idea to check the new preemption traces to
->>>> ensure preemption kicks in.
->>>>
->>>> -Akhil
->>>>
->>>>> Thanks,
->>>>> Neil
->>>
->>>
->>> Best regards,
->>> --
->>> Antonino Maniscalco <antomani103@gmail.com>
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml references a file that doesn't exist: Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
+   Warning: Documentation/trace/coresight/coresight.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm,coresight-
+   Warning: Documentation/usb/gadget_uvc.rst references a file that doesn't exist: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
+>> Warning: arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a file that doesn't exist: Documentation/hwmon/pmbus
+>> Warning: arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a file that doesn't exist: Documentation/hwmon/pmbus
+>> Warning: arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a file that doesn't exist: Documentation/hwmon/pmbus
+>> Warning: arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a file that doesn't exist: Documentation/hwmon/pmbus
+>> Warning: arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a file that doesn't exist: Documentation/hwmon/pmbus
+>> Warning: arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a file that doesn't exist: Documentation/hwmon/pmbus
+>> Warning: arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a file that doesn't exist: Documentation/hwmon/pmbus
+>> Warning: arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a file that doesn't exist: Documentation/hwmon/pmbus
+>> Warning: arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a file that doesn't exist: Documentation/hwmon/pmbus
+>> Warning: arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a file that doesn't exist: Documentation/hwmon/pmbus
+>> Warning: arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a file that doesn't exist: Documentation/hwmon/pmbus
+>> Warning: arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a file that doesn't exist: Documentation/hwmon/pmbus
+>> Warning: arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a file that doesn't exist: Documentation/hwmon/pmbus
+>> Warning: arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a file that doesn't exist: Documentation/hwmon/pmbus
+>> Warning: arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a file that doesn't exist: Documentation/hwmon/pmbus
+>> Warning: arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a file that doesn't exist: Documentation/hwmon/pmbus
+>> Warning: arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a file that doesn't exist: Documentation/hwmon/pmbus
+>> Warning: arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a file that doesn't exist: Documentation/hwmon/pmbus
+>> Warning: arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a file that doesn't exist: Documentation/hwmon/pmbus
+>> Warning: arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a file that doesn't exist: Documentation/hwmon/pmbus
+   Warning: arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a file that doesn't exist: Documentation/hwmon/pmbus
+   Warning: arch/arm64/boot/dts/xilinx/zynqmp-p-a2197-00-revA.dts references a file that doesn't exist: Documentation/hwmon/pmbus
+   Warning: kernel/Kconfig.kexec references a file that doesn't exist: file:Documentation/s390/zfcpdump.rst
+   Warning: mm/hugetlb_vmemmap.h references a file that doesn't exist: Documentation/vm/vmemmap_dedup.rst
+   Warning: tools/power/cpupower/man/cpupower-powercap-info.1 references a file that doesn't exist: Documentation/power/powercap/powercap.txt
 
-
-Best regards,
 -- 
-Antonino Maniscalco <antomani103@gmail.com>
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
