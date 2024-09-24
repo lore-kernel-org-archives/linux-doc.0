@@ -1,298 +1,245 @@
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2050.outbound.protection.outlook.com [40.107.92.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 907FA1B85F0;
-	Tue, 24 Sep 2024 14:47:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727189247; cv=none; b=T/5OFyECwcIoLg3H0I+EmA/mpmq+CjJk4WG0Zl+IvImHWXiWRb6tW/R9WPl/fLFoLL7ILlY3KRRvixGkG024KDZfNZFKaGnASyx8uya3HV+GKJhEDA9WKT4lVdebmifXZy33hrLoCgi/aQTRNJueRbAC5TUoGzeC6VKgWyT51D8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727189247; c=relaxed/simple;
-	bh=IqUDUyfVZYRw+PRP3gueXbE7d4uAPoB6kc7tGX9XT3A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=E2CirVpDC8mVIflU1ellDAzFS8wgkrTzh8nDuEH7ahavL2tytwmk89hN8/dyGxF13Q0nHtPEUuj/cgrnKiaqycHSFzUeXKISXw50vfOe6Jq97nB3xHXJvOv6KPCZspSI/vrYKr4dPxn8TO1+JTKIClSayx+shYQ3VqCOZcnLdSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TXoZL5sI; arc=none smtp.client-ip=209.85.166.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB831A7AD6;
+	Tue, 24 Sep 2024 14:51:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727189513; cv=fail; b=OwX/Qrubcckuir2plWDzkmFOYHwWeVsSd7EchWS7kJdiGtwHdu7S3myTJy9XReONoGR8BMhdwUhWNquC6uhv3yxL3WotvyWyBww65nHwmPWWr5h0f/VDhu6vv5uorpa1hMf4n7PF31YZBXxJFV1otd8kXg4fx1sPBThHEpvK4k8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727189513; c=relaxed/simple;
+	bh=V63Gq/LR37+3+Kp2WeVdk6PdVm9PHNYp6mQKbhQs4iI=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=IAXPZ0In5jIXyKcXlioUyBc03IyyO3XvMiUexwtT4bEdpoGotl9nuWmHvEKlvXsgfop03EVtal+fGyztyolALP4iFE9FCgCkd5INQmACXfLerWhcP5Mqaqg6IgdN9QGOuUkyuOtS6KOHO/6spF38pqswy7ZAadvUihHrSI5o+CY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=1CxYvEvn; arc=fail smtp.client-ip=40.107.92.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TXoZL5sI"
-Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-39f56df0ddbso22945325ab.3;
-        Tue, 24 Sep 2024 07:47:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727189245; x=1727794045; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HsEmqJOLO2eBeOeOf0nLDNcG4RwT4V7VjqELFDqkDTw=;
-        b=TXoZL5sIMHR4vk2+/a4GsvdGqGBc5dpGG9wkd7/WGFhV7iPHSocv/CM+co6VW+Bnc+
-         iJCiE286FjNng3JDWrA00GDd4f86Ug2UPtlFtZDfHYRsQ4yuKwbikiQbY/uQ9RMhJ0g+
-         tVj1KCI3FJYkk+uUT6W38x32CoruSa2VAfBVXRqnFfGU09NsbWONwgx7zSNfMrkyh73A
-         +gM6VsEVqmTrA7ixddII+NHWF2LnIegOg8WKnaklSxjWb4ZsjlUDT1wF4FB6WSuPf2QV
-         asSeXaqQZ/SU9vVLZC0VkGaBb6NcxAS/38PfnEMaH4YfkiEKJXFVt5wRkBzUFGiZ+6TJ
-         0Hvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727189245; x=1727794045;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HsEmqJOLO2eBeOeOf0nLDNcG4RwT4V7VjqELFDqkDTw=;
-        b=ZaW9sVzRVNAgP/Wfjf9F7ZPW7cMNmaC+rpwEw1JVkM9rmiKe7v4WFxK9+IBx8KxtQ+
-         Yv1jKmz0tzb5Sc7dTUlhNJe69L1dMgrQayle6UY8aSUf+Q8TuEeglA6jIKuq9A8Z1eql
-         7Mj/q2FrZ4CjykCR4d+bDWEC5KG4dGpHmUr+vWGzoRxe678YkE1GNiRRQZ/xH1GshevS
-         f+YK+U603FY20g6IHpPXWKoG4kfd7FlrV0c5959MfKcGOmx5ya2yh5bqmRtYBWXfVDyy
-         spHkSVKikbBcETW66vkGKzFirFsbE/yO77i3xWKGTaWP/buDC9t2BTFUxHAokRFYEt+1
-         v+xg==
-X-Forwarded-Encrypted: i=1; AJvYcCUagH5/mocptDgu4D9LyKCiMYEtZsP+vNYpBgWxBS8mMI5BOxpu8PCtJ0xvv4+5CMIvi0jMINuAkpGcrGjO@vger.kernel.org, AJvYcCVmhTlZ4gM56alyQiIMk770xZbiZHmbnu0fkKOg6gXNmZItySS/ZuKHKfkL3x52TjxjL3nj8d89q3IV@vger.kernel.org, AJvYcCX05yA6YMeEVQckDR6N3Oxmyq2JcKVdR/oZ33W+BmWmWMJrcSf/uO5bm0aJuwmRX9qp37oOhhGvpW11DQsr@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUQr1JV22OXRD/ciLTNHae5nohNOpPkwqP9ts4Xj37suSIzUUC
-	jXEK2uzs0gQ18E+3SdtO4FtRhqCzG5xrDLhM/S46occQlzDAwKtdKAHOk6z0qbGCkJIe3yEY3V0
-	NvoNsQn5E1+6oEoXgixbXqTxP7SI=
-X-Google-Smtp-Source: AGHT+IFJLMrjpO5yi0rHrAcb5QUSCfKd8ZIHmsDwa9zyp5KqjYQYmFmdq1GOX7V9MhgsOnd3febKO3AK7QLfKrsQwLo=
-X-Received: by 2002:a05:6e02:1521:b0:3a0:8d8a:47c with SMTP id
- e9e14a558f8ab-3a0c8cd7f8amr147017525ab.14.1727189244535; Tue, 24 Sep 2024
- 07:47:24 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="1CxYvEvn"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=zTQnj2RGnQoglPUNG18iGSh+7th/stsW2mHTduB9B9iLCKD/twqH4pP2Gh5xIvQ1XPTqaUwZuuj93QGLTM0lt5GGXtcKmAJLi7LsF6FBv7ZltiXn1TBTJuUBkt3flobopM7IxzPDvi1Zpx1xRNTwyyYngndlY8yN57IkBZ1fiBjoPl5wjSpDAHzK4lGB8Iu/uY1pDJPlTitIERhA02V4y9HA4YLaitq0nhukxoPZlOHJQhkHFCy0LHphtJPQirV7eDN2D5KVHeVpJC7j7R+f3uWa0X1qwSy3aee41VZGqj8AXw45pr+TpbIwLv+AhNGGw9vn2ZHYa+BL3YEl7ntfuw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0wooYgKP7vO+BfXo1/d71bwhMh0Wvm43IQ+wpCh1rXE=;
+ b=N6pVCDmt9IZLbKdGtVjL4KuONurU76+Cd8+y+oMIY0x3XZkbv/q80F06LK8o9J6VI0tqBe862tyvxGQ5IijX0RIqSmfhRMgfYcgqI3A0GHQgDyyNLR8/9F9Hh6EX1FtpcOXwe0SsSV2LOUbuipCZ52Pr5hQ4ySNun2gWj5v3NZUyRx0iLTy9KWqzW0I8h/7YWNXyjhy5XkYjOr+T0wDjf780qyQ4mVifw15nHwy3Mtd0qIHx5lwt4WVF0ItjWPnhSvsP0lir5rC76FFKIdeqhj4IuZ2mDYitJYGRlKoUmJFYyXmG2FtUMFL0r5VNXi9eiXfD0LP/72kM9NyhMrTW+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0wooYgKP7vO+BfXo1/d71bwhMh0Wvm43IQ+wpCh1rXE=;
+ b=1CxYvEvn01lwFgiJx9mUc+aXsp0rkegBryOaR1aVi1JqdBt5+FQA8rYs6oXl7fhpg510zpFHNyGRy/BN6NP/la4dkYRNoTJQUIM4akKQzT2oSXtpeIY1rQbRvj1UDvh8Y5JnVD5NlEaJSxilRXnHW50+2riy1y4yWZCGZ63zRkU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by SA0PR12MB7076.namprd12.prod.outlook.com (2603:10b6:806:2d5::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.28; Tue, 24 Sep
+ 2024 14:51:48 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.7982.022; Tue, 24 Sep 2024
+ 14:51:48 +0000
+Message-ID: <a8055c81-331f-4204-9069-3a7d1b3594f0@amd.com>
+Date: Tue, 24 Sep 2024 09:51:43 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v7 13/24] x86/resctrl: Add data structures and definitions
+ for ABMC assignment
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
+ tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
+ kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
+ jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
+ rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
+ jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
+ ilpo.jarvinen@linux.intel.com, peternewman@google.com,
+ maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
+References: <cover.1725488488.git.babu.moger@amd.com>
+ <e0520492d3417df6f708c7ff7b9163b64843fc77.1725488488.git.babu.moger@amd.com>
+ <02f1a542-f642-4efd-898a-a604e3a741f9@intel.com>
+ <520817d3-6521-4320-b6a2-d0695a5d3699@amd.com>
+ <5093395d-d8b7-482c-825a-5b87df7aecfa@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <5093395d-d8b7-482c-825a-5b87df7aecfa@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA0PR11CA0090.namprd11.prod.outlook.com
+ (2603:10b6:806:d2::35) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240917-preemption-a750-t-v4-0-95d48012e0ac@gmail.com>
- <c70392bb-bda1-48c7-824e-23d6f92f54ef@linaro.org> <20240920170949.vp3642gghhey3pjb@hu-akhilpo-hyd.qualcomm.com>
- <29fee642-440a-4b68-909b-a7c391d5a842@gmail.com>
-In-Reply-To: <29fee642-440a-4b68-909b-a7c391d5a842@gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 24 Sep 2024 07:47:12 -0700
-Message-ID: <CAF6AEGsuduEZDAg3nMpEiaA8nMO4fR8cH8j3k+K160+CvzaO6Q@mail.gmail.com>
-Subject: Re: [PATCH v4 00/11] Preemption support for A7XX
-To: Antonino Maniscalco <antomani103@gmail.com>
-Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	Marijn Suijten <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-arm-msm@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Sharat Masetty <smasetty@codeaurora.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|SA0PR12MB7076:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6d01a639-52f9-40e3-a9fb-08dcdca86aa5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?bzkrUHFmWEVZb0M0a1BmZmllNEx5YlNGcEZDVS93Z0hEUXg2VDZ2MjRGZUh5?=
+ =?utf-8?B?amZYOXBEV0x0aXo3Qm9yb0ZaM0Y0MXErNzZHREE1UlZtamZHNEFQZ3pXK3lt?=
+ =?utf-8?B?RjFBWjBCbjRpYWV4bk1TdW1CUGoyTG1LVGVSMlgxWnl2d0JCRzJvVWMxQ3B6?=
+ =?utf-8?B?KzZBQWNxS1lEamxManVtcm44M092Njk5SThQTGdOL2ZtY3JHb05sTklmMG1Z?=
+ =?utf-8?B?SjNMc3VSd0M4clp5UDJWTEJ6b2Q2OW5FdWNLRTNGWHZ2UnN2a0swTE1FK2hF?=
+ =?utf-8?B?WENEMWoxVWVRN01BS09YWk02NS8wSlNZNlVPNlpLcEgrc21aVFpCTkRJS1ZK?=
+ =?utf-8?B?dGEvUkN5QjhqenM3aHlIc3ZuTEhBOXEwUE5rUVVEaEpvR0NCUDlMRGF3OHVH?=
+ =?utf-8?B?aXZMcERTWk1TMXJrTGsrNllTNEFDaXRkSTVTcWdISUZOQ3VVL3BTVFdRR3c4?=
+ =?utf-8?B?dmh1Z3dmTU9JZThSeXZReStVVXBld0Nmc3hId0p5c3VJUXNaS2FKNzkyVC83?=
+ =?utf-8?B?L24xNFkvZ2M1SGZ2SVlKZzEza0xVS3U4c2Q3dlhxNW1OYnBGbGppZVFEbG14?=
+ =?utf-8?B?Ym9sbnVESnNjYkRBY3RMVGU2NTdGRkQ1ZkhJSW1YY3R1OENaT1p5SklvYUJv?=
+ =?utf-8?B?bmZMU1UrQWZoRmhNRmc3SWxsS2JXeThhUFdlSW1EcU85SUpDQi96ODRGTTlQ?=
+ =?utf-8?B?bG0zMnBwMlM5eWVvRDY0cDQ5ckdUUVNPTGFpN1F5TjdUTG03U1docVVheEpu?=
+ =?utf-8?B?NGVnR0NMR2NkV0FrQ3JCSHVJTVJkTXpnZGZLdXprZVZoNE9XdU5MNjlBakRQ?=
+ =?utf-8?B?WkdaVHZmMGUwWGdnZUh0MSsrSGFVZzkvb2dIa1JoZ2FCOUFxTldJb3pGQWYv?=
+ =?utf-8?B?V2dFZEJBdGx2ODBTbXIyUGI5TFk1NXhDcEFkcXREYXdHZ0JKcnNvUkp2MitD?=
+ =?utf-8?B?SDJ0K0tzQUYvK1NyakxSaFVVL21GblRDMkVScm0vYThsTVhGNG1MWC9iS3V1?=
+ =?utf-8?B?ZzFTeVhTMHJ1YzZhQlY3ZlVnV2s2RG1ISnlvOWhMcDRsdG5CaXkwTUxBQWRI?=
+ =?utf-8?B?TEhoQ2hMcFZQeWtCVmlPdktxOUMrbFlxN00rSFlwbVFlRnhxVGhvbHRIQWtz?=
+ =?utf-8?B?eXhIaUt0cjdhOGRRU0tST21iVEFmVVlhWmpOdCttbHdDcnc3MGNWa0wvTGt4?=
+ =?utf-8?B?WS9LYWJiRGNEM3M3TGVmc2thTkR1L2NYV0gveEl6Nk1sajVaMVZZbFZhNDZk?=
+ =?utf-8?B?aStLaUgyMXozcjVkdW9CZndYNCtwSHpheUNMTHIwU0F4TFkrZDJramErcnFv?=
+ =?utf-8?B?b1RiTkZDcm9tZ2VSdkJMN2FKYXk2cVJQeWxxczUvQnl6bDBhR1F6cVpLVWNO?=
+ =?utf-8?B?MmlXNkZTOEZkbEZmRDYrdHo1dWR0SXdTeG5qS2srdWdXZUc1SlZGWW9kMnY0?=
+ =?utf-8?B?VHAzTzI4T3pPSnZIWGR2RmFZY2hWcXk5TDltT0NvbVV5MHovZzNHNndSdFVY?=
+ =?utf-8?B?a1RBMHVDNExXVHFUWkxWTGpTYURjYnhudkRmZlR4anNBNzl3dWYrQll4amFx?=
+ =?utf-8?B?dUxjTEE2YmQyaFVlZ2NzRkJSMEpKZTNycTNIZE9yMmZySWdORDUwSXVwRzVM?=
+ =?utf-8?B?Y0ZKQ2pIZDFPaUdGSExmSUdneE4yakoyUEt5ZkZFZnVUdW1Zb2xQbGZxTUk2?=
+ =?utf-8?B?VXJRcFdxZVJPSnpaQ2hiVmJqZWpidlYrR0toL0FTQzRaTkhNdWkzZ2VnPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TFF0UXBVRWRQSnNrVHFudVdrOU94Mkp3Y3gydzNYMUZ3bVNPbGh2Nm5uMWo2?=
+ =?utf-8?B?TVpwRkhpais5RUdLTUk5a0ZFNkR6ZTRtZk9rdUUvWGxaa2QxaW5ZMmNkNndt?=
+ =?utf-8?B?TjY2ZE4rc25UTVhENmFEcW1yYVJJV3ZrRk1vYWYrOFhGRVUzemIzQlhhK1dM?=
+ =?utf-8?B?cndYNUV6bWdOdTA3VXhYbDhIRmRkVzg5ejBtc0Y0aGhpUDNFTjNHM1lhdVNi?=
+ =?utf-8?B?cjNxUWZHOW5qclRaU3ZaTzR2cFhDNCt6U1g3UWliRmpKd1NYTDMyTTFGdnQ2?=
+ =?utf-8?B?QlluOG1HZmx5ZVVKeFRjRTAzN0lNWDZEd3RzeElRQjlnZnFjWmZzKzNIV3Nn?=
+ =?utf-8?B?QlFxQXZpNVgzNGNxYVRwTmhnNEtabDBienQwVzZGYndMSmt1Sk1qbktYTUht?=
+ =?utf-8?B?K1U5cDhzZ3M0MG1zbGl5WXRuY2RZT3kxZk9oR2FTWEVncXdSN2FuMjU5RGdy?=
+ =?utf-8?B?bWhDSSs1OUw0OGRNcU1rOUFTdWpEa3ptMGJxRU45ZmxiODhwK1ZzYkZodkFn?=
+ =?utf-8?B?b3RBdkppL1EwMytTZ2pSUVVzdGNScXRnQjYvdHJHTC94SkdKdUhEdlI4UGlN?=
+ =?utf-8?B?bUtFZXJNNWU1KzBjVXQ4ZDJzSk5yTERMQlRyVDUwZHR2SmtldHBET2tEanBT?=
+ =?utf-8?B?dzJJcnNSVm8yK0MyemlpY0VqSVdhclpFTGJsd05yMWQ0UVBFTHN2cHZCRS9U?=
+ =?utf-8?B?NTl1NUxxZ3NRN09SQ3lsQll2YUJKRUxINW9vaTFSYU94Zkl6S0hGSU1lYmJS?=
+ =?utf-8?B?RVQ1dHZFakYvT0FDblJVTkg4eFBYQ1dpeXZNWDdKYzlycWswRnJNcDNPcDFs?=
+ =?utf-8?B?VXZraUtBcFJsTm96UDZ3UGUxVVB3ZlpVSHVRc20vOElINEFTVFV0c1pvUVUr?=
+ =?utf-8?B?Wnl0alhYUEEySW1EN205QjBSamtLM2NvRHVEK3ZLV1VFZ055K0UwWFBOT1Nm?=
+ =?utf-8?B?RUtnWnYybmdTNDJPMmRZYndoSi9CaC8wc1RtZzNuQktVSUZlR0V3a0U5VHoz?=
+ =?utf-8?B?SDRSSGRnRFVSNEhjUzVvRy9BWlhlNTdncU1QeVdnNWlxVjNwYWFsRk9ZTFlq?=
+ =?utf-8?B?UnJaRmxwek5sSlhla1VXU05lZG5iRFRTNWF3MU5oZ2ZSZm12M3k1WDhoRGlI?=
+ =?utf-8?B?dmNwZStSTDI5VkJBSS9XRjdJTTlxK1VrYkI2Q0hBNTk3d2Z6UEVYZUdCZ0V2?=
+ =?utf-8?B?WjJjNVFjaEZ1bWR6QkZDS3NuaDJML3NhemExSWJISFNtOE1Gc3lLRXBxemhp?=
+ =?utf-8?B?VWdxM1hCb05yWnFjdHE5ckt4b3BJbmV6Vjh1REtvMXVVMHloTS9TSjBiN25V?=
+ =?utf-8?B?dTJTZUV6eVA0dDBxYWpuZmJ2NGVic0J5ZmtkcUdPQzRoMkNiRTJsT1puNzI1?=
+ =?utf-8?B?WkhkZk9rSVozeFhrbzY2cjZqaTlYK2tFeEJDeGpLVll3Q2x4VHlpYjh3eVJw?=
+ =?utf-8?B?NnJWV0VWV09QZk5mTXRycXpzaDA5RmRraHlNRW9RLzN2dE4xT1krTGljOWYy?=
+ =?utf-8?B?VXVRcTNEWFNPSVhIbEFqTnFnSjJGUDFZWENhbzBDc01aQ0hXaUFOMjVLQWdp?=
+ =?utf-8?B?ZHlLaFBsZ29rR2tuTDRtSmljeEphY21GMkhJc1NVRklxUEd3NWdmVXhIWVV4?=
+ =?utf-8?B?NDhnSjB5cUJJaVVsdkxWc3p0Qk1TcWVqL0tXNndZSDZaQk9nTlZDVnk3a1NC?=
+ =?utf-8?B?Si9XNzd2VHNrbURIaTJuMVYxeExTQWZpdGxzbG9WemRlN3pPRkVJUzNER25W?=
+ =?utf-8?B?MlgyT2lJLy9hcVFJZFF4Mng4MHhEeEtTWWxvUXBnSmlkcnNNVXVZdkc4Zjdn?=
+ =?utf-8?B?UVhuUW1lL1k0blhLVW5EbVhFalU5K2VRek5wN2FxMGtTQUJRUUhGVnZ4Rmc1?=
+ =?utf-8?B?QW1NVTQwSU9CTzVZbW03TXlITDRyUU4wejFEMWFONk1rZXhRcHRONnUxSi9l?=
+ =?utf-8?B?MVdvY1d3Y0RDQ0FjWmgzNkNVZHZCMGNrWVhaUnlBTDNiTkd0dEFrbjd3bmxQ?=
+ =?utf-8?B?U3J0SlBxUWlnTXRXM0JjT24vNXgzR0s2QVc4YWRKYktxUkdvZlZuN1ZOcUpx?=
+ =?utf-8?B?NUZBVnY2eGlUQW5VOFFib1hETjVIeHUyUXFVaXh1dWVWVHdyTmlUT2tJRENN?=
+ =?utf-8?Q?AHhc=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6d01a639-52f9-40e3-a9fb-08dcdca86aa5
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2024 14:51:48.3127
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IOuwyUQ5hpSkw+ug3O1k5gu9cMSsDaSG0CoBgpZ2LWVjc1Tv1Jj7qzz/76zlM93t
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB7076
 
-On Tue, Sep 24, 2024 at 4:54=E2=80=AFAM Antonino Maniscalco
-<antomani103@gmail.com> wrote:
->
-> On 9/20/24 7:09 PM, Akhil P Oommen wrote:
-> > On Wed, Sep 18, 2024 at 09:46:33AM +0200, Neil Armstrong wrote:
-> >> Hi,
-> >>
-> >> On 17/09/2024 13:14, Antonino Maniscalco wrote:
-> >>> This series implements preemption for A7XX targets, which allows the =
-GPU to
-> >>> switch to an higher priority ring when work is pushed to it, reducing=
- latency
-> >>> for high priority submissions.
-> >>>
-> >>> This series enables L1 preemption with skip_save_restore which requir=
-es
-> >>> the following userspace patches to function:
-> >>>
-> >>> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30544
-> >>>
-> >>> A flag is added to `msm_submitqueue_create` to only allow submissions
-> >>> from compatible userspace to be preempted, therefore maintaining
-> >>> compatibility.
-> >>>
-> >>> Preemption is currently only enabled by default on A750, it can be
-> >>> enabled on other targets through the `enable_preemption` module
-> >>> parameter. This is because more testing is required on other targets.
-> >>>
-> >>> For testing on other HW it is sufficient to set that parameter to a
-> >>> value of 1, then using the branch of mesa linked above, `TU_DEBUG=3Dh=
-iprio`
-> >>> allows to run any application as high priority therefore preempting
-> >>> submissions from other applications.
-> >>>
-> >>> The `msm_gpu_preemption_trigger` and `msm_gpu_preemption_irq` traces
-> >>> added in this series can be used to observe preemption's behavior as
-> >>> well as measuring preemption latency.
-> >>>
-> >>> Some commits from this series are based on a previous series to enabl=
-e
-> >>> preemption on A6XX targets:
-> >>>
-> >>> https://lkml.kernel.org/1520489185-21828-1-git-send-email-smasetty@co=
-deaurora.org
-> >>>
-> >>> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
-> >>> ---
-> >>> Changes in v4:
-> >>> - Added missing register in pwrup list
-> >>> - Removed and rearrange barriers
-> >>> - Renamed `skip_inline_wptr` to `restore_wptr`
-> >>> - Track ctx seqno per ring
-> >>> - Removed secure preempt context
-> >>> - NOP out postamble to disable it instantly
-> >>> - Only emit pwrup reglist once
-> >>> - Document bv_rptr_addr
-> >>> - Removed unused A6XX_PREEMPT_USER_RECORD_SIZE
-> >>> - Set name on preempt record buffer
-> >>> - Link to v3: https://lore.kernel.org/r/20240905-preemption-a750-t-v3=
--0-fd947699f7bc@gmail.com
-> >>>
-> >>> Changes in v3:
-> >>> - Added documentation about preemption
-> >>> - Use quirks to determine which target supports preemption
-> >>> - Add a module parameter to force disabling or enabling preemption
-> >>> - Clear postamble when profiling
-> >>> - Define A6XX_CP_CONTEXT_SWITCH_CNTL_LEVEL fields in a6xx.xml
-> >>> - Make preemption records MAP_PRIV
-> >>> - Removed user ctx record (NON_PRIV) and patch 2/9 as it's not needed
-> >>>     anymore
-> >>> - Link to v2: https://lore.kernel.org/r/20240830-preemption-a750-t-v2=
--0-86aeead2cd80@gmail.com
-> >>>
-> >>> Changes in v2:
-> >>> - Added preept_record_size for X185 in PATCH 3/7
-> >>> - Added patches to reset perf counters
-> >>> - Dropped unused defines
-> >>> - Dropped unused variable (fixes warning)
-> >>> - Only enable preemption on a750
-> >>> - Reject MSM_SUBMITQUEUE_ALLOW_PREEMPT for unsupported targets
-> >>> - Added Akhil's Reviewed-By tags to patches 1/9,2/9,3/9
-> >>> - Added Neil's Tested-By tags
-> >>> - Added explanation for UAPI changes in commit message
-> >>> - Link to v1: https://lore.kernel.org/r/20240815-preemption-a750-t-v1=
--0-7bda26c34037@gmail.com
-> >>>
-> >>> ---
-> >>> Antonino Maniscalco (11):
-> >>>         drm/msm: Fix bv_fence being used as bv_rptr
-> >>>         drm/msm/A6XX: Track current_ctx_seqno per ring
-> >>>         drm/msm: Add a `preempt_record_size` field
-> >>>         drm/msm: Add CONTEXT_SWITCH_CNTL bitfields
-> >>>         drm/msm/A6xx: Implement preemption for A7XX targets
-> >>>         drm/msm/A6xx: Sync relevant adreno_pm4.xml changes
-> >>>         drm/msm/A6xx: Use posamble to reset counters on preemption
-> >>>         drm/msm/A6xx: Add traces for preemption
-> >>>         drm/msm/A6XX: Add a flag to allow preemption to submitqueue_c=
-reate
-> >>>         drm/msm/A6xx: Enable preemption for A750
-> >>>         Documentation: document adreno preemption
-> >>>
-> >>>    Documentation/gpu/msm-preemption.rst               |  98 +++++
-> >>>    drivers/gpu/drm/msm/Makefile                       |   1 +
-> >>>    drivers/gpu/drm/msm/adreno/a2xx_gpu.c              |   2 +-
-> >>>    drivers/gpu/drm/msm/adreno/a3xx_gpu.c              |   2 +-
-> >>>    drivers/gpu/drm/msm/adreno/a4xx_gpu.c              |   2 +-
-> >>>    drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |   6 +-
-> >>>    drivers/gpu/drm/msm/adreno/a6xx_catalog.c          |   7 +-
-> >>>    drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 325 +++++++++=
-+++++-
-> >>>    drivers/gpu/drm/msm/adreno/a6xx_gpu.h              | 174 ++++++++
-> >>>    drivers/gpu/drm/msm/adreno/a6xx_preempt.c          | 440 +++++++++=
-++++++++++++
-> >>>    drivers/gpu/drm/msm/adreno/adreno_gpu.h            |   9 +-
-> >>>    drivers/gpu/drm/msm/msm_drv.c                      |   4 +
-> >>>    drivers/gpu/drm/msm/msm_gpu.c                      |   2 +-
-> >>>    drivers/gpu/drm/msm/msm_gpu.h                      |  11 -
-> >>>    drivers/gpu/drm/msm/msm_gpu_trace.h                |  28 ++
-> >>>    drivers/gpu/drm/msm/msm_ringbuffer.h               |  18 +
-> >>>    drivers/gpu/drm/msm/msm_submitqueue.c              |   3 +
-> >>>    drivers/gpu/drm/msm/registers/adreno/a6xx.xml      |   7 +-
-> >>>    .../gpu/drm/msm/registers/adreno/adreno_pm4.xml    |  39 +-
-> >>>    include/uapi/drm/msm_drm.h                         |   5 +-
-> >>>    20 files changed, 1117 insertions(+), 66 deletions(-)
-> >>> ---
-> >>> base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
-> >>> change-id: 20240815-preemption-a750-t-fcee9a844b39
-> >>>
-> >>> Best regards,
-> >>
-> >> I've been running vulkan-cts (1.3.7.3-0-gd71a36db16d98313c431829432a13=
-6dbda692a08 from Yocto)
-> >> on SM8650-QRD, SM8550-QRD & SM8450-HDK boards with enable_preemption i=
-n default value
-> >> and forced to 1, and I've seen no regression so far
-> >>
-> >> On SM8550, I've seen a few:
-> >> platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0 [msm]] *ERROR=
-* Message HFI_H2F_MSG_GX_BW_PERF_VOTE id 2743 timed out waiting for respons=
-e
-> >> platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0 [msm]] *ERROR=
-* Unexpected message id 2743 on the response queue
-> >> but it's unrelated to preempt
-> >>
-> >> and on SM8450:
-> >> platform 3d6a000.gmu: [drm:a6xx_gmu_set_oob [msm]] *ERROR* Timeout wai=
-ting for GMU OOB set GPU_SET: 0x0
-> >> msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] *ERR=
-OR* 7.3.0.1: hangcheck detected gpu lockup rb 0!
-> >> msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] *ERR=
-OR* 7.3.0.1:     completed fence: 331235
-> >> msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] *ERR=
-OR* 7.3.0.1:     submitted fence: 331236
-> >> adreno 3d00000.gpu: [drm:a6xx_irq [msm]] *ERROR* gpu fault ring 0 fenc=
-e 50de4 status 00800005 rb 0000/0699 ib1 0000000000000000/0000 ib2 00000000=
-00000000/0000
-> >> msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR*=
- 7.3.0.1: hangcheck recover!
-> >> msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR*=
- 7.3.0.1: offending task: deqp-vk (/usr/lib/vulkan-cts/deqp-vk)
-> >> msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR*=
- 7.3.0.1: hangcheck recover!
-> >> leading to a VK_ERROR_DEVICE_LOST, but again unrelated to preempt supp=
-ort.
-> >>
-> >> So you can also add:
-> >> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
-> >> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8450-HDK
-> >>
-> >
-> > Niel,
-> >
-> > On my x1e device, all submissions were somehow going into only a single
-> > ring, even the compositor's. Not sure why. So effectively preemption wa=
-s
-> > not really exercised. I had to force one of the two benchmark I ran
-> > using the "highprio" mesa debug flag force submittions to ring 0.
->
-> I think that is because GL applications (so most compositors) run
-> through zink which does not forward GL preemption to vulkan so yeah, for
-> GL applications the only way of getting preemption is the debug flag.
+Hi Reinette,
 
-I guess if it is mesa 24.2.x or newer it would be using the gallium
-driver.  Which I guess would need xAMBLE stuff wired up.  Outside of
-fd6_emit_restore() and fd6_gmem.cc there isn't really any state emit
-in IB1, so I guess it probably wouldn't be too hard to get preemption
-support wired up.
+On 9/23/24 17:30, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 9/23/24 1:21 PM, Moger, Babu wrote:
+>> Hi Reinette,
+>>
+>> On 9/19/24 12:08, Reinette Chatre wrote:
+>>> Hi Babu,
+>>>
+>>> On 9/4/24 3:21 PM, Babu Moger wrote:
+>>>> +/*
+>>>> + * ABMC counters can be configured by writing to L3_QOS_ABMC_CFG.
+>>>> + * @bw_type		: Bandwidth configuration(supported by BMEC)
+>>>> + *			  tracked by the @cntr_id.
+>>>> + * @bw_src		: Bandwidth source (RMID or CLOSID).
+>>>> + * @reserved1		: Reserved.
+>>>> + * @is_clos		: @bw_src field is a CLOSID (not an RMID).
+>>>> + * @cntr_id		: Counter identifier.
+>>>> + * @reserved		: Reserved.
+>>>> + * @cntr_en		: Tracking enable bit.
+>>>> + * @cfg_en		: Configuration enable bit.
+>>>> + *
+>>>> + * Configuration and tracking:
+>>>> + * CfgEn=1,CtrEn=0 : Configure CtrID and but no tracking the events yet.
+>>>> + * CfgEn=1,CtrEn=1 : Configure CtrID and start tracking events.
+>>>
+>>> Thanks for moving the text ... could it now be made to match the new (outside
+>>> AMD arch document) destination? For example, "CfgEn" becomes "@cfg_en",
+>>
+>> Sure. Will do.
+>>
+>>> "CtrID" becomes "@cntr_id" etc. Also please fix language, for example
+>>> what does "and but no tracking the events yet" mean? So far this work
+>>> has focused on "counting" vs "not counting" events and it is not
+>>
+>> I will change the text to "not counting".  Hope this will clarify here.
+>>
+>>> clear how this "tracking" fits it ... this seems to be the hardware
+>>> view that means "tracking the RMID to which @cntr_id is assigned"?
+>>> Please help readers to understand how the implementation is supported
+>>> by the hardware.
+>>
+>> I have checked with hw team on this.
+>> CfgEn: This corresponds counter assignment.
+> 
+> To be specific this corresponds to *hardware* counter assignment? This is
+> because software sets CfgEn to 1 whether it is assigned from kernel perspective
+> or not.
 
-BR,
--R
+Yes. We are setting CfgEn = 1 in both assign/unassign.
 
-> Unfortunately this is not easy to fix in Zink because it creates one
-> VkDevice at screen creation and uses it for all GL contexts. Since GL
-> priority is provided per context and at context creation time Zink has
-> no way of handling this.
->
-> Once TU will support more than one queue it will be possible for Zink to
-> create one queue per priority then pick one at context creation time.
-> Doing so would require a new vulkan extension for per queue global
-> priority. I had started working on this some time ago
-> https://gitlab.freedesktop.org/antonino/mesa/-/tree/priority_ext?ref_type=
-=3Dheads
-> but this solution will only be viable once TU can expose more than one
-> queue.
->
-> >
-> > If possible it is a good idea to check the new preemption traces to
-> > ensure preemption kicks in.
-> >
-> > -Akhil
-> >
-> >> Thanks,
-> >> Neil
->
->
-> Best regards,
-> --
-> Antonino Maniscalco <antomani103@gmail.com>
+In case of unassign, we want the counter to stop counting so that software
+does not get confused. Otherwise it is really not required.
+
+
+> 
+> Actually ... when I look at the AMD spec it becomes more clear to me. If I
+> understand the spec correctly the CfgEn bit is used to coordinate changes
+> between OS and HW. Seems like OS can leisurely write to any fields of
+> L3_QOS_ABMC_CFG, but only when CfgEn bit is set will the actual hardware
+> configuration be performed.
+> 
+>> CtrEn: This is to start or stop counting.
+>>        We always set this to 1 to start counting.
+> 
+> Understood. Now that I read this portion of AMD spec it is more clear to me
+> and I understand why CfgEn is set in both counter assign and unassign.
+> 
+> Reinette
+> 
+
+-- 
+Thanks
+Babu Moger
