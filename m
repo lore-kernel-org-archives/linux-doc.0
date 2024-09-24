@@ -1,116 +1,214 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4464218C325;
-	Tue, 24 Sep 2024 10:17:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4290517BBF;
+	Tue, 24 Sep 2024 11:30:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727173064; cv=none; b=ku3MAo/HSPeG69CMJlcnJOtLzKOXrr8FXMYICAFIfRpWrtTwiqvEbWRlfvmnsKs/QPkD8IMgHv+2KVn65sZ6+di7LBVN1Fb3NnaBCB6KkukH4GSXTQKc1CnTFIRhjO25tlfGKxz3xIIprfi2Y+mjsHK7Tk7ms1nJAmQysf2X6iE=
+	t=1727177443; cv=none; b=SZApfKk5/ne44DgltYzobSw7WqQoPt5ZHimcMZmY9StqYjblqu7BNYrqpv3Dc8g+07q4y9ScLsGL0k4Dt6w6Ox02yEJ7xWBL08CCeq9SPqpKwktjKFD+CUM8NI01KWnpjFQrsGheZPojMTLIsmb35e0X8kejzGINdflFus4sIQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727173064; c=relaxed/simple;
-	bh=MOrv/PO4+p/q2gx2H/jXlnLEDH+f3OEGh0lgTFRI7QQ=;
-	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VCmewtgXF0Sfi9Dz194/EUoMXXDnPF4/MWnhMWGd5ILy++e3UqwdrmeqDlRhcsdDmw0cNEXq8qkbvH7WfuzQRhPvKpO8xt1PM61wJEm2OTP58Lm0CdeS1Y4fcU8bb/eK2HJF28Ab+LcX0pYXoxAeGD6uLmaPJVlTMwvt24uC/jU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z38oR2E1; arc=none smtp.client-ip=209.85.128.44
+	s=arc-20240116; t=1727177443; c=relaxed/simple;
+	bh=9rr2GCwL3Qg4YWNVnVnRFvrFIjI+pbL6A2yKODpAQSk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=U8BSvhDp+vQ8dPZlhryXgOf+8ILu4Fu5yVslFp95Db1T8SeaH57WZZTloPCFVusbtsi/n2D3Bmu6xSaQtIYsL5qeAYouySXHZxTzoAfyJ+p5FZ8ttKRHb6OmywckdBCj2FqOi2HSca0Cm77iNfDfH5XjHlcsGnlezuBfYcMq5XQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lORBRXs7; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z38oR2E1"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-42e5e1e6d37so53307635e9.3;
-        Tue, 24 Sep 2024 03:17:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lORBRXs7"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5c24c92f699so5350843a12.2;
+        Tue, 24 Sep 2024 04:30:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727173061; x=1727777861; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y6yq/DwFQfx4tBwrb6K58nwBTecQ5jjhs54hsQLsb9E=;
-        b=Z38oR2E1dsCG6CNYo51evLlunqZ20cOYS4Ppt1yoZVdkMgZrKv9J02i7f5MIJIy3pz
-         lkMSfpTAA+vi4j8rfgTcRDMV+pyNivEHEFEYEqdquoD3s8nsx/y5A+aAAjWzaMBHac4t
-         E/5hCXTtnNjJzomGLqD4TxFpbifNJn8rSyb7+K38wTOIEW46cHHxZZ2NKG06dh0f8Em5
-         8Rd9iAdTJTUz8BeDl7k/zz2K8LNPkScGNJOCVnr9Q8TmsEIp/pOqTVg+6f7NKQXGNcbq
-         uJHAtmOB1kddFNtYL3xiRil60W2owfkiSgiuo0LSZquyrcget57b+cYAhhaDz41yfVKH
-         aoYQ==
+        d=gmail.com; s=20230601; t=1727177439; x=1727782239; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8RXumhNxnjiM8fBrcvv7yn8BmJXvo9F+xKOIxhcGDnA=;
+        b=lORBRXs7GKWsOYE+GiGQa3iKnshT/BCbtb0O/Q/vLKzRmFu14yZqg57N1LEkBu0Aqy
+         0kQ+fd4G2M0AImGgaBWIJDOubN9+vxpTftOpPzRkkF19fUa6qr7/Zt+RzbR92I8y0ppP
+         7+rokvUymtwbd49HoyCIvS9Kk95dCUz5NYcmJD1xInLfPvwvYexx0jSzMydPz9Yv6vxP
+         c5XO4yd83D1GuRJSMhlMDDeCjmlLXUqRXsmyeQhs1CREPDWOpiBy4auLRMwdg4+Y0YEe
+         8PSJy/G6gIvDXXLvrtx4AQkuPV5FYlwcHa/Fgs6DvKZsPZC7hhp4vmhCV7AeJWCm/zof
+         PxCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727173061; x=1727777861;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y6yq/DwFQfx4tBwrb6K58nwBTecQ5jjhs54hsQLsb9E=;
-        b=p0e9xjdoPsHRZPsvLGPtoL7c+9HW0mIRFQ0DfQp7DsGV2QHIwIC+OfWqKlCj09uFCq
-         S53SaAHP/GA40dSSx09SjuQ9ewmcpSwQcvDnfTWKl6i+d/J85kUIUKuo0x/L3LVarJk1
-         T79DBzMRdfLfP4Gvc/RNJF6Tl3cVHuPIkBEii7MWqTDQRsUTR99MpBcbvzUgdeYIqUT2
-         INwiq1IvSasrxkREH/v2cExy393TRXrVL42VvotAhKPzbLLuNHBa3nupUzmVD/ZI7xOz
-         ko5VhnIwLADCBbfpNcXV1v0tQyX5EoUWnH+6vXXpzDpKxr/Ee+g7G6RM3mgSvNH+wso8
-         F92A==
-X-Forwarded-Encrypted: i=1; AJvYcCUa5DXOhQ05b3n85NeKxyw8XLhlYJxl1eC3Wxft4BM8JzWajpiS4jB3BJTZ1IcBgzoFguOgkATuuOOp@vger.kernel.org, AJvYcCUqk/Ob0M8x0mpUd7P/rRkUcpbceFVHAvz0O9e8Fgvptzhn0T2QSGO14lw8W69JnOhx91cvlvWIFXcMrbg=@vger.kernel.org, AJvYcCXLURe4W8R/yDkprd9Riobm0dbO62aJaGr5xjDChiLLOcCiPc/r+5iEmV2kGdUUE39xiPfBOveSxXnddbRT@vger.kernel.org, AJvYcCXNIb06qukqmiqIWrPdgxOXYO3sivBKaTUPf4WnTfPODG6d4f00N3CmMMsLvu8BmdIPcrmy3yEmkV5X@vger.kernel.org, AJvYcCXq5PWCz4UTjuTyBHUUT6/nR76i3EONd3Tm6KQeMODH9JRzt7i0FeRon9nb4ryv7wBmYUYNkbSJ6ra+@vger.kernel.org
-X-Gm-Message-State: AOJu0YyS0dClzAe7bRGqyUWI6NAWJjOaBxkHuYJq+jW0fXInORs1tMP1
-	18a0C0YVGdkDuzSs1e8OlPytss/7XUNjUuCoib/1/8Ugb9jwNyy+
-X-Google-Smtp-Source: AGHT+IE83mnLUuf+4WZRfrPw50LD+lxqX8rWtjINgvgK2vW5eLA5p3k20e4sMLnXxjQweQjgZ91oYA==
-X-Received: by 2002:a5d:4488:0:b0:377:9867:9028 with SMTP id ffacd0b85a97d-37a431ad4dbmr7918215f8f.44.1727173061365;
-        Tue, 24 Sep 2024 03:17:41 -0700 (PDT)
-Received: from Ansuel-XPS. (93-34-90-105.ip49.fastwebnet.it. [93.34.90.105])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37cbc2c1ef1sm1188238f8f.35.2024.09.24.03.17.40
+        d=1e100.net; s=20230601; t=1727177439; x=1727782239;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8RXumhNxnjiM8fBrcvv7yn8BmJXvo9F+xKOIxhcGDnA=;
+        b=rsg3SPHY1+/7KyWoxsJaIkNNn+LcNTaSDrekWO3I/eNoscMBACJfGi2cC6N4LVmeYq
+         neJ9JJQ9ghmORhxpSjMcYe0DaWWWKfEnd4T48fSGAXh0japHgiYJSrtw6fgVMDaEiMUE
+         Z0LFqvxaCPvbSWxA26k1XoUaIyda8uooyUhwFe6eTckkmY852xj03jLBChsYYhVXGJcn
+         XloqX1MBSiYV+KuQqyziUYxh3vpCOw0EYvPiUhpRfZg/5asAZfiLsfXqqPAW6U/laz2D
+         Zi04Gy8UfVHUf250RTw4hOVaMqRQSoeZIgRa6zBEAf+Jm864JW4C2InEjTXRCcIa47Jw
+         onhA==
+X-Forwarded-Encrypted: i=1; AJvYcCVpgviIe1OGNtfnTUupbQHjLz7LXv0CE5mj7nIk1uOUp8SHFu8eNWDui6S5N6k0INHJiS2dJXju6vc=@vger.kernel.org, AJvYcCXqzNUlRyXHnFCzsWfBX5OK4J15UvrYYkAL1SZk0bJ6RO2bXs5kCfYRJ779hqhoL1X/8IvuJRmIyOE8NRAa@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrQu9U0M31ly9SPhMIeFiaVdqKgZ+uuu9Oxv/BEgfnHgnYaQfs
+	Vfd2ZVS8SbbnQUwPqyOlGPE7QR2wnTmA8uQbq3DlGKX/MiXaeH5wl/zjdGvW
+X-Google-Smtp-Source: AGHT+IEBtVEm1LDZ0kRkzH8QS7YqE8JYo+ci0cKJTv5Zn9UNARVwylj8VWa96xVxdKuQaz0TzZsNPQ==
+X-Received: by 2002:a17:907:e6d5:b0:a8a:926a:d027 with SMTP id a640c23a62f3a-a90d577d59fmr1328908966b.45.1727177439233;
+        Tue, 24 Sep 2024 04:30:39 -0700 (PDT)
+Received: from [192.168.1.17] (host-87-7-171-42.retail.telecomitalia.it. [87.7.171.42])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93930cae0fsm72612766b.120.2024.09.24.04.30.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Sep 2024 03:17:41 -0700 (PDT)
-Message-ID: <66f291c5.5d0a0220.328e5a.2c9e@mx.google.com>
-X-Google-Original-Message-ID: <ZvKRwI3zrXURbYKS@Ansuel-XPS.>
-Date: Tue, 24 Sep 2024 12:17:36 +0200
-From: Christian Marangi <ansuelsmth@gmail.com>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	INAGAKI Hiroshi <musashino.open@gmail.com>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>, Ming Lei <ming.lei@redhat.com>,
-	Li Lingfeng <lilingfeng3@huawei.com>,
-	Christian Heusel <christian@heusel.eu>, linux-block@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Lorenzo Bianconi <lorenzo@kernel.org>
-Subject: Re: [RFC PATCH 3/4] block: add support for partition table defined
- in OF
-References: <20240923105937.4374-1-ansuelsmth@gmail.com>
- <20240923105937.4374-4-ansuelsmth@gmail.com>
- <ZvJdjRpFaPUuFhIO@infradead.org>
+        Tue, 24 Sep 2024 04:30:38 -0700 (PDT)
+From: Antonino Maniscalco <antomani103@gmail.com>
+Subject: [PATCH v5 00/11] Preemption support for A7XX
+Date: Tue, 24 Sep 2024 13:30:35 +0200
+Message-Id: <20240924-preemption-a750-t-v5-0-0be2bf81c187@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZvJdjRpFaPUuFhIO@infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANui8mYC/33Oyw6CMBAF0F8xXVszfUBbV/6HcVHaQZrII0CIx
+ vDvjmxEQ1zeyZ0z82QD9gkHdtw9WY9TGlLbUMj2OxYq31yRp0iZSZAarMh41yPW3Ug17k0GfOR
+ lQHTeal0ox2iPGmW6L+b5QrlKw9j2j+XEJN7Tf9okOHBTRC/zoDQoc7rWPt0Ooa3ZW5vkSlCwJ
+ UgSbO4RfZQhWvgV1EdwsPmDIqGMTpvcudIU4VfQK0GYLUGT4LKoLQiJ4L+EeZ5f370H3ngBAAA
+ =
+X-Change-ID: 20240815-preemption-a750-t-fcee9a844b39
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Antonino Maniscalco <antomani103@gmail.com>, 
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Sharat Masetty <smasetty@codeaurora.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727177437; l=5397;
+ i=antomani103@gmail.com; s=20240815; h=from:subject:message-id;
+ bh=9rr2GCwL3Qg4YWNVnVnRFvrFIjI+pbL6A2yKODpAQSk=;
+ b=YiBcgR/NhSCrzzgoQcRNq9pKYkW+N8cr+UBt257xG9wRFvx7pi6bmHk+0FTwwz4iLX96FkNVM
+ lskgfjLyAKPBZ6BJ8HjcHcwJyk3vTpM/UfvjoIkJRPOTiDAvfAs0Q3m
+X-Developer-Key: i=antomani103@gmail.com; a=ed25519;
+ pk=0zicFb38tVla+iHRo4kWpOMsmtUrpGBEa7LkFF81lyY=
 
-On Mon, Sep 23, 2024 at 11:34:53PM -0700, Christoph Hellwig wrote:
-> On Mon, Sep 23, 2024 at 12:59:32PM +0200, Christian Marangi wrote:
-> > +#define BOOT0_STR	"boot0"
-> > +#define BOOT1_STR	"boot1"
-> > +
-> 
-> This boot0/1 stuff looks like black magic, so it should probably be
-> documented at very least.
->
+This series implements preemption for A7XX targets, which allows the GPU to
+switch to an higher priority ring when work is pushed to it, reducing latency
+for high priority submissions.
 
-It is but from what I have read in the spec for flash in general (this
-is not limited to eMMC but also apply to UFS) these are hardware
-partition. If the version is high enough these are always present and
-have boot0 and boot1 name hardcoded by the driver.
+This series enables L1 preemption with skip_save_restore which requires
+the following userspace patches to function:
 
-> > +	partitions_np = get_partitions_node(disk_np,
-> > +					    state->disk->disk_name);
-> 
-> disk->disk_name is not a stable identifier and can change from boot to
-> boot due to async probing.  You'll need to check a uuid or label instead.
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30544
 
-This is really for the 2 special partition up to check the suffix, we
-don't really care about the name. I guess it's acceptable to use
-unstable identifier?
+A flag is added to `msm_submitqueue_create` to only allow submissions
+from compatible userspace to be preempted, therefore maintaining
+compatibility.
 
-Thanks a lot for the review!
+Preemption is currently only enabled by default on A750, it can be
+enabled on other targets through the `enable_preemption` module
+parameter. This is because more testing is required on other targets.
 
+For testing on other HW it is sufficient to set that parameter to a
+value of 1, then using the branch of mesa linked above, `TU_DEBUG=hiprio`
+allows to run any application as high priority therefore preempting
+submissions from other applications.
+
+The `msm_gpu_preemption_trigger` and `msm_gpu_preemption_irq` traces
+added in this series can be used to observe preemption's behavior as
+well as measuring preemption latency.
+
+Some commits from this series are based on a previous series to enable
+preemption on A6XX targets:
+
+https://lkml.kernel.org/1520489185-21828-1-git-send-email-smasetty@codeaurora.org
+
+Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
+---
+Changes in v5:
+- Made preemption documentation more detailed
+- Added ring ID to preempt_record BO name
+- Added Neil's Tested-By tags
+- Added Akhil's Reviewed-By tags
+- Moved preemption module params to adreno_device.c
+- Link to v4: https://lore.kernel.org/r/20240917-preemption-a750-t-v4-0-95d48012e0ac@gmail.com
+
+Changes in v4:
+- Added missing register in pwrup list 
+- Removed and rearrange barriers
+- Renamed `skip_inline_wptr` to `restore_wptr`
+- Track ctx seqno per ring
+- Removed secure preempt context
+- NOP out postamble to disable it instantly
+- Only emit pwrup reglist once
+- Document bv_rptr_addr
+- Removed unused A6XX_PREEMPT_USER_RECORD_SIZE
+- Set name on preempt record buffer
+- Link to v3: https://lore.kernel.org/r/20240905-preemption-a750-t-v3-0-fd947699f7bc@gmail.com
+
+Changes in v3:
+- Added documentation about preemption
+- Use quirks to determine which target supports preemption
+- Add a module parameter to force disabling or enabling preemption
+- Clear postamble when profiling
+- Define A6XX_CP_CONTEXT_SWITCH_CNTL_LEVEL fields in a6xx.xml
+- Make preemption records MAP_PRIV
+- Removed user ctx record (NON_PRIV) and patch 2/9 as it's not needed
+  anymore
+- Link to v2: https://lore.kernel.org/r/20240830-preemption-a750-t-v2-0-86aeead2cd80@gmail.com
+
+Changes in v2:
+- Added preept_record_size for X185 in PATCH 3/7
+- Added patches to reset perf counters
+- Dropped unused defines
+- Dropped unused variable (fixes warning)
+- Only enable preemption on a750
+- Reject MSM_SUBMITQUEUE_ALLOW_PREEMPT for unsupported targets
+- Added Akhil's Reviewed-By tags to patches 1/9,2/9,3/9
+- Added Neil's Tested-By tags
+- Added explanation for UAPI changes in commit message
+- Link to v1: https://lore.kernel.org/r/20240815-preemption-a750-t-v1-0-7bda26c34037@gmail.com
+
+---
+Antonino Maniscalco (11):
+      drm/msm: Fix bv_fence being used as bv_rptr
+      drm/msm/A6XX: Track current_ctx_seqno per ring
+      drm/msm: Add a `preempt_record_size` field
+      drm/msm: Add CONTEXT_SWITCH_CNTL bitfields
+      drm/msm/A6xx: Implement preemption for A7XX targets
+      drm/msm/A6xx: Sync relevant adreno_pm4.xml changes
+      drm/msm/A6xx: Use posamble to reset counters on preemption
+      drm/msm/A6xx: Add traces for preemption
+      drm/msm/A6XX: Add a flag to allow preemption to submitqueue_create
+      drm/msm/A6xx: Enable preemption for A750
+      Documentation: document adreno preemption
+
+ Documentation/gpu/msm-preemption.rst               |  99 +++++
+ drivers/gpu/drm/msm/Makefile                       |   1 +
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.c              |   2 +-
+ drivers/gpu/drm/msm/adreno/a3xx_gpu.c              |   2 +-
+ drivers/gpu/drm/msm/adreno/a4xx_gpu.c              |   2 +-
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |   6 +-
+ drivers/gpu/drm/msm/adreno/a6xx_catalog.c          |   7 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 325 ++++++++++++++-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h              | 174 ++++++++
+ drivers/gpu/drm/msm/adreno/a6xx_preempt.c          | 440 +++++++++++++++++++++
+ drivers/gpu/drm/msm/adreno/adreno_device.c         |   4 +
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h            |   9 +-
+ drivers/gpu/drm/msm/msm_gpu.c                      |   2 +-
+ drivers/gpu/drm/msm/msm_gpu.h                      |  11 -
+ drivers/gpu/drm/msm/msm_gpu_trace.h                |  28 ++
+ drivers/gpu/drm/msm/msm_ringbuffer.h               |  18 +
+ drivers/gpu/drm/msm/msm_submitqueue.c              |   3 +
+ drivers/gpu/drm/msm/registers/adreno/a6xx.xml      |   7 +-
+ .../gpu/drm/msm/registers/adreno/adreno_pm4.xml    |  39 +-
+ include/uapi/drm/msm_drm.h                         |   5 +-
+ 20 files changed, 1118 insertions(+), 66 deletions(-)
+---
+base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
+change-id: 20240815-preemption-a750-t-fcee9a844b39
+
+Best regards,
 -- 
-	Ansuel
+Antonino Maniscalco <antomani103@gmail.com>
+
