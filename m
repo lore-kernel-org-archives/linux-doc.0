@@ -1,247 +1,172 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2045.outbound.protection.outlook.com [40.107.223.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE6C61474A4;
-	Tue, 24 Sep 2024 14:34:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727188474; cv=fail; b=QAKk1AwANWAIr+n7GEe7i1WMyvUXNarZz6WaVVIuikjrB0+gvbAxlnoF57grHiul57hLlj3KG057WASo6SrOimOTL+tlH9uwamJXzCRZE9EN5/ooHu2rJBCzbAEbePflSRlV1384bjF6SlQLZoPrMuZjYDgLDgHU5frhyTwZ1Uc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727188474; c=relaxed/simple;
-	bh=yIC2mQmjxvOF56PfKiMY2R9cbSVuVwrzg3qtnHMurzY=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=S7NtqS8H4/PUeDoCyEA7MH5QIskDR39UHPSdyjYJI3u6cQSy9u0qY1ZNd6DGVUwTbChuWpnoxDGmQ2PF475JVYZ2mvcIbGXPdz26d951OItHWHXBSLY0VnaX4QdvxubK+Ctv+WwpWO54JEiDUwUM4v7ezS8nRLMoxe1Fi2Jv3No=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=yr3ki8cf; arc=fail smtp.client-ip=40.107.223.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88DB81AAE24
+	for <linux-doc@vger.kernel.org>; Tue, 24 Sep 2024 14:41:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727188916; cv=none; b=FbipbBJsdO9eSjtJvqMr0+ENmAq0xwvE1EC0cNN3jDanLudcHaG3eJMi4f6d0yUnUkuNfUjCrcFCyiXjqfwu4xCS6xU1rWvCzpgi/w+1hI06JJqGTGUfUmUrpcUpwmWyq9EvoxrMVx0d6VbCDY+BxdNmCboWRWfathhL4HBAP08=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727188916; c=relaxed/simple;
+	bh=bYB6sGjl6OVpPbQmVT28nlrtD0q2IZNJFbiVeu2P4QM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=d8SjSyszyecYv+bQtuhJ0JNyIAD9Z908yjTTSXZa0Jpv0Rb+GFkOCHH+IWjAtM7S0o+1VAgB3wAznQlv+qtHjSRlSukjB6JtUCGltM4BakNAZVLVsTDE76KURnS560ufGj6jkyjAtz7htjDfWNmaOravV1MmDDNU9xsM8AYQGrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=U7rY0Xzx; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="yr3ki8cf"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hRWPHX/u5/ZM/N27XgxJ3VKx+hThFDLRkE2TKzLRkEtDp0z63AexEDwXvqW2YcP6F2u+5xGIVHlyYv28f8/CQxG1VI2/WlKtCn7XruxJC4J/Wf0nmi3Q3DPECKgCPmuk2i7deYCkCJIpXy1L8N6Q3eVhXTRde0qC/LgOBgE4P93CXQorRwzylPVXeWk10+1UH+Ezqr0Yz6HWmWCHVucMsFIym8dFd5oV9LvopaQmoIpLPRCveiuhe2I3WD1UsElhhNwGXT6964VFO5pACRpjsNSEQn+BPXN32MjE0Dz0VY44pa/ZQcX8TYhIcdAl3ziJfKvYlybffsswGLcTL42mHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7tzVLOf+Ad1yWj8YnOWIS8Xtwtg2vttrgUXoONJ7ZbI=;
- b=OJufPYEcfFsh2VGzh3drzBeN2RAB2OT+F/XRSuC1XOVg4hx4jXZAG+iGKN+HH538dWK7cDdIRIBTxxzhWMpBcVSDh8JsNEvXhFd8/LurJ9sBAXQ6zcuUlB49WufutywiNR1sTX3VfKHEIIrekL8aRBN9/qSBMhK1hXEhxIpqLMRZ1dtbC+G2A7pCmyvLaxm+ngkLu2FM3tUt7bX7PBwEkuu8IKAfgWp6Yxt0JtzkrhxX6TGo0ScQuKn3xXCTg8wIYLS/X0pUg9lmZlvSvlsu6hMlzSIZTvOLtpAJAlJUTuq4oD06fxMckLxHxHGLwlmMIMqGUmkskrQrVSAC62CaDg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7tzVLOf+Ad1yWj8YnOWIS8Xtwtg2vttrgUXoONJ7ZbI=;
- b=yr3ki8cf4val+vLh/+Eyh5CtQ2s8YexmVclLbcQ6+2YHT3mBx1cJRRldsHiCPETKHpc55Mzju4YtrJLwgZ8BESo5FEm/sQVdDa5Hpj7VE+ZviTskHDwoiI40ZK3wQzwuZps7lXjn7Qp03Sh3iHWPVfDzzVhlXoWXNUVJkHjEK8c=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4202.namprd12.prod.outlook.com (2603:10b6:5:219::22)
- by PH8PR12MB7303.namprd12.prod.outlook.com (2603:10b6:510:220::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.25; Tue, 24 Sep
- 2024 14:34:28 +0000
-Received: from DM6PR12MB4202.namprd12.prod.outlook.com
- ([fe80::f943:600c:2558:af79]) by DM6PR12MB4202.namprd12.prod.outlook.com
- ([fe80::f943:600c:2558:af79%4]) with mapi id 15.20.7982.022; Tue, 24 Sep 2024
- 14:34:24 +0000
-Message-ID: <26c176a9-aa68-95de-7157-b3669d5bb404@amd.com>
-Date: Tue, 24 Sep 2024 15:33:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH V5 1/5] PCI: Add TLP Processing Hints (TPH) support
-Content-Language: en-US
-To: Wei Huang <wei.huang2@amd.com>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- netdev@vger.kernel.org
-Cc: Jonathan.Cameron@Huawei.com, helgaas@kernel.org, corbet@lwn.net,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, alex.williamson@redhat.com, gospo@broadcom.com,
- michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
- somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
- manoj.panicker2@amd.com, Eric.VanTassell@amd.com, vadim.fedorenko@linux.dev,
- horms@kernel.org, bagasdotme@gmail.com, bhelgaas@google.com,
- lukas@wunner.de, paul.e.luse@intel.com, jing2.liu@intel.com
-References: <20240916205103.3882081-1-wei.huang2@amd.com>
- <20240916205103.3882081-2-wei.huang2@amd.com>
- <a660f2be-55a2-eca3-bfb3-aa69993f86e5@amd.com>
- <87111ebf-9cfd-4e14-9c03-05aa65330070@amd.com>
-From: Alejandro Lucero Palau <alucerop@amd.com>
-In-Reply-To: <87111ebf-9cfd-4e14-9c03-05aa65330070@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: DB8PR06CA0022.eurprd06.prod.outlook.com
- (2603:10a6:10:100::35) To DM6PR12MB4202.namprd12.prod.outlook.com
- (2603:10b6:5:219::22)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="U7rY0Xzx"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-42cb58d810eso40991025e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 24 Sep 2024 07:41:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1727188913; x=1727793713; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mZI5U1pschJSs8BzcO25TabRksZf6E5sGIBvFGZUMG4=;
+        b=U7rY0Xzxp5qUIBOHjB/KdjSy3pXBs3ONP+ht5a10bxfEKmXJil3IUiDN2rFkI7/Sn3
+         7qOo7+xJQW+7MAx0V+JN5pxhuIfGpWtJ50Lqi8DZ7MkIBImuuGBJ8xPnIBxctUlcLHUa
+         RCtgPr0ffBa0Lht9k7IEHLhkEiEcWArJYtZ3ksZlo10WtVczlnVb9U6xMtsOCyClpH7L
+         iFBKsbjAcjg3znnby1b913MDatxzoOUqK6BYt/bxI2MOXCccowlIBwLK5zDuHzn3MPMW
+         4ANueQs0HtrxXcz3Ojy2wBdmkVIGdmRpSyDF0YjTupzyYuyFHASj9csHlx5lsPu+QkSk
+         Z5AA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727188913; x=1727793713;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mZI5U1pschJSs8BzcO25TabRksZf6E5sGIBvFGZUMG4=;
+        b=R1cLW7IyIQZ2E2QVuLLE9w/6waRzMRdkZbgE0G3VTk2SO8ZNbV4rYpcOmAxUFq2aNM
+         QqjUqX6U8RoB779CNmwTd1IAYAXl33VibAKIAD32bjNKGaM70mxASkNd4wmeqPLbhbUC
+         vd77jJTFugkZo/oUuSvz49c3OyrWOfCiirhfRVdBGi+6S5t1EFcqMWSKyQ9Z7u1AN9GD
+         +DjFa/6t4iEWPMvCK8+65nR2V6sSwW9iqd2yvDboOP+8kwz/N8WVsKH2MewsbIcr8KEX
+         ysJ/HvGXiEhVRsoQej8wbeAP+xe4USKGwMgya4/9m19TbwIlHaMSXXgFL96GDizYqlo+
+         hs3A==
+X-Forwarded-Encrypted: i=1; AJvYcCVO5o8oqo9SLY81Bu9w/m3sUvi8/DCETJOmGfsAd5MCyD2F9VRxDGPy0s/NFmRTwfN5/fnC1QM9Evo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOIqG34iyfL6OeBPL5uic2tdbI5odLtNlxBxIGGlZTjDOyTe9B
+	bGrRlUYv/qG6sUijlheQxt5VgGoTkOPpS3UchJ4sCTRLhRZ5Q6gnEjuLfYHoigg=
+X-Google-Smtp-Source: AGHT+IE54V4mWS0E1fGBaRhuYszEux79BQYQMRS6jlkq3ZgzaXmmKTdVDlYlx0Pt83jGSNgZCcuilQ==
+X-Received: by 2002:adf:a193:0:b0:374:cb84:13d3 with SMTP id ffacd0b85a97d-37c7ebab09bmr2110323f8f.12.1727188912452;
+        Tue, 24 Sep 2024 07:41:52 -0700 (PDT)
+Received: from [10.2.5.161] (amontpellier-556-1-151-252.w109-210.abo.wanadoo.fr. [109.210.7.252])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e90291ebbsm24907615e9.10.2024.09.24.07.41.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Sep 2024 07:41:52 -0700 (PDT)
+Message-ID: <56090167-15a0-4386-89a6-c379d70faae6@baylibre.com>
+Date: Tue, 24 Sep 2024 16:41:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4202:EE_|PH8PR12MB7303:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3aee82bc-48dc-4252-3ea7-08dcdca5fc41
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?eHcvVmY0RU1JZFduZU5yNUtqL0ZUNXpXZ1o5TzBIai8vVzhVQWVsSDdsbXZI?=
- =?utf-8?B?ZEZsS0l3aXpHdGw4clhRQ3RBQyszTDUyNG1OaWwyTFBCSkM4QlJVNzF4dm5h?=
- =?utf-8?B?b3pzdWJzcXZlc1RLOURBSXRBU0hPR2k3cEJTRllxTUlVWjJOQUNnYVRreXNU?=
- =?utf-8?B?Y3hjUkJCdnFMZy9sbUd4Y2thdDNobVNzUWZZSGV0aVdwWmJjUjhiWWR1d0lv?=
- =?utf-8?B?dnY3Unc3dGVaeXNKakJlQ2N6bDRKSytvczREem5XWEZHWnErOEZrVGcwSDJ4?=
- =?utf-8?B?dVRrU1c4ZlNNbjNEenpVSHNPZVZ6VWhJekRSVXFEU3g0bXZzNUdUdTBrSWdy?=
- =?utf-8?B?TThzMzRTalRyWkVZUHVmSGkxRE05YlNXWWFIQ1Q1c0tWa3FvWEprdEFsNWZu?=
- =?utf-8?B?V29CbW1vUlVzSjRaenVDd1hnVE4yUDRoY1plcnMrWGFFOVhxempJY2t2Mm5x?=
- =?utf-8?B?ajYzbzUvclV3R0ZvNkd4QzRNSDMzOWtyRmFDeEp6NUdvTlQvMkFuQVZTM2Va?=
- =?utf-8?B?RjlUcG1nRUl1a05rM09ER1VwZFN6UG5ETUtyYldGVkE5NDJmUjdhS1JPb2Z3?=
- =?utf-8?B?WDVzeG81UFNnTHJodld4UHcvMUV2S3NBa0lvMU8xbTVoOWEwZmEzQ2w5SGhs?=
- =?utf-8?B?bzU3NCs1MDcwUUlYdElwRHAvcThQMkZIaFkyRzRnNGpMaEdaWTIvbVdVcmdG?=
- =?utf-8?B?U0hzMGVabW5wa1phOEM5dXZmdmp1N2ZzMlcyWlhjVUN2YXpFMTJMbGpvcmhp?=
- =?utf-8?B?TVpEc0ltZlpVT1V0K2pWQUJEaG82VktXV1J0Y1hBWEY2K2lBb3V0T0J1dS9Z?=
- =?utf-8?B?TXlwRDk1aUt5dC9MUHJBd0ZSMEVRM1dtdC9qcGtuWWFRWG5qL09WOXkwOFU0?=
- =?utf-8?B?eS9uc3ZoNmdqemI5bDhVN01ORlRPc3poWmsySElDMVZadGV1RzB3M1FNMzF3?=
- =?utf-8?B?UFczenYwK2FqTlpnZ1hpcGN5NEYwcndQc3pLYWV2VzkzUVhPNUxoRUdDa3Bh?=
- =?utf-8?B?WWVNZWFkcnc0Wkl2MmVaeW9mVDVSamJkR1lOSnpiUjBQaFQ0RU41end6bW9R?=
- =?utf-8?B?b1lEMnFjeDdOMkNIZ2gzbVdSS3VTU2srYTludXVuMURFWFNiZGR3MVpFUTlv?=
- =?utf-8?B?TnV2Rk5qWEI5Rm40SXdvRjc4ZXZISTJPdFN6M3REYW1xZ3diaTdWMlJaNWVW?=
- =?utf-8?B?eEJSNDNwdzhTT3REa0pEQzdwNkxtaVkxOEMzaUZ2eTBJZkZnNkpmT0pEZ2xQ?=
- =?utf-8?B?TVRucXZqaVIyekUvSms0MUw3NVRCRXpLRDl0Tjg2Z2RmUmdaM0xpY0JORXB4?=
- =?utf-8?B?cDdZRlMzTk9EaVdIeXJXQ2x6MGNoQng4ZDBBTDNhTWJCSnhmQkdPZUY3eGw2?=
- =?utf-8?B?Y2FoMzBuc2c0bkxuSHg0Y0Z2UkFuTE9BeHlyUkZGallVS0lKS05za0ZkSHlj?=
- =?utf-8?B?bktxMWVabEdWU242dXM0RDIwVll3OEovQzdPb2o5VzJKZkpjb1lKSTdUTm42?=
- =?utf-8?B?MGNyT1dKNUdUNHFTMisvTTczWnlOZmFWbGpndVhCYytpMjNsclNoM2wzeXRI?=
- =?utf-8?B?eS9Dbkt1T3BtTDhRWnJORjNIeUE2cHVOclg5aGFtYzFMUWJHaDgvaC9tOFVN?=
- =?utf-8?B?NUtTb2lFNFVkTTZZWVNqblVaS1RRVXRrYStHaU1HaEpOYnd1bDIwdnV4R3Bl?=
- =?utf-8?B?QUQyL1VWMnk3bHBZUWNVbm01c1pQc2VmZ1FDdmd0dFVvYjZlRExNWmVRPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4202.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MXIyMUpMRWhESldRQm8xMlIzb25XNC9peG84eUhQc1d5a2lLRWdTZmVqdzBO?=
- =?utf-8?B?aHkyd0NQMjNDdkhMS1c1elhEVEkwa2xYOGdmNWdobHhCeFZmNzR5NXA2M1dN?=
- =?utf-8?B?WDdTRDJZVFpvL3NzN2taUVNOYnJuQVZyZU1JUE9kellxT29tWkZJNmV5M0Ft?=
- =?utf-8?B?WngzWkxkZW10Tk8zUk5sNHVoQmd2S2Y1ZFlNdUF6ZmRSV0xBU2lnRnIvQUNx?=
- =?utf-8?B?ZHlaMzZTNzNGeGlkaEdzbTd6c1BTS2hMQllrczg1TU1iSStnV3grazc2YUoy?=
- =?utf-8?B?N1h2bVJOeFZMSWdVazhGTHJrUXJDUkVKSkMyemZsS0RUV0dLTS83cmpLUkVF?=
- =?utf-8?B?dDNSUG5kOGM2OGc2VldvMW1jemx5enpIUTVpWlVYZTJWVkhva3RrbVQ3SkNL?=
- =?utf-8?B?eDlNalVhL2JFMVFCYlFXM25DUWlxU1N1dE5Dajlhb2poYkRaV20vVmpkaXNp?=
- =?utf-8?B?d091d2NSS29LZW0wOXZIQUNzSkIrUXNHc3h4cUhtWWFOSmw4NmtRVTEyM1V4?=
- =?utf-8?B?d2RXTmhNaEQ0L21mRDhDeVdVQkpDWW1pQmpaTFlCN2lkR2ZodndMYldzSmZ6?=
- =?utf-8?B?bmRleW8vY0oxY3YvY3UySFY4YUFZRjRjcFlreXl5d2luQUFEVFl2eEx2blhn?=
- =?utf-8?B?L3ZFRktlZnVLcWZpMG1tSzYzTXA2RGJaWjhDeFpISVZQZCthM2wvdG41dWxN?=
- =?utf-8?B?ei9DRm5mT0U0UU9aYVBDa3BUVlhEWFE1N0NKeVdaQ1YzdVFKc2RVUVIvOWVy?=
- =?utf-8?B?M1VidWIwOWg3TmdxSnh6eSs3QTludXV5ak5ieVkyYTV2K2pGNDQ3S2V5Z3hz?=
- =?utf-8?B?RS9OOXlpWkpQd1pMNW1wT0NjbVA1U3V2TnB0YW4wb2lpL2hRQi91ZCs1SU4y?=
- =?utf-8?B?amYvdC85QUltczZORjB6RW5QeEI0bTVHY2FSUHVTaGZ4ckwxclZHRk5VWWdU?=
- =?utf-8?B?dENmQ3h0N0hGZlpEcm81dXAzaVEyd2p4RUFOM2V4d0tZNm1ySkJISTlLc3pO?=
- =?utf-8?B?T2E3dnd4RE9reUN1VnhtTUhoSFd4R2Q2cWhqQlVIZXYwc3BYUGRRTUYzRGZn?=
- =?utf-8?B?aU5TYmtFT1hIL0dJSEZVVDJnSHFBbVN2L2hGUE1jVWpFMUsvVzFpcXY2VWo3?=
- =?utf-8?B?WlBoN0VBMW5LZFNySmV4S0g3d3BlaWpwWlNaNlZ2Q2UvRGQ1M3pvRG8ybUk2?=
- =?utf-8?B?dWQydVhJNHZvTDBaeGF2TG12TkFqQ1RCZU1zL3NSR0hWeWJrM0JHbUN3SDB1?=
- =?utf-8?B?WmsrUm1aYmNKNHJCU3BjbmFZb1Z3cWZGUmJPdGg1WVN6YnBCUExma2pJUjRM?=
- =?utf-8?B?amtVQ3VhWkcwUS90MzZ0aDJUV21IQ3pRbHF4OEhEa3RtS0tnVElDMkUrVDh6?=
- =?utf-8?B?ZXQyMk1XeVdDVXltMXpWSEVEK0pHb1QvVlo5TU9pU0JQcFRPNlpWSmt1SGxi?=
- =?utf-8?B?czEwRFdsRnY2cjMxV0pXQkNBSDdXc01UcFVYdkhJYnp4SjlmdERtQjJwZHZp?=
- =?utf-8?B?bGx6WUV4WmswcnhWSmtScmdXZ3RkUDJ1R2FKRmgyenNxVm9YamR2OWdVQjE5?=
- =?utf-8?B?WER5ajhYNHpVL2wzNVB6VEFPcHh1ZTQveWdvVTk0QW13Q1piUGd1UjZzL0FK?=
- =?utf-8?B?WENqWEZnR2tDWnBjTGdpWUJyQk16UFU2MnE4TnkyZVFORjZ4RWhDL2syYm1I?=
- =?utf-8?B?ZU93bklsVTIrK1VDcUlwREs3c1lnTVRHUko4aGtpY0dhaFpLeUdSYkJjV3Iv?=
- =?utf-8?B?ZHhhMDdVMm9RTFU1RytiTkhMZDRrM0puZE53NjdvQWtIbEhZbjN6MStyL3VW?=
- =?utf-8?B?VFBlZ1lxeDY3RlNDZkFnUVhSU3g3WCt6cXFHUWQ0L2ZSeVJGRk1lMmM1VEY5?=
- =?utf-8?B?UGlVU3Z1SWMzbWhQc1ZhZHNHUjQ3TUFYcmFab01JelFQZlB5ejRObXpRcnlV?=
- =?utf-8?B?VnJ6M2FsSW9IL2krQTVSU1FtKzBKc3NVMEVxalFvSC9oZ3ppUi9tTDZaNGc1?=
- =?utf-8?B?emE4bmt0elljMC9UVHI1MHorZkhaQUEwdjlpV3NsOVh2eFRRdmEvbG95Lzg0?=
- =?utf-8?B?b0k2aFlITVI5NmVnaUxXMTF3dmRFWmZkVmlHelNJVk1ZeUMyNTlMSHZ3M2Vp?=
- =?utf-8?Q?vV+sqq8kUWm71MR0rCiWaJsj/?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3aee82bc-48dc-4252-3ea7-08dcdca5fc41
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4202.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2024 14:34:24.3243
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: idZ7SMywL/Y1ZRgSDzvsXIB3CdCrxRWNh9QqLOt5zkYeDQ0ZZm3qeiW+qSmFE9TsVFlu79HfaYz6arkkjmU1Jw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7303
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/10] dt-bindings: iio: adc: ad7606: Make corrections
+ on spi conditions
+To: Conor Dooley <conor@kernel.org>
+Cc: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ aardelean@baylibre.com, dlechner@baylibre.com, jstephan@baylibre.com
+References: <20240920-ad7606_add_iio_backend_support-v2-0-0e78782ae7d0@baylibre.com>
+ <20240920-ad7606_add_iio_backend_support-v2-2-0e78782ae7d0@baylibre.com>
+ <20240921-playgroup-regally-f26c17be26dc@spud>
+Content-Language: en-US
+From: Guillaume Stols <gstols@baylibre.com>
+In-Reply-To: <20240921-playgroup-regally-f26c17be26dc@spud>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-On 9/23/24 21:27, Wei Huang wrote:
+On 9/21/24 23:55, Conor Dooley wrote:
+> On Fri, Sep 20, 2024 at 05:33:22PM +0000, Guillaume Stols wrote:
+>> The SPI conditions are not always required, because there is also a
+>> parallel interface. The way used to detect that the SPI interface is
+>> used is to check if the reg value is between 0 and 256.
+> And, yaknow, not that the bus you're on is a spi bus? I don't think this
+> comment is relevant to the binding, especially given you have a property
+> for it.
+
+Apologies, I missed to change the commit message, it will be fixed in 
+the next series.
+
+Since Jonathan did not like very much inferring the interface with the 
+reg's value that I used i the previous verison, I introduced this flag.
+
+However this is only intended to be use in bindings, to determine 
+whether or not spi properties should be added.
+
+In the driver side of things, the bus interface is inferred by the 
+parent's node (SPI driver is an module_spi_driver while parallel driver 
+is module_platform_driver).
+
 >
+>> There is also a correction on the spi-cpha that is not required when SPI
+>> interface is selected, while spi-cpol is.
+> I don't see this change in your patch, there's no cpha in the before.
 >
-> On 9/23/24 7:07 AM, Alejandro Lucero Palau wrote:
+Again a problem with the commit message, this belongs now to another commit.
+>> Signed-off-by: Guillaume Stols <gstols@baylibre.com>
+>> ---
+>>   .../devicetree/bindings/iio/adc/adi,ad7606.yaml      | 20 +++++++++++++++++---
+>>   1 file changed, 17 insertions(+), 3 deletions(-)
 >>
+>> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
+>> index 75334a033539..12995ebcddc2 100644
+>> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
+>> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
+>> @@ -112,18 +112,32 @@ properties:
+>>         assumed that the pins are hardwired to VDD.
+>>       type: boolean
+>>   
+>> +  parallel-interface:
+>> +    description:
+>> +      If the parallel interface is used, be it directly or through a backend,
+>> +      this property must be defined.
+>> +    type: boolean
+> The type you would want here is actually "flag", but I'm not sure why a
+> property is needed. If you're using the parallel interface, why would
+> you still be on a spi bus? I think I'm a bit confused here as to how
+> this interface is supposed to be used.
 >
-> ...
+> Thanks,
+> Conor.
 >
->>> +/**
->>> + * pcie_enable_tph - Enable TPH support for device using a specific 
->>> ST mode
->>> + * @pdev: PCI device
->>> + * @mode: ST mode to enable. Current supported modes include:
->>> + *
->>> + *   - PCI_TPH_ST_NS_MODE: NO ST Mode
->>> + *   - PCI_TPH_ST_IV_MODE: Interrupt Vector Mode
->>> + *   - PCI_TPH_ST_DS_MODE: Device Specific Mode
->>> + *
->>> + * Checks whether the mode is actually supported by the device 
->>> before enabling
->>> + * and returns an error if not. Additionally determines what types 
->>> of requests,
->>> + * TPH or extended TPH, can be issued by the device based on its 
->>> TPH requester
->>> + * capability and the Root Port's completer capability.
->>> + *
->>> + * Return: 0 on success, otherwise negative value (-errno)
->>> + */
->>> +int pcie_enable_tph(struct pci_dev *pdev, int mode)
->>> +{
->>> +    u32 reg;
->>> +    u8 dev_modes;
->>> +    u8 rp_req_type;
->>> +
->>> +    /* Honor "notph" kernel parameter */
->>> +    if (pci_tph_disabled)
->>> +        return -EINVAL;
->>> +
->>> +    if (!pdev->tph_cap)
->>> +        return -EINVAL;
->>> +
->>> +    if (pdev->tph_enabled)
->>> +        return -EBUSY;
->>> +
->>> +    /* Sanitize and check ST mode comptability */
->>> +    mode &= PCI_TPH_CTRL_MODE_SEL_MASK;
->>> +    dev_modes = get_st_modes(pdev);
->>> +    if (!((1 << mode) & dev_modes))
+>> +
+>>   required:
+>>     - compatible
+>>     - reg
+>> -  - spi-cpol
+>>     - avcc-supply
+>>     - vdrive-supply
+>>     - interrupts
+>>     - adi,conversion-start-gpios
+>>   
+>> -allOf:
+>> -  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+>> +oneOf:
+>> +  - required:
+>> +      - parallel-interface
+>> +  - allOf:
+>> +      - properties:
+>> +          parallel-interface: false
+>> +          spi-cpol: true
+>> +      - $ref: /schemas/spi/spi-peripheral-props.yaml#
+>> +      - required:
+>> +          - spi-cpol
+>>   
+>> +allOf:
+>>     - if:
+>>         properties:
+>>           compatible:
 >>
+>> -- 
+>> 2.34.1
 >>
->> This is wrong. The mode definition is about the bit on and not about bit
->> position. You got this right in v4 ...
->
-> This code is correct. In V5, I changed the "mode" parameter to the 
-> following values, as defined in TPH Ctrl register. These values are 
-> defined as bit positions:
->
-> PCI_TPH_ST_NS_MODE: NO ST Mode
-> PCI_TPH_ST_IV_MODE: Interrupt Vector Mode
-> PCI_TPH_ST_DS_MODE: Device Specific Mode
->
-
-OK. I found the issue. I was using PCI_TPH_CAP_ST_DS for the mode 
-instead of PCI_TPH_ST_DS_MODE.
-
-That change confused me.
-
-Apologies.
-
-
-> In V4, "mode" is defined as masks of TPH Cap register. I felt that V5 
-> looks more straightforward:
->
-> V4: pcie_enable_tph(dev, PCI_TPH_CAP_ST_IV)
-> vs.
-> V5: pcie_enable_tph(dev, PCI_TPH_ST_IV_MODE)
->
->>
->>
->>> +        return -EINVAL;
->
