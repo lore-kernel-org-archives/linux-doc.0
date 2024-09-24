@@ -1,111 +1,192 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E7082745B
-	for <linux-doc@vger.kernel.org>; Tue, 24 Sep 2024 16:25:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DAFA1B85D2;
+	Tue, 24 Sep 2024 16:27:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727195120; cv=none; b=T6BEmRkr7Zm4QA+6Pwccmwk8kMfLwD8W3M48e58kqn+aAUkZKgK1+ELkp6o6mEvfZYj2zuKho17FxoABluI7XXFmx9gYEgbh+NbvsiozH8eoy8gXGbE8inwsFlagoqLtHBfEzCCLyM+BNdGH31Zp45Ot5f6B1t6Vdt3VfEbqtNA=
+	t=1727195250; cv=none; b=XsYTj48U15tSreuL9CRUr2aw+TpfU0CS6J/FQFkNHKFUt8nvauPc+TJrQgrgDgz/J/MaOqpo4ulf7CUwaCb7g2+GFOCDhNZQqpy5ihQ7fFthAbkPNLi8zcLyC5JFYPFlDpu/m9cgLq3RETOvtm5Vp2W5NbXN0g72lP8q5+fnYIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727195120; c=relaxed/simple;
-	bh=KL27rgoZ3wP4pGsCfA1Ow4ijZvgGX1PvV3gbwxQmTMs=;
+	s=arc-20240116; t=1727195250; c=relaxed/simple;
+	bh=9HF8JVLN9dQ2kLahJhqOyeSX7NT07bcL0IEtmzfd7nw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OJZnG6rwiY9k2yPaxDRL6v0EupgRRnfPeUUE5N8RL2KWd4rWgVpUKvggnrGEy0ZWfyC9u5qWCjDjdqz4cgamgG7Ymn/AIeOlEJterwIz4ojrnL6VXuyBhSsKmm29v6OpYNqgzlxPzTs/IYTjbmt7oUCArWMUNI3hJXi/9L41m8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=o4i/1w4r; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=tuHH6cUhzLS35m8ewM9jahMcGiIqiP0VrPUHi/4tnIsVOjFrVR7lNZCzWlIREJyhDdy6fa4jgZ529Rn1rhWCRKWUuhH75WW7GaWTBjXTvVuMtJ7rXMpoSLY87NkVuq1W8e0U0OEjflNK6nPzqFho6gq6b+fEOnKNou0TtWrtpmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wua6sy3y; arc=none smtp.client-ip=209.85.166.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="o4i/1w4r"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5c25f01879fso7259918a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 24 Sep 2024 09:25:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wua6sy3y"
+Received: by mail-il1-f171.google.com with SMTP id e9e14a558f8ab-3a1a3090f39so5720785ab.3;
+        Tue, 24 Sep 2024 09:27:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1727195117; x=1727799917; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1727195248; x=1727800048; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2OGzXyCyIU+gpdL72mkYPID0DqYKw9jMm9jZJoxAZdU=;
-        b=o4i/1w4rNix0MG7+ibo3N40L0fMHivoHA1gcD1ZUXRiv3S1S6ylSUoUZ4QW6j0nIBt
-         JWG+XCvthpbc7iT+pRvuMSotbRsVdMdsbfYXPyeubYTQg/Ggb+UlNDnL2EOpxRd0bOkY
-         kwZ+NzmDAcWVA1HQPnYLE+MoTbRQpcQhfVY25/jF0+81CMoeBclc1yw3lxo/kTNIC1O7
-         qzDPImF8aTmpzkvnjLJIJBjBvhsXDyvmWjw8LAkUEvLRstPahn8tIzAZ3qJeNaam70YD
-         BwBT1CUbN5DKYEpVpNUe3zUEZVvPTsWU8BZGNVd5XEZhzkhX0bSkSuFZ6wrRVHmgOn0i
-         dhHg==
+        bh=tIKJ3tLYnjzjQAicXIIqfWRcuCEsTe9hsi8L1oCHUJE=;
+        b=Wua6sy3yuDyKsGD9hyg/EytfrvOyIXg5ppwLy8HPacWpHjmW9lAx0+L+MFz9uA4CHA
+         NUpN9gQQucZUvdmmTpFyTapKdJU6ojEl5ZVnc3pWG5LzQ72JmrmRkRuVMpUihZDuSXO1
+         35b+A/3Em7uzMeXHtVhxAimWdgC3s0FNoGL8iUF8AuvkWUaFFw/E3+ixP7Y1P8/UZq4Z
+         10XzY0Be8+jDFmJkVkP3UrLLUVWI5VT49cBP6b9/quHgNeMK5vPLv5h2BeYtBTVIlCNX
+         P8adgLgDjR/sgnvG8F28F99PCah8+vqbRjtxItaqtX3c8xI8sOyxjcbTXDTmZ9VQ+3B2
+         2S7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727195117; x=1727799917;
+        d=1e100.net; s=20230601; t=1727195248; x=1727800048;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2OGzXyCyIU+gpdL72mkYPID0DqYKw9jMm9jZJoxAZdU=;
-        b=Jx5rl4pVMvyVkpOEzWCEyvAL/tY6tkwD9yII9eFf0fLjJvnxg4i02ez03qcPyYK8QG
-         M167JprcFSvYMU34E3FN3W4cMjDNfB+I9YemIP/zxSahRf/N7Ocoi0jDSNdynhQnIkL/
-         r57VD94leUTZWEKrA813ymBXCYb+3omwlfSQNp7PejJfc7I7jVoQfdUXFAcR63D2Fx3u
-         ZvucgY6RlxGwTl4o3aFHJ2AI733bbfJ5s5k+3Pj15tpfAfNPkSfHiicdSZ+IENRID2g2
-         Iy62C6EiGMBbbpAccylJW2+k9QEQxZ+BV93WXGMuCqpVvkd6WtuBYM2Bo03DXOB66H1e
-         8KEA==
-X-Forwarded-Encrypted: i=1; AJvYcCXtJhadb+d9mOAxn+MPrHUAHkJGnjooVOh5E7rZnG/uwg27jKP0IXHK50Z3jl5luQLwgbt4YXWjEUo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/07kk2s2t/nJIHFRG+bcxjKUDmDOHgWqhdeSevv+FddgweZ5W
-	S4N/mFTNoMFBSTSrWj5JdRIQ0ewfNsxijfq/BPB7imt40Y1YDJ+nqDR7iYwrELx0f8yOISUAcrJ
-	/2kYjGlrhJrWpfcz6WBWvbVj9xRgcY+9OkMSi
-X-Google-Smtp-Source: AGHT+IGSoSsFkK796I2+DdE4o7j50yWb0SAdaqMH3jXpmPjzF7P9uS7HuwQVYvqGjDSWnJ6hxq4EuiKtJWeeDRd3TIg=
-X-Received: by 2002:a05:6402:e02:b0:5c4:1437:4159 with SMTP id
- 4fb4d7f45d1cf-5c464a5d4damr13913001a12.28.1727195116491; Tue, 24 Sep 2024
- 09:25:16 -0700 (PDT)
+        bh=tIKJ3tLYnjzjQAicXIIqfWRcuCEsTe9hsi8L1oCHUJE=;
+        b=L1hivqEOjq8mMss5y4AgUoAPqzJt+Zfzjijx3/47BavIl1wvBjMEh9Q1hOp3CaP7Q/
+         lA1njvJswnVWXIw4smTxp6AS6jq0uvrxSt1vg/3fiLgM/VqYOJ9kSjk+xDTR2AMWVCBg
+         Ppji/iFpa8Qw1VzG/IFump9sOmFQNj+I0hxBqHCPkLfh6/UwHWBFpaOnADmbQqjlWaAU
+         f0P9XaEEV0NfxXN2gAxqPQ/tRCdUsQzbyWdqO6OSSv1Qff8kpmTw6GTzNoJ+5iVcZsLN
+         H4dmH95X4e9BcXXfwVGMvWpWkrvKZoUHKKhZtef72vjv2BOzQ7sZJv9DJbapHNqlJTFg
+         Z6ZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUmqYAWmlc58AMA0k2w3ryenTxoUZdD8Mwf5cCUDH8bDGOh+elLkjUlDrIuPEZUI6xL0XSxzHMhQLeA@vger.kernel.org, AJvYcCWEkwxBn3i+Hzrdox93gR5RTA4f1EZGoYG6CioE6quuu2tEUnhixG2r67fgJnZXxursVb+xydYJZDJ/nL9/@vger.kernel.org, AJvYcCWxBuzmKKaPKSerRxfikAqnooJrgYN99WTUDBJ6blzRrzjexOyvD8zj3gWEStVlZnuwRzdxAqK1DoET+Y2u@vger.kernel.org
+X-Gm-Message-State: AOJu0Yya5gA+2//19cSBYo8shV89USmKDAwcZn7J9LJHDo0gzYpfsfO0
+	WnrF/YnEK1X4AiIcshNm7JQ+hpS7RZVx+Re66UTOupHkUl4Hzb7YbFrDN5R0rlFnDIkdZAUY2rC
+	Av5gU4wnA6jK9YsksXHW/2K0gNac=
+X-Google-Smtp-Source: AGHT+IG9boXyVk/1DBYrjUtsCFlsGG3k5A0clibRl0uG/AxfB6qhwgN3oUtXzCNhhSbUc7BmikIteq3R9XRZ7x4hGyY=
+X-Received: by 2002:a05:6e02:20c8:b0:3a0:9aff:5046 with SMTP id
+ e9e14a558f8ab-3a26d795471mr409395ab.15.1727195248272; Tue, 24 Sep 2024
+ 09:27:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1725488488.git.babu.moger@amd.com> <a94c14653c29e89bc76727addfcdf1f9c164b95d.1725488488.git.babu.moger@amd.com>
-In-Reply-To: <a94c14653c29e89bc76727addfcdf1f9c164b95d.1725488488.git.babu.moger@amd.com>
-From: Peter Newman <peternewman@google.com>
-Date: Tue, 24 Sep 2024 09:25:05 -0700
-Message-ID: <CALPaoChn+dkHNTMdCwCqH=zwtBr9jJRV4jAGWeWnNOBZ1f+6WQ@mail.gmail.com>
-Subject: Re: [PATCH v7 09/24] x86/resctrl: Introduce bitmap mbm_cntr_free_map
- to track assignable counters
-To: Babu Moger <babu.moger@amd.com>
-Cc: corbet@lwn.net, fenghua.yu@intel.com, reinette.chatre@intel.com, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org, 
-	peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com, 
-	lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com, 
-	leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com, 
-	kirill.shutemov@linux.intel.com, jithu.joseph@intel.com, kai.huang@intel.com, 
-	kan.liang@linux.intel.com, daniel.sneddon@linux.intel.com, 
-	pbonzini@redhat.com, sandipan.das@amd.com, ilpo.jarvinen@linux.intel.com, 
-	maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
+References: <20240924-preemption-a750-t-v5-0-0be2bf81c187@gmail.com> <20240924-preemption-a750-t-v5-10-0be2bf81c187@gmail.com>
+In-Reply-To: <20240924-preemption-a750-t-v5-10-0be2bf81c187@gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 24 Sep 2024 09:27:16 -0700
+Message-ID: <CAF6AEGsixas1wa4k6QjjwdjKqq1hHk8RDBeL-MUHTcmMRrFDoQ@mail.gmail.com>
+Subject: Re: [PATCH v5 10/11] drm/msm/A6xx: Enable preemption for A750
+To: Antonino Maniscalco <antomani103@gmail.com>
+Cc: Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	Marijn Suijten <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-arm-msm@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Neil Armstrong <neil.armstrong@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Babu,
+nit, lowercase "a6xx" in subject prefix
 
-On Wed, Sep 4, 2024 at 3:23=E2=80=AFPM Babu Moger <babu.moger@amd.com> wrot=
-e:
+(no need to resend just for this, I can fix it up when applying
+patches if needed.. but if you do resend pls fix that)
 
-> diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
-> index f11d6fdfd977..aab22ff8e0c1 100644
-> --- a/include/linux/resctrl.h
-> +++ b/include/linux/resctrl.h
-> @@ -187,12 +187,14 @@ enum resctrl_scope {
->   * @num_rmid:          Number of RMIDs available
->   * @num_mbm_cntrs:     Number of assignable monitoring counters
->   * @mbm_cntr_assignable:Is system capable of supporting monitor assignme=
-nt?
-> + * @mbm_cntr_free_map: bitmap of number of assignable MBM counters
->   * @evt_list:          List of monitoring events
->   */
->  struct resctrl_mon {
->         int                     num_rmid;
->         int                     num_mbm_cntrs;
->         bool                    mbm_cntr_assignable;
-> +       unsigned long           *mbm_cntr_free_map;
->         struct list_head        evt_list;
->  };
+BR
+-R
 
-This looks global still. Will only all-domain (*=3D) operations be
-supported initially?
-
-Thanks,
--Peter
+On Tue, Sep 24, 2024 at 4:30=E2=80=AFAM Antonino Maniscalco
+<antomani103@gmail.com> wrote:
+>
+> Initialize with 4 rings to enable preemption.
+>
+> For now only on A750 as other targets require testing.
+>
+> Add the "preemption_enabled" module parameter to override this for other
+> A7xx targets.
+>
+> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
+> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
+> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8450-HDK
+> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c  | 3 ++-
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 6 +++++-
+>  drivers/gpu/drm/msm/adreno/adreno_device.c | 4 ++++
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.h    | 1 +
+>  4 files changed, 12 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/=
+msm/adreno/a6xx_catalog.c
+> index 316f23ca91671d973797f2a5b69344f376707325..0e3041b2941905f1acdc9e571=
+e0549a960a7edfa 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> @@ -1240,7 +1240,8 @@ static const struct adreno_info a7xx_gpus[] =3D {
+>                 .gmem =3D 3 * SZ_1M,
+>                 .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
+>                 .quirks =3D ADRENO_QUIRK_HAS_CACHED_COHERENT |
+> -                         ADRENO_QUIRK_HAS_HW_APRIV,
+> +                         ADRENO_QUIRK_HAS_HW_APRIV |
+> +                         ADRENO_QUIRK_PREEMPTION,
+>                 .init =3D a6xx_gpu_init,
+>                 .zapfw =3D "gen70900_zap.mbn",
+>                 .a6xx =3D &(const struct a6xx_info) {
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/=
+adreno/a6xx_gpu.c
+> index edbcb6d229ba614be910ee70e75731538116e4a4..4760f9469613c0bf208f56be9=
+608747b5aa75606 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -2529,6 +2529,7 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *de=
+v)
+>         struct a6xx_gpu *a6xx_gpu;
+>         struct adreno_gpu *adreno_gpu;
+>         struct msm_gpu *gpu;
+> +       extern int enable_preemption;
+>         bool is_a7xx;
+>         int ret;
+>
+> @@ -2567,7 +2568,10 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *d=
+ev)
+>                 return ERR_PTR(ret);
+>         }
+>
+> -       if (is_a7xx)
+> +       if ((enable_preemption =3D=3D 1) || (enable_preemption =3D=3D -1 =
+&&
+> +           (config->info->quirks & ADRENO_QUIRK_PREEMPTION)))
+> +               ret =3D adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_a7x=
+x, 4);
+> +       else if (is_a7xx)
+>                 ret =3D adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_a7x=
+x, 1);
+>         else if (adreno_has_gmu_wrapper(adreno_gpu))
+>                 ret =3D adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_gmu=
+wrapper, 1);
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm=
+/msm/adreno/adreno_device.c
+> index cfc74a9e2646d3de76a06bd67457d69afa49e309..9ffe91920fbfb4841b28aabec=
+9fbde94539fdd83 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> @@ -20,6 +20,10 @@ bool allow_vram_carveout =3D false;
+>  MODULE_PARM_DESC(allow_vram_carveout, "Allow using VRAM Carveout, in pla=
+ce of IOMMU");
+>  module_param_named(allow_vram_carveout, allow_vram_carveout, bool, 0600)=
+;
+>
+> +int enable_preemption =3D -1;
+> +MODULE_PARM_DESC(enable_preemption, "Enable preemption (A7xx only) (1=3D=
+on , 0=3Ddisable, -1=3Dauto (default))");
+> +module_param(enable_preemption, int, 0600);
+> +
+>  extern const struct adreno_gpulist a2xx_gpulist;
+>  extern const struct adreno_gpulist a3xx_gpulist;
+>  extern const struct adreno_gpulist a4xx_gpulist;
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/ms=
+m/adreno/adreno_gpu.h
+> index 87098567483b69c21025b80f356e0a68f0e7f172..d1cd53f05de68b3873f355206=
+55e09e82fc40449 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> @@ -56,6 +56,7 @@ enum adreno_family {
+>  #define ADRENO_QUIRK_LMLOADKILL_DISABLE                BIT(2)
+>  #define ADRENO_QUIRK_HAS_HW_APRIV              BIT(3)
+>  #define ADRENO_QUIRK_HAS_CACHED_COHERENT       BIT(4)
+> +#define ADRENO_QUIRK_PREEMPTION                        BIT(5)
+>
+>  /* Helper for formating the chip_id in the way that userspace tools like
+>   * crashdec expect.
+>
+> --
+> 2.46.1
+>
