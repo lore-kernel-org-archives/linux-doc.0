@@ -1,296 +1,375 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3028158DD4;
-	Tue, 24 Sep 2024 08:46:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727167593; cv=pass; b=mgpG4TSMpiLJLpm2897aQiJ+2qWElcmfXAjIt6oyMst109bS4iEx3j1yY+LvAwoImW5UYP9IfDjLn4fuKUJmDAE6l8YTLTxXKxShNT/H6aUcVyfWD83R/vBzcleRAzKx1L4w30E92cKDCF7BSmDN+nrxbUm7rb7bvl/vQGoapnE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727167593; c=relaxed/simple;
-	bh=po5NJZt3jrD7xtPpFLubKUK9l5jPK5lSkJwH5Hc6ERg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=N+oeiAuctA39p2OjgF83gGoLyoREG5z3gtcSabq+Fjn6FezCgV0OcRhE9g1cJAmen1B0N+sOqeiG57CvNQMe4sYZTgZLlzAceA7QZNl8RAlWZ99e5dYflr+cmvQfSSbe00mMFIRJGdmgXo57LfS+8+qssbtT9uxkTWiCVz174lI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=bXqBIc9R; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F901537DA
+	for <linux-doc@vger.kernel.org>; Tue, 24 Sep 2024 08:56:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727168219; cv=none; b=CR/tZas0WsL07r9snoKQkjXXqOccglPea8xEDldk3H+IyL9pqiGuFCzrszFICMUP8slr8iqsSGKqdhZtVsTwUtt8wuJaZ/JKsL5FJf9vblgxt/ggg61nY0O8On8LyNdZgnuiVybRo+7jf926uU6enzRU9cTFVESQJdEsHq5fCgY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727168219; c=relaxed/simple;
+	bh=FY8V5GzsCDooZpLgfnYKx2RnxQCDxyemvSKkxopjkZg=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:References:
+	 In-Reply-To:Content-Type; b=p5JpH3r3IB9VtBXmO6yHnoFtBYngBq4/YGIb9ek0E7Kbgy7E+eG+fw0kY8JwK5DcxH9fTB5OFwdxggI8E0JddRPZ0p1bv2V6T+fwlSsnR//bYvcXLIwXpsPUwLU3bQahv7JDlUAFHAr0QGToHxL+1MBJI9POhCnVqLAaoFK+NDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=none smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=qvZu7605; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=daynix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="bXqBIc9R"
-ARC-Seal: i=1; a=rsa-sha256; t=1727167580; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=iRXtW9d7+497VXCoLeNTo5ficc9zEpanVsPHAPYNwzr5Dh6rJ21q85IpyAT0LDYlG3qN/g/noOhpjSYkCTMZTPT+orv8Bv4CpLaYMdj5gtlOCEcVjs+D7NpMequ+mbfjfKyb9oZYYmvmQlK9aYkqtl6+vmb3w3iy0QkBnyQoQl8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1727167580; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=q3oWApHbcp8oyyobWeD5nMvlKWjpy2UT/CxElHmtVlo=; 
-	b=haOc4Ms0edw8FOTGEmRWXeGyqfDGrn11m1x11B7QocVU3HxrVBjMqjW8F2yYroE+liyXe8c0Ame7IRCLGbED6tvNgU9keMUEySr2kefS9/n+tCz5uGitiEA7EhGN9ZSskh7pKJx9BTQSg2GG/4VsTXHdo9iuTlsPm7pkaX/LAu0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
-	dmarc=pass header.from=<sebastian.fricke@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1727167580;
-	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=q3oWApHbcp8oyyobWeD5nMvlKWjpy2UT/CxElHmtVlo=;
-	b=bXqBIc9R9DwkgFnqOi7jzIfLyfKeMFF1H2CPYVDhkNX2EzXkYNQG+uIPElh3aDe7
-	i+V1ua+67bXr35hbQ+n+k+yllXZ4Vh1zWbK1wLczsqHBK7eYcLeIjkZ4aLTlHoqHSy9
-	jY0+UIxun9GAFh4BfV83Sv2erlJPKeW2tdhd8oEE=
-Received: by mx.zohomail.com with SMTPS id 1727167578119426.33679518370786;
-	Tue, 24 Sep 2024 01:46:18 -0700 (PDT)
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-Date: Tue, 24 Sep 2024 10:45:59 +0200
-Subject:
- [PATCH RFC v2 3/3] docs: media: Debugging guide for the media subsystem
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="qvZu7605"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a8d4979b843so663815066b.3
+        for <linux-doc@vger.kernel.org>; Tue, 24 Sep 2024 01:56:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1727168215; x=1727773015; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :to:subject:from:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mTOtY69+D3laLvm3lofHZC4VOFk5IqvXXwlXV/C57AY=;
+        b=qvZu7605u2skjjo2CtT/+G56Rekuulz+0RtfbGHJoVpCXnjJ/1CPbhaBMGyocs5vKC
+         1h84EjTGBsKSZFpbVp95J1NN9MnSU9O87AhPVaMnbTmEwb/0jKznE0HuNe4//ql5RXsO
+         5ilZe+wYyz5AU86SndYF73uLleY8r5mJwZjIsgQOEoe63wcf0TEj1xojblGsUmsVBWHI
+         NYbKkUvTrFbGl0+VLImAfW3+MmpxZAuIj1dFjmop8Ea4QsCG5jqNGdG8j65CALManQCX
+         XSLvtJJbWJn/OAOtrRdyHW/MBI0UkLXf7BFwTqTf3+pSpMjwlI72egRpqNHbrDiCJPm6
+         7b0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727168215; x=1727773015;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mTOtY69+D3laLvm3lofHZC4VOFk5IqvXXwlXV/C57AY=;
+        b=QbhatuBAQYTxne91grv/SgSEzapBLrENDcqWtaHpe4yYR1dFqJNNXRHVv/eLAhtc6k
+         jzQPqICK5QWxcjMcIKD1vWHe0/8lO7rKQBA9zjN9BQJ5UTaMvR46VZSi9cAiXI2CPfRW
+         8aoK1KzO3OzbhGCsTvLULCGuS+2ogXwrmghpANdKD88CtOru27+YovPxFzfT5B5m5BIl
+         4Myfb3E7LDaIMiIjROVkO9lfyiS/tReZ2Hzj6+8Apcg/8EqqykH9dyk96z52LUSA0OXZ
+         GzNjY/YkMz7oIFcZMuloWOVVPF3JtdnST0gFBZ8+Liu+Wk4V7VLaeoeZtdDKMa3fple0
+         7o5g==
+X-Forwarded-Encrypted: i=1; AJvYcCVcHT+cU6FrFK3thNYQGa3FrY/sKKkEDhb2fIY5RgtboiWqQdqrsiSS/Pxed72Pj0gO2HXx87Yrw8o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzvluvmEj0mywNMOpMK+8F0E76xaL9yRL8/J5dvHkNuRaXnlNm
+	epuEaviBR3GG5CfCcy4Qm2M0Tm/EcEEtM0KUHrkk/8JnXRVQZyx+EpkF/ryqnfw=
+X-Google-Smtp-Source: AGHT+IF4rso5jI+pMGJ6HEm3qXucrD9xt3jHbVEmxBUrmDkUnfPORUY8Y/d/DncPI/Tyw6+CRzGKfQ==
+X-Received: by 2002:a17:906:bc12:b0:a86:ad3c:6d2d with SMTP id a640c23a62f3a-a90d5838cf6mr1218070666b.61.1727168214811;
+        Tue, 24 Sep 2024 01:56:54 -0700 (PDT)
+Received: from [10.241.20.238] ([193.32.29.227])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9392f4f8a6sm59038566b.50.2024.09.24.01.56.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Sep 2024 01:56:54 -0700 (PDT)
+Message-ID: <694a8f81-616e-47d0-8185-5b73626c4109@daynix.com>
+Date: Tue, 24 Sep 2024 10:56:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: Re: [PATCH RFC v3 7/9] tun: Introduce virtio-net RSS
+To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Jason Wang <jasowang@redhat.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, kvm@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Andrew Melnychenko <andrew@daynix.com>
+References: <20240915-rss-v3-0-c630015db082@daynix.com>
+ <20240915-rss-v3-7-c630015db082@daynix.com>
+ <66ead59563da7_29b98629486@willemb.c.googlers.com.notmuch>
+Content-Language: en-US
+In-Reply-To: <66ead59563da7_29b98629486@willemb.c.googlers.com.notmuch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240529-b4-media_docs_improve-v2-3-66318b2da726@collabora.com>
-References: <20240529-b4-media_docs_improve-v2-0-66318b2da726@collabora.com>
-In-Reply-To: <20240529-b4-media_docs_improve-v2-0-66318b2da726@collabora.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
- hverkuil-cisco@xs4all.nl, mauro.chehab@linux.intel.com, kernel@collabora.com,
- bob.beckett@collabora.com, nicolas.dufresne@collabora.com,
- Sebastian Fricke <sebastian.fricke@collabora.com>
-X-Mailer: b4 0.11.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727167560; l=9004;
- i=sebastian.fricke@collabora.com; s=linux-media; h=from:subject:message-id;
- bh=po5NJZt3jrD7xtPpFLubKUK9l5jPK5lSkJwH5Hc6ERg=;
- b=cFLrdBlwdChnzCrtmBsR9xfPiFeXHFXdLUrUO8H5nyegMs9f26ulMFSKdg4h5YocA2GGMhTP7RGc
- FqVPC3WRC3Gsq39BcsmI/uxSkPE80TKHUEsnTax430NJ4kwXt2r+
-X-Developer-Key: i=sebastian.fricke@collabora.com; a=ed25519;
- pk=pYXedPwrTtErcj7ERYeo/IpTrpe4QbJuEzSB52fslBg=
-X-ZohoMailClient: External
 
-Create a guides section for all documentation material, that isn't
-strictly related to a specific piece of code.
+On 2024/09/18 15:28, Willem de Bruijn wrote:
+> Akihiko Odaki wrote:
+>> RSS is a receive steering algorithm that can be negotiated to use with
+>> virtio_net. Conventionally the hash calculation was done by the VMM.
+>> However, computing the hash after the queue was chosen defeats the
+>> purpose of RSS.
+>>
+>> Another approach is to use eBPF steering program. This approach has
+>> another downside: it cannot report the calculated hash due to the
+>> restrictive nature of eBPF steering program.
+>>
+>> Introduce the code to perform RSS to the kernel in order to overcome
+>> thse challenges. An alternative solution is to extend the eBPF steering
+>> program so that it will be able to report to the userspace, but I didn't
+>> opt for it because extending the current mechanism of eBPF steering
+>> program as is because it relies on legacy context rewriting, and
+>> introducing kfunc-based eBPF will result in non-UAPI dependency while
+>> the other relevant virtualization APIs such as KVM and vhost_net are
+>> UAPIs.
+>>
+>> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+>> ---
+>>   drivers/net/tun.c           | 119 +++++++++++++++++++++++++++++++++++++++-----
+>>   include/uapi/linux/if_tun.h |  27 ++++++++++
+>>   2 files changed, 133 insertions(+), 13 deletions(-)
+>>
+>> diff --git a/drivers/net/tun.c b/drivers/net/tun.c
+>> index b8fcd71becac..5a429b391144 100644
+>> --- a/drivers/net/tun.c
+>> +++ b/drivers/net/tun.c
+>> @@ -175,6 +175,9 @@ struct tun_prog {
+>>   
+>>   struct tun_vnet_hash_container {
+>>   	struct tun_vnet_hash common;
+>> +	struct tun_vnet_hash_rss rss;
+>> +	__be32 rss_key[VIRTIO_NET_RSS_MAX_KEY_SIZE];
+>> +	u16 rss_indirection_table[];
+>>   };
+>>   
+>>   /* Since the socket were moved to tun_file, to preserve the behavior of persist
+>> @@ -227,7 +230,7 @@ struct veth {
+>>   };
+>>   
+>>   static const struct tun_vnet_hash tun_vnet_hash_cap = {
+>> -	.flags = TUN_VNET_HASH_REPORT,
+>> +	.flags = TUN_VNET_HASH_REPORT | TUN_VNET_HASH_RSS,
+>>   	.types = VIRTIO_NET_SUPPORTED_HASH_TYPES
+>>   };
+>>   
+>> @@ -591,6 +594,36 @@ static u16 tun_ebpf_select_queue(struct tun_struct *tun, struct sk_buff *skb)
+>>   	return ret % numqueues;
+>>   }
+>>   
+>> +static u16 tun_vnet_rss_select_queue(struct tun_struct *tun,
+>> +				     struct sk_buff *skb,
+>> +				     const struct tun_vnet_hash_container *vnet_hash)
+>> +{
+>> +	struct tun_vnet_hash_ext *ext;
+>> +	struct virtio_net_hash hash;
+>> +	u32 numqueues = READ_ONCE(tun->numqueues);
+>> +	u16 txq, index;
+>> +
+>> +	if (!numqueues)
+>> +		return 0;
+>> +
+>> +	if (!virtio_net_hash_rss(skb, vnet_hash->common.types, vnet_hash->rss_key,
+>> +				 &hash))
+>> +		return vnet_hash->rss.unclassified_queue % numqueues;
+>> +
+>> +	if (vnet_hash->common.flags & TUN_VNET_HASH_REPORT) {
+>> +		ext = skb_ext_add(skb, SKB_EXT_TUN_VNET_HASH);
+>> +		if (ext) {
+>> +			ext->value = hash.value;
+>> +			ext->report = hash.report;
+>> +		}
+>> +	}
+>> +
+>> +	index = hash.value & vnet_hash->rss.indirection_table_mask;
+>> +	txq = READ_ONCE(vnet_hash->rss_indirection_table[index]);
+>> +
+>> +	return txq % numqueues;
+>> +}
+>> +
+>>   static u16 tun_select_queue(struct net_device *dev, struct sk_buff *skb,
+>>   			    struct net_device *sb_dev)
+>>   {
+>> @@ -603,7 +636,10 @@ static u16 tun_select_queue(struct net_device *dev, struct sk_buff *skb,
+>>   	} else {
+>>   		struct tun_vnet_hash_container *vnet_hash = rcu_dereference(tun->vnet_hash);
+>>   
+>> -		ret = tun_automq_select_queue(tun, skb, vnet_hash);
+>> +		if (vnet_hash && (vnet_hash->common.flags & TUN_VNET_HASH_RSS))
+>> +			ret = tun_vnet_rss_select_queue(tun, skb, vnet_hash);
+>> +		else
+>> +			ret = tun_automq_select_queue(tun, skb, vnet_hash);
+>>   	}
+>>   	rcu_read_unlock();
+>>   
+>> @@ -3085,13 +3121,9 @@ static int tun_set_queue(struct file *file, struct ifreq *ifr)
+>>   }
+>>   
+>>   static int tun_set_ebpf(struct tun_struct *tun, struct tun_prog __rcu **prog_p,
+>> -			void __user *data)
+>> +			int fd)
+>>   {
+>>   	struct bpf_prog *prog;
+>> -	int fd;
+>> -
+>> -	if (copy_from_user(&fd, data, sizeof(fd)))
+>> -		return -EFAULT;
+>>   
+>>   	if (fd == -1) {
+>>   		prog = NULL;
+>> @@ -3157,6 +3189,7 @@ static long __tun_chr_ioctl(struct file *file, unsigned int cmd,
+>>   	int ifindex;
+>>   	int sndbuf;
+>>   	int vnet_hdr_sz;
+>> +	int fd;
+>>   	int le;
+>>   	int ret;
+>>   	bool do_notify = false;
+>> @@ -3460,11 +3493,27 @@ static long __tun_chr_ioctl(struct file *file, unsigned int cmd,
+>>   		break;
+>>   
+>>   	case TUNSETSTEERINGEBPF:
+>> -		ret = tun_set_ebpf(tun, &tun->steering_prog, argp);
+>> +		if (get_user(fd, (int __user *)argp)) {
+>> +			ret = -EFAULT;
+>> +			break;
+>> +		}
+>> +
+>> +		vnet_hash = rtnl_dereference(tun->vnet_hash);
+>> +		if (fd != -1 && vnet_hash && (vnet_hash->common.flags & TUN_VNET_HASH_RSS)) {
+>> +			ret = -EBUSY;
+>> +			break;
+>> +		}
+>> +
+>> +		ret = tun_set_ebpf(tun, &tun->steering_prog, fd);
+>>   		break;
+>>   
+>>   	case TUNSETFILTEREBPF:
+>> -		ret = tun_set_ebpf(tun, &tun->filter_prog, argp);
+>> +		if (get_user(fd, (int __user *)argp)) {
+>> +			ret = -EFAULT;
+>> +			break;
+>> +		}
+>> +
+>> +		ret = tun_set_ebpf(tun, &tun->filter_prog, fd);
+>>   		break;
+>>   
+>>   	case TUNSETCARRIER:
+>> @@ -3496,10 +3545,54 @@ static long __tun_chr_ioctl(struct file *file, unsigned int cmd,
+>>   			break;
+>>   		}
+>>   
+>> -		vnet_hash = kmalloc(sizeof(vnet_hash->common), GFP_KERNEL);
+>> -		if (!vnet_hash) {
+>> -			ret = -ENOMEM;
+>> -			break;
+>> +		if (vnet_hash_common.flags & TUN_VNET_HASH_RSS) {
+>> +			struct tun_vnet_hash_rss rss;
+>> +			size_t indirection_table_size;
+>> +			size_t key_size;
+>> +			size_t size;
+>> +
+>> +			if (tun->steering_prog) {
+>> +				ret = -EBUSY;
+>> +				break;
+>> +			}
+>> +
+>> +			if (copy_from_user(&rss, argp, sizeof(rss))) {
+>> +				ret = -EFAULT;
+>> +				break;
+>> +			}
+>> +			argp = (struct tun_vnet_hash_rss __user *)argp + 1;
+>> +
+>> +			indirection_table_size = ((size_t)rss.indirection_table_mask + 1) * 2;
+> 
+> Why make uapi a mask rather than a length?
 
-Provide a guide for developers on how to debug code with a focus on the
-media subsystem. This document aims to provide a rough overview over the
-possibilities and a rational to help choosing the right tool for the
-given circumstances.
+It follows the virtio specification. It is actually used as a mask in 
+tun_vnet_rss_select_queue().
 
-Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
----
- Documentation/media/guides/debugging_issues.rst | 174 ++++++++++++++++++++++++
- Documentation/media/guides/index.rst            |  11 ++
- Documentation/media/index.rst                   |   1 +
- 3 files changed, 186 insertions(+)
+> 
+> Also is there a upper length bounds sanity check for this input from
+> userspace?
 
-diff --git a/Documentation/media/guides/debugging_issues.rst b/Documentation/media/guides/debugging_issues.rst
-new file mode 100644
-index 000000000000..5f37801dd4ba
---- /dev/null
-+++ b/Documentation/media/guides/debugging_issues.rst
-@@ -0,0 +1,174 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: <isonum.txt>
-+
-+============================================
-+Debugging and tracing in the media subsystem
-+============================================
-+
-+This document serves as a starting point and lookup for debugging device
-+drivers in the media subsystem.
-+
-+.. contents::
-+    :depth: 3
-+
-+General debugging advice
-+========================
-+
-+For general advice see the `general-debugging-guide <../../debugging/index.html>`__.
-+
-+Available tools
-+===============
-+
-+dev_debug module parameter
-+--------------------------
-+
-+For a general overview please see the `driver-development-debugging-guide <../../debugging/driver_development_debugging_guide.html>`__.
-+
-+Every video device provides a `dev_debug` parameter, which allows to get further insights into the IOCTLs in the background.
-+::
-+
-+  # cat /sys/class/video4linux/video3/name
-+  rkvdec
-+  # echo 0xff > /sys/class/video4linux/video3/dev_debug
-+  # dmesg -wH
-+  [...] videodev: v4l2_open: video3: open (0)
-+  [  +0.000036] video3: VIDIOC_QUERYCAP: driver=rkvdec, card=rkvdec, bus=platform:rkvdec, version=0x00060900, capabilities=0x84204000, device_caps=0x04204000
-+
-+`Full documentation <../../driver-api/media/v4l2-dev.html#video-device-debugging>`__
-+
-+dev_dbg / v4l2_dbg
-+------------------
-+
-+- Difference between both?
-+
-+  - v4l2_dbg utilizes v4l2_printk under the hood, which further uses printk directly, thus it cannot be targeted by dynamic debug
-+  - dev_dbg can be targeted by dynamic debug
-+  - v4l2_dbg has a more specific prefix format for the media subsystem, while dev_dbg only highlights the driver name and the location of the log
-+
-+Dynamic debug
-+-------------
-+
-+For general advice see the `userspace-debugging-guide <../../debugging/userspace_debugging_guide.html>`__.
-+
-+Here is one example, that enables all available `pr_debug()`'s within the file:
-+::
-+
-+  $ alias ddcmd='echo $* > /proc/dynamic_debug/control'
-+  $ ddcmd '-p; file v4l2-h264.c +p'
-+  $ grep =p /proc/dynamic_debug/control
-+   drivers/media/v4l2-core/v4l2-h264.c:372 [v4l2_h264]print_ref_list_b =p "ref_pic_list_b%u (cur_poc %u%c) %s"
-+   drivers/media/v4l2-core/v4l2-h264.c:333 [v4l2_h264]print_ref_list_p =p "ref_pic_list_p (cur_poc %u%c) %s\n"
-+
-+Ftrace
-+------
-+
-+For general advice see the `userspace-debugging-guide <../../debugging/userspace_debugging_guide.html>`__.
-+
-+Trace whenever the `rkvdec_try_ctrl` function is called
-+::
-+
-+  $ cd /sys/kernel/tracing
-+  $ echo function > /sys/kernel/tracing/current_tracer
-+  $ echo rkvdec_try_ctrl > set_ftrace_filter
-+  $ echo 1 > tracing_on
-+  $ cat trace
-+   h264parse0:sink-6359    [001] ...1. 172714.547523: rkvdec_try_ctrl <-try_or_set_cluster
-+   h264parse0:sink-6359    [005] ...1. 172714.567386: rkvdec_try_ctrl <-try_or_set_cluster
-+
-+Find out from where the calls originate
-+::
-+
-+  $ echo 1 > options/func_stack_trace
-+   h264parse0:sink-6715    [002] ..... 172837.967762: rkvdec_try_ctrl <-try_or_set_cluster
-+   h264parse0:sink-6715    [002] ..... 172837.967773: <stack trace>
-+   => rkvdec_try_ctrl
-+   => try_or_set_cluster
-+   => try_set_ext_ctrls_common
-+   => try_set_ext_ctrls
-+   => v4l2_s_ext_ctrls
-+   => v4l_s_ext_ctrls
-+   ...
-+   h264parse0:sink-6715    [004] ..... 172837.985747: rkvdec_try_ctrl <-try_or_set_cluster
-+   h264parse0:sink-6715    [004] ..... 172837.985750: <stack trace>
-+   => rkvdec_try_ctrl
-+   => try_or_set_cluster
-+   => v4l2_ctrl_request_setup
-+   => rkvdec_run_preamble
-+   => rkvdec_h264_run
-+   => rkvdec_device_run
-+   ...
-+
-+Trace the children of a function call and show the return values (requires config `FUNCTION_GRAPH_RETVAL`)
-+::
-+
-+  echo function_graph > current_tracer
-+  echo rkvdec_h264_run > set_graph_function
-+  echo 4 > max_graph_depth
-+  echo do_interrupt_handler mutex_* > set_graph_notrace
-+  echo 1 > options/funcgraph-retval
-+   ...
-+   4)               |  rkvdec_h264_run [rockchip_vdec]() {
-+   4)               |    v4l2_ctrl_find [videodev]() {
-+   ...
-+   4)               |    rkvdec_run_preamble [rockchip_vdec]() {
-+   4)   4.666 us    |      v4l2_m2m_next_buf [v4l2_mem2mem](); /* = 0xffff000005782000 */
-+   ...
-+   4)               |      v4l2_ctrl_request_setup [videodev]() {
-+   4)   4.667 us    |        media_request_object_find [mc](); /* = 0xffff000005e3aa98 */
-+   4)   1.750 us    |        find_ref [videodev](); /* = 0xffff00000833b2a0 */
-+   ...
-+   4)   1.750 us    |      v4l2_m2m_buf_copy_metadata [v4l2_mem2mem](); /* = 0x0 */
-+   4) ! 114.333 us  |    } /* rkvdec_run_preamble [rockchip_vdec] = 0x0 */
-+   4)   2.334 us    |    v4l2_h264_init_reflist_builder [v4l2_h264](); /* = 0x3e */
-+   ...
-+   4)               |    v4l2_h264_build_b_ref_lists [v4l2_h264]() {
-+   ...
-+   4)               |    rkvdec_run_postamble [rockchip_vdec]() {
-+   ...
-+   4) ! 444.208 us  |  } /* rkvdec_h264_run [rockchip_vdec] = 0x0 */
-+
-+DebugFS
-+-------
-+
-+For general advice see the `driver-development-debugging-guide <../../debugging/driver_development_debugging_guide.html>`__.
-+
-+Perf & alternatives
-+-------------------
-+
-+For general advice see the `userspace-debugging-guide <../../debugging/userspace_debugging_guide.html>`__.
-+
-+Example for media devices:
-+
-+Gather statistics data for a decoding job: (This example is on a RK3399 SoC with the rkvdec codec driver using the `fluster test suite <https://github.com/fluendo/fluster>`__)
-+::
-+
-+  perf stat -d python3 fluster.py run -d GStreamer-H.264-V4L2SL-Gst1.0 -ts JVT-AVC_V1 -tv AUD_MW_E -j1
-+  ...
-+  Performance counter stats for 'python3 fluster.py run -d GStreamer-H.264-V4L2SL-Gst1.0 -ts JVT-AVC_V1 -tv AUD_MW_E -j1 -v':
-+
-+           7794.23 msec task-clock:u                     #    0.697 CPUs utilized
-+                 0      context-switches:u               #    0.000 /sec
-+                 0      cpu-migrations:u                 #    0.000 /sec
-+             11901      page-faults:u                    #    1.527 K/sec
-+         882671556      cycles:u                         #    0.113 GHz                         (95.79%)
-+         711708695      instructions:u                   #    0.81  insn per cycle              (95.79%)
-+          10581935      branches:u                       #    1.358 M/sec                       (15.13%)
-+           6871144      branch-misses:u                  #   64.93% of all branches             (95.79%)
-+         281716547      L1-dcache-loads:u                #   36.144 M/sec                       (95.79%)
-+           9019581      L1-dcache-load-misses:u          #    3.20% of all L1-dcache accesses   (95.79%)
-+   <not supported>      LLC-loads:u
-+   <not supported>      LLC-load-misses:u
-+
-+      11.180830431 seconds time elapsed
-+
-+       1.502318000 seconds user
-+       6.377221000 seconds sys
-+
-+The availability of events and metrics depends on the system you are running.
-+
-+Error checking & panic analysis
-+-------------------------------
-+
-+For general advice see the `driver-development-debugging-guide <../../debugging/driver_development_debugging_guide.html>`__.
-+
-+**Copyright** |copy| 2024 : Collabora
-diff --git a/Documentation/media/guides/index.rst b/Documentation/media/guides/index.rst
-new file mode 100644
-index 000000000000..0008966c0862
---- /dev/null
-+++ b/Documentation/media/guides/index.rst
-@@ -0,0 +1,11 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+============
-+Media Guides
-+============
-+
-+.. toctree::
-+    :caption: Table of Contents
-+    :maxdepth: 1
-+
-+    debugging_issues
-diff --git a/Documentation/media/index.rst b/Documentation/media/index.rst
-index d056a9e99dca..5461876fc401 100644
---- a/Documentation/media/index.rst
-+++ b/Documentation/media/index.rst
-@@ -7,6 +7,7 @@ Media Subsystem Documentation
- .. toctree::
-    :maxdepth: 2
- 
-+   guides/index
-    ../userspace-api/media/index
-    ../driver-api/media/index.rst
-    ../admin-guide/media/index
+No, but the maximum size is limited to 128 bytes because the 
+indirection_table_mask is 16-bit and it indexes an array of 16-bit integers.
 
--- 
-2.25.1
+> 
+>> +			key_size = virtio_net_hash_key_length(vnet_hash_common.types);
+>> +			size = sizeof(*vnet_hash) + indirection_table_size + key_size;
+> 
+> key_size is included in sizeof(*vnet_hash), always
+> VIRTIO_NET_RSS_MAX_KEY_SIZE.
+
+I will fix this by replacing it with:
+struct_size(vnet_hash, rss_indirection_table,
+             (size_t)rss.indirection_table_mask + 1)
+
+Regards,
+Akihiko Odaki
+
+>> +
+>> +			vnet_hash = kmalloc(size, GFP_KERNEL);
+>> +			if (!vnet_hash) {
+>> +				ret = -ENOMEM;
+>> +				break;
+>> +			}
+>> +
+>> +			if (copy_from_user(vnet_hash->rss_indirection_table,
+>> +					   argp, indirection_table_size)) {
+>> +				kfree(vnet_hash);
+>> +				ret = -EFAULT;
+>> +				break;
+>> +			}
+>> +			argp = (u16 __user *)argp + rss.indirection_table_mask + 1;
+>> +
+>> +			if (copy_from_user(vnet_hash->rss_key, argp, key_size)) {
+>> +				kfree(vnet_hash);
+>> +				ret = -EFAULT;
+>> +				break;
+>> +			}
+>> +
+>> +			vnet_hash->rss = rss;
+>> +		} else {
+>> +			vnet_hash = kmalloc(sizeof(vnet_hash->common), GFP_KERNEL);
+>> +			if (!vnet_hash) {
+>> +				ret = -ENOMEM;
+>> +				break;
+>> +			}
+>>   		}
+>>   
+>>   		vnet_hash->common = vnet_hash_common;
+>> diff --git a/include/uapi/linux/if_tun.h b/include/uapi/linux/if_tun.h
+>> index 1561e8ce0a0a..1c130409db5d 100644
+>> --- a/include/uapi/linux/if_tun.h
+>> +++ b/include/uapi/linux/if_tun.h
+>> @@ -75,6 +75,14 @@
+>>    *
+>>    * The argument is a pointer to &struct tun_vnet_hash.
+>>    *
+>> + * The argument is a pointer to the compound of the following in order if
+>> + * %TUN_VNET_HASH_RSS is set:
+>> + *
+>> + * 1. &struct tun_vnet_hash
+>> + * 2. &struct tun_vnet_hash_rss
+>> + * 3. Indirection table
+>> + * 4. Key
+>> + *
+>>    * %TUNSETVNETHDRSZ ioctl must be called with a number greater than or equal to
+>>    * the size of &struct virtio_net_hdr_v1_hash before calling this ioctl with
+>>    * %TUN_VNET_HASH_REPORT.
+>> @@ -144,6 +152,13 @@ struct tun_filter {
+>>    */
+>>   #define TUN_VNET_HASH_REPORT	0x0001
+>>   
+>> +/**
+>> + * define TUN_VNET_HASH_RSS - Request virtio_net RSS
+>> + *
+>> + * This is mutually exclusive with eBPF steering program.
+>> + */
+>> +#define TUN_VNET_HASH_RSS	0x0002
+>> +
+>>   /**
+>>    * struct tun_vnet_hash - virtio_net hashing configuration
+>>    * @flags:
+>> @@ -159,4 +174,16 @@ struct tun_vnet_hash {
+>>   	__u32 types;
+>>   };
+>>   
+>> +/**
+>> + * struct tun_vnet_hash_rss - virtio_net RSS configuration
+>> + * @indirection_table_mask:
+>> + *		Bitmask to be applied to the indirection table index
+>> + * @unclassified_queue:
+>> + *		The index of the queue to place unclassified packets in
+>> + */
+>> +struct tun_vnet_hash_rss {
+>> +	__u16 indirection_table_mask;
+>> +	__u16 unclassified_queue;
+>> +};
+>> +
+>>   #endif /* _UAPI__IF_TUN_H */
+>>
+>> -- 
+>> 2.46.0
+>>
+> 
+> 
