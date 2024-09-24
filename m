@@ -1,77 +1,126 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CDF317BA5;
-	Tue, 24 Sep 2024 06:34:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8AF14EC4E;
+	Tue, 24 Sep 2024 08:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727159698; cv=none; b=SxECvoP6JeQqQmkUDu2GOzGi8tZL/Ruyy8JZGNjIvEAeE5N4cjCWTvOPwN0es3aID8PPvuyP9+/73BDlywVyYQRHNrb97ASLbWV0J2ZI2C8hPqGJuqHpaTUXa9QSTQRch4qd+r7o+czudp4s/1LcSyqDvi+K/YstNGeYSGo4E2M=
+	t=1727165478; cv=none; b=RPf19VRqapH7gmtetQM3kj1O6tgnBn1Z0WHdVzoXlMOtb2ajlzhxIKw/s2N2PdYznsNpRvHWW2z4l/LE+o4Ik5+f3SZDeCjqWt8RqNh4vIktTgHAlJZgaXXIVnHVdLPFPZVbZ2v6Zk+XhQf2aQSYbPzbl9m9m3Fxwg1IzBleFw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727159698; c=relaxed/simple;
-	bh=QOvSlOdCncMCq+hOBcqWjYcq11XmuqUYP7cVzCFbvqY=;
+	s=arc-20240116; t=1727165478; c=relaxed/simple;
+	bh=MnVSJWbRxqkO6NY7e/f2PauGA5csDQ/WM/hwqPA2+0w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p8v2mP0LG0nxAcO7edVveYYsD7BTpCKHlrW33lmhlwfs90UkH6WFJTXdxYMcb59yxaWRCuTVWk6gIt7s1ggrA1p4GzQqPW8/ANdDQKJ/e3dIWGKhcE8rOcu2zqwrfVdNQ6mOE15VCDWdSozk/8ItblMgY17W/Il13zjXuRJicoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BUQHy/bC; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=AeFkrfSSbyeASOHz1f28oQOvNLSH8QKYkmbI5z3Ig45bV2H5dZO1obvyOA7i+LYdEXcG9rU8+Xl9OW1tahTYf9p6YKodvPrEXgDyM9c/D8UZOkGVD/fQF1ebe2XwZRGoqIElJRKLXau5p1NkZabkv2NOXEREbSmO3DibZwhHmf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CD5N5gaW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BUQHy/bC"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Z10AX5pmivHLvyFDh9AxOjuKLhBjfi9gRjwNCchoGfk=; b=BUQHy/bC0q6M3+20hgp9JjpCkK
-	EaHw20cr944PM22BIpd4SUVux3pYJJzrYN0NRlpAK1nTPEncZpylwD4uVRu2hkdb5EaMrXschkM+J
-	LaCmEpdgcn+ru8vE2DMUw6Pll6UnPVcUeqgfFpjisW7USVZRtE5Zd2ImBERJISIS4EizP1vBm1tI0
-	plYcVfOFyJe9Vkx8nt4v++ZSq+8Ajq1TCi2uxQNrxQ6qZ76RFHd29tuiLuFZFEyx3CAiUxgdnCA3X
-	NG5H43kvjCWY65V2uym2ALRy4nwLIcZKQYifXoHseZGM5HSl5XnfQrhudXpsaS4wYkogJtXpLfF8k
-	8EaYdNkA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1ssz8P-00000001GoR-18Dy;
-	Tue, 24 Sep 2024 06:34:53 +0000
-Date: Mon, 23 Sep 2024 23:34:53 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	INAGAKI Hiroshi <musashino.open@gmail.com>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>, Ming Lei <ming.lei@redhat.com>,
-	Li Lingfeng <lilingfeng3@huawei.com>,
-	Christian Heusel <christian@heusel.eu>, linux-block@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Lorenzo Bianconi <lorenzo@kernel.org>
-Subject: Re: [RFC PATCH 3/4] block: add support for partition table defined
- in OF
-Message-ID: <ZvJdjRpFaPUuFhIO@infradead.org>
-References: <20240923105937.4374-1-ansuelsmth@gmail.com>
- <20240923105937.4374-4-ansuelsmth@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CD5N5gaW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3867C4CED6;
+	Tue, 24 Sep 2024 08:11:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727165478;
+	bh=MnVSJWbRxqkO6NY7e/f2PauGA5csDQ/WM/hwqPA2+0w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CD5N5gaWatbBBM96x8Zy+RSbdxJiihmUO9NPklH+ViGqOaeo041YplrZK+sLGER90
+	 19tlg6TDGqFwJnTSigcEMSUFTFLGFTfTVaHXJQ+5p4gUy4XI+AZevMdff1FX0sEjVx
+	 1TqkrGAqL5Ow8WwaiEH5FuTYE+6NqWxAch3fWKW3nB/hRHKZzao1ZAzJIb1rQrd0Xj
+	 aq8V4X5I6e9PN6TpJLhAl/dM5QZ5IceGLs/ilkfMbLuD/BayXAn7psp4jXtSY43Lwn
+	 8RaYzSU07KBU2evZLua+hNDB5UHFTkpe4E+DjUX5t0WRNbhHMKDCEPQ38c0E4rzGEo
+	 +3S9MmW1VEaDA==
+Date: Tue, 24 Sep 2024 10:11:12 +0200
+From: Mark Brown <broonie@kernel.org>
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 4/5] hwmon: (pmbus/core) improve handling of write
+ protected regulators
+Message-ID: <ZvJ0ICVqXrlYaVpd@finisterre.sirena.org.uk>
+References: <20240920-pmbus-wp-v1-0-d679ef31c483@baylibre.com>
+ <20240920-pmbus-wp-v1-4-d679ef31c483@baylibre.com>
+ <4052294e-7b7f-4238-9b47-92727de4d516@roeck-us.net>
+ <1jsettz1hh.fsf@starbuckisacylon.baylibre.com>
+ <2f3cec6e-7b05-4510-8c62-244ed114ad17@roeck-us.net>
+ <1jo74hymsh.fsf@starbuckisacylon.baylibre.com>
+ <ZvFdYtwlqsr4mLym@finisterre.sirena.org.uk>
+ <1j7cb2z4zw.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="811CMa6RECgMAk6q"
+Content-Disposition: inline
+In-Reply-To: <1j7cb2z4zw.fsf@starbuckisacylon.baylibre.com>
+X-Cookie: Editing is a rewording activity.
+
+
+--811CMa6RECgMAk6q
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240923105937.4374-4-ansuelsmth@gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 23, 2024 at 12:59:32PM +0200, Christian Marangi wrote:
-> +#define BOOT0_STR	"boot0"
-> +#define BOOT1_STR	"boot1"
-> +
+On Mon, Sep 23, 2024 at 06:53:07PM +0200, Jerome Brunet wrote:
+> On Mon 23 Sep 2024 at 14:21, Mark Brown <broonie@kernel.org> wrote:
 
-This boot0/1 stuff looks like black magic, so it should probably be
-documented at very least.
+> > So, I know we talked about this a bit on IRC but I didn't register the
+> > specific use case.  Now I see that it's coming down to the fact that the
+> > chip is simply write protected I'm wondering if it might not be simpler
+> > to handle this at the ops level rather than the constraints level.  When
+> > registering the driver could check for write protection and then instead
+> > of registering the normal operations register an alternative set with
+> > the relevant write operations removed.  That would have the same effect
+> > that you're going for AFAICT.  Sorry for not thinking of it earlier.
 
-> +	partitions_np = get_partitions_node(disk_np,
-> +					    state->disk->disk_name);
+> Actually I thaught about it, that was my first idea.
 
-disk->disk_name is not a stable identifier and can change from boot to
-boot due to async probing.  You'll need to check a uuid or label instead.
+> There is tiny difference between the 2 approach:
+> * A regulator that does not provide enable()/disable() is considered
+> always-on, so it is not really checked if it is enabled or not
+> * A regulator that does provide enable()/disable() but disallow status
+> change will be checked with is_enabled()
+
+> In the second case, we will pick up on regulator that is disabled and we
+> can't enable. In the first case, I don't think we do. I don't know if it
+> is a bug of not but that makes the 2nd case more correct for what we do
+> with pmbus regs I think
+
+I think for that we should just always use the is_enabled() operation if
+it's available.  This is simply an oversight caused by not imagining a
+case where a regulator could have an enable control which is locked out
+like this, the normal case is that either you can control enable or
+the regulator is always on.
+
+> The other thing, although is more a pmbus implemantion consideration,
+> is that the type regulator is opaque in
+> pmbus_regulator_register. Different types could be registered so
+> manipulating the ops is tricky. That's where a callback is helpful=20
+
+> If building the ops dynamically is the preferred way, I'll find a way to
+> make it happen. I'll need to way to identify which one need it, loose
+> the 'const' qualifier in a lot of place, etc ... that will be a bit
+> hackish I'm afraid.
+
+With only a limited set of options it might be better to just have a set
+of static structs and pick one to register (some other drivers do this
+based on hardware options), but the number of combinations with this is
+getting a bit big for that.
+
+--811CMa6RECgMAk6q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbydBUACgkQJNaLcl1U
+h9D9Fwf8Ct+JTTvPEfsG+ZQFhaPsbwYkCrV+h80e80aziIqrbwPizjvv31XpBK3I
+8xmSKZ1JfCK4XaZ+B5OrM+AoWv3a0YeaYQfbRboAYXLGsKZmltmftQBmCVO24PGh
+omogNFrbwa3Io6yoFX7DLi4tSC6Xk8gx/PzFhdy1ryoAxfHa1h6on1mZfgOnnQqU
+NRi9MjT5Fc4nVq3BW9BvXWeQ3P1SeY+b0fZzQar+iMKihlST9BIghEXhgOIq1l8a
+w3hn2GvYGXWuYJGZ2CeLsfYb6fruHrOYGf9Z/3dyf/8wE/2Yn9ERq+7JeocvZcdl
+3LGmiJ/4CSPCWs/qCFdV13YCJLX29g==
+=4UfQ
+-----END PGP SIGNATURE-----
+
+--811CMa6RECgMAk6q--
