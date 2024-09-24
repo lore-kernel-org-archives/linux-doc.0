@@ -1,61 +1,61 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171F71A727F;
-	Tue, 24 Sep 2024 11:30:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428C41AB6C8;
+	Tue, 24 Sep 2024 11:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727177453; cv=none; b=jxUH+DuXg2IoBExxaeGdwM3DUtmTl+vUX/fU1JJGuuR4S3QAiMgtBKyOLcYegSs67MH3kHISV/Qge053cFX7bXFZsVeroDM3M4MU6vjLfR8sM/zLw5Dzo7KeTXnfzRlpFAmo/lJh/Mq1g45Grn96JdGDoHFOvYooQByFE5QHXiE=
+	t=1727177455; cv=none; b=R+WYHjHrUTFv+hfUaGop7qkk1J5kr7GleJ6La0FTE9lQ8iqpMrszBw93ai8pzV/6yfD6ErAQtTD7/OPKcXX+CUieG2Ucfa5Kc2zrKBKYvCYl2MG5SRgX3vkEg5KLBV4x01iCDiYGfJONa3C3wVEVhXm1jOV7UYn1SOoDwzIklWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727177453; c=relaxed/simple;
-	bh=BJUHjq0PmqLEqZfzgWW8mronKYe/VvIZ9f1IA7KYCEk=;
+	s=arc-20240116; t=1727177455; c=relaxed/simple;
+	bh=3lkRPE9IG6LdIb0AbxM5VciIHuTa1FZhL5VBzl24384=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rOcrHdtaSh8+3GqwnoymtVOZVUbUM5Y7xDTr1N4ZiBtygnoWnTs1FhdnNf1lXbP0CaVa6gBmwzxivk7Y+hVyqjCYhgzi0YmMqeaZ1TwBwmMcZT90AVrJWmOxs5SijpAXntSxEXYGx+beBGAqc7IiqEtVka0UVJW1ClkDUoLr6X4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NJxhuNND; arc=none smtp.client-ip=209.85.208.172
+	 In-Reply-To:To:Cc; b=QP8dzI3er7TN7liB8QDIbnoYGRH5M/3r5E6XP89XGuMdXQziYpq5jYYGdM1zmYVt2GMBxegLmlG9NIcsSq2tmdpPesy/I9Qy3NATcrf5oMhfaHzCudCbSyOJil7T3RwqiQdN5GSdgmRWhqLtKSWZbH4FjLVpunlDSh7ZEc1wOXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CXdLpGrP; arc=none smtp.client-ip=209.85.218.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NJxhuNND"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2f8ca33ef19so25447081fa.2;
-        Tue, 24 Sep 2024 04:30:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CXdLpGrP"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a9018103214so776273566b.3;
+        Tue, 24 Sep 2024 04:30:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727177448; x=1727782248; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1727177451; x=1727782251; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tciLVJ5m0bCsIVx+iFZ+9ls4/+uLx8AgJgsjhcTPMtU=;
-        b=NJxhuNNDi0t2RLM7G2kstUnAQkkJNDPtcs1W/8ScYDIzsZLi2yuiZ/vYDGWSYFIGsc
-         grfxSnXyR/daEPbyH06LfbmNjw1ImSSDuhoBJ96i2FMGmKz13snZQNbpE+NLakUPRdco
-         BKSyjpcdoZ/w8W1K6KB0H8W2yq2Jbl+hhrTYaRzkM+YAFGDlRKCq31sMp4QbgX4lEA8X
-         Jv6vTgP0YG63iNebBPWUkymzGv+nl+0kELoBRjDnh//Cqh9YgSfaRi+YtSElv214mhoI
-         8/neMLayoqsIj93N8v+r3Ke9R9rvBB/tu56+YkbW+dQFx3XHYC0N1zYVqNHaK5rsI/wg
-         +GiQ==
+        bh=ZRFZmBTAiDK/2/ttMQtcIHHMWKwqvGSpIb2XjFF70t8=;
+        b=CXdLpGrPCFm6k0O0svhJXu7Ynck+zOJ2fqoA8QfX6fMaIntAeHbYvy5t7HATkl09RJ
+         FHz/qlhmpw5fDNoJJYpJVhfouCVcyURRXCkUuMbFkKuzqeTrdQWT+kmvskNbIMN4OWEV
+         1Zv4CWYu9q8pRKqJ/zCKXdtRgBMxIajO1KqSm/HiDWG6QBcQ87kinv+7fvbkHY8dR645
+         2jYK8q3ZZcONMxCag2S3KFYffl2bi8XTQHnweVOJpAGDQoB6OYh/YhKAIMb99+KlBuMF
+         cp41tMTFevx0NT4DYJ3+5PDzzzDxfkLSP8rmU1dBjGpnQJiCsAOCAEzW8UV/rYPqAsLt
+         7Duw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727177448; x=1727782248;
+        d=1e100.net; s=20230601; t=1727177451; x=1727782251;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tciLVJ5m0bCsIVx+iFZ+9ls4/+uLx8AgJgsjhcTPMtU=;
-        b=Aejdt0fQ0yxF6q3c4OpIvVUD/XS6sF5eHdzA1+nhLvW3JHhYJ68jvgb/5Oc4aMux8B
-         2rpJwUIyR/sC9wj3jMg2TSXj9Ghhpg71eeAb3PWY0WTCAIoPa97kzAA+b5paHhbo1qJ/
-         3idZ9f2EmomZJIYV1b8+XbAc4xOGtLLXZ2JBFvoASnWWdlYdJAH+S6hOJemOKvAKSYtM
-         FojIOIdTV6etpIDNySqYkJ74aPvVs9uckbnIoWDGIvIpuG3KS04tQkXn8olNK/WJnpal
-         UmtYQLCOOqklYI3KQDIGsCDIiboSyslMCg/cSatml0nV3fLjS0oX8l2snq1xfGrWX7fN
-         9bqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV+Jr0ny9UYN+Rw85HDkZBgDNAo9CXH9/sgtyZnf1NrF5uqe3RegJlWqQsEs2Ox87xAgr3N7j+vu21HX4jG@vger.kernel.org, AJvYcCWN2K1Uk3UspCTb5Ngza35eoZePZ4TbCTSDvhDdFbQYB0fQ/C3nEIFPGq1L1gcdByLTB4An6y4UtPE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3gWsWoEXTRtozlJvbKsdlrRHPbeabn8FdcZzfwHd3RP7nEaRZ
-	3ccsHdiLm143AzU6xsXnHMjMFM1M/q+yA3zxrQwSGaU9PEjpCf7Tl2eAnmnN
-X-Google-Smtp-Source: AGHT+IFopWqE/GpxsQMrHQ7/0OgoIIjCvK5LNYSVEvAyfQA2dKHK5fnK92/w42ftMt2wIn/zGkJJXA==
-X-Received: by 2002:a2e:a442:0:b0:2f7:4c79:27fe with SMTP id 38308e7fff4ca-2f7cb358d03mr74866961fa.30.1727177447726;
-        Tue, 24 Sep 2024 04:30:47 -0700 (PDT)
+        bh=ZRFZmBTAiDK/2/ttMQtcIHHMWKwqvGSpIb2XjFF70t8=;
+        b=Ve+t+rAayTH1Tq52djSFoa20saP8PASTaL7NwcwZFbkKHNd9Y5DcM3n4/MhvlKZCeo
+         ODjb1atRgUrhTmzjmqZKnExsnsjNrhleDvcSEWmu8mxwwsoTt2cXZ743mr1BwiXNd+4+
+         FVBJXZUbB/GPV0UEROOlRv0uYCb3xxCys++zvhnqz5fM6Ada/eabxN88+7RPUpPhuYUZ
+         Kdg/Firdt9EfvwUNvpFYc+/Aak+6tLKigvxUPAEYA+Nh8I1NMDE/QjmAabn9D2fSaFEl
+         7DvsERDh/RNyEjbAaNRloYFG/Ji2Cc8GvQiidi67x6oIDB1DjMJhEQpZObEzAur3GvVL
+         9YdA==
+X-Forwarded-Encrypted: i=1; AJvYcCWieQvE6zcCxwdlN4oRwojsKUFZprsN8DccfNLrBfCEprWCXGYwsYmsorU7GPaANHIN1XV79X6wocY=@vger.kernel.org, AJvYcCXUh1fIYwIV/MjIij7PSHR+RejX+MGHDsVS5cQcMvO1sVQdBy3BpyLRTivMpes0PGOPV0fE/5269KgbCVJU@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/4Gvp6neWfs9HrrAfPBfF2K5RF6igmpojksoQdv6+3rWlRhus
+	K/08uq+Wr8POdGCNXZH9buzHpDzizGaykUY8lq9UBaKkbRu8auxNQjV0yOXy
+X-Google-Smtp-Source: AGHT+IGDW16BmYf4uKKL7inMLM4p7uJeDy9W9Q1y7JeRa3in24dMwlxZY7U9M5TLwSJpz7SA78P+aQ==
+X-Received: by 2002:a17:907:3f17:b0:a86:c252:aaa2 with SMTP id a640c23a62f3a-a90d592845cmr1461319566b.51.1727177451258;
+        Tue, 24 Sep 2024 04:30:51 -0700 (PDT)
 Received: from [192.168.1.17] (host-87-7-171-42.retail.telecomitalia.it. [87.7.171.42])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93930cae0fsm72612766b.120.2024.09.24.04.30.46
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93930cae0fsm72612766b.120.2024.09.24.04.30.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Sep 2024 04:30:47 -0700 (PDT)
+        Tue, 24 Sep 2024 04:30:50 -0700 (PDT)
 From: Antonino Maniscalco <antomani103@gmail.com>
-Date: Tue, 24 Sep 2024 13:30:40 +0200
-Subject: [PATCH v5 05/11] drm/msm/A6xx: Implement preemption for A7XX
- targets
+Date: Tue, 24 Sep 2024 13:30:42 +0200
+Subject: [PATCH v5 07/11] drm/msm/A6xx: Use posamble to reset counters on
+ preemption
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240924-preemption-a750-t-v5-5-0be2bf81c187@gmail.com>
+Message-Id: <20240924-preemption-a750-t-v5-7-0be2bf81c187@gmail.com>
 References: <20240924-preemption-a750-t-v5-0-0be2bf81c187@gmail.com>
 In-Reply-To: <20240924-preemption-a750-t-v5-0-0be2bf81c187@gmail.com>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
@@ -80,1091 +80,190 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org, Antonino Maniscalco <antomani103@gmail.com>, 
  Akhil P Oommen <quic_akhilpo@quicinc.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Sharat Masetty <smasetty@codeaurora.org>
+ Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727177437; l=34976;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727177437; l=6700;
  i=antomani103@gmail.com; s=20240815; h=from:subject:message-id;
- bh=BJUHjq0PmqLEqZfzgWW8mronKYe/VvIZ9f1IA7KYCEk=;
- b=ArFOREBlDx5Hs9mpy1qHC6fIfgHxTeykdxcy9VhkhrclrqVc4fZb/OVo3l4Kro34Kc2T4zw+h
- 5vtBSixIZueDrY/irhqqTfLz19pWBRrSwNA/Bad1m+dIkr/T8HLIH72
+ bh=3lkRPE9IG6LdIb0AbxM5VciIHuTa1FZhL5VBzl24384=;
+ b=JBbfXjQHdQWtDk6pAQ1KieQmw5VYWl0Eg3/O5IEpTREqXkLfM68VrbWuSQfVh8X1L04T+xV/2
+ TIKfrqTe6K6DPU5VDxz3NEVFh2UYPKS3K/hoUfKZa8gWVJf8mKaeMNV
 X-Developer-Key: i=antomani103@gmail.com; a=ed25519;
  pk=0zicFb38tVla+iHRo4kWpOMsmtUrpGBEa7LkFF81lyY=
 
-This patch implements preemption feature for A6xx targets, this allows
-the GPU to switch to a higher priority ringbuffer if one is ready. A6XX
-hardware as such supports multiple levels of preemption granularities,
-ranging from coarse grained(ringbuffer level) to a more fine grained
-such as draw-call level or a bin boundary level preemption. This patch
-enables the basic preemption level, with more fine grained preemption
-support to follow.
+Use the postamble to reset perf counters when switching between rings,
+except when sysprof is enabled, analogously to how they are reset
+between submissions when switching pagetables.
 
 Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
 Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
 Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
 Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8450-HDK
-Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
 Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
 ---
- drivers/gpu/drm/msm/Makefile              |   1 +
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 283 +++++++++++++++++++++-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.h     | 168 +++++++++++++
- drivers/gpu/drm/msm/adreno/a6xx_preempt.c | 377 ++++++++++++++++++++++++++++++
- drivers/gpu/drm/msm/msm_ringbuffer.h      |   7 +
- 5 files changed, 825 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 12 +++++++
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h     |  6 ++++
+ drivers/gpu/drm/msm/adreno/a6xx_preempt.c | 57 +++++++++++++++++++++++++++++++
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h   |  7 ++--
+ 4 files changed, 80 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
-index f5e2838c6a76505b353f83c9fe9c997f1c282701..32e915109a59dda96ed76ddd2b4f57bb225f4572 100644
---- a/drivers/gpu/drm/msm/Makefile
-+++ b/drivers/gpu/drm/msm/Makefile
-@@ -23,6 +23,7 @@ adreno-y := \
- 	adreno/a6xx_gpu.o \
- 	adreno/a6xx_gmu.o \
- 	adreno/a6xx_hfi.o \
-+	adreno/a6xx_preempt.o \
- 
- adreno-$(CONFIG_DEBUG_FS) += adreno/a5xx_debugfs.o \
- 
 diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 6e065500b64d6d95599d89c33e6703c92f210047..355a3e210335d60a5bed0ee287912271c353402a 100644
+index 355a3e210335d60a5bed0ee287912271c353402a..736f475d696f1133c9e55d16aa80e73fd46cb835 100644
 --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
 +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -16,6 +16,84 @@
- 
- #define GPU_PAS_ID 13
- 
-+/* IFPC & Preemption static powerup restore list */
-+static const uint32_t a7xx_pwrup_reglist[] = {
-+	REG_A6XX_UCHE_TRAP_BASE,
-+	REG_A6XX_UCHE_TRAP_BASE + 1,
-+	REG_A6XX_UCHE_WRITE_THRU_BASE,
-+	REG_A6XX_UCHE_WRITE_THRU_BASE + 1,
-+	REG_A6XX_UCHE_GMEM_RANGE_MIN,
-+	REG_A6XX_UCHE_GMEM_RANGE_MIN + 1,
-+	REG_A6XX_UCHE_GMEM_RANGE_MAX,
-+	REG_A6XX_UCHE_GMEM_RANGE_MAX + 1,
-+	REG_A6XX_UCHE_CACHE_WAYS,
-+	REG_A6XX_UCHE_MODE_CNTL,
-+	REG_A6XX_RB_NC_MODE_CNTL,
-+	REG_A6XX_RB_CMP_DBG_ECO_CNTL,
-+	REG_A7XX_GRAS_NC_MODE_CNTL,
-+	REG_A6XX_RB_CONTEXT_SWITCH_GMEM_SAVE_RESTORE,
-+	REG_A6XX_UCHE_GBIF_GX_CONFIG,
-+	REG_A6XX_UCHE_CLIENT_PF,
-+	REG_A6XX_TPL1_DBG_ECO_CNTL1,
-+};
-+
-+static const uint32_t a7xx_ifpc_pwrup_reglist[] = {
-+	REG_A6XX_TPL1_NC_MODE_CNTL,
-+	REG_A6XX_SP_NC_MODE_CNTL,
-+	REG_A6XX_CP_DBG_ECO_CNTL,
-+	REG_A6XX_CP_PROTECT_CNTL,
-+	REG_A6XX_CP_PROTECT(0),
-+	REG_A6XX_CP_PROTECT(1),
-+	REG_A6XX_CP_PROTECT(2),
-+	REG_A6XX_CP_PROTECT(3),
-+	REG_A6XX_CP_PROTECT(4),
-+	REG_A6XX_CP_PROTECT(5),
-+	REG_A6XX_CP_PROTECT(6),
-+	REG_A6XX_CP_PROTECT(7),
-+	REG_A6XX_CP_PROTECT(8),
-+	REG_A6XX_CP_PROTECT(9),
-+	REG_A6XX_CP_PROTECT(10),
-+	REG_A6XX_CP_PROTECT(11),
-+	REG_A6XX_CP_PROTECT(12),
-+	REG_A6XX_CP_PROTECT(13),
-+	REG_A6XX_CP_PROTECT(14),
-+	REG_A6XX_CP_PROTECT(15),
-+	REG_A6XX_CP_PROTECT(16),
-+	REG_A6XX_CP_PROTECT(17),
-+	REG_A6XX_CP_PROTECT(18),
-+	REG_A6XX_CP_PROTECT(19),
-+	REG_A6XX_CP_PROTECT(20),
-+	REG_A6XX_CP_PROTECT(21),
-+	REG_A6XX_CP_PROTECT(22),
-+	REG_A6XX_CP_PROTECT(23),
-+	REG_A6XX_CP_PROTECT(24),
-+	REG_A6XX_CP_PROTECT(25),
-+	REG_A6XX_CP_PROTECT(26),
-+	REG_A6XX_CP_PROTECT(27),
-+	REG_A6XX_CP_PROTECT(28),
-+	REG_A6XX_CP_PROTECT(29),
-+	REG_A6XX_CP_PROTECT(30),
-+	REG_A6XX_CP_PROTECT(31),
-+	REG_A6XX_CP_PROTECT(32),
-+	REG_A6XX_CP_PROTECT(33),
-+	REG_A6XX_CP_PROTECT(34),
-+	REG_A6XX_CP_PROTECT(35),
-+	REG_A6XX_CP_PROTECT(36),
-+	REG_A6XX_CP_PROTECT(37),
-+	REG_A6XX_CP_PROTECT(38),
-+	REG_A6XX_CP_PROTECT(39),
-+	REG_A6XX_CP_PROTECT(40),
-+	REG_A6XX_CP_PROTECT(41),
-+	REG_A6XX_CP_PROTECT(42),
-+	REG_A6XX_CP_PROTECT(43),
-+	REG_A6XX_CP_PROTECT(44),
-+	REG_A6XX_CP_PROTECT(45),
-+	REG_A6XX_CP_PROTECT(46),
-+	REG_A6XX_CP_PROTECT(47),
-+	REG_A6XX_CP_AHB_CNTL,
-+};
-+
-+
- static inline bool _a6xx_check_idle(struct msm_gpu *gpu)
+@@ -358,6 +358,8 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+ static void a6xx_emit_set_pseudo_reg(struct msm_ringbuffer *ring,
+ 		struct a6xx_gpu *a6xx_gpu, struct msm_gpu_submitqueue *queue)
  {
- 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-@@ -68,6 +146,8 @@ static void update_shadow_rptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
++	u64 preempt_postamble;
++
+ 	OUT_PKT7(ring, CP_SET_PSEUDO_REG, 12);
  
- static void a6xx_flush(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
- {
-+	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-+	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
- 	uint32_t wptr;
- 	unsigned long flags;
- 
-@@ -81,12 +161,17 @@ static void a6xx_flush(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
- 	/* Make sure to wrap wptr if we need to */
- 	wptr = get_wptr(ring);
- 
--	spin_unlock_irqrestore(&ring->preempt_lock, flags);
--
--	/* Make sure everything is posted before making a decision */
--	mb();
-+	/* Update HW if this is the current ring and we are not in preempt*/
-+	if (!a6xx_in_preempt(a6xx_gpu)) {
-+		if (a6xx_gpu->cur_ring == ring)
-+			gpu_write(gpu, REG_A6XX_CP_RB_WPTR, wptr);
-+		else
-+			ring->restore_wptr = true;
-+	} else {
-+		ring->restore_wptr = true;
-+	}
- 
--	gpu_write(gpu, REG_A6XX_CP_RB_WPTR, wptr);
-+	spin_unlock_irqrestore(&ring->preempt_lock, flags);
+ 	OUT_RING(ring, SMMU_INFO);
+@@ -381,6 +383,16 @@ static void a6xx_emit_set_pseudo_reg(struct msm_ringbuffer *ring,
+ 	/* seems OK to set to 0 to disable it */
+ 	OUT_RING(ring, 0);
+ 	OUT_RING(ring, 0);
++
++	/* Emit postamble to clear perfcounters */
++	preempt_postamble = a6xx_gpu->preempt_postamble_iova;
++
++	OUT_PKT7(ring, CP_SET_AMBLE, 3);
++	OUT_RING(ring, lower_32_bits(preempt_postamble));
++	OUT_RING(ring, upper_32_bits(preempt_postamble));
++	OUT_RING(ring, CP_SET_AMBLE_2_DWORDS(
++				 a6xx_gpu->preempt_postamble_len) |
++			 CP_SET_AMBLE_2_TYPE(KMD_AMBLE_TYPE));
  }
  
- static void get_stats_counter(struct msm_ringbuffer *ring, u32 counter,
-@@ -138,12 +223,14 @@ static void a6xx_set_pagetable(struct a6xx_gpu *a6xx_gpu,
- 
- 	/*
- 	 * Write the new TTBR0 to the memstore. This is good for debugging.
-+	 * Needed for preemption
- 	 */
--	OUT_PKT7(ring, CP_MEM_WRITE, 4);
-+	OUT_PKT7(ring, CP_MEM_WRITE, 5);
- 	OUT_RING(ring, CP_MEM_WRITE_0_ADDR_LO(lower_32_bits(memptr)));
- 	OUT_RING(ring, CP_MEM_WRITE_1_ADDR_HI(upper_32_bits(memptr)));
- 	OUT_RING(ring, lower_32_bits(ttbr));
--	OUT_RING(ring, (asid << 16) | upper_32_bits(ttbr));
-+	OUT_RING(ring, upper_32_bits(ttbr));
-+	OUT_RING(ring, ctx->seqno);
- 
- 	/*
- 	 * Sync both threads after switching pagetables and enable BR only
-@@ -268,6 +355,34 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
- 	a6xx_flush(gpu, ring);
- }
- 
-+static void a6xx_emit_set_pseudo_reg(struct msm_ringbuffer *ring,
-+		struct a6xx_gpu *a6xx_gpu, struct msm_gpu_submitqueue *queue)
-+{
-+	OUT_PKT7(ring, CP_SET_PSEUDO_REG, 12);
-+
-+	OUT_RING(ring, SMMU_INFO);
-+	/* don't save SMMU, we write the record from the kernel instead */
-+	OUT_RING(ring, 0);
-+	OUT_RING(ring, 0);
-+
-+	/* privileged and non secure buffer save */
-+	OUT_RING(ring, NON_SECURE_SAVE_ADDR);
-+	OUT_RING(ring, lower_32_bits(
-+		a6xx_gpu->preempt_iova[ring->id] + PREEMPT_OFFSET_PRIV_NON_SECURE));
-+	OUT_RING(ring, upper_32_bits(
-+		a6xx_gpu->preempt_iova[ring->id] + PREEMPT_OFFSET_PRIV_NON_SECURE));
-+
-+	/* user context buffer save, seems to be unnused by fw */
-+	OUT_RING(ring, NON_PRIV_SAVE_ADDR);
-+	OUT_RING(ring, 0);
-+	OUT_RING(ring, 0);
-+
-+	OUT_RING(ring, COUNTER);
-+	/* seems OK to set to 0 to disable it */
-+	OUT_RING(ring, 0);
-+	OUT_RING(ring, 0);
-+}
-+
  static void a7xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
- {
- 	unsigned int index = submit->seqno % MSM_GPU_SUBMIT_STATS_COUNT;
-@@ -285,6 +400,13 @@ static void a7xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
- 
- 	a6xx_set_pagetable(a6xx_gpu, ring, submit->queue->ctx);
- 
-+	/*
-+	 * If preemption is enabled, then set the pseudo register for the save
-+	 * sequence
-+	 */
-+	if (gpu->nr_rings > 1)
-+		a6xx_emit_set_pseudo_reg(ring, a6xx_gpu, submit->queue);
-+
- 	get_stats_counter(ring, REG_A7XX_RBBM_PERFCTR_CP(0),
- 		rbmemptr_stats(ring, index, cpcycles_start));
- 	get_stats_counter(ring, REG_A6XX_CP_ALWAYS_ON_COUNTER,
-@@ -376,6 +498,8 @@ static void a7xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
- 	OUT_RING(ring, upper_32_bits(rbmemptr(ring, bv_fence)));
- 	OUT_RING(ring, submit->seqno);
- 
-+	a6xx_gpu->last_seqno[ring->id] = submit->seqno;
-+
- 	/* write the ringbuffer timestamp */
- 	OUT_PKT7(ring, CP_EVENT_WRITE, 4);
- 	OUT_RING(ring, CACHE_CLEAN | CP_EVENT_WRITE_0_IRQ | BIT(27));
-@@ -389,10 +513,32 @@ static void a7xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
- 	OUT_PKT7(ring, CP_SET_MARKER, 1);
- 	OUT_RING(ring, 0x100); /* IFPC enable */
- 
-+	/* If preemption is enabled */
-+	if (gpu->nr_rings > 1) {
-+		/* Yield the floor on command completion */
-+		OUT_PKT7(ring, CP_CONTEXT_SWITCH_YIELD, 4);
-+
-+		/*
-+		 * If dword[2:1] are non zero, they specify an address for
-+		 * the CP to write the value of dword[3] to on preemption
-+		 * complete. Write 0 to skip the write
-+		 */
-+		OUT_RING(ring, 0x00);
-+		OUT_RING(ring, 0x00);
-+		/* Data value - not used if the address above is 0 */
-+		OUT_RING(ring, 0x01);
-+		/* generate interrupt on preemption completion */
-+		OUT_RING(ring, 0x00);
-+	}
-+
-+
- 	trace_msm_gpu_submit_flush(submit,
- 		gpu_read64(gpu, REG_A6XX_CP_ALWAYS_ON_COUNTER));
- 
- 	a6xx_flush(gpu, ring);
-+
-+	/* Check to see if we need to start preemption */
-+	a6xx_preempt_trigger(gpu);
- }
- 
- static void a6xx_set_hwcg(struct msm_gpu *gpu, bool state)
-@@ -588,6 +734,89 @@ static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
- 		  adreno_gpu->ubwc_config.min_acc_len << 23 | hbb_lo << 21);
- }
- 
-+static void a7xx_patch_pwrup_reglist(struct msm_gpu *gpu)
-+{
-+	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-+	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-+	struct adreno_reglist_list reglist[2];
-+	void *ptr = a6xx_gpu->pwrup_reglist_ptr;
-+	struct cpu_gpu_lock *lock = ptr;
-+	u32 *dest = (u32 *)&lock->regs[0];
-+	int i, j;
-+
-+	lock->gpu_req = lock->cpu_req = lock->turn = 0;
-+	lock->ifpc_list_len = ARRAY_SIZE(a7xx_ifpc_pwrup_reglist);
-+	lock->preemption_list_len = ARRAY_SIZE(a7xx_pwrup_reglist);
-+
-+	/* Static IFPC-only registers */
-+	reglist[0].regs = a7xx_ifpc_pwrup_reglist;
-+	reglist[0].count = ARRAY_SIZE(a7xx_ifpc_pwrup_reglist);
-+	lock->ifpc_list_len = reglist[0].count;
-+
-+	/* Static IFPC + preemption registers */
-+	reglist[1].regs = a7xx_pwrup_reglist;
-+	reglist[1].count = ARRAY_SIZE(a7xx_pwrup_reglist);
-+	lock->preemption_list_len = reglist[1].count;
-+
-+	/*
-+	 * For each entry in each of the lists, write the offset and the current
-+	 * register value into the GPU buffer
-+	 */
-+	for (i = 0; i < 2; i++) {
-+		const u32 *r = reglist[i].regs;
-+
-+		for (j = 0; j < reglist[i].count; j++) {
-+			*dest++ = r[j];
-+			*dest++ = gpu_read(gpu, r[j]);
-+		}
-+	}
-+
-+	/*
-+	 * The overall register list is composed of
-+	 * 1. Static IFPC-only registers
-+	 * 2. Static IFPC + preemption registers
-+	 * 3. Dynamic IFPC + preemption registers (ex: perfcounter selects)
-+	 *
-+	 * The first two lists are static. Size of these lists are stored as
-+	 * number of pairs in ifpc_list_len and preemption_list_len
-+	 * respectively. With concurrent binning, Some of the perfcounter
-+	 * registers being virtualized, CP needs to know the pipe id to program
-+	 * the aperture inorder to restore the same. Thus, third list is a
-+	 * dynamic list with triplets as
-+	 * (<aperture, shifted 12 bits> <address> <data>), and the length is
-+	 * stored as number for triplets in dynamic_list_len.
-+	 */
-+	lock->dynamic_list_len = 0;
-+}
-+
-+static int a7xx_preempt_start(struct msm_gpu *gpu)
-+{
-+	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-+	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-+	struct msm_ringbuffer *ring = gpu->rb[0];
-+
-+	if (gpu->nr_rings <= 1)
-+		return 0;
-+
-+	/* Turn CP protection off */
-+	OUT_PKT7(ring, CP_SET_PROTECTED_MODE, 1);
-+	OUT_RING(ring, 0);
-+
-+	a6xx_emit_set_pseudo_reg(ring, a6xx_gpu, NULL);
-+
-+	/* Yield the floor on command completion */
-+	OUT_PKT7(ring, CP_CONTEXT_SWITCH_YIELD, 4);
-+	OUT_RING(ring, 0x00);
-+	OUT_RING(ring, 0x00);
-+	OUT_RING(ring, 0x00);
-+	/* Generate interrupt on preemption completion */
-+	OUT_RING(ring, 0x00);
-+
-+	a6xx_flush(gpu, ring);
-+
-+	return a6xx_idle(gpu, ring) ? 0 : -EINVAL;
-+}
-+
- static int a6xx_cp_init(struct msm_gpu *gpu)
- {
- 	struct msm_ringbuffer *ring = gpu->rb[0];
-@@ -619,6 +848,8 @@ static int a6xx_cp_init(struct msm_gpu *gpu)
- 
- static int a7xx_cp_init(struct msm_gpu *gpu)
- {
-+	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-+	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
- 	struct msm_ringbuffer *ring = gpu->rb[0];
- 	u32 mask;
- 
-@@ -656,11 +887,11 @@ static int a7xx_cp_init(struct msm_gpu *gpu)
- 
- 	/* *Don't* send a power up reg list for concurrent binning (TODO) */
- 	/* Lo address */
--	OUT_RING(ring, 0x00000000);
-+	OUT_RING(ring, lower_32_bits(a6xx_gpu->pwrup_reglist_iova));
- 	/* Hi address */
--	OUT_RING(ring, 0x00000000);
-+	OUT_RING(ring, upper_32_bits(a6xx_gpu->pwrup_reglist_iova));
- 	/* BIT(31) set => read the regs from the list */
--	OUT_RING(ring, 0x00000000);
-+	OUT_RING(ring, BIT(31));
- 
- 	a6xx_flush(gpu, ring);
- 	return a6xx_idle(gpu, ring) ? 0 : -EINVAL;
-@@ -784,6 +1015,16 @@ static int a6xx_ucode_load(struct msm_gpu *gpu)
- 		msm_gem_object_set_name(a6xx_gpu->shadow_bo, "shadow");
- 	}
- 
-+	a6xx_gpu->pwrup_reglist_ptr = msm_gem_kernel_new(gpu->dev, PAGE_SIZE,
-+							 MSM_BO_WC  | MSM_BO_MAP_PRIV,
-+							 gpu->aspace, &a6xx_gpu->pwrup_reglist_bo,
-+							 &a6xx_gpu->pwrup_reglist_iova);
-+
-+	if (IS_ERR(a6xx_gpu->pwrup_reglist_ptr))
-+		return PTR_ERR(a6xx_gpu->pwrup_reglist_ptr);
-+
-+	msm_gem_object_set_name(a6xx_gpu->pwrup_reglist_bo, "pwrup_reglist");
-+
- 	return 0;
- }
- 
-@@ -1128,6 +1369,8 @@ static int hw_init(struct msm_gpu *gpu)
- 	if (a6xx_gpu->shadow_bo) {
- 		gpu_write64(gpu, REG_A6XX_CP_RB_RPTR_ADDR,
- 			shadowptr(a6xx_gpu, gpu->rb[0]));
-+		for (unsigned int i = 0; i < gpu->nr_rings; i++)
-+			a6xx_gpu->shadow[i] = 0;
- 	}
- 
- 	/* ..which means "always" on A7xx, also for BV shadow */
-@@ -1136,6 +1379,8 @@ static int hw_init(struct msm_gpu *gpu)
- 			    rbmemptr(gpu->rb[0], bv_rptr));
- 	}
- 
-+	a6xx_preempt_hw_init(gpu);
-+
- 	/* Always come up on rb 0 */
- 	a6xx_gpu->cur_ring = gpu->rb[0];
- 
-@@ -1145,6 +1390,11 @@ static int hw_init(struct msm_gpu *gpu)
- 	/* Enable the SQE_to start the CP engine */
- 	gpu_write(gpu, REG_A6XX_CP_SQE_CNTL, 1);
- 
-+	if (adreno_is_a7xx(adreno_gpu) && !a6xx_gpu->pwrup_reglist_emitted) {
-+		a7xx_patch_pwrup_reglist(gpu);
-+		a6xx_gpu->pwrup_reglist_emitted = true;
-+	}
-+
- 	ret = adreno_is_a7xx(adreno_gpu) ? a7xx_cp_init(gpu) : a6xx_cp_init(gpu);
- 	if (ret)
- 		goto out;
-@@ -1182,6 +1432,10 @@ static int hw_init(struct msm_gpu *gpu)
- out:
- 	if (adreno_has_gmu_wrapper(adreno_gpu))
- 		return ret;
-+
-+	/* Last step - yield the ringbuffer */
-+	a7xx_preempt_start(gpu);
-+
- 	/*
- 	 * Tell the GMU that we are done touching the GPU and it can start power
- 	 * management
-@@ -1559,8 +1813,13 @@ static irqreturn_t a6xx_irq(struct msm_gpu *gpu)
- 	if (status & A6XX_RBBM_INT_0_MASK_SWFUSEVIOLATION)
- 		a7xx_sw_fuse_violation_irq(gpu);
- 
--	if (status & A6XX_RBBM_INT_0_MASK_CP_CACHE_FLUSH_TS)
-+	if (status & A6XX_RBBM_INT_0_MASK_CP_CACHE_FLUSH_TS) {
- 		msm_gpu_retire(gpu);
-+		a6xx_preempt_trigger(gpu);
-+	}
-+
-+	if (status & A6XX_RBBM_INT_0_MASK_CP_SW)
-+		a6xx_preempt_irq(gpu);
- 
- 	return IRQ_HANDLED;
- }
-@@ -2333,6 +2592,8 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
- 				a6xx_fault_handler);
- 
- 	a6xx_calc_ubwc_config(adreno_gpu);
-+	/* Set up the preemption specific bits and pieces for each ringbuffer */
-+	a6xx_preempt_init(gpu);
- 
- 	return gpu;
- }
 diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-index e3e5c53ae8af2cc59a21160f05c59fd125cb94b1..7fc994121676844cc53438fb47756e7caf5eee03 100644
+index 7fc994121676844cc53438fb47756e7caf5eee03..ae13892c87e397f5cdea6785fb7d5c17b7a93690 100644
 --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
 +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-@@ -12,6 +12,31 @@
+@@ -71,6 +71,12 @@ struct a6xx_gpu {
+ 	bool uses_gmem;
+ 	bool skip_save_restore;
  
- extern bool hang_debug;
- 
-+struct cpu_gpu_lock {
-+	uint32_t gpu_req;
-+	uint32_t cpu_req;
-+	uint32_t turn;
-+	union {
-+		struct {
-+			uint16_t list_length;
-+			uint16_t list_offset;
-+		};
-+		struct {
-+			uint8_t ifpc_list_len;
-+			uint8_t preemption_list_len;
-+			uint16_t dynamic_list_len;
-+		};
-+	};
-+	uint64_t regs[62];
-+};
++	struct drm_gem_object *preempt_postamble_bo;
++	void *preempt_postamble_ptr;
++	uint64_t preempt_postamble_iova;
++	uint64_t preempt_postamble_len;
++	bool postamble_enabled;
 +
-+struct adreno_reglist_list {
-+	/** @reg: List of register **/
-+	const u32 *regs;
-+	/** @count: Number of registers in the list **/
-+	u32 count;
-+};
-+
- /**
-  * struct a6xx_info - a6xx specific information from device table
-  *
-@@ -31,6 +56,20 @@ struct a6xx_gpu {
- 	uint64_t sqe_iova;
- 
- 	struct msm_ringbuffer *cur_ring;
-+	struct msm_ringbuffer *next_ring;
-+
-+	struct drm_gem_object *preempt_bo[MSM_GPU_MAX_RINGS];
-+	void *preempt[MSM_GPU_MAX_RINGS];
-+	uint64_t preempt_iova[MSM_GPU_MAX_RINGS];
-+	uint32_t last_seqno[MSM_GPU_MAX_RINGS];
-+
-+	atomic_t preempt_state;
-+	spinlock_t eval_lock;
-+	struct timer_list preempt_timer;
-+
-+	unsigned int preempt_level;
-+	bool uses_gmem;
-+	bool skip_save_restore;
- 
  	struct a6xx_gmu gmu;
  
-@@ -38,6 +77,11 @@ struct a6xx_gpu {
- 	uint64_t shadow_iova;
- 	uint32_t *shadow;
- 
-+	struct drm_gem_object *pwrup_reglist_bo;
-+	void *pwrup_reglist_ptr;
-+	uint64_t pwrup_reglist_iova;
-+	bool pwrup_reglist_emitted;
-+
- 	bool has_whereami;
- 
- 	void __iomem *llc_mmio;
-@@ -49,6 +93,102 @@ struct a6xx_gpu {
- 
- #define to_a6xx_gpu(x) container_of(x, struct a6xx_gpu, base)
- 
-+/*
-+ * In order to do lockless preemption we use a simple state machine to progress
-+ * through the process.
-+ *
-+ * PREEMPT_NONE - no preemption in progress.  Next state START.
-+ * PREEMPT_START - The trigger is evaluating if preemption is possible. Next
-+ * states: TRIGGERED, NONE
-+ * PREEMPT_FINISH - An intermediate state before moving back to NONE. Next
-+ * state: NONE.
-+ * PREEMPT_TRIGGERED: A preemption has been executed on the hardware. Next
-+ * states: FAULTED, PENDING
-+ * PREEMPT_FAULTED: A preemption timed out (never completed). This will trigger
-+ * recovery.  Next state: N/A
-+ * PREEMPT_PENDING: Preemption complete interrupt fired - the callback is
-+ * checking the success of the operation. Next state: FAULTED, NONE.
-+ */
-+
-+enum a6xx_preempt_state {
-+	PREEMPT_NONE = 0,
-+	PREEMPT_START,
-+	PREEMPT_FINISH,
-+	PREEMPT_TRIGGERED,
-+	PREEMPT_FAULTED,
-+	PREEMPT_PENDING,
-+};
-+
-+/*
-+ * struct a6xx_preempt_record is a shared buffer between the microcode and the
-+ * CPU to store the state for preemption. The record itself is much larger
-+ * (2112k) but most of that is used by the CP for storage.
-+ *
-+ * There is a preemption record assigned per ringbuffer. When the CPU triggers a
-+ * preemption, it fills out the record with the useful information (wptr, ring
-+ * base, etc) and the microcode uses that information to set up the CP following
-+ * the preemption.  When a ring is switched out, the CP will save the ringbuffer
-+ * state back to the record. In this way, once the records are properly set up
-+ * the CPU can quickly switch back and forth between ringbuffers by only
-+ * updating a few registers (often only the wptr).
-+ *
-+ * These are the CPU aware registers in the record:
-+ * @magic: Must always be 0xAE399D6EUL
-+ * @info: Type of the record - written 0 by the CPU, updated by the CP
-+ * @errno: preemption error record
-+ * @data: Data field in YIELD and SET_MARKER packets, Written and used by CP
-+ * @cntl: Value of RB_CNTL written by CPU, save/restored by CP
-+ * @rptr: Value of RB_RPTR written by CPU, save/restored by CP
-+ * @wptr: Value of RB_WPTR written by CPU, save/restored by CP
-+ * @_pad: Reserved/padding
-+ * @rptr_addr: Value of RB_RPTR_ADDR_LO|HI written by CPU, save/restored by CP
-+ * @rbase: Value of RB_BASE written by CPU, save/restored by CP
-+ * @counter: GPU address of the storage area for the preemption counters
-+ * @bv_rptr_addr: Value of BV_RB_RPTR_ADDR_LO|HI written by CPU, save/restored by CP
-+ */
-+struct a6xx_preempt_record {
-+	u32 magic;
-+	u32 info;
-+	u32 errno;
-+	u32 data;
-+	u32 cntl;
-+	u32 rptr;
-+	u32 wptr;
-+	u32 _pad;
-+	u64 rptr_addr;
-+	u64 rbase;
-+	u64 counter;
-+	u64 bv_rptr_addr;
-+};
-+
-+#define A6XX_PREEMPT_RECORD_MAGIC 0xAE399D6EUL
-+
-+#define PREEMPT_RECORD_SIZE_FALLBACK(size) \
-+	((size) == 0 ? 4192 * SZ_1K : (size))
-+
-+#define PREEMPT_OFFSET_SMMU_INFO 0
-+#define PREEMPT_OFFSET_PRIV_NON_SECURE (PREEMPT_OFFSET_SMMU_INFO + 4096)
-+#define PREEMPT_SIZE(size) \
-+	(PREEMPT_OFFSET_PRIV_NON_SECURE + PREEMPT_RECORD_SIZE_FALLBACK(size))
-+
-+/*
-+ * The preemption counter block is a storage area for the value of the
-+ * preemption counters that are saved immediately before context switch. We
-+ * append it on to the end of the allocation for the preemption record.
-+ */
-+#define A6XX_PREEMPT_COUNTER_SIZE (16 * 4)
-+
-+struct a7xx_cp_smmu_info {
-+	u32 magic;
-+	u32 _pad4;
-+	u64 ttbr0;
-+	u32 asid;
-+	u32 context_idr;
-+	u32 context_bank;
-+};
-+
-+#define GEN7_CP_SMMU_INFO_MAGIC 0x241350d5UL
-+
- /*
-  * Given a register and a count, return a value to program into
-  * REG_CP_PROTECT_REG(n) - this will block both reads and writes for
-@@ -106,6 +246,34 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node);
- int a6xx_gmu_wrapper_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node);
- void a6xx_gmu_remove(struct a6xx_gpu *a6xx_gpu);
- 
-+void a6xx_preempt_init(struct msm_gpu *gpu);
-+void a6xx_preempt_hw_init(struct msm_gpu *gpu);
-+void a6xx_preempt_trigger(struct msm_gpu *gpu);
-+void a6xx_preempt_irq(struct msm_gpu *gpu);
-+void a6xx_preempt_fini(struct msm_gpu *gpu);
-+int a6xx_preempt_submitqueue_setup(struct msm_gpu *gpu,
-+		struct msm_gpu_submitqueue *queue);
-+void a6xx_preempt_submitqueue_close(struct msm_gpu *gpu,
-+		struct msm_gpu_submitqueue *queue);
-+
-+/* Return true if we are in a preempt state */
-+static inline bool a6xx_in_preempt(struct a6xx_gpu *a6xx_gpu)
-+{
-+	/*
-+	 * Make sure the read to preempt_state is ordered with respect to reads
-+	 * of other variables before ...
-+	 */
-+	smp_rmb();
-+
-+	int preempt_state = atomic_read(&a6xx_gpu->preempt_state);
-+
-+	/* ... and after. */
-+	smp_rmb();
-+
-+	return !(preempt_state == PREEMPT_NONE ||
-+			preempt_state == PREEMPT_FINISH);
-+}
-+
- void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp,
- 		       bool suspended);
- unsigned long a6xx_gmu_get_freq(struct msm_gpu *gpu);
+ 	struct drm_gem_object *shadow_bo;
 diff --git a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c b/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..38d68b341d99e9f4c39213d968de6b1e168c9786
---- /dev/null
+index 38d68b341d99e9f4c39213d968de6b1e168c9786..cf75f612edc15374f3d8238e3dc0297532569607 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
 +++ b/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
-@@ -0,0 +1,377 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Copyright (c) 2018, The Linux Foundation. All rights reserved. */
-+/* Copyright (c) 2023 Collabora, Ltd. */
-+/* Copyright (c) 2024 Valve Corporation */
-+
-+#include "msm_gem.h"
-+#include "a6xx_gpu.h"
-+#include "a6xx_gmu.xml.h"
-+#include "msm_mmu.h"
-+
-+/*
-+ * Try to transition the preemption state from old to new. Return
-+ * true on success or false if the original state wasn't 'old'
-+ */
-+static inline bool try_preempt_state(struct a6xx_gpu *a6xx_gpu,
-+		enum a6xx_preempt_state old, enum a6xx_preempt_state new)
-+{
-+	enum a6xx_preempt_state cur = atomic_cmpxchg(&a6xx_gpu->preempt_state,
-+		old, new);
-+
-+	return (cur == old);
-+}
-+
-+/*
-+ * Force the preemption state to the specified state.  This is used in cases
-+ * where the current state is known and won't change
-+ */
-+static inline void set_preempt_state(struct a6xx_gpu *gpu,
-+		enum a6xx_preempt_state new)
-+{
-+	/*
-+	 * preempt_state may be read by other cores trying to trigger a
-+	 * preemption or in the interrupt handler so barriers are needed
-+	 * before...
-+	 */
-+	smp_mb__before_atomic();
-+	atomic_set(&gpu->preempt_state, new);
-+	/* ... and after*/
-+	smp_mb__after_atomic();
-+}
-+
-+/* Write the most recent wptr for the given ring into the hardware */
-+static inline void update_wptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
-+{
-+	unsigned long flags;
-+	uint32_t wptr;
-+
-+	spin_lock_irqsave(&ring->preempt_lock, flags);
-+
-+	if (ring->restore_wptr) {
-+		wptr = get_wptr(ring);
-+
-+		gpu_write(gpu, REG_A6XX_CP_RB_WPTR, wptr);
-+
-+		ring->restore_wptr = false;
-+	}
-+
-+	spin_unlock_irqrestore(&ring->preempt_lock, flags);
-+}
-+
-+/* Return the highest priority ringbuffer with something in it */
-+static struct msm_ringbuffer *get_next_ring(struct msm_gpu *gpu)
-+{
-+	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-+	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-+
-+	unsigned long flags;
-+	int i;
-+
-+	for (i = 0; i < gpu->nr_rings; i++) {
-+		bool empty;
-+		struct msm_ringbuffer *ring = gpu->rb[i];
-+
-+		spin_lock_irqsave(&ring->preempt_lock, flags);
-+		empty = (get_wptr(ring) == gpu->funcs->get_rptr(gpu, ring));
-+		if (!empty && ring == a6xx_gpu->cur_ring)
-+			empty = ring->memptrs->fence == a6xx_gpu->last_seqno[i];
-+		spin_unlock_irqrestore(&ring->preempt_lock, flags);
-+
-+		if (!empty)
-+			return ring;
-+	}
-+
-+	return NULL;
-+}
-+
-+static void a6xx_preempt_timer(struct timer_list *t)
-+{
-+	struct a6xx_gpu *a6xx_gpu = from_timer(a6xx_gpu, t, preempt_timer);
-+	struct msm_gpu *gpu = &a6xx_gpu->base.base;
-+	struct drm_device *dev = gpu->dev;
-+
-+	if (!try_preempt_state(a6xx_gpu, PREEMPT_TRIGGERED, PREEMPT_FAULTED))
-+		return;
-+
-+	dev_err(dev->dev, "%s: preemption timed out\n", gpu->name);
-+	kthread_queue_work(gpu->worker, &gpu->recover_work);
-+}
-+
-+void a6xx_preempt_irq(struct msm_gpu *gpu)
-+{
-+	uint32_t status;
-+	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-+	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-+	struct drm_device *dev = gpu->dev;
-+
-+	if (!try_preempt_state(a6xx_gpu, PREEMPT_TRIGGERED, PREEMPT_PENDING))
-+		return;
-+
-+	/* Delete the preemption watchdog timer */
-+	del_timer(&a6xx_gpu->preempt_timer);
-+
-+	/*
-+	 * The hardware should be setting the stop bit of CP_CONTEXT_SWITCH_CNTL
-+	 * to zero before firing the interrupt, but there is a non zero chance
-+	 * of a hardware condition or a software race that could set it again
-+	 * before we have a chance to finish. If that happens, log and go for
-+	 * recovery
-+	 */
-+	status = gpu_read(gpu, REG_A6XX_CP_CONTEXT_SWITCH_CNTL);
-+	if (unlikely(status & A6XX_CP_CONTEXT_SWITCH_CNTL_STOP)) {
-+		DRM_DEV_ERROR(&gpu->pdev->dev,
-+					  "!!!!!!!!!!!!!!!! preemption faulted !!!!!!!!!!!!!! irq\n");
-+		set_preempt_state(a6xx_gpu, PREEMPT_FAULTED);
-+		dev_err(dev->dev, "%s: Preemption failed to complete\n",
-+			gpu->name);
-+		kthread_queue_work(gpu->worker, &gpu->recover_work);
-+		return;
-+	}
-+
-+	a6xx_gpu->cur_ring = a6xx_gpu->next_ring;
-+	a6xx_gpu->next_ring = NULL;
-+
-+	set_preempt_state(a6xx_gpu, PREEMPT_FINISH);
-+
-+	update_wptr(gpu, a6xx_gpu->cur_ring);
-+
-+	set_preempt_state(a6xx_gpu, PREEMPT_NONE);
-+
-+	/*
-+	 * Retrigger preemption to avoid a deadlock that might occur when preemption
-+	 * is skipped due to it being already in flight when requested.
-+	 */
-+	a6xx_preempt_trigger(gpu);
-+}
-+
-+void a6xx_preempt_hw_init(struct msm_gpu *gpu)
-+{
-+	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-+	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-+	int i;
-+
-+	/* No preemption if we only have one ring */
-+	if (gpu->nr_rings == 1)
-+		return;
-+
-+	for (i = 0; i < gpu->nr_rings; i++) {
-+		struct a6xx_preempt_record *record_ptr =
-+			a6xx_gpu->preempt[i] + PREEMPT_OFFSET_PRIV_NON_SECURE;
-+		record_ptr->wptr = 0;
-+		record_ptr->rptr = 0;
-+		record_ptr->rptr_addr = shadowptr(a6xx_gpu, gpu->rb[i]);
-+		record_ptr->info = 0;
-+		record_ptr->data = 0;
-+		record_ptr->rbase = gpu->rb[i]->iova;
-+	}
-+
-+	/* Write a 0 to signal that we aren't switching pagetables */
-+	gpu_write64(gpu, REG_A6XX_CP_CONTEXT_SWITCH_SMMU_INFO, 0);
-+
-+	/* Enable the GMEM save/restore feature for preemption */
-+	gpu_write(gpu, REG_A6XX_RB_CONTEXT_SWITCH_GMEM_SAVE_RESTORE, 0x1);
-+
-+	/* Reset the preemption state */
-+	set_preempt_state(a6xx_gpu, PREEMPT_NONE);
-+
-+	spin_lock_init(&a6xx_gpu->eval_lock);
-+
-+	/* Always come up on rb 0 */
-+	a6xx_gpu->cur_ring = gpu->rb[0];
-+}
-+
-+void a6xx_preempt_trigger(struct msm_gpu *gpu)
-+{
-+	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-+	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-+	unsigned long flags;
-+	struct msm_ringbuffer *ring;
-+	unsigned int cntl;
-+
-+	if (gpu->nr_rings == 1)
-+		return;
-+
-+	/*
-+	 * Lock to make sure another thread attempting preemption doesn't skip it
-+	 * while we are still evaluating the next ring. This makes sure the other
-+	 * thread does start preemption if we abort it and avoids a soft lock.
-+	 */
-+	spin_lock_irqsave(&a6xx_gpu->eval_lock, flags);
-+
-+	/*
-+	 * Try to start preemption by moving from NONE to START. If
-+	 * unsuccessful, a preemption is already in flight
-+	 */
-+	if (!try_preempt_state(a6xx_gpu, PREEMPT_NONE, PREEMPT_START)) {
-+		spin_unlock_irqrestore(&a6xx_gpu->eval_lock, flags);
-+		return;
-+	}
-+
-+	cntl = A6XX_CP_CONTEXT_SWITCH_CNTL_LEVEL(a6xx_gpu->preempt_level);
-+
-+	if (a6xx_gpu->skip_save_restore)
-+		cntl |= A6XX_CP_CONTEXT_SWITCH_CNTL_SKIP_SAVE_RESTORE;
-+
-+	if (a6xx_gpu->uses_gmem)
-+		cntl |= A6XX_CP_CONTEXT_SWITCH_CNTL_USES_GMEM;
-+
-+	cntl |= A6XX_CP_CONTEXT_SWITCH_CNTL_STOP;
-+
-+	/* Get the next ring to preempt to */
-+	ring = get_next_ring(gpu);
-+
-+	/*
-+	 * If no ring is populated or the highest priority ring is the current
-+	 * one do nothing except to update the wptr to the latest and greatest
-+	 */
-+	if (!ring || (a6xx_gpu->cur_ring == ring)) {
-+		set_preempt_state(a6xx_gpu, PREEMPT_FINISH);
-+		update_wptr(gpu, a6xx_gpu->cur_ring);
-+		set_preempt_state(a6xx_gpu, PREEMPT_NONE);
-+		spin_unlock_irqrestore(&a6xx_gpu->eval_lock, flags);
-+		return;
-+	}
-+
-+	spin_unlock_irqrestore(&a6xx_gpu->eval_lock, flags);
-+
-+	spin_lock_irqsave(&ring->preempt_lock, flags);
-+
-+	struct a7xx_cp_smmu_info *smmu_info_ptr =
-+		a6xx_gpu->preempt[ring->id] + PREEMPT_OFFSET_SMMU_INFO;
-+	struct a6xx_preempt_record *record_ptr =
-+		a6xx_gpu->preempt[ring->id] + PREEMPT_OFFSET_PRIV_NON_SECURE;
-+	u64 ttbr0 = ring->memptrs->ttbr0;
-+	u32 context_idr = ring->memptrs->context_idr;
-+
-+	smmu_info_ptr->ttbr0 = ttbr0;
-+	smmu_info_ptr->context_idr = context_idr;
-+	record_ptr->wptr = get_wptr(ring);
-+
-+	/*
-+	 * The GPU will write the wptr we set above when we preempt. Reset
-+	 * restore_wptr to make sure that we don't write WPTR to the same
-+	 * thing twice. It's still possible subsequent submissions will update
-+	 * wptr again, in which case they will set the flag to true. This has
-+	 * to be protected by the lock for setting the flag and updating wptr
-+	 * to be atomic.
-+	 */
-+	ring->restore_wptr = false;
-+
-+	spin_unlock_irqrestore(&ring->preempt_lock, flags);
-+
-+	gpu_write64(gpu,
-+		REG_A6XX_CP_CONTEXT_SWITCH_SMMU_INFO,
-+		a6xx_gpu->preempt_iova[ring->id] + PREEMPT_OFFSET_SMMU_INFO);
-+
-+	gpu_write64(gpu,
-+		REG_A6XX_CP_CONTEXT_SWITCH_PRIV_NON_SECURE_RESTORE_ADDR,
-+		a6xx_gpu->preempt_iova[ring->id] + PREEMPT_OFFSET_PRIV_NON_SECURE);
-+
-+	a6xx_gpu->next_ring = ring;
-+
-+	/* Start a timer to catch a stuck preemption */
-+	mod_timer(&a6xx_gpu->preempt_timer, jiffies + msecs_to_jiffies(10000));
-+
-+	/* Set the preemption state to triggered */
-+	set_preempt_state(a6xx_gpu, PREEMPT_TRIGGERED);
-+
-+	/* Trigger the preemption */
-+	gpu_write(gpu, REG_A6XX_CP_CONTEXT_SWITCH_CNTL, cntl);
-+}
-+
-+static int preempt_init_ring(struct a6xx_gpu *a6xx_gpu,
-+		struct msm_ringbuffer *ring)
-+{
-+	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
-+	struct msm_gpu *gpu = &adreno_gpu->base;
-+	struct drm_gem_object *bo = NULL;
-+	phys_addr_t ttbr;
-+	u64 iova = 0;
-+	void *ptr;
-+	int asid;
-+
-+	ptr = msm_gem_kernel_new(gpu->dev,
-+		PREEMPT_SIZE(adreno_gpu->info->preempt_record_size),
-+		MSM_BO_WC | MSM_BO_MAP_PRIV, gpu->aspace, &bo, &iova);
-+
-+	if (IS_ERR(ptr))
-+		return PTR_ERR(ptr);
-+
-+	memset(ptr, 0, PREEMPT_SIZE(adreno_gpu->info->preempt_record_size));
-+
-+	msm_gem_object_set_name(bo, "preempt_record ring%d", ring->id);
-+
-+	a6xx_gpu->preempt_bo[ring->id] = bo;
-+	a6xx_gpu->preempt_iova[ring->id] = iova;
-+	a6xx_gpu->preempt[ring->id] = ptr;
-+
-+	struct a7xx_cp_smmu_info *smmu_info_ptr = ptr + PREEMPT_OFFSET_SMMU_INFO;
-+	struct a6xx_preempt_record *record_ptr = ptr + PREEMPT_OFFSET_PRIV_NON_SECURE;
-+
-+	msm_iommu_pagetable_params(gpu->aspace->mmu, &ttbr, &asid);
-+
-+	smmu_info_ptr->magic = GEN7_CP_SMMU_INFO_MAGIC;
-+	smmu_info_ptr->ttbr0 = ttbr;
-+	smmu_info_ptr->asid = 0xdecafbad;
-+	smmu_info_ptr->context_idr = 0;
-+
-+	/* Set up the defaults on the preemption record */
-+	record_ptr->magic = A6XX_PREEMPT_RECORD_MAGIC;
-+	record_ptr->info = 0;
-+	record_ptr->data = 0;
-+	record_ptr->rptr = 0;
-+	record_ptr->wptr = 0;
-+	record_ptr->cntl = MSM_GPU_RB_CNTL_DEFAULT;
-+	record_ptr->rbase = ring->iova;
-+	record_ptr->counter = 0;
-+	record_ptr->bv_rptr_addr = rbmemptr(ring, bv_rptr);
-+
-+	return 0;
-+}
-+
-+void a6xx_preempt_fini(struct msm_gpu *gpu)
-+{
-+	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-+	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-+	int i;
-+
-+	for (i = 0; i < gpu->nr_rings; i++)
-+		msm_gem_kernel_put(a6xx_gpu->preempt_bo[i], gpu->aspace);
-+}
-+
-+void a6xx_preempt_init(struct msm_gpu *gpu)
-+{
-+	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-+	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-+	int i;
-+
-+	/* No preemption if we only have one ring */
-+	if (gpu->nr_rings <= 1)
-+		return;
-+
-+	for (i = 0; i < gpu->nr_rings; i++) {
-+		if (preempt_init_ring(a6xx_gpu, gpu->rb[i]))
-+			goto fail;
-+	}
-+
-+	/* TODO: make this configurable? */
-+	a6xx_gpu->preempt_level = 1;
-+	a6xx_gpu->uses_gmem = 1;
-+	a6xx_gpu->skip_save_restore = 1;
-+
-+	timer_setup(&a6xx_gpu->preempt_timer, a6xx_preempt_timer, 0);
-+
-+	return;
-+fail:
-+	/*
-+	 * On any failure our adventure is over. Clean up and
-+	 * set nr_rings to 1 to force preemption off
-+	 */
-+	a6xx_preempt_fini(gpu);
-+	gpu->nr_rings = 1;
-+
-+	DRM_DEV_ERROR(&gpu->pdev->dev,
-+				  "preemption init failed, disabling preemption\n");
-+
-+	return;
-+}
-diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.h b/drivers/gpu/drm/msm/msm_ringbuffer.h
-index 174f83137a49940ec80b1fbf548e214fa3c32784..d1e49f701c8176e50d2b9a5cca35acee67f75209 100644
---- a/drivers/gpu/drm/msm/msm_ringbuffer.h
-+++ b/drivers/gpu/drm/msm/msm_ringbuffer.h
-@@ -36,6 +36,7 @@ struct msm_rbmemptrs {
+@@ -97,6 +97,43 @@ static void a6xx_preempt_timer(struct timer_list *t)
+ 	kthread_queue_work(gpu->worker, &gpu->recover_work);
+ }
  
- 	volatile struct msm_gpu_submit_stats stats[MSM_GPU_SUBMIT_STATS_COUNT];
- 	volatile u64 ttbr0;
-+	volatile u32 context_idr;
- };
- 
- struct msm_cp_state {
-@@ -101,6 +102,12 @@ struct msm_ringbuffer {
- 	 */
- 	spinlock_t preempt_lock;
- 
-+	/*
-+	 * Whether we skipped writing wptr and it needs to be updated in the
-+	 * future when the ring becomes current.
-+	 */
-+	bool restore_wptr;
++static void preempt_prepare_postamble(struct a6xx_gpu *a6xx_gpu)
++{
++	u32 *postamble = a6xx_gpu->preempt_postamble_ptr;
++	u32 count = 0;
 +
- 	/**
- 	 * cur_ctx_seqno:
- 	 *
++	postamble[count++] = PKT7(CP_REG_RMW, 3);
++	postamble[count++] = REG_A6XX_RBBM_PERFCTR_SRAM_INIT_CMD;
++	postamble[count++] = 0;
++	postamble[count++] = 1;
++
++	postamble[count++] = PKT7(CP_WAIT_REG_MEM, 6);
++	postamble[count++] = CP_WAIT_REG_MEM_0_FUNCTION(WRITE_EQ);
++	postamble[count++] = CP_WAIT_REG_MEM_1_POLL_ADDR_LO(
++				REG_A6XX_RBBM_PERFCTR_SRAM_INIT_STATUS);
++	postamble[count++] = CP_WAIT_REG_MEM_2_POLL_ADDR_HI(0);
++	postamble[count++] = CP_WAIT_REG_MEM_3_REF(0x1);
++	postamble[count++] = CP_WAIT_REG_MEM_4_MASK(0x1);
++	postamble[count++] = CP_WAIT_REG_MEM_5_DELAY_LOOP_CYCLES(0);
++
++	a6xx_gpu->preempt_postamble_len = count;
++
++	a6xx_gpu->postamble_enabled = true;
++}
++
++static void preempt_disable_postamble(struct a6xx_gpu *a6xx_gpu)
++{
++	u32 *postamble = a6xx_gpu->preempt_postamble_ptr;
++
++	/*
++	 * Disable the postamble by replacing the first packet header with a NOP
++	 * that covers the whole buffer.
++	 */
++	*postamble = PKT7(CP_NOP, (a6xx_gpu->preempt_postamble_len - 1));
++
++	a6xx_gpu->postamble_enabled = false;
++}
++
+ void a6xx_preempt_irq(struct msm_gpu *gpu)
+ {
+ 	uint32_t status;
+@@ -187,6 +224,7 @@ void a6xx_preempt_trigger(struct msm_gpu *gpu)
+ 	unsigned long flags;
+ 	struct msm_ringbuffer *ring;
+ 	unsigned int cntl;
++	bool sysprof;
+ 
+ 	if (gpu->nr_rings == 1)
+ 		return;
+@@ -272,6 +310,15 @@ void a6xx_preempt_trigger(struct msm_gpu *gpu)
+ 	/* Start a timer to catch a stuck preemption */
+ 	mod_timer(&a6xx_gpu->preempt_timer, jiffies + msecs_to_jiffies(10000));
+ 
++	/* Enable or disable postamble as needed */
++	sysprof = refcount_read(&a6xx_gpu->base.base.sysprof_active) > 1;
++
++	if (!sysprof && !a6xx_gpu->postamble_enabled)
++		preempt_prepare_postamble(a6xx_gpu);
++
++	if (sysprof && a6xx_gpu->postamble_enabled)
++		preempt_disable_postamble(a6xx_gpu);
++
+ 	/* Set the preemption state to triggered */
+ 	set_preempt_state(a6xx_gpu, PREEMPT_TRIGGERED);
+ 
+@@ -359,6 +406,16 @@ void a6xx_preempt_init(struct msm_gpu *gpu)
+ 	a6xx_gpu->uses_gmem = 1;
+ 	a6xx_gpu->skip_save_restore = 1;
+ 
++	a6xx_gpu->preempt_postamble_ptr  = msm_gem_kernel_new(gpu->dev,
++			PAGE_SIZE, MSM_BO_WC | MSM_BO_MAP_PRIV,
++			gpu->aspace, &a6xx_gpu->preempt_postamble_bo,
++			&a6xx_gpu->preempt_postamble_iova);
++
++	preempt_prepare_postamble(a6xx_gpu);
++
++	if (IS_ERR(a6xx_gpu->preempt_postamble_ptr))
++		goto fail;
++
+ 	timer_setup(&a6xx_gpu->preempt_timer, a6xx_preempt_timer, 0);
+ 
+ 	return;
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+index 6b1888280a83e6288c4b071733d5d6097afe3a99..87098567483b69c21025b80f356e0a68f0e7f172 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+@@ -610,12 +610,15 @@ OUT_PKT4(struct msm_ringbuffer *ring, uint16_t regindx, uint16_t cnt)
+ 	OUT_RING(ring, PKT4(regindx, cnt));
+ }
+ 
++#define PKT7(opcode, cnt) \
++	(CP_TYPE7_PKT | (cnt << 0) | (PM4_PARITY(cnt) << 15) | \
++		((opcode & 0x7F) << 16) | (PM4_PARITY(opcode) << 23))
++
+ static inline void
+ OUT_PKT7(struct msm_ringbuffer *ring, uint8_t opcode, uint16_t cnt)
+ {
+ 	adreno_wait_ring(ring, cnt + 1);
+-	OUT_RING(ring, CP_TYPE7_PKT | (cnt << 0) | (PM4_PARITY(cnt) << 15) |
+-		((opcode & 0x7F) << 16) | (PM4_PARITY(opcode) << 23));
++	OUT_RING(ring, PKT7(opcode, cnt));
+ }
+ 
+ struct msm_gpu *a2xx_gpu_init(struct drm_device *dev);
 
 -- 
 2.46.1
