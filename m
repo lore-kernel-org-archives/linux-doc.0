@@ -1,73 +1,73 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76AA3148310
-	for <linux-doc@vger.kernel.org>; Wed, 25 Sep 2024 03:30:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F1F14A4D1
+	for <linux-doc@vger.kernel.org>; Wed, 25 Sep 2024 03:31:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727235027; cv=none; b=p1s0q43O8GVLrcErTNoJnA2IwT24ED6Es5lPOn+hxp9HVw6Ki6T3o/b65jP9ZRF+Tdk1antzEPc4N148KPVdD7e7Bm9iiMtWWkmmUfHlydc5B5zWS8NwCCYna7GiPIVTW+1w3GW9QyWtw8MqzxNw1p4U6eUL5sWwBjgp5uW4pxo=
+	t=1727235074; cv=none; b=F6JTaeI3VK24SNGXREx7IRvnwbWuzC99C/rhMz8b+7vYvDfi2T/9WF5nJti8CBOBzgsn7/qpN9pE3nRDa/E2KdHNVzTDS8HXvH4oVpughfklHtD+fRpP00BdJIo0lfwig7yc136DrpRbOycfnRH3qH5kq6a3s5OM1XXCCRmTEBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727235027; c=relaxed/simple;
-	bh=/pj+RCuXouKWKKmVNJjkG4mjtgCiJqE6IxJ4EvXxnE4=;
+	s=arc-20240116; t=1727235074; c=relaxed/simple;
+	bh=M0Ynl+OetR8GBYZEwi4ht5kW6Ch+UvBVR3yT5ZWcE34=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nxguKGoP8K84E3dFHxzaYIk8aL4+MI8uQWik0CPU958qkAO1zszqCy28WgAeK2haUTSOogejmcjT6gryuGcztRIeqsVTrvB23IqV2oFcPrE0rzghnZkDWxlOWrmPx/9e4MpcP8UEgfp3bhd1GE0V0OUbvTcPwIZmnLl6W4RNGu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Cc50jO1v; arc=none smtp.client-ip=170.10.129.124
+	 To:Cc:Content-Type; b=cao7BgNVDc3epP1f+wNspUytvRLbH3STbTqT05vgXdZjHl3/SKdugyziwukv84GJ3Y2TJZbTHO0cwo/qeI3EVe9ntyPkJUP5GIC1BNe/cuzSR7QWSDbGCeokG7wlECBEt6xYKeO1zpxv2+t/0oHt2NqwmIHCbHGONfK0NeXTjlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FFIvvS/C; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Cc50jO1v"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FFIvvS/C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1727235024;
+	s=mimecast20190719; t=1727235072;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/pj+RCuXouKWKKmVNJjkG4mjtgCiJqE6IxJ4EvXxnE4=;
-	b=Cc50jO1vwKFaEKU2XlDyrbNt/ghI8Q4f7OyGi9IdYTcKsiVT1tASj2oYd0URyrZRUE7e1k
-	5Xg3T3sKJYlPAyDMdt9z7r6570YQXa97L6GW7EBMhp5bQ1Y3llL19jXoLqYbkqozaQpyDb
-	IvLuAhyly3Iw+ra5b+DjdRpRwy+KIH4=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=M0Ynl+OetR8GBYZEwi4ht5kW6Ch+UvBVR3yT5ZWcE34=;
+	b=FFIvvS/CQYMTvZOM7EAcZo7XJyKmfnUVnhfuMDoSqEDqFCdptSG+8JPI1bLbrvny+78Rl0
+	XLjHeW8dnQS0MkZhHtgxrgONGe6dYfWu2ozWl2byXxHOTtTTES5Iugvmo75F0urSy34J+v
+	JlbVfbSgjROk44g9e/K9kXEyGdIB2WI=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-115-6dWeQqgMM2yr14RdVFb1NQ-1; Tue, 24 Sep 2024 23:30:22 -0400
-X-MC-Unique: 6dWeQqgMM2yr14RdVFb1NQ-1
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-2d8759255d4so8949053a91.3
-        for <linux-doc@vger.kernel.org>; Tue, 24 Sep 2024 20:30:22 -0700 (PDT)
+ us-mta-600-Fsaz8LdEN8OQ_LzbjktsAQ-1; Tue, 24 Sep 2024 23:31:09 -0400
+X-MC-Unique: Fsaz8LdEN8OQ_LzbjktsAQ-1
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-7d50dadb7f8so290416a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 24 Sep 2024 20:31:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727235022; x=1727839822;
+        d=1e100.net; s=20230601; t=1727235068; x=1727839868;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/pj+RCuXouKWKKmVNJjkG4mjtgCiJqE6IxJ4EvXxnE4=;
-        b=bZqX/cGZttW9S3EjOYE3a95zb86P9K6CqxNu41sPGbhlbDiuPsN1myYx4tcuR08mZS
-         7U6lRbOBjcUjwmOzOCqlPeEhvz1iAO07PQSqkaDzZZp7NMVheUMpaG8XM8HUL15T0bNp
-         jf4gy0G+BEcZ9LDCns8H9V53bBHgC2xi+gJuZwr029HW6tZiEnRdmAUHlxONdwlprsbI
-         fxW9c3/fLdT4k4sH3One+Q3O/clca9diSHINLTC1RSljfFpSScIY1LcJXLTIOE5ZFTgX
-         QB+9fvdNLEic+tj8qF5Lf0V2p0PJZWilnPA+piSjcba58Lg9y+0+yHdDrpDKPwS+ykey
-         KxNw==
-X-Forwarded-Encrypted: i=1; AJvYcCWD6gdKpR/rfpBu2KLsJEpPNNmg4i4zN7MoNso3+5RnVwdiEqnlVp7dY7tvjlQyRjgdjf0O50G7GZE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx422Q9ksFF5P1t9nEYZW4i8a3NaVsKknMe45o+1kyx/LImHXDd
-	9O7/XybXAi6Fh/0TbnvrD4wQQooOt2gECLhN+/PtVo6xSYVXj264b99pGEqw1a5++Y3XJ6mkMFz
-	zQtVEDOewiwqIqU9iN4s29JuN6liKZLei4gB0ALwByl1feQGKykPKeUzfnRftveLATgY3hC9QbN
-	5pO4KOQ4Mu9pYVFNRCJsgtMaJCg24jSgLj
-X-Received: by 2002:a17:90a:f2d5:b0:2da:905a:d88a with SMTP id 98e67ed59e1d1-2e06ae791a7mr1467812a91.21.1727235021752;
-        Tue, 24 Sep 2024 20:30:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFt284MvmYUlT8+AL6adgtTv8NmOQ1ld/MsvwYgsNGC040Pi/BgPI1vkZfb6OO4Jtnfla96r8UcK+AJSx61zg8=
-X-Received: by 2002:a17:90a:f2d5:b0:2da:905a:d88a with SMTP id
- 98e67ed59e1d1-2e06ae791a7mr1467782a91.21.1727235021240; Tue, 24 Sep 2024
- 20:30:21 -0700 (PDT)
+        bh=M0Ynl+OetR8GBYZEwi4ht5kW6Ch+UvBVR3yT5ZWcE34=;
+        b=HgqsmT44W8x3sNDi/uHrRBhBHkDEab1p+pF+sJLt3Pww2mnQ5J6ry4q+f/Gi3Op0Wi
+         jdChdxHA8cEBq3SBOHJNBK0kQYxIUUDBAjZPI3YG6mE17CRLxPYYYgnxFx3bWnYJe9jE
+         3WmFVR1KTbolVagKX810hB4aSO8Yc17ZFYtA1PeHdEvSz2Q6Kyge5r16KzCESdGn0N5e
+         GjL8L5NLUMrYGTz7dZfSHApwC4n0JVj8SrNOeoWrbqnNlkIphEONEtVlCFgASg7r1Ta5
+         X7LXJLwV8Tu3HZ/cM83I92balRqMIarSOcLDZbm/qKNFKMNbAccibwUce4nCVD6tEHUz
+         dnnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXSWXUhqjqB+aJACdiCajWjq7N3/ftFkHK1Fyk/NQzM492DKEysG5ydhSQKzhADcITjFz0QyFilWKw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywxg8sNRnyEsL8ftcYr61/FCgf+xdY3Ifu607V8rVfwEud4xbJ5
+	t1KEwhP1dXJ+wrfknnEff7Y/Rzzlb8D+bZTFStUIQ8cZ4xCkEeiDtZUBtlhet5QWlV16WzoYV5J
+	2rwm1TmpVn032Oe2eRcpcOQ/7ObjUIAHvYkjjxfuJ5X6aYMJXTUVZ7sKCx3/2P9gaNzKZm45hIV
+	j1Szpb/Mh0v5sLl6WN8izghBGZkra6ubaN
+X-Received: by 2002:a17:90a:d18b:b0:2c9:7343:71f1 with SMTP id 98e67ed59e1d1-2e06ac390c5mr2020792a91.14.1727235068212;
+        Tue, 24 Sep 2024 20:31:08 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGHSXnVXH4KJFogFRlAqrxz0oHdsU+wQjcpSOWPpZkunKpdZpa8uVOFkj6NCDsQxAw+PRNHCHqUsGcOkqjm3ok=
+X-Received: by 2002:a17:90a:d18b:b0:2c9:7343:71f1 with SMTP id
+ 98e67ed59e1d1-2e06ac390c5mr2020746a91.14.1727235067738; Tue, 24 Sep 2024
+ 20:31:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240924-rss-v4-0-84e932ec0e6c@daynix.com>
-In-Reply-To: <20240924-rss-v4-0-84e932ec0e6c@daynix.com>
+References: <20240924-rss-v4-0-84e932ec0e6c@daynix.com> <20240924-rss-v4-7-84e932ec0e6c@daynix.com>
+In-Reply-To: <20240924-rss-v4-7-84e932ec0e6c@daynix.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 25 Sep 2024 11:30:08 +0800
-Message-ID: <CACGkMEvMuBe5=wQxZMns4R-oJtVOWGhKM3sXy8U6wSQX7c=iWQ@mail.gmail.com>
-Subject: Re: [PATCH RFC v4 0/9] tun: Introduce virtio-net hashing feature
+Date: Wed, 25 Sep 2024 11:30:56 +0800
+Message-ID: <CACGkMEvKPXCPi6=1938J-k8JNA+hHqzRSt1gPQtqBvSfcgGZeQ@mail.gmail.com>
+Subject: Re: [PATCH RFC v4 7/9] tun: Introduce virtio-net RSS
 To: Akihiko Odaki <akihiko.odaki@daynix.com>
 Cc: Jonathan Corbet <corbet@lwn.net>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
 	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
@@ -84,28 +84,28 @@ Content-Transfer-Encoding: quoted-printable
 On Tue, Sep 24, 2024 at 5:01=E2=80=AFPM Akihiko Odaki <akihiko.odaki@daynix=
 .com> wrote:
 >
-> virtio-net have two usage of hashes: one is RSS and another is hash
-> reporting. Conventionally the hash calculation was done by the VMM.
+> RSS is a receive steering algorithm that can be negotiated to use with
+> virtio_net. Conventionally the hash calculation was done by the VMM.
 > However, computing the hash after the queue was chosen defeats the
 > purpose of RSS.
 >
 > Another approach is to use eBPF steering program. This approach has
 > another downside: it cannot report the calculated hash due to the
-> restrictive nature of eBPF.
+> restrictive nature of eBPF steering program.
 >
-> Introduce the code to compute hashes to the kernel in order to overcome
-> thse challenges.
+> Introduce the code to perform RSS to the kernel in order to overcome
+> thse challenges. An alternative solution is to extend the eBPF steering
+> program so that it will be able to report to the userspace, but I didn't
+> opt for it because extending the current mechanism of eBPF steering
+> program as is because it relies on legacy context rewriting, and
+> introducing kfunc-based eBPF will result in non-UAPI dependency while
+> the other relevant virtualization APIs such as KVM and vhost_net are
+> UAPIs.
 >
-> An alternative solution is to extend the eBPF steering program so that it
-> will be able to report to the userspace, but it is based on context
-> rewrites, which is in feature freeze. We can adopt kfuncs, but they will
-> not be UAPIs. We opt to ioctl to align with other relevant UAPIs (KVM
-> and vhost_net).
->
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 
-I wonder if we could clone the skb and reuse some to store the hash,
-then the steering eBPF program can access these fields without
-introducing full RSS in the kernel?
+If we decide to go this way, we need to make it reusable for macvtap as wel=
+l.
 
 Thanks
 
