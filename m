@@ -1,77 +1,58 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C5A3D982
-	for <linux-doc@vger.kernel.org>; Wed, 25 Sep 2024 16:44:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CF7247A62;
+	Wed, 25 Sep 2024 16:45:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727282692; cv=none; b=WroGp37oz8tXjUDZjXkRBPoZz5+ufXM8Ro9pUvw2ZFC6bYAc9ZqPl95n8Aug3fMyN+5IxFpdoNIQMStvGRnXMENx5q6d2iAzjbU257lERKBfEqBHMp0DoIkVO204eu2/bWQa7NDB9ocVPvWRkKcPMZLdNaYMaRMYJV5s/hMSYCQ=
+	t=1727282719; cv=none; b=Ax++ce/B/oySvRIQ5nNSLv1xLmd2gmeRbkO20AHZYA7/jjTlQI3BXMIL+eDgIyWm0jJGJDy6tDHBdjWtc7k2knWycQrNGHNcwlGIrGmI+U/di1fcl3nwbdo1SvEeN4dYZp4O0kdbABUvK8imneP4dXGqecuGPIuVIf9/PIe3HJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727282692; c=relaxed/simple;
-	bh=/t+YSp2gvbsBW9hsAIIEsn2fOHY2XQVupxHXFI22op4=;
+	s=arc-20240116; t=1727282719; c=relaxed/simple;
+	bh=qgOwvX93MJaNEr7OQzS/TNQMPiUPOBpt0ph4xzwCx1w=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ATTgHBUTp9Vw3uv6p5PIeWcKnxi1N8OLpNDDcfzaahSCQ8QUKW6Kmlj8ix+MM4u5k5LHhRwgSawN+iVEKoHSCKC1e5MlxsaocGcjmsuZb3CC0JZwrT3hK0QKJWD9ffmUfblomuONkZaSgktpU9GIJMQijYgfrbuebsgXL7DIwjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=YjeK00ld; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	 To:Cc:Content-Type; b=AziAgYNVvwboynEcgkaYY5LVkkFiI1lr6p5Is101RhyjKuqts3xxLYLa41S01kO6fJ8mdW0Xa0Ug7aF9dOnBIfnBuW81mtuCeJm3X9MMEK748Bm6A2R2Z+qA8AKIp3mKu6FzMX4dpftl5EnHXQVMo0cz3ITpUsjkoeuoXy+AMHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=onMHF/g0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="YjeK00ld"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5c5bca59416so4984266a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 25 Sep 2024 09:44:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1727282688; x=1727887488; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=nj8+qG2S/Bk0hHBrSluJoVQqRkgSfLVqxLrwhmmQqfQ=;
-        b=YjeK00ldzORfadSau0RlbBIrP7X4exH8omps57J+D7SlvkdR3nwB7YvsdZpY6iOBMs
-         AEg3yWwSR/VWtrwMCDKfJqRB8pOvVdyh4DMxGwB3IUiqJXKs03lrs3KLSTDVyVglyp+V
-         lOwtS3jJ5iLv2ApBa7g/CQqZZX9WB2AKwsleo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727282688; x=1727887488;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nj8+qG2S/Bk0hHBrSluJoVQqRkgSfLVqxLrwhmmQqfQ=;
-        b=pHiUA+ACCVyDd4Tv4TP96szZUOXG2A4kaHNI3j5phQ/PMnhsOec29QANZgEIZriyK0
-         IZw2W3KOOVJ/0uevHVapVM15Vo8KGowuM6DRMdO8AgDtNryXU8D+G7E/YI88hzUfLhUb
-         FeS0eG3AN9yVH/ZpoTL9Pg07jHyJ70PMsRUzj93tOGeIocWYB7HjEnTyfsvXhPHg9d15
-         Zu1ug6J9TyED3tTuB/6/nZLKvkGskFCA26npn/2fboJ8um8wCtusXie9tGLmKVtfufaA
-         syMBj55kUL+CnZQrgtLaBkZKQJDrXY9uIQGLSfGiQ0dGdunc5ZvHCLEmrcw03Vr++xls
-         6bvw==
-X-Forwarded-Encrypted: i=1; AJvYcCXlGBGpUBslRs7ORHOOgFVpVm6PYfdnSwcx3aMa1OwxieTd1ndV4y47BWEFv3UMGIo+VJmcW4usVxc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyuqx7LXOM/9iaBtZ2Ts6zTTfoJ4JNj7d0VOdI9iGS4yQ26FweI
-	h42wDrMOyIPB/R9FTVdrgOt3CtkT4YJzBNL0mOJSNNuLtKTr6ZKM9oC00TCDA0TYTk/cakjhfW2
-	MtSjvfA==
-X-Google-Smtp-Source: AGHT+IGKzoz00uXQIPNEbZNJS7dF+sZBTgN3mSaGDULTcrcyy7UxB7gJGLoI6PJ2HN1/vi+LLqRcAw==
-X-Received: by 2002:a05:6402:440b:b0:5c8:76d9:604e with SMTP id 4fb4d7f45d1cf-5c876d96086mr627299a12.11.1727282688071;
-        Wed, 25 Sep 2024 09:44:48 -0700 (PDT)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com. [209.85.218.47])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c877a6c985sm43482a12.80.2024.09.25.09.44.46
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Sep 2024 09:44:47 -0700 (PDT)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a8d29b7edc2so7084366b.1
-        for <linux-doc@vger.kernel.org>; Wed, 25 Sep 2024 09:44:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWzq0D/Ir3/JdXQOfk/vE+idt6n2hU/thLmL0FO7eoerlrxIaTbJsONuGO4kig3XkAEqmubWkUzFvU=@vger.kernel.org
-X-Received: by 2002:a17:906:f5a9:b0:a86:9d39:a2a with SMTP id
- a640c23a62f3a-a93a0330c37mr309689066b.8.1727282382886; Wed, 25 Sep 2024
- 09:39:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="onMHF/g0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5925C4CECE;
+	Wed, 25 Sep 2024 16:45:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727282718;
+	bh=qgOwvX93MJaNEr7OQzS/TNQMPiUPOBpt0ph4xzwCx1w=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=onMHF/g0D43HW6aMXQhcIu1A27RFbkhoDeVTu1IsE3Dr45prf9Gt/b9XTbLxkLRdc
+	 tp+sKb+2tVL2RKsH7zt7pedqKxbxASz7T6hHTvkigsDpqXaREORqbOHeHr1WNosC80
+	 8oqjuX47b/9IC6c9ciSn6WciiPIOmDd4sLFsDQ49EcS7F2y6hlJlFootPDIZyx6tV1
+	 nZWbOIv6XsJEj83cV3qJkPJFVqvvPhr7TNk6o6VoBEYUa0GNLZHRv55RTy27voXKfL
+	 S1kfkqExZO+yREPbbJkOthV308A1sBbwWyv5+7Rufb9Ltpojr4m1MeoarzGHGNAwS0
+	 hJW9ST3pclReg==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2f75129b3a3so192291fa.2;
+        Wed, 25 Sep 2024 09:45:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUZrVQFyfp3OROznK55Rykut0Vq4VzJw2zcFPgidFv6NsTIp5igjymbOi7x1ALJHZNX8dOA5JfLR94CsQ==@vger.kernel.org, AJvYcCUz+23C1CHv7iFrXAI2PEAOlsl3nKy4zCkgdpCzjVR+PZG/lT5iVlyfrYYV9edM8i+u5iKA7NZGYK+3MmbD@vger.kernel.org, AJvYcCVDkfKF4Wf1/S72iFv6+6GmsbTOzeH0z7QS2u4HE/mUpjgxlqabatrtoHE5damQ3TxOLgU=@vger.kernel.org, AJvYcCVv+ineSpy35ISvR/o04URA/heKwgTJwY6lwUmkbod4vH2jws/WdAr65sQcYJlRJ12uqvuvjxdiHDpM@vger.kernel.org, AJvYcCWJTF2NgETPwYnZC1l04iimVEYaciRTWWIYCqoca1IKqvoQthkXc4epr2xaSNGnA3pGtjbGYhBfxPN5@vger.kernel.org, AJvYcCWy+l3uwmBwVhKoQ6/pF6D3xkpICniLemWxfUq5kfXXMwCDkVtPh5Lhh5ALyLRylrh2TQCx1ZjWSYGfSytIJzpOpw==@vger.kernel.org, AJvYcCX2J8m9RLcuSRmneFctGBeIMH74AifQm5JUDjOfc6yxZKtYnNuLp3FgjZK0yTB/JPnYnhbm6XjfzZj48YLW@vger.kernel.org, AJvYcCXEjsV+TRobG1afondrysMpUh2I+xFjlDATIRV3KSx8PO6QqDEHMgTdTCXFuUizAKxBmZWbK162qUz9p2vy@vger.kernel.org, AJvYcCXMOrBwLsF12s7wQCENUNmqXoDWgmdI17sBCmGlAqja+tWcQOVOBNzH9VglDke1UwZ7ifo5UVf/oA8=@vger.kernel.org, AJvYcCXgNLhP3y+nNGHVlPY1jLREbsxBYjNh9qop0QTGyGMESUJ8dlVFgH1pgDGtuFrK2DfuZYNhfWM/Q8HWL3eDwxU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxONOvlF79P2t0wIUAmL20ZGykKkiWT5lNNd+sBvz9HZ7Inrfys
+	4TcpN3U4YNbgn8s2N1quoivpCJkA1bc6Ev5v0LTEwAS5YynzrkOT+4Va4bACVxalIE8l8Yug4qT
+	aAC7qlbvbMKu8ISAB34QPfGJ2e6A=
+X-Google-Smtp-Source: AGHT+IHztXYzAiMagygAhzDxKwnY8wOFDul9cLbEROanbEnmGDGU1AJFUfvHaHhmJ6jyIhgnmNtdOygZ3lKoSkpCLq0=
+X-Received: by 2002:a2e:702:0:b0:2ef:20ae:d113 with SMTP id
+ 38308e7fff4ca-2f91ca64507mr16954501fa.40.1727282716715; Wed, 25 Sep 2024
+ 09:45:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240925150059.3955569-30-ardb+git@google.com> <20240925150059.3955569-44-ardb+git@google.com>
-In-Reply-To: <20240925150059.3955569-44-ardb+git@google.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 25 Sep 2024 09:39:23 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiLYCoGSnqqPq+7fHWgmyf5DpO4SLDJ4kF=EGZVVZOX4A@mail.gmail.com>
-Message-ID: <CAHk-=wiLYCoGSnqqPq+7fHWgmyf5DpO4SLDJ4kF=EGZVVZOX4A@mail.gmail.com>
+References: <20240925150059.3955569-30-ardb+git@google.com>
+ <20240925150059.3955569-44-ardb+git@google.com> <CAHk-=wiLYCoGSnqqPq+7fHWgmyf5DpO4SLDJ4kF=EGZVVZOX4A@mail.gmail.com>
+In-Reply-To: <CAHk-=wiLYCoGSnqqPq+7fHWgmyf5DpO4SLDJ4kF=EGZVVZOX4A@mail.gmail.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Wed, 25 Sep 2024 18:45:05 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXH1xqYwhG16XxoBpoedTkBvt72xBjO259174jHirdf47A@mail.gmail.com>
+Message-ID: <CAMj1kXH1xqYwhG16XxoBpoedTkBvt72xBjO259174jHirdf47A@mail.gmail.com>
 Subject: Re: [RFC PATCH 14/28] x86/rethook: Use RIP-relative reference for
  return address
-To: Ard Biesheuvel <ardb+git@google.com>
-Cc: linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>, x86@kernel.org, 
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org, x86@kernel.org, 
 	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
 	Uros Bizjak <ubizjak@gmail.com>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
 	Christoph Lameter <cl@linux.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
@@ -91,30 +72,42 @@ Cc: linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>, x86@kernel.o
 	llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 25 Sept 2024 at 08:16, Ard Biesheuvel <ardb+git@google.com> wrote:
+On Wed, 25 Sept 2024 at 18:39, Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> Instead of pushing an immediate absolute address, which is incompatible
-> with PIE codegen or linking, use a LEA instruction to take the address
-> into a register.
+> On Wed, 25 Sept 2024 at 08:16, Ard Biesheuvel <ardb+git@google.com> wrote:
+> >
+> > Instead of pushing an immediate absolute address, which is incompatible
+> > with PIE codegen or linking, use a LEA instruction to take the address
+> > into a register.
+>
+> I don't think you can do this - it corrupts %rdi.
+>
+> Yes, the code uses  %rdi later, but that's inside the SAVE_REGS_STRING
+> / RESTORE_REGS_STRING area.
+>
 
-I don't think you can do this - it corrupts %rdi.
+Oops, I missed that.
 
-Yes, the code uses  %rdi later, but that's inside the SAVE_REGS_STRING
-/ RESTORE_REGS_STRING area.
+> And we do have special calling conventions that aren't the regular
+> ones, so %rdi might actually be used elsewhere. For example,
+> __get_user_X and __put_user_X all have magical calling conventions:
+> they don't actually use %rdi, but part of the calling convention is
+> that the unused registers aren't modified.
+>
+> Of course, I'm not actually sure you can probe those and trigger this
+> issue, but it all makes me think it's broken.
+>
+> And it's entirely possible that I'm wrong for some reason, but this
+> just _looks_ very very wrong to me.
+>
+> I think you can do this with a "pushq mem" instead, and put the
+> relocation into the memory location.
+>
 
-And we do have special calling conventions that aren't the regular
-ones, so %rdi might actually be used elsewhere. For example,
-__get_user_X and __put_user_X all have magical calling conventions:
-they don't actually use %rdi, but part of the calling convention is
-that the unused registers aren't modified.
+I'll change this into
 
-Of course, I'm not actually sure you can probe those and trigger this
-issue, but it all makes me think it's broken.
+  pushq arch_rethook_trampoline@GOTPCREL(%rip)
 
-And it's entirely possible that I'm wrong for some reason, but this
-just _looks_ very very wrong to me.
-
-I think you can do this with a "pushq mem" instead, and put the
-relocation into the memory location.
-
-                 Linus
+which I had originally. I was trying to avoid the load from memory,
+but that obviously only works if the register is not live.
