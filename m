@@ -1,67 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADAA9172BA8;
-	Wed, 25 Sep 2024 11:39:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB3C1AC886;
+	Wed, 25 Sep 2024 11:39:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727264355; cv=none; b=qo6xm2Ob/293yZlRlH2A+4iZf3wACbRA2p6XbQ2EtW/5cojAbZBqEcHHTsxZNFrtiKC7amlOVUifIIf+MUEp3IzWizg6G0G49Af8HVcxE3guGg2QLF0LV5KE/is9fLhoN9hAjdYukH99dpIX3Eo61u60nrSi3Whls2qO6dfpcgE=
+	t=1727264391; cv=none; b=NDWT2cdGhF7WRUr3VjPj5+IDYcu/UacX/SNO0hpcUZXo9p16QgieFgG95D3bmYaG6/+BM8uTaxdaLS2aWrccxQAgPyF9W0b1HBBP1Tlv6eZfGV78AHJ4dWwCLaRxAl3e+pZHrox7HYTNTNixzldguY8gMRRnS6E5B81dIfW9a1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727264355; c=relaxed/simple;
-	bh=vTXufl0h3C6la4/6PIaX/ckU/WVPy9StrNvAw7Nq+fY=;
+	s=arc-20240116; t=1727264391; c=relaxed/simple;
+	bh=odDU1Cp4iGsplsRPbwJ7Rwl4dqtlLTEMD+gKWjeyVhY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VKJIUaHvhVM+vSHkV35AJY+sP0rajkXdNcmUORPSZIXLXJmWD7YIj7REFkHJ44qQQ1IY+3MpWOjclc70tnN+Igh1YeFOTkoTRFZ/P17kbOuYZLsiGbFE8SKFKmDsDXw9B8cw7iuVeKcYN4DANgshXK7YdMwK2fIY3yqZ9HiMlVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nNeESjoZ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=dH8RcWI5I0BbzxJk+XySdA+biX74rDWwSGOjrJDzjtQxEU/KfNEKE8oTiK6MCdahQcCSNLRdoYiqaMY3f/w4Oox3bSIBeIAINHxaUol8I96hSkoC1CL3InFJo2uqF8KYjByJFrwh3tY+B0TjxrIuxZzJAPQ10GnC/DxDJicT4l8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DA3VvY9I; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nNeESjoZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02648C4CEC3;
-	Wed, 25 Sep 2024 11:39:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DA3VvY9I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1884C4CEC3;
+	Wed, 25 Sep 2024 11:39:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727264355;
-	bh=vTXufl0h3C6la4/6PIaX/ckU/WVPy9StrNvAw7Nq+fY=;
+	s=k20201202; t=1727264391;
+	bh=odDU1Cp4iGsplsRPbwJ7Rwl4dqtlLTEMD+gKWjeyVhY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nNeESjoZH+NXCi2aMo3VHDD+aIVZahKGTjmYEjZIz5Wc5TU2mi9SeUiaU+DQ58c17
-	 sq6ioEATGqQtHFwLEU4gTLXXGwFwskvllKwwBW+oV9Gb2lMlGC1y+8PvcvK5seaUgS
-	 vZb2Jvr6uBWDdomgApp0BtkqhLAbiXlgjcmczylNvudm8njDQxVoolPsMjB8tpv6ew
-	 6MIaU1pfpQrWq4pkIVfPJkMWCZUuvVjVj0tnHJ2sKmdnpVFTQ2kmBfu2U3RE7Eh5d2
-	 eIZjObSYQQPT5ScLwubRYOnRYQoXvtdNVl7+/eXNTOvrfsf6PZ5COVmgscnlHChZmA
-	 WPGAH7S7+T51Q==
+	b=DA3VvY9Iq7c4mYaiWBTH6AQNHuebm0mpQONTLonXXrFQdyzW+ukXNozUY+sd3Nhji
+	 iKXsklM0YNH56kgCCSffcIVcD9090OmAKTI5x3TVpVbWC0ooucUSbsqPdE1xEERZDz
+	 K7wW1Bzsj7UObWbaTYfo/laUhKC+HdX8Gxy/un7lNOuehRatx1DFkcboqwufc7RFUg
+	 mmPPUFEjDQZXmcte34+WWwU0oXFEVOermsHw4m2AC3BNXV8NReD5RWYDXNa7HKDnMr
+	 ACevODCvdyGcHTs2HufLk5LZcL5TgNkiCEAPsFRu2hMDUvX8w2lljUNMUGkTL0XfIQ
+	 o4lQQdnEr8SaQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Adrian Ratiu <adrian.ratiu@collabora.com>,
-	Doug Anderson <dianders@chromium.org>,
-	Jeff Xu <jeffxu@google.com>,
-	Jann Horn <jannh@google.com>,
-	Kees Cook <kees@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
+Cc: Joe Damato <jdamato@fastly.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
 	Sasha Levin <sashal@kernel.org>,
+	davem@davemloft.net,
+	pabeni@redhat.com,
 	corbet@lwn.net,
-	paul@paul-moore.com,
-	jmorris@namei.org,
-	serge@hallyn.com,
-	thuth@redhat.com,
-	bp@alien8.de,
-	jpoimboe@kernel.org,
-	tglx@linutronix.de,
-	paulmck@kernel.org,
-	tony@atomide.com,
-	xiongwei.song@windriver.com,
-	akpm@linux-foundation.org,
-	oleg@redhat.com,
-	mic@digikod.net,
-	jlayton@kernel.org,
-	casey@schaufler-ca.com,
-	viro@zeniv.linux.org.uk,
-	adobriyan@gmail.com,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.11 064/244] proc: add config & param to block forcing mem writes
-Date: Wed, 25 Sep 2024 07:24:45 -0400
-Message-ID: <20240925113641.1297102-64-sashal@kernel.org>
+	leitao@debian.org,
+	johannes.berg@intel.com,
+	jamie.bainbridge@gmail.com,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.11 079/244] net: napi: Prevent overflow of napi_defer_hard_irqs
+Date: Wed, 25 Sep 2024 07:25:00 -0400
+Message-ID: <20240925113641.1297102-79-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240925113641.1297102-1-sashal@kernel.org>
 References: <20240925113641.1297102-1-sashal@kernel.org>
@@ -76,198 +58,123 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.11
 Content-Transfer-Encoding: 8bit
 
-From: Adrian Ratiu <adrian.ratiu@collabora.com>
+From: Joe Damato <jdamato@fastly.com>
 
-[ Upstream commit 41e8149c8892ed1962bd15350b3c3e6e90cba7f4 ]
+[ Upstream commit 08062af0a52107a243f7608fd972edb54ca5b7f8 ]
 
-This adds a Kconfig option and boot param to allow removing
-the FOLL_FORCE flag from /proc/pid/mem write calls because
-it can be abused.
+In commit 6f8b12d661d0 ("net: napi: add hard irqs deferral feature")
+napi_defer_irqs was added to net_device and napi_defer_irqs_count was
+added to napi_struct, both as type int.
 
-The traditional forcing behavior is kept as default because
-it can break GDB and some other use cases.
+This value never goes below zero, so there is not reason for it to be a
+signed int. Change the type for both from int to u32, and add an
+overflow check to sysfs to limit the value to S32_MAX.
 
-Previously we tried a more sophisticated approach allowing
-distributions to fine-tune /proc/pid/mem behavior, however
-that got NAK-ed by Linus [1], who prefers this simpler
-approach with semantics also easier to understand for users.
+The limit of S32_MAX was chosen because the practical limit before this
+patch was S32_MAX (anything larger was an overflow) and thus there are
+no behavioral changes introduced. If the extra bit is needed in the
+future, the limit can be raised.
 
-Link: https://lore.kernel.org/lkml/CAHk-=wiGWLChxYmUA5HrT5aopZrB7_2VTa0NLZcxORgkUe5tEQ@mail.gmail.com/ [1]
-Cc: Doug Anderson <dianders@chromium.org>
-Cc: Jeff Xu <jeffxu@google.com>
-Cc: Jann Horn <jannh@google.com>
-Cc: Kees Cook <kees@kernel.org>
-Cc: Ard Biesheuvel <ardb@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>
-Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
-Link: https://lore.kernel.org/r/20240802080225.89408-1-adrian.ratiu@collabora.com
-Signed-off-by: Christian Brauner <brauner@kernel.org>
+Before this patch:
+
+$ sudo bash -c 'echo 2147483649 > /sys/class/net/eth4/napi_defer_hard_irqs'
+$ cat /sys/class/net/eth4/napi_defer_hard_irqs
+-2147483647
+
+After this patch:
+
+$ sudo bash -c 'echo 2147483649 > /sys/class/net/eth4/napi_defer_hard_irqs'
+bash: line 0: echo: write error: Numerical result out of range
+
+Similarly, /sys/class/net/XXXXX/tx_queue_len is defined as unsigned:
+
+include/linux/netdevice.h:      unsigned int            tx_queue_len;
+
+And has an overflow check:
+
+dev_change_tx_queue_len(..., unsigned long new_len):
+
+  if (new_len != (unsigned int)new_len)
+          return -ERANGE;
+
+Suggested-by: Jakub Kicinski <kuba@kernel.org>
+Signed-off-by: Joe Damato <jdamato@fastly.com>
+Reviewed-by: Eric Dumazet <edumazet@google.com>
+Link: https://patch.msgid.link/20240904153431.307932-1-jdamato@fastly.com
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../admin-guide/kernel-parameters.txt         | 10 +++
- fs/proc/base.c                                | 61 ++++++++++++++++++-
- security/Kconfig                              | 32 ++++++++++
- 3 files changed, 102 insertions(+), 1 deletion(-)
+ Documentation/networking/net_cachelines/net_device.rst | 2 +-
+ include/linux/netdevice.h                              | 4 ++--
+ net/core/net-sysfs.c                                   | 6 +++++-
+ 3 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 09126bb8cc9ff..be010fec76541 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4788,6 +4788,16 @@
- 	printk.time=	Show timing data prefixed to each printk message line
- 			Format: <bool>  (1/Y/y=enable, 0/N/n=disable)
+diff --git a/Documentation/networking/net_cachelines/net_device.rst b/Documentation/networking/net_cachelines/net_device.rst
+index 70c4fb9d4e5ce..d68f37f5b1f82 100644
+--- a/Documentation/networking/net_cachelines/net_device.rst
++++ b/Documentation/networking/net_cachelines/net_device.rst
+@@ -98,7 +98,7 @@ unsigned_int                        num_rx_queues
+ unsigned_int                        real_num_rx_queues      -                   read_mostly         get_rps_cpu
+ struct_bpf_prog*                    xdp_prog                -                   read_mostly         netif_elide_gro()
+ unsigned_long                       gro_flush_timeout       -                   read_mostly         napi_complete_done
+-int                                 napi_defer_hard_irqs    -                   read_mostly         napi_complete_done
++u32                                 napi_defer_hard_irqs    -                   read_mostly         napi_complete_done
+ unsigned_int                        gro_max_size            -                   read_mostly         skb_gro_receive
+ unsigned_int                        gro_ipv4_max_size       -                   read_mostly         skb_gro_receive
+ rx_handler_func_t*                  rx_handler              read_mostly         -                   __netif_receive_skb_core
+diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+index 607009150b5fa..39eafd2e2368a 100644
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -356,7 +356,7 @@ struct napi_struct {
  
-+	proc_mem.force_override= [KNL]
-+			Format: {always | ptrace | never}
-+			Traditionally /proc/pid/mem allows memory permissions to be
-+			overridden without restrictions. This option may be set to
-+			restrict that. Can be one of:
-+			- 'always': traditional behavior always allows mem overrides.
-+			- 'ptrace': only allow mem overrides for active ptracers.
-+			- 'never':  never allow mem overrides.
-+			If not specified, default is the CONFIG_PROC_MEM_* choice.
-+
- 	processor.max_cstate=	[HW,ACPI]
- 			Limit processor to maximum C-state
- 			max_cstate=9 overrides any DMI blacklist limit.
-diff --git a/fs/proc/base.c b/fs/proc/base.c
-index 72a1acd03675c..f389c69767fa5 100644
---- a/fs/proc/base.c
-+++ b/fs/proc/base.c
-@@ -85,6 +85,7 @@
- #include <linux/elf.h>
- #include <linux/pid_namespace.h>
- #include <linux/user_namespace.h>
-+#include <linux/fs_parser.h>
- #include <linux/fs_struct.h>
- #include <linux/slab.h>
- #include <linux/sched/autogroup.h>
-@@ -117,6 +118,40 @@
- static u8 nlink_tid __ro_after_init;
- static u8 nlink_tgid __ro_after_init;
+ 	unsigned long		state;
+ 	int			weight;
+-	int			defer_hard_irqs_count;
++	u32			defer_hard_irqs_count;
+ 	unsigned long		gro_bitmask;
+ 	int			(*poll)(struct napi_struct *, int);
+ #ifdef CONFIG_NETPOLL
+@@ -2091,7 +2091,7 @@ struct net_device {
+ 	unsigned int		real_num_rx_queues;
+ 	struct netdev_rx_queue	*_rx;
+ 	unsigned long		gro_flush_timeout;
+-	int			napi_defer_hard_irqs;
++	u32			napi_defer_hard_irqs;
+ 	unsigned int		gro_max_size;
+ 	unsigned int		gro_ipv4_max_size;
+ 	rx_handler_func_t __rcu	*rx_handler;
+diff --git a/net/core/net-sysfs.c b/net/core/net-sysfs.c
+index 291fdf4a328b3..93dd5d5436849 100644
+--- a/net/core/net-sysfs.c
++++ b/net/core/net-sysfs.c
+@@ -32,6 +32,7 @@
+ #ifdef CONFIG_SYSFS
+ static const char fmt_hex[] = "%#x\n";
+ static const char fmt_dec[] = "%d\n";
++static const char fmt_uint[] = "%u\n";
+ static const char fmt_ulong[] = "%lu\n";
+ static const char fmt_u64[] = "%llu\n";
  
-+enum proc_mem_force {
-+	PROC_MEM_FORCE_ALWAYS,
-+	PROC_MEM_FORCE_PTRACE,
-+	PROC_MEM_FORCE_NEVER
-+};
-+
-+static enum proc_mem_force proc_mem_force_override __ro_after_init =
-+	IS_ENABLED(CONFIG_PROC_MEM_NO_FORCE) ? PROC_MEM_FORCE_NEVER :
-+	IS_ENABLED(CONFIG_PROC_MEM_FORCE_PTRACE) ? PROC_MEM_FORCE_PTRACE :
-+	PROC_MEM_FORCE_ALWAYS;
-+
-+static const struct constant_table proc_mem_force_table[] __initconst = {
-+	{ "always", PROC_MEM_FORCE_ALWAYS },
-+	{ "ptrace", PROC_MEM_FORCE_PTRACE },
-+	{ "never", PROC_MEM_FORCE_NEVER },
-+	{ }
-+};
-+
-+static int __init early_proc_mem_force_override(char *buf)
-+{
-+	if (!buf)
-+		return -EINVAL;
-+
-+	/*
-+	 * lookup_constant() defaults to proc_mem_force_override to preseve
-+	 * the initial Kconfig choice in case an invalid param gets passed.
-+	 */
-+	proc_mem_force_override = lookup_constant(proc_mem_force_table,
-+						  buf, proc_mem_force_override);
-+
-+	return 0;
-+}
-+early_param("proc_mem.force_override", early_proc_mem_force_override);
-+
- struct pid_entry {
- 	const char *name;
- 	unsigned int len;
-@@ -835,6 +870,28 @@ static int mem_open(struct inode *inode, struct file *file)
- 	return ret;
- }
+@@ -425,6 +426,9 @@ NETDEVICE_SHOW_RW(gro_flush_timeout, fmt_ulong);
  
-+static bool proc_mem_foll_force(struct file *file, struct mm_struct *mm)
-+{
-+	struct task_struct *task;
-+	bool ptrace_active = false;
-+
-+	switch (proc_mem_force_override) {
-+	case PROC_MEM_FORCE_NEVER:
-+		return false;
-+	case PROC_MEM_FORCE_PTRACE:
-+		task = get_proc_task(file_inode(file));
-+		if (task) {
-+			ptrace_active =	READ_ONCE(task->ptrace) &&
-+					READ_ONCE(task->mm) == mm &&
-+					READ_ONCE(task->parent) == current;
-+			put_task_struct(task);
-+		}
-+		return ptrace_active;
-+	default:
-+		return true;
-+	}
-+}
-+
- static ssize_t mem_rw(struct file *file, char __user *buf,
- 			size_t count, loff_t *ppos, int write)
+ static int change_napi_defer_hard_irqs(struct net_device *dev, unsigned long val)
  {
-@@ -855,7 +912,9 @@ static ssize_t mem_rw(struct file *file, char __user *buf,
- 	if (!mmget_not_zero(mm))
- 		goto free;
++	if (val > S32_MAX)
++		return -ERANGE;
++
+ 	WRITE_ONCE(dev->napi_defer_hard_irqs, val);
+ 	return 0;
+ }
+@@ -438,7 +442,7 @@ static ssize_t napi_defer_hard_irqs_store(struct device *dev,
  
--	flags = FOLL_FORCE | (write ? FOLL_WRITE : 0);
-+	flags = write ? FOLL_WRITE : 0;
-+	if (proc_mem_foll_force(file, mm))
-+		flags |= FOLL_FORCE;
+ 	return netdev_store(dev, attr, buf, len, change_napi_defer_hard_irqs);
+ }
+-NETDEVICE_SHOW_RW(napi_defer_hard_irqs, fmt_dec);
++NETDEVICE_SHOW_RW(napi_defer_hard_irqs, fmt_uint);
  
- 	while (count > 0) {
- 		size_t this_len = min_t(size_t, count, PAGE_SIZE);
-diff --git a/security/Kconfig b/security/Kconfig
-index 412e76f1575d0..a93c1a9b7c283 100644
---- a/security/Kconfig
-+++ b/security/Kconfig
-@@ -19,6 +19,38 @@ config SECURITY_DMESG_RESTRICT
- 
- 	  If you are unsure how to answer this question, answer N.
- 
-+choice
-+	prompt "Allow /proc/pid/mem access override"
-+	default PROC_MEM_ALWAYS_FORCE
-+	help
-+	  Traditionally /proc/pid/mem allows users to override memory
-+	  permissions for users like ptrace, assuming they have ptrace
-+	  capability.
-+
-+	  This allows people to limit that - either never override, or
-+	  require actual active ptrace attachment.
-+
-+	  Defaults to the traditional behavior (for now)
-+
-+config PROC_MEM_ALWAYS_FORCE
-+	bool "Traditional /proc/pid/mem behavior"
-+	help
-+	  This allows /proc/pid/mem accesses to override memory mapping
-+	  permissions if you have ptrace access rights.
-+
-+config PROC_MEM_FORCE_PTRACE
-+	bool "Require active ptrace() use for access override"
-+	help
-+	  This allows /proc/pid/mem accesses to override memory mapping
-+	  permissions for active ptracers like gdb.
-+
-+config PROC_MEM_NO_FORCE
-+	bool "Never"
-+	help
-+	  Never override memory mapping permissions
-+
-+endchoice
-+
- config SECURITY
- 	bool "Enable different security models"
- 	depends on SYSFS
+ static ssize_t ifalias_store(struct device *dev, struct device_attribute *attr,
+ 			     const char *buf, size_t len)
 -- 
 2.43.0
 
