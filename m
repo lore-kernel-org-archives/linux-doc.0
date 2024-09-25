@@ -1,158 +1,236 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41FF618308A
-	for <linux-doc@vger.kernel.org>; Wed, 25 Sep 2024 14:12:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6209176FCF;
+	Wed, 25 Sep 2024 14:25:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727273529; cv=none; b=n/DRIJ38xt1uA56tFGr3zG1dj0b6zs330xUNVU86jm+tSuux7wrRrHPCYEqxDzRTKlsJyhDKxlsloTEfEjdZjNZB8R0TYVoyUWNe/Ewp0gZVJPNbbScjDY2DIOfi6M0JoMzch7rjm0n1fNwX9lwXBUJkF6S8oSUwJKxYIiD3Cbw=
+	t=1727274332; cv=none; b=Te7g5eXhel7wgM/Ud0HlJJJovqy/fa7soZp5doV1FEpdCXhhiyYLzVZo7MDp0YdeNrgSof47ghTVRszqRaZy+Z5mK4T43A60U76vbFifdIscKmfY4MTm69UZ4fqg1ECMwJpg2ezjk7DYq2u3HjHwIifnT3+ohkeSyKV5DdxycF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727273529; c=relaxed/simple;
-	bh=caZMVSss+hfeV7WP34KAQwEKIbUpl7RXfA/CctTtTn0=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=gDn46G9DOOma29Os41i97Ex/vbC9KVzKCNm/Qim7O1eTnu3N96Nr0Tcc5Fnmqu/pJ1eOmwAvxKIBUex6cTyxyhhKRV8CoPTt9NqqLtYrxdWUfJC0FlmSe10lzs8DJO7pOhP41RSZmcxcaUEgUoLmh6DiuhxxAz9JeGejOkfLLRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4WVAvYoQ; arc=none smtp.client-ip=209.85.219.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1727274332; c=relaxed/simple;
+	bh=0KrTP0hX+3PRCNf/kikMSMXg0eMbbB55A2pBrDjHw8k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GValM7J6t3wz12hZVaDESmfB86KoiryR4EnWEkgV2ktm7CBc0dcy8l6CqqK/Z6yrs8fkeS7qARAP6KmsImMKmgWQUxb3+N/6q2p3EQg/qG8DCHXeYeL3Q1HdvrnToScmpkijYihCErgF/jD1VRd3DvjzzcAaZKgvFlIrNRFlpCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KS321w1d; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4WVAvYoQ"
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-e02b5792baaso11021571276.2
-        for <linux-doc@vger.kernel.org>; Wed, 25 Sep 2024 07:12:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1727273527; x=1727878327; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zfLBjs5PHlghwVrU7vpRjJ03RkAESW4WXi5zlWV+fXA=;
-        b=4WVAvYoQaD0Fi/WB33In28H6NeooazTCZfrEguVrRSL5+HpcrSnZLgTgFo3mVAWUWQ
-         oFhsSzjoaDth7euLFYf4xWnBD1AncMfaBV3wWQO2iHoTEZPg8vjt7rY7+vMal1v3ib0n
-         UsWbiuFD9icZu0iO+38YfwM1U6zJikyYlcpEMm7779BkPbMvzhNq3wzJYviXsQHQg4bP
-         fakYM7NRbozwlTcQXcQvlsw4ZCTjGZXyOL9+upqaZvfJKqkzOTwsahW2cFP4HoVIXI6o
-         zDxbe+TYTH0InXa56qJ67fYiOiwIujwf+id5X4ApuYiZqv2gpM/Mr3Fx953h0tJDeraZ
-         WJSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727273527; x=1727878327;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=zfLBjs5PHlghwVrU7vpRjJ03RkAESW4WXi5zlWV+fXA=;
-        b=JP1WJ9VmxE62i0WZ6oNVK56MPdpRaGb2QTtfZ6opwkrYULiC7QdT1nOnB98expbIUU
-         kO/EW24nOwWlXI5ytylWgmrVDTx5UnyZ88RIO028XkNBzo5zH1p3v40PIx6nc5XKov3V
-         Ju1O9DM4Q3AMxjdhtdnRb7l5D2wKMGdmWwktB2VXE09ixpXTEPJcTEwkgUj/j/VTzbRT
-         qMtqU4VpHe6KznuwaLG4qzMsvzBpJyzGDqGjRZD7XM7zal3Cyag155cpn8Rkm9Ixga25
-         XnCQ9//JKp2RMpAaD89sxo9NOmAiYMRBIxWfpkLYYlM+GN78I3lrteFqvX+rgLjDSLVf
-         UaAg==
-X-Forwarded-Encrypted: i=1; AJvYcCVzAd4fkY5k8sU4DZ/49jbftR5oGYF3IdDCzAT3mLGDpIxR0vq73zsq2ueivhLFUmwcd/5S/MxRZQ0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyE/7OLh4WyPj1p39cUlY+c0Y07rQhPfCwFZEn/U7BPUhPsSEbG
-	eeJFy4iDS8gG+qiKxOIDMDaUPcN+guw4BJz5VdU0Wg30MjyUYKY0CBOHVk1QdFY7i72YqwPJJnb
-	bHQ==
-X-Google-Smtp-Source: AGHT+IEPGReoQdLJ0WXkwCLY6OOacP06JYe3XTYe/8Qo1kKrLFuqeITXcsLs6p91L7BG4e12yJbQXU3iqh4=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:6902:289:b0:e0b:af9b:fb79 with SMTP id
- 3f1490d57ef6-e24d7a104admr29937276.3.1727273527163; Wed, 25 Sep 2024 07:12:07
- -0700 (PDT)
-Date: Wed, 25 Sep 2024 07:12:05 -0700
-In-Reply-To: <d65e62d2-ca64-4b29-8656-bb8411fe837d@zytor.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KS321w1d"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727274331; x=1758810331;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0KrTP0hX+3PRCNf/kikMSMXg0eMbbB55A2pBrDjHw8k=;
+  b=KS321w1d22R84Q+L+EvfhedMaocQD4tFaXrR6vFKKunIRMhPphep8f3P
+   xCy+IPo6XF1jQxgvdjdENl63vyiMS0txqAOFHpPP1hk/Mwf1wzDUwWxv3
+   RYSGX6G3qqYlQBNzUIRhizLAXznqqq8jNUN5XT/wu5mzRn0DvhZJRcArH
+   fVhl/qdE2Xk4QOINUHGd+e+26xmIqhW4EIPP40KgRtTbufPDstQwQXQh1
+   2Pyc+PEmGCzlrmlNgPrHDyH497sc1R+Fv79eYZWbjZ2o0rY1KEbxVoTfY
+   DBy/bFITrbruuZtXR8qPhnygqJrZRJe4b+1PvKuvkwzYicaXW6LyNdFZD
+   A==;
+X-CSE-ConnectionGUID: nqsf7Q3ITcCFLo1orpCYXA==
+X-CSE-MsgGUID: qYElqjHdTWSZJzbCfG1VjQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="30036742"
+X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; 
+   d="scan'208";a="30036742"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 07:25:25 -0700
+X-CSE-ConnectionGUID: VHKIucy4Q9qg8bWQwRvclA==
+X-CSE-MsgGUID: KXuWMDfTQ0KbE/JPST/d0Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; 
+   d="scan'208";a="95119418"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 25 Sep 2024 07:25:20 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1stSxC-000Jb2-0h;
+	Wed, 25 Sep 2024 14:25:18 +0000
+Date: Wed, 25 Sep 2024 22:24:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>, patrick@stwcx.xyz,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Carsten =?iso-8859-1?Q?Spie=DF?= <mail@carsten-spiess.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Yikai Tsai <yikai.tsai.wiwynn@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v7 2/2] hwmon: (isl28022) new driver for ISL28022 power
+ monitor
+Message-ID: <202409252223.s09tP6IL-lkp@intel.com>
+References: <20240925031131.14645-3-yikai.tsai.wiwynn@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240207172646.3981-1-xin3.li@intel.com> <20240207172646.3981-8-xin3.li@intel.com>
- <ZiJzFsoHR41Sd8lE@chao-email> <ZmoT0jaX_3Ww3Uzu@google.com>
- <feefa9d1-f266-414f-bb7b-b770ef0d8ec6@zytor.com> <ZuNJlzXntREQVb3n@google.com>
- <d65e62d2-ca64-4b29-8656-bb8411fe837d@zytor.com>
-Message-ID: <ZvQaNRhrsSJTYji3@google.com>
-Subject: Re: [PATCH v2 07/25] KVM: VMX: Set intercept for FRED MSRs
-From: Sean Christopherson <seanjc@google.com>
-To: Xin Li <xin@zytor.com>
-Cc: Chao Gao <chao.gao@intel.com>, Xin Li <xin3.li@intel.com>, linux-kernel@vger.kernel.org, 
-	kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, shuah@kernel.org, 
-	vkuznets@redhat.com, peterz@infradead.org, ravi.v.shankar@intel.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240925031131.14645-3-yikai.tsai.wiwynn@gmail.com>
 
-On Wed, Sep 18, 2024, Xin Li wrote:
-> > > MSR_IA32_FRED_SSP0 is an alias of the CET MSR_IA32_PL0_SSP and likely=
- to
-> > > be used in the same way as FRED RSP0, i.e., host FRED SSP0 _should_ b=
-e
-> > > restored in arch_exit_to_user_mode_prepare().  However as of today Li=
-nux
-> > > has no plan to utilize kernel shadow stack thus no one cares host FRE=
-D
-> > > SSP0 (no?).  But lets say anyway it is host's responsibility to manag=
-e
-> > > host FRED SSP0, then KVM only needs to take care of guest FRED SSP0
-> > > (just like how KVM should handle guest FRED RSP0) even before the
-> > > supervisor shadow stack feature is advertised to guest.
-> >=20
-> > Heh, I'm not sure what your question is, or if there even is a question=
-.  KVM
-> > needs to context switch FRED SSP0 if FRED is exposed to the guest, but =
-presumably
-> > that will be done through XSAVE state?  If that's the long term plan, I=
- would
-> > prefer to focus on merging CET virtualization first, and then land FRED=
- virtualization
-> > on top so that KVM doesn't have to carry intermediate code to deal with=
- the aliased
-> > MSR.
->=20
-> You mean the following patch set, right?
+Hi Yikai,
 
-Yep, and presumably the KVM support as well:
+kernel test robot noticed the following build warnings:
 
-https://lore.kernel.org/all/20240219074733.122080-1-weijiang.yang@intel.com
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.11 next-20240925]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> https://lore.kernel.org/kvm/20240531090331.13713-1-weijiang.yang@intel.co=
-m/
+url:    https://github.com/intel-lab-lkp/linux/commits/Yikai-Tsai/dt-bindings-hwmon-add-renesas-isl28022/20240925-111332
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20240925031131.14645-3-yikai.tsai.wiwynn%40gmail.com
+patch subject: [PATCH v7 2/2] hwmon: (isl28022) new driver for ISL28022 power monitor
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20240925/202409252223.s09tP6IL-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240925/202409252223.s09tP6IL-lkp@intel.com/reproduce)
 
-...
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409252223.s09tP6IL-lkp@intel.com/
 
-> > Ugh, but what happens if a CPU (or the host kernel) supports FRED but n=
-ot CET SS?
-> > Or is that effectively an illegal combination?
->=20
-> The FRED Spec says:
->=20
-> IA32_FRED_SSP1, IA32_FRED_SSP2, and IA32_FRED_SSP3 (MSR indices 1D1H=E2=
-=80=93
-> 1D3H). Together with the existing MSR IA32_PL0_SSP (MSR index 6A4H), thes=
-e
-> are the FRED SSP MSRs.
->=20
-> The FRED SSP MSRs are supported by any processor that enumerates
-> CPUID.(EAX=3D7,ECX=3D1):EAX.FRED[bit 17] as 1. If such a processor does n=
-ot
-> support CET, FRED transitions will not use the MSRs (because shadow stack=
-s
-> are not enabled), but the MSRs would still be accessible using RDMSR and
-> WRMSR.
->=20
->=20
-> So they are independent, just that FRED SSP MSRs are NOT used if
-> supervisor shadow stacks are not enabled (obviously Qemu can be
-> configured to not advertise CET but FRED).
->=20
-> When FRED is advertised to a guest, KVM should allow FRED SSP MSRs
-> accesses through disabling FRED SSP MSRs interception no matter whether
-> supervisor shadow stacks are enabled or not.
+All warnings (new ones prefixed by >>):
 
-KVM doesn't necessarily need to disabling MSR interception, e.g. if the exp=
-ectation
-is that the guest will rarely/never access the MSRs when CET is unsupported=
-, then
-we're likely better off going with a trap-and-emulate model.  KVM needs to =
-emulate
-RDMSR and WRMSR no matter what, e.g. in case the guest triggers a WRMSR whe=
-n KVM
-is emulating, and so that userspace can get/set MSR values.
+   drivers/hwmon/isl28022.c: In function 'isl28022_read_properties':
+>> drivers/hwmon/isl28022.c:396:36: warning: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
+     396 |                 dev_err_probe(dev, "renesas,shunt-range-microvolt invalid value %d\n", val);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                    |
+         |                                    char *
+   In file included from include/linux/device.h:15,
+                    from include/linux/acpi.h:14,
+                    from include/linux/i2c.h:13,
+                    from drivers/hwmon/isl28022.c:11:
+   include/linux/dev_printk.h:278:64: note: expected 'int' but argument is of type 'char *'
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                            ~~~~^~~
+>> drivers/hwmon/isl28022.c:396:88: warning: passing argument 3 of 'dev_err_probe' makes pointer from integer without a cast [-Wint-conversion]
+     396 |                 dev_err_probe(dev, "renesas,shunt-range-microvolt invalid value %d\n", val);
+         |                                                                                        ^~~
+         |                                                                                        |
+         |                                                                                        u32 {aka unsigned int}
+   include/linux/dev_printk.h:278:81: note: expected 'const char *' but argument is of type 'u32' {aka 'unsigned int'}
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                                     ~~~~~~~~~~~~^~~
+   drivers/hwmon/isl28022.c:406:36: warning: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
+     406 |                 dev_err_probe(dev, "renesas,average-samples invalid value %d\n", val);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                    |
+         |                                    char *
+   include/linux/dev_printk.h:278:64: note: expected 'int' but argument is of type 'char *'
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                            ~~~~^~~
+   drivers/hwmon/isl28022.c:406:82: warning: passing argument 3 of 'dev_err_probe' makes pointer from integer without a cast [-Wint-conversion]
+     406 |                 dev_err_probe(dev, "renesas,average-samples invalid value %d\n", val);
+         |                                                                                  ^~~
+         |                                                                                  |
+         |                                                                                  u32 {aka unsigned int}
+   include/linux/dev_printk.h:278:81: note: expected 'const char *' but argument is of type 'u32' {aka 'unsigned int'}
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                                     ~~~~~~~~~~~~^~~
+   drivers/hwmon/isl28022.c:414:28: warning: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
+     414 |         dev_err_probe(dev, "renesas,shunt-resistor-microvolt invalid value %d\n", data->shunt);
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                            |
+         |                            char *
+   include/linux/dev_printk.h:278:64: note: expected 'int' but argument is of type 'char *'
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                            ~~~~^~~
+   drivers/hwmon/isl28022.c:414:87: warning: passing argument 3 of 'dev_err_probe' makes pointer from integer without a cast [-Wint-conversion]
+     414 |         dev_err_probe(dev, "renesas,shunt-resistor-microvolt invalid value %d\n", data->shunt);
+         |                                                                                   ~~~~^~~~~~~
+         |                                                                                       |
+         |                                                                                       u32 {aka unsigned int}
+   include/linux/dev_printk.h:278:81: note: expected 'const char *' but argument is of type 'u32' {aka 'unsigned int'}
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                                     ~~~~~~~~~~~~^~~
 
-And this means that yes, FRED virtualization needs to land after CET virtua=
-lization,
-otherwise managing the conflicts/dependencies will be a nightmare.
+
+vim +/dev_err_probe +396 drivers/hwmon/isl28022.c
+
+   346	
+   347	/*
+   348	 * read property values and make consistency checks.
+   349	 *
+   350	 * following values for shunt range and resistor are allowed:
+   351	 *   40 mV -> gain 1, shunt min.  800 micro ohms
+   352	 *   80 mV -> gain 2, shunt min. 1600 micro ohms
+   353	 *  160 mV -> gain 4, shunt min. 3200 micro ohms
+   354	 *  320 mV -> gain 8, shunt min. 6400 micro ohms
+   355	 */
+   356	static int isl28022_read_properties(struct device *dev, struct isl28022_data *data)
+   357	{
+   358		u32 val;
+   359		int err;
+   360	
+   361		err = device_property_read_u32(dev, "shunt-resistor-micro-ohms", &val);
+   362		if (err == -EINVAL)
+   363			val = 10000;
+   364		else if (err < 0)
+   365			return err;
+   366		data->shunt = val;
+   367	
+   368		err = device_property_read_u32(dev, "renesas,shunt-range-microvolt", &val);
+   369		if (err == -EINVAL)
+   370			val = 320000;
+   371		else if (err < 0)
+   372			return err;
+   373	
+   374		switch (val) {
+   375		case 40000:
+   376			data->gain = 1;
+   377			if (data->shunt < 800)
+   378				goto shunt_invalid;
+   379			break;
+   380		case 80000:
+   381			data->gain = 2;
+   382			if (data->shunt < 1600)
+   383				goto shunt_invalid;
+   384			break;
+   385		case 160000:
+   386			data->gain = 4;
+   387			if (data->shunt < 3200)
+   388				goto shunt_invalid;
+   389			break;
+   390		case 320000:
+   391			data->gain = 8;
+   392			if (data->shunt < 6400)
+   393				goto shunt_invalid;
+   394			break;
+   395		default:
+ > 396			dev_err_probe(dev, "renesas,shunt-range-microvolt invalid value %d\n", val);
+   397			return -EINVAL;
+   398		}
+   399	
+   400		err = device_property_read_u32(dev, "renesas,average-samples", &val);
+   401		if (err == -EINVAL)
+   402			val = 1;
+   403		else if (err < 0)
+   404			return err;
+   405		if (val > 128 || hweight32(val) != 1) {
+   406			dev_err_probe(dev, "renesas,average-samples invalid value %d\n", val);
+   407			return -EINVAL;
+   408		}
+   409		data->average = val;
+   410	
+   411		return 0;
+   412	
+   413	shunt_invalid:
+   414		dev_err_probe(dev, "renesas,shunt-resistor-microvolt invalid value %d\n", data->shunt);
+   415		return -EINVAL;
+   416	}
+   417	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
