@@ -1,54 +1,54 @@
-Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156E318E772
-	for <linux-doc@vger.kernel.org>; Wed, 25 Sep 2024 15:02:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2246118F2CB
+	for <linux-doc@vger.kernel.org>; Wed, 25 Sep 2024 15:02:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727276544; cv=none; b=T+ZdmjUXFiQiZo7Rh+q7fNK2ztyp+4q4/DwX/ixp7bONKrQB/UYsoGpTFJ5HN5XLa7wfS6jaL6+/1LKtMWki6rdocOEGPoJsTGjGI2gYY/cUQpTQwaVa+jGFKdEAVjFF6lESoevYFRlXBek79+pPKtq8C2o5WAks3TEWsE1L4ic=
+	t=1727276546; cv=none; b=OoUPcIr5hzQI2iOxbB6epFE+MDWYsFTgLK/h1pAMSnOq9Z9hW2zCxgqhhIdARLCKtlynH1QhyRuxFEbdd77WOZE5PFPOc4pKzqNzfVrVUOCio0BRv9EYOYosi2w6gIlL6Jtb9H4duLfRpd0zXhiClVdL+LBw2VQ6vloSQQwYrmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727276544; c=relaxed/simple;
-	bh=5QDZ8e6v38oe4vdIzJiUkWBfZtQ8UHIt+vUykdg9FgY=;
+	s=arc-20240116; t=1727276546; c=relaxed/simple;
+	bh=P2FcDMrWaViJAVOVZOgFhqVr7ndECoGt9aNdX1NbL6A=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=kG4PR6lqqUz1+bhdrYB/Fgw9Qv8WWrH9DOwIlOccPGXp04hE9BPHdkRRUKMBxK8ay9Of7UYsluwEu0UIGlT87FDdGRS1Pgvgg1aPooGFA2GGBzyefZgU9rhrVmFqgaa6D8U8DT2frBf6lw6rruFaIA5IKLYaT5RPpvwhaPxMb/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ardb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=btIfw3b8; arc=none smtp.client-ip=209.85.208.73
+	 To:Cc:Content-Type; b=aYq+QTY0t6oTld6IUqa4KIVPESwxrOtIw9uiowsp/VShg5O5FZve5UikQ/FNJA6glrqyDCRQdT6Rb68Bhs/8VG5TMKDQO+yUlpsfFYgcKs5yGZrxeyVVn3aCJOwE74tJCU25yn/0scFXE/uIQJ50BJSht/0xZeEeExg0rBys+C8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ardb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lQtn/1YJ; arc=none smtp.client-ip=209.85.219.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ardb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="btIfw3b8"
-Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-5c25e0a50bfso4183821a12.0
-        for <linux-doc@vger.kernel.org>; Wed, 25 Sep 2024 08:02:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lQtn/1YJ"
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-e1d46cee0b0so10267425276.2
+        for <linux-doc@vger.kernel.org>; Wed, 25 Sep 2024 08:02:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1727276540; x=1727881340; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1727276543; x=1727881343; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sMLI1adUSxUIp8UXfDcqdD38QxXI+e+F/+Ag4yCxL7E=;
-        b=btIfw3b8uzUX3qs7RbZNOIodIRQS3kYxnKbB07MkGpXPYtKc+y45geOrWIRE35o0GJ
-         5YzfMc8m/wwUmK922QVfZyXI+B9wuA11T+flD5UOxahZBXEtemDkGE3W7/J4g0rup0hY
-         RyswEcm3adw5fvIh3eha8RaOBvemjfbbMcjxK6TO86cFNcWaluqJU/uHawwpriFuKlzC
-         b5Ay07lm9xUJ9+hbAhwj5blziH/yfFSGqOTaAfwczL1nqILOKB83UYvc+v0ZoNMQWtNe
-         zpF1gMq1hKxaI61gGVFhZCZNMi0lZFV8gGArhbSqFgJ/PphdZxS/hEKLUNBePwgIibqI
-         GGTQ==
+        bh=vu/ZbROFphQGBAR+273iXbk1tlXuWo8crbz4dEomRj0=;
+        b=lQtn/1YJn8ofwp00YPqh/7ezdca6i/dHyOqwIKn9NYR/t34JCf/JnPUsE/CTB64V03
+         XZQA9DoCVY0P4KsZmS6kF6A3RLqm2zeGzo6VDPM6iwiemCFUih2Dg0OCxkYSE/SMg1Us
+         cW7HeP21m6KnShkftmJzo9cbUKesSxLQSeKXdqNy6YyZxhbp0xOCN+it/zMTpFMhQ21A
+         5K4QzdOBDM237nQcdJz6PAF+hW1p8zl8uML/NoXt6W8agRnzoo/bdG273F4gG0tLvBj4
+         KUtgPm9oCEZZYT+PQrU4BKNIjVqOkVLcWKePKSU60RBD5kDm8Gt0DAAzS+wIlRIB6Dta
+         8nfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727276540; x=1727881340;
+        d=1e100.net; s=20230601; t=1727276543; x=1727881343;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sMLI1adUSxUIp8UXfDcqdD38QxXI+e+F/+Ag4yCxL7E=;
-        b=CDaLcqPJ0SSjCgAWMn5gyYIzRoPisXFmcewOHq3rep8yw4wZi462jE0MyutnWsUGOO
-         YIFZl9PDn2fDR2kzlJBu+gmrQ/EnfSVOecyhkphgNQQbXeeCYfH7x8ZINQ9wN8oSf29r
-         +Vdb1dS6A8tfleCPLQKBwWjWWBTnaNgCtdFg0HO8Wg14WlArwsmY3aKnkrwibtio3tAu
-         pi1Exkyenie6k+x3Tojx/+s0bfXrAinTUE+hG3wjSHYahZBqD4Lg/BUbJE/TUUdirDOc
-         W4crD4Ek5H1xuvKBXEgP8Onp0DgYE68rCUnGas+eWHn5Zv2wNIILX7t/nd23gTLnFhOr
-         MQYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWRMLC35yeCgCrzsXpgyQ0+IVwlZFX63u/JHVDmdSjIt+tFyXXRKFj74UFBeB+kLTojDSC78qmCPMI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/24GGmGMRXKDuw4JTQV1waEBxAzbf2QK/ujRv+1Ut4LYCxN60
-	7vl7ruQBMQT+tL2Ylx+7USLgRqzsc0crRZbF9RVhDVSNQ3cUyjcm6fKgFomEW/rwGXaItw==
-X-Google-Smtp-Source: AGHT+IHqdrbnTURYSpf/5afh17e1i3rk5opqYbKAlLurQBauppiTWqSh5+YV6ICpl369+Ha35/G5jy3r
+        bh=vu/ZbROFphQGBAR+273iXbk1tlXuWo8crbz4dEomRj0=;
+        b=hHaBhmANPSm1VFF1B+vQhvRkOS620x6tM35bc48ZgOpUh+YLRga3XEfcDUHUi6pR1Z
+         AOgNBDaAmDZPAtkxAm6x6UZczrG2VDEEeiqD/Fhreex4kKTU7ZGbjMynnElylaT/RhFF
+         Km1/arr1TqIQp763adWbfkVYUmE9QoOFoVJQvrvh69200bQ0K88art6jc48G6ejfFj+s
+         UW/SIJQGN1oJ1E6jjifGGhHLjHixhGkosJGbCID7x9lZKnavzCiEvECn663ykfOiF5i9
+         mg/DLzbQ8Rj7naDjRrtEclN79Nrhl2kV+8nbtrXj7jd4oY0QlYNyXgoOP1X5TZPkuYwh
+         DarA==
+X-Forwarded-Encrypted: i=1; AJvYcCV1o1RrG0dBwmBRHUdhFzUaOEk+QPh9x6U5SX5VaGxNoaSi9h5RaWt2Tmc9x6LNIxFhIvYcElo0QDo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2i75Wp/f20LM60ii1+iAfn8yudy3lmJeGub6cQJH9O2BR++Nk
+	+XQ03M9BAYw2mvXsaZeGpOkcSt7LldtFyMtOCWMKp60rpUfiV0IAgUwrBfAJ7gjY1clzEA==
+X-Google-Smtp-Source: AGHT+IEyaWBDeaj2o4LzPpSYVvpQbis55gp/KI/SuWbxXUep7wBTAaa7DqSfUrTGsylfjBz2VoxVb7Nf
 X-Received: from palermo.c.googlers.com ([fda3:e722:ac3:cc00:7b:198d:ac11:8138])
- (user=ardb job=sendgmr) by 2002:a17:906:6d8:b0:a8a:76fd:ae67 with SMTP id
- a640c23a62f3a-a93a061ba72mr129666b.10.1727276539991; Wed, 25 Sep 2024
- 08:02:19 -0700 (PDT)
-Date: Wed, 25 Sep 2024 17:01:12 +0200
+ (user=ardb job=sendgmr) by 2002:a05:6902:1782:b0:e0b:958a:3344 with SMTP id
+ 3f1490d57ef6-e24da39b0c3mr17936276.10.1727276543053; Wed, 25 Sep 2024
+ 08:02:23 -0700 (PDT)
+Date: Wed, 25 Sep 2024 17:01:13 +0200
 In-Reply-To: <20240925150059.3955569-30-ardb+git@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -58,14 +58,14 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20240925150059.3955569-30-ardb+git@google.com>
 X-Developer-Key: i=ardb@kernel.org; a=openpgp; fpr=F43D03328115A198C90016883D200E9CA6329909
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2056; i=ardb@kernel.org;
- h=from:subject; bh=VKZKKQxE7f774DDxhaNjhf6gM8y+4CHtkhz4ITFKHVU=;
- b=owGbwMvMwCFmkMcZplerG8N4Wi2JIe2L6l6HjphM91K+tMbfPlum+q87xXbcaBq/plqB6J0rH
- Clz7dQ6SlkYxDgYZMUUWQRm/3238/REqVrnWbIwc1iZQIYwcHEKwESez2L4w3XU9mNkQveSSXqf
- bkfpTfktlPbu753X3m4//t4RvX456gUjw9ItwQrWWxY9aPiwtX3xVeeW5YpKNdGO1l4qU7KmnF4 VzwoA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1397; i=ardb@kernel.org;
+ h=from:subject; bh=OCB6ogDK8zWwsvV7jOJ7CFiQBF2ggvTbOxK6mQJaX9A=;
+ b=owGbwMvMwCFmkMcZplerG8N4Wi2JIe2L6r76WO61FcfVRPyObM7vdxPl3nB63j7e+T6H1Wu+r
+ TX46mXYUcrCIMbBICumyCIw+++7nacnStU6z5KFmcPKBDKEgYtTACYyaR4jwzOv6S8kr9nwfXyX
+ 9iPzW9q5kzeEqzTXKbA29B6+VB8ddZORYZns0cK9u93/3DfuTd/m9X/T7v+32d81/dIy2BMjHfO RgwMA
 X-Mailer: git-send-email 2.46.0.792.g87dc391469-goog
-Message-ID: <20240925150059.3955569-42-ardb+git@google.com>
-Subject: [RFC PATCH 12/28] x86/pm-trace: Use RIP-relative accesses for .tracedata
+Message-ID: <20240925150059.3955569-43-ardb+git@google.com>
+Subject: [RFC PATCH 13/28] x86/kvm: Use RIP-relative addressing
 From: Ard Biesheuvel <ardb+git@google.com>
 To: linux-kernel@vger.kernel.org
 Cc: Ard Biesheuvel <ardb@kernel.org>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
@@ -90,57 +90,36 @@ Content-Type: text/plain; charset="UTF-8"
 
 From: Ard Biesheuvel <ardb@kernel.org>
 
-Use RIP-relative accesses and 32-bit offsets for .tracedata, to avoid
-the need for relocation fixups at boot time.
+Avoid absolute references in code, which require fixing up at boot time,
+and replace them with RIP-relative ones. In this particular case, due to
+the register pressure, they cannot be avoided entirely, so one absolute
+reference is retained but the resulting reference via the GOT is
+compatible with running the linker in PIE mode.
 
 Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
 ---
- arch/x86/include/asm/pm-trace.h | 4 ++--
- drivers/base/power/trace.c      | 6 +++---
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ arch/x86/kernel/kvm.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/arch/x86/include/asm/pm-trace.h b/arch/x86/include/asm/pm-trace.h
-index bfa32aa428e5..123faf978473 100644
---- a/arch/x86/include/asm/pm-trace.h
-+++ b/arch/x86/include/asm/pm-trace.h
-@@ -8,10 +8,10 @@
- do {								\
- 	if (pm_trace_enabled) {					\
- 		const void *tracedata;				\
--		asm volatile(_ASM_MOV " $1f,%0\n"		\
-+		asm volatile("lea " _ASM_RIP(1f) ", %0\n"	\
- 			     ".section .tracedata,\"a\"\n"	\
- 			     "1:\t.word %c1\n\t"		\
--			     _ASM_PTR " %c2\n"			\
-+			     ".long %c2 - .\n"			\
- 			     ".previous"			\
- 			     :"=r" (tracedata)			\
- 			     : "i" (__LINE__), "i" (__FILE__));	\
-diff --git a/drivers/base/power/trace.c b/drivers/base/power/trace.c
-index cd6e559648b2..686a0276ccfc 100644
---- a/drivers/base/power/trace.c
-+++ b/drivers/base/power/trace.c
-@@ -167,7 +167,7 @@ EXPORT_SYMBOL(set_trace_device);
- void generate_pm_trace(const void *tracedata, unsigned int user)
- {
- 	unsigned short lineno = *(unsigned short *)tracedata;
--	const char *file = *(const char **)(tracedata + 2);
-+	const char *file = offset_to_ptr((int *)(tracedata + 2));
- 	unsigned int user_hash_value, file_hash_value;
+diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
+index 263f8aed4e2c..8eac209a31aa 100644
+--- a/arch/x86/kernel/kvm.c
++++ b/arch/x86/kernel/kvm.c
+@@ -800,9 +800,11 @@ extern bool __raw_callee_save___kvm_vcpu_is_preempted(long);
+  * Hand-optimize version for x86-64 to avoid 8 64-bit register saving and
+  * restoring to/from the stack.
+  */
+-#define PV_VCPU_PREEMPTED_ASM						     \
+- "movq   __per_cpu_offset(,%rdi,8), %rax\n\t"				     \
+- "cmpb   $0, " __stringify(KVM_STEAL_TIME_preempted) "+steal_time(%rax)\n\t" \
++#define PV_VCPU_PREEMPTED_ASM						\
++ "leaq   __per_cpu_offset(%rip), %rax				\n\t"	\
++ "movq   (%rax,%rdi,8), %rax					\n\t"	\
++ "addq   steal_time@GOTPCREL(%rip), %rax			\n\t"	\
++ "cmpb   $0, " __stringify(KVM_STEAL_TIME_preempted) "(%rax)	\n\t"	\
+  "setne  %al\n\t"
  
- 	if (!x86_platform.legacy.rtc)
-@@ -187,9 +187,9 @@ static int show_file_hash(unsigned int value)
- 
- 	match = 0;
- 	for (tracedata = __tracedata_start ; tracedata < __tracedata_end ;
--			tracedata += 2 + sizeof(unsigned long)) {
-+			tracedata += 2 + sizeof(int)) {
- 		unsigned short lineno = *(unsigned short *)tracedata;
--		const char *file = *(const char **)(tracedata + 2);
-+		const char *file = offset_to_ptr((int *)(tracedata + 2));
- 		unsigned int hash = hash_string(lineno, file, FILEHASH);
- 		if (hash != value)
- 			continue;
+ DEFINE_ASM_FUNC(__raw_callee_save___kvm_vcpu_is_preempted,
 -- 
 2.46.0.792.g87dc391469-goog
 
