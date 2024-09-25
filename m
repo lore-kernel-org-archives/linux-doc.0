@@ -1,144 +1,273 @@
-Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2098.outbound.protection.partner.outlook.cn [139.219.146.98])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EACE514AD19;
-	Wed, 25 Sep 2024 10:08:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.98
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727258887; cv=fail; b=ZB7Q+1dDAYjrHkM/uyH9ZRLIAq/jWDxPvY/nyp6ZnqF6HdKHyhDxmUuLRL/7ehI/J3AvS0405pN3GSUjI3lXT+BvKztEhPRmA3jeVZTH0/KYIW+0eMAhvY5NxXpGWblrgTXr8jGeOPvru5/ZEFZF2fGQ2QCrdcVXJ3uCU60QzYY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727258887; c=relaxed/simple;
-	bh=apIs5UMNKnU//WmOOjaQhdC+ouFfr0lSQCNXbj3mlLI=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=RDxGZtBMCYnSu+6Ftwf36O2d56S79OlJ3vp3efTiW6UkIdKGGqUyHiO0lnV/I5XuHKujMmU0umX95Kg3G/xJfhw0ZWbl9Z1EbeHUxZv5kkZ2ULd7cH5W57MD2BHSzYxNBZEc/8kKDo+KoyvU70wqqVWbiCOPVFUhqqDnpUTU/to=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LaL/gxD9wK5r1/v1cfvcQarRkiP/e78bd7Gb/qzxrghTJCksGcmySlSscVhMAo4q2VvlHZiQAmcMp1QDnJWtmD+BkG+wtBPcFLcO7Em+GQ7ZFbJ4vomWn75d1qbowUfU0ZENJRV8rUSUxvWpxKbp5Do2xTPuSdLU1O+ZpJ2l7sq2uZwENN1hToEWNjIeAaA1JXhxMPHXpdoBLOEJilmeOOQGrOxbD9VFEBFXC3XAlCOWXt0Zg7Hnw8bodlYKSoQUj6EQG7Laa8mBGcjPMhh7UyEr6WlfHZhLL8HIzPZq0EBnVA2gv3P7ZYpNAL7DT/lwBMIngxATFxHOFFwiVyGt3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V6VxDSO8iqhurxhynfKhByJdV1L3fDOUmJ2X16Da6qM=;
- b=mLQ6GwVa7ft8A8rX7ou34iEP3N0K9IEvz1CABCI5jNhe2xxdg6An+AIoaQ0wMY8sBlIA1c+zC5f42s5NdMLW7sLDhJcEqVyEImByrdZtSSl5dkCdTH3c/48i44Xk42UoFx7R9VIDEThfXJbt10uLl12MRva3gsjeoOZao3wqJCt78qrJCLGSLLqBNaLLPy1RNc4Dz19zozgO320IBGJsDu9hp3buKy2QvOMDrz1vN+0YWi5d2q/IhmqwBpLQm323/jVLlAzrcvShmocxjrWzRg9hMdTSSU9W0IrycPNBuKzF1/szUEZXRkLUPp81jda5wHRFGACy63xb+oBBcoaI2w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=starfivetech.com; dmarc=pass action=none
- header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=starfivetech.com;
-Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:1b::9) by ZQ0PR01MB1208.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:19::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7962.31; Wed, 25 Sep
- 2024 10:07:48 +0000
-Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
- ([fe80::64c5:50d8:4f2c:59aa]) by
- ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn ([fe80::64c5:50d8:4f2c:59aa%5])
- with mapi id 15.20.7962.029; Wed, 25 Sep 2024 10:07:48 +0000
-From: Changhuang Liang <changhuang.liang@starfivetech.com>
-To: Jason Wessel <jason.wessel@windriver.com>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Douglas Anderson <dianders@chromium.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Changhuang Liang <changhuang.liang@starfivetech.com>,
-	kgdb-bugreport@lists.sourceforge.net,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADAA9172BA8;
+	Wed, 25 Sep 2024 11:39:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727264355; cv=none; b=qo6xm2Ob/293yZlRlH2A+4iZf3wACbRA2p6XbQ2EtW/5cojAbZBqEcHHTsxZNFrtiKC7amlOVUifIIf+MUEp3IzWizg6G0G49Af8HVcxE3guGg2QLF0LV5KE/is9fLhoN9hAjdYukH99dpIX3Eo61u60nrSi3Whls2qO6dfpcgE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727264355; c=relaxed/simple;
+	bh=vTXufl0h3C6la4/6PIaX/ckU/WVPy9StrNvAw7Nq+fY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=VKJIUaHvhVM+vSHkV35AJY+sP0rajkXdNcmUORPSZIXLXJmWD7YIj7REFkHJ44qQQ1IY+3MpWOjclc70tnN+Igh1YeFOTkoTRFZ/P17kbOuYZLsiGbFE8SKFKmDsDXw9B8cw7iuVeKcYN4DANgshXK7YdMwK2fIY3yqZ9HiMlVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nNeESjoZ; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nNeESjoZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02648C4CEC3;
+	Wed, 25 Sep 2024 11:39:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727264355;
+	bh=vTXufl0h3C6la4/6PIaX/ckU/WVPy9StrNvAw7Nq+fY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=nNeESjoZH+NXCi2aMo3VHDD+aIVZahKGTjmYEjZIz5Wc5TU2mi9SeUiaU+DQ58c17
+	 sq6ioEATGqQtHFwLEU4gTLXXGwFwskvllKwwBW+oV9Gb2lMlGC1y+8PvcvK5seaUgS
+	 vZb2Jvr6uBWDdomgApp0BtkqhLAbiXlgjcmczylNvudm8njDQxVoolPsMjB8tpv6ew
+	 6MIaU1pfpQrWq4pkIVfPJkMWCZUuvVjVj0tnHJ2sKmdnpVFTQ2kmBfu2U3RE7Eh5d2
+	 eIZjObSYQQPT5ScLwubRYOnRYQoXvtdNVl7+/eXNTOvrfsf6PZ5COVmgscnlHChZmA
+	 WPGAH7S7+T51Q==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Adrian Ratiu <adrian.ratiu@collabora.com>,
+	Doug Anderson <dianders@chromium.org>,
+	Jeff Xu <jeffxu@google.com>,
+	Jann Horn <jannh@google.com>,
+	Kees Cook <kees@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Sasha Levin <sashal@kernel.org>,
+	corbet@lwn.net,
+	paul@paul-moore.com,
+	jmorris@namei.org,
+	serge@hallyn.com,
+	thuth@redhat.com,
+	bp@alien8.de,
+	jpoimboe@kernel.org,
+	tglx@linutronix.de,
+	paulmck@kernel.org,
+	tony@atomide.com,
+	xiongwei.song@windriver.com,
+	akpm@linux-foundation.org,
+	oleg@redhat.com,
+	mic@digikod.net,
+	jlayton@kernel.org,
+	casey@schaufler-ca.com,
+	viro@zeniv.linux.org.uk,
+	adobriyan@gmail.com,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] Documentation: kgdb: Correct parameter error
-Date: Wed, 25 Sep 2024 03:07:42 -0700
-Message-Id: <20240925100742.1730576-1-changhuang.liang@starfivetech.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BJSPR01CA0001.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c211:c::13) To ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:1b::9)
+	linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.11 064/244] proc: add config & param to block forcing mem writes
+Date: Wed, 25 Sep 2024 07:24:45 -0400
+Message-ID: <20240925113641.1297102-64-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240925113641.1297102-1-sashal@kernel.org>
+References: <20240925113641.1297102-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: ZQ0PR01MB1302:EE_|ZQ0PR01MB1208:EE_
-X-MS-Office365-Filtering-Correlation-Id: b8e8abab-7486-4876-5b4c-08dcdd49e8cf
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|1800799024|366016|41320700013|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	4XExc37jW4SxfkDieMvhXooZqwHoqwIkhOt0MZ6u8ZPkMZF8AHPJp4ReRCCKKi+ppb3HL/PzVVAcbda3pvQqkpRby93K2eXms1tiuk7GyOS2yrvtSuVqEM7BAxG3RG7CboHQrM03a4rhiv2AkOCGcGSWOL5vfnIJJqi1N581G6yQQlcU1cN0f4k0GFJEGrC1fYTxa5/dKkeXWukwIhCqBTVrie/T+6jlL8TdrnslR4Ao65QdTNhxIDHLiZT2RKCwkOQ/kp3mupKUEr2JqhCulczhefOb3ZWvqZS0ZB+hFdBFLmAT8e9x07UhcxAkC23oRNEt6sfuE7ibFDbAa5XSiq31hkr4C+6yU+SmzoxNijUjJlA7stVg1pXhJ8mLb+fBAAXW+nxjD2qSfpqtFGHTuXiV5iq3TKgvdwlkVQ0xtQVN3+cp/59hZYuGj7MygtFqyU71oe8eOV6dK8wmVNZ0XS5yzZnbculLYvErwORunb0nalZLsoOW0OvhN7h3GvJx+DSS1PMTMKy2ajv9olwFHmwoZwi4LKAiH4WVyIc7oCGeMY2EELSZYakuMjDfPRd+hX6mjC3kvZ2B19u6D8qBmoe8N7HHCpth9WXG7XftsKmf1zMx/j3VJ3GZKdr+4Gio
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(52116014)(1800799024)(366016)(41320700013)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?KCJI6xeMlRTHP4zj1LQLcTVR2iMvN3VPFw+2WHhFzmTWBihqYJuPqJ6bAB1x?=
- =?us-ascii?Q?LC+OOfFzz4OlfUVr37gDluygouS4UBL6Wg92V6DIo+tHuOYWXBdeU97EkQfv?=
- =?us-ascii?Q?kD0t8FKUzLCAw9EH4w1pu0wk/4hm4x3aGr0aGU2n3vcBKPP8A+8senKLHcYn?=
- =?us-ascii?Q?BERcIg+LmYjRwRZUhlKh+o8t/fR6LfasXRlMSISdM6HOl8UH1J2a0sqgiTgX?=
- =?us-ascii?Q?BCou2kCVMdWJB++7bYyF+UOAe66v5iSJUO7xTXmgkO9pjEGODId+iBNaf28I?=
- =?us-ascii?Q?r+ctBi8b31zJxty7L+K8uHN0LO1gACxpxuEoB3j4tS0t7/cQjnq7FvU0WNRq?=
- =?us-ascii?Q?HlGgg8hNmYwNT6TZI2C3/5Y+e0AKVOvqOEnppWX4EmuHvBZA3fpPLXXWQust?=
- =?us-ascii?Q?pq0sP6LJyX6xsWwvn9tu8LeNyjZMwLJZ9DqJbCNsP/USwiOrvuqHPIwnFZ3x?=
- =?us-ascii?Q?SBDdQzZCpi/MyWJBdse9FFVohzLwGLzWobjcCs+IjQuRmuMnWhEvWHxv7/KT?=
- =?us-ascii?Q?JJGJxSNW9DcOmphEOzOM5BBCdKeG+4QsUkkkWiQC7YZ1jmaXAy9uesJprsx9?=
- =?us-ascii?Q?utpTy6TSNv+d425pND3Abtg++qQRQJvpQs4A0VN+NDnAJnhl1Xt52Ly3HcU9?=
- =?us-ascii?Q?I2VWTlc4SyD5TwB/owHRIWnNup6uRmNMa1AsdHV+auyvwTY9oTB0scfbPFqS?=
- =?us-ascii?Q?dj7nd0e1m7Nu7n45m9Ah4qJGg1DGeCHcWgzFyW7h/L5qAmlWevdu3b9GLEq8?=
- =?us-ascii?Q?eyx/CQL/ccmpLp4e0JsJxsxKrwRGepS9w8etezhxfzwdDKm/O4h6xi4lyO22?=
- =?us-ascii?Q?EE3Kh5dsbMJbQsI25swNylxipxzu0RMXT2BJPODFz9MckBlLzLdcxLwgu5mt?=
- =?us-ascii?Q?aoyju+wYoz66ab5IYxa6K+KZo2Oz18DxK4fLlHORS1RycHJTunhJ+Uoc1fsr?=
- =?us-ascii?Q?eoWh1y//UBgEUeyCiHncOBFbLorX6XwXopUB3Ty6IgkRljG8FSsDC1LcCK5V?=
- =?us-ascii?Q?XmHGLNoyLJqd8EbVJ6wLF9R3rVaFAF6fyrfzPWYHtvcB0nTi9PLe60hNXeed?=
- =?us-ascii?Q?P2odcWKI+r8QK8wSnltksIlG0In8/AYBD1H/A1RcSKCmiIAibnd99jfDuKzZ?=
- =?us-ascii?Q?JozdAkCANwefiVvNzfpcfq94ixhpj4HkkRmyKFMR+4zy4XbUJdQB2YBZoBM8?=
- =?us-ascii?Q?hr6VGdOYKt1KCwGGz461PIGVar8rs6WqNC39CBBac4G57g8cwTyx+iiEYQHO?=
- =?us-ascii?Q?Gxw4JyUxDuzMAGmL2dGpI1uHn/0KzNvyZ+XDv9MG8hVYhlXt7sgQSZSa7fQU?=
- =?us-ascii?Q?LanHE6RYUA3Z3J6TPU0Nb0NgngfLyHnT0XSXGZr5zkwDyZVwBj1bBnb4T+JA?=
- =?us-ascii?Q?ocZKd0KsDevjCpx/1uff0w/CWmhC+7abdPOJsM2L/oFxqFnPSH02SvRM0anr?=
- =?us-ascii?Q?fc+/Hk4137EfgYttHzYpgibDImF+UYmpyDDT6aqL3mfbR8/QAtk8O7BgUvR0?=
- =?us-ascii?Q?+bJf+1K2Zu/doPmcaLfQ9oQUntUI/o/2BIre9eTN3GqJd1eYXDlMwrbcI4xR?=
- =?us-ascii?Q?Vn5FSaSukvc00yjd5QjIJy6Lk3uz6W2aMEDT4pORo8vp0JIflQLKsmR0N49x?=
- =?us-ascii?Q?k+z3hE57UTM8vsfqa0aB6NU=3D?=
-X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8e8abab-7486-4876-5b4c-08dcdd49e8cf
-X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2024 10:07:48.8936
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SV8Rg3cqHucv72jAbioXvsxui854pCliVkzMhlroP1LjqNo5YJLtJd6jX4alg+EBkLewy0FRqqkz17P2rRcrm7INGjr6DjTJZB+foASoN1HehG44xfTYvAMKaYwkT8nd
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB1208
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.11
+Content-Transfer-Encoding: 8bit
 
-Module kgdb had been converted to debug_core since commit c433820971ff
-("Move kernel/kgdb.c to kernel/debug/debug_core.c") be added, so let's
-correct the module parameter path.
+From: Adrian Ratiu <adrian.ratiu@collabora.com>
 
-Fixes: c433820971ff ("Move kernel/kgdb.c to kernel/debug/debug_core.c")
-Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+[ Upstream commit 41e8149c8892ed1962bd15350b3c3e6e90cba7f4 ]
+
+This adds a Kconfig option and boot param to allow removing
+the FOLL_FORCE flag from /proc/pid/mem write calls because
+it can be abused.
+
+The traditional forcing behavior is kept as default because
+it can break GDB and some other use cases.
+
+Previously we tried a more sophisticated approach allowing
+distributions to fine-tune /proc/pid/mem behavior, however
+that got NAK-ed by Linus [1], who prefers this simpler
+approach with semantics also easier to understand for users.
+
+Link: https://lore.kernel.org/lkml/CAHk-=wiGWLChxYmUA5HrT5aopZrB7_2VTa0NLZcxORgkUe5tEQ@mail.gmail.com/ [1]
+Cc: Doug Anderson <dianders@chromium.org>
+Cc: Jeff Xu <jeffxu@google.com>
+Cc: Jann Horn <jannh@google.com>
+Cc: Kees Cook <kees@kernel.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>
+Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+Link: https://lore.kernel.org/r/20240802080225.89408-1-adrian.ratiu@collabora.com
+Signed-off-by: Christian Brauner <brauner@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
+ .../admin-guide/kernel-parameters.txt         | 10 +++
+ fs/proc/base.c                                | 61 ++++++++++++++++++-
+ security/Kconfig                              | 32 ++++++++++
+ 3 files changed, 102 insertions(+), 1 deletion(-)
 
-Hi,
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 09126bb8cc9ff..be010fec76541 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4788,6 +4788,16 @@
+ 	printk.time=	Show timing data prefixed to each printk message line
+ 			Format: <bool>  (1/Y/y=enable, 0/N/n=disable)
+ 
++	proc_mem.force_override= [KNL]
++			Format: {always | ptrace | never}
++			Traditionally /proc/pid/mem allows memory permissions to be
++			overridden without restrictions. This option may be set to
++			restrict that. Can be one of:
++			- 'always': traditional behavior always allows mem overrides.
++			- 'ptrace': only allow mem overrides for active ptracers.
++			- 'never':  never allow mem overrides.
++			If not specified, default is the CONFIG_PROC_MEM_* choice.
++
+ 	processor.max_cstate=	[HW,ACPI]
+ 			Limit processor to maximum C-state
+ 			max_cstate=9 overrides any DMI blacklist limit.
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index 72a1acd03675c..f389c69767fa5 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -85,6 +85,7 @@
+ #include <linux/elf.h>
+ #include <linux/pid_namespace.h>
+ #include <linux/user_namespace.h>
++#include <linux/fs_parser.h>
+ #include <linux/fs_struct.h>
+ #include <linux/slab.h>
+ #include <linux/sched/autogroup.h>
+@@ -117,6 +118,40 @@
+ static u8 nlink_tid __ro_after_init;
+ static u8 nlink_tgid __ro_after_init;
+ 
++enum proc_mem_force {
++	PROC_MEM_FORCE_ALWAYS,
++	PROC_MEM_FORCE_PTRACE,
++	PROC_MEM_FORCE_NEVER
++};
++
++static enum proc_mem_force proc_mem_force_override __ro_after_init =
++	IS_ENABLED(CONFIG_PROC_MEM_NO_FORCE) ? PROC_MEM_FORCE_NEVER :
++	IS_ENABLED(CONFIG_PROC_MEM_FORCE_PTRACE) ? PROC_MEM_FORCE_PTRACE :
++	PROC_MEM_FORCE_ALWAYS;
++
++static const struct constant_table proc_mem_force_table[] __initconst = {
++	{ "always", PROC_MEM_FORCE_ALWAYS },
++	{ "ptrace", PROC_MEM_FORCE_PTRACE },
++	{ "never", PROC_MEM_FORCE_NEVER },
++	{ }
++};
++
++static int __init early_proc_mem_force_override(char *buf)
++{
++	if (!buf)
++		return -EINVAL;
++
++	/*
++	 * lookup_constant() defaults to proc_mem_force_override to preseve
++	 * the initial Kconfig choice in case an invalid param gets passed.
++	 */
++	proc_mem_force_override = lookup_constant(proc_mem_force_table,
++						  buf, proc_mem_force_override);
++
++	return 0;
++}
++early_param("proc_mem.force_override", early_proc_mem_force_override);
++
+ struct pid_entry {
+ 	const char *name;
+ 	unsigned int len;
+@@ -835,6 +870,28 @@ static int mem_open(struct inode *inode, struct file *file)
+ 	return ret;
+ }
+ 
++static bool proc_mem_foll_force(struct file *file, struct mm_struct *mm)
++{
++	struct task_struct *task;
++	bool ptrace_active = false;
++
++	switch (proc_mem_force_override) {
++	case PROC_MEM_FORCE_NEVER:
++		return false;
++	case PROC_MEM_FORCE_PTRACE:
++		task = get_proc_task(file_inode(file));
++		if (task) {
++			ptrace_active =	READ_ONCE(task->ptrace) &&
++					READ_ONCE(task->mm) == mm &&
++					READ_ONCE(task->parent) == current;
++			put_task_struct(task);
++		}
++		return ptrace_active;
++	default:
++		return true;
++	}
++}
++
+ static ssize_t mem_rw(struct file *file, char __user *buf,
+ 			size_t count, loff_t *ppos, int write)
+ {
+@@ -855,7 +912,9 @@ static ssize_t mem_rw(struct file *file, char __user *buf,
+ 	if (!mmget_not_zero(mm))
+ 		goto free;
+ 
+-	flags = FOLL_FORCE | (write ? FOLL_WRITE : 0);
++	flags = write ? FOLL_WRITE : 0;
++	if (proc_mem_foll_force(file, mm))
++		flags |= FOLL_FORCE;
+ 
+ 	while (count > 0) {
+ 		size_t this_len = min_t(size_t, count, PAGE_SIZE);
+diff --git a/security/Kconfig b/security/Kconfig
+index 412e76f1575d0..a93c1a9b7c283 100644
+--- a/security/Kconfig
++++ b/security/Kconfig
+@@ -19,6 +19,38 @@ config SECURITY_DMESG_RESTRICT
+ 
+ 	  If you are unsure how to answer this question, answer N.
+ 
++choice
++	prompt "Allow /proc/pid/mem access override"
++	default PROC_MEM_ALWAYS_FORCE
++	help
++	  Traditionally /proc/pid/mem allows users to override memory
++	  permissions for users like ptrace, assuming they have ptrace
++	  capability.
++
++	  This allows people to limit that - either never override, or
++	  require actual active ptrace attachment.
++
++	  Defaults to the traditional behavior (for now)
++
++config PROC_MEM_ALWAYS_FORCE
++	bool "Traditional /proc/pid/mem behavior"
++	help
++	  This allows /proc/pid/mem accesses to override memory mapping
++	  permissions if you have ptrace access rights.
++
++config PROC_MEM_FORCE_PTRACE
++	bool "Require active ptrace() use for access override"
++	help
++	  This allows /proc/pid/mem accesses to override memory mapping
++	  permissions for active ptracers like gdb.
++
++config PROC_MEM_NO_FORCE
++	bool "Never"
++	help
++	  Never override memory mapping permissions
++
++endchoice
++
+ config SECURITY
+ 	bool "Enable different security models"
+ 	depends on SYSFS
+-- 
+2.43.0
 
-v3: I wrote a error change log in v2. Now fix it.
-
- Documentation/dev-tools/kgdb.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/dev-tools/kgdb.rst b/Documentation/dev-tools/kgdb.rst
-index f83ba2601e55..a87a58e6509a 100644
---- a/Documentation/dev-tools/kgdb.rst
-+++ b/Documentation/dev-tools/kgdb.rst
-@@ -329,7 +329,7 @@ ways to activate this feature.
-
- 2. Use sysfs before configuring an I/O driver::
-
--	echo 1 > /sys/module/kgdb/parameters/kgdb_use_con
-+	echo 1 > /sys/module/debug_core/parameters/kgdb_use_con
-
- .. note::
-
---
-2.25.1
