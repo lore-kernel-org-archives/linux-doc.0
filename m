@@ -1,185 +1,175 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2069.outbound.protection.outlook.com [40.107.94.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893E21D5AD5;
-	Wed, 25 Sep 2024 21:12:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.69
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727298780; cv=fail; b=cdwyecU0qn+ldPh6NtovnkRVjShQp+KjJD/Dh5Na25BaqpUaxh0myHBdW17WjNcqJ9fuaXW1GENDQ3Vlxfe/P3JOhWisK0Rut48WtbK4H+b7YyZpbELapAMKyMJ55wLY0cp8qxGT6lODqfT2z73553UOVPts7laa6WPtbhW7paU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727298780; c=relaxed/simple;
-	bh=MRuvYRKDuThrJoBb+1lZ4jkgQ3/784bKkbAI2wm0/Vo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Dag4mShxckhRhQjJLRrgbBoEvKPKvhOie0IOt+LSERee0goXJjTzH0zz6n9IWsXq0l7Gv0bwyrJpRpNqW0bDlCHJi/S3rahM7982A1D01wLrv/FFpyk/6t1vUKc4hUcfPY3s0fb355RessxxqSn+ewGyYURb67rQ8Jqb0TtSPjQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=2a9RFKZc; arc=fail smtp.client-ip=40.107.94.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0C81534FB;
+	Wed, 25 Sep 2024 21:46:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727300803; cv=none; b=aKkP9gUnF3uFaspMRK+FetUmj68rofdt5s1yMd1gxvw0TFUPlGCrbSNm33ou2DG6SesFXFdGc+NYwKhtMlWP8GjPS6WJLFcXBTngns+n2xjyqotf/N5RjTeUcFSt9alC7/MdVk4qNMLsyniQRd5iyclIfJeJcPBB8QSilTMlSdQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727300803; c=relaxed/simple;
+	bh=hKPqj54rfSZOJYhQlr4OrA/L/22OYdi+JxkaqQ4JVug=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=FI/haenZMUE84LnXBrD4j9FbGZ9+h8iDMD3d2FhBQ25WFAgI82d14t7pWmf4Y2F44S+U2KannmPkrcucgm4V2EfWE0E18rGVAaYcDuNqCzuML9yFkTMmNa41vOQAKPAj+kdZwseGIcYYNgZBQPiF7GTQkOAUcPeLmYw1tAneGUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dii5f39l; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="2a9RFKZc"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=r1CyvXCUjXqbEgAD4/VZRask0GCIyWRXPX8KMa9dRa1X0wZbsbM7N1VKSDFgbR/qrwoNDycBljk0q7/Aw7OTsKV1aSWgnkfAN5D9FdTa+Bna55q5b2f/+kFelBDFnwVdntfikLH3n1o5I6bp/+K/P4/lfP/3tyUEXPC3+/RYsXppZHlTva3ElZT3AJC/ztwppWsTyw62b+gf4dfW5CgMuZ5L0JrdUTuNnZSHb5pGLCKUdh1rGNPXSwsgvB1BayxZgor9mLkb+Hj0jvYXb3E9Su6HEDDYWXliExfo7rBvUDmdQskgRnrQEtVbPqSzGtHKaANp5ddM/hcAsJndpFe31g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=o27dxBRXuZ+4jCUFs4ZeVgNjzLT5Saz5jMSaDeWCRf8=;
- b=pgrs/TWjc+ozl3mZ8El55t+SYeNu9Cu5IVr1JH9g9x2oSmeaBRjh8jiAyIn2ykphOU58oD6+lF45rW27j/QSg8MQ1ut74cbCLcn5sAusun89oSqeUCoa0M6bxzcZFJ4ZRfSepfSk4DLpK2cbjsX5L1kP8SPp0Q5hPmvkg8XVc2B+/CkS6+A4AGkG/PlXPV/QTDSF1+nnsJ4vVgAxqINq95PSEMxeKGlykynmHoKYLKnrjEotOmRRTK10ZyZrG2v3WITfrufpXpdOMGYV/c1Qlj7rf4OWm8Cb9j0mJvZ8hK1gvRJFMJMAPw9q7C/QcK115T6W/uYO62j6zZujNTLtlA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=google.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o27dxBRXuZ+4jCUFs4ZeVgNjzLT5Saz5jMSaDeWCRf8=;
- b=2a9RFKZcHtoJY+0jmlCh6qTgIDHBQz+heojripxsqzKlld/FPT2J1lhmmNPem73qIUGZ7796Jj4oghp8dPF3PeXoNQEupd0nl1V7pqsQ51IpNrRYIQY6hB4N7TSAwv3B3nBfT0YhyfmXyLpQMD/8rl2pIF0Eg9H4slLQr1XpWJU=
-Received: from BN9P221CA0028.NAMP221.PROD.OUTLOOK.COM (2603:10b6:408:10a::10)
- by LV8PR12MB9360.namprd12.prod.outlook.com (2603:10b6:408:205::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.25; Wed, 25 Sep
- 2024 21:12:55 +0000
-Received: from BN2PEPF000055DC.namprd21.prod.outlook.com
- (2603:10b6:408:10a:cafe::3e) by BN9P221CA0028.outlook.office365.com
- (2603:10b6:408:10a::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.26 via Frontend
- Transport; Wed, 25 Sep 2024 21:12:55 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN2PEPF000055DC.mail.protection.outlook.com (10.167.245.6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8026.0 via Frontend Transport; Wed, 25 Sep 2024 21:12:55 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 25 Sep
- 2024 16:12:54 -0500
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 25 Sep
- 2024 16:12:54 -0500
-Received: from [172.18.112.153] (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Wed, 25 Sep 2024 16:12:51 -0500
-Message-ID: <1258d32d-ee54-4a5d-bc92-6c1f8179235a@amd.com>
-Date: Wed, 25 Sep 2024 17:12:51 -0400
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dii5f39l"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42cc8782869so2334405e9.2;
+        Wed, 25 Sep 2024 14:46:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727300800; x=1727905600; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GVmVgaclLf08yTC2h5OjCOTI7DSU5jBV3Cn+WzQVxUs=;
+        b=Dii5f39lmEUHDJoMMFW7d2zFhiH4bEGYeUw0AQ03txVdJgV/wZHsw8Eb1zdDZ671jK
+         eEbYk3dvpgwfDsKPYNUgM4jMcsHvHqWFHYeH7bMaowIEWDXhAjlOxCjvCxNZ5ix3iT6u
+         Xj9SG/rPpjIOGRFgzhO9wxkJMpDp7wmxHXL37FPVmjaQlkO0+D/6zEBSA/kU3nstbpjh
+         jMsI07Dzcgee7ZLZXxSPev7okgUmvFU1j9JZUh4wvqeN7VFOZA+B5uy4/Bf5xqzM2Ucs
+         xFkFh6Jxhx5OH6wK0MLnFroyEB8mbTrqIkTJbTzSCYCcVvPoZexjDgvXS5jS1VVmtLyS
+         Yabw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727300800; x=1727905600;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GVmVgaclLf08yTC2h5OjCOTI7DSU5jBV3Cn+WzQVxUs=;
+        b=WZlRRHvdm9JSsqQ3PeIggFHmiwlZrUs2m8MuVkKFz9DSP6M3db5WDy9gloEQeysz4q
+         7ilNvLRHJ5QZXytyMxKq+19QXkMl2wa3DdGl5xRJPNj8gdpcI3hA6NeXTp04tLAJYQUY
+         pXH5TcIFo/UpNkexRzApz4CA9prgNAPU2D7ZWLzXXz+mmBEF7oNl/WEGkO79DGKiYLg1
+         LNV/zE64NbF16uoIU3Uk3p54a1lMcIbpTePoMdSxQQenWAVx9c7NR6FfIU1L1xZSR5z4
+         lKr7RdvTNPxxrpkZfWK/YSYAGJ4TxdLpqFE6aVQXho7O+jQ/08hHfOR6kftjP/dC69c4
+         NYSg==
+X-Forwarded-Encrypted: i=1; AJvYcCUOupihU0UFPV36FS1lQbmY0azguJTkCSnHjWbekPaykEyZgWkoE0b7E5Q6DKVOKk05IzikxLd4oY++LLLY@vger.kernel.org, AJvYcCVeJecL9SS7e0WLUg/cemVAoUVQeOpEZ8r/qbXluA7Mw/PhFZub08b6jw1msoQ+S67nAT4zOdv1az3H@vger.kernel.org, AJvYcCW1dyNr0xH/p3/s3XhwmTyn170B/S0DV2AjaZHs7hilBFa3zqyLZZRQSKz5ds1bfEGH8oyZjZNm9+7p@vger.kernel.org, AJvYcCWhw7QnnJ+IeM0pzLN+abVSphra+5zMs3Xgk7Wc5qLfC53kJq0pvTlND2Bht7ZJe1cIXHHIFMN+eMelC3s=@vger.kernel.org, AJvYcCXjGleRSv/Ud9PiFJLWJOKh24VtPBCvzZN4/nqYuqD6MFRvlCn+gXFWQaW79e8agi6R0oCzy3kwg0VH@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywe60CHDYPBRUsvGMEn90r4HMsRngnC4hqOxsVFmGt/SO+Ogb8c
+	JnfsOxH8OXbQCPfiT2XRi0jOmbnWLLa5KxlWjt9D2J9NCT58Jic9
+X-Google-Smtp-Source: AGHT+IFLnDQbe1OOtOZOCODKOAoHYW+yOXDMI3pVNSMriwEKjgwO+0xQ1+cxh4UpT8hlWIhtMosbxQ==
+X-Received: by 2002:a05:600c:3107:b0:42c:b995:20d9 with SMTP id 5b1f17b1804b1-42e9613634fmr31493025e9.28.1727300799582;
+        Wed, 25 Sep 2024 14:46:39 -0700 (PDT)
+Received: from localhost.localdomain (93-34-90-105.ip49.fastwebnet.it. [93.34.90.105])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-42e96a1f2aasm28802565e9.45.2024.09.25.14.46.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Sep 2024 14:46:39 -0700 (PDT)
+From: Christian Marangi <ansuelsmth@gmail.com>
+To: Jens Axboe <axboe@kernel.dk>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	Simon Glass <sjg@chromium.org>,
+	INAGAKI Hiroshi <musashino.open@gmail.com>,
+	Daniel Golle <daniel@makrotopia.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Li Lingfeng <lilingfeng3@huawei.com>,
+	Christian Heusel <christian@heusel.eu>,
+	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
+	linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-mmc@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	Lorenzo Bianconi <lorenzo@kernel.org>
+Subject: [RFC PATCH v2 0/5] block: partition table OF support
+Date: Wed, 25 Sep 2024 23:45:20 +0200
+Message-ID: <20240925214544.6114-1-ansuelsmth@gmail.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 01/28] x86/pvh: Call C code via the kernel virtual
- mapping
-To: Ard Biesheuvel <ardb+git@google.com>, <linux-kernel@vger.kernel.org>
-CC: Ard Biesheuvel <ardb@kernel.org>, <x86@kernel.org>, "H. Peter Anvin"
-	<hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra
-	<peterz@infradead.org>, Uros Bizjak <ubizjak@gmail.com>, Dennis Zhou
-	<dennis@kernel.org>, Tejun Heo <tj@kernel.org>, Christoph Lameter
-	<cl@linux.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, "Paolo
- Bonzini" <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Juergen Gross <jgross@suse.com>, Boris Ostrovsky
-	<boris.ostrovsky@oracle.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, Masahiro Yamada
-	<masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, Nathan Chancellor
-	<nathan@kernel.org>, Keith Packard <keithp@keithp.com>, Justin Stitt
-	<justinstitt@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, "Arnaldo
- Carvalho de Melo" <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
-	"Jiri Olsa" <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, Adrian
- Hunter <adrian.hunter@intel.com>, Kan Liang <kan.liang@linux.intel.com>,
-	<linux-doc@vger.kernel.org>, <linux-pm@vger.kernel.org>,
-	<kvm@vger.kernel.org>, <xen-devel@lists.xenproject.org>,
-	<linux-efi@vger.kernel.org>, <linux-arch@vger.kernel.org>,
-	<linux-sparse@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
-	<linux-perf-users@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
-	<llvm@lists.linux.dev>
-References: <20240925150059.3955569-30-ardb+git@google.com>
- <20240925150059.3955569-31-ardb+git@google.com>
-Content-Language: en-US
-From: Jason Andryuk <jason.andryuk@amd.com>
-In-Reply-To: <20240925150059.3955569-31-ardb+git@google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: None (SATLEXMB05.amd.com: jason.andryuk@amd.com does not
- designate permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF000055DC:EE_|LV8PR12MB9360:EE_
-X-MS-Office365-Filtering-Correlation-Id: f2ea1ed0-686e-47fc-1992-08dcdda6d310
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|36860700013|1800799024|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MHh0aS9xdXBOWkNYSmRtcUEvWUYyanpaQi9sTFNreTBnMmJFUC8yRld0SnlN?=
- =?utf-8?B?RUVrekREVWR3cllESzZHZTVnM21qZVlGWER1dTdTZEt6d1JUU2ZBQ1JxcWE4?=
- =?utf-8?B?aW5XbDJzM3NZRUN6anRYR2xIZkI4R29QSXdmTmRKb0U4ZGRpS0NqZVd5Ny9T?=
- =?utf-8?B?dnZxaVI5dmFaeXRORmc1YzhncWllZDZJcWNpQmpPSkc3aGUzeVV1UnBoemxE?=
- =?utf-8?B?RTNaSjNESStZV011TE1aRTluUjNjMHNzeWlOdG12VXF2dUJEUS9KUEFHM2Ex?=
- =?utf-8?B?WkJ5M2pud1RsdGE5UXVXRndXK2NyT1I3U0xJR016VHRCWkU0cmM0OVdhTVJO?=
- =?utf-8?B?U1hIRWtSMFZ4R29MbTlOT2c2aXZqWDk1V2hUTkNuZlBSMVVsTFZWemo4c3dx?=
- =?utf-8?B?VFV2SWJlRnBJWUY5aFJtMzJmZDVISVJwUlBEaTE1TDlEb0dwdEdpeDZ2b3Rq?=
- =?utf-8?B?aDdzeU5CTWYxYytEWGVFNkx5SlRDN3BHOE9wV2VHZ3lOTENtOVAyQ0FTNWgr?=
- =?utf-8?B?ekVxMjZ0TllDOVBTaHRjTFE3V3VlSHJyWVRDSkI5R1A5elBESm8rZGFsWkE3?=
- =?utf-8?B?SG5IWmFJZ1dJVXlNMStvVnFKZnA0alVxVitHOWhhOWVFL3Y4M1BsSkV3UW1k?=
- =?utf-8?B?QWxRNWdZZjhIbE1yTzE5ZGFTNy9EcjZOS083cWVmTllSV09yWUZWZTZvWEYy?=
- =?utf-8?B?WTZibGFiMXNrQVY0UTA4SGhRVDlqemV4SjlNd2JSYnNMdHo0VnRlczhNd3ZE?=
- =?utf-8?B?Tlh1b3htTTg1d2JtMDhVejRDYWJnbThTUHRycEFCWlJmb2drcS9YbGtQL0c3?=
- =?utf-8?B?MldyTHVYMUZwQ0FBaGw4TlYrL0dDQVhSdnVwYVBIUHltYXhSUnFvem1EQ055?=
- =?utf-8?B?bG04RlBiaXMwNGMzR1lrRURPK2UwYjV4ZHZIVXMrenBtS29rR094Qk5sS2Vl?=
- =?utf-8?B?eWlWLzQxZHlFcnlVY3gyRXZNSGVSODlwSzF4alM1eFRWeFBrOUJBOXc1QTBB?=
- =?utf-8?B?MEs1SWQwc1NjRmFuSHFRa0ZiVkpnVDJiRVBwRlNrTDl1bVcyRFpaT3U5b3pm?=
- =?utf-8?B?SzR4ZTl5WFRmZngrRUFxRHdwQkExK1AxaG9sNkQ2L0NJNGJ5NXhkSzNSNGR4?=
- =?utf-8?B?d1dkNVd0NjQ1eTVlTWE0dHkveDRBZi9LQmR6dkpTZU1JNjAzOXNjR3dpT0NI?=
- =?utf-8?B?b05Pcmw5ZXVWaGdPcWpzV1NONXN6bzROekF0UnVxbEFSTmRrZFowK2U5QSts?=
- =?utf-8?B?ZVlUR2R4SEJGUVgyODg1WlN3U0ltSnNFVWZWcnY2OXcyODhweWlsc3cwVFFw?=
- =?utf-8?B?K1RlZ3hrUzRST2VnUDJoMTYxT0VCODlTN0dwenFMV0V3R21ndzBNOU5ZNEh5?=
- =?utf-8?B?YjlyaHIvTXZraXo0S3o0WStzd3VyeElsRGJiVExkU1Jyc3REK29Va25aUVhy?=
- =?utf-8?B?UTVpYjhkQkRJTy9hNnA4SHQzSlFzSkwrd21SUndaVVJNNmFjVWhRR2tNb0FT?=
- =?utf-8?B?a2FzWnRXT1BvbUVtUkljVGxXMlJVd0pkTWtITFZKMXFCdHJFWE5lcGE4ZGtG?=
- =?utf-8?B?QTAvWTRrVjNCVTY1bFFtcE1ialpvRCsvVUNPTG4yQTc1T1BKRXNqeWNJTEZI?=
- =?utf-8?B?QkswK0VGWEh1cUk3WGFKTmJ0eG5jWFNQbFk2R1NlUXFDOEJueW9YT2lmUVht?=
- =?utf-8?B?NHNIYlJtTjZUcndCMnJ6NVpjb283b1RpTXJkcU5yNGw5TE53SnJjbjNXSnVX?=
- =?utf-8?B?Y1lYdlpacVFEdE9DSmxSam53d3dzYWpOK2didlptL0p2YTF3V3ZwQlg0MmJD?=
- =?utf-8?Q?mAG5gbbmFUCO6ntA+6BmX721jACkTf9uoy1CE=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(36860700013)(1800799024)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2024 21:12:55.4187
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f2ea1ed0-686e-47fc-1992-08dcdda6d310
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN2PEPF000055DC.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9360
+Content-Transfer-Encoding: 8bit
 
-On 2024-09-25 11:01, Ard Biesheuvel wrote:
-> From: Ard Biesheuvel <ardb@kernel.org>
-> 
-> Calling C code via a different mapping than it was linked at is
-> problematic, because the compiler assumes that RIP-relative and absolute
-> symbol references are interchangeable. GCC in particular may use
-> RIP-relative per-CPU variable references even when not using -fpic.
-> 
-> So call xen_prepare_pvh() via its kernel virtual mapping on x86_64, so
-> that those RIP-relative references produce the correct values. This
-> matches the pre-existing behavior for i386, which also invokes
-> xen_prepare_pvh() via the kernel virtual mapping before invoking
-> startup_32 with paging disabled again.
-> 
-> Fixes: 7243b93345f7 ("xen/pvh: Bootstrap PVH guest")
-> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
+Hi,
+this is an initial proposal to complete support for manually defining
+partition table.
 
-Tested-by: Jason Andryuk <jason.andryuk@amd.com>
-Reviewed-by: Jason Andryuk <jason.andryuk@amd.com>
+Some background on this. Many OEM on embedded device (modem, router...)
+are starting to migrate from NOR/NAND flash to eMMC. The reason for this
+is that OEM are starting to require more and more space for the firmware
+and price difference is becoming so little that using eMMC is only benefits
+and no cons.
 
-I found that before this change xen_prepare_pvh() would call through 
-some pv_ops function pointers into the kernel virtual mapping.
+Given these reason, OEM are also using very custom way to provide a
+partition table and doesn't relay on common method like writing a table
+on the eMMC.
 
-Regards,
-Jason
+One way that is commonly used is to hardcode the partition table and
+pass it to the system via various way (cmdline, special glue driver,
+block2mtd...)
+This way is also used on Android where the partition table
+is passed from the bootloader via cmdline.
+
+One reason to use this method is to save space on the device and to
+permit more flexibility on partition handling.
+
+What this series does is complete support for this feature.
+It's possible to use the cmdline to define a partition table similar
+to how it's done for MTD but this is problematic for a number of device
+where tweaking the cmdline is not possible. This series adds OF support
+to make it possible to define a partition table in the Device Tree.
+
+We implement a similar schema to the MTD fixed-partition, where we define
+a "label" and a "reg" with "offset" and "size".
+
+A new block partition parser is introduced that check if the block device
+have an OF node attached and check if a fixed-partition table is defined.
+
+If a correct node is found, then partition table is filled. cmdline will
+still have priority to this new parser.
+
+Some block device also implement boot1 and boot2 additional disk. Similar
+to the cmdline parser, these disk can have OF support using the
+"partitions-boot0" and "partitions-boot1" additional node.
+
+It's also completed support for declaring partition as read-only as this
+feature was introduced but never finished in the cmdline parser.
+
+Posting as RFC for any comments or additional checks on OF parser code.
+
+I hope this solution is better accepted as downstream this is becoming
+a real problem with a growing number of strange solution for the simple
+task of providing a fixed partition table.
+
+Changes v2:
+- Reference bytes in DT instead of Sector Size
+- Validate offset and size after Sector Size conversion
+- Limit boot0 and boot1 to eMMC and add comments about JEDEC spec
+- Generalize MTD partition schema and introduce block partitions schema
+- Add missing code to actually attach the OF parser to block partition core
+- Add reviewed by tag for read-only patch
+
+Christian Marangi (5):
+  block: add support for defining read-only partitions
+  docs: block: Document support for read-only partition in cmdline part
+  block: add support for partition table defined in OF
+  dt-bindings: block: Generalize and introduce property for partitions
+  dt-bindings: mmc: Document support for partition table in mmc-card
+
+ Documentation/block/cmdline-partition.rst     |   5 +-
+ .../bindings/block/partitions/partition.yaml  |  33 ++++
+ .../bindings/block/partitions/partitions.yaml |  27 ++++
+ .../devicetree/bindings/mmc/mmc-card.yaml     |  57 +++++++
+ .../bindings/mtd/partitions/partition.yaml    |  10 +-
+ block/blk.h                                   |   1 +
+ block/partitions/Kconfig                      |   8 +
+ block/partitions/Makefile                     |   1 +
+ block/partitions/check.h                      |   1 +
+ block/partitions/cmdline.c                    |   3 +
+ block/partitions/core.c                       |   6 +
+ block/partitions/of.c                         | 144 ++++++++++++++++++
+ 12 files changed, 287 insertions(+), 9 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/block/partitions/partition.yaml
+ create mode 100644 Documentation/devicetree/bindings/block/partitions/partitions.yaml
+ create mode 100644 block/partitions/of.c
+
+-- 
+2.45.2
+
