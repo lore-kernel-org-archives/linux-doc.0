@@ -1,229 +1,282 @@
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2060.outbound.protection.outlook.com [40.107.223.60])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160991B7F4
-	for <linux-doc@vger.kernel.org>; Wed, 25 Sep 2024 15:54:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727279644; cv=none; b=jKux0w5m+el9jLNIl87eFoWl7Pm25ZFl8kNA7Ncb6MWNVns9kkL3/wgQLKAP31GScCzNnZ0cfBGCBQuDIQKfx8J0TqZPPNd+kXxxOrrMBU6mw0ppSF+VVyijt4ZpigMknW/BxcgNQ0sxLlOKhCpNSWXvRk7Rfrg8OlbluEa1QRk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727279644; c=relaxed/simple;
-	bh=viYabtJz1TITnQz4Qa7lIMio94cIQKuN9RXprlUUn20=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YRG1eEEVqd8QrTGUZS8D93WDwwyE3KgMND7VNnjr/EgZAzxiIjYFlUFpah4KWQV+pQXmmpCU7h3QMCk5KPC1GGBe8RM0A9gE0/qXArKVk7OEMNrZ/94hD7NPEm3+HxmteWhhggi9uvxEm6MkZe3WLG+QXMvPv5UK6Lr+SLiz+lQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uBo8zCYc; arc=none smtp.client-ip=209.85.166.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D21351B963;
+	Wed, 25 Sep 2024 15:57:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.60
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727279855; cv=fail; b=IfS1pabzqMY95l/GJe/bTvHLda9tdu85Bkvs+HLg7jY+kKRwV/hqIWBjh4vRpf8LhO26lv8oyIBHJFPr99HjSnqGIyKSnJTgC6NWnRN/d5ZMPxfNS9XnQckpWwlEXdU5Z9VdOWfCGvpEvgd8lZS1yYHip/1GSFYVAS/1lg5mNa8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727279855; c=relaxed/simple;
+	bh=iQXVI4vDfEw72wOWxJ3CNZq8Ew0uEMjLZG8jzLliMSY=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=WtSauSkS6RRe0n4bUxFnw7z3Tmbn+fOt7XpP33jmLGEdRBgepD8q//0OBbQCU01cwHLhbVrR0d9A/7nTl9PaKQ32RcDNiS5m7zSSMX1R1TqOX5ReFWtyGz3m35OLWlss4xaPFtbSYmpCV/BW8yEbYMC/6n3xflbMGpn2esPonYs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=nnZxmSwV; arc=fail smtp.client-ip=40.107.223.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uBo8zCYc"
-Received: by mail-il1-f171.google.com with SMTP id e9e14a558f8ab-3a045f08fd6so308415ab.0
-        for <linux-doc@vger.kernel.org>; Wed, 25 Sep 2024 08:54:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1727279642; x=1727884442; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mtlWMtq+JiEyWaKdO0nlwORQa61CRpWkCRYLpleOmWc=;
-        b=uBo8zCYcIUJhS/PETf/69bupBGH621jT9YSETyyoKqXOKliYYHE14wU2XYwl3A0Sxs
-         avFXLpOlKG1iDnsgjPremaiZ/sL8gi+DhtPwdzSnvI9BAx2FWDnXRCsGB00rhwxzIPSC
-         y3Bmqq/uDBl+VjgBgr8MJd6URamV2xVVzRYBUjPI5rZAOeS5jZGZQZrKMFy1fM9TP5ji
-         K1iPoZA+53P9UDeQG5OUIKnrRY6lKNRw6n6gWP3NWCb6oLnR5jncL6e/W8GqmOJwZx/2
-         6CfvKnZYnueW+VBXDB4Z2aXesW6PBGjI7CM1zz957Cg0zLfk2PmXluePf7E1SPKoB+cz
-         tdrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727279642; x=1727884442;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mtlWMtq+JiEyWaKdO0nlwORQa61CRpWkCRYLpleOmWc=;
-        b=rBhZx0M4uleg4tdw3/NjOZ7JbAKV2yvpNGVn7DDgW+vs9HU3D7FN/3Is6geh+QosSU
-         leMYrjSUSY2RNxY6YDqzoMzKvXx4XDE+svG/OQ4Uth6k/pVUdpLIa3T6Q9l+0ZObdmd1
-         dqKTXSSNTjJL+UEfrY9MB09E7eceUNY5bbb20SA3hna4Z0pZ6bHEdLllCiNu8KzXs6qz
-         2kL8gItZq0zVKqq1XsExnGeel0gr+DLGclvVBPgIPyV5eryWBtrTNAdksTGEZZPgv+9P
-         KU2MCZpVfQ8f4EpdxdMEwDAKPUJSEknxkCwmNKPpVszA+hGTDyznhmi9Wii2Q711QNvk
-         Nvtw==
-X-Forwarded-Encrypted: i=1; AJvYcCVV5h4rgya3vpsz2ussL1XEaJjq68p07y30Xc0RIY7PQEE0wpBWDKWuHE4KYd/gDGXiopraMh1pDoY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSPBo2tZFVVO87mwUsz8JkD8uwgowPeaIOtTctxa8YuZXOj9sX
-	4tTY1MwwlichyjMgscFreo5BDf1Ja4CLJN72UNxgWLY19adVoNWK3megO+sahevlCd2ZD7moNLr
-	tOvT9P6fG2ccfdXP7FUoSiMIrd4lUauiWNR+K
-X-Google-Smtp-Source: AGHT+IECKVgNpXJyra6xJfQTQh6aQ7i0vY0ZTk0QtA5OBdxknRIVX3nOfLE4llLAa859tdiG19FbtS4i20eJ0xsZ7pg=
-X-Received: by 2002:a05:6e02:b2e:b0:3a0:926a:8d35 with SMTP id
- e9e14a558f8ab-3a27443ee75mr1540455ab.17.1727279641904; Wed, 25 Sep 2024
- 08:54:01 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="nnZxmSwV"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lRNAzQPNqybPbWxvDp4W5XxtwStXtNtRPN+FWrWLKAwdNPSFLX636bwonEyrq3KnKztKqZivC0P8d+E9k7CZQhFC1SaJF8D5/Ofva4d7yiGWzC+idE3sk0B4+xSLzBMMfAcJ8cmjTgplPLdAetL88Io9QeatsQwlTrlwxiJiFI3M8VOS4RFawnPY58Btu8PztSczaRDGGYb35umpxPFnqNsOABjT0UF7h3g8fFs8kZo3OP73Mk6iXonDGK5TnhwQCHmq2AdcX/xhrmtviDoeN9r0tISU5ljTV9GbPOozmkFVmBgU5JitNFUMHBublcEcnDxqWNHux6LbF6Lw2vc7/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=b/aJ4cly4XHgrwUhEDa8hrHARyI17Y2eGwooBAiUfmI=;
+ b=ixHFuf9IFFr2GM1qIR3Q3JbCfbEJFresKqhiX5SkuaHcYFn6h5qMKOrukA/lNFrvOCdqozEO//HInqpDNUXNBfUmWPunCDR43Ua4GOrxvYfic8J4XKyMXD5B14RrayhUtiPu44bje2GwhWsMY5r508esKemIdgNE7IxZKkZcC3SVkqThhwZCFiBmkwUZDiQK10FCLK/BbNIqIV1VBssSoF7o5zVrhQkuvyPmEsGMUgkjtQ848lx7ZgKJNmTTxU5sD7v8lFFB9ec+mV/DfFgE4yIZot0DN94/31AydywXc1xCAbhQtvgkcaE/WzWsjX2zkTCqNkvRNyVcW7ohzeg73A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=b/aJ4cly4XHgrwUhEDa8hrHARyI17Y2eGwooBAiUfmI=;
+ b=nnZxmSwVyQxfmc3nCy7KZh9qH162p/K76tECjjwwj896w6J4DMHgp3+/5rcj5r61cIR779QXT2kzm0l3+N+q/0JfN1yFXa8iYM/xUgoZs5jlhejZKiUyweSdfkXDv2vWlxmiORSkBRRJob/ktI6I2frohhv3QqczC+/BbPZutVM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5070.namprd12.prod.outlook.com (2603:10b6:5:389::22)
+ by DM6PR12MB4217.namprd12.prod.outlook.com (2603:10b6:5:219::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.28; Wed, 25 Sep
+ 2024 15:57:31 +0000
+Received: from DM4PR12MB5070.namprd12.prod.outlook.com
+ ([fe80::20a9:919e:fd6b:5a6e]) by DM4PR12MB5070.namprd12.prod.outlook.com
+ ([fe80::20a9:919e:fd6b:5a6e%5]) with mapi id 15.20.7982.022; Wed, 25 Sep 2024
+ 15:57:31 +0000
+Message-ID: <776effda-641b-d504-9aab-f56d862b79dc@amd.com>
+Date: Wed, 25 Sep 2024 10:57:34 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v4 1/2] x86, KVM:SVM: Move sev specific parsing into
+ arch/x86/virt/svm
+To: Pavan Kumar Paluri <papaluri@amd.com>, linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Eric Van Tassell <Eric.VanTassell@amd.com>,
+ Ashish Kalra <ashish.kalra@amd.com>, Michael Roth <michael.roth@amd.com>,
+ "H . Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>
+References: <20240922033626.29038-1-papaluri@amd.com>
+ <20240922033626.29038-2-papaluri@amd.com>
+Content-Language: en-US
+From: Tom Lendacky <thomas.lendacky@amd.com>
+In-Reply-To: <20240922033626.29038-2-papaluri@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN4PR0501CA0131.namprd05.prod.outlook.com
+ (2603:10b6:803:42::48) To DM4PR12MB5070.namprd12.prod.outlook.com
+ (2603:10b6:5:389::22)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240925150059.3955569-30-ardb+git@google.com> <20240925150059.3955569-35-ardb+git@google.com>
-In-Reply-To: <20240925150059.3955569-35-ardb+git@google.com>
-From: Ian Rogers <irogers@google.com>
-Date: Wed, 25 Sep 2024 08:53:50 -0700
-Message-ID: <CAP-5=fXw1rcgWgMeDSVqiDYh2XYApyaJpNvukvJ7vMs7ZPMr6g@mail.gmail.com>
-Subject: Re: [RFC PATCH 05/28] x86: Define the stack protector guard symbol explicitly
-To: Ard Biesheuvel <ardb+git@google.com>
-Cc: linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Uros Bizjak <ubizjak@gmail.com>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
-	Christoph Lameter <cl@linux.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
-	Juergen Gross <jgross@suse.com>, Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Keith Packard <keithp@keithp.com>, 
-	Justin Stitt <justinstitt@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
-	Adrian Hunter <adrian.hunter@intel.com>, Kan Liang <kan.liang@linux.intel.com>, 
-	linux-doc@vger.kernel.org, linux-pm@vger.kernel.org, kvm@vger.kernel.org, 
-	xen-devel@lists.xenproject.org, linux-efi@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-sparse@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5070:EE_|DM6PR12MB4217:EE_
+X-MS-Office365-Filtering-Correlation-Id: c12d2bd8-d1b5-4da4-2a55-08dcdd7ac30d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?K29mSCtlY0dTMmV3T09LdDJJKytLeWdDdHVEcjg3dTl1L0pPZ2FIa2FNNURo?=
+ =?utf-8?B?dENXMVVvUUtmVHkwWDhLWUIyUm8wK2N2aWhwOEx2aTJ0RkYzdWsySkl2aFky?=
+ =?utf-8?B?VmdDUytIdGtOQ21tSWpVTFI4SUJER3huTjhmQ3FLdEhOc1lZVWIwSGRPRlJS?=
+ =?utf-8?B?YmYzT0sxNXRyaEpkbG1TWEc0dzNaYlJxQmgwQXJWUFdpVWxIbi81TG53U1pM?=
+ =?utf-8?B?SDBBVHFqR2dNaytsRTY1V24yS01xOGpGUC93YStPWHplaTJyNjEzTWpUNVV6?=
+ =?utf-8?B?b2J5SWdqRk5ZbDU0NFlqME5Ea0h2akNpY1BPdjNhVjUxU3JWQjREQ1grdmx1?=
+ =?utf-8?B?WmxSYi9uK043QnVBaXNubm4zbUdQNnVIMS95NXI5R2Z3UGdqYlBRUEhqcXhW?=
+ =?utf-8?B?Y0hSNDNoQm5ROTFobk1ZM2c4dEhnSzQ1dW1mSHR1T2pkMkhkRnhqdm5MM1Nr?=
+ =?utf-8?B?dTZsMlRqUytieUFPWWUyeHRuNGc2NGwxUEJYNDJNY3p6ck9yOC95Z1Y3blVL?=
+ =?utf-8?B?elFyZXRoTGJlSVNwYVhNVzlOd0NWQWpkNWlMenp3QXZzT3d1dlgyM1RGVFl0?=
+ =?utf-8?B?NkpwdFBwTWtWNmVKcFI3dzJlemU3VTJBb3dkMmlUN01aa0dIbEZVYWNRa01r?=
+ =?utf-8?B?VUxBL0FlSkF5VVg1ODVyb0VSMmNISWJvNDljUnJyeGJZS01KUVlvdnpLTTM0?=
+ =?utf-8?B?UWFHaXNDTGxuMGtWNUlaUi9wcjlGb294WFhJMFZ2TExpd0swN25JS1ZNVkJo?=
+ =?utf-8?B?SDdTZkdLcC9CeUdWcU9jb2ZldnAwaytGbm51ek80aHBPbnUzYVlkNlVQcGI2?=
+ =?utf-8?B?NGJxSzJTaXRKRFVjT2dQTnM3Nnlzb2MwNjRTbW4zdE44dUx4a2JEaTRrRGdh?=
+ =?utf-8?B?ZjF0Z2g2Unl0NnhHeXJQMzBscW5XNGFxVjNWT0xrT2psVFNDSjdyNzl0OURz?=
+ =?utf-8?B?S2JZcXQ4SVFOV0l6ZHpVNHlvVWtBWWJsSkxLelVUc3JTV29lWGVydTNSZm1Q?=
+ =?utf-8?B?ZmIvdGxIQnRyRW4zRHNHd2NlUVV3R1AzNCtqK3BwcUs1WUNQNm0ydUpiVHBH?=
+ =?utf-8?B?eXc5MHJLQVBaOHliL1VpVDF5WnlBcnlIenVoY0FhQTNsOEtyNHNJWlFoWnFq?=
+ =?utf-8?B?VXB5dzdkWHhGYTM5QjNQM1pMdzJDWmpWMk9ucUdQMElhOHUyMHNrYi9EWFcr?=
+ =?utf-8?B?bzBKc3NXREpmRGtlbmRvMTZydGMrWW53aHU2bHpVeVJHbXUrN2ZVVFRLUkdP?=
+ =?utf-8?B?YVgvWFZONWtheEVmWWN6VlhTZndXVHhqdWNJU05GQkRiVHo0cmQvaXhKczRK?=
+ =?utf-8?B?TE9ka080cno0V0tpNm5GbWVtZGlUTXNCYTlxR0p0N0lNNnE4NkRkT05qckVu?=
+ =?utf-8?B?MitLdURhMkVJeWFRZ0hFazNBdkVyZ1FQVVpSbzVhWWl1NDlGQ0d4ZGY2WGVF?=
+ =?utf-8?B?MVZvT25weXp2T3h3aWZHMmV3U0drR0RzL0pxWU5TZVo4a3QyRFB6a0I0U3ZX?=
+ =?utf-8?B?QmZtdDVlL3JvaklWbUZNb3VlSkwvdTY1ejVSdXZQU2ZEbEk5WjBCaktmZ2pw?=
+ =?utf-8?B?cVFlZmxjMms2dnV1K2RGeGQ4TTNjVHZtL09JdzBsNG9zSFdmNkttczZkaVRk?=
+ =?utf-8?B?ODc3YzQyTTJDbWd3ZjA0bXhyVE1KYnVPajB0SnlHeTYrcW42QmxRclIzay91?=
+ =?utf-8?B?R2VJQTYyWDFtb25tZ0pSaU1xYWNqT2s3dTk0K29MTGVxWjBxN3ZYeHp3PT0=?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5070.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MFQ3VGJWQjEwd0lFK3JNRENEOVdPbzdUTzUrREpYVnhoRnpLUFdVdVRFVXdP?=
+ =?utf-8?B?aWhTc2pXUkJpUlhnRW1Gb3BUTklvdVJ3bFNYaDgrV0J6YU9XZ0FrY2dQZDJC?=
+ =?utf-8?B?U3BKWEFIeXR0aW9VWERTMzlTSE54elk1cVp5TEZLRThvT25nSDNtYTlQMzdO?=
+ =?utf-8?B?bGNrNUEzN2E0NkJPdlZSZG1xK29aZ0dJUUt2a1hpcERpTU1Ka01veVFYaUlP?=
+ =?utf-8?B?dGVUd0pEdzVKeGdDN1lTd0ZudWs2cDV5V2JWSW1EQktnSDlUOGZqZlFzTkdE?=
+ =?utf-8?B?WnZXZWNwOHB1eENNV0c1cVo3dUtjSzVHZnZsVUUxNTA3SzE5RkNTcG5zR2d5?=
+ =?utf-8?B?cDVVNkJtUXdVTGZCS1Zma3I1dmpQRlhldmpXc0N6OXNxU093TW03T3VmY012?=
+ =?utf-8?B?QzhjZjFuMWMwK0MvSkpHbUg4b254RGk1TVhUN2ZxaUEra3RkZDFkV2pVM0dV?=
+ =?utf-8?B?ZHdXc3hRK1dRSWlSZTRGWWRsdW9BVVoxZUFqekV1K1o3NTZzemtsMWo1UlFh?=
+ =?utf-8?B?SDlHV2RtQVprTkFNcEFJblRRWlJIVWVqSmR4ai9tTktncjZqcTNhVlU4TUVl?=
+ =?utf-8?B?QTBlbWtydmJ3NWRlYkdtM1I1MTluZDQ3eGcyeW1zSlNVQWF3NUdUSGdIR2Vt?=
+ =?utf-8?B?VFdaVXB5L25BNFpnWUVicDBESi8vZENLRENLUFRRbndZTk9OazFYSDkzRXZu?=
+ =?utf-8?B?MzNNT0NVb2I3eEdwbDFrNFJGTUdwWVE1UXFCZEdqUVhjdDVwOXFkN2hYcWk5?=
+ =?utf-8?B?SUtaallyemZLbSthVGVQQ0tpV2RKRlNIVjlWL2dJSGFER3l1ei9rRHdBV29C?=
+ =?utf-8?B?OXNCSGtXM3J4V0FQSHFoOEVuNG5OMnorZHZSb0ZhbjEvLy8zc2s5R0hJYUw3?=
+ =?utf-8?B?akc1TEVSRUZOMlJCd1J5Y01BdEoxamJJK1ZPWGRJWHk4QWF2QnVDQVFVMzh4?=
+ =?utf-8?B?aTNUT3V6Y0NXUnF3cVk5MG5yMzBMVjhqaHJwN0lhMyszMkJCZDFDYlJnWkJY?=
+ =?utf-8?B?ZWI1VDE1SmpvMUh2amh0UHc3YmNaMjN3cXI4UHU2MkxsWkVrdExaL004Mm5k?=
+ =?utf-8?B?TmpFZFlOQ2N2dkF6Y2xxdEdOOVFDVk50R2wvcCtudXg5bU5ZMXVrQ1pucGVu?=
+ =?utf-8?B?bXplWHRTVlNBOWpkNDVnM0lSU0huU3FUdlNMbU0yYytPbDdzYlN2cWh0cVZ2?=
+ =?utf-8?B?UUVwRTd1Yk1rVUw4TWhTbzZnYUlZb2pVdEhxcEw4OHFyeE9FVUtYbTR0YUZJ?=
+ =?utf-8?B?a2pNS09Ld0VqSFVhOUh0UHB1dkNnajlrNEtnT1RnVjAxaHhiR3NmLzN6VGtP?=
+ =?utf-8?B?eUtZVGZValVLWXppbWRJSi9LVXNaZGRjOTRhSUhjRUtyS1g0Z1NFV3l2S2N5?=
+ =?utf-8?B?Mm1XZjFPOUtab1g1UGdIT292MnUyUnhIdGt2bTJUTUNRQ2NKZklRN0ZlU1oz?=
+ =?utf-8?B?NUMrbm1YbGNQc2Z4UjdhYUZGbGFoRkhJVEF4NTZGcHZFWG9KMkNIZU82Nzk1?=
+ =?utf-8?B?OVl6SFlpU3BGNS9obXZNS3V5TkRrREZoY0Y1Wm91amh3TjhwbFAzYm1NWlJL?=
+ =?utf-8?B?TW9QdnozVVZzUXh6QVhnYlE4dHVCV0F3WUJ1c1Y4YkZWUVhWbkx1RVB5QWpT?=
+ =?utf-8?B?djNoenNoOGhnVit6T3hxdFhJenZud05Jc0RpK2pqeldKT1RpWVNFRnhNeCtO?=
+ =?utf-8?B?aTFzb2FvWllwOGg4djh0VGlTM0JlQnpTMmlaZ044c3dhUDQzUkd2L2JydUF3?=
+ =?utf-8?B?cGE5RXV3bk9IWmkzRGEvYXJQajJ6Z1U5TEZIMUU0WmZ0MjFpQ0xnNFp3eWlQ?=
+ =?utf-8?B?OVRzdFgzemIzdUkveUk0Q2lTK1dzcnN0ZUFoN0pOTHN6VzR4WGhYNlBUcDZo?=
+ =?utf-8?B?TDRod1c4KzBaUFA0UWp2cFZrTFFQcDE3cEFoNXpqRHpKcEpXZFZoK2M4YW9Z?=
+ =?utf-8?B?SWZZbFMvdGFXUjFwMkRVWEdqVWdtM1hRUGpmMW1sYXRQTnMwMENJUTBKLzBR?=
+ =?utf-8?B?QVhXdTVpc1dRSm9LK0ZQSC95dnZSMkt2TkpmcU5QalYyam8zM21tbDF6VWF1?=
+ =?utf-8?B?K0luc2RXR3U1NGNldVd1UHBhaWpEM0gyQVdpcm05OS9PVnY1Zmpld1lPQWZR?=
+ =?utf-8?Q?c8Acky8a8UDQUCGDPN4Lj1s2/?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c12d2bd8-d1b5-4da4-2a55-08dcdd7ac30d
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5070.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2024 15:57:30.9606
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GYQV64bt7KY8pk8S14a9Nprq3ma0YdqpPDByrtsFLnz6Xwzl0BuoRKcESzJF8PfdiPoXOyAW13/bSTKk+hPbzA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4217
 
-On Wed, Sep 25, 2024 at 8:02=E2=80=AFAM Ard Biesheuvel <ardb+git@google.com=
-> wrote:
->
-> From: Ard Biesheuvel <ardb@kernel.org>
->
-> Specify the guard symbol for the stack cookie explicitly, rather than
-> positioning it exactly 40 bytes into the per-CPU area. Doing so removes
-> the need for the per-CPU region to be absolute rather than relative to
-> the placement of the per-CPU template region in the kernel image, and
-> this allows the special handling for absolute per-CPU symbols to be
-> removed entirely.
->
-> This is a worthwhile cleanup in itself, but it is also a prerequisite
-> for PIE codegen and PIE linking, which can replace our bespoke and
-> rather clunky runtime relocation handling.
->
-> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
+On 9/21/24 22:36, Pavan Kumar Paluri wrote:
+> Move SEV specific kernel command line option parsing support from
+> arch/x86/coco/sev/core.c to arch/x86/virt/svm/cmdline.c so that both
+> host and guest related SEV command line options can be supported.
+> 
+> No functional changes intended.
+> 
+> Signed-off-by: Pavan Kumar Paluri <papaluri@amd.com>
+> Reviewed-by: Tom Lendacky <thomas.lendacky@amd.com>
 > ---
->  arch/x86/Makefile                     |  4 ++++
->  arch/x86/include/asm/init.h           |  2 +-
->  arch/x86/include/asm/processor.h      | 11 +++--------
->  arch/x86/include/asm/stackprotector.h |  4 ----
->  tools/perf/util/annotate.c            |  4 ++--
->  5 files changed, 10 insertions(+), 15 deletions(-)
->
-> diff --git a/arch/x86/Makefile b/arch/x86/Makefile
-> index 6b3fe6e2aadd..b78b7623a4a9 100644
-> --- a/arch/x86/Makefile
-> +++ b/arch/x86/Makefile
-> @@ -193,6 +193,10 @@ else
->          KBUILD_RUSTFLAGS +=3D -Cno-redzone=3Dy
->          KBUILD_RUSTFLAGS +=3D -Ccode-model=3Dkernel
->
-> +        ifeq ($(CONFIG_STACKPROTECTOR),y)
-> +                KBUILD_CFLAGS +=3D -mstack-protector-guard-symbol=3Dfixe=
-d_percpu_data
-> +        endif
+>  arch/x86/coco/sev/core.c          | 44 -------------------------------
+>  arch/x86/include/asm/sev-common.h | 29 ++++++++++++++++++++
+>  arch/x86/virt/svm/Makefile        |  1 +
+>  arch/x86/virt/svm/cmdline.c       | 32 ++++++++++++++++++++++
+>  4 files changed, 62 insertions(+), 44 deletions(-)
+>  create mode 100644 arch/x86/virt/svm/cmdline.c
+> 
+
+...
+
+> diff --git a/arch/x86/include/asm/sev-common.h b/arch/x86/include/asm/sev-common.h
+> index 98726c2b04f8..adddcf3edaf0 100644
+> --- a/arch/x86/include/asm/sev-common.h
+> +++ b/arch/x86/include/asm/sev-common.h
+> @@ -8,6 +8,8 @@
+>  #ifndef __ASM_X86_SEV_COMMON_H
+>  #define __ASM_X86_SEV_COMMON_H
+>  
+> +#include <asm/cache.h>
 > +
->          # Don't emit relaxable GOTPCREL relocations
->          KBUILD_AFLAGS_KERNEL +=3D -Wa,-mrelax-relocations=3Dno
->          KBUILD_CFLAGS_KERNEL +=3D -Wa,-mrelax-relocations=3Dno
-> diff --git a/arch/x86/include/asm/init.h b/arch/x86/include/asm/init.h
-> index 14d72727d7ee..3ed0e8ec973f 100644
-> --- a/arch/x86/include/asm/init.h
-> +++ b/arch/x86/include/asm/init.h
-> @@ -2,7 +2,7 @@
->  #ifndef _ASM_X86_INIT_H
->  #define _ASM_X86_INIT_H
->
-> -#define __head __section(".head.text")
-> +#define __head __section(".head.text") __no_stack_protector
->
->  struct x86_mapping_info {
->         void *(*alloc_pgt_page)(void *); /* allocate buf for page table *=
-/
-> diff --git a/arch/x86/include/asm/processor.h b/arch/x86/include/asm/proc=
-essor.h
-> index 4a686f0e5dbf..56bc36116814 100644
-> --- a/arch/x86/include/asm/processor.h
-> +++ b/arch/x86/include/asm/processor.h
-> @@ -402,14 +402,9 @@ struct irq_stack {
->  #ifdef CONFIG_X86_64
->  struct fixed_percpu_data {
->         /*
-> -        * GCC hardcodes the stack canary as %gs:40.  Since the
-> -        * irq_stack is the object at %gs:0, we reserve the bottom
-> -        * 48 bytes of the irq stack for the canary.
-> -        *
-> -        * Once we are willing to require -mstack-protector-guard-symbol=
-=3D
-> -        * support for x86_64 stackprotector, we can get rid of this.
-> +        * Since the irq_stack is the object at %gs:0, the bottom 8 bytes=
- of
-> +        * the irq stack are reserved for the canary.
->          */
-> -       char            gs_base[40];
->         unsigned long   stack_canary;
->  };
->
-> @@ -418,7 +413,7 @@ DECLARE_INIT_PER_CPU(fixed_percpu_data);
->
->  static inline unsigned long cpu_kernelmode_gs_base(int cpu)
->  {
-> -       return (unsigned long)per_cpu(fixed_percpu_data.gs_base, cpu);
-> +       return (unsigned long)&per_cpu(fixed_percpu_data, cpu);
->  }
->
->  extern asmlinkage void entry_SYSCALL32_ignore(void);
-> diff --git a/arch/x86/include/asm/stackprotector.h b/arch/x86/include/asm=
-/stackprotector.h
-> index 00473a650f51..d1dcd22a0a4c 100644
-> --- a/arch/x86/include/asm/stackprotector.h
-> +++ b/arch/x86/include/asm/stackprotector.h
-> @@ -51,10 +51,6 @@ static __always_inline void boot_init_stack_canary(voi=
-d)
->  {
->         unsigned long canary =3D get_random_canary();
->
-> -#ifdef CONFIG_X86_64
-> -       BUILD_BUG_ON(offsetof(struct fixed_percpu_data, stack_canary) !=
-=3D 40);
-> -#endif
-> -
->         current->stack_canary =3D canary;
->  #ifdef CONFIG_X86_64
->         this_cpu_write(fixed_percpu_data.stack_canary, canary);
-> diff --git a/tools/perf/util/annotate.c b/tools/perf/util/annotate.c
-> index 37ce43c4eb8f..7ecfedf5edb9 100644
-> --- a/tools/perf/util/annotate.c
-> +++ b/tools/perf/util/annotate.c
-> @@ -2485,10 +2485,10 @@ static bool is_stack_operation(struct arch *arch,=
- struct disasm_line *dl)
->
->  static bool is_stack_canary(struct arch *arch, struct annotated_op_loc *=
-loc)
->  {
-> -       /* On x86_64, %gs:40 is used for stack canary */
-> +       /* On x86_64, %gs:0 is used for stack canary */
->         if (arch__is(arch, "x86")) {
->                 if (loc->segment =3D=3D INSN_SEG_X86_GS && loc->imm &&
-> -                   loc->offset =3D=3D 40)
-> +                   loc->offset =3D=3D 0)
+>  #define GHCB_MSR_INFO_POS		0
+>  #define GHCB_DATA_LOW			12
+>  #define GHCB_MSR_INFO_MASK		(BIT_ULL(GHCB_DATA_LOW) - 1)
+> @@ -220,4 +222,31 @@ struct snp_psc_desc {
+>  #define GHCB_ERR_INVALID_INPUT		5
+>  #define GHCB_ERR_INVALID_EVENT		6
+>  
+> +struct sev_config {
+> +	__u64 debug		: 1,
+> +
+> +	      /*
+> +	       * Indicates when the per-CPU GHCB has been created and registered
+> +	       * and thus can be used by the BSP instead of the early boot GHCB.
+> +	       *
+> +	       * For APs, the per-CPU GHCB is created before they are started
+> +	       * and registered upon startup, so this flag can be used globally
+> +	       * for the BSP and APs.
+> +	       */
+> +	      ghcbs_initialized	: 1,
+> +
+> +	      /*
+> +	       * Indicates when the per-CPU SVSM CA is to be used instead of the
+> +	       * boot SVSM CA.
+> +	       *
+> +	       * For APs, the per-CPU SVSM CA is created as part of the AP
+> +	       * bringup, so this flag can be used globally for the BSP and APs.
+> +	       */
+> +	      use_cas		: 1,
+> +
+> +	      __reserved	: 61;
+> +};
+> +
+> +extern struct sev_config sev_cfg __read_mostly;
 
-As a new perf tool  can run on old kernels we may need to have this be
-something like:
-(loc->offset =3D=3D 40 /* pre v6.xx kernels */ || loc->offset =3D=3D 0 /*
-v6.xx and later */ )
+So I believe the "__read_mostly" attribute really needs to be on the
+actual declaration of the struct, below, in cmdline.c, right?
 
-We could make this dependent on the kernel by processing the os_release str=
-ing:
-https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git/tr=
-ee/tools/perf/util/env.h#n55
-but that could well be more trouble than it is worth.
+You can check and see which section the sev_cfg struct ends up being
+placed after a build to verify.
 
 Thanks,
-Ian
+Tom
 
->                         return true;
->         }
-
->
-> --
-> 2.46.0.792.g87dc391469-goog
->
+> +
+>  #endif
+> diff --git a/arch/x86/virt/svm/Makefile b/arch/x86/virt/svm/Makefile
+> index ef2a31bdcc70..eca6d71355fa 100644
+> --- a/arch/x86/virt/svm/Makefile
+> +++ b/arch/x86/virt/svm/Makefile
+> @@ -1,3 +1,4 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  
+>  obj-$(CONFIG_KVM_AMD_SEV) += sev.o
+> +obj-$(CONFIG_CPU_SUP_AMD) += cmdline.o
+> diff --git a/arch/x86/virt/svm/cmdline.c b/arch/x86/virt/svm/cmdline.c
+> new file mode 100644
+> index 000000000000..964677ab02d6
+> --- /dev/null
+> +++ b/arch/x86/virt/svm/cmdline.c
+> @@ -0,0 +1,32 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * AMD SVM-SEV command line parsing support
+> + *
+> + * Copyright (C) 2023 - 2024 Advanced Micro Devices, Inc.
+> + *
+> + * Author: Michael Roth <michael.roth@amd.com>
+> + */
+> +
+> +#include <linux/string.h>
+> +#include <linux/printk.h>
+> +
+> +#include <asm/sev-common.h>
+> +
+> +struct sev_config sev_cfg;
+> +
+> +static int __init init_sev_config(char *str)
+> +{
+> +	char *s;
+> +
+> +	while ((s = strsep(&str, ","))) {
+> +		if (!strcmp(s, "debug")) {
+> +			sev_cfg.debug = true;
+> +			continue;
+> +		}
+> +
+> +		pr_info("SEV command-line option '%s' was not recognized\n", s);
+> +	}
+> +
+> +	return 1;
+> +}
+> +__setup("sev=", init_sev_config);
