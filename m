@@ -1,191 +1,117 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76FE9158D9C;
-	Wed, 25 Sep 2024 08:01:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 098F115A87C
+	for <linux-doc@vger.kernel.org>; Wed, 25 Sep 2024 08:40:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727251316; cv=none; b=b+ykS6kB3LB+jxOUhJjdBSjksomoKhgQy2KqmOzUXtsAgFP0wp4Arcq4AAkTz+nLQI5yeyvePWiSLsTuEiIUHQv8RnCLWETxwBS3fh1kYxVhr/hIzc/tf768yZsd4pCzBUO/hnb0fqLoqDF+Dq0c2izbR1cL93YEHY7TC4mOmq8=
+	t=1727253659; cv=none; b=JbzBBm0ODi3x1BOwSoiIMIs0nV1Aw6iB3jPzWwT3aTcsW67nXgMeg/3137zsoglAwxEtmdqph7bI2jjLnhBOnjn7XUUqhSGzfye5c0fuR7uar91ndehFUthDV9Ss6MICaBdD9dgrrf/uZbk6HBKmPG2oYJFReLIPtGf0BTWiHIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727251316; c=relaxed/simple;
-	bh=5MdsPCzG/4OSB1hQ4yaO67jAZMux2fC/aVmY73t0m4E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ILhjeoR7GRUy4gnrqKwwhB7qbF2ZxoXKAgtvaw4QPS2tu/YUJAOxMuw3KnxfREEooF3wS1F8twoaEm33i0mr5V8Bj7N9V0vB7pm7/Inw1583Qrx/bFq55DbCm4ukrZHC8VI6QGw75dN3ig62ijTkkBzedtl7KH7/SUm92r0IqO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=midProPp; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727253659; c=relaxed/simple;
+	bh=jzyeuOdmRqFn80/1joF8rMUBJXOJ48ZG0kA33e5fids=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aZfCFcEk3fcNiH1PFcelnb79xWBqpWynpKBz/EQw1SwoahaoK8uUiz+giketEyZA15Cs9C9vnd1cMtTd6ZcwktgX20vyrDk7HlGcAlUWMhJumvHTz26hqsWxcgGqvBIJHkcOEpFsFKohAbJsUCScyyeiMyG7KG1NArYg/sGTzCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=lXZBOhQZ; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="midProPp"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-7d50a42ce97so2741790a12.0;
-        Wed, 25 Sep 2024 01:01:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="lXZBOhQZ"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-42cbface8d6so82306375e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 25 Sep 2024 01:40:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727251315; x=1727856115; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LYeVECOOrcE5vNyJD13J6SWOmk9S/2jCzdwwFxoSTT0=;
-        b=midProPpEVIgWJU3cO3iKVqAMcPTYKXja5DsIXLScfV+SfPAlcE7C77ibj6DqQzMF+
-         xrHsxsC76xZ5maREKWJwuF2fHzhUs4RRWekais4eAM6D/s9+6HeUcyPP9UULpBw53Oya
-         D8s99Ga1cpl51qK396UM/4cRtXf6YjizIasmT9h3rOoPR3KfVIFe15L63StxiV0wU45d
-         xet8H1GwySWa6J9dEaRFKFhEOTd1VrVwqgAVxWJFJU5eY23w+tf4gIr5ujWb/0SwfSZO
-         9Ah25br5Un3STDwhQO9z15oqUiZZcIAe3FG1bv1qW+AL2MsRTDJdGXIjKzZ7JhBwkYy9
-         EhaA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1727253655; x=1727858455; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1gWh62e+9y3kqU90XZJ9SkxqBQCkgI99AUyA38n5F+A=;
+        b=lXZBOhQZN+T9yricYMTA2PDuu5+ojKm5mcBblvECYF+zal58qwIhOiUbnMCMYruptJ
+         bVoqXi3u61bQP/ws+AL337hRn22laDcc9nruOB7aBeiZg4D/x6FNmDs/+krCt8B8jsV2
+         OQNU7Ki8FUUDRjwnE5mXlBN4CR5j6CcfGoasC7Qx1m7EA0Tw7EkxVSt3lRGTY82uTswl
+         W0El6VlJWOK/oUaxORJoybhDRM4IJXqgLGtfQqDJSqNaXJa2Uk2DUGyrDh9HGn/TN0pY
+         Z//CCAcjaJi6RJXqtLUDp5YPAdRP11j3Ebmf120SCTKc8xak0QxNAwStBGAzaGj1yOI/
+         KYDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727251315; x=1727856115;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LYeVECOOrcE5vNyJD13J6SWOmk9S/2jCzdwwFxoSTT0=;
-        b=d6jghnu9klCbulJwokf0X9YDUU0MzeVWDKLVjLa4SohMB9KjGnPKrjEyXJ34KLcVDh
-         sMY+TU7YY9g0ScyNaQL7Fw64NztFdM5RVcxksnSbKMkBsbrhgrAKBBov18uqL/dUMooQ
-         W07MWNI/92XFyKu82kWIN9dzYhCznQfAE9Y/4OXUmPMkwayIaPNAnu3N7GohBOojmpjf
-         QG2R7yboRCkSJ5fU34UsCfE40sI60SvR4lQkpyQERpsDpVGFZ/6k+5GFhNOA1QlYva7L
-         8gfP6NDPDR4Rtix5sneiomW469vrhJ0ojsq0Lqf1pSCIJQFWrNcU7fxS0PJfEmNlbOxT
-         yrZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUA7/yokNQRs62oG5AZALvVWXNJJwl0vJ7A9QYETZ12bOJ1racHv3jz7sVxc7q/0bO0033goqFxIyuBSWA=@vger.kernel.org, AJvYcCUbPmtLpz8o9d2dH4xOtLPrt37ECwDjbibO/IgKfPywh1wVsUHpvzRsUO4cDDrvulPWBOG2bczXZiHQ0Q4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8XYOnXpsFiCDE+QfnyKEmhfiV8gx69usexW0SA6TG8wiOSw9P
-	zHOFCcIZrtsSfwYOc7DSxV14aBn5taiPH6sywd0XgW2HO7SKfE2O
-X-Google-Smtp-Source: AGHT+IHsUeTIhgCwJJQwS0FTdmZ2a6SmVAWj1n4wCNMYWpmIvCFcA+7CbdZEdkqUjNQNUL1wHxqB8g==
-X-Received: by 2002:a17:90a:9382:b0:2d8:8d34:5b8 with SMTP id 98e67ed59e1d1-2e06ae5e28amr2451488a91.10.1727251314491;
-        Wed, 25 Sep 2024 01:01:54 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e06e1b9c04sm913844a91.15.2024.09.25.01.01.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Sep 2024 01:01:53 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 92453423CC5B; Wed, 25 Sep 2024 15:01:48 +0700 (WIB)
-Date: Wed, 25 Sep 2024 15:01:48 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-	hverkuil-cisco@xs4all.nl, mauro.chehab@linux.intel.com,
-	kernel@collabora.com, bob.beckett@collabora.com,
-	nicolas.dufresne@collabora.com
-Subject: Re: [PATCH RFC v2 2/3] docs: Add guides section for debugging
-Message-ID: <ZvPDbFatkelji1FM@archie.me>
-References: <20240529-b4-media_docs_improve-v2-0-66318b2da726@collabora.com>
- <20240529-b4-media_docs_improve-v2-2-66318b2da726@collabora.com>
+        d=1e100.net; s=20230601; t=1727253655; x=1727858455;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1gWh62e+9y3kqU90XZJ9SkxqBQCkgI99AUyA38n5F+A=;
+        b=cwxbPmjHdycZjOPTAnvNgWpisLjPiy3iODR2GeYi9oUwq1oTpIGn64dDhYNLRY6hf4
+         1YpB8m2nZQ/vfmhXO8Lyl0aXtGtmVlftrTTglkZSy8NQFSajWlXUi/cYEqX6z7KUymx5
+         DHHGkvz/TaUvUlN3n2DhR6MI47gDYpc2l04tyQo0UgdlR0Z0kS5hYaIrNWYkYbu70x7C
+         JhkP858z4QuGkB/9RmOd98wCrS0xkiL+VeXHMow4bB50wlH/Wzdw2iq/Z5u4oK8lRuTe
+         WPw47jM82hEiOGFU7EcX4MCuSi9bAOz0MaiooAc75iwee1j1gQdCQpgYI7Mie/sTAQZ8
+         0Naw==
+X-Forwarded-Encrypted: i=1; AJvYcCXS0QFKKhPKQQBQ+M1VasH/d/7tllrD5zrd/cIIFCNzpbEqVyEnH5hE039ygcPrFi+70polnaRVfUA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDudwGY6I6sXZuGtPLH8Wsul2P7uorPgWdnpq1peqfY2yJvUTT
+	hzSH/mFwqufj4xyp4bZcL+WN0TKcbJm6E9gPcrPbnuXORNKIvDk+Qdu7WENA7aM=
+X-Google-Smtp-Source: AGHT+IH+9QVv57tkAFLswE82YK+fkKh996SQzxAWIqrqV2XZmJ2sMvCo6rPEjeuCpgizS1gmWqKNFQ==
+X-Received: by 2002:a05:600c:4451:b0:426:6e9a:7a1e with SMTP id 5b1f17b1804b1-42e96242baemr14438675e9.35.1727253654873;
+        Wed, 25 Sep 2024 01:40:54 -0700 (PDT)
+Received: from [10.2.5.161] (amontpellier-556-1-151-252.w109-210.abo.wanadoo.fr. [109.210.7.252])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e96a36287sm11223985e9.29.2024.09.25.01.40.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Sep 2024 01:40:54 -0700 (PDT)
+Message-ID: <1ff1aaa7-7478-4b0c-a1ad-c119a11695ba@baylibre.com>
+Date: Wed, 25 Sep 2024 10:40:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="UfyuFSeD9cZoqty0"
-Content-Disposition: inline
-In-Reply-To: <20240529-b4-media_docs_improve-v2-2-66318b2da726@collabora.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 07/10] iio: adc: ad7606: Add compatibility to fw_nodes
+To: David Lechner <dlechner@baylibre.com>
+Cc: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ aardelean@baylibre.com, jstephan@baylibre.com
+References: <20240920-ad7606_add_iio_backend_support-v2-0-0e78782ae7d0@baylibre.com>
+ <20240920-ad7606_add_iio_backend_support-v2-7-0e78782ae7d0@baylibre.com>
+ <CAMknhBGOn_vhvHJU8g89A2TDmA6yFv9urpZ4A96jOMLdTtR-Bw@mail.gmail.com>
+Content-Language: en-US
+From: Guillaume Stols <gstols@baylibre.com>
+In-Reply-To: <CAMknhBGOn_vhvHJU8g89A2TDmA6yFv9urpZ4A96jOMLdTtR-Bw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
---UfyuFSeD9cZoqty0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Sep 24, 2024 at 10:45:58AM +0200, Sebastian Fricke wrote:
-> +This document serves as a general starting point and lookup for debuggin=
-g device
-> +drivers.
-> +While this guide focuses on debugging that requires re-compiling the
-> +module/kernel, the `userspace-debugging-guide <userspace_debugging_guide=
-=2Ehtml>`__
-> +will guide you through tools like dynamic debug, ftrace and other tools =
-useful
-> +for debugging issues and behavior.
-> +For general debugging advice, see `general-debugging-guide <index.html>`=
-__.
-
-You can use :doc: syntax for linking to other docs with custom anchor text,
-like:
-
-```
-:doc:`userspace debugging guide <userspace_debugging_guide>`
-```
-
-(note the file suffix omission).
-
-Better yet, specify the full doc path (e.g.
-`Documentation/debugging/userspace_debugging_guide.rst`) and Sphinx will
-generate the anchor text with target doc's title.
-
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> +General debugging advice for Linux Kernel developers
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   driver_development_debugging_guide
-> +   userspace_debugging_guide
-> +
-> +.. only::  subproject and html
-> +
-> +   Indices
-> +   =3D=3D=3D=3D=3D=3D=3D
-> +
-> +   * :ref:`genindex`
-> +
-> +General debugging advice
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-Please split general debugging advice into its own doc (e.g. at
-general-advice.rst). Most other docs have index.rst only for toctree
-listing.
-
-> +**When should you use this over** `Ftrace`_ **?**
-> +
-> +- When the code contains one of the :ref:`valid print statements <valid_=
-dyndbg_prints_>`_ or when you have added multiple pr_debug() statements dur=
-ing development
-
-Sphinx complains about stray underscores:
-
-Documentation/debugging/userspace_debugging_guide.rst:54: WARNING: Mismatch=
-: both interpreted text role prefix and reference suffix.
-
-I have to trim them:
-
----- >8 ----
-diff --git a/Documentation/debugging/userspace_debugging_guide.rst b/Docume=
-ntation/debugging/userspace_debugging_guide.rst
-index 4d269a9ef9..eac459e30f 100644
---- a/Documentation/debugging/userspace_debugging_guide.rst
-+++ b/Documentation/debugging/userspace_debugging_guide.rst
-@@ -51,7 +51,7 @@ Here is one example, that enables all available `pr_debug=
-()`'s within the file:
-=20
- **When should you use this over** `Ftrace`_ **?**
-=20
--- When the code contains one of the :ref:`valid print statements <valid_dy=
-ndbg_prints_>`_ or when you have added multiple pr_debug() statements durin=
-g development
-+- When the code contains one of the :ref:`valid print statements <valid_dy=
-ndbg_prints>` or when you have added multiple pr_debug() statements during =
-development
- - When timing is not an issue, meaning if multiple `pr_debug()` statements=
- in the code won't cause delays
- - When you care more about receiving specific log messages than tracing th=
-e pattern of how a function is called
-=20
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---UfyuFSeD9cZoqty0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZvPDZwAKCRD2uYlJVVFO
-oza8AP9848pB6btmZOI/GPobzyhGWjGfWJC6+RkZsPHozR6dQAEAv3QymtWOIOTy
-Ju9tONJmqfOK/zwq8PztnN/K2Wn92gQ=
-=awSR
------END PGP SIGNATURE-----
-
---UfyuFSeD9cZoqty0--
+On 9/24/24 17:28, David Lechner wrote:
+> On Fri, Sep 20, 2024 at 7:33 PM Guillaume Stols <gstols@baylibre.com> wrote:
+>> On the parallel version, the current implementation is only compatible
+>> with id tables and won't work with fw_nodes, this commit intends to fix
+>> it.
+>>
+>> Also, chip info is moved in the .h file so to be accessible to all the
+>> driver files that can set a pointer to the corresponding chip as the
+>> driver data.
+> This sounds like two unrelated changes, so maybe we should have two patches?
+Those changes are closely related to each other, in the sense that we 
+now gather the ad7606_chip_info structure directly from the id or match 
+structure, and not anymore the id which is an index where you can get it 
+as an element. I will update the commit message to highlight it more.
+>
+>
+>>   static const struct of_device_id ad7606_of_match[] = {
+>> -       { .compatible = "adi,ad7605-4" },
+>> -       { .compatible = "adi,ad7606-4" },
+>> -       { .compatible = "adi,ad7606-6" },
+>> -       { .compatible = "adi,ad7606-8" },
+>> -       { .compatible = "adi,ad7606b" },
+>> -       { .compatible = "adi,ad7616" },
+>> +       { .compatible = "adi,ad7605-4", &ad7605_4_info },
+>> +       { .compatible = "adi,ad7606-4", &ad7606_4_info },
+>> +       { .compatible = "adi,ad7606-6", &ad7606_6_info },
+>> +       { .compatible = "adi,ad7606-8", &ad7606_8_info },
+>> +       { .compatible = "adi,ad7606b", &ad7606b_info },
+>> +       { .compatible = "adi,ad7616", &ad7616_info },
+> Since we have .compatible = , we should also have .data = for the chip info.
+ack
