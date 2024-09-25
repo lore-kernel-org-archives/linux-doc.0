@@ -1,118 +1,229 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F239C1D5AA0
-	for <linux-doc@vger.kernel.org>; Wed, 25 Sep 2024 15:28:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160991B7F4
+	for <linux-doc@vger.kernel.org>; Wed, 25 Sep 2024 15:54:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727278116; cv=none; b=QwE3yJYRQtuvd/LtkLdHgQMOfYRGZ47jjydWyT7QHr3g2ZLPZWyXKg6au8D38OCOvr4LAcmuO5/STEsxThLZpn1rDBsMXS2tzsyrrHkt6kW1QbZcodtFopJhpOzxl90OA0dAVpLtnOrLqqBo/M/JazStYJBgIzabsWTGz2WO6/s=
+	t=1727279644; cv=none; b=jKux0w5m+el9jLNIl87eFoWl7Pm25ZFl8kNA7Ncb6MWNVns9kkL3/wgQLKAP31GScCzNnZ0cfBGCBQuDIQKfx8J0TqZPPNd+kXxxOrrMBU6mw0ppSF+VVyijt4ZpigMknW/BxcgNQ0sxLlOKhCpNSWXvRk7Rfrg8OlbluEa1QRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727278116; c=relaxed/simple;
-	bh=/B5KIkZH/dNJd7K8EFl1NpdgaaqQMbqnQYkG9BZCTKU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dZEbbmo2B3TSg7c8mzWhUJ6elqWqSsb/VW5BoKizWC7qX62YG/Ofh5D/VSz0EeE3udnnSY51FsRCXAC7nON0SqHb7kSUnzL3Zrfgy6Pb2mXqtWHt4waRA6N0+l9q7qIR9utg8uOTbapStmTYigBvlXMEM5bxCspQ4fH27XeTRqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=gn1G19OX; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1727279644; c=relaxed/simple;
+	bh=viYabtJz1TITnQz4Qa7lIMio94cIQKuN9RXprlUUn20=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YRG1eEEVqd8QrTGUZS8D93WDwwyE3KgMND7VNnjr/EgZAzxiIjYFlUFpah4KWQV+pQXmmpCU7h3QMCk5KPC1GGBe8RM0A9gE0/qXArKVk7OEMNrZ/94hD7NPEm3+HxmteWhhggi9uvxEm6MkZe3WLG+QXMvPv5UK6Lr+SLiz+lQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uBo8zCYc; arc=none smtp.client-ip=209.85.166.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="gn1G19OX"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3770320574aso4449955f8f.2
-        for <linux-doc@vger.kernel.org>; Wed, 25 Sep 2024 08:28:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uBo8zCYc"
+Received: by mail-il1-f171.google.com with SMTP id e9e14a558f8ab-3a045f08fd6so308415ab.0
+        for <linux-doc@vger.kernel.org>; Wed, 25 Sep 2024 08:54:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1727278113; x=1727882913; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7PSyy4BN71dy5mqHVexLDzboTAsKUKc2hyFTi3KyPtk=;
-        b=gn1G19OXvt7rEurdAa8o/mgW1cbswZDlAue5/ctfmtRQnkDA1PZbr8XG69QmmNTOMH
-         YBxkygZYOg0nYw09E6kpdKdpiBb9uyWyZtSRlAq/PvGDMii6Di+aRKWE5pz+YtVcEreb
-         TD32bPwy5GO+cbESQHN+PCkcjY0XXnbufAuT1QzXvqbSivMPxPLgw427ztIBVVtXdbJm
-         y01UAZPFDNDnjdID6dRcx20sj7mKtG+DOzG1nUTNYFG+KKDEF46On9UcrgP0kGIhB0uK
-         Ahw9N3fVEz4NwH3JR19ciq4Cmr0jojnbfcc9hCkb2Zs13GWbbRcSExLP2q3r5Mn7t4ev
-         Wfdw==
+        d=google.com; s=20230601; t=1727279642; x=1727884442; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mtlWMtq+JiEyWaKdO0nlwORQa61CRpWkCRYLpleOmWc=;
+        b=uBo8zCYcIUJhS/PETf/69bupBGH621jT9YSETyyoKqXOKliYYHE14wU2XYwl3A0Sxs
+         avFXLpOlKG1iDnsgjPremaiZ/sL8gi+DhtPwdzSnvI9BAx2FWDnXRCsGB00rhwxzIPSC
+         y3Bmqq/uDBl+VjgBgr8MJd6URamV2xVVzRYBUjPI5rZAOeS5jZGZQZrKMFy1fM9TP5ji
+         K1iPoZA+53P9UDeQG5OUIKnrRY6lKNRw6n6gWP3NWCb6oLnR5jncL6e/W8GqmOJwZx/2
+         6CfvKnZYnueW+VBXDB4Z2aXesW6PBGjI7CM1zz957Cg0zLfk2PmXluePf7E1SPKoB+cz
+         tdrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727278113; x=1727882913;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7PSyy4BN71dy5mqHVexLDzboTAsKUKc2hyFTi3KyPtk=;
-        b=GIDh3+P+jB8M1WqZfvHMtabrAgIrh4ejZir3E2KyuwE2xzxxpiBn7P/SyTHgDKYT4N
-         tH7eonIXA5k5Z4XydFJUHYHdCi7zExO/estMlTOZwxZUeyQVznOS52HajyOvZCmL/BEm
-         nr7LNbsnWukcYKHnkGO7+2XKb0iosQq8Yj4FNRwTNMgVnB0ogzbMG8LiZrtg22uCptXa
-         O+WdKXRRPn4IXhrJpnRTEe9I9YvPWh1Ml7fc/UHRpaJX3nAeFw/8pS+tG+XBcfgorMb3
-         kvs2qO1Qe3tR5o2GMQTRDqU1QLQi/+BmbSmb2qR456qGMzptSppf4wA8VKPBSJqTStMA
-         f/bA==
-X-Forwarded-Encrypted: i=1; AJvYcCUI+fc4ajSAVbWA6iCTfHn4O2cHjcWRj4CbryROePRNGGDdOwT+9LgM/0O9X5r/RjQOLCwBwv5dwAw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQrAzcJysSXt3U7ROcwjRDmLohW8eRx+/pnlEdAfwvHBY2R3/E
-	8dKNhbc76PQVUiWUWPIv+DZwv2Z6TVglc1u8MU0+d1fA9zJ2pfOuG7e5u7cmZbw=
-X-Google-Smtp-Source: AGHT+IFp1PAa7fUkvNR1Hu5TOkbb60Z/zetDN4Gii2Kf3uJUYk6thZOMukVHn10+sCEkHp+fUTfHpw==
-X-Received: by 2002:a5d:6e10:0:b0:374:cea0:7d3d with SMTP id ffacd0b85a97d-37cc24c5a71mr2197820f8f.53.1727278112851;
-        Wed, 25 Sep 2024 08:28:32 -0700 (PDT)
-Received: from [10.2.5.161] (amontpellier-556-1-151-252.w109-210.abo.wanadoo.fr. [109.210.7.252])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37cc4a57d00sm1747754f8f.64.2024.09.25.08.28.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Sep 2024 08:28:32 -0700 (PDT)
-Message-ID: <da15af17-e5cc-4714-9fe1-4683d990abbb@baylibre.com>
-Date: Wed, 25 Sep 2024 17:28:30 +0200
+        d=1e100.net; s=20230601; t=1727279642; x=1727884442;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mtlWMtq+JiEyWaKdO0nlwORQa61CRpWkCRYLpleOmWc=;
+        b=rBhZx0M4uleg4tdw3/NjOZ7JbAKV2yvpNGVn7DDgW+vs9HU3D7FN/3Is6geh+QosSU
+         leMYrjSUSY2RNxY6YDqzoMzKvXx4XDE+svG/OQ4Uth6k/pVUdpLIa3T6Q9l+0ZObdmd1
+         dqKTXSSNTjJL+UEfrY9MB09E7eceUNY5bbb20SA3hna4Z0pZ6bHEdLllCiNu8KzXs6qz
+         2kL8gItZq0zVKqq1XsExnGeel0gr+DLGclvVBPgIPyV5eryWBtrTNAdksTGEZZPgv+9P
+         KU2MCZpVfQ8f4EpdxdMEwDAKPUJSEknxkCwmNKPpVszA+hGTDyznhmi9Wii2Q711QNvk
+         Nvtw==
+X-Forwarded-Encrypted: i=1; AJvYcCVV5h4rgya3vpsz2ussL1XEaJjq68p07y30Xc0RIY7PQEE0wpBWDKWuHE4KYd/gDGXiopraMh1pDoY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSPBo2tZFVVO87mwUsz8JkD8uwgowPeaIOtTctxa8YuZXOj9sX
+	4tTY1MwwlichyjMgscFreo5BDf1Ja4CLJN72UNxgWLY19adVoNWK3megO+sahevlCd2ZD7moNLr
+	tOvT9P6fG2ccfdXP7FUoSiMIrd4lUauiWNR+K
+X-Google-Smtp-Source: AGHT+IECKVgNpXJyra6xJfQTQh6aQ7i0vY0ZTk0QtA5OBdxknRIVX3nOfLE4llLAa859tdiG19FbtS4i20eJ0xsZ7pg=
+X-Received: by 2002:a05:6e02:b2e:b0:3a0:926a:8d35 with SMTP id
+ e9e14a558f8ab-3a27443ee75mr1540455ab.17.1727279641904; Wed, 25 Sep 2024
+ 08:54:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/10] dt-bindings: iio: adc: ad7606: Make corrections
- on spi conditions
-To: Conor Dooley <conor@kernel.org>
-Cc: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
- aardelean@baylibre.com, dlechner@baylibre.com, jstephan@baylibre.com
-References: <20240920-ad7606_add_iio_backend_support-v2-0-0e78782ae7d0@baylibre.com>
- <20240920-ad7606_add_iio_backend_support-v2-2-0e78782ae7d0@baylibre.com>
- <20240921-playgroup-regally-f26c17be26dc@spud>
- <56090167-15a0-4386-89a6-c379d70faae6@baylibre.com>
- <20240924-unvocal-playback-2753bbbb0e45@spud>
-Content-Language: en-US
-From: Guillaume Stols <gstols@baylibre.com>
-In-Reply-To: <20240924-unvocal-playback-2753bbbb0e45@spud>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240925150059.3955569-30-ardb+git@google.com> <20240925150059.3955569-35-ardb+git@google.com>
+In-Reply-To: <20240925150059.3955569-35-ardb+git@google.com>
+From: Ian Rogers <irogers@google.com>
+Date: Wed, 25 Sep 2024 08:53:50 -0700
+Message-ID: <CAP-5=fXw1rcgWgMeDSVqiDYh2XYApyaJpNvukvJ7vMs7ZPMr6g@mail.gmail.com>
+Subject: Re: [RFC PATCH 05/28] x86: Define the stack protector guard symbol explicitly
+To: Ard Biesheuvel <ardb+git@google.com>
+Cc: linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Uros Bizjak <ubizjak@gmail.com>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
+	Christoph Lameter <cl@linux.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
+	Juergen Gross <jgross@suse.com>, Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Keith Packard <keithp@keithp.com>, 
+	Justin Stitt <justinstitt@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	Adrian Hunter <adrian.hunter@intel.com>, Kan Liang <kan.liang@linux.intel.com>, 
+	linux-doc@vger.kernel.org, linux-pm@vger.kernel.org, kvm@vger.kernel.org, 
+	xen-devel@lists.xenproject.org, linux-efi@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-sparse@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Sep 25, 2024 at 8:02=E2=80=AFAM Ard Biesheuvel <ardb+git@google.com=
+> wrote:
+>
+> From: Ard Biesheuvel <ardb@kernel.org>
+>
+> Specify the guard symbol for the stack cookie explicitly, rather than
+> positioning it exactly 40 bytes into the per-CPU area. Doing so removes
+> the need for the per-CPU region to be absolute rather than relative to
+> the placement of the per-CPU template region in the kernel image, and
+> this allows the special handling for absolute per-CPU symbols to be
+> removed entirely.
+>
+> This is a worthwhile cleanup in itself, but it is also a prerequisite
+> for PIE codegen and PIE linking, which can replace our bespoke and
+> rather clunky runtime relocation handling.
+>
+> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
+> ---
+>  arch/x86/Makefile                     |  4 ++++
+>  arch/x86/include/asm/init.h           |  2 +-
+>  arch/x86/include/asm/processor.h      | 11 +++--------
+>  arch/x86/include/asm/stackprotector.h |  4 ----
+>  tools/perf/util/annotate.c            |  4 ++--
+>  5 files changed, 10 insertions(+), 15 deletions(-)
+>
+> diff --git a/arch/x86/Makefile b/arch/x86/Makefile
+> index 6b3fe6e2aadd..b78b7623a4a9 100644
+> --- a/arch/x86/Makefile
+> +++ b/arch/x86/Makefile
+> @@ -193,6 +193,10 @@ else
+>          KBUILD_RUSTFLAGS +=3D -Cno-redzone=3Dy
+>          KBUILD_RUSTFLAGS +=3D -Ccode-model=3Dkernel
+>
+> +        ifeq ($(CONFIG_STACKPROTECTOR),y)
+> +                KBUILD_CFLAGS +=3D -mstack-protector-guard-symbol=3Dfixe=
+d_percpu_data
+> +        endif
+> +
+>          # Don't emit relaxable GOTPCREL relocations
+>          KBUILD_AFLAGS_KERNEL +=3D -Wa,-mrelax-relocations=3Dno
+>          KBUILD_CFLAGS_KERNEL +=3D -Wa,-mrelax-relocations=3Dno
+> diff --git a/arch/x86/include/asm/init.h b/arch/x86/include/asm/init.h
+> index 14d72727d7ee..3ed0e8ec973f 100644
+> --- a/arch/x86/include/asm/init.h
+> +++ b/arch/x86/include/asm/init.h
+> @@ -2,7 +2,7 @@
+>  #ifndef _ASM_X86_INIT_H
+>  #define _ASM_X86_INIT_H
+>
+> -#define __head __section(".head.text")
+> +#define __head __section(".head.text") __no_stack_protector
+>
+>  struct x86_mapping_info {
+>         void *(*alloc_pgt_page)(void *); /* allocate buf for page table *=
+/
+> diff --git a/arch/x86/include/asm/processor.h b/arch/x86/include/asm/proc=
+essor.h
+> index 4a686f0e5dbf..56bc36116814 100644
+> --- a/arch/x86/include/asm/processor.h
+> +++ b/arch/x86/include/asm/processor.h
+> @@ -402,14 +402,9 @@ struct irq_stack {
+>  #ifdef CONFIG_X86_64
+>  struct fixed_percpu_data {
+>         /*
+> -        * GCC hardcodes the stack canary as %gs:40.  Since the
+> -        * irq_stack is the object at %gs:0, we reserve the bottom
+> -        * 48 bytes of the irq stack for the canary.
+> -        *
+> -        * Once we are willing to require -mstack-protector-guard-symbol=
+=3D
+> -        * support for x86_64 stackprotector, we can get rid of this.
+> +        * Since the irq_stack is the object at %gs:0, the bottom 8 bytes=
+ of
+> +        * the irq stack are reserved for the canary.
+>          */
+> -       char            gs_base[40];
+>         unsigned long   stack_canary;
+>  };
+>
+> @@ -418,7 +413,7 @@ DECLARE_INIT_PER_CPU(fixed_percpu_data);
+>
+>  static inline unsigned long cpu_kernelmode_gs_base(int cpu)
+>  {
+> -       return (unsigned long)per_cpu(fixed_percpu_data.gs_base, cpu);
+> +       return (unsigned long)&per_cpu(fixed_percpu_data, cpu);
+>  }
+>
+>  extern asmlinkage void entry_SYSCALL32_ignore(void);
+> diff --git a/arch/x86/include/asm/stackprotector.h b/arch/x86/include/asm=
+/stackprotector.h
+> index 00473a650f51..d1dcd22a0a4c 100644
+> --- a/arch/x86/include/asm/stackprotector.h
+> +++ b/arch/x86/include/asm/stackprotector.h
+> @@ -51,10 +51,6 @@ static __always_inline void boot_init_stack_canary(voi=
+d)
+>  {
+>         unsigned long canary =3D get_random_canary();
+>
+> -#ifdef CONFIG_X86_64
+> -       BUILD_BUG_ON(offsetof(struct fixed_percpu_data, stack_canary) !=
+=3D 40);
+> -#endif
+> -
+>         current->stack_canary =3D canary;
+>  #ifdef CONFIG_X86_64
+>         this_cpu_write(fixed_percpu_data.stack_canary, canary);
+> diff --git a/tools/perf/util/annotate.c b/tools/perf/util/annotate.c
+> index 37ce43c4eb8f..7ecfedf5edb9 100644
+> --- a/tools/perf/util/annotate.c
+> +++ b/tools/perf/util/annotate.c
+> @@ -2485,10 +2485,10 @@ static bool is_stack_operation(struct arch *arch,=
+ struct disasm_line *dl)
+>
+>  static bool is_stack_canary(struct arch *arch, struct annotated_op_loc *=
+loc)
+>  {
+> -       /* On x86_64, %gs:40 is used for stack canary */
+> +       /* On x86_64, %gs:0 is used for stack canary */
+>         if (arch__is(arch, "x86")) {
+>                 if (loc->segment =3D=3D INSN_SEG_X86_GS && loc->imm &&
+> -                   loc->offset =3D=3D 40)
+> +                   loc->offset =3D=3D 0)
 
-On 9/24/24 16:59, Conor Dooley wrote:
-> On Tue, Sep 24, 2024 at 04:41:50PM +0200, Guillaume Stols wrote:
->> On 9/21/24 23:55, Conor Dooley wrote:
->>> On Fri, Sep 20, 2024 at 05:33:22PM +0000, Guillaume Stols wrote:
->>>> The SPI conditions are not always required, because there is also a
->>>> parallel interface. The way used to detect that the SPI interface is
->>>> used is to check if the reg value is between 0 and 256.
->>> And, yaknow, not that the bus you're on is a spi bus? I don't think this
->>> comment is relevant to the binding, especially given you have a property
->>> for it.
->> Apologies, I missed to change the commit message, it will be fixed in the
->> next series.
->>
->> Since Jonathan did not like very much inferring the interface with the reg's
->> value that I used i the previous verison, I introduced this flag.
->>
->> However this is only intended to be use in bindings, to determine whether or
->> not spi properties should be added.
-> To be honest, if it is not needed by software to understand what bus the
-> device is on, it shouldn't be in the bindings at all. What was Jonathan
-> opposed to? Doing an if reg < 1000: do y, otherwise do x?
-> I'd not bother with any of that, and just make cpha (or w/e it was)
-> optional with a description explaining the circumstances in which is it
-> needed.
-OK, it will be removed from the series and sent as a side patch because 
-it anyways does not really belong to this series.
->> In the driver side of things, the bus interface is inferred by the parent's
->> node (SPI driver is an module_spi_driver while parallel driver is
->> module_platform_driver).
+As a new perf tool  can run on old kernels we may need to have this be
+something like:
+(loc->offset =3D=3D 40 /* pre v6.xx kernels */ || loc->offset =3D=3D 0 /*
+v6.xx and later */ )
+
+We could make this dependent on the kernel by processing the os_release str=
+ing:
+https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git/tr=
+ee/tools/perf/util/env.h#n55
+but that could well be more trouble than it is worth.
+
+Thanks,
+Ian
+
+>                         return true;
+>         }
+
+>
+> --
+> 2.46.0.792.g87dc391469-goog
+>
