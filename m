@@ -1,300 +1,243 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC6B1D5ADC;
-	Thu, 26 Sep 2024 00:50:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 415104A3E
+	for <linux-doc@vger.kernel.org>; Thu, 26 Sep 2024 01:35:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727311853; cv=none; b=YzEB14r8guRbb+QH/5u2Gn+77cPVzsoKlBrUZ82Fo+eMtE/27gqdz0mn4IMKP8IX6jtATJgmKJbxluIf0+NpFbjJq+H0yxDni9Z+Wn3iZyy898PGrjOuHjK3D+QjJqjJw9kbOn2hL4jam0Ei8ccCcOeBojsRYs+VVsWK/gzp9U0=
+	t=1727314518; cv=none; b=KxWslXnqgpp6gTMA6BYDnBbYeLSP3/wilrfVjJtMUX9A19wwO6hzF877lGc1B8oP/p7TG61bMN7NX+C+7+kx8zWkhpoIW+KpVH8ogLGiNYxgkE0dhzJ1zkZtREdqqYAdW2oPHPjr7tnYuSRSrj9obZorZfIR/uDvfOqydNhH8No=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727311853; c=relaxed/simple;
-	bh=FGhQ/qr3h0kh/2oImWTd5HPE0CXkpLwLKKwCCoWVz1E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rbBgKVV5HspsJee8BK14dy8rr8Z6VV8suwQkJ8FLigbMy4NPCMzJn6m+YvkLUasoikjCEAp1VPEf4RYtAfPU2ccQks+hwdDVVTzRA+gP5wqPkYULDNfcHg1Gmep3vzYxz8+7Iz+qIzTjnqE7sBFoL513AttOArGCyKA5VU1VK+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=codqAsFA; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727314518; c=relaxed/simple;
+	bh=3V7g/BeR1Ppicr/9SbMMwaV0q1o6SyThAHL8JhoDbmM=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=sGiMHYISGUVAg/AoIz+WfPkUeqz7bYwm/ZhKCO1GO4rfg9nNtbl8lZkDdwq4EQ3AEbxPaJln1PAF+sCICNMyB0URvSnG6WAOZ51yj1hAI6bKsAYYjLDVMjxhiCcA+qw8GhW5YV4UYosTkjbkz3P24qMcN/2WgFziVUudiK6Gft4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hrlx4+i2; arc=none smtp.client-ip=209.85.219.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="codqAsFA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727311851; x=1758847851;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FGhQ/qr3h0kh/2oImWTd5HPE0CXkpLwLKKwCCoWVz1E=;
-  b=codqAsFAHUPB8d/rZrdLA88iqfeOxFT7uUKlrAwNBjC9K6SIdKz8v6/w
-   MGviQqRu9rZnzXVrpgANHyXK5HONi54I1at3FLtdn1DKkt3TZp6+7TUQa
-   PaqItyI7v/eI/YJ8v2iAhvw3LtK2J4F5H08+ferlyUlCLL7nfEB8zSS/U
-   COz1NyT6tz6TmN+3ZKhVqmagB8aO1Sp9V3d5SvxOl75gNwIL+8mV4MxmY
-   jWtUqVrnY9QwwagoD6PcbYDMYNzGWaMeVxrb1GmmqS9YVQ93B1Fp6Rn/Q
-   sCHxS5stR0YKldDUlfZecNDy90YJiAV7b5y7FN2lVsRUIBFapQ/l4o73J
-   Q==;
-X-CSE-ConnectionGUID: KWhNG+vFQomQs76vkugdWQ==
-X-CSE-MsgGUID: dty2q+RURfKFceHujHgbYg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="26515071"
-X-IronPort-AV: E=Sophos;i="6.10,258,1719903600"; 
-   d="scan'208";a="26515071"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 17:50:51 -0700
-X-CSE-ConnectionGUID: TKCI/WE1Sm23Jm9LJV3Ypw==
-X-CSE-MsgGUID: Gu7jXKYrT7uatElDxhJHkQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,258,1719903600"; 
-   d="scan'208";a="102716733"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 25 Sep 2024 17:50:46 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1stciR-000K5f-2K;
-	Thu, 26 Sep 2024 00:50:43 +0000
-Date: Thu, 26 Sep 2024 08:50:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>, patrick@stwcx.xyz,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Carsten =?iso-8859-1?Q?Spie=DF?= <mail@carsten-spiess.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Yikai Tsai <yikai.tsai.wiwynn@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v7 2/2] hwmon: (isl28022) new driver for ISL28022 power
- monitor
-Message-ID: <202409260859.DetsBmBQ-lkp@intel.com>
-References: <20240925031131.14645-3-yikai.tsai.wiwynn@gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hrlx4+i2"
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-e25cc76cae1so401308276.0
+        for <linux-doc@vger.kernel.org>; Wed, 25 Sep 2024 18:35:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1727314515; x=1727919315; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=VU04rMbBG4hQZH66KIJbz/36hQ90QEQKf0kwa/exU7s=;
+        b=hrlx4+i2Gzqa5E8rZvEE6+bE5W47q4nUpn/Q/UuGr3jdZ6C4Ck0fUcwmEnoHgIe0Bw
+         uw3EOMLGzdiEPuEl2Y+BWKkqRhlagG8GLCXWRn75KcEu+Im13t82VVQHjFfwhEmN42V+
+         Wo2NqPo4FjjDslJnLiorK0/uuFiS+GZcAneidItSrW36QDQjApsCn3MSYq/djb9XVgmE
+         Ifg41LMETVnllQbgI7nZ9kHd6xQaKfB1v5sH9eVb6dln7sUdadA0vCdDS38NaLdXmKby
+         x6UE5EgMBY4FDcoMiY3qhdGLuP6iX4ZzXUAZKG/Y04zpGBdIZ4Aplyrq0rzy0CGINJ7b
+         WbJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727314515; x=1727919315;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VU04rMbBG4hQZH66KIJbz/36hQ90QEQKf0kwa/exU7s=;
+        b=tynruC7ohoaNbcP+zKvFV1Oj9QaBSwnTygIfoMdh0aJaP/1F9TXI/SZWLqpI3pxuRq
+         P2fwceh7D4UJWgRs2XTaNrIYfD1GnuW8WIDfMuIhVY9fXxzWEGv+oIDUDbhoSk61qAaz
+         8um49cTcAH4oQkWJKuTu6zkpli2AnPCmAyQj51T5OtRk2VbeSl4P3QUbjKI4eg7ZKNVW
+         FCrmqXqUAjc/7+Qsv9Jgpk7nvRYqpXrwrGJ+TtfPfL+dc7ioYfT5I1p1P9k3BTB6ivAp
+         cXCh6ihH/VxkajopoYUAehq0K0SFyo2LU4yTu4zRb1Tu3lq1Jo8Tvt9KxFazYQtBX9D8
+         b+IQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXVFatb6+4LvDIGP0BiPACHSptQwibf+DYSX2SoOVZy2t2E1ZOLl4gA14SaFLZP4HH1KYseiXFnN34=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4qxLIKHef6rXGSzqiMYzE+u+Vs3Bn7BfjJkWniBf/TqQQ/DRm
+	obZFjkqvJeKLHPuiW+BWsJ8DBPYiGc7Zr9Rj49Q2eTQ19I+x9e9Dam2J8g8HiWQJQ4IAe+P5mBp
+	lAppTSkr3Sl+VFu6OJg==
+X-Google-Smtp-Source: AGHT+IFp/msJsj4288R/ygmqz/AmN2G/ZyRf++8GaxDH1j7Mu8CzY0R/FPvCXduMLUW1do9JgPGzUuM+NCjd3k9+
+X-Received: from jthoughton.c.googlers.com ([fda3:e722:ac3:cc00:13d:fb22:ac12:a84b])
+ (user=jthoughton job=sendgmr) by 2002:a05:6902:2287:b0:e1d:9ac3:a2ee with
+ SMTP id 3f1490d57ef6-e25ca952192mr22515276.4.1727314515061; Wed, 25 Sep 2024
+ 18:35:15 -0700 (PDT)
+Date: Thu, 26 Sep 2024 01:34:48 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240925031131.14645-3-yikai.tsai.wiwynn@gmail.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.46.0.792.g87dc391469-goog
+Message-ID: <20240926013506.860253-1-jthoughton@google.com>
+Subject: [PATCH v7 00/18] mm: multi-gen LRU: Walk secondary MMU page tables
+ while aging
+From: James Houghton <jthoughton@google.com>
+To: Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, David Matlack <dmatlack@google.com>, 
+	David Rientjes <rientjes@google.com>, James Houghton <jthoughton@google.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, Wei Xu <weixugc@google.com>, Yu Zhao <yuzhao@google.com>, 
+	Axel Rasmussen <axelrasmussen@google.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Yikai,
+This patchset makes it possible for MGLRU to consult secondary MMUs
+while doing aging, not just during eviction. This allows for more
+accurate reclaim decisions, which is especially important for proactive
+reclaim.
 
-kernel test robot noticed the following build errors:
+This series includes:
+1. Cleanup, add support for locklessly memslot walks in KVM (patches
+   1-2).
+2. Support for lockless aging for x86 TDP MMU (patches 3-4).
+3. Further small optimizations (patches 5-6).
+4. Support for lockless harvesting of access information for the x86
+   shadow MMU (patches 7-10).
+5. Some mm cleanup (patch 11).
+6. Add fast-only aging MMU notifiers (patches 12-13).
+7. Support fast-only aging in KVM/x86 (patches 14-16).
+8. Have KVM participate in MGLRU aging (patch 17).
+9. Updates to the access_tracking_perf_test to verify MGLRU
+   functionality (patch 18).
 
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on linus/master v6.11 next-20240925]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Patches 1-10 are pure optimizations and could be applied without the
+rest of the series, though the lockless shadow MMU lockless patches
+become more useful in the context of MGLRU aging.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yikai-Tsai/dt-bindings-hwmon-add-renesas-isl28022/20240925-111332
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20240925031131.14645-3-yikai.tsai.wiwynn%40gmail.com
-patch subject: [PATCH v7 2/2] hwmon: (isl28022) new driver for ISL28022 power monitor
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240926/202409260859.DetsBmBQ-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240926/202409260859.DetsBmBQ-lkp@intel.com/reproduce)
+Please note that mmu_notifier_test_young_fast_only() is added but not
+used in this series. I am happy to remove it if that would be
+appropriate.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409260859.DetsBmBQ-lkp@intel.com/
+The fast-only notifiers serve a particular purpose: for aging, we
+neither want to delay other operations (e.g. unmapping for eviction)
+nor do we want to be delayed by these other operations ourselves. By
+default, the implementations of test_young() and clear_young() are meant
+to be *accurate*, not fast. The fast-only notifiers will only give age
+information that can be gathered fast.
 
-All errors (new ones prefixed by >>):
+The fast-only notifiers are non-trivially implemented for only x86. The
+TDP MMU and the shadow MMU are both supported, but the shadow MMU will
+not actually age sptes locklessly if A/D bits in the spte have been
+disabled (i.e., if L1 disables them).
 
-   In file included from drivers/hwmon/isl28022.c:11:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:25:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/hwmon/isl28022.c:11:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:25:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/hwmon/isl28022.c:11:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:25:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/hwmon/isl28022.c:11:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/hwmon/isl28022.c:396:22: error: incompatible pointer to integer conversion passing 'char[48]' to parameter of type 'int' [-Wint-conversion]
-     396 |                 dev_err_probe(dev, "renesas,shunt-range-microvolt invalid value %d\n", val);
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:278:64: note: passing argument to parameter 'err' here
-     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-         |                                                                ^
->> drivers/hwmon/isl28022.c:396:74: error: incompatible integer to pointer conversion passing 'u32' (aka 'unsigned int') to parameter of type 'const char *' [-Wint-conversion]
-     396 |                 dev_err_probe(dev, "renesas,shunt-range-microvolt invalid value %d\n", val);
-         |                                                                                        ^~~
-   include/linux/dev_printk.h:278:81: note: passing argument to parameter 'fmt' here
-     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-         |                                                                                 ^
-   drivers/hwmon/isl28022.c:406:22: error: incompatible pointer to integer conversion passing 'char[42]' to parameter of type 'int' [-Wint-conversion]
-     406 |                 dev_err_probe(dev, "renesas,average-samples invalid value %d\n", val);
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:278:64: note: passing argument to parameter 'err' here
-     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-         |                                                                ^
-   drivers/hwmon/isl28022.c:406:68: error: incompatible integer to pointer conversion passing 'u32' (aka 'unsigned int') to parameter of type 'const char *' [-Wint-conversion]
-     406 |                 dev_err_probe(dev, "renesas,average-samples invalid value %d\n", val);
-         |                                                                                  ^~~
-   include/linux/dev_printk.h:278:81: note: passing argument to parameter 'fmt' here
-     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-         |                                                                                 ^
-   drivers/hwmon/isl28022.c:414:21: error: incompatible pointer to integer conversion passing 'char[51]' to parameter of type 'int' [-Wint-conversion]
-     414 |         dev_err_probe(dev, "renesas,shunt-resistor-microvolt invalid value %d\n", data->shunt);
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:278:64: note: passing argument to parameter 'err' here
-     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-         |                                                                ^
-   drivers/hwmon/isl28022.c:414:76: error: incompatible integer to pointer conversion passing 'u32' (aka 'unsigned int') to parameter of type 'const char *' [-Wint-conversion]
-     414 |         dev_err_probe(dev, "renesas,shunt-resistor-microvolt invalid value %d\n", data->shunt);
-         |                                                                                   ^~~~~~~~~~~
-   include/linux/dev_printk.h:278:81: note: passing argument to parameter 'fmt' here
-     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-         |                                                                                 ^
-   7 warnings and 6 errors generated.
+access_tracking_perf_test now has a mode (-p) to check performance of
+MGLRU aging while the VM is faulting memory in.
+
+This series has been tested with access_tracking_perf_test and Sean's
+mmu_stress_test[6], both with tdp_mmu=0 and tdp_mmu=1.
+
+=== Previous Versions ===
+
+Since v6[1]:
+ - Rebased on top of kvm-x86/next and Sean's lockless rmap walking
+   changes[6].
+ - Removed HAVE_KVM_MMU_NOTIFIER_YOUNG_FAST_ONLY (thanks DavidM).
+ - Split up kvm_age_gfn() / kvm_test_age_gfn() optimizations (thanks
+   DavidM and Sean).
+ - Improved new MMU notifier documentation (thanks DavidH).
+ - Dropped arm64 locking change.
+ - No longer retry for CAS failure in TDP MMU non-A/D case (thanks
+   Sean).
+ - Added some R-bys and A-bys.
+
+Since v5[2]:
+ - Reworked test_clear_young_fast_only() into a new parameter for the
+   existing notifiers (thanks Sean).
+ - Added mmu_notifier.has_fast_aging to tell mm if calling fast-only
+   notifiers should be done.
+ - Added mm_has_fast_young_notifiers() to inform users if calling
+   fast-only notifier helpers is worthwhile (for look-around to use).
+ - Changed MGLRU to invoke a single notifier instead of two when
+   aging and doing look-around (thanks Yu).
+ - For KVM/x86, check indirect_shadow_pages > 0 instead of
+   kvm_memslots_have_rmaps() when collecting age information
+   (thanks Sean).
+ - For KVM/arm, some fixes from Oliver.
+ - Small fixes to access_tracking_perf_test.
+ - Added missing !MMU_NOTIFIER version of mmu_notifier_clear_young().
+
+Since v4[3]:
+ - Removed Kconfig that controlled when aging was enabled. Aging will
+   be done whenever the architecture supports it (thanks Yu).
+ - Added a new MMU notifier, test_clear_young_fast_only(), specifically
+   for MGLRU to use.
+ - Add kvm_fast_{test_,}age_gfn, implemented by x86.
+ - Fix locking for clear_flush_young().
+ - Added KVM_MMU_NOTIFIER_YOUNG_LOCKLESS to clean up locking changes
+   (thanks Sean).
+ - Fix WARN_ON and other cleanup for the arm64 locking changes
+   (thanks Oliver).
+
+Since v3[4]:
+ - Vastly simplified the series (thanks David). Removed mmu notifier
+   batching logic entirely.
+ - Cleaned up how locking is done for mmu_notifier_test/clear_young
+   (thanks David).
+ - Look-around is now only done when there are no secondary MMUs
+   subscribed to MMU notifiers.
+ - CONFIG_LRU_GEN_WALKS_SECONDARY_MMU has been added.
+ - Fixed the lockless implementation of kvm_{test,}age_gfn for x86
+   (thanks David).
+ - Added MGLRU functional and performance tests to
+   access_tracking_perf_test (thanks Axel).
+ - In v3, an mm would be completely ignored (for aging) if there was a
+   secondary MMU but support for secondary MMU walking was missing. Now,
+   missing secondary MMU walking support simply skips the notifier
+   calls (except for eviction).
+ - Added a sanity check for that range->lockless and range->on_lock are
+   never both provided for the memslot walk.
+
+For the changes since v2[5], see v3.
+
+Based on latest kvm-x86/next.
+
+[1]: https://lore.kernel.org/linux-mm/20240724011037.3671523-1-jthoughton@google.com/
+[2]: https://lore.kernel.org/linux-mm/20240611002145.2078921-1-jthoughton@google.com/
+[3]: https://lore.kernel.org/linux-mm/20240529180510.2295118-1-jthoughton@google.com/
+[4]: https://lore.kernel.org/linux-mm/20240401232946.1837665-1-jthoughton@google.com/
+[5]: https://lore.kernel.org/kvmarm/20230526234435.662652-1-yuzhao@google.com/
+[6]: https://lore.kernel.org/kvm/20240809194335.1726916-1-seanjc@google.com/
+
+James Houghton (14):
+  KVM: Remove kvm_handle_hva_range helper functions
+  KVM: Add lockless memslot walk to KVM
+  KVM: x86/mmu: Factor out spte atomic bit clearing routine
+  KVM: x86/mmu: Relax locking for kvm_test_age_gfn and kvm_age_gfn
+  KVM: x86/mmu: Rearrange kvm_{test_,}age_gfn
+  KVM: x86/mmu: Only check gfn age in shadow MMU if
+    indirect_shadow_pages > 0
+  mm: Add missing mmu_notifier_clear_young for !MMU_NOTIFIER
+  mm: Add has_fast_aging to struct mmu_notifier
+  mm: Add fast_only bool to test_young and clear_young MMU notifiers
+  KVM: Pass fast_only to kvm_{test_,}age_gfn
+  KVM: x86/mmu: Locklessly harvest access information from shadow MMU
+  KVM: x86/mmu: Enable has_fast_aging
+  mm: multi-gen LRU: Have secondary MMUs participate in aging
+  KVM: selftests: Add multi-gen LRU aging to access_tracking_perf_test
+
+Sean Christopherson (4):
+  KVM: x86/mmu: Refactor low level rmap helpers to prep for walking w/o
+    mmu_lock
+  KVM: x86/mmu: Add infrastructure to allow walking rmaps outside of
+    mmu_lock
+  KVM: x86/mmu: Add support for lockless walks of rmap SPTEs
+  KVM: x86/mmu: Support rmap walks without holding mmu_lock when aging
+    gfns
+
+ Documentation/admin-guide/mm/multigen_lru.rst |   6 +-
+ arch/x86/include/asm/kvm_host.h               |   4 +-
+ arch/x86/kvm/Kconfig                          |   1 +
+ arch/x86/kvm/mmu/mmu.c                        | 355 ++++++++++++----
+ arch/x86/kvm/mmu/tdp_iter.h                   |  27 +-
+ arch/x86/kvm/mmu/tdp_mmu.c                    |  57 ++-
+ include/linux/kvm_host.h                      |   2 +
+ include/linux/mmu_notifier.h                  |  82 +++-
+ include/linux/mmzone.h                        |   6 +-
+ include/trace/events/kvm.h                    |  19 +-
+ mm/damon/vaddr.c                              |   2 -
+ mm/mmu_notifier.c                             |  38 +-
+ mm/rmap.c                                     |   9 +-
+ mm/vmscan.c                                   | 148 +++++--
+ tools/testing/selftests/kvm/Makefile          |   1 +
+ .../selftests/kvm/access_tracking_perf_test.c | 369 +++++++++++++++--
+ .../selftests/kvm/include/lru_gen_util.h      |  55 +++
+ .../testing/selftests/kvm/lib/lru_gen_util.c  | 391 ++++++++++++++++++
+ virt/kvm/Kconfig                              |   3 +
+ virt/kvm/kvm_main.c                           | 124 +++---
+ 20 files changed, 1451 insertions(+), 248 deletions(-)
+ create mode 100644 tools/testing/selftests/kvm/include/lru_gen_util.h
+ create mode 100644 tools/testing/selftests/kvm/lib/lru_gen_util.c
 
 
-vim +396 drivers/hwmon/isl28022.c
-
-   346	
-   347	/*
-   348	 * read property values and make consistency checks.
-   349	 *
-   350	 * following values for shunt range and resistor are allowed:
-   351	 *   40 mV -> gain 1, shunt min.  800 micro ohms
-   352	 *   80 mV -> gain 2, shunt min. 1600 micro ohms
-   353	 *  160 mV -> gain 4, shunt min. 3200 micro ohms
-   354	 *  320 mV -> gain 8, shunt min. 6400 micro ohms
-   355	 */
-   356	static int isl28022_read_properties(struct device *dev, struct isl28022_data *data)
-   357	{
-   358		u32 val;
-   359		int err;
-   360	
-   361		err = device_property_read_u32(dev, "shunt-resistor-micro-ohms", &val);
-   362		if (err == -EINVAL)
-   363			val = 10000;
-   364		else if (err < 0)
-   365			return err;
-   366		data->shunt = val;
-   367	
-   368		err = device_property_read_u32(dev, "renesas,shunt-range-microvolt", &val);
-   369		if (err == -EINVAL)
-   370			val = 320000;
-   371		else if (err < 0)
-   372			return err;
-   373	
-   374		switch (val) {
-   375		case 40000:
-   376			data->gain = 1;
-   377			if (data->shunt < 800)
-   378				goto shunt_invalid;
-   379			break;
-   380		case 80000:
-   381			data->gain = 2;
-   382			if (data->shunt < 1600)
-   383				goto shunt_invalid;
-   384			break;
-   385		case 160000:
-   386			data->gain = 4;
-   387			if (data->shunt < 3200)
-   388				goto shunt_invalid;
-   389			break;
-   390		case 320000:
-   391			data->gain = 8;
-   392			if (data->shunt < 6400)
-   393				goto shunt_invalid;
-   394			break;
-   395		default:
- > 396			dev_err_probe(dev, "renesas,shunt-range-microvolt invalid value %d\n", val);
-   397			return -EINVAL;
-   398		}
-   399	
-   400		err = device_property_read_u32(dev, "renesas,average-samples", &val);
-   401		if (err == -EINVAL)
-   402			val = 1;
-   403		else if (err < 0)
-   404			return err;
-   405		if (val > 128 || hweight32(val) != 1) {
-   406			dev_err_probe(dev, "renesas,average-samples invalid value %d\n", val);
-   407			return -EINVAL;
-   408		}
-   409		data->average = val;
-   410	
-   411		return 0;
-   412	
-   413	shunt_invalid:
-   414		dev_err_probe(dev, "renesas,shunt-resistor-microvolt invalid value %d\n", data->shunt);
-   415		return -EINVAL;
-   416	}
-   417	
-
+base-commit: 3cc25d5adcfd2a2c33baa0b2a1979c2dbc9b990b
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.46.0.792.g87dc391469-goog
+
