@@ -1,206 +1,100 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998D118892D;
-	Thu, 26 Sep 2024 21:17:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7CC418870F;
+	Thu, 26 Sep 2024 21:35:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727385436; cv=none; b=UtK6Yt1Pb+M9gWlJJ70ZXmA4elCo450+v29A9YR8e7FRwwu65X2bq5Q6tE6J1R2SXGhVQN2KoKwi2Mai+ANZO5YH5gyj7I3Dsj1nmg7IAfugbIKNc0duZ1qiY93gsto5hwN3X07jyH7C4BRWxkUTLDCpNA05b0RYZl7GAEgcCeM=
+	t=1727386525; cv=none; b=goQJBRrRmkqgtyjkuhqlNcfmLj145m638QfMynP66R43xq6hJqSxjzhA8mNlnbjBMWTuMILU4IVk3/QPtjSrXfnqFiq2HMebgSRVsQUs3mGhHBrNS4jgvbvo/xy4oBf2W2O2Td1+LceQFE4HnFVUeN2lwoBYmSqXToaT/Dy9xvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727385436; c=relaxed/simple;
-	bh=8km0caqw4X9w5WLWDqoPcdYkk+OV9Jah8JF02dHf5Ug=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OGXNlEaZJg1ufrInkwq6J33E1CkXI8Kkt8/4did2OSk9WydpCcEw1NO6jj7NNh5yr3Uzd8Rj/bKffb0roBloue1cpa/t3ZeWXyH3zUlmq3Y1KHylFRmI3bSy300XRBP2MzMJy3rCC9Z4be+Y81+toloNKqdTwKuHWH+eMn7rm4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kAOamKZb; arc=none smtp.client-ip=209.85.218.46
+	s=arc-20240116; t=1727386525; c=relaxed/simple;
+	bh=1/AF0ye1aEDqbRIMOiqu2UP5rEYyIqLBgduhnkT/Gq8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HBJfh/5Z7VEQxAgZ34fM/Fcum9KV9uRA4YIPjdwVhv1SKHj5FlBKtaFrY9UklpOXb6tj9a24Ppj0UNskaOvLs1phEpW4M0T3GA05X3E3GzoES+ZHys+EPON/W5TX4FRw1SnZ4EYkHV1ZwW9wX5nfulw3klh0rZgUbhtG3nAQFJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ntYvYQ3V; arc=none smtp.client-ip=209.85.216.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kAOamKZb"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a8d2b4a5bf1so174032066b.2;
-        Thu, 26 Sep 2024 14:17:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ntYvYQ3V"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2e0b467da03so91493a91.2;
+        Thu, 26 Sep 2024 14:35:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727385433; x=1727990233; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=t1y38+8CPxsqSfGk+vokQebE6afY4tdr6oHCYyS40ak=;
-        b=kAOamKZbzbHE5fUUBHOC+tueqzqab0pu6pSQXAl//2PqDiunMXaqjyypRiTp0WtWBI
-         4mrUbtHVCwfN/x54wEruOQBwOdStOsqPpIRlLm4pxJDuAvwnSIiWXEUWz/lromQfYTXk
-         8k3DEHd03mgSZ7j72zX0KZC8okjIOj+FyyqyKO1PUrvR7vndf88uWUW5Y4lyEnS9wgNe
-         MoQQVXHhjstEfOVYh06jizA4iU2DQzhQYokuwhLJPVwK5MK/dhslsThU2BU3neW74YjY
-         kdeCF0lb4IWpyLRAwmJ+dilnq7huUl+F0MlD6Uuz/5KA9t2dVQkevmRjJVjMzInPG2l9
-         f9LA==
+        d=gmail.com; s=20230601; t=1727386523; x=1727991323; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YN3ZIl0AHdW2Pc3ccHhFRbQ1ihSm5IEdT9WChsNSY6k=;
+        b=ntYvYQ3VzjrPQRjO0RTjOTbXP7/4NP5rjwPgNkr9vH/XeTJuyjkJQ6j8P1Q5+uxnST
+         F3wPdxptRRuXH4IYlyP+1oLBMPEpsloYKCpFimcgj0k4lN/GD1KdZTGRrH/xAwUoC1V3
+         rJPs6Qhurc32eEX7Nw6W0yg9ypx4H8Kn2SL2FF0rDnTsbAewQk6cqpJ0OzCNZ9fG7s2K
+         jkChH3VAIV2ScpQ7p6vD/ekIMTj99jeg/1W8R/4uC1LACZ3XKgZEkEjh99yXfdBqpnAL
+         uIKAImU9QAzLmdcHL1trZc/BPKjgl7Z0W/ek20wLJnfUeFDbJ/kOre9Cpwh2jgN/OLHt
+         egVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727385433; x=1727990233;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1727386523; x=1727991323;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=t1y38+8CPxsqSfGk+vokQebE6afY4tdr6oHCYyS40ak=;
-        b=Zo5hhhn1L2go4Ll9JR/ja2PpFcInzBPUI+i2auWGsaz8w/Sz0UvLDn0f6KdPkb8bhF
-         G4u0b8kQtIHWwIWqwk0p/sIpE8zc3JjYxGjqNbMV0SqtImcRD/iuwKuqaSwBip9Aeubk
-         6PYG8E5WjlP73iSJyf0wEdoDlqMnUalWDXlsCR1VnryYxrFbKcTsjBVT+IYM89hcBhe1
-         yvD0q3kEKBHcgP3WY3+U+HA8wrHaaUlImX1LQdgPxeAn7wUTZpDbq20/h9PChYDmMFPD
-         sHC1RHX/OjxmTwWR1CNHnY4F9vkXJuuyB9Weg3vj6KjwBQTKrSjR8SdS/wYteEM99rDa
-         tjbg==
-X-Forwarded-Encrypted: i=1; AJvYcCWWWF9E6FJP4VKu2GPpYw7WIu3v2QhaszMWXDVd6vKRUzwtjQXW6h851qW9U+WKDrPk6Xo+Vl1ZSLE=@vger.kernel.org, AJvYcCXS8XY6J+pOCzeHfo/ashSLempj4tABtm3LkyNEf2vXDNxkQhBCIwb3b+3coBQ6nX3k+uscgFuVEKTJYAc4@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6zZFY/e1F3WWF6xYoSb3IOIOyCsQYWVXEWaXam6XLBiUlSmui
-	tMOoc235SMRmkogvsHF/oCFiEjYWSatprOoa/zd6PqdQ9IOFF5Y3
-X-Google-Smtp-Source: AGHT+IHd3Rvcn5XVmBayRlLA8FCQvjfZTAZhWhCfmTZTb+A9RlB5zCUxujku9Gaium5iHJuqqqLnaQ==
-X-Received: by 2002:a17:907:3f1c:b0:a8a:8d81:97b1 with SMTP id a640c23a62f3a-a93c4929876mr63235566b.27.1727385432800;
-        Thu, 26 Sep 2024 14:17:12 -0700 (PDT)
-Received: from [192.168.1.17] (a-lu6-5.tin.it. [212.216.221.196])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c297b7d6sm38862166b.162.2024.09.26.14.17.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Sep 2024 14:17:12 -0700 (PDT)
-From: Antonino Maniscalco <antomani103@gmail.com>
-Date: Thu, 26 Sep 2024 23:16:53 +0200
-Subject: [PATCH v6 11/11] Documentation: document adreno preemption
+        bh=YN3ZIl0AHdW2Pc3ccHhFRbQ1ihSm5IEdT9WChsNSY6k=;
+        b=nnmJKkgcACozVDSpFBzUMkQb5Y3qgChkkOHFmpcaO+WyoEmG2yQ/DJaaT+0E6OKhbL
+         4edl7pBfS0KSuCN4J17TXsxaCijX0wFOl1McewxcYnkjHlppDaDtIlmk7BeLqo9spMzd
+         GvQfWJWmckzL3ysFqmQAywMzd6OfMCvStz6XrMLPgqsx9qF7zAWvuUCxyMl7I4LO5asF
+         tY2iqMCX1KyOtyQXSAx70zzQ3QgQ3QFPJnt3mvVfTYp7DTTgIKuR5JjAdUGM1vIhG5rn
+         wAdcVhSIglqIO2ATJ+gekoA6j5ux3+Xp6qrTXWyeWX5Hr9kk6/60rCGS1ehKqpiZANFI
+         G0JA==
+X-Forwarded-Encrypted: i=1; AJvYcCUDJ8RvVdvqtHN3lX1txbKSEmzjS+sQLqz6QZbKSBcpkEsBUAeUwf4nTqbN03vw4GXyiD9iQZArXil9IuPBiXw=@vger.kernel.org, AJvYcCUh1EnD+hD2C3vzqWv60QHnERNsPDZPvtTXZIO5sRiraXir9igXESaPEYdxkZd9i9XAYroDQMEZrC9cLvE6@vger.kernel.org, AJvYcCUidN0lHrF9iOqSPJ8IctwwAfwAs07OQfJTDdO/ZULHyFNBpvg0hyVrQCV6KMoggxOswxI=@vger.kernel.org, AJvYcCV5D5TsQSXjcHuycgk/6XXYltPQlUyoOj0RhDcW5nuV2PC/tj/Q2JUE4o2CUQJvBvD97N7k7sFVZCk9WEHGDPyghQ==@vger.kernel.org, AJvYcCVOLC6+65mOqcNjHRp1+tV/XssjpTX8h+9F4YBiY8/h9aWXzBKFdg2eK7772upIEAdFSiQJEmnzVgkk6g==@vger.kernel.org, AJvYcCVsqpEA1X34JgSSy+zWUs7+fSAIlED2wx+FoF0zXBxfBa0ReVabMdfI1p7J84be8lizTJ6y/uqbQToD@vger.kernel.org, AJvYcCVyOHlVKllui6A90Q42IfKbLrvLtdZnjC+4kVdVZSOG4aRB5tquRkPsdIouUdZ5cjLcKniIJa85fW8=@vger.kernel.org, AJvYcCWIeHXSn79E1pba2uaZgabrN6egSq3hKQJvvQyqA0ncZ3poR1endScJFmYMlQD9tOmBDQRNsnt7bGe0@vger.kernel.org, AJvYcCXTmNdlSb1QBFTlgk2/mbOW9A2NT3p8kXvs3x58YZP4/N+DnfQhUq/gJiG6xW7mj8KHqe8jHlQq55VTo3hn@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCTZ3zsxEiGOsdmhyvylg0pTMM/FgSGOmCyMfxDfM9CSVwTjhW
+	AAPO1FdxgZ+AUbsMCKMSJLJBPk64IXPEa9Zxwq805/7NayLOfWOsl5gSodJeflPB/OilgtRCS/O
+	Gj38jwHBTYzU7aYb/AVVUkzDXAIw=
+X-Google-Smtp-Source: AGHT+IFP+qclc+DwNk0VcbiLZGtyseD1sfEmeyqBVla3e/ZDfuly9waYm3g7wRqfrKuy03nGqriwsOXLp8FvWSa4ibk=
+X-Received: by 2002:a17:90b:3698:b0:2db:60b:eee with SMTP id
+ 98e67ed59e1d1-2e0b8ed348emr498104a91.9.1727386523117; Thu, 26 Sep 2024
+ 14:35:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240926-preemption-a750-t-v6-11-7b6e1ef3648f@gmail.com>
-References: <20240926-preemption-a750-t-v6-0-7b6e1ef3648f@gmail.com>
-In-Reply-To: <20240926-preemption-a750-t-v6-0-7b6e1ef3648f@gmail.com>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Antonino Maniscalco <antomani103@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727385413; l=5024;
- i=antomani103@gmail.com; s=20240815; h=from:subject:message-id;
- bh=8km0caqw4X9w5WLWDqoPcdYkk+OV9Jah8JF02dHf5Ug=;
- b=Lt2D7NHqjRDyEdo8cQYMMSdZw3NNs6XhtsGwMu+y81ZG16C559zs/+HXTnCCjsmP6akW8ICaO
- 2JBwnxnNJqBD77nH1dnuqrL5TKfPf6S0VoDbO2IpfUNbGlLFVsxox1S
-X-Developer-Key: i=antomani103@gmail.com; a=ed25519;
- pk=0zicFb38tVla+iHRo4kWpOMsmtUrpGBEa7LkFF81lyY=
+References: <20240925150059.3955569-30-ardb+git@google.com> <20240925150059.3955569-32-ardb+git@google.com>
+In-Reply-To: <20240925150059.3955569-32-ardb+git@google.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 26 Sep 2024 23:35:10 +0200
+Message-ID: <CANiq72=z6A=50QO3V0S3Kgx6XQT93GxbB_LN6PFAQCmNgy370A@mail.gmail.com>
+Subject: Re: [RFC PATCH 02/28] Documentation: Bump minimum GCC version to 8.1
+To: Ard Biesheuvel <ardb+git@google.com>
+Cc: linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Uros Bizjak <ubizjak@gmail.com>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
+	Christoph Lameter <cl@linux.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
+	Juergen Gross <jgross@suse.com>, Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Keith Packard <keithp@keithp.com>, 
+	Justin Stitt <justinstitt@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+	Kan Liang <kan.liang@linux.intel.com>, linux-doc@vger.kernel.org, 
+	linux-pm@vger.kernel.org, kvm@vger.kernel.org, xen-devel@lists.xenproject.org, 
+	linux-efi@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add documentation about the preemption feature supported by the msm
-driver.
+On Wed, Sep 25, 2024 at 5:10=E2=80=AFPM Ard Biesheuvel <ardb+git@google.com=
+> wrote:
+>
+>  Documentation/admin-guide/README.rst | 2 +-
+>  Documentation/process/changes.rst    | 2 +-
 
-Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
----
- Documentation/gpu/msm-preemption.rst | 99 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 99 insertions(+)
+This should update scripts/min-tool-version.sh too. With that:
 
-diff --git a/Documentation/gpu/msm-preemption.rst b/Documentation/gpu/msm-preemption.rst
-new file mode 100644
-index 0000000000000000000000000000000000000000..e9b5d7bc7dc6c7740a0e8ba75d3a74e9ad267b90
---- /dev/null
-+++ b/Documentation/gpu/msm-preemption.rst
-@@ -0,0 +1,99 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+:orphan:
-+
-+=============
-+MSM Preemtion
-+=============
-+
-+Preemption allows Adreno GPUs to switch to an higher priority ring when work is
-+pushed to it, reducing latency for high priority submissions.
-+
-+When preemption is enabled 4 rings are initialized, corresponding to different
-+priority levels. Having multiple rings is purely a software concept as the GPU
-+only has registers to keep track of one graphics ring.
-+The kernel is able to switch which ring is currently being processed by
-+requesting preemption. When certain conditions are met, depending on the
-+priority level, the GPU will save its current state in a series of buffers,
-+then restores state from a similar set of buffers specified by the kernel. It
-+then resumes execution and fires an IRQ to let the kernel know the context
-+switch has completed.
-+
-+This mechanism can be used by the kernel to switch between rings. Whenever a
-+submission occurs the kernel finds the highest priority ring which isn't empty
-+and preempts to it if said ring is not the one being currently executed. This is
-+also done whenever a submission completes to make sure execution resumes on a
-+lower priority ring when a higher priority ring is done.
-+
-+Preemption levels
-+-----------------
-+
-+Preemption can only occur at certain boundaries. The exact conditions can be
-+configured by changing the preemption level, this allows to compromise between
-+latency (ie. the time that passes between when the kernel requests preemption
-+and when the SQE begins saving state) and overhead (the amount of state that
-+needs to be saved).
-+
-+The GPU offers 3 levels:
-+
-+Level 0
-+  Preemption only occurs at the submission level. This requires the least amount
-+  of state to be saved as the execution of userspace submitted IBs is never
-+  interrupted, however it offers very little benefit compared to not enabling
-+  preemption of any kind.
-+
-+Level 1
-+  Preemption occurs at either bin level, if using GMEM rendering, or draw level
-+  in the sysmem rendering case.
-+
-+Level 2
-+  Preemption occurs at draw level.
-+
-+Level 1 is the mode that is used by the msm driver.
-+
-+Additionally the GPU allows to specify a `skip_save_restore` option. This
-+disables the saving and restoring of all registers except those relating to the
-+operation of the SQE itself, reducing overhead. Saving and restoring is only
-+skipped when using GMEM with Level 1 preemption. When enabling this userspace is
-+expected to set the state that isn't preserved whenever preemption occurs which
-+is done by specifying preamble and postambles. Those are IBs that are executed
-+before and after preemption.
-+
-+Preemption buffers
-+------------------
-+
-+A series of buffers are necessary to store the state of rings while they are not
-+being executed. There are different kinds of preemption records and most of
-+those require one buffer per ring. This is because preemption never occurs
-+between submissions on the same ring, which always run in sequence when the ring
-+is active. This means that only one context per ring is effectively active.
-+
-+SMMU_INFO
-+  This buffer contains info about the current SMMU configuration such as the
-+  ttbr0 register. The SQE firmware isn't actually able to save this record.
-+  As a result SMMU info must be saved manually from the CP to a buffer and the
-+  SMMU record updated with info from said buffer before triggering
-+  preemption.
-+
-+NON_SECURE
-+  This is the main preemption record where most state is saved. It is mostly
-+  opaque to the kernel except for the first few words that must be initialized
-+  by the kernel.
-+
-+SECURE
-+  This saves state related to the GPU's secure mode.
-+
-+NON_PRIV
-+  The intended purpose of this record is unknown. The SQE firmware actually
-+  ignores it and therefore msm doesn't handle it.
-+
-+COUNTER
-+  This record is used to save and restore performance counters.
-+
-+Handling the permissions of those buffers is critical for security. All but the
-+NON_PRIV records need to be inaccessible from userspace, so they must be mapped
-+in the kernel address space with the MSM_BO_MAP_PRIV flag.
-+For example, making the NON_SECURE record accessible from userspace would allow
-+any process to manipulate a saved ring's RPTR which can be used to skip the
-+execution of some packets in a ring and execute user commands with higher
-+privileges.
+Acked-by: Miguel Ojeda <ojeda@kernel.org>
 
--- 
-2.46.1
+As Arnd says, the cleanups can be done afterwards.
 
+Cheers,
+Miguel
