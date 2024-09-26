@@ -1,55 +1,55 @@
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048C0190693
-	for <linux-doc@vger.kernel.org>; Thu, 26 Sep 2024 01:35:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B79BE194C90
+	for <linux-doc@vger.kernel.org>; Thu, 26 Sep 2024 01:35:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727314529; cv=none; b=PnltiSK52u3uAkpMia1dLuu0Q7YwVWzbDw7Id93yvPVQvrteMGTE9IwH6hG8F3kEs+8uzOZj3mhOLkK2r7lh+rI3/DOXfpoiW6QmOf3aen/tdLj/81qLa0trU0eqPRussImeIRd9udU0vWtw3UAFx3X/bjdQCChZeh73HL/LJvg=
+	t=1727314531; cv=none; b=MSR6WJqKUaySGOGTAq84iftqVJFU2/58ZBrLsVNHpUdwkc64jsYv2KjGa/MK13vNsTNfmE4PLn4RdzIAL/5iGBVpO/u4NQuLlGu2bvdPfLtbaRYjTTcbP7A7k/Ce7O1jVRZQWn8tIg5DEBrOMX9jG6vO44WIai57tIIfiYQGAWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727314529; c=relaxed/simple;
-	bh=E9AQ6b+xH0X6/PhVwSlcvCw/vsOlfjn0RvQXxr2pYnI=;
+	s=arc-20240116; t=1727314531; c=relaxed/simple;
+	bh=sw/0Zxhq6kIY8BLZP2OCu04cT4fuVwkynKL63RK8D/o=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=qZ8SRY+nP8y95TC0Kk1YgFSE8C85DvCm5BD9mhA3pPndA/XFX8p5sY9ZvzJgqCK55lRiIbV3WR05kueSRJUztO2FxENAPGNMzBLivktyeVO/R65dGcmBIW/cvUJc03A5nSYwZFa0pokZ2bSiie72xtvROK0Nex2n0z283GAMJiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0izLu6WE; arc=none smtp.client-ip=209.85.219.202
+	 To:Cc:Content-Type; b=Ap4bTlum/Fec2qrM4gPQnW/dNTLhRhXio2B7QS32MX2nkpNtnL1u6nTfFdcorPbV00Om2xF1Nt5XZFiB3swCC4zquD9a0Cd1skCyv1oIoXQ7SucvaZLjrzhCpGVvtjY/G+aZiaqnoiUiEOvlkZxi93g+xG4FHBR/mICEqr1RLyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NyDqdK0M; arc=none smtp.client-ip=209.85.128.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0izLu6WE"
-Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-e25cf4e97aaso147131276.3
-        for <linux-doc@vger.kernel.org>; Wed, 25 Sep 2024 18:35:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NyDqdK0M"
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-6d7124938d1so13359957b3.0
+        for <linux-doc@vger.kernel.org>; Wed, 25 Sep 2024 18:35:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1727314527; x=1727919327; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1727314529; x=1727919329; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/OnVwOE5c+4OTD3Iw61tcspb9ex9OyShqju36BWGlvg=;
-        b=0izLu6WEdFEPHrK/MbRSe9pZuZy4p0cKedOL1sv1PuE2bbREDrC481Ox9J+4niq0xq
-         v49/Ld2Loax18tzQHKvCS94xKcy4PFvbee6ZzAQWTKhPoTiMlO9T0a+eqZlOUkY1gdje
-         bTf6yOM5DVXF/J1yDnLgXRLGjaiUBKgl3O7OoN9WQ4XiOo/SHkcUSA2DGauqtOn80CjQ
-         dbIHMeZ8pBQsySmgS6ekGHDwf+i06pv/G4Iee79JfNhMuCBqrXeVwjA6ZkMg9NnKA7lN
-         FD6dMdhIkWNg+yjV4tPG305pRHCjliH3d+iGG6LJcdn2X0JSG6DFZl0qslgSyMoVaaey
-         D0dw==
+        bh=V1Z3PBXE4Aegel3/riahgcLFAyLXvOzS5uEE7fXt5qw=;
+        b=NyDqdK0MUeFhnTGPO4a53vM7oIUtGkfJf5l8z7QLLNR2IilwZYdei/+jLdGegJY5BT
+         t8BrxOjW00e3Iq9G8/0wb5kASaTmuqXpZ+1+mtdxjPb8zhrdmKCu9bQNVb8d3ORoPmKH
+         SHOylSm9zAjWXCTc7yxMWaOsAC2AgrPNLXnmfGJveuOucYENOwwu3osE0kwa+spXRiww
+         A7qzB2rnHMnIs6OMQ3xFCg/L8z1G/Gw7bbRFMBvVi435KKW4p2TduyzusVU7C5Pxt8Dy
+         yrBSGdZ/ak5w4sULoeWvxU4mCOIQjMKCkSHGAPiRaL8wejtYqQ8dNCot5L8q8YhNmCfL
+         ft/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727314527; x=1727919327;
+        d=1e100.net; s=20230601; t=1727314529; x=1727919329;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/OnVwOE5c+4OTD3Iw61tcspb9ex9OyShqju36BWGlvg=;
-        b=XgELBKIXVZ9bi8bVuw52p42u+Tnz3d/KGwyXvl6mgmeQjlgtIW9IVVYpG1kGu/xvJJ
-         8lLFAwWVfZciGSpjMkF330A9mV7FA7CQHkNNJjTlT/yeUTcVYBCKvlBPNUqZddQuFx6w
-         bs8cIvpzGUvurC/ckdbD+BlPmFro9eKmDkEy8q1Ov1eUZTyXus5xvaAil63yISxebsLe
-         8r5j0Fd7HDuM4o6HuVNRRsnhXk6zaOUtq7h6k+Man0JidTBPeCtWHO7cPM80MIY5sM8q
-         aSX/wTDzo2d5gMODxPeZAscXbCqN02UAoFL1HlFzZZjbCSX/wT3t+PAUkI0s0cjiN29G
-         u5sg==
-X-Forwarded-Encrypted: i=1; AJvYcCW0LINnQOV0P5ERlOSg7/2LDwSjGf/Of6iBsQiRbg/ZOOLeqLeJANKnXphSx8a+Bwprjg7AVuDsF+U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwlMDJV15NVdz9H2wO4CJuApf1r9osvroZovRw1Z5bHcWouRudy
-	xLhOuM7A+8Ae+KNQvFqC0FGkoKA7EQXSu4h2GsnCTPSFc5GIWUD/cYm7Xwr8ppVNJiMI6ecqQsS
-	9Rg1UFti9gdmZuknzfw==
-X-Google-Smtp-Source: AGHT+IFP6wbu5d5xFxibAPH1VEJb74N56TVg2vvH80n5yLYaLmdn9VnaHIq1SmzVQiXoW0zSRxLWmsPWaG4W/Pg1
+        bh=V1Z3PBXE4Aegel3/riahgcLFAyLXvOzS5uEE7fXt5qw=;
+        b=JMbZ0eEiHcw9I793sTZo8mbKY5X2A7nrP+8Al699AIaohA2GRk1YyjuFrM19ylIfFH
+         ijZLAsWlF1hZeqPN8jzLdY+qFAZpn/RHxy7RLsLdVgbTq5ZCivxLye5HGOYfFTPDdRTv
+         hyiecPBLlTJFtNTObFpX4BSGv0lPge5qKbc8BUQ3zKmQcDsg/OZLNcy/ajUp6XPXvrjI
+         60/do6QanNH+ETCtaekCimMZkSrp3w29pXREMLx4ZUK9wN5KBHDwtYHjs4SrJnM2UaQZ
+         mgIRgOYoS8KfU3NDkmu6osErG1yVEdcxs5zaz+K/3C3JnkXk8r4VoXD5OzaXYw64phxw
+         1v/A==
+X-Forwarded-Encrypted: i=1; AJvYcCU09uuvSLQMGo04t005S/b2CdXITfB8K3qWJQdf7mUNml8cCZ5xwMZbHzIE96+LhZd2qVc42G5Iho0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTwzLBZfKoYpzFa2+MaW8bpXpR/6GWF68bYqahXgq8mXUefPaL
+	rwEVfJUte35LbD4/eAax/0hfYMx479xPE4LlQOCn8/7a1a7tha75lZWppfBKmiq+bYon8aEtGFH
+	7AFcceiWeGLkRw2XTRQ==
+X-Google-Smtp-Source: AGHT+IEpNqlcby3XCzPxmMXEa3yAsp88MrqHgIHgIiYwCpactoczoPP9Ca8XqrYS/AN0Db4KS1YJcToucGPf0cLH
 X-Received: from jthoughton.c.googlers.com ([fda3:e722:ac3:cc00:13d:fb22:ac12:a84b])
- (user=jthoughton job=sendgmr) by 2002:a25:74cc:0:b0:e25:cced:3e3f with SMTP
- id 3f1490d57ef6-e25cced3f41mr11837276.4.1727314527042; Wed, 25 Sep 2024
- 18:35:27 -0700 (PDT)
-Date: Thu, 26 Sep 2024 01:34:58 +0000
+ (user=jthoughton job=sendgmr) by 2002:a05:690c:2892:b0:648:fc8a:cd23 with
+ SMTP id 00721157ae682-6e21d6e1f34mr309987b3.2.1727314528595; Wed, 25 Sep 2024
+ 18:35:28 -0700 (PDT)
+Date: Thu, 26 Sep 2024 01:34:59 +0000
 In-Reply-To: <20240926013506.860253-1-jthoughton@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,9 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20240926013506.860253-1-jthoughton@google.com>
 X-Mailer: git-send-email 2.46.0.792.g87dc391469-goog
-Message-ID: <20240926013506.860253-11-jthoughton@google.com>
-Subject: [PATCH v7 10/18] KVM: x86/mmu: Support rmap walks without holding
- mmu_lock when aging gfns
+Message-ID: <20240926013506.860253-12-jthoughton@google.com>
+Subject: [PATCH v7 11/18] mm: Add missing mmu_notifier_clear_young for !MMU_NOTIFIER
 From: James Houghton <jthoughton@google.com>
 To: Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>, David Matlack <dmatlack@google.com>, 
@@ -69,121 +68,54 @@ Cc: Andrew Morton <akpm@linux-foundation.org>, David Matlack <dmatlack@google.co
 	Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
 	Oliver Upton <oliver.upton@linux.dev>, Wei Xu <weixugc@google.com>, Yu Zhao <yuzhao@google.com>, 
 	Axel Rasmussen <axelrasmussen@google.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	Jason Gunthorpe <jgg@nvidia.com>, David Hildenbrand <david@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 
-From: Sean Christopherson <seanjc@google.com>
+Remove the now unnecessary ifdef in mm/damon/vaddr.c as well.
 
-Because an L1 KVM can disable A/D bits for its L2, even if
-kvm_ad_enabled() in L0, we cannot always locklessly age, as aging
-requires marking non-A/D sptes for access tracking, which is not
-supported locklessly yet.
-
-We can always gather age information locklessly though.
-
-Signed-off-by: Sean Christopherson <seanjc@google.com>
-[jthoughton: Added changelog, adjusted conditional]
 Signed-off-by: James Houghton <jthoughton@google.com>
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+Acked-by: David Hildenbrand <david@redhat.com>
 ---
- arch/x86/kvm/mmu/mmu.c | 66 +++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 62 insertions(+), 4 deletions(-)
+ include/linux/mmu_notifier.h | 7 +++++++
+ mm/damon/vaddr.c             | 2 --
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-index 72c682fa207a..a63497bbcc61 100644
---- a/arch/x86/kvm/mmu/mmu.c
-+++ b/arch/x86/kvm/mmu/mmu.c
-@@ -1014,13 +1014,11 @@ static unsigned long kvm_rmap_get(struct kvm_rmap_head *rmap_head)
-  * locking is the same, but the caller is disallowed from modifying the rmap,
-  * and so the unlock flow is a nop if the rmap is/was empty.
-  */
--__maybe_unused
- static unsigned long kvm_rmap_lock_readonly(struct kvm_rmap_head *rmap_head)
- {
- 	return __kvm_rmap_lock(rmap_head);
+diff --git a/include/linux/mmu_notifier.h b/include/linux/mmu_notifier.h
+index d39ebb10caeb..e2dd57ca368b 100644
+--- a/include/linux/mmu_notifier.h
++++ b/include/linux/mmu_notifier.h
+@@ -606,6 +606,13 @@ static inline int mmu_notifier_clear_flush_young(struct mm_struct *mm,
+ 	return 0;
  }
  
--__maybe_unused
- static void kvm_rmap_unlock_readonly(struct kvm_rmap_head *rmap_head,
- 				     unsigned long old_val)
- {
-@@ -1736,8 +1734,53 @@ static void rmap_add(struct kvm_vcpu *vcpu, const struct kvm_memory_slot *slot,
- 	__rmap_add(vcpu->kvm, cache, slot, spte, gfn, access);
- }
- 
--static bool kvm_rmap_age_gfn_range(struct kvm *kvm,
--				   struct kvm_gfn_range *range, bool test_only)
-+static bool kvm_rmap_age_gfn_range_lockless(struct kvm *kvm,
-+					    struct kvm_gfn_range *range,
-+					    bool test_only)
++static inline int mmu_notifier_clear_young(struct mm_struct *mm,
++					   unsigned long start,
++					   unsigned long end)
 +{
-+	struct kvm_rmap_head *rmap_head;
-+	struct rmap_iterator iter;
-+	unsigned long rmap_val;
-+	bool young = false;
-+	u64 *sptep;
-+	gfn_t gfn;
-+	int level;
-+	u64 spte;
-+
-+	for (level = PG_LEVEL_4K; level <= KVM_MAX_HUGEPAGE_LEVEL; level++) {
-+		for (gfn = range->start; gfn < range->end;
-+		     gfn += KVM_PAGES_PER_HPAGE(level)) {
-+			rmap_head = gfn_to_rmap(gfn, level, range->slot);
-+			rmap_val = kvm_rmap_lock_readonly(rmap_head);
-+
-+			for_each_rmap_spte_lockless(rmap_head, &iter, sptep, spte) {
-+				if (!is_accessed_spte(spte))
-+					continue;
-+
-+				if (test_only) {
-+					kvm_rmap_unlock_readonly(rmap_head, rmap_val);
-+					return true;
-+				}
-+
-+				/*
-+				 * Marking SPTEs for access tracking outside of
-+				 * mmu_lock is unsupported.  Report the page as
-+				 * young, but otherwise leave it as-is.
-+				 */
-+				if (spte_ad_enabled(spte))
-+					clear_bit((ffs(shadow_accessed_mask) - 1),
-+						  (unsigned long *)sptep);
-+				young = true;
-+			}
-+
-+			kvm_rmap_unlock_readonly(rmap_head, rmap_val);
-+		}
-+	}
-+	return young;
++	return 0;
 +}
 +
-+static bool __kvm_rmap_age_gfn_range(struct kvm *kvm,
-+				     struct kvm_gfn_range *range, bool test_only)
+ static inline int mmu_notifier_test_young(struct mm_struct *mm,
+ 					  unsigned long address)
  {
- 	struct slot_rmap_walk_iterator iterator;
- 	struct rmap_iterator iter;
-@@ -1776,6 +1819,21 @@ static bool kvm_rmap_age_gfn_range(struct kvm *kvm,
- 	return young;
- }
+diff --git a/mm/damon/vaddr.c b/mm/damon/vaddr.c
+index 58829baf8b5d..2d5b53253bc2 100644
+--- a/mm/damon/vaddr.c
++++ b/mm/damon/vaddr.c
+@@ -351,11 +351,9 @@ static void damon_hugetlb_mkold(pte_t *pte, struct mm_struct *mm,
+ 		set_huge_pte_at(mm, addr, pte, entry, psize);
+ 	}
  
-+static bool kvm_rmap_age_gfn_range(struct kvm *kvm,
-+				   struct kvm_gfn_range *range, bool test_only)
-+{
-+	/*
-+	 * We can always locklessly test if an spte is young. Because marking
-+	 * non-A/D sptes for access tracking without holding the mmu_lock is
-+	 * not currently supported, we cannot always locklessly clear.
-+	 */
-+	if (test_only)
-+		return kvm_rmap_age_gfn_range_lockless(kvm, range, test_only);
-+
-+	lockdep_assert_held_write(&kvm->mmu_lock);
-+	return __kvm_rmap_age_gfn_range(kvm, range, test_only);
-+}
-+
- static bool kvm_has_shadow_mmu_sptes(struct kvm *kvm)
- {
- 	return !tdp_mmu_enabled || READ_ONCE(kvm->arch.indirect_shadow_pages);
+-#ifdef CONFIG_MMU_NOTIFIER
+ 	if (mmu_notifier_clear_young(mm, addr,
+ 				     addr + huge_page_size(hstate_vma(vma))))
+ 		referenced = true;
+-#endif /* CONFIG_MMU_NOTIFIER */
+ 
+ 	if (referenced)
+ 		folio_set_young(folio);
 -- 
 2.46.0.792.g87dc391469-goog
 
