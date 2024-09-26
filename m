@@ -1,136 +1,99 @@
-Received: from smtpcmd13147.aruba.it (smtpcmd13147.aruba.it [62.149.156.147])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17235192B65
-	for <linux-doc@vger.kernel.org>; Thu, 26 Sep 2024 08:50:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.149.156.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A3CF1A7256;
+	Thu, 26 Sep 2024 08:56:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727340608; cv=none; b=U2rRnUjQ1knSlrG6p6ozRe/aOoQ2CKGXQGVX16wa0TuCgCo2r1ZurmGeqtjceALKs8n8Chb0aL9sQVVJ5hrTUMXLHflXLuDjYAw4PKZ4KO/qgIOopJbwsmfuqspdt3XOTt3dpJBYZEfQljKGRLMTITcpVHNP9vLtTvj8JpUODqA=
+	t=1727340963; cv=none; b=tkVwcn7PumCQrc3w+q0Oxj9HwD3ExvtAOvn9JKgdVqENL9PujdzEqzuvUF3muGhVJlDBnrt3DnUK2MhtClKcY6Ye1tyw3DPRiDcZAcO1oNRDRp8VN/QlLspa/psw6ZXFkM2UYIjbUB/OEdPwKkLNMSMIKmYqZowbEjmt3Umt1WE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727340608; c=relaxed/simple;
-	bh=4AupH/BviNHtaHpZmQ9S7ipD1OFuKiaMUUbNa6H3IJQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=I7aCPALxW1XsssVcYczou7+jPK8RvetCcUFXocOHOsQ/1GEl+TLvCnI9tDfy1NC+tvk89gPX7G5xrPslVhNwrJ7buBEPc/56SKwvn7nekAnPX2pRetwYZSkHOqgS56bM+LjHQ+IfVUMb3wFwjilBjkqIUf/MhH2RGMTLauuv8z4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com; spf=pass smtp.mailfrom=enneenne.com; dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b=OzPmiQbc; arc=none smtp.client-ip=62.149.156.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enneenne.com
+	s=arc-20240116; t=1727340963; c=relaxed/simple;
+	bh=N/MdxSZRRgXw6t3FZKYPDKlvTtCCPAM4Bq/l5Av5B0Q=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=tnrCTXF/jqrBFrHmb1s6KAHTQ1U0mT+kfUiu67EJqN7auixqb4WnJ0jZ1NI90PH+NKhQz+UrCigv1qHrO3Dm7Qn0VXy+89WJW8N7k0jbFUTxE6vHOccsY7PzI/CiZKlv5WshFq5DuXtu0IgKi6oFyiZssP95jvI2LWAozaDqRTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VzH3qq4J; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b="OzPmiQbc"
-Received: from [192.168.1.57] ([79.0.204.227])
-	by Aruba Outgoing Smtp  with ESMTPSA
-	id tk9GsxGjg8U42tk9HsMf3E; Thu, 26 Sep 2024 10:46:56 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
-	t=1727340416; bh=4AupH/BviNHtaHpZmQ9S7ipD1OFuKiaMUUbNa6H3IJQ=;
-	h=Date:MIME-Version:Subject:To:From:Content-Type;
-	b=OzPmiQbcYU4Tn8TiRv+eEu4jTjOm+vCSLoKQsHKWwlwjmvqh2y6n7mERYvSKNTCro
-	 vr3l0S8kphfyniViG6Ic5bxhkPIr+bB4LKVtjxw/24wH7cU1Ee/lR8A510FcohlgSd
-	 aLlTidJqVOkx55UtptgbUZtoGTZLQm/fLP3B7/dOn2kRFuyKNfKtrem+r4LkiNmTfA
-	 VbXndxp5XvWK1+fnvslma51qBsC/rZA3UquRfn/FVMydUVtB3SZzPq6Qqg6yNiQwmk
-	 vPiCWBCZ88WMD1kGH5EtK53UjAWwchTFuyJeq8VNHfKk1nhu6GWMI6RbcZQNJ3408z
-	 xPQCUIxdO5k7A==
-Message-ID: <e88f2d6f-033a-41b5-afdb-8a3f6bcf3d06@enneenne.com>
-Date: Thu, 26 Sep 2024 10:46:54 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VzH3qq4J"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5365c512b00so877098e87.3;
+        Thu, 26 Sep 2024 01:56:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727340960; x=1727945760; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N/MdxSZRRgXw6t3FZKYPDKlvTtCCPAM4Bq/l5Av5B0Q=;
+        b=VzH3qq4J6UhrWLgoEJy+061mlEkDyf+60fk4+psrb2zsYRr7+Ik0/jleeJnYpwwTLh
+         1yTVrvlG3Mxl1P+VMfBr4krYO7VMFrL+Pxf6sPSdYeasaCukVTLcqcdmJs4jy6AXyBCW
+         H1JuubBJRvI8WP34ME/trQXJ2Xcqm/598E4ASh2Q1YreFaBddHYBcz7nD9J8qwtazXhU
+         yqQdUU0Fv9jamXdL541TzGiT5rlHjUrnZz7Rl9J0ZdZSuktXg63nj7LHfAiosIt71wkI
+         XYEPkLjEFe+AruqBjpgi9x8pupvgfmWLkJAkjEe4CpHSusATN8BLfLL8JIacdwcha0+0
+         YxTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727340960; x=1727945760;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=N/MdxSZRRgXw6t3FZKYPDKlvTtCCPAM4Bq/l5Av5B0Q=;
+        b=elVbZc9Fq7RjLDxQMlccj2weUE3bksBRF5oIBVP3r9KFd4QSQhAdjCa7kqFCfvW1qB
+         vd5Pn2xdcsne/BWPeGZ1p/tBH6oyhHN5rm3SKemd+uI7HtwsP9i0yRQ7lo+CpjUiliRE
+         KqbucLJbS3oynLspFtyjQWbu2bsTfcvRozvfl01rim1rPFN3/ouW9LcAP81f44ewleVS
+         wI+7oPMTRJ0aGAbDo6KuuZLZtneN7PRqaHocGwbQ0EpDlIEcGr+ulRKXMGERh1YVTJLS
+         YQOrqXN043njMXy4aoYtahzpqVZe8icb7ikSopk+Xdtu2UsmlJMH93uHijKrQonf1djd
+         kjdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVKhj1i2SXAcflFtVpAKqWFtBPeUfBrPDn/ZhlCu2+DM260AjhqTiTJQizPKqwCiEk9pOPzcScLbDtr@vger.kernel.org, AJvYcCVdSWFCTSdV8GBzmKngJEcbfNCsWvDOBtJTwdpQcpNdJRzSJqJ/nr/5OmN4fsemP/RNalyXyPVBi3pKc1eC@vger.kernel.org, AJvYcCW4x7TJibjXQWPaJqKP8QbJkdzbrX9SR17yyQQxaEDRUivz7EB0L8uvIQj4KG/LRa5OmW8=@vger.kernel.org, AJvYcCWh6a2ViwT43xpy0invLvDdOqHbjPEEevnW4n88rqmdyP6VrqRlwaHAM8wQz6EqaaLZ3F6xIDnGwuQ=@vger.kernel.org, AJvYcCWqTUNxlfN9WCa8pHE6ngboze6zKXaTG0rwOEz2xf6jhIHltbeEKVJuu/qa8RUyyryQHS0DlRjjqvUyKR7cOuWW@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrAftNrIBVkGaMDFtLpASnRoqAl8FmZCzarXeU+IfSca2G6RMU
+	t5yMJQzG5lXh6iZgej5KpFfqYkyjSsFq/w1lHMX3hBwUBBIuZqCm
+X-Google-Smtp-Source: AGHT+IHhrS4QXSILHTgsdhqbb5hO7tNCXVRYEYz1SUiLl+OS5YyvI4GPgvxdfXnxwqpZqVHN5fGjFQ==
+X-Received: by 2002:a05:6512:33cc:b0:536:55cc:9641 with SMTP id 2adb3069b0e04-53877538012mr3938709e87.16.1727340959984;
+        Thu, 26 Sep 2024 01:55:59 -0700 (PDT)
+Received: from ?IPv6:2001:b07:5d29:f42d:438a:71d4:3b8a:6ddf? ([2001:b07:5d29:f42d:438a:71d4:3b8a:6ddf])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c5cf4c52aesm2878777a12.59.2024.09.26.01.55.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Sep 2024 01:55:59 -0700 (PDT)
+Message-ID: <15f38d57ca10606e444ca422f802e0961908f02f.camel@gmail.com>
+Subject: Re: [PATCH v4 1/6] firmware/psci: Add definitions for PSCI v1.3
+ specification
+From: Francesco Lavra <francescolavra.fl@gmail.com>
+To: David Woodhouse <dwmw2@infradead.org>, Paolo Bonzini
+ <pbonzini@redhat.com>,  Jonathan Corbet <corbet@lwn.net>, Marc Zyngier
+ <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, James Morse
+ <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui
+ Yu <yuzenghui@huawei.com>, Catalin Marinas <catalin.marinas@arm.com>, Will
+ Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Lorenzo
+ Pieralisi <lpieralisi@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>, Shuah Khan
+ <shuah@kernel.org>, David Woodhouse <dwmw@amazon.co.uk>,
+ kvm@vger.kernel.org,  linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
+ kvmarm@lists.linux.dev,  linux-pm@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+Date: Thu, 26 Sep 2024 10:55:57 +0200
+In-Reply-To: <20240924160512.4138879-1-dwmw2@infradead.org>
+References: <20240924160512.4138879-1-dwmw2@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 2/3] Documentation: driver-api: pps: Add Intel Timed
- I/O PPS generator
-To: "Hall, Christopher S" <christopher.s.hall@intel.com>
-Cc: "Mohan, Subramanian" <subramanian.mohan@intel.com>,
- "tglx@linutronix.de" <tglx@linutronix.de>, "corbet@lwn.net"
- <corbet@lwn.net>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
- "Dong, Eddie" <eddie.dong@intel.com>, "N, Pandith" <pandith.n@intel.com>,
- "T R, Thejesh Reddy" <thejesh.reddy.t.r@intel.com>,
- "Zage, David" <david.zage@intel.com>,
- "Chinnadurai, Srinivasan" <srinivasan.chinnadurai@intel.com>,
- Greg KH <gregkh@linuxfoundation.org>
-References: <20240823070109.27815-1-subramanian.mohan@intel.com>
- <20240823070109.27815-3-subramanian.mohan@intel.com>
- <2024082456-kitchen-astride-7892@gregkh>
- <801c7a93-667b-4c23-9493-4cbe979847a2@enneenne.com>
- <2024090304-viewing-lavish-c05e@gregkh>
- <PH7PR11MB69787046B1F9CDA610523FE5C2692@PH7PR11MB6978.namprd11.prod.outlook.com>
-From: Rodolfo Giometti <giometti@enneenne.com>
-Content-Language: en-US
-In-Reply-To: <PH7PR11MB69787046B1F9CDA610523FE5C2692@PH7PR11MB6978.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfMug2r+xb8fM0qHgPmLgkam22qBK9bSW3EXeA1dfwYDwXC3Mp2LaQFKs5Arg1qfTvDxefz5LtFt1wWsN7Z6DM0eqhlfEhqFMV/JhZHjDlfasJQTPH+vq
- gLGIHG8oGtycnDEVSfAFWdeIZ0eirMwJc2UZXHvhOFG0rBWAeiPdTCptyNy9q+YUlG0gr+q/oUdoOMOkflsO16AevFd0trnw7VAx7AW85CJjaqw9eR+mOk24
- +nFvVtMXNEFk9jFpZOK65n9/22PwptVXMcwwccOkt3U6B7UiE5NIkHgHCtgbpDNbTRE6jXZ8xvmAxKWSNWGxNSIlpidYHbfL0iXB5kfS8UZuu7r7cqeTqNqJ
- N2zsrLXkG6FnyhLfc935uUHwes6QU5mP3024YI0zJ3kc2o9j+MP4/7TRp8VlBXGbqyspuGLLpdoUfvI0azyyzpC1CSpNScJj9HUhLQgAca5O0rUWDWRJoqh0
- j015aasJRrn8vRAcKFhRKa5FDXV2WYtEM1QMbWG6CJZJCP+RL2RsiaTP8NOHyt+Vf9OyjEsyTJLEh/lwVo3LCg72IfE8NkqaWGQZ+NUf+AYRUQzFwV3xSi3M
- +koHSS0/Gx1xtfkwwGMCpJ3juwcAfdRCzap/5k5HKc0JJZm3UFs4eUDVsnzdWaTF+W8=
 
-On 25/09/24 23:55, Hall, Christopher S wrote:
-> Hi Rodolfo,
+On Tue, 2024-09-24 at 17:05 +0100, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
+>=20
+> The v1.3 PSCI spec (https://developer.arm.com/documentation/den0022)
+> adds
+> SYSTEM_OFF2, CLEAN_INV_MEMREGION and CLEAN_INV_MEMREGION_ATTRIBUTES
+> functions. Add definitions for them and their parameters, along with
+> the
+> new TIMEOUT, RATE_LIMITED and BUSY error values.
 
-Hello.
-
->> From: Greg KH <gregkh@linuxfoundation.org>
->> Sent: Tuesday, September 03, 2024 3:25 AM
->> To: Rodolfo Giometti <giometti@enneenne.com>
-> 
->> Subject: Re: [PATCH v12 2/3] Documentation: driver-api: pps: Add Intel Timed
->> I/O PPS generator
->>
-> 
->>> If you are willing to stop the inclusion due this fact maybe its time to add
->>> such PPS generators interface... on the other hand, if you agree for
->>> inclusion we can do this job as soon as the code has been included, in order
->>> to fix this anomalous status.
->>
->> Please make a generic pps subsystem for this, it would make it simpler
->> for everyone.
-> 
-> What is required to move this? We can certainly test the code and do some
-> of this work, but I would look to you to define the interface.
-
-The problem is that a pps-generator has no related device, then no sysfs entries.
-
-I think the right-thing(TM) to do is adding a new class named "pps-generator", 
-so we will get the directory /sys/class/pps-generator with several devices as 
-pps-generator0, pps-generator1, etc. For each device we should add at least 
-these sysfs entries:
-
-- system       : This file return "1" if the generator takes the timing from
-                  the system clock, while it returns "0" if not (i.e. from a
-                  peripheral device clock).
-
-- time         : This file contains the current time stored into the generator
-                  clock as two integers representing the current time seconds and
-                  nanoseconds.
-
-- enable       : This write-only file enables or disables generation of the
-                  PPS signal.
-
-- period       : This file defines the period for the generator signal. When
-                  read, by default, it returns "1 0" which represent the period
-                  second and nanoseconds (i.e. a PPS signal). When written, it
-                  sets the period accordingly or ENOTSUPP if not supported.
-
-- start_time   : This file defines the starting time for the the generator
-                  signal. When read, by default, it returns "0 0" which means
-                  "now". When written, it sets the starting time accordingly or
-                  ENOTSUPP if not supported.
-
-Please, let me know what do you think about this proposal. I'm going to provide 
-a draft in the next weeks since I'm stuck on another project right now. :(
-
-Ciao,
-
-Rodolfo
-
--- 
-GNU/Linux Solutions                  e-mail: giometti@enneenne.com
-Linux Device Driver                          giometti@linux.it
-Embedded Systems                     phone:  +39 349 2432127
-UNIX programming
-
+The CLEAN_INV_MEMREGION and CLEAN_INV_MEMREGION_ATTRIBUTES
+functions were added in the alpha release of the spec but have been
+dropped in the beta release, and are not included in the final spec. So
+IMO the uapi header file should not contain these definitions.
+The same goes for the TIMEOUT, RATE_LIMITED and BUSY error values.
