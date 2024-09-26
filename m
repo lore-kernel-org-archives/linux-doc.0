@@ -1,100 +1,298 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7CC418870F;
-	Thu, 26 Sep 2024 21:35:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673DD184526
+	for <linux-doc@vger.kernel.org>; Thu, 26 Sep 2024 22:55:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727386525; cv=none; b=goQJBRrRmkqgtyjkuhqlNcfmLj145m638QfMynP66R43xq6hJqSxjzhA8mNlnbjBMWTuMILU4IVk3/QPtjSrXfnqFiq2HMebgSRVsQUs3mGhHBrNS4jgvbvo/xy4oBf2W2O2Td1+LceQFE4HnFVUeN2lwoBYmSqXToaT/Dy9xvI=
+	t=1727391342; cv=none; b=sP2TPGE/LPCT6lFaZQTEXukK6f/n1liQ0FYNtWNg/AwT8/NiEV4sIvw0YxdEmYyfuECS3LLUODZmaqnnBVTvuoJ4Wb4hIVVMnRiT41x98Sm4oW7u4lc26HfHNVgp4Q1SGBykH6xCUqoveIXgWkepfvZBknAYy0wp+h4misAhKeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727386525; c=relaxed/simple;
-	bh=1/AF0ye1aEDqbRIMOiqu2UP5rEYyIqLBgduhnkT/Gq8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HBJfh/5Z7VEQxAgZ34fM/Fcum9KV9uRA4YIPjdwVhv1SKHj5FlBKtaFrY9UklpOXb6tj9a24Ppj0UNskaOvLs1phEpW4M0T3GA05X3E3GzoES+ZHys+EPON/W5TX4FRw1SnZ4EYkHV1ZwW9wX5nfulw3klh0rZgUbhtG3nAQFJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ntYvYQ3V; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727391342; c=relaxed/simple;
+	bh=Nv3DoYcBFp3OWn1ATypV+pn0w7OqgyhCkvy8HLahMHo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dQT1Q2do1/hZ3x2TV8TMzfdgVDRQW4Oocb37JQ0R4SmIB9UcUSF+J6hzP9WCdrWtzCZtZjIMrnANDp2AcvM+Y/bq1MV67MzRNMNykdoPDp9YxBjdkvAS0SNxhmT4WGFt8btrcHFGRV5syCtuXgLYZ4AuKp7P6ZYk8pKUOoiSeLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=intelfx.name; spf=pass smtp.mailfrom=intelfx.name; dkim=pass (1024-bit key) header.d=intelfx.name header.i=@intelfx.name header.b=S4QfuG3t; arc=none smtp.client-ip=209.85.208.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=intelfx.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intelfx.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ntYvYQ3V"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2e0b467da03so91493a91.2;
-        Thu, 26 Sep 2024 14:35:23 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=intelfx.name header.i=@intelfx.name header.b="S4QfuG3t"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2f75c205e4aso18233521fa.0
+        for <linux-doc@vger.kernel.org>; Thu, 26 Sep 2024 15:55:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727386523; x=1727991323; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YN3ZIl0AHdW2Pc3ccHhFRbQ1ihSm5IEdT9WChsNSY6k=;
-        b=ntYvYQ3VzjrPQRjO0RTjOTbXP7/4NP5rjwPgNkr9vH/XeTJuyjkJQ6j8P1Q5+uxnST
-         F3wPdxptRRuXH4IYlyP+1oLBMPEpsloYKCpFimcgj0k4lN/GD1KdZTGRrH/xAwUoC1V3
-         rJPs6Qhurc32eEX7Nw6W0yg9ypx4H8Kn2SL2FF0rDnTsbAewQk6cqpJ0OzCNZ9fG7s2K
-         jkChH3VAIV2ScpQ7p6vD/ekIMTj99jeg/1W8R/4uC1LACZ3XKgZEkEjh99yXfdBqpnAL
-         uIKAImU9QAzLmdcHL1trZc/BPKjgl7Z0W/ek20wLJnfUeFDbJ/kOre9Cpwh2jgN/OLHt
-         egVg==
+        d=intelfx.name; s=google; t=1727391338; x=1727996138; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2qUguF1WrTtWK/hZPra6odgRc7M73fCw096rk09LDH0=;
+        b=S4QfuG3tp8slMFMhm6uB/x11VrQueqP3/YZncB/qIlQPSNJsOe5GMM+maxOdx/W8fw
+         pUNI1eobv2sVuiR24VLG3RDZBYfEcqbx9YmKLoNfTcwJdy9tQgVnxV3hRsm66exEZOZ4
+         OY+0EI/uFYQCR+G5qZafTdXuWqUCWtr2yYpsA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727386523; x=1727991323;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YN3ZIl0AHdW2Pc3ccHhFRbQ1ihSm5IEdT9WChsNSY6k=;
-        b=nnmJKkgcACozVDSpFBzUMkQb5Y3qgChkkOHFmpcaO+WyoEmG2yQ/DJaaT+0E6OKhbL
-         4edl7pBfS0KSuCN4J17TXsxaCijX0wFOl1McewxcYnkjHlppDaDtIlmk7BeLqo9spMzd
-         GvQfWJWmckzL3ysFqmQAywMzd6OfMCvStz6XrMLPgqsx9qF7zAWvuUCxyMl7I4LO5asF
-         tY2iqMCX1KyOtyQXSAx70zzQ3QgQ3QFPJnt3mvVfTYp7DTTgIKuR5JjAdUGM1vIhG5rn
-         wAdcVhSIglqIO2ATJ+gekoA6j5ux3+Xp6qrTXWyeWX5Hr9kk6/60rCGS1ehKqpiZANFI
-         G0JA==
-X-Forwarded-Encrypted: i=1; AJvYcCUDJ8RvVdvqtHN3lX1txbKSEmzjS+sQLqz6QZbKSBcpkEsBUAeUwf4nTqbN03vw4GXyiD9iQZArXil9IuPBiXw=@vger.kernel.org, AJvYcCUh1EnD+hD2C3vzqWv60QHnERNsPDZPvtTXZIO5sRiraXir9igXESaPEYdxkZd9i9XAYroDQMEZrC9cLvE6@vger.kernel.org, AJvYcCUidN0lHrF9iOqSPJ8IctwwAfwAs07OQfJTDdO/ZULHyFNBpvg0hyVrQCV6KMoggxOswxI=@vger.kernel.org, AJvYcCV5D5TsQSXjcHuycgk/6XXYltPQlUyoOj0RhDcW5nuV2PC/tj/Q2JUE4o2CUQJvBvD97N7k7sFVZCk9WEHGDPyghQ==@vger.kernel.org, AJvYcCVOLC6+65mOqcNjHRp1+tV/XssjpTX8h+9F4YBiY8/h9aWXzBKFdg2eK7772upIEAdFSiQJEmnzVgkk6g==@vger.kernel.org, AJvYcCVsqpEA1X34JgSSy+zWUs7+fSAIlED2wx+FoF0zXBxfBa0ReVabMdfI1p7J84be8lizTJ6y/uqbQToD@vger.kernel.org, AJvYcCVyOHlVKllui6A90Q42IfKbLrvLtdZnjC+4kVdVZSOG4aRB5tquRkPsdIouUdZ5cjLcKniIJa85fW8=@vger.kernel.org, AJvYcCWIeHXSn79E1pba2uaZgabrN6egSq3hKQJvvQyqA0ncZ3poR1endScJFmYMlQD9tOmBDQRNsnt7bGe0@vger.kernel.org, AJvYcCXTmNdlSb1QBFTlgk2/mbOW9A2NT3p8kXvs3x58YZP4/N+DnfQhUq/gJiG6xW7mj8KHqe8jHlQq55VTo3hn@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCTZ3zsxEiGOsdmhyvylg0pTMM/FgSGOmCyMfxDfM9CSVwTjhW
-	AAPO1FdxgZ+AUbsMCKMSJLJBPk64IXPEa9Zxwq805/7NayLOfWOsl5gSodJeflPB/OilgtRCS/O
-	Gj38jwHBTYzU7aYb/AVVUkzDXAIw=
-X-Google-Smtp-Source: AGHT+IFP+qclc+DwNk0VcbiLZGtyseD1sfEmeyqBVla3e/ZDfuly9waYm3g7wRqfrKuy03nGqriwsOXLp8FvWSa4ibk=
-X-Received: by 2002:a17:90b:3698:b0:2db:60b:eee with SMTP id
- 98e67ed59e1d1-2e0b8ed348emr498104a91.9.1727386523117; Thu, 26 Sep 2024
- 14:35:23 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1727391338; x=1727996138;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2qUguF1WrTtWK/hZPra6odgRc7M73fCw096rk09LDH0=;
+        b=i3KaecIFzndQ9xRlaO1Ayk2bUXfAQfO1MjLsvK4cg/k1Cnog42quPCxAVjpJyq2zn1
+         fgxwi0WP7gOA+FhdnfaLSyolMCCrJUpSsu6X2I26NooucU6HukzcNTkrhGQS/eZzjB0I
+         abt5VIZI1Z6tow+zhdVnUTYE5fBF/lzywqCR5YS6FzRLzapLrnQySWZIue8v8s4u+gtl
+         p0kTgzbfuK9lmYrQRv5mH9sZA+3Y/oEFYJtY6ABwIS7wbAamU/T2X6pgNK8/wJQfjfSX
+         TquC5RZf7YQSWMC51CLEJGkl4kNC2dhO3WHUPoytD7FampJ/lvOX2LLIq11zTspoqFFZ
+         gAwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWx6fl8fAnx+jsLnyiypmkZ4AQ4j/UVhDiTs9IQ0xP60Zlw3dikJwtxfCsejXwQgNhuTdJtCqZaiF8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhlsiewyiRkdo+CcXCAc6y8tj29lChzw0E5d7Wpcf9LrStULno
+	9yeZqV18SyomHoudVDyB0ahneaiew8m2qE2xoYWqQQJqlRjkt6zBHnK1Ef9ZYYw=
+X-Google-Smtp-Source: AGHT+IGwUMWdUp0o0aHg791Fonu8FwXG9GKopXkJI/AU2LTdR0oYW3XsDjbJHS2DiFmo0bVpxWj2Lg==
+X-Received: by 2002:a2e:4e0a:0:b0:2f7:4c9d:7a83 with SMTP id 38308e7fff4ca-2f9d4197b0amr5428481fa.40.1727391338181;
+        Thu, 26 Sep 2024 15:55:38 -0700 (PDT)
+Received: from able.tailbefcf.ts.net ([188.129.244.140])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f9d45d789fsm990061fa.37.2024.09.26.15.55.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Sep 2024 15:55:37 -0700 (PDT)
+From: Ivan Shapovalov <intelfx@intelfx.name>
+To: linux-kernel@vger.kernel.org
+Cc: Mike Yuan <me@yhndnzj.com>,
+	Ivan Shapovalov <intelfx@intelfx.name>,
+	Tejun Heo <tj@kernel.org>,
+	Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Yosry Ahmed <yosryahmed@google.com>,
+	Nhat Pham <nphamcs@gmail.com>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Chris Li <chrisl@kernel.org>,
+	cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH] zswap: improve memory.zswap.writeback inheritance
+Date: Fri, 27 Sep 2024 00:55:28 +0200
+Message-ID: <20240926225531.700742-1-intelfx@intelfx.name>
+X-Mailer: git-send-email 2.46.1.5.g6e13a7cc9d
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240925150059.3955569-30-ardb+git@google.com> <20240925150059.3955569-32-ardb+git@google.com>
-In-Reply-To: <20240925150059.3955569-32-ardb+git@google.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 26 Sep 2024 23:35:10 +0200
-Message-ID: <CANiq72=z6A=50QO3V0S3Kgx6XQT93GxbB_LN6PFAQCmNgy370A@mail.gmail.com>
-Subject: Re: [RFC PATCH 02/28] Documentation: Bump minimum GCC version to 8.1
-To: Ard Biesheuvel <ardb+git@google.com>
-Cc: linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Uros Bizjak <ubizjak@gmail.com>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
-	Christoph Lameter <cl@linux.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
-	Juergen Gross <jgross@suse.com>, Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Keith Packard <keithp@keithp.com>, 
-	Justin Stitt <justinstitt@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Kan Liang <kan.liang@linux.intel.com>, linux-doc@vger.kernel.org, 
-	linux-pm@vger.kernel.org, kvm@vger.kernel.org, xen-devel@lists.xenproject.org, 
-	linux-efi@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 25, 2024 at 5:10=E2=80=AFPM Ard Biesheuvel <ardb+git@google.com=
-> wrote:
->
->  Documentation/admin-guide/README.rst | 2 +-
->  Documentation/process/changes.rst    | 2 +-
+Improve the inheritance behavior of the `memory.zswap.writeback` cgroup
+attribute introduced during the 6.11 cycle. Specifically, in 6.11 we
+walk the parent cgroups until we find a _disabled_ writeback, which does
+not allow the user to selectively enable zswap writeback while having it
+disabled by default.
 
-This should update scripts/min-tool-version.sh too. With that:
+Instead, introduce a third value for the `memory.zswap.writeback` cgroup
+attribute meaning "follow the parent", and use it as the default value
+for all cgroups. Additionally, introduce a `zswap.writeback_disable`
+module parameter which is used as the "parent" of the root cgroup,
+thus making it the global default.
 
-Acked-by: Miguel Ojeda <ojeda@kernel.org>
+Reads from `memory.zswap.writeback` cgroup attribute will be coerced to
+0 or 1 to maintain backwards compatilibity. However, it is possible to
+write -1 to that attribute to make the cgroup follow the parent again.
 
-As Arnd says, the cleanups can be done afterwards.
+Fixes: e39925734909 ("mm/memcontrol: respect zswap.writeback setting from parent cg too")
+Fixes: 501a06fe8e4c ("zswap: memcontrol: implement zswap writeback disabling")
+Signed-off-by: Ivan Shapovalov <intelfx@intelfx.name>
+---
+ Documentation/admin-guide/cgroup-v2.rst | 17 +++++++++++------
+ Documentation/admin-guide/mm/zswap.rst  |  9 ++++++++-
+ include/linux/memcontrol.h              |  3 ++-
+ include/linux/zswap.h                   |  6 ++++++
+ mm/memcontrol.c                         | 24 +++++++++++++++++-------
+ mm/zswap.c                              |  9 +++++++++
+ 6 files changed, 53 insertions(+), 15 deletions(-)
 
-Cheers,
-Miguel
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 95c18bc17083..eea580490679 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1717,10 +1717,12 @@ The following nested keys are defined.
+ 	entries fault back in or are written out to disk.
+ 
+   memory.zswap.writeback
+-	A read-write single value file. The default value is "1".
+-	Note that this setting is hierarchical, i.e. the writeback would be
+-	implicitly disabled for child cgroups if the upper hierarchy
+-	does so.
++	A read-write single value file. The default is to follow the parent
++	cgroup configuration, and the root cgroup follows the global
++	``zswap.writeback_enabled`` module parameter (which is 1 by default).
++	Thus, this setting is hierarchical, i.e. the writeback setting for
++	a child cgroup can be implicitly controlled at runtime by changing
++	any parent value or the global module parameter.
+ 
+ 	When this is set to 0, all swapping attempts to swapping devices
+ 	are disabled. This included both zswap writebacks, and swapping due
+@@ -1729,8 +1731,11 @@ The following nested keys are defined.
+ 	reclaim inefficiency after disabling writeback (because the same
+ 	pages might be rejected again and again).
+ 
+-	Note that this is subtly different from setting memory.swap.max to
+-	0, as it still allows for pages to be written to the zswap pool.
++	Note that this is different from setting memory.swap.max to 0,
++	as it still allows for pages to be written to the zswap pool.
++
++	This can also be set to -1, which would make the cgroup (and its
++	future children) follow the parent/global value again.
+ 
+   memory.pressure
+ 	A read-only nested-keyed file.
+diff --git a/Documentation/admin-guide/mm/zswap.rst b/Documentation/admin-guide/mm/zswap.rst
+index 3598dcd7dbe7..20267b8893db 100644
+--- a/Documentation/admin-guide/mm/zswap.rst
++++ b/Documentation/admin-guide/mm/zswap.rst
+@@ -126,10 +126,17 @@ Setting this parameter to 100 will disable the hysteresis.
+ 
+ Some users cannot tolerate the swapping that comes with zswap store failures
+ and zswap writebacks. Swapping can be disabled entirely (without disabling
+-zswap itself) on a cgroup-basis as follows::
++zswap itself) either globally, using the ``writeback_enabled`` sysfs attribute,
++or on a per-cgroup basis, e.g.::
++
++	echo 0 > /sys/module/zswap/parameters/writeback_enabled
+ 
+ 	echo 0 > /sys/fs/cgroup/<cgroup-name>/memory.zswap.writeback
+ 
++All cgroups follow (i.e. dynamically inherit) the parent configuration
++by default, and the root cgroup follows the module parameter (which can
++thus be considered the global default).
++
+ Note that if the store failures are recurring (for e.g if the pages are
+ incompressible), users can observe reclaim inefficiency after disabling
+ writeback (because the same pages might be rejected again and again).
+diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+index 0e5bf25d324f..ca0510057040 100644
+--- a/include/linux/memcontrol.h
++++ b/include/linux/memcontrol.h
+@@ -202,8 +202,9 @@ struct mem_cgroup {
+ 	/*
+ 	 * Prevent pages from this memcg from being written back from zswap to
+ 	 * swap, and from being swapped out on zswap store failures.
++	 * (< 0: follow the parent/global default)
+ 	 */
+-	bool zswap_writeback;
++	int zswap_writeback;
+ #endif
+ 
+ 	/* vmpressure notifications */
+diff --git a/include/linux/zswap.h b/include/linux/zswap.h
+index 6cecb4a4f68b..7d121fdb3521 100644
+--- a/include/linux/zswap.h
++++ b/include/linux/zswap.h
+@@ -37,6 +37,7 @@ void zswap_lruvec_state_init(struct lruvec *lruvec);
+ void zswap_folio_swapin(struct folio *folio);
+ bool zswap_is_enabled(void);
+ bool zswap_never_enabled(void);
++bool zswap_writeback_is_enabled(void);
+ #else
+ 
+ struct zswap_lruvec_state {};
+@@ -71,6 +72,11 @@ static inline bool zswap_never_enabled(void)
+ 	return true;
+ }
+ 
++static inline bool zswap_writeback_is_enabled(void)
++{
++	return true;
++}
++
+ #endif
+ 
+ #endif /* _LINUX_ZSWAP_H */
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index d563fb515766..1e0aca42e5a7 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -3613,7 +3613,7 @@ mem_cgroup_css_alloc(struct cgroup_subsys_state *parent_css)
+ 	memcg1_soft_limit_reset(memcg);
+ #ifdef CONFIG_ZSWAP
+ 	memcg->zswap_max = PAGE_COUNTER_MAX;
+-	WRITE_ONCE(memcg->zswap_writeback, true);
++	WRITE_ONCE(memcg->zswap_writeback, -1);
+ #endif
+ 	page_counter_set_high(&memcg->swap, PAGE_COUNTER_MAX);
+ 	if (parent) {
+@@ -5318,15 +5318,25 @@ void obj_cgroup_uncharge_zswap(struct obj_cgroup *objcg, size_t size)
+ 
+ bool mem_cgroup_zswap_writeback_enabled(struct mem_cgroup *memcg)
+ {
++	int memcg_zswap_writeback;
++
+ 	/* if zswap is disabled, do not block pages going to the swapping device */
+ 	if (!zswap_is_enabled())
+ 		return true;
+ 
+-	for (; memcg; memcg = parent_mem_cgroup(memcg))
+-		if (!READ_ONCE(memcg->zswap_writeback))
+-			return false;
++	/*
++	 * -1 means "follow the parent" (root cgroup follows the global default).
++	 * Walk cgroups until we find something, otherwise return the global default.
++	 */
++	for (; memcg; memcg = parent_mem_cgroup(memcg)) {
++		memcg_zswap_writeback = READ_ONCE(memcg->zswap_writeback);
++		if (memcg_zswap_writeback >= 0)
++			goto found;
++	}
++	return zswap_writeback_is_enabled();
+ 
+-	return true;
++found:
++	return !!memcg_zswap_writeback;
+ }
+ 
+ static u64 zswap_current_read(struct cgroup_subsys_state *css,
+@@ -5365,7 +5375,7 @@ static int zswap_writeback_show(struct seq_file *m, void *v)
+ {
+ 	struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
+ 
+-	seq_printf(m, "%d\n", READ_ONCE(memcg->zswap_writeback));
++	seq_printf(m, "%d\n", mem_cgroup_zswap_writeback_enabled(memcg));
+ 	return 0;
+ }
+ 
+@@ -5379,7 +5389,7 @@ static ssize_t zswap_writeback_write(struct kernfs_open_file *of,
+ 	if (parse_ret)
+ 		return parse_ret;
+ 
+-	if (zswap_writeback != 0 && zswap_writeback != 1)
++	if (zswap_writeback < -1 || zswap_writeback > 1)
+ 		return -EINVAL;
+ 
+ 	WRITE_ONCE(memcg->zswap_writeback, zswap_writeback);
+diff --git a/mm/zswap.c b/mm/zswap.c
+index adeaf9c97fde..724d8a02d61c 100644
+--- a/mm/zswap.c
++++ b/mm/zswap.c
+@@ -129,6 +129,10 @@ static bool zswap_shrinker_enabled = IS_ENABLED(
+ 		CONFIG_ZSWAP_SHRINKER_DEFAULT_ON);
+ module_param_named(shrinker_enabled, zswap_shrinker_enabled, bool, 0644);
+ 
++/* Enable/disable zswap writeback globally */
++static bool zswap_writeback_enabled = true;
++module_param_named(writeback_enabled, zswap_writeback_enabled, bool, 0644);
++
+ bool zswap_is_enabled(void)
+ {
+ 	return zswap_enabled;
+@@ -139,6 +143,11 @@ bool zswap_never_enabled(void)
+ 	return !static_branch_maybe(CONFIG_ZSWAP_DEFAULT_ON, &zswap_ever_enabled);
+ }
+ 
++bool zswap_writeback_is_enabled(void)
++{
++	return zswap_writeback_enabled;
++}
++
+ /*********************************
+ * data structures
+ **********************************/
+-- 
+2.46.1.5.g6e13a7cc9d
+
