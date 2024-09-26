@@ -1,227 +1,300 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2066.outbound.protection.outlook.com [40.107.220.66])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 220B815C133;
-	Wed, 25 Sep 2024 22:40:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.66
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727304058; cv=fail; b=fIJfIvloeIj5KeCPQ1/p5lN5TTg1VP8gCQ2+OPoZ2TuT2YmWXJACHvomtzVQoRZVXs8tMB2Gjq2q/kRB3YzC3/thJcdxXFLJ/Kjx63qhoCkhEHRGf/PfyGLlVk+aZdK+Ln+z9xrqUJt2w5yk35CYATkZR7bVOYWATpCL5o9be/M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727304058; c=relaxed/simple;
-	bh=wFDAI4i4iEu9knLRlPvDBBnFMufgUtxiF8a51eS84VI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Xzn+Nou4dwOm+TFNnDMpasyH5EqEJ12/3SLvDnyuF9BdfTEFXgn3PADHhNnm3VLnN7MaCplll8rMPd9zJl2AkYzU6ox89XgiGjUhfTFDBesh0fzC1njDYC30jJVGEG8ZJtECaCn7z4bmr5eYSVpx6YlSHCg5x6LT9lMt4xAycEQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=WNoVklUE; arc=fail smtp.client-ip=40.107.220.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC6B1D5ADC;
+	Thu, 26 Sep 2024 00:50:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727311853; cv=none; b=YzEB14r8guRbb+QH/5u2Gn+77cPVzsoKlBrUZ82Fo+eMtE/27gqdz0mn4IMKP8IX6jtATJgmKJbxluIf0+NpFbjJq+H0yxDni9Z+Wn3iZyy898PGrjOuHjK3D+QjJqjJw9kbOn2hL4jam0Ei8ccCcOeBojsRYs+VVsWK/gzp9U0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727311853; c=relaxed/simple;
+	bh=FGhQ/qr3h0kh/2oImWTd5HPE0CXkpLwLKKwCCoWVz1E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rbBgKVV5HspsJee8BK14dy8rr8Z6VV8suwQkJ8FLigbMy4NPCMzJn6m+YvkLUasoikjCEAp1VPEf4RYtAfPU2ccQks+hwdDVVTzRA+gP5wqPkYULDNfcHg1Gmep3vzYxz8+7Iz+qIzTjnqE7sBFoL513AttOArGCyKA5VU1VK+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=codqAsFA; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="WNoVklUE"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ry0DGXR+EbMbYoHA6Mbzfa4BFhL5j29lMBn3la5tl430ZuFU3UfGD6ED8tVIJG1HEz8qsYaSmBxzzuksS9+z2ejCHRDGH286AH9xoLE8eSBaqaUrKnHhnEi91LxP6WUYQTPrsKzkV7PqUf4GcKms2hcP56m1yVb6SCXCcy7AkJj0efm19AYRTFp89Qy8gjd2h5a7SnzYRRntmi4BstmDHSoPylVbAridFhEeUQ7r4EccQ9LMsZJK2bHiY6ZT9qr2YvEqZmY5AHZQ9NUsdl+udh7Bfk0krOzkvPjXmS6A1mFl7eT4lPFTTmNd2DEG9KP5QJKi9pgLVW97v5A1eTIUjg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rl6AKP923I8dkv2kMMrFSBC2YeHH2GTEwv2onPaCH38=;
- b=qk9QYaHVs+kLDPGzmz0lmpa3O/I07Cdg2udMH/mdAWic7PqnIFSmxNwZk9HiogHrRe64pTJ/asSVy13wvCrg6c7jV2NIt1EYW63CjP2iceUIGWZBIvwhfQDIfyfZLvQqioFELqfgZ73xcvB10yeT3l5q3D/K8llsNcu9ESxugmEYafElK29jgQYR3804nPUXbSf+5knqVq985jVfmRYhgM0/VrtCprigEoVQzY4Xu+fMUGizdQRE4zuzwacJCpjS1itasBzJsI575Y8i4VfD8KPlOLeWGQLkdV23WM+wgX4AIbyvWlkhKcFx/sPMH0VVsMXj5PNXTJiPxFWueyGMMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rl6AKP923I8dkv2kMMrFSBC2YeHH2GTEwv2onPaCH38=;
- b=WNoVklUEqHW9BB0KQS8C/L+aVcvX/Yjl9oLM7DQjq2LBgjBGWz1GnkNgrT6FTZNG8C8EDJQVDrmXlC3VbsG8kOhUCJLdYU1gFuPeiAB4OX1AX2XS333S3lIQeDysxD5tQ2Fdy4sT15LEvW/ak1Svw9MPh0Xk9Ux29B3CiEq6KMc=
-Received: from CH0PR07CA0015.namprd07.prod.outlook.com (2603:10b6:610:32::20)
- by SA3PR12MB7783.namprd12.prod.outlook.com (2603:10b6:806:314::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.28; Wed, 25 Sep
- 2024 22:40:53 +0000
-Received: from CH3PEPF00000011.namprd21.prod.outlook.com
- (2603:10b6:610:32:cafe::d5) by CH0PR07CA0015.outlook.office365.com
- (2603:10b6:610:32::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.17 via Frontend
- Transport; Wed, 25 Sep 2024 22:40:53 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CH3PEPF00000011.mail.protection.outlook.com (10.167.244.116) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8026.0 via Frontend Transport; Wed, 25 Sep 2024 22:40:53 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 25 Sep
- 2024 17:40:53 -0500
-Received: from [172.18.112.153] (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Wed, 25 Sep 2024 17:40:49 -0500
-Message-ID: <b626206f-d730-4d28-a2e8-dfbb908c7c1f@amd.com>
-Date: Wed, 25 Sep 2024 18:40:49 -0400
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="codqAsFA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727311851; x=1758847851;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FGhQ/qr3h0kh/2oImWTd5HPE0CXkpLwLKKwCCoWVz1E=;
+  b=codqAsFAHUPB8d/rZrdLA88iqfeOxFT7uUKlrAwNBjC9K6SIdKz8v6/w
+   MGviQqRu9rZnzXVrpgANHyXK5HONi54I1at3FLtdn1DKkt3TZp6+7TUQa
+   PaqItyI7v/eI/YJ8v2iAhvw3LtK2J4F5H08+ferlyUlCLL7nfEB8zSS/U
+   COz1NyT6tz6TmN+3ZKhVqmagB8aO1Sp9V3d5SvxOl75gNwIL+8mV4MxmY
+   jWtUqVrnY9QwwagoD6PcbYDMYNzGWaMeVxrb1GmmqS9YVQ93B1Fp6Rn/Q
+   sCHxS5stR0YKldDUlfZecNDy90YJiAV7b5y7FN2lVsRUIBFapQ/l4o73J
+   Q==;
+X-CSE-ConnectionGUID: KWhNG+vFQomQs76vkugdWQ==
+X-CSE-MsgGUID: dty2q+RURfKFceHujHgbYg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="26515071"
+X-IronPort-AV: E=Sophos;i="6.10,258,1719903600"; 
+   d="scan'208";a="26515071"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 17:50:51 -0700
+X-CSE-ConnectionGUID: TKCI/WE1Sm23Jm9LJV3Ypw==
+X-CSE-MsgGUID: Gu7jXKYrT7uatElDxhJHkQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,258,1719903600"; 
+   d="scan'208";a="102716733"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 25 Sep 2024 17:50:46 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1stciR-000K5f-2K;
+	Thu, 26 Sep 2024 00:50:43 +0000
+Date: Thu, 26 Sep 2024 08:50:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>, patrick@stwcx.xyz,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Carsten =?iso-8859-1?Q?Spie=DF?= <mail@carsten-spiess.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Yikai Tsai <yikai.tsai.wiwynn@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v7 2/2] hwmon: (isl28022) new driver for ISL28022 power
+ monitor
+Message-ID: <202409260859.DetsBmBQ-lkp@intel.com>
+References: <20240925031131.14645-3-yikai.tsai.wiwynn@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 11/28] x86/pvh: Avoid absolute symbol references in
- .head.text
-To: Ard Biesheuvel <ardb@kernel.org>
-CC: Ard Biesheuvel <ardb+git@google.com>, <linux-kernel@vger.kernel.org>,
-	<x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski
-	<luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Uros Bizjak
-	<ubizjak@gmail.com>, Dennis Zhou <dennis@kernel.org>, Tejun Heo
-	<tj@kernel.org>, Christoph Lameter <cl@linux.com>, Mathieu Desnoyers
-	<mathieu.desnoyers@efficios.com>, Paolo Bonzini <pbonzini@redhat.com>, Vitaly
- Kuznetsov <vkuznets@redhat.com>, Juergen Gross <jgross@suse.com>, Boris
- Ostrovsky <boris.ostrovsky@oracle.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, Masahiro Yamada
-	<masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, Nathan Chancellor
-	<nathan@kernel.org>, Keith Packard <keithp@keithp.com>, Justin Stitt
-	<justinstitt@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Arnaldo
- Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Jiri
- Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, Adrian Hunter
-	<adrian.hunter@intel.com>, Kan Liang <kan.liang@linux.intel.com>,
-	<linux-doc@vger.kernel.org>, <linux-pm@vger.kernel.org>,
-	<kvm@vger.kernel.org>, <xen-devel@lists.xenproject.org>,
-	<linux-efi@vger.kernel.org>, <linux-arch@vger.kernel.org>,
-	<linux-sparse@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
-	<linux-perf-users@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
-	<llvm@lists.linux.dev>
-References: <20240925150059.3955569-30-ardb+git@google.com>
- <20240925150059.3955569-41-ardb+git@google.com>
- <81fb3f6b-4ded-41d1-be66-d86af4f22171@amd.com>
- <CAMj1kXGj25bn2R9vWPqG5+SSSjJp6rzopssDbjk8uOvi=cAiUw@mail.gmail.com>
-Content-Language: en-US
-From: Jason Andryuk <jason.andryuk@amd.com>
-In-Reply-To: <CAMj1kXGj25bn2R9vWPqG5+SSSjJp6rzopssDbjk8uOvi=cAiUw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: None (SATLEXMB04.amd.com: jason.andryuk@amd.com does not
- designate permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PEPF00000011:EE_|SA3PR12MB7783:EE_
-X-MS-Office365-Filtering-Correlation-Id: b0926808-4162-42a9-1582-08dcddb31d1d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|36860700013|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?TVFxT1ZMb01IcG9zNE51UkNoSE5Rd2dmLzIvN3k2eldBTVVCUGZ6WFFudEpI?=
- =?utf-8?B?dWJRU0J4MEpRWnZkZ1I5Y3hDcFZDWDRGLytUOFNOYVhtd1BFS1dNa05qdTBZ?=
- =?utf-8?B?a1o4WHVJS2V5YW95RENybGpHeFVuaWxIY1ltaGNRam5VL1EzTGRwMmxYUjlJ?=
- =?utf-8?B?aGFRaG4xdGdET0JkL2tSQlRlLy9qa3JKZ2pRamRPeWhRT3g4THhkd1RsVXky?=
- =?utf-8?B?dS9vNHg3QUlRRDlYbmhqRHQxdDk5K2VmQ0Y0czBJZiszOWVTbzlxSEFXZHpO?=
- =?utf-8?B?ZzA1TTdYcU5XRmlSdDNtQjlqMG4zd2YwaGlSM2FiWStxTzdWTC81SXdETDE2?=
- =?utf-8?B?NW85S3EvZURlNERTa2EzM1RKRHp6YXVaejNrclZEM2dzMTZWRFdYT1lFRThV?=
- =?utf-8?B?Z210aTVaaGtrVml4VXVnRFhtNmcydDBKZm5yS2NnU05RSmlTc2tpa2Fmc3NR?=
- =?utf-8?B?UnlOUGRKMm43NkJZUGFTWVNuaTAwdFU0c3hNdWNyMnFhVUlCcVNUWS9ZYVBs?=
- =?utf-8?B?cUtWNE81QUlOYTZpUUthUitiWk1RbDlFbExteklBaHF1MGVYcHVLWC8yeDVV?=
- =?utf-8?B?U21rKzM5R2JQSDhXRGNmWmduQnJCYThFYlZ1dVhmSW9JWkJRTTF0MHdMampV?=
- =?utf-8?B?MHFFcUlYa0MyWjUwSmRVSWJ0NTlWTnRSc0M1MVZ2RlRDTnJqSzQ2bHhXODJp?=
- =?utf-8?B?MDg1dlVqZkVNSXd0bjZJMUVKOEkxMllzUlBmdlNOUStxLzZVRnkyUVJFdXdG?=
- =?utf-8?B?STg4UEJIQkhuazZxbjhETXplRUd2dE1ZNStaUVRxN05DMTR2MmxSOUVmUUhm?=
- =?utf-8?B?ZmljeURwQ0x0NnI0ZldvS3pTSFNCWXN5QjczbzhUWVNmM25jUWpPNlZCSkxx?=
- =?utf-8?B?aG1ua0RXa1JYa0RjTis1TGpsVkR5d09LUTBQQTBTeU50czljczhlTS9KY1pN?=
- =?utf-8?B?ZTk3Und5NXZQQ3M0Q2Z2MDBZY291ekp1dTFJQ2ErU0dzZjBqai9nTXpXYkZU?=
- =?utf-8?B?MG5GT2p1YVR0ZERUVDNCbTYvU1B5N2JoZG1UcWRuOUZTNTloZEZRMDIzK1RM?=
- =?utf-8?B?U3gxUFkzNFFBVFZhTXdwdGVrakpucEFkYXg2cWxaR21UL0JMekVqTUxLc3Jl?=
- =?utf-8?B?b05kYTBlUkp4MU4rTVhTWGdjSGxBK3VVeFAxSjJPZFRZVjBrbmwvS1VucXBw?=
- =?utf-8?B?V0pzU0pwcFA0YjlGcTRlZ0x4TEtKNEJ1a0FtTDlyd1E1WWpjQnF5dEF2RFdy?=
- =?utf-8?B?WkE0aGFRemtJaCtVc2JiMWxTc2YrMnFmVTZhMUdIWml4b1c2ZkIvcHJOclcw?=
- =?utf-8?B?L0k2ZkNYTHJjS0FMZk4rZ2p2cEo4V0tKM3I4Nlp1dEV4Q0pxUG5lQjU4bW1T?=
- =?utf-8?B?UjdBYlNvQlZEL3JkdVVsMjg1NkF0cHJ5VDZkdW42RkFtUkg3Q1ZLNFg2RlA3?=
- =?utf-8?B?S2VOdkV0bWxJTjA5NTBOalcyRDlPNXJ4cjdsakExbXNMTnhUK0R5ZnBVSkhz?=
- =?utf-8?B?RkpWcWdZVkUwK1hCSVBpYlljaytYckJXdzZSUnQ2Y2pyOEdpSUd2cXVzMUpY?=
- =?utf-8?B?Rkl2aFB1TGtMa012NFZxRStTVnFLYUVMRUJENTJTejZzK3lEc0JsNjhZVUtX?=
- =?utf-8?B?cTFmN1JYdVZvMVhSbUl0WE42ZGs4Y3hnZVdkYnovVFJTZUVGWGpCdE9UTzh6?=
- =?utf-8?B?dDJYeVVuMGJVTTFCVHRNZHM0WncwRlVWRkVpeHlDRXFBM1M5LzVZbzZBVy9h?=
- =?utf-8?B?UC9xaGZqQlF1LzFjd2V2aW1RTVVOemYyME45RGdTQnFEZTBlbmFsMDhCSlpM?=
- =?utf-8?B?VlJ0Qm9NYzI1ZjRST3JySFp2amJIcVdQQUlWblNXc1o4U0l0U2JHczA2VVh3?=
- =?utf-8?Q?xASx6xq1GoepA?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(36860700013)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2024 22:40:53.6316
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0926808-4162-42a9-1582-08dcddb31d1d
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH3PEPF00000011.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7783
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240925031131.14645-3-yikai.tsai.wiwynn@gmail.com>
 
-On 2024-09-25 17:50, Ard Biesheuvel wrote:
-> On Wed, 25 Sept 2024 at 23:11, Jason Andryuk <jason.andryuk@amd.com> wrote:
->>
->> Hi Ard,
->>
->> On 2024-09-25 11:01, Ard Biesheuvel wrote:
->>> From: Ard Biesheuvel <ardb@kernel.org>
->>>
->>> The .head.text section contains code that may execute from a different
->>> address than it was linked at. This is fragile, given that the x86 ABI
->>> can refer to global symbols via absolute or relative references, and the
->>> toolchain assumes that these are interchangeable, which they are not in
->>> this particular case.
->>>
->>> In the case of the PVH code, there are some additional complications:
->>> - the absolute references are in 32-bit code, which get emitted with
->>>     R_X86_64_32 relocations, and these are not permitted in PIE code;
->>> - the code in question is not actually relocatable: it can only run
->>>     correctly from the physical load address specified in the ELF note.
->>>
->>> So rewrite the code to only rely on relative symbol references: these
->>> are always 32-bits wide, even in 64-bit code, and are resolved by the
->>> linker at build time.
->>>
->>> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
->>
->> Juergen queued up my patches to make the PVH entry point position
->> independent (5 commits):
->> https://git.kernel.org/pub/scm/linux/kernel/git/xen/tip.git/log/?h=linux-next
->>
->> My commit that corresponds to this patch of yours is:
->> https://git.kernel.org/pub/scm/linux/kernel/git/xen/tip.git/commit/?h=linux-next&id=1db29f99edb056d8445876292f53a63459142309
->>
->> (There are more changes to handle adjusting the page tables.)
->>
-> 
-> Thanks for the head's up. Those changes look quite similar, so I guess
-> I should just rebase my stuff onto the xen tree.
-> 
-> The only thing that I would like to keep from my version is
-> 
-> + lea (gdt - pvh_start_xen)(%ebp), %eax
+Hi Yikai,
 
-If you rebase on top of the xen tree, using rva() would match the rest 
-of the code:
+kernel test robot noticed the following build errors:
 
-	lea rva(gdt)(%ebp), %eax
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on linus/master v6.11 next-20240925]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> + add %eax, 2(%eax)
-> + lgdt (%eax)
-> 
-> and
-> 
-> - .word gdt_end - gdt_start
-> - .long _pa(gdt_start)
-> + .word gdt_end - gdt_start - 1
-> + .long gdt_start - gdt
-> 
-> The first line is a bugfix, btw, so perhaps I should send that out
-> separately. But my series relies on all 32-bit absolute symbol
-> references being removed, since the linker rejects those when running
-> in PIE mode, and so the second line is needed to get rid of the _pa()
-> there.
+url:    https://github.com/intel-lab-lkp/linux/commits/Yikai-Tsai/dt-bindings-hwmon-add-renesas-isl28022/20240925-111332
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20240925031131.14645-3-yikai.tsai.wiwynn%40gmail.com
+patch subject: [PATCH v7 2/2] hwmon: (isl28022) new driver for ISL28022 power monitor
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240926/202409260859.DetsBmBQ-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240926/202409260859.DetsBmBQ-lkp@intel.com/reproduce)
 
-Sounds good.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409260859.DetsBmBQ-lkp@intel.com/
 
-Regards,
-Jason
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/hwmon/isl28022.c:11:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:25:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/hwmon/isl28022.c:11:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:25:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/hwmon/isl28022.c:11:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:25:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/hwmon/isl28022.c:11:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2228:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/hwmon/isl28022.c:396:22: error: incompatible pointer to integer conversion passing 'char[48]' to parameter of type 'int' [-Wint-conversion]
+     396 |                 dev_err_probe(dev, "renesas,shunt-range-microvolt invalid value %d\n", val);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:278:64: note: passing argument to parameter 'err' here
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                                ^
+>> drivers/hwmon/isl28022.c:396:74: error: incompatible integer to pointer conversion passing 'u32' (aka 'unsigned int') to parameter of type 'const char *' [-Wint-conversion]
+     396 |                 dev_err_probe(dev, "renesas,shunt-range-microvolt invalid value %d\n", val);
+         |                                                                                        ^~~
+   include/linux/dev_printk.h:278:81: note: passing argument to parameter 'fmt' here
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                                                 ^
+   drivers/hwmon/isl28022.c:406:22: error: incompatible pointer to integer conversion passing 'char[42]' to parameter of type 'int' [-Wint-conversion]
+     406 |                 dev_err_probe(dev, "renesas,average-samples invalid value %d\n", val);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:278:64: note: passing argument to parameter 'err' here
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                                ^
+   drivers/hwmon/isl28022.c:406:68: error: incompatible integer to pointer conversion passing 'u32' (aka 'unsigned int') to parameter of type 'const char *' [-Wint-conversion]
+     406 |                 dev_err_probe(dev, "renesas,average-samples invalid value %d\n", val);
+         |                                                                                  ^~~
+   include/linux/dev_printk.h:278:81: note: passing argument to parameter 'fmt' here
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                                                 ^
+   drivers/hwmon/isl28022.c:414:21: error: incompatible pointer to integer conversion passing 'char[51]' to parameter of type 'int' [-Wint-conversion]
+     414 |         dev_err_probe(dev, "renesas,shunt-resistor-microvolt invalid value %d\n", data->shunt);
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:278:64: note: passing argument to parameter 'err' here
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                                ^
+   drivers/hwmon/isl28022.c:414:76: error: incompatible integer to pointer conversion passing 'u32' (aka 'unsigned int') to parameter of type 'const char *' [-Wint-conversion]
+     414 |         dev_err_probe(dev, "renesas,shunt-resistor-microvolt invalid value %d\n", data->shunt);
+         |                                                                                   ^~~~~~~~~~~
+   include/linux/dev_printk.h:278:81: note: passing argument to parameter 'fmt' here
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                                                 ^
+   7 warnings and 6 errors generated.
+
+
+vim +396 drivers/hwmon/isl28022.c
+
+   346	
+   347	/*
+   348	 * read property values and make consistency checks.
+   349	 *
+   350	 * following values for shunt range and resistor are allowed:
+   351	 *   40 mV -> gain 1, shunt min.  800 micro ohms
+   352	 *   80 mV -> gain 2, shunt min. 1600 micro ohms
+   353	 *  160 mV -> gain 4, shunt min. 3200 micro ohms
+   354	 *  320 mV -> gain 8, shunt min. 6400 micro ohms
+   355	 */
+   356	static int isl28022_read_properties(struct device *dev, struct isl28022_data *data)
+   357	{
+   358		u32 val;
+   359		int err;
+   360	
+   361		err = device_property_read_u32(dev, "shunt-resistor-micro-ohms", &val);
+   362		if (err == -EINVAL)
+   363			val = 10000;
+   364		else if (err < 0)
+   365			return err;
+   366		data->shunt = val;
+   367	
+   368		err = device_property_read_u32(dev, "renesas,shunt-range-microvolt", &val);
+   369		if (err == -EINVAL)
+   370			val = 320000;
+   371		else if (err < 0)
+   372			return err;
+   373	
+   374		switch (val) {
+   375		case 40000:
+   376			data->gain = 1;
+   377			if (data->shunt < 800)
+   378				goto shunt_invalid;
+   379			break;
+   380		case 80000:
+   381			data->gain = 2;
+   382			if (data->shunt < 1600)
+   383				goto shunt_invalid;
+   384			break;
+   385		case 160000:
+   386			data->gain = 4;
+   387			if (data->shunt < 3200)
+   388				goto shunt_invalid;
+   389			break;
+   390		case 320000:
+   391			data->gain = 8;
+   392			if (data->shunt < 6400)
+   393				goto shunt_invalid;
+   394			break;
+   395		default:
+ > 396			dev_err_probe(dev, "renesas,shunt-range-microvolt invalid value %d\n", val);
+   397			return -EINVAL;
+   398		}
+   399	
+   400		err = device_property_read_u32(dev, "renesas,average-samples", &val);
+   401		if (err == -EINVAL)
+   402			val = 1;
+   403		else if (err < 0)
+   404			return err;
+   405		if (val > 128 || hweight32(val) != 1) {
+   406			dev_err_probe(dev, "renesas,average-samples invalid value %d\n", val);
+   407			return -EINVAL;
+   408		}
+   409		data->average = val;
+   410	
+   411		return 0;
+   412	
+   413	shunt_invalid:
+   414		dev_err_probe(dev, "renesas,shunt-resistor-microvolt invalid value %d\n", data->shunt);
+   415		return -EINVAL;
+   416	}
+   417	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
