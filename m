@@ -1,60 +1,61 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD46518660A;
-	Thu, 26 Sep 2024 21:17:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 121C5188587;
+	Thu, 26 Sep 2024 21:17:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727385425; cv=none; b=NO+ptzexJQLKAw3+GcDeJypoprfh+oNfCxUQCXH7Ec8XOkW8i1XG6ZHCOagwMAHhiaOfqiw90csn/SQL4OdlCL8RHIL8ajdruKDZNdnXn+6n2BpUX7kVBKpYPyq3TYqcxwDuD7l0be6gX9hi7RMp0LkuB59KxpQDU36nvzUiFUw=
+	t=1727385428; cv=none; b=l9ik5eo+dEBs8xvXoM611yiq/VUZngio43zPLO1g8TiBz1KgWoL0Y51etk2D9zCxSDVqwNcwJq+g+6NZWEo94xg/xC5eqqWbPO2+2OKZzM87bJsqu+B0lkTVngQ5vNmwANX6IWUCHinbdvjT7Fvk6kfGrCp4wfSMy+rD8u5A+iQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727385425; c=relaxed/simple;
-	bh=HrcVfm6GphW+dkH2/eI9roTkaCaCbkN7M4JC5UFjlfM=;
+	s=arc-20240116; t=1727385428; c=relaxed/simple;
+	bh=+/10yM8zg55qjZOGGUuysVO4iKnvZxJ8Izq/9aSEglE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OABK0x0i9Qu4yzRFyS0GRTrq3a7aZZGqI2iOHY4KFHUs3kKfmI9P2sToOghxBE0pnoms0l0b0Pi9t9iKhI5fwH4ep/KD+qv6/rTFWgEq8ahX8EWFkxuj5DpcymR/9R9vzvfIJri+m203PGFo1bPnYTG7cPECH2V+rxzz2Pqv9XY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZS3fqjA8; arc=none smtp.client-ip=209.85.218.47
+	 In-Reply-To:To:Cc; b=pfGuS9OqmVThHSzMaOmsMCbvqDaTpdui1hL1o8sLGkRu2aDCKjG7Zr4XLAYQXMNearOi1IWYaI7AjfpxH3UVJC4zNysq9VK15KjSvJENtd5OdmXs9WXxDp4wm28B2vWZ2Esyp6pA9xKTPQg1eYWMXtRJQC1KTYJpJzqqu1lnmTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BCkNjXfZ; arc=none smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZS3fqjA8"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a86e9db75b9so224103566b.1;
-        Thu, 26 Sep 2024 14:17:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BCkNjXfZ"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a8d56155f51so167938866b.2;
+        Thu, 26 Sep 2024 14:17:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727385422; x=1727990222; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1727385425; x=1727990225; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DtlKt6idkJAcSVx+NWk8duOZfO6okh0MSeZqXt1n944=;
-        b=ZS3fqjA8UdNlWXfcZSgHCH06eKmRLaFUSE49jAg6IELxP7AHRSX0Mg8iFlb5/kLcw2
-         8IX5wX7FAPfHYJ7bC8nIHAD8I3+KVlzkmOXRTxvE0bP1B4rCy2j1k+3Hi+9imw9MDjHm
-         w1P3XaHJhnUAEmJlHLavwSvVoG5Cfcj7Z8KIEfSKTnWZCycbPSTlVT30uKBHXGx+3ZgV
-         Gm6KVimj0yzin9G9Xzd0AtprYLHegNiJEhJGeT0cruSeq+ocLBzvRmCs++Yn16CIokCs
-         uR/RF/OHAgYThhUMRdgIDx45PUEQfERcIrz4jD3/9hbH45xk6vynLSvpxYrWD/+j5lWe
-         qx6Q==
+        bh=ldGMJhYsL8c9rqqEBChMP49Ah6Uz0hcKz1Q6jQxPKuw=;
+        b=BCkNjXfZXhBdO+2FWnfrqpcJ5TooPBGoJsyK2DG3S850qHgzAx1rh9eUWqOopEWR1x
+         JgDAlk/QMf8RiXnUYmKIkgscBDMFNhcfNPuwBVr6bX3W4psB4mhLI4MvogJCs2VCtYOl
+         46PTnoMcpXCDffuhXsPOqwQiWeZT06geZUWB0JwN+zJ6iySg729pDzZR8y1Ufk2NzhXF
+         JyXquycjOnb0sSxVTloPmQ0fY6MbyoUyfWHR+Ym9lGnS4Ai1xBxIEWNa4o+ibghkpeyq
+         EzqLZNdcXYdwF11zIEN1HMyY3gIbbmc+w/UoIym4rRljYQCIiwq6UHAZdS04S/3jUetk
+         hKkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727385422; x=1727990222;
+        d=1e100.net; s=20230601; t=1727385425; x=1727990225;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DtlKt6idkJAcSVx+NWk8duOZfO6okh0MSeZqXt1n944=;
-        b=ApDLy+vI16PRIq38UKBh61dTmb/DjSywZyZr6tPaGgQWDOD9TmCLLEaaxJridxZKVi
-         l0vjXcm9O0s7w646yGZebCqEw0tVmHaqVc3DCiYPx/dDiHupb0dN7d/H3QlVQyfcZPdy
-         6E5UrkLlhaiRZZQiQClDpW4nam0O/N62kn15Ss/z9JFZl6/z6QKRWfElaLy5rkLQ3imJ
-         pMcn5q2mxGqpJhJjUGOI8P4QGwhIs64RXNM5ZuAHBxIymqf3RirzDNjJwKtYAYQc8pn4
-         80Q+arV9OVbEGlkxcqjEw6zUaUGROZyGjzhS5Ff1VFrq70kz2jWkjj/jqhsmzFZtIkZq
-         gWqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXYNM8ZZmDR+AXAgcAv2+ZO2Iqilg5iJcWhI349WDO23xH4EiscshP1FhKj6XWmo2H7HTwmyFBNZmc=@vger.kernel.org, AJvYcCXw/gZ6Go3icsgty2Ca9wGNowi2F+MBHaZbzWnlByz0Lj3CZACX+qp7yGEAizNT/0jVsJDjieudz4lqloly@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYzUxzd59+iWjo3zL/NIaUMh/ou+8arV/gdCRPdWWaqQ/adgmD
-	eH/w75tV5XUi3btyJXAeh4HIMO4xk/qPEJcy57LrKgavtiVHbxCy
-X-Google-Smtp-Source: AGHT+IFeG3xQe2NUPb0TWY2IpSWyUWxXtqMEEggeGF8jV+8iSTppPXNsjqibA2NC+C8f+F4+2Kaaqg==
-X-Received: by 2002:a17:906:4788:b0:a8d:2ab2:c99e with SMTP id a640c23a62f3a-a93c4aa6a5bmr61656266b.55.1727385421887;
-        Thu, 26 Sep 2024 14:17:01 -0700 (PDT)
+        bh=ldGMJhYsL8c9rqqEBChMP49Ah6Uz0hcKz1Q6jQxPKuw=;
+        b=Ms20gbFWpRB9S6R5Ov7U3coGsiKjursnEqHDWK6AucwnHiOoSlopOsDpMzxlv6SGDJ
+         AgQI86n2iSFEuiFYhwV4BJ/Wp58sWX5HfbJ2/YCjt1rse4bzYHul8P3qB5OXEc4SuEnR
+         8sw1JC2RPc9Q93P68sk8Xf/ww7T3WOzHJuA9DptVwFmLwhW6nxG6QfLAEZMFTKwxUhdf
+         7ukmD+8U5qIrV479l4W5k+fYPuROEN9jobXn4DfDtdFLzwNlma6Tiegf9NGDrOWu6hPM
+         V+TVXiiW6JLOhuEdWKOvNiM/sSG+4pRqiL3Bn4SEsUQBofQzpjLq9iBFLkw6YxY1V9k4
+         XyOg==
+X-Forwarded-Encrypted: i=1; AJvYcCUsrapDnIuQsRGOwgcvA+e23MkKOg6D+BQcWTnDOWAccgltjbc7QasFPiPZjgpwU1vEx1dVhbMGa4A=@vger.kernel.org, AJvYcCWXrRXIhQ2qzVZdbFatC+1oqaZA7wUj7DMQ8Yr7SW8Df0/jUPSTzffqIPS462zOXMWxHSg5PYAKANtpTllK@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+C6xGnTJ9G7KQjW4Odv9ohvPCNGusSFMynx5uVk9fx/O+L3MK
+	HCYI5pftzPmHItICA+qlWQF7L4B1QhMcQnzKOlZeB8Wq7jB1R922
+X-Google-Smtp-Source: AGHT+IGJuQv7YVMS3b76MEqSfxuMWDwIlk6D91pEby+w1aoMgw03XSMhXb0YzT7F1DU6/Zg7342Zkw==
+X-Received: by 2002:a17:907:944e:b0:a86:743a:a716 with SMTP id a640c23a62f3a-a93c4c2791fmr66290166b.53.1727385425193;
+        Thu, 26 Sep 2024 14:17:05 -0700 (PDT)
 Received: from [192.168.1.17] (a-lu6-5.tin.it. [212.216.221.196])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c297b7d6sm38862166b.162.2024.09.26.14.17.00
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c297b7d6sm38862166b.162.2024.09.26.14.17.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Sep 2024 14:17:01 -0700 (PDT)
+        Thu, 26 Sep 2024 14:17:04 -0700 (PDT)
 From: Antonino Maniscalco <antomani103@gmail.com>
-Date: Thu, 26 Sep 2024 23:16:46 +0200
-Subject: [PATCH v6 04/11] drm/msm: Add CONTEXT_SWITCH_CNTL bitfields
+Date: Thu, 26 Sep 2024 23:16:48 +0200
+Subject: [PATCH v6 06/11] drm/msm/a6xx: Sync relevant adreno_pm4.xml
+ changes
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,7 +64,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240926-preemption-a750-t-v6-4-7b6e1ef3648f@gmail.com>
+Message-Id: <20240926-preemption-a750-t-v6-6-7b6e1ef3648f@gmail.com>
 References: <20240926-preemption-a750-t-v6-0-7b6e1ef3648f@gmail.com>
 In-Reply-To: <20240926-preemption-a750-t-v6-0-7b6e1ef3648f@gmail.com>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
@@ -80,42 +81,109 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-doc@vger.kernel.org, Antonino Maniscalco <antomani103@gmail.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727385413; l=1479;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727385413; l=4033;
  i=antomani103@gmail.com; s=20240815; h=from:subject:message-id;
- bh=HrcVfm6GphW+dkH2/eI9roTkaCaCbkN7M4JC5UFjlfM=;
- b=ec7LoUmEJAjOmebgibx3u60S+UsCHv4BwpHYl/Nc/7q9K7NGp9GiEBLqx/gvyNu6Wv+J7Suz2
- nQnm9jESmN5Cejmax/JV9YxHfosajsFLUgzIOl368HKPOvv+/ryayTH
+ bh=+/10yM8zg55qjZOGGUuysVO4iKnvZxJ8Izq/9aSEglE=;
+ b=gv6nI52xnz/kVdnR4lknsl1zvWz6DMg5CLSswnLhy7uzKDs/Q0RBB+cyObaTHSc4WqCXO2BUp
+ lTFtVlekgn/ADxnw+Pk2C5DRcgYrJP+SIPr0vWGcEUNSiFA8mQaz0Wn
 X-Developer-Key: i=antomani103@gmail.com; a=ed25519;
  pk=0zicFb38tVla+iHRo4kWpOMsmtUrpGBEa7LkFF81lyY=
 
-Add missing bitfields to CONTEXT_SWITCH_CNTL in a6xx.xml.
+In mesa CP_SET_CTXSWITCH_IB is renamed to CP_SET_AMBLE and some other
+names are changed to match KGSL. Import those changes.
+
+The changes have not been merged yet in mesa but are necessary for this
+series.
 
 Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
 Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
 Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8450-HDK
 Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
 ---
- drivers/gpu/drm/msm/registers/adreno/a6xx.xml | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ .../gpu/drm/msm/registers/adreno/adreno_pm4.xml    | 39 ++++++++++------------
+ 1 file changed, 17 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/registers/adreno/a6xx.xml b/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
-index 2dfe6913ab4f52449b76c2f75b2d101c08115d16..fd31d1d7a11eef7f38dcc2975dc1034f6b7a2e41 100644
---- a/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
-+++ b/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
-@@ -1337,7 +1337,12 @@ to upconvert to 32b float internally?
- 		<reg32 offset="0x0" name="REG" type="a6x_cp_protect"/>
- 	</array>
+diff --git a/drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml b/drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml
+index cab01af55d22268ccf88f1a5032b6081d8e4e475..55a35182858ccac3292849faaf12727257e053c7 100644
+--- a/drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml
++++ b/drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml
+@@ -581,8 +581,7 @@ xsi:schemaLocation="https://gitlab.freedesktop.org/freedreno/ rules-fd.xsd">
+                 and forcibly switch to the indicated context.
+ 	</doc>
+ 	<value name="CP_CONTEXT_SWITCH" value="0x54" variants="A6XX"/>
+-	<!-- Note, kgsl calls this CP_SET_AMBLE: -->
+-	<value name="CP_SET_CTXSWITCH_IB" value="0x55" variants="A6XX-"/>
++	<value name="CP_SET_AMBLE" value="0x55" variants="A6XX-"/>
  
--	<reg32 offset="0x08A0" name="CP_CONTEXT_SWITCH_CNTL"/>
-+	<reg32 offset="0x08A0" name="CP_CONTEXT_SWITCH_CNTL">
-+		<bitfield name="STOP" pos="0" type="boolean"/>
-+		<bitfield name="LEVEL" low="6" high="7"/>
-+		<bitfield name="USES_GMEM" pos="8" type="boolean"/>
-+		<bitfield name="SKIP_SAVE_RESTORE" pos="9" type="boolean"/>
-+	</reg32>
- 	<reg64 offset="0x08A1" name="CP_CONTEXT_SWITCH_SMMU_INFO"/>
- 	<reg64 offset="0x08A3" name="CP_CONTEXT_SWITCH_PRIV_NON_SECURE_RESTORE_ADDR"/>
- 	<reg64 offset="0x08A5" name="CP_CONTEXT_SWITCH_PRIV_SECURE_RESTORE_ADDR"/>
+ 	<!--
+ 	Seems to always have the payload:
+@@ -2013,42 +2012,38 @@ opcode: CP_LOAD_STATE4 (30) (4 dwords)
+ 	</reg32>
+ </domain>
+ 
+-<domain name="CP_SET_CTXSWITCH_IB" width="32">
++<domain name="CP_SET_AMBLE" width="32">
+ 	<doc>
+-                Used by the userspace driver to set various IB's which are
+-                executed during context save/restore for handling
+-                state that isn't restored by the
+-                context switch routine itself.
+-	</doc>
+-	<enum name="ctxswitch_ib">
+-		<value name="RESTORE_IB" value="0">
++                Used by the userspace and kernel drivers to set various IB's
++                which are executed during context save/restore for handling
++                state that isn't restored by the context switch routine itself.
++  </doc>
++	<enum name="amble_type">
++		<value name="PREAMBLE_AMBLE_TYPE" value="0">
+ 			<doc>Executed unconditionally when switching back to the context.</doc>
+ 		</value>
+-		<value name="YIELD_RESTORE_IB" value="1">
++		<value name="BIN_PREAMBLE_AMBLE_TYPE" value="1">
+                         <doc>
+ 				Executed when switching back after switching
+ 				away during execution of
+-				a CP_SET_MARKER packet with RM6_YIELD as the
+-				payload *and* the normal save routine was
+-				bypassed for a shorter one. I think this is
+-				connected to the "skipsaverestore" bit set by
+-				the kernel when preempting.
++				a CP_SET_MARKER packet with RM6_BIN_RENDER_END as the
++				payload *and* skipsaverestore is set. This is
++				expected to restore static register values not
++				saved when skipsaverestore is set.
+ 			</doc>
+ 		</value>
+-		<value name="SAVE_IB" value="2">
++		<value name="POSTAMBLE_AMBLE_TYPE" value="2">
+                         <doc>
+ 				Executed when switching away from the context,
+ 				except for context switches initiated via
+ 				CP_YIELD.
+                         </doc>
+ 		</value>
+-		<value name="RB_SAVE_IB" value="3">
++		<value name="KMD_AMBLE_TYPE" value="3">
+ 			<doc>
+ 				This can only be set by the RB (i.e. the kernel)
+ 				and executes with protected mode off, but
+-				is otherwise similar to SAVE_IB.
+-
+-				Note, kgsl calls this CP_KMD_AMBLE_TYPE
++				is otherwise similar to POSTAMBLE_AMBLE_TYPE.
+ 			</doc>
+ 		</value>
+ 	</enum>
+@@ -2060,7 +2055,7 @@ opcode: CP_LOAD_STATE4 (30) (4 dwords)
+ 	</reg32>
+ 	<reg32 offset="2" name="2">
+ 		<bitfield name="DWORDS" low="0" high="19" type="uint"/>
+-		<bitfield name="TYPE" low="20" high="21" type="ctxswitch_ib"/>
++		<bitfield name="TYPE" low="20" high="21" type="amble_type"/>
+ 	</reg32>
+ </domain>
+ 
 
 -- 
 2.46.1
