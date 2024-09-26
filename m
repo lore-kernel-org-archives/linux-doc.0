@@ -1,89 +1,219 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABFC1146586
-	for <linux-doc@vger.kernel.org>; Thu, 26 Sep 2024 20:42:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01A4183CD6;
+	Thu, 26 Sep 2024 21:16:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727383365; cv=none; b=DpH5ZAa0tEVyjMhHGSnJJeDUw4t0YWF6BQ5cT/Os/ibToWoXIl/E1tMViivAXVdmoNNgn4UYbq5KUpGFVr4c5midMcIylKyAaU9kArsA2p4S1w6AIgW7sFDUpirRF/25Q5Rmw1Qj4V9DSEag65nsCZGuGQyLopy5lG5Me/Nmkv4=
+	t=1727385419; cv=none; b=MOgA4YFRR1pm0noje9LjsLKS+gBlDa5rDUAJI7IXMy2gRgLHH6d3E9meKKJcr/YNMyhVORi9Icl1vFNnEktWnuqjUumvF7Z9LSm7YBTIgcNkinmfC1cP5JFlTy+QWuv5vGmKDexylFqVbTd6vfYX2QLKiE1uNKjkM8qANDhb0K4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727383365; c=relaxed/simple;
-	bh=14wRSg/2y16ccuejLI68J87uo/D1IRgi0UoTJ2Vncdw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fEsuHSATQv+42g3WU5HU3K6qK6aWXUsfqaH9lUL1yDKdTvZyshQpWXxJQQDqozPORjvqYrzz1GdyENu7hS54c07HTnrzifQeFpP3zQGqQFia98SQffr4nZTgMx8DCDAhq9PsgiLBBk+5PUJBKg4UQ1DguehbO+exvLhCIr61WZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YZOKs6n5; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727385419; c=relaxed/simple;
+	bh=llt84Q6uMYWCeZIr3VX1MJmLnn+TqCHJ3rAalKWCkW0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=sEoI/cCoCVN+a8U68dknmiO0cpH0q6e9FAuI62Nsh31b2J4ME01YOXSDabyQjqbiI7ppIEyVCoEJKZPEw9yZ4m2n1THpPbMLFJptJvYjHYXZkqIDs70UxAprSMw7t0nVm1Ce8smfadzFRV7WCNZixVs+PtN9eKpBVQhacAcA7Bc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XWHui/ii; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YZOKs6n5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727383363; x=1758919363;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=14wRSg/2y16ccuejLI68J87uo/D1IRgi0UoTJ2Vncdw=;
-  b=YZOKs6n54qcpPnlBesQ2/S0iLI7BRvUQeXODH+RSvJJV7Rc0XmBy/x/x
-   dWzqBWl52V/2w4K7Xa3Wb1NiHyHrumFeFItfGO8tEcJaAa7MW2Bu1rYxe
-   JF7j7c6QXbyvvg0EzecwChlt54HOpoQxP+ggazMTSBzhQWrH4P/U4+w6E
-   ucOku4PLujuYLhYSGkB0vP9Qsks8jcdV3fO0gTioB3uSn84BJ9pNEcoww
-   1APYLm65cRa+igBNwKoNcIkIQlMqqtScvnC6klqdVIg4CBdVIHPxZaB4r
-   D4qovo/QPB86fM2EdeI2y9E6jz0tGvmoBmUKbSjw20A1cnevYFHmP+buA
-   w==;
-X-CSE-ConnectionGUID: AWEQvk7rSbaQIS5cxbiz6g==
-X-CSE-MsgGUID: Ohx+iIOnTcaLhUQCTlGDVw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="25981672"
-X-IronPort-AV: E=Sophos;i="6.11,156,1725346800"; 
-   d="scan'208";a="25981672"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 13:42:43 -0700
-X-CSE-ConnectionGUID: tpPwMKm+QZi5JbWyBGUD0Q==
-X-CSE-MsgGUID: SMem/xFSQl+XpV6N/iWYYg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,156,1725346800"; 
-   d="scan'208";a="71970894"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 26 Sep 2024 13:42:42 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1stvJv-000LBB-21;
-	Thu, 26 Sep 2024 20:42:39 +0000
-Date: Fri, 27 Sep 2024 04:41:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jisheng Zhang <jszhang@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Drew Fustini <dfustini@tenstorrent.com>,
-	Emil Renner Berthing <emil.renner.berthing@canonical.com>,
-	linux-doc@vger.kernel.org
-Subject: [pdp7:b4/th1520-dwmac 10/12] htmldocs: Warning: MAINTAINERS
- references a file that doesn't exist:
- Documentation/devicetree/bindings/net/thead,dwmac.yaml
-Message-ID: <202409270406.No2vpr3D-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XWHui/ii"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a8a7b1c2f2bso209577366b.0;
+        Thu, 26 Sep 2024 14:16:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727385416; x=1727990216; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NojhDIYPtboEQKV1eWDp7ZxFNsRiRa7KgSjISOFHh/I=;
+        b=XWHui/iiGfknzPuZ8jgXANYUIUYkz2eAxs7DeNIFkGlP6wGzF6q7NdKxKIL9TTWOFK
+         e1tXrt/h6N9T4KHCvClv3oV9WEQj+P9jPdmaXOqppK3ys9E9ru/EsynGHu6sPX5TukIm
+         twyI/AU0iFySFS8DXhThY4B64kHN94mxXhrohTzk1lfIz+J4d0t29PDKqa7KjFr83vB3
+         1pGPHJReHNRwZj30QRKRFnKuIg414hQR+Gq9cMqZ721XteL5byyOkcMWNakUqjBNTroa
+         GOVJJ7ESXLC3nDvlJoBTIrqJo/okDQqX4HKkrRdP5RG9IIe7kq5IKf4NE6IFKptEZ6Mj
+         YyMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727385416; x=1727990216;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NojhDIYPtboEQKV1eWDp7ZxFNsRiRa7KgSjISOFHh/I=;
+        b=dRdDiPk4szFti2+ulsZkM+YjD8EiQIeNz5DgsIblLIK1cfJe3o7/XlppjQTnywuy1F
+         1NZeHrWQKmUPi11+QrUlocs98YXgoUaXHb3hyUaeWUOq2IzuRy/OegSWhEmgic9qIyfm
+         cZSlYDoAuV/l+8n3OBtSmpe1Jk5OjWpmeAraX8vQEkCIzE3qGd9Fs0RSL7vWscoJFVev
+         C9IgbRHnFsNZefrZ6Vh5UatljzpCJUGYHvXyYHwq2NvtEMb6Gw/eIjRgqtUfZmcMJ69m
+         4hqibR4pDps6uKMDczFz08HASQyp1fiJN3VsGkCtBHEhppFEvRt5cMUyNyTNhi/bLHa/
+         /9gQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUavotxV+6REFSn1BBHBsoYbxRZaOxcxZPA+zVNcsbTcVDf7NIrCRXtTPGZ+q89l85R31lCpCal5Z6j+ygR@vger.kernel.org, AJvYcCUicb70n1C+tqQikOMkquQvwdH6BlxkXN6skcp10+oXIG4GSIswXzcSg+HCfrMrLxyEnlIp6fKZs9E=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+NBl0dLuPsqXqa3by3vAlIXjUK/wHL6bZgOvdXzSsP7bLZoGE
+	2Mbc+FmgzEv+UmUS/WRLJkZrhKPPGlVD7fBom6zqzi80Mekpjhms
+X-Google-Smtp-Source: AGHT+IEoUPZWhRhr6gFwOKPa+IiSxa+7PEGOS3oE3z3+UnO4GGBxERCNrzpZAGZuRg7MITGapW+C8A==
+X-Received: by 2002:a17:906:f5a8:b0:a8d:2faf:d329 with SMTP id a640c23a62f3a-a93c48e8175mr71194666b.2.1727385415536;
+        Thu, 26 Sep 2024 14:16:55 -0700 (PDT)
+Received: from [192.168.1.17] (a-lu6-5.tin.it. [212.216.221.196])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c297b7d6sm38862166b.162.2024.09.26.14.16.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Sep 2024 14:16:55 -0700 (PDT)
+From: Antonino Maniscalco <antomani103@gmail.com>
+Subject: [PATCH v6 00/11] Preemption support for A7XX
+Date: Thu, 26 Sep 2024 23:16:42 +0200
+Message-Id: <20240926-preemption-a750-t-v6-0-7b6e1ef3648f@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADrP9WYC/33QzU7DMAwH8FeZcibIcZIm4cR7IA75cLZIdJ3aq
+ gJNfXe8XSij4vi37J8tX8VEY6NJvByuYqSlTW04c+ieDiKf4vlIshXOAgENeGXlZSTqLzO3yeg
+ syFnWTBSiNybpIHiOO2r7vJtv75xPbZqH8eu+YlG36n/aoiRIl0rELmsD2r0e+9g+nvPQi5u24
+ EbQsCcgC76LRLFgLh4eBf0jBNi9QbNQSzCuC6G6lB8FsxGU2xMMC8EW40EhQfwj2I2AZk+wLEA
+ iTNWrrPyvP6zr+g01xYN4ugEAAA==
+X-Change-ID: 20240815-preemption-a750-t-fcee9a844b39
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Antonino Maniscalco <antomani103@gmail.com>, 
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Sharat Masetty <smasetty@codeaurora.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727385413; l=5602;
+ i=antomani103@gmail.com; s=20240815; h=from:subject:message-id;
+ bh=llt84Q6uMYWCeZIr3VX1MJmLnn+TqCHJ3rAalKWCkW0=;
+ b=hSRK6Lng9//YujRYScGmiLTiNjOh/1xaVPtDJXe8flZhsK+FoJOrwi3FpvOTrPuqKmfuk/o/6
+ /DvLWHzdlypA/UsYnQl6TTJUKg2ECOHgd0PEAZLioI8DBQ4RlLyosei
+X-Developer-Key: i=antomani103@gmail.com; a=ed25519;
+ pk=0zicFb38tVla+iHRo4kWpOMsmtUrpGBEa7LkFF81lyY=
 
-tree:   https://github.com/pdp7/linux b4/th1520-dwmac
-head:   c4e5c0b7aa139b5a6bfc8f2a3f6f6901d3dfcac3
-commit: 0c2865dfa6aa9fb67ef9b12cf723cce6fa46e959 [10/12] dt-bindings: net: Add T-HEAD dwmac support
-reproduce: (https://download.01.org/0day-ci/archive/20240927/202409270406.No2vpr3D-lkp@intel.com/reproduce)
+This series implements preemption for A7XX targets, which allows the GPU to
+switch to an higher priority ring when work is pushed to it, reducing latency
+for high priority submissions.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409270406.No2vpr3D-lkp@intel.com/
+This series enables L1 preemption with skip_save_restore which requires
+the following userspace patches to function:
 
-All warnings (new ones prefixed by >>):
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30544
 
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/net/thead,dwmac.yaml
-   Using alabaster theme
+A flag is added to `msm_submitqueue_create` to only allow submissions
+from compatible userspace to be preempted, therefore maintaining
+compatibility.
 
+Preemption is currently only enabled by default on A750, it can be
+enabled on other targets through the `enable_preemption` module
+parameter. This is because more testing is required on other targets.
+
+For testing on other HW it is sufficient to set that parameter to a
+value of 1, then using the branch of mesa linked above, `TU_DEBUG=hiprio`
+allows to run any application as high priority therefore preempting
+submissions from other applications.
+
+The `msm_gpu_preemption_trigger` and `msm_gpu_preemption_irq` traces
+added in this series can be used to observe preemption's behavior as
+well as measuring preemption latency.
+
+Some commits from this series are based on a previous series to enable
+preemption on A6XX targets:
+
+https://lkml.kernel.org/1520489185-21828-1-git-send-email-smasetty@codeaurora.org
+
+Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
+---
+Changes in v6:
+- Fixed commit message prefix (A6XX->a6xx)
+- Allow preemption to be disabled at run time
+- Link to v5: https://lore.kernel.org/r/20240924-preemption-a750-t-v5-0-0be2bf81c187@gmail.com
+
+Changes in v5:
+- Made preemption documentation more detailed
+- Added ring ID to preempt_record BO name
+- Added Neil's Tested-By tags
+- Added Akhil's Reviewed-By tags
+- Moved preemption module params to adreno_device.c
+- Link to v4: https://lore.kernel.org/r/20240917-preemption-a750-t-v4-0-95d48012e0ac@gmail.com
+
+Changes in v4:
+- Added missing register in pwrup list 
+- Removed and rearrange barriers
+- Renamed `skip_inline_wptr` to `restore_wptr`
+- Track ctx seqno per ring
+- Removed secure preempt context
+- NOP out postamble to disable it instantly
+- Only emit pwrup reglist once
+- Document bv_rptr_addr
+- Removed unused A6XX_PREEMPT_USER_RECORD_SIZE
+- Set name on preempt record buffer
+- Link to v3: https://lore.kernel.org/r/20240905-preemption-a750-t-v3-0-fd947699f7bc@gmail.com
+
+Changes in v3:
+- Added documentation about preemption
+- Use quirks to determine which target supports preemption
+- Add a module parameter to force disabling or enabling preemption
+- Clear postamble when profiling
+- Define A6XX_CP_CONTEXT_SWITCH_CNTL_LEVEL fields in a6xx.xml
+- Make preemption records MAP_PRIV
+- Removed user ctx record (NON_PRIV) and patch 2/9 as it's not needed
+  anymore
+- Link to v2: https://lore.kernel.org/r/20240830-preemption-a750-t-v2-0-86aeead2cd80@gmail.com
+
+Changes in v2:
+- Added preept_record_size for X185 in PATCH 3/7
+- Added patches to reset perf counters
+- Dropped unused defines
+- Dropped unused variable (fixes warning)
+- Only enable preemption on a750
+- Reject MSM_SUBMITQUEUE_ALLOW_PREEMPT for unsupported targets
+- Added Akhil's Reviewed-By tags to patches 1/9,2/9,3/9
+- Added Neil's Tested-By tags
+- Added explanation for UAPI changes in commit message
+- Link to v1: https://lore.kernel.org/r/20240815-preemption-a750-t-v1-0-7bda26c34037@gmail.com
+
+---
+Antonino Maniscalco (11):
+      drm/msm: Fix bv_fence being used as bv_rptr
+      drm/msm/a6xx: Track current_ctx_seqno per ring
+      drm/msm: Add a `preempt_record_size` field
+      drm/msm: Add CONTEXT_SWITCH_CNTL bitfields
+      drm/msm/a6xx: Implement preemption for a7xx targets
+      drm/msm/a6xx: Sync relevant adreno_pm4.xml changes
+      drm/msm/a6xx: Use posamble to reset counters on preemption
+      drm/msm/a6xx: Add traces for preemption
+      drm/msm/a6xx: Add a flag to allow preemption to submitqueue_create
+      drm/msm/a6xx: Enable preemption for a750
+      Documentation: document adreno preemption
+
+ Documentation/gpu/msm-preemption.rst               |  99 +++++
+ drivers/gpu/drm/msm/Makefile                       |   1 +
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.c              |   2 +-
+ drivers/gpu/drm/msm/adreno/a3xx_gpu.c              |   2 +-
+ drivers/gpu/drm/msm/adreno/a4xx_gpu.c              |   2 +-
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |   6 +-
+ drivers/gpu/drm/msm/adreno/a6xx_catalog.c          |   7 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 325 ++++++++++++++-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h              | 174 ++++++++
+ drivers/gpu/drm/msm/adreno/a6xx_preempt.c          | 440 +++++++++++++++++++++
+ drivers/gpu/drm/msm/adreno/adreno_device.c         |   4 +
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h            |   9 +-
+ drivers/gpu/drm/msm/msm_gpu.c                      |   2 +-
+ drivers/gpu/drm/msm/msm_gpu.h                      |  11 -
+ drivers/gpu/drm/msm/msm_gpu_trace.h                |  28 ++
+ drivers/gpu/drm/msm/msm_ringbuffer.h               |  18 +
+ drivers/gpu/drm/msm/msm_submitqueue.c              |   7 +
+ drivers/gpu/drm/msm/registers/adreno/a6xx.xml      |   7 +-
+ .../gpu/drm/msm/registers/adreno/adreno_pm4.xml    |  39 +-
+ include/uapi/drm/msm_drm.h                         |   5 +-
+ 20 files changed, 1122 insertions(+), 66 deletions(-)
+---
+base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
+change-id: 20240815-preemption-a750-t-fcee9a844b39
+
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Antonino Maniscalco <antomani103@gmail.com>
+
