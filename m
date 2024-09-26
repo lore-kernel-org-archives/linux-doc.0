@@ -1,91 +1,100 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5C81AF4D8;
-	Thu, 26 Sep 2024 11:09:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727348970; cv=pass; b=acAg5KuYy/XoSxlSFOPqVDiXDsPOtc6hd23zMjSf3kMg897vajWiih1C1ZRFTVbOgtBASqXjXZxGTN+GZRxmPM5Wbk1HD1td/A8h3QNtVtGcx9gwDaSou+/ASO81yv0ibJ5s+H3RyIBOwM+8A1qKmf095YRsL9G+6/ZyloYwwqw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727348970; c=relaxed/simple;
-	bh=T1OCpA4iZm4u50GcD7BSAchFUYS0PjSXl0dfsYmFnE0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=AvMk0uqDbwcdjYpjuZEcZvMioNYb3bqnJj/Wj2Y4JfXI8NABbbOz3W4HnuGcrxxmbnmriwmRGUgU1+uZeENKkDYq+yUQx/YoLwwCvXuURcdLZ/9hJY5hjGUeoW9Aj/r//EqhNhow12TP+VDYVJ06UyVP4Rfqj0WcuquCrBRARpw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.ratiu@collabora.com header.b=hbhzby4Q; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6245A4D8CB;
+	Thu, 26 Sep 2024 13:10:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727356206; cv=none; b=W72ZjhMs+aMrXTbHeXBvnvZ+m0MQ9HW1EOzA6sLfUveKRfxvPZrIEOR9wAAS55Vu1jyFKL2O/cJZOqNg3pHefBB38i/HiKZ4G2quXA3t2MfvpmTHSvH8vgoY4IU1OC20sbHNwSsxDyB5T6S8aKwv0KpqWtcI+s4uTWg1U689GZI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727356206; c=relaxed/simple;
+	bh=SHX+7v7SktiuB0uZn4VwUt3KDDPOqnx7xJ+2a231HrE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YRkpvza5ZUiHirx0Cp/TD3swr7ttN0dPwbDEzEEsIP3Pat4pL8zwFH7YvDmlcMrAGvVVa30/d+Egi5mV8ILxGOuweHE3xL85/9UdtuQ+Jtq5xH5VQu6i1z+FWV+nkeRZi8G4r4QDWPVpPCXCJWIXsaRAZVWG1IHQs8MsSZ3oLIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TnmiKbqo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.ratiu@collabora.com header.b="hbhzby4Q"
-ARC-Seal: i=1; a=rsa-sha256; t=1727348898; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=JftiJ+kfhrPTjDL6sW/l4oFxYIOI87ItdjqAO/0rXBqlO22A/T8UDmice+ArvvSySHqS7yUO1t0HW3vcJq+RBoPuLh3Zcs+FJhNVVZfTh2evdHdj+OwhzOe4Ua8Bth0KshwLOave0uvvyKrOH216soxh98ccekTpnH/GHLp2elc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1727348898; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=JrLldkqoPq2lsMOGw47yIyVjJ4SBU4HXusXF9HRcH38=; 
-	b=D1zo3pxIOylMlxGoEF+ikaTNXBczl6cgfjVq1raLAgrTbZ720aeeTdoOyU54ZZg5+aENhkpKzsU7Si0zKdPMpTsmaqQraUQDyhJY9405SF7E+qAPkL5lSpKT/v5BvIMKUSUXMzdca62SeIBH1c7hdfOshr1gPu6zh/DkFNYntcI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=adrian.ratiu@collabora.com;
-	dmarc=pass header.from=<adrian.ratiu@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1727348898;
-	s=zohomail; d=collabora.com; i=adrian.ratiu@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:In-Reply-To:References:Date:Date:Message-ID:MIME-Version:Content-Type:Message-Id:Reply-To;
-	bh=JrLldkqoPq2lsMOGw47yIyVjJ4SBU4HXusXF9HRcH38=;
-	b=hbhzby4Q0+wmGZCDnWnVbjGHuObOBXwD5vIr/vqWRLLwz/aYuEX6+MBXc7TGy030
-	itYIjVbHxjSnC7o/gPWNQUG7TOwI4gfaAdM+zvP5Ae/5F2U9y2cGE8qALQ3X9vkQAMP
-	b/2O4g3zuCs+mNqYjA3US+WqdXATOCe+U7nFnhFk=
-Received: by mx.zohomail.com with SMTPS id 1727348896138291.23618690406806;
-	Thu, 26 Sep 2024 04:08:16 -0700 (PDT)
-From: Adrian Ratiu <adrian.ratiu@collabora.com>
-To: Alexey Dobriyan <adobriyan@gmail.com>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org, Doug Anderson
- <dianders@chromium.org>, Jeff Xu <jeffxu@google.com>, Jann Horn
- <jannh@google.com>, Kees Cook <kees@kernel.org>, Ard Biesheuvel
- <ardb@kernel.org>, Christian Brauner <brauner@kernel.org>, Linus Torvalds
- <torvalds@linux-foundation.org>, corbet@lwn.net, paul@paul-moore.com,
- jmorris@namei.org, serge@hallyn.com, thuth@redhat.com, bp@alien8.de,
- tglx@linutronix.de, jpoimboe@kernel.org, paulmck@kernel.org,
- tony@atomide.com, xiongwei.song@windriver.com, akpm@linux-foundation.org,
- oleg@redhat.com, casey@schaufler-ca.com, viro@zeniv.linux.org.uk,
- linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-security-module@vger.kernel.org, Sasha Levin <sashal@kernel.org>
-Subject: Re: [PATCH AUTOSEL 6.6 048/139] proc: add config & param to block
- forcing mem writes
-In-Reply-To: <e22f3662-c985-4409-99f3-5168fa2a4b9f@p183>
-References: <20240925121137.1307574-1-sashal@kernel.org>
- <20240925121137.1307574-48-sashal@kernel.org>
- <e22f3662-c985-4409-99f3-5168fa2a4b9f@p183>
-Date: Thu, 26 Sep 2024 14:07:59 +0300
-Message-ID: <871q16ad0w.fsf@gentoo.mail-host-address-is-not-set>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TnmiKbqo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D747C4CEC5;
+	Thu, 26 Sep 2024 13:10:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727356206;
+	bh=SHX+7v7SktiuB0uZn4VwUt3KDDPOqnx7xJ+2a231HrE=;
+	h=From:Date:Subject:To:Cc:From;
+	b=TnmiKbqol6VurRRhqBcAjWIBvTWt6ZNxVT3alq7PbuoGXRUU4KuguWPnlVWvFQMIS
+	 1JwSnRKd2KL3q9SbuQym5uAbquMmoP8U2pbdf0XE7Rx+uBxm0ukmLZPY/uaqYWeW5L
+	 pmxtpglb3OnK5i7BEb4JNX0umjGzpw0Ro7T5kaYBzMxS59GC5zKQImOU1i/fzB/A4f
+	 0mlnXEMO5y6MM5cR6PSi7F0hfWwfwCtmdgsXtFIRXNs6eQgpEvfyx8/hpyuoPCJCCM
+	 k8NyGhYXol4hXZ5QjQWZWwccjUz8B6NLkzmjMXB8zIL77/dsOM8jAALU8AK0qR0dNt
+	 xzoVV64U+r3lQ==
+From: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
+Date: Thu, 26 Sep 2024 15:09:58 +0200
+Subject: [PATCH doc] docs: gcov: fix link to LCOV website
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed
-X-ZohoMailClient: External
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240926-doc-fix-lcov-link-v1-1-46f250cb7173@kernel.org>
+X-B4-Tracking: v=1; b=H4sIACVd9WYC/x2MWwqAIBAArxL73YLZg+oq0YfpVkuhoSBBdPeWP
+ gdm5oFEkSnBWDwQKXPi4AWqsgC7G78RshMGrXSjBt2hCxZXvvG0IePJ/kC1rLY1fW2qhUC6K5I
+ I/3MC0WF+3w/xeP+baAAAAA==
+X-Change-ID: 20240926-doc-fix-lcov-link-0bfc5a83a1be
+To: mptcp@lists.linux.dev, Peter Oberparleiter <oberpar@linux.ibm.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1286; i=matttbe@kernel.org;
+ h=from:subject:message-id; bh=SHX+7v7SktiuB0uZn4VwUt3KDDPOqnx7xJ+2a231HrE=;
+ b=owEBbQKS/ZANAwAIAfa3gk9CaaBzAcsmYgBm9V0re4YpjGSaLmMu4AWrXLyEuvOotm10oCt+G
+ sxsMZe7gPOJAjMEAAEIAB0WIQToy4X3aHcFem4n93r2t4JPQmmgcwUCZvVdKwAKCRD2t4JPQmmg
+ c23KD/9GnTA3ewEKkTex4xhVP1CtknQt+d+7SSULMx1k2Y2XJSqrOJqRkOY5xE2DkmgAMwgGIVX
+ 2uMv/ZoSSChZTmZSqSMtoDC2ZrrrywGbxHIMLnI0AyiX1I+VzhCyDpI6nvFVkZhzDlUfPlHOe9+
+ 5an0T+cnwhRxDtPXS4NtGqLoMpwa/J2H3O7OQCjrR8/n+kciNpOrM9C6u3riERt4ZIZ8VO2d9yB
+ +UdpaBRzQ3K6dZSX0u4mT87eLSABfjJ66qKx5Vm8EmClIT/LiBnNn3YYw7FuW7s+40U6C37pKsl
+ F3ZfzA38dVPqJz9JP0/zVxMd3GRLap4FO8648O0kO3DxfchrlkjrdgYmMR91jZ8iTzNx6tYgOuu
+ +gEE0VM0YTfgfJas7ou4+IAWwJz4ts//hsAQI7VWAh4Oghy/7mX5lLL1Cp/APa2NXDhaQKl1zKb
+ IlBfn4/TeDQ7SdJtIVvv+oj7JLEx93jqneRvs2L5iEYv3eiAoQRM+rP8CbcSRYmkgTMVywmTXJ4
+ 5c5TXdq7hT2qtqj52ZkDjvzf3/CU/m/u9/fmZSzoBJJXXe1CvBqQUkJO1aYcG0E8Ni5fVlGX9nM
+ h+3nnfhuuJFrPsQaoBk/2K2OMXpqY8TtqtrRyoytatTWUGiOe+fwU7zGb1ACYuGTFlFzh3WAI7T
+ q+ggk4ozbw3mLMg==
+X-Developer-Key: i=matttbe@kernel.org; a=openpgp;
+ fpr=E8CB85F76877057A6E27F77AF6B7824F4269A073
 
-On Wed, 25 Sep 2024, Alexey Dobriyan <adobriyan@gmail.com> wrote:
-> On Wed, Sep 25, 2024 at 08:07:48AM -0400, Sasha Levin wrote: 
->> From: Adrian Ratiu <adrian.ratiu@collabora.com>  [ Upstream 
->> commit 41e8149c8892ed1962bd15350b3c3e6e90cba7f4 ]  This adds a 
->> Kconfig option and boot param to allow removing the FOLL_FORCE 
->> flag from /proc/pid/mem write calls because it can be abused. 
-> 
-> And this is not a mount option why? 
+The previous website hosted on SourceForge is no longer available since
+January 2024 according to archive.org [1].
 
-Hello and thanks for asking!
+It looks like the website has been officially moved to GitHub in June
+2022 [2]. Best to redirect readers to the new location then.
 
-The only reason is nobody asked for it yet. :)
+Link: https://web.archive.org/web/20240105235756/https://ltp.sourceforge.net/coverage/lcov.php [1]
+Link: https://github.com/linux-test-project/lcov/commit/6da8399c7a7a [2]
+Signed-off-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
+---
+ Documentation/dev-tools/gcov.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-We need to be careful how we do this, so the restriction is still 
-enabled when remounting, otherwise I don't see any impediment, 
-provided we can find a way to make it clean and safe.
+diff --git a/Documentation/dev-tools/gcov.rst b/Documentation/dev-tools/gcov.rst
+index 5fce2b06f22954c3ac6e7d7118064f015624c4a9..53a85ffebcea9fc99484296c5193df7ab5ec4e3e 100644
+--- a/Documentation/dev-tools/gcov.rst
++++ b/Documentation/dev-tools/gcov.rst
+@@ -23,7 +23,7 @@ Possible uses:
+   associated code is never run?)
  
-I am travelling these weeks (All Systems GO conf) and have a lot 
-going on, so please feel free to send a patch and I'll review it 
-ASAP, otherwise I'll try to come up with something by end of 
-October.
+ .. _gcov: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html
+-.. _lcov: http://ltp.sourceforge.net/coverage/lcov.php
++.. _lcov: https://github.com/linux-test-project/lcov
+ 
+ 
+ Preparation
 
-Adrian
+---
+base-commit: 052f172ef127e3b76f31e11f71e957e552cdb94d
+change-id: 20240926-doc-fix-lcov-link-0bfc5a83a1be
+
+Best regards,
+-- 
+Matthieu Baerts (NGI0) <matttbe@kernel.org>
+
