@@ -1,153 +1,321 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DC353B7A8;
-	Thu, 26 Sep 2024 13:38:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66FC136337;
+	Thu, 26 Sep 2024 14:01:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727357922; cv=none; b=WCQQi4vbwCkxQDml/CRvbeQDevm6pzMmgT8GZOr8FtNxmS4QoTRACLUN8ABTytP+SI/n91zc4zDvMyOCHunldtQdzoegVou12BwJv9jFH9HHg03FtbeEGrc6rMr9wO3QA3Px6cOLB0P2qSy2beFv8GAckQ/uvjjiI8sYPkzAL2A=
+	t=1727359304; cv=none; b=GhAV1Cy85pxWTfHuLTwi8DRWDDKp2orI2OR8q9tbeYinr7QN7Ba4PKsDyJnzZ7Wm8QxWyHGXvTFNEwsAgo/f4bnTviaISAH2WxqjWlqojxl537i4CxMN2/Vgrxor22BaiCEgjJojJtXY/1q3OqOhEc+w3Al4Tf5sPKvuX8PmD8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727357922; c=relaxed/simple;
-	bh=OPIQS2t62p13UwMnk1FiF+unfRr5Zwe9MubLOeGiJyM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SWI4Ov3/hPpmp4ekefjXgITt1acMdx2JHaai2YW3K++Jlnhk++5i0P+tQeLR5cckoEm+Y8I8qPrbkPzhS/p3c9jXKyw8/v7oh6LfGDbNLRoKKEc5idpk11WTZtEEigmpwQj72fMED3moCd6l+C2DMO5b5F5TLYKA1fRV81s9rYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tFpkbNET; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727359304; c=relaxed/simple;
+	bh=EmMCExrHRfEXVznU1fY4zpfSermDkzsBD7jQQ70mRZ4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LwNJQxmMiLMs7naiYsG8opiy0TaSfyufSnzYkMkxp+eAvkrwY+/dHKD5kKL3jTMyl9n5Y2uLmuBBmrQ/2T13mfPXZi2Vt+UfLM79reX5GZVJjqAMVoJ/3w2hdHAHH4t8aX9LAW8IP0LbfFBmrgyf6NWuLlXY4ZtvxeBwXRM52KQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pankajraghav.com; spf=pass smtp.mailfrom=pankajraghav.com; dkim=pass (2048-bit key) header.d=pankajraghav.com header.i=@pankajraghav.com header.b=B/hzg0lE; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pankajraghav.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pankajraghav.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tFpkbNET"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D596EC4CECE;
-	Thu, 26 Sep 2024 13:38:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727357921;
-	bh=OPIQS2t62p13UwMnk1FiF+unfRr5Zwe9MubLOeGiJyM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=tFpkbNET0czPRtMPovfI/tw3gSCaREnEFLqAxcDb3uZoTaN1MUsL6oFQbeAJWaXFI
-	 CeZWZV2EQC3jkUVUyeFkJ+3vTNfdldDlcwSemGpaMMeK9dMpCn+eo3NwP7qHalae2l
-	 VkYErS8T+eLlgBYIpVtrHU2I5PcdP6mhLc1DUl1KUsQKtRR5hqOVwbYWqQHd51bOSc
-	 0RXX9eQm9K7Euav9Ek8BEAPCErl0m7IiVuV8uXmMnTrDNFw9GHP2lFmVOsqkL2L43u
-	 cjWMgiSR1KtLVxjFC81BklSOZDD2JwvftlNBn0/eOD6Pyn0J+4KRnR0e//rfp7F508
-	 d7FbSWxfvv7MQ==
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2f75aaaade6so11868661fa.1;
-        Thu, 26 Sep 2024 06:38:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUXGse6vbc6FpYz4lgSlKDQJ3qHeN8YH1qg4ceNUpAOgf2a3chMjIK0ENodL3waku7Y6v9btiPZYwo=@vger.kernel.org, AJvYcCVHSf69uGrWCz6BRS1+JmcB0WwHMJusjUz5DzJz6OyyNCwKaGdkiV6aC7dllcXHLJDaeF58Iu+R6pkWfkE5@vger.kernel.org, AJvYcCVTuIuwxeKYKbgD/ed5IBfUTO7U1Ejx7RhUMhftttnafsBMVSpnvTc9K/Q5OeTJhgPJkdtAzjFih+qoU3yY@vger.kernel.org, AJvYcCVtRQGxusNOZWYtaUh1loOVtMx1E0c7HHDguIWYo9ealgtYxuWTRpJmBSWUo7f5zHlNPOM1Gw8mgXFiZ8mY@vger.kernel.org, AJvYcCWnzRX1k3MUWDUeu7WRrtNXnuRWLBPxMs1hH9mzwU5NkneQMn6dD/qskBYd2ZFzC5TMylmYyoNk3rnPXw==@vger.kernel.org, AJvYcCWwRwkLEtUjeqDHvxaVwTFatpqwvjxPRnP0dO3vppSWiwK189Ows6GwGumhRSpTmyH4CWEalcL0gdCD@vger.kernel.org, AJvYcCX2LMIhQ6EVmnkECm5H1xOqA26099cMKqZHDLb3snQOaHAII2I5pbbgC2ScvY2UAJCHWL9K3nvrFknz1qONp+CPMw==@vger.kernel.org, AJvYcCXc6rBX4B7tDEFX89zlzTTdnMaKavPMzO6FCLF0Fp51dWzHpePLktp9KpDsTPBEb2azHKHXUxYL49arAuSU2bQ=@vger.kernel.org, AJvYcCXgB42XCutcroFoVKxqmQ3xVd06k4oIAcHRUvkIUAQRtVdVKECbH9h9M9zw29dh6Av1J9g=@vger.kernel.org, AJvYcCXvi5cxeCUvrafei1UmrndmyryPFc3Yjd/XjPlDWE8wKBKBqfauz/iR5f6TXTsiAmqgA/04JIOBiM57@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywss9HWQbBVgJHtvIqk1Wu4DkB/i43GOJbJ7pSBIffBAxWqmqfp
-	RPSo3fNJedto7dlLNTrd34VBZVBaW6YphvSAysX7nCs1Y6E5lZVzu/a9j9jwmABqE2Bgu0nLqyB
-	6em3OiiG3xXVqSuX9z1jAxXZ5Yl4=
-X-Google-Smtp-Source: AGHT+IGDysp0zVaI/G56jPcUmenrli6iDQ7ZCklZUQ9W3MAWEI6d8p2NALI8I7dIlWV2Pg4Oztsl5Tqp++gl5gafuuo=
-X-Received: by 2002:a2e:4a0a:0:b0:2ef:1784:a20 with SMTP id
- 38308e7fff4ca-2f91ca68786mr32564001fa.38.1727357920170; Thu, 26 Sep 2024
- 06:38:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=pankajraghav.com header.i=@pankajraghav.com header.b="B/hzg0lE"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4XDwHx69cbz9v1R;
+	Thu, 26 Sep 2024 16:01:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pankajraghav.com;
+	s=MBO0001; t=1727359293;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=w3yVqcJ29OEQ9vfqFMLDk33CQ5+GhguYzGm7fkCs0Fo=;
+	b=B/hzg0lEblt0XlID897/ZRjsqDcP0jLjdHy9khrBa2XGuPS4avvtELj0OpJGDbeioi61t7
+	IeK7Uva9eqJjQJNAQtFL/osMaWw++FQkcMI5eaZcWmv8r1oYWl6Cd3MhhXzqO33Vy6lzR4
+	U9/k9KdJ1kENR8gfdRKxiBTsRxkcE0LFTdySUBPmIeExlE00t/iw/169IF3eYxskcdFDe5
+	ymmTPoKPSUEmOGSWxpnolvT7Ngwdty5KQb5HzdShLfad2IeycqmAo5Scf8CpSBiM+TPSeF
+	4JNbWZqKFOT0cFl1qDt6C2Q/TSYsVSFRun1ld1P+Hl7fJ+YcXxaDFpk3T79qCA==
+From: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>
+To: Theodore Ts'o <tytso@mit.edu>,
+	Chao Yu <chao@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	willy@infradead.org,
+	Josef Bacik <josef@toxicpanda.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	Zefan Li <lizefan.x@bytedance.com>,
+	Tejun Heo <tj@kernel.org>,
+	akpm@linux-foundation.org,
+	Christian Brauner <brauner@kernel.org>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Chris Mason <clm@fb.com>,
+	David Sterba <dsterba@suse.com>
+Cc: cgroups@vger.kernel.org,
+	linux-btrfs@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-fsdevel@vger.kernel.org,
+	mcgrof@kernel.org,
+	gost.dev@samsung.com,
+	linux-doc@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	kernel@pankajraghav.com,
+	Pankaj Raghav <p.raghav@samsung.com>
+Subject: [PATCH] fs/writeback: convert wbc_account_cgroup_owner to take a folio
+Date: Thu, 26 Sep 2024 16:01:21 +0200
+Message-ID: <20240926140121.203821-1-kernel@pankajraghav.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240925150059.3955569-30-ardb+git@google.com>
- <20240925150059.3955569-57-ardb+git@google.com> <4eca972d-a462-4cc5-9238-5d63485e1af4@oracle.com>
-In-Reply-To: <4eca972d-a462-4cc5-9238-5d63485e1af4@oracle.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Thu, 26 Sep 2024 15:38:27 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXEOFDwoYrLH9f-d46HRPMw7HjWRQGNdMu5_D_Ny3UtPxg@mail.gmail.com>
-Message-ID: <CAMj1kXEOFDwoYrLH9f-d46HRPMw7HjWRQGNdMu5_D_Ny3UtPxg@mail.gmail.com>
-Subject: Re: [RFC PATCH 27/28] x86/kernel: Switch to PIE linking for the core kernel
-To: Vegard Nossum <vegard.nossum@oracle.com>
-Cc: Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Uros Bizjak <ubizjak@gmail.com>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
-	Christoph Lameter <cl@linux.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
-	Juergen Gross <jgross@suse.com>, Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Keith Packard <keithp@keithp.com>, 
-	Justin Stitt <justinstitt@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Kan Liang <kan.liang@linux.intel.com>, linux-doc@vger.kernel.org, 
-	linux-pm@vger.kernel.org, kvm@vger.kernel.org, xen-devel@lists.xenproject.org, 
-	linux-efi@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 4XDwHx69cbz9v1R
 
-On Wed, 25 Sept 2024 at 22:25, Vegard Nossum <vegard.nossum@oracle.com> wrote:
->
->
-> On 25/09/2024 17:01, Ard Biesheuvel wrote:
-> > From: Ard Biesheuvel <ardb@kernel.org>
-> >
-> > Build the kernel as a Position Independent Executable (PIE). This
-> > results in more efficient relocation processing for the virtual
-> > displacement of the kernel (for KASLR). More importantly, it instructs
-> > the linker to generate what is actually needed (a program that can be
-> > moved around in memory before execution), which is better than having to
-> > rely on the linker to create a position dependent binary that happens to
-> > tolerate being moved around after poking it in exactly the right manner.
-> >
-> > Note that this means that all codegen should be compatible with PIE,
-> > including Rust objects, so this needs to switch to the small code model
-> > with the PIE relocation model as well.
-> >
-> > Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
-> > ---
-> >   arch/x86/Kconfig                        |  2 +-
-> >   arch/x86/Makefile                       | 11 +++++++----
-> >   arch/x86/boot/compressed/misc.c         |  2 ++
-> >   arch/x86/kernel/vmlinux.lds.S           |  5 +++++
-> >   drivers/firmware/efi/libstub/x86-stub.c |  2 ++
-> >   5 files changed, 17 insertions(+), 5 deletions(-)
-> >
-...
->
-> This patch causes a build failure here (on 64-bit):
->
->    LD      .tmp_vmlinux2
->    NM      .tmp_vmlinux2.syms
->    KSYMS   .tmp_vmlinux2.kallsyms.S
->    AS      .tmp_vmlinux2.kallsyms.o
->    LD      vmlinux
->    BTFIDS  vmlinux
-> WARN: resolve_btfids: unresolved symbol bpf_lsm_key_free
-> FAILED elf_update(WRITE): invalid section entry size
-> make[5]: *** [scripts/Makefile.vmlinux:34: vmlinux] Error 255
-> make[5]: *** Deleting file 'vmlinux'
-> make[4]: *** [Makefile:1153: vmlinux] Error 2
-> make[3]: *** [debian/rules:74: build-arch] Error 2
-> dpkg-buildpackage: error: make -f debian/rules binary subprocess
-> returned exit status 2
-> make[2]: *** [scripts/Makefile.package:121: bindeb-pkg] Error 2
-> make[1]: *** [/home/opc/linux-mainline-worktree2/Makefile:1544:
-> bindeb-pkg] Error 2
-> make: *** [Makefile:224: __sub-make] Error 2
->
-> The parent commit builds fine. With V=1:
->
-> + ldflags='-m elf_x86_64 -z noexecstack --pie -z text -z
-> call-nop=suffix-nop -z max-page-size=0x200000 --build-id=sha1
-> --orphan-handling=warn --script=./arch/x86/kernel/vmlinux.lds
-> -Map=vmlinux.map'
-> + ld -m elf_x86_64 -z noexecstack --pie -z text -z call-nop=suffix-nop
-> -z max-page-size=0x200000 --build-id=sha1 --orphan-handling=warn
-> --script=./arch/x86/kernel/vmlinux.lds -Map=vmlinux.map -o vmlinux
-> --whole-archive vmlinux.a .vmlinux.export.o init/version-timestamp.o
-> --no-whole-archive --start-group --end-group .tmp_vmlinux2.kallsyms.o
-> .tmp_vmlinux1.btf.o
-> + is_enabled CONFIG_DEBUG_INFO_BTF
-> + grep -q '^CONFIG_DEBUG_INFO_BTF=y' include/config/auto.conf
-> + info BTFIDS vmlinux
-> + printf '  %-7s %s\n' BTFIDS vmlinux
->    BTFIDS  vmlinux
-> + ./tools/bpf/resolve_btfids/resolve_btfids vmlinux
-> WARN: resolve_btfids: unresolved symbol bpf_lsm_key_free
-> FAILED elf_update(WRITE): invalid section entry size
->
-> I can send the full config off-list if necessary, but looks like it
-> might be enough to set CONFIG_DEBUG_INFO_BTF=y.
->
+From: Pankaj Raghav <p.raghav@samsung.com>
 
-Thanks for the report. Turns out that adding the GOT to .rodata bumps
-the section's sh_entsize to 8, and libelf complains if the section
-size is not a multiple of the entry size.
+Most of the callers of wbc_account_cgroup_owner() are converting a folio
+to page before calling the function. wbc_account_cgroup_owner() is
+converting the page back to a folio to call mem_cgroup_css_from_folio().
 
-I'll include a fix in the next revision.
+Convert wbc_account_cgroup_owner() to take a folio instead of a page,
+and convert all callers to pass a folio directly except f2fs.
+
+Convert the page to folio for all the callers from f2fs as they were the
+only callers calling wbc_account_cgroup_owner() with a page. As f2fs is
+already in the process of converting to folios, these call sites might
+also soon be calling wbc_account_cgroup_owner() with a folio directly in
+the future.
+
+No functional changes. Only compile tested.
+
+Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
+---
+ Documentation/admin-guide/cgroup-v2.rst | 2 +-
+ fs/btrfs/extent_io.c                    | 7 +++----
+ fs/btrfs/inode.c                        | 2 +-
+ fs/buffer.c                             | 4 ++--
+ fs/ext4/page-io.c                       | 2 +-
+ fs/f2fs/data.c                          | 9 ++++++---
+ fs/fs-writeback.c                       | 8 +++-----
+ fs/iomap/buffered-io.c                  | 2 +-
+ fs/mpage.c                              | 2 +-
+ include/linux/writeback.h               | 4 ++--
+ 10 files changed, 21 insertions(+), 21 deletions(-)
+
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 69af2173555fb..064012ea6f366 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -2945,7 +2945,7 @@ following two functions.
+ 	a queue (device) has been associated with the bio and
+ 	before submission.
+ 
+-  wbc_account_cgroup_owner(@wbc, @page, @bytes)
++  wbc_account_cgroup_owner(@wbc, @folio, @bytes)
+ 	Should be called for each data segment being written out.
+ 	While this function doesn't care exactly when it's called
+ 	during the writeback session, it's the easiest and most
+diff --git a/fs/btrfs/extent_io.c b/fs/btrfs/extent_io.c
+index 39c9677c47d5a..4667d1e034e0e 100644
+--- a/fs/btrfs/extent_io.c
++++ b/fs/btrfs/extent_io.c
+@@ -785,7 +785,7 @@ static void submit_extent_folio(struct btrfs_bio_ctrl *bio_ctrl,
+ 		}
+ 
+ 		if (bio_ctrl->wbc)
+-			wbc_account_cgroup_owner(bio_ctrl->wbc, &folio->page,
++			wbc_account_cgroup_owner(bio_ctrl->wbc, folio,
+ 						 len);
+ 
+ 		size -= len;
+@@ -1707,7 +1707,7 @@ static noinline_for_stack void write_one_eb(struct extent_buffer *eb,
+ 		ret = bio_add_folio(&bbio->bio, folio, eb->len,
+ 				    eb->start - folio_pos(folio));
+ 		ASSERT(ret);
+-		wbc_account_cgroup_owner(wbc, folio_page(folio, 0), eb->len);
++		wbc_account_cgroup_owner(wbc, folio, eb->len);
+ 		folio_unlock(folio);
+ 	} else {
+ 		int num_folios = num_extent_folios(eb);
+@@ -1721,8 +1721,7 @@ static noinline_for_stack void write_one_eb(struct extent_buffer *eb,
+ 			folio_start_writeback(folio);
+ 			ret = bio_add_folio(&bbio->bio, folio, eb->folio_size, 0);
+ 			ASSERT(ret);
+-			wbc_account_cgroup_owner(wbc, folio_page(folio, 0),
+-						 eb->folio_size);
++			wbc_account_cgroup_owner(wbc, folio, eb->folio_size);
+ 			wbc->nr_to_write -= folio_nr_pages(folio);
+ 			folio_unlock(folio);
+ 		}
+diff --git a/fs/btrfs/inode.c b/fs/btrfs/inode.c
+index edac499fd83d2..eb64f04755c23 100644
+--- a/fs/btrfs/inode.c
++++ b/fs/btrfs/inode.c
+@@ -1729,7 +1729,7 @@ static bool run_delalloc_compressed(struct btrfs_inode *inode,
+ 			 * need full accuracy.  Just account the whole thing
+ 			 * against the first page.
+ 			 */
+-			wbc_account_cgroup_owner(wbc, &locked_folio->page,
++			wbc_account_cgroup_owner(wbc, locked_folio,
+ 						 cur_end - start);
+ 			async_chunk[i].locked_folio = locked_folio;
+ 			locked_folio = NULL;
+diff --git a/fs/buffer.c b/fs/buffer.c
+index 1fc9a50def0b5..32bd0f4c42236 100644
+--- a/fs/buffer.c
++++ b/fs/buffer.c
+@@ -2803,7 +2803,7 @@ static void submit_bh_wbc(blk_opf_t opf, struct buffer_head *bh,
+ 	bio->bi_iter.bi_sector = bh->b_blocknr * (bh->b_size >> 9);
+ 	bio->bi_write_hint = write_hint;
+ 
+-	__bio_add_page(bio, bh->b_page, bh->b_size, bh_offset(bh));
++	bio_add_folio_nofail(bio, bh->b_folio, bh->b_size, bh_offset(bh));
+ 
+ 	bio->bi_end_io = end_bio_bh_io_sync;
+ 	bio->bi_private = bh;
+@@ -2813,7 +2813,7 @@ static void submit_bh_wbc(blk_opf_t opf, struct buffer_head *bh,
+ 
+ 	if (wbc) {
+ 		wbc_init_bio(wbc, bio);
+-		wbc_account_cgroup_owner(wbc, bh->b_page, bh->b_size);
++		wbc_account_cgroup_owner(wbc, bh->b_folio, bh->b_size);
+ 	}
+ 
+ 	submit_bio(bio);
+diff --git a/fs/ext4/page-io.c b/fs/ext4/page-io.c
+index ad5543866d215..b7b9261fec3b5 100644
+--- a/fs/ext4/page-io.c
++++ b/fs/ext4/page-io.c
+@@ -421,7 +421,7 @@ static void io_submit_add_bh(struct ext4_io_submit *io,
+ 		io_submit_init_bio(io, bh);
+ 	if (!bio_add_folio(io->io_bio, io_folio, bh->b_size, bh_offset(bh)))
+ 		goto submit_and_retry;
+-	wbc_account_cgroup_owner(io->io_wbc, &folio->page, bh->b_size);
++	wbc_account_cgroup_owner(io->io_wbc, folio, bh->b_size);
+ 	io->io_next_block++;
+ }
+ 
+diff --git a/fs/f2fs/data.c b/fs/f2fs/data.c
+index 94f7b084f6016..e3ce763cce18f 100644
+--- a/fs/f2fs/data.c
++++ b/fs/f2fs/data.c
+@@ -711,7 +711,8 @@ int f2fs_submit_page_bio(struct f2fs_io_info *fio)
+ 	}
+ 
+ 	if (fio->io_wbc && !is_read_io(fio->op))
+-		wbc_account_cgroup_owner(fio->io_wbc, fio->page, PAGE_SIZE);
++		wbc_account_cgroup_owner(fio->io_wbc, page_folio(fio->page),
++					 PAGE_SIZE);
+ 
+ 	inc_page_count(fio->sbi, is_read_io(fio->op) ?
+ 			__read_io_type(page) : WB_DATA_TYPE(fio->page, false));
+@@ -911,7 +912,8 @@ int f2fs_merge_page_bio(struct f2fs_io_info *fio)
+ 	}
+ 
+ 	if (fio->io_wbc)
+-		wbc_account_cgroup_owner(fio->io_wbc, fio->page, PAGE_SIZE);
++		wbc_account_cgroup_owner(fio->io_wbc, page_folio(fio->page),
++					 PAGE_SIZE);
+ 
+ 	inc_page_count(fio->sbi, WB_DATA_TYPE(page, false));
+ 
+@@ -1011,7 +1013,8 @@ void f2fs_submit_page_write(struct f2fs_io_info *fio)
+ 	}
+ 
+ 	if (fio->io_wbc)
+-		wbc_account_cgroup_owner(fio->io_wbc, fio->page, PAGE_SIZE);
++		wbc_account_cgroup_owner(fio->io_wbc, page_folio(fio->page),
++					 PAGE_SIZE);
+ 
+ 	io->last_block_in_bio = fio->new_blkaddr;
+ 
+diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+index d8bec3c1bb1fa..2391b09f4cede 100644
+--- a/fs/fs-writeback.c
++++ b/fs/fs-writeback.c
+@@ -890,17 +890,16 @@ EXPORT_SYMBOL_GPL(wbc_detach_inode);
+ /**
+  * wbc_account_cgroup_owner - account writeback to update inode cgroup ownership
+  * @wbc: writeback_control of the writeback in progress
+- * @page: page being written out
++ * @folio: folio being written out
+  * @bytes: number of bytes being written out
+  *
+- * @bytes from @page are about to written out during the writeback
++ * @bytes from @folio are about to written out during the writeback
+  * controlled by @wbc.  Keep the book for foreign inode detection.  See
+  * wbc_detach_inode().
+  */
+-void wbc_account_cgroup_owner(struct writeback_control *wbc, struct page *page,
++void wbc_account_cgroup_owner(struct writeback_control *wbc, struct folio *folio,
+ 			      size_t bytes)
+ {
+-	struct folio *folio;
+ 	struct cgroup_subsys_state *css;
+ 	int id;
+ 
+@@ -913,7 +912,6 @@ void wbc_account_cgroup_owner(struct writeback_control *wbc, struct page *page,
+ 	if (!wbc->wb || wbc->no_cgroup_owner)
+ 		return;
+ 
+-	folio = page_folio(page);
+ 	css = mem_cgroup_css_from_folio(folio);
+ 	/* dead cgroups shouldn't contribute to inode ownership arbitration */
+ 	if (!(css->flags & CSS_ONLINE))
+diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+index 11ea747228aee..3d1fae7d3a64e 100644
+--- a/fs/iomap/buffered-io.c
++++ b/fs/iomap/buffered-io.c
+@@ -1833,7 +1833,7 @@ static int iomap_add_to_ioend(struct iomap_writepage_ctx *wpc,
+ 	if (ifs)
+ 		atomic_add(len, &ifs->write_bytes_pending);
+ 	wpc->ioend->io_size += len;
+-	wbc_account_cgroup_owner(wbc, &folio->page, len);
++	wbc_account_cgroup_owner(wbc, folio, len);
+ 	return 0;
+ }
+ 
+diff --git a/fs/mpage.c b/fs/mpage.c
+index b5b5ddf9d513d..82aecf3727437 100644
+--- a/fs/mpage.c
++++ b/fs/mpage.c
+@@ -606,7 +606,7 @@ static int __mpage_writepage(struct folio *folio, struct writeback_control *wbc,
+ 	 * the confused fail path above (OOM) will be very confused when
+ 	 * it finds all bh marked clean (i.e. it will not write anything)
+ 	 */
+-	wbc_account_cgroup_owner(wbc, &folio->page, folio_size(folio));
++	wbc_account_cgroup_owner(wbc, folio, folio_size(folio));
+ 	length = first_unmapped << blkbits;
+ 	if (!bio_add_folio(bio, folio, length, 0)) {
+ 		bio = mpage_bio_submit_write(bio);
+diff --git a/include/linux/writeback.h b/include/linux/writeback.h
+index d6db822e4bb30..641a057e04132 100644
+--- a/include/linux/writeback.h
++++ b/include/linux/writeback.h
+@@ -217,7 +217,7 @@ void wbc_attach_and_unlock_inode(struct writeback_control *wbc,
+ 				 struct inode *inode)
+ 	__releases(&inode->i_lock);
+ void wbc_detach_inode(struct writeback_control *wbc);
+-void wbc_account_cgroup_owner(struct writeback_control *wbc, struct page *page,
++void wbc_account_cgroup_owner(struct writeback_control *wbc, struct folio *folio,
+ 			      size_t bytes);
+ int cgroup_writeback_by_id(u64 bdi_id, int memcg_id,
+ 			   enum wb_reason reason, struct wb_completion *done);
+@@ -324,7 +324,7 @@ static inline void wbc_init_bio(struct writeback_control *wbc, struct bio *bio)
+ }
+ 
+ static inline void wbc_account_cgroup_owner(struct writeback_control *wbc,
+-					    struct page *page, size_t bytes)
++					    struct folio *folio, size_t bytes)
+ {
+ }
+ 
+
+base-commit: 92fc9636d1471b7f68bfee70c776f7f77e747b97
+-- 
+2.44.1
+
