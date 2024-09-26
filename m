@@ -1,92 +1,116 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8032189509;
-	Thu, 26 Sep 2024 09:18:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1487224D6;
+	Thu, 26 Sep 2024 09:34:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727342313; cv=none; b=cj6xhDo5XBpQYIedFFZTrXwClPTf9BMgaQoU4KGVHUeL2sMpWfNAMyONRhEmkvUNxWmCtkaMaT9IhSrx2GbxJfIwRErN4AuZwW68DJVNzzxVATZCO+vI2mZEGbrGRkVso/bgxIkR4kALyQLrKM5BOtlv25n7w/lruZO+F4eXZmE=
+	t=1727343293; cv=none; b=Y3+RMyVJtf7ZZn4P2FF/XmjmD6kbW6V8R0QCaASoAkWE4smGRSq3UE06EakNvyHahLkeUL4D62eOaXxwVSNgUNzB76gp3sQOZdTgbMAkqnHBqalU5moNIuG0WCaU5ymwl7OrLd20088ydxi/UyQFt2WAG9pJP+Ulhjx0mYz2UdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727342313; c=relaxed/simple;
-	bh=t+0HprDGIny5DyKaTjHjbUILv+CFyx1UMTMYlJdPpkQ=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=n2mQj7xCq+MbT52dSpOEwGjFGjYZOoDZbU/alRoEl4BkNSxMZkQmrXUMW562ohg0c5a9z63qVeLcGwcpfZy9yvYDcO6W70dOJYon/ym/QBOmPjDcId1H4cpadQL6wZgUQ2+zHOtssYyd5V3MCUGyoBcru/PvJ57bF3pa9FHxaiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lar1gD64; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727343293; c=relaxed/simple;
+	bh=aBxzhfOzuC9ptbUK/5GQcxNABiudJtiN+C1y90whjiw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kV5Tgz0z69AFHY3p7Px33nfvC0p4N6uROEPULMzqWsFrfrZ2zwxEWZRgkZktX60symXMNyOdr5EVM0X6w8nhOWSyGPYKNQvLZThOicDDz5bwd17fq1uW2sb7jFB9tl2oeaboaeEvnzmfwwjddhEjYUh/OacjrR7AjPGHWMZPUJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=KBXY/dib; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lar1gD64"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a8a789c4fc5so317418766b.0;
-        Thu, 26 Sep 2024 02:18:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727342310; x=1727947110; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t+0HprDGIny5DyKaTjHjbUILv+CFyx1UMTMYlJdPpkQ=;
-        b=lar1gD64TfBFc8/iufyjdOD92Kdt41MDfF5i95DCeaXrmL1JvhoDI4Ftyt9x7imnvs
-         9No7I9QkxmCwdIbL52Ao7uyhLtbNpzL17/6zuj5J1cZBXs447Hs7EDsVrWWV0VdCAlYR
-         WTAME1kRumBc7hDZdOsfK0Ez+4nGqkV/yEpoLvnEjPk5rXjQ1yyHiom/xi4WVm6nrlzE
-         n0hcd3aocS7LX2ZTOm34ebOwKg3N+o4yOjHH5+gnuQaZPPTVyyfbWusIwd81Tg+XNtgu
-         He5nPAUdKtBmIRBtKa7x/Xc0kcWAP6VdtDyBTtuwv5q9xaO4rIk7KaNHItxDw7FbI1io
-         K+OQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727342310; x=1727947110;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=t+0HprDGIny5DyKaTjHjbUILv+CFyx1UMTMYlJdPpkQ=;
-        b=jmXI/+Q1YA4k3cF1c+UKaySWiLRgCvUw+MYU8qFx/RB3JDhedprIyx1xmxNM7HcuDr
-         AhwacBsZ7+epMcHL9R5w2GC/LP722quoKAyBcroUsXwzZWcQ0tniy61DkVIfFA1Bejei
-         d/YXKWQ0Wzlb1hE0HkznjBU1Xvij+obRROUbnIrLRWjJo9UW766jLxLbLVNMx+kd4qV0
-         BztvNnR5V8IaJi18GPtHZwrl1Xq0XPj1xzBFX+CEC29/IJ3SpXdETfhkF7AXwWu/6r7e
-         6D7gJAYc12jlm2qNgILRm9Ba2BRpUuAiiQTNna4jiDHM4diDbU+4pxGWZy9CbCbR90xk
-         6X1g==
-X-Forwarded-Encrypted: i=1; AJvYcCUlhEXP6ULwsVGqAS3XuDwfIfgx+4nfQ9t0RBKvGGDoqpyUTQ4GDNxFxP2G9h7q6byaAehjwHrGS7w=@vger.kernel.org, AJvYcCUn7mvlDZ9l5DIJyzbAoMTw8IVNcYvzxupXXSJy3Awh7o8uplT0zUFZ6TAgOX9njEfDHHI=@vger.kernel.org, AJvYcCVDzPR8p327OzxjWj3Ft28L9wngECm6cXvaLKHaW2Mmdn1bd0Z8zyRGqRx+2MiOlhVibiFgqmNz947YUC7G@vger.kernel.org, AJvYcCVetjNnbH62He4nf9ZDhiPFfSB7k52tQuNdU4xjQ8T8i6cI3sKDbp21p7Sd4oLEwTx7Je81MfQeAuwl@vger.kernel.org, AJvYcCW7LOfb5Rhi+2R50+UP3MJO2l8t6fQ7mQHQe4+rECMHWBNnW19kaqp0ulo4Vk7r/RMuAhwuAGrUlpJtRbgbKlKM@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZDALzljmcoP2XgOAKa+IBl6PZOZ6B5L4JeDsHMg4hNwtgpQ9h
-	vQ1YbKnheWr+m1izU5GpOVWhFsUqqpSpKouM2RixldQRRJjj+lnb
-X-Google-Smtp-Source: AGHT+IGpqNPJK1s6i2Y5LV2mdudC516wJ/Q9mIUBcozWq9rbud6ltBH52LHG9Vz2rsfEkWd93Kp+4A==
-X-Received: by 2002:a17:907:8687:b0:a8d:4954:c209 with SMTP id a640c23a62f3a-a93b165dacamr300948466b.22.1727342309802;
-        Thu, 26 Sep 2024 02:18:29 -0700 (PDT)
-Received: from ?IPv6:2001:b07:5d29:f42d:438a:71d4:3b8a:6ddf? ([2001:b07:5d29:f42d:438a:71d4:3b8a:6ddf])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93930f8440sm324989866b.182.2024.09.26.02.18.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Sep 2024 02:18:29 -0700 (PDT)
-Message-ID: <21e5d209fa4c24c49dd72ba82dd6e5fc65bf52e9.camel@gmail.com>
-Subject: Re: [PATCH v4 6/6] arm64: Use SYSTEM_OFF2 PSCI call to power off
- for hibernate
-From: Francesco Lavra <francescolavra.fl@gmail.com>
-To: David Woodhouse <dwmw2@infradead.org>, Paolo Bonzini
- <pbonzini@redhat.com>,  Jonathan Corbet <corbet@lwn.net>, Marc Zyngier
- <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, James Morse
- <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui
- Yu <yuzenghui@huawei.com>, Catalin Marinas <catalin.marinas@arm.com>, Will
- Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Lorenzo
- Pieralisi <lpieralisi@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>, Shuah Khan
- <shuah@kernel.org>, David Woodhouse <dwmw@amazon.co.uk>,
- kvm@vger.kernel.org,  linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
- kvmarm@lists.linux.dev,  linux-pm@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-Date: Thu, 26 Sep 2024 11:18:27 +0200
-In-Reply-To: <20240924160512.4138879-6-dwmw2@infradead.org>
-References: <20240924160512.4138879-1-dwmw2@infradead.org>
-	 <20240924160512.4138879-6-dwmw2@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KBXY/dib"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E484C4CEC5;
+	Thu, 26 Sep 2024 09:34:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1727343292;
+	bh=aBxzhfOzuC9ptbUK/5GQcxNABiudJtiN+C1y90whjiw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KBXY/dibcC9Nu38dW83jeRQfvs/pw+9sNqLxYhdBFoVktmsg1jlNygnF3sTxCk92e
+	 2W0VmoJ4+ZsQwKLG4Zs/cPp6pqRMgOk7wYIXzK6JhyFH5g80Li8IAieYlkStXdy+YR
+	 oXbQCexqz9OrntpbsWX6mDjfpsVxF6n6F0NBFTTg=
+Date: Thu, 26 Sep 2024 11:34:38 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Rodolfo Giometti <giometti@enneenne.com>
+Cc: "Hall, Christopher S" <christopher.s.hall@intel.com>,
+	"Mohan, Subramanian" <subramanian.mohan@intel.com>,
+	"tglx@linutronix.de" <tglx@linutronix.de>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+	"Dong, Eddie" <eddie.dong@intel.com>,
+	"N, Pandith" <pandith.n@intel.com>,
+	"T R, Thejesh Reddy" <thejesh.reddy.t.r@intel.com>,
+	"Zage, David" <david.zage@intel.com>,
+	"Chinnadurai, Srinivasan" <srinivasan.chinnadurai@intel.com>
+Subject: Re: [PATCH v12 2/3] Documentation: driver-api: pps: Add Intel Timed
+ I/O PPS generator
+Message-ID: <2024092624-stapling-clock-5fe0@gregkh>
+References: <20240823070109.27815-1-subramanian.mohan@intel.com>
+ <20240823070109.27815-3-subramanian.mohan@intel.com>
+ <2024082456-kitchen-astride-7892@gregkh>
+ <801c7a93-667b-4c23-9493-4cbe979847a2@enneenne.com>
+ <2024090304-viewing-lavish-c05e@gregkh>
+ <PH7PR11MB69787046B1F9CDA610523FE5C2692@PH7PR11MB6978.namprd11.prod.outlook.com>
+ <e88f2d6f-033a-41b5-afdb-8a3f6bcf3d06@enneenne.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e88f2d6f-033a-41b5-afdb-8a3f6bcf3d06@enneenne.com>
 
-On Tue, 2024-09-24 at 17:05 +0100, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
->=20
-> The PSCI v1.3 specification (alpha) adds support for a SYSTEM_OFF2
+On Thu, Sep 26, 2024 at 10:46:54AM +0200, Rodolfo Giometti wrote:
+> On 25/09/24 23:55, Hall, Christopher S wrote:
+> > Hi Rodolfo,
+> 
+> Hello.
+> 
+> > > From: Greg KH <gregkh@linuxfoundation.org>
+> > > Sent: Tuesday, September 03, 2024 3:25 AM
+> > > To: Rodolfo Giometti <giometti@enneenne.com>
+> > 
+> > > Subject: Re: [PATCH v12 2/3] Documentation: driver-api: pps: Add Intel Timed
+> > > I/O PPS generator
+> > > 
+> > 
+> > > > If you are willing to stop the inclusion due this fact maybe its time to add
+> > > > such PPS generators interface... on the other hand, if you agree for
+> > > > inclusion we can do this job as soon as the code has been included, in order
+> > > > to fix this anomalous status.
+> > > 
+> > > Please make a generic pps subsystem for this, it would make it simpler
+> > > for everyone.
+> > 
+> > What is required to move this? We can certainly test the code and do some
+> > of this work, but I would look to you to define the interface.
+> 
+> The problem is that a pps-generator has no related device, then no sysfs entries.
+> 
+> I think the right-thing(TM) to do is adding a new class named
+> "pps-generator", so we will get the directory /sys/class/pps-generator with
+> several devices as pps-generator0, pps-generator1, etc. For each device we
+> should add at least these sysfs entries:
+> 
+> - system       : This file return "1" if the generator takes the timing from
+>                  the system clock, while it returns "0" if not (i.e. from a
+>                  peripheral device clock).
+> 
+> - time         : This file contains the current time stored into the generator
+>                  clock as two integers representing the current time seconds and
+>                  nanoseconds.
+> 
+> - enable       : This write-only file enables or disables generation of the
+>                  PPS signal.
+> 
+> - period       : This file defines the period for the generator signal. When
+>                  read, by default, it returns "1 0" which represent the period
+>                  second and nanoseconds (i.e. a PPS signal). When written, it
+>                  sets the period accordingly or ENOTSUPP if not supported.
+> 
+> - start_time   : This file defines the starting time for the the generator
+>                  signal. When read, by default, it returns "0 0" which means
+>                  "now". When written, it sets the starting time accordingly or
+>                  ENOTSUPP if not supported.
 
-Can remove (alpha).
+This seems sane to me, thanks for writing it up!
 
+greg k-h
