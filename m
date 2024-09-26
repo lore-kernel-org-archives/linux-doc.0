@@ -1,174 +1,136 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+Received: from smtpcmd13147.aruba.it (smtpcmd13147.aruba.it [62.149.156.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A822214884C;
-	Thu, 26 Sep 2024 08:47:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17235192B65
+	for <linux-doc@vger.kernel.org>; Thu, 26 Sep 2024 08:50:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.149.156.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727340445; cv=none; b=JL12vieBiFaU7qccMDAqjykP8D+BqOa42tgvl4WnFeA4twyI1UCKP2t56YvhrEnt44QBfeFBtH+ZoeGNALnhuhDLXq1b1kIcdfNuHpK2buA8LUJGBAKP9N0AUMH/iGhj5fkLWpKU63vBWH24vvmjZTZnMJPPmVP76TBFaJp4cFk=
+	t=1727340608; cv=none; b=U2rRnUjQ1knSlrG6p6ozRe/aOoQ2CKGXQGVX16wa0TuCgCo2r1ZurmGeqtjceALKs8n8Chb0aL9sQVVJ5hrTUMXLHflXLuDjYAw4PKZ4KO/qgIOopJbwsmfuqspdt3XOTt3dpJBYZEfQljKGRLMTITcpVHNP9vLtTvj8JpUODqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727340445; c=relaxed/simple;
-	bh=U4bxZTwT2YaLl+cJuAaGnd5Xz6gw3YAeiyLLHefNmK8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Bt+FCcOliBX0ji2wqnq4gBgQI4bpkoZqRSAp6XQOFYgkgW4q/+eRoO5GXXx1UcerZWCj6MRMgBqR+twSZpTT7MpswnR5UhYH6yq7/SYfh9oij3rysADJyQsNu0B+EkZt0bjDUByMZDmNdCFsuWV0yrPaeWcnTOEnnBoW03sHoz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=lNTazN9P; arc=none smtp.client-ip=217.70.183.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1727340608; c=relaxed/simple;
+	bh=4AupH/BviNHtaHpZmQ9S7ipD1OFuKiaMUUbNa6H3IJQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=I7aCPALxW1XsssVcYczou7+jPK8RvetCcUFXocOHOsQ/1GEl+TLvCnI9tDfy1NC+tvk89gPX7G5xrPslVhNwrJ7buBEPc/56SKwvn7nekAnPX2pRetwYZSkHOqgS56bM+LjHQ+IfVUMb3wFwjilBjkqIUf/MhH2RGMTLauuv8z4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com; spf=pass smtp.mailfrom=enneenne.com; dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b=OzPmiQbc; arc=none smtp.client-ip=62.149.156.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enneenne.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="lNTazN9P"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0E8701C000F;
-	Thu, 26 Sep 2024 08:47:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1727340435;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hZ9Wisee95FqaPjfkdd5lfW+HMn3+ekkbZ+x5uP4V4E=;
-	b=lNTazN9P1SF3c5yc3oqWbAwmS4Vrtxmw84oD7vL/mJ+IN9lAFDW2RyOxgCfbVHDAfYjD+a
-	tSO9CXIhduKnVg20dNubp5tU3KTS0ISP+Kceeem6osuYCUdq7X8rWL0tUQI2+koHt//nBP
-	usHWfv2yqp+Tx9yL9KctHMk1KoC0gXipG9lbtIANK6/OOs47+jSS9RpHCoYcPb/HtSpwlo
-	MBOwNAlEEsC2UGQWWsJmRJLTgT1MaofX6IOnIaAxuqYsed2/Yc+6Gq8dwLPk97MIbhW7/l
-	HEtm9godSlOjhX9es9tLluZiGBAR+PGzOgqGnEOsL9m8Jvd4/zm4C7+Tg07UBA==
-Date: Thu, 26 Sep 2024 10:47:12 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
- kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
- <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
- Cochran <richardcochran@gmail.com>, Radu Pirea
- <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
- Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
- Oltean <vladimir.oltean@nxp.com>, donald.hunter@gmail.com,
- danieller@nvidia.com, ecree.xilinx@gmail.com, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>,
- Willem de Bruijn <willemb@google.com>, Shannon Nelson
- <shannon.nelson@amd.com>, Alexandra Winter <wintera@linux.ibm.com>
-Subject: Re: [PATCH net-next v17 13/14] net: ethtool: Add support for
- tsconfig command to get/set hwtstamp config
-Message-ID: <20240926104712.6a55d263@kmaincent-XPS-13-7390>
-In-Reply-To: <20240715075926.7f3e368c@kernel.org>
-References: <20240709-feature_ptp_netnext-v17-0-b5317f50df2a@bootlin.com>
- <20240709-feature_ptp_netnext-v17-13-b5317f50df2a@bootlin.com>
- <20240715075926.7f3e368c@kernel.org>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b="OzPmiQbc"
+Received: from [192.168.1.57] ([79.0.204.227])
+	by Aruba Outgoing Smtp  with ESMTPSA
+	id tk9GsxGjg8U42tk9HsMf3E; Thu, 26 Sep 2024 10:46:56 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+	t=1727340416; bh=4AupH/BviNHtaHpZmQ9S7ipD1OFuKiaMUUbNa6H3IJQ=;
+	h=Date:MIME-Version:Subject:To:From:Content-Type;
+	b=OzPmiQbcYU4Tn8TiRv+eEu4jTjOm+vCSLoKQsHKWwlwjmvqh2y6n7mERYvSKNTCro
+	 vr3l0S8kphfyniViG6Ic5bxhkPIr+bB4LKVtjxw/24wH7cU1Ee/lR8A510FcohlgSd
+	 aLlTidJqVOkx55UtptgbUZtoGTZLQm/fLP3B7/dOn2kRFuyKNfKtrem+r4LkiNmTfA
+	 VbXndxp5XvWK1+fnvslma51qBsC/rZA3UquRfn/FVMydUVtB3SZzPq6Qqg6yNiQwmk
+	 vPiCWBCZ88WMD1kGH5EtK53UjAWwchTFuyJeq8VNHfKk1nhu6GWMI6RbcZQNJ3408z
+	 xPQCUIxdO5k7A==
+Message-ID: <e88f2d6f-033a-41b5-afdb-8a3f6bcf3d06@enneenne.com>
+Date: Thu, 26 Sep 2024 10:46:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 2/3] Documentation: driver-api: pps: Add Intel Timed
+ I/O PPS generator
+To: "Hall, Christopher S" <christopher.s.hall@intel.com>
+Cc: "Mohan, Subramanian" <subramanian.mohan@intel.com>,
+ "tglx@linutronix.de" <tglx@linutronix.de>, "corbet@lwn.net"
+ <corbet@lwn.net>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+ "Dong, Eddie" <eddie.dong@intel.com>, "N, Pandith" <pandith.n@intel.com>,
+ "T R, Thejesh Reddy" <thejesh.reddy.t.r@intel.com>,
+ "Zage, David" <david.zage@intel.com>,
+ "Chinnadurai, Srinivasan" <srinivasan.chinnadurai@intel.com>,
+ Greg KH <gregkh@linuxfoundation.org>
+References: <20240823070109.27815-1-subramanian.mohan@intel.com>
+ <20240823070109.27815-3-subramanian.mohan@intel.com>
+ <2024082456-kitchen-astride-7892@gregkh>
+ <801c7a93-667b-4c23-9493-4cbe979847a2@enneenne.com>
+ <2024090304-viewing-lavish-c05e@gregkh>
+ <PH7PR11MB69787046B1F9CDA610523FE5C2692@PH7PR11MB6978.namprd11.prod.outlook.com>
+From: Rodolfo Giometti <giometti@enneenne.com>
+Content-Language: en-US
+In-Reply-To: <PH7PR11MB69787046B1F9CDA610523FE5C2692@PH7PR11MB6978.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfMug2r+xb8fM0qHgPmLgkam22qBK9bSW3EXeA1dfwYDwXC3Mp2LaQFKs5Arg1qfTvDxefz5LtFt1wWsN7Z6DM0eqhlfEhqFMV/JhZHjDlfasJQTPH+vq
+ gLGIHG8oGtycnDEVSfAFWdeIZ0eirMwJc2UZXHvhOFG0rBWAeiPdTCptyNy9q+YUlG0gr+q/oUdoOMOkflsO16AevFd0trnw7VAx7AW85CJjaqw9eR+mOk24
+ +nFvVtMXNEFk9jFpZOK65n9/22PwptVXMcwwccOkt3U6B7UiE5NIkHgHCtgbpDNbTRE6jXZ8xvmAxKWSNWGxNSIlpidYHbfL0iXB5kfS8UZuu7r7cqeTqNqJ
+ N2zsrLXkG6FnyhLfc935uUHwes6QU5mP3024YI0zJ3kc2o9j+MP4/7TRp8VlBXGbqyspuGLLpdoUfvI0azyyzpC1CSpNScJj9HUhLQgAca5O0rUWDWRJoqh0
+ j015aasJRrn8vRAcKFhRKa5FDXV2WYtEM1QMbWG6CJZJCP+RL2RsiaTP8NOHyt+Vf9OyjEsyTJLEh/lwVo3LCg72IfE8NkqaWGQZ+NUf+AYRUQzFwV3xSi3M
+ +koHSS0/Gx1xtfkwwGMCpJ3juwcAfdRCzap/5k5HKc0JJZm3UFs4eUDVsnzdWaTF+W8=
 
-Hello Jakub,=20
+On 25/09/24 23:55, Hall, Christopher S wrote:
+> Hi Rodolfo,
 
-On Mon, 15 Jul 2024 07:59:26 -0700
-Jakub Kicinski <kuba@kernel.org> wrote:
+Hello.
 
-Thanks for the review and sorry for the late reply.
+>> From: Greg KH <gregkh@linuxfoundation.org>
+>> Sent: Tuesday, September 03, 2024 3:25 AM
+>> To: Rodolfo Giometti <giometti@enneenne.com>
+> 
+>> Subject: Re: [PATCH v12 2/3] Documentation: driver-api: pps: Add Intel Timed
+>> I/O PPS generator
+>>
+> 
+>>> If you are willing to stop the inclusion due this fact maybe its time to add
+>>> such PPS generators interface... on the other hand, if you agree for
+>>> inclusion we can do this job as soon as the code has been included, in order
+>>> to fix this anomalous status.
+>>
+>> Please make a generic pps subsystem for this, it would make it simpler
+>> for everyone.
+> 
+> What is required to move this? We can certainly test the code and do some
+> of this work, but I would look to you to define the interface.
 
-> On Tue, 09 Jul 2024 15:53:45 +0200 Kory Maincent wrote:
-> > +	/* Get the hwtstamp config from netlink */
-> > +	if (tb[ETHTOOL_A_TSCONFIG_TX_TYPES]) {
-> > +		ret =3D ethnl_parse_bitset(&req_tx_type, &mask,
-> > +					 __HWTSTAMP_TX_CNT,
-> > +					 tb[ETHTOOL_A_TSCONFIG_TX_TYPES],
-> > +					 ts_tx_type_names, info->extack);
-> > +		if (ret < 0)
-> > +			goto err_clock_put;
-> > +
-> > +		/* Select only one tx type at a time */
-> > +		if (ffs(req_tx_type) !=3D fls(req_tx_type)) {
-> > +			ret =3D -EINVAL;
-> > +			goto err_clock_put;
-> > +		}
-> > +
-> > +		hwtst_config.tx_type =3D ffs(req_tx_type) - 1;
-> > +	}
-> > +	if (tb[ETHTOOL_A_TSCONFIG_RX_FILTERS]) {
-> > +		ret =3D ethnl_parse_bitset(&req_rx_filter, &mask,
-> > +					 __HWTSTAMP_FILTER_CNT,
-> > +					 tb[ETHTOOL_A_TSCONFIG_RX_FILTERS],
-> > +					 ts_rx_filter_names, info->extack);
-> > +		if (ret < 0)
-> > +			goto err_clock_put;
-> > +
-> > +		/* Select only one rx filter at a time */
-> > +		if (ffs(req_rx_filter) !=3D fls(req_rx_filter)) {
-> > +			ret =3D -EINVAL;
-> > +			goto err_clock_put;
-> > +		}
-> > +
-> > +		hwtst_config.rx_filter =3D ffs(req_rx_filter) - 1;
-> > +	}
-> > +	if (tb[ETHTOOL_A_TSCONFIG_HWTSTAMP_FLAGS]) {
-> > +		ret =3D nla_get_u32(tb[ETHTOOL_A_TSCONFIG_HWTSTAMP_FLAGS]);
-> > +		if (ret < 0)
-> > +			goto err_clock_put;
-> > +		hwtst_config.flags =3D ret;
-> > +	} =20
->=20
-> We should be tracking mod on these, too. Separately from the provider
-> mod bit, let's not call the driver and send notification if nothing
-> changed.
+The problem is that a pps-generator has no related device, then no sysfs entries.
 
-Ok
-=20
-> > +	ret =3D net_hwtstamp_validate(&hwtst_config);
-> > +	if (ret)
-> > +		goto err_clock_put;
-> > +
-> > +	/* Disable current time stamping if we try to enable another one */
-> > +	if (mod && (hwtst_config.tx_type || hwtst_config.rx_filter)) {
-> > +		struct kernel_hwtstamp_config zero_config =3D {0};
-> > +
-> > +		ret =3D dev_set_hwtstamp_phylib(dev, &zero_config,
-> > info->extack);
-> > +		if (ret < 0)
-> > +			goto err_clock_put;
-> > +	}
-> > +
-> > +	/* Changed the selected hwtstamp source if needed */
-> > +	if (mod) {
-> > +		struct hwtstamp_provider *__hwtstamp;
-> > +
-> > +		__hwtstamp =3D rcu_replace_pointer_rtnl(dev->hwtstamp,
-> > hwtstamp);
-> > +		if (__hwtstamp)
-> > +			call_rcu(&__hwtstamp->rcu_head,
-> > +				 remove_hwtstamp_provider);
-> > +	}
-> > +
-> > +	ret =3D dev_set_hwtstamp_phylib(dev, &hwtst_config, info->extack);
-> > +	if (ret < 0)
-> > +		return ret; =20
->=20
-> We can't unwind to old state here?
+I think the right-thing(TM) to do is adding a new class named "pps-generator", 
+so we will get the directory /sys/class/pps-generator with several devices as 
+pps-generator0, pps-generator1, etc. For each device we should add at least 
+these sysfs entries:
 
-Yes indeed we could unwind old state here. I will update it in next version.
+- system       : This file return "1" if the generator takes the timing from
+                  the system clock, while it returns "0" if not (i.e. from a
+                  peripheral device clock).
 
-> Driver can change hwtst_config right? "upgrade" the rx_filter=20
-> to a broader one, IIRC. Shouldn't we reply to the set command with=20
-> the resulting configuration, in case it changed? Basically provide=20
-> the same info as the notification would.
+- time         : This file contains the current time stored into the generator
+                  clock as two integers representing the current time seconds and
+                  nanoseconds.
 
-Yes, the driver does that.
-Indeed that's a good idea to report the resulting configuration.
-I will take a look at how I can do that.
+- enable       : This write-only file enables or disables generation of the
+                  PPS signal.
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+- period       : This file defines the period for the generator signal. When
+                  read, by default, it returns "1 0" which represent the period
+                  second and nanoseconds (i.e. a PPS signal). When written, it
+                  sets the period accordingly or ENOTSUPP if not supported.
+
+- start_time   : This file defines the starting time for the the generator
+                  signal. When read, by default, it returns "0 0" which means
+                  "now". When written, it sets the starting time accordingly or
+                  ENOTSUPP if not supported.
+
+Please, let me know what do you think about this proposal. I'm going to provide 
+a draft in the next weeks since I'm stuck on another project right now. :(
+
+Ciao,
+
+Rodolfo
+
+-- 
+GNU/Linux Solutions                  e-mail: giometti@enneenne.com
+Linux Device Driver                          giometti@linux.it
+Embedded Systems                     phone:  +39 349 2432127
+UNIX programming
+
