@@ -1,143 +1,113 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C7A8F5A;
-	Fri, 27 Sep 2024 15:01:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C52F613633F
+	for <linux-doc@vger.kernel.org>; Fri, 27 Sep 2024 15:01:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727449272; cv=none; b=lNKgJi8m9FRJ+s7rotu5d+NJXUWXv0d9UAkC+zH3FojwxNBP1tI/a4MsLH5gRJrZpPLz6LISQ6ZmwxQvfCvo99tInMLlvsYLJ2WfLkdJQE10kDOjaC1YxDgzrNDZVzv46In3qRSkPESykWxPJI7Oy4O6X0ukV0r0Ju1NFnJD1Bk=
+	t=1727449317; cv=none; b=r2pB7Cq8lI6hvW5bZHKNTOYQULoe4HCDy8g12h0sUjskFmliSudM7m/FXxDOiV2Skck8f9uISY6tuZYrJOLDgjWJNWDmkiOmqiAx3C0CJcVsaIwdMIHX+2V0YBIHSyFutrs7bR1+HkRMos185eoifTh2WRYmsTjaS9ORN6bevHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727449272; c=relaxed/simple;
-	bh=JFTcK6PqjD63hgWX61yCU7vSz09nSwtGnF1mBkiY+qY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bN/stq2fVkSHDxdc8D6i4Mz8wpZuASfFguTj5Uu9GxATDvGV/eulM3taYZ2LtknX9yDPS0PuhStUJEroc1d4RMApgh7TGi2QN5DIX6oKiVzuEG0N7uhvxGxisM/ryp+KIS3fDRMJrrLmm8eUImLI9JKdc58T0iVNzEws95bH2Js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h95CP4Ho; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727449317; c=relaxed/simple;
+	bh=W7N/EQeR/lhHhguPLRJprccZj2+9O2XDkauEROKyWh0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aSXnP78WBSODleuKTAR7NQmhYBPrNXktg9jJZbL94yC6eEOsuyJiciWw9SwRjAmewi0jzVfZmRQoscdU/Q+3HSpppYnFG+x+doDI2YdUoDKurIJuqlHsCues3gFxLEz0Zsd7IM3yx6uIuWMkrQ04lagmVpmy7XX9cUF1KRptKPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=LxutwokS; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h95CP4Ho"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5c882864d3aso1317338a12.2;
-        Fri, 27 Sep 2024 08:01:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="LxutwokS"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a8a6d1766a7so289534666b.3
+        for <linux-doc@vger.kernel.org>; Fri, 27 Sep 2024 08:01:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727449270; x=1728054070; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eFJ6F1BxryQ8+onawS+5pO7WAZHzFPHliMYOCtlDU9M=;
-        b=h95CP4Ho6BR1oochL2bFgpWEuhMwwUABBxLUHzvc+KoaZHUYyAgja+wmx+YC/HUHO5
-         uT594lQaBh5jrm/8VSDEpI32GoyOICO/A3mZX6Pa72lkMo8mchg16r9QBv3BoOyCqJIV
-         kWunRXL/3oxLwuIjrZJLsoLxj+UCKCpN/AkY24ApfmGvlYvPRIg/Ck3cU8OX17SE7AY6
-         jP2NlbRiy9mmd9r5grI5KSq0BuyjLQ8/kdYP7DGrlbrOKbsjSCSTdFubNfeXIk6dcLA4
-         S9LEW6C+NmP3A/AGVledU9HcPzSkYh0BQdEFI5cUkBmMKurJBexon0Hk+xFuCja3Eeai
-         yrEw==
+        d=suse.com; s=google; t=1727449314; x=1728054114; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UUM+bpOv66Y9QgP1R8130p8o9XHECAN86pwWkNohE2g=;
+        b=LxutwokSHgNszQo9lkqG/jjuf0AsRpNh0yJG76HayBAC5YddOew9K5h4o5IrgGuPIM
+         PRYJi5zC66T4q81KPdfjmsrg3Z0yHY0WbFVUQUjGJh+p/dNe0bExNAOUd+jLxfHfaPDL
+         Se4dhvYRgHndlVL32TSN2rKxU/3jWbuyp6lvncySO+LCyfhiWaIaHAYfBS6OwlSj8jIN
+         HEV4HTavR0ip8Hk52XZzQ59P5Ao7dqYt80dXce6dz22AkawWj6qAxNVT+hgasuoNUosJ
+         bty0W99d9uz9r5gHxo9LRYrls3dzG+v4OQ1rEIT0LMrp+NhCjVfuFMj13oPbYwbgLDeE
+         h+Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727449270; x=1728054070;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eFJ6F1BxryQ8+onawS+5pO7WAZHzFPHliMYOCtlDU9M=;
-        b=qdsw6Fh4YE6hmCeZWP2bD6qgszkf4g1c4wucJ59CDHsRbLb5owGQPx9nIpGHmqQMBs
-         wtjaGi2u6yNElEM1UellyioUawjhl+yGJkVjSIbwjbWymgr/zPpWYMrazmG+Xc0l3g8d
-         vEwKxVMGEReLvcu7eK2MQjJztfuLSCXzzkMDu5EV2JO9ht2++JbQga3QhQ10ot+qaToW
-         XZxBmMaJfoYqGxcEz4QAmb2PrI6O4B/0xmWrOIjDQTscQIVwK5gix5/RZJJ/hqir0t5s
-         SOmNCiXLRGZsfhlhH1Bcw7gn3C0AjOGpW6Y6ps9759KIB6VUXrPj/6FdIzLd7PfHQaZh
-         FRAg==
-X-Forwarded-Encrypted: i=1; AJvYcCVyi5WxW6VmwCoH3VIOZkU5uIrqDKaCrFOkaSFnXPuQNV4YjyAuvYm/4tXb1JZT4XcbArCUyrHGz+XC@vger.kernel.org, AJvYcCXl5GTWQl3lwTX3iau9pA5LCwqCANgca6WnCj0Gej3+uSx37nCGc1gf8QiWzMB2icGFgtU8pnyD033wFmf6@vger.kernel.org, AJvYcCXz+xWHD/NzWKxP+6mR9yEKrv0Sj9e5EHqb+/tKZSVpk8XWSH4Sa++DVlQ6tFr4eZ6wrRXTDIj7bsqrdwNM@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRTqRJSj4ZWbqtHNpdCgni74Pws7Sms3kjS/2nbURYVcdTYHrx
-	JeDg/TQZpOyMBIiuwfDYALWiVMiGKl1oIMBJ1pYsp5nmKH3HStWzy3xqzlD6
-X-Google-Smtp-Source: AGHT+IHKBc1xhpTKxrBrf5NeabF0ioO0uKvJ7fvnEiaSivm5sB5H360qY7iS9UkiZwuz+APpUEm1ww==
-X-Received: by 2002:a05:6402:390a:b0:5c7:1f16:7f77 with SMTP id 4fb4d7f45d1cf-5c882602d68mr2391698a12.27.1727449268937;
-        Fri, 27 Sep 2024 08:01:08 -0700 (PDT)
-Received: from [192.168.1.17] (host-87-19-160-215.retail.telecomitalia.it. [87.19.160.215])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c882493f55sm1215805a12.91.2024.09.27.08.01.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Sep 2024 08:01:08 -0700 (PDT)
-Message-ID: <8805a597-813e-49e5-82da-69ad15249601@gmail.com>
-Date: Fri, 27 Sep 2024 17:01:05 +0200
+        d=1e100.net; s=20230601; t=1727449314; x=1728054114;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UUM+bpOv66Y9QgP1R8130p8o9XHECAN86pwWkNohE2g=;
+        b=nJIfR+Ml8rL43ecU7XyZv6HOmy1+frAqXMp1qUShWgHsR8eGCNdHkY5BHpFESH3Esp
+         R1FNC8rBnrjdVUo1B4WAYiO47i4eBmO3ths2g3haRCHqnZc2weV0gR+U79aPLSTw7Sfa
+         9AMa5PPfuy0CbW15RzakIAlNE1xTS2db2FC/qTeFpQRan4vK2rEtsiMzhy72DFJnDo5Q
+         9TSivmnHWv8MIzG8hIgM0vdJ6WKnoH04ZojNkExKwhRGL8ip7AjHlii91JNi0yGGDhBY
+         iwj1iB08EGuyiyPKkOqfB+nhkHeC8BscDjTyNyJ+Qd6+kvrYT3k0qX8sOg4Ag4QpBsH3
+         zgYg==
+X-Forwarded-Encrypted: i=1; AJvYcCXb4y1BcCPUDcGCrjMGw7k1ccG9gNbCP04OtFXFwVB137oRFhznCkT77c7rkWKKidaK20qPmDkUGzk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+RhKR0dK677JABiLA18oXJYxdkDjm4kjb6tB/SnQeG56DQNDN
+	4mDIMoCkrvLFI5Pc7Vla5wvzmnRfGw+0FlvLmYQKRhthjT5hTIo/tSamzKYNeTs=
+X-Google-Smtp-Source: AGHT+IE7aH+/QOJ0USm8BISs8pFXjirWHHWPmNv3Lor3k3JqBdyLPa/XnrWJ/uRw2UIawMPkzVKemQ==
+X-Received: by 2002:a17:906:da88:b0:a93:c1dd:7952 with SMTP id a640c23a62f3a-a93c4c2839dmr343180166b.56.1727449313906;
+        Fri, 27 Sep 2024 08:01:53 -0700 (PDT)
+Received: from blackdock.suse.cz ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c297b597sm142688066b.182.2024.09.27.08.01.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Sep 2024 08:01:53 -0700 (PDT)
+Date: Fri, 27 Sep 2024 17:01:51 +0200
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: Ivan Shapovalov <intelfx@intelfx.name>, linux-kernel@vger.kernel.org, 
+	Mike Yuan <me@yhndnzj.com>, Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Yosry Ahmed <yosryahmed@google.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, cgroups@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH] zswap: improve memory.zswap.writeback inheritance
+Message-ID: <5hnu3xa5hcusvmvg37m5ktsfcutghk2z3dh7lcoctyyfluabqv@u4ma5mafchpw>
+References: <20240926225531.700742-1-intelfx@intelfx.name>
+ <CAKEwX=O=Qu4LZt79==FztxFjgBu2+q7C6EDji-ZmW5Ga38_dSg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 04/11] drm/msm: Add CONTEXT_SWITCH_CNTL bitfields
-To: Connor Abbott <cwabbott0@gmail.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Neil Armstrong <neil.armstrong@linaro.org>
-References: <20240926-preemption-a750-t-v6-0-7b6e1ef3648f@gmail.com>
- <20240926-preemption-a750-t-v6-4-7b6e1ef3648f@gmail.com>
- <CACu1E7HEZztQ3bctuVdrwLCVY2oJ_01AyeKdwCuuB6gmsPurpg@mail.gmail.com>
-Content-Language: en-US
-From: Antonino Maniscalco <antomani103@gmail.com>
-In-Reply-To: <CACu1E7HEZztQ3bctuVdrwLCVY2oJ_01AyeKdwCuuB6gmsPurpg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-On 9/27/24 1:57 PM, Connor Abbott wrote:
-> In the future, the right thing to do is open a mesa MR with just the
-> register changes and then copy the file from mesa once it's merged,
-> because all of the XML files are supposed to flow from mesa to keep
-> mesa and the kernel in sync. I've opened a mesa MR [1] based on this
-> that will hopefully get quickly acked and merged.
-> 
-> Connor
-
-Sure I'll keep that in mind, thanks!
-
-> 
-> [1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/31422
-> 
-> On Thu, Sep 26, 2024 at 10:17 PM Antonino Maniscalco
-> <antomani103@gmail.com> wrote:
->>
->> Add missing bitfields to CONTEXT_SWITCH_CNTL in a6xx.xml.
->>
->> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
->> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
->> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8450-HDK
->> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
->> ---
->>   drivers/gpu/drm/msm/registers/adreno/a6xx.xml | 7 ++++++-
->>   1 file changed, 6 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/msm/registers/adreno/a6xx.xml b/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
->> index 2dfe6913ab4f52449b76c2f75b2d101c08115d16..fd31d1d7a11eef7f38dcc2975dc1034f6b7a2e41 100644
->> --- a/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
->> +++ b/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
->> @@ -1337,7 +1337,12 @@ to upconvert to 32b float internally?
->>                  <reg32 offset="0x0" name="REG" type="a6x_cp_protect"/>
->>          </array>
->>
->> -       <reg32 offset="0x08A0" name="CP_CONTEXT_SWITCH_CNTL"/>
->> +       <reg32 offset="0x08A0" name="CP_CONTEXT_SWITCH_CNTL">
->> +               <bitfield name="STOP" pos="0" type="boolean"/>
-> 
-> This bit isn't set to 1 when it's stopped, it's set to
-> 
->> +               <bitfield name="LEVEL" low="6" high="7"/>
->> +               <bitfield name="USES_GMEM" pos="8" type="boolean"/>
->> +               <bitfield name="SKIP_SAVE_RESTORE" pos="9" type="boolean"/>
->> +       </reg32>
->>          <reg64 offset="0x08A1" name="CP_CONTEXT_SWITCH_SMMU_INFO"/>
->>          <reg64 offset="0x08A3" name="CP_CONTEXT_SWITCH_PRIV_NON_SECURE_RESTORE_ADDR"/>
->>          <reg64 offset="0x08A5" name="CP_CONTEXT_SWITCH_PRIV_SECURE_RESTORE_ADDR"/>
->>
->> --
->> 2.46.1
->>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="axzvv5m7sut2voab"
+Content-Disposition: inline
+In-Reply-To: <CAKEwX=O=Qu4LZt79==FztxFjgBu2+q7C6EDji-ZmW5Ga38_dSg@mail.gmail.com>
 
 
-Best regards,
--- 
-Antonino Maniscalco <antomani103@gmail.com>
+--axzvv5m7sut2voab
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hello.
+
+On Thu, Sep 26, 2024 at 07:28:08PM GMT, Nhat Pham <nphamcs@gmail.com> wrote:
+> API-design-wise, this seems a bit confusing... Using the value -1 to
+> indicate the cgroup should follow ancestor is not quite semantically
+> meaningful.
+
+What about assigning this semantic to an empty string ("")?
+That would be the default behavior and also the value shown when reading
+the file (to distinguish this for explicitly configured values).
+
+(The weirdness of 0, 1, -1, -1, -1  would remain. Maybe switching this
+via the mount option could satisfy any user. Admittedly, I tend to
+confuse this knob with swap.max.)
+
+Michal
+
+--axzvv5m7sut2voab
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTd6mfF2PbEZnpdoAkt3Wney77BSQUCZvbI3AAKCRAt3Wney77B
+SdcwAP9zU47ZgUAzX3AO5mbdpBmN640D27AJpW062yLgfBHb1AEA/fL2ZMKKBoOD
+BWyYV695rIq1IDleJ9alQhdyyvtfpgg=
+=4dtO
+-----END PGP SIGNATURE-----
+
+--axzvv5m7sut2voab--
