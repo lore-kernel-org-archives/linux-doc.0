@@ -1,210 +1,121 @@
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECAEE189BA3;
-	Fri, 27 Sep 2024 16:13:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.174
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC995142621;
+	Fri, 27 Sep 2024 16:22:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727453640; cv=none; b=lFQndIBq4JWD7SdEdR5iTamG8NzsY+DD3Iz8KrtY4PzvpJ9yunKV3qSv7Vt22OsWb+Vv43tyOJX82Psinet/Iiv9Sr0mOLTBtPMVLR/iYjJaZu7t7RPTye5HGNv6m6/LqvxgcfmF3mPNyG77WLqsbe2rLBcEyU+ro2uIV80Ayg8=
+	t=1727454144; cv=none; b=VzxlLmgElqTwORlXStcA69cPuMGtwaPmcdfCP2M0l7xWnXenFBsq5lBXZetdtGG8NdfrR3gDPWB4CsJNlekuBknKsJUcpyC2u0+Edn/TPKduJ5IqZhUk2S8sunIIVm5h5mb5mOGzhiHBBNetfzq6NZ2/p0Fveemn0szMvKeJUaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727453640; c=relaxed/simple;
-	bh=EF0Av991yhny8U1gCitGfS/KZoWeWgh1qn4rm107pVo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cZZkM+0VTzdWTAryfyh4OLB0QEEFJqCZJhpVIDVdEsjOTzLiITI4hi6xc4FydzhQy+L3T9/YQz5eJATUfXQznYDdV2jpsVS55Tx6AAnTMpEI9MAQCvWugJ5UBAXq1bR+IWM6eIkCLIa3irundgDPtxserGI1yVqeS15ejF8bxcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cP5ZGoxA; arc=none smtp.client-ip=209.85.166.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cP5ZGoxA"
-Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-3a34802247eso4303835ab.0;
-        Fri, 27 Sep 2024 09:13:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727453638; x=1728058438; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DEn58HecF0TosxZt+Dqr3/YCoDZ17RngyusZkdzm+yE=;
-        b=cP5ZGoxAbzhhQ23j9BLRvkzsSUKHoIgqmoPuRs0bgnlsleMKHlie5aVbRzUqst+XeM
-         dkkrSaeGD+zHVs5kDsCV2Gm5C89TNAoK7gedjKiPEUrc4+QYq5KaGnTgmH3nCEG5TveK
-         /0ZG3ETge32+4CNCDo1DenJ4JDunRHon7lTblQEPPznqyWaSX/GBFcp2kPRuHzN54aC8
-         OWvOpM4umHLT1CkJxkXJZW0qbZAHpuarMSxEKI47J0MYAjdwcFO0wq73RXvIZd9hcHMS
-         LIwaXNa5ak+jmrqf34Xgk6BxWdVT7D7yuvqhUDsIjGy5mXePRfoxe5WKHw4VcFF/PJYK
-         51cA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727453638; x=1728058438;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DEn58HecF0TosxZt+Dqr3/YCoDZ17RngyusZkdzm+yE=;
-        b=BzIOb8c3yDKWhnzgVrh/8ysbilF1Eo106NPEn/7+mwKxqf9mAoDye32sj7wneX+pJe
-         chJYelNLUfugjDu2RedWsO5syYPOiRsSP/NrCquNxYIZegZwSm19M4+hJWkNNZC9gGTQ
-         yMyyFzlB+eo15x2+F6P2CnN78wc2cH+oeMSiUIOlPryliqD87WcXcg5446DHIl0W0sFo
-         9fVwqomMCjDrWRHKgN3FN+gG27H7bQp/BLkF2LqRmBCDGVqcJREDwmhpF+XLRNZO55cy
-         1WergmpxMsmkFI6Ox7P6E7cnL3KBhU/GQbzQqKJ7ApIQ6pZUOc/DZfPDCd16HpcgQ5+Q
-         emlw==
-X-Forwarded-Encrypted: i=1; AJvYcCURMmVjwQwp77sXixQk5sVHZBAI+uH9ikXa1qciimBkwwvzL9v2J+uVPXnzUirjXCAGh4koo+1C3k/5d+wg@vger.kernel.org, AJvYcCUSm6jnMEKFvEcBM3erPE4yzfPkt3NKIfQqqDYFZpEMVMFl6LE4TbguHUPfQQjtQNtRAI02mz142Urr@vger.kernel.org, AJvYcCWajmeO5PlsPIspDfA5SYuRXpt387F0oqdANZHKBVYwGimb0HzGoqf7/tlL4X7KIQ7gamuhgMvpS47hz08f@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8sP9jYWi2Z7reGnB6kZPjS8A/6LyGLZZzv+lK3RIdNJuzK5V/
-	vsQIUAuE/dNYdug6x0ux3/jzxNWlWkW0Ec67ituOBN0q8tfV3a1f8gudPFpVBgu/gsHdWowR56j
-	SrRxzTiaVzFJ/9lJglJ6z8HyGWUT5jA==
-X-Google-Smtp-Source: AGHT+IG8J8ayTBM0SIM96790nCwHY2riAMEY+VMgtSqhHWVj3meExklYvjvN+tePgujrZ2Yd48FUNnuFRhUvZao5JCU=
-X-Received: by 2002:a05:6e02:1c8f:b0:3a0:a385:9128 with SMTP id
- e9e14a558f8ab-3a345169251mr36411535ab.6.1727453637742; Fri, 27 Sep 2024
- 09:13:57 -0700 (PDT)
+	s=arc-20240116; t=1727454144; c=relaxed/simple;
+	bh=MwxSYUQfpQZ8Dt7MR3StqGkeSe7twZkuP4tcbwLCnKs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QeS2eFB1r9OQ9O31gn7wzBt5Xi2JttLHUzr5ubeIDu/BPHYye3+igHHZcNvdfc9hxwbzc4gLRZL3z3PoOwjuoqlzd/qvJ65L9lJhDFtqlfoxO0kLG2797z+uFTxKOApkJE0/yEMiMgBwYPsEQDyNDaW33sjsxxOmklGKfv6PosM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8EDBA14BF;
+	Fri, 27 Sep 2024 09:22:44 -0700 (PDT)
+Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B650E3F6A8;
+	Fri, 27 Sep 2024 09:22:08 -0700 (PDT)
+Date: Fri, 27 Sep 2024 17:22:03 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Ard Biesheuvel <ardb+git@google.com>
+Cc: linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+	x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Uros Bizjak <ubizjak@gmail.com>, Dennis Zhou <dennis@kernel.org>,
+	Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Juergen Gross <jgross@suse.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Keith Packard <keithp@keithp.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
+	Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Kan Liang <kan.liang@linux.intel.com>, linux-doc@vger.kernel.org,
+	linux-pm@vger.kernel.org, kvm@vger.kernel.org,
+	xen-devel@lists.xenproject.org, linux-efi@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-sparse@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-perf-users@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [RFC PATCH 02/28] Documentation: Bump minimum GCC version to 8.1
+Message-ID: <ZvbbqzrfkgjM1VZ3@J2N7QTR9R3>
+References: <20240925150059.3955569-30-ardb+git@google.com>
+ <20240925150059.3955569-32-ardb+git@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240926-preemption-a750-t-v6-0-7b6e1ef3648f@gmail.com> <20240926-preemption-a750-t-v6-5-7b6e1ef3648f@gmail.com>
-In-Reply-To: <20240926-preemption-a750-t-v6-5-7b6e1ef3648f@gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 27 Sep 2024 09:13:45 -0700
-Message-ID: <CAF6AEGtgSCpsOvikwEchyLhT3mnA38oanLGgbBvJVPhaFa+M2g@mail.gmail.com>
-Subject: Re: [PATCH v6 05/11] drm/msm/a6xx: Implement preemption for a7xx targets
-To: Antonino Maniscalco <antomani103@gmail.com>
-Cc: Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	Marijn Suijten <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-arm-msm@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Akhil P Oommen <quic_akhilpo@quicinc.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Sharat Masetty <smasetty@codeaurora.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240925150059.3955569-32-ardb+git@google.com>
 
-On Thu, Sep 26, 2024 at 2:17=E2=80=AFPM Antonino Maniscalco
-<antomani103@gmail.com> wrote:
->
-> This patch implements preemption feature for A6xx targets, this allows
-> the GPU to switch to a higher priority ringbuffer if one is ready. A6XX
-> hardware as such supports multiple levels of preemption granularities,
-> ranging from coarse grained(ringbuffer level) to a more fine grained
-> such as draw-call level or a bin boundary level preemption. This patch
-> enables the basic preemption level, with more fine grained preemption
-> support to follow.
->
-> Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
-> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
-> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8450-HDK
-> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
-> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
+On Wed, Sep 25, 2024 at 05:01:02PM +0200, Ard Biesheuvel wrote:
+> From: Ard Biesheuvel <ardb@kernel.org>
+> 
+> Bump the minimum GCC version to 8.1 to gain unconditional support for
+> referring to the per-task stack cookie using a symbol rather than
+> relying on the fixed offset of 40 bytes from %GS, which requires
+> elaborate hacks to support.
+> 
+> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
 > ---
->  drivers/gpu/drm/msm/Makefile              |   1 +
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 283 +++++++++++++++++++++-
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.h     | 168 +++++++++++++
->  drivers/gpu/drm/msm/adreno/a6xx_preempt.c | 377 ++++++++++++++++++++++++=
-++++++
->  drivers/gpu/drm/msm/msm_ringbuffer.h      |   7 +
->  5 files changed, 825 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
-> index f5e2838c6a76505b353f83c9fe9c997f1c282701..32e915109a59dda96ed76ddd2=
-b4f57bb225f4572 100644
-> --- a/drivers/gpu/drm/msm/Makefile
-> +++ b/drivers/gpu/drm/msm/Makefile
-> @@ -23,6 +23,7 @@ adreno-y :=3D \
->         adreno/a6xx_gpu.o \
->         adreno/a6xx_gmu.o \
->         adreno/a6xx_hfi.o \
-> +       adreno/a6xx_preempt.o \
->
->  adreno-$(CONFIG_DEBUG_FS) +=3D adreno/a5xx_debugfs.o \
->
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/=
-adreno/a6xx_gpu.c
-> index 6e065500b64d6d95599d89c33e6703c92f210047..355a3e210335d60a5bed0ee28=
-7912271c353402a 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -16,6 +16,84 @@
->
->  #define GPU_PAS_ID 13
->
-> +/* IFPC & Preemption static powerup restore list */
-> +static const uint32_t a7xx_pwrup_reglist[] =3D {
-> +       REG_A6XX_UCHE_TRAP_BASE,
-> +       REG_A6XX_UCHE_TRAP_BASE + 1,
-> +       REG_A6XX_UCHE_WRITE_THRU_BASE,
-> +       REG_A6XX_UCHE_WRITE_THRU_BASE + 1,
-> +       REG_A6XX_UCHE_GMEM_RANGE_MIN,
-> +       REG_A6XX_UCHE_GMEM_RANGE_MIN + 1,
-> +       REG_A6XX_UCHE_GMEM_RANGE_MAX,
-> +       REG_A6XX_UCHE_GMEM_RANGE_MAX + 1,
-> +       REG_A6XX_UCHE_CACHE_WAYS,
-> +       REG_A6XX_UCHE_MODE_CNTL,
-> +       REG_A6XX_RB_NC_MODE_CNTL,
-> +       REG_A6XX_RB_CMP_DBG_ECO_CNTL,
-> +       REG_A7XX_GRAS_NC_MODE_CNTL,
-> +       REG_A6XX_RB_CONTEXT_SWITCH_GMEM_SAVE_RESTORE,
-> +       REG_A6XX_UCHE_GBIF_GX_CONFIG,
-> +       REG_A6XX_UCHE_CLIENT_PF,
-> +       REG_A6XX_TPL1_DBG_ECO_CNTL1,
-> +};
-> +
-> +static const uint32_t a7xx_ifpc_pwrup_reglist[] =3D {
-> +       REG_A6XX_TPL1_NC_MODE_CNTL,
-> +       REG_A6XX_SP_NC_MODE_CNTL,
-> +       REG_A6XX_CP_DBG_ECO_CNTL,
-> +       REG_A6XX_CP_PROTECT_CNTL,
-> +       REG_A6XX_CP_PROTECT(0),
-> +       REG_A6XX_CP_PROTECT(1),
-> +       REG_A6XX_CP_PROTECT(2),
-> +       REG_A6XX_CP_PROTECT(3),
-> +       REG_A6XX_CP_PROTECT(4),
-> +       REG_A6XX_CP_PROTECT(5),
-> +       REG_A6XX_CP_PROTECT(6),
-> +       REG_A6XX_CP_PROTECT(7),
-> +       REG_A6XX_CP_PROTECT(8),
-> +       REG_A6XX_CP_PROTECT(9),
-> +       REG_A6XX_CP_PROTECT(10),
-> +       REG_A6XX_CP_PROTECT(11),
-> +       REG_A6XX_CP_PROTECT(12),
-> +       REG_A6XX_CP_PROTECT(13),
-> +       REG_A6XX_CP_PROTECT(14),
-> +       REG_A6XX_CP_PROTECT(15),
-> +       REG_A6XX_CP_PROTECT(16),
-> +       REG_A6XX_CP_PROTECT(17),
-> +       REG_A6XX_CP_PROTECT(18),
-> +       REG_A6XX_CP_PROTECT(19),
-> +       REG_A6XX_CP_PROTECT(20),
-> +       REG_A6XX_CP_PROTECT(21),
-> +       REG_A6XX_CP_PROTECT(22),
-> +       REG_A6XX_CP_PROTECT(23),
-> +       REG_A6XX_CP_PROTECT(24),
-> +       REG_A6XX_CP_PROTECT(25),
-> +       REG_A6XX_CP_PROTECT(26),
-> +       REG_A6XX_CP_PROTECT(27),
-> +       REG_A6XX_CP_PROTECT(28),
-> +       REG_A6XX_CP_PROTECT(29),
-> +       REG_A6XX_CP_PROTECT(30),
-> +       REG_A6XX_CP_PROTECT(31),
-> +       REG_A6XX_CP_PROTECT(32),
-> +       REG_A6XX_CP_PROTECT(33),
-> +       REG_A6XX_CP_PROTECT(34),
-> +       REG_A6XX_CP_PROTECT(35),
-> +       REG_A6XX_CP_PROTECT(36),
-> +       REG_A6XX_CP_PROTECT(37),
-> +       REG_A6XX_CP_PROTECT(38),
-> +       REG_A6XX_CP_PROTECT(39),
-> +       REG_A6XX_CP_PROTECT(40),
-> +       REG_A6XX_CP_PROTECT(41),
-> +       REG_A6XX_CP_PROTECT(42),
-> +       REG_A6XX_CP_PROTECT(43),
-> +       REG_A6XX_CP_PROTECT(44),
-> +       REG_A6XX_CP_PROTECT(45),
-> +       REG_A6XX_CP_PROTECT(46),
-> +       REG_A6XX_CP_PROTECT(47),
-> +       REG_A6XX_CP_AHB_CNTL,
-> +};
+>  Documentation/admin-guide/README.rst | 2 +-
+>  Documentation/process/changes.rst    | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 
-Should we put these in a6xx_catalog.c, in a6xx_info instead?  I guess
-they'd differ on a6xx if we enabled preemption there (at a minimum,
-the # of CP_PROTECT regs differs btwn a6xx sub-generations)
+I'd like this for arm64 and others too (for unconditional support for
+-fpatchable-function-entry), so FWIW:
 
-BR,
--R
+Acked-by: Mark Rutland <mark.rutland@arm.com>
+
+I think you'll want to update scripts/min-tool-version.sh too; judging
+by the diff in the cover letter that's not handled elsehere in the
+series.
+
+Mark.
+
+> 
+> diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
+> index f2bebff6a733..3dda41923ed6 100644
+> --- a/Documentation/admin-guide/README.rst
+> +++ b/Documentation/admin-guide/README.rst
+> @@ -259,7 +259,7 @@ Configuring the kernel
+>  Compiling the kernel
+>  --------------------
+>  
+> - - Make sure you have at least gcc 5.1 available.
+> + - Make sure you have at least gcc 8.1 available.
+>     For more information, refer to :ref:`Documentation/process/changes.rst <changes>`.
+>  
+>   - Do a ``make`` to create a compressed kernel image. It is also possible to do
+> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+> index 00f1ed7c59c3..59b7d3d8a577 100644
+> --- a/Documentation/process/changes.rst
+> +++ b/Documentation/process/changes.rst
+> @@ -29,7 +29,7 @@ you probably needn't concern yourself with pcmciautils.
+>  ====================== ===============  ========================================
+>          Program        Minimal version       Command to check the version
+>  ====================== ===============  ========================================
+> -GNU C                  5.1              gcc --version
+> +GNU C                  8.1              gcc --version
+>  Clang/LLVM (optional)  13.0.1           clang --version
+>  Rust (optional)        1.78.0           rustc --version
+>  bindgen (optional)     0.65.1           bindgen --version
+> -- 
+> 2.46.0.792.g87dc391469-goog
+> 
+> 
