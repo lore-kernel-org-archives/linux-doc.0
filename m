@@ -1,79 +1,132 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B4D519FA66;
-	Fri, 27 Sep 2024 10:25:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DFFB18A6D9;
+	Fri, 27 Sep 2024 11:57:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727432743; cv=none; b=QAD0qPvbj3Lowc/v92M8Q7jA1HyK0B3LrOrqrp5nuznQZ0XZPuDN30FDgCpppgzdC5m6tcrWruBMhki3aP3vdtbhLbT+srgppFv1vmzc9YNrYVpJsTtLuu37+iDixTQVSFD6O5kiGvF7dzaN9p3SODZTXx2Xxiri61iRPn2mU38=
+	t=1727438279; cv=none; b=RoZtrIGWrbCLQr4rmuzcioyz27eXucwErC2S0+lKwQhP/OUGHwjMjmjhabjAa7v2UYN5vvUwMpnCCxHTM1FSsWuX8P6un0/6XQkKPJsv1CcUA6uBhFkqnINODTUzSVgzJ6qzL/2+q0VtviNEbqAsf8hZQy23bSLlvC3z9hAtkKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727432743; c=relaxed/simple;
-	bh=deoRTQsc/jmO/3PI13iUFKJ8VRt2zP00FMOAs9pNWAE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=HvREbVvvPrlg5MnKuGWGxjxlNXQAwbuuQqU0ypMgOciF3TOq54AHWDRN8kv69mw5wxGKpgPsAAUrPuILcElCKPB8KJ0Vq8+O0tOUqxKVA/DEYnY2BbgEp9qspJfpQad8hYLZAif1agmZVv4goDJN9npohbDDRiuU4B915bFszV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=YbEi/3rX; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1727438279; c=relaxed/simple;
+	bh=OFvMn4GwvKADxI17/MHAKauBHsI2ZCvbRnSqWFXPevw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JclU7FqQj9zAzPnDO9taQxd2o+9lvm8ghN/hUtJEWfIpRb0AkD15idldN7xqxKxW+Z3eXAFihthwENb+/l5+0w1LyVmdwnNR6PCAPeh8sdWAnxQr6oRHE1Swx0RGDOGjwXMv7OOjqy+N2bzc/Ik4uz9a9S0/l5bTlF+CMGPXtg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OAQWbnn7; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="YbEi/3rX"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AFC1941898
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1727432734; bh=6WPhCE4x2dsw0rer9LX+9vHWkhowueVam5DumtgG7lY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=YbEi/3rX+RywDDrysdyrvbSch6CwlXQ4hY3xMIIIp9LlRu9wdfH/sc5yAzow48HYf
-	 uhgX4RWuDxkObUz9taQZGpP5WcV9XKZrIt5q2DKnCMF5qeDXfD4+nh3CwNdwyvgXK3
-	 r68C+i0lSYCTQwJRZ+SdPL7tEInB9TB2vPetw6wabl9TrDVTEgcSih48CR02CXjBV0
-	 FPLFSbmHWeCA18OIYSj5QC/FH68E85EZOT9hyiYNBMm/OeVOxRmP8SqA3xqtjWJsRe
-	 ASUKlKcbAN7s1unZlwAuDmVVt/U9judEDDjxnG0GKqIVfUZLO0jVNoGxWfrwCBU1XT
-	 Uc4BSb+au0iAQ==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id AFC1941898;
-	Fri, 27 Sep 2024 10:25:27 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Steven Rostedt <rostedt@goodmis.org>, Stephen Rothwell
- <sfr@canb.auug.org.au>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>, linux-doc@vger.kernel.org
-Subject: Re: linux-next: build warning after merge of the ftrace tree
-In-Reply-To: <20240926091452.4be87000@rorschach.local.home>
-References: <20240919150513.067dd727@canb.auug.org.au>
- <20240926091452.4be87000@rorschach.local.home>
-Date: Fri, 27 Sep 2024 04:24:52 -0600
-Message-ID: <87a5fte6mj.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OAQWbnn7"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2db6e80555dso376317a91.0;
+        Fri, 27 Sep 2024 04:57:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727438277; x=1728043077; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/00YoVmyxoQD04QF3B+FPA5cgwCGWAPgMWHF0NDU/mM=;
+        b=OAQWbnn7pTpY/EQbG5C09/sChWtgtM2VRSWXQ5Xv7MNffsrx/SjOZIoU5tbRZM56cv
+         TIphql2SnHz5qWkiiRbfBYQE/YwHYHl+Wfic0ojBVLEuR3kvWbApeNNjzeQa1vsGk2r6
+         p2u9nWmzhlHNBoV4GuGbmqI+caJ1QsC2GlbZB1rf7t/IfSLnVTHNqaIQBlGtUIDZv5Bc
+         VuLHWQRu/qdbzqkdizCljUBwZxKBdAGKa4gXQa9uTsM9Tyl+Hqpw4jmj6+psjN0pA77o
+         pvCKOTPGsgHjbPITWQDHqSSXFIHrNSNoCtG1sApIHA01nWak1YejV46B6JOKtSM4yg3R
+         HDQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727438277; x=1728043077;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/00YoVmyxoQD04QF3B+FPA5cgwCGWAPgMWHF0NDU/mM=;
+        b=Fu+HwK04J3/87EO4Z3PPCvNqJI6r/UUKsXHvoFrdztudns8MLpZUM0qNdvgFCyMPC8
+         QtOiAvhSJ9T8iIwTKk/CkVBbKMMVToWZVwBtdr5J7n4nlS79K8MLA/IrRtRBpeEV+zrY
+         5pAj77Vv8Qgxv8Ya3NJpCldnFZvtrhQl4pM4p8mHMQUgRWB/4HCS+peLKAkE+YFnCj8w
+         QZU+RFpaHnHUlXJrAzbFAQw/qqEi9cKbp9XjyfMOlQvo3vru/f/PDZ26Hs1AHsDAvMf2
+         qS2ZS/wr/h/D+KGPZi6jKwXtgC3fno4eMomETg/sQjU5YCXAsViy/rjp8ReBYgxJWdaZ
+         9TAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV/dTySIbtApQoPoFqYxaePvJadWIOLP2rip99FJDqnGAFmGydMuJiAHK8iU+CJhq9a95ARV878mE8a76Am@vger.kernel.org, AJvYcCVDOrqhJieQXNy8NWRj3BjrmmE6y23Tv4T97p2g9EkDCVmOo0BfPHYcAIOw91lp+zwZ31WIor865Sf75o5n@vger.kernel.org, AJvYcCXEd6HRFbhgYVx2F6nXxWWVXJ4NOa5H7VNoExHvOxNKbQafYiFRCn63CZ0dXNvbZm7dWbGnkMHeUfr7@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzi8LR+jhUr0sh+2YlcF7CQ68PqsKuI8d4/XRnWhX1gNh6GoomY
+	AHDGHrwMDNLn2nFZY7scItqXdXTG0aQ4Jwnlnme/v7T6bQfgdAXRXDp4FppSMBVly85NgV7E+wu
+	fCd2G2/ynYT5sMBfJKwoQsn5/4Xk=
+X-Google-Smtp-Source: AGHT+IFMYD0OH+mms5PX41lPPzr/Ohq/r9pchznWtwGPOOpsDLVNm08dDIYqmANikx8KUubtMRcg72JLma6cxaU0Aik=
+X-Received: by 2002:a17:90a:68ce:b0:2d8:e7ef:7d23 with SMTP id
+ 98e67ed59e1d1-2e0b8d7c62cmr1427986a91.4.1727438277454; Fri, 27 Sep 2024
+ 04:57:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20240926-preemption-a750-t-v6-0-7b6e1ef3648f@gmail.com> <20240926-preemption-a750-t-v6-4-7b6e1ef3648f@gmail.com>
+In-Reply-To: <20240926-preemption-a750-t-v6-4-7b6e1ef3648f@gmail.com>
+From: Connor Abbott <cwabbott0@gmail.com>
+Date: Fri, 27 Sep 2024 12:57:46 +0100
+Message-ID: <CACu1E7HEZztQ3bctuVdrwLCVY2oJ_01AyeKdwCuuB6gmsPurpg@mail.gmail.com>
+Subject: Re: [PATCH v6 04/11] drm/msm: Add CONTEXT_SWITCH_CNTL bitfields
+To: Antonino Maniscalco <antomani103@gmail.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	Marijn Suijten <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-arm-msm@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Neil Armstrong <neil.armstrong@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Steven Rostedt <rostedt@goodmis.org> writes:
+In the future, the right thing to do is open a mesa MR with just the
+register changes and then copy the file from mesa once it's merged,
+because all of the XML files are supposed to flow from mesa to keep
+mesa and the kernel in sync. I've opened a mesa MR [1] based on this
+that will hopefully get quickly acked and merged.
 
-> On Thu, 19 Sep 2024 15:05:13 +1000
-> Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+Connor
+
+[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/31422
+
+On Thu, Sep 26, 2024 at 10:17=E2=80=AFPM Antonino Maniscalco
+<antomani103@gmail.com> wrote:
 >
->> Hi all,
->> 
->> After merging the ftrace tree, today's linux-next build (htmldocs)
->> produced this warning:
->> 
->> Documentation/trace/debugging.rst: WARNING: document isn't included in any toctree
->> 
->> Introduced by commit
->> 
->>   2fcd5aff92aa ("tracing/Documentation: Start a document on how to debug with tracing")
->> 
+> Add missing bitfields to CONTEXT_SWITCH_CNTL in a6xx.xml.
 >
-> Thanks for reporting this Stephen, but I don't know how to fix it.
+> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
+> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
+> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8450-HDK
+> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
+> ---
+>  drivers/gpu/drm/msm/registers/adreno/a6xx.xml | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 >
-> Jon?
+> diff --git a/drivers/gpu/drm/msm/registers/adreno/a6xx.xml b/drivers/gpu/=
+drm/msm/registers/adreno/a6xx.xml
+> index 2dfe6913ab4f52449b76c2f75b2d101c08115d16..fd31d1d7a11eef7f38dcc2975=
+dc1034f6b7a2e41 100644
+> --- a/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
+> +++ b/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
+> @@ -1337,7 +1337,12 @@ to upconvert to 32b float internally?
+>                 <reg32 offset=3D"0x0" name=3D"REG" type=3D"a6x_cp_protect=
+"/>
+>         </array>
+>
+> -       <reg32 offset=3D"0x08A0" name=3D"CP_CONTEXT_SWITCH_CNTL"/>
+> +       <reg32 offset=3D"0x08A0" name=3D"CP_CONTEXT_SWITCH_CNTL">
+> +               <bitfield name=3D"STOP" pos=3D"0" type=3D"boolean"/>
 
-Add a line to Documentation/trace/index.rst in the appropriate spot
-referencing the new file.
+This bit isn't set to 1 when it's stopped, it's set to
 
-jon
+> +               <bitfield name=3D"LEVEL" low=3D"6" high=3D"7"/>
+> +               <bitfield name=3D"USES_GMEM" pos=3D"8" type=3D"boolean"/>
+> +               <bitfield name=3D"SKIP_SAVE_RESTORE" pos=3D"9" type=3D"bo=
+olean"/>
+> +       </reg32>
+>         <reg64 offset=3D"0x08A1" name=3D"CP_CONTEXT_SWITCH_SMMU_INFO"/>
+>         <reg64 offset=3D"0x08A3" name=3D"CP_CONTEXT_SWITCH_PRIV_NON_SECUR=
+E_RESTORE_ADDR"/>
+>         <reg64 offset=3D"0x08A5" name=3D"CP_CONTEXT_SWITCH_PRIV_SECURE_RE=
+STORE_ADDR"/>
+>
+> --
+> 2.46.1
+>
