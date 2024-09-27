@@ -1,132 +1,123 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DFFB18A6D9;
-	Fri, 27 Sep 2024 11:57:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4F3918BC1D;
+	Fri, 27 Sep 2024 12:30:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727438279; cv=none; b=RoZtrIGWrbCLQr4rmuzcioyz27eXucwErC2S0+lKwQhP/OUGHwjMjmjhabjAa7v2UYN5vvUwMpnCCxHTM1FSsWuX8P6un0/6XQkKPJsv1CcUA6uBhFkqnINODTUzSVgzJ6qzL/2+q0VtviNEbqAsf8hZQy23bSLlvC3z9hAtkKk=
+	t=1727440228; cv=none; b=XVPug9M6MPzWVPiUlOCznRqengRME4Ica52MvwoN/7Hd3c2TmwCbo6iqdZf2g3aOmuLaWRkmyo2A02v0aSTjtWY5IC+N6XbMKSLjE9sFCXwYmHl+uuEQD1xUL0OO8etj/o+rVJHUwTI8tpGxDKu0Nl6MFnfjmGHVhL25qVRk8w4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727438279; c=relaxed/simple;
-	bh=OFvMn4GwvKADxI17/MHAKauBHsI2ZCvbRnSqWFXPevw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JclU7FqQj9zAzPnDO9taQxd2o+9lvm8ghN/hUtJEWfIpRb0AkD15idldN7xqxKxW+Z3eXAFihthwENb+/l5+0w1LyVmdwnNR6PCAPeh8sdWAnxQr6oRHE1Swx0RGDOGjwXMv7OOjqy+N2bzc/Ik4uz9a9S0/l5bTlF+CMGPXtg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OAQWbnn7; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727440228; c=relaxed/simple;
+	bh=a3h2hbkd2SAJD+szjSc9cqtg5L0XsCkXzbVeCe0Gqd0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a0Kt62lz6DzUXBe4if/ORe/PQ5j1hzqLNjIlZOcSv53xAfcCzlu+VeMvpR3Qp6IJzxyioER8oGtn3xR68fip2Df8S36N6a6kI5rgqsu9sHUWEMMJtsVLxkJZFsjyVe8Ezbs0IRBAX621mHNTZ4xwVsOMdx/Ya/KuOqeK1Yr/gbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=sGYFe9qA; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OAQWbnn7"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2db6e80555dso376317a91.0;
-        Fri, 27 Sep 2024 04:57:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727438277; x=1728043077; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/00YoVmyxoQD04QF3B+FPA5cgwCGWAPgMWHF0NDU/mM=;
-        b=OAQWbnn7pTpY/EQbG5C09/sChWtgtM2VRSWXQ5Xv7MNffsrx/SjOZIoU5tbRZM56cv
-         TIphql2SnHz5qWkiiRbfBYQE/YwHYHl+Wfic0ojBVLEuR3kvWbApeNNjzeQa1vsGk2r6
-         p2u9nWmzhlHNBoV4GuGbmqI+caJ1QsC2GlbZB1rf7t/IfSLnVTHNqaIQBlGtUIDZv5Bc
-         VuLHWQRu/qdbzqkdizCljUBwZxKBdAGKa4gXQa9uTsM9Tyl+Hqpw4jmj6+psjN0pA77o
-         pvCKOTPGsgHjbPITWQDHqSSXFIHrNSNoCtG1sApIHA01nWak1YejV46B6JOKtSM4yg3R
-         HDQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727438277; x=1728043077;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/00YoVmyxoQD04QF3B+FPA5cgwCGWAPgMWHF0NDU/mM=;
-        b=Fu+HwK04J3/87EO4Z3PPCvNqJI6r/UUKsXHvoFrdztudns8MLpZUM0qNdvgFCyMPC8
-         QtOiAvhSJ9T8iIwTKk/CkVBbKMMVToWZVwBtdr5J7n4nlS79K8MLA/IrRtRBpeEV+zrY
-         5pAj77Vv8Qgxv8Ya3NJpCldnFZvtrhQl4pM4p8mHMQUgRWB/4HCS+peLKAkE+YFnCj8w
-         QZU+RFpaHnHUlXJrAzbFAQw/qqEi9cKbp9XjyfMOlQvo3vru/f/PDZ26Hs1AHsDAvMf2
-         qS2ZS/wr/h/D+KGPZi6jKwXtgC3fno4eMomETg/sQjU5YCXAsViy/rjp8ReBYgxJWdaZ
-         9TAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV/dTySIbtApQoPoFqYxaePvJadWIOLP2rip99FJDqnGAFmGydMuJiAHK8iU+CJhq9a95ARV878mE8a76Am@vger.kernel.org, AJvYcCVDOrqhJieQXNy8NWRj3BjrmmE6y23Tv4T97p2g9EkDCVmOo0BfPHYcAIOw91lp+zwZ31WIor865Sf75o5n@vger.kernel.org, AJvYcCXEd6HRFbhgYVx2F6nXxWWVXJ4NOa5H7VNoExHvOxNKbQafYiFRCn63CZ0dXNvbZm7dWbGnkMHeUfr7@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzi8LR+jhUr0sh+2YlcF7CQ68PqsKuI8d4/XRnWhX1gNh6GoomY
-	AHDGHrwMDNLn2nFZY7scItqXdXTG0aQ4Jwnlnme/v7T6bQfgdAXRXDp4FppSMBVly85NgV7E+wu
-	fCd2G2/ynYT5sMBfJKwoQsn5/4Xk=
-X-Google-Smtp-Source: AGHT+IFMYD0OH+mms5PX41lPPzr/Ohq/r9pchznWtwGPOOpsDLVNm08dDIYqmANikx8KUubtMRcg72JLma6cxaU0Aik=
-X-Received: by 2002:a17:90a:68ce:b0:2d8:e7ef:7d23 with SMTP id
- 98e67ed59e1d1-2e0b8d7c62cmr1427986a91.4.1727438277454; Fri, 27 Sep 2024
- 04:57:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="sGYFe9qA"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48R26XTD005581;
+	Fri, 27 Sep 2024 12:29:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date
+	:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=pp1; bh=X3KPffXxGN0FIhLP5f2K/FrqF2R
+	GS6QdxDbR1ndTZX0=; b=sGYFe9qAb/CiVmT4JsSABkFSS1iewD180v/BmBSG1tx
+	aSMKrjKxF+MOqGzv+5hc9KigJpdY2e3K6eIumU1MNSsK3qB/HOnHeajJNqxzg/a5
+	MdnYFUPK5gKSRKskepU17H87XqAn+5YL0VPxKQU7A2/8wQTfMPFqEh9fu4+HSGgg
+	lSASwpn9GFduHZfSXDk5jxHMZTUVh0yFNcPcLflHvzF3qTGM2L/WTtKDL9z6BSWE
+	74VHjrADXjwIlBVQKNHGGRvOjcUWwj8MvY+3OE/BCW7a12s8ToSgpHIcGqPctGiw
+	kMyoDCNnxrSVlcxM+SqQMS8KkROb7e8ZQs1dJKXEh5Q==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 41wkmnjgx6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 27 Sep 2024 12:29:35 +0000 (GMT)
+Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 48RCTYnK016144;
+	Fri, 27 Sep 2024 12:29:35 GMT
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 41wkmnjgx0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 27 Sep 2024 12:29:34 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 48RA8lXn008722;
+	Fri, 27 Sep 2024 12:29:33 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 41t8v1mxbj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 27 Sep 2024 12:29:33 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 48RCTV7v15270396
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 27 Sep 2024 12:29:31 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3FFF520043;
+	Fri, 27 Sep 2024 12:29:31 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5867C20040;
+	Fri, 27 Sep 2024 12:29:29 +0000 (GMT)
+Received: from li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com (unknown [9.171.79.55])
+	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Fri, 27 Sep 2024 12:29:29 +0000 (GMT)
+Date: Fri, 27 Sep 2024 14:29:27 +0200
+From: Alexander Gordeev <agordeev@linux.ibm.com>
+To: Alistair Popple <apopple@nvidia.com>
+Cc: dan.j.williams@intel.com, linux-mm@kvack.org, vishal.l.verma@intel.com,
+        dave.jiang@intel.com, logang@deltatee.com, bhelgaas@google.com,
+        jack@suse.cz, jgg@ziepe.ca, catalin.marinas@arm.com, will@kernel.org,
+        mpe@ellerman.id.au, npiggin@gmail.com, dave.hansen@linux.intel.com,
+        ira.weiny@intel.com, willy@infradead.org, djwong@kernel.org,
+        tytso@mit.edu, linmiaohe@huawei.com, david@redhat.com,
+        peterx@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, nvdimm@lists.linux.dev,
+        linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
+        jhubbard@nvidia.com, hch@lst.de, david@fromorbit.com
+Subject: Re: [PATCH 11/12] mm: Remove pXX_devmap callers
+Message-ID: <ZvalJ9O/SV9Riiws@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
+References: <cover.9f0e45d52f5cff58807831b6b867084d0b14b61c.1725941415.git-series.apopple@nvidia.com>
+ <4511465a4f8429f45e2ac70d2e65dc5e1df1eb47.1725941415.git-series.apopple@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240926-preemption-a750-t-v6-0-7b6e1ef3648f@gmail.com> <20240926-preemption-a750-t-v6-4-7b6e1ef3648f@gmail.com>
-In-Reply-To: <20240926-preemption-a750-t-v6-4-7b6e1ef3648f@gmail.com>
-From: Connor Abbott <cwabbott0@gmail.com>
-Date: Fri, 27 Sep 2024 12:57:46 +0100
-Message-ID: <CACu1E7HEZztQ3bctuVdrwLCVY2oJ_01AyeKdwCuuB6gmsPurpg@mail.gmail.com>
-Subject: Re: [PATCH v6 04/11] drm/msm: Add CONTEXT_SWITCH_CNTL bitfields
-To: Antonino Maniscalco <antomani103@gmail.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	Marijn Suijten <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-arm-msm@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Neil Armstrong <neil.armstrong@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4511465a4f8429f45e2ac70d2e65dc5e1df1eb47.1725941415.git-series.apopple@nvidia.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: oFQh9Q3qdgOsP-PvuakR2OvYRSStdcRF
+X-Proofpoint-ORIG-GUID: 9y1XQY94BFekLXDgIVhFUpi4XYvsL7VN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-27_06,2024-09-27_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=771
+ priorityscore=1501 suspectscore=0 malwarescore=0 mlxscore=0
+ impostorscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0 phishscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409270086
 
-In the future, the right thing to do is open a mesa MR with just the
-register changes and then copy the file from mesa once it's merged,
-because all of the XML files are supposed to flow from mesa to keep
-mesa and the kernel in sync. I've opened a mesa MR [1] based on this
-that will hopefully get quickly acked and merged.
+On Tue, Sep 10, 2024 at 02:14:36PM +1000, Alistair Popple wrote:
 
-Connor
+Hi Alistair,
 
-[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/31422
+> diff --git a/arch/powerpc/mm/book3s64/pgtable.c b/arch/powerpc/mm/book3s64/pgtable.c
+> index 5a4a753..4537a29 100644
+> --- a/arch/powerpc/mm/book3s64/pgtable.c
+> +++ b/arch/powerpc/mm/book3s64/pgtable.c
+> @@ -193,7 +192,7 @@ pmd_t pmdp_huge_get_and_clear_full(struct vm_area_struct *vma,
+>  	pmd_t pmd;
+>  	VM_BUG_ON(addr & ~HPAGE_PMD_MASK);
+>  	VM_BUG_ON((pmd_present(*pmdp) && !pmd_trans_huge(*pmdp) &&
+> -		   !pmd_devmap(*pmdp)) || !pmd_present(*pmdp));
+> +		   || !pmd_present(*pmdp));
 
-On Thu, Sep 26, 2024 at 10:17=E2=80=AFPM Antonino Maniscalco
-<antomani103@gmail.com> wrote:
->
-> Add missing bitfields to CONTEXT_SWITCH_CNTL in a6xx.xml.
->
-> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
-> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
-> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8450-HDK
-> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
-> ---
->  drivers/gpu/drm/msm/registers/adreno/a6xx.xml | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/msm/registers/adreno/a6xx.xml b/drivers/gpu/=
-drm/msm/registers/adreno/a6xx.xml
-> index 2dfe6913ab4f52449b76c2f75b2d101c08115d16..fd31d1d7a11eef7f38dcc2975=
-dc1034f6b7a2e41 100644
-> --- a/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
-> +++ b/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
-> @@ -1337,7 +1337,12 @@ to upconvert to 32b float internally?
->                 <reg32 offset=3D"0x0" name=3D"REG" type=3D"a6x_cp_protect=
-"/>
->         </array>
->
-> -       <reg32 offset=3D"0x08A0" name=3D"CP_CONTEXT_SWITCH_CNTL"/>
-> +       <reg32 offset=3D"0x08A0" name=3D"CP_CONTEXT_SWITCH_CNTL">
-> +               <bitfield name=3D"STOP" pos=3D"0" type=3D"boolean"/>
+That looks broken.
 
-This bit isn't set to 1 when it's stopped, it's set to
+>  	pmd = pmdp_huge_get_and_clear(vma->vm_mm, addr, pmdp);
+>  	/*
+>  	 * if it not a fullmm flush, then we can possibly end up converting
 
-> +               <bitfield name=3D"LEVEL" low=3D"6" high=3D"7"/>
-> +               <bitfield name=3D"USES_GMEM" pos=3D"8" type=3D"boolean"/>
-> +               <bitfield name=3D"SKIP_SAVE_RESTORE" pos=3D"9" type=3D"bo=
-olean"/>
-> +       </reg32>
->         <reg64 offset=3D"0x08A1" name=3D"CP_CONTEXT_SWITCH_SMMU_INFO"/>
->         <reg64 offset=3D"0x08A3" name=3D"CP_CONTEXT_SWITCH_PRIV_NON_SECUR=
-E_RESTORE_ADDR"/>
->         <reg64 offset=3D"0x08A5" name=3D"CP_CONTEXT_SWITCH_PRIV_SECURE_RE=
-STORE_ADDR"/>
->
-> --
-> 2.46.1
->
+Thanks!
