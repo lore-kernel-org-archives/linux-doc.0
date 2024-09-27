@@ -1,182 +1,205 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2045.outbound.protection.outlook.com [40.107.237.45])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 366321AFB2A;
-	Fri, 27 Sep 2024 21:58:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727474290; cv=fail; b=QqzKNWc/fy/oH3VH49QtQsF/eXMW0ytFZBUk8gUkrJsxZImXKKyW4C0KI9Sqbff9vouFQSGiAFnHdT5IU56JJw957t+cznIp8XoIVt2+HuP4K2vVXT+Bapi2XrswQPIcuDsucmacNkqHhZl99e/U+jhFfXGouVKwCG6rdnXl2Po=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727474290; c=relaxed/simple;
-	bh=mKkOS8ON8XXsl0aoRfu7ijfFVm/v2jDUewUB0Qaj/fs=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qtVn9VIsEVnll7a2iziPa6QZNznrc+utEDTigmFQSEPrk9WvlobF0ypiIlhRc4UUmlkNPoNAeUWXBsPI2oTaMCSLxeRUgU31tQlvpRLoGloRyKlptSDnSI58ihR4r6kmY/BakrxK1bcNTIC1mkrY4pVmWM3X4NxGc40qcKr5v/c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=2u+0fM5r; arc=fail smtp.client-ip=40.107.237.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0381B1501;
+	Fri, 27 Sep 2024 22:08:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727474931; cv=none; b=NkSb9ZBNLCoeGAvExaLmuBbOKTjvQ+DReBRXUJWdgdwWLwpHtwiWXLtj4G+dtE9jbGBcXk0YsmBj9RHQv4TXbXO5AQTsCbL/Ig0I7OH8MBy9cXLJK8IfRxHYB51FKNpFuyAptxhgDLcFwpe14COFlpl76Ff/CjLfiniGkr8QGd4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727474931; c=relaxed/simple;
+	bh=PjwHTGA5BsrsNLC2q0jcT95lWCT2/PR7eV5me+6PLsU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZkNd/5H9ue/gioTbLBtmSMfhPU94GfgX3RTITZhHzPoS2+SyJe/foNz7QT9q72QBqpLcsp2iISOQsJIBaVU2NOuv6wgiAjI7TdofqQbftvOTdOKylrArpTXTxmiweQJpnVF6wKs58NCuS7UcgdbCBg28XOOAzeeLSJqfVjnyvV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QXrxkB0m; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="2u+0fM5r"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oT40gjFjd/JrC5Muy1U4HUfwMmi17wM4qkd7PkGaypuppMMtABq/wsVLvjvbg+8w+fiuQXjkaJsADRAF8BjsgE/2K5bYB/64tphnMfx6kUR1xUgRLpkf3C67pCFQVwFR85zIAGN0oCsItrNhh2UAdluEjOHn6q9M3Mu6EkKpK1YMJbitlXaL/YrPXf/Wu7Pigqa1i1dmM1v/hqYthfgISJBcc1MQ4DTWM/n9cAJPMLCXpr/q/upPxeDmi70jbLdaaDtQuDOh0qq4yBTsT+s1fec2AaqIrGRCZRtMKKq2a2ebDUGTSXAU4B2BDlat23PXgYC4lB0V3eJbVM7FKN9kOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ab5DbcMXrOiy3f5rlhru8sFW1zCR/SsN7yoO+mXTswA=;
- b=YOpSZFT7vUGRo0e/a5nMvI0hp4fhAHP+8OzT4jXIAtoTnmsPdMr/3ApnLIWOov17IQaJ1uA0zMXdrsP36mkcpXzeZhEI6MMAPmqzYaTg2bVz54qaM4c9Q4adfrTBRLiDqx+vrb9Z6R6aGgVg/wWTu/iHs5TzKVWJu1+khck5pL8aK6o+g1jcmGfjwe2wQjrx+T9j9KVpX/3M8OL88YWbnA9fkdNaEfr6OjRFxM7DU9rFdZmbASHskEjUgmQKTnibPzmJPLuhfoZIgDDk2EiRIkppy9vbOaLhesZ7MNOjgk7dMlrx9uMNRV6DebDsQibyrddPxaKHBF5gQkK3gg+jzg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ab5DbcMXrOiy3f5rlhru8sFW1zCR/SsN7yoO+mXTswA=;
- b=2u+0fM5rv2/EZ5wtdtxX/L/0R2BzJsU/eeBoXpjwavzmWCmqbGSQiCLvbeCKgT6ob8DBRgWHiP8zDUUebdQr1WLEDSqm20WR0Wq9SZFfrtiHGg8jKsZW46mIAU+ADIJmqaT0YfP8B7h66TEpa0TjMtbHloDXVVkqmyIo6y8taDE=
-Received: from BY5PR17CA0055.namprd17.prod.outlook.com (2603:10b6:a03:167::32)
- by PH7PR12MB7378.namprd12.prod.outlook.com (2603:10b6:510:20d::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.22; Fri, 27 Sep
- 2024 21:58:04 +0000
-Received: from SJ5PEPF00000209.namprd05.prod.outlook.com
- (2603:10b6:a03:167:cafe::9) by BY5PR17CA0055.outlook.office365.com
- (2603:10b6:a03:167::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.27 via Frontend
- Transport; Fri, 27 Sep 2024 21:58:04 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ5PEPF00000209.mail.protection.outlook.com (10.167.244.42) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8005.15 via Frontend Transport; Fri, 27 Sep 2024 21:58:04 +0000
-Received: from weiserver.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 27 Sep
- 2024 16:58:03 -0500
-From: Wei Huang <wei.huang2@amd.com>
-To: <linux-pci@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <netdev@vger.kernel.org>
-CC: <Jonathan.Cameron@Huawei.com>, <helgaas@kernel.org>, <corbet@lwn.net>,
-	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-	<pabeni@redhat.com>, <alex.williamson@redhat.com>, <gospo@broadcom.com>,
-	<michael.chan@broadcom.com>, <ajit.khaparde@broadcom.com>,
-	<somnath.kotur@broadcom.com>, <andrew.gospodarek@broadcom.com>,
-	<manoj.panicker2@amd.com>, <Eric.VanTassell@amd.com>, <wei.huang2@amd.com>,
-	<vadim.fedorenko@linux.dev>, <horms@kernel.org>, <bagasdotme@gmail.com>,
-	<bhelgaas@google.com>, <lukas@wunner.de>, <paul.e.luse@intel.com>,
-	<jing2.liu@intel.com>
-Subject: [PATCH V6 5/5] bnxt_en: Pass NQ ID to the FW when allocating RX/RX AGG rings
-Date: Fri, 27 Sep 2024 16:56:53 -0500
-Message-ID: <20240927215653.1552411-6-wei.huang2@amd.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240927215653.1552411-1-wei.huang2@amd.com>
-References: <20240927215653.1552411-1-wei.huang2@amd.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QXrxkB0m"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727474929; x=1759010929;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PjwHTGA5BsrsNLC2q0jcT95lWCT2/PR7eV5me+6PLsU=;
+  b=QXrxkB0mg+jZ4oXci1h0EesfJ6RcL9bMNejXyKXmULlI5dtmtMQJe7is
+   Vbftw0yUSM8+jnhHfFATPSh5sh/ymTDjcvES6rPvBjRzku0e1XomN2Glb
+   nrvLGfnGJNNww/3EfZVShOsVB32XNDJF7Isf3S89yQsegDR54WzrOel88
+   nX1nzx6+1QGGj5hP0TUa4OVMkTNZn1sdrifntZRfYb2vblutoRWUjWWu+
+   ktA4gYD1LKzEYBj+CDC0nscWLNiqnV8pZVNzJ5hiaEXDdnKoH/xfzfe8x
+   soOvFKmBqSVP9bsrD2f2adDHFuOsqsoHbRRcYFp8IR7e30LUAziDyBMz4
+   g==;
+X-CSE-ConnectionGUID: 3Yf6mw+1RKmOpRnXA/ekWg==
+X-CSE-MsgGUID: 2S9TSvqXR7Sb0/HkJyIJPw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="30339291"
+X-IronPort-AV: E=Sophos;i="6.11,159,1725346800"; 
+   d="scan'208";a="30339291"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 15:08:48 -0700
+X-CSE-ConnectionGUID: +jdEC4j2SnCYNoASp1qIFQ==
+X-CSE-MsgGUID: m2qpjqb4ScKkNMYWZ0WRNQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,159,1725346800"; 
+   d="scan'208";a="72242342"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 27 Sep 2024 15:08:44 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1suJ8k-000Mg7-18;
+	Fri, 27 Sep 2024 22:08:42 +0000
+Date: Sat, 28 Sep 2024 06:08:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>, patrick@stwcx.xyz,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Carsten =?iso-8859-1?Q?Spie=DF?= <mail@carsten-spiess.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Yikai Tsai <yikai.tsai.wiwynn@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v7 2/2] hwmon: (isl28022) new driver for ISL28022 power
+ monitor
+Message-ID: <202409280806.yxX1K5ey-lkp@intel.com>
+References: <20240925031131.14645-3-yikai.tsai.wiwynn@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF00000209:EE_|PH7PR12MB7378:EE_
-X-MS-Office365-Filtering-Correlation-Id: d0cb8846-92c5-4834-153b-08dcdf3f76a8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|1800799024|376014|36860700013|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?+y93yY6Iv+KAXNTKj7+ZhXjy/5Jll/pIrY1AdFF+3/LvxZrwlHfew5CcJsXf?=
- =?us-ascii?Q?4e+GGzlIC1LXD3gmeF+BJ9N/KUUAc1vOsDJurwX+PIkVMLoD+bZLv8LmP6aK?=
- =?us-ascii?Q?LtYxdA1TxlNtad8LBbQLWHYZnonJO8lKcw2u7z7N8E4nPaCcFVTo6AdGtR9N?=
- =?us-ascii?Q?cDyllwFWELx1WPm6IsEeX3JtghHyp0FyZ/Ec8KfJS0Tq+ylUWQIhEmwmurgw?=
- =?us-ascii?Q?uwwnc5OIneagixQTjsk6zhvhKBocfw2YOPM9blVinudGUcdT+80hJCnkt8Pc?=
- =?us-ascii?Q?5CAJLsgnGFHVhv+C3aP540QX6Gaph7AAlofIHH9BD0o0YiH8Z8lYA56vNuRG?=
- =?us-ascii?Q?u7+C8pS4BA4tRDD8DLfaTc+XywVX9c978uYy/bQWrY0poj12vT3gd4SRxJE2?=
- =?us-ascii?Q?lZmGf4iU8z6iI0NiM+y26Mxi4EgpMKwNVOSXO5pQl4gifOMcqsbYgJlSkB5R?=
- =?us-ascii?Q?fh+1WZPwBwcUXciruB14N4Rjmt+NRgLiYSXIQiJuBMbVMbRj9s4YaU/Ji0kN?=
- =?us-ascii?Q?Xjm9eTrkQqVr5fJ1GRxovJD+5ibU5TaHwFFX9hO1uyW+qceb++2UDOiks3F3?=
- =?us-ascii?Q?e4dYPEo4HgTolicdW5EDuSCs9qcqC5y30ggT7DnUY+TPZqmboKNK0Ay8fX9N?=
- =?us-ascii?Q?dNMzP/BtK2fLbfUrdjOkoNyEv+9zDHfLWposAwnXer7rdpmoCNEEtQH77By4?=
- =?us-ascii?Q?3lAM8OVfUzFtWmDBQWWzCfQPKd9iKKtBOI08uf5yLyvASs6J69nFjvk14kRy?=
- =?us-ascii?Q?CJbuZ3t2VdqgJ5tHSfGEfZrzjWGiqeec6VaTuVKUkHEDFnbeEXUAmZT0edaO?=
- =?us-ascii?Q?OpRjZPp00v7RDp5wHL425WcPzF7z7gozyRdzLi2dGv8WRk1pNaD98eIUcpek?=
- =?us-ascii?Q?dnNh6dEPrwPVGtrzSvNgc9fJegeP8E+28HgSLxZ1MBCO/r6yNOdHlOcnbABs?=
- =?us-ascii?Q?LM0HgUOqHJOZL9CTnqb07cU01WOFI/05viE1W5RhzmldjFcGigNZngAtTMmC?=
- =?us-ascii?Q?vaCgH1TXRF86i3yqxvO+eaGefH7S3YJEZ2jQRO7DzvILOv+gf1XVXNAv/7LR?=
- =?us-ascii?Q?gPN74hb4cjb6WZdE+lW4ReFsCOuaCkdiEAH6U5ab9axp+pQpJhNbZFJ3X9NA?=
- =?us-ascii?Q?EGGDkGSKX9hCdsFHogXjAQw1DaolMJ0Z93jPT9bMwFYkVbWhq09u4P5DvpcT?=
- =?us-ascii?Q?4smqvSRDvZ0jTX8mkl+aoDIofI2jWmKhPTdcNSukgiOmjJ/wLJRRocUslB+Z?=
- =?us-ascii?Q?0mQSlpVZDeZHEcOsl4ijai4hVTjdjqTx838mYtTRptZWZQYz+D0Qfo+vQSCo?=
- =?us-ascii?Q?PnneTBU8IVKbdBp+Hch/Hhi/V1yKSECgIV4xRiDd2QOIhhohm86DNbiudawg?=
- =?us-ascii?Q?XsMzq/G94lzw2bhIfD1EQu4MpHgp?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(36860700013)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2024 21:58:04.4865
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d0cb8846-92c5-4834-153b-08dcdf3f76a8
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ5PEPF00000209.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7378
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240925031131.14645-3-yikai.tsai.wiwynn@gmail.com>
 
-From: Michael Chan <michael.chan@broadcom.com>
+Hi Yikai,
 
-Newer firmware can use the NQ ring ID associated with each RX/RX AGG
-ring to enable PCIe steering tag.  Older firmware will just ignore the
-information.
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Michael Chan <michael.chan@broadcom.com>
-Signed-off-by: Andy Gospodarek <andrew.gospodarek@broadcom.com>
-Reviewed-by: Hongguang Gao <hongguang.gao@broadcom.com>
-Reviewed-by: Ajit Khaparde <ajit.khaparde@broadcom.com>
----
- drivers/net/ethernet/broadcom/bnxt/bnxt.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.11 next-20240927]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-index 23ad2b6e70c7..a35207931d7d 100644
---- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-+++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-@@ -6811,10 +6811,12 @@ static int hwrm_ring_alloc_send_msg(struct bnxt *bp,
- 
- 			/* Association of rx ring with stats context */
- 			grp_info = &bp->grp_info[ring->grp_idx];
-+			req->nq_ring_id = cpu_to_le16(grp_info->cp_fw_ring_id);
- 			req->rx_buf_size = cpu_to_le16(bp->rx_buf_use_size);
- 			req->stat_ctx_id = cpu_to_le32(grp_info->fw_stats_ctx);
- 			req->enables |= cpu_to_le32(
--				RING_ALLOC_REQ_ENABLES_RX_BUF_SIZE_VALID);
-+				RING_ALLOC_REQ_ENABLES_RX_BUF_SIZE_VALID |
-+				RING_ALLOC_REQ_ENABLES_NQ_RING_ID_VALID);
- 			if (NET_IP_ALIGN == 2)
- 				flags = RING_ALLOC_REQ_FLAGS_RX_SOP_PAD;
- 			req->flags = cpu_to_le16(flags);
-@@ -6826,11 +6828,13 @@ static int hwrm_ring_alloc_send_msg(struct bnxt *bp,
- 			/* Association of agg ring with rx ring */
- 			grp_info = &bp->grp_info[ring->grp_idx];
- 			req->rx_ring_id = cpu_to_le16(grp_info->rx_fw_ring_id);
-+			req->nq_ring_id = cpu_to_le16(grp_info->cp_fw_ring_id);
- 			req->rx_buf_size = cpu_to_le16(BNXT_RX_PAGE_SIZE);
- 			req->stat_ctx_id = cpu_to_le32(grp_info->fw_stats_ctx);
- 			req->enables |= cpu_to_le32(
- 				RING_ALLOC_REQ_ENABLES_RX_RING_ID_VALID |
--				RING_ALLOC_REQ_ENABLES_RX_BUF_SIZE_VALID);
-+				RING_ALLOC_REQ_ENABLES_RX_BUF_SIZE_VALID |
-+				RING_ALLOC_REQ_ENABLES_NQ_RING_ID_VALID);
- 		} else {
- 			req->ring_type = RING_ALLOC_REQ_RING_TYPE_RX;
- 		}
+url:    https://github.com/intel-lab-lkp/linux/commits/Yikai-Tsai/dt-bindings-hwmon-add-renesas-isl28022/20240925-111332
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20240925031131.14645-3-yikai.tsai.wiwynn%40gmail.com
+patch subject: [PATCH v7 2/2] hwmon: (isl28022) new driver for ISL28022 power monitor
+config: x86_64-randconfig-121-20240928 (https://download.01.org/0day-ci/archive/20240928/202409280806.yxX1K5ey-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409280806.yxX1K5ey-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409280806.yxX1K5ey-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+   drivers/hwmon/isl28022.c:396:36: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int err @@     got char * @@
+   drivers/hwmon/isl28022.c:396:36: sparse:     expected int err
+   drivers/hwmon/isl28022.c:396:36: sparse:     got char *
+   drivers/hwmon/isl28022.c:396:88: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected char const *fmt @@     got unsigned int [addressable] [assigned] [usertype] val @@
+   drivers/hwmon/isl28022.c:396:88: sparse:     expected char const *fmt
+   drivers/hwmon/isl28022.c:396:88: sparse:     got unsigned int [addressable] [assigned] [usertype] val
+   drivers/hwmon/isl28022.c:406:36: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int err @@     got char * @@
+   drivers/hwmon/isl28022.c:406:36: sparse:     expected int err
+   drivers/hwmon/isl28022.c:406:36: sparse:     got char *
+   drivers/hwmon/isl28022.c:406:82: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected char const *fmt @@     got unsigned int [addressable] [assigned] [usertype] val @@
+   drivers/hwmon/isl28022.c:406:82: sparse:     expected char const *fmt
+   drivers/hwmon/isl28022.c:406:82: sparse:     got unsigned int [addressable] [assigned] [usertype] val
+   drivers/hwmon/isl28022.c:414:28: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int err @@     got char * @@
+   drivers/hwmon/isl28022.c:414:28: sparse:     expected int err
+   drivers/hwmon/isl28022.c:414:28: sparse:     got char *
+   drivers/hwmon/isl28022.c:414:87: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected char const *fmt @@     got unsigned int [usertype] shunt @@
+   drivers/hwmon/isl28022.c:414:87: sparse:     expected char const *fmt
+   drivers/hwmon/isl28022.c:414:87: sparse:     got unsigned int [usertype] shunt
+>> drivers/hwmon/isl28022.c:396:36: sparse: sparse: non size-preserving pointer to integer cast
+>> drivers/hwmon/isl28022.c:396:88: sparse: sparse: non size-preserving integer to pointer cast
+   drivers/hwmon/isl28022.c:406:36: sparse: sparse: non size-preserving pointer to integer cast
+   drivers/hwmon/isl28022.c:406:82: sparse: sparse: non size-preserving integer to pointer cast
+   drivers/hwmon/isl28022.c:414:28: sparse: sparse: non size-preserving pointer to integer cast
+   drivers/hwmon/isl28022.c:414:83: sparse: sparse: non size-preserving integer to pointer cast
+
+vim +396 drivers/hwmon/isl28022.c
+
+   346	
+   347	/*
+   348	 * read property values and make consistency checks.
+   349	 *
+   350	 * following values for shunt range and resistor are allowed:
+   351	 *   40 mV -> gain 1, shunt min.  800 micro ohms
+   352	 *   80 mV -> gain 2, shunt min. 1600 micro ohms
+   353	 *  160 mV -> gain 4, shunt min. 3200 micro ohms
+   354	 *  320 mV -> gain 8, shunt min. 6400 micro ohms
+   355	 */
+   356	static int isl28022_read_properties(struct device *dev, struct isl28022_data *data)
+   357	{
+   358		u32 val;
+   359		int err;
+   360	
+   361		err = device_property_read_u32(dev, "shunt-resistor-micro-ohms", &val);
+   362		if (err == -EINVAL)
+   363			val = 10000;
+   364		else if (err < 0)
+   365			return err;
+   366		data->shunt = val;
+   367	
+   368		err = device_property_read_u32(dev, "renesas,shunt-range-microvolt", &val);
+   369		if (err == -EINVAL)
+   370			val = 320000;
+   371		else if (err < 0)
+   372			return err;
+   373	
+   374		switch (val) {
+   375		case 40000:
+   376			data->gain = 1;
+   377			if (data->shunt < 800)
+   378				goto shunt_invalid;
+   379			break;
+   380		case 80000:
+   381			data->gain = 2;
+   382			if (data->shunt < 1600)
+   383				goto shunt_invalid;
+   384			break;
+   385		case 160000:
+   386			data->gain = 4;
+   387			if (data->shunt < 3200)
+   388				goto shunt_invalid;
+   389			break;
+   390		case 320000:
+   391			data->gain = 8;
+   392			if (data->shunt < 6400)
+   393				goto shunt_invalid;
+   394			break;
+   395		default:
+ > 396			dev_err_probe(dev, "renesas,shunt-range-microvolt invalid value %d\n", val);
+   397			return -EINVAL;
+   398		}
+   399	
+   400		err = device_property_read_u32(dev, "renesas,average-samples", &val);
+   401		if (err == -EINVAL)
+   402			val = 1;
+   403		else if (err < 0)
+   404			return err;
+   405		if (val > 128 || hweight32(val) != 1) {
+   406			dev_err_probe(dev, "renesas,average-samples invalid value %d\n", val);
+   407			return -EINVAL;
+   408		}
+   409		data->average = val;
+   410	
+   411		return 0;
+   412	
+   413	shunt_invalid:
+   414		dev_err_probe(dev, "renesas,shunt-resistor-microvolt invalid value %d\n", data->shunt);
+   415		return -EINVAL;
+   416	}
+   417	
+
 -- 
-2.46.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
