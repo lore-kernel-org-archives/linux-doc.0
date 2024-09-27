@@ -1,135 +1,79 @@
-Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.153])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA3E2AD31;
-	Fri, 27 Sep 2024 09:55:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.103.80.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B4D519FA66;
+	Fri, 27 Sep 2024 10:25:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727430936; cv=none; b=DWxfI+VklW10C7TG9UVHzxSKkVSVFJCAEs2PNQyRKSmb8tEP/cpp86Faea1z1Pp9SuXTaemkfKab9Gfl+nOIJLlPnEmZWenw8DLQdxDbG+76mSTEgY4YPC6V4txurVYApK7on37wBQKo/m7kRg0m3X8LTmCHCPyQ4WQqe4cWyUM=
+	t=1727432743; cv=none; b=QAD0qPvbj3Lowc/v92M8Q7jA1HyK0B3LrOrqrp5nuznQZ0XZPuDN30FDgCpppgzdC5m6tcrWruBMhki3aP3vdtbhLbT+srgppFv1vmzc9YNrYVpJsTtLuu37+iDixTQVSFD6O5kiGvF7dzaN9p3SODZTXx2Xxiri61iRPn2mU38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727430936; c=relaxed/simple;
-	bh=VnA47Zt1tLK42DvhfMynoQz9iS5dswX0Ju2s6tG2g3M=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=i16gZEzeHR1hxr03JEJkl6Wl5bXkOEHieYBL3jNyZAl8cXyDXh+d96ld2FCEgysUbMLsu607ISJ0uhY46R1rqSO5B9JSIkp4k0UinSHT962baB6VuwloZI+o+KvOS+qtcjXkXhNvoQz67Y7CIQLtuXN5aJ7b/h8sxb1BdaK1KcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vaga.pv.it; spf=pass smtp.mailfrom=vaga.pv.it; dkim=pass (2048-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b=Gs3y2F44; arc=none smtp.client-ip=212.103.80.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vaga.pv.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vaga.pv.it
+	s=arc-20240116; t=1727432743; c=relaxed/simple;
+	bh=deoRTQsc/jmO/3PI13iUFKJ8VRt2zP00FMOAs9pNWAE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=HvREbVvvPrlg5MnKuGWGxjxlNXQAwbuuQqU0ypMgOciF3TOq54AHWDRN8kv69mw5wxGKpgPsAAUrPuILcElCKPB8KJ0Vq8+O0tOUqxKVA/DEYnY2BbgEp9qspJfpQad8hYLZAif1agmZVv4goDJN9npohbDDRiuU4B915bFszV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=YbEi/3rX; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b="Gs3y2F44"
-Received: from localhost (unknown [127.0.0.1])
-	by mx.kolabnow.com (Postfix) with ESMTP id 1D00E302A02;
-	Fri, 27 Sep 2024 11:55:26 +0200 (CEST)
-Authentication-Results: ext-mx-out013.mykolab.com (amavis);
- dkim=pass (2048-bit key) reason="pass (just generated, assumed good)"
- header.d=kolabnow.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-	content-transfer-encoding:content-type:content-type:message-id
-	:references:in-reply-to:subject:subject:from:from:date:date
-	:mime-version:received:received:received; s=dkim20240523; t=
-	1727430923; x=1729245324; bh=tMGNwHc0WSv8ww/AbbjoPGWbFWMBTPhFAxy
-	PpIwMkNU=; b=Gs3y2F44PRqWeUt15QDVS4PAZPWEIpMGmNX5q72tSGPeBjaa8pb
-	GEJv+qdqm70MRr3JlZPYgwkcsms0K8dHYjeCI0IrHO7i1VTJOl+WTZrm5v5Je5i9
-	0K01r3YWbu6kC91vejsWBBPh2knyW9oNRP75LiXAUbIvt+zSw7aByDC62+d+YUG6
-	wtsquqH7/1odljWrlKqZiP5lcufd3jjK/bbWJptxJhmCBjIUp/IMtceEgjp3gRw/
-	oseJzbEwxSyJBUZyRpVuH3wyRG1dU8dH5abV/MyDsFNpAr6zzsFhHzUrqIu1tXBI
-	GmerC7Ke4iD20o90i5Tt6wyS+GkUM/6a+Tg==
-X-Virus-Scanned: amavis at mykolab.com
-X-Spam-Flag: NO
-X-Spam-Score: -1
-X-Spam-Level:
-Received: from mx.kolabnow.com ([127.0.0.1])
- by localhost (ext-mx-out013.mykolab.com [127.0.0.1]) (amavis, port 10024)
- with ESMTP id rdsO9j1002ns; Fri, 27 Sep 2024 11:55:23 +0200 (CEST)
-Received: from int-mx011.mykolab.com (unknown [10.9.13.11])
-	by mx.kolabnow.com (Postfix) with ESMTPS id AF461302A00;
-	Fri, 27 Sep 2024 11:55:20 +0200 (CEST)
-Received: from int-subm015.mykolab.com (unknown [10.9.37.15])
-	by int-mx011.mykolab.com (Postfix) with ESMTPS id 98D3C309048F;
-	Fri, 27 Sep 2024 11:55:20 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="YbEi/3rX"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AFC1941898
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1727432734; bh=6WPhCE4x2dsw0rer9LX+9vHWkhowueVam5DumtgG7lY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=YbEi/3rX+RywDDrysdyrvbSch6CwlXQ4hY3xMIIIp9LlRu9wdfH/sc5yAzow48HYf
+	 uhgX4RWuDxkObUz9taQZGpP5WcV9XKZrIt5q2DKnCMF5qeDXfD4+nh3CwNdwyvgXK3
+	 r68C+i0lSYCTQwJRZ+SdPL7tEInB9TB2vPetw6wabl9TrDVTEgcSih48CR02CXjBV0
+	 FPLFSbmHWeCA18OIYSj5QC/FH68E85EZOT9hyiYNBMm/OeVOxRmP8SqA3xqtjWJsRe
+	 ASUKlKcbAN7s1unZlwAuDmVVt/U9judEDDjxnG0GKqIVfUZLO0jVNoGxWfrwCBU1XT
+	 Uc4BSb+au0iAQ==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id AFC1941898;
+	Fri, 27 Sep 2024 10:25:27 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Steven Rostedt <rostedt@goodmis.org>, Stephen Rothwell
+ <sfr@canb.auug.org.au>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>, linux-doc@vger.kernel.org
+Subject: Re: linux-next: build warning after merge of the ftrace tree
+In-Reply-To: <20240926091452.4be87000@rorschach.local.home>
+References: <20240919150513.067dd727@canb.auug.org.au>
+ <20240926091452.4be87000@rorschach.local.home>
+Date: Fri, 27 Sep 2024 04:24:52 -0600
+Message-ID: <87a5fte6mj.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Fri, 27 Sep 2024 11:55:20 +0200
-From: Federico Vaga <federico.vaga@vaga.pv.it>
-To: kernel test robot <lkp@intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, oe-kbuild-all@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] doc:it_IT: update documents in process/
-In-Reply-To: <202409250825.r3iY80XD-lkp@intel.com>
-References: <20240924224635.21472-1-federico.vaga@vaga.pv.it>
- <202409250825.r3iY80XD-lkp@intel.com>
-Message-ID: <d50ee871d2bdc35192be9729176759a1@vaga.pv.it>
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-I'll come back with a fix for this warning.
+Steven Rostedt <rostedt@goodmis.org> writes:
 
-On 2024-09-25 02:41, kernel test robot wrote:
-> Hi Federico,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on lwn/docs-next]
-> [also build test WARNING on next-20240924]
-> [cannot apply to linus/master v6.11]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:
-> https://github.com/intel-lab-lkp/linux/commits/Federico-Vaga/doc-it_IT-update-documents-in-process/20240925-064806
-> base:   git://git.lwn.net/linux.git docs-next
-> patch link:
-> https://lore.kernel.org/r/20240924224635.21472-1-federico.vaga%40vaga.pv.it
-> patch subject: [PATCH v2] doc:it_IT: update documents in process/
-> reproduce:
-> (https://download.01.org/0day-ci/archive/20240925/202409250825.r3iY80XD-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new 
-> version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes:
-> https://lore.kernel.org/oe-kbuild-all/202409250825.r3iY80XD-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    Documentation/userspace-api/netlink/netlink-raw.rst:
-> :doc:`tc<../../networking/netlink_spec/tc>`
->    Documentation/userspace-api/netlink/netlink-raw.rst:
-> :doc:`tc<../../networking/netlink_spec/tc>`
->    Warning: Documentation/devicetree/bindings/power/wakeup-source.txt
-> references a file that doesn't exist:
-> Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
->    Warning:
-> Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml
-> references a file that doesn't exist:
-> Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
->    Warning: Documentation/hwmon/g762.rst references a file that
-> doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
->>> Warning: Documentation/translations/it_IT/process/4.Coding.rst 
->>> references a file that doesn't exist: 
->>> Documentation/translations/it_IT/process/clang-format.rst
->>> Warning: Documentation/translations/it_IT/process/coding-style.rst 
->>> references a file that doesn't exist: 
->>> Documentation/translations/it_IT/process/clang-format.rst
->    Warning: Documentation/userspace-api/netlink/index.rst references a
-> file that doesn't exist:
-> Documentation/networking/netlink_spec/index.rst
->    Warning: Documentation/userspace-api/netlink/specs.rst references a
-> file that doesn't exist:
-> Documentation/networking/netlink_spec/index.rst
->    Warning: MAINTAINERS references a file that doesn't exist:
-> Documentation/devicetree/bindings/reserved-memory/qcom
->    Warning: MAINTAINERS references a file that doesn't exist:
-> Documentation/devicetree/bindings/display/exynos/
->    Warning: MAINTAINERS references a file that doesn't exist:
-> Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+> On Thu, 19 Sep 2024 15:05:13 +1000
+> Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+>
+>> Hi all,
+>> 
+>> After merging the ftrace tree, today's linux-next build (htmldocs)
+>> produced this warning:
+>> 
+>> Documentation/trace/debugging.rst: WARNING: document isn't included in any toctree
+>> 
+>> Introduced by commit
+>> 
+>>   2fcd5aff92aa ("tracing/Documentation: Start a document on how to debug with tracing")
+>> 
+>
+> Thanks for reporting this Stephen, but I don't know how to fix it.
+>
+> Jon?
 
--- 
-Federico Vaga
-http://www.federicovaga.it/
+Add a line to Documentation/trace/index.rst in the appropriate spot
+referencing the new file.
+
+jon
