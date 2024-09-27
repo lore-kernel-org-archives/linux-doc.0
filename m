@@ -1,283 +1,143 @@
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2040.outbound.protection.outlook.com [40.107.101.40])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0009A15C150;
-	Fri, 27 Sep 2024 14:37:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.40
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727447853; cv=fail; b=WS4MG8j3X7iQ8oo4X7nCQUQEiRpg0S8DBfzKY6eEudxMiV60+uI5yqUCUP5w21rbVN3Spz7sPGpSWSnXkZvcSzHB80/WsFaECfFsT97lZnrFuq4PX1DV2eytIbhjCwXukASBJx8hBIpKN2IiuxGx70QqEHUntcmfyof6wEo4K5I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727447853; c=relaxed/simple;
-	bh=MSDsH6yJtv2gXOnEe/ETcOC7LcFEQitP4hE80hL3EP4=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=uAEvFTjlCxzu+6BQqrPOdstLu71mzRE9NpuMWDCWvPRqrwpTOiw/TKVp+gTSr+oCfDYpv2S4ugYJ0vNMNUe2Sok4QQRNGHBFoquK615iPbAZFTWu97e2YgEtQaFW50TzUnG9IHGwPGb0AWNNCjOrByjM5mR06rP0FVLCcAeXJic=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=SuuKxXHf; arc=fail smtp.client-ip=40.107.101.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C7A8F5A;
+	Fri, 27 Sep 2024 15:01:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727449272; cv=none; b=lNKgJi8m9FRJ+s7rotu5d+NJXUWXv0d9UAkC+zH3FojwxNBP1tI/a4MsLH5gRJrZpPLz6LISQ6ZmwxQvfCvo99tInMLlvsYLJ2WfLkdJQE10kDOjaC1YxDgzrNDZVzv46In3qRSkPESykWxPJI7Oy4O6X0ukV0r0Ju1NFnJD1Bk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727449272; c=relaxed/simple;
+	bh=JFTcK6PqjD63hgWX61yCU7vSz09nSwtGnF1mBkiY+qY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bN/stq2fVkSHDxdc8D6i4Mz8wpZuASfFguTj5Uu9GxATDvGV/eulM3taYZ2LtknX9yDPS0PuhStUJEroc1d4RMApgh7TGi2QN5DIX6oKiVzuEG0N7uhvxGxisM/ryp+KIS3fDRMJrrLmm8eUImLI9JKdc58T0iVNzEws95bH2Js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h95CP4Ho; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="SuuKxXHf"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=N4uppW6CnmWR8PcjVTszicGNWO3G5CGIVolFq4uAtlwdGZReoSjLzFw8uw2gUWArJAS1fZUMPhp4fzmLJ9MAb1+dT5oWvSy2yJnV+zXi9WvOqkYIYqbCcWoLLiM4eQR8rN3dkLg/IhrhDo+o8EuBTJqS5SOPDwU0fe8pdu5Zt9wO3tJhSO4kbbfp6zHkywqliG0QG1MO4Qz69Q29ByPdGsWrXvlXmJKR8irWQvKWiNE1xZm5maqpd6qDPkb0wAviSzzU8eEZnQY18AQRxnpw2uESftA9zCPAncqyltD18VRXGAmF5d8HEzEialBrPtm0FAf4lXoTucwsZMbpbCVOPw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wgdZcvq0J6ZuZXQJWSlBlKgf14YxWCJ/OguaL4IWKro=;
- b=F9deTRiCWAW76ntT2m+lmoOY4bTaa7aHZ/EbuMrhnj9S6GxPXbmftnxfN1RZ1lkPxUdcFT785vaRHfprGnFFR6PR/48acR2cq3SbgTthw2e6r/0l382gnGlm2DYEHG0ragp6/JznuDHc3i+yTO1R077cVsTdlc/SGvoC/FFXWZ23Shkyftog1DBr4oSkEi5nO5j/7dMpPu1f0qrhjtc0c7zExkqYfMrIO4JqoOYoYRCCgbnL5LfN967he1yb6BikL4CkkSBvnGziAoL/MkjDm06+YV3sYLhCe1v7kGA5seMmkzStKPUQoQ/nIQvq7hhJl9IkoGkqCuWZImoeLqV6/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wgdZcvq0J6ZuZXQJWSlBlKgf14YxWCJ/OguaL4IWKro=;
- b=SuuKxXHfNhauQN992KPU4vei28SiIJ/UCV1xQzXh1AnVhBsJIDVD1aBzuFatBBt05uzBYBK+JZxvo/f8JIwBzLAl4p+qQnCBjgyozTQyLScZNbRYk9W0wbxh/zfZ5cyoIlR6sqfZlvFeUpgZG/O8X5RB/SbTuDRmd/WdYj3298k=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SA0PR12MB4557.namprd12.prod.outlook.com (2603:10b6:806:9d::10)
- by IA1PR12MB8588.namprd12.prod.outlook.com (2603:10b6:208:44f::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.21; Fri, 27 Sep
- 2024 14:37:26 +0000
-Received: from SA0PR12MB4557.namprd12.prod.outlook.com
- ([fe80::d22d:666e:be69:117f]) by SA0PR12MB4557.namprd12.prod.outlook.com
- ([fe80::d22d:666e:be69:117f%5]) with mapi id 15.20.8005.024; Fri, 27 Sep 2024
- 14:37:25 +0000
-Message-ID: <f1362aab-82e8-8995-fc27-1fdb8e95f799@amd.com>
-Date: Fri, 27 Sep 2024 09:37:22 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v7 21/24] x86/resctrl: Configure mbm_cntr_assign mode if
- supported
-Content-Language: en-US
-To: Reinette Chatre <reinette.chatre@intel.com>,
- Babu Moger <babu.moger@amd.com>, corbet@lwn.net, fenghua.yu@intel.com,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
- tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
- kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
- jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
- rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
- jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
- daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
- ilpo.jarvinen@linux.intel.com, peternewman@google.com,
- maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
-References: <cover.1725488488.git.babu.moger@amd.com>
- <d5687ef178320866b823445176b10a411e0e5ede.1725488488.git.babu.moger@amd.com>
- <baba42e8-022d-4140-9c4c-256fc6b44765@intel.com>
-From: "Moger, Babu" <bmoger@amd.com>
-In-Reply-To: <baba42e8-022d-4140-9c4c-256fc6b44765@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA0PR11CA0138.namprd11.prod.outlook.com
- (2603:10b6:806:131::23) To SA0PR12MB4557.namprd12.prod.outlook.com
- (2603:10b6:806:9d::10)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h95CP4Ho"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5c882864d3aso1317338a12.2;
+        Fri, 27 Sep 2024 08:01:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727449270; x=1728054070; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=eFJ6F1BxryQ8+onawS+5pO7WAZHzFPHliMYOCtlDU9M=;
+        b=h95CP4Ho6BR1oochL2bFgpWEuhMwwUABBxLUHzvc+KoaZHUYyAgja+wmx+YC/HUHO5
+         uT594lQaBh5jrm/8VSDEpI32GoyOICO/A3mZX6Pa72lkMo8mchg16r9QBv3BoOyCqJIV
+         kWunRXL/3oxLwuIjrZJLsoLxj+UCKCpN/AkY24ApfmGvlYvPRIg/Ck3cU8OX17SE7AY6
+         jP2NlbRiy9mmd9r5grI5KSq0BuyjLQ8/kdYP7DGrlbrOKbsjSCSTdFubNfeXIk6dcLA4
+         S9LEW6C+NmP3A/AGVledU9HcPzSkYh0BQdEFI5cUkBmMKurJBexon0Hk+xFuCja3Eeai
+         yrEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727449270; x=1728054070;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eFJ6F1BxryQ8+onawS+5pO7WAZHzFPHliMYOCtlDU9M=;
+        b=qdsw6Fh4YE6hmCeZWP2bD6qgszkf4g1c4wucJ59CDHsRbLb5owGQPx9nIpGHmqQMBs
+         wtjaGi2u6yNElEM1UellyioUawjhl+yGJkVjSIbwjbWymgr/zPpWYMrazmG+Xc0l3g8d
+         vEwKxVMGEReLvcu7eK2MQjJztfuLSCXzzkMDu5EV2JO9ht2++JbQga3QhQ10ot+qaToW
+         XZxBmMaJfoYqGxcEz4QAmb2PrI6O4B/0xmWrOIjDQTscQIVwK5gix5/RZJJ/hqir0t5s
+         SOmNCiXLRGZsfhlhH1Bcw7gn3C0AjOGpW6Y6ps9759KIB6VUXrPj/6FdIzLd7PfHQaZh
+         FRAg==
+X-Forwarded-Encrypted: i=1; AJvYcCVyi5WxW6VmwCoH3VIOZkU5uIrqDKaCrFOkaSFnXPuQNV4YjyAuvYm/4tXb1JZT4XcbArCUyrHGz+XC@vger.kernel.org, AJvYcCXl5GTWQl3lwTX3iau9pA5LCwqCANgca6WnCj0Gej3+uSx37nCGc1gf8QiWzMB2icGFgtU8pnyD033wFmf6@vger.kernel.org, AJvYcCXz+xWHD/NzWKxP+6mR9yEKrv0Sj9e5EHqb+/tKZSVpk8XWSH4Sa++DVlQ6tFr4eZ6wrRXTDIj7bsqrdwNM@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRTqRJSj4ZWbqtHNpdCgni74Pws7Sms3kjS/2nbURYVcdTYHrx
+	JeDg/TQZpOyMBIiuwfDYALWiVMiGKl1oIMBJ1pYsp5nmKH3HStWzy3xqzlD6
+X-Google-Smtp-Source: AGHT+IHKBc1xhpTKxrBrf5NeabF0ioO0uKvJ7fvnEiaSivm5sB5H360qY7iS9UkiZwuz+APpUEm1ww==
+X-Received: by 2002:a05:6402:390a:b0:5c7:1f16:7f77 with SMTP id 4fb4d7f45d1cf-5c882602d68mr2391698a12.27.1727449268937;
+        Fri, 27 Sep 2024 08:01:08 -0700 (PDT)
+Received: from [192.168.1.17] (host-87-19-160-215.retail.telecomitalia.it. [87.19.160.215])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c882493f55sm1215805a12.91.2024.09.27.08.01.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Sep 2024 08:01:08 -0700 (PDT)
+Message-ID: <8805a597-813e-49e5-82da-69ad15249601@gmail.com>
+Date: Fri, 27 Sep 2024 17:01:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4557:EE_|IA1PR12MB8588:EE_
-X-MS-Office365-Filtering-Correlation-Id: df0aa625-d1fc-4a41-b1eb-08dcdf01e7da
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?aS9lZlowWjVONEpiZDRHS0duVUFoZ0VMUXRxMmdsRC9vbmJ4SlR5ck1vbUNJ?=
- =?utf-8?B?QVdQM2F5eU1ZUWVWbFdEQTE5WGxaa0E1Q2UyenRJeGdyZjEvNUJFc1JvRWpU?=
- =?utf-8?B?Ri9zTENwRjl4dXQrL2dJZTVyeDBuL0tUVjZ6Z2VrZmJkSm5qUkRoNUV5QUx3?=
- =?utf-8?B?NGVoVFJTUlF5MVJGWDFHYlNtd0ZxNTlrVFp5algxTUR6YXdYYjdIVTJSZDcz?=
- =?utf-8?B?bU9xdDQ5eG9hajdIZnZpNXhVdEQ4S0JnbnZJNDllc0wveFhLMUwwZzdLNlZu?=
- =?utf-8?B?SXZWelVBdXRqMms2alNBSDlHMGtaUCtwbzVDYkRBUXpHWGZCdVFYWE4rY1J5?=
- =?utf-8?B?TnNpc0kvRDh1d0hHZ21vci9CWVkrUkxTMnlERnFPYXZWWG14M0t5eWVVY1l4?=
- =?utf-8?B?SGwrNFlzTXZ1UUVVTGl0MXFpZ1MwR213b2I1bC9ZL3RTSXg1MDdKWWprWUhk?=
- =?utf-8?B?TjVRaE05aVVlQUZYZ2tEenJZZ0tJQVVQaFZVM041WDZUQnFLWWdDTlJoYmQ2?=
- =?utf-8?B?MFVtQm1zeHFvTHJ5YnZjTVhZWkZ2TDMxZExJV0NQeWdFVnpNNFhNc1RweFhP?=
- =?utf-8?B?bHFaUDBzZHlxOWhab29WTFYxdlBqUmdQWU5NN0RPRG0vUEJYdWt1aHAwc0lR?=
- =?utf-8?B?Yk9laCtkNTQ4b1VBTjBUVW5hWk1yZWxBWnlKbzZpeEkrOUwvVkJwdlJob3NS?=
- =?utf-8?B?eHRBUFFWbSt6cGZNUGdsckowRXRZeE44NmIzcnZGaGExQmRobnZWTUprTERu?=
- =?utf-8?B?ZjBqdURBQWpwcklmcERnMGFEU01YQUZOVExucFpJakg5WkFTRmZGWGJYdWZG?=
- =?utf-8?B?S1pOMFJTbzJhN3I4dHh2Z24vbVhYYkJNUjZvM3d6VzZLbnd6cHdMUnI5RVFZ?=
- =?utf-8?B?c1BsVVdMMVdJT2JYcEc1dnd6WVFNbkNObjN0OWRqWThkUFl5UCt1RzlBOGUx?=
- =?utf-8?B?dW1aa0RnN1lDMjh3b2ZRRWpCeDdKS0lmUnF2RGI1a0lxdHVURlNMNzVLS1Yx?=
- =?utf-8?B?ay9zdUFuWkU4bE52SUN5eERHcVE0dzlBUHhJK3ZVVGc3MGI0VkVYblR1UEtn?=
- =?utf-8?B?bXE4eHZ1aFNTUklnUUpUcVhxZVVKMUIvUnMxZ3MvZzhPK3MwNXR6ZmF4WDNo?=
- =?utf-8?B?QkozTnl2ZHZKUWV2bXlwa0t2ajBNdGpFSGlFWjhCN3ZzUGsrOFJxQkNmK0RR?=
- =?utf-8?B?SzdKNUVXcnFaTzJCem1oWXVBalJJOTdBUTFLbXJZM2IwRE9vbytldFNtVnhK?=
- =?utf-8?B?blRNaGZhbU13SHZTcHpXQkI5L2VCN2NLR0VyZUZLUTk1Y2gvR1A2SjV6SWlr?=
- =?utf-8?B?MVVQK2RzNkZYZVRLVFRiNUlBdE9YL09pd3lzQlhBS1ppN1l6aWllZ05LcWxt?=
- =?utf-8?B?M1orbFpJSUI2bVROVVV5TlhCWjJpUFN5NGFuSkQyc3hraEg1TnM1QzVnNk4x?=
- =?utf-8?B?ODQxYlM3bnYyOUdHRjZmSlVoaHRMWWJCZk9tOUF1L1RNSkpnTFl5VkZWb3Zv?=
- =?utf-8?B?UzhKaEYrWVpMbzFwK205cTQvTzh5a3ZWRmJSWlRTRDdPcTJJeUx4ZFNuVW1I?=
- =?utf-8?B?VWRVbHZZanV0Z2QrU3VBK3hpZmpGTU9tS1RZZzY0UW5QUFZzb2UvOE5iUEhv?=
- =?utf-8?B?ZURtaUYyaDNSeWhqVktpanRPbDNycVcvN29PM0NNRWErS0pLZENEZDlMcy9Q?=
- =?utf-8?B?eEhINUpPdFpKc3p5ajVxclBveGd0UnB1TXVOVXNtNTJuZENnRUd4R21TWGE4?=
- =?utf-8?B?S1BsdDFxTWpJcVBPN1AvS3B6VDhFZEgxSUQrNlRlODc4V3g0aDNhSXlTYWxw?=
- =?utf-8?B?bzVRUjlDZjhLdVh3cUtJdz09?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR12MB4557.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cjMxbHd1WEM4RFlPUzF5cnlxckpZMEJCYU5PVTRkckdZNzhRdC9vYllVdGZN?=
- =?utf-8?B?Mk9iQWh5U2JNaWZZQVVRcnRFQnU2c3ZuUVFhb1pzOUFQZzBQaGJvSjkyUXJ6?=
- =?utf-8?B?cGtpcHdnajRzV0tSUjBUUHBsM1dJQ2VYaUpoVkp6OWVMbWtlMXo0TlRDazJC?=
- =?utf-8?B?OElEbW81NzhKWmRvaGlFcGVVdUd3b2RJTmQrUXppOEhSZkRhT0FrVHdIcExU?=
- =?utf-8?B?cVNLdTNYZ0N5RkwzanZuanJPTTVqMWRmSTkrZ2JqRE0wbDBDd2xPdjhmRHAy?=
- =?utf-8?B?bVVQbXhpSkJQZjh1dG9ubmhIL1BPc2hyazEvMEpYSWV2bm4xZ2c5RGtSRzZl?=
- =?utf-8?B?enhEUG1KYmJ2ZUQ1WjFLOFRBUm5mSkE2YzVNMGZ3Q0hSSTk2REcwcWtBaDhp?=
- =?utf-8?B?SWwrT1VkL2d0ZWNWL01PejVYYWdjWmtJcmdhZ0lJdzNUQ3E2WEc2eC8xQm5u?=
- =?utf-8?B?Q0FhbktlTHlaRlhmRGw0Q2xwUkFiRWhIYlhZQUl4RTg5aHgvaW8zWDJJUTFN?=
- =?utf-8?B?c3BhOStnSGVBVnh1K0NUOW1tSjdIWjRMQnZIQkg4Vk5TT3FpdGFJY0FtTzl4?=
- =?utf-8?B?dFZJWW91MXdyL0c4cHJlS3VybjBCRGVETW5Cc1Y0TmhrNzJHZ3BTSGIydmFR?=
- =?utf-8?B?Ry84aG8wTCtXMDQ0RHptNExxLzBWMXBjRElHQ2xNNnBtWkxkVWZTdHdnTmZp?=
- =?utf-8?B?VVdjVnhkUzlBMDhreVRCWFk1SUNvT1lsMGJ0aHZxZEgxZG1MaW85QkcrS1FZ?=
- =?utf-8?B?WG1HOFAvN3dlUWttdS9yQTJQcEJvSStXWEVaeFdmeXo3V1F3UE5WRG1kYXFC?=
- =?utf-8?B?S1ZUNVBxekpFTWVvYjFSVTFpUVZqelZtUDFKN1ZVdVV3R0htMVBXaGVUQnh6?=
- =?utf-8?B?T2tlZWhMRlFQWmZXTnpOSVNPWm11eVZJMlhZNUZmejM0WEtRNVJTNHEwbFdU?=
- =?utf-8?B?T1FUUnMzdFo3TkZGQ0tKUzZ6YjVIaW9iSFM5TzJNZVE4RmZvbHJpYkVXbmxO?=
- =?utf-8?B?Rm1IOC84WUo0U0NHQ2ZGM280RGxtbnZSZDZBYTM0cGw0d0pCSlFxVk42YTlV?=
- =?utf-8?B?VGVkekkyMjlaeHBzc3JoWHdMNVMwWkcwcm9VWlRleVBXOGZHVkFQWHRiTDJU?=
- =?utf-8?B?RVpUUjJFbUZscTJGZWZYamhLUVRDR3NUSHgwVm9pZWpBNlBkMm1YWUZFSDdj?=
- =?utf-8?B?bnh6M0tzMkVPUGVRcjdMY2o5aFlySndpVXhpNTRJYmFBbkVGM0oyWGtwS21O?=
- =?utf-8?B?YXByZ2dFZUdDVnZjZFJXbkFyVEN2Q1NjWVZTWDJXRER3SndNcng1Y3Z6aUgz?=
- =?utf-8?B?RDcySHdxVWlGZkU0cGU0WDdHL3hlWWZQcTVPZjFhUEYzSUNPai9JVEZCWkVI?=
- =?utf-8?B?TE9WRXp0VWVhSURZM2t2eHRwUmhZdW5MOE9tb3cwVjV3a1UzcGt3NmJRM2d5?=
- =?utf-8?B?Tk5rVGVldm1KNHdPUWswVnF1bVZIUXRoZUQvajB0eTFtWFJMeENZTFRPdC9l?=
- =?utf-8?B?dldkNGpBczExL0dNRDZTYTJoazdPSUlja09qcjRrOHRZM0gwaC9nZWN4UExl?=
- =?utf-8?B?ZjZDRnB1ZEdHMUFnSkZjWVNaYjMrcVBmWEpnQ09ISFFaUkIvdzlLV3J0cXQy?=
- =?utf-8?B?b0dLekNOcVY0ZHV1SE5reFVCdG41R2VBRXBWYzAzbnRydnQyWlhMSlE4aXQ4?=
- =?utf-8?B?Z0pOamVBd0FtSUJ0WlBxRWtQMWV2MWNJcUIyS24vZDNnNnYvZDA5bXlndW4r?=
- =?utf-8?B?eld5cVBsZ3grUkJsWVY2dHl1MkZGRUxOYXVLMjBNQ3pBaFBEa0lxZFhwK1BU?=
- =?utf-8?B?cDFHZHRJcWMrTkNsY2wvcGlpam5hWXdLRUxZeUFCc1VERUUvZFpkd0lyS1Ex?=
- =?utf-8?B?OU5NOHdOSnV3VEpSTlFlWlYwV0FOYmZycXBTYVB1WUU3c3A0VTcyK0owSlZO?=
- =?utf-8?B?RGhhUlRySFJKZmRWZWgzSVdybGZGdUEwNjR2eWNwejZtN3Y5SGZZODdyYXQw?=
- =?utf-8?B?UlNCLytSakNrYndBYU8rLzlGdWxtS1Q0R0dpTWRDc2phMUczajc4SWtxSXNp?=
- =?utf-8?B?QXl6d01xVERsZFFlM1IvQzY5NnpVTVNZNHdiYXU2ZTdNRmtXTTBnczBHaVB1?=
- =?utf-8?Q?sesMwg8k2WaC8+dJw58cSMAUI?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: df0aa625-d1fc-4a41-b1eb-08dcdf01e7da
-X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4557.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2024 14:37:25.8811
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NByBr1Ep2VSNdr/0ACWDD9oB63dhsYz582TP9wM0YXmx3zMok3u2UQXP0wXy3ayM
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8588
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 04/11] drm/msm: Add CONTEXT_SWITCH_CNTL bitfields
+To: Connor Abbott <cwabbott0@gmail.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Neil Armstrong <neil.armstrong@linaro.org>
+References: <20240926-preemption-a750-t-v6-0-7b6e1ef3648f@gmail.com>
+ <20240926-preemption-a750-t-v6-4-7b6e1ef3648f@gmail.com>
+ <CACu1E7HEZztQ3bctuVdrwLCVY2oJ_01AyeKdwCuuB6gmsPurpg@mail.gmail.com>
+Content-Language: en-US
+From: Antonino Maniscalco <antomani103@gmail.com>
+In-Reply-To: <CACu1E7HEZztQ3bctuVdrwLCVY2oJ_01AyeKdwCuuB6gmsPurpg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Reinette,
-
-On 9/19/2024 12:43 PM, Reinette Chatre wrote:
-> Hi Babu,
+On 9/27/24 1:57 PM, Connor Abbott wrote:
+> In the future, the right thing to do is open a mesa MR with just the
+> register changes and then copy the file from mesa once it's merged,
+> because all of the XML files are supposed to flow from mesa to keep
+> mesa and the kernel in sync. I've opened a mesa MR [1] based on this
+> that will hopefully get quickly acked and merged.
 > 
-> On 9/4/24 3:21 PM, Babu Moger wrote:
->> Configure mbm_cntr_assign on AMD.
+> Connor
+
+Sure I'll keep that in mind, thanks!
+
+> 
+> [1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/31422
+> 
+> On Thu, Sep 26, 2024 at 10:17 PM Antonino Maniscalco
+> <antomani103@gmail.com> wrote:
 >>
->> 'mbm_cntr_assign' mode in AMD is ABMC (Assignable Bandwidth Monitoring
->> Counters). When the ABMC is updated, it must be updated on all logical
->> processors in the resctrl domain.
+>> Add missing bitfields to CONTEXT_SWITCH_CNTL in a6xx.xml.
 >>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
+>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
+>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8450-HDK
+>> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
 >> ---
->> v7: Introduced resctrl_arch_mbm_cntr_assign_configure() to configure.
->>      Moved the default settings to rdt_get_mon_l3_config(). It should be
->>      done before the hotplug handler is called. It cannot be done at
->>      rdtgroup_init().
+>>   drivers/gpu/drm/msm/registers/adreno/a6xx.xml | 7 ++++++-
+>>   1 file changed, 6 insertions(+), 1 deletion(-)
 >>
->> v6: Keeping the default enablement in arch init code for now.
->>       This may need some discussion.
->>       Renamed resctrl_arch_configure_abmc to resctrl_arch_mbm_cntr_assign_configure.
+>> diff --git a/drivers/gpu/drm/msm/registers/adreno/a6xx.xml b/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
+>> index 2dfe6913ab4f52449b76c2f75b2d101c08115d16..fd31d1d7a11eef7f38dcc2975dc1034f6b7a2e41 100644
+>> --- a/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
+>> +++ b/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
+>> @@ -1337,7 +1337,12 @@ to upconvert to 32b float internally?
+>>                  <reg32 offset="0x0" name="REG" type="a6x_cp_protect"/>
+>>          </array>
 >>
->> v5: New patch to enable ABMC by default.
->> ---
->>   arch/x86/kernel/cpu/resctrl/internal.h |  1 +
->>   arch/x86/kernel/cpu/resctrl/monitor.c  |  1 +
->>   arch/x86/kernel/cpu/resctrl/rdtgroup.c | 11 +++++++++++
->>   3 files changed, 13 insertions(+)
+>> -       <reg32 offset="0x08A0" name="CP_CONTEXT_SWITCH_CNTL"/>
+>> +       <reg32 offset="0x08A0" name="CP_CONTEXT_SWITCH_CNTL">
+>> +               <bitfield name="STOP" pos="0" type="boolean"/>
+> 
+> This bit isn't set to 1 when it's stopped, it's set to
+> 
+>> +               <bitfield name="LEVEL" low="6" high="7"/>
+>> +               <bitfield name="USES_GMEM" pos="8" type="boolean"/>
+>> +               <bitfield name="SKIP_SAVE_RESTORE" pos="9" type="boolean"/>
+>> +       </reg32>
+>>          <reg64 offset="0x08A1" name="CP_CONTEXT_SWITCH_SMMU_INFO"/>
+>>          <reg64 offset="0x08A3" name="CP_CONTEXT_SWITCH_PRIV_NON_SECURE_RESTORE_ADDR"/>
+>>          <reg64 offset="0x08A5" name="CP_CONTEXT_SWITCH_PRIV_SECURE_RESTORE_ADDR"/>
 >>
->> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
->> index 9a65a13ccbe9..3250561f0187 100644
->> --- a/arch/x86/kernel/cpu/resctrl/internal.h
->> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
->> @@ -709,6 +709,7 @@ int rdtgroup_assign_cntr(struct rdt_resource *r, struct rdtgroup *rdtgrp,
->>   			 struct rdt_mon_domain *d, enum resctrl_event_id evtid);
->>   int rdtgroup_unassign_cntr(struct rdt_resource *r, struct rdtgroup *rdtgrp,
->>   			   struct rdt_mon_domain *d, enum resctrl_event_id evtid);
->> +void resctrl_arch_mbm_cntr_assign_configure(struct rdt_resource *r);
->>   void rdt_staged_configs_clear(void);
->>   bool closid_allocated(unsigned int closid);
->>   int resctrl_find_cleanest_closid(void);
->> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
->> index 09b1d8bb0aa0..314c0b297470 100644
->> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
->> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
->> @@ -1261,6 +1261,7 @@ int __init rdt_get_mon_l3_config(struct rdt_resource *r)
->>   			cpuid_count(0x80000020, 5, &eax, &ebx, &ecx, &edx);
->>   			r->mon.num_mbm_cntrs = (ebx & 0xFFFF) + 1;
->>   			resctrl_file_fflags_init("num_mbm_cntrs", RFTYPE_MON_INFO);
->> +			hw_res->mbm_cntr_assign_enabled = true;
-> 
-> This is a major change to require architecture to set whether this is the default mode.
-> That seems fine but needs to be highlighted in the changelog and descriptions of this work.
+>> --
+>> 2.46.1
+>>
 
-Sure. Will add the text about this.
 
-> 
->>   		}
->>   	}
->>   
->> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> index 7a8ece12d7da..1054583bef9d 100644
->> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> @@ -2726,6 +2726,13 @@ int resctrl_arch_mbm_cntr_assign_set(struct rdt_resource *r, bool enable)
->>   	return 0;
->>   }
->>   
->> +void resctrl_arch_mbm_cntr_assign_configure(struct rdt_resource *r)
-> 
-> How about resctrl_arch_mbm_cntr_assign_set_one() to match existing
-> resctrl_arch_mbm_cntr_assign_set()?
-
-Sure.
-
-> 
->> +{
->> +	struct rdt_hw_resource *hw_res = resctrl_to_arch_res(r);
->> +
->> +	resctrl_abmc_set_one_amd(&hw_res->mbm_cntr_assign_enabled);
->> +}
->> +
->>   /*
->>    * We don't allow rdtgroup directories to be created anywhere
->>    * except the root directory. Thus when looking for the rdtgroup
->> @@ -4510,9 +4517,13 @@ int resctrl_online_mon_domain(struct rdt_resource *r, struct rdt_mon_domain *d)
->>   
->>   void resctrl_online_cpu(unsigned int cpu)
->>   {
->> +	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
->> +
->>   	mutex_lock(&rdtgroup_mutex);
->>   	/* The CPU is set in default rdtgroup after online. */
->>   	cpumask_set_cpu(cpu, &rdtgroup_default.cpu_mask);
->> +	if (r->mon.mbm_cntr_assignable)
-> 
-> Needs a r->mon_capable check?
-
-Sure. Will add it.
-
-> 
->> +		resctrl_arch_mbm_cntr_assign_configure(r);
->>   	mutex_unlock(&rdtgroup_mutex);
->>   }
->>   
-> 
-> Reinette
-> 
-
-Thanks
-- Babu Moger
+Best regards,
+-- 
+Antonino Maniscalco <antomani103@gmail.com>
