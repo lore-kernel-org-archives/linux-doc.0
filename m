@@ -1,101 +1,305 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2086.outbound.protection.outlook.com [40.107.223.86])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823E513AA47;
-	Fri, 27 Sep 2024 16:41:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727455274; cv=none; b=iOV9BhT1b4iQc/Guv2eZVB4TLLlMJ0DrRl2wrkSDcZ0BjDxulRAZzUVD4vx/KV6KpfMMdibea5dFnvLlNGxvoXmduvXZv9P+lD8oOS41qcNk93Q34+fq7gltzreEx5xa+SMzk8dL+IgAK5JX0HRUeTD5uwoRzt8UHaM3SSj743Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727455274; c=relaxed/simple;
-	bh=8u5Av3AJg+Z/BbalDYPhMZPtlm215Q5+jjmCKOSVDiM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VCAn+sv9MNl4ruU+5/rn10M6KJZ3FxQ6ftNpTU6TgOCW21ci+mA9YnNs8wTfix33ojqLikfTyFXUqab2g0jHuE3XT4eVEcUoXG7xEDohXD1SXVcUCvDYxHwKX7yobCRHyhWcPTxOZNuHMdrT6QyCiq31+VGtpreZ3Fwu1o8DVtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nqxIcL9b; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3FE816D4FF;
+	Fri, 27 Sep 2024 17:06:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.86
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727456803; cv=fail; b=tdEGYtgC22Mq32/n90bzpd94/BVCbiIArtUSCedIM6oqcplg4qqi99rBrqauARnzvbPs5ybqBXGHSG6x6c741V/2Nt90J5HdLoTu9sweh/5GsjK9DwA0vPLRQlsBvfpkDWZMte1Vw7TDT9ETNNix0DdAzuneRobasaOBZoWXKwU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727456803; c=relaxed/simple;
+	bh=2SL8a1qNxfLU3mBroI4bXacz8RMnEJ0CbH5nfwpVb2s=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Yo+6yy0CVdudup4wQ+1Yo18xjmsOwF+lnjiYms7QnUJd5osuCrvMRD7vC4/87Mzf8PbdQYqVqjc3CQ9REfU8uwFpPZztJZvVkj3hTHNqBWO8UIx/ozNdi8HORBMVpAPtFFJjAnmQ7Vs/GFH6Pxe6Sq5P3FCuMlEzgvUpBi/SJKc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=W86PweGX; arc=fail smtp.client-ip=40.107.223.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nqxIcL9b"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-458362e898aso15966521cf.0;
-        Fri, 27 Sep 2024 09:41:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727455268; x=1728060068; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A3aLam3ii1BoY06ylPVYnFDjPB5q96zwrcB98znTpIw=;
-        b=nqxIcL9bP/ZNwH6cesbtIfFEINQtpWjofI7NSC76xxoo3AApbD9Yp2Sgnuwt3REsY9
-         XKXj8+IakZmYDQkbB7aFwgYXIzgh/YpjCqM4U9RnCcLpA8dMKt5DzwuYm4It4T4hpZzB
-         J0MrDke57vWifF6KxtAmTKmV2urh+32B6zpryr4BkWK8SMCfrf4J7LhwzSvqwlzZuprT
-         ZDs5GPo3Siai2ttjkf0jBdd8QTsyIHeUilRfR6JtfEGJeaFvgqyKITbdwgJVLW1pHjaa
-         BoDEnwlFmPnKiUwZbvMRuI3uu4QXirhQ1FD58ZMkIlhDkxZiovmx4rb9/5wlHJ32vEPu
-         L19A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727455268; x=1728060068;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=A3aLam3ii1BoY06ylPVYnFDjPB5q96zwrcB98znTpIw=;
-        b=Kx4dh0jIoK1+yC5EJtHuvco3MbMj1mfHS1d3dCFVfRcyhz2MrS0s9ZYWT1auB6s6ew
-         eAxMleSX696Vic4TkCFOJE0uC5vP+eCPGM9CV8zuW6MX2ELXzgvfQa+fEpAwdOazfU9o
-         ev9fzVZIN1n/L+FuvPg4cUlE6OmyFrY9u0a3J48IZy8WS5aJva4+P7pRebTkD6ToK5V+
-         c1CsNTWVvvHNJ2r6Jphx5xb2d9ii8xs7U6Z/eoEZ9mbqkdEk7UiFFM3Z28XRLkA2jQzn
-         Be6GK9KlOTNcrL3CHstsSx2lyFwgrrxvZ3sAfNh/lwpM76nLyQFN/CYoAMIlwvGRaeia
-         Wl8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWSIrjiTYUuGd0bwZ8d5Cj9cN6hTBOuRudu0viCl0eORp11oBHO3BMQhJEeqKV1gBkN/z5PnOke@vger.kernel.org, AJvYcCXIQHr9bH4A3Dt0pxmwiwg5P+Yf+ikQwgEZi9fUFEF9SUuSr8irDl/UhnLtNSmzQ63hnS2g9mw3Ov5zcWRh@vger.kernel.org, AJvYcCXvGuqogV/ZM0Z6HKn+MQ6hu2q1SBccX8Q5A83ZYumIb1A0SwWcspyCuiPYYA+pQbE45IQ9dyDNRTR9@vger.kernel.org
-X-Gm-Message-State: AOJu0YwboWE2RM7jVNIKKvSvLfl6lJ8wkE41K2lcVE4/XGB2qCucEQuq
-	uNe80S2o/VJHqTfMxivziXdC4wuh4QDXhCUIeJ9cRMJIzg0AoEe6e4LtFFslrNHpfZ3jvUxZMxm
-	4V8gUFMYpFjzkuuHiFjDIYijQ9JQeRHyd
-X-Google-Smtp-Source: AGHT+IHhFxiJIKOZQd9ObN+Bow9DnfeccCKDA+4HeO5e3KFOZo82DqxOsuBi8pqEMQvdlAwG2bxDBPuo1+y+Brz4sRY=
-X-Received: by 2002:a0c:fa49:0:b0:6cb:3bc0:c2c6 with SMTP id
- 6a1803df08f44-6cb3bc0c330mr53625576d6.10.1727455268393; Fri, 27 Sep 2024
- 09:41:08 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="W86PweGX"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FSQv412rQojhT1w564NdEdB8VYEnritRORiDr5w3e91kZb9svL7orHajj60U94iKmgT3tgYA3YAJPIF/6lypSwEqkCSVyXPANzuxJx3az205JqJHCwJ2CmoG93MHXr4KEmBCWHMrganxE2ul1p8liMCaBP5MPX7hCvUcc+hfeorDoWYGlLvCC3wnwc+fDudK4sA39hOYkq6Tc3NnMWeD7fdoF1xLz7QKfZpUziAim9usXnWChqL1k0Nj/MPHjx1CWu2J5NukZTXtPAb66IlN9feBAqjk2katB9u9z35HeJi9O2G9VNB6XZeP0k2jv2Qo+B1dBw1NuP7VjJbasYJKnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BVyavfYfCYNX2SKSWJ1BY+WVTdUy1gW4IVwFPXaBUXo=;
+ b=cvXnsa1GCNnOtigdYHbg7sebovQpnUW9yU0wjP8qjPbAt5gA2uuP/o4Cn/c7iM1ecBPr50qhpiGBIeJnMBtqRTHAqYU2idlckA/bNUyi9p27nCWWdYSlOt2w+nvAvJsT+erD7fzDucnuZQ1yucRtjVrAFWsN9Pq2uVVcb4X4QU0Z1dPDLoyQZcYRl4CvqVKYLnuY2C/Khi/sgJNAtDacqPCmshn/YYukHot20XN7K7ftEgs2fvMW8Rp0qkg6o/2i/MeNPA4i8S+rFyHqcagAYzuMlNQ00eCVTiUc66NsR+L6gjsoAbLCgpU/d3hmDAwxBpXOjObugxkpg2UIIS/I2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BVyavfYfCYNX2SKSWJ1BY+WVTdUy1gW4IVwFPXaBUXo=;
+ b=W86PweGXDiZyaDjkWF/8zNCTY1sG3gaDGG+13AkL43eepW9sEJ3B23l07AysRy8LsWfKbbP2prr6j3kpxNRvDD6ZXVBct04jU+qf+ioG3mzM5LK+jpaj8eb9hkkRkUxN3zmulKCIDXezVARA9Z8nqlMNendPdU7Us+dfSiVPcU8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SA0PR12MB4557.namprd12.prod.outlook.com (2603:10b6:806:9d::10)
+ by PH7PR12MB5709.namprd12.prod.outlook.com (2603:10b6:510:1e0::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.22; Fri, 27 Sep
+ 2024 17:06:38 +0000
+Received: from SA0PR12MB4557.namprd12.prod.outlook.com
+ ([fe80::d22d:666e:be69:117f]) by SA0PR12MB4557.namprd12.prod.outlook.com
+ ([fe80::d22d:666e:be69:117f%5]) with mapi id 15.20.8005.024; Fri, 27 Sep 2024
+ 17:06:34 +0000
+Message-ID: <9a1e086f-c46a-6c6a-fb87-f0a2ef6c20cc@amd.com>
+Date: Fri, 27 Sep 2024 12:06:31 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v7 23/24] x86/resctrl: Introduce interface to list
+ assignment states of all the groups
+Content-Language: en-US
+To: Reinette Chatre <reinette.chatre@intel.com>,
+ Babu Moger <babu.moger@amd.com>, corbet@lwn.net, fenghua.yu@intel.com,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
+ tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
+ kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
+ jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
+ rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
+ jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
+ ilpo.jarvinen@linux.intel.com, peternewman@google.com,
+ maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
+References: <cover.1725488488.git.babu.moger@amd.com>
+ <e6782ee97520b92d44ba80e510e8983895426e0d.1725488488.git.babu.moger@amd.com>
+ <fd370cfa-cee7-4b3a-8a95-b6047794d475@intel.com>
+From: "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <fd370cfa-cee7-4b3a-8a95-b6047794d475@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA1PR03CA0016.namprd03.prod.outlook.com
+ (2603:10b6:806:2d3::18) To SA0PR12MB4557.namprd12.prod.outlook.com
+ (2603:10b6:806:9d::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240926225531.700742-1-intelfx@intelfx.name> <CAKEwX=O=Qu4LZt79==FztxFjgBu2+q7C6EDji-ZmW5Ga38_dSg@mail.gmail.com>
- <5hnu3xa5hcusvmvg37m5ktsfcutghk2z3dh7lcoctyyfluabqv@u4ma5mafchpw>
-In-Reply-To: <5hnu3xa5hcusvmvg37m5ktsfcutghk2z3dh7lcoctyyfluabqv@u4ma5mafchpw>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Fri, 27 Sep 2024 09:40:56 -0700
-Message-ID: <CAKEwX=MPtsX0OexWfL3j-4TcPuAdoDWP4E2BzehrkFs67bTv9Q@mail.gmail.com>
-Subject: Re: [PATCH] zswap: improve memory.zswap.writeback inheritance
-To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
-Cc: Ivan Shapovalov <intelfx@intelfx.name>, linux-kernel@vger.kernel.org, 
-	Mike Yuan <me@yhndnzj.com>, Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, Yosry Ahmed <yosryahmed@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Chris Li <chrisl@kernel.org>, cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4557:EE_|PH7PR12MB5709:EE_
+X-MS-Office365-Filtering-Correlation-Id: 26b38654-092e-4290-9ac1-08dcdf16bdd7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?QXdzRkRiVEh3bXNZcFdsaXJCR3hpS1FUQ1BOUDBXNEExb1ZJUmxaU01QWlM5?=
+ =?utf-8?B?TUc3d2orQ2lsaldGY0V0T2p0WTF3ZVhueHFkeEdHQzFKcHd1blladllYT0F5?=
+ =?utf-8?B?ZzYxMEdjSjYzeFkyY3crUEZ3MlJyWk1FK2YyOFo4SnNkOG5sb3IrTVhNZFhl?=
+ =?utf-8?B?L1Zna3c4OXBwUm1qT1NtT1ZTaUs2Z1pXSGM3dE84SHhITzNRdkNNQjVURCty?=
+ =?utf-8?B?NEZFdkkrRjVkdDdTYzliTHFSVzM3dUJ1N2M3cGFXVDNsdnlaLy9vK090cEhj?=
+ =?utf-8?B?QzdGMVZwcmNFZ0EweHRCS1ZqYWwwZDhtZkhvTlZ2Q0hRb0tvanR0MWw5UFZG?=
+ =?utf-8?B?eWJYc1lwd2wzekpVeTRPdHhVMEJMWmdoang1WUZKcFpNZWRqYmNzRUhiaWNG?=
+ =?utf-8?B?bzM3ZGV0a1ViaysyZG1nWTZyN1kvbGo5RkxXMDdZdUV3L1VZbitjQ1BHOGZu?=
+ =?utf-8?B?ZWt5TURVQVQvQVZtTUFQVjhhc0dxSXovRnBXc0lWQ3dlVFhJVU03TWV0eEFW?=
+ =?utf-8?B?ZGVGWWt6Ni9tZFRnSUFnbXAvRmQ2S21pL0tybGo5bkE0cHhhWmVPOXJCOStY?=
+ =?utf-8?B?anpFYVl4TCtiOUFaWDdSbFNhSSt4bDNlbDFRdGYvK25pSEYzSTdjVXYraDMv?=
+ =?utf-8?B?MFBOSTlsV05rMUsvV1NQcVdzK1dwUENzMkZBaFBqU1FENE5VdWI3NlIra2hr?=
+ =?utf-8?B?NEozUEZyQ1ZIQ0hVSS9qVFNjenppUGFjSFJHVUF0OGN2U2RwWGtoUHkzZWhy?=
+ =?utf-8?B?OHZ5RGtuZkVYZStZQ0JzaVVMZHlBZEFBYjJydHUyOHRNTENYM0N2N2xnc2ZP?=
+ =?utf-8?B?cGRNUkJjMnhVdFpXbTUwbitsc1ZXTFZkV1V1djVPVHRXYnR3U0lvRERTaUpi?=
+ =?utf-8?B?QlpTQWM2SFJ0YlZKeU9FOGM4MUJtRWdZZmNJc2RMTlFpRkFwMnJzZWtyR0xv?=
+ =?utf-8?B?NURhKzVHT3RnTEJOVFAyRnVDbGpYdWlkT0dLVExtSE5YdVRoNmcvSUgwWG5x?=
+ =?utf-8?B?QWNFZGZ1NEdxRXgzQXUzUS9TRDhYcFY3aGVkVXJ2NkR6dE9pN2pFMlQ2emhx?=
+ =?utf-8?B?ZGZSYlNMc0RyTXQyLys4Mm5LdEpYTEdvUEFEZmhTNUVTcGlzMFViWjRTaThB?=
+ =?utf-8?B?RDAzUXdWaVBqRFZ0WGQrRENCVHJySEY2R0lTemsrdlNEaHVQdEdyUkYyVkxX?=
+ =?utf-8?B?MFEzNGVETDBkTEJ1blU0MTBRaEtXSUtCVmowRGxvVWYrVGIwSEdkNVRUcDV6?=
+ =?utf-8?B?ZTJlbE1XQzBTSVJZMWc3VEQ5K21tY1Z1RVloTlhDUGxYQ3dvbFVzMlpFaHZh?=
+ =?utf-8?B?QXBwdFpYRk96aFpxZElnbXY4Sm93MFdWMitYVElhR01OZlIwSlBaeHRqelR4?=
+ =?utf-8?B?WldCcGp5emthVjhmZElaWFBDZlJLODF4ckcxc1A3TGM1YkdSb05DNmtheUty?=
+ =?utf-8?B?LzVDNHRrMW45VlBOVDVpbmkvQm5zeGNDL2xCZkVlblpzTUVreVp5NDFza2Vq?=
+ =?utf-8?B?YWQ3Rjc2cDNTUUFTclM0dTF4b3RIUjVaeE51MGxteVhZUmRQZXRBVndJWSty?=
+ =?utf-8?B?TXNaa2FFaXZ5ajVTVUY5LzZ1MFF0V0lLVHIrNTlwM3pOOUFiOVJvWGVNU3g4?=
+ =?utf-8?B?S0pGWEZhcXU3cUYweTFrVk04VzRWbmhuQXRrVVJHTUkyNE5jUmgzT2lVdWhw?=
+ =?utf-8?B?aTM1VGtpVk50cjQwbVkwZlBpaTVpYjVMUHp6b0ZIZ0dMc0Mwa3QvWXlDL2F0?=
+ =?utf-8?B?WDhPVWNhSjlKL2YyOUFMZGJ3MjJ6ckNXOWlaZEY2MGJpSFcrVFhkTkc3OXlv?=
+ =?utf-8?B?dzB3TFc1b1ZVdWUvSmJLdz09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR12MB4557.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VGIwQjhrZWNpdTUrcUhFLzk4Rit4U2RKNCtUaWwvVUVtQitwTGQweFhENTNE?=
+ =?utf-8?B?a2lOaEZiaHMxbit0RjNrZW84QjdFWGk0STlqc1hBbHhaREpDWDRQbS80SUdt?=
+ =?utf-8?B?QUhocHZtTGR5VXl1Tzc0MmJ4OC9kaGtCVG9jdWZmYzYxYXJMVHNtUXZpMUNv?=
+ =?utf-8?B?akRpZTNubVp4Y2JDMFI5V2xENUEySWs4c21HZWFvNEZiR203VEt2WWJUZG1D?=
+ =?utf-8?B?b25CNlo5czVRYnlsWTREQ3p1QlpoWVNiQ2FsSHZSMEx4TDk4bnoreHBncW43?=
+ =?utf-8?B?bC9ubGRxYXNXeWRsdlczR0ZNRjY1OW8wOWhQbWhpakJaQWxKK3ZsS1JwbGFT?=
+ =?utf-8?B?V2lzbEhlMjFYcTF0endhdjEyOWJsTjdFb1NyM1ZPVEMrNkJrNWVGVmVrU29M?=
+ =?utf-8?B?NmErTUpmT2xBNDNmSkdYakJReGhKMEdDalhnYnlmMTlMdzFHU3ZZUC92eC96?=
+ =?utf-8?B?eVdaZ21Kb0xFMHVLUzlUZit1RlR4c0dTUTVkV2F0Z0pqZFY5YzRsdzczcm9i?=
+ =?utf-8?B?VFpQSitLaEtLYnJNZkJxbyt6L09MUXlMejFubGwzcjNpSzY2VXRhdko1RDZS?=
+ =?utf-8?B?UklyaC9GNEY2YUtNcFVRRG52cjZQb25zRFR3bGZ2eXZZYmdkb2s5bXpLWkpR?=
+ =?utf-8?B?SUdrV1ROL2puR2llcFNvQnA2Rk01QmVXMVFQZTIxSW5MdTIyeXkvS2F5YTdN?=
+ =?utf-8?B?YU5FS1IvUEFmeTRMbS9vNERJTGs4LzkvUlBaUDJNZUFtUy8rNVM2MXc1NzNX?=
+ =?utf-8?B?ZUJ5Ry9VdllaZ2JHL25CL3RSZE84Ukk4MUp6Q3c3NVZCMFJzbXgrZ2VMUDFY?=
+ =?utf-8?B?d29yQmdDcHkxZk9IU0hFRlhLLysvYXRzZzJSZE41RndMRzIyVnFMajA2b0FL?=
+ =?utf-8?B?V3Jac1p1YmdVMlJLTVF5UG1NYnNRaXZoZC9jNGV4YXJMV2xSTHhHbFFjdUVI?=
+ =?utf-8?B?UDV3Y0hDRiszU2RoVkNoR05zdVg5MHhEMDV3M3Jaa3crcWd3UlFNVFAxSEwy?=
+ =?utf-8?B?RnNoVEZKK0JpZ01tWjBsQWVUbFpyS08yb2QvNjBwKzNRVkZ4bGljWS9mMkRw?=
+ =?utf-8?B?WWFEMDI1NGFkRUNaTDV6dm54ZjAzZHJIRll6aXhWaHVQajNmL0lqQVhiNVlB?=
+ =?utf-8?B?REM4WXByR3A2YjhqSjc1amJCdFpUVnZpWFNwY0w1aUxkQjJQVDhnL1Bod1dP?=
+ =?utf-8?B?d1VTTnhzSkNvSDhCLzl1MkcvK2o3b1VhR0RPSWs3YklIeldUSEFYNzR0Y3VX?=
+ =?utf-8?B?bnBzYzNaVnRXYklaTUZ1d0JEd0ZGN3NVUVFvaGxESEZQQ1pXMGtMa0pWOEVI?=
+ =?utf-8?B?ZC9oblV3czVrajMzTUlzcDFTWXF2ck94b1o1b0FuWUhHTWppa2NXSDl4TnRW?=
+ =?utf-8?B?WFdtMWErblNRQ1BLT09naUVRNGE2RHM4RHdpek8wQ1djRUlwenlaZnBVWllT?=
+ =?utf-8?B?RW5NV1BDVU4vdnNxL1BKUStsTUtvcWNRcjJIZzAzNUdiMHc0Uy9VcnBGRXJ1?=
+ =?utf-8?B?QWwrNWYvTFdWQ3oxV20yYm5FTFhVUyt2bUdYQXQxQkhLQkNtR0s2SmFqUlB1?=
+ =?utf-8?B?azNmZmhLc3E1MSt1cWxrNkNWaTlpQXQ0RVlTcHMyOS9YZGgydDl5b01maDhE?=
+ =?utf-8?B?TnU2cDM3ZG81SnQ2UGp5NWIzUm8rY2YyODhzUHVKRHoveVl6ZllZcVFFeUVO?=
+ =?utf-8?B?U2J5NVJyZzJZUmVnbVFkNzZPYWh5ZkRvNDRFMWZlMEFvODc4RXdCanpCOTIv?=
+ =?utf-8?B?UDlJdytjMlBnRk84UEFPaEs3cnoxQ0dMMW84L1ZOd3VGeU9KaEd5NUpCM05r?=
+ =?utf-8?B?ZUdTQkxrRUFZVS9zWnpDRXNINTlRemRYc0YwK3dMemp5bFRmQ3UzbWh5WTJr?=
+ =?utf-8?B?OVhkQUgwMlBPcUx1RmdFMVdPcFByeG1XTUdDbnNIalBOWkQyL3Y5V09JYjVp?=
+ =?utf-8?B?bUFoVGUySXZnRWtBc2JlMkpxTFJLUE9FZS9LNTRrWkNFZ1NHcTVFMmRRcEYz?=
+ =?utf-8?B?NzhvREhKVXpnZHJITDJ0TWtianhmM0pYQzRUdkQxSG4vckN5dnkzeUQ3Yk01?=
+ =?utf-8?B?RnliTThVSkZ2Vy9xdkZyWG1DVDRrcTliWVg4OEE4cE9QY2w4MFNCTDRjTTNu?=
+ =?utf-8?Q?RnJ4mThQhmR8BgJ1qGbQQZByx?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 26b38654-092e-4290-9ac1-08dcdf16bdd7
+X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4557.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2024 17:06:34.8669
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SmKCG066XxkrZOhUYA3EWygyVTj7BDxzrtJqEvk8K1gnphCxzqH8COx2UKGMGXZO
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5709
 
-On Fri, Sep 27, 2024 at 8:01=E2=80=AFAM Michal Koutn=C3=BD <mkoutny@suse.co=
-m> wrote:
->
->
-> What about assigning this semantic to an empty string ("")?
-> That would be the default behavior and also the value shown when reading
-> the file (to distinguish this for explicitly configured values).
+Hi Reinette,
 
-Yeah that's better than -1, I agree. Still a bit confusing, but at
-least the semantic is "we are not making a choice at the memcg".
+On 9/19/2024 12:53 PM, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 9/4/24 3:21 PM, Babu Moger wrote:
+>> Provide the interface to list the assignment states of all the resctrl
+>> groups in mbm_cntr_assign mode.
+>>
+>> Example:
+>> $cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+> 
+> It is not clear what is intended with above example, was it intended to
+> have some output?
 
->
-> (The weirdness of 0, 1, -1, -1, -1  would remain. Maybe switching this
-> via the mount option could satisfy any user. Admittedly, I tend to
-> confuse this knob with swap.max.)
+Yes. Will add output here.
 
-Yeah a mount option, or in general some sort of global knob (with
-proper documentation) would be preferable.
+> 
+>>
+>> List follows the following format:
+>>
+>> "<CTRL_MON group>/<MON group>/<domain_id>=<flags>"
+>>
+>> Format for specific type of groups:
+>>
+>> - Default CTRL_MON group:
+>>    "//<domain_id>=<flags>"
+>>
+>> - Non-default CTRL_MON group:
+>>    "<CTRL_MON group>//<domain_id>=<flags>"
+>>
+>> - Child MON group of default CTRL_MON group:
+>>    "/<MON group>/<domain_id>=<flags>"
+>>
+>> - Child MON group of non-default CTRL_MON group:
+>>    "<CTRL_MON group>/<MON group>/<domain_id>=<flags>"
+>>
+>> Flags can be one of the following:
+>> t  MBM total event is enabled
+>> l  MBM local event is enabled
+>> tl Both total and local MBM events are enabled
+>> _  None of the MBM events are enabled
+>>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+> 
+>> +"mbm_assign_control":
+>> +	Reports the resctrl group and monitor status of each group.
+>> +
+>> +	List follows the following format:
+>> +		"<CTRL_MON group>/<MON group>/<domain_id>=<flags>"
+>> +
+>> +	Format for specific type of groups:
+>> +
+>> +	* Default CTRL_MON group:
+>> +		"//<domain_id>=<flags>"
+>> +
+>> +	* Non-default CTRL_MON group:
+>> +		"<CTRL_MON group>//<domain_id>=<flags>"
+>> +
+>> +	* Child MON group of default CTRL_MON group:
+>> +		"/<MON group>/<domain_id>=<flags>"
+>> +
+>> +	* Child MON group of non-default CTRL_MON group:
+>> +		"<CTRL_MON group>/<MON group>/<domain_id>=<flags>"
+>> +
+>> +	Flags can be one of the following:
+>> +	::
+>> +
+>> +	 t  MBM total event is assigned.
+>> +	 l  MBM local event is assigned.
+>> +	 tl Both total and local MBM events are assigned.
+>> +	 _  None of the MBM events are assigned.
+>> +
+>> +	Examples:
+>> +	::
+>> +
+>> +	 # mkdir /sys/fs/resctrl/mon_groups/child_default_mon_grp
+>> +	 # mkdir /sys/fs/resctrl/non_default_ctrl_mon_grp
+>> +	 # mkdir /sys/fs/resctrl/non_default_ctrl_mon_grp/mon_groups/child_non_default_mon_grp
+>> +
+>> +	 # cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+>> +	 non_default_ctrl_mon_grp//0=tl;1=tl;
+>> +	 non_default_ctrl_mon_grp/child_non_default_mon_grp/0=tl;1=tl;
+>> +	 //0=tl;1=tl;
+>> +	 /child_default_mon_grp/0=tl;1=tl;
+>> +
+>> +	 There are four resctrl groups. All the groups have total and local MBM events
+>> +	 assigned on domain 0 and 1.
+>> +
+> 
+> Please create the docs in chosen format, like htmldocs, and see how it ends up being formatted.
+> For example, above seems to be intended to be a code sample but the description ("There are
+> four resctrl ...") appears as part of the code sample.
 
-And yeah, I hear you with the swap.max confusion. That's why I tried
-to make it explicit in the documentation, because the difference is
-subtle and can trip up users. Hopefully, when zswap and swap are
-decoupled, users can conceptualize them as two separate tiers, and the
-confusion will lessen...
+Sure. Will check.
+
+> 
+>>   "max_threshold_occupancy":
+>>   		Read/write file provides the largest value (in
+>>   		bytes) at which a previously used LLC_occupancy
+> 
+> ...
+> 
+>> +static int rdtgroup_mbm_assign_control_show(struct kernfs_open_file *of,
+>> +					    struct seq_file *s, void *v)
+>> +{
+>> +	struct rdt_resource *r = of->kn->parent->priv;
+>> +	struct rdt_mon_domain *dom;
+>> +	struct rdtgroup *rdtg;
+>> +	char str[10];
+>> +
+>> +	mutex_lock(&rdtgroup_mutex);
+>> +
+>> +	if (!resctrl_arch_mbm_cntr_assign_enabled(r)) {
+>> +		rdt_last_cmd_puts("mbm_cntr_assign mode is not enabled\n");
+>> +		mutex_unlock(&rdtgroup_mutex);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	rdt_last_cmd_clear();
+> 
+> This should be done before any attempt to write to the buffer.
+
+Sure. Will move it up.
+
+> 
+> 
+> Reinette
+> 
+
+Thanks
+-- 
+- Babu Moger
