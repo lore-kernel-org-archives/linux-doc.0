@@ -1,179 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10951187858;
-	Sat, 28 Sep 2024 12:26:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A122C187FF4;
+	Sat, 28 Sep 2024 13:41:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727526383; cv=none; b=P4jtBjVzYW/jLypUWlkpJD6fbtYSOsLj4FHs6TZt0Hw4xyLXlFspGAoqyyDoQ+49k3uVYofN5ssvCn9EwF1zEmXqvqPoBI7ZfMjJWV2oWxA7yg6Dkh8A1XoU8EzTLvu9lO0rg5chnmHqxgV6sxV3RVGzG71DGZdeKTEVyDn3eU4=
+	t=1727530883; cv=none; b=mGNCDUcDJQOi31t4sUEa6CCl7Zp+QYyxZ+ihqZ3jhhwBalaUrJJOJv6CYqp3yajxL81zEiba7SHZXuOFASv88ovXM3ulUQ2ph4RXqSNlpyX9m3meFocaEvwfbxR9D67XG+46zSjIdI4tiJVMxalx8Kk3+yZEgt30e+DbkFarqOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727526383; c=relaxed/simple;
-	bh=0O0bP0IrBhKutucM950AErodJ/ElrwHuacHsGrdmOL0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fodQ4P0jZCrQHomJamEINbb+xH+vZTU1CmLNAJblr94l4nxh0a51vC9tRoSOI49xy1GapU6WSMtWXhVYM4Vz1KzLICPcOdSiy4v41q4vf2vNFJzVgDKyFy54DgWkKwINSEe/KRev5NgZtzUFuZiBw5WeZeo3W005OwGOA4avg2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SX7uwgI/; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727530883; c=relaxed/simple;
+	bh=orpQEHYHyBoCCUjzbaUktQopXRvr5Ek6mitfHI0agMI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tV750czipMfwqyxI75cqmgBddBjWfznr0tE1Bvm/1Fb1gmutKMsOLkDSKMxUj5Qs5itjros78zMXWGSpnHbPG0ZjYbeX0TSkFwUOqV0/5QIwEXKR9E/mil4mLiWWMDWPz9cOfXyBAidGZA6KqcS4z9DeFt5/oqqPCa+Ft8WJwKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lyaRxQfR; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SX7uwgI/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727526382; x=1759062382;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0O0bP0IrBhKutucM950AErodJ/ElrwHuacHsGrdmOL0=;
-  b=SX7uwgI/bzo2IPYwplUAb/6TV1nzHERKIIfVJfcr997WWzNLVxBvI/Ul
-   JQwGFItuWYIScipfgSS/5Np6lu0psZF0yQPfoK/4TjLqwoyZ9VV9dYMaQ
-   9ZqsJyqILxB1Hqw78L5l5ttcQ0S44KAeRzucgtkw4hCD/P+FHkRTnUrdS
-   gtbdWA4sr1stItIyWQSf4zlUqVMXM4IKOm7i6ExnIIWYi+CmcQ8ZqaxSW
-   B+Cr/vSKKbJSMKZr3w0IDSWuvmmCJNKehfqD3zalKmNk3lEGchUdvPDXs
-   /gjqO6OcNcbcZFtG5hIupOlZJR5K+TUDLzQFLJSm2KhIH4XUugWf2OA1O
-   Q==;
-X-CSE-ConnectionGUID: OTniNFF/SMiv6IrXN1Zojg==
-X-CSE-MsgGUID: 27+CBRIgQf6mJvxSCAhgqQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="26174337"
-X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="26174337"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 05:26:21 -0700
-X-CSE-ConnectionGUID: tqVLSgj5RGiBg6fDPtfYcA==
-X-CSE-MsgGUID: iXlxDZxGRlO5tpgIe7GV2g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="72677358"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 28 Sep 2024 05:26:15 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1suWWa-000NFb-0k;
-	Sat, 28 Sep 2024 12:26:12 +0000
-Date: Sat, 28 Sep 2024 20:25:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Wei Huang <wei.huang2@amd.com>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jonathan.Cameron@huawei.com, helgaas@kernel.org, corbet@lwn.net,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, alex.williamson@redhat.com, gospo@broadcom.com,
-	michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
-	somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
-	manoj.panicker2@amd.com, Eric.VanTassell@amd.com,
-	wei.huang2@amd.com, vadim.fedorenko@linux.dev, horms@kernel.org,
-	bagasdotme@gmail.com, bhelgaas@google.com, lukas@wunner.de,
-	paul.e.luse@intel.com, jing2.liu@intel.com
-Subject: Re: [PATCH V6 2/5] PCI/TPH: Add Steering Tag support
-Message-ID: <202409282017.PWd5zICd-lkp@intel.com>
-References: <20240927215653.1552411-3-wei.huang2@amd.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lyaRxQfR"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539885dd4bcso1707618e87.0;
+        Sat, 28 Sep 2024 06:41:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727530879; x=1728135679; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iNmBSpA2BmR/JT9QNG5130+zMmw0zS2R0933ikB5pGY=;
+        b=lyaRxQfR6pDvFtPh03QSIMr42veT9U6yGFpmRrP2MqX05526bN+lCWEpN4RksEXhL1
+         PyIKlP1CUMimgQ4B3Bu4d2uyXb2TFIEkoTrGo31BUqnTpBubkJkw85hKAGiaz7mzW/fA
+         E5cL7sHVDLP//aPpeMtUrTKdjCApIq9atVmqx413w1pu6vcVoS3BOQShVvsqiwxunwyr
+         KfZIvN+kSXjdFqwDqyMRoHxKTMPXFnVmtn+bWMKl/eyV0cYoFIYTf/gLOuDFq1s2I346
+         rK+A4iPQBSwBHtHKaLhU/hXB/y3DymiiboXLbNIFiF3m1nOYbAU1Fjyu/RDepQqdkfe1
+         f5tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727530879; x=1728135679;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iNmBSpA2BmR/JT9QNG5130+zMmw0zS2R0933ikB5pGY=;
+        b=qv+bxZ61UZX5FJbxPnWH/E89lb6JClLFkHCnCybA6m4c40uk/NdEuUvfP3X6P2ZM7T
+         kQDRKBgHicqUFf1AkuU3u7Pvqvc9mPmbBf+aOV7wp1DSO3VHwWScNQEZNZN/r0yr2/U+
+         TdmuFk2yZB1Wj9rISExG9f1h4+6qC3nB8+WFmIH1xLHmjVomyUfJ1h3rK4xE4pQc1qWC
+         ixa9Z2cy1QQkALUq51KmywtK+fVTgpETWH4s3XG+OS+lNKbJ4BbU6i8+02sfG9bLdSPS
+         ZqjDbrfGQQilsK9HpcBTkJkdNAVzV2jHgMg0iPHrz3uMzM+4WQEdp+PAuNtRDA5VHnHD
+         gvVg==
+X-Forwarded-Encrypted: i=1; AJvYcCU5Qv90kM8IomWDDyyJcoh5pkluZydfD7eGC46sjT1E8ggpn2PBWnIiP8H564rs2966O5a6qwd6z9dnTO6CJNYLkw==@vger.kernel.org, AJvYcCUUvMQ7ieLv3ItQbpk029ELJzVtz1GHhFKbePsVDvZJRe40wYq9kWFsTyywoSxDeAmViTTEB7wAhhRN/Ypk@vger.kernel.org, AJvYcCV7QMX6j5hd7MCsjdDPxRzYgoV96eHt9/wcqgJfRFTdXDHOBPFQuhI7OSYEexVjmiWzJwEDWqdMSjYmdWXHIOM=@vger.kernel.org, AJvYcCVbLMpQQq0VrWrMmtY3EyavYc86XFtL+SjBOkn1h2EaBF5fmTDRETBg7PPVwx8+6DkSBngli8buW4EDeRT/@vger.kernel.org, AJvYcCVcOUk2z2+u5YMEXT28utuV4AercTvvvUoEhOFoyEux3VVPSsMeZaDUF7v+gCR+eP6VbLo=@vger.kernel.org, AJvYcCW6TONWCmlUtfcd585Zlhu7RkQMs+4g84q9Q9PNx7jnf4ytG92XBczqpY6Vu+BiGP1lrkRtDRmDmKVH@vger.kernel.org, AJvYcCXD6FE9bEQoupm0uzweMZ/FMx9Dqu3EFRbdgwMsKNUjhe2MnKbSK7fCtJCmyP61/mTatJr29EGl6Z8=@vger.kernel.org, AJvYcCXW3wJthV5+gSOj1UYTR3ZnD09rlBis3FvdpwGFNMzfrcX50vkKtc0QCkXMX9zqn61Mpq4ZUKqIjdb41A==@vger.kernel.org, AJvYcCXXt9c5hfXjZgQHacqSgG+kJrMTmKKi1p6/YViKVDImvTOJ859XS6oGvJOnTxtNSvJdaGPtZKx5GHjS@vger.kernel.org, AJvYcCXcNyM/0euV3FTAD3HeNmnvlADhPSmhNZSKMYQEkH1k02/LvGYntmcxXahuEQkssflYG29R3O6FITC9hzTV@vger.kernel.org
+X-Gm-Message-State: AOJu0YzzQEn6O5hmABLlJpJ4aLSs6mBId9uRGGXF7cHMxjt/n1WeGqtk
+	IN8sl3idKTj2+tS2AMqqWNtY3mO+VryadkAw+0FU1ptax2m1Pxhj2ofBEDUkpZDD7azBWQI9eyH
+	xRPheeLAXzrdb6hS45kj/+zOwtA==
+X-Google-Smtp-Source: AGHT+IHmvDJivNH43Y01ucMKJYFoc8AFcX6hzmgU+8XoeSSFhpvEaQoSvahoajb/ht++NQ+MH1stDT2FsmHiW/GwHn4=
+X-Received: by 2002:a05:6512:3f07:b0:536:54df:bffa with SMTP id
+ 2adb3069b0e04-5389fc7fefemr3962432e87.45.1727530879148; Sat, 28 Sep 2024
+ 06:41:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240927215653.1552411-3-wei.huang2@amd.com>
+References: <20240925150059.3955569-30-ardb+git@google.com>
+ <20240925150059.3955569-35-ardb+git@google.com> <CAFULd4ZNwfPZO-yDjrtT2ANV509HeeYgR80b9AFachaVW5zqrg@mail.gmail.com>
+In-Reply-To: <CAFULd4ZNwfPZO-yDjrtT2ANV509HeeYgR80b9AFachaVW5zqrg@mail.gmail.com>
+From: Brian Gerst <brgerst@gmail.com>
+Date: Sat, 28 Sep 2024 09:41:07 -0400
+Message-ID: <CAMzpN2j4uj=mhdi7QHaA7y_NLtaHuRpnit38quK6RjvxdUYQew@mail.gmail.com>
+Subject: Re: [RFC PATCH 05/28] x86: Define the stack protector guard symbol explicitly
+To: Uros Bizjak <ubizjak@gmail.com>
+Cc: Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org, 
+	Ard Biesheuvel <ardb@kernel.org>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Dennis Zhou <dennis@kernel.org>, 
+	Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross <jgross@suse.com>, 
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Keith Packard <keithp@keithp.com>, 
+	Justin Stitt <justinstitt@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+	Kan Liang <kan.liang@linux.intel.com>, linux-doc@vger.kernel.org, 
+	linux-pm@vger.kernel.org, kvm@vger.kernel.org, xen-devel@lists.xenproject.org, 
+	linux-efi@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Wei,
+On Wed, Sep 25, 2024 at 2:33=E2=80=AFPM Uros Bizjak <ubizjak@gmail.com> wro=
+te:
+>
+> On Wed, Sep 25, 2024 at 5:02=E2=80=AFPM Ard Biesheuvel <ardb+git@google.c=
+om> wrote:
+> >
+> > From: Ard Biesheuvel <ardb@kernel.org>
+> >
+> > Specify the guard symbol for the stack cookie explicitly, rather than
+> > positioning it exactly 40 bytes into the per-CPU area. Doing so removes
+> > the need for the per-CPU region to be absolute rather than relative to
+> > the placement of the per-CPU template region in the kernel image, and
+> > this allows the special handling for absolute per-CPU symbols to be
+> > removed entirely.
+> >
+> > This is a worthwhile cleanup in itself, but it is also a prerequisite
+> > for PIE codegen and PIE linking, which can replace our bespoke and
+> > rather clunky runtime relocation handling.
+>
+> I would like to point out a series that converted the stack protector
+> guard symbol to a normal percpu variable [1], so there was no need to
+> assume anything about the location of the guard symbol.
+>
+> [1] "[PATCH v4 00/16] x86-64: Stack protector and percpu improvements"
+> https://lore.kernel.org/lkml/20240322165233.71698-1-brgerst@gmail.com/
+>
+> Uros.
 
-kernel test robot noticed the following build warnings:
+I plan on resubmitting that series sometime after the 6.12 merge
+window closes.  As I recall from the last version, it was decided to
+wait until after the next LTS release to raise the minimum GCC version
+to 8.1 and avoid the need to be compatible with the old stack
+protector layout.
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus linus/master next-20240927]
-[cannot apply to v6.11]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Huang/PCI-Add-TLP-Processing-Hints-TPH-support/20240928-055915
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20240927215653.1552411-3-wei.huang2%40amd.com
-patch subject: [PATCH V6 2/5] PCI/TPH: Add Steering Tag support
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240928/202409282017.PWd5zICd-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409282017.PWd5zICd-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409282017.PWd5zICd-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/pci/tph.c:236:9: warning: result of comparison of constant 18446744073709551615 with expression of type 'typeof (_Generic((mask), char: (unsigned char)0, unsigned char: (unsigned char)0, signed char: (unsigned char)0, unsigned short: (unsigned short)0, short: (unsigned short)0, unsigned int: (unsigned int)0, int: (unsigned int)0, unsigned long: (unsigned long)0, long: (unsigned long)0, unsigned long long: (unsigned long long)0, long long: (unsigned long long)0, default: (mask)))' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
-     236 |         val |= FIELD_PREP(mask, st_val);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:72:53: note: expanded from macro '__BF_FIELD_CHECK'
-      72 |                 BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-      73 |                                  __bf_cast_unsigned(_reg, ~0ull),       \
-         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      74 |                                  _pfx "type of reg too small for mask"); \
-         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:58: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
-   include/linux/compiler_types.h:517:22: note: expanded from macro 'compiletime_assert'
-     517 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:505:23: note: expanded from macro '_compiletime_assert'
-     505 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:497:9: note: expanded from macro '__compiletime_assert'
-     497 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   1 warning generated.
-
-
-vim +236 drivers/pci/tph.c
-
-   205	
-   206	/* Write ST to MSI-X vector control reg - Return 0 if OK, otherwise -errno */
-   207	static int write_tag_to_msix(struct pci_dev *pdev, int msix_idx, u16 tag)
-   208	{
-   209		struct msi_desc *msi_desc = NULL;
-   210		void __iomem *vec_ctrl;
-   211		u32 val, mask, st_val;
-   212		int err = 0;
-   213	
-   214		msi_lock_descs(&pdev->dev);
-   215	
-   216		/* Find the msi_desc entry with matching msix_idx */
-   217		msi_for_each_desc(msi_desc, &pdev->dev, MSI_DESC_ASSOCIATED) {
-   218			if (msi_desc->msi_index == msix_idx)
-   219				break;
-   220		}
-   221	
-   222		if (!msi_desc) {
-   223			err = -ENXIO;
-   224			goto err_out;
-   225		}
-   226	
-   227		st_val = (u32)tag;
-   228	
-   229		/* Get the vector control register (offset 0xc) pointed by msix_idx */
-   230		vec_ctrl = pdev->msix_base + msix_idx * PCI_MSIX_ENTRY_SIZE;
-   231		vec_ctrl += PCI_MSIX_ENTRY_VECTOR_CTRL;
-   232	
-   233		val = readl(vec_ctrl);
-   234		mask = PCI_MSIX_ENTRY_CTRL_ST_LOWER | PCI_MSIX_ENTRY_CTRL_ST_UPPER;
-   235		val &= ~mask;
- > 236		val |= FIELD_PREP(mask, st_val);
-   237		writel(val, vec_ctrl);
-   238	
-   239		/* Read back to flush the update */
-   240		val = readl(vec_ctrl);
-   241	
-   242	err_out:
-   243		msi_unlock_descs(&pdev->dev);
-   244		return err;
-   245	}
-   246	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Brian Gerst
