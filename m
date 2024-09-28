@@ -1,143 +1,122 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64CC5187844
-	for <linux-doc@vger.kernel.org>; Fri, 27 Sep 2024 22:45:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E0C28EA;
+	Sat, 28 Sep 2024 01:16:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727477155; cv=none; b=FkBqhzoFxYLgCaYehyhVqZitVZ9tbh/gRAw9bEyfYx3UqHZU/PJXRGSdT8+VrMSdCr00XYS5XjFe9dik85tXjpgLQ/OrpyrWr8KdRNdurleK4u1Ihqm50T/MrMu2ORVMCPBOXKJn2IDpHsEuk/YtyNqgYMPtZrHViTNaOpp722A=
+	t=1727486168; cv=none; b=lxfmXvpWVuDnztOztHEWENGavgglh/xkDJDjJtRB6oFqBcyzLk/rlspOLd0lAY+zclGWNNl6bRZRJP/2gjfeGD7hsQm4KYPdJMVFjhKEd9MGTsem/5ISrIbLqk/nUfEH1yEakk64TuBN+6vfzsuLLwzvx/G83IWP/Us28FwRz0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727477155; c=relaxed/simple;
-	bh=UEbVixBgVaf8M3e9cHPVpzQgl77JbdhxFB49Rb4Lexg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SyAFx0050DeYY7EGhjccfMIsMrk/5gJeZY7aptc1E5CAq7xRW0EgoKXcOAiiMf4TwPG+TM9dI1XNR6st2naopf8VoC02TmQAMNZGZ72IsEnCK9lndKAUXU/oFxynuy51AU8HXURLq7uUhSt7H+eS1lBffEw7/PLU9TKKzQCInCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VvWaQ9ck; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1727486168; c=relaxed/simple;
+	bh=X07uvNQvv0B1WrIKvyaB24pGAOcrmypzYdWwXWzs3l8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HNeagPIpriz38AVxj8M0jc3bRnAiaof2AJQw4gLkdGg9Vpw1dEqZfwBhM0raWuxpl2hINRfm8o6+ZY6r8wsEtbyuo7YCeca209QyZIPbE8UbCwQmXSm16/HQO5jwoKYCoZeREGb3vNPDYk2kU2GNdBzAvE1RHBXKgENDjdeht7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SvMeX0S+; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VvWaQ9ck"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-37cce5b140bso1674167f8f.3
-        for <linux-doc@vger.kernel.org>; Fri, 27 Sep 2024 15:45:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SvMeX0S+"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-20792913262so32162685ad.3;
+        Fri, 27 Sep 2024 18:16:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1727477152; x=1728081952; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aDQvVwsDtp+mFdbUxO9Cffd9UazHpnItRnVC+YjwEF8=;
-        b=VvWaQ9ck2lnpUwm5weFmN6mU4S/oxwKFdjb7OGMhay5SelOXJffeAj6IhTbp4GcfpF
-         JqVle5RL2/LQ1MdFrK7SyR74EUYI1bwUoyylN0euAtgJ4oC1BQbZjiscLw/i+mId4HRP
-         QOTdwFftOKbeEbvWE53bmUFMwhTPHumng8VTOpDCLVfJ7J+6KdRU/oeAssWoBDxd6rz6
-         QKMAFNWKwFpAlAqUARfJVaIYsoopuonTj6Ejq1u+Hu/HByAoXXVC0CbIsBN2soFIHdZk
-         s5bZOZaHPSJzDEGW/kLtmaJdoMvCT34YSiNb7AlN5avfT4jj6BdOkHz51Z9Zr8i4ZUkM
-         73nw==
+        d=gmail.com; s=20230601; t=1727486166; x=1728090966; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RmenBwjo2Vbivz5a9dMMksnrytNzMFbtLIwdP8yXAPE=;
+        b=SvMeX0S+M5KBTnM7EvljR4UH81no2PWa2haYTkhWU6YbBFQgnz7uRnkuQTLwrD7TdV
+         z2Qc6qF8P3nXXggoPLy758QQ9OtTMOgu0DtR7wVtOJX/doJMPtDpLPd6x90fOn7RBM+l
+         OCCiWoIIHets+K0UYgXkDyOTXFVCcaCVvU27+UByB8Er1zkOr1ywGPflHM1C2EMLiMiw
+         8dboJf9USpSKzyHoEEIcmEQ3Nx0PcXHAa3S6TXRT7oDiYY7XIdV5F+GjcfR9Mq11j7z5
+         pSzeoM4WY+H7BGcu0sfvoLwoT34afUGLQByqDxtHuybqhARZoVwZy/KKb3ah2drFzOb1
+         ZmMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727477152; x=1728081952;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aDQvVwsDtp+mFdbUxO9Cffd9UazHpnItRnVC+YjwEF8=;
-        b=UN6fA7mUJSg9cWTRByEYNf1pogApSxYd9Lxjf69mye9piGO4uPQUWe3bh8zPqVeCX0
-         ClewdSCyJnioUGWL825AjzbizhZoFgPG9h831XTcmmjDCzW4aTKjOTZVjcZUqVpLizGE
-         5qN4anY4JV8U/yOSSruJC5EP1XQus9dNVlmL2U8+wettFCUgljfuM6bqa80JA/oUn+g6
-         HzA2YX6lCi5K/+WqJQVMF1bi2MAPZWF+aZ634zYkxESsZ8nKApXMWiPRuiTFAULCGekT
-         ceyO/BWonVJuN+g9AfgCaoQHGbq2OMwS44st4AlT7+7t9rIdY3cWVWd1KHk9lmnK9HKf
-         hRYA==
-X-Forwarded-Encrypted: i=1; AJvYcCXySQZNGM0BRqSCviQ3gFqJcYV8BB2Azz80qEd5ZMZXOTktVbEoWvyeqQ3MIiaB2IDY0+MK/sxPmik=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6ly79LEk8eHrvX1hfPHiycIc+6H492sxOY6bLzriqdICVx0Rg
-	+az0IytMVLdZi8rD5Gp2LHGmyIFj9apo9L0rDfQjEd+OilAZCQ7m/58Obyifexp/E0FcR7GcnzU
-	YswQ4Gf70YftKmjvDQUta8ZGFxCfU0GA4s/Sd
-X-Google-Smtp-Source: AGHT+IG6Xki+LFKJg9jjTGxml51UwiNYvnAhUGo6WA4A/ge/2ShkqDPsrBP4lv5UL9HpPy51RD3yj/pjoU1+Gx+aQq8=
-X-Received: by 2002:a05:6000:d82:b0:375:570e:7ee with SMTP id
- ffacd0b85a97d-37cd5a9eb80mr3127268f8f.15.1727477151378; Fri, 27 Sep 2024
- 15:45:51 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1727486166; x=1728090966;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RmenBwjo2Vbivz5a9dMMksnrytNzMFbtLIwdP8yXAPE=;
+        b=Mc4IeCKpL/sFPWyO0A8TXBtTU/ysyWH8/z1IBQ8HNBPZoXKC5/L0h+bjJeOAw0DuAc
+         Y3v73Nf3v1j0ATEapPwqZ0D2uisN6MxSYI4596iwJPNi4Kjy7ornSJ14Hi+NEkx0u+xS
+         zUSLiq4/IaTNcP52Nnc9ruxeH0udQhuO/kV+WcOBD6DUM2nZu0O5QiHdkivbLLP3Cof6
+         ly75xfVjCSeaSyG2qhPsSCWTqrsZ1IG5tXVlO3njei/16Dcfm7s4agE5iC8d5JforYVc
+         4zKoxKMV9uS9H2sMut84TuHXRlMc3uAugo5su909vAqDEVEk5n+NPtTGbbX49233XvKI
+         6uog==
+X-Forwarded-Encrypted: i=1; AJvYcCUnNFc4BGBEhpqSKdl5hmb8rL7Mr5SGyXJ4ydeZwPyAZmWe93RP/MkdekRFbNlK91tLHdc+SQTiIExXWA==@vger.kernel.org, AJvYcCXCCL5K0XYAiJlOligBE67G130ZU1C8S2MVLPKLXv4yZ1+xg6noRC4BnAxIOpORKvUVV78lQNNC2P0=@vger.kernel.org, AJvYcCXrlLAX3R3yZ2Dv0L6y0bJAISIK/viRM4avAY2KINaIS7erAQQYetXgmly/ZPIaaHimOz8vxkwXvfWvtG9f@vger.kernel.org
+X-Gm-Message-State: AOJu0YxADxByQy1AJWTTqF/zhBP26RbcFFbjtVOkeV7/mHQg/rr90joy
+	pIe6RQNIqDidmljUaHvCm6dZaqmtFcxTeM+90ZCqWgNfww9nLqss
+X-Google-Smtp-Source: AGHT+IF2XdiOwSv21FunwBwuZApRttzCK4YIV+a+BZKXgPByJl59BffjPiw4iGOEPtjD6f9+V2Tv4g==
+X-Received: by 2002:a17:903:228d:b0:207:6e9:2da1 with SMTP id d9443c01a7336-20b376750a8mr81564615ad.17.1727486165641;
+        Fri, 27 Sep 2024 18:16:05 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20b37e51d27sm18804125ad.246.2024.09.27.18.16.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Sep 2024 18:16:04 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 320924601118; Sat, 28 Sep 2024 08:15:58 +0700 (WIB)
+Date: Sat, 28 Sep 2024 08:15:58 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Steven Rostedt <rostedt@goodmis.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Next Mailing List <linux-next@vger.kernel.org>,
+	linux-doc@vger.kernel.org
+Subject: Re: linux-next: build warning after merge of the ftrace tree
+Message-ID: <ZvdYzrZ56X_OvIPr@archie.me>
+References: <20240919150513.067dd727@canb.auug.org.au>
+ <20240926091452.4be87000@rorschach.local.home>
+ <87a5fte6mj.fsf@trenco.lwn.net>
+ <20240927141137.75ecdf71@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240728203001.2551083-1-xur@google.com> <20240728203001.2551083-7-xur@google.com>
- <c65a07ef-6436-4e04-a263-7cad9758e9be@gmail.com>
-In-Reply-To: <c65a07ef-6436-4e04-a263-7cad9758e9be@gmail.com>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Fri, 27 Sep 2024 15:45:39 -0700
-Message-ID: <CAKwvOdm0iZspjpuueBV1=eFt+Bf4edWBZsDsj10kEvTGZRye2w@mail.gmail.com>
-Subject: Re: [PATCH 6/6] Add Propeller configuration for kernel build.
-To: Maksim Panchenko <max4bolt@gmail.com>, Rong Xu <xur@google.com>
-Cc: Han Shen <shenhan@google.com>, Sriraman Tallam <tmsriram@google.com>, 
-	David Li <davidxl@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H . Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	Vegard Nossum <vegard.nossum@oracle.com>, John Moon <john@jmoon.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, Heiko Carstens <hca@linux.ibm.com>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Samuel Holland <samuel.holland@sifive.com>, 
-	Mike Rapoport <rppt@kernel.org>, "Paul E . McKenney" <paulmck@kernel.org>, Rafael Aquini <aquini@redhat.com>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Eric DeVolder <eric.devolder@oracle.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Randy Dunlap <rdunlap@infradead.org>, 
-	Benjamin Segall <bsegall@google.com>, Breno Leitao <leitao@debian.org>, 
-	Wei Yang <richard.weiyang@gmail.com>, Brian Gerst <brgerst@gmail.com>, 
-	Juergen Gross <jgross@suse.com>, Palmer Dabbelt <palmer@rivosinc.com>, 
-	Alexandre Ghiti <alexghiti@rivosinc.com>, Kees Cook <kees@kernel.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, Xiao Wang <xiao.w.wang@intel.com>, 
-	Jan Kiszka <jan.kiszka@siemens.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-efi@vger.kernel.org, linux-arch@vger.kernel.org, llvm@lists.linux.dev, 
-	Krzysztof Pszeniczny <kpszeniczny@google.com>, Stephane Eranian <eranian@google.com>, 
-	Maksim Panchenko <maks@meta.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="pyY6iDoOgRfOJJ52"
+Content-Disposition: inline
+In-Reply-To: <20240927141137.75ecdf71@gandalf.local.home>
+
+
+--pyY6iDoOgRfOJJ52
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 19, 2024 at 4:52=E2=80=AFAM Maksim Panchenko <max4bolt@gmail.co=
-m> wrote:
->
-> On Sun, Jul 28, 2024 at 01:29:56PM -0700, Rong Xu wrote:
-> > Add the build support for using Clang's Propeller optimizer. Like
-> > AutoFDO, Propeller uses hardware sampling to gather information
-> > about the frequency of execution of different code paths within a
-> > binary. This information is then used to guide the compiler's
-> > optimization decisions, resulting in a more efficient binary.
->
-> Thank you for submitting the patches with the latest compiler features.
->
-> Regarding Propeller, I want to quickly mention that I plan to send a
-> patch to include BOLT as a profile-based post-link optimizer for the
-> kernel. I'd like it to be considered an alternative that is selectable
-> at build time.
->
-> BOLT also uses sampling, and the profile can be collected on virtually
-> any kernel (with some caveats).  There are no constraints on the
-> compiler (i.e., any version of GCC or Clang is acceptable), while Linux
-> perf is the only external dependency used for profile collection and
-> conversion. BOLT works on top of AutoFDO and LTO but can be used without
-> them if the user desires. The build overhead is a few seconds.
->
-> As you've heard from the LLVM discussion
-> (https://discourse.llvm.org/t/optimizing-the-linux-kernel-with-autofdo-in=
-cluding-thinlto-and-propeller)
-> and LPC talk (https://lpc.events/event/18/contributions/1921/), at Meta,
-> we've also successfully optimized the kernel and got similar results.
->
-> Again, this is a heads-up before the patch, and I would like to hear
-> what people think about having a binary optimizer as a user-selectable
-> alternative to Propeller.
+On Fri, Sep 27, 2024 at 02:11:37PM -0400, Steven Rostedt wrote:
+> Like this?
+>=20
+> -- Steve
+>=20
+> diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
+> index 0b300901fd75..f3d235c8438b 100644
+> --- a/Documentation/trace/index.rst
+> +++ b/Documentation/trace/index.rst
+> @@ -5,6 +5,7 @@ Linux Tracing Technologies
+>  .. toctree::
+>     :maxdepth: 2
+> =20
+> +   debugging
+>     ftrace-design
+>     tracepoint-analysis
+>     ftrace
+>=20
 
-I'd imagine that folks would be interested in running Propeller, or
-BOLT, but perhaps not both.
+Yup, that's right!
 
-In that sense, Kconfig has the means to express mutual exclusion.
-It's perhaps worth working together to get the kconfig selection
-working such that folks can play with enabling these newer toolchain
-related technologies.
-
-The next instance of the bi-weekly public Clang Built Linux meeting is
-next Wednesday. (Links from https://clangbuiltlinux.github.io/)
-
-Perhaps it's worth Rong (and Sriraman and Han) and Maksim to stop by and ch=
-at?
 --=20
-Thanks,
-~Nick Desaulniers
+An old man doll... just what I always wanted! - Clara
+
+--pyY6iDoOgRfOJJ52
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZvdYyAAKCRD2uYlJVVFO
+o7P2AQC6wxh/4R1J4ZfW4DJhfv5cwk2W6gQ274Nsb3RIQu9lsAEAvI3EPUZLSX6O
+TZtclINSfKUY3S9XsV8+SeNar0AOLAk=
+=0d66
+-----END PGP SIGNATURE-----
+
+--pyY6iDoOgRfOJJ52--
