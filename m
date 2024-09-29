@@ -1,161 +1,166 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2380C28EF;
-	Sun, 29 Sep 2024 00:50:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 097701BF37
+	for <linux-doc@vger.kernel.org>; Sun, 29 Sep 2024 02:07:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727571054; cv=none; b=PwcsOvVDgFz2OtVz5ZisIJPuWONVpVU6IxPiTbG65in17sm1Zdz/LtTEzHGTCLLC/mNXxG4At2mzlkZfQaEkhofk3rRv6r85dgDGfRpaPh7t8Tc0xde06z5hHfdUu1V8lodxqEh1Tl3glgzMNTPplojgWQtEpc2ysgeZWwyvB1U=
+	t=1727575647; cv=none; b=lQ/nmKkYCfXRIRWm4eE7HaVx4czOjXb4dv6ZiDKlOmt7WwC+1/QQfhx7eFT70wb7H+EpvLzmGxQ1FFZoRjMCTll14ZB4xaDVRD6/6dhC/NYYt8bhcG7qgu8mF+LZnxzXFKia8vKApMqU4ZyH7P2Fio9+tC2a9IX1YPhylgLE0xE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727571054; c=relaxed/simple;
-	bh=Qn+pIqUYweu8EZ+bLGwoknjYMd7EzzvBNty++7THH2M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PtbZ2L+poTRf10pWPG263o9okxnr+BM1xk84puYt+mHgKlX/Oli7/TXffHbfV1LJlf2qgdBTuQ1HIFpf+ArITnMiPaPJQYA0XA9y4ODxcZqe95QgHlNVOcrXFaf7Wa2KGVeOGzL7OZ4rl/mKlo4sNIiqUp8ugY50R9orp756Aog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xu76kUuw; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727575647; c=relaxed/simple;
+	bh=TO6F9WUFFXlq7WPqrSDsnpUMpKF1xFzm56hCVzpmjMk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OYFg8QPMOxco57sfCz8qKZEzwZmn5J7PYlgF61i4PGYq8wj+1XTk7/JmZrDVP971eb/9mC8Nk3Dghrnc1TP9tfCetVtJqJVQzo5AH2sGruIsYs782zHu1iqMuDW+zoSMNYZwv9Ov3l8h22hvvMj5iFBqEc0z53c4cRWENJGr6k8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PFOwkDGf; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xu76kUuw"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-71c5df16b10so1324385b3a.0;
-        Sat, 28 Sep 2024 17:50:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727571052; x=1728175852; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zsU7CWgjM1UsFEJ24JSmjSnHHeZkMF6S2e9wKCHHVoA=;
-        b=Xu76kUuw5pmnUJqweoMEY56ZvgBR8LYVPsFk2LQeLG6Di4JxrksA3MPHcEwXJkb7Vk
-         rTRiriIYEawnh/Gq0gz5CYBWMWaVR2615OdZQiiuBULCLKLCkoziaCkBgf9YjUnyzoiH
-         7NJ7iuNAULhGXi81eU1wpLD0LvxI44rYivhZsTrIqkfHLUY3z3pf3wLGkFCQJtk38ShI
-         ukVR1EIBPpE1HmUGmrCzEe2S+TEDr5hNOAoiCbUw1KEktLoLoA6QXe5kPZ76nS1eDkhz
-         59CBbqqQz0td6SH3+W2ytCnuwfKeTFymKhc65RxUssrtv/f+4mUdRjuz1qLVqWWIXCw6
-         gv5Q==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PFOwkDGf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1727575645;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TO6F9WUFFXlq7WPqrSDsnpUMpKF1xFzm56hCVzpmjMk=;
+	b=PFOwkDGfqZRTdRa+vO2LbLy8UjqJg5awchQ37wMOJg5uTGD3IfXg3eIgD8DLcmn604+jcy
+	nu7qpdTEj/tFiaOUHbCN06ICgvLZTOWoyqQbomCT0+HWBHDQGhmmOoBs1T+MA60iR0nsRq
+	OYTOTkN77HTlLAFDLO3foo6zKFyztlE=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-635-iNgIQghdMvSUsBgoKI-TGQ-1; Sat, 28 Sep 2024 22:07:23 -0400
+X-MC-Unique: iNgIQghdMvSUsBgoKI-TGQ-1
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-7d50dadb7f8so2353427a12.0
+        for <linux-doc@vger.kernel.org>; Sat, 28 Sep 2024 19:07:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727571052; x=1728175852;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zsU7CWgjM1UsFEJ24JSmjSnHHeZkMF6S2e9wKCHHVoA=;
-        b=WAO6KTYEkVJ9+TBB7/uIDsy+Vpor6kCxl183J4UtmLJ6ipeGWXwIk7xPj9bIfr7LFr
-         NkiTuaznTFW0itlNH7TcnKKPg5dprZxmtIiFrZNxRBVyMVt8/APIdKVZytiqZg13cypv
-         w6B3UrmQZSVN9eqEclNyktAOC52/HVi1BAQAdhsdZI8mDppg7ZBKxM4KlRmFjAyeMoIV
-         a8MBA4pl4vco5yiUJyehHryiAgIZ3REEyPnFd/TPISGGwaLCo6AQBFfLLigxlJzx89z8
-         YUTDzRT+kgBLYiWvvXbx5pJKSNZX2NNDrJIIdJlp/q/YC74sKZlI3YzkIivPTtr7kn/x
-         KEXw==
-X-Forwarded-Encrypted: i=1; AJvYcCURlLs8lcnr4x4GaGgPrPGNLUrQgbdktofOurVLk0DClC/3gT8RalQjePe/muD0qLx7J+dbk79NemncoVMB@vger.kernel.org, AJvYcCWoaNE5tolkXgmH2y0QW/hkViqFnUhe9ZT9hK1C+MoTdXonG0DH6wxicAV8A784RHhOAAFNAn763eM=@vger.kernel.org, AJvYcCXYi62CZv0gEKSvlAtgaXdXrRassuHoTmyeKpTgrLkb+mPrJ0Tgtc6NthfYKbAiYUVYVqsiRBg7@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKAfRM3zUBg/3gi9Blpi1rlpPlu6qu3zvOanmjFISZnfWDeXTP
-	ujJSlWkJF7HhHMgVAdnzPTY61gcF7EwiLHohs4QcmnScqrU8+5To
-X-Google-Smtp-Source: AGHT+IEX9arcIqOdoeQ6I52TYmZER7sGAhx3wBhVAyDDDYCLHrnyPUfX8+t1K9Q4qxsL7BktBYwPDg==
-X-Received: by 2002:a05:6a00:2d25:b0:717:8d9f:2dbc with SMTP id d2e1a72fcca58-71b2606c524mr12222150b3a.23.1727571052202;
-        Sat, 28 Sep 2024 17:50:52 -0700 (PDT)
-Received: from tc.. (c-67-171-216-181.hsd1.or.comcast.net. [67.171.216.181])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71b264c23b6sm3731737b3a.88.2024.09.28.17.50.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Sep 2024 17:50:51 -0700 (PDT)
-From: Leo Stone <leocstone@gmail.com>
-To: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	corbet@lwn.net
-Cc: Leo Stone <leocstone@gmail.com>,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	anupnewsmail@gmail.com
-Subject: [PATCH] Documentation: networking/tcp_ao: typo and grammar fixes
-Date: Sat, 28 Sep 2024 17:49:34 -0700
-Message-ID: <20240929005001.370991-1-leocstone@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1727575643; x=1728180443;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TO6F9WUFFXlq7WPqrSDsnpUMpKF1xFzm56hCVzpmjMk=;
+        b=KJrndLxQ8iSMWPqdCJYDky8L4CWTq6Uu85rE8CNyHzhMukVStkzO4uX1J5CzEWwRp6
+         cM1sGDfKEcuWYrnSAmc06yQM/2wFWuJdlSAcKU9mUfqEUUAoATaVdoJ13mba8lCFADjS
+         XF4VQFvAU8uYMGAKJ8s3ZkaX+yP5p6K0RIHYdcs98WABS3+VjetqigqfM5/1OmAJlGWe
+         5S4LRoeD5SxVhpENy2HjbDIxqHBSzf3mt26fx3MJKd4c8eyWWra50tllFdMNbc0MU0u0
+         3qTrEMQEDh8LuRF46t0bToT4AI+eg0t1NagvXSM4tR9TPntHDg5+XMNNWwe1S0ezQqg1
+         +BOA==
+X-Forwarded-Encrypted: i=1; AJvYcCXmqK+buWNmTq4eU3GOxEakfjONXHI96m/w38A+A4ljKbPIoAcXTTdfdKbrYPNyLE3bkLzk9hyPZAk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvugO8Vk0k+EstJUgHzYYddtrwvyEd5xiavOtj7PsG4nv259DB
+	sA3x6afjkPfMHvkm56u/ect5BTjRQhZmziEl4MWAgkn9IHM7/ufzpm9uQwyNuNVL5wMjoCM9q3P
+	gs5dhkgSdrrKwc2ro+D6fu95EpsckeHqZJYP6h16bOuXmUVsFGD8jyELq9j7GOcxIToProZf50C
+	5HNYtL3ClfwHmiku8UTn9yZRb344OZrqxo
+X-Received: by 2002:a17:90a:d994:b0:2d8:e6d8:14c8 with SMTP id 98e67ed59e1d1-2e0b72ebe66mr12848814a91.15.1727575642708;
+        Sat, 28 Sep 2024 19:07:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEj0CCQ8up3FJXqhdPxg4H3lCO7LjesFN419E2sMSG36WbFWRO8y7aomLGECK7sl9/s5dIhUxnui4OmPKl9ZQY=
+X-Received: by 2002:a17:90a:d994:b0:2d8:e6d8:14c8 with SMTP id
+ 98e67ed59e1d1-2e0b72ebe66mr12848791a91.15.1727575642243; Sat, 28 Sep 2024
+ 19:07:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240924-rss-v4-0-84e932ec0e6c@daynix.com> <CACGkMEvMuBe5=wQxZMns4R-oJtVOWGhKM3sXy8U6wSQX7c=iWQ@mail.gmail.com>
+ <c3bc8d58-1f0e-4633-bb01-d646fcd03f54@daynix.com> <CACGkMEu3u=_=PWW-=XavJRduiHJuZwv11OrMZbnBNVn1fptRUw@mail.gmail.com>
+ <6c101c08-4364-4211-a883-cb206d57303d@daynix.com>
+In-Reply-To: <6c101c08-4364-4211-a883-cb206d57303d@daynix.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Sun, 29 Sep 2024 10:07:11 +0800
+Message-ID: <CACGkMEtscr17UOufUtyPp1OvALL8LcycpbRp6CyVMF=jYzAjAA@mail.gmail.com>
+Subject: Re: [PATCH RFC v4 0/9] tun: Introduce virtio-net hashing feature
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, kvm@vger.kernel.org, 
+	virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org, 
+	Yuri Benditovich <yuri.benditovich@daynix.com>, Andrew Melnychenko <andrew@daynix.com>, 
+	Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fix multiple grammatical issues and add a missing period to improve
-readability.
+On Fri, Sep 27, 2024 at 3:51=E2=80=AFPM Akihiko Odaki <akihiko.odaki@daynix=
+.com> wrote:
+>
+> On 2024/09/27 13:31, Jason Wang wrote:
+> > On Fri, Sep 27, 2024 at 10:11=E2=80=AFAM Akihiko Odaki <akihiko.odaki@d=
+aynix.com> wrote:
+> >>
+> >> On 2024/09/25 12:30, Jason Wang wrote:
+> >>> On Tue, Sep 24, 2024 at 5:01=E2=80=AFPM Akihiko Odaki <akihiko.odaki@=
+daynix.com> wrote:
+> >>>>
+> >>>> virtio-net have two usage of hashes: one is RSS and another is hash
+> >>>> reporting. Conventionally the hash calculation was done by the VMM.
+> >>>> However, computing the hash after the queue was chosen defeats the
+> >>>> purpose of RSS.
+> >>>>
+> >>>> Another approach is to use eBPF steering program. This approach has
+> >>>> another downside: it cannot report the calculated hash due to the
+> >>>> restrictive nature of eBPF.
+> >>>>
+> >>>> Introduce the code to compute hashes to the kernel in order to overc=
+ome
+> >>>> thse challenges.
+> >>>>
+> >>>> An alternative solution is to extend the eBPF steering program so th=
+at it
+> >>>> will be able to report to the userspace, but it is based on context
+> >>>> rewrites, which is in feature freeze. We can adopt kfuncs, but they =
+will
+> >>>> not be UAPIs. We opt to ioctl to align with other relevant UAPIs (KV=
+M
+> >>>> and vhost_net).
+> >>>>
+> >>>
+> >>> I wonder if we could clone the skb and reuse some to store the hash,
+> >>> then the steering eBPF program can access these fields without
+> >>> introducing full RSS in the kernel?
+> >>
+> >> I don't get how cloning the skb can solve the issue.
+> >>
+> >> We can certainly implement Toeplitz function in the kernel or even wit=
+h
+> >> tc-bpf to store a hash value that can be used for eBPF steering progra=
+m
+> >> and virtio hash reporting. However we don't have a means of storing a
+> >> hash type, which is specific to virtio hash reporting and lacks a
+> >> corresponding skb field.
+> >
+> > I may miss something but looking at sk_filter_is_valid_access(). It
+> > looks to me we can make use of skb->cb[0..4]?
+>
+> I didn't opt to using cb. Below is the rationale:
+>
+> cb is for tail call so it means we reuse the field for a different
+> purpose. The context rewrite allows adding a field without increasing
+> the size of the underlying storage (the real sk_buff) so we should add a
+> new field instead of reusing an existing field to avoid confusion.
+>
+> We are however no longer allowed to add a new field. In my
+> understanding, this is because it is an UAPI, and eBPF maintainers found
+> it is difficult to maintain its stability.
+>
+> Reusing cb for hash reporting is a workaround to avoid having a new
+> field, but it does not solve the underlying problem (i.e., keeping eBPF
+> as stable as UAPI is unreasonably hard). In my opinion, adding an ioctl
+> is a reasonable option to keep the API as stable as other virtualization
+> UAPIs while respecting the underlying intention of the context rewrite
+> feature freeze.
 
-Signed-off-by: Leo Stone <leocstone@gmail.com>
----
- Documentation/networking/tcp_ao.rst | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+Fair enough.
 
-diff --git a/Documentation/networking/tcp_ao.rst b/Documentation/networking/tcp_ao.rst
-index e96e62d1dab3..d5b6d0df63c3 100644
---- a/Documentation/networking/tcp_ao.rst
-+++ b/Documentation/networking/tcp_ao.rst
-@@ -9,7 +9,7 @@ segments between trusted peers. It adds a new TCP header option with
- a Message Authentication Code (MAC). MACs are produced from the content
- of a TCP segment using a hashing function with a password known to both peers.
- The intent of TCP-AO is to deprecate TCP-MD5 providing better security,
--key rotation and support for variety of hashing algorithms.
-+key rotation and support for a variety of hashing algorithms.
- 
- 1. Introduction
- ===============
-@@ -164,9 +164,9 @@ A: It should not, no action needs to be performed [7.5.2.e]::
-        is not available, no action is required (RNextKeyID of a received
-        segment needs to match the MKT’s SendID).
- 
--Q: How current_key is set and when does it change? It is a user-triggered
--change, or is it by a request from the remote peer? Is it set by the user
--explicitly, or by a matching rule?
-+Q: How is current_key set, and when does it change? Is it a user-triggered
-+change, or is it triggered by a request from the remote peer? Is it set by the
-+user explicitly, or by a matching rule?
- 
- A: current_key is set by RNextKeyID [6.1]::
- 
-@@ -233,8 +233,8 @@ always have one current_key [3.3]::
- 
- Q: Can a non-TCP-AO connection become a TCP-AO-enabled one?
- 
--A: No: for already established non-TCP-AO connection it would be impossible
--to switch using TCP-AO as the traffic key generation requires the initial
-+A: No: for an already established non-TCP-AO connection it would be impossible
-+to switch to using TCP-AO, as the traffic key generation requires the initial
- sequence numbers. Paraphrasing, starting using TCP-AO would require
- re-establishing the TCP connection.
- 
-@@ -292,7 +292,7 @@ no transparency is really needed and modern BGP daemons already have
- 
- Linux provides a set of ``setsockopt()s`` and ``getsockopt()s`` that let
- userspace manage TCP-AO on a per-socket basis. In order to add/delete MKTs
--``TCP_AO_ADD_KEY`` and ``TCP_AO_DEL_KEY`` TCP socket options must be used
-+``TCP_AO_ADD_KEY`` and ``TCP_AO_DEL_KEY`` TCP socket options must be used.
- It is not allowed to add a key on an established non-TCP-AO connection
- as well as to remove the last key from TCP-AO connection.
- 
-@@ -361,7 +361,7 @@ not implemented.
- 4. ``setsockopt()`` vs ``accept()`` race
- ========================================
- 
--In contrast with TCP-MD5 established connection which has just one key,
-+In contrast with an established TCP-MD5 connection which has just one key,
- TCP-AO connections may have many keys, which means that accepted connections
- on a listen socket may have any amount of keys as well. As copying all those
- keys on a first properly signed SYN would make the request socket bigger, that
-@@ -374,7 +374,7 @@ keys from sockets that were already established, but not yet ``accept()``'ed,
- hanging in the accept queue.
- 
- The reverse is valid as well: if userspace adds a new key for a peer on
--a listener socket, the established sockets in accept queue won't
-+a listener socket, the established sockets in the accept queue won't
- have the new keys.
- 
- At this moment, the resolution for the two races:
-@@ -382,7 +382,7 @@ At this moment, the resolution for the two races:
- and ``setsockopt(TCP_AO_DEL_KEY)`` vs ``accept()`` is delegated to userspace.
- This means that it's expected that userspace would check the MKTs on the socket
- that was returned by ``accept()`` to verify that any key rotation that
--happened on listen socket is reflected on the newly established connection.
-+happened on the listen socket is reflected on the newly established connection.
- 
- This is a similar "do-nothing" approach to TCP-MD5 from the kernel side and
- may be changed later by introducing new flags to ``tcp_ao_add``
--- 
-2.43.0
+Btw, I remember DPDK implements tuntap RSS via eBPF as well (probably
+via cls or other). It might worth to see if anything we miss here.
+
+Thanks
+
+>
+> Regards,
+> Akihiko Odaki
+>
 
