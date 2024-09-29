@@ -1,115 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2387166F3D;
-	Sun, 29 Sep 2024 12:56:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C567617A5BD;
+	Sun, 29 Sep 2024 13:14:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727614575; cv=none; b=GDc83ugMl/d0OSyMMed6qx8P9jaKrdvg2S9rAqRIz0A+V9pmg7t+JCh7S0PVdq/z4CVuJbKDNTCANr4Tf3s1TlnS+ufBJeLkjsdIf1vXcbk1Nt+c5IvEU+FRP5XGuxEegp+UN5g+hULBCvsJj1vRZgWzeN1D/9M3u7NqfkwHdsM=
+	t=1727615643; cv=none; b=kvTkJgN6YrDAM2lROCNAX+uw+2rh/JmbRfGDuklLvXsDiwnmfIQKcZ7fjuU1h+2PstEq06J3K3sgZukeanhOQVOfXgp++K0OhO1Dxw2yN6+ZSG/+BODO/fTzla55U0AyjcN2vNa5VX+qc1n8iGK5tw236pikL7BqdXL9/vfkTEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727614575; c=relaxed/simple;
-	bh=OfJqlFNVcOO6gyMyiuZtizh6vUe7XaDZBBLuSJQG+II=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YJDjyYTjQPnJtQUAX+wfIB6memwQyu/1+5p8JwEndd+/P+9x7+g/X9vMP7PRwhX8KF0vvArD5wThnyGX9U6Z97cxnxlZM6x11lG/ng3ayVy/V2lv4LyMslpMpU/7/Cpb2AJPnW0iegrFsINCHzcozm9JTbEVtcvfuLxqJotXxUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BW96i+yJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727615643; c=relaxed/simple;
+	bh=j0dKc3yhBOgL2knFOA/0CV+Tdfh+N5XOfQDFyGorQSg=;
+	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u3/AY76p/Ak7Nh82lOWKbkkI2Ramt7MoNILjT+/i+HDhLeplqwb9/OZVhkE4EhoFsGEjuCo8LhSp5TBLgUHniXot9e4KcZsJNJ4OLLaxp3xdM4ahefks4N+73iXDxLcdHkn7Ai/srjhPKQSPOcpRofJWJQoO07KomgccZqoCo8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hHXR6RXf; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BW96i+yJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69E7BC4CEC5;
-	Sun, 29 Sep 2024 12:56:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727614575;
-	bh=OfJqlFNVcOO6gyMyiuZtizh6vUe7XaDZBBLuSJQG+II=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=BW96i+yJ7/gJrIhP2a6zLCQyS1oGaZH7JMGSnLoMdqBqRriseT4Ipxv6KWwbnmx3a
-	 91+JerPM9z4ZjPQCGHjfE8DD1X5UA/PlRKeyAS775KeQ+LM/t7zukeugXot0gGUS/P
-	 GV8s5Bd1HSxjCERvZx6Y+UZzkECyp6KvMKvgsPH1G75LjLTPV/w7vC4nFtH3KozVVo
-	 oQBOBVhD7fOAXO2jAt58fuIOVliTtZ52KretLnwCDsTykeDJTGxc23c18zdUV+NVzy
-	 A79DZ7iuvs0yTbNX6SnwG6Vu56hJNUAjYO0FDbuBz30QiHcUfhIfskmWzmzgZfePDi
-	 +tsWxA3VAzrlg==
-Date: Sun, 29 Sep 2024 13:56:03 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Guillaume Stols <gstols@baylibre.com>
-Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Lars-Peter
- Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Michal Marek
- <mmarek@suse.com>, linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
- aardelean@baylibre.com, dlechner@baylibre.com, jstephan@baylibre.com
-Subject: Re: [PATCH v2 10/10] iio: adc: ad7606: Disable PWM usage for non
- backend version
-Message-ID: <20240929135603.0ceb6cfc@jic23-huawei>
-In-Reply-To: <20240920-ad7606_add_iio_backend_support-v2-10-0e78782ae7d0@baylibre.com>
-References: <20240920-ad7606_add_iio_backend_support-v2-0-0e78782ae7d0@baylibre.com>
-	<20240920-ad7606_add_iio_backend_support-v2-10-0e78782ae7d0@baylibre.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hHXR6RXf"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42e7b7bef42so28422425e9.3;
+        Sun, 29 Sep 2024 06:14:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727615640; x=1728220440; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=tIfkI/k5mUOou3QQlG3Flb+/Aulbsc0ROAg9MJCB1rA=;
+        b=hHXR6RXfDmkkVBZ2EESD5RTiLgWSU5PX0UyBhzsxmeJw0+WmbcLU+Tk6CvQHWS0sfp
+         9rRprdCeSc04lAUTbuphtRQXwPd92JgCRdEHl2nNqev++NhenikKjcxuMHOa8OotUAoR
+         jjsVsCKzTVXVR+p0ZZ66KwY6FUsej+vjiOs5JUDOV0P79BVSVtVt1gbHq6tKhEf3asC/
+         w7EoYWVcjaD2OdUzOL/bNSUZOLFZL6xKexU+PtImpdD3Cam5Ee5RDwiwj9DPLjG35605
+         XJmK2XGkx0Hdsy6o0PxcZ5Dz+C1BX/l7d/H7N7Nqg9yvpnQg1Y4CRA/vp6n++XLr1kWU
+         6cVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727615640; x=1728220440;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tIfkI/k5mUOou3QQlG3Flb+/Aulbsc0ROAg9MJCB1rA=;
+        b=nVP8uxE3SOh7pVj7T6epgjVW73ExOf1NZjyVk3jhSliVkNAwifVSFRWoxRlgjWZPuy
+         DvsOQnpbh0zGof1GiZIrfpjZMG8Pj39W/TUk0HL9oQ5ZsxO6ytsDw4K3rS6TiH6fr7nE
+         EGZWi6oWtzLQcE52eSLY7lg0YsxazEV/wRlTwQXfuUNdD/hgN1EbTM9aJ7WKD2yCO0Tg
+         8rEjRnf5V7rV5WFOgdAr31b5BaSCXV6bhzBfWjYXRp+eTZPRWSkAW5M6kI1PuEy4Yep3
+         MZlWwJjOFO3ih/GrAuxCioN8F5/qXhMM67tMOybkgRYCb8vQZV/jVxOzeVKBxkt6WbNS
+         Xqcw==
+X-Forwarded-Encrypted: i=1; AJvYcCUPpnfeszDbos3GRYXz3r5fje5Dd94Lr4fraTnxFqgr931tmuO/MgLvJHawlNmjgfY/j4UdKreCt5xH@vger.kernel.org, AJvYcCUmzMFi81PjoHyulZarn8x8uqIqkoE83zuBahMT0pbkTZ72OexaZnCf4U2/TpRvkUxx83kUp57w2oYc@vger.kernel.org, AJvYcCVC27liEDlnCaPEAAcZWgHHVUCaMN8xXvRtwB8K8FYSGueepX2/gRcty8+cNrkWFeJyAZNdWuiZEmCh@vger.kernel.org, AJvYcCVFoicfwm60pA1gz54fXggDh46k6TjA2dXtsd6zoOjQOD8hRBf8GSIiHfZkGzBFyIZKS4+AI4Hrzq2IV+oe@vger.kernel.org, AJvYcCWDDfPQoFLfGD91rEz5+BfSDPd/2IjD4FvdScqVlhfPKu3X6xubRJG6ui6E8mteoQEvh9TeniCGOxw5cj0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFhk2TaQwhkvrp3YpLMTPDB7XHvqtBruKRjJtDfR/nkGvSR307
+	u1iyE4eHKa4+J3w/npXbu/+/tqE01RYfIerkPStXPlcBv8P/ZiNn
+X-Google-Smtp-Source: AGHT+IHaZE8qeiri03N0inPTGys9IBvkOvGroq5f+OgTAi0LQdMR6CD7GKs6HkbHM02iugLdROZ+NA==
+X-Received: by 2002:a05:600c:3552:b0:426:6eac:8314 with SMTP id 5b1f17b1804b1-42f5840ef00mr71570555e9.1.1727615639673;
+        Sun, 29 Sep 2024 06:13:59 -0700 (PDT)
+Received: from Ansuel-XPS. (93-34-90-105.ip49.fastwebnet.it. [93.34.90.105])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37cd56e6875sm6837684f8f.55.2024.09.29.06.13.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Sep 2024 06:13:59 -0700 (PDT)
+Message-ID: <66f95297.050a0220.221772.5da3@mx.google.com>
+X-Google-Original-Message-ID: <ZvlSkRi60iluQduI@Ansuel-XPS.>
+Date: Sun, 29 Sep 2024 15:13:53 +0200
+From: Christian Marangi <ansuelsmth@gmail.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Simon Glass <sjg@chromium.org>,
+	INAGAKI Hiroshi <musashino.open@gmail.com>,
+	Daniel Golle <daniel@makrotopia.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Li Lingfeng <lilingfeng3@huawei.com>,
+	Christian Heusel <christian@heusel.eu>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+	Lorenzo Bianconi <lorenzo@kernel.org>
+Subject: Re: [RFC PATCH v2 5/5] dt-bindings: mmc: Document support for
+ partition table in mmc-card
+References: <20240925214544.6114-1-ansuelsmth@gmail.com>
+ <20240925214544.6114-6-ansuelsmth@gmail.com>
+ <20240926141541.GA2625953-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240926141541.GA2625953-robh@kernel.org>
 
-On Fri, 20 Sep 2024 17:33:30 +0000
-Guillaume Stols <gstols@baylibre.com> wrote:
-
-> Since the pwm was introduced before backend, there was an example use
-> whit triggered buffers. However, using it may be dangerous, because if
-> the PWM goes too fast, a new conversion can be triggered before the
-> transmission is over, whit the associated mess in the buffers.
-> Until a solution is found to mitigate this risk, for instante CRC
-> support, the PWM will be disabled.
+On Thu, Sep 26, 2024 at 09:15:41AM -0500, Rob Herring wrote:
+> On Wed, Sep 25, 2024 at 11:45:25PM +0200, Christian Marangi wrote:
+> > Document support for defining a partition table in the mmc-card node.
+> > 
+> > This is needed if the eMMC doesn't have a partition table written and
+> > the bootloader of the device load data by using absolute offset of the
+> > block device. This is common on embedded device that have eMMC installed
+> > to save space and have non removable block devices.
+> > 
+> > If an OF partition table is detected, any partition table written in the
+> > eMMC will be ignored and won't be parsed.
+> > 
+> > eMMC provide a generic disk for user data and if supported (JEDEC 4.4+)
+> > also provide two additional disk ("boot0" and "boot1") for special usage
+> > of boot operation where normally is stored the bootloader or boot info.
+> > 
+> > Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> > ---
+> >  .../devicetree/bindings/mmc/mmc-card.yaml     | 57 +++++++++++++++++++
+> >  1 file changed, 57 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/mmc/mmc-card.yaml b/Documentation/devicetree/bindings/mmc/mmc-card.yaml
+> > index fd347126449a..58b6593a0f60 100644
+> > --- a/Documentation/devicetree/bindings/mmc/mmc-card.yaml
+> > +++ b/Documentation/devicetree/bindings/mmc/mmc-card.yaml
+> > @@ -13,6 +13,10 @@ description: |
+> >    This documents describes the devicetree bindings for a mmc-host controller
+> >    child node describing a mmc-card / an eMMC.
+> >  
+> > +  It's possible to define a fixed partition table for an eMMC for the user
+> > +  partition and one of the 2 boot partition (boot0/boot1) if supported by the
+> > +  eMMC.
+> > +
+> >  properties:
+> >    compatible:
+> >      const: mmc-card
+> > @@ -26,6 +30,30 @@ properties:
+> >        Use this to indicate that the mmc-card has a broken hpi
+> >        implementation, and that hpi should not be used.
+> >  
+> > +  "#address-cells":
+> > +    const: 0
+> > +
+> > +  "#size-cells":
+> > +    const: 0
 > 
-> Signed-off-by: Guillaume Stols <gstols@baylibre.com>
-
-Whilst I can see the logic introducing it in two steps, maybe
-shout a bit more about that in the original patch as otherwise
-some foolish unnamed maintainer might pick up part of this series
-leaving things in a bad state for a kernel release.
-
-The earlier patch 'recommends' it isn't used which is a bit week.
-Say support is going to be removed later.
-> ---
->  drivers/iio/adc/ad7606.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+> Don't need these properties.
 > 
-> diff --git a/drivers/iio/adc/ad7606.c b/drivers/iio/adc/ad7606.c
-> index f710445bdc22..0c12ca237ee9 100644
-> --- a/drivers/iio/adc/ad7606.c
-> +++ b/drivers/iio/adc/ad7606.c
-> @@ -599,7 +599,6 @@ static int ad7606_buffer_postenable(struct iio_dev *indio_dev)
->  	struct ad7606_state *st = iio_priv(indio_dev);
->  
->  	gpiod_set_value(st->gpio_convst, 1);
-> -	ad7606_pwm_set_swing(st);
->  
->  	return 0;
->  }
-> @@ -609,7 +608,6 @@ static int ad7606_buffer_predisable(struct iio_dev *indio_dev)
->  	struct ad7606_state *st = iio_priv(indio_dev);
->  
->  	gpiod_set_value(st->gpio_convst, 0);
-> -	ad7606_pwm_set_low(st);
->  
->  	return 0;
->  }
-> @@ -838,6 +836,12 @@ int ad7606_probe(struct device *dev, int irq, void __iomem *base_address,
->  		indio_dev->setup_ops = &ad7606_pwm_buffer_ops;
->  	} else {
->  		init_completion(&st->completion);
-> +
-> +		/* Reserve the PWM use only for backend (force gpio_convst definition) */
-> +		if (!st->gpio_convst)
-> +			return dev_err_probe(dev, -EINVAL,
-> +					     "No backend, connect convst to a GPIO");
-> +
->  		ret = devm_request_threaded_irq(dev, irq,
->  						NULL,
->  						&ad7606_interrupt,
+> > +
+> > +patternProperties:
+> > +  "^partitions(-boot[01])?$":
+> > +    $ref: /schemas/block/partitions/partitions.yaml
+> > +
+> > +    patternProperties:
+> > +      "^partition@[0-9a-f]+$":
+> > +        $ref: /schemas/block/partitions/partition.yaml
+> > +
+> > +        properties:
+> > +          reg:
+> > +            multipleOf: 512
 > 
+> I was going to suggest this, but I think it won't actually work because 
+> it could be 2 cells for address and/or size.
+>
 
+While checking I was surprised for this multipleOf and was very happy to
+have something like this but I also had some fear it didn't work due to
+the 2 cell thing... Very sad. I will add a description to it.
+
+The driver will validate the values anyway, at least on that part we are
+on the safe side.
+
+-- 
+	Ansuel
