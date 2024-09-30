@@ -1,701 +1,364 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CFF326AEC
-	for <linux-doc@vger.kernel.org>; Mon, 30 Sep 2024 10:14:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42E6121105;
+	Mon, 30 Sep 2024 10:21:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727691291; cv=none; b=j3FRgXg1aOsGXVriv7RHBSZBs3ZV+Ge0PPkV5Jq+nMQH7+FZ6PYd0SOdnEjNtlMQuCafIVuk3BDGnspOubR+rOngD6Ly4In9Ob31Nu2U0bpuyfref4uFdCqD4ERVr2iP5ONuUwlkqKwjazJPFTw8SsJsGVivfwREFg+fVLCEpxk=
+	t=1727691707; cv=none; b=Ym6GUHJSFkQ5OEQyiB03ojPvPWDfZ/QTpynfs2R45Poz3oW/+wbypyEbqa8PHq+1SSfP8hGUcyqIdo3vWQAZpTKTTEghw8qan5IHxM+0ZsxOM//nRB9GIlyJhPwLlJdNMfIhHKaISZjtg3emiXmnxXlae481lxT4MIi3LXVkrnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727691291; c=relaxed/simple;
-	bh=u5LzmKmSSYeAV/1TeRHnvLY1uEs7ntSGGDzgim23sL0=;
-	h=From:To:cc:Subject:MIME-Version:Content-Type:Date:Message-ID; b=qSoObxxnPe8Z6wrX/mLUNtujGZrskM/5AnYpcriyJqG+NbIOL5V4eEz/xIiyJPppBNWh+WyR6wf7Bpdz/UmlfXbMzit1rhz4XFOdTnDebBITbNm2xocf7UL1IwkkkyjBhhOoLslUyVfvgjtKow1YFDov9Q7snirvN04r1fu7bGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=W538aTdG; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1727691707; c=relaxed/simple;
+	bh=s1nABlC6VoIzuxImvl5KvjJPRPxfq/8aAumnJsCyWx4=;
+	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jxX0xcXv1GIy23hsw59kmR0Qgb0xeVF9fPUBKyq2j4whiKGq2JKF/Cq8GSCpRbQZM2Kel779f24YK8WIdOFYRngbjvxbjMssbtA5kkbQWdRpn4SqWVmN1Wc6qar6bakoIsDP6ELdaUEzphlO/StyttxWACBS43hJhfpetaLrVM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OsGq1bFY; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="W538aTdG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1727691287;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=1eP9GvI939vq5faaiwjlrkeAzFNfzmPqR6Xep+C8muA=;
-	b=W538aTdGQCJXFvGiekQuTy8gdJ6Fw+5Mwe0Orpb03NyWsCp+ElJ+EtvfUVdVIY4jEd6o6I
-	lH141thvh2JiD+Q7p9HFbrxIR6z7gRLhCROFQrmc0JEBIgPCqJTywQEVWjkbqeO/X4ZZni
-	kCuPx7EosK09ke2K12Cf/2AMuctl4DE=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-198-D6Ih_b4QP7yzzmFi6k_zxQ-1; Mon,
- 30 Sep 2024 06:14:46 -0400
-X-MC-Unique: D6Ih_b4QP7yzzmFi6k_zxQ-1
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (unknown [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B448E1955D47;
-	Mon, 30 Sep 2024 10:14:44 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.42.28.145])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 94B643003E4D;
-	Mon, 30 Sep 2024 10:14:42 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-To: Christian Brauner <brauner@kernel.org>
-cc: dhowells@redhat.com, Jeff Layton <jlayton@kernel.org>,
-    netfs@lists.linux.dev, linux-doc@vger.kernel.org,
-    linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-    linux-kernel@vger.kernel.org
-Subject: [PATCH] netfs: Add folio_queue API documentation
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OsGq1bFY"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-42cafda818aso40143895e9.2;
+        Mon, 30 Sep 2024 03:21:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727691703; x=1728296503; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=e1ty5pIk+oIg+yfM6En9ullK2BdDadhpV6rFAeaR270=;
+        b=OsGq1bFYgqmTUOjb/C8fsNzvCqpOMCURbLZ8ffZMW9XDQbRLc5vkN18mtiiBfE5o4L
+         qEmCecgyMMvs/nFgj/poV4oBhOGVsy7xXkSK6DXST7ji6pz94C3BMDPvDjXLH6MbwE69
+         HwmlHb5sQzgN3aAfk3pVNDe4YnEhVKNa/6j8vlnC8BRu1/FailNwS0toa6VLRhEVj2HH
+         dj1ifOv3eAct6JgcNKevtdjwGWI2a29v9aVsd66GnvVKEqv85Peiy7AAUlRomSzkHTIK
+         dlRbQFeLioxFL6pFI1BnCORaP3ik5iSA9n4Ca7lsM3Esf4wMDBEbkyYHS+soT9eakwj0
+         xNLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727691703; x=1728296503;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e1ty5pIk+oIg+yfM6En9ullK2BdDadhpV6rFAeaR270=;
+        b=r6XvnY49J53VKjlAX2fekiHaJtbvrBAYg/Wbo/qAxm1/6yg0ORJIWBnb9V38x5WKmU
+         zXeg5tH9Gg0YDtM7ncYk2YIbn1sEJnmDDa6oR0iyFP7hvJfJFDfltK2TvjWnAIQ97Uzb
+         mSrU69Asi2HY80SCnBTMu0eALNtQklaF0EfvhuyCKB1UynytWkMkFjE/eCBp5ncTjeJ5
+         z8OW1o3eFTs9Z2F84lmJ/YmAaZD50MyRFcYlLOz6NjLTLShPotp+1ObAMzHr2nBQl+5V
+         1xOOa8Y4LPABYmDLm50/ZpJZNz3ZllkNlkvbRx7gM3pQjG570/kLnA0umDYIX/mHcGed
+         Fgbw==
+X-Forwarded-Encrypted: i=1; AJvYcCU+ye4K/4DpIWC+0RvFqQrAE9agUygxBQMNyxiCMxhzBZcDlMXyfjojRsXo+49TlJIAVqQZyHrIVhmJ@vger.kernel.org, AJvYcCU5gEGpjDSGeMs90YFOmEC+1Q8D4M2V3DjpwGV7hsAKqvYw0lTx6YffivPFmOSVkc2wOpFeaDENMcXE@vger.kernel.org, AJvYcCUh6esPCU6/yX0Kcd7t68GtPBIhoRtOcSqhaEN2TCBl6o9Xr6twpbgHePKS/bx4Zj8fW+auxhJ589WHQgXN@vger.kernel.org, AJvYcCUsb9G0M28GKrjLuEe9MmHl12IrzrDT9MaGEwgD6UQwocYE6YYvrJx++1iJdMcBdxxAZv0xsir38EM1@vger.kernel.org, AJvYcCWO2684CqQHvtXiZhI9fGxXPnxH6W6PdtAy7A01ge6YIspDI+XQH+qpEXqoKeDgJdeucxfVLH61d7a4/Zk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwTSfDHSUxYQm65pHBt8SPXxkJy6bZndCrdQbAz/fmXLIB1pXtr
+	8RdqNfzp7DtcicGFoQJUsBKpokbQM9hb3iQstJG8m4bBHXZMiQ7J
+X-Google-Smtp-Source: AGHT+IFcMNiBxoJLFefp3RHNAM+ysXKbWQ8pSr0I++Vxp8TOI03DlajGb6rdIvwmvCY7iesDvMNFZw==
+X-Received: by 2002:a05:6000:10cd:b0:37c:cec2:23c6 with SMTP id ffacd0b85a97d-37cd5b2d54fmr5115987f8f.57.1727691703301;
+        Mon, 30 Sep 2024 03:21:43 -0700 (PDT)
+Received: from Ansuel-XPS. (93-34-90-105.ip49.fastwebnet.it. [93.34.90.105])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37cd565e21dsm8684448f8f.33.2024.09.30.03.21.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Sep 2024 03:21:42 -0700 (PDT)
+Message-ID: <66fa7bb6.5d0a0220.2dcbde.bf69@mx.google.com>
+X-Google-Original-Message-ID: <Zvp7r_Mml0zcmkcH@Ansuel-XPS.>
+Date: Mon, 30 Sep 2024 12:21:35 +0200
+From: Christian Marangi <ansuelsmth@gmail.com>
+To: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	INAGAKI Hiroshi <musashino.open@gmail.com>,
+	Daniel Golle <daniel@makrotopia.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Li Lingfeng <lilingfeng3@huawei.com>,
+	Christian Heusel <christian@heusel.eu>, linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>, upstream@airoha.com
+Subject: Re: [PATCH v3 3/4] block: add support for partition table defined in
+ OF
+References: <20240929140713.6883-1-ansuelsmth@gmail.com>
+ <20240929140713.6883-4-ansuelsmth@gmail.com>
+ <Zvpd48oOYletv7Ko@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <2912368.1727691281.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 30 Sep 2024 11:14:41 +0100
-Message-ID: <2912369.1727691281@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zvpd48oOYletv7Ko@pengutronix.de>
 
-    =
+On Mon, Sep 30, 2024 at 10:14:27AM +0200, Sascha Hauer wrote:
+> Hi Christian,
+> 
+> Thanks for working on this, it will be useful for me as well.
+> Some comments inside.
+> 
+> On Sun, Sep 29, 2024 at 04:06:19PM +0200, Christian Marangi wrote:
+> > Add support for partition table defined in Device Tree. Similar to how
+> > it's done with MTD, add support for defining a fixed partition table in
+> > device tree.
+> > 
+> > A common scenario for this is fixed block (eMMC) embedded devices that
+> > have no MBR or GPT partition table to save storage space. Bootloader
+> > access the block device with absolute address of data.
+> > 
+> > This is to complete the functionality with an equivalent implementation
+> > with providing partition table with bootargs, for case where the booargs
+> > can't be modified and tweaking the Device Tree is the only solution to
+> > have an usabe partition table.
+> > 
+> > The implementation follow the fixed-partitions parser used on MTD
+> > devices where a "partitions" node is expected to be declared with
+> > "fixed-partitions" compatible in the OF node of the disk device
+> > (mmc-card for eMMC for example) and each child node declare a label
+> > and a reg with offset and size. If label is not declared, the node name
+> > is used as fallback. Eventually is also possible to declare the read-only
+> > property to flag the partition as read-only.
+> > 
+> > For eMMC block, driver scan the disk name and check if it's suffixed with
+> > "boot0" or "boot1".
+> > This is to handle the additional disk provided by eMMC as supported in
+> > JEDEC 4.4+. If this suffix is detected, "partitions-boot0" or
+> > "partitions-boot1" are used instead of the generic "partitions" for the
+> > relevant disk.
+> > 
+> > Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> > ---
+> >  block/partitions/Kconfig  |   8 ++
+> >  block/partitions/Makefile |   1 +
+> >  block/partitions/check.h  |   1 +
+> >  block/partitions/core.c   |   3 +
+> >  block/partitions/of.c     | 151 ++++++++++++++++++++++++++++++++++++++
+> >  5 files changed, 164 insertions(+)
+> >  create mode 100644 block/partitions/of.c
+> > 
+> > diff --git a/block/partitions/Kconfig b/block/partitions/Kconfig
+> > index 7aff4eb81c60..8534f7544f26 100644
+> > --- a/block/partitions/Kconfig
+> > +++ b/block/partitions/Kconfig
+> > @@ -270,4 +270,12 @@ config CMDLINE_PARTITION
+> >  	  Say Y here if you want to read the partition table from bootargs.
+> >  	  The format for the command line is just like mtdparts.
+> >  
+> > +config OF_PARTITION
+> > +	bool "Command line partition support" if PARTITION_ADVANCED
+> 
+> Should be "device tree partition support".
+> 
+> > +	depends on OF
+> > +	help
+> > +	  Say Y here if you want to enable support for partition table
+> > +	  defined in Device Tree. (mainly for eMMC)
+> > +	  The format for the command line is just like MTD fixed-partition schema.
+> > +
+> >  endmenu
+> 
+> [...]
+> 
+> > diff --git a/block/partitions/of.c b/block/partitions/of.c
+> > new file mode 100644
+> > index 000000000000..bc6200eb86b3
+> > --- /dev/null
+> > +++ b/block/partitions/of.c
+> > @@ -0,0 +1,151 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +
+> > +#include <linux/blkdev.h>
+> > +#include <linux/major.h>
+> > +#include <linux/of.h>
+> > +#include "check.h"
+> > +
+> > +#define BOOT0_STR	"boot0"
+> > +#define BOOT1_STR	"boot1"
+> > +
+> > +static struct device_node *get_partitions_node(struct device_node *disk_np,
+> > +					       struct gendisk *disk)
+> > +{
+> > +	const char *node_name = "partitions";
+> > +
+> > +	/*
+> > +	 * JEDEC specification 4.4 for eMMC introduced 3 additional partition
+> > +	 * present on every eMMC. These additional partition are always hardcoded
+> > +	 * from the eMMC driver as boot0, boot1 and rpmb. While rpmb is used to
+> > +	 * store keys and exposed as a char device, the other 2 are exposed as
+> > +	 * real separate disk with the boot0/1 appended to the disk name.
+> > +	 *
+> > +	 * Here we parse the disk_name in search for such suffix and select
+> > +	 * the correct partition node.
+> > +	 */
+> > +	if (disk->major == MMC_BLOCK_MAJOR) {
+> > +		const char *disk_name = disk->disk_name;
+> > +
+> > +		if (!memcmp(disk_name + strlen(disk_name) - strlen(BOOT0_STR),
+> > +			    BOOT0_STR, sizeof(BOOT0_STR)))
+> > +			node_name = "partitions-boot0";
+> > +		if (!memcmp(disk_name + strlen(disk_name) - strlen(BOOT1_STR),
+> > +			    BOOT1_STR, sizeof(BOOT1_STR)))
+> > +			node_name = "partitions-boot1";
+> > +	}
+> > +
+> > +	return of_get_child_by_name(disk_np, node_name);
+> > +}
+> > +
+> > +static int validate_of_partition(struct device_node *np, int slot)
+> > +{
+> > +	int a_cells, s_cells;
+> > +	const __be32 *reg;
+> > +	u64 offset, size;
+> > +	int len;
+> > +
+> > +	reg = of_get_property(np, "reg", &len);
+> > +
+> > +	a_cells = of_n_addr_cells(np);
+> > +	s_cells = of_n_size_cells(np);
+> > +
+> 
+> The corresponding mtd ofpart parser validates a_cells + s_cells against
+> len, like this:
+> 
+> 	if (len / 4 != a_cells + s_cells) {
+> 		pr_debug("%s: ofpart partition %pOF (%pOF) error parsing reg property.\n",
+> 			 master->name, pp,
+> 			 mtd_node);
+> 		goto ofpart_fail;
+> 	}
+> 
+> I think you should do it here as well.
+> 
+> > +	/*
+> > +	 * Validate offset conversion from bytes to sectors.
+> > +	 * Only the first partition is allowed to have offset 0.
+> > +	 */
+> 
+> Where is this constraint coming from? I would put the partitions in
+> order into the device tree as well, but the binding doesn't enforce it
+> and I see no reason to do so.
+>
 
-Add API documentation for folio_queue.
+It's to handle case where offset is 0. But I think I can just check the
+value on validation.
 
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: Jeff Layton <jlayton@kernel.org>
-cc: netfs@lists.linux.dev
-cc: linux-doc@vger.kernel.org
-cc: linux-fsdevel@vger.kernel.org
-cc: linux-mm@kvack.org
----
- Documentation/core-api/folio_queue.rst |  212 +++++++++++++++++++++++++++=
-++++++
- include/linux/folio_queue.h            |  168 ++++++++++++++++++++++++++
- 2 files changed, 380 insertions(+)
+> > +	offset = of_read_number(reg, a_cells);
+> > +	if (do_div(offset, SECTOR_SIZE) ||
+> 
+> How about (offset % SECTOR_SIZE) or (offset & (SECTOR_SIZE - 1))? Might
+> be a bit more intuitive to read.
+> 
 
-diff --git a/Documentation/core-api/folio_queue.rst b/Documentation/core-a=
-pi/folio_queue.rst
-new file mode 100644
-index 000000000000..1fe7a9bc4b8d
---- /dev/null
-+++ b/Documentation/core-api/folio_queue.rst
-@@ -0,0 +1,212 @@
-+.. SPDX-License-Identifier: GPL-2.0+
-+
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+Folio Queue
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+:Author: David Howells <dhowells@redhat.com>
-+
-+.. Contents:
-+
-+ * Overview
-+ * Initialisation
-+ * Adding and removing folios
-+ * Querying information about a folio
-+ * Querying information about a folio_queue
-+ * Folio queue iteration
-+ * Folio marks
-+ * Lockless simultaneous production/consumption issues
-+
-+
-+Overview
-+=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+The folio_queue struct forms a single segment in a segmented list of foli=
-os
-+that can be used to form an I/O buffer.  As such, the list can be iterate=
-d over
-+using the ITER_FOLIOQ iov_iter type.
-+
-+The publicly accessible members of the structure are::
-+
-+	struct folio_queue {
-+		struct folio_queue *next;
-+		struct folio_queue *prev;
-+		...
-+	};
-+
-+A pair of pointers are provided, ``next`` and ``prev``, that point to the
-+segments on either side of the segment being accessed.  Whilst this is a
-+doubly-linked list, it is intentionally not a circular list; the outward
-+sibling pointers in terminal segments should be NULL.
-+
-+Each segment in the list also stores:
-+
-+ * an ordered sequence of folio pointers,
-+ * the size of each folio and
-+ * three 1-bit marks per folio,
-+
-+but hese should not be accessed directly as the underlying data structure=
- may
-+change, but rather the access functions outlined below should be used.
-+
-+The facility can be made accessible by::
-+
-+	#include <linux/folio_queue.h>
-+
-+and to use the iterator::
-+
-+	#include <linux/uio.h>
-+
-+
-+Initialisation
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+A segment should be initialised by calling::
-+
-+	void folioq_init(struct folio_queue *folioq);
-+
-+with a pointer to the segment to be initialised.  Note that this will not
-+necessarily initialise all the folio pointers, so care must be taken to c=
-heck
-+the number of folios added.
-+
-+
-+Adding and removing folios
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-+
-+Folios can be set in the next unused slot in a segment struct by calling =
-one
-+of::
-+
-+	unsigned int folioq_append(struct folio_queue *folioq,
-+				   struct folio *folio);
-+
-+	unsigned int folioq_append_mark(struct folio_queue *folioq,
-+					struct folio *folio);
-+
-+Both functions update the stored folio count, store the folio and note it=
-s
-+size.  The second function also sets the first mark for the folio added. =
- Both
-+functions return the number of the slot used.  [!] Note that no attempt i=
-s made
-+to check that the capacity wasn't overrun and the list will not be extend=
-ed
-+automatically.
-+
-+A folio can be excised by calling::
-+
-+	void folioq_clear(struct folio_queue *folioq, unsigned int slot);
-+
-+This clears the slot in the array and also clears all the marks for that =
-folio,
-+but doesn't change the folio count - so future accesses of that slot must=
- check
-+if the slot is occupied.
-+
-+
-+Querying information about a folio
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+Information about the folio in a particular slot may be queried by the
-+following function::
-+
-+	struct folio *folioq_folio(const struct folio_queue *folioq,
-+				   unsigned int slot);
-+
-+If a folio has not yet been set in that slot, this may yield an undefined
-+pointer.  The size of the folio in a slot may be queried with either of::
-+
-+	unsigned int folioq_folio_order(const struct folio_queue *folioq,
-+					unsigned int slot);
-+
-+	size_t folioq_folio_size(const struct folio_queue *folioq,
-+				 unsigned int slot);
-+
-+The first function returns the size as an order and the second as a numbe=
-r of
-+bytes.
-+
-+
-+Querying information about a folio_queue
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+Information may be retrieved about a particular segment with the followin=
-g
-+functions::
-+
-+	unsigned int folioq_nr_slots(const struct folio_queue *folioq);
-+
-+	unsigned int folioq_count(struct folio_queue *folioq);
-+
-+	bool folioq_full(struct folio_queue *folioq);
-+
-+The first function returns the maximum capacity of a segment.  It must no=
-t be
-+assumed that this won't vary between segments.  The second returns the nu=
-mber
-+of folios added to a segments and the third is a shorthand to indicate if=
- the
-+segment has been filled to capacity.
-+
-+Not that the count and fullness are not affected by clearing folios from =
-the
-+segment.  These are more about indicating how many slots in the array hav=
-e been
-+initialised, and it assumed that slots won't get reused, but rather the s=
-egment
-+will get discarded as the queue is consumed.
-+
-+
-+Folio marks
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+Folios within a queue can also have marks assigned to them.  These marks =
-can be
-+used to note information such as if a folio needs folio_put() calling upo=
-n it.
-+There are three marks available to be set for each folio.
-+
-+The marks can be set by::
-+
-+	void folioq_mark(struct folio_queue *folioq, unsigned int slot);
-+	void folioq_mark2(struct folio_queue *folioq, unsigned int slot);
-+	void folioq_mark3(struct folio_queue *folioq, unsigned int slot);
-+
-+Cleared by::
-+
-+	void folioq_unmark(struct folio_queue *folioq, unsigned int slot);
-+	void folioq_unmark2(struct folio_queue *folioq, unsigned int slot);
-+	void folioq_unmark3(struct folio_queue *folioq, unsigned int slot);
-+
-+And the marks can be queried by::
-+
-+	bool folioq_is_marked(const struct folio_queue *folioq, unsigned int slo=
-t);
-+	bool folioq_is_marked2(const struct folio_queue *folioq, unsigned int sl=
-ot);
-+	bool folioq_is_marked3(const struct folio_queue *folioq, unsigned int sl=
-ot);
-+
-+The marks can be used for any purpose and are not interpreted by this API=
-.
-+
-+
-+Folio queue iteration
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+A list of segments may be iterated over using the I/O iterator facility u=
-sing
-+an ``iov_iter`` iterator of ``ITER_FOLIOQ`` type.  The iterator may be
-+initialised with::
-+
-+	void iov_iter_folio_queue(struct iov_iter *i, unsigned int direction,
-+				  const struct folio_queue *folioq,
-+				  unsigned int first_slot, unsigned int offset,
-+				  size_t count);
-+
-+This may be told to start at a particular segment, slot and offset within=
- a
-+queue.  The iov iterator functions will follow the next pointers when adv=
-ancing
-+and prev pointers when reverting when needed.
-+
-+
-+Lockless simultaneous production/consumption issues
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-+
-+If properly managed, the list can be extended by the producer at the head=
- end
-+and shortened by the consumer at the tail end simultaneously without the =
-need
-+to take locks.  The ITER_FOLIOQ iterator inserts appropriate barriers to =
-aid
-+with this.
-+
-+Care must be taken when simultaneously producing and consuming a list.  I=
-f the
-+last segment is reached and the folios it refers to are entirely consumed=
- by
-+the IOV iterators, an iov_iter struct will be left pointing to the last s=
-egment
-+with a slot number equal to the capacity of that segment.  The iterator w=
-ill
-+try to continue on from this if there's another segment available when it=
- is
-+used again, but care must be taken lest the segment got removed and freed=
- by
-+the consumer before the iterator was advanced.
-+
-+It is recommended that the queue always contain at least one segment, eve=
-n if
-+that segment has never been filled or is entirely spent.  This prevents t=
-he
-+head and tail pointers from collapsing.
-+
-+
-+API Function Reference
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+.. kernel-doc:: include/linux/folio_queue.h
-diff --git a/include/linux/folio_queue.h b/include/linux/folio_queue.h
-index 955680c3bb5f..af871405ae55 100644
---- a/include/linux/folio_queue.h
-+++ b/include/linux/folio_queue.h
-@@ -3,6 +3,12 @@
-  *
-  * Copyright (C) 2024 Red Hat, Inc. All Rights Reserved.
-  * Written by David Howells (dhowells@redhat.com)
-+ *
-+ * See:
-+ *
-+ *	Documentation/core-api/folio_queue.rst
-+ *
-+ * for a description of the API.
-  */
- =
+do_div was useful to check the result of the division at the same time
+but now that I think about it, it's not really needed. Checking the % of
+the devision is enough to validate the value are alligned to 512bytes.
 
- #ifndef _LINUX_FOLIO_QUEUE_H
-@@ -33,6 +39,13 @@ struct folio_queue {
- #endif
- };
- =
+> > +	    (slot > 1 && !offset))
+> > +		return -EINVAL;
+> > +
+> > +	/* Validate size conversion from bytes to sectors */
+> > +	size = of_read_number(reg + a_cells, s_cells);
+> > +	if (do_div(size, SECTOR_SIZE) || !size)
+> > +		return -EINVAL;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static void add_of_partition(struct parsed_partitions *state, int slot,
+> > +			     struct device_node *np)
+> > +{
+> > +	struct partition_meta_info *info;
+> > +	char tmp[sizeof(info->volname) + 4];
+> > +	int a_cells, s_cells;
+> > +	const char *partname;
+> > +	const __be32 *reg;
+> > +	u64 offset, size;
+> > +	int len;
+> > +
+> > +	reg = of_get_property(np, "reg", &len);
+> > +
+> > +	a_cells = of_n_addr_cells(np);
+> > +	s_cells = of_n_size_cells(np);
+> > +
+> > +	/* Convert bytes to sector size */
+> > +	offset = of_read_number(reg, a_cells) / SECTOR_SIZE;
+> > +	size = of_read_number(reg + a_cells, s_cells) / SECTOR_SIZE;
+> > +
+> > +	put_partition(state, slot, offset, size);
+> > +
+> > +	if (of_property_read_bool(np, "read-only"))
+> > +		state->parts[slot].flags |= ADDPART_FLAG_READONLY;
+> > +
+> > +	/*
+> > +	 * Follow MTD label logic, search for label property,
+> > +	 * fallback to node name if not found.
+> > +	 */
+> > +	info = &state->parts[slot].info;
+> > +	partname = of_get_property(np, "label", &len);
+> > +	if (!partname)
+> > +		partname = of_get_property(np, "name", &len);
+> > +	strscpy(info->volname, partname, sizeof(info->volname));
+> > +
+> > +	snprintf(tmp, sizeof(tmp), "(%s)", info->volname);
+> > +	strlcat(state->pp_buf, tmp, PAGE_SIZE);
+> > +}
+> > +
+> > +int of_partition(struct parsed_partitions *state)
+> > +{
+> > +	struct device_node *disk_np, *partitions_np, *np;
+> > +	struct device *ddev = disk_to_dev(state->disk);
+> > +	int slot;
+> > +
+> > +	disk_np = of_node_get(ddev->parent->of_node);
+> > +	if (!disk_np)
+> > +		return 0;
+> > +
+> > +	partitions_np = get_partitions_node(disk_np, state->disk);
+> > +	if (!partitions_np ||
+> > +	    !of_device_is_compatible(partitions_np, "fixed-partitions"))
+> > +		return 0;
+> 
+> of_node_put(disk_np) missing here before return.
+> 
 
-+/**
-+ * folioq_init - Initialise a folio queue segment
-+ * @folioq: The segment to initialise
-+ *
-+ * Initialise a folio queue segment.  Note that the folio pointers are
-+ * left uninitialised.
-+ */
- static inline void folioq_init(struct folio_queue *folioq)
- {
- 	folio_batch_init(&folioq->vec);
-@@ -43,62 +56,155 @@ static inline void folioq_init(struct folio_queue *fo=
-lioq)
- 	folioq->marks3 =3D 0;
- }
- =
+Thjanks forgot about it when I added the compatible check.
 
-+/**
-+ * folioq_nr_slots: Query the capacity of a folio queue segment
-+ * @folioq: The segment to query
-+ *
-+ * Query the number of folios that a particular folio queue segment might=
- hold.
-+ * [!] NOTE: This must not be assumed to be the same for every segment!
-+ */
- static inline unsigned int folioq_nr_slots(const struct folio_queue *foli=
-oq)
- {
- 	return PAGEVEC_SIZE;
- }
- =
+> > +
+> > +	/* Check if child are over the limit */
+> > +	slot = of_get_child_count(partitions_np);
+> > +	if (slot >= state->limit)
+> > +		goto err;
+> 
+> Other partition parsers just silently ignore the partitions
+> exceeding state->limit instead of throwing an error. Maybe do the same
+> here?
+> 
 
-+/**
-+ * folioq_count: Query the occupancy of a folio queue segment
-+ * @folioq: The segment to query
-+ *
-+ * Query the number of folios that have been added to a folio queue segme=
-nt.
-+ * Note that this is not decreased as folios are removed from a segment.
-+ */
- static inline unsigned int folioq_count(struct folio_queue *folioq)
- {
- 	return folio_batch_count(&folioq->vec);
- }
- =
+Ehhh I didn't understand if this is correct or not. Ok I will follow how
+it's done by the other.
 
-+/**
-+ * folioq_count: Query if a folio queue segment is full
-+ * @folioq: The segment to query
-+ *
-+ * Query if a folio queue segment is fully occupied.  Note that this does=
- not
-+ * change if folios are removed from a segment.
-+ */
- static inline bool folioq_full(struct folio_queue *folioq)
- {
- 	//return !folio_batch_space(&folioq->vec);
- 	return folioq_count(folioq) >=3D folioq_nr_slots(folioq);
- }
- =
+> > +
+> > +	slot = 1;
+> > +	/* Validate parition offset and size */
+> > +	for_each_child_of_node(partitions_np, np) {
+> > +		if (validate_of_partition(np, slot))
+> > +			goto err;
+> > +
+> > +		slot++;
+> > +	}
+> > +
+> > +	slot = 1;
+> > +	for_each_child_of_node(partitions_np, np) {
+> > +		add_of_partition(state, slot, np);
+> > +
+> > +		slot++;
+> > +	}
+> > +
+> > +	strlcat(state->pp_buf, "\n", PAGE_SIZE);
+> > +
+> > +	return 1;
+> > +err:
+> > +	of_node_put(partitions_np);
+> > +	of_node_put(disk_np);
+> 
+> You should put the nodes for the non error case as well.
+> 
 
-+/**
-+ * folioq_is_marked: Check first folio mark in a folio queue segment
-+ * @folioq: The segment to query
-+ * @slot: The slot number of the folio to query
-+ *
-+ * Determine if the first mark is set for the folio in the specified slot=
- in a
-+ * folio queue segment.
-+ */
- static inline bool folioq_is_marked(const struct folio_queue *folioq, uns=
-igned int slot)
- {
- 	return test_bit(slot, &folioq->marks);
- }
- =
+ack.
 
-+/**
-+ * folioq_mark: Set the first mark on a folio in a folio queue segment
-+ * @folioq: The segment to modify
-+ * @slot: The slot number of the folio to modify
-+ *
-+ * Set the first mark for the folio in the specified slot in a folio queu=
-e
-+ * segment.
-+ */
- static inline void folioq_mark(struct folio_queue *folioq, unsigned int s=
-lot)
- {
- 	set_bit(slot, &folioq->marks);
- }
- =
-
-+/**
-+ * folioq_unmark: Clear the first mark on a folio in a folio queue segmen=
-t
-+ * @folioq: The segment to modify
-+ * @slot: The slot number of the folio to modify
-+ *
-+ * Clear the first mark for the folio in the specified slot in a folio qu=
-eue
-+ * segment.
-+ */
- static inline void folioq_unmark(struct folio_queue *folioq, unsigned int=
- slot)
- {
- 	clear_bit(slot, &folioq->marks);
- }
- =
-
-+/**
-+ * folioq_is_marked2: Check second folio mark in a folio queue segment
-+ * @folioq: The segment to query
-+ * @slot: The slot number of the folio to query
-+ *
-+ * Determine if the second mark is set for the folio in the specified slo=
-t in a
-+ * folio queue segment.
-+ */
- static inline bool folioq_is_marked2(const struct folio_queue *folioq, un=
-signed int slot)
- {
- 	return test_bit(slot, &folioq->marks2);
- }
- =
-
-+/**
-+ * folioq_mark2: Set the second mark on a folio in a folio queue segment
-+ * @folioq: The segment to modify
-+ * @slot: The slot number of the folio to modify
-+ *
-+ * Set the second mark for the folio in the specified slot in a folio que=
-ue
-+ * segment.
-+ */
- static inline void folioq_mark2(struct folio_queue *folioq, unsigned int =
-slot)
- {
- 	set_bit(slot, &folioq->marks2);
- }
- =
-
-+/**
-+ * folioq_unmark2: Clear the second mark on a folio in a folio queue segm=
-ent
-+ * @folioq: The segment to modify
-+ * @slot: The slot number of the folio to modify
-+ *
-+ * Clear the second mark for the folio in the specified slot in a folio q=
-ueue
-+ * segment.
-+ */
- static inline void folioq_unmark2(struct folio_queue *folioq, unsigned in=
-t slot)
- {
- 	clear_bit(slot, &folioq->marks2);
- }
- =
-
-+/**
-+ * folioq_is_marked3: Check third folio mark in a folio queue segment
-+ * @folioq: The segment to query
-+ * @slot: The slot number of the folio to query
-+ *
-+ * Determine if the third mark is set for the folio in the specified slot=
- in a
-+ * folio queue segment.
-+ */
- static inline bool folioq_is_marked3(const struct folio_queue *folioq, un=
-signed int slot)
- {
- 	return test_bit(slot, &folioq->marks3);
- }
- =
-
-+/**
-+ * folioq_mark3: Set the third mark on a folio in a folio queue segment
-+ * @folioq: The segment to modify
-+ * @slot: The slot number of the folio to modify
-+ *
-+ * Set the third mark for the folio in the specified slot in a folio queu=
-e
-+ * segment.
-+ */
- static inline void folioq_mark3(struct folio_queue *folioq, unsigned int =
-slot)
- {
- 	set_bit(slot, &folioq->marks3);
- }
- =
-
-+/**
-+ * folioq_unmark3: Clear the third mark on a folio in a folio queue segme=
-nt
-+ * @folioq: The segment to modify
-+ * @slot: The slot number of the folio to modify
-+ *
-+ * Clear the third mark for the folio in the specified slot in a folio qu=
-eue
-+ * segment.
-+ */
- static inline void folioq_unmark3(struct folio_queue *folioq, unsigned in=
-t slot)
- {
- 	clear_bit(slot, &folioq->marks3);
-@@ -111,6 +217,19 @@ static inline unsigned int __folio_order(struct folio=
- *folio)
- 	return folio->_flags_1 & 0xff;
- }
- =
-
-+/**
-+ * folioq_append: Add a folio to a folio queue segment
-+ * @folioq: The segment to add to
-+ * @folio: The folio to add
-+ *
-+ * Add a folio to the tail of the sequence in a folio queue segment, incr=
-easing
-+ * the occupancy count and returning the slot number for the folio just a=
-dded.
-+ * The folio size is extracted and stored in the queue and the marks are =
-left
-+ * unmodified.
-+ *
-+ * Note that it's left up to the caller to check that the segment capacit=
-y will
-+ * not be exceeded and to extend the queue.
-+ */
- static inline unsigned int folioq_append(struct folio_queue *folioq, stru=
-ct folio *folio)
- {
- 	unsigned int slot =3D folioq->vec.nr++;
-@@ -120,6 +239,19 @@ static inline unsigned int folioq_append(struct folio=
-_queue *folioq, struct foli
- 	return slot;
- }
- =
-
-+/**
-+ * folioq_append_mark: Add a folio to a folio queue segment
-+ * @folioq: The segment to add to
-+ * @folio: The folio to add
-+ *
-+ * Add a folio to the tail of the sequence in a folio queue segment, incr=
-easing
-+ * the occupancy count and returning the slot number for the folio just a=
-dded.
-+ * The folio size is extracted and stored in the queue, the first mark is=
- set
-+ * and and the second and third marks are left unmodified.
-+ *
-+ * Note that it's left up to the caller to check that the segment capacit=
-y will
-+ * not be exceeded and to extend the queue.
-+ */
- static inline unsigned int folioq_append_mark(struct folio_queue *folioq,=
- struct folio *folio)
- {
- 	unsigned int slot =3D folioq->vec.nr++;
-@@ -130,21 +262,57 @@ static inline unsigned int folioq_append_mark(struct=
- folio_queue *folioq, struct
- 	return slot;
- }
- =
-
-+/**
-+ * folioq_folio: Get a folio from a folio queue segment
-+ * @folioq: The segment to access
-+ * @slot: The folio slot to access
-+ *
-+ * Retrieve the folio in the specified slot from a folio queue segment.  =
-Note
-+ * that no bounds check is made and if the slot hasn't been added into ye=
-t, the
-+ * pointer will be undefined.  If the slot has been cleared, NULL will be
-+ * returned.
-+ */
- static inline struct folio *folioq_folio(const struct folio_queue *folioq=
-, unsigned int slot)
- {
- 	return folioq->vec.folios[slot];
- }
- =
-
-+/**
-+ * folioq_folio_order: Get the order of a folio from a folio queue segmen=
-t
-+ * @folioq: The segment to access
-+ * @slot: The folio slot to access
-+ *
-+ * Retrieve the order of the folio in the specified slot from a folio que=
-ue
-+ * segment.  Note that no bounds check is made and if the slot hasn't bee=
-n
-+ * added into yet, the order returned will be 0.
-+ */
- static inline unsigned int folioq_folio_order(const struct folio_queue *f=
-olioq, unsigned int slot)
- {
- 	return folioq->orders[slot];
- }
- =
-
-+/**
-+ * folioq_folio_size: Get the size of a folio from a folio queue segment
-+ * @folioq: The segment to access
-+ * @slot: The folio slot to access
-+ *
-+ * Retrieve the size of the folio in the specified slot from a folio queu=
-e
-+ * segment.  Note that no bounds check is made and if the slot hasn't bee=
-n
-+ * added into yet, the size returned will be PAGE_SIZE.
-+ */
- static inline size_t folioq_folio_size(const struct folio_queue *folioq, =
-unsigned int slot)
- {
- 	return PAGE_SIZE << folioq_folio_order(folioq, slot);
- }
- =
-
-+/**
-+ * folioq_clear: Clear a folio from a folio queue segment
-+ * @folioq: The segment to clear
-+ * @slot: The folio slot to clear
-+ *
-+ * Clear a folio from a sequence in a folio queue segment and clear its m=
-arks.
-+ * The occupancy count is left unchanged.
-+ */
- static inline void folioq_clear(struct folio_queue *folioq, unsigned int =
-slot)
- {
- 	folioq->vec.folios[slot] =3D NULL;
-
+-- 
+	Ansuel
