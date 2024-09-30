@@ -1,144 +1,118 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35A90188586
-	for <linux-doc@vger.kernel.org>; Mon, 30 Sep 2024 09:21:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08089187FFA
+	for <linux-doc@vger.kernel.org>; Mon, 30 Sep 2024 09:29:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727688115; cv=none; b=DVAEgAdkyQ48CuU2rsk57ZYJJgKa7oVZ4R7bPg0R1esjoZ7uXWr/12IhKFpNtEFauUbhNyoo/V6zVOq+DPDnu+kA5PGZ1d1ov4/PdGI642PlLiPVKFK+BYkoNjsdAe4NRw+6QM+Ub5XAT4aeV5nSuEq52C0VOsVAKi2XBXkUtuQ=
+	t=1727688552; cv=none; b=HjK7xJSSNCb36sLt46oBzEvnUIsz8SVbs/QrZdEU3cLDrUpGDPI4ljB2sM5wrrpkkUUJJwPOYRVP7VT2WO6sc7i3nHzISUtrhgnECSWEjJK1mf+wqjUpC0hvr9csmvGU9p39+Ht/9PF2KDyQXZ/Qwavf0TRTKA8T7tUTu/I4OJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727688115; c=relaxed/simple;
-	bh=ihqC0moMa0gkpZDgI3toCyjoo7KCGvJzUF/2ZGkTW2U=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=TlH0JL5Asr3pX4xNV2oMke6rOJ7hv9J0RvbAqw8PJFN2pq1BEn9b9XMRLxiL3LuoIEXal44VQsOzMxFxMhkrpnHgyaOEg7ipQTPsbzwnF4LbL/DrSUqnjhIEkkYdVjHhyc7oecWpA9REXgfSRDVw6CDIhlNJak3/fIqd89r5bnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk; spf=pass smtp.mailfrom=rasmusvillemoes.dk; dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b=Hh+UI6Hb; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rasmusvillemoes.dk
+	s=arc-20240116; t=1727688552; c=relaxed/simple;
+	bh=A1fGxWYRT+rLnLYY4XjZD7c/cviI8I+09C5LGo1sj24=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NMm+Jr04U4KMfsdkQffSPqqIexvGowtGJZn4tCXFY4soF3n8EGUs+Nb+O7YfpWd60YEMKOk8tJYBY3DNRzN3L15bQJWO5lL+1u99bK30zgeieG6AmUqd6+PV16zw4TD0/h/s0lB8TQkZa7nBod+Rp1XViZ7+nXOTQTFxoFVjaj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RQujpbd5; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b="Hh+UI6Hb"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2f761461150so53191191fa.0
-        for <linux-doc@vger.kernel.org>; Mon, 30 Sep 2024 02:21:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RQujpbd5"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a8ce5db8668so736472666b.1
+        for <linux-doc@vger.kernel.org>; Mon, 30 Sep 2024 02:29:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google; t=1727688111; x=1728292911; darn=vger.kernel.org;
-        h=mime-version:user-agent:message-id:date:references:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wOxBnbL6b/6p40BCLZnOmRygJyLDz0xvKxJvU54ZAcY=;
-        b=Hh+UI6HbZcPGxjieEM4TxX9epsDZL+qMmDuJ3zyGj9tt418SFzVPGRcZhiOyCP4pEB
-         UR2+4leTrlu8SqUM+nRxznVArjAjWKESk15d7PnU8qxL0M0Say2CsznYeIzGx+5Gg/A0
-         HG4hkthepBPj4si4t/c6pJaoXTRbGfmsTYQ7w=
+        d=linaro.org; s=google; t=1727688549; x=1728293349; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WrSgKLXv963s8mVz9r3Q+1HNhsVnqhk2fQcNtk3Cxfo=;
+        b=RQujpbd5eSjUtXpqSpyLjLt2blDEiQyxReHwm++fai1pW9OkUhlrWPKjsFiLaL+ujK
+         w5+eqHsl6Kyciq3tqrNTk/s49nB6I4NrRY0K5KIWRLwtUGO1qz5UKKIAatynhsEyM7ks
+         PlPBMXscJ5CeopXMcJfGtKngcdIDXOWRQB2/6OJKMgW+VV6FoRSHwTv7Ulliv5hhUoGT
+         fIWU8txGGSxJ8NEhCJwTw+Kf51OUUZc8lyM4HflLmqMqVKEmpskp+BSInhYTFxi5z+3i
+         vEg+xxa40wRg2WWjWLHD0+AY8XlTWw1wqXqE+MA15+InP/EixOKT5X0dhi+fWdCqSFli
+         PGDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727688111; x=1728292911;
-        h=mime-version:user-agent:message-id:date:references:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1727688549; x=1728293349;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wOxBnbL6b/6p40BCLZnOmRygJyLDz0xvKxJvU54ZAcY=;
-        b=gWuCdjbLBD+F/MgnUozlDL7JXo7jSQQDa1nRkrzltOpTk5C/TQFZlClglpwM5aAzyZ
-         U/IlU3gVJOFi227WtZksffiOrXg7L7+woI7bC5AFjwEWKAYrFqKj22hXr8l0VpI/wtYc
-         I0Uxch0cAsxz0OvgElWjU/YijLN3hVi/8e/3wXKmmxNqmhWPUEidPFuKT/fSN7cMFtRA
-         OXcxwpSXlkcabr3rzO4KWnNeTx1OmTBpjzArWzw6WlQixBBqBpHDaLL7Yp7sQE1AEXVH
-         xiZNxGahqm8SqsIqJlGvOXJVBD4UWC6hvYkCLsWAfvCsrkM457sUtRaLNndZG3Sdq7Tu
-         qnAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVr52xJK7/TLWiUxXPgEXizxfJhniNpE4usJsTQ8z1JdSLijbDuE+dCf2N3ITJhhK1PU6lsxRkHASY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5/yhjEFUNfcz5SGlTH9Q71o4xpuuINLacQ/PNeRB7Z3LhlNBy
-	6tcLcm+W/9qmMmnr5PsK4pj/uj+8tzzAajH7xQMn8GqDe2zB2I1nW3WilUAf5Co=
-X-Google-Smtp-Source: AGHT+IHL3VXY5tvf4j7T6OaXxNRI231E0ILvU2TYhIVSEH7SSrJfMFW2DpRSkuCTashwRBUmWDv3uw==
-X-Received: by 2002:a2e:be1c:0:b0:2fa:cd3d:4a76 with SMTP id 38308e7fff4ca-2facd3d4c8fmr18895301fa.43.1727688111067;
-        Mon, 30 Sep 2024 02:21:51 -0700 (PDT)
-Received: from localhost ([81.216.59.226])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f9d4618eecsm12885541fa.118.2024.09.30.02.21.50
+        bh=WrSgKLXv963s8mVz9r3Q+1HNhsVnqhk2fQcNtk3Cxfo=;
+        b=pr1ZuQ/utwxIy1/kv5EFJ4IJF139ufUhUNluNLuxIFEf6qk/GShLXpP+DsrsDqLEjH
+         eyjB3t8BkGZ1eB0IObZyr3l5yLcLkjWyRk9wspd1d4u91czs9vBBZXLtBH6/0G7Q06BY
+         bmQRQ0Sl5osB359JGWAzrlOMSrfeU8w3XBA1ISWVzgkyylPbwZ2ZWqnWGtQTu51eswcQ
+         ZfgcCteEbrmiCFpBQMAHSPOxHaKnw4LUQnnSamndpMuw28uRvH7pqCXqVQ3Yh6fcD28K
+         +9uX6Tc2t5/kTKKlr+0Wsne4+WYXMekOn7YevxaMhntwqrc5BuoQ+XT/QfVa6TqhmMNC
+         4lTg==
+X-Forwarded-Encrypted: i=1; AJvYcCWOMLdJO9i9R/X1pkTOKQVHYwsUMu+lfUJhfHON6hjeBxP3ukT4E4MtQmlx8jQ52HfTLdcLqgqppfk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpVMtvL/ktyaTObRy8a2+8yX4EV7OM3krbfpt1THc60KJav+/4
+	fueOsv4KIS0NBe9vYDfiMevhz8atsjJr7RKxEncwszqkIbe7++b4w8U4vEma7CnpG0d67lE+PIX
+	fOrc=
+X-Google-Smtp-Source: AGHT+IEkKrPJsUlHoyTMQaqjzeMWolJl4XDm5NPQqsWGGZyTSTe4MBnX5SWsdMBYeKWeft0bEIk64Q==
+X-Received: by 2002:a17:906:f59e:b0:a86:79a2:ab12 with SMTP id a640c23a62f3a-a93c492a75amr1205266666b.38.1727688549160;
+        Mon, 30 Sep 2024 02:29:09 -0700 (PDT)
+Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c2997d41sm501776866b.194.2024.09.30.02.29.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 02:21:50 -0700 (PDT)
-From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>,  Jonathan Corbet <corbet@lwn.net>,  Ulf
- Hansson <ulf.hansson@linaro.org>,  Rob Herring <robh@kernel.org>,
-  Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
- <conor+dt@kernel.org>,  INAGAKI Hiroshi <musashino.open@gmail.com>,
-  Daniel Golle <daniel@makrotopia.org>,  Christian Brauner
- <brauner@kernel.org>,  Al Viro <viro@zeniv.linux.org.uk>,  Jan Kara
- <jack@suse.cz>,  Li Lingfeng <lilingfeng3@huawei.com>,  Christian Heusel
- <christian@heusel.eu>,  linux-block@vger.kernel.org,
-  linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
-  linux-mmc@vger.kernel.org,  devicetree@vger.kernel.org,  Miquel Raynal
- <miquel.raynal@bootlin.com>,  Lorenzo Bianconi <lorenzo@kernel.org>,
-  upstream@airoha.com
-Subject: Re: [PATCH v3 3/4] block: add support for partition table defined
- in OF
-In-Reply-To: <20240929140713.6883-4-ansuelsmth@gmail.com> (Christian Marangi's
-	message of "Sun, 29 Sep 2024 16:06:19 +0200")
-References: <20240929140713.6883-1-ansuelsmth@gmail.com>
-	<20240929140713.6883-4-ansuelsmth@gmail.com>
-Date: Mon, 30 Sep 2024 11:21:53 +0200
-Message-ID: <877catlcni.fsf@prevas.dk>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+        Mon, 30 Sep 2024 02:29:08 -0700 (PDT)
+Date: Mon, 30 Sep 2024 10:29:07 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Changhuang Liang <changhuang.liang@starfivetech.com>
+Cc: Jason Wessel <jason.wessel@windriver.com>,
+	Douglas Anderson <dianders@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	kgdb-bugreport@lists.sourceforge.net, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] Documentation: kgdb: Correct parameter error
+Message-ID: <20240930092907.GD5584@aspen.lan>
+References: <20240925100742.1730576-1-changhuang.liang@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240925100742.1730576-1-changhuang.liang@starfivetech.com>
 
-Christian Marangi <ansuelsmth@gmail.com> writes:
+On Wed, Sep 25, 2024 at 03:07:42AM -0700, Changhuang Liang wrote:
+> Module kgdb had been converted to debug_core since commit c433820971ff
+> ("Move kernel/kgdb.c to kernel/debug/debug_core.c") be added, so let's
+> correct the module parameter path.
+>
+> Fixes: c433820971ff ("Move kernel/kgdb.c to kernel/debug/debug_core.c")
+> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-> diff --git a/block/partitions/of.c b/block/partitions/of.c
-> new file mode 100644
-> index 000000000000..bc6200eb86b3
-> --- /dev/null
-> +++ b/block/partitions/of.c
-> @@ -0,0 +1,151 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include <linux/blkdev.h>
-> +#include <linux/major.h>
-> +#include <linux/of.h>
-> +#include "check.h"
-> +
-> +#define BOOT0_STR	"boot0"
-> +#define BOOT1_STR	"boot1"
-> +
-> +static struct device_node *get_partitions_node(struct device_node *disk_np,
-> +					       struct gendisk *disk)
-> +{
-> +	const char *node_name = "partitions";
-> +
-> +	/*
-> +	 * JEDEC specification 4.4 for eMMC introduced 3 additional partition
-> +	 * present on every eMMC. These additional partition are always hardcoded
-> +	 * from the eMMC driver as boot0, boot1 and rpmb. While rpmb is used to
-> +	 * store keys and exposed as a char device, the other 2 are exposed as
-> +	 * real separate disk with the boot0/1 appended to the disk name.
-> +	 *
-> +	 * Here we parse the disk_name in search for such suffix and select
-> +	 * the correct partition node.
-> +	 */
-> +	if (disk->major == MMC_BLOCK_MAJOR) {
-> +		const char *disk_name = disk->disk_name;
-> +
-> +		if (!memcmp(disk_name + strlen(disk_name) - strlen(BOOT0_STR),
-> +			    BOOT0_STR, sizeof(BOOT0_STR)))
-> +			node_name = "partitions-boot0";
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-If strlen(disk_name) is less than 5 (and I don't know if that's actually
-possible), this well end up doing out-of-bounds access.
+@Jon: Do you want me to hoover this up or will you take it? If you are
+happy to grab it then feel free to treat my Rb: as an Acked-by: too!
 
-We have a strstarts() helper, could you also add a strends() helper that
-handles this correctly? Something like
 
-/**
- * strends - does @str end with @suffix?
- * @str: string to examine
- * @suffix: suffix to look for.
- */
-static inline bool strends(const char *str, const char *suffix)
-{
-	size_t n = strlen(str);
-        size_t m = strlen(suffix);
-        return n >= m && !memcmp(str + n - m, suffix, m);
-}
+Daniel.
 
-[or name it str_has_suffix() or str_ends_with(), "strends" is not
-particularly readable, it's unfortunate that the existing strstarts is
-spelled like that].
 
-Rasmus
+> ---
+>
+> Hi,
+>
+> v3: I wrote a error change log in v2. Now fix it.
+>
+>  Documentation/dev-tools/kgdb.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/dev-tools/kgdb.rst b/Documentation/dev-tools/kgdb.rst
+> index f83ba2601e55..a87a58e6509a 100644
+> --- a/Documentation/dev-tools/kgdb.rst
+> +++ b/Documentation/dev-tools/kgdb.rst
+> @@ -329,7 +329,7 @@ ways to activate this feature.
+>
+>  2. Use sysfs before configuring an I/O driver::
+>
+> -	echo 1 > /sys/module/kgdb/parameters/kgdb_use_con
+> +	echo 1 > /sys/module/debug_core/parameters/kgdb_use_con
+>
+>  .. note::
+>
+> --
+> 2.25.1
