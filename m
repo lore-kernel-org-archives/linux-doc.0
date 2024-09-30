@@ -1,123 +1,84 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F84A364BA;
-	Sun, 29 Sep 2024 18:46:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9648C137E;
+	Mon, 30 Sep 2024 01:19:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727635577; cv=none; b=kRQTJaZvLdBvWljaEUbKxb0Fwj9Rj5OkXB2M5kwOd05De7qYu1yJ4JTmHVgEotprR5jih3/ib3fhz9c51D1QUbOJtejb5gh3VSKs19efqHqv5vXZK9cD8PwdQqsI9RL2LxrRrA8ab9fdb9aiIvelDdfvgvc+sB93xyK+ayFnMPo=
+	t=1727659155; cv=none; b=KMwsc1190IWFRG1q/o0u3EibGGE/bUPa+6jt+z2RXl7uQZL1zwsqXru9jSARDMyhwBpstibSxNaVJjp3hSPiovVUoC+aJM/1yppa6k4/ZB0qI9Nc2W8uQt4YZcK68k3AMb2slqWRetT5ILExmvTa6esQpdhFCxKCdbc1QBxtWZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727635577; c=relaxed/simple;
-	bh=RjMxtxQDuLXORe76uqEGn8mOtgsRg5/ahz/7B2p9fuE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=WJqI/NtPgt5j8lZQ51in2EOXuYKOLrBVIGch4h09TCkkA2Nk/flmquMbv9x0YP9HYGOJALNUjQ6in2JPkmw6Iwvjc62TwFV4EZjmoCUcClDM6QF1NZ7+LibQb8mc9v0JjIB9syqrbKQ0rsU7cGl6GiYnMHz8clTVpyM6QeqCq8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=lZotxcRk; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1727659155; c=relaxed/simple;
+	bh=tZQzrKVzETh1J2Qe2bPKOKRVYDkKpapUxu/uICsTvmU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sLr8QYx6VuaikHeK7kMeOPphLWKQs+fxGHp/dhvVB/bJdEFVQWBIE9MNTZlBUJ5cYdXh0GTePfXBBZ0+q+go10MS6/kL9hlqI0V9iSN4IxdsmBVEJU4T37rkKua77QlxGpEr22kjlNKvQW216nhNxbq+4y+QJLh6ytBNc1zy3PQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=B+lDR0rE; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="lZotxcRk"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D0861418B6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1727635567; bh=gmDrMhG7sZH9BFaRoq0xQy2ReKc1UDllwoB2/ScS7bg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=lZotxcRko0b/kaguCB7QOUOHdFO+dglv00DzGLL76RO2fcOqPZ8iZGUv51MrgevXF
-	 B2zNyaWqWPf3YQif0aO4mtlDMJ1uwuecCKbuBx6h/e9FJrVrj8xeXVsRFBRCzpDiSv
-	 voRKBvo8/tiU4P6HM6DDepebPzwJxoUhDkcnWAubMgHgpZc8dC4kHzNU9DHmEIfC/n
-	 ZqP99Pa77mIiDVkp44x8WwsrGa57UAIrGhRAV5MbH2Lh5UovaR2sRR57BXraWQAyRa
-	 4Ngqrr+gDF68ZM3+ETcBhXDojGJTF8cPC4HL4mbsrcP7T1BLX12tdX7lyU1wuHcbUB
-	 D+RPEo+Q7EK+A==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id D0861418B6;
-	Sun, 29 Sep 2024 18:46:06 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Nam Cao <namcao@linutronix.de>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, =?utf-8?Q?Cl?=
- =?utf-8?Q?=C3=A9ment_L=C3=A9ger?=
- <cleger@rivosinc.com>, Evan Green <evan@rivosinc.com>, Charlie Jenkins
- <charlie@rivosinc.com>, Andrew Jones <ajones@ventanamicro.com>,
- linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: riscv: Fix typo MIMPLID -> MIMPID
-In-Reply-To: <20240929153305.m8IHY_7l@linutronix.de>
-References: <20240925142532.31808-1-namcao@linutronix.de>
- <87h6a3fw74.fsf@trenco.lwn.net> <20240929153305.m8IHY_7l@linutronix.de>
-Date: Sun, 29 Sep 2024 12:46:02 -0600
-Message-ID: <87ldzab8np.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="B+lDR0rE"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=XVccFwntIwGBot0bIyb243qoyiqLnKzfjEB3b3z4NJw=; b=B+lDR0rEjnDvDIseihIucVxlsM
+	bEOlRLaw/MYIdBG1rFqjC1LXN9V6Xkscg6BbMcQpVpKP73Zb3y7VK6rBFkW//1b0+TatIwrtPrjIK
+	MkSyz0UT1i2Oy6uKOf9KqfQBdqCRgseAtx1mbN1D8Lb6OOzyh5uHHxVzS9CnM0ZcQgEv3c0wnXPXg
+	DHocaofjI5FWT+Dy9/ag9LCN5N3WopnyfOZ5RyRYX6PzWGkU8tmwh/oYCw+nLjskHHSNgR4JL89Xr
+	fR1LfKBjI/sTgdluZTd9M4s32CEs8Ln5fWX4bUnBQnqx8do7sPAu37i9vozhB+dXEa+zwxB4NN3Fe
+	zt8+AbMQ==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1sv53p-00000002jgO-43X8;
+	Mon, 30 Sep 2024 01:18:50 +0000
+Message-ID: <a604f707-83ba-49e0-b90a-db357f8d7cce@infradead.org>
+Date: Sun, 29 Sep 2024 18:18:40 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/6] math.h: Add macros for rounding to the closest
+ value
+To: Jiri Slaby <jirislaby@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
+ Devarsh Thakkar <devarsht@ti.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ sebastian.fricke@collabora.com, linux-doc@vger.kernel.org, praneeth@ti.com,
+ nm@ti.com, vigneshr@ti.com, s-jain1@ti.com, r-donadkar@ti.com,
+ b-brnich@ti.com, detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com,
+ andi.shyti@linux.intel.com, nicolas@ndufresne.ca, davidgow@google.com,
+ dlatypov@google.com, corbet@lwn.net, broonie@kernel.org,
+ nik.borisov@suse.com, Dave.Martin@arm.com
+References: <20240826150822.4057164-1-devarsht@ti.com>
+ <20240826150822.4057164-2-devarsht@ti.com>
+ <Zsy-8xXQ01-JhL0m@smile.fi.intel.com>
+ <9c41f6b7-6b06-cd5b-74bd-24873c4beaf7@ti.com> <87frqqyw9r.fsf@intel.com>
+ <0b06794b-34c5-ec0d-59c6-8412a8789eaf@ti.com> <878qwfy9cg.fsf@intel.com>
+ <8bcddd10-6699-4e76-9eaf-8768f1c1ae66@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <8bcddd10-6699-4e76-9eaf-8768f1c1ae66@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Nam Cao <namcao@linutronix.de> writes:
 
-> On Wed, Sep 25, 2024 at 12:02:39PM -0600, Jonathan Corbet wrote:
->> Nam Cao <namcao@linutronix.de> writes:
->> 
->> > The macro that is really defined is RISCV_HWPROBE_KEY_MIMPID, not
->> > RISCV_HWPROBE_KEY_MIMPLID (difference is the 'L').
->> >
->> > Also, the riscv privileged specification names the register "mimpid", not
->> > "mimplid".
->> >
->> > Correct these typos.
->> >
->> > Signed-off-by: Nam Cao <namcao@linutronix.de>
->> > ---
->> > ask me how I found out..
->> >
->> >  Documentation/arch/riscv/hwprobe.rst | 2 +-
->> >  1 file changed, 1 insertion(+), 1 deletion(-)
->> >
->> > diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
->> > index 85b709257918..fb0affa61eb9 100644
->> > --- a/Documentation/arch/riscv/hwprobe.rst
->> > +++ b/Documentation/arch/riscv/hwprobe.rst
->> > @@ -51,7 +51,7 @@ The following keys are defined:
->> >  * :c:macro:`RISCV_HWPROBE_KEY_MARCHID`: Contains the value of ``marchid``, as
->> >    defined by the RISC-V privileged architecture specification.
->> >  
->> > -* :c:macro:`RISCV_HWPROBE_KEY_MIMPLID`: Contains the value of ``mimplid``, as
->> > +* :c:macro:`RISCV_HWPROBE_KEY_MIMPID`: Contains the value of ``mimpid``, as
->> >    defined by the RISC-V privileged architecture specification.
->> 
->> You should be able to just say RISCV_HWPROBE_KEY_MIMPID() without the
->> :c:macro: markup and have the right thing happen.
->
-> My .rst knowledge is limited, so I probably miss something obvious, but I
-> couldn't get that to work.
 
-It's not RST as such, it's an extension that we've added for th ekernel
-build. 
+On 8/29/24 2:54 AM, Jiri Slaby wrote:
+> On 29. 08. 24, 11:19, Jani Nikula wrote:
+>> The stupid thing here is, I still don't remember which one is the
+>> generic thing, rounddown() or round_down(). I have to look it up every
+>> single time to be sure. I refuse to believe I'd be the only one.
+>>
+>> It's okay to accidentally use the generic version, no harm done. It's
+>> definitely not okay to accidentally use the special pow-2 version, so it
+>> should have a special name. I think _pow2() or _pow_2() is a fine
+>> suffix.
+> 
+> Concur.
+> 
 
-> Do you mean something like below? The brackets do not seem to do anything
-> and get treated as plain text.
->
-> Sorry but you probably need to show me what to do exactly :(
->
-> Best regards,
-> Nam
->
-> diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-> index 85b709257918..4b4b4ef0e0f9 100644
-> --- a/Documentation/arch/riscv/hwprobe.rst
-> +++ b/Documentation/arch/riscv/hwprobe.rst
-> @@ -51,7 +51,7 @@ The following keys are defined:
->  * :c:macro:`RISCV_HWPROBE_KEY_MARCHID`: Contains the value of ``marchid``, as
->    defined by the RISC-V privileged architecture specification.
->  
-> -* :c:macro:`RISCV_HWPROBE_KEY_MIMPLID`: Contains the value of ``mimplid``, as
-> +* `RISCV_HWPROBE_KEY_MIMPID()`: Contains the value of ``mimpid``, as
->    defined by the RISC-V privileged architecture specification.
+Ack here also. I prefer _pow2().
 
-Try it without the `backquotes`.
-
-Thanks,
-
-jon
