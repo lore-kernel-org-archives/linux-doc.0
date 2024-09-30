@@ -1,107 +1,109 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D754019309E
-	for <linux-doc@vger.kernel.org>; Mon, 30 Sep 2024 16:56:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87DD419342B;
+	Mon, 30 Sep 2024 17:13:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727715394; cv=none; b=puV9DEFEQnu5yjQuUO+OgF80bEMo1vsHGou17luq5aIGBnPEkbchJzd+sF0K9JURThHn4YnSPr9Y+nZO4XdVA16JqQWkkCKt0sFYbodnTPKFrvHPKZCezDfRWIyWh4r0clZ8RDv/vsrE+F7cnQoXbPVOJIMpj7kcKkLBjtxMPXM=
+	t=1727716412; cv=none; b=YYkMrxTC+fLzX8KSOBQw2BVC1iHzdQx3H7zLwqTCEXE1zCO70Go/sAaets1hMCJxB89OG7K6PiYeuYuRJphApQip8/dpNOfMIj8ARRGN1PYBOVatuYaoPcfs6CVVAISHjO6Cnr5/Q0W65zstgG9EQdcq3mSomO7zrjKi/+Hhs/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727715394; c=relaxed/simple;
-	bh=bmuEUyqk2bT1c3O+xO2sNPpOqDNsTNasFyYcsnwXMAo=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=MY2P2tfcLYMlWKQMJX8IQYimWC3ipDn+w4g648wtv+iR1m5DMoTuT4uB1yQuL/XWVOtKYkFwyW60G6oAVrkT+2xiPmQTQQF9SKER/RgwtdKDXYpgS8o6/sX3ezwzn9kCrdReieMm/HnBoWn0ZTxqKEC2VCNl/XYnXHdG65kPpZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SteVKDgc; arc=none smtp.client-ip=209.85.219.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SteVKDgc"
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-e2608234531so4651057276.1
-        for <linux-doc@vger.kernel.org>; Mon, 30 Sep 2024 09:56:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1727715392; x=1728320192; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bmuEUyqk2bT1c3O+xO2sNPpOqDNsTNasFyYcsnwXMAo=;
-        b=SteVKDgc4uqeIQW9aTFTUWbIU6JfB+PItmEUiuqHqPA4Ey2K2rZRC/OjKvoEcC2OZG
-         XyHia6vx/s0yDj5gNTQth0RuJT+Uzx5WLRH4hzq9LiY90sKDMU7ynP9Bly7pv/AJCVCD
-         hKaX0jXk1NTcpooWAMfaU00LstQwU9esg6MO/e9Bkb2afeuNSvNkVLowG+6fFzA7sV+X
-         Qzo9rYAoZVIGLRaTGwZEzt2E90qrgzrsDs+aasGkxXiwlCFswWvygUAzNOy2uQCLdgmJ
-         Y8CanrcWug44CUXq1cE/N/6HzevU+F5YvS9vNNFwac7BKdpNZ1miLWVpSrVWedf34oQu
-         yi5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727715392; x=1728320192;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=bmuEUyqk2bT1c3O+xO2sNPpOqDNsTNasFyYcsnwXMAo=;
-        b=eVNVhEenwL+DOLfQ/hWIwcMNFV1Ftzk8ZRrCzmslnG9hLHUKwE3jlHHBNoD8taa8xX
-         uEoLkjZ6X4BGNy3Bj6rt86J82aY04KZ2/SormolQ14sCmsjmtZqhg3SEATNgPL5fLNQr
-         lMAReVMVnvxcfOl0eqWjJYdhE+CKp5mlj3PpdKgTbnNOGD0A3Z9BOKh8gJR6Fk++kC+T
-         5wU/eRs1icF8Cp1Hbu1NJ51NNSOPWKGBVRqZRerXK0RVL8h5+T6j/VxCME4cIdX9ru6p
-         WL1IDrbhXcVp2IMz4z9xDsnkdwXwjQVcAT8OaQLCJWrOap9LwcYMOcD6poiBiVez0mj5
-         N1+A==
-X-Forwarded-Encrypted: i=1; AJvYcCXghHJlU+or3yY+oPqRzkTpFnG32rUB3fUktnLV+n4UUqpqUjYMxjSTG5EeBUxM3Owo3oLEwx6vIi8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwF7QgXvp/Z54vMCgsWqWT1uqmf24vm1FAAnPJ7UtmlQ1RuHXXY
-	r+TAqPSiWjNwC3xjpYO+xqNgPDoqoi2O2x/h0foAmANmZnbc7tlHuzFaXL0XOQEckuz8I1w1l1v
-	BGg==
-X-Google-Smtp-Source: AGHT+IEC5NPofYVzP+Wzs2dXMq4oR3r2G7SGyWOX8ZxrYfWVkpnj7bsqqKMZB753besVJFViOSuQTmArTz8=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a25:2e4d:0:b0:e16:4d66:982e with SMTP id
- 3f1490d57ef6-e2604b436d5mr59541276.5.1727715391824; Mon, 30 Sep 2024 09:56:31
- -0700 (PDT)
-Date: Mon, 30 Sep 2024 09:56:26 -0700
-In-Reply-To: <208429ae-d9c5-4b73-86ff-a9b31e68f7eb@zytor.com>
+	s=arc-20240116; t=1727716412; c=relaxed/simple;
+	bh=Eew9bXlDuPZUSAxAdTkv17Hsuq5cqSvBcNnD9EMG2lE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tSqFUHsjXSpdBqzq+55VkPxZHGpsoOemAlPJZa2BNBpYeo2IWhAcHlW7mPgApEOW35XixgC43cL1UqCe25eLDF3TakbFwDOP9b+FU1jtsu09sDHxI9ZfLIL/rJB6bPMoFl1vfua2npvnIy4wUoBtBu2g8smsTIUBRwJtx3XmPm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5F91C4CECE;
+	Mon, 30 Sep 2024 17:13:28 +0000 (UTC)
+Date: Mon, 30 Sep 2024 13:14:15 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Hans de Goede <hdegoede@redhat.com>, LKML
+ <linux-kernel@vger.kernel.org>, Linux trace kernel
+ <linux-trace-kernel@vger.kernel.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Mike Rapoport <mike.rapoport@gmail.com>, Kees Cook <keescook@chromium.org>,
+ Ard Biesheuvel <ardb@kernel.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation/tracing: Mention that
+ RESET_ATTACK_MITIGATION can clear memory
+Message-ID: <20240930131415.1438c0b7@gandalf.local.home>
+In-Reply-To: <f8546c5d-fa2e-416f-8a1b-431025b4df4d@redhat.com>
+References: <20240926130159.19e6d0e2@rorschach.local.home>
+	<f8546c5d-fa2e-416f-8a1b-431025b4df4d@redhat.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240207172646.3981-1-xin3.li@intel.com> <20240207172646.3981-8-xin3.li@intel.com>
- <ZiJzFsoHR41Sd8lE@chao-email> <ZmoT0jaX_3Ww3Uzu@google.com>
- <feefa9d1-f266-414f-bb7b-b770ef0d8ec6@zytor.com> <ZuNJlzXntREQVb3n@google.com>
- <d65e62d2-ca64-4b29-8656-bb8411fe837d@zytor.com> <ZvQaNRhrsSJTYji3@google.com>
- <496a337d-a20d-4122-93a9-1520779c6d2d@zytor.com> <208429ae-d9c5-4b73-86ff-a9b31e68f7eb@zytor.com>
-Message-ID: <ZvrYOj0Nn9m8VIWV@google.com>
-Subject: Re: [PATCH v2 07/25] KVM: VMX: Set intercept for FRED MSRs
-From: Sean Christopherson <seanjc@google.com>
-To: Xin Li <xin@zytor.com>
-Cc: Chao Gao <chao.gao@intel.com>, Xin Li <xin3.li@intel.com>, linux-kernel@vger.kernel.org, 
-	kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, shuah@kernel.org, 
-	vkuznets@redhat.com, peterz@infradead.org, ravi.v.shankar@intel.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 27, 2024, Xin Li wrote:
-> > > > When FRED is advertised to a guest, KVM should allow FRED SSP MSRs
-> > > > accesses through disabling FRED SSP MSRs interception no matter whe=
-ther
-> > > > supervisor shadow stacks are enabled or not.
-> > >=20
-> > > KVM doesn't necessarily need to disabling MSR interception, e.g. if
-> > > the expectation
-> > > is that the guest will rarely/never access the MSRs when CET is
-> > > unsupported, then
-> > > we're likely better off going with a trap-and-emulate model.=C2=A0 KV=
-M
-> > > needs to emulate
-> > > RDMSR and WRMSR no matter what, e.g. in case the guest triggers a
-> > > WRMSR when KVM
-> > > is emulating, and so that userspace can get/set MSR values.
-> > >=20
-> > > And this means that yes, FRED virtualization needs to land after CET
-> > > virtualization,
-> > > otherwise managing the conflicts/dependencies will be a nightmare.
-> > >=20
->=20
-> I still plan to send another iteration of the FRED patch set for review,
-> however I haven't seen your x86 KVM changes land into Linus' tree, it
-> will happen soon, right?
+On Thu, 26 Sep 2024 19:54:48 +0200
+Hans de Goede <hdegoede@redhat.com> wrote:
 
-Yep, we squeaked into rc1, the pull request to Linus was delayed because of
-travel and conferences.
+> Hi,
+> 
+> On 26-Sep-24 7:01 PM, Steven Rostedt wrote:
+> > From: Steven Rostedt <rostedt@goodmis.org>
+> > 
+> > At the 2024 Linux Plumbers Conference, I was talking with Hans de Goede
+> > about the persistent buffer to display traces from previous boots. He
+> > mentioned that UEFI can clear memory. In my own tests I have not seen
+> > this. He later informed me that it requires the config option:
+> > 
+> >  CONFIG_RESET_ATTACK_MITIGATION
+> > 
+> > It appears that setting this will allow the memory to be cleared on boot
+> > up, which will definitely clear out the trace of the previous boot.
+> > 
+> > Add this information under the trace_instance in kernel-parameters.txt
+> > to let people know that this can cause issues.
+> > 
+> > Link: https://lore.kernel.org/all/20170825155019.6740-2-ard.biesheuvel@linaro.org/
+> > 
+> > Reported-by: Hans de Goede <hdegoede@redhat.com>
+> > Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>  
+> 
+> Thanks, patch looks good to me:
+> 
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+Thanks,
+
+And I forgot to send this to the Documentation maintainers :-p
+
+Jon, could you take this? Do you need me to resend, or can you just pull it
+from lore?
+
+   https://lore.kernel.org/linux-trace-kernel/20240926130159.19e6d0e2@rorschach.local.home/
+
+-- Steve
+
+
+> 
+> Regards,
+> 
+> Hans
+> 
+> 
+> 
+> > ---
+> >  Documentation/admin-guide/kernel-parameters.txt | 3 +++
+> >  1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> > index bb48ae24ae69..f9b79294f84a 100644
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > @@ -6850,6 +6850,9 @@
+> >  
+> >  				reserve_mem=12M:4096:trace trace_instance=boot_map^traceoff^traceprintk@trace,sched,irq
+> >  
+> > +			Note, CONFIG_RESET_ATTACK_MITIGATION can force a memory reset on boot which
+> > +			will clear any trace that was stored.
+> > +
+> >  			See also Documentation/trace/debugging.rst
+> >  
+> >    
+
