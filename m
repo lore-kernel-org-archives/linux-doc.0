@@ -1,76 +1,58 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDD6C286A1;
-	Mon, 30 Sep 2024 17:21:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C55A286A1;
+	Mon, 30 Sep 2024 17:23:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727716916; cv=none; b=EZwk4I+/GUqrXUEGyoQtcbohIMJYrAlUcUqyXcErXgqwal01iqAswzl4jXxmR3JTHy+50rmTjQVGUkODxEx/KlWH0Awy9VqLlp9K304hQftOVJ++TxGfj4bII2Ll0PkYuRLzRVwMh/Krnft9CgmPzVmdo/RWec7a2pY8jENX4X0=
+	t=1727716999; cv=none; b=KCh3JJVQeb/oROSzalOCuGfd+bmjtuFVu29/nuRolhdpmegCdhcWrDvsEj0w9UJPMtHjMitT9s6hlwx7DWvt1Dn1DG/Z48O9kOX8YK+nUX8U953Gxv76h4jck31ZAoyaypbKHPSccYrQn9wm47EFfvz5jvMbHgm+h8qxuDHMH3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727716916; c=relaxed/simple;
-	bh=sQnJ2vYgT498XXCmOFGCfblCNnKtLSSWz9NtsiNU6CQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ShwqzVVGxYmjNnyg5rOZosGZWBsZ9AlEzx3LAxg71ZUREYq3A1/m6QuH5yXossWlQHznopeyjsQpmhJvXErOxO3O8QrviwdLhf+R/JhCSoPt+vjRxCQ0PwlmxvV5syjzepx541VpkiK4egDJQyxdsJ5ne2ae4Nk68tnCcKe5fUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=cUoErctk; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="cUoErctk"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2A60F42BFE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1727716914; bh=sQnJ2vYgT498XXCmOFGCfblCNnKtLSSWz9NtsiNU6CQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=cUoErctkcwoPXi21RUc/Oxl+yiqOZwiR2zeEcf5C70lMQkMhOARq8DBtQAPd2ydHq
-	 ZR8mhhKH7f6e7KgYTNztDh851DXhPOZepfHTU51PgQ8QI030k8tMPcb34XtggkS2Bb
-	 hgBU2hArwX9tcRjLIH5s0XCll5ptxDr9usajzxLTcJugoOc7MyOXP0wzTq7uD1dGOd
-	 AFX3D9Dqd5s6s6r4OQmPDbdgo8TvJiNPWSMeGt2RHpPBFkYrKpQVFaLhF2ROYFz8nl
-	 MX486gF0FQN3y6WJC2B9/X8x7Bw6L9IIKLIgS2+zxBSc7y8uRnm1K5DIptkUYIkt/4
-	 pjeBgYfle1LtQ==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 2A60F42BFE;
-	Mon, 30 Sep 2024 17:21:52 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Daniel Thompson <daniel.thompson@linaro.org>, Changhuang Liang
- <changhuang.liang@starfivetech.com>
-Cc: Jason Wessel <jason.wessel@windriver.com>, Douglas Anderson
- <dianders@chromium.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- kgdb-bugreport@lists.sourceforge.net, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] Documentation: kgdb: Correct parameter error
-In-Reply-To: <20240930092907.GD5584@aspen.lan>
-References: <20240925100742.1730576-1-changhuang.liang@starfivetech.com>
- <20240930092907.GD5584@aspen.lan>
-Date: Mon, 30 Sep 2024 11:21:49 -0600
-Message-ID: <87ed519hw2.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1727716999; c=relaxed/simple;
+	bh=TPW/8gg94x07AziOpLQsP8y3zZrcj0YHmCWdVDAqAEQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qqSUWEBGm8cx/V/lQy2azDcGzC5jl9EQRQfu8FNXPfBl5eb72yw1JrkhNs7XFk9IEUWTmvq7wmpjdBdSMg1qcqXiuxeUDeUlGqYhIeZ/I47KxMUonpo+u/NgW7RmMae1ZYZfwcsxd8gAhQ3PUle7XyOIUjmSosNe62bSQ3ZvbqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE503C4CEC7;
+	Mon, 30 Sep 2024 17:23:17 +0000 (UTC)
+Date: Mon, 30 Sep 2024 13:24:04 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Hans de Goede <hdegoede@redhat.com>, LKML
+ <linux-kernel@vger.kernel.org>, Linux trace kernel
+ <linux-trace-kernel@vger.kernel.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Mike Rapoport <mike.rapoport@gmail.com>, Kees Cook <keescook@chromium.org>,
+ Ard Biesheuvel <ardb@kernel.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation/tracing: Mention that
+ RESET_ATTACK_MITIGATION can clear memory
+Message-ID: <20240930132404.728831a7@gandalf.local.home>
+In-Reply-To: <87ikud9hxr.fsf@trenco.lwn.net>
+References: <20240926130159.19e6d0e2@rorschach.local.home>
+	<f8546c5d-fa2e-416f-8a1b-431025b4df4d@redhat.com>
+	<20240930131415.1438c0b7@gandalf.local.home>
+	<87ikud9hxr.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Daniel Thompson <daniel.thompson@linaro.org> writes:
+On Mon, 30 Sep 2024 11:20:48 -0600
+Jonathan Corbet <corbet@lwn.net> wrote:
 
-> On Wed, Sep 25, 2024 at 03:07:42AM -0700, Changhuang Liang wrote:
->> Module kgdb had been converted to debug_core since commit c433820971ff
->> ("Move kernel/kgdb.c to kernel/debug/debug_core.c") be added, so let's
->> correct the module parameter path.
->>
->> Fixes: c433820971ff ("Move kernel/kgdb.c to kernel/debug/debug_core.c")
->> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
->> Reviewed-by: Douglas Anderson <dianders@chromium.org>
->
-> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
->
-> @Jon: Do you want me to hoover this up or will you take it? If you are
-> happy to grab it then feel free to treat my Rb: as an Acked-by: too!
+> > And I forgot to send this to the Documentation maintainers :-p
+> >
+> > Jon, could you take this? Do you need me to resend, or can you just pull it
+> > from lore?  
+> 
+> I'll grab it in a bit.
 
-Sure, I can grab it in a bit.
+No rush.
 
-Thanks,
+Thanks!
 
-jon
+-- Steve
