@@ -1,127 +1,57 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C35194ACB;
-	Mon, 30 Sep 2024 14:53:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D79D91925AE;
+	Mon, 30 Sep 2024 15:10:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727708017; cv=none; b=Txv1CMPJ76WYiSTrL9X+TUzSFaq1N604l8alLJ7TV1y78Jn+efvW3jip0g86AAmmX4yyqjNkOhmVpp820Frc4dadrXHxIEXk1VQa4BqtxtRyn+8oZblEwEb2jBMcfbdbR1jWiKs3z6Fskx458PO0zmRbK3GcQV/1lxu4uz23y9M=
+	t=1727709000; cv=none; b=qLH70+r6DEiYzvqCIx+SzVf3SzGJmHmgaS9Z4PpBN9n2W92+6XOlwo58kPYR/KYIq7HSVI4zHxUzTP0Pe6qYP8iGSbRb+Qsvi5m25AHvYYlLLj1SUKOpUqYZkg3b/oQHlfAW/KFe6xFH7PipQfGv4FP62lJIAYe9oVy4eGGdCs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727708017; c=relaxed/simple;
-	bh=H5EV1RRodrsbm5ea8UJTy16lJkA2S9iZk7mZhOSIW6c=;
+	s=arc-20240116; t=1727709000; c=relaxed/simple;
+	bh=8z//JTvwgq6E9BMHMYhRVFIsSMeu7/lfmxgPIMTINR4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eS1/hgtJZkrKRHGziEqpWTsfkdpjFz39X0qEQzQTGMOJnESNXvbA9p7KBHC0l+PvNlNudgBY1lMWl1LcsAWIV6ESng+q1u+Pj1F8Nza3OEgH9qI+4n4KawsKg+IPlyxWRtuRyPhMTMKh/wm4fYfMVxIBB/L13BJ/yEGeDAoxSt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rYrk5QmY; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rjd269hf3FNU+21N+fSaGCBsDsCVL6HlefI2JOsfyVK0uOWya3dh25/VSItiHgBR7ezSSC2rn09KdLMvyOJgd0lc6pgH3B763KnZxnrn84njmr0P8DQvCnn5iJTv85h76663R69BVgF1YENhmKY8kkakmFBHEIcVnrWbsKYz/M8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=chYa9MYQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rYrk5QmY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6125DC4CEC7;
-	Mon, 30 Sep 2024 14:53:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="chYa9MYQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70981C4CECE;
+	Mon, 30 Sep 2024 15:09:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727708016;
-	bh=H5EV1RRodrsbm5ea8UJTy16lJkA2S9iZk7mZhOSIW6c=;
+	s=k20201202; t=1727709000;
+	bh=8z//JTvwgq6E9BMHMYhRVFIsSMeu7/lfmxgPIMTINR4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rYrk5QmYKX+nqa2DOTziaQLHU1l3FYbC+Gm6UhuDJc2L/qbKfCagYtQCo1nvqnCIW
-	 HYb7iCyDTwGSHQlhehyoUClmn4xYvkFVQvWndELKO8Qq+DLn5g0cKGD0SbVvnzDNdH
-	 zjhjFHhty2JNVl5PXDQnSX5QjB4PxjjJ3fuJtB0Evn7njpZfEYX1TqJizIpR2cp8dX
-	 6gwkYuV1bn84Rg7RgiSBibektX8xbfWyAfSN0J5n7hjvkRpJ1sN/4rgmVSA5dpcwYk
-	 bUmFeDjHugx51UhhkxPdGo+h5/NC5h/t8v5OBef7ABGcLad9vS5AJHiibwBsphpZdp
-	 fnrah/znakWnw==
-Date: Mon, 30 Sep 2024 15:53:29 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Aoba K <nExp_0x17@outlook.com>
-Cc: "charlie@rivosinc.com" <charlie@rivosinc.com>,
-	"ajones@ventanamicro.com" <ajones@ventanamicro.com>,
-	"andy.chiu@sifive.com" <andy.chiu@sifive.com>,
-	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
-	"conor.dooley@microchip.com" <conor.dooley@microchip.com>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"evan@rivosinc.com" <evan@rivosinc.com>,
-	"guoren@kernel.org" <guoren@kernel.org>,
-	"heiko@sntech.de" <heiko@sntech.de>,
-	"jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
-	"jrtc27@jrtc27.com" <jrtc27@jrtc27.com>,
-	"jszhang@kernel.org" <jszhang@kernel.org>,
-	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-	"linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>,
-	"palmer@dabbelt.com" <palmer@dabbelt.com>,
-	"paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
-	"robh@kernel.org" <robh@kernel.org>,
-	"samuel.holland@sifive.com" <samuel.holland@sifive.com>,
-	"samuel@sholland.org" <samuel@sholland.org>,
-	"shuah@kernel.org" <shuah@kernel.org>,
-	"wens@csie.org" <wens@csie.org>
-Subject: Re: [PATCH v10 00/14] riscv: Add support for xtheadvector
-Message-ID: <20240930-reenact-stratus-9d42d7439df4@spud>
-References: <20240911-xtheadvector-v10-0-8d3930091246@rivosinc.com>
- <a1f41f92-6bd0-48b6-a931-e7ad7aba18cc@outlook.com>
+	b=chYa9MYQ8x0EuzeP+5xOF3fp4Gq0OeLJfodzFgXAdUIhzWMdwYJ+vreWzTpBJilUl
+	 /omqO7ViavYhZWRU8NWkEdrGa3+EghznFbaVoCVERIOS4nZ4qAt3SaEQ7g+GQFv7Ei
+	 ha09xK5bS6Z43dEZD9L5++dD6WMKMqo//6X5ysxK4xSI9zF2bqrhfRq84k9GWJCSbO
+	 dP2yXeD2FYpcEJ/hr52DrYiP6FXOO+2LQCMz+bxk4/ofPG+G6aJUFP04TSSWz5Yzwq
+	 1zI82p9zjDM+2vREvloQb0/dZ77bxH4KNLC+vihSsJ0E0rgKPPlCaqe9cSYH4tVot7
+	 3ATgbjHnam9Sw==
+Date: Mon, 30 Sep 2024 16:09:56 +0100
+From: Simon Horman <horms@kernel.org>
+To: Leo Stone <leocstone@gmail.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org, anupnewsmail@gmail.com
+Subject: Re: [PATCH] Documentation: networking/tcp_ao: typo and grammar fixes
+Message-ID: <20240930150956.GB1310185@kernel.org>
+References: <20240929005001.370991-1-leocstone@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Hamb1NyozR0uOSVn"
-Content-Disposition: inline
-In-Reply-To: <a1f41f92-6bd0-48b6-a931-e7ad7aba18cc@outlook.com>
-
-
---Hamb1NyozR0uOSVn
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240929005001.370991-1-leocstone@gmail.com>
 
-On Sun, Sep 29, 2024 at 12:44:07PM +0000, Aoba K wrote:
-> Hello Charlie,
->=20
-> I've been working on bringing up the Sipeed Lichee RV Dock
-> (which also uses the D1 SoC) with the kernel patches you provided.
-> The patches applied cleanly to Palmer's for-next branch,
-> but I've encountered a couple of issues:
->=20
-> 1. Skiffos Compilation Error during the compilation process of `cgo`:
-> `unknown relocation type 17; compiled without -fpic?`
-> Unfortunately, I closed the terminal before saving the full log,
-> so I don't have the complete details, but the result should be reproducib=
-le.
-> While this should be a SkiffOS issue, mention it in case SkiffOS is the m=
-ethod
-> that you mentioned for bringing up the device.
->=20
-> 2. Image Building with sehraf/riscv-arch-image-builder:
-> After building the image, the device failed to start at an early stage.
-> I suspect this may be related to incorrect RAM size detection,
-> as the board only has 512MB of RAM.
-> Interestingly, the vendor image reports 1GB, and the Sipeed website also =
-states
-> that the Dock has 1GB, despite there being no extra memory bank present.
->=20
-> You can find the boot log here: https://fars.ee/bdYk.log
->=20
-> Any help would be appreciated, and big thanks to your work
-> to make the efficient part of this board to work (again)!
+On Sat, Sep 28, 2024 at 05:49:34PM -0700, Leo Stone wrote:
+> Fix multiple grammatical issues and add a missing period to improve
+> readability.
+> 
+> Signed-off-by: Leo Stone <leocstone@gmail.com>
 
-The log you posted at https://fars.ee/XFzR appears to be using the
-devicetree of a Nezha not the Lichee RV Dock. Why are you doing that,
-when the Lichee RV Dock is supported in the kernel already?
+Reviewed-by: Simon Horman <horms@kernel.org>
 
-Cheers,
-Conor.
-
---Hamb1NyozR0uOSVn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZvq7aQAKCRB4tDGHoIJi
-0iYzAP42CtXDZpcWhRrFXf/pP66arAHe2Q5uoLqijR0QtCN9HQEApur4oRSzITjL
-SgCrOuckDuHJRCTBo9J9wNnIVrJC/AQ=
-=iwxp
------END PGP SIGNATURE-----
-
---Hamb1NyozR0uOSVn--
+...
