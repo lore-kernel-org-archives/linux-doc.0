@@ -1,206 +1,140 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3959195FF0;
-	Mon, 30 Sep 2024 13:53:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7768193062
+	for <linux-doc@vger.kernel.org>; Mon, 30 Sep 2024 14:00:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727704384; cv=none; b=CrUYFIgmE0P1vd+TLhFxIP5dUtztLq0RvLZCH85r/FDUszXQ3MzsNV0lNO45gvK4VK3QDxvVlmGw+pSGKMa+4Uut0TRY4sckce/WCsCeE77FnngzGdw27L4/azifphZhAKJlMLXMD59eQBMGC52gKlZpz9xO+rgMzTb50DrFZkk=
+	t=1727704811; cv=none; b=KGExlv0HxaLk229RT/xo56l8sU6mLrS6wKwWRsbt6zONUAMs+4V7cXq/gVE022qZOSaW0c7lzMGOPU7X6yfPn1LbbURLY1gcmkMXvHmxLLPLMeH0IYOmTLMaGE1pT2a9fb1ymtOCd/JdiKYdE2OPeNfow7PHIeZGP2qrs3YS+pI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727704384; c=relaxed/simple;
-	bh=8km0caqw4X9w5WLWDqoPcdYkk+OV9Jah8JF02dHf5Ug=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=J2HUPqg8ZdQ2707y13ChxYYmrL9l/Pt7u09xDqtGIhFas9QDXAQpv0EHQ6wmuutW/RhzWY9vFxg5Brz/z7/A0O8m/Flp+uRon73IoA8m0YM3iiImQBuxg6Stpiz/o3RbyFiT+pH8sjelxPXjqntquhWG0KEbrk+jEg3hiGAihaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OSCxZwVG; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727704811; c=relaxed/simple;
+	bh=3ijB4GlXO+25BXCSGu/vsofAjiikfjurTHWwB9A1V40=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ax+ny3aYLLbVSrq8U/JQo2lxlnBKRc9kVWYfVU9r3gnPTSTYBJuoovQiyOWpZJ9lU8YFCLU1g8yUGTf5a6xWWhfbEX+/r0PIaPj0VHZqcDSRcj7XNrNeetUGm2egl3EJ+imNTV7LxnZn3QnTe00KPWx297NO03ycLZ7KSQV9Ng8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk; spf=pass smtp.mailfrom=rasmusvillemoes.dk; dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b=Rt3Lqz4X; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rasmusvillemoes.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OSCxZwVG"
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2fad0f66d49so10501601fa.3;
-        Mon, 30 Sep 2024 06:53:02 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b="Rt3Lqz4X"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-53959a88668so3475475e87.2
+        for <linux-doc@vger.kernel.org>; Mon, 30 Sep 2024 07:00:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727704381; x=1728309181; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=t1y38+8CPxsqSfGk+vokQebE6afY4tdr6oHCYyS40ak=;
-        b=OSCxZwVGlWkURIgsAha+dgVC+/xgXZZQDtv7QCnEaItqmrrKSWTQKW05e4YZMwWHU/
-         3T75kyxxf1WBLdRpv+McRTrxO+ftIRpCvIPGOk7/n/0uM8bjGh9SKxkvsP8DRh8Y9mqF
-         2pUnLnOSi92WiI5nrLhJq59GESyM/O/DaMck+lszbgoy+A9izEYizVLVQsYcUjTFtfEu
-         qdUgComLrElsixdGbsbnB4JEk2pQ5zp7gnHjxd2h/b6HUY/sL2TT2t3ZSBwOzYNirH+3
-         acz/XYGACaueJgJ2mGYjuvHyuia24siLS4qyrsc3Pqq6YCq9EjrbbfMmnvvRJsArT/Dz
-         VuSQ==
+        d=rasmusvillemoes.dk; s=google; t=1727704808; x=1728309608; darn=vger.kernel.org;
+        h=mime-version:user-agent:message-id:date:references:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GUVJY0IXomTgT+0Kh65kRbP76txfvO137vhXRmIMRvY=;
+        b=Rt3Lqz4XgiL7D7bZ0SIfI8aBV6Eu8GO4FH52yelW3pR6okq/L/tK08af8uCtSp1+0E
+         74lFjpua28iIw8uN6EN4fhKfn1Ab5WahH6FiiFshnUNwCj9KaFh5ORDk4t1RMuj6J5zu
+         Ta3qKuFKLDApCpg7lq/M7n55oOdIXJFd/wdn4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727704381; x=1728309181;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=t1y38+8CPxsqSfGk+vokQebE6afY4tdr6oHCYyS40ak=;
-        b=cGwCjY0VKxhfQTo3AryKbedpS41KFh/Ynqi9xWkedcIB4pNDSU/JSAuCcu7jXQ1uW6
-         CqZ9Zf/dsOVRvWTFUT7TnBjiUM2mTDmbEvQ0FEOKhMNIW2ZKPro1ggMddYh4JfjFtutv
-         WsxjKWlIOn6pr564o69+MpkPNiPJQGBJcOn0EFSrAFAE55EM+DUqks35NkaSviF/Hywt
-         uwfBiqbeth9GCJKhIEZO7x9Y7YcGrBj+xbhMJnvLlNN1Hx7zfDIVzy1uZODzAeqkYgm+
-         l3aBpEsqXs73nMAgjU4algS0+sdiHB4QAypL/sn6Ptfme8/lHaF4qCmCryycBjnjS6Oi
-         em1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU2170+diNE5jbI9KL8VtnhzW46doM8979pWw2NUnOnSzoH8bFgMAyo4b7rFaBt1zKQz4Fiu0Z/vPb+v9tj@vger.kernel.org, AJvYcCX3Kz0VwouBn9jctQUBem9PT0BiiNZHWjutjDAVZdwf+JK5UXwFn5v9AoVw9JoH+GdYFdc2NosikiI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxFvRYefufTsZhRTUpDjth0MRxP3nERieOMw7f/u7xx8pimE2Uq
-	g661fdiQtwPQxz20J5AqnXhpWGPVSZ9MbTJW4O8NwMJmnykPYCzp
-X-Google-Smtp-Source: AGHT+IEg69BR50STgCuKu/pPSOPMSBU/bGr36uoh1Lc98Ji5DFaA1Pnf7fDLAkbi9nL39EDiPjiJqw==
-X-Received: by 2002:a2e:f1a:0:b0:2fa:bba7:2699 with SMTP id 38308e7fff4ca-2fabba72735mr50221801fa.16.1727704380585;
-        Mon, 30 Sep 2024 06:53:00 -0700 (PDT)
-Received: from [192.168.1.17] (host-95-250-55-22.retail.telecomitalia.it. [95.250.55.22])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c88245ea57sm4507540a12.55.2024.09.30.06.52.59
+        d=1e100.net; s=20230601; t=1727704808; x=1728309608;
+        h=mime-version:user-agent:message-id:date:references:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GUVJY0IXomTgT+0Kh65kRbP76txfvO137vhXRmIMRvY=;
+        b=rGN5PaQFdlVdWifBZEEjWBw2XsH5Yskul21OlNtoMPSuXRa/kavZ6uVuW3Xk6vLjAA
+         BmK/+llKUPhDmdn0z9sBcvEwlnidv+KYd3Q98u6QqL5kPm8GtQCkygJvKw2hgSd3+YQG
+         /xCWiFd88lz5+jeTQABDMi9bbQ9SdJh6XxMO2xXQzkV/2MrGGxfhAlZxgV2RVHpIYnTY
+         hXCpS3Rr8w23On0M0/PxVtksF0GfrtJNS65NSlm+bV1DTBogYPq+r9Odrnr4reGcBZLJ
+         9XR0lsgjaYOKBRLtvEPxn3ffi3uipXyzB3/zAtxIOVJDS3TzQ5jCGmLJm0yAk4RMCP9r
+         +Smg==
+X-Forwarded-Encrypted: i=1; AJvYcCXD87Yvffjfa/ip63fqGSa4irW7q7FBMwgemPrhQi7vEpbPm3u5zcwqWECa2kza8MMGAZaLVXPxGRQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwoccEeJ5QrwIFAB1b1j9tzOfdyvb1xDkLAzpm+JrIqTt0t0QL8
+	r7JKgE3o418sv6o3m+dd6Bbb9HjGm6D1mZceckInmcBfbcINu3AYmb98sqZgUhM=
+X-Google-Smtp-Source: AGHT+IEKI7Weq7GjSrmgYABMSBw8sViHYEBtfUq5wTxEWLE74jtGdVLHWUX/PFqWZwy723EiPNA5iQ==
+X-Received: by 2002:a05:6512:398d:b0:530:daeb:c1d4 with SMTP id 2adb3069b0e04-5389fc35936mr5226141e87.12.1727704807805;
+        Mon, 30 Sep 2024 07:00:07 -0700 (PDT)
+Received: from localhost ([81.216.59.226])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5389fd5df47sm1233224e87.78.2024.09.30.07.00.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 06:53:00 -0700 (PDT)
-From: Antonino Maniscalco <antomani103@gmail.com>
-Date: Mon, 30 Sep 2024 15:52:47 +0200
-Subject: [PATCH v7 12/12] Documentation: document adreno preemption
+        Mon, 30 Sep 2024 07:00:07 -0700 (PDT)
+From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+To: Christian Marangi <ansuelsmth@gmail.com>
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,  Jens Axboe
+ <axboe@kernel.dk>,  Jonathan Corbet <corbet@lwn.net>,  Ulf Hansson
+ <ulf.hansson@linaro.org>,  Rob Herring <robh@kernel.org>,  Krzysztof
+ Kozlowski <krzk+dt@kernel.org>,  Conor Dooley <conor+dt@kernel.org>,  Kees
+ Cook <kees@kernel.org>,  Andy Shevchenko <andy@kernel.org>,  Daniel Golle
+ <daniel@makrotopia.org>,  INAGAKI Hiroshi <musashino.open@gmail.com>,
+  Christian Brauner <brauner@kernel.org>,  Al Viro
+ <viro@zeniv.linux.org.uk>,  Li Lingfeng <lilingfeng3@huawei.com>,  Ming
+ Lei <ming.lei@redhat.com>,  Christian Heusel <christian@heusel.eu>,
+  linux-block@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-kernel@vger.kernel.org,  linux-mmc@vger.kernel.org,
+  devicetree@vger.kernel.org,  linux-hardening@vger.kernel.org,  Miquel
+ Raynal <miquel.raynal@bootlin.com>,  Lorenzo Bianconi
+ <lorenzo@kernel.org>,  upstream@airoha.com
+Subject: Re: [PATCH v4 5/5] dt-bindings: mmc: Document support for partition
+ table in mmc-card
+In-Reply-To: <66fa9810.050a0220.3b136f.bc29@mx.google.com> (Christian
+	Marangi's message of "Mon, 30 Sep 2024 14:22:32 +0200")
+References: <20240930113045.28616-1-ansuelsmth@gmail.com>
+	<20240930113045.28616-6-ansuelsmth@gmail.com>
+	<87y139jpx5.fsf@prevas.dk>
+	<66fa9810.050a0220.3b136f.bc29@mx.google.com>
+Date: Mon, 30 Sep 2024 16:00:10 +0200
+Message-ID: <87ikudjl79.fsf@prevas.dk>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240930-preemption-a750-t-v7-12-47803c7a5a64@gmail.com>
-References: <20240930-preemption-a750-t-v7-0-47803c7a5a64@gmail.com>
-In-Reply-To: <20240930-preemption-a750-t-v7-0-47803c7a5a64@gmail.com>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Antonino Maniscalco <antomani103@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727704357; l=5024;
- i=antomani103@gmail.com; s=20240815; h=from:subject:message-id;
- bh=8km0caqw4X9w5WLWDqoPcdYkk+OV9Jah8JF02dHf5Ug=;
- b=BHwtSLEaNLieYg6e3Ygrw+itZ0WzagFs7SXNbpZIAAElFpNib3jiNKVHvyTqeEFrRJCN0YMfO
- 2JkVkvx5ColB/74nWURP3H+zmHX1OYcIr7FSZJ7YUUf/ahnXTu8aW+W
-X-Developer-Key: i=antomani103@gmail.com; a=ed25519;
- pk=0zicFb38tVla+iHRo4kWpOMsmtUrpGBEa7LkFF81lyY=
+Content-Type: text/plain
 
-Add documentation about the preemption feature supported by the msm
-driver.
+Christian Marangi <ansuelsmth@gmail.com> writes:
 
-Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
----
- Documentation/gpu/msm-preemption.rst | 99 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 99 insertions(+)
+> On Mon, Sep 30, 2024 at 02:18:14PM +0200, Rasmus Villemoes wrote:
+>> Christian Marangi <ansuelsmth@gmail.com> writes:
+>> 
+>> > Document support for defining a partition table in the mmc-card node.
+>> >
+>> > This is needed if the eMMC doesn't have a partition table written and
+>> > the bootloader of the device load data by using absolute offset of the
+>> > block device. This is common on embedded device that have eMMC installed
+>> > to save space and have non removable block devices.
+>> >
+>> > If an OF partition table is detected, any partition table written in the
+>> > eMMC will be ignored and won't be parsed.
+>> >
+>> > eMMC provide a generic disk for user data and if supported (JEDEC 4.4+)
+>> > also provide two additional disk ("boot0" and "boot1") for special usage
+>> > of boot operation where normally is stored the bootloader or boot info.
+>> >
+>> 
+>> This looks quite useful.
+>> 
+>> Could this be extended to also be applicable to the four "general
+>> purpose" hardware partitions, i.e. what is exposed as /dev/mmcblkXgpY ?
+>> These would often also contain some fundamental boot data at various
+>> offsets but also, as for the boot partitions, often without a regular
+>> partition table.
+>> 
+>> The eMMC spec consistently refers to the boot partitions as "boot
+>> partition 1" and "boot partition 2"; the boot0/boot1 naming is kind of a
+>> linux'ism. Similarly, the general purpose partitions are _almost_
+>> exclusively referred to as 1 through 4, except (at least in my copy),
+>> the heading for 7.4.89 says GP_SIZE_MULT_GP0 - GP_SIZE_MULT_GP3, but
+>> then goes on to describe GP_SIZE_MULT_1_y through GP_SIZE_MULT_4_y. So I
+>> wonder if on the binding level one should use partitions-{boot1,boot2}
+>> and, if implemented, partitions-{gp1,gp2,gp3,gp4} ?
+>>
+>
+> Just to make sure, they are exposed as disk or char device? This is the
+> case of rpmb.
+>
 
-diff --git a/Documentation/gpu/msm-preemption.rst b/Documentation/gpu/msm-preemption.rst
-new file mode 100644
-index 0000000000000000000000000000000000000000..e9b5d7bc7dc6c7740a0e8ba75d3a74e9ad267b90
---- /dev/null
-+++ b/Documentation/gpu/msm-preemption.rst
-@@ -0,0 +1,99 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+:orphan:
-+
-+=============
-+MSM Preemtion
-+=============
-+
-+Preemption allows Adreno GPUs to switch to an higher priority ring when work is
-+pushed to it, reducing latency for high priority submissions.
-+
-+When preemption is enabled 4 rings are initialized, corresponding to different
-+priority levels. Having multiple rings is purely a software concept as the GPU
-+only has registers to keep track of one graphics ring.
-+The kernel is able to switch which ring is currently being processed by
-+requesting preemption. When certain conditions are met, depending on the
-+priority level, the GPU will save its current state in a series of buffers,
-+then restores state from a similar set of buffers specified by the kernel. It
-+then resumes execution and fires an IRQ to let the kernel know the context
-+switch has completed.
-+
-+This mechanism can be used by the kernel to switch between rings. Whenever a
-+submission occurs the kernel finds the highest priority ring which isn't empty
-+and preempts to it if said ring is not the one being currently executed. This is
-+also done whenever a submission completes to make sure execution resumes on a
-+lower priority ring when a higher priority ring is done.
-+
-+Preemption levels
-+-----------------
-+
-+Preemption can only occur at certain boundaries. The exact conditions can be
-+configured by changing the preemption level, this allows to compromise between
-+latency (ie. the time that passes between when the kernel requests preemption
-+and when the SQE begins saving state) and overhead (the amount of state that
-+needs to be saved).
-+
-+The GPU offers 3 levels:
-+
-+Level 0
-+  Preemption only occurs at the submission level. This requires the least amount
-+  of state to be saved as the execution of userspace submitted IBs is never
-+  interrupted, however it offers very little benefit compared to not enabling
-+  preemption of any kind.
-+
-+Level 1
-+  Preemption occurs at either bin level, if using GMEM rendering, or draw level
-+  in the sysmem rendering case.
-+
-+Level 2
-+  Preemption occurs at draw level.
-+
-+Level 1 is the mode that is used by the msm driver.
-+
-+Additionally the GPU allows to specify a `skip_save_restore` option. This
-+disables the saving and restoring of all registers except those relating to the
-+operation of the SQE itself, reducing overhead. Saving and restoring is only
-+skipped when using GMEM with Level 1 preemption. When enabling this userspace is
-+expected to set the state that isn't preserved whenever preemption occurs which
-+is done by specifying preamble and postambles. Those are IBs that are executed
-+before and after preemption.
-+
-+Preemption buffers
-+------------------
-+
-+A series of buffers are necessary to store the state of rings while they are not
-+being executed. There are different kinds of preemption records and most of
-+those require one buffer per ring. This is because preemption never occurs
-+between submissions on the same ring, which always run in sequence when the ring
-+is active. This means that only one context per ring is effectively active.
-+
-+SMMU_INFO
-+  This buffer contains info about the current SMMU configuration such as the
-+  ttbr0 register. The SQE firmware isn't actually able to save this record.
-+  As a result SMMU info must be saved manually from the CP to a buffer and the
-+  SMMU record updated with info from said buffer before triggering
-+  preemption.
-+
-+NON_SECURE
-+  This is the main preemption record where most state is saved. It is mostly
-+  opaque to the kernel except for the first few words that must be initialized
-+  by the kernel.
-+
-+SECURE
-+  This saves state related to the GPU's secure mode.
-+
-+NON_PRIV
-+  The intended purpose of this record is unknown. The SQE firmware actually
-+  ignores it and therefore msm doesn't handle it.
-+
-+COUNTER
-+  This record is used to save and restore performance counters.
-+
-+Handling the permissions of those buffers is critical for security. All but the
-+NON_PRIV records need to be inaccessible from userspace, so they must be mapped
-+in the kernel address space with the MSM_BO_MAP_PRIV flag.
-+For example, making the NON_SECURE record accessible from userspace would allow
-+any process to manipulate a saved ring's RPTR which can be used to skip the
-+execution of some packets in a ring and execute user commands with higher
-+privileges.
+They are block devices, just as the so-called "user area" (the main
+mmcblkX) and the boot partitions.
 
--- 
-2.46.1
+> Adding support for this should be no-brainer as it's just a matter of
+> more case of the strends and more regex case on the binding.
 
+Yes, that's what I thought as well.
+
+> I also notice the conflicting names, to adapt to JEDEC naming I will rename
+> the property to boot1 and boot2.
+
+Thanks,
+Rasmus
