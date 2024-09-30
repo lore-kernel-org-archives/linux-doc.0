@@ -1,105 +1,98 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E18C188A3E;
-	Mon, 30 Sep 2024 22:49:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37DE421373;
+	Mon, 30 Sep 2024 22:58:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727736586; cv=none; b=hPdWOYDbEytJYC8OE7E2imyUyu/13Cwen0aZBik2N8C48JTiXWcNDiWPStJBLEY/1i4w2DgQSBzY4U51HPfuTuYY1RSPD2glYvnDBLkHXFV/z9fOq0BY1iut60kY3qgrozcdkXaN9txxJJWzLm/YJZ/E9dz9VOpAbnq/EwLJv7o=
+	t=1727737123; cv=none; b=lb0O8PM6pyXbScmUtxqZrqbEk82QGlrbEx0cKesCq7mbO3JS//8D0+reg7NaTqiBq4jW5WnMDN0xLnCLDjcJRjbQFMHsiFWxbeS5fG+rFZTh4vXyq1fLN/TA5zTeh8MWLYC9E37prCXaS1ZaIRvCWKk8KxFuAn2j663DtPaOkDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727736586; c=relaxed/simple;
-	bh=zPoLRt30bJVlKVAVXOnZ6LB2fb7tqlZvHqVSPN3qN5c=;
+	s=arc-20240116; t=1727737123; c=relaxed/simple;
+	bh=MFG/hKEGiIm7gD4UtzPR9o5FvknYmjbixdWJbVryyLQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BxcN8NUfF4HW+d/t1h+wOpXHeLclB1V6gz6+qJ3D4dqDbWtVAy5CJFhHTrbhX/jK59tjefeWMOIIPeUDwuWCz1sqsbhdBCIHXndbc1L/dXmdjc0NvE1ru7HPe4Z9qiXg57vaChSzpUjTKWEmITCrj+rGvwP76N2at0VESWCdImI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pvm5oWhw; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=i2nBDvT0FcTtiCai7eLfDBrAzVS56Dlvnf5ba9laSvlJzs36PSSAPgMhmlmtn/lVxIYNTWfUsrqROcIDPSE6VOBpzdYAz/1i2QMW+qoisDsbGAx/HIOkToRSMW0yo3Ug4OTTVnUdzuLHSDiGMUKPAq0BUyXfMSNJ3DFtJYmiUA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AmK8S4jc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pvm5oWhw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35696C4CEC7;
-	Mon, 30 Sep 2024 22:49:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AmK8S4jc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 946CFC4CEC7;
+	Mon, 30 Sep 2024 22:58:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727736585;
-	bh=zPoLRt30bJVlKVAVXOnZ6LB2fb7tqlZvHqVSPN3qN5c=;
+	s=k20201202; t=1727737122;
+	bh=MFG/hKEGiIm7gD4UtzPR9o5FvknYmjbixdWJbVryyLQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Pvm5oWhwhPBJ9hBKrGu8RZermgl7Exe0AntaSLL131DwlrBb+LoCYsW4wBuq93RlJ
-	 0TtbJ1S/I4hXSV6nbGAZFv2/48JahA/DaAiiDqJ33FTurG8DBtXzqk70f/i1MBh0f8
-	 AGB4oiTjRxI6kS/t4czj++14/PuAdB5wPyQzkbw1lV0GZ7dUvmN/S2X2rv3QgC1JUb
-	 jEmXRQAk+kCDu5/pIp+mUuXjdX1rNGk7hElIHm85aConWIF0bZuLY5RYedv855xwer
-	 bJO44JjAvsLFTCnBYXiIewsDpU/AHDmbJ4LkNyMKSwu/2+EeF9GIwhx9w3+zaV84Kb
-	 txw4AP6ZMD4pw==
-Date: Mon, 30 Sep 2024 15:49:42 -0700
-From: Josh Poimboeuf <jpoimboe@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>,
-	Sriraman Tallam <tmsriram@google.com>,
-	David Li <davidxl@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H . Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	John Moon <john@jmoon.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Rafael Aquini <aquini@redhat.com>, Petr Pavlu <petr.pavlu@suse.com>,
-	Eric DeVolder <eric.devolder@oracle.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Benjamin Segall <bsegall@google.com>,
-	Breno Leitao <leitao@debian.org>,
-	Wei Yang <richard.weiyang@gmail.com>,
-	Brian Gerst <brgerst@gmail.com>, Juergen Gross <jgross@suse.com>,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Kees Cook <kees@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Xiao Wang <xiao.w.wang@intel.com>,
-	Jan Kiszka <jan.kiszka@siemens.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-efi@vger.kernel.org, linux-arch@vger.kernel.org,
-	llvm@lists.linux.dev, Krzysztof Pszeniczny <kpszeniczny@google.com>,
-	Stephane Eranian <eranian@google.com>
-Subject: Re: [PATCH 6/6] Add Propeller configuration for kernel build.
-Message-ID: <20240930224942.puecrr63o6q2pe3o@treble>
-References: <20240728203001.2551083-1-xur@google.com>
- <20240728203001.2551083-7-xur@google.com>
- <CAK7LNAQ0Z38a1Nt=_XKT3i-UpauiO9RaZAye6LXGCFzvg2R8Bg@mail.gmail.com>
+	b=AmK8S4jcmacgW3nxCQGf39B6DLurLzrRW2UoNTUquIt9BYul23uLhgSQF4pSjXlxV
+	 SqJfazNTX3FjcWVBLBds7K5/NA9xZGt7Dppv9Ure8AW6fPs70mhaKT9bvFM3M8iHks
+	 Ql/pAenPCrTGFr8Ptwhid1l5DT9b+QES/yVzszfJsyOOI1esnUCDooGmQmYUgy6U53
+	 2FrKs1em64GBX92a2ZcTDf7I2QJHWzgL/zpNMq8PtgQHcX2q9tz6raha/EtAbugzyv
+	 Zh68nAdAwsD4wKclyiyXCn1G3BRCwNSjc4Uqv1LmyzhZtOLNfWX88C5K+0of4z4M3a
+	 x8uOUhrp3hmqQ==
+Date: Mon, 30 Sep 2024 22:58:39 +0000
+From: Jaegeuk Kim <jaegeuk@kernel.org>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>,
+	Theodore Ts'o <tytso@mit.edu>, Chao Yu <chao@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	Zefan Li <lizefan.x@bytedance.com>, Tejun Heo <tj@kernel.org>,
+	akpm@linux-foundation.org, Christian Brauner <brauner@kernel.org>,
+	Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.cz>,
+	Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
+	cgroups@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-fsdevel@vger.kernel.org, mcgrof@kernel.org,
+	gost.dev@samsung.com, linux-doc@vger.kernel.org,
+	linux-xfs@vger.kernel.org, Pankaj Raghav <p.raghav@samsung.com>
+Subject: Re: [PATCH] fs/writeback: convert wbc_account_cgroup_owner to take a
+ folio
+Message-ID: <ZvstH7UHpdnnDxW6@google.com>
+References: <20240926140121.203821-1-kernel@pankajraghav.com>
+ <ZvVrmBYTyNL3UDyR@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK7LNAQ0Z38a1Nt=_XKT3i-UpauiO9RaZAye6LXGCFzvg2R8Bg@mail.gmail.com>
+In-Reply-To: <ZvVrmBYTyNL3UDyR@casper.infradead.org>
 
-On Sun, Sep 29, 2024 at 08:08:43PM +0900, Masahiro Yamada wrote:
-> > +++ b/Makefile
-> > @@ -1025,6 +1025,7 @@ include-$(CONFIG_KCOV)            += scripts/Makefile.kcov
-> >  include-$(CONFIG_RANDSTRUCT)   += scripts/Makefile.randstruct
-> >  include-$(CONFIG_GCC_PLUGINS)  += scripts/Makefile.gcc-plugins
-> >  include-$(CONFIG_AUTOFDO_CLANG)        += scripts/Makefile.autofdo
-> > +include-$(CONFIG_PROPELLER_CLANG)      += scripts/Makefile.propeller
+On 09/26, Matthew Wilcox wrote:
+> On Thu, Sep 26, 2024 at 04:01:21PM +0200, Pankaj Raghav (Samsung) wrote:
+> > Convert wbc_account_cgroup_owner() to take a folio instead of a page,
+> > and convert all callers to pass a folio directly except f2fs.
+> > 
+> > Convert the page to folio for all the callers from f2fs as they were the
+> > only callers calling wbc_account_cgroup_owner() with a page. As f2fs is
+> > already in the process of converting to folios, these call sites might
+> > also soon be calling wbc_account_cgroup_owner() with a folio directly in
+> > the future.
 > 
+> I was hoping for more from f2fs.  I still don't have an answer from them
+> whether they're going to support large folios.  There's all kinds of
+> crud already in these functions like:
 > 
+>         f2fs_set_bio_crypt_ctx(bio, fio->page->mapping->host,
+>                         page_folio(fio->page)->index, fio, GFP_NOIO);
 > 
-> Please do not ignore this comment:
-> 
-> https://github.com/torvalds/linux/blob/v6.11/Makefile#L1016
+> and this patch is making it worse, not better.  A series of patches
+> which at least started to spread folios throughout f2fs would be better.
+> I think that struct f2fs_io_info should have its page converted to
+> a folio, for example.  Although maybe not; perhaps this structure can
+> carry data which doesn't belong to a folio that came from the page cache.
+> It's very hard to tell because f2fs is so mind-numbingly complex and
+> riddled with stupid abstraction layers.
 
-That comment is well hidden, it really belongs right before the
-gcc-plugins line.
+Hah, I don't think it's too complex at all tho, there's a somewhat complexity to
+support file-based encryption, compression, and fsverity, which are useful
+for Android users. Well, I don't see any strong needs to support large folio,
+but some requests exist which was why we had to do some conversion.
 
--- 
-Josh
+> 
+> But I don't know what the f2fs maintainers have planned.  And they won't
+> tell me despite many times of asking.
