@@ -1,109 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78D154765;
-	Mon, 30 Sep 2024 16:55:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D754019309E
+	for <linux-doc@vger.kernel.org>; Mon, 30 Sep 2024 16:56:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727715322; cv=none; b=WBbv2OB1IpIAMCQLOr+9lTe4b853c6kD7WE30a0mjPhasMgOKUHThelH5DJgUOju2sRaiaapSEmNMgCoLEkn1kmF/6J8McwmdmsWNVz7cPpFL8BTSDA0TpOtqugeVXSQEk+C+K6CmDbgNjnySN9w0a8Yvmhodozsi3KLSS3Cczk=
+	t=1727715394; cv=none; b=puV9DEFEQnu5yjQuUO+OgF80bEMo1vsHGou17luq5aIGBnPEkbchJzd+sF0K9JURThHn4YnSPr9Y+nZO4XdVA16JqQWkkCKt0sFYbodnTPKFrvHPKZCezDfRWIyWh4r0clZ8RDv/vsrE+F7cnQoXbPVOJIMpj7kcKkLBjtxMPXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727715322; c=relaxed/simple;
-	bh=lKkKQadWVPapLPl0MlMu2HzP7Z4Ceg67nGL1ywiXY7M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=alS/r1ZHwUz8oBVtvIcgYPZ0p98XwzfZkvMRX2ZDmm7I8kTLsCvgRC5ufZeHriAuH8bnAQMZZYPuFkrs6QyqZ+3bGfeobMst71U+1S0LAbq16FvJ6B6R3wvY9DctW9ypBFQZdBEXCrtYogM7jIOUjOCJ1AUusYxkCf8BGkdI9CQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dQwjoA9e; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727715394; c=relaxed/simple;
+	bh=bmuEUyqk2bT1c3O+xO2sNPpOqDNsTNasFyYcsnwXMAo=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=MY2P2tfcLYMlWKQMJX8IQYimWC3ipDn+w4g648wtv+iR1m5DMoTuT4uB1yQuL/XWVOtKYkFwyW60G6oAVrkT+2xiPmQTQQF9SKER/RgwtdKDXYpgS8o6/sX3ezwzn9kCrdReieMm/HnBoWn0ZTxqKEC2VCNl/XYnXHdG65kPpZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SteVKDgc; arc=none smtp.client-ip=209.85.219.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dQwjoA9e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AA4BC4CEC7;
-	Mon, 30 Sep 2024 16:55:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727715321;
-	bh=lKkKQadWVPapLPl0MlMu2HzP7Z4Ceg67nGL1ywiXY7M=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=dQwjoA9eeHBE3fmrsULX3e0egQ8Z/eh4DApr3uilts5DfJ2tZbzQybk/XJfFz+qrc
-	 UIV+G18V2t7XJTbV12A9S/ioPDi62oJK09x0GFfmtEambwbMvSnuG7p2D5ACWnsdWx
-	 c5ui1j8kXaDHHTsAa3UwqyBnhXnRrfZYgwz7eiVszrMH4H+/pBIcUAjNBH0uUMorKf
-	 E8M7C9wYKJQ8/R6dQ4P9A58NqUQ7QNcoB5fGUfa6w2NQ2fOQFpO0Z8NTbpMx+Pk0pJ
-	 HWIhA2qZtSl0unrrEk8Y8ssbsMkImp7bZ+Wme+IfQCNqMH8sxZzux0d8/VT/qF2WdO
-	 4pJOW370UTatg==
-Date: Mon, 30 Sep 2024 11:55:19 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Wei Huang <wei.huang2@amd.com>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-	Jonathan.Cameron@huawei.com, corbet@lwn.net, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	alex.williamson@redhat.com, gospo@broadcom.com,
-	michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
-	somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
-	manoj.panicker2@amd.com, Eric.VanTassell@amd.com,
-	vadim.fedorenko@linux.dev, horms@kernel.org, bagasdotme@gmail.com,
-	bhelgaas@google.com, lukas@wunner.de, paul.e.luse@intel.com,
-	jing2.liu@intel.com
-Subject: Re: [PATCH V6 0/5] PCIe TPH and cache direct injection support
-Message-ID: <20240930165519.GA179473@bhelgaas>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SteVKDgc"
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-e2608234531so4651057276.1
+        for <linux-doc@vger.kernel.org>; Mon, 30 Sep 2024 09:56:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1727715392; x=1728320192; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bmuEUyqk2bT1c3O+xO2sNPpOqDNsTNasFyYcsnwXMAo=;
+        b=SteVKDgc4uqeIQW9aTFTUWbIU6JfB+PItmEUiuqHqPA4Ey2K2rZRC/OjKvoEcC2OZG
+         XyHia6vx/s0yDj5gNTQth0RuJT+Uzx5WLRH4hzq9LiY90sKDMU7ynP9Bly7pv/AJCVCD
+         hKaX0jXk1NTcpooWAMfaU00LstQwU9esg6MO/e9Bkb2afeuNSvNkVLowG+6fFzA7sV+X
+         Qzo9rYAoZVIGLRaTGwZEzt2E90qrgzrsDs+aasGkxXiwlCFswWvygUAzNOy2uQCLdgmJ
+         Y8CanrcWug44CUXq1cE/N/6HzevU+F5YvS9vNNFwac7BKdpNZ1miLWVpSrVWedf34oQu
+         yi5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727715392; x=1728320192;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=bmuEUyqk2bT1c3O+xO2sNPpOqDNsTNasFyYcsnwXMAo=;
+        b=eVNVhEenwL+DOLfQ/hWIwcMNFV1Ftzk8ZRrCzmslnG9hLHUKwE3jlHHBNoD8taa8xX
+         uEoLkjZ6X4BGNy3Bj6rt86J82aY04KZ2/SormolQ14sCmsjmtZqhg3SEATNgPL5fLNQr
+         lMAReVMVnvxcfOl0eqWjJYdhE+CKp5mlj3PpdKgTbnNOGD0A3Z9BOKh8gJR6Fk++kC+T
+         5wU/eRs1icF8Cp1Hbu1NJ51NNSOPWKGBVRqZRerXK0RVL8h5+T6j/VxCME4cIdX9ru6p
+         WL1IDrbhXcVp2IMz4z9xDsnkdwXwjQVcAT8OaQLCJWrOap9LwcYMOcD6poiBiVez0mj5
+         N1+A==
+X-Forwarded-Encrypted: i=1; AJvYcCXghHJlU+or3yY+oPqRzkTpFnG32rUB3fUktnLV+n4UUqpqUjYMxjSTG5EeBUxM3Owo3oLEwx6vIi8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwF7QgXvp/Z54vMCgsWqWT1uqmf24vm1FAAnPJ7UtmlQ1RuHXXY
+	r+TAqPSiWjNwC3xjpYO+xqNgPDoqoi2O2x/h0foAmANmZnbc7tlHuzFaXL0XOQEckuz8I1w1l1v
+	BGg==
+X-Google-Smtp-Source: AGHT+IEC5NPofYVzP+Wzs2dXMq4oR3r2G7SGyWOX8ZxrYfWVkpnj7bsqqKMZB753besVJFViOSuQTmArTz8=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a25:2e4d:0:b0:e16:4d66:982e with SMTP id
+ 3f1490d57ef6-e2604b436d5mr59541276.5.1727715391824; Mon, 30 Sep 2024 09:56:31
+ -0700 (PDT)
+Date: Mon, 30 Sep 2024 09:56:26 -0700
+In-Reply-To: <208429ae-d9c5-4b73-86ff-a9b31e68f7eb@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240927215653.1552411-1-wei.huang2@amd.com>
+Mime-Version: 1.0
+References: <20240207172646.3981-1-xin3.li@intel.com> <20240207172646.3981-8-xin3.li@intel.com>
+ <ZiJzFsoHR41Sd8lE@chao-email> <ZmoT0jaX_3Ww3Uzu@google.com>
+ <feefa9d1-f266-414f-bb7b-b770ef0d8ec6@zytor.com> <ZuNJlzXntREQVb3n@google.com>
+ <d65e62d2-ca64-4b29-8656-bb8411fe837d@zytor.com> <ZvQaNRhrsSJTYji3@google.com>
+ <496a337d-a20d-4122-93a9-1520779c6d2d@zytor.com> <208429ae-d9c5-4b73-86ff-a9b31e68f7eb@zytor.com>
+Message-ID: <ZvrYOj0Nn9m8VIWV@google.com>
+Subject: Re: [PATCH v2 07/25] KVM: VMX: Set intercept for FRED MSRs
+From: Sean Christopherson <seanjc@google.com>
+To: Xin Li <xin@zytor.com>
+Cc: Chao Gao <chao.gao@intel.com>, Xin Li <xin3.li@intel.com>, linux-kernel@vger.kernel.org, 
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, shuah@kernel.org, 
+	vkuznets@redhat.com, peterz@infradead.org, ravi.v.shankar@intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 27, 2024 at 04:56:48PM -0500, Wei Huang wrote:
-> Hi All,
-> 
-> TPH (TLP Processing Hints) is a PCIe feature that allows endpoint
-> devices to provide optimization hints for requests that target memory
-> space. These hints, in a format called steering tag (ST), are provided
-> in the requester's TLP headers and allow the system hardware, including
-> the Root Complex, to optimize the utilization of platform resources
-> for the requests.
-> 
-> Upcoming AMD hardware implement a new Cache Injection feature that
-> leverages TPH. Cache Injection allows PCIe endpoints to inject I/O
-> Coherent DMA writes directly into an L2 within the CCX (core complex)
-> closest to the CPU core that will consume it. This technology is aimed
-> at applications requiring high performance and low latency, such as
-> networking and storage applications.
-> 
-> This series introduces generic TPH support in Linux, allowing STs to be
-> retrieved and used by PCIe endpoint drivers as needed. As a
-> demonstration, it includes an example usage in the Broadcom BNXT driver.
-> When running on Broadcom NICs with the appropriate firmware, it shows
-> substantial memory bandwidth savings and better network bandwidth using
-> real-world benchmarks. This solution is vendor-neutral and implemented
-> based on industry standards (PCIe Spec and PCI FW Spec).
-> 
-> V5->V6:
->  * Rebase on top of pci/main (tag: pci-v6.12-changes)
->  * Fix spellings and FIELD_PREP/bnxt.c compilation errors (Simon)
->  * Move tph.c to drivers/pci directory (Lukas)
->  * Remove CONFIG_ACPI dependency (Lukas)
->  * Slightly re-arrange save/restore sequence (Lukas)
+On Fri, Sep 27, 2024, Xin Li wrote:
+> > > > When FRED is advertised to a guest, KVM should allow FRED SSP MSRs
+> > > > accesses through disabling FRED SSP MSRs interception no matter whe=
+ther
+> > > > supervisor shadow stacks are enabled or not.
+> > >=20
+> > > KVM doesn't necessarily need to disabling MSR interception, e.g. if
+> > > the expectation
+> > > is that the guest will rarely/never access the MSRs when CET is
+> > > unsupported, then
+> > > we're likely better off going with a trap-and-emulate model.=C2=A0 KV=
+M
+> > > needs to emulate
+> > > RDMSR and WRMSR no matter what, e.g. in case the guest triggers a
+> > > WRMSR when KVM
+> > > is emulating, and so that userspace can get/set MSR values.
+> > >=20
+> > > And this means that yes, FRED virtualization needs to land after CET
+> > > virtualization,
+> > > otherwise managing the conflicts/dependencies will be a nightmare.
+> > >=20
+>=20
+> I still plan to send another iteration of the FRED patch set for review,
+> however I haven't seen your x86 KVM changes land into Linus' tree, it
+> will happen soon, right?
 
-Thanks, I'll wait for the kernel test robot warnings to be resolved.
-
-In patch 2/5, reword commit logs as imperative mood, e.g.,
-s/X() is added/Add X()/, as you've already done for 1/5 and 3/5.
-
-Maybe specify the ACPI _DSM name?  This would help users know whether
-their system can use this, or help them request that a vendor
-implement the _DSM.
-
-In patch 4/5, s/sustancial/substantial/.  I guess the firmware you
-refer to here means the system firmware that would provide the _DSM
-required for this to work, i.e., not firmware on the NIC itself?
-Would be helpful for users to have a hint as to how to tell whether to
-expect a benefit on their system.
-
-The 5/5 commit log could say what the patch *does*, not what *could*
-be done (the subject does say what the patch does, but it's nice if
-it's in the commit log as well so it's complete by itself).  Also, a
-hint that using the steering tag helps direct DMA writes to a cache
-close to the CPU expected to consume it might be helpful to motivate
-the patch.
-
-Bjorn
+Yep, we squeaked into rc1, the pull request to Linus was delayed because of
+travel and conferences.
