@@ -1,178 +1,127 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B992B23D2;
-	Mon, 30 Sep 2024 14:41:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C35194ACB;
+	Mon, 30 Sep 2024 14:53:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727707262; cv=none; b=n7Jp181dYvZOJFpReT79g8LYYvfVIEc0qbnJcWV7YStmllzQRmZbi7sfi90ZzWQCL6IqlK6VyNKIHylRvj3ga4IECSgPjwGtAKwd1XJucIKTcIRnhgQs0UjfOe1Tq/bCli4AJm76r7LHJj7DhGsCigHfDZxWbQGkberdHAh+TXE=
+	t=1727708017; cv=none; b=Txv1CMPJ76WYiSTrL9X+TUzSFaq1N604l8alLJ7TV1y78Jn+efvW3jip0g86AAmmX4yyqjNkOhmVpp820Frc4dadrXHxIEXk1VQa4BqtxtRyn+8oZblEwEb2jBMcfbdbR1jWiKs3z6Fskx458PO0zmRbK3GcQV/1lxu4uz23y9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727707262; c=relaxed/simple;
-	bh=eCGxBwukXU9AhcTC9DwmQWbt9WtBgWUdKXNjfrH+vL8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=j2QHYGwBod6snSqyU5+ZxU9D/v2esWsfuJo3xdMGXIr/wHKlTfQjbq837chylAlD7G+5mHhTl/x9RO5EzKOWb0wifyVK8TxBhUojcbkKi1meEA2KZa5fAYW8JtewYI7gEK8Oi//G/vWr9h9YfuNpTd+0whW6sEiJ69bJ2FtEMAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G3DRNoqA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727708017; c=relaxed/simple;
+	bh=H5EV1RRodrsbm5ea8UJTy16lJkA2S9iZk7mZhOSIW6c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eS1/hgtJZkrKRHGziEqpWTsfkdpjFz39X0qEQzQTGMOJnESNXvbA9p7KBHC0l+PvNlNudgBY1lMWl1LcsAWIV6ESng+q1u+Pj1F8Nza3OEgH9qI+4n4KawsKg+IPlyxWRtuRyPhMTMKh/wm4fYfMVxIBB/L13BJ/yEGeDAoxSt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rYrk5QmY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G3DRNoqA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E83B7C4CEC7;
-	Mon, 30 Sep 2024 14:41:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rYrk5QmY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6125DC4CEC7;
+	Mon, 30 Sep 2024 14:53:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727707262;
-	bh=eCGxBwukXU9AhcTC9DwmQWbt9WtBgWUdKXNjfrH+vL8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=G3DRNoqAU10hkSUeqgx9WMNsE16IiJWNWLDULU1gCPrzvi9Xunquflt3XbreOTZWZ
-	 jDdke6JKVmd8+nHP8flpkFvyeX4m343alNN1SwjVzyr9lHEJtDjq2r19T5zFGJSWF0
-	 PwgLVE5ayBEG4XvG1Ky0b1mlNAE48jIe8FJv9wqhNVFJsOj4YjK/CaYoNzHGtx5ZYy
-	 5fO0HC0+Fw7c0P56wnxR5j5jXEWQduWOhAxghWZ+VY6asvFKr6P9y/xgUlvcjVBYrs
-	 2o5Ks80hvqzwJBQw8IPsMox1vAhpRMGaElO+UJwMHw6BvOVB0Vchwl8eZ+58EaVZqX
-	 jvLuMNVDqn8kQ==
-From: Maxime Ripard <mripard@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>,
-	"T.J. Mercier" <tjmercier@google.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-media@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] Documentation: dma-buf: heaps: Add heap name definitions
-Date: Mon, 30 Sep 2024 16:40:57 +0200
-Message-ID: <20240930144057.453751-1-mripard@kernel.org>
-X-Mailer: git-send-email 2.46.1
+	s=k20201202; t=1727708016;
+	bh=H5EV1RRodrsbm5ea8UJTy16lJkA2S9iZk7mZhOSIW6c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rYrk5QmYKX+nqa2DOTziaQLHU1l3FYbC+Gm6UhuDJc2L/qbKfCagYtQCo1nvqnCIW
+	 HYb7iCyDTwGSHQlhehyoUClmn4xYvkFVQvWndELKO8Qq+DLn5g0cKGD0SbVvnzDNdH
+	 zjhjFHhty2JNVl5PXDQnSX5QjB4PxjjJ3fuJtB0Evn7njpZfEYX1TqJizIpR2cp8dX
+	 6gwkYuV1bn84Rg7RgiSBibektX8xbfWyAfSN0J5n7hjvkRpJ1sN/4rgmVSA5dpcwYk
+	 bUmFeDjHugx51UhhkxPdGo+h5/NC5h/t8v5OBef7ABGcLad9vS5AJHiibwBsphpZdp
+	 fnrah/znakWnw==
+Date: Mon, 30 Sep 2024 15:53:29 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Aoba K <nExp_0x17@outlook.com>
+Cc: "charlie@rivosinc.com" <charlie@rivosinc.com>,
+	"ajones@ventanamicro.com" <ajones@ventanamicro.com>,
+	"andy.chiu@sifive.com" <andy.chiu@sifive.com>,
+	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
+	"conor.dooley@microchip.com" <conor.dooley@microchip.com>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"evan@rivosinc.com" <evan@rivosinc.com>,
+	"guoren@kernel.org" <guoren@kernel.org>,
+	"heiko@sntech.de" <heiko@sntech.de>,
+	"jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
+	"jrtc27@jrtc27.com" <jrtc27@jrtc27.com>,
+	"jszhang@kernel.org" <jszhang@kernel.org>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+	"linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>,
+	"palmer@dabbelt.com" <palmer@dabbelt.com>,
+	"paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
+	"robh@kernel.org" <robh@kernel.org>,
+	"samuel.holland@sifive.com" <samuel.holland@sifive.com>,
+	"samuel@sholland.org" <samuel@sholland.org>,
+	"shuah@kernel.org" <shuah@kernel.org>,
+	"wens@csie.org" <wens@csie.org>
+Subject: Re: [PATCH v10 00/14] riscv: Add support for xtheadvector
+Message-ID: <20240930-reenact-stratus-9d42d7439df4@spud>
+References: <20240911-xtheadvector-v10-0-8d3930091246@rivosinc.com>
+ <a1f41f92-6bd0-48b6-a931-e7ad7aba18cc@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Hamb1NyozR0uOSVn"
+Content-Disposition: inline
+In-Reply-To: <a1f41f92-6bd0-48b6-a931-e7ad7aba18cc@outlook.com>
 
-Following a recent discussion at last Plumbers, John Stultz, Sumit
-Sewal, TJ Mercier and I came to an agreement that we should document
-what the dma-buf heaps names are expected to be, and what the buffers
-attributes you'll get should be documented.
 
-Let's create that doc to make sure those attributes and names are
-guaranteed going forward.
+--Hamb1NyozR0uOSVn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
+On Sun, Sep 29, 2024 at 12:44:07PM +0000, Aoba K wrote:
+> Hello Charlie,
+>=20
+> I've been working on bringing up the Sipeed Lichee RV Dock
+> (which also uses the D1 SoC) with the kernel patches you provided.
+> The patches applied cleanly to Palmer's for-next branch,
+> but I've encountered a couple of issues:
+>=20
+> 1. Skiffos Compilation Error during the compilation process of `cgo`:
+> `unknown relocation type 17; compiled without -fpic?`
+> Unfortunately, I closed the terminal before saving the full log,
+> so I don't have the complete details, but the result should be reproducib=
+le.
+> While this should be a SkiffOS issue, mention it in case SkiffOS is the m=
+ethod
+> that you mentioned for bringing up the device.
+>=20
+> 2. Image Building with sehraf/riscv-arch-image-builder:
+> After building the image, the device failed to start at an early stage.
+> I suspect this may be related to incorrect RAM size detection,
+> as the board only has 512MB of RAM.
+> Interestingly, the vendor image reports 1GB, and the Sipeed website also =
+states
+> that the Dock has 1GB, despite there being no extra memory bank present.
+>=20
+> You can find the boot log here: https://fars.ee/bdYk.log
+>=20
+> Any help would be appreciated, and big thanks to your work
+> to make the efficient part of this board to work (again)!
 
----
+The log you posted at https://fars.ee/XFzR appears to be using the
+devicetree of a Nezha not the Lichee RV Dock. Why are you doing that,
+when the Lichee RV Dock is supported in the kernel already?
 
-To: Jonathan Corbet <corbet@lwn.net>
-To: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: Brian Starkey <Brian.Starkey@arm.com>
-Cc: John Stultz <jstultz@google.com>
-Cc: "T.J. Mercier" <tjmercier@google.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
-Cc: linux-media@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
----
- Documentation/userspace-api/dma-buf-heaps.rst | 71 +++++++++++++++++++
- Documentation/userspace-api/index.rst         |  1 +
- 2 files changed, 72 insertions(+)
- create mode 100644 Documentation/userspace-api/dma-buf-heaps.rst
+Cheers,
+Conor.
 
-diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentation/userspace-api/dma-buf-heaps.rst
-new file mode 100644
-index 000000000000..00436227b542
---- /dev/null
-+++ b/Documentation/userspace-api/dma-buf-heaps.rst
-@@ -0,0 +1,71 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==============================
-+Allocating dma-buf using heaps
-+==============================
-+
-+Dma-buf Heaps are a way for userspace to allocate dma-buf objects. They are
-+typically used to allocate buffers from a specific allocation pool, or to share
-+buffers across frameworks.
-+
-+Heaps
-+=====
-+
-+A heap represent a specific allocator. The Linux kernel currently supports the
-+following heaps:
-+
-+ - The ``system`` heap allocates virtually contiguous, cacheable, buffers
-+
-+ - The ``reserved`` heap allocates physically contiguous, cacheable, buffers.
-+   Depending on the platform, it might be called differently:
-+
-+    - Acer Iconia Tab A500: ``linux,cma``
-+    - Allwinner sun4i, sun5i and sun7i families: ``default-pool``
-+    - Amlogic A1: ``linux,cma``
-+    - Amlogic G12A/G12B/SM1: ``linux,cma``
-+    - Amlogic GXBB/GXL: ``linux,cma``
-+    - ASUS EeePad Transformer TF101: ``linux,cma``
-+    - ASUS Google Nexus 7 (Project Bach / ME370TG) E1565: ``linux,cma``
-+    - ASUS Google Nexus 7 (Project Nakasi / ME370T) E1565: ``linux,cma``
-+    - ASUS Google Nexus 7 (Project Nakasi / ME370T) PM269: ``linux,cma``
-+    - Asus Transformer Infinity TF700T: ``linux,cma``
-+    - Asus Transformer Pad 3G TF300TG: ``linux,cma``
-+    - Asus Transformer Pad TF300T: ``linux,cma``
-+    - Asus Transformer Pad TF701T: ``linux,cma``
-+    - Asus Transformer Prime TF201: ``linux,cma``
-+    - ASUS Vivobook S 15: ``linux,cma``
-+    - Cadence KC705: ``linux,cma``
-+    - Digi International ConnectCore 6UL: ``linux,cma``
-+    - Freescale i.MX8DXL EVK: ``linux,cma``
-+    - Freescale TQMa8Xx: ``linux,cma``
-+    - Hisilicon Hikey: ``linux,cma``
-+    - Lenovo ThinkPad T14s Gen 6: ``linux,cma``
-+    - Lenovo ThinkPad X13s: ``linux,cma``
-+    - Lenovo Yoga Slim 7x: ``linux,cma``
-+    - LG Optimus 4X HD P880: ``linux,cma``
-+    - LG Optimus Vu P895: ``linux,cma``
-+    - Loongson 2k0500, 2k1000 and 2k2000: ``linux,cma``
-+    - Microsoft Romulus: ``linux,cma``
-+    - NXP i.MX8ULP EVK: ``linux,cma``
-+    - NXP i.MX93 9x9 QSB: ``linux,cma``
-+    - NXP i.MX93 11X11 EVK: ``linux,cma``
-+    - NXP i.MX93 14X14 EVK: ``linux,cma``
-+    - NXP i.MX95 19X19 EVK: ``linux,cma``
-+    - Ouya Game Console: ``linux,cma``
-+    - Pegatron Chagall: ``linux,cma``
-+    - PHYTEC phyCORE-AM62A SOM: ``linux,cma``
-+    - PHYTEC phyCORE-i.MX93 SOM: ``linux,cma``
-+    - Qualcomm SC8280XP CRD: ``linux,cma``
-+    - Qualcomm X1E80100 CRD: ``linux,cma``
-+    - Qualcomm X1E80100 QCP: ``linux,cma``
-+    - RaspberryPi: ``linux,cma``
-+    - Texas Instruments AM62x SK board family: ``linux,cma``
-+    - Texas Instruments AM62A7 SK: ``linux,cma``
-+    - Toradex Apalis iMX8: ``linux,cma``
-+    - TQ-Systems i.MX8MM TQMa8MxML: ``linux,cma``
-+    - TQ-Systems i.MX8MN TQMa8MxNL: ``linux,cma``
-+    - TQ-Systems i.MX8MPlus TQMa8MPxL: ``linux,cma``
-+    - TQ-Systems i.MX8MQ TQMa8MQ: ``linux,cma``
-+    - TQ-Systems i.MX93 TQMa93xxLA/TQMa93xxCA SOM: ``linux,cma``
-+    - TQ-Systems MBA6ULx Baseboard: ``linux,cma``
-+
-diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
-index 274cc7546efc..4901ce7c6cb7 100644
---- a/Documentation/userspace-api/index.rst
-+++ b/Documentation/userspace-api/index.rst
-@@ -41,10 +41,11 @@ Devices and I/O
- 
- .. toctree::
-    :maxdepth: 1
- 
-    accelerators/ocxl
-+   dma-buf-heaps
-    dma-buf-alloc-exchange
-    gpio/index
-    iommufd
-    media/index
-    dcdbas
--- 
-2.46.1
+--Hamb1NyozR0uOSVn
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZvq7aQAKCRB4tDGHoIJi
+0iYzAP42CtXDZpcWhRrFXf/pP66arAHe2Q5uoLqijR0QtCN9HQEApur4oRSzITjL
+SgCrOuckDuHJRCTBo9J9wNnIVrJC/AQ=
+=iwxp
+-----END PGP SIGNATURE-----
+
+--Hamb1NyozR0uOSVn--
