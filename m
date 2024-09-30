@@ -1,37 +1,41 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mout.web.de (mout.web.de [212.227.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9648C137E;
-	Mon, 30 Sep 2024 01:19:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7872415C15E;
+	Mon, 30 Sep 2024 07:57:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727659155; cv=none; b=KMwsc1190IWFRG1q/o0u3EibGGE/bUPa+6jt+z2RXl7uQZL1zwsqXru9jSARDMyhwBpstibSxNaVJjp3hSPiovVUoC+aJM/1yppa6k4/ZB0qI9Nc2W8uQt4YZcK68k3AMb2slqWRetT5ILExmvTa6esQpdhFCxKCdbc1QBxtWZQ=
+	t=1727683045; cv=none; b=lPzJYq9qy5GrKD8+6DWulehAtii5YkguislSdDQ4OOJxleDI8ewgWLEZRlhi/Gc2HXkOaWEU2VZGADbK+/ERu/onV1CbQsyfRBr9vV36w/S+g0Fcbi0q6HOZ6wkf2i2qmyjnQX45r48qL6NZmI3c7cJZBwowvhDh4/px4XEN6pk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727659155; c=relaxed/simple;
-	bh=tZQzrKVzETh1J2Qe2bPKOKRVYDkKpapUxu/uICsTvmU=;
+	s=arc-20240116; t=1727683045; c=relaxed/simple;
+	bh=BFhSVfrePAJI5gNJFgIjaJrtixX24iPbQQ0d8FSWhxs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sLr8QYx6VuaikHeK7kMeOPphLWKQs+fxGHp/dhvVB/bJdEFVQWBIE9MNTZlBUJ5cYdXh0GTePfXBBZ0+q+go10MS6/kL9hlqI0V9iSN4IxdsmBVEJU4T37rkKua77QlxGpEr22kjlNKvQW216nhNxbq+4y+QJLh6ytBNc1zy3PQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=B+lDR0rE; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=MrFoogKKHEhwHPWTrQRqivKOMJ23mY8TVkG06sZDyRP5hUuNvgpmb68qDb2eyXDiQ8iDjNPZVrNEpR7uCTZPQM7WdpfsR49A1uBmp72Ym2nNszVRVvfguIsN75RA/Ocwc1H0RFd6ba45N9PYDCN3iT0QTlOaTfj7qUkxAQhUNBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=tMwRr1KI; arc=none smtp.client-ip=212.227.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="B+lDR0rE"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=XVccFwntIwGBot0bIyb243qoyiqLnKzfjEB3b3z4NJw=; b=B+lDR0rEjnDvDIseihIucVxlsM
-	bEOlRLaw/MYIdBG1rFqjC1LXN9V6Xkscg6BbMcQpVpKP73Zb3y7VK6rBFkW//1b0+TatIwrtPrjIK
-	MkSyz0UT1i2Oy6uKOf9KqfQBdqCRgseAtx1mbN1D8Lb6OOzyh5uHHxVzS9CnM0ZcQgEv3c0wnXPXg
-	DHocaofjI5FWT+Dy9/ag9LCN5N3WopnyfOZ5RyRYX6PzWGkU8tmwh/oYCw+nLjskHHSNgR4JL89Xr
-	fR1LfKBjI/sTgdluZTd9M4s32CEs8Ln5fWX4bUnBQnqx8do7sPAu37i9vozhB+dXEa+zwxB4NN3Fe
-	zt8+AbMQ==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1sv53p-00000002jgO-43X8;
-	Mon, 30 Sep 2024 01:18:50 +0000
-Message-ID: <a604f707-83ba-49e0-b90a-db357f8d7cce@infradead.org>
-Date: Sun, 29 Sep 2024 18:18:40 -0700
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="tMwRr1KI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1727682958; x=1728287758; i=markus.elfring@web.de;
+	bh=BFhSVfrePAJI5gNJFgIjaJrtixX24iPbQQ0d8FSWhxs=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=tMwRr1KIHHyh601Gc839na9nhq9Dm2GgNPNeTu9qU1b2BKLRy5pnp+NE3g5kt+UX
+	 n549nii8w4GKPAL+/AGQJ6ceEAc/+fTQW4nfHkC1LdPgiDST1dHaVfuEJ9UgKklVQ
+	 +AJoX5mXtBDNoPMjN/e/xbufG/p6X0kigI3SpIhdjkfAjOEl4sA+k/qI1lkB6sKhj
+	 B/hhfEU2k/7Ocjhbz9ZkUwaVYOqgzgs1zs3H4imEjmeFPdq2m3F402mgeQLQqhVAB
+	 iek/jx9kpvdXWy9pacVWcJP3i6j5JtNlJbALBLZP4SXqDuIBOJH0QJNXx+1JhqrtC
+	 r7OanPlaaWmZkFMvsA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.84.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1Mf3qK-1sEwku1p7a-00eq9a; Mon, 30
+ Sep 2024 09:55:58 +0200
+Message-ID: <4eb3dbbb-d3fd-43f4-b90d-9ecc222a87f6@web.de>
+Date: Mon, 30 Sep 2024 09:55:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,46 +43,90 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/6] math.h: Add macros for rounding to the closest
- value
-To: Jiri Slaby <jirislaby@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
- Devarsh Thakkar <devarsht@ti.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- sebastian.fricke@collabora.com, linux-doc@vger.kernel.org, praneeth@ti.com,
- nm@ti.com, vigneshr@ti.com, s-jain1@ti.com, r-donadkar@ti.com,
- b-brnich@ti.com, detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com,
- andi.shyti@linux.intel.com, nicolas@ndufresne.ca, davidgow@google.com,
- dlatypov@google.com, corbet@lwn.net, broonie@kernel.org,
- nik.borisov@suse.com, Dave.Martin@arm.com
-References: <20240826150822.4057164-1-devarsht@ti.com>
- <20240826150822.4057164-2-devarsht@ti.com>
- <Zsy-8xXQ01-JhL0m@smile.fi.intel.com>
- <9c41f6b7-6b06-cd5b-74bd-24873c4beaf7@ti.com> <87frqqyw9r.fsf@intel.com>
- <0b06794b-34c5-ec0d-59c6-8412a8789eaf@ti.com> <878qwfy9cg.fsf@intel.com>
- <8bcddd10-6699-4e76-9eaf-8768f1c1ae66@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <8bcddd10-6699-4e76-9eaf-8768f1c1ae66@kernel.org>
+Subject: Re: [PATCH v5 6/6] i2c: Add driver for the RTL9300 I2C controller
+To: Chris Packham <chris.packham@alliedtelesis.co.nz>,
+ linux-i2c@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-mips@vger.kernel.org, devicetree@vger.kernel.org,
+ Andi Shyti <andi.shyti@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+ Rob Herring <robh@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+ =?UTF-8?Q?Thomas_Bogend=C3=B6rfer?= <tsbogend@alpha.franken.de>
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+ kernel-janitors@vger.kernel.org,
+ Javier Carrasco Cruz <javier.carrasco.cruz@gmail.com>,
+ Peter Zijlstra <peterz@infradead.org>
+References: <20240925215847.3594898-7-chris.packham@alliedtelesis.co.nz>
+ <096aebcd-778c-4160-b478-bb26025f3940@web.de>
+ <0c94d0fc-dc0c-4e35-a6c1-2d7e01a3eb43@alliedtelesis.co.nz>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <0c94d0fc-dc0c-4e35-a6c1-2d7e01a3eb43@alliedtelesis.co.nz>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ya5KDFxRxA4bmUC2mDm7LFw51IhhhVCjIMPrxa02CAdV2bVYjo0
+ ADOHdv2LHge1wrhdGmG4Mnl8ocWKIM6IS2ZZQyadK+njoJA2WZydqr61MmXQz0gazXoxW1K
+ GqTetFglpKU1fUI0KFGo+TEBoX0rv8Zal6KMl1LFm5pIq481yfR4KExoC/Jc+uFntwBv7oa
+ mG1ZTZ5Dghy6fPD0Y6O0g==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:PFk3D6ULmM0=;jd3RGWDVmFA/pHKwxeiCNfYAaZn
+ 682Ys3A+JzDSwa2F1ZtPL7qmyDgHkc8haoy7DkSf4wh5PGeCk0AGF28hlkzvuKaS9NWocqahK
+ 6DkHQX80fNRTWpRmwnQO7mRY9/gJIsVMn7KZqPz4CrqLErvhZkHOpHzAUzuXeNIIXoiPWcssl
+ l/iJLMyVdcJXPTq2DinBWpeWmlAqlaqNBQ/4ZPbSG/xa+Wkb7hw3I5DonAGDBfuU1mc+xUwEp
+ SJFh7Vy+bfrRToQlJhoaRbxAjsXX4Td/rHv3jTZnDkwRWE/IMCAXy/WjJqkN+iN6BtCRB6yBq
+ RmaGFBICaWx2VfAzd/ytG0S0rHtiq2y3YZ1vlb2e8ESV3DW27H0Y7QMfqcwlyMh4yRoCSTWvi
+ JWZ57Evg+q+6xNUhrEe/litBqxgZI3/0y9i368ooqL5g0ZQfynQxkZKKdpN2daqepLiAbm4ks
+ YCs7QM8wjzWN0D+Q9pQGJGSp5ktpBnfKHWOvLYgQ6CgGhbzYtdkXvNtfwjaEeKbPkhHoLcYde
+ gLRJg7NpIvGlzWSuj6Q7w+hkaKU6KYkoV/41nfqcpr717cHeRU+Ds4W+ICm7AoWx6G7cfaFGi
+ y+N0OxZM0ytmDAIYm0gKK6QNUzq1dkbsGt1DL6OGqvEN4Z0HHmIXI0SKGRChGiKvVQTWUSDd/
+ 6poKEQVmDUujV7quD0tQ4WdDWVrLZkMJ5zJe9EiCQkt2B5Udeq3NSeiSrHfJEziFGLN0Il26V
+ TcFZ1HcQv2AvhCIiFJIyWNCTHoBhCqigmXqbFq2OSHMR3Ymj36J2gA+YZbVG3yjRVPWkcwCmU
+ xpZ0AgMI9U/D5hbKK7Nah2yw==
 
-
-
-On 8/29/24 2:54 AM, Jiri Slaby wrote:
-> On 29. 08. 24, 11:19, Jani Nikula wrote:
->> The stupid thing here is, I still don't remember which one is the
->> generic thing, rounddown() or round_down(). I have to look it up every
->> single time to be sure. I refuse to believe I'd be the only one.
+>> =E2=80=A6
+>>> +++ b/drivers/i2c/busses/i2c-rtl9300.c
+>>> @@ -0,0 +1,422 @@
+>> =E2=80=A6
+>>> +static int rtl9300_i2c_smbus_xfer(struct i2c_adapter *adap, u16 addr,=
+ unsigned short flags,
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 char read_write, u8 command, int size,
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 union i2c_smbus_data *data)
+>>> +{
+>> =E2=80=A6
+>>> +=C2=A0=C2=A0=C2=A0 mutex_lock(&i2c->lock);
+>>> +=C2=A0=C2=A0=C2=A0 if (chan->sda_pin !=3D i2c->sda_pin) {
+>> =E2=80=A6
+>>> +out_unlock:
+>>> +=C2=A0=C2=A0=C2=A0 mutex_unlock(&i2c->lock);
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0 return ret;
+>>> +}
+>> =E2=80=A6
 >>
->> It's okay to accidentally use the generic version, no harm done. It's
->> definitely not okay to accidentally use the special pow-2 version, so it
->> should have a special name. I think _pow2() or _pow_2() is a fine
->> suffix.
-> 
-> Concur.
-> 
+>> Under which circumstances would you become interested to apply a statem=
+ent
+>> like =E2=80=9Cguard(mutex)(&i2c->lock);=E2=80=9D?
+>> https://elixir.bootlin.com/linux/v6.11/source/include/linux/mutex.h#L19=
+6
+>
+> At this stage I don't what to change unless Andi insists that I do.
+>
+> I can't find much mention of using guard() on https://www.kernel.org/doc=
+/html/latest/
 
-Ack here also. I prefer _pow2().
+Do you find any other information sources more encouraging?
 
+
+> but I can see enough examples (although notably none in drivers/i2c) tha=
+t I _think_ I can see how I could use it.
+
+See also (for example):
+Article =E2=80=9CLinux Kernel Development - Automatic Cleanup=E2=80=9D
+by Javier Carrasco Cruz
+2024-06-17
+https://javiercarrascocruz.github.io/kernel-auto-cleanup-2#2-automatic-mut=
+ex-handling
+
+Regards,
+Markus
