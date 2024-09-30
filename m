@@ -1,139 +1,85 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE8816F0DC
-	for <linux-doc@vger.kernel.org>; Mon, 30 Sep 2024 08:14:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35A90188586
+	for <linux-doc@vger.kernel.org>; Mon, 30 Sep 2024 09:21:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727684094; cv=none; b=vCQkG5xWQdDUmpeZDVEx99PG8yjcRDAHjGe3zg4zqSpjWHazBadXUEnqrnu76KLn7qVtiVwnGeCDUxXTCoCxWndTZrdtKa5KmA1Zx+zMwCxaJ54gnOrgMFOYFIbTJi3OOQTP/XmfCXfmeD7joQz8WbThEa6vt2nlF0K3oasUELQ=
+	t=1727688115; cv=none; b=DVAEgAdkyQ48CuU2rsk57ZYJJgKa7oVZ4R7bPg0R1esjoZ7uXWr/12IhKFpNtEFauUbhNyoo/V6zVOq+DPDnu+kA5PGZ1d1ov4/PdGI642PlLiPVKFK+BYkoNjsdAe4NRw+6QM+Ub5XAT4aeV5nSuEq52C0VOsVAKi2XBXkUtuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727684094; c=relaxed/simple;
-	bh=Ceu/nVD+ZRhjdNGaopzqvLqPyVf9Z+iuNWVvvy/ZI78=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PYjOPghbqgALTsNENrHSebBAErsemNPEVbLITwUKQ38nC8EDKDRVBP/0zqlgH6ddNddv9pXMplQjmbPdv/HFQipxSlZwKzStKGDAcDlOqxORTzISlc2W5GynZElauEwI6edw8L2gmMZHKs+6sVnyz2cMRggpQ/5+mBpwuKlqUHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <sha@pengutronix.de>)
-	id 1svBY9-0007aq-P2; Mon, 30 Sep 2024 10:14:33 +0200
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <sha@pengutronix.de>)
-	id 1svBY3-002aWI-LV; Mon, 30 Sep 2024 10:14:27 +0200
-Received: from sha by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <sha@pengutronix.de>)
-	id 1svBY3-0030yV-1k;
-	Mon, 30 Sep 2024 10:14:27 +0200
-Date: Mon, 30 Sep 2024 10:14:27 +0200
-From: Sascha Hauer <s.hauer@pengutronix.de>
+	s=arc-20240116; t=1727688115; c=relaxed/simple;
+	bh=ihqC0moMa0gkpZDgI3toCyjoo7KCGvJzUF/2ZGkTW2U=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=TlH0JL5Asr3pX4xNV2oMke6rOJ7hv9J0RvbAqw8PJFN2pq1BEn9b9XMRLxiL3LuoIEXal44VQsOzMxFxMhkrpnHgyaOEg7ipQTPsbzwnF4LbL/DrSUqnjhIEkkYdVjHhyc7oecWpA9REXgfSRDVw6CDIhlNJak3/fIqd89r5bnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk; spf=pass smtp.mailfrom=rasmusvillemoes.dk; dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b=Hh+UI6Hb; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rasmusvillemoes.dk
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b="Hh+UI6Hb"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2f761461150so53191191fa.0
+        for <linux-doc@vger.kernel.org>; Mon, 30 Sep 2024 02:21:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google; t=1727688111; x=1728292911; darn=vger.kernel.org;
+        h=mime-version:user-agent:message-id:date:references:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wOxBnbL6b/6p40BCLZnOmRygJyLDz0xvKxJvU54ZAcY=;
+        b=Hh+UI6HbZcPGxjieEM4TxX9epsDZL+qMmDuJ3zyGj9tt418SFzVPGRcZhiOyCP4pEB
+         UR2+4leTrlu8SqUM+nRxznVArjAjWKESk15d7PnU8qxL0M0Say2CsznYeIzGx+5Gg/A0
+         HG4hkthepBPj4si4t/c6pJaoXTRbGfmsTYQ7w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727688111; x=1728292911;
+        h=mime-version:user-agent:message-id:date:references:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wOxBnbL6b/6p40BCLZnOmRygJyLDz0xvKxJvU54ZAcY=;
+        b=gWuCdjbLBD+F/MgnUozlDL7JXo7jSQQDa1nRkrzltOpTk5C/TQFZlClglpwM5aAzyZ
+         U/IlU3gVJOFi227WtZksffiOrXg7L7+woI7bC5AFjwEWKAYrFqKj22hXr8l0VpI/wtYc
+         I0Uxch0cAsxz0OvgElWjU/YijLN3hVi/8e/3wXKmmxNqmhWPUEidPFuKT/fSN7cMFtRA
+         OXcxwpSXlkcabr3rzO4KWnNeTx1OmTBpjzArWzw6WlQixBBqBpHDaLL7Yp7sQE1AEXVH
+         xiZNxGahqm8SqsIqJlGvOXJVBD4UWC6hvYkCLsWAfvCsrkM457sUtRaLNndZG3Sdq7Tu
+         qnAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVr52xJK7/TLWiUxXPgEXizxfJhniNpE4usJsTQ8z1JdSLijbDuE+dCf2N3ITJhhK1PU6lsxRkHASY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5/yhjEFUNfcz5SGlTH9Q71o4xpuuINLacQ/PNeRB7Z3LhlNBy
+	6tcLcm+W/9qmMmnr5PsK4pj/uj+8tzzAajH7xQMn8GqDe2zB2I1nW3WilUAf5Co=
+X-Google-Smtp-Source: AGHT+IHL3VXY5tvf4j7T6OaXxNRI231E0ILvU2TYhIVSEH7SSrJfMFW2DpRSkuCTashwRBUmWDv3uw==
+X-Received: by 2002:a2e:be1c:0:b0:2fa:cd3d:4a76 with SMTP id 38308e7fff4ca-2facd3d4c8fmr18895301fa.43.1727688111067;
+        Mon, 30 Sep 2024 02:21:51 -0700 (PDT)
+Received: from localhost ([81.216.59.226])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f9d4618eecsm12885541fa.118.2024.09.30.02.21.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Sep 2024 02:21:50 -0700 (PDT)
+From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
 To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	INAGAKI Hiroshi <musashino.open@gmail.com>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Li Lingfeng <lilingfeng3@huawei.com>,
-	Christian Heusel <christian@heusel.eu>, linux-block@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Lorenzo Bianconi <lorenzo@kernel.org>, upstream@airoha.com
-Subject: Re: [PATCH v3 3/4] block: add support for partition table defined in
- OF
-Message-ID: <Zvpd48oOYletv7Ko@pengutronix.de>
+Cc: Jens Axboe <axboe@kernel.dk>,  Jonathan Corbet <corbet@lwn.net>,  Ulf
+ Hansson <ulf.hansson@linaro.org>,  Rob Herring <robh@kernel.org>,
+  Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
+ <conor+dt@kernel.org>,  INAGAKI Hiroshi <musashino.open@gmail.com>,
+  Daniel Golle <daniel@makrotopia.org>,  Christian Brauner
+ <brauner@kernel.org>,  Al Viro <viro@zeniv.linux.org.uk>,  Jan Kara
+ <jack@suse.cz>,  Li Lingfeng <lilingfeng3@huawei.com>,  Christian Heusel
+ <christian@heusel.eu>,  linux-block@vger.kernel.org,
+  linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  linux-mmc@vger.kernel.org,  devicetree@vger.kernel.org,  Miquel Raynal
+ <miquel.raynal@bootlin.com>,  Lorenzo Bianconi <lorenzo@kernel.org>,
+  upstream@airoha.com
+Subject: Re: [PATCH v3 3/4] block: add support for partition table defined
+ in OF
+In-Reply-To: <20240929140713.6883-4-ansuelsmth@gmail.com> (Christian Marangi's
+	message of "Sun, 29 Sep 2024 16:06:19 +0200")
 References: <20240929140713.6883-1-ansuelsmth@gmail.com>
- <20240929140713.6883-4-ansuelsmth@gmail.com>
+	<20240929140713.6883-4-ansuelsmth@gmail.com>
+Date: Mon, 30 Sep 2024 11:21:53 +0200
+Message-ID: <877catlcni.fsf@prevas.dk>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240929140713.6883-4-ansuelsmth@gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain
 
-Hi Christian,
-
-Thanks for working on this, it will be useful for me as well.
-Some comments inside.
-
-On Sun, Sep 29, 2024 at 04:06:19PM +0200, Christian Marangi wrote:
-> Add support for partition table defined in Device Tree. Similar to how
-> it's done with MTD, add support for defining a fixed partition table in
-> device tree.
-> 
-> A common scenario for this is fixed block (eMMC) embedded devices that
-> have no MBR or GPT partition table to save storage space. Bootloader
-> access the block device with absolute address of data.
-> 
-> This is to complete the functionality with an equivalent implementation
-> with providing partition table with bootargs, for case where the booargs
-> can't be modified and tweaking the Device Tree is the only solution to
-> have an usabe partition table.
-> 
-> The implementation follow the fixed-partitions parser used on MTD
-> devices where a "partitions" node is expected to be declared with
-> "fixed-partitions" compatible in the OF node of the disk device
-> (mmc-card for eMMC for example) and each child node declare a label
-> and a reg with offset and size. If label is not declared, the node name
-> is used as fallback. Eventually is also possible to declare the read-only
-> property to flag the partition as read-only.
-> 
-> For eMMC block, driver scan the disk name and check if it's suffixed with
-> "boot0" or "boot1".
-> This is to handle the additional disk provided by eMMC as supported in
-> JEDEC 4.4+. If this suffix is detected, "partitions-boot0" or
-> "partitions-boot1" are used instead of the generic "partitions" for the
-> relevant disk.
-> 
-> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> ---
->  block/partitions/Kconfig  |   8 ++
->  block/partitions/Makefile |   1 +
->  block/partitions/check.h  |   1 +
->  block/partitions/core.c   |   3 +
->  block/partitions/of.c     | 151 ++++++++++++++++++++++++++++++++++++++
->  5 files changed, 164 insertions(+)
->  create mode 100644 block/partitions/of.c
-> 
-> diff --git a/block/partitions/Kconfig b/block/partitions/Kconfig
-> index 7aff4eb81c60..8534f7544f26 100644
-> --- a/block/partitions/Kconfig
-> +++ b/block/partitions/Kconfig
-> @@ -270,4 +270,12 @@ config CMDLINE_PARTITION
->  	  Say Y here if you want to read the partition table from bootargs.
->  	  The format for the command line is just like mtdparts.
->  
-> +config OF_PARTITION
-> +	bool "Command line partition support" if PARTITION_ADVANCED
-
-Should be "device tree partition support".
-
-> +	depends on OF
-> +	help
-> +	  Say Y here if you want to enable support for partition table
-> +	  defined in Device Tree. (mainly for eMMC)
-> +	  The format for the command line is just like MTD fixed-partition schema.
-> +
->  endmenu
-
-[...]
+Christian Marangi <ansuelsmth@gmail.com> writes:
 
 > diff --git a/block/partitions/of.c b/block/partitions/of.c
 > new file mode 100644
@@ -172,161 +118,27 @@ Should be "device tree partition support".
 > +		if (!memcmp(disk_name + strlen(disk_name) - strlen(BOOT0_STR),
 > +			    BOOT0_STR, sizeof(BOOT0_STR)))
 > +			node_name = "partitions-boot0";
-> +		if (!memcmp(disk_name + strlen(disk_name) - strlen(BOOT1_STR),
-> +			    BOOT1_STR, sizeof(BOOT1_STR)))
-> +			node_name = "partitions-boot1";
-> +	}
-> +
-> +	return of_get_child_by_name(disk_np, node_name);
-> +}
-> +
-> +static int validate_of_partition(struct device_node *np, int slot)
-> +{
-> +	int a_cells, s_cells;
-> +	const __be32 *reg;
-> +	u64 offset, size;
-> +	int len;
-> +
-> +	reg = of_get_property(np, "reg", &len);
-> +
-> +	a_cells = of_n_addr_cells(np);
-> +	s_cells = of_n_size_cells(np);
-> +
 
-The corresponding mtd ofpart parser validates a_cells + s_cells against
-len, like this:
+If strlen(disk_name) is less than 5 (and I don't know if that's actually
+possible), this well end up doing out-of-bounds access.
 
-	if (len / 4 != a_cells + s_cells) {
-		pr_debug("%s: ofpart partition %pOF (%pOF) error parsing reg property.\n",
-			 master->name, pp,
-			 mtd_node);
-		goto ofpart_fail;
-	}
+We have a strstarts() helper, could you also add a strends() helper that
+handles this correctly? Something like
 
-I think you should do it here as well.
+/**
+ * strends - does @str end with @suffix?
+ * @str: string to examine
+ * @suffix: suffix to look for.
+ */
+static inline bool strends(const char *str, const char *suffix)
+{
+	size_t n = strlen(str);
+        size_t m = strlen(suffix);
+        return n >= m && !memcmp(str + n - m, suffix, m);
+}
 
-> +	/*
-> +	 * Validate offset conversion from bytes to sectors.
-> +	 * Only the first partition is allowed to have offset 0.
-> +	 */
+[or name it str_has_suffix() or str_ends_with(), "strends" is not
+particularly readable, it's unfortunate that the existing strstarts is
+spelled like that].
 
-Where is this constraint coming from? I would put the partitions in
-order into the device tree as well, but the binding doesn't enforce it
-and I see no reason to do so.
-
-> +	offset = of_read_number(reg, a_cells);
-> +	if (do_div(offset, SECTOR_SIZE) ||
-
-How about (offset % SECTOR_SIZE) or (offset & (SECTOR_SIZE - 1))? Might
-be a bit more intuitive to read.
-
-> +	    (slot > 1 && !offset))
-> +		return -EINVAL;
-> +
-> +	/* Validate size conversion from bytes to sectors */
-> +	size = of_read_number(reg + a_cells, s_cells);
-> +	if (do_div(size, SECTOR_SIZE) || !size)
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
-> +static void add_of_partition(struct parsed_partitions *state, int slot,
-> +			     struct device_node *np)
-> +{
-> +	struct partition_meta_info *info;
-> +	char tmp[sizeof(info->volname) + 4];
-> +	int a_cells, s_cells;
-> +	const char *partname;
-> +	const __be32 *reg;
-> +	u64 offset, size;
-> +	int len;
-> +
-> +	reg = of_get_property(np, "reg", &len);
-> +
-> +	a_cells = of_n_addr_cells(np);
-> +	s_cells = of_n_size_cells(np);
-> +
-> +	/* Convert bytes to sector size */
-> +	offset = of_read_number(reg, a_cells) / SECTOR_SIZE;
-> +	size = of_read_number(reg + a_cells, s_cells) / SECTOR_SIZE;
-> +
-> +	put_partition(state, slot, offset, size);
-> +
-> +	if (of_property_read_bool(np, "read-only"))
-> +		state->parts[slot].flags |= ADDPART_FLAG_READONLY;
-> +
-> +	/*
-> +	 * Follow MTD label logic, search for label property,
-> +	 * fallback to node name if not found.
-> +	 */
-> +	info = &state->parts[slot].info;
-> +	partname = of_get_property(np, "label", &len);
-> +	if (!partname)
-> +		partname = of_get_property(np, "name", &len);
-> +	strscpy(info->volname, partname, sizeof(info->volname));
-> +
-> +	snprintf(tmp, sizeof(tmp), "(%s)", info->volname);
-> +	strlcat(state->pp_buf, tmp, PAGE_SIZE);
-> +}
-> +
-> +int of_partition(struct parsed_partitions *state)
-> +{
-> +	struct device_node *disk_np, *partitions_np, *np;
-> +	struct device *ddev = disk_to_dev(state->disk);
-> +	int slot;
-> +
-> +	disk_np = of_node_get(ddev->parent->of_node);
-> +	if (!disk_np)
-> +		return 0;
-> +
-> +	partitions_np = get_partitions_node(disk_np, state->disk);
-> +	if (!partitions_np ||
-> +	    !of_device_is_compatible(partitions_np, "fixed-partitions"))
-> +		return 0;
-
-of_node_put(disk_np) missing here before return.
-
-> +
-> +	/* Check if child are over the limit */
-> +	slot = of_get_child_count(partitions_np);
-> +	if (slot >= state->limit)
-> +		goto err;
-
-Other partition parsers just silently ignore the partitions
-exceeding state->limit instead of throwing an error. Maybe do the same
-here?
-
-> +
-> +	slot = 1;
-> +	/* Validate parition offset and size */
-> +	for_each_child_of_node(partitions_np, np) {
-> +		if (validate_of_partition(np, slot))
-> +			goto err;
-> +
-> +		slot++;
-> +	}
-> +
-> +	slot = 1;
-> +	for_each_child_of_node(partitions_np, np) {
-> +		add_of_partition(state, slot, np);
-> +
-> +		slot++;
-> +	}
-> +
-> +	strlcat(state->pp_buf, "\n", PAGE_SIZE);
-> +
-> +	return 1;
-> +err:
-> +	of_node_put(partitions_np);
-> +	of_node_put(disk_np);
-
-You should put the nodes for the non error case as well.
-
-Sascha
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Rasmus
