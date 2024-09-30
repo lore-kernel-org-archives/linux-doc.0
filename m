@@ -1,130 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486845339F;
-	Mon, 30 Sep 2024 23:25:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A44183CD6;
+	Mon, 30 Sep 2024 23:51:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727738727; cv=none; b=pHtZy64tVMmhObCVhRuUryu+AGRwVxq6dbPoY8yb0F4YAN3/B0DBj6aAmPaNt+Lu9HLb7zEUOi5vfonnHhpC6KWnJDf6Q+pt3j9Zx4y02oSe4HT1xt1P2+qWL8vj66B1caHHo7sGP/KeO7FSot3qO37W16xbwy3BAwbtzi2e/Ws=
+	t=1727740283; cv=none; b=iwwAmZ2v+KEy5B+qzZFHR/bAySFBZXPzox63VcZZb79MT3GHthQ7WDV9S6dVM37p1qPWorV47ZS4YGqJO5JOL0D/LUMvu4elPmCKGcb/3xDeclIVbW6NeIY97XjgqlcSf+mePx9H6VtyHKh3OnKg7IlgIVxxe1F+YryGG2liM6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727738727; c=relaxed/simple;
-	bh=lftSWREXCHgVnSbzfjYCNT7qOJF1RErf634jGjQfgJI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p+JliW5k8NejauUDaLSfcMBvBLYbrw3Od0r40sa5TQyiJaHgvhTIvdObG0AI9RzqUI0jka7uNjI5k29XNVN+RfKCq8KehbodiWst6k1kXR4E+V8w9CkwJd7ipHGtHLxoGZbjfOd6UQ0jCNHtloi8/r3KY9meuxJl34rtUIDVpeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ne5jDm9g; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727740283; c=relaxed/simple;
+	bh=/z6/vTUxGv2idn0QRnGoZ90yGBpJH5IpaGe65gUH+pQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=iUzs7veUw5ljIxRJOYQXhLJilyEzccu1wPur9IS5+vkymeDwcr//ggF69a8natGtsOUohonW4kHpzXUUew1ZuAigM1doepvsOqOWEYGjIsjub+sZw8arK06KvM3bZgyRrlOdmN2a9MeUFkBWbSV0AfkRgP63iJtoP0QrbdeSkms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I3+jqqhX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ne5jDm9g"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727738726; x=1759274726;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=lftSWREXCHgVnSbzfjYCNT7qOJF1RErf634jGjQfgJI=;
-  b=Ne5jDm9gAXuEXzfvxk4y2AjW0dncB/3KWI8lhH6hKh3i7q0opXKCe3Ez
-   F1q4XeFAFKnVUVq67DobjPVhgoe1kzPUm4DKzNvWWiUbSmiQLSZYvNqSw
-   CewQGDIT0D4mwKI2hGzFF/Gca3Qu9g6+T4PnxuKh1PQew5xBz6Y8vNasZ
-   23iFLLeHsZvZ4KU3Nx8TJcl/vaf3I6A+bZKvE04Yj3JVRVL4hW+H6Fu+r
-   7/uDf5SiPT8pSoAubWuHjjFTbKYFLiHh6l2sZN5+414ry/6COeitMyv4V
-   /BTRmTwSIshBQ/xj/sR3/+MzdfetTgOZQOmNZ0xwhm8sXgVe/wIfFreGM
-   g==;
-X-CSE-ConnectionGUID: YMwt0/WwQDGsBwfZZRclWQ==
-X-CSE-MsgGUID: SPFKwu5YRo+mHWclvpFXSg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="26950724"
-X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; 
-   d="scan'208";a="26950724"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 16:25:26 -0700
-X-CSE-ConnectionGUID: hGmeayM0QHCxeP3Jg/p2XA==
-X-CSE-MsgGUID: Hd0ZH7Z1T9W8hwwKLU2eyw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; 
-   d="scan'208";a="104242228"
-Received: from msangele-mobl.amr.corp.intel.com (HELO [10.124.223.122]) ([10.124.223.122])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 16:25:24 -0700
-Message-ID: <f751ffe7-9900-4d91-9e7a-e560777725e1@intel.com>
-Date: Mon, 30 Sep 2024 16:25:23 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I3+jqqhX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54603C4CEC7;
+	Mon, 30 Sep 2024 23:51:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727740282;
+	bh=/z6/vTUxGv2idn0QRnGoZ90yGBpJH5IpaGe65gUH+pQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=I3+jqqhXnUtqVoHJQG8oxvHcWujxHbufE823gWacYOv+i8y6ODk8Srarv/QBMqLtd
+	 3F/d/lH5SPH+EqcI+bAKPBqk5ax1Z3tC+pqD+NEcgLr/Ni9p0MXxhPpipML0jnU5Qo
+	 Xn/5fM7cYIrDKaPn2klpa6o9Fa1c8lgSl2YuxeviC4k1cYFpf10KwZTOldUKXuNA3E
+	 gzhrgw30s8wTD3YYz2K+bVaIkskHbvosQRCYi/QqBFGC5C3z53cJRFGHcWFQNTmfEx
+	 apWXRJC7dQwEsLjaeF90Qb/5aurvl0K99syGMOQDj6OTzsFrOi060bVmg6bAbY0sWS
+	 QONJm0TqAs5vg==
+From: Mark Brown <broonie@kernel.org>
+To: mchehab@kernel.org, Jonathan.Cameron@huawei.com, rmfrfs@gmail.com, 
+ vireshk@kernel.org, gregkh@linuxfoundation.org, deller@gmx.de, 
+ corbet@lwn.net, yangyingliang@huawei.com, liwei391@huawei.com, 
+ Yang Yingliang <yangyingliang@huaweicloud.com>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+ linux-doc@vger.kernel.org, linux-spi@vger.kernel.org
+In-Reply-To: <20240902125947.1368-1-yangyingliang@huaweicloud.com>
+References: <20240902125947.1368-1-yangyingliang@huaweicloud.com>
+Subject: Re: [PATCH -next 0/7] spi: replace and remove
+ {devm_}spi_alloc_master/slave()
+Message-Id: <172774028009.2264837.5647279590529762644.b4-ty@kernel.org>
+Date: Tue, 01 Oct 2024 00:51:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/2] nosnp sev command line support
-To: Pavan Kumar Paluri <papaluri@amd.com>, linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Eric Van Tassell <Eric.VanTassell@amd.com>,
- Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Michael Roth <michael.roth@amd.com>, "H . Peter Anvin" <hpa@zytor.com>,
- Peter Zijlstra <peterz@infradead.org>
-References: <20240930231102.123403-1-papaluri@amd.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <20240930231102.123403-1-papaluri@amd.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-99b12
 
-On 9/30/24 16:11, Pavan Kumar Paluri wrote:
-> Provide "nosnp" boot option via "sev=nosnp" kernel command line to
-> prevent SEV-SNP[1] capable host kernel from enabling SEV-SNP and
-> initializing Reverse Map Table (RMP) [1].
+On Mon, 02 Sep 2024 20:59:40 +0800, Yang Yingliang wrote:
+> Switch to use {devm_}spi_alloc_host/target() in drivers and remove
+> {devm_}spi_alloc_master/slave() in spi driver.
 > 
-> On providing sev=nosnp via kernel command line:
-> cat /sys/module/kvm_amd/parameters/sev_snp should be "N".
+> Yang Yingliang (7):
+>   media: usb/msi2500: switch to use spi_alloc_host()
+>   media: netup_unidvb: switch to use devm_spi_alloc_host()
+>   spi: ch341: switch to use devm_spi_alloc_host()
+>   spi: slave-mt27xx: switch to use spi_alloc_target()
+>   video: fbdev: mmp: switch to use spi_alloc_host()
+>   staging: greybus: spi: switch to use spi_alloc_host()
+>   spi: remove {devm_}spi_alloc_master/slave()
+> 
+> [...]
 
-I don't see any mention in the changelog, cover letter or Documentation/
-about why someone would want to do this.
+Applied to
 
-I assume it's because of performance (walking the RMP table is non-zero
-cost).
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-The BIOS allocates the RMP table, right?  So this option presumably gets
-the performance back, but not the memory.  That's probably also worth
-mentioning ... somewhere.
+Thanks!
+
+[1/7] media: usb/msi2500: switch to use spi_alloc_host()
+      commit: 5ba92299badc4e71670269877262c8cc3b6c806f
+[2/7] media: netup_unidvb: switch to use devm_spi_alloc_host()
+      commit: ac2f5bbe80e143509cf24527a7ae021f356f8977
+[3/7] spi: ch341: switch to use devm_spi_alloc_host()
+      commit: 0191e98ae6e22bebae4e9a487ba70f90d2f8714c
+[4/7] spi: slave-mt27xx: switch to use spi_alloc_target()
+      commit: 4bca15a56edd7b1c8c8573ddd3dd67424ec15e11
+[5/7] video: fbdev: mmp: switch to use spi_alloc_host()
+      commit: 5c303090e1d8426c721709d50f0120f66bae6919
+[6/7] staging: greybus: spi: switch to use spi_alloc_host()
+      (no commit info)
+[7/7] spi: remove {devm_}spi_alloc_master/slave()
+      commit: 0809a9ccac4a2ffdfd1561bb551aec6099775545
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
