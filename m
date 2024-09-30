@@ -1,58 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C55A286A1;
-	Mon, 30 Sep 2024 17:23:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A5365466B;
+	Mon, 30 Sep 2024 18:49:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727716999; cv=none; b=KCh3JJVQeb/oROSzalOCuGfd+bmjtuFVu29/nuRolhdpmegCdhcWrDvsEj0w9UJPMtHjMitT9s6hlwx7DWvt1Dn1DG/Z48O9kOX8YK+nUX8U953Gxv76h4jck31ZAoyaypbKHPSccYrQn9wm47EFfvz5jvMbHgm+h8qxuDHMH3o=
+	t=1727722167; cv=none; b=U4+ce4B89PaHVq47AFKqWBJkgrjgwNUKz+/fHM7VeTDrVYzw7SAqoe1zu8WE5a1GWeV4Z5KZpNn1glq0fMqktqzaHbzPCfh5l76qKMsir8jKZRUnsv2+d/ZFDBilLS6Au/uuPuo3j34t5JR/bjP+VJu6kDgU/ERa6pBPNffcan8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727716999; c=relaxed/simple;
-	bh=TPW/8gg94x07AziOpLQsP8y3zZrcj0YHmCWdVDAqAEQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qqSUWEBGm8cx/V/lQy2azDcGzC5jl9EQRQfu8FNXPfBl5eb72yw1JrkhNs7XFk9IEUWTmvq7wmpjdBdSMg1qcqXiuxeUDeUlGqYhIeZ/I47KxMUonpo+u/NgW7RmMae1ZYZfwcsxd8gAhQ3PUle7XyOIUjmSosNe62bSQ3ZvbqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE503C4CEC7;
-	Mon, 30 Sep 2024 17:23:17 +0000 (UTC)
-Date: Mon, 30 Sep 2024 13:24:04 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
+	s=arc-20240116; t=1727722167; c=relaxed/simple;
+	bh=HSmTiEIHSSrt+pS0buo+96bzFnIJWuKdbQE9PNvqMkI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DkWGKRTUdtgt37/QrBpi9fo/ZWhjexkZcftXEhUXzitnNniYA2nMNtcT4hDsgwMw6K3EltXB56LPLk8M505waeEX2V/vXfdaoDoQGn7jC9P+mTKXN0d+wEQw3EI5h6+9TRhnmyc45of7DHE3dtDVlFyUj953EcLWpIShJg+X6A4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=yuZwlS3s; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=VfZ7E+oz; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="yuZwlS3s";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VfZ7E+oz"
+Date: Mon, 30 Sep 2024 20:49:15 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1727722163;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c7AAxiOEhyu5e/1DUPmIOTyp81qWXAG4oUsFN+Oio24=;
+	b=yuZwlS3sPoHFJ+2hTFpyde1A+HsoirGLBrEcDPyl5w2Z79zs/lj/I4wYmsEOrihI7HqO6e
+	iTw4/17/D4dp/tVNlJXTL0QQI0UIlihWW2IMcgZrksxnjVSRtzyXBMEczJmjIRPvWwdnDW
+	6feqpRsjM0pGoOssRJgk8VW/hOWVMsKXWNyoNytvTk6SPI3o+cH8R60aBVYxD6slzznO5C
+	1Gk037DVx2lwimsbw4/v9E6k8z8ITNISS0l7fkg1cGc7MaQDoam70HPtVdXRUFxIEQE5Qv
+	JwpoEwth6uDYGA2dscz1JbIUHL1jDXbUb9JyBIPCBkgP2o2Y35Q1uxlN4kgRFA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1727722163;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c7AAxiOEhyu5e/1DUPmIOTyp81qWXAG4oUsFN+Oio24=;
+	b=VfZ7E+oz3kV51WXN26q0oGFgwD/VUbH98UU2auREQA+xODa1DiNqVufbDKJ8zrzCEp6P9J
+	p4wP4PsrpKxyDJBg==
+From: Nam Cao <namcao@linutronix.de>
 To: Jonathan Corbet <corbet@lwn.net>
-Cc: Hans de Goede <hdegoede@redhat.com>, LKML
- <linux-kernel@vger.kernel.org>, Linux trace kernel
- <linux-trace-kernel@vger.kernel.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Mike Rapoport <mike.rapoport@gmail.com>, Kees Cook <keescook@chromium.org>,
- Ard Biesheuvel <ardb@kernel.org>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation/tracing: Mention that
- RESET_ATTACK_MITIGATION can clear memory
-Message-ID: <20240930132404.728831a7@gandalf.local.home>
-In-Reply-To: <87ikud9hxr.fsf@trenco.lwn.net>
-References: <20240926130159.19e6d0e2@rorschach.local.home>
-	<f8546c5d-fa2e-416f-8a1b-431025b4df4d@redhat.com>
-	<20240930131415.1438c0b7@gandalf.local.home>
-	<87ikud9hxr.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Cc: Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
+	Evan Green <evan@rivosinc.com>,
+	Charlie Jenkins <charlie@rivosinc.com>,
+	Andrew Jones <ajones@ventanamicro.com>, linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: riscv: Fix typo MIMPLID -> MIMPID
+Message-ID: <20240930184915.vFs7xT1l@linutronix.de>
+References: <20240925142532.31808-1-namcao@linutronix.de>
+ <87h6a3fw74.fsf@trenco.lwn.net>
+ <20240929153305.m8IHY_7l@linutronix.de>
+ <87ldzab8np.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87ldzab8np.fsf@trenco.lwn.net>
 
-On Mon, 30 Sep 2024 11:20:48 -0600
-Jonathan Corbet <corbet@lwn.net> wrote:
-
-> > And I forgot to send this to the Documentation maintainers :-p
-> >
-> > Jon, could you take this? Do you need me to resend, or can you just pull it
-> > from lore?  
+On Sun, Sep 29, 2024 at 12:46:02PM -0600, Jonathan Corbet wrote:
+> Nam Cao <namcao@linutronix.de> writes:
 > 
-> I'll grab it in a bit.
+> > On Wed, Sep 25, 2024 at 12:02:39PM -0600, Jonathan Corbet wrote:
+> >> Nam Cao <namcao@linutronix.de> writes:
+> >> 
+> >> > The macro that is really defined is RISCV_HWPROBE_KEY_MIMPID, not
+> >> > RISCV_HWPROBE_KEY_MIMPLID (difference is the 'L').
+> >> >
+> >> > Also, the riscv privileged specification names the register "mimpid", not
+> >> > "mimplid".
+> >> >
+> >> > Correct these typos.
+> >> >
+> >> > Signed-off-by: Nam Cao <namcao@linutronix.de>
+> >> > ---
+> >> > ask me how I found out..
+> >> >
+> >> >  Documentation/arch/riscv/hwprobe.rst | 2 +-
+> >> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >> >
+> >> > diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
+> >> > index 85b709257918..fb0affa61eb9 100644
+> >> > --- a/Documentation/arch/riscv/hwprobe.rst
+> >> > +++ b/Documentation/arch/riscv/hwprobe.rst
+> >> > @@ -51,7 +51,7 @@ The following keys are defined:
+> >> >  * :c:macro:`RISCV_HWPROBE_KEY_MARCHID`: Contains the value of ``marchid``, as
+> >> >    defined by the RISC-V privileged architecture specification.
+> >> >  
+> >> > -* :c:macro:`RISCV_HWPROBE_KEY_MIMPLID`: Contains the value of ``mimplid``, as
+> >> > +* :c:macro:`RISCV_HWPROBE_KEY_MIMPID`: Contains the value of ``mimpid``, as
+> >> >    defined by the RISC-V privileged architecture specification.
+> >> 
+> >> You should be able to just say RISCV_HWPROBE_KEY_MIMPID() without the
+> >> :c:macro: markup and have the right thing happen.
+> >
+> > My .rst knowledge is limited, so I probably miss something obvious, but I
+> > couldn't get that to work.
+> 
+> It's not RST as such, it's an extension that we've added for th ekernel
+> build. 
+> 
+> > Do you mean something like below? The brackets do not seem to do anything
+> > and get treated as plain text.
+> >
+> > Sorry but you probably need to show me what to do exactly :(
+> >
+> > Best regards,
+> > Nam
+> >
+> > diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
+> > index 85b709257918..4b4b4ef0e0f9 100644
+> > --- a/Documentation/arch/riscv/hwprobe.rst
+> > +++ b/Documentation/arch/riscv/hwprobe.rst
+> > @@ -51,7 +51,7 @@ The following keys are defined:
+> >  * :c:macro:`RISCV_HWPROBE_KEY_MARCHID`: Contains the value of ``marchid``, as
+> >    defined by the RISC-V privileged architecture specification.
+> >  
+> > -* :c:macro:`RISCV_HWPROBE_KEY_MIMPLID`: Contains the value of ``mimplid``, as
+> > +* `RISCV_HWPROBE_KEY_MIMPID()`: Contains the value of ``mimpid``, as
+> >    defined by the RISC-V privileged architecture specification.
+> 
+> Try it without the `backquotes`.
 
-No rush.
+Also doesn't work :(
 
-Thanks!
+I digged around a bit, and I think for the thing you mentioned to work,
+parse_headers.pl needs to be use on the header file (hwprobe.h in this
+case), right? And only Documentation/userspace-api/media/ supports that
+script at the moment.
 
--- Steve
+Best regards,
+Nam
