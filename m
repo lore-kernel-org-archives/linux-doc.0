@@ -1,37 +1,37 @@
 Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 714981BBBC1;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7151BBBC0;
 	Tue,  1 Oct 2024 05:02:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727758939; cv=none; b=DXEiV6QvuBt+02fjsmklQTqNJ9w1KM5wB1M15Pu9k9G1N8OKIH6Zh0jKGC8JCZEqYB5/uQWGeI/bM11qDieD9NzXDJLPkYJa1lhQAvQdDXO5WWixXH8L3hj++eWbMuVkD/G1wjEpAY85hleBufsHL2QeHrMwHPWEBeYF5qQz9WY=
+	t=1727758939; cv=none; b=efcs0SW1hTI8QD7An6+ITH3241QxeJB3Avll6gFDZvDu8pzwFr8DoxcyjLR6K08lMCoiURFnFQmXSO9LfyE66GaobP8rxVyoCv3k2XJ5YZptku4buO7iFOIfF2W89Jh9nDKdjcwJbByQBN+EDCyYf5uG3rWh86CZaeh/4VXwkc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1727758939; c=relaxed/simple;
-	bh=nSCsPWI07e44Gv4mTwAMhsfrhTpHF2lygAD99oX7W7o=;
+	bh=FaOy2OKqH01C/5KaZwl3BA3eqU5CpRgqgJfpSRXqSFQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mg65jG02I2/xI/MbbnIiXG5JjXKxVXsf2TgmQR/ayEJh5ToGzdP5V5nDVhU4rKoP3iTrJBvVUfhR/I74hLVu6WWzwM/qN/QeTkQ4gGCI2Js6asOa9Zk0EPkF2B6gqEuFKGpF22iK6Tlhcfp6It+4BM0gKOE/sNovNQF1w+NSkU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=msMVXnKq; arc=none smtp.client-ip=198.137.202.136
+	 MIME-Version; b=rzRApy5iyVFW/vyxiIMRpz8EwXyGxkBLwkWCnMEPl2YeAeA/o0668otvQ7adseuBzLbZuSdg0oQ5Vi7b7TP+2MtsYtLHK+C7se6Wd8TBpOq39h/jrLiDNztmhm4GbQrKrwkLEyGY7hEjgnKlCpk+uPWKEu1UTQ/wvVU+94MJzbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=oWgBmdBM; arc=none smtp.client-ip=198.137.202.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="msMVXnKq"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="oWgBmdBM"
 Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
 	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 49151A7T3643828
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 49151A7d3643828
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Mon, 30 Sep 2024 22:01:19 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 49151A7T3643828
+	Mon, 30 Sep 2024 22:01:29 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 49151A7d3643828
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2024091601; t=1727758880;
-	bh=dUvXV5w+H+zZzeQB4HqwxqS06gxJojLbAqK12g74pTA=;
+	s=2024091601; t=1727758890;
+	bh=aFNnDSBwVY5YKUBEj/le6GcdKhI3wUL+k7nBIu5vESQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=msMVXnKqtRoZpvhDB65bqRCAVkKrVYWNPd40JtCnTt8PRvhSHrsBENZFKdt1zakJJ
-	 1nuWKguRWsctJhTQJ1n0j+/VHYNe6DxtaBEBAGF1rfCguYbdXS8GtEwp45J247K7+Z
-	 LjZAMXMSNM7fOi5A/RCf0TMeTpAINeppHR42Ewnb7VmIez9dYkRmVO1OaKbVc209o3
-	 f+iK7G+h2KK5qwk591IiShLuTFwfElPniQSooX275Su6+BRjfxEwVKA2DVHYDkULzp
-	 g+L8ccjDCqZpKgHFL1Qgmta9WyRD12Tp6P7nmyTeEwsphscMctrH21g4N+Pu830mzc
-	 5DE3V81qk1mdg==
+	b=oWgBmdBMjl2otaU1XfWCC+8W37HzOFp98bNixS5+a9Eg5MnudDAsElV/ZdksaXSB5
+	 s/qyiQuKDdSSTKJZzJEe53Tzl03GHPc19boFabExtOrj/kYQQnDqQK2O+zXl0PDoLm
+	 mPuCY9miR5z0zhQ0WhDl6zxdqBdDpzNLsgJGozNpu0QVEVC3QuWd6E88zX4ZfuBFtW
+	 IfU4YOYh+E29+d5ECQOkT/T43Nb6S1je2O1eaVP6ik6ZiTE19sBKgx3StAl1m1Q29Q
+	 vbUsw4805zTTN2Xj1pmiOO65IDh0wtBDWsy1nHVrC2JwOckfdC0Kt5hPILE4cXfoWn
+	 yvNsJWQZs2E9g==
 From: "Xin Li (Intel)" <xin@zytor.com>
 To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
@@ -39,9 +39,9 @@ Cc: seanjc@google.com, pbonzini@redhat.com, corbet@lwn.net, tglx@linutronix.de,
         mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
         x86@kernel.org, hpa@zytor.com, luto@kernel.org, peterz@infradead.org,
         andrew.cooper3@citrix.com, xin@zytor.com
-Subject: [PATCH v3 04/27] KVM: VMX: Initialize FRED VM entry/exit controls in vmcs_config
-Date: Mon, 30 Sep 2024 22:00:47 -0700
-Message-ID: <20241001050110.3643764-5-xin@zytor.com>
+Subject: [PATCH v3 14/27] KVM: VMX: Pass XFD_ERR as pseudo-payload when injecting #NM
+Date: Mon, 30 Sep 2024 22:00:57 -0700
+Message-ID: <20241001050110.3643764-15-xin@zytor.com>
 X-Mailer: git-send-email 2.46.2
 In-Reply-To: <20241001050110.3643764-1-xin@zytor.com>
 References: <20241001050110.3643764-1-xin@zytor.com>
@@ -53,89 +53,67 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Xin Li <xin3.li@intel.com>
+From: Sean Christopherson <seanjc@google.com>
 
-Setup FRED VM entry/exit controls in the global vmcs_config for proper
-FRED VMCS fields management, i.e., load guest FRED state upon VM entry,
-and save guest/load host FRED state during VM exit.
+Pass XFD_ERR via KVM's exception payload mechanism when injecting an #NM
+after interception so that XFD_ERR can be propagated to FRED's event_data
+field without needing a dedicated field (which would need to be migrated).
 
-Signed-off-by: Xin Li <xin3.li@intel.com>
+For non-FRED vCPUs, this is a glorified NOP as
+kvm_deliver_exception_payload() will simply do nothing (which is desirable
+and correct).
+
+Signed-off-by: Sean Christopherson <seanjc@google.com>
 Signed-off-by: Xin Li (Intel) <xin@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
-Reviewed-by: Chao Gao <chao.gao@intel.com>
 ---
+ arch/x86/kvm/vmx/vmx.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-Change since v2:
-* Add FRED VM entry/exit controls consistency checks to the existing
-  consistency check framework (Sean Christopherson).
-* Just do the unnecessary FRED state load/store on entry/exit (Sean
-  Christopherson).
----
- arch/x86/include/asm/vmx.h | 4 ++++
- arch/x86/kvm/vmx/vmx.c     | 2 ++
- arch/x86/kvm/vmx/vmx.h     | 7 +++++--
- 3 files changed, 11 insertions(+), 2 deletions(-)
-
-diff --git a/arch/x86/include/asm/vmx.h b/arch/x86/include/asm/vmx.h
-index 57a37ea06a17..551f62892e1a 100644
---- a/arch/x86/include/asm/vmx.h
-+++ b/arch/x86/include/asm/vmx.h
-@@ -108,6 +108,9 @@
- #define VM_EXIT_CLEAR_IA32_RTIT_CTL		0x02000000
- #define VM_EXIT_ACTIVATE_SECONDARY_CONTROLS	0x80000000
- 
-+#define SECONDARY_VM_EXIT_SAVE_IA32_FRED	BIT_ULL(0)
-+#define SECONDARY_VM_EXIT_LOAD_IA32_FRED	BIT_ULL(1)
-+
- #define VM_EXIT_ALWAYSON_WITHOUT_TRUE_MSR	0x00036dff
- 
- #define VM_ENTRY_LOAD_DEBUG_CONTROLS            0x00000004
-@@ -120,6 +123,7 @@
- #define VM_ENTRY_LOAD_BNDCFGS                   0x00010000
- #define VM_ENTRY_PT_CONCEAL_PIP			0x00020000
- #define VM_ENTRY_LOAD_IA32_RTIT_CTL		0x00040000
-+#define VM_ENTRY_LOAD_IA32_FRED			0x00800000
- 
- #define VM_ENTRY_ALWAYSON_WITHOUT_TRUE_MSR	0x000011ff
- 
 diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index ec548c75c3ef..efd2ad397ad2 100644
+index 65ab26b13d24..686006fe6d45 100644
 --- a/arch/x86/kvm/vmx/vmx.c
 +++ b/arch/x86/kvm/vmx/vmx.c
-@@ -2627,6 +2627,8 @@ static int setup_vmcs_config(struct vmcs_config *vmcs_conf,
- 		{ VM_ENTRY_LOAD_IA32_EFER,		VM_EXIT_LOAD_IA32_EFER },
- 		{ VM_ENTRY_LOAD_BNDCFGS,		VM_EXIT_CLEAR_BNDCFGS },
- 		{ VM_ENTRY_LOAD_IA32_RTIT_CTL,		VM_EXIT_CLEAR_IA32_RTIT_CTL },
-+		{ VM_ENTRY_LOAD_IA32_FRED,		VM_EXIT_ACTIVATE_SECONDARY_CONTROLS,
-+			SECONDARY_VM_EXIT_SAVE_IA32_FRED | SECONDARY_VM_EXIT_LOAD_IA32_FRED },
- 	};
+@@ -5336,6 +5336,12 @@ bool vmx_guest_inject_ac(struct kvm_vcpu *vcpu)
+ 	       (kvm_get_rflags(vcpu) & X86_EFLAGS_AC);
+ }
  
- 	memset(vmcs_conf, 0, sizeof(*vmcs_conf));
-diff --git a/arch/x86/kvm/vmx/vmx.h b/arch/x86/kvm/vmx/vmx.h
-index cf3a6c116634..e0d76d2460ef 100644
---- a/arch/x86/kvm/vmx/vmx.h
-+++ b/arch/x86/kvm/vmx/vmx.h
-@@ -485,7 +485,8 @@ static inline u8 vmx_get_rvi(void)
- 	 VM_ENTRY_LOAD_IA32_EFER |					\
- 	 VM_ENTRY_LOAD_BNDCFGS |					\
- 	 VM_ENTRY_PT_CONCEAL_PIP |					\
--	 VM_ENTRY_LOAD_IA32_RTIT_CTL)
-+	 VM_ENTRY_LOAD_IA32_RTIT_CTL |					\
-+	 VM_ENTRY_LOAD_IA32_FRED)
++static bool is_xfd_nm_fault(struct kvm_vcpu *vcpu)
++{
++	return vcpu->arch.guest_fpu.fpstate->xfd &&
++	       !kvm_is_cr0_bit_set(vcpu, X86_CR0_TS);
++}
++
+ static int handle_exception_nmi(struct kvm_vcpu *vcpu)
+ {
+ 	struct vcpu_vmx *vmx = to_vmx(vcpu);
+@@ -5362,7 +5368,8 @@ static int handle_exception_nmi(struct kvm_vcpu *vcpu)
+ 	 * point.
+ 	 */
+ 	if (is_nm_fault(intr_info)) {
+-		kvm_queue_exception(vcpu, NM_VECTOR);
++		kvm_queue_exception_p(vcpu, NM_VECTOR,
++				      is_xfd_nm_fault(vcpu) ? vcpu->arch.guest_fpu.xfd_err : 0);
+ 		return 1;
+ 	}
  
- #define __KVM_REQUIRED_VMX_VM_EXIT_CONTROLS				\
- 	(VM_EXIT_SAVE_DEBUG_CONTROLS |					\
-@@ -511,7 +512,9 @@ static inline u8 vmx_get_rvi(void)
- 	       VM_EXIT_ACTIVATE_SECONDARY_CONTROLS)
+@@ -7110,14 +7117,13 @@ static void handle_nm_fault_irqoff(struct kvm_vcpu *vcpu)
+ 	 *
+ 	 * Update the guest's XFD_ERR if and only if XFD is enabled, as the #NM
+ 	 * interception may have been caused by L1 interception.  Per the SDM,
+-	 * XFD_ERR is not modified if CR0.TS=1.
++	 * XFD_ERR is not modified for non-XFD #NM, i.e. if CR0.TS=1.
+ 	 *
+ 	 * Note, XFD_ERR is updated _before_ the #NM interception check, i.e.
+ 	 * unlike CR2 and DR6, the value is not a payload that is attached to
+ 	 * the #NM exception.
+ 	 */
+-	if (vcpu->arch.guest_fpu.fpstate->xfd &&
+-	    !kvm_is_cr0_bit_set(vcpu, X86_CR0_TS))
++	if (is_xfd_nm_fault(vcpu))
+ 		rdmsrl(MSR_IA32_XFD_ERR, vcpu->arch.guest_fpu.xfd_err);
+ }
  
- #define KVM_REQUIRED_VMX_SECONDARY_VM_EXIT_CONTROLS (0)
--#define KVM_OPTIONAL_VMX_SECONDARY_VM_EXIT_CONTROLS (0)
-+#define KVM_OPTIONAL_VMX_SECONDARY_VM_EXIT_CONTROLS			\
-+	     (SECONDARY_VM_EXIT_SAVE_IA32_FRED |			\
-+	      SECONDARY_VM_EXIT_LOAD_IA32_FRED)
- 
- #define KVM_REQUIRED_VMX_PIN_BASED_VM_EXEC_CONTROL			\
- 	(PIN_BASED_EXT_INTR_MASK |					\
 -- 
 2.46.2
 
