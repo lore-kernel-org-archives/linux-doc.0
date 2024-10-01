@@ -1,157 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F84F1CBEA5;
-	Tue,  1 Oct 2024 16:12:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4F291C2424;
+	Tue,  1 Oct 2024 16:15:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727799156; cv=none; b=uVbABsTwvbnrBlgQJBZILdZ1nqrdF5S9Hl0BSGAqWybNTnDHzVIKGbYQrzecaGzbQqvB2yk+JY2E3QqmhjsDuMdiyHrYjC/Myb8UgUD07lnoZ5lqo0sdBwAdsaeekI9HNbeAU8/Y2OYR2clSEkxN4gNXxdtc3xmoDsMAhQs5r0A=
+	t=1727799322; cv=none; b=C1I8WRTCqd1fGxDHTTnOwyPPK/xrEviSpQfZ5Rm+avtgGL2rt/mZ+U2xXBd20VIJl5PbFYe+kCIP/d+g7cJ/iWA4EMRoWtorkROOc/4XjWVpuICz8DRLTsiScyVgLxa6/3eLkmaaIoLqIE0egXvEiZaJS9HxWiGojsYfgzkXwo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727799156; c=relaxed/simple;
-	bh=xvIwG6gyARo54FIdjzMLeThxYyNdRPH/TLhFzpEYRiw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FbwLPaDW4ztENXOv/STvjOtmYhCSbG87UxA7sIPpjqZRmqns+gTL0yofRmuTU4cP7J4ic9R9dgnQN5oB8WvR0UQD59OFuPrWwSFYprD3mbHupikB/Ddd9RCOB9gwqnjpcek2NfsxDOYfUwHXHlKjeZA6/1AmUxiFyxTvRq1zmX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hfO6zOUh; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727799322; c=relaxed/simple;
+	bh=+OmrwFFvI55GhiVmjwakGzI55IFXbs0OQLhUUTgaw38=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lk6e6sn+V5O0J8pu84TRelserARq6EW8u/lzt8EeAs06Y6rK9VN2AxuzIAQwSeetWdJINW6qkx0HU0vayZw1frCvr3VDoqdT1yv85VoWzguud5G6Xk5U5hD/Q6C9WjFDkBYi0fK3n5dfDyNsD0JpEdLX6BnyENeb1WJrXnLIgcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RqbtuRFJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hfO6zOUh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727799155; x=1759335155;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=xvIwG6gyARo54FIdjzMLeThxYyNdRPH/TLhFzpEYRiw=;
-  b=hfO6zOUhaYYLcEt6damvOQ2YZTNDnRLSo3BZa0MGbvue7utvwpxY0URC
-   NuxQKcpX/wf8sZD3P1eywFOLJHvbJfEJ3CiUyEEXcQFvWacOUoYuxgRTn
-   7GFmbeoDv9t9BBL/gJWwd9ifDVX7kvzfpZuQGDzCvLr6knY4RJVo3wHot
-   wATo/4sDcs6KdAkOQwSQFa4phTUC1i5teUzGgvg7up8PtwppfscUUbIjN
-   ck00+sntn5kTcxENQG0DmJ+m/K2kMAXVEbvfwOeWjUKVTzmATolai5fwT
-   biNMkSYRa1GyYrSyW/Lrw6mIqQlcJVDjBBRAfx/mAQGSp5oIhwTkR8ZFK
-   Q==;
-X-CSE-ConnectionGUID: r6EieSdySBCBuQ7AwLhZGg==
-X-CSE-MsgGUID: EtRwAy/EThSdR9+/5N8Ltg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="14563958"
-X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
-   d="scan'208";a="14563958"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 09:12:35 -0700
-X-CSE-ConnectionGUID: Ia3wgJFVTL+L5UIycH2/sw==
-X-CSE-MsgGUID: ezn2VxXjRxmnVOOzGp7JrA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
-   d="scan'208";a="97074669"
-Received: from daliomra-mobl3.amr.corp.intel.com (HELO [10.124.220.1]) ([10.124.220.1])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 09:12:33 -0700
-Message-ID: <93b3d510-f21b-4f89-ae53-0fa50f03a42d@intel.com>
-Date: Tue, 1 Oct 2024 09:12:32 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RqbtuRFJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B64E3C4CEC7;
+	Tue,  1 Oct 2024 16:15:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727799321;
+	bh=+OmrwFFvI55GhiVmjwakGzI55IFXbs0OQLhUUTgaw38=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RqbtuRFJU3u7JGA6mstBP8v+VnF2+BpPvJBISYpoE1myMPoeofcLOfETglwd/qqZX
+	 x6xbtmUE/AaEcoWn0ZA8t0QUZQjaEsa66J35m09JoEfVzTDOIpJbSzpgGrbYGk7ROR
+	 Imomv1HBZRnI/fzOcUfTyuK6zGFljqtNCMIAK2siGRxnBJbqwPASU2pU1LcPDOROtb
+	 yxFRIIJPpDmySpyG1SG6qGCbTLZLpLzu+QVE7YuzjfOhmInh2W/JnLERnqF9jC+jh+
+	 uPLt33Yevu1qKZxJS38du1tCjiT/+4HgU/OhVG31JhV+AgobMsR7Pk5M44bCsRITkI
+	 oGQGlV/9jIzhQ==
+Date: Tue, 1 Oct 2024 17:15:08 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Deepak Gupta <debug@rivosinc.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <brauner@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	alistair.francis@wdc.com, richard.henderson@linaro.org,
+	jim.shu@sifive.com, andybnac@gmail.com, kito.cheng@sifive.com,
+	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
+	cleger@rivosinc.com, alexghiti@rivosinc.com,
+	samitolvanen@google.com, rick.p.edgecombe@intel.com
+Subject: Re: [PATCH 17/33] prctl: arch-agnostic prctl for shadow stack
+Message-ID: <e7c48ad8-5fe2-46d8-b137-e04046b7c572@sirena.org.uk>
+References: <20241001-v5_user_cfi_series-v1-0-3ba65b6e550f@rivosinc.com>
+ <20241001-v5_user_cfi_series-v1-17-3ba65b6e550f@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 06/27] x86/cea: Export per CPU variable
- cea_exception_stacks
-To: "Xin Li (Intel)" <xin@zytor.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: seanjc@google.com, pbonzini@redhat.com, corbet@lwn.net,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, luto@kernel.org,
- peterz@infradead.org, andrew.cooper3@citrix.com
-References: <20241001050110.3643764-1-xin@zytor.com>
- <20241001050110.3643764-7-xin@zytor.com>
-Content-Language: en-US
-From: Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <20241001050110.3643764-7-xin@zytor.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="HnBpW/dMWd9OANPk"
+Content-Disposition: inline
+In-Reply-To: <20241001-v5_user_cfi_series-v1-17-3ba65b6e550f@rivosinc.com>
+X-Cookie: Even a hawk is an eagle among crows.
 
-On 9/30/24 22:00, Xin Li (Intel) wrote:
-> The per CPU variable cea_exception_stacks contains per CPU stacks for
-> NMI, #DB and #DF, which is referenced in KVM to set host FRED RSP[123]
-> each time a vCPU is loaded onto a CPU, thus it needs to be exported.
 
-Nit: It's not obvious how 'cea_exception_stacks' get used in this
-series.  It's never referenced explicitly.
+--HnBpW/dMWd9OANPk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I did figure it out by looking for 'RSP[123]' references, but a much
-better changelog would be something like:
+On Tue, Oct 01, 2024 at 09:06:22AM -0700, Deepak Gupta wrote:
+> From: Mark Brown <broonie@kernel.org>
 
-	The per CPU array 'cea_exception_stacks' points to per CPU
-	stacks for NMI, #DB and #DF. It is normally referenced via the
-	#define: __this_cpu_ist_top_va().
+> This is based on a patch originally written by Deepak Gupta but later
+> modified by Mark Brown for arm's GCS patch series.
+>=20
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> Co-developed-by: Deepak Gupta <debug@rivosinc.com>
+> ---
 
-	FRED introduced new fields in the host-state area of the VMCS
-	for stack levels 1->3 (HOST_IA32_FRED_RSP[123]). KVM must
-	populate these each time a vCPU is loaded onto a CPU.
+You need to add your own signoff to this when reposting, see
+submitting-patches.rst.
 
-See how that explicitly gives the reader greppable strings for
-"__this_cpu_ist_top_va" and "HOST_IA32_FRED_RSP"?  That makes it much
-easier to figure out what is going on.
+--HnBpW/dMWd9OANPk
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I was also momentarily confused about why these loads need to be done on
-_every_ vCPU load.  I think it's because the host state can change as
-the vCPU moves around to different physical CPUs and
-__this_cpu_ist_top_va() can and will change.  But it's a detail that I
-think deserves to be explained in the changelog.  There is also this
-note in vmx_vcpu_load_vmcs():
+-----BEGIN PGP SIGNATURE-----
 
->                 /*
->                  * Linux uses per-cpu TSS and GDT, so set these when switching
->                  * processors.  See 22.2.4.
->                  */
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmb8IAsACgkQJNaLcl1U
+h9DrwQf7BAFQooaBsGyKz4K0gmdZvizPyAYQqIuRAHGgQfFjNxxMAxr9uixHnfTg
+/mZbG5XRVKtI2yxwczMB6CMGwI1HZ4s2Inp/eJbCxUbAH6vU8tYpveECIII9zKk3
+I7sr3LtJGO2vNA6jL4aC9sjIBK8ArFU3U3q3xFvuNA3rweEVNh/pN2syIsK+WXuS
+cdkujVFleyQUjcyYIPGZIDNctM39NDfOhgBe3mSiAwDzXnTay7MMBdpFP9DffM/Z
++VzTmLgom8P7XIJJglgDDUYqrh0D5VsztFKJ1BPcwUR7y7KJpO0EBPuvglcXPbqa
+Qm1qEKcpAzSR4Y56hqjCRCmPB4fIXw==
+=G7w+
+-----END PGP SIGNATURE-----
 
-which makes me think that it might not be bad to pull *all* of the
-per-cpu VMCS field population code out into a helper since the reasoning
-of why these need to be repopulated is identical.
-
-Also, what's the purpose of clearing GUEST_IA32_FRED_RSP[123] at
-init_vmcs() time?  I would have thought that those values wouldn't
-matter until the VMCS gets loaded at vmx_vcpu_load_vmcs() when they are
-overwritten anyway.  Or, I could be just totally misunderstanding how
-KVM consumes the VMCS. :)
+--HnBpW/dMWd9OANPk--
