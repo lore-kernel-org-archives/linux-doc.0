@@ -1,172 +1,114 @@
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5787A199FA2
-	for <linux-doc@vger.kernel.org>; Tue,  1 Oct 2024 19:35:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 232821CDFBE;
+	Tue,  1 Oct 2024 20:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727811341; cv=none; b=CRw3ZrnW+V15KpttgHaWXLZTXvmrH0SSaFmbL9WKl8ntcKxAgbgKQGaRNib85oYrOYfEEUk7vueAMaz71Gi/4UfTwALBPCvawarkD7xMEXcfMZB4foR96ehJex44UB4btVmuafy6ZWJVexy+Xx/j8hAr1f33no6k29DGXUJ9fYQ=
+	t=1727813440; cv=none; b=aGq5C/dFeAoZl65G/aDgZzcLKSNryIA1aB51NN4MQbiaTq/sMnYDWmnN70YZa/wGOpTo6LeEAxlrbzHWiHqV9ock2zVCqbOuaWuy+VZ7b6/BwOMH8VHDs9JKP2bWUO1uuGFQAlZNfaCCWYxjLj0bC7dPVQcdyqDussWVSl5mazA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727811341; c=relaxed/simple;
-	bh=Adk8M+H9AJEX8xAfFZdCw12+Qz/aalXWNoigR+EVa/c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MaP7/OZIpqxN8qpJydmzrTu/dMUmD3AP1x+QEVD3YxQmDak2GoAD6YiT4KxOjRB689tr7dzj8v7dBExQ24qJaT/mCb/OUo8ssggia1FlZ0jPKwlSLLwaCbqlnn4VHKrK3pP5vzLKjucYTMhFHzsL9yi8WElKQiYnxEVXfsdJC5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UnZugx2E; arc=none smtp.client-ip=209.85.166.176
+	s=arc-20240116; t=1727813440; c=relaxed/simple;
+	bh=kYoy/bMd8xJK/HDyrM7sBCBrw1B9vPKyP8cEGp8fmI8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qcwF0yDNSQXjQ+egASUJ3uUg25x+X+54MoTjOAi+C/KHSNM/fzqzCmptpgtPSgeq8nDnWV6xlJFxrlupVTFnjbh2i7TJAUvHiUtL3vh6TYjt1cazAQHwrUGds2lWtmqLnkg6q3J2K1YsHEjCNBUwT/2eimt+osUKhbTFcaFcj0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iHCaeVgY; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UnZugx2E"
-Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-3a34460a45eso29533825ab.3
-        for <linux-doc@vger.kernel.org>; Tue, 01 Oct 2024 12:35:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iHCaeVgY"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-71797e61d43so284454b3a.2;
+        Tue, 01 Oct 2024 13:10:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727811339; x=1728416139; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1727813437; x=1728418237; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=l1yWDiVoLZbp10tEWDIrcXna+8SOkHiu54LGaS0lPr4=;
-        b=UnZugx2EhNIYSErIDF4TFPv6ECaBdJQ+PxAC8GaXRy87aXKsUYmWef5FGIcM1SUx9K
-         FnUBGrMUzv3kilZjZQ3OycN8MOPwMrgi4gPtkYNOhxHU1AaBSaRahT8NRXR0tZbZ6icZ
-         /Zlvva8v/8AGZjEtTSkFp++Vntb2NGCQS1Gs5Qh11vfBiiXXQmHMnx1EFa171T2X4fky
-         TVvRTbI8Xbvf3sdeP3+uiam7O4OP5L9AaicWtf1EryKNXBUjJDP+CzGOkMcy9AkhrO1K
-         tOs8UJ3OhiYlORvgUflDGL5EW4htk4BeK1wb9IMGe7uZZ6+NcedrX20H7K2Wq+dF/KXm
-         QlCg==
+        bh=kGVulOrDpVkAQcbZN4VP65YN6nxFMIm3dGc0Up0BqtM=;
+        b=iHCaeVgYQupMJxnHh7ug9MM7h2J35MOWc9ET6SJ9vwhiolDET0SIwjM1mtL8j7dhBQ
+         AUJOM4HQqpwY4Oxlms52s7s8AFaLAcIKxME25jK1wZAs6WT2+sodWut2vhLGzymYPe4/
+         lg5dPGwlqENAhHiJFoBq0MJjVJzv6TrYu6YiQQNHBEpZDAWiEko/La7bjnNkBgQ8ZpNZ
+         U7I+w+c/K3gTKdawsZ22/cV8JoB8lQyrTS/JhQ72y/r9Zfhv2PY8BW5oAd6tR8blW8NH
+         durErRYC1i/tZLOMT8Dq6aQT1+vnfl8dlpecAaxGIXyuVHx3GApIiLS9/Y5Ghg/7IwFk
+         NQxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727811339; x=1728416139;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1727813437; x=1728418237;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=l1yWDiVoLZbp10tEWDIrcXna+8SOkHiu54LGaS0lPr4=;
-        b=Jv8X2yRw4yzyAXgiDytfFhpTOBvlJr4z2sXbeYBGlwjlEqUufKFL9VxgZiGAO5r9dc
-         tWUuh8TjoIolPVpxrkCkUuhhLEM3NYtTS7q4MfYWgWpCweaKLQCwFB9ImRO71aC+q4gX
-         KOklQnmM9t2JNKhsF+buxBBZpooRbjqH094t4vWFEj97gACQM4D0KVUOc432e5Ij4+3y
-         Z8kCS9Wo8gbzen8BI6I9vk+PY0VVCYJ//ic7+uMzbuJZyqPy0suTuMwkjbGJEvE4U7qv
-         Hbnq4u1W4nUq2tZAq6N0NiTS7VhQPDDUYRK3oSqf5MVwBNuc22DhaqSED4QY8pwKGhqA
-         KmQw==
-X-Forwarded-Encrypted: i=1; AJvYcCWhezUtjMFUtSbS9bmZ1PqbOdfBqitdclrm7OqED9Mp4Trkqn0sv/NKjXd1iYiAqsZ9QEOh7POgA3E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEp5/0eJEFjj4PUUeI+7IwY5A9k+fA0mL8yBA+bEWcjtI9QD0N
-	S+mQ5Nmmf0QKHNpnZTqmIUyzmBxnuSxIikXDLuoLpzHHdFZoEK2b
-X-Google-Smtp-Source: AGHT+IHx2BkbOwJv84BdU3nFmzfUvUUVHaQl6dm15g18rf7uwHhJfi5fzan6vLH2rXblJd8PZ+ANzg==
-X-Received: by 2002:a05:6e02:180c:b0:3a2:6ce9:19c6 with SMTP id e9e14a558f8ab-3a3659536a5mr7317095ab.25.1727811339092;
-        Tue, 01 Oct 2024 12:35:39 -0700 (PDT)
-Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
-        by smtp.googlemail.com with ESMTPSA id 8926c6da1cb9f-4d888835307sm2790975173.2.2024.10.01.12.35.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2024 12:35:37 -0700 (PDT)
-From: Jim Cromie <jim.cromie@gmail.com>
-To: intel-gfx-trybot@lists.freedesktop.org
-Cc: jbaron@akamai.com,
-	ukaszb@chromium.org,
-	Jim Cromie <jim.cromie@gmail.com>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 20/65] dyndbg-doc: add classmap info to howto
-Date: Tue,  1 Oct 2024 13:34:09 -0600
-Message-ID: <20241001193455.3306508-21-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.46.2
-In-Reply-To: <20241001193455.3306508-1-jim.cromie@gmail.com>
-References: <20241001193455.3306508-1-jim.cromie@gmail.com>
+        bh=kGVulOrDpVkAQcbZN4VP65YN6nxFMIm3dGc0Up0BqtM=;
+        b=PYnRsSQjBkpNy9gEWSsA4ElGlLjsHO/1dFQyxagHYF/i9hiQuL5UMGDykLHpXZc9YU
+         KXKUbxfj3G5adNWBN7UW0w7Nsd11qMpFVhSK0qxyMG6TJZbaTMEdYYiubdGkTYStjiRP
+         +Q93cMhQ/tqR2JEqN3xafFZJrkubapRDDcSCYkXf9Sxbi6OtyINSuwfV/zVhCKfp4oAh
+         RBE/I/pWKK+ptOwNN3I6vPbsJhqC9+DEmUY3FhU5ggm4lc5iCDWwgpMQjw0i5BZdITbD
+         g5Ccxj49Al5BJxB1mOwnqExRAsDkT/852V5pVWMjsidFxf8ZFE3bI4dLdA/oPEtSh4S3
+         KYIg==
+X-Forwarded-Encrypted: i=1; AJvYcCUX3/ELl1qS/RSuJP29MTykJDKZuTNxCFglkHi3lUeLBrfwg3SWkYiD7K6LLUnm7KnD0Fdlpc+8F+d6hk98@vger.kernel.org, AJvYcCUXASWaQ/ez2w7FVM/IFNDwntvnzAqU9wo6GfSeXF06nkx3LDYUrj7pE5CKlC+9PRz2k6t3hs6ZRrk=@vger.kernel.org, AJvYcCXGuwyHOJ9HSFHT53OPTyrkDwXXd9E5SaeqsIxXtJpOHsLn2936QzB/B5GToSi+mmhRKCOBeV8uoDSXzee+lDw=@vger.kernel.org, AJvYcCXvBk8wVFmht94svDNQvZc0BfNNM1dHF1yQgY8eGpMpVRJbAMSW+9QTtud6cJqP45AVkvJkYQZnuaoP@vger.kernel.org
+X-Gm-Message-State: AOJu0YySda31UVHswO+LZasiAJFn79SYt8EsxQ+RbgBSMqs+k3P4ev0J
+	1yYQZtC2Et5jq66KK7u2nN/yltgsTF7CRxCUbtp7fOdn95vNTAeVVbsqSBEur4YUB8LzEP7AmRr
+	ZZmr/d4AT+3c7SbRxaGApTMEWiSo=
+X-Google-Smtp-Source: AGHT+IHe4cKDdHANdRNDm2TbpCihzt1NUCN01E7a+72PsxqWx9wAfuXjuHQOo7cfvTqVtYQhjg9c3FrJ6b7M6dZiStE=
+X-Received: by 2002:a05:6a20:7483:b0:1cf:4dc7:e4fc with SMTP id
+ adf61e73a8af0-1d5db121f1amr761477637.2.1727813437289; Tue, 01 Oct 2024
+ 13:10:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240922160411.274949-1-carlos.bilbao.osdev@gmail.com>
+In-Reply-To: <20240922160411.274949-1-carlos.bilbao.osdev@gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 1 Oct 2024 22:10:24 +0200
+Message-ID: <CANiq72=MnCfj_y_dSPZ4Mwyxq1WnuPmw-FQ0H8THLS6kZ8fNOA@mail.gmail.com>
+Subject: Re: [PATCH v3] kernel-docs: Add new section for Rust learning materials
+To: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+Cc: corbet@lwn.net, ojeda@kernel.org, dirk.behme@de.bosch.com, 
+	alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net, 
+	benno.lossin@proton.me, a.hindborg@samsung.com, aliceryhl@google.com, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, bilbao@vt.edu
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Describe the 3 API macros providing dynamic_debug's classmaps
+On Sun, Sep 22, 2024 at 6:04=E2=80=AFPM Carlos Bilbao
+<carlos.bilbao.osdev@gmail.com> wrote:
+>
+> +   * Title: **Experiment: Improving the Rust Book**
+> +
+> +      :Author: Cognitive Engineering Lab at Brown University
+> +      :URL: https://rust-book.cs.brown.edu/
+> +      :Date: Accessed Sep 22 2024
+> +      :Keywords: rust, blog.
+> +      :Description: From the website: "The goal of this experiment is to
+> +        evaluate and improve the content of the Rust Book to help people
+> +        learn Rust more effectively.".
 
-DYNDBG_CLASSMAP_DEFINE - create, exports a module's classmap
-DYNDBG_CLASSMAP_USE    - refer to exported map
-DYNDBG_CLASSMAP_PARAM  - bind control param to the classmap
-DYNDBG_CLASSMAP_PARAM_REF + use module's storage - __drm_debug
+Perhaps this could go closer to the Rust book entry since it is a variant o=
+f it.
 
-cc: linux-doc@vger.kernel.org
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
-v5 adjustments per Randy Dunlap
-v7 checkpatch fixes
-v8 more
----
- .../admin-guide/dynamic-debug-howto.rst       | 63 ++++++++++++++++++-
- 1 file changed, 62 insertions(+), 1 deletion(-)
+Or are these sorted in a particular way?
 
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 691e0f7d4de1..89d94aab41ec 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -230,7 +230,6 @@ the ``p`` flag has meaning, other flags are ignored.
- Note the regexp ``^[-+=][fslmpt_]+$`` matches a flags specification.
- To clear all flags at once, use ``=_`` or ``-fslmpt``.
- 
--
- Debug messages during Boot Process
- ==================================
- 
-@@ -380,3 +379,65 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
- For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
- its ``prefix_str`` argument, if it is constant string; or ``hexdump``
- in case ``prefix_str`` is built dynamically.
-+
-+Dynamic Debug classmaps
-+=======================
-+
-+Dyndbg allows selection/grouping of *prdbg* callsites using structural
-+info: module, file, function, line.  Classmaps allow authors to add
-+their own domain-oriented groupings using class-names.  Classmaps are
-+exported, so they referencable from other modules.
-+
-+  # enable classes individually
-+  :#> ddcmd class DRM_UT_CORE +p
-+  :#> ddcmd class DRM_UT_KMS +p
-+  # or more selectively
-+  :#> ddcmd class DRM_UT_CORE module drm +p
-+
-+The "class FOO" syntax protects class'd prdbgs from generic overwrite::
-+
-+  # IOW this doesn't wipe any DRM.debug settings
-+  :#> ddcmd -p
-+
-+To support the DRM.debug parameter, DYNDBG_CLASSMAP_PARAM* updates all
-+classes in a classmap, mapping param-bits 0..N onto the classes:
-+DRM_UT_<*> for the DRM use-case.
-+
-+Dynamic Debug Classmap API
-+==========================
-+
-+DYNDBG_CLASSMAP_DEFINE - modules use this to create classmaps, naming
-+each of the classes (stringified enum-symbols: "DRM_UT_<*>"), and
-+type, and mapping the class-names to consecutive _class_ids.
-+
-+By doing so, modules tell dyndbg that they have prdbgs with those
-+class_ids, and they authorize dyndbg to accept "class FOO" for the
-+module defining the classmap, and its contained classnames.
-+
-+DYNDBG_CLASSMAP_USE - drm drivers invoke this to ref the CLASSMAP that
-+drm DEFINEs.  This shares the classmap definition, and authorizes
-+dyndbg to apply changes to the user module's class'd pr_debugs.  It
-+also tells dyndbg how to initialize the user's prdbgs at modprobe,
-+based upon the current setting of the parent's controlling param.
-+
-+There are 2 types of classmaps:
-+
-+ DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like DRM.debug
-+ DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
-+
-+DYNDBG_CLASSMAP_PARAM - modelled after module_param_cb, it refers to a
-+DEFINEd classmap, and associates it to the param's data-store.  This
-+state is then applied to DEFINEr and USEr modules when they're modprobed.
-+
-+This interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
-+amongst the contained classnames; all classes are independent in the
-+control parser itself.
-+
-+Modules or module-groups (drm & drivers) can define multiple
-+classmaps, as long as they share the limited 0..62 per-module-group
-+_class_id range, without overlap.
-+
-+``#define DEBUG`` will enable all pr_debugs in scope, including any
-+class'd ones.  This won't be reflected in the PARAM readback value,
-+but the class'd pr_debug callsites can be forced off by toggling the
-+classmap-kparam all-on then all-off.
--- 
-2.46.2
+> +   * Title: **Opsem-team** (repository)
+> +
+> +      :Author: Operational semantics team
+> +      :URL: https://github.com/rust-lang/opsem-team/tree/main
 
+Nit: I think you can remove the `/tree/main` part of the URL to simplify.
+
+> +      :Date: Accessed Sep 22 2024
+
+Since these are repositories, and elsewhere you say "rolling version",
+should that one have a concrete date, or should some of these ones
+have a rolling date too?
+
+One more that I remembered and that we could have here if we have
+other videos/podcasts/... is Crust of Rust (and probably the book from
+the same author).
+
+In any case, I think it looks good, thanks!
+
+Acked-by: Miguel Ojeda <ojeda@kernel.org>
+
+Cheers,
+Miguel
