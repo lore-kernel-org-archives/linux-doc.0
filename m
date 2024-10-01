@@ -1,230 +1,172 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2052.outbound.protection.outlook.com [40.107.92.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D801CDA11;
-	Tue,  1 Oct 2024 19:33:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727811188; cv=fail; b=ocVn9sxfwa4XtuTOpjipsdwKANpgzfF5ATCczpCf+DNxw4sr+C8faseNOVN8vOBJbBHAHZsfybCohA10jAvt+xQ2FesNlwF2fggKK7AKEd1/3HGcFy/A+HNxk+NlIc93HXOGRlfHlUuAhGzKnxY2+3y/1uvP9OtydddXKbF77Qo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727811188; c=relaxed/simple;
-	bh=ggmwaKM/pPGkvXKM5kxW1eTLv19teJP08FRY8HJM3lo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=AT7p9hngIOSLGlqW+CVWSwFwda1czZGXpiGuENxSWg0YMDF45r53bBHt8ss9lHeZKBao4kJo9+AieSti+TY63tSKYp4JlRirm7dWFPRbG8n25Mik4ivf9BSWovUOvK/oHycELSIpU9je34tc9yv/fOzSS8DhJjJcBsduUJLH31w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=or1vRM1l; arc=fail smtp.client-ip=40.107.92.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5787A199FA2
+	for <linux-doc@vger.kernel.org>; Tue,  1 Oct 2024 19:35:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727811341; cv=none; b=CRw3ZrnW+V15KpttgHaWXLZTXvmrH0SSaFmbL9WKl8ntcKxAgbgKQGaRNib85oYrOYfEEUk7vueAMaz71Gi/4UfTwALBPCvawarkD7xMEXcfMZB4foR96ehJex44UB4btVmuafy6ZWJVexy+Xx/j8hAr1f33no6k29DGXUJ9fYQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727811341; c=relaxed/simple;
+	bh=Adk8M+H9AJEX8xAfFZdCw12+Qz/aalXWNoigR+EVa/c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=MaP7/OZIpqxN8qpJydmzrTu/dMUmD3AP1x+QEVD3YxQmDak2GoAD6YiT4KxOjRB689tr7dzj8v7dBExQ24qJaT/mCb/OUo8ssggia1FlZ0jPKwlSLLwaCbqlnn4VHKrK3pP5vzLKjucYTMhFHzsL9yi8WElKQiYnxEVXfsdJC5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UnZugx2E; arc=none smtp.client-ip=209.85.166.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="or1vRM1l"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gUxMXZuHhjAkWipURiJydEia5kqoQztTpnKf1hQivzLrBzy0OjxnPZjMeARFmhByMLznPrx0kRknykT7GMW/O2EDQOpJs+WvcNbvKGq/boER1ZedfEoBbgJotICOWfX++wkpku0AGLwhAk5rSj47v94aLd+maNNSuBY1/boFU/LUznWbNrb4zCeCyWQNUol6+TqzVQXpSuGEfFoy9zWEXjrtaBuCKIZfRLN7cWC2LZLhFPX/nKUP76InXUAZBLxMvCps0+u1rGzRVg6GV6pTCPJYkHYPgAd7ZESwmsxAX4ibM/SPceFKWnqc3PY4dUxKGPmNyWSTL94VgLcwyPWJ3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/KG0SGIXmnAFdVCUYabmJtLYAhrQ454RmmTSbecBWVc=;
- b=RO81Djaz6rs3LQ2vgXE5hexQuGRHky4ON4yj/Js9U6DSdDv44oGShdYF8yW9zsZPN5eJDvPvFj2XCR4yJSjQ9uFUGT0jBOgG86tYZAndaftdY2pwPKBLel5anY5UKFd8rqRHOC38OltlBPKDG1uZiy1Xi94J7HbA8vD/Tlw5Pzn85rbAOWvqnKVFvPpjiozbkzKUFhTm3jhK2mYoEyvxLfOzwcVsjUin5L62oGTPG9+AlM07BfTgDl0v3/tAFGEMCETP5V1YbOqVSWH1/fZ7l1DLufBnkYK8p6qnKUrSSgLEXMx3Cw7lzUIY5qUqYtP+BBVPqwfAjnEho+A7KMxHgA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/KG0SGIXmnAFdVCUYabmJtLYAhrQ454RmmTSbecBWVc=;
- b=or1vRM1lbf20IH33a/H8K0IObOEwDrmzErZrH22Q8Flf1qq6NfKaURjfnSarAxINHZ0YV1C+45R9/wEfXEokoDpb5evgk8oSYi9abaqH32SvqtvjD8QDtQuapz7IeRTjTuKao+DMcPUNW/kLSjsE3KGCvFii40xL7z6tA9jZyMBskbFljhAn3zGuDafUtLWJPhE4hYoI4aw2KUtSqjqXt6kZeaoKz0lClsoR+h7LJheleavTP/Rt6zjMLC71RRr2KqDQNZj+wN7uiXx00C8otYoUPBwXutcly+DquX8RTZzTY6sub8opCKKlzyqaPtxFiXlLf3AQKTLlGm6WM1WVJA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by LV2PR12MB6016.namprd12.prod.outlook.com (2603:10b6:408:14e::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.27; Tue, 1 Oct
- 2024 19:33:01 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8005.026; Tue, 1 Oct 2024
- 19:33:01 +0000
-Date: Tue, 1 Oct 2024 16:33:00 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Jiri Slaby <jirislaby@kernel.org>
-Cc: Vidya Sagar <vidyas@nvidia.com>, corbet@lwn.net, bhelgaas@google.com,
-	galshalom@nvidia.com, leonro@nvidia.com, treding@nvidia.com,
-	jonathanh@nvidia.com, mmoshrefjava@nvidia.com, shahafs@nvidia.com,
-	vsethi@nvidia.com, sdonthineni@nvidia.com, jan@nvidia.com,
-	tdave@nvidia.com, linux-doc@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kthota@nvidia.com, mmaddireddy@nvidia.com, sagar.tv@gmail.com,
-	vliaskovitis@suse.com
-Subject: Re: [PATCH V4] PCI: Extend ACS configurability
-Message-ID: <20241001193300.GJ1365916@nvidia.com>
-References: <20240523063528.199908-1-vidyas@nvidia.com>
- <20240625153150.159310-1-vidyas@nvidia.com>
- <e89107da-ac99-4d3a-9527-a4df9986e120@kernel.org>
- <3cbd6ddb-1984-4055-9d29-297b4633fc41@kernel.org>
- <b8fa3062-48ec-4de7-b314-2ff959775ecc@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b8fa3062-48ec-4de7-b314-2ff959775ecc@kernel.org>
-X-ClientProxiedBy: BN9PR03CA0866.namprd03.prod.outlook.com
- (2603:10b6:408:13d::31) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UnZugx2E"
+Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-3a34460a45eso29533825ab.3
+        for <linux-doc@vger.kernel.org>; Tue, 01 Oct 2024 12:35:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727811339; x=1728416139; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l1yWDiVoLZbp10tEWDIrcXna+8SOkHiu54LGaS0lPr4=;
+        b=UnZugx2EhNIYSErIDF4TFPv6ECaBdJQ+PxAC8GaXRy87aXKsUYmWef5FGIcM1SUx9K
+         FnUBGrMUzv3kilZjZQ3OycN8MOPwMrgi4gPtkYNOhxHU1AaBSaRahT8NRXR0tZbZ6icZ
+         /Zlvva8v/8AGZjEtTSkFp++Vntb2NGCQS1Gs5Qh11vfBiiXXQmHMnx1EFa171T2X4fky
+         TVvRTbI8Xbvf3sdeP3+uiam7O4OP5L9AaicWtf1EryKNXBUjJDP+CzGOkMcy9AkhrO1K
+         tOs8UJ3OhiYlORvgUflDGL5EW4htk4BeK1wb9IMGe7uZZ6+NcedrX20H7K2Wq+dF/KXm
+         QlCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727811339; x=1728416139;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l1yWDiVoLZbp10tEWDIrcXna+8SOkHiu54LGaS0lPr4=;
+        b=Jv8X2yRw4yzyAXgiDytfFhpTOBvlJr4z2sXbeYBGlwjlEqUufKFL9VxgZiGAO5r9dc
+         tWUuh8TjoIolPVpxrkCkUuhhLEM3NYtTS7q4MfYWgWpCweaKLQCwFB9ImRO71aC+q4gX
+         KOklQnmM9t2JNKhsF+buxBBZpooRbjqH094t4vWFEj97gACQM4D0KVUOc432e5Ij4+3y
+         Z8kCS9Wo8gbzen8BI6I9vk+PY0VVCYJ//ic7+uMzbuJZyqPy0suTuMwkjbGJEvE4U7qv
+         Hbnq4u1W4nUq2tZAq6N0NiTS7VhQPDDUYRK3oSqf5MVwBNuc22DhaqSED4QY8pwKGhqA
+         KmQw==
+X-Forwarded-Encrypted: i=1; AJvYcCWhezUtjMFUtSbS9bmZ1PqbOdfBqitdclrm7OqED9Mp4Trkqn0sv/NKjXd1iYiAqsZ9QEOh7POgA3E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEp5/0eJEFjj4PUUeI+7IwY5A9k+fA0mL8yBA+bEWcjtI9QD0N
+	S+mQ5Nmmf0QKHNpnZTqmIUyzmBxnuSxIikXDLuoLpzHHdFZoEK2b
+X-Google-Smtp-Source: AGHT+IHx2BkbOwJv84BdU3nFmzfUvUUVHaQl6dm15g18rf7uwHhJfi5fzan6vLH2rXblJd8PZ+ANzg==
+X-Received: by 2002:a05:6e02:180c:b0:3a2:6ce9:19c6 with SMTP id e9e14a558f8ab-3a3659536a5mr7317095ab.25.1727811339092;
+        Tue, 01 Oct 2024 12:35:39 -0700 (PDT)
+Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
+        by smtp.googlemail.com with ESMTPSA id 8926c6da1cb9f-4d888835307sm2790975173.2.2024.10.01.12.35.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Oct 2024 12:35:37 -0700 (PDT)
+From: Jim Cromie <jim.cromie@gmail.com>
+To: intel-gfx-trybot@lists.freedesktop.org
+Cc: jbaron@akamai.com,
+	ukaszb@chromium.org,
+	Jim Cromie <jim.cromie@gmail.com>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH 20/65] dyndbg-doc: add classmap info to howto
+Date: Tue,  1 Oct 2024 13:34:09 -0600
+Message-ID: <20241001193455.3306508-21-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.46.2
+In-Reply-To: <20241001193455.3306508-1-jim.cromie@gmail.com>
+References: <20241001193455.3306508-1-jim.cromie@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|LV2PR12MB6016:EE_
-X-MS-Office365-Filtering-Correlation-Id: a1f40b37-0281-40e5-65fa-08dce24fdcbf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?ZjlWUDBEMDA3amM3a1c3dldvMU9kYU8zcXI4cWRzT3FmQkh0Y3lUMVJRck8w?=
- =?utf-8?B?eC9QL2JBR2lhcXVZS3dZUURPMGN6M09wa01FaURlVHliTmdOZGFoSlNiTFlw?=
- =?utf-8?B?ckJJaElFOUg3Q3o0N2tTZ0o3L3BxakI3M1JiUStoblNES0xDSTl4OUo0MGR5?=
- =?utf-8?B?MUlqbW95QjRhMGphNGwwblJVa3A2dzlERkFJK3pxa09qUFNWMkZRczdqUUhl?=
- =?utf-8?B?ZThWRHdiSWtNbE80UytpM2F1bzNoekFrTXpiMEVrUTN4ME0wWE5ldTQxeit5?=
- =?utf-8?B?Q3JhM0NoNWtXdER3dDZiUUtDTUIwVm4wNGtmaVI3ZFcyM2s2aHV2MGFqYmQw?=
- =?utf-8?B?MGt3dVh4UEtWZ2xOQkhkQ2F6dFJrOXFNQXJHa0c1cVlXeTN2MnlKV1lVeXY0?=
- =?utf-8?B?ZFpTek43cXhZZk1SYmlaSzl1RUhwb0tCV2R5Y1VHT0VIbzlYcUNmTWxlNkhZ?=
- =?utf-8?B?c1dtTTBrcXdFSVF1Y21aeGFiTE5ZaWorWTYvYUkrVG5NbFJEVmtvbjc4SFBo?=
- =?utf-8?B?YU9WeEVyOFc2TXJDYTZ1VUx2M2s2cXZtVVZHOFA2c0FkRXRucnQxT1dhQTVo?=
- =?utf-8?B?NU9wT1oyNGFTTnJ0MFpwUm0xRHN3dEdNSlpYcEpVSkdIdVRlaUZFNFFBWlYr?=
- =?utf-8?B?c0RVMFBXejFpdUFBd0FSd1dTRmNiQUdyR1hqYWtGR0xmMkhRWjZHbTZGcCtm?=
- =?utf-8?B?Tmo5UTg2clhidEJxNzlGeFVTNTBPRFpNNXhRR1puVVJja3N0bENZK1V2SDE3?=
- =?utf-8?B?Zy9TUkVta0k1eE9rRVpyWkg4Ym9SRzdUQmVxdjlPbVZDWFlYNFZQbGpLbjk5?=
- =?utf-8?B?YXRtYzZScWVsR050bmFLRHZ4T3pWb3ZWUmF4dHdKY2xkaTRpMk50bi8rSHFM?=
- =?utf-8?B?RFJlbDVZcU1HbEZGaWkyZzFsN2dMS3ArTFdnL2ZqNERJc2JzalZIZVJPWjBK?=
- =?utf-8?B?ck5ObS9jVkRKUnlqeHQ2MjZZZitnQ0ZNK0ROckJwR2p4Zmkwbnd6YmQ3VXR3?=
- =?utf-8?B?VSttZG9uZmhZYmNxOHp3UlQ0am5KQWpwSG9UZ0tCMkNaR3dPd3VlSWdRcjdI?=
- =?utf-8?B?MDdNSDVTN1hjazB4a3dENXIyNVBJZ2pFUG1rZ2c5UFYyZXYydkE3QVZDMmp5?=
- =?utf-8?B?UjlZZHF3NzVrQy9CVjZNMUwrKytic2R4N0Zzcmt0TmE4TXc1V1JBWVJjWmlj?=
- =?utf-8?B?bEJLVmM0Sm9LNmRGYndrVnZEUTNHZkdkRTRBMnJ1QUN1c1VlTFpoYjNqVmZv?=
- =?utf-8?B?anJVRnpRSEs2dU0zYjZMZFdabVMvMUtja2tNdDJiZGxwOWwveXdFMDR5dDlV?=
- =?utf-8?B?enZLNnMvdklud2p1S2ZmNVFUQ3FXbDlCZ3N6UmFLNW40bDAxVUU5dEVsWDBD?=
- =?utf-8?B?NFdUZ21PWHF1eldTWWwzZnNTMmlocXFSVisvQ04zMnRxZkxPK0xIaG1mVWNo?=
- =?utf-8?B?ZW1lUHBiVGFVTTducUJTM3NBbEZJV0ExZkQ2OUk2ZG0ydHE1YnY3TVR2aHdW?=
- =?utf-8?B?NUp1QWRLaXFudDJOVDNPbXNlb3M0TkpoRTdndUhhY3FyLy9VdXFVVHRKdzJY?=
- =?utf-8?B?MFN1NXUyZXZqRHYydmVDeEswMXJHZXlPS05Ib0VUYzh1OUt2R3VoZVRMSTRx?=
- =?utf-8?B?ZjlMSXdPNzhTVnQ4VVRWeSt0cDBHUHlYd1RaaEo4V2JWTnZPSHloUjd3R1FC?=
- =?utf-8?B?dU9rMk1DR3ZYNXpGZldqZmNUTTBtWjd4UGFaaDdueGVpNHlkcFduNHV3PT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZlNOOEd2UmpySnhoQUJNV3dRQmZUTi9qRnNVeEdpcmI1S3NQdWVVdXpCY2R6?=
- =?utf-8?B?d0xpdGRRdEdOOTRQME9sTWJMcmpCUXA0ejUwd2J2UWhWblR1amxsams4M2kx?=
- =?utf-8?B?Y2Q2VmR6dDlvR0FreGpZc1FyZXp1UU1QU2lNVlp0N1dQTGRXdWN3ZEo0L2F0?=
- =?utf-8?B?WUxYb3l3VkFZS0tJV2NxbVRjRS9uVDRscEY5MGxITzR0RzBlbTF5UytMT1VZ?=
- =?utf-8?B?YlhNU1BzOXRkUkdFeUJXZ2lPK2lmQ1Ard2ZPYWhkTGVMaDdnZHNrU3NsQ3RW?=
- =?utf-8?B?dmxUM2lJYW1lVW9mSVlSSXZaSGYwYnVVM2RIZVBLdzdqRmVZaHBuRXo0bnMz?=
- =?utf-8?B?TVlTRG8vMEtXY21XOGZVMi90aVFlS1hIUytzdDg0alNFOW9ienpVa0Fjekww?=
- =?utf-8?B?eUlnbDcvZEk1ejZmcHhrd0x1Nndnb09JTjdIV0VCSWZlUVljdEYwczFBQjJN?=
- =?utf-8?B?ejRHTk5DbHNqQ0RPU1EwcVEzM3ZwbGZ2U1dtUEFSWnpNN2xOUEx4bHJ4dXhB?=
- =?utf-8?B?Slg4TEUzMGtOQUNPaDdyNjVSM0NBczBYbUNRY1QzMkRYVHdzVjc5akNqTTcr?=
- =?utf-8?B?eHZCTjRVelh5ZmdPenNvTEwvODZNei9hMVoxNzkrK0JqSHA1ZVNJRlZSN2pP?=
- =?utf-8?B?YTdDNjFoWFF1SXZ0Zk1naVB3VlFUL2xVS3I5WVU0ZGJqY3htaXVJWDViZmNm?=
- =?utf-8?B?dUx4amllZktHUjN5V0t2N25wVVBKTVNQV0lKVWFaVWVld3ZxK05RVGozVlZs?=
- =?utf-8?B?a2dtK1JsZTFycitNU1htc0RpVVBBSTJ4VGwrRkZCcFdpOEprQnZXOW41aGFw?=
- =?utf-8?B?eDNCVmhEVjZsM2E0OVJDbDdRT3BkckU0YytKeWZJRUJ3LzRvUnpIdWZ2NU9E?=
- =?utf-8?B?NEdjQzhoSUhjNURwU2JXd01Ib1FJODF5VG1jOVdabWVvNTFZN0Qyd25wVjRI?=
- =?utf-8?B?YjNRdlgrbTBqQ05HQXFkNTQ5UmtKczNZY253Nnp1UFBhbk5jbVhQdXFWMDRW?=
- =?utf-8?B?NGo0VnYzODRWTGRsOFcxdnhTV1JQWE5kYWdyZEJ0czNYVzBaSlMvMG1hMjBt?=
- =?utf-8?B?T0FOQ2JGV1J4cUJLa2UwaGJQUko2a0lHWGJWeENLTXpheDdoRVZidlhYM0xt?=
- =?utf-8?B?VHl1dmtpYVFSVi9KdWdpK00zeE0veXFrOHEyanpGUDVmclU5NjA2M1QycC8r?=
- =?utf-8?B?ZlVZWTYzUzRiaFFlZWE1b3l6UHZJYWtPWDNNRlVWbmtvZU5vTXVpd0VMYnNu?=
- =?utf-8?B?Z0tra0M3THlqSHlhZEx0Z1VFaFk5OW9iTzVtWEk0NWF2UG1lUkpaY3A5OHpZ?=
- =?utf-8?B?OEpRdzYxbW02NnZSeFZocG5SRHhqN1ZydHlxcm50V2VaeGF3TjV0YjdKcUln?=
- =?utf-8?B?NHR0TFZnZStHOWVCYXY5QkNVWmlkOXRNVkpPWk5UMkU3MDRURWp4SlBFVXV4?=
- =?utf-8?B?SmdvRTZwK2JrSnRTVHBCbUovclhmTnY0QmIrSmhrZFVucHJIT0tNUk9xZlBE?=
- =?utf-8?B?d0srZTIzR2FwblVUbDcwcTIvTEZ2bEdJQWFOdkgrV2F0S0twY0NVekdwdmRk?=
- =?utf-8?B?UytBbEJUaEMxc1lrcUF4bmh3NnlNdzlvVHd4eEdPa3YxbWRHRkZULy91Z2tm?=
- =?utf-8?B?NENZVFRwTmhmK05DekpzZmMzN3gxS1pYRFNFdWJqZXluY3ZnZkp5ZWo3ZFVV?=
- =?utf-8?B?TTBFYUxIRGFIWkNaV1RpNFQ5YmJaOSswcjA3ekxsOHJVK3UwcHIyUUlXb1Q0?=
- =?utf-8?B?U0NuSk5wTWFXYVBKMjRmL3NMT1hRZGZBUjVTdDB0dUhBVWFBMGl5N2svdGJs?=
- =?utf-8?B?dWx5d2ZvWHhldjg2Vkp2L1dZYnJyQkpqT24zL0dXaGRVd3pkZDl4THJYTzJ6?=
- =?utf-8?B?elVaNk5qankxeVdWc1FYQ0tieVVMdmJVcEN2dW5BL1pSVVh1eWpaL0E2OVdi?=
- =?utf-8?B?UGtOdHJjQmZsZ3hsaTNrOGlreG5vR1hnMENhZzVwN09yaWx0L3pWMzlvYzZx?=
- =?utf-8?B?MFRLMklLTnAyMFg5dE1qRXBZQWs4cUFFVUlBWmxmWFRqbkVMT3g4MDZTUlQz?=
- =?utf-8?B?dXBsbnVpQ0phNUxWdTJmMTN0SE9SNGZ2aUdtdGJFdCs3UFJRR3lLWVZXYW5M?=
- =?utf-8?Q?4v08=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1f40b37-0281-40e5-65fa-08dce24fdcbf
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2024 19:33:01.5997
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9Ga52OlPqYyLJuGIin3yAlFzQ9AEQmgM74v7HG6K5H7X7lcNsN/7uGemSoixz92A
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB6016
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 25, 2024 at 07:49:59AM +0200, Jiri Slaby wrote:
-> On 25. 09. 24, 7:29, Jiri Slaby wrote:
-> > On 25. 09. 24, 7:06, Jiri Slaby wrote:
-> > > > @@ -1047,23 +1066,33 @@ static void pci_std_enable_acs(struct
-> > > > pci_dev *dev)
-> > > >    */
-> > > >   static void pci_enable_acs(struct pci_dev *dev)
-> > > >   {
-> > > > -    if (!pci_acs_enable)
-> > > > -        goto disable_acs_redir;
-> > > > +    struct pci_acs caps;
-> > > > +    int pos;
-> > > > +
-> > > > +    pos = dev->acs_cap;
-> > > > +    if (!pos)
-> > > > +        return;
-> 
-> Ignore the previous post.
-> 
-> The bridge has no ACS (see lspci below). So it used to be enabled by
-> pci_quirk_enable_intel_pch_acs() by another registers. 
+Describe the 3 API macros providing dynamic_debug's classmaps
 
-Er, Ok, so it overrides the whole thing with
-pci_dev_specific_acs_enabled() too..
+DYNDBG_CLASSMAP_DEFINE - create, exports a module's classmap
+DYNDBG_CLASSMAP_USE    - refer to exported map
+DYNDBG_CLASSMAP_PARAM  - bind control param to the classmap
+DYNDBG_CLASSMAP_PARAM_REF + use module's storage - __drm_debug
 
-> I am not sure how to fix this as we cannot have "caps" from these quirks, so
-> that whole idea of __pci_config_acs() is nonworking for these quirks.
+cc: linux-doc@vger.kernel.org
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+---
+v5 adjustments per Randy Dunlap
+v7 checkpatch fixes
+v8 more
+---
+ .../admin-guide/dynamic-debug-howto.rst       | 63 ++++++++++++++++++-
+ 1 file changed, 62 insertions(+), 1 deletion(-)
 
-We just need to allow the quirk to run before we try to do anything
-with the cap, which has probably always been a NOP anyhow.
-
-Maybe like this?
-
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index 7d85c04fbba2ae..225a6cd2e9ca3b 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -1067,8 +1067,15 @@ static void pci_std_enable_acs(struct pci_dev *dev, struct pci_acs *caps)
- static void pci_enable_acs(struct pci_dev *dev)
- {
- 	struct pci_acs caps;
-+	bool enable_acs = false;
- 	int pos;
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+index 691e0f7d4de1..89d94aab41ec 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -230,7 +230,6 @@ the ``p`` flag has meaning, other flags are ignored.
+ Note the regexp ``^[-+=][fslmpt_]+$`` matches a flags specification.
+ To clear all flags at once, use ``=_`` or ``-fslmpt``.
  
-+	/* If an iommu is present we start with kernel default caps */
-+	if (pci_acs_enable) {
-+		if (pci_dev_specific_enable_acs(dev))
-+			enable_acs = true;
-+	}
+-
+ Debug messages during Boot Process
+ ==================================
+ 
+@@ -380,3 +379,65 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
+ For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
+ its ``prefix_str`` argument, if it is constant string; or ``hexdump``
+ in case ``prefix_str`` is built dynamically.
 +
- 	pos = dev->acs_cap;
- 	if (!pos)
- 		return;
-@@ -1077,11 +1084,8 @@ static void pci_enable_acs(struct pci_dev *dev)
- 	pci_read_config_word(dev, pos + PCI_ACS_CTRL, &caps.ctrl);
- 	caps.fw_ctrl = caps.ctrl;
- 
--	/* If an iommu is present we start with kernel default caps */
--	if (pci_acs_enable) {
--		if (pci_dev_specific_enable_acs(dev))
--			pci_std_enable_acs(dev, &caps);
--	}
-+	if (enable_acs)
-+		pci_std_enable_acs(dev, &caps);
- 
- 	/*
- 	 * Always apply caps from the command line, even if there is no iommu.
++Dynamic Debug classmaps
++=======================
++
++Dyndbg allows selection/grouping of *prdbg* callsites using structural
++info: module, file, function, line.  Classmaps allow authors to add
++their own domain-oriented groupings using class-names.  Classmaps are
++exported, so they referencable from other modules.
++
++  # enable classes individually
++  :#> ddcmd class DRM_UT_CORE +p
++  :#> ddcmd class DRM_UT_KMS +p
++  # or more selectively
++  :#> ddcmd class DRM_UT_CORE module drm +p
++
++The "class FOO" syntax protects class'd prdbgs from generic overwrite::
++
++  # IOW this doesn't wipe any DRM.debug settings
++  :#> ddcmd -p
++
++To support the DRM.debug parameter, DYNDBG_CLASSMAP_PARAM* updates all
++classes in a classmap, mapping param-bits 0..N onto the classes:
++DRM_UT_<*> for the DRM use-case.
++
++Dynamic Debug Classmap API
++==========================
++
++DYNDBG_CLASSMAP_DEFINE - modules use this to create classmaps, naming
++each of the classes (stringified enum-symbols: "DRM_UT_<*>"), and
++type, and mapping the class-names to consecutive _class_ids.
++
++By doing so, modules tell dyndbg that they have prdbgs with those
++class_ids, and they authorize dyndbg to accept "class FOO" for the
++module defining the classmap, and its contained classnames.
++
++DYNDBG_CLASSMAP_USE - drm drivers invoke this to ref the CLASSMAP that
++drm DEFINEs.  This shares the classmap definition, and authorizes
++dyndbg to apply changes to the user module's class'd pr_debugs.  It
++also tells dyndbg how to initialize the user's prdbgs at modprobe,
++based upon the current setting of the parent's controlling param.
++
++There are 2 types of classmaps:
++
++ DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like DRM.debug
++ DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
++
++DYNDBG_CLASSMAP_PARAM - modelled after module_param_cb, it refers to a
++DEFINEd classmap, and associates it to the param's data-store.  This
++state is then applied to DEFINEr and USEr modules when they're modprobed.
++
++This interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
++amongst the contained classnames; all classes are independent in the
++control parser itself.
++
++Modules or module-groups (drm & drivers) can define multiple
++classmaps, as long as they share the limited 0..62 per-module-group
++_class_id range, without overlap.
++
++``#define DEBUG`` will enable all pr_debugs in scope, including any
++class'd ones.  This won't be reflected in the PARAM readback value,
++but the class'd pr_debug callsites can be forced off by toggling the
++classmap-kparam all-on then all-off.
+-- 
+2.46.2
+
