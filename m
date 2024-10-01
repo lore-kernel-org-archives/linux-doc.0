@@ -1,233 +1,498 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9E561C9EB7
-	for <linux-doc@vger.kernel.org>; Tue,  1 Oct 2024 16:31:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73D391C6F70;
+	Tue,  1 Oct 2024 16:43:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727800271; cv=none; b=Yir53feEl9/SPZWUUbypPraBUXGpJMyAQWfWALCD3Ioop0Hm91+Jvgnxh2ThLFEqIhqugVVY2dXVK0HI2biKHq211Dm8tHdIunMi3KY0c0KTzOy+AsWMftEb843jkzMaQx9Ae3NdWZj2vfHIO0asYDAkQ66MGmWLDLAMazXoVmw=
+	t=1727801002; cv=none; b=N7zClUEzg8T7yV61qk2nMcdY/piPhp2TgMHRujLkjXJLBzgkCe1UDlyos9UVpkhpWCyzzwyYzpAYSAdZWcD7JYLY6D18msNPcsp6s2wGUY3Z0oYl6siKpovTUkPjIU5ClDM8+emBq0HHwGVH9WYEL/+wMa0YVzU8Pig/rjQo4RY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727800271; c=relaxed/simple;
-	bh=tmCg5BWsCw59JIzvnnyzLDO7fHE1f4U4nQ8gTD+boTU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=k8aixLo9+4ixDHr05HTDNkxnRjPqo28gJyUEt/bqMVUYEcqngF6KY5l1YizHn3BLws4ZgtGB44ZDC436BzrZBr7gqjT3ejf1dssaMixQ4AecoBoFqu2bGA2vSWqk0npo0NeIFSi8dKwSbsxVnckN92UEF3aYyQkpeclvMTEcDOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=networkplumber.org; spf=pass smtp.mailfrom=networkplumber.org; dkim=pass (2048-bit key) header.d=networkplumber-org.20230601.gappssmtp.com header.i=@networkplumber-org.20230601.gappssmtp.com header.b=vXQ7cLv9; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=networkplumber.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=networkplumber.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=networkplumber-org.20230601.gappssmtp.com header.i=@networkplumber-org.20230601.gappssmtp.com header.b="vXQ7cLv9"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-71798a15ce5so5165378b3a.0
-        for <linux-doc@vger.kernel.org>; Tue, 01 Oct 2024 09:31:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=networkplumber-org.20230601.gappssmtp.com; s=20230601; t=1727800269; x=1728405069; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NaOCtJBpmUXeW5fDjOcuOw2JadaIwq6wWesigL7oUQQ=;
-        b=vXQ7cLv92aK8tiLsyyjo3pFZkW0D6qVdtFa1oIGlsHoHHQnhRYAPgUUBPiOeNcAZBO
-         3UUMSjcq1nx56InsGdcqVu18nGdiCdFzM4Et39fVXe5g2sKJTFukl+BV9RcwTdzz9L0f
-         AdiL0xDWxmDGaXgOa9GwDqH97tnUegBiUwBj3SEU6eIgbYMo54xxeGAT4WYn9/1m97GJ
-         zeh32S5EMpnSLOCXGt1Z2H7LwIP5s3TESi12QgXoAp5GzVbQDLWtfip/cAPmLK+8HzeC
-         xG+D5GgqNw4kmVnEp+maVqmrVggWCwxsAYQ9I+nSomqpO9hv2xEKrlQPZ2izSS3APNkQ
-         oCRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727800269; x=1728405069;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NaOCtJBpmUXeW5fDjOcuOw2JadaIwq6wWesigL7oUQQ=;
-        b=rgUKqyNtEAMft/EOfs8COU8rYFfcpUeHE/YUcotLw65tVvLpCn9aBBA/kBIU0zwfqV
-         3WxM6cqUPpSabI78D+OLlv/BgfUe2Qvj9da0v4oYEYjkQ30CJdSB0tLyJxnFi0MA74ks
-         lMhqBLA/lOxR02lKTBkG6hX1UvYjJEShI5l9Zpb0/L0BgIv1QoLYFVu2voZEfPBs+N00
-         YD18rHJNBLRTewnGn8UuOrSXTBHq/fZM9DFQo5Fym+MGIYDGaMMw4/ZceivhACvPQJ2j
-         EbWkzd/C7F0vVt33QRxD0ut/QvEeOoLKCPgLxyDSLQ0BVnUJokIsKRxVFB24G3PYOB/G
-         npgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUvlNXHcXG3wwWEyXN3LUVnBKcNhQEqbK66Nnv6CEqcXhdlOAPgL7Szo8ShKLa2IjTPy1PSE8szOkk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxoeyJpT6QN8Kq1VO85E9e/2Q5TLiyiV0bCEUyGjjA/nKs0v53r
-	dufJO7oIGQ7GEFMhtjSL0hnKdveECZPYDwQFAmyZdZxrtjMODBNAjotkefH3HeM=
-X-Google-Smtp-Source: AGHT+IEJ1YSBFgA6XCPu/UKUAJZ+sUtJEj01EpSGftWy6BCcu9DYD9VOPkZdjd+3NzkAra9PlbsRcg==
-X-Received: by 2002:a05:6a00:22ca:b0:717:9896:fb03 with SMTP id d2e1a72fcca58-71dc6010da0mr239138b3a.6.1727800268875;
-        Tue, 01 Oct 2024 09:31:08 -0700 (PDT)
-Received: from hermes.local (204-195-96-226.wavecable.com. [204.195.96.226])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71b264bb2b8sm8246283b3a.61.2024.10.01.09.31.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2024 09:31:08 -0700 (PDT)
-Date: Tue, 1 Oct 2024 09:31:05 -0700
-From: Stephen Hemminger <stephen@networkplumber.org>
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: Jason Wang <jasowang@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Shuah Khan
- <shuah@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, kvm@vger.kernel.org,
- virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
- Yuri Benditovich <yuri.benditovich@daynix.com>, Andrew Melnychenko
- <andrew@daynix.com>, gur.stavi@huawei.com
-Subject: Re: [PATCH RFC v4 0/9] tun: Introduce virtio-net hashing feature
-Message-ID: <20241001093105.126dacd6@hermes.local>
-In-Reply-To: <f437d2d6-e4a2-4539-bd30-f312bbf0eac8@daynix.com>
-References: <20240924-rss-v4-0-84e932ec0e6c@daynix.com>
-	<CACGkMEvMuBe5=wQxZMns4R-oJtVOWGhKM3sXy8U6wSQX7c=iWQ@mail.gmail.com>
-	<c3bc8d58-1f0e-4633-bb01-d646fcd03f54@daynix.com>
-	<CACGkMEu3u=_=PWW-=XavJRduiHJuZwv11OrMZbnBNVn1fptRUw@mail.gmail.com>
-	<6c101c08-4364-4211-a883-cb206d57303d@daynix.com>
-	<CACGkMEtscr17UOufUtyPp1OvALL8LcycpbRp6CyVMF=jYzAjAA@mail.gmail.com>
-	<447dca19-58c5-4c01-b60e-cfe5e601961a@daynix.com>
-	<20240929083314.02d47d69@hermes.local>
-	<f437d2d6-e4a2-4539-bd30-f312bbf0eac8@daynix.com>
+	s=arc-20240116; t=1727801002; c=relaxed/simple;
+	bh=n5c8GRGtKEyfuuM9pdEwWmAVv+uXgk/HhE7ZTe/+vdo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=t18djaFYWqtWxcgJAXjE0HtHZOrhyo02LB9ZStuaFze28nY8vCey22rOt4p/Wvi0yNRU2YMZeBsoPpgIj/R5ysrVYkxZ6Q9blieYiiw1Rpw/BRMagJahMtdqKeiYbz7DnxQxLbYY+TEoDWAvuTkGNqEFzN1KfZLmKS1K2Uo7Qoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F3536339;
+	Tue,  1 Oct 2024 09:43:46 -0700 (PDT)
+Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 59CBC3F58B;
+	Tue,  1 Oct 2024 09:43:15 -0700 (PDT)
+Message-ID: <6b405b22-9b1e-487b-9b9c-5944358488e2@arm.com>
+Date: Tue, 1 Oct 2024 17:43:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 4/8] coresight: tmc: Enable panic sync handling
+To: Linu Cherian <lcherian@marvell.com>, mike.leach@linaro.org,
+ james.clark@arm.com
+Cc: linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
+ devicetree@vger.kernel.org, sgoutham@marvell.com, gcherian@marvell.com
+References: <20240916103437.226816-1-lcherian@marvell.com>
+ <20240916103437.226816-5-lcherian@marvell.com>
+Content-Language: en-US
+From: Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <20240916103437.226816-5-lcherian@marvell.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, 1 Oct 2024 14:54:29 +0900
-Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+Hi Linu
 
-> On 2024/09/30 0:33, Stephen Hemminger wrote:
-> > On Sun, 29 Sep 2024 16:10:47 +0900
-> > Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
-> >  =20
-> >> On 2024/09/29 11:07, Jason Wang wrote: =20
-> >>> On Fri, Sep 27, 2024 at 3:51=E2=80=AFPM Akihiko Odaki <akihiko.odaki@=
-daynix.com> wrote: =20
-> >>>>
-> >>>> On 2024/09/27 13:31, Jason Wang wrote: =20
-> >>>>> On Fri, Sep 27, 2024 at 10:11=E2=80=AFAM Akihiko Odaki <akihiko.oda=
-ki@daynix.com> wrote: =20
-> >>>>>>
-> >>>>>> On 2024/09/25 12:30, Jason Wang wrote: =20
-> >>>>>>> On Tue, Sep 24, 2024 at 5:01=E2=80=AFPM Akihiko Odaki <akihiko.od=
-aki@daynix.com> wrote: =20
-> >>>>>>>>
-> >>>>>>>> virtio-net have two usage of hashes: one is RSS and another is h=
-ash
-> >>>>>>>> reporting. Conventionally the hash calculation was done by the V=
-MM.
-> >>>>>>>> However, computing the hash after the queue was chosen defeats t=
-he
-> >>>>>>>> purpose of RSS.
-> >>>>>>>>
-> >>>>>>>> Another approach is to use eBPF steering program. This approach =
-has
-> >>>>>>>> another downside: it cannot report the calculated hash due to the
-> >>>>>>>> restrictive nature of eBPF.
-> >>>>>>>>
-> >>>>>>>> Introduce the code to compute hashes to the kernel in order to o=
-vercome
-> >>>>>>>> thse challenges.
-> >>>>>>>>
-> >>>>>>>> An alternative solution is to extend the eBPF steering program s=
-o that it
-> >>>>>>>> will be able to report to the userspace, but it is based on cont=
-ext
-> >>>>>>>> rewrites, which is in feature freeze. We can adopt kfuncs, but t=
-hey will
-> >>>>>>>> not be UAPIs. We opt to ioctl to align with other relevant UAPIs=
- (KVM
-> >>>>>>>> and vhost_net).
-> >>>>>>>>    =20
-> >>>>>>>
-> >>>>>>> I wonder if we could clone the skb and reuse some to store the ha=
-sh,
-> >>>>>>> then the steering eBPF program can access these fields without
-> >>>>>>> introducing full RSS in the kernel? =20
-> >>>>>>
-> >>>>>> I don't get how cloning the skb can solve the issue.
-> >>>>>>
-> >>>>>> We can certainly implement Toeplitz function in the kernel or even=
- with
-> >>>>>> tc-bpf to store a hash value that can be used for eBPF steering pr=
-ogram
-> >>>>>> and virtio hash reporting. However we don't have a means of storin=
-g a
-> >>>>>> hash type, which is specific to virtio hash reporting and lacks a
-> >>>>>> corresponding skb field. =20
-> >>>>>
-> >>>>> I may miss something but looking at sk_filter_is_valid_access(). It
-> >>>>> looks to me we can make use of skb->cb[0..4]? =20
-> >>>>
-> >>>> I didn't opt to using cb. Below is the rationale:
-> >>>>
-> >>>> cb is for tail call so it means we reuse the field for a different
-> >>>> purpose. The context rewrite allows adding a field without increasing
-> >>>> the size of the underlying storage (the real sk_buff) so we should a=
-dd a
-> >>>> new field instead of reusing an existing field to avoid confusion.
-> >>>>
-> >>>> We are however no longer allowed to add a new field. In my
-> >>>> understanding, this is because it is an UAPI, and eBPF maintainers f=
-ound
-> >>>> it is difficult to maintain its stability.
-> >>>>
-> >>>> Reusing cb for hash reporting is a workaround to avoid having a new
-> >>>> field, but it does not solve the underlying problem (i.e., keeping e=
-BPF
-> >>>> as stable as UAPI is unreasonably hard). In my opinion, adding an io=
-ctl
-> >>>> is a reasonable option to keep the API as stable as other virtualiza=
-tion
-> >>>> UAPIs while respecting the underlying intention of the context rewri=
-te
-> >>>> feature freeze. =20
-> >>>
-> >>> Fair enough.
-> >>>
-> >>> Btw, I remember DPDK implements tuntap RSS via eBPF as well (probably
-> >>> via cls or other). It might worth to see if anything we miss here. =20
-> >>
-> >> Thanks for the information. I wonder why they used cls instead of
-> >> steering program. Perhaps it may be due to compatibility with macvtap
-> >> and ipvtap, which don't steering program.
-> >>
-> >> Their RSS implementation looks cleaner so I will improve my RSS
-> >> implementation accordingly.
-> >> =20
-> >=20
-> > DPDK needs to support flow rules. The specific case is where packets
-> > are classified by a flow, then RSS is done across a subset of the queue=
-s.
-> > The support for flow in TUN driver is more academic than useful,
-> > I fixed it for current BPF, but doubt anyone is using it really.
-> >=20
-> > A full steering program would be good, but would require much more
-> > complexity to take a general set of flow rules then communicate that
-> > to the steering program.
-> >  =20
->=20
-> It reminded me of RSS context and flow filter. Some physical NICs=20
-> support to use a dedicated RSS context for packets matched with flow=20
-> filter, and virtio is also gaining corresponding features.
->=20
-> RSS context: https://github.com/oasis-tcs/virtio-spec/issues/178
-> Flow filter: https://github.com/oasis-tcs/virtio-spec/issues/179
->=20
-> I considered about the possibility of supporting these features with tc=20
-> instead of adding ioctls to tuntap, but it seems not appropriate for=20
-> virtualization use case.
->=20
-> In a virtualization use case, tuntap is configured according to requests=
-=20
-> of guests, and the code processing these requests need to have minimal=20
-> permissions for security. This goal is achieved by passing a file=20
-> descriptor that represents a tuntap from a privileged process (e.g.,=20
-> libvirt) to the process handling guest requests (e.g., QEMU).
->=20
-> However, tc is configured with rtnetlink, which does not seem to have an=
-=20
-> interface to delegate a permission for one particular device to another=20
-> process.
->=20
-> For now I'll continue working on the current approach that is based on=20
-> ioctl and lacks RSS context and flow filter features. Eventually they=20
-> are also likely to require new ioctls if they are to be supported with=20
-> vhost_net.
+On 16/09/2024 11:34, Linu Cherian wrote:
+> - Get reserved region from device tree node for metadata
+> - Define metadata format for TMC
+> - Add TMC ETR panic sync handler that syncs register snapshot
+>    to metadata region
+> - Add TMC ETF panic sync handler that syncs register snapshot
+>    to metadata region and internal SRAM to reserved trace buffer
+>    region.
 
-The DPDK flow handling (rte_flow) was started by Mellanox and many of
-the features are to support what that NIC can do. Would be good to have
-a tc way to configure that (or devlink).
+The patch looks good overall. Some minor comments below.
+
+> 
+> Signed-off-by: Linu Cherian <lcherian@marvell.com>
+> ---
+> Changelog from v9:
+> - Add common helper function of_tmc_get_reserved_resource_by_name
+>    for better code reuse
+> - Inorder to keep the reserved buffer validity and crashdata validity
+>    independent, is_tmc_reserved_region_valid renamed to tmc_has_reserved_buffer
+> - drvdata->crash_tbuf renamed to drvdata->resrv_buf
+> - New fields added to crash metadata: version, ffcr, ffsr, mode
+> - Defined crashdata version with Major version 1, Minor version 0
+> - Set version while creating crashdata record
+> - Removed Reviewed-by tag due to the above changes
+>     
+>   .../hwtracing/coresight/coresight-tmc-core.c  | 14 ++++
+>   .../hwtracing/coresight/coresight-tmc-etf.c   | 77 ++++++++++++++++++
+>   .../hwtracing/coresight/coresight-tmc-etr.c   | 78 +++++++++++++++++++
+>   drivers/hwtracing/coresight/coresight-tmc.h   | 66 ++++++++++++++++
+>   4 files changed, 235 insertions(+)
+> 
+> diff --git a/drivers/hwtracing/coresight/coresight-tmc-core.c b/drivers/hwtracing/coresight/coresight-tmc-core.c
+> index 0764c21aba0f..54bf8ae2bff8 100644
+> --- a/drivers/hwtracing/coresight/coresight-tmc-core.c
+> +++ b/drivers/hwtracing/coresight/coresight-tmc-core.c
+> @@ -445,6 +445,20 @@ static void tmc_get_reserved_region(struct device *parent)
+>   
+>   	drvdata->resrv_buf.paddr = res.start;
+>   	drvdata->resrv_buf.size  = resource_size(&res);
+> +
+> +	if (of_tmc_get_reserved_resource_by_name(parent, "metadata", &res))
+> +		return;
+> +
+> +	drvdata->crash_mdata.vaddr = memremap(res.start,
+> +					       resource_size(&res),
+> +					       MEMREMAP_WC);
+> +	if (IS_ERR_OR_NULL(drvdata->crash_mdata.vaddr)) {
+> +		dev_err(parent, "Metadata memory mapping failed\n");
+> +		return;
+> +	}
+> +
+> +	drvdata->crash_mdata.paddr = res.start;
+> +	drvdata->crash_mdata.size  = resource_size(&res);
+>   }
+>   
+>   /* Detect and initialise the capabilities of a TMC ETR */
+> diff --git a/drivers/hwtracing/coresight/coresight-tmc-etf.c b/drivers/hwtracing/coresight/coresight-tmc-etf.c
+> index d4f641cd9de6..d77ec9307e98 100644
+> --- a/drivers/hwtracing/coresight/coresight-tmc-etf.c
+> +++ b/drivers/hwtracing/coresight/coresight-tmc-etf.c
+> @@ -590,6 +590,78 @@ static unsigned long tmc_update_etf_buffer(struct coresight_device *csdev,
+>   	return to_read;
+>   }
+>   
+> +static int tmc_panic_sync_etf(struct coresight_device *csdev)
+> +{
+> +	u32 val;
+> +	struct csdev_access *csa;
+> +	struct tmc_crash_metadata *mdata;
+> +	struct tmc_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
+> +
+> +	csa = &drvdata->csdev->access;
+> +	mdata = (struct tmc_crash_metadata *)drvdata->crash_mdata.vaddr;
+> +
+> +	/* Make sure we have valid reserved memory */
+> +	if (!tmc_has_reserved_buffer(drvdata) ||
+> +	    !tmc_has_crash_mdata_buffer(drvdata))
+> +		return 0;
+> +
+> +	tmc_crashdata_set_invalid(drvdata);
+> +
+> +	CS_UNLOCK(drvdata->base);
+> +
+> +	/* Proceed only if ETF is enabled or configured as sink */
+> +	val = readl(drvdata->base + TMC_CTL);
+> +	if (!(val & TMC_CTL_CAPT_EN))
+> +		goto out;
+> +
+
+minor nit : Since the check below is "covered" by the same comment
+above, please drop the extra line here to make it clear that "we check
+for sink" by checking the "MODE == CIRCULAR_BUFFER".
+
+> +	val = readl(drvdata->base + TMC_MODE);
+> +	if (val != TMC_MODE_CIRCULAR_BUFFER)
+> +		goto out;
+> +
+> +	val = readl(drvdata->base + TMC_FFSR);
+> +	/* Do manual flush and stop only if its not auto-stopped */
+> +	if (!(val & TMC_FFSR_FT_STOPPED)) {
+> +		dev_info(&csdev->dev,
+> +			 "%s: Triggering manual flush\n", __func__);
+
+Please drop the ^^^ line. We don't want to do anything like that from a 
+panic callback.
+
+> +		tmc_flush_and_stop(drvdata);
+> +	} else
+> +		tmc_wait_for_tmcready(drvdata);
+> +
+> +	/* Sync registers from hardware to metadata region */
+> +	mdata->sts = csdev_access_relaxed_read32(csa, TMC_STS);
+
+Why are we using "csa" here and not for TMC_CTL etc ? Simply drop the 
+"csa" and use the raw reads like above. TMC doesn't have anyother modes
+of access.
+
+> +	mdata->mode = csdev_access_relaxed_read32(csa, TMC_MODE);
+> +	mdata->ffcr = csdev_access_relaxed_read32(csa, TMC_FFCR);
+> +	mdata->ffsr = csdev_access_relaxed_read32(csa, TMC_FFSR);
+> +	mdata->trace_paddr = drvdata->resrv_buf.paddr;
+> +
+> +	/* Sync Internal SRAM to reserved trace buffer region */
+> +	drvdata->buf = drvdata->resrv_buf.vaddr;
+> +	tmc_etb_dump_hw(drvdata);
+> +	/* Store as per RSZ register convention */
+> +	mdata->size = drvdata->len >> 2;
+> +	mdata->version = CS_CRASHDATA_VERSION;
+> +
+> +	/*
+> +	 * Make sure all previous writes are completed,
+> +	 * before we mark valid
+> +	 */
+> +	dsb(sy);
+
+I don't think this matters much, as this would only be read by a
+secondary kernel. In the worst case, you only need `dmb(ish)` to make
+sure the writes are visible before valid is set to true.
+
+> +	mdata->valid = true;
+> +	/*
+> +	 * Below order need to maintained, since crc of metadata
+> +	 * is dependent on first
+> +	 */
+> +	mdata->crc32_tdata = find_crash_tracedata_crc(drvdata, mdata);
+> +	mdata->crc32_mdata = find_crash_metadata_crc(mdata);
+> +
+> +	tmc_disable_hw(drvdata);
+> +
+> +	dev_info(&csdev->dev, "%s: success\n", __func__);
+
+Please no "prints" from a panic call back, unless it absolutely CRITICAL.
+
+> +out:
+> +	CS_UNLOCK(drvdata->base);
+> +	return 0;
+> +}
+> +
+>   static const struct coresight_ops_sink tmc_etf_sink_ops = {
+>   	.enable		= tmc_enable_etf_sink,
+>   	.disable	= tmc_disable_etf_sink,
+> @@ -603,6 +675,10 @@ static const struct coresight_ops_link tmc_etf_link_ops = {
+>   	.disable	= tmc_disable_etf_link,
+>   };
+>   
+> +static const struct coresight_ops_panic tmc_etf_sync_ops = {
+> +	.sync		= tmc_panic_sync_etf,
+> +};
+> +
+>   const struct coresight_ops tmc_etb_cs_ops = {
+>   	.sink_ops	= &tmc_etf_sink_ops,
+>   };
+> @@ -610,6 +686,7 @@ const struct coresight_ops tmc_etb_cs_ops = {
+>   const struct coresight_ops tmc_etf_cs_ops = {
+>   	.sink_ops	= &tmc_etf_sink_ops,
+>   	.link_ops	= &tmc_etf_link_ops,
+> +	.panic_ops	= &tmc_etf_sync_ops,
+>   };
+>   
+>   int tmc_read_prepare_etb(struct tmc_drvdata *drvdata)
+> diff --git a/drivers/hwtracing/coresight/coresight-tmc-etr.c b/drivers/hwtracing/coresight/coresight-tmc-etr.c
+> index 8bca5b36334a..8228d7aaa361 100644
+> --- a/drivers/hwtracing/coresight/coresight-tmc-etr.c
+> +++ b/drivers/hwtracing/coresight/coresight-tmc-etr.c
+> @@ -1814,6 +1814,79 @@ static int tmc_disable_etr_sink(struct coresight_device *csdev)
+>   	return 0;
+>   }
+>   
+> +static int tmc_panic_sync_etr(struct coresight_device *csdev)
+> +{
+> +	u32 val;
+> +	struct csdev_access *csa;
+> +	struct tmc_crash_metadata *mdata;
+> +	struct tmc_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
+> +
+> +	csa = &drvdata->csdev->access;
+
+As earlier, drop the csa.
+
+> +	mdata = (struct tmc_crash_metadata *)drvdata->crash_mdata.vaddr;
+> +
+> +	if (!drvdata->etr_buf)
+> +		return 0;
+> +
+> +	/* Being in RESRV mode implies valid reserved memory as well */
+> +	if (drvdata->etr_buf->mode != ETR_MODE_RESRV)
+> +		return 0;
+> +
+> +	if (!tmc_has_reserved_buffer(drvdata) ||
+
+Do we need to check this again ? We wouldn't be in ETR_MODE_RESRV
+otherwise, also indicated by the comment.
+
+> +	    !tmc_has_crash_mdata_buffer(drvdata))
+> +		return 0;
+> +
+> +	tmc_crashdata_set_invalid(drvdata);
+> +
+> +	CS_UNLOCK(drvdata->base);
+> +
+> +	/* Proceed only if ETR is enabled */
+> +	val = readl(drvdata->base + TMC_CTL);
+> +	if (!(val & TMC_CTL_CAPT_EN))
+> +		goto out;
+> +
+> +	val = readl(drvdata->base + TMC_FFSR);
+> +	/* Do manual flush and stop only if its not auto-stopped */
+> +	if (!(val & TMC_FFSR_FT_STOPPED)) {
+> +		dev_info(&csdev->dev,
+> +			 "%s: Triggering manual flush\n", __func__);
+
+Drop the info
+
+> +		tmc_flush_and_stop(drvdata);
+> +	} else
+> +		tmc_wait_for_tmcready(drvdata);
+> +
+> +	/* Sync registers from hardware to metadata region */
+> +	mdata->size = csdev_access_relaxed_read32(csa, TMC_RSZ);
+> +	mdata->sts = csdev_access_relaxed_read32(csa, TMC_STS);
+> +	mdata->mode = csdev_access_relaxed_read32(csa, TMC_MODE);
+> +	mdata->ffcr = csdev_access_relaxed_read32(csa, TMC_FFCR);
+> +	mdata->ffsr = csdev_access_relaxed_read32(csa, TMC_FFSR);
+
+Please use raw reads, don't mix csa and raw reads.
+
+> +	mdata->rrp = tmc_read_rrp(drvdata);
+> +	mdata->rwp = tmc_read_rwp(drvdata);
+> +	mdata->dba = tmc_read_dba(drvdata);
+> +	mdata->trace_paddr = drvdata->resrv_buf.paddr;
+> +	mdata->version = CS_CRASHDATA_VERSION;
+> +
+> +	/*
+> +	 * Make sure all previous writes are completed,
+> +	 * before we mark valid
+> +	 */
+> +	dsb(sy);
+
+Same as earlier, doesn't buy us much
+
+> +	mdata->valid = true;
+> +	/*
+> +	 * Below order need to maintained, since crc of metadata
+> +	 * is dependent on first
+> +	 */
+> +	mdata->crc32_tdata = find_crash_tracedata_crc(drvdata, mdata);
+> +	mdata->crc32_mdata = find_crash_metadata_crc(mdata);
+> +
+> +	tmc_disable_hw(drvdata);
+> +
+> +	dev_info(&csdev->dev, "%s: success\n", __func__);
+
+Drop
+
+> +out:
+> +	CS_UNLOCK(drvdata->base);
+> +
+> +	return 0;
+> +}
+> +
+>   static const struct coresight_ops_sink tmc_etr_sink_ops = {
+>   	.enable		= tmc_enable_etr_sink,
+>   	.disable	= tmc_disable_etr_sink,
+> @@ -1822,8 +1895,13 @@ static const struct coresight_ops_sink tmc_etr_sink_ops = {
+>   	.free_buffer	= tmc_free_etr_buffer,
+>   };
+>   
+> +static const struct coresight_ops_panic tmc_etr_sync_ops = {
+> +	.sync		= tmc_panic_sync_etr,
+> +};
+> +
+>   const struct coresight_ops tmc_etr_cs_ops = {
+>   	.sink_ops	= &tmc_etr_sink_ops,
+> +	.panic_ops	= &tmc_etr_sync_ops,
+>   };
+>   
+>   int tmc_read_prepare_etr(struct tmc_drvdata *drvdata)
+> diff --git a/drivers/hwtracing/coresight/coresight-tmc.h b/drivers/hwtracing/coresight/coresight-tmc.h
+> index d2261eddab71..75e504e51956 100644
+> --- a/drivers/hwtracing/coresight/coresight-tmc.h
+> +++ b/drivers/hwtracing/coresight/coresight-tmc.h
+> @@ -12,6 +12,7 @@
+>   #include <linux/miscdevice.h>
+>   #include <linux/mutex.h>
+>   #include <linux/refcount.h>
+> +#include <linux/crc32.h>
+>   
+>   #define TMC_RSZ			0x004
+>   #define TMC_STS			0x00c
+> @@ -76,6 +77,9 @@
+>   #define TMC_AXICTL_AXCACHE_OS	(0xf << 2)
+>   #define TMC_AXICTL_ARCACHE_OS	(0xf << 16)
+>   
+> +/* TMC_FFSR - 0x300 */
+> +#define TMC_FFSR_FT_STOPPED	BIT(1)
+> +
+>   /* TMC_FFCR - 0x304 */
+>   #define TMC_FFCR_FLUSHMAN_BIT	6
+>   #define TMC_FFCR_EN_FMT		BIT(0)
+> @@ -94,6 +98,9 @@
+>   
+>   #define TMC_AUTH_NSID_MASK	GENMASK(1, 0)
+>   
+> +/* Major version 1 Minor version 0 */
+> +#define CS_CRASHDATA_VERSION	(1 << 16)
+> +
+>   enum tmc_config_type {
+>   	TMC_CONFIG_TYPE_ETB,
+>   	TMC_CONFIG_TYPE_ETR,
+> @@ -131,6 +138,25 @@ enum tmc_mem_intf_width {
+>   #define CORESIGHT_SOC_600_ETR_CAPS	\
+>   	(TMC_ETR_SAVE_RESTORE | TMC_ETR_AXI_ARCACHE)
+>   
+> +/* TMC metadata region for ETR and ETF configurations */
+> +struct tmc_crash_metadata {
+> +	uint32_t crc32_mdata;	/* crc of metadata */
+> +	uint32_t crc32_tdata;	/* crc of tracedata */
+> +	uint32_t version;	/* 31:16 Major version, 15:0 Minor version */
+> +	uint32_t valid;         /* Indicate if this ETF/ETR was enabled */
+> +	uint32_t size;          /* Ram Size register */
+
+Please could you not keep this "plain bytes" ? Or rename the field to
+tmc_ram_size if we want to stick to TMC RAM SIZE register. It is very
+easy to confuse it with "normal" bytes.
+
+> +	uint32_t sts;           /* Status register */
+
+tmc_sts
+
+> +	uint32_t mode;		/* Mode register */
+
+tmc_mode
+
+This doesn't look packed. Please could you add a padding here to make 
+sure the fields are 64bit aligned ?
+
+> +	uint64_t ffcr;		/* Formatter and flush control register */
+
+tmc_ffcr
+
+> +	uint64_t ffsr;		/* Formatter and flush status register */
+
+tmc_ffsr
+
+
+Also, why are they both 64bit ? They are all 32bit for sure ?
+
+> +	uint32_t reserved32[3];
+
+Why do we have reserved bits here ? They should be near the 32bit fields.
+
+I think, once you fix the type of ffcr and ffsr things, everything will
+be in order.
+
+
+> +	uint64_t rrp;           /* Ram Read pointer register */
+> +	uint64_t rwp;           /* Ram Write pointer register */
+> +	uint64_t dba;		/* Data buffer address register */
+> +	uint64_t trace_paddr;	/* Phys address of trace buffer */
+> +	uint64_t reserved64[3];
+> +};
+
+
+Suzuki
+
+
+> +
+>   enum etr_mode {
+>   	ETR_MODE_FLAT,		/* Uses contiguous flat buffer */
+>   	ETR_MODE_ETR_SG,	/* Uses in-built TMC ETR SG mechanism */
+> @@ -205,6 +231,8 @@ struct tmc_resrv_buf {
+>    *		retention (after crash) only when ETR_MODE_RESRV buffer
+>    *		mode is enabled. Used by ETF for trace data retention
+>    *		(after crash) by default.
+> + * @crash_mdata: Reserved memory for storing tmc crash metadata.
+> + *		 Used by ETR/ETF.
+>    */
+>   struct tmc_drvdata {
+>   	struct clk		*pclk;
+> @@ -231,6 +259,7 @@ struct tmc_drvdata {
+>   	struct etr_buf		*sysfs_buf;
+>   	struct etr_buf		*perf_buf;
+>   	struct tmc_resrv_buf	resrv_buf;
+> +	struct tmc_resrv_buf	crash_mdata;
+>   };
+>   
+>   struct etr_buf_operations {
+> @@ -356,6 +385,43 @@ static inline bool tmc_has_reserved_buffer(struct tmc_drvdata *drvdata)
+>   	return false;
+>   }
+>   
+> +static inline bool tmc_has_crash_mdata_buffer(struct tmc_drvdata *drvdata)
+> +{
+> +	if (drvdata->crash_mdata.vaddr &&
+> +	    drvdata->crash_mdata.size)
+> +		return true;
+> +	return false;
+> +}
+> +
+> +static inline void tmc_crashdata_set_invalid(struct tmc_drvdata *drvdata)
+> +{
+> +	struct tmc_crash_metadata *mdata;
+> +
+> +	mdata = (struct tmc_crash_metadata *)drvdata->crash_mdata.vaddr;
+> +
+> +	if (tmc_has_crash_mdata_buffer(drvdata))
+> +		mdata->valid = false;
+> +}
+> +
+> +static inline uint32_t find_crash_metadata_crc(struct tmc_crash_metadata *md)
+> +{
+> +	unsigned long crc_size;
+> +
+> +	crc_size = sizeof(struct tmc_crash_metadata) -
+> +		offsetof(struct tmc_crash_metadata, crc32_tdata);
+> +	return crc32_le(0, (void *)&md->crc32_tdata, crc_size);
+> +}
+> +
+> +static inline uint32_t find_crash_tracedata_crc(struct tmc_drvdata *drvdata,
+> +						struct tmc_crash_metadata *md)
+> +{
+> +	unsigned long crc_size;
+> +
+> +	/* Take CRC of configured buffer size to keep it simple */
+> +	crc_size = md->size << 2;
+> +	return crc32_le(0, (void *)drvdata->resrv_buf.vaddr, crc_size);
+> +}
+> +
+>   struct coresight_device *tmc_etr_get_catu_device(struct tmc_drvdata *drvdata);
+>   
+>   void tmc_etr_set_catu_ops(const struct etr_buf_operations *catu);
+
