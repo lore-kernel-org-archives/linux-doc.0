@@ -1,37 +1,37 @@
 Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40FDC1BC088;
-	Tue,  1 Oct 2024 05:02:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BFD11BBBED;
+	Tue,  1 Oct 2024 05:02:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727758940; cv=none; b=Dq0o2sXVhOY3Aej20hx/idDhG1DVonkBPMho8nhz6iJLuzqey/ZtOWTEzWMh7Bxpd1esduQHY10viundOC7c428F5scJ3lsD+yZxM2zSW1NBTEMOoFrkRU6TVlvgnKWa/Nwi3XHdMrJ/8HGwXlSVYK+xUYCmBeU937krQyhT3pg=
+	t=1727758940; cv=none; b=sx4pHR0/9QKDYleT3dLN/brSLhXZPyZN12ETm67sarivr6OCL7k0eqo1mG8QVdoQPkbycth9OP19Up4Q6kZh3/e12W3DInjaQysEESKEB9wRclCHOqlOKtjFAFCx+JtcI3PZaoc5DQCSwGMyfARTEbZyQ7WhF7qAfVjGchpjsoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1727758940; c=relaxed/simple;
-	bh=bxMqGlquB+5/gFkcnWJ3tbk2bgaubHhBM76puYSzRNc=;
+	bh=29tSKrCbeAOlx9UJj6AeDJapdDmlRGBi0sBmlWQo0l8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kQ9IVeC+Govc7HnKgTfsDjf+IGEv7vYySEmcLh8K3Cdc+W1jJWyoviuM2vnDfqq0+cHiAOyYrKT+PHzRBJ6EqbrovOvN53aeX8FfMYouZXdJPi2Y0MekwEK7X+ku94D3O9xSJyzAoI51R1l/6vJIYS6i5FBm6v/zzYmrRX/1V6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=d10jYEWK; arc=none smtp.client-ip=198.137.202.136
+	 MIME-Version; b=WnJoVl4RqrZonhtubEyrRNlMqy8K+p9Zshsk6Dch1hI5Swj/OncqsT/ol75CeqJQP21bnWITcGeghTV/pLloXp13xgL9+c6gACiUU04K2cREkYxT/IeSecYm5GSTK1wiGddw9ipTJtXR/GRZRHVAef7zikD+iGZ8jJz1fSMZrtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=PKlEfkeK; arc=none smtp.client-ip=198.137.202.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="d10jYEWK"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="PKlEfkeK"
 Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
 	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 49151A7i3643828
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 49151A7a3643828
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Mon, 30 Sep 2024 22:01:34 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 49151A7i3643828
+	Mon, 30 Sep 2024 22:01:26 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 49151A7a3643828
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2024091601; t=1727758895;
-	bh=xQodHnfpAbPVaqx+NU+32uYAoWdUOl8JXZpStYObbcE=;
+	s=2024091601; t=1727758887;
+	bh=jX5u5mN2GSQ5NDH8yxCY+M0uBUF/2YuarNFQDDjk5ss=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=d10jYEWKiY19fP0HluEjpDGx8Ishhc2Ytn5m9W8Ekr/Pvgp7NECsF44B0+FpVLT8w
-	 tHwrfs1pRjZQNhJs/X3VCbOb9YNFAb/z+u1I02Dqy88/Aq/N3Ueb4Z6evC4eXmXH6e
-	 GUYOTZY+QHHt/Mrpk4i1Eyowyxu/2j+jVUQxQaspneaV1hsKKYQmsro3dgg0VWe6rr
-	 aFpBnQNHZNn0ceiIGZTso+80u8lSs31BoQ3dma3C5Fks/e274i1X5naSkuYQ90mRNR
-	 2H+6iWoNRzI3ibHmDVt9RSves48yxe6tqVtOlt1e/Sn7ikbBPEgJBiFxB7kZ+MjIgF
-	 rdpT4KPZRIfkQ==
+	b=PKlEfkeKiuaYX66ZDL5aJViQaBlAf9NBg4cvh4G1j8f5TZXv+nmSRFxiFWW6TAWlS
+	 0zLLrenFftlQDNRIYpqEun7Yz9vgkrfhA/haSXSWSHKwCTyIu4UoRvlczLmZEfbBOU
+	 lyMHMHS0Yx7rAYZIW9Ra+s2glJPWQwZpRMo/s7u5xOw43nMNqNOFDkREWve2RssHkW
+	 N0MXcP3CwadHzweyAZFzYmrnnKAv1sX2C5i+IRDx4ZodBu2oTd8ua7DDlDuJ+8RECQ
+	 xlRykqk2QRpFfXjHPl+kh/BjYyCQ+NVaqGrEiD4E74hVw9HZYu6Fno3+qfLC0DS3cc
+	 qjLiD8GdLEFxQ==
 From: "Xin Li (Intel)" <xin@zytor.com>
 To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
@@ -39,9 +39,9 @@ Cc: seanjc@google.com, pbonzini@redhat.com, corbet@lwn.net, tglx@linutronix.de,
         mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
         x86@kernel.org, hpa@zytor.com, luto@kernel.org, peterz@infradead.org,
         andrew.cooper3@citrix.com, xin@zytor.com
-Subject: [PATCH v3 19/27] KVM: x86: Allow FRED/LKGS to be advertised to guests
-Date: Mon, 30 Sep 2024 22:01:02 -0700
-Message-ID: <20241001050110.3643764-20-xin@zytor.com>
+Subject: [PATCH v3 11/27] KVM: VMX: Save/restore guest FRED RSP0
+Date: Mon, 30 Sep 2024 22:00:54 -0700
+Message-ID: <20241001050110.3643764-12-xin@zytor.com>
 X-Mailer: git-send-email 2.46.2
 In-Reply-To: <20241001050110.3643764-1-xin@zytor.com>
 References: <20241001050110.3643764-1-xin@zytor.com>
@@ -51,50 +51,73 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: Xin Li <xin3.li@intel.com>
 
-Allow FRED/LKGS to be advertised to guests after changes required to
-enable FRED in a KVM guest are in place.
+Save guest FRED RSP0 in vmx_prepare_switch_to_host() and restore it
+in vmx_prepare_switch_to_guest() because MSR_IA32_FRED_RSP0 is passed
+through to the guest, the guest value is volatile/unknown.
 
-LKGS is introduced with FRED to completely eliminate the need to swapgs
-explicilty, because
-
-1) FRED transitions ensure that an operating system can always operate
-   with its own GS base address.
-
-2) LKGS behaves like the MOV to GS instruction except that it loads
-   the base address into the IA32_KERNEL_GS_BASE MSR instead of the
-   GS segment’s descriptor cache, which is exactly what Linux kernel
-   does to load a user level GS base.  Thus there is no need to SWAPGS
-   away from the kernel GS base and an execution of SWAPGS causes #UD
-   if FRED transitions are enabled.
-
-A FRED CPU must enumerate LKGS.  When LKGS is not available, FRED must
-not be enabled.
+Note, host FRED RSP0 is restored in arch_exit_to_user_mode_prepare(),
+regardless of whether it is modified in KVM.
 
 Signed-off-by: Xin Li <xin3.li@intel.com>
 Signed-off-by: Xin Li (Intel) <xin@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 ---
- arch/x86/kvm/cpuid.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
-index 41786b834b16..c55d150ece8d 100644
---- a/arch/x86/kvm/cpuid.c
-+++ b/arch/x86/kvm/cpuid.c
-@@ -699,7 +699,7 @@ void kvm_set_cpu_caps(void)
+Changes since v2:
+* KVM only needs to save/restore guest FRED RSP0 now as host FRED RSP0
+  is restored in arch_exit_to_user_mode_prepare() (Sean Christopherson).
+
+Changes since v1:
+* Don't use guest_cpuid_has() in vmx_prepare_switch_to_{host,guest}(),
+  which are called from IRQ-disabled context (Chao Gao).
+* Reset msr_guest_fred_rsp0 in __vmx_vcpu_reset() (Chao Gao).
+---
+ arch/x86/kvm/vmx/vmx.c | 8 ++++++++
+ arch/x86/kvm/vmx/vmx.h | 1 +
+ 2 files changed, 9 insertions(+)
+
+diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+index c10c955722a3..c638492ebd59 100644
+--- a/arch/x86/kvm/vmx/vmx.c
++++ b/arch/x86/kvm/vmx/vmx.c
+@@ -1348,6 +1348,9 @@ void vmx_prepare_switch_to_guest(struct kvm_vcpu *vcpu)
+ 	}
  
- 	kvm_cpu_cap_mask(CPUID_7_1_EAX,
- 		F(AVX_VNNI) | F(AVX512_BF16) | F(CMPCCXADD) |
--		F(FZRM) | F(FSRS) | F(FSRC) |
-+		F(FZRM) | F(FSRS) | F(FSRC) | F(FRED) | F(LKGS) |
- 		F(AMX_FP16) | F(AVX_IFMA) | F(LAM)
- 	);
+ 	wrmsrl(MSR_KERNEL_GS_BASE, vmx->msr_guest_kernel_gs_base);
++
++	if (cpu_feature_enabled(X86_FEATURE_FRED) && guest_can_use(vcpu, X86_FEATURE_FRED))
++		wrmsrns(MSR_IA32_FRED_RSP0, vmx->msr_guest_fred_rsp0);
+ #else
+ 	savesegment(fs, fs_sel);
+ 	savesegment(gs, gs_sel);
+@@ -1392,6 +1395,11 @@ static void vmx_prepare_switch_to_host(struct vcpu_vmx *vmx)
+ 	invalidate_tss_limit();
+ #ifdef CONFIG_X86_64
+ 	wrmsrl(MSR_KERNEL_GS_BASE, vmx->msr_host_kernel_gs_base);
++
++	if (cpu_feature_enabled(X86_FEATURE_FRED) && guest_can_use(&vmx->vcpu, X86_FEATURE_FRED)) {
++		vmx->msr_guest_fred_rsp0 = read_msr(MSR_IA32_FRED_RSP0);
++		fred_sync_rsp0(vmx->msr_guest_fred_rsp0);
++	}
+ #endif
+ 	load_fixmap_gdt(raw_smp_processor_id());
+ 	vmx->guest_state_loaded = false;
+diff --git a/arch/x86/kvm/vmx/vmx.h b/arch/x86/kvm/vmx/vmx.h
+index e7409f8f28b1..9ba960472c5f 100644
+--- a/arch/x86/kvm/vmx/vmx.h
++++ b/arch/x86/kvm/vmx/vmx.h
+@@ -277,6 +277,7 @@ struct vcpu_vmx {
+ #ifdef CONFIG_X86_64
+ 	u64		      msr_host_kernel_gs_base;
+ 	u64		      msr_guest_kernel_gs_base;
++	u64		      msr_guest_fred_rsp0;
+ #endif
  
+ 	u64		      spec_ctrl;
 -- 
 2.46.2
 
