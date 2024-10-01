@@ -1,100 +1,118 @@
 Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9973B33F7
-	for <linux-doc@vger.kernel.org>; Tue,  1 Oct 2024 01:16:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EFA2A5F;
+	Tue,  1 Oct 2024 01:29:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727745397; cv=none; b=J/uu3mSL+ZmfN/RLQ0uKCW+6z/LHz6kIvWqVaLIYR57fvfagw2ltPgLZ0nK2GLUDjpDMiX6GVwRh3lHk03Xyr7fRaSpuNBEzKDsjC6g5FqOuMy1ZkioTiFU1mvt4KcmnO3aLk9Ul+g/3rE91tY2qy9xdBQrLdUVOUioKa/XqUCU=
+	t=1727746175; cv=none; b=m4uwz5IVs1ko6B8ikQ5kHD65iSgoae0YvNkp/mhhOzLWov+nEmgCxUoVr29Evfhp3KUmStqrvrUWoFV2yqesoHTwQnWyLp9C+SF7EKL/ww7gXjaiyYA5CVG4suul9KWaOqzAL+pisFodt9lWBQdf7cMcJR6ExZExiaQooaQScmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727745397; c=relaxed/simple;
-	bh=Zu6cgo/Xo6ZKx870GI3TUoBzinzwawYyCgh0RUs8DL8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sfvYmaKhO7A5mYn8oWEO0Pzl0T+YGsBykcCAeno6LBUJc05f0ZRuCLnhuoriHin0UR/PzD/KLg+cNX99CByRKrbMM/qJgOVjzZ4zB7SQ0xuhLB0wSPum1bMPNHSryUb5b9KjG46pu07nKbcvCgpGDwvvrO0HS/3zn2GaPdQK1ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everestkc.com.np; spf=none smtp.mailfrom=everestkc.com.np; dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b=xAM1UiF3; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everestkc.com.np
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=everestkc.com.np
+	s=arc-20240116; t=1727746175; c=relaxed/simple;
+	bh=zMwPUsIL0TiW7zy2ACQDdavwR9Lo0Lxf1HR6upSbTzs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fd9S7ERRi45mts4DVIhHWIu51Pl2hZmCIhEejEBiOkW1tzTlHZo6b6qEiVQmEFI4CPOQRvWavSUCfZ5gorCEPKfGWKY4i6fsbuVfs+uZUbvkHOtTW1FM4YUc767cfyRVrKtjVQcBmOx6wHwArKjCML3ozMrV5ysKJiZpiZHUPCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ELnyau95; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b="xAM1UiF3"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-208cf673b8dso50474165ad.3
-        for <linux-doc@vger.kernel.org>; Mon, 30 Sep 2024 18:16:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ELnyau95"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-20b8bdea19aso13673495ad.0;
+        Mon, 30 Sep 2024 18:29:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=everestkc-com-np.20230601.gappssmtp.com; s=20230601; t=1727745393; x=1728350193; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nbwMiFAr+Z16mU53YheZTsxf4FRwmHNw4rDavq7J5XU=;
-        b=xAM1UiF3bdrCAFeaoWv1mQgHcwvCymGU58lgSi1Zg+TJWloc6Ia3Md4W8iEnvfvOiL
-         3V9bxc4lq3ioBfJvTF/TKAtXXa0HGnkCMZrB/JUld8K1M+X4x37VnaXbsvEsyQSFbNz5
-         y5t2lfIrX9AcHa/ETqxTuH3SdrG3sm3KSIMif4Z1VkHd/A4ZI7Wyl5/0irgPuDEUx2lk
-         Ac0gNGlRjVJ/946GB32qh6kB89D6jA+zpZRjdcFriVcqj1l5LDI4X6iHYRefqWYuOYC1
-         7h2uSWrIB2i2BJzIrPsHpxmcmZoBtufRHYqbcdVICnsgCIjrVz7bOTnASEY/iVELVJrg
-         Vc0Q==
+        d=gmail.com; s=20230601; t=1727746174; x=1728350974; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0XbHwflXP9ogfiGstFpWLBFBcDSFbSH2PyE4lpdpg34=;
+        b=ELnyau95Tjo7yJ7P5AHjQgB4DcIiSh73WQ9bRIS2enN7+pdTp+R7DRUbKS6H7H2UBj
+         XmmXmLALWFtSeNKUiGz3pKFEwcTN3KLoC5Kne+AjjphoAFgHZKYxKBjxXILM+NzUjIJN
+         e+lkfBi4WNEki4B4POR0LBNtWAjih2tSJovs4a4QBI1oKopPMOYR338GTl8t0TgMoaiJ
+         FpzEm2VxE2/wGJxesqjtH7e2SzV7z0k6yRn2vxqZY98N9PzsBqwjFEe45RxuRTowadxh
+         QMuvONvfbNoH4SxLEGYPHJODISrXJ75rTsDm3Im3/UXwkP37KC/vKdfL/4JoqPdRO8X5
+         wOWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727745393; x=1728350193;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nbwMiFAr+Z16mU53YheZTsxf4FRwmHNw4rDavq7J5XU=;
-        b=my/xQb8KgQxoF5Y5g7FougJM2ilHE5dRQneEvbSTjR4w2FnT/8zVR07i5jOySmdVR9
-         xqUqJaqL4gIcgsl1MRzYqXOX5909kWt7gKpFgLAIXpS2yu2w4ufmqgAAr/W4quM2v9LU
-         XmS+Ydw5NdrCuRS4nFg3IXO7UMAZI0QFCBAZ/hqsY85fM8DfetGBIJIMSuX9Y9RvI9Pf
-         0vOkGw7n5ZMhjTlYAHxuluGTjCb88PVOdfuCdV9WGkNAKed1PNpPKnrigsrNZEKGWPHj
-         xauB3mOt4SiIWBUbNaMP6lrS0GnGeq+ryqf/VQLhWAocki9r1Dzs5yaB5aP1cF0q6WOt
-         CtWA==
-X-Forwarded-Encrypted: i=1; AJvYcCVfubl9YeVjzQEa0pXDLb0ctGExtqNVWCZTtJpBTdzUt3LAWkeNOBo6YPpW4Ln/gN2AhBvj3VTWkAo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFoiXMCaXEAbjZKEPOATjTOqCyKDaweEJAWBPOoJLpv0cwvMa/
-	HuubGbz/5/rrmbwwTdOf/TzRfwF3Z7KvL6iyiF5F3FFAaXSx4ShrQgfwEUQE+IE=
-X-Google-Smtp-Source: AGHT+IHAHjzt4edcj+TAa1QxJwtc9AoYzlGYgtCj4uZZGhnsYdVKDndWfUc1uSZJwqwm96AY9Xla4g==
-X-Received: by 2002:a17:902:e74b:b0:202:508c:b598 with SMTP id d9443c01a7336-20b37bcfa36mr234462425ad.59.1727745393080;
-        Mon, 30 Sep 2024 18:16:33 -0700 (PDT)
-Received: from localhost.localdomain ([132.178.238.28])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-20b37d5edc6sm59922495ad.28.2024.09.30.18.16.32
+        d=1e100.net; s=20230601; t=1727746174; x=1728350974;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0XbHwflXP9ogfiGstFpWLBFBcDSFbSH2PyE4lpdpg34=;
+        b=w9MvGW7Y524bzQrgbcD+zcMEe05WysU4BwNiiVzg9yAvyViHlyfv8FLV8Y91DstRns
+         Os4bnaXsSg7+c3TZ5wWufEGi/UYMlkfDDGCbzosBWdP5aWn8HyguPZg51cLR73mjoq6M
+         Vkml/O2d7L4nWZKXnPW77C/KH8jioLlsl7Krsz8MEDO4H0dVPOq/yeV4BojF3pqegDBW
+         80uv/u3T0Fd/AGkYw+/JG+gWrFT8B5UWkpjNk/YCntYNUjFfWXKK6Gq1yxCVcx0srQut
+         RAlndxuXi2sQzQQGoq/HZTKNxxwRVSbxmSgHPZXmGBiJ9UfW/EfZFtDG2nmMeeNMGdn/
+         ffPg==
+X-Forwarded-Encrypted: i=1; AJvYcCV/ssaGL9+NTaDWqSIYlQR6j4WKKNb/u3I1NKDWCAL4YYRVcL1DbmMO5NbU7MpkLUMwdczhI3w/@vger.kernel.org, AJvYcCV7RidB8GlBkBWN7rwRYzxNtbt3SmY5hiANjMsyWRtVB9lIC8ZLh7SZfIHktl5YRcwejMuNlQLyymIlupe9@vger.kernel.org, AJvYcCXHhSwO9P7g7j4eMXIS2h/Qw+VLcQLbeOLi4sLBBeCXQTS69fn9AckXV1ZVRSPhyeLQgdbFTXS+H9s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy4JHK1Ij6cG05S9sfodq1kfuPIBSLXMT1ZyLA4+7na8smOQ1gy
+	mC65JvqhC46BYq2ZkBHiNaqPDbkTBdvVNMe5YDozqsQXQG88Ujnr
+X-Google-Smtp-Source: AGHT+IFKGQOzFoEbWgMhiuiE6AlEp0ALx4lbSjx0QpHP3YevkROJQAlRmfZJFsEt0jCbJ8OcM77Cmg==
+X-Received: by 2002:a17:902:c94c:b0:20b:49c3:7856 with SMTP id d9443c01a7336-20b49c37c7fmr158768035ad.17.1727746173575;
+        Mon, 30 Sep 2024 18:29:33 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20b37e0fa94sm60067175ad.135.2024.09.30.18.29.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 18:16:32 -0700 (PDT)
-From: "Everest K.C." <everestkc@everestkc.com.np>
-To: jdelvare@suse.com,
-	linux@roeck-us.net,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org
-Cc: "Everest K.C." <everestkc@everestkc.com.np>,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] hwmon: (max31827) Fix spelling errors reported by codespell
-Date: Mon, 30 Sep 2024 19:15:17 -0600
-Message-ID: <20241001011521.80982-1-everestkc@everestkc.com.np>
-X-Mailer: git-send-email 2.43.0
+        Mon, 30 Sep 2024 18:29:33 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id A9B48451B098; Tue, 01 Oct 2024 08:29:25 +0700 (WIB)
+Date: Tue, 1 Oct 2024 08:29:25 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Sean Anderson <sean.anderson@linux.dev>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>, Brett Creeley <bcreeley@amd.com>,
+	Xiang wangx <wangxiang@cdjrlc.com>,
+	Shaomin Deng <dengshaomin@cdjrlc.com>
+Subject: Re: [PATCH net] doc: net: napi: Update documentation for
+ napi_schedule_irqoff
+Message-ID: <ZvtQdSkTGHTBU1qv@archie.me>
+References: <20240930153955.971657-1-sean.anderson@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="gmG6sy5wsz/ww8I9"
+Content-Disposition: inline
+In-Reply-To: <20240930153955.971657-1-sean.anderson@linux.dev>
 
-Below mentioned spelling errors reported by codesepll
-were fixed:
-	respresents ==> represents
-	signifcant ==> significant
-	bandwitdh ==> bandwidth
 
-Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
----
- Documentation/hwmon/max31827.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--gmG6sy5wsz/ww8I9
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/hwmon/max31827.rst b/Documentation/hwmon/max31827.rst
-index 9c11a9518c67..6cc5088b26b7 100644
---- a/Documentation/hwmon/max31827.rst
-+++ b/Documentation/hwmon/max31827.rst
-@@ -136,7 +136,7 @@ PEC Support
- 
- When reading a register value, the PEC byte is computed and sent by the chip.
- 
--PEC on word data transaction respresents a signifcant increase in bandwitdh
-+PEC on word data transaction represents a significant increase in bandwidth
- usage (+33% for both write and reads) in normal conditions.
- 
- Since this operation implies there will be an extra delay to each
--- 
-2.43.0
+On Mon, Sep 30, 2024 at 11:39:54AM -0400, Sean Anderson wrote:
+>  napi_schedule_irqoff() is a variant of napi_schedule() which takes advan=
+tage
+>  of guarantees given by being invoked in IRQ context (no need to
+> -mask interrupts). Note that PREEMPT_RT forces all interrupts
+> -to be threaded so the interrupt may need to be marked ``IRQF_NO_THREAD``
+> -to avoid issues on real-time kernel configurations.
+> +mask interrupts). napi_schedule_irqoff() will fall back to napi_schedule=
+() if
+> +IRQs are threaded (such as if ``PREEMPT_RT`` is enabled).
 
+LGTM, thanks!
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--gmG6sy5wsz/ww8I9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZvtQcQAKCRD2uYlJVVFO
+o3XPAQCFU4Z2VLqBxugMMCr1t9jNP3MNMRln/KSl6faJ80P55gEAhinWX9FcNnr9
+v4agg+hZBEKwRjr7mDjc2At3ONv9SgM=
+=nbxR
+-----END PGP SIGNATURE-----
+
+--gmG6sy5wsz/ww8I9--
