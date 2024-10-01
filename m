@@ -1,44 +1,50 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B711E1B86C0;
-	Tue,  1 Oct 2024 04:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C301322E;
+	Tue,  1 Oct 2024 05:02:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727757385; cv=none; b=kOGqzElOFSof1JgqDS96mmpIjFGw6ktUQR3O7dsQLMSUtDVMJ2SAZn9kKtzNjr3jkz3dT4MLcVh3JH6dJPOb+E/7ztTdfm9szB81La1RivzbmYUcuYn0MgMWJHAvy/z4ah+0Ma2UXbGWW2hZUc6fgGyvqzATAiH79Fca9XIX07Y=
+	t=1727758936; cv=none; b=ixqzn25kVbx3rvpOfuDkMh3kNCAZWxVgfJ77xqqsVa2fHOzQKD2OJpExtRVDsBLCqq0mGIUXRo6hssNbyOFjA6lwjqdFGo75RMmqMHzIEPZUCnXwyU+RHeRIZPxNqcpyUodkiMxopNOvCkONIJtecMN22T4X9YmI9oLCVKmkYx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727757385; c=relaxed/simple;
-	bh=jNMnAtlVBE7KJ3eRs67wCvFiwM5szzlTZ+ig/4QzQx8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=bJ5lzCwcP4BsSmIpHMJnNcGf1ohlMSvayOMbyvEylUu5WuTjII8hBFvd4G46vn6ikHml2MKz3rYb8+k3Ni5EaF0/MalzK5hi8TPzXH/botnvVzv6QhgGbJI+v2Z7p5BVlQKxCDxNV1i9iCXmIYCr9Fvu4CQq1wahSlyoJ41nlG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D37E2339;
-	Mon, 30 Sep 2024 21:36:51 -0700 (PDT)
-Received: from a077893.blr.arm.com (a077893.blr.arm.com [10.162.16.61])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 2A5463F58B;
-	Mon, 30 Sep 2024 21:36:17 -0700 (PDT)
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	kvmarm@lists.linux.dev,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 2/3] arm64/boot: Enable EL2 requirements for FEAT_Debugv8p9
-Date: Tue,  1 Oct 2024 10:06:01 +0530
-Message-Id: <20241001043602.1116991-3-anshuman.khandual@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241001043602.1116991-1-anshuman.khandual@arm.com>
-References: <20241001043602.1116991-1-anshuman.khandual@arm.com>
+	s=arc-20240116; t=1727758936; c=relaxed/simple;
+	bh=WcA6m/Yx90+CLRQ2TAp3UxKRvYuyJoHgvwfYIpMVil8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=r30TSYo44B/sDc3ItiTmgKoIN8DrNCRI5UlXgbMIyM+xQypXBLBKbsSrUv7uTcEIu5IAWSwuJzdtNJdOkS9itSFTjyPcBF6BMP5InETH0Fdkm5XWxghL1JYUDFJi+w22KLSe7Ehz6pos423uZn0stj1UfIIemWaAnuv/EIoUBNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=fywBXWQT; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="fywBXWQT"
+Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 49151A7c3643828
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+	Mon, 30 Sep 2024 22:01:28 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 49151A7c3643828
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2024091601; t=1727758889;
+	bh=S2anEe6gVhX8RpVekZcYrZwLDqpmlt2eOrTn5hH3hT4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=fywBXWQTEL2POH0qz4N+/pCr/+ptIZUSOkqy3nVYI4gf3Ldo0f78XDYsv3HJSKJM0
+	 y23vl6htUKaJ8OooodQM1DhCD7fccqBGLH0nljmJAPl3ZEljsbNCN/zBt7Imfa6SLF
+	 g+WEvZb2QTWK+d9l1fzYr5NFuD2s0/VDIpdPGo/9PaHqZk772ykz/LozxSuMrjrFOj
+	 zthEYc7mH7lXU50AcVEZCQZKFTgMOmpyyctJvRk5V+iuxQwI1S0mo/pG94dB27uAC+
+	 DRiJSdbiG/CiyHek6aXi7E2xZTTrBbrhAcTHBXeQRrnTaPwJ8kJLQ90rAofOqCsIOq
+	 O7ESO8FTUmoGg==
+From: "Xin Li (Intel)" <xin@zytor.com>
+To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc: seanjc@google.com, pbonzini@redhat.com, corbet@lwn.net, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        x86@kernel.org, hpa@zytor.com, luto@kernel.org, peterz@infradead.org,
+        andrew.cooper3@citrix.com, xin@zytor.com
+Subject: [PATCH v3 13/27] KVM: x86: Add a helper to detect if FRED is enabled for a vCPU
+Date: Mon, 30 Sep 2024 22:00:56 -0700
+Message-ID: <20241001050110.3643764-14-xin@zytor.com>
+X-Mailer: git-send-email 2.46.2
+In-Reply-To: <20241001050110.3643764-1-xin@zytor.com>
+References: <20241001050110.3643764-1-xin@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,134 +53,45 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fine grained trap control for MDSELR_EL1 register needs to be configured in
-HDFGRTR2_EL2, and HDFGWTR2_EL2 registers when kernel enters at EL1, but EL2
-is also present. This adds a new helper __init_el2_fgt2() initializing this
-new FEAT_FGT2 based fine grained registers.
+From: Xin Li <xin3.li@intel.com>
 
-MDCR_EL2.EBWE needs to be enabled for additional (beyond 16) breakpoint and
-watchpoint exceptions when kernel enters at EL1, but EL2 is also present.
-This updates __init_el2_debug() as required for FEAT_Debugv8p9.
+Add is_fred_enabled() to detect if FRED is enabled on a vCPU.
 
-While here, also update booting.rst with MDCR_EL3 and SCR_EL3 requirements.
-
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Marc Zyngier <maz@kernel.org>
-Cc: Oliver Upton <oliver.upton@linux.dev>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: kvmarm@lists.linux.dev
-Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+Signed-off-by: Xin Li <xin3.li@intel.com>
+[ Sean: removed the "kvm_" prefix from the function name ]
+Signed-off-by: Sean Christopherson <seanjc@google.com>
+Signed-off-by: Xin Li (Intel) <xin@zytor.com>
+Tested-by: Shan Kang <shan.kang@intel.com>
 ---
- Documentation/arch/arm64/booting.rst | 19 +++++++++++++++++++
- arch/arm64/include/asm/el2_setup.h   | 27 +++++++++++++++++++++++++++
- arch/arm64/include/asm/kvm_arm.h     |  1 +
- 3 files changed, 47 insertions(+)
+ arch/x86/kvm/kvm_cache_regs.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/Documentation/arch/arm64/booting.rst b/Documentation/arch/arm64/booting.rst
-index b57776a68f15..e69d972018cf 100644
---- a/Documentation/arch/arm64/booting.rst
-+++ b/Documentation/arch/arm64/booting.rst
-@@ -285,6 +285,12 @@ Before jumping into the kernel, the following conditions must be met:
+diff --git a/arch/x86/kvm/kvm_cache_regs.h b/arch/x86/kvm/kvm_cache_regs.h
+index b1eb46e26b2e..386c79f5dcb8 100644
+--- a/arch/x86/kvm/kvm_cache_regs.h
++++ b/arch/x86/kvm/kvm_cache_regs.h
+@@ -187,6 +187,21 @@ static __always_inline bool kvm_is_cr4_bit_set(struct kvm_vcpu *vcpu,
+ 	return !!kvm_read_cr4_bits(vcpu, cr4_bit);
+ }
  
-     - SCR_EL3.FGTEn (bit 27) must be initialised to 0b1.
- 
-+  For CPUs with the Fine Grained Traps (FEAT_FGT2) extension present:
++/*
++ * It's enough to check just CR4.FRED (X86_CR4_FRED) to tell if
++ * a vCPU is running with FRED enabled, because:
++ * 1) CR4.FRED can be set to 1 only _after_ IA32_EFER.LMA = 1.
++ * 2) To leave IA-32e mode, CR4.FRED must be cleared first.
++ */
++static inline bool is_fred_enabled(struct kvm_vcpu *vcpu)
++{
++#ifdef CONFIG_X86_64
++	return kvm_is_cr4_bit_set(vcpu, X86_CR4_FRED);
++#else
++	return false;
++#endif
++}
 +
-+  - If EL3 is present and the kernel is entered at EL2:
-+
-+    - SCR_EL3.FGTEn2 (bit 59) must be initialised to 0b1.
-+
-   For CPUs with support for HCRX_EL2 (FEAT_HCX) present:
- 
-   - If EL3 is present and the kernel is entered at EL2:
-@@ -319,6 +325,19 @@ Before jumping into the kernel, the following conditions must be met:
-     - ZCR_EL2.LEN must be initialised to the same value for all CPUs the
-       kernel will execute on.
- 
-+  For CPUs with FEAT_Debugv8p9 extension present:
-+
-+  - If the kernel is entered at EL1 and EL2 is present:
-+
-+    - HDFGRTR2_EL2.nMDSELR_EL1 (bit 5) must be initialized to 0b1
-+    - HDFGWTR2_EL2.nMDSELR_EL1 (bit 5) must be initialized to 0b1
-+    - MDCR_EL2.EBWE (bit 43) must be initialized to 0b1
-+
-+  - If EL3 is present:
-+
-+    - MDCR_EL3.TDA (bit 9) must be initialized to 0b0
-+    - MDCR_EL3.EBWE (bit 43) must be initialized to 0b1
-+
-   For CPUs with the Scalable Matrix Extension (FEAT_SME):
- 
-   - If EL3 is present:
-diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/asm/el2_setup.h
-index e0ffdf13a18b..2e6a8de5e4e4 100644
---- a/arch/arm64/include/asm/el2_setup.h
-+++ b/arch/arm64/include/asm/el2_setup.h
-@@ -97,6 +97,14 @@
- 						// to own it.
- 
- .Lskip_trace_\@:
-+	mrs	x1, id_aa64dfr0_el1
-+	ubfx	x1, x1, #ID_AA64DFR0_EL1_DebugVer_SHIFT, #4
-+	cmp	x1, #ID_AA64DFR0_EL1_DebugVer_V8P9
-+	b.lt	.Lskip_dbg_v8p9_\@
-+
-+	mov	x0, #MDCR_EL2_EBWE
-+	orr	x2, x2, x0
-+.Lskip_dbg_v8p9_\@:
- 	msr	mdcr_el2, x2			// Configure debug traps
- .endm
- 
-@@ -215,6 +223,24 @@
- .Lskip_fgt_\@:
- .endm
- 
-+.macro __init_el2_fgt2
-+	mrs	x1, id_aa64mmfr0_el1
-+	ubfx	x1, x1, #ID_AA64MMFR0_EL1_FGT_SHIFT, #4
-+	cmp	x1, #ID_AA64MMFR0_EL1_FGT_FGT2
-+	b.lt	.Lskip_fgt2_\@
-+
-+	mrs	x1, id_aa64dfr0_el1
-+	ubfx	x1, x1, #ID_AA64DFR0_EL1_DebugVer_SHIFT, #4
-+	cmp	x1, #ID_AA64DFR0_EL1_DebugVer_V8P9
-+	b.lt	.Lskip_dbg_v8p9_\@
-+
-+	mov_q   x0, HDFGWTR2_EL2_nMDSELR_EL1
-+	msr_s	SYS_HDFGWTR2_EL2, x0
-+	msr_s	SYS_HDFGRTR2_EL2, x0
-+.Lskip_dbg_v8p9_\@:
-+.Lskip_fgt2_\@:
-+.endm
-+
- .macro __init_el2_nvhe_prepare_eret
- 	mov	x0, #INIT_PSTATE_EL1
- 	msr	spsr_el2, x0
-@@ -240,6 +266,7 @@
- 	__init_el2_nvhe_idregs
- 	__init_el2_cptr
- 	__init_el2_fgt
-+	__init_el2_fgt2
- .endm
- 
- #ifndef __KVM_NVHE_HYPERVISOR__
-diff --git a/arch/arm64/include/asm/kvm_arm.h b/arch/arm64/include/asm/kvm_arm.h
-index 850fac9a7840..18aeec43efc2 100644
---- a/arch/arm64/include/asm/kvm_arm.h
-+++ b/arch/arm64/include/asm/kvm_arm.h
-@@ -312,6 +312,7 @@
- 				 GENMASK(15, 0))
- 
- /* Hyp Debug Configuration Register bits */
-+#define MDCR_EL2_EBWE		(UL(1) << 43)
- #define MDCR_EL2_E2TB_MASK	(UL(0x3))
- #define MDCR_EL2_E2TB_SHIFT	(UL(24))
- #define MDCR_EL2_HPMFZS		(UL(1) << 36)
+ static inline ulong kvm_read_cr3(struct kvm_vcpu *vcpu)
+ {
+ 	if (!kvm_register_is_available(vcpu, VCPU_EXREG_CR3))
 -- 
-2.25.1
+2.46.2
 
