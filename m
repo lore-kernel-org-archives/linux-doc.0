@@ -1,139 +1,481 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BD681BDA9B
-	for <linux-doc@vger.kernel.org>; Tue,  1 Oct 2024 23:13:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50CAB1CB523
+	for <linux-doc@vger.kernel.org>; Tue,  1 Oct 2024 23:53:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727824402; cv=none; b=bpwJjKWVlbyY3jRrJdC2Vpv0eleH+PxYE1Ssg2WmZ9WMzwCqhbQ1Ny6D6tt/uOm6Q/aWpjXhKuDVC/4Nokio8Fk1WnlKipELcJNS8QX/kzP+OlL2CUckMIuwCcgr2yMqJB56kHSoZFzh1yNtXJ/NkcRz+c3Ki3pxRQRir5hUQuM=
+	t=1727826812; cv=none; b=qKc2XzrSuBGh98JTNYSrU3j8Z6kZ0j6T3vtr+ult7Cby+CF9cLhA+OaVYjSMzjF3BQ0fnspKoLrWpoCLcbbpZAreEfb1GGLCDzRTWXiea4iP2YrBK9U2DuLsGo7sYGNwEf7WGKVheWmACZNdirkQwHLMPSK6rOi852a/DtEUypw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727824402; c=relaxed/simple;
-	bh=w++7hzLDS/8dZ/VoZ2hephh+rP/dNT8s02ewb/5KE7A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TIgVLG8fsB4KtQ20Q9laRG16PIk4N7mw5bc+77SqXuMIt4x7DYOQ2Jf/zHi4tBxBpUkIQx5yPZyF0M2bkYMYLqb12KbLLiO/+XIgQB2V4htnGjI7OUQQy0Ng+58XyAGfiNZ93+qUt6uAOMEA86d1schaJdmzrwOxHZff7qzKwq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=GcyukvSY; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1727826812; c=relaxed/simple;
+	bh=v4d+UGl9YNSRPmUiAQL/XOCttKSR+tqAQhjsG7BZ9JU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cejIcFGusbMa8wcoGqzYJCM2IaxfiYlUo/hUVjPDqVfyeCsOJxiuaundo+qvmatuRrMuGcTxUT24/p2orUvL12ftwT8mPdoWczJmePyHidDhUFPyW/dlW+VSgJFDEPW1bVIBvW/7E010+QQdVcTczv+eOMHhFXNe9o8piFWVr4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=xw+TLgPx; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="GcyukvSY"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-20b7463dd89so33788445ad.2
-        for <linux-doc@vger.kernel.org>; Tue, 01 Oct 2024 16:13:19 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="xw+TLgPx"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2e078d28fe9so4431694a91.2
+        for <linux-doc@vger.kernel.org>; Tue, 01 Oct 2024 16:53:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1727824399; x=1728429199; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vF28sAx//tve6z0mOEzHepFQAlUB74FiXmJYm/deJzs=;
-        b=GcyukvSYLinJqnphUXMrjaJUwm3u35ziqIER7RQ/qgNEzgXW/HhZXUR/Jj+zoQkY7d
-         8GSgaHCC/Xy1hUAAgCoTG1grcZDs7mYt1DukhFCzv1O0hYcN7OYJigRphI3/ijptB6hj
-         ywOmY82HQDSR43u3ptquJLfDD+arQtjeBLBWNc06ciyWe0ApQC5Hr5Wl+6jPgwUZoCML
-         vll6lbiFkDfF2UF0WptnfXHPB6N1fIWsDOikSM0kOCL2AmFIQKL7w1NSB3FQw7mYbdLA
-         3B5VhmYowPVERbNyKSAKHQq3Zn9S7rW+akA2cPKf5y3pOvNIjITyQmTZstykGHWKe1Ff
-         Ncng==
+        d=fastly.com; s=google; t=1727826809; x=1728431609; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=l5b1MjfGcd4AzGnOC54zgkOiQ8aJmBj62vqypQsDHj0=;
+        b=xw+TLgPxRDpcIo666604NYo5rF9NaWx9dCmi0cv2JN76GM/nHDIny9wnozFiT6lgI9
+         ETdvujjJvynZpFGaVcV4P5W52mFqDdeQUzAQcgb6/Olu5NBw+ZHcgIfc99BrE7lnhTI8
+         +4udBfAH8b/4iVMJwidbdA0cU9epEb17N9hpE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727824399; x=1728429199;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vF28sAx//tve6z0mOEzHepFQAlUB74FiXmJYm/deJzs=;
-        b=j7lg3CD6NpmhMAzrZ3dMoDMUByvoHtpm4o8LNRUdQcrop53pkgiqtvhhEGpHB9+X2f
-         F1+w1+wXJVfPmBo8tPlRUR88hEPY1PWVSOB7KEqDN070d+qQ65QwgUePBOYzdjeaRGZ/
-         O7MOWTzdmSVcl5McrWeX8ce2Uj6+V5ELLcAvvIbQcSQmuRS93g2NBWUe4TmfExrjwup8
-         ckWvxF0ZMSTpZkj5TRKv6l2fJkxZ8Jw+QvbpLRSMMCzS+YzFlcWIxiaVLwKQKxR+6hDC
-         MF8ktkNVDa/G3LEZnpYLqx0vcLBbtqq1VisUa92BcyWGstiRUEBv1FrNouTsszwOo/7e
-         28RA==
-X-Forwarded-Encrypted: i=1; AJvYcCVJN6OvU5IYqXtKgH5QL7ebSczkK1CYCbhDxR9LzdJY6gmF1TCgog3EDhYilh3gy67o6VNMdS2FSSk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxkDOPKYVcrmnXf+VCbvzm/UD7OnNjZ14wHaDfAoneESg9XrM/M
-	pKF+IvpccK5VjYODIZR7gNNA21BX1jxXG5aCSms/Wy6sU2H//Kf7chwE00MB8oI=
-X-Google-Smtp-Source: AGHT+IEIrzHYfjGFMSAlwPPGGJUrbwH3BDEgMMmzhiHFcldc7QLYwSfdGVw09IGHWqEtu37pmMpU7g==
-X-Received: by 2002:a17:903:41c4:b0:20b:a431:8f17 with SMTP id d9443c01a7336-20bc5a887b7mr17332045ad.58.1727824398654;
-        Tue, 01 Oct 2024 16:13:18 -0700 (PDT)
-Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20b37e37225sm74521465ad.197.2024.10.01.16.13.16
+        d=1e100.net; s=20230601; t=1727826809; x=1728431609;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=l5b1MjfGcd4AzGnOC54zgkOiQ8aJmBj62vqypQsDHj0=;
+        b=WscZisr2/pUyYMkz8eG1cts5JgfU20HuhQeTMPl2J1ZmcM8wBgInEiepexdpaPAZZV
+         xX03rl0vLKDRiyILg1Qi1qnXlRSmgP6O0dvaC/+TodbaPM37ypCsS0FSpHckGNOGrRvJ
+         VSEEzPqzIwTFHc3mAmduTdrLz/5+U4P/Ae8ktbqgEoa1bm/7joxsLMAWnYM/jjB7QCUO
+         JxQ+6DAUj5DuwoOUHPDbJsy0onRvV0C4I6q/aER399W0vaho6AXLi/j8F0DtfxS6E4Ev
+         ci0vot5VOxn6xf14zTmhdMKkXdSNCwLJbQfUYsR3WbUCGegXLs38mYvSA6Y8P2hwbZrQ
+         NhtA==
+X-Forwarded-Encrypted: i=1; AJvYcCWyQUIJEDEONXh2KYRGwLwFhtJ9bBZQbXgflUZlhLG6wEk0U+x7Be5WTnriRNCvLpytebs55JYwUVI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJiBzb9djbJavJqqLJ3ZEF9koMsp3r1T6y9R+7v6iOLY6mREK9
+	Pj+VzDQaEVSJ1YdhcV8HckEiGGOjw6jzss6lFSwSObXQlTpyfgTQHnJmKkenGFc=
+X-Google-Smtp-Source: AGHT+IEQAMwrZpWjGQQAXOYO52vF2PdxicVe8qt++Jyzou6vIB2WjqtQirUzcksNEccb8Ff5uAtXNg==
+X-Received: by 2002:a17:90b:33c2:b0:2d8:7a3b:730d with SMTP id 98e67ed59e1d1-2e1846a0525mr1731254a91.21.1727826809507;
+        Tue, 01 Oct 2024 16:53:29 -0700 (PDT)
+Received: from localhost.localdomain ([2620:11a:c019:0:65e:3115:2f58:c5fd])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e18f89e973sm213130a91.29.2024.10.01.16.53.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2024 16:13:18 -0700 (PDT)
-Date: Tue, 1 Oct 2024 16:13:15 -0700
-From: Deepak Gupta <debug@rivosinc.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Shuah Khan <shuah@kernel.org>,
-	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Florian Weimer <fweimer@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
-	Ross Burton <ross.burton@arm.com>,
-	David Spickett <david.spickett@arm.com>,
-	Yury Khrustalev <yury.khrustalev@arm.com>,
-	Wilco Dijkstra <wilco.dijkstra@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v13 04/40] prctl: arch-agnostic prctl for shadow stack
-Message-ID: <ZvyCC7tJT7QoKO+D@debug.ba.rivosinc.com>
-References: <20241001-arm64-gcs-v13-0-222b78d87eee@kernel.org>
- <20241001-arm64-gcs-v13-4-222b78d87eee@kernel.org>
+        Tue, 01 Oct 2024 16:53:29 -0700 (PDT)
+From: Joe Damato <jdamato@fastly.com>
+To: netdev@vger.kernel.org
+Cc: mkarsten@uwaterloo.ca,
+	skhawaja@google.com,
+	sdf@fomichev.me,
+	bjorn@rivosinc.com,
+	amritha.nambiar@intel.com,
+	sridhar.samudrala@intel.com,
+	willemdebruijn.kernel@gmail.com,
+	Joe Damato <jdamato@fastly.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Breno Leitao <leitao@debian.org>,
+	Daniel Jurgens <danielj@nvidia.com>,
+	David Ahern <dsahern@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Eric Dumazet <edumazet@google.com>,
+	intel-wired-lan@lists.osuosl.org (moderated list:INTEL ETHERNET DRIVERS),
+	Jakub Kicinski <kuba@kernel.org>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list),
+	linux-rdma@vger.kernel.org (open list:MELLANOX MLX4 core VPI driver),
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Mina Almasry <almasrymina@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Subject: [RFC net-next v4 0/9] Add support for per-NAPI config via netlink
+Date: Tue,  1 Oct 2024 23:52:31 +0000
+Message-Id: <20241001235302.57609-1-jdamato@fastly.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20241001-arm64-gcs-v13-4-222b78d87eee@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 01, 2024 at 11:58:43PM +0100, Mark Brown wrote:
->Three architectures (x86, aarch64, riscv) have announced support for
->shadow stacks with fairly similar functionality.  While x86 is using
->arch_prctl() to control the functionality neither arm64 nor riscv uses
->that interface so this patch adds arch-agnostic prctl() support to
->get and set status of shadow stacks and lock the current configuation to
->prevent further changes, with support for turning on and off individual
->subfeatures so applications can limit their exposure to features that
->they do not need.  The features are:
->
->  - PR_SHADOW_STACK_ENABLE: Tracking and enforcement of shadow stacks,
->    including allocation of a shadow stack if one is not already
->    allocated.
->  - PR_SHADOW_STACK_WRITE: Writes to specific addresses in the shadow
->    stack.
->  - PR_SHADOW_STACK_PUSH: Push additional values onto the shadow stack.
->
->These features are expected to be inherited by new threads and cleared
->on exec(), unknown features should be rejected for enable but accepted
->for locking (in order to allow for future proofing).
->
->This is based on a patch originally written by Deepak Gupta but modified
->fairly heavily, support for indirect landing pads is removed, additional
->modes added and the locking interface reworked.  The set status prctl()
->is also reworked to just set flags, if setting/reading the shadow stack
->pointer is required this could be a separate prctl.
->
->Reviewed-by: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
->Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
->Acked-by: Yury Khrustalev <yury.khrustalev@arm.com>
->Signed-off-by: Mark Brown <broonie@kernel.org>
->---
-> include/linux/mm.h         |  4 ++++
-> include/uapi/linux/prctl.h | 22 ++++++++++++++++++++++
-> kernel/sys.c               | 30 ++++++++++++++++++++++++++++++
-> 3 files changed, 56 insertions(+)
+Greetings:
 
-Reviewed-by: Deepak Gupta <debug@rivosinc.com>
+Welcome to RFC v4.
 
->
+Very important and significant changes have been made since RFC v3 [1],
+please see the changelog below for details.
+
+A couple important call outs for this revision for reviewers:
+
+  1. idpf embeds a napi_struct in an internal data structure and
+     includes an assertion on the size of napi_struct. The maintainers
+     have stated that they think anyone touching napi_struct should update
+     the assertion [2], so I've done this in patch 3. 
+
+     Even though the assertion has been updated, I've given the
+     cacheline placement of napi_struct within idpf's internals no
+     thought or consideration.
+
+     Would appreciate other opinions on this; I think idpf should be
+     fixed. It seems unreasonable to me that anyone changing the size of
+     a struct in the core should need to think about cachelines in idpf.
+
+  2. This revision seems to work (see below for a full walk through). Is
+     this the behavior we want? Am I missing some use case or some
+     behavioral thing other folks need?
+
+  3. Re a previous point made by Stanislav regarding "taking over a NAPI
+     ID" when the channel count changes: mlx5 seems to call napi_disable
+     followed by netif_napi_del for the old queues and then calls
+     napi_enable for the new ones. In this RFC, the NAPI ID generation
+     is deferred to napi_enable. This means we won't end up with two of
+     the same NAPI IDs added to the hash at the same time (I am pretty
+     sure).
+
+     Can we assume all drivers will napi_disable the old queues before
+     napi_enable the new ones? If yes, we might not need to worry about
+     a NAPI ID takeover function.
+ 
+  4. I made the decision to remove the WARN_ON_ONCE that (I think?)
+     Jakub previously suggested in alloc_netdev_mqs (WARN_ON_ONCE(txqs
+     != rxqs);) because this was triggering on every kernel boot with my
+     mlx5 NIC.
+
+  5. I left the "maxqs = max(txqs, rxqs);" in alloc_netdev_mqs despite
+     thinking this is a bit strange. I think it's strange that we might
+     be short some number of NAPI configs, but it seems like most people
+     are in favor of this approach, so I've left it.
+
+I'd appreciate thoughts from reviewers on the above items, if at all
+possible. Once those are addressed, modulo any feedback on the
+code/white space wrapping I still need to do, I think this is close to
+an official submission.
+
+Now, on to the implementation:
+
+This implementation allocates an array of "struct napi_config" in
+net_device and each NAPI instance is assigned an index into the config
+array.
+
+Per-NAPI settings like:
+  - NAPI ID
+  - gro_flush_timeout
+  - defer_hard_irqs
+
+are persisted in napi_config and restored on napi_disable/napi_enable
+respectively.
+
+To help illustrate how this would end up working, I've added patches for
+3 drivers, of which I have access to only 1:
+  - mlx5 which is the basis of the examples below
+  - mlx4 which has TX only NAPIs, just to highlight that case. I have
+    only compile tested this patch; I don't have this hardware.
+  - bnxt which I have only compiled tested. I don't have this
+    hardware.
+
+NOTE: I only tested this on mlx5; I have no access to the other hardware
+for which I provided patches. Hopefully other folks can help test :)
+
+This iteration seems to persist NAPI IDs and settings even when resizing
+queues, see below, so I think maybe this is getting close to where we
+want to land in terms of functionality.
+
+Here's how it works when I test it on my system:
+
+# start with 2 queues
+
+$ ethtool -l eth4 | grep Combined | tail -1
+Combined:	2
+
+First, output the current NAPI settings:
+
+$ ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/netdev.yaml \
+                         --dump napi-get --json='{"ifindex": 7}'
+[{'defer-hard-irqs': 0,
+  'gro-flush-timeout': 0,
+  'id': 345,
+  'ifindex': 7,
+  'irq': 527},
+ {'defer-hard-irqs': 0,
+  'gro-flush-timeout': 0,
+  'id': 344,
+  'ifindex': 7,
+  'irq': 327}]
+
+Now, set the global sysfs parameters:
+
+$ sudo bash -c 'echo 20000 >/sys/class/net/eth4/gro_flush_timeout'
+$ sudo bash -c 'echo 100 >/sys/class/net/eth4/napi_defer_hard_irqs'
+
+Output current NAPI settings again:
+
+$ ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/netdev.yaml \
+                         --dump napi-get --json='{"ifindex": 7}'
+[{'defer-hard-irqs': 100,
+  'gro-flush-timeout': 20000,
+  'id': 345,
+  'ifindex': 7,
+  'irq': 527},
+ {'defer-hard-irqs': 100,
+  'gro-flush-timeout': 20000,
+  'id': 344,
+  'ifindex': 7,
+  'irq': 327}]
+
+Now set NAPI ID 345, via its NAPI ID to specific values:
+
+$ sudo ./tools/net/ynl/cli.py \
+          --spec Documentation/netlink/specs/netdev.yaml \
+          --do napi-set \
+          --json='{"id": 345,
+                   "defer-hard-irqs": 111,
+                   "gro-flush-timeout": 11111}'
+None
+
+Now output current NAPI settings again to ensure only NAPI ID 345
+changed:
+
+$ ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/netdev.yaml \
+                         --dump napi-get --json='{"ifindex": 7}'
+
+[{'defer-hard-irqs': 111,
+  'gro-flush-timeout': 11111,
+  'id': 345,
+  'ifindex': 7,
+  'irq': 527},
+ {'defer-hard-irqs': 100,
+  'gro-flush-timeout': 20000,
+  'id': 344,
+  'ifindex': 7,
+  'irq': 327}]
+
+Now, increase gro-flush-timeout only:
+
+$ sudo ./tools/net/ynl/cli.py \
+       --spec Documentation/netlink/specs/netdev.yaml \
+       --do napi-set --json='{"id": 345,
+                              "gro-flush-timeout": 44444}'
+None
+
+Now output the current NAPI settings once more:
+
+$ ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/netdev.yaml \
+                         --dump napi-get --json='{"ifindex": 7}'
+[{'defer-hard-irqs': 111,
+  'gro-flush-timeout': 44444,
+  'id': 345,
+  'ifindex': 7,
+  'irq': 527},
+ {'defer-hard-irqs': 100,
+  'gro-flush-timeout': 20000,
+  'id': 344,
+  'ifindex': 7,
+  'irq': 327}]
+
+Now set NAPI ID 345 to have gro_flush_timeout of 0:
+
+$ sudo ./tools/net/ynl/cli.py \
+       --spec Documentation/netlink/specs/netdev.yaml \
+       --do napi-set --json='{"id": 345,
+                              "gro-flush-timeout": 0}'
+None
+
+Check that NAPI ID 345 has a value of 0:
+
+$ ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/netdev.yaml \
+                         --dump napi-get --json='{"ifindex": 7}'
+
+[{'defer-hard-irqs': 111,
+  'gro-flush-timeout': 0,
+  'id': 345,
+  'ifindex': 7,
+  'irq': 527},
+ {'defer-hard-irqs': 100,
+  'gro-flush-timeout': 20000,
+  'id': 344,
+  'ifindex': 7,
+  'irq': 327}]
+
+Change the queue count, ensuring that NAPI ID 345 retains its settings:
+
+$ sudo ethtool -L eth4 combined 4
+
+Check that the new queues have the system wide settings but that NAPI ID
+345 remains unchanged:
+
+$ ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/netdev.yaml \
+                         --dump napi-get --json='{"ifindex": 7}'
+
+[{'defer-hard-irqs': 100,
+  'gro-flush-timeout': 20000,
+  'id': 347,
+  'ifindex': 7,
+  'irq': 529},
+ {'defer-hard-irqs': 100,
+  'gro-flush-timeout': 20000,
+  'id': 346,
+  'ifindex': 7,
+  'irq': 528},
+ {'defer-hard-irqs': 111,
+  'gro-flush-timeout': 0,
+  'id': 345,
+  'ifindex': 7,
+  'irq': 527},
+ {'defer-hard-irqs': 100,
+  'gro-flush-timeout': 20000,
+  'id': 344,
+  'ifindex': 7,
+  'irq': 327}]
+
+Now reduce the queue count below where NAPI ID 345 is indexed:
+
+$ sudo ethtool -L eth4 combined 1
+
+Check the output:
+
+$ ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/netdev.yaml \
+                         --dump napi-get --json='{"ifindex": 7}'
+[{'defer-hard-irqs': 100,
+  'gro-flush-timeout': 20000,
+  'id': 344,
+  'ifindex': 7,
+  'irq': 327}]
+
+Re-increase the queue count to ensure NAPI ID 345 is re-assigned the same
+values:
+
+$ sudo ethtool -L eth4 combined 2
+
+$ ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/netdev.yaml \
+                         --dump napi-get --json='{"ifindex": 7}'
+[{'defer-hard-irqs': 111,
+  'gro-flush-timeout': 0,
+  'id': 345,
+  'ifindex': 7,
+  'irq': 527},
+ {'defer-hard-irqs': 100,
+  'gro-flush-timeout': 20000,
+  'id': 344,
+  'ifindex': 7,
+  'irq': 327}]
+
+Create new queues to ensure the sysfs globals are used for the new NAPIs
+but that NAPI ID 345 is unchanged:
+
+$ sudo ethtool -L eth4 combined 8
+
+$ ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/netdev.yaml \
+                         --dump napi-get --json='{"ifindex": 7}'
+[...]
+ {'defer-hard-irqs': 100,
+  'gro-flush-timeout': 20000,
+  'id': 346,
+  'ifindex': 7,
+  'irq': 528},
+ {'defer-hard-irqs': 111,
+  'gro-flush-timeout': 0,
+  'id': 345,
+  'ifindex': 7,
+  'irq': 527},
+ {'defer-hard-irqs': 100,
+  'gro-flush-timeout': 20000,
+  'id': 344,
+  'ifindex': 7,
+  'irq': 327}]
+
+Last, but not least, let's try writing the sysfs parameters to ensure
+all NAPIs are rewritten:
+
+$ sudo bash -c 'echo 33333 >/sys/class/net/eth4/gro_flush_timeout'
+$ sudo bash -c 'echo 222 >/sys/class/net/eth4/napi_defer_hard_irqs'
+
+Check that worked:
+
+$ ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/netdev.yaml \
+                         --dump napi-get --json='{"ifindex": 7}'
+
+[...]
+ {'defer-hard-irqs': 222,
+  'gro-flush-timeout': 33333,
+  'id': 346,
+  'ifindex': 7,
+  'irq': 528},
+ {'defer-hard-irqs': 222,
+  'gro-flush-timeout': 33333,
+  'id': 345,
+  'ifindex': 7,
+  'irq': 527},
+ {'defer-hard-irqs': 222,
+  'gro-flush-timeout': 33333,
+  'id': 344,
+  'ifindex': 7,
+  'irq': 327}]
+
+Thanks,
+Joe
+
+[1]: https://lore.kernel.org/netdev/20240912100738.16567-1-jdamato@fastly.com/
+[2]: https://lore.kernel.org/netdev/20240925180017.82891-1-jdamato@fastly.com/T/#m56b743bd16304a626848b14f90cecb661f464b74 
+
+rfcv4:
+  - Updated commit messages of most patches
+  - Renamed netif_napi_add_storage to netif_napi_add_config in patch 5
+  - Added a NULL check in netdev_set_defer_hard_irqs and
+    netdev_set_gro_flush_timeout for netdev->napi_config in patch 5
+  - Removed the WARN_ON_ONCE suggested in an earlier revision
+    in alloc_netdev_mqs from patch 5; it triggers every time on my mlx5
+    machine at boot and needlessly spams the log
+  - Added a locking adjustment suggested by Stanislav to patch 6 to
+    protect napi_id in patch 5
+  - Removed napi_hash_del from netif_napi_del in patch 5. netif_napi_del
+    calls __netif_napi_del which itself calls napi_hash_del. The
+    original code thus resulted in two napi_hash_del calls, which is
+    incorrect.
+  - Removed the napi_hash_add from netif_napi_add_weight in patch 5.
+    NAPIs are added to the hash when napi_enable is called, instead.
+  - Moved the napi_restore_config to the top of napi_enable in patch 5.
+  - Simplified the logic in __netif_napi_del and removed napi_hash_del.
+    NAPIs are removed in napi_disable.
+  - Fixed merge conflicts in patch 6 so it applies cleanly
+
+rfcv3:
+  - Renamed napi_storage to napi_config
+  - Reordered patches
+  - Added defer_hard_irqs and gro_flush_timeout to napi_struct
+  - Attempt to save and restore settings on napi_disable/napi_enable
+  - Removed weight as a parameter to netif_napi_add_storage
+  - Updated driver patches to no longer pass in weight
+
+rfcv2:
+  - Almost total rewrite from v1
+
+Joe Damato (9):
+  net: napi: Make napi_defer_hard_irqs per-NAPI
+  netdev-genl: Dump napi_defer_hard_irqs
+  net: napi: Make gro_flush_timeout per-NAPI
+  netdev-genl: Dump gro_flush_timeout
+  net: napi: Add napi_config
+  netdev-genl: Support setting per-NAPI config values
+  bnxt: Add support for persistent NAPI config
+  mlx5: Add support for persistent NAPI config
+  mlx4: Add support for persistent NAPI config to RX CQs
+
+ Documentation/netlink/specs/netdev.yaml       | 25 +++++
+ .../networking/net_cachelines/net_device.rst  |  5 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt.c     |  3 +-
+ drivers/net/ethernet/intel/idpf/idpf_txrx.h   |  2 +-
+ drivers/net/ethernet/mellanox/mlx4/en_cq.c    |  3 +-
+ .../net/ethernet/mellanox/mlx5/core/en_main.c |  2 +-
+ include/linux/netdevice.h                     | 38 +++++++-
+ include/uapi/linux/netdev.h                   |  3 +
+ net/core/dev.c                                | 95 ++++++++++++++++---
+ net/core/dev.h                                | 90 ++++++++++++++++++
+ net/core/net-sysfs.c                          |  4 +-
+ net/core/netdev-genl-gen.c                    | 14 +++
+ net/core/netdev-genl-gen.h                    |  1 +
+ net/core/netdev-genl.c                        | 57 +++++++++++
+ tools/include/uapi/linux/netdev.h             |  3 +
+ 15 files changed, 320 insertions(+), 25 deletions(-)
+
+-- 
+2.25.1
+
