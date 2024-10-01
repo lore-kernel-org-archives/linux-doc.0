@@ -1,85 +1,142 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 524471C6F54
-	for <linux-doc@vger.kernel.org>; Tue,  1 Oct 2024 14:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 832811C6F61;
+	Tue,  1 Oct 2024 14:34:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727792950; cv=none; b=Kmu/ZFbGCENshIDY2DlLYyiKexOAgSYWJ4QrUwQEzdIfgJxw7y1yBAFwyqP6Y/LnHXrKGYvYM67gTheW6Eggx4cKY4We9tOlcd8pev9jmsAD9gXb+C7wkGTALd0TmL2uGzrEMzbWHxINacl33Ru3PFixaElyKPpvnAbu1XNpwrA=
+	t=1727793269; cv=none; b=KTYUFCv5RRlNo2QHwex2XhFYXJ53tY7Uuh4ajM/ACbDj1yHoVvfoCmnHvRv/exEKNYlvZrssDfcMLaJ0jMKqZBnozI7X3KhnNQVWCIV4X/fjJjeOL5ARhuhnFtfMiG1+uHsuX+JOvzhtlPIUpUUi53I52RAIPl/iQ/K723QbjLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727792950; c=relaxed/simple;
-	bh=6y2Ko37c6bZpyzZJw8yX8vnCdLYkmaxrmJSko/bOA8U=;
-	h=Message-ID:Date:MIME-Version:From:To:Subject:Content-Type; b=KLb6E09DQqRiSEZ68TsigT/Kgqn0/M6oKMFkNlP4q+ud2J/o3VqkP+/VR11TNS1H/Uswb/Lec8UIQPnZWLWY5Rm6jpd8corIcz6A5phhZraRBuRWoXnDJbsNBIDjzNH3Nmb5Ih97pwHJzj2+5yVmu3on6h1i6tgb5vK171eJ1hc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=6wind.com; spf=pass smtp.mailfrom=6wind.com; dkim=pass (2048-bit key) header.d=6wind.com header.i=@6wind.com header.b=SLkMJ81U; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=6wind.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=6wind.com
+	s=arc-20240116; t=1727793269; c=relaxed/simple;
+	bh=MJJbugmM7odwoRbXpKB1hsqqSBdhArseeVwNZ793jek=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tw7gA5M7A68s/6SHAJNl4BEVBZ6N3/lB7kRN1fKIXx2bEh1RZIyYBu+d5ZCCioHRvZYSd6udObCM5E+3e/ohdkMTMEhtKtWOupla32PWt5lHbHyEZqyVzR0CgdsyA+Htht1wq1IXDqxfvZXgF1M8PZNpGjHVDkA8IB9eqStTrKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KLe3oRNz; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=6wind.com header.i=@6wind.com header.b="SLkMJ81U"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-42cddc969daso8110895e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 01 Oct 2024 07:29:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=6wind.com; s=google; t=1727792946; x=1728397746; darn=vger.kernel.org;
-        h=content-transfer-encoding:organization:subject:to:from
-         :content-language:reply-to:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6y2Ko37c6bZpyzZJw8yX8vnCdLYkmaxrmJSko/bOA8U=;
-        b=SLkMJ81UsoFIdNG+/wQJ/XlZRxntQfnFknX9fPjZxJMJpSEB2g0IxUv3QVcTer4tZU
-         jQBcKt2KybyoO167F9HMhsRNVXdCMzDYSH5mKtdeT5nvCWYTU5cQNAegpeyUqJm7B+j6
-         fgnbcBKFDqrQka2IzekVH5/+YHT1+yaqUA3QOh1vwgvkcqc+nJ4vVwmURcgwtq3T1vun
-         ZZxfBQWketx21e+IV9qevP8gkNGbQRIf6oFkRxgUeXllyGT3P5jX/fe3VyUXp+LOsROY
-         9nWoWAl5tpJbrOMulJLr7gCls3IJpe9whIQz3dLz6U+Ssyv6i7yRkk4sedJ73r2Iv0bc
-         SMGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727792946; x=1728397746;
-        h=content-transfer-encoding:organization:subject:to:from
-         :content-language:reply-to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6y2Ko37c6bZpyzZJw8yX8vnCdLYkmaxrmJSko/bOA8U=;
-        b=Q4NUwTaLAwU0MZAxdPnCDcY930AYiejW+dN4R2kbWVmb1uRh1PlNv1/Owgxv4l1elA
-         li2r8kCeIV9/oIiJKLFKnaQQb3vBhu/CRVRemgJqtsDECrWwjuqsGGYgankpKbBeiaqY
-         YpfsjwJR0uHmj515+gLvtIgModUiVdhqlz8vwxHTjY6E4zw5eSGqgg3LfLdZ0OMrhP4q
-         CAp0CMB0gg5XSYtr3Qow8bMIhtXre86aoCuhf/iHxdu9pth65vtQYtkFDG64h7j08kBy
-         UMYYk+FhCBJ+aRpz5VlOVCDBibeeXIYUHoWk4D8McSpSgANLm2wIlPZppZZX635GxhiK
-         9XWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWa/hxgy/W5gWw2DdWsJuL8l2hbS8VBvV9R25RV2zhP5kqlMwJaRXaiRccjpMckT3+yfwxE+I77On4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yytxbs/o9AfdqNdYmBs20ThffYVP9uaKDoGtRPYBuP59t2WEkaJ
-	fPEy3MYCZ0wNfRM8y+9eXnEDJ4uVOlT4LTqib5ZzZm5Ebngbe1kIDqgQ2TkHcfw=
-X-Google-Smtp-Source: AGHT+IEswp/VLXYGpONUE2dR+kC/owevEtpsf5LTOMd+ouPbbYYYmhdwL9aP3Jq9SMizIWmZZF6Q4Q==
-X-Received: by 2002:a05:600c:4453:b0:42c:aeee:e604 with SMTP id 5b1f17b1804b1-42f5e3c4bc3mr43088755e9.8.1727792946574;
-        Tue, 01 Oct 2024 07:29:06 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:b41:c160:aa9d:4d55:f3bb:3405? ([2a01:e0a:b41:c160:aa9d:4d55:f3bb:3405])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f57e1392fsm136805955e9.31.2024.10.01.07.29.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Oct 2024 07:29:04 -0700 (PDT)
-Message-ID: <4d6edf70-57fb-43a1-bf15-330bd5f6405b@6wind.com>
-Date: Tue, 1 Oct 2024 16:29:03 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KLe3oRNz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727793267; x=1759329267;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MJJbugmM7odwoRbXpKB1hsqqSBdhArseeVwNZ793jek=;
+  b=KLe3oRNzuFPj3ibEJJxp25cwVNcXaqcb199SGi1qGt6gZtfXghXHvBMa
+   RuuW33yFGrcEtMngy5EeYdNek56aFKIMY11mMhEHZLGLY6w2uqaRmAl3N
+   sknMi8PgIiXMY4AL9b1C0TUaUYlgiGfykzlFILY4BPiy9DvL+knVy6Euf
+   CeMJq4Nd1AdmhBVTA7tV6tMC6lr7isLIMBONVnSqECZjFahhVsQBKfZmm
+   QvXIdK3P7k/ojmxn+Q4y+U2eUTaDIl6u4y3HZR2YuBsRlD731mRsoy5D/
+   ntoa0231Q98Q7EPLaffHYF/YcyTyk3GfRpOC13vX/vJ2hWuVMWdXuzSp0
+   g==;
+X-CSE-ConnectionGUID: ZGwKFmycRbCU+PG1Sa1wyg==
+X-CSE-MsgGUID: WwXdaCDgTc6maVo+UIoZzw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="49453565"
+X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
+   d="scan'208";a="49453565"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 07:34:26 -0700
+X-CSE-ConnectionGUID: IfogJOA3T2SDDvZ2ZGNcTA==
+X-CSE-MsgGUID: AqoDEJpFQFauxKQ5jPkGDA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
+   d="scan'208";a="78439207"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 01 Oct 2024 07:34:20 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1svdxC-000Qmb-0m;
+	Tue, 01 Oct 2024 14:34:18 +0000
+Date: Tue, 1 Oct 2024 22:33:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian Marangi <ansuelsmth@gmail.com>, Jens Axboe <axboe@kernel.dk>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Kees Cook <kees@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Daniel Golle <daniel@makrotopia.org>,
+	INAGAKI Hiroshi <musashino.open@gmail.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Li Lingfeng <lilingfeng3@huawei.com>,
+	Ming Lei <ming.lei@redhat.com>,
+	Christian Heusel <christian@heusel.eu>, linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>, upstream@airoha.com
+Cc: oe-kbuild-all@lists.linux.dev,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Subject: Re: [PATCH v4 3/5] string: add strends() helper to check if a string
+ ends with a suffix
+Message-ID: <202410012202.g0GogVZR-lkp@intel.com>
+References: <20240930113045.28616-4-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: nicolas.dichtel@6wind.com
-Content-Language: en-US
-From: Nicolas Dichtel <nicolas.dichtel@6wind.com>
-To: Jonathan Corbet <corbet@lwn.net>, linux-doc <linux-doc@vger.kernel.org>,
- netdev <netdev@vger.kernel.org>
-Subject: Doc on kernel.org
-Organization: 6WIND
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240930113045.28616-4-ansuelsmth@gmail.com>
 
-Hello,
+Hi Christian,
 
-I'm not sure to address the right people. I wonder if it's possible to remove
-some obsolete docs from kernel.org.
-For example, the ip-sysctl page exists in two versions: txt and rst, but the txt
-version is obsolete (removed from the kernel tree 4 years ago, in v5.8):
+kernel test robot noticed the following build errors:
 
-https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
-https://www.kernel.org/doc/Documentation/networking/ip-sysctl.rst
+[auto build test ERROR on axboe-block/for-next]
+[also build test ERROR on kees/for-next/hardening robh/for-next lwn/docs-next linus/master v6.12-rc1 next-20241001]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/block-add-support-for-defining-read-only-partitions/20240930-193609
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20240930113045.28616-4-ansuelsmth%40gmail.com
+patch subject: [PATCH v4 3/5] string: add strends() helper to check if a string ends with a suffix
+config: s390-randconfig-001-20241001 (https://download.01.org/0day-ci/archive/20241001/202410012202.g0GogVZR-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241001/202410012202.g0GogVZR-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410012202.g0GogVZR-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/s390/purgatory/../lib/string.c:16,
+                    from arch/s390/purgatory/string.c:3:
+   include/linux/string.h: In function 'strends':
+>> include/linux/string.h:366:27: error: implicit declaration of function 'memcmp' [-Wimplicit-function-declaration]
+     366 |         return n >= m && !memcmp(str + n - m, suffix, m);
+         |                           ^~~~~~
+   include/linux/string.h:65:1: note: 'memcmp' is defined in header '<string.h>'; this is probably fixable by adding '#include <string.h>'
+      64 | #include <asm/string.h>
+     +++ |+#include <string.h>
+      65 | 
 
 
-Regards,
-Nicolas
+vim +/memcmp +366 include/linux/string.h
+
+   355	
+   356	/**
+   357	 * strends - does @str end with @suffix?
+   358	 * @str: string to examine
+   359	 * @suffix: suffix to look for.
+   360	 */
+   361	static inline bool strends(const char *str, const char *suffix)
+   362	{
+   363		size_t n = strlen(str);
+   364		size_t m = strlen(suffix);
+   365	
+ > 366		return n >= m && !memcmp(str + n - m, suffix, m);
+   367	}
+   368	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
