@@ -1,33 +1,33 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2A1194A6C;
-	Wed,  2 Oct 2024 23:42:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B0E19F41B;
+	Wed,  2 Oct 2024 23:46:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727912559; cv=none; b=UAu6ZHH8Fvmwvuna5XCT4szpl9OWIupTdv8vzW9Ek5z3NYXhLUNnXg7kK5KqrXoepATrURVMqD3+tph6nRUMg+jmykscSuW7J+GJlTV2hFxCnQo9aPiwj8cKEWe8/ePQ/XYYKNTaaY8ITrQdEo1zSWMNqPxBdQu82MPPAtAkV6s=
+	t=1727912794; cv=none; b=nGjrIYkg1EvHGt60Gu5SRIj26UpaSBS0wsfEBMcMxs5K+deYfMCO67F6Eif+S1necQ+oyn5AvJiVzJe4HMBAED1a/RKL/0rv1uGhBHa1Mthupdp8vFy0SPZkYTir4UhYilYxd3urGLf6iy2qk/p41OtP+cjWyddoZYUnrafH/8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727912559; c=relaxed/simple;
-	bh=zTshrRghKpRSTErvdzIsUdge+WYinbwtVYc8B9ze7xk=;
+	s=arc-20240116; t=1727912794; c=relaxed/simple;
+	bh=kyPX9+MkoSYbSJKOPLmnG8kT3LEDjS9a9EAKQP/LQ5Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tle+SFdCAY7Vw4pmNfws4LyRBFfc/OuX8bHM9mfwbTMq3kemkksGE+L7slN3mH6+d+X+x7Sk0p+nhQXB+6BJ05jcHn+88IURHoDsIESDpTkGB/bVILrG8Cb85iBsbonEQarfik1Xp+M8jZAUkLguGHKuHXn+CrYYPvV/8McoiWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=PcHXD1Gg; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=sW9+uLr2V6qQnVAsdHxcJN1EbjR3PnFqpvtP/FI7uRNWkUa3HO7rRlDHAvtgM2rROs8U4rti6YIhp+dq4WOdL9XV6dpMJrRDfnohenj6laIs/kJ53BKbh0j5usgUYbK8FDtyi27CBmR+cbupB1BaFpK+SfbTvxDoCJ/0kcJ6dKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=wylyAaLw; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="PcHXD1Gg"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="wylyAaLw"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=iKo+ToJTEwGJez7CJKu7gURw2fUlED9MPPdpQMBwKXA=; b=PcHXD1GgTB4RRxV3wwAFtEv4UO
-	urcE2y3aWVeI76G5iRQFa6/WC8kIJZesuipb+AqWqbpsJXVRw4b+MsPqJNET4EhNTZ2br2P4nYebs
-	ZidwFPc3WE4sE9EVSHGMwd3jL2wzUHSfLZMQrXqZMSvhw5nshQ5BuKEpxb5nwHZoCIO0=;
+	bh=nFVNgxu68ONj5Q0UYVegcSn+ueUJyZ0C32PCbZqlBR8=; b=wylyAaLw1lyDzuRFnhvbNZ5NGL
+	v3SWscriNNeJDr3p+du46EFUnfLxHQGobSM0AoUQlrkgbciDmuklTO0f5Mm3zLQE+Xk8BIqf1Os/j
+	vsf73uSOTorpnDpFXkboqkQrVLgOYrfzQ3QOQSpL51+d+GRkVBrkeajsHJprQaayydSA=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1sw8zE-008uDf-Mf; Thu, 03 Oct 2024 01:42:28 +0200
-Date: Thu, 3 Oct 2024 01:42:28 +0200
+	id 1sw930-008uFI-Pm; Thu, 03 Oct 2024 01:46:22 +0200
+Date: Thu, 3 Oct 2024 01:46:22 +0200
 From: Andrew Lunn <andrew@lunn.ch>
 To: Kory Maincent <kory.maincent@bootlin.com>
 Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
@@ -41,11 +41,11 @@ Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
 	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
 	Dent Project <dentproject@linuxfoundation.org>,
 	kernel@pengutronix.de
-Subject: Re: [PATCH net-next 09/12] net: pse-pd: tps23881: Add support for
- PSE PI priority feature
-Message-ID: <7fa4dc4b-aa60-4549-b574-2c34c48a9b5d@lunn.ch>
+Subject: Re: [PATCH net-next 10/12] net: pse-pd: Register regulator even for
+ undescribed PSE PIs
+Message-ID: <b78344a8-d753-4708-ac61-9c59ffdd5967@lunn.ch>
 References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
- <20241002-feature_poe_port_prio-v1-9-787054f74ed5@bootlin.com>
+ <20241002-feature_poe_port_prio-v1-10-787054f74ed5@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,18 +54,21 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241002-feature_poe_port_prio-v1-9-787054f74ed5@bootlin.com>
+In-Reply-To: <20241002-feature_poe_port_prio-v1-10-787054f74ed5@bootlin.com>
 
-On Wed, Oct 02, 2024 at 06:28:05PM +0200, Kory Maincent wrote:
+On Wed, Oct 02, 2024 at 06:28:06PM +0200, Kory Maincent wrote:
 > From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 > 
-> This patch extends the PSE callbacks by adding support for the newly
-> introduced pi_set_prio() callback, enabling the configuration of PSE PI
-> priorities. The current port priority is now also included in the status
-> information returned to users.
-> 
-> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+> Ensure that regulators are registered for all PSE PIs, even those not
+> explicitly described in the device tree. This change lays the
+> groundwork for future support of regulator notifiers. Maintaining
+> consistent ordering between the PSE PIs regulator table and the
+> regulator notifier table will prevent added complexity in future
+> implementations.
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+Does this change anything visible to the user?
 
-    Andrew
+Is it guaranteed that these unused regulators are disabled?  Not that
+they were before i guess. But now they exist, should we disable them?
+
+	Andrew
