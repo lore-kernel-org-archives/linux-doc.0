@@ -1,37 +1,37 @@
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9638C14A90;
-	Wed,  2 Oct 2024 03:54:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5348228FF;
+	Wed,  2 Oct 2024 04:02:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727841299; cv=none; b=Uy5aLAX3jVQ94av9XM5ZYZJUdoW3qUYe7lkKzRrNSmqUQUIvQbNvp36TIn6G5dg9rsYX223xIteygx0Ta9bogRE8Uckq+IgiFlBxjSAcEOZ0oTqz0+rO0mF33l11nHYxfAOApJKxKuAKmt3zhd6Kele2AcxlioXLoo5vGhhiwQ8=
+	t=1727841766; cv=none; b=IqTZgKZVg85ihXrIkXVC/F8PF8g+wQnLHBv06tTeNUOvl/BaZ3khbqdwP6FtA3Co7ffZltkGThVBAzziZvbQh0CeSNlnGI7tH/bHZsXNqRDnPTgJOwhRFdhvIzp7X0hAM6yI4zB8ZuhxbazEoM45LX7gO/uEhNR54oEUZtlzeYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727841299; c=relaxed/simple;
-	bh=LG6BfmSiNR27N+9l6sKUikVPDX0YWr+bTu9pRgKVAoU=;
+	s=arc-20240116; t=1727841766; c=relaxed/simple;
+	bh=fa2KBioWKBKKQshAEUjAC0c5IWy0JfsZ6mGnYZ3I1lo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KM60iEPpGINK1b+tuT5kjlF/n4lqVAPc1SIikO9w7j3pNA0NAmg8AYQywb3cywM15e5OCDqKnoBpO06tTn5kkP/RqJBAFZHUequmoN93KC0mSNrSYGl3jX1CtSg73VFSBK3yXbESgXutiWQIJ3aaWmwtwu8mcyHWibkGZ0ZFPPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=S00YDOk0; arc=none smtp.client-ip=90.155.92.199
+	 In-Reply-To:Content-Type; b=PGoVNhZDQlgmmNdhJIT9JKL+bfxwJhlSoi0UhS+Nb6ri6k6EMsvN1YLtzFIwUxjWlJzi3OJY+G4aBEMF8upGCc0E/V0GVleSH4zAi1Uy1YjuYd4vO5Mr6aKrEH8qwUb+Fo9vz48HX4AuD2skIik4pH4AtC0ZibV0fxfEepFYHAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DpaoBx7y; arc=none smtp.client-ip=90.155.92.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="S00YDOk0"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DpaoBx7y"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
 	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
 	Sender:Reply-To:Content-ID:Content-Description;
-	bh=b4QwsyLK3zmAWkKcdQfNeA69tjYl94ObfHaSmrcR3cE=; b=S00YDOk05KEIob5Yw1u7bpwRHD
-	Ly1wsF5/QMuMLVzEc1oipeANl/ZKNV8FJ5NrhbMcLY35zIuKlKzeLskmHm8H9R1Btc+4sDBvZxP+F
-	Lq9n9NbXTkDrV+6bsQFfyVqJzIBonZh1SkSZft6IA9ahz8gghGtkFCW41/gnEjVlxXNP2xz21y/ak
-	vyisq5UDmRBS1HCjIy9PUklrFp4+dB/WSGLxGgYJbfELQ9ohyW2HNvBXlJ6w5If8ZE4N7O2GRkCmQ
-	YgYUZGKHlbKQCiWwq3IO9P2EtV3uzOfV5bA7IZmFysPwiY/Iy8jJ5UPmEYixezQaoRmfVZ9QuRsfd
-	dsfD6ZXA==;
+	bh=3mV/2WjxRRRUIs1CehjNUqqU9MqWUP30n90PrOz0OD4=; b=DpaoBx7yQsJ3hHSpsb2twNlXUf
+	Ag1t7Du40nQG707Im4/fexSHICom+RzDtmeLBD6Wye9DaVS5zfO1l45sQ3qc3zh5y5PMfxYNTKUw0
+	1RhUhO4yhtHXgGA3uw2tsRuRNN8oU76EElLW0GVzUM3lLowPb1D4mtViNKz16hLkiP6ZI3dbXvb6+
+	16p3rQZndXPskLZ/EEN23nx+yIJpSJYxH82v9o7rg3r4HPsLlcsjFooTPXltbSxEv8mjDpiPXRAPl
+	/J6fAIbUSTfkwb7rRWlQnOyDkUMrim9n7lyOF2tZq6jF/YIN8SjsMo7HLpgYzdpQWZVlyfJA+82jb
+	oSx7J7ew==;
 Received: from [50.53.2.24] (helo=[192.168.254.17])
 	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1svqRs-00000003QQj-3PMD;
-	Wed, 02 Oct 2024 03:54:49 +0000
-Message-ID: <30573f5a-d3dd-4aa4-ac5a-cf6df77b79dc@infradead.org>
-Date: Tue, 1 Oct 2024 20:54:41 -0700
+	id 1svqZM-00000003QUH-3M4S;
+	Wed, 02 Oct 2024 04:02:34 +0000
+Message-ID: <ccb8b317-2d35-4113-a5bf-1d55f146b375@infradead.org>
+Date: Tue, 1 Oct 2024 21:02:23 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,8 +39,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 06/15] drm/vkms: Avoid computing blending limits
- inside pre_mul_alpha_blend
+Subject: Re: [PATCH v11 08/15] drm/vkms: Re-introduce line-per-line
+ composition algorithm
 To: Louis Chauvet <louis.chauvet@bootlin.com>,
  Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
  Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
@@ -56,52 +56,189 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
  Pekka Paalanen <pekka.paalanen@collabora.com>
 References: <20240930-yuv-v11-0-4b1a26bcfc96@bootlin.com>
- <20240930-yuv-v11-6-4b1a26bcfc96@bootlin.com>
+ <20240930-yuv-v11-8-4b1a26bcfc96@bootlin.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240930-yuv-v11-6-4b1a26bcfc96@bootlin.com>
+In-Reply-To: <20240930-yuv-v11-8-4b1a26bcfc96@bootlin.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi--
+
 
 On 9/30/24 8:31 AM, Louis Chauvet wrote:
-> The pre_mul_alpha_blend is dedicated to blending, so to avoid mixing
-> different concepts (coordinate calculation and color management), extract
-> the x_limit and x_dst computation outside of this helper.
-> It also increases the maintainability by grouping the computation related
-> to coordinates in the same place: the loop in `blend`.
+> Re-introduce a line-by-line composition algorithm for each pixel format.
+> This allows more performance by not requiring an indirection per pixel
+> read. This patch is focused on readability of the code.
 > 
-> Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> Line-by-line composition was introduced by [1] but rewritten back to
+> pixel-by-pixel algorithm in [2]. At this time, nobody noticed the impact
+> on performance, and it was merged.
+> 
+> This patch is almost a revert of [2], but in addition efforts have been
+> made to increase readability and maintainability of the rotation handling.
+> The blend function is now divided in two parts:
+> - Transformation of coordinates from the output referential to the source
+> referential
+> - Line conversion and blending
+> 
+> Most of the complexity of the rotation management is avoided by using
+> drm_rect_* helpers. The remaining complexity is around the clipping, to
+> avoid reading/writing outside source/destination buffers.
+> 
+> The pixel conversion is now done line-by-line, so the read_pixel_t was
+> replaced with read_pixel_line_t callback. This way the indirection is only
+> required once per line and per plane, instead of once per pixel and per
+> plane.
+> 
+> The read_line_t callbacks are very similar for most pixel format, but it
+> is required to avoid performance impact. Some helpers for color
+> conversion were introduced to avoid code repetition:
+> - *_to_argb_u16: perform colors conversion. They should be inlined by the
+>   compiler, and they are used to avoid repetition between multiple variants
+>   of the same format (argb/xrgb and maybe in the future for formats like
+>   bgr formats).
+> 
+> This new algorithm was tested with:
+> - kms_plane (for color conversions)
+> - kms_rotation_crc (for rotations of planes)
+> - kms_cursor_crc (for translations of planes)
+> - kms_rotation (for all rotations and formats combinations) [3]
+> The performance gain was mesured with kms_fb_stress [4] with some
+> modification to fix the writeback format.
+> 
+> The performance improvement is around 5 to 10%.
+> 
+> [1]: commit 8ba1648567e2 ("drm: vkms: Refactor the plane composer to accept
+>      new formats")
+>      https://lore.kernel.org/all/20220905190811.25024-7-igormtorrente@gmail.com/
+> [2]: commit 322d716a3e8a ("drm/vkms: isolate pixel conversion
+>      functionality")
+>      https://lore.kernel.org/all/20230418130525.128733-2-mcanal@igalia.com/
+> [3]: https://lore.kernel.org/igt-dev/20240313-new_rotation-v2-0-6230fd5cae59@bootlin.com/
+> [4]: https://lore.kernel.org/all/20240422-kms_fb_stress-dev-v5-0-0c577163dc88@riseup.net/
+> 
 > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 > ---
->  drivers/gpu/drm/vkms/vkms_composer.c | 40 +++++++++++++++++-------------------
->  1 file changed, 19 insertions(+), 21 deletions(-)
+>  drivers/gpu/drm/vkms/vkms_composer.c | 234 ++++++++++++++++++++++++++++-------
+>  drivers/gpu/drm/vkms/vkms_drv.h      |  28 +++--
+>  drivers/gpu/drm/vkms/vkms_formats.c  | 224 ++++++++++++++++++++-------------
+>  drivers/gpu/drm/vkms/vkms_formats.h  |   2 +-
+>  drivers/gpu/drm/vkms/vkms_plane.c    |   5 +-
+>  5 files changed, 344 insertions(+), 149 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-> index 931e214b225c..4d220bbb023c 100644
+> index 4ebeaf58fa75..76d4aa8a0ef6 100644
 > --- a/drivers/gpu/drm/vkms/vkms_composer.c
 > +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> @@ -24,34 +24,30 @@ static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
->  
->  /**
->   * pre_mul_alpha_blend - alpha blending equation
-> - * @frame_info: Source framebuffer's metadata
->   * @stage_buffer: The line with the pixels from src_plane
->   * @output_buffer: A line buffer that receives all the blends output
-> + * @x_start: The start offset
-> + * @pixel_count: The number of pixels to blend
+> @@ -29,8 +29,8 @@ static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
+>   * @x_start: The start offset
+>   * @pixel_count: The number of pixels to blend
+>   *
+> - * The pixels 0..@pixel_count in stage_buffer are blended at @x_start..@x_start+@pixel_count in
+> - * output_buffer.
+> + * The pixels @x_start..@x_start+@pixel_count in stage_buffer are blended at
+> + * @x_start..@x_start+@pixel_count in output_buffer.
 
-so is this actually pixel count + 1; or
+with "- 1" somewhere?
 
 >   *
-> - * Using the information from the `frame_info`, this blends only the
-> - * necessary pixels from the `stage_buffer` to the `output_buffer`
-> - * using premultiplied blend formula.
-> + * The pixels 0..@pixel_count in stage_buffer are blended at @x_start..@x_start+@pixel_count in
+>   * The current DRM assumption is that pixel color values have been already
+>   * pre-multiplied with the alpha channel values. See more
+> @@ -41,7 +41,7 @@ static void pre_mul_alpha_blend(const struct line_buffer *stage_buffer,
+>  				struct line_buffer *output_buffer, int x_start, int pixel_count)
+>  {
+>  	struct pixel_argb_u16 *out = &output_buffer->pixels[x_start];
+> -	const struct pixel_argb_u16 *in = stage_buffer->pixels;
+> +	const struct pixel_argb_u16 *in = &stage_buffer->pixels[x_start];
+>  
+>  	for (int i = 0; i < pixel_count; i++) {
+>  		out[i].a = (u16)0xffff;
+> @@ -51,33 +51,6 @@ static void pre_mul_alpha_blend(const struct line_buffer *stage_buffer,
+>  	}
+>  }
+>  
+> -static int get_y_pos(struct vkms_frame_info *frame_info, int y)
+> -{
+> -	if (frame_info->rotation & DRM_MODE_REFLECT_Y)
+> -		return drm_rect_height(&frame_info->rotated) - y - 1;
+> -
+> -	switch (frame_info->rotation & DRM_MODE_ROTATE_MASK) {
+> -	case DRM_MODE_ROTATE_90:
+> -		return frame_info->rotated.x2 - y - 1;
+> -	case DRM_MODE_ROTATE_270:
+> -		return y + frame_info->rotated.x1;
+> -	default:
+> -		return y;
+> -	}
+> -}
+> -
+> -static bool check_limit(struct vkms_frame_info *frame_info, int pos)
+> -{
+> -	if (drm_rotation_90_or_270(frame_info->rotation)) {
+> -		if (pos >= 0 && pos < drm_rect_width(&frame_info->rotated))
+> -			return true;
+> -	} else {
+> -		if (pos >= frame_info->rotated.y1 && pos < frame_info->rotated.y2)
+> -			return true;
+> -	}
+> -
+> -	return false;
+> -}
+>  
+>  static void fill_background(const struct pixel_argb_u16 *background_color,
+>  			    struct line_buffer *output_buffer)
+> @@ -203,6 +176,182 @@ static enum pixel_read_direction direction_for_rotation(unsigned int rotation)
+>  	return READ_LEFT_TO_RIGHT;
+>  }
+>  
+> +/**
+> + * clamp_line_coordinates() - Compute and clamp the coordinate to read and write during the blend
+> + * process.
+> + *
+> + * @direction: direction of the reading
+> + * @current_plane: current plane blended
+> + * @src_line: source line of the reading. Only the top-left coordinate is used. This rectangle
+> + * must be rotated and have a shape of 1*pixel_count if @direction is vertical and a shape of
+> + * pixel_count*1 if @direction is horizontal.
+> + * @src_x_start: x start coordinate for the line reading
+> + * @src_y_start: y start coordinate for the line reading
+> + * @dst_x_start: x coordinate to blend the read line
+> + * @pixel_count: number of pixels to blend
+> + *
+> + * This function is mainly a safety net to avoid reading outside the source buffer. As the
+> + * userspace should never ask to read outside the source plane, all the cases covered here should
+> + * be dead code.
+> + */
+> +static void clamp_line_coordinates(enum pixel_read_direction direction,
+> +				   const struct vkms_plane_state *current_plane,
+> +				   const struct drm_rect *src_line, int *src_x_start,
+> +				   int *src_y_start, int *dst_x_start, int *pixel_count)
+> +{
+> +	/* By default the start points are correct */
+> +	*src_x_start = src_line->x1;
+> +	*src_y_start = src_line->y1;
+> +	*dst_x_start = current_plane->frame_info->dst.x1;
+> +
+> +	/* Get the correct number of pixel to blend, it depends of the direction */
+> +	switch (direction) {
+> +	case READ_LEFT_TO_RIGHT:
+> +	case READ_RIGHT_TO_LEFT:
+> +		*pixel_count = drm_rect_width(src_line);
+> +		break;
+> +	case READ_BOTTOM_TO_TOP:
+> +	case READ_TOP_TO_BOTTOM:
+> +		*pixel_count = drm_rect_height(src_line);
+> +		break;
+> +	}
+> +
+> +	/*
+> +	 * Clamp the coordinates to avoid reading outside the buffer
+> +	 *
+> +	 * This is mainly a security to avoid reading outside the buffer, the userspace should
 
-should these ranges include a "- 1"?
-Else please explain.
+	                  a security check to avoid
 
-> + * output_buffer.
+> +	 * never request to read outside the source buffer.
+> +	 */
 
