@@ -1,110 +1,239 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895501D130E
-	for <linux-doc@vger.kernel.org>; Wed,  2 Oct 2024 14:01:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B0691D0DED;
+	Wed,  2 Oct 2024 14:17:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727877711; cv=none; b=TI7c7uMW/yh7R0R3tX/jan/A50/2+mt4ZgMKFPnJxRoD2nTipd2XdSgBVRBB/Xclery0GC8yq1wqjgIVGkuQzIc5TXo5j2s+R8MFIneeOP0jsqWfHHDdipqIaMEYWoc1rdJvgV+9leYASMRDLEbioJImVA9M6+SghFOANEmHtoU=
+	t=1727878626; cv=none; b=PZguxEX7Peidaf3PDcKU3luhaZYvrcvp2kNcU8dpSO5LmEp5IRDGDfxO8zQ0g4BvUBM4nwNr1k/9Pdnj8M2xPt7Cp65asiIu2osQ0vorLy+xhKRnwS85Aken7NZnY4eqLxhGCV6oM/t3tflHMIkmbr40UbAPwmf1b8Ab56tHiiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727877711; c=relaxed/simple;
-	bh=1pmb1sDkBayL7SpLFra03BlTRS8TALBgSPNxfcUCWr8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A/gFhwSs/4G+IF0pQtg0aKN5hKVS4/83hQDsbfMcCq96lSbL6p9BQekJxVbI6riD8M/w36HVnhazH9qM87e6EoetC5tKuwuuWdof8PkYu0Q/F9W7ygu1iQcFx46e7anOuwepEsz3fg8j84zKE3NfRS54YAorRTcEPafVTXFnNMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZHqshu30; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1727878626; c=relaxed/simple;
+	bh=xpvHwwmdO3eqrkURj8Y+rlVSEXmxn77Ygc+a06eVTRw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=rP0MRlNVmzTWEWa0iFWIx+ZkILJORMtpR7qBM0BRjo9KKSd+OE3PuVxIcEcNBe0tJRo47wy90MWYRk7SKgjgNAOoUW9i3pydgkcJMrkdJs4MwRcbf2IU2vOn3TVpdR5oLgqWVFC1X2FPWa4ZGjGvuMgdFlaDsoQzqQJEQpK0eTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=QjG1JrIy; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ylouc4cZ; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZHqshu30"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5366fd6fdf1so8323488e87.0
-        for <linux-doc@vger.kernel.org>; Wed, 02 Oct 2024 07:01:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727877708; x=1728482508; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1pmb1sDkBayL7SpLFra03BlTRS8TALBgSPNxfcUCWr8=;
-        b=ZHqshu30MKhy+ha4bqlsyDrTwhplZwJfVZujK9mlWbbhg4xD+qG5exJM+NLfdGo9zB
-         zheBlVXOc/h9hNDUPKu3wMRs03Fs0BXMXdzTXIbwfmnQ9J818co0Lj5VQ6jIGOL+wjN+
-         pEgyBUeouMOxCzy86dPMDLTIaU+zGuK/GmK6k8KYj3QCMxI2VYlaUNRqVrZC+7LwdKl/
-         qC8VpWX5FAHgnGagaJyjmZ0AmjkJ1rs7BmjNwDbTYlIEDLiNByAVz6OI8QvQhUxlPxTC
-         TrmasBFfeoj2sBOtHwcd/Nhh87iX9AV+Nb6SrOA3OGPbdRJNSI7goRhNOmD8rsYcik6c
-         JMWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727877708; x=1728482508;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1pmb1sDkBayL7SpLFra03BlTRS8TALBgSPNxfcUCWr8=;
-        b=WynVcvlu1DCuHX08g+L5ErLHkk8j0se34/JU8INTZilf6x0flbMP7RWBlZTpVJZU+0
-         I4nUgpi8+fVmG66yDyDUJ0K4ysmr+lRBHGjps1M89Mlykf3BoFNyklV2g58g1c5++y0t
-         xgsUbJGF0zczUWgdP2FBk0Mq5mc/fHuM4Igp4JJHX0zZjZeS2nbis/jJf80XUCE0Rlgl
-         zy9Jx8NPVEOhkqi6KmtLMP3iHNd5DE+Wy6lRB4Cn11VHLlDqY16pjVR2zm6gG8bcyRXn
-         SBGsQgNp2zn66kuBpne2kGNaQKpUlQOPdOFiESFJ0WaJtdRdZO1Vgo0BwzPWCe0PfbtP
-         TmkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWb9lsfH1+bot2KpPyhTaDqXB8aDBJsmjyOI9OnX3vdv+v/vwfLH4xnbDRk/yFFALxDEeYClj3NFUM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyctkOgVor9R4OGmdYPK8YaYZlCwptmWKf27W+n46TZnzNA6fOU
-	YrJCRBwGnUw/QoBVsrERNj04F1CeBwHZhHf3T5bX4HAAJCJTjpHh12f1sC3t2N+m/qcK3S5vnBm
-	KKQQZTV0o4AsFYxgDT7nxKh3rT1m00rDTRdj+bQ==
-X-Google-Smtp-Source: AGHT+IEW35z+SB32dXETmyauiAuNdaSBG8Cnz7/x5oVp37LUBxxVnzuKhCWcA0adW64UvBqEawl9nsr4IE3RS0Lg9+g=
-X-Received: by 2002:a05:6512:3192:b0:52c:e3bd:c708 with SMTP id
- 2adb3069b0e04-539a0658abemr1776489e87.10.1727877707635; Wed, 02 Oct 2024
- 07:01:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QjG1JrIy";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ylouc4cZ"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1727878620;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7i4rK6W5zJ0/yjJszcGEJbo9yZLPfZxTe1UrEGBeh8s=;
+	b=QjG1JrIylWzjxiXp1whjsFK9TUMeqt2bSYE8DiPOFO5i8RyuIyjUOSk0JeXZrSfJl2K9w+
+	gyOtbGT26MGm9HwukROwgsLGE9R2Z7SzFrx3kAEzPRDeMG7yh9uUp7NVAsRq9snzhqQe77
+	toOLZztyH9NBtNUljdzrNwtOvXUyOrPKK9VkJX7lyXWeWreL2pDUA/q++KS3WnylvxU86o
+	viwUkVCpG9RFAGWnoiNFu7W/TfF7dYDSatgkkceV9sePjhgFZxGd4PtDsuEKfF1av3bD3x
+	trsyUhwbntn3Bx7X5vvWgcD5qhuPK/N0nVYpUif0NAFxMMohpzGGWj2zlxQO5g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1727878620;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7i4rK6W5zJ0/yjJszcGEJbo9yZLPfZxTe1UrEGBeh8s=;
+	b=ylouc4cZ0hfaX61gauH/9wkiYjDPiyaoj7UxIpSQUmkhbFC3z1xq3zRd95zob83mHdyaj7
+	fIZMz4gyPFqWU/Cw==
+To: Jeff Layton <jlayton@kernel.org>, John Stultz <jstultz@google.com>,
+ Stephen Boyd <sboyd@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jonathan Corbet
+ <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, Chandan Babu R
+ <chandan.babu@oracle.com>, "Darrick J. Wong" <djwong@kernel.org>, Theodore
+ Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, Chris
+ Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, David Sterba
+ <dsterba@suse.com>, Hugh Dickins <hughd@google.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Chuck Lever <chuck.lever@oracle.com>, Vadim
+ Fedorenko <vadim.fedorenko@linux.dev>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-mm@kvack.org, Jeff Layton <jlayton@kernel.org>
+Subject: Re: [PATCH v8 01/12] timekeeping: add interfaces for handling
+ timestamps with a floor value
+In-Reply-To: <20241001-mgtime-v8-1-903343d91bc3@kernel.org>
+References: <20241001-mgtime-v8-0-903343d91bc3@kernel.org>
+ <20241001-mgtime-v8-1-903343d91bc3@kernel.org>
+Date: Wed, 02 Oct 2024 16:16:59 +0200
+Message-ID: <87zfnmwpwk.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241001221931.9309-1-ansuelsmth@gmail.com> <20241001221931.9309-7-ansuelsmth@gmail.com>
-In-Reply-To: <20241001221931.9309-7-ansuelsmth@gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 2 Oct 2024 16:01:35 +0200
-Message-ID: <CACRpkdZ=QLcqNrynWrWn0oRxjBpqWDko8rw95idEWvyfw+xEOA@mail.gmail.com>
-Subject: Re: [PATCH v5 6/6] dt-bindings: mmc: Document support for partition
- table in mmc-card
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	INAGAKI Hiroshi <musashino.open@gmail.com>, Daniel Golle <daniel@makrotopia.org>, 
-	Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Ming Lei <ming.lei@redhat.com>, Jan Kara <jack@suse.cz>, Li Lingfeng <lilingfeng3@huawei.com>, 
-	Christian Heusel <christian@heusel.eu>, Avri Altman <avri.altman@wdc.com>, 
-	Adrian Hunter <adrian.hunter@intel.com>, Mikko Rapeli <mikko.rapeli@linaro.org>, 
-	Riyan Dhiman <riyandhiman14@gmail.com>, Jorge Ramirez-Ortiz <jorge@foundries.io>, 
-	Dominique Martinet <dominique.martinet@atmark-techno.com>, 
-	Jens Wiklander <jens.wiklander@linaro.org>, 
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Li Zhijian <lizhijian@fujitsu.com>, 
-	linux-block@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org, 
-	devicetree@vger.kernel.org, Lorenzo Bianconi <lorenzo@kernel.org>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, upstream@airoha.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Wed, Oct 2, 2024 at 12:20=E2=80=AFAM Christian Marangi <ansuelsmth@gmail=
-.com> wrote:
+On Tue, Oct 01 2024 at 06:58, Jeff Layton wrote:
 
-> Document support for defining a partition table in the mmc-card node.
->
-> This is needed if the eMMC doesn't have a partition table written and
-> the bootloader of the device load data by using absolute offset of the
-> block device. This is common on embedded device that have eMMC installed
-> to save space and have non removable block devices.
->
-> If an OF partition table is detected, any partition table written in the
-> eMMC will be ignored and won't be parsed.
->
-> eMMC provide a generic disk for user data and if supported (JEDEC 4.4+)
-> also provide two additional disk ("boot1" and "boot2") for special usage
-> of boot operation where normally is stored the bootloader or boot info.
-> New JEDEC version also supports up to 4 GP partition for other usage
-> called "gp1", "gp2", "gp3", "gp4".
->
-> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+V8 ? I remember that I reviewed v* already :)
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Also the sentence after the susbsystem prefix starts with an uppercase
+letter.
 
-Yours,
-Linus Walleij
+> Multigrain timestamps allow the kernel to use fine-grained timestamps
+> when an inode's attributes is being actively observed via ->getattr().
+> With this support, it's possible for a file to get a fine-grained
+> timestamp, and another modified after it to get a coarse-grained stamp
+> that is earlier than the fine-grained time.  If this happens then the
+> files can appear to have been modified in reverse order, which breaks
+> VFS ordering guarantees.
+>
+> To prevent this, maintain a floor value for multigrain timestamps.
+> Whenever a fine-grained timestamp is handed out, record it, and when
+> coarse-grained stamps are handed out, ensure they are not earlier than
+> that value. If the coarse-grained timestamp is earlier than the
+> fine-grained floor, return the floor value instead.
+>
+> Add a static singleton atomic64_t into timekeeper.c that we can use to
+
+s/we can use/is used/
+
+> keep track of the latest fine-grained time ever handed out. This is
+> tracked as a monotonic ktime_t value to ensure that it isn't affected by
+> clock jumps. Because it is updated at different times than the rest of
+> the timekeeper object, the floor value is managed independently of the
+> timekeeper via a cmpxchg() operation, and sits on its own cacheline.
+>
+> This patch also adds two new public interfaces:
+
+git grep 'This patch' Docuementation/process/
+
+> - ktime_get_coarse_real_ts64_mg() fills a timespec64 with the later of the
+>   coarse-grained clock and the floor time
+>
+> - ktime_get_real_ts64_mg() gets the fine-grained clock value, and tries
+>   to swap it into the floor. A timespec64 is filled with the result.
+>
+> Since the floor is global, take care to avoid updating it unless it's
+> absolutely necessary. If we do the cmpxchg and find that the value has
+
+We do nothing. Please describe your changes in passive voice and do not
+impersonate code.
+
+> been updated since we fetched it, then we discard the fine-grained time
+> that was fetched in favor of the recent update.
+
+This still is confusing. Something like this:
+
+  The floor value is global and updated via a single try_cmpxchg(). If
+  that fails then the operation raced with a concurrent update. It does
+  not matter whether the new value is later than the value, which the
+  failed cmpxchg() tried to write, or not. Add sensible technical
+  explanation.
+
+> +/*
+> + * Multigrain timestamps require that we keep track of the latest fine-grained
+> + * timestamp that has been issued, and never return a coarse-grained timestamp
+> + * that is earlier than that value.
+> + *
+> + * mg_floor represents the latest fine-grained time that we have handed out as
+> + * a timestamp on the system. Tracked as a monotonic ktime_t, and converted to
+> + * the realtime clock on an as-needed basis.
+> + *
+> + * This ensures that we never issue a timestamp earlier than one that has
+> + * already been issued, as long as the realtime clock never experiences a
+> + * backward clock jump. If the realtime clock is set to an earlier time, then
+> + * realtime timestamps can appear to go backward.
+> + */
+> +static __cacheline_aligned_in_smp atomic64_t mg_floor;
+> +
+>  static inline void tk_normalize_xtime(struct timekeeper *tk)
+>  {
+>  	while (tk->tkr_mono.xtime_nsec >= ((u64)NSEC_PER_SEC << tk->tkr_mono.shift)) {
+> @@ -2394,6 +2410,86 @@ void ktime_get_coarse_real_ts64(struct timespec64 *ts)
+>  }
+>  EXPORT_SYMBOL(ktime_get_coarse_real_ts64);
+>  
+> +/**
+> + * ktime_get_coarse_real_ts64_mg - return latter of coarse grained time or floor
+> + * @ts: timespec64 to be filled
+> + *
+> + * Fetch the global mg_floor value, convert it to realtime and
+> + * compare it to the current coarse-grained time. Fill @ts with
+> + * whichever is latest. Note that this is a filesystem-specific
+> + * interface and should be avoided outside of that context.
+> + */
+> +void ktime_get_coarse_real_ts64_mg(struct timespec64 *ts)
+> +{
+> +	struct timekeeper *tk = &tk_core.timekeeper;
+> +	u64 floor = atomic64_read(&mg_floor);
+> +	ktime_t f_real, offset, coarse;
+> +	unsigned int seq;
+> +
+> +	do {
+> +		seq = read_seqcount_begin(&tk_core.seq);
+> +		*ts = tk_xtime(tk);
+> +		offset = tk_core.timekeeper.offs_real;
+> +	} while (read_seqcount_retry(&tk_core.seq, seq));
+> +
+> +	coarse = timespec64_to_ktime(*ts);
+> +	f_real = ktime_add(floor, offset);
+> +	if (ktime_after(f_real, coarse))
+> +		*ts = ktime_to_timespec64(f_real);
+> +}
+> +EXPORT_SYMBOL_GPL(ktime_get_coarse_real_ts64_mg);
+> +
+> +/**
+> + * ktime_get_real_ts64_mg - attempt to update floor value and return result
+> + * @ts:		pointer to the timespec to be set
+> + *
+> + * Get a monotonic fine-grained time value and attempt to swap it into the
+> + * floor. If it succeeds then accept the new floor value. If it fails
+> + * then another task raced in during the interim time and updated the floor.
+> + * That value is just as valid, so accept that value in this case.
+
+Why? 'just as valid' does not tell me anything.
+
+> + * @ts will be filled with the resulting floor value, regardless of
+> + * the outcome of the swap. Note that this is a filesystem specific interface
+> + * and should be avoided outside of that context.
+> + */
+> +void ktime_get_real_ts64_mg(struct timespec64 *ts)
+> +{
+> +	struct timekeeper *tk = &tk_core.timekeeper;
+> +	ktime_t old = atomic64_read(&mg_floor);
+> +	ktime_t offset, mono;
+> +	unsigned int seq;
+> +	u64 nsecs;
+> +
+> +	do {
+> +		seq = read_seqcount_begin(&tk_core.seq);
+> +
+> +		ts->tv_sec = tk->xtime_sec;
+> +		mono = tk->tkr_mono.base;
+> +		nsecs = timekeeping_get_ns(&tk->tkr_mono);
+> +		offset = tk_core.timekeeper.offs_real;
+> +	} while (read_seqcount_retry(&tk_core.seq, seq));
+> +
+> +	mono = ktime_add_ns(mono, nsecs);
+> +
+> +	/*
+> +	 * Attempt to update the floor with the new time value. Accept the
+> +	 * resulting floor value regardless of the outcome of the swap.
+> +	 */
+> +	if (atomic64_try_cmpxchg(&mg_floor, &old, mono)) {
+> +		ts->tv_nsec = 0;
+> +		timespec64_add_ns(ts, nsecs);
+> +	} else {
+> +		/*
+> +		 * Something has changed mg_floor since "old" was
+
+I complained about 'something has changed ...' before. Can we please
+have proper technical explanations?
+
+> +		 * fetched. "old" has now been updated with the
+> +		 * current value of mg_floor, so use that to return
+> +		 * the current coarse floor value.
+
+This still does not explain why the new floor value is valid even when
+it is before the value in @mono.
+
+Thanks,
+
+        tglx
