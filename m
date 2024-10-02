@@ -1,150 +1,102 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BEA612C49C
-	for <linux-doc@vger.kernel.org>; Wed,  2 Oct 2024 09:45:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0154C1E0B72
+	for <linux-doc@vger.kernel.org>; Wed,  2 Oct 2024 09:49:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727862351; cv=none; b=CvDFakbONDlzd5kXSrcFDsQA0pb5SMQDzWnPgTfXXOU4sj0X6A/JM9bCuwSXrtcEeYp028NLeqPC9gSCWacd0gZv9Qs9tRA3kza9eFxEMfu3o8v3orQOq0Qv/AtkoMGcr1EVeiK3qwy6RDFMlC5uvg0f9Kg63PxcQCjNrYbqew4=
+	t=1727862594; cv=none; b=ON2lRDeyvrd678vci3ddHffL+AiO1VwyWKIsyjFGRZiFDKrGmQm4OVhKrs2NENH+JJgE9zltQsqrac2VnNwpVn0mbCLa2toVmS0GFRcWU8DJac+dweInCuC2+Ji0SONlF9OPSmHERTtdZGmQodqTZCJ35MZDhbqLfv8o1MPbfmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727862351; c=relaxed/simple;
-	bh=xH/dhvjKJQbQHWDtaMnAxN2e0tPT/QixJROH04Vi5Mw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BK+LYLZlNfodztYre4XOKxHP7X9xs702dC3QP46rPWqrCJnRnzvfeILLcVRLK23SEeYRXGf2dMAG6HO53djoOxVCw1teh88qLLEtbpeOBDOP7Q36tUS3VMKBktVhRpalvo2/e1cahXi2/tO8qU/g6sRceKsY5j9XonfqKLK/kK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7A4EA367;
-	Wed,  2 Oct 2024 02:46:18 -0700 (PDT)
-Received: from [10.57.76.89] (unknown [10.57.76.89])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 878153F64C;
-	Wed,  2 Oct 2024 02:45:47 -0700 (PDT)
-Message-ID: <23b4b2dd-57b6-4b21-babf-99431f640d37@arm.com>
-Date: Wed, 2 Oct 2024 11:45:45 +0200
+	s=arc-20240116; t=1727862594; c=relaxed/simple;
+	bh=1dDFjmKMO9vrCcacLIlCS/mDYkAo7OR0HjtA+XBKwxM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=M+VyCS82sdxNdsK8fB40CHY7J/Kwa1DhZ5jwsxVVGMsUxRPss/jJH0GM9+5YVaJlLn4mD6JkziTq/QPTPizspPR6Fw2YdzADnPkcoW0h2RQdRW6/D1BF6IWgxjpOYeov6fo14k4ypgP9nPNLY6n65C7kXdcbXyT/hbAVkD4EGHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KUqL/7x1; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KUqL/7x1"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-71b8d10e990so3178327b3a.3
+        for <linux-doc@vger.kernel.org>; Wed, 02 Oct 2024 02:49:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727862592; x=1728467392; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tnihw3sb3VGmUZFwHxGrK3Lpf3WXe1bOQ5reZibKIGo=;
+        b=KUqL/7x1kGeKY37KP+e4ncu6uJNXKuHoHyaIo4GcSC664MSFk1guxfGHjXEMk0P6ow
+         TyhTPbDzKZgwaTBTSLjWSjAeU+dMcA6PYif/NTTXE3WW95Jp4ZT0OhtKi7wKa12Book3
+         s5Eau90bW9QS9PpX15crSrIelXlam0Svc5D9XUdZzwB9oGMWkEQWEaDIde+aqFPdD3KN
+         URopOoX6iFgWLrGwVf6vyTRbh3fHFpDPV0Hm6iPXcZkFxbv/D25QrMnBxQlKNOJAreyM
+         eDs/fCkUhkkaTSvQqG/mS69FWDWBgL7cAGn9NgiFoxmHpR8Qtk5KpFtILlgop2FeyYa3
+         qyFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727862592; x=1728467392;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Tnihw3sb3VGmUZFwHxGrK3Lpf3WXe1bOQ5reZibKIGo=;
+        b=g8IaLgF90xH8w3uPe/thJMqfGypV3hLN//ksjO1jgvT+mnZY+hTB09vcpfOIrdqnxz
+         O0DYJbGjou2anw0fchBaOJfSYfvmWdxKNiuUZvXLh/ij7zyWY5NmkpUtT6zgVb5vob3E
+         w8dShjltb7C+U4V9BASA4qfaQ5NVxi+W/LZJztyc7N5wlcJdXIMLSRuxrDgJ/D5G0Uy2
+         5mC1o9AXf1X0teyMfbjSi+lYVxFPUuKtvq0TUYf8+P3aDjdikDPUVZ5LP2t1UGeIRY4v
+         9x3BNKfGaONUWNzFTbyL9+QCPNk1GapQuX29aiTS0qLAlJsbg++TmXee1cqtdAg9Nus3
+         T68Q==
+X-Gm-Message-State: AOJu0YxTnvP/BLDN1TjntNVJ7nge/a3vlwWOQ9zdSobIkV9ZQmtFV7I7
+	WO77hoAwgc4ZaPwYbiKl/Pz8EHmtoAJk8jSHll493a7K097bc9mmQ/a86cJjdE9b8A==
+X-Google-Smtp-Source: AGHT+IGlstoxziNyyA3CxGvU8FbKI2ebLTHoEA+l6SJ79nXW0FohJOxUzWVjDM4rFl2XiK+k4SrRFw==
+X-Received: by 2002:a05:6a00:170d:b0:718:dc17:3b83 with SMTP id d2e1a72fcca58-71dc5ca935fmr4613007b3a.16.1727862592014;
+        Wed, 02 Oct 2024 02:49:52 -0700 (PDT)
+Received: from BiscuitBobby.mec.ac.in ([210.212.232.142])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71b2653717esm9400460b3a.204.2024.10.02.02.49.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Oct 2024 02:49:51 -0700 (PDT)
+From: Siddharth Menon <simeddon@gmail.com>
+To: linux-doc@vger.kernel.org,
+	john.johansen@canonical.com,
+	corbet@lwn.net
+Cc: shuah@kernel.org,
+	Siddharth Menon <simeddon@gmail.com>,
+	apparmor@lists.ubuntu.com
+Subject: [PATCH V2 RESEND] Docs: Update LSM/apparmor.rst
+Date: Wed,  2 Oct 2024 15:19:40 +0530
+Message-Id: <20241002094940.55644-1-simeddon@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/2] Documentation/protection-keys: add AArch64 to
- documentation
-To: Joey Gouly <joey.gouly@arm.com>, linux-arm-kernel@lists.infradead.org
-Cc: catalin.marinas@arm.com, corbet@lwn.net, will@kernel.org,
- linux-doc@vger.kernel.org
-References: <20241001133618.1547996-1-joey.gouly@arm.com>
- <20241001133618.1547996-3-joey.gouly@arm.com>
-Content-Language: en-GB
-From: Kevin Brodsky <kevin.brodsky@arm.com>
-In-Reply-To: <20241001133618.1547996-3-joey.gouly@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 01/10/2024 15:36, Joey Gouly wrote:
-> As POE support was recently added, update the documentation.
->
-> Also note that kernel threads have a default protection key register value.
->
-> Signed-off-by: Joey Gouly <joey.gouly@arm.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> ---
->  Documentation/core-api/protection-keys.rst | 38 +++++++++++++++++-----
->  1 file changed, 30 insertions(+), 8 deletions(-)
->
-> diff --git a/Documentation/core-api/protection-keys.rst b/Documentation/core-api/protection-keys.rst
-> index bf28ac0401f3..28ef6269041c 100644
-> --- a/Documentation/core-api/protection-keys.rst
-> +++ b/Documentation/core-api/protection-keys.rst
-> @@ -12,7 +12,11 @@ Pkeys Userspace (PKU) is a feature which can be found on:
->          * Intel server CPUs, Skylake and later
->          * Intel client CPUs, Tiger Lake (11th Gen Core) and later
->          * Future AMD CPUs
-> +        * arm64 CPUs with Permission Overlay Extension (FEAT_S1POE), introduced
-> +          in Arm v8.8
+After the deprecation of CONFIG_DEFAULT_SECURITY, it is no longer used
+to enable and configure AppArmor. Since kernel 5.0,
+`CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE` is not used either.
+Instead, the CONFIG_LSM parameter manages the order and selection of LSMs.
 
-POE is optional from v8.8, but it was introduced as part of v8.9 [1].
+Signed-off-by: Siddharth Menon <simeddon@gmail.com>
+---
+ V1 -> V2: Removed historical information and addressed review comments
+ Documentation/admin-guide/LSM/apparmor.rst | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-[1]
-https://developer.arm.com/documentation/109697/2024_09/Feature-descriptions/The-Armv8-9-architecture-extension?lang=en#md454-the-armv89-architecture-extension__feat_FEAT_S1POE
-
-> +x86_64
-> +======
->  Pkeys work by dedicating 4 previously Reserved bits in each page table entry to
->  a "protection key", giving 16 possible keys.
->  
-> @@ -28,6 +32,21 @@ register.  The feature is only available in 64-bit mode, even though there is
->  theoretically space in the PAE PTEs.  These permissions are enforced on data
->  access only and have no effect on instruction fetches.
->  
-> +arm64
-> +========
-
-Nit: empty line after title, and ideally the number of = should match
-the length of the title.
-
-> +Pkeys use 3 bits in each page table entry, to encod3 a "protection key index",
-
-s/encod3/encode/
-
-> +giving 8 possible keys.
-> +
-> +Protections for each key are defined with a per-CPU user-writable system
-> +register (POR_EL0). This is a 64-bit register, encoding read, write and execute
-> +overrides flags for each protection key index.
-
-I think sticking to the "overlay" terminology is preferable -
-"overrides" may suggest that permissions are replaced (i.e. potentially
-increased).
-
-Kevin
-
-> +
-> +Being a CPU register, POR_EL0 is inherently thread-local, potentially giving
-> +each thread a different set of protections from every other thread.
-> +
-> +Unlike x86_64, the protection key permissions also apply to instruction
-> +fetches.
-> +
->  Syscalls
->  ========
->  
-> @@ -38,11 +57,10 @@ There are 3 system calls which directly interact with pkeys::
->  	int pkey_mprotect(unsigned long start, size_t len,
->  			  unsigned long prot, int pkey);
->  
-> -Before a pkey can be used, it must first be allocated with
-> -pkey_alloc().  An application calls the WRPKRU instruction
-> -directly in order to change access permissions to memory covered
-> -with a key.  In this example WRPKRU is wrapped by a C function
-> -called pkey_set().
-> +Before a pkey can be used, it must first be allocated with pkey_alloc().  An
-> +application writes to the architecture specific CPU register directly in order
-> +to change access permissions to memory covered with a key.  In this example
-> +this is wrapped by a C function called pkey_set().
->  ::
->  
->  	int real_prot = PROT_READ|PROT_WRITE;
-> @@ -64,9 +82,9 @@ is no longer in use::
->  	munmap(ptr, PAGE_SIZE);
->  	pkey_free(pkey);
->  
-> -.. note:: pkey_set() is a wrapper for the RDPKRU and WRPKRU instructions.
-> -          An example implementation can be found in
-> -          tools/testing/selftests/x86/protection_keys.c.
-> +.. note:: pkey_set() is a wrapper around writing to the CPU register.
-> +          Example implementations can be found in
-> +          tools/testing/selftests/mm/pkey-{arm64,powerpc,x86}.h
->  
->  Behavior
->  ========
-> @@ -96,3 +114,7 @@ with a read()::
->  The kernel will send a SIGSEGV in both cases, but si_code will be set
->  to SEGV_PKERR when violating protection keys versus SEGV_ACCERR when
->  the plain mprotect() permissions are violated.
-> +
-> +Note that kernel accesses from a kthread (such as io_uring), will use a default
-> +value for the protection key register, so will not be consistent with
-> +userspace's value of the register or mprotect.
+diff --git a/Documentation/admin-guide/LSM/apparmor.rst b/Documentation/admin-guide/LSM/apparmor.rst
+index 6cf81bbd7ce8..47939ee89d74 100644
+--- a/Documentation/admin-guide/LSM/apparmor.rst
++++ b/Documentation/admin-guide/LSM/apparmor.rst
+@@ -18,8 +18,11 @@ set ``CONFIG_SECURITY_APPARMOR=y``
+ 
+ If AppArmor should be selected as the default security module then set::
+ 
+-   CONFIG_DEFAULT_SECURITY="apparmor"
+-   CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE=1
++   CONFIG_DEFAULT_SECURITY_APPARMOR=y
++
++The CONFIG_LSM parameter manages the order and selection of LSMs.
++Specify apparmor as the first "major" module (e.g. AppArmor, SELinux, Smack)
++in the list.
+ 
+ Build the kernel
+ 
+-- 
+2.39.5
 
