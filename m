@@ -1,168 +1,120 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-qv1-f97.google.com (mail-qv1-f97.google.com [209.85.219.97])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5053198E7A
-	for <linux-doc@vger.kernel.org>; Wed,  2 Oct 2024 22:09:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAC4519885B
+	for <linux-doc@vger.kernel.org>; Wed,  2 Oct 2024 22:09:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.97
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727906954; cv=none; b=jSzD+seM1DWTAmbxhCl/8XiZZ7N7JFRDvNv66MuyIBGv+3w9oBqmyfNDyVdvH7+0i5VZstruKr6+E0w8qMzIfIhr4BAMVQOHe2fEzYaPpFcFikfX0I94meQJ58J6hrknmHlyBnRPEOvxGFfxWJ9dnlvO+nRfq/qt2dFOfN47Qn8=
+	t=1727906995; cv=none; b=DpJdy1zWud5fqj0302sisXBervFzsdmr/wuYNGJyUVQR8jn07W7C15mMrbwSRli00hlc3D1QUvVtOcmF/z5UblfUHpg2+MZu1tabd0yEW00Y3vGVlvIpA4HcFcf5wHsNt1ZodCzo+eysPxH8TeyryMLWKB/ek/eNEKNKL13bWb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727906954; c=relaxed/simple;
-	bh=RcTTGnNM5nRIzAXj7p3l3zEouar6m9APn9FytCKru+g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PMjFZYia6k7M03Ub836O0RLYwfPC89qUWC5b5rMFLY6z3jPC0zfyJruyw0vFbIJiPvHxIa0x2ZIn4Lu7NhVyJBluud+QD6f1AobXsT9nvQ9rtbuipH9Pw40QKOvGs8r2Vkajih2kBLR8EGfzvhCJamlkrHp6ZuoWe5BSeDKLMzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=QejWtbto; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1727906995; c=relaxed/simple;
+	bh=45UR2z5wJFRmcL5gk335pr++TR817+wINiqq673xlkg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ovy4595mhB0hsaBqpQS8LU3hLTRapHCMqAWYthX2nrC+Qqm/yUAOXNJbScypAbcpp9AXCt98+9HX59xHI2Q1vzNWTWVEBV8lpaKV4H013WeCxYPP/GJp4u5dr4OVzqxOiWJ/BV9WEDu81ge3JMBIWRT8GbjKjL1JtYAOZ63S0U8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com; spf=fail smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=BOtRigmJ; arc=none smtp.client-ip=209.85.219.97
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=purestorage.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="QejWtbto"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5c42f406e29so249783a12.2
-        for <linux-doc@vger.kernel.org>; Wed, 02 Oct 2024 15:09:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="BOtRigmJ"
+Received: by mail-qv1-f97.google.com with SMTP id 6a1803df08f44-6c5ab2de184so2633896d6.0
+        for <linux-doc@vger.kernel.org>; Wed, 02 Oct 2024 15:09:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1727906951; x=1728511751; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=hN9cBbvgOd9ihD+hIvuaobulsX/q3LR7IIeOxAMr1TU=;
-        b=QejWtbtoubIjVrXUBxayRkRiRylV8MUx43lwi8GqJJgdofsedeGQmNS7Z81lzunj1A
-         vHPUTBIbAkVzweEs/3/D/Xb24OYS1RHlU9i7r/t7zxJ9d0fwI+vqT6THjAt514z/EnVO
-         Ow5xeHFspNUHaJdctciDIoWg3ghuSn635DoKU=
+        d=purestorage.com; s=google2022; t=1727906993; x=1728511793; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=E6afvH3qs06X8hpCRvtEWaOTzwuCuJbSy0eO5PWmZw4=;
+        b=BOtRigmJDoQqnvV36Q5DmVwP7U7KUnwpITa4OmonvZSLUXSXX/j8Ls32T8gFOXquVO
+         /ByORQXWA+uvJ3HOwsQiv/VOvZUCLuFtLWn8NXjLiMPyw+/bn94+deiZ/YGAkcn8uhw8
+         v8z9Enb72j/IGEAMXKC7nUlQP/qlwpr+9iIwfSut+fsomDKJOw5CNEFPKWJxENpmjhUH
+         7esltowfmjGN72p4wSC+y3EXmQ70d3uhTEkj0E0JByLgq8QGShoUk7uYhrl5JF5SKCma
+         3mXJPwHpIxh9PZMQ2Z5PP8dzlynd+ezRaVXiByuE1L+pqTcCKD7xEVbX/oHJTDMrDHKC
+         LzZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727906951; x=1728511751;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1727906993; x=1728511793;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hN9cBbvgOd9ihD+hIvuaobulsX/q3LR7IIeOxAMr1TU=;
-        b=SwH2n6Ik8oeYX9cKfcklBp9OniRjgg2+Fy+mF+kpsO9gKCYVu5tVYbgkR9gRzwhQ7U
-         2ojgw7+HHogaWRy4U+nLnu71NRrRYCijM8SOysBIGvlJ8Q8PJGkUOnhGUIcsqynqlnjA
-         8Ig4qy5EY/H5xLpQ9YroAZxBPu035w1qahWX9wKlasWoHPXXU7ZzqCSN+mow7r/c1RFL
-         HiHXwwXZ+saI+n9ftyhvvPW/fqw/a+FYKOOusRsn5X5d6xBDY1qUMmHdQuXgkhnVbNPF
-         BGKN8wvC6bjukZ6H0CUXA3/Ke5rsXJSV6pczInvTT55spiTtQnR/s+eOPXuR15fKzPTy
-         HRlg==
-X-Forwarded-Encrypted: i=1; AJvYcCVmPNnGmUGUOl1MLtVVdqzwfxSA0zrlw3hmnauC+QPWCdyxxrlrifOfDJIb1biCqkXNr00OaqqtjWs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwV7nDGC2XvbEoU+wjfCypdtxI/lSicD1eQdJrxieaZb/m7DG8R
-	Am4YL92BECDKBk1c7i9PkDOKO/QxsBWKxv7dxhU0qHSZC8Hp18cQZv7hw3Rk62cFnvOndWxNEyh
-	FcdpKH7XiaK8lO1H6U2WNjRY7NchRppVMBYmV
-X-Google-Smtp-Source: AGHT+IE24YF6odAEILzeMsyYRlWyL+YE06UK532yGgQ3sruDzXRHyjCHPMm6ZuSWLd0t4f6fBu6/Kg2BvJD9tq8ypw8=
-X-Received: by 2002:a05:6402:1d55:b0:5c4:4e2b:7553 with SMTP id
- 4fb4d7f45d1cf-5c8b191d271mr3619494a12.10.1727906950865; Wed, 02 Oct 2024
- 15:09:10 -0700 (PDT)
+        bh=E6afvH3qs06X8hpCRvtEWaOTzwuCuJbSy0eO5PWmZw4=;
+        b=r3zqhGzhIa6xTN55MgOJy0ozGTAHgNV9Fpou/NUQEiQaSrF+61pH4dbQT2q6h5IVeu
+         /uoHI1bMwPGxMx834uXuSU8qKzATKFgpFtYN87qrkaW6i/gnO/GXXzKwT/7gq7wJ+f18
+         d6pSCNZvaNiB64KtuS7szP3zsIhiSTT9UXn77alGoKEyNKbC3pPJbEG1rN2IleUF+dig
+         vJIXlaHAhrUuBqtK5ZDIl7VyU7J0HRuYC+nAU+XMrpNHa7MTre81Z/YxRyhmA05TRIqw
+         aV2nGqMWqWXYaHcVdE6zhv6pzdliHzxkUlxwq1/ciJwQ4Q/TeL21OGqw6QMQg+A5Y82x
+         awZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX2+KMlwESDlt8q5EcuffkIWuD9Q6vgfNR88l1Re2PtV90OFcLX3/JWOEAV+5ZvPkUx0iX1r60cIMs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YySnwcrvEQ2zK5KvKGEUa3CuIeOPGQnHDli9ZvpxYW0dFEeNxbg
+	qRRTX/ZxF7le4rwm6keZfNmg+mBI1qHfgNaPRN5G9asayWKGkDshCK+lPlqL5cBRo8YKtyT1vtb
+	dN76+XQV2EqhfgCeC2lPaXLVAaOH0EYw4y1d3TTC6E8VQvFOR
+X-Google-Smtp-Source: AGHT+IErAuuAS4AEKksBar0VPbp/w8pPakVM0GvxWsDzOW5pG2w6io++eRe/B1AB+2yvwEddJxlqge5cC6VQ
+X-Received: by 2002:a05:6214:2f10:b0:6cb:79ce:bdef with SMTP id 6a1803df08f44-6cb819e0b24mr57547526d6.14.1727906992626;
+        Wed, 02 Oct 2024 15:09:52 -0700 (PDT)
+Received: from c7-smtp-2023.dev.purestorage.com ([2620:125:9017:12:36:3:5:0])
+        by smtp-relay.gmail.com with ESMTPS id 6a1803df08f44-6cb3b606b95sm4066646d6.8.2024.10.02.15.09.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Oct 2024 15:09:52 -0700 (PDT)
+X-Relaying-Domain: purestorage.com
+Received: from dev-ushankar.dev.purestorage.com (dev-ushankar.dev.purestorage.com [10.7.70.36])
+	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 5B8AD340357;
+	Wed,  2 Oct 2024 16:09:51 -0600 (MDT)
+Received: by dev-ushankar.dev.purestorage.com (Postfix, from userid 1557716368)
+	id 4BC9FE413BF; Wed,  2 Oct 2024 16:09:51 -0600 (MDT)
+From: Uday Shankar <ushankar@purestorage.com>
+To: Ming Lei <ming.lei@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Uday Shankar <ushankar@purestorage.com>,
+	linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v3 0/5] ublk: support device recovery without I/O queueing
+Date: Wed,  2 Oct 2024 16:09:44 -0600
+Message-Id: <20241002220949.3087902-1-ushankar@purestorage.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241002165954.128085-1-wei.huang2@amd.com> <20241002213555.GA279877@bhelgaas>
-In-Reply-To: <20241002213555.GA279877@bhelgaas>
-From: Michael Chan <michael.chan@broadcom.com>
-Date: Wed, 2 Oct 2024 15:08:58 -0700
-Message-ID: <CACKFLi=ieNNx57i1fG2R6+C1LyXV4oY6=e9AD+Pw-8WtW2X8jw@mail.gmail.com>
-Subject: Re: [PATCH V7 0/5] TPH and cache direct injection support
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Wei Huang <wei.huang2@amd.com>, linux-pci@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	netdev@vger.kernel.org, Jonathan.Cameron@huawei.com, corbet@lwn.net, 
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
-	alex.williamson@redhat.com, gospo@broadcom.com, ajit.khaparde@broadcom.com, 
-	somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com, 
-	manoj.panicker2@amd.com, Eric.VanTassell@amd.com, vadim.fedorenko@linux.dev, 
-	horms@kernel.org, bagasdotme@gmail.com, bhelgaas@google.com, lukas@wunner.de, 
-	paul.e.luse@intel.com, jing2.liu@intel.com
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="0000000000000dabb9062385b0b5"
+Content-Transfer-Encoding: 8bit
 
---0000000000000dabb9062385b0b5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ublk currently supports the following behaviors on ublk server exit:
 
-On Wed, Oct 2, 2024 at 2:35=E2=80=AFPM Bjorn Helgaas <helgaas@kernel.org> w=
-rote:
-> I tentatively applied this on pci/tph for v6.13.
->
-> Not sure what you intend for the bnxt changes, since they depend on
-> the PCI core changes.  I'm happy to merge them via PCI, given acks
-> from Michael and an overall network maintainer.
+A: outstanding I/Os get errors, subsequently issued I/Os get errors
+B: outstanding I/Os get errors, subsequently issued I/Os queue
+C: outstanding I/Os get reissued, subsequently issued I/Os queue
 
-The bnxt patch can go in through the PCI tree if Jakub agrees.  Thanks.
+and the following behaviors for recovery of preexisting block devices by
+a future incarnation of the ublk server:
 
---0000000000000dabb9062385b0b5
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+1: ublk devices stopped on ublk server exit (no recovery possible)
+2: ublk devices are recoverable using start/end_recovery commands
 
-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
-OnaLEot1MoQO7BIe5S9H4AcCEXXcrJJiAtMCl47ARpyHmvQFQFFTrHgUYEd9V+9bOzY7MBIGSV1N
-/JfsT1sZw6HT0lJkSQefhPGpBniAob62DJP3qr11tu8CAwEAAaOCAdowggHWMA4GA1UdDwEB/wQE
-AwIFoDCBowYIKwYBBQUHAQEEgZYwgZMwTgYIKwYBBQUHMAKGQmh0dHA6Ly9zZWN1cmUuZ2xvYmFs
-c2lnbi5jb20vY2FjZXJ0L2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNydDBBBggrBgEFBQcw
-AYY1aHR0cDovL29jc3AuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAw
-TQYDVR0gBEYwRDBCBgorBgEEAaAyASgKMDQwMgYIKwYBBQUHAgEWJmh0dHBzOi8vd3d3Lmdsb2Jh
-bHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwSQYDVR0fBEIwQDA+oDygOoY4aHR0cDov
-L2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcmwwJAYDVR0R
-BB0wG4EZbWljaGFlbC5jaGFuQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNV
-HSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQU31rAyTdZweIF0tJTFYwfOv2w
-L4QwDQYJKoZIhvcNAQELBQADggEBACcuyaGmk0NSZ7Kio7O7WSZ0j0f9xXcBnLbJvQXFYM7JI5uS
-kw5ozATEN5gfmNIe0AHzqwoYjAf3x8Dv2w7HgyrxWdpjTKQFv5jojxa3A5LVuM8mhPGZfR/L5jSk
-5xc3llsKqrWI4ov4JyW79p0E99gfPA6Waixoavxvv1CZBQ4Stu7N660kTu9sJrACf20E+hdKLoiU
-hd5wiQXo9B2ncm5P3jFLYLBmPltIn/uzdiYpFj+E9kS9XYDd+boBZhN1Vh0296zLQZobLfKFzClo
-E6IFyTTANonrXvCRgodKS+QJEH8Syu2jSKe023aVemkuZjzvPK7o9iU7BKkPG2pzLPgxggJtMIIC
-aQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQD
-EyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgxeQGjDntHGb2iaQkIw
-DQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIFwzsfH79sWfkP7m0nN6VZYsFDuEfKDd
-m2zvtJLUgYzfMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI0MTAw
-MjIyMDkxMVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCG
-SAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQC
-ATANBgkqhkiG9w0BAQEFAASCAQCuktvclAMDAqFi3EXqyBiD/s4R1oRM6x+/tdefziTVWbTKva3c
-XKmP5jhPno9cPJggfjLi2qmFauFbqOIpIpLZe1Pi97VB8hZYxi5mhC+BU7mm1Qi0A+IBvItcdAqK
-k8t5eQybaeM8TikH57fBjZRPtFbNExhLAFGZ8ydBNHJx91BZ7eJhmuuKCg5vYemN4DBGgFXh6Z+T
-c8Kkh4gRvkNadnkY78knCdAJ6Q5mGJwjzQ2AsGaaE5Tqa32e605mnKnam5dCIlfmD+ivGmbxpjg6
-kzC0dg3Gd+liHmctZvH8heSpId0ue6eKmFMycPiXA5YFRqSbf/ifSkLCjrCQX9Xv
---0000000000000dabb9062385b0b5--
+The userspace interface allows selection of combinations of these
+behaviors using flags specified at device creation time, namely:
+
+default behavior: A + 1
+UBLK_F_USER_RECOVERY: B + 2
+UBLK_F_USER_RECOVERY|UBLK_F_USER_RECOVERY_REISSUE: C + 2
+
+A + 2 is a currently unsupported behavior. This patch series aims to add
+support for it.
+
+Userspace support and testing for this flag are available at:
+https://github.com/ublk-org/ublksrv/pull/73
+
+Uday Shankar (5):
+  ublk: check recovery flags for validity
+  ublk: refactor recovery configuration flag helpers
+  ublk: merge stop_work and quiesce_work
+  ublk: support device recovery without I/O queueing
+  Documentation: ublk: document UBLK_F_USER_RECOVERY_FAIL_IO
+
+ Documentation/block/ublk.rst  |  24 +++--
+ drivers/block/ublk_drv.c      | 191 +++++++++++++++++++++++-----------
+ include/uapi/linux/ublk_cmd.h |  18 ++++
+ 3 files changed, 165 insertions(+), 68 deletions(-)
+
+
+base-commit: 52d980df51c607867e40e11eef125cb51f8769a5
+-- 
+2.34.1
+
