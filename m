@@ -1,89 +1,76 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB51145A1B;
-	Wed,  2 Oct 2024 08:46:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0E6197A7B;
+	Wed,  2 Oct 2024 08:57:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727858816; cv=none; b=jaJ/6Lu9RKkB/ogT2Jspq1b1JeGxNe5va3gbbCh8OAkvmul5PSbMfVGSCQqkTI9AF2o9KGW+oWugOjtHb2uKTNXtgd4D1Zhbcpwz5BMxBPgOTastu4WHSjckYrNNHOdbFXq3zczsWPVDDn+XZMH4exs+3rk09kzIoUVJO5BE1WY=
+	t=1727859469; cv=none; b=CA7OW9lkbA3aK8CcpPlr5DDAqugeY/5NOXPM1yjTXOefT39+OwPiXfALM/fs4K8J49wZv9w5xjfAEaHVeGL0yEr5/V+CaQtYWvYjoDfOzoNCHX+BGASA73RtoLbkqcV/loiSvqtvd3aZY7O56PhEWQ2UBTJuezlIvQ/2R+G3fjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727858816; c=relaxed/simple;
-	bh=iy/BIYyK40dg9ebV9WMEldlWCF4rO/8jVQpEtKDVYPU=;
-	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ndt8gcT1jAg0gr0xNpjmZKJv1PT7GeaclcI1S6Kjd7WbPBO/n3aPV/k3TS3/lAVUchB7qfHBv4T0K45Y3VYGtGVR2aECpoAOIiLigotWbQHOGw0o8brgIK+FpJuRuPKpkAQwTmYU8nBvlHJPTAQj26nCQ1SS3OEUB5pDtnwcuvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BJXKfF/c; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727859469; c=relaxed/simple;
+	bh=DLpshHk5ianUTjQTNJYW4mvpc6wkWwDfCMubRuj2RZM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rsK2AiyzF8rh3NVFQ6vonJPIfDXgoAz0rdIyGj/PkNtWT7PTWqkpLBe6LoML/2Nj3gT/oiYghlzva0eWY/dYBYMUCbS6mjR+XTzlvTcTBSrupIBZzo4xN4MEBjplN/sTHjVToKKx8F5z2Q3lQcGHnF0+nC2iuUe4tzov3lc2mu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=fymJGdAi; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BJXKfF/c"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42e82f7f36aso52090695e9.0;
-        Wed, 02 Oct 2024 01:46:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727858813; x=1728463613; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=GhBvyE8q6EBFVXj/rB9bzTm3iod+t/31icDfvrestuM=;
-        b=BJXKfF/cfYW4024HIvky/sGVrRO1Q6jKyO/GsKyT5k/76GxngPMOkDC9dD24BWjG1t
-         uv+2+fQVdLYxpbHVRk4GwS5Z1TCoz1JsFxIA2eIW/elUdoGD7Ok9Y5PnxCRl7NRIsOiL
-         aD6KqW1AacXuJWHfF8z1HBH4IsgSLYekVYSSoBIeTK7PSdOVVFGgvDAGJMaXGixRDjGQ
-         ilTk8DPeWs5Z3RgqK4EckQtPoUHuG7MOuVYZpwG9Y3Y4irVsz0+r1GaLipaXtCGSy62X
-         RKnujQku1tzXe/blGR2TiHSnbFnTPtDv99mJuJBxENrVAEU6oPfwnMW6+xORl4NsdO9Y
-         UBMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727858813; x=1728463613;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GhBvyE8q6EBFVXj/rB9bzTm3iod+t/31icDfvrestuM=;
-        b=fzSYZdGDqPvHtXBLHaqShPfvpLGjdnuUHwLqutB859O8cCth+2bi6Pg1Ln6c5OsqGB
-         6hUGQ/cXWtfqXi0MR2ZN3CG8B/Cm764GGDQvlKmU9uG8HupiN0ic5bxFESK5772WwIui
-         2vZaxebdZGty/xuJ350fQJBWu2HBa9vz2wBkF2jb/lXOqB+1g0Pi4ArmZe3IQTge2ij4
-         vp8cslGTmM3yu5z+g989mpynaYUlgZAOR+ueIvQsG6sBd9KDGnSM6Kr01e3ddvFiVn6J
-         ik+v4pcTOUfUGNPnHPWQl9TQU2ZHhvpUaNl7b5MIdSo4X/ugiqTXyJ3+FpVyF5bV3YkU
-         rcEg==
-X-Forwarded-Encrypted: i=1; AJvYcCUJEquh7liWEY/eWl5dRCQsC3BwaFAX0e1qK/+45BNJ+a4sifZpKIDc94gLSbW+1qRJc8bJtp4xOo1Y@vger.kernel.org, AJvYcCUVXgig7aHSj7KB7RfMpQ9gquCQmBv/CplvdhG+THzMD1TFQbYgRDV+dhj4BRB/q155GpFQX2WWRI4NQoSA@vger.kernel.org, AJvYcCVKa4lDPvDgHpHd8YVgPoTtk4OWDAecgkK+DeYEOrhaZ6QWJcD6P6N+zGxyOXO7QEjFIERGiVcsovokgT4=@vger.kernel.org, AJvYcCVOF2qSC9bPpEI9oGJNV+cN23FJEQHLZBbGXVU2KqbosHeUvtlst5q3b6Yk3ysJjOzj37kCiallt5h6@vger.kernel.org, AJvYcCVWXy0xIrIJdewHAFZkRsV9a3t7FAP1C/NLWGNJfD/RpP01jlKfDoP8M++wbQj3pd3n8bXDpKeRwSw/@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCTUZ84Va+OY4aN9I9xGYkXxhOId5ax7cUz3iWMB14cgB07j/N
-	WEWCGXbwRRfxeyUVzJ0re0uU6IDz6+ap5PGma0oK96Dljr4oKun1
-X-Google-Smtp-Source: AGHT+IHKwnQNXxJiHx0BQX5FTBdr/zPkLpqkMi6DWboxhbduPp1AM0cC9yPMwcN92vQUajlnTWArOg==
-X-Received: by 2002:a05:600c:5494:b0:42c:baf9:beed with SMTP id 5b1f17b1804b1-42f778ef558mr14465905e9.27.1727858812582;
-        Wed, 02 Oct 2024 01:46:52 -0700 (PDT)
-Received: from Ansuel-XPS. (93-34-90-105.ip49.fastwebnet.it. [93.34.90.105])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f7a01f694sm12389635e9.35.2024.10.02.01.46.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Oct 2024 01:46:52 -0700 (PDT)
-Message-ID: <66fd087c.050a0220.3b87ae.3666@mx.google.com>
-X-Google-Original-Message-ID: <Zv0IdjQemuWZfZf5@Ansuel-XPS.>
-Date: Wed, 2 Oct 2024 10:46:46 +0200
-From: Christian Marangi <ansuelsmth@gmail.com>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	INAGAKI Hiroshi <musashino.open@gmail.com>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>, Ming Lei <ming.lei@redhat.com>,
-	Jan Kara <jack@suse.cz>, Li Lingfeng <lilingfeng3@huawei.com>,
-	Christian Heusel <christian@heusel.eu>,
-	Avri Altman <avri.altman@wdc.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Mikko Rapeli <mikko.rapeli@linaro.org>,
-	Riyan Dhiman <riyandhiman14@gmail.com>,
-	Jorge Ramirez-Ortiz <jorge@foundries.io>,
-	Dominique Martinet <dominique.martinet@atmark-techno.com>,
-	Jens Wiklander <jens.wiklander@linaro.org>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Li Zhijian <lizhijian@fujitsu.com>, linux-block@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>, upstream@airoha.com
-Subject: Re: [PATCH v5 3/6] block: introduce device_add_of_disk()
-References: <20241001221931.9309-1-ansuelsmth@gmail.com>
- <20241001221931.9309-4-ansuelsmth@gmail.com>
- <Zv0HGh0IjPCt3pYt@infradead.org>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="fymJGdAi"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 87469240002;
+	Wed,  2 Oct 2024 08:57:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1727859465;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=38iADGjAlQ+R0YlTGLDUaomdoi9nXjm7ob6OZct28gE=;
+	b=fymJGdAiSXGnPND7ldeS8HDljOKYrQ5BSbA5J8Q57lRICPwVT0uel8ByC2SX5UA+eb7EWA
+	oDGFPZYXTZH1WwHgYLBUFMRceMDUcbK3S7mXglBpko2jC2AXiCgDMo8M55xb3M91rNkQR0
+	e2uwgGRleJaMTyQY9IsAykS0chymyJsVGhMMkg23FcxkAdIj9RH6HALQigjFLwxLSphra+
+	OyXCiZaIrqgwMiwEzMT3YkoiufMYuqwIY8+AZpEfzgmLAxthFLS7CQQ8KGw+y9lLiFo4fT
+	GblWfyqFUrtLwnGvGHSToTpHcQ069l3O84hgLOddzu7EzbcDf7YZ8WhRj17AWw==
+Date: Wed, 2 Oct 2024 10:57:42 +0200
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Maaara Canal <mairacanal@riseup.net>,
+	Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+	Simona Vetter <simona@ffwll.ch>, arthurgrillo@riseup.net,
+	pekka.paalanen@haloniitty.fi,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
+	jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+	seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
+	Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: Re: [PATCH v11 06/15] drm/vkms: Avoid computing blending limits
+ inside pre_mul_alpha_blend
+Message-ID: <Zv0LBo8OtRHJM029@louis-chauvet-laptop>
+Mail-Followup-To: Randy Dunlap <rdunlap@infradead.org>,
+	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Maaara Canal <mairacanal@riseup.net>,
+	Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+	Simona Vetter <simona@ffwll.ch>, arthurgrillo@riseup.net,
+	pekka.paalanen@haloniitty.fi,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
+	jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+	seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
+	Pekka Paalanen <pekka.paalanen@collabora.com>
+References: <20240930-yuv-v11-0-4b1a26bcfc96@bootlin.com>
+ <20240930-yuv-v11-6-4b1a26bcfc96@bootlin.com>
+ <30573f5a-d3dd-4aa4-ac5a-cf6df77b79dc@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -92,54 +79,57 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zv0HGh0IjPCt3pYt@infradead.org>
+In-Reply-To: <30573f5a-d3dd-4aa4-ac5a-cf6df77b79dc@infradead.org>
+X-GND-Sasl: louis.chauvet@bootlin.com
 
-On Wed, Oct 02, 2024 at 01:40:58AM -0700, Christoph Hellwig wrote:
-> Thanks,
+On 01/10/24 - 20:54, Randy Dunlap wrote:
+> Hi--
 > 
-> this looks much better.  A few minor nitpicks, though:
->
+> On 9/30/24 8:31 AM, Louis Chauvet wrote:
+> > The pre_mul_alpha_blend is dedicated to blending, so to avoid mixing
+> > different concepts (coordinate calculation and color management), extract
+> > the x_limit and x_dst computation outside of this helper.
+> > It also increases the maintainability by grouping the computation related
+> > to coordinates in the same place: the loop in `blend`.
+> > 
+> > Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > ---
+> >  drivers/gpu/drm/vkms/vkms_composer.c | 40 +++++++++++++++++-------------------
+> >  1 file changed, 19 insertions(+), 21 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+> > index 931e214b225c..4d220bbb023c 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> > +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> > @@ -24,34 +24,30 @@ static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
+> >  
+> >  /**
+> >   * pre_mul_alpha_blend - alpha blending equation
+> > - * @frame_info: Source framebuffer's metadata
+> >   * @stage_buffer: The line with the pixels from src_plane
+> >   * @output_buffer: A line buffer that receives all the blends output
+> > + * @x_start: The start offset
+> > + * @pixel_count: The number of pixels to blend
+> 
+> so is this actually pixel count + 1; or
+> 
+> >   *
+> > - * Using the information from the `frame_info`, this blends only the
+> > - * necessary pixels from the `stage_buffer` to the `output_buffer`
+> > - * using premultiplied blend formula.
+> > + * The pixels 0..@pixel_count in stage_buffer are blended at @x_start..@x_start+@pixel_count in
+> 
+> should these ranges include a "- 1"?
+> Else please explain.
 
-Very happy you like it, yes I wasn't sure what was the correct way to
-introduce the helper. If you notice in the blkdev.h we have also add_disk()
-that is a static inline wrapper for device_add_disk().
+Hi Randy,
 
-Wonder if device_add_disk() should have the same treatement? No idea if
-it would cause problem with symbol with external modules, that is why I
-used the wrapper.
+For the next version, I will use standard mathematical notation to clarify 
+the "inclusiveness" of the interval: [0;pixel_count[
 
-> > -int __must_check device_add_disk(struct device *parent, struct gendisk *disk,
-> > -				 const struct attribute_group **groups)
-> > +static int __device_add_disk(struct device *parent, struct gendisk *disk,
-> > +			     const struct attribute_group **groups,
-> > +			     struct fwnode_handle *fwnode)
+Thanks,
+Louis Chauvet
+ 
+> > + * output_buffer.
 > 
-> I don't think we need a separate helper if device_add_disk simply
-> wraps the OF version by passing a NULL fwnode.
-> 
-> > +int __must_check device_add_of_disk(struct device *parent, struct gendisk *disk,
-> > +				    const struct attribute_group **groups,
-> > +				    struct fwnode_handle *fwnode)
-> > +{
-> > +	return __device_add_disk(parent, disk, groups, fwnode);
-> > +}
-> 
-> I'd name this as add_disk_fwnode as the of in device_add_of_disk
-> reads as in add the device of the disk, and the fwnode is what gets
-> passed.  The device_ is a bit redundant and just there for historic
-> reasons as the original add_disk predates the device model.
-> 
-> Can you also add a kerneldoc comment for the new helper?
-> 
-
-sure! I will wait the usual 24h to respin this.
-
-> > +EXPORT_SYMBOL(device_add_of_disk);
-> 
-> EXPORT_SYMBO_GPL, please.
-> 
-
-ack.
-
--- 
-	Ansuel
