@@ -1,239 +1,320 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B0691D0DED;
-	Wed,  2 Oct 2024 14:17:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20AAB3232
+	for <linux-doc@vger.kernel.org>; Wed,  2 Oct 2024 14:21:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727878626; cv=none; b=PZguxEX7Peidaf3PDcKU3luhaZYvrcvp2kNcU8dpSO5LmEp5IRDGDfxO8zQ0g4BvUBM4nwNr1k/9Pdnj8M2xPt7Cp65asiIu2osQ0vorLy+xhKRnwS85Aken7NZnY4eqLxhGCV6oM/t3tflHMIkmbr40UbAPwmf1b8Ab56tHiiM=
+	t=1727878865; cv=none; b=VjaUn/CXLuts2JlmA5A/X8n7YwvBGCoTKflDRpMfuWBkpxyWLSAnPkhwxI8+BcpgZorSqlaGZpCW7MA3qvUALWc+OkUm2IVv6kh+cRUm9CZbvYu3+FIX7W52UmfWDtt1RojHsnQ2jwRIMFyLSOJbvD6DwtRf0/xMBhStgWGDa8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727878626; c=relaxed/simple;
-	bh=xpvHwwmdO3eqrkURj8Y+rlVSEXmxn77Ygc+a06eVTRw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=rP0MRlNVmzTWEWa0iFWIx+ZkILJORMtpR7qBM0BRjo9KKSd+OE3PuVxIcEcNBe0tJRo47wy90MWYRk7SKgjgNAOoUW9i3pydgkcJMrkdJs4MwRcbf2IU2vOn3TVpdR5oLgqWVFC1X2FPWa4ZGjGvuMgdFlaDsoQzqQJEQpK0eTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=QjG1JrIy; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ylouc4cZ; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1727878865; c=relaxed/simple;
+	bh=iZKUcOr9WiY7fw1TZEJpDuldbbShm1jCokqyOTVUnmA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IFvmMUZH2slDASNnsQrD8WinKVYu/PhSaQ4/K2GK2yS05A+3if9xuqKzlvvoBKCZK4OOHLGhxZJ1luBP3/dQIfD6zwlrKQI7mlOBldPuEiFzWyfQW6fdeQJfKZahohwpHibqeO/ECzJ5EBK9H85YJUMXjKVvkU9krwGrt5BXKzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=TWv5AUZ7; arc=none smtp.client-ip=209.85.208.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QjG1JrIy";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ylouc4cZ"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1727878620;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7i4rK6W5zJ0/yjJszcGEJbo9yZLPfZxTe1UrEGBeh8s=;
-	b=QjG1JrIylWzjxiXp1whjsFK9TUMeqt2bSYE8DiPOFO5i8RyuIyjUOSk0JeXZrSfJl2K9w+
-	gyOtbGT26MGm9HwukROwgsLGE9R2Z7SzFrx3kAEzPRDeMG7yh9uUp7NVAsRq9snzhqQe77
-	toOLZztyH9NBtNUljdzrNwtOvXUyOrPKK9VkJX7lyXWeWreL2pDUA/q++KS3WnylvxU86o
-	viwUkVCpG9RFAGWnoiNFu7W/TfF7dYDSatgkkceV9sePjhgFZxGd4PtDsuEKfF1av3bD3x
-	trsyUhwbntn3Bx7X5vvWgcD5qhuPK/N0nVYpUif0NAFxMMohpzGGWj2zlxQO5g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1727878620;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7i4rK6W5zJ0/yjJszcGEJbo9yZLPfZxTe1UrEGBeh8s=;
-	b=ylouc4cZ0hfaX61gauH/9wkiYjDPiyaoj7UxIpSQUmkhbFC3z1xq3zRd95zob83mHdyaj7
-	fIZMz4gyPFqWU/Cw==
-To: Jeff Layton <jlayton@kernel.org>, John Stultz <jstultz@google.com>,
- Stephen Boyd <sboyd@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Steven
- Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jonathan Corbet
- <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, Chandan Babu R
- <chandan.babu@oracle.com>, "Darrick J. Wong" <djwong@kernel.org>, Theodore
- Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, Chris
- Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, David Sterba
- <dsterba@suse.com>, Hugh Dickins <hughd@google.com>, Andrew Morton
- <akpm@linux-foundation.org>, Chuck Lever <chuck.lever@oracle.com>, Vadim
- Fedorenko <vadim.fedorenko@linux.dev>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-btrfs@vger.kernel.org, linux-nfs@vger.kernel.org,
- linux-mm@kvack.org, Jeff Layton <jlayton@kernel.org>
-Subject: Re: [PATCH v8 01/12] timekeeping: add interfaces for handling
- timestamps with a floor value
-In-Reply-To: <20241001-mgtime-v8-1-903343d91bc3@kernel.org>
-References: <20241001-mgtime-v8-0-903343d91bc3@kernel.org>
- <20241001-mgtime-v8-1-903343d91bc3@kernel.org>
-Date: Wed, 02 Oct 2024 16:16:59 +0200
-Message-ID: <87zfnmwpwk.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="TWv5AUZ7"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2fac49b17ebso31758121fa.0
+        for <linux-doc@vger.kernel.org>; Wed, 02 Oct 2024 07:21:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1727878861; x=1728483661; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NOjmMSD+1qFUDNahCJtFQCykO0u5IxQPYan6U2unhTo=;
+        b=TWv5AUZ7LwbG8vsAofebMvnNpzRc0C3l9xvz4opC98oCIGt/Z7/dFlhoFAtSTojPsn
+         ITC0gQu54r3l187uK56QcsSwRID6tYDQrqoD2TANK3xjLrh07gOgB+UHqJxWLOp3NsUL
+         Q5CoSn6Vo3r3T6UI+P3An6XVuLpocfVP/4IPiV8R70vHntgBGmj4W6GtuvmgbmdXTmT3
+         AUXHmNnzsY6NEfEbbegJkJLU473aeHLTCMH9EZoQ8Zx9s90Qk6E7CwS5I4j7iLUFcEzc
+         OCPky5eKhGGKw/qJnQz9zHM8I9zmpZgsKz6zfDoOZTStLNrnMkzPNxncm2iOZ2n5OTs9
+         XHRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727878861; x=1728483661;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NOjmMSD+1qFUDNahCJtFQCykO0u5IxQPYan6U2unhTo=;
+        b=XdGRYesAF5ZT3gtWDhgNx6QY7aHh0iU03ybEa6LhfnGS+FC1u8p+IIp2iYBCi8mOKX
+         4BTrMbn0kppDw09W4T56PwI/ff4lq60Q4LYn6DtLSDsPqZrS6KsH/YUvEc+fqmKZZoO5
+         6yn7U0eKuhBeoahbkpX+zqwYd7IQlLxLrpHvsJWtbSfyURcFEB/8WI2cMNFI6Eo3dd2F
+         VrffB97B40Dz/Ijq8j7TmyXww0xGJCdYgDiUdgCj7PzLf8SOOwuro0j/OSxPt0Fz5wQJ
+         lG2oigML5sSjBGcHQVG82IX506dDYuZV0fWONHcKYED1FH/hKME618iyMQsvau3pJ1RX
+         07wg==
+X-Forwarded-Encrypted: i=1; AJvYcCX/0FpUmue041hAdZvHyoXZhu88wMFEOGH/RhZyoWOjuDPNUuGyA5HWolpbNCaWqjqr48A1g45YPFU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3Cay1EzoBVt6EKsplQ8oHPjcYuCt55YJFHqsW/uUQ90JFce7+
+	rQ2dZZvrSTLmsWJAElWkMVtqprADmmzCPAzmsHeiDnN19D2NokvfR4dFnq+fRRwzb6xKxMdB5oq
+	9
+X-Google-Smtp-Source: AGHT+IF9UkuFw+jI8gubKxftX8cq188rSSp6EYoZVMKxXBrLE96YC4OiagtH/BEnyk21lHDkYa4cAw==
+X-Received: by 2002:a2e:bc24:0:b0:2fa:d4c1:3b6b with SMTP id 38308e7fff4ca-2fae10c5564mr22928251fa.33.1727878861066;
+        Wed, 02 Oct 2024 07:21:01 -0700 (PDT)
+Received: from ?IPV6:2a10:bac0:b000:75b8:7285:c2ff:fedd:7e3a? ([2a10:bac0:b000:75b8:7285:c2ff:fedd:7e3a])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c88245ea57sm7630698a12.55.2024.10.02.07.20.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Oct 2024 07:20:59 -0700 (PDT)
+Message-ID: <fe2dfd0b-6b2a-496e-b059-0600d2ae474c@suse.com>
+Date: Wed, 2 Oct 2024 17:20:58 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/6] x86/bugs: Clean-up verw mitigations
+To: Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+ Borislav Petkov <bp@alien8.de>, Peter Zijlstra <peterz@infradead.org>,
+ Josh Poimboeuf <jpoimboe@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org
+Cc: hpa@zytor.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ pawan.kumar.gupta@linux.intel.com
+References: <20240924223140.1054918-1-daniel.sneddon@linux.intel.com>
+ <20240924223140.1054918-7-daniel.sneddon@linux.intel.com>
+From: Nikolay Borisov <nik.borisov@suse.com>
+Content-Language: en-US
+In-Reply-To: <20240924223140.1054918-7-daniel.sneddon@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 01 2024 at 06:58, Jeff Layton wrote:
 
-V8 ? I remember that I reviewed v* already :)
 
-Also the sentence after the susbsystem prefix starts with an uppercase
-letter.
-
-> Multigrain timestamps allow the kernel to use fine-grained timestamps
-> when an inode's attributes is being actively observed via ->getattr().
-> With this support, it's possible for a file to get a fine-grained
-> timestamp, and another modified after it to get a coarse-grained stamp
-> that is earlier than the fine-grained time.  If this happens then the
-> files can appear to have been modified in reverse order, which breaks
-> VFS ordering guarantees.
->
-> To prevent this, maintain a floor value for multigrain timestamps.
-> Whenever a fine-grained timestamp is handed out, record it, and when
-> coarse-grained stamps are handed out, ensure they are not earlier than
-> that value. If the coarse-grained timestamp is earlier than the
-> fine-grained floor, return the floor value instead.
->
-> Add a static singleton atomic64_t into timekeeper.c that we can use to
-
-s/we can use/is used/
-
-> keep track of the latest fine-grained time ever handed out. This is
-> tracked as a monotonic ktime_t value to ensure that it isn't affected by
-> clock jumps. Because it is updated at different times than the rest of
-> the timekeeper object, the floor value is managed independently of the
-> timekeeper via a cmpxchg() operation, and sits on its own cacheline.
->
-> This patch also adds two new public interfaces:
-
-git grep 'This patch' Docuementation/process/
-
-> - ktime_get_coarse_real_ts64_mg() fills a timespec64 with the later of the
->   coarse-grained clock and the floor time
->
-> - ktime_get_real_ts64_mg() gets the fine-grained clock value, and tries
->   to swap it into the floor. A timespec64 is filled with the result.
->
-> Since the floor is global, take care to avoid updating it unless it's
-> absolutely necessary. If we do the cmpxchg and find that the value has
-
-We do nothing. Please describe your changes in passive voice and do not
-impersonate code.
-
-> been updated since we fetched it, then we discard the fine-grained time
-> that was fetched in favor of the recent update.
-
-This still is confusing. Something like this:
-
-  The floor value is global and updated via a single try_cmpxchg(). If
-  that fails then the operation raced with a concurrent update. It does
-  not matter whether the new value is later than the value, which the
-  failed cmpxchg() tried to write, or not. Add sensible technical
-  explanation.
-
-> +/*
-> + * Multigrain timestamps require that we keep track of the latest fine-grained
-> + * timestamp that has been issued, and never return a coarse-grained timestamp
-> + * that is earlier than that value.
-> + *
-> + * mg_floor represents the latest fine-grained time that we have handed out as
-> + * a timestamp on the system. Tracked as a monotonic ktime_t, and converted to
-> + * the realtime clock on an as-needed basis.
-> + *
-> + * This ensures that we never issue a timestamp earlier than one that has
-> + * already been issued, as long as the realtime clock never experiences a
-> + * backward clock jump. If the realtime clock is set to an earlier time, then
-> + * realtime timestamps can appear to go backward.
-> + */
-> +static __cacheline_aligned_in_smp atomic64_t mg_floor;
-> +
->  static inline void tk_normalize_xtime(struct timekeeper *tk)
->  {
->  	while (tk->tkr_mono.xtime_nsec >= ((u64)NSEC_PER_SEC << tk->tkr_mono.shift)) {
-> @@ -2394,6 +2410,86 @@ void ktime_get_coarse_real_ts64(struct timespec64 *ts)
->  }
->  EXPORT_SYMBOL(ktime_get_coarse_real_ts64);
->  
-> +/**
-> + * ktime_get_coarse_real_ts64_mg - return latter of coarse grained time or floor
-> + * @ts: timespec64 to be filled
-> + *
-> + * Fetch the global mg_floor value, convert it to realtime and
-> + * compare it to the current coarse-grained time. Fill @ts with
-> + * whichever is latest. Note that this is a filesystem-specific
-> + * interface and should be avoided outside of that context.
-> + */
-> +void ktime_get_coarse_real_ts64_mg(struct timespec64 *ts)
-> +{
-> +	struct timekeeper *tk = &tk_core.timekeeper;
-> +	u64 floor = atomic64_read(&mg_floor);
-> +	ktime_t f_real, offset, coarse;
-> +	unsigned int seq;
-> +
-> +	do {
-> +		seq = read_seqcount_begin(&tk_core.seq);
-> +		*ts = tk_xtime(tk);
-> +		offset = tk_core.timekeeper.offs_real;
-> +	} while (read_seqcount_retry(&tk_core.seq, seq));
-> +
-> +	coarse = timespec64_to_ktime(*ts);
-> +	f_real = ktime_add(floor, offset);
-> +	if (ktime_after(f_real, coarse))
-> +		*ts = ktime_to_timespec64(f_real);
+On 25.09.24 г. 1:31 ч., Daniel Sneddon wrote:
+> The current md_clear routines duplicate a lot of code, and have to be
+> called twice because if one of the mitigations gets enabled they all
+> get enabled since it's the same instruction. This approach leads to
+> code duplication and extra complexity.
+> 
+> The only piece that really changes between the first call of
+> *_select_mitigation() and the second is X86_FEATURE_CLEAR_CPU_BUF
+> being set.  Determine if this feature should be set prior to calling
+> the _select_mitigation() routines. This not only means those functions
+> only get called once, but it also simplifies them as well.
+> 
+> Signed-off-by: Daniel Sneddon <daniel.sneddon@linux.intel.com>
+> ---
+>   arch/x86/kernel/cpu/bugs.c | 191 +++++++++++++++----------------------
+>   1 file changed, 77 insertions(+), 114 deletions(-)
+> 
+> diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+> index 45411880481c..412855391184 100644
+> --- a/arch/x86/kernel/cpu/bugs.c
+> +++ b/arch/x86/kernel/cpu/bugs.c
+> @@ -41,7 +41,6 @@ static void __init spectre_v2_user_select_mitigation(void);
+>   static void __init ssb_select_mitigation(void);
+>   static void __init l1tf_select_mitigation(void);
+>   static void __init mds_select_mitigation(void);
+> -static void __init md_clear_update_mitigation(void);
+>   static void __init md_clear_select_mitigation(void);
+>   static void __init taa_select_mitigation(void);
+>   static void __init mmio_select_mitigation(void);
+> @@ -244,21 +243,9 @@ static const char * const mds_strings[] = {
+>   
+>   static void __init mds_select_mitigation(void)
+>   {
+> -	if (!boot_cpu_has_bug(X86_BUG_MDS) || cpu_mitigations_off()) {
+> -		mds_mitigation = MDS_MITIGATION_OFF;
+> -		return;
+> -	}
+> -
+> -	if (mds_mitigation == MDS_MITIGATION_FULL) {
+> -		if (!boot_cpu_has(X86_FEATURE_MD_CLEAR))
+> -			mds_mitigation = MDS_MITIGATION_VMWERV;
+> -
+> -		setup_force_cpu_cap(X86_FEATURE_CLEAR_CPU_BUF);
+> -
+> -		if (!boot_cpu_has(X86_BUG_MSBDS_ONLY) &&
+> -		    (mds_nosmt || cpu_mitigations_auto_nosmt()))
+> -			cpu_smt_disable(false);
+> -	}
+> +	if (mds_mitigation == MDS_MITIGATION_FULL &&
+> +	    !boot_cpu_has(X86_FEATURE_MD_CLEAR))
+> +		mds_mitigation = MDS_MITIGATION_VMWERV;
+>   }
+>   
+>   #undef pr_fmt
+> @@ -284,35 +271,17 @@ static const char * const taa_strings[] = {
+>   
+>   static void __init taa_select_mitigation(void)
+>   {
+> -	if (!boot_cpu_has_bug(X86_BUG_TAA)) {
+> -		taa_mitigation = TAA_MITIGATION_OFF;
+> -		return;
+> -	}
+> -
+>   	/* TSX previously disabled by tsx=off */
+>   	if (!boot_cpu_has(X86_FEATURE_RTM)) {
+>   		taa_mitigation = TAA_MITIGATION_TSX_DISABLED;
+>   		return;
+>   	}
+>   
+> -	if (cpu_mitigations_off()) {
+> -		taa_mitigation = TAA_MITIGATION_OFF;
+> +	if (!boot_cpu_has(X86_FEATURE_MD_CLEAR)) {
+> +		taa_mitigation = TAA_MITIGATION_UCODE_NEEDED;
+>   		return;
+>   	}
+>   
+> -	/*
+> -	 * TAA mitigation via VERW is turned off if both
+> -	 * tsx_async_abort=off and mds=off are specified.
+> -	 */
+> -	if (taa_mitigation == TAA_MITIGATION_OFF &&
+> -	    mds_mitigation == MDS_MITIGATION_OFF)
+> -		return;
+> -
+> -	if (boot_cpu_has(X86_FEATURE_MD_CLEAR))
+> -		taa_mitigation = TAA_MITIGATION_VERW;
+> -	else
+> -		taa_mitigation = TAA_MITIGATION_UCODE_NEEDED;
+> -
+>   	/*
+>   	 * VERW doesn't clear the CPU buffers when MD_CLEAR=1 and MDS_NO=1.
+>   	 * A microcode update fixes this behavior to clear CPU buffers. It also
+> @@ -325,18 +294,6 @@ static void __init taa_select_mitigation(void)
+>   	if ( (x86_arch_cap_msr & ARCH_CAP_MDS_NO) &&
+>   	    !(x86_arch_cap_msr & ARCH_CAP_TSX_CTRL_MSR))
+>   		taa_mitigation = TAA_MITIGATION_UCODE_NEEDED;
+> -
+> -	/*
+> -	 * TSX is enabled, select alternate mitigation for TAA which is
+> -	 * the same as MDS. Enable MDS static branch to clear CPU buffers.
+> -	 *
+> -	 * For guests that can't determine whether the correct microcode is
+> -	 * present on host, enable the mitigation for UCODE_NEEDED as well.
+> -	 */
+> -	setup_force_cpu_cap(X86_FEATURE_CLEAR_CPU_BUF);
+> -
+> -	if (taa_nosmt || cpu_mitigations_auto_nosmt())
+> -		cpu_smt_disable(false);
+>   }
+>   
+>   #undef pr_fmt
+> @@ -360,24 +317,6 @@ static const char * const mmio_strings[] = {
+>   
+>   static void __init mmio_select_mitigation(void)
+>   {
+> -	if (!boot_cpu_has_bug(X86_BUG_MMIO_STALE_DATA) ||
+> -	     boot_cpu_has_bug(X86_BUG_MMIO_UNKNOWN) ||
+> -	     cpu_mitigations_off()) {
+> -		mmio_mitigation = MMIO_MITIGATION_OFF;
+> -		return;
+> -	}
+> -
+> -	if (mmio_mitigation == MMIO_MITIGATION_OFF)
+> -		return;
+> -
+> -	/*
+> -	 * Enable CPU buffer clear mitigation for host and VMM, if also affected
+> -	 * by MDS or TAA. Otherwise, enable mitigation for VMM only.
+> -	 */
+> -	if (boot_cpu_has_bug(X86_BUG_MDS) || (boot_cpu_has_bug(X86_BUG_TAA) &&
+> -					      boot_cpu_has(X86_FEATURE_RTM)))
+> -		setup_force_cpu_cap(X86_FEATURE_CLEAR_CPU_BUF);
+> -
+>   	/*
+>   	 * X86_FEATURE_CLEAR_CPU_BUF could be enabled by other VERW based
+>   	 * mitigations, disable KVM-only mitigation in that case.
+> @@ -409,9 +348,6 @@ static void __init mmio_select_mitigation(void)
+>   		mmio_mitigation = MMIO_MITIGATION_VERW;
+>   	else
+>   		mmio_mitigation = MMIO_MITIGATION_UCODE_NEEDED;
+> -
+> -	if (mmio_nosmt || cpu_mitigations_auto_nosmt())
+> -		cpu_smt_disable(false);
+>   }
+>   
+>   #undef pr_fmt
+> @@ -435,16 +371,7 @@ static const char * const rfds_strings[] = {
+>   
+>   static void __init rfds_select_mitigation(void)
+>   {
+> -	if (!boot_cpu_has_bug(X86_BUG_RFDS) || cpu_mitigations_off()) {
+> -		rfds_mitigation = RFDS_MITIGATION_OFF;
+> -		return;
+> -	}
+> -	if (rfds_mitigation == RFDS_MITIGATION_OFF)
+> -		return;
+> -
+> -	if (x86_arch_cap_msr & ARCH_CAP_RFDS_CLEAR)
+> -		setup_force_cpu_cap(X86_FEATURE_CLEAR_CPU_BUF);
+> -	else
+> +	if (!(x86_arch_cap_msr & ARCH_CAP_RFDS_CLEAR))
+>   		rfds_mitigation = RFDS_MITIGATION_UCODE_NEEDED;
+>   }
+>   
+> @@ -485,41 +412,92 @@ static int __init clear_cpu_buffers_cmdline(char *str)
+>   }
+>   early_param("clear_cpu_buffers", clear_cpu_buffers_cmdline);
+>   
+> -static void __init md_clear_update_mitigation(void)
+> +static bool __init cpu_bug_needs_verw(void)
+>   {
+> -	if (cpu_mitigations_off())
+> -		return;
+> +	return boot_cpu_has_bug(X86_BUG_MDS) ||
+> +	       boot_cpu_has_bug(X86_BUG_TAA) ||
+> +	       boot_cpu_has_bug(X86_BUG_MMIO_STALE_DATA) ||
+> +	       boot_cpu_has_bug(X86_BUG_RFDS);
 > +}
-> +EXPORT_SYMBOL_GPL(ktime_get_coarse_real_ts64_mg);
-> +
-> +/**
-> + * ktime_get_real_ts64_mg - attempt to update floor value and return result
-> + * @ts:		pointer to the timespec to be set
-> + *
-> + * Get a monotonic fine-grained time value and attempt to swap it into the
-> + * floor. If it succeeds then accept the new floor value. If it fails
-> + * then another task raced in during the interim time and updated the floor.
-> + * That value is just as valid, so accept that value in this case.
-
-Why? 'just as valid' does not tell me anything.
-
-> + * @ts will be filled with the resulting floor value, regardless of
-> + * the outcome of the swap. Note that this is a filesystem specific interface
-> + * and should be avoided outside of that context.
-> + */
-> +void ktime_get_real_ts64_mg(struct timespec64 *ts)
+>   
+> -	if (!boot_cpu_has(X86_FEATURE_CLEAR_CPU_BUF))
+> -		goto out;
+> +static bool __init verw_mitigations_disabled(void)
 > +{
-> +	struct timekeeper *tk = &tk_core.timekeeper;
-> +	ktime_t old = atomic64_read(&mg_floor);
-> +	ktime_t offset, mono;
-> +	unsigned int seq;
-> +	u64 nsecs;
-> +
-> +	do {
-> +		seq = read_seqcount_begin(&tk_core.seq);
-> +
-> +		ts->tv_sec = tk->xtime_sec;
-> +		mono = tk->tkr_mono.base;
-> +		nsecs = timekeeping_get_ns(&tk->tkr_mono);
-> +		offset = tk_core.timekeeper.offs_real;
-> +	} while (read_seqcount_retry(&tk_core.seq, seq));
-> +
-> +	mono = ktime_add_ns(mono, nsecs);
-> +
 > +	/*
-> +	 * Attempt to update the floor with the new time value. Accept the
-> +	 * resulting floor value regardless of the outcome of the swap.
+> +	 * TODO: Create a single mitigation variable that will allow for setting
+> +	 * the location of the mitigation, i.e.:
+> +	 *
+> +	 * kernel->user
+> +	 * kvm->guest
+> +	 * kvm->guest if device passthrough
+> +	 * kernel->idle
 > +	 */
-> +	if (atomic64_try_cmpxchg(&mg_floor, &old, mono)) {
-> +		ts->tv_nsec = 0;
-> +		timespec64_add_ns(ts, nsecs);
-> +	} else {
-> +		/*
-> +		 * Something has changed mg_floor since "old" was
+> +	return (mds_mitigation == MDS_MITIGATION_OFF &&
+> +		taa_mitigation == TAA_MITIGATION_OFF &&
+> +		mmio_mitigation == MMIO_MITIGATION_OFF &&
+> +		rfds_mitigation == RFDS_MITIGATION_OFF);
+> +}
+>   
+> +static void __init md_clear_select_mitigation(void)
+> +{
+>   	/*
+> -	 * X86_FEATURE_CLEAR_CPU_BUF is now enabled. Update MDS, TAA and MMIO
+> -	 * Stale Data mitigation, if necessary.
+> +	 * If no CPU bug needs VERW, all VERW mitigations are disabled, or all
+> +	 * mitigations are disabled we bail.
+>   	 */
+> -	if (mds_mitigation == MDS_MITIGATION_OFF &&
+> -	    boot_cpu_has_bug(X86_BUG_MDS)) {
+> +	if (!cpu_bug_needs_verw() || verw_mitigations_disabled() ||
+> +	    cpu_mitigations_off()) {
+> +		mds_mitigation = MDS_MITIGATION_OFF;
+> +		taa_mitigation = TAA_MITIGATION_OFF;
+> +		mmio_mitigation = MMIO_MITIGATION_OFF;
+> +		rfds_mitigation = RFDS_MITIGATION_OFF;
+> +		goto out;
+> +	}
+> +
+> +	/* Check that at least one mitigation is using the verw mitigaiton.
+> +	 * If the cpu doesn't have the correct ucode or if the BUG_* is mitigated
+> +	 * by disabling a feature we won't want to use verw. Ignore MMIO
+> +	 * for now since it depends on what the others choose.
+> +	 */
+> +
+> +	if (boot_cpu_has_bug(X86_BUG_MDS)) {
+>   		mds_mitigation = MDS_MITIGATION_FULL;
+>   		mds_select_mitigation();
+> +	}  else {
+> +		mds_mitigation = MDS_MITIGATION_OFF;
+>   	}
 
-I complained about 'something has changed ...' before. Can we please
-have proper technical explanations?
 
-> +		 * fetched. "old" has now been updated with the
-> +		 * current value of mg_floor, so use that to return
-> +		 * the current coarse floor value.
+BUt with this logic if CONFIG_MITIGATION_MDS is deselected meaning 
+mds_mitigations will have the value MDS_MITIGATION_OFF, yet now you will 
+set it to _FULL thereby overriding the compile-time value of the user. 
+So shouldn't this condition be augmented to alsoo consider 
+CONFIG_MITIGATION_MDS compile time value?
 
-This still does not explain why the new floor value is valid even when
-it is before the value in @mono.
-
-Thanks,
-
-        tglx
+<snip>
