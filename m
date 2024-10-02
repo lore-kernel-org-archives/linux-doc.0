@@ -1,104 +1,81 @@
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCD6E2F34;
-	Wed,  2 Oct 2024 06:46:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E9031FA4;
+	Wed,  2 Oct 2024 07:45:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727851598; cv=none; b=VE0nMlV8YmNuN64STV8oUWwc5/b1esVW+yb/Yy0jdC8f4p9Ld4FuL1BaMspCMG4uWKnSWpn89FQdtRg+BxJDDhIQZnp6iduyMoYua6/ZIIrVYXSfO0kTJ5D/0pKE9PG/Ua2oAAAJJhQIXdF2ODsLLwgn0Ez5k7CBilmkPXccKAQ=
+	t=1727855145; cv=none; b=PKNV717jn7lk2nw2YIsYsEAyNW1VG6x6/xy7w4x3SNenajVRlVh3vqz94oqImmcyrfIAxEY0du3fpYyOdyWv9zQ8h9FpLe5dD7PdeXStSTnR2Qu8hX9VLcrzuYEfkeBNVkjAg39nwbhSAWhkxUpJP5u8tWoA42kRfR5v86QAMuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727851598; c=relaxed/simple;
-	bh=wctSq/XRfN6c/zY3pYT7Ab32oqXQYI/ll9PioD5Zq6U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RInNmHenCmERLUElTgMRhEH8ryMqwhsVUKYx9Pj5D7fMjVVnkCMv/k/Y5Nki0lBqHdDK8bWIhU4NMXD7kfAv9bh4mNh1DSBovL/Xaw3uLlBJC89Ycry5PIwWYPsaAtmlxaJbhx1DtgzUR5CitGnG1lNYpKPXa0wUZ8aEU1LDUmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XVrHOdX/; arc=none smtp.client-ip=209.85.218.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727855145; c=relaxed/simple;
+	bh=kMJLqEV9tqhVK4MaaTaIf2NqFonku/YMWeCm0UPMw+g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EcDOaNUJSgPqOpvVF2thnQyVdGxBct+Ec7f5SUSXFT9qOxd2b1LgwlUvBCCihWV9oVniqoR1E9UhzDV0ML/L4dUtS1P0rnd8EKlk1gKvmQ6Ra5rQonu4ZV2ngX/Jn3rWeaAnPfHR7n4mSbu/zRSRlcSrENzuTxqfcUR6Iuy6ImI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=jWhW7GU0; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XVrHOdX/"
-Received: by mail-ej1-f68.google.com with SMTP id a640c23a62f3a-a90349aa7e5so917144166b.0;
-        Tue, 01 Oct 2024 23:46:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727851595; x=1728456395; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wctSq/XRfN6c/zY3pYT7Ab32oqXQYI/ll9PioD5Zq6U=;
-        b=XVrHOdX/BJbVNFuH03fA7j1CbrP+yAO29zHuUtEufmj4szD6RlK3LiSkpupXPS2j5r
-         tGzGZrhMa+Eb/9KC0v6mEFIcpRYUNG0u4TNsVH5TWzwbY792JhmZGJGXMSLluaT2F/Ep
-         EaOqmJhm8MVz3mKWtw6z74f+cane6FSEVODeymIQrta8QYVqXJVzhZVqLmQxg4yOXgq5
-         JHEWgsQTiRjU2iT0nEDjUFDcZ8r/pxu+68eKdmREzZEaB6AHmxk01sWTHefgyMz1aMiX
-         JzR2KtuRCbcEal97I9u2jEINLsaOOzI5EmjDbMUAi6dCAMx0173S705LLXuPUxiE1VxC
-         ZmTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727851595; x=1728456395;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wctSq/XRfN6c/zY3pYT7Ab32oqXQYI/ll9PioD5Zq6U=;
-        b=RQCsuIy44Lpd/dnXdhmSchaxD+RuYwQw4VvlV37NOKDIuS6O0MR/C47BFRJRM7Yi+d
-         opI5ISJQOc/aTPdDPSpJHPsKpcds4MBMaRk0ndGeT88N0tJ8+Vp/vFw1e81inEkgq/3X
-         Ke2D278nKDYJKaNAuxr7ylzw4dWJg7cu+cPy2L5LYwP1Fsjj+Ig2Bi54i3baeODYP2bP
-         37P9Tge6zd8E7HtQmxHugozHroKQbhl9+MunGN3wC8X9RR6IRYYv9pykRCx4qIS307fQ
-         K2h6B2HE4d4+f7l6bg4CN7ySVCxhsFgrl5M4/4H2ljzAkGmt36VMGzbnfFG9DYIL2F8P
-         6nyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU1IMJeqkoSzlDnkhQaLZPC/4/e9B28e3ZzcLXoS+vLu5Ftk9X93GSztQ5jjnrlfLo2W61ABecSxS2N7cUdOWCIQak=@vger.kernel.org, AJvYcCVkZ+3Nk+46762zg1fRXP2asLcxehFT2cynHEUzXiyoSBgBC44cl/bq7EqGoeIu5w3xhmh6Ul95YZgjcAU=@vger.kernel.org, AJvYcCW0sXz5epCAT4zYuQENhioy9y3zSzwkldDifKRFqQsK2Kw3WypQdO07gHkv7BBxU/B7IhzIpeFSevHd@vger.kernel.org, AJvYcCWnNfJhW+CLxp3MN8EwIEgPupAOX4ktD1dcrLLSOOtud9rMJ9TcdgHMUilwelUzjsth9FqA3VucXDJn5BgS@vger.kernel.org, AJvYcCXaZ4MXCORA607OV3X/3wLtz9euniaUI98qmhmqng+am1vaYl8GHdFlZGGpxhtK3PFxSsVBHxbw6b8C@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJyPwMRfKb78OVL7a92jg5UYePH9SCTxG477PcMRuZu0+krHJO
-	Q+2N82/YO0iWwL2CyAehDzRC4VgR8+71NyvnYxKg27leWNZK8pbCuYpKNjt1fojU1lt0oC8c3W4
-	Cq91nrZkNQRBCMuAYbpXeoaig5M4=
-X-Google-Smtp-Source: AGHT+IEiXtMz4rxzDMKRte0sJHDSAHpnwg21JUAp8+Jm5ixZyVfSZu7RM1C4x8lbGrZJKdcSr7C/6bSq33X6fCnhhTQ=
-X-Received: by 2002:a17:906:7949:b0:a8d:2faf:d33d with SMTP id
- a640c23a62f3a-a98f820092bmr187121566b.9.1727851594983; Tue, 01 Oct 2024
- 23:46:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jWhW7GU0"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=+DhPlvZlgWyskAxxSMsqdkfwqzEhNZOw6Hp35GCELxs=; b=jWhW7GU067oIFkt/MVbbr+n18I
+	wGHnBAxyd6w8KVrImRRpeg0e8F9y2jHDIEVqUQPj0tMABOnVUHDgg3vzJV/cL7mqxIFVyGQW0k04R
+	mG1/tE0hfZiTGC2OcXUAiomagy9LPxMJewGF+HXgqsdPBLHd1iZ3LNImSJDZCB+5/Y+Aiq2mg3ULJ
+	ucLYzc7Zh6MzKOqZ4cIHtwFaZrcLqFDHtQE/pR16gQuQoANDxGhaHkj9iY48UC32IXqQR8lkRb5Ub
+	+8b/Seys7fulUj0BxasEhk18bXdnehu6debe2cwDX2SIt8Rh6EVGlOAoPCbxiJ5/xZuncm8hB+cxE
+	bYVueTUw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1svu3F-000000053lB-1BAr;
+	Wed, 02 Oct 2024 07:45:37 +0000
+Date: Wed, 2 Oct 2024 00:45:37 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Christian Marangi <ansuelsmth@gmail.com>
+Cc: Christoph Hellwig <hch@infradead.org>, Jens Axboe <axboe@kernel.dk>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	INAGAKI Hiroshi <musashino.open@gmail.com>,
+	Daniel Golle <daniel@makrotopia.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>, Ming Lei <ming.lei@redhat.com>,
+	Li Lingfeng <lilingfeng3@huawei.com>,
+	Christian Heusel <christian@heusel.eu>, linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>
+Subject: Re: [RFC PATCH 3/4] block: add support for partition table defined
+ in OF
+Message-ID: <Zvz6ITaMKmo0U3c3@infradead.org>
+References: <20240923105937.4374-1-ansuelsmth@gmail.com>
+ <20240923105937.4374-4-ansuelsmth@gmail.com>
+ <ZvJdjRpFaPUuFhIO@infradead.org>
+ <66f291c5.5d0a0220.328e5a.2c9e@mx.google.com>
+ <Zvu0sRreId59-lpH@infradead.org>
+ <66fbc042.050a0220.3523ed.a6f9@mx.google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240925031131.14645-1-yikai.tsai.wiwynn@gmail.com>
- <20240925031131.14645-2-yikai.tsai.wiwynn@gmail.com> <5r43dvdywunpottd3uuobjzrzfn4w6xgy2vug46niufih6v6vy@jsix2hkc2dg7>
-In-Reply-To: <5r43dvdywunpottd3uuobjzrzfn4w6xgy2vug46niufih6v6vy@jsix2hkc2dg7>
-From: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>
-Date: Wed, 2 Oct 2024 14:46:24 +0800
-Message-ID: <CAL5-g4VcV61gNinezs_1ZPmvAeeDdTEM2NAVywxMfW2_bjsUQA@mail.gmail.com>
-Subject: Re: [PATCH v7 1/2] dt-bindings: hwmon: add renesas,isl28022
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: patrick@stwcx.xyz, =?UTF-8?Q?Carsten_Spie=C3=9F?= <mail@carsten-spiess.de>, 
-	Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <66fbc042.050a0220.3523ed.a6f9@mx.google.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Hi Krzysztof,
+On Tue, Oct 01, 2024 at 11:26:22AM +0200, Christian Marangi wrote:
+> > No.  ->disk_name is in no way reliable, we can't hardcode that into
+> > a partition parser.
+> > 
+> 
+> Then any hint on this or alternative way?
 
-Thank you for your reminder. I'm really sorry.
-Probably I deleted it by mistake. It will be corrected.
+The normal way would be to use eui/ngui/uuid provided by the storage
+device.  We have a interface for that in the block layer support by
+scsi and nvme, but I don't know how to wire that up for eMMC which
+I suspect is what you care about.
 
-
-Best regards,
-Yikai
-
-
-Krzysztof Kozlowski <krzk@kernel.org> =E6=96=BC 2024=E5=B9=B49=E6=9C=8825=
-=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=883:37=E5=AF=AB=E9=81=93=EF=BC=
-=9A
-
-
->
-> On Wed, Sep 25, 2024 at 11:11:27AM +0800, Yikai Tsai wrote:
-> > Add dt-bindings for Renesas ISL28022 power monitor.
-> >
-> > Signed-off-by: Carsten Spie=C3=9F <mail@carsten-spiess.de>
-> > Signed-off-by: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>
->
-> ??? What happened here? So you are going to ignoreo silently our
-> reviews?
->
-> Best regards,
-> Krzysztof
->
