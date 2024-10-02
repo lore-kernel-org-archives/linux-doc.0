@@ -1,39 +1,39 @@
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E9BF1D14EC;
-	Wed,  2 Oct 2024 16:14:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F181D14FB;
+	Wed,  2 Oct 2024 16:14:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727885695; cv=none; b=uzQi9BB8/giDcbjAmUwa1x8fCyVF+QZ9MCBxVC5rsKcKN7tp+Kq16Hz3cRfiwfvEXC4S+Mz9ba3EanOuG9n+QNECdSzg4U7nh/sHefWMEJeJTL8ktH3dcrav1HAn8H5t4BSRq5ryG7GIQKHsA1O7VW+s2DWc+FL7HHQGNYeUUsY=
+	t=1727885696; cv=none; b=PkNlPF2vt9AjqR8bKrefeHSt1GkKtGhlK5HfDU2InY0JPTJaaAMLv71AMHyX7oUDpjVlIgEIvwK7Jq5QjkCt+DpQZsh8R5DaBWMwOh4cdPoiwVgAR3P2fLlHmPIGIoRqJ7KGxLMuX7Btr8EtUtkUsid4SixSk1EgwDq2UQle+pY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727885695; c=relaxed/simple;
-	bh=IAn/aP5J4OooV+vXF/TyTGRcput+ez4+P0gxjzAXSdw=;
+	s=arc-20240116; t=1727885696; c=relaxed/simple;
+	bh=lie+v4+aHAQjNO+R6PY+GE+xML+J1xWgPW0F7Qo/Yjk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=THElHXNm4UnAHEBDr6NDv3ySaVhE42G+hx3XXlh/l1cvvI4hXEauBVvSmSe/eybSec1jMNzDaAGoQGpBNywBRvFwtky/WiBKYsmMi9rwHFCPdMfFWpHVVBMqCsfHXI2ri3iSgaE/1bD4dTXnBE5amGlNhMovDYdUhPteBidDQHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=eK8IbIML; arc=none smtp.client-ip=217.70.183.199
+	 In-Reply-To:To:Cc; b=ZAkFCakBeXEVjixhBAWfd3nILjmhqj3K6AXQU0VBR6p5GrfYnNw+hpm9bEUNF6zkwPw0GTXL7nfOvt83Cszj+IjNMbly25hYKqp3yY0Btwzh55DI4reKysW7/VqRK85+eZ0pWZXcpwjgVDQgopMEV7WmYhrRFDcHJRyDrMjLkjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=N1Zb+dKN; arc=none smtp.client-ip=217.70.183.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="eK8IbIML"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4EBC2FF805;
-	Wed,  2 Oct 2024 16:14:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="N1Zb+dKN"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1ABDFFF810;
+	Wed,  2 Oct 2024 16:14:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1727885686;
+	t=1727885691;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iEgsL4qeKQAHgpYyJ07KFlg6HXoQP/UEP7QR/h3wag0=;
-	b=eK8IbIMLoTuHy8edsw9uXjxtJulSEsXPQwJexfAJgoxKyNuPCRS2GkC8KQFOCGO7ODk3kB
-	3h64cv73cdaeaUgI16Zc06jsxXYr3a5chfDFYuWptuqvp6kZKmDXAtidHTufNn1NdyChC1
-	EVL/DE6oA8vw/+LMawb5SNdAcdyg0CHdW6V4LjJxmcg4eWyyqHRhaxm4N9PMThocGfcUA4
-	mt5uReSjuQC8+7/sn68NWDBaWl3d0pYQXOdbseEFY6Al0c7I8szVC75Jjbp0ZQgQ9720xP
-	fFWjTeu9EfugQBJwHKHcy/lrr2scnXZMwfPqG9iY3fBW8mAf0R1oFBX4YuqiVg==
+	bh=zg8or6L5eyzMH1TuklarP5kBCWGDZKKVNBcBHI7D8X4=;
+	b=N1Zb+dKNgAJFGEWCTdOE2CZBgCVMfuQ+d+oHC35W65f2kbkd+ptp1TP5Pz/N/tYijWdFfu
+	LPwIrTDn5gOUlG3V8784RR0FfcLFfv+wGAQD4dgA0/CkHNnaTD+CYHQtRasi9ZPhT5mYyy
+	rcocjNz3AsvV7e/PniUtoozNTe735PPKdAY3ZKkTEyMgHQ3+P5OGpGbZ1UjzvtkwnE0whm
+	7CNYkIxsm08v7fYzFycYeKSA371Ub6nMRQqgQQFKzQj+/gJ88SaAxNTrHBWQ0HEQwIZlhS
+	EuwhzWjhwR96MXUxpz++lpTkY8YHiJGkdTq6cbRYG7TTiEtxd5gUoSbTor72eQ==
 From: Kory Maincent <kory.maincent@bootlin.com>
-Date: Wed, 02 Oct 2024 18:14:16 +0200
-Subject: [PATCH 05/12] net: pse-pd: Add support for getting and setting
- port priority
+Date: Wed, 02 Oct 2024 18:14:23 +0200
+Subject: [PATCH 12/12] net: pse-pd: tps23881: Add support for PSE events
+ and interrupts
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,7 +42,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241002-feature_poe_port_prio-v1-5-eb067b78d6cf@bootlin.com>
+Message-Id: <20241002-feature_poe_port_prio-v1-12-eb067b78d6cf@bootlin.com>
 References: <20241002-feature_poe_port_prio-v1-0-eb067b78d6cf@bootlin.com>
 In-Reply-To: <20241002-feature_poe_port_prio-v1-0-eb067b78d6cf@bootlin.com>
 To: Oleksij Rempel <o.rempel@pengutronix.de>, 
@@ -59,147 +59,184 @@ X-GND-Sasl: kory.maincent@bootlin.com
 
 From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 
-This patch introduces the ability to configure the PSE PI port priority.
-Port priority is utilized by PSE controllers to determine which ports to
-turn off first in scenarios such as power budget exceedance.
+Add support for PSE event reporting through interrupts. Set up the newly
+introduced devm_pse_irq_helper helper to register the interrupt. Events are
+reported for over-current and over-temperature conditions.
 
-The pis_prio_max value is used to define the maximum priority level
-supported by the controller. Both the current priority and the maximum
-priority are exposed to the user through the pse_ethtool_get_status call.
+This patch also adds support for an OSS GPIO line to turn off all low
+priority ports in case of an over-current event.
 
 Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 ---
- drivers/net/pse-pd/pse_core.c | 30 ++++++++++++++++++++++++++++++
- include/linux/pse-pd/pse.h    | 19 +++++++++++++++++++
- 2 files changed, 49 insertions(+)
+ drivers/net/pse-pd/tps23881.c | 123 +++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 122 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/net/pse-pd/pse_core.c b/drivers/net/pse-pd/pse_core.c
-index f8e6854781e6..6b3893a3381c 100644
---- a/drivers/net/pse-pd/pse_core.c
-+++ b/drivers/net/pse-pd/pse_core.c
-@@ -750,6 +750,7 @@ static int _pse_ethtool_get_status(struct pse_controller_dev *pcdev,
- 		return -EOPNOTSUPP;
+diff --git a/drivers/net/pse-pd/tps23881.c b/drivers/net/pse-pd/tps23881.c
+index ddb44a17218a..03f36b641bb4 100644
+--- a/drivers/net/pse-pd/tps23881.c
++++ b/drivers/net/pse-pd/tps23881.c
+@@ -17,6 +17,13 @@
+ 
+ #define TPS23881_MAX_CHANS 8
+ 
++#define TPS23881_REG_IT		0x0
++#define TPS23881_REG_IT_MASK	0x1
++#define TPS23881_REG_IT_IFAULT	BIT(5)
++#define TPS23881_REG_IT_SUPF	BIT(7)
++#define TPS23881_REG_FAULT	0x7
++#define TPS23881_REG_SUPF_EVENT	0xb
++#define TPS23881_REG_TSD	BIT(7)
+ #define TPS23881_REG_PW_STATUS	0x10
+ #define TPS23881_REG_OP_MODE	0x12
+ #define TPS23881_OP_MODE_SEMIAUTO	0xaaaa
+@@ -25,6 +32,7 @@
+ #define TPS23881_REG_PW_PRIO	0x15
+ #define TPS23881_REG_GEN_MASK	0x17
+ #define TPS23881_REG_NBITACC	BIT(5)
++#define TPS23881_REG_INTEN	BIT(7)
+ #define TPS23881_REG_PW_EN	0x19
+ #define TPS23881_REG_2PAIR_POL1	0x1e
+ #define TPS23881_REG_PORT_MAP	0x26
+@@ -59,6 +67,7 @@ struct tps23881_priv {
+ 	struct pse_controller_dev pcdev;
+ 	struct device_node *np;
+ 	struct tps23881_port_desc port[TPS23881_MAX_CHANS];
++	struct gpio_desc *oss;
+ };
+ 
+ static struct tps23881_priv *to_tps23881_priv(struct pse_controller_dev *pcdev)
+@@ -1088,11 +1097,112 @@ static int tps23881_flash_sram_fw(struct i2c_client *client)
+ 	return 0;
+ }
+ 
++static void tps23881_turn_off_low_prio(struct tps23881_priv *priv)
++{
++	dev_info(&priv->client->dev,
++		 "turn off low priority ports due to over current event.\n");
++	gpiod_set_value_cansleep(priv->oss, 1);
++
++	/* TPS23880 datasheet (Rev G) indicates minimum OSS pulse is 5us */
++	usleep_range(5, 10);
++	gpiod_set_value_cansleep(priv->oss, 0);
++}
++
++static int tps23881_irq_handler(int irq, struct pse_irq_data *pid,
++				unsigned long *dev_mask)
++{
++	struct tps23881_priv *priv = (struct tps23881_priv *)pid->data;
++	struct i2c_client *client = priv->client;
++	struct pse_err_state *stat;
++	int ret, i;
++	u16 val;
++
++	*dev_mask = 0;
++	for (i = 0; i < TPS23881_MAX_CHANS; i++) {
++		stat = &pid->states[i];
++		stat->notifs = 0;
++		stat->errors = 0;
++	}
++
++	ret = i2c_smbus_read_word_data(client, TPS23881_REG_IT);
++	if (ret < 0)
++		return PSE_FAILED_RETRY;
++
++	val = (u16)ret;
++	if (val & TPS23881_REG_IT_SUPF) {
++		ret = i2c_smbus_read_word_data(client, TPS23881_REG_SUPF_EVENT);
++		if (ret < 0)
++			return PSE_FAILED_RETRY;
++
++		if (ret & TPS23881_REG_TSD) {
++			for (i = 0; i < TPS23881_MAX_CHANS; i++) {
++				stat = &pid->states[i];
++				*dev_mask |= 1 << i;
++				stat->notifs = PSE_EVENT_OVER_TEMP;
++				stat->errors = PSE_ERROR_OVER_TEMP;
++			}
++		}
++	}
++
++	if (val & (TPS23881_REG_IT_IFAULT | TPS23881_REG_IT_IFAULT << 8)) {
++		ret = i2c_smbus_read_word_data(client, TPS23881_REG_FAULT);
++		if (ret < 0)
++			return PSE_FAILED_RETRY;
++
++		val = (u16)(ret & 0xf0f);
++
++		/* Power cut detected, shutdown low priority port */
++		if (val && priv->oss)
++			tps23881_turn_off_low_prio(priv);
++
++		*dev_mask |= val;
++		for (i = 0; i < TPS23881_MAX_CHANS; i++) {
++			if (val & BIT(i)) {
++				stat = &pid->states[i];
++				stat->notifs = PSE_EVENT_OVER_CURRENT;
++				stat->errors = PSE_ERROR_OVER_CURRENT;
++			}
++		}
++	}
++
++	return PSE_ERROR_CLEARED;
++}
++
++static int tps23881_setup_irq(struct tps23881_priv *priv, int irq)
++{
++	int errs = PSE_ERROR_OVER_CURRENT | PSE_ERROR_OVER_TEMP;
++	struct i2c_client *client = priv->client;
++	struct pse_irq_desc irq_desc = {
++		.name = "tps23881-irq",
++		.map_event = tps23881_irq_handler,
++		.data = priv,
++	};
++	int ret;
++	u16 val;
++
++	val = TPS23881_REG_IT_IFAULT | TPS23881_REG_IT_SUPF |
++	      TPS23881_REG_IT_IFAULT << 8 | TPS23881_REG_IT_SUPF << 8;
++	ret = i2c_smbus_write_word_data(client, TPS23881_REG_IT_MASK, val);
++	if (ret)
++		return ret;
++
++	ret = i2c_smbus_read_word_data(client, TPS23881_REG_GEN_MASK);
++	if (ret < 0)
++		return ret;
++
++	val = (u16)(ret | TPS23881_REG_INTEN | TPS23881_REG_INTEN << 8);
++	ret = i2c_smbus_write_word_data(client, TPS23881_REG_GEN_MASK, val);
++	if (ret < 0)
++		return ret;
++
++	return devm_pse_irq_helper(&priv->pcdev, irq, 0, errs, &irq_desc);
++}
++
+ static int tps23881_i2c_probe(struct i2c_client *client)
+ {
+ 	struct device *dev = &client->dev;
+ 	struct tps23881_priv *priv;
+-	struct gpio_desc *reset;
++	struct gpio_desc *reset, *oss;
+ 	int ret;
+ 	u8 val;
+ 
+@@ -1169,6 +1279,17 @@ static int tps23881_i2c_probe(struct i2c_client *client)
+ 				     "failed to register PSE controller\n");
  	}
  
-+	status->c33_prio_max = pcdev->pis_prio_max;
- 	return ops->ethtool_get_status(pcdev, id, extack, status);
- }
- 
-@@ -898,6 +899,35 @@ int pse_ethtool_set_pw_limit(struct pse_control *psec,
- }
- EXPORT_SYMBOL_GPL(pse_ethtool_set_pw_limit);
- 
-+int pse_ethtool_set_prio(struct pse_control *psec,
-+			 struct netlink_ext_ack *extack,
-+			 unsigned int prio)
-+{
-+	const struct pse_controller_ops *ops;
-+	int ret;
++	oss = devm_gpiod_get_optional(dev, "oss", GPIOD_OUT_LOW);
++	if (IS_ERR(oss))
++		return dev_err_probe(&client->dev, PTR_ERR(oss), "Failed to get OSS GPIO\n");
++	priv->oss = oss;
 +
-+	ops = psec->pcdev->ops;
-+	if (!ops->pi_set_prio) {
-+		NL_SET_ERR_MSG(extack,
-+			       "pse driver does not support port priority");
-+		return -EOPNOTSUPP;
++	if (client->irq) {
++		ret = tps23881_setup_irq(priv, client->irq);
++		if (ret)
++			return ret;
 +	}
 +
-+	if (prio > psec->pcdev->pis_prio_max) {
-+		NL_SET_ERR_MSG_FMT(extack,
-+				   "priority %d exceed priority max %d",
-+				   prio, psec->pcdev->pis_prio_max);
-+		return -ERANGE;
-+	}
-+
-+	mutex_lock(&psec->pcdev->lock);
-+	ret = ops->pi_set_prio(psec->pcdev, psec->id, prio);
-+	mutex_unlock(&psec->pcdev->lock);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(pse_ethtool_set_prio);
-+
- bool pse_has_podl(struct pse_control *psec)
- {
- 	return psec->pcdev->types & ETHTOOL_PSE_PODL;
-diff --git a/include/linux/pse-pd/pse.h b/include/linux/pse-pd/pse.h
-index 85a08c349256..b60fc56923bd 100644
---- a/include/linux/pse-pd/pse.h
-+++ b/include/linux/pse-pd/pse.h
-@@ -50,6 +50,8 @@ struct pse_control_config {
-  *	is in charge of the memory allocation.
-  * @c33_pw_limit_nb_ranges: number of supported power limit configuration
-  *	ranges
-+ * @c33_prio_max: max priority allowed for the c33_prio variable value
-+ * @c33_prio: priority of the PSE
-  */
- struct pse_control_status {
- 	enum ethtool_podl_pse_admin_state podl_admin_state;
-@@ -62,6 +64,8 @@ struct pse_control_status {
- 	u32 c33_avail_pw_limit;
- 	struct ethtool_c33_pse_pw_limit_range *c33_pw_limit_ranges;
- 	u32 c33_pw_limit_nb_ranges;
-+	u32 c33_prio_max;
-+	u32 c33_prio;
- };
- 
- /**
-@@ -81,6 +85,7 @@ struct pse_control_status {
-  *			  set_current_limit regulator callback.
-  *			  Should not return an error in case of MAX_PI_CURRENT
-  *			  current value set.
-+ * @pi_set_prio: Configure the PSE PI priority
-  */
- struct pse_controller_ops {
- 	int (*ethtool_get_status)(struct pse_controller_dev *pcdev,
-@@ -95,6 +100,8 @@ struct pse_controller_ops {
- 				    int id);
- 	int (*pi_set_current_limit)(struct pse_controller_dev *pcdev,
- 				    int id, int max_uA);
-+	int (*pi_set_prio)(struct pse_controller_dev *pcdev, int id,
-+			   unsigned int prio);
- };
- 
- struct module;
-@@ -150,6 +157,7 @@ struct pse_pi {
-  * @types: types of the PSE controller
-  * @pi: table of PSE PIs described in this controller device
-  * @no_of_pse_pi: flag set if the pse_pis devicetree node is not used
-+ * @pis_prio_max: Maximum value allowed for the PSE PIs priority
-  */
- struct pse_controller_dev {
- 	const struct pse_controller_ops *ops;
-@@ -163,6 +171,7 @@ struct pse_controller_dev {
- 	enum ethtool_pse_types types;
- 	struct pse_pi *pi;
- 	bool no_of_pse_pi;
-+	unsigned int pis_prio_max;
- };
- 
- #if IS_ENABLED(CONFIG_PSE_CONTROLLER)
-@@ -184,6 +193,9 @@ int pse_ethtool_set_config(struct pse_control *psec,
- int pse_ethtool_set_pw_limit(struct pse_control *psec,
- 			     struct netlink_ext_ack *extack,
- 			     const unsigned int pw_limit);
-+int pse_ethtool_set_prio(struct pse_control *psec,
-+			 struct netlink_ext_ack *extack,
-+			 unsigned int prio);
- 
- bool pse_has_podl(struct pse_control *psec);
- bool pse_has_c33(struct pse_control *psec);
-@@ -220,6 +232,13 @@ static inline int pse_ethtool_set_pw_limit(struct pse_control *psec,
- 	return -EOPNOTSUPP;
+ 	return ret;
  }
  
-+static inline int pse_ethtool_set_prio(struct pse_control *psec,
-+				       struct netlink_ext_ack *extack,
-+				       unsigned int prio)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
- static inline bool pse_has_podl(struct pse_control *psec)
- {
- 	return false;
 
 -- 
 2.34.1
