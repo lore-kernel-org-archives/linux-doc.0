@@ -1,65 +1,67 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0154C1E0B72
-	for <linux-doc@vger.kernel.org>; Wed,  2 Oct 2024 09:49:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F4CE1E492C;
+	Wed,  2 Oct 2024 10:03:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727862594; cv=none; b=ON2lRDeyvrd678vci3ddHffL+AiO1VwyWKIsyjFGRZiFDKrGmQm4OVhKrs2NENH+JJgE9zltQsqrac2VnNwpVn0mbCLa2toVmS0GFRcWU8DJac+dweInCuC2+Ji0SONlF9OPSmHERTtdZGmQodqTZCJ35MZDhbqLfv8o1MPbfmU=
+	t=1727863400; cv=none; b=GhfqZaNKKa4+IVEKbNd3qn9Wx/x8d3hlnQdGRRpPq9NmC+nzVGfivZr3h2AXrMmkndW5TfyKSxqWM2XciLv2zvg5VG6p+SqROLM2jEF7+pIj4q9QKeBGJccl72ZSLY1mTmQz1xlmViUYm674Ta+/ut0DFtC7tlhjMFpf4L1YRQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727862594; c=relaxed/simple;
-	bh=1dDFjmKMO9vrCcacLIlCS/mDYkAo7OR0HjtA+XBKwxM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=M+VyCS82sdxNdsK8fB40CHY7J/Kwa1DhZ5jwsxVVGMsUxRPss/jJH0GM9+5YVaJlLn4mD6JkziTq/QPTPizspPR6Fw2YdzADnPkcoW0h2RQdRW6/D1BF6IWgxjpOYeov6fo14k4ypgP9nPNLY6n65C7kXdcbXyT/hbAVkD4EGHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KUqL/7x1; arc=none smtp.client-ip=209.85.210.180
+	s=arc-20240116; t=1727863400; c=relaxed/simple;
+	bh=HKMPKyPW0rrp5se8xekeznmvYEB193hXpxkx0NCtiT8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B+Gz5w6YlEC4ZsydfREimdgj2zpm1CRf9Eq2ILN93hKI0jxDXOG6DvUidC+59GgHFBpFs6XL3JuhQxJiVnSF2U2y1a/eAGfQN/IbTfbPOiYrcRGuhL0tj3IxXgkt1sHbnL89jF6u8dJKi+dUCxxcKEYqskRRDcBIcXePzCWUKRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KlrPsf+n; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KUqL/7x1"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-71b8d10e990so3178327b3a.3
-        for <linux-doc@vger.kernel.org>; Wed, 02 Oct 2024 02:49:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KlrPsf+n"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-71b070ff24dso5792909b3a.2;
+        Wed, 02 Oct 2024 03:03:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727862592; x=1728467392; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1727863398; x=1728468198; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tnihw3sb3VGmUZFwHxGrK3Lpf3WXe1bOQ5reZibKIGo=;
-        b=KUqL/7x1kGeKY37KP+e4ncu6uJNXKuHoHyaIo4GcSC664MSFk1guxfGHjXEMk0P6ow
-         TyhTPbDzKZgwaTBTSLjWSjAeU+dMcA6PYif/NTTXE3WW95Jp4ZT0OhtKi7wKa12Book3
-         s5Eau90bW9QS9PpX15crSrIelXlam0Svc5D9XUdZzwB9oGMWkEQWEaDIde+aqFPdD3KN
-         URopOoX6iFgWLrGwVf6vyTRbh3fHFpDPV0Hm6iPXcZkFxbv/D25QrMnBxQlKNOJAreyM
-         eDs/fCkUhkkaTSvQqG/mS69FWDWBgL7cAGn9NgiFoxmHpR8Qtk5KpFtILlgop2FeyYa3
-         qyFg==
+        bh=3kQNcsZl/V5kYlgzlqdcBvajouJ6eU37y0/qRQm49yY=;
+        b=KlrPsf+nIkCKW9RmgTZLOv5bfdJ3cc0OM7wiPf6+8oAGDKEoLJ/MVctisgRAgTbn5Q
+         KjBK14OiOrH2Q2aJ9tvABqQ6c+oOj2eZlaYuH1AJ0PjzIJn1Sg+q90lhLL0ni++RaK9A
+         8+76tu1fa2+N72K/8ra7CGpPnpPepVcC9IbkwxSHBvzB+jaj+PF2P3FuGwPHCMDU6SjI
+         NXvtzwrE34QIPWO0wmfEsTGzmJBVb5OIMktSFLdcMuzvFLWJphdYYaoiw1k///gRXvXs
+         v8LsdaP4nBoEf11TemPiEAwn/tM3/pqi7CUdzd4aJ4XL/aZEjc/4BPt7Khrc0W0gr4rr
+         XHsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727862592; x=1728467392;
+        d=1e100.net; s=20230601; t=1727863398; x=1728468198;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Tnihw3sb3VGmUZFwHxGrK3Lpf3WXe1bOQ5reZibKIGo=;
-        b=g8IaLgF90xH8w3uPe/thJMqfGypV3hLN//ksjO1jgvT+mnZY+hTB09vcpfOIrdqnxz
-         O0DYJbGjou2anw0fchBaOJfSYfvmWdxKNiuUZvXLh/ij7zyWY5NmkpUtT6zgVb5vob3E
-         w8dShjltb7C+U4V9BASA4qfaQ5NVxi+W/LZJztyc7N5wlcJdXIMLSRuxrDgJ/D5G0Uy2
-         5mC1o9AXf1X0teyMfbjSi+lYVxFPUuKtvq0TUYf8+P3aDjdikDPUVZ5LP2t1UGeIRY4v
-         9x3BNKfGaONUWNzFTbyL9+QCPNk1GapQuX29aiTS0qLAlJsbg++TmXee1cqtdAg9Nus3
-         T68Q==
-X-Gm-Message-State: AOJu0YxTnvP/BLDN1TjntNVJ7nge/a3vlwWOQ9zdSobIkV9ZQmtFV7I7
-	WO77hoAwgc4ZaPwYbiKl/Pz8EHmtoAJk8jSHll493a7K097bc9mmQ/a86cJjdE9b8A==
-X-Google-Smtp-Source: AGHT+IGlstoxziNyyA3CxGvU8FbKI2ebLTHoEA+l6SJ79nXW0FohJOxUzWVjDM4rFl2XiK+k4SrRFw==
-X-Received: by 2002:a05:6a00:170d:b0:718:dc17:3b83 with SMTP id d2e1a72fcca58-71dc5ca935fmr4613007b3a.16.1727862592014;
-        Wed, 02 Oct 2024 02:49:52 -0700 (PDT)
-Received: from BiscuitBobby.mec.ac.in ([210.212.232.142])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71b2653717esm9400460b3a.204.2024.10.02.02.49.48
+        bh=3kQNcsZl/V5kYlgzlqdcBvajouJ6eU37y0/qRQm49yY=;
+        b=gFCz8AJQyZiK5BiVBXhN716YIXaUJ8d6ZJq0KX8srIgLAekz3UE6y0IEtp7p2B+TsB
+         P39OJFat3whl5+k9lV5zi8tss+abBOYplfw6yuQ+4mcN8HzLnbmAXFf737xnpdBR+DtB
+         zWeiLV18oOke7c7oZ/ep2DsgJNYWPZbYU45FKMmycn+3TqzEu4labWvCNkfyC9TFhvOG
+         HGzSQgZmWB2mw9A9kxP4uLPh1k68q3jtUFf0tSXCQKX8uoCSSOnCVZ/pab07yMs2JdKB
+         x0va//L7brIk4eoilF+ZSX7fV0pPXhkDvJ0Sn9qQ3AnVk0tvnE8LSyzux15rDjLjGj8E
+         6ymA==
+X-Forwarded-Encrypted: i=1; AJvYcCV0+PE0vrKO/2PP0f85V5OhNt0wzqx15ukrcRP6nQ8Zir8bwzke5L3R8XqoXkawYrTFieo5N29uQbn+RNtH@vger.kernel.org, AJvYcCVob6jxtCOwbtaF3HTqSop9NjhxxwSpdJOFw/166l9CdLQTyACFrCpRnIbJlguJPqKCCwQB84nsadM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz77T14NfgO2OYGD7aH3HRx/GVMSjbbJxLTIxgVu3ko52JeNsXq
+	cx8/izZjzf7FKhIhYlhFAM8tEKMOlhGAw7MId5TdIofPqYmYLinDMV8GTgJivOM=
+X-Google-Smtp-Source: AGHT+IG7+5r/rfYo4QhjMBCNNToKZzxF5g0OTzqZv32TXsmcUszzvKJQKEcq40AorldEIR5YYX+lMg==
+X-Received: by 2002:a05:6a00:1956:b0:706:a931:20da with SMTP id d2e1a72fcca58-71dc5c48f7emr4172970b3a.3.1727863398105;
+        Wed, 02 Oct 2024 03:03:18 -0700 (PDT)
+Received: from Notebook.mec.ac.in ([14.139.184.222])
+        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-71b265389desm9463728b3a.215.2024.10.02.03.03.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Oct 2024 02:49:51 -0700 (PDT)
-From: Siddharth Menon <simeddon@gmail.com>
-To: linux-doc@vger.kernel.org,
-	john.johansen@canonical.com,
-	corbet@lwn.net
-Cc: shuah@kernel.org,
-	Siddharth Menon <simeddon@gmail.com>,
-	apparmor@lists.ubuntu.com
-Subject: [PATCH V2 RESEND] Docs: Update LSM/apparmor.rst
-Date: Wed,  2 Oct 2024 15:19:40 +0530
-Message-Id: <20241002094940.55644-1-simeddon@gmail.com>
-X-Mailer: git-send-email 2.39.5
+        Wed, 02 Oct 2024 03:03:17 -0700 (PDT)
+From: Ivin Joel Abraham <ivinjabraham@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: ivinjabraham@gmail.com,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: iio: fix grammatical error
+Date: Wed,  2 Oct 2024 15:33:41 +0530
+Message-ID: <20241002100341.110435-1-ivinjabraham@gmail.com>
+X-Mailer: git-send-email 2.46.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,35 +70,27 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-After the deprecation of CONFIG_DEFAULT_SECURITY, it is no longer used
-to enable and configure AppArmor. Since kernel 5.0,
-`CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE` is not used either.
-Instead, the CONFIG_LSM parameter manages the order and selection of LSMs.
+Clarify the instruction for disabling autocalibration by adding the word
+"by"
 
-Signed-off-by: Siddharth Menon <simeddon@gmail.com>
+Signed-off-by: Ivin Joel Abraham <ivinjabraham@gmail.com>
 ---
- V1 -> V2: Removed historical information and addressed review comments
- Documentation/admin-guide/LSM/apparmor.rst | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ Documentation/iio/bno055.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/LSM/apparmor.rst b/Documentation/admin-guide/LSM/apparmor.rst
-index 6cf81bbd7ce8..47939ee89d74 100644
---- a/Documentation/admin-guide/LSM/apparmor.rst
-+++ b/Documentation/admin-guide/LSM/apparmor.rst
-@@ -18,8 +18,11 @@ set ``CONFIG_SECURITY_APPARMOR=y``
+diff --git a/Documentation/iio/bno055.rst b/Documentation/iio/bno055.rst
+index 9a489a79d8f5..f1111ff3fe2e 100644
+--- a/Documentation/iio/bno055.rst
++++ b/Documentation/iio/bno055.rst
+@@ -22,7 +22,7 @@ This driver supports also IIO buffers.
  
- If AppArmor should be selected as the default security module then set::
+ The IMU continuously performs an autocalibration procedure if (and only if)
+ operating in fusion mode. The magnetometer autocalibration can however be
+-disabled writing 0 in the sysfs in_magn_calibration_fast_enable attribute.
++disabled by writing 0 in the sysfs in_magn_calibration_fast_enable attribute.
  
--   CONFIG_DEFAULT_SECURITY="apparmor"
--   CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE=1
-+   CONFIG_DEFAULT_SECURITY_APPARMOR=y
-+
-+The CONFIG_LSM parameter manages the order and selection of LSMs.
-+Specify apparmor as the first "major" module (e.g. AppArmor, SELinux, Smack)
-+in the list.
- 
- Build the kernel
- 
+ The driver provides access to autocalibration flags (i.e. you can known if
+ the IMU has successfully autocalibrated) and to the calibration data blob.
 -- 
-2.39.5
+2.46.2
 
