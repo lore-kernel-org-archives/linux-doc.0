@@ -1,144 +1,98 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-fw-52002.amazon.com (smtp-fw-52002.amazon.com [52.119.213.150])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A641D042F;
-	Wed,  2 Oct 2024 15:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AD641D0E35;
+	Wed,  2 Oct 2024 15:25:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.119.213.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727881651; cv=none; b=DEpbU2Of1UMWdIbqdSdm+Xg22QdExRzCMbkANAxJJ6Jg69lxwrPKqMxoTJEVgclxTmJg3J9cCQ6Q9sM6sb3GmWvzm7eVC5RxNh+dRgU5w8zBwxvPSYAERGU18ZlTCtJUemp97456cAALEeqBr4gVpKlnswEtaQvA+rVuV18G4Ec=
+	t=1727882760; cv=none; b=aYTMfVmoXkkqajo9VD7uLF9n096gK6tDta2xpVfCbTVwxnvqUINpoHlYuGg7fJRnW/8kyR8S/jSl2EWyVD0EIPD3P+yOyfuSVvWE0pngvgefpoqC0hpNiF3XSujDN8E+yR1zLtdb//Ib+UPJjxP7feDfJJt/VZTgMMruLmD9GoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727881651; c=relaxed/simple;
-	bh=jtfaJpM6CIsQrfnb+cLDUgI28lgBAwSL+kJtu3n5UDY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LjJVjo0SFt279iyEsWXoEwxuESDZENyY7O7YOBmRTJh4sPF2mjkzLUQwWmNedOVyMdXdhptPZ0EV7+pS8xzCkPvTz30Qcaupts1ESIhqW1WYpLlQ9vZSgHrlByzkl8Dx9YcWa/LUV20r753zykDhJRbQhBeKFSFSsPt5IhUWJhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NWRmLFKp; arc=none smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727882760; c=relaxed/simple;
+	bh=lKhyf48RMLpspZ3ymS6szfFA1piNDk8WumAeRcg/MuQ=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mMNGhbLyShLeHvQdHR9iQABR6dEe0eMpsEMl6fXYG9tM8JBi7bNRGNcnUYJPT4tcz+CJSqtVIW8BnAqcLJFeVc4LN/GELyOBIfAo4XPyKQH/2TzXRzSgibFR8tHk1g5hNvVfy346kAF2ILNCkji6fFgcig5bmpEe/ElNxkP0ZIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.jp; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=LkNpzt8n; arc=none smtp.client-ip=52.119.213.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NWRmLFKp"
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-6d6891012d5so56803687b3.2;
-        Wed, 02 Oct 2024 08:07:29 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="LkNpzt8n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727881648; x=1728486448; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0i3BbfvxahvYvWq4i93XsiQMPyiTP9IxQ8M027AZbg4=;
-        b=NWRmLFKpAXksQ0bP64ya1VGXtSfEGtmBo4kyehMJvTCQAYxyo1/4gW9ZzzUeWpJ2lB
-         pVRZsqU7U/8nFpNttUVeWYEpKmQjOWdx6thEiSo487b37mRgJsQ0DzA8a9AQT/IXK2c+
-         9qCzznb9xGfXKGyQVhTI5LWVZ5xnWJjhMGDTTI3Is+en2u5T2LrD3nzakZcaNl2p4stq
-         3nHigIJp5FEBrlO8PBqEaDx/bkqOlY5xs8V8xhxNPkcwe09DchiX3EF5VpwkVPB1VXV4
-         zO/OxU1cOhgPnFqKrq9iwPUxlhLIdC1xb1ZxjMGqEGnp326eAQ8GJfn5jieUw2yvb2Tv
-         T2Sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727881648; x=1728486448;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0i3BbfvxahvYvWq4i93XsiQMPyiTP9IxQ8M027AZbg4=;
-        b=cs2ViLxpFBnZDN/xzlNRR1PxDif9XsXULLdahSFRvcNsSwh84wWiIo13inRqzWzXEO
-         sY5tpOojAzyn9JyY72XbiiwLf9fcNgtI+WZsBU5imm3RidEO4dLOqbemR1zQbk1h8rPa
-         2pUlDHRy9TVAaHtcJShCKEOBr9OpFdU32xfKEBpudgidIZAFvVMDL78mxI56UCv6Yd+q
-         c9PTtjrM6VTA9Gav06+PzknPKCnTZgkSeaFmrW3tBMg2hfsQFAg4p7wH7KYLSFM7VlvU
-         dehoQcGOgcWw46cJ6IfsBOYTA3uNeUqJY4UGnaUKpSP30HqZU9SZIzMLZQt6d4WYXC3L
-         Bgiw==
-X-Forwarded-Encrypted: i=1; AJvYcCV0fTtHUQSHz26wMQrtLWAbZxo0CcllU+EQI4DCUiyIFpPFKuPB9kgdpmTJbCdVUXBB4jlhS5JMF/QB@vger.kernel.org, AJvYcCVdl28Ka4zKln1eY5IImLmF70XbFuXW8fH3dX5AUET+J6E1PwsxxXndoSQGCQVT5lOqdLy0ptMN6EqTWzq3k8Dt@vger.kernel.org, AJvYcCWl+NP2Ep+RQuzROe6cLFtiFvD2stiHvmlE7x1b2VIBjQGXVEb+TVl8MFeW1JxG+DGlkEUgCAUAPXGnufK8@vger.kernel.org, AJvYcCX8G+dF9oLra+3W9DIQ/X3AvGNx8zNDa8m3KGvVfbAtBFbdBZT9GOwFvwDB7f2x/mVWnGEinuFOajo9@vger.kernel.org
-X-Gm-Message-State: AOJu0YwH15q5uIz2FBtiE4jCzDkiRSlCBLNPG+fG35dmoLsLMmzZz8JT
-	swfF1gi7rq3VdTIQuBNzbnh6EYK1vgzYkIZFAFVMWJqhznF8AWdDE1EFA/DKTAbgIi8Pq6bS+ie
-	kUto0i39xJuGGCou6n0hsv4Vb5yM=
-X-Google-Smtp-Source: AGHT+IH+TSllG/SCeTg8S09DQGLvV3T6Fg+wFdmO1qdI5EdM4tgcUUTykKxpYGsG9/W9hoY9YTFqiimHmtkpgobguAo=
-X-Received: by 2002:a05:690c:4183:b0:6dd:ba22:d946 with SMTP id
- 00721157ae682-6e2a2b8307bmr22986657b3.13.1727881648440; Wed, 02 Oct 2024
- 08:07:28 -0700 (PDT)
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1727882759; x=1759418759;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=yz3Wsj7pxR718E2/bctzq5t+/Vno2EGn0C6LCYN4jtw=;
+  b=LkNpzt8nVC5i2Eaky0++AlQbVSWBlZnIoYMp9iuSY6I2aHrDWEURbNG2
+   w6eCrMiESDtz7M2CfC7cohCIlPKRBzo3sgzK/fB3CjRYKpk98LtxcOsij
+   nE4gpmownESby9VLhAQ+clmtEqZRDoE14jggcILCRHDGMNlqM2UYgTJqw
+   Y=;
+X-IronPort-AV: E=Sophos;i="6.11,172,1725321600"; 
+   d="scan'208";a="663149872"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.6])
+  by smtp-border-fw-52002.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 15:25:53 +0000
+Received: from EX19MTAUWB002.ant.amazon.com [10.0.38.20:2518]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.24.191:2525] with esmtp (Farcaster)
+ id f7d7adac-7501-46c1-8368-2fe41a4590eb; Wed, 2 Oct 2024 15:25:51 +0000 (UTC)
+X-Farcaster-Flow-ID: f7d7adac-7501-46c1-8368-2fe41a4590eb
+Received: from EX19D004ANA001.ant.amazon.com (10.37.240.138) by
+ EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Wed, 2 Oct 2024 15:25:51 +0000
+Received: from 88665a182662.ant.amazon.com (10.187.171.23) by
+ EX19D004ANA001.ant.amazon.com (10.37.240.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.35;
+ Wed, 2 Oct 2024 15:25:48 +0000
+From: Kuniyuki Iwashima <kuniyu@amazon.com>
+To: <leitao@debian.org>
+CC: <akinobu.mita@gmail.com>, <aleksander.lobakin@intel.com>,
+	<almasrymina@google.com>, <asml.silence@gmail.com>, <corbet@lwn.net>,
+	<davem@davemloft.net>, <edumazet@google.com>, <horms@kernel.org>,
+	<kuba@kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+	<pabeni@redhat.com>, <willemb@google.com>, <kuniyu@amazon.com>
+Subject: Re: [PATCH net-next] net: Implement fault injection forcing skb reallocation
+Date: Wed, 2 Oct 2024 08:25:40 -0700
+Message-ID: <20241002152540.51408-1-kuniyu@amazon.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20241002113316.2527669-1-leitao@debian.org>
+References: <20241002113316.2527669-1-leitao@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240911-xtheadvector-v10-0-8d3930091246@rivosinc.com> <20240911-xtheadvector-v10-1-8d3930091246@rivosinc.com>
-In-Reply-To: <20240911-xtheadvector-v10-1-8d3930091246@rivosinc.com>
-From: Andy Chiu <andybnac@gmail.com>
-Date: Wed, 2 Oct 2024 23:07:17 +0800
-Message-ID: <CAFTtA3NwY7-KbtqWTRoDLv7AGRUo2efQrCa8=hfpPo1DB1RHyQ@mail.gmail.com>
-Subject: Re: [PATCH v10 01/14] dt-bindings: riscv: Add xtheadvector ISA
- extension description
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Samuel Holland <samuel.holland@sifive.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <shuah@kernel.org>, Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>, 
-	Andy Chiu <andy.chiu@sifive.com>, Jessica Clarke <jrtc27@jrtc27.com>, 
-	Andrew Jones <ajones@ventanamicro.com>, linux-riscv@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D042UWB001.ant.amazon.com (10.13.139.160) To
+ EX19D004ANA001.ant.amazon.com (10.37.240.138)
 
-Charlie Jenkins <charlie@rivosinc.com> =E6=96=BC 2024=E5=B9=B49=E6=9C=8812=
-=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=881:57=E5=AF=AB=E9=81=93=EF=BC=
-=9A
->
-> The xtheadvector ISA extension is described on the T-Head extension spec
-> Github page [1] at commit 95358cb2cca9.
->
-> Link: https://github.com/T-head-Semi/thead-extension-spec/blob/95358cb2cc=
-a9489361c61d335e03d3134b14133f/xtheadvector.adoc [1]
->
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+From: Breno Leitao <leitao@debian.org>
+Date: Wed,  2 Oct 2024 04:32:54 -0700
+> diff --git a/net/Kconfig.debug b/net/Kconfig.debug
+> index 5e3fffe707dd..f61935e028bd 100644
+> --- a/net/Kconfig.debug
+> +++ b/net/Kconfig.debug
 
-Reviewed-by: Andy Chiu <andybnac@gmail.com>
+This config is networking-specific, but I think lib/Kconfig.debug would be
+a better fit as other fault injection configs are placed there together.
 
-> ---
->  Documentation/devicetree/bindings/riscv/extensions.yaml | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Do=
-cumentation/devicetree/bindings/riscv/extensions.yaml
-> index a06dbc6b4928..1a3d01aedde6 100644
-> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> @@ -556,6 +556,10 @@ properties:
->              latency, as ratified in commit 56ed795 ("Update
->              riscv-crypto-spec-vector.adoc") of riscv-crypto.
->
-> +        # vendor extensions, each extension sorted alphanumerically unde=
-r the
-> +        # vendor they belong to. Vendors are sorted alphanumerically as =
-well.
+Now we need to enable fault injection first and go back to the net-specific
+items in menuconfig.
+
+
+> @@ -24,3 +24,14 @@ config DEBUG_NET
+>  	help
+>  	  Enable extra sanity checks in networking.
+>  	  This is mostly used by fuzzers, but is safe to select.
 > +
-> +        # Andes
->          - const: xandespmu
->            description:
->              The Andes Technology performance monitor extension for count=
-er overflow
-> @@ -563,6 +567,12 @@ properties:
->              Registers in the AX45MP datasheet.
->              https://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-=
-5.0.0-Datasheet.pdf
->
-> +        # T-HEAD
-> +        - const: xtheadvector
-> +          description:
-> +            The T-HEAD specific 0.7.1 vector implementation as written i=
-n
-> +            https://github.com/T-head-Semi/thead-extension-spec/blob/953=
-58cb2cca9489361c61d335e03d3134b14133f/xtheadvector.adoc.
+> +config FAIL_SKB_FORCE_REALLOC
+> +	bool "Fault-injection capability forcing skb to reallocate"
+> +	depends on FAULT_INJECTION && DEBUG_NET
+> +	default n
+> +	help
+> +	  Provide fault-injection capability that forces the skb to be
+> +	  reallocated, caughting possible invalid pointers to the skb.
 > +
->      allOf:
->        # Zcb depends on Zca
->        - if:
->
-> --
-> 2.45.0
->
->
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+> +	  For more information, check
+> +	  Documentation/dev-tools/fault-injection/fault-injection.rst
