@@ -1,189 +1,125 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8842519752C;
-	Wed,  2 Oct 2024 09:14:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4250F197A6C
+	for <linux-doc@vger.kernel.org>; Wed,  2 Oct 2024 09:20:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727860455; cv=none; b=qnqavttWXH8ESa47458m1Ua9CtA+d9S7Mh7D2849lw9AxMno7VDeGJT5zpg0DlgafA2l6sJucAqZuhukicdAUB7e6y6IWlf5ZJIfPaUVSnKWD+1b+ACihmUWOn6c9KkwhSCN0BbFw0UfrX0U1i6XBNQTcqI/sA8+xjCDIuN3Vu8=
+	t=1727860838; cv=none; b=eW7FPodS9x7buH4EWzVj4+4C5xfImkOIbMz2NM6r2W9k0cCUy5MBkTGfw0pG9xkh1ARkrzdwB5qZXz2Jazuwt1+LDPxjw+xsBy6W35C93/W4XyJxxL8AkNQn3jzxYjPf/qgrLOzSTjT3G397i+3uwe7Prl0n/YtKA5NwXT4D5MA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727860455; c=relaxed/simple;
-	bh=CrBCKdgiMa08UPFj6MZxE0JaOv9NlkupQgNyP+8YPHE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cvQ1gwix5LEVonisx8PYPUjv6rX+6KHit2BKYMz0dSISxGuUA5r0rTqxe+n2XG0WrW9DzSwFIoN7kO2iRtiejUdc2O+O5TDo/FhGFlGnhLvpRmoWIutOu5EqLIdh5vpNFBRe3wMUVl2ODHAggbhVetOImaZWJalqizUiVoUTh7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=KVecqr+N; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=vBYEfZoW; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=KVecqr+N; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=vBYEfZoW; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1727860838; c=relaxed/simple;
+	bh=mzDHbmnmSbZgPh/ZeldgAOMha3PtMlQ6ANgxAOBY+Lo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=JHosBGi0OFmdCWMLNzuAautr4EtLFcR63LnB/ncB68vTzaOx7Ukx8XCX0CTt4OSScqSw+Ov7rkR8ktn6UoPyqqaRfoLplx10gWdA/p1dL7uVkNLEn04RmYr/TWgmS33mrpj24HbZNKDSCLVFGXKRsT+hF7Hl45cWY4MMYi678Hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk; spf=pass smtp.mailfrom=rasmusvillemoes.dk; dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b=QogGA6z5; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rasmusvillemoes.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="KVecqr+N";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="vBYEfZoW";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="KVecqr+N";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="vBYEfZoW"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3042721B70;
-	Wed,  2 Oct 2024 09:14:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1727860446; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ciY4s211AtNsmLMEFppWW09ynC9Vd3xoRhyo0YMhjdc=;
-	b=KVecqr+NBI1yiYx1BRcvKKnoyXIivh15+piF+YZyiWfrDIRo6SsuQJrxd8RL6jhFpnJG3g
-	bXyd/69TLuagh7zkintkdg6FnyOvc8kIouzsWt4Uad7lwiaHv6mwQM+0iwyXWjl4MXpXU1
-	4xUac63Ufy/zn/WHxi5yMhRCoLEzkNw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1727860446;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ciY4s211AtNsmLMEFppWW09ynC9Vd3xoRhyo0YMhjdc=;
-	b=vBYEfZoWDP05pmDCLOTbylMr+FqLkg7Ki23XcVZOBFd4msaAsoqBKQbkafeu2FG7KWktRV
-	3NqfRi0Nn6eFECAg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1727860446; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ciY4s211AtNsmLMEFppWW09ynC9Vd3xoRhyo0YMhjdc=;
-	b=KVecqr+NBI1yiYx1BRcvKKnoyXIivh15+piF+YZyiWfrDIRo6SsuQJrxd8RL6jhFpnJG3g
-	bXyd/69TLuagh7zkintkdg6FnyOvc8kIouzsWt4Uad7lwiaHv6mwQM+0iwyXWjl4MXpXU1
-	4xUac63Ufy/zn/WHxi5yMhRCoLEzkNw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1727860446;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ciY4s211AtNsmLMEFppWW09ynC9Vd3xoRhyo0YMhjdc=;
-	b=vBYEfZoWDP05pmDCLOTbylMr+FqLkg7Ki23XcVZOBFd4msaAsoqBKQbkafeu2FG7KWktRV
-	3NqfRi0Nn6eFECAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1FA9613A6E;
-	Wed,  2 Oct 2024 09:14:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4XuwB94O/WYUSwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 02 Oct 2024 09:14:06 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 8280EA08CB; Wed,  2 Oct 2024 11:14:05 +0200 (CEST)
-Date: Wed, 2 Oct 2024 11:14:05 +0200
-From: Jan Kara <jack@suse.cz>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, John Stultz <jstultz@google.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Chandan Babu R <chandan.babu@oracle.com>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>, Chris Mason <clm@fb.com>,
-	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
-	Hugh Dickins <hughd@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-btrfs@vger.kernel.org, linux-nfs@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH v8 02/12] fs: add infrastructure for multigrain timestamps
-Message-ID: <20241002091405.7b2s4qvoaqrn3l4f@quack3>
-References: <20241001-mgtime-v8-0-903343d91bc3@kernel.org>
- <20241001-mgtime-v8-2-903343d91bc3@kernel.org>
- <20241001132027.ynzp4sahjek5umbb@quack3>
- <7761de29d15df87a29575de57554b56a91ae55a0.camel@kernel.org>
+	dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b="QogGA6z5"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5389fbb28f3so639542e87.1
+        for <linux-doc@vger.kernel.org>; Wed, 02 Oct 2024 02:20:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google; t=1727860835; x=1728465635; darn=vger.kernel.org;
+        h=mime-version:user-agent:message-id:date:references:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3ZO0Y8/ubh1XnuZPCq0ksaN5wnj9mPknfJDM/0u+lyg=;
+        b=QogGA6z5eZVmTANsamaQycj17E5dDAmzrgR5aS6Kh4VQ5qH5zJu85Gb1n+oG1R9AdY
+         gUiF9TQ0oudqONW3Wsz3a5wzIuekzBQ1FFmLB+IIbB2Gy75b/0PlVcnOsKgzAB4uIACp
+         /8t61Cbl4CgKgBh9+Y9IX45DcjEJRlDc+Ksik=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727860835; x=1728465635;
+        h=mime-version:user-agent:message-id:date:references:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3ZO0Y8/ubh1XnuZPCq0ksaN5wnj9mPknfJDM/0u+lyg=;
+        b=YlL5jMGec7v845mVogb9kkDmOZBOdQw44Cot4pGqBa/oQGzIjp617/Cj9HC0XQa/+q
+         FhArVkqJmZgqvVUIPjJ1a7DWBamlGdAji+8QE3cavjBH+E96lQbS4TjFIUeChdWIF6SA
+         pBiAMHL2+zqVqtN7hXb03IHHIiuHfokqx+RmOnGgE6QBZ2SyWBqy9vi1WsgsSsC79tho
+         LOv8821ccJIb7nD8vIqhBmeV4tVueIub94XX1KdBGknL1iuCP/5ES+Yv67EQgrl6DcqV
+         bE9Q9DmD1FShduhiDfYWUn6ZEnhwaKHIZYBF7uljxSU13Xw4jcp4LdBgle0YRa32GfWM
+         DO3g==
+X-Forwarded-Encrypted: i=1; AJvYcCWu2fMIlTZg5pKjbbnk38gZ5SiuSD0OKDjFOHHXofWBzegwNikF8JfbF1u5zYJNX/Y51v/tl5Qbzg4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0NrC2IviZB9zF1PgNuPBj51HRnANtzeKroKCCDFfAIMUL2Cm4
+	wvnSpqXvJsAqaE8ktOvlfgI9llglAc7sGksPE9WFsIRvHMHp49TcB+5HYL1J010=
+X-Google-Smtp-Source: AGHT+IGtXJvrufAFjd2v/2BhFG3gRzFXYZPIU0TWOYK8Da9d0sVChTE0gL9gdkfIYnsbyV2u2l+F+A==
+X-Received: by 2002:a05:6512:12ca:b0:539:950b:139c with SMTP id 2adb3069b0e04-5399a24664bmr2042373e87.12.1727860835200;
+        Wed, 02 Oct 2024 02:20:35 -0700 (PDT)
+Received: from localhost ([81.216.59.226])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-538a043220csm1817735e87.156.2024.10.02.02.20.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Oct 2024 02:20:34 -0700 (PDT)
+From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+To: Andy Shevchenko <andy@kernel.org>
+Cc: Christian Marangi <ansuelsmth@gmail.com>,  Jens Axboe <axboe@kernel.dk>,
+  Jonathan Corbet <corbet@lwn.net>,  Ulf Hansson <ulf.hansson@linaro.org>,
+  Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>,
+  Conor Dooley <conor+dt@kernel.org>,  Kees Cook <kees@kernel.org>,  Daniel
+ Golle <daniel@makrotopia.org>,  INAGAKI Hiroshi
+ <musashino.open@gmail.com>,  Christian Brauner <brauner@kernel.org>,  Al
+ Viro <viro@zeniv.linux.org.uk>,  Li Lingfeng <lilingfeng3@huawei.com>,
+  Ming Lei <ming.lei@redhat.com>,  Christian Heusel <christian@heusel.eu>,
+  linux-block@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-kernel@vger.kernel.org,  linux-mmc@vger.kernel.org,
+  devicetree@vger.kernel.org,  linux-hardening@vger.kernel.org,  Miquel
+ Raynal <miquel.raynal@bootlin.com>,  Lorenzo Bianconi
+ <lorenzo@kernel.org>,  upstream@airoha.com
+Subject: Re: [PATCH v4 0/5] block: partition table OF support
+In-Reply-To: <ZvqfbNDfI2QWZEBg@smile.fi.intel.com> (Andy Shevchenko's message
+	of "Mon, 30 Sep 2024 15:54:04 +0300")
+References: <20240930113045.28616-1-ansuelsmth@gmail.com>
+	<ZvqfbNDfI2QWZEBg@smile.fi.intel.com>
+Date: Wed, 02 Oct 2024 11:20:37 +0200
+Message-ID: <87setej1y2.fsf@prevas.dk>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7761de29d15df87a29575de57554b56a91ae55a0.camel@kernel.org>
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[32];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLy4jt9zmnbk4oncb1qwahh5jo)];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -3.80
-X-Spam-Flag: NO
+Content-Type: text/plain
 
-On Tue 01-10-24 09:34:18, Jeff Layton wrote:
-> On Tue, 2024-10-01 at 15:20 +0200, Jan Kara wrote:
-> > > diff --git a/fs/stat.c b/fs/stat.c
-> > > index 41e598376d7e..381926fb405f 100644
-> > > --- a/fs/stat.c
-> > > +++ b/fs/stat.c
-> > > @@ -26,6 +26,35 @@
-> > >  #include "internal.h"
-> > >  #include "mount.h"
-> > >  
-> > > +/**
-> > > + * fill_mg_cmtime - Fill in the mtime and ctime and flag ctime as QUERIED
-> > > + * @stat: where to store the resulting values
-> > > + * @request_mask: STATX_* values requested
-> > > + * @inode: inode from which to grab the c/mtime
-> > > + *
-> > > + * Given @inode, grab the ctime and mtime out if it and store the result
-> > 						 ^^ of
-> > 
-> > > + * in @stat. When fetching the value, flag it as QUERIED (if not already)
-> > > + * so the next write will record a distinct timestamp.
-> > > + */
-> > > +void fill_mg_cmtime(struct kstat *stat, u32 request_mask, struct inode *inode)
-> > > +{
-> > 
-> > Given how things worked out in the end, it seems this function doesn't need
-> > to handle mtime at all and we can move mtime handling back to shared generic
-> > code?
-> > 
-> 
-> I don't think we can. The mtime is effectively derived from the ctime.
-> 
-> If I query only the mtime, I think it's reasonable to expect that it
-> will change if there is another write, even if I don't query the ctime.
-> We won't get that unless we can also set the flag in the ctime when
-> only the mtime is requested.
+Andy Shevchenko <andy@kernel.org> writes:
 
-Aha, right. I already forgot about this :). Can you please add to the
-comment the above explanation so that we remember next time somebody wants
-to "clean this up" like me ;)? Thanks!
+> On Mon, Sep 30, 2024 at 01:30:07PM +0200, Christian Marangi wrote:
+>> Hi,
+>> this is an initial proposal to complete support for manually defining
+>> partition table.
+>> 
+>> 
+>> Some block device also implement boot1 and boot2 additional disk. Similar
+>> to the cmdline parser, these disk can have OF support using the
+>> "partitions-boot0" and "partitions-boot1" additional node.
+>> 
+>> It's also completed support for declaring partition as read-only as this
+>> feature was introduced but never finished in the cmdline parser.
+>
+>
+> I'm not sure I fully understood the problem you are trying to solve.
+> I have a device at hand that uses eMMC (and was produced almost ten years ago).
+> This device has a regular GPT on eMMC and no kernel needs to be patched for that.
+> So, why is it a problem for the mentioned OEMs to use standard GPT approach?
 
-Also feel free to add:
+For the user area (main block device), yes, a GPT can often be used, but
+not always. For the boot partitions, the particular SOC/cpu/bootrom may
+make it impossible to use a standard partition table, because the
+bootrom expects to find a bootloader at offset 0 on the active boot
+partition. In such a case, there's no way you can write a regular MBR or
+GPT, but it is nevertheless nice to have a machine-readable definition
+of which data goes where in the boot partitions. With these patches, one
+can do
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+  partitions-boot0 {
+    partition@0 {
+      label = "bootloader";
+      reg = <0 0x...>; // 2 MB
+    }
+    partition@... {
+      label = "device-data";
+      reg = <...> // 4 MB
+    }
+  }
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+and describe that layout.
+
+Rasmus
