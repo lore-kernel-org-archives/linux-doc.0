@@ -1,33 +1,33 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31946194A6C;
-	Wed,  2 Oct 2024 23:41:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2A1194A6C;
+	Wed,  2 Oct 2024 23:42:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727912473; cv=none; b=uWwYVO/9WuaPJdcWp4mueD0cJHFXxKpM2cFwUkmuq0PyGmVqpBlHI2RdfXlMHdr1zdTmQqKe249y9Oom1Now7o8O1JmnSD4BAR0llrTAR6wyz/5Vgdoi7PoBx//DrrYXUNhJL3g99Z41VcigNWt995e8vcY6dpyM/51ym/zIwD0=
+	t=1727912559; cv=none; b=UAu6ZHH8Fvmwvuna5XCT4szpl9OWIupTdv8vzW9Ek5z3NYXhLUNnXg7kK5KqrXoepATrURVMqD3+tph6nRUMg+jmykscSuW7J+GJlTV2hFxCnQo9aPiwj8cKEWe8/ePQ/XYYKNTaaY8ITrQdEo1zSWMNqPxBdQu82MPPAtAkV6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727912473; c=relaxed/simple;
-	bh=4SwDa8lM2MdfWnNuMuaKIAnYB6m3c8l0LOu0J9MotgI=;
+	s=arc-20240116; t=1727912559; c=relaxed/simple;
+	bh=zTshrRghKpRSTErvdzIsUdge+WYinbwtVYc8B9ze7xk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TBN+YbW5PWrFA9bfgPTATQGNoBFosnjQJ5M/bufAVZY5kUIwbSp8VV4kEharpPM8b0lfl4ZaqxAUm7NYEVRGvApC73ReUBh90Cyu78Hka/vUFfZSM+htddkZKXN80zSMMXlv8wsJkOGWam08muW0i8r6q8cH59/l56I77+IpC3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=yhePrbkq; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=tle+SFdCAY7Vw4pmNfws4LyRBFfc/OuX8bHM9mfwbTMq3kemkksGE+L7slN3mH6+d+X+x7Sk0p+nhQXB+6BJ05jcHn+88IURHoDsIESDpTkGB/bVILrG8Cb85iBsbonEQarfik1Xp+M8jZAUkLguGHKuHXn+CrYYPvV/8McoiWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=PcHXD1Gg; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="yhePrbkq"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="PcHXD1Gg"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=EhSIo3f8674lHyEmzcNCF+aHuXIgRrjkoC0xeCu+z4c=; b=yhePrbkqBskmklCFPJE7mwAPzG
-	FRvx5GSl6Kg6atYN/D2Agel/FZK7NghnERP+p12iHz+tF3WpQD/YKRQwsxE4E2smfcYPqpwEi1VF1
-	bvl4l++AGTNPfnjKD/dwglAJcBX0389wt8MI/M274+DZlXIC494CMXViinVjZdnvNG5k=;
+	bh=iKo+ToJTEwGJez7CJKu7gURw2fUlED9MPPdpQMBwKXA=; b=PcHXD1GgTB4RRxV3wwAFtEv4UO
+	urcE2y3aWVeI76G5iRQFa6/WC8kIJZesuipb+AqWqbpsJXVRw4b+MsPqJNET4EhNTZ2br2P4nYebs
+	ZidwFPc3WE4sE9EVSHGMwd3jL2wzUHSfLZMQrXqZMSvhw5nshQ5BuKEpxb5nwHZoCIO0=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1sw8xq-008uCQ-Sa; Thu, 03 Oct 2024 01:41:02 +0200
-Date: Thu, 3 Oct 2024 01:41:02 +0200
+	id 1sw8zE-008uDf-Mf; Thu, 03 Oct 2024 01:42:28 +0200
+Date: Thu, 3 Oct 2024 01:42:28 +0200
 From: Andrew Lunn <andrew@lunn.ch>
 To: Kory Maincent <kory.maincent@bootlin.com>
 Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
@@ -41,11 +41,11 @@ Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
 	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
 	Dent Project <dentproject@linuxfoundation.org>,
 	kernel@pengutronix.de
-Subject: Re: [PATCH net-next 08/12] net: pse-pd: pd692x0: Add support for PSE
- PI priority feature
-Message-ID: <1e9cdab6-f15e-4569-9c71-eb540e94b2fe@lunn.ch>
+Subject: Re: [PATCH net-next 09/12] net: pse-pd: tps23881: Add support for
+ PSE PI priority feature
+Message-ID: <7fa4dc4b-aa60-4549-b574-2c34c48a9b5d@lunn.ch>
 References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
- <20241002-feature_poe_port_prio-v1-8-787054f74ed5@bootlin.com>
+ <20241002-feature_poe_port_prio-v1-9-787054f74ed5@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,13 +54,18 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241002-feature_poe_port_prio-v1-8-787054f74ed5@bootlin.com>
+In-Reply-To: <20241002-feature_poe_port_prio-v1-9-787054f74ed5@bootlin.com>
 
-> +	msg = pd692x0_msg_template_list[PD692X0_MSG_SET_PORT_PARAM];
-> +	msg.sub[2] = id;
-> +	/* Controller priority from 1 to 3 */
-> +	msg.data[4] = prio + 1;
+On Wed, Oct 02, 2024 at 06:28:05PM +0200, Kory Maincent wrote:
+> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+> 
+> This patch extends the PSE callbacks by adding support for the newly
+> introduced pi_set_prio() callback, enabling the configuration of PSE PI
+> priorities. The current port priority is now also included in the status
+> information returned to users.
+> 
+> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 
-Does 0 have a meaning? It just seems an odd design if it does not.
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-	Andrew
+    Andrew
