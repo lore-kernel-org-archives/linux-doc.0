@@ -1,235 +1,98 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A15E745F4
-	for <linux-doc@vger.kernel.org>; Wed,  2 Oct 2024 05:27:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5750733EC;
+	Wed,  2 Oct 2024 06:42:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727846826; cv=none; b=plKpxduDCN5l+zKPxpQvxBtxxgK7jAyNsix/6+nPtPA/DLt/D6XjegkExvFQOsPEj2JReE2/0NDX8shliKHveg2U8HqBOp9LkPIS6SuF8SlQFPqw1pOBmHrRYgd0olYZv4pFuJ8PwcjaDBTy1N28C+bTT/gt2qe/pFu5Fcxavr8=
+	t=1727851341; cv=none; b=O8cqkDMwklMydvwz0tLyZXjRrRFY1qKP0nrs1gtPui10d+SNs86w5vngp3zBDgsl3ui/C/Wl3JWPKwc6xBhA0oTOw2oYdxRTAm9fOH8YBJamR32Dez9fo6K6lXdWP7kAiBpzdGhXGLb893sdUP37sMEZjYXciLuYowVyMvgkPZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727846826; c=relaxed/simple;
-	bh=9fxwXFLn5GhRqZDoUHaTplseUCYkdcTYDVZR4cW105g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lYSn/dBNZsGAECAJVWMme5xZUQEpGLoCrEGPx+YPlCctjw+GkvX45zcolG0WrFzqkM/H8bH63evZFtfHvC+oapOpFUXwn5eW6ddU7O99WTlHGUtddtqa5HKQN7vJeGtIJQxIkwbFKScvfkXuWhRV3rF6uM4Lvh6jzofnP3SEHzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=none smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=vNjJEbg6; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=daynix.com
+	s=arc-20240116; t=1727851341; c=relaxed/simple;
+	bh=MdWuSwkybXUYj063xEzsz/V8JSIpC4VUKS6xkG8i7Ek=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=o8Olqf+v5o7EhJOmCfr1wQhEdOLUWzezaNreh+INN5gI2RE2sJF6OL9SkxXWpyKlt02lP4PF40iR6xcb37MIeUCCHPpPMq5YsFkWJ7ifJb4331lPMom1pqvopwQsd89EvlXYC6h6dtHbqxfPXTVeIZ9GDL1HY48MyqP9EiSOkSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O2KdJVxb; arc=none smtp.client-ip=209.85.218.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="vNjJEbg6"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-20ba6b39a78so17058045ad.3
-        for <linux-doc@vger.kernel.org>; Tue, 01 Oct 2024 22:27:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O2KdJVxb"
+Received: by mail-ej1-f66.google.com with SMTP id a640c23a62f3a-a8a897bd4f1so929280766b.3;
+        Tue, 01 Oct 2024 23:42:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1727846824; x=1728451624; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nVKUJa0N9Bv7FRPSWL41/VbRzViB8OY98BcxK2GdZLk=;
-        b=vNjJEbg6cGIrcVfEY0hNpNwNwz08QKm/oe13qeajcjSsrp25PM8NjQOYrLn8/D/zCH
-         KAN3pzByEfggRi8x2boLYg+jw+9A2wvTPSM2/q3WKd2j+7OnZ4qXzPWDOyV9le5WXyUF
-         DccaEXoLWKQBXzRxJB9AuEKe7IQ02vCAvLykPigb9IL/EF1S4R/FYvsH6fj0Xc8eN9WE
-         EpT/l+ccAE4nZzD953lngJTCaSF3G2GHZObz+84g9EeEqhiykrxsMRnRJrEgipqvABPC
-         HFbIxlG4GYrUWKXbgPdvMZgTOzmTXykt5Jh2+XyAXl2GeX33wzmb5SSDXrsqerDM45GB
-         7vHw==
+        d=gmail.com; s=20230601; t=1727851339; x=1728456139; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MdWuSwkybXUYj063xEzsz/V8JSIpC4VUKS6xkG8i7Ek=;
+        b=O2KdJVxbsbYvrfUq9pzp2AmuV9xIJHplRWBP/qOCMecRC8OpOeaHbLV6PLLIPvEofD
+         hjBKtJVogzMDeRYQf1hxVFSPXWCRbxkfogcMwHSpWPCfgEmwPTHIMcrDVAYRGMSymnVi
+         FYMZoZ8BN3PgeVVAdF6eLenud1iACOoOz2wHMv/Ve5rOXbXyWjykCBNDPVp6gVZfWDdm
+         ojIJU3YxosvZtYDmv09jUPYNhLn8LD2Went3VGr72Q96e9gE2LclUbGZZ200eZSQOo9g
+         ea2SfwAtX6up6Rv2oyxN0kLR+IPUefNkYRZMNBnem6smMgP+vTchZYsATTBkfKUJhKV8
+         mMFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727846824; x=1728451624;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nVKUJa0N9Bv7FRPSWL41/VbRzViB8OY98BcxK2GdZLk=;
-        b=m7zznpuKiq5voqzaOvYipUXgnH8qTsrmVAuckfEBxAmxf11IQEGZ37rFuGBcLhzsRF
-         +ooBx/P6j5OMrkH2AW9tFZLZ3Sv48+WLNBFIpzq7XVuWwKp4Dth5rRFCviOqoun5F1jI
-         DPGnFzZiVar8kqIJ4bgWxFQg5vrHxSsdy/HNqIaCRYQpIxN67JajpabRjQpBucNtw52d
-         djVDm8g+XazXDEU8965YcJ3b7HWe+/ycO6H8stpsj3IlE1Jsfk7rFW3F09eVP4OcDP0t
-         FcVI2fDim89dfC+5VuEmyUwNq1zcwfCl8mIDipyoGthTW/txpNzhLvIJz6A8ictU4RvF
-         yOkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW3mWOUV9ok57+sR8wjZY+gSKmxbyz8ICMResOOpHGGcxO25A5eH2QAjm4XSagsGqOMur7lmdCl70I=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwsqfttpQ+8McrLiyMQnoFT8BOeKMJo9O4lbXtWs0Y1/e2B7l06
-	X92eM/t0OvJLxQWrHBolaBQI7QfA0va1o0NqLdJ6OzSnVkw6BKX7mKZ6TDdOZxM=
-X-Google-Smtp-Source: AGHT+IGRvF+0dzA6+8tjn7CaXbw8Jq4zdHPAfGu0aIngCPiMB0nvWY2fY2CjWXjr6Jtlt0AZyPw/Jg==
-X-Received: by 2002:a17:902:f14b:b0:205:83a3:b08 with SMTP id d9443c01a7336-20bc5a13e3fmr21525075ad.32.1727846823680;
-        Tue, 01 Oct 2024 22:27:03 -0700 (PDT)
-Received: from [157.82.207.107] ([157.82.207.107])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20b37e4ee7bsm77740535ad.234.2024.10.01.22.26.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Oct 2024 22:27:03 -0700 (PDT)
-Message-ID: <202d7486-7fbb-43bd-9002-2cc0013483ff@daynix.com>
-Date: Wed, 2 Oct 2024 14:26:57 +0900
+        d=1e100.net; s=20230601; t=1727851339; x=1728456139;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MdWuSwkybXUYj063xEzsz/V8JSIpC4VUKS6xkG8i7Ek=;
+        b=GXfSO1QsBLnR9kGyZrRx52kvgU50/CdqG+jtke5SOqMK3TNVpJ1FLwaQoGczm6o9u/
+         s5SRvxvEUXjQAjH1LOZNxpO0F5t3BrMYUeND9rBtcSMd/aTUj4wEcs32jo8CKXxThy3n
+         NXppUS5RHsAA3b5msDlpXxKoaZgdU82MYga/VDnHPsa9JVB599R2pOtzbpv6I9BRFNuB
+         4t0fnE7/l8Czgl/OrLBPQysJWVKY85MDK2UrvQAvCZYZ3aITKvo6j9eC3a/Bf2c6Vh4A
+         SD4eoy8PskJcqe6WdGBhxL2GP9j1XivDkByVLkE94NsTQtLafwtYbyqJ9X0yWAJIlGM/
+         0g4A==
+X-Forwarded-Encrypted: i=1; AJvYcCU123Z7ei1Gkr8Fa7t7BLMPJ5A9XARgLRtRTZ7wRWAg3ddStj2574K+PnApXA5X0z/xxqSmnohWC3H6@vger.kernel.org, AJvYcCUE8of2zfhK7V8hq9pponsnv84GQqvsvuJRoYmVNfWYOb/UIpMpPD7WgWrafC7clHtB5vXSUUAdNqxNfg3S@vger.kernel.org, AJvYcCUOC8Nw/mg2IZGqrxrVUR/7uvqlj2QlShCYtMVpJTSrLPJ6KCvCbqOq//UBOIj2x0skigDdft/K70dUgBo=@vger.kernel.org, AJvYcCWq0ciaq4zpb/HAxLCkhhPUWdCQqSAAA+x8wvA3+3+HwIoBjdhRUrR0ANBAuTYtaYMfMeQ8CX+5+O+N@vger.kernel.org, AJvYcCX0d/q6BCpJB/Uo+566peewZYkwsJhVgjLUKRhe0v8/NNvc0R6bFEr0txeUY2Xdk672wf0F95KIWRSDFZW32hqDPes=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHfGzxoSli5KE1uaSN4IQt1SHbGPATTrjSGTzRYVnL9OYQev5i
+	GPrd7ySAAJ4iuckUcdHSEy3mjO67ZNvhYZx5eHwBiKtH/auAUY6om8DO3toVeggw1lNIPC1FSEo
+	4yWhGm/GuppTi/oEhprJxDUGU1tU=
+X-Google-Smtp-Source: AGHT+IHo5N+PmxexOIAZW9wy2hU9cuTy5rl7qjrkN/SU1uBB8FGlt4ZcL2RSEzaIwqP4nFhi4TRSgJ7Nzvn0kPnXYJQ=
+X-Received: by 2002:a17:907:6e90:b0:a7a:aa35:408c with SMTP id
+ a640c23a62f3a-a98f82008d3mr181880466b.8.1727851338455; Tue, 01 Oct 2024
+ 23:42:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v4 0/9] tun: Introduce virtio-net hashing feature
-To: Stephen Hemminger <stephen@networkplumber.org>
-Cc: Jason Wang <jasowang@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, kvm@vger.kernel.org,
- virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Andrew Melnychenko <andrew@daynix.com>, gur.stavi@huawei.com
-References: <20240924-rss-v4-0-84e932ec0e6c@daynix.com>
- <CACGkMEvMuBe5=wQxZMns4R-oJtVOWGhKM3sXy8U6wSQX7c=iWQ@mail.gmail.com>
- <c3bc8d58-1f0e-4633-bb01-d646fcd03f54@daynix.com>
- <CACGkMEu3u=_=PWW-=XavJRduiHJuZwv11OrMZbnBNVn1fptRUw@mail.gmail.com>
- <6c101c08-4364-4211-a883-cb206d57303d@daynix.com>
- <CACGkMEtscr17UOufUtyPp1OvALL8LcycpbRp6CyVMF=jYzAjAA@mail.gmail.com>
- <447dca19-58c5-4c01-b60e-cfe5e601961a@daynix.com>
- <20240929083314.02d47d69@hermes.local>
- <f437d2d6-e4a2-4539-bd30-f312bbf0eac8@daynix.com>
- <20241001093105.126dacd6@hermes.local>
-Content-Language: en-US
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <20241001093105.126dacd6@hermes.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20240925031131.14645-1-yikai.tsai.wiwynn@gmail.com> <e2sceba6setxuvm5ztygqo5eoihjbts7gl4pfewjunepfhllhq@oblkbeb4wfym>
+In-Reply-To: <e2sceba6setxuvm5ztygqo5eoihjbts7gl4pfewjunepfhllhq@oblkbeb4wfym>
+From: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>
+Date: Wed, 2 Oct 2024 14:42:08 +0800
+Message-ID: <CAL5-g4VE9kzXewhqOFetuyjZdh-OnaisyProEujuW9dbVCWTmA@mail.gmail.com>
+Subject: Re: [PATCH v7 0/2] hwmon: (isl28022) new driver for ISL28022 power monitor
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Krzysztof Kozlowski <krzk@kernel.org>
+Cc: patrick@stwcx.xyz, Magnus Damm <magnus.damm@gmail.com>, 
+	=?UTF-8?Q?Carsten_Spie=C3=9F?= <mail@carsten-spiess.de>, 
+	Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2024/10/02 1:31, Stephen Hemminger wrote:
-> On Tue, 1 Oct 2024 14:54:29 +0900
-> Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
-> 
->> On 2024/09/30 0:33, Stephen Hemminger wrote:
->>> On Sun, 29 Sep 2024 16:10:47 +0900
->>> Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>>    
->>>> On 2024/09/29 11:07, Jason Wang wrote:
->>>>> On Fri, Sep 27, 2024 at 3:51 PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>>>>>
->>>>>> On 2024/09/27 13:31, Jason Wang wrote:
->>>>>>> On Fri, Sep 27, 2024 at 10:11 AM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>>>>>>>
->>>>>>>> On 2024/09/25 12:30, Jason Wang wrote:
->>>>>>>>> On Tue, Sep 24, 2024 at 5:01 PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>>>>>>>>>
->>>>>>>>>> virtio-net have two usage of hashes: one is RSS and another is hash
->>>>>>>>>> reporting. Conventionally the hash calculation was done by the VMM.
->>>>>>>>>> However, computing the hash after the queue was chosen defeats the
->>>>>>>>>> purpose of RSS.
->>>>>>>>>>
->>>>>>>>>> Another approach is to use eBPF steering program. This approach has
->>>>>>>>>> another downside: it cannot report the calculated hash due to the
->>>>>>>>>> restrictive nature of eBPF.
->>>>>>>>>>
->>>>>>>>>> Introduce the code to compute hashes to the kernel in order to overcome
->>>>>>>>>> thse challenges.
->>>>>>>>>>
->>>>>>>>>> An alternative solution is to extend the eBPF steering program so that it
->>>>>>>>>> will be able to report to the userspace, but it is based on context
->>>>>>>>>> rewrites, which is in feature freeze. We can adopt kfuncs, but they will
->>>>>>>>>> not be UAPIs. We opt to ioctl to align with other relevant UAPIs (KVM
->>>>>>>>>> and vhost_net).
->>>>>>>>>>      
->>>>>>>>>
->>>>>>>>> I wonder if we could clone the skb and reuse some to store the hash,
->>>>>>>>> then the steering eBPF program can access these fields without
->>>>>>>>> introducing full RSS in the kernel?
->>>>>>>>
->>>>>>>> I don't get how cloning the skb can solve the issue.
->>>>>>>>
->>>>>>>> We can certainly implement Toeplitz function in the kernel or even with
->>>>>>>> tc-bpf to store a hash value that can be used for eBPF steering program
->>>>>>>> and virtio hash reporting. However we don't have a means of storing a
->>>>>>>> hash type, which is specific to virtio hash reporting and lacks a
->>>>>>>> corresponding skb field.
->>>>>>>
->>>>>>> I may miss something but looking at sk_filter_is_valid_access(). It
->>>>>>> looks to me we can make use of skb->cb[0..4]?
->>>>>>
->>>>>> I didn't opt to using cb. Below is the rationale:
->>>>>>
->>>>>> cb is for tail call so it means we reuse the field for a different
->>>>>> purpose. The context rewrite allows adding a field without increasing
->>>>>> the size of the underlying storage (the real sk_buff) so we should add a
->>>>>> new field instead of reusing an existing field to avoid confusion.
->>>>>>
->>>>>> We are however no longer allowed to add a new field. In my
->>>>>> understanding, this is because it is an UAPI, and eBPF maintainers found
->>>>>> it is difficult to maintain its stability.
->>>>>>
->>>>>> Reusing cb for hash reporting is a workaround to avoid having a new
->>>>>> field, but it does not solve the underlying problem (i.e., keeping eBPF
->>>>>> as stable as UAPI is unreasonably hard). In my opinion, adding an ioctl
->>>>>> is a reasonable option to keep the API as stable as other virtualization
->>>>>> UAPIs while respecting the underlying intention of the context rewrite
->>>>>> feature freeze.
->>>>>
->>>>> Fair enough.
->>>>>
->>>>> Btw, I remember DPDK implements tuntap RSS via eBPF as well (probably
->>>>> via cls or other). It might worth to see if anything we miss here.
->>>>
->>>> Thanks for the information. I wonder why they used cls instead of
->>>> steering program. Perhaps it may be due to compatibility with macvtap
->>>> and ipvtap, which don't steering program.
->>>>
->>>> Their RSS implementation looks cleaner so I will improve my RSS
->>>> implementation accordingly.
->>>>   
->>>
->>> DPDK needs to support flow rules. The specific case is where packets
->>> are classified by a flow, then RSS is done across a subset of the queues.
->>> The support for flow in TUN driver is more academic than useful,
->>> I fixed it for current BPF, but doubt anyone is using it really.
->>>
->>> A full steering program would be good, but would require much more
->>> complexity to take a general set of flow rules then communicate that
->>> to the steering program.
->>>    
->>
->> It reminded me of RSS context and flow filter. Some physical NICs
->> support to use a dedicated RSS context for packets matched with flow
->> filter, and virtio is also gaining corresponding features.
->>
->> RSS context: https://github.com/oasis-tcs/virtio-spec/issues/178
->> Flow filter: https://github.com/oasis-tcs/virtio-spec/issues/179
->>
->> I considered about the possibility of supporting these features with tc
->> instead of adding ioctls to tuntap, but it seems not appropriate for
->> virtualization use case.
->>
->> In a virtualization use case, tuntap is configured according to requests
->> of guests, and the code processing these requests need to have minimal
->> permissions for security. This goal is achieved by passing a file
->> descriptor that represents a tuntap from a privileged process (e.g.,
->> libvirt) to the process handling guest requests (e.g., QEMU).
->>
->> However, tc is configured with rtnetlink, which does not seem to have an
->> interface to delegate a permission for one particular device to another
->> process.
->>
->> For now I'll continue working on the current approach that is based on
->> ioctl and lacks RSS context and flow filter features. Eventually they
->> are also likely to require new ioctls if they are to be supported with
->> vhost_net.
-> 
-> The DPDK flow handling (rte_flow) was started by Mellanox and many of
-> the features are to support what that NIC can do. Would be good to have
-> a tc way to configure that (or devlink).
+Hi Geert, Krzysztof,
 
-Yes, but I would rather only implement the ioctl without flow handling 
-for now. My purpose of implementing RSS in the kernel is to report hash 
-values to the guest that has its own network stack in the virtualization 
-context. tc-bpf would be suffice for DPDK, which does not have such a 
-requirement.
+Thanks for your feedback. I will fix them.
 
-Having an access to the in-kernel RSS implementation also saves the 
-trouble of implementing an eBPF program for RSS, but DPDK already does 
-have such a program so it makes little difference. There may be also 
-performance improvement because I'm optimizing the in-kernel RSS 
-implementation with ffs(), which is currently not available to eBPF, but 
-there is also a proposal to expose ffs() to eBPF*.
 
-For now, I will keep the patch series small by having only the ioctl 
-interface. Anyone who finds the feature useful for tc can take it and 
-add a tc interface in the future.
+Best regards,
+Yikai
 
-Regards,
-Akihiko Odaki
-
-* https://lore.kernel.org/bpf/20240131155607.51157-1-hffilwlqm@gmail.com/#t
+Krzysztof Kozlowski <krzk@kernel.org> =E6=96=BC 2024=E5=B9=B49=E6=9C=8825=
+=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=883:35=E5=AF=AB=E9=81=93=EF=BC=
+=9A
+>
+> On Wed, Sep 25, 2024 at 11:11:26AM +0800, Yikai Tsai wrote:
+> > Driver for Renesas ISL28022 power monitor chip.
+> > Found e.g. on Ubiquiti Edgerouter ER-6P
+> >
+> > v7: review comments and code refactoring
+>
+> What exactly happened? That's too vague.
+>
+> Best regards,
+> Krzysztof
+>
