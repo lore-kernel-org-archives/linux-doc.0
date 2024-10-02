@@ -1,151 +1,156 @@
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84D4F1D0E19;
-	Wed,  2 Oct 2024 16:05:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54CF31940B0;
+	Wed,  2 Oct 2024 16:12:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727885152; cv=none; b=anuy0Dd/dZgsvkpQ+NgEq79Z4y657tfS+GxK2UC7COg4KA3FuhDzijSHGNBxUW1otgsz0Da5ooogbSDeAGxc5j3wxnpcKLERprQW5hAVit9XRgIhDzsz8S87C88NZnTZwWoFr5ZHDC+uHocxaIbs52m0L6l7W8JYIEzo5r3pCTA=
+	t=1727885526; cv=none; b=Uzv2JMPxOWOAm2u+Kj9NgRPuP1zt7MLei3Mdas5Gne0mKRH78lMycGzr7nsKrdpBXwD5t51RyZUdc0z97gVkm52QMY8X3rD7o5LRk18USjrg8ltWwlS2Ih80LHtDFN+O6fWZBc8J67oGSriA70Arm3/T8boSK7uP1j7TtIXeQ3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727885152; c=relaxed/simple;
-	bh=ANC8Qb5v5SRqtuiLPKYG+H+JN4dcEV1+gCnN8O8CSzA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=br+VCjXfC0RfrB98mPE0rRXKezvM6rYfakfH31uw+aaikBw06nEEKGEAUCCrWDwXNmm17Q1J8ekfoQsIsuEhvV9YAWBSkV8HhDVoIvyAeRQH9rwmrqwehzhNwe2Cwg+Jz2XGwPC9nxwLDzyyDhCyWjZICPUT2VLDsYTDFUXMxCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lYd+k1PM; arc=none smtp.client-ip=209.85.219.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727885526; c=relaxed/simple;
+	bh=NQ7dqyhAYAqkH0hxLTpCFpNIb7wXeshyn7k8LqySt6k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fRJ0NMVXmPy0NP5AHXMXcDIqgV2NepiV3wWbFTgDv3XDYUJb1LeEzHAcK7ZqWUestxVa2fW8Wx5bWek4JnOtP/Csuc3VlclQZPD3AECHDO9wpOi5GbZ/js+4JKrwxVTNvXqiWRhRcYCJiTDrz8+lZ8X7o4TQTbPSWG75f97k/eM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=OdJC7C1U; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lYd+k1PM"
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e026a2238d8so6518385276.0;
-        Wed, 02 Oct 2024 09:05:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727885149; x=1728489949; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5N4+gqSeb1KPAY46BU6QRBcQA4A0mtfnF/DfhNnvaYg=;
-        b=lYd+k1PM4b/13J0yKmWMpajFuR7pXlkFiTCNq92vPjS2dQX0+wdKMdwNTw4dDVypth
-         YfjZPAS11Rmyqhjw1JSDO2zPGu2el/KvLyF7nTBA+C/3VIV/t884hBnWTfE+LoVKD1pY
-         3yaFNoD8SVrKOC/QKgpoAb+DvjAl4vMka2C7NmazvclCW7ouE/dfdqyHc8oISX3F2ti5
-         N+whIeNLMBRgQEEKJY6DKRPaFDdwwhYCmpQ2Jr5hkodwxTBD7qZUhmCNe5DcyfQVsvvx
-         uc7eNI9m4AB7DbKkmDSsGQF9NJIqTDBknTXr7satS10wKo14bBDLRwkeY8dBr7GmBjTo
-         0SWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727885149; x=1728489949;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5N4+gqSeb1KPAY46BU6QRBcQA4A0mtfnF/DfhNnvaYg=;
-        b=kkFCroGLLq7RlLADkQoxJDCL8QhWNtiWJA6/WPwafy+bVJt0ob49Z1d9IT2fi7ekO0
-         HorvvaGkQ/8dvEcD0hTNQGmpbW+oNB7UP6tuuM/klFdiMIBJf9xWUsDAwlt6TFpuSMnH
-         RKrP9DZ27MNfwnX3eSWBpX7+9Xb2bI9Ko/98MlwptmUJ18J89puqb4j+8XzVjFljN0bR
-         0cc3V2aL8vQqDFsh1ta5YaFlOeMAmIL3snqzFj8DBiMdnrh9w90A54Suzamlfh/LJQ/K
-         +flc0WkEZDzfyCVHq/D9Sg6d0YPHH8qhYvcrEg22A3Hb//S8o3kagSEH2c9cB4XHc3V0
-         Ljyw==
-X-Forwarded-Encrypted: i=1; AJvYcCUXSqa6EmUf+KADdvGyej7t10ix14U2MLcVtpDs+UPrzXCeRpiChMPSgvunWMyR6xV/Y8jshyLuyj/RreK+@vger.kernel.org, AJvYcCUfJsTuV6ow86c/igjXVgNnxyKw3Zl+lUhUCjmR5Y1eNaZ/jKjWL2zMvYqA6gIDsma/a92kFQa4ZUP4@vger.kernel.org, AJvYcCVWkjhAaaPU7Li2WBdF7MGyNewfL5g8xckOxt9w43Pw1vVyL1nbcWobrjBPCcpweVqUM4Gz2K6mDmYV@vger.kernel.org, AJvYcCXIp8TfskynNFBr5sI0s10G3t9RcH8GN+6jenerN2g6nA+Ki25Z4DVpgBsNQd+Whu0laQb002441kxVm8gr/SAi@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUQsdUAB/1T/XoH9utdop9uXQjeGY9P3GgVwF94/hfOHfrglJt
-	JcwIopUgeJ9rooPffXx2KqfdydFwHdcLRMOMSh5zPQ2leMiSl+0m0rq0nL3zh85WHmIhnSsvqpX
-	fDnYh/dBAE7C2h90tqfzRkNlES8E=
-X-Google-Smtp-Source: AGHT+IFUlmzbLTsFGYihjtzA3b4/xF4lQlYRCLWv50QanOiiRb9UJNd04Ll1C8wrxpzQb0JBZR9YOz+0MxaVbPy8aQQ=
-X-Received: by 2002:a05:690c:6d09:b0:627:778f:b0a8 with SMTP id
- 00721157ae682-6e2a2e37b2bmr40441297b3.42.1727885149175; Wed, 02 Oct 2024
- 09:05:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="OdJC7C1U"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 709461BF207;
+	Wed,  2 Oct 2024 16:12:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1727885522;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z+dMCKpcaMRVlGjanl5ywtRCtMH81yJkm6jVM3c7Ysc=;
+	b=OdJC7C1U1OGJX0MSJSmoEWjtNtlDlQsrgRbFk2tRiplu4pq+8S+0ITI8viGzHCPrJqbT6R
+	UoiSS9XinySKbML9/D1JnNa1EB7TUQOvU3JiH2B5ZKd3w+waobQnxjkbnX23Ma/7sTQ7br
+	SOSCgdO4AAQMWRAvyg4a+1QqVwqi7uiKa2EGhVaIpEZ9xxKf6u7zZPSydzMqAHKOqt4Kl3
+	prQOT4vlMO/LR+aQFyncvJVvKm6EwIeodiDem8dAOrMLbKmuYZi75eBrSGEJO1ZLGiBuNC
+	GLHjAtX6nKhYUnyn1JAOktTd1/yfeTuHFUFFv984ZkjuzqPvC2nd24Lnfwa6mQ==
+Date: Wed, 2 Oct 2024 18:11:59 +0200
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Maaara Canal <mairacanal@riseup.net>,
+	Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+	Simona Vetter <simona@ffwll.ch>, arthurgrillo@riseup.net,
+	pekka.paalanen@haloniitty.fi,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
+	jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+	seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
+	Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: Re: [PATCH v11 06/15] drm/vkms: Avoid computing blending limits
+ inside pre_mul_alpha_blend
+Message-ID: <Zv1wz-TNT36McwXp@louis-chauvet-laptop>
+Mail-Followup-To: Randy Dunlap <rdunlap@infradead.org>,
+	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Maaara Canal <mairacanal@riseup.net>,
+	Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+	Simona Vetter <simona@ffwll.ch>, arthurgrillo@riseup.net,
+	pekka.paalanen@haloniitty.fi,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
+	jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+	seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
+	Pekka Paalanen <pekka.paalanen@collabora.com>
+References: <20240930-yuv-v11-0-4b1a26bcfc96@bootlin.com>
+ <20240930-yuv-v11-6-4b1a26bcfc96@bootlin.com>
+ <30573f5a-d3dd-4aa4-ac5a-cf6df77b79dc@infradead.org>
+ <Zv0LBo8OtRHJM029@louis-chauvet-laptop>
+ <509aa67d-5bfa-4f37-aae6-ce3786e35596@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240911-xtheadvector-v10-0-8d3930091246@rivosinc.com> <20240911-xtheadvector-v10-2-8d3930091246@rivosinc.com>
-In-Reply-To: <20240911-xtheadvector-v10-2-8d3930091246@rivosinc.com>
-From: Andy Chiu <andybnac@gmail.com>
-Date: Thu, 3 Oct 2024 00:05:37 +0800
-Message-ID: <CAFTtA3NwGFioVAeipkA6aCUfRY12jKFJiR7MaCpCYNjdsT7TMQ@mail.gmail.com>
-Subject: Re: [PATCH v10 02/14] dt-bindings: cpus: add a thead vlen register
- length property
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Samuel Holland <samuel.holland@sifive.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <shuah@kernel.org>, Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>, 
-	Andy Chiu <andy.chiu@sifive.com>, Jessica Clarke <jrtc27@jrtc27.com>, 
-	Andrew Jones <ajones@ventanamicro.com>, linux-riscv@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <509aa67d-5bfa-4f37-aae6-ce3786e35596@infradead.org>
+X-GND-Sasl: louis.chauvet@bootlin.com
 
-Charlie Jenkins <charlie@rivosinc.com> =E6=96=BC 2024=E5=B9=B49=E6=9C=8812=
-=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=881:57=E5=AF=AB=E9=81=93=EF=BC=
-=9A
->
-> Add a property analogous to the vlenb CSR so that software can detect
-> the vector length of each CPU prior to it being brought online.
-> Currently software has to assume that the vector length read from the
-> boot CPU applies to all possible CPUs. On T-Head CPUs implementing
-> pre-ratification vector, reading the th.vlenb CSR may produce an illegal
-> instruction trap, so this property is required on such systems.
->
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+On 02/10/24 - 08:49, Randy Dunlap wrote:
+> Hi Louis,
+> 
+> On 10/2/24 1:57 AM, Louis Chauvet wrote:
+> > On 01/10/24 - 20:54, Randy Dunlap wrote:
+> >> Hi--
+> >>
+> >> On 9/30/24 8:31 AM, Louis Chauvet wrote:
+> >>> The pre_mul_alpha_blend is dedicated to blending, so to avoid mixing
+> >>> different concepts (coordinate calculation and color management), extract
+> >>> the x_limit and x_dst computation outside of this helper.
+> >>> It also increases the maintainability by grouping the computation related
+> >>> to coordinates in the same place: the loop in `blend`.
+> >>>
+> >>> Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> >>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> >>> ---
+> >>>  drivers/gpu/drm/vkms/vkms_composer.c | 40 +++++++++++++++++-------------------
+> >>>  1 file changed, 19 insertions(+), 21 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+> >>> index 931e214b225c..4d220bbb023c 100644
+> >>> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> >>> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> >>> @@ -24,34 +24,30 @@ static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
+> >>>  
+> >>>  /**
+> >>>   * pre_mul_alpha_blend - alpha blending equation
+> >>> - * @frame_info: Source framebuffer's metadata
+> >>>   * @stage_buffer: The line with the pixels from src_plane
+> >>>   * @output_buffer: A line buffer that receives all the blends output
+> >>> + * @x_start: The start offset
+> >>> + * @pixel_count: The number of pixels to blend
+> >>
+> >> so is this actually pixel count + 1; or
+> >>
+> >>>   *
+> >>> - * Using the information from the `frame_info`, this blends only the
+> >>> - * necessary pixels from the `stage_buffer` to the `output_buffer`
+> >>> - * using premultiplied blend formula.
+> >>> + * The pixels 0..@pixel_count in stage_buffer are blended at @x_start..@x_start+@pixel_count in
+> >>
+> >> should these ranges include a "- 1"?
+> >> Else please explain.
+> > 
+> > Hi Randy,
+> > 
+> > For the next version, I will use standard mathematical notation to clarify 
+> > the "inclusiveness" of the interval: [0;pixel_count[
+> 
+> Hm, I can read that after a second or two.
+> 
+> My math classes always used:  [0,pixel_count)
+> for that range, and that is what most of the internet says as well.
 
-Reviewed-by: Andy Chiu <andybnac@gmail.com>
+I'm french, and we use ]a;b[ notation at school :-)
 
-> ---
->  Documentation/devicetree/bindings/riscv/cpus.yaml | 19 +++++++++++++++++=
-++
->  1 file changed, 19 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/riscv/cpus.yaml b/Document=
-ation/devicetree/bindings/riscv/cpus.yaml
-> index 8edc8261241a..c0cf6cf56749 100644
-> --- a/Documentation/devicetree/bindings/riscv/cpus.yaml
-> +++ b/Documentation/devicetree/bindings/riscv/cpus.yaml
-> @@ -26,6 +26,18 @@ description: |
->  allOf:
->    - $ref: /schemas/cpu.yaml#
->    - $ref: extensions.yaml
-> +  - if:
-> +      not:
-> +        properties:
-> +          compatible:
-> +            contains:
-> +              enum:
-> +                - thead,c906
-> +                - thead,c910
-> +                - thead,c920
-> +    then:
-> +      properties:
-> +        thead,vlenb: false
->
->  properties:
->    compatible:
-> @@ -95,6 +107,13 @@ properties:
->      description:
->        The blocksize in bytes for the Zicboz cache operations.
->
-> +  thead,vlenb:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      VLEN/8, the vector register length in bytes. This property is requ=
-ired on
-> +      thead systems where the vector register length is not identical on=
- all harts, or
-> +      the vlenb CSR is not available.
-> +
->    # RISC-V has multiple properties for cache op block sizes as the sizes
->    # differ between individual CBO extensions
->    cache-op-block-size: false
->
-> --
-> 2.45.0
->
->
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+Both are valids according to ISO80000-2, but I will change it for the next 
+revision.
+ 
+> or you could just stick with
+>   The pixels from 0 through @pixel_count - 1 in stage_buffer are blended at @x_start
+>   through @x_start through @x_start + @pixel_count - 1.
+> 
+> but after writing all of that, I think using range notation is better.
+
+I also prefer ranges, way shorter to write, and easier to understand at 
+first sight. 
+
+> thanks.
