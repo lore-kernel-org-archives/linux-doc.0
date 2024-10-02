@@ -1,110 +1,174 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77C52225D9;
-	Wed,  2 Oct 2024 21:28:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618CE19580A;
+	Wed,  2 Oct 2024 21:35:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727904484; cv=none; b=l+HcEFYaQQjtnnmY4idEFq+BA2N2v64VfmPuR0bhwRoeLmSaTPcX61xw+SPsh29YXQfhFyFoIS+R6tIYMblxProIZPdVoIWzYi1WN4NyUkyYL+I/P7PgyuS3nQgmPNJtqEpyPpmKDJvz71daYNvL+5ghpHGROCrnxvIqLMC1C5A=
+	t=1727904957; cv=none; b=A+Q5XCpce/A9RucUftugR336ZC4md0z9uh8Ltm/KTENTjTZzm8jcWj4OEsFjEasAVMEmWKsb7dVxX+wjLSItqn1Ktb8pAXZWrmER3n06TMwjGxtT07gblamcWDzz4LpCAi8hRQddy9uktYPsG0EoerAksRqaDMjrysmMHJGclYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727904484; c=relaxed/simple;
-	bh=5/dsLO8cNmOaM6p0rv+Qvzx/xMvPBJnx6tvOBbPfMzs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dcUa7mhcQ8lr/TLJfNg75UgjQkB79jsi2EJOkQko4x4xekno8YFYkWMk/2/GnF0mWwndmohbkUNdaKh9iPHHg25rrgbHcfJXDr17yXTwURXhAwEUUUXFAAZKqOYfcB3Wlg6sP584izJ1fIVBH4+mwSO8TT9xxN6Okysx517og5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pY4qgNaa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727904957; c=relaxed/simple;
+	bh=BPbiYsLnxpgEFuYkCSBcKTHokotEyfQTGcEEcUl6TnA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=kd+BCpABpp+/cxUfiny44XXBN4DZkkA1xngKu8/eCCv/hwWI6crL7rXh0F8ZfZksKPakD4KQliBkTZZX4Oz2HaZA1O/XY/tKGp2eUDWGirlsTC3/WfXkBDWtxxLZpN9vR1NHRFWXQ8zuS+kj76deMiUesB4H+wfKzXQsfhvOwgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ky9rJ526; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pY4qgNaa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF362C4CEE1;
-	Wed,  2 Oct 2024 21:28:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ky9rJ526"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2A1DC4CEC2;
+	Wed,  2 Oct 2024 21:35:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727904484;
-	bh=5/dsLO8cNmOaM6p0rv+Qvzx/xMvPBJnx6tvOBbPfMzs=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=pY4qgNaaCqezS32qjDZEbsRs2uGb8OTkbND/gQNC3DZDk0GQyrjGRmxHYO6BtyTWX
-	 EQfJp0qmbpEp8Y4fEBEdJjYyDC1X6D/lcrtX9zhRMFR6vrtcr9gEpaw9lqhsBV4dzt
-	 hc/hRRGOV1mrRGkkpHthnO5R0XB4+yg2XN5Y8PwXRYhYvmUUyN5X088MqLAETzHPqn
-	 O26reMyyJqwCWRtn9LB+2DwWyURABcR1Pa7VdYMKNk9ArrOhg9DFEh4PfCmVFPe9Be
-	 NqUMbmrsKxgNgWyLK1sCeoxlIVRcC4VfPN2PcY5JZrL6kxFEm9kVwZtbsg1V1uskh8
-	 uQiYUVOkUhxhA==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Wed, 02 Oct 2024 17:27:27 -0400
-Subject: [PATCH v10 12/12] tmpfs: add support for multigrain timestamps
+	s=k20201202; t=1727904957;
+	bh=BPbiYsLnxpgEFuYkCSBcKTHokotEyfQTGcEEcUl6TnA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=Ky9rJ526vuWUEKhxy0ZbsYN1NC8eXxJWSPkxEq3lgZ5VFPwh9ptDnFGXCjSSBWZim
+	 tF1hXTuihLZi7+qszAKkwJFPylMnmPHtKNONBnJN+YA/+Zl6Uv3dTa8aPy6bJ8UTca
+	 KXKOUJePS0iO95Z1+bdkKeT4EYBa4TUpQtelox+v0BUouSfjdp4i8F3Tf6aOoSsWNS
+	 Uj3YvuFMHGEvvIknyHcOkFnbJ0Ldyg+74hbAKQeN2IaK8OCdgvd0g+MczuRmsShxli
+	 0VIXbDVPzSXnn2QlpgGSFooAP/nRL98XmULO12jSj11ZtTxAPxDmgiOMtVmhO+QYRi
+	 COREpDs2yVytA==
+Date: Wed, 2 Oct 2024 16:35:55 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Wei Huang <wei.huang2@amd.com>
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+	Jonathan.Cameron@huawei.com, corbet@lwn.net, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	alex.williamson@redhat.com, gospo@broadcom.com,
+	michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
+	somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
+	manoj.panicker2@amd.com, Eric.VanTassell@amd.com,
+	vadim.fedorenko@linux.dev, horms@kernel.org, bagasdotme@gmail.com,
+	bhelgaas@google.com, lukas@wunner.de, paul.e.luse@intel.com,
+	jing2.liu@intel.com
+Subject: Re: [PATCH V7 0/5] TPH and cache direct injection support
+Message-ID: <20241002213555.GA279877@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241002-mgtime-v10-12-d1c4717f5284@kernel.org>
-References: <20241002-mgtime-v10-0-d1c4717f5284@kernel.org>
-In-Reply-To: <20241002-mgtime-v10-0-d1c4717f5284@kernel.org>
-To: John Stultz <jstultz@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
- Stephen Boyd <sboyd@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
- Chandan Babu R <chandan.babu@oracle.com>, 
- "Darrick J. Wong" <djwong@kernel.org>, Theodore Ts'o <tytso@mit.edu>, 
- Andreas Dilger <adilger.kernel@dilger.ca>, Chris Mason <clm@fb.com>, 
- Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, 
- Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
- Chuck Lever <chuck.lever@oracle.com>, 
- Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org, 
- linux-btrfs@vger.kernel.org, linux-nfs@vger.kernel.org, linux-mm@kvack.org, 
- Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=988; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=5/dsLO8cNmOaM6p0rv+Qvzx/xMvPBJnx6tvOBbPfMzs=;
- b=owEBbQKS/ZANAwAIAQAOaEEZVoIVAcsmYgBm/brALjfB22SLtWrZvbq9dOIudVwmi0I1qA+aV
- n4HN6LIytCJAjMEAAEIAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCZv26wAAKCRAADmhBGVaC
- FRSFEACPohqXeTh7KgceuIiMgaiZvFEfTN6SD/E380ADOa3A/9s4jdNxUzvvIUF5TGO3RjuqvXp
- vQ39lbU+sN/EReWdsZdlcuP9wIJTEDPEo0Sd1UVdKEqRfvB7MXkHnFyhigbts8E4EeZm3vtO5Um
- dEueBuYGU/uHUQ+C6uWNdEqboX38koaVM6De2O+XxmDB25xapHTAlc+OjmcQvs6DpWxF5RNdpJg
- 84pcISszclA73/fk3T5S6O5wVNqceFy6Rj/wOaY0mSjy0XDKDJKGBWz7VJtKWZKTPmcLIh46ehW
- D3rEEFjv/THx5b+VU8ecQynhSjyfgPRiRgZ/ZFcxmYMlGzxi639VSAmecRyY4j1lwNLBwcaxP3U
- qfns+SkW0ZRePXxgunj1ox6ARPkr5OFR5Pa7/h0JkK0hjguHgiSpu5K82GofgSxXHpUFOv0Dkyj
- Ee32pebJG1fZRa4wWzJRSNqUvn+2uXCZvk35HWRS2uPOeNohiJVtbaJ34ZRn78lHec+pf5Z7ZJ5
- GKT64vZ0wq2zEDEprVAk5g9Pid6BM0mn2dixzCz1QwYLKWJdWrcK7YfU6uGpmvh/UiXzYOPesTz
- zpKM7FScCuy994O5F+7EBot7sYRW87SFI2Nu0MwRE5tPQdBY/CHLfBwZP8GTD2ThHGIm8ZnGudD
- XIxJwAEylXRaCkQ==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241002165954.128085-1-wei.huang2@amd.com>
 
-Enable multigrain timestamps, which should ensure that there is an
-apparent change to the timestamp whenever it has been written after
-being actively observed via getattr.
+On Wed, Oct 02, 2024 at 11:59:49AM -0500, Wei Huang wrote:
+> Hi All,
+> 
+> TPH (TLP Processing Hints) is a PCIe feature that allows endpoint
+> devices to provide optimization hints for requests that target memory
+> space. These hints, in a format called steering tag (ST), are provided
+> in the requester's TLP headers and allow the system hardware, including
+> the Root Complex, to optimize the utilization of platform resources
+> for the requests.
+> 
+> Upcoming AMD hardware implement a new Cache Injection feature that
+> leverages TPH. Cache Injection allows PCIe endpoints to inject I/O
+> Coherent DMA writes directly into an L2 within the CCX (core complex)
+> closest to the CPU core that will consume it. This technology is aimed
+> at applications requiring high performance and low latency, such as
+> networking and storage applications.
+> 
+> This series introduces generic TPH support in Linux, allowing STs to be
+> retrieved and used by PCIe endpoint drivers as needed. As a
+> demonstration, it includes an example usage in the Broadcom BNXT driver.
+> When running on Broadcom NICs with the appropriate firmware, it shows
+> substantial memory bandwidth savings and better network bandwidth using
+> real-world benchmarks. This solution is vendor-neutral and implemented
+> based on industry standards (PCIe Spec and PCI FW Spec).
+> 
+> V6->V7:
+>  * Rebase on top of the latest pci/main (6.12-rc1)
+>  * Fix compilation warning/error on clang-18 with w=1 (test robot)
+>  * Revise commit messages for Patch #2, #4, and #5 (Bjorn)
+>  * Add more _DSM method description for reference in Patch #2 (Bjorn)
+>  * Remove "default n" in Kconfig (Lukas)
+> 
+> V5->V6:
+>  * Rebase on top of pci/main (tag: pci-v6.12-changes)
+>  * Fix spellings and FIELD_PREP/bnxt.c compilation errors (Simon)
+>  * Move tph.c to drivers/pci directory (Lukas)
+>  * Remove CONFIG_ACPI dependency (Lukas)
+>  * Slightly re-arrange save/restore sequence (Lukas)
+> 
+> V4->V5:
+>  * Rebase on top of net-next/main tree (Broadcom)
+>  * Remove TPH mode query and TPH enabled checking functions (Bjorn)
+>  * Remove "nostmode" kernel parameter (Bjorn)
+>  * Add "notph" kernel parameter support (Bjorn)
+>  * Add back TPH documentation (Bjorn)
+>  * Change TPH register namings (Bjorn)
+>  * Squash TPH enable/disable/save/restore funcs as a single patch (Bjorn)
+>  * Squash ST get_st/set_st funcs as a single patch (Bjorn)
+>  * Replace nic_open/close with netdev_rx_queue_restart() (Jakub, Broadcom)
+> 
+> V3->V4:
+>  * Rebase on top of the latest pci/next tree (tag: 6.11-rc1)
+>  * Add new API functioins to query/enable/disable TPH support
+>  * Make pcie_tph_set_st() completely independent from pcie_tph_get_cpu_st()
+>  * Rewrite bnxt.c based on new APIs
+>  * Remove documentation for now due to constantly changing API
+>  * Remove pci=notph, but keep pci=nostmode with better flow (Bjorn)
+>  * Lots of code rewrite in tph.c & pci-tph.h with cleaner interface (Bjorn)
+>  * Add TPH save/restore support (Paul Luse and Lukas Wunner)
+> 
+> V2->V3:
+>  * Rebase on top of pci/next tree (tag: pci-v6.11-changes)
+>  * Redefine PCI TPH registers (pci_regs.h) without breaking uapi
+>  * Fix commit subjects/messages for kernel options (Jonathan and Bjorn)
+>  * Break API functions into three individual patches for easy review
+>  * Rewrite lots of code in tph.c/tph.h based (Jonathan and Bjorn)
+> 
+> V1->V2:
+>  * Rebase on top of pci.git/for-linus (6.10-rc1)
+>  * Address mismatched data types reported by Sparse (Sparse check passed)
+>  * Add pcie_tph_intr_vec_supported() for checking IRQ mode support
+>  * Skip bnxt affinity notifier registration if
+>    pcie_tph_intr_vec_supported()=false
+>  * Minor fixes in bnxt driver (i.e. warning messages)
+> 
+> Manoj Panicker (1):
+>   bnxt_en: Add TPH support in BNXT driver
+> 
+> Michael Chan (1):
+>   bnxt_en: Pass NQ ID to the FW when allocating RX/RX AGG rings
+> 
+> Wei Huang (3):
+>   PCI: Add TLP Processing Hints (TPH) support
+>   PCI/TPH: Add Steering Tag support
+>   PCI/TPH: Add TPH documentation
+> 
+>  Documentation/PCI/index.rst                   |   1 +
+>  Documentation/PCI/tph.rst                     | 132 +++++
+>  .../admin-guide/kernel-parameters.txt         |   4 +
+>  Documentation/driver-api/pci/pci.rst          |   3 +
+>  drivers/net/ethernet/broadcom/bnxt/bnxt.c     |  91 ++-
+>  drivers/net/ethernet/broadcom/bnxt/bnxt.h     |   7 +
+>  drivers/pci/Kconfig                           |   9 +
+>  drivers/pci/Makefile                          |   1 +
+>  drivers/pci/pci.c                             |   4 +
+>  drivers/pci/pci.h                             |  12 +
+>  drivers/pci/probe.c                           |   1 +
+>  drivers/pci/tph.c                             | 546 ++++++++++++++++++
+>  include/linux/pci-tph.h                       |  44 ++
+>  include/linux/pci.h                           |   7 +
+>  include/uapi/linux/pci_regs.h                 |  37 +-
+>  net/core/netdev_rx_queue.c                    |   1 +
+>  16 files changed, 890 insertions(+), 10 deletions(-)
+>  create mode 100644 Documentation/PCI/tph.rst
+>  create mode 100644 drivers/pci/tph.c
+>  create mode 100644 include/linux/pci-tph.h
 
-tmpfs only requires the FS_MGTIME flag.
+I tentatively applied this on pci/tph for v6.13.
 
-Reviewed-by: Josef Bacik <josef@toxicpanda.com>
-Reviewed-by: Jan Kara <jack@suse.cz>
-Tested-by: Randy Dunlap <rdunlap@infradead.org> # documentation bits
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
- mm/shmem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Not sure what you intend for the bnxt changes, since they depend on
+the PCI core changes.  I'm happy to merge them via PCI, given acks
+from Michael and an overall network maintainer.
 
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 5a77acf6ac6a621dc7b5e7b46402b2b714b45bea..5f17eaaa32e2902228be7b245c5b3b11c5fb6a56 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -4804,7 +4804,7 @@ static struct file_system_type shmem_fs_type = {
- 	.parameters	= shmem_fs_parameters,
- #endif
- 	.kill_sb	= kill_litter_super,
--	.fs_flags	= FS_USERNS_MOUNT | FS_ALLOW_IDMAP,
-+	.fs_flags	= FS_USERNS_MOUNT | FS_ALLOW_IDMAP | FS_MGTIME,
- };
- 
- void __init shmem_init(void)
+Alternatively they could wait another cycle, or I could make an
+immutable branch, although I prefer to preserve the option to update
+or remove things until the merge window.
 
--- 
-2.46.2
+Thanks very much; this looks like nice work!
 
+Bjorn
