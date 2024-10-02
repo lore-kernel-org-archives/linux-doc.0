@@ -1,81 +1,119 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E9031FA4;
-	Wed,  2 Oct 2024 07:45:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A4519414E;
+	Wed,  2 Oct 2024 08:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727855145; cv=none; b=PKNV717jn7lk2nw2YIsYsEAyNW1VG6x6/xy7w4x3SNenajVRlVh3vqz94oqImmcyrfIAxEY0du3fpYyOdyWv9zQ8h9FpLe5dD7PdeXStSTnR2Qu8hX9VLcrzuYEfkeBNVkjAg39nwbhSAWhkxUpJP5u8tWoA42kRfR5v86QAMuc=
+	t=1727856723; cv=none; b=ALLLRNM/VTrqrHHIBm7TIWPh85KTGNwvU49ndTt1RylSk2sOkKm1polD0stVXWtHQuubC4AeMkbwmXFHK7ZtfwmWxVo8xaG/ox7Vui8zKMziIYMMzCB9De4ZKWQnp7QDfCiAmrSByxsKAtWUFpkpzmvUnGEpJy5++f0S/ILXZdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727855145; c=relaxed/simple;
-	bh=kMJLqEV9tqhVK4MaaTaIf2NqFonku/YMWeCm0UPMw+g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EcDOaNUJSgPqOpvVF2thnQyVdGxBct+Ec7f5SUSXFT9qOxd2b1LgwlUvBCCihWV9oVniqoR1E9UhzDV0ML/L4dUtS1P0rnd8EKlk1gKvmQ6Ra5rQonu4ZV2ngX/Jn3rWeaAnPfHR7n4mSbu/zRSRlcSrENzuTxqfcUR6Iuy6ImI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=jWhW7GU0; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1727856723; c=relaxed/simple;
+	bh=70wnDyxHCzKJTJjwowzBQj1Ibokxz5hy40NjX5cZwkw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Cxw/7uf6WRR8ihQZ+D4AWpYNfowLQUQ6FZTTu/e82thr4Rm1kVKW8IW8XGkTtkms5t14zdRNsQW4BqzuFBr8AHd9mW4b6C5Z6hp3TzSKdr2z9N8aypxcHghxd0jHLyNGvxDy2v31cT5OfhgbB5NsyQX3h5Ywcj3AjNZmefuPoZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kbgi6U55; arc=none smtp.client-ip=209.85.210.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jWhW7GU0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=+DhPlvZlgWyskAxxSMsqdkfwqzEhNZOw6Hp35GCELxs=; b=jWhW7GU067oIFkt/MVbbr+n18I
-	wGHnBAxyd6w8KVrImRRpeg0e8F9y2jHDIEVqUQPj0tMABOnVUHDgg3vzJV/cL7mqxIFVyGQW0k04R
-	mG1/tE0hfZiTGC2OcXUAiomagy9LPxMJewGF+HXgqsdPBLHd1iZ3LNImSJDZCB+5/Y+Aiq2mg3ULJ
-	ucLYzc7Zh6MzKOqZ4cIHtwFaZrcLqFDHtQE/pR16gQuQoANDxGhaHkj9iY48UC32IXqQR8lkRb5Ub
-	+8b/Seys7fulUj0BxasEhk18bXdnehu6debe2cwDX2SIt8Rh6EVGlOAoPCbxiJ5/xZuncm8hB+cxE
-	bYVueTUw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1svu3F-000000053lB-1BAr;
-	Wed, 02 Oct 2024 07:45:37 +0000
-Date: Wed, 2 Oct 2024 00:45:37 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: Christoph Hellwig <hch@infradead.org>, Jens Axboe <axboe@kernel.dk>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kbgi6U55"
+Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-718e6299191so3447895b3a.2;
+        Wed, 02 Oct 2024 01:12:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727856721; x=1728461521; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AwYW3aXkOfpbJFEkTcyjA4Puz8SUEOqTQONRZN7kTSM=;
+        b=Kbgi6U55T/+r12FP2mho1PlDEjRUSoKyIbMrgQrpRlh9Y3dnGLWu/y2Uda10AEQR/A
+         aABoT5QVsmFq5u2+PMZT6bwSF5qeajuiqC+YNJ0RgZhUfdIXb/JM5eSBJUOs45TcDwM4
+         1iIS62OqHxbh+qb0lDADEd0B7Xb5zgDsdvUMVjfTQkTf2I8bp09edPM9t/opNsZgw19a
+         hJBaQhbA3VV2uRIezkcgpfl1ipld7pLWzQLwVpi8PddSOeZkrJRGJ7uOXS9QnrHcriiO
+         xPJeGWZAYw2ejKvXooTL6LysXl/UE5fpDlBf0ipJQOJpoWLgUDNA0j3uKfpQG2e8u4Hd
+         EP/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727856721; x=1728461521;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AwYW3aXkOfpbJFEkTcyjA4Puz8SUEOqTQONRZN7kTSM=;
+        b=xI01rnq5NIXvg+wYhc4900tn9Qs1J7jP0QWEF25x6XiqU8FRRmMuo+45ThYjIvFP9A
+         IqMTmzJ8vmVUyVl4yA3VGRX506jiHWVBsPUoO9RFhs0E67iV7hLHNFj6aJumyaxJqSNx
+         tsJCVUJ56NAjC0HBFJr+5pw5TlkHL/ldYy91B5Rw9aAXkyOs9gpj980Z7gq0+np8QSyw
+         YibGPyZmn1LoflAwuFs4rxE8f2t0Y72ZAlTdUjtLU0KaAJH4MThYGAkcdODj2td3nKng
+         Oi+E1tKz90/GYQGVuDD3uu0FJqtVTGMR07ugvgHMq/9nsja8ogBo4tOlazeDAePSO3IZ
+         efLg==
+X-Forwarded-Encrypted: i=1; AJvYcCV7zsKmg6C2bqpqRrYJjTkXojvNUbK0RpgtyQ+YvNJqoIPA7+FSbu9lTaHkCAn+kgSu1H+RDX5cTQJg@vger.kernel.org, AJvYcCVzopR7mYBxLgjmJvjbh8jQtgxg0+ApLu9YkhLf8Gvb1QjBsqoN8xD0W20Pgx/Uz7ijj9WaGJs/wOFq5W7JNNRRo1U=@vger.kernel.org, AJvYcCW+FGj7YAmtCI7BHfwgSWvbjNOOYljSaVs35RP+CN7FKaL9gpUM2xHiVQqt5CEOdZ5Ew+qUqigbP2QF+Zba@vger.kernel.org, AJvYcCXHxuPfqSjnP9fEO0d3ZwNlKf2HFfOa4XVx5ZLhNjWLVDSGtjshD9hTOQ/uxLY1aNDTnVke70fwwtAB0zM=@vger.kernel.org, AJvYcCXL77GWNTDGLSbmikL9UBsDcpWqiRzJ01nOoZ3FgN8WEqxmZpMl3jb/gmLoVUgy/4nXGpsmBht2fkTz@vger.kernel.org
+X-Gm-Message-State: AOJu0YwSXl/JIyMfPbxA/d0b5bSw5angf66ppa0yMrs2ysbsO/hhgXBg
+	MnWrl2a5B88rF41MGoFnKeqg7+CIqG6LavfJBdPlKbtH6MCJFO+b
+X-Google-Smtp-Source: AGHT+IEWAQq/PDSNce8fNJCMrbE725mZU0WLJ3wtGPmqrDfOR+mYJ2PBSVZQSCoG2J59ftPf5NXxkQ==
+X-Received: by 2002:a05:6a00:8914:b0:714:157a:bfc7 with SMTP id d2e1a72fcca58-71dc5c8f1b3mr2659166b3a.15.1727856721040;
+        Wed, 02 Oct 2024 01:12:01 -0700 (PDT)
+Received: from Ubuntu22.. ([219.91.95.148])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71b2652b4f6sm9618115b3a.174.2024.10.02.01.11.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Oct 2024 01:12:00 -0700 (PDT)
+From: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>
+To: patrick@stwcx.xyz,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>,
+	=?UTF-8?q?Carsten=20Spie=C3=9F?= <mail@carsten-spiess.de>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	INAGAKI Hiroshi <musashino.open@gmail.com>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>, Ming Lei <ming.lei@redhat.com>,
-	Li Lingfeng <lilingfeng3@huawei.com>,
-	Christian Heusel <christian@heusel.eu>, linux-block@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Lorenzo Bianconi <lorenzo@kernel.org>
-Subject: Re: [RFC PATCH 3/4] block: add support for partition table defined
- in OF
-Message-ID: <Zvz6ITaMKmo0U3c3@infradead.org>
-References: <20240923105937.4374-1-ansuelsmth@gmail.com>
- <20240923105937.4374-4-ansuelsmth@gmail.com>
- <ZvJdjRpFaPUuFhIO@infradead.org>
- <66f291c5.5d0a0220.328e5a.2c9e@mx.google.com>
- <Zvu0sRreId59-lpH@infradead.org>
- <66fbc042.050a0220.3523ed.a6f9@mx.google.com>
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v8 0/2] hwmon: (isl28022) new driver for ISL28022 power monitor
+Date: Wed,  2 Oct 2024 16:11:28 +0800
+Message-Id: <20241002081133.13123-1-yikai.tsai.wiwynn@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <66fbc042.050a0220.3523ed.a6f9@mx.google.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 01, 2024 at 11:26:22AM +0200, Christian Marangi wrote:
-> > No.  ->disk_name is in no way reliable, we can't hardcode that into
-> > a partition parser.
-> > 
-> 
-> Then any hint on this or alternative way?
+Driver for Renesas ISL28022 power monitor chip.
+Found e.g. on Ubiquiti Edgerouter ER-6P
 
-The normal way would be to use eui/ngui/uuid provided by the storage
-device.  We have a interface for that in the block layer support by
-scsi and nvme, but I don't know how to wire that up for eMMC which
-I suspect is what you care about.
+v8: fix mistakenly removed Reviewed-by
+v8: fix incorrect use of dev_err_probe
+v7: move dt-bindings to the first patch
+v7: fix unreasonable code
+v7: separate voltage, current, and power reading functions
+v6: shunt voltage in mV and revise code
+v5: review comments incorporated
+v4: property compatible fixed
+v3: changelog added
+v2: properties reworked
+v2: calculations fixed
+v2: shunt voltage input moved to debugfs
+v2: documentation and devicetree schema reworked
+v1: created
+
+Yikai Tsai (2):
+  dt-bindings: hwmon: add renesas,isl28022
+  hwmon: (isl28022) new driver for ISL28022 power monitor
+
+ .../bindings/hwmon/renesas,isl28022.yaml      |  64 +++
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/isl28022.rst              |  63 ++
+ MAINTAINERS                                   |   8 +
+ drivers/hwmon/Kconfig                         |  11 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/isl28022.c                      | 536 ++++++++++++++++++
+ 7 files changed, 684 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
+ create mode 100644 Documentation/hwmon/isl28022.rst
+ create mode 100644 drivers/hwmon/isl28022.c
+
+-- 
+2.34.1
 
