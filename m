@@ -1,156 +1,114 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54CF31940B0;
-	Wed,  2 Oct 2024 16:12:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2F11CFECA;
+	Wed,  2 Oct 2024 16:14:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727885526; cv=none; b=Uzv2JMPxOWOAm2u+Kj9NgRPuP1zt7MLei3Mdas5Gne0mKRH78lMycGzr7nsKrdpBXwD5t51RyZUdc0z97gVkm52QMY8X3rD7o5LRk18USjrg8ltWwlS2Ih80LHtDFN+O6fWZBc8J67oGSriA70Arm3/T8boSK7uP1j7TtIXeQ3k=
+	t=1727885691; cv=none; b=Aml1juNG2WwLAIISejFNouKtk/eb81GEJOE3JyUFC2REngPYksygnoWBPrtjqWamjnXR0umtRpt5tnpzjIm3eSzVypGaBjY53+obO7jDvMqnWyzsbaKB/1KfEm3sUHVymc+qcs1nPYKnlYMqQlLi0nKopa+F9UD3BxQ20Qan91E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727885526; c=relaxed/simple;
-	bh=NQ7dqyhAYAqkH0hxLTpCFpNIb7wXeshyn7k8LqySt6k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fRJ0NMVXmPy0NP5AHXMXcDIqgV2NepiV3wWbFTgDv3XDYUJb1LeEzHAcK7ZqWUestxVa2fW8Wx5bWek4JnOtP/Csuc3VlclQZPD3AECHDO9wpOi5GbZ/js+4JKrwxVTNvXqiWRhRcYCJiTDrz8+lZ8X7o4TQTbPSWG75f97k/eM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=OdJC7C1U; arc=none smtp.client-ip=217.70.183.201
+	s=arc-20240116; t=1727885691; c=relaxed/simple;
+	bh=k+l8NvHNF0Rq60lqLNz6z89Ccblbf/w4q4LDoOKMFmo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=TJWlFN7vJe0doHa4zEtyL8+yWzLtFoE/QI/fqOkKVt/Dou99/riKiwJz0YauUCLqdv6l/c8Vl3k1Swe6YnVS4Q/CgEwUaMtn4QmX2Djr/NXWSDtBnqT3bTDWQ5kzf27OoNwK/TZ1rBy99hBaCrhpDKwFozrklXRzloaduIVPtiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=HEIbCWhr; arc=none smtp.client-ip=217.70.183.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="OdJC7C1U"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 709461BF207;
-	Wed,  2 Oct 2024 16:12:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="HEIbCWhr"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 020FDFF803;
+	Wed,  2 Oct 2024 16:14:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1727885522;
+	t=1727885682;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z+dMCKpcaMRVlGjanl5ywtRCtMH81yJkm6jVM3c7Ysc=;
-	b=OdJC7C1U1OGJX0MSJSmoEWjtNtlDlQsrgRbFk2tRiplu4pq+8S+0ITI8viGzHCPrJqbT6R
-	UoiSS9XinySKbML9/D1JnNa1EB7TUQOvU3JiH2B5ZKd3w+waobQnxjkbnX23Ma/7sTQ7br
-	SOSCgdO4AAQMWRAvyg4a+1QqVwqi7uiKa2EGhVaIpEZ9xxKf6u7zZPSydzMqAHKOqt4Kl3
-	prQOT4vlMO/LR+aQFyncvJVvKm6EwIeodiDem8dAOrMLbKmuYZi75eBrSGEJO1ZLGiBuNC
-	GLHjAtX6nKhYUnyn1JAOktTd1/yfeTuHFUFFv984ZkjuzqPvC2nd24Lnfwa6mQ==
-Date: Wed, 2 Oct 2024 18:11:59 +0200
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	Maaara Canal <mairacanal@riseup.net>,
-	Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-	Simona Vetter <simona@ffwll.ch>, arthurgrillo@riseup.net,
-	pekka.paalanen@haloniitty.fi,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
-	jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
-	seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
-	Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH v11 06/15] drm/vkms: Avoid computing blending limits
- inside pre_mul_alpha_blend
-Message-ID: <Zv1wz-TNT36McwXp@louis-chauvet-laptop>
-Mail-Followup-To: Randy Dunlap <rdunlap@infradead.org>,
-	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	Maaara Canal <mairacanal@riseup.net>,
-	Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-	Simona Vetter <simona@ffwll.ch>, arthurgrillo@riseup.net,
-	pekka.paalanen@haloniitty.fi,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
-	jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
-	seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
-	Pekka Paalanen <pekka.paalanen@collabora.com>
-References: <20240930-yuv-v11-0-4b1a26bcfc96@bootlin.com>
- <20240930-yuv-v11-6-4b1a26bcfc96@bootlin.com>
- <30573f5a-d3dd-4aa4-ac5a-cf6df77b79dc@infradead.org>
- <Zv0LBo8OtRHJM029@louis-chauvet-laptop>
- <509aa67d-5bfa-4f37-aae6-ce3786e35596@infradead.org>
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=3IOGE5DuxU1rVrz5JJqkijX1lb9Jty0fXaR7az9v+iI=;
+	b=HEIbCWhrXP53+goeMI00fKNBdVxXwPGzCN115FpiqLF61o9ADTOj7FLXonqh2+0XS5l077
+	Zt99UG19zWJzISL2bfnPre5vKxMJ8ubNuvYAvnRgWfX3CHev2btthfqjmeoVffqkwlU0N3
+	UO2JYMHSNtykZRqkx8rJW8LLDyEsnA7Mi2ngTVOjPbZEmki7WToq4bgMDzipBO5xeB4LXA
+	G78fM0CISUzPQDcMMTkFDuAX3SIcVIYocyEhLhhWB4flnynOlli+kjj5ydRhxqQuED9tbd
+	2LVBSmjeC+YOyEUs4KTEzubOXhv9FwuVnbHX1EpvzUi80HYHCD342QjU3B3OLA==
+From: Kory Maincent <kory.maincent@bootlin.com>
+Subject: [PATCH 00/12] Add support for PSE port priority
+Date: Wed, 02 Oct 2024 18:14:11 +0200
+Message-Id: <20241002-feature_poe_port_prio-v1-0-eb067b78d6cf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <509aa67d-5bfa-4f37-aae6-ce3786e35596@infradead.org>
-X-GND-Sasl: louis.chauvet@bootlin.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAFNx/WYC/x2MQQ5AMBQFryJ/rYm2RLiKiDQ8/I02v4hE3F1Zz
+ GIWMzdFCCNSm90kODmy35LoPKNxddsCxVNyMoUpi0ZbNcPth2AI/kP2IQh75SrtMNXWGoyU2iC
+ Y+fq/Xf88L+veG8VnAAAA
+To: Oleksij Rempel <o.rempel@pengutronix.de>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, 
+ Dent Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, 
+ Kory Maincent <kory.maincent@bootlin.com>
+X-Mailer: b4 0.15-dev-8cb71
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On 02/10/24 - 08:49, Randy Dunlap wrote:
-> Hi Louis,
-> 
-> On 10/2/24 1:57 AM, Louis Chauvet wrote:
-> > On 01/10/24 - 20:54, Randy Dunlap wrote:
-> >> Hi--
-> >>
-> >> On 9/30/24 8:31 AM, Louis Chauvet wrote:
-> >>> The pre_mul_alpha_blend is dedicated to blending, so to avoid mixing
-> >>> different concepts (coordinate calculation and color management), extract
-> >>> the x_limit and x_dst computation outside of this helper.
-> >>> It also increases the maintainability by grouping the computation related
-> >>> to coordinates in the same place: the loop in `blend`.
-> >>>
-> >>> Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> >>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> >>> ---
-> >>>  drivers/gpu/drm/vkms/vkms_composer.c | 40 +++++++++++++++++-------------------
-> >>>  1 file changed, 19 insertions(+), 21 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-> >>> index 931e214b225c..4d220bbb023c 100644
-> >>> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> >>> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> >>> @@ -24,34 +24,30 @@ static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
-> >>>  
-> >>>  /**
-> >>>   * pre_mul_alpha_blend - alpha blending equation
-> >>> - * @frame_info: Source framebuffer's metadata
-> >>>   * @stage_buffer: The line with the pixels from src_plane
-> >>>   * @output_buffer: A line buffer that receives all the blends output
-> >>> + * @x_start: The start offset
-> >>> + * @pixel_count: The number of pixels to blend
-> >>
-> >> so is this actually pixel count + 1; or
-> >>
-> >>>   *
-> >>> - * Using the information from the `frame_info`, this blends only the
-> >>> - * necessary pixels from the `stage_buffer` to the `output_buffer`
-> >>> - * using premultiplied blend formula.
-> >>> + * The pixels 0..@pixel_count in stage_buffer are blended at @x_start..@x_start+@pixel_count in
-> >>
-> >> should these ranges include a "- 1"?
-> >> Else please explain.
-> > 
-> > Hi Randy,
-> > 
-> > For the next version, I will use standard mathematical notation to clarify 
-> > the "inclusiveness" of the interval: [0;pixel_count[
-> 
-> Hm, I can read that after a second or two.
-> 
-> My math classes always used:  [0,pixel_count)
-> for that range, and that is what most of the internet says as well.
+From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 
-I'm french, and we use ]a;b[ notation at school :-)
+This series brings support for port priority in the PSE subsystem.
+PSE controllers can set priorities to decide which ports should be
+turned off in case of special events like over-current.
 
-Both are valids according to ISO80000-2, but I will change it for the next 
-revision.
- 
-> or you could just stick with
->   The pixels from 0 through @pixel_count - 1 in stage_buffer are blended at @x_start
->   through @x_start through @x_start + @pixel_count - 1.
-> 
-> but after writing all of that, I think using range notation is better.
+This series also adds support for the devm_pse_irq_helper() helper,
+similarly to devm_regulator_irq_helper(), to report events and errors.
+Wrappers are used to avoid regulator naming in PSE drivers to prevent
+confusion.
 
-I also prefer ranges, way shorter to write, and easier to understand at 
-first sight. 
+Patches 1-3: Cosmetics.
+Patch 4: Adds support for last supported features in the TPS23881 drivers.
+Patches 5-7: Add support for port priority in PSE core and ethtool.
+Patches 8-9: Add support for port priority in PD692x0 and TPS23881 drivers.
+Patches 10-11: Add support for devm_pse_irq_helper() helper in PSE core and
+               ethtool.
+Patch 12: Adds support for interrupt and event report in TPS23881 driver.
 
-> thanks.
+This patch series is based on the fix sent recently:
+https://lore.kernel.org/netdev/20241002121706.246143-1-kory.maincent@bootlin.com/T/#u
+
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+---
+Kory Maincent (12):
+      net: pse-pd: Remove unused pse_ethtool_get_pw_limit function declaration
+      net: pse-pd: tps23881: Correct boolean evaluation for bitmask checks
+      net: pse-pd: tps23881: Simplify function returns by removing redundant checks
+      net: pse-pd: tps23881: Add support for power limit and measurement features
+      net: pse-pd: Add support for getting and setting port priority
+      net: ethtool: Add PSE new port priority support feature
+      netlink: specs: Expand the PSE netlink command with C33 prio attributes
+      net: pse-pd: pd692x0: Add support for PSE PI priority feature
+      net: pse-pd: tps23881: Add support for PSE PI priority feature
+      net: pse-pd: Register regulator even for undescribed PSE PIs
+      net: pse-pd: Add support for event reporting using devm_regulator_irq_helper
+      net: pse-pd: tps23881: Add support for PSE events and interrupts
+
+ Documentation/netlink/specs/ethtool.yaml     |  11 +
+ Documentation/networking/ethtool-netlink.rst |  16 +
+ drivers/net/pse-pd/pd692x0.c                 |  23 ++
+ drivers/net/pse-pd/pse_core.c                |  66 +++-
+ drivers/net/pse-pd/tps23881.c                | 532 +++++++++++++++++++++++++--
+ include/linux/pse-pd/pse.h                   |  43 ++-
+ include/uapi/linux/ethtool_netlink.h         |   2 +
+ net/ethtool/pse-pd.c                         |  18 +
+ 8 files changed, 674 insertions(+), 37 deletions(-)
+---
+base-commit: 8052e7ff851b33e77f23800f8d15bafae9f97d17
+change-id: 20240913-feature_poe_port_prio-a51aed7332ec
+
+Best regards,
+-- 
+Köry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
