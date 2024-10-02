@@ -1,37 +1,39 @@
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2F11CFECA;
-	Wed,  2 Oct 2024 16:14:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629A51D014D;
+	Wed,  2 Oct 2024 16:14:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727885691; cv=none; b=Aml1juNG2WwLAIISejFNouKtk/eb81GEJOE3JyUFC2REngPYksygnoWBPrtjqWamjnXR0umtRpt5tnpzjIm3eSzVypGaBjY53+obO7jDvMqnWyzsbaKB/1KfEm3sUHVymc+qcs1nPYKnlYMqQlLi0nKopa+F9UD3BxQ20Qan91E=
+	t=1727885691; cv=none; b=fPb7sa5d5rQSZED5rb9j22VqyNkP/63bc9O+Fxfz3FYV07CTtiWzYW6+rMrXb8qKY1ihRygRNbWeX4sAKpRlBKVn1omryRp2GgBmW0s2BHhIPZwuPJEDhinxClkTzJRrfOG0cULw3PI8skQSycePnl/QHXIEIJZVHDd4yeGxXTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1727885691; c=relaxed/simple;
-	bh=k+l8NvHNF0Rq60lqLNz6z89Ccblbf/w4q4LDoOKMFmo=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=TJWlFN7vJe0doHa4zEtyL8+yWzLtFoE/QI/fqOkKVt/Dou99/riKiwJz0YauUCLqdv6l/c8Vl3k1Swe6YnVS4Q/CgEwUaMtn4QmX2Djr/NXWSDtBnqT3bTDWQ5kzf27OoNwK/TZ1rBy99hBaCrhpDKwFozrklXRzloaduIVPtiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=HEIbCWhr; arc=none smtp.client-ip=217.70.183.199
+	bh=rVpijr8Ej3ERIa9M7Wj2D8vGyGBd8oUb+lInsTA0JrA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=CvZ8soXjYP5s++pqpkyJv8YbHL80cEFne11FdjGvbNWFMOOv3g8emd4QLE0WWt0xCh8gjkCJAeR91NWz83mrDnJKzwqAWVP+FTjxqUTpR6fqCbL/WqFSqMIeb5tUw642GBtPiX4VLmjNJDqfUrtvQknX4WoVNNBohphuzHA/b2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=DPWomRlT; arc=none smtp.client-ip=217.70.183.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="HEIbCWhr"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 020FDFF803;
-	Wed,  2 Oct 2024 16:14:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="DPWomRlT"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id F2A0EFF80E;
+	Wed,  2 Oct 2024 16:14:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1727885682;
+	t=1727885687;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=3IOGE5DuxU1rVrz5JJqkijX1lb9Jty0fXaR7az9v+iI=;
-	b=HEIbCWhrXP53+goeMI00fKNBdVxXwPGzCN115FpiqLF61o9ADTOj7FLXonqh2+0XS5l077
-	Zt99UG19zWJzISL2bfnPre5vKxMJ8ubNuvYAvnRgWfX3CHev2btthfqjmeoVffqkwlU0N3
-	UO2JYMHSNtykZRqkx8rJW8LLDyEsnA7Mi2ngTVOjPbZEmki7WToq4bgMDzipBO5xeB4LXA
-	G78fM0CISUzPQDcMMTkFDuAX3SIcVIYocyEhLhhWB4flnynOlli+kjj5ydRhxqQuED9tbd
-	2LVBSmjeC+YOyEUs4KTEzubOXhv9FwuVnbHX1EpvzUi80HYHCD342QjU3B3OLA==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Q42vlEq9SAx89Xute+BoOnfEctMoZLGsOE40ryVf9pw=;
+	b=DPWomRlTMMGSztWOP2fzIuNo2vn4VPCscviVPD7kzV4EH3AD4Zuj+gu2f3DuooRkGv3eRn
+	m1PUpBsZNdg0Ozvba3Ds8ir33vRCwk7Z+Q1d5f2L5pybaZ9jn4ZmiLZLMDQP6g+9q9Y/xT
+	UVxY15Qwzaa9f5qu7EOWLVFwAgMNpyIF5tmdNLRADLu2S7UFVrAMM9FbtmuFJR20C8VBP0
+	Vuu1trp2Viz0WzWuycY5fWBUrOUBMQGycfywDMGyQV2kaDkF2O+xrd8dKNRKuwSi5iWXe4
+	LCmv0avSPeHnCUtDV5qlZM6I31vVkZsPDORGdR6fzZspS3rSFp4TZoLJ5/1V6A==
 From: Kory Maincent <kory.maincent@bootlin.com>
-Subject: [PATCH 00/12] Add support for PSE port priority
-Date: Wed, 02 Oct 2024 18:14:11 +0200
-Message-Id: <20241002-feature_poe_port_prio-v1-0-eb067b78d6cf@bootlin.com>
+Date: Wed, 02 Oct 2024 18:14:18 +0200
+Subject: [PATCH 07/12] netlink: specs: Expand the PSE netlink command with
+ C33 prio attributes
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,10 +41,10 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAFNx/WYC/x2MQQ5AMBQFryJ/rYm2RLiKiDQ8/I02v4hE3F1Zz
- GIWMzdFCCNSm90kODmy35LoPKNxddsCxVNyMoUpi0ZbNcPth2AI/kP2IQh75SrtMNXWGoyU2iC
- Y+fq/Xf88L+veG8VnAAAA
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241002-feature_poe_port_prio-v1-7-eb067b78d6cf@bootlin.com>
+References: <20241002-feature_poe_port_prio-v1-0-eb067b78d6cf@bootlin.com>
+In-Reply-To: <20241002-feature_poe_port_prio-v1-0-eb067b78d6cf@bootlin.com>
 To: Oleksij Rempel <o.rempel@pengutronix.de>, 
  "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
  Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
@@ -57,58 +59,71 @@ X-GND-Sasl: kory.maincent@bootlin.com
 
 From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 
-This series brings support for port priority in the PSE subsystem.
-PSE controllers can set priorities to decide which ports should be
-turned off in case of special events like over-current.
+Expand the c33 PSE attributes with priority and priority max to be able to
+set and get the PSE Power Interface priority.
 
-This series also adds support for the devm_pse_irq_helper() helper,
-similarly to devm_regulator_irq_helper(), to report events and errors.
-Wrappers are used to avoid regulator naming in PSE drivers to prevent
-confusion.
+./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema --do pse-get
+             --json '{"header":{"dev-name":"eth1"}}'
+{'c33-pse-actual-pw': 1700,
+ 'c33-pse-admin-state': 3,
+ 'c33-pse-avail-pw-limit': 97500,
+ 'c33-pse-prio': 2,
+ 'c33-pse-prio-max': 2,
+ 'c33-pse-pw-class': 4,
+ 'c33-pse-pw-d-status': 4,
+ 'c33-pse-pw-limit-ranges': [{'max': 18100, 'min': 15000},
+                             {'max': 38000, 'min': 30000},
+                             {'max': 65000, 'min': 60000},
+                             {'max': 97500, 'min': 90000}],
+ 'header': {'dev-index': 5, 'dev-name': 'eth1'}}
 
-Patches 1-3: Cosmetics.
-Patch 4: Adds support for last supported features in the TPS23881 drivers.
-Patches 5-7: Add support for port priority in PSE core and ethtool.
-Patches 8-9: Add support for port priority in PD692x0 and TPS23881 drivers.
-Patches 10-11: Add support for devm_pse_irq_helper() helper in PSE core and
-               ethtool.
-Patch 12: Adds support for interrupt and event report in TPS23881 driver.
-
-This patch series is based on the fix sent recently:
-https://lore.kernel.org/netdev/20241002121706.246143-1-kory.maincent@bootlin.com/T/#u
+./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema --do pse-set
+             --json '{"header":{"dev-name":"eth1"},
+                      "c33-pse-prio":1}'
+None
 
 Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 ---
-Kory Maincent (12):
-      net: pse-pd: Remove unused pse_ethtool_get_pw_limit function declaration
-      net: pse-pd: tps23881: Correct boolean evaluation for bitmask checks
-      net: pse-pd: tps23881: Simplify function returns by removing redundant checks
-      net: pse-pd: tps23881: Add support for power limit and measurement features
-      net: pse-pd: Add support for getting and setting port priority
-      net: ethtool: Add PSE new port priority support feature
-      netlink: specs: Expand the PSE netlink command with C33 prio attributes
-      net: pse-pd: pd692x0: Add support for PSE PI priority feature
-      net: pse-pd: tps23881: Add support for PSE PI priority feature
-      net: pse-pd: Register regulator even for undescribed PSE PIs
-      net: pse-pd: Add support for event reporting using devm_regulator_irq_helper
-      net: pse-pd: tps23881: Add support for PSE events and interrupts
+ Documentation/netlink/specs/ethtool.yaml | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
- Documentation/netlink/specs/ethtool.yaml     |  11 +
- Documentation/networking/ethtool-netlink.rst |  16 +
- drivers/net/pse-pd/pd692x0.c                 |  23 ++
- drivers/net/pse-pd/pse_core.c                |  66 +++-
- drivers/net/pse-pd/tps23881.c                | 532 +++++++++++++++++++++++++--
- include/linux/pse-pd/pse.h                   |  43 ++-
- include/uapi/linux/ethtool_netlink.h         |   2 +
- net/ethtool/pse-pd.c                         |  18 +
- 8 files changed, 674 insertions(+), 37 deletions(-)
----
-base-commit: 8052e7ff851b33e77f23800f8d15bafae9f97d17
-change-id: 20240913-feature_poe_port_prio-a51aed7332ec
+diff --git a/Documentation/netlink/specs/ethtool.yaml b/Documentation/netlink/specs/ethtool.yaml
+index 6a050d755b9c..e2967645fbf2 100644
+--- a/Documentation/netlink/specs/ethtool.yaml
++++ b/Documentation/netlink/specs/ethtool.yaml
+@@ -1020,6 +1020,14 @@ attribute-sets:
+         type: nest
+         multi-attr: true
+         nested-attributes: c33-pse-pw-limit
++      -
++        name: c33-pse-prio-max
++        type: u32
++        name-prefix: ethtool-a-
++      -
++        name: c33-pse-prio
++        type: u32
++        name-prefix: ethtool-a-
+   -
+     name: rss
+     attributes:
+@@ -1776,6 +1784,8 @@ operations:
+             - c33-pse-ext-substate
+             - c33-pse-avail-pw-limit
+             - c33-pse-pw-limit-ranges
++            - c33-pse-prio-max
++            - c33-pse-prio
+       dump: *pse-get-op
+     -
+       name: pse-set
+@@ -1790,6 +1800,7 @@ operations:
+             - podl-pse-admin-control
+             - c33-pse-admin-control
+             - c33-pse-avail-pw-limit
++            - c33-pse-prio
+     -
+       name: rss-get
+       doc: Get RSS params.
 
-Best regards,
 -- 
-Köry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+2.34.1
 
