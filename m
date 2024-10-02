@@ -1,105 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02A391D2200;
-	Wed,  2 Oct 2024 14:24:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6AF1D079C;
+	Wed,  2 Oct 2024 14:46:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727879043; cv=none; b=iOhkX/oYCttVZRe1W5fYYhnSY/6cGAg4Np0ul0NZcMtgsv8LNf2SZM0Fo0hlVf0zVbet3Yu3GGGTY0OV5FR/G0adq0TVD452iGZqQMGxRmdSzoU0662Voq0CBjVjrfSlqDJjqxOHd69XtLrcCYF+TLfH4BPbDLFIb5So/Fuuvbc=
+	t=1727880414; cv=none; b=PU+65WK1mvAbGSgDENy2w01UWhGN45xUGb1T+h+vxt45gHTPBa4xxUfJCoT7YITTrhGso6VXPhfP2NXHu4mME0isBLnCfEjCSy2/VvfLVXxJXaoQYB2yqtcVoC29DkY1lBYQ3oMoe+MylMTHQt1fr4CarlPjF2x/FeKmvIqOj6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727879043; c=relaxed/simple;
-	bh=Uifoq9W+pgwn1gnQ9Gh5rIYiDY0jXPiUILaJrnu2UJY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SjKeR7MeJALW/HANkl3Sk1c3Lln49T9Ri8QQ2cOY4kLFT/E5mOWgLFo20SroREsEN4yiB35ovwC769yz6nTaISpqqgLTaAzwAmss1u4ur7UwqGLt8H7CmsTojO6nUwcX2g1tZq45ZKDjmjCt7nt8juVG29LaUWYKLmozCqW9xgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CzBjnV34; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727880414; c=relaxed/simple;
+	bh=tSD05QZFRghjYBYf6Lq0GTszx2jvSxZqQZSLF77cqRM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SfY5atLSxMsU93ngyW0o8OQPH0tePzYR8b8ebupnIXa3eGeh5A7rML2M4uGNCrhUqfo1Axpz5u3Sq6RJyDlamr2tSUjYq2YhrKS9Hz19kAoLpdxhUktzz+rjSKg2xSo4W1nipRq4xuCqy5tnqNqvcrTmDW0oiPgY6nb/nA2N8y4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gSXDvcHH; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CzBjnV34"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gSXDvcHH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727879042; x=1759415042;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Uifoq9W+pgwn1gnQ9Gh5rIYiDY0jXPiUILaJrnu2UJY=;
-  b=CzBjnV34CyTEwKZpff5pbhzY1PpDlA78YB37YV9vXQheFxTL8vQ2g4Eo
-   9XDdsvj5J7JndRnwxZEUZFMtNFz/2nbiZ9GkZSKcd80CyGgKEZJ42/bB3
-   taFw5ICugz9+bDMd6Y6IAB/ALKdMfbHVoh1r/13LkLmNZ/6SBXiG7g4S3
-   Erkc6Tzqq3c5uD3VSSeob0AQZ5ENuraceNJSOQM2g+FxdnVFEvM4tmSJH
-   OnGPEG2Uja1T3p6uROlUbVO93ckOqfWNCYqjftOxnysb8bKH34bnlNiBj
-   gsAOPv51yq/rq+BGm8M84BjPSKjdtVFVeOCXYDQOlRJ8l0WJZ7u1Eveph
-   A==;
-X-CSE-ConnectionGUID: WGlMmQVtRiqDGow4odV3fQ==
-X-CSE-MsgGUID: RRsHmes0R4GIhhDKpg/7ng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="27175292"
+  t=1727880413; x=1759416413;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=tSD05QZFRghjYBYf6Lq0GTszx2jvSxZqQZSLF77cqRM=;
+  b=gSXDvcHHEpj8BWBk3EQz3ODTB8UJh+ZhiHFJ/Jyt63m9gAdXqfzGvrhn
+   JPmZVVLtIWFpIl4VgeaV4KFhyxBM4nA6xkFjAA+iNZH4JYMeYxpNT/0En
+   91WuyVgckIrv8lBs0gxDjSnPrj8JJQWmOsbsoWQx6HGbtKhXqYk/itwhj
+   wJi3SrS5pkK12PWVnMgf+QTvHX+7TN5l8xEwBCWTHbBH5sbdyShGjsY5Q
+   zb07Dq41152hgvLRWH+WaNpoiYa3ghAwJwDiBrw+fMmCf6ob5pGZYxS8U
+   dJyOoodjZqApKo+LUs/IgRWXz0o17iRTiXc8qYXTQZ8HTIG7f1WhWeUOT
+   w==;
+X-CSE-ConnectionGUID: bGLZPtPMRMO4xyLMbHM0uQ==
+X-CSE-MsgGUID: GYpnJJT0TA+xuK+x4w7EXg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="52451091"
 X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; 
-   d="scan'208";a="27175292"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 07:24:01 -0700
-X-CSE-ConnectionGUID: 7yzksKgOS7OkL5rW9VAJzw==
-X-CSE-MsgGUID: 2m2UcsrNQde4t9xi3GMTkw==
+   d="scan'208";a="52451091"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 07:46:52 -0700
+X-CSE-ConnectionGUID: /VrnPfsQQHqZ2ugb18go7Q==
+X-CSE-MsgGUID: vFCnqwFwQV+H7po5WH4dIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; 
-   d="scan'208";a="74828625"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 02 Oct 2024 07:23:58 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sw0Gh-000TT7-1p;
-	Wed, 02 Oct 2024 14:23:55 +0000
-Date: Wed, 2 Oct 2024 22:23:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Breno Leitao <leitao@debian.org>, kuba@kernel.org, davem@davemloft.net,
-	edumazet@google.com, pabeni@redhat.com,
-	Akinobu Mita <akinobu.mita@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: oe-kbuild-all@lists.linux.dev, horms@kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Mina Almasry <almasrymina@google.com>,
-	Pavel Begunkov <asml.silence@gmail.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH net-next] net: Implement fault injection forcing skb
- reallocation
-Message-ID: <202410022209.2TB3siPB-lkp@intel.com>
-References: <20241002113316.2527669-1-leitao@debian.org>
+   d="scan'208";a="74006240"
+Received: from unknown (HELO [10.125.181.172]) ([10.125.181.172])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 07:46:50 -0700
+Message-ID: <fdda8f74-4d9a-4aff-ad5b-c7a1f2b0ab0b@linux.intel.com>
+Date: Wed, 2 Oct 2024 07:46:49 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241002113316.2527669-1-leitao@debian.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/6] x86/bugs: Clean-up verw mitigations
+To: Nikolay Borisov <nik.borisov@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
+ Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org
+Cc: hpa@zytor.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ pawan.kumar.gupta@linux.intel.com
+References: <20240924223140.1054918-1-daniel.sneddon@linux.intel.com>
+ <20240924223140.1054918-7-daniel.sneddon@linux.intel.com>
+ <fe2dfd0b-6b2a-496e-b059-0600d2ae474c@suse.com>
+Content-Language: en-US
+From: Daniel Sneddon <daniel.sneddon@linux.intel.com>
+In-Reply-To: <fe2dfd0b-6b2a-496e-b059-0600d2ae474c@suse.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Breno,
+On 10/2/24 07:20, Nikolay Borisov wrote:
+>> +	if (boot_cpu_has_bug(X86_BUG_MDS)) {
+>>   		mds_mitigation = MDS_MITIGATION_FULL;
+>>   		mds_select_mitigation();
+>> +	}  else {
+>> +		mds_mitigation = MDS_MITIGATION_OFF;
+>>   	}
+> 
+> BUt with this logic if CONFIG_MITIGATION_MDS is deselected meaning 
+> mds_mitigations will have the value MDS_MITIGATION_OFF, yet now you will 
+> set it to _FULL thereby overriding the compile-time value of the user. 
+> So shouldn't this condition be augmented to alsoo consider 
+> CONFIG_MITIGATION_MDS compile time value?
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Breno-Leitao/net-Implement-fault-injection-forcing-skb-reallocation/20241002-193852
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241002113316.2527669-1-leitao%40debian.org
-patch subject: [PATCH net-next] net: Implement fault injection forcing skb reallocation
-reproduce: (https://download.01.org/0day-ci/archive/20241002/202410022209.2TB3siPB-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410022209.2TB3siPB-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
-   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
->> Warning: net/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
-   Using alabaster theme
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+CONFIG_MITIGATION_MDS is used to set the value of the mds_mitigation variable.
+Same goes for all the other mitigations touched here. Those variables are
+checked in verw_mitigations_disabled() which is called just before this code. If
+all of them are configured off, we return without enabling any of the mitigations.
