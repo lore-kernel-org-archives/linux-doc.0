@@ -1,39 +1,39 @@
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EEE11940B0;
-	Wed,  2 Oct 2024 16:14:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B95CA1D049B;
+	Wed,  2 Oct 2024 16:14:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727885692; cv=none; b=VLeSlGq5dRyQVtqRuKpvplT1oo5OwBrfMEr+f05qyLahdG86bq2A3qaQiMnxTXrNUDUngOtjObIsjNvZ9oZTUWiE6hPATFgwwqdVy07DG26LiEM+9GdBeMgDdUtia6hWN0mIMEVuFVRR09qCm/oTaEQvKWq50CWFpr6mhZkmPFw=
+	t=1727885692; cv=none; b=ArCHkNJUhnxVPwrr6JyvXKeXIt4p8mO3yUlG7+J2jE6cbeTwnbINckfEBuc6kzHfIxMZHaBvzZxROgsQyzwZLM49x5N8lc6T8AKfHaYrZAZaeYl95hzCSynr1/lbPHVDWs5LkAbjy/cECtCdHDRCIWt6p8cqktZ0O/ZhmxB9fFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1727885692; c=relaxed/simple;
-	bh=tSaUcqD7eHSaObZjjijtJrsg0WBYhM+Yr7DGFDUV5w0=;
+	bh=yqdYmWDPi96O6HF7ebbWScHKYpa6AeAvglvLs6cCSDk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=JI64+6TYleVzx3YrInJqkg8NsbVyHFtGEM2lyOwq/iREzweLcsjtix46524OOvtXe/Wc69f4deimMiENDspjbeVkxaCRJeLrM4Q8D3/8VZi4BIYRKTnROqFFLZN6aLYobmEvgxJdgnNZ7MBYXsyTqZsyGJcXZsrVZcslrd+UeJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=DJJY7myM; arc=none smtp.client-ip=217.70.183.199
+	 In-Reply-To:To:Cc; b=L6aPgK+K99CHLCvfpuxjtJcVYqqBeWpRoSVTIcxJrT2RUI6lM/Y0XFgKxaASkx0f/gIPRve6Z+q1L9NlLokiuzY/P6dFFsq8zOkV+penKQPKUSxDCIsmx8gWWSBktpf34x5PkUJQfnQhFCN78okOHG/2L76tcpRZdiC74AIO2G8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=nogv84W1; arc=none smtp.client-ip=217.70.183.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="DJJY7myM"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id CD912FF806;
-	Wed,  2 Oct 2024 16:14:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="nogv84W1"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 28DF8FF80B;
+	Wed,  2 Oct 2024 16:14:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1727885688;
+	t=1727885682;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=G4biLTBMISLiI3PaOwg9EOAFMZ2vS5JuARGkBYnVsXc=;
-	b=DJJY7myMzwD0eFIM6O5nZZgsiKHs6nmFpJ25Mkh5PgLSrCZnPbsMFef8Z5gmZEwO7Dnx2Z
-	CCK0vu74+h7DMpMF/W2QvExmrsCig/HdAnR/sX0k6yxTBXgCIEoU6C9ilFNF9rHGBFgu2B
-	gO6QAxJI0u7pbA5wXiFQvYCm67846dJmmDmr0fTGGWQqornUGTCb2LPqEuw7Qhk/AUftX2
-	Lr8ae/Ah4VHATEmkUYp/PoQJfyOu2tBxwW+TC6abHb5p3odwFcn1qQnkSrtHJaPOUhgwZr
-	pfMzrs7KDR+qitBSFrVZfCfPEbgORE78ZwzERL+X62lhFNpppGiMnoKha4wibw==
+	bh=kmgCX7Kwi/ErDtCadQPfPVZMgNr8nBIPVozcbt2OctU=;
+	b=nogv84W1O4Et/X6/iz/eFTTOnJcOtbNuQ8QmviCUOKZ/E4v+hTULS7+B03BNnYbyAtSCr9
+	Aii56OwTc6+x/z3gvPZVX9m7F1dX01Gz/F4BfRDi5J8MJxbkgzw+a6hr7lO7v/b/DWGWQj
+	LxOKtwjsbzyBM/JTQsky+iH1TCdwvNif0hvQKmpe5lGiDNn7o9Y5JAqQKgj4oqALKzbqmE
+	j3cy9n/d3XSGQdTBYk9baD78BUjL527hkVifBizTKala+85aefoQmU+BpugquXG9T/GVmL
+	CgLFkH7frb5JlstRGRJN5FH6s48faOoRd9Gcv/j/C2A/ZSWBHsfDmQ6bH2UYcA==
 From: Kory Maincent <kory.maincent@bootlin.com>
-Date: Wed, 02 Oct 2024 18:14:19 +0200
-Subject: [PATCH 08/12] net: pse-pd: pd692x0: Add support for PSE PI
- priority feature
+Date: Wed, 02 Oct 2024 18:14:12 +0200
+Subject: [PATCH 01/12] net: pse-pd: Remove unused pse_ethtool_get_pw_limit
+ function declaration
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,7 +42,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241002-feature_poe_port_prio-v1-8-eb067b78d6cf@bootlin.com>
+Message-Id: <20241002-feature_poe_port_prio-v1-1-eb067b78d6cf@bootlin.com>
 References: <20241002-feature_poe_port_prio-v1-0-eb067b78d6cf@bootlin.com>
 In-Reply-To: <20241002-feature_poe_port_prio-v1-0-eb067b78d6cf@bootlin.com>
 To: Oleksij Rempel <o.rempel@pengutronix.de>, 
@@ -59,71 +59,41 @@ X-GND-Sasl: kory.maincent@bootlin.com
 
 From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 
-This patch extends the PSE callbacks by adding support for the newly
-introduced pi_set_prio() callback, enabling the configuration of PSE PI
-priorities. The current port priority is now also included in the status
-information returned to users.
+Removed the unused pse_ethtool_get_pw_limit() function declaration from
+pse.h. This function was declared but never implemented or used,
+making the declaration unnecessary.
 
 Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 ---
- drivers/net/pse-pd/pd692x0.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ include/linux/pse-pd/pse.h | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/drivers/net/pse-pd/pd692x0.c b/drivers/net/pse-pd/pd692x0.c
-index 0af7db80b2f8..3a4a9836d621 100644
---- a/drivers/net/pse-pd/pd692x0.c
-+++ b/drivers/net/pse-pd/pd692x0.c
-@@ -685,6 +685,8 @@ static int pd692x0_ethtool_get_status(struct pse_controller_dev *pcdev,
- 	if (ret < 0)
- 		return ret;
- 	status->c33_avail_pw_limit = ret;
-+	/* PSE core priority start at 0 */
-+	status->c33_prio = buf.data[2] - 1;
+diff --git a/include/linux/pse-pd/pse.h b/include/linux/pse-pd/pse.h
+index 591a53e082e6..85a08c349256 100644
+--- a/include/linux/pse-pd/pse.h
++++ b/include/linux/pse-pd/pse.h
+@@ -184,8 +184,6 @@ int pse_ethtool_set_config(struct pse_control *psec,
+ int pse_ethtool_set_pw_limit(struct pse_control *psec,
+ 			     struct netlink_ext_ack *extack,
+ 			     const unsigned int pw_limit);
+-int pse_ethtool_get_pw_limit(struct pse_control *psec,
+-			     struct netlink_ext_ack *extack);
  
- 	memset(&buf, 0, sizeof(buf));
- 	msg = pd692x0_msg_template_list[PD692X0_MSG_GET_PORT_CLASS];
-@@ -1061,6 +1063,25 @@ static int pd692x0_pi_set_current_limit(struct pse_controller_dev *pcdev,
- 	return pd692x0_sendrecv_msg(priv, &msg, &buf);
+ bool pse_has_podl(struct pse_control *psec);
+ bool pse_has_c33(struct pse_control *psec);
+@@ -222,12 +220,6 @@ static inline int pse_ethtool_set_pw_limit(struct pse_control *psec,
+ 	return -EOPNOTSUPP;
  }
  
-+static int pd692x0_pi_set_prio(struct pse_controller_dev *pcdev, int id,
-+			       unsigned int prio)
-+{
-+	struct pd692x0_priv *priv = to_pd692x0_priv(pcdev);
-+	struct pd692x0_msg msg, buf = {0};
-+	int ret;
-+
-+	ret = pd692x0_fw_unavailable(priv);
-+	if (ret)
-+		return ret;
-+
-+	msg = pd692x0_msg_template_list[PD692X0_MSG_SET_PORT_PARAM];
-+	msg.sub[2] = id;
-+	/* Controller priority from 1 to 3 */
-+	msg.data[4] = prio + 1;
-+
-+	return pd692x0_sendrecv_msg(priv, &msg, &buf);
-+}
-+
- static const struct pse_controller_ops pd692x0_ops = {
- 	.setup_pi_matrix = pd692x0_setup_pi_matrix,
- 	.ethtool_get_status = pd692x0_ethtool_get_status,
-@@ -1070,6 +1091,7 @@ static const struct pse_controller_ops pd692x0_ops = {
- 	.pi_get_voltage = pd692x0_pi_get_voltage,
- 	.pi_get_current_limit = pd692x0_pi_get_current_limit,
- 	.pi_set_current_limit = pd692x0_pi_set_current_limit,
-+	.pi_set_prio = pd692x0_pi_set_prio,
- };
- 
- #define PD692X0_FW_LINE_MAX_SZ 0xff
-@@ -1486,6 +1508,7 @@ static int pd692x0_i2c_probe(struct i2c_client *client)
- 	priv->pcdev.ops = &pd692x0_ops;
- 	priv->pcdev.dev = dev;
- 	priv->pcdev.types = ETHTOOL_PSE_C33;
-+	priv->pcdev.pis_prio_max = 2;
- 	ret = devm_pse_controller_register(dev, &priv->pcdev);
- 	if (ret)
- 		return dev_err_probe(dev, ret,
+-static inline int pse_ethtool_get_pw_limit(struct pse_control *psec,
+-					   struct netlink_ext_ack *extack)
+-{
+-	return -EOPNOTSUPP;
+-}
+-
+ static inline bool pse_has_podl(struct pse_control *psec)
+ {
+ 	return false;
 
 -- 
 2.34.1
