@@ -1,99 +1,127 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B789A23CE;
-	Wed,  2 Oct 2024 15:33:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 318A62F44;
+	Wed,  2 Oct 2024 15:49:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727883194; cv=none; b=jBzk4ew9KLaRHN1A9RfYs6lrJn8zpdkRBqMJ/51V4cz7t7LVIMv4cqfSQCIkyTnSfnQ/ywVsekefBqDzH1uDC6jwokIkAtUNxqnKLBFHMizJ8KIwxNGlseEWBVlIQpeZ1u0hHnDX6IRs3mH0gCthJo4qCwIgeHjSuDiC3lxYIqY=
+	t=1727884172; cv=none; b=ksTaBtL9PGwkhPO3fQ60P/y8DZoqLCH3kySKj+9yEXogiO++cdyBwAfCL9nMv+PE/4ybf5OImaRLqQCxexfL6sOm5rtMXvUJIgIQ3bImAJZEL9u2lh3ooQotKq0fuvMjCB5hkYs9efIQxkJ4epE/M5Zwu8H8NXLiEN6jbXk5DN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727883194; c=relaxed/simple;
-	bh=1gw/RFjefYRq/TSJcFZ9d6JXFRUn5ifgoyqgOoIlCZo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MWo5JD/IStXQhHu1A03knElktxFv+ex6m7Ars6UgLpEzj8idDa14J/1ddGmkm/nlDp5PDqq1L6RI5klP7t/xBVQoKmSoexJYz8L0BpSPJ1cNBm4zEczFe0jwHv3TYF62hH3kr1xsg7e5/F1ahNgPL18klO/w1apj/cvRhLw2CAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5c88e4a7c53so5043822a12.0;
-        Wed, 02 Oct 2024 08:33:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727883190; x=1728487990;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PTCC5mB2mGzfNB4TYhiqO1fgrb24xTtLHLngV8SMhOM=;
-        b=X1VGzOgB6OBVvYAOQzzxf7VA2+URlz+Az16iFR4f4LLWP3InNHWTYvyLxSDjzxCN7F
-         7nyzWT80rfRj0yvwURwpcZssy13Q8E0wqv1329MgNcWO/gbabukuIgh8jWs5ZUuh09r3
-         vYsQDXIoehHayUC3nS18DHfC31g42WLWsgqvIiZesiMD3P+rK9QoG4th6lSs9g9hMShu
-         9NoRMy7xAYN75TaxmWkeAlkvWjB4kP07Zs4hNnUA1tkltT9MhGfKTgzaTjs3MO2rUuVQ
-         ANfXoTl6f7OnCUD/L9vfjPskWMOqJ+gqvBfaubUMp/WPMt+j2Qk0ixLngdTwwCwnIgOX
-         vP2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXAB3qZPKsNuKC7uOxetLNE2OGba0f5JQMkxjgZbpfdxFCvAdW8bYmWvai7z6+ZJsw5XL26nNxEx1Y=@vger.kernel.org, AJvYcCXGbNW07e/a4L4ItJRa42ykD+JAlUmicssqfrwkXPxDbVkxzvQikWlPBBosIkKPFgxShBldRtZK@vger.kernel.org, AJvYcCXRGnXwXl40+9/2AlFJoeTBD9q4HrfagrlZcYPdNp+rmg4qNmolvO2pvtWbowZxDPDx7NGUiC5spmMbsTLr@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzoj6CizkoslV2uWy6AUAI5EeX9I/RJCi2EcnuK8vBOf5M/QX3b
-	P/tVpd8WW8tHNPIpt0D/teetUCnwQspLcmfhbSBUJtE9teSjd1d9
-X-Google-Smtp-Source: AGHT+IGTlngDvQyE5XHwlb44NSGdHpKYSFmAAOESzaCUberpiWnak0XiuQK3AAQr1QsG1u1ZsCrJiA==
-X-Received: by 2002:a05:6402:268c:b0:5c8:bb09:a2bb with SMTP id 4fb4d7f45d1cf-5c8bb09a86dmr1662321a12.0.1727883190093;
-        Wed, 02 Oct 2024 08:33:10 -0700 (PDT)
-Received: from gmail.com (fwdproxy-lla-113.fbsv.net. [2a03:2880:30ff:71::face:b00c])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c8824051b7sm8045167a12.7.2024.10.02.08.33.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Oct 2024 08:33:09 -0700 (PDT)
-Date: Wed, 2 Oct 2024 08:33:05 -0700
-From: Breno Leitao <leitao@debian.org>
-To: kernel test robot <lkp@intel.com>
-Cc: kuba@kernel.org, davem@davemloft.net, edumazet@google.com,
-	pabeni@redhat.com, Akinobu Mita <akinobu.mita@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, oe-kbuild-all@lists.linux.dev,
-	horms@kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Mina Almasry <almasrymina@google.com>,
-	Pavel Begunkov <asml.silence@gmail.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH net-next] net: Implement fault injection forcing skb
- reallocation
-Message-ID: <20241002-vague-wapiti-of-aurora-ffec3e@leitao>
-References: <20241002113316.2527669-1-leitao@debian.org>
- <202410022209.2TB3siPB-lkp@intel.com>
+	s=arc-20240116; t=1727884172; c=relaxed/simple;
+	bh=Gy3K3sHXHuCd56lnx0SvuCxyX9iZFy+ugM3GpFkELag=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=MsZhA0RInkIpT8WF84F9DiWijn/wup/LLkgtqualUf/VS1fGeaZDyTE7mDLVXUAX5dwuvKMkH+unJcNB7r54Wwc+omyJlpaxq0249Jm0spPUDZ39i461jR/RlV/JovydZbMZM9Trjwe1xfeV0MVj7vd6kesfa5HhN7CXVr3XVwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ArTGtdMV; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ArTGtdMV"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:Sender:
+	Reply-To:Cc:Content-ID:Content-Description;
+	bh=7RcmtwIDm6JN9AQ9SNlCuNNoGT34XsxYlpE1SCdozGg=; b=ArTGtdMVyIqkeXprOcooCWoMZb
+	bygL0njNlsoN89ChNh4ogIkBpNGG1c/GhV9XSJs16QCrvgrxVVXohIx6247HjlMq1iKW4CDUJYIOJ
+	gB8oskAaANsmKjAOmrys4wwbnXi/zAhi3iwyPpinS8g2mRPGYXjRmv5w7Y0P0vVH5rccsKtfj1nhp
+	FDBjNK8j1ZUKTazEJnFJ6bxZwh7Qt2F+lCj+q0XJBd0gTazkejD0tHSqW8gao5UQMJJPuDyd5chV/
+	cD9zgr2/jxDjEvClbZ8Y+QswRHlYWoZVzAvXs3ETi9co1r4PoZgzfPLax/OlOmGf+x9fP47am2BEy
+	pmrf34eg==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1sw1bJ-00000003W5T-0Dx6;
+	Wed, 02 Oct 2024 15:49:17 +0000
+Message-ID: <509aa67d-5bfa-4f37-aae6-ce3786e35596@infradead.org>
+Date: Wed, 2 Oct 2024 08:49:09 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202410022209.2TB3siPB-lkp@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 06/15] drm/vkms: Avoid computing blending limits
+ inside pre_mul_alpha_blend
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>, Maaara Canal <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Simona Vetter <simona@ffwll.ch>, arthurgrillo@riseup.net,
+ pekka.paalanen@haloniitty.fi, Simona Vetter <simona.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
+ Pekka Paalanen <pekka.paalanen@collabora.com>
+References: <20240930-yuv-v11-0-4b1a26bcfc96@bootlin.com>
+ <20240930-yuv-v11-6-4b1a26bcfc96@bootlin.com>
+ <30573f5a-d3dd-4aa4-ac5a-cf6df77b79dc@infradead.org>
+ <Zv0LBo8OtRHJM029@louis-chauvet-laptop>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <Zv0LBo8OtRHJM029@louis-chauvet-laptop>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 02, 2024 at 10:23:25PM +0800, kernel test robot wrote:
-> Hi Breno,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on net-next/main]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Breno-Leitao/net-Implement-fault-injection-forcing-skb-reallocation/20241002-193852
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20241002113316.2527669-1-leitao%40debian.org
-> patch subject: [PATCH net-next] net: Implement fault injection forcing skb reallocation
-> reproduce: (https://download.01.org/0day-ci/archive/20241002/202410022209.2TB3siPB-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202410022209.2TB3siPB-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
->    Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
->    Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
->    Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
->    Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
-> >> Warning: net/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
+Hi Louis,
 
-For those interested, this is not an issue, since the fault-injection
-documentation is changing to dev-tools, and I am referencing the new
-localtion already.
+On 10/2/24 1:57 AM, Louis Chauvet wrote:
+> On 01/10/24 - 20:54, Randy Dunlap wrote:
+>> Hi--
+>>
+>> On 9/30/24 8:31 AM, Louis Chauvet wrote:
+>>> The pre_mul_alpha_blend is dedicated to blending, so to avoid mixing
+>>> different concepts (coordinate calculation and color management), extract
+>>> the x_limit and x_dst computation outside of this helper.
+>>> It also increases the maintainability by grouping the computation related
+>>> to coordinates in the same place: the loop in `blend`.
+>>>
+>>> Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+>>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+>>> ---
+>>>  drivers/gpu/drm/vkms/vkms_composer.c | 40 +++++++++++++++++-------------------
+>>>  1 file changed, 19 insertions(+), 21 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+>>> index 931e214b225c..4d220bbb023c 100644
+>>> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+>>> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+>>> @@ -24,34 +24,30 @@ static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
+>>>  
+>>>  /**
+>>>   * pre_mul_alpha_blend - alpha blending equation
+>>> - * @frame_info: Source framebuffer's metadata
+>>>   * @stage_buffer: The line with the pixels from src_plane
+>>>   * @output_buffer: A line buffer that receives all the blends output
+>>> + * @x_start: The start offset
+>>> + * @pixel_count: The number of pixels to blend
+>>
+>> so is this actually pixel count + 1; or
+>>
+>>>   *
+>>> - * Using the information from the `frame_info`, this blends only the
+>>> - * necessary pixels from the `stage_buffer` to the `output_buffer`
+>>> - * using premultiplied blend formula.
+>>> + * The pixels 0..@pixel_count in stage_buffer are blended at @x_start..@x_start+@pixel_count in
+>>
+>> should these ranges include a "- 1"?
+>> Else please explain.
+> 
+> Hi Randy,
+> 
+> For the next version, I will use standard mathematical notation to clarify 
+> the "inclusiveness" of the interval: [0;pixel_count[
 
-https://lore.kernel.org/all/87ttethota.fsf@trenco.lwn.net/
+Hm, I can read that after a second or two.
+
+My math classes always used:  [0,pixel_count)
+for that range, and that is what most of the internet says as well.
+
+or you could just stick with
+  The pixels from 0 through @pixel_count - 1 in stage_buffer are blended at @x_start
+  through @x_start through @x_start + @pixel_count - 1.
+
+but after writing all of that, I think using range notation is better.
+
+thanks.
