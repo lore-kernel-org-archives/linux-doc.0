@@ -1,37 +1,59 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5348228FF;
-	Wed,  2 Oct 2024 04:02:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A15E745F4
+	for <linux-doc@vger.kernel.org>; Wed,  2 Oct 2024 05:27:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727841766; cv=none; b=IqTZgKZVg85ihXrIkXVC/F8PF8g+wQnLHBv06tTeNUOvl/BaZ3khbqdwP6FtA3Co7ffZltkGThVBAzziZvbQh0CeSNlnGI7tH/bHZsXNqRDnPTgJOwhRFdhvIzp7X0hAM6yI4zB8ZuhxbazEoM45LX7gO/uEhNR54oEUZtlzeYc=
+	t=1727846826; cv=none; b=plKpxduDCN5l+zKPxpQvxBtxxgK7jAyNsix/6+nPtPA/DLt/D6XjegkExvFQOsPEj2JReE2/0NDX8shliKHveg2U8HqBOp9LkPIS6SuF8SlQFPqw1pOBmHrRYgd0olYZv4pFuJ8PwcjaDBTy1N28C+bTT/gt2qe/pFu5Fcxavr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727841766; c=relaxed/simple;
-	bh=fa2KBioWKBKKQshAEUjAC0c5IWy0JfsZ6mGnYZ3I1lo=;
+	s=arc-20240116; t=1727846826; c=relaxed/simple;
+	bh=9fxwXFLn5GhRqZDoUHaTplseUCYkdcTYDVZR4cW105g=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PGoVNhZDQlgmmNdhJIT9JKL+bfxwJhlSoi0UhS+Nb6ri6k6EMsvN1YLtzFIwUxjWlJzi3OJY+G4aBEMF8upGCc0E/V0GVleSH4zAi1Uy1YjuYd4vO5Mr6aKrEH8qwUb+Fo9vz48HX4AuD2skIik4pH4AtC0ZibV0fxfEepFYHAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DpaoBx7y; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=lYSn/dBNZsGAECAJVWMme5xZUQEpGLoCrEGPx+YPlCctjw+GkvX45zcolG0WrFzqkM/H8bH63evZFtfHvC+oapOpFUXwn5eW6ddU7O99WTlHGUtddtqa5HKQN7vJeGtIJQxIkwbFKScvfkXuWhRV3rF6uM4Lvh6jzofnP3SEHzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=none smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=vNjJEbg6; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=daynix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DpaoBx7y"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=3mV/2WjxRRRUIs1CehjNUqqU9MqWUP30n90PrOz0OD4=; b=DpaoBx7yQsJ3hHSpsb2twNlXUf
-	Ag1t7Du40nQG707Im4/fexSHICom+RzDtmeLBD6Wye9DaVS5zfO1l45sQ3qc3zh5y5PMfxYNTKUw0
-	1RhUhO4yhtHXgGA3uw2tsRuRNN8oU76EElLW0GVzUM3lLowPb1D4mtViNKz16hLkiP6ZI3dbXvb6+
-	16p3rQZndXPskLZ/EEN23nx+yIJpSJYxH82v9o7rg3r4HPsLlcsjFooTPXltbSxEv8mjDpiPXRAPl
-	/J6fAIbUSTfkwb7rRWlQnOyDkUMrim9n7lyOF2tZq6jF/YIN8SjsMo7HLpgYzdpQWZVlyfJA+82jb
-	oSx7J7ew==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1svqZM-00000003QUH-3M4S;
-	Wed, 02 Oct 2024 04:02:34 +0000
-Message-ID: <ccb8b317-2d35-4113-a5bf-1d55f146b375@infradead.org>
-Date: Tue, 1 Oct 2024 21:02:23 -0700
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="vNjJEbg6"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-20ba6b39a78so17058045ad.3
+        for <linux-doc@vger.kernel.org>; Tue, 01 Oct 2024 22:27:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1727846824; x=1728451624; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nVKUJa0N9Bv7FRPSWL41/VbRzViB8OY98BcxK2GdZLk=;
+        b=vNjJEbg6cGIrcVfEY0hNpNwNwz08QKm/oe13qeajcjSsrp25PM8NjQOYrLn8/D/zCH
+         KAN3pzByEfggRi8x2boLYg+jw+9A2wvTPSM2/q3WKd2j+7OnZ4qXzPWDOyV9le5WXyUF
+         DccaEXoLWKQBXzRxJB9AuEKe7IQ02vCAvLykPigb9IL/EF1S4R/FYvsH6fj0Xc8eN9WE
+         EpT/l+ccAE4nZzD953lngJTCaSF3G2GHZObz+84g9EeEqhiykrxsMRnRJrEgipqvABPC
+         HFbIxlG4GYrUWKXbgPdvMZgTOzmTXykt5Jh2+XyAXl2GeX33wzmb5SSDXrsqerDM45GB
+         7vHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727846824; x=1728451624;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nVKUJa0N9Bv7FRPSWL41/VbRzViB8OY98BcxK2GdZLk=;
+        b=m7zznpuKiq5voqzaOvYipUXgnH8qTsrmVAuckfEBxAmxf11IQEGZ37rFuGBcLhzsRF
+         +ooBx/P6j5OMrkH2AW9tFZLZ3Sv48+WLNBFIpzq7XVuWwKp4Dth5rRFCviOqoun5F1jI
+         DPGnFzZiVar8kqIJ4bgWxFQg5vrHxSsdy/HNqIaCRYQpIxN67JajpabRjQpBucNtw52d
+         djVDm8g+XazXDEU8965YcJ3b7HWe+/ycO6H8stpsj3IlE1Jsfk7rFW3F09eVP4OcDP0t
+         FcVI2fDim89dfC+5VuEmyUwNq1zcwfCl8mIDipyoGthTW/txpNzhLvIJz6A8ictU4RvF
+         yOkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW3mWOUV9ok57+sR8wjZY+gSKmxbyz8ICMResOOpHGGcxO25A5eH2QAjm4XSagsGqOMur7lmdCl70I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsqfttpQ+8McrLiyMQnoFT8BOeKMJo9O4lbXtWs0Y1/e2B7l06
+	X92eM/t0OvJLxQWrHBolaBQI7QfA0va1o0NqLdJ6OzSnVkw6BKX7mKZ6TDdOZxM=
+X-Google-Smtp-Source: AGHT+IGRvF+0dzA6+8tjn7CaXbw8Jq4zdHPAfGu0aIngCPiMB0nvWY2fY2CjWXjr6Jtlt0AZyPw/Jg==
+X-Received: by 2002:a17:902:f14b:b0:205:83a3:b08 with SMTP id d9443c01a7336-20bc5a13e3fmr21525075ad.32.1727846823680;
+        Tue, 01 Oct 2024 22:27:03 -0700 (PDT)
+Received: from [157.82.207.107] ([157.82.207.107])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20b37e4ee7bsm77740535ad.234.2024.10.01.22.26.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Oct 2024 22:27:03 -0700 (PDT)
+Message-ID: <202d7486-7fbb-43bd-9002-2cc0013483ff@daynix.com>
+Date: Wed, 2 Oct 2024 14:26:57 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,206 +61,175 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 08/15] drm/vkms: Re-introduce line-per-line
- composition algorithm
-To: Louis Chauvet <louis.chauvet@bootlin.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Simona Vetter <simona@ffwll.ch>, arthurgrillo@riseup.net,
- pekka.paalanen@haloniitty.fi, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
- Pekka Paalanen <pekka.paalanen@collabora.com>
-References: <20240930-yuv-v11-0-4b1a26bcfc96@bootlin.com>
- <20240930-yuv-v11-8-4b1a26bcfc96@bootlin.com>
+Subject: Re: [PATCH RFC v4 0/9] tun: Introduce virtio-net hashing feature
+To: Stephen Hemminger <stephen@networkplumber.org>
+Cc: Jason Wang <jasowang@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, kvm@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Andrew Melnychenko <andrew@daynix.com>, gur.stavi@huawei.com
+References: <20240924-rss-v4-0-84e932ec0e6c@daynix.com>
+ <CACGkMEvMuBe5=wQxZMns4R-oJtVOWGhKM3sXy8U6wSQX7c=iWQ@mail.gmail.com>
+ <c3bc8d58-1f0e-4633-bb01-d646fcd03f54@daynix.com>
+ <CACGkMEu3u=_=PWW-=XavJRduiHJuZwv11OrMZbnBNVn1fptRUw@mail.gmail.com>
+ <6c101c08-4364-4211-a883-cb206d57303d@daynix.com>
+ <CACGkMEtscr17UOufUtyPp1OvALL8LcycpbRp6CyVMF=jYzAjAA@mail.gmail.com>
+ <447dca19-58c5-4c01-b60e-cfe5e601961a@daynix.com>
+ <20240929083314.02d47d69@hermes.local>
+ <f437d2d6-e4a2-4539-bd30-f312bbf0eac8@daynix.com>
+ <20241001093105.126dacd6@hermes.local>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240930-yuv-v11-8-4b1a26bcfc96@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <20241001093105.126dacd6@hermes.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+On 2024/10/02 1:31, Stephen Hemminger wrote:
+> On Tue, 1 Oct 2024 14:54:29 +0900
+> Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+> 
+>> On 2024/09/30 0:33, Stephen Hemminger wrote:
+>>> On Sun, 29 Sep 2024 16:10:47 +0900
+>>> Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+>>>    
+>>>> On 2024/09/29 11:07, Jason Wang wrote:
+>>>>> On Fri, Sep 27, 2024 at 3:51 PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+>>>>>>
+>>>>>> On 2024/09/27 13:31, Jason Wang wrote:
+>>>>>>> On Fri, Sep 27, 2024 at 10:11 AM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+>>>>>>>>
+>>>>>>>> On 2024/09/25 12:30, Jason Wang wrote:
+>>>>>>>>> On Tue, Sep 24, 2024 at 5:01 PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+>>>>>>>>>>
+>>>>>>>>>> virtio-net have two usage of hashes: one is RSS and another is hash
+>>>>>>>>>> reporting. Conventionally the hash calculation was done by the VMM.
+>>>>>>>>>> However, computing the hash after the queue was chosen defeats the
+>>>>>>>>>> purpose of RSS.
+>>>>>>>>>>
+>>>>>>>>>> Another approach is to use eBPF steering program. This approach has
+>>>>>>>>>> another downside: it cannot report the calculated hash due to the
+>>>>>>>>>> restrictive nature of eBPF.
+>>>>>>>>>>
+>>>>>>>>>> Introduce the code to compute hashes to the kernel in order to overcome
+>>>>>>>>>> thse challenges.
+>>>>>>>>>>
+>>>>>>>>>> An alternative solution is to extend the eBPF steering program so that it
+>>>>>>>>>> will be able to report to the userspace, but it is based on context
+>>>>>>>>>> rewrites, which is in feature freeze. We can adopt kfuncs, but they will
+>>>>>>>>>> not be UAPIs. We opt to ioctl to align with other relevant UAPIs (KVM
+>>>>>>>>>> and vhost_net).
+>>>>>>>>>>      
+>>>>>>>>>
+>>>>>>>>> I wonder if we could clone the skb and reuse some to store the hash,
+>>>>>>>>> then the steering eBPF program can access these fields without
+>>>>>>>>> introducing full RSS in the kernel?
+>>>>>>>>
+>>>>>>>> I don't get how cloning the skb can solve the issue.
+>>>>>>>>
+>>>>>>>> We can certainly implement Toeplitz function in the kernel or even with
+>>>>>>>> tc-bpf to store a hash value that can be used for eBPF steering program
+>>>>>>>> and virtio hash reporting. However we don't have a means of storing a
+>>>>>>>> hash type, which is specific to virtio hash reporting and lacks a
+>>>>>>>> corresponding skb field.
+>>>>>>>
+>>>>>>> I may miss something but looking at sk_filter_is_valid_access(). It
+>>>>>>> looks to me we can make use of skb->cb[0..4]?
+>>>>>>
+>>>>>> I didn't opt to using cb. Below is the rationale:
+>>>>>>
+>>>>>> cb is for tail call so it means we reuse the field for a different
+>>>>>> purpose. The context rewrite allows adding a field without increasing
+>>>>>> the size of the underlying storage (the real sk_buff) so we should add a
+>>>>>> new field instead of reusing an existing field to avoid confusion.
+>>>>>>
+>>>>>> We are however no longer allowed to add a new field. In my
+>>>>>> understanding, this is because it is an UAPI, and eBPF maintainers found
+>>>>>> it is difficult to maintain its stability.
+>>>>>>
+>>>>>> Reusing cb for hash reporting is a workaround to avoid having a new
+>>>>>> field, but it does not solve the underlying problem (i.e., keeping eBPF
+>>>>>> as stable as UAPI is unreasonably hard). In my opinion, adding an ioctl
+>>>>>> is a reasonable option to keep the API as stable as other virtualization
+>>>>>> UAPIs while respecting the underlying intention of the context rewrite
+>>>>>> feature freeze.
+>>>>>
+>>>>> Fair enough.
+>>>>>
+>>>>> Btw, I remember DPDK implements tuntap RSS via eBPF as well (probably
+>>>>> via cls or other). It might worth to see if anything we miss here.
+>>>>
+>>>> Thanks for the information. I wonder why they used cls instead of
+>>>> steering program. Perhaps it may be due to compatibility with macvtap
+>>>> and ipvtap, which don't steering program.
+>>>>
+>>>> Their RSS implementation looks cleaner so I will improve my RSS
+>>>> implementation accordingly.
+>>>>   
+>>>
+>>> DPDK needs to support flow rules. The specific case is where packets
+>>> are classified by a flow, then RSS is done across a subset of the queues.
+>>> The support for flow in TUN driver is more academic than useful,
+>>> I fixed it for current BPF, but doubt anyone is using it really.
+>>>
+>>> A full steering program would be good, but would require much more
+>>> complexity to take a general set of flow rules then communicate that
+>>> to the steering program.
+>>>    
+>>
+>> It reminded me of RSS context and flow filter. Some physical NICs
+>> support to use a dedicated RSS context for packets matched with flow
+>> filter, and virtio is also gaining corresponding features.
+>>
+>> RSS context: https://github.com/oasis-tcs/virtio-spec/issues/178
+>> Flow filter: https://github.com/oasis-tcs/virtio-spec/issues/179
+>>
+>> I considered about the possibility of supporting these features with tc
+>> instead of adding ioctls to tuntap, but it seems not appropriate for
+>> virtualization use case.
+>>
+>> In a virtualization use case, tuntap is configured according to requests
+>> of guests, and the code processing these requests need to have minimal
+>> permissions for security. This goal is achieved by passing a file
+>> descriptor that represents a tuntap from a privileged process (e.g.,
+>> libvirt) to the process handling guest requests (e.g., QEMU).
+>>
+>> However, tc is configured with rtnetlink, which does not seem to have an
+>> interface to delegate a permission for one particular device to another
+>> process.
+>>
+>> For now I'll continue working on the current approach that is based on
+>> ioctl and lacks RSS context and flow filter features. Eventually they
+>> are also likely to require new ioctls if they are to be supported with
+>> vhost_net.
+> 
+> The DPDK flow handling (rte_flow) was started by Mellanox and many of
+> the features are to support what that NIC can do. Would be good to have
+> a tc way to configure that (or devlink).
 
+Yes, but I would rather only implement the ioctl without flow handling 
+for now. My purpose of implementing RSS in the kernel is to report hash 
+values to the guest that has its own network stack in the virtualization 
+context. tc-bpf would be suffice for DPDK, which does not have such a 
+requirement.
 
-On 9/30/24 8:31 AM, Louis Chauvet wrote:
-> Re-introduce a line-by-line composition algorithm for each pixel format.
-> This allows more performance by not requiring an indirection per pixel
-> read. This patch is focused on readability of the code.
-> 
-> Line-by-line composition was introduced by [1] but rewritten back to
-> pixel-by-pixel algorithm in [2]. At this time, nobody noticed the impact
-> on performance, and it was merged.
-> 
-> This patch is almost a revert of [2], but in addition efforts have been
-> made to increase readability and maintainability of the rotation handling.
-> The blend function is now divided in two parts:
-> - Transformation of coordinates from the output referential to the source
-> referential
-> - Line conversion and blending
-> 
-> Most of the complexity of the rotation management is avoided by using
-> drm_rect_* helpers. The remaining complexity is around the clipping, to
-> avoid reading/writing outside source/destination buffers.
-> 
-> The pixel conversion is now done line-by-line, so the read_pixel_t was
-> replaced with read_pixel_line_t callback. This way the indirection is only
-> required once per line and per plane, instead of once per pixel and per
-> plane.
-> 
-> The read_line_t callbacks are very similar for most pixel format, but it
-> is required to avoid performance impact. Some helpers for color
-> conversion were introduced to avoid code repetition:
-> - *_to_argb_u16: perform colors conversion. They should be inlined by the
->   compiler, and they are used to avoid repetition between multiple variants
->   of the same format (argb/xrgb and maybe in the future for formats like
->   bgr formats).
-> 
-> This new algorithm was tested with:
-> - kms_plane (for color conversions)
-> - kms_rotation_crc (for rotations of planes)
-> - kms_cursor_crc (for translations of planes)
-> - kms_rotation (for all rotations and formats combinations) [3]
-> The performance gain was mesured with kms_fb_stress [4] with some
-> modification to fix the writeback format.
-> 
-> The performance improvement is around 5 to 10%.
-> 
-> [1]: commit 8ba1648567e2 ("drm: vkms: Refactor the plane composer to accept
->      new formats")
->      https://lore.kernel.org/all/20220905190811.25024-7-igormtorrente@gmail.com/
-> [2]: commit 322d716a3e8a ("drm/vkms: isolate pixel conversion
->      functionality")
->      https://lore.kernel.org/all/20230418130525.128733-2-mcanal@igalia.com/
-> [3]: https://lore.kernel.org/igt-dev/20240313-new_rotation-v2-0-6230fd5cae59@bootlin.com/
-> [4]: https://lore.kernel.org/all/20240422-kms_fb_stress-dev-v5-0-0c577163dc88@riseup.net/
-> 
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> ---
->  drivers/gpu/drm/vkms/vkms_composer.c | 234 ++++++++++++++++++++++++++++-------
->  drivers/gpu/drm/vkms/vkms_drv.h      |  28 +++--
->  drivers/gpu/drm/vkms/vkms_formats.c  | 224 ++++++++++++++++++++-------------
->  drivers/gpu/drm/vkms/vkms_formats.h  |   2 +-
->  drivers/gpu/drm/vkms/vkms_plane.c    |   5 +-
->  5 files changed, 344 insertions(+), 149 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-> index 4ebeaf58fa75..76d4aa8a0ef6 100644
-> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> @@ -29,8 +29,8 @@ static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
->   * @x_start: The start offset
->   * @pixel_count: The number of pixels to blend
->   *
-> - * The pixels 0..@pixel_count in stage_buffer are blended at @x_start..@x_start+@pixel_count in
-> - * output_buffer.
-> + * The pixels @x_start..@x_start+@pixel_count in stage_buffer are blended at
-> + * @x_start..@x_start+@pixel_count in output_buffer.
+Having an access to the in-kernel RSS implementation also saves the 
+trouble of implementing an eBPF program for RSS, but DPDK already does 
+have such a program so it makes little difference. There may be also 
+performance improvement because I'm optimizing the in-kernel RSS 
+implementation with ffs(), which is currently not available to eBPF, but 
+there is also a proposal to expose ffs() to eBPF*.
 
-with "- 1" somewhere?
+For now, I will keep the patch series small by having only the ioctl 
+interface. Anyone who finds the feature useful for tc can take it and 
+add a tc interface in the future.
 
->   *
->   * The current DRM assumption is that pixel color values have been already
->   * pre-multiplied with the alpha channel values. See more
-> @@ -41,7 +41,7 @@ static void pre_mul_alpha_blend(const struct line_buffer *stage_buffer,
->  				struct line_buffer *output_buffer, int x_start, int pixel_count)
->  {
->  	struct pixel_argb_u16 *out = &output_buffer->pixels[x_start];
-> -	const struct pixel_argb_u16 *in = stage_buffer->pixels;
-> +	const struct pixel_argb_u16 *in = &stage_buffer->pixels[x_start];
->  
->  	for (int i = 0; i < pixel_count; i++) {
->  		out[i].a = (u16)0xffff;
-> @@ -51,33 +51,6 @@ static void pre_mul_alpha_blend(const struct line_buffer *stage_buffer,
->  	}
->  }
->  
-> -static int get_y_pos(struct vkms_frame_info *frame_info, int y)
-> -{
-> -	if (frame_info->rotation & DRM_MODE_REFLECT_Y)
-> -		return drm_rect_height(&frame_info->rotated) - y - 1;
-> -
-> -	switch (frame_info->rotation & DRM_MODE_ROTATE_MASK) {
-> -	case DRM_MODE_ROTATE_90:
-> -		return frame_info->rotated.x2 - y - 1;
-> -	case DRM_MODE_ROTATE_270:
-> -		return y + frame_info->rotated.x1;
-> -	default:
-> -		return y;
-> -	}
-> -}
-> -
-> -static bool check_limit(struct vkms_frame_info *frame_info, int pos)
-> -{
-> -	if (drm_rotation_90_or_270(frame_info->rotation)) {
-> -		if (pos >= 0 && pos < drm_rect_width(&frame_info->rotated))
-> -			return true;
-> -	} else {
-> -		if (pos >= frame_info->rotated.y1 && pos < frame_info->rotated.y2)
-> -			return true;
-> -	}
-> -
-> -	return false;
-> -}
->  
->  static void fill_background(const struct pixel_argb_u16 *background_color,
->  			    struct line_buffer *output_buffer)
-> @@ -203,6 +176,182 @@ static enum pixel_read_direction direction_for_rotation(unsigned int rotation)
->  	return READ_LEFT_TO_RIGHT;
->  }
->  
-> +/**
-> + * clamp_line_coordinates() - Compute and clamp the coordinate to read and write during the blend
-> + * process.
-> + *
-> + * @direction: direction of the reading
-> + * @current_plane: current plane blended
-> + * @src_line: source line of the reading. Only the top-left coordinate is used. This rectangle
-> + * must be rotated and have a shape of 1*pixel_count if @direction is vertical and a shape of
-> + * pixel_count*1 if @direction is horizontal.
-> + * @src_x_start: x start coordinate for the line reading
-> + * @src_y_start: y start coordinate for the line reading
-> + * @dst_x_start: x coordinate to blend the read line
-> + * @pixel_count: number of pixels to blend
-> + *
-> + * This function is mainly a safety net to avoid reading outside the source buffer. As the
-> + * userspace should never ask to read outside the source plane, all the cases covered here should
-> + * be dead code.
-> + */
-> +static void clamp_line_coordinates(enum pixel_read_direction direction,
-> +				   const struct vkms_plane_state *current_plane,
-> +				   const struct drm_rect *src_line, int *src_x_start,
-> +				   int *src_y_start, int *dst_x_start, int *pixel_count)
-> +{
-> +	/* By default the start points are correct */
-> +	*src_x_start = src_line->x1;
-> +	*src_y_start = src_line->y1;
-> +	*dst_x_start = current_plane->frame_info->dst.x1;
-> +
-> +	/* Get the correct number of pixel to blend, it depends of the direction */
-> +	switch (direction) {
-> +	case READ_LEFT_TO_RIGHT:
-> +	case READ_RIGHT_TO_LEFT:
-> +		*pixel_count = drm_rect_width(src_line);
-> +		break;
-> +	case READ_BOTTOM_TO_TOP:
-> +	case READ_TOP_TO_BOTTOM:
-> +		*pixel_count = drm_rect_height(src_line);
-> +		break;
-> +	}
-> +
-> +	/*
-> +	 * Clamp the coordinates to avoid reading outside the buffer
-> +	 *
-> +	 * This is mainly a security to avoid reading outside the buffer, the userspace should
+Regards,
+Akihiko Odaki
 
-	                  a security check to avoid
-
-> +	 * never request to read outside the source buffer.
-> +	 */
-
+* https://lore.kernel.org/bpf/20240131155607.51157-1-hffilwlqm@gmail.com/#t
