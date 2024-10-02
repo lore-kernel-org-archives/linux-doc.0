@@ -1,402 +1,204 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EED61E132D
-	for <linux-doc@vger.kernel.org>; Tue,  1 Oct 2024 23:53:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 311D9624
+	for <linux-doc@vger.kernel.org>; Wed,  2 Oct 2024 00:12:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727826837; cv=none; b=PkA3eX5d9wynBrC/m2PSmFBi8DvM03aeKszlxKFDRm7yEi43GvWvU/KNHzprXF7dorB2zxQ77pMJMOHgFd9fqJ2N8mb4w0vhZUZpGOoeJ6z7FCcu24TaNX+jbKbA/GsVNLPLpbnigHMVH4/+nqyfTrp/oOMh+7kulKkuXWYzf6I=
+	t=1727827956; cv=none; b=cDo1nErwzOgRQmTtB4/9rPgFrR+xTVdjTVKcLwbj2Be3hSMrb+8VF5vQvTS1n/hJKVwPiSEBH0fOTgijYohtkiJtBPrvUlnkUH9F+Vy3iUo66f1dht7tUD1Cd3UlGdoXAB8GGLje/oT8SlCoJstLggp29Ws4CNTvBMAUYi54PSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727826837; c=relaxed/simple;
-	bh=zto/izfmmguhKhVHdEZdiijUzaBXpzkbp1KqyItqIxo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=QYOI6s5mFeDBUEKEN35Di48XcBVBk1dAq4YF4kWXEz7CzgWjE5Pg5kLf9iXChmZPPpihGDbqn5qEuKaZWvbQGopuwm4T1suW26QOgEx29vJD7fWb5V/liJvHAiK2HrRngjnPh0gvZNnUu15ASqwbWs67QUIkO7uwK9gbwIhor+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=iE9GiHBY; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
+	s=arc-20240116; t=1727827956; c=relaxed/simple;
+	bh=1dvAewY9SUvb0mk5qJ4rGjPDkImylQFiv3WD7bkPzv8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nzIsHYc987Szd6i3yZzwZPCc0P2gPv6QkkC20IXXtRzEdxZC/exBr0CVykolGWI8ZfB+JBwAuhsBwL3YN6GFz/ZPVvwmusopqxzu5J8N/S/8Yg4AX1vh44aKu9Gk1sQQEQPOLghcIyha+8uPkRTvQrokywP0ZjGhYuhayQTQTQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=bO03AL+3; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="iE9GiHBY"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2e09ff2d890so5146521a91.0
-        for <linux-doc@vger.kernel.org>; Tue, 01 Oct 2024 16:53:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="bO03AL+3"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-42ca6ba750eso1842935e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 01 Oct 2024 17:12:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1727826835; x=1728431635; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wlIWZP5hxY7Z7ed2/y3QCNWpfTA3UWwpTpt+lr7sIBg=;
-        b=iE9GiHBYF+WhLpT3RBv1V+mfW8Wgm3Yu9wy/VmhIK74mxvKpN1VWtseoOuV1eLE7/f
-         P5femz9h5P+u4RYDvI8lrmuunCnYT6+XaZC6YfEBjejNc6GRbVuKdaMj4KXtymAmjhGp
-         2ndF8394YUpVGLHchbKmNl/S4Y5/Ld1PQ/uI8=
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1727827951; x=1728432751; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vnlZlNXn2r5SdItECP2y/9nvB0cJmPdzYGUIF7uGZ04=;
+        b=bO03AL+3bDEKFXQWWSDcEOAkKy6YCO0ay/c9IommrCjY9RheiNV1saQDYRINQl6eeH
+         m3kmOL5cgwNUuhuYZm6jjsuZYxU4veO4onAbW9C7wm3AOE5aRqsqBhv9+TK3MvFQGzDx
+         8KmMrqMquOlXdMgQLloDg+UxBjJzFkzmHWSK4HoX8osw8aqF3wBoUXoobJgOISwrogct
+         lqa9TrikDCD9RqFhbgQWAp+m38Vre4wc3wtBQcDlauJgcwCjSmdrc91Websbvc4xUlxd
+         n6qbkR1UxTHpNhxsyBN1hnHkHgXO/J+xPfOFkNw/WgvAf8qJAHC5gkK4jh3Q+BnN9tCG
+         Zg0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727826835; x=1728431635;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wlIWZP5hxY7Z7ed2/y3QCNWpfTA3UWwpTpt+lr7sIBg=;
-        b=oPO/QXi5+Ydc6cHbpqy2ArD6MGB9mz0jnzu018uu6ry28vD+g5jH1nzpHrOmCq+mOC
-         OvTzIoeqRD5ya5u4dYtYIoy9ER2PzVtQtRyeCTlhuzr30FHGa0OUPmFJfkl3F1mgM7vx
-         W4lCkGqLL+9KEfvCM8DvKbYJiXtmxXHBYuaPbSowBjCh4wxD1JFeC5XSulYIj3Z2N+cl
-         Fv/N33RgvfFpBXY1EliWQygFA4ACffSIHWDTW3zjzBzKMYT+uq0BSt1wQFfG/sJ0BoR9
-         VCnSbPg2V6/zzT1Ph9t/HAXrW1M97pMW1XTwTLvCOr9vdYuMG2poAJBg2AteY8Lz2ord
-         Wc3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCULaWSQcl5nypmhR0Ec0Bxp+RVUSB4OBbpWsu6bTzC10CIKdikhAk/ls0tAdfX9ChRiwIr4JrmgLeI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSW+YlSRgbG+COixbvfzzOmiYiy0RG1RoitwZeWXqCRykLZIzT
-	8R53hvEyXe36VhMSinWdYk5bL3AqUS7EjooFrdTnd2Y5DGg2XVWFK4G5E5GBCLitttegQyq6WtD
-	9
-X-Google-Smtp-Source: AGHT+IFPu7lvhG4uUYOO2d1rHoWdVGH9+8y4NJPM7S8ebIb+AWvoza2AwcPTUtXv++qlhFapQqZP5w==
-X-Received: by 2002:a17:90a:ff0d:b0:2e0:875a:f72d with SMTP id 98e67ed59e1d1-2e182c80442mr1777548a91.0.1727826834967;
-        Tue, 01 Oct 2024 16:53:54 -0700 (PDT)
-Received: from localhost.localdomain ([2620:11a:c019:0:65e:3115:2f58:c5fd])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e18f89e973sm213130a91.29.2024.10.01.16.53.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2024 16:53:54 -0700 (PDT)
-From: Joe Damato <jdamato@fastly.com>
-To: netdev@vger.kernel.org
-Cc: mkarsten@uwaterloo.ca,
-	skhawaja@google.com,
-	sdf@fomichev.me,
-	bjorn@rivosinc.com,
-	amritha.nambiar@intel.com,
-	sridhar.samudrala@intel.com,
-	willemdebruijn.kernel@gmail.com,
-	Joe Damato <jdamato@fastly.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Johannes Berg <johannes.berg@intel.com>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [RFC net-next v4 5/9] net: napi: Add napi_config
-Date: Tue,  1 Oct 2024 23:52:36 +0000
-Message-Id: <20241001235302.57609-6-jdamato@fastly.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241001235302.57609-1-jdamato@fastly.com>
-References: <20241001235302.57609-1-jdamato@fastly.com>
+        d=1e100.net; s=20230601; t=1727827951; x=1728432751;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vnlZlNXn2r5SdItECP2y/9nvB0cJmPdzYGUIF7uGZ04=;
+        b=rZt+riTgRBFgpifXqDF3laSyD4Djsy5yw2i6bj3kPRyZ4Sthfdf6nyfMKOk9ydhT70
+         kogwqullyAT67B+XTJfDl7bhfgh6VXkLoakEKplDVnHR4SfCWxf1ZMpQndHKOy+BMPOZ
+         2c6BruMB9N6C4rt8RsOXHugQLmkQsgXZa/kmLP+zd7Sp23A9324z7OtX0DUWpiA8vAy2
+         Dhg7zjLQHrcj7HB3uKhwgbAYkSHrz87RmkyyKpXkNOpazj1f/hfAR14nwPD/w3kJXHvC
+         sfZ/FKgB0WwFHcBT0mW53fZLSzz5fi0lorUsf0X7w49MBUsVHQszj99XX1H1G7cxFXU5
+         P9ww==
+X-Forwarded-Encrypted: i=1; AJvYcCUO5k/HMnzC/awvy/r3aY1V2H4b4JL/x0t5IHwNDxcT8F1PYUCW/JHzhpnaZH7+di3/rnpzslcX6XQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzF0v/GKCLIEPdpiRmvwGZHCI4R4HEtAnDfOIAakaFnBhr2TwSu
+	v23zwO57CoFklSwwlO1IKbZzCpNf5KQB1qiedvO9nb6J2uMRhFMLXAyhOh9uJho=
+X-Google-Smtp-Source: AGHT+IFp1BBQhueLTaa7zDs8f+Zi5EqjDi4QIQvUe7MIuBWL3xI+PhtuHQuGbzZ+x1anGNvzpcEkAw==
+X-Received: by 2002:a05:600c:1c1d:b0:42c:b98d:b993 with SMTP id 5b1f17b1804b1-42f776cf4f5mr6796725e9.2.1727827951070;
+        Tue, 01 Oct 2024 17:12:31 -0700 (PDT)
+Received: from ?IPV6:2a04:cec2:b:2aca:1b10:f81f:8179:6179? ([2a04:cec2:b:2aca:1b10:f81f:8179:6179])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f7727f72fsm11119285e9.1.2024.10.01.17.12.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Oct 2024 17:12:30 -0700 (PDT)
+Message-ID: <57c5d8b1-295a-492f-b17c-b44caf8aeb2d@baylibre.com>
+Date: Wed, 2 Oct 2024 02:12:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 07/10] iio: adc: ad7606: Add compatibility to fw_nodes
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Michal Marek <mmarek@suse.com>, linux-pwm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, aardelean@baylibre.com, dlechner@baylibre.com,
+ jstephan@baylibre.com
+References: <20240920-ad7606_add_iio_backend_support-v2-0-0e78782ae7d0@baylibre.com>
+ <20240920-ad7606_add_iio_backend_support-v2-7-0e78782ae7d0@baylibre.com>
+ <20240929134412.506998db@jic23-huawei>
+Content-Language: en-US
+From: Guillaume Stols <gstols@baylibre.com>
+In-Reply-To: <20240929134412.506998db@jic23-huawei>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Add a persistent NAPI config area for NAPI configuration to the core.
-Drivers opt-in to setting the persistent config for a NAPI by passing an
-index when calling netif_napi_add_config.
 
-napi_config is allocated in alloc_netdev_mqs, freed in free_netdev
-(after the NAPIs are deleted).
+On 9/29/24 14:44, Jonathan Cameron wrote:
+> On Fri, 20 Sep 2024 17:33:27 +0000
+> Guillaume Stols <gstols@baylibre.com> wrote:
+>
+>> On the parallel version, the current implementation is only compatible
+>> with id tables and won't work with fw_nodes, this commit intends to fix
+>> it.
+>>
+>> Also, chip info is moved in the .h file so to be accessible to all the
+> chip info is not moved (I was going to say no to that) but an
+> extern is used to make it available. So say that rather than moved here.
+>
+>> driver files that can set a pointer to the corresponding chip as the
+>> driver data.
+>>
+>>   
+>> diff --git a/drivers/iio/adc/ad7606.h b/drivers/iio/adc/ad7606.h
+>> index c13dda444526..18c87fe9a41a 100644
+>> --- a/drivers/iio/adc/ad7606.h
+>> +++ b/drivers/iio/adc/ad7606.h
+>> @@ -38,8 +38,19 @@
+>>   	AD760X_CHANNEL(num, BIT(IIO_CHAN_INFO_RAW) | BIT(IIO_CHAN_INFO_SCALE),\
+>>   		0, BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO))
+>>   
+>> +enum ad7606_supported_device_ids {
+>> +	ID_AD7605_4,
+>> +	ID_AD7606_8,
+>> +	ID_AD7606_6,
+>> +	ID_AD7606_4,
+>> +	ID_AD7606B,
+>> +	ID_AD7616,
+>> +};
+>> +
+>>   /**
+>>    * struct ad7606_chip_info - chip specific information
+>> + * @name		device name
+>> + * @id			device id
+> ID in chip info normally indicates something bad in the design. In that somewhere
+> we have code that is ID dependent rather than all such code / data being
+> found directly in this structure (or callbacks found from here).
+> Can we avoid it here?
 
-Drivers which call netif_napi_add_config will have persistent per-NAPI
-settings: NAPI IDs, gro_flush_timeout, and defer_hard_irq settings.
+Hi Jonathan,
 
-Per-NAPI settings are saved in napi_disable and restored in napi_enable.
+chip_info has to describe the chip hardwarewise, but there are different 
+bops depending on the wiring (interface used, and backend/no backend).
 
-Co-developed-by: Martin Karsten <mkarsten@uwaterloo.ca>
-Signed-off-by: Martin Karsten <mkarsten@uwaterloo.ca>
-Signed-off-by: Joe Damato <jdamato@fastly.com>
----
- .../networking/net_cachelines/net_device.rst  |  1 +
- include/linux/netdevice.h                     | 32 ++++++++
- net/core/dev.c                                | 79 +++++++++++++++++--
- net/core/dev.h                                | 14 ++++
- 4 files changed, 119 insertions(+), 7 deletions(-)
+The easiest way I found was to use the ID in a switch/case to 
+determinate which bops I should take (well it was only needed in the spi 
+version since it is the one supporting almost all the chips while the 
+other ones still support only one). For instance, the ad7606B will use 
+ad7606_bi_bops if it has a backend and ad7606B_spi_bops for spi version.
 
-diff --git a/Documentation/networking/net_cachelines/net_device.rst b/Documentation/networking/net_cachelines/net_device.rst
-index 3d02ae79c850..11d659051f5e 100644
---- a/Documentation/networking/net_cachelines/net_device.rst
-+++ b/Documentation/networking/net_cachelines/net_device.rst
-@@ -183,3 +183,4 @@ struct hlist_head                   page_pools
- struct dim_irq_moder*               irq_moder
- unsigned_long                       gro_flush_timeout
- u32                                 napi_defer_hard_irqs
-+struct napi_config*                 napi_config
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index 33897edd16c8..51cff55e7ab8 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -342,6 +342,15 @@ struct gro_list {
-  */
- #define GRO_HASH_BUCKETS	8
- 
-+/*
-+ * Structure for per-NAPI config
-+ */
-+struct napi_config {
-+	u64 gro_flush_timeout;
-+	u32 defer_hard_irqs;
-+	unsigned int napi_id;
-+};
-+
- /*
-  * Structure for NAPI scheduling similar to tasklet but with weighting
-  */
-@@ -379,6 +388,8 @@ struct napi_struct {
- 	int			irq;
- 	unsigned long		gro_flush_timeout;
- 	u32			defer_hard_irqs;
-+	int			index;
-+	struct napi_config	*config;
- };
- 
- enum {
-@@ -2011,6 +2022,9 @@ enum netdev_reg_state {
-  *	@dpll_pin: Pointer to the SyncE source pin of a DPLL subsystem,
-  *		   where the clock is recovered.
-  *
-+ *	@napi_config: An array of napi_config structures containing per-NAPI
-+ *		      settings.
-+ *
-  *	FIXME: cleanup struct net_device such that network protocol info
-  *	moves out.
-  */
-@@ -2400,6 +2414,7 @@ struct net_device {
- 	struct dim_irq_moder	*irq_moder;
- 	unsigned long		gro_flush_timeout;
- 	u32			napi_defer_hard_irqs;
-+	struct napi_config	*napi_config;
- 
- 	u8			priv[] ____cacheline_aligned
- 				       __counted_by(priv_len);
-@@ -2650,6 +2665,23 @@ netif_napi_add_tx_weight(struct net_device *dev,
- 	netif_napi_add_weight(dev, napi, poll, weight);
- }
- 
-+/**
-+ * netif_napi_add_config - initialize a NAPI context with persistent config
-+ * @dev: network device
-+ * @napi: NAPI context
-+ * @poll: polling function
-+ * @weight: the poll weight of this NAPI
-+ * @index: the NAPI index
-+ */
-+static inline void
-+netif_napi_add_config(struct net_device *dev, struct napi_struct *napi,
-+		      int (*poll)(struct napi_struct *, int), int index)
-+{
-+	napi->index = index;
-+	napi->config = &dev->napi_config[index];
-+	netif_napi_add_weight(dev, napi, poll, NAPI_POLL_WEIGHT);
-+}
-+
- /**
-  * netif_napi_add_tx() - initialize a NAPI context to be used for Tx only
-  * @dev:  network device
-diff --git a/net/core/dev.c b/net/core/dev.c
-index 056ed44f766f..9acb6db19200 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -6499,6 +6499,22 @@ EXPORT_SYMBOL(napi_busy_loop);
- 
- #endif /* CONFIG_NET_RX_BUSY_POLL */
- 
-+static void __napi_hash_add_with_id(struct napi_struct *napi,
-+				    unsigned int napi_id)
-+{
-+	napi->napi_id = napi_id;
-+	hlist_add_head_rcu(&napi->napi_hash_node,
-+			   &napi_hash[napi->napi_id % HASH_SIZE(napi_hash)]);
-+}
-+
-+static void napi_hash_add_with_id(struct napi_struct *napi,
-+				  unsigned int napi_id)
-+{
-+	spin_lock(&napi_hash_lock);
-+	__napi_hash_add_with_id(napi, napi_id);
-+	spin_unlock(&napi_hash_lock);
-+}
-+
- static void napi_hash_add(struct napi_struct *napi)
- {
- 	if (test_bit(NAPI_STATE_NO_BUSY_POLL, &napi->state))
-@@ -6511,10 +6527,8 @@ static void napi_hash_add(struct napi_struct *napi)
- 		if (unlikely(++napi_gen_id < MIN_NAPI_ID))
- 			napi_gen_id = MIN_NAPI_ID;
- 	} while (napi_by_id(napi_gen_id));
--	napi->napi_id = napi_gen_id;
- 
--	hlist_add_head_rcu(&napi->napi_hash_node,
--			   &napi_hash[napi->napi_id % HASH_SIZE(napi_hash)]);
-+	__napi_hash_add_with_id(napi, napi_gen_id);
- 
- 	spin_unlock(&napi_hash_lock);
- }
-@@ -6637,6 +6651,28 @@ void netif_queue_set_napi(struct net_device *dev, unsigned int queue_index,
- }
- EXPORT_SYMBOL(netif_queue_set_napi);
- 
-+static void napi_restore_config(struct napi_struct *n)
-+{
-+	n->defer_hard_irqs = n->config->defer_hard_irqs;
-+	n->gro_flush_timeout = n->config->gro_flush_timeout;
-+	/* a NAPI ID might be stored in the config, if so use it. if not, use
-+	 * napi_hash_add to generate one for us. It will be saved to the config
-+	 * in napi_disable.
-+	 */
-+	if (n->config->napi_id)
-+		napi_hash_add_with_id(n, n->config->napi_id);
-+	else
-+		napi_hash_add(n);
-+}
-+
-+static void napi_save_config(struct napi_struct *n)
-+{
-+	n->config->defer_hard_irqs = n->defer_hard_irqs;
-+	n->config->gro_flush_timeout = n->gro_flush_timeout;
-+	n->config->napi_id = n->napi_id;
-+	napi_hash_del(n);
-+}
-+
- void netif_napi_add_weight(struct net_device *dev, struct napi_struct *napi,
- 			   int (*poll)(struct napi_struct *, int), int weight)
- {
-@@ -6647,8 +6683,6 @@ void netif_napi_add_weight(struct net_device *dev, struct napi_struct *napi,
- 	INIT_HLIST_NODE(&napi->napi_hash_node);
- 	hrtimer_init(&napi->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL_PINNED);
- 	napi->timer.function = napi_watchdog;
--	napi_set_defer_hard_irqs(napi, READ_ONCE(dev->napi_defer_hard_irqs));
--	napi_set_gro_flush_timeout(napi, READ_ONCE(dev->gro_flush_timeout));
- 	init_gro_hash(napi);
- 	napi->skb = NULL;
- 	INIT_LIST_HEAD(&napi->rx_list);
-@@ -6666,7 +6700,13 @@ void netif_napi_add_weight(struct net_device *dev, struct napi_struct *napi,
- 	set_bit(NAPI_STATE_SCHED, &napi->state);
- 	set_bit(NAPI_STATE_NPSVC, &napi->state);
- 	list_add_rcu(&napi->dev_list, &dev->napi_list);
--	napi_hash_add(napi);
-+
-+	/* default settings from sysfs are applied to all NAPIs. any per-NAPI
-+	 * configuration will be loaded in napi_enable
-+	 */
-+	napi_set_defer_hard_irqs(napi, READ_ONCE(dev->napi_defer_hard_irqs));
-+	napi_set_gro_flush_timeout(napi, READ_ONCE(dev->gro_flush_timeout));
-+
- 	napi_get_frags_check(napi);
- 	/* Create kthread for this napi if dev->threaded is set.
- 	 * Clear dev->threaded if kthread creation failed so that
-@@ -6698,6 +6738,11 @@ void napi_disable(struct napi_struct *n)
- 
- 	hrtimer_cancel(&n->timer);
- 
-+	if (n->config)
-+		napi_save_config(n);
-+	else
-+		napi_hash_del(n);
-+
- 	clear_bit(NAPI_STATE_DISABLE, &n->state);
- }
- EXPORT_SYMBOL(napi_disable);
-@@ -6713,6 +6758,11 @@ void napi_enable(struct napi_struct *n)
- {
- 	unsigned long new, val = READ_ONCE(n->state);
- 
-+	if (n->config)
-+		napi_restore_config(n);
-+	else
-+		napi_hash_add(n);
-+
- 	do {
- 		BUG_ON(!test_bit(NAPI_STATE_SCHED, &val));
- 
-@@ -6742,7 +6792,11 @@ void __netif_napi_del(struct napi_struct *napi)
- 	if (!test_and_clear_bit(NAPI_STATE_LISTED, &napi->state))
- 		return;
- 
--	napi_hash_del(napi);
-+	if (napi->config) {
-+		napi->index = -1;
-+		napi->config = NULL;
-+	}
-+
- 	list_del_rcu(&napi->dev_list);
- 	napi_free_frags(napi);
- 
-@@ -11079,6 +11133,8 @@ struct net_device *alloc_netdev_mqs(int sizeof_priv, const char *name,
- 		unsigned int txqs, unsigned int rxqs)
- {
- 	struct net_device *dev;
-+	size_t napi_config_sz;
-+	unsigned int maxqs;
- 
- 	BUG_ON(strlen(name) >= sizeof(dev->name));
- 
-@@ -11092,6 +11148,8 @@ struct net_device *alloc_netdev_mqs(int sizeof_priv, const char *name,
- 		return NULL;
- 	}
- 
-+	maxqs = max(txqs, rxqs);
-+
- 	dev = kvzalloc(struct_size(dev, priv, sizeof_priv),
- 		       GFP_KERNEL_ACCOUNT | __GFP_RETRY_MAYFAIL);
- 	if (!dev)
-@@ -11166,6 +11224,11 @@ struct net_device *alloc_netdev_mqs(int sizeof_priv, const char *name,
- 	if (!dev->ethtool)
- 		goto free_all;
- 
-+	napi_config_sz = array_size(maxqs, sizeof(*dev->napi_config));
-+	dev->napi_config = kvzalloc(napi_config_sz, GFP_KERNEL_ACCOUNT);
-+	if (!dev->napi_config)
-+		goto free_all;
-+
- 	strscpy(dev->name, name);
- 	dev->name_assign_type = name_assign_type;
- 	dev->group = INIT_NETDEV_GROUP;
-@@ -11227,6 +11290,8 @@ void free_netdev(struct net_device *dev)
- 	list_for_each_entry_safe(p, n, &dev->napi_list, dev_list)
- 		netif_napi_del(p);
- 
-+	kvfree(dev->napi_config);
-+
- 	ref_tracker_dir_exit(&dev->refcnt_tracker);
- #ifdef CONFIG_PCPU_DEV_REFCNT
- 	free_percpu(dev->pcpu_refcnt);
-diff --git a/net/core/dev.h b/net/core/dev.h
-index 26e598aa56c3..7365fa0ffdc7 100644
---- a/net/core/dev.h
-+++ b/net/core/dev.h
-@@ -167,11 +167,18 @@ static inline void napi_set_defer_hard_irqs(struct napi_struct *n, u32 defer)
- static inline void netdev_set_defer_hard_irqs(struct net_device *netdev,
- 					      u32 defer)
- {
-+	unsigned int count = max(netdev->num_rx_queues,
-+				 netdev->num_tx_queues);
- 	struct napi_struct *napi;
-+	int i;
- 
- 	WRITE_ONCE(netdev->napi_defer_hard_irqs, defer);
- 	list_for_each_entry(napi, &netdev->napi_list, dev_list)
- 		napi_set_defer_hard_irqs(napi, defer);
-+
-+	if (netdev->napi_config)
-+		for (i = 0; i < count; i++)
-+			netdev->napi_config[i].defer_hard_irqs = defer;
- }
- 
- /**
-@@ -207,11 +214,18 @@ static inline void napi_set_gro_flush_timeout(struct napi_struct *n,
- static inline void netdev_set_gro_flush_timeout(struct net_device *netdev,
- 						unsigned long timeout)
- {
-+	unsigned int count = max(netdev->num_rx_queues,
-+				 netdev->num_tx_queues);
- 	struct napi_struct *napi;
-+	int i;
- 
- 	WRITE_ONCE(netdev->gro_flush_timeout, timeout);
- 	list_for_each_entry(napi, &netdev->napi_list, dev_list)
- 		napi_set_gro_flush_timeout(napi, timeout);
-+
-+	if (netdev->napi_config)
-+		for (i = 0; i < count; i++)
-+			netdev->napi_config[i].gro_flush_timeout = timeout;
- }
- 
- int rps_cpumask_housekeeping(struct cpumask *mask);
--- 
-2.25.1
+If I can't use the ID, the only way I see is creating 3 fields in 
+chip_info (spi_ops, par_ops, backend_ops) and to initialize every 
+chip_info structure with its associated op(s) for the associated 
+interface. This would also lead to declare the different instances of 
+ad7606_bus_ops directly in ad7606.h  (I dont like it very much but see 
+no other option).
 
+Do you think it's better that way ? Or do you have any other idea ?
+
+Regards,
+
+Guillaume
+
+>
+>>    * @channels:		channel specification
+>>    * @num_channels:	number of channels
+>>    * @oversampling_avail	pointer to the array which stores the available
+>> @@ -50,6 +61,8 @@
+> ...
+>
+>> diff --git a/drivers/iio/adc/ad7606_par.c b/drivers/iio/adc/ad7606_par.c
+>> index d651639c45eb..7bac39033955 100644
+>> --- a/drivers/iio/adc/ad7606_par.c
+>> +++ b/drivers/iio/adc/ad7606_par.c
+>> @@ -11,6 +11,7 @@
+>>   #include <linux/mod_devicetable.h>
+>>   #include <linux/module.h>
+>>   #include <linux/platform_device.h>
+>> +#include <linux/property.h>
+>>   #include <linux/types.h>
+>>   
+>>   #include <linux/iio/iio.h>
+>> @@ -89,12 +90,20 @@ static const struct ad7606_bus_ops ad7606_par8_bops = {
+>>   
+>>   static int ad7606_par_probe(struct platform_device *pdev)
+>>   {
+>> -	const struct platform_device_id *id = platform_get_device_id(pdev);
+>> +	const struct ad7606_chip_info *chip_info;
+>> +	const struct platform_device_id *id;
+>>   	struct resource *res;
+>>   	void __iomem *addr;
+>>   	resource_size_t remap_size;
+>>   	int irq;
+>>   
+>> +	if (dev_fwnode(&pdev->dev)) {
+>> +		chip_info = device_get_match_data(&pdev->dev);
+>> +	} else {
+>> +		id = platform_get_device_id(pdev);
+>> +		chip_info = (const struct ad7606_chip_info *)id->driver_data;
+>> +	}
+>> +
+>>   	irq = platform_get_irq(pdev, 0);
+>>   	if (irq < 0)
+>>   		return irq;
+>> @@ -106,25 +115,25 @@ static int ad7606_par_probe(struct platform_device *pdev)
+>>   	remap_size = resource_size(res);
+>>   
+>>   	return ad7606_probe(&pdev->dev, irq, addr,
+>> -			    id->name, id->driver_data,
+> Rewrap to move chip_info up a line perhaps.
+>
+>> +			    chip_info,
+>>   			    remap_size > 1 ? &ad7606_par16_bops :
+>>   			    &ad7606_par8_bops);
