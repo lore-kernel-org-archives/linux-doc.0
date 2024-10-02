@@ -1,64 +1,66 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF371FA5;
-	Wed,  2 Oct 2024 10:07:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB9D1E2033;
+	Wed,  2 Oct 2024 10:07:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727863665; cv=none; b=u2J+5LQK29NG14+3GCsvOkmPMEGVquJoFp4tLHzrBHbvA93rZtT61h1Ek+LG5eGQphQY9gtRnAXkn9JVCsfjrASNpz6Npz/tMxa/CtF/goa/rBWkVG43M+Cj+JD7OG/BFGvaR4/6BpGCAylPGT2FPlRFXncjsjN8z8umYf4fcSs=
+	t=1727863681; cv=none; b=oupwLkG5XI0dJxJFKUEJg2zEpF0fIyYkGB3aIFxcxSf0nKIVh2pg2AUIcFDcSN+t1EDQxAzFKRvUjUzU2gOaQN2k0Pl72NwCSkaGUa4VbwCmqV23oxZjNrdU3ip3044ATCXdlJiBIIAvLMDNn0z627O8p2GI940jZUpu9jC5TjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727863665; c=relaxed/simple;
-	bh=j1I29XQ8mXrLSwswCRIlUi6uUMyhxI1n2Cui9kEsm+A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p3ucjY2pIbq+9byQHqQKsCs4KS0gXLESjzWf03DXj0ZppKGdgK9l//sgylWAacXRQ2F21LML5FB14tZG62DnL2lBla6mOiN13JG8C6lYQtHJpfvTmsYr2knaE3ZOGtJk7dVqN5IJmNk9ChTgQzg1jRCPeZDydzp3ABqVUL8eB0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FNXFKZZm; arc=none smtp.client-ip=209.85.214.171
+	s=arc-20240116; t=1727863681; c=relaxed/simple;
+	bh=TO7/NutLSsI65V9enOm4GUYVHO36xIMAiuKNoj4iglg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ybwn5W8mRKzg906xCIiVUT+oHOzsuOmNkbq6wirrgUBH/+fo/tXdEd5PYD0zZsE1ZuhSMis/7sEY59dhbfXhqxqpGOV5bVlPvCiL9axRjz2vv62P2nhdvXp/vrScIhgGmDIEQS5JKKmq1SZwcVW2MOvtRdZxG8QCausiW5NaEVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QeZvOE0g; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FNXFKZZm"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-20b6c311f62so34656705ad.0;
-        Wed, 02 Oct 2024 03:07:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QeZvOE0g"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-20aff65aa37so51658875ad.1;
+        Wed, 02 Oct 2024 03:07:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727863663; x=1728468463; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1727863679; x=1728468479; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tV/C9A6z+okmZCmhIOCu3MepEGocH+yz/Qm3k36Y6aY=;
-        b=FNXFKZZmH1pxvzjj5QYgr8e8yhZTfhzsfeyt5RXl1CjjEhjdAlekyyKxSxVOi43C0s
-         7tPJtjyEzJlIGjDh6XZGwRgtFscCNUcbbEG+EN7+sQANyPQi9wWraRHHMzftyJChQawq
-         4vVz842GA09COxMVcd6AqSyPqaUb6XLJTaf9RgAhWV1ynDv5poesnx+stSpd7RfOd3j9
-         NPUpBJILz5cljnQDSNMaJ+HwAr3kavOSJ4lHot94qMlEibmgUAFxHgw/pEjyJaex4VGx
-         8TUELbLRobrURr63KQHXT+QKy5XrDjCZaJI676KhJJEkf8mXvjkUknUBFCbQ0tGfhcfI
-         w/7A==
+        bh=14Q+51lEtCMWPbPTU2z+ynVN1U+8L9MuSncBS1QlX9I=;
+        b=QeZvOE0gn5pAPpYmFDn0nfp26CLYM08Xgr1heIo9rkCJVitA0C/gHqrQjmmdf+S7LP
+         ypoxenEwyswAzYq8NiqvP6Vz4ndECqWlSD8aUJ1fIW9MyTuCdmCmPF7CGErx7D6pGZ6M
+         igXPDEZkn5PY9Tup7OCbjeU09h4LdF8PWO66YfkEmaNLCXOBgPHafLrJwDfxp1o0zfNM
+         o17fpSyRe5gR1gspVQ6TrmECMhZWmuXeTeO7cFfsWXM2cY16zZo1NZK3lNoyiq9nBG7+
+         lCFjbOEK+Os7WopTo4f78FU2q/hi24va9J0rX68sYaIaaUbBZD1Uqc3vxhQzpYuOotIG
+         CruA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727863663; x=1728468463;
+        d=1e100.net; s=20230601; t=1727863679; x=1728468479;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tV/C9A6z+okmZCmhIOCu3MepEGocH+yz/Qm3k36Y6aY=;
-        b=q/BZeo949/p/HcIXqDt2hMLWetzGhGdaNDF3wCiCSdHsEROm+3iL1jaQWPEXc0NFz9
-         XAFfWE16Q0RHky+FZ2kmydWTYimApyq341HB0oo/SwGp3LzWBHon/KOyv5rVZIgpXqpZ
-         uS3AEBzOGAs3z+y82lQLKfgtCPDK55x6sDz8idNtv45jn+QTYlmDbzz2TCHgJxBEigii
-         fUkn7g89+87QM34/iVwanLw748i9vJdkAspkqyGMVfPBsluQClcL2ngWp9wznfbqpP4p
-         XIjRq+QX0QgXOXOM8ij+e45LbNpLwAbCMvorXB2I5L9gUlIeJBsi3I+3+wB8esTjWUnT
-         YOAw==
-X-Forwarded-Encrypted: i=1; AJvYcCV16N2w6a+e+6XevuACRAUQsaYYKX/x4BmrS/fZp6XYpfKVBy2WUcNYIupvurTrGnGIvhAFSF4cZA5hrHc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwshQJK3dJbvZy9a/Y8zL4oAeCMpLg5JcGubfnpDwjHU5PnfhSi
-	mBmIP/J+NvGcIkePnkB8XEvoL9rQuCOHirIud+fKNe3M18SB7Jz3
-X-Google-Smtp-Source: AGHT+IE5Kvmwza7olRXzEfcv+X1n3I+DHqFDY3LHvPeK72dCi+s3ObJ4AaksRTd9efXF/RtFJbH4Ag==
-X-Received: by 2002:a17:903:230f:b0:20b:6d47:a3b1 with SMTP id d9443c01a7336-20bc59ebbc3mr35489505ad.21.1727863663554;
-        Wed, 02 Oct 2024 03:07:43 -0700 (PDT)
-Received: from vishnu-pc ([210.212.232.142])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e18fa0506dsm1159908a91.46.2024.10.02.03.07.42
+        bh=14Q+51lEtCMWPbPTU2z+ynVN1U+8L9MuSncBS1QlX9I=;
+        b=cfx5kC3E1CAsBkeKxqJC0f/06xUX+21fMYhy1x1fRlB21eWp8J35tkjlQElkMEBihh
+         NncClJJ+aqQ0PbrliCwy7UxD5OHNKC3i1Kl5vAgyJXrH0J0voyIL4iNyveIILleM0sng
+         j2p4qVa8LXRiU4/mQhz0TfmwcdS2i/CvXv+XhA/TPqaNEk9glUiTTpcbmIPLdB89Eh2R
+         IEaLJgLC2jfu8OwjlrR3RzfvZduQECaHwB0JOb2l9FviqEOvIjvf6MmhusqZ0szeLsSF
+         q3uC3Q8f1oCby3t71p93x2H12iL6KRX7U9IZkpVXuUcc8DkYFb6qCq4M+4WPyrpmfyW5
+         PgxA==
+X-Forwarded-Encrypted: i=1; AJvYcCVPRFgX5Gm/WbwxJu4h52aQxg2LeAIJwCghTCwkYEN6FDmVyrZ33Sl/1/3e8+EMxYppVMAutn3hx80=@vger.kernel.org, AJvYcCWwtgdLAx+pTY6u36g8K8UOsbDLW+yy3MMHhgUztKWHojxgqd12XMH2QfhwpLC/rwdmqg5RuGMOkit3Mpc8@vger.kernel.org, AJvYcCX5DfI2TmfPw8qL5mx1G/yKhGD1dh1f9cslcsjtVqMzbX4tQ1vf1qMXJ1W1HuJNcRZSk0NNC3Td/RZM7zet5F9azZbebw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDKRU0nuRxYQCw+cSmld2ry57Fqt9/Gn5APPBiS4vt49jX3dzz
+	pOajPXddFGoFhUdlu04iRdVY1wFc3gfUD0DurVzO4fPo4UUNyMwf
+X-Google-Smtp-Source: AGHT+IGQtiFLmEAMAssuq7f48Fg1bmraT3yPSxBoe/38vyWEV7PGlD6DLNCQ8tJP6+4GlTkklo61gA==
+X-Received: by 2002:a17:903:2451:b0:20b:b75d:e8c1 with SMTP id d9443c01a7336-20bc59f0750mr36585365ad.4.1727863678652;
+        Wed, 02 Oct 2024 03:07:58 -0700 (PDT)
+Received: from Tua.. ([2409:40f3:8:b90a:de56:8399:2f69:ff5e])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20b37da22basm81561045ad.100.2024.10.02.03.07.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Oct 2024 03:07:43 -0700 (PDT)
-From: Vishnu Sanal T <t.v.s10123@gmail.com>
-To: linux-doc@vger.kernel.org
+        Wed, 02 Oct 2024 03:07:58 -0700 (PDT)
+From: Anaswara T Rajan <anaswaratrajan@gmail.com>
+To: W_Armin@gmx.de
 Cc: corbet@lwn.net,
+	platform-driver-x86@vger.kernel.org,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Vishnu Sanal T <t.v.s10123@gmail.com>
-Subject: [PATCH] fix grammar on false-sharing.rst
-Date: Wed,  2 Oct 2024 15:38:53 +0530
-Message-ID: <20241002100852.70982-2-t.v.s10123@gmail.com>
-X-Mailer: git-send-email 2.46.2
+	Anaswara T Rajan <anaswaratrajan@gmail.com>
+Subject: [PATCH] fix typo in Documentation/wmi/devices/dell-wmi-ddv.rst
+Date: Wed,  2 Oct 2024 15:37:48 +0530
+Message-Id: <20241002100748.309707-1-anaswaratrajan@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,30 +69,35 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-fix the grammar mistakes on kernel-hacking/false-sharing.rst
+typo in word 'diagnostics'
 
-Signed-off-by: Vishnu Sanal T <t.v.s10123@gmail.com>
+Signed-off-by: Anaswara T Rajan <anaswaratrajan@gmail.com>
 ---
- Documentation/kernel-hacking/false-sharing.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/wmi/devices/dell-wmi-ddv.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/kernel-hacking/false-sharing.rst b/Documentation/kernel-hacking/false-sharing.rst
-index 122b0e124656..ad7cb60bef29 100644
---- a/Documentation/kernel-hacking/false-sharing.rst
-+++ b/Documentation/kernel-hacking/false-sharing.rst
-@@ -196,9 +196,9 @@ the hotspot switches to a new place.
+diff --git a/Documentation/wmi/devices/dell-wmi-ddv.rst b/Documentation/wmi/devices/dell-wmi-ddv.rst
+index 2fcdfcf03327..e0c20af30948 100644
+--- a/Documentation/wmi/devices/dell-wmi-ddv.rst
++++ b/Documentation/wmi/devices/dell-wmi-ddv.rst
+@@ -8,7 +8,7 @@ Introduction
+ ============
  
- Miscellaneous
- =============
--One open issue is that kernel has an optional data structure
--randomization mechanism, which also randomizes the situation of cache
--line sharing of data members.
-+One open issue is that the kernel has an optional data structure
-+randomization mechanism, which also randomize the situation of cache
-+line sharing among data members.
+ Many Dell notebooks made after ~2020 support a WMI-based interface for
+-retrieving various system data like battery temperature, ePPID, diagostic data
++retrieving various system data like battery temperature, ePPID, diagnostic data
+ and fan/thermal sensor data.
  
- 
- .. [1] https://en.wikipedia.org/wiki/False_sharing
+ This interface is likely used by the `Dell Data Vault` software on Windows,
+@@ -277,7 +277,7 @@ Reverse-Engineering the DDV WMI interface
+ 4. Try to deduce the meaning of a certain WMI method by comparing the control
+    flow with other ACPI methods (_BIX or _BIF for battery related methods
+    for example).
+-5. Use the built-in UEFI diagostics to view sensor types/values for fan/thermal
++5. Use the built-in UEFI diagnostics to view sensor types/values for fan/thermal
+    related methods (sometimes overwriting static ACPI data fields can be used
+    to test different sensor type values, since on some machines this data is
+    not reinitialized upon a warm reset).
 -- 
-2.46.2
+2.34.1
 
