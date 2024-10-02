@@ -1,66 +1,63 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F4CE1E492C;
-	Wed,  2 Oct 2024 10:03:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF371FA5;
+	Wed,  2 Oct 2024 10:07:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727863400; cv=none; b=GhfqZaNKKa4+IVEKbNd3qn9Wx/x8d3hlnQdGRRpPq9NmC+nzVGfivZr3h2AXrMmkndW5TfyKSxqWM2XciLv2zvg5VG6p+SqROLM2jEF7+pIj4q9QKeBGJccl72ZSLY1mTmQz1xlmViUYm674Ta+/ut0DFtC7tlhjMFpf4L1YRQg=
+	t=1727863665; cv=none; b=u2J+5LQK29NG14+3GCsvOkmPMEGVquJoFp4tLHzrBHbvA93rZtT61h1Ek+LG5eGQphQY9gtRnAXkn9JVCsfjrASNpz6Npz/tMxa/CtF/goa/rBWkVG43M+Cj+JD7OG/BFGvaR4/6BpGCAylPGT2FPlRFXncjsjN8z8umYf4fcSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727863400; c=relaxed/simple;
-	bh=HKMPKyPW0rrp5se8xekeznmvYEB193hXpxkx0NCtiT8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B+Gz5w6YlEC4ZsydfREimdgj2zpm1CRf9Eq2ILN93hKI0jxDXOG6DvUidC+59GgHFBpFs6XL3JuhQxJiVnSF2U2y1a/eAGfQN/IbTfbPOiYrcRGuhL0tj3IxXgkt1sHbnL89jF6u8dJKi+dUCxxcKEYqskRRDcBIcXePzCWUKRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KlrPsf+n; arc=none smtp.client-ip=209.85.210.182
+	s=arc-20240116; t=1727863665; c=relaxed/simple;
+	bh=j1I29XQ8mXrLSwswCRIlUi6uUMyhxI1n2Cui9kEsm+A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p3ucjY2pIbq+9byQHqQKsCs4KS0gXLESjzWf03DXj0ZppKGdgK9l//sgylWAacXRQ2F21LML5FB14tZG62DnL2lBla6mOiN13JG8C6lYQtHJpfvTmsYr2knaE3ZOGtJk7dVqN5IJmNk9ChTgQzg1jRCPeZDydzp3ABqVUL8eB0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FNXFKZZm; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KlrPsf+n"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-71b070ff24dso5792909b3a.2;
-        Wed, 02 Oct 2024 03:03:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FNXFKZZm"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-20b6c311f62so34656705ad.0;
+        Wed, 02 Oct 2024 03:07:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727863398; x=1728468198; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1727863663; x=1728468463; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3kQNcsZl/V5kYlgzlqdcBvajouJ6eU37y0/qRQm49yY=;
-        b=KlrPsf+nIkCKW9RmgTZLOv5bfdJ3cc0OM7wiPf6+8oAGDKEoLJ/MVctisgRAgTbn5Q
-         KjBK14OiOrH2Q2aJ9tvABqQ6c+oOj2eZlaYuH1AJ0PjzIJn1Sg+q90lhLL0ni++RaK9A
-         8+76tu1fa2+N72K/8ra7CGpPnpPepVcC9IbkwxSHBvzB+jaj+PF2P3FuGwPHCMDU6SjI
-         NXvtzwrE34QIPWO0wmfEsTGzmJBVb5OIMktSFLdcMuzvFLWJphdYYaoiw1k///gRXvXs
-         v8LsdaP4nBoEf11TemPiEAwn/tM3/pqi7CUdzd4aJ4XL/aZEjc/4BPt7Khrc0W0gr4rr
-         XHsQ==
+        bh=tV/C9A6z+okmZCmhIOCu3MepEGocH+yz/Qm3k36Y6aY=;
+        b=FNXFKZZmH1pxvzjj5QYgr8e8yhZTfhzsfeyt5RXl1CjjEhjdAlekyyKxSxVOi43C0s
+         7tPJtjyEzJlIGjDh6XZGwRgtFscCNUcbbEG+EN7+sQANyPQi9wWraRHHMzftyJChQawq
+         4vVz842GA09COxMVcd6AqSyPqaUb6XLJTaf9RgAhWV1ynDv5poesnx+stSpd7RfOd3j9
+         NPUpBJILz5cljnQDSNMaJ+HwAr3kavOSJ4lHot94qMlEibmgUAFxHgw/pEjyJaex4VGx
+         8TUELbLRobrURr63KQHXT+QKy5XrDjCZaJI676KhJJEkf8mXvjkUknUBFCbQ0tGfhcfI
+         w/7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727863398; x=1728468198;
+        d=1e100.net; s=20230601; t=1727863663; x=1728468463;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3kQNcsZl/V5kYlgzlqdcBvajouJ6eU37y0/qRQm49yY=;
-        b=gFCz8AJQyZiK5BiVBXhN716YIXaUJ8d6ZJq0KX8srIgLAekz3UE6y0IEtp7p2B+TsB
-         P39OJFat3whl5+k9lV5zi8tss+abBOYplfw6yuQ+4mcN8HzLnbmAXFf737xnpdBR+DtB
-         zWeiLV18oOke7c7oZ/ep2DsgJNYWPZbYU45FKMmycn+3TqzEu4labWvCNkfyC9TFhvOG
-         HGzSQgZmWB2mw9A9kxP4uLPh1k68q3jtUFf0tSXCQKX8uoCSSOnCVZ/pab07yMs2JdKB
-         x0va//L7brIk4eoilF+ZSX7fV0pPXhkDvJ0Sn9qQ3AnVk0tvnE8LSyzux15rDjLjGj8E
-         6ymA==
-X-Forwarded-Encrypted: i=1; AJvYcCV0+PE0vrKO/2PP0f85V5OhNt0wzqx15ukrcRP6nQ8Zir8bwzke5L3R8XqoXkawYrTFieo5N29uQbn+RNtH@vger.kernel.org, AJvYcCVob6jxtCOwbtaF3HTqSop9NjhxxwSpdJOFw/166l9CdLQTyACFrCpRnIbJlguJPqKCCwQB84nsadM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz77T14NfgO2OYGD7aH3HRx/GVMSjbbJxLTIxgVu3ko52JeNsXq
-	cx8/izZjzf7FKhIhYlhFAM8tEKMOlhGAw7MId5TdIofPqYmYLinDMV8GTgJivOM=
-X-Google-Smtp-Source: AGHT+IG7+5r/rfYo4QhjMBCNNToKZzxF5g0OTzqZv32TXsmcUszzvKJQKEcq40AorldEIR5YYX+lMg==
-X-Received: by 2002:a05:6a00:1956:b0:706:a931:20da with SMTP id d2e1a72fcca58-71dc5c48f7emr4172970b3a.3.1727863398105;
-        Wed, 02 Oct 2024 03:03:18 -0700 (PDT)
-Received: from Notebook.mec.ac.in ([14.139.184.222])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-71b265389desm9463728b3a.215.2024.10.02.03.03.14
+        bh=tV/C9A6z+okmZCmhIOCu3MepEGocH+yz/Qm3k36Y6aY=;
+        b=q/BZeo949/p/HcIXqDt2hMLWetzGhGdaNDF3wCiCSdHsEROm+3iL1jaQWPEXc0NFz9
+         XAFfWE16Q0RHky+FZ2kmydWTYimApyq341HB0oo/SwGp3LzWBHon/KOyv5rVZIgpXqpZ
+         uS3AEBzOGAs3z+y82lQLKfgtCPDK55x6sDz8idNtv45jn+QTYlmDbzz2TCHgJxBEigii
+         fUkn7g89+87QM34/iVwanLw748i9vJdkAspkqyGMVfPBsluQClcL2ngWp9wznfbqpP4p
+         XIjRq+QX0QgXOXOM8ij+e45LbNpLwAbCMvorXB2I5L9gUlIeJBsi3I+3+wB8esTjWUnT
+         YOAw==
+X-Forwarded-Encrypted: i=1; AJvYcCV16N2w6a+e+6XevuACRAUQsaYYKX/x4BmrS/fZp6XYpfKVBy2WUcNYIupvurTrGnGIvhAFSF4cZA5hrHc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwshQJK3dJbvZy9a/Y8zL4oAeCMpLg5JcGubfnpDwjHU5PnfhSi
+	mBmIP/J+NvGcIkePnkB8XEvoL9rQuCOHirIud+fKNe3M18SB7Jz3
+X-Google-Smtp-Source: AGHT+IE5Kvmwza7olRXzEfcv+X1n3I+DHqFDY3LHvPeK72dCi+s3ObJ4AaksRTd9efXF/RtFJbH4Ag==
+X-Received: by 2002:a17:903:230f:b0:20b:6d47:a3b1 with SMTP id d9443c01a7336-20bc59ebbc3mr35489505ad.21.1727863663554;
+        Wed, 02 Oct 2024 03:07:43 -0700 (PDT)
+Received: from vishnu-pc ([210.212.232.142])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e18fa0506dsm1159908a91.46.2024.10.02.03.07.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Oct 2024 03:03:17 -0700 (PDT)
-From: Ivin Joel Abraham <ivinjabraham@gmail.com>
+        Wed, 02 Oct 2024 03:07:43 -0700 (PDT)
+From: Vishnu Sanal T <t.v.s10123@gmail.com>
 To: linux-doc@vger.kernel.org
-Cc: ivinjabraham@gmail.com,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: iio: fix grammatical error
-Date: Wed,  2 Oct 2024 15:33:41 +0530
-Message-ID: <20241002100341.110435-1-ivinjabraham@gmail.com>
+Cc: corbet@lwn.net,
+	linux-kernel@vger.kernel.org,
+	Vishnu Sanal T <t.v.s10123@gmail.com>
+Subject: [PATCH] fix grammar on false-sharing.rst
+Date: Wed,  2 Oct 2024 15:38:53 +0530
+Message-ID: <20241002100852.70982-2-t.v.s10123@gmail.com>
 X-Mailer: git-send-email 2.46.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -70,27 +67,30 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Clarify the instruction for disabling autocalibration by adding the word
-"by"
+fix the grammar mistakes on kernel-hacking/false-sharing.rst
 
-Signed-off-by: Ivin Joel Abraham <ivinjabraham@gmail.com>
+Signed-off-by: Vishnu Sanal T <t.v.s10123@gmail.com>
 ---
- Documentation/iio/bno055.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/kernel-hacking/false-sharing.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/iio/bno055.rst b/Documentation/iio/bno055.rst
-index 9a489a79d8f5..f1111ff3fe2e 100644
---- a/Documentation/iio/bno055.rst
-+++ b/Documentation/iio/bno055.rst
-@@ -22,7 +22,7 @@ This driver supports also IIO buffers.
+diff --git a/Documentation/kernel-hacking/false-sharing.rst b/Documentation/kernel-hacking/false-sharing.rst
+index 122b0e124656..ad7cb60bef29 100644
+--- a/Documentation/kernel-hacking/false-sharing.rst
++++ b/Documentation/kernel-hacking/false-sharing.rst
+@@ -196,9 +196,9 @@ the hotspot switches to a new place.
  
- The IMU continuously performs an autocalibration procedure if (and only if)
- operating in fusion mode. The magnetometer autocalibration can however be
--disabled writing 0 in the sysfs in_magn_calibration_fast_enable attribute.
-+disabled by writing 0 in the sysfs in_magn_calibration_fast_enable attribute.
+ Miscellaneous
+ =============
+-One open issue is that kernel has an optional data structure
+-randomization mechanism, which also randomizes the situation of cache
+-line sharing of data members.
++One open issue is that the kernel has an optional data structure
++randomization mechanism, which also randomize the situation of cache
++line sharing among data members.
  
- The driver provides access to autocalibration flags (i.e. you can known if
- the IMU has successfully autocalibrated) and to the calibration data blob.
+ 
+ .. [1] https://en.wikipedia.org/wiki/False_sharing
 -- 
 2.46.2
 
