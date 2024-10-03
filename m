@@ -1,51 +1,59 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30B9139D;
-	Thu,  3 Oct 2024 00:02:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1CE18E0E
+	for <linux-doc@vger.kernel.org>; Thu,  3 Oct 2024 03:01:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727913754; cv=none; b=qwB2mCP2WkaGKvNIs11JuhFG6HOvnMA9x9NKAMIqxxT5+UCAwKQFnj9beJL6cDou4xKDgCwbqwr3cAjeqDJgwhk2/kO6Jxw+ZvKQqf9D9TSB1WUuTsLyivDCz4va2ylqcYgdZcCdJ0b9cfYAC1AAEh5qZhW6MarVKVui6usAZ58=
+	t=1727924514; cv=none; b=Qjxp9CuwaD5gH/hkzVLs+rsP0af0ieXCI+LRh3dzKKubMU+QwpM199Qk4+M03i6DJidtIZhzRMrxE0TCCsv50wZmPjiH0qec+Ua34oK2w5n0U/H51npoGsHHaDvF2JuiRZB1GOW6TXIxPcPyHUuF/gkHFCREdR0vP7t4QPevWYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727913754; c=relaxed/simple;
-	bh=qBTjVNuGAf1M5m5V9Cmqu7qfVR8QH38+8l40DBYaQbU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=COer7YpC8YMM5Tzrf5BsID3CpSZjXF3ZuUgDjCotuvWmuSnDdVh89rbz57/el0+1bGcnpZNRNTMruG9QPHURmGqo2jhim0vlPCJubum8I/j8+XfXmIVT/H2adXQRfwGqcuSrBkN13AZ7XN3cGIcwgCNeBDYiOCvKOTzcGb1F+NU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=TgcaeRYq; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1727924514; c=relaxed/simple;
+	bh=aeRmIaR+POMtgc/9du5xvBkLglkRSK9cWJwZbC/2R4g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YJhPwhvppwWvMPI1PTLrj2Q9zyxX6jPMS7iH3j458xVT7WETpNCF3rKkvWy/s7vyeHz1maXDEpGy3BfwnyUMZ/YYQ2rju2HXj/3udlPsf/dyM7448IMxLXOlah3lCk0TTGRrLmEF7CUKUXvw7TtgRa6dlDq3in1+G8KU0UhBUcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=arcQIDNV; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="TgcaeRYq"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=YTXwMsJTLTQ+rbU6hE/qQ+zzO7kOrfrluwkW+Pb0xNE=; b=TgcaeRYq5kxnzUm1A/3ghwVveG
-	zdaELrTzNkAE4vxPqLSzFPrmmgu9VRcza9fLke/i/vlGWNdw4uHB7waQpA3OxndleVoM+KzsI/UeS
-	ShHEUausss1Gae4K1NkH+usncB0hZhg8+pf8qqMfVW5/NerZjarb1hdPrdj0eg3E+6nk=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1sw9IV-008uJN-BD; Thu, 03 Oct 2024 02:02:23 +0200
-Date: Thu, 3 Oct 2024 02:02:23 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
-	Dent Project <dentproject@linuxfoundation.org>,
-	kernel@pengutronix.de
-Subject: Re: [PATCH net-next 11/12] net: pse-pd: Add support for event
- reporting using devm_regulator_irq_helper
-Message-ID: <89c56982-690d-4279-af26-ca911251d16f@lunn.ch>
-References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
- <20241002-feature_poe_port_prio-v1-11-787054f74ed5@bootlin.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="arcQIDNV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727924513; x=1759460513;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aeRmIaR+POMtgc/9du5xvBkLglkRSK9cWJwZbC/2R4g=;
+  b=arcQIDNVS1IscFtqielT9Clv+AJrSfUdvJiR9k0mSVQLDzM8dAOGCy4z
+   inDNOlPPPO4jY10EVdIoozy5ys+QTIg6g6HoB8MvZTMiTFGjEjWRjKg7p
+   O3XJvE0pCTFvm+2QHviHx3trvVpQADWsgD5F7dffnngqWyD/SzXOHjmr5
+   ikmzNybYqM9msxHe9iA3m0qOXaBkMnE+jTHF+w123zZncVmPverw1a8H3
+   EnrZggScrAhbIlVzoa7VGI/vJlRXpNPiY0NwxeufJANKpKuAAB28T+Awf
+   q3uW3p5OqVsmWAAoRdJ56JH4oAX+zZipESKEyvH/jYZxb1XYngPjo4DAu
+   Q==;
+X-CSE-ConnectionGUID: 77/1e0y6QcOldiyGO0/CNA==
+X-CSE-MsgGUID: dR+Q5c+gQp+CzinZJwUTDQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="14728288"
+X-IronPort-AV: E=Sophos;i="6.11,173,1725346800"; 
+   d="scan'208";a="14728288"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 20:01:53 -0700
+X-CSE-ConnectionGUID: g3wLz/uIQ42xTCrsFovC4Q==
+X-CSE-MsgGUID: on4ptkV8QMaQYpo4BDPa8Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,173,1725346800"; 
+   d="scan'208";a="73794092"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 02 Oct 2024 20:01:52 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1swC69-000UsF-1f;
+	Thu, 03 Oct 2024 03:01:49 +0000
+Date: Thu, 3 Oct 2024 11:01:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [bvanassche:scsi-remove-slave-configure 12/22] htmldocs: Warning:
+ drivers/scsi/arcmsr/arcmsr_attr.c references a file that doesn't exist:
+ Documentation/scsi/ChangeLog.arcmsr
+Message-ID: <202410031058.BCRFO1FQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,22 +62,27 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241002-feature_poe_port_prio-v1-11-787054f74ed5@bootlin.com>
 
-On Wed, Oct 02, 2024 at 06:28:07PM +0200, Kory Maincent wrote:
-> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
-> 
-> Add support for devm_pse_irq_helper(), a wrapper for
-> devm_regulator_irq_helper(). This aims to report events such as
-> over-current or over-temperature conditions similarly to how the regulator
-> API handles them. Additionally, this patch introduces several define
-> wrappers to keep regulator naming conventions out of PSE drivers.
+tree:   https://github.com/bvanassche/linux scsi-remove-slave-configure
+head:   04647d025d819d5dc2818f230f1d9c9fe59406a3
+commit: 01b5e165f509f2b8b0a4c7c78f613042e694e845 [12/22] scsi: arcmsr: Remove the changelog
+reproduce: (https://download.01.org/0day-ci/archive/20241003/202410031058.BCRFO1FQ-lkp@intel.com/reproduce)
 
-I'm missing something here, i think.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410031058.BCRFO1FQ-lkp@intel.com/
 
-https://docs.kernel.org/power/regulator/consumer.html#regulator-events
+All warnings (new ones prefixed by >>):
 
-Suggests these are internal events, using a notification chain. How
-does user space get to know about such events?
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+>> Warning: drivers/scsi/arcmsr/arcmsr_attr.c references a file that doesn't exist: Documentation/scsi/ChangeLog.arcmsr
+>> Warning: drivers/scsi/arcmsr/arcmsr_hba.c references a file that doesn't exist: Documentation/scsi/ChangeLog.arcmsr
+   Using alabaster theme
 
-	Andrew
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
