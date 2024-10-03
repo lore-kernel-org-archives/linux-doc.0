@@ -1,77 +1,121 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0ED126C04;
-	Thu,  3 Oct 2024 08:29:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9373028370;
+	Thu,  3 Oct 2024 09:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727944159; cv=none; b=dbPqooU2mcMRDg1rYGDdv89efb5tOhnD8Bsvb3PDTGYhlq+X2ctyqoKqz8r65MXEFEmuBachhhBSTUzKB9+73ZFbt2fGXG6eGn3kho5mJ66DYGw9JkTOC2jDS8OUqZHigjl9SD12jqZKglbtaK906lSU/oisG2pHuXRhRVHE2P0=
+	t=1727949570; cv=none; b=p54EO0vxA5S8eX/VRzydiiZ5iVUEQefs973PZFlKPap27WLk6QdS4HMXt7WmjhsHSSfBhnijukV1L/vaXkE+USZOTWjQ4QzL3Qe587D/VYbRtv5zt4W0SGFtYnDwAO4zNLEFq+o70CLKB4RrEDVnvtXv7t5WjX8HSkTkdDc8YQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727944159; c=relaxed/simple;
-	bh=uJlzMmeXXB0U8NB0bXtRaVCFr7dvtXe5EGe4Q/vvwR0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=o/IixORQbiC2MK4jsreVpoQpgYNYPQKOmy6/37opez0o6KdLJ/wPDx5vcZEtvp/kKwYtpTuO6qa9Fg/iJKjFyEdFAeu87orwRP2V7hsXvb7/7jzdyxLlgmlC7QOhISJgRUPvuTiJMVMOQLybKnrOHim4mIQ1TX80qAziEXBRHmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=W2UTYVa7; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="W2UTYVa7"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 15545240029;
-	Thu,  3 Oct 2024 08:29:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1727944155;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uJlzMmeXXB0U8NB0bXtRaVCFr7dvtXe5EGe4Q/vvwR0=;
-	b=W2UTYVa7WX5cdiVbJGoLsmPE/EeRdk6oy6PNK0tixbBDXwgOK3pVL+1fUS0rIInvbjEF6v
-	fP0dzT+/QFN6uC15ROpUhBmoWsQKgtBBeqpLXrqdE1HjB50vb84eFSTTu+El808axvEhv4
-	edwFktuQ7kgNiYja45caMEXfkPgVBcCyzkcYqAhd0yPqbZzsL5O7eZKUKU13nYnlZwClz0
-	F+OAA90panGWgWqR/nSniu2QOqqUHqbPh3vfOyDzM90ZuWkN+ylZ9hyKOy8YAuCwfBAG7e
-	QeJ3uR3RWAxu+xJUAkQAvPU1CXzS/DtJR4iWqBkLUxs8r70PFaggjTC77Y8g0g==
-Date: Thu, 3 Oct 2024 10:29:13 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Oleksij Rempel <o.rempel@pengutronix.de>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org, Kyle Swenson
- <kyle.swenson@est.tech>, Dent Project <dentproject@linuxfoundation.org>,
- kernel@pengutronix.de
-Subject: Re: [PATCH net-next 12/12] net: pse-pd: tps23881: Add support for
- PSE events and interrupts
-Message-ID: <20241003102913.4e5ed2de@kmaincent-XPS-13-7390>
-In-Reply-To: <c4b47aaa-3ae6-48cd-906f-cab8a74392ee@lunn.ch>
-References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
-	<20241002-feature_poe_port_prio-v1-12-787054f74ed5@bootlin.com>
-	<c4b47aaa-3ae6-48cd-906f-cab8a74392ee@lunn.ch>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1727949570; c=relaxed/simple;
+	bh=GAvgnDYbIpJ8EztU1XXyYsFYyamS+ZKbGL4mJyafhNw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iJDYcOZ5EjZbcUEe0sA92Isitsa9llCIrISLVGDO77gJOjgKUV46ZLD5cvdFGnLatbNBphWkONR4AVKnGaQtmBLXUy+GSoH0BOgzu9snRzJJUPhCtCwMFManvAYo9P0fGAIlmSHl7StSZIC7S5gD8aJo4U+6bvBpXpKBM8ejqVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
+X-CSE-ConnectionGUID: JSxS/CNDQjaeoEm8LJ3OHQ==
+X-CSE-MsgGUID: RCGoF4pKTaSIuJvgiL+dqA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="44604905"
+X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
+   d="scan'208";a="44604905"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 02:59:28 -0700
+X-CSE-ConnectionGUID: sAT+PtLZQ5icH7Km736sXg==
+X-CSE-MsgGUID: 2r+uLvUiSDOn+6O7WPYLxw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
+   d="scan'208";a="74155166"
+Received: from unknown (HELO smile.fi.intel.com) ([10.237.72.154])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 02:59:23 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andy@kernel.org>)
+	id 1swIcB-0000000G4lR-3KKf;
+	Thu, 03 Oct 2024 12:59:19 +0300
+Date: Thu, 3 Oct 2024 12:59:19 +0300
+From: Andy Shevchenko <andy@kernel.org>
+To: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: Christian Marangi <ansuelsmth@gmail.com>, Jens Axboe <axboe@kernel.dk>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Kees Cook <kees@kernel.org>,
+	Daniel Golle <daniel@makrotopia.org>,
+	INAGAKI Hiroshi <musashino.open@gmail.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Li Lingfeng <lilingfeng3@huawei.com>,
+	Ming Lei <ming.lei@redhat.com>,
+	Christian Heusel <christian@heusel.eu>, linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>, upstream@airoha.com
+Subject: Re: [PATCH v4 0/5] block: partition table OF support
+Message-ID: <Zv5q90Dc_VzA4xs3@smile.fi.intel.com>
+References: <20240930113045.28616-1-ansuelsmth@gmail.com>
+ <ZvqfbNDfI2QWZEBg@smile.fi.intel.com>
+ <87setej1y2.fsf@prevas.dk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87setej1y2.fsf@prevas.dk>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, 3 Oct 2024 01:57:08 +0200
-Andrew Lunn <andrew@lunn.ch> wrote:
+On Wed, Oct 02, 2024 at 11:20:37AM +0200, Rasmus Villemoes wrote:
+> Andy Shevchenko <andy@kernel.org> writes:
+> > On Mon, Sep 30, 2024 at 01:30:07PM +0200, Christian Marangi wrote:
 
-> > This patch also adds support for an OSS GPIO line to turn off all low
-> > priority ports in case of an over-current event. =20
->=20
-> Does this need a binding update? Or is the GPIO already listed?
+...
 
-Indeed and it is missing. Oops! /o\
+> >> this is an initial proposal to complete support for manually defining
+> >> partition table.
+> >> 
+> >> Some block device also implement boot1 and boot2 additional disk. Similar
+> >> to the cmdline parser, these disk can have OF support using the
+> >> "partitions-boot0" and "partitions-boot1" additional node.
+> >> 
+> >> It's also completed support for declaring partition as read-only as this
+> >> feature was introduced but never finished in the cmdline parser.
+> >
+> > I'm not sure I fully understood the problem you are trying to solve.
+> > I have a device at hand that uses eMMC (and was produced almost ten years ago).
+> > This device has a regular GPT on eMMC and no kernel needs to be patched for that.
+> > So, why is it a problem for the mentioned OEMs to use standard GPT approach?
+> 
+> For the user area (main block device), yes, a GPT can often be used, but
+> not always. For the boot partitions, the particular SOC/cpu/bootrom may
+> make it impossible to use a standard partition table, because the
+> bootrom expects to find a bootloader at offset 0 on the active boot
+> partition. In such a case, there's no way you can write a regular MBR or
+> GPT, but it is nevertheless nice to have a machine-readable definition
+> of which data goes where in the boot partitions. With these patches, one
+> can do
+> 
+>   partitions-boot0 {
+>     partition@0 {
+>       label = "bootloader";
+>       reg = <0 0x...>; // 2 MB
+>     }
+>     partition@... {
+>       label = "device-data";
+>       reg = <...> // 4 MB
+>     }
+>   }
+> 
+> and describe that layout.
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+I see now, on the device I mentioned the firmware is located on a boot
+partition, so the user ones are being used for bootloader and the OS.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
