@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938011ABECF;
-	Thu,  3 Oct 2024 19:12:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A661AC445;
+	Thu,  3 Oct 2024 19:12:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727982761; cv=none; b=gKx82GcvvBrVE7Bu2ahev5pFoIc+BQEjI0COBB1nPTMJPATYLlap55LK/1gi9aOgkME54f1iveQsGMDMIsxtmq4lJdJngOVA9m6FSj3iKio+Aaroq8pfzrGzl23qYlSOj3Z4wLqnIvmIxP3e/dgiFHQoKijhKTYuY12X/YGduh4=
+	t=1727982762; cv=none; b=F/8kVWa0lkZJ/Mnrt7gE/EVCXaj+YkcUUjuBLY/39gSBmQYKU5STfkC+5iNVgnODh52Kp+kdMLB561nZlimzm3iLNHcX5EzhGkiHMCxoZxZoNN3EMlNT2KZ9X2GeOk3xbBqOuFcoAgltPwavhqPby97KWKe0RbjVHBEeOZJudaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727982761; c=relaxed/simple;
-	bh=5d03wtvW5lJdk3P0f1faBD/S2847o8ZU5ziGMFCBQUQ=;
+	s=arc-20240116; t=1727982762; c=relaxed/simple;
+	bh=sDrMH2vMq/rOASOnomz+Tq6S88RIiBBasNCK7KSIlt4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lUq+XJcteNmDqNDpIQdxPXr4m6l3rwfra5V1uqZZ/E7RBb/2CsxdlFPUfyqRKiExray2hUtLJLN83cA6dkZJGTfPQiL5aanmbypZIhdJdTlgUvTzx4t/ldYfknTSFVj/T9HTmx8rcr64sMIujcQZ0dohRFR/GYXTGqhheAFH/Ew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ftATdjfe; arc=none smtp.client-ip=198.175.65.16
+	 MIME-Version; b=SeOHGjK4iA+yqggGLBCUjXEw2wWy2VvbPm4Be4ggG78q+aAAGegmrNC0rPBEYgngbZY0Yb1Xkl+cDZ2CYeBrheSHLv9IWKMQ21Dm4xn2F+SbYruutMDPmFAS/DQIXddAO9CHDeuMWetSV6Xbt+dUDYwID6Fo0htK5kadCacpu/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AttPN6u9; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ftATdjfe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AttPN6u9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727982759; x=1759518759;
+  t=1727982761; x=1759518761;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=5d03wtvW5lJdk3P0f1faBD/S2847o8ZU5ziGMFCBQUQ=;
-  b=ftATdjfera2tXhLw2TfTa71j6o+PUrIVy2S3E0EnM4zVgMFvr2Nn1wC4
-   z+VL4+TkUIytsXKM2GYsBDubNFnKtH+U4FelhMWli2cqD3y3tkt6j7p7+
-   9arhryHcc/CbvG0wroOnVpRicHnMmn/PMQBFe/iCbuphbbTdDa6QbGdQM
-   K8MWBKkEozYPjIsS/8n+KAzRThvruANC5HAAUjhurOXQ3Q3F8Ks7j0256
-   tAvpGuE90Vc/gjoJbcR2G30etnyASENc4USl8V6rQaFmTBwhtLKluHyW7
-   zJY+MNWkK5K7+bCDc7FdOqjLrtOz3h2QlR7grsGBIZ99zzbY6k+wd8wV/
+  bh=sDrMH2vMq/rOASOnomz+Tq6S88RIiBBasNCK7KSIlt4=;
+  b=AttPN6u9NSfpQTGlFw/EXtE0QLzTLHSnUXvoz5RDiL7NjU/e2UvTBgV9
+   3efeLTiEBzgcI67gaInrwL6H6uJFwR1t3OsBYM5j4T+wmx9LBbfG0mrYg
+   r1LyeUZrRz7DCHiTiSxuBMqVgIDRG/GYHlQqGKJuFlF+/yxkII+Ndsaj8
+   9V+zqrpzWKn8iQSweejKDzZ7nYHBCeq222/R2TL6WBp81HAnI1ivewsFT
+   ZocV1V0tzJSzbZUXEcRsQcaV+apR1Ps0BPOPzgwvzvjOx1dIDXVYV8Qaf
+   edC4Yn7fqrOStasGWoOdCf8Zxh/jkoD0Slo6NxLg/tRzEF6NDgpAQ/OBE
    w==;
-X-CSE-ConnectionGUID: Ge0QHU4BRl6JHFvZU1xFGg==
-X-CSE-MsgGUID: seJbXQBfQQS5q4pXSt7upQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27287513"
+X-CSE-ConnectionGUID: +KIIyio5R+GAFRR1j8VU8w==
+X-CSE-MsgGUID: aJyNdKIETTuOVwIHH7dynQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27287533"
 X-IronPort-AV: E=Sophos;i="6.11,175,1725346800"; 
-   d="scan'208";a="27287513"
+   d="scan'208";a="27287533"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
   by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 12:12:36 -0700
-X-CSE-ConnectionGUID: JQamvRccRG6Go8h/bRKzcw==
-X-CSE-MsgGUID: xiC6pfURQO6OSh73VMzSlQ==
+X-CSE-ConnectionGUID: TkfdpTCnR326mxjRWMqr0w==
+X-CSE-MsgGUID: KPr0GTWXQl+BqWmZhg6stA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,175,1725346800"; 
-   d="scan'208";a="74031036"
+   d="scan'208";a="74031042"
 Received: from agluck-desk3.sc.intel.com ([172.25.222.70])
   by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 12:12:36 -0700
 From: Tony Luck <tony.luck@intel.com>
@@ -59,9 +59,9 @@ Cc: Shaopeng Tan <tan.shaopeng@fujitsu.com>,
 	linux-doc@vger.kernel.org,
 	patches@lists.linux.dev,
 	Tony Luck <tony.luck@intel.com>
-Subject: [PATCH v7 2/4] x86/resctrl: Add mount option to pick input event for mba_MBps mode
-Date: Thu,  3 Oct 2024 12:12:26 -0700
-Message-ID: <20241003191228.67541-3-tony.luck@intel.com>
+Subject: [PATCH v7 4/4] x86/resctrl: Add new "mba_MBps_event" mount option to documentation
+Date: Thu,  3 Oct 2024 12:12:28 -0700
+Message-ID: <20241003191228.67541-5-tony.luck@intel.com>
 X-Mailer: git-send-email 2.46.1
 In-Reply-To: <20241003191228.67541-1-tony.luck@intel.com>
 References: <20241003191228.67541-1-tony.luck@intel.com>
@@ -73,131 +73,77 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a new mount option "mba_MBps_event={event_name}" where event_name
-is one of "mbm_local_bytes" or "mbm_total_bytes" that allows a user to
-specify which monitoring event to use. Do not allow both options at
-the same time.
+New mount option may be used to choose a specific memory bandwidth
+monitoring event to feed the MBA Software Controller(mba_sc) feedback
+loop.
+
+Resctrl will automatically switch to using total memory bandwidth
+on systems that do not support monitroing local bandwidth.
 
 Signed-off-by: Tony Luck <tony.luck@intel.com>
 ---
- arch/x86/kernel/cpu/resctrl/internal.h |  1 +
- arch/x86/kernel/cpu/resctrl/rdtgroup.c | 49 ++++++++++++++++++++------
- 2 files changed, 40 insertions(+), 10 deletions(-)
+ Documentation/arch/x86/resctrl.rst | 27 +++++++++++++++++++++------
+ 1 file changed, 21 insertions(+), 6 deletions(-)
 
-diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
-index 955999aecfca..b3d4fc80a496 100644
---- a/arch/x86/kernel/cpu/resctrl/internal.h
-+++ b/arch/x86/kernel/cpu/resctrl/internal.h
-@@ -102,6 +102,7 @@ struct rdt_fs_context {
- 	bool				enable_cdpl2;
- 	bool				enable_cdpl3;
- 	bool				enable_mba_mbps;
-+	enum resctrl_event_id		mba_mbps_event;
- 	bool				enable_debug;
- };
+diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
+index a824affd741d..ab0868713f4a 100644
+--- a/Documentation/arch/x86/resctrl.rst
++++ b/Documentation/arch/x86/resctrl.rst
+@@ -35,7 +35,8 @@ about the feature from resctrl's info directory.
  
-diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-index aedb30120d50..606cf635ea94 100644
---- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-+++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-@@ -2343,7 +2343,7 @@ static bool supports_mba_mbps(void)
- 	struct rdt_resource *rmbm = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
- 	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_MBA].r_resctrl;
+ To use the feature mount the file system::
  
--	return (is_mbm_local_enabled() &&
-+	return (is_mbm_enabled() &&
- 		r->alloc_capable && is_mba_linear() &&
- 		r->ctrl_scope == rmbm->mon_scope);
- }
-@@ -2521,7 +2521,7 @@ static int rdt_enable_ctx(struct rdt_fs_context *ctx)
- 	}
+- # mount -t resctrl resctrl [-o cdp[,cdpl2][,mba_MBps][,debug]] /sys/fs/resctrl
++ # mount -t resctrl resctrl [-o cdp[,cdpl2][,mba_MBps] \
++ [,mba_MBps_event=[mbm_local_bytes|mbm_total_bytes]][,debug]] /sys/fs/resctrl
  
- 	if (ctx->enable_mba_mbps) {
--		r->membw.mba_mbps_event = QOS_L3_MBM_LOCAL_EVENT_ID;
-+		r->membw.mba_mbps_event = ctx->mba_mbps_event;
- 		ret = set_mba_sc(true);
- 		if (ret)
- 			goto out_cdpl3;
-@@ -2739,15 +2739,17 @@ enum rdt_param {
- 	Opt_cdp,
- 	Opt_cdpl2,
- 	Opt_mba_mbps,
-+	Opt_mba_mbps_event,
- 	Opt_debug,
- 	nr__rdt_params
- };
+ mount options are:
  
- static const struct fs_parameter_spec rdt_fs_parameters[] = {
--	fsparam_flag("cdp",		Opt_cdp),
--	fsparam_flag("cdpl2",		Opt_cdpl2),
--	fsparam_flag("mba_MBps",	Opt_mba_mbps),
--	fsparam_flag("debug",		Opt_debug),
-+	fsparam_flag("cdp",			Opt_cdp),
-+	fsparam_flag("cdpl2",			Opt_cdpl2),
-+	fsparam_flag("mba_MBps",		Opt_mba_mbps),
-+	fsparam_string("mba_MBps_event",	Opt_mba_mbps_event),
-+	fsparam_flag("debug",			Opt_debug),
- 	{}
- };
+@@ -44,8 +45,14 @@ mount options are:
+ "cdpl2":
+ 	Enable code/data prioritization in L2 cache allocations.
+ "mba_MBps":
+-	Enable the MBA Software Controller(mba_sc) to specify MBA
+-	bandwidth in MiBps
++	Use a software feedback loop from the memory bandwidth monitoring
++	feature to automatically adjust memory bandwidth allocation
++	throttling so that the user can specify MBA control values in MiBps.
++	Defaults to using MBM local bandwidth, but will use total bandwidth on
++	systems that do not support local bandwidth monitoring.
++"mba_MBps_event=[mbm_local_bytes|mbm_total_bytes]":
++	Enable the "mba_MBps" option with an explicitly chosen monitor
++	event as input to the software feedback loop.
+ "debug":
+ 	Make debug files accessible. Available debug files are annotated with
+ 	"Available only with debug option".
+@@ -561,16 +568,24 @@ increase or vary although user specified bandwidth percentage is same.
+ In order to mitigate this and make the interface more user friendly,
+ resctrl added support for specifying the bandwidth in MiBps as well.  The
+ kernel underneath would use a software feedback mechanism or a "Software
+-Controller(mba_sc)" which reads the actual bandwidth using MBM counters
+-and adjust the memory bandwidth percentages to ensure::
++Controller(mba_sc)" which reads the actual bandwidth using either local
++or total memory bandwidth MBM counters and adjusts the memory bandwidth
++percentages to ensure::
  
-@@ -2770,9 +2772,25 @@ static int rdt_parse_param(struct fs_context *fc, struct fs_parameter *param)
- 		ctx->enable_cdpl2 = true;
- 		return 0;
- 	case Opt_mba_mbps:
--		msg = "mba_MBps requires local MBM and linear scale MBA at L3 scope";
--		if (!supports_mba_mbps())
-+		msg = "mba_MBps requires MBM and linear scale MBA at L3 scope";
-+		if (!supports_mba_mbps() || ctx->enable_mba_mbps)
- 			return invalfc(fc, msg);
-+		if (is_mbm_local_enabled())
-+			ctx->mba_mbps_event = QOS_L3_MBM_LOCAL_EVENT_ID;
-+		else
-+			return invalfc(fc, msg);
-+		ctx->enable_mba_mbps = true;
-+		return 0;
-+	case Opt_mba_mbps_event:
-+		msg = "mba_MBps requires MBM and linear scale MBA at L3 scope";
-+		if (!supports_mba_mbps() || ctx->enable_mba_mbps)
-+			return invalfc(fc, msg);
-+		if (!strcmp("mbm_local_bytes", param->string))
-+			ctx->mba_mbps_event = QOS_L3_MBM_LOCAL_EVENT_ID;
-+		else if (!strcmp("mbm_total_bytes", param->string))
-+			ctx->mba_mbps_event = QOS_L3_MBM_TOTAL_EVENT_ID;
-+		else
-+			return invalfc(fc, "unknown MBM event %s", param->string);
- 		ctx->enable_mba_mbps = true;
- 		return 0;
- 	case Opt_debug:
-@@ -3931,16 +3949,27 @@ static int rdtgroup_rename(struct kernfs_node *kn,
- 	return ret;
- }
+ 	"actual bandwidth < user specified bandwidth".
  
-+static const char *mba_sc_event_opt_name(struct rdt_resource *r)
-+{
-+	if (r->membw.mba_mbps_event == QOS_L3_MBM_LOCAL_EVENT_ID)
-+		return ",mba_MBps_event=mbm_local_bytes";
-+	else if (r->membw.mba_mbps_event == QOS_L3_MBM_TOTAL_EVENT_ID)
-+		return ",mba_MBps_event=mbm_total_bytes";
-+	return "";
-+}
+ By default, the schemata would take the bandwidth percentage values
+ where as user can switch to the "MBA software controller" mode using
+-a mount option 'mba_MBps'. The schemata format is specified in the below
++the mount option 'mba_MBps' or explicitly choose which MBM event with
++the 'mba_MBps_event' option. The schemata format is specified in the below
+ sections.
+ 
++The software feedback mechanism uses measurement of local
++memory bandwidth to make adjustments to throttling levels. If a system
++is running applications with poor NUMA locality users may want to use
++the "mba_MBps_event=mbm_total_bytes" mount option which will use total
++memory bandwidth measurements instead of local.
 +
- static int rdtgroup_show_options(struct seq_file *seq, struct kernfs_root *kf)
- {
-+	struct rdt_resource *r_mba = &rdt_resources_all[RDT_RESOURCE_MBA].r_resctrl;
-+
- 	if (resctrl_arch_get_cdp_enabled(RDT_RESOURCE_L3))
- 		seq_puts(seq, ",cdp");
- 
- 	if (resctrl_arch_get_cdp_enabled(RDT_RESOURCE_L2))
- 		seq_puts(seq, ",cdpl2");
- 
--	if (is_mba_sc(&rdt_resources_all[RDT_RESOURCE_MBA].r_resctrl))
--		seq_puts(seq, ",mba_MBps");
-+	if (is_mba_sc(r_mba))
-+		seq_puts(seq, mba_sc_event_opt_name(r_mba));
- 
- 	if (resctrl_debug)
- 		seq_puts(seq, ",debug");
+ L3 schemata file details (code and data prioritization disabled)
+ ----------------------------------------------------------------
+ With CDP disabled the L3 schemata format is::
 -- 
 2.46.1
 
