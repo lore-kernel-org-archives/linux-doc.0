@@ -1,67 +1,67 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2452D1A7242
-	for <linux-doc@vger.kernel.org>; Thu,  3 Oct 2024 18:29:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC579BA41
+	for <linux-doc@vger.kernel.org>; Thu,  3 Oct 2024 18:33:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727980185; cv=none; b=JPYNvh8EVetuddKAPM/gCbUhdjFapzzCyySMZ7hDjCvsKq81S9XGgVtQn12D30wSNhAGkrcaCXH3DQfuwt1cjh76lguG28XDOJlO40Rx2nD1bBCyOwAZcFxOlZQ9dOjslEcRob44/2kVkhZf9uTJfYvs+QqfrwbiC+aLnKAWf24=
+	t=1727980390; cv=none; b=Dcnnnttu2us+65iSnkcnBH6FwNzC7UoWWoE3sQt4O/K0FYxiJsnRNLs7WfzrR3AtmseHq3hHexQQa3iQoUDcLw6fth3bRTgtJ0ykRl0NSWAvrZzYm/Fea+u+BAyJG4BAReJ6aqWVTtOiKCJD00yjVwtx6MB2NxJ2qj6qiB/K6HQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727980185; c=relaxed/simple;
-	bh=2qzxjKFrcEgUqWUnrIEiNSe6Cm82aybNgOP5SBjCt5A=;
+	s=arc-20240116; t=1727980390; c=relaxed/simple;
+	bh=ILmjpQ0zKjjTB7A3mdO7etGqfghkzhM57DEwhovcP+s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=E+X1UR3fxXlG4sXz+uIqAom3hcweZCELHcdgg8W36PVCFVYuGNbAKdOm/MwgWMAjx4IA+6BQMoU3yQ/iR2W4zpdESKSiOsuHnp5/gY8ilMfQv14UbQDh1aCBJC43txiuX8ipK+tSKFEbwPu7QsZd8t7HeSKLCbGvgDtE+eVecr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bMAyinFJ; arc=none smtp.client-ip=209.85.160.182
+	 To:Cc:Content-Type; b=usHLcGfAGurZlIUjUTxPou/vu5HAjBrTAoxwb1ap+8odns2K9eFWhiBfgFSb6FoH4Var0/2uqzJZFwROdbejmHQlsDfuMuRzMSELsjJuQ2cyNP9/5UR0JYCwAjp8XTNf9KO+/pXuOlvI9kilHVd4vMmMrrBAI++GOfTo6mMpla4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MRgh6n03; arc=none smtp.client-ip=209.85.160.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bMAyinFJ"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-45b4e638a9aso40541cf.1
-        for <linux-doc@vger.kernel.org>; Thu, 03 Oct 2024 11:29:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MRgh6n03"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4582a5b495cso37111cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 03 Oct 2024 11:33:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1727980183; x=1728584983; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1727980388; x=1728585188; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=S1k4ChpIfL1zYPEqDQYtaSA7c5Ed/Wun853K5E1/PAs=;
-        b=bMAyinFJSZyMrvmgJSzQaWpWBpvmWG5ctTC/6xPvcVREVS+5mrvvGw0az7nq+cuoDl
-         ETZ8FiPdVB1Maq1rkl7/gUtJivwQqpiVZY5ZoZ8awIILduh8FQuf6CbpvkJs7sd2aL/r
-         j3x5n191lJXrx0oy3GvQSmXIsiS4u3Wzc7igOcErBsgauwY/GQFZDZHKmED3zn9TEowC
-         wyhSAhrfWVaF4R13Tw3r10tNV5HVWnGQDeMyx1BJdYa//BxmIOS3VMNMMNuExC8fJNZg
-         GSEbnqTBpIaGvEiHHyXHVEG4v96nnZHC61Ag7aKnwCGS/GeeUX+VzZIyOZQdTGm8q3Km
-         Y5sg==
+        bh=TRiDjEDPS+jnQVOWrHXwLNaJ0K9ReTp7hEjVWXINGQg=;
+        b=MRgh6n03jPVxl5BaF7UqiHKJQp0+y1IzbkEheZDMV+B64ye5Ul+JgKCP70AXHLdYQ3
+         K1/md8efVjt9WhuPC4rdC7De8+T3Qz349XfaHmDnsfX2HDC2ql0YP5WbTsEkqa2zc5yq
+         mRjOYzuoXkCV/Bmcthu7pcXp1Nqtgz3Tbh8shDNuHkct0aqg33UixlF2wjAxO0XGBXQ4
+         s4bBtMp/taUlHYTFwaQUpctCwWnBADc4CY5cHlaMJBjiRImn5bBuvWyY0TmGUdyvhOau
+         1OBRGPPwrnyDpMhMQ42Gjiep7wIxVdBUoLtifUtDW76DlCJ8f+MpU8rwZuvxLRw0okhq
+         W3oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727980183; x=1728584983;
+        d=1e100.net; s=20230601; t=1727980388; x=1728585188;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=S1k4ChpIfL1zYPEqDQYtaSA7c5Ed/Wun853K5E1/PAs=;
-        b=uv/iTXEPNSsgocar3xXM5Fuzit0hhZAhxfbuueZwHp85fR+Yq4z5rkI2Z5T81oiTpB
-         7N6rGRNwg/o9oIcTgNMwlzL6ZKKql+pGB9W+I9LkNjmDWMKkDtDBIm3cjYnFSPG1p6of
-         JT5md3UrXrFa58W4zYdDrZkZE9Qu9DsprRIiAF9/qs1WdjGg4+Wo95UBEVSrTZza2gTh
-         UqTjNkW0K8t0UK6jV9VdHtGqfuk/jeTL28VHSeH870ie9/5XpR6s8i/++uTUMmPYt25C
-         zHgRmaodsqMj++o2NdaFM8+IDKA8MhBqaGQYsebUcoTkJLUcfHsh0aKjbgWb03QZLG3G
-         X31Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWhskiUMiGsPK0dO2hFODGAFvKbiT3wtQylmMyKm/OFsft1uQ0zmubmgo1yDZAlqVQGnfLDCikTS0c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyU5LiuEfemRAqtXjRY7tHYsjfdUNmKr638xZvCKk95Mn3YE2/v
-	M90vE7CcC+mipfAyfERyXtw5iw3FKmZES9k/DOoozp2EIrg9NuV4ML7OMM8CpRDm/ylNoK6Lya7
-	t8Il4QqvgckIwSrCp1kVS3QRYMUkVamhmk+lT
-X-Google-Smtp-Source: AGHT+IElUOfsfGZ3a15mzNpIMkSq4GH7lKflIH4h5T4vTiw9MweG5FIZIJTWK73RDKR2BnrZNo/Er4WCmRHGtJQDGhA=
-X-Received: by 2002:a05:622a:8491:b0:456:7f71:ca78 with SMTP id
- d75a77b69052e-45d9bb8b832mr115711cf.4.1727980182769; Thu, 03 Oct 2024
- 11:29:42 -0700 (PDT)
+        bh=TRiDjEDPS+jnQVOWrHXwLNaJ0K9ReTp7hEjVWXINGQg=;
+        b=KSbgxlnGwNaHjq7ydzZkJ8DfCvZ5eIXvcndrMlSZMjstSM2K5kpfiCvvNxEvFrn8Gs
+         s4WVCQB9O7iTeqbp4FFgaOywbF+s/qlx/pu1tOayGGgGO/5uIHIb/TCe2GPM+Rn6BRjp
+         HvxrnryHLM1OESC8syfAFUCCikVC+ZXu10LBtSniJYPcvHRUNprWP+EWZcwSIVoPs1eA
+         xXnBUdIEuCC8EwiR4EbNNMsSmqNXnl8FxH0HOrSGFdSY/Dler7h3aPeIhGCWiOZvDx+z
+         K0fl/PkQ+gItw12bwLUDGLzWE3oJNySUh9QHRlRe1lduUHsUDurwW5SDG+LM/3ZnY4I1
+         J0CA==
+X-Forwarded-Encrypted: i=1; AJvYcCWy7m0kNFyAbHlmaALIjME61JPgx+MkGeGPZneY4EuKLFPKD77VlydvklG+fKP/PGlhZ0RLC8yKl8s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzSgC2qhzerijWuDhgXf7rK7G18Jx7SDufAwY+rcR/0qApi/t0g
+	iP+4h0tiAfetZQ6Mu8fyh9KjE6w2INrxOu8+xi4M8MqJtRaX7fTJA/dTweutUsSzDBekHCEO1X4
+	GsYCitq+vkVF3skvq+ODMF2qw8r+67zTYTbuD
+X-Google-Smtp-Source: AGHT+IEpLjV56VsH8YRSLWLesTXb/qFAN2uwb4LZrTY4gOoBFQ2gTLXCRYIB782dZw29z9Gq2z5Yiy5KA0dHRN1YMN4=
+X-Received: by 2002:ac8:6292:0:b0:45c:9e26:ae3 with SMTP id
+ d75a77b69052e-45d9bc827e6mr41981cf.27.1727980387586; Thu, 03 Oct 2024
+ 11:33:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241003160620.1521626-1-ap420073@gmail.com> <20241003160620.1521626-6-ap420073@gmail.com>
-In-Reply-To: <20241003160620.1521626-6-ap420073@gmail.com>
+References: <20241003160620.1521626-1-ap420073@gmail.com> <20241003160620.1521626-7-ap420073@gmail.com>
+In-Reply-To: <20241003160620.1521626-7-ap420073@gmail.com>
 From: Mina Almasry <almasrymina@google.com>
-Date: Thu, 3 Oct 2024 11:29:29 -0700
-Message-ID: <CAHS8izNwnBnZf6P0WtAcg+MjmaxXDZ++kYit8_Ac8r6y=cDMAQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 5/7] net: devmem: add ring parameter filtering
+Date: Thu, 3 Oct 2024 11:32:53 -0700
+Message-ID: <CAHS8izMjxvgMwh5MzwDKDw1wy7b_Eyua=LOrB1Kn6wFhcxE5bg@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 6/7] net: ethtool: add ring parameter filtering
 To: Taehee Yoo <ap420073@gmail.com>
 Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
 	edumazet@google.com, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
@@ -79,84 +79,70 @@ Content-Transfer-Encoding: quoted-printable
 On Thu, Oct 3, 2024 at 9:07=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> wrot=
 e:
 >
-> If driver doesn't support ring parameter or tcp-data-split configuration
-> is not sufficient, the devmem should not be set up.
-> Before setup the devmem, tcp-data-split should be ON and
-> tcp-data-split-thresh value should be 0.
+> While the devmem is running, the tcp-data-split and
+> tcp-data-split-thresh configuration should not be changed.
+> If user tries to change tcp-data-split and threshold value while the
+> devmem is running, it fails and shows extack message.
 >
 > Signed-off-by: Taehee Yoo <ap420073@gmail.com>
 > ---
 >
 > v3:
->  - Patch added.
+>  - Patch added
 >
->  net/core/devmem.c | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
+>  net/ethtool/common.h |  1 +
+>  net/ethtool/rings.c  | 15 ++++++++++++++-
+>  2 files changed, 15 insertions(+), 1 deletion(-)
 >
-> diff --git a/net/core/devmem.c b/net/core/devmem.c
-> index 11b91c12ee11..a9e9b15028e0 100644
-> --- a/net/core/devmem.c
-> +++ b/net/core/devmem.c
-> @@ -8,6 +8,8 @@
->   */
+> diff --git a/net/ethtool/common.h b/net/ethtool/common.h
+> index d55d5201b085..beebd4db3e10 100644
+> --- a/net/ethtool/common.h
+> +++ b/net/ethtool/common.h
+> @@ -5,6 +5,7 @@
 >
->  #include <linux/dma-buf.h>
-> +#include <linux/ethtool.h>
-> +#include <linux/ethtool_netlink.h>
->  #include <linux/genalloc.h>
->  #include <linux/mm.h>
 >  #include <linux/netdevice.h>
-> @@ -131,6 +133,8 @@ int net_devmem_bind_dmabuf_to_queue(struct net_device=
- *dev, u32 rxq_idx,
->                                     struct net_devmem_dmabuf_binding *bin=
-ding,
->                                     struct netlink_ext_ack *extack)
->  {
-> +       struct kernel_ethtool_ringparam kernel_ringparam =3D {};
-> +       struct ethtool_ringparam ringparam =3D {};
->         struct netdev_rx_queue *rxq;
->         u32 xa_idx;
->         int err;
-> @@ -146,6 +150,20 @@ int net_devmem_bind_dmabuf_to_queue(struct net_devic=
-e *dev, u32 rxq_idx,
->                 return -EEXIST;
+>  #include <linux/ethtool.h>
+> +#include <net/netdev_rx_queue.h>
+>
+>  #define ETHTOOL_DEV_FEATURE_WORDS      DIV_ROUND_UP(NETDEV_FEATURE_COUNT=
+, 32)
+>
+> diff --git a/net/ethtool/rings.c b/net/ethtool/rings.c
+> index c7824515857f..0afc6b29a229 100644
+> --- a/net/ethtool/rings.c
+> +++ b/net/ethtool/rings.c
+> @@ -216,7 +216,8 @@ ethnl_set_rings(struct ethnl_req_info *req_info, stru=
+ct genl_info *info)
+>         bool mod =3D false, thresh_mod =3D false;
+>         struct nlattr **tb =3D info->attrs;
+>         const struct nlattr *err_attr;
+> -       int ret;
+> +       struct netdev_rx_queue *rxq;
+> +       int ret, i;
+>
+>         dev->ethtool_ops->get_ringparam(dev, &ringparam,
+>                                         &kernel_ringparam, info->extack);
+> @@ -263,6 +264,18 @@ ethnl_set_rings(struct ethnl_req_info *req_info, str=
+uct genl_info *info)
+>                 return -EINVAL;
 >         }
 >
-> +       if (!dev->ethtool_ops->get_ringparam) {
-> +               NL_SET_ERR_MSG(extack, "can't get ringparam");
-> +               return -EINVAL;
-> +       }
-> +
-> +       dev->ethtool_ops->get_ringparam(dev, &ringparam,
-> +                                       &kernel_ringparam, extack);
 > +       if (kernel_ringparam.tcp_data_split !=3D ETHTOOL_TCP_DATA_SPLIT_E=
 NABLED ||
-
-The way I had set this up is that the driver checks whether header
-split is enabled, and only sets PP_FLAG_ALLOW_UNREADABLE_NETMEM if it
-is. Then core detects that the driver did not allow unreadable netmem
-and it fails that way.
-
-This check is redundant with that. I'm not 100% opposed to redundant
-checks. Maybe they will add some reliability, but also maybe they will
-be confusing to check the same thing essentially in 2 places.
-
-Is the PP_FLAG_ALLOW_UNREADABLE_NETMEM trick not sufficient for you?
-
 > +           kernel_ringparam.tcp_data_split_thresh) {
-> +               NL_SET_ERR_MSG(extack,
-> +                              "tcp-header-data-split is disabled or thre=
-shold is not zero");
-> +               return -EINVAL;
-> +       }
-> +
->  #ifdef CONFIG_XDP_SOCKETS
->         if (rxq->pool) {
->                 NL_SET_ERR_MSG(extack, "designated queue already in use b=
-y AF_XDP");
-> --
-> 2.34.1
->
+> +               for (i =3D 0; i < dev->real_num_rx_queues; i++) {
+> +                       rxq =3D __netif_get_rx_queue(dev, i);
+> +                       if (rxq->mp_params.mp_priv) {
+> +                               NL_SET_ERR_MSG(info->extack,
+> +                                              "tcp-header-data-split is =
+disabled or threshold is not zero");
+> +                               return -EINVAL;
+> +                       }
+
+Probably worth adding a helper for this. I think the same loop is
+checked in a few places.
+
+Other than that, yes, this looks good to me.
 
 
 --=20
