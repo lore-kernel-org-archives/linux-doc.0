@@ -1,55 +1,55 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682AB433C1;
-	Thu,  3 Oct 2024 17:16:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0D2819F46D;
+	Thu,  3 Oct 2024 17:23:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727975768; cv=none; b=FxjBbjyWlYZvgOXHaB4QeTGh0LwIbeYVrLQWH5Pa8BisLSiJmNwLTsAVPsaSjXvoSrbp9K2TGaAB7GU+AnX6HesrEUD+AmUcTMgr9GHwF8oEPyb9GiR7jciveOfloRQC8D8WLVo0u774w9S9iQXPyRpyTMlxoEBMIEfhU9f2k+I=
+	t=1727976192; cv=none; b=hb5NVd5f05aXJ+o8uHzo5ztTM2ZG9Hw6jSog95cUc79aVcKxdQPmrYk5xrQT/tfIswW2QQ6BIdQlP98ELOzL7vM19WOdEXuHvz/N3o/GCqjHHDzTer+FS8ucOMKuqQ+9GLICA1GmQo2QiJF62uKlC9tS1BkaDdGYgAl/TbYRwKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727975768; c=relaxed/simple;
-	bh=CL7Wg3gj21GB9l7D+2NEX51041pZBv1itNXrHcCFX6I=;
+	s=arc-20240116; t=1727976192; c=relaxed/simple;
+	bh=HZ5wxK5BzWO7f3FVf5HbVWGBb/UqsslvIruSeqLGFdg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KOUHlQddogQLH4HI17gbtp1rHr+aEyXZNdElGEElYDtOmc3KVFh9Slm5mgnshWUhUIUJe5XOxm2DIMwhwqcfHFUfei18UmYGO/Z4h8e3wtTlhUvnHkG/YOZIUIZMSkgghOKDnHL2YsBIStQQDMQcTN2lETSEUmsIW+J2Tc9dNOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OSb5Jy0h; arc=none smtp.client-ip=209.85.208.50
+	 To:Cc:Content-Type; b=sCzOaeTvzlLXcd+QQcIl1mL7qHAXISPr6lt5w/sEMbhLoVY8t3ZyBgwYSHCsaZSfYAopLV/len7usPGuH/FlBqaR9x5TOtVnQ5WwtYd5aEcgLCJgsR2RMbsu8xEQN1PcRBSKQmF3yOgI+Abtknvi+d52pCzdLADiHJSL9nkfrzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CkTkvX/u; arc=none smtp.client-ip=209.85.208.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OSb5Jy0h"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5c8952f7f95so1322433a12.0;
-        Thu, 03 Oct 2024 10:16:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CkTkvX/u"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5c42e7adbddso1402568a12.2;
+        Thu, 03 Oct 2024 10:23:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727975765; x=1728580565; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1727976188; x=1728580988; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CL7Wg3gj21GB9l7D+2NEX51041pZBv1itNXrHcCFX6I=;
-        b=OSb5Jy0hswnltHewFLOeNa2qaY0GaEjubpGKDMYpSPw1JGV0uDqI529TneXMX3++Y1
-         ARFfSvjCN2O+SAWMpYiYQUfIWmRVAl3Rnl3S90NQUrwaeea6pVKdtEBPOIkT66S/M3wA
-         dft4ZGvLbqmdJYxCFxqhY/aLfD99LYCMilC6riqz43+gMyvl6hMwOdGcZ5V19+okhDXr
-         V2lay3VCf2unx9qQASbCbkj1U84q4NjMz4BfebXrfyU96ojM1OKu6HItxYUkNsdnvOjl
-         +eW2fiXlYep5zbM+usMO3DkOGBXi4nBeinWQa6rr+tBWM5lGBJn+AwZl39d9T0jTCIu/
-         cKuQ==
+        bh=HZ5wxK5BzWO7f3FVf5HbVWGBb/UqsslvIruSeqLGFdg=;
+        b=CkTkvX/u78XUKvIGsQaraNT/3R4Ul52MaEC6DT69vQguCujVQ4TvGCpkmwTdZXHYnv
+         T3PhJInS0qQyNV25LQvQjoJhLi1ArBj6l1IfYHDwSEBijZBKjjfKHbICAn3w1lLbRYJn
+         BbIiCFXe4l5rLfDDRSU4d2iCVsANpatHFLlsRslYUCSkk5p/PUtzhKQtwmzF06uxKTHT
+         Np+sRL1gWCtOsYkYzuF+DuOu/KeGdE/kkq6Z6w9CTZ7nUBmJedGpCtT12O0iIXOr3b2S
+         uNvnixh2zEFh0sG20/XSd5RiK21l26PG+5ScjwsFT9h4OVkYPaUs469JVCCnJ5zbEL10
+         w6QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727975765; x=1728580565;
+        d=1e100.net; s=20230601; t=1727976188; x=1728580988;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CL7Wg3gj21GB9l7D+2NEX51041pZBv1itNXrHcCFX6I=;
-        b=iU/CmXbWpmT41genEdKyCC2tdlhQWrRvnMZc3iMzL9/5OxgtQc9xJ8YSZuivrVMkuH
-         KFgqgfqaHFCgAEXfhwrvFQBiqZKFIaj8eCqyQfBvxlHptsIKfcavWApYc4OnoDwD+bUK
-         Q00ceDyKK4pAAVREtzMkixJhS6s0+s7snL7NRMg55bRyCiXZhTGaFnCaroldOVp3q2RZ
-         UC+O0NX7mLbmMMeKNDaNOT2lHG8EQ3VXMXMvt07SoX10zBeUQvCXG3aspbTqDAqBd0a7
-         R+PZKYZkXX47JVSjKyjZRJ5FfGY933c5Ly7Djo1SHbj53AInQuc3NpU3vGfwAySaTZD5
-         cj+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUN1UObaRoV0JZlPpGx4dM/kRXQcvENL5VeBX4deVfKts5unJR1uGmpAtO5IN8auvyaz3ChYMot@vger.kernel.org, AJvYcCXciC1XI1syMOvXDv/COZtQqI331aeYwsEWUxacCUwZ83hroRLO5k7q88kmbNowB1S2bOR0duDI/Pw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPyFDJYVAnXofWRlBZQ52zXaZQYXAPpdOphfv+rySUJzA4ltbi
-	qRT7roiltfdC/yK2An5uDAxtViw3Oyq8qgalnakpKvbKhR3M63I4MvY5qLzQCrEh2ctrDeSAA8e
-	mynpEWdWufYX+jQZlftGqnvfWL9M=
-X-Google-Smtp-Source: AGHT+IHS6kA66HOXbU4wDhLGJelNJW+j2RMuxl07mUHoNTRrHb71zM06yp0hJac2xL2XpOhFx81xyvmo/GtoWpTyfjA=
-X-Received: by 2002:a05:6402:5114:b0:5c7:229a:b49d with SMTP id
- 4fb4d7f45d1cf-5c8b1b828b5mr5712934a12.30.1727975764501; Thu, 03 Oct 2024
- 10:16:04 -0700 (PDT)
+        bh=HZ5wxK5BzWO7f3FVf5HbVWGBb/UqsslvIruSeqLGFdg=;
+        b=qhG7OnQiMXWRRZkOnqzJRFO6Kk+UlSjSi2J22NOBLD2pUjxX5YrrMnzGYSf/ICMkBV
+         CcL+tEAZjSlietPzke9CTQR0HvK0jLCkVbV9xrh5U/2NVGsdAT5NsRZtNddbAVW3J5OV
+         CwsHFpHPve6WPcrTDZj5QiI1i9QE0JWdldVYhXn85xrgyMY7ZNXszJDbmfd++J1HYyVz
+         zWkDslmmBUJDE4QG1R0Au2a24wvEPK95ty6wEvfAJTVGULDRAAUIVUcYD0Y4EYgRfQcp
+         hoGQW2HhFe+fzdsXrsiWaACaPEIiu5Arrl5zTma+erlUHchRAO//z8Bq8SNMcnuCQMzw
+         sOlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVr7g0ntnHkEleVeithbdfa/+avoGGQIDmiyYaQc3mKUbv93TPV+Xc2AVsYCrXJGsy9Et6h3fBA2t0=@vger.kernel.org, AJvYcCX5EkoXNZhnZq8duDS2PJAn4pZApR2moSQTfV3b0MrLlpX1K66xmCDpsgBYBCDAnfJG9XS8ZHXa@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJDvS4LiS9U0mo9OEgwamCZTebYKgvn/oV0HJ/rJLrjRcwCT7D
+	HcN7R5wRFg0AyCI/i3+y4Sfbt3dKQYbMgkcHBct32nHXALsbsxga7MoWppcsEq5knfkmvGOX4UE
+	4IbcUKsvPKlYJHdxaLiqVbLQNEP4=
+X-Google-Smtp-Source: AGHT+IHit+QfCZc2xBabzYz+S76HYCM8qlbR1CKWfLpRUf0uorcSKkkTGKFjfnp0SHBI5+s/28abdfSedMwmxXOocFs=
+X-Received: by 2002:a05:6402:5108:b0:5c8:9553:c779 with SMTP id
+ 4fb4d7f45d1cf-5c8b1b781a5mr5776689a12.27.1727976187993; Thu, 03 Oct 2024
+ 10:23:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,38 +57,36 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20241003160620.1521626-1-ap420073@gmail.com> <20241003160620.1521626-2-ap420073@gmail.com>
- <bf51b344-bc52-4383-9218-aab9f5f89c82@amd.com>
-In-Reply-To: <bf51b344-bc52-4383-9218-aab9f5f89c82@amd.com>
+ <CACKFLi=1h=GBq5bN7L1pq9w8cSiHA16CZz0p8HJoGdO+_5OqFw@mail.gmail.com>
+In-Reply-To: <CACKFLi=1h=GBq5bN7L1pq9w8cSiHA16CZz0p8HJoGdO+_5OqFw@mail.gmail.com>
 From: Taehee Yoo <ap420073@gmail.com>
-Date: Fri, 4 Oct 2024 02:15:52 +0900
-Message-ID: <CAMArcTXV3pR6KH2eP1WWbaeK3f8d7m=6Pi4ze6YtTz-TcrjNow@mail.gmail.com>
+Date: Fri, 4 Oct 2024 02:22:56 +0900
+Message-ID: <CAMArcTXUjb5XuzvKx03_xGrEcA4OEP6aXW2P0eCpjk9_WaUS8Q@mail.gmail.com>
 Subject: Re: [PATCH net-next v3 1/7] bnxt_en: add support for rx-copybreak
  ethtool command
-To: Brett Creeley <bcreeley@amd.com>
+To: Michael Chan <michael.chan@broadcom.com>
 Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
 	edumazet@google.com, almasrymina@google.com, netdev@vger.kernel.org, 
 	linux-doc@vger.kernel.org, donald.hunter@gmail.com, corbet@lwn.net, 
-	michael.chan@broadcom.com, kory.maincent@bootlin.com, andrew@lunn.ch, 
-	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
-	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
-	ahmed.zaki@intel.com, paul.greenwalt@intel.com, rrameshbabu@nvidia.com, 
-	idosch@nvidia.com, asml.silence@gmail.com, kaiyuanz@google.com, 
-	willemb@google.com, aleksander.lobakin@intel.com, dw@davidwei.uk, 
-	sridhar.samudrala@intel.com
+	kory.maincent@bootlin.com, andrew@lunn.ch, maxime.chevallier@bootlin.com, 
+	danieller@nvidia.com, hengqi@linux.alibaba.com, ecree.xilinx@gmail.com, 
+	przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, ahmed.zaki@intel.com, 
+	paul.greenwalt@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
+	asml.silence@gmail.com, kaiyuanz@google.com, willemb@google.com, 
+	aleksander.lobakin@intel.com, dw@davidwei.uk, sridhar.samudrala@intel.com, 
+	bcreeley@amd.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 4, 2024 at 1:57=E2=80=AFAM Brett Creeley <bcreeley@amd.com> wro=
-te:
+On Fri, Oct 4, 2024 at 2:14=E2=80=AFAM Michael Chan <michael.chan@broadcom.=
+com> wrote:
 >
 
-Hi Brett,
+Hi Michael,
 Thanks a lot for the review!
 
-> On 10/3/2024 9:06 AM, Taehee Yoo wrote:
-> > Caution: This message originated from an External Source. Use proper ca=
-ution when opening attachments, clicking links, or responding.
-> >
+> On Thu, Oct 3, 2024 at 9:06=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> wr=
+ote:
 > >
 > > The bnxt_en driver supports rx-copybreak, but it couldn't be set by
 > > userspace. Only the default value(256) has worked.
@@ -101,18 +99,6 @@ ution when opening attachments, clicking links, or responding.
 > >
 > > v3:
 > > - Update copybreak value before closing nic.
->
-> Nit, but maybe this should say:
->
-> Update copybreak value after closing nic and before opening nic when the
-> device is running.
->
-> Definitely not worth a respin, but if you end up having to do a v4.
->
-
-Thank you so much for catching this.
-I will fix it if I send a v4 patch.
-
 > >
 > > v2:
 > > - Define max/vim rx_copybreak value.
@@ -121,12 +107,28 @@ I will fix it if I send a v4 patch.
 > > drivers/net/ethernet/broadcom/bnxt/bnxt.h | 6 ++-
 > > .../net/ethernet/broadcom/bnxt/bnxt_ethtool.c | 49 ++++++++++++++++++-
 > > 3 files changed, 68 insertions(+), 11 deletions(-)
+> >
 >
-> Other than the tiny nit, LGTM.
+> > diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.h b/drivers/net/et=
+hernet/broadcom/bnxt/bnxt.h
+> > index 69231e85140b..cff031993223 100644
+> > --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.h
+> > +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.h
+> > @@ -34,6 +34,10 @@
+> > #include <linux/firmware/broadcom/tee_bnxt_fw.h>
+> > #endif
+> >
+> > +#define BNXT_DEFAULT_RX_COPYBREAK 256
+> > +#define BNXT_MIN_RX_COPYBREAK 65
+> > +#define BNXT_MAX_RX_COPYBREAK 1024
+> > +
 >
-> Reviewed-by: Brett Creeley <brett.creeley@amd.com>
->
-> <snip>
+> Sorry for the late review. Perhaps we should also support a value of
+> zero which means to disable RX copybreak.
+
+I agree that we need to support disabling rx-copybreak.
+What about 0 ~ 64 means to disable rx-copybreak?
+Or should only 0 be allowed to disable rx-copybreak?
 
 Thanks a lot!
 Taehee Yoo
