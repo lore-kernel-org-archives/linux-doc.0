@@ -1,41 +1,56 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F841AB52D;
-	Thu,  3 Oct 2024 23:03:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 193691AB52C
+	for <linux-doc@vger.kernel.org>; Thu,  3 Oct 2024 23:04:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727996621; cv=none; b=TnEsp21aDJzxkDe3mSWkwc2YI33vvzTI/NyL3+ROXHGX1UjSRsavBzeSNihozq0W2HwaJHvxPudeCTq67d+NouZCZqQtsAaD6YtzsySOBlGMXe1XHllGkxCJAwd0Vjfz69wyFKVTvISjtTN4fOqgSt9IJaN63U3THurR8kZrSgk=
+	t=1727996692; cv=none; b=gYFVXGTfg5CQqvs9xXSwtGFAN9Y5RQkVfAtbn8sFfVPw3m7byw59K6EUHPtTD1QC4LZdP+6C558rnkerO/GmX1+jvfGRzOTikg1AGQBe3Ed6IKM0rJXBxDk4DZM9cyU9/7emosuhzN7VI8iLZACTQ+UaAKLYD36aj7KMrYYLTS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727996621; c=relaxed/simple;
-	bh=RlBHWrkvPIdEMvHPzkeCP7Y0MeQke+gep+nbMAKkxPI=;
+	s=arc-20240116; t=1727996692; c=relaxed/simple;
+	bh=6FHqkRQuz3uxjkneqqwW6xoBxVKVyzxwgpRcDKWL8SY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UwkMsvX6GNg6noI5tSF/71tMTEHmDdrgGzdTbOcxBEoQZkvKD+x2ZxKucAY+o7Q7BzUYlT8jcsCuhvmHcPRGihZtgdtBZhofklykv4m1Z1RCxKAIIuZEWGd5Vhih221zj8Sa7YaPX9qAxEim9O/ub1Mu+zGSk39jv1Hg8nC5PnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=qk2H5B/t; arc=none smtp.client-ip=212.227.15.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	 In-Reply-To:Content-Type; b=AtcHLVf2qTdrrnZPN/419ouMaRZ6g1eXhciqsrleVildfe640n1Q7GpbzBfkfYDJJcLB0fb7SOyM24GF5CY7vi/xUGJqKlMzGZxNEQGAAehzLJxJI+AkEaHye7Ig2nP1/S87SNkVVnGjM773hE3FBqkD3pMlI+fAur6DucIcfJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=FB5pVejv; arc=none smtp.client-ip=209.85.166.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="qk2H5B/t"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1727996610; x=1728601410; i=w_armin@gmx.de;
-	bh=nGQ2e3eWhWCnCEzigv0/+ogytIWxpyFa6ZW3FmJvq8E=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=qk2H5B/toLiXozMBVngIUDE44Jjo1bAVMGCk20qtWPIwqxkjOn0BhUAOikIgjrjF
-	 wlAyfhwiLLDIL4jRtnHhOvkuBoY5VtYjbuckO9TJKvHNVfMigwXb/M6tkd28Q634W
-	 GNW/Uve5KQDBX/fSmXOSayDcWpQuasfdipB38dFvnbjE2+y1IHlasHwQyY8GEGX7i
-	 1Oo8oRyt9VAujVqDSfLhRF3+l+UyaCPbZI5TC78jkKFmw8d1QjqeW+6oQJkjoW+/I
-	 UHUv/OGDFJVM/EIHjj7rvrbTlhkOMB9E4edFLLcWu8ZgYVQriNFsDO4nncsf7WRyo
-	 FrgWdfcC01cgcwJZ0w==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.2.35] ([91.137.126.34]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N0oBr-1s09Zv3HVd-00sqpX; Fri, 04
- Oct 2024 01:03:30 +0200
-Message-ID: <17bc2698-9113-4cf0-b58b-4f9db1813753@gmx.de>
-Date: Fri, 4 Oct 2024 01:03:29 +0200
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FB5pVejv"
+Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-3a342bae051so6151615ab.3
+        for <linux-doc@vger.kernel.org>; Thu, 03 Oct 2024 16:04:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1727996690; x=1728601490; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=M6nfuUKflXlu0gy64XrlY7jGUy2rKVA8VyjGUfxntcw=;
+        b=FB5pVejv5ItK6zYkPtB+PviRINede0U2H6tYLbueQqDygJvQgX6JiNKnjTXw/TbJRf
+         pkrZ+JGPSJzLQXp3L59y8mGIgGSEFfsedv0XXfCXYSt1XUbxv5hzUCLaG86S3ugmfn7C
+         KZaeOUAs+OmQaUFOnUSoGcvLJyJYj+iBe70qc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727996690; x=1728601490;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=M6nfuUKflXlu0gy64XrlY7jGUy2rKVA8VyjGUfxntcw=;
+        b=ng/bEFBXzz+cEPyVn8N3n8sByaqBlG62y5R/1BnCyGrCr/XTDXG+CUmmmWqsLBA3jK
+         WUQpHQX8IoMov9SPxJ3Elw47kPZBm/GJiEEkA8txfRfTwn22M9pgAB8DenBfTJiDFSLB
+         ZotNE6IlCbhAlUCXUn/7Ec3k8pdqvhXQAtJvvxqLQWotXl2/WDA9l6xfq0w2aWoGmnDk
+         Dq7QthYCkWipsTi66Us1t4HwEBVNyGRaUhV7AVp0Kvw3nxXQOqNWFhF0OICBuJB7rRkp
+         Q/rQ07AzUmUBcuQ7HxQVlc1cq4iDacpd67+mp0dRAkoLje1TGtxJVpUI0hJ3IlYuGLUv
+         7vCw==
+X-Forwarded-Encrypted: i=1; AJvYcCWf3m6gko+903oqyunPGSiMjPqL3iWpGs+U56g7VNHG/fhYui4se3jQjwpGdNeuJcHXLs4hPfAGQ8Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsVyq3F+VgcAfLK/0winxtwL+EDZ7CKKC9TNW13C3gtiK54t95
+	kohGrJQZVq2MdP34Mn7sziIK0C3VLSW0JyZQmto4zwbk88MUMdTV55/90RrM7E8=
+X-Google-Smtp-Source: AGHT+IEf92eF4XbI75+DDch6LT1NVeo6TRIQ29YwXnjI+iDeNTTSz8c4ISNOJ8P9ysseWA+UZhFJyQ==
+X-Received: by 2002:a05:6e02:214d:b0:3a0:480c:6ac4 with SMTP id e9e14a558f8ab-3a375bd323emr8671095ab.22.1727996690235;
+        Thu, 03 Oct 2024 16:04:50 -0700 (PDT)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4db5585f2ebsm482149173.4.2024.10.03.16.04.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Oct 2024 16:04:49 -0700 (PDT)
+Message-ID: <cb25b144-a388-4535-869d-98220a601ebe@linuxfoundation.org>
+Date: Thu, 3 Oct 2024 17:04:48 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -43,82 +58,65 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fix typo in Documentation/wmi/devices/dell-wmi-ddv.rst
-To: Anaswara T Rajan <anaswaratrajan@gmail.com>
-Cc: corbet@lwn.net, platform-driver-x86@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241002100748.309707-1-anaswaratrajan@gmail.com>
+Subject: Re: [PATCH 33/33] kselftest/riscv: kselftest for user mode cfi
+To: Mark Brown <broonie@kernel.org>
+Cc: Deepak Gupta <debug@rivosinc.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Christian Brauner <brauner@kernel.org>, Peter Zijlstra
+ <peterz@infradead.org>, Oleg Nesterov <oleg@redhat.com>,
+ Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ alistair.francis@wdc.com, richard.henderson@linaro.org, jim.shu@sifive.com,
+ andybnac@gmail.com, kito.cheng@sifive.com, charlie@rivosinc.com,
+ atishp@rivosinc.com, evan@rivosinc.com, cleger@rivosinc.com,
+ alexghiti@rivosinc.com, samitolvanen@google.com, rick.p.edgecombe@intel.com,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20241001-v5_user_cfi_series-v1-0-3ba65b6e550f@rivosinc.com>
+ <20241001-v5_user_cfi_series-v1-33-3ba65b6e550f@rivosinc.com>
+ <fdf602e9-a8b1-4f62-9e26-bb62a7202d22@linuxfoundation.org>
+ <b4347055-46f7-4e06-b484-bbf147b80fe4@sirena.org.uk>
 Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <20241002100748.309707-1-anaswaratrajan@gmail.com>
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <b4347055-46f7-4e06-b484-bbf147b80fe4@sirena.org.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:8NV1QISHBdcUWuIi9vy5D0xmjN0fZXEGGGvD9lT4oMCLKmD6H6C
- RlA1ThF7r9oDSPqb4Up+5q1OSOrLkaYvXYipFJaGCQTiAApr4N/4hYhsvSTayPvSljEpKYL
- 6tAv/PjeB18ecZFLhQ8KmqiPQrZANcrd3egkAfPSGUh6XoTnckcA9K+sPMFTHnd/0LBhldX
- VChwiXks7GENusqzkE95Q==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:pLYzM+Qns9c=;T7hfbrlG61qcrBwYBn7Mxl6OLkS
- Er3QJJH13MQ/F/EQRatzDimkJa4r15fsjo9pzT+vs2XrCwFtrt++0T12nhSTAMD+vT2YMlmMk
- Nx6T9Z6GIZO+iLG3nT5zIzIAEzUtf7rrGaz3or+7tJWg2lsOWTgGzN6r4uHLqUUBM0/ob5fY9
- lD/FAbZQlLLNkr/zaAcZeXuMeafRGa/CD1BxpzotUceicO3B6Ckypv2e8io3SKZLuSAFhBI02
- 0kB61C1rjLuiDLcqDj/CuKzC3lEXbX9/5czBrpDECiUeQShyXK6m3nHHJz8LNeZzoUo+rLhnz
- GmF35LBrkOg6l5qYEZVICkvXUv0GDdYWmG8oNNsoqC6BVWmrTZFKd6vglEn5ifeW0iLhcJvEH
- NwUQIWdnm0VLXD/EsPAUCNMBa8XmLAZQOzZVaQpcY8Hs2kjFsOkMSfHQIiENLIRVd4u6AEoGa
- LlIS2LJYmTe7Vss4VAvzR9x8quSU90q+jFmlR/XibUPqjxxPbTHsqJqUV3oRQv3W/NJ2xUQ7Q
- ucPv/cXHbnWZTvyWf8FxLcXKr774t8KE+h178WTuy/30c6RVwcxMv3NBA8ZFqptHHbgPYkcbB
- DoHMTRW2JLSFjQIODsyM+MFYOMgFu8LiimMiE1pTQwWJ76P45XB77qgqKfxIsy0tBWiYhpbHG
- PyKaxcExHbuz6WtLQw84O+AbjKJZ2ZmsPEtkVVpGYbHdHbMoHB0oHGDD+UIDLXELTBva7TdQ0
- I+Wk4UaynF1NFsT98e6AcLJuWh3bV4VnMo1TRd1dTUeudzck3JOuAMwb/6G/8d5Vb4pMtWDR9
- YC9v2Mf5HapqDYg+nYZodYFUDa9xdcnPla9bL6pHvoiMY=
+Content-Transfer-Encoding: 7bit
 
-Am 02.10.24 um 12:07 schrieb Anaswara T Rajan:
+On 10/3/24 05:03, Mark Brown wrote:
+> On Wed, Oct 02, 2024 at 05:18:36PM -0600, Shuah Khan wrote:
+>> On 10/1/24 10:06, Deepak Gupta wrote:
+> 
+>>> +#ifndef __NR_prctl
+>>> +#define __NR_prctl 167
+>>> +#endif
+> 
+>>> +#ifndef __NR_map_shadow_stack
+>>> +#define __NR_map_shadow_stack 453
+> 
+>> Why do we need to define these? Shouldn't including
+>> asm-generic/unistd.h sufficient?
+> 
+> We have this issue on arm64 as well, there's some issue with directly
+> pulling in the asm header interfering with libc in some situation (I
+> can't immediately figure out which situation or which libc to remind
+> myself what it is though...) so we've got local defines like we do for
+> the NT_ defines for ptrace.  I see x86 is doing the same.
 
-> typo in word 'diagnostics'
+It would be nice to figure. There have been some issues reported due
+to local defines - the test fails if the define happens to not match.
 
-Please rename your patch to "platform/x86: dell-ddv: Fix typo in documenta=
-tion" and
-rework the patch description so it forms a full sentence.
+Does including <asm/unistd.h> fix the problem?
 
-Other than that, the patch look fine.
-
-Thanks,
-Armin Wolf
-
-> Signed-off-by: Anaswara T Rajan <anaswaratrajan@gmail.com>
-> ---
->   Documentation/wmi/devices/dell-wmi-ddv.rst | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/wmi/devices/dell-wmi-ddv.rst b/Documentation/=
-wmi/devices/dell-wmi-ddv.rst
-> index 2fcdfcf03327..e0c20af30948 100644
-> --- a/Documentation/wmi/devices/dell-wmi-ddv.rst
-> +++ b/Documentation/wmi/devices/dell-wmi-ddv.rst
-> @@ -8,7 +8,7 @@ Introduction
->   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
->   Many Dell notebooks made after ~2020 support a WMI-based interface for
-> -retrieving various system data like battery temperature, ePPID, diagost=
-ic data
-> +retrieving various system data like battery temperature, ePPID, diagnos=
-tic data
->   and fan/thermal sensor data.
->
->   This interface is likely used by the `Dell Data Vault` software on Win=
-dows,
-> @@ -277,7 +277,7 @@ Reverse-Engineering the DDV WMI interface
->   4. Try to deduce the meaning of a certain WMI method by comparing the =
-control
->      flow with other ACPI methods (_BIX or _BIF for battery related meth=
-ods
->      for example).
-> -5. Use the built-in UEFI diagostics to view sensor types/values for fan=
-/thermal
-> +5. Use the built-in UEFI diagnostics to view sensor types/values for fa=
-n/thermal
->      related methods (sometimes overwriting static ACPI data fields can =
-be used
->      to test different sensor type values, since on some machines this d=
-ata is
->      not reinitialized upon a warm reset).
+thanks,
+-- Shuah
