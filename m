@@ -1,36 +1,36 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A817126BE1;
-	Thu,  3 Oct 2024 08:19:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB830126C04;
+	Thu,  3 Oct 2024 08:28:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727943588; cv=none; b=bHVqeYdez0QIZ4Fqss6trkTIPhiup5OvlYZ9hDT6QM27e2TIN4Hkl3cTkK7ZAX/w1Oj7cG8pD9oTnCaqu90J+++u1rqHrCk5RxW8Y1mlM1oV1KRnq6yybFVRS53Xy0WjQljyDS7jBSlOpupXFwxoVC0VAUK5sHlSCV/KevSH9zg=
+	t=1727944093; cv=none; b=uGWrFsXS51XOOQCIprio3nLhhhrYILbPWtmQWTypjf/QJR1nW5+NwB8/zOr0CQ6upKE74YDXt7Tphtx2ufXr/19eFA12xC61i/KL6rfkurePe5NHrgJLApzJq/eXMxBmlr5rRJD2bDxcaA/LXvibSvvCqI+wnWojZNaZ84tAsCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727943588; c=relaxed/simple;
-	bh=dfEW2k7YHLo2pSfF+AUP3ENDUvUcm2Ab+g9AvjeTz1Q=;
+	s=arc-20240116; t=1727944093; c=relaxed/simple;
+	bh=LfbrL0dXCVYAuMGaaYm9E3H/pxeFpOV9d9HVh6Hcuss=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MUfWwSjltPWYwLP3XZui43LThg5zOTS10dzZhwxV8YmxMYpSZPa48SlvM/EcBgZF5CPBcZoxFW9s3OG6yAnJEARzxvDIRTcxOoarHtdAggNFIM1DnrMpo18+7ZZmUoZNBULbaEvRtCTam8WVejc2XsL0Fnn5vvVPGMUBVl1LNVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=IGWOB9jE; arc=none smtp.client-ip=217.70.183.201
+	 MIME-Version:Content-Type; b=jfbz7OiXlHcZeIyncHvkF9YucmZV4SLHCobJuYkT0IzmXC2kPXn50OJpjLh83EVXMyi7PNVNudQPZ4Q1wgVm7Kwt2mV3xen37d75LtLZr6M3YJUZl/y0bBF5RTN3EqT38Sz+TCc80gFvepnv9hB7ptXWtdr6wyEtB/aA4yOtj6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=IgR80h+m; arc=none smtp.client-ip=217.70.183.200
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="IGWOB9jE"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A726C1BF20C;
-	Thu,  3 Oct 2024 08:19:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="IgR80h+m"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 70CE020003;
+	Thu,  3 Oct 2024 08:28:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1727943578;
+	t=1727944088;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=I7Z8QNYMYP28ITJ13P0Meo68nL/GbGQPnGkie6cHxXg=;
-	b=IGWOB9jEGEAs/2SGvINai9cU6jEUKZvViadyI2yY9agUZiew+VA6ejQZ3EeQJNL39sPDUH
-	xQR6HT7ytG3e+/L8iI5RGs2MqLxMyfL2L+HgprQfZEPQiGbqoHreLy76G6JJ7AzE1g9ZHM
-	8K/cUEp266feEXKloW156h+HshsoHSyy86D/ObOkZirJYcIp/oReadNtPh8ZhYwe7SeomH
-	8NkHPCkesndK0k4kS4Cu+raXoGNcBg7RGYt29QThg/jzuAjJbFmgIYBOv5klRQ4MjsK0wg
-	vXD7mMEe2KbSg91wFxrv1Hbx2XA2OL56TdOdYOjGBonMgggdmT1jg7xH5PpapA==
-Date: Thu, 3 Oct 2024 10:19:35 +0200
+	bh=NfLIEmgqUx9QJnUvHidIloMUHZfh1Wn2l5yTpyLBzNY=;
+	b=IgR80h+m2d6b6TRKM2eEc1fgp+3qo3nkLPvCtENoOzq1uK1DoTNPqeRWYQ7W+xbIJ0rmMm
+	TUTjW3xomgBlZkboKnv6DAAhVjYDs34d0lpum0bP4a8VZQ08IS2J/Uev1XtEMtbe2qqv5T
+	cBqhbBSyKTJMbWhkvxwiR9exoXZt19UPn4wFfD0r4M196IUFtFspOpEQpIibXcu1whCE87
+	WytF92H+t6rZxW0l1JaR+w8f8su9VBBhwtZd1dD0kIdgHUC6w1leAbv1FYpNrrOAv3SW9a
+	MbbzBUY1JCLI4Gqg3sw11nmgOVV2wQisRZhbyHt8FXkARFQBn0FDJp75BQly7w==
+Date: Thu, 3 Oct 2024 10:28:06 +0200
 From: Kory Maincent <kory.maincent@bootlin.com>
 To: Andrew Lunn <andrew@lunn.ch>
 Cc: Oleksij Rempel <o.rempel@pengutronix.de>, "David S. Miller"
@@ -41,13 +41,13 @@ Cc: Oleksij Rempel <o.rempel@pengutronix.de>, "David S. Miller"
  netdev@vger.kernel.org, linux-doc@vger.kernel.org, Kyle Swenson
  <kyle.swenson@est.tech>, Dent Project <dentproject@linuxfoundation.org>,
  kernel@pengutronix.de
-Subject: Re: [PATCH net-next 10/12] net: pse-pd: Register regulator even for
- undescribed PSE PIs
-Message-ID: <20241003101935.3eb5f276@kmaincent-XPS-13-7390>
-In-Reply-To: <b78344a8-d753-4708-ac61-9c59ffdd5967@lunn.ch>
+Subject: Re: [PATCH net-next 11/12] net: pse-pd: Add support for event
+ reporting using devm_regulator_irq_helper
+Message-ID: <20241003102806.084367ba@kmaincent-XPS-13-7390>
+In-Reply-To: <f56780af-b2d4-42d7-bc5d-c35b295d7c52@lunn.ch>
 References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
-	<20241002-feature_poe_port_prio-v1-10-787054f74ed5@bootlin.com>
-	<b78344a8-d753-4708-ac61-9c59ffdd5967@lunn.ch>
+	<20241002-feature_poe_port_prio-v1-11-787054f74ed5@bootlin.com>
+	<f56780af-b2d4-42d7-bc5d-c35b295d7c52@lunn.ch>
 Organization: bootlin
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
@@ -60,31 +60,58 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-GND-Sasl: kory.maincent@bootlin.com
 
-Hello Andrew,
-
-Thanks for your review!
-
-On Thu, 3 Oct 2024 01:46:22 +0200
+On Thu, 3 Oct 2024 01:52:20 +0200
 Andrew Lunn <andrew@lunn.ch> wrote:
 
-> On Wed, Oct 02, 2024 at 06:28:06PM +0200, Kory Maincent wrote:
+> > +int devm_pse_irq_helper(struct pse_controller_dev *pcdev, int irq,
+> > +			int irq_flags, int supported_errs,
+> > +			const struct pse_irq_desc *d)
+> > +{
+> > +	struct regulator_dev **rdevs;
+> > +	void *irq_helper;
+> > +	int i;
+> > +
+> > +	rdevs =3D devm_kcalloc(pcdev->dev, pcdev->nr_lines,
+> > +			     sizeof(struct regulator_dev *), GFP_KERNEL);
+> > +	if (!rdevs)
+> > +		return -ENOMEM;
+> > +
+> > +	for (i =3D 0; i < pcdev->nr_lines; i++)
+> > +		rdevs[i] =3D pcdev->pi[i].rdev;
+> > +
+> > +	/* Register notifiers - can fail if IRQ is not given */
+> > +	irq_helper =3D devm_regulator_irq_helper(pcdev->dev, d, irq,
+> > +					       0, supported_errs, NULL,
+> > +					       &rdevs[0],
+> > pcdev->nr_lines); =20
+>=20
+> Should irq_flags be passed through? I'm guessing one usage of it will
+> be IRQF_SHARED when there is one interrupt shared by a number of
+> controllers.
+
+Oh yes, you are right! Thanks for spotting it!
+
 > > From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 > >=20
-> > Ensure that regulators are registered for all PSE PIs, even those not
-> > explicitly described in the device tree. This change lays the
-> > groundwork for future support of regulator notifiers. Maintaining
-> > consistent ordering between the PSE PIs regulator table and the
-> > regulator notifier table will prevent added complexity in future
-> > implementations. =20
+> > Add support for devm_pse_irq_helper(), a wrapper for
+> > devm_regulator_irq_helper(). This aims to report events such as
+> > over-current or over-temperature conditions similarly to how the regula=
+tor
+> > API handles them. Additionally, this patch introduces several define
+> > wrappers to keep regulator naming conventions out of PSE drivers. =20
 >=20
-> Does this change anything visible to the user?
+> I'm missing something here, i think.
+>=20
+> https://docs.kernel.org/power/regulator/consumer.html#regulator-events
+>=20
+> Suggests these are internal events, using a notification chain. How
+> does user space get to know about such events?
 
-No it doesn't.
-=20
-> Is it guaranteed that these unused regulators are disabled?  Not that
-> they were before i guess. But now they exist, should we disable them?
-
-Indeed we could disable PI not described in the devicetree.
+When events appears, _notifier_call_chain() is called which can generate ne=
+tlink
+messages alongside the internal events:
+https://elixir.bootlin.com/linux/v6.11.1/source/drivers/regulator/core.c#L4=
+898
 
 Regards,
 --=20
