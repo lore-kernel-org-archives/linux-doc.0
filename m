@@ -1,158 +1,271 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32998224EA
-	for <linux-doc@vger.kernel.org>; Thu,  3 Oct 2024 18:50:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 287351AAE31;
+	Thu,  3 Oct 2024 19:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727981407; cv=none; b=IuaLGpPqjAQI5JavoPymM0BssepfyaZMhOnz3GxqOEuCGvn90ehSwC2ASBeabG2DjZTNlkfIIzbHtOIUWq3sHYE2nvlb0A6Ha1kHNL7xBc08EE5TymnYfanlgWh4rfrPgZXImaoqL88vVWmXJvcpWW0WFGzBMiD6sl07aYyjW8M=
+	t=1727982759; cv=none; b=FG34GR2wz1buEbWVokdVxHE8MpaeRYVBr01mXrkHvZ3lrs1KQXNQg5yzQjYDi6s8fnukws61fMs3C+1JQVh9eJXKlOCzMNEe+SHWND9rCJ6A6ARtIfn5lYZuvf/xd8BreRowG9ME/IG+3+iWsdhYnN7P4pezReMLnG7E/XHtwNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727981407; c=relaxed/simple;
-	bh=Cc2rc24biNT5FidwfDdT2ehpmzoiBj0lvneMp2e8LmU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WXP5WiIEG0h7IZrjBUzXLC9KjqWXfZttqji3qP9fkaAGskJlhKEgDAYhbFEi8zF9QxWOIHg33xL+0aBakIilp1N49TNj8rVzc64HHiCFPMQNL59e5YJWcr82F+OcohE6AbclbKrkLTmFwBkWdaHHmFN3dpJvb4xdf4ULUdELs1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nXaSTFEp; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1727982759; c=relaxed/simple;
+	bh=YTcnn9tY/T7LhH21dp3UNmpxTa0EEnAoZv8qsoiI0C0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Yuwl2ulS2QXImDcqboPuh+FXu/UL+GWdHYIvUS2eKKpa11Wg+s5fDrA5tVeZAR5gnFw1NvxNUgyoW0hEi+mRevL2m2lU68PiAZHJTgqHsaaGGTZEkmO2V+LeBDWqqfKJMUnziEcTeLOyfApMQV4XhF86/Hu3DJ0bBK5BdV3HM/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GS0IfD8T; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nXaSTFEp"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4581cec6079so47411cf.0
-        for <linux-doc@vger.kernel.org>; Thu, 03 Oct 2024 11:50:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1727981405; x=1728586205; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1I8W3N/B/EZ3NCCFlPhihj2D3CtLtqtAkm3xJ/FbH4Q=;
-        b=nXaSTFEpZSCGRr/Znz3vwknJRipVVIUrJ6uCptk0U2t/QXYqOTS4b+f2knZ/Iu6k+3
-         1zGrC9G5rkCyglFnnNFV0PekzpAzetSDfJo8FEZfkYixHu6rGQil8G6eaQ4IVeycsaId
-         NJCmjNs/nY8tzjT4wTJV3qB92CAGkgIcR4lR8Rzp3el03Q9uLAxBmATQ0sJJfuJ3FpA2
-         b3pNri9vYRxoFrzxW5xVuUDoRLyiobL/4YLeYa/+GA91IILkobK8Ef1At7QaRONlCrfp
-         EfL2NjVkLvnY+pzAY1/Mt9c6f9w7NL6aAPDHYYvuHpcYRZiA9TPcAQMDToAjsilPo1Jz
-         soig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727981405; x=1728586205;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1I8W3N/B/EZ3NCCFlPhihj2D3CtLtqtAkm3xJ/FbH4Q=;
-        b=VsIccfdaUukX/njIH6yAu5iJROBClTuMCECmc6rCxL5wY4vxC3gcRKGj18xyUe4a3J
-         xifoGcGjYtfHmazk+DKy93RRtJVm3Ub12tbUfKNhKa1rIIkjdGylCs1cd/BgPZp4UHot
-         /rEwNfAhpn+Lu+oaUyxJCXPTMzD4Arwz9XEFLYMMOFywz60cTE2ko3ZwSLoswAp+5DTr
-         Oq1TVI3hfL65zLc8QhxU8psGqLR/m3T3dbyt9Yg3WXl2CQfsAL1ycIcgAYdbvynOjU6Z
-         YW/rEMNQFbhjF9b9vUz/D+r1r9Cz19r01J0zhe+PiICDSiMWdqacC5k2gUH8d1BB5AUB
-         Ihow==
-X-Forwarded-Encrypted: i=1; AJvYcCXJWhyhwE371EpQfrlvUDOffClISyJ9x4jB05G5ovsVGtOvXu4LYMbShTfPHo8MZnNx+pWVzw/WUVc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWgJbhwtiioMkOS1reH0Y+jBRm3lZ2T5Uat14yQ43qznv0tFKr
-	0IQeqRYTEp5lqbU1CAncLQXmYQqBlim1KSiyibhgryr6f05uYrVm+nFxvlFGx7e0L4cBwi/eSz8
-	oEQMD7rswCOb3ik8LUAkdk0mOs+RWIVatzyvq
-X-Google-Smtp-Source: AGHT+IEfi69B4j11ef1E/2a7Nfj+fGGfwbLrmyvR/Er5LdQXuT5OJbLFiFkKJXazj8oKbsaxMlmeZMP0PtfuvdQechg=
-X-Received: by 2002:a05:622a:838c:b0:456:7d9f:2af8 with SMTP id
- d75a77b69052e-45d9bbdd3d3mr136181cf.7.1727981404822; Thu, 03 Oct 2024
- 11:50:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GS0IfD8T"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727982757; x=1759518757;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=YTcnn9tY/T7LhH21dp3UNmpxTa0EEnAoZv8qsoiI0C0=;
+  b=GS0IfD8TvyBnmLbd8m6ZSHvZ8bfm2HJJW0KZbyLIuUaELCJ9Q0lok0KM
+   ZY0fDDekY9EDh/eMBPYsf9ffoyvSb4QCypaGyB/xUX/XBqsi5B7hYdZ3n
+   WeMVLQCI2752lG7BQjdRNud3lon8sMInAlnLSblhts7VXAa6GVVdbKAhJ
+   nyPKUH6gI0v07B/OoksZbf6KsFt65ABzVudKRQRp7FgGezTSzXaQLYBm6
+   ZvOam4CckGbJSEw7qsvgU3/HzNurhgHrOM9OugCAloeYAFJdhFOycAV8m
+   wG+HNoh3YNOh5GsfenlpbEWqJWRZSTvnz7rQwrGqnSyZ3qmpt3qpWBRwk
+   Q==;
+X-CSE-ConnectionGUID: U979jiFbTwK7JR0ULMErDA==
+X-CSE-MsgGUID: 0SjLXhlcT5aKI9mvKSaiCA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27287502"
+X-IronPort-AV: E=Sophos;i="6.11,175,1725346800"; 
+   d="scan'208";a="27287502"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 12:12:36 -0700
+X-CSE-ConnectionGUID: QX+V9hVRS46KeKq9Cxaijg==
+X-CSE-MsgGUID: tXMSFAwWQhumEsQ4elPSUQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,175,1725346800"; 
+   d="scan'208";a="74031033"
+Received: from agluck-desk3.sc.intel.com ([172.25.222.70])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 12:12:36 -0700
+From: Tony Luck <tony.luck@intel.com>
+To: Fenghua Yu <fenghua.yu@intel.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Peter Newman <peternewman@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	x86@kernel.org
+Cc: Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+	James Morse <james.morse@arm.com>,
+	Jamie Iles <quic_jiles@quicinc.com>,
+	Babu Moger <babu.moger@amd.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	patches@lists.linux.dev,
+	Tony Luck <tony.luck@intel.com>
+Subject: [PATCH v7 1/4] x86/resctrl: Make input event for MBA Software Controller configurable
+Date: Thu,  3 Oct 2024 12:12:25 -0700
+Message-ID: <20241003191228.67541-2-tony.luck@intel.com>
+X-Mailer: git-send-email 2.46.1
+In-Reply-To: <20241003191228.67541-1-tony.luck@intel.com>
+References: <20241003191228.67541-1-tony.luck@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241003160620.1521626-1-ap420073@gmail.com> <20241003160620.1521626-6-ap420073@gmail.com>
- <70c16ec6-c1e8-4de2-8da7-a9cc83df816a@amd.com>
-In-Reply-To: <70c16ec6-c1e8-4de2-8da7-a9cc83df816a@amd.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Thu, 3 Oct 2024 11:49:50 -0700
-Message-ID: <CAHS8izPmg8CJNYVQfdJB9BoyE75qf+wrz_68pTDdYffpEWDQMg@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 5/7] net: devmem: add ring parameter filtering
-To: Brett Creeley <bcreeley@amd.com>
-Cc: Taehee Yoo <ap420073@gmail.com>, davem@davemloft.net, kuba@kernel.org, 
-	pabeni@redhat.com, edumazet@google.com, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, donald.hunter@gmail.com, corbet@lwn.net, 
-	michael.chan@broadcom.com, kory.maincent@bootlin.com, andrew@lunn.ch, 
-	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
-	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
-	ahmed.zaki@intel.com, paul.greenwalt@intel.com, rrameshbabu@nvidia.com, 
-	idosch@nvidia.com, asml.silence@gmail.com, kaiyuanz@google.com, 
-	willemb@google.com, aleksander.lobakin@intel.com, dw@davidwei.uk, 
-	sridhar.samudrala@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 3, 2024 at 11:35=E2=80=AFAM Brett Creeley <bcreeley@amd.com> wr=
-ote:
->
->
->
-> On 10/3/2024 9:06 AM, Taehee Yoo wrote:
-> > Caution: This message originated from an External Source. Use proper ca=
-ution when opening attachments, clicking links, or responding.
-> >
-> >
-> > If driver doesn't support ring parameter or tcp-data-split configuratio=
-n
-> > is not sufficient, the devmem should not be set up.
-> > Before setup the devmem, tcp-data-split should be ON and
-> > tcp-data-split-thresh value should be 0.
-> >
-> > Signed-off-by: Taehee Yoo <ap420073@gmail.com>
-> > ---
-> >
-> > v3:
-> >   - Patch added.
-> >
-> >   net/core/devmem.c | 18 ++++++++++++++++++
-> >   1 file changed, 18 insertions(+)
-> >
-> > diff --git a/net/core/devmem.c b/net/core/devmem.c
-> > index 11b91c12ee11..a9e9b15028e0 100644
-> > --- a/net/core/devmem.c
-> > +++ b/net/core/devmem.c
-> > @@ -8,6 +8,8 @@
-> >    */
-> >
-> >   #include <linux/dma-buf.h>
-> > +#include <linux/ethtool.h>
-> > +#include <linux/ethtool_netlink.h>
-> >   #include <linux/genalloc.h>
-> >   #include <linux/mm.h>
-> >   #include <linux/netdevice.h>
-> > @@ -131,6 +133,8 @@ int net_devmem_bind_dmabuf_to_queue(struct net_devi=
-ce *dev, u32 rxq_idx,
-> >                                      struct net_devmem_dmabuf_binding *=
-binding,
-> >                                      struct netlink_ext_ack *extack)
-> >   {
-> > +       struct kernel_ethtool_ringparam kernel_ringparam =3D {};
-> > +       struct ethtool_ringparam ringparam =3D {};
-> >          struct netdev_rx_queue *rxq;
-> >          u32 xa_idx;
-> >          int err;
-> > @@ -146,6 +150,20 @@ int net_devmem_bind_dmabuf_to_queue(struct net_dev=
-ice *dev, u32 rxq_idx,
-> >                  return -EEXIST;
-> >          }
-> >
-> > +       if (!dev->ethtool_ops->get_ringparam) {
-> > +               NL_SET_ERR_MSG(extack, "can't get ringparam");
-> > +               return -EINVAL;
-> > +       }
->
-> Is EINVAL the correct return value here? I think it makes more sense as
-> EOPNOTSUPP.
->
-> > +
-> > +       dev->ethtool_ops->get_ringparam(dev, &ringparam,
-> > +                                       &kernel_ringparam, extack);
-> > +       if (kernel_ringparam.tcp_data_split !=3D ETHTOOL_TCP_DATA_SPLIT=
-_ENABLED ||
-> > +           kernel_ringparam.tcp_data_split_thresh) {
-> > +               NL_SET_ERR_MSG(extack,
-> > +                              "tcp-header-data-split is disabled or th=
-reshold is not zero");
-> > +               return -EINVAL;
-> > +       }
-> > +
-> Maybe just my personal opinion, but IMHO these checks should be separate
-> so the error message can be more concise/clear.
->
+The MBA Software Controller(mba_sc) is a feedback loop that uses
+measurements of local memory bandwidth to adjust MBA throttling levels
+to keep workloads in a resctrl group within a target bandwidth set in
+the schemata file.
 
-Good point. The error message in itself is valuable.
+Users may want to use total memory bandwidth instead of local to handle
+workloads that have poor NUMA localization.
+
+Update the once-per-second polling code to pick a chosen event (local
+or total memory bandwidth).
+
+Signed-off-by: Tony Luck <tony.luck@intel.com>
+---
+ include/linux/resctrl.h                |  2 +
+ arch/x86/kernel/cpu/resctrl/monitor.c  | 80 ++++++++++++--------------
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c |  2 +
+ 3 files changed, 40 insertions(+), 44 deletions(-)
+
+diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
+index d94abba1c716..ccb0f50dc18c 100644
+--- a/include/linux/resctrl.h
++++ b/include/linux/resctrl.h
+@@ -161,6 +161,7 @@ enum membw_throttle_mode {
+  * @throttle_mode:	Bandwidth throttling mode when threads request
+  *			different memory bandwidths
+  * @mba_sc:		True if MBA software controller(mba_sc) is enabled
++ * @mba_mbps_event:	Monitoring event guiding feedback loop when @mba_sc is true
+  * @mb_map:		Mapping of memory B/W percentage to memory B/W delay
+  */
+ struct resctrl_membw {
+@@ -170,6 +171,7 @@ struct resctrl_membw {
+ 	bool				arch_needs_linear;
+ 	enum membw_throttle_mode	throttle_mode;
+ 	bool				mba_sc;
++	enum resctrl_event_id		mba_mbps_event;
+ 	u32				*mb_map;
+ };
+ 
+diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
+index 851b561850e0..2692ce7f708e 100644
+--- a/arch/x86/kernel/cpu/resctrl/monitor.c
++++ b/arch/x86/kernel/cpu/resctrl/monitor.c
+@@ -663,10 +663,11 @@ static int __mon_event_count(u32 closid, u32 rmid, struct rmid_read *rr)
+  */
+ static void mbm_bw_count(u32 closid, u32 rmid, struct rmid_read *rr)
+ {
+-	u32 idx = resctrl_arch_rmid_idx_encode(closid, rmid);
+-	struct mbm_state *m = &rr->d->mbm_local[idx];
+ 	u64 cur_bw, bytes, cur_bytes;
++	struct mbm_state *m;
+ 
++	m = get_mbm_state(rr->d, closid, rmid, rr->evtid);
++	WARN_ON(!m);
+ 	cur_bytes = rr->val;
+ 	bytes = cur_bytes - m->prev_bw_bytes;
+ 	m->prev_bw_bytes = cur_bytes;
+@@ -752,20 +753,22 @@ static void update_mba_bw(struct rdtgroup *rgrp, struct rdt_mon_domain *dom_mbm)
+ 	u32 closid, rmid, cur_msr_val, new_msr_val;
+ 	struct mbm_state *pmbm_data, *cmbm_data;
+ 	struct rdt_ctrl_domain *dom_mba;
++	enum resctrl_event_id evt_id;
+ 	struct rdt_resource *r_mba;
+-	u32 cur_bw, user_bw, idx;
+ 	struct list_head *head;
+ 	struct rdtgroup *entry;
++	u32 cur_bw, user_bw;
+ 
+-	if (!is_mbm_local_enabled())
++	if (!is_mbm_enabled())
+ 		return;
+ 
+ 	r_mba = &rdt_resources_all[RDT_RESOURCE_MBA].r_resctrl;
++	evt_id = r_mba->membw.mba_mbps_event;
+ 
+ 	closid = rgrp->closid;
+ 	rmid = rgrp->mon.rmid;
+-	idx = resctrl_arch_rmid_idx_encode(closid, rmid);
+-	pmbm_data = &dom_mbm->mbm_local[idx];
++	pmbm_data = get_mbm_state(dom_mbm, closid, rmid, evt_id);
++	WARN_ON(!pmbm_data);
+ 
+ 	dom_mba = get_ctrl_domain_from_cpu(smp_processor_id(), r_mba);
+ 	if (!dom_mba) {
+@@ -784,7 +787,8 @@ static void update_mba_bw(struct rdtgroup *rgrp, struct rdt_mon_domain *dom_mbm)
+ 	 */
+ 	head = &rgrp->mon.crdtgrp_list;
+ 	list_for_each_entry(entry, head, mon.crdtgrp_list) {
+-		cmbm_data = &dom_mbm->mbm_local[entry->mon.rmid];
++		cmbm_data = get_mbm_state(dom_mbm, entry->closid, entry->mon.rmid, evt_id);
++		WARN_ON(!cmbm_data);
+ 		cur_bw += cmbm_data->prev_bw;
+ 	}
+ 
+@@ -813,54 +817,42 @@ static void update_mba_bw(struct rdtgroup *rgrp, struct rdt_mon_domain *dom_mbm)
+ 	resctrl_arch_update_one(r_mba, dom_mba, closid, CDP_NONE, new_msr_val);
+ }
+ 
+-static void mbm_update(struct rdt_resource *r, struct rdt_mon_domain *d,
+-		       u32 closid, u32 rmid)
++static void mbm_update_one_event(struct rdt_resource *r, struct rdt_mon_domain *d,
++				 u32 closid, u32 rmid, enum resctrl_event_id evtid)
+ {
++	struct rdt_resource *rmba = &rdt_resources_all[RDT_RESOURCE_MBA].r_resctrl;
+ 	struct rmid_read rr = {0};
+ 
+ 	rr.r = r;
+ 	rr.d = d;
++	rr.evtid = evtid;
++	rr.arch_mon_ctx = resctrl_arch_mon_ctx_alloc(rr.r, rr.evtid);
++	if (IS_ERR(rr.arch_mon_ctx)) {
++		pr_warn_ratelimited("Failed to allocate monitor context: %ld",
++				    PTR_ERR(rr.arch_mon_ctx));
++		return;
++	}
+ 
++	__mon_event_count(closid, rmid, &rr);
++
++	if (is_mba_sc(NULL) && rr.evtid == rmba->membw.mba_mbps_event)
++		mbm_bw_count(closid, rmid, &rr);
++
++	resctrl_arch_mon_ctx_free(rr.r, rr.evtid, rr.arch_mon_ctx);
++}
++
++static void mbm_update(struct rdt_resource *r, struct rdt_mon_domain *d,
++		       u32 closid, u32 rmid)
++{
+ 	/*
+ 	 * This is protected from concurrent reads from user
+ 	 * as both the user and we hold the global mutex.
+ 	 */
+-	if (is_mbm_total_enabled()) {
+-		rr.evtid = QOS_L3_MBM_TOTAL_EVENT_ID;
+-		rr.val = 0;
+-		rr.arch_mon_ctx = resctrl_arch_mon_ctx_alloc(rr.r, rr.evtid);
+-		if (IS_ERR(rr.arch_mon_ctx)) {
+-			pr_warn_ratelimited("Failed to allocate monitor context: %ld",
+-					    PTR_ERR(rr.arch_mon_ctx));
+-			return;
+-		}
+-
+-		__mon_event_count(closid, rmid, &rr);
+-
+-		resctrl_arch_mon_ctx_free(rr.r, rr.evtid, rr.arch_mon_ctx);
+-	}
+-	if (is_mbm_local_enabled()) {
+-		rr.evtid = QOS_L3_MBM_LOCAL_EVENT_ID;
+-		rr.val = 0;
+-		rr.arch_mon_ctx = resctrl_arch_mon_ctx_alloc(rr.r, rr.evtid);
+-		if (IS_ERR(rr.arch_mon_ctx)) {
+-			pr_warn_ratelimited("Failed to allocate monitor context: %ld",
+-					    PTR_ERR(rr.arch_mon_ctx));
+-			return;
+-		}
+-
+-		__mon_event_count(closid, rmid, &rr);
+-
+-		/*
+-		 * Call the MBA software controller only for the
+-		 * control groups and when user has enabled
+-		 * the software controller explicitly.
+-		 */
+-		if (is_mba_sc(NULL))
+-			mbm_bw_count(closid, rmid, &rr);
++	if (is_mbm_total_enabled())
++		mbm_update_one_event(r, d, closid, rmid, QOS_L3_MBM_TOTAL_EVENT_ID);
+ 
+-		resctrl_arch_mon_ctx_free(rr.r, rr.evtid, rr.arch_mon_ctx);
+-	}
++	if (is_mbm_local_enabled())
++		mbm_update_one_event(r, d, closid, rmid, QOS_L3_MBM_LOCAL_EVENT_ID);
+ }
+ 
+ /*
+diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+index d7163b764c62..aedb30120d50 100644
+--- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
++++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+@@ -2505,6 +2505,7 @@ static void rdt_disable_ctx(void)
+ 
+ static int rdt_enable_ctx(struct rdt_fs_context *ctx)
+ {
++	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_MBA].r_resctrl;
+ 	int ret = 0;
+ 
+ 	if (ctx->enable_cdpl2) {
+@@ -2520,6 +2521,7 @@ static int rdt_enable_ctx(struct rdt_fs_context *ctx)
+ 	}
+ 
+ 	if (ctx->enable_mba_mbps) {
++		r->membw.mba_mbps_event = QOS_L3_MBM_LOCAL_EVENT_ID;
+ 		ret = set_mba_sc(true);
+ 		if (ret)
+ 			goto out_cdpl3;
+-- 
+2.46.1
+
