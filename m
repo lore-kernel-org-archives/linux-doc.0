@@ -1,106 +1,93 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FEFF1AAE3A
-	for <linux-doc@vger.kernel.org>; Thu,  3 Oct 2024 18:20:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E111AB535
+	for <linux-doc@vger.kernel.org>; Thu,  3 Oct 2024 18:25:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727979631; cv=none; b=AmZg1k/Oalx9Bn6vIpI5ISJVlQrGPp5PnUiwyM5PTzhuMiFVWhm5Yy0qZdiquknm6TIwvi4Ta/1ihZ9aETFFmmbXiOtHmbOOhzZLNXMvQyHlBlBFNElzTVk6B4YTqFFkdPkE5swI9XlWX8PMOwt79Jj3IEFF6h1zYOvG+x0BJDE=
+	t=1727979952; cv=none; b=cwBCqu+Q+lOJXjRELkUOe+JILEUwhiTnnSuElmYoC6zwnZ9MJA48MkXo0K1q9G0+GIXCUPXimo/AcKnPG5LUboI3oJZaSdjRDDcWU6WUU51oBrZws+YD+KR/WZsIIXbfonYfAAlSGUL8eCe0loOjN43rxqwG+QxD3lJmE537MyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727979631; c=relaxed/simple;
-	bh=OPHzpIyuAEVyuENdRsgtRgBjbI78VqztnMoMxs6v4zo=;
+	s=arc-20240116; t=1727979952; c=relaxed/simple;
+	bh=VGOjcYz6UybyttbaRRC55EgjhkODZY6QYHHze9Ztxw4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PNSMqbl8GiV9evPPUrWOUxyN3thVoO1vMcDAt2NHVJ4JtAexiKIRACjCBHVQoIjULdkPzxn3Dp/3ttISCd0uPDs8h7QGLC5aswmTCA+eR/NUzVNEF2Bn4eNrVTjau6G0m1er/5Vf3eLbnOBUC1EldayefpzXz9aqWlJdXGk9e5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ClGcGw1p; arc=none smtp.client-ip=209.85.160.176
+	 To:Cc:Content-Type; b=fp7Hi+uLmtKNQLxA26BdZwg3kOxYhsoEVq4ff7NwnC9O94VF5kmcgOfUXzogognuINlHziG9iW99RJ/u63Qquc3Fj7G/RssswPkblloCMjubYoF3MS/0xckMbVzv4fscuzsBMoKPrlpbPBxgwPi5CJb6xdYyCelt2AHFO7AjO+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iNos4jdp; arc=none smtp.client-ip=209.85.160.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ClGcGw1p"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-45b4e638a9aso36901cf.1
-        for <linux-doc@vger.kernel.org>; Thu, 03 Oct 2024 11:20:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iNos4jdp"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4582a5b495cso35171cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 03 Oct 2024 11:25:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1727979629; x=1728584429; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1727979950; x=1728584750; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OPHzpIyuAEVyuENdRsgtRgBjbI78VqztnMoMxs6v4zo=;
-        b=ClGcGw1p0bf1ArtsX7OK/wC0c9Bx8FL0YNtsf/Go1BxFWpP9Y82VMGn/lgdNr6aX7T
-         mSS6YHsoUkZRTP9Rw57FLtY9zl3e9r0Sf1L8Zd+/afWCfCpZwWvITUJnS/JuFjujh+sB
-         KuBKSVUDSG80czxLY28ki+7eXH2Fk7/38BjwriS2XPX/VAWgeB5sj7dz/yGC2+4mACsV
-         fsY2HDLIDCa5iZwXKk0JbOgLAr5qgkqs/fa2MlczJZL8Ap89irZRsWfObDYPRzg6ilRj
-         tH0FKXBZT7QBKvlgaXW9n10cOuoaceYgdtx8FK9OO22X6jcVWWYaZ6BVjVWhd6pirlmc
-         inqQ==
+        bh=VGOjcYz6UybyttbaRRC55EgjhkODZY6QYHHze9Ztxw4=;
+        b=iNos4jdpUvyaRK1GVPOlm3+b6XgmFqrIgo82q/rW7siTZQqKDh35+wB5HbAi0PmeVy
+         cuDO8eOanCdmAMgEz153cVElmjWy5XqijrEmhGtplAsdJVPmK2KGURETRC8cL+535q4C
+         MWQa0GJVrZuU724sZnf2nqBeRHdNqJEWs/MsXIbSKVJbcfHjQWXq4WUQplCXl215pYRl
+         sVz52QFrXYd4QIhKOrvMbGsehiCFfXC38J+wiBdmwgIefG/MCoUzK8Lk6C+XXds94X85
+         jH4Fm+bPnyBgODDkm8Q3ICJori9rof+0/F+rlWsf5yHFKj5jB9evPAJN63UXjXqbHfmv
+         MAMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727979629; x=1728584429;
+        d=1e100.net; s=20230601; t=1727979950; x=1728584750;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OPHzpIyuAEVyuENdRsgtRgBjbI78VqztnMoMxs6v4zo=;
-        b=rJRReUT+RqJvV5lY1SCgkHmp9KiqbszmxIUAeHlp80whKLPQeiEHf9hFS97lIMesFl
-         NPW60zc/TV4kJLUQu7CfXsRT4ELtG/ngsXRyfUzOzg2DJiqxa4B+0OO0YgmvpVoSaIgj
-         zsnwDtMPn07SXaoZdM0fr/ljKADfal67t0Pf3k1oqw49L9jv4+MHE5chx/uN+UpI774T
-         RT1HImREFXMkcB9r5TBD8Fyx0kxm76rHJECoewcim55AJwIvdQOPV3xxXHvd4d24bXoH
-         1IiqX8Y+Jn63GTEoe4hVsMrf6+DctdUBv65NNxQgROCbd3ebKGXWUi+zzNencoDbmjKV
-         7n0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWWVkFRC3PN2QhzAgt/qhSyElm2RaQgoruq/Ge140fO2kPnGkaIhz1HYIOSFj0bVEMY/mPx7Gcdkv8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwL9RdOqsw6aiQRvZ2Hbx7oOfBQiqa/EfnZQn6AAARJzruGY16a
-	3VSTJWQhAfipV4C0CxMrvhqN4sPxRxtgEFQ/PAwjTvii4HoS80mkAZ0HptxJ0wQVcee9o0/Mgl6
-	fzaZP+qk4aZlGaIZa68BD5yKGupkUH7cb7qCN
-X-Google-Smtp-Source: AGHT+IHGZSKF56BASKK8GozB2yF2V8PIyDPsPS4fr3yQFHFDS0HG9quwxCeJ5MiYAd0srYGtlNnDajEe0HNMh2na5RM=
-X-Received: by 2002:a05:622a:5687:b0:44f:e12e:3015 with SMTP id
- d75a77b69052e-45d9b947144mr205851cf.25.1727979629144; Thu, 03 Oct 2024
- 11:20:29 -0700 (PDT)
+        bh=VGOjcYz6UybyttbaRRC55EgjhkODZY6QYHHze9Ztxw4=;
+        b=qYJCCfc2T6JwPZZMbQWqRlDk3NgPfU64KnnLru3I9KVIfQ7rO8xfRjrbCH9Cl17bTN
+         Wc4rnzfszEfUBAQgC291XomfnzQzNVb+kNDYq7nHbxYSft8VBtOy5tL+Dw08rbvZ+wMX
+         xNva8g87NhDz1vxU/oafoo2YnYCmltgQY4h/9gNrEIW2LeQNqh5nNp5/nkebRSzy9NDJ
+         mKxZHjlIf0w+pVUM1eNdXtbwLWEP+vM1XE1vyiNz2WlQ6z1GvrXsWdywk2g8k9ksYyz9
+         YOHk+5o6pKyS3uGGRhm/EXHQeOC2rHBiHCopgRDnN+GnMG1RbMxEKRCGT1LofndeZ89t
+         Vlag==
+X-Forwarded-Encrypted: i=1; AJvYcCXmYDxj6pDJFATRdxpClWN0XXDwtYdNxZRNBjYQ8ZQsSnhV6SH1vqX7OnsXHkYkI5d9J3LVju6ik60=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGIR7RLIJXR5oq2/Wmn1mh1Y5D6PKkKzncX47suNmRbViA37qh
+	aobIh+MDoEGHFUW9Mv49pU6WRE8uUkQqauMxlvgrPPVA7nfivarBAZx3OLFAGXfXaM16fEdUy/2
+	YECoujvboXhwtbJ3EpXPUwlTzLqUBw8R+PuN8B83YO3AyO5km1A==
+X-Google-Smtp-Source: AGHT+IHmhsJ2wZ+FQNs6aKV1vufCR3C4a40ySZnmiOmRXAH3glcWiJ2NA4lT6jUKNG+hnFxR7msOi6nfSNhpKjm+3Wc=
+X-Received: by 2002:a05:622a:2d0d:b0:456:796b:2fe5 with SMTP id
+ d75a77b69052e-45d9bbdf1c7mr56261cf.9.1727979949918; Thu, 03 Oct 2024 11:25:49
+ -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241002233409.2857999-1-xur@google.com> <20241002233409.2857999-2-xur@google.com>
- <20241003154143.GW5594@noisy.programming.kicks-ass.net> <CAKwvOdnS-vyTXHaGm4XiLMtg4rsTuUTJ6ao7Ji-fUobZjdBVLw@mail.gmail.com>
- <20241003160309.GY5594@noisy.programming.kicks-ass.net> <CAKwvOd=CRiHitKeYtHH=tmT8yfDa2RSALbYn5uCC8nRq8ud79g@mail.gmail.com>
- <20241003161257.GZ5594@noisy.programming.kicks-ass.net>
-In-Reply-To: <20241003161257.GZ5594@noisy.programming.kicks-ass.net>
-From: Rong Xu <xur@google.com>
-Date: Thu, 3 Oct 2024 11:20:17 -0700
-Message-ID: <CAF1bQ=RAizpP-T_sRGpE2-Kjsk_RZD3r_iz_dpn25W+uDzpWOw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] Add AutoFDO support for Clang build
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Nick Desaulniers <ndesaulniers@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Han Shen <shenhan@google.com>, Sriraman Tallam <tmsriram@google.com>, David Li <davidxl@google.com>, 
-	Krzysztof Pszeniczny <kpszeniczny@google.com>, Alice Ryhl <aliceryhl@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>, 
-	Brian Gerst <brgerst@gmail.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>, 
-	Jann Horn <jannh@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, linux-arch@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	Masahiro Yamada <masahiroy@kernel.org>, "Mike Rapoport (IBM)" <rppt@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Samuel Holland <samuel.holland@sifive.com>, 
-	Thomas Gleixner <tglx@linutronix.de>, Wei Yang <richard.weiyang@gmail.com>, 
-	workflows@vger.kernel.org, x86@kernel.org, "Xin Li (Intel)" <xin@zytor.com>, 
-	Stephane Eranian <eranian@google.com>
+References: <20241003160620.1521626-1-ap420073@gmail.com> <20241003160620.1521626-4-ap420073@gmail.com>
+In-Reply-To: <20241003160620.1521626-4-ap420073@gmail.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Thu, 3 Oct 2024 11:25:36 -0700
+Message-ID: <CAHS8izM1H-wjNUepcmFzWvpUuTZvt89_Oba=KaDpeReuMURvQw@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 3/7] net: ethtool: add support for configuring tcp-data-split-thresh
+To: Taehee Yoo <ap420073@gmail.com>
+Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
+	edumazet@google.com, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	donald.hunter@gmail.com, corbet@lwn.net, michael.chan@broadcom.com, 
+	kory.maincent@bootlin.com, andrew@lunn.ch, maxime.chevallier@bootlin.com, 
+	danieller@nvidia.com, hengqi@linux.alibaba.com, ecree.xilinx@gmail.com, 
+	przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, ahmed.zaki@intel.com, 
+	paul.greenwalt@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
+	asml.silence@gmail.com, kaiyuanz@google.com, willemb@google.com, 
+	aleksander.lobakin@intel.com, dw@davidwei.uk, sridhar.samudrala@intel.com, 
+	bcreeley@amd.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Writing the doc with all these code-blocks was not fun either.
-We are happy to change if there is a better way for this.
+On Thu, Oct 3, 2024 at 9:07=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> wrot=
+e:
+>
+> The tcp-data-split-thresh option configures the threshold value of
+> the tcp-data-split.
+> If a received packet size is larger than this threshold value, a packet
+> will be split into header and payload.
 
--Rong
+Why do you need this? devmem TCP will always not work with unsplit
+packets. Seems like you always want to set thresh to 0 to support
+something like devmem TCP.
 
-On Thu, Oct 3, 2024 at 9:13=E2=80=AFAM Peter Zijlstra <peterz@infradead.org=
-> wrote:
->
-> On Thu, Oct 03, 2024 at 09:11:34AM -0700, Nick Desaulniers wrote:
->
-> > > It makes it absolute crap for all of us who 'render' text documents
-> > > using less or vi.
-> >
-> > "It hurts when I punch myself in the face."
->
-> Weirdly enough I have a job that entails staring at text documents in
-> text editors all day every day :-) sorry for thinking that's a sane
-> thing to do.
+Why would the user ever want to configure this? I can't think of a
+scenario where the user wouldn't want packets under X bytes to be
+unsplit.
