@@ -1,83 +1,155 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2079.outbound.protection.outlook.com [40.107.223.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB60148823;
-	Thu,  3 Oct 2024 12:56:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727960194; cv=none; b=hL4cMtaKkZw/iqEcc9qp6+YfB5QQVai+5jm+IV3PSL2GV8cB/OcO829IXc9+hKxXUiHSslcUMgKG8GPdrZOUipMQ57uupcx7DTWUyfuPjBxKuzPEqqraO+vjtuYPnCi76LXA2T2rp9pTXb0qScNaJR2Uh0FHYhSILxLV3mna4bc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727960194; c=relaxed/simple;
-	bh=ELbGgK1SSotfZBZJN05coeserexfapnZur2lQCKI0Zc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JqNUqoOOWlkUfM6E74gylT0p2uk9FIoqf5VUrVOr8Gbd7HkKOYzdXHfW+8L8fJYdKDP8S+GzMAZYJjg7l7r7PiuRIkAWyHp7xuvFtDOd47gDCwBDs6t6sR/7ORYDUGyE2oGA3w0JkHMZRSztaU2texc/2aYUZ2dlgekTpSDHbZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=chmzQF+u; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C841C1487D5;
+	Thu,  3 Oct 2024 13:15:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.79
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727961322; cv=fail; b=s/Oc2VT1twUXkIHx+b/HPcMa5yJGxnS2GmD+oCKL6dngWIHr3y/k7qC9d1+iTr5Z/ej1FkEIeN7ux4VTJ9F3IRVkRBHV0FP8LH2/kyfDaPaEy9TH1cTegHsDMC+IyzrJFO9ThPsJPizhyCoY860bonPzWi/WAuFuc2ckfcyOSIc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727961322; c=relaxed/simple;
+	bh=JupslT4YZb0nod5u8TL3/pfBTwaj83brN1kqe0DdvxI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=dNupg0nOQrDOVgPvfeUC/LwBUyNn6Ouo7YcjcRp7qZ4/L0XBQccAzJi89jnDje0kfPRVQ7PShlTOMo7UdKvjbalJu0sLJ3XTuHxy/hvgZOJVX6/yRSZcSWpvf5yshaCZlyGxNXK46RD2IEj9ExE1d0y3AsXgRCNwwLV0G1Azz+I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Xx944N2/; arc=fail smtp.client-ip=40.107.223.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="chmzQF+u"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=QEN15Fs7xG8c1IcYMNSytb5HdDJacf/jlhNpjv/rApk=; b=chmzQF+uywZf3/gMS8CSot6YUp
-	jNfvb+AOuQnR9tMvMf3wyFJFtZKnASXTcRRJF4tLBbqbHS53RS7pNYFD87oCRJ5NbaWcK8xSsc1Jx
-	GA0bjwb0h+ZGv+KkcO6TPoVjkYpZnNgfMYcpMY8ymcQ+HjlJTlwHK6VaOezNIm6crUUY=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1swLNV-008wlN-96; Thu, 03 Oct 2024 14:56:21 +0200
-Date: Thu, 3 Oct 2024 14:56:21 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
-	Dent Project <dentproject@linuxfoundation.org>,
-	kernel@pengutronix.de
-Subject: Re: [PATCH net-next 11/12] net: pse-pd: Add support for event
- reporting using devm_regulator_irq_helper
-Message-ID: <f97baa90-1f76-4558-815a-ef4f82913c3a@lunn.ch>
-References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
- <20241002-feature_poe_port_prio-v1-11-787054f74ed5@bootlin.com>
- <f56780af-b2d4-42d7-bc5d-c35b295d7c52@lunn.ch>
- <20241003102806.084367ba@kmaincent-XPS-13-7390>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Xx944N2/"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dDF904wew8OUbT6rE4GJLNd/KfuFyGkPCMF1I3Cx1t8k5QqOS7v2agZBx0YlK/+JSvcXCWRIGoH3400gxVZNOs08RxvMm1/g0rk770JxLXXSfOOWasBbMQP5XSqgjSkZ5+yVtlH+5qboVnKODVDGQEGEVhJ9m5fQeMFkop5XKBXXDvRCxC/IJgHxj4GIbzPOvApFZ61zhStjRJNwksKf2qSIW4NWUuO8vOCYX61Qcw+tptXZSX5I5/vlg7hiuivaOrBj05eTXWviXDrYrzYekD22VvalKLSZz3ahaGJbVO90ruDsjRiD1jV4WLSl8C6fIyfFy/iAMSTBhhTsELlHNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NlCqhJfmcMeA+y7vnJ1UO7aDpCHjEienPdctiqXwu48=;
+ b=thY8kI6viPuIuGlQvQnJToVdY5bRniYnJfcf623+GpNcp+JfJA/mg+PP3BIk0+0goUAZlt43yIY303Y3kBVLlDOow7crqnNhGDIyIXqcydxeZOAHoQOvLMgXMhMEcynzMnHSOIeO2XXVG/X3nQxlQgchNdSspm+Hkp89o4oyYqw17nrDmNOdp8dR1RtHYkgeoJaNUQndFMhDKrRrV1lwRDQo7ehpS3+WKxWyFmlt0VztIqCsfoIyzeNeosrct+8vCoPTmtd4ISFIoQVcfYv//H+M3aOrGLqFHJELa7SEOqx4AAnJCkxgyaGBSkWDYCv/TGHsSxffh0OREa2TPsvxJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NlCqhJfmcMeA+y7vnJ1UO7aDpCHjEienPdctiqXwu48=;
+ b=Xx944N2/z7CS1ibystVQEgEUgZeY+sAkZ6VHE3741FesndiskmRCr6MY5VHjdAyJx63UsfHxUuHqg9ubLzWB5b2gd1klTrMD//LoUj/FYmJJz/A686ACuMgDybgKCAEaYr8DfXsDTRk06Zt+krEIh0h9blEQBDpvHcJK/+aVcC/DGbMBSfYtKE0fgh8N38auzrvIiyjy3KkGamrHD/Mz2PD7tWWADNw/fSUQGl+NByDvPiWHWV4OYgEvXpjLi/Z+LNVHEDvcp4JxTtp0p2fzU4DVyBjIRkdVslSwf0g8x/9xOVH3ne+8zAzBpYB+1gln+4syRzPn4WlgrV4lPWVYIA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by SA1PR12MB8842.namprd12.prod.outlook.com (2603:10b6:806:378::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.18; Thu, 3 Oct
+ 2024 13:15:15 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8026.016; Thu, 3 Oct 2024
+ 13:15:14 +0000
+Date: Thu, 3 Oct 2024 10:15:13 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: bagasdotme@gmail.com, kevin.tian@intel.com, corbet@lwn.net,
+	iommu@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, yi.l.liu@intel.com,
+	eric.auger@redhat.com, shameerali.kolothum.thodi@huawei.com,
+	smostafa@google.com, baolu.lu@linux.intel.com
+Subject: Re: [PATCH v3] Documentation: userspace-api: iommufd: Update
+ HWPT_PAGING and HWPT_NESTED
+Message-ID: <20241003131513.GY1365916@nvidia.com>
+References: <20240913052519.2153-1-nicolinc@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240913052519.2153-1-nicolinc@nvidia.com>
+X-ClientProxiedBy: BL1PR13CA0228.namprd13.prod.outlook.com
+ (2603:10b6:208:2bf::23) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241003102806.084367ba@kmaincent-XPS-13-7390>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|SA1PR12MB8842:EE_
+X-MS-Office365-Filtering-Correlation-Id: c806f830-734d-46a1-b707-08dce3ad6b27
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?MgL7yy/An64ykePyYYhyTlqPfXgWQs5oJxetZnuETJU+XVU+04jt64/918u1?=
+ =?us-ascii?Q?iME9HiZ+K/6SBz0dFbbMaNOawCOHYV62Ry796EWcl0Ux56/WyDbwvzGZ7Ov+?=
+ =?us-ascii?Q?on46mnLAcqlY8KpAl559dq6GuRQRIj3rineXAYhwbJrqniOhWzK5rj5qWts4?=
+ =?us-ascii?Q?TeyOVkb6Udbp2fd35ugVq11pZW1ACcBGx5VyzNbEHAVgnUvgT3MOkxrGdKEW?=
+ =?us-ascii?Q?OAWlsYYb3fV6b5xKjvHSg4JlSEF6LSsjIK9+lnGuwEQ5eC5Dtzq7gfhcSFgr?=
+ =?us-ascii?Q?8UMiAhOJA0Q55iQdXGQY427Tz/dhJ+aZ0foeeYPw8dCOkzaz+uqA3JFO5wq4?=
+ =?us-ascii?Q?CJid1PIrB1RKihxTzMMKUWwoyAJRkyz5b4JWOJ0zuKXo/6IrfUdCJlLaG3LA?=
+ =?us-ascii?Q?epfgJKBUWYBgxdA5lYunzk1W4XrZTljdNtJOmOG3hve52xUCleS/gEgY47RO?=
+ =?us-ascii?Q?it9tGVXQCkb5lM6JsHrV5yJgodOedVsBAMNhr1fVCzgQununiKOs/wM8WmRq?=
+ =?us-ascii?Q?/wq+hs978zlHXFlzLJ7Ny0hRvwhJQLVdV/qDNn6nimPQqOmuFzI81eMqQPM3?=
+ =?us-ascii?Q?jBQVMbiVKVjwxIQOzBCEu8PbWMmYQLWalsram311olgs02HzMwGDjHF9MAws?=
+ =?us-ascii?Q?5Bm/D6xmbMjEWwR1cRuN5VazQdzGeXMbYiDbEtqklo+RcirGccj/5xOHTp+a?=
+ =?us-ascii?Q?3CA4hNQhWe6mjZus7hdErdSKAd93hjOOHTHwkOAqewQ6nzcRYE4xroIqA+XZ?=
+ =?us-ascii?Q?GJBEKwhAue+z5o8aiSLuTQKbBDfLELtH2TkCTbitMxNErjuQ0PPh7rQAFNBi?=
+ =?us-ascii?Q?hOrEFbvPSKcOf6Gbulxjki0dqogvP0plArewIF9qUPsSutjfePlFDhVAcQ7H?=
+ =?us-ascii?Q?qfidFpBllByVOsijxHNyYnU0AwJp20wBKasPL72SGKngGH3k5Kr3Vp3Ll5p0?=
+ =?us-ascii?Q?b0+Zyoq8ZrR8rMCwLvBDgOpQALNLQ+LjekqAypiw8yMMjiBhVDEWna3Z69rk?=
+ =?us-ascii?Q?Sugk1eBnL9eOXPi/G0Sf46KhW4LT6ZkBl/p1ULCHj+OsaJrRi98K3y4PmZvG?=
+ =?us-ascii?Q?VxCYBe0gCLZo/0FA9AQnjbNtUuIHTrkbUBSRoM34L1HMf+INbOA8F8AJHE7l?=
+ =?us-ascii?Q?/6Irhohl9EMSAF4d5MEUc7jMDlJdbC/wb5BayKPL/4M8r+asfCEkWqViL6K/?=
+ =?us-ascii?Q?RKaV1g2TONVbH2jBZKrnstog7KojWSYsV3qoSJ134YVDyEC6znnxsJphgZCP?=
+ =?us-ascii?Q?OlpYaL/psC4gT6WfTr9d612ak7HLwr9LdcqZeqvuDQ=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?vzV8HSTUmhA6r0VSSUrCSPOBnwSw3+s9F5KnLoJxCDplxV1i5bRvbU7jCkQ7?=
+ =?us-ascii?Q?0Vp/Q1Gr5ljufHyktxm3tPbesOy7S988td4rEoXV8F4vfR2Ml9Xr/YGzbNwJ?=
+ =?us-ascii?Q?u8p208KKIq3rhxBlwPqBMvP3l38oipqknF+89nO7iS48ucyUQ7GxQa/85XAw?=
+ =?us-ascii?Q?xIM8x3vse8zbqmKWd0l/y1mYUiVxjiUvKh49ilqXyGaOC4swFvOJiFXV6uWc?=
+ =?us-ascii?Q?QCfv4Ml9cu8LPVCAnkRIKrpQ+p5CIeRBfU81flNTjJ74f/o/M/e1yW7EDjvQ?=
+ =?us-ascii?Q?8Gc4QlUFnsyjFfBHmjnYubN1ivke4KraquMt8UFCbS4UI5V9cLt6r8t/EabU?=
+ =?us-ascii?Q?8Mi1q+aMOffooYQuWo2VNLUccAgiwoD6BR0a5bmiP8cp2uJ5cFoqYiWFKlpj?=
+ =?us-ascii?Q?/ic2YwOnbTbV3DGYodmyTeutzRpH3AvNq+P8y4FlLUzlJLW+ewceKp1U8fA1?=
+ =?us-ascii?Q?CIiVdLGUPS5XzzObtl7CU05gy94SA21cO/MxcXEL8Dp4kvniqjuM8uuRyNir?=
+ =?us-ascii?Q?MacJcMGkpkq0IkMvVTjVI6FieeywHQ8vPR1JsoJ/oibP/PgTv8V0OuqW7HZf?=
+ =?us-ascii?Q?masn2NiEOXBGdyFo/gL6M31vq6im9efKPBTZgGUYKnYCt7yOtjiuORjSfCbg?=
+ =?us-ascii?Q?0Xa01uUENImDjqBO/yyUhmeDJqj00/OFz+Zg5eyBwc1CB87Yk8w9Mf2gP1Ke?=
+ =?us-ascii?Q?8+Q2h6+XxKKGYWdA7urVR5QGbO5wa3NLvA+CU62kC9zq4tXi5n+HG3dmhxpa?=
+ =?us-ascii?Q?w4wo7RyUyYsYbxyyLXq2biZZdX2rlsjRNgupRwpom/thuoM1/0XteD9QfRYM?=
+ =?us-ascii?Q?xMvEbFgVnRPSI2Gj7SbQj+tvxY2fTZyv1ATLlnTLOFbRSDDos+W9Ee9Qsh0u?=
+ =?us-ascii?Q?dJVarpEWmryGQCVI08jT8keVdtaaR+gebCDrOE2OC32bg7G6j1alh05bBXSW?=
+ =?us-ascii?Q?AedMud+V6ArOxYHIXsUbOoF+wG9ni6p7hK0OfeHPFZq63dEB4dxEAyjsPncz?=
+ =?us-ascii?Q?a7AYwvbJgICMtsuBYg1YxuKbOK5XDkKNdyQQSqqVIAaPQac+rS6sKgwhP+oa?=
+ =?us-ascii?Q?Dsi3or7m2iS3hajBzPaY98F4DxsKE4tgXfLQJI0eZKODbPl0+bG4EtVnY+CX?=
+ =?us-ascii?Q?FNDxd2IFr0ZUyX/fdedCmvAEH72f//Vi3rneW31z6/+ozAFu2mmPTiS0hAmn?=
+ =?us-ascii?Q?U8Y4uE1hI7nPJuiEp94GAzHXOZyP3hw/ddtJgxoPyv0sCM3OsICuGOvPhK5m?=
+ =?us-ascii?Q?+Vq3eK8TqZNTsC3yc0dZJYW3RDB2gQxrfSyJVeRRzcZlS4vHHvewmVfu5Vwt?=
+ =?us-ascii?Q?SCdaH5ydo3L9VNzqgHFwBS3w5jKWGBwgcpABz/idpyjdpwERiGLIrWP0JokC?=
+ =?us-ascii?Q?dyamtgSCQM2GabcbCvwZ6h4Vg0NcKBvxSTe0Tv2z6oAtQ2TSEXD0BdoYfy51?=
+ =?us-ascii?Q?4EneGEpcuYtbsz3MR8KSeLtnb7ngLpEtUvEXuiClvsp8ElZI4/OcQIUpz+3q?=
+ =?us-ascii?Q?pUzgIFdXDLV+HhHtLFP08YXvoLrq9d0y8wZWZM8Ac8KIO6sLZKHkJl6ryH/a?=
+ =?us-ascii?Q?buza0GEa0eJjg9aANp8=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c806f830-734d-46a1-b707-08dce3ad6b27
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2024 13:15:14.8819
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6/btkV7Ig4HtdMbr3wfYfeCOylWs3/tO8U7ooQthZRPx/ZCW4XuYmc5nbnKEGoYU
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8842
 
-> > https://docs.kernel.org/power/regulator/consumer.html#regulator-events
-> > 
-> > Suggests these are internal events, using a notification chain. How
-> > does user space get to know about such events?
+On Thu, Sep 12, 2024 at 10:25:19PM -0700, Nicolin Chen wrote:
+> The previous IOMMUFD_OBJ_HW_PAGETABLE has been reworked to two separated
+> objects: IOMMUFD_OBJ_HWPT_PAGING and IOMMUFD_OBJ_HWPT_NESTED in order to
+> support a nested translation context.
 > 
-> When events appears, _notifier_call_chain() is called which can generate netlink
-> messages alongside the internal events:
-> https://elixir.bootlin.com/linux/v6.11.1/source/drivers/regulator/core.c#L4898
+> Corresponding to the latest iommufd APIs and uAPIs, update the doc so as
+> to reflect the new design.
+> 
+> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
+> ---
 
-Ah, O.K.
+Applied to iommufd for-next, thanks
 
-But is this in the correct 'address space' for the want of a better
-term. Everything else to do with PSE is in the networking domain of
-netlink. ethtool is used to configure PSE. Shouldn't the notification
-also close by to ethtool? When an interface changes state, there is a
-notification sent. Maybe we want to piggyback on that?
-
-Also, how do regulator events work in combination with network
-namespaces? If you move the interface into a different network
-namespace, do the regulator events get delivered to the root namespace
-or the namespace the interface is in?
-
-	Andrew
+Jason
