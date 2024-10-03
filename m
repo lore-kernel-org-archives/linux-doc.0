@@ -1,208 +1,93 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EDD91A7AD6;
-	Thu,  3 Oct 2024 16:13:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA0B1AAE10;
+	Thu,  3 Oct 2024 16:13:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727971988; cv=none; b=CrPy21R7BzS3Alpuko7Y/CtY+xwETdYU3cKiY9hjujeQ0wlAS/y0W/gwC1FB3qY+k7jib/5ZybHRCKM4QWLMrj7AJeatAIWBmpBDdDpBlfaa686nmqal4MU1+bXfKxerafM1RyVUQ3fSdzLOScdvRmAPl0RsFlAlIALqn1oDk4w=
+	t=1727971990; cv=none; b=dQTmKFB06Deu/961F092KuiZbUaopEl0GaoyLJt8O4DthXyA78ChO5pPSwq00a4xln++Hv+h4AvgkXkWz4GyOHnNONnnZp75D3D5SwTAP6Rzvo/kEsvCIV4N/M06zsFUQKdBgLHiW4iTHFICbxzrw0R2SyHzCDvwrNeVUIfi9G0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727971988; c=relaxed/simple;
-	bh=7OY9AiaQ19Ia+PqqCV6YZvq+XDpZw+wy+7bMWhQ2Bvs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Eq+nDQ1HYmcT86xF7L65PpzgNgCoqEL4Zu4ovric6S24Nn/uZunhN3Xmn3J7m6EDCi1zqLKloJCsVd9/7V57vM8r9MQCK3LcK98engyahE5VLoPs+hup3L2iI0ghum4B7cwA44Rw7hW/TvcjEcWpCOVuLVZ6S/TYg0XbN8L2M9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UAG4qHF+; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727971990; c=relaxed/simple;
+	bh=T8Cgc/gHHRgrkKf5Qi9Z34zTzlpQLyLMmWWUdvR3Aic=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iw2k8EtsFYXVbBLTcvVWp4IaCA19BOIJEeBezyPV7tnwhDUK/KV5qTJRp8YTCS3iflYWXRzfG7ltFlhqUgEnjckbg9sj7obawnnOHEbQ7TvyqSKKPPhLhukCvc+X5sU2Cpek23NqFPpzx42p721D/t7uVuBqndtwUPz4aWZzgSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DDl+6k7t; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UAG4qHF+"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5c5cf26b95aso1462554a12.3;
-        Thu, 03 Oct 2024 09:13:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727971986; x=1728576786; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/V/6a2TW5ipcM35DEEW7Cwm4LM4Qc3jfg/uzlisxQGI=;
-        b=UAG4qHF+zUwgKER5ohKa2GLt+0h0qC1Dnf3pnob+Ix+C2YU31aB81prwFZ5DIqJdXl
-         GNgpjLwUALCmzKDK8RBF4rqXcaWN0rFW4kE1tyr7cIlievqzHm5jhFoGTmuLiNDnb42q
-         K1Jfcr0IX/sOeVU2ZkP/IWH5qbX+QY8SWrg++uBV6WxkFs7q9XJvUsn/KmwePr27dRTv
-         1sH8TUAOA8mAocHmWoc2jwcn+P7a/3L7OYdzX93F6TUr1+AXfC0G3j8iAaAKeKkGT7CV
-         VDJpJWHcgFSMbbRM7RV4ye4RE1m2e7Judcgjf37eZ1qzwoSrF6wox9OfM+IGkhaQ1mM2
-         /liA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727971986; x=1728576786;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/V/6a2TW5ipcM35DEEW7Cwm4LM4Qc3jfg/uzlisxQGI=;
-        b=dryLgaxmhkiNCEzNOKW4fVEhvf7p9lFLanKIch+DORJeT1JooWjnV/FkIL2P95yfm3
-         t6N1LlwwBf0S/mPIS7YLlviy94BNK8rFTHbQ4MEbk3eihna0TUTd0yM9uZ+CMjcOfrhY
-         M4WjKlt6XZZ6TXhmSybJyOtAZWMtRWexyiQzPjvaUT2S8q9TMaFbMeasr7lHP0IcsFOn
-         HfhpI/G/JGuOEqT/1lHISFK6p7Q+xVTskoYSFUWQO3mqsKMZK4kVpI4YMBL4J6NLgnpg
-         f+YLTnc2mmzY52A9/D12isBA/96BRBez8gjrxgBHQ6nTAlgMfcNo8zwQcuzPJBBi17t0
-         FMig==
-X-Forwarded-Encrypted: i=1; AJvYcCWoB7alOsZRx/5UWIK+h9HUeMb9LBwTXqKETtYSI8ZySEcBi6k2IS2qZaW2cOcGJ/tpcEq+obDec20=@vger.kernel.org, AJvYcCXjIC2o9z9DLsRm+hEVYxzg4EoZlRFypVvHl4+v6LnG5icAW+xzo/oM0kvuDC58+KYQYQDzBiAP1Fag9sMQ@vger.kernel.org
-X-Gm-Message-State: AOJu0YwpnKOw1x4bA0nKpEZedh2Ohp2tZiQZkYPgE+S0bom3Iq4IX7KA
-	nS7RPh1CNmj4gdE+Ou0nNKpyItEOA+VXRvwi71yMzXtsc3dBG/Pr8a/dE/QVxKvm5w==
-X-Google-Smtp-Source: AGHT+IGDWP3v0Di8kvxDzdey+AWcUqDj4gsqUQxdxWrG+YC8QFPIY1Q5HcSXjl682jM68aq3k1TFHA==
-X-Received: by 2002:a17:907:2d88:b0:a86:83f8:f5a2 with SMTP id a640c23a62f3a-a98f823cbc9mr655096566b.19.1727971985501;
-        Thu, 03 Oct 2024 09:13:05 -0700 (PDT)
-Received: from [192.168.1.17] (host-79-12-161-203.retail.telecomitalia.it. [79.12.161.203])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99103b314asm102382366b.103.2024.10.03.09.13.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Oct 2024 09:13:05 -0700 (PDT)
-From: Antonino Maniscalco <antomani103@gmail.com>
-Date: Thu, 03 Oct 2024 18:12:54 +0200
-Subject: [PATCH v8 05/12] drm/msm/a6xx: Add a pwrup_list field to a6xx_info
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DDl+6k7t"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=hEcfuIGAIskv8Oce0iUVPJ3XBsfzajuHJThTZpyVaVE=; b=DDl+6k7tCl2tJW8xADRccoAmdw
+	lt0d3vK689VZFTYTL7MhMRugM04JITw2epZ4/NxhjFmNYky4cDXWA7pcYA1QXmiIW6uVJgrtiKzVB
+	Uug410fDZ7hB4l23sdRB5+KNxVyZgZF3J6WYF/cTND+aAlkW5uhKmlyVyzgzjVuWPQjti5y+EdoZw
+	I/J+QDpb9sYzIOut0erfu5Ev8nDEJPmCkSOmnSdnGWoLK3CZmsyvUDAA6ESpgO2OR6BpOWBLkwPat
+	lz/raurbo7HziXOFgPQkpDlRqD+/f63OczgD0NYwBLWz6NVPCFhNTgHW0KzTK8Z0U1eB0RkkL1/F3
+	JvRnqVYQ==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1swORm-00000003iXS-06Mx;
+	Thu, 03 Oct 2024 16:12:58 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id A255B30083E; Thu,  3 Oct 2024 18:12:57 +0200 (CEST)
+Date: Thu, 3 Oct 2024 18:12:57 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Nick Desaulniers <ndesaulniers@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Rong Xu <xur@google.com>,
+	Han Shen <shenhan@google.com>,
+	Sriraman Tallam <tmsriram@google.com>,
+	David Li <davidxl@google.com>,
+	Krzysztof Pszeniczny <kpszeniczny@google.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>,
+	Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>,
+	Brian Gerst <brgerst@gmail.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+	Jann Horn <jannh@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
+	Juergen Gross <jgross@suse.com>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, Masahiro Yamada <masahiroy@kernel.org>,
+	"Mike Rapoport (IBM)" <rppt@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org,
+	x86@kernel.org, "Xin Li (Intel)" <xin@zytor.com>,
+	Stephane Eranian <eranian@google.com>
+Subject: Re: [PATCH v2 1/6] Add AutoFDO support for Clang build
+Message-ID: <20241003161257.GZ5594@noisy.programming.kicks-ass.net>
+References: <20241002233409.2857999-1-xur@google.com>
+ <20241002233409.2857999-2-xur@google.com>
+ <20241003154143.GW5594@noisy.programming.kicks-ass.net>
+ <CAKwvOdnS-vyTXHaGm4XiLMtg4rsTuUTJ6ao7Ji-fUobZjdBVLw@mail.gmail.com>
+ <20241003160309.GY5594@noisy.programming.kicks-ass.net>
+ <CAKwvOd=CRiHitKeYtHH=tmT8yfDa2RSALbYn5uCC8nRq8ud79g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241003-preemption-a750-t-v8-5-5c6cb9f256e0@gmail.com>
-References: <20241003-preemption-a750-t-v8-0-5c6cb9f256e0@gmail.com>
-In-Reply-To: <20241003-preemption-a750-t-v8-0-5c6cb9f256e0@gmail.com>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Antonino Maniscalco <antomani103@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727971975; l=4169;
- i=antomani103@gmail.com; s=20240815; h=from:subject:message-id;
- bh=7OY9AiaQ19Ia+PqqCV6YZvq+XDpZw+wy+7bMWhQ2Bvs=;
- b=ZXywTzS1ODfgZc7HTXviCdSKY2foHZWt7a3poRCQsi7lB7WZIDdCZtCtaffDCzVRd8KYC1Euc
- CxBP4/NwGrMCqvKyp2m0N26oXTsRQwGC+C2sPxuUrCW7Yw/cxNmwP65
-X-Developer-Key: i=antomani103@gmail.com; a=ed25519;
- pk=0zicFb38tVla+iHRo4kWpOMsmtUrpGBEa7LkFF81lyY=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKwvOd=CRiHitKeYtHH=tmT8yfDa2RSALbYn5uCC8nRq8ud79g@mail.gmail.com>
 
-Add a field to contain the pwup_reglist needed for preemption.
+On Thu, Oct 03, 2024 at 09:11:34AM -0700, Nick Desaulniers wrote:
 
-Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
----
- drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 26 ++++++++++++++++++++++++++
- drivers/gpu/drm/msm/adreno/a6xx_gpu.h     |  2 ++
- drivers/gpu/drm/msm/adreno/adreno_gpu.h   | 13 +++++++++++++
- 3 files changed, 41 insertions(+)
+> > It makes it absolute crap for all of us who 'render' text documents
+> > using less or vi.
+> 
+> "It hurts when I punch myself in the face."
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-index 316f23ca91671d973797f2a5b69344f376707325..e4d271fa89cc66f188be04206e267fabd83cca83 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-@@ -1150,6 +1150,28 @@ static const u32 a730_protect_regs[] = {
- };
- DECLARE_ADRENO_PROTECT(a730_protect, 48);
- 
-+static const uint32_t a7xx_pwrup_reglist_regs[] = {
-+	REG_A6XX_UCHE_TRAP_BASE,
-+	REG_A6XX_UCHE_TRAP_BASE + 1,
-+	REG_A6XX_UCHE_WRITE_THRU_BASE,
-+	REG_A6XX_UCHE_WRITE_THRU_BASE + 1,
-+	REG_A6XX_UCHE_GMEM_RANGE_MIN,
-+	REG_A6XX_UCHE_GMEM_RANGE_MIN + 1,
-+	REG_A6XX_UCHE_GMEM_RANGE_MAX,
-+	REG_A6XX_UCHE_GMEM_RANGE_MAX + 1,
-+	REG_A6XX_UCHE_CACHE_WAYS,
-+	REG_A6XX_UCHE_MODE_CNTL,
-+	REG_A6XX_RB_NC_MODE_CNTL,
-+	REG_A6XX_RB_CMP_DBG_ECO_CNTL,
-+	REG_A7XX_GRAS_NC_MODE_CNTL,
-+	REG_A6XX_RB_CONTEXT_SWITCH_GMEM_SAVE_RESTORE,
-+	REG_A6XX_UCHE_GBIF_GX_CONFIG,
-+	REG_A6XX_UCHE_CLIENT_PF,
-+	REG_A6XX_TPL1_DBG_ECO_CNTL1,
-+};
-+
-+DECLARE_ADRENO_REGLIST_LIST(a7xx_pwrup_reglist);
-+
- static const struct adreno_info a7xx_gpus[] = {
- 	{
- 		.chip_ids = ADRENO_CHIP_IDS(0x07000200),
-@@ -1188,6 +1210,7 @@ static const struct adreno_info a7xx_gpus[] = {
- 		.a6xx = &(const struct a6xx_info) {
- 			.hwcg = a730_hwcg,
- 			.protect = &a730_protect,
-+			.pwrup_reglist = &a7xx_pwrup_reglist,
- 		},
- 		.address_space_size = SZ_16G,
- 		.preempt_record_size = 2860 * SZ_1K,
-@@ -1207,6 +1230,7 @@ static const struct adreno_info a7xx_gpus[] = {
- 		.a6xx = &(const struct a6xx_info) {
- 			.hwcg = a740_hwcg,
- 			.protect = &a730_protect,
-+			.pwrup_reglist = &a7xx_pwrup_reglist,
- 			.gmu_chipid = 0x7020100,
- 		},
- 		.address_space_size = SZ_16G,
-@@ -1226,6 +1250,7 @@ static const struct adreno_info a7xx_gpus[] = {
- 		.a6xx = &(const struct a6xx_info) {
- 			.hwcg = a740_hwcg,
- 			.protect = &a730_protect,
-+			.pwrup_reglist = &a7xx_pwrup_reglist,
- 			.gmu_chipid = 0x7050001,
- 		},
- 		.address_space_size = SZ_256G,
-@@ -1245,6 +1270,7 @@ static const struct adreno_info a7xx_gpus[] = {
- 		.zapfw = "gen70900_zap.mbn",
- 		.a6xx = &(const struct a6xx_info) {
- 			.protect = &a730_protect,
-+			.pwrup_reglist = &a7xx_pwrup_reglist,
- 			.gmu_chipid = 0x7090100,
- 		},
- 		.address_space_size = SZ_16G,
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-index e3e5c53ae8af2cc59a21160f05c59fd125cb94b1..2f5f307ac3b6845197b06ca3754abc88d698007c 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-@@ -17,10 +17,12 @@ extern bool hang_debug;
-  *
-  * @hwcg: hw clock gating register sequence
-  * @protect: CP_PROTECT settings
-+ * @pwrup_reglist pwrup reglist for preemption
-  */
- struct a6xx_info {
- 	const struct adreno_reglist *hwcg;
- 	const struct adreno_protect *protect;
-+	const struct adreno_reglist_list *pwrup_reglist;
- 	u32 gmu_chipid;
- };
- 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-index 6b1888280a83e6288c4b071733d5d6097afe3a99..58c63d0fbbff9818393fc62ee3cf2703365bec23 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-@@ -157,6 +157,19 @@ static const struct adreno_protect name = {		\
- 	.count_max = __count_max,			\
- };
- 
-+struct adreno_reglist_list {
-+	/** @reg: List of register **/
-+	const u32 *regs;
-+	/** @count: Number of registers in the list **/
-+	u32 count;
-+};
-+
-+#define DECLARE_ADRENO_REGLIST_LIST(name)	\
-+static const struct adreno_reglist_list name = {		\
-+	.regs = name ## _regs,				\
-+	.count = ARRAY_SIZE(name ## _regs),		\
-+};
-+
- struct adreno_gpu {
- 	struct msm_gpu base;
- 	const struct adreno_info *info;
-
--- 
-2.46.1
-
+Weirdly enough I have a job that entails staring at text documents in
+text editors all day every day :-) sorry for thinking that's a sane
+thing to do.
