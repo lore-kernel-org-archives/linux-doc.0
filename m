@@ -1,206 +1,243 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2085.outbound.protection.outlook.com [40.107.21.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE06D1AE863;
-	Thu,  3 Oct 2024 16:13:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727972002; cv=none; b=L7vkxecq6lp83UPJ7dApBzy9sXRQGr8WkRf4irrWBn1F4g1wrugs1KrxXzwAsCjquhwvcI8mn1hP1imfgR5hc3aq3cTY3aY39C85v+oK3URh+WmruW42zTBclH4F9BlQ1kZ5Ne+8gN9XoWOnL39v+dXAhwIMsZNDjqjcNbDPg2s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727972002; c=relaxed/simple;
-	bh=Lqokp436hYQPQY3ahWAbbFwj5CouB7qIxKNoJs67APU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=j0YQBgKvAnmueKL5juW4tnllbwdQeK9p0iJQO0pRlCCX5NNTm1Aa/FTueSmMiusC+6RjyTmpmg2w8wJaGgCC7ga//DEATZsPGCeHMYSWX3TK3yOSvx/bTCv0Xy3EyVvlz6welAxkRj3SfHFUIcIrFt7T+93H70kfZVvMJu9Ly6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ycv8FUtS; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9781716C453;
+	Thu,  3 Oct 2024 16:26:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.21.85
+ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727972764; cv=fail; b=t3OCqaD/0nub9ewntxfrwfdKRNwRLpgaEu5hTsb9T9F7eGdbt6OxynUVIqEjlXzSBh/r4JUdXY5VvqiVojLX2kWHOwZQfGmOa/o+mh0urh+tvKgluZKV979IFEw5pnhYAO3NpfS23wO6wf/FItOfmRqZynIc9LqZFWEZ6gw1gAM=
+ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727972764; c=relaxed/simple;
+	bh=WWq1RvtrGZKMosG8DoAVsl8KpsVJqgyMTdM2sW9xVI8=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KInCtxlBNdcQTIGHfapVwoRQ0bGu48kOt5zCOC9+BS5m2npwi7Oh/+fZXuluz9lC3uQidM2GdKepmCSuW03TH2RJEt6hLKYvJGhx2ZKFOejD4hvdvbRuKZ9CodHUL2bmoytcBDVQ7nsN6APkGUJuh9HCyq7oKtkC6ocRZSg9xKQ=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=T729HnV1; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=T729HnV1; arc=fail smtp.client-ip=40.107.21.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ycv8FUtS"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a8d43657255so186422066b.0;
-        Thu, 03 Oct 2024 09:13:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727971999; x=1728576799; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3fpNTS0q1Wya28e2Ddw3u+eLcNrzlMeAfttSM8CxcnU=;
-        b=Ycv8FUtS5gK8VmgHbMAsClNWftHGYucqDn1mpogpYjFymT0H5Hi4O1XpgJq7Iomnrd
-         N/VrX3jetErf8Bfk65+mSkcO7XXVUcGs7eCylO4l7zld7L+q7Vr4XeXo4RQlyheyz7AJ
-         /KnboGTDlVoKaxuZ/beCWKlxJ/KKxRgaRxOrP1VNzBpka0UWBXKHDTpvK2OlkIBfhTRp
-         Kt4irW+HH464vfKjRtrjtl6Eb7CTXb0QhurpzHjhu9AU+x1kzVHH5Vypx2+9LUeLrSlz
-         Q4MxG/vsE5xzQLijl4PCT2dLpYiFCQE2+4EU6+MBd8peTBPjO9dwBBte5OPErR9x4XRk
-         Ivlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727971999; x=1728576799;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3fpNTS0q1Wya28e2Ddw3u+eLcNrzlMeAfttSM8CxcnU=;
-        b=Q06vtO/+BPvDrKpn/s4llG82RbNoMIyvtEmwZTNt+tcM1lDxvqoOWI8Sq+kyBWMaHj
-         19Bf8bBEHiFQI8aq+9ZUN21+go808npWUpLO8Z2mqzgFET8M49Dxb6sdgUnRXynJqD/d
-         qkE/CU4pege19VTu7Mq+UoU1iuyHix3IgEK8GaHqm3KVyW1866+jtktzSsgEDIMWvosX
-         J4KfmADq7UJdNb5NEGT4uGa0dUlOSTN7LugkTr9jSA2Ab66Sl9kXoI4Mk+ENIAmET/R/
-         V7xgp054qA8BnmHE72TJLc+w/3ByY8o0Ew6zL5NBhpX5ilaOKWso51phA+YGlDcI7BlR
-         g2Hw==
-X-Forwarded-Encrypted: i=1; AJvYcCUpyBHOE2VnoBRWbsGlRv9dUv2np2mxu8/IHSkS0blQu+y21fdELFoiv6m1VXjZdnVXxEfSjX3m7LY=@vger.kernel.org, AJvYcCVVOHse20BGhXYDgqVuwrshIdI/haiv9ZfPDRRdjZQgjiRFt+Dzn1kZBWIgQXUNjEPnIiMIxhyBrmh9Pi6D@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCFMH2Zrv0pudPh3Zx27icy+xM/Oo5iKCxjdypNuAYCLpnOS/J
-	rH0ed24zjuBFK/wWugpQ9wr9rJrwr17KoGTE4zbFY4Gr6tydO4EeCiNquy/Uzr40RQ==
-X-Google-Smtp-Source: AGHT+IH+z9eUo8QcUxhrDoJYH3nCVHawLxyeUByKeD9f7uhNjTIOXx5BsvoGTwPWw9epYlodqVNg5g==
-X-Received: by 2002:a17:906:9c84:b0:a91:15dc:34e4 with SMTP id a640c23a62f3a-a98f838b3b9mr825508066b.59.1727971998826;
-        Thu, 03 Oct 2024 09:13:18 -0700 (PDT)
-Received: from [192.168.1.17] (host-79-12-161-203.retail.telecomitalia.it. [79.12.161.203])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99103b314asm102382366b.103.2024.10.03.09.13.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Oct 2024 09:13:18 -0700 (PDT)
-From: Antonino Maniscalco <antomani103@gmail.com>
-Date: Thu, 03 Oct 2024 18:13:01 +0200
-Subject: [PATCH v8 12/12] Documentation: document adreno preemption
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="T729HnV1";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="T729HnV1"
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=mHAN6wsiIep1B2upoX/3ObN1nrpP8tUUGxgnSIw5sEXqbJxOg9zQXFWicW4E4W1ZgHAMqRtkyIO7L9o0nT2niyd5mhY7ZvxXElJ4fLMtoRfSqHXlYZf9DZkUxQMebR7TfD6SZnldHRV6QaTd0NIYEouW2HWprHJv1vx3I1Ib50u+6Hkja6Xs1cHF3wQc2gaDcRxsiPzetiIWsr8Mdwv0lG3uyxiTtuIFC2hj5ZjfLzvQs7txBOAwethJfb4a3uBrWTiaEufzoT0NagWmu2bFtOvC1vxTE2O9ltAuEH2IB+8vV3HC/I7HvjlcrncWtoMVG6Blq9gp6e6kUGI3gztC7g==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Y8bUP8pfbQz6muJqZlHMDu2399IoR6iXiLCJQPxtKjs=;
+ b=iQ1n9WHB8053wPhdgVmQ/fNS1kkOo6i5yEmkQQ1M/u9TMqv+c7c5n0Zl20PaB1Q2KwddB/2omxoewo8cZTTgoJPF5DcuipQp0YIduSP/+7dAZ6075cIYcy3nyoknj4o1H69BTQOyLXa2KDo8sTGZq7p7pOk9TGomQBP7TqeJmkHx1CP3zT4qGpbgcDEVj8+Y9po1hZhA4PYFsVuou30iYBeq9o506NrHpzefTIv5rX0F47cX1PRqR6qI+6zlVen+9Ef4RVakw7P4wv6CzG+56vKIWS5y0SDcXYr1oEyjBtOhZAxmdxvOLjJuawT4/9Njr3v+M0825hIZ8vZ5AlDnNQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Y8bUP8pfbQz6muJqZlHMDu2399IoR6iXiLCJQPxtKjs=;
+ b=T729HnV1d3YzZSFdybokhO/nxZhmgfEhNbWvg2OlXUtyjkCBEfRQ6CYUkn5AaP6RuixBBkAS9odU729qi4yu4QAvmiW//FvnKJVT3Z81KR+XGhQyptQi/FnucB22sX+/wTn0vILAXGjyf8zbudF/tMbE74UYcDs1v+A8SHTaUK0=
+Received: from DU2PR04CA0228.eurprd04.prod.outlook.com (2603:10a6:10:2b1::23)
+ by AS4PR08MB7687.eurprd08.prod.outlook.com (2603:10a6:20b:506::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.16; Thu, 3 Oct
+ 2024 16:25:55 +0000
+Received: from DB5PEPF00014B9E.eurprd02.prod.outlook.com
+ (2603:10a6:10:2b1:cafe::e3) by DU2PR04CA0228.outlook.office365.com
+ (2603:10a6:10:2b1::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.17 via Frontend
+ Transport; Thu, 3 Oct 2024 16:25:55 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DB5PEPF00014B9E.mail.protection.outlook.com (10.167.8.171) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8026.11
+ via Frontend Transport; Thu, 3 Oct 2024 16:25:55 +0000
+Received: ("Tessian outbound bcce15e2414a:v473"); Thu, 03 Oct 2024 16:25:54 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 4e90799dea60ef9e
+X-TessianGatewayMetadata: IF406E2NVOIFiXRMbuixlvdY0LfJgZR9AMmShAAlmhttGJfQeAYOYSCbZhYh2Ti+nmHbQBBe3HifxkkepticuSgFiZA2+glvO/u55hPCMAJrqK/14zh7nhcimx+xz18rBvCOz384enzWSWLP3e8yjw==
+X-CR-MTA-TID: 64aa7808
+Received: from L6f6aa0bf32e9.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 7644A89E-DC81-43F0-9876-09150D533089.1;
+	Thu, 03 Oct 2024 16:25:48 +0000
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id L6f6aa0bf32e9.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Thu, 03 Oct 2024 16:25:47 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PUbYYsWhR5PBnawqSnkZON6nMJr9GqcHbnEjrZJLcKGaF52TVkVnWDPkcMqfp5ZWEoEIXamTJaJde1fdOKunjuqxUjWMrEsjCrHG7hu23VFS7UKKSkGwFaLHJqw+Lwo/JkikJLuDRWk14yraZz3jDAUWIe8QqJMnj0j18OOOkNTvfLXjmrkY7h42dQk235sYIJ2r9GN+AlK+1BiSSBWwHMb2d5tAMS7XzCnHGnbE/cu4u35hyKmZiiWMyDlStzqcyKLt50bK1PjJ0Cv4R8Oq7WvZByxkMCkmuzoqZ9pLsQfXAQBk7xxGMOglbf1hMjCwf2uFyx9+eRWiQrzpiU5akw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Y8bUP8pfbQz6muJqZlHMDu2399IoR6iXiLCJQPxtKjs=;
+ b=ERsQT13DCust0Y//m7n3jtK1gDMcshDsRCtA8cIMPJ5Z0PKVDJY5f3vvtjUrSsPAg2FJxmDSLDYLsGlEXfAROBAi1k2ys7nlv/6/yd2FQ7+HXNC4oA8c8SKGLC5FS7bT0AyMlaHN2Fuln9aPpzmXKbhRdJCaXsidQYkz7M0VNR6yZkYzajA5pv3TPseVy2DR6uGl79y6pP5XVV9x1FWEmt7hQ5xLIE/VvwmUE2xiMksaOkyg90VNmvGiHXsOwZ59e/8iYvF/PXyDCCmtIwSeWderOgQsW2F0/9eD4MtX+HAuVk0xBja8R0rtIYdOdz9L5aTDviroRPySbBhc24I+8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 40.67.248.234) smtp.rcpttodomain=kernel.org smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=none (message
+ not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Y8bUP8pfbQz6muJqZlHMDu2399IoR6iXiLCJQPxtKjs=;
+ b=T729HnV1d3YzZSFdybokhO/nxZhmgfEhNbWvg2OlXUtyjkCBEfRQ6CYUkn5AaP6RuixBBkAS9odU729qi4yu4QAvmiW//FvnKJVT3Z81KR+XGhQyptQi/FnucB22sX+/wTn0vILAXGjyf8zbudF/tMbE74UYcDs1v+A8SHTaUK0=
+Received: from AM0PR08CA0004.eurprd08.prod.outlook.com (2603:10a6:208:d2::17)
+ by DBBPR08MB10507.eurprd08.prod.outlook.com (2603:10a6:10:53a::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.16; Thu, 3 Oct
+ 2024 16:25:42 +0000
+Received: from AMS0EPF000001B6.eurprd05.prod.outlook.com
+ (2603:10a6:208:d2:cafe::64) by AM0PR08CA0004.outlook.office365.com
+ (2603:10a6:208:d2::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.17 via Frontend
+ Transport; Thu, 3 Oct 2024 16:25:42 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 40.67.248.234)
+ smtp.mailfrom=arm.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 40.67.248.234 as permitted sender) receiver=protection.outlook.com;
+ client-ip=40.67.248.234; helo=nebula.arm.com; pr=C
+Received: from nebula.arm.com (40.67.248.234) by
+ AMS0EPF000001B6.mail.protection.outlook.com (10.167.16.170) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7918.13 via Frontend Transport; Thu, 3 Oct 2024 16:25:42 +0000
+Received: from AZ-NEU-EX03.Arm.com (10.251.24.31) by AZ-NEU-EX04.Arm.com
+ (10.251.24.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 3 Oct
+ 2024 16:25:41 +0000
+Received: from arm.com (10.1.26.195) by mail.arm.com (10.251.24.31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39 via Frontend
+ Transport; Thu, 3 Oct 2024 16:25:40 +0000
+Date: Thu, 3 Oct 2024 17:25:39 +0100
+From: Yury Khrustalev <yury.khrustalev@arm.com>
+To: Mark Brown <broonie@kernel.org>
+CC: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, "James
+ Morse" <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+	"Arnd Bergmann" <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>, Eric
+ Biederman <ebiederm@xmission.com>, Shuah Khan <shuah@kernel.org>, "Rick P.
+ Edgecombe" <rick.p.edgecombe@intel.com>, Deepak Gupta <debug@rivosinc.com>,
+	"Ard Biesheuvel" <ardb@kernel.org>, Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+	"Kees Cook" <kees@kernel.org>, "H.J. Lu" <hjl.tools@gmail.com>, Paul Walmsley
+	<paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
+	<aou@eecs.berkeley.edu>, Florian Weimer <fweimer@redhat.com>, "Christian
+ Brauner" <brauner@kernel.org>, Thiago Jung Bauermann
+	<thiago.bauermann@linaro.org>, Ross Burton <ross.burton@arm.com>, "David
+ Spickett" <david.spickett@arm.com>, Wilco Dijkstra <wilco.dijkstra@arm.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+	<kvmarm@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
+	<linux-arch@vger.kernel.org>, <linux-mm@kvack.org>,
+	<linux-kselftest@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-riscv@lists.infradead.org>
+Subject: Re: [PATCH v13 18/40] arm64/hwcap: Add hwcap for GCS
+Message-ID: <Zv7Fg7BkP18O9CdS@arm.com>
+References: <20241001-arm64-gcs-v13-0-222b78d87eee@kernel.org>
+ <20241001-arm64-gcs-v13-18-222b78d87eee@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241003-preemption-a750-t-v8-12-5c6cb9f256e0@gmail.com>
-References: <20241003-preemption-a750-t-v8-0-5c6cb9f256e0@gmail.com>
-In-Reply-To: <20241003-preemption-a750-t-v8-0-5c6cb9f256e0@gmail.com>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Antonino Maniscalco <antomani103@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727971975; l=5027;
- i=antomani103@gmail.com; s=20240815; h=from:subject:message-id;
- bh=Lqokp436hYQPQY3ahWAbbFwj5CouB7qIxKNoJs67APU=;
- b=Y0+gbMYo926SrfUYu3rTzPeHpFJC7sLUBp92IZwL/MosjFrr3cLUskF07F3sMVxjJFJpTPcOG
- gOApUuQ84zwDkVsFRRh+sxuDU5aagr8Devr8sF7RPuK3cahOsLtbI8D
-X-Developer-Key: i=antomani103@gmail.com; a=ed25519;
- pk=0zicFb38tVla+iHRo4kWpOMsmtUrpGBEa7LkFF81lyY=
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20241001-arm64-gcs-v13-18-222b78d87eee@kernel.org>
+X-EOPAttributedMessage: 1
+X-MS-TrafficTypeDiagnostic:
+	AMS0EPF000001B6:EE_|DBBPR08MB10507:EE_|DB5PEPF00014B9E:EE_|AS4PR08MB7687:EE_
+X-MS-Office365-Filtering-Correlation-Id: 140ee3d9-6259-496a-cbf4-08dce3c80e80
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|376014|7416014|82310400026|36860700013|1800799024;
+X-Microsoft-Antispam-Message-Info-Original:
+ =?us-ascii?Q?hP7p46UKxp2ySWE7jzcxYuYBJyVfWkRIHtdnwgcT7nr9bz2ll6nBMdoMjbq9?=
+ =?us-ascii?Q?YqVp0YJy0qN3B6jzG1STi2rJInulzOOVt4/i6gG9qkEiUYs3VzFVmpPE+Kjl?=
+ =?us-ascii?Q?Hx9TpAz1ynXEOskGxvbL9drKSNHhBCufatzPSoZS12JtA4xH+if9s96jGZE2?=
+ =?us-ascii?Q?fd8L72ji/xuOU8xSFWWLhcUmeOSmqgav/vJXDhwWyOrqo4UoRi9vsvglQbZH?=
+ =?us-ascii?Q?AqnvGsl8v0bUvPVxZ7FMJrhi67XMDt47S1MrKAAQuoRmpqIN832ErUosaKed?=
+ =?us-ascii?Q?vDmMVsFY0QTNSXP9AIutjvaXVsiiOMWqJl9O1J8qIjrF8erHU8r5gDm9rjsD?=
+ =?us-ascii?Q?m7RUcCW4UxhflJHaTauojOT8z9dnTo95meT5cIesTwFi0rQi+1ZEEF3vvKnj?=
+ =?us-ascii?Q?SFqJzkOb9E4VG93ibkGGj8ovPfvu4Mc+RauauueiqMDSzFAwijGE6G1VdgH4?=
+ =?us-ascii?Q?sxTPGDIyfnuciiPIK8Onav3hWWg+F+X6K3A3WyefZFCPh5oKy3OjqcRjEV9Z?=
+ =?us-ascii?Q?f+/Tw9KM4F/9Wtsot8atK7sEy3mUB/kWkVv2WkAbz5g9JWr/PZ0rYpc555pw?=
+ =?us-ascii?Q?kF5BBfJXLjegRwx132AJ1Vqc+2mF7WQ8BOfN6jk7bYcufPTe1LFApOxkFA9y?=
+ =?us-ascii?Q?Nk3DM7zIfG0iGZZ0Rl3KwL7YGGDA7Z8LRu6SarhMUJ76DmIeLwiFQ54XwpD8?=
+ =?us-ascii?Q?WhwMrN5JIqnItB32YhENIhkNaBhGAXpjgxmzTPM0uQakM11cns2Np7sJDMz8?=
+ =?us-ascii?Q?2zJXbd4Andy4M4pA+OBUB9OK+XOVh3e18iQ1VG62vTxqlefJKKlNwWaxDXu4?=
+ =?us-ascii?Q?h25vb25ucxIeJ8PF8iJ557J7l6OKMic7syjarHpywFkzhA9iXy74vKm1tWLT?=
+ =?us-ascii?Q?55pHIrqOGrB+YZk7kYpJgN55WcH8+Ju02MxUFNDChfCC9UY/LIH5DelgBF9j?=
+ =?us-ascii?Q?IZJloaTyPdWPYJm76MWMB6Rox7Dzg5vwExWk3eNZidtBiun88dpckOAZDTxQ?=
+ =?us-ascii?Q?2SjESxrYPGfYDW09LCtrnB5YHC7YvqpGqZrpeEJ6yOuieCProFKyhLWCZBof?=
+ =?us-ascii?Q?118hsuPMQnfnIQWJwAJ2k7isM/kha03nIvnSn3T5PL5J2D+zRj1bzJOFbZVa?=
+ =?us-ascii?Q?hs5irVxunnI9Lq+fq8AfyarXjKeP8HL55fcDbYdjwQGw3G5wqyymjc71W1o5?=
+ =?us-ascii?Q?S4G9llEvkIi8THCwHPKT08KimIOtPF1iy8gmXeSWE5UulZ7Bp+TvTIY6dOYC?=
+ =?us-ascii?Q?Z4pjduByNtVopwI0vtRN/D+3P2RvaubuNfQquzF0fGEQTRCmogGfm3Fea2s7?=
+ =?us-ascii?Q?DE0vV3wy9PjCqyCx4PVfhqQ5JeL/1BfVdyTJxKyQSxhVQ8ZOO5dE6RngAf8Z?=
+ =?us-ascii?Q?kD9u/LBBpU7pX/4/985bZ9RVqo9F?=
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:40.67.248.234;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:nebula.arm.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(82310400026)(36860700013)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB10507
+X-MS-Exchange-SkipListedInternetSender:
+ ip=[2603:10a6:208:d2::17];domain=AM0PR08CA0004.eurprd08.prod.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ DB5PEPF00014B9E.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	2d6d03c8-dddd-40be-a3b0-08dce3c806bf
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|35042699022|1800799024|82310400026|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?mpSxSRnivdYD1OGtYB/avaiqhfVF3XF6jbIjvqPTJBE6qbB0dPqDwxiXevQf?=
+ =?us-ascii?Q?ycp8/cQZCAN1RDc54e8cck56Rr4AYd+Hct5zjhYgjSrTCuM5g2SquZEZbx0O?=
+ =?us-ascii?Q?yZXZT7jWTayXy5quPbevJjDjR5NRh4Nlby29HNx3q70YxF9LrbwpR1627hNN?=
+ =?us-ascii?Q?2obGPN+kcKBRu/YcfHIyCgUOr3691NvGpDe1o7cKdZJYYbIP2DMq/bPUOdg7?=
+ =?us-ascii?Q?dy2iDFeddijD3JIiwPmuL4ZkaiuQdrB8cwv3oJQdhxtZSxt464UssoEElVzl?=
+ =?us-ascii?Q?PHDd5Drrq2LJIcQPF6e/u1akJxV7viX07p7FzmMD3+FRTsovkdCkKgfG9Vit?=
+ =?us-ascii?Q?S3GV92EdQqjwiPTCSn0AqVUmn0Ie08CRhEf6/zHtPMyaAf6L6APmMPm/oQmh?=
+ =?us-ascii?Q?Cc3AWckfakS2V7XBntNVlXZN/EyPqtwa7jQcQOI5YFpif8jWo171mN8ba/jb?=
+ =?us-ascii?Q?9A2LYjTyjzmjGhlQ6QTbH5Kt/Kao7kvc8rXQqdz5pO/dPSQoUknWOUrMpg/R?=
+ =?us-ascii?Q?aDMnQLHc4ge12dKHj22MKVzYDkITP5BnCZcLwdFeNO4cJgb8KkcwkkTENfqm?=
+ =?us-ascii?Q?JPCZMf6hMelcsvrGl2ycYvCcdWqonghj1OM2IjnhgPBufYbD1UnHXoroSseA?=
+ =?us-ascii?Q?zybgGllpo27FuAWt8LmbQ3VpuEU9RoTCpqAZndA88LwmxQGzjouzvjyQ9e6K?=
+ =?us-ascii?Q?4L0TyQ/X8/zwnV5JZmcdyVnWwOUIRgfH/vOPEFaZaXHXDOZ4GTkUlyjtb274?=
+ =?us-ascii?Q?JespN9RkuShDHC5wLnBWKzPNebCapTyhpDOHWFldlymJY2WniwewahzPNeJK?=
+ =?us-ascii?Q?+jdC8IpcqOkit57i1gixqLRV0jyY0mnSIKvsuKfOMLsu4syvFHxJIE4SaLg+?=
+ =?us-ascii?Q?FrugZvSzo2eBdtBNe8pDMecPUVdzDeaKqIUqCoHAChI8beL3gthoE8SSAS7M?=
+ =?us-ascii?Q?czOLogmRFhyvi4bQzjpKSSA7xLtoE04mSbEkFjy8qrKdzK6usOJraFJ3G4pn?=
+ =?us-ascii?Q?gfMErwIujQkqbIX0hsrvOCip5/Dz0+hXNp/iLLitqCQXEQl60IiH/dfaueXE?=
+ =?us-ascii?Q?F7I675VtGyMNen1qQsVglN/D8xSbvVSKLuOxb4CMmKxadAzarRPnvmOiEfZW?=
+ =?us-ascii?Q?dg9oOGzINtWgnuQyDVPWkL+alC3cNu7ENfVIvCjqDpXre9cMa2godyHv2XX3?=
+ =?us-ascii?Q?aPz+7tnzmdfg6os8KWlK+t2F73zzzSx+gag5CKY9jMZkAvxTFwIvwgfY51I+?=
+ =?us-ascii?Q?Fi3oZYt2zOW9COPoywbRw1xU0GDL9OBxIW7P5bdopCinhtPy5wtH6/RmV8JR?=
+ =?us-ascii?Q?8P2j6OJcxTQgjK3t6zxy4OKBrR9tp9+YfLgzRqCg52bDXzNe2JBJ2Ct814Vi?=
+ =?us-ascii?Q?nCygZ+DOOjpzIXgAtB2sHdMT7qLu?=
+X-Forefront-Antispam-Report:
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230040)(36860700013)(35042699022)(1800799024)(82310400026)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2024 16:25:55.4335
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 140ee3d9-6259-496a-cbf4-08dce3c80e80
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DB5PEPF00014B9E.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR08MB7687
 
-Add documentation about the preemption feature supported by the msm
-driver.
+On Tue, Oct 01, 2024 at 11:58:57PM +0100, Mark Brown wrote:
+> Provide a hwcap to enable userspace to detect support for GCS.
+> 
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+>  #define HWCAP_PACA		(1 << 30)
+>  #define HWCAP_PACG		(1UL << 31)
+> +#define HWCAP_GCS		(1UL << 32)
+>
 
-Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
----
- Documentation/gpu/msm-preemption.rst | 99 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 99 insertions(+)
-
-diff --git a/Documentation/gpu/msm-preemption.rst b/Documentation/gpu/msm-preemption.rst
-new file mode 100644
-index 0000000000000000000000000000000000000000..2f74f8b61935a4469168ec36e777320dd6f22df9
---- /dev/null
-+++ b/Documentation/gpu/msm-preemption.rst
-@@ -0,0 +1,99 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+:orphan:
-+
-+==============
-+MSM Preemption
-+==============
-+
-+Preemption allows Adreno GPUs to switch to an higher priority ring when work is
-+pushed to it, reducing latency for high priority submissions.
-+
-+When preemption is enabled 4 rings are initialized, corresponding to different
-+priority levels. Having multiple rings is purely a software concept as the GPU
-+only has registers to keep track of one graphics ring.
-+The kernel is able to switch which ring is currently being processed by
-+requesting preemption. When certain conditions are met, depending on the
-+priority level, the GPU will save its current state in a series of buffers,
-+then restores state from a similar set of buffers specified by the kernel. It
-+then resumes execution and fires an IRQ to let the kernel know the context
-+switch has completed.
-+
-+This mechanism can be used by the kernel to switch between rings. Whenever a
-+submission occurs the kernel finds the highest priority ring which isn't empty
-+and preempts to it if said ring is not the one being currently executed. This is
-+also done whenever a submission completes to make sure execution resumes on a
-+lower priority ring when a higher priority ring is done.
-+
-+Preemption levels
-+-----------------
-+
-+Preemption can only occur at certain boundaries. The exact conditions can be
-+configured by changing the preemption level, this allows to compromise between
-+latency (ie. the time that passes between when the kernel requests preemption
-+and when the SQE begins saving state) and overhead (the amount of state that
-+needs to be saved).
-+
-+The GPU offers 3 levels:
-+
-+Level 0
-+  Preemption only occurs at the submission level. This requires the least amount
-+  of state to be saved as the execution of userspace submitted IBs is never
-+  interrupted, however it offers very little benefit compared to not enabling
-+  preemption of any kind.
-+
-+Level 1
-+  Preemption occurs at either bin level, if using GMEM rendering, or draw level
-+  in the sysmem rendering case.
-+
-+Level 2
-+  Preemption occurs at draw level.
-+
-+Level 1 is the mode that is used by the msm driver.
-+
-+Additionally the GPU allows to specify a `skip_save_restore` option. This
-+disables the saving and restoring of all registers except those relating to the
-+operation of the SQE itself, reducing overhead. Saving and restoring is only
-+skipped when using GMEM with Level 1 preemption. When enabling this userspace is
-+expected to set the state that isn't preserved whenever preemption occurs which
-+is done by specifying preamble and postambles. Those are IBs that are executed
-+before and after preemption.
-+
-+Preemption buffers
-+------------------
-+
-+A series of buffers are necessary to store the state of rings while they are not
-+being executed. There are different kinds of preemption records and most of
-+those require one buffer per ring. This is because preemption never occurs
-+between submissions on the same ring, which always run in sequence when the ring
-+is active. This means that only one context per ring is effectively active.
-+
-+SMMU_INFO
-+  This buffer contains info about the current SMMU configuration such as the
-+  ttbr0 register. The SQE firmware isn't actually able to save this record.
-+  As a result SMMU info must be saved manually from the CP to a buffer and the
-+  SMMU record updated with info from said buffer before triggering
-+  preemption.
-+
-+NON_SECURE
-+  This is the main preemption record where most state is saved. It is mostly
-+  opaque to the kernel except for the first few words that must be initialized
-+  by the kernel.
-+
-+SECURE
-+  This saves state related to the GPU's secure mode.
-+
-+NON_PRIV
-+  The intended purpose of this record is unknown. The SQE firmware actually
-+  ignores it and therefore msm doesn't handle it.
-+
-+COUNTER
-+  This record is used to save and restore performance counters.
-+
-+Handling the permissions of those buffers is critical for security. All but the
-+NON_PRIV records need to be inaccessible from userspace, so they must be mapped
-+in the kernel address space with the MSM_BO_MAP_PRIV flag.
-+For example, making the NON_SECURE record accessible from userspace would allow
-+any process to manipulate a saved ring's RPTR which can be used to skip the
-+execution of some packets in a ring and execute user commands with higher
-+privileges.
-
--- 
-2.46.1
+Acked-by: Yury Khrustalev <yury.khrustalev@arm.com>
 
