@@ -1,217 +1,111 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 542BE19B3EC;
-	Thu,  3 Oct 2024 13:29:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180681386BF;
+	Thu,  3 Oct 2024 13:33:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727962176; cv=none; b=uSsgzElk/IolQ37bzSqo9jLUJjkZc2QRQs0e6PkLUuhWZNETToaIlFjP4kbLbB8a3gAVwZ3IxLVjtTJPwVHK77Ogp3vKb5qQDAFdEaYtODpRxkJ3kctxbYOuhaK1o1sJA86MOkANqup1F6HmWeqOsnztksQKAFOM2u3Cw4rotYg=
+	t=1727962392; cv=none; b=LKyZuAwFIlULFuNbbzezahleaAIw4NfwVsT/OFxnY/b7GUfBEJdkowL+UatB7GoBz+c3z5IfA7GM2R2NRW6sMZ/Ub3m/+gdJJo6KqrEaWEs/kgd+AedRKfqu+o+BJ/CsYXmSEmJjjEa7nHalSxojmVnUym/U7Z59DhwyI7L2BKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727962176; c=relaxed/simple;
-	bh=jOKnamp+zOvLkzBChUlJlOFhlPvWRGzHLEzkOEuY1Pc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m0mGKmE33OiUWiCIJw5hvUshdVy82eSi4TDW1y6Aiz4MNUKsFOxuOV8FZGCsXV2sWiLIV4y+GxqY1NFrDqPqFZZYPfCPyozDTHhwZEON0VYcNpxNpWstbX4APhvyL+I4n/2lAdlAS188thenttx1ajhAqrlawjeqVpzsXJDQdnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 446F3339;
-	Thu,  3 Oct 2024 06:30:03 -0700 (PDT)
-Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C504B3F640;
-	Thu,  3 Oct 2024 06:29:31 -0700 (PDT)
-Message-ID: <53b80d4d-31f2-4abf-a0ef-f194c63280dc@arm.com>
-Date: Thu, 3 Oct 2024 14:29:30 +0100
+	s=arc-20240116; t=1727962392; c=relaxed/simple;
+	bh=BbWFHSCeKOog5uUGwT6s985CRXarW7ZSOywjwtyAGNg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jZF6kbu0Cg1h7rKIWfuUtozrlrgDb8VylcUlBKUf4gU1mVWiPZn/L3w09mZIMbhK9sl68XVUe9O8zaEobq/3S0wq6XEu4/i99SJMuecYcKpt/SwXnP7RrxLK6s0DThzGrtUPvh1k9URhWaZSyaTfaR9z/sX5+I1tqUjJnrABdfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=bxIJQ26U; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bxIJQ26U"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 6C59C1BF20E;
+	Thu,  3 Oct 2024 13:33:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1727962387;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BbWFHSCeKOog5uUGwT6s985CRXarW7ZSOywjwtyAGNg=;
+	b=bxIJQ26UcRjzjl8axX9BBwkcfHhVvruFRINYXHSwH0+krChDc98iu+CgrRIBASfSV/b2Yb
+	wsrufmni/S9crlySRh1PkEzihOW6lW+XhQ78Pw24ZDpNSSSxJYqYXVVBYwZtJJxKPSYrBl
+	nyjDQ+UDcY47qI6KfSdI2coFYG71HJ8SEl292eWISWQ90aebb3Jlisg1+nPUrs8x+YT+GQ
+	tMYaOpz1vXBbkQHJC5S9/KN9hojYE75atH/7bWVf5Bn8yCKvhxHp5TuydJ3RxKphd1Rl4K
+	MLnBDy81I4eylVd+9gyWNz9YJbXpoAd4U9bKkw0rqrExJdsmEJadpmls6idpYw==
+Date: Thu, 3 Oct 2024 15:33:03 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Oleksij Rempel <o.rempel@pengutronix.de>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org, Kyle Swenson
+ <kyle.swenson@est.tech>, Dent Project <dentproject@linuxfoundation.org>,
+ kernel@pengutronix.de
+Subject: Re: [PATCH net-next 11/12] net: pse-pd: Add support for event
+ reporting using devm_regulator_irq_helper
+Message-ID: <20241003153303.7cc6dba8@kmaincent-XPS-13-7390>
+In-Reply-To: <f97baa90-1f76-4558-815a-ef4f82913c3a@lunn.ch>
+References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
+	<20241002-feature_poe_port_prio-v1-11-787054f74ed5@bootlin.com>
+	<f56780af-b2d4-42d7-bc5d-c35b295d7c52@lunn.ch>
+	<20241003102806.084367ba@kmaincent-XPS-13-7390>
+	<f97baa90-1f76-4558-815a-ef4f82913c3a@lunn.ch>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 7/8] coresight: config: Add preloaded configuration
-To: Linu Cherian <lcherian@marvell.com>, mike.leach@linaro.org,
- james.clark@arm.com
-Cc: linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
- devicetree@vger.kernel.org, sgoutham@marvell.com, gcherian@marvell.com
-References: <20240916103437.226816-1-lcherian@marvell.com>
- <20240916103437.226816-8-lcherian@marvell.com>
-Content-Language: en-US
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <20240916103437.226816-8-lcherian@marvell.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On 16/09/2024 11:34, Linu Cherian wrote:
-> Add a preloaded configuration for generating
-> external trigger on address match. This can be
-> used by CTI and ETR blocks to stop trace capture
-> on kernel panic.
-> 
-> Kernel address for "panic" function is used as the
-> default trigger address.
-> 
-> This new configuration is available as,
-> /sys/kernel/config/cs-syscfg/configurations/panicstop
-> 
-> Signed-off-by: Linu Cherian <lcherian@marvell.com>
-> Reviewed-by: James Clark <james.clark@arm.com>
-> ---
-> Changelog from v9:
-> No changes
-> 
->   drivers/hwtracing/coresight/Makefile          |  2 +-
->   .../coresight/coresight-cfg-preload.c         |  2 +
->   .../coresight/coresight-cfg-preload.h         |  2 +
->   .../hwtracing/coresight/coresight-cfg-pstop.c | 83 +++++++++++++++++++
->   4 files changed, 88 insertions(+), 1 deletion(-)
->   create mode 100644 drivers/hwtracing/coresight/coresight-cfg-pstop.c
-> 
-> diff --git a/drivers/hwtracing/coresight/Makefile b/drivers/hwtracing/coresight/Makefile
-> index 4ba478211b31..46ce7f39d05f 100644
-> --- a/drivers/hwtracing/coresight/Makefile
-> +++ b/drivers/hwtracing/coresight/Makefile
-> @@ -25,7 +25,7 @@ subdir-ccflags-y += $(condflags)
->   obj-$(CONFIG_CORESIGHT) += coresight.o
->   coresight-y := coresight-core.o  coresight-etm-perf.o coresight-platform.o \
->   		coresight-sysfs.o coresight-syscfg.o coresight-config.o \
-> -		coresight-cfg-preload.o coresight-cfg-afdo.o \
-> +		coresight-cfg-preload.o coresight-cfg-afdo.o coresight-cfg-pstop.o \
+On Thu, 3 Oct 2024 14:56:21 +0200
+Andrew Lunn <andrew@lunn.ch> wrote:
 
-Please could you only build it when ETM4X is selected ? That way you
-could drop the "CONFIG" check in the code ?
+> > > https://docs.kernel.org/power/regulator/consumer.html#regulator-events
+> > >=20
+> > > Suggests these are internal events, using a notification chain. How
+> > > does user space get to know about such events? =20
+> >=20
+> > When events appears, _notifier_call_chain() is called which can generate
+> > netlink messages alongside the internal events:
+> > https://elixir.bootlin.com/linux/v6.11.1/source/drivers/regulator/core.=
+c#L4898
+> > =20
+>=20
+> Ah, O.K.
+>=20
+> But is this in the correct 'address space' for the want of a better
+> term. Everything else to do with PSE is in the networking domain of
+> netlink. ethtool is used to configure PSE. Shouldn't the notification
+> also close by to ethtool? When an interface changes state, there is a
+> notification sent. Maybe we want to piggyback on that?
 
->   		coresight-syscfg-configfs.o coresight-trace-id.o
->   obj-$(CONFIG_CORESIGHT_LINK_AND_SINK_TMC) += coresight-tmc.o
->   coresight-tmc-y := coresight-tmc-core.o coresight-tmc-etf.o \
-> diff --git a/drivers/hwtracing/coresight/coresight-cfg-preload.c b/drivers/hwtracing/coresight/coresight-cfg-preload.c
-> index e237a4edfa09..4980e68483c5 100644
-> --- a/drivers/hwtracing/coresight/coresight-cfg-preload.c
-> +++ b/drivers/hwtracing/coresight/coresight-cfg-preload.c
-> @@ -13,6 +13,7 @@
->   static struct cscfg_feature_desc *preload_feats[] = {
->   #if IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X)
->   	&strobe_etm4x,
-> +	&gen_etrig_etm4x,
->   #endif
->   	NULL
->   };
-> @@ -20,6 +21,7 @@ static struct cscfg_feature_desc *preload_feats[] = {
->   static struct cscfg_config_desc *preload_cfgs[] = {
->   #if IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X)
->   	&afdo_etm4x,
-> +	&pstop_etm4x,
->   #endif
->   	NULL
->   };
-> diff --git a/drivers/hwtracing/coresight/coresight-cfg-preload.h b/drivers/hwtracing/coresight/coresight-cfg-preload.h
-> index 21299e175477..291ba530a6a5 100644
-> --- a/drivers/hwtracing/coresight/coresight-cfg-preload.h
-> +++ b/drivers/hwtracing/coresight/coresight-cfg-preload.h
-> @@ -10,4 +10,6 @@
->   #if IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X)
->   extern struct cscfg_feature_desc strobe_etm4x;
->   extern struct cscfg_config_desc afdo_etm4x;
-> +extern struct cscfg_feature_desc gen_etrig_etm4x;
-> +extern struct cscfg_config_desc pstop_etm4x;
->   #endif
-> diff --git a/drivers/hwtracing/coresight/coresight-cfg-pstop.c b/drivers/hwtracing/coresight/coresight-cfg-pstop.c
-> new file mode 100644
-> index 000000000000..c2bfbd07bfaf
-> --- /dev/null
-> +++ b/drivers/hwtracing/coresight/coresight-cfg-pstop.c
-> @@ -0,0 +1,83 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright(C) 2023  Marvell.
-> + * Based on coresight-cfg-afdo.c
-> + */
-> +
-> +#include "coresight-config.h"
-> +
-> +/* ETMv4 includes and features */
-> +#if IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X)
+Indeed, but regulator API already provide such events, which will even be s=
+ent
+when we enable or disable the PSE. Should we write a second event managemen=
+t.
+Using regulator event API allows to report over current internal events to =
+the
+parents regulator the power supply of the PSE which could also do something=
+ to
+avoid smoke.
 
-Could we not drop this check, if we only build it when 
-CONFIG_CORESIGHT_SOURCE_ETM4X is selected. It is not useful
-otherwise anyways.
+Or maybe we should add another wrapper which will send PSE ethtool netlink
+notification alongside the regulator notifications supported by this patch.
 
-Rest looks fine to me
+> Also, how do regulator events work in combination with network
+> namespaces? If you move the interface into a different network
+> namespace, do the regulator events get delivered to the root namespace
+> or the namespace the interface is in?
 
-Suzuki
+regulator events are sent in root namespace.
 
-
-> +#include "coresight-etm4x-cfg.h"
-> +
-> +/* preload configurations and features */
-> +
-> +/* preload in features for ETMv4 */
-> +
-> +/* panic_stop feature */
-> +static struct cscfg_parameter_desc gen_etrig_params[] = {
-> +	{
-> +		.name = "address",
-> +		.value = (u64)panic,
-> +	},
-> +};
-> +
-> +static struct cscfg_regval_desc gen_etrig_regs[] = {
-> +	/* resource selector */
-> +	{
-> +		.type = CS_CFG_REG_TYPE_RESOURCE,
-> +		.offset = TRCRSCTLRn(2),
-> +		.hw_info = ETM4_CFG_RES_SEL,
-> +		.val32 = 0x40001,
-> +	},
-> +	/* single address comparator */
-> +	{
-> +		.type = CS_CFG_REG_TYPE_RESOURCE | CS_CFG_REG_TYPE_VAL_64BIT |
-> +			CS_CFG_REG_TYPE_VAL_PARAM,
-> +		.offset =  TRCACVRn(0),
-> +		.val32 = 0x0,
-> +	},
-> +	{
-> +		.type = CS_CFG_REG_TYPE_RESOURCE,
-> +		.offset = TRCACATRn(0),
-> +		.val64 = 0xf00,
-> +	},
-> +	/* Driver external output[0] with comparator out */
-> +	{
-> +		.type = CS_CFG_REG_TYPE_RESOURCE,
-> +		.offset = TRCEVENTCTL0R,
-> +		.val32 = 0x2,
-> +	},
-> +	/* end of regs */
-> +};
-> +
-> +struct cscfg_feature_desc gen_etrig_etm4x = {
-> +	.name = "gen_etrig",
-> +	.description = "Generate external trigger on address match\n"
-> +		       "parameter \'address\': address of kernel address\n",
-> +	.match_flags = CS_CFG_MATCH_CLASS_SRC_ETM4,
-> +	.nr_params = ARRAY_SIZE(gen_etrig_params),
-> +	.params_desc = gen_etrig_params,
-> +	.nr_regs = ARRAY_SIZE(gen_etrig_regs),
-> +	.regs_desc = gen_etrig_regs,
-> +};
-> +
-> +/* create a panic stop configuration */
-> +
-> +/* the total number of parameters in used features */
-> +#define PSTOP_NR_PARAMS	ARRAY_SIZE(gen_etrig_params)
-> +
-> +static const char *pstop_ref_names[] = {
-> +	"gen_etrig",
-> +};
-> +
-> +struct cscfg_config_desc pstop_etm4x = {
-> +	.name = "panicstop",
-> +	.description = "Stop ETM on kernel panic\n",
-> +	.nr_feat_refs = ARRAY_SIZE(pstop_ref_names),
-> +	.feat_ref_names = pstop_ref_names,
-> +	.nr_total_params = PSTOP_NR_PARAMS,
-> +};
-> +
-> +/* end of ETM4x configurations */
-> +#endif	/* IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X) */
-
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
