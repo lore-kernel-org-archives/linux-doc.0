@@ -1,61 +1,60 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2341B4F10
-	for <linux-doc@vger.kernel.org>; Fri,  4 Oct 2024 21:48:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E271CACF7
+	for <linux-doc@vger.kernel.org>; Fri,  4 Oct 2024 21:48:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728078534; cv=none; b=qvEut4ro+3wpd7cuEz9GMDNG9T9p1iZyY+Vd6Lz0TOx6ogAg9KpKZooCN3V7HIaow0wO4KrN62+NaNBwDST8VbgwhivYB6TWTl/OEFFFiWhWNusnlxRo2aysrggHwABkwoGX1Ldpdyy6LqPV3k33I1qkfCbe/K2kuNlbBM3G5rI=
+	t=1728078536; cv=none; b=hPTXWlt+3V3niU2zfkWxqgQcwXBpTylm5S3eZN4C5qC+SW620W4not8prFgsL2jK812kKBoR6WGNVjJLyUKZWdHjMbhks08tFx8x8ljiQtGy8v0h/vDZt//YHKGCFENDQhhAPRbvYdRC0S4E7vFZqGaraROH55pCvs/cbEx82WM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728078534; c=relaxed/simple;
-	bh=dW6NuJWAL0tnqJGgsGPu8j1VoVP4zCeNUzqvDunBNqs=;
+	s=arc-20240116; t=1728078536; c=relaxed/simple;
+	bh=jVSeA1GybXKEqinyGc0o/mVBc+cGPLYZuh+OWslR0Lg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=XhbHKPLzhXCX68pttPLH/JTgO9NzdxYyj1A+nEgRciZN0OU4DkzMvYT4pK5M+o3pHemHi+Z+Y3sRxzyEOLu9INw42y0GgFZuH5KMT7Vhyu6YWuLkP9IeQNS8jEkI75OEyGPX4/vf13fZAVgbOC+YAkNGpiQXuMCC0UwIJHi8XuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=KHbKMBzO; arc=none smtp.client-ip=209.85.167.51
+	 In-Reply-To:To:Cc; b=UkTON4Vn2PHD1+beXLBASPZ5e47ZMolC8SDK2amZxT0AOZqR0gCgyMRQgfak80oU2oGEwSliwA50N9e/WmF5ii6ANBskXMhSLU1L9WxMqe6lm90/s9wVdGAtFS6n+ebnwuQ+cV5EA6WdW4R6rqAjncg/EiZjjgdWS41LHAWppg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=nXCKFoPh; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="KHbKMBzO"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-53993c115cfso3399744e87.2
-        for <linux-doc@vger.kernel.org>; Fri, 04 Oct 2024 14:48:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="nXCKFoPh"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-42cba6cdf32so26039195e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 04 Oct 2024 14:48:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1728078529; x=1728683329; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1728078531; x=1728683331; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Zi1jIhrpiRkiS4x4FePba+v93fkZAzTXFTnvV0Q7SJI=;
-        b=KHbKMBzOUkxinDQspNRqlLP9ZOOyfi6oFUC0tlAEzXGYDRRq9n2lJ3pAfBu6DymGB1
-         2fJmYNG21/XX3Whkxuf1dPcmVe925V4lEjK5oOht8EIc5v5HFqhhbSITVVR8co/cdPZB
-         nfeeSQhgaC4OZDQSgNVaZclcAwfZj/9U8Jh2TXw6zJKjOGI0yezjV2s1bdp9ZhqP3NXo
-         aGlc7KsarJFeJQBlFoB7LlsBjTcrekddx5p2Hh88YZrKlaKjIn1xg/rKCO1hI+8waQ5C
-         cpZWAY71bFDxtjCwCG42HEJ46s9wJW9l0xokQkG/q4shKIpFb2bMQosgnwtk+dYS20Sn
-         p49Q==
+        bh=Ws6OvwIpBgzbrhXwN/bI0GwmZw37Oa3ub3+JwbGz+M4=;
+        b=nXCKFoPh+Zk0Y08lyb2vuk4nDlt1ReSas6f2gHvyz9JN3lDiQ7JJRXx+l+za0FPjFb
+         jrJdcWxrHl7SIf553HuN5NSQs/QzmVSGA7diN+RKuU6u0dAuPZqWLI1ITOBhyNoqIQjQ
+         HYXXt0QjffTXelSfUNKtalD0d2rGLSdR+Y3maVxHoQLw+oanE05xpR/2ZZYo2r6dLoB7
+         Z8NCFX9dhiXpZWy1YkGc+384e7PucbPsrjljYyU7VmC2m6cAmmCv+5q3NpYG2atC+C94
+         i+yWHXsYlYdjwRTehnwzPgwXld3pBZ8G4MIoLE7EFTThXN8qbBJLYRFTAnuJfmk4Px5M
+         fWYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728078529; x=1728683329;
+        d=1e100.net; s=20230601; t=1728078531; x=1728683331;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Zi1jIhrpiRkiS4x4FePba+v93fkZAzTXFTnvV0Q7SJI=;
-        b=k+pXAVVPYtJZyy8qLT/G1sPg5wrCZjvoD+0jskeVcXZBp0gXwgkQySbq3ryl7ITstL
-         5cYXe29Er7LwpcGrc08ReI+XzDcUjYUZ2s5RFE+JxoQXhbISiF4cHTfzMZEi6Lp4Df6M
-         hU1lt5+yOVeeR2jYyr1uwTd40B5o81+rVo7NFBPqIWZSHAIcAGvxhXQblos9Zgh6o0J3
-         Kq1SsbNEcS04SWJtD6tjYMoMDyupKiqIf+HaoUvn0QkI/esnoOzj/c+QVq0MAJsRL0sE
-         IJxUXfCDqbBP3KWQLQ7DhABqEJl1kJSyJdgpHJuDtt5zg6lCBPvqfHC0YUpMD/Ag+LHw
-         fPAw==
-X-Forwarded-Encrypted: i=1; AJvYcCUGGV14eOxPCUovvfB9i0X4iClQsQJR8ip0FJ5JivQKs2fmGcFwsWbTgH3cv/NYZV8KHarrFCccD28=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9GhCaboM9EyXG/5v9kIX0V0uYGOPE1d0TD528/ZxmDoHuLF4s
-	BufNUgSW1nqUYwsJq1EdWZ6mof4eLIlFEXKq3Z6gjGzAKd5tP94aVxZKQpbwB+w=
-X-Google-Smtp-Source: AGHT+IG9vKnlCyYpJNJyXVcqaNvjMhM227pXj314Ws0xBmbWWcURKzDXKJu6hWgq+z1B4KbbgtI7zg==
-X-Received: by 2002:a05:6512:3090:b0:52c:e1cd:39b7 with SMTP id 2adb3069b0e04-539ab85be3fmr2837875e87.5.1728078528670;
-        Fri, 04 Oct 2024 14:48:48 -0700 (PDT)
+        bh=Ws6OvwIpBgzbrhXwN/bI0GwmZw37Oa3ub3+JwbGz+M4=;
+        b=HJF5NQuONMWQlaPlYrilIveE8Ir1OXzjW2loopQOHmvDAkV5hNxk1yYbweogvQO6Ub
+         Tz7xNdpScaJ6hX6o53hlU2zr5tcaeL1Wk8rLsg9YVRUUm0ovibGWmUhEJXckQe1hN0wA
+         7wD+gCnzEKOAEOXkPU9CICAGutX5HHS2XbGb3ShFpkNxq7iWNyxW4H2ksNGNBJmjzOEl
+         Wqraf3SbrKV0TNfBcRchvVygrzPg4xsOmgXMJchRWx8h7Kc9bGSGrqpHjcP02vX3jA4w
+         zB6xiWp37CMnXFdPBklQzVBWCZtbJyOuH0S3jIXzsA1RXhuo55QT5F1CDwh+QOJklm9R
+         dbdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWRMPpWYo/hHg8x9RCa+NdCwJyaeuAF46TvObsq0EZUYNQKt3k76JL19Luo1of8cBXJe/n/LBPhfV4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzzKFDhfmzI4MZ/MvfGp3GUTh2YD2SNJU/Y6DdiOBigMV/ZFjOb
+	tpsH8JSN6zRikG4hrv8R+jynIEWWJ2fG3W6qFLKk+3+Ef30e4obDm/zQO3KeaKY=
+X-Google-Smtp-Source: AGHT+IEp8lVDApG6/0v+gqntIFP0H2r8NnVYzaeUF9YEnuWGMOZ09DXkJeh3ASsOFaRjuQwShIJQWQ==
+X-Received: by 2002:a05:600c:4e89:b0:42c:b750:19d8 with SMTP id 5b1f17b1804b1-42f85a700ecmr30381585e9.4.1728078531059;
+        Fri, 04 Oct 2024 14:48:51 -0700 (PDT)
 Received: from [127.0.1.1] (frhb82016ds.ikexpress.com. [185.246.87.17])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f86b4ab63sm24680375e9.40.2024.10.04.14.48.47
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f86b4ab63sm24680375e9.40.2024.10.04.14.48.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Oct 2024 14:48:47 -0700 (PDT)
+        Fri, 04 Oct 2024 14:48:50 -0700 (PDT)
 From: Guillaume Stols <gstols@baylibre.com>
-Date: Fri, 04 Oct 2024 21:48:36 +0000
-Subject: [PATCH v3 02/10] dt-bindings: iio: adc: ad7606: Remove spi-cpha
- from required
+Date: Fri, 04 Oct 2024 21:48:38 +0000
+Subject: [PATCH v3 04/10] Documentation: iio: Document ad7606 driver
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,7 +63,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241004-ad7606_add_iio_backend_support-v3-2-38757012ce82@baylibre.com>
+Message-Id: <20241004-ad7606_add_iio_backend_support-v3-4-38757012ce82@baylibre.com>
 References: <20241004-ad7606_add_iio_backend_support-v3-0-38757012ce82@baylibre.com>
 In-Reply-To: <20241004-ad7606_add_iio_backend_support-v3-0-38757012ce82@baylibre.com>
 To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
@@ -83,68 +82,201 @@ Cc: linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
  Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
  Guillaume Stols <gstols@baylibre.com>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1728078523; l=2037;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1728078523; l=6859;
  i=gstols@baylibre.com; s=20240417; h=from:subject:message-id;
- bh=dW6NuJWAL0tnqJGgsGPu8j1VoVP4zCeNUzqvDunBNqs=;
- b=1JBVnXogi8Y6VmRN4ENJTNsSU2nRs5+Y+Xu9FQStSslUOMfRP19G/XBoT+HQFyDiYJCMz/qD8
- NFHk3dWGBGUD1Y8O56KBx8G/wlK2ECH14DN83u6ihheoy5zIGdM+Ejb
+ bh=jVSeA1GybXKEqinyGc0o/mVBc+cGPLYZuh+OWslR0Lg=;
+ b=GaY3nxCWEFM2NgxV+4xbSLb9wBvMIgJLyCLCMlhKHcOFI1tfKQUpHa2pswAJP8b6Kwp3hWoSV
+ OSyZmLuSxlvCFOk2/W62joq0HB/6y8CTGWodgDZ+b5XgM4NR8ZrngxU
 X-Developer-Key: i=gstols@baylibre.com; a=ed25519;
  pk=XvMm5WHuV67sGYOJZqIYzXndbaJOlNd8Q6li6vnb4Cs=
 
-The documentation is erroneously stating that spi-cpha is required, and
-the example is erroneously setting both spi-cpol and spi-cpha. According
-to the datasheet, only cpol should be set.
+The Analog Devices Inc. AD7606 (and similar chips) are complex ADCs that
+will benefit from a detailed driver documentation.
 
-On zedboard for instance, setting the devicetree as in the example will
-simply not work.
+This documents the current features supported by the driver.
 
-Fixes: 416f882c3b40 ("dt-bindings: iio: adc: Migrate AD7606 documentation to yaml")
-Fixes: 6e33a125df66 ("dt-bindings: iio: adc: Add docs for AD7606 ADC")
 Signed-off-by: Guillaume Stols <gstols@baylibre.com>
 ---
- Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ Documentation/iio/ad7606.rst | 145 +++++++++++++++++++++++++++++++++++++++++++
+ Documentation/iio/index.rst  |   1 +
+ MAINTAINERS                  |   1 +
+ 3 files changed, 147 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
-index bec7cfba52a7..47081c79a1cf 100644
---- a/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
-+++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
-@@ -39,6 +39,11 @@ properties:
-   "#size-cells":
-     const: 0
- 
-+  # According to the datasheet, "Data is clocked in from SDI on the falling
-+  # edge of SCLK, while data is clocked out on DOUTA on the rising edge of
-+  # SCLK".  Also, even if not stated textually in the datasheet, it is made
-+  # clear on the diagrams that sclk idles at high.  Subsequently, in case SPI
-+  # interface is used, the correct way is to only set spi-cpol.
-   spi-cpha: true
- 
-   spi-cpol: true
-@@ -168,7 +173,6 @@ patternProperties:
- required:
-   - compatible
-   - reg
--  - spi-cpha
-   - avcc-supply
-   - vdrive-supply
-   - interrupts
-@@ -255,7 +259,6 @@ examples:
-             reg = <0>;
-             spi-max-frequency = <1000000>;
-             spi-cpol;
--            spi-cpha;
- 
-             avcc-supply = <&adc_vref>;
-             vdrive-supply = <&vdd_supply>;
-@@ -288,7 +291,6 @@ examples:
- 
-             spi-max-frequency = <1000000>;
-             spi-cpol;
--            spi-cpha;
- 
-             avcc-supply = <&adc_vref>;
-             vdrive-supply = <&vdd_supply>;
+diff --git a/Documentation/iio/ad7606.rst b/Documentation/iio/ad7606.rst
+new file mode 100644
+index 000000000000..a1173708b489
+--- /dev/null
++++ b/Documentation/iio/ad7606.rst
+@@ -0,0 +1,145 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++
++=============
++AD7606 driver
++=============
++
++ADC driver for Analog Devices Inc. AD7606 and similar devices. The module name
++is ``ad7606``.
++
++Supported devices
++=================
++
++The following chips are supported by this driver:
++
++* `AD7605 <https://www.analog.com/en/products/ad7605.html>`_
++* `AD7606 <https://www.analog.com/en/products/ad7606.html>`_
++* `AD7606B <https://www.analog.com/en/products/ad7606b.html>`_
++* `AD7616 <https://www.analog.com/en/products/ad7616.html>`_
++
++Supported features
++==================
++
++SPI wiring modes
++----------------
++
++These ADCs can output data on several SDO lines (1/2/4/8). The driver
++currently supports only 1 SDO line.
++
++Parallel wiring mode
++--------------------
++
++There is also a parallel interface, with 16 lines (that can be reduced to 8 in
++byte mode). The parallel interface is selected by declaring the device as
++platform in the device tree (with no io-backends node defined, see below).
++
++IIO-backend mode
++----------------
++
++This mode allows to reach the best sample rates, but it requires an external
++hardware (eg HDL or APU) to handle the low level communication.
++The backend mode is enabled when through the definition of the "io-backends"
++property in the device tree.
++
++The reference configuration for the current implementation of IIO-backend mode
++is the HDL reference provided by ADI:
++https://wiki.analog.com/resources/eval/user-guides/ad7606x-fmc/hdl
++
++This implementation embeds an IIO-backend compatible IP (adi-axi-adc) and a PWM
++connected to the conversion trigger pin.
++
++.. code-block::
++
++    +---+                                       +----------------------------
++    |   |               +-------+               |AD76xx
++    | A |  controls     |       |               |
++    | D |-------------->|  PWM  |-------------->| cnvst
++    | 7 |               |       |               |
++    | 6 |               +-------+               |
++    | 0 | controls  +-----------+-----------+   |
++    | 6 |---------->|           |           |<--| frstdata
++    |   |           | Backend   |  Backend  |<--| busy
++    | D |           | Driver    |           |   |
++    | R |           |           |           |-->| clk
++    | I |  requests |+---------+| DMA       |   |
++    | V |----------->|  Buffer ||<----      |<=>| DATA
++    | E |           |+---------+|           |   |
++    | R |           +-----------+-----------+   |
++    |   |-------------------------------------->| reset/configuration gpios
++    +---+                                       +-----------------------------
++
++
++Software and hardware modes
++---------------------------
++
++While all the AD7606/AD7616 series parts can be configured using GPIOs, some of
++them can be configured using register.
++
++The chips that support software mode have more values available for configuring
++the device, as well as more settings, and allow to control the range and
++calibration per channel.
++
++The following settings are available per channel in software mode:
++ - Scale
++
++Also, there is a broader choice of oversampling ratios in software mode.
++
++Conversion triggering
++---------------------
++
++The conversion can be triggered by two distinct ways:
++
++ - A GPIO is connected to the conversion trigger pin, and this GPIO is controlled
++   by the driver directly.  In this configuration, the driver sets back the
++   conversion trigger pin to high as soon as it has read all the conversions.
++
++ - An external source is connected to the conversion trigger pin. In the
++   current implementation, it must be a PWM. In this configuration, the driver
++   does not control directly the conversion trigger pin. Instead, it can
++   control the PWM's frequency. This trigger is enabled only for iio-backend.
++
++Reference voltage
++-----------------
++
++2 possible reference voltage sources are supported:
++
++ - Internal reference (2.5V)
++ - External reference (2.5V)
++
++The source is determined by the device tree. If ``refin-supply`` is present,
++then the external reference is used, otherwise the internal reference is used.
++
++Oversampling
++------------
++
++This family supports oversampling to improve SNR.
++In software mode, the following ratios are available:
++1 (oversampling disabled)/2/4/8/16/32/64/128/256.
++
++Unimplemented features
++----------------------
++
++- 2/4/8 SDO lines
++- CRC indication
++- Calibration
++
++Device buffers
++==============
++
++IIO triggered buffer
++--------------------
++
++This driver supports IIO triggered buffers, with a "built in" trigger, i.e the
++trigger is allocated and linked by the driver, and a new conversion is triggered
++as soon as the samples are transferred, and a timestamp channel is added to make
++up for the potential jitter induced by the delays in the interrupt handling.
++
++IIO backend buffer
++------------------
++
++When IIO backend is used, the trigger is not needed, and the sample rate is
++considered as stable. There is no timestamp channel. The communication is
++delegated to an external logic, called a backend, and the backend's driver
++handles the buffer. When this mode is enabled, the driver cannot control the
++conversion pin, because the busy pin is bound to the backend.
++
+diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
+index dfcf9618568a..88bc36326b74 100644
+--- a/Documentation/iio/index.rst
++++ b/Documentation/iio/index.rst
+@@ -21,6 +21,7 @@ Industrial I/O Kernel Drivers
+    ad4000
+    ad4695
+    ad7380
++   ad7606
+    ad7944
+    adis16475
+    adis16480
+diff --git a/MAINTAINERS b/MAINTAINERS
+index bcdf43f37660..45c33d1a4403 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1561,6 +1561,7 @@ F:	Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4350
+ F:	Documentation/devicetree/bindings/iio/*/adi,*
+ F:	Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml
+ F:	Documentation/devicetree/bindings/iio/adc/lltc,ltc2497.yaml
++F:	Documentation/iio/ad7606.rst
+ F:	drivers/iio/*/ad*
+ F:	drivers/iio/adc/ltc249*
+ F:	drivers/iio/amplifiers/hmc425a.c
 
 -- 
 2.34.1
