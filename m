@@ -1,106 +1,98 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A42E1802E;
-	Fri,  4 Oct 2024 08:31:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3BE133FD;
+	Fri,  4 Oct 2024 09:50:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728030686; cv=none; b=Uqay0UeIp1T8Ce825xYQi+ZtwWkGQd3x0rj/KwqE6OGVJvHTGHASCLPy3fEaNhgoMiyv7c2c+8FPKQYt6ULQNjBlrIOynxE66FtkSMsepVh3Mi8QjbQ/E37dX0MkVbaL7eXXAeNgwef2okxcxF3KqFvmo0/EB3xQhGcNaTKuvwU=
+	t=1728035404; cv=none; b=q7J4mHMzt+3IfqoPJ9msVMWxenwsDWFyG5UlgIFV3QmXSNGxxDv0wpr2GgdVzV7mmYCFKJnQ40qkNE7fa42Uop5htF1wK9uVBzCQL1SehLZJsKS6vv2HIHxM86mZnJlpDm7p4kQfzVwRlHK0CcPtSc6AbU5NUwqPS655yaiuxME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728030686; c=relaxed/simple;
-	bh=gl9YpbCSHOn4YQiJi6dPRroQK1BDuPkVG8r5ZxH/Hak=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QSbQ40JECSXPOo7kgS4JNo/Z4cfsTSeLq3UivN8F1GSLSA26G2d2OhQosExadqVBymDxtiJ/deZqV/4CnbBLSwUzptc8XxNb9Mp17+4vNRQABrQ2VJz6xDpJlQUm2/PSiV6aFkISUTZMpY1JOHU16GOs0TMQaFjfK8YUi5QPM9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R3ipBqfp; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728035404; c=relaxed/simple;
+	bh=tOhmMjwayNEBMiL47J3oxGjcYEC7q9iL7ikaYSfQkoY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=sSPrErI9a+OwAKeTo9MnQOAeuKkQIz18THi4keZV/jJHtyTYL4Tvz4gB56nrLlIq35hGayuy15TcG+WKPDFJFFWwpW/CM8p+RWk+QIEtIm8qhwB46UKbkEGc75yDphXRR6N6YUemqS7HUIonW8R+Tz2j+tlN3XXcJQj+7wt996Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qOZk/s0H; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R3ipBqfp"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2e0b0142bbfso2104477a91.1;
-        Fri, 04 Oct 2024 01:31:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728030685; x=1728635485; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aPFEQO564fwTGRK5Isb10xeqXfIGvDP5I6UFdrlBgGI=;
-        b=R3ipBqfpzrwswbn0X8BDliwHXLApQWx8ZBY2AUOlUE2iLgOK1YtPwmxF3tpJi6/RpR
-         1lFdQ3n77SKK74126SAI3edep5pBLtXrXC6u+HlADQln5EkD/CSBbDmdUllh+E+Khptd
-         TUD/DLHpw2FiaLghWMdTddAJxXFGGl9kZ7pR4XKPzhsE+TX0ve84XGnRicy4TbIy0U+J
-         KvPYuZLA9+9VMGowU3zt88kWL9KxSLYqM3hGl46l5+HEOYliRj0oWo/jbXczjS9+iv97
-         DLVr4lxT/oKHWEbjKMOhCI9qhsihrN7tq1wuRJxXzXEeK1UVUGIJO9rOy4yndXeEtOWR
-         gSPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728030685; x=1728635485;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aPFEQO564fwTGRK5Isb10xeqXfIGvDP5I6UFdrlBgGI=;
-        b=CB8vxqum9lR48uwJ1k6soDVzljw0+T3imr9ijEVXRsuXpX4WviC4QOzR98KMNI78f9
-         VykZy9yw5MqdlybZU0SrnJ86h5ywV40npfRqDxvFbTzlW7B0gQwQsJ2TapsTW0JE7W/Y
-         E/siWSikXGMQsPiqNUUz45VNLGN9OoZVcrV/4G9XIcAubUqeh2dP4uq2zHfC8ALInfnF
-         mphm0wCKlzAb19AArRWaGmJSMj3obP++iWZrBSYG68jQFFATd/lH3+d+VtNArS8JY/jo
-         GHh3rWysxMOyqByhzaKY9tMrIXKkoaNfZmIgnhI8oT2ysaS1GlpfcqK7FnIta/DqahuF
-         cvTg==
-X-Forwarded-Encrypted: i=1; AJvYcCVt5uavxECxdfV51MLkO0Zzs33KvsCsVVGPBQCiCQh+9B6QSdonGTh8P4wK35ekOKiR4Qe4dBkDBc3JlHUSBplJYOT9+g==@vger.kernel.org, AJvYcCWn3BQEArvwlC26ay6qjug0oVnZeBKDjFgRbTscftUs95MjrxNemHNXJzec5mEs6QxItaIyRwUIMws=@vger.kernel.org, AJvYcCXdw3yCT8lPOny78xshma1sLaM41q8mvy8B4HNBTxhEaDqDL47BQFf/9xVIP0RRnrbnu5hOUYYaXs7sw4a0@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSSjyQAUHSNaMBDBXD2hMB3JaZngxqKrkhTxRjwmuHOPkz6XoF
-	cQPgtO4WEUTuirbXlW0PaL6RlVeHTGqgG+unptzp+1lWhn9Xdwpwce/0M+I0ir65UA==
-X-Google-Smtp-Source: AGHT+IGlJEh6M7zOjemHNyTMhyWPU8d22wr0ZdsSHNmEXUmr0BLYpC/Isk+eRDZD2q56K5D6HxQb1w==
-X-Received: by 2002:a17:90a:10d0:b0:2e0:855b:9b21 with SMTP id 98e67ed59e1d1-2e1b38a3412mr8520434a91.8.1728030684732;
-        Fri, 04 Oct 2024 01:31:24 -0700 (PDT)
-Received: from Tua.. ([103.70.199.198])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e1e83caf89sm978410a91.8.2024.10.04.01.31.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Oct 2024 01:31:24 -0700 (PDT)
-From: Anaswara T Rajan <anaswaratrajan@gmail.com>
-To: W_Armin@gmx.de
-Cc: corbet@lwn.net,
-	platform-driver-x86@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Anaswara T Rajan <anaswaratrajan@gmail.com>
-Subject: [PATCH v2] platform/x86: dell-ddv: Fix typo in documentation
-Date: Fri,  4 Oct 2024 14:01:02 +0530
-Message-Id: <20241004083102.752344-1-anaswaratrajan@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qOZk/s0H"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B60D9C4CEC6;
+	Fri,  4 Oct 2024 09:50:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728035404;
+	bh=tOhmMjwayNEBMiL47J3oxGjcYEC7q9iL7ikaYSfQkoY=;
+	h=From:Date:Subject:To:Cc:From;
+	b=qOZk/s0HEG2q08N8F8/iQX3Syz/XzJHJVQtZLi1ePeiwovEhQwyFs/B2R32Z0PyBg
+	 dsHNEplp3MYwdrrt+TBxC2qPOTc8NoK9kW2r4cRIQiIjyeX/hp3mDIyhzfoKNJy28r
+	 Wnhe9Wh6v8dQHvRLT+j9kSARSHeU+vNM7+w40ul+fMpkuUkSEEldzWjMoNv/dJwR3T
+	 TuC1AoOv5z+MwQQrq6w5K3GTwIZgsHmYIcw7s9aoDkEmcszijg/A9aoe3Rmr/q/wBy
+	 WDj0SZt8QUD9lPyQNnVPaN1xWoXZ3cS+Ehj+o2b3hR0yvXVBdAGxjVkcsAhXr4D2Qr
+	 8GALyH2TJ132w==
+From: Simon Horman <horms@kernel.org>
+Date: Fri, 04 Oct 2024 10:49:53 +0100
+Subject: [PATCH RFC net] docs: netdev: document guidance on cleanup patches
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241004-doc-mc-clean-v1-1-20c28dcb0d52@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAEC6/2YC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxNDAwMT3ZT8ZN3cZN3knNTEPN1U00QTYwNTs5RUo1QloJaCotS0zAqwcdF
+ KQW7OCnmpJUqxtbUAUmzcnmcAAAA=
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: netdev@vger.kernel.org, workflows@vger.kernel.org, 
+ linux-doc@vger.kernel.org
+X-Mailer: b4 0.14.0
 
-Fix typo in word 'diagnostics' in documentation
+The purpose of this section is to document what is the current practice
+regarding clean-up patches which address checkpatch warnings and similar
+problems. I feel there is a value in having this documented so others
+can easily refer to it.
 
-Signed-off-by: Anaswara T Rajan <anaswaratrajan@gmail.com>
+Clearly this topic is subjective. And to some extent the current
+practice discourages a wider range of patches than is described here.
+But I feel it is best to start somewhere, with the most well established
+part of the current practice.
+
+--
+I did think this was already documented. And perhaps it is.
+But I was unable to find it after a quick search.
+
+Signed-off-by: Simon Horman <horms@kernel.org>
 ---
-Changes in v2:
-  - Make the commit title and description more clearer.
+ Documentation/process/maintainer-netdev.rst | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
- Documentation/wmi/devices/dell-wmi-ddv.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/wmi/devices/dell-wmi-ddv.rst b/Documentation/wmi/devices/dell-wmi-ddv.rst
-index 2fcdfcf03327..e0c20af30948 100644
---- a/Documentation/wmi/devices/dell-wmi-ddv.rst
-+++ b/Documentation/wmi/devices/dell-wmi-ddv.rst
-@@ -8,7 +8,7 @@ Introduction
- ============
+diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
+index c9edf9e7362d..da9980ad0c57 100644
+--- a/Documentation/process/maintainer-netdev.rst
++++ b/Documentation/process/maintainer-netdev.rst
+@@ -355,6 +355,8 @@ just do it. As a result, a sequence of smaller series gets merged quicker and
+ with better review coverage. Re-posting large series also increases the mailing
+ list traffic.
  
- Many Dell notebooks made after ~2020 support a WMI-based interface for
--retrieving various system data like battery temperature, ePPID, diagostic data
-+retrieving various system data like battery temperature, ePPID, diagnostic data
- and fan/thermal sensor data.
++.. _rcs:
++
+ Local variable ordering ("reverse xmas tree", "RCS")
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
- This interface is likely used by the `Dell Data Vault` software on Windows,
-@@ -277,7 +277,7 @@ Reverse-Engineering the DDV WMI interface
- 4. Try to deduce the meaning of a certain WMI method by comparing the control
-    flow with other ACPI methods (_BIX or _BIF for battery related methods
-    for example).
--5. Use the built-in UEFI diagostics to view sensor types/values for fan/thermal
-+5. Use the built-in UEFI diagnostics to view sensor types/values for fan/thermal
-    related methods (sometimes overwriting static ACPI data fields can be used
-    to test different sensor type values, since on some machines this data is
-    not reinitialized upon a warm reset).
--- 
-2.34.1
+@@ -391,6 +393,15 @@ APIs and helpers, especially scoped iterators. However, direct use of
+ ``__free()`` within networking core and drivers is discouraged.
+ Similar guidance applies to declaring variables mid-function.
+ 
++Clean-Up Patches
++~~~~~~~~~~~~~~~~
++
++Netdev discourages patches which perform simple clean-ups, which are not in
++the context of other work. For example addressing ``checkpatch.pl``
++warnings, or :ref:`local variable ordering<rcs>` issues. This is because it
++is felt that the churn that such changes produce comes at a greater cost
++than the value of such clean-ups.
++
+ Resending after review
+ ~~~~~~~~~~~~~~~~~~~~~~
+ 
 
