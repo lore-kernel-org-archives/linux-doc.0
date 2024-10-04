@@ -1,89 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B81122EF0
-	for <linux-doc@vger.kernel.org>; Fri,  4 Oct 2024 07:50:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A42E1802E;
+	Fri,  4 Oct 2024 08:31:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728028212; cv=none; b=D+IHPebYOK2atBWlK71Ted3u0YHwigCIVZfx23/7FDkrFtiImyXJQ4yjKWQ6x4E2rg8Far2CN9mOJiT1vGF3zb2PtpmMW6q/dN3Vb60JTugaVGr8LD53aOnmjM4U9zU9ZxgfPeeqV7XhVINQDbH8hsNIQ8xhseSlCFDpWXBcs+0=
+	t=1728030686; cv=none; b=Uqay0UeIp1T8Ce825xYQi+ZtwWkGQd3x0rj/KwqE6OGVJvHTGHASCLPy3fEaNhgoMiyv7c2c+8FPKQYt6ULQNjBlrIOynxE66FtkSMsepVh3Mi8QjbQ/E37dX0MkVbaL7eXXAeNgwef2okxcxF3KqFvmo0/EB3xQhGcNaTKuvwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728028212; c=relaxed/simple;
-	bh=1M1kHBo8CNJKQ64WWKpuDd4iaWHjUss8ZwZ9tAGwCw8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PEW1T4Csw9fRXvsCP+yFPcAw/WQX7sb7S3zED7/6p/b91N0LSFymv9HSSgN65jmGqhAf/2aSgri6AvByvOUVgsCgBMrO9HRLphzBfFDzAtch8LoIMASyFUuHxu6jhVmtsCwyaQaZo6lBreo/75i+bbiPoeeIFtAtJtXQfbFIC9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N6ie785n; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728030686; c=relaxed/simple;
+	bh=gl9YpbCSHOn4YQiJi6dPRroQK1BDuPkVG8r5ZxH/Hak=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QSbQ40JECSXPOo7kgS4JNo/Z4cfsTSeLq3UivN8F1GSLSA26G2d2OhQosExadqVBymDxtiJ/deZqV/4CnbBLSwUzptc8XxNb9Mp17+4vNRQABrQ2VJz6xDpJlQUm2/PSiV6aFkISUTZMpY1JOHU16GOs0TMQaFjfK8YUi5QPM9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R3ipBqfp; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N6ie785n"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728028211; x=1759564211;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1M1kHBo8CNJKQ64WWKpuDd4iaWHjUss8ZwZ9tAGwCw8=;
-  b=N6ie785nr1ryPFHz8ne8QdVJoGX9irV8Sd+WdWNGOCnGTQ4wPpXb1eOu
-   xOi6H3FRuvlJccVtimeQPtF47p8SiET2ehmOyhrpZR5Dh0tTFfKKoRgWQ
-   329KyJI0gSWDQ2zYkjCKhWZ8EKDFXWla2jx84bstEaAKKqbA3jKORPOsq
-   S4YH/YkP/bHV57sYp/PLfhWotu5olYAG4lF7Hex6QBwH2vrPzinQYyT/n
-   lx4XjDbEraeP0zWbPRSym1gSKG6TbuP85UlnUIhvha4eLtLo3nVgD+fAB
-   i4yM6nFr9V2MfRN7C87++LZraSDnweJtaF536/RWBu5smMl4mfaasLAb4
-   g==;
-X-CSE-ConnectionGUID: xOBQYVRvSjCU9yqb9cfbiw==
-X-CSE-MsgGUID: 7VrchRLxTiWtZDSbrOizaA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27373122"
-X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
-   d="scan'208";a="27373122"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 00:50:10 -0700
-X-CSE-ConnectionGUID: kX+GL9mhQhSZt/f27amE5g==
-X-CSE-MsgGUID: tnfQ3gSdTqCw2WkcBabbBg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
-   d="scan'208";a="79594306"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 04 Oct 2024 00:50:09 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1swd4g-0001LU-1e;
-	Fri, 04 Oct 2024 07:50:06 +0000
-Date: Fri, 4 Oct 2024 15:49:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-doc@vger.kernel.org
-Subject: [linux-next:master 2422/2483] htmldocs: Warning:
- drivers/gpu/drm/xe/xe_pci.c references a file that doesn't exist:
- Documentation/fault-injection/fault-injection.rst
-Message-ID: <202410041549.r1yXqVA1-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R3ipBqfp"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2e0b0142bbfso2104477a91.1;
+        Fri, 04 Oct 2024 01:31:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728030685; x=1728635485; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aPFEQO564fwTGRK5Isb10xeqXfIGvDP5I6UFdrlBgGI=;
+        b=R3ipBqfpzrwswbn0X8BDliwHXLApQWx8ZBY2AUOlUE2iLgOK1YtPwmxF3tpJi6/RpR
+         1lFdQ3n77SKK74126SAI3edep5pBLtXrXC6u+HlADQln5EkD/CSBbDmdUllh+E+Khptd
+         TUD/DLHpw2FiaLghWMdTddAJxXFGGl9kZ7pR4XKPzhsE+TX0ve84XGnRicy4TbIy0U+J
+         KvPYuZLA9+9VMGowU3zt88kWL9KxSLYqM3hGl46l5+HEOYliRj0oWo/jbXczjS9+iv97
+         DLVr4lxT/oKHWEbjKMOhCI9qhsihrN7tq1wuRJxXzXEeK1UVUGIJO9rOy4yndXeEtOWR
+         gSPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728030685; x=1728635485;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aPFEQO564fwTGRK5Isb10xeqXfIGvDP5I6UFdrlBgGI=;
+        b=CB8vxqum9lR48uwJ1k6soDVzljw0+T3imr9ijEVXRsuXpX4WviC4QOzR98KMNI78f9
+         VykZy9yw5MqdlybZU0SrnJ86h5ywV40npfRqDxvFbTzlW7B0gQwQsJ2TapsTW0JE7W/Y
+         E/siWSikXGMQsPiqNUUz45VNLGN9OoZVcrV/4G9XIcAubUqeh2dP4uq2zHfC8ALInfnF
+         mphm0wCKlzAb19AArRWaGmJSMj3obP++iWZrBSYG68jQFFATd/lH3+d+VtNArS8JY/jo
+         GHh3rWysxMOyqByhzaKY9tMrIXKkoaNfZmIgnhI8oT2ysaS1GlpfcqK7FnIta/DqahuF
+         cvTg==
+X-Forwarded-Encrypted: i=1; AJvYcCVt5uavxECxdfV51MLkO0Zzs33KvsCsVVGPBQCiCQh+9B6QSdonGTh8P4wK35ekOKiR4Qe4dBkDBc3JlHUSBplJYOT9+g==@vger.kernel.org, AJvYcCWn3BQEArvwlC26ay6qjug0oVnZeBKDjFgRbTscftUs95MjrxNemHNXJzec5mEs6QxItaIyRwUIMws=@vger.kernel.org, AJvYcCXdw3yCT8lPOny78xshma1sLaM41q8mvy8B4HNBTxhEaDqDL47BQFf/9xVIP0RRnrbnu5hOUYYaXs7sw4a0@vger.kernel.org
+X-Gm-Message-State: AOJu0YwSSjyQAUHSNaMBDBXD2hMB3JaZngxqKrkhTxRjwmuHOPkz6XoF
+	cQPgtO4WEUTuirbXlW0PaL6RlVeHTGqgG+unptzp+1lWhn9Xdwpwce/0M+I0ir65UA==
+X-Google-Smtp-Source: AGHT+IGlJEh6M7zOjemHNyTMhyWPU8d22wr0ZdsSHNmEXUmr0BLYpC/Isk+eRDZD2q56K5D6HxQb1w==
+X-Received: by 2002:a17:90a:10d0:b0:2e0:855b:9b21 with SMTP id 98e67ed59e1d1-2e1b38a3412mr8520434a91.8.1728030684732;
+        Fri, 04 Oct 2024 01:31:24 -0700 (PDT)
+Received: from Tua.. ([103.70.199.198])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e1e83caf89sm978410a91.8.2024.10.04.01.31.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Oct 2024 01:31:24 -0700 (PDT)
+From: Anaswara T Rajan <anaswaratrajan@gmail.com>
+To: W_Armin@gmx.de
+Cc: corbet@lwn.net,
+	platform-driver-x86@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Anaswara T Rajan <anaswaratrajan@gmail.com>
+Subject: [PATCH v2] platform/x86: dell-ddv: Fix typo in documentation
+Date: Fri,  4 Oct 2024 14:01:02 +0530
+Message-Id: <20241004083102.752344-1-anaswaratrajan@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   58ca61c1a866bfdaa5e19fb19a2416764f847d75
-commit: df2218ecdf52896e9cd70687613d016f23bf4919 [2422/2483] Merge branch 'drm-xe-next' of https://gitlab.freedesktop.org/drm/xe/kernel
-reproduce: (https://download.01.org/0day-ci/archive/20241004/202410041549.r1yXqVA1-lkp@intel.com/reproduce)
+Fix typo in word 'diagnostics' in documentation
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410041549.r1yXqVA1-lkp@intel.com/
+Signed-off-by: Anaswara T Rajan <anaswaratrajan@gmail.com>
+---
+Changes in v2:
+  - Make the commit title and description more clearer.
 
-All warnings (new ones prefixed by >>):
+ Documentation/wmi/devices/dell-wmi-ddv.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
->> Warning: drivers/gpu/drm/xe/xe_pci.c references a file that doesn't exist: Documentation/fault-injection/fault-injection.rst
-   Using alabaster theme
-
+diff --git a/Documentation/wmi/devices/dell-wmi-ddv.rst b/Documentation/wmi/devices/dell-wmi-ddv.rst
+index 2fcdfcf03327..e0c20af30948 100644
+--- a/Documentation/wmi/devices/dell-wmi-ddv.rst
++++ b/Documentation/wmi/devices/dell-wmi-ddv.rst
+@@ -8,7 +8,7 @@ Introduction
+ ============
+ 
+ Many Dell notebooks made after ~2020 support a WMI-based interface for
+-retrieving various system data like battery temperature, ePPID, diagostic data
++retrieving various system data like battery temperature, ePPID, diagnostic data
+ and fan/thermal sensor data.
+ 
+ This interface is likely used by the `Dell Data Vault` software on Windows,
+@@ -277,7 +277,7 @@ Reverse-Engineering the DDV WMI interface
+ 4. Try to deduce the meaning of a certain WMI method by comparing the control
+    flow with other ACPI methods (_BIX or _BIF for battery related methods
+    for example).
+-5. Use the built-in UEFI diagostics to view sensor types/values for fan/thermal
++5. Use the built-in UEFI diagnostics to view sensor types/values for fan/thermal
+    related methods (sometimes overwriting static ACPI data fields can be used
+    to test different sensor type values, since on some machines this data is
+    not reinitialized upon a warm reset).
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
