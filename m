@@ -1,114 +1,183 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D0421EB44;
-	Fri,  4 Oct 2024 02:49:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 088FC1876;
+	Fri,  4 Oct 2024 03:58:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728010193; cv=none; b=RNQedDvtLrd2xrlsWQlYsR8AXwo+b11/fqBqQ97WzwYuxwWSGDa8nkhgBbGTlEDsnIKcH0iUGpfc+vRvMSWyApR0QNQog0e7s4xzklhpTvigwB6BrPLyP12mJDKQFWS8i9/snJc3nLp6RLCw5OaSPmjSNn72zF/NntGdfKGx1iY=
+	t=1728014285; cv=none; b=FM4FQLCfJQpiXm+6SL1CD4e7QxseRXB9Sc+5srq/1O/9vKmjK6aPjYCyA+/1XBRPbVY4Ix0Zpd/2hQGkkTNrm56jgif1x6OYrI8qYRscw78sGvYCt/KqCa4JARElsdhfPzgRaPonfOjmVLwBjlhw1bhq2ZeylHuE6ocRPDs+Mq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728010193; c=relaxed/simple;
-	bh=bgcDZmpyp9Go7ne5lzKI7a7C9x9YMiRxlygQUNOFTGo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QmKwNacGt9CdH5oXTlrqXz/q9U3f2MO0Vs1w5+aUKYWclMxS+PxsFey0EcWJjMoWrkYh119FSOcdCwDhLHBqOjKghHI7YtumaamWcEdrxKEGegRgEMyiWmLDUPkBjjclGjB1sj0vPSRiLY4Fx+RaG6JwR6A4kqkvFaoFWfW2WoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k/fCf7IW; arc=none smtp.client-ip=209.85.214.179
+	s=arc-20240116; t=1728014285; c=relaxed/simple;
+	bh=AwSGznrR3WC2D1TsXQBXBds+683tpB7Pik4CHBLfs2M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=X9pYSkf9JXHTiZCWZQ6o0KzmRTxSPYnPSS4w43pO4UReObyTuvEfnJ1i6tMOZhlYeXHW2t32+JQCw1qVAQD3fGGD64NQjiNZLeB9nqr487yQLfhyLj6r56RBqzE10xpYtzfMeQZmB7WxfQKobDGiaEUiGg44icTV9f46jAXmQK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QUmrGfaU; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k/fCf7IW"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-20ba9f3824fso13045375ad.0;
-        Thu, 03 Oct 2024 19:49:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QUmrGfaU"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5c88e45f467so2794899a12.1;
+        Thu, 03 Oct 2024 20:58:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728010191; x=1728614991; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zlfa2WaHR53QQXl7QrIq/1KUxfn3b8pT0dVl+ObCnHQ=;
-        b=k/fCf7IWdSD+RjIfwDqY9XxdperGkN9BFKaHQ265x0SmfUkjJzNOkfDvA2SqcwjiOC
-         LIvj570U+lyLdKuA9U6Rd6sObKHUCmC0PCrikIOPTukP0romPXD9wmwLpiOUxKgznoVf
-         us0+wOql9bXIL4AjeA1nZNsi/Q/9o2QMs8gEL1nNxdX+9g1UklWlnUfmah1Mo8LGIEd2
-         vfJT4hoWGwwkkR13GQ28OR4JLh5LZ7s68cLAqi6/9rbCFbDUBlp68n8JW+5bDE+CuYDG
-         TbZAlxEcnveQb1osvUXps4HUfhn2WBUgx2FPSzaFgekPIuGfnFrlb87TwAyVuudON5AS
-         +lQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728010191; x=1728614991;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1728014282; x=1728619082; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zlfa2WaHR53QQXl7QrIq/1KUxfn3b8pT0dVl+ObCnHQ=;
-        b=KrubtvXs6tEn8o9Ep8EFZQnXyEEW4y1/ETgrkNFP28cVDc/pJdg3JsgDK2+DsvH7Zu
-         JEXYk+2ynGUBTxEE/4KyffDZVuBC9nWSjZT+NMWAYGHKgD0W7/e/aGGBoCwi35FGRG9m
-         wZ+ZxMEDAfrmbpXWCRE4HRE9hBUxyEedF9owzbsIaExVuFiG3zQxcBkPIdokthDmz5Of
-         MyitZJqaB3W7bUb4upl4MrDnxE56jjR2JQ2CU2y2u7tsvO6WUJ9S66C2roO+oA1Jk+pR
-         wKCLbvrFRCMqXofLayx+qPh3aueAUqxQMP/b5xm2BTAJu/ltjUYVNXS+cJBPc50no5hh
-         arcg==
-X-Forwarded-Encrypted: i=1; AJvYcCW51OApvspC9Q8VUhTwSyPgcooza6EWhV4Guo9Nb9j23UUHlTEKYs/H2YdzGGLmgliE8JjcnbcHBXY=@vger.kernel.org, AJvYcCXqDsRdAF9FnvpAA4qnnRMopEFPgmUX90tRn2q5vUqY0CWaUtjerNN4Ftk8xbGxY5iyXQ3zOv1I@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQFWNP6wyssQ3w+wsx1SCxjVUDQXiOHySeBl7zT/Vd4V4DxrDs
-	0QkdiKxvP0OkU/slLOdpfbSGYj+wKprjqsWpuuEz8j/IIigJdyRi
-X-Google-Smtp-Source: AGHT+IGOFiXKuExLzw6w1Mo/rQf2IO5b3/T2DttYfDhG4a/r2dPJ3ORuf7DrutuJaGbJl7gxEW/x9g==
-X-Received: by 2002:a17:902:d2cf:b0:20b:502f:8c2e with SMTP id d9443c01a7336-20bfee333acmr18577485ad.51.1728010191094;
-        Thu, 03 Oct 2024 19:49:51 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20beeca2331sm15476505ad.67.2024.10.03.19.49.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Oct 2024 19:49:50 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 2100845D3292; Fri, 04 Oct 2024 09:49:47 +0700 (WIB)
-Date: Fri, 4 Oct 2024 09:49:46 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Donald Hunter <donald.hunter@gmail.com>, netdev@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Cc: donald.hunter@redhat.com
-Subject: Re: [PATCH net-next v1] doc: net: Fix .rst rendering of
- net_cachelines pages
-Message-ID: <Zv9XyuQ9-76EqoUQ@archie.me>
-References: <20241003205248.61445-1-donald.hunter@gmail.com>
+        bh=sBl4ky6od+/pL5FKy6uBonSrJk3T+eK4daQjsHg2Fwc=;
+        b=QUmrGfaUWDQSWUtq5b1GPe+bS+PWUbgBuYFDAobpjELDyQmiK4b5q7uw+Ev322oQ8r
+         uUjrdYcy/hFJC2LvKyiV+6/+hUYyP7im3Q4CQgYA6uHBFlSARvwMjv85WjgGHaCNT+hx
+         oHkg1r1SNuVZcbyz4rO7bAqa7uBRkOJ5D+3TKM35ZxPMaIVa2XBQYZuPDnu2vTGxN4mt
+         5vc6UV7TAO4pxwZPNJpaPPo0DQVr/j7diQ6G48HcJccyzHM+Xy8loDjS0tFO9CDEGwty
+         KezcaPO9kzOsSpA27cAy20McujgFOG+KDiXmRkZsPYBe7FvrFMFKyJzHUWXnamu4nAaU
+         hmmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728014282; x=1728619082;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sBl4ky6od+/pL5FKy6uBonSrJk3T+eK4daQjsHg2Fwc=;
+        b=FloY8HC2YOq3SmnMJV//qNs0NxtSw6DFzAxH/RYFPUSea6mYFZBnkcp4piQ9Ilz6nO
+         kl3I264SAbFJrJRGnxGAX81wDrlyE6+1gXCWgvqsmUK/Thzhrl9d5CSspwREskPjKvHJ
+         VgAcpaSouV+qHpGQAh75xbJaW2ClipPkapbuGTgxVw1roANpymLSc/zmfsA2sL7PMAZd
+         qLGx8MAc1XW3lNg1lS/npNQbcd7DJnasry75TueGnrcu8j3eSA5vJutN8cuIQa4+99Oh
+         FZE1Yj8QsDoK0e1NCXdbd8sAXOFh+/Z2zNC+t2TV4EoBtFMN6Zmv0ejHaJGfcIPFkTVi
+         WGGw==
+X-Forwarded-Encrypted: i=1; AJvYcCVEMQEsbBVO2OqTv6dkRVv5xyHP+XrgjB3DW0q7xcKK2bWQhz7TmQoAQjkQiELvgwGYo4cBnNL3@vger.kernel.org, AJvYcCXgKSKl684NVVmEeRKPthH7opImuXiHfdP78nBDv2/TCkZHfLWDK2eJtV8GBrIHpXU15yVKq9vtU5o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOOXBNLnLGJ+a1erczZ861xAS6upWXplikbqATnYpH6leUboTp
+	k+aon1v7ie+w1ezZZlQN4BKKb0LLhQheDo26ghDATE2ywaecB/toJ6/DxGYMeRsEq4901AwJgCM
+	rnScZld34JE0mKTbZZEUaUonXD30=
+X-Google-Smtp-Source: AGHT+IHciwcWEFRS2qe2KxhQISTUJvfOitpn4Zr4fd5jigXxJ4Bts/6yrlkhTIkQK4wTp1NeFq8dWWnqlh59wCxdiFI=
+X-Received: by 2002:a05:6402:13cb:b0:5c4:1c0c:cc6d with SMTP id
+ 4fb4d7f45d1cf-5c8c08d3e64mr5843321a12.0.1728014281879; Thu, 03 Oct 2024
+ 20:58:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="FEqjA/q8SI6OQyDd"
-Content-Disposition: inline
-In-Reply-To: <20241003205248.61445-1-donald.hunter@gmail.com>
-
-
---FEqjA/q8SI6OQyDd
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20241003160620.1521626-1-ap420073@gmail.com> <20241003160620.1521626-6-ap420073@gmail.com>
+ <CAHS8izNwnBnZf6P0WtAcg+MjmaxXDZ++kYit8_Ac8r6y=cDMAQ@mail.gmail.com>
+In-Reply-To: <CAHS8izNwnBnZf6P0WtAcg+MjmaxXDZ++kYit8_Ac8r6y=cDMAQ@mail.gmail.com>
+From: Taehee Yoo <ap420073@gmail.com>
+Date: Fri, 4 Oct 2024 12:57:50 +0900
+Message-ID: <CAMArcTWP8KNWiYt7xf=yj=e45fJuqg8ENi8CowtfBLy0DEMUYQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 5/7] net: devmem: add ring parameter filtering
+To: Mina Almasry <almasrymina@google.com>
+Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
+	edumazet@google.com, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	donald.hunter@gmail.com, corbet@lwn.net, michael.chan@broadcom.com, 
+	kory.maincent@bootlin.com, andrew@lunn.ch, maxime.chevallier@bootlin.com, 
+	danieller@nvidia.com, hengqi@linux.alibaba.com, ecree.xilinx@gmail.com, 
+	przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, ahmed.zaki@intel.com, 
+	paul.greenwalt@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
+	asml.silence@gmail.com, kaiyuanz@google.com, willemb@google.com, 
+	aleksander.lobakin@intel.com, dw@davidwei.uk, sridhar.samudrala@intel.com, 
+	bcreeley@amd.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 03, 2024 at 09:52:48PM +0100, Donald Hunter wrote:
-> The doc pages under /networking/net_cachelines are unreadable because
-> they lack .rst formatting for the tabular text.
->=20
-> Add simple table markup and tidy up the table contents:
->=20
-> - remove dashes that represent empty cells because they render
->   as bullets and are not needed
-> - replace 'struct_*' with 'struct *' in the first column so that
->   sphinx can render links for any structs that appear in the docs
+On Fri, Oct 4, 2024 at 3:29=E2=80=AFAM Mina Almasry <almasrymina@google.com=
+> wrote:
+>
 
-LGTM, thanks!
+Hi Mina,
+Thanks a lot for the review!
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> On Thu, Oct 3, 2024 at 9:07=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> wr=
+ote:
+> >
+> > If driver doesn't support ring parameter or tcp-data-split configuratio=
+n
+> > is not sufficient, the devmem should not be set up.
+> > Before setup the devmem, tcp-data-split should be ON and
+> > tcp-data-split-thresh value should be 0.
+> >
+> > Signed-off-by: Taehee Yoo <ap420073@gmail.com>
+> > ---
+> >
+> > v3:
+> >  - Patch added.
+> >
+> >  net/core/devmem.c | 18 ++++++++++++++++++
+> >  1 file changed, 18 insertions(+)
+> >
+> > diff --git a/net/core/devmem.c b/net/core/devmem.c
+> > index 11b91c12ee11..a9e9b15028e0 100644
+> > --- a/net/core/devmem.c
+> > +++ b/net/core/devmem.c
+> > @@ -8,6 +8,8 @@
+> >   */
+> >
+> >  #include <linux/dma-buf.h>
+> > +#include <linux/ethtool.h>
+> > +#include <linux/ethtool_netlink.h>
+> >  #include <linux/genalloc.h>
+> >  #include <linux/mm.h>
+> >  #include <linux/netdevice.h>
+> > @@ -131,6 +133,8 @@ int net_devmem_bind_dmabuf_to_queue(struct net_devi=
+ce *dev, u32 rxq_idx,
+> >                                     struct net_devmem_dmabuf_binding *b=
+inding,
+> >                                     struct netlink_ext_ack *extack)
+> >  {
+> > +       struct kernel_ethtool_ringparam kernel_ringparam =3D {};
+> > +       struct ethtool_ringparam ringparam =3D {};
+> >         struct netdev_rx_queue *rxq;
+> >         u32 xa_idx;
+> >         int err;
+> > @@ -146,6 +150,20 @@ int net_devmem_bind_dmabuf_to_queue(struct net_dev=
+ice *dev, u32 rxq_idx,
+> >                 return -EEXIST;
+> >         }
+> >
+> > +       if (!dev->ethtool_ops->get_ringparam) {
+> > +               NL_SET_ERR_MSG(extack, "can't get ringparam");
+> > +               return -EINVAL;
+> > +       }
+> > +
+> > +       dev->ethtool_ops->get_ringparam(dev, &ringparam,
+> > +                                       &kernel_ringparam, extack);
+> > +       if (kernel_ringparam.tcp_data_split !=3D ETHTOOL_TCP_DATA_SPLIT=
+_ENABLED ||
+>
+> The way I had set this up is that the driver checks whether header
+> split is enabled, and only sets PP_FLAG_ALLOW_UNREADABLE_NETMEM if it
+> is. Then core detects that the driver did not allow unreadable netmem
+> and it fails that way.
+>
+> This check is redundant with that. I'm not 100% opposed to redundant
+> checks. Maybe they will add some reliability, but also maybe they will
+> be confusing to check the same thing essentially in 2 places.
+>
+> Is the PP_FLAG_ALLOW_UNREADABLE_NETMEM trick not sufficient for you?
 
---=20
-An old man doll... just what I always wanted! - Clara
+Ah okay, I understand.
+It looks like it's already validated enough based on
+PP_FLAG_ALLOW_UNREADABLE_NETMEM.
+I tested how you guided it, and it works as you intended.
+It's a duplicated validation indeed, so I will drop this patch in a v4.
 
---FEqjA/q8SI6OQyDd
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks a lot!
+Taehee Yoo
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZv9XxgAKCRD2uYlJVVFO
-ox4iAQDyB8edaFY79GfVyTWLrflzqzWETIJbWkESwXyJSHGj+AEA16Ls7aZYDE11
-gRBBXBo9XJdmTBak2Hm4hfRhDsQ+WgE=
-=s7uc
------END PGP SIGNATURE-----
-
---FEqjA/q8SI6OQyDd--
+>
+> > +           kernel_ringparam.tcp_data_split_thresh) {
+> > +               NL_SET_ERR_MSG(extack,
+> > +                              "tcp-header-data-split is disabled or th=
+reshold is not zero");
+> > +               return -EINVAL;
+> > +       }
+> > +
+> >  #ifdef CONFIG_XDP_SOCKETS
+> >         if (rxq->pool) {
+> >                 NL_SET_ERR_MSG(extack, "designated queue already in use=
+ by AF_XDP");
+> > --
+> > 2.34.1
+> >
+>
+>
+> --
+> Thanks,
+> Mina
