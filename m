@@ -1,91 +1,59 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6CF1224D1;
-	Fri,  4 Oct 2024 11:18:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ACE41D5AD8;
+	Fri,  4 Oct 2024 11:47:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728040736; cv=none; b=VW7Knnu9G5xdq2hOvPhZdf5wFpQ4ZYtiqqW7ZsXreZgFgUvmvUIJ3OneaVbGXkGbba8VE7IN9F12Q26vQvtXyOzbO42ATL2Y9X2gIgl1+4WCUnBegCChwcT6FiUo5Hker+iekPhxAM8zkQk4Ct9jTQXnV1JzQxSe++lXdGKUPnE=
+	t=1728042446; cv=none; b=I9C9jlqqfUNI8Ti1o/Ot88k5Wn4vghM749UpT5VUtC+NmeY9NZ2M+eI/Q605dE1+5sPMCaeJgiEefZuJ8gl3FCGneNic1HkWFC8khaxDK23uFibcaPslTx9rKttmWJq8Nkv4wdOKBED6HxwQ7yqaX+KLIy5V2vFxKcUNmqnoxNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728040736; c=relaxed/simple;
-	bh=pZHox8K1Nmvgt3lxsApWtJFu8tZf+W8GEvc4spiFT0A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o3kjrljMSxvGGSKBmubQjma5vGj/0PH5b2OTKTPnb38LSrJXXp1rzelLuNM4O4KLwDJ1xbO5VoKcbuhTq0IBgtgfEqfZOHXuzG6M8SHwOJqxuZHNMDGUglk95mEY79PInsCOd+UDFA6B9EauP/xyLSDavspP6vyDyioJ5sToypg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8DEE0339;
-	Fri,  4 Oct 2024 04:19:23 -0700 (PDT)
-Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0DE1F3F640;
-	Fri,  4 Oct 2024 04:18:47 -0700 (PDT)
-Date: Fri, 4 Oct 2024 14:18:45 +0300
+	s=arc-20240116; t=1728042446; c=relaxed/simple;
+	bh=0SLIkc6pXbim1GsR1XPmtqI24YJ6z9f6qFd1qlGEDxM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Kl3usqkv4r5amzmlRZ75oIXjKxj6QibjSlhZ0x2c/vYpl8uAasnOs+9LNUQHqb7DcJtHnlklLts3quiwK2ROUqzEUc9/w4GYrnXjaD+Czt5DTAYLRUKXwurtfuKm0wsh7YcH+7DtB3lBh4t9Ctw4/6O2XOgKR4RcLExhIbO/5HA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79203C4CEC6;
+	Fri,  4 Oct 2024 11:47:23 +0000 (UTC)
 From: Catalin Marinas <catalin.marinas@arm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Marc Zyngier <maz@kernel.org>,
+To: Will Deacon <will@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mark Rutland <mark.rutland@arm.com>,
 	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Shuah Khan <shuah@kernel.org>,
-	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Florian Weimer <fweimer@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
-	Ross Burton <ross.burton@arm.com>,
-	David Spickett <david.spickett@arm.com>,
-	Yury Khrustalev <yury.khrustalev@arm.com>,
-	Wilco Dijkstra <wilco.dijkstra@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v13 22/40] arm64/gcs: Ensure that new threads have a GCS
-Message-ID: <Zv_PFVffwIkKevzE@arm.com>
-References: <20241001-arm64-gcs-v13-0-222b78d87eee@kernel.org>
- <20241001-arm64-gcs-v13-22-222b78d87eee@kernel.org>
+	Rob Herring <robh@kernel.org>,
+	D Scott Phillips <scott@os.amperecomputing.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: James More <james.morse@arm.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] arm64: Subscribe Microsoft Azure Cobalt 100 to erratum 3194386
+Date: Fri,  4 Oct 2024 12:47:21 +0100
+Message-Id: <172804243078.2676985.11423830386246877637.b4-ty@arm.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20241003225239.321774-1-eahariha@linux.microsoft.com>
+References: <20241003225239.321774-1-eahariha@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241001-arm64-gcs-v13-22-222b78d87eee@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 01, 2024 at 11:59:01PM +0100, Mark Brown wrote:
-> When a new thread is created by a thread with GCS enabled the GCS needs
-> to be specified along with the regular stack.
+On Thu, 03 Oct 2024 22:52:35 +0000, Easwar Hariharan wrote:
+> Add the Microsoft Azure Cobalt 100 CPU to the list of CPUs suffering
+> from erratum 3194386 added in commit 75b3c43eab59 ("arm64: errata:
+> Expand speculative SSBS workaround")
 > 
-> Unfortunately plain clone() is not extensible and existing clone3()
-> users will not specify a stack so all existing code would be broken if
-> we mandated specifying the stack explicitly.  For compatibility with
-> these cases and also x86 (which did not initially implement clone3()
-> support for shadow stacks) if no GCS is specified we will allocate one
-> so when a thread is created which has GCS enabled allocate one for it.
-> We follow the extensively discussed x86 implementation and allocate
-> min(RLIMIT_STACK/2, 2G).  Since the GCS only stores the call stack and not
-> any variables this should be more than sufficient for most applications.
 > 
-> GCSs allocated via this mechanism will be freed when the thread exits.
 
-I think Szabolcs mentioned a GCS leak with v12:
+Applied to arm64 (for-next/fixes), thanks!
 
-https://lore.kernel.org/r/ZtrihWQFyb2/XrQV@arm.com
-
-(and in some private messages IIRC)
-
-Has this been identified? The changelog only mentions a leak in v8.
+[1/1] arm64: Subscribe Microsoft Azure Cobalt 100 to erratum 3194386
+      https://git.kernel.org/arm64/c/3eddb108abe3
 
 -- 
 Catalin
+
