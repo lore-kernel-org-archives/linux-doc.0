@@ -1,732 +1,555 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8F614AD2B;
-	Fri,  4 Oct 2024 10:13:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728036805; cv=pass; b=FyT//On2ioQTiaEZbzoLPJaFV5aM7xetNp+Cn6ed50OwDyhMeh8C3Jbw5Z0EE6YcjCJ3L0NdQS2WfjUZrRNG0hL2UJFMGPH7nu04fk2XgTSsHAOWwkMIw+ubAhLvRrjgcpUi+Xj1M/sgt73q2vkHteaDWZFSJ7yKrPJShNmH2Do=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728036805; c=relaxed/simple;
-	bh=KHLW0Svf8NqhZE6XSywu6ve75JPzyb2uSOrAqCZftVs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LHlkMYXISRn7r61vsw8MMwWdNHxuQuE4sOX1lItOb0T4ls01oIayhoNlCgB8m0f69hsEIAvAl6z8V7HpZ6d7vcMvzde5m4FRqQAqIK8zOKPx04Y94EFawfsOhCtbAFKYXIbNPdYeTDthlFmrXouVgAhuxj5lSC8S1zcQHBherRU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=Nalro8xp; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE7DD14659B;
+	Fri,  4 Oct 2024 10:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728038102; cv=none; b=j4BfNYC/L7VDJdhVx2ErA1baxtJDjMRhVowRqcqfypvl/TcCNVgH5nFL9agyinwTVkN3DC7lgc0V3XqNzTi1kg2ZlhVlPqfT1EIetD4wC1rkOk9WjTTPEBFcnoMpSYY213IZB9Wf9mYabYUq5dW5yt7aFbVWZ4SZrnhqiEJZxWM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728038102; c=relaxed/simple;
+	bh=Y2dUVf18ivPKX1jPG3HWfTAZHT6Ny0PqmcbKUFN0MSU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Hl+r629KI52xc29a1NBmF2nWpVAqvI71xxUPV5EeH9y0NCAyMTLqLqtdROVl4S/aQX1lR2hvsoSY479gDD0r2hrMb2N1CGMRv7Rb4OVmX1+SGC9eM1li8SQmlulo7Wl7+WoASx+u0kQrDK/OQxL0UnyglZv5Gfs0hTkXF5Ld9JM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bO1Sqlk7; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="Nalro8xp"
-ARC-Seal: i=1; a=rsa-sha256; t=1728036786; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=OvAFmcqgvETONxvBvh3tblr2SmLMEAHAjhVWjX8HXxXETcT58vFnfxN8yBXgpaPB9ILumcVuzDojZ3yeodCOh/lKJooAd2S+5qOSdliurSMbQ8woXEFKE9G4AddrcYwfkvFPrKjXY+/p/kLYqb/qnobm/U5jNMKYMlq6LfyE4jE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1728036786; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=5J1Vu+65mpmgST32KsnMzl4OqHFghP4qoqDXj7lnPLA=; 
-	b=iS64+O29+ohnVbQX8TTeSjP6dbhHARn2zqkmbiwfdMgOYDX/bhQR1mVsOQw5RaF5ayBF5rJr4zxCCKup4I4Sx1p+z3QWTeR4yURTuqaQxTH1M3UiGBC7yrx2p/RvcIz/9CVdNE5QX5pMjjzPQY3WC+bqu2baZmJvLOd/iAqA6AU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
-	dmarc=pass header.from=<sebastian.fricke@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1728036786;
-	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
-	bh=5J1Vu+65mpmgST32KsnMzl4OqHFghP4qoqDXj7lnPLA=;
-	b=Nalro8xpffoWkEH132/aNs5tzE109t1vEX9RBMwaFPB5nlH4obW0wLzgcNCEaAZe
-	wQXcx52c+ZHxE3Ew3Uu1KBlFi0wE37j+RW8FPfci8ER2jg3kVLwLzQuPmPPVVzHRBgf
-	nqGBXsszJDpoRsLbaX8oqz6l/0r2IDCXyBvXf5vA=
-Received: by mx.zohomail.com with SMTPS id 1728036784362817.2773938722473;
-	Fri, 4 Oct 2024 03:13:04 -0700 (PDT)
-Date: Fri, 4 Oct 2024 12:12:59 +0200
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Steve Cho <stevecho@chromium.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	laurent.pinchart@ideasonboard.com, hverkuil-cisco@xs4all.nl,
-	mauro.chehab@linux.intel.com, kernel@collabora.com,
-	bob.beckett@collabora.com, nicolas.dufresne@collabora.com
-Subject: Re: [PATCH RFC v2 2/3] docs: Add guides section for debugging
-Message-ID: <20241004101259.k4hldjsws4whwfvn@basti-XPS-13-9310>
-References: <20240529-b4-media_docs_improve-v2-0-66318b2da726@collabora.com>
- <20240529-b4-media_docs_improve-v2-2-66318b2da726@collabora.com>
- <CAC-pXoP9n-SBCRbmnMiS3mCr4+GkTH-3+qv0E1DN52Y9GtpYKA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bO1Sqlk7"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5c87853df28so2484899a12.3;
+        Fri, 04 Oct 2024 03:34:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728038098; x=1728642898; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OMfPUDX2Tq86HT+auD60RLgWxfd+JGXE5xKQEK7BbsY=;
+        b=bO1Sqlk7+4lvfvwUOLF6QAN6NOMhumtXRd/iB3oR3BRsg4xd5xFi4JAKLQA++lTTgP
+         v0I1MmI0RGcsYM4lrZ7swBch8TwvvBOBM3PlYM3bR/XxlGnsOVES4Q28K3QCiCKpRCJp
+         sl3PozxZdE38ImHCD6Yr74sMRl2fNdbDG1REpaavHUTRSULDEp+sLgsBMWt+6OvkBnXN
+         LcMe4pSe7YHzlt/l/eITFxk087VCDCNkznsTQI1sUnuv4Ee2O7DGn8tv1nJTXM76UUkp
+         LtjmT7svR5NbvqEPMPKM6Yaam7uEhvcr1HUg+gfR23GtIuV+aRD25t+6sMl0uUyjB5+w
+         OvvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728038098; x=1728642898;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OMfPUDX2Tq86HT+auD60RLgWxfd+JGXE5xKQEK7BbsY=;
+        b=SRKnEoJVmPTmnu784TxNYA+5MrN2M26AqNQcQAkZffZlhmeV67s7G6XyeE9wHtU7Cx
+         IT7SrI30qR3CUUqHxXvgGqVyCdomfI+2/Uh6AEN4P/RUHRnqthkwZg+th8ZL/JapbGgI
+         EGWHXWRd/iBjXSii8J3xzIoZ9ezoY10ehZ2LcE6o/kweRtXXtz23G6wIuoRQVQvusDNj
+         BYXDWp1uHw/ZbkxyLv7JJwC6iGGil7A7Y8BK9ItAxGLud8jWoe0WlB4BoIapEGIrC5G/
+         bkbNqc7OluFgx4iaDVE9+J7+QmDBGopAZRh23+enyerWwyIF2R22l39dWBrGKjRncwp+
+         f3og==
+X-Forwarded-Encrypted: i=1; AJvYcCVQLgGE/LlIR2cVvCJ0fIZBQmG0yTGaJXRJlxjeEBuILZCaMNWAb8f31l6W0ORfgpTh7TUclE3q26U=@vger.kernel.org, AJvYcCX7eCVA7UQD7s+d/0fQnHaO4Ku/Qc8dWDu3IRTSJMa9Sh9Kk1wIUHxfr1Jh36VPd6v8+ytVKPBS@vger.kernel.org
+X-Gm-Message-State: AOJu0YxbJGaJJrmfKaK7M+kSR/yH0rjAtCdJ3QZ/9CsdHACz3Tp4qO8Z
+	lxwzR0sPkz6ORDwxBjFImuPM+NI0nOXItdQJqGXqOchZWi/oDzVW6Jxbajvybc66lTRCRdGjf+A
+	WyFCVrH3zHv9owb62fMvaF1KZn3k=
+X-Google-Smtp-Source: AGHT+IEVkRJfW9CFu970hX3g+ZlYLAbqCw0jV+aaCaltmgyyVtaw43KyvJ5DEXGsFy/KXkVyh2ilrE6TfYDC+ZsdpFQ=
+X-Received: by 2002:a05:6402:350e:b0:5c5:c4e9:c8a2 with SMTP id
+ 4fb4d7f45d1cf-5c8d2d01036mr1736803a12.3.1728038097465; Fri, 04 Oct 2024
+ 03:34:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAC-pXoP9n-SBCRbmnMiS3mCr4+GkTH-3+qv0E1DN52Y9GtpYKA@mail.gmail.com>
-X-ZohoMailClient: External
+References: <20241003160620.1521626-1-ap420073@gmail.com> <20241003160620.1521626-8-ap420073@gmail.com>
+ <CAHS8izO-7pPk7xyY4JdyaY4hZpd7zerbjhGanRvaTk+OOsvY0A@mail.gmail.com>
+In-Reply-To: <CAHS8izO-7pPk7xyY4JdyaY4hZpd7zerbjhGanRvaTk+OOsvY0A@mail.gmail.com>
+From: Taehee Yoo <ap420073@gmail.com>
+Date: Fri, 4 Oct 2024 19:34:45 +0900
+Message-ID: <CAMArcTU61G=fexf-RJDSW_sGp9dZCkJsJKC=yjg79RS9Ugjuxw@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 7/7] bnxt_en: add support for device memory tcp
+To: Mina Almasry <almasrymina@google.com>
+Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
+	edumazet@google.com, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	donald.hunter@gmail.com, corbet@lwn.net, michael.chan@broadcom.com, 
+	kory.maincent@bootlin.com, andrew@lunn.ch, maxime.chevallier@bootlin.com, 
+	danieller@nvidia.com, hengqi@linux.alibaba.com, ecree.xilinx@gmail.com, 
+	przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, ahmed.zaki@intel.com, 
+	paul.greenwalt@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
+	asml.silence@gmail.com, kaiyuanz@google.com, willemb@google.com, 
+	aleksander.lobakin@intel.com, dw@davidwei.uk, sridhar.samudrala@intel.com, 
+	bcreeley@amd.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hey Steve,
-
-On 03.10.2024 16:06, Steve Cho wrote:
->Few minor comments.
+On Fri, Oct 4, 2024 at 3:43=E2=80=AFAM Mina Almasry <almasrymina@google.com=
+> wrote:
 >
->On Tue, Sep 24, 2024 at 1:47 AM Sebastian Fricke
-><sebastian.fricke@collabora.com> wrote:
->>
->> This idea was formed after noticing that new developers experience
->> certain difficulty to navigate within the multitude of different
->> debugging options in the Kernel and while there often is good
->> documentation for the tools, the developer has to know first that they
->> exist and where to find them.
->> Add a general debugging section to the Kernel documentation, as an
->> easily locatable entry point to other documentation and as a general
->> guideline for the topic.
->>
->> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
->> ---
->>  .../driver_development_debugging_guide.rst         | 193 +++++++++++++++
->>  Documentation/debugging/index.rst                  |  66 +++++
->>  .../debugging/userspace_debugging_guide.rst        | 269 +++++++++++++++++++++
->>  Documentation/index.rst                            |   2 +
->>  4 files changed, 530 insertions(+)
->>
->> diff --git a/Documentation/debugging/driver_development_debugging_guide.rst b/Documentation/debugging/driver_development_debugging_guide.rst
->> new file mode 100644
->> index 000000000000..c750f63ac1d3
->> --- /dev/null
->> +++ b/Documentation/debugging/driver_development_debugging_guide.rst
->> @@ -0,0 +1,193 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +.. include:: <isonum.txt>
->> +
->> +========================================
->> +Debugging advice for driver development
->> +========================================
->> +
->> +This document serves as a general starting point and lookup for debugging device
->> +drivers.
->> +While this guide focuses on debugging that requires re-compiling the
->> +module/kernel, the `userspace-debugging-guide <userspace_debugging_guide.html>`__
->> +will guide you through tools like dynamic debug, ftrace and other tools useful
->> +for debugging issues and behavior.
->> +For general debugging advice, see `general-debugging-guide <index.html>`__.
->> +
->> +.. contents::
->> +    :depth: 3
->> +
->> +Available tools
->> +===============
->> +
->> +Printk & friends
->> +----------------
->> +
->> +These are derivatives of printf() with varying destinations and support for being dynamically turned on or off, or lack thereof.
->> +
->> +.. _printk:
->> +
->> +**Simple printk**
->> +~~~~~~~~~~~~~~~~~
->> +
->> +The classic, can be used to great effect for quick and dirty development
->> +of new modules or to extract arbitrary necessary data for troubleshooting.
->> +
->> +Prerequisite: :code:`CONFIG_PRINTK` (usually enabled by default)
->> +
->> +**Pros**:
->> +
->> +- No need to learn anything, simple to use
->> +- Easy to modify exactly to your needs (formatting of the data (See: `format specifiers <../core-api/printk-formats.html>`__), visibility in the log)
->> +- Can cause delays in the execution of the code (beneficial to confirm whether timing is a factor)
->I experienced this too before, but isn't it generalizing too much here?
->I mean it is not easy to observe timing issue with printk.
 
-True it is not very easy to do this deterministically, but I thought it
-might be helpful as an idea, in case an issue is flaky. A few print
-statements might cause enough delay to make the issue more reproducible,
-that was at least my experience in the past. Maybe I could word it
-better or this potential positive aspect can be derived from the
-negative aspect below.
-  
+Hi Mina,
+Thanks a lot for your review!
+
+> On Thu, Oct 3, 2024 at 9:07=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> wr=
+ote:
+> >
+> > Currently, bnxt_en driver satisfies the requirements of Device memory
+> > TCP, which is tcp-data-split.
+> > So, it implements Device memory TCP for bnxt_en driver.
+> >
+> > From now on, the aggregation ring handles netmem_ref instead of page
+> > regardless of the on/off of netmem.
+> > So, for the aggregation ring, memory will be handled with the netmem
+> > page_pool API instead of generic page_pool API.
+> >
+> > If Devmem is enabled, netmem_ref is used as-is and if Devmem is not
+> > enabled, netmem_ref will be converted to page and that is used.
+> >
+> > Driver recognizes whether the devmem is set or unset based on the
+> > mp_params.mp_priv is not NULL.
+> > Only if devmem is set, it passes PP_FLAG_ALLOW_UNREADABLE_NETMEM.
+> >
+> > Signed-off-by: Taehee Yoo <ap420073@gmail.com>
+> > ---
+> >
+> > v3:
+> >  - Patch added
+> >
+> >  drivers/net/ethernet/broadcom/Kconfig     |  1 +
+> >  drivers/net/ethernet/broadcom/bnxt/bnxt.c | 98 +++++++++++++++--------
+> >  drivers/net/ethernet/broadcom/bnxt/bnxt.h |  2 +-
+> >  3 files changed, 66 insertions(+), 35 deletions(-)
+> >
+> > diff --git a/drivers/net/ethernet/broadcom/Kconfig b/drivers/net/ethern=
+et/broadcom/Kconfig
+> > index 75ca3ddda1f5..f37ff12d4746 100644
+> > --- a/drivers/net/ethernet/broadcom/Kconfig
+> > +++ b/drivers/net/ethernet/broadcom/Kconfig
+> > @@ -211,6 +211,7 @@ config BNXT
+> >         select FW_LOADER
+> >         select LIBCRC32C
+> >         select NET_DEVLINK
+> > +       select NET_DEVMEM
+> >         select PAGE_POOL
+> >         select DIMLIB
+> >         select AUXILIARY_BUS
+> > diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/et=
+hernet/broadcom/bnxt/bnxt.c
+> > index 872b15842b11..64e07d247f97 100644
+> > --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> > +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> > @@ -55,6 +55,7 @@
+> >  #include <net/page_pool/helpers.h>
+> >  #include <linux/align.h>
+> >  #include <net/netdev_queues.h>
+> > +#include <net/netdev_rx_queue.h>
+> >
+> >  #include "bnxt_hsi.h"
+> >  #include "bnxt.h"
+> > @@ -863,6 +864,22 @@ static void bnxt_tx_int(struct bnxt *bp, struct bn=
+xt_napi *bnapi, int budget)
+> >                 bnapi->events &=3D ~BNXT_TX_CMP_EVENT;
+> >  }
+> >
+> > +static netmem_ref __bnxt_alloc_rx_netmem(struct bnxt *bp, dma_addr_t *=
+mapping,
+> > +                                        struct bnxt_rx_ring_info *rxr,
+> > +                                        unsigned int *offset,
+> > +                                        gfp_t gfp)
+> > +{
+> > +       netmem_ref netmem;
+> > +
+> > +       netmem =3D page_pool_alloc_netmem(rxr->page_pool, GFP_ATOMIC);
+> > +       if (!netmem)
+> > +               return 0;
+> > +       *offset =3D 0;
+> > +
+> > +       *mapping =3D page_pool_get_dma_addr_netmem(netmem) + *offset;
+> > +       return netmem;
+> > +}
+> > +
+> >  static struct page *__bnxt_alloc_rx_page(struct bnxt *bp, dma_addr_t *=
+mapping,
+> >                                          struct bnxt_rx_ring_info *rxr,
+> >                                          unsigned int *offset,
+> > @@ -972,21 +989,21 @@ static inline u16 bnxt_find_next_agg_idx(struct b=
+nxt_rx_ring_info *rxr, u16 idx)
+> >         return next;
+> >  }
+> >
+> > -static inline int bnxt_alloc_rx_page(struct bnxt *bp,
+> > -                                    struct bnxt_rx_ring_info *rxr,
+> > -                                    u16 prod, gfp_t gfp)
+> > +static inline int bnxt_alloc_rx_netmem(struct bnxt *bp,
+> > +                                      struct bnxt_rx_ring_info *rxr,
+> > +                                      u16 prod, gfp_t gfp)
+> >  {
+> >         struct rx_bd *rxbd =3D
+> >                 &rxr->rx_agg_desc_ring[RX_AGG_RING(bp, prod)][RX_IDX(pr=
+od)];
+> >         struct bnxt_sw_rx_agg_bd *rx_agg_buf;
+> > -       struct page *page;
+> > +       netmem_ref netmem;
+> >         dma_addr_t mapping;
+> >         u16 sw_prod =3D rxr->rx_sw_agg_prod;
+> >         unsigned int offset =3D 0;
+> >
+> > -       page =3D __bnxt_alloc_rx_page(bp, &mapping, rxr, &offset, gfp);
+> > +       netmem =3D __bnxt_alloc_rx_netmem(bp, &mapping, rxr, &offset, g=
+fp);
 >
->> +
->> +**Cons**:
->> +
->> +- Requires rebuilding the kernel/module
->> +- Can cause delays in the execution of the code (which can cause issues to be not reproducible)
->> +
->> +`Full documentation <../core-api/printk-basics.html>`__
->> +
->> +.. _trace_printk:
->> +
->> +**Trace_printk**
->> +~~~~~~~~~~~~~~~~
->> +
->> +Prerequisite: :code:`CONFIG_DYNAMIC_FTRACE` & :code:`#include <linux/ftrace.h>`
->> +
->> +It is a tiny bit less comfortable to use than `printk`_, because you will have
->> +to read the messages from the trace file (See: `Reading the ftrace log
->> +<userspace_debugging_guide.html#read-the-ftrace-log>`_ instead of from the
->> +kernel log, but very useful when printk adds unwanted delays into the code
->> +execution, causing issues to be flaky or hidden.)
->> +
->> +If the processing of this still causes timing issues then you can try `trace_puts()`.
->> +
->> +`Full Documentation <../driver-api/basics.html#c.trace_printk>`__
->> +
->> +**dev_dbg**
->> +~~~~~~~~~~~
->> +
->> +Print statement, which can be target by `dynamic debug
->nit: s/target/targeted
->
->> +<userspace_debugging_guide.html#dynamic-debug>`__, that contains additional
->> +information about the device used within the context.
->> +
->> +**When is it appropriate to leave a debug print in the code?**
->> +
->> +Permanent debug statements have to be useful for a developer to troubleshoot
->> +driver misbehavior. Judging that is a bit more of an art than a science, but
->> +some guidelines are in the `Coding style guide
->> +<../process/coding-style.html#printing-kernel-messages>`__.
->> +
->> +**Custom printk**
->> +~~~~~~~~~~~~~~~~~
->> +
->> +Example:
->> +::
->> +
->> +  #define core_dbg(fmt, arg...) do { \
->> +         if (core_debug) \
->> +                 printk(KERN_DEBUG pr_fmt("core: " fmt), ## arg); \
->> +         } while (0)
->> +
->> +**When should you do this?**
->> +
->> +It is better to just use a `pr_debug()`, which can later be turned on/off with
->> +dynamic debug. Additionally, a lot of drivers activate these prints via a
->> +variable like `core_debug` set by a module parameter. However, Module
->> +parameters `are not recommended anymore
->> +<https://lkml.org/lkml/2024/3/27/163>`_.
->> +
->> +Ftrace
->> +------
->> +
->> +**Creating custom Ftrace tracepoint**
->> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> +
->> +Here is a basic description of `how to implement new tracepoints <../trace/tracepoints.html#usage>`__.
->> +
->> +`Full event tracing documentation <../trace/events.html>`__
->> +
->> +`Full Ftrace documentation <../trace/ftrace.html>`__
->> +
->> +DebugFS
->> +-------
->> +
->> +Prerequisite: :code:`CONFIG_DEBUG_FS` & :code:`#include <linux/debugfs.h>`
->> +
->> +DebugFS differs from the other approaches of debugging, as it doesn't write messages to the kernel log nor add traces to the code. Instead it allows the developer to handle a set of files.
->> +With these files you can either store values of variables or make register/memory dumps or you can make these files writable and modify values/settings in the driver.
->> +Possible use-cases among others:
->> +
->> +- Store register values
->> +- Keep track of variables
->> +- Store errors
->> +- Store settings
->> +- Toggle a setting like debug on/off
->> +- Error injection
->> +
->> +This is especially useful, when the size of a data dump would be hard to digest as
->> +part of the general kernel log (for example when dumping raw bitstream data) or
->> +when you are not interested in all the values all the time, but with the
->> +possibility to inspect them.
->> +
->> +The general idea is:
->> +
->> +- Create a directory during probe (`struct dentry *parent = debugfs_create_dir("my_driver", NULL);`)
->> +- Create a file (`debugfs_create_u32("my_value", 444, parent, &my_variable);`)
->> +
->> +  - In this example the file is found in `/sys/kernel/debug/my_driver/my_value` (with read permissions for user/group/all)
->> +  - any update of `my_variable` will update the value in the file
->> +
->> +- Clean up the folder when removing the device (`debugfs_remove_recursive(parent);`)
->> +
->> +`Full documentation <../filesystems/debugfs.html>`__
->> +
->> +.. _error_checking:
->> +
->> +KASAN, UBSAN, lockdep and other error checkers
->> +----------------------------------------------
->> +
->> +KASAN (Kernel Address Sanitizer)
->> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> +
->> +KASAN is a dynamic memory error detector that helps to find use-after-free and
->> +out-of-bounds bugs. It uses compile-time instrumentation to check every memory
->> +access.
->> +
->> +`Full documentation <../dev-tools/kasan.html>`__
->> +
->> +UBSAN (Undefined Behavior Sanitizer)
->> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> +
->> +UBSAN relies on compiler instrumentation and runtime checks to detect undefined
->> +behavior. It is designed to find a variety of issues, including signed integer overflow,
->> +array index out of bounds, and more.
->> +
->> +`Full documentation <../dev-tools/ubsan.html>`__
->> +
->> +lockdep (Lock Dependency Validator)
->> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> +
->> +lockdep is a runtime lock dependency validator that detects potential deadlocks
->> +and other locking-related issues in the kernel.
->> +It tracks lock acquisitions and releases, building a dependency graph that is
->> +analyzed for potential deadlocks.
->> +lockdep is especially useful for validating the correctness of lock ordering in
->> +the kernel.
->> +
->> +device coredump
->> +---------------
->> +
->> +Prerequisite: :code:`#include <linux/devcoredump.h>`
->> +
->> +Provides infrastructure through which the driver can provide arbitrary data to
->> +userland. It is most often used in conjunction with udev or similar userland
->> +infrastructure to listen for the kernel uevents, which indicates the dump is
->> +ready. Udev then usually has rules to copy that file somewhere for long-term
->> +storage and analysis as by default the data for the dump is automatically
->nit: didn't understand. maybe intended s/as/and/ ?
+> Does __bnxt_alloc_rx_page become dead code after this change? Or is it
+> still used for something?
 
-What I wanted to communicate here is that, by default dumps are cleaned
-up automatically, if you want to store the files for later usage you
-need to specifiy udev rules, which copy the dumps to a different
-location.
-
-I will try to clarify this for the next version
+__bnxt_alloc_rx_page() is still used.
 
 >
->> +cleaned up after 5 minutes.
->> +That data is then analyzed with driver-specific tools or GDB.
->> +
->> +You can find an example implementation at: :code:`drivers/media/platform/qcom/venus/core.c`
->> +
->> +**Copyright** |copy| 2024 : Collabora
->> diff --git a/Documentation/debugging/index.rst b/Documentation/debugging/index.rst
->> new file mode 100644
->> index 000000000000..7bdad2fa09e1
->> --- /dev/null
->> +++ b/Documentation/debugging/index.rst
->> @@ -0,0 +1,66 @@
->> +
->> +.. SPDX-License-Identifier: GPL-2.0
->> +.. include:: <isonum.txt>
->> +
->> +====================================================
->> +General debugging advice for Linux Kernel developers
->> +====================================================
->> +
->> +.. toctree::
->> +   :maxdepth: 1
->> +
->> +   driver_development_debugging_guide
->> +   userspace_debugging_guide
->> +
->> +.. only::  subproject and html
->> +
->> +   Indices
->> +   =======
->> +
->> +   * :ref:`genindex`
->> +
->> +General debugging advice
->> +========================
->> +
->> +Depending on the issue, a different set of tools is available to track down the
->> +problem or even to realize whether there is one in the first place.
->> +
->> +As a first step you have to figure out what kind of issue you want to debug.
->> +Depending on the answer, your methodology and choice of tools may vary.
->> +
->> +Do I need to debug with limited access?
->> +---------------------------------------
->> +
->> +Do you have limited access to the machine or are you unable to stop the running execution?
->> +
->> +In this case your debugging capability depends on built-in debugging support of
->> +provided distro kernel.
->> +The `userspace debugging guide <userspace_debugging_guide.html>`__ provides a
->> +brief overview over range of possible debugging tools in that situation. You
->> +can check the capability of your kernel, in most cases, by looking into config
->> +file within the /boot folder.
->> +
->> +Do I have root access to the system?
->> +------------------------------------
->> +
->> +Are you easily able to replace the module in question or to install a new kernel?
->> +
->> +In that case your range of available tools is a lot bigger, you can find the
->> +tools `here <driver_development_debugging_guide.html>`__.
->> +
->> +Is timing a factor?
->> +-------------------
->> +
->> +It is important to understand if the problem you want to debug manifests itself
->> +consistently (i.e. given a set of inputs you always get the same, incorrect
->> +output), or inconsistently. If it manifests itself inconsistently, some timing
->> +factor might be at play. If inserting delays into the code does change the
->> +behavior, then quite likely timing is a factor.
->> +
->> +When timing does alter the outcome of the code execution using a simple `printk
->> +<driver_development_debugging_guide.html#printk>`_ for debugging purposes won't
->> +work, a similar alternative is to use `trace_printk
->> +<driver_development_debugging_guide.html#trace-printk>`_, which logs the debug
->> +messages to the trace file instead of the kernel log.
->> +
->> +**Copyright** |copy| 2024 : Collabora
->> diff --git a/Documentation/debugging/userspace_debugging_guide.rst b/Documentation/debugging/userspace_debugging_guide.rst
->> new file mode 100644
->> index 000000000000..4d269a9ef913
->> --- /dev/null
->> +++ b/Documentation/debugging/userspace_debugging_guide.rst
->> @@ -0,0 +1,269 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +.. include:: <isonum.txt>
->> +
->> +==========================
->> +Userspace debugging advice
->> +==========================
->> +
->> +A brief overview of common tools to debug the Linux Kernel from userspace.
->> +For debugging advice aimed at driver developer go `here <driver_development_debugging_guide.html>`__.
->> +For general debugging advice, see `general-debugging-guide <index.html>`__.
->> +
->> +.. contents::
->> +    :depth: 3
->> +
->> +Available tools
->> +===============
->> +
->> +Dynamic debug
->> +-------------
->> +
->> +Mechanism to filter what ends up in the kernel log by dis-/en-abling log
->> +messages.
->> +
->> +Prerequisite: `CONFIG_DYNAMIC_DEBUG`
->> +
->> +.. _valid_dyndbg_prints:
->> +
->> +Dynamic debug is only able to target:
->> +
->> +- `pr_debug()`
->> +- `dev_dbg()`
->> +- `print_hex_dump_debug()`
->> +- `print_hex_dump_bytes()`
->> +
->> +Therefore the usability of this tool is quite limited in the media subsystem,
->> +because, as of now, there is no uniform rule for adding debug prints to the codebase,
->> +resulting in a variety of ways these prints are implemented.
->Shouldn't this explanation and some examples below go to the media
->specific document instead of here?
+> >
+> > -       if (!page)
+> > +       if (!netmem)
+> >                 return -ENOMEM;
+> >
+> >         if (unlikely(test_bit(sw_prod, rxr->rx_agg_bmap)))
+> > @@ -996,7 +1013,7 @@ static inline int bnxt_alloc_rx_page(struct bnxt *=
+bp,
+> >         rx_agg_buf =3D &rxr->rx_agg_ring[sw_prod];
+> >         rxr->rx_sw_agg_prod =3D RING_RX_AGG(bp, NEXT_RX_AGG(sw_prod));
+> >
+> > -       rx_agg_buf->page =3D page;
+> > +       rx_agg_buf->netmem =3D netmem;
+> >         rx_agg_buf->offset =3D offset;
+> >         rx_agg_buf->mapping =3D mapping;
+> >         rxbd->rx_bd_haddr =3D cpu_to_le64(mapping);
+> > @@ -1044,7 +1061,7 @@ static void bnxt_reuse_rx_agg_bufs(struct bnxt_cp=
+_ring_info *cpr, u16 idx,
+> >                 struct rx_agg_cmp *agg;
+> >                 struct bnxt_sw_rx_agg_bd *cons_rx_buf, *prod_rx_buf;
+> >                 struct rx_bd *prod_bd;
+> > -               struct page *page;
+> > +               netmem_ref netmem;
+> >
+> >                 if (p5_tpa)
+> >                         agg =3D bnxt_get_tpa_agg_p5(bp, rxr, idx, start=
+ + i);
+> > @@ -1061,11 +1078,11 @@ static void bnxt_reuse_rx_agg_bufs(struct bnxt_=
+cp_ring_info *cpr, u16 idx,
+> >                 cons_rx_buf =3D &rxr->rx_agg_ring[cons];
+> >
+> >                 /* It is possible for sw_prod to be equal to cons, so
+> > -                * set cons_rx_buf->page to NULL first.If I misundersta=
+nd about
+> > +                * set cons_rx_buf->netmem to 0 first.
+> >                  */
+> > -               page =3D cons_rx_buf->page;
+> > -               cons_rx_buf->page =3D NULL;
+> > -               prod_rx_buf->page =3D page;
+> > +               netmem =3D cons_rx_buf->netmem;
+> > +               cons_rx_buf->netmem =3D 0;
+> > +               prod_rx_buf->netmem =3D netmem;
+> >                 prod_rx_buf->offset =3D cons_rx_buf->offset;
+> >
+> >                 prod_rx_buf->mapping =3D cons_rx_buf->mapping;
+> > @@ -1192,6 +1209,7 @@ static struct sk_buff *bnxt_rx_skb(struct bnxt *b=
+p,
+> >
+> >  static u32 __bnxt_rx_agg_pages(struct bnxt *bp,
+> >                                struct bnxt_cp_ring_info *cpr,
+> > +                              struct sk_buff *skb,
+> >                                struct skb_shared_info *shinfo,
+> >                                u16 idx, u32 agg_bufs, bool tpa,
+> >                                struct xdp_buff *xdp)
+> > @@ -1211,7 +1229,7 @@ static u32 __bnxt_rx_agg_pages(struct bnxt *bp,
+> >                 u16 cons, frag_len;
+> >                 struct rx_agg_cmp *agg;
+> >                 struct bnxt_sw_rx_agg_bd *cons_rx_buf;
+> > -               struct page *page;
+> > +               netmem_ref netmem;
+> >                 dma_addr_t mapping;
+> >
+> >                 if (p5_tpa)
+> > @@ -1223,9 +1241,15 @@ static u32 __bnxt_rx_agg_pages(struct bnxt *bp,
+> >                             RX_AGG_CMP_LEN) >> RX_AGG_CMP_LEN_SHIFT;
+> >
+> >                 cons_rx_buf =3D &rxr->rx_agg_ring[cons];
+> > -               skb_frag_fill_page_desc(frag, cons_rx_buf->page,
+> > -                                       cons_rx_buf->offset, frag_len);
+> > -               shinfo->nr_frags =3D i + 1;
+> > +               if (skb) {
+> > +                       skb_add_rx_frag_netmem(skb, i, cons_rx_buf->net=
+mem,
+> > +                                              cons_rx_buf->offset, fra=
+g_len,
+> > +                                              BNXT_RX_PAGE_SIZE);
+> > +               } else {
+> > +                       skb_frag_fill_page_desc(frag, netmem_to_page(co=
+ns_rx_buf->netmem),
+> > +                                               cons_rx_buf->offset, fr=
+ag_len);
+>
+> Our intention with the whole netmem design is that drivers should
+> never have to call netmem_to_page(). I.e. the driver should use netmem
+> unaware of whether it's page or non-page underneath, to minimize
+> complexity driver needs to handle.
+>
+> This netmem_to_page() call can be removed by using
+> skb_frag_fill_netmem_desc() instead of the page variant. But, more
+> improtantly, why did the code change here? The code before calls
+> skb_frag_fill_page_desc, but the new code sometimes will
+> skb_frag_fill_netmem_desc() and sometimes will skb_add_rx_frag_netmem.
+> I'm not sure why that logic changed.
 
-Oh yes you are right that has to go to the media guide, I am still a bit
-unsure about the example because I haven't found a good general example
-so far.
+The reason why skb_add_rx_frag_netmem() is used here is to set
+skb->unreadable flag. the skb_frag_fill_netmem_desc() doesn't set
+skb->unreadable because it doesn't handle skb, it only handles frag.
+As far as I know, skb->unreadable should be set to true for devmem
+TCP, am I misunderstood?
+I tested that don't using skb_add_rx_frag_netmem() here, and it
+immediately fails.
 
->Some parts in this patch are tricky to decide where to go, but
->suggesting to review once again.
+The "if (skb)" branch will be hit only when devmem TCP path.
+Normal packet and XDP path will hit "else" branch.
 
-Yes, thanks for highlighting.
+I will use skb_frag_fill_netmem_desc() instead of
+skb_frag_fill_page_desc() in the "else" branch.
+With this change, as you said, there is no netmem_to_page() in bnxt_en
+driver, Thanks!
 
 >
->> +
->> +Also, note that most debug statements are implemented as a variation of
->> +`dprintk`, which have to be activated via a parameter in respective module,
->> +dynamic debug is unable to do that step for you.
->> +
->> +Here is one example, that enables all available `pr_debug()`'s within the file:
->> +::
->> +
->> +  $ alias ddcmd='echo $* > /proc/dynamic_debug/control'
->> +  $ ddcmd '-p; file v4l2-h264.c +p'
->> +  $ grep =p /proc/dynamic_debug/control
->> +   drivers/media/v4l2-core/v4l2-h264.c:372 [v4l2_h264]print_ref_list_b =p "ref_pic_list_b%u (cur_poc %u%c) %s"
->> +   drivers/media/v4l2-core/v4l2-h264.c:333 [v4l2_h264]print_ref_list_p =p "ref_pic_list_p (cur_poc %u%c) %s\n"
->> +
->> +**When should you use this over** `Ftrace`_ **?**
->> +
->> +- When the code contains one of the :ref:`valid print statements <valid_dyndbg_prints_>`_ or when you have added multiple pr_debug() statements during development
->> +- When timing is not an issue, meaning if multiple `pr_debug()` statements in the code won't cause delays
->> +- When you care more about receiving specific log messages than tracing the pattern of how a function is called
->> +
->> +`Full documentation <../admin-guide/dynamic-debug-howto.html>`__
->> +
->> +Ftrace
->> +------
->> +
->> +Prerequisite: :code:`CONFIG_DYNAMIC_FTRACE`
->> +
->> +Trace whenever the a file is opened:
->> +::
->> +
->> +  $ cd /sys/kernel/tracing
->> +  $ echo function > /sys/kernel/tracing/current_tracer
->> +  $ echo do_filep_open > set_ftrace_filter
->> +  $ echo 1 > tracing_on
->> +  $ cat trace
->> +       find-4624    [005] ...1. 580781.888166: do_filp_open <-do_sys_openat2
->> +       find-4624    [005] ...1. 580781.888237: do_filp_open <-do_sys_openat2
->> +       find-4624    [005] ...1. 580781.888361: do_filp_open <-do_sys_openat2
->> +
->> +.. _event_tracing:
->> +
->> +Activate a ftrace event on top of that:
->> +::
->> +
->> +  $ echo 1 > events/kmem/kfree/enable
->> +       find-5351    [005] ...1. 678288.910143: do_filp_open <-do_sys_openat2
->> +       find-5351    [005] ..... 678288.910185: kfree: call_site=fscrypt_fname_free_buffer+0x28/0x48 ptr=0000000000000000
->> +       find-5351    [005] ...1. 678288.910218: do_filp_open <-do_sys_openat2
->> +       find-5351    [005] ..... 678288.910260: kfree: call_site=fscrypt_fname_free_buffer+0x28/0x48 ptr=0000000000000000
->> +       find-5351    [005] ...1. 678288.910293: do_filp_open <-do_sys_openat2
->> +       find-5351    [005] ..... 678288.910345: kfree: call_site=fscrypt_fname_free_buffer+0x28/0x48 ptr=0000000000000000
->> +       find-5351    [005] ..... 678288.910389: kfree: call_site=free_rb_tree_fname+0x54/0x88 ptr=000000007ba73e40
->> +       find-5351    [005] ..... 678288.910390: kfree: call_site=free_rb_tree_fname+0x54/0x88 ptr=000000009e4850bc
->> +       find-5351    [005] ..... 678288.910391: kfree: call_site=free_rb_tree_fname+0x54/0x88 ptr=000000004156f20f
->> +       find-5351    [005] ..... 678288.910393: kfree: call_site=free_rb_tree_fname+0x54/0x88 ptr=00000000c7207e20
->> +       find-5351    [005] ..... 678288.910394: kfree: call_site=free_rb_tree_fname+0x54/0x88 ptr=0000000037c31d76
->> +       find-5351    [005] ..... 678288.910395: kfree: call_site=free_rb_tree_fname+0x54/0x88 ptr=0000000001922677
->> +
->> +.. _read_ftrace_log:
->> +
->> +**Reading the ftrace log**
->> +~~~~~~~~~~~~~~~~~~~~~~~~~~
->> +
->> +The `trace` file can be read just like any other file (`cat`, `tail`, `head`,
->> +`vim`, etc.), the size of the file is limited by the `buffer_size_kb` (``echo
->> +1000 > buffer_size_kb``). The `trace_pipe` will behave similar to the `trace`
->> +file, but whenever you read from the file the content is consumed.
->> +
->> +**Kernelshark**
->> +~~~~~~~~~~~~~~~
->> +
->> +A GUI interface to visualize the traces as a graph and list view from the
->> +output of the `trace-cmd
->> +<https://git.kernel.org/pub/scm/utils/trace-cmd/trace-cmd.git/>`__ application.
->> +
->> +`Kernelshark documentation <https://kernelshark.org/Documentation.html>`_
->> +
->> +`Full Ftrace documentation <../trace/ftrace.html>`__
->> +
->> +Perf & alternatives
->> +-------------------
->> +
->> +The tools mentioned above provide ways to inspect kernel code, results, variable values, etc.
->> +Sometimes you have to find out first where to look and for those cases a box of performance tracking tools can help you to frame the issue.
->nit: add comma. better readability.
->s/and for those cases /and for those cases, /
+> > +                       shinfo->nr_frags =3D i + 1;
+> > +               }
+> >                 __clear_bit(cons, rxr->rx_agg_bmap);
+> >
+> >                 /* It is possible for bnxt_alloc_rx_page() to allocate
+> > @@ -1233,15 +1257,15 @@ static u32 __bnxt_rx_agg_pages(struct bnxt *bp,
+> >                  * need to clear the cons entry now.
+> >                  */
+> >                 mapping =3D cons_rx_buf->mapping;
+> > -               page =3D cons_rx_buf->page;
+> > -               cons_rx_buf->page =3D NULL;
+> > +               netmem =3D cons_rx_buf->netmem;
+> > +               cons_rx_buf->netmem =3D 0;
+> >
+> > -               if (xdp && page_is_pfmemalloc(page))
+> > +               if (xdp && page_is_pfmemalloc(netmem_to_page(netmem)))
+>
+> Similarly, add netmem_is_pfmemalloc to netmem.h, instead of doing a
+> netmem_to_page() call here I think.
 
-ack
+Thanks, I will add netmem_is_pfmemalloc() to netmem.h in a v4 patch.
 
 >
->> +
->> +.. _performance:
->> +
->> +**Why should you do a performance analysis?**
->> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> +
->> +A performance analysis is a good first step when among other reasons:
->> +
->> +- you cannot define the issue
->> +- you do not know where it occurs
->> +- the running system should not be interrupted or it is a remote system, where you cannot install a new module/kernel
->> +
->> +.. _linux-tools:
->> +
->> +**How to do a simple analysis with linux tools?**
->> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> +
->> +For the start of a performance analysis, you can start with the usual tools like:
->> +
->> +- `top` / `htop` / `atop` (*get an overview of the system load, see spikes on specific processes*)
->> +- `mpstat -P ALL` (*look at the load distribution among CPUs*)
->> +- `iostat -x` (*observe input and output devices utilization and performance*)
->> +- `vmstat` (*overview of memory usage on the system*)
->> +- `pidstat` (*similar to* `vmstat` *but per process, to dial it down to the target*)
->> +- `strace -tp $PID` (*once you know the process, you can figure out how it communicates with the Kernel*)
->> +
->> +These should help to figure out restrict the areas to look at sufficiently.
->nit: s/figure out restrict/narrow down/
+> >                         xdp_buff_set_frag_pfmemalloc(xdp);
+> >
+> > -               if (bnxt_alloc_rx_page(bp, rxr, prod, GFP_ATOMIC) !=3D =
+0) {
+> > +               if (bnxt_alloc_rx_netmem(bp, rxr, prod, GFP_ATOMIC) !=
+=3D 0) {
+> >                         --shinfo->nr_frags;
+> > -                       cons_rx_buf->page =3D page;
+> > +                       cons_rx_buf->netmem =3D netmem;
+> >
+> >                         /* Update prod since possibly some pages have b=
+een
+> >                          * allocated already.
+> > @@ -1269,7 +1293,7 @@ static struct sk_buff *bnxt_rx_agg_pages_skb(stru=
+ct bnxt *bp,
+> >         struct skb_shared_info *shinfo =3D skb_shinfo(skb);
+> >         u32 total_frag_len =3D 0;
+> >
+> > -       total_frag_len =3D __bnxt_rx_agg_pages(bp, cpr, shinfo, idx,
+> > +       total_frag_len =3D __bnxt_rx_agg_pages(bp, cpr, skb, shinfo, id=
+x,
+> >                                              agg_bufs, tpa, NULL);
+> >         if (!total_frag_len) {
+> >                 skb_mark_for_recycle(skb);
+> > @@ -1277,9 +1301,6 @@ static struct sk_buff *bnxt_rx_agg_pages_skb(stru=
+ct bnxt *bp,
+> >                 return NULL;
+> >         }
+> >
+> > -       skb->data_len +=3D total_frag_len;
+> > -       skb->len +=3D total_frag_len;
+> > -       skb->truesize +=3D BNXT_RX_PAGE_SIZE * agg_bufs;
+> >         return skb;
+> >  }
+> >
+> > @@ -1294,7 +1315,7 @@ static u32 bnxt_rx_agg_pages_xdp(struct bnxt *bp,
+> >         if (!xdp_buff_has_frags(xdp))
+> >                 shinfo->nr_frags =3D 0;
+> >
+> > -       total_frag_len =3D __bnxt_rx_agg_pages(bp, cpr, shinfo,
+> > +       total_frag_len =3D __bnxt_rx_agg_pages(bp, cpr, NULL, shinfo,
+> >                                              idx, agg_bufs, tpa, xdp);
+> >         if (total_frag_len) {
+> >                 xdp_buff_set_frags_flag(xdp);
+> > @@ -3342,15 +3363,15 @@ static void bnxt_free_one_rx_agg_ring(struct bn=
+xt *bp, struct bnxt_rx_ring_info
+> >
+> >         for (i =3D 0; i < max_idx; i++) {
+> >                 struct bnxt_sw_rx_agg_bd *rx_agg_buf =3D &rxr->rx_agg_r=
+ing[i];
+> > -               struct page *page =3D rx_agg_buf->page;
+> > +               netmem_ref netmem =3D rx_agg_buf->netmem;
+> >
+> > -               if (!page)
+> > +               if (!netmem)
+> >                         continue;
+> >
+> > -               rx_agg_buf->page =3D NULL;
+> > +               rx_agg_buf->netmem =3D 0;
+> >                 __clear_bit(i, rxr->rx_agg_bmap);
+> >
+> > -               page_pool_recycle_direct(rxr->page_pool, page);
+> > +               page_pool_put_full_netmem(rxr->page_pool, netmem, true)=
+;
+> >         }
+> >  }
+> >
+> > @@ -3608,9 +3629,11 @@ static void bnxt_free_rx_rings(struct bnxt *bp)
+> >
+> >  static int bnxt_alloc_rx_page_pool(struct bnxt *bp,
+> >                                    struct bnxt_rx_ring_info *rxr,
+> > +                                  int queue_idx,
+> >                                    int numa_node)
+> >  {
+> >         struct page_pool_params pp =3D { 0 };
+> > +       struct netdev_rx_queue *rxq;
+> >
+> >         pp.pool_size =3D bp->rx_agg_ring_size;
+> >         if (BNXT_RX_PAGE_MODE(bp))
+> > @@ -3621,8 +3644,15 @@ static int bnxt_alloc_rx_page_pool(struct bnxt *=
+bp,
+> >         pp.dev =3D &bp->pdev->dev;
+> >         pp.dma_dir =3D bp->rx_dir;
+> >         pp.max_len =3D PAGE_SIZE;
+> > -       pp.flags =3D PP_FLAG_DMA_MAP | PP_FLAG_DMA_SYNC_DEV;
+> > +       pp.order =3D 0;
+> > +
+> > +       rxq =3D __netif_get_rx_queue(bp->dev, queue_idx);
+> > +       if (rxq->mp_params.mp_priv)
+> > +               pp.flags =3D PP_FLAG_DMA_MAP | PP_FLAG_ALLOW_UNREADABLE=
+_NETMEM;
+>
+> This is not the intended use of PP_FLAG_ALLOW_UNREADABLE_NETMEM.
+>
+> The driver should set PP_FLAG_ALLOW_UNREADABLE_NETMEM when it's able
+> to handle unreadable netmem, it should not worry about whether
+> rxq->mp_params.mp_priv is set or not.
+>
+> You should set PP_FLAG_ALLOW_UNREADABLE_NETMEM when HDS is enabled.
+> Let core figure out if mp_params.mp_priv is enabled. All the driver
+> needs to report is whether it's configured to be able to handle
+> unreadable netmem (which practically means HDS is enabled).
 
-ack
+The reason why the branch exists here is the PP_FLAG_ALLOW_UNREADABLE_NETME=
+M
+flag can't be used with PP_FLAG_DMA_SYNC_DEV.
+
+ 228         if (pool->slow.flags & PP_FLAG_DMA_SYNC_DEV) {
+ 229                 /* In order to request DMA-sync-for-device the page
+ 230                  * needs to be mapped
+ 231                  */
+ 232                 if (!(pool->slow.flags & PP_FLAG_DMA_MAP))
+ 233                         return -EINVAL;
+ 234
+ 235                 if (!pool->p.max_len)
+ 236                         return -EINVAL;
+ 237
+ 238                 pool->dma_sync =3D true;                //here
+ 239
+ 240                 /* pool->p.offset has to be set according to the addre=
+ss
+ 241                  * offset used by the DMA engine to start copying rx d=
+ata
+ 242                  */
+ 243         }
+
+If PP_FLAG_DMA_SYNC_DEV is set, page->dma_sync is set to true.
+
+347 int mp_dmabuf_devmem_init(struct page_pool *pool)
+348 {
+349         struct net_devmem_dmabuf_binding *binding =3D pool->mp_priv;
+350
+351         if (!binding)
+352                 return -EINVAL;
+353
+354         if (!pool->dma_map)
+355                 return -EOPNOTSUPP;
+356
+357         if (pool->dma_sync)                      //here
+358                 return -EOPNOTSUPP;
+359
+360         if (pool->p.order !=3D 0)
+361                 return -E2BIG;
+362
+363         net_devmem_dmabuf_binding_get(binding);
+364         return 0;
+365 }
+
+In the mp_dmabuf_devmem_init(), it fails when pool->dma_sync is true.
+
+tcp-data-split can be used for normal cases, not only devmem TCP case.
+If we enable tcp-data-split and disable devmem TCP, page_pool doesn't
+have PP_FLAG_DMA_SYNC_DEV.
+So I think mp_params.mp_priv is still useful.
+
+Thanks a lot,
+Taehee Yoo
 
 >
->> +
->> +**Diving deeper with perf**
->> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> +
->> +The **perf** tool provides a series of metrics and events to further dial down on issues.
->> +
->> +Prerequisite: build or install perf on your system
->> +
->> +Gather statistics data for finding all files starting with `gcc` in `/usr`
->> +::
->> +
->> +       # perf stat -d find /usr -name 'gcc*' | wc -l
->> +
->> +        Performance counter stats for 'find /usr -name gcc*':
->> +
->> +                  1277.81 msec task-clock                       #    0.997 CPUs utilized
->> +                        9      context-switches                 #    7.043 /sec
->> +                        1      cpu-migrations                   #    0.783 /sec
->> +                      704      page-faults                      #  550.943 /sec
->> +                766548897      cycles                           #    0.600 GHz                         (97.15%)
->> +                798285467      instructions                     #    1.04  insn per cycle              (97.15%)
->> +                 57582731      branches                         #   45.064 M/sec                       (2.85%)
->> +                  3842573      branch-misses                    #    6.67% of all branches             (97.15%)
->> +                281616097      L1-dcache-loads                  #  220.390 M/sec                       (97.15%)
->> +                  4220975      L1-dcache-load-misses            #    1.50% of all L1-dcache accesses   (97.15%)
->> +          <not supported>      LLC-loads
->> +          <not supported>      LLC-load-misses
->> +
->> +              1.281746009 seconds time elapsed
->> +
->> +              0.508796000 seconds user
->> +              0.773209000 seconds sys
->> +
->> +
->> +       52
->> +
->> +The availability of events and metrics depends on the system you are running.
->> +
->> +`Full documentation <https://perf.wiki.kernel.org/index.php/Main_Page>`__
->> +
->> +**Perfetto**
->> +~~~~~~~~~~~~
->> +
->> +A set of tools to measure and analyze how well applications and systems perform.
->> +You can use it to:
->> +
->> +* identify bottlenecks
->> +* optimize code
->> +* make software run faster and more efficiently.
->> +
->> +**What is the difference between perfetto and perf?**
->> +
->> +* perf is tool as part of and specialized for the Linux Kernel and has CLI user
->> +  interface.
->> +* perfetto cross-platform performance analysis stack, has extended
->> +  functionality into userspace and provides a WEB user interface.
->> +
->> +`Full documentation <https://perfetto.dev/docs/>`__
->> +
->> +.. _kernel_panic_analysis_tools:
->> +
->> +Kernel panic analysis tools
->> +---------------------------
->> +
->> +  To analyse the crash dump please use `Kdump` & `Kexec`.
->> +
->> +  `Full documentation <../admin-guide/kdump/kdump.html>`__
->> +
->> +  In order to find the corresponding line in the code you can use `faddr2line
->> +  <https://elixir.bootlin.com/linux/latest/source/scripts/faddr2line>`__, note
->> +  that you need to enable `CONFIG_DEBUG_INFO` for that to work.
->> +
->> +  An alternative to using `faddr2line` is the use of `objdump` (and it's
->> +  derivatives for the different platforms like `aarch64-linux-gnu-objdump`),
->> +  take this line as an example:
->> +
->> +  `[  +0.000240]  rkvdec_device_run+0x50/0x138 [rockchip_vdec]`.
->> +
->> +  We can find the corresponding line of code by executing:
->> +  ::
->> +
->> +    aarch64-linux-gnu-objdump -dS drivers/staging/media/rkvdec/rockchip-vdec.ko | grep rkvdec_device_run\>: -A 40
->> +    0000000000000ac8 <rkvdec_device_run>:
->> +     ac8:      d503201f        nop
->> +     acc:      d503201f        nop
->> +    {
->> +     ad0:      d503233f        paciasp
->> +     ad4:      a9bd7bfd        stp     x29, x30, [sp, #-48]!
->> +     ad8:      910003fd        mov     x29, sp
->> +     adc:      a90153f3        stp     x19, x20, [sp, #16]
->> +     ae0:      a9025bf5        stp     x21, x22, [sp, #32]
->> +        const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
->> +     ae4:      f9411814        ldr     x20, [x0, #560]
->> +        struct rkvdec_dev *rkvdec = ctx->dev;
->> +     ae8:      f9418015        ldr     x21, [x0, #768]
->> +        if (WARN_ON(!desc))
->> +     aec:      b4000654        cbz     x20, bb4 <rkvdec_device_run+0xec>
->> +        ret = pm_runtime_resume_and_get(rkvdec->dev);
->> +     af0:      f943d2b6        ldr     x22, [x21, #1952]
->> +        ret = __pm_runtime_resume(dev, RPM_GET_PUT);
->> +     af4:      aa0003f3        mov     x19, x0
->> +     af8:      52800081        mov     w1, #0x4                        // #4
->> +     afc:      aa1603e0        mov     x0, x22
->> +     b00:      94000000        bl      0 <__pm_runtime_resume>
->> +        if (ret < 0) {
->> +     b04:      37f80340        tbnz    w0, #31, b6c <rkvdec_device_run+0xa4>
->> +        dev_warn(rkvdec->dev, "Not good\n");
->> +     b08:      f943d2a0        ldr     x0, [x21, #1952]
->> +     b0c:      90000001        adrp    x1, 0 <rkvdec_try_ctrl-0x8>
->> +     b10:      91000021        add     x1, x1, #0x0
->> +     b14:      94000000        bl      0 <_dev_warn>
->> +        *bad = 1;
->> +     b18:      d2800001        mov     x1, #0x0                        // #0
->> +     ...
->> +
->> +
->> +  To find the matching line we just have to add `0x50` (from
->> +  `rkvdec_device_run+0x50`) to `0xac8` (from `0000000000000ac8
->> +  <rkvdec_device_run>:`), which yields `0xb18` corresponding with `*bad = 1`.
->I didn't understand this part. Can you explain?
-
-I try to explain in that line how to interpret the output above.
-Meaning, in this line from the crash dump:
-
-`[  +0.000240]  rkvdec_device_run+0x50/0x138 [rockchip_vdec]`
-
-I can take the 0x50 as offset, which I have to add to the base address
-of the corresponding function, which I find in this line:
-
-     0000000000000ac8 <rkvdec_device_run>:
-
-The result of 0xac8 + 0x50 = 0xb18
-And when I search for that address within the function I get the
-following line:
-
-         *bad = 1;
-      b18:      d2800001        mov     x1, #0x0                        // #0
-
-Which is the offending line, I will try to clarify this in the next
-version.
-
-Regards,
-Sebastian
-
+> > +       else
+> > +               pp.flags =3D PP_FLAG_DMA_MAP | PP_FLAG_DMA_SYNC_DEV;
+> >
+> > +       pp.queue_idx =3D queue_idx;
+> >         rxr->page_pool =3D page_pool_create(&pp);
+> >         if (IS_ERR(rxr->page_pool)) {
+> >                 int err =3D PTR_ERR(rxr->page_pool);
+> > @@ -3655,7 +3685,7 @@ static int bnxt_alloc_rx_rings(struct bnxt *bp)
+> >                 cpu_node =3D cpu_to_node(cpu);
+> >                 netdev_dbg(bp->dev, "Allocating page pool for rx_ring[%=
+d] on numa_node: %d\n",
+> >                            i, cpu_node);
+> > -               rc =3D bnxt_alloc_rx_page_pool(bp, rxr, cpu_node);
+> > +               rc =3D bnxt_alloc_rx_page_pool(bp, rxr, i, cpu_node);
+> >                 if (rc)
+> >                         return rc;
+> >
+> > @@ -4154,7 +4184,7 @@ static void bnxt_alloc_one_rx_ring_page(struct bn=
+xt *bp,
+> >
+> >         prod =3D rxr->rx_agg_prod;
+> >         for (i =3D 0; i < bp->rx_agg_ring_size; i++) {
+> > -               if (bnxt_alloc_rx_page(bp, rxr, prod, GFP_KERNEL)) {
+> > +               if (bnxt_alloc_rx_netmem(bp, rxr, prod, GFP_KERNEL)) {
+> >                         netdev_warn(bp->dev, "init'ed rx ring %d with %=
+d/%d pages only\n",
+> >                                     ring_nr, i, bp->rx_ring_size);
+> >                         break;
+> > @@ -15063,7 +15093,7 @@ static int bnxt_queue_mem_alloc(struct net_devi=
+ce *dev, void *qmem, int idx)
+> >         clone->rx_sw_agg_prod =3D 0;
+> >         clone->rx_next_cons =3D 0;
+> >
+> > -       rc =3D bnxt_alloc_rx_page_pool(bp, clone, rxr->page_pool->p.nid=
+);
+> > +       rc =3D bnxt_alloc_rx_page_pool(bp, clone, idx, rxr->page_pool->=
+p.nid);
+> >         if (rc)
+> >                 return rc;
+> >
+> > diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.h b/drivers/net/et=
+hernet/broadcom/bnxt/bnxt.h
+> > index 48f390519c35..3cf57a3c7664 100644
+> > --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.h
+> > +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.h
+> > @@ -895,7 +895,7 @@ struct bnxt_sw_rx_bd {
+> >  };
+> >
+> >  struct bnxt_sw_rx_agg_bd {
+> > -       struct page             *page;
+> > +       netmem_ref              netmem;
+> >         unsigned int            offset;
+> >         dma_addr_t              mapping;
+> >  };
+> > --
+> > 2.34.1
+> >
 >
->> +
->> +**Copyright** |copy| 2024 : Collabora
->> diff --git a/Documentation/index.rst b/Documentation/index.rst
->> index f9f525f4c0dd..eb8de7ba8e41 100644
->> --- a/Documentation/index.rst
->> +++ b/Documentation/index.rst
->> @@ -57,6 +57,7 @@ Various other manuals with useful information for all kernel developers.
->>     Testing guide <dev-tools/testing-overview>
->>     Hacking guide <kernel-hacking/index>
->>     Tracing <trace/index>
->> +   Debugging <debugging/index>
->>     Fault injection <fault-injection/index>
->>     Livepatching <livepatch/index>
->>     Rust <rust/index>
->> @@ -76,6 +77,7 @@ developers seeking information on the kernel's user-space APIs.
->>     Build system <kbuild/index>
->>     Reporting issues <admin-guide/reporting-issues.rst>
->>     Userspace tools <tools/index>
->> +   Userspace debugging tools <debugging/userspace_debugging_guide.rst>
->>     Userspace API <userspace-api/index>
->>
->>  See also: the `Linux man pages <https://www.kernel.org/doc/man-pages/>`_,
->>
->> --
->> 2.25.1
->>
 >
+> --
+> Thanks,
+> Mina
