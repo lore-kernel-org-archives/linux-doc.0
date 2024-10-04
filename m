@@ -1,144 +1,178 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp-fw-6001.amazon.com (smtp-fw-6001.amazon.com [52.95.48.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F7C815748E
-	for <linux-doc@vger.kernel.org>; Fri,  4 Oct 2024 14:02:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 802562141DC;
+	Fri,  4 Oct 2024 14:08:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.95.48.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728050554; cv=none; b=nCfrVxFfKPqXBiwmJW+g8VsVuQJixWDXRBwmlrUWW0kFrJRt+CZDIJve9wrRS8e2wwfSOLJZai0KJJwCjnvLnTouFQ8RPAoUX83GmQ2gNi2z+aiMtPUHHyQ61NUg6F+fNMotFvTjoCkvKH04Bdw0PphXkuoxifnMA1A+ZB3zU7c=
+	t=1728050904; cv=none; b=uJUzllNFjEiu4drhf20enhh1VoXN8w5AnyJzQFMQsoWhPW7KL7l6VDhA8L13a+Zu06L2xBrExgnVQyuHohaA27moMz57WBQGc2zkf7H7mDz8KMAFOw8xj2WPEQ6x2CpMogG+j3hPXBDb9eq/XYTvhQTSDtzYKRz9f4TV4oCpxjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728050554; c=relaxed/simple;
-	bh=m+EuFRP4yJCBryc6cpYw/Y6cYfUZ04WOCx4r0St2QmU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nv8CRyHtxJ0opvx2RAouzWwj5ToKrqvov5F3VsP4/OYKJhXxOLlWD3bGj070Vq+mtEt9vgfbr54hbDwMTU/VPzkiszuROi418tNYSw8HgSz9ovC1PeqsNjgn1o6jeoi8uD389ucAE43ELLeU4CrUQJq5Un9BXMykBOn6FEXbz64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1swisr-0006f4-HM; Fri, 04 Oct 2024 16:02:17 +0200
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ore@pengutronix.de>)
-	id 1swisp-003abZ-Kf; Fri, 04 Oct 2024 16:02:15 +0200
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1swisp-00AhcU-1j;
-	Fri, 04 Oct 2024 16:02:15 +0200
-Date: Fri, 4 Oct 2024 16:02:15 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Kory Maincent <kory.maincent@bootlin.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
-	Dent Project <dentproject@linuxfoundation.org>,
-	kernel@pengutronix.de
-Subject: Re: [PATCH net-next 11/12] net: pse-pd: Add support for event
- reporting using devm_regulator_irq_helper
-Message-ID: <Zv_1ZzwQJ-P36mt6@pengutronix.de>
-References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
- <20241002-feature_poe_port_prio-v1-11-787054f74ed5@bootlin.com>
- <f56780af-b2d4-42d7-bc5d-c35b295d7c52@lunn.ch>
- <20241003102806.084367ba@kmaincent-XPS-13-7390>
- <f97baa90-1f76-4558-815a-ef4f82913c3a@lunn.ch>
- <20241003153303.7cc6dba8@kmaincent-XPS-13-7390>
- <4b9d1adf-e9bd-47c0-ac69-5da77fcf8d0b@lunn.ch>
- <Zv_0ESPJgHKhFIwk@pengutronix.de>
+	s=arc-20240116; t=1728050904; c=relaxed/simple;
+	bh=dEFXc+lJNzaKiiAH+N4aUTtNjda1w1YYpte7n0oZRSU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GrFpvL5AfJao4oPzDyK1VHoHJoGrkylDirdNkJOJjxVqeSf7GN8T9GP7tQ7TsiRZYkpPt6XYFmjiXgdsfQlQCIJcSjnxasGV/6mCq5yJ4YMqSBqQtC3EtEt16fnRSiyoHVhx8qBPoZ78ngBGNv/ouVYCSqoXfWYBZcBKFsZ2yEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b=dJaxc4Dm; arc=none smtp.client-ip=52.95.48.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="dJaxc4Dm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+  t=1728050903; x=1759586903;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=uPg7F0nSFvjnhLWmD+reVh0IDZxY4LYEuXfZgFaWKT4=;
+  b=dJaxc4DmNVVjMBMLYjT0cfhGlInhamQqi7IzfgtKSmbkfcppFGqUzXtB
+   vFbsMwk+REgvAQf972IMpQPAGUlOulf7t3IWmYaP0Pr84s3jUhaCR+39/
+   0DkTWW/Hs1OqlOTpNTejKRC4ov6A2EoLW+xEdM1WRhSsJ05Gt5nD8kmcq
+   w=;
+X-IronPort-AV: E=Sophos;i="6.11,177,1725321600"; 
+   d="scan'208";a="428887629"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.2])
+  by smtp-border-fw-6001.iad6.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 14:08:19 +0000
+Received: from EX19MTAUWC001.ant.amazon.com [10.0.38.20:4822]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.57.100:2525] with esmtp (Farcaster)
+ id 22c93a9c-ae03-4c8d-b0d2-293a9c1b4d54; Fri, 4 Oct 2024 14:08:17 +0000 (UTC)
+X-Farcaster-Flow-ID: 22c93a9c-ae03-4c8d-b0d2-293a9c1b4d54
+Received: from EX19D020UWA001.ant.amazon.com (10.13.138.249) by
+ EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Fri, 4 Oct 2024 14:08:14 +0000
+Received: from EX19MTAUWA002.ant.amazon.com (10.250.64.202) by
+ EX19D020UWA001.ant.amazon.com (10.13.138.249) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Fri, 4 Oct 2024 14:08:14 +0000
+Received: from email-imr-corp-prod-pdx-all-2c-475d797d.us-west-2.amazon.com
+ (10.25.36.210) by mail-relay.amazon.com (10.250.64.203) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
+ 15.2.1258.34 via Frontend Transport; Fri, 4 Oct 2024 14:08:14 +0000
+Received: from dev-dsk-nikwip-1b-bc9ec026.eu-west-1.amazon.com (dev-dsk-nikwip-1b-bc9ec026.eu-west-1.amazon.com [10.253.74.52])
+	by email-imr-corp-prod-pdx-all-2c-475d797d.us-west-2.amazon.com (Postfix) with ESMTPS id 6F1C3A03AD;
+	Fri,  4 Oct 2024 14:08:11 +0000 (UTC)
+From: Nikolas Wipper <nikwip@amazon.de>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+CC: Nicolas Saenz Julienne <nsaenz@amazon.com>, Alexander Graf
+	<graf@amazon.de>, James Gowans <jgowans@amazon.com>,
+	<nh-open-source@amazon.com>, Sean Christopherson <seanjc@google.com>, "Paolo
+ Bonzini" <pbonzini@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, "Ingo
+ Molnar" <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+	<dave.hansen@linux.intel.com>, Nikolas Wipper <nik.wipper@gmx.de>,
+	<linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>, <x86@kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>, "Nikolas
+ Wipper" <nikwip@amazon.de>
+Subject: [PATCH 0/7] KVM: x86: Introduce new ioctl KVM_HYPERV_SET_TLB_FLUSH_INHIBIT
+Date: Fri, 4 Oct 2024 14:08:03 +0000
+Message-ID: <20241004140810.34231-1-nikwip@amazon.de>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zv_0ESPJgHKhFIwk@pengutronix.de>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 04, 2024 at 03:56:33PM +0200, Oleksij Rempel wrote:
-> On Thu, Oct 03, 2024 at 05:22:58PM +0200, Andrew Lunn wrote:
-> > > Indeed, but regulator API already provide such events, which will even be sent
-> > > when we enable or disable the PSE. Should we write a second event management.
-> > > Using regulator event API allows to report over current internal events to the
-> > > parents regulator the power supply of the PSE which could also do something to
-> > > avoid smoke.
-> > > 
-> > > Or maybe we should add another wrapper which will send PSE ethtool netlink
-> > > notification alongside the regulator notifications supported by this patch.
-> > > 
-> > > > Also, how do regulator events work in combination with network
-> > > > namespaces? If you move the interface into a different network
-> > > > namespace, do the regulator events get delivered to the root namespace
-> > > > or the namespace the interface is in?
-> > > 
-> > > regulator events are sent in root namespace.
-> > 
-> > I think we will need two event, the base regulator event, and a
-> > networking event. Since it is a regulator, sending a normal regulator
-> > event makes a lot of sense. But mapping that regulator event to a
-> > netns:ifnam is going to be hard. Anything wanting to take an action is
-> > probably going to want to use ethtool, and so needs to be in the
-> > correct netns, etc. But it does get messy if there is some sort of
-> > software driven prioritisation going on, some daemon needs to pick a
-> > victim to reduce power to, and the interfaces are spread over multiple
-> > network namespaces.
-> > 
-> > What i don't know is if we can use an existing event, or we should add
-> > a new one. Often rtnetlink_event() is used:
-> > 
-> > https://elixir.bootlin.com/linux/v6.12-rc1/source/net/core/rtnetlink.c#L6679
-> > 
-> > but without some PSE information in it, it would be hard to know why
-> > it was sent. So we probably either want a generic ethtool event, or a
-> > PSE event.
-> 
-> Hm... assuming we have following scenario:
-> 
->                                   .---------   PI 1
->                                  / .---------  PI 2
->                    .========= PSE /----------( PI 3 ) NNS red
->                   //              \----------( PI 4 ) NNS blue
-> Main supply      //                `---------( PI 5 ) NNS blue
-> o================´--- System, CPU
-> 
-> In this case we seems to have a new challenge:
-> 
-> On one side, a system wide power manager should see and mange all ports.
-> On other side, withing a name space, we should be able to play in a
-> isolated sand box. There is a reason why it is isolated. So, we should
-> be able to sandbox power delivery and port prios too. Means, by creating
-> network names space, we will need a power names space. 
-> 
-> I can even imagine a use case: an admin limited access to a switch for
-> developer. A developer name space is created with PSE budget and max
-> prios available for this name space. This will prevent users from DoSing
-> system critical ports.
-> 
-> At this point, creating a power name space will an overkill for this
-> patch set, so it should be enough to allow controlling prios over
-> ethtool per port and isolation support if needed.
+This series introduces a new ioctl KVM_HYPERV_SET_TLB_FLUSH_INHIBIT. It
+allows hypervisors to inhibit remote TLB flushing of a vCPU coming from
+Hyper-V hyper-calls (namely HvFlushVirtualAddressSpace(Ex) and
+HvFlushirtualAddressList(Ex)). It is required to implement the
+HvTranslateVirtualAddress hyper-call as part of the ongoing effort to
+emulate VSM within KVM and QEMU. The hyper-call requires several new KVM
+APIs, one of which is KVM_HYPERV_SET_TLB_FLUSH_INHIBIT.
 
-Oh, sorry, i'm too tired. Too many words are missing in my answer ...
+Once the inhibit flag is set, any processor attempting to flush the TLB on
+the marked vCPU, with a HyperV hyper-call, will be suspended until the
+flag is cleared again. During the suspension the vCPU will not run at all,
+neither receiving events nor running other code. It will wake up from
+suspension once the vCPU it is waiting on clears the inhibit flag. This
+behaviour is specified in Microsoft's "Hypervisor Top Level Functional
+Specification" (TLFS).
+
+The vCPU will block execution during the suspension, making it transparent
+to the hypervisor. An alternative design to what is proposed here would be
+to exit from the Hyper-V hypercall upon finding an inhibited vCPU. We
+decided against it, to allow for a simpler and more performant
+implementation. Exiting to user space would create an additional
+synchronisation burden and make the resulting code more complex.
+Additionally, since the suspension is specific to HyperV events, it
+wouldn't provide any functional benefits.
+
+The TLFS specifies that the instruction pointer is not moved during the
+suspension, so upon unsuspending the hyper-calls is re-executed. This
+means that, if the vCPU encounters another inhibited TLB and is
+resuspended, any pending events and interrupts are still executed. This is
+identical to the vCPU receiving such events right before the hyper-call.
+
+This inhibiting of TLB flushes is necessary, to securely implement
+intercepts. These allow a higher "Virtual Trust Level" (VTL) to react to
+a lower VTL accessing restricted memory. In such an intercept the VTL may
+want to emulate a memory access in software, however, if another processor
+flushes the TLB during that operation, incorrect behaviour can result.
+
+The patch series includes basic testing of the ioctl and suspension state.
+All previously passing KVM selftests and KVM unit tests still pass.
+
+Series overview:
+- 1: Document the new ioctl
+- 2: Implement the suspension state
+- 3: Update TLB flush hyper-call in preparation
+- 4-5: Implement the ioctl
+- 6: Add traces
+- 7: Implement testing
+
+As the suspension state is transparent to the hypervisor, testing is
+complicated. The current version makes use of a set time intervall to give
+the vCPU time to enter the hyper-call and get suspended. Ideas for
+improvement on this are very welcome.
+
+This series, alongside my series [1] implementing KVM_TRANSLATE2, the
+series by Nicolas Saenz Julienne [2] implementing the core building blocks
+for VSM and the accompanying QEMU implementation [3], is capable of
+booting Windows Server 2019 with VSM/CredentialGuard enabled.
+
+All three series are also available on GitHub [4].
+
+[1] https://lore.kernel.org/linux-kernel/20240910152207.38974-1-nikwip@amazon.de/
+[2] https://lore.kernel.org/linux-hyperv/20240609154945.55332-1-nsaenz@amazon.com/
+[3] https://github.com/vianpl/qemu/tree/vsm/next
+[4] https://github.com/vianpl/linux/tree/vsm/next
+
+Best,
+Nikolas
+
+Nikolas Wipper (7):
+  KVM: Add API documentation for KVM_HYPERV_SET_TLB_FLUSH_INHIBIT
+  KVM: x86: Implement Hyper-V's vCPU suspended state
+  KVM: x86: Check vCPUs before enqueuing TLB flushes in
+    kvm_hv_flush_tlb()
+  KVM: Introduce KVM_HYPERV_SET_TLB_FLUSH_INHIBIT
+  KVM: x86: Implement KVM_HYPERV_SET_TLB_FLUSH_INHIBIT
+  KVM: x86: Add trace events to track Hyper-V suspensions
+  KVM: selftests: Add tests for KVM_HYPERV_SET_TLB_FLUSH_INHIBIT
+
+ Documentation/virt/kvm/api.rst                |  41 +++
+ arch/x86/include/asm/kvm_host.h               |   5 +
+ arch/x86/kvm/hyperv.c                         |  86 +++++-
+ arch/x86/kvm/hyperv.h                         |  17 ++
+ arch/x86/kvm/trace.h                          |  39 +++
+ arch/x86/kvm/x86.c                            |  41 ++-
+ include/uapi/linux/kvm.h                      |  15 +
+ tools/testing/selftests/kvm/Makefile          |   1 +
+ .../kvm/x86_64/hyperv_tlb_flush_inhibit.c     | 274 ++++++++++++++++++
+ 9 files changed, 503 insertions(+), 16 deletions(-)
+ create mode 100644 tools/testing/selftests/kvm/x86_64/hyperv_tlb_flush_inhibit.c
 
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.40.1
+
+
+
+
+Amazon Web Services Development Center Germany GmbH
+Krausenstr. 38
+10117 Berlin
+Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+Eingetragen am Amtsgericht Charlottenburg unter HRB 257764 B
+Sitz: Berlin
+Ust-ID: DE 365 538 597
+
