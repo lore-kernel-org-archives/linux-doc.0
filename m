@@ -1,242 +1,135 @@
-Received: from smtp-fw-80008.amazon.com (smtp-fw-80008.amazon.com [99.78.197.219])
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADDF32141C9;
-	Fri,  4 Oct 2024 14:10:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=99.78.197.219
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B1E2141B2;
+	Fri,  4 Oct 2024 14:10:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728051029; cv=none; b=L67+pnCzYzYdOoVdGRCoo/xAv1fDHMfazUqLv2+xP74ayrBZArNYR9RyoDpEWIYHHdB+RiUQfPyvi57/jkg6ypmHPW61EUyV+EdqN4lN6b+Oqv5kHyRek+7yYjRrgv1OA3U6OoE0el57At689P4ARPN1bkMVw1e+ivOSlF2p3V8=
+	t=1728051049; cv=none; b=RtvNfiCtsw5uUZY7vSYyRuqoVb6qzY03gBoj+9Sab/jp/qnUzyvLADi0Sgirhwct9QCSIBE6pyOx5Ld7+kwuLDAI+2VZpSB2nSjZU8u4BtLeAH0APM7Y6Iz7qfih6Hrp9L3zQFWKVoGMfnpSSHVmBPf8w5fzWtOuievhthoDtxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728051029; c=relaxed/simple;
-	bh=qLZ0dHJJR8y5UGNyoPLEZazqvffEldWZGWTPPwohkMQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tmojR2zKQ9oUxM40INLEhYRmUPkiTQkKNEN3ySC2/bvLQUIax+q9TRf6E9KMDgcS+Nm8G6PQuOuHMoSJvNzm1nzSWeDpsbDSIyQZ3XIg//5tfyz5xNxEnc+Lk+wtLcFj0UKpawpJHcXV58+aLNDVR+6gsx0G9WnDqSpbCFFkUYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b=bOkoNvV1; arc=none smtp.client-ip=99.78.197.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
+	s=arc-20240116; t=1728051049; c=relaxed/simple;
+	bh=j5AlOQD2VWaaQ/2ZWxDwdHfV7PX7fB/Ru+TjZs8F8dQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DJPkqkX/wNZ1yh/z7tvL+GLz8b6auqtjhsGIkrk8PIfMfeg1jrg2w4U3GatbrUaSnkcP81viG3yKdXQP8F2wMOGgl2IuM4Hoku/GbpZVAVfu5zc5bAffnqJPIyr6Wac+rWxiLwtVxPmS7J4zh/3y1zubvYIlRGASMWiPkXyU7H0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=buTDvLSk; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="bOkoNvV1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1728051027; x=1759587027;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=qLZ0dHJJR8y5UGNyoPLEZazqvffEldWZGWTPPwohkMQ=;
-  b=bOkoNvV1ItnV6OdH9rE+EHr1daMiVKvCRqXF+YeNNPLHy2XmdwDVEww7
-   yqdQj5urvEEtIVv2oV4uVwA3FrcjPNSZANGPOPdlX98O/2kDwlWbTNUdI
-   6h4D6K8jhDYq2Sc1aQa+7QYrZhO/kweAuHTx3cWlpdMhlBEOPdbHUBSrN
-   A=;
-X-IronPort-AV: E=Sophos;i="6.11,177,1725321600"; 
-   d="scan'208";a="135245914"
-Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.214])
-  by smtp-border-fw-80008.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 14:10:25 +0000
-Received: from EX19MTAUWB002.ant.amazon.com [10.0.21.151:5490]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.57.100:2525] with esmtp (Farcaster)
- id cf9536d7-31c7-4604-8950-7576c1ee7d34; Fri, 4 Oct 2024 14:10:25 +0000 (UTC)
-X-Farcaster-Flow-ID: cf9536d7-31c7-4604-8950-7576c1ee7d34
-Received: from EX19D020UWA003.ant.amazon.com (10.13.138.254) by
- EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Fri, 4 Oct 2024 14:10:19 +0000
-Received: from EX19MTAUWB001.ant.amazon.com (10.250.64.248) by
- EX19D020UWA003.ant.amazon.com (10.13.138.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Fri, 4 Oct 2024 14:10:19 +0000
-Received: from email-imr-corp-prod-pdx-all-2b-f5cd2367.us-west-2.amazon.com
- (10.25.36.214) by mail-relay.amazon.com (10.250.64.254) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
- 15.2.1258.34 via Frontend Transport; Fri, 4 Oct 2024 14:10:19 +0000
-Received: from dev-dsk-nikwip-1b-bc9ec026.eu-west-1.amazon.com (dev-dsk-nikwip-1b-bc9ec026.eu-west-1.amazon.com [10.253.74.52])
-	by email-imr-corp-prod-pdx-all-2b-f5cd2367.us-west-2.amazon.com (Postfix) with ESMTPS id 7A34AC0165;
-	Fri,  4 Oct 2024 14:10:16 +0000 (UTC)
-From: Nikolas Wipper <nikwip@amazon.de>
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-CC: Nicolas Saenz Julienne <nsaenz@amazon.com>, Alexander Graf
-	<graf@amazon.de>, James Gowans <jgowans@amazon.com>,
-	<nh-open-source@amazon.com>, Sean Christopherson <seanjc@google.com>, "Paolo
- Bonzini" <pbonzini@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, "Ingo
- Molnar" <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
-	<dave.hansen@linux.intel.com>, Nikolas Wipper <nik.wipper@gmx.de>,
-	<linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>, <x86@kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>, "Nikolas
- Wipper" <nikwip@amazon.de>
-Subject: [PATCH 7/7] KVM: selftests: Add tests for KVM_HYPERV_SET_TLB_FLUSH_INHIBIT
-Date: Fri, 4 Oct 2024 14:08:10 +0000
-Message-ID: <20241004140810.34231-8-nikwip@amazon.de>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20241004140810.34231-1-nikwip@amazon.de>
-References: <20241004140810.34231-1-nikwip@amazon.de>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="buTDvLSk"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A4FD4240003;
+	Fri,  4 Oct 2024 14:10:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1728051044;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g3tL/ZAiQMNHzQXs84jjIGk7DdTJl4yNqKkW6ctCqjY=;
+	b=buTDvLSkl6l2LUhH7KKOwsGBDyKeuuuHDq0f4wO6l2o2hSDMVsUdFPVzSTmhHkh3Tl1bpV
+	0lDqrrk7QNSGkxxDA+FadIyKbTG8lZvgN49TstG1YkaRzYvQyq9YXRlG2jcEUmJDFqESoX
+	fuVTDF7J3Y3OzZ7u8RcNTID4ztzkGV6JL9nIHmPMcfAbYFzcezH4FIROdSL4aKosS8wEVB
+	5y3XKgjChfQY89xJbawS5uo8fsBLX6dIpoN4+xZqDstLYHANpO/p8O2O2y8mQb2QnyMsJf
+	xFWIbHDGwzcKlgb4ljYn53Io8ZB7Dd2YU6JGpm/7ryGbb9QZ/OaCaVQ7DpQZfw==
+Date: Fri, 4 Oct 2024 16:10:41 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
+ <donald.hunter@gmail.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
+ Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de
+Subject: Re: [PATCH net-next 11/12] net: pse-pd: Add support for event
+ reporting using devm_regulator_irq_helper
+Message-ID: <20241004161041.0eb3aad6@kmaincent-XPS-13-7390>
+In-Reply-To: <Zv_1ZzwQJ-P36mt6@pengutronix.de>
+References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
+	<20241002-feature_poe_port_prio-v1-11-787054f74ed5@bootlin.com>
+	<f56780af-b2d4-42d7-bc5d-c35b295d7c52@lunn.ch>
+	<20241003102806.084367ba@kmaincent-XPS-13-7390>
+	<f97baa90-1f76-4558-815a-ef4f82913c3a@lunn.ch>
+	<20241003153303.7cc6dba8@kmaincent-XPS-13-7390>
+	<4b9d1adf-e9bd-47c0-ac69-5da77fcf8d0b@lunn.ch>
+	<Zv_0ESPJgHKhFIwk@pengutronix.de>
+	<Zv_1ZzwQJ-P36mt6@pengutronix.de>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-QWRkIGJhc2ljIHRlc3QgZm9yIEtWTV9IWVBFUlZfU0VUX1RMQl9GTFVTSF9JTkhJQklULiBTaW5j
-ZSBpbmZvcm1hdGlvbgphYm91dCB0aGUgc3VzcGVuc2lvbiBpcyBub3QgY29tbXVuaWNhdGVkIHRv
-IHVzZXJzcGFjZSB0aGlzIHRlc3QgY2hlY2tzIGZvcgpzdXNwZW5zaW9uIGJ5IGNoZWNraW5nIHdo
-ZXRoZXIgdGhlIHRocmVhZCBydW5uaW5nIGEgdkNQVSBpcyBzdGlsbApleGVjdXRpbmcuCgpTaWdu
-ZWQtb2ZmLWJ5OiBOaWtvbGFzIFdpcHBlciA8bmlrd2lwQGFtYXpvbi5kZT4KLS0tCiB0b29scy90
-ZXN0aW5nL3NlbGZ0ZXN0cy9rdm0vTWFrZWZpbGUgICAgICAgICAgfCAgIDEgKwogLi4uL2t2bS94
-ODZfNjQvaHlwZXJ2X3RsYl9mbHVzaF9pbmhpYml0LmMgICAgIHwgMjc0ICsrKysrKysrKysrKysr
-KysrKwogMiBmaWxlcyBjaGFuZ2VkLCAyNzUgaW5zZXJ0aW9ucygrKQogY3JlYXRlIG1vZGUgMTAw
-NjQ0IHRvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzL2t2bS94ODZfNjQvaHlwZXJ2X3RsYl9mbHVzaF9p
-bmhpYml0LmMKCmRpZmYgLS1naXQgYS90b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9rdm0vTWFrZWZp
-bGUgYi90b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9rdm0vTWFrZWZpbGUKaW5kZXggNDVjYjcwYzA0
-OGJiLi4wOThjOWMzZjlhZDggMTAwNjQ0Ci0tLSBhL3Rvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzL2t2
-bS9NYWtlZmlsZQorKysgYi90b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9rdm0vTWFrZWZpbGUKQEAg
-LTc5LDYgKzc5LDcgQEAgVEVTVF9HRU5fUFJPR1NfeDg2XzY0ICs9IHg4Nl82NC9oeXBlcnZfZmVh
-dHVyZXMKIFRFU1RfR0VOX1BST0dTX3g4Nl82NCArPSB4ODZfNjQvaHlwZXJ2X2lwaQogVEVTVF9H
-RU5fUFJPR1NfeDg2XzY0ICs9IHg4Nl82NC9oeXBlcnZfc3ZtX3Rlc3QKIFRFU1RfR0VOX1BST0dT
-X3g4Nl82NCArPSB4ODZfNjQvaHlwZXJ2X3RsYl9mbHVzaAorVEVTVF9HRU5fUFJPR1NfeDg2XzY0
-ICs9IHg4Nl82NC9oeXBlcnZfdGxiX2ZsdXNoX2luaGliaXQKIFRFU1RfR0VOX1BST0dTX3g4Nl82
-NCArPSB4ODZfNjQva3ZtX2Nsb2NrX3Rlc3QKIFRFU1RfR0VOX1BST0dTX3g4Nl82NCArPSB4ODZf
-NjQva3ZtX3B2X3Rlc3QKIFRFU1RfR0VOX1BST0dTX3g4Nl82NCArPSB4ODZfNjQvbW9uaXRvcl9t
-d2FpdF90ZXN0CmRpZmYgLS1naXQgYS90b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9rdm0veDg2XzY0
-L2h5cGVydl90bGJfZmx1c2hfaW5oaWJpdC5jIGIvdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMva3Zt
-L3g4Nl82NC9oeXBlcnZfdGxiX2ZsdXNoX2luaGliaXQuYwpuZXcgZmlsZSBtb2RlIDEwMDY0NApp
-bmRleCAwMDAwMDAwMDAwMDAuLjYzOGVkNmVjOGFlMQotLS0gL2Rldi9udWxsCisrKyBiL3Rvb2xz
-L3Rlc3Rpbmcvc2VsZnRlc3RzL2t2bS94ODZfNjQvaHlwZXJ2X3RsYl9mbHVzaF9pbmhpYml0LmMK
-QEAgLTAsMCArMSwyNzQgQEAKKy8vIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wCisv
-KgorICogVGVzdCBmb3IgS1ZNJ3MgZW11bGF0aW9uIG9mIEh5cGVyLVYncyBUbGJGbHVzaEluaGli
-aXQgYml0CisgKgorICogQ29weXJpZ2h0IMKpIDIwMjQgQW1hem9uLmNvbSwgSW5jLiBvciBpdHMg
-YWZmaWxpYXRlcy4gQWxsIFJpZ2h0cyBSZXNlcnZlZC4KKyAqLworI2luY2x1ZGUgPHB0aHJlYWQu
-aD4KKyNpbmNsdWRlIDx0aW1lLmg+CisKKyNpbmNsdWRlICJhcGljLmgiCisjaW5jbHVkZSAiaHlw
-ZXJ2LmgiCisKK3N0cnVjdCB0aW1lc3BlYyBhYnN0aW1lOworCitzdHJ1Y3QgdGVzdF9kYXRhIHsK
-Kwlib29sIGVudGVyZWQ7CisJYm9vbCBoeXBlcmNhbGxfZG9uZTsKKwl2bV9wYWRkcl90IGhjYWxs
-X2dwYTsKK307CisKK3ZvaWQgZ3Vlc3RfbWFpbih2bV92YWRkcl90IHRlc3RfZGF0YSkKK3sKKwlz
-dHJ1Y3QgdGVzdF9kYXRhICpkYXRhID0gKHN0cnVjdCB0ZXN0X2RhdGEgKil0ZXN0X2RhdGE7CisK
-Kwl3cm1zcihIVl9YNjRfTVNSX0dVRVNUX09TX0lELCBIWVBFUlZfTElOVVhfT1NfSUQpOworCXdy
-bXNyKEhWX1g2NF9NU1JfSFlQRVJDQUxMLCBkYXRhLT5oY2FsbF9ncGEpOworCisJV1JJVEVfT05D
-RShkYXRhLT5lbnRlcmVkLCB0cnVlKTsKKworCS8qIEFsaWduZWQgZm9yIGxvYWRpbmcgaW50byBY
-TU0gcmVnaXN0ZXJzICovCisJX19hbGlnbmVkKDE2KSB1NjQgcHJvY2Vzc29yX21hc2sgPSBCSVQo
-MCkgfCBCSVQoMSkgfCBCSVQoMik7CisKKwkvKiBTZXR1cCBmYXN0IGh5cGVyLWNhbGwgKi8KKwlo
-eXBlcnZfd3JpdGVfeG1tX2lucHV0KCZwcm9jZXNzb3JfbWFzaywgMSk7CisJaHlwZXJ2X2h5cGVy
-Y2FsbChIVkNBTExfRkxVU0hfVklSVFVBTF9BRERSRVNTX1NQQUNFIHwKKwkJCQkgSFZfSFlQRVJD
-QUxMX0ZBU1RfQklULAorCQkJIDB4MCwgSFZfRkxVU0hfQUxMX1ZJUlRVQUxfQUREUkVTU19TUEFD
-RVMpOworCWRhdGEtPmh5cGVyY2FsbF9kb25lID0gdHJ1ZTsKKworCUdVRVNUX0RPTkUoKTsKK30K
-Kworc3RydWN0IHRlc3RfZGF0YSAqdGVzdF9kYXRhX2luaXQoc3RydWN0IGt2bV92Y3B1ICp2Y3B1
-KQoreworCXZtX3ZhZGRyX3QgdGVzdF9kYXRhX3BhZ2U7CisKKwl0ZXN0X2RhdGFfcGFnZSA9IHZt
-X3ZhZGRyX2FsbG9jX3BhZ2UodmNwdS0+dm0pOworCisJdmNwdV9hcmdzX3NldCh2Y3B1LCAxLCB0
-ZXN0X2RhdGFfcGFnZSk7CisKKwlyZXR1cm4gKHN0cnVjdCB0ZXN0X2RhdGEgKilhZGRyX2d2YTJo
-dmEodmNwdS0+dm0sIHRlc3RfZGF0YV9wYWdlKTsKK30KKworc3RhdGljIHZvaWQgKnZjcHVfdGhy
-ZWFkKHZvaWQgKmFyZykKK3sKKwlzdHJ1Y3Qga3ZtX3ZjcHUgKnZjcHUgPSAoc3RydWN0IGt2bV92
-Y3B1ICopYXJnOworCXN0cnVjdCB1Y2FsbCB1YzsKKworCXdoaWxlICgxKSB7CisJCXZjcHVfcnVu
-KHZjcHUpOworCisJCVRFU1RfQVNTRVJUX0tWTV9FWElUX1JFQVNPTih2Y3B1LCBLVk1fRVhJVF9J
-Tyk7CisKKwkJc3dpdGNoIChnZXRfdWNhbGwodmNwdSwgJnVjKSkgeworCQljYXNlIFVDQUxMX1BS
-SU5URjoKKwkJCVJFUE9SVF9HVUVTVF9QUklOVEYodWMpOworCQkJYnJlYWs7CisJCWRlZmF1bHQ6
-CisJCQlURVNUX0FTU0VSVF9FUShnZXRfdWNhbGwodmNwdSwgJnVjKSwgVUNBTExfRE9ORSk7CisJ
-CQlyZXR1cm4gTlVMTDsKKwkJfQorCX0KK30KKworLyogVGVzdCBvbmUgdkNQVSBiZWluZyBpbmhp
-Yml0ZWQgd2hpbGUgYW5vdGhlciB0cmllcyB0byBmbHVzaCBpdHMgVExCICovCit2b2lkIHRlc3Rf
-c2luZ2xlKHN0cnVjdCBrdm1fdm0gKnZtLCBzdHJ1Y3Qga3ZtX3ZjcHUgKmluaGliaXRvciwKKwkJ
-IHN0cnVjdCBrdm1fdmNwdSAqZmx1c2hlcikKK3sKKwlzdHJ1Y3Qga3ZtX2h5cGVydl90bGJfZmx1
-c2hfaW5oaWJpdCBzZXQ7CisJc3RydWN0IHRlc3RfZGF0YSAqZGF0YTsKKwl1bnNpZ25lZCBpbnQg
-dG9fc2xlZXA7CisJcHRocmVhZF90IHRocmVhZDsKKworCXByaW50ZigiJXMgLi4uXHQiLCBfX2Z1
-bmNfXyk7CisKKwl2Y3B1X2FyY2hfc2V0X2VudHJ5X3BvaW50KGZsdXNoZXIsIGd1ZXN0X21haW4p
-OworCisJZGF0YSA9IHRlc3RfZGF0YV9pbml0KGZsdXNoZXIpOworCisJZGF0YS0+ZW50ZXJlZCA9
-IGZhbHNlOworCWRhdGEtPmh5cGVyY2FsbF9kb25lID0gZmFsc2U7CisJZGF0YS0+aGNhbGxfZ3Bh
-ID0gYWRkcl9ndmEyZ3BhKHZtLCB2bV92YWRkcl9hbGxvY19wYWdlcyh2bSwgMSkpOworCisJc2V0
-LmluaGliaXQgPSB0cnVlOworCXZjcHVfaW9jdGwoaW5oaWJpdG9yLCBLVk1fSFlQRVJWX1NFVF9U
-TEJfRkxVU0hfSU5ISUJJVCwgJnNldCk7CisKKwlwdGhyZWFkX2NyZWF0ZSgmdGhyZWFkLCBOVUxM
-LCB2Y3B1X3RocmVhZCwgZmx1c2hlcik7CisKKwkvKiBXYWl0aW5nIG9uIHRoZSBndWVzdCB0byBm
-dWxseSBlbnRlciAqLworCXdoaWxlIChSRUFEX09OQ0UoZGF0YS0+ZW50ZXJlZCkgPT0gZmFsc2Up
-CisJCWFzbSB2b2xhdGlsZSAoIm5vcCIpOworCisJLyogR2l2ZSB0aGUgZ3Vlc3Qgc29tZSB0aW1l
-IHRvIGF0dGVtcHQgdGhlIGh5cGVyLWNhbGwgKi8KKwl0b19zbGVlcCA9IDI7CisJd2hpbGUgKCh0
-b19zbGVlcCA9IHNsZWVwKHRvX3NsZWVwKSkpCisJCWFzbSB2b2xhdGlsZSAoIm5vcCIpOworCisJ
-VEVTVF9BU1NFUlRfRVEoZGF0YS0+aHlwZXJjYWxsX2RvbmUsIGZhbHNlKTsKKwlURVNUX0FTU0VS
-VChwdGhyZWFkX3RyeWpvaW5fbnAodGhyZWFkLCBOVUxMKSAhPSAwLCAidGhyZWFkIGZpbmlzaGVk
-IGVhcmx5Iik7CisKKwlzZXQuaW5oaWJpdCA9IGZhbHNlOworCXZjcHVfaW9jdGwoaW5oaWJpdG9y
-LCBLVk1fSFlQRVJWX1NFVF9UTEJfRkxVU0hfSU5ISUJJVCwgJnNldCk7CisKKwljbG9ja19nZXR0
-aW1lKENMT0NLX1JFQUxUSU1FLCAmYWJzdGltZSk7CisJYWJzdGltZS50dl9zZWMgKz0gNTsKKwlU
-RVNUX0FTU0VSVChwdGhyZWFkX3RpbWVkam9pbl9ucCh0aHJlYWQsIE5VTEwsICZhYnN0aW1lKSA9
-PSAwLAorCQkgICAgImNvdWxkbid0IGpvaW4gdGhyZWFkIik7CisKKwlURVNUX0FTU0VSVF9FUShk
-YXRhLT5oeXBlcmNhbGxfZG9uZSwgdHJ1ZSk7CisKKwlwcmludGYoIltva11cbiIpOworfQorCisv
-KiBUZXN0IG9uZSB2Q1BVIGJlaW5nIGluaGliaXRlZCB3aGlsZSB0d28gb3RoZXJzIHRyeSB0byBm
-bHVzaCBpdHMgVExCICovCit2b2lkIHRlc3RfbXVsdGlfZmx1c2hlcihzdHJ1Y3Qga3ZtX3ZtICp2
-bSwgc3RydWN0IGt2bV92Y3B1ICppbmhpYml0b3IsCisJCQlzdHJ1Y3Qga3ZtX3ZjcHUgKmZsdXNo
-ZXIxLCBzdHJ1Y3Qga3ZtX3ZjcHUgKmZsdXNoZXIyKQoreworCXN0cnVjdCBrdm1faHlwZXJ2X3Rs
-Yl9mbHVzaF9pbmhpYml0IHNldDsKKwlzdHJ1Y3QgdGVzdF9kYXRhICpkYXRhMSwgKmRhdGEyOwor
-CXB0aHJlYWRfdCB0aHJlYWQxLCB0aHJlYWQyOworCXVuc2lnbmVkIGludCB0b19zbGVlcDsKKwor
-CXByaW50ZigiJXMgLi4uXHQiLCBfX2Z1bmNfXyk7CisKKwl2Y3B1X2FyY2hfc2V0X2VudHJ5X3Bv
-aW50KGZsdXNoZXIxLCBndWVzdF9tYWluKTsKKwl2Y3B1X2FyY2hfc2V0X2VudHJ5X3BvaW50KGZs
-dXNoZXIyLCBndWVzdF9tYWluKTsKKworCWRhdGExID0gdGVzdF9kYXRhX2luaXQoZmx1c2hlcjEp
-OworCWRhdGEyID0gdGVzdF9kYXRhX2luaXQoZmx1c2hlcjIpOworCisJZGF0YTEtPmVudGVyZWQg
-PSBmYWxzZTsKKwlkYXRhMS0+aHlwZXJjYWxsX2RvbmUgPSBmYWxzZTsKKwlkYXRhMS0+aGNhbGxf
-Z3BhID0gYWRkcl9ndmEyZ3BhKHZtLCB2bV92YWRkcl9hbGxvY19wYWdlcyh2bSwgMSkpOworCWRh
-dGEyLT5lbnRlcmVkID0gZmFsc2U7CisJZGF0YTItPmh5cGVyY2FsbF9kb25lID0gZmFsc2U7CisJ
-ZGF0YTItPmhjYWxsX2dwYSA9IGFkZHJfZ3ZhMmdwYSh2bSwgdm1fdmFkZHJfYWxsb2NfcGFnZXMo
-dm0sIDEpKTsKKworCXNldC5pbmhpYml0ID0gdHJ1ZTsKKwl2Y3B1X2lvY3RsKGluaGliaXRvciwg
-S1ZNX0hZUEVSVl9TRVRfVExCX0ZMVVNIX0lOSElCSVQsICZzZXQpOworCisJcHRocmVhZF9jcmVh
-dGUoJnRocmVhZDEsIE5VTEwsIHZjcHVfdGhyZWFkLCBmbHVzaGVyMSk7CisJcHRocmVhZF9jcmVh
-dGUoJnRocmVhZDIsIE5VTEwsIHZjcHVfdGhyZWFkLCBmbHVzaGVyMik7CisKKwkvKiBXYWl0aW5n
-IG9uIHRoZSBndWVzdHMgdG8gZnVsbHkgZW50ZXIgKi8KKwl3aGlsZSAoUkVBRF9PTkNFKGRhdGEx
-LT5lbnRlcmVkKSA9PSBmYWxzZSkKKwkJYXNtIHZvbGF0aWxlKCJub3AiKTsKKwl3aGlsZSAoUkVB
-RF9PTkNFKGRhdGEyLT5lbnRlcmVkKSA9PSBmYWxzZSkKKwkJYXNtIHZvbGF0aWxlKCJub3AiKTsK
-KworCS8qIEdpdmUgdGhlIGd1ZXN0cyBzb21lIHRpbWUgdG8gYXR0ZW1wdCB0aGUgaHlwZXItY2Fs
-bCAqLworCXRvX3NsZWVwID0gMjsKKwl3aGlsZSAoKHRvX3NsZWVwID0gc2xlZXAodG9fc2xlZXAp
-KSkKKwkJYXNtIHZvbGF0aWxlKCJub3AiKTsKKworCVRFU1RfQVNTRVJUX0VRKGRhdGExLT5oeXBl
-cmNhbGxfZG9uZSwgZmFsc2UpOworCVRFU1RfQVNTRVJUX0VRKGRhdGEyLT5oeXBlcmNhbGxfZG9u
-ZSwgZmFsc2UpOworCisJVEVTVF9BU1NFUlQocHRocmVhZF90cnlqb2luX25wKHRocmVhZDEsIE5V
-TEwpICE9IDAsCisJCSAgICAidGhyZWFkIDEgZmluaXNoZWQgZWFybHkiKTsKKwlURVNUX0FTU0VS
-VChwdGhyZWFkX3RyeWpvaW5fbnAodGhyZWFkMiwgTlVMTCkgIT0gMCwKKwkJICAgICJ0aHJlYWQg
-MiBmaW5pc2hlZCBlYXJseSIpOworCisJc2V0LmluaGliaXQgPSBmYWxzZTsKKwl2Y3B1X2lvY3Rs
-KGluaGliaXRvciwgS1ZNX0hZUEVSVl9TRVRfVExCX0ZMVVNIX0lOSElCSVQsICZzZXQpOworCisJ
-Y2xvY2tfZ2V0dGltZShDTE9DS19SRUFMVElNRSwgJmFic3RpbWUpOworCWFic3RpbWUudHZfc2Vj
-ICs9IDU7CisJVEVTVF9BU1NFUlQocHRocmVhZF90aW1lZGpvaW5fbnAodGhyZWFkMSwgTlVMTCwg
-JmFic3RpbWUpID09IDAsCisJCSAgICAiY291bGRuJ3Qgam9pbiB0aHJlYWQxIik7CisKKwljbG9j
-a19nZXR0aW1lKENMT0NLX1JFQUxUSU1FLCAmYWJzdGltZSk7CisJYWJzdGltZS50dl9zZWMgKz0g
-NTsKKwlURVNUX0FTU0VSVChwdGhyZWFkX3RpbWVkam9pbl9ucCh0aHJlYWQyLCBOVUxMLCAmYWJz
-dGltZSkgPT0gMCwKKwkJICAgICJjb3VsZG4ndCBqb2luIHRocmVhZDIiKTsKKworCVRFU1RfQVNT
-RVJUX0VRKGRhdGExLT5oeXBlcmNhbGxfZG9uZSwgdHJ1ZSk7CisJVEVTVF9BU1NFUlRfRVEoZGF0
-YTItPmh5cGVyY2FsbF9kb25lLCB0cnVlKTsKKworCXByaW50ZigiW29rXVxuIik7Cit9CisKKy8q
-IFRlc3QgdHdvIHZDUFVzIGJlaW5nIGluaGliaXRlZCB3aGlsZSBhbm90aGVyIHRyaWVzIHRvIGZs
-dXNoIHRoZWlyIFRMQnMgKi8KK3ZvaWQgdGVzdF9tdWx0aV9pbmhpYml0b3Ioc3RydWN0IGt2bV92
-bSAqdm0sIHN0cnVjdCBrdm1fdmNwdSAqaW5oaWJpdG9yMSwKKwkJCSAgc3RydWN0IGt2bV92Y3B1
-ICppbmhpYml0b3IyLCBzdHJ1Y3Qga3ZtX3ZjcHUgKmZsdXNoZXIpCit7CisJc3RydWN0IGt2bV9o
-eXBlcnZfdGxiX2ZsdXNoX2luaGliaXQgc2V0OworCXN0cnVjdCB0ZXN0X2RhdGEgKmRhdGE7CisJ
-dW5zaWduZWQgaW50IHRvX3NsZWVwOworCXB0aHJlYWRfdCB0aHJlYWQ7CisKKwlwcmludGYoIiVz
-IC4uLlx0IiwgX19mdW5jX18pOworCisJdmNwdV9hcmNoX3NldF9lbnRyeV9wb2ludChmbHVzaGVy
-LCBndWVzdF9tYWluKTsKKworCWRhdGEgPSB0ZXN0X2RhdGFfaW5pdChmbHVzaGVyKTsKKworCWRh
-dGEtPmVudGVyZWQgPSBmYWxzZTsKKwlkYXRhLT5oeXBlcmNhbGxfZG9uZSA9IGZhbHNlOworCWRh
-dGEtPmhjYWxsX2dwYSA9IGFkZHJfZ3ZhMmdwYSh2bSwgdm1fdmFkZHJfYWxsb2NfcGFnZXModm0s
-IDEpKTsKKworCXNldC5pbmhpYml0ID0gdHJ1ZTsKKwl2Y3B1X2lvY3RsKGluaGliaXRvcjEsIEtW
-TV9IWVBFUlZfU0VUX1RMQl9GTFVTSF9JTkhJQklULCAmc2V0KTsKKwl2Y3B1X2lvY3RsKGluaGli
-aXRvcjIsIEtWTV9IWVBFUlZfU0VUX1RMQl9GTFVTSF9JTkhJQklULCAmc2V0KTsKKworCXB0aHJl
-YWRfY3JlYXRlKCZ0aHJlYWQsIE5VTEwsIHZjcHVfdGhyZWFkLCBmbHVzaGVyKTsKKworCS8qIFdh
-aXRpbmcgb24gdGhlIGd1ZXN0IHRvIGZ1bGx5IGVudGVyICovCisJd2hpbGUgKFJFQURfT05DRShk
-YXRhLT5lbnRlcmVkKSA9PSBmYWxzZSkKKwkJYXNtIHZvbGF0aWxlICgibm9wIik7CisKKwkvKiBH
-aXZlIHRoZSBndWVzdCBzb21lIHRpbWUgdG8gYXR0ZW1wdCB0aGUgaHlwZXItY2FsbCAqLworCXRv
-X3NsZWVwID0gMjsKKwl3aGlsZSAoKHRvX3NsZWVwID0gc2xlZXAodG9fc2xlZXApKSkKKwkJYXNt
-IHZvbGF0aWxlICgibm9wIik7CisKKwlURVNUX0FTU0VSVF9FUShkYXRhLT5oeXBlcmNhbGxfZG9u
-ZSwgZmFsc2UpOworCVRFU1RfQVNTRVJUKHB0aHJlYWRfdHJ5am9pbl9ucCh0aHJlYWQsIE5VTEwp
-ICE9IDAsICJ0aHJlYWQgZmluaXNoZWQgZWFybHkiKTsKKworCXNldC5pbmhpYml0ID0gZmFsc2U7
-CisJdmNwdV9pb2N0bChpbmhpYml0b3IxLCBLVk1fSFlQRVJWX1NFVF9UTEJfRkxVU0hfSU5ISUJJ
-VCwgJnNldCk7CisKKwl0b19zbGVlcCA9IDE7CisJd2hpbGUgKCh0b19zbGVlcCA9IHNsZWVwKHRv
-X3NsZWVwKSkpCisJCWFzbSB2b2xhdGlsZSAoIm5vcCIpOworCisJVEVTVF9BU1NFUlRfRVEoZGF0
-YS0+aHlwZXJjYWxsX2RvbmUsIGZhbHNlKTsKKwlURVNUX0FTU0VSVChwdGhyZWFkX3RyeWpvaW5f
-bnAodGhyZWFkLCBOVUxMKSAhPSAwLCAidGhyZWFkIGZpbmlzaGVkIGVhcmx5Iik7CisKKwlzZXQu
-aW5oaWJpdCA9IGZhbHNlOworCXZjcHVfaW9jdGwoaW5oaWJpdG9yMiwgS1ZNX0hZUEVSVl9TRVRf
-VExCX0ZMVVNIX0lOSElCSVQsICZzZXQpOworCisJY2xvY2tfZ2V0dGltZShDTE9DS19SRUFMVElN
-RSwgJmFic3RpbWUpOworCWFic3RpbWUudHZfc2VjICs9IDU7CisJVEVTVF9BU1NFUlQocHRocmVh
-ZF90aW1lZGpvaW5fbnAodGhyZWFkLCBOVUxMLCAmYWJzdGltZSkgPT0gMCwKKwkJICAgICJjb3Vs
-ZG4ndCBqb2luIHRocmVhZCIpOworCisJVEVTVF9BU1NFUlRfRVEoZGF0YS0+ZW50ZXJlZCwgdHJ1
-ZSk7CisJVEVTVF9BU1NFUlRfRVEoZGF0YS0+aHlwZXJjYWxsX2RvbmUsIHRydWUpOworCisJcHJp
-bnRmKCJbb2tdXG4iKTsKK30KKworaW50IG1haW4oaW50IGFyZ2MsIGNoYXIgKmFyZ3ZbXSkKK3sK
-KwlzdHJ1Y3Qga3ZtX3ZjcHUgKnZjcHVbM107CisJc3RydWN0IGt2bV92bSAqdm07CisKKwlURVNU
-X1JFUVVJUkUoa3ZtX2hhc19jYXAoS1ZNX0NBUF9IWVBFUlZfVExCRkxVU0gpKTsKKwlURVNUX1JF
-UVVJUkUoa3ZtX2hhc19jYXAoS1ZNX0NBUF9IWVBFUlZfVExCX0ZMVVNIX0lOSElCSVQpKTsKKwor
-CXZtID0gdm1fY3JlYXRlX3dpdGhfdmNwdXMoMywgZ3Vlc3RfbWFpbiwgdmNwdSk7CisKKwl2Y3B1
-X3NldF9odl9jcHVpZCh2Y3B1WzBdKTsKKwl2Y3B1X3NldF9odl9jcHVpZCh2Y3B1WzFdKTsKKwl2
-Y3B1X3NldF9odl9jcHVpZCh2Y3B1WzJdKTsKKworCXRlc3Rfc2luZ2xlKHZtLCB2Y3B1WzFdLCB2
-Y3B1WzBdKTsKKwl0ZXN0X211bHRpX2ZsdXNoZXIodm0sIHZjcHVbMV0sIHZjcHVbMF0sIHZjcHVb
-Ml0pOworCXRlc3RfbXVsdGlfaW5oaWJpdG9yKHZtLCB2Y3B1WzFdLCB2Y3B1WzJdLCB2Y3B1WzBd
-KTsKKworCWt2bV92bV9mcmVlKHZtKTsKKworCXJldHVybiAwOworfQotLSAKMi40MC4xCgoKCgpB
-bWF6b24gV2ViIFNlcnZpY2VzIERldmVsb3BtZW50IENlbnRlciBHZXJtYW55IEdtYkgKS3JhdXNl
-bnN0ci4gMzgKMTAxMTcgQmVybGluCkdlc2NoYWVmdHNmdWVocnVuZzogQ2hyaXN0aWFuIFNjaGxh
-ZWdlciwgSm9uYXRoYW4gV2Vpc3MKRWluZ2V0cmFnZW4gYW0gQW10c2dlcmljaHQgQ2hhcmxvdHRl
-bmJ1cmcgdW50ZXIgSFJCIDI1Nzc2NCBCClNpdHo6IEJlcmxpbgpVc3QtSUQ6IERFIDM2NSA1Mzgg
-NTk3Cg==
+On Fri, 4 Oct 2024 16:02:15 +0200
+Oleksij Rempel <o.rempel@pengutronix.de> wrote:
 
+> On Fri, Oct 04, 2024 at 03:56:33PM +0200, Oleksij Rempel wrote:
+> > On Thu, Oct 03, 2024 at 05:22:58PM +0200, Andrew Lunn wrote: =20
+>  [...] =20
+>  [...] =20
+>  [...] =20
+> > >=20
+> > > I think we will need two event, the base regulator event, and a
+> > > networking event. Since it is a regulator, sending a normal regulator
+> > > event makes a lot of sense. But mapping that regulator event to a
+> > > netns:ifnam is going to be hard. Anything wanting to take an action is
+> > > probably going to want to use ethtool, and so needs to be in the
+> > > correct netns, etc. But it does get messy if there is some sort of
+> > > software driven prioritisation going on, some daemon needs to pick a
+> > > victim to reduce power to, and the interfaces are spread over multiple
+> > > network namespaces.
+> > >=20
+> > > What i don't know is if we can use an existing event, or we should add
+> > > a new one. Often rtnetlink_event() is used:
+> > >=20
+> > > https://elixir.bootlin.com/linux/v6.12-rc1/source/net/core/rtnetlink.=
+c#L6679
+> > >=20
+> > > but without some PSE information in it, it would be hard to know why
+> > > it was sent. So we probably either want a generic ethtool event, or a
+> > > PSE event. =20
+> >=20
+> > Hm... assuming we have following scenario:
+> >=20
+> >                                   .---------   PI 1
+> >                                  / .---------  PI 2
+> >                    .=3D=3D=3D=3D=3D=3D=3D=3D=3D PSE /----------( PI 3 )=
+ NNS red
+> >                   //              \----------( PI 4 ) NNS blue
+> > Main supply      //                `---------( PI 5 ) NNS blue
+> > o=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=C2=B4--- System, CPU
+> >=20
+> > In this case we seems to have a new challenge:
+> >=20
+> > On one side, a system wide power manager should see and mange all ports.
+> > On other side, withing a name space, we should be able to play in a
+> > isolated sand box. There is a reason why it is isolated. So, we should
+> > be able to sandbox power delivery and port prios too. Means, by creating
+> > network names space, we will need a power names space.=20
+> >=20
+> > I can even imagine a use case: an admin limited access to a switch for
+> > developer. A developer name space is created with PSE budget and max
+> > prios available for this name space. This will prevent users from DoSing
+> > system critical ports.
+> >=20
+> > At this point, creating a power name space will an overkill for this
+> > patch set, so it should be enough to allow controlling prios over
+> > ethtool per port and isolation support if needed.=20
+
+Yes, I will add simple ethtool notification for now to report events on each
+interfaces.
+
+> Oh, sorry, i'm too tired. Too many words are missing in my answer ...
+
+Nearly the weekend!! Rest well!
+
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
