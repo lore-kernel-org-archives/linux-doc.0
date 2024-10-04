@@ -1,254 +1,99 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FECB1AA788
-	for <linux-doc@vger.kernel.org>; Fri,  4 Oct 2024 15:10:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEFED1E3DDE
+	for <linux-doc@vger.kernel.org>; Fri,  4 Oct 2024 15:32:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728054628; cv=none; b=Z706JTrE9dkeZ6GtXxrH+3h1EnLoUiCDlhoecsUf+Ye+lonM4dBXKqOf8YoiuD5W4943+hboJf7F3c28bqHxHG9VbhY1qi2NsIzD0H4dXIC1KqwCIaUym2j0odMw+mb6cW9O2q3PCeRKsYZoiPar7deG6PCFCAcBdzsIpcmhLtk=
+	t=1728055960; cv=none; b=u8Hu/RgfLOVbAdB0pk9KhoMAC8KaVJJ0ooiMg480iR1y+bi/dbIIcirldjd/WKMfDckb39x2aOiDh3Md/g6KzVPIpl/IUmJ88gQXpPgXtDYXUzf1Qc9l+kkaedWUACBWozdsEYjIYz4oPUaYFDWbik0qi65OGuAPsYEsVUIzzaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728054628; c=relaxed/simple;
-	bh=DsbWuseV+5Cr5RbOfN8uYeZ29UZNhc9bAL+m0ZBhGl0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LLWKJfxmMw5WW0NtnZLunoRwaoPlamuDqVQY/zM4EZ23+NfOaiABAeKlOmSuh3zbRjEugKJKYHfKUK7xgvJG5KSw9//6ZKVdGqdcZ6bMPf9ab+DOJ+c0OBn7cPS/QR6S57kc/iXsuhzexrmSo+MD4UxH6FVMN/7fdDqE65tN4vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=QIYX5U97; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1728055960; c=relaxed/simple;
+	bh=5yTL8XGh2t9xK5VWWbyOX4lCsqycK775iZuobIRGfb8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SB/5sAT1ExVSLKCds/tarhvB7cPzeGMB6GDcgivc68yUg4gMCCntmz3sGpe5TT+ZTsLoVrA+Bf1+jNFhH+qcSryERV196FaOWVjaEwEVfNc8oRmkutW1/ueErj4CtCYpuHcsuF42vq9lwZ5Gh4lSphCA/I3Bv+3NVhh6nrukcbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LbXWsncX; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="QIYX5U97"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-37d04b32ea6so1535887f8f.1
-        for <linux-doc@vger.kernel.org>; Fri, 04 Oct 2024 08:10:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1728054623; x=1728659423; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GbD5QQI9fbRtagD02Hd9rPEf77aWQGn5Irx05NL1xCE=;
-        b=QIYX5U97f5Zt06TQls1TmUgQ78qypZ893F6tw8UMqluR+VAGahNqsKUxSsddpkTRdF
-         SiC28zKG3mXfclseL5vs/QESnJN1BIOSrFcc8Zjlvi1QMdb4mqFdzVW/pDx93WG/WdX9
-         FVt/gN5AnehD2zrZQTHBN1amCSTUjP60uACwTJcVL+885iYaTomjCIecpo+38t9FOvo9
-         /7jyVuphEx+xdNKUcw7BfvuCkidsXKlKozPhnKWawO3YbzSfh31Jb5bbuNnwKkGDbBQ7
-         xyGVL2CVrqygXM9pqtlmb2vsuGEF+L3tDimyKStMIYIQMefbAYI80qD58k6YOCz2kMH1
-         CALQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728054623; x=1728659423;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GbD5QQI9fbRtagD02Hd9rPEf77aWQGn5Irx05NL1xCE=;
-        b=K6FMMG++aN4pylZUOzS3kp3yr0XLJv6rAnsvHHc1BnjgGMOPbc3fCW//w/Q626APrq
-         ckDaCjtyjkywNmNfQDRqvn7OVYYvVnHNW4vjnnXk6RLs7gZopCWlkW7PzeLd0ToEdh1H
-         06UF43CHip8V5Ga9/+xdvz4Eqj9yP6bHbhjafMge8xdGpymy2aKD1FIoPjrTyR4iiah4
-         dxKzAT0QQuUdsACK775aHiS8ewe/RYLkv6BMiKzWBsrUiPJ0JcMUA4PdxcyV9sFfunPd
-         Y9cdJMJjX3Z+6H7A1VMGF2HwjIYoXdQ5urYR6RtrRBndR1Lr4yqddcOndg9p8zqZHu7E
-         49Hw==
-X-Forwarded-Encrypted: i=1; AJvYcCUWnqKm7GNM+bLxaTwDPY6Qwtqo9cO4weWF0LxnpiTVrfDsHcl4uiQTgkB48UTZHewTce3+UuL1hvY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwG3tkbNzGiPuThl6/WMr/3j1NCP3FoU+zvKqL78VY1z4EA2lpz
-	v7E95DBDheO4WarqirEyQDv5qNGVVrmIosoEIpDwt5aMZLVqconVTH0yRUvuqhc=
-X-Google-Smtp-Source: AGHT+IHNkf+LyQDdbKVSXX5yZtwIGL87SsecooipYEPpbuU+08MHwf7aO/KarDzbVlgyUdnAiBWh8A==
-X-Received: by 2002:adf:b181:0:b0:37c:d299:b5f0 with SMTP id ffacd0b85a97d-37d0eb20122mr1730224f8f.59.1728054623038;
-        Fri, 04 Oct 2024 08:10:23 -0700 (PDT)
-Received: from ?IPV6:2a02:8428:e55b:1101:d506:c29c:99b9:6f15? (2a02-8428-e55b-1101-d506-c29c-99b9-6f15.rev.sfr.net. [2a02:8428:e55b:1101:d506:c29c:99b9:6f15])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d0824504esm3404206f8f.54.2024.10.04.08.10.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Oct 2024 08:10:22 -0700 (PDT)
-Message-ID: <0d2df826-1503-42f7-8f60-1025cc641e2c@baylibre.com>
-Date: Fri, 4 Oct 2024 17:10:21 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LbXWsncX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1728055956;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BsvYJhdgN7y4uvFjsLjEprL3BcHtuRcmRyB8X0RUZKI=;
+	b=LbXWsncXt2anQkzDsZG/VVSN02Fwp42c1Eu1puLlCKkGx8rNYiA0IBQbfupIvDwDBftm/M
+	jV35k6g4wbN34/IgpsZN7uEWiQq8sQYq2MGM30uEOTSpKlc6XCZOResuIBzF0omGfAXgbj
+	0+LyC4UVlfNCQ3/eCqZPPzliUIZqAF0=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-302-aP2CdMNJOZqswZv2kB1EOQ-1; Fri,
+ 04 Oct 2024 11:32:33 -0400
+X-MC-Unique: aP2CdMNJOZqswZv2kB1EOQ-1
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A946F1955BD2;
+	Fri,  4 Oct 2024 15:32:31 +0000 (UTC)
+Received: from fedora (unknown [10.72.116.24])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A216419560A3;
+	Fri,  4 Oct 2024 15:32:25 +0000 (UTC)
+Date: Fri, 4 Oct 2024 23:32:18 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Uday Shankar <ushankar@purestorage.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+	linux-block@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 2/5] ublk: refactor recovery configuration flag helpers
+Message-ID: <ZwAKgnJmJ6yZ-c50@fedora>
+References: <20241002220949.3087902-1-ushankar@purestorage.com>
+ <20241002220949.3087902-3-ushankar@purestorage.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 07/10] iio: adc: ad7606: Add compatibility to fw_nodes
-To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Michal Marek <mmarek@suse.com>, linux-pwm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, aardelean@baylibre.com, dlechner@baylibre.com,
- jstephan@baylibre.com
-References: <20240920-ad7606_add_iio_backend_support-v2-0-0e78782ae7d0@baylibre.com>
- <20240920-ad7606_add_iio_backend_support-v2-7-0e78782ae7d0@baylibre.com>
- <20240929134412.506998db@jic23-huawei>
- <57c5d8b1-295a-492f-b17c-b44caf8aeb2d@baylibre.com>
- <20241004152551.00000813@Huawei.com>
-Content-Language: en-US
-From: Guillaume Stols <gstols@baylibre.com>
-In-Reply-To: <20241004152551.00000813@Huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241002220949.3087902-3-ushankar@purestorage.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+
+On Wed, Oct 02, 2024 at 04:09:46PM -0600, Uday Shankar wrote:
+> ublk currently supports the following behaviors on ublk server exit:
+> 
+> A: outstanding I/Os get errors, subsequently issued I/Os get errors
+> B: outstanding I/Os get errors, subsequently issued I/Os queue
+> C: outstanding I/Os get reissued, subsequently issued I/Os queue
+> 
+> and the following behaviors for recovery of preexisting block devices by
+> a future incarnation of the ublk server:
+> 
+> 1: ublk devices stopped on ublk server exit (no recovery possible)
+> 2: ublk devices are recoverable using start/end_recovery commands
+> 
+> The userspace interface allows selection of combinations of these
+> behaviors using flags specified at device creation time, namely:
+> 
+> default behavior: A + 1
+> UBLK_F_USER_RECOVERY: B + 2
+> UBLK_F_USER_RECOVERY|UBLK_F_USER_RECOVERY_REISSUE: C + 2
+> 
+> We can't easily change the userspace interface to allow independent
+> selection of one of {A, B, C} and one of {1, 2}, but we can refactor the
+> internal helpers which test for the flags. Replace the existing helpers
+> with the following set:
+> 
+> ublk_nosrv_should_reissue_outstanding: tests for behavior C
+> ublk_nosrv_[dev_]should_queue_io: tests for behavior B
+> ublk_nosrv_should_stop_dev: tests for behavior 1
+> 
+> Signed-off-by: Uday Shankar <ushankar@purestorage.com>
+
+Reviewed-by: Ming Lei <ming.lei@redhat.com>
 
 
-On 10/4/24 16:25, Jonathan Cameron wrote:
-> On Wed, 2 Oct 2024 02:12:28 +0200
-> Guillaume Stols <gstols@baylibre.com> wrote:
->
->> On 9/29/24 14:44, Jonathan Cameron wrote:
->>> On Fri, 20 Sep 2024 17:33:27 +0000
->>> Guillaume Stols <gstols@baylibre.com> wrote:
->>>   
->>>> On the parallel version, the current implementation is only compatible
->>>> with id tables and won't work with fw_nodes, this commit intends to fix
->>>> it.
->>>>
->>>> Also, chip info is moved in the .h file so to be accessible to all the
->>> chip info is not moved (I was going to say no to that) but an
->>> extern is used to make it available. So say that rather than moved here.
->>>   
->>>> driver files that can set a pointer to the corresponding chip as the
->>>> driver data.
->>>>
->>>>    
->>>> diff --git a/drivers/iio/adc/ad7606.h b/drivers/iio/adc/ad7606.h
->>>> index c13dda444526..18c87fe9a41a 100644
->>>> --- a/drivers/iio/adc/ad7606.h
->>>> +++ b/drivers/iio/adc/ad7606.h
->>>> @@ -38,8 +38,19 @@
->>>>    	AD760X_CHANNEL(num, BIT(IIO_CHAN_INFO_RAW) | BIT(IIO_CHAN_INFO_SCALE),\
->>>>    		0, BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO))
->>>>    
->>>> +enum ad7606_supported_device_ids {
->>>> +	ID_AD7605_4,
->>>> +	ID_AD7606_8,
->>>> +	ID_AD7606_6,
->>>> +	ID_AD7606_4,
->>>> +	ID_AD7606B,
->>>> +	ID_AD7616,
->>>> +};
->>>> +
->>>>    /**
->>>>     * struct ad7606_chip_info - chip specific information
->>>> + * @name		device name
->>>> + * @id			device id
->>> ID in chip info normally indicates something bad in the design. In that somewhere
->>> we have code that is ID dependent rather than all such code / data being
->>> found directly in this structure (or callbacks found from here).
->>> Can we avoid it here?
->> Hi Jonathan,
->>
->> chip_info has to describe the chip hardwarewise, but there are different
->> bops depending on the wiring (interface used, and backend/no backend).
-> Normal solution to this is multiple chip specific structures so they
-> become specific to a chip + some wiring option. Then you just
-> pick between static const structures.
->
-> Does that work here?
->
-> You will need them exposed (extern) from your header but that's
-> not too bad.
->
-> Aim is to pick just one structure that describes all the 'specific'
-> stuff for the driver.  That brings all that stuff into one place and
-> provides an easy way to extend to new combinations of options for
-> other devices.
->
-> Jonathan
+Thanks,
+Ming
 
-I finally wrote a structure containing the couple chip_info/bops
-
-/**
-  * struct ad7606_bus_info - agregate ad7606_chip_info and ad7606_bus_ops
-  * @chip_info        entry in the table of chips that describes this device
-  * @bops        bus operations (SPI or parallel)
-  */
-struct ad7606_bus_info {
-     const struct ad7606_chip_info    *chip_info;
-     const struct ad7606_bus_ops    *bops;
-};
-
-and declared the following way
-
-const struct ad7606_bus_info ad7606b_bus_info = {
-     .chip_info = &ad7606b_info,
-     .bops = &ad7606b_spi_bops,
-};
-
-const struct ad7606_bus_info ad7606c_16_bus_info = {
-     .chip_info = &ad7606c_16_info,
-     .bops = &ad7606b_spi_bops,
-
-etc...
-
-Will send the series later today, just doing some last checks.
-
->
->
->> The easiest way I found was to use the ID in a switch/case to
->> determinate which bops I should take (well it was only needed in the spi
->> version since it is the one supporting almost all the chips while the
->> other ones still support only one). For instance, the ad7606B will use
->> ad7606_bi_bops if it has a backend and ad7606B_spi_bops for spi version.
->>
->> If I can't use the ID, the only way I see is creating 3 fields in
->> chip_info (spi_ops, par_ops, backend_ops) and to initialize every
->> chip_info structure with its associated op(s) for the associated
->> interface. This would also lead to declare the different instances of
->> ad7606_bus_ops directly in ad7606.h  (I dont like it very much but see
->> no other option).
->>
->> Do you think it's better that way ? Or do you have any other idea ?
->>
->> Regards,
->>
->> Guillaume
->>
->>>   
->>>>     * @channels:		channel specification
->>>>     * @num_channels:	number of channels
->>>>     * @oversampling_avail	pointer to the array which stores the available
->>>> @@ -50,6 +61,8 @@
->>> ...
->>>   
->>>> diff --git a/drivers/iio/adc/ad7606_par.c b/drivers/iio/adc/ad7606_par.c
->>>> index d651639c45eb..7bac39033955 100644
->>>> --- a/drivers/iio/adc/ad7606_par.c
->>>> +++ b/drivers/iio/adc/ad7606_par.c
->>>> @@ -11,6 +11,7 @@
->>>>    #include <linux/mod_devicetable.h>
->>>>    #include <linux/module.h>
->>>>    #include <linux/platform_device.h>
->>>> +#include <linux/property.h>
->>>>    #include <linux/types.h>
->>>>    
->>>>    #include <linux/iio/iio.h>
->>>> @@ -89,12 +90,20 @@ static const struct ad7606_bus_ops ad7606_par8_bops = {
->>>>    
->>>>    static int ad7606_par_probe(struct platform_device *pdev)
->>>>    {
->>>> -	const struct platform_device_id *id = platform_get_device_id(pdev);
->>>> +	const struct ad7606_chip_info *chip_info;
->>>> +	const struct platform_device_id *id;
->>>>    	struct resource *res;
->>>>    	void __iomem *addr;
->>>>    	resource_size_t remap_size;
->>>>    	int irq;
->>>>    
->>>> +	if (dev_fwnode(&pdev->dev)) {
->>>> +		chip_info = device_get_match_data(&pdev->dev);
->>>> +	} else {
->>>> +		id = platform_get_device_id(pdev);
->>>> +		chip_info = (const struct ad7606_chip_info *)id->driver_data;
->>>> +	}
->>>> +
->>>>    	irq = platform_get_irq(pdev, 0);
->>>>    	if (irq < 0)
->>>>    		return irq;
->>>> @@ -106,25 +115,25 @@ static int ad7606_par_probe(struct platform_device *pdev)
->>>>    	remap_size = resource_size(res);
->>>>    
->>>>    	return ad7606_probe(&pdev->dev, irq, addr,
->>>> -			    id->name, id->driver_data,
->>> Rewrap to move chip_info up a line perhaps.
->>>   
->>>> +			    chip_info,
->>>>    			    remap_size > 1 ? &ad7606_par16_bops :
->>>>    			    &ad7606_par8_bops);
