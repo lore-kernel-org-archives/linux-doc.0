@@ -1,109 +1,180 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A55149DF4;
-	Fri,  4 Oct 2024 13:27:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D0B212EEE;
+	Fri,  4 Oct 2024 13:52:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728048451; cv=none; b=Q/XLr5BWjzEFvhe0KAkOJZh7KcWOEuTZJJ/PbY0IsgZZIDnzHDr+PbzRmqDLBbbfehZopAOf2bKh/gMeXyfC+ztzDxZFDRXPZ3YInV/rutO9ttkTTAYwysPaLaqlHhhPTAXgxa/3vfmjmlSlR/p2z63WX33GKi4sG1tMhDqYbYg=
+	t=1728049949; cv=none; b=S+2ZB1/9HsoURbtcaIYbyiC2clZn3iIIWDOYQEz92gOxHD/6Dzld5MnsE+h7pIFG9Ia/kXK3owQ1rFHJ4J/NTGzdgzP79YCPyDzET/52jlzC0F6H3e097zhFxUKtGmVbJX4w1omxI3bhBCeynIMyzjVxZZiH951ChNcKtQrf5nA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728048451; c=relaxed/simple;
-	bh=a93hVSkItuu3hCe0uBJSZlAAwH2LqSJVgJljySUsJm0=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
-	 MIME-Version:Content-Type; b=hTfrWNDCe1yJLX2/UsabU9YfH3DpCtvoOHJync3zuXbuFCAzMJW0NkyX0c8+mtyTcfHXDvfnXp0A4HEzNQ0INd2QnLuc6KchjsUXMPfOE4xScUCj0Rct7qkQIPUwtx3EPQlHt2XL3H5kaeIknM8paN7ckcNJF4H4gVRr2klkXH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EHF1MGNE; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EHF1MGNE"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42cb0f28bfbso18431355e9.1;
-        Fri, 04 Oct 2024 06:27:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728048448; x=1728653248; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=22cBRwE57Xw0sioNBB/NhLn4DPgBWGUrQGpJqtIVHq0=;
-        b=EHF1MGNEizcZ1/XVgly+zR8gvTHJpnwPYL9/97TgrWzvL+07D50gLHKbxQY1aYh5V3
-         WEOUAXXcVgoDfcWKOYJCrwYYwF+FJ6viFRyq1wZolJjXLKjErtRTyCoOHo7vjJRvF306
-         NohzWoesjZ/934aBgM0+h5EySNYjFf8zrrgYO0f8wwAeOEbzOQrSoOlhY0l1/0v8qHz6
-         jx1+QnGoe2J8dH2gvCVCjwbeeukiOUdy2fcVSwITCCGoY2WjMH2JwlwJSEZF4mQUvNjy
-         qFaS9AScbvrQMjntfplNoKpxB3D49xqaABiK6HIvDRqK4ro0MFQTg6O8SjGdeu7TDpW9
-         S2XQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728048448; x=1728653248;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=22cBRwE57Xw0sioNBB/NhLn4DPgBWGUrQGpJqtIVHq0=;
-        b=RNo8V5pKGEuKCVlpo5Rii5temWPieXxTloWtAhNwRwwrKnPgzrotgkXW6a6JaWe3+a
-         A84tY0uX+5nT8tq4CXRtRF6VboKZFsQoAdldLklV/aYl6zOBWWHnsJCQJkQy7kudyBaV
-         9AxKYoQ/bOmVseAFwcZW0xHEAl22KeHikjf5cW2o0LpVdrw0vWNQObZqqV5aS7ZbZB7I
-         hRbTMgAvVeHzYXpUJ22Krm1ibELffG49b4R8RKm5M6PLy3oF0JEBGzuPJ/dDdEyVuLkI
-         elKq+kP1rPZ4D9vrpEZVitwwFTjS6UBTDX3xpY6sPN3As/ktvsJI+xRrtisY8H4ZgdSq
-         fbBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUmhvoYKebDfU3OPCqt+13bgmbXfeRhc2JKsCMFG3LVrKoMrDkNe+zUXu5XGDa9BwI79vXkSoJ7@vger.kernel.org, AJvYcCUu6C9vpPrV6XuVvFbXu5i4J36Ztej7Gbag21bIbGXxm3ARwjW6VBjxh3zpoZhgTntjubC4xrDaHkc=@vger.kernel.org, AJvYcCXLzNNrrjDbtGKdDsWLz0gvw1Bw4u9civeQCPhEwPrQrW0rSYIuCwSnpd/EAqflEgCsqQD27R66i6a5HuAh@vger.kernel.org
-X-Gm-Message-State: AOJu0YywBDHCTE6yxFFWpUq/ADrwXsnBPnCsboQ+X9dxmRI72D5Rfsd2
-	tjBX0ftyueNx9u1xd8ZEYDjCrk1CKQZs35b877Jz6u95ELbQI7OD
-X-Google-Smtp-Source: AGHT+IH3yRfRGBBOHC0hZKS9HHSTVHJgXqCz4P71fKXwCQTPx3XtSJMJI4pbwzjjO5SWKJWuVhC+aw==
-X-Received: by 2002:a05:600c:3507:b0:42c:b309:8d18 with SMTP id 5b1f17b1804b1-42f85ac1ff6mr20186185e9.19.1728048448049;
-        Fri, 04 Oct 2024 06:27:28 -0700 (PDT)
-Received: from imac ([2a02:8010:60a0:0:395e:c10e:1999:d9f1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d07fde1fesm3303168f8f.0.2024.10.04.06.27.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Oct 2024 06:27:27 -0700 (PDT)
-From: Donald Hunter <donald.hunter@gmail.com>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Oleksij Rempel <o.rempel@pengutronix.de>,  "David S. Miller"
- <davem@davemloft.net>,  Eric Dumazet <edumazet@google.com>,  Jakub
- Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>,  Jonathan
- Corbet <corbet@lwn.net>,  Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-  linux-kernel@vger.kernel.org,  netdev@vger.kernel.org,
-  linux-doc@vger.kernel.org,  Kyle Swenson <kyle.swenson@est.tech>,  Dent
- Project <dentproject@linuxfoundation.org>,  kernel@pengutronix.de
-Subject: Re: [PATCH net-next 07/12] netlink: specs: Expand the PSE netlink
- command with C33 prio attributes
-In-Reply-To: <20241002-feature_poe_port_prio-v1-7-787054f74ed5@bootlin.com>
-	(Kory Maincent's message of "Wed, 02 Oct 2024 18:28:03 +0200")
-Date: Fri, 04 Oct 2024 11:44:47 +0100
-Message-ID: <m2r08wf8ps.fsf@gmail.com>
-References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
-	<20241002-feature_poe_port_prio-v1-7-787054f74ed5@bootlin.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1728049949; c=relaxed/simple;
+	bh=CgGaF1WPSG5Fi8uzeesZWuMpwpxItmoNQIqnngNVELo=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sljDY5+XXEMXzWYrpiDuD5MNo9CB6aHrJiF11d72/VJgWTljhoGn1CCFdhMR2TY7mulIsBsBaWhbKTVcWq4YkAN21wG1YQ9KQgW/tRAH9H6in90/Yk7SU844WzmZTZu4yP6KIxQivp7j4c6FRaXYtuZqvyh7BKLeoZEBooN9VbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96531C4CEC6;
+	Fri,  4 Oct 2024 13:52:22 +0000 (UTC)
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Will Deacon <will@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Shuah Khan <shuah@kernel.org>,
+	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+	Kees Cook <kees@kernel.org>,
+	Mark Brown <broonie@kernel.org>
+Cc: "H.J. Lu" <hjl.tools@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Florian Weimer <fweimer@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
+	Ross Burton <ross.burton@arm.com>,
+	David Spickett <david.spickett@arm.com>,
+	Yury Khrustalev <yury.khrustalev@arm.com>,
+	Wilco Dijkstra <wilco.dijkstra@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	David Hildenbrand <david@redhat.com>,
+	"Mike Rapoport (IBM)" <rppt@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: (subset) [PATCH v13 00/40] arm64/gcs: Provide support for GCS in userspace
+Date: Fri,  4 Oct 2024 14:52:20 +0100
+Message-Id: <172804948348.2705006.18010706949544079891.b4-ty@arm.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20241001-arm64-gcs-v13-0-222b78d87eee@kernel.org>
+References: <20241001-arm64-gcs-v13-0-222b78d87eee@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Kory Maincent <kory.maincent@bootlin.com> writes:
+On Tue, 01 Oct 2024 23:58:39 +0100, Mark Brown wrote:
+> The arm64 Guarded Control Stack (GCS) feature provides support for
+> hardware protected stacks of return addresses, intended to provide
+> hardening against return oriented programming (ROP) attacks and to make
+> it easier to gather call stacks for applications such as profiling.
+> 
+> When GCS is active a secondary stack called the Guarded Control Stack is
+> maintained, protected with a memory attribute which means that it can
+> only be written with specific GCS operations.  The current GCS pointer
+> can not be directly written to by userspace.  When a BL is executed the
+> value stored in LR is also pushed onto the GCS, and when a RET is
+> executed the top of the GCS is popped and compared to LR with a fault
+> being raised if the values do not match.  GCS operations may only be
+> performed on GCS pages, a data abort is generated if they are not.
+> 
+> [...]
 
-> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
->
-> Expand the c33 PSE attributes with priority and priority max to be able to
-> set and get the PSE Power Interface priority.
->
-> ./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema --do pse-get
->              --json '{"header":{"dev-name":"eth1"}}'
-> {'c33-pse-actual-pw': 1700,
->  'c33-pse-admin-state': 3,
->  'c33-pse-avail-pw-limit': 97500,
->  'c33-pse-prio': 2,
->  'c33-pse-prio-max': 2,
->  'c33-pse-pw-class': 4,
->  'c33-pse-pw-d-status': 4,
->  'c33-pse-pw-limit-ranges': [{'max': 18100, 'min': 15000},
->                              {'max': 38000, 'min': 30000},
->                              {'max': 65000, 'min': 60000},
->                              {'max': 97500, 'min': 90000}],
->  'header': {'dev-index': 5, 'dev-name': 'eth1'}}
->
-> ./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema --do pse-set
->              --json '{"header":{"dev-name":"eth1"},
->                       "c33-pse-prio":1}'
-> None
->
-> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+I applied most of the series to arm64 (for-next/gcs), apart from two KVM
+patches - 16 and 40 (the latter is the kselftest). I usually start
+picking patches at -rc3 but the glibc folk are waiting for these patches
+to at least end up in a maintainer's branch. Of course, these patches
+are subject to change until the final 6.13 release.
 
-Reviewed-by: Donald Hunter <donald.hunter@gmail.com>
+The KVM patches can go on top once agreed (or they can go in via the KVM
+tree, I don't mind either way).
+
+Thanks!
+
+[01/40] mm: Introduce ARCH_HAS_USER_SHADOW_STACK
+        https://git.kernel.org/arm64/c/bcc9d04e749a
+[02/40] mm: Define VM_HIGH_ARCH_6
+        https://git.kernel.org/arm64/c/9ab515b18f84
+[03/40] arm64/mm: Restructure arch_validate_flags() for extensibility
+        https://git.kernel.org/arm64/c/f645e888b1a6
+[04/40] prctl: arch-agnostic prctl for shadow stack
+        https://git.kernel.org/arm64/c/91e102e79740
+[05/40] mman: Add map_shadow_stack() flags
+        https://git.kernel.org/arm64/c/3630e82ab6bd
+[06/40] arm64: Document boot requirements for Guarded Control Stacks
+        https://git.kernel.org/arm64/c/830ae8a39685
+[07/40] arm64/gcs: Document the ABI for Guarded Control Stacks
+        https://git.kernel.org/arm64/c/7058bf87cd59
+[08/40] arm64/sysreg: Add definitions for architected GCS caps
+        https://git.kernel.org/arm64/c/ce0641d48ddd
+[09/40] arm64/gcs: Add manual encodings of GCS instructions
+        https://git.kernel.org/arm64/c/dad947cc22cf
+[10/40] arm64/gcs: Provide put_user_gcs()
+        https://git.kernel.org/arm64/c/d0aa2b435186
+[11/40] arm64/gcs: Provide basic EL2 setup to allow GCS usage at EL0 and EL1
+        https://git.kernel.org/arm64/c/ff5181d8a2a8
+[12/40] arm64/cpufeature: Runtime detection of Guarded Control Stack (GCS)
+        https://git.kernel.org/arm64/c/6487c963083c
+[13/40] arm64/mm: Allocate PIE slots for EL0 guarded control stack
+        https://git.kernel.org/arm64/c/092055f1508c
+[14/40] mm: Define VM_SHADOW_STACK for arm64 when we support GCS
+        https://git.kernel.org/arm64/c/ae80e1629aea
+[15/40] arm64/mm: Map pages for guarded control stack
+        https://git.kernel.org/arm64/c/6497b66ba694
+[17/40] arm64/idreg: Add overrride for GCS
+        https://git.kernel.org/arm64/c/a94452112ce4
+[18/40] arm64/hwcap: Add hwcap for GCS
+        https://git.kernel.org/arm64/c/eefc98711f84
+[19/40] arm64/traps: Handle GCS exceptions
+        https://git.kernel.org/arm64/c/8ce71d270536
+[20/40] arm64/mm: Handle GCS data aborts
+        https://git.kernel.org/arm64/c/cfad706e8f6d
+[21/40] arm64/gcs: Context switch GCS state for EL0
+        https://git.kernel.org/arm64/c/fc84bc5378a8
+[22/40] arm64/gcs: Ensure that new threads have a GCS
+        https://git.kernel.org/arm64/c/506496bcbb42
+[23/40] arm64/gcs: Implement shadow stack prctl() interface
+        https://git.kernel.org/arm64/c/b57180c75c7e
+[24/40] arm64/mm: Implement map_shadow_stack()
+        https://git.kernel.org/arm64/c/8f3e750673b2
+[25/40] arm64/signal: Set up and restore the GCS context for signal handlers
+        https://git.kernel.org/arm64/c/eaf62ce1563b
+[26/40] arm64/signal: Expose GCS state in signal frames
+        https://git.kernel.org/arm64/c/16f47bb9ac8a
+[27/40] arm64/ptrace: Expose GCS via ptrace and core files
+        https://git.kernel.org/arm64/c/7ec3b57cb29f
+[28/40] arm64: Add Kconfig for Guarded Control Stack (GCS)
+        https://git.kernel.org/arm64/c/5d8b172e7005
+[29/40] kselftest/arm64: Verify the GCS hwcap
+        https://git.kernel.org/arm64/c/7a2f671db61f
+[30/40] kselftest/arm64: Add GCS as a detected feature in the signal tests
+        https://git.kernel.org/arm64/c/b2d2f11ff5d6
+[31/40] kselftest/arm64: Add framework support for GCS to signal handling tests
+        https://git.kernel.org/arm64/c/0d426f7dd9a0
+[32/40] kselftest/arm64: Allow signals tests to specify an expected si_code
+        https://git.kernel.org/arm64/c/956573ac1890
+[33/40] kselftest/arm64: Always run signals tests with GCS enabled
+        https://git.kernel.org/arm64/c/42155a8eb0f6
+[34/40] kselftest/arm64: Add very basic GCS test program
+        https://git.kernel.org/arm64/c/3d37d4307e0f
+[35/40] kselftest/arm64: Add a GCS test program built with the system libc
+        https://git.kernel.org/arm64/c/a505a52b4e29
+[36/40] kselftest/arm64: Add test coverage for GCS mode locking
+        https://git.kernel.org/arm64/c/58d69a3e3582
+[37/40] kselftest/arm64: Add GCS signal tests
+        https://git.kernel.org/arm64/c/794b64ca5665
+[38/40] kselftest/arm64: Add a GCS stress test
+        https://git.kernel.org/arm64/c/05e6cfff58c4
+[39/40] kselftest/arm64: Enable GCS for the FP stress tests
+        https://git.kernel.org/arm64/c/bb9ae1a66c85
+
+-- 
+Catalin
+
