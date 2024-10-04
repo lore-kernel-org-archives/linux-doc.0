@@ -1,101 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E9B415443D;
-	Fri,  4 Oct 2024 23:37:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD98F14A4C6;
+	Fri,  4 Oct 2024 23:44:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728085026; cv=none; b=gjfBib+DE8VvG4AzWT9DCgJH/Q9Mi4Po/x4sSWOcU8vFmVOB/sssgeZMAZqEpoHjSJsVyQGG+5/mo+hJUKYU+ZaSySQjrweMkpyfJCsWwc5VGlFhzRsZaJARc9tiKsZFm2C5Lhad3i4KEHeYA3OMphRon8XrQHa4RUXeVO/o3lk=
+	t=1728085485; cv=none; b=OqUF81ojvO3tD8PKpHzL5HUqsx1IZw9efL8y7QWY0af+UvNkE+ALZAkvFLpz5HLFfm0elbnR1cZD2D8W4UhhKlMJJzhVLvfwmgiFzJ27mWTG2Y9kycupYqCySL8dzTem/iTSKii3AU6t8Y/ssj5CrrNkOCyuaKJcTZf4d/u1vwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728085026; c=relaxed/simple;
-	bh=YZy/9sPr2SQgw4DnB48EfIfY3xFsflIqeLoZgX9V7Zw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dUip/fDXNb7sPwoxpkNII27EN5BkeAtPNb4anxad5GLWhxnzDCosRGB6D3aiWhOjNWzw66EavNfHXbu6Pdj7LHtXSr56LHtWImjjp0i1FpAYnI0GUKrW387I+KPCSozw1lAlJRLBkgWmU7x6i4UhMUVF2Sc565PAHSgG9RBmBqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DE3EC4CEC6;
-	Fri,  4 Oct 2024 23:37:04 +0000 (UTC)
-Date: Fri, 4 Oct 2024 19:38:00 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: LKML <linux-kernel@vger.kernel.org>, Linux Trace Kernel
- <linux-trace-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, Jonathan
- Corbet <corbet@lwn.net>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Mike Rapoport <mike.rapoport@gmail.com>,
- Kees Cook <keescook@chromium.org>, Ard Biesheuvel <ardb@kernel.org>, Hans
- de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v2] Documentation/tracing: Mention that
- RESET_ATTACK_MITIGATION can clear memory
-Message-ID: <20241004193800.2ffd0d36@gandalf.local.home>
-In-Reply-To: <20241001095734.11a67b4b@gandalf.local.home>
-References: <20241001095734.11a67b4b@gandalf.local.home>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1728085485; c=relaxed/simple;
+	bh=SpO/zZwBSjf3Q5q55AHmxIk5M1/0FtKYET1fT+0cAb0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CENYcQjImgdPpyYHFaz/oHm6vi3yEWJ/zc7Yhvqqr+MQD1BJUWyGCROmzVQTUb+SqlhUokEMp/nJDhiAQsgor0TlAs2MW23E+mS4Wf/c83RC8gT4xlQhQJ4sTKArVjCZm7jxA6tnDOXf9vr81Yk4knWRV3xpXhnjrn0BaSkG5IU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O33HY5vj; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O33HY5vj"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-20b78ee6298so17284245ad.2;
+        Fri, 04 Oct 2024 16:44:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728085483; x=1728690283; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=SpO/zZwBSjf3Q5q55AHmxIk5M1/0FtKYET1fT+0cAb0=;
+        b=O33HY5vjaUO3Hq3YLPLTaad+Bg9Ob7o0p7NFzSnSLcQ/dw6ezFoJWIsGWhbiq3Hml4
+         c14z1rN6psa1GSYQfk1l7DXoav5/ag0x51JNM//Jn1aH7PxoXM+YnhKzTsz9OkCYbHgL
+         fQlSBcgo6S0K/spFtmGKfNNZOynf+gpsIvQJebPHuWQsyzyhW63Udc/OUm3+ZAhdfnvj
+         W8lPZumJPCzlYunVbJweNkKPimjX/J1LD9iys6iuEdd6iqPoLSSReSizY8I548gOCNjO
+         22rult1pMlJrH10eTd4quS3QPWMAmCxs13RuCFWZY2HjxLgGS4I9QH4Chp0L4/uQln4r
+         09Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728085483; x=1728690283;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SpO/zZwBSjf3Q5q55AHmxIk5M1/0FtKYET1fT+0cAb0=;
+        b=bQmEa8zJuNP5sbXCyMZeHIkcbC4P12W5GGhMDOnLzSHwinq3gsV5zF9kQmviGWBAWH
+         ft+SRpm6ZE5FzuQ7I0i7zDhPg9I2A3qKv9D+3mCi0XelfUFZiXvpPthjwxV4jYcc17Vq
+         BMo4kBzia4fHYgpEe7Jxh/87xLI4jGyqRArUKoeCJ5Y9f0+NbK6kmTHrY6Tz8CgoqGTM
+         v8PZ3Z1w/LKHaCld+XlOXDNauHdrQXlzO9ASHqTygWdtvsLsCmP0nydjKx7pvoGuA+W/
+         2QV819r5v3ml96VcbM8FMbuRnRjXTsmAuaLc05TSQPO65PxGrPYXsWyak8sqfUW8dKmr
+         rP7g==
+X-Forwarded-Encrypted: i=1; AJvYcCUsmJeD5oS+3x/Yp6MBAo78MnROAL36c0N32fQ02G6Dq3pmg0Uo6T9TkY3OCnRAnxfn0yRLPMqsgkfDr3xb@vger.kernel.org, AJvYcCUvTZXvOGfwVv5Rvmi8vco+tZVlKgx66cDs1wC9oKBC6ZbZcYCFq+MnhqChILFxSsHA6sUz8XYghnA=@vger.kernel.org, AJvYcCWJhDZiYSGT6kw3TEe2LNuR1QglevfmsOxQXTBQMNN95nrcS+WSY/hMu1aibDosfYrV9Me0gEm7f2K/@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1sjP99AHeDMbGEjw4+iNMjAqen/PVPteSxco07W0rOdUGBYtA
+	tpyHA4gUGDb6uN12VsywY3L17Zxm5McLUcw6Dfvwzi2bdolweaq0
+X-Google-Smtp-Source: AGHT+IFM15MphvgGrAhx7X2A+C1nlm/ncINA+fx+b2vwyY8aSwIN+yvAHcvyDhUHMl6Pw78hK0ed7Q==
+X-Received: by 2002:a17:903:208b:b0:20b:8ef2:c84a with SMTP id d9443c01a7336-20bff0663bdmr50277645ad.53.1728085482962;
+        Fri, 04 Oct 2024 16:44:42 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20c138b1ab5sm3851645ad.48.2024.10.04.16.44.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Oct 2024 16:44:42 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 298C341406D9; Sat, 05 Oct 2024 06:44:37 +0700 (WIB)
+Date: Sat, 5 Oct 2024 06:44:36 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+	soc@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	linux-arm-kernel@lists.infradead.org, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Will Deacon <will@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Conor Dooley <conor@kernel.org>,
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>
+Subject: Re: [PATCH v2] Documentation/process: maintainer-soc: clarify
+ submitting patches
+Message-ID: <ZwB95FxdgqAtuc7z@archie.me>
+References: <20240925095635.30452-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-
-Jon,
-
-This version should be good to go.
-
-Thanks,
-
--- Steve
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="1a1trQhGb4xvmPcH"
+Content-Disposition: inline
+In-Reply-To: <20240925095635.30452-1-krzysztof.kozlowski@linaro.org>
 
 
-On Tue, 1 Oct 2024 09:57:34 -0400
-Steven Rostedt <rostedt@goodmis.org> wrote:
+--1a1trQhGb4xvmPcH
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> From: Steven Rostedt <rostedt@goodmis.org>
-> 
-> At the 2024 Linux Plumbers Conference, I was talking with Hans de Goede
-> about the persistent buffer to display traces from previous boots. He
-> mentioned that UEFI can clear memory. In my own tests I have not seen
-> this. He later informed me that it requires the config option:
-> 
->  CONFIG_RESET_ATTACK_MITIGATION
-> 
-> It appears that setting this will allow the memory to be cleared on boot
-> up, which will definitely clear out the trace of the previous boot.
-> 
-> Add this information under the trace_instance in kernel-parameters.txt
-> to let people know that this can cause issues.
-> 
-> Link: https://lore.kernel.org/all/20170825155019.6740-2-ard.biesheuvel@linaro.org/
-> 
-> Reported-by: Hans de Goede <hdegoede@redhat.com>
-> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-> Acked-by: Ard Biesheuvel <ardb@kernel.org>
-> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
-> ---
-> Changes since v1: https://lore.kernel.org/20240926130159.19e6d0e2@rorschach.local.home
-> 
->  - Added more detail explanation that the system may not be able to use
->    memory to preserve the tracing ring buffer across reboots and use
->    the CONFIG_RESET_ATTACK_MITIGATION as one example.
-> 
->  Documentation/admin-guide/kernel-parameters.txt | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 1518343bbe22..9881e3b857d0 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -6867,6 +6867,12 @@
->  
->  				reserve_mem=12M:4096:trace trace_instance=boot_map^traceoff^traceprintk@trace,sched,irq
->  
-> +			Note, saving the trace buffer across reboots does require that the system
-> +			is set up to not wipe memory. For instance, CONFIG_RESET_ATTACK_MITIGATION
-> +			can force a memory reset on boot which will clear any trace that was stored.
-> +			This is just one of many ways that can clear memory. Make sure you system
-> +			keeps the content of memory across reboots before relying on this option.
-> +
->  			See also Documentation/trace/debugging.rst
->  
->  
+On Wed, Sep 25, 2024 at 11:56:35AM +0200, Krzysztof Kozlowski wrote:
+> Patches for SoCs are expected to be picked up by SoC submaintainers.
+> The main SoC maintainers should be addressed only in few cases.
+>=20
+> Rewrite the section about maintainer handling to document above
+> expectation.
+>=20
 
+LGTM, thanks!
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--1a1trQhGb4xvmPcH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZwB92wAKCRD2uYlJVVFO
+owDjAQCAqBT6xfOfmpsFrV0KReTF4lm++5Z5wjWziDPTEBNcNwEAuYNYhah94RXs
+xTDgYUpDlGAy2q1t24sck949Q6PTFQU=
+=UuTB
+-----END PGP SIGNATURE-----
+
+--1a1trQhGb4xvmPcH--
