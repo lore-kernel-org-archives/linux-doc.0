@@ -1,132 +1,152 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F0FD33D5;
-	Fri,  4 Oct 2024 13:15:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D687156872;
+	Fri,  4 Oct 2024 13:18:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728047737; cv=none; b=d9DT47shIa10mgdOzP7sht/xD87J/ufz2CffKYROPQt2ndY1t8yyk65uoxHtIchvcC14WQfGctnnhLrtWZ1jhcJ+/CI0nmW1n5RxnLHmlm5ZyHdfJ7vHcqyvLagyxdkNG4DLXA1/WsMZ7XiiWzpdVxE9uJ3tDnbThUp8OvbFKtU=
+	t=1728047888; cv=none; b=gYhu4H+2oK+CPK6C8d1BQsWuRMfZu3PfK7z9LKnXAGZDFRxZx1qdPVtoT6JyDx/qE5SW/osMyFsI0AR7eyxLbyY30r4n+DvW7sr+DDBwmaYhjuFHcW+oxdiIjFT5SBR7KuEOGceHabrq7txLfLtv/tBY2jEPS24TWKgdqSZCzsY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728047737; c=relaxed/simple;
-	bh=1JZwYefyhSOCZB3CuZertgMGY1R4ZnxNXU0IyQGN6qM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FlgaPWhJ+EOxi1ZQc3ajSdI5kBpOAuwHU4/d0jOy2WK63DXND8085wBbMLqOEhRwllPAyrD60ssL8NqnMcMxSIRPtI390w+HDBYQdQvdhu99zZozOOPrNHB9bvHZvzBXnWMtkyVTASefFQ6kSJrzjqWiZWEr8c0DruvIhJ1f7mk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kjjnc/L9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728047888; c=relaxed/simple;
+	bh=zk0sqIY5OluLPKYhsiNWMSMyFrgQ2eX7jUxEqlfe/00=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=JZ8OTDWe2nCfIVr+Zv9X1R8pEC4NMpad59wevBegLViNzGXjxqW+NVsyZRaTEh98zrJwyRAwLz8/PMoDUPpqBYq7wWpCqCRwg5/8GM3uf+hdY2eTJgGFXvSr1+YkeRQJgdq7ykSZwJdXwV3A75J0j0MiLqmvUVhcudKNmaxPzfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I54AeIML; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kjjnc/L9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8116C4CEC7;
-	Fri,  4 Oct 2024 13:15:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I54AeIML"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A001BC4CEC6;
+	Fri,  4 Oct 2024 13:18:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728047736;
-	bh=1JZwYefyhSOCZB3CuZertgMGY1R4ZnxNXU0IyQGN6qM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Kjjnc/L90TMtexTjGYxAYy1SQ1QLyKkvF/CbvX4DRZe3QZLNjgmA043In5Mn3i/rw
-	 6B5X+WF05mnRkF5MPsreCu1/RWhlYy0+kTzNNOgDa8rsLpPqegA7XxXK7Rhx0nUxa6
-	 IBkZJ2pdiTlc6pHGbh4RfTk0ZTnhtJZsbARiZlcRcR6BaSSw9ooGopO2oN7M88zaKP
-	 i9ZukewwH6dgft/J+7smkC7XLiCKWNYuCiKQdA/fHzzcPvpm6QIq/WKqZBvWKoD11P
-	 SHCZ55g+iyuo9/ex9afVt1+UpR3QIha2xI0NPLiyaKR+gtHkWFsHfMyaquC5SiCFd1
-	 mpOvPGs/3yVlw==
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-539983beb19so2824507e87.3;
-        Fri, 04 Oct 2024 06:15:36 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU+38R09j1hQxllWs0EaTrFh1t2MRF8v0dzcOegKbfaiS5alnA6Rjl00TvgfJBZhTuhQYhmcALOH+cVNDXP@vger.kernel.org, AJvYcCULDnRsmKZmGZZ98TwuF1ZH4+GH7Fr530imtFW9lxbETVqJVXZfU65rPPvDlmojIxNvhVcVdFKYkLvoQKojN1s=@vger.kernel.org, AJvYcCUVTF6W9Sbppy6KFSyHwLvooq67LPP5VL802W4CWiAe7IpDMTY6khkzpo7hGsWxMvwFstIz5DO0q5KIahrn@vger.kernel.org, AJvYcCV91q/sGry1hbxKADzHDs0ju/SACiuwk/yFnHXON8Sb0iW9D5RNGxPFtCuSBgKe3pXkmkRh4WRAhxiRcOjz@vger.kernel.org, AJvYcCVVVpSpkuylnUz66AK6tJcyw4LZB2j74FsXSFsP0DqiHVPWk5fLLwyai5rqa4y17bBqWT4cJHG5vKMj+jMXhkLiSg==@vger.kernel.org, AJvYcCWA2gfASVi9frLe93G6t17nR1yShVtHaTnLCkoVFhtMIjQ5GeUHLYmbOeTOkZumD6zxFAnLKKMrieJQ@vger.kernel.org, AJvYcCWFdmrYIxjlAVrycNuUVzUwiS2ehdmzsxQi5FyJdWnVQlacT2uPeomp2Rj39SXjQvFEJI54ElEmzJRZ@vger.kernel.org, AJvYcCWtd9b6skN2pLy2u9KwqX+NKHfaGn0v4Eo1OIzGas8ESpGURmF32XiV/9LlvVt1ROFCivAcoJZkyJU=@vger.kernel.org, AJvYcCXKOkcGvbcFlTu4Hf/DZIPOnRvbIM9GbnXAqdnXQ5I5efT3uUdsXrog/lxFo5cNHWM2sZtyCkhdBINWFA==@vger.kernel.org, AJvYcCXrnVncpaUXYrLcbTnyhKaiVGFWHwnAFNkCOaIqEWUE9xcl3y/O9QfJdzbzJLPzS8sXceg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyI7+FGOM+QMg4bA9wtb9EgMm5mg3L7T78RlRBywebeG3xWaWEe
-	xwsBzJ8fB6aGyarypEtg6a+7SG31yiREjBfrIsOIqHnNPvJniclUQgEP7RblozXftN1YC0//0MZ
-	a5IzbyggY1NuLWKORTrUOKMOkzQ8=
-X-Google-Smtp-Source: AGHT+IEuHrt3V5yx40A/FQDIn91vq5WH5zeRnx8eS4s+O/De09fFFzzyl2W2oN2bUPJ3C1JSY+Ea24ADde6nXP4PqRA=
-X-Received: by 2002:a05:6512:3096:b0:539:a2e0:4e75 with SMTP id
- 2adb3069b0e04-539ab8662d1mr1636973e87.14.1728047734917; Fri, 04 Oct 2024
- 06:15:34 -0700 (PDT)
+	s=k20201202; t=1728047888;
+	bh=zk0sqIY5OluLPKYhsiNWMSMyFrgQ2eX7jUxEqlfe/00=;
+	h=From:Subject:Date:To:Cc:From;
+	b=I54AeIMLwY4rHMWwlf2hbrmzGuKIS6gRoz1qdltR+GDrgZo4MQAG7XNpkJifOqsrd
+	 j5vN4lZthbf2/EyH6ldmo8+A8fJF+3y/BHxJLCdqqszP3G0dOv35ZvZx3R+JR09ugW
+	 0vLIDLzIlKLJ5w2cmmnAyxFUBImOZvX3wtN3PpoFkwcJF99/1LZZh0g995MBFDXDGh
+	 ESIzd4hfxI9IlZWoo9uBffwjS8lRoA3qxzsHIgsGU5qMh61h5DezUUu2ouB3d49ABe
+	 nstVFTnziaH+g9htWSkpBUlZE4PCF79rS928ysWsnmX+2YydgbR7Wj+pB60vBriqHC
+	 TFwFUtfh5oUTA==
+From: Jeff Layton <jlayton@kernel.org>
+Subject: [PATCH v4 0/9] nfsd: implement the "delstid" draft
+Date: Fri, 04 Oct 2024 09:16:43 -0400
+Message-Id: <20241004-delstid-v4-0-62ac29c49c2e@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240925150059.3955569-30-ardb+git@google.com>
- <20240925150059.3955569-35-ardb+git@google.com> <CAFULd4ZNwfPZO-yDjrtT2ANV509HeeYgR80b9AFachaVW5zqrg@mail.gmail.com>
- <CAMzpN2j4uj=mhdi7QHaA7y_NLtaHuRpnit38quK6RjvxdUYQew@mail.gmail.com>
-In-Reply-To: <CAMzpN2j4uj=mhdi7QHaA7y_NLtaHuRpnit38quK6RjvxdUYQew@mail.gmail.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Fri, 4 Oct 2024 15:15:22 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXF3_Hj9j2f_cBtwTFWvEmB0UoEs_cGkRiWc4AErDx0ftQ@mail.gmail.com>
-Message-ID: <CAMj1kXF3_Hj9j2f_cBtwTFWvEmB0UoEs_cGkRiWc4AErDx0ftQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 05/28] x86: Define the stack protector guard symbol explicitly
-To: Brian Gerst <brgerst@gmail.com>
-Cc: Uros Bizjak <ubizjak@gmail.com>, Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org, 
-	x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
-	Christoph Lameter <cl@linux.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
-	Juergen Gross <jgross@suse.com>, Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Keith Packard <keithp@keithp.com>, 
-	Justin Stitt <justinstitt@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Kan Liang <kan.liang@linux.intel.com>, linux-doc@vger.kernel.org, 
-	linux-pm@vger.kernel.org, kvm@vger.kernel.org, xen-devel@lists.xenproject.org, 
-	linux-efi@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALvq/2YC/2XNQQ6CMBCF4auYrq3pTAGpK+9hXOB0hEYCpiWNh
+ nB3C4mKcfkm/f6OIrB3HMRhMwrP0QXXd2lk242gpupqls6mLVBhpkrIpeU2DM5Ko9GowkBlAUR
+ 6ffd8dY+ldDqn3bgw9P65hCPM13ej+DQiSCUJEUhbgozs8ca+43bX+1rMkYgriCuICXJZXXJSr
+ A3RH9RraL5QJ4h7oEKVqqD898dpml4y4gBEEQEAAA==
+X-Change-ID: 20240815-delstid-93290691ad11
+To: Chuck Lever <chuck.lever@oracle.com>, Neil Brown <neilb@suse.de>, 
+ Olga Kornievskaia <kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
+ Tom Talpey <tom@talpey.com>, Trond Myklebust <trondmy@kernel.org>, 
+ Anna Schumaker <anna@kernel.org>, Olga Kornievskaia <okorniev@redhat.com>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Tom Haynes <loghyr@gmail.com>, linux-kernel@vger.kernel.org, 
+ linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3756; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=zk0sqIY5OluLPKYhsiNWMSMyFrgQ2eX7jUxEqlfe/00=;
+ b=owEBbQKS/ZANAwAIAQAOaEEZVoIVAcsmYgBm/+sIzwnRwYfzvWyffxIFQXm1qWIlg+0eKFMEb
+ WBZGf4I3q6JAjMEAAEIAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCZv/rCAAKCRAADmhBGVaC
+ FSRlEACtHuVd9Fi3i2SoVuDu5l8v9VmqPn9rEUCP/AOxN5rEKsA2N2ZLXIknrvJQuh9FClYGlPY
+ yya00Nt0y09ZX00Zg1o0I189Nb6TsIiWFH8msAucDbaDdJvPTj0InY7S2TBlwISPW54ZJxPtGy9
+ rmEcVNssDPnADiRI9zxlnIddy/IteQYnpp0AWzuHiK2JsNPpnUQmQpeOUnfY4vJZdcZYuHeRgcL
+ GbV6CoXWyrGP2kdDq6D30cXEKLo4AOQjHjTRvUP6TaeKjaFpvmxhnKrI8no8P57m2VnRglgIipd
+ lApkl3b98omlJqLr/Rh7scmPw8jjjBRYl98ACxCkqb4mebmxHunLRi+tWetiCAZWrC2CEOhxdEa
+ MZjGQfxYvxK5Ha/zlb8kLGN2+8PBvG9S3dJDxY43SeDYrsbG0cJEae8AAl21I/J+GDjZSM5+G81
+ SZXMhh9vcwZTuE6PjjtDf9LSCOzMsuBnorEFg1TuGyHqMuUA34ll7nojbjtYHQCpotlTM3vkfYG
+ xA7zfI8ffIf8EcdaY0vJltlrgI9sY/pJEkUI5/ERs9feyel1wmxePqq2TLNx1gE8PcG3ZO/9nc7
+ Mo//TCBY0sl5IJfP+DhRXgMWr6YCRBrv/OLeArpwApWaJ4JSKVm7ouKoV6MYFEZPrNhoMSMIMSD
+ GojLlfp9BMz8jtQ==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
-On Sat, 28 Sept 2024 at 15:41, Brian Gerst <brgerst@gmail.com> wrote:
->
-> On Wed, Sep 25, 2024 at 2:33=E2=80=AFPM Uros Bizjak <ubizjak@gmail.com> w=
-rote:
-> >
-> > On Wed, Sep 25, 2024 at 5:02=E2=80=AFPM Ard Biesheuvel <ardb+git@google=
-.com> wrote:
-> > >
-> > > From: Ard Biesheuvel <ardb@kernel.org>
-> > >
-> > > Specify the guard symbol for the stack cookie explicitly, rather than
-> > > positioning it exactly 40 bytes into the per-CPU area. Doing so remov=
-es
-> > > the need for the per-CPU region to be absolute rather than relative t=
-o
-> > > the placement of the per-CPU template region in the kernel image, and
-> > > this allows the special handling for absolute per-CPU symbols to be
-> > > removed entirely.
-> > >
-> > > This is a worthwhile cleanup in itself, but it is also a prerequisite
-> > > for PIE codegen and PIE linking, which can replace our bespoke and
-> > > rather clunky runtime relocation handling.
-> >
-> > I would like to point out a series that converted the stack protector
-> > guard symbol to a normal percpu variable [1], so there was no need to
-> > assume anything about the location of the guard symbol.
-> >
-> > [1] "[PATCH v4 00/16] x86-64: Stack protector and percpu improvements"
-> > https://lore.kernel.org/lkml/20240322165233.71698-1-brgerst@gmail.com/
-> >
-> > Uros.
->
-> I plan on resubmitting that series sometime after the 6.12 merge
-> window closes.  As I recall from the last version, it was decided to
-> wait until after the next LTS release to raise the minimum GCC version
-> to 8.1 and avoid the need to be compatible with the old stack
-> protector layout.
->
+We had to pull this series from v6.11 due to a report of a fs_mark file
+creation performance regression from the kernel test robot [1]. I tried to
+reproduce this and couldn't. I've asked Oliver to see if this is still
+reproducible there but haven't heard back yet.
 
-Hi Brian,
+During this, we realized that not handing out an updated open stateid
+when there is an existing one is problematic [2], so this also fixes the
+server to only respect WANT_OPEN_XOR_DELEGATION if the open stateid
+is brand new.
 
-I'd be more than happy to compare notes on that - I wasn't aware of
-your intentions here, or I would have reached out before sending this
-RFC.
+At this point, I think we ought to put this in nfsd-next again and see
+whether this peformance regression manifests again. If it does, it's not
+clear whether this is a client or server problem, since enabling that
+support affects how the client behaves as well.
 
-There are two things that you would need to address for Clang support
-to work correctly:
-- the workaround I cc'ed you on the other day [0],
-- a workaround for the module loader so it tolerates the GOTPCRELX
-relocations that Clang emits [1]
+[1]: https://lore.kernel.org/linux-nfs/202409161645.d44bced5-oliver.sang@intel.com/
+[2]: https://mailarchive.ietf.org/arch/msg/nfsv4/3TPw2DEVAv3oe7_D8mxkoFl57h4/
 
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+Changes in v4:
+- rebase onto Chuck's latest xdrgen patches
+- ignore WANT_OPEN_XOR_DELEGATION flag if there is an extant open stateid
+- consolidate patches that fix handling of delegated change attr
+- Link to v3: https://lore.kernel.org/r/20240829-delstid-v3-0-271c60806c5d@kernel.org
 
+Changes in v3:
+- fix includes in nfs4xdr_gen.c
+- drop ATTR_CTIME_DLG flag (just use ATTR_DELEG instead)
+- proper handling for SETATTR (maybe? Outstanding q about stateid here)
+- incorporate Neil's patches for handling non-delegation leases
+- always return times from CB_GETATTR instead of from local vfs_getattr
+- fix potential races vs. mgtimes by moving ctime handling into VFS layer
+- Link to v2: https://lore.kernel.org/r/20240826-delstid-v2-0-e8ab5c0e39cc@kernel.org
 
-[0] https://lore.kernel.org/all/20241002092534.3163838-2-ardb+git@google.co=
-m/
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/commit/?=
-id=3Da18121aabbdd
+Changes in v2:
+- rebase onto Chuck's lkxdrgen branch, and reworked how autogenerated
+  code is included
+- declare nfsd_open_arguments as a global, so it doesn't have to be
+  set up on the stack each time
+- delegated timestamp support has been added
+- Link to v1: https://lore.kernel.org/r/20240816-delstid-v1-0-c221c3dc14cd@kernel.org
+
+---
+Jeff Layton (9):
+      nfsd: drop the ncf_cb_bmap field
+      nfsd: drop the nfsd4_fattr_args "size" field
+      nfsd: have nfsd4_deleg_getattr_conflict pass back write deleg pointer
+      nfsd: fix handling of delegated change attr in CB_GETATTR
+      nfs_common: make include/linux/nfs4.h include generated nfs4_1.h
+      nfsd: add support for FATTR4_OPEN_ARGUMENTS
+      nfsd: implement OPEN_ARGS_SHARE_ACCESS_WANT_OPEN_XOR_DELEGATION
+      nfsd: add support for delegated timestamps
+      nfsd: handle delegated timestamps in SETATTR
+
+ Documentation/sunrpc/xdr/nfs4_1.x    | 166 ++++++++++++++++++++++++
+ fs/nfsd/Makefile                     |  17 ++-
+ fs/nfsd/nfs4callback.c               |  51 +++++++-
+ fs/nfsd/nfs4proc.c                   |  29 ++++-
+ fs/nfsd/nfs4state.c                  | 132 ++++++++++++++++---
+ fs/nfsd/nfs4xdr.c                    | 119 ++++++++++++++---
+ fs/nfsd/nfs4xdr_gen.c                | 239 +++++++++++++++++++++++++++++++++++
+ fs/nfsd/nfs4xdr_gen.h                |  25 ++++
+ fs/nfsd/nfsd.h                       |   5 +-
+ fs/nfsd/state.h                      |   6 +-
+ fs/nfsd/xdr4cb.h                     |  10 +-
+ include/linux/nfs4.h                 |   7 +-
+ include/linux/nfs_xdr.h              |   5 -
+ include/linux/sunrpc/xdrgen/nfs4_1.h | 124 ++++++++++++++++++
+ include/linux/time64.h               |   5 +
+ include/uapi/linux/nfs4.h            |   7 +-
+ 16 files changed, 881 insertions(+), 66 deletions(-)
+---
+base-commit: 5653776cd85de4823ec954ec5830909e073dacce
+change-id: 20240815-delstid-93290691ad11
+
+Best regards,
+-- 
+Jeff Layton <jlayton@kernel.org>
+
