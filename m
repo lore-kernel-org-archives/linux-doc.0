@@ -1,180 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D0B212EEE;
-	Fri,  4 Oct 2024 13:52:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977B321B449
+	for <linux-doc@vger.kernel.org>; Fri,  4 Oct 2024 13:56:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728049949; cv=none; b=S+2ZB1/9HsoURbtcaIYbyiC2clZn3iIIWDOYQEz92gOxHD/6Dzld5MnsE+h7pIFG9Ia/kXK3owQ1rFHJ4J/NTGzdgzP79YCPyDzET/52jlzC0F6H3e097zhFxUKtGmVbJX4w1omxI3bhBCeynIMyzjVxZZiH951ChNcKtQrf5nA=
+	t=1728050215; cv=none; b=PUX9Xwskl1Oo1ZvF90VpY+9pAQwS9MknKR76X6XjyfSWuaFxC0T73YrT56tRa6RqpWM8lq0J8NHnajCh7GbcSZFHna0BHye4vv6ZOzCeG8cmQXBmbDvZJ2PCRhEwKKc/91c0ahbQhan5qY5ND4iiqHJEuHTYwXPGncOuOqImQoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728049949; c=relaxed/simple;
-	bh=CgGaF1WPSG5Fi8uzeesZWuMpwpxItmoNQIqnngNVELo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sljDY5+XXEMXzWYrpiDuD5MNo9CB6aHrJiF11d72/VJgWTljhoGn1CCFdhMR2TY7mulIsBsBaWhbKTVcWq4YkAN21wG1YQ9KQgW/tRAH9H6in90/Yk7SU844WzmZTZu4yP6KIxQivp7j4c6FRaXYtuZqvyh7BKLeoZEBooN9VbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96531C4CEC6;
-	Fri,  4 Oct 2024 13:52:22 +0000 (UTC)
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Will Deacon <will@kernel.org>,
+	s=arc-20240116; t=1728050215; c=relaxed/simple;
+	bh=N1C818eBlvE4sv6He9cJ9ekrXjXZ4zgfAiLcULwa9Xc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kXMbBNWtFyEiiuPDc/1WzvkzwtBwph+zh9bfJ0NC0NS8luyUSNMSUT9Jm8yLSav8k59VqsDq/yolWbdBaVuIZ1f/38URe58BRyksoaZ3YoXKETzoZO+QzeaABBom7Ii/oOHFcbtSTBH0Snt4BN5ECDh832kh9BkNY8q/X3hntJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1swinL-0005ji-1g; Fri, 04 Oct 2024 15:56:35 +0200
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ore@pengutronix.de>)
+	id 1swinJ-003aES-87; Fri, 04 Oct 2024 15:56:33 +0200
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1swinJ-00AhVa-0T;
+	Fri, 04 Oct 2024 15:56:33 +0200
+Date: Fri, 4 Oct 2024 15:56:33 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Kory Maincent <kory.maincent@bootlin.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Shuah Khan <shuah@kernel.org>,
-	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-	Kees Cook <kees@kernel.org>,
-	Mark Brown <broonie@kernel.org>
-Cc: "H.J. Lu" <hjl.tools@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Florian Weimer <fweimer@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
-	Ross Burton <ross.burton@arm.com>,
-	David Spickett <david.spickett@arm.com>,
-	Yury Khrustalev <yury.khrustalev@arm.com>,
-	Wilco Dijkstra <wilco.dijkstra@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	David Hildenbrand <david@redhat.com>,
-	"Mike Rapoport (IBM)" <rppt@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: (subset) [PATCH v13 00/40] arm64/gcs: Provide support for GCS in userspace
-Date: Fri,  4 Oct 2024 14:52:20 +0100
-Message-Id: <172804948348.2705006.18010706949544079891.b4-ty@arm.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241001-arm64-gcs-v13-0-222b78d87eee@kernel.org>
-References: <20241001-arm64-gcs-v13-0-222b78d87eee@kernel.org>
+	Donald Hunter <donald.hunter@gmail.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
+	Dent Project <dentproject@linuxfoundation.org>,
+	kernel@pengutronix.de
+Subject: Re: [PATCH net-next 11/12] net: pse-pd: Add support for event
+ reporting using devm_regulator_irq_helper
+Message-ID: <Zv_0ESPJgHKhFIwk@pengutronix.de>
+References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
+ <20241002-feature_poe_port_prio-v1-11-787054f74ed5@bootlin.com>
+ <f56780af-b2d4-42d7-bc5d-c35b295d7c52@lunn.ch>
+ <20241003102806.084367ba@kmaincent-XPS-13-7390>
+ <f97baa90-1f76-4558-815a-ef4f82913c3a@lunn.ch>
+ <20241003153303.7cc6dba8@kmaincent-XPS-13-7390>
+ <4b9d1adf-e9bd-47c0-ac69-5da77fcf8d0b@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <4b9d1adf-e9bd-47c0-ac69-5da77fcf8d0b@lunn.ch>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Tue, 01 Oct 2024 23:58:39 +0100, Mark Brown wrote:
-> The arm64 Guarded Control Stack (GCS) feature provides support for
-> hardware protected stacks of return addresses, intended to provide
-> hardening against return oriented programming (ROP) attacks and to make
-> it easier to gather call stacks for applications such as profiling.
+On Thu, Oct 03, 2024 at 05:22:58PM +0200, Andrew Lunn wrote:
+> > Indeed, but regulator API already provide such events, which will even be sent
+> > when we enable or disable the PSE. Should we write a second event management.
+> > Using regulator event API allows to report over current internal events to the
+> > parents regulator the power supply of the PSE which could also do something to
+> > avoid smoke.
+> > 
+> > Or maybe we should add another wrapper which will send PSE ethtool netlink
+> > notification alongside the regulator notifications supported by this patch.
+> > 
+> > > Also, how do regulator events work in combination with network
+> > > namespaces? If you move the interface into a different network
+> > > namespace, do the regulator events get delivered to the root namespace
+> > > or the namespace the interface is in?
+> > 
+> > regulator events are sent in root namespace.
 > 
-> When GCS is active a secondary stack called the Guarded Control Stack is
-> maintained, protected with a memory attribute which means that it can
-> only be written with specific GCS operations.  The current GCS pointer
-> can not be directly written to by userspace.  When a BL is executed the
-> value stored in LR is also pushed onto the GCS, and when a RET is
-> executed the top of the GCS is popped and compared to LR with a fault
-> being raised if the values do not match.  GCS operations may only be
-> performed on GCS pages, a data abort is generated if they are not.
+> I think we will need two event, the base regulator event, and a
+> networking event. Since it is a regulator, sending a normal regulator
+> event makes a lot of sense. But mapping that regulator event to a
+> netns:ifnam is going to be hard. Anything wanting to take an action is
+> probably going to want to use ethtool, and so needs to be in the
+> correct netns, etc. But it does get messy if there is some sort of
+> software driven prioritisation going on, some daemon needs to pick a
+> victim to reduce power to, and the interfaces are spread over multiple
+> network namespaces.
 > 
-> [...]
+> What i don't know is if we can use an existing event, or we should add
+> a new one. Often rtnetlink_event() is used:
+> 
+> https://elixir.bootlin.com/linux/v6.12-rc1/source/net/core/rtnetlink.c#L6679
+> 
+> but without some PSE information in it, it would be hard to know why
+> it was sent. So we probably either want a generic ethtool event, or a
+> PSE event.
 
-I applied most of the series to arm64 (for-next/gcs), apart from two KVM
-patches - 16 and 40 (the latter is the kselftest). I usually start
-picking patches at -rc3 but the glibc folk are waiting for these patches
-to at least end up in a maintainer's branch. Of course, these patches
-are subject to change until the final 6.13 release.
+Hm... assuming we have following scenario:
 
-The KVM patches can go on top once agreed (or they can go in via the KVM
-tree, I don't mind either way).
+                                  .---------   PI 1
+                                 / .---------  PI 2
+                   .========= PSE /----------( PI 3 ) NNS red
+                  //              \----------( PI 4 ) NNS blue
+Main supply      //                `---------( PI 5 ) NNS blue
+o================´--- System, CPU
 
-Thanks!
+In this case we seems to have a new challenge:
 
-[01/40] mm: Introduce ARCH_HAS_USER_SHADOW_STACK
-        https://git.kernel.org/arm64/c/bcc9d04e749a
-[02/40] mm: Define VM_HIGH_ARCH_6
-        https://git.kernel.org/arm64/c/9ab515b18f84
-[03/40] arm64/mm: Restructure arch_validate_flags() for extensibility
-        https://git.kernel.org/arm64/c/f645e888b1a6
-[04/40] prctl: arch-agnostic prctl for shadow stack
-        https://git.kernel.org/arm64/c/91e102e79740
-[05/40] mman: Add map_shadow_stack() flags
-        https://git.kernel.org/arm64/c/3630e82ab6bd
-[06/40] arm64: Document boot requirements for Guarded Control Stacks
-        https://git.kernel.org/arm64/c/830ae8a39685
-[07/40] arm64/gcs: Document the ABI for Guarded Control Stacks
-        https://git.kernel.org/arm64/c/7058bf87cd59
-[08/40] arm64/sysreg: Add definitions for architected GCS caps
-        https://git.kernel.org/arm64/c/ce0641d48ddd
-[09/40] arm64/gcs: Add manual encodings of GCS instructions
-        https://git.kernel.org/arm64/c/dad947cc22cf
-[10/40] arm64/gcs: Provide put_user_gcs()
-        https://git.kernel.org/arm64/c/d0aa2b435186
-[11/40] arm64/gcs: Provide basic EL2 setup to allow GCS usage at EL0 and EL1
-        https://git.kernel.org/arm64/c/ff5181d8a2a8
-[12/40] arm64/cpufeature: Runtime detection of Guarded Control Stack (GCS)
-        https://git.kernel.org/arm64/c/6487c963083c
-[13/40] arm64/mm: Allocate PIE slots for EL0 guarded control stack
-        https://git.kernel.org/arm64/c/092055f1508c
-[14/40] mm: Define VM_SHADOW_STACK for arm64 when we support GCS
-        https://git.kernel.org/arm64/c/ae80e1629aea
-[15/40] arm64/mm: Map pages for guarded control stack
-        https://git.kernel.org/arm64/c/6497b66ba694
-[17/40] arm64/idreg: Add overrride for GCS
-        https://git.kernel.org/arm64/c/a94452112ce4
-[18/40] arm64/hwcap: Add hwcap for GCS
-        https://git.kernel.org/arm64/c/eefc98711f84
-[19/40] arm64/traps: Handle GCS exceptions
-        https://git.kernel.org/arm64/c/8ce71d270536
-[20/40] arm64/mm: Handle GCS data aborts
-        https://git.kernel.org/arm64/c/cfad706e8f6d
-[21/40] arm64/gcs: Context switch GCS state for EL0
-        https://git.kernel.org/arm64/c/fc84bc5378a8
-[22/40] arm64/gcs: Ensure that new threads have a GCS
-        https://git.kernel.org/arm64/c/506496bcbb42
-[23/40] arm64/gcs: Implement shadow stack prctl() interface
-        https://git.kernel.org/arm64/c/b57180c75c7e
-[24/40] arm64/mm: Implement map_shadow_stack()
-        https://git.kernel.org/arm64/c/8f3e750673b2
-[25/40] arm64/signal: Set up and restore the GCS context for signal handlers
-        https://git.kernel.org/arm64/c/eaf62ce1563b
-[26/40] arm64/signal: Expose GCS state in signal frames
-        https://git.kernel.org/arm64/c/16f47bb9ac8a
-[27/40] arm64/ptrace: Expose GCS via ptrace and core files
-        https://git.kernel.org/arm64/c/7ec3b57cb29f
-[28/40] arm64: Add Kconfig for Guarded Control Stack (GCS)
-        https://git.kernel.org/arm64/c/5d8b172e7005
-[29/40] kselftest/arm64: Verify the GCS hwcap
-        https://git.kernel.org/arm64/c/7a2f671db61f
-[30/40] kselftest/arm64: Add GCS as a detected feature in the signal tests
-        https://git.kernel.org/arm64/c/b2d2f11ff5d6
-[31/40] kselftest/arm64: Add framework support for GCS to signal handling tests
-        https://git.kernel.org/arm64/c/0d426f7dd9a0
-[32/40] kselftest/arm64: Allow signals tests to specify an expected si_code
-        https://git.kernel.org/arm64/c/956573ac1890
-[33/40] kselftest/arm64: Always run signals tests with GCS enabled
-        https://git.kernel.org/arm64/c/42155a8eb0f6
-[34/40] kselftest/arm64: Add very basic GCS test program
-        https://git.kernel.org/arm64/c/3d37d4307e0f
-[35/40] kselftest/arm64: Add a GCS test program built with the system libc
-        https://git.kernel.org/arm64/c/a505a52b4e29
-[36/40] kselftest/arm64: Add test coverage for GCS mode locking
-        https://git.kernel.org/arm64/c/58d69a3e3582
-[37/40] kselftest/arm64: Add GCS signal tests
-        https://git.kernel.org/arm64/c/794b64ca5665
-[38/40] kselftest/arm64: Add a GCS stress test
-        https://git.kernel.org/arm64/c/05e6cfff58c4
-[39/40] kselftest/arm64: Enable GCS for the FP stress tests
-        https://git.kernel.org/arm64/c/bb9ae1a66c85
+On one side, a system wide power manager should see and mange all ports.
+On other side, withing a name space, we should be able to play in a
+isolated sand box. There is a reason why it is isolated. So, we should
+be able to sandbox power delivery and port prios too. Means, by creating
+network names space, we will need a power names space. 
 
+I can even imagine a use case: an admin limited access to a switch for
+developer. A developer name space is created with PSE budget and max
+prios available for this name space. This will prevent users from DoSing
+system critical ports.
+
+At this point, creating a power name space will an overkill for this
+patch set, so it should be enough to allow controlling prios over
+ethtool per port and isolation support if needed.
+
+Regards,
+Oleksij
 -- 
-Catalin
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
