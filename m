@@ -1,292 +1,150 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F4DD1C7292;
-	Fri,  4 Oct 2024 16:52:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728060752; cv=fail; b=lmQsrZA+J/RhhOlxdTa0QCrqm33EXo03ZnX2hLqiU1q9dFucdjf6mQk3vh61gYVnItXMJg+xH6huA73nfGm2QZ4dF6HYD3XubW59eOxTq1pnJdef6JbqUeQlKJRSCU9OOx7tjs+4yU7zKzZ7U87PV6euM5Zal+rVJEfvQA1VpXg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728060752; c=relaxed/simple;
-	bh=ZQT59fUULUI8BStaW66UOceK5w2z7QWx5i/1OwJMQSQ=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Ln7Zr32YVtprMnv+FMGI3vdXXAhC3k+IwQ/SyS6EAr5Eqk/EUuR5vMI+6vPzN2mdLlcC9X42Y5B3UoT6W/GqLUQlJP7MscdztEGFz7X5RpTGWZ0jZMQc/kImspTm/03+vQRdiPIs6/y8SeWPyaZ7iuKw8nKXQjzDvVQGANyjJoM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OOKkGL3t; arc=fail smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877D41CACE5
+	for <linux-doc@vger.kernel.org>; Fri,  4 Oct 2024 17:06:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.179
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728061607; cv=none; b=Jh+4ce9Q4Qsl52keGD2OkFwPWUpzFaQh9kYyY3Il6vAIEVSSO1T0TSpOoTEvfBMQlr2x2xxgNRVQ6cP4aKZIWgdyTydrgBSwmPgALGVW0D8NywhzcBz6ZAwH9JKff2ijQNfqTu/gBsIgsBcn1Qk263qoaZsc6WAwCUdoYpsFIDc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728061607; c=relaxed/simple;
+	bh=BjiMOaBbb0faHgkP9UM7KVpOSCigooWaCDDnmSzqOfs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qNjLBkp1mE8+Fe3TfUdTKe9Rk6z/HJsCkNY43W7GBgAhnaq02SrVJB3m2ix/ZkSV5wOftTfhkf3mtjqi3jPPkydvnKjyHBHhlOn2kTm2jh30g/JKeLsTCCVSt66Jqo7/L/VbSqARgGVvvCbIUvY7FMWkKA8JwycL2ezi6fmNyJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gj5z4rIy; arc=none smtp.client-ip=209.85.166.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OOKkGL3t"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728060750; x=1759596750;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=ZQT59fUULUI8BStaW66UOceK5w2z7QWx5i/1OwJMQSQ=;
-  b=OOKkGL3t0J5zLBmE6E2XYqZ7wnmtKnnAdF6TK9dQzE7vkvpYUbyaSZYB
-   I62S4e7hHTSF4Xbj2MD6ZD4+fEf2vTNu7RDWFMGbC5IJF+q4ghRoInHHd
-   MQkxKG7gE9ejemtnmj+VUFNuEPZ7blkOLocdfCmQOzm4yXRzTCwWm6c38
-   q1yvgNpvpGuF7n0a/MH+emQnV9NhUg26vwDHewL0ZN40cdaFfD8szVHQK
-   t/Bc3Ws3l2ziv6szYGVOnreiFFaHzODQfLaj8UyLBramcnT8X4i3amCYB
-   zBAcylTEuhXWkorlF2Cw1IOY6MCB/G08ltEkd9A+aVdMOYXn63lPUGQS3
-   g==;
-X-CSE-ConnectionGUID: Fz9u3JjXSOyxnwBUXEFx/A==
-X-CSE-MsgGUID: kFKNlyKxS82bVdgycNqe7A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="37858495"
-X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="37858495"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 09:52:29 -0700
-X-CSE-ConnectionGUID: k595nYMcQI6ie5jjcdcU/w==
-X-CSE-MsgGUID: TYTe1wvsQNSBLrNo7XRl5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="74349948"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 04 Oct 2024 09:52:29 -0700
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Fri, 4 Oct 2024 09:52:28 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Fri, 4 Oct 2024 09:52:28 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Fri, 4 Oct 2024 09:52:28 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Fri, 4 Oct 2024 09:52:28 -0700
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.43) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Fri, 4 Oct 2024 09:52:27 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Dmlz0vI84qyp1iQzdbYmdd5a1BZpmjOI8Yn8XdF7DQ/EifwPViXx3+zszcWZGmeDv/i7OL19h4/4pnpFFR+LRQcnyVkaJcJXhxsWapP12eLbTMletU4AO0exrYSeSEm7rJUAZmUsXju/RNoXhXXVyoagkpS05mlGUoF8t+2fXm7EmqiMMZvVP/Ve+dXdHBb3tgBmH7rH4h7IrvEIHRayxwFS8VWPNj79VFhUVWMmYeUzMHgX2zdn3xGIoeh+c/T9l0zwV0fTeMHws4lqQwYG/iDZFXpTzQqzHFbiPUD+aSBL756sJN0fl9yuK0x7Y/oXwldcSb25bZx1Rot1ns0H8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0fBvQxcjZiDXHu8JjRe0lxh8K5XwZdmObh/kdiTWFck=;
- b=DeSnG+AgnJkvrQYA+LpWcVWOdJnxVbvoyyw1ZOa0afiquGSXIRNew8KqtX9C0CWSXjyHwBGuTQ1Nl12Q0lMSo/r75taV2/m8IKKmwJeEWR2Q7mcD1+A6rAekbOi8cA/Fc6tD0atDe7YpvguoTA87HcA+2uu5Y5PHwujJHBbR+/XMymnT4hqrIzbqhKpiRv8jbr5UcG3x3pJWUpfYAY9Kq/jTjzsbwd5eUM7MAPdm1zrWerUtRf/sFE/gHH8n8Ro60QrjZk/dv43U1tFUtyHvhzkUq/UilgA+2NaTbAFfZLO8VPEap19//RdVIJJdCw0rC62Mvdt34xloeMX5nPOwwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by MN2PR11MB4645.namprd11.prod.outlook.com (2603:10b6:208:269::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.19; Fri, 4 Oct
- 2024 16:52:24 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf%6]) with mapi id 15.20.8026.017; Fri, 4 Oct 2024
- 16:52:24 +0000
-Message-ID: <4c212746-6d61-44aa-abc6-2d2155ee538f@intel.com>
-Date: Fri, 4 Oct 2024 09:52:21 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 24/24] x86/resctrl: Introduce interface to modify
- assignment states of the groups
-To: <babu.moger@amd.com>, <corbet@lwn.net>, <fenghua.yu@intel.com>,
-	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>
-CC: <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-	<rdunlap@infradead.org>, <tj@kernel.org>, <peterz@infradead.org>,
-	<yanjiewtw@gmail.com>, <kim.phillips@amd.com>, <lukas.bulwahn@gmail.com>,
-	<seanjc@google.com>, <jmattson@google.com>, <leitao@debian.org>,
-	<jpoimboe@kernel.org>, <rick.p.edgecombe@intel.com>,
-	<kirill.shutemov@linux.intel.com>, <jithu.joseph@intel.com>,
-	<kai.huang@intel.com>, <kan.liang@linux.intel.com>,
-	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
-	<sandipan.das@amd.com>, <ilpo.jarvinen@linux.intel.com>,
-	<peternewman@google.com>, <maciej.wieczor-retman@intel.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<eranian@google.com>, <james.morse@arm.com>
-References: <cover.1725488488.git.babu.moger@amd.com>
- <68c8ef0592c653c5b99cd26d982966cd4a41cb31.1725488488.git.babu.moger@amd.com>
- <faf50d1f-d3c1-4a9b-a87f-4598e88dc9a1@intel.com>
- <c43171f4-48c6-b6c3-d71e-1f23367932d7@amd.com>
- <1d987ed1-0065-4e4b-a719-65af93907974@intel.com>
- <ca7b1d14-e37d-5f0d-9371-32d8506e51eb@amd.com>
- <cd2d835b-cc63-4416-b0ee-20334b9b43dd@intel.com>
- <3b6a8ec9-5e4f-e4ff-cd01-96ecc366565a@amd.com>
-Content-Language: en-US
-From: Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <3b6a8ec9-5e4f-e4ff-cd01-96ecc366565a@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4P222CA0002.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:303:114::7) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gj5z4rIy"
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-3a1a662a633so7375ab.1
+        for <linux-doc@vger.kernel.org>; Fri, 04 Oct 2024 10:06:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1728061605; x=1728666405; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=H6cu0/usr2tJa4vPbaqm37ZxgrIgWX+DZr/8ABHb5Pg=;
+        b=gj5z4rIyOyRyAXbqPZWbhSX2yvMCkAWjN3h4rPTxJruWjLP8LhuYwYC1mFdHWJBE81
+         vbNCpO8uIWyYg1B1mMPg7h5f8wXO6VvnpRAqUibA+9W8B0XyKDsMEABkgUBgLJ1QumVn
+         Z7v2Dblc/iXgsAJNJr1LgR13J6lEJcbvj2OzgiBo24kbhJjTU+cYxTqN8s7zXbfq8sU/
+         /6QJduLy19AIFaWOZECTzfaanppfRJIou11SM39yq1EgZctZ+BUrFpQzVYAkgRZ/tPz6
+         MLs1lz4xh9I/X3G2RotLeMfiJTzgzhzUAUZErD8X0rP6FwU2a/1KjkgmpmhPEMcMaAw8
+         QJrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728061605; x=1728666405;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=H6cu0/usr2tJa4vPbaqm37ZxgrIgWX+DZr/8ABHb5Pg=;
+        b=Yz0IAtAckGlxO/fbCqZGDGBoYKQQY7BIh0jAOnUPEyvXINARLeTie6FDeJxs5ef+m2
+         e4R65wC9dmn9tMXFq5x5hCP237ylcC+aQRYgpv3WtvUv+NJ0QYyrmaDgCFxWcfYWDn4y
+         aiwnw71hG+3/QS2Wo8Ycz4OofPwrWN9oS7i0aemU/rt6CJm+kI8MgIZbp18XCrNLzARS
+         ayMGqgUj/bDv2FPph5cu7ucaHtnx02iufMDvc0X0HXDBazYMJ7jjSxDcWX5qrB/oP2dW
+         +Gj1o924pMCQ6cnucdl/x6y9z2YWokpGM9dAVrg6F6HyJYwBkoACoaa7+DeYLjWl9Hnu
+         4aGg==
+X-Forwarded-Encrypted: i=1; AJvYcCXYAOKjaQo9qoW3Fy7YDUVYZcIXP2M5dgBwMGTPfb157IPY0ERRahr4QAFGCWdJkKX6HFSn2nsc130=@vger.kernel.org
+X-Gm-Message-State: AOJu0YywW2zko3LWBhOW+x9jYtNPNMeDgjYcYHg0ILXtPdL6AIwp15Vk
+	7eQZiRCJxVvsAi8Hc7IfMhkCmejg3mdDvQf6rSwidxTfKrmYl9vp7smJp+/CQvpTPb6aYmIX61m
+	e84grHTggYBul0nrSzzq2SgGw5fzSlTj5uv9s
+X-Google-Smtp-Source: AGHT+IErDf6Ln07o0AdPteE4Z2MSQLZR5z2/ayMLVov/t1OUkBR776jawppVTTQuFQ07+1/nFJ6gPgMV9aMQcWHF+14=
+X-Received: by 2002:a05:6e02:154f:b0:3a0:a3cd:f23d with SMTP id
+ e9e14a558f8ab-3a3767de7e9mr3340835ab.5.1728061604302; Fri, 04 Oct 2024
+ 10:06:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|MN2PR11MB4645:EE_
-X-MS-Office365-Filtering-Correlation-Id: 11087002-7d22-4657-9825-08dce494ebef
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bXBGTFZjTURSd1pIcDNTRG5XYldOUFpjb3RvTHhVWG9sWG1ueVJuTU8vY0dn?=
- =?utf-8?B?bjM3RUZaVUNsZGYxbWlwVFFjalREeVkzQW1zVTNDQXE3VEpsU0IvRkl6T3JM?=
- =?utf-8?B?WS9YTHgxMGMvMnlKNDJYMXY3YmpPT0hkUG1aTVNucG5STFVXMUtVWVVvMnpU?=
- =?utf-8?B?NUg0UUZhM0N5M05Gc1A1UUxqNEVNZGdFbzRoazdBc0o0bi9ocU0xVzZrNEZJ?=
- =?utf-8?B?SEpDNXJSVUNpbElZNVdScnZUdDZXRzZZODNmbVc3QUE3U2pMUTlJSUoxTnk3?=
- =?utf-8?B?dHJjbytSYStlZllXekZRUHZqM1pJMlA0NFJLWHhJM1Ewemw1L05zVGpGQU5F?=
- =?utf-8?B?dkk2QitueU1OSHZXSit4L3BIdXgvWnVDY1phaVNLVlFmcENrTk1odWYzSHcr?=
- =?utf-8?B?YXpjeExDVk9mOWtaM0dhdFhNOTRwK0lpazZwalJqUCt6RkJuVzFWOFJnaklP?=
- =?utf-8?B?alBaa0Z5V3YrM3doOURUYWNQNHZlajJEMlk1WnhhU0x3K1F3cUxOYWhmaFJr?=
- =?utf-8?B?YVdRQm9JWTlodVhlQkZ3WmdFeG16L1FWU3YxOUE5cjI2SHFLMVJwS0x5SnI1?=
- =?utf-8?B?SFJrUTFKY2dpNXlBUGlObXFJQzdKQjJsY2pFM2NEOW45NE5HRGpWdTF6WndH?=
- =?utf-8?B?VFJDeEFPaktMTE16RHB6bitKeGg2UlRSMmY2T1UvUlFVa0dUQkhueU5Menht?=
- =?utf-8?B?d1NZMmVsRmRFWFllckdSa29wUVVoY3lqT29taVl1Skc4NmlSKzJnK1Y3SVFt?=
- =?utf-8?B?OFRYSHN5bDZSdUMyRlV0K25raTJjNGMvcVVnbHRnQlVKTkpuZXFoRnBuSEpi?=
- =?utf-8?B?K2xEVUova0dRdFNObmJZeTFUMlQyUjJZdE5GQkhJUUIrSkFnYmQ0SGFQa29a?=
- =?utf-8?B?aExHcWdsK2dlNStuK21nSFZlMWlOMUhBeUcvVCt5NnRvWW9uaUxWaTdKN0FI?=
- =?utf-8?B?Z0lzditPbWYra2hKSnprVlhBYTIxL3NsVXB2aG40K1YvRmRyMk1iR2tYYSth?=
- =?utf-8?B?Q0JZZjZtUGhQeWZTcGNqQ3JsVUlqcGF3WEZOWlkraGxqeDhYRjBHYkFkbXVz?=
- =?utf-8?B?NDl5ZzdFVlphS2J5SlBTTW5iYUtHaktJOXRldm1JSXY5bG81NVdEWjVUMnha?=
- =?utf-8?B?aUxBcVpUSGdXUXFtR2REVzRKaHZIYTlrWHRBekgweitMTys1N2UrSnVvUHRS?=
- =?utf-8?B?eWg0Zy9kTTgvVGcyeVlzTHFNbUFiclhqSkRiZVl5Q2FkT1ZtQW15M3Vva053?=
- =?utf-8?B?eEc2aVVsbWVpazNhSjZKaDE4R0RlcThyNDJ1Q1FwQ09ZSWJvT2pxeWUvU2RZ?=
- =?utf-8?B?TmtjWmZvckNuajRFSndwSGNwbDd0eG4vTlZCRnhiZjd0RzJGTVkycENjNjJH?=
- =?utf-8?B?T09PZGg3czYwNEZyZEFjL29Udkw1SmZQaUUrYmhGbWtNK3p6cEhOdWNSWlFB?=
- =?utf-8?B?Y1JCbVFQdVdJTXJWY3N4dDcyTnRMejlERXFwSmxnUnpqdDBKMFN5eFp2VEtW?=
- =?utf-8?B?R2swTUZSUDIrNWhpeGlVSE9lK1NVZnVZUnY0bWNDVE1HaG51emRhaGJuWFVV?=
- =?utf-8?B?Z0dZa0l3RTJrb0RrRVdrUzlaYkZuRk9vM3JWQlh4NXlaZUtHQTVzQU9hcFZy?=
- =?utf-8?B?bFZtY1RxZ0Y2cmo2TjlYMVZiazlaUzJGeE00MFBjb3kzV1NrZ0JiYkVpRHRB?=
- =?utf-8?B?TmpTSldVMnQwckFVUmlPSE8xdEdMV04rZkd6TkhhcXQ0TTAwVlFXUWp3PT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aDNGU0FMcHIybG5iRmRscE9LMHB0MUg0SDRXVzRLTHNMekpzQU5PTElFbGxX?=
- =?utf-8?B?dS9mUldkWDJ5Tk5QRFg3VTFrcTJVWmtPQll2RVVjanU1RG5oMFI1OFdTWUFj?=
- =?utf-8?B?N0JQTm0rUWIrNzlqMFFqWEduZWRFQUQra3NVRzFPeVNxbTZCWkJ3SGRzMEFi?=
- =?utf-8?B?Rk0rUmhoWittKy9BZFZxajltTDR2eFQ1eSs5MHJ2UUU4TmF4bnphQVU2TWtW?=
- =?utf-8?B?eGIyUTg1emNodFRta0ZWLzNLYzRXbkptNld0ZEV0bXkrT2xzL0hla1hZSTln?=
- =?utf-8?B?eHhnK1Fhb3Exd2FITDFVVHVYWG1zVnlaUHFJc1VTTkN0NENNNHVjVW9ZazNw?=
- =?utf-8?B?djhzeG05TXhQTXhTQ0gxcHFsditXZ1ZiVmhVY09iNEU1WUtuWjFHTTc1N2Fn?=
- =?utf-8?B?bC9TSExCVThjeDdEeG4vL0l6UllFUFR6R25IRDFxTEVzekFJNm1DWGsyRGo3?=
- =?utf-8?B?MTl1MkZRM1VJVURweWhMZ01qTnBKbmlDTXFmbTI0R2lISXZ3ZkhmeU9ZYzFh?=
- =?utf-8?B?RDlSSS92ZnduS3BycVNRWWVmc2RKRHgvREdJYlRsMXZVZDh3UE93bkZ4cmZP?=
- =?utf-8?B?TlpKUmxiQlh4MG1zbmt0WE9QZ3B0UmlCc1dNUW03OUp3ODBtbkpYcVNjckF3?=
- =?utf-8?B?cXNjRVVpU3pkT3NYTVdMWFJaWlJPK3ZSZVF6QytrZi85SnoxRHBUUEJXejJM?=
- =?utf-8?B?U29TSHdlLzI3Mm4ra1NZU2FRREVXOG9yTEF2U0NpWFpEUVZ4SmZJcmpud0dI?=
- =?utf-8?B?SWZUU2hXMm9ObVE4M2tQY1BTbGVadTI2a3o1S1p6c00xVTdNNHVCcXZ6NDJ5?=
- =?utf-8?B?WjdZRUdET3l1MEdVcUo0VGIybndObXpyVXdlZXlPU0FVVkRoMnY0STgyeko1?=
- =?utf-8?B?TWtMTDQrbGhrQXliRGNoNWNNaEFXS1UzZjJ6TFJzbVVJK0hvY3plU0I3WVFF?=
- =?utf-8?B?d0FqaTJhb1F2RENFTFhlaTIxZFNRQjhBSVdxcVNTSkoycGxtZFJWZXhxdHJl?=
- =?utf-8?B?Rllad0ZrdFhydXdDQTg1d21FUlFxdTZuSThLUUJqYTdyYTc2TWNxMVBNRTFj?=
- =?utf-8?B?SWhjdmFhbXJkQWZNbW1UbklIZWxoNnp1SnNUNDVxOU5uemlsMXpSY0FzQXBi?=
- =?utf-8?B?eGhnSDRlTnFLSWRFcHdVZDExWGtGMldoZkp4UG43ejVvdVRIUHpud01OL0M3?=
- =?utf-8?B?VFVoWTkrejdsYWNqa1FNVWJnMDVNNkV3aG9lSjlGNHh2aUtGL0xyT0l2Y3k5?=
- =?utf-8?B?VjgrSkQ3V3NpeC92QkgzUWpxSUhKYW16N2lkUEpmU21qUVpQZFVNYUhSRU5I?=
- =?utf-8?B?aHVLSVlBbm00MGJRa0J2VDBuOFhHcUZyY3JBdng2Q2dENzVIWmtiLzVITHBO?=
- =?utf-8?B?bGhEejZ6bUZiWXZ1U1FvV0Z4SzQvQjNVKzJJZCs2WTNheXRBK3YxQmhvVGg5?=
- =?utf-8?B?TWFuTTcxWThwWTNUTXkrbzRFVTRWUWZKcHpibm5QSUVZejNPdzhFNHVOVmVy?=
- =?utf-8?B?OHU2c0ZIRVZpQ0FVWDdwb1VZYkxOQlVCOWlFbkhqZ3h2U25lQld6ZHl5Ykw4?=
- =?utf-8?B?a0VnSmdpS3Byb1ArdXVzeTlvMTZwcml1MS9KZFM4WXlIbThlNWJaR2lLNkxn?=
- =?utf-8?B?dFVqSmZ0ZzV4cjVDVE95S1l6QW1FT2d6VE9GQ3V0eHdsMU96SXg3TXl6Q0M2?=
- =?utf-8?B?NHBKUHJ1R2JoRVdod3Z4MWdLT0JRdXFreWlYUkNlK2ZmdlM4b0FuYlNLeVFn?=
- =?utf-8?B?L3ZlU0ZBTzRpN2F4eXRjWkw1VDNpeDdHelpwdlQ5U0k4QXVjSW5QMmVuN1M1?=
- =?utf-8?B?UjN0T0Q4QS94cmZRdUFjeHUrV09tTTBLZ2c4bHF3MUphdWQ5UGdmN1AxNU5V?=
- =?utf-8?B?b1BRakhRRkE0SmtDMGF3blhLRWdkdEh2UlB5R3MyKzRyUjFIN1lOL1MwRE0v?=
- =?utf-8?B?ZzY1R3BrSTJCRzJQV2NBaXRzOXpQeU9GZHNLbGZvWDZES0Mxd2JkeFlNNWpN?=
- =?utf-8?B?WVU2L01IT1VxNnFMWHJPWWVVNkROcTVsNFhEU2I2WUhqa04xMkQwSXdhRHB4?=
- =?utf-8?B?aVNGZG8xcTFkVUpsbWlZOHZPZmVVaUtsTDBGbGtnK2QxOTNrNmdUeEt3K1R3?=
- =?utf-8?B?eDByWHBEbTR4ampXWExZNnVBNVl0bDRFVXhleGxEdTNvQldLYm1uMFVYc3Rl?=
- =?utf-8?B?dEE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 11087002-7d22-4657-9825-08dce494ebef
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Oct 2024 16:52:24.5626
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KxQIDn6UCbQyEjpJf30mlBk+UMMIPe1a0YaG9Whm+lR6pdcNR/12MLcBHXjOoTQQAzwV2byN2Uvg72VuI91SVUGcNZNU2JEE5ZQ1DlVDN4Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4645
-X-OriginatorOrg: intel.com
+References: <20241002233409.2857999-1-xur@google.com> <20241002233409.2857999-2-xur@google.com>
+ <20241003154143.GW5594@noisy.programming.kicks-ass.net> <CAKwvOdnS-vyTXHaGm4XiLMtg4rsTuUTJ6ao7Ji-fUobZjdBVLw@mail.gmail.com>
+ <20241003160309.GY5594@noisy.programming.kicks-ass.net> <CAKwvOd=CRiHitKeYtHH=tmT8yfDa2RSALbYn5uCC8nRq8ud79g@mail.gmail.com>
+ <20241003161257.GZ5594@noisy.programming.kicks-ass.net> <CAF1bQ=RAizpP-T_sRGpE2-Kjsk_RZD3r_iz_dpn25W+uDzpWOw@mail.gmail.com>
+ <Zv-Fy4hnuscnLH1k@kernel.org> <CAF1bQ=S8Hg0FUThaDU0snVqerVos6ztzVvN6sm1Ng3FnTpJt_A@mail.gmail.com>
+ <ZwAZPklXayA1gbQw@kernel.org>
+In-Reply-To: <ZwAZPklXayA1gbQw@kernel.org>
+From: Rong Xu <xur@google.com>
+Date: Fri, 4 Oct 2024 10:06:30 -0700
+Message-ID: <CAF1bQ=Q=nnoq4jfLWMK8S_uUuTZncRT1K8af_-yBWTU1R_=uaQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] Add AutoFDO support for Clang build
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Han Shen <shenhan@google.com>, 
+	Sriraman Tallam <tmsriram@google.com>, David Li <davidxl@google.com>, 
+	Krzysztof Pszeniczny <kpszeniczny@google.com>, Alice Ryhl <aliceryhl@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>, 
+	Brian Gerst <brgerst@gmail.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>, 
+	Jann Horn <jannh@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, linux-arch@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Samuel Holland <samuel.holland@sifive.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, x86@kernel.org, 
+	"Xin Li (Intel)" <xin@zytor.com>, Stephane Eranian <eranian@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Babu,
+On Fri, Oct 4, 2024 at 9:38=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wrot=
+e:
+>
+> On Fri, Oct 04, 2024 at 09:28:36AM -0700, Rong Xu wrote:
+> > On Thu, Oct 3, 2024 at 11:09=E2=80=AFPM Mike Rapoport <rppt@kernel.org>=
+ wrote:
+> > >
+> > > On Thu, Oct 03, 2024 at 11:20:17AM -0700, Rong Xu wrote:
+> > > > Writing the doc with all these code-blocks was not fun either.
+> > > > We are happy to change if there is a better way for this.
+> > > >
+> > > > -Rong
+> > > >
+> > > > On Thu, Oct 3, 2024 at 9:13=E2=80=AFAM Peter Zijlstra <peterz@infra=
+dead.org> wrote:
+> > > > >
+> > > > > On Thu, Oct 03, 2024 at 09:11:34AM -0700, Nick Desaulniers wrote:
+> > > > >
+> > > > > > > It makes it absolute crap for all of us who 'render' text doc=
+uments
+> > > > > > > using less or vi.
+> > > > > >
+> > > > > > "It hurts when I punch myself in the face."
+> > > > >
+> > > > > Weirdly enough I have a job that entails staring at text document=
+s in
+> > > > > text editors all day every day :-) sorry for thinking that's a sa=
+ne
+> > > > > thing to do.
+> > >
+> > > Something like this should do:
+> > >
+> > > > +- For enabling a single file (e.g. foo.o)::
+> > > > +
+> > > > +        AUTOFDO_PROFILE_foo.o :=3D y
+> >
+> > Do you mean we don't use ".. code-block:: " here and just use indented
+> > text separated with blank lines?
+>
+> The double column (::) in the end of a paragraph means that the next para=
+graph
+> is a literal block:
+>
+> https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#l=
+iteral-blocks
+>
+> You'd loose the coloring, but other than that it won't be different from
+> the ".. code-block::" and easier to read in a text form.
 
-On 10/4/24 9:38 AM, Moger, Babu wrote:
-> Hi Reinette,
-> 
-> On 10/3/2024 9:17 PM, Reinette Chatre wrote:
->> Hi Babu,
->>
->> On 10/3/24 6:11 PM, Moger, Babu wrote:
->>> Hi Reinette,
->>>
->>> On 10/2/2024 1:19 PM, Reinette Chatre wrote:
->>>> Hi Babu,
->>>>
->>>> On 9/27/24 10:47 AM, Moger, Babu wrote:
->>>>> On 9/19/2024 12:59 PM, Reinette Chatre wrote:
->>>>>> On 9/4/24 3:21 PM, Babu Moger wrote:
->>>>
->>>>>>> v7: Simplified the parsing (strsep(&token, "//") in rdtgroup_mbm_assign_control_write().
->>>>>>>        Added mutex lock in rdtgroup_mbm_assign_control_write() while processing.
->>>>>>>        Renamed rdtgroup_find_grp to rdtgroup_find_grp_by_name.
->>>>>>>        Fixed rdtgroup_str_to_mon_state to return error for invalid flags.
->>>>>>>        Simplified the calls rdtgroup_assign_cntr by merging few functions earlier.
->>>>>>>        Removed ABMC reference in FS code.
->>>>>>>        Reinette commented about handling the combination of flags like 'lt_' and '_lt'.
->>>>>>>        Not sure if we need to change the behaviour here. Processed them sequencially right now.
->>>>>>>        Users have the liberty to pass the flags. Restricting it might be a problem later.
->>>>>>
->>>>>> Could you please give an example of what problem may be encountered later? An assignment
->>>>>> like "domain=_lt" seems like a contradiction to me since user space essentially asks
->>>>>> for "None of the MBM events" as well as "MBM total event" and "MBM local event".
->>>>>
->>>>> I agree it is contradiction. But user is the one who decides to do that. I think we should allow it. Also, there is some value to it as well.
->>>>>
->>>>> "domain=_lt" This will also reset the counters if the total and local events are assigned earlier this action.
->>>>
->>>> The last sentence is not clear to me. Could you please elaborate what
->>>> you mean with "are assigned earlier this action"?
->>>>
->>>
->>> I think I confused you here. "domain=_lt" is equivalent to "domain=lt".  My reasoning is handling all the combination in the code adds code complexity and leave it the user what he wants to do.
->>
->> hmmm ... and how about "domain=lt_"? Do you think this should also be equivalent to
->> "domain=lt" or perhaps an expectation that counters should be assigned to the two events
->> and then immediately unassigned?
-> 
-> Yes. "domain=lt_" should be "domain=lt".
-> 
->>
->> Giving user such flexibility may be interpreted as the assignment seen as acting
->> sequentially through the flags provided. Ideally the interface should behave in
->> a predictable way if the goal is to provide flexibility to the user.
->>
-> 
-> My only concern is adding the check now and reverting it back later.
-> Basically process the flags sequentially and don't differentiate between the flags. I feel it fits the predictable behavior. No?
+Sorry that I did not notice the (::) in your suggestion.
 
-This is the point I was trying to make. If flags are processed sequentially then it would be
-predictable behavior and if that is documented expectation then that should be ok. The problem
-that I want to highlight is that if predictable sequential processing is the goal then
-"domain=_lt" cannot be interpreted the same as "domain="lt_". When flags in "domain=lt_"
-are processed sequentially then final state should be "domain=_", no?
+This is great. I'll change the docs in this patch to use this method.
 
-If sequential processing is done then "domain=_lt" means "unassign all counters followed
-by assign of counter to local MBM monitoring, followed by assign of counter to total MBM
-monitoring". Similarly, "domain=lt_" means "assign a counter to local MBM monitoring, then
-assign a counter to total MBM monitoring, then unassign all counters".
-
-If this sequential processing is the goal then the implementation would still need to be
-adapted. Consider, for example, "domain=lt" ... with sequential processing the user
-indicates/expects that "local MBM monitoring" has priority if there is only one counter
-available, but the current implementation does not process it sequentially and would end up
-assigning counter to "total MBM monitoring" first.
-
-Reinette
- 
-
+-Rong
+>
+> > -Rong
+>
+> --
+> Sincerely yours,
+> Mike.
