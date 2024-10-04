@@ -1,126 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D407E1E3795;
-	Fri,  4 Oct 2024 16:38:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836521CACD9;
+	Fri,  4 Oct 2024 16:41:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728059924; cv=none; b=WqsS/35RMxRD9EpkvD2rNA3+0YaOjnKo6X7RvHrd2N6OwUl+DFcowkslKqyO2XoSGh1B10nzI1JfvsBqAj3sSWvIykGz3heJwzVigjRQcHLGLjPb38vLJhDahSvmxVD81i5vGXpHkKGW1xas/vXa4vvkV/dNEL7PTn1fUnmoBj4=
+	t=1728060062; cv=none; b=sju+482k4gEv/C1OaLvk6DdP+zizIiQKseoS5MeJSkQyXp6JuJcdrzxRV9gZWFCfC9jPZc1G5o7UwigMqcPjXMUUgqZgtjr8zHXiIizIZn4sElGIxMyD8ze3b78q5fhHQXgxqcEJVhrWA4NcXkAsEBkn+VLHVXyy15VRHn/BhPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728059924; c=relaxed/simple;
-	bh=EixHNaPPAkeoDcpdBs00MRfg/QdKJO3PxpRNIrzAAoo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FaSDGU0Wy/eJL5mnEoZyMyGYW/gOoIYu0ACgo/F+Zrm4fpg9wB0wKfMkezSu9Z0SNJeudwWtjIM2lILP9EJHOv6SEM3Dkyrxg9UGn9FQaBjWej24xaJ1usaOTNwLgcK0T2eU/JqXCHAKNzkVPvfgI4QquflzgARCyczO67f+EGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r+QEy5UQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728060062; c=relaxed/simple;
+	bh=cW6o8k7+XVR348Ey8E9O9uFb7YnIrhTusMcLksIwmmI=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=t3txVS2GGNelML1yqMJ0XSuNxsLRbs48j6UENb8un9o1WMcTrz9Z5os7LgsBW/bqvBfhPNauBS3I15vqchRj4vRvEXS0OjsDnBAodbR/j5li04yOjwk3R8OOV8+7E1Cm6rLQqeVrkU/as11L0g4Wg/kkqzl6MC7O9v5vcCRGKt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=N4XAVk1+; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r+QEy5UQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95FC1C4CEC6;
-	Fri,  4 Oct 2024 16:38:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728059923;
-	bh=EixHNaPPAkeoDcpdBs00MRfg/QdKJO3PxpRNIrzAAoo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r+QEy5UQZ7GlHaUwc+RkIpxbgzDi3nb6zoGk7fJWELHNOVn/a6kqYoqhwYTjjtUtA
-	 HLN173WN7VQ9r/4cXKND2OaXnBiWj3isq+OvQ/2tKN+G1LbJKzzCSdPkqEARtSquq8
-	 S0pbWPN7erj8u6mqJ9HQMZI6g563nX4W7ObXkwLnrq69CzLFx9QtyJQM8p/ViyHzEi
-	 cKxlzoUaN0C66zzItaSS/hLhTkUhON+6Kvb4OfJvi7TFi3QL4RlsTcFEHjQV3yfZIn
-	 wK4ar2G90hKokxv4b5g19gdgrWBvs+RjT57QFt3pEt4S0Vi7LGsHYQ0JngDFMUyYoT
-	 u8hYo/RMJlkrg==
-Date: Fri, 4 Oct 2024 19:35:10 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Rong Xu <xur@google.com>
-Cc: Peter Zijlstra <peterz@infradead.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Jonathan Corbet <corbet@lwn.net>, Han Shen <shenhan@google.com>,
-	Sriraman Tallam <tmsriram@google.com>,
-	David Li <davidxl@google.com>,
-	Krzysztof Pszeniczny <kpszeniczny@google.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>,
-	Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>,
-	Brian Gerst <brgerst@gmail.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-	Jann Horn <jannh@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
-	Juergen Gross <jgross@suse.com>,
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev, Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org,
-	x86@kernel.org, "Xin Li (Intel)" <xin@zytor.com>,
-	Stephane Eranian <eranian@google.com>
-Subject: Re: [PATCH v2 1/6] Add AutoFDO support for Clang build
-Message-ID: <ZwAZPklXayA1gbQw@kernel.org>
-References: <20241002233409.2857999-1-xur@google.com>
- <20241002233409.2857999-2-xur@google.com>
- <20241003154143.GW5594@noisy.programming.kicks-ass.net>
- <CAKwvOdnS-vyTXHaGm4XiLMtg4rsTuUTJ6ao7Ji-fUobZjdBVLw@mail.gmail.com>
- <20241003160309.GY5594@noisy.programming.kicks-ass.net>
- <CAKwvOd=CRiHitKeYtHH=tmT8yfDa2RSALbYn5uCC8nRq8ud79g@mail.gmail.com>
- <20241003161257.GZ5594@noisy.programming.kicks-ass.net>
- <CAF1bQ=RAizpP-T_sRGpE2-Kjsk_RZD3r_iz_dpn25W+uDzpWOw@mail.gmail.com>
- <Zv-Fy4hnuscnLH1k@kernel.org>
- <CAF1bQ=S8Hg0FUThaDU0snVqerVos6ztzVvN6sm1Ng3FnTpJt_A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="N4XAVk1+"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 494A4gkf031989;
+	Fri, 4 Oct 2024 16:40:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=+DwclTRQXi12Iy/IFCIuX6
+	KK+qMJ7HYg0Ca6ffeDp2A=; b=N4XAVk1+AGEv9DY+5EE9W7iMeRMW6H6nKcJtWd
+	aar9Dx2XjBvGzQMGseZ/KCOZMocAWeGqzbQ1alMiLqLrzVho0LeqmR79XfJN3FtM
+	AVuxl5LVpM2nYNIrJqDyV4gmVXgI1MvGjdPwbIlmbGuet3kA322H53Q5w75y8PEW
+	b4C1M0U+Yf7B/eLAX01eyYK0ULLxFpfFXBM30tM14mW5q9HouLJFRjGCJs1OQ4aO
+	hse1UlRqIltOEl8FzyApsC6IyVGWpTAVb99O7j92RHT9GczaHgGeyytyF3bTGwhO
+	yr8JgCeA59o1bqUP/W41nIGv21bH4fVQfw7cBwhfvRAspOCg==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42205f2pw8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 04 Oct 2024 16:40:55 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 494GesWQ026237
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 4 Oct 2024 16:40:54 GMT
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Fri, 4 Oct 2024 09:40:54 -0700
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: <quic_carlv@quicinc.com>
+CC: <ogabbay@kernel.org>, <corbet@lwn.net>, <linux-arm-msm@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>,
+        <jacek.lawrynowicz@linux.intel.com>,
+        Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: [PATCH] accel/qaic: Add ipc_router channel
+Date: Fri, 4 Oct 2024 10:40:33 -0600
+Message-ID: <20241004164033.3825986-1-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF1bQ=S8Hg0FUThaDU0snVqerVos6ztzVvN6sm1Ng3FnTpJt_A@mail.gmail.com>
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: LGR06R6LCh_XdSeJB5k_XYpJp4cJJY3d
+X-Proofpoint-ORIG-GUID: LGR06R6LCh_XdSeJB5k_XYpJp4cJJY3d
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
+ mlxlogscore=999 priorityscore=1501 phishscore=0 bulkscore=0
+ impostorscore=0 clxscore=1011 lowpriorityscore=0 spamscore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410040115
 
-On Fri, Oct 04, 2024 at 09:28:36AM -0700, Rong Xu wrote:
-> On Thu, Oct 3, 2024 at 11:09 PM Mike Rapoport <rppt@kernel.org> wrote:
-> >
-> > On Thu, Oct 03, 2024 at 11:20:17AM -0700, Rong Xu wrote:
-> > > Writing the doc with all these code-blocks was not fun either.
-> > > We are happy to change if there is a better way for this.
-> > >
-> > > -Rong
-> > >
-> > > On Thu, Oct 3, 2024 at 9:13 AM Peter Zijlstra <peterz@infradead.org> wrote:
-> > > >
-> > > > On Thu, Oct 03, 2024 at 09:11:34AM -0700, Nick Desaulniers wrote:
-> > > >
-> > > > > > It makes it absolute crap for all of us who 'render' text documents
-> > > > > > using less or vi.
-> > > > >
-> > > > > "It hurts when I punch myself in the face."
-> > > >
-> > > > Weirdly enough I have a job that entails staring at text documents in
-> > > > text editors all day every day :-) sorry for thinking that's a sane
-> > > > thing to do.
-> >
-> > Something like this should do:
-> >
-> > > +- For enabling a single file (e.g. foo.o)::
-> > > +
-> > > +        AUTOFDO_PROFILE_foo.o := y
-> 
-> Do you mean we don't use ".. code-block:: " here and just use indented
-> text separated with blank lines?
+The ipc_router channel allows AF_QIPCRTR clients and services to
+communicate with the AIC100 device. The ipc_router MHI transport layer
+expects the channel to be named exactly "IPCR".
 
-The double column (::) in the end of a paragraph means that the next paragraph
-is a literal block:
+Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
+Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+---
+ Documentation/accel/qaic/aic100.rst |  2 ++
+ drivers/accel/qaic/mhi_controller.c | 32 +++++++++++++++++++++++++++++
+ 2 files changed, 34 insertions(+)
 
-https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#literal-blocks
-
-You'd loose the coloring, but other than that it won't be different from
-the ".. code-block::" and easier to read in a text form.
+diff --git a/Documentation/accel/qaic/aic100.rst b/Documentation/accel/qaic/aic100.rst
+index 590dae77ea12..273da6192fb3 100644
+--- a/Documentation/accel/qaic/aic100.rst
++++ b/Documentation/accel/qaic/aic100.rst
+@@ -229,6 +229,8 @@ of the defined channels, and their uses.
+ | _PERIODIC      |         |          | timestamps in the device side logs with|
+ |                |         |          | the host time source.                  |
+ +----------------+---------+----------+----------------------------------------+
++| IPCR           | 24 & 25 | AMSS     | AF_QIPCRTR clients and servers.        |
+++----------------+---------+----------+----------------------------------------+
  
-> -Rong
-
+ DMA Bridge
+ ==========
+diff --git a/drivers/accel/qaic/mhi_controller.c b/drivers/accel/qaic/mhi_controller.c
+index ada9b1eb0787..8ab82e78dd94 100644
+--- a/drivers/accel/qaic/mhi_controller.c
++++ b/drivers/accel/qaic/mhi_controller.c
+@@ -405,6 +405,38 @@ static const struct mhi_channel_config aic100_channels[] = {
+ 		.auto_queue = false,
+ 		.wake_capable = false,
+ 	},
++	{
++		.name = "IPCR",
++		.num = 24,
++		.num_elements = 32,
++		.local_elements = 0,
++		.event_ring = 0,
++		.dir = DMA_TO_DEVICE,
++		.ee_mask = MHI_CH_EE_AMSS,
++		.pollcfg = 0,
++		.doorbell = MHI_DB_BRST_DISABLE,
++		.lpm_notify = false,
++		.offload_channel = false,
++		.doorbell_mode_switch = false,
++		.auto_queue = false,
++		.wake_capable = false,
++	},
++	{
++		.name = "IPCR",
++		.num = 25,
++		.num_elements = 32,
++		.local_elements = 0,
++		.event_ring = 0,
++		.dir = DMA_FROM_DEVICE,
++		.ee_mask = MHI_CH_EE_AMSS,
++		.pollcfg = 0,
++		.doorbell = MHI_DB_BRST_DISABLE,
++		.lpm_notify = false,
++		.offload_channel = false,
++		.doorbell_mode_switch = false,
++		.auto_queue = true,
++		.wake_capable = false,
++	},
+ };
+ 
+ static struct mhi_event_config aic100_events[] = {
 -- 
-Sincerely yours,
-Mike.
+2.34.1
+
