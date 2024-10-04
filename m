@@ -1,135 +1,166 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B1E2141B2;
-	Fri,  4 Oct 2024 14:10:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6976E2141A6;
+	Fri,  4 Oct 2024 14:12:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728051049; cv=none; b=RtvNfiCtsw5uUZY7vSYyRuqoVb6qzY03gBoj+9Sab/jp/qnUzyvLADi0Sgirhwct9QCSIBE6pyOx5Ld7+kwuLDAI+2VZpSB2nSjZU8u4BtLeAH0APM7Y6Iz7qfih6Hrp9L3zQFWKVoGMfnpSSHVmBPf8w5fzWtOuievhthoDtxc=
+	t=1728051125; cv=none; b=kBHxeaJXFYWm3bkmFBhpHBDlm3MvjyZ0GvN7qQmOI+Orz3LpGCPL5nwtMCxXCb9xz+TOyqETVxPS6ao5RrwEHRbIhiSKC8EW1XOoMkaYsJs9HF67TBmtNzUheHTu+n2/EeMg+1erIrdP8yiaeMZng88YpFNAIAA7V6gGFTW/33I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728051049; c=relaxed/simple;
-	bh=j5AlOQD2VWaaQ/2ZWxDwdHfV7PX7fB/Ru+TjZs8F8dQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DJPkqkX/wNZ1yh/z7tvL+GLz8b6auqtjhsGIkrk8PIfMfeg1jrg2w4U3GatbrUaSnkcP81viG3yKdXQP8F2wMOGgl2IuM4Hoku/GbpZVAVfu5zc5bAffnqJPIyr6Wac+rWxiLwtVxPmS7J4zh/3y1zubvYIlRGASMWiPkXyU7H0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=buTDvLSk; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1728051125; c=relaxed/simple;
+	bh=JdjbWCNs9HSDwNomcMZLr1gtlmkTXlP0362CHD3PlNM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CxaINnGr9+a/+V41a6BYhK5LpbwH8JN/69shtMGMNeSIOx1fqwMw29UNZjmP8oFCz8MZEpXYhsU7eRmw0peqk66SsGQmofc2D7tm6FSYg9w8uFvOGEIjLwBunCzlEigcoqp/jjyHTLwZEd74f0Y8TMVC3O1Moj8CfwjD3GuMBVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C+KUJA/r; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="buTDvLSk"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A4FD4240003;
-	Fri,  4 Oct 2024 14:10:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1728051044;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g3tL/ZAiQMNHzQXs84jjIGk7DdTJl4yNqKkW6ctCqjY=;
-	b=buTDvLSkl6l2LUhH7KKOwsGBDyKeuuuHDq0f4wO6l2o2hSDMVsUdFPVzSTmhHkh3Tl1bpV
-	0lDqrrk7QNSGkxxDA+FadIyKbTG8lZvgN49TstG1YkaRzYvQyq9YXRlG2jcEUmJDFqESoX
-	fuVTDF7J3Y3OzZ7u8RcNTID4ztzkGV6JL9nIHmPMcfAbYFzcezH4FIROdSL4aKosS8wEVB
-	5y3XKgjChfQY89xJbawS5uo8fsBLX6dIpoN4+xZqDstLYHANpO/p8O2O2y8mQb2QnyMsJf
-	xFWIbHDGwzcKlgb4ljYn53Io8ZB7Dd2YU6JGpm/7ryGbb9QZ/OaCaVQ7DpQZfw==
-Date: Fri, 4 Oct 2024 16:10:41 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
- <donald.hunter@gmail.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
- Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de
-Subject: Re: [PATCH net-next 11/12] net: pse-pd: Add support for event
- reporting using devm_regulator_irq_helper
-Message-ID: <20241004161041.0eb3aad6@kmaincent-XPS-13-7390>
-In-Reply-To: <Zv_1ZzwQJ-P36mt6@pengutronix.de>
-References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
-	<20241002-feature_poe_port_prio-v1-11-787054f74ed5@bootlin.com>
-	<f56780af-b2d4-42d7-bc5d-c35b295d7c52@lunn.ch>
-	<20241003102806.084367ba@kmaincent-XPS-13-7390>
-	<f97baa90-1f76-4558-815a-ef4f82913c3a@lunn.ch>
-	<20241003153303.7cc6dba8@kmaincent-XPS-13-7390>
-	<4b9d1adf-e9bd-47c0-ac69-5da77fcf8d0b@lunn.ch>
-	<Zv_0ESPJgHKhFIwk@pengutronix.de>
-	<Zv_1ZzwQJ-P36mt6@pengutronix.de>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C+KUJA/r"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7179069d029so1697574b3a.2;
+        Fri, 04 Oct 2024 07:12:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728051124; x=1728655924; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hmn1BFNwXGqOl6+56extfgMvomg8Ok9tR9eOonSIN9M=;
+        b=C+KUJA/rTSZ5FNALqZMLBjhIVCZNdABLvMKvYQcXmjN7G95bukWLoc3xTUJnQAsK/1
+         Aonb1A0IngABeM7/Mmo4PvzWCz7us3z3nbQm0KKt7l++8qM+BYq5EkDQXg4YJVJeZ0K9
+         g+k54/z2re8UoE2/UO0uOuWVyS7oIPV29iWlX6FzBDxmJhXX8z1dHFa/3Bi3xMe5Awjw
+         mezzc71HXDZKq2F1qZpiiEEUEq+UwlhJeVJzTs6vgVtyEKX/0SM7mf/7N78iM4u0YKki
+         f89aIHvnCqlLzPugwIfuYIeJH650P/C9w0MMqIP5OA88IxBJfOct8SfWPkZKcwZVJDRW
+         ycvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728051124; x=1728655924;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Hmn1BFNwXGqOl6+56extfgMvomg8Ok9tR9eOonSIN9M=;
+        b=g4lM/Ly5sLQ8kHUYexu9ET9dVgAQuYRbU+nt8YoznhoENAEfwDXY3rtw3SEp8IrNtU
+         2ORlPDUhZeAbLmeiv2IQYPFjl9I7suB71M2iMjGhKQrVz4q1JSc4FA46HNDJhuqNUqtv
+         POyF/MV6iTtnaH3oWhzHW3eElmq2scC+KzRg6YOWjEq00RykDA3efyQc10WbZ9SfWqeg
+         kGMZZa3Lc0npAZf0zuN+Nw4teJ68cMO9mgVaJwtX9R6XFOlVKBtuf83EVFvPuYcNEW3Q
+         FxQCNAMGTC43y8H6uiZ2fL1jcND1orvndL3gwXNuQlcDabK+8I1VvQbb0zZDyQIFbEXU
+         QbPA==
+X-Forwarded-Encrypted: i=1; AJvYcCVPIGYTSC4NvAMgnU7NhD096hvdP2EOQumK/dkIm0Nuy0ZIran/0fgzNqvEPBN241wg4nPBY3HZp5gulqQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzdt4D81eqhegwCBQJn7ECQhWGxREallRaRdh0T7R0RlVGTTRDu
+	3LDxgp08vfPsbzk6iS0SoRASZve+AB/KeeGlmLhtMoB+HNS8D6XglZJt0C/J
+X-Google-Smtp-Source: AGHT+IEzp/k9I9VGTFTkiRnfgVGk6LxfpPJFvf1uBXP5lRhL4c7kf8ATnE2ic1+eSy7lqfbTFrEtsA==
+X-Received: by 2002:a05:6a00:3d14:b0:717:88b6:6b1e with SMTP id d2e1a72fcca58-71de244c676mr4194040b3a.18.1728051123622;
+        Fri, 04 Oct 2024 07:12:03 -0700 (PDT)
+Received: from vishnu-pc ([117.252.166.143])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71de5b8af77sm1361640b3a.15.2024.10.04.07.12.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Oct 2024 07:12:03 -0700 (PDT)
+From: Vishnu Sanal T <t.v.s10123@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: corbet@lwn.net,
+	linux-kernel@vger.kernel.org,
+	Vishnu Sanal T <t.v.s10123@gmail.com>
+Subject: [PATCH] docs: update sysfs docs
+Date: Fri,  4 Oct 2024 19:43:04 +0530
+Message-ID: <20241004141303.46592-2-t.v.s10123@gmail.com>
+X-Mailer: git-send-email 2.46.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Transfer-Encoding: 8bit
 
-On Fri, 4 Oct 2024 16:02:15 +0200
-Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+update sysfs docs with documentation for all the subdirectories
 
-> On Fri, Oct 04, 2024 at 03:56:33PM +0200, Oleksij Rempel wrote:
-> > On Thu, Oct 03, 2024 at 05:22:58PM +0200, Andrew Lunn wrote: =20
->  [...] =20
->  [...] =20
->  [...] =20
-> > >=20
-> > > I think we will need two event, the base regulator event, and a
-> > > networking event. Since it is a regulator, sending a normal regulator
-> > > event makes a lot of sense. But mapping that regulator event to a
-> > > netns:ifnam is going to be hard. Anything wanting to take an action is
-> > > probably going to want to use ethtool, and so needs to be in the
-> > > correct netns, etc. But it does get messy if there is some sort of
-> > > software driven prioritisation going on, some daemon needs to pick a
-> > > victim to reduce power to, and the interfaces are spread over multiple
-> > > network namespaces.
-> > >=20
-> > > What i don't know is if we can use an existing event, or we should add
-> > > a new one. Often rtnetlink_event() is used:
-> > >=20
-> > > https://elixir.bootlin.com/linux/v6.12-rc1/source/net/core/rtnetlink.=
-c#L6679
-> > >=20
-> > > but without some PSE information in it, it would be hard to know why
-> > > it was sent. So we probably either want a generic ethtool event, or a
-> > > PSE event. =20
-> >=20
-> > Hm... assuming we have following scenario:
-> >=20
-> >                                   .---------   PI 1
-> >                                  / .---------  PI 2
-> >                    .=3D=3D=3D=3D=3D=3D=3D=3D=3D PSE /----------( PI 3 )=
- NNS red
-> >                   //              \----------( PI 4 ) NNS blue
-> > Main supply      //                `---------( PI 5 ) NNS blue
-> > o=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=C2=B4--- System, CPU
-> >=20
-> > In this case we seems to have a new challenge:
-> >=20
-> > On one side, a system wide power manager should see and mange all ports.
-> > On other side, withing a name space, we should be able to play in a
-> > isolated sand box. There is a reason why it is isolated. So, we should
-> > be able to sandbox power delivery and port prios too. Means, by creating
-> > network names space, we will need a power names space.=20
-> >=20
-> > I can even imagine a use case: an admin limited access to a switch for
-> > developer. A developer name space is created with PSE budget and max
-> > prios available for this name space. This will prevent users from DoSing
-> > system critical ports.
-> >=20
-> > At this point, creating a power name space will an overkill for this
-> > patch set, so it should be enough to allow controlling prios over
-> > ethtool per port and isolation support if needed.=20
+Signed-off-by: Vishnu Sanal T <t.v.s10123@gmail.com>
+---
+ Documentation/filesystems/sysfs.rst | 57 ++++++++++++++++++++---------
+ 1 file changed, 39 insertions(+), 18 deletions(-)
 
-Yes, I will add simple ethtool notification for now to report events on each
-interfaces.
+diff --git a/Documentation/filesystems/sysfs.rst b/Documentation/filesystems/sysfs.rst
+index c32993bc83c7..b455ab32aacc 100644
+--- a/Documentation/filesystems/sysfs.rst
++++ b/Documentation/filesystems/sysfs.rst
+@@ -302,43 +302,64 @@ The top level sysfs directory looks like::
+     net/
+     power/
+ 
+-devices/ contains a filesystem representation of the device tree. It maps
+-directly to the internal kernel device tree, which is a hierarchy of
+-struct device.
++block/ contains subdirectories for each block device that has been
++discovered in the system. In each block device's directory are attributes
++that describe many things, including the size of the device and the
++dev_t number that it maps to.
+ 
+ bus/ contains flat directory layout of the various bus types in the
+ kernel. Each bus's directory contains two subdirectories::
+ 
+-	devices/
+-	drivers/
++	bus/devices/
++	bus/drivers/
+ 
+-devices/ contains symlinks for each device discovered in the system
+-that point to the device's directory under root/.
++        bus/devices/ contains symlinks for each device discovered in the system
++        that point to the device's directory under root/.
+ 
+-drivers/ contains a directory for each device driver that is loaded
+-for devices on that particular bus (this assumes that drivers do not
+-span multiple bus types).
++        bus/drivers/ contains a directory for each device driver that is loaded
++        for devices on that particular bus (this assumes that drivers do not
++        span multiple bus types).
++
++class/ contains representations of every device class that is registered
++with the kernel. A device class describes a functional type of device.
++Each device class contains subdirectories for each class object that has
++been allocated and registered with that device class. For most of class
++device objects, their directories contain symbolic links to the device
++and driver directories that are associated with that class object.
++
++dev/ contains two directories: char/ and block/. Inside these two
++directories there are symlinks named <major>:<minor>.  These symlinks
++point to the sysfs directory for the given device.  /sys/dev provides a
++quick way to lookup the sysfs interface for a device from the result of
++
++devices/ contains a filesystem representation of the device tree. It maps
++directly to the internal kernel device tree, which is a hierarchy of
++struct device.
++
++firmware/ contains interfaces for viewing and manipulating firmware
++specific objects and attributes. Here, firmware refers to the
++platform-specific code that is executed on system power-on.
+ 
+ fs/ contains a directory for some filesystems.  Currently each
+ filesystem wanting to export attributes must create its own hierarchy
+ below fs/ (see ./fuse.rst for an example).
+ 
++hypervisor/ is the mount point for hypervisor file systems.
++
++kernel/ contains various files and subdirectories that provide
++information about the running kernel.
++
+ module/ contains parameter values and state information for all
+ loaded system modules, for both builtin and loadable modules.
+ 
+-dev/ contains two directories: char/ and block/. Inside these two
+-directories there are symlinks named <major>:<minor>.  These symlinks
+-point to the sysfs directory for the given device.  /sys/dev provides a
+-quick way to lookup the sysfs interface for a device from the result of
+-a stat(2) operation.
++net/ is the interface to the networking parts of the kernel.
++
++power/ directory represents the underused power subsystem.
+ 
+ More information on driver-model specific features can be found in
+ Documentation/driver-api/driver-model/.
+ 
+ 
+-TODO: Finish this section.
+-
+-
+ Current Interfaces
+ ~~~~~~~~~~~~~~~~~~
+ 
+-- 
+2.46.2
 
-> Oh, sorry, i'm too tired. Too many words are missing in my answer ...
-
-Nearly the weekend!! Rest well!
-
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
