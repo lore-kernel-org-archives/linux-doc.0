@@ -1,186 +1,127 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94879C8FF;
-	Fri,  4 Oct 2024 04:01:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 021819475;
+	Fri,  4 Oct 2024 04:49:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728014493; cv=none; b=A3YCMKjVA43EhT12uJCMS610vSt/o3pW+Slm/elNBGL8GX0KE6um0jhrV3BKe3YfE68SRGs8XiB1F3EsiKruCevPNYrN38cPCoT0GYvTN/UO4ABzAS6bo+snxp8u6LgyykFdicJdHTdm7ob2zD8mSx8NWQsO4clKBAqloIkn74w=
+	t=1728017368; cv=none; b=QJqXhmXioBBS/Ij9ez1rK/DT9XPBR4z2Yo6Ougf5ONJ97BVXHgoudQxmX2/Aw3rGP7dBgLVjhNM7O8+v9jaoY4dX8FUbwy2rSMRxMTWMhulcXg0JgugMtebYbjlRfKp6Jm22LBHUUG6pEaroc2YEV9dyM1dvOcNqUfmC0SmsI1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728014493; c=relaxed/simple;
-	bh=l5S4zSgk39/1vFvakpqrurpzGlXpS1OMzzY3Qu0SpNg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YmkSJ/fuOJyWj1W3Rj6htBb7dHvWdb5XxdzX8/pYvgjNKxc+GcSGeqlY6M8opp8GtLhm5SK0iNkY322RHVLXtdTFX2cbd5QjHsmScQaSuesmJ6NoLP7J99TWcpsZM9rFllfW/57N4NvI8UjIXl9etD4UfH5ZhrOpPLgSUCroB1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XlyWunj1; arc=none smtp.client-ip=209.85.208.43
+	s=arc-20240116; t=1728017368; c=relaxed/simple;
+	bh=TUsrG1YURfFbI9ZQ5O9KwQkkpUD3OiESPgahQWq2Rus=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dQXOooEoqL21yRBaPHJ8i6qFu++3c+hZc0QA5OJydLIGGocFyAp5/HdU+lYmhg4MKa7BNvjfpZeSFpilEfsBWFmATkPAqMe/MAIHXfLk/a5rZxnBNil+VddPrhHBwUpPxbApR/I5RLPD7njcinx5EIecMHhDwnHesGhtGVTm+UE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hVi6pqYK; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XlyWunj1"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5c87853df28so2070892a12.3;
-        Thu, 03 Oct 2024 21:01:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hVi6pqYK"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-20b64584fd4so16764895ad.1;
+        Thu, 03 Oct 2024 21:49:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728014490; x=1728619290; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CtWaB7/+pqgSIbs6QCNNW9clMyGfcjBIDYBUKvysBTA=;
-        b=XlyWunj1i/jXiJJhec7g9977fbKM0qdoxvTbL+Znb1Z36ixAvZCqOLK6+HmBoxJw5J
-         KwRlAf/sjt24i/KYkBPG1EquG1bJU/qTXz9CMjvdGxmtkn9c3TjvLXZjXOqHzt6Vd06D
-         iM1a0jXNOifqt169sET0IdoNO1/Bh3DWcz91mayKfeX88dDmpKeInlcTkgCZ2eFDNXzU
-         85Prncba3X2uf6+nut8Cl3zh+U18//2g4t1MUzfm1IzBoXAs+LB2cKaCuPOekXndXvZs
-         eZumUanWid7BABQjRSHoMYPlitXQLjQEoaXu+FxcBhRwkmgWMZ7a3mdIKi6hR+E70UpG
-         oOGA==
+        d=gmail.com; s=20230601; t=1728017366; x=1728622166; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=TUsrG1YURfFbI9ZQ5O9KwQkkpUD3OiESPgahQWq2Rus=;
+        b=hVi6pqYKrn8dgM0eI9ixdE8WIexPLQwey+MXTfB7nkMehLW5N3wwatdfeCYP5P02+P
+         2aMcfARvvz6lnmj9H4QNS8Chz3SCOo/wpbpjaKnt67xRwmxyEBC3Uh+qL9jGRgcttizR
+         Y3obqhXJYcJtmHgppDwYb6UgiuyKEn5X7OuhkL6Jemp7p56srEJI9qiiwuoB7P4s81Zx
+         4Xfk9k9xx7B8gfvGyNaDO5sCPtOkqllD66J9SwR9p3xoqS9JFydoFzsnzeMV3+zy/TwC
+         HQ0+jUweQGQLIi8GVThtk9Mgkegm2Wndm0gsgyV0QfDwMDawVRGsoMhX+hwa4J7M8biJ
+         x1AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728014490; x=1728619290;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CtWaB7/+pqgSIbs6QCNNW9clMyGfcjBIDYBUKvysBTA=;
-        b=UauRSWw4rAYD26LTcY/v4RnUUTSXcgnd8ll+IK1rtaeMk8BBQ/75EZLF82u/vbFtjY
-         7Kyl/t9PHuYSf4AkLyWYFTsVDoCBdwBaII15fzdEHT4sRiLjorJK9VQwlohVoNn/lGkT
-         9GYvVjeVDj1FweCQg78+x4Tm1AiJ999b/Nlvvlr943r8W6CAjcMKkJ0w7SaeNzUbj6vR
-         /6OiQTIKtLMWn1dqs/vgDKX/MT/kBvUOkklX/UjijJJpIS9yF/q7JB6xq2wV8DXc/gDH
-         QcHyvW2lNyr8CyOBbAJz5qyM+EGzsV/txAwSKUM2A6GbGmXrrkmHVPLKx1elOXD78iao
-         6JUw==
-X-Forwarded-Encrypted: i=1; AJvYcCUBFTZxHAcV0Bv8rD7crOvT2Mj2xZNtpb2g7pcCO0QW06wZGfqgDtqGUb/Bo6G2lncQ0IfKP1be@vger.kernel.org, AJvYcCWN3sYHGOSG1Um3zV4x4e3SAhWl/dYgpPy72fNNGZQbpVEB6naItbM8p1X/mgxtI1A8uo1MVwZ7XNk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpJq2aB/y+DbM71zRDmus51RppMebGjuZdKpJfJzg57gzv7SGL
-	MvBs0T6oxaWJI0HN6co2nV1HU7+Zi/O07wdG1Zu9L0nux+uqtAuItdihhXu4NELvZQ+MWKFw1uA
-	G9ZlSgogWxqzdFYLK+DZpI6P8FDE=
-X-Google-Smtp-Source: AGHT+IGUS9+BtlWQHPBUAIwkiyHrg8GBSbYlO2wrTjMmJV4zOOmSlVldyvtvZ/VwCgj6NoXODIWU/Q/le4FT9SpETEk=
-X-Received: by 2002:a05:6402:321b:b0:5c7:2122:50d with SMTP id
- 4fb4d7f45d1cf-5c8d2e989a1mr941349a12.35.1728014489529; Thu, 03 Oct 2024
- 21:01:29 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728017366; x=1728622166;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TUsrG1YURfFbI9ZQ5O9KwQkkpUD3OiESPgahQWq2Rus=;
+        b=Uez4rjhsNmKsYoe/XaFg5wOnVucWeobAg6vKPA4F7oT0SCiuIO6JvRz/l/lF1FpvVN
+         +HqU7MoeRGpedZyghSTDfz8D/9UrZAnQJwZmPwB00knZMY8mbt2Z04RH0ICFdWkh7c82
+         XRyB3290xnQtSTENukEB+C1yu51eDxHKNcgSLYfb+Jq0Du0bhdWPOST3rwljGhfxv1um
+         aWnkmOs2J7btwWymgTGvnWn1hc1lFB4htCTABQd3mTAjiDqdkaJZ6wb+b4HZ50+qNqUt
+         ChHrU65wjXyUb6C9UHo2ao5XOehiyZmGIdT7sd6k3N7yRw64BQ+S4fkdzAOjWz2T0vll
+         Q1Bg==
+X-Forwarded-Encrypted: i=1; AJvYcCUE9Wo63qg9LZj4tgHdX9hTRtxJIIiYRmo1O3MQLP0Iqaoqb3c5m6kZYSKVBzUKFHgGx/DkS39rrbwF@vger.kernel.org, AJvYcCUO6FHwqC5n1RM1ObWoHF1jDCASQwObgBmxEKd5qUNpW4knWog6o+ILbUHBsnI7E1AT5X8Wf7lXwu/g4SbOAg==@vger.kernel.org, AJvYcCVJ/w4XsBf3ZYT4XO/1DJevRd02A//DnFnyQKwT5ApSIg6hxObHOlJRm4x+WOGrCbqkCokIcpUvNGF9hQ==@vger.kernel.org, AJvYcCVSB36FTaycSaEu8J8sAXgWHEPjodeUcSstg1neePtKwxZIJ1oxj077SUtUpJJl7lTDHZpfxymIUcv4@vger.kernel.org, AJvYcCX/AmP27C06Gn1XnE8fi1EJ3uGc1/p3E4ioPVh64bpYWIQuU/WyO4cYRW3ExQsdiCvhG3oQ2AKVbkWm@vger.kernel.org, AJvYcCXCAgarJlzAGjaaSpZ4eQYgEiJo+XufLAUWqej1/qz/QjzFxnBb8WIp/Vw5LzXBu6Q0eAW3i67JxyvJ6y7sfRv5ET5u@vger.kernel.org, AJvYcCXuSJ94SmW3oLDSqh4gEuVSZ6cpIMwNINwHrW0saYiWLOpYh56DNlcoeLdW0XJAR7i/DYF+261CeGn+OQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7szFqV9+BoQphTwgaC/Agvqk6AH1gOSDsgquNsL8WDjZo5XDK
+	2on3CWckidUp6/2J0bwVQkcP+KBJZfZXoH4fXQ0rRaeEolu+HQTf
+X-Google-Smtp-Source: AGHT+IEOZ5VHabq4uat+pKHrLZtskvm5qkTvRMBGxvUt1yb7vzghAthcJh027s31hSLyjL6Ys/bM7A==
+X-Received: by 2002:a17:902:ec87:b0:20b:5046:356 with SMTP id d9443c01a7336-20bff04fad3mr14990785ad.36.1728017366009;
+        Thu, 03 Oct 2024 21:49:26 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20beef8decasm16481015ad.142.2024.10.03.21.49.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Oct 2024 21:49:25 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id CE80345D328D; Fri, 04 Oct 2024 11:49:22 +0700 (WIB)
+Date: Fri, 4 Oct 2024 11:49:22 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Jeff Layton <jlayton@kernel.org>, John Stultz <jstultz@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Chandan Babu R <chandan.babu@oracle.com>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>, Chris Mason <clm@fb.com>,
+	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
+	Hugh Dickins <hughd@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-btrfs@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH v9 08/12] Documentation: add a new file documenting
+ multigrain timestamps
+Message-ID: <Zv9z0qWAvTuS8zg7@archie.me>
+References: <20241002-mgtime-v9-0-77e2baad57ac@kernel.org>
+ <20241002-mgtime-v9-8-77e2baad57ac@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241003160620.1521626-1-ap420073@gmail.com> <20241003160620.1521626-6-ap420073@gmail.com>
- <70c16ec6-c1e8-4de2-8da7-a9cc83df816a@amd.com>
-In-Reply-To: <70c16ec6-c1e8-4de2-8da7-a9cc83df816a@amd.com>
-From: Taehee Yoo <ap420073@gmail.com>
-Date: Fri, 4 Oct 2024 13:01:17 +0900
-Message-ID: <CAMArcTX+j4patttqm+F8zLAE55DDn1mpBuXQoWpf3NCHo96cYw@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 5/7] net: devmem: add ring parameter filtering
-To: Brett Creeley <bcreeley@amd.com>
-Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
-	edumazet@google.com, almasrymina@google.com, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, donald.hunter@gmail.com, corbet@lwn.net, 
-	michael.chan@broadcom.com, kory.maincent@bootlin.com, andrew@lunn.ch, 
-	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
-	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
-	ahmed.zaki@intel.com, paul.greenwalt@intel.com, rrameshbabu@nvidia.com, 
-	idosch@nvidia.com, asml.silence@gmail.com, kaiyuanz@google.com, 
-	willemb@google.com, aleksander.lobakin@intel.com, dw@davidwei.uk, 
-	sridhar.samudrala@intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="OBP6+ccGLM5fNBOy"
+Content-Disposition: inline
+In-Reply-To: <20241002-mgtime-v9-8-77e2baad57ac@kernel.org>
+
+
+--OBP6+ccGLM5fNBOy
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 4, 2024 at 3:35=E2=80=AFAM Brett Creeley <bcreeley@amd.com> wro=
-te:
->
+On Wed, Oct 02, 2024 at 02:49:36PM -0400, Jeff Layton wrote:
+> Add a high-level document that describes how multigrain timestamps work,
+> rationale for them, and some info about implementation and tradeoffs.
+>=20
 
-Hi Brett,
-Thanks a lot for your review!
+LGTM, thanks!
 
->
->
-> On 10/3/2024 9:06 AM, Taehee Yoo wrote:
-> > Caution: This message originated from an External Source. Use proper ca=
-ution when opening attachments, clicking links, or responding.
-> >
-> >
-> > If driver doesn't support ring parameter or tcp-data-split configuratio=
-n
-> > is not sufficient, the devmem should not be set up.
-> > Before setup the devmem, tcp-data-split should be ON and
-> > tcp-data-split-thresh value should be 0.
-> >
-> > Signed-off-by: Taehee Yoo <ap420073@gmail.com>
-> > ---
-> >
-> > v3:
-> >   - Patch added.
-> >
-> >   net/core/devmem.c | 18 ++++++++++++++++++
-> >   1 file changed, 18 insertions(+)
-> >
-> > diff --git a/net/core/devmem.c b/net/core/devmem.c
-> > index 11b91c12ee11..a9e9b15028e0 100644
-> > --- a/net/core/devmem.c
-> > +++ b/net/core/devmem.c
-> > @@ -8,6 +8,8 @@
-> >    */
-> >
-> >   #include <linux/dma-buf.h>
-> > +#include <linux/ethtool.h>
-> > +#include <linux/ethtool_netlink.h>
-> >   #include <linux/genalloc.h>
-> >   #include <linux/mm.h>
-> >   #include <linux/netdevice.h>
-> > @@ -131,6 +133,8 @@ int net_devmem_bind_dmabuf_to_queue(struct net_devi=
-ce *dev, u32 rxq_idx,
-> >                                      struct net_devmem_dmabuf_binding *=
-binding,
-> >                                      struct netlink_ext_ack *extack)
-> >   {
-> > +       struct kernel_ethtool_ringparam kernel_ringparam =3D {};
-> > +       struct ethtool_ringparam ringparam =3D {};
-> >          struct netdev_rx_queue *rxq;
-> >          u32 xa_idx;
-> >          int err;
-> > @@ -146,6 +150,20 @@ int net_devmem_bind_dmabuf_to_queue(struct net_dev=
-ice *dev, u32 rxq_idx,
-> >                  return -EEXIST;
-> >          }
-> >
-> > +       if (!dev->ethtool_ops->get_ringparam) {
-> > +               NL_SET_ERR_MSG(extack, "can't get ringparam");
-> > +               return -EINVAL;
-> > +       }
->
-> Is EINVAL the correct return value here? I think it makes more sense as
-> EOPNOTSUPP.
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Yes, Thanks for catching this.
+--=20
+An old man doll... just what I always wanted! - Clara
 
->
-> > +
-> > +       dev->ethtool_ops->get_ringparam(dev, &ringparam,
-> > +                                       &kernel_ringparam, extack);
-> > +       if (kernel_ringparam.tcp_data_split !=3D ETHTOOL_TCP_DATA_SPLIT=
-_ENABLED ||
-> > +           kernel_ringparam.tcp_data_split_thresh) {
-> > +               NL_SET_ERR_MSG(extack,
-> > +                              "tcp-header-data-split is disabled or th=
-reshold is not zero");
-> > +               return -EINVAL;
-> > +       }
-> > +
-> Maybe just my personal opinion, but IMHO these checks should be separate
-> so the error message can be more concise/clear.
+--OBP6+ccGLM5fNBOy
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I agree, the error message is not clear, it contains two conditions.
+-----BEGIN PGP SIGNATURE-----
 
->
-> Also, a small nit, but I think both of these checks should be before
-> getting the rxq via __netif_get_rx_queue().
->
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZv9zzgAKCRD2uYlJVVFO
+o8z+AQDazz4grBaoJ/mtVu4UdxF3vdyAVG6PXKSWPFhB0JejcwD9E8qbXnSUInxR
+88neK7F3Iq9tS3rwTgLVOuOzET6WWAE=
+=TFot
+-----END PGP SIGNATURE-----
 
-I will drop this patch in a v4 patch.
-
-Thanks a lot!
-Taehee Yoo
-
->
-> Thanks,
->
-> Brett
-> >   #ifdef CONFIG_XDP_SOCKETS
-> >          if (rxq->pool) {
-> >                  NL_SET_ERR_MSG(extack, "designated queue already in us=
-e by AF_XDP");
-> > --
-> > 2.34.1
-> >
+--OBP6+ccGLM5fNBOy--
