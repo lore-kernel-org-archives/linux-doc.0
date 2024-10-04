@@ -1,150 +1,119 @@
-Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877D41CACE5
-	for <linux-doc@vger.kernel.org>; Fri,  4 Oct 2024 17:06:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B4815B984
+	for <linux-doc@vger.kernel.org>; Fri,  4 Oct 2024 17:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728061607; cv=none; b=Jh+4ce9Q4Qsl52keGD2OkFwPWUpzFaQh9kYyY3Il6vAIEVSSO1T0TSpOoTEvfBMQlr2x2xxgNRVQ6cP4aKZIWgdyTydrgBSwmPgALGVW0D8NywhzcBz6ZAwH9JKff2ijQNfqTu/gBsIgsBcn1Qk263qoaZsc6WAwCUdoYpsFIDc=
+	t=1728062580; cv=none; b=fIo8esrn7Ci5DK6FCTSowD1eVriDClJBUhrSnXPsQz7xQ0GDSq2nBNibDmEopgxJSm1/9V8ZjD7f2XdOfLcGezKGe+o2Kcx79Sgix2rtuJ05uXuLiDTIbgGSi4kO7tFKe6YTpS1g+CKUfuadvgvswjo9o8juukdQ++DvmW0Eong=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728061607; c=relaxed/simple;
-	bh=BjiMOaBbb0faHgkP9UM7KVpOSCigooWaCDDnmSzqOfs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qNjLBkp1mE8+Fe3TfUdTKe9Rk6z/HJsCkNY43W7GBgAhnaq02SrVJB3m2ix/ZkSV5wOftTfhkf3mtjqi3jPPkydvnKjyHBHhlOn2kTm2jh30g/JKeLsTCCVSt66Jqo7/L/VbSqARgGVvvCbIUvY7FMWkKA8JwycL2ezi6fmNyJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gj5z4rIy; arc=none smtp.client-ip=209.85.166.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1728062580; c=relaxed/simple;
+	bh=vkXradS47TZRsD+Tw9Obi8t9ec/M35OKeWU2WxNXipU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ejKlh6EtiJ2FGNNk1qH2v1hUITeiDjKtmqNCg72Jqbxxpo3AnxnWlE9Y0RuZNIq0QwlssOe4Guo6aVXawjpefUi8x1cidFsDg8Ls8LD+ibmHdHU6atsZc3XlDFNml4yzBv9NveicWNwUjjJpqAT0FnlSTh5yp/hNmsVdGTZdGMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=av8EjpW3; arc=none smtp.client-ip=209.85.166.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gj5z4rIy"
-Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-3a1a662a633so7375ab.1
-        for <linux-doc@vger.kernel.org>; Fri, 04 Oct 2024 10:06:45 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="av8EjpW3"
+Received: by mail-io1-f54.google.com with SMTP id ca18e2360f4ac-82ceab75c05so105746439f.0
+        for <linux-doc@vger.kernel.org>; Fri, 04 Oct 2024 10:22:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1728061605; x=1728666405; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H6cu0/usr2tJa4vPbaqm37ZxgrIgWX+DZr/8ABHb5Pg=;
-        b=gj5z4rIyOyRyAXbqPZWbhSX2yvMCkAWjN3h4rPTxJruWjLP8LhuYwYC1mFdHWJBE81
-         vbNCpO8uIWyYg1B1mMPg7h5f8wXO6VvnpRAqUibA+9W8B0XyKDsMEABkgUBgLJ1QumVn
-         Z7v2Dblc/iXgsAJNJr1LgR13J6lEJcbvj2OzgiBo24kbhJjTU+cYxTqN8s7zXbfq8sU/
-         /6QJduLy19AIFaWOZECTzfaanppfRJIou11SM39yq1EgZctZ+BUrFpQzVYAkgRZ/tPz6
-         MLs1lz4xh9I/X3G2RotLeMfiJTzgzhzUAUZErD8X0rP6FwU2a/1KjkgmpmhPEMcMaAw8
-         QJrg==
+        d=linuxfoundation.org; s=google; t=1728062578; x=1728667378; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UjxtETvebgPu96nn5gAk9Ijr0Fw8D2drEbjhjiJbq5Y=;
+        b=av8EjpW3Pu0NyRzwyQZX+el+1L4NmBSVlqC4pjlQn6qSNho9LaojS26Wqs1mPlmpNa
+         Cc7443uBpe2kfdCA3NX4mj9ImZShSi3UDQ6khAcVKgichQkGpAS/dimEVDaAJA2vxQmm
+         sZABGKLCrCytF43hD7pbIAiwScz0ZtIvpIZ/0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728061605; x=1728666405;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=H6cu0/usr2tJa4vPbaqm37ZxgrIgWX+DZr/8ABHb5Pg=;
-        b=Yz0IAtAckGlxO/fbCqZGDGBoYKQQY7BIh0jAOnUPEyvXINARLeTie6FDeJxs5ef+m2
-         e4R65wC9dmn9tMXFq5x5hCP237ylcC+aQRYgpv3WtvUv+NJ0QYyrmaDgCFxWcfYWDn4y
-         aiwnw71hG+3/QS2Wo8Ycz4OofPwrWN9oS7i0aemU/rt6CJm+kI8MgIZbp18XCrNLzARS
-         ayMGqgUj/bDv2FPph5cu7ucaHtnx02iufMDvc0X0HXDBazYMJ7jjSxDcWX5qrB/oP2dW
-         +Gj1o924pMCQ6cnucdl/x6y9z2YWokpGM9dAVrg6F6HyJYwBkoACoaa7+DeYLjWl9Hnu
-         4aGg==
-X-Forwarded-Encrypted: i=1; AJvYcCXYAOKjaQo9qoW3Fy7YDUVYZcIXP2M5dgBwMGTPfb157IPY0ERRahr4QAFGCWdJkKX6HFSn2nsc130=@vger.kernel.org
-X-Gm-Message-State: AOJu0YywW2zko3LWBhOW+x9jYtNPNMeDgjYcYHg0ILXtPdL6AIwp15Vk
-	7eQZiRCJxVvsAi8Hc7IfMhkCmejg3mdDvQf6rSwidxTfKrmYl9vp7smJp+/CQvpTPb6aYmIX61m
-	e84grHTggYBul0nrSzzq2SgGw5fzSlTj5uv9s
-X-Google-Smtp-Source: AGHT+IErDf6Ln07o0AdPteE4Z2MSQLZR5z2/ayMLVov/t1OUkBR776jawppVTTQuFQ07+1/nFJ6gPgMV9aMQcWHF+14=
-X-Received: by 2002:a05:6e02:154f:b0:3a0:a3cd:f23d with SMTP id
- e9e14a558f8ab-3a3767de7e9mr3340835ab.5.1728061604302; Fri, 04 Oct 2024
- 10:06:44 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728062578; x=1728667378;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UjxtETvebgPu96nn5gAk9Ijr0Fw8D2drEbjhjiJbq5Y=;
+        b=DlZ1i2rI1WhOA9+73PVHuFLuYHS0ojeFGky2UZcB/nZUjSIQal+NpqmmO+JMm65Ck5
+         HvrXB3EizPF8KJhaI5WpOk/nfEuapobDhd7B/AWWdRvE3YmHBSf73pWItL0wTcYDjTrF
+         9dZ4AF3/LTYriz2jQhw8B7O2+LxqRhtmL0SXy5e7oE8W0LRWe5184C0l07Bs1wsoXMsL
+         hWhozoguqMhuGTQSD+e4JGcdwQjlENujZ7OZnLT6Hz0q5Vzcb4PSo7sfaf5+gh5EKkcg
+         9eiSlsIi2EYe6X58Dpuhx868oJYxYow0Y8+KWJPrqFqHXp+5tzE/x3WhqK0LkWYQnkcA
+         dGQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXykN0w+DWiEhRc1CPtdpNPmHNnXDG1hjAb2u/616r/PXC7NxD9fyn3mNWtBtViGKhpqfsJgAyvWKo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz339L14Az3+2YuyJf154fEd2ULIDfXv2gB/h2+4KLnW8ZXpd3C
+	+MrIAVj7ZoyiQLRvNCagzwFSYLxPioEt4LbsBmOHbPvujTI+KuWy8rNxJd/WYuE=
+X-Google-Smtp-Source: AGHT+IEng1VQK79hPV945GkxjWJmm7jzrP9Wu7f2kokbpX4AGNwAmboL7kqahAU8iEa3xBWgrBpQ0g==
+X-Received: by 2002:a05:6602:6c1c:b0:82d:d07:daaa with SMTP id ca18e2360f4ac-834f7c741d9mr304525239f.4.1728062577959;
+        Fri, 04 Oct 2024 10:22:57 -0700 (PDT)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-83503a92f7bsm4195939f.18.2024.10.04.10.22.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Oct 2024 10:22:57 -0700 (PDT)
+Message-ID: <e3602786-d656-40ae-9e22-0e8195d33f0f@linuxfoundation.org>
+Date: Fri, 4 Oct 2024 11:22:55 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241002233409.2857999-1-xur@google.com> <20241002233409.2857999-2-xur@google.com>
- <20241003154143.GW5594@noisy.programming.kicks-ass.net> <CAKwvOdnS-vyTXHaGm4XiLMtg4rsTuUTJ6ao7Ji-fUobZjdBVLw@mail.gmail.com>
- <20241003160309.GY5594@noisy.programming.kicks-ass.net> <CAKwvOd=CRiHitKeYtHH=tmT8yfDa2RSALbYn5uCC8nRq8ud79g@mail.gmail.com>
- <20241003161257.GZ5594@noisy.programming.kicks-ass.net> <CAF1bQ=RAizpP-T_sRGpE2-Kjsk_RZD3r_iz_dpn25W+uDzpWOw@mail.gmail.com>
- <Zv-Fy4hnuscnLH1k@kernel.org> <CAF1bQ=S8Hg0FUThaDU0snVqerVos6ztzVvN6sm1Ng3FnTpJt_A@mail.gmail.com>
- <ZwAZPklXayA1gbQw@kernel.org>
-In-Reply-To: <ZwAZPklXayA1gbQw@kernel.org>
-From: Rong Xu <xur@google.com>
-Date: Fri, 4 Oct 2024 10:06:30 -0700
-Message-ID: <CAF1bQ=Q=nnoq4jfLWMK8S_uUuTZncRT1K8af_-yBWTU1R_=uaQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] Add AutoFDO support for Clang build
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Han Shen <shenhan@google.com>, 
-	Sriraman Tallam <tmsriram@google.com>, David Li <davidxl@google.com>, 
-	Krzysztof Pszeniczny <kpszeniczny@google.com>, Alice Ryhl <aliceryhl@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>, 
-	Brian Gerst <brgerst@gmail.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>, 
-	Jann Horn <jannh@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, linux-arch@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Samuel Holland <samuel.holland@sifive.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, x86@kernel.org, 
-	"Xin Li (Intel)" <xin@zytor.com>, Stephane Eranian <eranian@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: dev-tools: Add documentation for the device focused
+ kselftests
+To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
+Cc: Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ kernel@collabora.com, linux-kselftest@vger.kernel.org,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernelci@lists.linux.dev,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20241001-kselftest-device-docs-v1-1-be28b70dd855@collabora.com>
+ <0040a842-de9c-4f9c-9d61-c1bfbd010470@linuxfoundation.org>
+ <ef428a44-783c-43c3-81c6-9abf88ae8949@notapiano>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <ef428a44-783c-43c3-81c6-9abf88ae8949@notapiano>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 4, 2024 at 9:38=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wrot=
-e:
->
-> On Fri, Oct 04, 2024 at 09:28:36AM -0700, Rong Xu wrote:
-> > On Thu, Oct 3, 2024 at 11:09=E2=80=AFPM Mike Rapoport <rppt@kernel.org>=
- wrote:
-> > >
-> > > On Thu, Oct 03, 2024 at 11:20:17AM -0700, Rong Xu wrote:
-> > > > Writing the doc with all these code-blocks was not fun either.
-> > > > We are happy to change if there is a better way for this.
-> > > >
-> > > > -Rong
-> > > >
-> > > > On Thu, Oct 3, 2024 at 9:13=E2=80=AFAM Peter Zijlstra <peterz@infra=
-dead.org> wrote:
-> > > > >
-> > > > > On Thu, Oct 03, 2024 at 09:11:34AM -0700, Nick Desaulniers wrote:
-> > > > >
-> > > > > > > It makes it absolute crap for all of us who 'render' text doc=
-uments
-> > > > > > > using less or vi.
-> > > > > >
-> > > > > > "It hurts when I punch myself in the face."
-> > > > >
-> > > > > Weirdly enough I have a job that entails staring at text document=
-s in
-> > > > > text editors all day every day :-) sorry for thinking that's a sa=
-ne
-> > > > > thing to do.
-> > >
-> > > Something like this should do:
-> > >
-> > > > +- For enabling a single file (e.g. foo.o)::
-> > > > +
-> > > > +        AUTOFDO_PROFILE_foo.o :=3D y
-> >
-> > Do you mean we don't use ".. code-block:: " here and just use indented
-> > text separated with blank lines?
->
-> The double column (::) in the end of a paragraph means that the next para=
-graph
-> is a literal block:
->
-> https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#l=
-iteral-blocks
->
-> You'd loose the coloring, but other than that it won't be different from
-> the ".. code-block::" and easier to read in a text form.
+On 10/3/24 08:41, Nícolas F. R. A. Prado wrote:
+> On Wed, Oct 02, 2024 at 12:00:10PM -0600, Shuah Khan wrote:
+>> On 10/1/24 09:43, Nícolas F. R. A. Prado wrote:
+>>> Add documentation for the kselftests focused on testing devices and
+>>> point to it from the kselftest documentation. There are multiple tests
+>>> in this category so the aim of this page is to make it clear when to run
+>>> each test.
+>>>
+>>> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+>>> ---
+>>> This patch depends on patch "kselftest: devices: Add test to detect
+>>> missing devices" [1], since this patch documents that test.
+>>>
+>>> [1] https://lore.kernel.org/all/20240928-kselftest-dev-exist-v2-1-fab07de6b80b@collabora.com
+>>> ---
+>>>    Documentation/dev-tools/kselftest.rst       |  9 ++++++
+>>>    Documentation/dev-tools/testing-devices.rst | 47 +++++++++++++++++++++++++++++
+>>
+>> The new file needs to be added to Documentation/dev-tools/index.rst
+>>
+>> Docs make should have warned about this?
+> 
+> There is no warning. I have added this new document in a new toctree in the
+> kselftest.rst, as you can see in the hunk below.
+> 
 
-Sorry that I did not notice the (::) in your suggestion.
+I missed that.
 
-This is great. I'll change the docs in this patch to use this method.
+> Since this new page is specific to kselftest, I think listing it on the
+> kselftest page makes the most sense and will make it easier to find.
+> 
 
--Rong
->
-> > -Rong
->
-> --
-> Sincerely yours,
-> Mike.
+Yes - including it from kselftest makes sense to me.
+
+Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+
+Jon, Let me know if you would like me to take this through kselftest
+tree.
+
+thanks,
+-- Shuah
+
