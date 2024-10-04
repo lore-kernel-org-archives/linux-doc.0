@@ -1,362 +1,254 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2072.outbound.protection.outlook.com [40.107.244.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B01148316;
-	Fri,  4 Oct 2024 15:03:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.72
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728054188; cv=fail; b=tTzeHY7sUZ4KQ5WwDors85Ny+QeHwsHHutRtIDuGNdEpVrU1TlWmlFzI4Py583PougTDEWqtWfTuZPIJnH76l+kP+zqAPCXivQ/XTkLYaERnvcZSgKAkz2ZU8BIwSu66HiL1UIeI/6242RvYJ7JLpmy7qWcg9NoZftRtIcOIaZU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728054188; c=relaxed/simple;
-	bh=9I4+vFHTb7kdKYH7dtVPJW3IOxhFO13MH4wMbR6Q8FA=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=QXw74J3YEnLKrVB7FpQ3Sjc6Wn9ACUCRrGX0qbR2VoKVE5Ak8a6hUvkKkV/lpdu7EMChFveit+ycERIG+KdA4/VLRoYp84HggQiJ8OaeoqkLZdAKEONDgkeBkYS8fzrYfEbrQTyCT2zvqMlRrdNAKtw3yAgzRCtts+VxSZZN/E4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=jq6BRkbQ; arc=fail smtp.client-ip=40.107.244.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FECB1AA788
+	for <linux-doc@vger.kernel.org>; Fri,  4 Oct 2024 15:10:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728054628; cv=none; b=Z706JTrE9dkeZ6GtXxrH+3h1EnLoUiCDlhoecsUf+Ye+lonM4dBXKqOf8YoiuD5W4943+hboJf7F3c28bqHxHG9VbhY1qi2NsIzD0H4dXIC1KqwCIaUym2j0odMw+mb6cW9O2q3PCeRKsYZoiPar7deG6PCFCAcBdzsIpcmhLtk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728054628; c=relaxed/simple;
+	bh=DsbWuseV+5Cr5RbOfN8uYeZ29UZNhc9bAL+m0ZBhGl0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LLWKJfxmMw5WW0NtnZLunoRwaoPlamuDqVQY/zM4EZ23+NfOaiABAeKlOmSuh3zbRjEugKJKYHfKUK7xgvJG5KSw9//6ZKVdGqdcZ6bMPf9ab+DOJ+c0OBn7cPS/QR6S57kc/iXsuhzexrmSo+MD4UxH6FVMN/7fdDqE65tN4vw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=QIYX5U97; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="jq6BRkbQ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=quZbX7x4M4Q5xY9HGSZiqVyNpEVhZK6/vkUvZv2dfoAH5YoybwUVpiFuoVueTe3Kpmz38EudNDajSJ0dijrjNmk2a9OYXQfMJIc1n83gUqJ97n7yxn82o+ADSKL81RXUsQSc7u9yfxn4abeZLYKK3LG/ruTfd8DzFlbe4PJa7sh358194IUFxYy+slvMw8A8tZI0YRiTvJwOWqrrfqZrYHJNAMpJiHVrX8nv/Ow5osulTE2sEtpUVEuDd8aIqTFIZOTJiSMh/IG4y1KSSZuGP48FkpnD8ZkQg//5zAxROtigMSQmsvLYddWW+E4qUO3BOJhRdoAqzu3461T1Q+/AVg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V1axE5ZKuzCnqeh76mWI4H7XhsSeb1I+AAfGGwvSTt0=;
- b=e9eLxm3U9DWCGFUqq1EZtYgMjobGcE/lx03eFlHg6IavOkCWTBaqcSKARAaRJOOwL2IKlIfNVVeTCQSRDaRVEs2bw2MoXLVnuZCFFzEpfsyKMvvu8ofF6edeISp94PGH5jqvuDEM+/aTfPxtXPRAL+uNZusQbkKcrMc4oSdvvu8Slyen+r2bU3lVJwk+uCE/Fq4b0Y2FpxWJGyskgfKeLGeHGBOKQRXSHkPJPYgVSFz6x7OsvisJx/aLxgWQJwJtwSI7dy6+uLActmnizK3Fo8cUth7XLIyYmkMhWUyijJgqOQFfvWLXlkIZF0H4FHJpMj65Dma9tdyy5lBcSs6H3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V1axE5ZKuzCnqeh76mWI4H7XhsSeb1I+AAfGGwvSTt0=;
- b=jq6BRkbQat+kXhSQOdGP1dgmJSOtB4LPUFR/iD+iACxhngON//kvm96VtJwkXktG54Opnubtd0O1AoMqQwMCxSwd2k6V6vCRqv/LIFmHvbisGXlpLVxLnx8KvKVdWKT/ESQdm+viaR7sk7BpN4W+C67CgoZCUgAu5PDjPUNXhcQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by CH3PR12MB9195.namprd12.prod.outlook.com (2603:10b6:610:1a3::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.18; Fri, 4 Oct
- 2024 15:03:03 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.8026.017; Fri, 4 Oct 2024
- 15:03:03 +0000
-Message-ID: <9621def4-2753-0f50-ceb6-3185c1789fec@amd.com>
-Date: Fri, 4 Oct 2024 10:02:58 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v7 22/24] x86/resctrl: Update assignments on event
- configuration changes
-Content-Language: en-US
-To: Reinette Chatre <reinette.chatre@intel.com>, babu.moger@amd.com,
- corbet@lwn.net, fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com,
- bp@alien8.de, dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
- tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
- kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
- jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
- rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
- jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
- daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
- ilpo.jarvinen@linux.intel.com, peternewman@google.com,
- maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
-References: <cover.1725488488.git.babu.moger@amd.com>
- <ff0cd2a73c78fdb7487632381b4aec642a0af5ef.1725488488.git.babu.moger@amd.com>
- <384c2074-0076-4686-bebd-ba3ac3c05188@intel.com>
- <f77737ac-d3f6-3e4b-3565-564f79c86ca8@amd.com>
- <d2147cb6-9d1a-49af-9be8-5d788ce7ee7b@intel.com>
- <c514416e-4320-3826-21dd-7e79ebc83351@amd.com>
- <33c56f32-4e56-47b5-890c-fbf1d45d7213@intel.com>
-From: "Moger, Babu" <bmoger@amd.com>
-In-Reply-To: <33c56f32-4e56-47b5-890c-fbf1d45d7213@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SA1P222CA0038.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:2d0::19) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="QIYX5U97"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-37d04b32ea6so1535887f8f.1
+        for <linux-doc@vger.kernel.org>; Fri, 04 Oct 2024 08:10:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1728054623; x=1728659423; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GbD5QQI9fbRtagD02Hd9rPEf77aWQGn5Irx05NL1xCE=;
+        b=QIYX5U97f5Zt06TQls1TmUgQ78qypZ893F6tw8UMqluR+VAGahNqsKUxSsddpkTRdF
+         SiC28zKG3mXfclseL5vs/QESnJN1BIOSrFcc8Zjlvi1QMdb4mqFdzVW/pDx93WG/WdX9
+         FVt/gN5AnehD2zrZQTHBN1amCSTUjP60uACwTJcVL+885iYaTomjCIecpo+38t9FOvo9
+         /7jyVuphEx+xdNKUcw7BfvuCkidsXKlKozPhnKWawO3YbzSfh31Jb5bbuNnwKkGDbBQ7
+         xyGVL2CVrqygXM9pqtlmb2vsuGEF+L3tDimyKStMIYIQMefbAYI80qD58k6YOCz2kMH1
+         CALQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728054623; x=1728659423;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GbD5QQI9fbRtagD02Hd9rPEf77aWQGn5Irx05NL1xCE=;
+        b=K6FMMG++aN4pylZUOzS3kp3yr0XLJv6rAnsvHHc1BnjgGMOPbc3fCW//w/Q626APrq
+         ckDaCjtyjkywNmNfQDRqvn7OVYYvVnHNW4vjnnXk6RLs7gZopCWlkW7PzeLd0ToEdh1H
+         06UF43CHip8V5Ga9/+xdvz4Eqj9yP6bHbhjafMge8xdGpymy2aKD1FIoPjrTyR4iiah4
+         dxKzAT0QQuUdsACK775aHiS8ewe/RYLkv6BMiKzWBsrUiPJ0JcMUA4PdxcyV9sFfunPd
+         Y9cdJMJjX3Z+6H7A1VMGF2HwjIYoXdQ5urYR6RtrRBndR1Lr4yqddcOndg9p8zqZHu7E
+         49Hw==
+X-Forwarded-Encrypted: i=1; AJvYcCUWnqKm7GNM+bLxaTwDPY6Qwtqo9cO4weWF0LxnpiTVrfDsHcl4uiQTgkB48UTZHewTce3+UuL1hvY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwG3tkbNzGiPuThl6/WMr/3j1NCP3FoU+zvKqL78VY1z4EA2lpz
+	v7E95DBDheO4WarqirEyQDv5qNGVVrmIosoEIpDwt5aMZLVqconVTH0yRUvuqhc=
+X-Google-Smtp-Source: AGHT+IHNkf+LyQDdbKVSXX5yZtwIGL87SsecooipYEPpbuU+08MHwf7aO/KarDzbVlgyUdnAiBWh8A==
+X-Received: by 2002:adf:b181:0:b0:37c:d299:b5f0 with SMTP id ffacd0b85a97d-37d0eb20122mr1730224f8f.59.1728054623038;
+        Fri, 04 Oct 2024 08:10:23 -0700 (PDT)
+Received: from ?IPV6:2a02:8428:e55b:1101:d506:c29c:99b9:6f15? (2a02-8428-e55b-1101-d506-c29c-99b9-6f15.rev.sfr.net. [2a02:8428:e55b:1101:d506:c29c:99b9:6f15])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d0824504esm3404206f8f.54.2024.10.04.08.10.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Oct 2024 08:10:22 -0700 (PDT)
+Message-ID: <0d2df826-1503-42f7-8f60-1025cc641e2c@baylibre.com>
+Date: Fri, 4 Oct 2024 17:10:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|CH3PR12MB9195:EE_
-X-MS-Office365-Filtering-Correlation-Id: 08e177e7-c896-4937-7323-08dce485a54d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Z0J5cXV2YXA1c2c0enNXbzRIYVp1UHQ0dGNXc1ZGOC9RYi9TUXRtNDdTRXB5?=
- =?utf-8?B?aDU3TlZGVE5yMnNwT05KRTR6RWlsY3puUFFWQlJaR1IwSitzZDIwUDlHV1py?=
- =?utf-8?B?NmJ1MDJCZjlmTUhaODdqcG13ZmowNWRSeXNqVHkweUVlanFpci9RcGJCSERn?=
- =?utf-8?B?U0NianJ5Y2dBd1FrMmtnekFwcGdLbndFTEFpRTlOY1NCMUkvMWR3M28wUmI4?=
- =?utf-8?B?RE5oYkRVWEtSMk11U09rZE53ZEpldW45N20vczFwZ05SZ0IyY3UyMUlrODRv?=
- =?utf-8?B?dW53am1saHc0alU2TmpzVGkwTFdlcHNaT3F4YWMvWkIveDZwald2cEkwU2N0?=
- =?utf-8?B?V21ETkl5amhRcEc5dkNub1VPRk0zQUxhUmlxaDg0VEZWUUFNQS83SmVyaFJk?=
- =?utf-8?B?a0JlQnFYL2NwMFRXMksxaWZBWCttSFJSbTRQd092V2JMcXI5S3V6S3ZIaEtk?=
- =?utf-8?B?MklhbG5lMmVNbkJhTkI2MEMvQTRLN3dRaVI2KzFadDg2U0ZvVnlrYmpORldY?=
- =?utf-8?B?d3dnQ0FTaVlFQ3Izd1lwb0VzRjVSODBFVWNNMHY1VTNxUXduWUxWMmZCdjFz?=
- =?utf-8?B?ZnpsN3FMY01xN1ZON1JwbXBaeDgyNnNlT2JpVTYvaTJibmMxeFgrc3Mwanoz?=
- =?utf-8?B?dGppNkdONDNYOUwvMkRIZFlBYm9MQ3g2SExUQ1VWTXV5ak1jdW5ybndCQjVk?=
- =?utf-8?B?TjRBK2dIOHUyWEx3SGNydjljY292bVlaQjBQdk0ycGNjS2liY3ZPUlNjOTl3?=
- =?utf-8?B?dFNleVhkOCtBWmxzVStKcUU0UFQweVlGOTRzdkRhMWVwdjV2RUliRTdMdkQ1?=
- =?utf-8?B?OHIwcWJhcEw1VjZZTXBSODlNQmlicm8xOFBucXdMZVA5QVpCckx3T2hDY050?=
- =?utf-8?B?UEpKQnZoM3BGeE9hV3YxR0s2eXZadmdlTFFzUm5HWGd6Y1pvMlpSYUFhcGVo?=
- =?utf-8?B?NUhmUXdUeTV6cHc3Uk1mNTA1UG8vc3RIVkgzZU9Db1FSd3kxdDNMQ0NlNW1K?=
- =?utf-8?B?WCtzZkZMemNtNndDdG9lSzFNUGRIUFZjMUpjbGdpNkpvK2wzekxDeFR3bXIw?=
- =?utf-8?B?emdWdHl0NzFYSjdOMENJdFpsTnpYcUp0VXRTcEh2UFRLTlJiSTQxNkd2RGUv?=
- =?utf-8?B?QUN0QWgvNy90VkVvdzBpajJoSmNNampFcm9teDRISjRJcUl2VWl0RnpSOTZo?=
- =?utf-8?B?SDVnNWo0cDhleWhPRlZXcFN0SnIvNEZvNjF3OFBybzA3d0plQ2lCMWNhYTdt?=
- =?utf-8?B?TXg4dEF6MHVWZGFONW5JbG1SQ0ZRWUZ2VHB1K3dGekZoSS9hNmdpdUlod0dL?=
- =?utf-8?B?T2taZnZhU1B2bklYblN2cXNaU3krVlc5Z0o5TSt1eHp3Tys0T0dkeTVIZHBK?=
- =?utf-8?B?dG1VcDB0d3FxMFd2ekpUMEVaeTUreEM4d255MzlTWm9UVFhhUlVPb2Iza2M5?=
- =?utf-8?B?UmFpZVFiWTMvK01QdXRuMGpEMHZoaW9pb2YzOWY2dVdQQVd1ME15amdiNm9R?=
- =?utf-8?B?dlZFbWxyQjZOY1hOQktVYWg4cWZ3L3NZY1E2UlJLQXNvdkROZW95aU40N0Jr?=
- =?utf-8?B?ZW83cS9ROFBMY1BneDhocjlzc0d2YVJ3SVNjUWRGZTg0d2lHcnFNTTl6MzNS?=
- =?utf-8?B?WlB1WDRzclhSL2lYVi9pdTVCZnh0bERpT29YdysycFlzVlo5U2JrOU02ejV6?=
- =?utf-8?B?c3cycXJEMjN3eDZneTVJR3krU1ZLWWF1STJPUEhQQ0FZcWpSYXI2UWRnPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bjZTc25CaXloaE0wZ0VXTERPMk5tTUdvbGo3MVczamkrTnd4QzVSdERhb2Rl?=
- =?utf-8?B?T0ZSRmxQSU1qZE94dHdjaHREQy9SVERVd0pKdDhlVUNsczlTd285cU45WmRz?=
- =?utf-8?B?WDdUUDVBcnJsdzRoWU5qUENkbDNHOTB1U3NURkhOelJaUjRvQ09Gb1d4SEI3?=
- =?utf-8?B?RnZJVGdhazJVZHpOYlRLRXB0TGVNSE5KSERLcUJmZlltRU9CbWlMNXQ2dmJX?=
- =?utf-8?B?akVKb1JQL2lUNThaSVA5NVJtbmF0Wm5mdFhxN2NhV1VxM1FIS0JFTXdvUXQx?=
- =?utf-8?B?ck1PamFkU2Focm56Q1d2V2dyamM1eWFXanZMeSttZVd1WFl4WU9ORGI1UVpt?=
- =?utf-8?B?Tk0vUk9uYWhqYmFLa2VXcmJoYzR5eU9kVEpUSXI4OEFoaDBOWTEvdU84b2FT?=
- =?utf-8?B?WXlyWWREZU9tajVqLy9uNXJQR1VuU2lRdG9OT21TYXF3elVRdnBxUzBFdTZj?=
- =?utf-8?B?Z25BMFh3WVlXK0tuVTJvNkN3TTU4ZnBSaUhEV3lsSDN2bHVwRVBxaFdwQkxN?=
- =?utf-8?B?L21iM2NQV3VVcE9PcXQ4RXRlb3hoV0k2K21HOG5XcHFnQkVqNmNQOXY1ZzVP?=
- =?utf-8?B?RmVPSERsSElLUnlnSXV6cW12OG9OZmlBQitHelpyYWhmTGJOem9CQk14U2U1?=
- =?utf-8?B?K0l1N1NyNkN1TzE3RFFBNHEzdHVleGpiTW5YTlM3TjRHV09pNUtmWW51VTdq?=
- =?utf-8?B?QlhiZnZ4ajZSU1lXZXZ3MDQ5VElGeTlOQTVreXhBNWZMMXNmN01KZU93WVFT?=
- =?utf-8?B?TjNxbWFZOHhTQy91RnVseUhocEZuMVBXUE1MbGNPOFFiODI1Y1ZlcnhWUWEz?=
- =?utf-8?B?d2x0NGpFWS9oU2hNZFB0UWd6RVlRb3F5citoZ3cwWlhMY2RRZ1p3cXZQU2lm?=
- =?utf-8?B?ZmFLVVlWWEZwdENCTEFUR2Fkb0FRM2xwVTFHMEFEeFlOc3h0TVdjdS8rRkJM?=
- =?utf-8?B?OXI5UUlwV0NHeTljMXF1eHpMaitQUEhoaU9oNkVuQVRKc3oycG12aW9VZzMz?=
- =?utf-8?B?QVFrQVNEbFlUb0F4WUxuakVrd1ZxUDFPZ0syOE9qL3h2NjdkeFowU2IxclR5?=
- =?utf-8?B?MW8wZDdNMHhnc2YvZDhqM3pHVW1aWnc0Tk5MK0cyZU1EUlZNblVVbTNyV2U0?=
- =?utf-8?B?RjREQXlqQzF2QTJvMmZtN1ptVWxqaTNHc0pRSWtFQjdqdm84c0hzSDNIdFkv?=
- =?utf-8?B?cFNGZDQxanYvSGViRXoxdTJzWTJpR2NwWFNwbG10eUdvdjVoL3JnWWtTNVV3?=
- =?utf-8?B?S2NNWWxrR2QzN1Z2ZXplQi9RTnd3aGliNVRPNkNxUlF0aHZkZHJTbHY0SjVN?=
- =?utf-8?B?V0NLQnplVWtnT1FSN014RzN6b0RVQlN3L1dxR2JuOTNMblJUbFloUGV6SzI5?=
- =?utf-8?B?NTM2RUxCOEZDRHdIa0JieHRjYVcvVTEzREY2VDZyQ08zaE1wTndJQVBzbG1N?=
- =?utf-8?B?NXFmbUpvc09BT2pPMEdhVTNFOU5ZbEVobXhWN25mZ3EyajBrMUd4RENaNmVZ?=
- =?utf-8?B?OEY3VlY1Tnp4ODQ5MVF1RmdyZG9zYTNkTEM4VkIyMzlGSk02Yms2RTJMTDlM?=
- =?utf-8?B?cEVUem1PWnFDSDFoY3JZZUxxZ1pQd2k5TGtpYXoycWc4L0luc2JyM3QrTTJN?=
- =?utf-8?B?Tmw5RkMxM2Z2S011bmlMSHhoUTc2OEYreHd5M2ZjUHVqNkhLenNmeU9jNkl5?=
- =?utf-8?B?Qy92L3VFbzY0MW1YK1BSaUQ3bnNaV1VmZ0twczZqU0RERmF4b3ZqRlhUUUlD?=
- =?utf-8?B?aE1yb2lJY241SjJOOTlhQ3QvZDd1S0ViRFhrYWpiR1V6bDZaVkx3b0pzVVVW?=
- =?utf-8?B?YW9nK2I0Q0pKWnFFSDNxWjBVV0NMSjBoWjBjR21oYWRrRWpUWUpBbTN2dDRu?=
- =?utf-8?B?c1BsMUE0UjdTYkVyRWp3aG8rN2lJT0wwTFcyemNvU1M0OHJPZ3M1M0htRWZm?=
- =?utf-8?B?c2pNZjBxUGxoWWhzK3FyNGdBU2VIRnh3WTJidm85YU1FS3YrSGdtUnQvSmxn?=
- =?utf-8?B?ZTFYMjJhWDZDb1o5MHBzUHVKSnB2aVYwa3JRd0gveVNqb3R1QmZkREtoUHZu?=
- =?utf-8?B?ajFncUVVVVgydFFLRHF3R1VqeTZaSHBNOWZHZzhWV2Nka3J1dlBEWkdjZU5L?=
- =?utf-8?Q?prLM=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 08e177e7-c896-4937-7323-08dce485a54d
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Oct 2024 15:03:03.6419
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vzzzs1A1UBrnkayLdq0u43lGY88AKSrAezrwbHUdylyBhDxlOWs2VP0+lwYUWG1t
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9195
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 07/10] iio: adc: ad7606: Add compatibility to fw_nodes
+To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Michal Marek <mmarek@suse.com>, linux-pwm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, aardelean@baylibre.com, dlechner@baylibre.com,
+ jstephan@baylibre.com
+References: <20240920-ad7606_add_iio_backend_support-v2-0-0e78782ae7d0@baylibre.com>
+ <20240920-ad7606_add_iio_backend_support-v2-7-0e78782ae7d0@baylibre.com>
+ <20240929134412.506998db@jic23-huawei>
+ <57c5d8b1-295a-492f-b17c-b44caf8aeb2d@baylibre.com>
+ <20241004152551.00000813@Huawei.com>
+Content-Language: en-US
+From: Guillaume Stols <gstols@baylibre.com>
+In-Reply-To: <20241004152551.00000813@Huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Reinette,
 
-On 10/3/2024 9:17 PM, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 10/3/24 5:51 PM, Moger, Babu wrote:
->> Hi Reinette,
->>
->> On 10/2/2024 1:20 PM, Reinette Chatre wrote:
->>> Hi Babu,
->>>
->>> On 9/27/24 9:22 AM, Moger, Babu wrote:
->>>> Hi Reinitte,
+On 10/4/24 16:25, Jonathan Cameron wrote:
+> On Wed, 2 Oct 2024 02:12:28 +0200
+> Guillaume Stols <gstols@baylibre.com> wrote:
+>
+>> On 9/29/24 14:44, Jonathan Cameron wrote:
+>>> On Fri, 20 Sep 2024 17:33:27 +0000
+>>> Guillaume Stols <gstols@baylibre.com> wrote:
+>>>   
+>>>> On the parallel version, the current implementation is only compatible
+>>>> with id tables and won't work with fw_nodes, this commit intends to fix
+>>>> it.
 >>>>
->>>> On 9/19/2024 12:45 PM, Reinette Chatre wrote:
->>>>> On 9/4/24 3:21 PM, Babu Moger wrote:
->>>
->>> ...
->>>
->>>>>> +}
->>>>>> +
->>>>>>     static int rdtgroup_mbm_assign_mode_show(struct kernfs_open_file *of,
->>>>>>                          struct seq_file *s, void *v)
->>>>>>     {
->>>>>> @@ -1793,12 +1802,48 @@ static int mbm_local_bytes_config_show(struct kernfs_open_file *of,
->>>>>>         return 0;
->>>>>>     }
->>>>>>     +static int resctrl_mbm_event_update_assign(struct rdt_resource *r,
->>>>>> +                       struct rdt_mon_domain *d, u32 evtid)
->>>>>> +{
->>>>>> +    struct rdt_mon_domain *dom;
->>>>>> +    struct rdtgroup *rdtg;
->>>>>> +    int ret = 0;
->>>>>> +
->>>>>> +    if (!resctrl_arch_mbm_cntr_assign_enabled(r))
->>>>>> +        return ret;
->>>>>> +
->>>>>> +    list_for_each_entry(rdtg, &rdt_all_groups, rdtgroup_list) {
->>>>>> +        struct rdtgroup *crg;
->>>>>> +
->>>>>> +        list_for_each_entry(dom, &r->mon_domains, hdr.list) {
->>>>>> +            if (d == dom && resctrl_mbm_event_assigned(rdtg, dom, evtid)) {
->>>>>> +                ret = rdtgroup_assign_cntr(r, rdtg, dom, evtid);
->>>>>> +                if (ret)
->>>>>> +                    goto out_done;
->>>>>> +            }
->>>>>> +        }
->>>>>> +
->>>>>> +        list_for_each_entry(crg, &rdtg->mon.crdtgrp_list, mon.crdtgrp_list) {
->>>>>> +            list_for_each_entry(dom, &r->mon_domains, hdr.list) {
->>>>>> +                if (d == dom && resctrl_mbm_event_assigned(crg, dom, evtid)) {
->>>>>> +                    ret = rdtgroup_assign_cntr(r, crg, dom, evtid);
->>>>>> +                    if (ret)
->>>>>> +                        goto out_done;
->>>>>> +                }
->>>>>> +            }
->>>>>> +        }
->>>>>> +    }
->>>>>> +
->>>>>> +out_done:
->>>>>> +    return ret;
->>>>>> +}
->>>>>>       static void mbm_config_write_domain(struct rdt_resource *r,
->>>>>>                         struct rdt_mon_domain *d, u32 evtid, u32 val)
->>>>>>     {
->>>>>>         struct mon_config_info mon_info = {0};
->>>>>>         u32 config_val;
->>>>>> +    int ret;
->>>>>>           /*
->>>>>>          * Check the current config value first. If both are the same then
->>>>>> @@ -1822,6 +1867,14 @@ static void mbm_config_write_domain(struct rdt_resource *r,
->>>>>>                       resctrl_arch_event_config_set,
->>>>>>                       &mon_info, 1);
->>>>>>     +    /*
->>>>>> +     * Counter assignments needs to be updated to match the event
->>>>>> +     * configuration.
->>>>>> +     */
->>>>>> +    ret = resctrl_mbm_event_update_assign(r, d, evtid);
->>>>>> +    if (ret)
->>>>>> +        rdt_last_cmd_puts("Assign failed, event will be Unavailable\n");
->>>>>> +
->>>>>
->>>>> This does not look right. This function _just_ returned from an IPI on appropriate CPU and then
->>>>> starts flow to do _another_ IPI to run code that could have just been run during previous IPI.
->>>>> The whole flow to call rdgroup_assign_cntr() also seems like an obfuscated way to call resctrl_arch_assign_cntr()
->>>>> to just reconfigure the counter (not actually assign it).
->>>>> Could it perhaps call some resctrl fs code via single IPI that in turn calls the appropriate arch code to set the new
->>>>> mon event config and re-configures the counter?
->>>>>
+>>>> Also, chip info is moved in the .h file so to be accessible to all the
+>>> chip info is not moved (I was going to say no to that) but an
+>>> extern is used to make it available. So say that rather than moved here.
+>>>   
+>>>> driver files that can set a pointer to the corresponding chip as the
+>>>> driver data.
 >>>>
->>>> I think we can simplify this. We dont have to go thru all the rdtgroups to figure out if the counter is assigned or not.
->>>>
->>>> I can move the code inside mon_config_write() after the call mbm_config_write_domain().
->>>
->>> mbm_config_write_domain() already does an IPI so if I understand correctly this will still
->>> result in a second IPI that seems unnecessary to me. Why can the reconfigure not be done
->>> with a single IPI?
+>>>>    
+>>>> diff --git a/drivers/iio/adc/ad7606.h b/drivers/iio/adc/ad7606.h
+>>>> index c13dda444526..18c87fe9a41a 100644
+>>>> --- a/drivers/iio/adc/ad7606.h
+>>>> +++ b/drivers/iio/adc/ad7606.h
+>>>> @@ -38,8 +38,19 @@
+>>>>    	AD760X_CHANNEL(num, BIT(IIO_CHAN_INFO_RAW) | BIT(IIO_CHAN_INFO_SCALE),\
+>>>>    		0, BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO))
+>>>>    
+>>>> +enum ad7606_supported_device_ids {
+>>>> +	ID_AD7605_4,
+>>>> +	ID_AD7606_8,
+>>>> +	ID_AD7606_6,
+>>>> +	ID_AD7606_4,
+>>>> +	ID_AD7606B,
+>>>> +	ID_AD7616,
+>>>> +};
+>>>> +
+>>>>    /**
+>>>>     * struct ad7606_chip_info - chip specific information
+>>>> + * @name		device name
+>>>> + * @id			device id
+>>> ID in chip info normally indicates something bad in the design. In that somewhere
+>>> we have code that is ID dependent rather than all such code / data being
+>>> found directly in this structure (or callbacks found from here).
+>>> Can we avoid it here?
+>> Hi Jonathan,
 >>
->> I think we can try updating the counter configuration in the same IPI. Let me try that.
->>
-> 
-> Thank you very much.
-> 
->>>
->>>>
->>>> Using the domain bitmap we can figure out which of the counters are assigned in the domain. I can use the hardware help to update the assignment for each counter.  This has to be done via IPI.
->>>> Something like this.
->>>>
->>>> static void rdtgroup_abmc_dom_cfg(void *info)
->>>> {
->>>>       union l3_qos_abmc_cfg *abmc_cfg = info;
->>>>           u32 val = abmc_cfg->bw_type;
->>>>
->>>>           /* Get the counter configuration */
->>>>       wrmsrl(MSR_IA32_L3_QOS_ABMC_CFG, *abmc_cfg);
->>>>       rdmsrl(MGR_IA32_L3_QOS_ABMC_DSC, *abmc_cfg);
->>>>
->>>
->>> This is not clear to me. I expected MSR_IA32_L3_QOS_ABMC_DSC
->>> to return the bw_type that was just written to
->>> MSR_IA32_L3_QOS_ABMC_CFG.
->>>
->>> It is also not clear to me how these registers can be
->>> used without a valid counter ID. I seem to miss
->>> the context of this call.
->>
->> Event configuration changes are domain specific. We have the domain data structure and we have the bitmap(mbm_cntr_map) in rdt_mon_domain. This bitmap tells us which of the counters in the domain are configured. So, we can get the  counter id from this bitmap. Using the counter id, we can query the hardware to get the current configuration by this sequence.
->>
->> /* Get the counter configuration */
->> for (i=0; i< r->mon.num_mbm_cntrs; i++) {
->>   if (test_bit(i, d->mbm_cntr_map)) {
->>     abmc_cfg->cntr_id = i;
->>     abmc_cfg.split.cfg_en = 0;
->>     wrmsrl(MSR_IA32_L3_QOS_ABMC_CFG, *abmc_cfg);
->>
->>     /* Reading L3_QOS_ABMC_DSC returns the configuration of the
->>      * counter id specified in L3_QOS_ABMC_CFG.cntr_id with RMID(bw_src)
->>      * and event configuration(bw_type)  Get the counter configuration
->>      */
->>     rdmsrl(MGR_IA32_L3_QOS_ABMC_DSC, *abmc_cfg);
->>
-> 
-> Apologies but I do still have the same question as before ... wouldn't
-> MSR_IA32_L3_QOS_ABMC_DSC return the value that was just written to
-> MSR_IA32_L3_QOS_ABMC_CFG? If so, the previous wrmsrl() would set the
-> counter's bw_type to what is set in *abmc_cfg provided as parameter. It
-> thus still seems unclear why reading it back is necessary.
+>> chip_info has to describe the chip hardwarewise, but there are different
+>> bops depending on the wiring (interface used, and backend/no backend).
+> Normal solution to this is multiple chip specific structures so they
+> become specific to a chip + some wiring option. Then you just
+> pick between static const structures.
+>
+> Does that work here?
+>
+> You will need them exposed (extern) from your header but that's
+> not too bad.
+>
+> Aim is to pick just one structure that describes all the 'specific'
+> stuff for the driver.  That brings all that stuff into one place and
+> provides an easy way to extend to new combinations of options for
+> other devices.
+>
+> Jonathan
 
-Yes. It is not clear in the spec.
+I finally wrote a structure containing the couple chip_info/bops
 
-QOS_ABMC_DSC is read-only MSR and used only to get the configured 
-counter id information.
-
-The configuration is only updated when QOS_ABMC_CFG.cfg_en = 1.
-
-When you write QOS_ABMC_CFG with cntr_id = n, abmc_cfg.split.cfg_en = 0 
-and reading the QOS_ABMC_DSC back will return the configuration of 
-cntr_id. Note that when abmc_cfg.split.cfg_en = 0, it will not change 
-the counter id configuration. when you read QOS_ABMC_DSC back here, we 
-will get bw_type (event config), bw_src (RMID) etc.
-
-union l3_qos_abmc_cfg {
-	struct {
-		unsigned long bw_type  :32,
-			      bw_src   :12,
-			      reserved1: 3,
-			      is_clos  : 1,
-			      cntr_id  : 5,
-			      reserved : 9,
-			      cntr_en  : 1,
-			      cfg_en   : 1;
-	} split;
-	unsigned long full;
+/**
+  * struct ad7606_bus_info - agregate ad7606_chip_info and ad7606_bus_ops
+  * @chip_info        entry in the table of chips that describes this device
+  * @bops        bus operations (SPI or parallel)
+  */
+struct ad7606_bus_info {
+     const struct ad7606_chip_info    *chip_info;
+     const struct ad7606_bus_ops    *bops;
 };
 
-We need to update bw_tyoe (event config). When we write QOS_ABMC_CFG 
-back with abmc_cfg.split.cfg_en = 1, the configuration will be updated.
+and declared the following way
 
-if (abmc_cfg->bw_type != val) {
-        abmc_cfg->bw_type = val;
-        abmc_cfg.split.cfg_en = 1;
-        wrmsrl(MSR_IA32_L3_QOS_ABMC_CFG, *abmc_cfg);
-    }
+const struct ad7606_bus_info ad7606b_bus_info = {
+     .chip_info = &ad7606b_info,
+     .bops = &ad7606b_spi_bops,
+};
 
-I will send you the code later today.
+const struct ad7606_bus_info ad7606c_16_bus_info = {
+     .chip_info = &ad7606c_16_info,
+     .bops = &ad7606b_spi_bops,
 
+etc...
 
+Will send the series later today, just doing some last checks.
 
--- 
-- Babu Moger
+>
+>
+>> The easiest way I found was to use the ID in a switch/case to
+>> determinate which bops I should take (well it was only needed in the spi
+>> version since it is the one supporting almost all the chips while the
+>> other ones still support only one). For instance, the ad7606B will use
+>> ad7606_bi_bops if it has a backend and ad7606B_spi_bops for spi version.
+>>
+>> If I can't use the ID, the only way I see is creating 3 fields in
+>> chip_info (spi_ops, par_ops, backend_ops) and to initialize every
+>> chip_info structure with its associated op(s) for the associated
+>> interface. This would also lead to declare the different instances of
+>> ad7606_bus_ops directly in ad7606.h  (I dont like it very much but see
+>> no other option).
+>>
+>> Do you think it's better that way ? Or do you have any other idea ?
+>>
+>> Regards,
+>>
+>> Guillaume
+>>
+>>>   
+>>>>     * @channels:		channel specification
+>>>>     * @num_channels:	number of channels
+>>>>     * @oversampling_avail	pointer to the array which stores the available
+>>>> @@ -50,6 +61,8 @@
+>>> ...
+>>>   
+>>>> diff --git a/drivers/iio/adc/ad7606_par.c b/drivers/iio/adc/ad7606_par.c
+>>>> index d651639c45eb..7bac39033955 100644
+>>>> --- a/drivers/iio/adc/ad7606_par.c
+>>>> +++ b/drivers/iio/adc/ad7606_par.c
+>>>> @@ -11,6 +11,7 @@
+>>>>    #include <linux/mod_devicetable.h>
+>>>>    #include <linux/module.h>
+>>>>    #include <linux/platform_device.h>
+>>>> +#include <linux/property.h>
+>>>>    #include <linux/types.h>
+>>>>    
+>>>>    #include <linux/iio/iio.h>
+>>>> @@ -89,12 +90,20 @@ static const struct ad7606_bus_ops ad7606_par8_bops = {
+>>>>    
+>>>>    static int ad7606_par_probe(struct platform_device *pdev)
+>>>>    {
+>>>> -	const struct platform_device_id *id = platform_get_device_id(pdev);
+>>>> +	const struct ad7606_chip_info *chip_info;
+>>>> +	const struct platform_device_id *id;
+>>>>    	struct resource *res;
+>>>>    	void __iomem *addr;
+>>>>    	resource_size_t remap_size;
+>>>>    	int irq;
+>>>>    
+>>>> +	if (dev_fwnode(&pdev->dev)) {
+>>>> +		chip_info = device_get_match_data(&pdev->dev);
+>>>> +	} else {
+>>>> +		id = platform_get_device_id(pdev);
+>>>> +		chip_info = (const struct ad7606_chip_info *)id->driver_data;
+>>>> +	}
+>>>> +
+>>>>    	irq = platform_get_irq(pdev, 0);
+>>>>    	if (irq < 0)
+>>>>    		return irq;
+>>>> @@ -106,25 +115,25 @@ static int ad7606_par_probe(struct platform_device *pdev)
+>>>>    	remap_size = resource_size(res);
+>>>>    
+>>>>    	return ad7606_probe(&pdev->dev, irq, addr,
+>>>> -			    id->name, id->driver_data,
+>>> Rewrap to move chip_info up a line perhaps.
+>>>   
+>>>> +			    chip_info,
+>>>>    			    remap_size > 1 ? &ad7606_par16_bops :
+>>>>    			    &ad7606_par8_bops);
