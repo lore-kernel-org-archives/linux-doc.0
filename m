@@ -1,89 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88F2D137776
-	for <linux-doc@vger.kernel.org>; Fri,  4 Oct 2024 21:03:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B0D15A856;
+	Fri,  4 Oct 2024 21:07:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728075825; cv=none; b=Yd2uWtZpCeDNOWBXKuDoaP7Z+NxTaqHVgebj+4rnmKjBqI3ffoZf+UOV/2qrvyKdFSxSBmVC2XP5khCgDCa+i9p0kqyeHA6FGGhBbDT1mlT61faH0ivqLwdx2CbfSMVEoechpwx+6s0Q+ZrowmyjAeHdRyom7FRescSy73vhG5s=
+	t=1728076028; cv=none; b=HX3tiEHE3g3E+iv4vFbwD56WbToiow0pXr+fdqncIB/p7KXy1hQvfmdDiQlCqG954E/lLntHKbJVlcXcB5ZZRnQFZJbgFSQP26DIgofB5qNdaE8t7PhqFXo15rPrtJHZ/A/RSGfGM/vCDH6qymExHz1Rg6oI0nTlvXhcpSBjIvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728075825; c=relaxed/simple;
-	bh=S2eQ+YGsZW/jWuYKZQJB2rhBR/8C3IrWuP7d18dI7N8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Hny2ZpqaEcEUhaEn6hLbHC1ax8+OwjlcTXgFQ9+YAushbmInrP0bpJoDk3ZmMtMToww14Hh6uE3BcsDDTDslcgUNsG5pHzssZixt9dW0vx7ZdRU42ffbt70CY1Ao4BN0wgcU2WfiaJ/Y5VUoIO2key3VTTdi93zN5lyEyFuE2JI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VYzBz4+Q; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728076028; c=relaxed/simple;
+	bh=35IOoHe/X7gnxDSJ+PKxFRsGFeTWY6fFlRdddCjRNEQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tdtkxW6MbI+05i9d38gtjKiz5qeF6Gk04sACgPAQYTGrvyyozgy4S/lYhS6fr8KGi4SRfZ9/4Yg1t2iOdrD9item5bYAWKorJ775LgCjdUhOYnhxRfACoQ+ntz9I+KmnOdkS7fd6tBE5Q2LDEBf+1UzaC0XxeEdr7ZSPhkIsIr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=RHbE3DVW; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VYzBz4+Q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728075823; x=1759611823;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=S2eQ+YGsZW/jWuYKZQJB2rhBR/8C3IrWuP7d18dI7N8=;
-  b=VYzBz4+QWui2dATGmg7jucywwmEk20qF3XWbWUj4bcY8p8lM9MTLl8Mo
-   TI6eJiQwCT2LU7+81c63j8daZT8Y1eQdyCZMAvOvBfmU7/qmmUgt45k/n
-   LeuaxQBogK1zG95NVYsjK8bkuHUJU2o1Txv8tH7qycHhP26hNF/G4VKwF
-   EG+MhTXDD2WEUp0h3UJsR+avmBTMhwW9c7nUkL2AI9KKjLo7VEuxqu76A
-   6IhL8ACB+gaiXS935KeuvwDp10PYmlMex7pJMSE8j6SZZvkE4F2DGAxtc
-   g4SxeTx7GYdLPbpwicKskt39ETSSL/unklz4gl8oR7pzm+vvkZymlAOEq
-   A==;
-X-CSE-ConnectionGUID: aJrHV79oR5SfIgtFtMRhuw==
-X-CSE-MsgGUID: kjA0NeR1TdC62wYIpqrqAA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="37967835"
-X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="37967835"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 14:03:43 -0700
-X-CSE-ConnectionGUID: lHa9QM5BSzmMfEyfY0+RBA==
-X-CSE-MsgGUID: iJID+FSNRCCsvQsiqbj96g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; 
-   d="scan'208";a="105669417"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 04 Oct 2024 14:03:42 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1swpSd-0002Di-22;
-	Fri, 04 Oct 2024 21:03:39 +0000
-Date: Sat, 5 Oct 2024 05:03:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: James Morse <james.morse@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [morse:mpam/snapshot/v6.12-rc1 48/132] htmldocs: Warning:
- fs/resctrl/Kconfig references a file that doesn't exist:
- file:Documentation/fs/resctrl.rst
-Message-ID: <202410050550.9upmA12n-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="RHbE3DVW"
+Received: from [172.27.3.244] ([76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 494L65GU1102942
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Fri, 4 Oct 2024 14:06:05 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 494L65GU1102942
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2024091601; t=1728075968;
+	bh=XsIxGCLuwc7oDprSmGh/r3HcUoLTGC5y0f+hwyxMfwo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=RHbE3DVWEQje/BMw0MYaccvz1CZHwlX6EAgZGBVxHM2N6A8Bs+1jWvQpqHAmpUzya
+	 B92rCcmXrNdl6GfJQOI48PxiDK98iUmhievUBaOuzvKW3PAg7k45+MO2DgOhre9Bqd
+	 MrXnCq+SHnBPZaEqYPEh1ZZWpqzvtfcpjsowsK7ZSQpJE3n6P52zeuoQxt6YTsZKnI
+	 eOmpzoP5V4jl/5Ek7xSXJuKz/8Ygm8jcSxEYWiVLw5Mr50hkZ5MwtV2JsKhIo4+1yl
+	 R0hI44pjMEjCP35l4UByBpjxQS3xPtcQR5w0P8PyQOSjLhz1QZW4Zg4KVQGx8RJEXl
+	 n08E+BHxsQUWw==
+Message-ID: <5c7490bb-aa74-427b-849e-c28c343b7409@zytor.com>
+Date: Fri, 4 Oct 2024 14:06:05 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 25/28] x86: Use PIE codegen for the core kernel
+To: Ard Biesheuvel <ardb@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org,
+        x86@kernel.org, Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>, Uros Bizjak <ubizjak@gmail.com>,
+        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+        Christoph Lameter <cl@linux.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Juergen Gross <jgross@suse.com>,
+        Boris Ostrovsky
+ <boris.ostrovsky@oracle.com>,
+        Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>, Masahiro Yamada <masahiroy@kernel.org>,
+        Kees Cook <kees@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+        Keith Packard <keithp@keithp.com>,
+        Justin Stitt <justinstitt@google.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
+        Ian Rogers <irogers@google.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Kan Liang <kan.liang@linux.intel.com>, linux-doc@vger.kernel.org,
+        linux-pm@vger.kernel.org, kvm@vger.kernel.org,
+        xen-devel@lists.xenproject.org, linux-efi@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-sparse@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-perf-users@vger.kernel.org,
+        rust-for-linux@vger.kernel.org, llvm@lists.linux.dev
+References: <20240925150059.3955569-30-ardb+git@google.com>
+ <20240925150059.3955569-55-ardb+git@google.com>
+ <99446363-152f-43a8-8b74-26f0d883a364@zytor.com>
+ <CAMj1kXG7ZELM8D7Ft3H+dD5BHqENjY9eQ9kzsq2FzTgP5+2W3A@mail.gmail.com>
+ <CAHk-=wj0HG2M1JgoN-zdCwFSW=N7j5iMB0RR90aftTS3oqwKTg@mail.gmail.com>
+ <CAMj1kXEU5RU0i11zqD0433_LMMyNQH2gCoSkU7GeXmaRXGF1Yw@mail.gmail.com>
+Content-Language: en-US
+From: "H. Peter Anvin" <hpa@zytor.com>
+In-Reply-To: <CAMj1kXEU5RU0i11zqD0433_LMMyNQH2gCoSkU7GeXmaRXGF1Yw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.12-rc1
-head:   4d17b37b670795954fd7a70c8ec83fb705a5e2ad
-commit: a2273d13b7e6bd18935bcb8c1f67d67b92cb44c6 [48/132] x86,fs/resctrl: Move resctrl.rst to live under Documentation/filesystems
-reproduce: (https://download.01.org/0day-ci/archive/20241005/202410050550.9upmA12n-lkp@intel.com/reproduce)
+On 10/3/24 04:13, Ard Biesheuvel wrote:
+> 
+>> That said, doing changes like changing "mov $sym" to "lea sym(%rip)" I
+>> feel are a complete no-brainer and should be done regardless of any
+>> other code generation issues.
+> 
+> Yes, this is the primary reason I ended up looking into this in the
+> first place. Earlier this year, we ended up having to introduce
+> RIP_REL_REF() to emit those RIP-relative references explicitly, in
+> order to prevent the C code that is called via the early 1:1 mapping
+> from exploding. The amount of C code called in that manner has been
+> growing steadily over time with the introduction of 5-level paging and
+> SEV-SNP and TDX support, which need to play all kinds of tricks before
+> the normal kernel mappings are created.
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410050550.9upmA12n-lkp@intel.com/
+movq $sym to leaq sym(%rip) which you said ought to be smaller (and in 
+reality appears to be the same size, 7 bytes) seems like a no-brainer 
+and can be treated as a code quality issue -- in other words, file bug 
+reports against gcc and clang.
 
-All warnings (new ones prefixed by >>):
+> Compiling with -fpie and linking with --pie -z text produces an
+> executable that is guaranteed to have only RIP-relative references in
+> the .text segment, removing the need for RIP_REL_REF entirely (it
+> already does nothing when __pic__ is #define'd).
 
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/fs/resctrl*
-   Warning: arch/x86/kernel/cpu/resctrl/monitor.c references a file that doesn't exist: Documentation/arch/x86/resctrl.rst
->> Warning: fs/resctrl/Kconfig references a file that doesn't exist: file:Documentation/fs/resctrl.rst
-   Using alabaster theme
+But -fpie has a considerable cost; specifically when we have indexed 
+references, as in that case the base pointer needs to be manifest in a 
+register, *and* it takes up a register slot in the EA, which may end 
+converting one instruction into three.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Now, the "kernel" memory model is defined in the ABI document, but there 
+is nothing that prevents us from making updates to it if we need to; 
+e.g. the statement that movq $sym can be used is undesirable, of course.
+
+	-hpa
+
