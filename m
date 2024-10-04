@@ -1,99 +1,123 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEFED1E3DDE
-	for <linux-doc@vger.kernel.org>; Fri,  4 Oct 2024 15:32:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250801E3DE2;
+	Fri,  4 Oct 2024 15:33:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728055960; cv=none; b=u8Hu/RgfLOVbAdB0pk9KhoMAC8KaVJJ0ooiMg480iR1y+bi/dbIIcirldjd/WKMfDckb39x2aOiDh3Md/g6KzVPIpl/IUmJ88gQXpPgXtDYXUzf1Qc9l+kkaedWUACBWozdsEYjIYz4oPUaYFDWbik0qi65OGuAPsYEsVUIzzaA=
+	t=1728056037; cv=none; b=YUu+RzCkd8b/jhWVxTeCYhOB95xvcTEQTVWgmG7BR8K7I1ujx8lpW5nbyrR/m8BKHpJgrz++zwkfiuXNJbqopT8LUPMaaog2FSItCFEYgiFZyrIQ2MHnvSeIlXIY6JqUbva0ubd7pygpe2GwjBVwWEuFUD02sNvYHIktlNKRlFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728055960; c=relaxed/simple;
-	bh=5yTL8XGh2t9xK5VWWbyOX4lCsqycK775iZuobIRGfb8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SB/5sAT1ExVSLKCds/tarhvB7cPzeGMB6GDcgivc68yUg4gMCCntmz3sGpe5TT+ZTsLoVrA+Bf1+jNFhH+qcSryERV196FaOWVjaEwEVfNc8oRmkutW1/ueErj4CtCYpuHcsuF42vq9lwZ5Gh4lSphCA/I3Bv+3NVhh6nrukcbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LbXWsncX; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1728056037; c=relaxed/simple;
+	bh=gjncOFNI91eE/i9qLENcL8qQ6qRD2jzz45Htiiwitc0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=E5hqwFjUgOd66nzYsiFOWuFQll2S/2PSkpX22w3Btc4NNLCgwfK6x8L9Oz56Aq6P34rZxseHE3j+bDt0j8lC9LNIlQGVMYd6020B36Peix2+h000eIFIDMReR+CfYM19M2nkhFIkXv2G6s5jOVnQtpw1l+7Wp9QWiIuUocckvDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=ftTsGfN4; arc=none smtp.client-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LbXWsncX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1728055956;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BsvYJhdgN7y4uvFjsLjEprL3BcHtuRcmRyB8X0RUZKI=;
-	b=LbXWsncXt2anQkzDsZG/VVSN02Fwp42c1Eu1puLlCKkGx8rNYiA0IBQbfupIvDwDBftm/M
-	jV35k6g4wbN34/IgpsZN7uEWiQq8sQYq2MGM30uEOTSpKlc6XCZOResuIBzF0omGfAXgbj
-	0+LyC4UVlfNCQ3/eCqZPPzliUIZqAF0=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-302-aP2CdMNJOZqswZv2kB1EOQ-1; Fri,
- 04 Oct 2024 11:32:33 -0400
-X-MC-Unique: aP2CdMNJOZqswZv2kB1EOQ-1
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A946F1955BD2;
-	Fri,  4 Oct 2024 15:32:31 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.24])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A216419560A3;
-	Fri,  4 Oct 2024 15:32:25 +0000 (UTC)
-Date: Fri, 4 Oct 2024 23:32:18 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Uday Shankar <ushankar@purestorage.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-	linux-block@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 2/5] ublk: refactor recovery configuration flag helpers
-Message-ID: <ZwAKgnJmJ6yZ-c50@fedora>
-References: <20241002220949.3087902-1-ushankar@purestorage.com>
- <20241002220949.3087902-3-ushankar@purestorage.com>
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="ftTsGfN4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1728056028; x=1728660828; i=w_armin@gmx.de;
+	bh=1Z1ETLMKssaKmHzYJoUrFeje1fnlvjKiRYyIrNRHGcA=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=ftTsGfN4uw9pdGsd0GGjYXV+PTq0MANkuCUYe+PTm6yNwGXlDkMfUdLn6kaAo1Tk
+	 d0oUStA6e0uP6O+uqGhnKmVb0VqoQC1AiVndloiQRRCvq91njss3YfDzTv1B3u2+/
+	 aTyOPeR2t5NYbHbnCmKG7z0xmezmVKv9ojWBwF4FucycwYbwP8JcNFQdMD+lno+ka
+	 y1emKFq8eY5dk6p5Z9p90YxayaQzixsyjhbeMDNGSvFzSXCtrp8F2ioUh9hX6NJeb
+	 wopwSphZ+j/l+kDcQNSJMTBxHtMi9vFUAJfnHHP1VCz+JGoRKwKB2Cu7Z5X1XT+QU
+	 yq0i5zDhEal0aLi8CA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.2.35] ([91.137.126.34]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MxUnp-1tudFt1nCr-00uoSY; Fri, 04
+ Oct 2024 17:33:48 +0200
+Message-ID: <d42910eb-3353-46e1-9a20-ac68eb0160a6@gmx.de>
+Date: Fri, 4 Oct 2024 17:33:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241002220949.3087902-3-ushankar@purestorage.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] platform/x86: dell-ddv: Fix typo in documentation
+To: Anaswara T Rajan <anaswaratrajan@gmail.com>
+Cc: corbet@lwn.net, platform-driver-x86@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241004083102.752344-1-anaswaratrajan@gmail.com>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <20241004083102.752344-1-anaswaratrajan@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:SY3ZMVQCxoC30gbDbXqUe2kflh0gIYgXEtHE5yS1MjI25itLGrm
+ vPYahFG2Vd23pbRFE3kOByuIjgO8ARBL1svI7ianFLkpz5hzHT8gmZZAvcW/6poBNUuqEkn
+ Sj3p1le8fkYqSAKpvK/scl3lOo9AdaYBHzh+I6Zk3yeZhjU9BgYokBe9fYDdcuU6RWh+K2i
+ 2+rvuF/BlV02/Z3NiH6fg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:lhuLdilrsUE=;+NscgoE3IoOVsmCteKWwn9kovhf
+ 3qLIXIHW00N7KhWX+0VirBrBXyVNeEMru5QosFrnS7U4mcjc6yXHn3zn0DNVeaOjHBsr9Tpz5
+ 5M40hIuyzGb/aGhY+Dg/AOyNorNnN+hadbsYAPsTOSTLHaRQAm1O8wvci8Y8bNa9gRk8mfNWT
+ uIH65tzyFKUv6KpEAA6+vcVB4bM+o5t9D1jgcF7fQnFo77ANgeTKM6CTUK6PMnhAZWMebGKqP
+ WCrzzyl6km5rFTsJYFIAtFfsT2S4AdSSxy3O7LjqZFfeo+idnLUKuY6oZiUphwNcmCI5Netel
+ OHyawbjkx+XteTvAG3nyqcM4c13+ubqAdca3bVJu2THkvPyvtvL7lJXPJT1jpokTtd/d/J+lo
+ bTaNy3rD9cOMSPx5cbh5Ef/ySGe4lfBzVYgH55K93Rvn1rVqeyfChq3jdbvghrZEjaGruW4Iy
+ B7bX0srFDC0/IG+Vcuc90EtakS8BS/XD8BYvUciqeTg6/HqLDNrjOwJM3P91BkQSnx3/dIklC
+ dNy44ALcwINnGG/hYcntN7QXfOjPkemROwgV1Pj0bQp+gLeT7w52HTBmhDmDczNyXZYsyfabh
+ OHXpi61sPLQ/BwhfANtw+vnvYKU6LpJBbzWro5KvOJK69U5Oa9h0pdM/+NGhrv17bIYnFIo+H
+ PKDbDcDQ2lZHQYBuVaQMunU0ZrF4T6MyekMLbIM+CwOtQTUg8JgTv3/MdoftnYw3B4y7nfRan
+ MPmtfRUk6NR6VcJ7fsQBZUisfvnixqrQeo/tVjeffYd4aFICjuZWk5FgN98xmPNw/Ohsooqn5
+ UZwSytA15NIQn1/Z801lALqyyq3vpxgwlqkC8EWizGdHU=
 
-On Wed, Oct 02, 2024 at 04:09:46PM -0600, Uday Shankar wrote:
-> ublk currently supports the following behaviors on ublk server exit:
-> 
-> A: outstanding I/Os get errors, subsequently issued I/Os get errors
-> B: outstanding I/Os get errors, subsequently issued I/Os queue
-> C: outstanding I/Os get reissued, subsequently issued I/Os queue
-> 
-> and the following behaviors for recovery of preexisting block devices by
-> a future incarnation of the ublk server:
-> 
-> 1: ublk devices stopped on ublk server exit (no recovery possible)
-> 2: ublk devices are recoverable using start/end_recovery commands
-> 
-> The userspace interface allows selection of combinations of these
-> behaviors using flags specified at device creation time, namely:
-> 
-> default behavior: A + 1
-> UBLK_F_USER_RECOVERY: B + 2
-> UBLK_F_USER_RECOVERY|UBLK_F_USER_RECOVERY_REISSUE: C + 2
-> 
-> We can't easily change the userspace interface to allow independent
-> selection of one of {A, B, C} and one of {1, 2}, but we can refactor the
-> internal helpers which test for the flags. Replace the existing helpers
-> with the following set:
-> 
-> ublk_nosrv_should_reissue_outstanding: tests for behavior C
-> ublk_nosrv_[dev_]should_queue_io: tests for behavior B
-> ublk_nosrv_should_stop_dev: tests for behavior 1
-> 
-> Signed-off-by: Uday Shankar <ushankar@purestorage.com>
+Am 04.10.24 um 10:31 schrieb Anaswara T Rajan:
 
-Reviewed-by: Ming Lei <ming.lei@redhat.com>
+> Fix typo in word 'diagnostics' in documentation
 
+Apart from the missing point at the end of the sentence:
 
-Thanks,
-Ming
+Reviewed-by: Armin Wolf <W_Armin@gmx.de>
 
+>
+> Signed-off-by: Anaswara T Rajan <anaswaratrajan@gmail.com>
+> ---
+> Changes in v2:
+>    - Make the commit title and description more clearer.
+>
+>   Documentation/wmi/devices/dell-wmi-ddv.rst | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/wmi/devices/dell-wmi-ddv.rst b/Documentation/=
+wmi/devices/dell-wmi-ddv.rst
+> index 2fcdfcf03327..e0c20af30948 100644
+> --- a/Documentation/wmi/devices/dell-wmi-ddv.rst
+> +++ b/Documentation/wmi/devices/dell-wmi-ddv.rst
+> @@ -8,7 +8,7 @@ Introduction
+>   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+>   Many Dell notebooks made after ~2020 support a WMI-based interface for
+> -retrieving various system data like battery temperature, ePPID, diagost=
+ic data
+> +retrieving various system data like battery temperature, ePPID, diagnos=
+tic data
+>   and fan/thermal sensor data.
+>
+>   This interface is likely used by the `Dell Data Vault` software on Win=
+dows,
+> @@ -277,7 +277,7 @@ Reverse-Engineering the DDV WMI interface
+>   4. Try to deduce the meaning of a certain WMI method by comparing the =
+control
+>      flow with other ACPI methods (_BIX or _BIF for battery related meth=
+ods
+>      for example).
+> -5. Use the built-in UEFI diagostics to view sensor types/values for fan=
+/thermal
+> +5. Use the built-in UEFI diagnostics to view sensor types/values for fa=
+n/thermal
+>      related methods (sometimes overwriting static ACPI data fields can =
+be used
+>      to test different sensor type values, since on some machines this d=
+ata is
+>      not reinitialized upon a warm reset).
