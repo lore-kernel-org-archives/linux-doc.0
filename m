@@ -1,108 +1,109 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D1717C8D;
-	Sat,  5 Oct 2024 03:49:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C89945C14;
+	Sat,  5 Oct 2024 04:39:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728100144; cv=none; b=tbITmAkOYugyaZ2C9EHu/kgHvH/r07trqCUGq79dL9aLCkKR8OQXM12y/Tve1f4gkffaRfmp6/Oqg1+nK3nzYymI/7CXFclnQrDv7dYjAmydGZ7TihUkma4ZHivifcf3NaFCMOTfZ+to79g83aTWxAkKI398nzGNAhbKsD3Nry0=
+	t=1728103153; cv=none; b=NCCsAmzG0cu/ve9OKceGQ2ZXjSXIJ+3SyJV3HNPbm5qk540YZ/CR/1II7F/DBVyWN+U3Xybj31euus3rLTj6cdP9TcrhAOIppwuvH2/GQy7WRsmRFt3eckE2aXL2HsOaMfmtEFb9eSiv3nc7MxWlYcwrtNqPKBoSthvsPJSJEEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728100144; c=relaxed/simple;
-	bh=Rl9H/4uXicjr8Khdfjhs8QAZ6pUx+IOd9fPowrw0QrA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EUsqOrD1o8JCuaYGmQCDyLRbNQtUH3aGxtsxonXtw460XKFdKGtp+lzcB0Md4utrh1jBE2UO1pRurcr9VMIHUEgf3yOmzJV8trr83e8FlLC6QU/tTvLGR52VagrrCHSfDUjaYamUxJE8tsFN9roHH9eubdEOPtc/YbgHCoZk/40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gp4FccHo; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728103153; c=relaxed/simple;
+	bh=EnAa6NGA4V2q6WOYAXC4Cb73ghzqqRX04lsYm/I/9go=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KhOHA7xWKoXcdBMe4yR5EVXKUwV1rvf5OmNdpjvlNlc0oofpXwZsUZN4p2jHQqoYyUoDVrHbUJg45mH4cAKgk7IlX4Z6Qca9/LBGzNPV7YDi4YS0hklk1fBRXlQQK0sC14jOovye32bQTFlRcQJmRq4XtU47AQ6mfoY+fwAv23Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mLZBw+Pv; arc=none smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gp4FccHo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728100142; x=1759636142;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Rl9H/4uXicjr8Khdfjhs8QAZ6pUx+IOd9fPowrw0QrA=;
-  b=Gp4FccHoNkYNd+DcqeAxy+/ZtMHmx7H858LVBRxs+lCMPRvktxUz8+8p
-   gpxOCI4mEKL8EWv43RXAoTp8b8wLlmm0QM2k09Cyb4ozDiwDS70rsgKS/
-   L8tlS2Jm8XvvDDPdpETZn/nH1acz84e4OZ+LxOVaMuPDB1Rn53DXNiR0W
-   6OHyE9kE/cT0Y1L201sFxBYZYsbhKTIBBXNwjPEzC+cNykTJipFW1pWJY
-   +ZL7fWg7roz6a9IZrmcQGKE8fqri4hWbiYI83+fNNlSWyPGEKalPQgESs
-   HjvMczfWZ6pZYBxZqEMs++zgzBL9CFUesOhxUMzeAbSru8huYPb3TMLdK
-   g==;
-X-CSE-ConnectionGUID: sUXtrZJAQdSdkb/KeQ/ZMA==
-X-CSE-MsgGUID: Y/mKqH4XRvKiP2QcndNYlg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="37931938"
-X-IronPort-AV: E=Sophos;i="6.11,179,1725346800"; 
-   d="scan'208";a="37931938"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 20:49:01 -0700
-X-CSE-ConnectionGUID: oNZme5hgRGCPYSwWigtLLA==
-X-CSE-MsgGUID: OEqRuqUwSuiL8fs0xhePMg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,179,1725346800"; 
-   d="scan'208";a="75719530"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 04 Oct 2024 20:48:53 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1swvml-0002X3-1T;
-	Sat, 05 Oct 2024 03:48:51 +0000
-Date: Sat, 5 Oct 2024 11:48:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: Taehee Yoo <ap420073@gmail.com>, davem@davemloft.net, kuba@kernel.org,
-	pabeni@redhat.com, edumazet@google.com, almasrymina@google.com,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	donald.hunter@gmail.com, corbet@lwn.net, michael.chan@broadcom.com
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, kory.maincent@bootlin.com,
-	andrew@lunn.ch, maxime.chevallier@bootlin.com, danieller@nvidia.com,
-	hengqi@linux.alibaba.com, ecree.xilinx@gmail.com,
-	przemyslaw.kitszel@intel.com, hkallweit1@gmail.com,
-	ahmed.zaki@intel.com, paul.greenwalt@intel.com,
-	rrameshbabu@nvidia.com, idosch@nvidia.com, asml.silence@gmail.com,
-	kaiyuanz@google.com, willemb@google.com,
-	aleksander.lobakin@intel.com, dw@davidwei.uk,
-	sridhar.samudrala@intel.com, bcreeley@amd.com, ap420073@gmail.com
-Subject: Re: [PATCH net-next v3 7/7] bnxt_en: add support for device memory
- tcp
-Message-ID: <202410051156.r68SYo4V-lkp@intel.com>
-References: <20241003160620.1521626-8-ap420073@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mLZBw+Pv"
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6cb2f272f8bso23665536d6.0;
+        Fri, 04 Oct 2024 21:39:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728103151; x=1728707951; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ly0zwz6jtcDwv/YYeb/3GBI3NjGskGr2bWS4kP26DnU=;
+        b=mLZBw+Pv2FurwyqyNXQAkU/KcboTr9Ah+RMkxXTJoOk1HOEywmGSFW3BsNBN9B9abG
+         f65h9SqOFGBnDk9ZoRGIe91tnHwtA/E2UdgfoOrqeRt+Sla23AMl9xSXSy3/T4+m706y
+         pa6x1dusShZhrQNLxmbFytThvILn0ms/5XMhsj1fR7q/rSO/lzfbbCTolRBuvgxjbdS9
+         1fSsGSvtwODM2fdDyH7qbGUcLWTGdMOi6ApcqypAdMXx8l+4q03/xR2WIbXnwWgi291f
+         lOv9tlAQVzrxKfmkEagBrljl1kIOrOLtdnhe17U/2T7a/Fag9df4XemqzFBRXwvUNUeV
+         zE4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728103151; x=1728707951;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ly0zwz6jtcDwv/YYeb/3GBI3NjGskGr2bWS4kP26DnU=;
+        b=C7qhG54hQqLgf/oPrcwrgWgGcQjM7yooEqpbbmKCUT45Y7+kAads6AM4MKkN9m4UVl
+         RTkd/FiMO6VubpCJucEcadHDNMTb4kmrV4wlkVFsySJxgpSxErhQqa5f6zmtXzrmOzQ+
+         aVbqBE0XEbbJyRA/0POe5rVPE7ZeYvkR3O7Hm8maLkNnKYOwlCdq0a8TkF5v7o+FU9/U
+         ZAH18e2NiJTbDukDMW4rWQZsFJYEX2uMynnkI9WMAlzql1l78Twg1XHiGcoxyAmXTGHQ
+         hLiVNcu3QJvGBio10X/ujpPGd06xmx7jmkKEpDXXAU7wopd3J2/1B1VGSPtqp42tDMhC
+         wb9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUC7X6cy67Z2n0OHx6nJxpa5hiiE1iCEeZ3fOXXTTdJE6B2fh/qIMYGHY3CnSttkkbI4QqEXupcJ44=@vger.kernel.org, AJvYcCUL65EaWFwZm3aoyJUjHHs+vfevhWC73vGevWjK5CyrT0bYa5XijDRweWakuCfy6eYBSbWO756R@vger.kernel.org, AJvYcCWSq63U/9sD9HDVUdg4h3abQiTUHeWOVuk0MEjlLPbxbh9Cz+derJcjuil/rC0LrCa/LXru0Ia2aP3Q0qw3@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7orjDRRMvQgOnVGaYPc+7YcpZuMyFyGTeiZZFHgim6TVt4WtY
+	Mh1eVbOPIMrOMXn/VR3l2cLwd62Z8g3DRLhTErTFuJrqdy00iKizuV7rFgSQlyzyddbGjPhtoF6
+	nEPNX6dxetsdK/dGkHUdeBdIuTWE=
+X-Google-Smtp-Source: AGHT+IEQ4aOefgbRPtK7gQetfNSpu6UVZHXpVAWr8zIMcdq424mAljO19O57h8QNx0l+jPomY0NkKg75rk/NmoDt1tg=
+X-Received: by 2002:a05:6214:5904:b0:6cb:3cbb:6031 with SMTP id
+ 6a1803df08f44-6cb9a1ef79fmr79083876d6.7.1728103150810; Fri, 04 Oct 2024
+ 21:39:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241003160620.1521626-8-ap420073@gmail.com>
+References: <20241002113316.2527669-1-leitao@debian.org>
+In-Reply-To: <20241002113316.2527669-1-leitao@debian.org>
+From: Akinobu Mita <akinobu.mita@gmail.com>
+Date: Sat, 5 Oct 2024 13:38:59 +0900
+Message-ID: <CAC5umyjkmkY4111CG_ODK6s=rcxT_HHAQisOiwRp5de0KJkzBA@mail.gmail.com>
+Subject: Re: [PATCH net-next] net: Implement fault injection forcing skb reallocation
+To: Breno Leitao <leitao@debian.org>
+Cc: kuba@kernel.org, davem@davemloft.net, edumazet@google.com, 
+	pabeni@redhat.com, Jonathan Corbet <corbet@lwn.net>, horms@kernel.org, 
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Mina Almasry <almasrymina@google.com>, Pavel Begunkov <asml.silence@gmail.com>, 
+	Willem de Bruijn <willemb@google.com>, Alexander Lobakin <aleksander.lobakin@intel.com>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Taehee,
+2024=E5=B9=B410=E6=9C=882=E6=97=A5(=E6=B0=B4) 20:37 Breno Leitao <leitao@de=
+bian.org>:
+>
+> Introduce a fault injection mechanism to force skb reallocation. The
+> primary goal is to catch bugs related to pointer invalidation after
+> potential skb reallocation.
+>
+> The fault injection mechanism aims to identify scenarios where callers
+> retain pointers to various headers in the skb but fail to reload these
+> pointers after calling a function that may reallocate the data. This
+> type of bug can lead to memory corruption or crashes if the old,
+> now-invalid pointers are used.
+>
+> By forcing reallocation through fault injection, we can stress-test code
+> paths and ensure proper pointer management after potential skb
+> reallocations.
+>
+> Add a hook for fault injection in the following functions:
+>
+>  * pskb_trim_rcsum()
+>  * pskb_may_pull_reason()
+>  * pskb_trim()
+>
+> As the other fault injection mechanism, protect it under a debug Kconfig
+> called CONFIG_FAIL_SKB_FORCE_REALLOC.
+>
+> This patch was *heavily* inspired by Jakub's proposal from:
+> https://lore.kernel.org/all/20240719174140.47a868e6@kernel.org/
+>
+> CC: Akinobu Mita <akinobu.mita@gmail.com>
+> Suggested-by: Jakub Kicinski <kuba@kernel.org>
+> Signed-off-by: Breno Leitao <leitao@debian.org>
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Taehee-Yoo/bnxt_en-add-support-for-rx-copybreak-ethtool-command/20241004-000934
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241003160620.1521626-8-ap420073%40gmail.com
-patch subject: [PATCH net-next v3 7/7] bnxt_en: add support for device memory tcp
-config: x86_64-kismet-CONFIG_NET_DEVMEM-CONFIG_BNXT-0-0 (https://download.01.org/0day-ci/archive/20241005/202410051156.r68SYo4V-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20241005/202410051156.r68SYo4V-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410051156.r68SYo4V-lkp@intel.com/
-
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for NET_DEVMEM when selected by BNXT
-   WARNING: unmet direct dependencies detected for NET_DEVMEM
-     Depends on [n]: NET [=y] && DMA_SHARED_BUFFER [=n] && GENERIC_ALLOCATOR [=y] && PAGE_POOL [=y]
-     Selected by [y]:
-     - BNXT [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_BROADCOM [=y] && PCI [=y] && PTP_1588_CLOCK_OPTIONAL [=y]
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+This new addition seems sensible.  It might be more useful to have a filter
+that allows you to specify things like protocol family.
