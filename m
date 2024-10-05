@@ -1,81 +1,123 @@
-Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E7A955896
-	for <linux-doc@vger.kernel.org>; Sat,  5 Oct 2024 08:50:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9482213DBBC;
+	Sat,  5 Oct 2024 09:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728118218; cv=none; b=Ib5yodWfk7kdN1cSrcv3ndcohgoXX5MvAs1DRQ+Eh9O5ioGEvOkoyQ4M0khznxv184oWNyykaZhg9ANX6JDs81id0+yno1LBAmN5s0YpKk/XuRn78F2C1qoO7wW5oBAhAB+ssKOu0yqhf4tMnYgf2hE+hx9r7OUyulqynN4PSIk=
+	t=1728120009; cv=none; b=dvpkkGrUxeC+y+JqWnjS/+PrpqPpC2fOVxqH+fbxpQURoRpuzxqHYQP4RU75RaMe+pT8noVy/Tm3vDT1nXqijVFU7CAVvylrF3ERfmxKLz0+U0KadFA4vr+xHXu3ymk7NDYMo92a00zZvMi67CVHAheNPlaxkSex2tNtH9kk3lw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728118218; c=relaxed/simple;
-	bh=QuzmmglPoJFxAmQ+97yNnV9PvID5WbYqF959tpT2wIo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fQID4AJKwPmvFX8u8jXjvSpo3HARl0vk6EvLc8G4QIKAyzb5J84gHhmNRURrWRJytACrdZKSlSaNu60zVGUXwYJG9KXxDSXCTRdC3+zqmGXVym87ip++Q97BqkaPf9LtT66tGLUuYgkbPruf+BY0SZT0VPwxU72PvxFQzfehkKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=oAI18l22; arc=none smtp.client-ip=95.215.58.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1728120009; c=relaxed/simple;
+	bh=8veT0QNhSPCY9Nh/UKPKh526+6YL6QgmSZfnBmzx/Ng=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IGJztfaYfplcc85q34VamLCNRS4w0F9RCI0xzPYqKCYeOwbiCZa2CC+Sm/qnjUvI8Y1NeOWkmEWX1pU+bjJ8Ny3LmjjHPbHKqGXMoZbXA/KVlWSO/lHXV7CvUek85LBxYmSHaRlgiKoPkF0Rb46TP0CBiXVD+684YT6Wnc71QkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QEJ4ZM4d; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="oAI18l22"
-Message-ID: <68116566-c075-4f29-9809-8d93b69a933e@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1728118210;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4lcqzMzX/PIGejsyaLTXVDuOyqI6D2Vso1SQoiZcnFQ=;
-	b=oAI18l22uUL391A/krkgFsDv76PQ2l1rYyC11icTmzvZ1cW4QDlHkpBw6v3R/wz7zu/8ao
-	Kl+G8voQCbijmuVJzrzwECI4B8RN4X9JSZg4PaGn6wZSDc6/JjsO8MtDyaWeAv+HkPOlmt
-	3l94JxdjqGAoMyPer2vBJjqOoYYBA50=
-Date: Sat, 5 Oct 2024 16:49:56 +0800
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QEJ4ZM4d"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=jqf+BGdpvvy+YWR5SN7t8AeW8rPkRc4+Wr0JX3T/rfg=; b=QEJ4ZM4dWWx+5bkZO9NtSSWDHj
+	CkTQW41Tl8riYYkTVwXnDd8gF1TE9+TcIOZQiO8zYNxX4CWNXRRtkCnvijVdZ5XI0aE0ASkt2m/lC
+	au2srZGgaXsIPlA3cTK/ws9r3z/7wgBk4+Fq4s+CuXbgqGdmKPFrETjIPQsA4Cw18jhWbrEuOYD3L
+	aKEIHrWyzzEvEMWod+ZKKF+LmWTXeGMSSmq0xVbU1mzzQB0JI+45nOMdP7KleL84/+INGss5Hm3xS
+	ofw/BBI5qheIkpeYbBHjUogr7aP0Y46fmqlDb9Ag/T40rxNCvLXzqCHBldJKp/3S3Zp/z0fCte1rL
+	zDU0LQ2Q==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1sx0wn-000000041sI-4AsE;
+	Sat, 05 Oct 2024 09:19:34 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id C9CD5300777; Sat,  5 Oct 2024 11:19:32 +0200 (CEST)
+Date: Sat, 5 Oct 2024 11:19:32 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Justin Stitt <justinstitt@google.com>
+Cc: Kees Cook <kees@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>,
+	Sriraman Tallam <tmsriram@google.com>,
+	David Li <davidxl@google.com>,
+	Krzysztof Pszeniczny <kpszeniczny@google.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>,
+	Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>,
+	Brian Gerst <brgerst@gmail.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+	Jann Horn <jannh@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
+	Juergen Gross <jgross@suse.com>, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	"Mike Rapoport (IBM)" <rppt@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org,
+	x86@kernel.org, "Xin Li (Intel)" <xin@zytor.com>,
+	Stephane Eranian <eranian@google.com>
+Subject: Re: [PATCH v2 1/6] Add AutoFDO support for Clang build
+Message-ID: <20241005091932.GW18071@noisy.programming.kicks-ass.net>
+References: <20241002233409.2857999-1-xur@google.com>
+ <20241002233409.2857999-2-xur@google.com>
+ <20241003154143.GW5594@noisy.programming.kicks-ass.net>
+ <202410041106.6C1BC9BDA@keescook>
+ <20241004182847.GU18071@noisy.programming.kicks-ass.net>
+ <CAFhGd8rPLoufNx4BMV993c+S_6psLGU6Ow49Frc9s88cStcuCQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3] Docs/zh_CN: Translate page_tables.rst to Simplified
- Chinese
-To: Pengyu Zhang <zpenya1314@gmail.com>
-Cc: alexs@kernel.org, siyanteng@loongson.cn, corbet@lwn.net,
- seakeel@gmail.com, si.yanteng@linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, yaxin_wang_uestc@163.com
-References: <20240919133825.15606-1-zpenya1314@gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Zenghui Yu <zenghui.yu@linux.dev>
-In-Reply-To: <20240919133825.15606-1-zpenya1314@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <CAFhGd8rPLoufNx4BMV993c+S_6psLGU6Ow49Frc9s88cStcuCQ@mail.gmail.com>
 
-On 2024/9/19 21:38, Pengyu Zhang wrote:
-> This patch provides a Simplified Chinese translation of the
-> "page_tables.rst" document, aimed at improving accessibility
-> for Chinese-speaking developers and users.
+On Fri, Oct 04, 2024 at 02:23:45PM -0700, Justin Stitt wrote:
+> On Fri, Oct 4, 2024 at 11:29 AM Peter Zijlstra <peterz@infradead.org> wrote:
+> >
+> > On Fri, Oct 04, 2024 at 11:10:04AM -0700, Kees Cook wrote:
+> >
+> > > +Configure the kernel with::(make)
+> > > +
+> > > +     CONFIG_AUTOFDO_CLANG=y
+> > >
+> > > Then we could avoid the extra 2 lines but still gain the rendered language
+> > > highlights?
+> >
+> > The whole double-colon thing is already a pain to read; you're making it
+> > worse again.
 > 
-> The translation prioritizes technical accuracy and readability,
-> ensuring that the content remains clear and informative for
-> its intended audience.
+> Lots of people read docs on the web and having code blocks with
+> monospaced fonts (+syntax highlighting) makes them easier to read
+> there.
 > 
-> Signed-off-by: Pengyu Zhang <zpenya1314@gmail.com>
+> Configure the kernel with:
+> 
+>      CONFIG_AUTOFDO_CLANG=y
+> 
+> --versus--
+> 
+> Configure the kernel with::
+> 
+>      CONFIG_AUTOFDO_CLANG=y
+> 
+> This renders better for html through Sphinx and really can't be that
+> bad to read in vim, can it?
 
-Overall the translation looks good, thanks for your effort! Only two
-nits inline...
+It's weird; but I've gotten sorta used to it. I was more or less
+commenting on Kees' proposal of making it:
 
-> +在页粒度为 4KB 且地址范围为32位的情况下，pfn 0 对应地址0x00000000，pfn 1 对应
-> +地址0x00001000，pfn 2 对应地址 0x00002000，以此类推，直到 pfn 0xfffff 对应
-> +0xfffff000。如果页粒度为 16KB，则 pfn 分别对应地址 0x00004000、0x00008000
-> +... 0xffffc000，pfn 的范围从 0 到 0x3fffff。
+  Configure the kernel with::(make)
 
-s/0x3fffff/0x3ffff/
-
-Mind fixing it in the original doc?
-
-> +本文将简化并概述 Linux 内核如何处理这些页面错误、创建表和表项、检查内存是否存在，
-> +以及当内存不存在时，如何请求从持久存储或其他设备加载数据，并更新 MMU 及其缓存。
-> +
-> +前几步取决于设备依赖。大多是架构跳转到 `do_page_fault()`，而 x86 中断处理程序由
-             ^^^^^^^^
-I'm afraid this is not a correct translation for "architecture
-dependent".
+Which is definitely harder to read since it insta triggers a syntax
+error exception in my head.
