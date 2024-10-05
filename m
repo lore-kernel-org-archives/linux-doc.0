@@ -1,117 +1,109 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF6C53389;
-	Sat,  5 Oct 2024 06:30:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC6E25634;
+	Sat,  5 Oct 2024 07:01:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728109809; cv=none; b=myrx1mDGTrNb1GDhnO8qLyB5OmFozJCVvWBqiiQuOsx5Pn6DUzXpQsBwfS44cuwgdq61etNcz2OMS5JsuLQezQ/PmlOhNYqW7Xd9DJ8YX9xuLshFaOyTHRQ5rAelyngNr6tKyCjPRsJzkhj9gGQx4wNO/vkm7VpTrFvdXrlHM9w=
+	t=1728111671; cv=none; b=A6sSskv2dnf3oTMSA0FPrLv7LZQWZt1BKJltPbwOtaAzpOzRwKdfiZ3dBS5zIvfYtK22pck0bqWdCgXOK3kVti3X/dtHcR/T/Qp7QQ8PiYLMx1rr2dVQwScU3Ir7/AHnn0FDYFLc+l8zTeAnsHyYC+LIMRV3iMsiP20r6QgoyGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728109809; c=relaxed/simple;
-	bh=kM8YnYYl1uMNrQthL/ao2/qiluaruUXBJz4zY1CP1lI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ka4U9wiVGvnK+gt5VHysWVl7gP/DSmmpaHQU9asoxxVUdTQIkF7bbOk4VezagvWZzrJ4h6dKTdux+hyfcoEOfPag0tojQyFfCjSX4zhGE4/3+u5U10sOsLQVHDkYaW6tEW+v2Au2/62laHoDquUuH2Fv60janmu08sIYGFCKpkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jUGXn7LX; arc=none smtp.client-ip=209.85.208.44
+	s=arc-20240116; t=1728111671; c=relaxed/simple;
+	bh=dxm3C4Om4s/OmaZ81xra3vKu4d1cwnsd0fgChYAMcCA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bP6PHEJxpCcWdrHzzjOKa1cj60nhKXpqZ9EI28/fxe/UsJZ2LoDS8rOc8zfzUmV2Smd4agjW31t6gteMu4/rqxZeRHI266xRx1HIDSjNfwc7+m4xXeHSSZEisRsVt1gY/x+wEcaGeFKJsrNVqna3iFe4xsR8FI+oMMX/arCoQqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZyDurwxI; arc=none smtp.client-ip=209.85.210.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jUGXn7LX"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5c40aea5c40so5657065a12.0;
-        Fri, 04 Oct 2024 23:30:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZyDurwxI"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-71df67c67fcso81352b3a.2;
+        Sat, 05 Oct 2024 00:01:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728109806; x=1728714606; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vBoMftGa/McsjubC4gQDLAonai8KexTRljE+MZCD93U=;
-        b=jUGXn7LXWyHPqaYCPq70OUwdFvrGZfyTR8/53jO2nMB0qk3J/nwMfg/P2l4ndn5JAO
-         EyCsOJEKkjwDvXH3X18atypiUXmodEUyTynru7Rnsw8gBEOBX+7Nk5hZJ3vqUYy2seWI
-         B7owzKioxW9j6al6Af43D4PVTl+qxXeMrF1f53ZFEqQELYtuDY22KkL3qMD/qL3r83hm
-         8vZ1ohSb9a8yNnctSi26KT/ppvPSy04O0WlD4nV4cEuVHWnuTuET53fpUnjPX+vcDtEk
-         Z1Y7ulJ4w4JCgRgM3N/LOLXH5GXYiPWPgizL5CiXROfRb3xkZjRkwEMvZ+ZnbevMGPni
-         wIBQ==
+        d=gmail.com; s=20230601; t=1728111669; x=1728716469; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QtLSqplC9FV8nH8TMNgp/DH6Vy3umkDQiR0WE8bXh5k=;
+        b=ZyDurwxIieLrjweJCMCKU4W56/Z5g5x5AbkrfYQG/0Nh0XYLLQGfL0YDqNdKA7eNnS
+         CpoiVzne5XmuQaPOMjxZaNXdC6r6iy0ktREmZ/g5wmj2mzMa7c0e3UCPF6e4Tm6taJRw
+         wX+tRBmkxahShtPCtj9kmlbL+iYUzB4AqcRLgWX6ygR9+FcBui8n5Ce5+o8V+GiHLDbe
+         Kns5aZhsg6AmyLNE9H5UawShrpJEVU9O9pskj6dXczQPbc+yuhhvKLMH8W5KxKffxXUU
+         eXIEL1bknHMfufm34Q1NiROlS9nA8rqh2wGTRxTXNJgBmo8H3g7ISWESTShHQgoFv4Df
+         Va7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728109806; x=1728714606;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vBoMftGa/McsjubC4gQDLAonai8KexTRljE+MZCD93U=;
-        b=uViWzyM5mjykV7enfiNJmiYrqCAnP0MgBP8FsGHgI63zs3UfAWrnFg3b9tgaULVVyO
-         mR4oTQixphRRUi/k9+AToJiNoNTp9gaDGv/X1oxaZTTTgZ9d4+oLeNKT/zwc8HgJrJ1d
-         2WpUKcC+FKS+WgW+03ljhK+/c7jO3exn7X6w0E0Y/qhWSmqSCD93jlSsbEIBkTISN88e
-         N5vOQ9H5ETvlY5mkqMuvLqIsyD2GOg4hxcB+Cd3Chb5cRRG499ySMvD1YG2FOyZSYyLa
-         Nk9OMLcimqylFNoKGrwsYo6a3Cq0le8AtTNHq4Q9/hbEZj0lrLLesQi3GD6uAtBCrWkR
-         wXFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU76q+zkNRzgmfrBMbuyoPmrj/Y/XrSKCk578FHW+w4zb7lGn0/giuDVkn4gmJLbhdUPGvcX1EwGGY=@vger.kernel.org, AJvYcCXKgytyztCUSwpS6qNApeOBcdfzmC5MMVD6hc4MVkXtnnua4PXAcoIsAXMOOwXkw4q6pP2cS0Mb@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywi94NIQc60/L6Sm9TYFs8cEngxu3ySHTgvE7NnqMbxEcupvr9x
-	JfgKDfvrdx+08NZ4hcWb7UjK0qkdN8dFIIUgAMN/FS0Gv6CfjaACY9GmhikDsQC4DdY22DiDPZd
-	PmVR5rwSI89vM3oDyar7O1wCYN6c=
-X-Google-Smtp-Source: AGHT+IHQaSDG7cwF2wPsX24tcApW4tk+ISWIahcBMpke2LmDGMnPF0xGZ1OStGr8+fXjtwqp/pc6xOur1x9/n/0rbH8=
-X-Received: by 2002:a05:6402:5384:b0:5c8:a01c:e9b2 with SMTP id
- 4fb4d7f45d1cf-5c8d2fa30aamr4676760a12.17.1728109805957; Fri, 04 Oct 2024
- 23:30:05 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728111669; x=1728716469;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QtLSqplC9FV8nH8TMNgp/DH6Vy3umkDQiR0WE8bXh5k=;
+        b=ihXmA57mQmU8IH/mDROd3HwX3zd/6AeR8zV4hGkrRl6dEIzi8TOjnmyzu7y/RBn0Pu
+         5yugYe7rEvjbEkXjfihq/gzJSQBSykQOEhsDq24fERdKtVpaPeYA0FGmo9cyw95fVfwY
+         +9p9AOMDR85lXM32tV+5CpG4FjCSOl49w3sXb9TqbvwYLrZWLF8lQp9q4qs3XQfHFfLR
+         lE3WzLoNdhYOduYiqL0lBm8Km0FiiuWgVoxxs0VWhlemUjfU5JJKzALsFVALPYI+2A4l
+         EFGasOsfuWNs1LaSV+zgItCiTsF0DMKS5DoHtdb9sshmG4F28GbdAufqOAfOrVb6Op/N
+         px3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXLVqe6qKpXRHbxOVZdd5CBTjcxhV4qsetAzWewudUfvBJ75kgSgtfcbWi/CGpykosH8fwq63/Ag6I=@vger.kernel.org, AJvYcCXU1O/KUdc/bhYY12jatPrdb08jkVsQnKNx/9RH5jsxHkAb4Nb7jMkhaReXcMnEaP8tNwV9DQknvMvqn2SEQYvZBx3N3g==@vger.kernel.org, AJvYcCXxPcHCGdIYK4viRm97tu9I233twHO82Xg44XRGHiQ0tYkrx8B2CwIQFVhE+/x48KQW6ymTmmiUNFFQTbyM@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZ6bNMhyhFstTDLj9D8Ggx5L0bg8Ypp/fKXmDPuuoNWGBTJVQ7
+	7Vf5Fd+pd09CMdS4ThEuEP3v8zUTZ/aeYv9yYZIjvi/86+B77ETq
+X-Google-Smtp-Source: AGHT+IHDyw2CRlAmxK5hljDVThBX/Yp4zp+oRVi3CQGx6HqrSkrV4rDaTnwVGgArVsf5dcWx7rCLmw==
+X-Received: by 2002:a05:6a00:cc2:b0:70a:fb91:66d7 with SMTP id d2e1a72fcca58-71de2445487mr8375596b3a.20.1728111668933;
+        Sat, 05 Oct 2024 00:01:08 -0700 (PDT)
+Received: from Tua.. ([103.161.55.163])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7e9f6c4a66bsm1062870a12.92.2024.10.05.00.01.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Oct 2024 00:01:08 -0700 (PDT)
+From: Anaswara T Rajan <anaswaratrajan@gmail.com>
+To: W_Armin@gmx.de
+Cc: corbet@lwn.net,
+	platform-driver-x86@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Anaswara T Rajan <anaswaratrajan@gmail.com>
+Subject: [PATCH v3] platform/x86: dell-ddv: Fix typo in documentation
+Date: Sat,  5 Oct 2024 12:30:56 +0530
+Message-Id: <20241005070056.16326-1-anaswaratrajan@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241003160620.1521626-1-ap420073@gmail.com> <20241003160620.1521626-2-ap420073@gmail.com>
- <CACKFLi=1h=GBq5bN7L1pq9w8cSiHA16CZz0p8HJoGdO+_5OqFw@mail.gmail.com>
- <CAMArcTXUjb5XuzvKx03_xGrEcA4OEP6aXW2P0eCpjk9_WaUS8Q@mail.gmail.com>
- <CACKFLikCqgxTuV1wV4m-kdDvXhiFE7P=G_4Va_FmPsui9v2t4g@mail.gmail.com> <a3bd0038-60e0-4ffc-a925-9ac7bd5c30ae@lunn.ch>
-In-Reply-To: <a3bd0038-60e0-4ffc-a925-9ac7bd5c30ae@lunn.ch>
-From: Taehee Yoo <ap420073@gmail.com>
-Date: Sat, 5 Oct 2024 15:29:54 +0900
-Message-ID: <CAMArcTUgDLawxxvFKsfavJiBs0yrEBD3rZOUcicYOAWYr+XYyQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 1/7] bnxt_en: add support for rx-copybreak
- ethtool command
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Michael Chan <michael.chan@broadcom.com>, davem@davemloft.net, kuba@kernel.org, 
-	pabeni@redhat.com, edumazet@google.com, almasrymina@google.com, 
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org, donald.hunter@gmail.com, 
-	corbet@lwn.net, kory.maincent@bootlin.com, maxime.chevallier@bootlin.com, 
-	danieller@nvidia.com, hengqi@linux.alibaba.com, ecree.xilinx@gmail.com, 
-	przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, ahmed.zaki@intel.com, 
-	paul.greenwalt@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
-	asml.silence@gmail.com, kaiyuanz@google.com, willemb@google.com, 
-	aleksander.lobakin@intel.com, dw@davidwei.uk, sridhar.samudrala@intel.com, 
-	bcreeley@amd.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 4, 2024 at 1:41=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> wrote:
->
+Fix typo in word 'diagnostics' in documentation.
 
-Hi Andew,
-Thanks a lot for the review!
+Signed-off-by: Anaswara T Rajan <anaswaratrajan@gmail.com>
+---
+Changes in v2:
+  - Make the commit title and description more clearer.
 
-> > > I agree that we need to support disabling rx-copybreak.
-> > > What about 0 ~ 64 means to disable rx-copybreak?
-> > > Or should only 0 be allowed to disable rx-copybreak?
-> > >
-> >
-> > I think a single value of 0 that means disable RX copybreak is more
-> > clear and intuitive.  Also, I think we can allow 64 to be a valid
-> > value.
-> >
-> > So, 0 means to disable.  1 to 63 are -EINVAL and 64 to 1024 are valid. =
- Thanks.
->
-> Please spend a little time and see what other drivers do. Ideally we
-> want one consistent behaviour for all drivers that allow copybreak to
-> be disabled.
+Changes in v3:
+  - Add missing full stop to commit description.
 
-There is no specific disable value in other drivers.
-But some other drivers have min/max rx-copybreak value.
-If rx-copybreak is low enough, it will not be worked.
-So, min value has been working as a disable value actually.
+ Documentation/wmi/devices/dell-wmi-ddv.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I think Andrew's point makes sense.
-So I would like to change min value from 65 to 64, not add a disable value.
+diff --git a/Documentation/wmi/devices/dell-wmi-ddv.rst b/Documentation/wmi/devices/dell-wmi-ddv.rst
+index 2fcdfcf03327..e0c20af30948 100644
+--- a/Documentation/wmi/devices/dell-wmi-ddv.rst
++++ b/Documentation/wmi/devices/dell-wmi-ddv.rst
+@@ -8,7 +8,7 @@ Introduction
+ ============
+ 
+ Many Dell notebooks made after ~2020 support a WMI-based interface for
+-retrieving various system data like battery temperature, ePPID, diagostic data
++retrieving various system data like battery temperature, ePPID, diagnostic data
+ and fan/thermal sensor data.
+ 
+ This interface is likely used by the `Dell Data Vault` software on Windows,
+@@ -277,7 +277,7 @@ Reverse-Engineering the DDV WMI interface
+ 4. Try to deduce the meaning of a certain WMI method by comparing the control
+    flow with other ACPI methods (_BIX or _BIF for battery related methods
+    for example).
+-5. Use the built-in UEFI diagostics to view sensor types/values for fan/thermal
++5. Use the built-in UEFI diagnostics to view sensor types/values for fan/thermal
+    related methods (sometimes overwriting static ACPI data fields can be used
+    to test different sensor type values, since on some machines this data is
+    not reinitialized upon a warm reset).
+-- 
+2.34.1
 
-Thanks a lot!
-Taehee Yoo
-
->
->         Andrew
