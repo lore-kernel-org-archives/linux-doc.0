@@ -1,88 +1,109 @@
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A8A155756;
-	Sat,  5 Oct 2024 15:50:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201AC155742;
+	Sat,  5 Oct 2024 16:35:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728143439; cv=none; b=KnJRMGJ9BiSij7ydNc/BCoH7CNHeNm/NHc6bJyzWb8zZ06xyy0c31X+10p5k2OZbUoWw74UjbGubiuZAfL2kvo0ZYKoUgN9bzFVf0jXhD8w+Nb6a/DoyEmPRaWqv++IebLTLqK61NhT85nTsqT2NdGguuqk92pyAifUbWEi9q2g=
+	t=1728146156; cv=none; b=FZwnAbPkpgIdYPLt+aeyP05mGYQpikWD0CfgTSV6ZkZPQdxMUivAXCELn4DRljdtf2RWY8dM9y49DZ9u1N8n/UniTk1xSkgPFOdJooMvzH9PQ9RgjYSKcBFwShICSvp6bgbfw42da92o0eHYwPl6aX0LzanDesSnNwQB7UFDY+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728143439; c=relaxed/simple;
-	bh=gVufgi5ieEUb7c+F0xqwV/AYZvlXBZANCJxzJMrFhr4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P6DCCZOfPvo1fVtQ8sJupoZSBc1smo32x7U7uIjavRWFBBkLDjNDBdn38u7SJEdurFwMMF3TB3NHAV0Xph3WN24/Pi5PHCNlJgArpINQj8Wks7cRz8/FuKoyqhViKvJ4WtnobZVft6XpQmP3Kz+TMeLMtCE4FzX+MfHm2Uy8ayg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NF9P1d52; arc=none smtp.client-ip=209.85.161.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728146156; c=relaxed/simple;
+	bh=80nL05CVdGDExIrpaz/GZLy22HLnLEgT36r17S9CRx4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QcNMpxy9lj5uc4KBg1Yn8fcV49pUGiRM5ud1G2aZb4/Rxx2vG0Ry78e0U6qpYZHGCfxeWypn1VmeiU6d31LATY0qA4f5z9iL2bGEIPxdSgxQwcqA2y/jaMP7tYPJ6WY70EcOTlUCLajVQLSuKrhOvCJ0z/QRtgL8VOIgGoqsSEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DnXyVKgu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NF9P1d52"
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5e77c6ed92bso1891300eaf.0;
-        Sat, 05 Oct 2024 08:50:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728143436; x=1728748236; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=REtgKggo44ri5JobvZ/IoAC5pGx/FtllU5izUlzT7yA=;
-        b=NF9P1d5285GfvLygSY58Ic05bodxjevDiCDyjoonw5P35dy/j/nsaOCOVo35N9srrK
-         E0bOQL0kCRqkZ0FkxZ5uM+L8EcLDfcoOjQPmP4SkfZ8SYE3TGcl0t9Eu5D4d3iphwTwE
-         6rtVHx7vCZ4eds+5EwDFUD5cER4BYgHhGrRVZanG2DAM0TBPPIWAcjP89RncG7stpxC/
-         1N2NkI59glVG23sUTUa7EpxSTFLFVSYVMzrLfbMMfuOf9xCf2TQ8B9ah6byGST23Wh/E
-         Dl1Oxv5w0DwPavZ52mROTCVpSuP4wBS6rXo6C/9mmQKiZqVrbVhPCii/Lextb+LU5M7m
-         Sptg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728143436; x=1728748236;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=REtgKggo44ri5JobvZ/IoAC5pGx/FtllU5izUlzT7yA=;
-        b=uMcJNAxKwJLcf7mG21X22gMicJTq3fm4c0gRBtJy9SXljV7ZluWOPHIYrFZ7Tv1yGS
-         2PSiCHkFIoM13xCSBMHMogTdllS+wfRwAt1MArC1Pf/sy7YxsePomxLLQpam6VoP0laS
-         K6uh6BeYIdmEklaO9+SNlvy2EGj9noB5S0N4sILxrVgIKIn7cWcIFEkY+9nqd2NV5fhP
-         L65WtPDAlf+qadRynq0qFFQD5rNxj0c77sUfFlG0ppWcSGa3gfAR8AQItLO0hw4M8blN
-         IaUbyP14w+M5G8vJVMWGwKLXuscBFSlQdzY+r/0bD9WoP6lKGxSn9sNJMDUdX0JZcvsA
-         qg2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV4LTIlp3LO3fmxN8JpElMYndtY42XenlAeOimLOdnu6moWY7nSjutfLgKxoC3bFk74TvMndvVUkwM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZEjYHM46ZwsPJHySG0e142IMVMX6qjyxiqXHFF2U97G9HK0uX
-	9i4h/n5aNRRm5Qbtf8VwRS+E/KOCegLMGC8cGKPuomSThiWPkrYSw8dtR+EfCK+M3pgdTT3euaP
-	7Yflx7gguO8QrSjClkBR8rMWRzX/ZirtJ
-X-Google-Smtp-Source: AGHT+IFVdEhPRpqhXaq+Jz2/oKykkRmjg3r7SqCiHnq26reG5Z7DbQmKRM/05Ce6J5JJLF1ROlpjtpFii1UCztcUkSY=
-X-Received: by 2002:a05:6871:2b24:b0:27b:583b:bfa8 with SMTP id
- 586e51a60fabf-287c1daff03mr4219815fac.17.1728143436540; Sat, 05 Oct 2024
- 08:50:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DnXyVKgu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E44CC4CEC2;
+	Sat,  5 Oct 2024 16:35:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728146155;
+	bh=80nL05CVdGDExIrpaz/GZLy22HLnLEgT36r17S9CRx4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=DnXyVKgu3+cYcLSUAd1Qooqz2SF7XlYECIssoKYlWO0bXg0vdJ+CrwwyL84wqCRJO
+	 VVhuzighv5ZwhsdTyJlfQaeCIU5GVwtAywuCmDJ0NHY3QbHB0/FlksxH14KuWRxj4G
+	 dwrsvGIVpHEpbPvvrvW9/FZM+L+1V7vHmR36EqmXrXfWm5RRDMfmtqIcpWUS9+G/Vj
+	 XCX+LEc0teLdVMCiuBpUiVH8AL9Uqp87XKPAq8eVFfvIf8WAEpygl80TpYLGiERqma
+	 YnuJG6nDIlb4Zww0VTrT8ZasZkjzGWcf9Bb6I1nOcvAHatENPWZKOGNiwBtYvQeYB4
+	 BCy85pHodRlrg==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=wait-a-minute.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1sx7l3-000dt3-BM;
+	Sat, 05 Oct 2024 17:35:53 +0100
+Date: Sat, 05 Oct 2024 17:35:52 +0100
+Message-ID: <87bjzyv76f.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Shuah Khan <shuah@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v14 4/5] KVM: arm64: Set PSTATE.EXLOCK when entering an exception
+In-Reply-To: <ZwFJvV7lrFStWD-r@finisterre.sirena.org.uk>
+References: <20241005-arm64-gcs-v14-0-59060cd6092b@kernel.org>
+	<20241005-arm64-gcs-v14-4-59060cd6092b@kernel.org>
+	<87h69qvi9y.wl-maz@kernel.org>
+	<ZwFJvV7lrFStWD-r@finisterre.sirena.org.uk>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20241005105646.7378-1-donald.hunter@gmail.com>
-In-Reply-To: <20241005105646.7378-1-donald.hunter@gmail.com>
-From: Donald Hunter <donald.hunter@gmail.com>
-Date: Sat, 5 Oct 2024 16:50:25 +0100
-Message-ID: <CAD4GDZwOD+=EdSUv9zYcLKvFxiUhOkr=Jxcv4UZU1-2GDRXg_g@mail.gmail.com>
-Subject: Re: [PATCH net-next v2] doc: net: Fix .rst rendering of
- net_cachelines pages
-To: netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, linux-doc@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>
-Cc: donald.hunter@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: broonie@kernel.org, catalin.marinas@arm.com, will@kernel.org, oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, shuah@kernel.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Sat, 5 Oct 2024 at 11:57, Donald Hunter <donald.hunter@gmail.com> wrote:
->
-> The doc pages under /networking/net_cachelines are unreadable because
-> they lack .rst formatting for the tabular text.
->
-> Add simple table markup and tidy up the table contents:
->
-> - remove dashes that represent empty cells because they render
->   as bullets and are not needed
-> - replace 'struct_*' with 'struct *' in the first column so that
->   sphinx can render links for any structs that appear in the docs
->
-> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
-> ---
-> Changes: v2 is just a rebase on net-next
+On Sat, 05 Oct 2024 15:14:21 +0100,
+Mark Brown <broonie@kernel.org> wrote:
+> 
+> On Sat, Oct 05, 2024 at 01:36:09PM +0100, Marc Zyngier wrote:
+> > Mark Brown <broonie@kernel.org> wrote:
+> 
+> > > +	// PSTATE.EXLOCK is set to 0 upon any exception to a higher
+> > > +	// EL, or to GCSCR_ELx.EXLOCKEN for an exception to the same
+> > > +	// exception level.  See ARM DDI 0487 RWTXBY, D.1.3.2 in K.a.
+> > > +	if (kvm_has_gcs(vcpu->kvm) &&
+> > > +	    (target_mode & PSR_EL_MASK) == (mode & PSR_EL_MASK)) {
+> > > +		u64 gcscr = __vcpu_read_sys_reg(vcpu, GCSCR_EL1);
+> 
+> > No, please. This only works by luck when a guest has AArch32 EL0, and
+> > creates more havoc on a NV guest. In general, this PSR_EL_MASK creates
+> > more problem than anything else, and doesn't fit the rest of the code.
+> 
+> You say luck, I say careful architecture definition but sure.
 
-Apologies, formatting is broken. I'll spin a v3 tomorrow.
+I wasn't talking about the architecture, but sure.
+
+> 
+> > So this needs to:
+> > - explicitly only apply to exceptions from AArch64
+> > - handle exception from EL2, since this helper already deals with that
+> 
+> > The latter point of course means introducing GCSCR_EL2 (and everything
+> > that depends on it, such as the trap handling).
+> 
+> For clarity, which trap handling specifically?
+
+All the traps described in the GCSCR_EL2 documentation -- I see two
+control bits described in K.a, all of which needs to be propagated and
+their effects handled. Similarly, GCSPR_EL2 needs to be defined.
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
