@@ -1,227 +1,132 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 579482B9AA;
-	Sat,  5 Oct 2024 11:53:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A569B231C81;
+	Sat,  5 Oct 2024 12:36:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728129208; cv=none; b=oPcLzeJN+17Rytungy3GO9ToWNucn03c2qrWsYPtlcesFO2wITN1UfILv1na8tMmrcc3rQt+mmrKcEKtNI5tqcMGEKsb0H7/ax4PvxamQcntKiQnVGjB52Jebz/LL6d2z2GrsF1nZKXVHQ81lnTMlxTbeiNNEi+XlMag2HiDSts=
+	t=1728131772; cv=none; b=qmLsb/IbKZZ8xSoUk7B7cclEsmBU2YeOe2/wJ+VzgyCsjXKb53Ly5IfxRMUPvO+qADssej0NUDr2UnX4jeVySl8nPFf5Xiw9D1a97rl0YgZro8pENmhVNQsqpNobJHvLiXok+d/DZNj2GHEFAzRS3ezVR2UjuYaLcVkrSGjR0xI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728129208; c=relaxed/simple;
-	bh=VQJQi0+PgB45k7P56kZuRZq1YQ+ri/0leKVpZ642G6w=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tLHUm9FQJnnvUpaPX9rgJft9LD1Rzc+8ITk16u7q4MasVtkZJheTYaDsaWrfGibvCcaCT5OUYP6XTuTQNVq7Vd6t1FkYTONfcfj/gn8CxptTiCp99Qp9aKPGEwjkoIJc3YvhFgH0x/EKLp/hHeR2OxEmaeL8I8HG/iO2tVyVY6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OkrbqEbu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728131772; c=relaxed/simple;
+	bh=anOh4F7gNSzxko+OyM2NPOf1gcoYvFAGA4IXXYgPM9I=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KyvvL1XaMBa5gpRlzqP6FaDM7wWBTlNr9mffZdX7+vsY1liMFadZ6KOjhvEco4D+wwHOt9wp2XqILQxjJ7bh/ZMu2uzHsmuyT8iFvcpWKb9eDVoaGYy1oItpzdVK6ldA+uP6EVBx5wExGMT93jMjsHdpWIDy4DfEZQAVQu18yBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ksZ99L75; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OkrbqEbu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC1E0C4CEC2;
-	Sat,  5 Oct 2024 11:53:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ksZ99L75"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D9FAC4CEC2;
+	Sat,  5 Oct 2024 12:36:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728129207;
-	bh=VQJQi0+PgB45k7P56kZuRZq1YQ+ri/0leKVpZ642G6w=;
+	s=k20201202; t=1728131772;
+	bh=anOh4F7gNSzxko+OyM2NPOf1gcoYvFAGA4IXXYgPM9I=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=OkrbqEbub+ijJIgwizRMWx42IhCSrHMoDBHVzCJ7tYG07DHN5aQqXHgy23noKHfsJ
-	 Yrug1lgDQ7RbdwMgFBjR29LE2B1/graNyAzH1I49PdvHA3U90Sgh9PLuyvnrMp3PLl
-	 g2jPmVmaE39Mj2SeMT+VedGIjsXMn8C9uJDIlvkCOCulyxI//WPhMKJu+mFfH1vjK7
-	 EHHKMqSpK1PpGtPm5VlIySYvdDkH9Ik2MJDp2jbWEkbWK8HSxG2FwKNcfyycZEQpC0
-	 GV5yAPOHuCAiMXkfi0LPe6EIP68VTBY0rrnX8aNw8D9jfy7+fSC7IZx7Qj8HAz6Y95
-	 CiRUinBBVR0Ng==
-Date: Sat, 5 Oct 2024 12:53:18 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Guillaume Stols <gstols@baylibre.com>
-Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Lars-Peter
- Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
- aardelean@baylibre.com, dlechner@baylibre.com, Jonathan Cameron
- <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v3 09/10] iio: adc: ad7606: Add iio-backend support
-Message-ID: <20241005125318.0c4a7bc8@jic23-huawei>
-In-Reply-To: <20241004-ad7606_add_iio_backend_support-v3-9-38757012ce82@baylibre.com>
-References: <20241004-ad7606_add_iio_backend_support-v3-0-38757012ce82@baylibre.com>
-	<20241004-ad7606_add_iio_backend_support-v3-9-38757012ce82@baylibre.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	b=ksZ99L7558xn1xd5cBUQFIK78d80OfgwZn+FQ9j0/XgNJqScS72Va7VGSAzZ0pJRB
+	 /RI6dBgMx9lQqdItsJph2P5tj+Y21mwu+IZZ4uG0clSeI6EzIGSCt/Dv4A+/hH4mnH
+	 pDvUe70RrhWE8Fns1GyXQE8cuC0a2nlKhod7vJeC7ZVpK7p1n+po5RIVch2RqbVQJW
+	 6QaAv8Dfl1QwTCcTkRCvhFPlKlDT+17/NDTu62O8/VmpDufTSVrNzBJPc0eo3b1per
+	 qemu9ky9ul5sXHul+VdFWA7h1sHo7Kj+Kn1myE1JyBpNjN22gBLQop9B0ps937NVwv
+	 fgYC1CI3th14Q==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=wait-a-minute.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1sx414-000bEl-8D;
+	Sat, 05 Oct 2024 13:36:10 +0100
+Date: Sat, 05 Oct 2024 13:36:09 +0100
+Message-ID: <87h69qvi9y.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Shuah Khan <shuah@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v14 4/5] KVM: arm64: Set PSTATE.EXLOCK when entering an exception
+In-Reply-To: <20241005-arm64-gcs-v14-4-59060cd6092b@kernel.org>
+References: <20241005-arm64-gcs-v14-0-59060cd6092b@kernel.org>
+	<20241005-arm64-gcs-v14-4-59060cd6092b@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: broonie@kernel.org, catalin.marinas@arm.com, will@kernel.org, oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, shuah@kernel.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Fri, 04 Oct 2024 21:48:43 +0000
-Guillaume Stols <gstols@baylibre.com> wrote:
-
-> - Basic support for iio backend.
-> - Supports IIO_CHAN_INFO_SAMP_FREQ R/W.
-> - Only hardware mode is available, and that IIO_CHAN_INFO_RAW is not
->   supported if iio-backend mode is selected.
-I don't much like the trivial window between this patch and the next
-where the emulated mode is still there but the sleeps aren't adapting with sampling frequency.
-
-Maybe it's worth a dance of leaving the write_raw support
-until after this one so the frequency remains fixed until after
-the fsleep(2) calls are gone?
-
-There is another bit that I'm unsure is technically correct until after
-the next patch.  Maybe I'm reading the diff wrong though!
-
-Thanks,
-
-J
-
+On Sat, 05 Oct 2024 11:37:31 +0100,
+Mark Brown <broonie@kernel.org> wrote:
 > 
-> Signed-off-by: Guillaume Stols <gstols@baylibre.com>
+> As per DDI 0487 RWTXBY we need to manage PSTATE.EXLOCK when entering an
+> exception, when the exception is entered from a lower EL the bit is cleared
+> while if entering from the same EL it is set to GCSCR_ELx.EXLOCKEN.
+> Implement this behaviour in enter_exception64().
+> 
+> Signed-off-by: Mark Brown <broonie@kernel.org>
 > ---
->  drivers/iio/adc/Kconfig      |   2 +
->  drivers/iio/adc/ad7606.c     | 124 +++++++++++++++++++++++++++++++++++++------
->  drivers/iio/adc/ad7606.h     |  15 ++++++
->  drivers/iio/adc/ad7606_par.c |  94 +++++++++++++++++++++++++++++++-
->  4 files changed, 219 insertions(+), 16 deletions(-)
+>  arch/arm64/include/uapi/asm/ptrace.h |  2 ++
+>  arch/arm64/kvm/hyp/exception.c       | 10 ++++++++++
+>  2 files changed, 12 insertions(+)
 > 
-> diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
-> index 4ab1a3092d88..9b52d5b2c592 100644
-> --- a/drivers/iio/adc/Kconfig
-> +++ b/drivers/iio/adc/Kconfig
-> @@ -224,9 +224,11 @@ config AD7606_IFACE_PARALLEL
->  	tristate "Analog Devices AD7606 ADC driver with parallel interface support"
->  	depends on HAS_IOPORT
->  	select AD7606
-> +	select IIO_BACKEND
->  	help
->  	  Say yes here to build parallel interface support for Analog Devices:
->  	  ad7605-4, ad7606, ad7606-6, ad7606-4 analog to digital converters (ADC).
-> +	  It also support iio_backended devices for AD7606B.
+> diff --git a/arch/arm64/include/uapi/asm/ptrace.h b/arch/arm64/include/uapi/asm/ptrace.h
+> index 0f39ba4f3efd4a8760f0fca0fbf1a2563b191c7d..9987957f4f7137bf107653b817885bb976853a83 100644
+> --- a/arch/arm64/include/uapi/asm/ptrace.h
+> +++ b/arch/arm64/include/uapi/asm/ptrace.h
+> @@ -37,6 +37,7 @@
+>  #define PSR_MODE_EL3t	0x0000000c
+>  #define PSR_MODE_EL3h	0x0000000d
+>  #define PSR_MODE_MASK	0x0000000f
+> +#define PSR_EL_MASK	0x0000000c
 >  
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called ad7606_par.
-> diff --git a/drivers/iio/adc/ad7606.c b/drivers/iio/adc/ad7606.c
-> index 3666a58f8a6f..d86eb7c3e4f7 100644
-> --- a/drivers/iio/adc/ad7606.c
-> +++ b/drivers/iio/adc/ad7606.c
-> @@ -21,6 +21,7 @@
-
-> @@ -737,6 +773,10 @@ static int ad7606_write_raw(struct iio_dev *indio_dev,
->  			return ret;
+>  /* AArch32 CPSR bits */
+>  #define PSR_MODE32_BIT		0x00000010
+> @@ -56,6 +57,7 @@
+>  #define PSR_C_BIT	0x20000000
+>  #define PSR_Z_BIT	0x40000000
+>  #define PSR_N_BIT	0x80000000
+> +#define PSR_EXLOCK_BIT 0x400000000
 >  
->  		return 0;
-> +	case IIO_CHAN_INFO_SAMP_FREQ:
-> +		if (val < 0 && val2 != 0)
-> +			return -EINVAL;
-> +		return ad7606_set_sampling_freq(st, val);
+>  #define PSR_BTYPE_SHIFT		10
+>  
+> diff --git a/arch/arm64/kvm/hyp/exception.c b/arch/arm64/kvm/hyp/exception.c
+> index 424a5107cddb5e1cdd75ef3581adef03aaadabb7..0d41b9b75cf83250b2c0d20cd82c153869efb0e4 100644
+> --- a/arch/arm64/kvm/hyp/exception.c
+> +++ b/arch/arm64/kvm/hyp/exception.c
+> @@ -160,6 +160,16 @@ static void enter_exception64(struct kvm_vcpu *vcpu, unsigned long target_mode,
+>  	// PSTATE.BTYPE is set to zero upon any exception to AArch64
+>  	// See ARM DDI 0487E.a, pages D1-2293 to D1-2294.
+>  
+> +	// PSTATE.EXLOCK is set to 0 upon any exception to a higher
+> +	// EL, or to GCSCR_ELx.EXLOCKEN for an exception to the same
+> +	// exception level.  See ARM DDI 0487 RWTXBY, D.1.3.2 in K.a.
+> +	if (kvm_has_gcs(vcpu->kvm) &&
+> +	    (target_mode & PSR_EL_MASK) == (mode & PSR_EL_MASK)) {
+> +		u64 gcscr = __vcpu_read_sys_reg(vcpu, GCSCR_EL1);
 
-Currently I think  for the !backend + pwm case this can go out of
-range for which that code works (fsleep removed in next patch).
-Perhaps delay adding this until after that patch.
->  	default:
->  		return -EINVAL;
->  	}
+No, please. This only works by luck when a guest has AArch32 EL0, and
+creates more havoc on a NV guest. In general, this PSR_EL_MASK creates
+more problem than anything else, and doesn't fit the rest of the code.
 
-> @@ -1108,7 +1186,24 @@ int ad7606_probe(struct device *dev, int irq, void __iomem *base_address,
->  					       st->cnvst_pwm);
->  		if (ret)
->  			return ret;
-> +	}
-> +
-> +	if (st->bops->iio_backend_config) {
-> +		/*
-> +		 * If there is a backend, the PWM should not overpass the maximum sampling
-> +		 * frequency the chip supports.
-> +		 */
-> +		ret = ad7606_set_sampling_freq(st,
-> +					       chip_info->max_samplerate ? : 2 * KILO);
-> +		if (ret)
-> +			return ret;
-> +
-> +		ret = st->bops->iio_backend_config(dev, indio_dev);
-> +		if (ret)
-> +			return ret;
-> +		indio_dev->setup_ops = &ad7606_pwm_buffer_ops;
->  	} else {
-> +		init_completion(&st->completion);
->  		st->trig = devm_iio_trigger_alloc(dev, "%s-dev%d",
->  						  indio_dev->name,
->  						  iio_device_id(indio_dev));
-It's a little hard to unwind the patches, but this was previously in the !pwm case.
-At this point in the series we still allow the pwm case to work with ! backend.
-So is this now running in that case?   Do we need a temporary additional check
-on !pwm
+So this needs to:
+- explicitly only apply to exceptions from AArch64
+- handle exception from EL2, since this helper already deals with that
 
+The latter point of course means introducing GCSCR_EL2 (and everything
+that depends on it, such as the trap handling).
 
-> @@ -1126,15 +1221,14 @@ int ad7606_probe(struct device *dev, int irq, void __iomem *base_address,
->  						      &ad7606_buffer_ops);
->  		if (ret)
->  			return ret;
-> +		ret = devm_request_threaded_irq(dev, irq,
-> +						NULL,
-> +						&ad7606_interrupt,
-> +						IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-> +						chip_info->name, indio_dev);
-> +		if (ret)
-> +			return ret;
->  	}
-> -	ret = devm_request_threaded_irq(dev, irq,
-> -					NULL,
-> -					&ad7606_interrupt,
-> -					IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-> -					chip_info->name, indio_dev);
-> -	if (ret)
-> -		return ret;
-> -
->  	return devm_iio_device_register(dev, indio_dev);
->  }
->  EXPORT_SYMBOL_NS_GPL(ad7606_probe, IIO_AD7606);
+	M.
 
-> diff --git a/drivers/iio/adc/ad7606_par.c b/drivers/iio/adc/ad7606_par.c
-> index b87be2f1ca04..6042f6799272 100644
-> --- a/drivers/iio/adc/ad7606_par.c
-> +++ b/drivers/iio/adc/ad7606_par.c
-> @@ -2,7 +2,8 @@
-> +
-> +static int ad7606_bi_setup_iio_backend(struct device *dev, struct iio_dev *indio_dev)
-> +{
-> +	struct ad7606_state *st = iio_priv(indio_dev);
-> +	unsigned int ret, c;
-> +	struct iio_backend_data_fmt data = {
-> +		.sign_extend = true,
-> +		.enable = true,
-> +	};
-> +
-> +	st->back = devm_iio_backend_get(dev, NULL);
-> +	if (IS_ERR(st->back))
-> +		return PTR_ERR(st->back);
-> +
-> +	/* If the device is iio_backend powered the PWM is mandatory */
-> +	if (!st->cnvst_pwm)
-> +		return dev_err_probe(st->dev, -EINVAL,
-> +				     "A PWM is mandatory when using backend.\n");
-> +
-> +	ret = devm_iio_backend_request_buffer(dev, st->back, indio_dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = devm_iio_backend_enable(dev, st->back);
-> +	if (ret)
-> +		return ret;
-> +
-> +	for (c = 0; c < indio_dev->num_channels; c++) {
-> +		ret = iio_backend_data_format_set(st->back, c, &data);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	indio_dev->channels = ad7606b_bi_channels;
-
-Ultimately this may want to move into the chip_info structures as more devices are added
-but this is fine for now I suppose.
-
-> +	indio_dev->num_channels = 8;
-> +
-> +	return 0;
-> +}
+-- 
+Without deviation from the norm, progress is not possible.
