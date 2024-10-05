@@ -1,126 +1,88 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C1F14C59B;
-	Sat,  5 Oct 2024 15:12:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A8A155756;
+	Sat,  5 Oct 2024 15:50:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728141152; cv=none; b=a2y+MvRic2k5aK8Q7VQQ+uOdT/fxDHefY4QaG6q2PfWMVpclUxcnEHSKxN0OceIsct/WMa2kH2ElVVrxKKS61/JfH5uhCMjBS0jxl7rggvKZ6NplZ1A3nK4xgfOeGetp5eFwvrYGawoR7R3pqysST/bOQ+XE7d0qSTVe8wZoqFs=
+	t=1728143439; cv=none; b=KnJRMGJ9BiSij7ydNc/BCoH7CNHeNm/NHc6bJyzWb8zZ06xyy0c31X+10p5k2OZbUoWw74UjbGubiuZAfL2kvo0ZYKoUgN9bzFVf0jXhD8w+Nb6a/DoyEmPRaWqv++IebLTLqK61NhT85nTsqT2NdGguuqk92pyAifUbWEi9q2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728141152; c=relaxed/simple;
-	bh=mBn5to0sSvDbFm7DNPOU77k3HQV99gZKeuZ2tMn3NV8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D+6JNVDp0wHIyN9hWp1tx6sKBNqhCgPk4bhFxNL6IUjyo2dX86VEADGN5WHSGDI8UJCYkwlai4l4moq28/k6+dT7/ZkUVmDlydM/ua/grRDUCkpY2n4v5C/op8PZ63sRRbKGid5Qx1yeIkQ0ipk25PzaO5TeYZYkw7u6TP0ufJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=hPYki3H2; arc=none smtp.client-ip=212.227.15.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	s=arc-20240116; t=1728143439; c=relaxed/simple;
+	bh=gVufgi5ieEUb7c+F0xqwV/AYZvlXBZANCJxzJMrFhr4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=P6DCCZOfPvo1fVtQ8sJupoZSBc1smo32x7U7uIjavRWFBBkLDjNDBdn38u7SJEdurFwMMF3TB3NHAV0Xph3WN24/Pi5PHCNlJgArpINQj8Wks7cRz8/FuKoyqhViKvJ4WtnobZVft6XpQmP3Kz+TMeLMtCE4FzX+MfHm2Uy8ayg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NF9P1d52; arc=none smtp.client-ip=209.85.161.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="hPYki3H2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1728141144; x=1728745944; i=w_armin@gmx.de;
-	bh=Jg73qrV+f+UDOvfyfGx439nhC6L5X7z0km1/uQ+djcY=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=hPYki3H2rzbodt8f7J/y0GMlZsuxoZMOprnY9V4QxeRNbdGPghxPZXesMtZJmqwl
-	 aqpJWiJgR2CGXVSTmRisinkly4UIA2X5xUEvvXh0+YsdVdjwCUEsKFK39WMD43l/a
-	 g544Hh9PLAQbsiNZZIkOJqe3y/Podt63nv8rGVBJwgWVGKUXmZw5kY/lO8AaLcdcL
-	 FGn7muvI4KdUBeMZzBP3qji11XbXIDcHjyf55i6ELkuPUUj5BCCVCk9cX++PPIcXs
-	 Jzy5lwyPeBdB/BaE1vvj6wSpkesYzjSWmedJXAqE9V6jHwaqbTvmySstWXvptDuVs
-	 Ogc5AJ4KNkmt+zLUvg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.2.35] ([91.137.126.34]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MzhnH-1ts4ik2hTl-00zEk4; Sat, 05
- Oct 2024 17:12:23 +0200
-Message-ID: <f0d2200d-536b-4572-b7ef-63be26dd03a5@gmx.de>
-Date: Sat, 5 Oct 2024 17:12:22 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NF9P1d52"
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5e77c6ed92bso1891300eaf.0;
+        Sat, 05 Oct 2024 08:50:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728143436; x=1728748236; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=REtgKggo44ri5JobvZ/IoAC5pGx/FtllU5izUlzT7yA=;
+        b=NF9P1d5285GfvLygSY58Ic05bodxjevDiCDyjoonw5P35dy/j/nsaOCOVo35N9srrK
+         E0bOQL0kCRqkZ0FkxZ5uM+L8EcLDfcoOjQPmP4SkfZ8SYE3TGcl0t9Eu5D4d3iphwTwE
+         6rtVHx7vCZ4eds+5EwDFUD5cER4BYgHhGrRVZanG2DAM0TBPPIWAcjP89RncG7stpxC/
+         1N2NkI59glVG23sUTUa7EpxSTFLFVSYVMzrLfbMMfuOf9xCf2TQ8B9ah6byGST23Wh/E
+         Dl1Oxv5w0DwPavZ52mROTCVpSuP4wBS6rXo6C/9mmQKiZqVrbVhPCii/Lextb+LU5M7m
+         Sptg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728143436; x=1728748236;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=REtgKggo44ri5JobvZ/IoAC5pGx/FtllU5izUlzT7yA=;
+        b=uMcJNAxKwJLcf7mG21X22gMicJTq3fm4c0gRBtJy9SXljV7ZluWOPHIYrFZ7Tv1yGS
+         2PSiCHkFIoM13xCSBMHMogTdllS+wfRwAt1MArC1Pf/sy7YxsePomxLLQpam6VoP0laS
+         K6uh6BeYIdmEklaO9+SNlvy2EGj9noB5S0N4sILxrVgIKIn7cWcIFEkY+9nqd2NV5fhP
+         L65WtPDAlf+qadRynq0qFFQD5rNxj0c77sUfFlG0ppWcSGa3gfAR8AQItLO0hw4M8blN
+         IaUbyP14w+M5G8vJVMWGwKLXuscBFSlQdzY+r/0bD9WoP6lKGxSn9sNJMDUdX0JZcvsA
+         qg2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCV4LTIlp3LO3fmxN8JpElMYndtY42XenlAeOimLOdnu6moWY7nSjutfLgKxoC3bFk74TvMndvVUkwM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzZEjYHM46ZwsPJHySG0e142IMVMX6qjyxiqXHFF2U97G9HK0uX
+	9i4h/n5aNRRm5Qbtf8VwRS+E/KOCegLMGC8cGKPuomSThiWPkrYSw8dtR+EfCK+M3pgdTT3euaP
+	7Yflx7gguO8QrSjClkBR8rMWRzX/ZirtJ
+X-Google-Smtp-Source: AGHT+IFVdEhPRpqhXaq+Jz2/oKykkRmjg3r7SqCiHnq26reG5Z7DbQmKRM/05Ce6J5JJLF1ROlpjtpFii1UCztcUkSY=
+X-Received: by 2002:a05:6871:2b24:b0:27b:583b:bfa8 with SMTP id
+ 586e51a60fabf-287c1daff03mr4219815fac.17.1728143436540; Sat, 05 Oct 2024
+ 08:50:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] platform/x86: dell-ddv: Fix typo in documentation
-To: Anaswara T Rajan <anaswaratrajan@gmail.com>
-Cc: corbet@lwn.net, platform-driver-x86@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241005070056.16326-1-anaswaratrajan@gmail.com>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <20241005070056.16326-1-anaswaratrajan@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:K0zAfBnub7kgOR3W5d+WyEYt4GqaRB0EM9u9GMe/4JjVr2qNFVZ
- FD4Y2PnCZOI5m5dUFqjIjqma/PnVe1+R9FsKt/IRk5sqdZBzmVIZYBuTHX9p6sNqV2kU3q4
- oicMrYTgGTQg8e9xZ/HJhKkPmu2DqYDjwIY8eO6uLf/+5pQtK5nCQ998YUSAIDqW0kDAWRv
- wqssD6gxZjnyYUzK8QxWw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:xmM7Donem1s=;KdAN/oiQUQaBX8iqC0Kot3rpd39
- TXGV0RsIvfp33Y3GtCWReE8cBRdxMgLjQBjUtmwckTnnU1laL0zxtnX8M+ualvRjw8Gl0cG4O
- qj+eZ8qzSV1ZiCd1augGlpUyE7yws/3o354QnBEXfmVLb9S8nRS7NIY0ur9XZhiJTVwKBPEB+
- ClQnQcnbmfHfPItQOZ9Vh7pFk5EKIZ3eXJwsMGp0SX3zajZs5Ld5yWFjgissoTbICzDKMOWbd
- Z4YrNCfp6bYeZjkfdm3Sz3kRVmlctqqvfoyWUd8zYkKp7VcNKW418yz8sztiqUfyBIjNN4Npt
- ORjo9Z30e8enuSfzTSyuPLhk7fkrPcysM15ZubHAQ5eOeEmhrRbFNtqoQCyeymWmPQlHbZ6FT
- Cy6zPoS3tQTHWpA9MFtXxECNWnpUqmyhCGnn0+BwB/IGishkot2d86KAiaJ6U1NxPzXO/8Na2
- 27Xiqj/qRzk6SUYSWsSwhjMcqu9LLdlVOj0mhZTzQETX8UEsRmHD1ci7RBnfjoNI1DLoXCCYx
- wn2W84F6PWmYOzjIRQ59BTfMLTpO+uJPMgE1VciV/BXtBRAEYUhHSGpR8R9vNsVNuJGovB6BA
- f3XLh2IIXbod+7QqOJYRffP8ummvYGl/La801p8IQVoa+L9f8TEHmpZAXcJb4xMXMvlXmMteM
- B/25pm2+zlJ7Lo6unV+6KDkRuanKfIAAuJjD/7qIwZ+q5KkOBebWgQSZveOa4WANMbMou9zAV
- R7BOR8OSRZP+YAn0Wb/ddeleO89Hr0+kNeFfvHGHGWMJk07m3bOCiQEm5AFpuWYfigHJOC+C7
- iMhfBcrZRH0yuzC1K8Jzq5O2Wu7T8QZJ9U7WlZ4le73bE=
+References: <20241005105646.7378-1-donald.hunter@gmail.com>
+In-Reply-To: <20241005105646.7378-1-donald.hunter@gmail.com>
+From: Donald Hunter <donald.hunter@gmail.com>
+Date: Sat, 5 Oct 2024 16:50:25 +0100
+Message-ID: <CAD4GDZwOD+=EdSUv9zYcLKvFxiUhOkr=Jxcv4UZU1-2GDRXg_g@mail.gmail.com>
+Subject: Re: [PATCH net-next v2] doc: net: Fix .rst rendering of
+ net_cachelines pages
+To: netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, linux-doc@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>
+Cc: donald.hunter@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-Am 05.10.24 um 09:00 schrieb Anaswara T Rajan:
-
-> Fix typo in word 'diagnostics' in documentation.
+On Sat, 5 Oct 2024 at 11:57, Donald Hunter <donald.hunter@gmail.com> wrote:
 >
-> Signed-off-by: Anaswara T Rajan <anaswaratrajan@gmail.com>
-
-Thanks, for the whole patch:
-
-Reviewed-by: Armin Wolf <W_Armin@gmx.de>
-
+> The doc pages under /networking/net_cachelines are unreadable because
+> they lack .rst formatting for the tabular text.
+>
+> Add simple table markup and tidy up the table contents:
+>
+> - remove dashes that represent empty cells because they render
+>   as bullets and are not needed
+> - replace 'struct_*' with 'struct *' in the first column so that
+>   sphinx can render links for any structs that appear in the docs
+>
+> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
 > ---
-> Changes in v2:
->    - Make the commit title and description more clearer.
->
-> Changes in v3:
->    - Add missing full stop to commit description.
->
->   Documentation/wmi/devices/dell-wmi-ddv.rst | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/wmi/devices/dell-wmi-ddv.rst b/Documentation/=
-wmi/devices/dell-wmi-ddv.rst
-> index 2fcdfcf03327..e0c20af30948 100644
-> --- a/Documentation/wmi/devices/dell-wmi-ddv.rst
-> +++ b/Documentation/wmi/devices/dell-wmi-ddv.rst
-> @@ -8,7 +8,7 @@ Introduction
->   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
->   Many Dell notebooks made after ~2020 support a WMI-based interface for
-> -retrieving various system data like battery temperature, ePPID, diagost=
-ic data
-> +retrieving various system data like battery temperature, ePPID, diagnos=
-tic data
->   and fan/thermal sensor data.
->
->   This interface is likely used by the `Dell Data Vault` software on Win=
-dows,
-> @@ -277,7 +277,7 @@ Reverse-Engineering the DDV WMI interface
->   4. Try to deduce the meaning of a certain WMI method by comparing the =
-control
->      flow with other ACPI methods (_BIX or _BIF for battery related meth=
-ods
->      for example).
-> -5. Use the built-in UEFI diagostics to view sensor types/values for fan=
-/thermal
-> +5. Use the built-in UEFI diagnostics to view sensor types/values for fa=
-n/thermal
->      related methods (sometimes overwriting static ACPI data fields can =
-be used
->      to test different sensor type values, since on some machines this d=
-ata is
->      not reinitialized upon a warm reset).
+> Changes: v2 is just a rebase on net-next
+
+Apologies, formatting is broken. I'll spin a v3 tomorrow.
