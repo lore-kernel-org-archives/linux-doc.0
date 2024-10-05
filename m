@@ -1,109 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201AC155742;
-	Sat,  5 Oct 2024 16:35:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C7C15B99D;
+	Sat,  5 Oct 2024 18:47:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728146156; cv=none; b=FZwnAbPkpgIdYPLt+aeyP05mGYQpikWD0CfgTSV6ZkZPQdxMUivAXCELn4DRljdtf2RWY8dM9y49DZ9u1N8n/UniTk1xSkgPFOdJooMvzH9PQ9RgjYSKcBFwShICSvp6bgbfw42da92o0eHYwPl6aX0LzanDesSnNwQB7UFDY+s=
+	t=1728154064; cv=none; b=ZH+l8MJTDb9t4KnmW/dJenVMFMzhQHwpveF6pvu9Yio4KQzfy2XADgybq/eOpAFxBzy1CkitJtTDMOmOdTvjx4OTZNp+2qydQyW4NjcmCARRjzTK0QJyVe2wuj9+tV5N4Q9iHKIgVEuxQPog9xdcjILbsT8ojiIQtWCZHXi9YX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728146156; c=relaxed/simple;
-	bh=80nL05CVdGDExIrpaz/GZLy22HLnLEgT36r17S9CRx4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QcNMpxy9lj5uc4KBg1Yn8fcV49pUGiRM5ud1G2aZb4/Rxx2vG0Ry78e0U6qpYZHGCfxeWypn1VmeiU6d31LATY0qA4f5z9iL2bGEIPxdSgxQwcqA2y/jaMP7tYPJ6WY70EcOTlUCLajVQLSuKrhOvCJ0z/QRtgL8VOIgGoqsSEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DnXyVKgu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728154064; c=relaxed/simple;
+	bh=CCsUb6uPCpoTXjrHubgnd2r2d40QWaxK5u4uvZlJkhs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oL7k6ulBdFXFqRUw1YZ5IFd4y69xBR+LsNhWEPBzHBz0gXOLpRp1H3Gy2DgWrvtJixAm7FS9RMZG5jPwviggFaWdQUvEcfUv6dkpYokP4sxAAxVpa1vjo+E25NJ0guF52K5NNjqgg8C828ZO8kz/fd9it2hP8UxSyYE0QPBfRwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iZ5c25gv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DnXyVKgu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E44CC4CEC2;
-	Sat,  5 Oct 2024 16:35:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iZ5c25gv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64A9EC4CEC2;
+	Sat,  5 Oct 2024 18:47:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728146155;
-	bh=80nL05CVdGDExIrpaz/GZLy22HLnLEgT36r17S9CRx4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=DnXyVKgu3+cYcLSUAd1Qooqz2SF7XlYECIssoKYlWO0bXg0vdJ+CrwwyL84wqCRJO
-	 VVhuzighv5ZwhsdTyJlfQaeCIU5GVwtAywuCmDJ0NHY3QbHB0/FlksxH14KuWRxj4G
-	 dwrsvGIVpHEpbPvvrvW9/FZM+L+1V7vHmR36EqmXrXfWm5RRDMfmtqIcpWUS9+G/Vj
-	 XCX+LEc0teLdVMCiuBpUiVH8AL9Uqp87XKPAq8eVFfvIf8WAEpygl80TpYLGiERqma
-	 YnuJG6nDIlb4Zww0VTrT8ZasZkjzGWcf9Bb6I1nOcvAHatENPWZKOGNiwBtYvQeYB4
-	 BCy85pHodRlrg==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=wait-a-minute.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1sx7l3-000dt3-BM;
-	Sat, 05 Oct 2024 17:35:53 +0100
-Date: Sat, 05 Oct 2024 17:35:52 +0100
-Message-ID: <87bjzyv76f.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v14 4/5] KVM: arm64: Set PSTATE.EXLOCK when entering an exception
-In-Reply-To: <ZwFJvV7lrFStWD-r@finisterre.sirena.org.uk>
-References: <20241005-arm64-gcs-v14-0-59060cd6092b@kernel.org>
-	<20241005-arm64-gcs-v14-4-59060cd6092b@kernel.org>
-	<87h69qvi9y.wl-maz@kernel.org>
-	<ZwFJvV7lrFStWD-r@finisterre.sirena.org.uk>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	s=k20201202; t=1728154063;
+	bh=CCsUb6uPCpoTXjrHubgnd2r2d40QWaxK5u4uvZlJkhs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iZ5c25gvKHoopbsKtJjnI5L/BeEh4cBsbLFy+tVlXCG1rYRH2P/urXdhNX549ynVX
+	 iFOWWuCj1O+/XP1dC+I6UT2YkXLKS42vcWv2goocZgL7o+y8CU51Vtz30OF2SmD4RX
+	 fh9BlvCPfxjMJblKcEIINbyVlVfTO4nX0a/xgG/YpfFffgUNpZo1lQexlIvAupLgtv
+	 oM+3yCvVi+5y/AoFGZP55CanVSg5ALVOpMFm1EFNPjr1oQ/IusgcsZWrJ7ARiHJNUm
+	 Y/P1rnmNGZGyogQAwLfrwdZRFmgMs1MrANwTPrr3PqHMDBaXD+Qmg96fbVTN6dOTnB
+	 /EIq7Wj0OKXZg==
+Date: Sat, 5 Oct 2024 13:47:42 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Guillaume Stols <gstols@baylibre.com>
+Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Conor Dooley <conor+dt@kernel.org>, linux-pwm@vger.kernel.org,
+	Lars-Peter Clausen <lars@metafoo.de>, linux-doc@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-iio@vger.kernel.org,
+	aardelean@baylibre.com, linux-kernel@vger.kernel.org,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	dlechner@baylibre.com, devicetree@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>
+Subject: Re: [PATCH v3 02/10] dt-bindings: iio: adc: ad7606: Remove spi-cpha
+ from required
+Message-ID: <172815406221.521472.1043315949208476695.robh@kernel.org>
+References: <20241004-ad7606_add_iio_backend_support-v3-0-38757012ce82@baylibre.com>
+ <20241004-ad7606_add_iio_backend_support-v3-2-38757012ce82@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: broonie@kernel.org, catalin.marinas@arm.com, will@kernel.org, oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, shuah@kernel.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241004-ad7606_add_iio_backend_support-v3-2-38757012ce82@baylibre.com>
 
-On Sat, 05 Oct 2024 15:14:21 +0100,
-Mark Brown <broonie@kernel.org> wrote:
-> 
-> On Sat, Oct 05, 2024 at 01:36:09PM +0100, Marc Zyngier wrote:
-> > Mark Brown <broonie@kernel.org> wrote:
-> 
-> > > +	// PSTATE.EXLOCK is set to 0 upon any exception to a higher
-> > > +	// EL, or to GCSCR_ELx.EXLOCKEN for an exception to the same
-> > > +	// exception level.  See ARM DDI 0487 RWTXBY, D.1.3.2 in K.a.
-> > > +	if (kvm_has_gcs(vcpu->kvm) &&
-> > > +	    (target_mode & PSR_EL_MASK) == (mode & PSR_EL_MASK)) {
-> > > +		u64 gcscr = __vcpu_read_sys_reg(vcpu, GCSCR_EL1);
-> 
-> > No, please. This only works by luck when a guest has AArch32 EL0, and
-> > creates more havoc on a NV guest. In general, this PSR_EL_MASK creates
-> > more problem than anything else, and doesn't fit the rest of the code.
-> 
-> You say luck, I say careful architecture definition but sure.
 
-I wasn't talking about the architecture, but sure.
-
+On Fri, 04 Oct 2024 21:48:36 +0000, Guillaume Stols wrote:
+> The documentation is erroneously stating that spi-cpha is required, and
+> the example is erroneously setting both spi-cpol and spi-cpha. According
+> to the datasheet, only cpol should be set.
 > 
-> > So this needs to:
-> > - explicitly only apply to exceptions from AArch64
-> > - handle exception from EL2, since this helper already deals with that
+> On zedboard for instance, setting the devicetree as in the example will
+> simply not work.
 > 
-> > The latter point of course means introducing GCSCR_EL2 (and everything
-> > that depends on it, such as the trap handling).
+> Fixes: 416f882c3b40 ("dt-bindings: iio: adc: Migrate AD7606 documentation to yaml")
+> Fixes: 6e33a125df66 ("dt-bindings: iio: adc: Add docs for AD7606 ADC")
+> Signed-off-by: Guillaume Stols <gstols@baylibre.com>
+> ---
+>  Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 > 
-> For clarity, which trap handling specifically?
 
-All the traps described in the GCSCR_EL2 documentation -- I see two
-control bits described in K.a, all of which needs to be propagated and
-their effects handled. Similarly, GCSPR_EL2 needs to be defined.
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
