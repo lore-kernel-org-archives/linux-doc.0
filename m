@@ -1,105 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6DA4D2FA;
-	Sat,  5 Oct 2024 14:33:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A270E81ACA;
+	Sat,  5 Oct 2024 14:43:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728138834; cv=none; b=NBoLE1vFrA7dpdOdwIoTvKsOUwCmxemcs7q6Tl+HCzOpdOCiPmYRwWzZCfZeqiWac4/2Sx19rYTaUvwezgrfr2C12lXV9a3FcCHar1vwZjjNVne5KWVDCKdmWH2dIyw84+m2B+raOJ7QBcFfBtY6dcyjqA0wUrJDLiv6Dk/KmTs=
+	t=1728139383; cv=none; b=Z12UEcqMyzp86hqESBEFnM6aUQrS5meN6LB/dhXqVUFaV6y8bY3ra/MPBGHGEJ3CEeSw9ydOqyD+sKTCRIkYEbe9JGDcIkyCh+G56h1xPyJhgxZfUTudJrhPN/D8DseqqDxsOl4xu5xBByrKxqmTUqz5C2IPxJ44AnBRP4nE8uI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728138834; c=relaxed/simple;
-	bh=MU0fRAPqCrXvULNmVt/pnSMsmzjWy+uOjBzDEn46sHE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uAJFMI1etX6OOYg8hfu5d3/oTOXlolXACJFK0Mepe2TKsMlFb4L6tdKJG3dJ/hEKKFD211sDZgCUN5Qgp03ynuExhRaGCXhStmhZCVI6CVqoXu4nkEq5Zi0cUiztIpVpqdbQgD3IZIWuQaW7cH7YlhVm1/dDckmjeyHfZ73CwJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OvSDtyHP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728139383; c=relaxed/simple;
+	bh=kpSHQEms/Rvttwa5HYtYs+uKlFsj7N1NRyTtQWRzz+w=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=QVncdAhe4JVBFDjQpZxGZCNglzb6ydKJUZ7yrUpYOdoXORfWsvSIBhZD45C4OLXSRPRP02Qv5dI4YiY/C6jvPdlXiM8ZQOTTRqWyyGtz1pGsYRTCf+OCNK0NDYpQB49UKt4EFjHWOikTJmGHbhE0qFEYHLhRjJjcRSQa0Jwb3+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nNC+sglF; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OvSDtyHP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58532C4CEC2;
-	Sat,  5 Oct 2024 14:33:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728138833;
-	bh=MU0fRAPqCrXvULNmVt/pnSMsmzjWy+uOjBzDEn46sHE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=OvSDtyHPg97pm18qhn1VmhnVbVIflurs/GIKYIChPgjZmpfPcEe8bzCwGaHlMUzCO
-	 9sofmVYLI2aEjdevyG2GSBb0lyLgVCY2I8zPB0CwaQvPy3h13YMPCKdu9k/DhxevcJ
-	 b66WVnfhDqEw6Od/M2ICj7imsUfr53fm0QgVGrLr8ioMJSOveJj6/IakXZTG6PDJTZ
-	 Dfv7vAe3nJmjoWfnSZtKvLnhTjKceM/CqIMgHgIds/YsVGVwzkPiLdv0Q/JlTs+jzI
-	 +ozv3FgXSgMv9uZOOqtwR+H9R978wQtRNalF8ISMpTOcwItPym41W7JJ05sdiDmAZ5
-	 X1oFfmJH/bPCA==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=wait-a-minute.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1sx5qw-000cXV-BW;
-	Sat, 05 Oct 2024 15:33:50 +0100
-Date: Sat, 05 Oct 2024 15:33:48 +0100
-Message-ID: <87cykevctv.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v14 3/5] KVM: arm64: Manage GCS access and registers for guests
-In-Reply-To: <ZwFMnhXGV_Nj31tE@finisterre.sirena.org.uk>
-References: <20241005-arm64-gcs-v14-0-59060cd6092b@kernel.org>
-	<20241005-arm64-gcs-v14-3-59060cd6092b@kernel.org>
-	<87iku6vl4z.wl-maz@kernel.org>
-	<ZwE6V9cqf7jD1rTc@finisterre.sirena.org.uk>
-	<87frpavgam.wl-maz@kernel.org>
-	<ZwFDmaeIgPKfmJnj@finisterre.sirena.org.uk>
-	<87ed4uveam.wl-maz@kernel.org>
-	<ZwFMnhXGV_Nj31tE@finisterre.sirena.org.uk>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nNC+sglF"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A660842B27
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1728139380; bh=1ghV5ihBKvKi7oCgzNLT9Q+CxNIVkuQosbBZs1PkcUo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=nNC+sglFQb2Y113jOnT5t5kTMDuqUx+XpA3Zb6KK1nYum8ML5G0LTRgPsA9frC1jN
+	 xg29VbvIKi2p47ooHcbkrHB4Tb/xibn4nya7hI36tWGMD2gC/8zPoktH7b8SALzXpX
+	 nWs3Y5qljNe6qbb15oSlGv1AjBRQKeDLMbNBUmlBoH0owKQZhejfNxXuaNVDHtf7Bt
+	 Rz7BPvlWZGSyFlZxAleTE2/C8vB3N7laoKq0qtxxKSIJY2py9EPUyVjbUbuPo53eaV
+	 rOBT1KiwPx5+OXdZeXT9nhSDArYsvA+2mWhi3q3FL4yNcxlGUXJH+osk9a1tR9SI5T
+	 jTNRR8Nf1KB+g==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id A660842B27;
+	Sat,  5 Oct 2024 14:43:00 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Kees Cook <kees@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Nick
+ Desaulniers <ndesaulniers@google.com>, Rong Xu <xur@google.com>
+Cc: Han Shen <shenhan@google.com>, Sriraman Tallam <tmsriram@google.com>,
+ David Li <davidxl@google.com>, Krzysztof Pszeniczny
+ <kpszeniczny@google.com>, Alice Ryhl <aliceryhl@google.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, Bill Wendling
+ <morbo@google.com>, Borislav Petkov <bp@alien8.de>, Breno Leitao
+ <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, Dave Hansen
+ <dave.hansen@linux.intel.com>, Heiko Carstens <hca@linux.ibm.com>, "H.
+ Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>, Jann Horn
+ <jannh@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross
+ <jgross@suse.com>, Justin Stitt <justinstitt@google.com>,
+ linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev, Masahiro Yamada <masahiroy@kernel.org>, "Mike
+ Rapoport (IBM)" <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas@fjasle.eu>, "Paul E. McKenney"
+ <paulmck@kernel.org>, Samuel Holland <samuel.holland@sifive.com>, Thomas
+ Gleixner <tglx@linutronix.de>, Wei Yang <richard.weiyang@gmail.com>,
+ workflows@vger.kernel.org, x86@kernel.org, "Xin Li (Intel)"
+ <xin@zytor.com>, Stephane Eranian <eranian@google.com>
+Subject: Re: [PATCH v2 1/6] Add AutoFDO support for Clang build
+In-Reply-To: <202410041106.6C1BC9BDA@keescook>
+References: <20241002233409.2857999-1-xur@google.com>
+ <20241002233409.2857999-2-xur@google.com>
+ <20241003154143.GW5594@noisy.programming.kicks-ass.net>
+ <202410041106.6C1BC9BDA@keescook>
+Date: Sat, 05 Oct 2024 08:42:59 -0600
+Message-ID: <87setapq4s.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: broonie@kernel.org, catalin.marinas@arm.com, will@kernel.org, oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, shuah@kernel.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain
 
-On Sat, 05 Oct 2024 15:26:38 +0100,
-Mark Brown <broonie@kernel.org> wrote:
-> 
-> [1  <text/plain; us-ascii (7bit)>]
-> On Sat, Oct 05, 2024 at 03:02:09PM +0100, Marc Zyngier wrote:
-> > Mark Brown <broonie@kernel.org> wrote:
-> 
-> > > Ah, I see.  I'd been under the impression that the generic machinery was
-> > > supposed to handle this already using the descriptions in
-> > > emulate-nested.c and we only needed handlers for more specific actions.
-> 
-> > From that very file:
-> 
-> > /*
-> >  * Map encoding to trap bits for exception reported with EC=0x18.
-> >  [...]
-> >  */
-> 
-> > Everything else needs special handling.
-> 
-> I see.  I had noticed that comment on that table but I didn't register
-> that the comment wound up applying to the whole file rather than being
-> about a specific part of the handling.  I'm a bit confused about how
-> things like the SVE traps I mentioned work here...
+Kees Cook <kees@kernel.org> writes:
 
-Like all ECs, the handling starts in handle_exit.c.
+> The tradition in kernel .rst is to do this with the trailing "::", e.g.:
+>
+> +Configure the kernel with::
+> +
+> +     CONFIG_AUTOFDO_CLANG=y
+>
+> This loses the language-specific highlighting when rendered. Perhaps the
+> "::" extension can be further extended?
+>
+> +Configure the kernel with::(make)
+> +
+> +     CONFIG_AUTOFDO_CLANG=y
+>
+> Then we could avoid the extra 2 lines but still gain the rendered language
+> highlights?
 
-	M.
+The :: notation is standard Sphinx, not an extension we have done.  So
+the proposed syntax would have to be done from the beginning, I'm not
+sure how easy or hard that would be, or whether it would be worth it.
+But then, I've always seen relatively little value in the highlighting;
+others clearly differ.
 
--- 
-Without deviation from the norm, progress is not possible.
+Thanks,
+
+jon
