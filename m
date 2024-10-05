@@ -1,109 +1,119 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC6E25634;
-	Sat,  5 Oct 2024 07:01:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58932231C8F;
+	Sat,  5 Oct 2024 08:31:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728111671; cv=none; b=A6sSskv2dnf3oTMSA0FPrLv7LZQWZt1BKJltPbwOtaAzpOzRwKdfiZ3dBS5zIvfYtK22pck0bqWdCgXOK3kVti3X/dtHcR/T/Qp7QQ8PiYLMx1rr2dVQwScU3Ir7/AHnn0FDYFLc+l8zTeAnsHyYC+LIMRV3iMsiP20r6QgoyGA=
+	t=1728117110; cv=none; b=AHUKk98nqHkDqcniESqKC000HHEppf3SXLdE34Lhyt/LZU38h2UHaBQ4paoHZRt8Cbxet5zH7MRwQ+/6WhKvlX87LAco5/0uDfA8R0/JF1yIMJiuJD7/t3TeLjKUHJ49/r0Q42xmJvrp9qPYhrOvvAwdfSaDskCwjpBkcjQY+P8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728111671; c=relaxed/simple;
-	bh=dxm3C4Om4s/OmaZ81xra3vKu4d1cwnsd0fgChYAMcCA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bP6PHEJxpCcWdrHzzjOKa1cj60nhKXpqZ9EI28/fxe/UsJZ2LoDS8rOc8zfzUmV2Smd4agjW31t6gteMu4/rqxZeRHI266xRx1HIDSjNfwc7+m4xXeHSSZEisRsVt1gY/x+wEcaGeFKJsrNVqna3iFe4xsR8FI+oMMX/arCoQqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZyDurwxI; arc=none smtp.client-ip=209.85.210.173
+	s=arc-20240116; t=1728117110; c=relaxed/simple;
+	bh=70cU5jNP52zmkSWZHO+lBdHOcE1V/JTH2eNm2kkh0zg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PzZ4FuRn+JzFUNpYK4eeftCryJu7St05ef86z20wxvzoTydIzblrRlWu7UBIg/MBZ4/r1RCanAsOsQc4hqP0GWn+ZbUDIJ8XqsFysviuYPFNmI55Ve9Ui4f/LwkwTFaOJslTCTOKur8wg2ukeGfdEBgmC64kZ1buMOUmFjAgIdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OQu1KS/F; arc=none smtp.client-ip=209.85.208.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZyDurwxI"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-71df67c67fcso81352b3a.2;
-        Sat, 05 Oct 2024 00:01:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OQu1KS/F"
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2fac63abf63so29110871fa.1;
+        Sat, 05 Oct 2024 01:31:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728111669; x=1728716469; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QtLSqplC9FV8nH8TMNgp/DH6Vy3umkDQiR0WE8bXh5k=;
-        b=ZyDurwxIieLrjweJCMCKU4W56/Z5g5x5AbkrfYQG/0Nh0XYLLQGfL0YDqNdKA7eNnS
-         CpoiVzne5XmuQaPOMjxZaNXdC6r6iy0ktREmZ/g5wmj2mzMa7c0e3UCPF6e4Tm6taJRw
-         wX+tRBmkxahShtPCtj9kmlbL+iYUzB4AqcRLgWX6ygR9+FcBui8n5Ce5+o8V+GiHLDbe
-         Kns5aZhsg6AmyLNE9H5UawShrpJEVU9O9pskj6dXczQPbc+yuhhvKLMH8W5KxKffxXUU
-         eXIEL1bknHMfufm34Q1NiROlS9nA8rqh2wGTRxTXNJgBmo8H3g7ISWESTShHQgoFv4Df
-         Va7g==
+        d=gmail.com; s=20230601; t=1728117106; x=1728721906; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=70cU5jNP52zmkSWZHO+lBdHOcE1V/JTH2eNm2kkh0zg=;
+        b=OQu1KS/FWp+vzB8M90wWzv2DwL28c54821ES4HbZa+/kKuP7aC4tPzCuACELJth2qQ
+         pc9TZ2ISdUc6Q3VGwRml0HF61sHqy00yXzh/B7M2IYtDQuGOx1FTY9tXqGMCjG+Uh1YI
+         CH3l6iMAReMliUXAh/KUG1C9XYkm5rF9WqkNCAPtjOQVYHZNAGUauycZEaAo4d/sUvs9
+         8Ja3w2AraLXHPkaWD0taM65FMiEx++s1FLs/fIjQAloxQA4Xc/uWuxjbem80Duk1xzYe
+         jg4nn9ac/6E4uKdgBLnCooPggnnO0dcKcg03qHT9C/RWGNVAI7CsSpDC6hVc+Emg3af5
+         ZAkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728111669; x=1728716469;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QtLSqplC9FV8nH8TMNgp/DH6Vy3umkDQiR0WE8bXh5k=;
-        b=ihXmA57mQmU8IH/mDROd3HwX3zd/6AeR8zV4hGkrRl6dEIzi8TOjnmyzu7y/RBn0Pu
-         5yugYe7rEvjbEkXjfihq/gzJSQBSykQOEhsDq24fERdKtVpaPeYA0FGmo9cyw95fVfwY
-         +9p9AOMDR85lXM32tV+5CpG4FjCSOl49w3sXb9TqbvwYLrZWLF8lQp9q4qs3XQfHFfLR
-         lE3WzLoNdhYOduYiqL0lBm8Km0FiiuWgVoxxs0VWhlemUjfU5JJKzALsFVALPYI+2A4l
-         EFGasOsfuWNs1LaSV+zgItCiTsF0DMKS5DoHtdb9sshmG4F28GbdAufqOAfOrVb6Op/N
-         px3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXLVqe6qKpXRHbxOVZdd5CBTjcxhV4qsetAzWewudUfvBJ75kgSgtfcbWi/CGpykosH8fwq63/Ag6I=@vger.kernel.org, AJvYcCXU1O/KUdc/bhYY12jatPrdb08jkVsQnKNx/9RH5jsxHkAb4Nb7jMkhaReXcMnEaP8tNwV9DQknvMvqn2SEQYvZBx3N3g==@vger.kernel.org, AJvYcCXxPcHCGdIYK4viRm97tu9I233twHO82Xg44XRGHiQ0tYkrx8B2CwIQFVhE+/x48KQW6ymTmmiUNFFQTbyM@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZ6bNMhyhFstTDLj9D8Ggx5L0bg8Ypp/fKXmDPuuoNWGBTJVQ7
-	7Vf5Fd+pd09CMdS4ThEuEP3v8zUTZ/aeYv9yYZIjvi/86+B77ETq
-X-Google-Smtp-Source: AGHT+IHDyw2CRlAmxK5hljDVThBX/Yp4zp+oRVi3CQGx6HqrSkrV4rDaTnwVGgArVsf5dcWx7rCLmw==
-X-Received: by 2002:a05:6a00:cc2:b0:70a:fb91:66d7 with SMTP id d2e1a72fcca58-71de2445487mr8375596b3a.20.1728111668933;
-        Sat, 05 Oct 2024 00:01:08 -0700 (PDT)
-Received: from Tua.. ([103.161.55.163])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7e9f6c4a66bsm1062870a12.92.2024.10.05.00.01.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Oct 2024 00:01:08 -0700 (PDT)
-From: Anaswara T Rajan <anaswaratrajan@gmail.com>
-To: W_Armin@gmx.de
-Cc: corbet@lwn.net,
-	platform-driver-x86@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Anaswara T Rajan <anaswaratrajan@gmail.com>
-Subject: [PATCH v3] platform/x86: dell-ddv: Fix typo in documentation
-Date: Sat,  5 Oct 2024 12:30:56 +0530
-Message-Id: <20241005070056.16326-1-anaswaratrajan@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1728117106; x=1728721906;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=70cU5jNP52zmkSWZHO+lBdHOcE1V/JTH2eNm2kkh0zg=;
+        b=BU8HxWJkL0J0MvXjRkBZlUS+kEYYoccrQm/bQBdvqHzhlYDa0a6bJjifAVO1zSrMB0
+         0tP2oTQp2sr0GN9oCneHl2sQOx+0hANGRBQWMOvZk9ZIQHsUjeIFsInPLFFvAWZzTMBc
+         VYPKcH71a7DlwQeN2hJ5QM/r9SClkvXEN0tBGBotKXEQ1701RVKxfekgea2rBRuny09F
+         z92N0WGYw56iYGtYmPmWcYNbLmpI3IAMWwPqioZ+CsOdNV2NeIdVKswvcFiu7ldu3C6J
+         CN41cP9yNOhnGMiMeGoLYPJQ+Ew4LIvaTXTCyAV8cidBszwsE3Wo1m2w1FmCSVhyAz0E
+         D7VQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUPitWEeOD/aD62yn7DZZSU7JaVuaUVQq63I5CtmFD+j1DMntN2JyOFJ5aRDQN2PpB31dHqzLqeRozpf1bN@vger.kernel.org, AJvYcCUUu5XYKZkbzD5ywYHVCuo/Oew/4JpdnctTarrOSg34Op3ZjuHbg04SmfqDfGoSTXFh1p09IU3GLx4HRCC3PCnNaw==@vger.kernel.org, AJvYcCUgZvCOfGNX4TJSytk7wDmxGhD+1RQxiPpvhElemmASV3+V1qIVuinUiQjMHnZAavfVd8G5r1NLSbRX@vger.kernel.org, AJvYcCV5wmWz2VgZgJEQcX3F+wkZMCnZF+RHkLhJgNuAOgIGb5mbzChbkA9hyJvvI+8uubsEYlmFYMx5GC+nyNJq@vger.kernel.org, AJvYcCVD6Sla1wkCBvjYeoYBeokskNlnZai5vX4pjC8PLoFq+8JVkKxUhtPhkBdOiAauXSYQ9fxTqCEz7Gds@vger.kernel.org, AJvYcCVVksKusLXvQcncn6esUy7zSDSKvfSj4K6GQcSEkitc+S20k+5xLeyxtgMvzku/+zQVqLHwmAOWpqo=@vger.kernel.org, AJvYcCW3iH3oRT9iEo7Ws8ml7G4upB5KNWRBt0lXaRAmtbM4vq4z/bSGdvjh+/xJijE+qTU1LRs=@vger.kernel.org, AJvYcCW7AaJe08TpCmIEfn4tXdnQQYzQcDSiKnZ6lZaG/LJuQCLREvQEnMf12WWLT1TGZ6qUCx1pDwNO8NueKO5yopk=@vger.kernel.org, AJvYcCWWelSF+HpJ8dD8RyCnk7ab1i9zhoCd5FuYnEKeZnQFdZkrZFIgBfN+XmSVRY72IXbJCPnxqB9ndzfSng==@vger.kernel.org, AJvYcCXssYm+wkam8a1z6IjlfmkPd85FzcygzwPgGkLqzEOE0CU1XAd/Knko2Fdzd/aGj2WDSSGFqGyR9T4g3BB0@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEN7mgZAeB2itvJi8KUsdLt48HLvHeVuRj1Vy3oZYcJlb8QqXO
+	J53RBjYQ1FbS5u9EWG26BNQ81bxsl1FjR4yrVfTRzIxm3gjWS/TzE76MOzV85kl+nDZrJtiW6i7
+	ysifs0ldfc9CJwDHmo6KecaiQ5II=
+X-Google-Smtp-Source: AGHT+IGi0j/icjLt8RhHlOdJvbjdouTPFKKMu/CT/oe6l0e9sNaP3mHWfqnG22Q9j4GVb6Cdm+e2KfCpXo/Kl8KNmek=
+X-Received: by 2002:a05:651c:1547:b0:2fa:d978:a6c4 with SMTP id
+ 38308e7fff4ca-2faf3d73888mr22769461fa.30.1728117106123; Sat, 05 Oct 2024
+ 01:31:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240925150059.3955569-30-ardb+git@google.com>
+ <20240925150059.3955569-55-ardb+git@google.com> <99446363-152f-43a8-8b74-26f0d883a364@zytor.com>
+ <CAMj1kXG7ZELM8D7Ft3H+dD5BHqENjY9eQ9kzsq2FzTgP5+2W3A@mail.gmail.com>
+ <CAHk-=wj0HG2M1JgoN-zdCwFSW=N7j5iMB0RR90aftTS3oqwKTg@mail.gmail.com>
+ <CAMj1kXEU5RU0i11zqD0433_LMMyNQH2gCoSkU7GeXmaRXGF1Yw@mail.gmail.com> <5c7490bb-aa74-427b-849e-c28c343b7409@zytor.com>
+In-Reply-To: <5c7490bb-aa74-427b-849e-c28c343b7409@zytor.com>
+From: Uros Bizjak <ubizjak@gmail.com>
+Date: Sat, 5 Oct 2024 10:31:37 +0200
+Message-ID: <CAFULd4Yj9LfTnWFu=c1M7Eh44+XFk0ibwL57r5H7wZjvKZ8yaA@mail.gmail.com>
+Subject: Re: [RFC PATCH 25/28] x86: Use PIE codegen for the core kernel
+To: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Ard Biesheuvel <ardb@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org, x86@kernel.org, 
+	Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Dennis Zhou <dennis@kernel.org>, 
+	Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross <jgross@suse.com>, 
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Keith Packard <keithp@keithp.com>, 
+	Justin Stitt <justinstitt@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+	Kan Liang <kan.liang@linux.intel.com>, linux-doc@vger.kernel.org, 
+	linux-pm@vger.kernel.org, kvm@vger.kernel.org, xen-devel@lists.xenproject.org, 
+	linux-efi@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fix typo in word 'diagnostics' in documentation.
+On Fri, Oct 4, 2024 at 11:06=E2=80=AFPM H. Peter Anvin <hpa@zytor.com> wrot=
+e:
+>
+> On 10/3/24 04:13, Ard Biesheuvel wrote:
+> >
+> >> That said, doing changes like changing "mov $sym" to "lea sym(%rip)" I
+> >> feel are a complete no-brainer and should be done regardless of any
+> >> other code generation issues.
+> >
+> > Yes, this is the primary reason I ended up looking into this in the
+> > first place. Earlier this year, we ended up having to introduce
+> > RIP_REL_REF() to emit those RIP-relative references explicitly, in
+> > order to prevent the C code that is called via the early 1:1 mapping
+> > from exploding. The amount of C code called in that manner has been
+> > growing steadily over time with the introduction of 5-level paging and
+> > SEV-SNP and TDX support, which need to play all kinds of tricks before
+> > the normal kernel mappings are created.
+> >
+>
+> movq $sym to leaq sym(%rip) which you said ought to be smaller (and in
+> reality appears to be the same size, 7 bytes) seems like a no-brainer
+> and can be treated as a code quality issue -- in other words, file bug
+> reports against gcc and clang.
 
-Signed-off-by: Anaswara T Rajan <anaswaratrajan@gmail.com>
----
-Changes in v2:
-  - Make the commit title and description more clearer.
+It is the kernel assembly source that should be converted to
+rip-relative form, gcc (and probably clang) have nothing with it.
 
-Changes in v3:
-  - Add missing full stop to commit description.
-
- Documentation/wmi/devices/dell-wmi-ddv.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/wmi/devices/dell-wmi-ddv.rst b/Documentation/wmi/devices/dell-wmi-ddv.rst
-index 2fcdfcf03327..e0c20af30948 100644
---- a/Documentation/wmi/devices/dell-wmi-ddv.rst
-+++ b/Documentation/wmi/devices/dell-wmi-ddv.rst
-@@ -8,7 +8,7 @@ Introduction
- ============
- 
- Many Dell notebooks made after ~2020 support a WMI-based interface for
--retrieving various system data like battery temperature, ePPID, diagostic data
-+retrieving various system data like battery temperature, ePPID, diagnostic data
- and fan/thermal sensor data.
- 
- This interface is likely used by the `Dell Data Vault` software on Windows,
-@@ -277,7 +277,7 @@ Reverse-Engineering the DDV WMI interface
- 4. Try to deduce the meaning of a certain WMI method by comparing the control
-    flow with other ACPI methods (_BIX or _BIF for battery related methods
-    for example).
--5. Use the built-in UEFI diagostics to view sensor types/values for fan/thermal
-+5. Use the built-in UEFI diagnostics to view sensor types/values for fan/thermal
-    related methods (sometimes overwriting static ACPI data fields can be used
-    to test different sensor type values, since on some machines this data is
-    not reinitialized upon a warm reset).
--- 
-2.34.1
-
+Uros.
