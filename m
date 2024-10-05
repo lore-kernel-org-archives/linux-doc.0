@@ -1,40 +1,39 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8712145348;
-	Sat,  5 Oct 2024 21:44:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA1E11F61C;
+	Sat,  5 Oct 2024 23:38:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728164685; cv=none; b=l6zFCGI3gv905oAKQsWhbuziRQJQXyna4G3XTAtcVLnFuF7XKPc9wKklQnxI+ZXCT/zqpaEwp2xce41GetHFWlYOS5DlWn/tlSJE0pAPBEyC2pjvuzEUcaTMk/kWY1aaM6LxoFQ0wwGP+qWpQPKHqBudYCLak5U7eTcl6sFDAZ0=
+	t=1728171493; cv=none; b=MkhGRwL5kySByy9jseb/PRjoGzZEjYHZqSM9MBOnAp2ecQFsCnF50/W2SnQcDzILLdEC0fegXM6EZoF6XSu10aSdrzth/NiwFYR+J/yTnJvMVU6eu44tkgvgYybA2cgRWV/b69iVSRblOPf/wg9wQPSF9e8jnKSG1jwq5oE1PhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728164685; c=relaxed/simple;
-	bh=zOzyH1gnagE1mvmm8lF9xfhuY2T7VeIHHouKrGdd8Ts=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Kkoy0pYqGS2NlsEIEdL7IKKLRz0reAsE01oZc/wzF1z+7EwJYYgTWe8mJtSrtyngs556ZnvPrqzx14F26+ZuZReUYR4DLy7tpMH/AWwSpiLPxECBJVsK9uZqr6NvxWYiTQdnrLycLXR9/DB0AUNp85aoF9p1boLG7lA0QpGFq+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=TbwTYgjH; arc=none smtp.client-ip=212.227.17.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	s=arc-20240116; t=1728171493; c=relaxed/simple;
+	bh=Ub3jK6SsxvGHuG2/fm1/AWnleUfV4tsAHwDVlmCsMmY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Fsp5e8A7E/+CgIw2ZhxqRBNo6yYefh/KcUqW/IQt39vspBwwIddvQRNhjttpjKqVJtTpfJ/9vKh02hU/e/0Lfm340B124eoPK3F5z0Sm997jsfTUc5h2DciUsJNPnZ0Pwa+Y5MIVa0o6ve6TZmWck19e03LFoYECI+3oag3a9MU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=BghJEQ18; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="TbwTYgjH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1728164671; x=1728769471; i=w_armin@gmx.de;
-	bh=zOzyH1gnagE1mvmm8lF9xfhuY2T7VeIHHouKrGdd8Ts=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:From:To:
-	 Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=TbwTYgjHkGyjHIjUcUY6e2AcPcsRWF/Timm2Q+TNaFuI9E0x9HuQj+ADlhF9aITq
-	 /DmQUe3z5phZfVlV+uVe5oyC/itpXpUNmF4uqeVv8iN6Kq/d8QtK5sHKL4/XBlsRm
-	 r9fso9HcsSRu4NkCikSqDR+g6dlODxNvUhaaCdg7qjKQo1H0lA/tiPIsNZS1ivjgr
-	 ensBMvmg016UBXUMZAvpzqQBbhEpHr6gdka+nicQLTDX09toZdYgrFU9x2CuGP3rB
-	 oDPPSk+7gg68eSTCQe+5U2RHP384ODESNhqusDrSzL+HX692S6SRX20/z6kRLvqTM
-	 6YR2e6CsOw8it82oEw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MSKy8-1tPqKd1uhc-00YxUO; Sat, 05
- Oct 2024 23:44:31 +0200
-Message-ID: <3d5f6c88-f162-48bb-a3b0-89f9aa021d65@gmx.de>
-Date: Sat, 5 Oct 2024 23:44:30 +0200
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="BghJEQ18"
+Received: from [172.27.0.16] ([76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 495NapwS1593555
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Sat, 5 Oct 2024 16:36:52 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 495NapwS1593555
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2024091601; t=1728171417;
+	bh=m2bDCv+JjGunSzRwzd1ZUTedJ+jUnwm4JpAQk4uZ2LU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=BghJEQ18w7kVZdQoBcXCZs0SU3bcgDNp6CXGpXr7UatIaOcHRnO7Ki4rpVZIgv9pe
+	 Nz/Yk9sWAKxmvlzBMFe+EzcwMpOVx8UY7o5nMcwClHG2k8LpXw0UQzSqj2Ekiu9nFP
+	 wt8vdbGEEzYAHkF9s6cSQNFQmtVxTKG2NMzwvRANGuDKm19FSlXxR5j1m1jSvaYdtx
+	 sgCWbTe/DYdl96GonJp4olM5FfNyVaxnYW3tvOSS7nL1Z6OVpcsDWxBZnYXqBOzYxJ
+	 3JEuMDZsQny031HV9xMehx7Re34CsvirpbQ/mcBdKSCBdY6WlekkljNm2jzhEgdjiU
+	 mKVdT3IwdQMNA==
+Message-ID: <3bbb85ae-8ba5-4777-999f-d20705c386e7@zytor.com>
+Date: Sat, 5 Oct 2024 16:36:48 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,103 +41,102 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] platform/x86: dell-ddv: Fix typo in documentation
-From: Armin Wolf <W_Armin@gmx.de>
-To: Anaswara T Rajan <anaswaratrajan@gmail.com>
-Cc: corbet@lwn.net, platform-driver-x86@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-References: <20241005070056.16326-1-anaswaratrajan@gmail.com>
- <f0d2200d-536b-4572-b7ef-63be26dd03a5@gmx.de>
+Subject: Re: [RFC PATCH 25/28] x86: Use PIE codegen for the core kernel
+To: Uros Bizjak <ubizjak@gmail.com>
+Cc: Ard Biesheuvel <ardb@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org,
+        x86@kernel.org, Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>, Dennis Zhou <dennis@kernel.org>,
+        Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Juergen Gross <jgross@suse.com>,
+        Boris Ostrovsky
+ <boris.ostrovsky@oracle.com>,
+        Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>, Masahiro Yamada <masahiroy@kernel.org>,
+        Kees Cook <kees@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+        Keith Packard <keithp@keithp.com>,
+        Justin Stitt <justinstitt@google.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
+        Ian Rogers <irogers@google.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Kan Liang <kan.liang@linux.intel.com>, linux-doc@vger.kernel.org,
+        linux-pm@vger.kernel.org, kvm@vger.kernel.org,
+        xen-devel@lists.xenproject.org, linux-efi@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-sparse@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-perf-users@vger.kernel.org,
+        rust-for-linux@vger.kernel.org, llvm@lists.linux.dev
+References: <20240925150059.3955569-30-ardb+git@google.com>
+ <20240925150059.3955569-55-ardb+git@google.com>
+ <99446363-152f-43a8-8b74-26f0d883a364@zytor.com>
+ <CAMj1kXG7ZELM8D7Ft3H+dD5BHqENjY9eQ9kzsq2FzTgP5+2W3A@mail.gmail.com>
+ <CAHk-=wj0HG2M1JgoN-zdCwFSW=N7j5iMB0RR90aftTS3oqwKTg@mail.gmail.com>
+ <CAMj1kXEU5RU0i11zqD0433_LMMyNQH2gCoSkU7GeXmaRXGF1Yw@mail.gmail.com>
+ <5c7490bb-aa74-427b-849e-c28c343b7409@zytor.com>
+ <CAFULd4Yj9LfTnWFu=c1M7Eh44+XFk0ibwL57r5H7wZjvKZ8yaA@mail.gmail.com>
 Content-Language: en-US
-In-Reply-To: <f0d2200d-536b-4572-b7ef-63be26dd03a5@gmx.de>
+From: "H. Peter Anvin" <hpa@zytor.com>
+In-Reply-To: <CAFULd4Yj9LfTnWFu=c1M7Eh44+XFk0ibwL57r5H7wZjvKZ8yaA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:sChw0K5p3GdT1gd1m9FTj0lBx4UYJnzDkCIiXp9ifVdIPZVJJO6
- bON7ULoOBagH/ZakG86K5a+2WYk9JPvyRpJGxnLOiz+a+v5knk/eU4DJ4iPA2vowA5QC1FW
- 7x9xx3SYVpgT1ZmrM+/ChCOdnaM29RmYk6DLmhsokkksAObFjryZxwpbvl1Dcw1oDGUzizJ
- ber0UUied/x76NHT6Y1NQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:MfRacub0WdE=;TKV9rZ735UXnDg/3Q3VzOiu7tMq
- rSSR8PEicNomH5+LvR5KKSf2NizBz9CLxwPn5aUJVj3Jo1KxVYU6K1R8K/8E94QyjjZQk14nu
- bsZ6LGfNgu+AQSOJrgJQp5IvNK//SD62kjBtPRpaw7HJp/NC5nNI6RhgxP7GJfHun5OsHnDfj
- ufSH8gMT/H3r8J32WU5vCDhMi63DNf48yJfI3Ty1v8XEXN8qNPcsBpLJ4OgaDPoPGcnoMkhlQ
- 0PjoeAjTtbbWzwgy+y/LJ/Vc51qDAxU6A7mUDyaEmkps+C9//XPRh9rVW62Rt9C20OQu1TRlj
- JExITH+BabZOfxxawoMqAJDeW2TVQ9OXHWMR+mgCJlqux+Gr45iYBLAhcx9Csz9OMQFX16eAG
- PREm3oEKXjSqwKjb18InIL9PS67kfvuNkLGBYIslMQySDQTGCY8S9n1GK2Z1DhpBiKsmXY6j+
- uQgvV358qp7kjL+kee4JrERcl9eFHohkU3tSxKJUy0/lYzrB+eO4MZihSi6aL53zHOmmrYUSi
- wlYrNgHajakETTOCDv1MVtjd1Yws0yriPPRipXWtrS8wyi2bRqs1T/55fho+tkpf63VZIXfqR
- RoGCDZWw5wk4T87rdmOhI/B2RNYqq4ykamWR5TV9O757LEmPj+vaG76N6a+oZfBLtudiv84YA
- ns5Eu9slQbVQgBjcGWjarmjkwagzGI6DxDMVtxklCtg36zqJk7FeTPpZnm1dXO0usQO9o56nu
- xfNad5wE5VaPBi7/Iz1uVKq//zuJSMxZ9jFm516ORsDGIepN4XTCLXDiZr5rrMR1EZrWv3KrQ
- hM8CEWMdJoCSEsHRTn51/lXw==
+Content-Transfer-Encoding: 7bit
 
-Am 05.10.24 um 17:12 schrieb Armin Wolf:
+On 10/5/24 01:31, Uros Bizjak wrote:
+>>
+>> movq $sym to leaq sym(%rip) which you said ought to be smaller (and in
+>> reality appears to be the same size, 7 bytes) seems like a no-brainer
+>> and can be treated as a code quality issue -- in other words, file bug
+>> reports against gcc and clang.
+> 
+> It is the kernel assembly source that should be converted to
+> rip-relative form, gcc (and probably clang) have nothing with it.
+> 
 
-> Am 05.10.24 um 09:00 schrieb Anaswara T Rajan:
->
->> Fix typo in word 'diagnostics' in documentation.
->>
->> Signed-off-by: Anaswara T Rajan <anaswaratrajan@gmail.com>
->
-> Thanks, for the whole patch:
->
-> Reviewed-by: Armin Wolf <W_Armin@gmx.de>
->
-I just noticed that the x86 platform driver maintainer where not CCed,
-please CC them next time so they get properly notified.
-For now, i CCed them myself.
+Sadly, that is not correct; neither gcc nor clang uses lea:
 
-Thanks,
-Armin Wolf
+	-hpa
 
->> ---
->> Changes in v2:
->> =C2=A0=C2=A0 - Make the commit title and description more clearer.
->>
->> Changes in v3:
->> =C2=A0=C2=A0 - Add missing full stop to commit description.
->>
->> =C2=A0 Documentation/wmi/devices/dell-wmi-ddv.rst | 4 ++--
->> =C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/wmi/devices/dell-wmi-ddv.rst
->> b/Documentation/wmi/devices/dell-wmi-ddv.rst
->> index 2fcdfcf03327..e0c20af30948 100644
->> --- a/Documentation/wmi/devices/dell-wmi-ddv.rst
->> +++ b/Documentation/wmi/devices/dell-wmi-ddv.rst
->> @@ -8,7 +8,7 @@ Introduction
->> =C2=A0 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>
->> =C2=A0 Many Dell notebooks made after ~2020 support a WMI-based interfa=
-ce for
->> -retrieving various system data like battery temperature, ePPID,
->> diagostic data
->> +retrieving various system data like battery temperature, ePPID,
->> diagnostic data
->> =C2=A0 and fan/thermal sensor data.
->>
->> =C2=A0 This interface is likely used by the `Dell Data Vault` software =
-on
->> Windows,
->> @@ -277,7 +277,7 @@ Reverse-Engineering the DDV WMI interface
->> =C2=A0 4. Try to deduce the meaning of a certain WMI method by comparin=
-g
->> the control
->> =C2=A0=C2=A0=C2=A0=C2=A0 flow with other ACPI methods (_BIX or _BIF for=
- battery related
->> methods
->> =C2=A0=C2=A0=C2=A0=C2=A0 for example).
->> -5. Use the built-in UEFI diagostics to view sensor types/values for
->> fan/thermal
->> +5. Use the built-in UEFI diagnostics to view sensor types/values for
->> fan/thermal
->> =C2=A0=C2=A0=C2=A0=C2=A0 related methods (sometimes overwriting static =
-ACPI data fields
->> can be used
->> =C2=A0=C2=A0=C2=A0=C2=A0 to test different sensor type values, since on=
- some machines
->> this data is
->> =C2=A0=C2=A0=C2=A0=C2=A0 not reinitialized upon a warm reset).
->
+
+gcc version 14.2.1 20240912 (Red Hat 14.2.1-3) (GCC)
+
+hpa@tazenda:/tmp$ cat foo.c
+int foobar;
+
+int *where_is_foobar(void)
+{
+         return &foobar;
+}
+
+hpa@tazenda:/tmp$ gcc -mcmodel=kernel -O2 -c -o foo.o foo.c
+hpa@tazenda:/tmp$ objdump -dr foo.o
+
+foo.o:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <where_is_foobar>:
+    0:   48 c7 c0 00 00 00 00    mov    $0x0,%rax
+                         3: R_X86_64_32S foobar
+    7:   c3                      ret
+
+clang version 18.1.8 (Fedora 18.1.8-1.fc40)
+
+hpa@tazenda:/tmp$ clang -mcmodel=kernel -O2 -c -o foo.o foo.c
+hpa@tazenda:/tmp$ objdump -dr foo.o
+
+foo.o:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <where_is_foobar>:
+    0:   48 c7 c0 00 00 00 00    mov    $0x0,%rax
+                         3: R_X86_64_32S foobar
+    7:   c3                      ret
+
