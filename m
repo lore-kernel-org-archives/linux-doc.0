@@ -1,76 +1,163 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84CC1184F;
-	Sun,  6 Oct 2024 11:44:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8927A1779AB;
+	Sun,  6 Oct 2024 13:29:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728215051; cv=none; b=Pa0Yc7NdIeeias2kE+F8xNzo15mC8ZzDDkyKUzuRJuwXnta5IhD6snfX+1rknd/7DJrgdU6USeMy2bmm2yOJyPb2Woil/sdXGLVzG7d6jGNAX1NzHImZRZT0NznQq/DN5ylKi/UwRF7wg8FEVF4cmhLT4t6nSDbWVkFkGx8zoCw=
+	t=1728221356; cv=none; b=jUAw4TZVJdUuvUGgrtjhj5KhkNgaSviwa5Pr4j82KN/5MQjTNG+g5ycsNlfo8os0u66DqGdzj/7/3R+QsoW8wSVPSiiDA6B9vk6fAzntar9RrGlalHc/UEoFIeyFCURaSqCYuI4mGhaGVHmIn3kkWTO5r09QvuxxvLdO/sLs/k4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728215051; c=relaxed/simple;
-	bh=7Rwt46zuE+8BxWcGBI75z5bmOzDwac4nrnflTqjEbFE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XIs/dMfcxrMrljF9wzVoyb8PhVIWSGnxStlfGMTLlmPbbdGyaoOnfTCbG2FJRtvxnuuI7BAW64q27jHHOpdUcMBNNzU6+IQLrAss+wI3Y4UQYvyjgIYl39jzYi4Fj5gxiF5L3NrnoUJgJKNTgN7u+Pb2qXZ/oK+nSDOleZ5TT9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V+7ogUuF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728221356; c=relaxed/simple;
+	bh=BtD6uQeKcar4gJLuDMrO7gB7cz+l9whS8y4o3WOSc8I=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=KctZKa+RNQINljSe6O/7DScjUpIV77ujLyzSdnY3hRSL2WwAvM48YwR/hFpLh+UJ1NZMyh1pXqu/7SFDFmRZ/6AJSgW8kOuC99QdICAak8RXXKEiOrFmXxBAAwlTLMOs5poiMH6y3op3HqxKeqkRCerI07xeGEHCM8R7g6swPlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BLb7Bqd5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V+7ogUuF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93417C4CEC5;
-	Sun,  6 Oct 2024 11:44:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BLb7Bqd5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 593B9C4CED1;
+	Sun,  6 Oct 2024 13:29:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728215051;
-	bh=7Rwt46zuE+8BxWcGBI75z5bmOzDwac4nrnflTqjEbFE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=V+7ogUuFYSOzNHERl0q4a685+z/5rWpH/a+JTbTwH7VMZ+bZP15yCyi71xrpNt8YV
-	 v9GZDNfcxZorKdTmMINmpzxXl/AWDw1m7/XfAERivzKk1+WrlW+jJ4jgGuF3BS9rDx
-	 MBpGrEd9gi0T8UKCScfNCAZIk+tMl8+PByCx64xBAyaZmnUIevMyBrPp6fRP22dZcI
-	 niI83E2iQrcq4FkIn3WD5U6TA6eYb9euIeyH3Hs4/XtXWGMayf31QxLsGFWxKxCo+q
-	 leBd6GR3SLucW/mj2L8vZcDmwODhNhDRdkDY9YF+C9pUBL1FNtjaM3PujFZiuecXdU
-	 6B0YNsKuNyWFg==
-Date: Sun, 6 Oct 2024 12:44:03 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Ivin Joel Abraham <ivinjabraham@gmail.com>
-Cc: linux-doc@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>,
- Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: iio: fix grammatical error
-Message-ID: <20241006124403.2a37dfe0@jic23-huawei>
-In-Reply-To: <20241002100341.110435-1-ivinjabraham@gmail.com>
-References: <20241002100341.110435-1-ivinjabraham@gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	s=k20201202; t=1728221356;
+	bh=BtD6uQeKcar4gJLuDMrO7gB7cz+l9whS8y4o3WOSc8I=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=BLb7Bqd5DUL9igAN334n3NBJRh+b0UM6zZbgFYtlnE72Ov0F1vp+7NrtaTRNv6341
+	 49y9XNEFPTgSVrodwUyQtm5isKzB7G1puJcxHBsciFGgw6Gd1qeOvbgUTI9WaJDy7M
+	 emG6kYcGhR+RCnlhgJyuqQegLUgpp+dDYLXCPvVr8UeZxgVtbhMVt5AyPFhJwUDuqx
+	 6jHUfcyw/vtcfEyZ1dMi/Iu899d3TW220Y/GYvP1qOOoB2XqlJ6z0cDx5EssEd7PHn
+	 aR5OXHf7RFeXQshB6Pyx5yFxztobnz5WNspC+ZNiOcA4XPXdX4D+Pqj2aNuuzDpb6c
+	 p0Anm5boOhHdQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70DB03806656;
+	Sun,  6 Oct 2024 13:29:21 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 00/33] riscv control-flow integrity for usermode
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <172822135999.3395169.2185051958968934926.git-patchwork-notify@kernel.org>
+Date: Sun, 06 Oct 2024 13:29:19 +0000
+References: <20241001-v5_user_cfi_series-v1-0-3ba65b6e550f@rivosinc.com>
+In-Reply-To: <20241001-v5_user_cfi_series-v1-0-3ba65b6e550f@rivosinc.com>
+To: Deepak Gupta <debug@rivosinc.com>
+Cc: linux-riscv@lists.infradead.org, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+ akpm@linux-foundation.org, Liam.Howlett@oracle.com, vbabka@suse.cz,
+ lorenzo.stoakes@oracle.com, paul.walmsley@sifive.com, palmer@dabbelt.com,
+ aou@eecs.berkeley.edu, conor@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ arnd@arndb.de, brauner@kernel.org, peterz@infradead.org, oleg@redhat.com,
+ ebiederm@xmission.com, kees@kernel.org, corbet@lwn.net, shuah@kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ alistair.francis@wdc.com, richard.henderson@linaro.org, jim.shu@sifive.com,
+ andybnac@gmail.com, kito.cheng@sifive.com, charlie@rivosinc.com,
+ atishp@rivosinc.com, evan@rivosinc.com, cleger@rivosinc.com,
+ alexghiti@rivosinc.com, samitolvanen@google.com, broonie@kernel.org,
+ rick.p.edgecombe@intel.com, david@redhat.com, carlos.bilbao.osdev@gmail.com,
+ samuel.holland@sifive.com, ajones@ventanamicro.com,
+ conor.dooley@microchip.com, andy.chiu@sifive.com
 
-On Wed,  2 Oct 2024 15:33:41 +0530
-Ivin Joel Abraham <ivinjabraham@gmail.com> wrote:
+Hello:
 
-> Clarify the instruction for disabling autocalibration by adding the word
-> "by"
+This series was applied to riscv/linux.git (for-next)
+by Palmer Dabbelt <palmer@rivosinc.com>:
+
+On Tue, 01 Oct 2024 09:06:05 -0700 you wrote:
+> v5 for cpu assisted riscv user mode control flow integrity.
+> zicfiss and zicfilp [1] are ratified riscv CPU extensions.
 > 
-> Signed-off-by: Ivin Joel Abraham <ivinjabraham@gmail.com>
-Applied.
-
-Thanks,
-> ---
->  Documentation/iio/bno055.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Changes in this version are
+> - rebased on v6.12-rc1
+> - Fixed schema related issues in device tree file
+> - Fixed some of the documentation related issues in zicfilp/ss.rst
+>   (style issues and added index)
+> - added `SHADOW_STACK_SET_MARKER` so that implementation can define base
+>   of shadow stack.
+> - Fixed warnings on definitions added in usercfi.h when
+>   CONFIG_RISCV_USER_CFI is not selected.
+> - Adopted context header based signal handling as proposed by Andy Chiu
+> - Added support for enabling kernel mode access to shadow stack using
+>   FWFT [4]
 > 
-> diff --git a/Documentation/iio/bno055.rst b/Documentation/iio/bno055.rst
-> index 9a489a79d8f5..f1111ff3fe2e 100644
-> --- a/Documentation/iio/bno055.rst
-> +++ b/Documentation/iio/bno055.rst
-> @@ -22,7 +22,7 @@ This driver supports also IIO buffers.
->  
->  The IMU continuously performs an autocalibration procedure if (and only if)
->  operating in fusion mode. The magnetometer autocalibration can however be
-> -disabled writing 0 in the sysfs in_magn_calibration_fast_enable attribute.
-> +disabled by writing 0 in the sysfs in_magn_calibration_fast_enable attribute.
->  
->  The driver provides access to autocalibration flags (i.e. you can known if
->  the IMU has successfully autocalibrated) and to the calibration data blob.
+> [...]
+
+Here is the summary with links:
+  - [01/33] mm: Introduce ARCH_HAS_USER_SHADOW_STACK
+    (no matching commit)
+  - [02/33] mm: helper `is_shadow_stack_vma` to check shadow stack vma
+    (no matching commit)
+  - [03/33] riscv: Enable cbo.zero only when all harts support Zicboz
+    https://git.kernel.org/riscv/c/1b57747e978f
+  - [04/33] riscv: Add support for per-thread envcfg CSR values
+    (no matching commit)
+  - [05/33] riscv: Call riscv_user_isa_enable() only on the boot hart
+    (no matching commit)
+  - [06/33] riscv/Kconfig: enable HAVE_EXIT_THREAD for riscv
+    (no matching commit)
+  - [07/33] riscv: zicfilp / zicfiss in dt-bindings (extensions.yaml)
+    (no matching commit)
+  - [08/33] riscv: zicfiss / zicfilp enumeration
+    (no matching commit)
+  - [09/33] riscv: zicfiss / zicfilp extension csr and bit definitions
+    (no matching commit)
+  - [10/33] riscv: usercfi state for task and save/restore of CSR_SSP on trap entry/exit
+    (no matching commit)
+  - [11/33] riscv/mm : ensure PROT_WRITE leads to VM_READ | VM_WRITE
+    (no matching commit)
+  - [12/33] riscv mm: manufacture shadow stack pte
+    (no matching commit)
+  - [13/33] riscv mmu: teach pte_mkwrite to manufacture shadow stack PTEs
+    (no matching commit)
+  - [14/33] riscv mmu: write protect and shadow stack
+    (no matching commit)
+  - [15/33] riscv/mm: Implement map_shadow_stack() syscall
+    (no matching commit)
+  - [16/33] riscv/shstk: If needed allocate a new shadow stack on clone
+    (no matching commit)
+  - [17/33] prctl: arch-agnostic prctl for shadow stack
+    (no matching commit)
+  - [18/33] prctl: arch-agnostic prctl for indirect branch tracking
+    (no matching commit)
+  - [19/33] riscv: Implements arch agnostic shadow stack prctls
+    (no matching commit)
+  - [20/33] riscv: Implements arch agnostic indirect branch tracking prctls
+    (no matching commit)
+  - [21/33] riscv/traps: Introduce software check exception
+    (no matching commit)
+  - [22/33] riscv: signal: abstract header saving for setup_sigcontext
+    (no matching commit)
+  - [23/33] riscv signal: save and restore of shadow stack for signal
+    (no matching commit)
+  - [24/33] riscv/kernel: update __show_regs to print shadow stack register
+    (no matching commit)
+  - [25/33] riscv/ptrace: riscv cfi status and state via ptrace and in core files
+    (no matching commit)
+  - [26/33] riscv/hwprobe: zicfilp / zicfiss enumeration in hwprobe
+    (no matching commit)
+  - [27/33] riscv: Add Firmware Feature SBI extensions definitions
+    (no matching commit)
+  - [28/33] riscv: enable kernel access to shadow stack memory via FWFT sbi call
+    (no matching commit)
+  - [29/33] riscv: kernel command line option to opt out of user cfi
+    (no matching commit)
+  - [30/33] riscv: create a config for shadow stack and landing pad instr support
+    (no matching commit)
+  - [31/33] riscv: Documentation for landing pad / indirect branch tracking
+    (no matching commit)
+  - [32/33] riscv: Documentation for shadow stack on riscv
+    (no matching commit)
+  - [33/33] kselftest/riscv: kselftest for user mode cfi
+    (no matching commit)
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
