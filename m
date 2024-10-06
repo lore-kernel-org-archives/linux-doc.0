@@ -1,123 +1,114 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8325B23CB
-	for <linux-doc@vger.kernel.org>; Sun,  6 Oct 2024 00:07:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C434120B;
+	Sun,  6 Oct 2024 05:31:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728173261; cv=none; b=KcEhpdilfTd0c0pLHvDvcpNZQLryUKd3VxIHIWBj7LLJb2grHeqmyXj6PXVBHavAx9rD1iXxQzWinzk18nLFv85b5tluNYNu6v8GUprXQdT2Etu3d6sj6u2W56lzVq1LcCnFQ7mEWIlvTfmyZWfNww/y5ETC3JumV2LYT8EFgpg=
+	t=1728192714; cv=none; b=roGiY0QorPZVR9xKbZqpvTvFwj34dE0j/g4vdbh5OjG3G/f/x4dYHwP4oNdoSyiQ6TRLY0K3/UVYPv4zq2OkztkseHNGW1fSyK3APvlp0M9FcSihWtr7xQg6GbF1UCEE+Cn8dXLkpcQpJaAZdqdwWFB0J7sHYWJM/Li6vdXvPkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728173261; c=relaxed/simple;
-	bh=7PhV7mSmrjXdm322I5AhDI6uiC32DXT2Ek81VrbJ7rA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=E0aaRmqpdIN7A+rKmWVQgL6OJc7dVGnWViFAZGKXr9NghWxATzvJnLrxnmzNVN/ajjxSIkoLqzad6xnYoaf1j2TmU3Iu0NDUYiP5bryEBV1jPhmfIhvEiQa5djaB5/Pu3xqnnaTRogKtxZJO8NwFsFuTXCFeLkKauDSlw0+QhsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Q6piI6kn; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1728192714; c=relaxed/simple;
+	bh=NaeIIqZcYdXezy4Xv5IAocLm2iT8QvpFiFoXkNZMNDQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JJYmm+A9bVOYsak8qbrDyFRhUolBIt5FLZfdCSeyLPEb5RSo8obrQ4YJY/aQKqHplSJbWmAHyvh+FJEzmbkcfXw42yrb5LNsH2jA1SEWAunhR+jk0sXwRK97747fUzS561q7bDddq7lR0mYdQagijvRU4snjS9r4TjDk2yXJAWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UMMeRGF5; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Q6piI6kn"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a993302fa02so129380266b.0
-        for <linux-doc@vger.kernel.org>; Sat, 05 Oct 2024 17:07:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1728173254; x=1728778054; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zwWtZnU6O3CUnR/7Ge8+NpuQOrJwSLSqT8+8zcDG8JI=;
-        b=Q6piI6knUzchtj/D6Z4rgTaAQjpFrqDNfZHruTIkPT/zre1/f0J5VejCULpBf7l+J3
-         6QtSrWtdx8RuKAZ2sF7u2UGXVwsRLbj63t6oNybnmOxVe8b8vm26FRWCFndUlYOMKDtG
-         brOAhOlgtfNEhbOasJPYXT2lNn00zrCMteX8w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728173254; x=1728778054;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zwWtZnU6O3CUnR/7Ge8+NpuQOrJwSLSqT8+8zcDG8JI=;
-        b=oAOfyiwd6IccNFKqBa4zX6eX+ZphrRvmb6rtWJnAPLp2/VwzbtGBn0ASDyGCLk4/Np
-         Vl+Y1XpifDUW9Vau0hI2CcNMsxSGTVvqVBEoe9s8Qh8V6Hn2/i0VnrkrGeT7AeLWEKbl
-         zDz5Myfs6OpF+9lxp1qF3G1uk0CkGsE5TtWm5+vYRlKdT8/iCdACz22lYaBrLPOp3AgK
-         qoyP9Z6i7a+8nNGMZI3qQ4f1IWZgyb5ElsxzUlKDpwy10uU2hf8ZwLLkDUcNAcVCYqfb
-         kqURBCBj2727o3nkQy+nE4zWeSIHzdsiL/XbOoBvsqoajluzevRDrl45rxZJPXESCZna
-         jM/w==
-X-Forwarded-Encrypted: i=1; AJvYcCXNzWStLB3xeOmFmMNmdgd1/53KaG0wTMJdprTS02UaaTicObwYqslxoqgzvmmC8CG5pzn7qxM1ACs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzW551SAM7+VgluZUeQ5GNzguHHHABfT3MrB9pwjpvh8NWqivZm
-	Fmc7hlqGrKBVz7/PU67DJI/VP5+/0+oWfNPKSqlzcu1WndTaPtz1fXQZt+aBZSW/Xfj1g+YUDIo
-	7CRv78A==
-X-Google-Smtp-Source: AGHT+IEFq/H2VisIwZQasnBgsXrNbLrSopoAypPnedFoGsrkVZOmT1WMzv9CXgjV91N1gPgauv0eCA==
-X-Received: by 2002:a17:907:7d8c:b0:a99:43e1:21ad with SMTP id a640c23a62f3a-a9943e123e2mr216968566b.45.1728173253638;
-        Sat, 05 Oct 2024 17:07:33 -0700 (PDT)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com. [209.85.218.43])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99384f8258sm152439966b.16.2024.10.05.17.07.33
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 05 Oct 2024 17:07:33 -0700 (PDT)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a993302fa02so129379866b.0
-        for <linux-doc@vger.kernel.org>; Sat, 05 Oct 2024 17:07:33 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWhkiHE+6xorQWVIMC9/+bXe7Qj6fj9WfVU0O+tEE92yMLw1vk0Lm+asx2h4SsNCWWcdyOaWdIkZM8=@vger.kernel.org
-X-Received: by 2002:a17:907:9693:b0:a99:3d93:c8bc with SMTP id
- a640c23a62f3a-a993d93cc22mr339286866b.13.1728172818387; Sat, 05 Oct 2024
- 17:00:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UMMeRGF5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728192712; x=1759728712;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NaeIIqZcYdXezy4Xv5IAocLm2iT8QvpFiFoXkNZMNDQ=;
+  b=UMMeRGF5oLMWMOMB6dhPxq5RD05esWgS8d+eB/fsZf4WwN9RVFMFD1XT
+   HYsEcXVHQ6JQO2hrkEh0uYmZ8tLQffNdhvJ/sX5tk3tSvXkde50WhSvru
+   vzTWNihj6z3YYYXEcaXHyQDoquLf3uS5LQ/SJ7RT87xUekRx7OQeM6Un1
+   rCoPNEoaAjXf8x6jdEWR5NETBETnvMMl+Pw4cl/Dbrc9Mym9KvQga6bFV
+   7kv4EUcC0X5jH+vKW37HegedjQ7XfC2Afy2Pds2nxdY2UxZ3queGaDDDw
+   CtFq4J+vfOZaYgNSxwhMKfIzAeiX+LQEJtp30R7bM+I/Jzk9cufy1QX5N
+   Q==;
+X-CSE-ConnectionGUID: 5GDZbhbrQkeDENfCaCY0yA==
+X-CSE-MsgGUID: icSPb2gXQrW09bOlFRgeBQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="38756202"
+X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
+   d="scan'208";a="38756202"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 22:31:52 -0700
+X-CSE-ConnectionGUID: iR1C34s6RkqZ1GwlHbd0Sw==
+X-CSE-MsgGUID: sUvdpoPwSd6hvwAfgSUNFQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
+   d="scan'208";a="75365820"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 05 Oct 2024 22:31:47 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sxJrs-0003dU-34;
+	Sun, 06 Oct 2024 05:31:44 +0000
+Date: Sun, 6 Oct 2024 13:31:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Guillaume Stols <gstols@baylibre.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pwm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, aardelean@baylibre.com,
+	dlechner@baylibre.com, Guillaume Stols <gstols@baylibre.com>
+Subject: Re: [PATCH v3 09/10] iio: adc: ad7606: Add iio-backend support
+Message-ID: <202410061307.IHo3Eizh-lkp@intel.com>
+References: <20241004-ad7606_add_iio_backend_support-v3-9-38757012ce82@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240925150059.3955569-30-ardb+git@google.com>
- <20240925150059.3955569-55-ardb+git@google.com> <99446363-152f-43a8-8b74-26f0d883a364@zytor.com>
- <CAMj1kXG7ZELM8D7Ft3H+dD5BHqENjY9eQ9kzsq2FzTgP5+2W3A@mail.gmail.com>
- <CAHk-=wj0HG2M1JgoN-zdCwFSW=N7j5iMB0RR90aftTS3oqwKTg@mail.gmail.com>
- <CAMj1kXEU5RU0i11zqD0433_LMMyNQH2gCoSkU7GeXmaRXGF1Yw@mail.gmail.com>
- <5c7490bb-aa74-427b-849e-c28c343b7409@zytor.com> <CAFULd4Yj9LfTnWFu=c1M7Eh44+XFk0ibwL57r5H7wZjvKZ8yaA@mail.gmail.com>
- <3bbb85ae-8ba5-4777-999f-d20705c386e7@zytor.com>
-In-Reply-To: <3bbb85ae-8ba5-4777-999f-d20705c386e7@zytor.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sat, 5 Oct 2024 17:00:01 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgkgnyW2V4gQQTDAOKXGZH0fqN=hApz1LFAE3OC3fhhrQ@mail.gmail.com>
-Message-ID: <CAHk-=wgkgnyW2V4gQQTDAOKXGZH0fqN=hApz1LFAE3OC3fhhrQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 25/28] x86: Use PIE codegen for the core kernel
-To: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Uros Bizjak <ubizjak@gmail.com>, Ard Biesheuvel <ardb@kernel.org>, 
-	Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org, x86@kernel.org, 
-	Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Dennis Zhou <dennis@kernel.org>, 
-	Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross <jgross@suse.com>, 
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Keith Packard <keithp@keithp.com>, 
-	Justin Stitt <justinstitt@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Kan Liang <kan.liang@linux.intel.com>, linux-doc@vger.kernel.org, 
-	linux-pm@vger.kernel.org, kvm@vger.kernel.org, xen-devel@lists.xenproject.org, 
-	linux-efi@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241004-ad7606_add_iio_backend_support-v3-9-38757012ce82@baylibre.com>
 
-On Sat, 5 Oct 2024 at 16:37, H. Peter Anvin <hpa@zytor.com> wrote:
->
-> Sadly, that is not correct; neither gcc nor clang uses lea:
+Hi Guillaume,
 
-Looking around, this may be intentional. At least according to Agner,
-several cores do better at "mov immediate" compared to "lea".
+kernel test robot noticed the following build warnings:
 
-Eg a RIP-relative LEA on Zen 2 gets a throughput of two per cycle, but
-a "MOV r,i" gets four. That got fixed in Zen 3 and later, but
-apparently Intel had similar issues (Ivy Bridge: 1 LEA per cycle, vs 3
-"mov i,r". Haswell is 1:4).
+[auto build test WARNING on 35307f34d6fef8f9d41a1e8f4f532e4b0a7ee422]
 
-Of course, Agner's tables are good, but not necessarily always the
-whole story. There are other instruction tables on the internet (eg
-uops.info) with possibly more info.
+url:    https://github.com/intel-lab-lkp/linux/commits/Guillaume-Stols/iio-adc-ad7606-Fix-typo-in-the-driver-name/20241005-055256
+base:   35307f34d6fef8f9d41a1e8f4f532e4b0a7ee422
+patch link:    https://lore.kernel.org/r/20241004-ad7606_add_iio_backend_support-v3-9-38757012ce82%40baylibre.com
+patch subject: [PATCH v3 09/10] iio: adc: ad7606: Add iio-backend support
+config: x86_64-randconfig-123-20241006 (https://download.01.org/0day-ci/archive/20241006/202410061307.IHo3Eizh-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410061307.IHo3Eizh-lkp@intel.com/reproduce)
 
-And in reality, I would expect it to be a complete non-issue with any
-OoO engine and real code, because you are very seldom ALU limited
-particularly when there aren't any data dependencies.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410061307.IHo3Eizh-lkp@intel.com/
 
-But a RIP-relative LEA does seem to put a *bit* more pressure on the
-core resources, so the compilers are may be right to pick a "mov".
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/adc/ad7606_par.c:89:29: sparse: sparse: symbol 'ad7606_bi_bops' was not declared. Should it be static?
 
-               Linus
+vim +/ad7606_bi_bops +89 drivers/iio/adc/ad7606_par.c
+
+    88	
+  > 89	const struct ad7606_bus_ops ad7606_bi_bops = {
+    90		.iio_backend_config = ad7606_bi_setup_iio_backend,
+    91		.update_scan_mode = ad7606_bi_update_scan_mode,
+    92	};
+    93	EXPORT_SYMBOL_NS_GPL(ad7606_bi_bops, IIO_AD7606);
+    94	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
