@@ -1,187 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E63D4C9D;
-	Sun,  6 Oct 2024 06:23:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D8338F83;
+	Sun,  6 Oct 2024 07:59:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728195834; cv=none; b=nZ4eRCRjNriMRB3GKDST2g798Qo9uQilKZB5aMCmVBAS8A+sc/24wXF7x4CAhGAe5GS26ifu2F99G3F09QOn12NjRFA6q0k6uSBhGZmkhExv3NB4kD/0qhqb8mYqWChfvat0K5ABGAo5MCIG3OkcuyAxrGatep6yz4P/KnfvTmw=
+	t=1728201592; cv=none; b=tkXU8vjrM4WNrxM0ahDTQ63bdw2QSv2e0C39wZYSEE3JKVtQwUrIl99xPliRs25+QRzA1HBuZAaVzoGHxp/Jdj+MquuPgMZCA53CKiUDfDuPoJYsvi77MWfHC17ZjuPraXzwFNHBrpXHAZV2RrYAEgn9iMwlo2pynGIU+F7rnUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728195834; c=relaxed/simple;
-	bh=H/emNg2aVZv4n2YTV6WagRn5Age0z2hVFcUSuk6iDKk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tvi4FSTSLK2+4wcpQu+9BWLdBGhX/IR/AMg9XzWdYQsETPkGZ0xktOCKtHA0Yyz6CqgntHVGIgES9fb8FY0F35eUYD0blG9jIBpOK1G5wMJNQapyyWKDFiqCfnN5LU34aitqGdMXUSEjXlED2q5Uge23EYcSbSCGUrAk14XRQGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n8qBoDWu; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728201592; c=relaxed/simple;
+	bh=0WxMKip1+Fw9+cCQhm/3A9AY/qyKiRCE5qbNsKoaojU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PchLrEJs7UwXdIolqE4g1UoikMZCSOPmiOD5vCEopVo2aqF9ZdzDuud3jzQRcki1Cz1PMH12R10UYYgffACGGl4iePNGNtbunfP9xtbwHCf+C+lchmB+NQ5lfpxocv3PQwxEhFysRNiUbvxcS9aj4lA8vHtmb5T9jqjlWnBABWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OJevdzPE; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n8qBoDWu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728195833; x=1759731833;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=H/emNg2aVZv4n2YTV6WagRn5Age0z2hVFcUSuk6iDKk=;
-  b=n8qBoDWubJK+tzTZjyr9TnvUzF3b14EKjJCnhMURusXYgDnby8ETYN1t
-   UjmxnNPqhjhQ41WMG8teopxFo6kCuCZSZ0msfO3X7H1ADBkMK+Yqcqm5s
-   Bdog/7FRcPUwSYbzspkGZi6XzhtJVGWHyyh91nRyS+s8og9N6f0QiYZXV
-   1mkOoH8gquy0ZkhzWuzhYiLy7SdNJdps4iU/eX5mnWdMtdKW2rBnjqFIC
-   oYTAlPw3lVfj8eqJMOe8aWC9T3S1wpuKbHUIVG91/xo645ALF0xD4KzK8
-   KkRAcVumsDUQs9Non+UJQgWPneZJRu7DtJnoJjzXo/ePKQB6NaIxhhx8k
-   Q==;
-X-CSE-ConnectionGUID: bl4LoanqQealht3LruVIqA==
-X-CSE-MsgGUID: aqd3TEuzTgSyiNzfMKBxBA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="27254801"
-X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
-   d="scan'208";a="27254801"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 23:23:52 -0700
-X-CSE-ConnectionGUID: gkqTNOEbSYqLP/6WzoJMHA==
-X-CSE-MsgGUID: 2L3DpjURSSmUkBiqjKKkbg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
-   d="scan'208";a="79703327"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 05 Oct 2024 23:23:48 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sxKgD-0003em-1y;
-	Sun, 06 Oct 2024 06:23:45 +0000
-Date: Sun, 6 Oct 2024 14:23:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Guillaume Stols <gstols@baylibre.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pwm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, aardelean@baylibre.com,
-	dlechner@baylibre.com, Guillaume Stols <gstols@baylibre.com>
-Subject: Re: [PATCH v3 07/10] iio: adc: ad7606: Add compatibility to fw_nodes
-Message-ID: <202410061420.L3sUSK8b-lkp@intel.com>
-References: <20241004-ad7606_add_iio_backend_support-v3-7-38757012ce82@baylibre.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OJevdzPE"
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2fad5024b8dso38792191fa.1;
+        Sun, 06 Oct 2024 00:59:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728201588; x=1728806388; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TPKYyYBqIk2nde1TDg/wyIZWJzsFsCGXcjUuTc5pqeY=;
+        b=OJevdzPEtGlNlxbHIDgOO+1lNvL7ODuxhcAxB1FR7dX8YHK6z4eNRBZuVtjntMPpnD
+         zeTxEJ6oYRmDVvD0vZ90hfWSC0rPgSkJui/x84HxYgD9oKHcVpLznQAAO+fbOvQhlTVX
+         LTo8HffgFj2Hyh8B+C22+xJ1yO32TB4FPdjn6DnrfqwOO+lgfPJJqkSg77LdflEqEtmI
+         RVAr17AhYV8DNdyJPOaquP3AxPYH6sU0A7rvikInuOFyeRPMCbqn0qVD+3f2w56T9Svt
+         PXiUVEoU/bMJ8J1XojXTdGvAxt/SmSI/yMH5Mgn2fZISA0lrkIgFdR43FPnVAQ55lnEu
+         TMZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728201588; x=1728806388;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TPKYyYBqIk2nde1TDg/wyIZWJzsFsCGXcjUuTc5pqeY=;
+        b=Pqdu4rfCDHMCHJ/B07tFwaFXfLLFNbzvRG3ipYmhmLxAhxB7HdDDcU1ITuCPnqT8OD
+         UPJdVxhIk2m45MJOd60Aj0dGDhZJoliDw/vJy4GFNvbnyp4RRn3gJ5VyjYpxR9uNE//M
+         8tiMWxv3hSy4hSycE6JvuAzmpow7cGu8DkTpzkmQ9yKVGVMaWCHan+7E7S1yEaeOshAY
+         ku+zo0HqHGImW1DuZyi5HW9Zyj9f2Zi0amDT9kQWVgY+4S5Ad5bBkoJYE/36YmQFSp3Y
+         uuP2u0U1SLYJJCjAI0BzGWfZ2KOYD6Hgc+2W6Y/esP+WDnbMT9O4w6GyMdUTyefE7cFR
+         EGAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU7xqcXYxC2kvadaDPkaP+FtIzetjmuUeOcD+uUHu84NJq8TnWxooN0WWCwxE9UEsdXt0KIhS+KSk5V@vger.kernel.org, AJvYcCUioEptRTQfe8n3fJ/Xi+7tMUlr4YtVPJU2P+CNWRY8M9J+Cli8f9Zckrfc342eq8TuUp0=@vger.kernel.org, AJvYcCUoMMg2v90GiOqpAyC/LuKsuOPweO2xETW4lhVNu8Olfr6eIyzTXyKt2Qxrqlv86AFKdXr1G39/qDK0BPA7s8E=@vger.kernel.org, AJvYcCVHE5n3goGY8QhRrcvl5IU52VRJ3qFf9Hffk8KiSshUT2CkSKWUybb6TSB8R4Ph4mG7Bl7d4ZI3/ZjWv2f3KTqbWQ==@vger.kernel.org, AJvYcCVQ09D00PIajCVmEb0Uxe7sRrr7n3seaefxHtP8sma1kpu0VaQgnRN7HIO4DNqpOv266dHJOnBTh+hm@vger.kernel.org, AJvYcCWLL7w6urDI4YGkTFSNuS0D8tnjtjZ82hJtx0BSRQt37CWGC8deghoKTRPRK3oqQzQohEJ7lGUQTzlgZBmr@vger.kernel.org, AJvYcCWeBLWhnr4EXzzxNv18ZQcfsEUoTqt+dPM2gmDXGwraRgkFycQLDwqZtVY1vz5IICkMWpAd7t5HJxWSm3lJ@vger.kernel.org, AJvYcCWzK/HfO7nX8ByarrXUrPXrMOON+GbCcX2LuBprEl8VxL6izsjq4TyIdjXpxrU8uOxkJEEup2VMVEg=@vger.kernel.org, AJvYcCXWgDTTjpnMNx9MbhWN1TDGR4gQXL+JVu71s/rQ2zxK5zmsGV0dUu3bNqQF4B8CtmretsiQGCYoh0RnLPe8@vger.kernel.org, AJvYcCXoZXxrEGbdwAP7G+wWoarb66twgfaO4gZDQPFOe18iPYxDr0W4VyryTJwlvRa/T6Rd4WGDn2TJwwf6HQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6yI66QOvVaBMSUte3pUHWM3ywtSwwB1XI4f7DwzA2Q7pexwme
+	Y8CfANz1lZ/p625PleZDMYj6Wt0xzp8PODT2KCeEqwyajE+44WFS0K3Ho7bXAwz/NmRfQz5r3TP
+	jjUbS7Yh+sniRt0ay9LOGJdU6Qjo=
+X-Google-Smtp-Source: AGHT+IE2zUoTNKRDJOdgkWI5Cw6UcFhRdeh7rJkjxE6MXyTsb+8X3cwADhQlSBEhykzT0ML1M4fcluEMHpcmKEmwoVU=
+X-Received: by 2002:a05:651c:1549:b0:2fa:c873:45ce with SMTP id
+ 38308e7fff4ca-2faf3c64dcemr33189261fa.30.1728201588155; Sun, 06 Oct 2024
+ 00:59:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241004-ad7606_add_iio_backend_support-v3-7-38757012ce82@baylibre.com>
+References: <20240925150059.3955569-30-ardb+git@google.com>
+ <20240925150059.3955569-55-ardb+git@google.com> <99446363-152f-43a8-8b74-26f0d883a364@zytor.com>
+ <CAMj1kXG7ZELM8D7Ft3H+dD5BHqENjY9eQ9kzsq2FzTgP5+2W3A@mail.gmail.com>
+ <CAHk-=wj0HG2M1JgoN-zdCwFSW=N7j5iMB0RR90aftTS3oqwKTg@mail.gmail.com>
+ <CAMj1kXEU5RU0i11zqD0433_LMMyNQH2gCoSkU7GeXmaRXGF1Yw@mail.gmail.com>
+ <5c7490bb-aa74-427b-849e-c28c343b7409@zytor.com> <CAFULd4Yj9LfTnWFu=c1M7Eh44+XFk0ibwL57r5H7wZjvKZ8yaA@mail.gmail.com>
+ <3bbb85ae-8ba5-4777-999f-d20705c386e7@zytor.com>
+In-Reply-To: <3bbb85ae-8ba5-4777-999f-d20705c386e7@zytor.com>
+From: Uros Bizjak <ubizjak@gmail.com>
+Date: Sun, 6 Oct 2024 09:59:40 +0200
+Message-ID: <CAFULd4b==a7H0zdGVfABntL0efrS-F3eeHGu-63oyz1eh1DwXQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 25/28] x86: Use PIE codegen for the core kernel
+To: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Ard Biesheuvel <ardb@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org, x86@kernel.org, 
+	Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Dennis Zhou <dennis@kernel.org>, 
+	Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross <jgross@suse.com>, 
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Keith Packard <keithp@keithp.com>, 
+	Justin Stitt <justinstitt@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+	Kan Liang <kan.liang@linux.intel.com>, linux-doc@vger.kernel.org, 
+	linux-pm@vger.kernel.org, kvm@vger.kernel.org, xen-devel@lists.xenproject.org, 
+	linux-efi@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Guillaume,
+On Sun, Oct 6, 2024 at 1:37=E2=80=AFAM H. Peter Anvin <hpa@zytor.com> wrote=
+:
+>
+> On 10/5/24 01:31, Uros Bizjak wrote:
+> >>
+> >> movq $sym to leaq sym(%rip) which you said ought to be smaller (and in
+> >> reality appears to be the same size, 7 bytes) seems like a no-brainer
+> >> and can be treated as a code quality issue -- in other words, file bug
+> >> reports against gcc and clang.
+> >
+> > It is the kernel assembly source that should be converted to
+> > rip-relative form, gcc (and probably clang) have nothing with it.
+> >
+>
+> Sadly, that is not correct; neither gcc nor clang uses lea:
+>
+>         -hpa
+>
+>
+> gcc version 14.2.1 20240912 (Red Hat 14.2.1-3) (GCC)
+>
+> hpa@tazenda:/tmp$ cat foo.c
+> int foobar;
+>
+> int *where_is_foobar(void)
+> {
+>          return &foobar;
+> }
+>
+> hpa@tazenda:/tmp$ gcc -mcmodel=3Dkernel -O2 -c -o foo.o foo.c
 
-kernel test robot noticed the following build warnings:
+Indeed, but my reply was in the context of -fpie, which guarantees RIP
+relative access. IOW, the compiler will always generate sym(%rip) with
+-fpie, but (obviously) can't change assembly code in the kernel when
+the PIE is requested.
 
-[auto build test WARNING on 35307f34d6fef8f9d41a1e8f4f532e4b0a7ee422]
+Otherwise, MOV $immediate, %reg is faster when PIE is not required,
+which is the case with -mcmodel=3Dkernel. IIRC, LEA with %rip had some
+performance issues, which may not be the case anymore with newer
+processors.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Guillaume-Stols/iio-adc-ad7606-Fix-typo-in-the-driver-name/20241005-055256
-base:   35307f34d6fef8f9d41a1e8f4f532e4b0a7ee422
-patch link:    https://lore.kernel.org/r/20241004-ad7606_add_iio_backend_support-v3-7-38757012ce82%40baylibre.com
-patch subject: [PATCH v3 07/10] iio: adc: ad7606: Add compatibility to fw_nodes
-config: i386-randconfig-062-20241006 (https://download.01.org/0day-ci/archive/20241006/202410061420.L3sUSK8b-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410061420.L3sUSK8b-lkp@intel.com/reproduce)
+Due to the non-negligible impact of PIE, perhaps some kind of
+CONFIG_PIE config definition should be introduced, so the assembly
+code would be able to choose optimal asm sequence when PIE and non-PIE
+is requested?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410061420.L3sUSK8b-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/iio/adc/ad7606_spi.c:324:29: sparse: sparse: symbol 'ad7606_spi_bops' was not declared. Should it be static?
->> drivers/iio/adc/ad7606_spi.c:328:29: sparse: sparse: symbol 'ad7616_spi_bops' was not declared. Should it be static?
->> drivers/iio/adc/ad7606_spi.c:337:29: sparse: sparse: symbol 'ad7606b_spi_bops' was not declared. Should it be static?
->> drivers/iio/adc/ad7606_spi.c:346:29: sparse: sparse: symbol 'ad7606c_18_spi_bops' was not declared. Should it be static?
->> drivers/iio/adc/ad7606_spi.c:370:30: sparse: sparse: symbol 'ad7606_4_bus_info' was not declared. Should it be static?
->> drivers/iio/adc/ad7606_spi.c:375:30: sparse: sparse: symbol 'ad7606b_bus_info' was not declared. Should it be static?
->> drivers/iio/adc/ad7606_spi.c:380:30: sparse: sparse: symbol 'ad7606c_16_bus_info' was not declared. Should it be static?
->> drivers/iio/adc/ad7606_spi.c:385:30: sparse: sparse: symbol 'ad7606c_18_bus_info' was not declared. Should it be static?
->> drivers/iio/adc/ad7606_spi.c:390:30: sparse: sparse: symbol 'ad7616_bus_info' was not declared. Should it be static?
-
-vim +/ad7606_spi_bops +324 drivers/iio/adc/ad7606_spi.c
-
-   323	
- > 324	const struct ad7606_bus_ops ad7606_spi_bops = {
-   325		.read_block = ad7606_spi_read_block,
-   326	};
-   327	
- > 328	const struct ad7606_bus_ops ad7616_spi_bops = {
-   329		.read_block = ad7606_spi_read_block,
-   330		.reg_read = ad7606_spi_reg_read,
-   331		.reg_write = ad7606_spi_reg_write,
-   332		.write_mask = ad7606_spi_write_mask,
-   333		.rd_wr_cmd = ad7616_spi_rd_wr_cmd,
-   334		.sw_mode_config = ad7616_sw_mode_config,
-   335	};
-   336	
- > 337	const struct ad7606_bus_ops ad7606b_spi_bops = {
-   338		.read_block = ad7606_spi_read_block,
-   339		.reg_read = ad7606_spi_reg_read,
-   340		.reg_write = ad7606_spi_reg_write,
-   341		.write_mask = ad7606_spi_write_mask,
-   342		.rd_wr_cmd = ad7606B_spi_rd_wr_cmd,
-   343		.sw_mode_config = ad7606B_sw_mode_config,
-   344	};
-   345	
- > 346	const struct ad7606_bus_ops ad7606c_18_spi_bops = {
-   347		.read_block = ad7606_spi_read_block18to32,
-   348		.reg_read = ad7606_spi_reg_read,
-   349		.reg_write = ad7606_spi_reg_write,
-   350		.write_mask = ad7606_spi_write_mask,
-   351		.rd_wr_cmd = ad7606B_spi_rd_wr_cmd,
-   352		.sw_mode_config = ad7606c_18_sw_mode_config,
-   353	};
-   354	
-   355	static const struct ad7606_bus_info ad7605_4_bus_info = {
-   356		.chip_info = &ad7605_4_info,
-   357		.bops = &ad7606_spi_bops,
-   358	};
-   359	
-   360	static const struct ad7606_bus_info ad7606_8_bus_info = {
-   361		.chip_info = &ad7606_8_info,
-   362		.bops = &ad7606_spi_bops,
-   363	};
-   364	
-   365	static const struct ad7606_bus_info ad7606_6_bus_info = {
-   366		.chip_info = &ad7606_6_info,
-   367		.bops = &ad7606_spi_bops,
-   368	};
-   369	
- > 370	const struct ad7606_bus_info ad7606_4_bus_info = {
-   371		.chip_info = &ad7606_4_info,
-   372		.bops = &ad7606_spi_bops,
-   373	};
-   374	
- > 375	const struct ad7606_bus_info ad7606b_bus_info = {
-   376		.chip_info = &ad7606b_info,
-   377		.bops = &ad7606b_spi_bops,
-   378	};
-   379	
- > 380	const struct ad7606_bus_info ad7606c_16_bus_info = {
-   381		.chip_info = &ad7606c_16_info,
-   382		.bops = &ad7606b_spi_bops,
-   383	};
-   384	
- > 385	const struct ad7606_bus_info ad7606c_18_bus_info = {
-   386		.chip_info = &ad7606c_18_info,
-   387		.bops = &ad7606c_18_spi_bops,
-   388	};
-   389	
- > 390	const struct ad7606_bus_info ad7616_bus_info = {
-   391		.chip_info = &ad7616_info,
-   392		.bops = &ad7616_spi_bops,
-   393	};
-   394	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Uros.
