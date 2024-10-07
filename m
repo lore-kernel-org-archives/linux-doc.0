@@ -1,156 +1,129 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173A412E1D1;
-	Mon,  7 Oct 2024 09:30:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F386315D5C1;
+	Mon,  7 Oct 2024 10:58:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728293433; cv=none; b=Ui2NJPwnhqvdIR55rHA9Uj4FuWYs/EZuJpcA/TBhJx3QLRNsEUPeiWsgikzLNwiw0CEFiTMUX6SYgNklaMOYIufmCE07H7xgcSQ91y9GSGuqSvp73tU3e61OsBwyp/Gl+ol2+JCbrHFSkH7lZF6du+ssjPnx5PzHgXpvHJ4YvL0=
+	t=1728298714; cv=none; b=jwJnNg5UFPdwvncNbgOHpU3ge8MnLePNH36mNBmYPLDggaqB9IT8bqjihmIFsdr5KXyjsX0mx4uSFYtFuKLPIlKr1f4AwljXKeq8P3ta/lVcf9uPMSUGDYTmmbJLaqkhOQNejJk0wpQTg4am/SD+QuWHtlXUmDGDo0CY65H3Cn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728293433; c=relaxed/simple;
-	bh=Tz1GKph4drPLEeVbp418Bu54k3rNav7IVlT79MqKv0M=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nGeMcFa+RIS3ozz27y2dZWgFd2yGbDVmPKwZ32V8YNRjUYdQ1CZ0BeuvtrDm288vQeJvGebIkyxL4m1s7Q88r9ydjBgYCxhbYOPTjbG33o9hcO8fXZbbdgBFQn15u4m25w6kQKQu+7zz8kLew/S4/dgixcvsVuzoGBAfZEZwyOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=AjNFk6Jd; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1728298714; c=relaxed/simple;
+	bh=2GHIYkn8cRFjuA6UoXjds38baJgePZQPA32Pa4pACIs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lRDly8FY6G9BuBtQstwR5mm4mJtcBabfECSTlYEtxqE1Uv96++qT8p1FEvkiQLz0f7EEMKYB01BCaCk8Kfrrp7ZhTPc74i6jT5TO5ixuf3VGwXTC8Baf7HvZGQXZ/JOqeEWohuJnTZvMnJSNTd/Ia7oAmWxr9aASZNiiBluOXvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xo6a7QoP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="AjNFk6Jd"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 654DBC0003;
-	Mon,  7 Oct 2024 09:30:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1728293428;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=namY25WQ52fwKUQOtiBU5zuLS5KPYImSKTERIUGh7sA=;
-	b=AjNFk6Jdj2MWLv9QzPMlBjnRGG5qXVrSNe/5xaVlw1rSCA6Sm8FMZGKHUF79vSzfoRxsI+
-	QX1T2YoVXjD3u7HKtuuba+4BlDszgchGcxwzy7DuY2QYfyyOxNiNcZGlxT5Ira7MXz7uQx
-	2rHE0QWgw7asVBGQhdogNFtJHyi9KVOaNlz6mom6Ieoq+DaUmbBtrGXaCnjHrOvIn0+9ZL
-	Elevcr0oA0zcXrNIpjmo4ZCtjZABBwriF020lIAylWMUdohUWb1hw8K4QRKlljXZ6llb/X
-	ax53HDL4keySHLsXVcTrYv3cusVJfPVxx5w6NdlRi9pjT8eToHE3eyy9hoewaw==
-Date: Mon, 7 Oct 2024 11:30:26 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
- <donald.hunter@gmail.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
- Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de
-Subject: Re: [PATCH net-next 06/12] net: ethtool: Add PSE new port priority
- support feature
-Message-ID: <20241007113026.39c4a8c2@kmaincent-XPS-13-7390>
-In-Reply-To: <ZwDcHCr1aXeGWXIh@pengutronix.de>
-References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
-	<20241002-feature_poe_port_prio-v1-6-787054f74ed5@bootlin.com>
-	<ZwDcHCr1aXeGWXIh@pengutronix.de>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xo6a7QoP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69F3CC4CECF;
+	Mon,  7 Oct 2024 10:58:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728298713;
+	bh=2GHIYkn8cRFjuA6UoXjds38baJgePZQPA32Pa4pACIs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Xo6a7QoPaAsdhkEDock0VKt30RgKQGDYB55iSjs8d7YTjilKAWw7i3RESilp0cQmJ
+	 RkjDVaYeEP4FP9Um0SKIfeDcDl7H+Fi+NhKi0FBYdFB987Lxfsc/g9l1JNp8UGKwMc
+	 Fw4+iKLZ4j5+PeS1HlhU82WbFMjMgy9PbJI3nNlnMDRZI+xMrTIf9oliBkKKNKIEUV
+	 3iQt4cjUHMHjHCiQn6OAZh2AOaoIPFY3DYE1VAJSG1MGdziqr64pvzgt8d9LGQCH6l
+	 6Yp4ik5VqzQOvKusiZPsiQyiGE/GDJ+EKPs8F/8xOnQ5XAM59NbuIRCxgjag482bXQ
+	 /nWr7X/hM+SpQ==
+From: Christian Brauner <brauner@kernel.org>
+To: Thomas Gleixner <tglx@linutronix.de>,
+	Jeff Layton <jlayton@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-btrfs@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	linux-mm@kvack.org,
+	John Stultz <jstultz@google.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Chandan Babu R <chandan.babu@oracle.com>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Chris Mason <clm@fb.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	David Sterba <dsterba@suse.com>,
+	Hugh Dickins <hughd@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Subject: Re: (subset) [PATCH v10 00/12] timekeeping/fs: multigrain timestamp redux
+Date: Mon,  7 Oct 2024 12:58:21 +0200
+Message-ID: <20241007-restlaufzeit-birnen-2f412852441e@brauner>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20241002-mgtime-v10-0-d1c4717f5284@kernel.org>
+References: <20241002-mgtime-v10-0-d1c4717f5284@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2375; i=brauner@kernel.org; h=from:subject:message-id; bh=2GHIYkn8cRFjuA6UoXjds38baJgePZQPA32Pa4pACIs=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaQz7zt3ROG96vKmhmAJRb2iW0lPrWYvcrN65X025sO3H TIF+Vq3O0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACZSuo7hD++GxO7jd4sfeZ2Y e2VOTlbbRvlo2xPWddtPcQQeKVu3dBrDP+O0xuMVC6u2NJnKzzd25XLIvFWufkOs6q/e5LaD4Z3 LWQE=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Sat, 5 Oct 2024 08:26:36 +0200
-Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+On Wed, 02 Oct 2024 17:27:15 -0400, Jeff Layton wrote:
+> This is a replacement for the v6 series sitting in Christian's
+> vfs.mgtime branch. The main changes here are to the changelogs,
+> documentation and comments. I've also moved the timekeeping patches to
+> the front of the series, and done some minor cleanups.
+> 
+> The pipe1_threads test shows these averages on my test rig with this
+> series:
+> 
+> [...]
 
-> >  When set, the optional ``ETHTOOL_A_PODL_PSE_ADMIN_CONTROL`` attribute =
-is
-> > used @@ -1871,6 +1883,10 @@ various existing products that document pow=
-er
-> > consumption in watts rather than classes. If power limit configuration
-> > based on classes is needed, the conversion can be done in user space, f=
-or
-> > example by ethtool.=20
-> > +When set, the optional ``ETHTOOL_A_C33_PSE_PRIO`` attributes is used to
-> > +control the C33 PSE priority. Allowed priority value are between zero
-> > +and the value of ``ETHTOOL_A_C33_PSE_PRIO_MAX`` attribute. =20
-> =20
-> We need to introduce a new attribute to effectively manage PSE priorities.
-> With the addition of the `ETHTOOL_A_C33_PSE_PRIO` attribute for setting
-> priorities, it's important to know which PSE controller or domain each po=
-rt
-> belongs to.
->=20
-> Initially, we might consider using a PSE controller index, such as
-> `ETHTOOL_A_PSE_CONTROLLER_ID`, to identify the specific PSE controller
-> associated with each port.
->=20
-> However, using just the PSE controller index is too limiting. Here's why:
->=20
-> - Typical PSE controllers handle priorities only within themselves. They
-> usually can't manage prioritization across different controllers unless t=
-hey
-> are part of the same power domain. In systems where multiple PSE controll=
-ers
-> cooperate=E2=80=94either directly or through software mechanisms like the=
- regulator
-> framework=E2=80=94controllers might share power domains or manage priorit=
-ies together.
-> This means priorities are not confined to individual controllers but are
-> relevant within shared power domains.
->=20
-> - As systems become more complex, with controllers that can work together,
-> relying solely on a controller index won't accommodate these cooperative
-> scenarios.
->=20
-> To address these issues, we should use a power domain identifier instead.=
- I
-> suggest introducing a new attribute called `ETHTOOL_A_PSE_POWER_DOMAIN_ID=
-`.
->=20
-> - It specifies the power domain to which each port belongs, ensuring that
-> priorities are managed correctly within that domain.
->=20
-> - It accommodates systems where controllers cooperate and share power
-> resources, allowing for proper coordination of priorities across controll=
-ers
-> within the same power domain.
->=20
-> - It provides flexibility for future developments where controllers might=
- work
-> together in new ways, preventing limitations that would arise from using a
-> strict controller index.
->=20
-> However, to provide comprehensive information, it would be beneficial to =
-use
-> both attributes:
->=20
-> - `ETHTOOL_A_PSE_CONTROLLER_ID` to identify the specific PSE controller
-> associated with each port.
->=20
-> - `ETHTOOL_A_PSE_POWER_DOMAIN_ID` to specify the power domain to which ea=
-ch
-> port belongs.
+I've merged the tag that Thomas provided with the time specific changes and
+pulled the remaining patches - excluding 01/12 and 02/12.
 
-Currently the priority is managed by the PSE controller so the port is the =
-only
-information needed. The user interface is ethtool, and I don't see why he w=
-ould
-need such things like controller id or power domain id. Instead, it could be
-managed by the PSE core depending on the power domains described in the
-devicetree. The user only wants to know if he can allow a specific power bu=
-dget
-on a Ethernet port and configure port priority in case of over power-budget
-event.
+---
 
-I don't have hardware with several PSE controllers. Is there already such
-hardware existing in the market?
-This seems like an interesting idea but I think it would belong in another =
-patch
-series.
-Still, it is good to talk about it for future development idea.
+Applied to the vfs.mgtime branch of the vfs/vfs.git tree.
+Patches in the vfs.mgtime branch should appear in linux-next soon.
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.mgtime
+
+[03/12] fs: add infrastructure for multigrain timestamps
+        https://git.kernel.org/vfs/vfs/c/4e40eff0b573
+[04/12] fs: have setattr_copy handle multigrain timestamps appropriately
+        https://git.kernel.org/vfs/vfs/c/b82f92d5dd1a
+[05/12] fs: handle delegated timestamps in setattr_copy_mgtime
+        https://git.kernel.org/vfs/vfs/c/d8d11298e8a1
+[06/12] fs: tracepoints around multigrain timestamp events
+        https://git.kernel.org/vfs/vfs/c/a80f53809ccc
+[07/12] fs: add percpu counters for significant multigrain timestamp events
+        https://git.kernel.org/vfs/vfs/c/7b1aba010c47
+[08/12] Documentation: add a new file documenting multigrain timestamps
+        https://git.kernel.org/vfs/vfs/c/95c6907be544
+[09/12] xfs: switch to multigrain timestamps
+        https://git.kernel.org/vfs/vfs/c/0f4865448420
+[10/12] ext4: switch to multigrain timestamps
+        https://git.kernel.org/vfs/vfs/c/e44ab3151adc
+[11/12] btrfs: convert to multigrain timestamps
+        https://git.kernel.org/vfs/vfs/c/0d4f9f7ad685
+[12/12] tmpfs: add support for multigrain timestamps
+        https://git.kernel.org/vfs/vfs/c/cba2a92eff80
