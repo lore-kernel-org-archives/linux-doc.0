@@ -1,64 +1,64 @@
-Received: from mail-wm1-f98.google.com (mail-wm1-f98.google.com [209.85.128.98])
+Received: from mail-lf1-f98.google.com (mail-lf1-f98.google.com [209.85.167.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C60A1DDC2F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 123891DDC38
 	for <linux-doc@vger.kernel.org>; Mon,  7 Oct 2024 18:24:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.98
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728325476; cv=none; b=uNGTZfhCXVERiZ7eqVLPOKgaSLalzxNf6fjxd5kYERS33Gawsyj9XT4ZBxrWiJeEO3Rq+Pr6z1uiY7ZKWs0J55YIbetnHMTPLA+3wijCJlKXRZiniZ2RHDTPD1xaZU1ovj6bd+4fuZrHKDlm3EdNbcV5ghHguHXjW3AX4sRnHnM=
+	t=1728325476; cv=none; b=IJ774hOotVDsDk0TZC6KFDe4jSKt0Mj5sp4I5wUqeLgKYP2huz28Z2Qmca3Cbn7dxJMmJ72Qkij63a5scaZAaG3ka3RI+HtUFrPVJc6lTWH3ez4oYDJZD+9sx5EIoqGnRQAtq0/BKF//xdRUBd15BNZDU/Twg1nwmbpeC8rFmuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1728325476; c=relaxed/simple;
-	bh=w6LdgIOhjc250dIk7Rx+Ytl+Sk5e4esszP6YKCo9TGw=;
+	bh=5BAYvcjKwAx/J4GvPz/qFxxZnbBXgXOpB5dJOP8thhE=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Mhje0RXD//1buF5L6x9LKWxrDotBE8p036bTwqtmkK7Z+rdRKyd7fZaxILug+1n1Sx3zpzFGw8Vywo7j6iHiIJ+c3zgOLXeFEzte6jaXhSYH1FutrRShKwPm11/SWIA4fK8pO6Q/x1SDL8ZezdJjr4CkcviGuECMGTuexqqV/ms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com; spf=fail smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=NYabTLk5; arc=none smtp.client-ip=209.85.128.98
+	 MIME-Version; b=R/PoBFq6tEFjBqm6ymi5zA7UCRaSB7Nk9GkeYgnuA7etRatIsaMuugqQuhYrr5lku++AAxGlralAo2t5hEO9T5fIRLWiKhzHX6ltZG+pXql8qFj3lW1t6wihUa0RQWEUViDVVvJRqSh+f72Lz3aERAuHGr82/ON9TYATXtCYgSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com; spf=fail smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=BqZLsFp6; arc=none smtp.client-ip=209.85.167.98
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=purestorage.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="NYabTLk5"
-Received: by mail-wm1-f98.google.com with SMTP id 5b1f17b1804b1-42cbbb1727eso48185745e9.2
+	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="BqZLsFp6"
+Received: by mail-lf1-f98.google.com with SMTP id 2adb3069b0e04-5389917ef34so5446994e87.2
         for <linux-doc@vger.kernel.org>; Mon, 07 Oct 2024 11:24:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=purestorage.com; s=google2022; t=1728325472; x=1728930272; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PiJLzYaJNgoKuqGrz0VXF67d0Soid/dfAGjb8HjQkE0=;
-        b=NYabTLk5lcLv8wG7Kd9ZtJnx1SsmCQyYAXZEJ/JnPOqjy/+nfPt+W8KMPwLBPsTlsT
-         mysMn3yqvehIul+bMA3GrJ0Igr7jT4/wJvIYFdp/uHw/K1GzTdQsfkQ2otYOVLTI/GOZ
-         pAJIql0/rULlxOkYY0eLUQFP6gqa4tdEhLgwkgeEmtrR7OLJeEvIYROp/T+l5lxAYKO9
-         QMPJtJ052wxJdwq5vh/TBKbQbO6dsLodG0ncYXHFAjQbJuF1+IQbI3gfYTT8WFR9XMs0
-         9APlfq2SqQmfmipoxSlcVfq4vaaYonIpBWGk8AH5Wyo+Xln3jNQ5XsZfcxvbYqpzAm7E
-         oJkA==
+        bh=Lzfa3TD2aAJu1t8Ngs41AQfKWfztgMT258K/19H9wjE=;
+        b=BqZLsFp6JUwEzCNj0BsBHNjrmTjqtbFzzBtuankZJXP9dlyGBjTiPaoLYp3B8ohbX/
+         UCIKKTXKHsPVbxiNmowfMtr0XZ4zlRiRWWEDB/DyL+pY4q+4TjNUn9hAQFsTsoY2o5eF
+         S8h4wgpJELTVUmMymeekZ9/5rQkeNKT2P0JXKo0q680MZYWGAfUGjopeZDxgNzi22x+e
+         u5OIJo+MrJx6lw5lsT00ZRBaqEDMja7Jt5er4Z9gNCCs7TX43KNGmHkVbzsVE0HWWzXn
+         EkjjbXqyrZDTSuoRD9WTnsdpTbLXPgyeLNn8WpvnOJt6nsnPJ0zaN/THtWmgMHw16ffE
+         iwzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1728325472; x=1728930272;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PiJLzYaJNgoKuqGrz0VXF67d0Soid/dfAGjb8HjQkE0=;
-        b=pf3XJCL8a8C/8IG5QLEyvfEV4IoMU6cb1VBXhginIRhY6qb8hMP4qb6buLshdj9Lzz
-         pIFCJbF1aS/I6t2IRF4BU/38evC3zAxLxDXS4zMvUXmR2ClaOEh7Cpf2soNZWWGw30nI
-         ZeIjFUAsxm44jNonBH/aNp0R9SoBdKpWv0Qf3g3lNwj+quTf9BsJFcImBFZgQcM8Fw8C
-         4v+OBx5nPgrM3pDion6jAIp0B3eLbvBLoFHscjS+0UJwmWGDdwFO7r6v1ywTi0cTqSV5
-         5UU5xqQrq9h6Jxy8c7hNW68stb7hmf/Ibd2icaT/7tBc4D4FvjxuYzOx4OB4NQ7FJ/zk
-         6u1g==
-X-Forwarded-Encrypted: i=1; AJvYcCX+b8F7l3P10bE43tBRBLf0nCdliRn+I/37rFr7tCgsVDfhRf7yI2SUJa8e6RbqEKnr+NuvEgRXeTM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywdw4biVBQZKpl6bRgFUGP0m5+3w6wyRNJiLgeNAv+5kGwYf42P
-	9eJoAg7jGUd1EHUXvCED2wwP5h7Vhj3xnoiHBUTHEIl4KmJFOn0fDk82KSsX+Kbm6Numhkcz9DG
-	bLlC0Bkh9/LmJRZlYw3419dXp++3umep+
-X-Google-Smtp-Source: AGHT+IF/zB3vQwn7lxcYIb6r6GzeXL17PZJzn1KAqTVDcH519KBSfmhuUnSRgOouH8ASztCuOdYhQVei3DSO
-X-Received: by 2002:a05:600c:44d6:b0:42c:c401:6d86 with SMTP id 5b1f17b1804b1-42f85aea06fmr90659715e9.27.1728325471523;
+        bh=Lzfa3TD2aAJu1t8Ngs41AQfKWfztgMT258K/19H9wjE=;
+        b=Ca8NdyVjxGqGzWZeQGu8gAYu3rddF+hfIAR4TEECTcoUa7v5EtBZVyUhynfm2tQ5vn
+         5BE0XfMGsjEiZYVaHP+oF7oWMbiV6Rni56BGU0/d/Ut73KoShoQvELon/yX0p/ZXlSck
+         BYG37AEjWHD9Vu/Pt6Z2gf6nJdQdcGeZvjCogInhiz2hqME1p61dR24s9QWBWYULtqv5
+         3S1IKrghv7u5z0GDo7AxgDibYO3aQSun2K9s5ekCuZySRBSwvYBd22jNT9h6CT9Qo9ZQ
+         e2noJeAsufvSsi7vPU4nhy3XF/1nRrDq6CWBrRrnqGlsDae5TYdVNjUS71xxRQJzCBxx
+         6gSw==
+X-Forwarded-Encrypted: i=1; AJvYcCUa/VWB4QSPTqLl2LurJYQr5XdiWQLVL9avHVISC2r3JlQBEHcgLP+0fW3EUGVj0FVyMzF5d088FE0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzXMH7ohfoNgq0E1Z9/FbAqp816M36aWqtCJdfQJyQGo0IRQqda
+	GyItoG3PXZEUZMvgluAQ1YR5Aswsvu1DgRuAvlOOlzpLN3FzTuN6V3rUSgUQRqyObKsgQEQPw2p
+	y5/pCUJS/xBMYgSSzIbmxIN/g/hpP4sikjRf06CdBzWCdv3K+
+X-Google-Smtp-Source: AGHT+IF56kfSHWsxoYRfjsv+axS1dCXzXR57XmJZl3oM4t2HjUaDqW8lZ1RTGPGWRTXX/ON22nysZbHvl8ND
+X-Received: by 2002:a05:6512:3d0c:b0:533:d3e:16f5 with SMTP id 2adb3069b0e04-539ab9cf3cemr6353568e87.38.1728325471969;
         Mon, 07 Oct 2024 11:24:31 -0700 (PDT)
-Received: from c7-smtp-2023.dev.purestorage.com ([208.88.159.128])
-        by smtp-relay.gmail.com with ESMTPS id 5b1f17b1804b1-42f89ed9c55sm1978985e9.48.2024.10.07.11.24.31
+Received: from c7-smtp-2023.dev.purestorage.com ([2620:125:9017:12:36:3:5:0])
+        by smtp-relay.gmail.com with ESMTPS id 2adb3069b0e04-539aff1f1aesm161333e87.82.2024.10.07.11.24.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 07 Oct 2024 11:24:31 -0700 (PDT)
 X-Relaying-Domain: purestorage.com
 Received: from dev-ushankar.dev.purestorage.com (dev-ushankar.dev.purestorage.com [10.7.70.36])
-	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 39A46340282;
+	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 3662534022F;
 	Mon,  7 Oct 2024 12:24:30 -0600 (MDT)
 Received: by dev-ushankar.dev.purestorage.com (Postfix, from userid 1557716368)
-	id 37855E41398; Mon,  7 Oct 2024 12:24:30 -0600 (MDT)
+	id 2DCA2E413A4; Mon,  7 Oct 2024 12:24:30 -0600 (MDT)
 From: Uday Shankar <ushankar@purestorage.com>
 To: Ming Lei <ming.lei@redhat.com>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -66,9 +66,9 @@ To: Ming Lei <ming.lei@redhat.com>,
 Cc: Uday Shankar <ushankar@purestorage.com>,
 	linux-block@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH v4 3/5] ublk: merge stop_work and quiesce_work
-Date: Mon,  7 Oct 2024 12:24:16 -0600
-Message-Id: <20241007182419.3263186-4-ushankar@purestorage.com>
+Subject: [PATCH v4 2/5] ublk: refactor recovery configuration flag helpers
+Date: Mon,  7 Oct 2024 12:24:15 -0600
+Message-Id: <20241007182419.3263186-3-ushankar@purestorage.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241007182419.3263186-1-ushankar@purestorage.com>
 References: <20241007182419.3263186-1-ushankar@purestorage.com>
@@ -80,147 +80,179 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Save some lines by merging stop_work and quiesce_work into nosrv_work,
-which looks at the recovery flags and does the right thing when the "no
-ublk server" condition is detected.
+ublk currently supports the following behaviors on ublk server exit:
+
+A: outstanding I/Os get errors, subsequently issued I/Os get errors
+B: outstanding I/Os get errors, subsequently issued I/Os queue
+C: outstanding I/Os get reissued, subsequently issued I/Os queue
+
+and the following behaviors for recovery of preexisting block devices by
+a future incarnation of the ublk server:
+
+1: ublk devices stopped on ublk server exit (no recovery possible)
+2: ublk devices are recoverable using start/end_recovery commands
+
+The userspace interface allows selection of combinations of these
+behaviors using flags specified at device creation time, namely:
+
+default behavior: A + 1
+UBLK_F_USER_RECOVERY: B + 2
+UBLK_F_USER_RECOVERY|UBLK_F_USER_RECOVERY_REISSUE: C + 2
+
+We can't easily change the userspace interface to allow independent
+selection of one of {A, B, C} and one of {1, 2}, but we can refactor the
+internal helpers which test for the flags. Replace the existing helpers
+with the following set:
+
+ublk_nosrv_should_reissue_outstanding: tests for behavior C
+ublk_nosrv_[dev_]should_queue_io: tests for behavior B
+ublk_nosrv_should_stop_dev: tests for behavior 1
 
 Signed-off-by: Uday Shankar <ushankar@purestorage.com>
 Reviewed-by: Ming Lei <ming.lei@redhat.com>
 ---
- drivers/block/ublk_drv.c | 64 ++++++++++++++++------------------------
- 1 file changed, 25 insertions(+), 39 deletions(-)
+ drivers/block/ublk_drv.c | 62 +++++++++++++++++++++++++++-------------
+ 1 file changed, 42 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/block/ublk_drv.c b/drivers/block/ublk_drv.c
-index a838ba809445..d5edef7bde43 100644
+index 318a4dfe8266..a838ba809445 100644
 --- a/drivers/block/ublk_drv.c
 +++ b/drivers/block/ublk_drv.c
-@@ -182,8 +182,7 @@ struct ublk_device {
- 	unsigned int		nr_queues_ready;
- 	unsigned int		nr_privileged_daemon;
+@@ -675,22 +675,44 @@ static inline int ublk_queue_cmd_buf_size(struct ublk_device *ub, int q_id)
+ 			PAGE_SIZE);
+ }
  
--	struct work_struct	quiesce_work;
--	struct work_struct	stop_work;
-+	struct work_struct	nosrv_work;
- };
+-static inline bool ublk_queue_can_use_recovery_reissue(
+-		struct ublk_queue *ubq)
++/*
++ * Should I/O outstanding to the ublk server when it exits be reissued?
++ * If not, outstanding I/O will get errors.
++ */
++static inline bool ublk_nosrv_should_reissue_outstanding(struct ublk_device *ub)
+ {
+-	return (ubq->flags & UBLK_F_USER_RECOVERY) &&
+-			(ubq->flags & UBLK_F_USER_RECOVERY_REISSUE);
++	return (ub->dev_info.flags & UBLK_F_USER_RECOVERY) &&
++	       (ub->dev_info.flags & UBLK_F_USER_RECOVERY_REISSUE);
+ }
  
- /* header of ublk_params */
-@@ -1261,10 +1260,7 @@ static enum blk_eh_timer_return ublk_timeout(struct request *rq)
+-static inline bool ublk_queue_can_use_recovery(
+-		struct ublk_queue *ubq)
++/*
++ * Should I/O issued while there is no ublk server queue? If not, I/O
++ * issued while there is no ublk server will get errors.
++ */
++static inline bool ublk_nosrv_dev_should_queue_io(struct ublk_device *ub)
++{
++	return ub->dev_info.flags & UBLK_F_USER_RECOVERY;
++}
++
++/*
++ * Same as ublk_nosrv_dev_should_queue_io, but uses a queue-local copy
++ * of the device flags for smaller cache footprint - better for fast
++ * paths.
++ */
++static inline bool ublk_nosrv_should_queue_io(struct ublk_queue *ubq)
+ {
+ 	return ubq->flags & UBLK_F_USER_RECOVERY;
+ }
+ 
+-static inline bool ublk_can_use_recovery(struct ublk_device *ub)
++/*
++ * Should ublk devices be stopped (i.e. no recovery possible) when the
++ * ublk server exits? If not, devices can be used again by a future
++ * incarnation of a ublk server via the start_recovery/end_recovery
++ * commands.
++ */
++static inline bool ublk_nosrv_should_stop_dev(struct ublk_device *ub)
+ {
+-	return ub->dev_info.flags & UBLK_F_USER_RECOVERY;
++	return !(ub->dev_info.flags & UBLK_F_USER_RECOVERY);
+ }
+ 
+ static void ublk_free_disk(struct gendisk *disk)
+@@ -1066,7 +1088,7 @@ static void __ublk_fail_req(struct ublk_queue *ubq, struct ublk_io *io,
+ {
+ 	WARN_ON_ONCE(io->flags & UBLK_IO_FLAG_ACTIVE);
+ 
+-	if (ublk_queue_can_use_recovery_reissue(ubq))
++	if (ublk_nosrv_should_reissue_outstanding(ubq->dev))
+ 		blk_mq_requeue_request(req, false);
+ 	else
+ 		ublk_put_req_ref(ubq, req);
+@@ -1094,7 +1116,7 @@ static inline void __ublk_abort_rq(struct ublk_queue *ubq,
+ 		struct request *rq)
+ {
+ 	/* We cannot process this rq so just requeue it. */
+-	if (ublk_queue_can_use_recovery(ubq))
++	if (ublk_nosrv_dev_should_queue_io(ubq->dev))
+ 		blk_mq_requeue_request(rq, false);
+ 	else
+ 		blk_mq_end_request(rq, BLK_STS_IOERR);
+@@ -1239,10 +1261,10 @@ static enum blk_eh_timer_return ublk_timeout(struct request *rq)
  		struct ublk_device *ub = ubq->dev;
  
  		if (ublk_abort_requests(ub, ubq)) {
--			if (ublk_nosrv_should_stop_dev(ub))
--				schedule_work(&ub->stop_work);
--			else
+-			if (ublk_can_use_recovery(ub))
 -				schedule_work(&ub->quiesce_work);
-+			schedule_work(&ub->nosrv_work);
+-			else
++			if (ublk_nosrv_should_stop_dev(ub))
+ 				schedule_work(&ub->stop_work);
++			else
++				schedule_work(&ub->quiesce_work);
  		}
  		return BLK_EH_DONE;
  	}
-@@ -1514,10 +1510,7 @@ static void ublk_uring_cmd_cancel_fn(struct io_uring_cmd *cmd,
+@@ -1271,7 +1293,7 @@ static blk_status_t ublk_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	 * Note: force_abort is guaranteed to be seen because it is set
+ 	 * before request queue is unqiuesced.
+ 	 */
+-	if (ublk_queue_can_use_recovery(ubq) && unlikely(ubq->force_abort))
++	if (ublk_nosrv_should_queue_io(ubq) && unlikely(ubq->force_abort))
+ 		return BLK_STS_IOERR;
+ 
+ 	if (unlikely(ubq->canceling)) {
+@@ -1492,10 +1514,10 @@ static void ublk_uring_cmd_cancel_fn(struct io_uring_cmd *cmd,
  	ublk_cancel_cmd(ubq, io, issue_flags);
  
  	if (need_schedule) {
--		if (ublk_nosrv_should_stop_dev(ub))
--			schedule_work(&ub->stop_work);
--		else
+-		if (ublk_can_use_recovery(ub))
 -			schedule_work(&ub->quiesce_work);
-+		schedule_work(&ub->nosrv_work);
+-		else
++		if (ublk_nosrv_should_stop_dev(ub))
+ 			schedule_work(&ub->stop_work);
++		else
++			schedule_work(&ub->quiesce_work);
  	}
  }
  
-@@ -1580,20 +1573,6 @@ static void __ublk_quiesce_dev(struct ublk_device *ub)
- 	ub->dev_info.state = UBLK_S_DEV_QUIESCED;
- }
- 
--static void ublk_quiesce_work_fn(struct work_struct *work)
--{
--	struct ublk_device *ub =
--		container_of(work, struct ublk_device, quiesce_work);
--
--	mutex_lock(&ub->mutex);
--	if (ub->dev_info.state != UBLK_S_DEV_LIVE)
--		goto unlock;
--	__ublk_quiesce_dev(ub);
-- unlock:
--	mutex_unlock(&ub->mutex);
--	ublk_cancel_dev(ub);
--}
--
- static void ublk_unquiesce_dev(struct ublk_device *ub)
- {
+@@ -1600,7 +1622,7 @@ static void ublk_stop_dev(struct ublk_device *ub)
+ 	mutex_lock(&ub->mutex);
+ 	if (ub->dev_info.state == UBLK_S_DEV_DEAD)
+ 		goto unlock;
+-	if (ublk_can_use_recovery(ub)) {
++	if (ublk_nosrv_dev_should_queue_io(ub)) {
+ 		if (ub->dev_info.state == UBLK_S_DEV_LIVE)
+ 			__ublk_quiesce_dev(ub);
+ 		ublk_unquiesce_dev(ub);
+@@ -2701,7 +2723,7 @@ static int ublk_ctrl_start_recovery(struct ublk_device *ub,
  	int i;
-@@ -1642,6 +1621,25 @@ static void ublk_stop_dev(struct ublk_device *ub)
- 	ublk_cancel_dev(ub);
- }
  
-+static void ublk_nosrv_work(struct work_struct *work)
-+{
-+	struct ublk_device *ub =
-+		container_of(work, struct ublk_device, nosrv_work);
-+
-+	if (ublk_nosrv_should_stop_dev(ub)) {
-+		ublk_stop_dev(ub);
-+		return;
-+	}
-+
-+	mutex_lock(&ub->mutex);
-+	if (ub->dev_info.state != UBLK_S_DEV_LIVE)
-+		goto unlock;
-+	__ublk_quiesce_dev(ub);
-+ unlock:
-+	mutex_unlock(&ub->mutex);
-+	ublk_cancel_dev(ub);
-+}
-+
- /* device can only be started after all IOs are ready */
- static void ublk_mark_io_ready(struct ublk_device *ub, struct ublk_queue *ubq)
- {
-@@ -2155,14 +2153,6 @@ static int ublk_add_chdev(struct ublk_device *ub)
- 	return ret;
- }
- 
--static void ublk_stop_work_fn(struct work_struct *work)
--{
--	struct ublk_device *ub =
--		container_of(work, struct ublk_device, stop_work);
--
--	ublk_stop_dev(ub);
--}
--
- /* align max io buffer size with PAGE_SIZE */
- static void ublk_align_max_io_size(struct ublk_device *ub)
- {
-@@ -2187,8 +2177,7 @@ static int ublk_add_tag_set(struct ublk_device *ub)
- static void ublk_remove(struct ublk_device *ub)
- {
- 	ublk_stop_dev(ub);
--	cancel_work_sync(&ub->stop_work);
--	cancel_work_sync(&ub->quiesce_work);
-+	cancel_work_sync(&ub->nosrv_work);
- 	cdev_device_del(&ub->cdev, &ub->cdev_dev);
- 	ublk_put_device(ub);
- 	ublks_added--;
-@@ -2448,8 +2437,7 @@ static int ublk_ctrl_add_dev(struct io_uring_cmd *cmd)
+ 	mutex_lock(&ub->mutex);
+-	if (!ublk_can_use_recovery(ub))
++	if (ublk_nosrv_should_stop_dev(ub))
  		goto out_unlock;
- 	mutex_init(&ub->mutex);
- 	spin_lock_init(&ub->lock);
--	INIT_WORK(&ub->quiesce_work, ublk_quiesce_work_fn);
--	INIT_WORK(&ub->stop_work, ublk_stop_work_fn);
-+	INIT_WORK(&ub->nosrv_work, ublk_nosrv_work);
+ 	if (!ub->nr_queues_ready)
+ 		goto out_unlock;
+@@ -2754,7 +2776,7 @@ static int ublk_ctrl_end_recovery(struct ublk_device *ub,
+ 			__func__, ub->dev_info.nr_hw_queues, header->dev_id);
  
- 	ret = ublk_alloc_dev_number(ub, header->dev_id);
- 	if (ret < 0)
-@@ -2584,9 +2572,7 @@ static inline void ublk_ctrl_cmd_dump(struct io_uring_cmd *cmd)
- static int ublk_ctrl_stop_dev(struct ublk_device *ub)
- {
- 	ublk_stop_dev(ub);
--	cancel_work_sync(&ub->stop_work);
--	cancel_work_sync(&ub->quiesce_work);
--
-+	cancel_work_sync(&ub->nosrv_work);
- 	return 0;
- }
+ 	mutex_lock(&ub->mutex);
+-	if (!ublk_can_use_recovery(ub))
++	if (ublk_nosrv_should_stop_dev(ub))
+ 		goto out_unlock;
  
+ 	if (ub->dev_info.state != UBLK_S_DEV_QUIESCED) {
 -- 
 2.34.1
 
