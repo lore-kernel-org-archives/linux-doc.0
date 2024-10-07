@@ -1,59 +1,61 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1ED91D9586
-	for <linux-doc@vger.kernel.org>; Mon,  7 Oct 2024 15:45:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892801D9677
+	for <linux-doc@vger.kernel.org>; Mon,  7 Oct 2024 15:45:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728315949; cv=none; b=qKgWkspNQNslkOtMLoplh0iWbSw9+/Xk8Ou6bdCSOoYeglderNdWY2PXerAkbL0Tlio9vyFhbc9QzmVROK06Opc01PopjMcLwtIcZ8CKuhGJ0o4ERl82AXV018wE4EegjBc4zKfNfMSkBpsvYoqfru85iUbygOcziLbhAL4rY3k=
+	t=1728315949; cv=none; b=tRWTi+WWqafFrBt6nZL6S2uSuFVQpunOr7GQwm+IcLn82r2yVOeURPvy3yg04Fg/PufPqK1KeDtyo89wRmltbPjrGRb59eQISdawMmiH/k4O54jLthty5Nvh2h0Z9Igt5O+m9pBaqLMrekrlqL1FC9Ok7YFlnUAoXUT+SZSIJtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1728315949; c=relaxed/simple;
-	bh=adjIKONqQldQq+nYfRFYqYIa4peg7k+DD94EtLL12aY=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hEiwPqVvNLtTZhjsMbf6apBLEedsy5j7GQvDb8GaCZ8Eh7a+vAQwhrwTVIFuW7m/5JO2UA5AdJq5pLxbzNnRtsllPcmxkZ/HbdNbRW8pel+dGZNMsX2L9xLzXw3Uk+Mke9InK/NHCNu2ja7AzgG+yOvT1+F0wDlbe5KWb96kuuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=WgL9y4oP; arc=none smtp.client-ip=209.85.221.49
+	bh=+4xKkJnQqVu7uiiyn2Kxt0tvZkLS+cNdyJZUR5y0ym0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=ckOKrmfeO3/IR4QdCBoqHCMWgusflIn5FTuef079KNzHx4zw6sAO0EDLihHq8tOLZMI5EW+LxLGXdn0/Hp7onEzQJvWVNx4iGd+J5NRbVIH5t1raqRX5J5MPp9JeqhiJlK/TjAdzBNMlIZW9jeYVp+GBNbabzRJBYWmrs9d2mkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=KDOt4GXg; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="WgL9y4oP"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-37d1eda8c7cso916567f8f.3
-        for <linux-doc@vger.kernel.org>; Mon, 07 Oct 2024 08:45:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="KDOt4GXg"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-42cb7a2e4d6so46740785e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 07 Oct 2024 08:45:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1728315944; x=1728920744; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IebLd9pybc2nbLozfLLDXz3gBz/LDqnDpQAr15l89v0=;
-        b=WgL9y4oPhVU5CU2XRqENuOYDGZx91sIqy10aYAOdQfDY3RAKMGiNU7Z+r6hAaNpaWT
-         bgTQQ6g4+JFyn/2PngLEMpYbJA2HBdleUsuHshZC8PnbBETWjvKic5YWoxOrz07E6lWi
-         OUJTh9Ho6JniWBR948uP3g90DuziHpXZqqyhBHFGZqJQWiFnnKqfrAsNbsP1HYHaHlBN
-         q/31zIW+++dp9XHheuFEhqRrSrEOD8LEwDjF9gGyFbmWVsiz1LWsl7IiUJ7AW/dVUUbS
-         kS+ac37+K/SRbw+dhucBbKnF3KIm0r7HwlG8bEnBdmadJoqxZwGbCGuBmZW6aYtPujun
-         d3nQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728315944; x=1728920744;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1728315946; x=1728920746; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=IebLd9pybc2nbLozfLLDXz3gBz/LDqnDpQAr15l89v0=;
-        b=iW7FeY3SfDyKul6Az/a5pDHPgOoHLuvaViMds7g88IFtiwoL7gTNoh27YW+yMjs1Pm
-         7vdVGdjI/5Z6Iyrf5qOvVn89b/PSYF0Cm1cV8gFipm0dsAqT3ojTWqFnx3I5QP77ZBqj
-         GmVfApamNLhYTnaCXpf3oAV31ZHBIcnP/DnuP7HeT4VENeLCQ4SVEqtZ1NYr48ziKaqE
-         K30Fm63vpA9GV/Cw8REVAGgSO9ZtnaJw0nrcJt9ETEwmdc8wtAtm6iqjhe67bnptFCHv
-         eCC0gTTKXjpwsyQw7Mgu7xofDofAi50EUI8sM1XRvluKKAPTq5scPKUz4qLLY7e4NuE4
-         frMA==
-X-Forwarded-Encrypted: i=1; AJvYcCXR4xXHLePltkrOGvjsMs9fEVH+DQ3VL3j55+qye0jO8pK5sW5ClyetJmbsi798T5rMkfejAKvixAE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0MTafn2kUlt+xG7PW8K9m83ISRLmbcbhqE0Mr4NHaKF5mOdmi
-	t9FyO7B9reKlDBb3ZFX4YFt/R62ejIRdsLUhm8jBCrF0KIy+cvzqkF/mnpuw390=
-X-Google-Smtp-Source: AGHT+IG4xZiJ9Dxrm/XmWrYjYFc2ltp0HZl/BJIa/shgIDu3Ewcr2gbsH0yy3XGYqB+hqg8efWUjYA==
-X-Received: by 2002:adf:f306:0:b0:37c:d526:9bb0 with SMTP id ffacd0b85a97d-37d0e76575dmr6868032f8f.35.1728315944069;
-        Mon, 07 Oct 2024 08:45:44 -0700 (PDT)
+        bh=2N3r/AZHZIBAky01wN9j8Ij5Fk065LyhFYbUy+uaF2c=;
+        b=KDOt4GXgmNLILzBh1cFROmBEVG9oAAMjjZK+f0JDkzsPDoBJDzRNvg40zhWtYQsIzP
+         5+WFjMb/Wy5h5+hid0D1saH0bmtub0PJtYBwTQtCS1ND+dYfvRwftff0kds/cKnsaYiQ
+         xBlPPv2y46M213YLK9fKLlljUCEdzG9t2DGg+ftWxBqiyjdn7DOTicV7lird1mNBYrhR
+         3wIYX8bi19QcqZi2mDSI1onnZ/pTdxSGY8FUuCscse6GMkuLvpyfDPLF4Iu2trbzDAsf
+         +/FzKRq0SWd4PQtWdxc3bnF/QR7UvgW5zUGWRHyOAU8yAimxVhZRCcsR0Ol7iCRiwakN
+         c6Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728315946; x=1728920746;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2N3r/AZHZIBAky01wN9j8Ij5Fk065LyhFYbUy+uaF2c=;
+        b=CePbjmAgTe5ULBhtwU4eVH0SYlBQBPWtu3mjb+JLkwlwD8N1mSakv2b5TD0odn/RzY
+         nIxfs0GwKLljDfquA6/qWGqwxkRzSqiHw0qiIndQbEh1/rGsrSuatO+YdB0otS+++E8c
+         uCEMsdEynVKOsEFtYXHi/TLI3JxH3xzzAdNvnIY/xCdbqgVjOsPMMlA2UEzrMO9d0Cn6
+         Q6PgGiVKPbz7QBFzlPFts03uFTUBQDDxVQg4plpBH/7OSC8Wjc+rSlhz76cI4y6OPaYB
+         tZ1jiIb+ILcmV479RDugwE8FBV9xAHK8cjz5Ng0c60iTeCeseudlyxbMxjwkkStWZBcx
+         nt/A==
+X-Forwarded-Encrypted: i=1; AJvYcCUQupzj6+WsTx2sCM6ccxRwr28O1kG97WnrBs/MiVsOkS2DMAf9lPQcLg8r7sRTHoUpOdPgbBXStdE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/lDgqqZ8FSzR07q4e+5EQqvWdyzM0xX2twXzNDwIn9ufTxb97
+	PdHS2QQpGXRnTj/uJItjOl7yBw/C25VeMohFQFb5rINWC/yvLdVLhBPbh7W7q2U=
+X-Google-Smtp-Source: AGHT+IEDWpQdUChMZda2za516f28LSsRDgkuitm2dp+DyXfGHYdrbMiUC8uCMuYFEG24q7l2cl7vCQ==
+X-Received: by 2002:a05:600c:468f:b0:42c:af06:718 with SMTP id 5b1f17b1804b1-42f85aea086mr90117135e9.28.1728315945926;
+        Mon, 07 Oct 2024 08:45:45 -0700 (PDT)
 Received: from [192.168.1.64] (2a02-842a-d52e-6101-6fd0-06c4-5d68-f0a5.rev.sfr.net. [2a02:842a:d52e:6101:6fd0:6c4:5d68:f0a5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f9384f648sm17645555e9.20.2024.10.07.08.45.43
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f9384f648sm17645555e9.20.2024.10.07.08.45.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Oct 2024 08:45:43 -0700 (PDT)
+        Mon, 07 Oct 2024 08:45:45 -0700 (PDT)
 From: Julien Stephan <jstephan@baylibre.com>
-Subject: [PATCH 0/6] iio: adc: ad7380: fix several supplies issues
-Date: Mon, 07 Oct 2024 17:45:43 +0200
-Message-Id: <20241007-ad7380-fix-supplies-v1-0-badcf813c9b9@baylibre.com>
+Date: Mon, 07 Oct 2024 17:45:45 +0200
+Subject: [PATCH 2/6] dt-bindings: iio: adc: ad7380: fix ad7380-4 reference
+ supply
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,9 +64,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIACcCBGcC/x2MQQqAIBAAvxJ7bkGzMvpKdJDcaiFKlCIQ/97Sc
- RhmMiSKTAnGKkOkhxNfp4CuK1h2d26E7IWhUU2rlWrReWsGhSu/mO4QDonR9NaavlvWwTmQMkQ
- S/1+nuZQPlvh6lGUAAAA=
+Message-Id: <20241007-ad7380-fix-supplies-v1-2-badcf813c9b9@baylibre.com>
+References: <20241007-ad7380-fix-supplies-v1-0-badcf813c9b9@baylibre.com>
+In-Reply-To: <20241007-ad7380-fix-supplies-v1-0-badcf813c9b9@baylibre.com>
 To: Lars-Peter Clausen <lars@metafoo.de>, 
  Michael Hennerich <Michael.Hennerich@analog.com>, 
  =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
@@ -78,37 +80,58 @@ Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
  Julien Stephan <jstephan@baylibre.com>
 X-Mailer: b4 0.14.1
 
-Hello,
+ad7380-4 is the only device from ad738x family that doesn't have an
+internal reference. Moreover its external reference is called REFIN in
+the datasheet while all other use REFIO as an optional external
+reference. If refio-supply is omitted the internal reference is
+used.
 
-This series tries to fix several issues found on the ad7380 driver about
-supplies:
+Fix the binding by adding refin-supply and makes it required for
+ad7380-4 only.
 
-- vcc and vlogic are required, but are not retrieved and enabled in the
-probe function
-- ad7380-4 is the only device from the family that does not have internal
-reference and uses REFIN instead of REFIO for external reference.
-
-driver, bindings, and doc are fixed accordingly
-
+Fixes: 1a291cc8ee17 ("dt-bindings: iio: adc: ad7380: add support for ad738x-4 4 channels variants")
 Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 ---
-Julien Stephan (6):
-      dt-bindings: iio: adc: ad7380: remove voltage reference for supplies
-      dt-bindings: iio: adc: ad7380: fix ad7380-4 reference supply
-      iio: adc: ad7380: use devm_regulator_get_enable_read_voltage()
-      iio: adc: ad7380: add missing supplies
-      iio: adc: ad7380: fix supplies for ad7380-4
-      docs: iio: ad7380: fix supply for ad7380-4
+ .../devicetree/bindings/iio/adc/adi,ad7380.yaml        | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
- .../devicetree/bindings/iio/adc/adi,ad7380.yaml    |  32 +++--
- Documentation/iio/ad7380.rst                       |  13 +-
- drivers/iio/adc/ad7380.c                           | 136 ++++++++++++---------
- 3 files changed, 110 insertions(+), 71 deletions(-)
----
-base-commit: 8bea3878a1511bceadc2fbf284b00bcc5a2ef28d
-change-id: 20241004-ad7380-fix-supplies-3677365cf8aa
+diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
+index 72c51b3de97b..74d82721637c 100644
+--- a/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
++++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
+@@ -58,6 +58,7 @@ properties:
+   vcc-supply: true
+   vlogic-supply: true
+   refio-supply: true
++  refin-supply: true
+ 
+   aina-supply:
+     description:
+@@ -127,6 +128,23 @@ allOf:
+         ainc-supply: false
+         aind-supply: false
+ 
++  # ad7380-4 uses refin-supply as external reference.
++  # All other chips from ad738x family use refio as optional external reference.
++  # When refio-supply is omitted, internal reference is used.
++  - if:
++      properties:
++        compatible:
++          enum:
++            - adi,ad7380-4
++    then:
++      properties:
++        refio-supply: false
++      required:
++        - refin-supply
++    else:
++      properties:
++        refin-supply: false
++
+ examples:
+   - |
+     #include <dt-bindings/interrupt-controller/irq.h>
 
-Best regards,
 -- 
-Julien Stephan <jstephan@baylibre.com>
+2.46.0
 
