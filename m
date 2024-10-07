@@ -1,129 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F386315D5C1;
-	Mon,  7 Oct 2024 10:58:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 006DA2AD05;
+	Mon,  7 Oct 2024 11:09:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728298714; cv=none; b=jwJnNg5UFPdwvncNbgOHpU3ge8MnLePNH36mNBmYPLDggaqB9IT8bqjihmIFsdr5KXyjsX0mx4uSFYtFuKLPIlKr1f4AwljXKeq8P3ta/lVcf9uPMSUGDYTmmbJLaqkhOQNejJk0wpQTg4am/SD+QuWHtlXUmDGDo0CY65H3Cn8=
+	t=1728299394; cv=none; b=ARG1/BNh4aFWe4XZLIMuDA5DzAgYLiqzMYGlbCNYzm08BdLtyPl5l5jcDrWIQNBPFY71paBpof1Ix2HLLQOZO3lTlv/JWCHePHx5dmHKPwRFRNbBM5BPtjKzUHbO6F2ynqOL+Js7ipTACG+/lClahX7/GJv6enDfLpM9xTkB8R0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728298714; c=relaxed/simple;
-	bh=2GHIYkn8cRFjuA6UoXjds38baJgePZQPA32Pa4pACIs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lRDly8FY6G9BuBtQstwR5mm4mJtcBabfECSTlYEtxqE1Uv96++qT8p1FEvkiQLz0f7EEMKYB01BCaCk8Kfrrp7ZhTPc74i6jT5TO5ixuf3VGwXTC8Baf7HvZGQXZ/JOqeEWohuJnTZvMnJSNTd/Ia7oAmWxr9aASZNiiBluOXvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xo6a7QoP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728299394; c=relaxed/simple;
+	bh=5wbY/RQk+dZVFTuD2NZblqMNoawXgnQwA7gGNgkOd8A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H+pQd1DEsLqwMGCgYZtX1kR4aR/txCQRcLpFjTerg7fqetNwRTcdmIf7pWkeh1DRS0v1+EKYI7SWdBIf8Bxkto4u0n0ZOEU/N8dSplYjg4Ch0XlRp28jOoAm33lKtjcvvuLI2qkID4cLCR4GaCaOc4CpbZByLkj6e1jO9/tB4Ws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XOrGhj8L; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xo6a7QoP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69F3CC4CECF;
-	Mon,  7 Oct 2024 10:58:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728298713;
-	bh=2GHIYkn8cRFjuA6UoXjds38baJgePZQPA32Pa4pACIs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Xo6a7QoPaAsdhkEDock0VKt30RgKQGDYB55iSjs8d7YTjilKAWw7i3RESilp0cQmJ
-	 RkjDVaYeEP4FP9Um0SKIfeDcDl7H+Fi+NhKi0FBYdFB987Lxfsc/g9l1JNp8UGKwMc
-	 Fw4+iKLZ4j5+PeS1HlhU82WbFMjMgy9PbJI3nNlnMDRZI+xMrTIf9oliBkKKNKIEUV
-	 3iQt4cjUHMHjHCiQn6OAZh2AOaoIPFY3DYE1VAJSG1MGdziqr64pvzgt8d9LGQCH6l
-	 6Yp4ik5VqzQOvKusiZPsiQyiGE/GDJ+EKPs8F/8xOnQ5XAM59NbuIRCxgjag482bXQ
-	 /nWr7X/hM+SpQ==
-From: Christian Brauner <brauner@kernel.org>
-To: Thomas Gleixner <tglx@linutronix.de>,
-	Jeff Layton <jlayton@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-btrfs@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-mm@kvack.org,
-	John Stultz <jstultz@google.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Chandan Babu R <chandan.babu@oracle.com>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Chris Mason <clm@fb.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	David Sterba <dsterba@suse.com>,
-	Hugh Dickins <hughd@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Subject: Re: (subset) [PATCH v10 00/12] timekeeping/fs: multigrain timestamp redux
-Date: Mon,  7 Oct 2024 12:58:21 +0200
-Message-ID: <20241007-restlaufzeit-birnen-2f412852441e@brauner>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241002-mgtime-v10-0-d1c4717f5284@kernel.org>
-References: <20241002-mgtime-v10-0-d1c4717f5284@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XOrGhj8L"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2e07d85e956so3490983a91.3;
+        Mon, 07 Oct 2024 04:09:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728299392; x=1728904192; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cqk+8hebPA4ti95Da2Yr/B6Svo5BcjtL6Vb/SKjC1tw=;
+        b=XOrGhj8LR7V9F4d1Q5IBuc/XwVor9r4PhtQxjhCO9goEqDRjtauFysLMNGZGTpxtsk
+         E19BXmL5jHv5w9DrQ4faOcgWjSALMBMOYDlxVcKkb2i8gLqmJaI55F8l/L0jh5uVk7dq
+         YMUxMRJnQhfGZYxU6JCwGXdmWapW+z82rdoPV76L8xb9D3PentVjeSr+BO1BaOmdhDQY
+         4INDwn1mEN40nI9QSGB4RdPooK1vuOogECGczg+xR4aD6IhMhOtv8HqqxJMqwhL20Gj9
+         Z4gdMojx32mvFInnkb1HVWG4xDZN0q27MgZhP1pZGiaCn5Q0rwO4awr683FRtoYAtWY/
+         Giow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728299392; x=1728904192;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cqk+8hebPA4ti95Da2Yr/B6Svo5BcjtL6Vb/SKjC1tw=;
+        b=ubFwaS4Vm1BpKrhVMRUIqgMKS32lEtOS0LCt5i0nuU1ToWprcOEBTLaDpicYCEj44k
+         jlaaI57VjqjvBmyWTFgNKRlN4m3bZ9CF285REgyk4un2wIOcK3r0tQ3DeRTgCz0cSTBM
+         uNAlVhRrOfBIkblNI5O8xWpkuuUubgpcFcH8lJFISpYhKzh6TxJp3UhbDo408mQvWL0r
+         NbEechxi7oc3NYN7YVK9YI41f3iyMqxRAzZVJI/udLGjn581NHBJBIvLcuyjBq0jMXeu
+         wdenURhyAAgzaEOZTLKN2adFmuu++gcnt/F5tT/KZnDrXrXckxWyfXmWnwWnFaAjNL9M
+         pGKg==
+X-Forwarded-Encrypted: i=1; AJvYcCV1RkHReYkCV1MOwwj++V/garPHDLEUkdPwJ1JqZI6brotOSE4sEi7VDlO1iUfQzEHR+2X/ZR+Rj3c=@vger.kernel.org, AJvYcCWuNBcC0Or/gEH2a/iDjuLHf2idsGKSiVK/BXwrCXQzv5Ixe5CxD2C/1JdsLAemLNPp5ZacQF1E@vger.kernel.org
+X-Gm-Message-State: AOJu0YwRnNTkU6wRxFu+PjsE4fISqw5oobi65PeU5/4dv+paG6gzuzNA
+	ab6HElXeH1FrDWWIHUW/WKuXOPoAaWziOe5aLaATM3QcdQ63ydNY
+X-Google-Smtp-Source: AGHT+IH1i/YLuuYzyJRautzgLh1IeiNrFLRhSMUkMmzG3WVXdLa7AlCZLM4wJywivW5iMKi0OsFxGA==
+X-Received: by 2002:a17:90a:e7c7:b0:2e0:9b59:c0d0 with SMTP id 98e67ed59e1d1-2e1e63e3315mr10767696a91.41.1728299391946;
+        Mon, 07 Oct 2024 04:09:51 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e20b12e245sm5046992a91.52.2024.10.07.04.09.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Oct 2024 04:09:51 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id D22464422BC6; Mon, 07 Oct 2024 18:09:45 +0700 (WIB)
+Date: Mon, 7 Oct 2024 18:09:45 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Donald Hunter <donald.hunter@gmail.com>, netdev@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Cc: donald.hunter@redhat.com
+Subject: Re: [PATCH net-next v3] doc: net: Fix .rst rendering of
+ net_cachelines pages
+Message-ID: <ZwPBeSnyNyaYCDql@archie.me>
+References: <20241006113536.96717-1-donald.hunter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2375; i=brauner@kernel.org; h=from:subject:message-id; bh=2GHIYkn8cRFjuA6UoXjds38baJgePZQPA32Pa4pACIs=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaQz7zt3ROG96vKmhmAJRb2iW0lPrWYvcrN65X025sO3H TIF+Vq3O0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACZSuo7hD++GxO7jd4sfeZ2Y e2VOTlbbRvlo2xPWddtPcQQeKVu3dBrDP+O0xuMVC6u2NJnKzzd25XLIvFWufkOs6q/e5LaD4Z3 LWQE=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Fz7Re0cZD2nr0VQd"
+Content-Disposition: inline
+In-Reply-To: <20241006113536.96717-1-donald.hunter@gmail.com>
 
-On Wed, 02 Oct 2024 17:27:15 -0400, Jeff Layton wrote:
-> This is a replacement for the v6 series sitting in Christian's
-> vfs.mgtime branch. The main changes here are to the changelogs,
-> documentation and comments. I've also moved the timekeeping patches to
-> the front of the series, and done some minor cleanups.
-> 
-> The pipe1_threads test shows these averages on my test rig with this
-> series:
-> 
-> [...]
 
-I've merged the tag that Thomas provided with the time specific changes and
-pulled the remaining patches - excluding 01/12 and 02/12.
+--Fz7Re0cZD2nr0VQd
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
----
+On Sun, Oct 06, 2024 at 12:35:36PM +0100, Donald Hunter wrote:
+> The doc pages under /networking/net_cachelines are unreadable because
+> they lack .rst formatting for the tabular text.
+>=20
+> Add simple table markup and tidy up the table contents:
+>=20
+> - remove dashes that represent empty cells because they render
+>   as bullets and are not needed
+> - replace 'struct_*' with 'struct *' in the first column so that
+>   sphinx can render links for any structs that appear in the docs
+>=20
 
-Applied to the vfs.mgtime branch of the vfs/vfs.git tree.
-Patches in the vfs.mgtime branch should appear in linux-next soon.
+The doc LGTM, thanks!
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+--=20
+An old man doll... just what I always wanted! - Clara
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+--Fz7Re0cZD2nr0VQd
+Content-Type: application/pgp-signature; name="signature.asc"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.mgtime
+-----BEGIN PGP SIGNATURE-----
 
-[03/12] fs: add infrastructure for multigrain timestamps
-        https://git.kernel.org/vfs/vfs/c/4e40eff0b573
-[04/12] fs: have setattr_copy handle multigrain timestamps appropriately
-        https://git.kernel.org/vfs/vfs/c/b82f92d5dd1a
-[05/12] fs: handle delegated timestamps in setattr_copy_mgtime
-        https://git.kernel.org/vfs/vfs/c/d8d11298e8a1
-[06/12] fs: tracepoints around multigrain timestamp events
-        https://git.kernel.org/vfs/vfs/c/a80f53809ccc
-[07/12] fs: add percpu counters for significant multigrain timestamp events
-        https://git.kernel.org/vfs/vfs/c/7b1aba010c47
-[08/12] Documentation: add a new file documenting multigrain timestamps
-        https://git.kernel.org/vfs/vfs/c/95c6907be544
-[09/12] xfs: switch to multigrain timestamps
-        https://git.kernel.org/vfs/vfs/c/0f4865448420
-[10/12] ext4: switch to multigrain timestamps
-        https://git.kernel.org/vfs/vfs/c/e44ab3151adc
-[11/12] btrfs: convert to multigrain timestamps
-        https://git.kernel.org/vfs/vfs/c/0d4f9f7ad685
-[12/12] tmpfs: add support for multigrain timestamps
-        https://git.kernel.org/vfs/vfs/c/cba2a92eff80
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZwPBdAAKCRD2uYlJVVFO
+ozwGAP4/coDHQrhUmkSBHDX0x/ec0iWraLQ4QnxbZyScSTQI0wD/R+sYJci4t5sh
+hHySaerPFQQ3WpA5aG/PnaXlWbBPegg=
+=Zt80
+-----END PGP SIGNATURE-----
+
+--Fz7Re0cZD2nr0VQd--
