@@ -1,141 +1,192 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtpout.efficios.com (smtpout.efficios.com [167.114.26.122])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752AD1D8A09;
-	Mon,  7 Oct 2024 15:04:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 411A11D90D3;
+	Mon,  7 Oct 2024 15:07:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=167.114.26.122
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728313488; cv=none; b=YArSBYi7+pig4G3Og8tT+2NBzsVSAEpy9xx7xiZ1XUc8JVons9xZ1UGpIJE3/j914BppM6gVsBKbbYHfYVq2I4Ad1R/AhvMt9hgYGxbdz90JKzCszyVY5tTgihMLxLT350m/f4F4SCSSWni7RrxYHZlRVRyc3hn+gKgfweOdJnQ=
+	t=1728313623; cv=none; b=BIKPmbCDIAIJDlHak693IcJdq+yxhb8dtbQjo7SIiTwydRPUGDOI70BnIKH58JK13h8Dz3/7nMGTjwWuFGUlSPK1tzfG4N/aL6KtTdqhAVb+DlD5ufZIhuollKs8O7VEZw97rASfCHnrBxJVEQ/wcgAXFxpAIN4tajQ9Lq3YNhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728313488; c=relaxed/simple;
-	bh=d24Hu2RJOoM40sVPPDRXUIVnKIl8dW596VcFY5jbpTE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YNCq358VpYUb89ucK86MjvP+ekiUqTGdIJnZ7mf40ILX3UbMEzGzRhAgLOBbunI9rZXWQUqbv1KG01tM50TCuETcXD98qw9jNczT5Ooie5nbU+yigG3am1Aod88YfsXOd3fOn0TfRg/2XwWJ8LMeEH05UudGliTpUfYBRGNcnTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yl6pZo6W; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1728313623; c=relaxed/simple;
+	bh=r1rEb4BcGluwlHstvi+nWxFz5xLpAXRmZnsaTQauCkY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DJ7cl9r9MWv0Ly0tbjyPIyN+CnyJtPqcqhki4ftsXiixcRI9Eo998Ori6ce2YJIqQnchVrH6T/UW7uV5POSGFUUvurGmZmR8ndAovynqY/zNYDFpoB5NVRmzO+tNC6+J6624crUPp7X9v+YG8yVtShjxvUWpy9VPovZo+o41/lo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com; spf=pass smtp.mailfrom=efficios.com; dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b=rWkyGSYF; arc=none smtp.client-ip=167.114.26.122
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yl6pZo6W"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728313488; x=1759849488;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=d24Hu2RJOoM40sVPPDRXUIVnKIl8dW596VcFY5jbpTE=;
-  b=Yl6pZo6W8+StlTvz7iQIIJW303bVBCXFcJArqMJpshf4oFQ02cuRmSVv
-   onJSIMB0P9fCrXVWemBhqy0+voY1eSJQNmhUpWoWKoe8C61twxpTkRdgA
-   i+pV81/wpNW9sGnz1bLhHBwC7S2gOpZpDG/xrxieI8m4uZrK2X/xX7x8B
-   Gix8RD9jVXyKyGsFmhZqbPRpUVwPIDwPGW8n62JPhYay2C4/HqCc7Lt2+
-   VmFf9aPM+nLufUfDMs5gX+cYFW/Z7IwyOhmmf9evIbaBgZQkRysqDZlvP
-   RrJ9fovhJxVKucLAAVmSt5DiceuHwbNKIYc/+1x4vFDNBhd6HaHXLFiRY
-   A==;
-X-CSE-ConnectionGUID: T6D2K7RPSZG0uBlkoCXZrA==
-X-CSE-MsgGUID: 0NrZLHG9TDy9Q/lCyvgPeQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="27559144"
-X-IronPort-AV: E=Sophos;i="6.11,184,1725346800"; 
-   d="scan'208";a="27559144"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 08:04:45 -0700
-X-CSE-ConnectionGUID: IZsAPazmTzyPIPiev799Pw==
-X-CSE-MsgGUID: PoEoj8fQRWKIt4zqY8rZVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,184,1725346800"; 
-   d="scan'208";a="106342482"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa002.jf.intel.com with ESMTP; 07 Oct 2024 08:04:44 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id DC58227C; Mon, 07 Oct 2024 18:04:41 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dmaengine@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Vinod Koul <vkoul@kernel.org>
-Subject: [PATCH v1 1/3] dmaengine: acpi: Drop unused devm_acpi_dma_controller_free()
-Date: Mon,  7 Oct 2024 18:03:23 +0300
-Message-ID: <20241007150436.2183575-2-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
-In-Reply-To: <20241007150436.2183575-1-andriy.shevchenko@linux.intel.com>
-References: <20241007150436.2183575-1-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b="rWkyGSYF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
+	s=smtpout1; t=1728313619;
+	bh=r1rEb4BcGluwlHstvi+nWxFz5xLpAXRmZnsaTQauCkY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=rWkyGSYF70MdtnVehW6FBtpNIYFy9k6IVdj66SP1lBOuIi9NBlqdoHQocQgzbC6zO
+	 odM4YO9SgTV6A9OilOfrlU20IND6EiyIFW4EZjAujSZLpbGjEVcsOvzxweckFFODFL
+	 kmnTFec/qoPH/yia06SSkpKrNEUj+UTuCFfizRRycoYFcRW1Kx2tHCrMupweo6bnQ/
+	 mWxnppFiwX+pYJs+vR0HQbnT8DRzVPjGtbQXbjNTZzit6gXlFpBzVcAw66Zlenb/r1
+	 jMKOw2k+Dp9BEsLf8ajwfr5eeSST9uFXtQO1i+TT4xTI611VcYFuk+qVoG2qmpLAtZ
+	 P4a/D2KjwXnBQ==
+Received: from [172.16.0.134] (96-127-217-162.qc.cable.ebox.net [96.127.217.162])
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4XMjDL45V4z3rf;
+	Mon,  7 Oct 2024 11:06:58 -0400 (EDT)
+Message-ID: <f5c749d3-e3ec-4463-9dc2-690b9b719315@efficios.com>
+Date: Mon, 7 Oct 2024 11:05:01 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 4/4] sched+mm: Use hazard pointers to track lazy
+ active mm existence
+To: kernel test robot <oliver.sang@intel.com>
+Cc: oe-lkp@lists.linux.dev, lkp@intel.com, Nicholas Piggin
+ <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Will Deacon <will@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Alan Stern <stern@rowland.harvard.edu>, John Stultz <jstultz@google.com>,
+ Neeraj Upadhyay <Neeraj.Upadhyay@amd.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ Josh Triplett <josh@joshtriplett.org>, Uladzislau Rezki <urezki@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Lai Jiangshan
+ <jiangshanlai@gmail.com>, Zqiang <qiang.zhang1211@gmail.com>,
+ Ingo Molnar <mingo@redhat.com>, Waiman Long <longman@redhat.com>,
+ Mark Rutland <mark.rutland@arm.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Vlastimil Babka <vbabka@suse.cz>, Mateusz Guzik <mjguzik@gmail.com>,
+ Jonas Oberhauser <jonas.oberhauser@huaweicloud.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-mm@kvack.org, maged.michael@gmail.com,
+ rcu@vger.kernel.org, lkmm@lists.linux.dev
+References: <202410072229.18756716-oliver.sang@intel.com>
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Content-Language: en-US
+In-Reply-To: <202410072229.18756716-oliver.sang@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-After introduction a few years ago the devm_acpi_dma_controller_free()
-was never used. Drop it.
+On 2024-10-07 16:50, kernel test robot wrote:
+> 
+> 
+> Hello,
+> 
+> kernel test robot noticed "BUG:using_smp_processor_id()in_preemptible" on:
+> 
+> commit: efef4da3b19cadf4beb45079a05643a77821de79 ("[RFC PATCH v2 4/4] sched+mm: Use hazard pointers to track lazy active mm existence")
+> url: https://github.com/intel-lab-lkp/linux/commits/Mathieu-Desnoyers/compiler-h-Introduce-ptr_eq-to-preserve-address-dependency/20241005-023027
+> base: https://git.kernel.org/cgit/linux/kernel/git/powerpc/linux.git next
+> patch link: https://lore.kernel.org/all/20241004182734.1761555-5-mathieu.desnoyers@efficios.com/
+> patch subject: [RFC PATCH v2 4/4] sched+mm: Use hazard pointers to track lazy active mm existence
+> 
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- Documentation/driver-api/driver-model/devres.rst |  1 -
- drivers/dma/acpi-dma.c                           | 15 ---------------
- include/linux/acpi_dma.h                         |  4 ----
- 3 files changed, 20 deletions(-)
+This should do the trick:
 
-diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-index 5f2ee8d717b1..f23dbe5d6606 100644
---- a/Documentation/driver-api/driver-model/devres.rst
-+++ b/Documentation/driver-api/driver-model/devres.rst
-@@ -459,7 +459,6 @@ SERDEV
- 
- SLAVE DMA ENGINE
-   devm_acpi_dma_controller_register()
--  devm_acpi_dma_controller_free()
- 
- SPI
-   devm_spi_alloc_master()
-diff --git a/drivers/dma/acpi-dma.c b/drivers/dma/acpi-dma.c
-index a58a1600dd65..d5beb96ef510 100644
---- a/drivers/dma/acpi-dma.c
-+++ b/drivers/dma/acpi-dma.c
-@@ -276,21 +276,6 @@ int devm_acpi_dma_controller_register(struct device *dev,
- }
- EXPORT_SYMBOL_GPL(devm_acpi_dma_controller_register);
- 
--/**
-- * devm_acpi_dma_controller_free - resource managed acpi_dma_controller_free()
-- * @dev:	device that is unregistering as DMA controller
-- *
-- * Unregister a DMA controller registered with
-- * devm_acpi_dma_controller_register(). Normally this function will not need to
-- * be called and the resource management code will ensure that the resource is
-- * freed.
-- */
--void devm_acpi_dma_controller_free(struct device *dev)
--{
--	WARN_ON(devres_release(dev, devm_acpi_dma_release, NULL, NULL));
--}
--EXPORT_SYMBOL_GPL(devm_acpi_dma_controller_free);
--
- /**
-  * acpi_dma_update_dma_spec - prepare dma specifier to pass to translation function
-  * @adma:	struct acpi_dma of DMA controller
-diff --git a/include/linux/acpi_dma.h b/include/linux/acpi_dma.h
-index 72cedb916a9c..3ef1ec7a04cb 100644
---- a/include/linux/acpi_dma.h
-+++ b/include/linux/acpi_dma.h
-@@ -65,7 +65,6 @@ int devm_acpi_dma_controller_register(struct device *dev,
- 		struct dma_chan *(*acpi_dma_xlate)
- 		(struct acpi_dma_spec *, struct acpi_dma *),
- 		void *data);
--void devm_acpi_dma_controller_free(struct device *dev);
- 
- struct dma_chan *acpi_dma_request_slave_chan_by_index(struct device *dev,
- 						      size_t index);
-@@ -94,9 +93,6 @@ static inline int devm_acpi_dma_controller_register(struct device *dev,
- {
- 	return -ENODEV;
- }
--static inline void devm_acpi_dma_controller_free(struct device *dev)
--{
--}
- 
- static inline struct dma_chan *acpi_dma_request_slave_chan_by_index(
- 		struct device *dev, size_t index)
+-       WRITE_ONCE(this_cpu_ptr(hp_domain_sched_lazy_mm.percpu_slots)->addr, NULL);
++       this_cpu_write(hp_domain_sched_lazy_mm.percpu_slots->addr, NULL);
+
+I'll update the patch for the next round.
+
+Thanks,
+
+Mathieu
+
+
+> in testcase: boot
+> 
+> compiler: gcc-12
+> test machine: qemu-system-i386 -enable-kvm -cpu SandyBridge -smp 2 -m 4G
+> 
+> (please refer to attached dmesg/kmsg for entire log/backtrace)
+> 
+> 
+> +--------------------------------------------+------------+------------+
+> |                                            | 75b478bf10 | efef4da3b1 |
+> +--------------------------------------------+------------+------------+
+> | BUG:using_smp_processor_id()in_preemptible | 0          | 12         |
+> +--------------------------------------------+------------+------------+
+> 
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <oliver.sang@intel.com>
+> | Closes: https://lore.kernel.org/oe-lkp/202410072229.18756716-oliver.sang@intel.com
+> 
+> 
+> [    6.336856][   T48] BUG: using smp_processor_id() in preemptible [00000000] code: kworker/u10:1/48
+> [ 6.338102][ T48] caller is debug_smp_processor_id (lib/smp_processor_id.c:61)
+> [    6.338809][   T48] CPU: 0 UID: 0 PID: 48 Comm: kworker/u10:1 Not tainted 6.12.0-rc1-00004-gefef4da3b19c #5
+> [    6.339929][   T48] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+> [    6.341119][   T48] Call Trace:
+> [ 6.341504][ T48] dump_stack_lvl (lib/dump_stack.c:123)
+> [ 6.342057][ T48] dump_stack (lib/dump_stack.c:130)
+> [ 6.342065][ T48] check_preemption_disabled (arch/x86/include/asm/preempt.h:84 lib/smp_processor_id.c:53)
+> [ 6.342065][ T48] debug_smp_processor_id (lib/smp_processor_id.c:61)
+> [ 6.342065][ T48] exec_mmap (include/linux/sched/mm.h:91 fs/exec.c:1017)
+> [ 6.342065][ T48] ? would_dump (fs/exec.c:1409)
+> [ 6.342065][ T48] begin_new_exec (fs/exec.c:1280)
+> [ 6.342065][ T48] ? load_elf_phdrs (fs/binfmt_elf.c:534)
+> [ 6.342065][ T48] load_elf_binary (fs/binfmt_elf.c:996)
+> [ 6.342065][ T48] ? get_lock_stats (kernel/locking/lockdep.c:339)
+> [ 6.342065][ T48] ? search_binary_handler (fs/exec.c:1752)
+> [ 6.342065][ T48] search_binary_handler (fs/exec.c:1752)
+> [ 6.342065][ T48] exec_binprm (fs/exec.c:1795)
+> [ 6.342065][ T48] bprm_execve (fs/exec.c:1846 fs/exec.c:1821)
+> [ 6.342065][ T48] kernel_execve (fs/exec.c:2012)
+> [ 6.342065][ T48] call_usermodehelper_exec_async (kernel/umh.c:110)
+> [ 6.342065][ T48] ? umh_complete (kernel/umh.c:65)
+> [ 6.342065][ T48] ret_from_fork (arch/x86/kernel/process.c:153)
+> [ 6.342065][ T48] ? umh_complete (kernel/umh.c:65)
+> [ 6.342065][ T48] ret_from_fork_asm (arch/x86/entry/entry_32.S:737)
+> [ 6.342065][ T48] entry_INT80_32 (arch/x86/entry/entry_32.S:944)
+> [    6.352140][    T1] ppdev: user-space parallel port driver
+> [    6.353841][    T1] HSI/SSI char device loaded
+> [    6.354238][    T1] e1000: Intel(R) PRO/1000 Network Driver
+> [    6.354673][    T1] e1000: Copyright (c) 1999-2006 Intel Corporation.
+> [    6.650009][    T1] ACPI: _SB_.LNKC: Enabled at IRQ 11
+> [    6.968868][    T1] e1000 0000:00:03.0 eth0: (PCI:33MHz:32-bit) 52:54:00:12:34:56
+> [    6.969500][    T1] e1000 0000:00:03.0 eth0: Intel(R) PRO/1000 Network Connection
+> [    6.970506][   T49] BUG: using smp_processor_id() in preemptible [00000000] code: kworker/u10:1/49
+> [ 6.971191][ T49] caller is debug_smp_processor_id (lib/smp_processor_id.c:61)
+> [    6.971650][   T49] CPU: 0 UID: 0 PID: 49 Comm: kworker/u10:1 Not tainted 6.12.0-rc1-00004-gefef4da3b19c #5
+> [    6.972365][   T49] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+> [    6.973115][   T49] Call Trace:
+> [ 6.973356][ T49] dump_stack_lvl (lib/dump_stack.c:123)
+> [ 6.973686][ T49] dump_stack (lib/dump_stack.c:130)
+> [ 6.973983][ T49] check_preemption_disabled (arch/x86/include/asm/preempt.h:84 lib/smp_processor_id.c:53)
+> [ 6.974328][ T49] debug_smp_processor_id (lib/smp_processor_id.c:61)
+> [ 6.974328][ T49] exec_mmap (include/linux/sched/mm.h:91 fs/exec.c:1017)
+> [ 6.974328][ T49] ? would_dump (fs/exec.c:1409)
+> [ 6.974328][ T49] begin_new_exec (fs/exec.c:1280)
+> [ 6.974328][ T49] ? load_elf_phdrs (fs/binfmt_elf.c:534)
+> [ 6.974328][ T49] load_elf_binary (fs/binfmt_elf.c:996)
+> [ 6.974328][ T49] ? get_lock_stats (kernel/locking/lockdep.c:339)
+> [ 6.974328][ T49] ? search_binary_handler (fs/exec.c:1752)
+> [ 6.974328][ T49] search_binary_handler (fs/exec.c:1752)
+> [ 6.974328][ T49] exec_binprm (fs/exec.c:1795)
+> [ 6.974328][ T49] bprm_execve (fs/exec.c:1846 fs/exec.c:1821)
+> [ 6.974328][ T49] kernel_execve (fs/exec.c:2012)
+> [ 6.974328][ T49] call_usermodehelper_exec_async (kernel/umh.c:110)
+> [ 6.974328][ T49] ? umh_complete (kernel/umh.c:65)
+> [ 6.974328][ T49] ret_from_fork (arch/x86/kernel/process.c:153)
+> [ 6.974328][ T49] ? umh_complete (kernel/umh.c:65)
+> [ 6.974328][ T49] ret_from_fork_asm (arch/x86/entry/entry_32.S:737)
+> [ 6.974328][ T49] entry_INT80_32 (arch/x86/entry/entry_32.S:944)
+> 
+> 
+> 
+> The kernel config and materials to reproduce are available at:
+> https://download.01.org/0day-ci/archive/20241007/202410072229.18756716-oliver.sang@intel.com
+> 
+> 
+> 
+
 -- 
-2.43.0.rc1.1336.g36b5255a03ac
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
 
