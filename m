@@ -1,126 +1,101 @@
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E221DE3DF
-	for <linux-doc@vger.kernel.org>; Mon,  7 Oct 2024 20:22:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C02081727;
+	Mon,  7 Oct 2024 20:43:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728332557; cv=none; b=SAUeUB8wXEiuPiNq88oyeJXn5sSNk2rcscDhI6a7djmS0L+JgEdLzm2FJi9HgGgJdT/9Ov8zwYBhbe4ltq6cEWqAN6YVA2LzCNfECytQLvmeUrjeEDFMdSYtqdVgRKfRP2u6GBoy1CtwEs7VJ180mNBDriNw1JK5/KD2Lp/Pozo=
+	t=1728333835; cv=none; b=N26Ai19jI8O4/dkj4GPSBduhKnrmBaOOG3jafBBzNXwBXvspf7EEBQ3RiNoaMSV6AKsaLtCYfdsJAHICSp6IBDw9YXIaLo3u26G5Z7xHtz/Ez8x/9scjWOKw47hZWOCC1vNxGaQVAG3ZJ0O7xjR0C6YioorZUlkxsaHm7agKELk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728332557; c=relaxed/simple;
-	bh=+JurRkojZY4EtF+xRmXEH88+oNqlfaBMDd8Nb4X/7hQ=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=c3oej/vBneuY3KsVdzjHcmEJTvUhofu0Yvl9RmbEes4jXCkgtBb70Od/YBtXS4hyJULaXaDCk8HUXmESzi261CGmIjXOl7Z8DQj+RORw6+tPVWRsmJEyub2SiBBOLN78dPR6hyimj972WAOzQsoyYINBxkv5pHRFofeZ5GaQeJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=L6KryEch; arc=none smtp.client-ip=209.85.166.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1728333835; c=relaxed/simple;
+	bh=iD6K7rerHt+BmbV3rXcVuFLHnGOchmZqRMEFAw2pqY4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=YIB8sQIXsunia5KIpAoqoe6W5r3cv/G4Wqsj+Yojad0o9lm5MidcNuQSIVvhiL8+zUySx/666FGbEND7zPNRY+0ccuY7z7UbYk/16yYe96z5F3nsempODPjIBuERgBG2wWt2X/Dssx3LvSR6FfIlPxqmG/x4YOvyb+09I2tBLXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MuEtJFG8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="L6KryEch"
-Received: by mail-io1-f44.google.com with SMTP id ca18e2360f4ac-82cf3286261so186424439f.0
-        for <linux-doc@vger.kernel.org>; Mon, 07 Oct 2024 13:22:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1728332554; x=1728937354; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QefVMDm8hBjPT+1JwbSaVFa7IKUqqLaGgXLC/P+/zW0=;
-        b=L6KryEchvj6hS292mMNLvBuKS6scDoEQpsWzujALkWKGRh4Qnqj2JKhFbvAQWWl/mw
-         VCmsc1KUaHgn/gZq3oLsq348QdMAfMB969zABGRZqI+ZBIJZkdVXCLY3yfLmghf+FTdq
-         YWgjgikwcXddrprcM/P3vvQzaMqwENYgCJvtmz2Um48+TrrPurslUjW3ldWrOp/LFt9W
-         nrhYzaTMQIl9Ft5LZykTnZjJ2FLLY82v/Q4b1r4PIL0TXsr0IYvvw2Zjej8i1TUUyXC2
-         DtZsiZqAaiLEYgj/DvMDrhaTxjfteH9XHRZS1X1KFTFQrg9/aRHVqMxRJ129IadhXVyt
-         bBZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728332554; x=1728937354;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QefVMDm8hBjPT+1JwbSaVFa7IKUqqLaGgXLC/P+/zW0=;
-        b=YM1KgE+Y6aF1qV58D0nI6NZfBWp8G4jSTwq06H/HA2qhddkBrrdbkMch2vvQIQK5rr
-         1+Z7SM055rPTxkct9Muql/5tkZx8hxhPIEm0w/1ovwJUU5H/lrLjlSLWJ2okJyWgvvCT
-         wReydZyhHdYObiTodnkmpT2N+LtL5lQmDultEYm29LtI5qrOzMJ7uiC/2/14iDmu6DcF
-         e+wXBmouVzG90w68aJSZltWedmOxLf/OLsXdtxYVTiYl4VGOqcuZ/zihFVGEaOAU0vrk
-         cj++ZFUeY1lUz6bgiSu6e+Lc24rfZD2chqR2N7nm3P7YkGQFHfAqyo0YVulXfYGZ66zu
-         WqBg==
-X-Forwarded-Encrypted: i=1; AJvYcCVRcjh1PpozDtNy7Fk4MhPo6QNquYgZcTWg8H2rigDIKOfvbhdS2TyRhPiAAUjligzW8nUtnQWPCQ8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwVfYz4Rk3I3D+E+W1cz7cHQ3FswX5pYQIBK8aPCbnAiN9V9bpl
-	K3EmEm2uYYTFUxnJoqvNKOVeqzeCjOvj5/umLdvOfc1yxmEcWIcjw6Xbu2MQoOM=
-X-Google-Smtp-Source: AGHT+IF2W3KnYL3GA1TILGogvaha8pYup4+NHEwZvTPOaV7yC6EWbx9hu3M/fgNeyIQEycR1C6cK/Q==
-X-Received: by 2002:a05:6e02:1fc8:b0:3a3:44b2:acb2 with SMTP id e9e14a558f8ab-3a375be2a9dmr113900705ab.25.1728332554520;
-        Mon, 07 Oct 2024 13:22:34 -0700 (PDT)
-Received: from [127.0.0.1] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4db86e86898sm605463173.61.2024.10.07.13.22.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Oct 2024 13:22:33 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: Jonathan Corbet <corbet@lwn.net>, Ulf Hansson <ulf.hansson@linaro.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Daniel Golle <daniel@makrotopia.org>, 
- INAGAKI Hiroshi <musashino.open@gmail.com>, 
- Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
- Ming Lei <ming.lei@redhat.com>, Li Lingfeng <lilingfeng3@huawei.com>, 
- Christian Heusel <christian@heusel.eu>, Avri Altman <avri.altman@wdc.com>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Adrian Hunter <adrian.hunter@intel.com>, 
- Riyan Dhiman <riyandhiman14@gmail.com>, 
- Mikko Rapeli <mikko.rapeli@linaro.org>, 
- Jorge Ramirez-Ortiz <jorge@foundries.io>, 
- Li Zhijian <lizhijian@fujitsu.com>, 
- Dominique Martinet <dominique.martinet@atmark-techno.com>, 
- Jens Wiklander <jens.wiklander@linaro.org>, 
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
- linux-block@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org, 
- devicetree@vger.kernel.org, Lorenzo Bianconi <lorenzo@kernel.org>, 
- Miquel Raynal <miquel.raynal@bootlin.com>, upstream@airoha.com, 
- Christoph Hellwig <hch@infradead.org>, 
- Christian Marangi <ansuelsmth@gmail.com>
-In-Reply-To: <20241002221306.4403-1-ansuelsmth@gmail.com>
-References: <20241002221306.4403-1-ansuelsmth@gmail.com>
-Subject: Re: [PATCH v6 0/6] block: partition table OF support
-Message-Id: <172833255295.162249.16483920948700467749.b4-ty@kernel.dk>
-Date: Mon, 07 Oct 2024 14:22:32 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MuEtJFG8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84766C4CEC6;
+	Mon,  7 Oct 2024 20:43:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728333834;
+	bh=iD6K7rerHt+BmbV3rXcVuFLHnGOchmZqRMEFAw2pqY4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=MuEtJFG8fnFYhq3I+Bk4unZGxAo+9VluXYLaHsTku/5Y2bn+P8Uo2Uz5FJkDINdKf
+	 U21kcX3lz/UivCFWutBxUACSaFTSzIYdRx38uvHehBwhSKz+gbiFNEq+fOLnG0vSOd
+	 c9I2I1czOiqX0LgL+0ur3IYS/t0122jK8xKSsaQPL9G0Jo+edye2uDHz6ob97DtUxq
+	 SFjB2c0BLddatYpjraaOwwJWQcRpwUAS9Ck6IFRJ9wgw14wROgJkmOPPpLPfbaP0Gv
+	 UJTU7WJ6Chq9T2EFFCRkbKqFDkbysasznOl6ueM8zt3NSsh5D7UmCX6IzleL4QtlD5
+	 e4ci1Krujly3A==
+Date: Mon, 7 Oct 2024 15:43:52 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Jiri Slaby <jirislaby@kernel.org>
+Cc: Vidya Sagar <vidyas@nvidia.com>, corbet@lwn.net, bhelgaas@google.com,
+	galshalom@nvidia.com, leonro@nvidia.com, jgg@nvidia.com,
+	treding@nvidia.com, jonathanh@nvidia.com, mmoshrefjava@nvidia.com,
+	shahafs@nvidia.com, vsethi@nvidia.com, sdonthineni@nvidia.com,
+	jan@nvidia.com, tdave@nvidia.com, linux-doc@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kthota@nvidia.com, mmaddireddy@nvidia.com, sagar.tv@gmail.com
+Subject: Re: [PATCH V4] PCI: Extend ACS configurability
+Message-ID: <20241007204352.GA449721@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e89107da-ac99-4d3a-9527-a4df9986e120@kernel.org>
 
-
-On Thu, 03 Oct 2024 00:11:40 +0200, Christian Marangi wrote:
-> this is an initial proposal to complete support for manually defining
-> partition table.
+On Wed, Sep 25, 2024 at 07:06:41AM +0200, Jiri Slaby wrote:
+> On 25. 06. 24, 17:31, Vidya Sagar wrote:
+> > PCIe ACS settings control the level of isolation and the possible P2P
+> > paths between devices. With greater isolation the kernel will create
+> > smaller iommu_groups and with less isolation there is more HW that
+> > can achieve P2P transfers. From a virtualization perspective all
+> > devices in the same iommu_group must be assigned to the same VM as
+> > they lack security isolation.
+> > 
+> > There is no way for the kernel to automatically know the correct
+> > ACS settings for any given system and workload. Existing command line
+> > options (ex:- disable_acs_redir) allow only for large scale change,
+> > disabling all isolation, but this is not sufficient for more complex cases.
+> > 
+> > Add a kernel command-line option 'config_acs' to directly control all the
+> > ACS bits for specific devices, which allows the operator to setup the
+> > right level of isolation to achieve the desired P2P configuration.
+> > The definition is future proof, when new ACS bits are added to the spec
+> > the open syntax can be extended.
+> > 
+> > ACS needs to be setup early in the kernel boot as the ACS settings
+> > effect how iommu_groups are formed. iommu_group formation is a one
+> > time event during initial device discovery, changing ACS bits after
+> > kernel boot can result in an inaccurate view of the iommu_groups
+> > compared to the current isolation configuration.
+> > 
+> > ACS applies to PCIe Downstream Ports and multi-function devices.
+> > The default ACS settings are strict and deny any direct traffic
+> > between two functions. This results in the smallest iommu_group the
+> > HW can support. Frequently these values result in slow or
+> > non-working P2PDMA.
+> > 
+> > ACS offers a range of security choices controlling how traffic is
+> > allowed to go directly between two devices. Some popular choices:
+> >    - Full prevention
+> >    - Translated requests can be direct, with various options
+> >    - Asymmetric direct traffic, A can reach B but not the reverse
+> >    - All traffic can be direct
+> > Along with some other less common ones for special topologies.
+> > 
+> > The intention is that this option would be used with expert knowledge
+> > of the HW capability and workload to achieve the desired
+> > configuration.
 > 
-> Some background on this. Many OEM on embedded device (modem, router...)
-> are starting to migrate from NOR/NAND flash to eMMC. The reason for this
-> is that OEM are starting to require more and more space for the firmware
-> and price difference is becoming so little that using eMMC is only benefits
-> and no cons.
+> Hi,
 > 
-> [...]
+> this breaks ACS on some platforms (in 6.11). See:
+> https://bugzilla.suse.com/show_bug.cgi?id=1229019
 
-Applied, thanks!
-
-[1/6] block: add support for defining read-only partitions
-      commit: 03cb793b26834ddca170ba87057c8f883772dd45
-[2/6] docs: block: Document support for read-only partition in cmdline part
-      commit: 62adb971e515d1bb0e9e555f3dd1d5dc948cf6a1
-[3/6] block: introduce add_disk_fwnode()
-      commit: e5f587242b6072ffab4f4a084a459a59f3035873
-[4/6] mmc: block: attach partitions fwnode if found in mmc-card
-      commit: 45ff6c340ddfc2dade74d5b7a8962c778ab7042c
-[5/6] block: add support for partition table defined in OF
-      commit: 884555b557e5e6d41c866e2cd8d7b32f50ec974b
-[6/6] dt-bindings: mmc: Document support for partition table in mmc-card
-      commit: 06f39701d0666d89dd3c86ff0b163c7139b7ba2d
-
-Best regards,
--- 
-Jens Axboe
-
-
-
+#regzbot introduced: 47c8846a ("PCI: Extend ACS configurability")
+#regzbot link: https://bugzilla.suse.com/show_bug.cgi?id=1229019
