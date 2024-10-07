@@ -1,76 +1,69 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D681DC721;
-	Mon,  7 Oct 2024 17:07:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77AEA1DCB00;
+	Mon,  7 Oct 2024 17:08:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728320845; cv=none; b=FL8uESq3U0cfsqjpF6u0sf8GPSTGBBX+lCkE2+lLhJ+tnS/OqTYX5v2LHC6+wCbirJsfbafWnnBwDJ8b1GCUsrWoa4REr6zJ27azz7OGF64feGoFFAc6hMugggpgVp7gAHeC3G3W78jz7SLOFrN+80DVHae7l2vyZxNBrr6Y2SA=
+	t=1728320939; cv=none; b=BCQFenV2pelOYmpcdmBt4Jkg5HgMn9wV53GVgTp69Nr439j/Cdl/bc9vLGev8hH7EBDewYXt6qrx/Sci54On1QJyn5SlpEBoBZF1o4UwCI/Mu+27ex3VlI61MrnFyj2rIeSIdpYqoG81LKZpUFAPK4v6I7rJBoDlTGtLRAReKsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728320845; c=relaxed/simple;
-	bh=OgKd8s6EFJ2msOFVt10PHZsFWvUTkWBcj8TgWznSyhQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Re2y330KvYWGIxdq88+JJvuxsbAx7/2bjSRj/k13jOtjretYqVU2SEMrpLlqz/EOzsf3T8MKuPNb95HjQNyt/OMigKTiXx2iLHkwQigluvAtpW5D6u/hODdT/O8WtEOjwMzneGXhMaJMp6A9UU4rrkhtqDqUb78GH2wRLeySDeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Sx/M9Q+p; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Sx/M9Q+p"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2300742C0D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1728320843; bh=oJU7EABAt2KsVj2EIm8/2tYtzj/bx+DV1mQWP+T51B8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Sx/M9Q+pDv1G925eerwGf+0GY4leEAn58FlhLPvoZhAC0UDRF4WFz2RikOL15obHg
-	 lFv2jdZbFmQkQ7+3qeqNvkU3aIvIOCCvQYSpPrLrm7W9zzp82+LnVtzv1e0vgc8Xip
-	 2HzSnDU/D4Jhr5sJ7zhiymki9VQQTpRD4PU5yaC555C3Fx3GgbdfaGPm9XNCkGUc07
-	 DRhzNPlEGkwF+jpxmD64J9orjOKbR30OP203UEV/olmnHALQgukTZy14KT/X3Bhweo
-	 oJBLSOQSXa4aKTn0v5hsI9HyLRviZ+8IZSTe0D98IA45CdvVfos9Ngk6wDCczUvgtP
-	 3rkKZPF5Wz8BA==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 2300742C0D;
-	Mon,  7 Oct 2024 17:07:23 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Andrew Kreimer <algonell@gmail.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, Andrew
- Kreimer <algonell@gmail.com>
-Subject: Re: [PATCH] docs: backporting: fix a typo
-In-Reply-To: <20241002212150.11159-1-algonell@gmail.com>
-References: <20241002212150.11159-1-algonell@gmail.com>
-Date: Mon, 07 Oct 2024 11:07:22 -0600
-Message-ID: <87msjfkfjp.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1728320939; c=relaxed/simple;
+	bh=SZ9Llq2XCi1Rzq6/Iql+DUGrm39jHu9DsCfZLr2VjDg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hly/YJMn58MLVDJYMddJRIeXXxHGxYRWgJDuVKA85L85EGKAzFDw6RF7GFOObyICcG+Xf9vjXLsSTAxT2xYNiMVkjKImA/k5OIQ+YgaGqxoOiD/lMKXcFiKKfDP3oZs1pZDKuMqToXS4vVfTYLsNg+RKApyVTiN+wcOvYZfXMZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13BADC4CEC6;
+	Mon,  7 Oct 2024 17:08:57 +0000 (UTC)
+Date: Mon, 7 Oct 2024 13:08:58 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: LKML <linux-kernel@vger.kernel.org>, Linux Trace Kernel
+ <linux-trace-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, Masami
+ Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Mike Rapoport <mike.rapoport@gmail.com>,
+ Kees Cook <keescook@chromium.org>, Ard Biesheuvel <ardb@kernel.org>, Hans
+ de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v2] Documentation/tracing: Mention that
+ RESET_ATTACK_MITIGATION can clear memory
+Message-ID: <20241007130858.7e25daeb@gandalf.local.home>
+In-Reply-To: <87v7y3kflt.fsf@trenco.lwn.net>
+References: <20241001095734.11a67b4b@gandalf.local.home>
+	<20241004193800.2ffd0d36@gandalf.local.home>
+	<87v7y3kflt.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Andrew Kreimer <algonell@gmail.com> writes:
+On Mon, 07 Oct 2024 11:06:06 -0600
+Jonathan Corbet <corbet@lwn.net> wrote:
 
-> Fix a typo in documentation.
->
-> Signed-off-by: Andrew Kreimer <algonell@gmail.com>
-> ---
->  Documentation/process/backporting.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/process/backporting.rst b/Documentation/process/backporting.rst
-> index a71480fcf3b4..18e41e76ecba 100644
-> --- a/Documentation/process/backporting.rst
-> +++ b/Documentation/process/backporting.rst
-> @@ -74,7 +74,7 @@ your source tree. Don't forget to cherry-pick with ``-x`` if you want a
->  written record of where the patch came from!
->  
->  Note that if you are submitting a patch for stable, the format is
-> -slightly different; the first line after the subject line needs tobe
-> +slightly different; the first line after the subject line needs to be
->  either::
+> Steven Rostedt <rostedt@goodmis.org> writes:
+> 
+> > Jon,
+> >
+> > This version should be good to go.  
+> 
+> Applied, thanks.
 
-Applied, thanks.
+And I now see I sent an older version that had a typo in it :-p
 
-jon
+
++			Note, saving the trace buffer across reboots does require that the system
++			is set up to not wipe memory. For instance, CONFIG_RESET_ATTACK_MITIGATION
++			can force a memory reset on boot which will clear any trace that was stored.
++			This is just one of many ways that can clear memory. Make sure you system
+
+										       your system
+
++			keeps the content of memory across reboots before relying on this option.
++
+
+I can send a v3.
+
+-- Steve
