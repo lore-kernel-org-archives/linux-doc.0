@@ -1,51 +1,46 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75FB18BBB2;
-	Mon,  7 Oct 2024 17:20:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984891DD55D
+	for <linux-doc@vger.kernel.org>; Mon,  7 Oct 2024 17:20:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728321607; cv=none; b=HPQu3C7eWr3pl4HdBQNn7xVwABQSZI4xxgR9weNy3ObHsOL6fnrbyusmSYGHujU8XAtqN7vHpRV5AW51TAch8y02s66fkh2V//6AFo+kBsKn0U98YQaa0y5KWzmhbvxBolsKEaiKYaXFmMhlYBbNDcoHYuWW1QUnOdEA9d5QSAw=
+	t=1728321648; cv=none; b=C4okOpzpIkD8Kd8CRqbsrr+GvYEXcMGG288sIC9DS8zIcn07lPeLbvo93huvgiQW28aGL+GyPjV/mNSHZCJQC2qkd3wrJd9Iv/3bUTimv2+DQh4oh1h2qmmKIF7IIiRaed8xqJALQKjS/ZE2HDbgXWWnUKodnx2hHXDEjlcwGNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728321607; c=relaxed/simple;
-	bh=AXhL5/fpZmTmpYZYdSbfVa67sVSZgiynBzawvU+OM+E=;
+	s=arc-20240116; t=1728321648; c=relaxed/simple;
+	bh=Vx87oCWjUVmUQFkEaRK3caU7rzHWUrscV6uTQ+wYsqU=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=bMjp7tvfYGbiuINkm5hUpAouEUBK4NQ4OQM2Fzh9GC3uwMvprTheJditwR6l34EigMFreK8UHn/COhJFg/iUgF2Os7CwgeWBrReHRDOsE1549y8idAsOSDcJRIRFgS5+dJ5qf0WMe40Qo60pjPLtQVlPqUY68XW3W28s8urhZEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=jSCwvQZi; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=Hg5TBtM4eynpXXpao3oZU6t0LP+dw8ZMDMlSDnV8qGtCIDc1IAti0RjFrHywfFBJwYEuZUnTi0YH61wLdTjvFsu33IoUE9OckfteXstcf0oCtH+JG18bmid5x+iT/u7Gk8z7u2Tp7qEuc8k7VRoJn4Lbjt5xAZ6mbPVaOt/40zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Y5648mrh; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="jSCwvQZi"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EBD7642B38
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Y5648mrh"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D4B4042C0D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1728321605; bh=UgszRIWEzyLDrlT97QaiyvYlsMj4p6TaNFZIxLmyX6Y=;
+	t=1728321646; bh=TATPeQeecRP7mlvPxMq47K/gxLEY5V9Uc5OKlk72TDo=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=jSCwvQZilrPO5Vx2QQCa4DN2giBngFhA563QGGVfM9QE1n6grWDNAAxALm//8ZteJ
-	 KXt3/hJZOTu8zxuVDlnxnQevKfoy/MCl9KvW71pHjDZWbXNj2tzr5+cxdoxL6YjDi+
-	 siiXqz85O4QsAGO7FVd9varQyUXjop6uxp/WlgtDJhSieykb9ldwcd/U2hFVKS9zFZ
-	 xAnVsEBH589/x2RTZHtkSmfh0Pf05mqlEiNb9KZFwVX5Qseegpt0MwwL46Izn6KOOy
-	 kKD5dqFlQOZ/xVdEFGVaehJH7lFpe//jUkFvgejATUSTRCEOPVNBBmrOWt+GW4NOpm
-	 shdHv9bgphBow==
+	b=Y5648mrhJ8H9FAVwBbLyavUofoI6XsK/B5OPqat0zWG1Ip0QX6B9zrEMcoTGI6tgY
+	 FyAXcvrD+lItFC4dEyiEKCBWIe9Jud6FSivd/Ijn5hAGJbXoNGll8EjYPhLqt6O7Yg
+	 K0ObwfmiQYYShvaYdFAyArk+Ef9vdM6j0ID1ZAdXZE4Ns1ZvZIc1iKPRyvgRDvGh5k
+	 A09blb29q2Tkjkl61AVrs15TAo+EXuEeGpkc1I5i3VsR+UebG6U6Zhwky5jQkkxiuK
+	 yuxr/twPyxpm4HG4QNXorA4RUv8HMfqfsgextyVyPa1xmqfYM6j0LBLaBHEfuKxb4t
+	 A+EvzkmygalxQ==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id EBD7642B38;
-	Mon,  7 Oct 2024 17:20:04 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id D4B4042C0D;
+	Mon,  7 Oct 2024 17:20:45 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>, ojeda@kernel.org,
- dirk.behme@de.bosch.com
-Cc: alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net,
- benno.lossin@proton.me, a.hindborg@samsung.com, aliceryhl@google.com,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- bilbao@vt.edu, Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-Subject: Re: [PATCH v3] kernel-docs: Add new section for Rust learning
- materials
-In-Reply-To: <20240922160411.274949-1-carlos.bilbao.osdev@gmail.com>
-References: <20240922160411.274949-1-carlos.bilbao.osdev@gmail.com>
-Date: Mon, 07 Oct 2024 11:20:04 -0600
-Message-ID: <87set7j0e3.fsf@trenco.lwn.net>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>, Tsugikazu
+ Shibata <shibata@linuxfoundation.org>
+Subject: Re: [PATCH] docs/ja_JP: howto: Catch up changes in v6.11
+In-Reply-To: <20240922040709.44490-1-akiyks@gmail.com>
+References: <20240922040709.44490-1-akiyks@gmail.com>
+Date: Mon, 07 Oct 2024 11:20:45 -0600
+Message-ID: <87o73vj0cy.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,28 +49,16 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Carlos Bilbao <carlos.bilbao.osdev@gmail.com> writes:
+Akira Yokosawa <akiyks@gmail.com> writes:
 
-> Include a new section in the Index of Further Kernel Documentation with
-> resources to learn Rust. Reference it in the Rust index. The resources
-> are a product of a survey among assistants to the conference Kangrejos'24.
+> Apply changes made in commit 413e775efaec ("Documentation: fix links
+> to mailing list services").
 >
-> Signed-off-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-> Reviewed-by: Dirk Behme <dirk.behme@de.bosch.com>
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> Cc: Tsugikazu Shibata <shibata@linuxfoundation.org>
 > ---
->
-> Changes since v2:
->   - Fix wrong title and added date of LPC talks.
->   - Add more resources proposed by Miguel Ojeda.
->   - Add review tag of Dirk Behme.
->
-> Changes since v1:
->   - Added two more Rust blogs proposed by Dirk Behme.
->
-> ---
->  Documentation/process/kernel-docs.rst | 163 ++++++++++++++++++++++++--
->  Documentation/rust/index.rst          |   3 +
->  2 files changed, 155 insertions(+), 11 deletions(-)
+>  Documentation/translations/ja_JP/process/howto.rst | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 
 Applied, thanks.
 
