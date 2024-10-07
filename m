@@ -1,260 +1,164 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C728B1C242D;
-	Mon,  7 Oct 2024 23:17:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E6119069B
+	for <linux-doc@vger.kernel.org>; Mon,  7 Oct 2024 23:30:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728343069; cv=none; b=QBhm52diAVdVA6muRDMGldDDjf8h8Y6WpWXvFEN7t1RXE6uAGc89xRT5S4OtoK0vfc+XPg81nMr7dVomxYoHLu0af+ruzWLL0Jj+uzKNJX0ZQt5bwFREZkJ3Yuh4RL2gp3y6O0qiJ1440RwHvqQOxVyrrT+/SBUWFEDoOBsZvik=
+	t=1728343815; cv=none; b=Jtx/U3ZkM4oU4Qjjlbv7p3vuIok4VOH3PWLFTwOOM1IfmQjG/jzlZRxxv6aGKjStmQM7AYvXkGn6c2dzL9Ac3mhu9HSHvrRKPgMSFhBvXP5v6MnSosXV8n0y1kgdK3fRxGMl9LTI4hEY1HcYTfBEEOS+Uc4mP0tEty/KY0FJvbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728343069; c=relaxed/simple;
-	bh=nbmlR3m/1dxZRKIaG1X2yqXOWQA7D/Qm2/wWl8k/BY8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EyPYQW5sWy+YPD++3Gfr8yGm3KKgz2jKzQJhiMI8/mN8ucVa/2ZBScvJTIjkOQgkUUhSJs4/7gy1YoDjwhSiSzfBXwi8cFwbynmj0A2ITosE2dy9CnHdxJO0qPgandiGSzV+WK4zd3C8hiG1sfr9OeN7fqcVee5J6788SHSR4IU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RGalx/UK; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728343815; c=relaxed/simple;
+	bh=S1F++puxXk1Ulj8gHCvxmOOAcPGjm+vi9Ym0UiVV8hc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ozvza2XS71opsD/TFZUnPaz/8fsNmWHdlB3FyeieKeP6qUIBiUvGBYOd4tvpa1ZMjhUa7tqA6V/rTUYERa5Zl5OKHxAiQvERQ5qbPyzr+TJ83/4UNwsknR69Ze5/6EcoAQCTfm+j/iXqmmnXgaxPTHdxOBjPhyUUjYgd8U59IKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=ktby9xLk; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RGalx/UK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728343068; x=1759879068;
-  h=from:date:subject:mime-version:content-transfer-encoding:
-   message-id:references:in-reply-to:to:cc;
-  bh=nbmlR3m/1dxZRKIaG1X2yqXOWQA7D/Qm2/wWl8k/BY8=;
-  b=RGalx/UKVq00fJPC6o/l8mt+Y009zk3tlE6735Ynyk+j8AMFaOB/tqOi
-   XJMHjQAYw+h4QV+8Td01J38E92yvBmFae+7B6Gn7smuDp5YNm55+s2qpS
-   L4ebCNYMGDeRNkuClWJ3MwMwgyjh3okr+W3BfeVhvtWifDvUWJdrWKcf9
-   RVkWvyJ8aRJzjDstqWvnjOLn1YYP8TOja+KRHZx8VIeBg2VcWtRbnyzJ3
-   rsSKt9njWaF7U55/DmRJj4/BS0iIQa6H1sH0tN+51iINYQGoAu2+tUG17
-   T8NHgAjnrK7gnEwfsv+M3O3VjIJuCpWRG8UZgrNqdbM3UE/s9SMd8kkzg
-   w==;
-X-CSE-ConnectionGUID: IqnrcXoATRmj44EiLjpsgw==
-X-CSE-MsgGUID: mHSwx3H2TZar1Cs8IGWGhg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="45036990"
-X-IronPort-AV: E=Sophos;i="6.11,185,1725346800"; 
-   d="scan'208";a="45036990"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 16:17:10 -0700
-X-CSE-ConnectionGUID: sHXGOXjFQVa+uDfTF3vkow==
-X-CSE-MsgGUID: 3Wo8bTU1T6Kue4N4QUlEjA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,185,1725346800"; 
-   d="scan'208";a="75309213"
-Received: from ldmartin-desk2.corp.intel.com (HELO localhost) ([10.125.110.112])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 16:17:08 -0700
-From: ira.weiny@intel.com
-Date: Mon, 07 Oct 2024 18:16:25 -0500
-Subject: [PATCH v4 19/28] cxl/mem: Configure dynamic capacity interrupts
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="ktby9xLk"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-71df0dbee46so1793411b3a.0
+        for <linux-doc@vger.kernel.org>; Mon, 07 Oct 2024 16:30:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1728343812; x=1728948612; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=e7/GR1vy5g6MzSW/6AGsBA6lPgGhyPg9oR0WwZB3CYI=;
+        b=ktby9xLkZAr2/l0cdYu5vXBZSpJTc8C1WJY4c0br7+rLMbpYJICVnk5B8OlUVXfThH
+         WiW2iiUvC5W0J2qdKb/9cuSXSuQF4i51HcPsmcDJpiaBmm6YjTRrH2tBqMMlaV++p3fG
+         u0E26Y23eCqRzhG6wbKWlJJIvsfnQ98Jy1HKkmUM2sv1Zg6jL/s+woWdKI+17vZr+XXC
+         OYorqtcblNuNivuqozuxo2THjZyAK2r1TCSwDiOf1tz9n3Dkfeon1W/kvpl+j6kegFsF
+         w5Ea1KLLz5H33G8KmASrKvkCvKstLrFWKDHQ5r8yEUOyR15C3KJlRe5TCnXqknDhd2oO
+         /60w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728343812; x=1728948612;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=e7/GR1vy5g6MzSW/6AGsBA6lPgGhyPg9oR0WwZB3CYI=;
+        b=pIi72sx5I9yCBNgJbAzhycpJs+BI1aRp4mp9yAnygOQK2/ZgU2t9DS4Z19iNHK/XIj
+         rN1Fbk7o16MYc3qbmBnBW7y90SOY9mOl4qvJaBoGGSCrVm/RXx2fwRNwOqefvMJpFN+G
+         QLXWc3379spzpJIov8Xsqo50Mi36Osc3e3L6l0l1WEcM+m5t6JvioUSo1WQGlqBKmYRS
+         9wa7za9IKdQdzvJGqajfoskhFwUrtaf+SLxQ6jmX4bndongO1h9CyBYVAHXfCGQJ76vC
+         eH/Zi65eCoaIeq1Sve2gGlQ8dZG7uF6qTz30zQMTb3tbsPvyZ+a5uCJ8v9/L61kD/CSp
+         ZmOA==
+X-Forwarded-Encrypted: i=1; AJvYcCUZpNDXSenZ4z2ecKeKSFMz3lAtpZaG4SvPhKGnwELXztaQFSCTdGoKue6BWP1pDytTIeptFQb/sow=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwoRAJJIUyNSG1dBhur4CBW4Jscg2OMG/uQmC+34vQk+GzL0ykM
+	FpkIxee87D4dFRQnMdzgept5lRa1R1w/8yDn0KBUacspzOmjfgm2M9+9LZ2EsH8=
+X-Google-Smtp-Source: AGHT+IGbBDU9FuYkbc/ROL+eEuwX1ANHvoegHjKgVYPBMiJcEOGbwaOtHTQqomqAdeFDnRJFbE5XwQ==
+X-Received: by 2002:a05:6a00:8a03:b0:71d:ee1b:c854 with SMTP id d2e1a72fcca58-71dee1bcacamr11916142b3a.9.1728343812103;
+        Mon, 07 Oct 2024 16:30:12 -0700 (PDT)
+Received: from debug.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71df0cbba1csm4970382b3a.33.2024.10.07.16.30.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Oct 2024 16:30:11 -0700 (PDT)
+Date: Mon, 7 Oct 2024 16:30:08 -0700
+From: Deepak Gupta <debug@rivosinc.com>
+To: Zong Li <zong.li@sifive.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <brauner@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	alistair.francis@wdc.com, richard.henderson@linaro.org,
+	jim.shu@sifive.com, andybnac@gmail.com, kito.cheng@sifive.com,
+	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
+	cleger@rivosinc.com, alexghiti@rivosinc.com,
+	samitolvanen@google.com, broonie@kernel.org,
+	rick.p.edgecombe@intel.com
+Subject: Re: [PATCH 16/33] riscv/shstk: If needed allocate a new shadow stack
+ on clone
+Message-ID: <ZwRvAEwFbrpq3zZq@debug.ba.rivosinc.com>
+References: <20241001-v5_user_cfi_series-v1-0-3ba65b6e550f@rivosinc.com>
+ <20241001-v5_user_cfi_series-v1-16-3ba65b6e550f@rivosinc.com>
+ <CANXhq0rpwQkZ9+mZLGVUq=r4WiA8BbZ-eeTDogf3fzeEPqeeqA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241007-dcd-type2-upstream-v4-19-c261ee6eeded@intel.com>
-References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
-In-Reply-To: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
-To: Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, 
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
- Navneet Singh <navneet.singh@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Dan Williams <dan.j.williams@intel.com>, 
- Davidlohr Bueso <dave@stgolabs.net>, 
- Alison Schofield <alison.schofield@intel.com>, 
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
- linux-btrfs@vger.kernel.org, linux-cxl@vger.kernel.org, 
- linux-doc@vger.kernel.org, nvdimm@lists.linux.dev, 
- linux-kernel@vger.kernel.org
-X-Mailer: b4 0.15-dev-37811
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1728342968; l=5357;
- i=ira.weiny@intel.com; s=20221211; h=from:subject:message-id;
- bh=Eew5uMTIVjbji9OsLBSh/pYxpB1Na7fle6NKI2rD/X4=;
- b=kulb4Kktx95NEKXN+PknfviKMrsiLiGtlNe6u8ygSaplB+WJFlpAHeu6ejVVHVtRRaKqtbn62
- dCZTq5u7cEMDfDPvSpgDRd0HVcqGPNxlFUV/wR7SouZGkFF+MAkpAuh
-X-Developer-Key: i=ira.weiny@intel.com; a=ed25519;
- pk=noldbkG+Wp1qXRrrkfY1QJpDf7QsOEthbOT7vm0PqsE=
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANXhq0rpwQkZ9+mZLGVUq=r4WiA8BbZ-eeTDogf3fzeEPqeeqA@mail.gmail.com>
 
-From: Navneet Singh <navneet.singh@intel.com>
+On Mon, Oct 07, 2024 at 04:17:47PM +0800, Zong Li wrote:
+>On Wed, Oct 2, 2024 at 12:20 AM Deepak Gupta <debug@rivosinc.com> wrote:
+>>
+>> Userspace specifies CLONE_VM to share address space and spawn new thread.
+>> `clone` allow userspace to specify a new stack for new thread. However
+>> there is no way to specify new shadow stack base address without changing
+>> API. This patch allocates a new shadow stack whenever CLONE_VM is given.
+>>
+>> In case of CLONE_VFORK, parent is suspended until child finishes and thus
+>> can child use parent shadow stack. In case of !CLONE_VM, COW kicks in
+>> because entire address space is copied from parent to child.
+>>
+>> `clone3` is extensible and can provide mechanisms using which shadow stack
+>> as an input parameter can be provided. This is not settled yet and being
+>> extensively discussed on mailing list. Once that's settled, this commit
+>> will adapt to that.
+>>
+>> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+>> ---
+>>  arch/riscv/include/asm/usercfi.h |  25 ++++++++
 
-Dynamic Capacity Devices (DCD) support extent change notifications
-through the event log mechanism.  The interrupt mailbox commands were
-extended in CXL 3.1 to support these notifications.  Firmware can't
-configure DCD events to be FW controlled but can retain control of
-memory events.
+... snipped...
 
-Configure DCD event log interrupts on devices supporting dynamic
-capacity.  Disable DCD if interrupts are not supported.
+>> +
+>> +/*
+>> + * This gets called during clone/clone3/fork. And is needed to allocate a shadow stack for
+>> + * cases where CLONE_VM is specified and thus a different stack is specified by user. We
+>> + * thus need a separate shadow stack too. How does separate shadow stack is specified by
+>> + * user is still being debated. Once that's settled, remove this part of the comment.
+>> + * This function simply returns 0 if shadow stack are not supported or if separate shadow
+>> + * stack allocation is not needed (like in case of !CLONE_VM)
+>> + */
+>> +unsigned long shstk_alloc_thread_stack(struct task_struct *tsk,
+>> +                                          const struct kernel_clone_args *args)
+>> +{
+>> +       unsigned long addr, size;
+>> +
+>> +       /* If shadow stack is not supported, return 0 */
+>> +       if (!cpu_supports_shadow_stack())
+>> +               return 0;
+>> +
+>> +       /*
+>> +        * If shadow stack is not enabled on the new thread, skip any
+>> +        * switch to a new shadow stack.
+>> +        */
+>> +       if (is_shstk_enabled(tsk))
+>
+>Hi Deepak,
+>Should it be '!' is_shstk_enabled(tsk)?
 
-Care is taken to preserve the interrupt policy set by the FW if FW first
-has been selected by the BIOS.
+Yes it is a bug. It seems like fork without CLONE_VM or with CLONE_VFORK, it was returning
+0 anyways. And in the case of CLONE_VM (used by pthread), it was not doing the right thing.
+Most of the testing has been with busybox build (independent binaries0 driven via buildroot
+setup. Wondering why it wasn't caught.
 
-Signed-off-by: Navneet Singh <navneet.singh@intel.com>
-Co-developed-by: Ira Weiny <ira.weiny@intel.com>
-Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+Anyways, will fix it. Thanks for catching it.
 
----
-Changes:
-[iweiny: rebase on 6.12]
----
- drivers/cxl/cxlmem.h |  2 ++
- drivers/cxl/pci.c    | 72 +++++++++++++++++++++++++++++++++++++++++++---------
- 2 files changed, 62 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/cxl/cxlmem.h b/drivers/cxl/cxlmem.h
-index c3b889a586d8..2d2a1884a174 100644
---- a/drivers/cxl/cxlmem.h
-+++ b/drivers/cxl/cxlmem.h
-@@ -226,7 +226,9 @@ struct cxl_event_interrupt_policy {
- 	u8 warn_settings;
- 	u8 failure_settings;
- 	u8 fatal_settings;
-+	u8 dcd_settings;
- } __packed;
-+#define CXL_EVENT_INT_POLICY_BASE_SIZE 4 /* info, warn, failure, fatal */
- 
- /**
-  * struct cxl_event_state - Event log driver state
-diff --git a/drivers/cxl/pci.c b/drivers/cxl/pci.c
-index c6042db0653d..2ba059d313c2 100644
---- a/drivers/cxl/pci.c
-+++ b/drivers/cxl/pci.c
-@@ -672,23 +672,34 @@ static int cxl_event_get_int_policy(struct cxl_memdev_state *mds,
- }
- 
- static int cxl_event_config_msgnums(struct cxl_memdev_state *mds,
--				    struct cxl_event_interrupt_policy *policy)
-+				    struct cxl_event_interrupt_policy *policy,
-+				    bool native_cxl)
- {
- 	struct cxl_mailbox *cxl_mbox = &mds->cxlds.cxl_mbox;
-+	size_t size_in = CXL_EVENT_INT_POLICY_BASE_SIZE;
- 	struct cxl_mbox_cmd mbox_cmd;
- 	int rc;
- 
--	*policy = (struct cxl_event_interrupt_policy) {
--		.info_settings = CXL_INT_MSI_MSIX,
--		.warn_settings = CXL_INT_MSI_MSIX,
--		.failure_settings = CXL_INT_MSI_MSIX,
--		.fatal_settings = CXL_INT_MSI_MSIX,
--	};
-+	/* memory event policy is left if FW has control */
-+	if (native_cxl) {
-+		*policy = (struct cxl_event_interrupt_policy) {
-+			.info_settings = CXL_INT_MSI_MSIX,
-+			.warn_settings = CXL_INT_MSI_MSIX,
-+			.failure_settings = CXL_INT_MSI_MSIX,
-+			.fatal_settings = CXL_INT_MSI_MSIX,
-+			.dcd_settings = 0,
-+		};
-+	}
-+
-+	if (cxl_dcd_supported(mds)) {
-+		policy->dcd_settings = CXL_INT_MSI_MSIX;
-+		size_in += sizeof(policy->dcd_settings);
-+	}
- 
- 	mbox_cmd = (struct cxl_mbox_cmd) {
- 		.opcode = CXL_MBOX_OP_SET_EVT_INT_POLICY,
- 		.payload_in = policy,
--		.size_in = sizeof(*policy),
-+		.size_in = size_in,
- 	};
- 
- 	rc = cxl_internal_send_cmd(cxl_mbox, &mbox_cmd);
-@@ -735,6 +746,31 @@ static int cxl_event_irqsetup(struct cxl_memdev_state *mds,
- 	return 0;
- }
- 
-+static int cxl_irqsetup(struct cxl_memdev_state *mds,
-+			struct cxl_event_interrupt_policy *policy,
-+			bool native_cxl)
-+{
-+	struct cxl_dev_state *cxlds = &mds->cxlds;
-+	int rc;
-+
-+	if (native_cxl) {
-+		rc = cxl_event_irqsetup(mds, policy);
-+		if (rc)
-+			return rc;
-+	}
-+
-+	if (cxl_dcd_supported(mds)) {
-+		rc = cxl_event_req_irq(cxlds, policy->dcd_settings);
-+		if (rc) {
-+			dev_err(cxlds->dev, "Failed to get interrupt for DCD event log\n");
-+			cxl_disable_dcd(mds);
-+			return rc;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- static bool cxl_event_int_is_fw(u8 setting)
- {
- 	u8 mode = FIELD_GET(CXLDEV_EVENT_INT_MODE_MASK, setting);
-@@ -761,17 +797,25 @@ static int cxl_event_config(struct pci_host_bridge *host_bridge,
- 			    struct cxl_memdev_state *mds, bool irq_avail)
- {
- 	struct cxl_event_interrupt_policy policy = { 0 };
-+	bool native_cxl = host_bridge->native_cxl_error;
- 	int rc;
- 
- 	/*
- 	 * When BIOS maintains CXL error reporting control, it will process
- 	 * event records.  Only one agent can do so.
-+	 *
-+	 * If BIOS has control of events and DCD is not supported skip event
-+	 * configuration.
- 	 */
--	if (!host_bridge->native_cxl_error)
-+	if (!native_cxl && !cxl_dcd_supported(mds))
- 		return 0;
- 
- 	if (!irq_avail) {
- 		dev_info(mds->cxlds.dev, "No interrupt support, disable event processing.\n");
-+		if (cxl_dcd_supported(mds)) {
-+			dev_info(mds->cxlds.dev, "DCD requires interrupts, disable DCD\n");
-+			cxl_disable_dcd(mds);
-+		}
- 		return 0;
- 	}
- 
-@@ -779,10 +823,10 @@ static int cxl_event_config(struct pci_host_bridge *host_bridge,
- 	if (rc)
- 		return rc;
- 
--	if (!cxl_event_validate_mem_policy(mds, &policy))
-+	if (native_cxl && !cxl_event_validate_mem_policy(mds, &policy))
- 		return -EBUSY;
- 
--	rc = cxl_event_config_msgnums(mds, &policy);
-+	rc = cxl_event_config_msgnums(mds, &policy, native_cxl);
- 	if (rc)
- 		return rc;
- 
-@@ -790,12 +834,16 @@ static int cxl_event_config(struct pci_host_bridge *host_bridge,
- 	if (rc)
- 		return rc;
- 
--	rc = cxl_event_irqsetup(mds, &policy);
-+	rc = cxl_irqsetup(mds, &policy, native_cxl);
- 	if (rc)
- 		return rc;
- 
- 	cxl_mem_get_event_records(mds, CXLDEV_EVENT_STATUS_ALL);
- 
-+	dev_dbg(mds->cxlds.dev, "Event config : %s DCD %s\n",
-+		native_cxl ? "OS" : "BIOS",
-+		cxl_dcd_supported(mds) ? "supported" : "not supported");
-+
- 	return 0;
- }
- 
-
--- 
-2.46.0
-
+>
+>> +               return 0;
+>> +
+>> +       /*
