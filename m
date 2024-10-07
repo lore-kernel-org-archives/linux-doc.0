@@ -1,105 +1,386 @@
-Received: from mout.web.de (mout.web.de [212.227.15.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B91156225;
-	Mon,  7 Oct 2024 07:16:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7931618A937
+	for <linux-doc@vger.kernel.org>; Mon,  7 Oct 2024 08:17:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728285392; cv=none; b=XRwZBMoZbuCyB3CpMAOxR6jQRNnpWX6pmhR2sU0zBgxyRUNce8FhvICEoZ3FsnKr6b1NclCZxejfiMPYX3WM5pQiBnTyMAJTqGeTGcPy0qAIdPe84VYalzZQasOy5+SqcDKz7Xu2BIYVucI8U/8VbMoL+x/cmFYmRQ8R4I+ZeZo=
+	t=1728289082; cv=none; b=bewA6M3uTIuzN6WtGXinO/pojKjuOuIJyG18L3dsfmRa6X+DWFCKOLMDY66nyQf3wO8rl2NhN7WGFa4cTXYxvthMNZ10qMcj7FyDCh8EJcY+8ib8nme/8mEU6+QDvJq99BkxfkCaimEylTQ4EiH6wuZp5w0zdnmY8V9B0LuWK5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728285392; c=relaxed/simple;
-	bh=leaIucq86EgwIm9BIalrReZrKllMQ/IZiyAA5rTyOok=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Hht/vf8jd15w/0lV9t9fQsIpFbylJP85I5os4enJRxFiDppLu4f0r59YW8vTu+nOO/9zxQhQ3rukq1N28sX3k9hUJauyXsVavJEGpRdWNk6ZWANyQepEUTzSPJBwhEl4igUOhNWeQHmSewnB8AwehY19NOY0AEMzXg2kqITNBF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=N4saO+fg; arc=none smtp.client-ip=212.227.15.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1728289082; c=relaxed/simple;
+	bh=Nmph6WDs9Xq7iTOfvd0cLrjjvG2iMe2g5y57xwNvOkQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iovHP+lf9wxFfX23/2P7zxFhX1o7Ml7HUdK4v2stAnWeaDsRJob5I1L3ysdiaSAYOVEDsZ23ZmYLyRbAz3i9L49QpeMXqMI7GRlkeVBHWEyU186P1zHxHPg1EZJVVHTQX3GWqG3P0+RFkglR+PqNSDyH1Z8UtQYeo8IQNL07x1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=XSGIF6M2; arc=none smtp.client-ip=209.85.166.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="N4saO+fg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1728285361; x=1728890161; i=markus.elfring@web.de;
-	bh=LfrIY+pHO/ZX6h42WD8AmA8x940CYl5/uS/Of9wHfV0=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=N4saO+fgvYoaTltoDC2V5qHcHc3aI51HVxxMC5jsmaAWCaAnndTUM7ge7dVWVahf
-	 y0Rf2zvP7kGCHnn5LV14Hh/G4hM08wjo7AJ/Nu17tObvWmlyuDnULVfzck8K+ukWI
-	 NdPKRmjW71FJD0ywjUZN6bJLXbnUTPvqtmdxXtcOOvCq1XeTfjNCti4erWxReHKha
-	 ID8gM30UmTIMCcRCgE9bQokITKGdkM+OdB4rgGyhJZBtQR1diY24fooY4T9jqasZO
-	 c+2YjDlJwKmdOx6HptPWjLHbxhcqK1bweM8W09gm/K00MwXmKfB08ZIOk1HwsRmJW
-	 IGK6M9RRbef/CydXrw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.81.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MLRYd-1tEYAU0U3H-00J2BO; Mon, 07
- Oct 2024 09:16:01 +0200
-Message-ID: <f5bfdc01-05b1-4015-8fbe-d84417b69138@web.de>
-Date: Mon, 7 Oct 2024 09:15:51 +0200
+	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="XSGIF6M2"
+Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-82aad6c83ecso150581139f.3
+        for <linux-doc@vger.kernel.org>; Mon, 07 Oct 2024 01:17:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sifive.com; s=google; t=1728289078; x=1728893878; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vV5iKTZRSVTQUCoJBZzYZK+9ejJVraol8LawWsL5uGA=;
+        b=XSGIF6M25Lbz0GpQpKB5rNdxaLqJ+91BffQhZawZ8hJ9WodEiehgVlQXcPY6vDjDNQ
+         MaSj2qxb5wHrX6+Mj5hjS8e8uyp9uxDMZD8t5sUKfTc3wEHAgj7V4eqLfbYQI2HpNLTJ
+         DgP3n27FA34JxTz0cOjNAnuUhLi4zMsBxejCPkqPxxgpVmE4FMeNb8rAGVRyHxSxkccQ
+         N+Rafv+NKwXl0/lQPFPCz9ZhNznlCIsBqokEpvGnzlsO/WUeOTqQryd3X3r/Ad04er+4
+         c4R3XI15030EUJYbCHsX9sD2uQKpy5RHDfxRmo5mKyeO4UrSOHg3I+oDm+ZFFuLEp6hz
+         Ax3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728289078; x=1728893878;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vV5iKTZRSVTQUCoJBZzYZK+9ejJVraol8LawWsL5uGA=;
+        b=EQSPpZ2YbU80hi4pRMH0AMvDhibmt514tx7WKI9xfmbR9Ybib6eST8ewvZJ3FQlyDt
+         f4aMd8l+YqbbvDjMKfqNoZeNYgHuAMHPqBos9y3Xi/2niO15mXDa8nHsj1ME54ZMGwaI
+         ycDEiPG1CRDcNSlx3I2T47Ws31JZSjr9xZiIp95+VzVRzHAKqFRxlvxml9BamycHAYF0
+         oWvkMWjPkUI6hDUrZCprDfvvgRBuOz68PwxceMuLe0P26EPyMqYU5TJYDubCJIOActRZ
+         gbdcjnhkRWVk10lStZYJdKxxocAHgSsOu/yGqN/na2Y5ugjXvOxBItnB5W2ySRTuFaVY
+         002g==
+X-Forwarded-Encrypted: i=1; AJvYcCWpecO4l+S5C2tWK7ChXuijm74gYOYaiIqmil3Rm1cehhtCdUsGgpfyjpu5hcnLnbR8h13yD8KQa8s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxv6L1F9sFY7F4LDAy5Mhr6fTq0iTi+YTM2ATpRuTwpPcEsy1RM
+	FxRDXiczsdmwaQOiKyvC5Rs5jx5h4U6OR1Eb+PHW8Iyseph65T1do4A5lMLtcEMfbtxMHGds6V2
+	SW3wXg8dwlwH2KwQZ8VLqx4vc7E4u4bMHXAMbyg==
+X-Google-Smtp-Source: AGHT+IGbrFX2fkGwh4/hSUi/bswFsAwHoZTucK0BPSJDYS8wpDCXqS1WF3XKaDolR3S9yJug1dqVltHjNKSJeho3ET0=
+X-Received: by 2002:a05:6602:14c1:b0:806:31ee:132 with SMTP id
+ ca18e2360f4ac-834f7ca6040mr1014345639f.4.1728289078482; Mon, 07 Oct 2024
+ 01:17:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: powermac: Call of_node_put(bk_node) only once in
- pmac_has_backlight_type()
-To: Dan Carpenter <dan.carpenter@linaro.org>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org
-Cc: Jani Nikula <jani.nikula@intel.com>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Naveen N Rao <naveen@kernel.org>,
- Nicholas Piggin <npiggin@gmail.com>, Paul Mackerras <paulus@samba.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Thomas Zimmermann <tzimmermann@suse.de>, LKML
- <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-References: <b7e69e04-e15c-41ec-b62b-37253debc654@web.de>
- <d9bdc1b6-ea7e-47aa-80aa-02ae649abf72@csgroup.eu>
- <34233c4c-1f61-4bc6-aeca-9f5faba8509e@stanley.mountain>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <34233c4c-1f61-4bc6-aeca-9f5faba8509e@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8
+References: <20241001-v5_user_cfi_series-v1-0-3ba65b6e550f@rivosinc.com> <20241001-v5_user_cfi_series-v1-16-3ba65b6e550f@rivosinc.com>
+In-Reply-To: <20241001-v5_user_cfi_series-v1-16-3ba65b6e550f@rivosinc.com>
+From: Zong Li <zong.li@sifive.com>
+Date: Mon, 7 Oct 2024 16:17:47 +0800
+Message-ID: <CANXhq0rpwQkZ9+mZLGVUq=r4WiA8BbZ-eeTDogf3fzeEPqeeqA@mail.gmail.com>
+Subject: Re: [PATCH 16/33] riscv/shstk: If needed allocate a new shadow stack
+ on clone
+To: Deepak Gupta <debug@rivosinc.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Christian Brauner <brauner@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Oleg Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, alistair.francis@wdc.com, 
+	richard.henderson@linaro.org, jim.shu@sifive.com, andybnac@gmail.com, 
+	kito.cheng@sifive.com, charlie@rivosinc.com, atishp@rivosinc.com, 
+	evan@rivosinc.com, cleger@rivosinc.com, alexghiti@rivosinc.com, 
+	samitolvanen@google.com, broonie@kernel.org, rick.p.edgecombe@intel.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Imoe7ZEwCJyTawNAyPA70ApwEVLa20g7u9LEzf/ELxArBp1NIGW
- k7rL310fUUIVzHcvZY1mDW7djNPCpStml1KdeoMvyRzcS2wFF4M8tuDAmwgpm8Z7O/0sQ5+
- lD582KkFDiLMG2CCbNbcOFOxCyQXO+ywtUg+5xm/NBw3eHKMKaOUrReKlYNSo3KDNTEIxcZ
- wAB07N1+HNQSk9uOtpGOw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:5AdduQQ23uY=;gRPrvDdYEt2bChq+CWEYWCgqc1K
- 0WdHt/6k5kpY7vnwZuSCEf03Zs+rc6PpWzC1ENPMR+8wsHuSMQme/RkyjY391+qkbXtTFmB3k
- 8KBTg9Mzmy46+OSyTJqI4fMM/jMghe/s8lIlCf5DGSFPm44bZ217s8g6x6aiCsIxanDiI663a
- OJu32/rBn6F9oicEpMrlbzt6f6eirjP/iqt+7w2dAo1h5ERGNxIOQj0M5YZAsEkiMEFkVHlRl
- JqJRK7qC1i3GOexvh/TWeAMeRFtdqfaOSA0ZmNtYAGkgH19talR+tKdY2qrqRRKkNIfCFcPg5
- KtrFmloBYyBKb3JFTtNe/zCxto6VgLI/KGtabTpCR+yosdF7Tvrvdc7ZRgZShB7O4uhFw7WMe
- zgN+4CB7RFYxLkiavBmPLmpuw2sjVqSwB/D54Au/HLIzx1Y2VZ0K5lU7MGhDGxwmvgV2trXtK
- ixSFKEcX4vUPAsqg/caW8WbOg0uPUKLDa3JyrcgHQvUfaiQYdAnIFKJ+cNVBZIROZR5fRCg86
- abgT/jc2iiGlaxKimlbnvLmY3F8aXMh379FgjJbMfUgZHn+klI7v7kXjAg034ZjXbweNZG+im
- VIzUvtW1mKKiEvNH7knu9idBAvOwqaCixq/ntxEmZg4pcAHfBIaCSHVXvO3v2U4Ika05zpQRe
- 5rEd23d5HeEYT8aqNckhZxLoxWMFc11vRCMww9kn7tKDHqjmM5ZGBpd+jgJFjV7db9lDJqWJF
- IteBg900ZeC02iAfJS8Tz12fBjXGJfqMDXfb6rX7wIiB9rGJnF6Nau1fHVwV6p9x2IXkMsJWa
- OSJgpF8A6XejYWbabdImIakw==
 
-> First of all, the change is wrong.  We can't dereference "prop" after ca=
-lling
-> of_node_put().
-=E2=80=A6
-> The of_get_property() function doesn't do a get as in get/put, it just f=
-inds
-> the property and returns it.  It doesn't bump the reference count.  It's=
- a
-> confusing name in that way.  The The of_node_put() pairs with
-> of_find_node_by_name().
-Thanks for your information.
+On Wed, Oct 2, 2024 at 12:20=E2=80=AFAM Deepak Gupta <debug@rivosinc.com> w=
+rote:
+>
+> Userspace specifies CLONE_VM to share address space and spawn new thread.
+> `clone` allow userspace to specify a new stack for new thread. However
+> there is no way to specify new shadow stack base address without changing
+> API. This patch allocates a new shadow stack whenever CLONE_VM is given.
+>
+> In case of CLONE_VFORK, parent is suspended until child finishes and thus
+> can child use parent shadow stack. In case of !CLONE_VM, COW kicks in
+> because entire address space is copied from parent to child.
+>
+> `clone3` is extensible and can provide mechanisms using which shadow stac=
+k
+> as an input parameter can be provided. This is not settled yet and being
+> extensively discussed on mailing list. Once that's settled, this commit
+> will adapt to that.
+>
+> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+> ---
+>  arch/riscv/include/asm/usercfi.h |  25 ++++++++
+>  arch/riscv/kernel/process.c      |  11 +++-
+>  arch/riscv/kernel/usercfi.c      | 121 +++++++++++++++++++++++++++++++++=
+++++++
+>  3 files changed, 156 insertions(+), 1 deletion(-)
+>
+> diff --git a/arch/riscv/include/asm/usercfi.h b/arch/riscv/include/asm/us=
+ercfi.h
+> index 4fa201b4fc4e..719e28e043c8 100644
+> --- a/arch/riscv/include/asm/usercfi.h
+> +++ b/arch/riscv/include/asm/usercfi.h
+> @@ -8,6 +8,9 @@
+>  #ifndef __ASSEMBLY__
+>  #include <linux/types.h>
+>
+> +struct task_struct;
+> +struct kernel_clone_args;
+> +
+>  #ifdef CONFIG_RISCV_USER_CFI
+>  struct cfi_status {
+>         unsigned long ubcfi_en : 1; /* Enable for backward cfi. */
+> @@ -17,6 +20,28 @@ struct cfi_status {
+>         unsigned long shdw_stk_size; /* size of shadow stack */
+>  };
+>
+> +unsigned long shstk_alloc_thread_stack(struct task_struct *tsk,
+> +                                                       const struct kern=
+el_clone_args *args);
+> +void shstk_release(struct task_struct *tsk);
+> +void set_shstk_base(struct task_struct *task, unsigned long shstk_addr, =
+unsigned long size);
+> +unsigned long get_shstk_base(struct task_struct *task, unsigned long *si=
+ze);
+> +void set_active_shstk(struct task_struct *task, unsigned long shstk_addr=
+);
+> +bool is_shstk_enabled(struct task_struct *task);
+> +
+> +#else
+> +
+> +#define shstk_alloc_thread_stack(tsk, args) 0
+> +
+> +#define shstk_release(tsk)
+> +
+> +#define get_shstk_base(task, size) 0
+> +
+> +#define set_shstk_base(task, shstk_addr, size)
+> +
+> +#define set_active_shstk(task, shstk_addr)
+> +
+> +#define is_shstk_enabled(task) false
+> +
+>  #endif /* CONFIG_RISCV_USER_CFI */
+>
+>  #endif /* __ASSEMBLY__ */
+> diff --git a/arch/riscv/kernel/process.c b/arch/riscv/kernel/process.c
+> index 1f2574fb2edb..f6f58b1ed905 100644
+> --- a/arch/riscv/kernel/process.c
+> +++ b/arch/riscv/kernel/process.c
+> @@ -28,6 +28,7 @@
+>  #include <asm/vector.h>
+>  #include <asm/cpufeature.h>
+>  #include <asm/exec.h>
+> +#include <asm/usercfi.h>
+>
+>  #if defined(CONFIG_STACKPROTECTOR) && !defined(CONFIG_STACKPROTECTOR_PER=
+_TASK)
+>  #include <linux/stackprotector.h>
+> @@ -203,7 +204,7 @@ int arch_dup_task_struct(struct task_struct *dst, str=
+uct task_struct *src)
+>
+>  void exit_thread(struct task_struct *tsk)
+>  {
+> -
+> +       shstk_release(tsk);
+>  }
+>
+>  int copy_thread(struct task_struct *p, const struct kernel_clone_args *a=
+rgs)
+> @@ -211,6 +212,7 @@ int copy_thread(struct task_struct *p, const struct k=
+ernel_clone_args *args)
+>         unsigned long clone_flags =3D args->flags;
+>         unsigned long usp =3D args->stack;
+>         unsigned long tls =3D args->tls;
+> +       unsigned long ssp =3D 0;
+>         struct pt_regs *childregs =3D task_pt_regs(p);
+>
+>         memset(&p->thread.s, 0, sizeof(p->thread.s));
+> @@ -225,11 +227,18 @@ int copy_thread(struct task_struct *p, const struct=
+ kernel_clone_args *args)
+>                 p->thread.s[0] =3D (unsigned long)args->fn;
+>                 p->thread.s[1] =3D (unsigned long)args->fn_arg;
+>         } else {
+> +               /* allocate new shadow stack if needed. In case of CLONE_=
+VM we have to */
+> +               ssp =3D shstk_alloc_thread_stack(p, args);
+> +               if (IS_ERR_VALUE(ssp))
+> +                       return PTR_ERR((void *)ssp);
+> +
+>                 *childregs =3D *(current_pt_regs());
+>                 /* Turn off status.VS */
+>                 riscv_v_vstate_off(childregs);
+>                 if (usp) /* User fork */
+>                         childregs->sp =3D usp;
+> +               /* if needed, set new ssp */
+> +               ssp ? set_active_shstk(p, ssp) : 0;
+>                 if (clone_flags & CLONE_SETTLS)
+>                         childregs->tp =3D tls;
+>                 childregs->a0 =3D 0; /* Return value of fork() */
+> diff --git a/arch/riscv/kernel/usercfi.c b/arch/riscv/kernel/usercfi.c
+> index ce002eabbdc1..7a7f0b57b2d4 100644
+> --- a/arch/riscv/kernel/usercfi.c
+> +++ b/arch/riscv/kernel/usercfi.c
+> @@ -19,6 +19,41 @@
+>
+>  #define SHSTK_ENTRY_SIZE sizeof(void *)
+>
+> +bool is_shstk_enabled(struct task_struct *task)
+> +{
+> +       return task->thread_info.user_cfi_state.ubcfi_en ? true : false;
+> +}
+> +
+> +void set_shstk_base(struct task_struct *task, unsigned long shstk_addr, =
+unsigned long size)
+> +{
+> +       task->thread_info.user_cfi_state.shdw_stk_base =3D shstk_addr;
+> +       task->thread_info.user_cfi_state.shdw_stk_size =3D size;
+> +}
+> +
+> +unsigned long get_shstk_base(struct task_struct *task, unsigned long *si=
+ze)
+> +{
+> +       if (size)
+> +               *size =3D task->thread_info.user_cfi_state.shdw_stk_size;
+> +       return task->thread_info.user_cfi_state.shdw_stk_base;
+> +}
+> +
+> +void set_active_shstk(struct task_struct *task, unsigned long shstk_addr=
+)
+> +{
+> +       task->thread_info.user_cfi_state.user_shdw_stk =3D shstk_addr;
+> +}
+> +
+> +/*
+> + * If size is 0, then to be compatible with regular stack we want it to =
+be as big as
+> + * regular stack. Else PAGE_ALIGN it and return back
+> + */
+> +static unsigned long calc_shstk_size(unsigned long size)
+> +{
+> +       if (size)
+> +               return PAGE_ALIGN(size);
+> +
+> +       return PAGE_ALIGN(min_t(unsigned long long, rlimit(RLIMIT_STACK),=
+ SZ_4G));
+> +}
+> +
+>  /*
+>   * Writes on shadow stack can either be `sspush` or `ssamoswap`. `sspush=
+` can happen
+>   * implicitly on current shadow stack pointed to by CSR_SSP. `ssamoswap`=
+ takes pointer to
+> @@ -143,3 +178,89 @@ SYSCALL_DEFINE3(map_shadow_stack, unsigned long, add=
+r, unsigned long, size, unsi
+>
+>         return allocate_shadow_stack(addr, aligned_size, size, set_tok);
+>  }
+> +
+> +/*
+> + * This gets called during clone/clone3/fork. And is needed to allocate =
+a shadow stack for
+> + * cases where CLONE_VM is specified and thus a different stack is speci=
+fied by user. We
+> + * thus need a separate shadow stack too. How does separate shadow stack=
+ is specified by
+> + * user is still being debated. Once that's settled, remove this part of=
+ the comment.
+> + * This function simply returns 0 if shadow stack are not supported or i=
+f separate shadow
+> + * stack allocation is not needed (like in case of !CLONE_VM)
+> + */
+> +unsigned long shstk_alloc_thread_stack(struct task_struct *tsk,
+> +                                          const struct kernel_clone_args=
+ *args)
+> +{
+> +       unsigned long addr, size;
+> +
+> +       /* If shadow stack is not supported, return 0 */
+> +       if (!cpu_supports_shadow_stack())
+> +               return 0;
+> +
+> +       /*
+> +        * If shadow stack is not enabled on the new thread, skip any
+> +        * switch to a new shadow stack.
+> +        */
+> +       if (is_shstk_enabled(tsk))
 
-* Do you see opportunities for improving the software documentation accord=
-ingly?
+Hi Deepak,
+Should it be '!' is_shstk_enabled(tsk)?
 
-* How much can source code analysis tools influence development efforts?
-
-
-Regards,
-Markus
+> +               return 0;
+> +
+> +       /*
+> +        * For CLONE_VFORK the child will share the parents shadow stack.
+> +        * Set base =3D 0 and size =3D 0, this is special means to track =
+this state
+> +        * so the freeing logic run for child knows to leave it alone.
+> +        */
+> +       if (args->flags & CLONE_VFORK) {
+> +               set_shstk_base(tsk, 0, 0);
+> +               return 0;
+> +       }
+> +
+> +       /*
+> +        * For !CLONE_VM the child will use a copy of the parents shadow
+> +        * stack.
+> +        */
+> +       if (!(args->flags & CLONE_VM))
+> +               return 0;
+> +
+> +       /*
+> +        * reaching here means, CLONE_VM was specified and thus a separat=
+e shadow
+> +        * stack is needed for new cloned thread. Note: below allocation =
+is happening
+> +        * using current mm.
+> +        */
+> +       size =3D calc_shstk_size(args->stack_size);
+> +       addr =3D allocate_shadow_stack(0, size, 0, false);
+> +       if (IS_ERR_VALUE(addr))
+> +               return addr;
+> +
+> +       set_shstk_base(tsk, addr, size);
+> +
+> +       return addr + size;
+> +}
+> +
+> +void shstk_release(struct task_struct *tsk)
+> +{
+> +       unsigned long base =3D 0, size =3D 0;
+> +       /* If shadow stack is not supported or not enabled, nothing to re=
+lease */
+> +       if (!cpu_supports_shadow_stack() ||
+> +               !is_shstk_enabled(tsk))
+> +               return;
+> +
+> +       /*
+> +        * When fork() with CLONE_VM fails, the child (tsk) already has a
+> +        * shadow stack allocated, and exit_thread() calls this function =
+to
+> +        * free it.  In this case the parent (current) and the child shar=
+e
+> +        * the same mm struct. Move forward only when they're same.
+> +        */
+> +       if (!tsk->mm || tsk->mm !=3D current->mm)
+> +               return;
+> +
+> +       /*
+> +        * We know shadow stack is enabled but if base is NULL, then
+> +        * this task is not managing its own shadow stack (CLONE_VFORK). =
+So
+> +        * skip freeing it.
+> +        */
+> +       base =3D get_shstk_base(tsk, &size);
+> +       if (!base)
+> +               return;
+> +
+> +       vm_munmap(base, size);
+> +       set_shstk_base(tsk, 0, 0);
+> +}
+>
+> --
+> 2.45.0
+>
+>
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
