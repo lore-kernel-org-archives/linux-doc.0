@@ -1,92 +1,78 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62B512B143;
-	Mon,  7 Oct 2024 17:37:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD38139CFA;
+	Mon,  7 Oct 2024 17:46:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728322635; cv=none; b=CgRvUgfmd/r7Ueibn8uW3otjaDQcaq0zdzyBPvxaGNQhpdk4QtJKXGMp7uysczwNrjCFLjskpkDONkQux6d1JoH8zggQzlMt+1/xs10cBmqzTgVTr0quVBUdIsKdsVuClleJEF1h9QpmzP8GUwGfGEQZVuV49JiGBuwm8i0zrn8=
+	t=1728323207; cv=none; b=fLKZLvqfv86zwATfJMFquvsYMjHcbVWUGsIan41eyvn0zDUr90o6qzUU3GPfmWCXTRM+tYfr0vEIPUAUf4sPS/62RI/YzXLsO/v/HOJDp8M06wit5jpluA74W5t4TkbveUie1kMMISPvs0MGwLNWEiIi13BUpIKfT3FZ3SOVPtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728322635; c=relaxed/simple;
-	bh=YheZd7fy6jZTQiPtRwC1f4eQ8RVm3fkTXSUISddTATY=;
+	s=arc-20240116; t=1728323207; c=relaxed/simple;
+	bh=ydEKflDOj5PrICcHyjRMmVQw/oFNuhMHmHCSdva7xRI=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Ra+2MPkHMjCDIMed8Xa58izE3HAFcBeO1TtjlKvlhnDFVmRH98toeqMwSPD8XYA0LzvKNOSH4EWBvx/d8sytMi9/Rlyf9O4AUV5zmOMZqNTp8124x6WvCSidpX521JHJnEkjmJxKN5/esfOp1DhfzAm8M+8L0O/bzvUCrGp+NCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Q8Z0ILsk; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=QWpfQCPvyJL9F19h8na4UeXF8O3dyb36dsp6ll2k2jZ5hUWR7xHEh0QiWWfNHU3zNbrw7PD1GwEr7COA4Bj5AfpwtKyKchC2zOrx4gRq8lHtp8pynMKZHE0d6aD7HBKLJWi3XdB5GJuo7JdDFALo3nZ48qrXD3qDVu5oOWju7Uo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=R3IlIP1V; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Q8Z0ILsk"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 12BBE42B38
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="R3IlIP1V"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1237442B38
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1728322633; bh=BYLYVaJHMzRDGD0vXc6iVzKBoQNDBzqFCgfZFi6GVF8=;
+	t=1728323205; bh=QSvvjs6UH5sL67koCBe6p+EInqHQJWIsplo9r8KQsw4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Q8Z0ILskDT2g1j+Z2EaZVPhCJPPA3Q47y0YdwhHzd+ztRT08qmy2DlQfAwaJaek6h
-	 dVJCeGA+Zx/ZtIjjHGFUKK4wHv18iPcxeaOdA6Q1+7rmMgvQiC/GPA0hvGw2UB6ISw
-	 fqpSsF76qX80ko6RQbrYKXW9zh9CBfZDoh2+Z+xsM5MM270o+b6YhYuphxSxi0/TXm
-	 MRXJXehl66jHSlZNG86W9loG+uLZcNJFjxy/sl7nPDT3HMsI2m5lijWaoY2mRLx4YZ
-	 b6ukwNd7PC9H18JZ4xGLggocO37ApQ31fChdJvOIHamjhkcno5Xbh+KadHXJ0jtcrW
-	 xhawCiNKAwonQ==
+	b=R3IlIP1V08NXxd92HW0GBZ9/UFQjak0X8TYHrfJw/rZkDmPvDsK/JmL6MMjgXP/6l
+	 oeAtd0qNHOTJfN7ghVzAXZuM+kiuJ9kWORuhdmJuS0OQh3Gm7IEfVQvaQzIzjTcWXm
+	 /V5Ar4u1cnRff0MRh9r82/CKSVzgu/wnQgjoPLNxY3xEg5oV5yOYFpZiCkxn2tBese
+	 LtDtaMJhpHRVN6KG3UhB9oEXPA5UnbYWiknllTsLvlb9rqlhXcVK4x009zbRfUk8XN
+	 c28AqNMeY5C4UNTyqa+CAhNx5R0fr07gmpn0BDD2tydTnL+6chh91Sl2N4Wtnz4ViU
+	 +d5g10y+nVlsg==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 12BBE42B38;
-	Mon,  7 Oct 2024 17:37:13 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 1237442B38;
+	Mon,  7 Oct 2024 17:46:45 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Linux Trace Kernel
- <linux-trace-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, Masami
- Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Mike Rapoport <mike.rapoport@gmail.com>,
- Kees Cook <keescook@chromium.org>, Ard Biesheuvel <ardb@kernel.org>, Hans
- de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v2] Documentation/tracing: Mention that
- RESET_ATTACK_MITIGATION can clear memory
-In-Reply-To: <20241007130858.7e25daeb@gandalf.local.home>
-References: <20241001095734.11a67b4b@gandalf.local.home>
- <20241004193800.2ffd0d36@gandalf.local.home>
- <87v7y3kflt.fsf@trenco.lwn.net>
- <20241007130858.7e25daeb@gandalf.local.home>
-Date: Mon, 07 Oct 2024 11:37:12 -0600
-Message-ID: <878quzizlj.fsf@trenco.lwn.net>
+To: Sergio =?utf-8?Q?Gonz=C3=A1lez?= Collado <sergio.collado@gmail.com>,
+ Bjorn Helgaas
+ <bhelgaas@google.com>, Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
+ Ricardo.marliere@suse.com, Sergio =?utf-8?Q?Gonz=C3=A1lez?= Collado
+ <sergio.collado@gmail.com>
+Subject: Re: [PATCH v4] docs/sp_SP: Add translation for scheduler/sched-bwc.rst
+In-Reply-To: <20240912171144.15398-1-sergio.collado@gmail.com>
+References: <20240912171144.15398-1-sergio.collado@gmail.com>
+Date: Mon, 07 Oct 2024 11:46:44 -0600
+Message-ID: <874j5niz5n.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Steven Rostedt <rostedt@goodmis.org> writes:
+Sergio Gonz=C3=A1lez Collado <sergio.collado@gmail.com> writes:
 
-> On Mon, 07 Oct 2024 11:06:06 -0600
-> Jonathan Corbet <corbet@lwn.net> wrote:
+> Translate Documentation/scheduler/sched-bwc.rst into Spanish.
 >
->> Steven Rostedt <rostedt@goodmis.org> writes:
->> 
->> > Jon,
->> >
->> > This version should be good to go.  
->> 
->> Applied, thanks.
->
-> And I now see I sent an older version that had a typo in it :-p
->
->
-> +			Note, saving the trace buffer across reboots does require that the system
-> +			is set up to not wipe memory. For instance, CONFIG_RESET_ATTACK_MITIGATION
-> +			can force a memory reset on boot which will clear any trace that was stored.
-> +			This is just one of many ways that can clear memory. Make sure you system
->
-> 										       your system
->
-> +			keeps the content of memory across reboots before relying on this option.
-> +
->
-> I can send a v3.
+> Signed-off-by: Sergio Gonz=C3=A1lez Collado <sergio.collado@gmail.com>
+> Reviewed-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+> ---
+> v1 -> v2: initial patch
+> ---
+> v2 -> v3: failed patch
+> ---
+> v3 -> v4: corrected reviews
+> ---
+>  .../translations/sp_SP/scheduler/index.rst    |   1 +
+>  .../sp_SP/scheduler/sched-bwc.rst             | 287 ++++++++++++++++++
+>  2 files changed, 288 insertions(+)
+>  create mode 100644 Documentation/translations/sp_SP/scheduler/sched-bwc.=
+rst
 
-*Grumble... :)
-
-I haven't pushed out my tree yet, so I can replace the other one.
+Applied, thanks.
 
 jon
