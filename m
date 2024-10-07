@@ -1,46 +1,46 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984891DD55D
-	for <linux-doc@vger.kernel.org>; Mon,  7 Oct 2024 17:20:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C210A18D624;
+	Mon,  7 Oct 2024 17:21:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728321648; cv=none; b=C4okOpzpIkD8Kd8CRqbsrr+GvYEXcMGG288sIC9DS8zIcn07lPeLbvo93huvgiQW28aGL+GyPjV/mNSHZCJQC2qkd3wrJd9Iv/3bUTimv2+DQh4oh1h2qmmKIF7IIiRaed8xqJALQKjS/ZE2HDbgXWWnUKodnx2hHXDEjlcwGNI=
+	t=1728321693; cv=none; b=pnBpKRiiap97QIt0qPZ+f5NASmhzfHxHmJYFnMrh/icv4Pmer4LnrAt+OYs744sPALpwEZ3V5v8G8xgvmbCmTPpuNen/Gc2pmY2lk98/eWcDVkbRRy+aeouNaYKEyTLDh5HmIt4UEncm/dYNMpbvpuAPiX0KVM/D9sz0B0B927U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728321648; c=relaxed/simple;
-	bh=Vx87oCWjUVmUQFkEaRK3caU7rzHWUrscV6uTQ+wYsqU=;
+	s=arc-20240116; t=1728321693; c=relaxed/simple;
+	bh=YFqABopLbGYZHFeUXzmIkOVqmzrj3+gOqFDF7MeYdoI=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Hg5TBtM4eynpXXpao3oZU6t0LP+dw8ZMDMlSDnV8qGtCIDc1IAti0RjFrHywfFBJwYEuZUnTi0YH61wLdTjvFsu33IoUE9OckfteXstcf0oCtH+JG18bmid5x+iT/u7Gk8z7u2Tp7qEuc8k7VRoJn4Lbjt5xAZ6mbPVaOt/40zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Y5648mrh; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=jjhTynmD0IIFwww6ea+mVZGXGk9v+3PM6r0jd+UYFZEcKwmHmCdZK01/eusvi5L4onUz2v2zCErOJQ/jGRd0AYH+byifXSiriuJ4nCFyxHD6FEpKfoE0RhFPAwc9pjtqtEVlP8YwPClh4bu7lTF715pTSqKbsknxehzlj7+/R4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=sO1oLD+2; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Y5648mrh"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D4B4042C0D
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="sO1oLD+2"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B219842B38
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1728321646; bh=TATPeQeecRP7mlvPxMq47K/gxLEY5V9Uc5OKlk72TDo=;
+	t=1728321690; bh=D4BPuEuxvT9MrzzfwMCqAtovMNgMLu0lAHfm47rbxos=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Y5648mrhJ8H9FAVwBbLyavUofoI6XsK/B5OPqat0zWG1Ip0QX6B9zrEMcoTGI6tgY
-	 FyAXcvrD+lItFC4dEyiEKCBWIe9Jud6FSivd/Ijn5hAGJbXoNGll8EjYPhLqt6O7Yg
-	 K0ObwfmiQYYShvaYdFAyArk+Ef9vdM6j0ID1ZAdXZE4Ns1ZvZIc1iKPRyvgRDvGh5k
-	 A09blb29q2Tkjkl61AVrs15TAo+EXuEeGpkc1I5i3VsR+UebG6U6Zhwky5jQkkxiuK
-	 yuxr/twPyxpm4HG4QNXorA4RUv8HMfqfsgextyVyPa1xmqfYM6j0LBLaBHEfuKxb4t
-	 A+EvzkmygalxQ==
+	b=sO1oLD+2rgoFYBtz+05b3A8Kbfa4UIhyYPjJGlxjDSH9BARmVdZ+Ju8JfTbEs6ALr
+	 D429kaLHb7vuWmIOrfa1q+T9E5VAz2UOa/Q6VXqMnzWZIN6GXYJ92qHt19KmT2f6OC
+	 S70L797ipRdD8jkgKT+9H0fkVyE0Oq9fNMxF+YWyb+9qWyzholEeMfZxmJaYKNVkvb
+	 RCWKWVSe0T+KKAra9MsZnYMrQr31U+7KGRgAr3YSH2NiH0nwiQrSI0nL9NMn2nwrRn
+	 KZdm7MdPHsuokfWRHMCZF5rdZwQnvxbYdtwXcezWNRe6PuTltzbId4bvnUG+NGWTwv
+	 5ESPlmEdybflg==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id D4B4042C0D;
-	Mon,  7 Oct 2024 17:20:45 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id B219842B38;
+	Mon,  7 Oct 2024 17:21:30 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>, Tsugikazu
- Shibata <shibata@linuxfoundation.org>
-Subject: Re: [PATCH] docs/ja_JP: howto: Catch up changes in v6.11
-In-Reply-To: <20240922040709.44490-1-akiyks@gmail.com>
-References: <20240922040709.44490-1-akiyks@gmail.com>
-Date: Mon, 07 Oct 2024 11:20:45 -0600
-Message-ID: <87o73vj0cy.fsf@trenco.lwn.net>
+To: Federico Vaga <federico.vaga@vaga.pv.it>
+Cc: Davide Benini <davide.benini@gmail.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Federico Vaga <federico.vaga@vaga.pv.it>
+Subject: Re: [PATCH] doc:it_IT: update I2C summary
+In-Reply-To: <20240921215729.23796-1-federico.vaga@vaga.pv.it>
+References: <20240921215729.23796-1-federico.vaga@vaga.pv.it>
+Date: Mon, 07 Oct 2024 11:21:29 -0600
+Message-ID: <87jzejj0bq.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,16 +49,22 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Akira Yokosawa <akiyks@gmail.com> writes:
+Federico Vaga <federico.vaga@vaga.pv.it> writes:
 
-> Apply changes made in commit 413e775efaec ("Documentation: fix links
-> to mailing list services").
+> Update Italian translation following these changes
 >
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> Cc: Tsugikazu Shibata <shibata@linuxfoundation.org>
+> commit d77367fff7c0 ("docs: i2c: summary: document use of inclusive language")
+> commit 20738cb9fa7a ("docs: i2c: summary: be clearer with 'controller/target' and 'adapter/client' pairs")
+> commit 1e926ea19003 ("docs: i2c: summary: document 'local' and 'remote' targets")
+> commit d77367fff7c0 ("docs: i2c: summary: document use of inclusive language")
+> commit a5b88cb9fdff ("docs: i2c: summary: update speed mode description")
+> commit 75d148c90a34 ("docs: i2c: summary: update I2C specification link")
+> commit d18b822c8f62 ("docs: i2c: summary: start sentences consistently.")
+>
+> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
 > ---
->  Documentation/translations/ja_JP/process/howto.rst | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+>  .../translations/it_IT/i2c/summary.rst        | 72 ++++++++++++-------
+>  1 file changed, 46 insertions(+), 26 deletions(-)
 
 Applied, thanks.
 
