@@ -1,386 +1,156 @@
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7931618A937
-	for <linux-doc@vger.kernel.org>; Mon,  7 Oct 2024 08:17:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173A412E1D1;
+	Mon,  7 Oct 2024 09:30:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728289082; cv=none; b=bewA6M3uTIuzN6WtGXinO/pojKjuOuIJyG18L3dsfmRa6X+DWFCKOLMDY66nyQf3wO8rl2NhN7WGFa4cTXYxvthMNZ10qMcj7FyDCh8EJcY+8ib8nme/8mEU6+QDvJq99BkxfkCaimEylTQ4EiH6wuZp5w0zdnmY8V9B0LuWK5M=
+	t=1728293433; cv=none; b=Ui2NJPwnhqvdIR55rHA9Uj4FuWYs/EZuJpcA/TBhJx3QLRNsEUPeiWsgikzLNwiw0CEFiTMUX6SYgNklaMOYIufmCE07H7xgcSQ91y9GSGuqSvp73tU3e61OsBwyp/Gl+ol2+JCbrHFSkH7lZF6du+ssjPnx5PzHgXpvHJ4YvL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728289082; c=relaxed/simple;
-	bh=Nmph6WDs9Xq7iTOfvd0cLrjjvG2iMe2g5y57xwNvOkQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iovHP+lf9wxFfX23/2P7zxFhX1o7Ml7HUdK4v2stAnWeaDsRJob5I1L3ysdiaSAYOVEDsZ23ZmYLyRbAz3i9L49QpeMXqMI7GRlkeVBHWEyU186P1zHxHPg1EZJVVHTQX3GWqG3P0+RFkglR+PqNSDyH1Z8UtQYeo8IQNL07x1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=XSGIF6M2; arc=none smtp.client-ip=209.85.166.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
+	s=arc-20240116; t=1728293433; c=relaxed/simple;
+	bh=Tz1GKph4drPLEeVbp418Bu54k3rNav7IVlT79MqKv0M=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nGeMcFa+RIS3ozz27y2dZWgFd2yGbDVmPKwZ32V8YNRjUYdQ1CZ0BeuvtrDm288vQeJvGebIkyxL4m1s7Q88r9ydjBgYCxhbYOPTjbG33o9hcO8fXZbbdgBFQn15u4m25w6kQKQu+7zz8kLew/S4/dgixcvsVuzoGBAfZEZwyOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=AjNFk6Jd; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="XSGIF6M2"
-Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-82aad6c83ecso150581139f.3
-        for <linux-doc@vger.kernel.org>; Mon, 07 Oct 2024 01:17:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1728289078; x=1728893878; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vV5iKTZRSVTQUCoJBZzYZK+9ejJVraol8LawWsL5uGA=;
-        b=XSGIF6M25Lbz0GpQpKB5rNdxaLqJ+91BffQhZawZ8hJ9WodEiehgVlQXcPY6vDjDNQ
-         MaSj2qxb5wHrX6+Mj5hjS8e8uyp9uxDMZD8t5sUKfTc3wEHAgj7V4eqLfbYQI2HpNLTJ
-         DgP3n27FA34JxTz0cOjNAnuUhLi4zMsBxejCPkqPxxgpVmE4FMeNb8rAGVRyHxSxkccQ
-         N+Rafv+NKwXl0/lQPFPCz9ZhNznlCIsBqokEpvGnzlsO/WUeOTqQryd3X3r/Ad04er+4
-         c4R3XI15030EUJYbCHsX9sD2uQKpy5RHDfxRmo5mKyeO4UrSOHg3I+oDm+ZFFuLEp6hz
-         Ax3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728289078; x=1728893878;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vV5iKTZRSVTQUCoJBZzYZK+9ejJVraol8LawWsL5uGA=;
-        b=EQSPpZ2YbU80hi4pRMH0AMvDhibmt514tx7WKI9xfmbR9Ybib6eST8ewvZJ3FQlyDt
-         f4aMd8l+YqbbvDjMKfqNoZeNYgHuAMHPqBos9y3Xi/2niO15mXDa8nHsj1ME54ZMGwaI
-         ycDEiPG1CRDcNSlx3I2T47Ws31JZSjr9xZiIp95+VzVRzHAKqFRxlvxml9BamycHAYF0
-         oWvkMWjPkUI6hDUrZCprDfvvgRBuOz68PwxceMuLe0P26EPyMqYU5TJYDubCJIOActRZ
-         gbdcjnhkRWVk10lStZYJdKxxocAHgSsOu/yGqN/na2Y5ugjXvOxBItnB5W2ySRTuFaVY
-         002g==
-X-Forwarded-Encrypted: i=1; AJvYcCWpecO4l+S5C2tWK7ChXuijm74gYOYaiIqmil3Rm1cehhtCdUsGgpfyjpu5hcnLnbR8h13yD8KQa8s=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxv6L1F9sFY7F4LDAy5Mhr6fTq0iTi+YTM2ATpRuTwpPcEsy1RM
-	FxRDXiczsdmwaQOiKyvC5Rs5jx5h4U6OR1Eb+PHW8Iyseph65T1do4A5lMLtcEMfbtxMHGds6V2
-	SW3wXg8dwlwH2KwQZ8VLqx4vc7E4u4bMHXAMbyg==
-X-Google-Smtp-Source: AGHT+IGbrFX2fkGwh4/hSUi/bswFsAwHoZTucK0BPSJDYS8wpDCXqS1WF3XKaDolR3S9yJug1dqVltHjNKSJeho3ET0=
-X-Received: by 2002:a05:6602:14c1:b0:806:31ee:132 with SMTP id
- ca18e2360f4ac-834f7ca6040mr1014345639f.4.1728289078482; Mon, 07 Oct 2024
- 01:17:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="AjNFk6Jd"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 654DBC0003;
+	Mon,  7 Oct 2024 09:30:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1728293428;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=namY25WQ52fwKUQOtiBU5zuLS5KPYImSKTERIUGh7sA=;
+	b=AjNFk6Jdj2MWLv9QzPMlBjnRGG5qXVrSNe/5xaVlw1rSCA6Sm8FMZGKHUF79vSzfoRxsI+
+	QX1T2YoVXjD3u7HKtuuba+4BlDszgchGcxwzy7DuY2QYfyyOxNiNcZGlxT5Ira7MXz7uQx
+	2rHE0QWgw7asVBGQhdogNFtJHyi9KVOaNlz6mom6Ieoq+DaUmbBtrGXaCnjHrOvIn0+9ZL
+	Elevcr0oA0zcXrNIpjmo4ZCtjZABBwriF020lIAylWMUdohUWb1hw8K4QRKlljXZ6llb/X
+	ax53HDL4keySHLsXVcTrYv3cusVJfPVxx5w6NdlRi9pjT8eToHE3eyy9hoewaw==
+Date: Mon, 7 Oct 2024 11:30:26 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
+ <donald.hunter@gmail.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
+ Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de
+Subject: Re: [PATCH net-next 06/12] net: ethtool: Add PSE new port priority
+ support feature
+Message-ID: <20241007113026.39c4a8c2@kmaincent-XPS-13-7390>
+In-Reply-To: <ZwDcHCr1aXeGWXIh@pengutronix.de>
+References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
+	<20241002-feature_poe_port_prio-v1-6-787054f74ed5@bootlin.com>
+	<ZwDcHCr1aXeGWXIh@pengutronix.de>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241001-v5_user_cfi_series-v1-0-3ba65b6e550f@rivosinc.com> <20241001-v5_user_cfi_series-v1-16-3ba65b6e550f@rivosinc.com>
-In-Reply-To: <20241001-v5_user_cfi_series-v1-16-3ba65b6e550f@rivosinc.com>
-From: Zong Li <zong.li@sifive.com>
-Date: Mon, 7 Oct 2024 16:17:47 +0800
-Message-ID: <CANXhq0rpwQkZ9+mZLGVUq=r4WiA8BbZ-eeTDogf3fzeEPqeeqA@mail.gmail.com>
-Subject: Re: [PATCH 16/33] riscv/shstk: If needed allocate a new shadow stack
- on clone
-To: Deepak Gupta <debug@rivosinc.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Christian Brauner <brauner@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Oleg Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, alistair.francis@wdc.com, 
-	richard.henderson@linaro.org, jim.shu@sifive.com, andybnac@gmail.com, 
-	kito.cheng@sifive.com, charlie@rivosinc.com, atishp@rivosinc.com, 
-	evan@rivosinc.com, cleger@rivosinc.com, alexghiti@rivosinc.com, 
-	samitolvanen@google.com, broonie@kernel.org, rick.p.edgecombe@intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Wed, Oct 2, 2024 at 12:20=E2=80=AFAM Deepak Gupta <debug@rivosinc.com> w=
-rote:
->
-> Userspace specifies CLONE_VM to share address space and spawn new thread.
-> `clone` allow userspace to specify a new stack for new thread. However
-> there is no way to specify new shadow stack base address without changing
-> API. This patch allocates a new shadow stack whenever CLONE_VM is given.
->
-> In case of CLONE_VFORK, parent is suspended until child finishes and thus
-> can child use parent shadow stack. In case of !CLONE_VM, COW kicks in
-> because entire address space is copied from parent to child.
->
-> `clone3` is extensible and can provide mechanisms using which shadow stac=
-k
-> as an input parameter can be provided. This is not settled yet and being
-> extensively discussed on mailing list. Once that's settled, this commit
-> will adapt to that.
->
-> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
-> ---
->  arch/riscv/include/asm/usercfi.h |  25 ++++++++
->  arch/riscv/kernel/process.c      |  11 +++-
->  arch/riscv/kernel/usercfi.c      | 121 +++++++++++++++++++++++++++++++++=
-++++++
->  3 files changed, 156 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/riscv/include/asm/usercfi.h b/arch/riscv/include/asm/us=
-ercfi.h
-> index 4fa201b4fc4e..719e28e043c8 100644
-> --- a/arch/riscv/include/asm/usercfi.h
-> +++ b/arch/riscv/include/asm/usercfi.h
-> @@ -8,6 +8,9 @@
->  #ifndef __ASSEMBLY__
->  #include <linux/types.h>
->
-> +struct task_struct;
-> +struct kernel_clone_args;
-> +
->  #ifdef CONFIG_RISCV_USER_CFI
->  struct cfi_status {
->         unsigned long ubcfi_en : 1; /* Enable for backward cfi. */
-> @@ -17,6 +20,28 @@ struct cfi_status {
->         unsigned long shdw_stk_size; /* size of shadow stack */
->  };
->
-> +unsigned long shstk_alloc_thread_stack(struct task_struct *tsk,
-> +                                                       const struct kern=
-el_clone_args *args);
-> +void shstk_release(struct task_struct *tsk);
-> +void set_shstk_base(struct task_struct *task, unsigned long shstk_addr, =
-unsigned long size);
-> +unsigned long get_shstk_base(struct task_struct *task, unsigned long *si=
-ze);
-> +void set_active_shstk(struct task_struct *task, unsigned long shstk_addr=
-);
-> +bool is_shstk_enabled(struct task_struct *task);
-> +
-> +#else
-> +
-> +#define shstk_alloc_thread_stack(tsk, args) 0
-> +
-> +#define shstk_release(tsk)
-> +
-> +#define get_shstk_base(task, size) 0
-> +
-> +#define set_shstk_base(task, shstk_addr, size)
-> +
-> +#define set_active_shstk(task, shstk_addr)
-> +
-> +#define is_shstk_enabled(task) false
-> +
->  #endif /* CONFIG_RISCV_USER_CFI */
->
->  #endif /* __ASSEMBLY__ */
-> diff --git a/arch/riscv/kernel/process.c b/arch/riscv/kernel/process.c
-> index 1f2574fb2edb..f6f58b1ed905 100644
-> --- a/arch/riscv/kernel/process.c
-> +++ b/arch/riscv/kernel/process.c
-> @@ -28,6 +28,7 @@
->  #include <asm/vector.h>
->  #include <asm/cpufeature.h>
->  #include <asm/exec.h>
-> +#include <asm/usercfi.h>
->
->  #if defined(CONFIG_STACKPROTECTOR) && !defined(CONFIG_STACKPROTECTOR_PER=
-_TASK)
->  #include <linux/stackprotector.h>
-> @@ -203,7 +204,7 @@ int arch_dup_task_struct(struct task_struct *dst, str=
-uct task_struct *src)
->
->  void exit_thread(struct task_struct *tsk)
->  {
-> -
-> +       shstk_release(tsk);
->  }
->
->  int copy_thread(struct task_struct *p, const struct kernel_clone_args *a=
-rgs)
-> @@ -211,6 +212,7 @@ int copy_thread(struct task_struct *p, const struct k=
-ernel_clone_args *args)
->         unsigned long clone_flags =3D args->flags;
->         unsigned long usp =3D args->stack;
->         unsigned long tls =3D args->tls;
-> +       unsigned long ssp =3D 0;
->         struct pt_regs *childregs =3D task_pt_regs(p);
->
->         memset(&p->thread.s, 0, sizeof(p->thread.s));
-> @@ -225,11 +227,18 @@ int copy_thread(struct task_struct *p, const struct=
- kernel_clone_args *args)
->                 p->thread.s[0] =3D (unsigned long)args->fn;
->                 p->thread.s[1] =3D (unsigned long)args->fn_arg;
->         } else {
-> +               /* allocate new shadow stack if needed. In case of CLONE_=
-VM we have to */
-> +               ssp =3D shstk_alloc_thread_stack(p, args);
-> +               if (IS_ERR_VALUE(ssp))
-> +                       return PTR_ERR((void *)ssp);
-> +
->                 *childregs =3D *(current_pt_regs());
->                 /* Turn off status.VS */
->                 riscv_v_vstate_off(childregs);
->                 if (usp) /* User fork */
->                         childregs->sp =3D usp;
-> +               /* if needed, set new ssp */
-> +               ssp ? set_active_shstk(p, ssp) : 0;
->                 if (clone_flags & CLONE_SETTLS)
->                         childregs->tp =3D tls;
->                 childregs->a0 =3D 0; /* Return value of fork() */
-> diff --git a/arch/riscv/kernel/usercfi.c b/arch/riscv/kernel/usercfi.c
-> index ce002eabbdc1..7a7f0b57b2d4 100644
-> --- a/arch/riscv/kernel/usercfi.c
-> +++ b/arch/riscv/kernel/usercfi.c
-> @@ -19,6 +19,41 @@
->
->  #define SHSTK_ENTRY_SIZE sizeof(void *)
->
-> +bool is_shstk_enabled(struct task_struct *task)
-> +{
-> +       return task->thread_info.user_cfi_state.ubcfi_en ? true : false;
-> +}
-> +
-> +void set_shstk_base(struct task_struct *task, unsigned long shstk_addr, =
-unsigned long size)
-> +{
-> +       task->thread_info.user_cfi_state.shdw_stk_base =3D shstk_addr;
-> +       task->thread_info.user_cfi_state.shdw_stk_size =3D size;
-> +}
-> +
-> +unsigned long get_shstk_base(struct task_struct *task, unsigned long *si=
-ze)
-> +{
-> +       if (size)
-> +               *size =3D task->thread_info.user_cfi_state.shdw_stk_size;
-> +       return task->thread_info.user_cfi_state.shdw_stk_base;
-> +}
-> +
-> +void set_active_shstk(struct task_struct *task, unsigned long shstk_addr=
-)
-> +{
-> +       task->thread_info.user_cfi_state.user_shdw_stk =3D shstk_addr;
-> +}
-> +
-> +/*
-> + * If size is 0, then to be compatible with regular stack we want it to =
-be as big as
-> + * regular stack. Else PAGE_ALIGN it and return back
-> + */
-> +static unsigned long calc_shstk_size(unsigned long size)
-> +{
-> +       if (size)
-> +               return PAGE_ALIGN(size);
-> +
-> +       return PAGE_ALIGN(min_t(unsigned long long, rlimit(RLIMIT_STACK),=
- SZ_4G));
-> +}
-> +
->  /*
->   * Writes on shadow stack can either be `sspush` or `ssamoswap`. `sspush=
-` can happen
->   * implicitly on current shadow stack pointed to by CSR_SSP. `ssamoswap`=
- takes pointer to
-> @@ -143,3 +178,89 @@ SYSCALL_DEFINE3(map_shadow_stack, unsigned long, add=
-r, unsigned long, size, unsi
->
->         return allocate_shadow_stack(addr, aligned_size, size, set_tok);
->  }
-> +
-> +/*
-> + * This gets called during clone/clone3/fork. And is needed to allocate =
-a shadow stack for
-> + * cases where CLONE_VM is specified and thus a different stack is speci=
-fied by user. We
-> + * thus need a separate shadow stack too. How does separate shadow stack=
- is specified by
-> + * user is still being debated. Once that's settled, remove this part of=
- the comment.
-> + * This function simply returns 0 if shadow stack are not supported or i=
-f separate shadow
-> + * stack allocation is not needed (like in case of !CLONE_VM)
-> + */
-> +unsigned long shstk_alloc_thread_stack(struct task_struct *tsk,
-> +                                          const struct kernel_clone_args=
- *args)
-> +{
-> +       unsigned long addr, size;
-> +
-> +       /* If shadow stack is not supported, return 0 */
-> +       if (!cpu_supports_shadow_stack())
-> +               return 0;
-> +
-> +       /*
-> +        * If shadow stack is not enabled on the new thread, skip any
-> +        * switch to a new shadow stack.
-> +        */
-> +       if (is_shstk_enabled(tsk))
+On Sat, 5 Oct 2024 08:26:36 +0200
+Oleksij Rempel <o.rempel@pengutronix.de> wrote:
 
-Hi Deepak,
-Should it be '!' is_shstk_enabled(tsk)?
+> >  When set, the optional ``ETHTOOL_A_PODL_PSE_ADMIN_CONTROL`` attribute =
+is
+> > used @@ -1871,6 +1883,10 @@ various existing products that document pow=
+er
+> > consumption in watts rather than classes. If power limit configuration
+> > based on classes is needed, the conversion can be done in user space, f=
+or
+> > example by ethtool.=20
+> > +When set, the optional ``ETHTOOL_A_C33_PSE_PRIO`` attributes is used to
+> > +control the C33 PSE priority. Allowed priority value are between zero
+> > +and the value of ``ETHTOOL_A_C33_PSE_PRIO_MAX`` attribute. =20
+> =20
+> We need to introduce a new attribute to effectively manage PSE priorities.
+> With the addition of the `ETHTOOL_A_C33_PSE_PRIO` attribute for setting
+> priorities, it's important to know which PSE controller or domain each po=
+rt
+> belongs to.
+>=20
+> Initially, we might consider using a PSE controller index, such as
+> `ETHTOOL_A_PSE_CONTROLLER_ID`, to identify the specific PSE controller
+> associated with each port.
+>=20
+> However, using just the PSE controller index is too limiting. Here's why:
+>=20
+> - Typical PSE controllers handle priorities only within themselves. They
+> usually can't manage prioritization across different controllers unless t=
+hey
+> are part of the same power domain. In systems where multiple PSE controll=
+ers
+> cooperate=E2=80=94either directly or through software mechanisms like the=
+ regulator
+> framework=E2=80=94controllers might share power domains or manage priorit=
+ies together.
+> This means priorities are not confined to individual controllers but are
+> relevant within shared power domains.
+>=20
+> - As systems become more complex, with controllers that can work together,
+> relying solely on a controller index won't accommodate these cooperative
+> scenarios.
+>=20
+> To address these issues, we should use a power domain identifier instead.=
+ I
+> suggest introducing a new attribute called `ETHTOOL_A_PSE_POWER_DOMAIN_ID=
+`.
+>=20
+> - It specifies the power domain to which each port belongs, ensuring that
+> priorities are managed correctly within that domain.
+>=20
+> - It accommodates systems where controllers cooperate and share power
+> resources, allowing for proper coordination of priorities across controll=
+ers
+> within the same power domain.
+>=20
+> - It provides flexibility for future developments where controllers might=
+ work
+> together in new ways, preventing limitations that would arise from using a
+> strict controller index.
+>=20
+> However, to provide comprehensive information, it would be beneficial to =
+use
+> both attributes:
+>=20
+> - `ETHTOOL_A_PSE_CONTROLLER_ID` to identify the specific PSE controller
+> associated with each port.
+>=20
+> - `ETHTOOL_A_PSE_POWER_DOMAIN_ID` to specify the power domain to which ea=
+ch
+> port belongs.
 
-> +               return 0;
-> +
-> +       /*
-> +        * For CLONE_VFORK the child will share the parents shadow stack.
-> +        * Set base =3D 0 and size =3D 0, this is special means to track =
-this state
-> +        * so the freeing logic run for child knows to leave it alone.
-> +        */
-> +       if (args->flags & CLONE_VFORK) {
-> +               set_shstk_base(tsk, 0, 0);
-> +               return 0;
-> +       }
-> +
-> +       /*
-> +        * For !CLONE_VM the child will use a copy of the parents shadow
-> +        * stack.
-> +        */
-> +       if (!(args->flags & CLONE_VM))
-> +               return 0;
-> +
-> +       /*
-> +        * reaching here means, CLONE_VM was specified and thus a separat=
-e shadow
-> +        * stack is needed for new cloned thread. Note: below allocation =
-is happening
-> +        * using current mm.
-> +        */
-> +       size =3D calc_shstk_size(args->stack_size);
-> +       addr =3D allocate_shadow_stack(0, size, 0, false);
-> +       if (IS_ERR_VALUE(addr))
-> +               return addr;
-> +
-> +       set_shstk_base(tsk, addr, size);
-> +
-> +       return addr + size;
-> +}
-> +
-> +void shstk_release(struct task_struct *tsk)
-> +{
-> +       unsigned long base =3D 0, size =3D 0;
-> +       /* If shadow stack is not supported or not enabled, nothing to re=
-lease */
-> +       if (!cpu_supports_shadow_stack() ||
-> +               !is_shstk_enabled(tsk))
-> +               return;
-> +
-> +       /*
-> +        * When fork() with CLONE_VM fails, the child (tsk) already has a
-> +        * shadow stack allocated, and exit_thread() calls this function =
-to
-> +        * free it.  In this case the parent (current) and the child shar=
-e
-> +        * the same mm struct. Move forward only when they're same.
-> +        */
-> +       if (!tsk->mm || tsk->mm !=3D current->mm)
-> +               return;
-> +
-> +       /*
-> +        * We know shadow stack is enabled but if base is NULL, then
-> +        * this task is not managing its own shadow stack (CLONE_VFORK). =
-So
-> +        * skip freeing it.
-> +        */
-> +       base =3D get_shstk_base(tsk, &size);
-> +       if (!base)
-> +               return;
-> +
-> +       vm_munmap(base, size);
-> +       set_shstk_base(tsk, 0, 0);
-> +}
->
-> --
-> 2.45.0
->
->
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+Currently the priority is managed by the PSE controller so the port is the =
+only
+information needed. The user interface is ethtool, and I don't see why he w=
+ould
+need such things like controller id or power domain id. Instead, it could be
+managed by the PSE core depending on the power domains described in the
+devicetree. The user only wants to know if he can allow a specific power bu=
+dget
+on a Ethernet port and configure port priority in case of over power-budget
+event.
+
+I don't have hardware with several PSE controllers. Is there already such
+hardware existing in the market?
+This seems like an interesting idea but I think it would belong in another =
+patch
+series.
+Still, it is good to talk about it for future development idea.
+
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
