@@ -1,152 +1,127 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A4101D9321;
-	Mon,  7 Oct 2024 16:36:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3321DBB3A;
+	Mon,  7 Oct 2024 16:48:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728318985; cv=none; b=cnhp9pW9FToX29amlJjh8hLKYjqSe6rU9aylvsUJzQ7D2WSm3vaSIQ3A32n2IlRTCfQlBpT6UxdBONTy4HI2Uv3yhvG+Byl3DTc9rdQPo1CC/DmcIR9nljYEyBZ76AruRAe3tfCaurdhY7QP3c83bdM/diCMeBgwzSlvFJ3Wd1A=
+	t=1728319683; cv=none; b=eejkXGjlTHmFOIhRpozz3NDNrvRiR6PY2a2V4lx4RmlPqO/eCTdaopoLvfba+TChbJ67gD9uW+LqIKxNnYK5fRUZwxclB1tPuv5Ylu9Tdjeu54McnYuoBrZ1dLuh3jLn7rGMyXBZidARJxFNrQkl/O8PxHYgCXP/mOEIXCS4Xew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728318985; c=relaxed/simple;
-	bh=7TOE9NeqioqCUACWEMJrQIzAP0w3FqBCW3WN8nJoU1Y=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=TclCenohps3VYYKBsEZcnV9RrLOLCfgJQU7wPEmw5pyMdpTd3HQvPa+LHYikijxiX7wO2AvWaaPY5MUzO0VZFlVanKBYg8pmsNbwCn67hdwqTTwI7eLrjK0tAVpJktIgfsHOiUzlvCMpHG7XzyHM6al4QxFQDC9FXmvQFAHMY14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=steffen.cc; spf=pass smtp.mailfrom=steffen.cc; dkim=pass (2048-bit key) header.d=steffen.cc header.i=@steffen.cc header.b=kM1/1/Sl; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=steffen.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=steffen.cc
+	s=arc-20240116; t=1728319683; c=relaxed/simple;
+	bh=m5COKRDZ0N+jZ3ruutsrz4XDt0lzrIWnyIVoN63Yr/U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HyoiykBZH666tbE7agtpU/4i4576XQrC/kzxllgM4cCqrlFyaVrSoz5rlvY4Ruj7qiKGo/qT9nbos0WsdlURBVVg+jC8cqKOviMvtotgTDxXxQwfedeOVqmxctn84TC1wr/VeCmEjbtf1ZQHkNavtVFS1m/yq2MOiDt1SKv29Yo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X99nvTAA; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=steffen.cc header.i=@steffen.cc header.b="kM1/1/Sl"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4XMlCH5KQTz9tGd;
-	Mon,  7 Oct 2024 18:36:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=steffen.cc; s=MBO0001;
-	t=1728318971;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WgLPv7uERTkbMvbht7gCy9ZDJZFZ/eWPvmA0Pw8Yh+o=;
-	b=kM1/1/Slm05feSR/aJjRCd0NidpPBiN4LaEhiYnq01WOgl6yhlRPP8Sitmd1PQkwfw2opi
-	PHdsyHsiZsbDeAOTuoIxsld8PGOm2J/rDulF0c7/SNOgflWWfkuIzPtsFZVSHk5HOLzEuA
-	KOZnyi4j3ZHZzdGE1UZR2arhcKJaeVP1OxiX41emyb+WAZBeP0+yqCGRUU5xJRJJYF47Vp
-	G8LsDSTyi+ZBxM1+9KKauEbhiKO9XPRZV0dXOX2w0QAIMCfpH9/Z5zRzCIVg+cyLZ4c0vi
-	w0dZA1aWZ/A1k3Mz64wInZPqFhhV6dP8pCE1WIGUzaR7cBhV1E8N2MJ45nQBLA==
-Message-ID: <1224f317cb45fcc5117a7d8dbd19142b0916559a.camel@dirkwinkel.cc>
-Subject: Re: [PATCH V4] PCI: Extend ACS configurability
-From: Steffen Dirkwinkel <me@steffen.cc>
-To: Jason Gunthorpe <jgg@nvidia.com>, Jiri Slaby <jirislaby@kernel.org>
-Cc: Vidya Sagar <vidyas@nvidia.com>, corbet@lwn.net, bhelgaas@google.com, 
-	galshalom@nvidia.com, leonro@nvidia.com, treding@nvidia.com,
- jonathanh@nvidia.com, 	mmoshrefjava@nvidia.com, shahafs@nvidia.com,
- vsethi@nvidia.com, 	sdonthineni@nvidia.com, jan@nvidia.com,
- tdave@nvidia.com, 	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, kthota@nvidia.com, mmaddireddy@nvidia.com, 
-	sagar.tv@gmail.com, vliaskovitis@suse.com
-Date: Mon, 07 Oct 2024 18:36:03 +0200
-In-Reply-To: <20241001193300.GJ1365916@nvidia.com>
-References: <20240523063528.199908-1-vidyas@nvidia.com>
-	 <20240625153150.159310-1-vidyas@nvidia.com>
-	 <e89107da-ac99-4d3a-9527-a4df9986e120@kernel.org>
-	 <3cbd6ddb-1984-4055-9d29-297b4633fc41@kernel.org>
-	 <b8fa3062-48ec-4de7-b314-2ff959775ecc@kernel.org>
-	 <20241001193300.GJ1365916@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X99nvTAA"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-42e7b7bef42so41408655e9.3;
+        Mon, 07 Oct 2024 09:48:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728319680; x=1728924480; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sjjsJvt3Ubeo2DT+hd89E6pFZ1HmYlwo+hb6vzYJIBQ=;
+        b=X99nvTAAZUawCOKLJLQa9pCvGgCEU4pSjhWGmsM1nbbuLIzZMTvdPske0bdkKMkK8c
+         7kbd4e93i4duT0xpd3O/vMy/KAD+74PtlnA88XRdnob+zfBXZtzMXcA7llwB9CeFAUJx
+         2Vyeel65Vvx7G6BDYIqipuVOrbsKhcfvQNnwfPg7WXzOlzdMTWcEyFO9i9zk7RzWGaWy
+         ulHhYwlMZiUIWFwavIV9/DHxBRzdA8DhLkmAFUq4Z1iM2BT2YJMsfqYA1tYL2sh+nf4C
+         wWK5ZVKUxLmI0UH3tDO6+x2V/5f0GASkeeyAlOnxod7PhDp+35/Uy2iq4u73t+20glRD
+         aLtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728319680; x=1728924480;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sjjsJvt3Ubeo2DT+hd89E6pFZ1HmYlwo+hb6vzYJIBQ=;
+        b=u6A3dTLGEXeEqt79+kb3FXi4FoPohtAzhJ+mstrGiCLrf6Lvulz9WKFio0F0WA6Ces
+         577PToS1itsYex7R2IAyayDctUAQU1YZJRDVL/OE2sUSWF94wILh3oyyJl+Ec4Qw45ZZ
+         tdxYw/VIzYfU+TxvOd9Rd4GteM5kdIskGLr0piDApGkbLINCRbj3l2UOT9Jio/s0wtXR
+         8ntShNSKm7F7tWsXt+8+33LILgH1feLwtCJ6qQcSy11GRqWVTBj7mhPT66R5Ozv8LO8+
+         FcMzkuUvrup54CYpIExNz+SUlMmNwErlvTRiKfV+gIE1Ha4zQVlxlW8joRZiGX5gYiAJ
+         Bx2A==
+X-Forwarded-Encrypted: i=1; AJvYcCUaZGrkoKimRjf4gCnrnL/ryrPtHA+zR+iiKXjuVS398PK0ZebJJLl/NXSyJHXfeuX2x9nB7xHGo3+e+N9w@vger.kernel.org, AJvYcCVo9wvWV69r933mbCbi64SBNfeTYU7He0WuTBfuG3pf6tANTl7iIcSbF+ZPkKeMN77dcDey4jY0bR0=@vger.kernel.org, AJvYcCW2oCti/LutitfCpMo8eZBoAkZM81CibNEau+x0EWbKYQNHhJpUM41ty7UH/+D+XhRZXy1jc4Dy@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEJ8fj8GQNQ8AaSTb0MxUqHgkVF1mPKVYM5NXKhuy0+D3JIz1y
+	NhMvFKIFD5WTxRNpQgvifCnD7GWQEwHplo5+GpYq3CEXrOtKbkuH
+X-Google-Smtp-Source: AGHT+IHbf2asevkk2K3r5PtdD0PoltYd6OeaFzL96uL9uyLu7Ao2qPR9x6OsQpZru0X9UKsb1MbUwQ==
+X-Received: by 2002:a5d:40d1:0:b0:37c:c5dc:72b with SMTP id ffacd0b85a97d-37d0e6bc8ebmr7134164f8f.1.1728319679638;
+        Mon, 07 Oct 2024 09:47:59 -0700 (PDT)
+Received: from [192.168.42.151] ([85.255.234.230])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d169733c5sm6078760f8f.110.2024.10.07.09.47.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Oct 2024 09:47:59 -0700 (PDT)
+Message-ID: <9386a9fc-a8b5-41fc-9f92-f621e56a918d@gmail.com>
+Date: Mon, 7 Oct 2024 17:48:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next] net: Implement fault injection forcing skb
+ reallocation
+To: Breno Leitao <leitao@debian.org>, Akinobu Mita <akinobu.mita@gmail.com>
+Cc: kuba@kernel.org, davem@davemloft.net, edumazet@google.com,
+ pabeni@redhat.com, Jonathan Corbet <corbet@lwn.net>, horms@kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Mina Almasry <almasrymina@google.com>, Willem de Bruijn
+ <willemb@google.com>, Alexander Lobakin <aleksander.lobakin@intel.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20241002113316.2527669-1-leitao@debian.org>
+ <CAC5umyjkmkY4111CG_ODK6s=rcxT_HHAQisOiwRp5de0KJkzBA@mail.gmail.com>
+ <20241007-flat-steel-cuscus-9bffda@leitao>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20241007-flat-steel-cuscus-9bffda@leitao>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2024-10-01 at 16:33 -0300, Jason Gunthorpe wrote:
-> On Wed, Sep 25, 2024 at 07:49:59AM +0200, Jiri Slaby wrote:
-> > On 25. 09. 24, 7:29, Jiri Slaby wrote:
-> > > On 25. 09. 24, 7:06, Jiri Slaby wrote:
-> > > > > @@ -1047,23 +1066,33 @@ static void pci_std_enable_acs(struct
-> > > > > pci_dev *dev)
-> > > > > =C2=A0=C2=A0 */
-> > > > > =C2=A0 static void pci_enable_acs(struct pci_dev *dev)
-> > > > > =C2=A0 {
-> > > > > -=C2=A0=C2=A0=C2=A0 if (!pci_acs_enable)
-> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto disable_acs_redi=
-r;
-> > > > > +=C2=A0=C2=A0=C2=A0 struct pci_acs caps;
-> > > > > +=C2=A0=C2=A0=C2=A0 int pos;
-> > > > > +
-> > > > > +=C2=A0=C2=A0=C2=A0 pos =3D dev->acs_cap;
-> > > > > +=C2=A0=C2=A0=C2=A0 if (!pos)
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
-> >=20
-> > Ignore the previous post.
-> >=20
-> > The bridge has no ACS (see lspci below). So it used to be enabled
-> > by
-> > pci_quirk_enable_intel_pch_acs() by another registers.=20
->=20
-> Er, Ok, so it overrides the whole thing with
-> pci_dev_specific_acs_enabled() too..
->=20
-> > I am not sure how to fix this as we cannot have "caps" from these
-> > quirks, so
-> > that whole idea of __pci_config_acs() is nonworking for these
-> > quirks.
->=20
-> We just need to allow the quirk to run before we try to do anything
-> with the cap, which has probably always been a NOP anyhow.
->=20
-> Maybe like this?
->=20
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index 7d85c04fbba2ae..225a6cd2e9ca3b 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -1067,8 +1067,15 @@ static void pci_std_enable_acs(struct pci_dev
-> *dev, struct pci_acs *caps)
-> =C2=A0static void pci_enable_acs(struct pci_dev *dev)
-> =C2=A0{
-> =C2=A0	struct pci_acs caps;
-> +	bool enable_acs =3D false;
-> =C2=A0	int pos;
-> =C2=A0
-> +	/* If an iommu is present we start with kernel default caps
-> */
-> +	if (pci_acs_enable) {
-> +		if (pci_dev_specific_enable_acs(dev))
-> +			enable_acs =3D true;
-> +	}
-> +
-> =C2=A0	pos =3D dev->acs_cap;
-> =C2=A0	if (!pos)
-> =C2=A0		return;
-> @@ -1077,11 +1084,8 @@ static void pci_enable_acs(struct pci_dev
-> *dev)
-> =C2=A0	pci_read_config_word(dev, pos + PCI_ACS_CTRL, &caps.ctrl);
-> =C2=A0	caps.fw_ctrl =3D caps.ctrl;
-> =C2=A0
-> -	/* If an iommu is present we start with kernel default caps
-> */
-> -	if (pci_acs_enable) {
-> -		if (pci_dev_specific_enable_acs(dev))
-> -			pci_std_enable_acs(dev, &caps);
-> -	}
-> +	if (enable_acs)
-> +		pci_std_enable_acs(dev, &caps);
-> =C2=A0
-> =C2=A0	/*
-> =C2=A0	 * Always apply caps from the command line, even if there is
-> no iommu.
+On 10/7/24 17:20, Breno Leitao wrote:
+> On Sat, Oct 05, 2024 at 01:38:59PM +0900, Akinobu Mita wrote:
+>> 2024年10月2日(水) 20:37 Breno Leitao <leitao@debian.org>:
+>>>
+>>> Introduce a fault injection mechanism to force skb reallocation. The
+>>> primary goal is to catch bugs related to pointer invalidation after
+>>> potential skb reallocation.
+>>>
+>>> The fault injection mechanism aims to identify scenarios where callers
+>>> retain pointers to various headers in the skb but fail to reload these
+>>> pointers after calling a function that may reallocate the data. This
+>>> type of bug can lead to memory corruption or crashes if the old,
+>>> now-invalid pointers are used.
+>>>
+>>> By forcing reallocation through fault injection, we can stress-test code
+>>> paths and ensure proper pointer management after potential skb
+>>> reallocations.
+>>>
+>>> Add a hook for fault injection in the following functions:
+>>>
+>>>   * pskb_trim_rcsum()
+>>>   * pskb_may_pull_reason()
+>>>   * pskb_trim()
+>>>
+>>> As the other fault injection mechanism, protect it under a debug Kconfig
+>>> called CONFIG_FAIL_SKB_FORCE_REALLOC.
+>>>
+>>> This patch was *heavily* inspired by Jakub's proposal from:
+>>> https://lore.kernel.org/all/20240719174140.47a868e6@kernel.org/
+>>>
+>>> CC: Akinobu Mita <akinobu.mita@gmail.com>
+>>> Suggested-by: Jakub Kicinski <kuba@kernel.org>
+>>> Signed-off-by: Breno Leitao <leitao@debian.org>
+>>
+>> This new addition seems sensible.  It might be more useful to have a filter
+>> that allows you to specify things like protocol family.
+> 
+> I think it might make more sense to be network interface specific. For
+> instance, only fault inject in interface `ethx`.
 
-Hi,
+Wasn't there some error injection infra that allows to optionally
+run bpf? That would cover the filtering problem. ALLOW_ERROR_INJECTION,
+maybe?
 
-I just ran into this issue (fewer iommu groups starting with 6.11).
-Both reverting the original patch or applying your suggestion worked
-for me.
-
-Thanks
-Steffen
-
-
+-- 
+Pavel Begunkov
