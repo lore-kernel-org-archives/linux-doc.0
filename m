@@ -1,333 +1,881 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-a8-smtp.messagingengine.com (flow-a8-smtp.messagingengine.com [103.168.172.143])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655E11DFDBE;
-	Tue,  8 Oct 2024 15:38:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A01EDF71;
+	Tue,  8 Oct 2024 15:42:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.143
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728401919; cv=none; b=JqG8Tbxwk1vthmDxFwG3FTeiYHLv3PPk8O7OPYTyWuTgYUmfWZYi58z0MQfMEcsezqQJQdNIw7iZOMIpRSKQWutaM4JpP6IkV7K+41o+Vp9TbDS2DS/c2N7UWDmtOB4yjulmVsaPNzAU7yIOzNYa87MDmGZUZCAt9iGYjdPymUw=
+	t=1728402175; cv=none; b=Huqw+2qP107qulUzc8hYYhRskKvHLD5oo/mf3FNhWZfJOyuwvDgfqBZ9pMcOPY24z7OB3aETklz9CCjOhf/S4CrWMhKNzEuBgWmrJpPD36wdTXngLkTLTm0jSzSOHeCK7o8PNE3oiUk+pyE46RHo5l8BuQcXJ6P8K2P+JnIk0FI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728401919; c=relaxed/simple;
-	bh=Xjjsipuc9A0QxWCtB1g6QCq8RrnrK747v8begfUoapY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=mnJPGlw31iICXJE+Y/HyehGLA41CGGgSN05b+KMoEGa4eCx9sQBbeYECUSWGhdmHDTqBJMVolufWhnZCmeQom0/wzXH/rEKhxGqanIiSG8VTfh3o8pg6gEkARYUx4ox+onhHRqhC1A4OGnrKTHHirTUq8QVgfG48MxY7H1o+lTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bm8AYf8O; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728402175; c=relaxed/simple;
+	bh=1KJv2nhHf/rDyclCbUl2MER1INV76qY/ni5xls4isPc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c9GbOLuIv8mPo0pbaxM46KCV4SvCd5JT1GzoXmsv5/6uWm9153PrL6oLjNG29ztK7YqDcKoG7sVoI3IKSLHGKQaO58aMgVGwd7Xg4MUq6etkodzIxKGls98F+YypGd/MEg7ZRbQmh0WGn7ARFLYEwFSqMkUCNy774h15fNpad7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=StRmzNr+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=jeXAW8Th; arc=none smtp.client-ip=103.168.172.143
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bm8AYf8O"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-7c3d415f85eso687487a12.0;
-        Tue, 08 Oct 2024 08:38:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728401917; x=1729006717; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=x71cGt0hQu4ZNPVI23Vq0g8h7cW9/jCtHCVDa5a8dmc=;
-        b=bm8AYf8OGMaduYNNHp7Uc6IEZAI1DF8r4jkuS4nraIiU3yAwveDvbVFo32zLAjcKtz
-         rxkvN2YFcqYlwQY0wlhe42annLYLuYy0utUsbu/qBUHzX4tqkGTWzLcE+W1Ed2RG0EDo
-         Es79vRIKujBeuR+F5gTjBDxi7BaOXuihjoPiSr1svsetoLtz518QXWPVEqvjOBafoy7K
-         JX3nuc0Z/ZxNGW8mm/dYCB7JvV46FZiIeMOyzeDXCT9xbRRd5T7r2ALZMp3Rs09TUyCr
-         tZbhJQo9c+xULeWpgi0lWxY94HlUqh1m1tSVZV/B7T2iLMjOScGB1sC1W1qyv4LE1AXR
-         JmdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728401917; x=1729006717;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=x71cGt0hQu4ZNPVI23Vq0g8h7cW9/jCtHCVDa5a8dmc=;
-        b=IDpDXopqwzj6M3oxuWDkQQPa1wDDHq573Rv/33rp/hP1CsXRZP8DjnkQDUrW4XYhdN
-         cpZZCyulAeby/4TAvqP8XZfjwtQ+iueoNYbIczwbV5UgXX3Uim7LuU7vLE/56zoLnGaz
-         jib5Un4dO8/xnW7RLv4m+DB2hWDAhVOg2/a7cOP9gTa3rbexBHdd1AVGWsx+6SDq5DPF
-         bS48Bc0+Ryf6TREsjMQq6xB7xFSZ4uJM9ok/ycsZ2MhILd9SXvL1QtiBCQ8PTLm7e8BM
-         VzfoJIjN/NBuVezH0+dj+BIaPwbVeSMac9YUbDJkcP7Zl/4+g+gWhvE+6IhXCTzBjoHD
-         L+Hg==
-X-Forwarded-Encrypted: i=1; AJvYcCVxLlZi5K+eIhBCQe0cn9384vs5CMR1pQDe88KI/f8vTJh+2QHoXiwO0HSAp8miKdT62BZKmyf/iPj4Lrg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxd2ZxD+6P9yqrHykXjpA6ZKj0ZmirE/v/mg56hIEKP3Pq8r32Q
-	imBlo/UWHSlAuji9o+c/CX0GHq4Ttw15HmMHgkn4C9HuMDstiNl6
-X-Google-Smtp-Source: AGHT+IFUSWvF3wgZqRIlJ8aJcYPMV7RUX1GfwD8R0tH2UqyV5/ImuqSGPhMqb/E1ax2KIiWbjLwGmw==
-X-Received: by 2002:a17:902:ea02:b0:205:723f:23d4 with SMTP id d9443c01a7336-20bfe17dceemr98918395ad.5.1728401916402;
-        Tue, 08 Oct 2024 08:38:36 -0700 (PDT)
-Received: from aizome.localdomain ([117.172.223.242])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20c1393980asm57071025ad.143.2024.10.08.08.38.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Oct 2024 08:38:35 -0700 (PDT)
-From: Pengyu Zhang <zpenya1314@gmail.com>
-To: alexs@kernel.org,
-	siyanteng@loongson.cn,
-	corbet@lwn.net,
-	seakeel@gmail.com,
-	si.yanteng@linux.dev
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	zpenya1314@gmail.com,
-	yaxin_wang_uestc@163.com,
-	zenghui.yu@linux.dev
-Subject: [PATCH v4] Docs/zh_CN: Translate page_tables.rst to Simplified Chinese
-Date: Tue,  8 Oct 2024 23:38:24 +0800
-Message-Id: <20241008153824.4691-1-zpenya1314@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="StRmzNr+";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="jeXAW8Th"
+Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
+	by mailflow.phl.internal (Postfix) with ESMTP id 3A781200305;
+	Tue,  8 Oct 2024 11:42:51 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-07.internal (MEProxy); Tue, 08 Oct 2024 11:42:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1728402171; x=1728409371; bh=dwBJ/foXdl
+	XSiiFGWoR2a03WOE3hLCNc0BlKfvixLw4=; b=StRmzNr+HYk4o54i0nqvDJLQXW
+	6xJsDhnUsC2cdf4+catn0SviLE1BBeeBRh/rVxMm917Vst59V1Tuqfw8PfemCml5
+	KcQ4li9sMB9At/vSIdl89AYvTrGfifk7ZZb9w+ZcRNxgTA7rRqxhb2hzJxX1eJ58
+	OyuK7jT+EFxV18CWICXkxpTq0brV9GVQrMlUTZgt62SV1rL50Rf4taG9hAvz0n+K
+	EQ0I2L9fxVxmFVqU/yfbd7Fdd7mUvU8i5UN6B91iVOcYkaSPjYYPg2jjK+VRcx1b
+	6FpgcVXijnd0d/J1VX6TTEG58SlJnCK8tuFtYOSmAgTolHDW8+Po2N2MQG6w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1728402171; x=1728409371; bh=dwBJ/foXdlXSiiFGWoR2a03WOE3h
+	LCNc0BlKfvixLw4=; b=jeXAW8ThU3ykbc+1937cG1D8r2refEhu7/q36rTTHbjr
+	insp4OwpVXq25mAxSPf2jptCWY5JdXtLPRR/Ht8AwncSrb2yawwYNu2Mf9IkmvMT
+	6FuVCjJwjsWm7wSrrwVPtwY02NnvaU9Cp8lDqMJO/oOPLGpGIxlYPb/HdmDMSEIS
+	l5TqzTI7lkvceUJgj1pflMtzNHKaoT0GWMU/FHdxFMZwC6qalU197TRqkjpeGN6W
+	PYYLk3t+kZNWlpAx7b+cMQVvgQGMa1D/aksBT+BOCi6sx9HJGbGKSuwEXwAHLw5l
+	7GE5h0nkDaqz8GPikQMGNzUAQQREJOGazNuMtCqjhA==
+X-ME-Sender: <xms:-lIFZ-sx0cQl_tsorym6j2_sereW4x5cFZskQvevTJ9m5j5tY1NJtA>
+    <xme:-lIFZzd_hdZc9R0K3JNPJ8rOpJB2z1DyKcxyoPaJ3VNUn1x0mWdOgtR119peos89n
+    ladDLPWZBmnDg>
+X-ME-Received: <xmr:-lIFZ5zsNjfw03gGE5zqBrxX27bLBYErJIHiSUlzB69jXfFuQgfEsA4BkhrgjvfHRmLDayNYFz2V2vWOzOvcp6DB3r5ACb0dpAAbbA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdefuddgledvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvden
+    ucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrf
+    grthhtvghrnhepheegvdevvdeljeeugfdtudduhfekledtiefhveejkeejuefhtdeufefh
+    gfehkeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epghhrvghgsehkrhhorghhrdgtohhmpdhnsggprhgtphhtthhopedvkedpmhhouggvpehs
+    mhhtphhouhhtpdhrtghpthhtohepghhiohhmvghtthhisegvnhhnvggvnhhnvgdrtghomh
+    dprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
+    tghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpd
+    hrtghpthhtoheprghkphhmsehlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgt
+    phhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhopegthhhrihhsthhoph
+    hhvghrrdhsrdhhrghllhesihhnthgvlhdrtghomhdprhgtphhtthhopehsuhgsrhgrmhgr
+    nhhirghnrdhmohhhrghnsehinhhtvghlrdgtohhmpdhrtghpthhtohepthhglhigsehlih
+    hnuhhtrhhonhhigidruggvpdhrtghpthhtoheprghnughrihihrdhshhgvvhgthhgvnhhk
+    oheslhhinhhugidrihhnthgvlhdrtghomh
+X-ME-Proxy: <xmx:-lIFZ5NSqofh25clUYHhY1TkUqk2TFwUtStMEBzmb-_YwaF-RYlxAg>
+    <xmx:-lIFZ-_-fJ-vzZEamby4hq91wfiHZHiJg73KvtKBZVcj2TyHwr0Tyw>
+    <xmx:-lIFZxXiffyLo-to1RL5dV8SxdjiUceT4AaDh0QTdDwU4aUx-NPKnA>
+    <xmx:-lIFZ3eysa43pblO0WsPB4fsCVOpCmHr-te-HF4Kgssh6eMEciZ8Qg>
+    <xmx:-1IFZwGevUm3aN2ZNf7PeghzC8lGFEbDPb-tpTalhjslT3IiMY0NItgP>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 8 Oct 2024 11:42:49 -0400 (EDT)
+Date: Tue, 8 Oct 2024 17:42:46 +0200
+From: Greg KH <greg@kroah.com>
+To: Rodolfo Giometti <giometti@enneenne.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
+	Hall Christopher S <christopher.s.hall@intel.com>,
+	Mohan Subramanian <subramanian.mohan@intel.com>, tglx@linutronix.de,
+	andriy.shevchenko@linux.intel.com,
+	Dong Eddie <eddie.dong@intel.com>, N Pandith <pandith.n@intel.com>,
+	T R Thejesh Reddy <thejesh.reddy.t.r@intel.com>,
+	Zage David <david.zage@intel.com>,
+	Chinnadurai Srinivasan <srinivasan.chinnadurai@intel.com>
+Subject: Re: [RFC 1/3] drivers pps: add PPS generators support
+Message-ID: <2024100855-unsecured-mammogram-001a@gregkh>
+References: <20241008135033.3171915-1-giometti@enneenne.com>
+ <20241008135033.3171915-2-giometti@enneenne.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241008135033.3171915-2-giometti@enneenne.com>
 
-This patch provides a Simplified Chinese translation of the
-"page_tables.rst" document, aimed at improving accessibility
-for Chinese-speaking developers and users.
+On Tue, Oct 08, 2024 at 03:50:31PM +0200, Rodolfo Giometti wrote:
+> Sometimes one needs to be able not only to catch PPS signals but to
+> produce them also. For example, running a distributed simulation,
+> which requires computers' clock to be synchronized very tightly.
+> 
+> This patch adds PPS generators class in order to have a well-defined
+> interface for these devices.
+> 
+> Signed-off-by: Rodolfo Giometti <giometti@enneenne.com>
 
-The translation prioritizes technical accuracy and readability,
-ensuring that the content remains clear and informative for
-its intended audience.
+Some minor comments on the design:
 
-Signed-off-by: Pengyu Zhang <zpenya1314@gmail.com>
----
- Documentation/translations/zh_CN/mm/index.rst |   1 +
- .../translations/zh_CN/mm/page_tables.rst     | 221 ++++++++++++++++++
- 2 files changed, 222 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/mm/page_tables.rst
+> ---
+>  drivers/pps/Makefile                   |   3 +-
+>  drivers/pps/generators/Kconfig         |  19 +-
+>  drivers/pps/generators/Makefile        |   4 +
+>  drivers/pps/generators/pps_gen-dummy.c |  83 ++++++++
+>  drivers/pps/generators/pps_gen.c       | 283 +++++++++++++++++++++++++
+>  drivers/pps/generators/sysfs.c         |  89 ++++++++
+>  include/linux/pps_gen_kernel.h         |  57 +++++
+>  include/uapi/linux/pps_gen.h           |  35 +++
+>  8 files changed, 571 insertions(+), 2 deletions(-)
+>  create mode 100644 drivers/pps/generators/pps_gen-dummy.c
+>  create mode 100644 drivers/pps/generators/pps_gen.c
+>  create mode 100644 drivers/pps/generators/sysfs.c
+>  create mode 100644 include/linux/pps_gen_kernel.h
+>  create mode 100644 include/uapi/linux/pps_gen.h
+> 
+> diff --git a/drivers/pps/Makefile b/drivers/pps/Makefile
+> index ceaf65cc1f1d..0aea394d4e4d 100644
+> --- a/drivers/pps/Makefile
+> +++ b/drivers/pps/Makefile
+> @@ -6,6 +6,7 @@
+>  pps_core-y			:= pps.o kapi.o sysfs.o
+>  pps_core-$(CONFIG_NTP_PPS)	+= kc.o
+>  obj-$(CONFIG_PPS)		:= pps_core.o
+> -obj-y				+= clients/ generators/
+> +obj-y				+= clients/
+> +obj-$(CONFIG_PPS_GENERATOR)	+= generators/
+>  
+>  ccflags-$(CONFIG_PPS_DEBUG) := -DDEBUG
+> diff --git a/drivers/pps/generators/Kconfig b/drivers/pps/generators/Kconfig
+> index d615e640fcad..e3dfe31609ba 100644
+> --- a/drivers/pps/generators/Kconfig
+> +++ b/drivers/pps/generators/Kconfig
+> @@ -3,7 +3,22 @@
+>  # PPS generators configuration
+>  #
+>  
+> -comment "PPS generators support"
+> +menuconfig PPS_GENERATOR
+> +	tristate "PPS generators support"
+> +	help
+> +	  PPS generators are special hardware which are able to produce PPS
+> +	  (Pulse Per Second) signals.
+> +
+> +if PPS_GENERATOR
+> +
+> +config PPS_GENERATOR_DUMMY
+> +        tristate "Dummy PPS generator (Testing generator, use for debug)"
+> +        help
+> +          If you say yes here you get support for a PPS debugging generator
+> +          (which actual generates no PPS signal at all).
+> +
+> +          This driver can also be built as a module.  If so, the module
+> +          will be called pps_gen-dummy.
 
-diff --git a/Documentation/translations/zh_CN/mm/index.rst b/Documentation/translations/zh_CN/mm/index.rst
-index b950dd118be7..960b6d2f3d18 100644
---- a/Documentation/translations/zh_CN/mm/index.rst
-+++ b/Documentation/translations/zh_CN/mm/index.rst
-@@ -53,6 +53,7 @@ Linux内存管理文档
-    page_migration
-    page_owner
-    page_table_check
-+   page_tables
-    remap_file_pages
-    split_page_table_lock
-    vmalloced-kernel-stacks
-diff --git a/Documentation/translations/zh_CN/mm/page_tables.rst b/Documentation/translations/zh_CN/mm/page_tables.rst
-new file mode 100644
-index 000000000000..b0700a5a8bf1
---- /dev/null
-+++ b/Documentation/translations/zh_CN/mm/page_tables.rst
-@@ -0,0 +1,221 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/mm/page_tables.rst
-+
-+:翻译:
-+
-+ 张鹏宇 Pengyu Zhang <zpenya1314@gmail.com>
-+
-+:校译:
-+
-+====
-+页表
-+====
-+
-+分页虚拟内存是随虚拟内存的概念一起于 1962 年在 Ferranti Atlas 计算机上被提出的，
-+这是第一台有分页虚拟内存的计算机。随着时间推移，这个特性被迁移到更新的计算机上，
-+并且成为所有类 Unix 系统实际的特性。在 1985 年，这个特性被包含在了英特尔 80386
-+中，也就是 Linux 1.0 基于的 CPU。
-+
-+页表将 CPU 看到的虚拟地址映射到外部内存总线上看到的物理地址。
-+
-+Linux 将页表定义为一个分级结构，目前有五级。对于支持的每种架构，其代码会根据硬件
-+限制对这个层级结构进行映射。
-+
-+虚拟地址对应的物理地址通常由底层物理页帧引用。 **页帧号(page frame number,pfn)**
-+是页的物理地址（在外部内存总线看到的地址）除以 `PAGE_SIZE` 得到的值。
-+
-+物理内存地址 0 对应 *pfn 0*，而最大的 pfn 对应处理器外部地址总线所能寻址物理地址
-+的最后一页。
-+
-+在页粒度为 4KB 且地址范围为32位的情况下，pfn 0 对应地址0x00000000，pfn 1 对应
-+地址0x00001000，pfn 2 对应地址 0x00002000，以此类推，直到 pfn 0xfffff 对应
-+0xfffff000。如果页粒度为 16KB，则 pfn 分别对应地址 0x00004000、0x00008000
-+... 0xffffc000，pfn 的范围从 0 到 0x3ffff。
-+
-+如你所见，对于 4KB 页面粒度，页基址使用地址的 12-31 位，这就是为什么在这种情况下
-+`PAGE_SHIFT` 被定义为 12，并且 `PAGE_SIZE` 通常由页偏移定义，为 `(1 << PAGE_SHIFT)`。
-+
-+随着内存容量的增加，久而久之层级结构逐渐加深。Linux 最初使用 4KB 页面和一个名为
-+`swapper_pg_dir` 的页表，该页表拥有 1024 个条目(entries)，覆盖 4MB 的内存，
-+事实上Torvald 的第一台计算机正好就有 4MB 物理内存。条目在这张表中被称为 *PTE*:s
-+- 页表条目(page table entries)。
-+
-+软件页表层级结构反映了页表硬件已经变得分层化的事实，而这种分层化的目的是为了节省
-+页表内存并加快地址映射速度。
-+
-+当然，人们可以想象一张拥有大量条目的单一线性的页表将整个内存分为一个个页。而且，
-+这样的页表会非常稀疏，因为虚拟内存中大部分位置通常是未使用的。通过页表分层，虚拟
-+内存中的大量空洞不会浪费宝贵的页表内存，因为只需要在上层页表中将大块的区域标记为
-+未映射即可。
-+
-+另外，在现代处理器中，上层页表条目可以直接指向一个物理地址范围，这使得单个上层
-+页表条目可以连续映射几兆字节甚至几千兆字节的内存范围，从而快捷地实现虚拟地址到
-+物理地址的映射：当你找到一个像这样的大型映射范围时，无需在层级结构中进一步遍历。
-+
-+页表的层级结构目前发展为如下所示::
-+
-+  +-----+
-+  | PGD |
-+  +-----+
-+     |
-+     |   +-----+
-+     +-->| P4D |
-+         +-----+
-+            |
-+            |   +-----+
-+            +-->| PUD |
-+                +-----+
-+                   |
-+                   |   +-----+
-+                   +-->| PMD |
-+                       +-----+
-+                          |
-+                          |   +-----+
-+                          +-->| PTE |
-+                              +-----+
-+
-+
-+不同页表层级的符号含义从最底层开始如下：
-+
-+- **pte**, `pte_t`, `pteval_t` = **页表条目** - 前面提到过。*pte* 是一个由
-+  `PTRS_PER_PTE` 个 `pteval_t` 类型元素组成的数组，每个元素将一个虚拟内存页
-+  映射到一个物理内存页。体系结构定义了 `pteval_t` 的大小和内容。
-+
-+  一个典型的例子是 `pteval_t` 是一个 32 或者 64 位的值，其中高位是 **pfn**，
-+  而低位则一些特定体系架构相关的位，如内存保护。
-+
-+  这个 **条目(entry)** 有点令人困惑，因为在 Linux 1.0 中它确实指的是单层顶级
-+  页表中的单个页表条目，但在首次引入二级页表时，它被重新定义为映射元素的数组。
-+  因此，*pte* 现在指的是最底层的页 *表*，而不是一个页表 *条目*。
-+
-+- **pmd**, `pmd_t`, `pmdval_t` = **页中间目录(Page Middle Directory)**,
-+  位于 *pte* 之上的层级结构，包含 `PTRS_PER_PMD` 个指向 *pte* 的引用。
-+
-+- **pud**, `pud_t`, `pudval_t` = **页上级目录(Page Upper Directory)**
-+  是在其他层级之后引入的，用于处理四级页表。它可能未被使用，或者像我们稍后
-+  讨论的那样被“折叠”。
-+
-+- **p4d**, `p4d_t`, `p4dval_t` = **页四级目录(Page Level 4 Directory)**
-+  是在 *pud* 之后用于处理五级页表引入的。至此，显然需要用数字来替代 *pgd*、
-+  *pmd*、*pud* 等目录层级的名称，不能再继续使用临时的命名方式。这个目录层级
-+  只在实际拥有五级页表的系统上使用，否则它会被折叠。
-+
-+- **pgd**, `pgd_t`, `pgdval_t` = **页全局目录(Page Global Directory)** -
-+  Linux 内核用于处理内核内存的 *PGD* 主页表仍然位于 `swapper_pg_dir`。
-+  但系统中的每个用户空间进程也有自己的内存上下文，因此也有自己的 *pgd*，
-+  它位于 `struct mm_struct` 中，而 `struct mm_struct` 又在每个 `struct task_struct`
-+  中有引用。所以，任务（进程）存在一个形式为 `struct mm_struct` 的内存上下文，
-+  而这个结构体中有一个指向指向相应的页全局目录 `struct pgt_t *pgd` 指针。
-+
-+重申一下：页表层级结构中的每一层都是一个 *指针数组*，所以 *pgd* 包含 `PTRS_PER_PGD`
-+个指向下一层的指针，*p4d* 包含 `PTRS_PER_P4D` 个指向 *pud* 项的指针，依此类推。
-+每一层的指针数量由体系结构定义。::
-+
-+        PMD
-+  --> +-----+           PTE
-+      | ptr |-------> +-----+
-+      | ptr |-        | ptr |-------> PAGE
-+      | ptr | \       | ptr |
-+      | ptr |  \        ...
-+      | ... |   \
-+      | ptr |    \         PTE
-+      +-----+     +----> +-----+
-+                         | ptr |-------> PAGE
-+                         | ptr |
-+                           ...
-+
-+页表折叠
-+========
-+
-+如果架构不使用所有的页表层级，那么这些层级可以被 *折叠*，也就是说被跳过。在
-+访问下一层时，所有在页表上执行的操作都会在编译时增强，以跳过这一层。
-+
-+与架构无关的页表处理代码（例如虚拟内存管理器）需要编写得能够遍历当前的所有五个
-+层级。对于特定架构的代码，也应优先采用这种风格，以便对未来的变化具有更好的适应性。
-+
-+MMU，TLB 和缺页异常
-+===================
-+
-+`内存管理单元(MMU)` 是处理虚拟地址到物理地址转换的硬件组件。它可能会使用相对较小
-+的硬件缓存，如 `转换后备缓冲区(TLB)` 和 `页遍历缓存`，以加快这些地址翻译过程。
-+
-+当 CPU 访存时，它会向 MMU 提供一个虚拟地址。MMU 会首先检查 TLB 或者页遍历缓存
-+（在支持的架构上）是否存在对应的转换结果。如果没有，MMU 会通过遍历来确定物理地址
-+并且建立映射。
-+
-+当页面被写入时，该页的脏位会被设置（即打开）。每个内存页面都有相关的权限位和脏位。
-+后者表明这个页自从被加载到内存以来是否被修改。
-+
-+如果没有任何阻碍，物理内存到头来可以被任意访问并且对物理帧进行请求的操作。
-+
-+MMU 无法找到某些转换有多种原因。有可能是 CPU 试图去访问当前进程没有权限访问的
-+内存，或者因为访问的数据还不在物理内存中。
-+
-+当这些情况发生时，MMU 会触发缺页异常，这是一种异常类型，用于通知 CPU 暂停当前
-+执行并运行一个特殊的函数去处理这些异常。
-+
-+缺页异常有一些常见且预期的原因。这些因素是由称为“懒加载”和“写时复制”的进程管理
-+优化技术来触发的。缺页异常也可能发生在当页帧被交换到持久存储（交换分区或者文件）
-+并从其物理地址移出时。
-+
-+这些技术提高了内存效率，减少了延迟，并且最小化了空间占用。本文档不会深入讨论
-+“懒加载”和“写时复制”的细节，因为这些的主题属于进程地址管理范畴，超出了本文范围。
-+
-+交换技术和前面提到的其他技术不同，因为它是在压力过大下情况下减少内存消耗的一种
-+迫不得已的手段，因此是不受欢迎的。
-+
-+交换不适用于由内核逻辑地址映射的内存。这些地址是内核虚拟地址空间的子集，直接映射
-+一段连续的物理内存。对于提供的任意逻辑地址，它的物理地址可以通过对偏移量进行简单
-+的算数运算来确定。对逻辑地址的访问很快，因为这避免了复杂的页表查找，但代价是这些
-+内存不能被驱逐或置换。
-+
-+如果内核无法为必须存在于物理帧中的数据腾出空间，那么它会调用内存不足(out-of-memory,
-+OOM)杀手，通过杀掉低优先级的进程来腾出空间，直到内存压力下降到安全阈值之下。
-+
-+另外，代码漏洞或指示 CPU 访问的精心制作的恶意地址也可能导致缺页异常。一个进程的
-+线程可以利用指令来访问不属于其地址空间的（非共享）内存，或者试图执行写入只读位置
-+的指令。
-+
-+如果上述情况发生在用户态，内核会向当前线程发送 `段错误` (SIGSEGV)信号。该信号
-+通常导致线程及其所属的进程终止。
-+
-+本文将简化并概述 Linux 内核如何处理这些缺页中断、创建表和表项、检查内存是否存在，
-+以及当内存不存在时，如何请求从持久存储或其他设备加载数据，并更新 MMU 及其缓存。
-+
-+最初的步骤依赖于架构。大多是架构跳转到 `do_page_fault()`，而 x86 中断处理程序是由
-+`DEFINE_IDTENTRY_RAW_ERRORCODE()` 宏定义的，该宏调用 `handle_page_fault()`。
-+
-+无论调用路径如何，所有架构最终都会调用 `handle_mm_fault()`，该函数通常会调用
-+`__handle_mm_fault()` 来执行实际分配页表的任务。
-+
-+如果不幸无法调用 `__handle_mm_fault()` 则意味着虚拟地址指向了无权访问的物理
-+内存区域（至少对于当前上下文如此）。这种情况会导致内核向该进程发送上述的 SIGSEGV
-+信号，并引发前面提到的后果。
-+
-+这些用于查找偏移量的函数名称通常以 `*_offset()` 结尾，其中“\*”可以是 pgd，p4d，
-+pud，pmd 或者 pte；而分配相应层级页表的函数名称是 `*_alloc`，它们按照上述命名
-+约定以对应页表层级的类型命名。
-+
-+页表遍历可能在中间或者上层结束(PMD，PUD)。
-+
-+Linux 支持比通常 4KB 更大的页面（即所谓的 `巨页`）。当使用这种较大的页面时，没有
-+必要使用更低层的页表项(PTE)。巨页通常包含 2MB 到 1GB 的大块连续物理区域，分别由
-+PMD 和 PUD 页表项映射。
-+
-+巨页带来许多好处，如减少 TLB 压力，减少页表开销，提高内存分配效率，以及改善
-+特定工作负载的性能。然而，这些好处也伴随着权衡，如内存浪费和分配难度增加。
-+
-+在遍历和分配的最后，如果没有返回错误，`__handle_mm_fault()` 最终调用 `handle_pte_fault()`
-+通过 `do_fault()` 执行 `do_read_fault()`、 `do_cow_fault()` 和 `do_shared_fault()`。
-+“read”，“cow”和“shared”分别暗示了它处理错误的类型和原因。
-+
-+实际的工作流程实现是非常复杂的。其设计允许 Linux 根据每种架构的特定特性处理缺页
-+异常，同时仍然共享一个通用的整体结构。
-+
-+为了总结 Linux 如何处理缺页中断的概述，需要补充的是，缺页异常处理程序可以通过
-+`pagefault_disable()` 和 `pagefault_enable()` 分别禁用和启用。
-+
-+许多代码路径使用了这两个函数，因为它们需要禁止陷入缺页异常处理程序，主要是为了
-+防止死锁。
--- 
-2.25.1
+Put the dummy driver in a separate patch please, it doesn't belong with
+the core changes.
 
+>  
+>  config PPS_GENERATOR_PARPORT
+>  	tristate "Parallel port PPS signal generator"
+> @@ -12,3 +27,5 @@ config PPS_GENERATOR_PARPORT
+>  	  If you say yes here you get support for a PPS signal generator which
+>  	  utilizes STROBE pin of a parallel port to send PPS signals. It uses
+>  	  parport abstraction layer and hrtimers to precisely control the signal.
+> +
+> +endif # PPS_GENERATOR
+> diff --git a/drivers/pps/generators/Makefile b/drivers/pps/generators/Makefile
+> index 2589fd0f2481..dc1aa5a4688b 100644
+> --- a/drivers/pps/generators/Makefile
+> +++ b/drivers/pps/generators/Makefile
+> @@ -3,6 +3,10 @@
+>  # Makefile for PPS generators.
+>  #
+>  
+> +pps_gen_core-y			:= pps_gen.o sysfs.o
+> +obj-$(CONFIG_PPS_GENERATOR)	:= pps_gen_core.o
+> +
+> +obj-$(CONFIG_PPS_GENERATOR_DUMMY)   += pps_gen-dummy.o
+>  obj-$(CONFIG_PPS_GENERATOR_PARPORT) += pps_gen_parport.o
+>  
+>  ccflags-$(CONFIG_PPS_DEBUG) := -DDEBUG
+> diff --git a/drivers/pps/generators/pps_gen-dummy.c b/drivers/pps/generators/pps_gen-dummy.c
+> new file mode 100644
+> index 000000000000..2d257f3f9bf9
+> --- /dev/null
+> +++ b/drivers/pps/generators/pps_gen-dummy.c
+> @@ -0,0 +1,83 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * PPS dummy generator
+> + *
+> + * Copyright (C) 2024   Rodolfo Giometti <giometti@enneenne.com>
+
+Why so many spaces after "2024"?
+
+> + */
+> +
+> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+
+Why is this needed, drivers should only ever use dev_*() calls, never
+pr_*() calls.
+
+> +
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/init.h>
+> +#include <linux/time.h>
+> +#include <linux/pps_gen_kernel.h>
+> +
+> +/*
+> + * Global variables
+> + */
+> +
+> +static struct pps_gen_device *pps_gen;
+
+That's by definition, static, not global :)
+
+Also, why is it needed at all?
+
+> +
+> +/*
+> + * PPS Generator methods
+> + */
+> +
+> +static int pps_gen_dummy_get_time(struct pps_gen_device *pps_gen,
+> +                                        struct timespec64 *time)
+> +{
+> +	struct system_time_snapshot snap;
+> +
+> +	ktime_get_snapshot(&snap);
+> +	*time = ktime_to_timespec64(snap.real);
+> +
+> +	return 0;
+> +}
+> +
+> +static int pps_gen_dummy_enable(struct pps_gen_device *pps_gen, bool enable)
+> +{
+> +	/* always enabled */
+> +	return 0;
+> +}
+> +
+> +/*
+> + * The PPS info struct
+> + */
+> +
+> +static struct pps_gen_source_info pps_gen_dummy_info = {
+> +        .name			= "dummy",
+> +	.use_system_clock	= true,
+> +	.get_time		= pps_gen_dummy_get_time,
+> +	.enable			= pps_gen_dummy_enable,
+> +};
+> +
+> +/*
+> + * Module staff
+> + */
+> +
+> +static void __exit pps_gen_dummy_exit(void)
+> +{
+> +        dev_info(pps_gen->dev, "dummy PPS generator unregistered\n");
+
+When drivers are working properly, they are quiet.
+
+> +
+> +        pps_gen_unregister_source(pps_gen);
+> +}
+> +
+> +static int __init pps_gen_dummy_init(void)
+> +{
+> +        pps_gen = pps_gen_register_source(&pps_gen_dummy_info);
+> +        if (IS_ERR(pps_gen)) {
+> +                pr_err("cannot register PPS generator\n");
+> +                return PTR_ERR(pps_gen);
+> +        }
+> +
+> +        dev_info(pps_gen->dev, "dummy PPS generator registered\n");
+
+Again, quiet...
+
+> +
+> +        return 0;
+> +}
+> +
+> +module_init(pps_gen_dummy_init);
+> +module_exit(pps_gen_dummy_exit);
+> +
+> +MODULE_AUTHOR("Rodolfo Giometti <giometti@enneenne.com>");
+> +MODULE_DESCRIPTION("LinuxPPS dummy generator");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/pps/generators/pps_gen.c b/drivers/pps/generators/pps_gen.c
+> new file mode 100644
+> index 000000000000..40b05087b4b4
+> --- /dev/null
+> +++ b/drivers/pps/generators/pps_gen.c
+> @@ -0,0 +1,283 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * PPS generators core file
+> + *
+> + * Copyright (C) 2024   Rodolfo Giometti <giometti@enneenne.com>
+
+Again spaces.
+
+> + */
+> +
+> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+
+Again, not needed.
+
+> +
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/init.h>
+> +#include <linux/sched.h>
+> +#include <linux/time.h>
+> +#include <linux/timex.h>
+> +#include <linux/uaccess.h>
+> +#include <linux/idr.h>
+> +#include <linux/mutex.h>
+> +#include <linux/cdev.h>
+
+Why a cdev?
+
+> +#include <linux/fs.h>
+> +#include <linux/pps_gen_kernel.h>
+> +#include <linux/slab.h>
+> +
+> +/*
+> + * Local variables
+> + */
+> +
+> +static int pps_gen_major;
+> +static struct class *pps_gen_class;
+> +
+> +static DEFINE_MUTEX(pps_gen_idr_lock);
+> +static DEFINE_IDR(pps_gen_idr);
+> +
+> +/*
+> + * Char device methods
+> + */
+> +
+> +static long pps_gen_cdev_ioctl(struct file *file,
+> +		unsigned int cmd, unsigned long arg)
+> +{
+> +	struct pps_gen_device *pps_gen = file->private_data;
+> +	unsigned int __user *uiuarg = (unsigned int __user *) arg;
+> +	unsigned int status;
+> +	int ret;
+> +
+> +	switch (cmd) {
+> +	case PPS_GEN_SETENABLE:
+> +		dev_dbg(pps_gen->dev, "PPS_GEN_SETENABLE\n");
+> +
+> +		ret = get_user(status, uiuarg);
+> +		if (ret)
+> +			return -EFAULT;
+> +
+> +		ret = pps_gen->info.enable(pps_gen, status);
+> +		if (ret)
+> +			return ret;
+> +		pps_gen->enabled = status;
+> +
+> +		break;
+> +
+> +	default:
+> +		return -ENOTTY;
+> +	}
+> +
+> +	return 0;
+> +}
+
+Why is there an ioctl call?  That's a totally different user/kernel api
+than sysfs, why do you have 2?
+
+> +
+> +#ifdef CONFIG_COMPAT
+> +static long pps_gen_cdev_compat_ioctl(struct file *file,
+> +		unsigned int cmd, unsigned long arg)
+> +{
+> +	cmd = _IOC(_IOC_DIR(cmd), _IOC_TYPE(cmd), _IOC_NR(cmd), sizeof(void *));
+> +	return pps_gen_cdev_ioctl(file, cmd, arg);
+> +}
+> +#else
+> +#define pps_gen_cdev_compat_ioctl	NULL
+> +#endif
+> +
+> +static struct pps_gen_device *pps_gen_idr_get(unsigned long id)
+> +{
+> +	struct pps_gen_device *pps_gen;
+> +
+> +	mutex_lock(&pps_gen_idr_lock);
+> +	pps_gen = idr_find(&pps_gen_idr, id);
+> +	if (pps_gen)
+> +		kobject_get(&pps_gen->dev->kobj);
+> +
+> +	mutex_unlock(&pps_gen_idr_lock);
+
+Doesn't an idr have a lock in it?  I can never remember...
+
+> +	return pps_gen;
+> +}
+> +
+> +static int pps_gen_cdev_open(struct inode *inode, struct file *file)
+> +{
+> +	struct pps_gen_device *pps_gen = pps_gen_idr_get(iminor(inode));
+> +
+> +	if (!pps_gen)
+> +		return -ENODEV;
+> +
+> +	file->private_data = pps_gen;
+> +	return 0;
+> +}
+> +
+> +static int pps_gen_cdev_release(struct inode *inode, struct file *file)
+> +{
+> +	struct pps_gen_device *pps_gen = file->private_data;
+> +
+> +	WARN_ON(pps_gen->id != iminor(inode));
+
+If this can never happen, don't add this line.  If it can happen, then
+handle it properly.  Either way, don't reboot a box because it happened.
+
+> +	kobject_put(&pps_gen->dev->kobj);
+
+Messing with a kobject reference directly from a device feels wrong and
+should never be done.  Please use the proper apis.
+
+
+> +	return 0;
+> +}
+> +
+> +/*
+> + * Char device stuff
+> + */
+> +
+> +static const struct file_operations pps_gen_cdev_fops = {
+> +	.owner		= THIS_MODULE,
+> +	.compat_ioctl	= pps_gen_cdev_compat_ioctl,
+
+Why compat for a new ioctl?  Why not write it properly to not need it?
+
+> +	.unlocked_ioctl	= pps_gen_cdev_ioctl,
+> +	.open		= pps_gen_cdev_open,
+> +	.release	= pps_gen_cdev_release,
+> +};
+> +
+> +static void pps_gen_device_destruct(struct device *dev)
+> +{
+> +	struct pps_gen_device *pps_gen = dev_get_drvdata(dev);
+> +
+> +	pr_debug("deallocating pps-gen%d\n", pps_gen->id);
+
+ftrace is your friend.
+
+> +	kfree(dev);
+> +	kfree(pps_gen);
+> +}
+> +
+> +static int pps_gen_register_cdev(struct pps_gen_device *pps_gen)
+> +{
+> +	int err;
+> +	dev_t devt;
+> +
+> +	mutex_lock(&pps_gen_idr_lock);
+> +
+> +	err = idr_alloc(&pps_gen_idr, pps_gen, 0, PPS_GEN_MAX_SOURCES,
+> +					GFP_KERNEL);
+> +	if (err < 0) {
+> +		if (err == -ENOSPC) {
+> +			pr_err("%s: too many PPS sources in the system\n",
+> +			       pps_gen->info.name);
+> +			err = -EBUSY;
+> +		}
+> +		goto out_unlock;
+> +	}
+> +	pps_gen->id = err;
+> +
+> +	devt = MKDEV(pps_gen_major, pps_gen->id);
+> +	pps_gen->dev = device_create(pps_gen_class, pps_gen->info.parent, devt,
+> +					pps_gen, "pps-gen%d", pps_gen->id);
+> +	if (IS_ERR(pps_gen->dev)) {
+> +		err = PTR_ERR(pps_gen->dev);
+> +		goto free_idr;
+> +	}
+> +
+> +	/* Override the release function with our own */
+> +	pps_gen->dev->release = pps_gen_device_destruct;
+> +
+> +	pr_debug("generator %s got cdev (%d:%d)\n",
+> +			pps_gen->info.name, pps_gen_major, pps_gen->id);
+
+Why not dev_dbg()?
+
+> +
+> +	kobject_get(&pps_gen->dev->kobj);
+> +	mutex_unlock(&pps_gen_idr_lock);
+> +	return 0;
+> +
+> +free_idr:
+> +	idr_remove(&pps_gen_idr, pps_gen->id);
+> +out_unlock:
+> +	mutex_unlock(&pps_gen_idr_lock);
+> +	return err;
+> +}
+> +
+> +static void pps_gen_unregister_cdev(struct pps_gen_device *pps_gen)
+> +{
+> +	pr_debug("unregistering pps-gen%d\n", pps_gen->id);
+> +	device_destroy(pps_gen_class, pps_gen->dev->devt);
+> +
+> +	/* Now we can release the ID for re-use */
+> +	mutex_lock(&pps_gen_idr_lock);
+> +	idr_remove(&pps_gen_idr, pps_gen->id);
+> +	kobject_put(&pps_gen->dev->kobj);
+> +	mutex_unlock(&pps_gen_idr_lock);
+> +}
+> +
+> +/*
+> + * Exported functions
+> + */
+> +
+> +/* pps_gen_register_source - add a PPS generator in the system
+> + * @info: the PPS generator info struct
+> + *
+> + * The function returns, in case of success, the PPS generaor device. Otherwise
+> + * ERR_PTR(errno).
+> + */
+> +
+> +struct pps_gen_device *pps_gen_register_source(struct pps_gen_source_info *info)
+> +{
+> +        struct pps_gen_device *pps_gen;
+> +        int err;
+> +
+> +        pps_gen = kzalloc(sizeof(struct pps_gen_device), GFP_KERNEL);
+> +        if (pps_gen == NULL) {
+> +                err = -ENOMEM;
+> +                goto pps_gen_register_source_exit;
+> +        }
+> +        pps_gen->info = *info;
+> +	pps_gen->enabled = false;
+
+Whitespace is all messed up here, did you run checkpatch?
+
+
+> +
+> +        /* Create the char device */
+> +        err = pps_gen_register_cdev(pps_gen);
+> +        if (err < 0) {
+> +                pr_err("%s: unable to create char device\n",
+> +                                        info->name);
+> +                goto kfree_pps_gen;
+> +        }
+> +
+> +        dev_info(pps_gen->dev, "new PPS generator %s\n", info->name);
+
+Again, quiet...
+
+> +
+> +        return pps_gen;
+> +
+> +kfree_pps_gen:
+> +        kfree(pps_gen);
+> +
+> +pps_gen_register_source_exit:
+> +        pr_err("%s: unable to register generaor\n", info->name);
+
+dev_err()?
+
+> +
+> +        return ERR_PTR(err);
+> +}
+> +EXPORT_SYMBOL(pps_gen_register_source);
+
+I have to ask, why not EXPORT_SYMBOL_GPL()?
+
+
+> +
+> +/* pps_gen_unregister_source - remove a PPS generator from the system
+> + * @pps_gen: the PPS generator
+> + */
+> +
+> +void pps_gen_unregister_source(struct pps_gen_device *pps_gen)
+> +{
+> +        pps_gen_unregister_cdev(pps_gen);
+> +}
+> +EXPORT_SYMBOL(pps_gen_unregister_source);
+> +
+> +/*
+> + * Module stuff
+> + */
+> +
+> +static void __exit pps_gen_exit(void)
+> +{
+> +	class_destroy(pps_gen_class);
+> +	__unregister_chrdev(pps_gen_major, 0, PPS_GEN_MAX_SOURCES, "pps-gen");
+
+Why the __ version?  Are you sure?
+
+> +}
+> +
+> +static int __init pps_gen_init(void)
+> +{
+> +	pps_gen_class = class_create("pps-gen");
+> +	if (IS_ERR(pps_gen_class)) {
+> +		pr_err("failed to allocate class\n");
+> +		return PTR_ERR(pps_gen_class);
+> +	}
+> +	pps_gen_class->dev_groups = pps_gen_groups;
+> +
+> +	pps_gen_major = __register_chrdev(0, 0, PPS_GEN_MAX_SOURCES, "pps-gen",
+> +				      &pps_gen_cdev_fops);
+
+Again, why __?
+
+> +	if (pps_gen_major < 0) {
+> +		pr_err("failed to allocate char device region\n");
+> +		goto remove_class;
+> +	}
+> +
+> +	return 0;
+> +
+> +remove_class:
+> +	class_destroy(pps_gen_class);
+> +	return pps_gen_major;
+> +}
+> +
+> +subsys_initcall(pps_gen_init);
+> +module_exit(pps_gen_exit);
+> +
+> +MODULE_AUTHOR("Rodolfo Giometti <giometti@enneenne.com>");
+> +MODULE_DESCRIPTION("LinuxPPS generators support");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/pps/generators/sysfs.c b/drivers/pps/generators/sysfs.c
+> new file mode 100644
+> index 000000000000..247030d138e1
+> --- /dev/null
+> +++ b/drivers/pps/generators/sysfs.c
+> @@ -0,0 +1,89 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * PPS generators sysfs support
+> + *
+> + * Copyright (C) 2024   Rodolfo Giometti <giometti@enneenne.com>
+> + */
+> +
+> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+
+again...
+
+> +
+> +#include <linux/device.h>
+> +#include <linux/module.h>
+> +#include <linux/string.h>
+> +#include <linux/pps_gen_kernel.h>
+> +
+> +/*
+> + * Attribute functions
+> + */
+> +
+> +static ssize_t system_show(struct device *dev, struct device_attribute *attr,
+> +				char *buf)
+> +{
+> +        struct pps_gen_device *pps_gen = dev_get_drvdata(dev);
+
+Again whitespace...
+
+> +
+> +        return sysfs_emit(buf, "%d\n", pps_gen->info.use_system_clock);
+> +}
+> +static DEVICE_ATTR_RO(system);
+> +
+> +static ssize_t time_show(struct device *dev, struct device_attribute *attr,
+> +				char *buf)
+> +{
+> +        struct pps_gen_device *pps_gen = dev_get_drvdata(dev);
+> +	struct timespec64 time;
+> +	int ret;
+> +
+> +        ret = pps_gen->info.get_time(pps_gen, &time);
+> +        if (ret)
+> +                return ret;
+> +
+> +        return sysfs_emit(buf, "%llu %09lu\n", time.tv_sec, time.tv_nsec);
+> +}
+> +static DEVICE_ATTR_RO(time);
+> +
+> +static ssize_t enable_store(struct device *dev, struct device_attribute *attr,
+> +				const char *buf, size_t count)
+> +{
+> +        struct pps_gen_device *pps_gen = dev_get_drvdata(dev);
+> +	bool status;
+> +	unsigned int enable;
+> +        int ret;
+> +
+> +	ret = sscanf(buf, "%u", &enable);
+> +        if (ret != 1)
+> +		return -EINVAL;
+> +	status = !!enable;
+> +
+> +        ret = pps_gen->info.enable(pps_gen, status);
+> +        if (ret)
+> +                return ret;
+> +	pps_gen->enabled = status;
+> +
+> +        return count;
+> +}
+> +static DEVICE_ATTR_WO(enable);
+> +
+> +static ssize_t name_show(struct device *dev, struct device_attribute *attr,
+> +                         char *buf)
+> +{
+> +        struct pps_gen_device *pps_gen = dev_get_drvdata(dev);
+> +
+> +        return sysfs_emit(buf, "%s\n", pps_gen->info.name);
+
+Why have a separate name?  That shouldn't matter at all.  If it does
+matter, than link to the device that created it properly, don't make up
+yet another name for your device.
+
+> +}
+> +static DEVICE_ATTR_RO(name);
+> +
+> +static struct attribute *pps_gen_attrs[] = {
+> +        &dev_attr_enable.attr,
+> +        &dev_attr_name.attr,
+> +        &dev_attr_time.attr,
+> +        &dev_attr_system.attr,
+> +        NULL,
+> +};
+> +
+> +static const struct attribute_group pps_gen_group = {
+> +        .attrs = pps_gen_attrs,
+> +};
+> +
+> +const struct attribute_group *pps_gen_groups[] = {
+> +        &pps_gen_group,
+> +        NULL,
+> +};
+> diff --git a/include/linux/pps_gen_kernel.h b/include/linux/pps_gen_kernel.h
+> new file mode 100644
+> index 000000000000..5513415b53ec
+> --- /dev/null
+> +++ b/include/linux/pps_gen_kernel.h
+> @@ -0,0 +1,57 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * PPS generator API kernel header
+> + *
+> + * Copyright (C) 2024   Rodolfo Giometti <giometti@enneenne.com>
+> + */
+> +
+> +#ifndef LINUX_PPS_GEN_KERNEL_H
+> +#define LINUX_PPS_GEN_KERNEL_H
+> +
+> +#include <linux/pps_gen.h>
+> +#include <linux/cdev.h>
+> +#include <linux/device.h>
+> +
+> +/*
+> + * Global defines
+> + */
+> +
+> +struct pps_gen_device;
+> +
+> +/* The specific PPS source info */
+> +struct pps_gen_source_info {
+> +	char name[PPS_GEN_MAX_NAME_LEN];	/* symbolic name */
+> +	bool use_system_clock;
+> +
+> +	int (*get_time)(struct pps_gen_device *pps_gen,
+> +					struct timespec64 *time);
+> +	int (*enable)(struct pps_gen_device *pps_gen, bool enable);
+> +
+> +	struct module *owner;
+> +	struct device *parent;			/* for device_create */
+> +};
+> +
+> +/* The main struct */
+> +struct pps_gen_device {
+> +	struct pps_gen_source_info info;	/* PSS generator info */
+> +	bool enabled;				/* PSS generator status */
+> +
+> +	unsigned int id;			/* PPS generator unique ID */
+> +	struct device *dev;
+
+Why not be a real device? What is this a pointer to?
+
+> +};
+
+This structure can be private, right?
+
+> +
+> +/*
+> + * Global variables
+> + */
+> +
+> +extern const struct attribute_group *pps_gen_groups[];
+
+Why is this global?
+
+> +
+> +/*
+> + * Exported functions
+> + */
+> +
+> +extern struct pps_gen_device *pps_gen_register_source(
+> +		struct pps_gen_source_info *info);
+> +extern void pps_gen_unregister_source(struct pps_gen_device *pps_gen);
+> +
+> +#endif /* LINUX_PPS_GEN_KERNEL_H */
+> diff --git a/include/uapi/linux/pps_gen.h b/include/uapi/linux/pps_gen.h
+> new file mode 100644
+> index 000000000000..7b6f50fcab8c
+> --- /dev/null
+> +++ b/include/uapi/linux/pps_gen.h
+> @@ -0,0 +1,35 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ WITH Linux-syscall-note */
+
+I have to ask, why "GPL-2.0+"?
+
+
+> +/*
+> + * PPS generator API header
+> + *
+> + * Copyright (C) 2024   Rodolfo Giometti <giometti@enneenne.com>
+> + *
+> + *   This program is free software; you can redistribute it and/or modify
+> + *   it under the terms of the GNU General Public License as published by
+> + *   the Free Software Foundation; either version 2 of the License, or
+> + *   (at your option) any later version.
+> + *
+> + *   This program is distributed in the hope that it will be useful,
+> + *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + *   GNU General Public License for more details.
+> + *
+> + *   You should have received a copy of the GNU General Public License
+> + *   along with this program; if not, write to the Free Software
+> + *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+License boilerplate should be removed.
+
+> + */
+> +
+> +
+> +#ifndef _PPS_GEN_H_
+> +#define _PPS_GEN_H_
+> +
+> +#include <linux/types.h>
+> +
+> +#define PPS_GEN_MAX_SOURCES	16		/* should be enough... */
+
+What is this for?  Who is using it in userspace?
+
+> +#define PPS_GEN_MAX_NAME_LEN	32
+
+Why is this exported to userspace?
+
+> +
+> +#include <linux/ioctl.h>
+> +
+> +#define PPS_GEN_SETENABLE	_IOW('g', 0xa1, unsigned int *)
+
+Documentation for this new ioctl?
+
+thanks,
+
+greg k-h
