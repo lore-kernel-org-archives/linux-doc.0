@@ -1,118 +1,178 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CF2A2B9A2
-	for <linux-doc@vger.kernel.org>; Tue,  8 Oct 2024 04:56:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C0125779
+	for <linux-doc@vger.kernel.org>; Tue,  8 Oct 2024 05:16:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728363398; cv=none; b=pECDR7Et1gFR8BGrscPLSzAKUxFN9FRQOP6Tpu5LAYGo5JEb5MV0YOueDH7m52tGWrFOhpVsx43BmUPN7ICGm0uv5OGs5F7dmR8TPxshXoIvf+Wh5Svz3VkQR3Sjby2hitAVDejPua6dd4JQB94quDyrAHSWeBmct1K2twrwhYc=
+	t=1728364592; cv=none; b=MFO8u25/M7HAgzC1CKfhIJtnEVntFDWWdc9awFBdBOMelzD19imASFc20t3aw6SSfs5zfS5AkoOamCzlFY93COnMsiVoGoOund/wQkLQRjY2tfxQrJHMI0zZtiC6CS8IpyQv9U1iRFZz34Mho70b2uILAi9TNFI0/bUMr9uy8r8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728363398; c=relaxed/simple;
-	bh=bIwUsWAaVG68f7YrGqUZ+qczlVf2YXskoKAb2wBB+8o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Tndq0hzpG6jm2K0QZ+/+sme1VQKDEzbw77H6WQEUpizQVGtwTJOHY1iBROetfmnVLsy+oh8f7Gj0DYm8kuxxtOh2oOTCQ5y/U+gIQ/fX0fVXPEJAljfXUwb104MjA4oPy3UCIRqW63mkWvM0n0CZ5oLxmnZkY4OcTy3mEOvHIjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AFaj06Gz; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728364592; c=relaxed/simple;
+	bh=J+sL/JH0w5uxfdfZLeo2CgWwLFTpOCgCJ9fT9v9s7sA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=E7VbUH/lhTz5ReaJjCzPYkq7ZhV4vXWZX4naEGb2FkkiFGAo0Py+aLSpkGJiCRYU/ed+L/CGlVrX9jTrKVyxuW4xAAke6GVOZNonPi3NEx4jutgdVQsx5+dH4lskaKeMq+zEP7hnzWP548KYKHgYvBT0qgz03GiJBHfMsL0W1tw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=lx6Wwt6p; arc=none smtp.client-ip=209.85.166.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AFaj06Gz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728363397; x=1759899397;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bIwUsWAaVG68f7YrGqUZ+qczlVf2YXskoKAb2wBB+8o=;
-  b=AFaj06GztB43zuT2W0/R0I+DnSNPSTNsy9LfVlPijqFdR43KFz6mXI5M
-   Ye1NtlOH/DlO+BJ8Gkd1RRlNy0eyA1O5ITX2Is5eB7/rQC4UJ7zXKlFEH
-   ZUaBQ2SyxHQAL0w96jALALQMeoJYo5YX4Em4mnkoqjfKRE6fyVZYcsQuM
-   a8MoZ/0N4bLKLHzB3mMH0GCeUlWgpJWTaHYApgtigcRKKoA4KsGXAjkzt
-   i/nD4KN1N0jDCD9mAbiiBydlvj7OsvbZKkTJ/kqud0a7NbN9Vi3qXP6l+
-   nENMtNwvp2jZoJAi/+8fCwPNtLXk8NIo/jJdRLIVwDMJRnjHiDm+7R+B3
-   Q==;
-X-CSE-ConnectionGUID: 0jzCGZazRFOCat8maCPJ+A==
-X-CSE-MsgGUID: YD7M8zSxSg6DjaFVqooy0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="27415239"
-X-IronPort-AV: E=Sophos;i="6.11,185,1725346800"; 
-   d="scan'208";a="27415239"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 21:56:36 -0700
-X-CSE-ConnectionGUID: RSLP3RfRQteYgRnDngDtMQ==
-X-CSE-MsgGUID: sKbDJhRcRbe5ITHCwv98pg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,185,1725346800"; 
-   d="scan'208";a="75268331"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 07 Oct 2024 21:56:34 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sy2Gu-0005um-0y;
-	Tue, 08 Oct 2024 04:56:32 +0000
-Date: Tue, 8 Oct 2024 12:56:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: James Morse <james.morse@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-doc@vger.kernel.org
-Subject: [morse:mpam/snapshot/v6.12-rc1 118/132]
- drivers/platform/arm64/mpam/mpam_resctrl.c:33: warning: This comment starts
- with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202410081205.fWnQWzOX-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="lx6Wwt6p"
+Received: by mail-io1-f49.google.com with SMTP id ca18e2360f4ac-82cd872755dso238060139f.1
+        for <linux-doc@vger.kernel.org>; Mon, 07 Oct 2024 22:16:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sifive.com; s=google; t=1728364589; x=1728969389; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=w4w/TdKOPPfwgKMj85c6/te+TDmMrhbBdxi4k1LLIvc=;
+        b=lx6Wwt6pfemKtg/RtsUkh6zDXx+AMz2u0XC29jh3q6XGNRXDJyCEhkRdOgYFcDPU61
+         dn5uW6y9KwHovP3mgvRj5hzQFEeGkq5yruXm/xei0zfQDP4mdl50KJRLL0Bm5FvNYvtS
+         9XLj30EwxrVfPGWLG1GU6+Hg5eu3rXJX7VFRHw8A5+8iMWithntSRSsM8op0l5wdQw8H
+         K43UnN/dnkjJxgJgdutFmFW6zcsc9OplF9dUy/TKgk/d5/je/a2QFJKGDfF/hf/7aXL2
+         dSBX913GuMhdeFvJ3um/fUKbVwq3sVok8iu2Go4mTHtEj9rTWXSpuJE0ViHCjC8nT23q
+         HHTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728364589; x=1728969389;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=w4w/TdKOPPfwgKMj85c6/te+TDmMrhbBdxi4k1LLIvc=;
+        b=IFU4r3U43WEyHb7973X9+aVD+iCG569Rrcr4H4L3h6CzEvDn2zTikQfQQ4oQqe9GNe
+         ofAALPMmp1cuJRmf67mydnCJDOc+9MugesYu9Lz3TviES+pKdVNxkPlfesrxa4pN9rTw
+         9TJ6WbEDwbvRXUgv88ODfvK92Xd/9tu1gIoqiVIAyf1JEwRzJQAhlig6Wy0UqsoXTMJt
+         HG1H7QTkyqGnG6CB+RAYRk6kPgNzWfwhR7vHigZ1R/9A/stwii62/J38o57AIeRCyGSL
+         8Ebbi+2iqUfzKNXLVZWVNVK0ERd9qH3aoqK86N4JRlcVvhB3mCyQcJ808hcb7vElICRr
+         13QA==
+X-Forwarded-Encrypted: i=1; AJvYcCU7hZI59ahVEnmtJfcNJbKxv3F385pu1oWQbt/KeDU+vrVm+gBidz7snjLvf89QgZj1j3i9y4lpYbY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDqStuKIC8mESQH7MIWx0VP1BKZRaD6mg/sJg+LoMvmJZWy888
+	OSu2qLlDTcsSWxisG0/7W9Uoxh8s8t14+7E2duAin5m7b7WyTuNFu1lqvLcrgLn1Gs+fJLeBxR9
+	wPLpwpXVicbxiD6MVQbOwTA4Rngcyb3Ap9aCNRA==
+X-Google-Smtp-Source: AGHT+IHj+3nyjDRUlzo6HU3+Ye4UA98AMbnjv3+zlmAvnKbqvLOrOys0YnN7vCUlZP6Nh+cnnTYFiH4anmDFOKj+zMw=
+X-Received: by 2002:a05:6602:14c1:b0:82a:2143:8 with SMTP id
+ ca18e2360f4ac-834f7d65974mr1658309439f.10.1728364589159; Mon, 07 Oct 2024
+ 22:16:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20241001-v5_user_cfi_series-v1-0-3ba65b6e550f@rivosinc.com>
+ <20241001-v5_user_cfi_series-v1-16-3ba65b6e550f@rivosinc.com>
+ <CANXhq0rpwQkZ9+mZLGVUq=r4WiA8BbZ-eeTDogf3fzeEPqeeqA@mail.gmail.com> <ZwRvAEwFbrpq3zZq@debug.ba.rivosinc.com>
+In-Reply-To: <ZwRvAEwFbrpq3zZq@debug.ba.rivosinc.com>
+From: Zong Li <zong.li@sifive.com>
+Date: Tue, 8 Oct 2024 13:16:17 +0800
+Message-ID: <CANXhq0qaokjDC9hb75_dpGuyOd_ex8+q7YNe8pAg7dbTcxuLSg@mail.gmail.com>
+Subject: Re: [PATCH 16/33] riscv/shstk: If needed allocate a new shadow stack
+ on clone
+To: Deepak Gupta <debug@rivosinc.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Christian Brauner <brauner@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Oleg Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, alistair.francis@wdc.com, 
+	richard.henderson@linaro.org, jim.shu@sifive.com, andybnac@gmail.com, 
+	kito.cheng@sifive.com, charlie@rivosinc.com, atishp@rivosinc.com, 
+	evan@rivosinc.com, cleger@rivosinc.com, alexghiti@rivosinc.com, 
+	samitolvanen@google.com, broonie@kernel.org, rick.p.edgecombe@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi James,
+On Tue, Oct 8, 2024 at 7:30=E2=80=AFAM Deepak Gupta <debug@rivosinc.com> wr=
+ote:
+>
+> On Mon, Oct 07, 2024 at 04:17:47PM +0800, Zong Li wrote:
+> >On Wed, Oct 2, 2024 at 12:20=E2=80=AFAM Deepak Gupta <debug@rivosinc.com=
+> wrote:
+> >>
+> >> Userspace specifies CLONE_VM to share address space and spawn new thre=
+ad.
+> >> `clone` allow userspace to specify a new stack for new thread. However
+> >> there is no way to specify new shadow stack base address without chang=
+ing
+> >> API. This patch allocates a new shadow stack whenever CLONE_VM is give=
+n.
+> >>
+> >> In case of CLONE_VFORK, parent is suspended until child finishes and t=
+hus
+> >> can child use parent shadow stack. In case of !CLONE_VM, COW kicks in
+> >> because entire address space is copied from parent to child.
+> >>
+> >> `clone3` is extensible and can provide mechanisms using which shadow s=
+tack
+> >> as an input parameter can be provided. This is not settled yet and bei=
+ng
+> >> extensively discussed on mailing list. Once that's settled, this commi=
+t
+> >> will adapt to that.
+> >>
+> >> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+> >> ---
+> >>  arch/riscv/include/asm/usercfi.h |  25 ++++++++
+>
+> ... snipped...
+>
+> >> +
+> >> +/*
+> >> + * This gets called during clone/clone3/fork. And is needed to alloca=
+te a shadow stack for
+> >> + * cases where CLONE_VM is specified and thus a different stack is sp=
+ecified by user. We
+> >> + * thus need a separate shadow stack too. How does separate shadow st=
+ack is specified by
+> >> + * user is still being debated. Once that's settled, remove this part=
+ of the comment.
+> >> + * This function simply returns 0 if shadow stack are not supported o=
+r if separate shadow
+> >> + * stack allocation is not needed (like in case of !CLONE_VM)
+> >> + */
+> >> +unsigned long shstk_alloc_thread_stack(struct task_struct *tsk,
+> >> +                                          const struct kernel_clone_a=
+rgs *args)
+> >> +{
+> >> +       unsigned long addr, size;
+> >> +
+> >> +       /* If shadow stack is not supported, return 0 */
+> >> +       if (!cpu_supports_shadow_stack())
+> >> +               return 0;
+> >> +
+> >> +       /*
+> >> +        * If shadow stack is not enabled on the new thread, skip any
+> >> +        * switch to a new shadow stack.
+> >> +        */
+> >> +       if (is_shstk_enabled(tsk))
+> >
+> >Hi Deepak,
+> >Should it be '!' is_shstk_enabled(tsk)?
+>
+> Yes it is a bug. It seems like fork without CLONE_VM or with CLONE_VFORK,=
+ it was returning
+> 0 anyways. And in the case of CLONE_VM (used by pthread), it was not doin=
+g the right thing.
 
-First bad commit (maybe != root cause):
+Hi Deepak,
+I'd like to know if I understand correctly. Could I know whether there
+might also be a risk when the user program doesn't enable the CFI and
+the kernel doesn't activate CFI. Because this flow will still try to
+allocate the shadow stack and execute the ssamowap command. Thanks
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.12-rc1
-head:   4d17b37b670795954fd7a70c8ec83fb705a5e2ad
-commit: 314b33cc62a7bde4630377feb15d2fb6cac0b4f2 [118/132] arm64: mpam: Select ARCH_HAS_CPU_RESCTRL
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241008/202410081205.fWnQWzOX-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project fef3566a25ff0e34fb87339ba5e13eca17cec00f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241008/202410081205.fWnQWzOX-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410081205.fWnQWzOX-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/platform/arm64/mpam/mpam_resctrl.c:33: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * The classes we've picked to map to resctrl events.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
-
-
-vim +33 drivers/platform/arm64/mpam/mpam_resctrl.c
-
-80cb7de1ff47de James Morse 2019-06-11  31  
-2fbb5c77e41e1d James Morse 2024-05-16  32  /**
-2fbb5c77e41e1d James Morse 2024-05-16 @33   * The classes we've picked to map to resctrl events.
-2fbb5c77e41e1d James Morse 2024-05-16  34   * Resctrl believes all the worlds a Xeon, and these are all on the L3. This
-2fbb5c77e41e1d James Morse 2024-05-16  35   * array lets us find the actual class backing the event counters. e.g.
-2fbb5c77e41e1d James Morse 2024-05-16  36   * the only memory bandwith counters may be on the memory controller, but to
-2fbb5c77e41e1d James Morse 2024-05-16  37   * make use of them, we pretend they are on L3.
-2fbb5c77e41e1d James Morse 2024-05-16  38   * Class pointer may be NULL.
-2fbb5c77e41e1d James Morse 2024-05-16  39   */
-2fbb5c77e41e1d James Morse 2024-05-16  40  static struct mpam_class *mpam_resctrl_counters[QOS_NUM_EVENTS];
-2fbb5c77e41e1d James Morse 2024-05-16  41  
-
-:::::: The code at line 33 was first introduced by commit
-:::::: 2fbb5c77e41e1d69f15a17b6a4b6ae7e5e492d4f untested: arm_mpam: resctrl: Add support for csu counters
-
-:::::: TO: James Morse <james.morse@arm.com>
-:::::: CC: James Morse <james.morse@arm.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Most of the testing has been with busybox build (independent binaries0 dr=
+iven via buildroot
+> setup. Wondering why it wasn't caught.
+>
+> Anyways, will fix it. Thanks for catching it.
+>
+> >
+> >> +               return 0;
+> >> +
+> >> +       /*
