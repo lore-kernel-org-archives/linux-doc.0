@@ -1,150 +1,221 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5972E1E0DD1
-	for <linux-doc@vger.kernel.org>; Tue,  8 Oct 2024 18:22:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51211E1319;
+	Tue,  8 Oct 2024 18:33:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728411771; cv=none; b=mUGIlnQ/4Vcdz1gN4IYq5JNc4CAcxiwWjsTiQ7A0bzKBom1Xdctf9T0Cb36Fa1jMBMGMszVRbVpDllbq/08rLSVGOa0NSdmNrGLld1tBy7f+6HiGUYSq5FMbhKRFLPCxq+jMJ7aFsIG5c9dWkHIMLB3dS/o7iJsufY5Yosc1oZQ=
+	t=1728412397; cv=none; b=mkMuqkV4wvN/K8YAr1Lk7eGoNHGmQX2coCnDlqddO7NBin/9MJVfXrs60b8LWJ7xY5iy7OkNMQ42HtUW2KiLwlWtqn/sIdpBnsS8gOrTQb2HTwBVVnOluY+4ZwNzX7Y2VxiSI11ua9ldngzxdVa0oHYljpKPsjcPKTJPeZhj9J8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728411771; c=relaxed/simple;
-	bh=Soj8mFaLd1Cyy0ejjBioY9cxLP9QIIW58JDFeiu2ts0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JMWcOWCqpsrFn07drD/g4W1Gu8M7X+M/GYJdMky7gSjndifHzU/Iysn5F/xta7M8OLT9VqLt7HQQ8rfyRWmUYu6clgTtGnBd5fEIoZ1Jv2CIR3gamTkDqoNSsTOpZncUE4uvkLNShlV4f/P0F2i8vWew4g4o7CIFp2R9q9UmGsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=Ao4PoGI9; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
+	s=arc-20240116; t=1728412397; c=relaxed/simple;
+	bh=divFETgwfAY9iZU+jpEIBPKO18PS8DtSvhwWZozhADY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=erio4vJhGpzArGm9fxcYSYz5n1WVAmFl+auHkLzMlk9DhufWFA7dXoC9tAZgVhCSe1TfraqZGjvWGRCukSeJBAXbMr90bXFSBYNbd3GpOv4h4l5R4KWxl8esD2OSHpY7Yr/ohbRQqjfZdIkANYzAQ7CbAyXO4WrieDx4ukyr7ZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZGs2Pmp1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="Ao4PoGI9"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-20b9b35c7c3so62564905ad.3
-        for <linux-doc@vger.kernel.org>; Tue, 08 Oct 2024 11:22:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1728411770; x=1729016570; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mfgCpS5PaaDvZjkTJaE/xBzcbJqmdBm8+yyCnyw3De8=;
-        b=Ao4PoGI9vwBp2XBS9TbUrC82t+VibfUVIqpnOWesXqezv0Br5BL3Ty6wA+tIYl1bwg
-         Gl3KwX7OxATwATQ4aFYcSBL764vZgdr5lfvNManB36kYOHUNNMjmJjglTqDhY7hkgNAh
-         S6g4uoFnk9dwmJfotqQFxrZf4dItl8v4X5YDU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728411770; x=1729016570;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mfgCpS5PaaDvZjkTJaE/xBzcbJqmdBm8+yyCnyw3De8=;
-        b=mQGWgs210/SUiV1mynJVDW93Bg44Jb6iz3p8GiwVpXI3Bu2Q60Vr3OO+r4EVUKzuct
-         38Jq57rXOhMINvDju6SXzLqhvr8FrsL4WcVQhGxLAAwgJP4p9Q7lR9x3uEJbLKRU4r09
-         Vnk/JGfqGkM6m8diYfovkuUwkauoFk3WnlEYo3eSQfX9RojuLjcdLLg+pXj2ccN7Hfe2
-         VS1qgDpz2q9CnUdF+J9HfWFTjZv4zIGFoO+Fgoh3MZV/5knDF9FZIiTfiWv/DEz/QQRZ
-         wds97awPyRozIhXQt9CiNLHs7XmMniYVRdQ7t7OJCXfWxJolynBORynEq75vDl4u74Wl
-         wxFA==
-X-Forwarded-Encrypted: i=1; AJvYcCX4u/rFukx9eNq9AOXu4wqtEw9beGJ0CUaN0UHxEFI28b4NWNzrwNtBc6VYKfcGNt3zQQzFgXjouGI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRt7prCDrIRyC9jFCXjuyAqlbwTkHIj0vj5fABUpGDzmFkGqly
-	LAqtE/ypZHyOcyx9Mc/M/FZYRQqG65lc3HFW6mE1pPc0iY6EFA9UlpjahhG7PA4=
-X-Google-Smtp-Source: AGHT+IGLwKH5D8GmqT91lF+IEqFV1bkPlXaOCwMdX6WQyBYQ2vbuWPbJ2h7utnI4zy5Lzw/E/iDnDg==
-X-Received: by 2002:a17:902:ea0f:b0:20b:a431:8f17 with SMTP id d9443c01a7336-20bff1c4055mr294243605ad.58.1728411769685;
-        Tue, 08 Oct 2024 11:22:49 -0700 (PDT)
-Received: from LQ3V64L9R2 (c-24-6-151-244.hsd1.ca.comcast.net. [24.6.151.244])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20c1395a408sm58422345ad.193.2024.10.08.11.22.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Oct 2024 11:22:49 -0700 (PDT)
-Date: Tue, 8 Oct 2024 11:22:45 -0700
-From: Joe Damato <jdamato@fastly.com>
-To: netdev@vger.kernel.org
-Cc: mkarsten@uwaterloo.ca, skhawaja@google.com, sdf@fomichev.me,
-	bjorn@rivosinc.com, amritha.nambiar@intel.com,
-	sridhar.samudrala@intel.com, willemdebruijn.kernel@gmail.com,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	David Ahern <dsahern@kernel.org>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Breno Leitao <leitao@debian.org>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"moderated list:INTEL ETHERNET DRIVERS" <intel-wired-lan@lists.osuosl.org>
-Subject: Re: [RFC net-next v4 3/9] net: napi: Make gro_flush_timeout per-NAPI
-Message-ID: <ZwV4dUxPZIVG366J@LQ3V64L9R2>
-Mail-Followup-To: Joe Damato <jdamato@fastly.com>, netdev@vger.kernel.org,
-	mkarsten@uwaterloo.ca, skhawaja@google.com, sdf@fomichev.me,
-	bjorn@rivosinc.com, amritha.nambiar@intel.com,
-	sridhar.samudrala@intel.com, willemdebruijn.kernel@gmail.com,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	David Ahern <dsahern@kernel.org>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Breno Leitao <leitao@debian.org>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"moderated list:INTEL ETHERNET DRIVERS" <intel-wired-lan@lists.osuosl.org>
-References: <20241001235302.57609-1-jdamato@fastly.com>
- <20241001235302.57609-4-jdamato@fastly.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZGs2Pmp1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F54BC4CEC7;
+	Tue,  8 Oct 2024 18:33:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728412396;
+	bh=divFETgwfAY9iZU+jpEIBPKO18PS8DtSvhwWZozhADY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ZGs2Pmp1zNXEcOqQH11MRWzUchWAhdAA2luF1Hys3QA3aR8uCLapK3CgeNcQ4B+3w
+	 piySQDyQWfhccVesw4Lyxdr+93F2F8C4LCsqJ0vPhLakMlts+1LMKIgjr+950sowO0
+	 zPWNaytrWFsj/212Fba/eYcA/V8KsMw7lDrIOFyxmjy+sVGdpBJQNXnuZqTwJnWKZ/
+	 W7+aRp5OXnZiq2ha/ckYgD5Z8EwmxeK3NHbmVZK0scwMxKGFeWWm1cUSpGDJso608Z
+	 Gwq9RBYFADWttfoCU0Fvm73PyzZ6vgGrXRjp1/uRuFPwK9MuHyE5vrt8eE1+x28I6D
+	 tq4G25+AUOeMg==
+Date: Tue, 8 Oct 2024 11:33:14 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Taehee Yoo <ap420073@gmail.com>
+Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
+ almasrymina@google.com, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ donald.hunter@gmail.com, corbet@lwn.net, michael.chan@broadcom.com,
+ kory.maincent@bootlin.com, andrew@lunn.ch, maxime.chevallier@bootlin.com,
+ danieller@nvidia.com, hengqi@linux.alibaba.com, ecree.xilinx@gmail.com,
+ przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, ahmed.zaki@intel.com,
+ paul.greenwalt@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com,
+ asml.silence@gmail.com, kaiyuanz@google.com, willemb@google.com,
+ aleksander.lobakin@intel.com, dw@davidwei.uk, sridhar.samudrala@intel.com,
+ bcreeley@amd.com
+Subject: Re: [PATCH net-next v3 3/7] net: ethtool: add support for
+ configuring tcp-data-split-thresh
+Message-ID: <20241008113314.243f7c36@kernel.org>
+In-Reply-To: <20241003160620.1521626-4-ap420073@gmail.com>
+References: <20241003160620.1521626-1-ap420073@gmail.com>
+	<20241003160620.1521626-4-ap420073@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241001235302.57609-4-jdamato@fastly.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Oct 01, 2024 at 11:52:34PM +0000, Joe Damato wrote:
-
-[...]
-
-> Note that idpf has embedded napi_struct in its internals and has
-> established some series of asserts that involve the size of napi
-> structure. Since this change increases the napi_struct size from 400 to
-> 416 (according to pahole on my system), I've increased the assertion in
-> idpf by 16 bytes. No attention whatsoever was paid to the cacheline
-> placement of idpf internals as a result of this change.
+On Thu,  3 Oct 2024 16:06:16 +0000 Taehee Yoo wrote:
+> The tcp-data-split-thresh option configures the threshold value of
+> the tcp-data-split.
+> If a received packet size is larger than this threshold value, a packet
+> will be split into header and payload.
+> The header indicates TCP header, but it depends on driver spec.
+> The bnxt_en driver supports HDS(Header-Data-Split) configuration at
+> FW level, affecting TCP and UDP too.
+> So, like the tcp-data-split option, If tcp-data-split-thresh is set,
+> it affects UDP and TCP packets.
 > 
-> Signed-off-by: Joe Damato <jdamato@fastly.com>
-> ---
->  .../networking/net_cachelines/net_device.rst  |  2 +-
->  drivers/net/ethernet/intel/idpf/idpf_txrx.h   |  2 +-
->  include/linux/netdevice.h                     |  3 +-
->  net/core/dev.c                                | 12 +++---
->  net/core/dev.h                                | 40 +++++++++++++++++++
->  net/core/net-sysfs.c                          |  2 +-
->  6 files changed, 51 insertions(+), 10 deletions(-)
+> The tcp-data-split-thresh has a dependency, that is tcp-data-split
+> option. This threshold value can be get/set only when tcp-data-split
+> option is enabled.
+> 
+> Example:
+>    # ethtool -G <interface name> tcp-data-split-thresh <value>
+> 
+>    # ethtool -G enp14s0f0np0 tcp-data-split on tcp-data-split-thresh 256
+>    # ethtool -g enp14s0f0np0
+>    Ring parameters for enp14s0f0np0:
+>    Pre-set maximums:
+>    ...
+>    TCP data split thresh:  256
+>    Current hardware settings:
+>    ...
+>    TCP data split:         on
+>    TCP data split thresh:  256
+> 
+> The tcp-data-split is not enabled, the tcp-data-split-thresh will
+> not be used and can't be configured.
+> 
+>    # ethtool -G enp14s0f0np0 tcp-data-split off
+>    # ethtool -g enp14s0f0np0
+>    Ring parameters for enp14s0f0np0:
+>    Pre-set maximums:
+>    ...
+>    TCP data split thresh:  256
+>    Current hardware settings:
+>    ...
+>    TCP data split:         off
+>    TCP data split thresh:  n/a
 
-[...]
+My reply to Sridhar was probably quite unclear on this point, but FWIW
+I do also have a weak preference to drop the "TCP" from the new knob.
+Rephrasing what I said here:
+https://lore.kernel.org/all/20240911173150.571bf93b@kernel.org/
+the old knob is defined as being about TCP but for the new one we can
+pick how widely applicable it is (and make it cover UDP as well).
 
-> diff --git a/drivers/net/ethernet/intel/idpf/idpf_txrx.h b/drivers/net/ethernet/intel/idpf/idpf_txrx.h
-> index f0537826f840..fcdf73486d46 100644
-> --- a/drivers/net/ethernet/intel/idpf/idpf_txrx.h
-> +++ b/drivers/net/ethernet/intel/idpf/idpf_txrx.h
-> @@ -438,7 +438,7 @@ struct idpf_q_vector {
->  	__cacheline_group_end_aligned(cold);
->  };
->  libeth_cacheline_set_assert(struct idpf_q_vector, 112,
-> -			    424 + 2 * sizeof(struct dim),
-> +			    440 + 2 * sizeof(struct dim),
->  			    8 + sizeof(cpumask_var_t));
+> The default/min/max values are not defined in the ethtool so the drivers
+> should define themself.
+> The 0 value means that all TCP and UDP packets' header and payload
+> will be split.
+
+> diff --git a/include/linux/ethtool.h b/include/linux/ethtool.h
+> index 12f6dc567598..891f55b0f6aa 100644
+> --- a/include/linux/ethtool.h
+> +++ b/include/linux/ethtool.h
+> @@ -78,6 +78,8 @@ enum {
+>   * @cqe_size: Size of TX/RX completion queue event
+>   * @tx_push_buf_len: Size of TX push buffer
+>   * @tx_push_buf_max_len: Maximum allowed size of TX push buffer
+> + * @tcp_data_split_thresh: Threshold value of tcp-data-split
+> + * @tcp_data_split_thresh_max: Maximum allowed threshold of tcp-data-split-threshold
+
+Please wrap at 80 chars:
+
+./scripts/checkpatch.pl --max-line-length=80 --strict $patch..
+
+>  static int rings_fill_reply(struct sk_buff *skb,
+> @@ -108,7 +110,13 @@ static int rings_fill_reply(struct sk_buff *skb,
+>  	     (nla_put_u32(skb, ETHTOOL_A_RINGS_TX_PUSH_BUF_LEN_MAX,
+>  			  kr->tx_push_buf_max_len) ||
+>  	      nla_put_u32(skb, ETHTOOL_A_RINGS_TX_PUSH_BUF_LEN,
+> -			  kr->tx_push_buf_len))))
+> +			  kr->tx_push_buf_len))) ||
+> +	    (kr->tcp_data_split == ETHTOOL_TCP_DATA_SPLIT_ENABLED &&
+
+Please add a new ETHTOOL_RING_USE_* flag for this, or fix all the
+drivers which set ETHTOOL_RING_USE_TCP_DATA_SPLIT already and use that.
+I don't think we should hide the value when HDS is disabled.
+
+> +	     (nla_put_u32(skb, ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THRESH,
+> +			 kr->tcp_data_split_thresh))) ||
+
+nit: unnecessary brackets around the nla_put_u32()
+
+> +	    (kr->tcp_data_split == ETHTOOL_TCP_DATA_SPLIT_ENABLED &&
+> +	     (nla_put_u32(skb, ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THRESH_MAX,
+> +			 kr->tcp_data_split_thresh_max))))
+>  		return -EMSGSIZE;
 >  
->  struct idpf_rx_queue_stats {
+>  	return 0;
 
-Now that idpf was fixed separately [1], this will be removed in the
-v5.
+> +	if (tb[ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THRESH] &&
+> +	    !(ops->supported_ring_params & ETHTOOL_RING_USE_TCP_DATA_SPLIT)) {
 
-[1]: https://lore.kernel.org/netdev/20241004105407.73585-1-jdamato@fastly.com/
+here you use the existing flag, yet gve and idpf set that flag and will
+ignore the setting silently. They need to be changed or we need a new
+flag.
+
+> +		NL_SET_ERR_MSG_ATTR(info->extack,
+> +				    tb[ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THRESH],
+> +				    "setting tcp-data-split-thresh is not supported");
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+>  	if (tb[ETHTOOL_A_RINGS_CQE_SIZE] &&
+>  	    !(ops->supported_ring_params & ETHTOOL_RING_USE_CQE_SIZE)) {
+>  		NL_SET_ERR_MSG_ATTR(info->extack,
+> @@ -196,9 +213,9 @@ ethnl_set_rings(struct ethnl_req_info *req_info, struct genl_info *info)
+>  	struct kernel_ethtool_ringparam kernel_ringparam = {};
+>  	struct ethtool_ringparam ringparam = {};
+>  	struct net_device *dev = req_info->dev;
+> +	bool mod = false, thresh_mod = false;
+>  	struct nlattr **tb = info->attrs;
+>  	const struct nlattr *err_attr;
+> -	bool mod = false;
+>  	int ret;
+>  
+>  	dev->ethtool_ops->get_ringparam(dev, &ringparam,
+> @@ -222,9 +239,30 @@ ethnl_set_rings(struct ethnl_req_info *req_info, struct genl_info *info)
+>  			tb[ETHTOOL_A_RINGS_RX_PUSH], &mod);
+>  	ethnl_update_u32(&kernel_ringparam.tx_push_buf_len,
+>  			 tb[ETHTOOL_A_RINGS_TX_PUSH_BUF_LEN], &mod);
+> -	if (!mod)
+> +	ethnl_update_u32(&kernel_ringparam.tcp_data_split_thresh,
+> +			 tb[ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THRESH],
+> +			 &thresh_mod);
+> +	if (!mod && !thresh_mod)
+>  		return 0;
+>  
+> +	if (kernel_ringparam.tcp_data_split == ETHTOOL_TCP_DATA_SPLIT_DISABLED &&
+> +	    thresh_mod) {
+> +		NL_SET_ERR_MSG_ATTR(info->extack,
+> +				    tb[ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THRESH],
+> +				    "tcp-data-split-thresh can not be updated while tcp-data-split is disabled");
+> +		return -EINVAL;
+> +	}
+
+I'm not sure we need to reject changing the setting when HDS is
+disabled. Driver can just store the value until HDS gets enabled?
+WDYT? I don't have a strong preference.
+
+> +	if (kernel_ringparam.tcp_data_split_thresh >
+> +	    kernel_ringparam.tcp_data_split_thresh_max) {
+> +		NL_SET_ERR_MSG_ATTR_FMT(info->extack,
+> +					tb[ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THRESH_MAX],
+> +					"Requested tcp-data-split-thresh exceeds the maximum of %u",
+
+No need for the string, just NL_SET_BAD_ATTR() + ERANGE is enough
+
+> +					kernel_ringparam.tcp_data_split_thresh_max);
+> +
+> +		return -EINVAL;
+
+ERANGE
+
+> +	}
+> +
+>  	/* ensure new ring parameters are within limits */
+>  	if (ringparam.rx_pending > ringparam.rx_max_pending)
+>  		err_attr = tb[ETHTOOL_A_RINGS_RX];
+
