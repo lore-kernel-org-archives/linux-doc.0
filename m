@@ -1,224 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A8CB676;
-	Tue,  8 Oct 2024 07:53:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265431F7075;
+	Tue,  8 Oct 2024 08:12:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728374001; cv=none; b=CsQfaz3oMggieumFl5i2DuqLH25ssu+LxLOif0OE68CenF74+vOZOhdH4P/Mt0wEk7zPPOPI8UvAYOiZ2N/vSzM22z33aOYrjX90sAdpOAzZtiIAUVQ7qs8LTeHHmHdj3+Tt/hy1/d+11cEY57Ld8KH2SYnSc9aJdTDvY3bLSAs=
+	t=1728375170; cv=none; b=FI4zEnInMJxxJqbq/ysjKHthKALX9YptF7gjHyK+Ru7WzJ6cVBj6lGnic+qp3nfErh9jvohTOD/rDwKUyvHPS+JjFmejUlyDomOpdkXZGqvwU+xFomLl2NxOBVj3C7gBRi46u9hpVw/oXKyp9Ge77pCjFPsIvNZ5wopDoUMN80g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728374001; c=relaxed/simple;
-	bh=ZolOtss5LdxgK0cQ4wMklPeLLWy8E7FsrWTQCKegLW4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BIa60PcxYsX6HyEUcNAcBt3dGNnx81WFwV3S2imxZz+EihfTZrG5QdYLScugd+TC+iOJKaYlO7/lQ2uV7tS5+XJMX3c4Z7yczlinDKO03ubhiN8qInA9I+WFYbxJWmwDKtbsJRUSnzWkerAAWXOygsU1Wwx2MnUSTdbKuNhxlLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XkDNjCv2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728375170; c=relaxed/simple;
+	bh=EWtmxS0gTPT9PNhZWVAg0XvsbxAqnO0kUuB3LdkiNlw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=emUMcbACTKnITsMWChtokX4SHRMXgSRXIulUOUtHPPpCoh3iDJIFp/Ga82nLVDG7KZ26uynLf8Qk/fA+6ZGB5R4VUhIFOqBLAsPvdYZpzdk4vm7CBDezMUMWE5zSDoewiCm5jdwRsDcxtq0TOT01LzMkXHdyYpzyIkDWnY8NLkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cqDwbRqx; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XkDNjCv2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AF3BC4CEC7;
-	Tue,  8 Oct 2024 07:53:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728374001;
-	bh=ZolOtss5LdxgK0cQ4wMklPeLLWy8E7FsrWTQCKegLW4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XkDNjCv2cXGTLUY1GG3QCMxnvSAF/v8dl3/+C9zhVZUMVWVAfpDgtwnBl3xQ0ogZC
-	 gPQl30l4yIKNxn6HIP+A+r9I9umxl3oZWlpjA/XWNZH90dc7vd2tHi/1RwK8OpEW3L
-	 +AEi7/GNtBleExcKSvi1jlvSlAYLk+VAGcQjPHcS6iIyp0W4a0n98aeYODNqmgWGj0
-	 fFw9/34IzKBZ9xZHNiGoZRN018MSKpcCrFpzEoMdS+axVf/MRffno5GtNgjwROOJDz
-	 HavbcbWZTgU45kPlJEWGrlmXMf3blYFHRFaIB20zJMOST9PFUpBlVmCUlDPC3rWNdW
-	 AIBtvA9ToB8cQ==
-Date: Tue, 8 Oct 2024 09:53:18 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
-	Melissa Wen <melissa.srw@gmail.com>, =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>, 
-	Haneen Mohammed <hamohammed.sa@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org, 
-	arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi, 
-	Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com, jeremie.dautheribes@bootlin.com, 
-	miquel.raynal@bootlin.com, seanpaul@google.com, marcheu@google.com, 
-	nicolejadeyee@google.com, Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH v12 13/15] drm/vkms: Create KUnit tests for YUV
- conversions
-Message-ID: <20241008-ingenious-calm-silkworm-3e99ba@houat>
-References: <20241007-yuv-v12-0-01c1ada6fec8@bootlin.com>
- <20241007-yuv-v12-13-01c1ada6fec8@bootlin.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cqDwbRqx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728375170; x=1759911170;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=EWtmxS0gTPT9PNhZWVAg0XvsbxAqnO0kUuB3LdkiNlw=;
+  b=cqDwbRqxKLrfw3ckNjbZ22pVaTHepJEEORhkva9dAqKYUJqRfNlKb/MZ
+   wyBLoBcMxMs6dM2q11LFl74mUqDCtq3ZRCgVWnnRhX0Y3jbTvVha1Wfvk
+   62UZPOq/X/RnRj4LXoV4tWQAbb6lWAijIlXSbGJCcAbOI8jtb+WEjywaS
+   5ujq9adFnrNwrWRzVSXeiaF3k+C9I//ppHaKYPrFQiv3uTLhWYIYzQcNv
+   arSqR3Q3L2BGycHuMbfyMoFUnKuZoHa5Hg/2jggucV3HFjZ0vnh2RhTDQ
+   WX0rpr+FSdR4RhNeCtEJ9rq7NOnAto/v1Y3x//TN2urHMGQXJ7JxiBwUj
+   A==;
+X-CSE-ConnectionGUID: EHXUPDvzSv+7YZcsINo2Fg==
+X-CSE-MsgGUID: k+ZySy9zSUaUJdWg2KXu8Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="27685759"
+X-IronPort-AV: E=Sophos;i="6.11,186,1725346800"; 
+   d="scan'208";a="27685759"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 01:12:49 -0700
+X-CSE-ConnectionGUID: jqz2YI71RxmUygxskGe5vg==
+X-CSE-MsgGUID: AOSAarT1QnCC6K/qBBczFQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,186,1725346800"; 
+   d="scan'208";a="76179906"
+Received: from unknown (HELO [10.217.160.106]) ([10.217.160.106])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 01:12:47 -0700
+Message-ID: <a2ea4aac-3b12-4769-93b4-2437395c9e71@linux.intel.com>
+Date: Tue, 8 Oct 2024 10:12:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="wyrq7ipcxm5yvck5"
-Content-Disposition: inline
-In-Reply-To: <20241007-yuv-v12-13-01c1ada6fec8@bootlin.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] accel/qaic: Add ipc_router channel
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, quic_carlv@quicinc.com
+Cc: ogabbay@kernel.org, corbet@lwn.net, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+References: <20241004164033.3825986-1-quic_jhugo@quicinc.com>
+Content-Language: en-US
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20241004164033.3825986-1-quic_jhugo@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
---wyrq7ipcxm5yvck5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Mon, Oct 07, 2024 at 06:10:47PM GMT, Louis Chauvet wrote:
-> From: Arthur Grillo <arthurgrillo@riseup.net>
->=20
-> Create KUnit tests to test the conversion between YUV and RGB. Test each
-> conversion and range combination with some common colors.
->=20
-> The code used to compute the expected result can be found in comment.
->=20
-> [Louis Chauvet:
-> - fix minor formating issues (whitespace, double line)
-> - change expected alpha from 0x0000 to 0xffff
-> - adapt to the new get_conversion_matrix usage
-> - apply the changes from Arthur
-> - move struct pixel_yuv_u8 to the test itself]
->=20
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+On 10/4/2024 6:40 PM, Jeffrey Hugo wrote:
+> The ipc_router channel allows AF_QIPCRTR clients and services to
+> communicate with the AIC100 device. The ipc_router MHI transport layer
+> expects the channel to be named exactly "IPCR".
+> 
+> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
+> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 > ---
->  drivers/gpu/drm/vkms/Kconfig                  |  15 ++
->  drivers/gpu/drm/vkms/Makefile                 |   1 +
->  drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
->  drivers/gpu/drm/vkms/tests/Makefile           |   3 +
->  drivers/gpu/drm/vkms/tests/vkms_format_test.c | 232 ++++++++++++++++++++=
-++++++
->  drivers/gpu/drm/vkms/vkms_formats.c           |   7 +-
->  drivers/gpu/drm/vkms/vkms_formats.h           |   5 +
->  7 files changed, 265 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/vkms/Kconfig b/drivers/gpu/drm/vkms/Kconfig
-> index 9def079f685b..98ecfce929f3 100644
-> --- a/drivers/gpu/drm/vkms/Kconfig
-> +++ b/drivers/gpu/drm/vkms/Kconfig
-> @@ -14,3 +14,18 @@ config DRM_VKMS
->  	  a VKMS.
-> =20
->  	  If M is selected the module will be called vkms.
-> +
-> +config DRM_VKMS_KUNIT_TESTS
-> +	tristate "KUnit tests for VKMS." if !KUNIT_ALL_TESTS
-> +	depends on DRM_VKMS=3Dy && KUNIT
-> +	default KUNIT_ALL_TESTS
-> +	help
-> +	  This builds unit tests for VKMS. This option is not useful for
-> +	  distributions or general kernels, but only for kernel
-> +	  developers working on VKMS.
-> +
-> +	  For more information on KUnit and unit tests in general,
-> +	  please refer to the KUnit documentation in
-> +	  Documentation/dev-tools/kunit/.
-> +
-> +	  If in doubt, say "N".
-> diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
-> index 1b28a6a32948..8d3e46dde635 100644
-> --- a/drivers/gpu/drm/vkms/Makefile
-> +++ b/drivers/gpu/drm/vkms/Makefile
-> @@ -9,3 +9,4 @@ vkms-y :=3D \
->  	vkms_writeback.o
-> =20
->  obj-$(CONFIG_DRM_VKMS) +=3D vkms.o
-> +obj-$(CONFIG_DRM_VKMS_KUNIT_TESTS) +=3D tests/
-> diff --git a/drivers/gpu/drm/vkms/tests/.kunitconfig b/drivers/gpu/drm/vk=
-ms/tests/.kunitconfig
-> new file mode 100644
-> index 000000000000..70e378228cbd
-> --- /dev/null
-> +++ b/drivers/gpu/drm/vkms/tests/.kunitconfig
-> @@ -0,0 +1,4 @@
-> +CONFIG_KUNIT=3Dy
-> +CONFIG_DRM=3Dy
-> +CONFIG_DRM_VKMS=3Dy
-> +CONFIG_DRM_VKMS_KUNIT_TESTS=3Dy
-> diff --git a/drivers/gpu/drm/vkms/tests/Makefile b/drivers/gpu/drm/vkms/t=
-ests/Makefile
-> new file mode 100644
-> index 000000000000..2d1df668569e
-> --- /dev/null
-> +++ b/drivers/gpu/drm/vkms/tests/Makefile
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +obj-$(CONFIG_DRM_VKMS_KUNIT_TESTS) +=3D vkms_format_test.o
-> diff --git a/drivers/gpu/drm/vkms/tests/vkms_format_test.c b/drivers/gpu/=
-drm/vkms/tests/vkms_format_test.c
-> new file mode 100644
-> index 000000000000..351409897ca3
-> --- /dev/null
-> +++ b/drivers/gpu/drm/vkms/tests/vkms_format_test.c
-> @@ -0,0 +1,232 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +
-> +#include <kunit/test.h>
-> +
-> +#include <drm/drm_fixed.h>
-> +#include <drm/drm_fourcc.h>
-> +
-> +#include "../../drm_crtc_internal.h"
-> +
-> +#include "../vkms_formats.h"
-> +
-> +#define TEST_BUFF_SIZE 50
-> +
-> +MODULE_IMPORT_NS(EXPORTED_FOR_KUNIT_TESTING);
-> +
-> +struct pixel_yuv_u8 {
-> +	u8 y, u, v;
-> +};
-> +
-> +struct yuv_u8_to_argb_u16_case {
-> +	enum drm_color_encoding encoding;
-> +	enum drm_color_range range;
-> +	size_t n_colors;
-> +	struct format_pair {
-> +		char *name;
-> +		struct pixel_yuv_u8 yuv;
-> +		struct pixel_argb_u16 argb;
-> +	} colors[TEST_BUFF_SIZE];
-> +};
-> +
-> +/*
-> + * The YUV color representation were acquired via the colour python fram=
-ework.
-> + * Below are the function calls used for generating each case.
-> + *
-> + * For more information got to the docs:
-> + * https://colour.readthedocs.io/en/master/generated/colour.RGB_to_YCbCr=
-=2Ehtml
-> + */
-> +static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] =3D {
-> +	/*
-> +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
-> +	 *                     K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.601"],
-> +	 *                     in_bits =3D 16,
-> +	 *                     in_legal =3D False,
-> +	 *                     in_int =3D True,
-> +	 *                     out_bits =3D 8,
-> +	 *                     out_legal =3D False,
-> +	 *                     out_int =3D True)
-> +	 */
+>  Documentation/accel/qaic/aic100.rst |  2 ++
+>  drivers/accel/qaic/mhi_controller.c | 32 +++++++++++++++++++++++++++++
+>  2 files changed, 34 insertions(+)
+> 
+> diff --git a/Documentation/accel/qaic/aic100.rst b/Documentation/accel/qaic/aic100.rst
+> index 590dae77ea12..273da6192fb3 100644
+> --- a/Documentation/accel/qaic/aic100.rst
+> +++ b/Documentation/accel/qaic/aic100.rst
+> @@ -229,6 +229,8 @@ of the defined channels, and their uses.
+>  | _PERIODIC      |         |          | timestamps in the device side logs with|
+>  |                |         |          | the host time source.                  |
+>  +----------------+---------+----------+----------------------------------------+
+> +| IPCR           | 24 & 25 | AMSS     | AF_QIPCRTR clients and servers.        |
+> ++----------------+---------+----------+----------------------------------------+
+>  
+>  DMA Bridge
+>  ==========
+> diff --git a/drivers/accel/qaic/mhi_controller.c b/drivers/accel/qaic/mhi_controller.c
+> index ada9b1eb0787..8ab82e78dd94 100644
+> --- a/drivers/accel/qaic/mhi_controller.c
+> +++ b/drivers/accel/qaic/mhi_controller.c
+> @@ -405,6 +405,38 @@ static const struct mhi_channel_config aic100_channels[] = {
+>  		.auto_queue = false,
+>  		.wake_capable = false,
+>  	},
+> +	{
+> +		.name = "IPCR",
+> +		.num = 24,
+> +		.num_elements = 32,
+> +		.local_elements = 0,
+> +		.event_ring = 0,
+> +		.dir = DMA_TO_DEVICE,
+> +		.ee_mask = MHI_CH_EE_AMSS,
+> +		.pollcfg = 0,
+> +		.doorbell = MHI_DB_BRST_DISABLE,
+> +		.lpm_notify = false,
+> +		.offload_channel = false,
+> +		.doorbell_mode_switch = false,
+> +		.auto_queue = false,
+> +		.wake_capable = false,
+> +	},
+> +	{
+> +		.name = "IPCR",
+> +		.num = 25,
+> +		.num_elements = 32,
+> +		.local_elements = 0,
+> +		.event_ring = 0,
+> +		.dir = DMA_FROM_DEVICE,
+> +		.ee_mask = MHI_CH_EE_AMSS,
+> +		.pollcfg = 0,
+> +		.doorbell = MHI_DB_BRST_DISABLE,
+> +		.lpm_notify = false,
+> +		.offload_channel = false,
+> +		.doorbell_mode_switch = false,
+> +		.auto_queue = true,
+> +		.wake_capable = false,
+> +	},
+>  };
+>  
+>  static struct mhi_event_config aic100_events[] = {
 
-We should really detail what the intent and expected outcome is supposed
-to be here. Relying on a third-party python library call for
-documentation isn't great.
-
-Maxime
-
---wyrq7ipcxm5yvck5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZwTk5gAKCRAnX84Zoj2+
-druTAX4hTMoQugVai2QJ1+0Eza191utfm5RxJ0Zb9dWjGrTw2VnJBbVpSX2hSlev
-HllnwM4BgKEgEV2a4hCAoF+4oR8w66ZHex4NLxAaZjmjt93QEVw2BmSgrhCgspOi
-zV2j+K+8fA==
-=/NOH
------END PGP SIGNATURE-----
-
---wyrq7ipcxm5yvck5--
