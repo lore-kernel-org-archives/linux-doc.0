@@ -1,101 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74CB719067C;
-	Tue,  8 Oct 2024 10:04:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A8813AA45;
+	Tue,  8 Oct 2024 10:23:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728381854; cv=none; b=lyoe7KUMXhv/IeJZdo0uVkIm/+g5220A1wpq+sRmZqWT6QgG1BerJ066N9bx7G8CGGIy/bi4uIsli/3DGheBxpwtiZJ2RMd2AWDy0u79yycr79xl+b3czcZjl2fGC+jtcFT1PJNBB9rQyj1vGK4uhbOq0G5EyW6PPQA5fOcTbEU=
+	t=1728382986; cv=none; b=EK/IzgHeakJqLvow89wA4+FCkNOapaQao27/AsAwmZJ7CtVsfQL+/RJsJ02OUBq7YCO7WHafWOjTv6RTp6w265wGFFzIIMg+e5+TWzB1a/gzjKeDKfMxH+9mSs1re5bn5yenpLkWN10TFlF62IH3P4KAn/4fUMGNyJCdqOBU7TA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728381854; c=relaxed/simple;
-	bh=JMkuugi7HO5fdB4sigMHknxg7Nlw7No83VzSf/35TWs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U7x4dp0SoJxxnEFjk9DBoxOlR7ALrgPIZmmSbkgCdzSjOxyB69OTSDeWrbYI4s6F/HOG1kNx1bs+eTSG9gX83fQQ5+qQDx3NRZ4/tn/sNz8idkioVraRotLj+KnDBqhIh9zFy2eJcg0rLgy0D01w4KOdC+AbwiAW5SOhWA3laWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FwrbZvKR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728382986; c=relaxed/simple;
+	bh=BFzMvSREEOum8MgZFnWfpoN7ulQ/dV9nEUsqkTYXgV4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=j08JCT4/No+OOMApHbEzOAKVPprqOlcT9AvQdD5WA+ECrUjXG5dpopsqlx0K/azF95fScr3TugjguTpF4wSvFjlNQ+F51umq+yx8W8yYrRvVcDSH0sI5IKf7eWBV45xS9Yr8YdoaUaeXSesVohiC2MfE4uVS5/cZOv9XzpDe3iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=CJJ54ngw; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FwrbZvKR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEC52C4CEC7;
-	Tue,  8 Oct 2024 10:04:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728381854;
-	bh=JMkuugi7HO5fdB4sigMHknxg7Nlw7No83VzSf/35TWs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FwrbZvKRcS+x1fXtowCxZNwoaY++CZAm/l/rUTTSo0N2hgNSEnMSQgRNNthP7nJHZ
-	 +1dQZ3SZDnzhe8oKz+3w5D85a8YhpOvptxcDOpRQLDDLh/6N3p0Xz6GG3RGuNoINs5
-	 sJzUsftZFwKn7fmbQ+1cvYYO7a9oMn6+WhWqA6MSvR5dSAz3feazxXlzYwI4spm2+8
-	 4/Rori7i0gxNH0U4Y/ET+eSqSDTPFI6X2591NIxBbkGAjD+iEnUQCni2GE3un5yzX5
-	 q6/F768YOBRJRMSxDZOvmt/dzuRdALfoedYCYDddQaO6i05Re78+rHM4Mc86ST1pNw
-	 jqgvnJ61AXkTA==
-Date: Tue, 8 Oct 2024 11:04:09 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	Yury Khrustalev <yury.khrustalev@arm.com>,
-	Wilco Dijkstra <wilco.dijkstra@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC v2 2/2] arm64: Support AT_HWCAP3
-Message-ID: <ZwUDmYbXNMede2Ui@finisterre.sirena.org.uk>
-References: <20241004-arm64-elf-hwcap3-v2-0-799d1daad8b0@kernel.org>
- <20241004-arm64-elf-hwcap3-v2-2-799d1daad8b0@kernel.org>
- <e563980c-9ae9-478e-89a3-819c7dadf85b@arm.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CJJ54ngw"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 35792FF80D;
+	Tue,  8 Oct 2024 10:23:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1728382982;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PIbHxWMCVw9IFtJ8fRNey20NVfyWWoKwUnEtUaybiYI=;
+	b=CJJ54ngwZcL7URuTbYdbrVlqR2wUbuEXMnBFiod1qQ/EQd5RYWr/VjvFv7hRRMTuHn78St
+	rNozbHvUwssWLtOKDUfRL7lXdFxb6xRiPb1cS+0wVAyhWeODQspxHOYvHAzJhIt3W7iu7/
+	QkNbHu8hXSjPJiWwveYb2IWN4KX2xhEHVGhmFym2Q/DBCulgbOKLKy/2JZNX5V+y3yGxhz
+	SIOjsT9oORETkutfLM/JvZI8ixavFo1RiVtQPp/XpNTXFkRlS9t9adh5nbwMD3qoqOoYjD
+	Czg4i8gdTFrsEZlOM8xtPu8kkqKB6h9c0afqXD+GYN13FhE88p+dEJbRtZNQjw==
+Date: Tue, 8 Oct 2024 12:23:00 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
+ <donald.hunter@gmail.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
+ Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de
+Subject: Re: [PATCH net-next 06/12] net: ethtool: Add PSE new port priority
+ support feature
+Message-ID: <20241008122300.37c77493@kmaincent-XPS-13-7390>
+In-Reply-To: <ZwPr2chTq4sX_I_b@pengutronix.de>
+References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
+	<20241002-feature_poe_port_prio-v1-6-787054f74ed5@bootlin.com>
+	<ZwDcHCr1aXeGWXIh@pengutronix.de>
+	<20241007113026.39c4a8c2@kmaincent-XPS-13-7390>
+	<ZwPr2chTq4sX_I_b@pengutronix.de>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="WTiB8ukeVjfjI21M"
-Content-Disposition: inline
-In-Reply-To: <e563980c-9ae9-478e-89a3-819c7dadf85b@arm.com>
-X-Cookie: Editing is a rewording activity.
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
+On Mon, 7 Oct 2024 16:10:33 +0200
+Oleksij Rempel <o.rempel@pengutronix.de> wrote:
 
---WTiB8ukeVjfjI21M
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> >=20
+> > Currently the priority is managed by the PSE controller so the port is =
+the
+> > only information needed. The user interface is ethtool, and I don't see=
+ why
+> > he would need such things like controller id or power domain id. Instea=
+d,
+> > it could be managed by the PSE core depending on the power domains
+> > described in the devicetree. The user only wants to know if he can allo=
+w a
+> > specific power budget on a Ethernet port and configure port priority in
+> > case of over power-budget event. =20
+>=20
+> Budget is important but different topic. If user do not know how much
+> the budget is, there is nothing usable user can configure. Imagine you
+> do not know how much money can spend and the only way to find it out is
+> by baying things.
 
-On Tue, Oct 08, 2024 at 12:45:42PM +0530, Anshuman Khandual wrote:
-> On 10/5/24 01:56, Mark Brown wrote:
+Yes I agree, but I thought this could be done at the driver level specified=
+ in
+the power limit ranges for now.
+I don't really know the Power Domain API but I don't think it can currently
+support what you are expecting for PSE. Maybe through the regulator API, or
+something specific to PSE API.
+Maybe we should define the power domain PSE concept as it seems something P=
+SE
+specific.
 
-> > +unsigned long cpu_get_elf_hwcap3(void)
-> > +{
-> > +	return elf_hwcap[2];
-> > +}
-> > +
-> >  static void __init setup_boot_cpu_capabilities(void)
-> >  {
-> >  	/*
+> But, budget is the secondary topic withing context of this patch set.
+> The primer topic here is the prioritization, so the information user
+> need to know it the context: do A has higher prio in relation to B? Do A
+> and B actually in the same domain?
+>=20
+>=20
+> > I don't have hardware with several PSE controllers. Is there already su=
+ch
+> > hardware existing in the market? =20
+>=20
+> Please correct me if i'm wrong, but in case of pd692x0 based devices,
+> every manager (for example PD69208M) is own power domain. There are
+> following limiting factors:
+>                           PI 1
+>                    L4    /
+> 		 PD69208M - PI 2
+>               L3 //      \
+>  L1      L2     //        PI 3
+> PSU =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D'
+>                 \\        PI 4
+>                  \\      /
+> 		 PD69208M - PI 5
+>                          \
+> 			  PI 6
+>=20
+> L1 - limits defined by Power Supply Unit
+> L2 - Limits defined by main supply rail ob PCB
+> L3 - Limits defined by rail attached to one specific manager
+> L4 - Limits defined by manager. In case of PD69208M it is Max 0.627A
+> (for all or per port?)
 
-> LGTM, but just curious do you have a upcoming feature to be added
-> in AT_HWCAP3 soon ?
+Should the rail really have an impact on power limit? I am not a hardware
+designer but having limit defined by the rails seems the best way to create
+magic smoke.
+Don't know how you find this 0.627A value but it seems a bit low. Port curr=
+ent
+limit is 1300mA according to the datasheet.
 
-We've filled AT_HWCAP2 already and are starting on the free bits in
-AT_HWCAP, there's only 29 of those remaining and we get things like the
-dpISA releases often burning through 15 at a time.  Like the cover says
-it's not a pressing issue at this minute but whenever it does become a
-pressing issue there's likely to be multiple extensions in flight and
-it'll help not to have them all trying to carry the same serieses.
+I first though that hardware should support all ports being powered at the =
+same
+time. Indeed this might not be the case be and there is a command to config=
+ure
+the power bank (PD69208M) power limit.
+=20
+> Assuming PSU provides enough budget to covert Max supported current for
+> every manager, then the limiting factor is actual manager. It means,
+> setting prio for PI 4 in relation to PI 1 makes no real sense, because
+> it is in different power domain.
 
---WTiB8ukeVjfjI21M
-Content-Type: application/pgp-signature; name="signature.asc"
+In fact it does for our case as the PD692x0 consider all the ports in the s=
+ame
+power domain. There is no mention of port priority per PD69208M.
+We can only get PD69208M events and status.
 
------BEGIN PGP SIGNATURE-----
+> User will not understand why devices fail to provide enough power by
+> attaching two device to one domain and not failing by attaching to
+> different domains. Except we provide this information to the user space.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcFA5gACgkQJNaLcl1U
-h9D+qwf/SUyNYAKmy+NCe280h+F72vT4azcaKqFfSuv8Scqjs+wZI+qV6GbQs2K2
-J0CJW34Arq9qcPX18oGoZtrToT2rLie2M3FiJ/FPnGvqQt+JjrRbe/l1HZ8Btz8F
-/JiLq4BrJpyzO7c47T0qQKV8Zdf84X+tY9KfMp8SDtJHn98AShA/1Bv9sC2La6p9
-Dp54eF9Frs89sO1GnszMgWYmwVn8CcsY7INPWroBvAHUqNke2cZf5rbq2BvoFeir
-wkpH5/CFrf1OhvbOb556s8K+mH+o9gq6bQ9ugB5Mprolu0vNxJ/ImpvvN1KnVGu5
-hhCJTXjZchFxqVDQLFMe8rTwRLFAdg==
-=HU3C
------END PGP SIGNATURE-----
+What you are explaining seems neat on the paper but I don't know the best w=
+ay
+to implement it. It needs more brainstorming.
 
---WTiB8ukeVjfjI21M--
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
