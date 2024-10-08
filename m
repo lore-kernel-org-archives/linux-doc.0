@@ -1,56 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B57C1E0DA6;
-	Tue,  8 Oct 2024 18:11:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2A620B20;
+	Tue,  8 Oct 2024 18:19:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728411060; cv=none; b=qO5e8NUHQx2kSOS1I0BbhsyVxaetczF8D3HTAK0xDDBQIXpE98KELMecnS8r28FS4YAxmgmkG30ndotyGqR3MoG1ZlmWmgwxdkvPSeCqBQWjJhmPnOgzh2yiCLrDhYNlqcQzFOIEQE5d74T2AYEQsCNjb9fdvOwfXSo6hzKLl4E=
+	t=1728411569; cv=none; b=NKfzq61d7cBJ1As3oZFzmbIA84/ugio0fYvSXAFm0IICL54XxVLh/V/KNFAKWCdbfm9dIdjJq7RIiDB90PJmPGCzbaT8lAyDz55Ye1OzeESIPRQ70cWKfRsp92eIauCJF8rvUo/PZyxaTy/hwOje7riifRJu4SYDS1yYdacRsq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728411060; c=relaxed/simple;
-	bh=MbMTSNqZzM4SxVJANc6XegOhzQ6LafbFHlx1C1gQ+ks=;
+	s=arc-20240116; t=1728411569; c=relaxed/simple;
+	bh=ByxbPWhI8UOclhnkIzO18lHVlE7wgBDRt5E/FoeWnxU=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rvLVQUE/RUKw3K7qgFi0ZhFOwh42wjyNeFOq7v2MhFRRcqmoq1aDDKWYJVDxFTaVoWGKSM/vArmztZMnWx9oF2WQSxyrxtnqfc9VjQM39I13PmJR/BvO9T8aTR7WopL7yCjCx30H9P9MTjmIxXY6NRsDvzPbye3HzYz28qdcHnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mnM/2TXH; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=muyghzFBxfj+T2fwxvbYPFC8quVgZklA4aXa4nkchnofR1ECEmmhOdvzoxRt8sQV3vQldQ4Z6PW4caIfg8o9mbnjpzOaqPiaKGHXmUB+tdPuwyY2Vgg0QOPWPAnu9hQMiVsY2+09iyAOOaMfxvuuS3rzmXcIeAnyiqWjGUeylMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DS2Vm7Xx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mnM/2TXH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F4062C4CEC7;
-	Tue,  8 Oct 2024 18:10:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DS2Vm7Xx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02287C4CECE;
+	Tue,  8 Oct 2024 18:19:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728411060;
-	bh=MbMTSNqZzM4SxVJANc6XegOhzQ6LafbFHlx1C1gQ+ks=;
+	s=k20201202; t=1728411568;
+	bh=ByxbPWhI8UOclhnkIzO18lHVlE7wgBDRt5E/FoeWnxU=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=mnM/2TXH+aWz/XBoQvllNsymvF3HfbOKrm+prLlYsa/S4whoOBQni3gxrP6ufY0NN
-	 MPsIzv0Hg+3zQDXnNZZdOjatXiCvEV9ST2v0XF5i5sdUvitDZRIo8g/EMiC1Pyi0v0
-	 E0QnD0v3NZM1ZABJPj7Ou7FM1qzeZFfErGZI3T3HhDmVUwztPX5ErXBVfu/s3lGENR
-	 qlFXlXWyXiF1tYV8BmTJKNqQ0B48Jk3oumwzAJ6SxSR0o8d6Fp8lRwyXXCSFKpZINA
-	 MxcqcvGW0s/IZb5mn+QL0SkGYZUvgMoQTRfSpCZuAZcCa8OAM6gkZCSBIRFV/79nDF
-	 ushYH98ZAczSA==
-Date: Tue, 8 Oct 2024 11:10:58 -0700
+	b=DS2Vm7Xx0/JkkKhLFi3/GjxAMdv9pllBXvlQkh9VAcRTPlSUpeUSBCeLSvo6ay1ba
+	 vROdWEt/GqyKXTp9xNEC1A8paIsY09XYD58ZJQDP7cYhiRXw0TwacUm/IXeFyQeRop
+	 rHMpNjY5dhhKKp5uL5jPM+oBPy3RggD38l9HjUyJzcM62QE/OMwlOl4oep5zC2dOgG
+	 WwRPLmDXs6mSL1CuQMUFkJSLGpLnS++enHLzsAOgPuYU1T3YUcgK2+FvKdSgTTjzlE
+	 UxjAu/dVWBccCQoq4IhH247j3uJq++Z/rQbvWx6x67PUzK2uUBw0snz7iIFWFVdo8Q
+	 hY9VFprZmfbAA==
+Date: Tue, 8 Oct 2024 11:19:26 -0700
 From: Jakub Kicinski <kuba@kernel.org>
 To: Taehee Yoo <ap420073@gmail.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Michael Chan <michael.chan@broadcom.com>,
- davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
+Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
  almasrymina@google.com, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- donald.hunter@gmail.com, corbet@lwn.net, kory.maincent@bootlin.com,
- maxime.chevallier@bootlin.com, danieller@nvidia.com,
- hengqi@linux.alibaba.com, ecree.xilinx@gmail.com,
+ donald.hunter@gmail.com, corbet@lwn.net, michael.chan@broadcom.com,
+ kory.maincent@bootlin.com, andrew@lunn.ch, maxime.chevallier@bootlin.com,
+ danieller@nvidia.com, hengqi@linux.alibaba.com, ecree.xilinx@gmail.com,
  przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, ahmed.zaki@intel.com,
  paul.greenwalt@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com,
  asml.silence@gmail.com, kaiyuanz@google.com, willemb@google.com,
  aleksander.lobakin@intel.com, dw@davidwei.uk, sridhar.samudrala@intel.com,
  bcreeley@amd.com
-Subject: Re: [PATCH net-next v3 1/7] bnxt_en: add support for rx-copybreak
+Subject: Re: [PATCH net-next v3 2/7] bnxt_en: add support for tcp-data-split
  ethtool command
-Message-ID: <20241008111058.6477e60c@kernel.org>
-In-Reply-To: <CAMArcTUgDLawxxvFKsfavJiBs0yrEBD3rZOUcicYOAWYr+XYyQ@mail.gmail.com>
+Message-ID: <20241008111926.7056cc93@kernel.org>
+In-Reply-To: <20241003160620.1521626-3-ap420073@gmail.com>
 References: <20241003160620.1521626-1-ap420073@gmail.com>
-	<20241003160620.1521626-2-ap420073@gmail.com>
-	<CACKFLi=1h=GBq5bN7L1pq9w8cSiHA16CZz0p8HJoGdO+_5OqFw@mail.gmail.com>
-	<CAMArcTXUjb5XuzvKx03_xGrEcA4OEP6aXW2P0eCpjk9_WaUS8Q@mail.gmail.com>
-	<CACKFLikCqgxTuV1wV4m-kdDvXhiFE7P=G_4Va_FmPsui9v2t4g@mail.gmail.com>
-	<a3bd0038-60e0-4ffc-a925-9ac7bd5c30ae@lunn.ch>
-	<CAMArcTUgDLawxxvFKsfavJiBs0yrEBD3rZOUcicYOAWYr+XYyQ@mail.gmail.com>
+	<20241003160620.1521626-3-ap420073@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,28 +54,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sat, 5 Oct 2024 15:29:54 +0900 Taehee Yoo wrote:
-> > > I think a single value of 0 that means disable RX copybreak is more
-> > > clear and intuitive.  Also, I think we can allow 64 to be a valid
-> > > value.
-> > >
-> > > So, 0 means to disable.  1 to 63 are -EINVAL and 64 to 1024 are valid.  Thanks.  
-> >
-> > Please spend a little time and see what other drivers do. Ideally we
-> > want one consistent behaviour for all drivers that allow copybreak to
-> > be disabled.  
-> 
-> There is no specific disable value in other drivers.
-> But some other drivers have min/max rx-copybreak value.
-> If rx-copybreak is low enough, it will not be worked.
-> So, min value has been working as a disable value actually.
-> 
-> I think Andrew's point makes sense.
-> So I would like to change min value from 65 to 64, not add a disable value.
+On Thu,  3 Oct 2024 16:06:15 +0000 Taehee Yoo wrote:
+> diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
+> index fdecdf8894b3..e9ef65dd2e7b 100644
+> --- a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
+> +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
+> @@ -829,12 +829,16 @@ static void bnxt_get_ringparam(struct net_device *dev,
+>  	if (bp->flags & BNXT_FLAG_AGG_RINGS) {
+>  		ering->rx_max_pending = BNXT_MAX_RX_DESC_CNT_JUM_ENA;
+>  		ering->rx_jumbo_max_pending = BNXT_MAX_RX_JUM_DESC_CNT;
+> -		kernel_ering->tcp_data_split = ETHTOOL_TCP_DATA_SPLIT_ENABLED;
+>  	} else {
+>  		ering->rx_max_pending = BNXT_MAX_RX_DESC_CNT;
+>  		ering->rx_jumbo_max_pending = 0;
+> -		kernel_ering->tcp_data_split = ETHTOOL_TCP_DATA_SPLIT_DISABLED;
+>  	}
+> +
+> +	if (bp->flags & BNXT_FLAG_HDS)
+> +		kernel_ering->tcp_data_split = ETHTOOL_TCP_DATA_SPLIT_ENABLED;
+> +	else
+> +		kernel_ering->tcp_data_split = ETHTOOL_TCP_DATA_SPLIT_DISABLED;
 
-Where does the min value of 64 come from? Ethernet min frame length?
+This breaks previous behavior. The HDS reporting from get was
+introduced to signal to user space whether the page flip based
+TCP zero-copy (the one added some years ago not the recent one)
+will be usable with this NIC.
 
-IIUC the copybreak threshold is purely a SW feature, after this series.
-If someone sets the copybreak value to, say 13 it will simply never
-engage but it's not really an invalid setting, IMHO. Similarly setting
-it to 0 makes intuitive sense (that's how e1000e works, AFAICT).
+When HW-GRO is enabled HDS will be working.
+
+I think that the driver should only track if the user has set the value
+to ENABLED (forced HDS), or to UKNOWN (driver default). Setting the HDS
+to disabled is not useful, don't support it.
+
+>  	ering->tx_max_pending = BNXT_MAX_TX_DESC_CNT;
+>  
+>  	ering->rx_pending = bp->rx_ring_size;
+> @@ -854,9 +858,25 @@ static int bnxt_set_ringparam(struct net_device *dev,
+>  	    (ering->tx_pending < BNXT_MIN_TX_DESC_CNT))
+>  		return -EINVAL;
+>  
+> +	if (kernel_ering->tcp_data_split != ETHTOOL_TCP_DATA_SPLIT_DISABLED &&
+> +	    BNXT_RX_PAGE_MODE(bp)) {
+> +		NL_SET_ERR_MSG_MOD(extack, "tcp-data-split can not be enabled with XDP");
+> +		return -EINVAL;
+> +	}
+
+Technically just if the XDP does not support multi-buffer.
+Any chance we could do this check in the core?
