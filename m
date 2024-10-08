@@ -1,61 +1,62 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01BC91D07BA
-	for <linux-doc@vger.kernel.org>; Tue,  8 Oct 2024 06:54:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1630F1E5707
+	for <linux-doc@vger.kernel.org>; Tue,  8 Oct 2024 06:54:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728370490; cv=none; b=rjl1lXHuGhXJ98D6F/rqWuBMsps3T08UGmpjroDfEvbui0OHW+xsh2sCBYProf1iLcQ+xeNTq9FlUpf1yv0FOr7O2e9RzE0An8cjavAA1PpItkQ2C4I2DqLgmPVKgE4HwdvTzNsCQBVBEpdHSHM8nAXDXrASUMaH69a95fAJ0vc=
+	t=1728370496; cv=none; b=M3oUBfFLmv/LjXY8ozPIgjCJ3DG5wV8BVi1wrlfzl9T0DURc9dy8lv6hRY4wdfe+Ee1ERJpFyaUvqZPVwuQFPlLruyk7Ccf5UgqRC0+vaR4AB5uz/p7FQlxA9GKjxNs2UsCYr9157MBOpDDncv5Xh5lHhnUTV1XChFSzqLmMro8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728370490; c=relaxed/simple;
-	bh=uaol2IGqvlm8ZTxu7WxkWiZOHaSPhvJu+1yhZK+cfFc=;
+	s=arc-20240116; t=1728370496; c=relaxed/simple;
+	bh=GX7xNNedqmkBNoygMLXRBk8YNW8TUTKj2IdIaUHcsB0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To; b=A0zlUK2R0qETmZmh4X+opinSl2928IPrCixK6eB8nH5lX+9C44O5FMu8jfOc7mYEabYYcrv/zK9qFN8lRQyknerV5XZEul4v+MVigg0FIEqx4LEtUV9vCwY9uCqJ2f3y4dms8UX5izfqNymXYuOP2MjRbc4sp+Zl9M5z/FUzxis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=none smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=fqmv9pvY; arc=none smtp.client-ip=209.85.210.174
+	 In-Reply-To:To; b=NgGVE9NxZCf4mJtHjPoqVKIArZDkFx0xAuZOZxZ9qKqG9CWT4Vt20Y7jfM0nCN0rpUiII7rdAxhR0R/cgFi+jb10PdFM8MJ8IZr86EI96H2S/ZOQCCHDzr1/7aGcP0ONqtND7eUKbiB7onznXmidUScOUMv5nwlsw7VBeeygjgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=none smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=wmq6yPXP; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=daynix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="fqmv9pvY"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-71de9e1f431so2885740b3a.3
-        for <linux-doc@vger.kernel.org>; Mon, 07 Oct 2024 23:54:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="wmq6yPXP"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-20b93887decso41626485ad.3
+        for <linux-doc@vger.kernel.org>; Mon, 07 Oct 2024 23:54:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1728370488; x=1728975288; darn=vger.kernel.org;
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1728370494; x=1728975294; darn=vger.kernel.org;
         h=to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VUS5KMA/ewmQfZHiSllXFCUo7ZXTGgrN42vxjEBIbqQ=;
-        b=fqmv9pvY8o9ipB+kE/rimSv/RWtXp9Zt7Zk088OiBWve03Jeyw3r4yukwWurgEX08X
-         kjxPa4uGST4v/qU5GKPnCMwYQkhvqoYjFoxQv1FkrNTJAeIVGwuVRERB9qGNTaHVw2oe
-         sUDAgPl/s+Slbpea/GS9wWepvx2SQTFEHaRlJRurp+TrL87gMen7NPDqNJp7DPhMv8xs
-         omd+KMgS4JPNsPjnQsWX/o2kETJSAp4xU8m/rO0H5BYExEOVQvElTxbymh2pBeHKMadU
-         na7+hEHkFwBAJ3o+YDcKig5xw1WRieOOt2vnCR4QdWitYP8bGoH8EonRZdRn4CoX84Y6
-         l0og==
+        bh=61I8UVOx3KOO+grmBS2eNs+UXuu5q7xipsiBLUyhIxU=;
+        b=wmq6yPXPRSEqM/tb9PmlS7HIcPpfk09lCAmS7zkuhDFvwK8g9X6m0ELFp3dfr0zFg5
+         zyY3LOgttb+uAc6Mk5/DRLNHJBMUggPu0S6r1pVfWkPuS9nWad3i1RWSV9XOPn8qRT3P
+         7SVhYEqtofujNQBA8ou7sbHrfcQrzTQERXORKzZixdjQM15LEpAYIbPLb9ujKGR/2EjG
+         5dw4OjchKgxVOgdWP4o8xnMYMBuzK5KVWRWd3FY7BsAf5i5HR7AIf7WrRsaKomGp+3KT
+         I2mVqZwVqdJybMlmUUNlQn3FXAb0BR0AnUBng6sXQMMvde7ICR2yVJkuHw0afL6mx246
+         yYXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728370488; x=1728975288;
+        d=1e100.net; s=20230601; t=1728370494; x=1728975294;
         h=to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VUS5KMA/ewmQfZHiSllXFCUo7ZXTGgrN42vxjEBIbqQ=;
-        b=L2KH8WDOwo/+ECbUNGlwcYW4eCXFe6hb8SeGRrv8QRLKkhnnFE163yJJ1V5cOf2S9p
-         PHExL7U+AQEK6egM4PXcLGURpRjwzhbEf2WDOHKpO/nh681ZlEmCFT99MBD6av2z8RuB
-         j1F+Rixo9t5QGc2NBU9kIWY10TzwgRryFftqxCfjq7Dd8DhGFFS7l1pw3kHNJKWarXd0
-         FdwMbjuKPT1+aaQbOheUhjRHsI32XcVA6raW32dlc4z4KrkhoLTK5c8rVWjuvAgfVxdm
-         J8kXPGFV63ic5YOmFIltSw2GmupwLJ6UHwuadgZ/0q/LDSlgBZH12Ba8ZjWGh7rcD5y+
-         AIzg==
-X-Forwarded-Encrypted: i=1; AJvYcCVFAWJkDxLBvy0ApXarykoTELGLUY7wLNCnIDfVHKXl8fJ9ez2LtOQgfTiHBi0BgfCoPMVvfK94pa4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywh/b9cpA8KbIJYwHb5U3XgY7CX+J1eJmVXVMrXZ+JI4/EH56U2
-	L0nsUU2WUOehJZMWQ/LkRi3dBp1aOnv0q2gYO3kx5W4HaRiZp0iUxE4r/T51uBgzoaJj4a1ha+t
-	K3wM=
-X-Google-Smtp-Source: AGHT+IEKcNMiY7wzLXe5eQDoa0aLQOUol5zSII/XfgY6pIxMP/K/JQLspO3LpuBtTgX1dSRwe3ohkA==
-X-Received: by 2002:a05:6a00:3e22:b0:71e:21c:bf1b with SMTP id d2e1a72fcca58-71e021cc1bcmr11161687b3a.14.1728370488090;
-        Mon, 07 Oct 2024 23:54:48 -0700 (PDT)
+        bh=61I8UVOx3KOO+grmBS2eNs+UXuu5q7xipsiBLUyhIxU=;
+        b=f2LAHZv2Vu5+6G4Indbs/t5WfOlIeO9Q/XWwYcRbCWFEgSyjzB56n6QMwQytc3tzd5
+         eZpY5WCifojlnOihJK4S5Y9sp1ydT38dJsV//yTWmXwQMzhb3cggRX7LNG+tWnqxd8KR
+         RMaiKPVPDUhctmzlYwghw3PJFvaT62P/G2a/C6Mot9EDJsda4qqTzwZXvCBEI+14JAzd
+         IDK8LtrsXXDgmNzpn0nZ7mqvrJz81fJiZyY8SXNmEMCk2EV3GjBUa4xUTCyXOyBJctYb
+         LWUR23t6LqOyMSJIDTD8jGm5eBnJQlADBfnE5wzpeMLbgR0BB4eboTvCYZhi5Nh3W6Y+
+         3izw==
+X-Forwarded-Encrypted: i=1; AJvYcCX/Jxy6u7S/pYsfT+vRR3ePSVpVAZXpb6gPMschwyaBsiQgHSgPUSlF+xlpRXZtbP6mD2QiD3xhJic=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKXI1X4KjzZHJDZ+PJrrpdifvUZuJ8xwVwQ/I/qDiDDtrRyWcD
+	HY7eu7DmP0GfOsT3YIyR8Rr14scu4KlWaYVNooQkjGonYJ1F2tgFXBHAtePvzKD+Vzo45uNM1G5
+	b8sY=
+X-Google-Smtp-Source: AGHT+IFQle2yzzR4dcGGT4YtYzeAeqeN1k82tWPpuGYLK1pMOd+gx8+tY2XKUq2OjAmapp2a+BI3iw==
+X-Received: by 2002:a17:903:32c7:b0:20b:987b:e3a0 with SMTP id d9443c01a7336-20bfea56b19mr207151025ad.30.1728370494237;
+        Mon, 07 Oct 2024 23:54:54 -0700 (PDT)
 Received: from localhost ([157.82.207.107])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-71df0d6521asm5477837b3a.166.2024.10.07.23.54.43
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-20c139a2bbbsm49777315ad.294.2024.10.07.23.54.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Oct 2024 23:54:47 -0700 (PDT)
+        Mon, 07 Oct 2024 23:54:53 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
-Date: Tue, 08 Oct 2024 15:54:22 +0900
-Subject: [PATCH RFC v5 02/10] skbuff: Introduce SKB_EXT_TUN_VNET_HASH
+Date: Tue, 08 Oct 2024 15:54:23 +0900
+Subject: [PATCH RFC v5 03/10] net: flow_dissector: Export
+ flow_keys_dissector_symmetric
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,7 +65,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241008-rss-v5-2-f3cf68df005d@daynix.com>
+Message-Id: <20241008-rss-v5-3-f3cf68df005d@daynix.com>
 References: <20241008-rss-v5-0-f3cf68df005d@daynix.com>
 In-Reply-To: <20241008-rss-v5-0-f3cf68df005d@daynix.com>
 To: Jonathan Corbet <corbet@lwn.net>, 
@@ -82,51 +83,41 @@ To: Jonathan Corbet <corbet@lwn.net>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
 X-Mailer: b4 0.14-dev-fd6e3
 
-This new extension will be used by tun to carry the hash values and
-types to report with virtio-net headers.
+flow_keys_dissector_symmetric is useful to derive a symmetric hash
+and to know its source such as IPv4, IPv6, TCP, and UDP.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- include/linux/skbuff.h | 3 +++
- net/core/skbuff.c      | 4 ++++
- 2 files changed, 7 insertions(+)
+ include/net/flow_dissector.h | 1 +
+ net/core/flow_dissector.c    | 3 ++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-index 29c3ea5b6e93..a361c4150144 100644
---- a/include/linux/skbuff.h
-+++ b/include/linux/skbuff.h
-@@ -4718,6 +4718,9 @@ enum skb_ext_id {
- #endif
- #if IS_ENABLED(CONFIG_MCTP_FLOWS)
- 	SKB_EXT_MCTP,
-+#endif
-+#if IS_ENABLED(CONFIG_TUN)
-+	SKB_EXT_TUN_VNET_HASH,
- #endif
- 	SKB_EXT_NUM, /* must be last */
- };
-diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-index 83f8cd8aa2d1..f0bf94cf458b 100644
---- a/net/core/skbuff.c
-+++ b/net/core/skbuff.c
-@@ -64,6 +64,7 @@
- #include <linux/mpls.h>
- #include <linux/kcov.h>
- #include <linux/iov_iter.h>
-+#include <linux/virtio_net.h>
+diff --git a/include/net/flow_dissector.h b/include/net/flow_dissector.h
+index ced79dc8e856..d01c1ec77b7d 100644
+--- a/include/net/flow_dissector.h
++++ b/include/net/flow_dissector.h
+@@ -423,6 +423,7 @@ __be32 flow_get_u32_src(const struct flow_keys *flow);
+ __be32 flow_get_u32_dst(const struct flow_keys *flow);
  
- #include <net/protocol.h>
- #include <net/dst.h>
-@@ -4979,6 +4980,9 @@ static const u8 skb_ext_type_len[] = {
- #if IS_ENABLED(CONFIG_MCTP_FLOWS)
- 	[SKB_EXT_MCTP] = SKB_EXT_CHUNKSIZEOF(struct mctp_flow),
- #endif
-+#if IS_ENABLED(CONFIG_TUN)
-+	[SKB_EXT_TUN_VNET_HASH] = SKB_EXT_CHUNKSIZEOF(struct virtio_net_hash),
-+#endif
- };
+ extern struct flow_dissector flow_keys_dissector;
++extern struct flow_dissector flow_keys_dissector_symmetric;
+ extern struct flow_dissector flow_keys_basic_dissector;
  
- static __always_inline unsigned int skb_ext_total_length(void)
+ /* struct flow_keys_digest:
+diff --git a/net/core/flow_dissector.c b/net/core/flow_dissector.c
+index 0e638a37aa09..9822988f2d49 100644
+--- a/net/core/flow_dissector.c
++++ b/net/core/flow_dissector.c
+@@ -1852,7 +1852,8 @@ void make_flow_keys_digest(struct flow_keys_digest *digest,
+ }
+ EXPORT_SYMBOL(make_flow_keys_digest);
+ 
+-static struct flow_dissector flow_keys_dissector_symmetric __read_mostly;
++struct flow_dissector flow_keys_dissector_symmetric __read_mostly;
++EXPORT_SYMBOL(flow_keys_dissector_symmetric);
+ 
+ u32 __skb_get_hash_symmetric_net(const struct net *net, const struct sk_buff *skb)
+ {
 
 -- 
 2.46.2
