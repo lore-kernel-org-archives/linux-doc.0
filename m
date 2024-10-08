@@ -1,61 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2527E42AB7;
-	Tue,  8 Oct 2024 16:21:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B6F01DC046
+	for <linux-doc@vger.kernel.org>; Tue,  8 Oct 2024 16:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728404507; cv=none; b=fp6GspwKwZhbm2AO8rIbTAyf+d3WP7TC0HwEo47K5VRZMNdqmUxdjyNJ7gwsIxEuxRQYYgU0d+b0CYTz/5KpzEy8K8tujqQNvYLU/5eIjN2+APH4U9qnwOkXFy3QyNWZiu+zpXB86GDoOSVAuTSYGyUs40EDzuMC1p3NI6V2mDc=
+	t=1728404770; cv=none; b=ay9u+WxX0Q43NKdgi8eK6K8jmO96Z9A77QKzEVXQT8fo8S63zhU+K1+X3mi6CPU31ok1jTcPu3Iqf8u06JJlSv87gqxhPgoZBNTNKyNXc3yqSvWgn1N4rjNextbOX/NncLrSzcOX3QQb0Q2IphtSJs8q7td/hkqZFp6K4yt0lv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728404507; c=relaxed/simple;
-	bh=zXf059UWoQ550+54yMiocdr/6qK+9tzdhFNKDz8O4yE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=om8t5cn9uWZqQsNpfYeBjSR6ldVhf/mnG9kCrc2ZH9L+WxDNOTJ9pHvab3JMTqAxJAnpHEnGMQWSIngErHwO8nYdR7K6C9KuyuNPU5tNc0EhATz1hlC6oIE9aDEKa3TuQwc/duHfC68m2gC8py7S9QnPK25+DiPKeBbwA5GcHSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FYs+GQnd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728404770; c=relaxed/simple;
+	bh=0pbwWg3Pts4fZk3o2buLENaA8gdALMFvOFJvpAibZy4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EHpKMN1Ww7n6a1/5nL0kKS8BNxYAIk2LdFEXftoGPL3JDuLBz/eq/KweCcpRzkEzbgCooClKi8yi7XWwuQzU5tIFQTT9s9GZPK+260jpgVzF8SmvjqvrocztT924vxSO4a5unysErFbaAAPQJZYMk8CSMOrgamsFH+GhElKrdtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ntaS+xUF; arc=none smtp.client-ip=95.215.58.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FYs+GQnd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 703B4C4CEC7;
-	Tue,  8 Oct 2024 16:21:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728404505;
-	bh=zXf059UWoQ550+54yMiocdr/6qK+9tzdhFNKDz8O4yE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FYs+GQndbIL+o8ZiSkYinwyScXiHp+4GxhsFM97pTPW0qxc0YT43BnD/8UYHMZlNi
-	 D36Os/0Yd2i75G2N/rqlNBvALFq3L52otkTEF4gukEJ6bL8fFvatKPzxqM4c20vw94
-	 Rz3tjnGTNEcukkLGl8QRavyuBG+oeWk2c+KTtxgMxT6qNazwCZpfZKriaUe7etDfv1
-	 Q4W/8c99AVCeRiXzO6dR2shnxrWT8isG0xv7gKXlglPv6r8xZsi9PcndkieogOpcIE
-	 nYBrG0A8ht/P3Cj8S55pF5ixFKXEI/8ZVpDVCXw4a6uwWrLhz/LvUXJR1/HmiRfnxs
-	 62doIaW/4vg+w==
-Date: Tue, 8 Oct 2024 19:18:17 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Pengyu Zhang <zpenya1314@gmail.com>
-Cc: corbet@lwn.net, linus.walleij@linaro.org, fmdefrancesco@gmail.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] Docs/mm: Fix a mistakes for pfn in page_tables.rst
-Message-ID: <ZwVbSSBf2NM_yq1H@kernel.org>
-References: <20241008161050.14732-1-zpenya1314@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ntaS+xUF"
+Message-ID: <988d7c7d-dedd-4ceb-ad8a-9a9962b7bb0c@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1728404766;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IqUxlflk7LSIOE/nIYBpnpZcHrExrT5UAZ6hZitSDnE=;
+	b=ntaS+xUFVtV0CxaH/tjycK2u+IRAPDjlEIk3hqWN4hl7y0mib1cxQdbM4i78Et2pwy67gp
+	JcKHTRKKd3D8NrZRT0WuEhAfubjhjfP3mrmlET4kCshJjpflElftk2tRpFZK1vgm/r8CHB
+	D0kUh2YcZMpbt4y2h3Xo998rr0DVJsA=
+Date: Wed, 9 Oct 2024 00:25:54 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Subject: Re: [PATCH v1] Docs/mm: Fix a mistakes for pfn in page_tables.rst
+To: Pengyu Zhang <zpenya1314@gmail.com>
+Cc: corbet@lwn.net, rppt@kernel.org, linus.walleij@linaro.org,
+ fmdefrancesco@gmail.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20241008161050.14732-1-zpenya1314@gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Zenghui Yu <zenghui.yu@linux.dev>
 In-Reply-To: <20241008161050.14732-1-zpenya1314@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Oct 09, 2024 at 12:10:50AM +0800, Pengyu Zhang wrote:
+s/mistakes/mistake/ in the Subject line.
+
+On 2024/10/9 00:10, Pengyu Zhang wrote:
 > The documentation incorrectly calculate the pfn value as 0x3fffff,
 > which should be 0x3ffff instead.It is obtained by right-shifting
+                                  ^
+Add a space.
+
 > 0xffffc000 by 14 bits.
 > 
 > This patch corrects the value to prevent any potential confusion
 > for developers referencing this document.
 > 
 > Signed-off-by: Pengyu Zhang <zpenya1314@gmail.com>
-
-Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-
 > ---
 >  Documentation/mm/page_tables.rst | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
@@ -73,10 +79,5 @@ Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 >  
 >  As you can see, with 4KB pages the page base address uses bits 12-31 of the
 >  address, and this is why `PAGE_SHIFT` in this case is defined as 12 and
-> -- 
-> 2.25.1
-> 
 
--- 
-Sincerely yours,
-Mike.
+Reviewed-by: Zenghui Yu <zenghui.yu@linux.dev>
