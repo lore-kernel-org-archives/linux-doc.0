@@ -1,107 +1,139 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AABE1DE2AE;
-	Tue,  8 Oct 2024 14:21:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07751DFD80
+	for <linux-doc@vger.kernel.org>; Tue,  8 Oct 2024 14:33:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728397292; cv=none; b=e/p8bgAxKjIuG4w9pgnRX0S9u00OzwIxizCHUmteox5s/2jpYtnTnQ9GC9qC3Umi1cCJ3YKWZFX3AsoKN3ZyORHIYDN7Cd6JbWQ7Jdg0H5MD1F71ZH5Vbr4DN7x51+7xEIRo9lwS415cy1QaO81vTUpCQrrqTIfuIXfsl6cAqN8=
+	t=1728398035; cv=none; b=GsddYnYZ+5IrB7QmgI3bdy4k+0UvY2SBNcvyOG9bd5qlyvGJKrzLOrV0GeIfrNvRnW9pTkN1ga4DuL5W3gJk0ExS6qg6cUtb3Pv24oV15uDHkHVu+7HA6TL0/8ZduDQWe8Fp+H+6Ebumq1sRMSU63bAoqdufkPEIpQ9ka5Eklo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728397292; c=relaxed/simple;
-	bh=m3KUbwqtWaR6bmYjQdpyjFp9exQ2YBNqwsD4RVETg4E=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MEehA/5K2isabZ2p0cq1cQHW0BD8XedCwsK5rdrfoSjDmG00dPFkf5cLVMn2aSIjlxzbt+JVFs4xC+290AHviC7E4krngpalayZiYiV2Tv8Nkbsu0THIwHR02g33XPuS7KRvPeZ9ohLxOjU72k9xEj1P09rgFAn0S3mhfZFoA14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VKXdr3c4; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1728398035; c=relaxed/simple;
+	bh=cJbvDgUha/1eoUVSaOiEuoQnBVNtsRTyLKAM+qSvSQ0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FFmHGZRHuzs83z5Ed5zAsRdBUBIQC7tsYpsCKBcxAUhxQ1iKnlphqwrvpFYY9XJXpdxTDaGBiBAWG4ZxT5dzfLvuGCZAzArzHjLH191dMc5CiY2g0p5cbTbNMV6MkIwWW0ClFTSbOSyhuBV+yYM0yUFxYlQpwtXIa4lKMDv5tKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GhzlbFAq; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VKXdr3c4"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 15ADC1BF209;
-	Tue,  8 Oct 2024 14:21:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1728397282;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CoL/bQFuFrffN2073/mKg1lZJ27Axt4FPy1eN4O+9UI=;
-	b=VKXdr3c4M5o41DAk1jDy79n2+zNorAmkWoU/pF14M0VWxfjOc5JerD+Qshy8kIBZTNjqot
-	LCapaHsnf75IYAjMSFpRfZZsq+3GC2hdlBfKV63djAn+rij4qirR5wGMBTYOJQyi4vlXmV
-	b31NIQQuv/QX+0BS8S11DqXxDJB5jPDIskJNWeifvFLFJvVLlUGnj+HaD8rMhONVN990JS
-	6AZLEQL1PF/EubycMUI6+30BYvnYJaQJmrOiHj/9GFpI14YMwJs551iSjEy56i9j4pFj/E
-	pfctNULpcPf/osR0GeYnIHhuX/WGfANkfhPN1KBTnymFExsKWmx6zFqxAwmUSg==
-Date: Tue, 8 Oct 2024 16:21:20 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
- <donald.hunter@gmail.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
- Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de
-Subject: Re: [PATCH net-next 08/12] net: pse-pd: pd692x0: Add support for
- PSE PI priority feature
-Message-ID: <20241008162120.18aa0a6c@kmaincent-XPS-13-7390>
-In-Reply-To: <ZwU6QuGSbWF36hhF@pengutronix.de>
-References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
-	<20241002-feature_poe_port_prio-v1-8-787054f74ed5@bootlin.com>
-	<1e9cdab6-f15e-4569-9c71-eb540e94b2fe@lunn.ch>
-	<ZwU6QuGSbWF36hhF@pengutronix.de>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GhzlbFAq"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5398f3be400so6490821e87.0
+        for <linux-doc@vger.kernel.org>; Tue, 08 Oct 2024 07:33:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728398032; x=1729002832; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=l8UUeF5zVA7me/KDNa1uZvUuZ4ABpmFfw0rMc8MJiM4=;
+        b=GhzlbFAqqtx77ra1+v8o//33rCwoJFllP1X9NohIgaVgqW3neaEHb4GF1co9xIgMGb
+         MvgqDehmYJf+Urq4ShbnFZL5RiyRNBEzhTL52ptNFDgj/qkWc2oMXjjDXZjT1n9zYPQV
+         1Xp0fz/FPp5XqtgGub8V5ldG+2DgD5Hnj4aRW0i/9y4H2PgqpnZNsPgi5LvLNpUOgKIO
+         DrKJQQMqGFa2bGbvdYm1n3u3AbEKmBOQVhGESBiiNV11dmaOQFJdinp5TIrLswSzWdZ8
+         645L6DeP+i7OwvIHg7UHNCOhsdifTcL72MmqZ/aspTzzktZ4fb/e+y254KqX1i0qWLdT
+         LLqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728398032; x=1729002832;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=l8UUeF5zVA7me/KDNa1uZvUuZ4ABpmFfw0rMc8MJiM4=;
+        b=dBSZ9XVhemz4jDrpew7vl49Z4SJVeQIbeUjOlGFN6BKQCvdX1usQTCF2Ur69q6s4zH
+         nPiAfAcCO7EXYSrEorTVwxVIn4DJ5E5RpdLG4wHw6qB6TbkhBwoHMjrYXt9uj/XMvPOe
+         hwOG9dBczvgo4ewZdnJdtIzR7tJGXfVnn0pqNknvN8tBkPRblSAurgc9aEEBRrEmULFX
+         gXDDMLH85ntvOk6Td75TqKhBz1hNnpu40enj5CE7Twrkn1PFHLtoYJEpS/pEeAAAHyvL
+         k2zPTi6wloYy9oQlM3DAqAQf8+O4bTgXR4Z6zopjyHKFBqfUpnlCP44BG8XtPSvE4XzJ
+         PwIA==
+X-Forwarded-Encrypted: i=1; AJvYcCWSCnGyO0Y5OMU2JvaGXfg4D4naxMv5nIwjX1HfwdvfLVWqU9YqOv+LdoEDpICo6MB5MTJldbrFNK0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyyHvu2/djGdlwy+6VkUh+sX06/ZM+F8ba852S0vFjuRdEJx93s
+	c4AbMeWnC2gTu8Z3TEZgJJ/txLY3aN7PYVn7iZKs1YQEckHx/8b9WJUoMRBN2u/b2F5Dvjnwu7b
+	F+k62mfINqqD5Voy9yaUZxoKLgnpS/U6+1qVDWQ==
+X-Google-Smtp-Source: AGHT+IGBYcpHt0lMWnVGb0Hy+ZeNqvJFr2wYYFazy0Mc7IJSh/h6XvyFgyinHLgdB/nKkTDcnov6qsaKInqYJZBkAPE=
+X-Received: by 2002:a05:6512:3b85:b0:536:54df:bffc with SMTP id
+ 2adb3069b0e04-539ab9dc722mr7192766e87.42.1728398031871; Tue, 08 Oct 2024
+ 07:33:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+References: <20241002221306.4403-1-ansuelsmth@gmail.com> <172833255295.162249.16483920948700467749.b4-ty@kernel.dk>
+ <CAPDyKFoueMwVfN+P+tG7zT+-iUs=hghsRu+i9mNiHGw_9tcwBw@mail.gmail.com> <fe10ee8f-1220-4a1d-a25b-efaaa314699a@kernel.dk>
+In-Reply-To: <fe10ee8f-1220-4a1d-a25b-efaaa314699a@kernel.dk>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 8 Oct 2024 16:33:14 +0200
+Message-ID: <CAPDyKFpoFP3v8XneMoY5_DEVssYkDyK03QpikBdsZseO4_MLPw@mail.gmail.com>
+Subject: Re: [PATCH v6 0/6] block: partition table OF support
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Daniel Golle <daniel@makrotopia.org>, INAGAKI Hiroshi <musashino.open@gmail.com>, 
+	Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+	Ming Lei <ming.lei@redhat.com>, Li Lingfeng <lilingfeng3@huawei.com>, 
+	Christian Heusel <christian@heusel.eu>, Avri Altman <avri.altman@wdc.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Adrian Hunter <adrian.hunter@intel.com>, 
+	Riyan Dhiman <riyandhiman14@gmail.com>, Mikko Rapeli <mikko.rapeli@linaro.org>, 
+	Jorge Ramirez-Ortiz <jorge@foundries.io>, Li Zhijian <lizhijian@fujitsu.com>, 
+	Dominique Martinet <dominique.martinet@atmark-techno.com>, 
+	Jens Wiklander <jens.wiklander@linaro.org>, 
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, linux-block@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, 
+	Lorenzo Bianconi <lorenzo@kernel.org>, Miquel Raynal <miquel.raynal@bootlin.com>, upstream@airoha.com, 
+	Christoph Hellwig <hch@infradead.org>, Christian Marangi <ansuelsmth@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 8 Oct 2024 15:57:22 +0200
-Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+On Tue, 8 Oct 2024 at 15:24, Jens Axboe <axboe@kernel.dk> wrote:
+>
+> On 10/8/24 3:10 AM, Ulf Hansson wrote:
+> > On Mon, 7 Oct 2024 at 22:22, Jens Axboe <axboe@kernel.dk> wrote:
+> >>
+> >>
+> >> On Thu, 03 Oct 2024 00:11:40 +0200, Christian Marangi wrote:
+> >>> this is an initial proposal to complete support for manually defining
+> >>> partition table.
+> >>>
+> >>> Some background on this. Many OEM on embedded device (modem, router...)
+> >>> are starting to migrate from NOR/NAND flash to eMMC. The reason for this
+> >>> is that OEM are starting to require more and more space for the firmware
+> >>> and price difference is becoming so little that using eMMC is only benefits
+> >>> and no cons.
+> >>>
+> >>> [...]
+> >>
+> >> Applied, thanks!
+> >>
+> >> [1/6] block: add support for defining read-only partitions
+> >>       commit: 03cb793b26834ddca170ba87057c8f883772dd45
+> >> [2/6] docs: block: Document support for read-only partition in cmdline part
+> >>       commit: 62adb971e515d1bb0e9e555f3dd1d5dc948cf6a1
+> >> [3/6] block: introduce add_disk_fwnode()
+> >>       commit: e5f587242b6072ffab4f4a084a459a59f3035873
+> >> [4/6] mmc: block: attach partitions fwnode if found in mmc-card
+> >>       commit: 45ff6c340ddfc2dade74d5b7a8962c778ab7042c
+> >> [5/6] block: add support for partition table defined in OF
+> >>       commit: 884555b557e5e6d41c866e2cd8d7b32f50ec974b
+> >> [6/6] dt-bindings: mmc: Document support for partition table in mmc-card
+> >>       commit: 06f39701d0666d89dd3c86ff0b163c7139b7ba2d
+> >>
+> >
+> > I think we may need another merging strategy for this as I quite big
+> > changes in the pipe for the mmc block device this cycle.
+> >
+> > Would it be possible for you to drop the mmc patches and instead share
+> > an immutable branch with the block changes that I can pull in, so I
+> > can take the mmc changes?
+>
+> I mean we can, but the mmc changes in here are pretty self contained.
+> I'd rather avoid rebasing the block tree for that, given how small the
+> changes are. If it conflicts, should be easy enough to resolve.
 
-> On Thu, Oct 03, 2024 at 01:41:02AM +0200, Andrew Lunn wrote:
-> > > +	msg =3D pd692x0_msg_template_list[PD692X0_MSG_SET_PORT_PARAM];
-> > > +	msg.sub[2] =3D id;
-> > > +	/* Controller priority from 1 to 3 */
-> > > +	msg.data[4] =3D prio + 1; =20
-> >=20
-> > Does 0 have a meaning? It just seems an odd design if it does not. =20
->=20
-> 0 is not documented. But there are sub-priority which are not directly
-> configured by user, but affect the system behavior.
->=20
-> Priority#: Critical =E2=80=93 1; high =E2=80=93 2; low =E2=80=93 3
->  For ports with the same priority, the PoE Controller sets the
->  sub-priority according to the logic port number. (Lower number gets
->  higher priority).
->=20
-> Port priority affects:
-> 1. Power-up order: After a reset, the ports are powered up according to
->  their priority, highest to lowest, highest priority will power up first.
-> 2. Shutdown order: When exceeding the power budget, lowest priority
->  ports will turn off first.
->=20
-> Should we return sub priorities on the prio get request?
->=20
-> If i see it correctly, even if user do not actively configures priorities,
-> they are always present. For example port 0 will have always a Prio
-> higher than Port 10.
+Okay, let's give it a try and see how it goes.
 
-We could add a subprio ehtool attribute, but it won't be configurable.
-In fact it could be configurable by changing the port matrix order but it i=
-s not
-a good idea. Applying a new port matrix turn off all the ports.
+>
+> You an also just pull in the block tree now and resolve the conflict.
+> There's not a whole lot in there yet outside of this series.
 
-I am not sure if it is specific to Microchip controller or if it is generic
-enough to add the attribute.
-I would say not to return it for now.
+Let's wait and see. If we get some conflicts, you can always set a tag
+to the latest of the mmc commits in your tree that I can pull instead.
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Kind regards
+Uffe
