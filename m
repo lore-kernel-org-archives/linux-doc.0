@@ -1,122 +1,139 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD3318C900
-	for <linux-doc@vger.kernel.org>; Tue,  8 Oct 2024 09:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E25762D2;
+	Tue,  8 Oct 2024 09:23:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728378685; cv=none; b=aSGy728KS6I1u1F8dRuQG4FwSiwukXYtIEQnSNChuziwy8eX8ey1raCMEkpXtEvuQP+NdhVkpZbTDXlayBHmtu6q0wR7dJPb/AGEC3r0NOvhQlDocIryyeYfnxkRq3sSAZt9Vq2oVk3yFyxmIUQ1+kyJGUfHL8giRQfpRPprbTo=
+	t=1728379411; cv=none; b=os8vOA8InbcEbKtp4H5wVGIcmGfPuu6izxGsjYI8euf/I2NJYpQ4zZxrDC/9ux6OwjI5TsAJig30AVd7aINFXU9ZmM2EkqVOgmqluh1Nah/lRiWReAsfIPwgTLkA3zmjSzsfZWuUsEvGzcpfnbEKiLz0mBnAshlnJVyLIttW30M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728378685; c=relaxed/simple;
-	bh=84HK2DYs4iHZXfWaS/6Hpz++BkQ+086CSJY0qyJZqCY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=emlOf7Foj+O01/KSYaKOec7lsN3UorBbFJfltzb6ThFFwoCdUYZcKs8vtbkDGiELSJ1muST9qHXZhNWPumEqWzYXgBsB4RPGNSllCbSgTYF4uIbHYGO9MrOjC3K3lltELPxIT/KVdLwGKGiqGd5y8kspQWlwLFvok/WMBO+FBJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BjoafCjZ; arc=none smtp.client-ip=209.85.128.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1728379411; c=relaxed/simple;
+	bh=NpUeqk0ogRvN7pN4/dg+vnbZUOUv3txbjWs5a9eDpTw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GX1IBIkQohhgxlY+5m3EaakHNKFHjBUQgYcQwkqyhfRDaXdhkE7jO/XaccgVumViISbnHwPLphQIFWRzUDfLLnu6Cm9GPlYzBhz/dzee1HoEPNhZ81XPHcPv02IXgYliGuXykG8gwKFW0L9zHbg+9M+3Q/W7VQ5XPQ5QhjKZdzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=TOrGLOgZ; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BjoafCjZ"
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-6e2772f7df9so42338507b3.2
-        for <linux-doc@vger.kernel.org>; Tue, 08 Oct 2024 02:11:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728378683; x=1728983483; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=OAC1fc0GGzeGQymFrjhdhUKIp7jN5760ULqXJcDJVQ8=;
-        b=BjoafCjZWwFflHxwDM0+H3PE47kbBqTGl/zl2bgdgsHY/e1DgUYrfzWlgn5JSJ9N3Y
-         oLASziHYjIgsx2Oj2Ojod1xkVoY4QEmwD895UybnlNhURZCjYjV90mke1lIJhc/AgayI
-         nQl+OVXdwoCQPHRFm4W2dLmzs9Jf+7lEJs0TkNu7BYLyV/M8suVejbzMjQXy06ti//sZ
-         N2p4ETvKeA4KZZt/5rt651FoDo/MR7RTsyl02ruHaH1BL192OkCRlqm1yKpqmYD0ZVg/
-         FX4+X+YFcDl0Ipxf2uO9KMOtm/9wF4b26ByerHEFmsg9HJp7VGz6casdQSJesHNCFD6M
-         Pc7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728378683; x=1728983483;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OAC1fc0GGzeGQymFrjhdhUKIp7jN5760ULqXJcDJVQ8=;
-        b=hsLmbzatg/0udogFlKTGTqltH0cjYp7zjYmFdyaaKQkRESfXbYc045mwPJ2ziJ1Qrj
-         zg84gUWtK9eMvWo0h1ISPgoKQ80qao8TAQYHlfWf4pRZAmU8uviLH55jmCi0ucIDd8ek
-         T27bajpcm1tgHiuiTs8Yl/EIey0EDiOP5OaqTD4DHs+Hlf4ZgaoqHbzq+0AQDtrYVpNt
-         Xr5QRB0k4vZ4/Q3y/nB97DsVP1NYBVc+AdjWQB5d5vwgHo1rsuJj52DbBIuZXa9SB7oF
-         n8jfuAsAdOCgTFPg244zJNahyN3KQEkYMtnBzuZ2VZqcmhbxSGadUDZthUgdgQ+d6tSP
-         voEg==
-X-Forwarded-Encrypted: i=1; AJvYcCVJFHoD/KsLkqU5ey/MMcy7u/RYb4wAjhql5nFosIKQpmacR7WmQLux3e2CyArWIPYzQGhF+9IBz4s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxfGGPyo4HxVxEuZ0ZtwVojw0207h6kgmO7QTJmEopk/C6cTDGq
-	VGr0MHNdcoI5lHrqMpPeCnl9pJiN8vqHatEcd9NUTXBX9CBCHBMaHSvguh/hrayNGEOzSUDJNvo
-	XtjiGvgTOBh1Qx/lhFghhCzy3NxTeb1wmcJ4fjQ==
-X-Google-Smtp-Source: AGHT+IHGsrKT01WcmDgyC7IYp0pZMB5k4X7yPX1YU+KNNnvYVWtze3O6NpuAFLLQ3kwmCNNi4szI2T/fCfZNHwwlnFI=
-X-Received: by 2002:a05:6902:1003:b0:e28:7a13:747b with SMTP id
- 3f1490d57ef6-e28936ea449mr9780326276.27.1728378682910; Tue, 08 Oct 2024
- 02:11:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="TOrGLOgZ"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id ECAED40009;
+	Tue,  8 Oct 2024 09:23:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1728379405;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=A4aRvABwDkeC3buxJWP1DSdNmC41HRG0mMSMai6hCo0=;
+	b=TOrGLOgZNKppyNFh82S3g+skZpzMX92a7kFUxZ6z10guzlPby2MAHCiu+evrNfVmBq+GU8
+	iE7spZxbx0A9zFkQWn3oS6k6ueuH5MqjfL01p9TpxDTLocbOpuvrJ5k4T++mfE1jH+5Nvt
+	gx3MEbffhJkU/+5dgA92GhmvjTcohrr/o5nGH0bgSXHiXySvvQrxggE/KEPrzhEP1glI3P
+	3njdntGZKLQe6Xol9vYrlbzWjsgohFH/rb83xlT6yUNOdcntC9R7nayzcih86xeneBaFkN
+	Xzy0qWhRCS4+aLtJ0fDT80oICzobKYJ9xPl2EddvqRfamCjkIUyRX9g5XeJQ1Q==
+Date: Tue, 8 Oct 2024 11:23:22 +0200
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Maaara Canal <mairacanal@riseup.net>,
+	Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+	Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
+	arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
+	jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+	seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
+	Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: Re: [PATCH v12 13/15] drm/vkms: Create KUnit tests for YUV
+ conversions
+Message-ID: <ZwT6CnyYRKS9QxIS@louis-chauvet-laptop>
+Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
+	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Maaara Canal <mairacanal@riseup.net>,
+	Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+	Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
+	arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
+	jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+	seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
+	Pekka Paalanen <pekka.paalanen@collabora.com>
+References: <20241007-yuv-v12-0-01c1ada6fec8@bootlin.com>
+ <20241007-yuv-v12-13-01c1ada6fec8@bootlin.com>
+ <20241008-ingenious-calm-silkworm-3e99ba@houat>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241002221306.4403-1-ansuelsmth@gmail.com> <172833255295.162249.16483920948700467749.b4-ty@kernel.dk>
-In-Reply-To: <172833255295.162249.16483920948700467749.b4-ty@kernel.dk>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 8 Oct 2024 11:10:46 +0200
-Message-ID: <CAPDyKFoueMwVfN+P+tG7zT+-iUs=hghsRu+i9mNiHGw_9tcwBw@mail.gmail.com>
-Subject: Re: [PATCH v6 0/6] block: partition table OF support
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Daniel Golle <daniel@makrotopia.org>, INAGAKI Hiroshi <musashino.open@gmail.com>, 
-	Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Ming Lei <ming.lei@redhat.com>, Li Lingfeng <lilingfeng3@huawei.com>, 
-	Christian Heusel <christian@heusel.eu>, Avri Altman <avri.altman@wdc.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Riyan Dhiman <riyandhiman14@gmail.com>, Mikko Rapeli <mikko.rapeli@linaro.org>, 
-	Jorge Ramirez-Ortiz <jorge@foundries.io>, Li Zhijian <lizhijian@fujitsu.com>, 
-	Dominique Martinet <dominique.martinet@atmark-techno.com>, 
-	Jens Wiklander <jens.wiklander@linaro.org>, 
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, linux-block@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, 
-	Lorenzo Bianconi <lorenzo@kernel.org>, Miquel Raynal <miquel.raynal@bootlin.com>, upstream@airoha.com, 
-	Christoph Hellwig <hch@infradead.org>, Christian Marangi <ansuelsmth@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241008-ingenious-calm-silkworm-3e99ba@houat>
+X-GND-Sasl: louis.chauvet@bootlin.com
 
-On Mon, 7 Oct 2024 at 22:22, Jens Axboe <axboe@kernel.dk> wrote:
->
->
-> On Thu, 03 Oct 2024 00:11:40 +0200, Christian Marangi wrote:
-> > this is an initial proposal to complete support for manually defining
-> > partition table.
-> >
-> > Some background on this. Many OEM on embedded device (modem, router...)
-> > are starting to migrate from NOR/NAND flash to eMMC. The reason for this
-> > is that OEM are starting to require more and more space for the firmware
-> > and price difference is becoming so little that using eMMC is only benefits
-> > and no cons.
-> >
-> > [...]
->
-> Applied, thanks!
->
-> [1/6] block: add support for defining read-only partitions
->       commit: 03cb793b26834ddca170ba87057c8f883772dd45
-> [2/6] docs: block: Document support for read-only partition in cmdline part
->       commit: 62adb971e515d1bb0e9e555f3dd1d5dc948cf6a1
-> [3/6] block: introduce add_disk_fwnode()
->       commit: e5f587242b6072ffab4f4a084a459a59f3035873
-> [4/6] mmc: block: attach partitions fwnode if found in mmc-card
->       commit: 45ff6c340ddfc2dade74d5b7a8962c778ab7042c
-> [5/6] block: add support for partition table defined in OF
->       commit: 884555b557e5e6d41c866e2cd8d7b32f50ec974b
-> [6/6] dt-bindings: mmc: Document support for partition table in mmc-card
->       commit: 06f39701d0666d89dd3c86ff0b163c7139b7ba2d
->
 
-I think we may need another merging strategy for this as I quite big
-changes in the pipe for the mmc block device this cycle.
+Hi, 
 
-Would it be possible for you to drop the mmc patches and instead share
-an immutable branch with the block changes that I can pull in, so I
-can take the mmc changes?
+> > + * The YUV color representation were acquired via the colour python framework.
+> > + * Below are the function calls used for generating each case.
+> > + *
+> > + * For more information got to the docs:
+> > + * https://colour.readthedocs.io/en/master/generated/colour.RGB_to_YCbCr.html
+> > + */
+> > +static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
+> > +	/*
+> > +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
+> > +	 *                     K=colour.WEIGHTS_YCBCR["ITU-R BT.601"],
+> > +	 *                     in_bits = 16,
+> > +	 *                     in_legal = False,
+> > +	 *                     in_int = True,
+> > +	 *                     out_bits = 8,
+> > +	 *                     out_legal = False,
+> > +	 *                     out_int = True)
+> > +	 */
+> 
+> We should really detail what the intent and expected outcome is supposed
+> to be here. Relying on a third-party python library call for
+> documentation isn't great.
+> 
+> Maxime
 
-Kind regards
-Uffe
+This was requested by Pekka in the [v2] of this series.
+
+I can add something like this before each tests, but I think having the 
+exact python code used may help people to understand what should be the 
+behavior, and refering to the python code to understand the conversion.
+
+I can add something like this before each tests to clarify the tested 
+case:
+
+	Test cases for conversion between YUV BT601 limited range and 
+	RGB using the ITU-R BT.601 weights.
+
+Or maybe just documenting the structure yuv_u8_to_argb_u16_case:
+
+	@encoding: Encoding used to convert RGB to YUV
+	@range: Range used to convert RGB to YUV
+	@n_colors: Count of test colors in this case
+	@format_pair.name: Name used for this color conversion, used to 
+			   clarify the test results
+	@format_pair.rgb: RGB color tested
+	@format_pair.yuv: Same color as @format_pair.rgb, but converted to 
+			  YUV using @encoding and @range.
+
+What do you think?
+
+Thanks,
+Louis Chauvet
+
+[v2]:https://lore.kernel.org/all/20240229141238.51891cad.pekka.paalanen@collabora.com/
+[v5]:https://lore.kernel.org/all/20240328152631.63af0e8c.pekka.paalanen@collabora.com/
