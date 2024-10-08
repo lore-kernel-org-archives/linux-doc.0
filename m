@@ -1,75 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpdh16-2.aruba.it (smtpdh16-2.aruba.it [62.149.155.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 461FF1DF25E;
-	Tue,  8 Oct 2024 13:40:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9A81DF722
+	for <linux-doc@vger.kernel.org>; Tue,  8 Oct 2024 13:53:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.149.155.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728394801; cv=none; b=hcO5qD+G6vKZDu14q0bObmf3mZE0YT1KVtE5hTe7iqEPMtw3utjzKCwfrCrmD1ao2WaGIlzC3SVrznWCt/PPg42pWLrxVC8qpSLHtBrwpJ4QpvFTcYzpKRtOo6kanhvvyG6E5TZj2hY6x0eey/rvdn3Rfo7983zoYA2Mht2qNoE=
+	t=1728395628; cv=none; b=LF7B7aFHa8dXXETgXsQJu4n1OSuiP08jxRdpjw6YLEqeh/o0AKKv2EqBJatLKF5GYJptETmAQpOcmcBboxy5d3MLbMvQfcSvqln+1EWqY3u9NoeAAJtgmIzEnqoY0JaZP0hzzan61JCbqWB/1QYfAgvoffWbEkkkIC5g9CT88XA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728394801; c=relaxed/simple;
-	bh=F9YQQkqbHNcwgfVQyUpy1C+NloEUAj4v8A/JWR2xuAg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XPClkI8/QiADLeDo2boaTEIMlIuFJDrUhenEY9nvMkzrkF9d80h4VI9LgwIEY0zUp13OIWugq3Ox7ppo+BEuMlgWF2yacWjQVbXRJqznMuav+mAScOJhmy0ZaB1j0hUmCIVj8TbNoV7ml6HaWqqY/Wv2KA1R7vUmRbOOvSeci9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kTfg6/sX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728395628; c=relaxed/simple;
+	bh=CYhA1GI4rn88rQyo9rf4G11UGZijDVHRnPuIiZQG99U=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=C6u9if7xncL1c+HrEqhpVsbXO8LcEnqtamTnAmdhBQHQIWslWcOB091iZNCWofhA43fCTYMFdzLYgHpr7AyhWzmQSp/yy7s+WWwOZCMY//QumbXRzaefdsCokzopNmpO2Q59xR/dnFAQ4q3QzKKj46/MHArZzINWscQ3A/si9b4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com; spf=pass smtp.mailfrom=enneenne.com; dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b=CSW8mm42; arc=none smtp.client-ip=62.149.155.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enneenne.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kTfg6/sX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 011BCC4CEC7;
-	Tue,  8 Oct 2024 13:39:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728394800;
-	bh=F9YQQkqbHNcwgfVQyUpy1C+NloEUAj4v8A/JWR2xuAg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=kTfg6/sXBD2y1/18g0sEw3yDVNToVFwRuusLRBZv9aXHBImEJjaM6Cd/BPRl9gmsA
-	 35GW6M/leNtyGkoSrdIe0zlEOkxmpAzAMjcQ7/YZkmV82t95PB8DnQkHNaR+zCvcqV
-	 oMrEDVox5Dd5TC8HpyE4G4VedvR1pWSXXa757E3rtcaCVJemUmbgiHDPMoG5McdXNN
-	 GylOOLKwBC/K9pwi4y2jFy98P5TZdqc9bCWpU5jcmYQRDbWzDCnnuyrlCMUnjJq9ra
-	 tv+QqtlubIOQRLJGg+0iFarx3erQ7CJe6iWJgsw0g3oukGcvmBFoKdbGyvqZHGOYMq
-	 a0rStKiCSPbvg==
-Date: Tue, 8 Oct 2024 06:39:59 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Wei Huang <wei.huang2@amd.com>
-Cc: <linux-pci@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <netdev@vger.kernel.org>,
- <Jonathan.Cameron@Huawei.com>, <helgaas@kernel.org>, <corbet@lwn.net>,
- <davem@davemloft.net>, <edumazet@google.com>, <pabeni@redhat.com>,
- <alex.williamson@redhat.com>, <gospo@broadcom.com>,
- <michael.chan@broadcom.com>, <ajit.khaparde@broadcom.com>,
- <somnath.kotur@broadcom.com>, <andrew.gospodarek@broadcom.com>,
- <manoj.panicker2@amd.com>, <Eric.VanTassell@amd.com>,
- <vadim.fedorenko@linux.dev>, <horms@kernel.org>, <bagasdotme@gmail.com>,
- <bhelgaas@google.com>, <lukas@wunner.de>, <paul.e.luse@intel.com>,
- <jing2.liu@intel.com>
-Subject: Re: [PATCH V7 4/5] bnxt_en: Add TPH support in BNXT driver
-Message-ID: <20241008063959.0b073aab@kernel.org>
-In-Reply-To: <20241002165954.128085-5-wei.huang2@amd.com>
-References: <20241002165954.128085-1-wei.huang2@amd.com>
-	<20241002165954.128085-5-wei.huang2@amd.com>
+	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b="CSW8mm42"
+Received: from polimar.homenet.telecomitalia.it ([79.0.204.227])
+	by Aruba Outgoing Smtp  with ESMTPSA
+	id yAbisgixkbsngyAbisUWTp; Tue, 08 Oct 2024 15:50:35 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+	t=1728395435; bh=CYhA1GI4rn88rQyo9rf4G11UGZijDVHRnPuIiZQG99U=;
+	h=From:To:Subject:Date:MIME-Version;
+	b=CSW8mm42rTdjwdVzWi+CoTAhs4rinHIujdKLQNBlrkSAm0WE8Rwgu4DthOmw98XWO
+	 SsF2/rkP8RV5yxskoGQmuDBm2pMS4L0O1Ru6luVxHrrXODKYjFmRduSS3icFXChjeX
+	 lSmbfP8F6nFPRW3J/3jSG/dTS6D5mpSSZxvWy6je/9teZ49VGgQpD06u/GSCZEty2j
+	 ve95iLMz7dfJVzdRn1Uu8X8HwwFogxVKehCZE+uy/N3RyJp3iN5u1tINI9CkXuKntw
+	 pfCBaEfPItYKB73ez1CH3XxOgEl7j2ts1pq2nBm94LZSWQnwIXecYS2cfygrQkxvGJ
+	 guWYd8t0uafIg==
+From: Rodolfo Giometti <giometti@enneenne.com>
+To: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Greg KH <greg@kroah.com>,
+	corbet@lwn.net,
+	Hall Christopher S <christopher.s.hall@intel.com>,
+	Mohan Subramanian <subramanian.mohan@intel.com>,
+	tglx@linutronix.de,
+	andriy.shevchenko@linux.intel.com,
+	Dong Eddie <eddie.dong@intel.com>,
+	N Pandith <pandith.n@intel.com>,
+	T R Thejesh Reddy <thejesh.reddy.t.r@intel.com>,
+	Zage David <david.zage@intel.com>,
+	Chinnadurai Srinivasan <srinivasan.chinnadurai@intel.com>,
+	Rodolfo Giometti <giometti@enneenne.com>
+Subject: [RFC 0/3] Add PPS generators
+Date: Tue,  8 Oct 2024 15:50:30 +0200
+Message-Id: <20241008135033.3171915-1-giometti@enneenne.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfF/Qmdr6G8T33AgGhZuLqIgqQz6VWokfj+tGnhGFC4PfJu79EaLzZB+rVVOvtP1QDUqgYOx/eGmlCTmDa/50DCowPWXfKgC72pnHV/VPiQEu5w+/tAs1
+ bUjkybR5QItOtyKjgt+3G+nFVxBU8pC2+B/upeTBulRXru6baf5lQbVTKxQLR5UYvBYBOWUFRq/m+7/AjYJ065UcPdrjXi7DTCk6+6QzoAjB0rhge2p+YetE
+ YS5KT/pdkgjxOMDcqJT7vnoaPJ2gZnCdRy9TtUUVMYVBmDqLstUhioGhLYNzyoaYZUNkbK8or6w/cQGOBK2ruh4ygFuzZT3WfgBGLq/3WLrvsmlGdVcrrDGk
+ 2PAe762rrTRvQU7WhNPqbKxr+OBglRo8Z82IDYicvOuxlHqfL2thoTZXMqhJYPdRh/9aoio7CFUpKfOzooJZUxQf65n9sRlh+heH08GNCYi3XGT7rzO8r1zE
+ IhI6apaSpt1CDMEn0F9o0RwIIR3nJQgXrIW7EDkay7R/B1Wzf7cT4+YQV593+y3EsnDnWzQoQTQcKCPnqziaFGiUg0iPCFwUL1pfE0/Z7CHtnOcZ/e/FN/fy
+ gFldGCjUfGfw0CmnTPPeQnV/Saf0VHgMhabwPftwQ/Dbmm3SdkRlRr5RlG0sc5FK9WVGrH5zGlL8exKiYzUDtLVkjje9NyzoBVDMGLwOyVhgnlPDjSyCy965
+ M5W4B0FgqMSE8HxMQFu6XgzSf+y8UfMI
 
-On Wed, 2 Oct 2024 11:59:53 -0500 Wei Huang wrote:
-> +	if (netif_running(irq->bp->dev)) {
-> +		rtnl_lock();
-> +		err = netdev_rx_queue_restart(irq->bp->dev, irq->ring_nr);
-> +		if (err)
-> +			netdev_err(irq->bp->dev,
-> +				   "rx queue restart failed: err=%d\n", err);
-> +		rtnl_unlock();
-> +	}
-> +}
-> +
-> +static void __bnxt_irq_affinity_release(struct kref __always_unused *ref)
-> +{
-> +}
+PPS generators are special hardware which are able to produce PPS
+(Pulse Per Second) signals.
 
-An empty release function is always a red flag.
-How is the reference counting used here?
-Is irq_set_affinity_notifier() not synchronous?
-Otherwise the rtnl_lock() should probably cover the running check.
+This RFC patchset adds the class pps-gen to the kernel in order to get
+feedback useful to produce a well-thought-out and well-defined
+interface for these devices.
+
+Rodolfo Giometti (3):
+  drivers pps: add PPS generators support
+  Documentation pps.rst: add PPS generators documentation
+  Documentation ABI: add PPS generators documentaion
+
+ Documentation/ABI/testing/sysfs-pps-gen |  44 ++++
+ Documentation/driver-api/pps.rst        |  40 ++++
+ drivers/pps/Makefile                    |   3 +-
+ drivers/pps/generators/Kconfig          |  19 +-
+ drivers/pps/generators/Makefile         |   4 +
+ drivers/pps/generators/pps_gen-dummy.c  |  83 +++++++
+ drivers/pps/generators/pps_gen.c        | 283 ++++++++++++++++++++++++
+ drivers/pps/generators/sysfs.c          |  89 ++++++++
+ include/linux/pps_gen_kernel.h          |  57 +++++
+ include/uapi/linux/pps_gen.h            |  35 +++
+ 10 files changed, 655 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-pps-gen
+ create mode 100644 drivers/pps/generators/pps_gen-dummy.c
+ create mode 100644 drivers/pps/generators/pps_gen.c
+ create mode 100644 drivers/pps/generators/sysfs.c
+ create mode 100644 include/linux/pps_gen_kernel.h
+ create mode 100644 include/uapi/linux/pps_gen.h
+
+-- 
+2.34.1
+
