@@ -1,63 +1,41 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5217816EB42;
-	Tue,  8 Oct 2024 11:14:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61ABD1D3198;
+	Tue,  8 Oct 2024 11:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728386072; cv=none; b=M6L9mM/6gFfgyLBHJVioMyBkKygApaafvQPOb+UGfRYaVOB7jWhMlqIeKvxl70L2VB+ofm+SdxVm97W0tYlJfQUXdEWi9I17JNSOPZS0HkdfWiLM6UwsfXowi9MbePv6xtp1HgxwLUIOv8VSxCuNrAMZfSTFXbUMb1XCPOstLsM=
+	t=1728386853; cv=none; b=brOJ6e7va/BNVvebwLm8NUGJ9g/DEeA2eR5Tc434ykJuYNpv1tZ8m1r3maL2yIcCnS/FnIpcthV2RneMazI2k300EgE4R1raGPT8mRCqizrEkxSClUZTs73SK2mzuGSCoXdDzMssF+8tCdvSKNILV5TCrP/sIJw7cvwaHv2clhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728386072; c=relaxed/simple;
-	bh=ot0AMcrLmz5uhZ4+SV5LBkr8+ixd49O2Iu3QZusUki0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TBcCagbOlJ4CczNcqr+VAKZ0DljeJR+kjSIAV+I5fVnCqCAHjTnQ4Iv+MtFpsLdai7Lf7NfZZOFNvElcV1GkgyG7CkaTmI8YFy0u3seKZ4Y0G4JMqOFVPEdhYdpnwgoqugx+CK4YqGBrRB0xe8ndyoPajMoLcvdIU/ZV/Wdz7bE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5398cc2fcb7so6226268e87.1;
-        Tue, 08 Oct 2024 04:14:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728386068; x=1728990868;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=P49/aqnFeGhK0JHnT6oL1HTdVou7U5WzZzZVhN5T5As=;
-        b=sX/gJNybGtK8Hp/pqt4TdNHiSdv5fM4XszthMWUlJR1VR3lCjSX944jSUTA8rTUea0
-         o6S149Y+XTMfBAOnrkToUkMisAjnJR6hfQUj+cXtMVIclTW0lG0xtcf3Fhaiiaij9xTx
-         KPqd4S8BdOOy2hY+vcwFx1lgB6wodcRnYjklbUtE+JOQI5QEEw+KTKpMh8rvip+sL+ph
-         kpBe0lL5C04ve5qeGvFz4Bv3LZeMhIL+LiJY0fRLGb5KOkcpMbJYRYCFLy4USsQKW7sc
-         tSdRXOAV0pJiMTbaDbE0vfGvKVPmIPrzCm7bm0fMPV7oh52/Ako16ydqVer8CKO4XAAo
-         yeOA==
-X-Forwarded-Encrypted: i=1; AJvYcCU3mzgzkfN+wjsurz+CKB2O0UQK2iSqwV/O6fbUqEixxlc6o/a/2e8v70y0WnvowKk1a/NeVbkRk3YRfoIs@vger.kernel.org, AJvYcCWFgLgG8dzk6atprkWtvnehRkhL5+NnULGvAsFyDhq1rYsvc0dE6YaJlVVqGqPRfXC0nR+Bivj6@vger.kernel.org, AJvYcCWQs1Hy/rcA+dpo5317qpZ/vBFKARTEeG9Rd8mPKBu5O9V4KN5vJoKtMyJmSi4rRguWu+AHIto6Y+s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxzlqEYfmNaq1GSSKP42cSL3kuRkUf40IFWFQ43esCMKXJdYT9Z
-	4dhfXEQcXgud3eiehjBmZ2HbXXUzXFsCgeNCDQk0lqT3wWx0l/rg
-X-Google-Smtp-Source: AGHT+IG9JKoIOuQG3c56tZ2srx6cmx2FrWqGR96EfuHT/vTAun99vCIp2v2w3qOAUkCFcdqwA3jCLA==
-X-Received: by 2002:a05:6512:1250:b0:52e:f2a6:8e1a with SMTP id 2adb3069b0e04-539ab86b120mr8820594e87.29.1728386067955;
-        Tue, 08 Oct 2024 04:14:27 -0700 (PDT)
-Received: from localhost (fwdproxy-lla-114.fbsv.net. [2a03:2880:30ff:72::face:b00c])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a994062660csm414327066b.21.2024.10.08.04.14.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Oct 2024 04:14:27 -0700 (PDT)
-From: Breno Leitao <leitao@debian.org>
-To: Akinobu Mita <akinobu.mita@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: kernel-team@meta.com,
-	kuniyu@amazon.com,
-	asml.silence@gmail.com,
-	Willem de Bruijn <willemb@google.com>,
-	Mina Almasry <almasrymina@google.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list),
-	netdev@vger.kernel.org (open list:NETWORKING [GENERAL])
-Subject: [PATCH net-next v2] net: Implement fault injection forcing skb reallocation
-Date: Tue,  8 Oct 2024 04:13:43 -0700
-Message-ID: <20241008111358.1691157-1-leitao@debian.org>
-X-Mailer: git-send-email 2.43.5
+	s=arc-20240116; t=1728386853; c=relaxed/simple;
+	bh=RZnJbq0m/EM7clxTMx85wzD2+28zE2uUVkTT7cFJWKA=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FAmjceqriW1tKLH9qJXzOPXdscRpXI3q0y8krk3Bzuty4+AKrxlCeHTNx9phGiOipgNGAs7053gDhulNMrtcrqDvLGThtkVbDvkhrjgUf91m1wYK1zg6X42LScFuTO/gz61NGCr4Afba53FIFMt4uHWrm7gK3ENoChacsTH9ccE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.190
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.17])
+	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4XNDHN0lp1z2DclM;
+	Tue,  8 Oct 2024 19:26:24 +0800 (CST)
+Received: from dggpemf200006.china.huawei.com (unknown [7.185.36.61])
+	by mail.maildlp.com (Postfix) with ESMTPS id 20C971A0188;
+	Tue,  8 Oct 2024 19:27:28 +0800 (CST)
+Received: from localhost.localdomain (10.90.30.45) by
+ dggpemf200006.china.huawei.com (7.185.36.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 8 Oct 2024 19:27:27 +0800
+From: Yunsheng Lin <linyunsheng@huawei.com>
+To: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Yunsheng Lin
+	<linyunsheng@huawei.com>, Alexander Duyck <alexander.duyck@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+	<linux-mm@kvack.org>, <linux-doc@vger.kernel.org>
+Subject: [PATCH net-next v20 13/14] mm: page_frag: update documentation for page_frag
+Date: Tue, 8 Oct 2024 19:20:47 +0800
+Message-ID: <20241008112049.2279307-14-linyunsheng@huawei.com>
+X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20241008112049.2279307-1-linyunsheng@huawei.com>
+References: <20241008112049.2279307-1-linyunsheng@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -65,287 +43,651 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemf200006.china.huawei.com (7.185.36.61)
 
-Introduce a fault injection mechanism to force skb reallocation. The
-primary goal is to catch bugs related to pointer invalidation after
-potential skb reallocation.
+Update documentation about design, implementation and API usages
+for page_frag.
 
-The fault injection mechanism aims to identify scenarios where callers
-retain pointers to various headers in the skb but fail to reload these
-pointers after calling a function that may reallocate the data. This
-type of bug can lead to memory corruption or crashes if the old,
-now-invalid pointers are used.
-
-By forcing reallocation through fault injection, we can stress-test code
-paths and ensure proper pointer management after potential skb
-reallocations.
-
-Add a hook for fault injection in the following functions:
-
- * pskb_trim_rcsum()
- * pskb_may_pull_reason()
- * pskb_trim()
-
-As the other fault injection mechanism, protect it under a debug Kconfig
-called CONFIG_FAIL_SKB_FORCE_REALLOC.
-
-This patch was *heavily* inspired by Jakub's proposal from:
-https://lore.kernel.org/all/20240719174140.47a868e6@kernel.org/
-
-CC: Akinobu Mita <akinobu.mita@gmail.com>
-Suggested-by: Jakub Kicinski <kuba@kernel.org>
-Signed-off-by: Breno Leitao <leitao@debian.org>
+CC: Alexander Duyck <alexander.duyck@gmail.com>
+Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
 ---
-Changelog:
+ Documentation/mm/page_frags.rst | 177 +++++++++++++++++++++-
+ include/linux/page_frag_cache.h | 259 +++++++++++++++++++++++++++++++-
+ mm/page_frag_cache.c            |  26 +++-
+ 3 files changed, 451 insertions(+), 11 deletions(-)
 
-v2:
- * Moved the CONFIG_FAIL_SKB_FORCE_REALLOC Kconfig entry closer to other
-   fault injection Kconfigs.  (Kuniyuki Iwashima)
- * Create a filter mechanism (Akinobu Mita)
-
-v1:
- * https://lore.kernel.org/all/20241002113316.2527669-1-leitao@debian.org/
-
- .../fault-injection/fault-injection.rst       | 35 +++++++
- include/linux/skbuff.h                        |  9 ++
- lib/Kconfig.debug                             | 10 ++
- net/core/Makefile                             |  1 +
- net/core/skb_fault_injection.c                | 95 +++++++++++++++++++
- 5 files changed, 150 insertions(+)
- create mode 100644 net/core/skb_fault_injection.c
-
-diff --git a/Documentation/fault-injection/fault-injection.rst b/Documentation/fault-injection/fault-injection.rst
-index 8b8aeea71c68..bb19638d5317 100644
---- a/Documentation/fault-injection/fault-injection.rst
-+++ b/Documentation/fault-injection/fault-injection.rst
-@@ -45,6 +45,28 @@ Available fault injection capabilities
-   ALLOW_ERROR_INJECTION() macro, by setting debugfs entries
-   under /sys/kernel/debug/fail_function. No boot option supported.
+diff --git a/Documentation/mm/page_frags.rst b/Documentation/mm/page_frags.rst
+index 503ca6cdb804..5eec04a3fe90 100644
+--- a/Documentation/mm/page_frags.rst
++++ b/Documentation/mm/page_frags.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ ==============
+ Page fragments
+ ==============
+@@ -40,4 +42,177 @@ page via a single call.  The advantage to doing this is that it allows for
+ cleaning up the multiple references that were added to a page in order to
+ avoid calling get_page per allocation.
  
-+- fail_net_force_skb_realloc
+-Alexander Duyck, Nov 29, 2016.
 +
-+  inject skb (socket buffer) reallocation events into the network path. The
-+  primary goal is to identify and prevent issues related to pointer
-+  mismanagement in the network subsystem.  By forcing skb reallocation at
-+  strategic points, this feature creates scenarios where existing pointers to
-+  skb headers become invalid.
++Architecture overview
++=====================
 +
-+  When the fault is injected and the reallocation is triggered, these pointers
-+  no longer reference valid memory locations. This deliberate invalidation
-+  helps expose code paths where proper pointer updating is neglected after a
-+  reallocation event.
++.. code-block:: none
 +
-+  By creating these controlled fault scenarios, the system can catch instances
-+  where stale pointers are used, potentially leading to memory corruption or
-+  system instability.
++                      +----------------------+
++                      | page_frag API caller |
++                      +----------------------+
++                                  |
++                                  |
++                                  v
++    +------------------------------------------------------------------+
++    |                   request page fragment                          |
++    +------------------------------------------------------------------+
++             |                                 |                     |
++             |                                 |                     |
++             |                          Cache not enough             |
++             |                                 |                     |
++             |                         +-----------------+           |
++             |                         | reuse old cache |--Usable-->|
++             |                         +-----------------+           |
++             |                                 |                     |
++             |                             Not usable                |
++             |                                 |                     |
++             |                                 v                     |
++        Cache empty                   +-----------------+            |
++             |                        | drain old cache |            |
++             |                        +-----------------+            |
++             |                                 |                     |
++             v_________________________________v                     |
++                              |                                      |
++                              |                                      |
++             _________________v_______________                       |
++            |                                 |              Cache is enough
++            |                                 |                      |
++ PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE         |                      |
++            |                                 |                      |
++            |               PAGE_SIZE >= PAGE_FRAG_CACHE_MAX_SIZE    |
++            v                                 |                      |
++    +----------------------------------+      |                      |
++    | refill cache with order > 0 page |      |                      |
++    +----------------------------------+      |                      |
++      |                    |                  |                      |
++      |                    |                  |                      |
++      |              Refill failed            |                      |
++      |                    |                  |                      |
++      |                    v                  v                      |
++      |      +------------------------------------+                  |
++      |      |   refill cache with order 0 page   |                  |
++      |      +----------------------------------=-+                  |
++      |                       |                                      |
++ Refill succeed               |                                      |
++      |                 Refill succeed                               |
++      |                       |                                      |
++      v                       v                                      v
++    +------------------------------------------------------------------+
++    |             allocate fragment from cache                         |
++    +------------------------------------------------------------------+
 +
-+  To select the interface to act on, write the network name to the following file:
-+  `/sys/kernel/debug/fail_net_force_skb_realloc/devname`
-+  If this field is left empty (which is the default value), skb reallocation
-+  will be forced on all network interfaces.
++API interface
++=============
++As the design and implementation of page_frag API implies, the allocation side
++does not allow concurrent calling. Instead it is assumed that the caller must
++ensure there is not concurrent alloc calling to the same page_frag_cache
++instance by using its own lock or rely on some lockless guarantee like NAPI
++softirq.
 +
- - NVMe fault injection
- 
-   inject NVMe status code and retry flag on devices permitted by setting
-@@ -216,6 +238,18 @@ configuration of fault-injection capabilities.
- 	use a negative errno, you better use 'printf' instead of 'echo', e.g.:
- 	$ printf %#x -12 > retval
- 
-+- /sys/kernel/debug/fail_net_force_skb_realloc/devname:
++Depending on different aligning requirement, the page_frag API caller may call
++page_frag_*_align*() to ensure the returned virtual address or offset of the
++page is aligned according to the 'align/alignment' parameter. Note the size of
++the allocated fragment is not aligned, the caller needs to provide an aligned
++fragsz if there is an alignment requirement for the size of the fragment.
 +
-+        Specifies the network interface on which to force SKB reallocation.  If
-+        left empty, SKB reallocation will be applied to all network interfaces.
++Depending on different use cases, callers expecting to deal with va, page or
++both va and page for them may call page_frag_alloc, page_frag_refill, or
++page_frag_alloc_refill API accordingly.
 +
-+        Example usage:
-+        # Force skb reallocation on eth0
-+        echo "eth0" > /sys/kernel/debug/fail_net_force_skb_realloc/devname
++There is also a use case that needs minimum memory in order for forward progress,
++but more performant if more memory is available. Using page_frag_*_prepare() and
++page_frag_commit*() related API, the caller requests the minimum memory it needs
++and the prepare API will return the maximum size of the fragment returned. The
++caller needs to either call the commit API to report how much memory it actually
++uses, or not do so if deciding to not use any memory.
 +
-+        # Clear the selection and force skb reallocation on all interfaces
-+        echo "" > /sys/kernel/debug/fail_net_force_skb_realloc/devname
++.. kernel-doc:: include/linux/page_frag_cache.h
++   :identifiers: page_frag_cache_init page_frag_cache_is_pfmemalloc
++		 page_frag_cache_page_offset __page_frag_alloc_align
++		 page_frag_alloc_align page_frag_alloc
++		 __page_frag_refill_align page_frag_refill_align
++		 page_frag_refill __page_frag_refill_prepare_align
++		 page_frag_refill_prepare_align page_frag_refill_prepare
++		 __page_frag_alloc_refill_prepare_align
++		 page_frag_alloc_refill_prepare_align
++		 page_frag_alloc_refill_prepare page_frag_alloc_refill_probe
++		 page_frag_refill_probe page_frag_commit
++		 page_frag_commit_noref page_frag_alloc_abort
 +
- Boot option
- ^^^^^^^^^^^
- 
-@@ -227,6 +261,7 @@ use the boot option::
- 	fail_usercopy=
- 	fail_make_request=
- 	fail_futex=
-+	fail_net_force_skb_realloc=
- 	mmc_core.fail_request=<interval>,<probability>,<space>,<times>
- 
- proc entries
-diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-index 39f1d16f3628..d9ee756a64fc 100644
---- a/include/linux/skbuff.h
-+++ b/include/linux/skbuff.h
-@@ -2681,6 +2681,12 @@ static inline void skb_assert_len(struct sk_buff *skb)
- #endif /* CONFIG_DEBUG_NET */
++.. kernel-doc:: mm/page_frag_cache.c
++   :identifiers: page_frag_cache_drain page_frag_free
++		 __page_frag_alloc_refill_probe_align
++
++Coding examples
++===============
++
++Init & Drain API
++----------------
++
++.. code-block:: c
++
++   page_frag_cache_init(nc);
++   ...
++   page_frag_cache_drain(nc);
++
++
++Alloc & Free API
++----------------
++
++.. code-block:: c
++
++    void *va;
++
++    va = page_frag_alloc_align(nc, size, gfp, align);
++    if (!va)
++        goto do_error;
++
++    err = do_something(va, size);
++    if (err) {
++        page_frag_abort(nc, size);
++        goto do_error;
++    }
++
++    ...
++
++    page_frag_free(va);
++
++
++Prepare & Commit API
++--------------------
++
++.. code-block:: c
++
++    struct page_frag page_frag, *pfrag;
++    bool merge = true;
++    void *va;
++
++    pfrag = &page_frag;
++    va = page_frag_alloc_refill_prepare(nc, 32U, pfrag, GFP_KERNEL);
++    if (!va)
++        goto wait_for_space;
++
++    copy = min_t(unsigned int, copy, pfrag->size);
++    if (!skb_can_coalesce(skb, i, pfrag->page, pfrag->offset)) {
++        if (i >= max_skb_frags)
++            goto new_segment;
++
++        merge = false;
++    }
++
++    copy = mem_schedule(copy);
++    if (!copy)
++        goto wait_for_space;
++
++    err = copy_from_iter_full_nocache(va, copy, iter);
++    if (err)
++        goto do_error;
++
++    if (merge) {
++        skb_frag_size_add(&skb_shinfo(skb)->frags[i - 1], copy);
++        page_frag_commit_noref(nc, pfrag, copy);
++    } else {
++        skb_fill_page_desc(skb, i, pfrag->page, pfrag->offset, copy);
++        page_frag_commit(nc, pfrag, copy);
++    }
+diff --git a/include/linux/page_frag_cache.h b/include/linux/page_frag_cache.h
+index d91ad53f25d3..922d412469c7 100644
+--- a/include/linux/page_frag_cache.h
++++ b/include/linux/page_frag_cache.h
+@@ -28,16 +28,43 @@ static inline bool page_frag_encoded_page_pfmemalloc(unsigned long encoded_page)
+ 	return !!(encoded_page & PAGE_FRAG_CACHE_PFMEMALLOC_BIT);
  }
  
-+#if defined(CONFIG_FAIL_SKB_FORCE_REALLOC)
-+void skb_might_realloc(struct sk_buff *skb);
-+#else
-+static inline void skb_might_realloc(struct sk_buff *skb) {}
-+#endif
-+
- /*
-  *	Add data to an sk_buff
++/**
++ * page_frag_cache_init() - Init page_frag cache.
++ * @nc: page_frag cache from which to init
++ *
++ * Inline helper to init the page_frag cache.
++ */
+ static inline void page_frag_cache_init(struct page_frag_cache *nc)
+ {
+ 	nc->encoded_page = 0;
+ }
+ 
++/**
++ * page_frag_cache_is_pfmemalloc() - Check for pfmemalloc.
++ * @nc: page_frag cache from which to check
++ *
++ * Used to check if the current page in page_frag cache is pfmemalloc'ed.
++ * It has the same calling context expectation as the alloc API.
++ *
++ * Return:
++ * true if the current page in page_frag cache is pfmemalloc'ed, otherwise
++ * return false.
++ */
+ static inline bool page_frag_cache_is_pfmemalloc(struct page_frag_cache *nc)
+ {
+ 	return page_frag_encoded_page_pfmemalloc(nc->encoded_page);
+ }
+ 
++/**
++ * page_frag_cache_page_offset() - Return the current page fragment's offset.
++ * @nc: page_frag cache from which to check
++ *
++ * The API is only used in net/sched/em_meta.c for historical reason, do not use
++ * it for new caller unless there is a strong reason.
++ *
++ * Return:
++ * the offset of the current page fragment in the page_frag cache.
++ */
+ static inline unsigned int page_frag_cache_page_offset(const struct page_frag_cache *nc)
+ {
+ 	return nc->offset;
+@@ -66,6 +93,19 @@ static inline unsigned int __page_frag_cache_commit(struct page_frag_cache *nc,
+ 	return __page_frag_cache_commit_noref(nc, pfrag, used_sz);
+ }
+ 
++/**
++ * __page_frag_alloc_align() - Alloc a page fragment with aligning
++ * requirement.
++ * @nc: page_frag cache from which to allocate
++ * @fragsz: the requested fragment size
++ * @gfp_mask: the allocation gfp to use when cache need to be refilled
++ * @align_mask: the requested aligning requirement for the 'va'
++ *
++ * Alloc a page fragment from page_frag cache with aligning requirement.
++ *
++ * Return:
++ * Virtual address of the page fragment, otherwise return NULL.
++ */
+ static inline void *__page_frag_alloc_align(struct page_frag_cache *nc,
+ 					    unsigned int fragsz, gfp_t gfp_mask,
+ 					    unsigned int align_mask)
+@@ -83,6 +123,19 @@ static inline void *__page_frag_alloc_align(struct page_frag_cache *nc,
+ 	return va;
+ }
+ 
++/**
++ * page_frag_alloc_align() - Alloc a page fragment with aligning requirement.
++ * @nc: page_frag cache from which to allocate
++ * @fragsz: the requested fragment size
++ * @gfp_mask: the allocation gfp to use when cache needs to be refilled
++ * @align: the requested aligning requirement for the fragment
++ *
++ * WARN_ON_ONCE() checking for @align before allocing a page fragment from
++ * page_frag cache with aligning requirement.
++ *
++ * Return:
++ * virtual address of the page fragment, otherwise return NULL.
++ */
+ static inline void *page_frag_alloc_align(struct page_frag_cache *nc,
+ 					  unsigned int fragsz, gfp_t gfp_mask,
+ 					  unsigned int align)
+@@ -91,12 +144,36 @@ static inline void *page_frag_alloc_align(struct page_frag_cache *nc,
+ 	return __page_frag_alloc_align(nc, fragsz, gfp_mask, -align);
+ }
+ 
++/**
++ * page_frag_alloc() - Alloc a page fragment.
++ * @nc: page_frag cache from which to allocate
++ * @fragsz: the requested fragment size
++ * @gfp_mask: the allocation gfp to use when cache need to be refilled
++ *
++ * Alloc a page fragment from page_frag cache.
++ *
++ * Return:
++ * virtual address of the page fragment, otherwise return NULL.
++ */
+ static inline void *page_frag_alloc(struct page_frag_cache *nc,
+ 				    unsigned int fragsz, gfp_t gfp_mask)
+ {
+ 	return __page_frag_alloc_align(nc, fragsz, gfp_mask, ~0u);
+ }
+ 
++/**
++ * __page_frag_refill_align() - Refill a page_frag with aligning requirement.
++ * @nc: page_frag cache from which to refill
++ * @fragsz: the requested fragment size
++ * @pfrag: the page_frag to be refilled.
++ * @gfp_mask: the allocation gfp to use when cache need to be refilled
++ * @align_mask: the requested aligning requirement for the fragment
++ *
++ * Refill a page_frag from page_frag cache with aligning requirement.
++ *
++ * Return:
++ * True if refill succeeds, otherwise return false.
++ */
+ static inline bool __page_frag_refill_align(struct page_frag_cache *nc,
+ 					    unsigned int fragsz,
+ 					    struct page_frag *pfrag,
+@@ -111,6 +188,20 @@ static inline bool __page_frag_refill_align(struct page_frag_cache *nc,
+ 	return true;
+ }
+ 
++/**
++ * page_frag_refill_align() - Refill a page_frag with aligning requirement.
++ * @nc: page_frag cache from which to refill
++ * @fragsz: the requested fragment size
++ * @pfrag: the page_frag to be refilled.
++ * @gfp_mask: the allocation gfp to use when cache needs to be refilled
++ * @align: the requested aligning requirement for the fragment
++ *
++ * WARN_ON_ONCE() checking for @align before refilling a page_frag from
++ * page_frag cache with aligning requirement.
++ *
++ * Return:
++ * True if refill succeeds, otherwise return false.
++ */
+ static inline bool page_frag_refill_align(struct page_frag_cache *nc,
+ 					  unsigned int fragsz,
+ 					  struct page_frag *pfrag,
+@@ -120,6 +211,18 @@ static inline bool page_frag_refill_align(struct page_frag_cache *nc,
+ 	return __page_frag_refill_align(nc, fragsz, pfrag, gfp_mask, -align);
+ }
+ 
++/**
++ * page_frag_refill() - Refill a page_frag.
++ * @nc: page_frag cache from which to refill
++ * @fragsz: the requested fragment size
++ * @pfrag: the page_frag to be refilled.
++ * @gfp_mask: the allocation gfp to use when cache need to be refilled
++ *
++ * Refill a page_frag from page_frag cache.
++ *
++ * Return:
++ * True if refill succeeds, otherwise return false.
++ */
+ static inline bool page_frag_refill(struct page_frag_cache *nc,
+ 				    unsigned int fragsz,
+ 				    struct page_frag *pfrag, gfp_t gfp_mask)
+@@ -127,6 +230,20 @@ static inline bool page_frag_refill(struct page_frag_cache *nc,
+ 	return __page_frag_refill_align(nc, fragsz, pfrag, gfp_mask, ~0u);
+ }
+ 
++/**
++ * __page_frag_refill_prepare_align() - Prepare refilling a page_frag with
++ * aligning requirement.
++ * @nc: page_frag cache from which to refill
++ * @fragsz: the requested fragment size
++ * @pfrag: the page_frag to be refilled.
++ * @gfp_mask: the allocation gfp to use when cache need to be refilled
++ * @align_mask: the requested aligning requirement for the fragment
++ *
++ * Prepare refill a page_frag from page_frag cache with aligning requirement.
++ *
++ * Return:
++ * True if prepare refilling succeeds, otherwise return false.
++ */
+ static inline bool __page_frag_refill_prepare_align(struct page_frag_cache *nc,
+ 						    unsigned int fragsz,
+ 						    struct page_frag *pfrag,
+@@ -137,6 +254,21 @@ static inline bool __page_frag_refill_prepare_align(struct page_frag_cache *nc,
+ 					   align_mask);
+ }
+ 
++/**
++ * page_frag_refill_prepare_align() - Prepare refilling a page_frag with
++ * aligning requirement.
++ * @nc: page_frag cache from which to refill
++ * @fragsz: the requested fragment size
++ * @pfrag: the page_frag to be refilled.
++ * @gfp_mask: the allocation gfp to use when cache needs to be refilled
++ * @align: the requested aligning requirement for the fragment
++ *
++ * WARN_ON_ONCE() checking for @align before prepare refilling a page_frag from
++ * page_frag cache with aligning requirement.
++ *
++ * Return:
++ * True if prepare refilling succeeds, otherwise return false.
++ */
+ static inline bool page_frag_refill_prepare_align(struct page_frag_cache *nc,
+ 						  unsigned int fragsz,
+ 						  struct page_frag *pfrag,
+@@ -148,6 +280,18 @@ static inline bool page_frag_refill_prepare_align(struct page_frag_cache *nc,
+ 						-align);
+ }
+ 
++/**
++ * page_frag_refill_prepare() - Prepare refilling a page_frag.
++ * @nc: page_frag cache from which to refill
++ * @fragsz: the requested fragment size
++ * @pfrag: the page_frag to be refilled.
++ * @gfp_mask: the allocation gfp to use when cache need to be refilled
++ *
++ * Prepare refilling a page_frag from page_frag cache.
++ *
++ * Return:
++ * True if refill succeeds, otherwise return false.
++ */
+ static inline bool page_frag_refill_prepare(struct page_frag_cache *nc,
+ 					    unsigned int fragsz,
+ 					    struct page_frag *pfrag,
+@@ -157,6 +301,20 @@ static inline bool page_frag_refill_prepare(struct page_frag_cache *nc,
+ 						~0u);
+ }
+ 
++/**
++ * __page_frag_alloc_refill_prepare_align() - Prepare allocing a fragment and
++ * refilling a page_frag with aligning requirement.
++ * @nc: page_frag cache from which to allocate and refill
++ * @fragsz: the requested fragment size
++ * @pfrag: the page_frag to be refilled.
++ * @gfp_mask: the allocation gfp to use when cache need to be refilled
++ * @align_mask: the requested aligning requirement for the fragment.
++ *
++ * Prepare allocing a fragment and refilling a page_frag from page_frag cache.
++ *
++ * Return:
++ * virtual address of the page fragment, otherwise return NULL.
++ */
+ static inline void *__page_frag_alloc_refill_prepare_align(struct page_frag_cache *nc,
+ 							   unsigned int fragsz,
+ 							   struct page_frag *pfrag,
+@@ -166,6 +324,21 @@ static inline void *__page_frag_alloc_refill_prepare_align(struct page_frag_cach
+ 	return __page_frag_cache_prepare(nc, fragsz, pfrag, gfp_mask, align_mask);
+ }
+ 
++/**
++ * page_frag_alloc_refill_prepare_align() - Prepare allocing a fragment and
++ * refilling a page_frag with aligning requirement.
++ * @nc: page_frag cache from which to allocate and refill
++ * @fragsz: the requested fragment size
++ * @pfrag: the page_frag to be refilled.
++ * @gfp_mask: the allocation gfp to use when cache need to be refilled
++ * @align: the requested aligning requirement for the fragment.
++ *
++ * WARN_ON_ONCE() checking for @align before prepare allocing a fragment and
++ * refilling a page_frag from page_frag cache.
++ *
++ * Return:
++ * virtual address of the page fragment, otherwise return NULL.
++ */
+ static inline void *page_frag_alloc_refill_prepare_align(struct page_frag_cache *nc,
+ 							 unsigned int fragsz,
+ 							 struct page_frag *pfrag,
+@@ -177,6 +350,19 @@ static inline void *page_frag_alloc_refill_prepare_align(struct page_frag_cache
+ 						      gfp_mask, -align);
+ }
+ 
++/**
++ * page_frag_alloc_refill_prepare() - Prepare allocing a fragment and refilling
++ * a page_frag.
++ * @nc: page_frag cache from which to allocate and refill
++ * @fragsz: the requested fragment size
++ * @pfrag: the page_frag to be refilled.
++ * @gfp_mask: the allocation gfp to use when cache need to be refilled
++ *
++ * Prepare allocing a fragment and refilling a page_frag from page_frag cache.
++ *
++ * Return:
++ * virtual address of the page fragment, otherwise return NULL.
++ */
+ static inline void *page_frag_alloc_refill_prepare(struct page_frag_cache *nc,
+ 						   unsigned int fragsz,
+ 						   struct page_frag *pfrag,
+@@ -186,6 +372,18 @@ static inline void *page_frag_alloc_refill_prepare(struct page_frag_cache *nc,
+ 						      gfp_mask, ~0u);
+ }
+ 
++/**
++ * page_frag_alloc_refill_probe() - Probe allocing a fragment and refilling
++ * a page_frag.
++ * @nc: page_frag cache from which to allocate and refill
++ * @fragsz: the requested fragment size
++ * @pfrag: the page_frag to be refilled
++ *
++ * Probe allocing a fragment and refilling a page_frag from page_frag cache.
++ *
++ * Return:
++ * virtual address of the page fragment, otherwise return NULL.
++ */
+ static inline void *page_frag_alloc_refill_probe(struct page_frag_cache *nc,
+ 						 unsigned int fragsz,
+ 						 struct page_frag *pfrag)
+@@ -193,6 +391,17 @@ static inline void *page_frag_alloc_refill_probe(struct page_frag_cache *nc,
+ 	return __page_frag_alloc_refill_probe_align(nc, fragsz, pfrag, ~0u);
+ }
+ 
++/**
++ * page_frag_refill_probe() - Probe refilling a page_frag.
++ * @nc: page_frag cache from which to refill
++ * @fragsz: the requested fragment size
++ * @pfrag: the page_frag to be refilled
++ *
++ * Probe refilling a page_frag from page_frag cache.
++ *
++ * Return:
++ * True if refill succeeds, otherwise return false.
++ */
+ static inline bool page_frag_refill_probe(struct page_frag_cache *nc,
+ 					  unsigned int fragsz,
+ 					  struct page_frag *pfrag)
+@@ -200,20 +409,54 @@ static inline bool page_frag_refill_probe(struct page_frag_cache *nc,
+ 	return !!page_frag_alloc_refill_probe(nc, fragsz, pfrag);
+ }
+ 
+-static inline void page_frag_commit(struct page_frag_cache *nc,
+-				    struct page_frag *pfrag,
+-				    unsigned int used_sz)
++/**
++ * page_frag_commit - Commit allocing a page fragment.
++ * @nc: page_frag cache from which to commit
++ * @pfrag: the page_frag to be committed
++ * @used_sz: size of the page fragment has been used
++ *
++ * Commit the actual used size for the allocation that was either prepared
++ * or probed.
++ *
++ * Return:
++ * The true size of the fragment considering the offset alignment.
++ */
++static inline unsigned int page_frag_commit(struct page_frag_cache *nc,
++					    struct page_frag *pfrag,
++					    unsigned int used_sz)
+ {
+-	__page_frag_cache_commit(nc, pfrag, used_sz);
++	return __page_frag_cache_commit(nc, pfrag, used_sz);
+ }
+ 
+-static inline void page_frag_commit_noref(struct page_frag_cache *nc,
+-					  struct page_frag *pfrag,
+-					  unsigned int used_sz)
++/**
++ * page_frag_commit_noref - Commit allocing a page fragment without taking
++ * page refcount.
++ * @nc: page_frag cache from which to commit
++ * @pfrag: the page_frag to be committed
++ * @used_sz: size of the page fragment has been used
++ *
++ * Commit the alloc preparing or probing by passing the actual used size, but
++ * not taking refcount. Mostly used for fragmemt coalescing case when the
++ * current fragment can share the same refcount with previous fragment.
++ *
++ * Return:
++ * The true size of the fragment considering the offset alignment.
++ */
++static inline unsigned int page_frag_commit_noref(struct page_frag_cache *nc,
++						  struct page_frag *pfrag,
++						  unsigned int used_sz)
+ {
+-	__page_frag_cache_commit_noref(nc, pfrag, used_sz);
++	return __page_frag_cache_commit_noref(nc, pfrag, used_sz);
+ }
+ 
++/**
++ * page_frag_alloc_abort - Abort the page fragment allocation.
++ * @nc: page_frag cache to which the page fragment is aborted back
++ * @fragsz: size of the page fragment to be aborted
++ *
++ * It is expected to be called from the same context as the alloc API.
++ * Mostly used for error handling cases where the fragment is no longer needed.
++ */
+ static inline void page_frag_alloc_abort(struct page_frag_cache *nc,
+ 					 unsigned int fragsz)
+ {
+diff --git a/mm/page_frag_cache.c b/mm/page_frag_cache.c
+index 1e7757a433d0..7b801856fd98 100644
+--- a/mm/page_frag_cache.c
++++ b/mm/page_frag_cache.c
+@@ -75,6 +75,10 @@ static struct page *__page_frag_cache_refill(struct page_frag_cache *nc,
+ 	return page;
+ }
+ 
++/**
++ * page_frag_cache_drain - Drain the current page from page_frag cache.
++ * @nc: page_frag cache from which to drain
++ */
+ void page_frag_cache_drain(struct page_frag_cache *nc)
+ {
+ 	if (!nc->encoded_page)
+@@ -117,6 +121,20 @@ unsigned int __page_frag_cache_commit_noref(struct page_frag_cache *nc,
+ }
+ EXPORT_SYMBOL(__page_frag_cache_commit_noref);
+ 
++/**
++ * __page_frag_alloc_refill_probe_align() - Probe allocing a fragment and
++ * refilling a page_frag with aligning requirement.
++ * @nc: page_frag cache from which to allocate and refill
++ * @fragsz: the requested fragment size
++ * @pfrag: the page_frag to be refilled.
++ * @align_mask: the requested aligning requirement for the fragment.
++ *
++ * Probe allocing a fragment and refilling a page_frag from page_frag cache with
++ * aligning requirement.
++ *
++ * Return:
++ * virtual address of the page fragment, otherwise return NULL.
++ */
+ void *__page_frag_alloc_refill_probe_align(struct page_frag_cache *nc,
+ 					   unsigned int fragsz,
+ 					   struct page_frag *pfrag,
+@@ -208,8 +226,12 @@ void *__page_frag_cache_prepare(struct page_frag_cache *nc, unsigned int fragsz,
+ }
+ EXPORT_SYMBOL(__page_frag_cache_prepare);
+ 
+-/*
+- * Frees a page fragment allocated out of either a compound or order 0 page.
++/**
++ * page_frag_free - Free a page fragment.
++ * @addr: va of page fragment to be freed
++ *
++ * Free a page fragment allocated out of either a compound or order 0 page by
++ * virtual address.
   */
-@@ -2781,6 +2787,7 @@ static inline enum skb_drop_reason
- pskb_may_pull_reason(struct sk_buff *skb, unsigned int len)
+ void page_frag_free(void *addr)
  {
- 	DEBUG_NET_WARN_ON_ONCE(len > INT_MAX);
-+	skb_might_realloc(skb);
- 
- 	if (likely(len <= skb_headlen(skb)))
- 		return SKB_NOT_DROPPED_YET;
-@@ -3210,6 +3217,7 @@ static inline int __pskb_trim(struct sk_buff *skb, unsigned int len)
- 
- static inline int pskb_trim(struct sk_buff *skb, unsigned int len)
- {
-+	skb_might_realloc(skb);
- 	return (len < skb->len) ? __pskb_trim(skb, len) : 0;
- }
- 
-@@ -3964,6 +3972,7 @@ int pskb_trim_rcsum_slow(struct sk_buff *skb, unsigned int len);
- 
- static inline int pskb_trim_rcsum(struct sk_buff *skb, unsigned int len)
- {
-+	skb_might_realloc(skb);
- 	if (likely(len >= skb->len))
- 		return 0;
- 	return pskb_trim_rcsum_slow(skb, len);
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 7315f643817a..fa65e14f7c61 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -2115,6 +2115,16 @@ config FAIL_SUNRPC
- 	  Provide fault-injection capability for SunRPC and
- 	  its consumers.
- 
-+config FAIL_SKB_FORCE_REALLOC
-+	bool "Fault-injection capability forcing skb to reallocate"
-+	depends on FAULT_INJECTION_DEBUG_FS
-+	help
-+	  Provide fault-injection capability that forces the skb to be
-+	  reallocated, caughting possible invalid pointers to the skb.
-+
-+	  For more information, check
-+	  Documentation/dev-tools/fault-injection/fault-injection.rst
-+
- config FAULT_INJECTION_CONFIGFS
- 	bool "Configfs interface for fault-injection capabilities"
- 	depends on FAULT_INJECTION
-diff --git a/net/core/Makefile b/net/core/Makefile
-index c3ebbaf9c81e..02658807242b 100644
---- a/net/core/Makefile
-+++ b/net/core/Makefile
-@@ -45,3 +45,4 @@ obj-$(CONFIG_BPF_SYSCALL) += bpf_sk_storage.o
- obj-$(CONFIG_OF)	+= of_net.o
- obj-$(CONFIG_NET_TEST) += net_test.o
- obj-$(CONFIG_NET_DEVMEM) += devmem.o
-+obj-$(CONFIG_FAIL_SKB_FORCE_REALLOC) += skb_fault_injection.o
-diff --git a/net/core/skb_fault_injection.c b/net/core/skb_fault_injection.c
-new file mode 100644
-index 000000000000..b6e7a99292cc
---- /dev/null
-+++ b/net/core/skb_fault_injection.c
-@@ -0,0 +1,95 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <linux/fault-inject.h>
-+#include <linux/netdevice.h>
-+#include <linux/debugfs.h>
-+#include <linux/skbuff.h>
-+
-+static struct {
-+	struct fault_attr attr;
-+	char devname[IFNAMSIZ];
-+	bool filtered;
-+} skb_realloc = {
-+	.attr = FAULT_ATTR_INITIALIZER,
-+	.filtered = false,
-+};
-+
-+void skb_might_realloc(struct sk_buff *skb)
-+{
-+	struct net_device *net = skb->dev;
-+
-+	if (skb_realloc.filtered &&
-+	    strncmp(net->name, skb_realloc.devname, IFNAMSIZ))
-+		/* device name filter set, but names do not match */
-+		return;
-+
-+	if (!should_fail(&skb_realloc.attr, 1))
-+		return;
-+
-+	pskb_expand_head(skb, 0, 0, GFP_ATOMIC);
-+}
-+EXPORT_SYMBOL(skb_might_realloc);
-+
-+static int __init skb_realloc_setup(char *str)
-+{
-+	return setup_fault_attr(&skb_realloc.attr, str);
-+}
-+__setup("skb_realloc=", skb_realloc_setup);
-+
-+static void reset_settings(void)
-+{
-+	skb_realloc.filtered = false;
-+	memzero_explicit(&skb_realloc.devname, IFNAMSIZ);
-+}
-+
-+static ssize_t devname_write(struct file *file, const char __user *buffer,
-+			     size_t count, loff_t *ppos)
-+{
-+	ssize_t ret;
-+
-+	reset_settings();
-+	ret = simple_write_to_buffer(&skb_realloc.devname, IFNAMSIZ,
-+				     ppos, buffer, count);
-+	/* Remove the \n */
-+	skb_realloc.devname[strlen(skb_realloc.devname) - 1] = '\0';
-+	if (ret < 0)
-+		return ret;
-+
-+	if (strnlen(skb_realloc.devname, IFNAMSIZ))
-+		skb_realloc.filtered = true;
-+
-+	return count;
-+}
-+
-+static ssize_t devname_read(struct file *file,
-+			    char __user *buffer,
-+			    size_t size, loff_t *ppos)
-+{
-+	if (!skb_realloc.filtered)
-+		return 0;
-+
-+	return simple_read_from_buffer(buffer, size, ppos, &skb_realloc.devname,
-+				       strlen(skb_realloc.devname));
-+}
-+
-+static const struct file_operations devname_ops = {
-+	.write = devname_write,
-+	.read = devname_read,
-+};
-+
-+static int __init fail_net_force_skb_realloc_debugfs(void)
-+{
-+	umode_t mode = S_IFREG | 0600;
-+	struct dentry *dir;
-+
-+	dir = fault_create_debugfs_attr("fail_net_force_skb_realloc", NULL,
-+					&skb_realloc.attr);
-+	if (IS_ERR(dir))
-+		return PTR_ERR(dir);
-+
-+	debugfs_create_file("devname", mode, dir, NULL, &devname_ops);
-+
-+	return 0;
-+}
-+
-+late_initcall(fail_net_force_skb_realloc_debugfs);
 -- 
-2.43.5
+2.33.0
 
