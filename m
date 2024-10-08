@@ -1,139 +1,101 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E25762D2;
-	Tue,  8 Oct 2024 09:23:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74CB719067C;
+	Tue,  8 Oct 2024 10:04:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728379411; cv=none; b=os8vOA8InbcEbKtp4H5wVGIcmGfPuu6izxGsjYI8euf/I2NJYpQ4zZxrDC/9ux6OwjI5TsAJig30AVd7aINFXU9ZmM2EkqVOgmqluh1Nah/lRiWReAsfIPwgTLkA3zmjSzsfZWuUsEvGzcpfnbEKiLz0mBnAshlnJVyLIttW30M=
+	t=1728381854; cv=none; b=lyoe7KUMXhv/IeJZdo0uVkIm/+g5220A1wpq+sRmZqWT6QgG1BerJ066N9bx7G8CGGIy/bi4uIsli/3DGheBxpwtiZJ2RMd2AWDy0u79yycr79xl+b3czcZjl2fGC+jtcFT1PJNBB9rQyj1vGK4uhbOq0G5EyW6PPQA5fOcTbEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728379411; c=relaxed/simple;
-	bh=NpUeqk0ogRvN7pN4/dg+vnbZUOUv3txbjWs5a9eDpTw=;
+	s=arc-20240116; t=1728381854; c=relaxed/simple;
+	bh=JMkuugi7HO5fdB4sigMHknxg7Nlw7No83VzSf/35TWs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GX1IBIkQohhgxlY+5m3EaakHNKFHjBUQgYcQwkqyhfRDaXdhkE7jO/XaccgVumViISbnHwPLphQIFWRzUDfLLnu6Cm9GPlYzBhz/dzee1HoEPNhZ81XPHcPv02IXgYliGuXykG8gwKFW0L9zHbg+9M+3Q/W7VQ5XPQ5QhjKZdzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=TOrGLOgZ; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=U7x4dp0SoJxxnEFjk9DBoxOlR7ALrgPIZmmSbkgCdzSjOxyB69OTSDeWrbYI4s6F/HOG1kNx1bs+eTSG9gX83fQQ5+qQDx3NRZ4/tn/sNz8idkioVraRotLj+KnDBqhIh9zFy2eJcg0rLgy0D01w4KOdC+AbwiAW5SOhWA3laWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FwrbZvKR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="TOrGLOgZ"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id ECAED40009;
-	Tue,  8 Oct 2024 09:23:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1728379405;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A4aRvABwDkeC3buxJWP1DSdNmC41HRG0mMSMai6hCo0=;
-	b=TOrGLOgZNKppyNFh82S3g+skZpzMX92a7kFUxZ6z10guzlPby2MAHCiu+evrNfVmBq+GU8
-	iE7spZxbx0A9zFkQWn3oS6k6ueuH5MqjfL01p9TpxDTLocbOpuvrJ5k4T++mfE1jH+5Nvt
-	gx3MEbffhJkU/+5dgA92GhmvjTcohrr/o5nGH0bgSXHiXySvvQrxggE/KEPrzhEP1glI3P
-	3njdntGZKLQe6Xol9vYrlbzWjsgohFH/rb83xlT6yUNOdcntC9R7nayzcih86xeneBaFkN
-	Xzy0qWhRCS4+aLtJ0fDT80oICzobKYJ9xPl2EddvqRfamCjkIUyRX9g5XeJQ1Q==
-Date: Tue, 8 Oct 2024 11:23:22 +0200
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	Maaara Canal <mairacanal@riseup.net>,
-	Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-	Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
-	arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
-	jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
-	seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
-	Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH v12 13/15] drm/vkms: Create KUnit tests for YUV
- conversions
-Message-ID: <ZwT6CnyYRKS9QxIS@louis-chauvet-laptop>
-Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
-	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	Maaara Canal <mairacanal@riseup.net>,
-	Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-	Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
-	arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
-	jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
-	seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
-	Pekka Paalanen <pekka.paalanen@collabora.com>
-References: <20241007-yuv-v12-0-01c1ada6fec8@bootlin.com>
- <20241007-yuv-v12-13-01c1ada6fec8@bootlin.com>
- <20241008-ingenious-calm-silkworm-3e99ba@houat>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FwrbZvKR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEC52C4CEC7;
+	Tue,  8 Oct 2024 10:04:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728381854;
+	bh=JMkuugi7HO5fdB4sigMHknxg7Nlw7No83VzSf/35TWs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FwrbZvKRcS+x1fXtowCxZNwoaY++CZAm/l/rUTTSo0N2hgNSEnMSQgRNNthP7nJHZ
+	 +1dQZ3SZDnzhe8oKz+3w5D85a8YhpOvptxcDOpRQLDDLh/6N3p0Xz6GG3RGuNoINs5
+	 sJzUsftZFwKn7fmbQ+1cvYYO7a9oMn6+WhWqA6MSvR5dSAz3feazxXlzYwI4spm2+8
+	 4/Rori7i0gxNH0U4Y/ET+eSqSDTPFI6X2591NIxBbkGAjD+iEnUQCni2GE3un5yzX5
+	 q6/F768YOBRJRMSxDZOvmt/dzuRdALfoedYCYDddQaO6i05Re78+rHM4Mc86ST1pNw
+	 jqgvnJ61AXkTA==
+Date: Tue, 8 Oct 2024 11:04:09 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Anshuman Khandual <anshuman.khandual@arm.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Yury Khrustalev <yury.khrustalev@arm.com>,
+	Wilco Dijkstra <wilco.dijkstra@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC v2 2/2] arm64: Support AT_HWCAP3
+Message-ID: <ZwUDmYbXNMede2Ui@finisterre.sirena.org.uk>
+References: <20241004-arm64-elf-hwcap3-v2-0-799d1daad8b0@kernel.org>
+ <20241004-arm64-elf-hwcap3-v2-2-799d1daad8b0@kernel.org>
+ <e563980c-9ae9-478e-89a3-819c7dadf85b@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="WTiB8ukeVjfjI21M"
+Content-Disposition: inline
+In-Reply-To: <e563980c-9ae9-478e-89a3-819c7dadf85b@arm.com>
+X-Cookie: Editing is a rewording activity.
+
+
+--WTiB8ukeVjfjI21M
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241008-ingenious-calm-silkworm-3e99ba@houat>
-X-GND-Sasl: louis.chauvet@bootlin.com
 
+On Tue, Oct 08, 2024 at 12:45:42PM +0530, Anshuman Khandual wrote:
+> On 10/5/24 01:56, Mark Brown wrote:
 
-Hi, 
+> > +unsigned long cpu_get_elf_hwcap3(void)
+> > +{
+> > +	return elf_hwcap[2];
+> > +}
+> > +
+> >  static void __init setup_boot_cpu_capabilities(void)
+> >  {
+> >  	/*
 
-> > + * The YUV color representation were acquired via the colour python framework.
-> > + * Below are the function calls used for generating each case.
-> > + *
-> > + * For more information got to the docs:
-> > + * https://colour.readthedocs.io/en/master/generated/colour.RGB_to_YCbCr.html
-> > + */
-> > +static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
-> > +	/*
-> > +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
-> > +	 *                     K=colour.WEIGHTS_YCBCR["ITU-R BT.601"],
-> > +	 *                     in_bits = 16,
-> > +	 *                     in_legal = False,
-> > +	 *                     in_int = True,
-> > +	 *                     out_bits = 8,
-> > +	 *                     out_legal = False,
-> > +	 *                     out_int = True)
-> > +	 */
-> 
-> We should really detail what the intent and expected outcome is supposed
-> to be here. Relying on a third-party python library call for
-> documentation isn't great.
-> 
-> Maxime
+> LGTM, but just curious do you have a upcoming feature to be added
+> in AT_HWCAP3 soon ?
 
-This was requested by Pekka in the [v2] of this series.
+We've filled AT_HWCAP2 already and are starting on the free bits in
+AT_HWCAP, there's only 29 of those remaining and we get things like the
+dpISA releases often burning through 15 at a time.  Like the cover says
+it's not a pressing issue at this minute but whenever it does become a
+pressing issue there's likely to be multiple extensions in flight and
+it'll help not to have them all trying to carry the same serieses.
 
-I can add something like this before each tests, but I think having the 
-exact python code used may help people to understand what should be the 
-behavior, and refering to the python code to understand the conversion.
+--WTiB8ukeVjfjI21M
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I can add something like this before each tests to clarify the tested 
-case:
+-----BEGIN PGP SIGNATURE-----
 
-	Test cases for conversion between YUV BT601 limited range and 
-	RGB using the ITU-R BT.601 weights.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcFA5gACgkQJNaLcl1U
+h9D+qwf/SUyNYAKmy+NCe280h+F72vT4azcaKqFfSuv8Scqjs+wZI+qV6GbQs2K2
+J0CJW34Arq9qcPX18oGoZtrToT2rLie2M3FiJ/FPnGvqQt+JjrRbe/l1HZ8Btz8F
+/JiLq4BrJpyzO7c47T0qQKV8Zdf84X+tY9KfMp8SDtJHn98AShA/1Bv9sC2La6p9
+Dp54eF9Frs89sO1GnszMgWYmwVn8CcsY7INPWroBvAHUqNke2cZf5rbq2BvoFeir
+wkpH5/CFrf1OhvbOb556s8K+mH+o9gq6bQ9ugB5Mprolu0vNxJ/ImpvvN1KnVGu5
+hhCJTXjZchFxqVDQLFMe8rTwRLFAdg==
+=HU3C
+-----END PGP SIGNATURE-----
 
-Or maybe just documenting the structure yuv_u8_to_argb_u16_case:
-
-	@encoding: Encoding used to convert RGB to YUV
-	@range: Range used to convert RGB to YUV
-	@n_colors: Count of test colors in this case
-	@format_pair.name: Name used for this color conversion, used to 
-			   clarify the test results
-	@format_pair.rgb: RGB color tested
-	@format_pair.yuv: Same color as @format_pair.rgb, but converted to 
-			  YUV using @encoding and @range.
-
-What do you think?
-
-Thanks,
-Louis Chauvet
-
-[v2]:https://lore.kernel.org/all/20240229141238.51891cad.pekka.paalanen@collabora.com/
-[v5]:https://lore.kernel.org/all/20240328152631.63af0e8c.pekka.paalanen@collabora.com/
+--WTiB8ukeVjfjI21M--
