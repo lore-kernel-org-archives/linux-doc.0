@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6665E8BE7;
-	Tue,  8 Oct 2024 19:50:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0557212D21;
+	Tue,  8 Oct 2024 19:53:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728417026; cv=none; b=d+/6L8iIn9HTGDuolFbQAl0+Df6TT7MFcd4pD/YP3NJHuDz5kqtttjGhRSRdn3f7lOnygzyjK/Z3FINnu64S2D28Yhf3d3L4Xf7QdV1ir2uePEcb9QfStTA2VJWEKJfs265SMCjbFnRJCEeIln8NxzwHXpr6LvKmZ186ILBURj8=
+	t=1728417209; cv=none; b=tV/Y//KXgpaovXO3iYgr0yS3SwfuWUmocgR1ZW2N0AQlTv+tSDWgQ1HGofXT2zOaA1pE2bUyHc/GJGqO5Ok6pk/IlwdZ+6PvilgVNAYEbqIkhfbb5pkqQOSul/rfgG9M/CLUVUHVrMeZCUZPIY9/Pd/Nspu02ZGSYxIqk8gUApg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728417026; c=relaxed/simple;
-	bh=x1AuM38/r2D143PMJypMNRQhPhELDWOB+s6uV2hnfhs=;
+	s=arc-20240116; t=1728417209; c=relaxed/simple;
+	bh=Hy3ldGLiANp9fWX1F9t74ZmDpnYJQWtMHogoLeUFvM0=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aHnkgeIiXNUMEg7zvxmqq2VpLyBDJ4GmHMtaG8J9nxPnKFYNhdIUndf+xFMthueTrYIwwdQCP9SF1Bbnwf2TGQEY+Jc5yQH/8KMobfHNHnYEXCTPw/8fEy1HFIFVYZBD7rF/4Tz4G6rO6C/Sg7XTs0wa7peAaIagDcEQS8xvsOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kH+SQUwL; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=OTJd7GLhWDM5zRSSVVGmpJm4xbfnduGU0HTd/X/ZkaoOc1XYoOFPfj2VnNqK4WQtBR1wYG++I9+B8dciGiJgSMKKa56BK83RDZfYxdyDGYR1TsDgnJgGYHVD/Zgycogsn7yMBpQoayF2tuCu/3Q4E6+HHr75nWB+NxbSMOqR2lU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tMcvCFei; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kH+SQUwL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0112C4CEC7;
-	Tue,  8 Oct 2024 19:50:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tMcvCFei"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39E7FC4CEC7;
+	Tue,  8 Oct 2024 19:53:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728417025;
-	bh=x1AuM38/r2D143PMJypMNRQhPhELDWOB+s6uV2hnfhs=;
+	s=k20201202; t=1728417208;
+	bh=Hy3ldGLiANp9fWX1F9t74ZmDpnYJQWtMHogoLeUFvM0=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=kH+SQUwLUvinr3axdQLNB6uh0LovwTEfQKupa5qOVPfqBYngqBElQ0iCkM86d0B3U
-	 Pr0slYEstbfayTjCsTS/EXdfABXBQUomorPlrRqZVcBhJdT/WrcaaQQ9Lz10z7/yIw
-	 RZn3uU24Y+dtThoeQbVQakq6LAF5tHRetTRr86sE0s5x0T8NeTUhJz58y3jRQYhu6b
-	 Sob2qvkkff6ANxUl4TgjLMnsQKmfIqmHL673+KolUQ4yQicT2MGg6y+W+715vZ2pdy
-	 4y2jL44HZ8MRfRWpZIgTSIOXpEIxMMRnrKffdyNDy6ToN3XLRpFQk+dhsYwk4BdIEY
-	 X09uk4CKuXtsg==
-Date: Tue, 8 Oct 2024 12:50:23 -0700
+	b=tMcvCFeieUr5lTimHf1M2JeI+yy7q6tEO62xmPpcRxoUOj6jdxvFUk6D3j6eQ2HvV
+	 NQqkxiWb1JJg7irZJtLTvCwscn4goZDeSVx+6Jgzvrdc0KGti/xh9lhiuapVQVKpEf
+	 3TYIWeq4q1wqCnzmgvngOa8kBaW9fp99O4QZkT0QcEgrOQaalhsIwoLNlprXyWZ067
+	 De//3m0v8h5R1ycaeatyz5filB0PzH+7ovcwQpZPcv5lJ9SOhTtSES0RAf4DiNpM8P
+	 avoPpFtdfo7qg3m7hEtrvRBYklf4LMxNHS82FIvBFZAOBVe6FSX4YXwsqoIebz7lQf
+	 YCczw3AUV2qLA==
+Date: Tue, 8 Oct 2024 12:53:26 -0700
 From: Jakub Kicinski <kuba@kernel.org>
-To: Taehee Yoo <ap420073@gmail.com>
-Cc: Mina Almasry <almasrymina@google.com>, davem@davemloft.net,
- pabeni@redhat.com, edumazet@google.com, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, donald.hunter@gmail.com, corbet@lwn.net,
- michael.chan@broadcom.com, kory.maincent@bootlin.com, andrew@lunn.ch,
+To: Michael Chan <michael.chan@broadcom.com>
+Cc: Taehee Yoo <ap420073@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+ davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
+ almasrymina@google.com, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ donald.hunter@gmail.com, corbet@lwn.net, kory.maincent@bootlin.com,
  maxime.chevallier@bootlin.com, danieller@nvidia.com,
  hengqi@linux.alibaba.com, ecree.xilinx@gmail.com,
  przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, ahmed.zaki@intel.com,
@@ -40,14 +40,19 @@ Cc: Mina Almasry <almasrymina@google.com>, davem@davemloft.net,
  asml.silence@gmail.com, kaiyuanz@google.com, willemb@google.com,
  aleksander.lobakin@intel.com, dw@davidwei.uk, sridhar.samudrala@intel.com,
  bcreeley@amd.com
-Subject: Re: [PATCH net-next v3 7/7] bnxt_en: add support for device memory
- tcp
-Message-ID: <20241008125023.7fbc1f64@kernel.org>
-In-Reply-To: <CAMArcTU61G=fexf-RJDSW_sGp9dZCkJsJKC=yjg79RS9Ugjuxw@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 1/7] bnxt_en: add support for rx-copybreak
+ ethtool command
+Message-ID: <20241008125326.2e17dce9@kernel.org>
+In-Reply-To: <CACKFLikDqgewWCutDG9ar6UFup_EUefUEaXShEg0kmxC5yiHMg@mail.gmail.com>
 References: <20241003160620.1521626-1-ap420073@gmail.com>
-	<20241003160620.1521626-8-ap420073@gmail.com>
-	<CAHS8izO-7pPk7xyY4JdyaY4hZpd7zerbjhGanRvaTk+OOsvY0A@mail.gmail.com>
-	<CAMArcTU61G=fexf-RJDSW_sGp9dZCkJsJKC=yjg79RS9Ugjuxw@mail.gmail.com>
+	<20241003160620.1521626-2-ap420073@gmail.com>
+	<CACKFLi=1h=GBq5bN7L1pq9w8cSiHA16CZz0p8HJoGdO+_5OqFw@mail.gmail.com>
+	<CAMArcTXUjb5XuzvKx03_xGrEcA4OEP6aXW2P0eCpjk9_WaUS8Q@mail.gmail.com>
+	<CACKFLikCqgxTuV1wV4m-kdDvXhiFE7P=G_4Va_FmPsui9v2t4g@mail.gmail.com>
+	<a3bd0038-60e0-4ffc-a925-9ac7bd5c30ae@lunn.ch>
+	<CAMArcTUgDLawxxvFKsfavJiBs0yrEBD3rZOUcicYOAWYr+XYyQ@mail.gmail.com>
+	<20241008111058.6477e60c@kernel.org>
+	<CACKFLikDqgewWCutDG9ar6UFup_EUefUEaXShEg0kmxC5yiHMg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,46 +62,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri, 4 Oct 2024 19:34:45 +0900 Taehee Yoo wrote:
-> > Our intention with the whole netmem design is that drivers should
-> > never have to call netmem_to_page(). I.e. the driver should use netmem
-> > unaware of whether it's page or non-page underneath, to minimize
-> > complexity driver needs to handle.
-> >
-> > This netmem_to_page() call can be removed by using
-> > skb_frag_fill_netmem_desc() instead of the page variant. But, more
-> > improtantly, why did the code change here? The code before calls
-> > skb_frag_fill_page_desc, but the new code sometimes will
-> > skb_frag_fill_netmem_desc() and sometimes will skb_add_rx_frag_netmem.
-> > I'm not sure why that logic changed.  
+On Tue, 8 Oct 2024 12:38:18 -0700 Michael Chan wrote:
+> > Where does the min value of 64 come from? Ethernet min frame length?
 > 
-> The reason why skb_add_rx_frag_netmem() is used here is to set
-> skb->unreadable flag. the skb_frag_fill_netmem_desc() doesn't set
-> skb->unreadable because it doesn't handle skb, it only handles frag.
-> As far as I know, skb->unreadable should be set to true for devmem
-> TCP, am I misunderstood?
-> I tested that don't using skb_add_rx_frag_netmem() here, and it
-> immediately fails.
+> The length is actually the ethernet length minus the 4-byte CRC.  So
+> 60 is the minimum length that the driver will see.  Anything smaller
+> coming from the wire will be a runt frame discarded by the chip.
 
-Yes, but netmem_ref can be either a net_iov or a normal page,
-and skb_add_rx_frag_netmem() and similar helpers should automatically
-set skb->unreadable or not.
+Also for VF to VF traffic?
 
-IOW you should be able to always use netmem-aware APIs, no?
-
-> > This is not the intended use of PP_FLAG_ALLOW_UNREADABLE_NETMEM.
-> >
-> > The driver should set PP_FLAG_ALLOW_UNREADABLE_NETMEM when it's able
-> > to handle unreadable netmem, it should not worry about whether
-> > rxq->mp_params.mp_priv is set or not.
-> >
-> > You should set PP_FLAG_ALLOW_UNREADABLE_NETMEM when HDS is enabled.
-> > Let core figure out if mp_params.mp_priv is enabled. All the driver
-> > needs to report is whether it's configured to be able to handle
-> > unreadable netmem (which practically means HDS is enabled).  
+> > IIUC the copybreak threshold is purely a SW feature, after this series.
+> > If someone sets the copybreak value to, say 13 it will simply never
+> > engage but it's not really an invalid setting, IMHO. Similarly setting
+> > it to 0 makes intuitive sense (that's how e1000e works, AFAICT).  
 > 
-> The reason why the branch exists here is the PP_FLAG_ALLOW_UNREADABLE_NETMEM
-> flag can't be used with PP_FLAG_DMA_SYNC_DEV.
+> Right, setting it to 0 or 13 will have the same effect of disabling
+> it.  0 makes more intuitive sense.
 
-Hm. Isn't the existing check the wrong way around? Is the driver
-supposed to sync the buffers for device before passing them down?
+Agreed on 0 making sense, but not sure if rejecting intermediate values
+buys us anything. As Andrew mentioned consistency is important. I only
+checked two drivers (e1000e and gve) and they don't seem to check 
+the lower limit.
