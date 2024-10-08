@@ -1,120 +1,92 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 515941DE886
-	for <linux-doc@vger.kernel.org>; Tue,  8 Oct 2024 12:44:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9785A1DE8A0;
+	Tue,  8 Oct 2024 12:56:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728391481; cv=none; b=RFsBX25vFuq/1UuGYDWturvWxgwcOKcWw0KVIqcDljO8QCQ7TVef1k5wDWeU8tUDg3raoVt6zrGe/79CVdRjVjjNDNofIdhy/M6tHXkTbDwJXU++/v9JyO1hgsldxT1xBWPZs/zm91erEzkQq7SWDtnymljdev2UCfHQKFLnlGw=
+	t=1728392189; cv=none; b=HhHn6FD86bCyHstMv56fv8Ps5u40rFBnr6VoDYdYqSRdhJam1PHP1PhD4+ykyAc9rnp2semtEcFSO2B/Lmz69/tbkaMWaYylwtcidc74iSipVEL8pyItsAFcwr7B9hPBP640hMavLZOCQUBIIdGmG/bqjft1OH+papH1vGZzpcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728391481; c=relaxed/simple;
-	bh=qSOpSf+YsWDnlVAfQYKdd58y+jL1GlvU2G/SV+Dza6Q=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=PKRUmDub+OTEZ9hseEMfyqXSI+UfsLxQmPRr/fusX1YX1eJFZoo7cqwIqtT42QIgpV3yUSUGY3HxQyh7PhxLLNFUCK/wQaZiiWYBHIFa4RkHlzLBKsHzQ1W06rWF5cjZCpNR+VXg1X1XiQJYVWVCaZsyKBCEf3URGTNvjfPlv24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=p/CjKDDQ; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1728392189; c=relaxed/simple;
+	bh=BJav8e+HcALTipfP/NLFD+NrSKZ2vTYocgEXeZdKx3U=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ip1kDDi/L0rv6OigBmMm43RUaq5JASD3HBW1p5a2VgMjEKU1qxnCXSukZlEPYAo9dfhA03nxVAEHeQ3XhTeE9ro6rGV+q+c6iGpQF/sJPBdPlm8qYrZ31svLuiuGvrFHJZbY5DmE6TU+0A7JMt7Msf2QRQp15MJCxOVJNI0Ivho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=HYbN/Mop; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="p/CjKDDQ"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-42cacabd2e0so52147015e9.3
-        for <linux-doc@vger.kernel.org>; Tue, 08 Oct 2024 05:44:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1728391478; x=1728996278; darn=vger.kernel.org;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7e4/3Ls3/aNu9dK/eI4vdsZOolZWQW7jGRlN4Q4ST1w=;
-        b=p/CjKDDQffUUZoawcEzetWTaqM9zwFMqgqhg3QQbM8WqZH1OED1VwkDrgBXHSuyfWK
-         OHpAUVMMSWm4gakTI9ncUIpcqxqqf3x16mKiTdtmcsKjE7EXKeHBZVRqftJ5aZ3otnJ0
-         0ZRNnjoulywrSfykMvu24zs5AlS78MNCbqoHdOxS/ho/R8VDxoOniDSa/2+A9z6jCxIO
-         OFogICgAPWNJRZqpiL8HFPDgFZc7j2SELAOBf4sNANiJN8mAXDLlNptN5mPCc+j+BNTK
-         Co5ReAEwlsGqWmCDYkZUNgwf0yBAr62sw0FDEU1AgJFGE4dtDqr1FY1sbYxWNmP88CT5
-         +9tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728391478; x=1728996278;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7e4/3Ls3/aNu9dK/eI4vdsZOolZWQW7jGRlN4Q4ST1w=;
-        b=mkVBHwSrDipCfGsZJaiYtAA9EyVxhN7BW3lKPp+/CnWau1o9KbashYmsAHNmPinKb7
-         gD4DyB+ccGTWpidZPAOagCbm23lHW6xc2XTvZhQl4Djp9gdowzSvqxMXdji44inJo8Sc
-         +pvhOkRfaz6aRmzJiUPMnCaQoXr99wBftYXni1rtPOwQZjtCgjyBeuOVGLKPzQ7tb0qg
-         yKHmCnsXjH2Jj1xJLTbOCVr0ny1SMyjyObIEjbEy0T2qLZOWJKsYRHygkkTlR/d7gg6n
-         P+1QxoIdgTpStd2nGZuPSozaMSnkNPZ5T2aIEbFh1maKp+5fGDAPY2MHLzRyrXU0/C1+
-         QQYA==
-X-Forwarded-Encrypted: i=1; AJvYcCVPwtf2ANHJIhy2FSjvUk1pzP4ROGPOzmfjeqcgPRx7zEfneC9xXZRrGf7WgY+oOTXeY6i0lOZEG1Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNzYCpNKAqNwd9zZSJ+IALO5n1wHT8shbXtSILjB1iSbU/DD00
-	Px6WsS25GllyFEc4TBjZacsBHeKnwVPPukR6d8vEoIzutdbhPwj6II1/J4xHWPU=
-X-Google-Smtp-Source: AGHT+IEsuASKpxtLN1FS9/ppE/nSGh27N+1yhlWxNalTb7cFM5CXlhMi6qIJJ4CYFTRupQZK+UJsOQ==
-X-Received: by 2002:a05:600c:1907:b0:42c:bb96:340e with SMTP id 5b1f17b1804b1-42f85af89ebmr118622545e9.31.1728391477489;
-        Tue, 08 Oct 2024 05:44:37 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:41f2:4244:ce34:c273])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f89e832fesm109260625e9.8.2024.10.08.05.44.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Oct 2024 05:44:36 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Mark Brown <broonie@kernel.org>,  Liam Girdwood <lgirdwood@gmail.com>,
-  Jean Delvare <jdelvare@suse.com>,  Jonathan Corbet <corbet@lwn.net>,
-  linux-kernel@vger.kernel.org,  linux-hwmon@vger.kernel.org,
-  linux-doc@vger.kernel.org
-Subject: Re: [PATCH 4/5] hwmon: (pmbus/core) improve handling of write
- protected regulators
-In-Reply-To: <64c3f6c3-10b5-44c6-a1cd-c796b770c904@roeck-us.net> (Guenter
-	Roeck's message of "Mon, 23 Sep 2024 09:44:11 -0700")
-References: <20240920-pmbus-wp-v1-0-d679ef31c483@baylibre.com>
-	<20240920-pmbus-wp-v1-4-d679ef31c483@baylibre.com>
-	<ZvFrWDF6Pn9zOb23@finisterre.sirena.org.uk>
-	<64c3f6c3-10b5-44c6-a1cd-c796b770c904@roeck-us.net>
-Date: Tue, 08 Oct 2024 14:44:35 +0200
-Message-ID: <1j5xq2sr0s.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="HYbN/Mop"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1D32820005;
+	Tue,  8 Oct 2024 12:56:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1728392179;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BJav8e+HcALTipfP/NLFD+NrSKZ2vTYocgEXeZdKx3U=;
+	b=HYbN/MopgVOwhbm94jUtKR3niX7PPJ0/GQfIoI5KcrRc2eZol/OFPY1TA73qzramgLsS3p
+	JP5MG9rDv7jGu+/P7YaUR+k/ic65bSoML8+JuAb/XseyWvn3PxviiV0jiWtuEIli7TU5mG
+	MRKaWOxmRhm/9ntz1Lz2/+zBB0Pimfoj3DzE62zoHRujPUS2HNB3NOSTsns37kCy5okXI4
+	Cn/jEQ+qDCz5i7Kr+1IgNSJJUY+eQqnhjeenc2i6lR7MZ2meX5u7NrzAp2DNfqw7wOPt37
+	yiy8RE424U7Db1AqAluXZdNzlUohnQ8zD6TmnazEjLdHf350OCwOrkK16XkeiA==
+Date: Tue, 8 Oct 2024 14:56:17 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
+ <donald.hunter@gmail.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
+ Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de
+Subject: Re: [PATCH net-next 06/12] net: ethtool: Add PSE new port priority
+ support feature
+Message-ID: <20241008145617.23254843@kmaincent-XPS-13-7390>
+In-Reply-To: <20241008122300.37c77493@kmaincent-XPS-13-7390>
+References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
+	<20241002-feature_poe_port_prio-v1-6-787054f74ed5@bootlin.com>
+	<ZwDcHCr1aXeGWXIh@pengutronix.de>
+	<20241007113026.39c4a8c2@kmaincent-XPS-13-7390>
+	<ZwPr2chTq4sX_I_b@pengutronix.de>
+	<20241008122300.37c77493@kmaincent-XPS-13-7390>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Mon 23 Sep 2024 at 09:44, Guenter Roeck <linux@roeck-us.net> wrote:
+On Tue, 8 Oct 2024 12:23:00 +0200
+Kory Maincent <kory.maincent@bootlin.com> wrote:
 
-> On 9/23/24 06:21, Mark Brown wrote:
->> On Fri, Sep 20, 2024 at 06:47:05PM +0200, Jerome Brunet wrote:
->> 
->>> +int pmbus_regulator_init_cb(struct regulator_dev *rdev,
->>> +			    struct regulator_config *config)
->>> +{
->>> +	struct pmbus_data *data = config->driver_data;
->>> +	struct regulation_constraints *constraints = rdev->constraints;
->>> +
->>> +	if (data->flags & PMBUS_OP_PROTECTED)
->>> +		constraints->valid_ops_mask &= ~REGULATOR_CHANGE_STATUS;
->>> +
->>> +	if (data->flags & PMBUS_VOUT_PROTECTED)
->>> +		constraints->valid_ops_mask &= ~REGULATOR_CHANGE_VOLTAGE;
->>> +
->>> +	return 0;
->>> +}
->>> +EXPORT_SYMBOL_NS_GPL(pmbus_regulator_init_cb, PMBUS);
->> I'm fairly comfortable with this from a regulator point of view, modulo
->> the suggestion I posted in the other message about registering separate
->> ops.  The fact that there's three combinations of ops is annoying but
->> doesn't feel too bad, though I didn't actually write it out so perhaps
->> it looks horrible.  In general removing permissions is safe, and without
->> separate steps to remove write protect (which I see in your patch 5) the
->> writes wouldn't actually work anyway.
->
->
-> I still consider the callback to be unnecessary, but I don't really have time
-> to implement a better solution myself. If you accept the regulator patches,
-> I'll have another look at the series as-is.
+> On Mon, 7 Oct 2024 16:10:33 +0200
+> Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+>=20
+> > User will not understand why devices fail to provide enough power by
+> > attaching two device to one domain and not failing by attaching to
+> > different domains. Except we provide this information to the user space.
+>=20
+> What you are explaining seems neat on the paper but I don't know the best=
+ way
+> to implement it. It needs more brainstorming.
 
-I'll group the regulator patches and resend to Mark, adjusted as
-requested.
+Is it ok for you if we go further with this patch series and continue talki=
+ng
+about PSE power domain alongside?
+It should not be necessary to be supported with port priority as the two PSE
+supported controller can behave autonomously on a power domain.
+I hope I will have time in the project to add its support when we will have=
+ a
+more precise idea of how.
 
-Guenter, should I the resend the hwmon patches here grouped with the
-tps25990 series ? Or is there something you'd like me change before ?
-
->
-> Guenter
-
--- 
-Jerome
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
