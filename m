@@ -1,100 +1,208 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F19871E0DC0;
-	Tue,  8 Oct 2024 16:11:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831A76F2F3;
+	Tue,  8 Oct 2024 16:17:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728403866; cv=none; b=GxsyelejUf9Kp2GHGBU7ybdxSiP3CWDWPZ+j7xu+I4ckzy4CK84G7+of5LTPwxx9h9B90A3DnjhIyVtlhmiyl3VLgZ+1FUCzxc5A1nMjn9MG+JVm8etna0XhvTgQjs+oTV5OC3VnLNDows7Isq97fL0duqieFeFSKgOuQNZ3gtM=
+	t=1728404269; cv=none; b=VUbbr0Q+mEp7x9t7gkQZ1obc1BIHDIQM70sEWL4nCFgCaM5j/vN6xY+QpoXgBClsNw2zVL6lSYF8EWWS/eVhxKqCi1FbnHoz5SbuWHHww8FPb1payV/lPh5YLS0jdOpPkwIop1ckNUbT6jQxj+5dZ/1TSCQkWNUm8MbltIZfXn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728403866; c=relaxed/simple;
-	bh=Xt8DuBNs96hhkBdp5GHqDAZDvXSQaTX8uPGcgmnnau0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rMRPQitlY9QoVYGBUb7yUiT9VTQ6LnLwzrzx1u5XGfuzwUmJnzBcicsiz7D8dvFrQ6bTi4py0EAq0F2n4UIE8CTVD9rJU/M1XYxbDSLJq/1IaPig965fiWbnsqJJ9YwPsdm8XzQBNdO9GlhRPPxaUQK1g4ku5sJkjYYwh90xPTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F8DhuU86; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728404269; c=relaxed/simple;
+	bh=sR6JvFTxNGC3GiWb6Y6Qt0YBiKYIfxLCrL9a5v+HpdU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lv7tF+wxK2DhrSvs6Dq0jhfFp2fkhOhdkjfhOIgDf8T86sFUGCuzBkXx2cg/mgjp4rpbB871DAcbnahl8+ivsud3VhNP7EVzMFkahXJKJK35OpZVL4ZcnGYg8a2GsqFh/GjR8Vb2sWucfB9j6M/lurzdymD2qwq/OtoImBOyjSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kPHL+Wfk; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F8DhuU86"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-71e02ceccd0so150515b3a.0;
-        Tue, 08 Oct 2024 09:11:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728403864; x=1729008664; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iGZ+kv3d5HgP90R79168sJs+XrZZiuRd/+Vmov8YRGE=;
-        b=F8DhuU86PPwVGZj6EMiNp4eQ0f29YMNDXkfeCPjA+DB70Ow006WCrlNFL3umy697+r
-         L8eUiLl2f3y+TO6IqFdl0AqUuPIR8MGT4070aAFu/Y9voAoUVIiDgq4vEhlrLyZ4Y20W
-         GKMG+BUPkBpyjXPNhmx1jTvEiX2E3H5N2aMiaIAVw0Nd59Zz9VJUm84PPZ8IlMMKXeEG
-         X0gWPd++/i5BY/lghHtEPs275oaAHlkdGTh7uWyQS6xnDlDutgRVfgeGtet9PAbtujja
-         AkKQrkH2apVA1/KasK8WwSMlPiDK1DC/XAMpAy6shFZbCs+LnB8dDlh5vjQ0hquMlGQA
-         QAoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728403864; x=1729008664;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iGZ+kv3d5HgP90R79168sJs+XrZZiuRd/+Vmov8YRGE=;
-        b=AXwyuf5LlDFHOWLcTs1yffRmgsxfE+Jy5ektTHqA9a0dwmcomwgard+JeXiwL7ITs/
-         X8cEpafiNWSz3JlJSt1LWOcJ1vUdASrV8P46y9ZtqMLyxpEJXmzYQBdaHK+aU/w3owwa
-         bhs0dEy212Mi426iI9DoQeul52xpvP647SwOKsxtUoggwvVrA85KmvhaUT68SBOjItJm
-         8y6FTgk8jeUqUPD7KCvldFmYB4YqegRnDAirzA802zdqTvxm+72zr1qzzWmLmOksvelr
-         aFf4skzLK0SfJFOui2tKbpf/3p146YAQ4YibxlXrc6ONr0Ty9WcZd1hxV4G/NaGaBdhU
-         SQ2A==
-X-Forwarded-Encrypted: i=1; AJvYcCVcvUdRTzzqrJhz17J7nmWem0/hAFONWm/kAjxx7N/eRJZDu2f+DIamdRVSgWnJBnjo+4YjNIalQGRz65nV@vger.kernel.org, AJvYcCVqxwppwZdW5z8IUOaTZREmVB+6N+BlnrQUfRb2ZvihEuqdnw+lDCS/VehDgfhFBhBlRqN6+ukR6qg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7zZ82QbCtKFxeYm723zA4ugqFfwrENYhPfSFzvkjSLHD+UMbx
-	3JuzKPQ3MbSiGjPWoc9+oKMt5gZs+fPxqfsJQ0oDrt5UOeFBD7B5
-X-Google-Smtp-Source: AGHT+IHEdM7bz4eMiX53qyAX20iBR36HtnMSFA1wa31oy8jvPhmBA/HTYt/zOi4BqYDW3ZmTeqaDwA==
-X-Received: by 2002:a05:6a00:10cb:b0:71c:5e1b:6871 with SMTP id d2e1a72fcca58-71de245db37mr10144027b3a.6.1728403863967;
-        Tue, 08 Oct 2024 09:11:03 -0700 (PDT)
-Received: from aizome.localdomain ([117.172.223.242])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71df0cbd78fsm6295261b3a.4.2024.10.08.09.11.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Oct 2024 09:11:03 -0700 (PDT)
-From: Pengyu Zhang <zpenya1314@gmail.com>
-To: corbet@lwn.net
-Cc: rppt@kernel.org,
-	linus.walleij@linaro.org,
-	fmdefrancesco@gmail.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Pengyu Zhang <zpenya1314@gmail.com>
-Subject: [PATCH v1] Docs/mm: Fix a mistakes for pfn in page_tables.rst
-Date: Wed,  9 Oct 2024 00:10:50 +0800
-Message-Id: <20241008161050.14732-1-zpenya1314@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kPHL+Wfk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728404267; x=1759940267;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=sR6JvFTxNGC3GiWb6Y6Qt0YBiKYIfxLCrL9a5v+HpdU=;
+  b=kPHL+WfkvV9kLHj9y8yHbkdV9pxmtx//LgLi0RWYIaI2z1Vt7sIApR2n
+   lzOA9zNjk0cbe0yCVEQaA9s5n8IUnEmRcJb03VUX4ViDkQDrZyNlwbeGz
+   6d4jhyF8K2DnfN3P5BWdmr7L49dCvtCItQPkWF29U8c0/7zKEi4ljRDdt
+   NwwUY40jCYQCvYpaRXWQNaBQ8Z+YTmgtIUExupm/8LZETZy07v2v0yPr7
+   2F5u/EYT4iMlEYxH0NPcomMYO7AOVfLPhMG0Cg+RFMqiclSkEyAnflDfu
+   9L5qsVFqsu9tm3uV2R+DRc6at0zjF4BAsMiWHFwa7FP/ZCUoM8l+Hj5RJ
+   w==;
+X-CSE-ConnectionGUID: Fk3vD3K2Siy8s3wmT88v9A==
+X-CSE-MsgGUID: 9KVvViZPTfOtg8nhr/SX7A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="31319855"
+X-IronPort-AV: E=Sophos;i="6.11,187,1725346800"; 
+   d="scan'208";a="31319855"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 09:17:47 -0700
+X-CSE-ConnectionGUID: prEA0tJQTyyzchkjNIRhmw==
+X-CSE-MsgGUID: 1RajqlD7SrGhHjU/qK4tTg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,187,1725346800"; 
+   d="scan'208";a="76249134"
+Received: from ryizhaki-mobl.amr.corp.intel.com (HELO [10.125.160.131]) ([10.125.160.131])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 09:17:45 -0700
+Message-ID: <b6d33fd0-cdee-4cfa-819f-3ad2b54867d6@linux.intel.com>
+Date: Tue, 8 Oct 2024 09:17:44 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/6] x86/bugs: Clean-up verw mitigations
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+ Borislav Petkov <bp@alien8.de>, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, hpa@zytor.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, pawan.kumar.gupta@linux.intel.com
+References: <20240924223140.1054918-1-daniel.sneddon@linux.intel.com>
+ <20240924223140.1054918-7-daniel.sneddon@linux.intel.com>
+ <20241007193726.m5mzkjjy4yscge6x@treble>
+Content-Language: en-US
+From: Daniel Sneddon <daniel.sneddon@linux.intel.com>
+In-Reply-To: <20241007193726.m5mzkjjy4yscge6x@treble>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The documentation incorrectly calculate the pfn value as 0x3fffff,
-which should be 0x3ffff instead.It is obtained by right-shifting
-0xffffc000 by 14 bits.
+On 10/7/24 12:37, Josh Poimboeuf wrote:
+> On Tue, Sep 24, 2024 at 03:31:40PM -0700, Daniel Sneddon wrote:
+>> +static void __init md_clear_select_mitigation(void)
+>> +{
+>>  	/*
+>> -	 * X86_FEATURE_CLEAR_CPU_BUF is now enabled. Update MDS, TAA and MMIO
+>> -	 * Stale Data mitigation, if necessary.
+>> +	 * If no CPU bug needs VERW, all VERW mitigations are disabled, or all
+>> +	 * mitigations are disabled we bail.
+>>  	 */
+> 
+> It's already clear what the code is doing, no comment necessary.
+> 
+Will remove.
+>> -	if (mds_mitigation == MDS_MITIGATION_OFF &&
+>> -	    boot_cpu_has_bug(X86_BUG_MDS)) {
+>> +	if (!cpu_bug_needs_verw() || verw_mitigations_disabled() ||
+>> +	    cpu_mitigations_off()) {
+>> +		mds_mitigation = MDS_MITIGATION_OFF;
+>> +		taa_mitigation = TAA_MITIGATION_OFF;
+>> +		mmio_mitigation = MMIO_MITIGATION_OFF;
+>> +		rfds_mitigation = RFDS_MITIGATION_OFF;
+>> +		goto out;
+>> +	}
+> 
+> In the case of verw_mitigations_disabled() it's weird to write the
+> variables again if they're already OFF.  That should be a separate
+> check.
+> 
+Sure. I will separate them out.
+>> +
+>> +	/* Check that at least one mitigation is using the verw mitigaiton.
+>> +	 * If the cpu doesn't have the correct ucode or if the BUG_* is mitigated
+>> +	 * by disabling a feature we won't want to use verw. Ignore MMIO
+>> +	 * for now since it depends on what the others choose.
+>> +	 */
+> 
+> Again I think this comment isn't needed as the code is pretty
+> straightforward.  The only surprise is the MMIO dependency on
+> X86_FEATURE_CLEAR_CPU_BUF, but that's called out below.
+> 
+Will remove.
+>> +
+>> +	if (boot_cpu_has_bug(X86_BUG_MDS)) {
+>>  		mds_mitigation = MDS_MITIGATION_FULL;
+>>  		mds_select_mitigation();
+>> +	}  else {
+>> +		mds_mitigation = MDS_MITIGATION_OFF;
+>>  	}
+>> -	if (taa_mitigation == TAA_MITIGATION_OFF &&
+>> -	    boot_cpu_has_bug(X86_BUG_TAA)) {
+>> +	if (boot_cpu_has_bug(X86_BUG_TAA)) {
+>>  		taa_mitigation = TAA_MITIGATION_VERW;
+>>  		taa_select_mitigation();
+>> +	} else {
+>> +		taa_mitigation = TAA_MITIGATION_OFF;
+>>  	}
+>> -	/*
+>> -	 * MMIO_MITIGATION_OFF is not checked here so that mmio_stale_data_clear
+>> -	 * gets updated correctly as per X86_FEATURE_CLEAR_CPU_BUF state.
+>> -	 */
+>> +	if (boot_cpu_has_bug(X86_BUG_RFDS)) {
+>> +		rfds_mitigation = RFDS_MITIGATION_VERW;
+>> +		rfds_select_mitigation();
+>> +	} else {
+>> +		rfds_mitigation = RFDS_MITIGATION_OFF;
+>> +	}
+> 
+> This spaghetti can be simplifed by relying on *_select_mitigation() to
+> set the mitigation, for example:
+> 
+> static void __init mds_select_mitigation(void)
+> {
+> 	if (!boot_cpu_has_bug(X86_BUG_MDS))
+> 		mds_mitigation = MDS_MITIGATION_OFF;
+> 	else if (boot_cpu_has(X86_FEATURE_MD_CLEAR))
+> 		mds_mitigation = MDS_MITIGATION_VERW;
+> 	else
+> 		mds_mitigation = MDS_MITIGATION_VMWERV;
+> }
+> 
+> Then you can just do:
+> 
+> 	mds_select_mitigation();
+> 	taa_select_mitigation();
+> 	rfds_select_mitigation();
+> 
+> 
+You're right. That is much cleaner. Will fix.
+>> +	if (mds_mitigation == MDS_MITIGATION_FULL ||
+>> +	    taa_mitigation == TAA_MITIGATION_VERW ||
+>> +	    rfds_mitigation == RFDS_MITIGATION_VERW)
+> 
+> For consistency can we rename MDS_MITIGATION_FULL to
+> MDS_MITIGATION_VERW?
+> 
+Will do!
+>> +		setup_force_cpu_cap(X86_FEATURE_CLEAR_CPU_BUF);
+>> +
+>> +	/* Now handle MMIO since it may not use X86_FEATURE_CLEAR_CPU_BUF */
+> 
+> I would clarify this a bit, something like:
+> 
+> 	/*
+> 	 * The MMIO mitigation has a dependency on
+> 	 * X86_FEATURE_CLEAR_CPU_BUF so this must be called after it
+> 	 * gets set.
+> 	 */
+> 
+Will update.
+>>  	if (boot_cpu_has_bug(X86_BUG_MMIO_STALE_DATA)) {
+>>  		mmio_mitigation = MMIO_MITIGATION_VERW;
+>>  		mmio_select_mitigation();
+>> +	} else {
+>> +		mmio_mitigation = MMIO_MITIGATION_OFF;
+>>  	}
+>> -	if (rfds_mitigation == RFDS_MITIGATION_OFF &&
+>> -	    boot_cpu_has_bug(X86_BUG_RFDS)) {
+>> -		rfds_mitigation = RFDS_MITIGATION_VERW;
+>> -		rfds_select_mitigation();
+>> -	}
+>> +
+>> +	/* handle nosmt */
+> 
+> Again I think this comment is superfluous.
+> 
+Will remove.
+>> +	if (!boot_cpu_has(X86_BUG_MSBDS_ONLY) &&
+>> +	    (mds_nosmt || cpu_mitigations_auto_nosmt()))
+>> +		cpu_smt_disable(false);
+>> +
+>> +	if (taa_nosmt || mmio_nosmt || cpu_mitigations_auto_nosmt())
+>> +		cpu_smt_disable(false);
+>> +
+> 
 
-This patch corrects the value to prevent any potential confusion
-for developers referencing this document.
-
-Signed-off-by: Pengyu Zhang <zpenya1314@gmail.com>
----
- Documentation/mm/page_tables.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/mm/page_tables.rst b/Documentation/mm/page_tables.rst
-index be47b192a596..e7c69cc32493 100644
---- a/Documentation/mm/page_tables.rst
-+++ b/Documentation/mm/page_tables.rst
-@@ -29,7 +29,7 @@ address.
- With a page granularity of 4KB and a address range of 32 bits, pfn 0 is at
- address 0x00000000, pfn 1 is at address 0x00001000, pfn 2 is at 0x00002000
- and so on until we reach pfn 0xfffff at 0xfffff000. With 16KB pages pfs are
--at 0x00004000, 0x00008000 ... 0xffffc000 and pfn goes from 0 to 0x3fffff.
-+at 0x00004000, 0x00008000 ... 0xffffc000 and pfn goes from 0 to 0x3ffff.
- 
- As you can see, with 4KB pages the page base address uses bits 12-31 of the
- address, and this is why `PAGE_SHIFT` in this case is defined as 12 and
--- 
-2.25.1
+Thanks for the review!
 
