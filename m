@@ -1,16 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D7911E0497
-	for <linux-doc@vger.kernel.org>; Tue,  8 Oct 2024 14:54:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB2C1E0B6C
+	for <linux-doc@vger.kernel.org>; Tue,  8 Oct 2024 15:01:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728399258; cv=none; b=cBL8zfgEURh+B5zkw+V4poHdqFd4mcj/nDL5sXvD1hdyjll3xDLH2V81RGguMEEyXnSS8XQFGmj4PdAOy/ukUHYMmBwy/b9u3kz7V7VGPNIFVQSWm2ZyrFe52/+duXYhyyTOEtuFT4WsNhPGjinR3slD0qt+UJTgb1pJLQ3GWb8=
+	t=1728399690; cv=none; b=KPiR8rDBs6FSagOr0QUTRryrOL6MGSIoYBg6jHC+7DcI1ZgYan88djEdCvHHIvbLI4vQYkUToKiNducja8I+2jYh/yZFQEMmCWxYErt1eADakdzn4xcRK/5aGxxLX/19qqM8P4n6SnSCvggXk0kZdwE8LEJndu78JGk2115aLAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728399258; c=relaxed/simple;
-	bh=rxMQfeehLdt2xkvh6dUxYyoIor1byeZvAt5ilMZZD+0=;
+	s=arc-20240116; t=1728399690; c=relaxed/simple;
+	bh=+W5OZ6dooplYBQPBLHswZ9NRnDap1swU6HEYSLanpko=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P/+S545/Y3gf3V57VI8toRW2ve1uAM/SxInT+N7AZxWCQac4XHHQg6M1qJB2cEgKU2vq72ztcGW9KmSgxRfW8m3gWkrVljDCS5xBG2WQEH3iFOcAC93J+4Q4GRouHCGtpVZjFeTCg0qXbhuNfykRdWcqDf0b6CpK/Op6EXk+ek4=
+	 Content-Type:Content-Disposition:In-Reply-To; b=YAe9wM098yZ9fDM/SM6CsQxZPjynxQiV3oTnszh6iIa4J7vz80WkR31w4oMukc2q4pg49XuPpytaN7yBIDrKI+WT85wP7O52HXVGO2H+mekB4gnTY+ADjruYwTNDsUAVX1yIsoEtyigoDcvW3u94onOgzQBefh9bvcyMBBzVpZw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -18,20 +18,20 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ore@pengutronix.de>)
-	id 1syBb6-00025u-Tz; Tue, 08 Oct 2024 16:54:00 +0200
+	id 1syBi6-0002sj-4i; Tue, 08 Oct 2024 17:01:14 +0200
 Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <ore@pengutronix.de>)
-	id 1syBb5-000O8u-Gt; Tue, 08 Oct 2024 16:53:59 +0200
+	id 1syBi2-000OEm-JT; Tue, 08 Oct 2024 17:01:10 +0200
 Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
 	(envelope-from <ore@pengutronix.de>)
-	id 1syBb5-000QW1-1L;
-	Tue, 08 Oct 2024 16:53:59 +0200
-Date: Tue, 8 Oct 2024 16:53:59 +0200
+	id 1syBi2-000Qkx-1a;
+	Tue, 08 Oct 2024 17:01:10 +0200
+Date: Tue, 8 Oct 2024 17:01:10 +0200
 From: Oleksij Rempel <o.rempel@pengutronix.de>
 To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+Cc: "David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Jonathan Corbet <corbet@lwn.net>,
@@ -41,14 +41,16 @@ Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
 	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
 	Dent Project <dentproject@linuxfoundation.org>,
 	kernel@pengutronix.de
-Subject: Re: [PATCH net-next 08/12] net: pse-pd: pd692x0: Add support for PSE
- PI priority feature
-Message-ID: <ZwVHhxd5KLD5GXh2@pengutronix.de>
+Subject: Re: [PATCH net-next 06/12] net: ethtool: Add PSE new port priority
+ support feature
+Message-ID: <ZwVJNomEzQJOr8jx@pengutronix.de>
 References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
- <20241002-feature_poe_port_prio-v1-8-787054f74ed5@bootlin.com>
- <1e9cdab6-f15e-4569-9c71-eb540e94b2fe@lunn.ch>
- <ZwU6QuGSbWF36hhF@pengutronix.de>
- <20241008162120.18aa0a6c@kmaincent-XPS-13-7390>
+ <20241002-feature_poe_port_prio-v1-6-787054f74ed5@bootlin.com>
+ <ZwDcHCr1aXeGWXIh@pengutronix.de>
+ <20241007113026.39c4a8c2@kmaincent-XPS-13-7390>
+ <ZwPr2chTq4sX_I_b@pengutronix.de>
+ <20241008122300.37c77493@kmaincent-XPS-13-7390>
+ <20241008145617.23254843@kmaincent-XPS-13-7390>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,8 +59,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241008162120.18aa0a6c@kmaincent-XPS-13-7390>
+In-Reply-To: <20241008145617.23254843@kmaincent-XPS-13-7390>
 X-Sent-From: Pengutronix Hildesheim
 X-URL: http://www.pengutronix.de/
 X-Accept-Language: de,en
@@ -68,52 +69,28 @@ X-SA-Exim-Mail-From: ore@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Tue, Oct 08, 2024 at 04:21:20PM +0200, Kory Maincent wrote:
-> On Tue, 8 Oct 2024 15:57:22 +0200
-> Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+On Tue, Oct 08, 2024 at 02:56:17PM +0200, Kory Maincent wrote:
+> On Tue, 8 Oct 2024 12:23:00 +0200
+> Kory Maincent <kory.maincent@bootlin.com> wrote:
 > 
-> > On Thu, Oct 03, 2024 at 01:41:02AM +0200, Andrew Lunn wrote:
-> > > > +	msg = pd692x0_msg_template_list[PD692X0_MSG_SET_PORT_PARAM];
-> > > > +	msg.sub[2] = id;
-> > > > +	/* Controller priority from 1 to 3 */
-> > > > +	msg.data[4] = prio + 1;  
-> > > 
-> > > Does 0 have a meaning? It just seems an odd design if it does not.  
+> > On Mon, 7 Oct 2024 16:10:33 +0200
+> > Oleksij Rempel <o.rempel@pengutronix.de> wrote:
 > > 
-> > 0 is not documented. But there are sub-priority which are not directly
-> > configured by user, but affect the system behavior.
+> > > User will not understand why devices fail to provide enough power by
+> > > attaching two device to one domain and not failing by attaching to
+> > > different domains. Except we provide this information to the user space.
 > > 
-> > Priority#: Critical – 1; high – 2; low – 3
-> >  For ports with the same priority, the PoE Controller sets the
-> >  sub-priority according to the logic port number. (Lower number gets
-> >  higher priority).
-> > 
-> > Port priority affects:
-> > 1. Power-up order: After a reset, the ports are powered up according to
-> >  their priority, highest to lowest, highest priority will power up first.
-> > 2. Shutdown order: When exceeding the power budget, lowest priority
-> >  ports will turn off first.
-> > 
-> > Should we return sub priorities on the prio get request?
-> > 
-> > If i see it correctly, even if user do not actively configures priorities,
-> > they are always present. For example port 0 will have always a Prio
-> > higher than Port 10.
+> > What you are explaining seems neat on the paper but I don't know the best way
+> > to implement it. It needs more brainstorming.
 > 
-> We could add a subprio ehtool attribute, but it won't be configurable.
-> In fact it could be configurable by changing the port matrix order but it is not
-> a good idea. Applying a new port matrix turn off all the ports.
-> 
-> I am not sure if it is specific to Microchip controller or if it is generic
-> enough to add the attribute.
-> I would say not to return it for now.
+> Is it ok for you if we go further with this patch series and continue talking
+> about PSE power domain alongside?
+> It should not be necessary to be supported with port priority as the two PSE
+> supported controller can behave autonomously on a power domain.
+> I hope I will have time in the project to add its support when we will have a
+> more precise idea of how.
 
-The generic attribute do not reflect the behavior of two different
-controllers. Currently implemented prio attribute is in this case TI
-specific and do not work for Microchip case.
-
-Please note, I do not care about configurability in this case, I only
-care about information the user get.
+Ok.
 
 -- 
 Pengutronix e.K.                           |                             |
