@@ -1,109 +1,90 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009A3176AD8
-	for <linux-doc@vger.kernel.org>; Tue,  8 Oct 2024 07:32:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4EC1E1A09;
+	Tue,  8 Oct 2024 07:51:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728372749; cv=none; b=p7AM3CwMeANwuT3FdC085GEPHNjykinu+cE+NV7EmirZdaI4a2Cd71wv7XRSDEeuQ+NG2JrLvrTUfqHI1gZWxQMmz0KETfMc+kjjWh2agfoxxc712KX2EJUz8rZx6fLdnrwEnqninx9D+lEKJ3MWVOitQS2FqgQZ0FVaniUKurw=
+	t=1728373911; cv=none; b=LA5ABgCzBbvM29bztWrb9OnAovS0xZD9CNi7ValHfuVA3QmWmVdfLBfaWvvu5ULH6C84HjOGg0v3WNOQHlixr5WTiPaEu/+DZpPeGVeJIWDgpFO6QKBQsDL4LhP3Z10f7W3O98SRRKvAcXbjG3Q8mi2Kydo43urGfOuX7HwaSvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728372749; c=relaxed/simple;
-	bh=DwhgU5Yy+8M4tb16A5X8DlJ7lDayv35s+EicK1uxF5M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VV3OY25Mi2Gdp99Ui+rcrf2stQXMMATAE2Md6hc9Lxn+LeQIPmMjp2cIq2ownmnWmAFjjQJn4e/oZRQOuecaA14vEwVtKxU2O/MYGhgV6yYLWWyIOR7ZKLoqOqtgHKqbFlfAFUWrg6Gr3H/rP7gEy5u9/V3xPKOlPBPAaq0RspY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LBQHnKnH; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1728373911; c=relaxed/simple;
+	bh=uEXaQKrRikUA6bCkNomJAeg5V99x0e8HgUGv90BG0PA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dotxuGOK+IEFZAEFtYfmafhGWObjV15GCnyiEI5ZXu2T33KM8hj5MMDFvTDKu0bmhldAa3i2o5je2Fcbitr5Roo/KSLmb/G/XU//zMKildy3unCCL9MGKkuUWqdHJnacWy1+OT6iDSTTXP4QoX5i/4KkB/daZLlXsYNHNk2prLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MM0rVwn3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LBQHnKnH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1728372746;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sUVvUSYhWlp+88sIj5WPfwtDLumv/s1zi3uObWKuh70=;
-	b=LBQHnKnHz3xxTaGSRhHFHxiI6v1nnPJvZFNoXQ3y4FY/ZOSSdDIFtawuAHY98xJAvqG5QX
-	fcwoIszL6rs/6LQTL8RcLcwMQKfuj0cLhbED+dAhpZfsiYBdRXz1TxkXea2zR2EWqzL1Ik
-	iiyP4/ehPSYE6HhQgszTfaLa6cNPUww=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-332-1vKd-Y6OPc2N8_FgmHb5rw-1; Tue, 08 Oct 2024 03:32:25 -0400
-X-MC-Unique: 1vKd-Y6OPc2N8_FgmHb5rw-1
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-37cda7514f8so2918994f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 08 Oct 2024 00:32:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728372744; x=1728977544;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sUVvUSYhWlp+88sIj5WPfwtDLumv/s1zi3uObWKuh70=;
-        b=YmvsY3CgUcqNooBw4RkLXFULQtYxiJDPjd8k3mhLIpwtjEZYvYcM6nmcF2r12eWwNQ
-         MqmHFbu/1gSpfwuOn5SFK/JQdSJRPf6y+g1KH0auv6WbwTf4tu6oarZUeXP8bIQSJqXw
-         V/oXikoRwxcQBWJYO5RJ36BaN+X+g1tnz5IZ6eAVMazZAk4xYqoKtMhDfobaBVwq2PjA
-         GPjADrhIZKFbuSH/cfA1X2K4F2xlhWkT+C7YbEiuL+JFUub1N8ZXuNDHGpSw04UA7HSa
-         Rb8BbPKlA+Xg9JO0zAHhSRHzzSDNtvqEXktttk8Mwh38uDarWfjgtkhix7g7qw8pfDOB
-         svtw==
-X-Forwarded-Encrypted: i=1; AJvYcCVoFNNxlUwz/MvLrOBqiNpd4MtEqeaN0n3QdKetBXR9m3KcDj/EuzBw18YY5ljyX6xtolDmcUbEHRE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZENMjzOVWOBaFMCVYca3sdE8vrcyG4X/HtJ+1lh3udAzJMpRk
-	rCNn92PGvg+qgNJsH62zTVocCmg/yLLUJr14ot8qU0PmUJ5bNq5BVZOoGkjQQ3A5JbvOQ6DRLvn
-	UtvbYzUPZdHktvjbzWB8WmPjDxKQbnHSRVytnEeRFIfQvpMYHwdtDPOrm7w==
-X-Received: by 2002:adf:8911:0:b0:37d:34e7:6d22 with SMTP id ffacd0b85a97d-37d34e76e3fmr131225f8f.23.1728372744281;
-        Tue, 08 Oct 2024 00:32:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEpCnvtixSaLUfdgYPnnjPQGLPmTjWqJP1lD23M3dwkKjE0komRd6BQG+qeyHuiM222PdHmAw==
-X-Received: by 2002:adf:8911:0:b0:37d:34e7:6d22 with SMTP id ffacd0b85a97d-37d34e76e3fmr131205f8f.23.1728372743768;
-        Tue, 08 Oct 2024 00:32:23 -0700 (PDT)
-Received: from [192.168.88.248] (146-241-47-72.dyn.eolo.it. [146.241.47.72])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d1697301fsm7326394f8f.100.2024.10.08.00.32.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Oct 2024 00:32:23 -0700 (PDT)
-Message-ID: <4bd1d414-3f69-44d5-bb41-c44509b38f89@redhat.com>
-Date: Tue, 8 Oct 2024 09:32:20 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MM0rVwn3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71BC3C4CEC7;
+	Tue,  8 Oct 2024 07:51:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728373911;
+	bh=uEXaQKrRikUA6bCkNomJAeg5V99x0e8HgUGv90BG0PA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MM0rVwn3r4/3A2eGN9DSGcI1XKhwb/6SkgaNDatEQyGOdFg2+BUIJ3tXMWmkjm+RD
+	 6WSNd1kgfy2bI3WUQ9R5H/z/1MQoUTe6NiT2eq2BSSK6kszLOEbJb3oxI4pUSCL/RD
+	 ooDKzml5P+yIf2X2pR2wzjrCA8yAUubLQbQ9IBbLdvj316zGstf2lRhuBuRUNEILHo
+	 5KQY5zGr9k7TVliVArMbm4voBHzM4yQFlB/TAOEEstzr2bJaJEr8TRb5OkG/5lA4Q/
+	 5kci8l9V+R/2/kswimHNXHGHiJrKyxnC+FiF4B3JRq3B+VpCEm9cbGbumnrKiWDmcq
+	 VdpVZJdcEofPg==
+Date: Tue, 8 Oct 2024 09:51:46 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Julien Stephan <jstephan@baylibre.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
+	David Lechner <dlechner@baylibre.com>, Jonathan Cameron <jic23@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Conor Dooley <conor.dooley@microchip.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/6] dt-bindings: iio: adc: ad7380: remove voltage
+ reference for supplies
+Message-ID: <yjfkbmcwu5rtpvzynvcki7slmrr6ia6ng6zuxdti6nzpljvudy@klfcpocgww3k>
+References: <20241007-ad7380-fix-supplies-v1-0-badcf813c9b9@baylibre.com>
+ <20241007-ad7380-fix-supplies-v1-1-badcf813c9b9@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V7 0/5] TPH and cache direct injection support
-To: Michael Chan <michael.chan@broadcom.com>,
- Bjorn Helgaas <helgaas@kernel.org>
-Cc: Wei Huang <wei.huang2@amd.com>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- netdev@vger.kernel.org, Jonathan.Cameron@huawei.com, corbet@lwn.net,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- alex.williamson@redhat.com, gospo@broadcom.com, ajit.khaparde@broadcom.com,
- somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
- manoj.panicker2@amd.com, Eric.VanTassell@amd.com, vadim.fedorenko@linux.dev,
- horms@kernel.org, bagasdotme@gmail.com, bhelgaas@google.com,
- lukas@wunner.de, paul.e.luse@intel.com, jing2.liu@intel.com
-References: <20241002165954.128085-1-wei.huang2@amd.com>
- <20241002213555.GA279877@bhelgaas>
- <CACKFLi=ieNNx57i1fG2R6+C1LyXV4oY6=e9AD+Pw-8WtW2X8jw@mail.gmail.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <CACKFLi=ieNNx57i1fG2R6+C1LyXV4oY6=e9AD+Pw-8WtW2X8jw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241007-ad7380-fix-supplies-v1-1-badcf813c9b9@baylibre.com>
 
-On 10/3/24 00:08, Michael Chan wrote:
-> On Wed, Oct 2, 2024 at 2:35 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
->> I tentatively applied this on pci/tph for v6.13.
->>
->> Not sure what you intend for the bnxt changes, since they depend on
->> the PCI core changes.  I'm happy to merge them via PCI, given acks
->> from Michael and an overall network maintainer.
+On Mon, Oct 07, 2024 at 05:45:44PM +0200, Julien Stephan wrote:
+> Voltages may not bo valid for future compatible parts, so remove them and
+> remove useless description
 > 
-> The bnxt patch can go in through the PCI tree if Jakub agrees.  Thanks.
+> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> ---
+>  Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml | 14 +++-----------
+>  1 file changed, 3 insertions(+), 11 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
+> index bd19abb867d9..72c51b3de97b 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
+> @@ -55,17 +55,9 @@ properties:
+>    spi-cpol: true
+>    spi-cpha: true
+>  
+> -  vcc-supply:
+> -    description: A 3V to 3.6V supply that powers the chip.
+> -
+> -  vlogic-supply:
+> -    description:
+> -      A 1.65V to 3.6V supply for the logic pins.
+> -
+> -  refio-supply:
+> -    description:
+> -      A 2.5V to 3.3V supply for the external reference voltage. When omitted,
+> -      the internal 2.5V reference is used.
 
-I guess the most critical point is to avoid complex conflict at merge 
-window time. My understanding it that the conventional way to avoid such 
-issue would be sharing a stable branch somewhere with this change on top 
-which both the netdev and the PCI tree could pull from.
+This is valid description. I would say all of them are useful, not
+useless.
 
-Cheers,
-
-Paolo
+Best regards,
+Krzysztof
 
