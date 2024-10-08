@@ -1,225 +1,196 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B5E1DEFE1
-	for <linux-doc@vger.kernel.org>; Tue,  8 Oct 2024 06:27:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3911CACFB
+	for <linux-doc@vger.kernel.org>; Tue,  8 Oct 2024 06:54:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728368876; cv=none; b=TB+tXYw/VdG2V+0aBC+GbptZOtkMdDYayfKknDTcSQh+WTrlwDPM6fCQiPCVklZ2ZpdBjXB7RsWivbLhBOsKlGcyRBdZJ/yK1Rbl80LxlkwMLh9HfFVm4IVMBKRVWXvu1R+ymuTSChNUcBRMwWFpyJvuyoBpnxyC8ZJCmXL0Vhc=
+	t=1728370478; cv=none; b=X6z2PSeSJD5UQ4Zcg13g3fHfEHDtBU8gvHPIY+KrADPAl6KZmKgpZ3bCWKTX1+8ZWz7aR5fqnxnLQ4BtoObSoGgB3oUc/3Rez3ANu/7GqZqs94WzX16NVM7X4r+9SDq8ZQThwVMPG5ZDwlpKo9DFwDKoToAQHQyFEjBdr7lcITQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728368876; c=relaxed/simple;
-	bh=sRrs971ywU2XBHAio/v+KH3KPEi6b2tpjaOK3Y8GDYY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jTB2bMsHOw9xdJ/7w8XsteP3mgYDQGaE9e1OFyFbvLbBYBOgdHDILOQ4p4PA9s7pO1CJfA3LSSAfqGWdxr3+50KPNcurOvq/mBeELL76rOJ8D5xhTOnJA7kMirzdKhVvJl+2ecZBrv2MR1c99GuDp6dzz6ftS+1RHR/1epqCgj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=XTIHt7n8; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1728370478; c=relaxed/simple;
+	bh=6j/9R+ZY3hri2Pq0LzMiZP+7u1JzeaSfqhBdxGp4lDo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To; b=f8+betHWjo6w4b7sdoWfJVwEqO5fWxyrEE7Hg/ruPcXK29YSM8TzgP+78nCsTxHp5tHnl7ZLcl5NCF0ExTEC9y8iulsyc5aEWrRwsmSJxG2aEFJPkRP3HqmSq9lekOVYHmYlZLAUXm/P47ywKY5nij10sjqiSASOK3tCqGLWS+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=none smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=qp+4PYjj; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=daynix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="XTIHt7n8"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2e082bf1c7fso3593489a91.3
-        for <linux-doc@vger.kernel.org>; Mon, 07 Oct 2024 23:27:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="qp+4PYjj"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-20b6458ee37so61579655ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 07 Oct 2024 23:54:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1728368873; x=1728973673; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=yD1uY1GFMUYlwE1Gpa3bWH24Ki4C8p8PksybGuIxKXE=;
-        b=XTIHt7n8eFdZ98U/iFWue/AxK+I9gGtVd1ksnkBACkNE4Ir/TPvhqYx+tkzy8Sl5J5
-         Swmen6YabiMoYR83mUXPFuus/OrvInPq/eOgEJjayw11BERkTFwsaDqhqR8TEnNdadX2
-         HSjfp0VtceYiCRaLbHfQ1dlUm01Y+B+4/hIvll01ntHwoKENIJ5+LxiF9Ek2G2TaLjJI
-         kyQOrkZSTZ1/WGp6V+i5slBo/mqB39+TwKTPE9YGXfyY2ffObMucn5Q6jg3XMnjAHtjA
-         Q+34YskpP/mU99fti72DpH+Ol4kOXEWdvmkEy1ffzlCW4BcziiNvJrrIUm2NZgiGUvsJ
-         hdVQ==
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1728370476; x=1728975276; darn=vger.kernel.org;
+        h=to:content-transfer-encoding:mime-version:message-id:date:subject
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8gty0dEnircfdREPGfEnkI3a1znlqYE3ZJr68g8y4pY=;
+        b=qp+4PYjjKIP7yWhCdM47DkiyBzhDd1QwrCwW1dYjZ1x79FjhqkUyhTQMszvnAV7fx2
+         vTdu91qzoyZIVzsIE/HcMPwRNWwlyA357gK47EJWmyJXTNU/2zIrzlVxC+8x6hS6cFBo
+         j4SUfUKP663X+phL1dxePLzjRj9xxFGn9+PqK+Ppawv45f+cKfs1WbMhyGfMku1MTk1I
+         bFUmRH2kOX5/oojo3huyAKA5hmyWk/UB2n4/WigRu4Wx2mzQ3rNDCEkX4+NbJFruap0+
+         ZvxBPBqbHIj4F0rQ5EAkC64hEAynoyD6HBW1ImMeaM0Ji/NWhy+44QAdP9kQXJfNYcHG
+         sDzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728368873; x=1728973673;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yD1uY1GFMUYlwE1Gpa3bWH24Ki4C8p8PksybGuIxKXE=;
-        b=qo8cr/hMenQMrA4gJBv/ustsUzNNwOAenn21iFKTW86IXiGk2UeQevxuwO6C79+hHz
-         prC0zA9R3ulvLF4n348s1vZvWwabztE3hRLgV++41aRt+QkX44kZhYF+FwCszyzFaSc5
-         SqdTBJDTNnu92AtgPoFkhAjtRWLuZ2cQv/7X2DOwU9smEYJZ45L7pD8k71zHbZEoXe9d
-         n24x56deK0rKQNvPQSr8uMOdD8X17MpsCx9fMauGMA8zjvH0+JK+9Ozx+HFEaEeNEidU
-         B5uo+IFDWXCt61Z6qlbQK3grz9GxeH9GhwVj7TCRdVWoCDVqu+OIr8ksS2uFpz/qMHUz
-         8SwA==
-X-Forwarded-Encrypted: i=1; AJvYcCWNc0JrSpQzW4YGoVWmNO1d0plHU6pRsxrKJ2Qd9IDjcLt8rAKdQNIjbl8Pdr+oc6uFlwn8UROof1Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdOo3NQ9ImTsy3N4HkrgDlmkCjvGUa+Gf87blWdtk5HWn9iKKK
-	x698tyPUXezxbP8pn/ubSU99I1iAxU9a2FX84rlVjcdyWQ0uLzRrlD3QpUhrMA8=
-X-Google-Smtp-Source: AGHT+IF/ZQHlU6tp9Sg21rBMwoL6ZDWlzQEcykMAFPhKfSpu/YJnzOfJudFoJo575FCLm+0FY5JUkg==
-X-Received: by 2002:a17:90b:1b05:b0:2d3:cd5c:15bb with SMTP id 98e67ed59e1d1-2e1e63698a6mr17009604a91.25.1728368873537;
-        Mon, 07 Oct 2024 23:27:53 -0700 (PDT)
-Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e28b773a77sm464805a91.11.2024.10.07.23.27.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Oct 2024 23:27:53 -0700 (PDT)
-Date: Mon, 7 Oct 2024 23:27:49 -0700
-From: Deepak Gupta <debug@rivosinc.com>
-To: Zong Li <zong.li@sifive.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	alistair.francis@wdc.com, richard.henderson@linaro.org,
-	jim.shu@sifive.com, andybnac@gmail.com, kito.cheng@sifive.com,
-	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
-	cleger@rivosinc.com, alexghiti@rivosinc.com,
-	samitolvanen@google.com, broonie@kernel.org,
-	rick.p.edgecombe@intel.com
-Subject: Re: [PATCH 16/33] riscv/shstk: If needed allocate a new shadow stack
- on clone
-Message-ID: <ZwTQ5c+YOQFHa4YC@debug.ba.rivosinc.com>
-References: <20241001-v5_user_cfi_series-v1-0-3ba65b6e550f@rivosinc.com>
- <20241001-v5_user_cfi_series-v1-16-3ba65b6e550f@rivosinc.com>
- <CANXhq0rpwQkZ9+mZLGVUq=r4WiA8BbZ-eeTDogf3fzeEPqeeqA@mail.gmail.com>
- <ZwRvAEwFbrpq3zZq@debug.ba.rivosinc.com>
- <CANXhq0qaokjDC9hb75_dpGuyOd_ex8+q7YNe8pAg7dbTcxuLSg@mail.gmail.com>
- <ZwTDonkiATv999sS@debug.ba.rivosinc.com>
- <CANXhq0r611Hi7pohDGRXhvi2E_uOFjwLRDrqZcL2WdLHcs+oHA@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1728370476; x=1728975276;
+        h=to:content-transfer-encoding:mime-version:message-id:date:subject
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8gty0dEnircfdREPGfEnkI3a1znlqYE3ZJr68g8y4pY=;
+        b=gFlHE61leA+dM7GMnj+0cKYr4qle6p6dcMVCDbHlxxRC0YqM8CSCsblQaeaRFvnVxZ
+         T/7HAlCeM0MfNwx592Cj+G5+L2d0uaQaIE44g7UAPBGn9VLhVepBQCJsoHS7sDeTyhOa
+         0rdelm3aJf4QM+i7YycXUX/LTL46oRcMWF4rJdwxda1mYVb12dmXmM0AQGBl7Evcax3a
+         Uobd90/5YSAJK5h8w5GaveGvgXFBtrjZbIzFRIL6iR2H04GCB0tjbzQsbGjX5RSqPkFD
+         +oAdbeFlb9SpWYTekxz9LXwLiRsuR9q2k+lU6yljA8KyWSoQv1au+bkRFDc6WNeHZrWF
+         vCNg==
+X-Forwarded-Encrypted: i=1; AJvYcCWZgJIa3F4mTffEZlYMgGr1EU14miLT2Aw86nQVJDRcc8MA+UzpYoxJvn5H+3N5m5epe45JvHALgE8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKqpKvzI+HRFPNXIKfN8utSpRHlFfjOTqTQ5P2eArX5CmzB7ne
+	Y2OMo7wP2hdiUDG7H7EztfgTR8OAdO5QKGGyyPQ8HW+Q0WWSr4BVCiLusVgEWPbL2Lm+nt2YruM
+	sYyA=
+X-Google-Smtp-Source: AGHT+IHPQgocRRuVmNwy/y+36pGmysZiERFRRt/OUdpP+pXSUlRa9FCdE9Lo2jrORE0Se01AVBe7kQ==
+X-Received: by 2002:a17:902:e882:b0:20b:9078:707b with SMTP id d9443c01a7336-20bfe02199emr225978335ad.30.1728370475858;
+        Mon, 07 Oct 2024 23:54:35 -0700 (PDT)
+Received: from localhost ([157.82.207.107])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-20c13987571sm49681435ad.250.2024.10.07.23.54.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Oct 2024 23:54:35 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH RFC v5 00/10] tun: Introduce virtio-net hashing feature
+Date: Tue, 08 Oct 2024 15:54:20 +0900
+Message-Id: <20241008-rss-v5-0-f3cf68df005d@daynix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANXhq0r611Hi7pohDGRXhvi2E_uOFjwLRDrqZcL2WdLHcs+oHA@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABzXBGcC/4XOwWrDMAyA4VcpPtdBkhUn6akw6APsOnbIbLUxp
+ fGwS2gpefcZj0HHDrtZlr8fP1SWFCSr3eahkiwhhziXod1ulJvG+SQ6+DIrAmJgMDrlrKUzne8
+ HOY5dp8rLzyTHcKuVN/V6eFHv5XIK+RrTvZYXrKsSMQjQQ0sI2CAzE2nU4zlM4Ryb6Mtp78f7H
+ G6Ni5faWejJYouMlrkhC5btv9b8WIYB2/r5xWjQzhooMf8BPf1B/ISIvxEX1LMMhsSBWPcLrev
+ 6BaOSk/1JAQAA
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ Jason Wang <jasowang@redhat.com>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ netdev@vger.kernel.org, kvm@vger.kernel.org, 
+ virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org, 
+ Yuri Benditovich <yuri.benditovich@daynix.com>, 
+ Andrew Melnychenko <andrew@daynix.com>, 
+ Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com, 
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+X-Mailer: b4 0.14-dev-fd6e3
 
-On Tue, Oct 08, 2024 at 02:18:58PM +0800, Zong Li wrote:
->On Tue, Oct 8, 2024 at 1:31 PM Deepak Gupta <debug@rivosinc.com> wrote:
->>
->> On Tue, Oct 08, 2024 at 01:16:17PM +0800, Zong Li wrote:
->> >On Tue, Oct 8, 2024 at 7:30 AM Deepak Gupta <debug@rivosinc.com> wrote:
->> >>
->> >> On Mon, Oct 07, 2024 at 04:17:47PM +0800, Zong Li wrote:
->> >> >On Wed, Oct 2, 2024 at 12:20 AM Deepak Gupta <debug@rivosinc.com> wrote:
->> >> >>
->> >> >> Userspace specifies CLONE_VM to share address space and spawn new thread.
->> >> >> `clone` allow userspace to specify a new stack for new thread. However
->> >> >> there is no way to specify new shadow stack base address without changing
->> >> >> API. This patch allocates a new shadow stack whenever CLONE_VM is given.
->> >> >>
->> >> >> In case of CLONE_VFORK, parent is suspended until child finishes and thus
->> >> >> can child use parent shadow stack. In case of !CLONE_VM, COW kicks in
->> >> >> because entire address space is copied from parent to child.
->> >> >>
->> >> >> `clone3` is extensible and can provide mechanisms using which shadow stack
->> >> >> as an input parameter can be provided. This is not settled yet and being
->> >> >> extensively discussed on mailing list. Once that's settled, this commit
->> >> >> will adapt to that.
->> >> >>
->> >> >> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
->> >> >> ---
->> >> >>  arch/riscv/include/asm/usercfi.h |  25 ++++++++
->> >>
->> >> ... snipped...
->> >>
->> >> >> +
->> >> >> +/*
->> >> >> + * This gets called during clone/clone3/fork. And is needed to allocate a shadow stack for
->> >> >> + * cases where CLONE_VM is specified and thus a different stack is specified by user. We
->> >> >> + * thus need a separate shadow stack too. How does separate shadow stack is specified by
->> >> >> + * user is still being debated. Once that's settled, remove this part of the comment.
->> >> >> + * This function simply returns 0 if shadow stack are not supported or if separate shadow
->> >> >> + * stack allocation is not needed (like in case of !CLONE_VM)
->> >> >> + */
->> >> >> +unsigned long shstk_alloc_thread_stack(struct task_struct *tsk,
->> >> >> +                                          const struct kernel_clone_args *args)
->> >> >> +{
->> >> >> +       unsigned long addr, size;
->> >> >> +
->> >> >> +       /* If shadow stack is not supported, return 0 */
->> >> >> +       if (!cpu_supports_shadow_stack())
->> >> >> +               return 0;
->> >> >> +
->> >> >> +       /*
->> >> >> +        * If shadow stack is not enabled on the new thread, skip any
->> >> >> +        * switch to a new shadow stack.
->> >> >> +        */
->> >> >> +       if (is_shstk_enabled(tsk))
->> >> >
->> >> >Hi Deepak,
->> >> >Should it be '!' is_shstk_enabled(tsk)?
->> >>
->> >> Yes it is a bug. It seems like fork without CLONE_VM or with CLONE_VFORK, it was returning
->> >> 0 anyways. And in the case of CLONE_VM (used by pthread), it was not doing the right thing.
->> >
->> >Hi Deepak,
->> >I'd like to know if I understand correctly. Could I know whether there
->> >might also be a risk when the user program doesn't enable the CFI and
->> >the kernel doesn't activate CFI. Because this flow will still try to
->> >allocate the shadow stack and execute the ssamowap command. Thanks
->>
->> `shstk_alloc_thread_stack` is only called from `copy_thread` and  allocates and
->> returns non-zero (positive value) for ssp only if `CLONE_VM` is specified.
->> `CLONE_VM` means that address space is shared and userspace has allocated
->> separate stack. This flow is ensuring that newly created thread with separate
->> data stack gets a separate shadow stack as well.
->>
->> Retruning zero value from `shstk_alloc_thread_stack` means that, no need to
->> allocate a shadow stack. If you look at `copy_thread` function, it simply sets
->> the returned ssp in newly created task's task_struct (if it was non-zero).
->> If returned ssp was zero, `copy_thread` doesn't do anything. Thus whatever is
->> current task settings are that will be copied over to new forked/cloned task.
->> If current task had shadow stack enabled, new task will also get it enabled at
->> same address (to be COWed later).
->>
->> Any task get shadow stack enabled for first time using new prctls (see prctl
->> patches).
->>
->> So only time `ssamoswap` will be exercised will be are
->> - User issues enabling `prctl` (it'll be issued from loader)
->> - fork/clone happens
->>
->> In both cases, it is guarded against checks of whether cpu supports it and task
->> has shadow stack enabled.
->>
->> Let me know if you think I missed any flow.
->
->Thanks a lot for the detail, it is very helpful for me. But sorry for
->the confusion, my question is actually on the situation with this bug
->(i.e., before the fix)
+virtio-net have two usage of hashes: one is RSS and another is hash
+reporting. Conventionally the hash calculation was done by the VMM.
+However, computing the hash after the queue was chosen defeats the
+purpose of RSS.
 
+Another approach is to use eBPF steering program. This approach has
+another downside: it cannot report the calculated hash due to the
+restrictive nature of eBPF.
 
-Yeah with the bug (i.e. before the fix), this function would still return 0
-for `fork` or `clone` with `!CLONE_VM`. And if existing (current) thread had
-shadow stack enabled, that will become shadow stack for new thread (COWed later)
+Introduce the code to compute hashes to the kernel in order to overcome
+thse challenges.
 
-The bug would surface only when `clone` is called with `CLONE_VM` and in that case
-instead of allocating a new shadow stack, it would be re-using same shadow stack
-for both `pthreads`.
+An alternative solution is to extend the eBPF steering program so that it
+will be able to report to the userspace, but it is based on context
+rewrites, which is in feature freeze. We can adopt kfuncs, but they will
+not be UAPIs. We opt to ioctl to align with other relevant UAPIs (KVM
+and vhost_net).
 
-In anycase, thanks again for noticing and bringing it up.
+The patches for QEMU to use this new feature was submitted as RFC and
+is available at:
+https://patchew.org/QEMU/20240915-hash-v3-0-79cb08d28647@daynix.com/
 
->
->>
->> >
->> >> Most of the testing has been with busybox build (independent binaries0 driven via buildroot
->> >> setup. Wondering why it wasn't caught.
->> >>
->> >> Anyways, will fix it. Thanks for catching it.
->> >>
->> >> >
->> >> >> +               return 0;
->> >> >> +
->> >> >> +       /*
+This work was presented at LPC 2024:
+https://lpc.events/event/18/contributions/1963/
+
+V1 -> V2:
+  Changed to introduce a new BPF program type.
+
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+---
+Changes in v5:
+- Fixed a compilation error with CONFIG_TUN_VNET_CROSS_LE.
+- Optimized the calculation of the hash value according to:
+  https://git.dpdk.org/dpdk/commit/?id=3fb1ea032bd6ff8317af5dac9af901f1f324cab4
+- Added patch "tun: Unify vnet implementation".
+- Dropped patch "tap: Pad virtio header with zero".
+- Added patch "selftest: tun: Test vnet ioctls without device".
+- Reworked selftests to skip for older kernels.
+- Documented the case when the underlying device is deleted and packets
+  have queue_mapping set by TC.
+- Reordered test harness arguments.
+- Added code to handle fragmented packets.
+- Link to v4: https://lore.kernel.org/r/20240924-rss-v4-0-84e932ec0e6c@daynix.com
+
+Changes in v4:
+- Moved tun_vnet_hash_ext to if_tun.h.
+- Renamed virtio_net_toeplitz() to virtio_net_toeplitz_calc().
+- Replaced htons() with cpu_to_be16().
+- Changed virtio_net_hash_rss() to return void.
+- Reordered variable declarations in virtio_net_hash_rss().
+- Removed virtio_net_hdr_v1_hash_from_skb().
+- Updated messages of "tap: Pad virtio header with zero" and
+  "tun: Pad virtio header with zero".
+- Fixed vnet_hash allocation size.
+- Ensured to free vnet_hash when destructing tun_struct.
+- Link to v3: https://lore.kernel.org/r/20240915-rss-v3-0-c630015db082@daynix.com
+
+Changes in v3:
+- Reverted back to add ioctl.
+- Split patch "tun: Introduce virtio-net hashing feature" into
+  "tun: Introduce virtio-net hash reporting feature" and
+  "tun: Introduce virtio-net RSS".
+- Changed to reuse hash values computed for automq instead of performing
+  RSS hashing when hash reporting is requested but RSS is not.
+- Extracted relevant data from struct tun_struct to keep it minimal.
+- Added kernel-doc.
+- Changed to allow calling TUNGETVNETHASHCAP before TUNSETIFF.
+- Initialized num_buffers with 1.
+- Added a test case for unclassified packets.
+- Fixed error handling in tests.
+- Changed tests to verify that the queue index will not overflow.
+- Rebased.
+- Link to v2: https://lore.kernel.org/r/20231015141644.260646-1-akihiko.odaki@daynix.com
+
+---
+Akihiko Odaki (10):
+      virtio_net: Add functions for hashing
+      skbuff: Introduce SKB_EXT_TUN_VNET_HASH
+      net: flow_dissector: Export flow_keys_dissector_symmetric
+      tun: Unify vnet implementation
+      tun: Pad virtio header with zero
+      tun: Introduce virtio-net hash reporting feature
+      tun: Introduce virtio-net RSS
+      selftest: tun: Test vnet ioctls without device
+      selftest: tun: Add tests for virtio-net hashing
+      vhost/net: Support VIRTIO_NET_F_HASH_REPORT
+
+ Documentation/networking/tuntap.rst  |   7 +
+ MAINTAINERS                          |   1 +
+ drivers/net/Kconfig                  |   1 +
+ drivers/net/tap.c                    | 218 ++++--------
+ drivers/net/tun.c                    | 293 ++++++----------
+ drivers/net/tun_vnet.h               | 342 +++++++++++++++++++
+ drivers/vhost/net.c                  |  16 +-
+ include/linux/if_tap.h               |   2 +
+ include/linux/skbuff.h               |   3 +
+ include/linux/virtio_net.h           | 188 +++++++++++
+ include/net/flow_dissector.h         |   1 +
+ include/uapi/linux/if_tun.h          |  75 +++++
+ net/core/flow_dissector.c            |   3 +-
+ net/core/skbuff.c                    |   4 +
+ tools/testing/selftests/net/Makefile |   2 +-
+ tools/testing/selftests/net/tun.c    | 630 ++++++++++++++++++++++++++++++++++-
+ 16 files changed, 1430 insertions(+), 356 deletions(-)
+---
+base-commit: 752ebcbe87aceeb6334e846a466116197711a982
+change-id: 20240403-rss-e737d89efa77
+
+Best regards,
+-- 
+Akihiko Odaki <akihiko.odaki@daynix.com>
+
