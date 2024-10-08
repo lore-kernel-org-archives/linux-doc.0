@@ -1,98 +1,109 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3714C1D90A9
-	for <linux-doc@vger.kernel.org>; Tue,  8 Oct 2024 07:17:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009A3176AD8
+	for <linux-doc@vger.kernel.org>; Tue,  8 Oct 2024 07:32:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728371841; cv=none; b=bID7vBSUmg/+ffX4a+l2EnoF80zZeWGH/avU7g5b0BPWQDsH+ww/IL+TEaCGeL17lHhyo//aQA8Rz66ECk+EXHmjxH/UfBXN1QKw0K4D0isrxs+8Q+roGtQ2TqzwY+G07wyA2PJed4aDe8EqUyHPQv2zTse+E7ZE0S7X67rfI0A=
+	t=1728372749; cv=none; b=p7AM3CwMeANwuT3FdC085GEPHNjykinu+cE+NV7EmirZdaI4a2Cd71wv7XRSDEeuQ+NG2JrLvrTUfqHI1gZWxQMmz0KETfMc+kjjWh2agfoxxc712KX2EJUz8rZx6fLdnrwEnqninx9D+lEKJ3MWVOitQS2FqgQZ0FVaniUKurw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728371841; c=relaxed/simple;
-	bh=/IbPserPXJa1bMDNzcpey2MsSiGwUivhhrPZ/JfO9dg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LJbmoAGo+IEyEYKrc4ci0JJ9U5E642rqCtzxku55vpxeK6s7o6IEl1hLTbKabXYqgzdDjHXlD0uYHPf/F4y+dxw7zu4ZFPnm6OIhXUlEBHXEfK6zM/YzCaKPrquYxfv+GIRr22uogAHuvjLhYOiw3jytRaiudMV7gt0QjzaeLcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everestkc.com.np; spf=none smtp.mailfrom=everestkc.com.np; dkim=fail (2048-bit key) header.d=everestkc.com.np header.i=@everestkc.com.np header.b=SXUz4QNl reason="signature verification failed"; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everestkc.com.np
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=everestkc.com.np
+	s=arc-20240116; t=1728372749; c=relaxed/simple;
+	bh=DwhgU5Yy+8M4tb16A5X8DlJ7lDayv35s+EicK1uxF5M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VV3OY25Mi2Gdp99Ui+rcrf2stQXMMATAE2Md6hc9Lxn+LeQIPmMjp2cIq2ownmnWmAFjjQJn4e/oZRQOuecaA14vEwVtKxU2O/MYGhgV6yYLWWyIOR7ZKLoqOqtgHKqbFlfAFUWrg6Gr3H/rP7gEy5u9/V3xPKOlPBPAaq0RspY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LBQHnKnH; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=everestkc.com.np header.i=@everestkc.com.np header.b="SXUz4QNl"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-71e029efecdso1562160b3a.3
-        for <linux-doc@vger.kernel.org>; Tue, 08 Oct 2024 00:17:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=everestkc.com.np; s=everest; t=1728371836; x=1728976636; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=f01doXKW6VFqsZ9MOvvcKDX1KhWLQSKuPO/rCisrRcY=;
-        b=SXUz4QNlRZv35Hg1fCJeppBfUO4GYxuADIRAtbI+p2j89whTCrVZ2qMLSj1+58DtX1
-         9NTNqIt5SWi9i4+oOUlnTHvxg4pPPvKnKGkcHTppFMh6K6tMHauI2FXKvgB9GM+Jz1qp
-         7L8QmwgCIX6UFPCLveMH3BP2rVBcoV1UK1Gg3t5QdzJjF04uPq2XHiEchf1P2yZLOEAg
-         lGtbPQrhFl6zsDPS0d6iBvn0Zm76pOdYQ33hBNJGUaohV89OO18gf20icT6jUQKhoW68
-         gF8HS8Qi49K6RFmuklsdKK7bDYAI0qhmZaCh8lQrNQV/qDAslhUYtx+hVV7MOCsi8Pij
-         K98A==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LBQHnKnH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1728372746;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sUVvUSYhWlp+88sIj5WPfwtDLumv/s1zi3uObWKuh70=;
+	b=LBQHnKnHz3xxTaGSRhHFHxiI6v1nnPJvZFNoXQ3y4FY/ZOSSdDIFtawuAHY98xJAvqG5QX
+	fcwoIszL6rs/6LQTL8RcLcwMQKfuj0cLhbED+dAhpZfsiYBdRXz1TxkXea2zR2EWqzL1Ik
+	iiyP4/ehPSYE6HhQgszTfaLa6cNPUww=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-332-1vKd-Y6OPc2N8_FgmHb5rw-1; Tue, 08 Oct 2024 03:32:25 -0400
+X-MC-Unique: 1vKd-Y6OPc2N8_FgmHb5rw-1
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-37cda7514f8so2918994f8f.0
+        for <linux-doc@vger.kernel.org>; Tue, 08 Oct 2024 00:32:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728371836; x=1728976636;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=f01doXKW6VFqsZ9MOvvcKDX1KhWLQSKuPO/rCisrRcY=;
-        b=Uy1JVdr7I1f8e17plt64THYmFOmw3njFztYKP050z2wPL60hQJWm4fNWqDr7XG66K9
-         yyzrLmaSctF6P/d7x6WgGW4ZFWGURva6KgK4zfOMILFgYcI4aoQQjM64UbThavJejUXO
-         NtKtVpqmO+h4wqdRoVhJ7S/tFQoBWCegZpM0lUzvEs2kbSA//qjrwdR4gC8a9y38DEBs
-         eXWPtqkw1vKNjdXN8hgg1f+aS1tr60RLKu30Gftb4P+xwottOPuPIwZ13wVeQnRFl0Gj
-         7LQdYnl9hPN8YpROo42PkPLGCja3plhEBBfPipumNlgHwwskGNtqEZrR5ZmD85ui/BL5
-         hcEw==
-X-Forwarded-Encrypted: i=1; AJvYcCUwbrbjC7OdelqnvpOqLfP9WJZPrr8Pyg9jc2tBfRH3F1RMIeXM91llr8BbOEwmxjArD072I0gSgi4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZM07zbC0/KkXvGF0Np8Ox/RyYzJcsXcneqwPE0LTnbp7d57iz
-	Iy9G1SM6azpVOddUUKYECuUQ9uiAppuFWOBV1WZ7DJm5CU4i6NUrMCfLv2ZcFxo=
-X-Google-Smtp-Source: AGHT+IEUDv9nt+vKX0Q/pnMHLEKmwOXUvnewz9lr9/wo/hLdaw/xgTmRckwI+bGaNzPWcVxI+fAWWw==
-X-Received: by 2002:a05:6a00:2289:b0:71e:117d:b12e with SMTP id d2e1a72fcca58-71e117db5demr2405190b3a.9.1728371836414;
-        Tue, 08 Oct 2024 00:17:16 -0700 (PDT)
-Received: from localhost.localdomain ([81.17.122.195])
-        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-7e9f682d368sm6107758a12.43.2024.10.08.00.17.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Oct 2024 00:17:15 -0700 (PDT)
-From: "Everest K.C." <everestkc@everestkc.com.np>
-To: andersson@kernel.org,
-	mathieu.poirier@linaro.org,
-	corbet@lwn.net
-Cc: "Everest K.C." <everestkc@everestkc.com.np>,
-	skhan@linuxfoundation.org,
-	linux-remoteproc@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] remoteproc: Fix spelling error in remoteproc.rst
-Date: Tue,  8 Oct 2024 01:15:57 -0600
-Message-ID: <20241008071559.18523-1-everestkc@everestkc.com.np>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1728372744; x=1728977544;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sUVvUSYhWlp+88sIj5WPfwtDLumv/s1zi3uObWKuh70=;
+        b=YmvsY3CgUcqNooBw4RkLXFULQtYxiJDPjd8k3mhLIpwtjEZYvYcM6nmcF2r12eWwNQ
+         MqmHFbu/1gSpfwuOn5SFK/JQdSJRPf6y+g1KH0auv6WbwTf4tu6oarZUeXP8bIQSJqXw
+         V/oXikoRwxcQBWJYO5RJ36BaN+X+g1tnz5IZ6eAVMazZAk4xYqoKtMhDfobaBVwq2PjA
+         GPjADrhIZKFbuSH/cfA1X2K4F2xlhWkT+C7YbEiuL+JFUub1N8ZXuNDHGpSw04UA7HSa
+         Rb8BbPKlA+Xg9JO0zAHhSRHzzSDNtvqEXktttk8Mwh38uDarWfjgtkhix7g7qw8pfDOB
+         svtw==
+X-Forwarded-Encrypted: i=1; AJvYcCVoFNNxlUwz/MvLrOBqiNpd4MtEqeaN0n3QdKetBXR9m3KcDj/EuzBw18YY5ljyX6xtolDmcUbEHRE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZENMjzOVWOBaFMCVYca3sdE8vrcyG4X/HtJ+1lh3udAzJMpRk
+	rCNn92PGvg+qgNJsH62zTVocCmg/yLLUJr14ot8qU0PmUJ5bNq5BVZOoGkjQQ3A5JbvOQ6DRLvn
+	UtvbYzUPZdHktvjbzWB8WmPjDxKQbnHSRVytnEeRFIfQvpMYHwdtDPOrm7w==
+X-Received: by 2002:adf:8911:0:b0:37d:34e7:6d22 with SMTP id ffacd0b85a97d-37d34e76e3fmr131225f8f.23.1728372744281;
+        Tue, 08 Oct 2024 00:32:24 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEpCnvtixSaLUfdgYPnnjPQGLPmTjWqJP1lD23M3dwkKjE0komRd6BQG+qeyHuiM222PdHmAw==
+X-Received: by 2002:adf:8911:0:b0:37d:34e7:6d22 with SMTP id ffacd0b85a97d-37d34e76e3fmr131205f8f.23.1728372743768;
+        Tue, 08 Oct 2024 00:32:23 -0700 (PDT)
+Received: from [192.168.88.248] (146-241-47-72.dyn.eolo.it. [146.241.47.72])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d1697301fsm7326394f8f.100.2024.10.08.00.32.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Oct 2024 00:32:23 -0700 (PDT)
+Message-ID: <4bd1d414-3f69-44d5-bb41-c44509b38f89@redhat.com>
+Date: Tue, 8 Oct 2024 09:32:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V7 0/5] TPH and cache direct injection support
+To: Michael Chan <michael.chan@broadcom.com>,
+ Bjorn Helgaas <helgaas@kernel.org>
+Cc: Wei Huang <wei.huang2@amd.com>, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ netdev@vger.kernel.org, Jonathan.Cameron@huawei.com, corbet@lwn.net,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ alex.williamson@redhat.com, gospo@broadcom.com, ajit.khaparde@broadcom.com,
+ somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
+ manoj.panicker2@amd.com, Eric.VanTassell@amd.com, vadim.fedorenko@linux.dev,
+ horms@kernel.org, bagasdotme@gmail.com, bhelgaas@google.com,
+ lukas@wunner.de, paul.e.luse@intel.com, jing2.liu@intel.com
+References: <20241002165954.128085-1-wei.huang2@amd.com>
+ <20241002213555.GA279877@bhelgaas>
+ <CACKFLi=ieNNx57i1fG2R6+C1LyXV4oY6=e9AD+Pw-8WtW2X8jw@mail.gmail.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <CACKFLi=ieNNx57i1fG2R6+C1LyXV4oY6=e9AD+Pw-8WtW2X8jw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Following spelling error reported by codespell
-was fixed:
-	implementors ==> implementers
+On 10/3/24 00:08, Michael Chan wrote:
+> On Wed, Oct 2, 2024 at 2:35 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+>> I tentatively applied this on pci/tph for v6.13.
+>>
+>> Not sure what you intend for the bnxt changes, since they depend on
+>> the PCI core changes.  I'm happy to merge them via PCI, given acks
+>> from Michael and an overall network maintainer.
+> 
+> The bnxt patch can go in through the PCI tree if Jakub agrees.  Thanks.
 
-Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
----
- Documentation/staging/remoteproc.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I guess the most critical point is to avoid complex conflict at merge 
+window time. My understanding it that the conventional way to avoid such 
+issue would be sharing a stable branch somewhere with this change on top 
+which both the netdev and the PCI tree could pull from.
 
-diff --git a/Documentation/staging/remoteproc.rst b/Documentation/staging/remoteproc.rst
-index 348ee7e508ac..5c226fa076d6 100644
---- a/Documentation/staging/remoteproc.rst
-+++ b/Documentation/staging/remoteproc.rst
-@@ -104,7 +104,7 @@ Typical usage
- 	rproc_shutdown(my_rproc);
-   }
- 
--API for implementors
-+API for implementers
- ====================
- 
- ::
--- 
-2.43.0
+Cheers,
+
+Paolo
 
