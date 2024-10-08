@@ -1,79 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BAA41B81CC;
-	Tue,  8 Oct 2024 12:30:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 515941DE886
+	for <linux-doc@vger.kernel.org>; Tue,  8 Oct 2024 12:44:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728390629; cv=none; b=JloORmRr3RtXY1uhe8PTQfCHDxXo1DjMhq1ueQHPzw8FDQc1dXRsS3lIXGbAVCZYIMh0rguKlUnluh6Mj4jbodICBA2IewKfc4mIM4cze0a/FoJonE7mZv7lWW32gToDAH8GR4jvE2v5ue1/uQxZHXc3VcGa62XAoziIa/Z2P7Y=
+	t=1728391481; cv=none; b=RFsBX25vFuq/1UuGYDWturvWxgwcOKcWw0KVIqcDljO8QCQ7TVef1k5wDWeU8tUDg3raoVt6zrGe/79CVdRjVjjNDNofIdhy/M6tHXkTbDwJXU++/v9JyO1hgsldxT1xBWPZs/zm91erEzkQq7SWDtnymljdev2UCfHQKFLnlGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728390629; c=relaxed/simple;
-	bh=UBn42Kzmqtwl/Zw+7YmF058K/118U9jbdKDtGk8qNk8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DgX9Sy4r7w5yV78rdrAN4tgL7D8v5sJWFe2PiDbtc3O0Lutbbun8jaYuvQ8781TnJ0KCteh+dW9L7vTBisvY7w49pVkKttqdp3vPINCnS3xNLm+v7TUZ99qkQse0ZBL4zYAjqe1PLt3Y9wtwrPvk9zPrH8wV/tkzv2VJkrbdmks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VH/9Cne5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728391481; c=relaxed/simple;
+	bh=qSOpSf+YsWDnlVAfQYKdd58y+jL1GlvU2G/SV+Dza6Q=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=PKRUmDub+OTEZ9hseEMfyqXSI+UfsLxQmPRr/fusX1YX1eJFZoo7cqwIqtT42QIgpV3yUSUGY3HxQyh7PhxLLNFUCK/wQaZiiWYBHIFa4RkHlzLBKsHzQ1W06rWF5cjZCpNR+VXg1X1XiQJYVWVCaZsyKBCEf3URGTNvjfPlv24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=p/CjKDDQ; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VH/9Cne5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 961B4C4CEC7;
-	Tue,  8 Oct 2024 12:30:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728390629;
-	bh=UBn42Kzmqtwl/Zw+7YmF058K/118U9jbdKDtGk8qNk8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VH/9Cne5w9ggAdLciDnXCEHB5k6ekrEsyUY9o9pbJ8w1JFgbLF7TD7FkPhvXwR/Xw
-	 +Qywf3VJRsX/n1guHLQN4sL88MRG2PZSKHSMDS6afC+d31CO+GqqmZMFcuqpX+MclB
-	 fo98CMBmi37ADza2syoaR8vVeaWxF6YmhGUkW0XS54pDlUpFjiCwEt02UoOdhYnKWp
-	 SyZky7z4j3Ghvj2E4ms22l2sffb32oJGWn26D6oEATwfY7KHwkobaGAqXpsw762zTf
-	 W7HLNCPfYhjqS5p8hXfsLXCMIkOWAiAFaUQbL87mZI+lCwLa9/Qu3IELFj/MDDDAUu
-	 cz5fhdRHpZd7A==
-Date: Tue, 8 Oct 2024 13:30:25 +0100
-From: Simon Horman <horms@kernel.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC net] docs: netdev: document guidance on cleanup
- patches
-Message-ID: <20241008123025.GL32733@kernel.org>
-References: <20241004-doc-mc-clean-v1-1-20c28dcb0d52@kernel.org>
- <20241007082430.21de3848@kernel.org>
- <20241007155521.GI32733@kernel.org>
- <20241007090828.05c3f0da@kernel.org>
- <20241007161501.GJ32733@kernel.org>
- <20241007095412.5a2a6e2c@kernel.org>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="p/CjKDDQ"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-42cacabd2e0so52147015e9.3
+        for <linux-doc@vger.kernel.org>; Tue, 08 Oct 2024 05:44:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1728391478; x=1728996278; darn=vger.kernel.org;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7e4/3Ls3/aNu9dK/eI4vdsZOolZWQW7jGRlN4Q4ST1w=;
+        b=p/CjKDDQffUUZoawcEzetWTaqM9zwFMqgqhg3QQbM8WqZH1OED1VwkDrgBXHSuyfWK
+         OHpAUVMMSWm4gakTI9ncUIpcqxqqf3x16mKiTdtmcsKjE7EXKeHBZVRqftJ5aZ3otnJ0
+         0ZRNnjoulywrSfykMvu24zs5AlS78MNCbqoHdOxS/ho/R8VDxoOniDSa/2+A9z6jCxIO
+         OFogICgAPWNJRZqpiL8HFPDgFZc7j2SELAOBf4sNANiJN8mAXDLlNptN5mPCc+j+BNTK
+         Co5ReAEwlsGqWmCDYkZUNgwf0yBAr62sw0FDEU1AgJFGE4dtDqr1FY1sbYxWNmP88CT5
+         +9tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728391478; x=1728996278;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7e4/3Ls3/aNu9dK/eI4vdsZOolZWQW7jGRlN4Q4ST1w=;
+        b=mkVBHwSrDipCfGsZJaiYtAA9EyVxhN7BW3lKPp+/CnWau1o9KbashYmsAHNmPinKb7
+         gD4DyB+ccGTWpidZPAOagCbm23lHW6xc2XTvZhQl4Djp9gdowzSvqxMXdji44inJo8Sc
+         +pvhOkRfaz6aRmzJiUPMnCaQoXr99wBftYXni1rtPOwQZjtCgjyBeuOVGLKPzQ7tb0qg
+         yKHmCnsXjH2Jj1xJLTbOCVr0ny1SMyjyObIEjbEy0T2qLZOWJKsYRHygkkTlR/d7gg6n
+         P+1QxoIdgTpStd2nGZuPSozaMSnkNPZ5T2aIEbFh1maKp+5fGDAPY2MHLzRyrXU0/C1+
+         QQYA==
+X-Forwarded-Encrypted: i=1; AJvYcCVPwtf2ANHJIhy2FSjvUk1pzP4ROGPOzmfjeqcgPRx7zEfneC9xXZRrGf7WgY+oOTXeY6i0lOZEG1Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNzYCpNKAqNwd9zZSJ+IALO5n1wHT8shbXtSILjB1iSbU/DD00
+	Px6WsS25GllyFEc4TBjZacsBHeKnwVPPukR6d8vEoIzutdbhPwj6II1/J4xHWPU=
+X-Google-Smtp-Source: AGHT+IEsuASKpxtLN1FS9/ppE/nSGh27N+1yhlWxNalTb7cFM5CXlhMi6qIJJ4CYFTRupQZK+UJsOQ==
+X-Received: by 2002:a05:600c:1907:b0:42c:bb96:340e with SMTP id 5b1f17b1804b1-42f85af89ebmr118622545e9.31.1728391477489;
+        Tue, 08 Oct 2024 05:44:37 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:41f2:4244:ce34:c273])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f89e832fesm109260625e9.8.2024.10.08.05.44.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Oct 2024 05:44:36 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Mark Brown <broonie@kernel.org>,  Liam Girdwood <lgirdwood@gmail.com>,
+  Jean Delvare <jdelvare@suse.com>,  Jonathan Corbet <corbet@lwn.net>,
+  linux-kernel@vger.kernel.org,  linux-hwmon@vger.kernel.org,
+  linux-doc@vger.kernel.org
+Subject: Re: [PATCH 4/5] hwmon: (pmbus/core) improve handling of write
+ protected regulators
+In-Reply-To: <64c3f6c3-10b5-44c6-a1cd-c796b770c904@roeck-us.net> (Guenter
+	Roeck's message of "Mon, 23 Sep 2024 09:44:11 -0700")
+References: <20240920-pmbus-wp-v1-0-d679ef31c483@baylibre.com>
+	<20240920-pmbus-wp-v1-4-d679ef31c483@baylibre.com>
+	<ZvFrWDF6Pn9zOb23@finisterre.sirena.org.uk>
+	<64c3f6c3-10b5-44c6-a1cd-c796b770c904@roeck-us.net>
+Date: Tue, 08 Oct 2024 14:44:35 +0200
+Message-ID: <1j5xq2sr0s.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241007095412.5a2a6e2c@kernel.org>
+Content-Type: text/plain
 
-On Mon, Oct 07, 2024 at 09:54:12AM -0700, Jakub Kicinski wrote:
-> On Mon, 7 Oct 2024 17:15:01 +0100 Simon Horman wrote:
-> > > > We could merge or otherwise rearrange that section with the one proposed by
-> > > > this patch. But I didn't feel it was necessary last week.  
-> > > 
-> > > Somewhat, we don't push back on correct use of device-managed APIs.
-> > > But converting ancient drivers to be device-managed just to save 
-> > > 2 or 3 LoC is pointless churn. Which in my mind falls squarely
-> > > under the new section, the new section is intended for people sending
-> > > trivial patches.  
-> > 
-> > Thanks, I can try and work with that. Do you want to call out older drivers
-> > too? I was intentionally skipping that for now. But I do agree it should
-> > be mentioned at some point.
-> 
-> What is and isn't considered old may be hard to determine. I hope that
-> your existing "not part of other work" phrasing will give us the same
-> effect, as there's usually no other work for old drivers.
+On Mon 23 Sep 2024 at 09:44, Guenter Roeck <linux@roeck-us.net> wrote:
 
-I agree that would be very subjective. And your point about
-the presence of other work is well made.
+> On 9/23/24 06:21, Mark Brown wrote:
+>> On Fri, Sep 20, 2024 at 06:47:05PM +0200, Jerome Brunet wrote:
+>> 
+>>> +int pmbus_regulator_init_cb(struct regulator_dev *rdev,
+>>> +			    struct regulator_config *config)
+>>> +{
+>>> +	struct pmbus_data *data = config->driver_data;
+>>> +	struct regulation_constraints *constraints = rdev->constraints;
+>>> +
+>>> +	if (data->flags & PMBUS_OP_PROTECTED)
+>>> +		constraints->valid_ops_mask &= ~REGULATOR_CHANGE_STATUS;
+>>> +
+>>> +	if (data->flags & PMBUS_VOUT_PROTECTED)
+>>> +		constraints->valid_ops_mask &= ~REGULATOR_CHANGE_VOLTAGE;
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +EXPORT_SYMBOL_NS_GPL(pmbus_regulator_init_cb, PMBUS);
+>> I'm fairly comfortable with this from a regulator point of view, modulo
+>> the suggestion I posted in the other message about registering separate
+>> ops.  The fact that there's three combinations of ops is annoying but
+>> doesn't feel too bad, though I didn't actually write it out so perhaps
+>> it looks horrible.  In general removing permissions is safe, and without
+>> separate steps to remove write protect (which I see in your patch 5) the
+>> writes wouldn't actually work anyway.
+>
+>
+> I still consider the callback to be unnecessary, but I don't really have time
+> to implement a better solution myself. If you accept the regulator patches,
+> I'll have another look at the series as-is.
 
-I'll work on v2 based on this short discussion.
+I'll group the regulator patches and resend to Mark, adjusted as
+requested.
 
-Thanks.
+Guenter, should I the resend the hwmon patches here grouped with the
+tps25990 series ? Or is there something you'd like me change before ?
+
+>
+> Guenter
+
+-- 
+Jerome
