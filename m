@@ -1,138 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265431F7075;
-	Tue,  8 Oct 2024 08:12:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F209B1E0B6C
+	for <linux-doc@vger.kernel.org>; Tue,  8 Oct 2024 08:29:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728375170; cv=none; b=FI4zEnInMJxxJqbq/ysjKHthKALX9YptF7gjHyK+Ru7WzJ6cVBj6lGnic+qp3nfErh9jvohTOD/rDwKUyvHPS+JjFmejUlyDomOpdkXZGqvwU+xFomLl2NxOBVj3C7gBRi46u9hpVw/oXKyp9Ge77pCjFPsIvNZ5wopDoUMN80g=
+	t=1728376152; cv=none; b=pOozfAa57I1nOkyKdtZIXx8uOHkfo/pbA+6/zQ5bYAEgkokoCe7rH6qJUFxyOuicLu2d4UOUivLzCZHdsDtHbvEUQQO3BvMWOcXhnnSNrsmhbqLfn4SbTTisYSM4jSXZeRM8prI6DRssEjRzvzsy+3KEKRDSeAcwuNLJlZiAOb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728375170; c=relaxed/simple;
-	bh=EWtmxS0gTPT9PNhZWVAg0XvsbxAqnO0kUuB3LdkiNlw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=emUMcbACTKnITsMWChtokX4SHRMXgSRXIulUOUtHPPpCoh3iDJIFp/Ga82nLVDG7KZ26uynLf8Qk/fA+6ZGB5R4VUhIFOqBLAsPvdYZpzdk4vm7CBDezMUMWE5zSDoewiCm5jdwRsDcxtq0TOT01LzMkXHdyYpzyIkDWnY8NLkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cqDwbRqx; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1728376152; c=relaxed/simple;
+	bh=2kUlfzx24uSNRplKYF1sda+86294BesT58Y2Li1gfnU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sJHXRSnQHpTp8gwhNpgWlO283umF343mLAbTkjtalDPAN6/j4HJb0U4KyJCPr8klmVRlSIRRzymcxB3crOOK6UOQPpQyJabjAnAQaZLSB/9Zt5+MSsU1gvpTuYe2+vHcsO0ZvBFql05/ZJJh19VCEuC7tpq61akAUnHVv9ILLRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=lEu5KSVj; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cqDwbRqx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728375170; x=1759911170;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=EWtmxS0gTPT9PNhZWVAg0XvsbxAqnO0kUuB3LdkiNlw=;
-  b=cqDwbRqxKLrfw3ckNjbZ22pVaTHepJEEORhkva9dAqKYUJqRfNlKb/MZ
-   wyBLoBcMxMs6dM2q11LFl74mUqDCtq3ZRCgVWnnRhX0Y3jbTvVha1Wfvk
-   62UZPOq/X/RnRj4LXoV4tWQAbb6lWAijIlXSbGJCcAbOI8jtb+WEjywaS
-   5ujq9adFnrNwrWRzVSXeiaF3k+C9I//ppHaKYPrFQiv3uTLhWYIYzQcNv
-   arSqR3Q3L2BGycHuMbfyMoFUnKuZoHa5Hg/2jggucV3HFjZ0vnh2RhTDQ
-   WX0rpr+FSdR4RhNeCtEJ9rq7NOnAto/v1Y3x//TN2urHMGQXJ7JxiBwUj
-   A==;
-X-CSE-ConnectionGUID: EHXUPDvzSv+7YZcsINo2Fg==
-X-CSE-MsgGUID: k+ZySy9zSUaUJdWg2KXu8Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="27685759"
-X-IronPort-AV: E=Sophos;i="6.11,186,1725346800"; 
-   d="scan'208";a="27685759"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 01:12:49 -0700
-X-CSE-ConnectionGUID: jqz2YI71RxmUygxskGe5vg==
-X-CSE-MsgGUID: AOSAarT1QnCC6K/qBBczFQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,186,1725346800"; 
-   d="scan'208";a="76179906"
-Received: from unknown (HELO [10.217.160.106]) ([10.217.160.106])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 01:12:47 -0700
-Message-ID: <a2ea4aac-3b12-4769-93b4-2437395c9e71@linux.intel.com>
-Date: Tue, 8 Oct 2024 10:12:45 +0200
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="lEu5KSVj"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-20bb610be6aso59513615ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 08 Oct 2024 01:29:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1728376149; x=1728980949; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YPEjAdZAdKM8As8ooV00IBm7Qnjs2K7rlCo6iukXXxI=;
+        b=lEu5KSVjJ1S1xQsRCRGSE1K2hb8dnQ9fmdkR5iUK2lUZC2syZeiChEU8hzcG1mnSLM
+         4goeOZNHoSPriZA1gFSGt6tKEFDJfKQ84T9v2gMzi3/9mH0VIwgODZGrjuHRWGSiyfOw
+         k3Ds1ESljZNoeZ8Ui0e91x/UlDlb+DeN3tyBQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728376149; x=1728980949;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YPEjAdZAdKM8As8ooV00IBm7Qnjs2K7rlCo6iukXXxI=;
+        b=NKAPPGe5ChQmdV1GBEUVqaZ+CB1PY3JvjvW3lXwBjl7IMuIMNe1QdHgFV355CNSn4Y
+         drngy8rzuGAJixsz9ztarHBAv2WUo1LMrn4cEv5eIzIuhfb4GCULIbVp1YJUG9AbfFiC
+         Tlg5BSfFrE4Cnb4sCNraMVRmm1CH97N68EwnAjEnXmp302V/huI6g740JvCWS+Gu44bT
+         mtYfKPnnLK/cueRae6/w36i/8nVmkTLAEjRY1npY6OQnnTaEaYE7TbEODy3GRxZ5QPxp
+         6pwvOqnUUeDmPZ2jVTWjZrs/DCXkmt7pV18Fw1UjA4lWE8yqIo6rwH5yY/bIHCvBnv7C
+         0w2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXvMkvhsiRG5+TOmVNAZmlCNdC7p/XisYMXF/hIo7SlidY9af+qKek296FTC0Kd1YOlXOvNSwiGenM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyC+m73GzBzEtYtdCga4kfiqZadoHjYvTHdzekIKtAWdRcEpvAA
+	1qp9wATvH0Oolrg5MXplZEPiUUPecM0avtgdxZDifEdNiNqQ9wPDApT3Dn78pQ==
+X-Google-Smtp-Source: AGHT+IH56nKMsGdXXZPfM/++yBwGdaVnxpD6SPm/wRK5S73jh3n0gu+4M32NRbck9Xml9CGHgDT7MQ==
+X-Received: by 2002:a17:903:1d0:b0:20b:5be:a403 with SMTP id d9443c01a7336-20bfde64ff4mr196014945ad.11.1728376149374;
+        Tue, 08 Oct 2024 01:29:09 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:10df:d27e:8d4b:6740])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20c1398ee06sm51069965ad.288.2024.10.08.01.29.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Oct 2024 01:29:09 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] scripts/kernel-doc: Do not track section counter across processed files
+Date: Tue,  8 Oct 2024 16:29:04 +0800
+Message-ID: <20241008082905.4005524-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.47.0.rc0.187.ge670bccf7e-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/qaic: Add ipc_router channel
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, quic_carlv@quicinc.com
-Cc: ogabbay@kernel.org, corbet@lwn.net, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-References: <20241004164033.3825986-1-quic_jhugo@quicinc.com>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20241004164033.3825986-1-quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+The section counter tracks how many sections of kernel-doc were added.
+The only real use of the counter value is to check if anything was
+actually supposed to be output and give a warning is nothing is
+available.
 
-On 10/4/2024 6:40 PM, Jeffrey Hugo wrote:
-> The ipc_router channel allows AF_QIPCRTR clients and services to
-> communicate with the AIC100 device. The ipc_router MHI transport layer
-> expects the channel to be named exactly "IPCR".
-> 
-> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> ---
->  Documentation/accel/qaic/aic100.rst |  2 ++
->  drivers/accel/qaic/mhi_controller.c | 32 +++++++++++++++++++++++++++++
->  2 files changed, 34 insertions(+)
-> 
-> diff --git a/Documentation/accel/qaic/aic100.rst b/Documentation/accel/qaic/aic100.rst
-> index 590dae77ea12..273da6192fb3 100644
-> --- a/Documentation/accel/qaic/aic100.rst
-> +++ b/Documentation/accel/qaic/aic100.rst
-> @@ -229,6 +229,8 @@ of the defined channels, and their uses.
->  | _PERIODIC      |         |          | timestamps in the device side logs with|
->  |                |         |          | the host time source.                  |
->  +----------------+---------+----------+----------------------------------------+
-> +| IPCR           | 24 & 25 | AMSS     | AF_QIPCRTR clients and servers.        |
-> ++----------------+---------+----------+----------------------------------------+
->  
->  DMA Bridge
->  ==========
-> diff --git a/drivers/accel/qaic/mhi_controller.c b/drivers/accel/qaic/mhi_controller.c
-> index ada9b1eb0787..8ab82e78dd94 100644
-> --- a/drivers/accel/qaic/mhi_controller.c
-> +++ b/drivers/accel/qaic/mhi_controller.c
-> @@ -405,6 +405,38 @@ static const struct mhi_channel_config aic100_channels[] = {
->  		.auto_queue = false,
->  		.wake_capable = false,
->  	},
-> +	{
-> +		.name = "IPCR",
-> +		.num = 24,
-> +		.num_elements = 32,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_TO_DEVICE,
-> +		.ee_mask = MHI_CH_EE_AMSS,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = false,
-> +		.wake_capable = false,
-> +	},
-> +	{
-> +		.name = "IPCR",
-> +		.num = 25,
-> +		.num_elements = 32,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_FROM_DEVICE,
-> +		.ee_mask = MHI_CH_EE_AMSS,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = true,
-> +		.wake_capable = false,
-> +	},
->  };
->  
->  static struct mhi_event_config aic100_events[] = {
+The current logic of remembering the initial value and then resetting
+the value then when processing each file means that if a file has the
+same number of sections as the previously processed one, a warning is
+incorrectly given.
+
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+---
+Found this while improving and checking the kernel docs for the
+regulator core.
+
+ scripts/kernel-doc | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 2791f8195203..c608820f0bf5 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -2322,7 +2322,6 @@ sub process_inline($$) {
+ 
+ sub process_file($) {
+     my $file;
+-    my $initial_section_counter = $section_counter;
+     my ($orig_file) = @_;
+ 
+     $file = map_filename($orig_file);
+@@ -2360,8 +2359,7 @@ sub process_file($) {
+     }
+ 
+     # Make sure we got something interesting.
+-    if ($initial_section_counter == $section_counter && $
+-        output_mode ne "none") {
++    if (!$section_counter && $output_mode ne "none") {
+         if ($output_selection == OUTPUT_INCLUDE) {
+             emit_warning("${file}:1", "'$_' not found\n")
+                 for keys %function_table;
+-- 
+2.47.0.rc0.187.ge670bccf7e-goog
 
