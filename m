@@ -1,80 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07BEB1E25FF;
-	Tue,  8 Oct 2024 08:40:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD3318C900
+	for <linux-doc@vger.kernel.org>; Tue,  8 Oct 2024 09:11:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728376821; cv=none; b=RND40FzW9TZ+p1qJIgoxTGHIgijHUPnIMWYKO/vEg8ZVaKdtd7fMq3D2EHj6ipe7NZQaq5FbjK26LE9bgMD6Zn9IUU85SuntQAT50MADGq1/jMhp8Ukv3SVYq+G/5T5GnAyajXCAcnQBzGQQqA+04i14gJ86NkmE8P7ReYoK4ec=
+	t=1728378685; cv=none; b=aSGy728KS6I1u1F8dRuQG4FwSiwukXYtIEQnSNChuziwy8eX8ey1raCMEkpXtEvuQP+NdhVkpZbTDXlayBHmtu6q0wR7dJPb/AGEC3r0NOvhQlDocIryyeYfnxkRq3sSAZt9Vq2oVk3yFyxmIUQ1+kyJGUfHL8giRQfpRPprbTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728376821; c=relaxed/simple;
-	bh=3cz33KncOICKx7ShZ3NOisnnTTtr0HXZkt/kGfGqYz4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XYzqfBZqruL2sCrxwANCny3Tl3kcM+X1cBylyyEP2zRlc39ERmr1eHPdTOv+Ai9aQxKerqLPklvixAdkwiaxZCQqqIpepp5eQhjmvBe1liiLql/0YdJmwUo0UfwwPXerZ8QCTAXMBvIO67tSK4jZgGIpUV+OvVZABsGXGfVCly4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wu6cZ8zo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728378685; c=relaxed/simple;
+	bh=84HK2DYs4iHZXfWaS/6Hpz++BkQ+086CSJY0qyJZqCY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=emlOf7Foj+O01/KSYaKOec7lsN3UorBbFJfltzb6ThFFwoCdUYZcKs8vtbkDGiELSJ1muST9qHXZhNWPumEqWzYXgBsB4RPGNSllCbSgTYF4uIbHYGO9MrOjC3K3lltELPxIT/KVdLwGKGiqGd5y8kspQWlwLFvok/WMBO+FBJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BjoafCjZ; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wu6cZ8zo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B696C4CEC7;
-	Tue,  8 Oct 2024 08:40:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728376819;
-	bh=3cz33KncOICKx7ShZ3NOisnnTTtr0HXZkt/kGfGqYz4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Wu6cZ8zoEh+73fXcVU7PUMHkpq+0MUC7AEFy64kKiULfleedGGAwVA7RG4Z351kpq
-	 mpDqNNdpJZjvhsVqxR4M2L66KSi3M1a3KeALifan4s59S5UgBkvSMaGF6tsiGvUyUK
-	 d2B1DFoCHxNA7jsjD0rAT7l1jF88p1VewwRhwWp/lDuS94ZPs40r0TJH/9Q9eMiHx/
-	 nPXepKQykq6cX5BHTQtZG2fVd5ov/c1YNMaWPvE4w1zaqB971Y8HbRyJCS9mPBDzof
-	 RXOakPW+RcE9HZKqjJdqGyZ+/BAf0vLM7rPmhG/TjADdb1jYdqog1yPX9PJOIDNATW
-	 S6ve9sh4ZAFTA==
-From: Christian Brauner <brauner@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Christian Brauner <brauner@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH] netfs: fix documentation build error
-Date: Tue,  8 Oct 2024 10:40:09 +0200
-Message-ID: <20241008-hosen-kulleraugen-5f9b8affb227@brauner>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <874j5nlu86.fsf@trenco.lwn.net>
-References: <874j5nlu86.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BjoafCjZ"
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-6e2772f7df9so42338507b3.2
+        for <linux-doc@vger.kernel.org>; Tue, 08 Oct 2024 02:11:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728378683; x=1728983483; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=OAC1fc0GGzeGQymFrjhdhUKIp7jN5760ULqXJcDJVQ8=;
+        b=BjoafCjZWwFflHxwDM0+H3PE47kbBqTGl/zl2bgdgsHY/e1DgUYrfzWlgn5JSJ9N3Y
+         oLASziHYjIgsx2Oj2Ojod1xkVoY4QEmwD895UybnlNhURZCjYjV90mke1lIJhc/AgayI
+         nQl+OVXdwoCQPHRFm4W2dLmzs9Jf+7lEJs0TkNu7BYLyV/M8suVejbzMjQXy06ti//sZ
+         N2p4ETvKeA4KZZt/5rt651FoDo/MR7RTsyl02ruHaH1BL192OkCRlqm1yKpqmYD0ZVg/
+         FX4+X+YFcDl0Ipxf2uO9KMOtm/9wF4b26ByerHEFmsg9HJp7VGz6casdQSJesHNCFD6M
+         Pc7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728378683; x=1728983483;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OAC1fc0GGzeGQymFrjhdhUKIp7jN5760ULqXJcDJVQ8=;
+        b=hsLmbzatg/0udogFlKTGTqltH0cjYp7zjYmFdyaaKQkRESfXbYc045mwPJ2ziJ1Qrj
+         zg84gUWtK9eMvWo0h1ISPgoKQ80qao8TAQYHlfWf4pRZAmU8uviLH55jmCi0ucIDd8ek
+         T27bajpcm1tgHiuiTs8Yl/EIey0EDiOP5OaqTD4DHs+Hlf4ZgaoqHbzq+0AQDtrYVpNt
+         Xr5QRB0k4vZ4/Q3y/nB97DsVP1NYBVc+AdjWQB5d5vwgHo1rsuJj52DbBIuZXa9SB7oF
+         n8jfuAsAdOCgTFPg244zJNahyN3KQEkYMtnBzuZ2VZqcmhbxSGadUDZthUgdgQ+d6tSP
+         voEg==
+X-Forwarded-Encrypted: i=1; AJvYcCVJFHoD/KsLkqU5ey/MMcy7u/RYb4wAjhql5nFosIKQpmacR7WmQLux3e2CyArWIPYzQGhF+9IBz4s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfGGPyo4HxVxEuZ0ZtwVojw0207h6kgmO7QTJmEopk/C6cTDGq
+	VGr0MHNdcoI5lHrqMpPeCnl9pJiN8vqHatEcd9NUTXBX9CBCHBMaHSvguh/hrayNGEOzSUDJNvo
+	XtjiGvgTOBh1Qx/lhFghhCzy3NxTeb1wmcJ4fjQ==
+X-Google-Smtp-Source: AGHT+IHGsrKT01WcmDgyC7IYp0pZMB5k4X7yPX1YU+KNNnvYVWtze3O6NpuAFLLQ3kwmCNNi4szI2T/fCfZNHwwlnFI=
+X-Received: by 2002:a05:6902:1003:b0:e28:7a13:747b with SMTP id
+ 3f1490d57ef6-e28936ea449mr9780326276.27.1728378682910; Tue, 08 Oct 2024
+ 02:11:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1256; i=brauner@kernel.org; h=from:subject:message-id; bh=3cz33KncOICKx7ShZ3NOisnnTTtr0HXZkt/kGfGqYz4=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaSzvH/t7u0wZ4OfoOv7ZUYCUa39qyqiGE5aHJ64zaZ+5 Wv3o6f9OkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACYSW8TI8Milg0eV9S/nA0vd Hb94wtUXJu189pO93NPGUeHApzPLTzEy3H9yXn7tl8kpT/rXLl5VrLR42ffeszcTt4bN56n6d4R jBT8A
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+References: <20241002221306.4403-1-ansuelsmth@gmail.com> <172833255295.162249.16483920948700467749.b4-ty@kernel.dk>
+In-Reply-To: <172833255295.162249.16483920948700467749.b4-ty@kernel.dk>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 8 Oct 2024 11:10:46 +0200
+Message-ID: <CAPDyKFoueMwVfN+P+tG7zT+-iUs=hghsRu+i9mNiHGw_9tcwBw@mail.gmail.com>
+Subject: Re: [PATCH v6 0/6] block: partition table OF support
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Daniel Golle <daniel@makrotopia.org>, INAGAKI Hiroshi <musashino.open@gmail.com>, 
+	Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+	Ming Lei <ming.lei@redhat.com>, Li Lingfeng <lilingfeng3@huawei.com>, 
+	Christian Heusel <christian@heusel.eu>, Avri Altman <avri.altman@wdc.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Adrian Hunter <adrian.hunter@intel.com>, 
+	Riyan Dhiman <riyandhiman14@gmail.com>, Mikko Rapeli <mikko.rapeli@linaro.org>, 
+	Jorge Ramirez-Ortiz <jorge@foundries.io>, Li Zhijian <lizhijian@fujitsu.com>, 
+	Dominique Martinet <dominique.martinet@atmark-techno.com>, 
+	Jens Wiklander <jens.wiklander@linaro.org>, 
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, linux-block@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, 
+	Lorenzo Bianconi <lorenzo@kernel.org>, Miquel Raynal <miquel.raynal@bootlin.com>, upstream@airoha.com, 
+	Christoph Hellwig <hch@infradead.org>, Christian Marangi <ansuelsmth@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 07 Oct 2024 11:04:57 -0600, Jonathan Corbet wrote:
-> Commit 86b374d061ee ("netfs: Remove fs/netfs/io.c") did what it said on the
-> tin, but failed to remove the reference to fs/netfs/io.c from the
-> documentation, leading to this docs build error:
-> 
->   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 7.3.7 ./fs/netfs/io.c' failed with return code 1
-> 
-> Remove the offending kernel-doc line, making the docs build process a
-> little happier.
-> 
-> [...]
+On Mon, 7 Oct 2024 at 22:22, Jens Axboe <axboe@kernel.dk> wrote:
+>
+>
+> On Thu, 03 Oct 2024 00:11:40 +0200, Christian Marangi wrote:
+> > this is an initial proposal to complete support for manually defining
+> > partition table.
+> >
+> > Some background on this. Many OEM on embedded device (modem, router...)
+> > are starting to migrate from NOR/NAND flash to eMMC. The reason for this
+> > is that OEM are starting to require more and more space for the firmware
+> > and price difference is becoming so little that using eMMC is only benefits
+> > and no cons.
+> >
+> > [...]
+>
+> Applied, thanks!
+>
+> [1/6] block: add support for defining read-only partitions
+>       commit: 03cb793b26834ddca170ba87057c8f883772dd45
+> [2/6] docs: block: Document support for read-only partition in cmdline part
+>       commit: 62adb971e515d1bb0e9e555f3dd1d5dc948cf6a1
+> [3/6] block: introduce add_disk_fwnode()
+>       commit: e5f587242b6072ffab4f4a084a459a59f3035873
+> [4/6] mmc: block: attach partitions fwnode if found in mmc-card
+>       commit: 45ff6c340ddfc2dade74d5b7a8962c778ab7042c
+> [5/6] block: add support for partition table defined in OF
+>       commit: 884555b557e5e6d41c866e2cd8d7b32f50ec974b
+> [6/6] dt-bindings: mmc: Document support for partition table in mmc-card
+>       commit: 06f39701d0666d89dd3c86ff0b163c7139b7ba2d
+>
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
+I think we may need another merging strategy for this as I quite big
+changes in the pipe for the mmc block device this cycle.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+Would it be possible for you to drop the mmc patches and instead share
+an immutable branch with the block changes that I can pull in, so I
+can take the mmc changes?
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
-
-[1/1] netfs: fix documentation build error
-      https://git.kernel.org/vfs/vfs/c/368196e50194
+Kind regards
+Uffe
