@@ -1,32 +1,33 @@
 Received: from smtpdh16-2.aruba.it (smtpdh16-2.aruba.it [62.149.155.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9A81DF722
-	for <linux-doc@vger.kernel.org>; Tue,  8 Oct 2024 13:53:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7941DF74E
+	for <linux-doc@vger.kernel.org>; Tue,  8 Oct 2024 13:53:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.149.155.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728395628; cv=none; b=LF7B7aFHa8dXXETgXsQJu4n1OSuiP08jxRdpjw6YLEqeh/o0AKKv2EqBJatLKF5GYJptETmAQpOcmcBboxy5d3MLbMvQfcSvqln+1EWqY3u9NoeAAJtgmIzEnqoY0JaZP0hzzan61JCbqWB/1QYfAgvoffWbEkkkIC5g9CT88XA=
+	t=1728395629; cv=none; b=fLW/Rk/PmQSKdPKyFFXg35pwF3dRtxP1hPOR9uz8rZADcM1ohvHSVtDrvrRgWjlpKDwx5iK8rzJIFZbqjNllC0fpucND1pTcrPWSuVKqXJnkjfXWd0aQ3+aE+JpGpG7rsfmY0HTL0jJWsjdX9SbniqcBfXdUYbdhovq0JNP9puY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728395628; c=relaxed/simple;
-	bh=CYhA1GI4rn88rQyo9rf4G11UGZijDVHRnPuIiZQG99U=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=C6u9if7xncL1c+HrEqhpVsbXO8LcEnqtamTnAmdhBQHQIWslWcOB091iZNCWofhA43fCTYMFdzLYgHpr7AyhWzmQSp/yy7s+WWwOZCMY//QumbXRzaefdsCokzopNmpO2Q59xR/dnFAQ4q3QzKKj46/MHArZzINWscQ3A/si9b4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com; spf=pass smtp.mailfrom=enneenne.com; dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b=CSW8mm42; arc=none smtp.client-ip=62.149.155.101
+	s=arc-20240116; t=1728395629; c=relaxed/simple;
+	bh=cdcJb9H8yy7FXPibF4xVZrLc+VV4/S0BBeF8nOGjdO8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=btCJr6TmX7aLEtUCJ/9jJvfWeu7vmghVmsLPbCUOkmIWsCVV6FybN7i/hnez3Q9BoFO9z7a7rZcmlRxIWBgCaCCyU2xRnoxJeSS0StQJj3jAiuVsLWImpNv73Psm4lWfSKtTuEB2ko1zXvyXRjfn593MVGOnTcKSmooUd6uoVus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com; spf=pass smtp.mailfrom=enneenne.com; dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b=d7+ccx67; arc=none smtp.client-ip=62.149.155.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enneenne.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b="CSW8mm42"
+	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b="d7+ccx67"
 Received: from polimar.homenet.telecomitalia.it ([79.0.204.227])
 	by Aruba Outgoing Smtp  with ESMTPSA
-	id yAbisgixkbsngyAbisUWTp; Tue, 08 Oct 2024 15:50:35 +0200
+	id yAbisgixkbsngyAbksUWW3; Tue, 08 Oct 2024 15:50:37 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
-	t=1728395435; bh=CYhA1GI4rn88rQyo9rf4G11UGZijDVHRnPuIiZQG99U=;
+	t=1728395437; bh=cdcJb9H8yy7FXPibF4xVZrLc+VV4/S0BBeF8nOGjdO8=;
 	h=From:To:Subject:Date:MIME-Version;
-	b=CSW8mm42rTdjwdVzWi+CoTAhs4rinHIujdKLQNBlrkSAm0WE8Rwgu4DthOmw98XWO
-	 SsF2/rkP8RV5yxskoGQmuDBm2pMS4L0O1Ru6luVxHrrXODKYjFmRduSS3icFXChjeX
-	 lSmbfP8F6nFPRW3J/3jSG/dTS6D5mpSSZxvWy6je/9teZ49VGgQpD06u/GSCZEty2j
-	 ve95iLMz7dfJVzdRn1Uu8X8HwwFogxVKehCZE+uy/N3RyJp3iN5u1tINI9CkXuKntw
-	 pfCBaEfPItYKB73ez1CH3XxOgEl7j2ts1pq2nBm94LZSWQnwIXecYS2cfygrQkxvGJ
-	 guWYd8t0uafIg==
+	b=d7+ccx67fpCFwxby7OiE7Qs+i6levIS/5JOKtlw3uX0B+j5CSt9vYE0K10LrfLscZ
+	 pr2jG4oebUqDOgJojv7X/cK5xkX5OeEORP3hcxEQTg0+zwYH7m+GZ0wItIMjH7TR8K
+	 xrujnFMX0M/VghA3/6G12B6GQ8NvaLk/Krw2bTOZ4rdrnb3PQcnHRD5n54WAA86yXl
+	 KBMj5EUDCfR/7Mf3S03Ez3OWgVl47m7Q6k0fXDW7gGV31oTl2lDskwWJti3QhB3923
+	 kzd0jXSwbDmdqORGmYbq1CPSdeotVW+Z/zB5z++CjAzhLFYvVdmwO1NZYgToFiWvco
+	 q6h6114JxuPzw==
 From: Rodolfo Giometti <giometti@enneenne.com>
 To: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
@@ -43,10 +44,12 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	Zage David <david.zage@intel.com>,
 	Chinnadurai Srinivasan <srinivasan.chinnadurai@intel.com>,
 	Rodolfo Giometti <giometti@enneenne.com>
-Subject: [RFC 0/3] Add PPS generators
-Date: Tue,  8 Oct 2024 15:50:30 +0200
-Message-Id: <20241008135033.3171915-1-giometti@enneenne.com>
+Subject: [RFC 2/3] Documentation pps.rst: add PPS generators documentation
+Date: Tue,  8 Oct 2024 15:50:32 +0200
+Message-Id: <20241008135033.3171915-3-giometti@enneenne.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241008135033.3171915-1-giometti@enneenne.com>
+References: <20241008135033.3171915-1-giometti@enneenne.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,44 +57,73 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfF/Qmdr6G8T33AgGhZuLqIgqQz6VWokfj+tGnhGFC4PfJu79EaLzZB+rVVOvtP1QDUqgYOx/eGmlCTmDa/50DCowPWXfKgC72pnHV/VPiQEu5w+/tAs1
- bUjkybR5QItOtyKjgt+3G+nFVxBU8pC2+B/upeTBulRXru6baf5lQbVTKxQLR5UYvBYBOWUFRq/m+7/AjYJ065UcPdrjXi7DTCk6+6QzoAjB0rhge2p+YetE
- YS5KT/pdkgjxOMDcqJT7vnoaPJ2gZnCdRy9TtUUVMYVBmDqLstUhioGhLYNzyoaYZUNkbK8or6w/cQGOBK2ruh4ygFuzZT3WfgBGLq/3WLrvsmlGdVcrrDGk
- 2PAe762rrTRvQU7WhNPqbKxr+OBglRo8Z82IDYicvOuxlHqfL2thoTZXMqhJYPdRh/9aoio7CFUpKfOzooJZUxQf65n9sRlh+heH08GNCYi3XGT7rzO8r1zE
- IhI6apaSpt1CDMEn0F9o0RwIIR3nJQgXrIW7EDkay7R/B1Wzf7cT4+YQV593+y3EsnDnWzQoQTQcKCPnqziaFGiUg0iPCFwUL1pfE0/Z7CHtnOcZ/e/FN/fy
- gFldGCjUfGfw0CmnTPPeQnV/Saf0VHgMhabwPftwQ/Dbmm3SdkRlRr5RlG0sc5FK9WVGrH5zGlL8exKiYzUDtLVkjje9NyzoBVDMGLwOyVhgnlPDjSyCy965
- M5W4B0FgqMSE8HxMQFu6XgzSf+y8UfMI
+X-CMAE-Envelope: MS4xfP5U7jx3B81F686kX4T4Oiv6i3eEj04luOg7Go0TsFKHNeWefdCGahxXs0bq0y6bSAWVQDwGt9M/FTkV8o0S1xmz+8C29+HJ5eAN3J/Ool1mKM2VW8eo
+ M5v9h8m/zApegAdfFXMXCQoErVNyLTD6QuIPWpVAZ5TVr9HDfQDl14EhVYkTex8FD5vPRyANzCfMkR+Hid6RaO4OiwyxnJhqSheZ7737DcNo2lCOc04sdCfs
+ ponx0u1zOFt3ED3zu/pUY/su66i/8mgox0dmQsvNIdoLeWG7gcSmc1ZDftYSDHyX+tyJ8MrAsB+eG+8odaRF6XS+QQSB4Qofhf8x0JMjNrgaf+ITOwG5rdFR
+ xdrjJRCXnwNoVb1wqpmYqh7nVToNYOfgy4+ofLtTqf0Id6aUTHlWd9rJ/SRMcRcHSDODw/4CB5nQArEsFPYvJQixTgCtvTN2Q9eibw/ASbxuYcrDgQnig4V/
+ AJx8Aqz1YeiwWNuDcgtq0hqFo9VRWqgNIk2KQ9csg8qz39TXnsN0jIKdhp2vZPgoLvejAY5mIpoig8jaXSu3lLzBSyhnpNME4o0UDBXXcBP8o/0FcDW7Zttg
+ 3iSYkdSRTrJRkUMqGjAcMmdBwZ1Ezrnnl1/ZMsvl6KZbl1LKbad8ks5enQqbx7hi6tlu1Oa2BUMunO24F/K7aOIMb2h+yO1mSNZyK6OBnreG40wgs0HYejzM
+ vxN2uIEVsCt3MjVbyQpyXMXvHcR6tM8i
 
-PPS generators are special hardware which are able to produce PPS
-(Pulse Per Second) signals.
+This patch adds some examples about how to register a new PPS
+generator in the system, and how to manage it.
 
-This RFC patchset adds the class pps-gen to the kernel in order to get
-feedback useful to produce a well-thought-out and well-defined
-interface for these devices.
+Signed-off-by: Rodolfo Giometti <giometti@enneenne.com>
+---
+ Documentation/driver-api/pps.rst | 40 ++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
-Rodolfo Giometti (3):
-  drivers pps: add PPS generators support
-  Documentation pps.rst: add PPS generators documentation
-  Documentation ABI: add PPS generators documentaion
-
- Documentation/ABI/testing/sysfs-pps-gen |  44 ++++
- Documentation/driver-api/pps.rst        |  40 ++++
- drivers/pps/Makefile                    |   3 +-
- drivers/pps/generators/Kconfig          |  19 +-
- drivers/pps/generators/Makefile         |   4 +
- drivers/pps/generators/pps_gen-dummy.c  |  83 +++++++
- drivers/pps/generators/pps_gen.c        | 283 ++++++++++++++++++++++++
- drivers/pps/generators/sysfs.c          |  89 ++++++++
- include/linux/pps_gen_kernel.h          |  57 +++++
- include/uapi/linux/pps_gen.h            |  35 +++
- 10 files changed, 655 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/ABI/testing/sysfs-pps-gen
- create mode 100644 drivers/pps/generators/pps_gen-dummy.c
- create mode 100644 drivers/pps/generators/pps_gen.c
- create mode 100644 drivers/pps/generators/sysfs.c
- create mode 100644 include/linux/pps_gen_kernel.h
- create mode 100644 include/uapi/linux/pps_gen.h
-
+diff --git a/Documentation/driver-api/pps.rst b/Documentation/driver-api/pps.rst
+index 78dded03e5d8..c71b3b878e41 100644
+--- a/Documentation/driver-api/pps.rst
++++ b/Documentation/driver-api/pps.rst
+@@ -202,6 +202,46 @@ Sometimes one needs to be able not only to catch PPS signals but to produce
+ them also. For example, running a distributed simulation, which requires
+ computers' clock to be synchronized very tightly.
+ 
++To do so the class pps-gen has been added. PPS generators can be
++registered int the kernel by defining a struct pps_gen_source_info as
++follows::
++
++    static struct pps_gen_source_info pps_gen_dummy_info = {
++            .name                   = "dummy",
++            .use_system_clock       = true,
++            .get_time               = pps_gen_dummy_get_time,
++            .enable                 = pps_gen_dummy_enable,
++    };
++
++Where the use_system_clock states if the generator uses the system
++clock to generate its pulses, or from a peripheral device
++clock. Method get_time() is used to query the time stored into the
++generator clock, while the method enable() is used to enable or
++disable the PPS pulse generation.
++
++Then calling the function pps_gen_register_source() in your
++initialization routine as follows a new generator is created into the
++system::
++
++    pps_gen = pps_gen_register_source(&pps_gen_dummy_info);
++
++Generators SYSFS support
++------------------------
++
++If the SYSFS filesystem is enabled in the kernel it provides a new class::
++
++    $ ls /sys/class/pps-gen/
++    pps-gen0/  pps-gen1/  pps-gen2/
++
++Every directory is the ID of a PPS generator defined in the system and
++inside you find several files::
++
++    $ ls -F /sys/class/pps-gen/pps-gen0/
++    dev  enable  name  power/  subsystem@  system  time  uevent
++
++To enable the PPS signal generation you can use the command below::
++
++    $ echo 1 > /sys/class/pps-gen/pps-gen0/enable
+ 
+ Parallel port generator
+ ------------------------
 -- 
 2.34.1
 
