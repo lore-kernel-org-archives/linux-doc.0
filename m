@@ -1,161 +1,157 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A8813AA45;
-	Tue,  8 Oct 2024 10:23:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BBF51CDA26;
+	Tue,  8 Oct 2024 11:09:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728382986; cv=none; b=EK/IzgHeakJqLvow89wA4+FCkNOapaQao27/AsAwmZJ7CtVsfQL+/RJsJ02OUBq7YCO7WHafWOjTv6RTp6w265wGFFzIIMg+e5+TWzB1a/gzjKeDKfMxH+9mSs1re5bn5yenpLkWN10TFlF62IH3P4KAn/4fUMGNyJCdqOBU7TA=
+	t=1728385793; cv=none; b=Ou3L/qG6wMnTe12h+evwUTkQ1jHD+Qu89wc3tHnAhvCvVi5iYi6k9dsCPhTbq03BBRagC94cFrEHB1AwNJ8BflknbRONXIbIOzxbBktt1wDn4y2gMOeTdJBGuEetv8DoFBZHkwJ1tbtetmOXdt/Io5P4r4GVnrpBVy6Y3IZ6PfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728382986; c=relaxed/simple;
-	bh=BFzMvSREEOum8MgZFnWfpoN7ulQ/dV9nEUsqkTYXgV4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=j08JCT4/No+OOMApHbEzOAKVPprqOlcT9AvQdD5WA+ECrUjXG5dpopsqlx0K/azF95fScr3TugjguTpF4wSvFjlNQ+F51umq+yx8W8yYrRvVcDSH0sI5IKf7eWBV45xS9Yr8YdoaUaeXSesVohiC2MfE4uVS5/cZOv9XzpDe3iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=CJJ54ngw; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CJJ54ngw"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 35792FF80D;
-	Tue,  8 Oct 2024 10:23:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1728382982;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PIbHxWMCVw9IFtJ8fRNey20NVfyWWoKwUnEtUaybiYI=;
-	b=CJJ54ngwZcL7URuTbYdbrVlqR2wUbuEXMnBFiod1qQ/EQd5RYWr/VjvFv7hRRMTuHn78St
-	rNozbHvUwssWLtOKDUfRL7lXdFxb6xRiPb1cS+0wVAyhWeODQspxHOYvHAzJhIt3W7iu7/
-	QkNbHu8hXSjPJiWwveYb2IWN4KX2xhEHVGhmFym2Q/DBCulgbOKLKy/2JZNX5V+y3yGxhz
-	SIOjsT9oORETkutfLM/JvZI8ixavFo1RiVtQPp/XpNTXFkRlS9t9adh5nbwMD3qoqOoYjD
-	Czg4i8gdTFrsEZlOM8xtPu8kkqKB6h9c0afqXD+GYN13FhE88p+dEJbRtZNQjw==
-Date: Tue, 8 Oct 2024 12:23:00 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
- <donald.hunter@gmail.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
- Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de
-Subject: Re: [PATCH net-next 06/12] net: ethtool: Add PSE new port priority
- support feature
-Message-ID: <20241008122300.37c77493@kmaincent-XPS-13-7390>
-In-Reply-To: <ZwPr2chTq4sX_I_b@pengutronix.de>
-References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
-	<20241002-feature_poe_port_prio-v1-6-787054f74ed5@bootlin.com>
-	<ZwDcHCr1aXeGWXIh@pengutronix.de>
-	<20241007113026.39c4a8c2@kmaincent-XPS-13-7390>
-	<ZwPr2chTq4sX_I_b@pengutronix.de>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1728385793; c=relaxed/simple;
+	bh=cZFvuRMU3bKhwHgatTTNcVdRWoUCtrnMkioTuWPZZTo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J4Ytl6A8fOO+yNmXdscNoR8b3rD0o/mlJZ4b5ZKyZOjxMZDAruUcr4PPcpQMudnM0wra7RNdCftXSG5CCQvnjG9ZpzKq/iLh3YwekmpzR9L8jr2b+BYZFaaTyWXxNdrxtbIABTPe5M0PRqlGR9VeqGp/KXSd6lKwlTmbIBmBlmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5c896b9b4e0so8084868a12.3;
+        Tue, 08 Oct 2024 04:09:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728385790; x=1728990590;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mk2LPVRWwfVo1ytfLR9/NFnv/777FQJZyCgjBWZzL5I=;
+        b=CkMpK9dLiAtR2SOUDPyvDH+GXgkm6HZL6W0gjckot08i04qDl6cq6llYGNTkVtKIJV
+         97HwGfyMGWQn9hLAmV9U0Qr0VwkHmUYYlSi/P1Qn4NSFXf6ZrS8GUyuG75t3RolJK6mq
+         BnDf/6Z6pXF6TFkQN5A++tlO20YUgRFVdrz5QE5td8nCFax7ygmpcpVQWf5p+OQiBxZs
+         n08P95u9eVVP5RqK9B6Ea2CIb1yxmkBIWiuYOzDSlnyrWAsv/2OaozA4VxJTAUfNlye/
+         z1qQCr4IZOc4mKIm2is58G0CSl4ta33oYBcPp266fwtZkgjO/uVH+h/bmnINPG1Iu5SI
+         XhPw==
+X-Forwarded-Encrypted: i=1; AJvYcCUvqWFcf6SizCijxoqCipdiUGHZbPSJVjEmR6JGsDeXTLAOPsB1wI3UTdKJctRsqanAAXNr2O73BygajlD9@vger.kernel.org, AJvYcCXT07J6YjvJeENjIVXzCdP+A803ZnpCjV/pWK2YuOAzvL9iKw1dH0oxZ7tz0vbrX5lkL4Esb1tP6fE=@vger.kernel.org, AJvYcCXUbasb5TQEkyxYbE4NtKYR0zVpXB2ytkNJL27hPYfNRTJcEnjqHUcMDCea96ZICtgXRblySQf1@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx7PoXZOUSkvGLMU0qPqSfmTvTmTCcEMBzI85A7oRyZnO3wTg/T
+	pqy+7HQTeNl/DyLjTFBc1bZIeIjaVpi0icwW6SX3oeyKCsn/LU9T
+X-Google-Smtp-Source: AGHT+IErQX12w3ULwnlQwShHk0CaL/kZSZSk50Btw/QX2XVgeqCcFcnsHrHO0wzVw3KJcgIGpFT2CQ==
+X-Received: by 2002:a17:907:7f87:b0:a99:5b55:1a75 with SMTP id a640c23a62f3a-a995b552229mr446151566b.29.1728385789601;
+        Tue, 08 Oct 2024 04:09:49 -0700 (PDT)
+Received: from gmail.com ([2620:10d:c092:500::7:e36b])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9957bdeff6sm232511666b.159.2024.10.08.04.09.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Oct 2024 04:09:49 -0700 (PDT)
+Date: Tue, 8 Oct 2024 12:09:46 +0100
+From: Breno Leitao <leitao@debian.org>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Akinobu Mita <akinobu.mita@gmail.com>, kuba@kernel.org,
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	Jonathan Corbet <corbet@lwn.net>, horms@kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Mina Almasry <almasrymina@google.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH net-next] net: Implement fault injection forcing skb
+ reallocation
+Message-ID: <ZwUDnGlhB09Widej@gmail.com>
+References: <20241002113316.2527669-1-leitao@debian.org>
+ <CAC5umyjkmkY4111CG_ODK6s=rcxT_HHAQisOiwRp5de0KJkzBA@mail.gmail.com>
+ <20241007-flat-steel-cuscus-9bffda@leitao>
+ <9386a9fc-a8b5-41fc-9f92-f621e56a918d@gmail.com>
+ <20241007-phenomenal-literate-hog-619ad0@leitao>
+ <058e38c4-ead9-42bf-8a11-a97d0ead35fb@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <058e38c4-ead9-42bf-8a11-a97d0ead35fb@gmail.com>
 
-On Mon, 7 Oct 2024 16:10:33 +0200
-Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+On Mon, Oct 07, 2024 at 07:00:28PM +0100, Pavel Begunkov wrote:
+> On 10/7/24 18:09, Breno Leitao wrote:
+> > Hello Pavel,
+> > 
+> > On Mon, Oct 07, 2024 at 05:48:39PM +0100, Pavel Begunkov wrote:
+> > > On 10/7/24 17:20, Breno Leitao wrote:
+> > > > On Sat, Oct 05, 2024 at 01:38:59PM +0900, Akinobu Mita wrote:
+> > > > > 2024年10月2日(水) 20:37 Breno Leitao <leitao@debian.org>:
+> > > > > > 
+> > > > > > Introduce a fault injection mechanism to force skb reallocation. The
+> > > > > > primary goal is to catch bugs related to pointer invalidation after
+> > > > > > potential skb reallocation.
+> > > > > > 
+> > > > > > The fault injection mechanism aims to identify scenarios where callers
+> > > > > > retain pointers to various headers in the skb but fail to reload these
+> > > > > > pointers after calling a function that may reallocate the data. This
+> > > > > > type of bug can lead to memory corruption or crashes if the old,
+> > > > > > now-invalid pointers are used.
+> > > > > > 
+> > > > > > By forcing reallocation through fault injection, we can stress-test code
+> > > > > > paths and ensure proper pointer management after potential skb
+> > > > > > reallocations.
+> > > > > > 
+> > > > > > Add a hook for fault injection in the following functions:
+> > > > > > 
+> > > > > >    * pskb_trim_rcsum()
+> > > > > >    * pskb_may_pull_reason()
+> > > > > >    * pskb_trim()
+> > > > > > 
+> > > > > > As the other fault injection mechanism, protect it under a debug Kconfig
+> > > > > > called CONFIG_FAIL_SKB_FORCE_REALLOC.
+> > > > > > 
+> > > > > > This patch was *heavily* inspired by Jakub's proposal from:
+> > > > > > https://lore.kernel.org/all/20240719174140.47a868e6@kernel.org/
+> > > > > > 
+> > > > > > CC: Akinobu Mita <akinobu.mita@gmail.com>
+> > > > > > Suggested-by: Jakub Kicinski <kuba@kernel.org>
+> > > > > > Signed-off-by: Breno Leitao <leitao@debian.org>
+> > > > > 
+> > > > > This new addition seems sensible.  It might be more useful to have a filter
+> > > > > that allows you to specify things like protocol family.
+> > > > 
+> > > > I think it might make more sense to be network interface specific. For
+> > > > instance, only fault inject in interface `ethx`.
+> > > 
+> > > Wasn't there some error injection infra that allows to optionally
+> > > run bpf? That would cover the filtering problem. ALLOW_ERROR_INJECTION,
+> > > maybe?
+> > 
+> > Isn't ALLOW_ERROR_INJECTION focused on specifying which function could
+> > be faulted? I.e, you can mark that function as prone for fail injection?
+> > 
+> > In my the case I have in mind, I want to pass the interface that it
+> > would have the error injected. For instance, only inject errors in
+> > interface eth1. In this case, I am not sure ALLOW_ERROR_INJECTION will
+> > help.
+> 
+> I've never looked into it and might be wrong, but I view
+> ALLOW_ERROR_INJECTION'ed functions as a yes/no (err code) switch on
+> steroids enabling debug code but not doing actual failing. E.g.
 
-> >=20
-> > Currently the priority is managed by the PSE controller so the port is =
-the
-> > only information needed. The user interface is ethtool, and I don't see=
- why
-> > he would need such things like controller id or power domain id. Instea=
-d,
-> > it could be managed by the PSE core depending on the power domains
-> > described in the devicetree. The user only wants to know if he can allo=
-w a
-> > specific power budget on a Ethernet port and configure port priority in
-> > case of over power-budget event. =20
->=20
-> Budget is important but different topic. If user do not know how much
-> the budget is, there is nothing usable user can configure. Imagine you
-> do not know how much money can spend and the only way to find it out is
-> by baying things.
+Right. I think there are two things here:
 
-Yes I agree, but I thought this could be done at the driver level specified=
- in
-the power limit ranges for now.
-I don't really know the Power Domain API but I don't think it can currently
-support what you are expecting for PSE. Maybe through the regulator API, or
-something specific to PSE API.
-Maybe we should define the power domain PSE concept as it seems something P=
-SE
-specific.
+1) A function that could fail depending on your failure injection
+request. For instance, you can force ALLOW_ERROR_INJECTION functions to
+fail in certain conditions. See the documentation:
 
-> But, budget is the secondary topic withing context of this patch set.
-> The primer topic here is the prioritization, so the information user
-> need to know it the context: do A has higher prio in relation to B? Do A
-> and B actually in the same domain?
->=20
->=20
-> > I don't have hardware with several PSE controllers. Is there already su=
-ch
-> > hardware existing in the market? =20
->=20
-> Please correct me if i'm wrong, but in case of pd692x0 based devices,
-> every manager (for example PD69208M) is own power domain. There are
-> following limiting factors:
->                           PI 1
->                    L4    /
-> 		 PD69208M - PI 2
->               L3 //      \
->  L1      L2     //        PI 3
-> PSU =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D'
->                 \\        PI 4
->                  \\      /
-> 		 PD69208M - PI 5
->                          \
-> 			  PI 6
->=20
-> L1 - limits defined by Power Supply Unit
-> L2 - Limits defined by main supply rail ob PCB
-> L3 - Limits defined by rail attached to one specific manager
-> L4 - Limits defined by manager. In case of PD69208M it is Max 0.627A
-> (for all or per port?)
+	/*
+	 * Whitelist generating macro. Specify functions which can be error-injectable
+	 * using this macro. (ALLOW_ERROR_INJECTION)
 
-Should the rail really have an impact on power limit? I am not a hardware
-designer but having limit defined by the rails seems the best way to create
-magic smoke.
-Don't know how you find this 0.627A value but it seems a bit low. Port curr=
-ent
-limit is 1300mA according to the datasheet.
+For instance, you can mark any random function as part error injectable.
+This is not the case for the problem this patch is solving.
 
-I first though that hardware should support all ports being powered at the =
-same
-time. Indeed this might not be the case be and there is a command to config=
-ure
-the power bank (PD69208M) power limit.
-=20
-> Assuming PSU provides enough budget to covert Max supported current for
-> every manager, then the limiting factor is actual manager. It means,
-> setting prio for PI 4 in relation to PI 1 makes no real sense, because
-> it is in different power domain.
+2) There are helpers that will query the fault injection mechanism to
+decide if a given function should fail or not. This is exactly what
+should_fail_bio() does. These are helpers that will eventually call
+should_fail().
 
-In fact it does for our case as the PD692x0 consider all the ports in the s=
-ame
-power domain. There is no mention of port priority per PD69208M.
-We can only get PD69208M events and status.
+in my patch, this is done by skb_might_realloc() function, where it
+calls should_fail(), and if the fault injection mechanism says it is
+time to "fail", then it does (in this patch context, failure means
+forcing the skb to be reallocated).
 
-> User will not understand why devices fail to provide enough power by
-> attaching two device to one domain and not failing by attaching to
-> different domains. Except we provide this information to the user space.
-
-What you are explaining seems neat on the paper but I don't know the best w=
-ay
-to implement it. It needs more brainstorming.
-
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+That said, it is unclear to me how ALLOW_ERROR_INJECTION could help to
+solve the skb reallocation mechanism.
