@@ -1,189 +1,244 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617A6381AA
-	for <linux-doc@vger.kernel.org>; Tue,  8 Oct 2024 02:57:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873E81DA5F;
+	Tue,  8 Oct 2024 03:54:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728356223; cv=none; b=sXZjA1OmRx0wtFEUGRXMcpGp+nhO5dOhkyLJ3AmGiINlYksHU1k5QFg4e1zKdKbFp6kpRvdOuoN8kk0yxGl40fQ6eAbXd148HimiTkIDb+9x3SE/par29FFPyQfWMPA9bwZ/JlRGF3RwRDwcHbTF55ARfndc1gZ4lfsexhAdOLI=
+	t=1728359682; cv=none; b=UONVu0lIcMQsbWTvfZx1kzCtIoM+UHHCXpSSa8M/03JvveoHR61wepe1pOON08iiREXqKLe1Y9L2UG5EScoU6vNb1bNRxI9gERm2iQFnLi0PT2HzqSjZ7pOHwc90/IkB+T0ZQpoYfLD3T3sGd680k7+TS/6yMf6GiAIPiTFGesE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728356223; c=relaxed/simple;
-	bh=8GkUSNf25Cn9J4JQ9XYwCOdVwonJE2PEmlrutdyF10Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Olv0pEFZgK9IvizugOajvQ1Ymyczs+qStr25tv33RV0l0ni6y3/y8vlLPs9rZzuIHLaJBTZkyVXeLOdDpwfqGQLPZ4ypMVMA6EM0OZd4Bscu+IFQhqo/0dgtYUfFSaW+XyRGQ2NlNgNaDzpADC9XmQrurPi60AXV4UxUWtaNgFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk; spf=none smtp.mailfrom=davidwei.uk; dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b=2VGnmY1O; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=davidwei.uk
+	s=arc-20240116; t=1728359682; c=relaxed/simple;
+	bh=+y27MQOeRoemQMFs06/1HhYcJ9um66V2IShSBG94Rwo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VCroirMwEAelQmb3Vmd8RvZfXAMwMYzKfjtlvizLMA6NvCJEXcGfbMrYadSSehmbvaL6ajljlBkk3rk9OS18NTakyKjY0dAEWZQqEWD9HPA0jSVRkVdL0smk/Dt4O4x4DYp0U2TBobEq2WMT8iJqeKb031+aOemVF2y0Xj1FKhk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ahwbmD9u; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b="2VGnmY1O"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-20b0b2528d8so58133725ad.2
-        for <linux-doc@vger.kernel.org>; Mon, 07 Oct 2024 19:57:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ahwbmD9u"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5c88370ad7bso6056093a12.3;
+        Mon, 07 Oct 2024 20:54:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=davidwei-uk.20230601.gappssmtp.com; s=20230601; t=1728356222; x=1728961022; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/eZTXyt3O/zLAFP72VFPp+UUj+qAFqeGbguv+KwTUOE=;
-        b=2VGnmY1OJnjN3v7+Qdbt90dBabZ6DwSzDr7ym4UDmAP+xD1c2sNGtu2atJbvys7Uql
-         L9IWXZRvFV5FtnI/VCjMPjfqkWzz+OfULIc3bNx0OEFbrhu0/Wo/zW+sW2Vl2E+zQzsp
-         MOsGKxMZQo8LRXGSJyGLRz3NvcDLTbOnWkg4xjdrD+A4Liuya0GRMXcn5L+HJ/ve0oxt
-         F98SzCAra55r0tt06/A4AbBmm3VkPmpllsrXLoD73cTDT4RiZimmPG/P2AdeW3QjtKtz
-         K6/jLf+Mb6USdAk1u8cgFZX+79xvvR1lJWrSzu2QJyRaRNDuvR/d+7RtxYNQrySR9xD0
-         dT9A==
+        d=gmail.com; s=20230601; t=1728359679; x=1728964479; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JvMrUh9G3zcSjyAbW+8kOKwRWjYaPA7+LkspQbSrfKg=;
+        b=ahwbmD9uyCHsPxHAAwB+zjQvN0LOgI/Rrbx8vtpvd7AquGC26o78Mp6//bKO7zuHtX
+         gUBIEgFiY8EwfVTdG++lF2X5mO0oo/t6bnWJRVaTEPaDwGTeZlWVtKZOuQkeYiDeoF0z
+         stev5EpEkeJuoLqy/Ew1RJKMufD1lQNshLhi6xZn5ujwRPcVR+l6E7yRDk+QAbCJqW7T
+         JfdSofitDmWg77E+YeuwfNUYuOwZOk3PPuX6tl/spwHCDavuHCxy2vsAnlaah6QeC7EK
+         0jtM0/TmrEMMMnQLtDYXqodF6RFDrdVGvUVX/BKW1DSqVJJnbqJgqUM0dEc/KSVfhfJ5
+         66YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728356222; x=1728961022;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/eZTXyt3O/zLAFP72VFPp+UUj+qAFqeGbguv+KwTUOE=;
-        b=I4DRR6hSxeRiRbAw5KBPtIQcLVlg4qzl+O7XP1jaBAgac5ZeD3YSWJKSlUJn7Mfqmq
-         yqUKyg94zhp0p6GU9dTSj8Mv1lRhTCLZ2R8uZcSrk0rEntFobe14IU6bMr1T/rk1+I3Q
-         wpy/NMu2Fdwv7U4Gj2+sPn0spQqjoUVGFtQTehZmL3evKFS9l/qkfey92A830LMcFuOU
-         jiZ83mRfC6GFOP/wGUlvrCH5dYdcDpWzIeZbzg3wnF7oQJkbSCQFHiqf0jAUSncxGK9b
-         3vWaPXotcT37aK0wkxm8apjvII/w9qK50+28JMFu9YfP01fcRfZDmejmRn9ptLVSD2G+
-         7ACQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXGdyLq1Yp+kk1ZBAJzH/eVU02O56/slKUretLi7HXlk96n6qG+SY1FNqVirvyGXKOW3mdZDVkK3wM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzjWNB53whG9dlxiqniFFU5S0z0E6mWuJ9b79IPmNH73UD4Wao4
-	TmFGBr4KncXz8fbmHfbgqudEuvdF4f7u5masmPp/DFvRdFzvbtpBn7vWK4qkrms=
-X-Google-Smtp-Source: AGHT+IHN52YLdi9YsfHSIXKQJAGggabVSwrgLe8V8XoGt/QgSPui2fK6CCX85siC6Db8p5XpvtQt4Q==
-X-Received: by 2002:a17:903:4408:b0:20b:b455:eb7c with SMTP id d9443c01a7336-20bff176f0cmr195979445ad.56.1728356221688;
-        Mon, 07 Oct 2024 19:57:01 -0700 (PDT)
-Received: from [192.168.1.24] (174-21-189-109.tukw.qwest.net. [174.21.189.109])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20c1398d184sm46395945ad.263.2024.10.07.19.57.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Oct 2024 19:57:01 -0700 (PDT)
-Message-ID: <18255eaf-a2ce-4cd1-b47b-2482b6c42e08@davidwei.uk>
-Date: Mon, 7 Oct 2024 19:57:00 -0700
+        d=1e100.net; s=20230601; t=1728359679; x=1728964479;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JvMrUh9G3zcSjyAbW+8kOKwRWjYaPA7+LkspQbSrfKg=;
+        b=HW0l+g0tFs2Ts4XLKXUUr8JxeAmLJHT7Ev47WoC4Fw4+kfKm5PCWHETGF+BuEX1/lC
+         nV+0Wf2NOd6W4bE+D8dhL41tgxd8Dp+DTmKSzhcpL9z84ktFhhotfQ4te2KF/5Pw2EIi
+         qB53pjpzrGxepb8M/8EJOacSZZQzanFFMl/T7IVse8RvZ0aL/RFQmw4c5HAqH7TxE4xp
+         Y/pGFU7n7GX+9DbHbYkbkm6lDAg32HVpggpv1aPpCUBMotz02V77CGxGD8sc2lRk0NCs
+         UYHtCdWLugaWoxSRdBPNghQZ4AJHxY6i7nRuuxNjMv10rihdFhzjUEo/a2zVhuahNXgY
+         BzvA==
+X-Forwarded-Encrypted: i=1; AJvYcCU4vPGmr3MtzU9fKj4RZZS0/JCCXJRIgPSk0jGDalc3Kci+ZglT2BDlb9XiZkCtNpSskM+3Js63@vger.kernel.org, AJvYcCUa+zuqt+prxRGtE6ffpDPrdPA1+Zu8OgnWwbhKCUQdf57kgaiu3oZQc9z0fElBiNuHNhFomUrdKMc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwcpXTKOKx0Gk2gtX8P0mKCjfqwPvmUbXqBtr6oxcG8pBkSoHGU
+	TYa5hjKSomUrvTxxmPqZamVYJuVQAOhxZtsxa93fDND8g52atR9kG4GpVbFEiAoqGK799rsCuF9
+	ByZq5kFErRzp8Or96K9ua8nLYjyo=
+X-Google-Smtp-Source: AGHT+IHHKnOTzZZFatLYfSiR295S01qvvUk2s2mwqSZS1+VbBzS3iS2//ooCiVMGm11MhkM0WjnyX33p6YIbfTzHmKw=
+X-Received: by 2002:a05:6402:3549:b0:5c8:a01e:a06d with SMTP id
+ 4fb4d7f45d1cf-5c8d2eb2cf6mr11645136a12.30.1728359678580; Mon, 07 Oct 2024
+ 20:54:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 7/7] bnxt_en: add support for device memory
- tcp
-Content-Language: en-GB
-To: Taehee Yoo <ap420073@gmail.com>, Mina Almasry <almasrymina@google.com>
-Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
- edumazet@google.com, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- donald.hunter@gmail.com, corbet@lwn.net, michael.chan@broadcom.com,
- kory.maincent@bootlin.com, andrew@lunn.ch, maxime.chevallier@bootlin.com,
- danieller@nvidia.com, hengqi@linux.alibaba.com, ecree.xilinx@gmail.com,
- przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, ahmed.zaki@intel.com,
- paul.greenwalt@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com,
- asml.silence@gmail.com, kaiyuanz@google.com, willemb@google.com,
- aleksander.lobakin@intel.com, sridhar.samudrala@intel.com, bcreeley@amd.com,
- David Wei <dw@davidwei.uk>
-References: <20241003160620.1521626-1-ap420073@gmail.com>
- <20241003160620.1521626-8-ap420073@gmail.com>
- <CAHS8izO-7pPk7xyY4JdyaY4hZpd7zerbjhGanRvaTk+OOsvY0A@mail.gmail.com>
- <CAMArcTU61G=fexf-RJDSW_sGp9dZCkJsJKC=yjg79RS9Ugjuxw@mail.gmail.com>
-From: David Wei <dw@davidwei.uk>
-In-Reply-To: <CAMArcTU61G=fexf-RJDSW_sGp9dZCkJsJKC=yjg79RS9Ugjuxw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20241003160620.1521626-1-ap420073@gmail.com> <20241003160620.1521626-8-ap420073@gmail.com>
+ <35c505ee-b44d-4817-ab68-c4f1f768b242@davidwei.uk>
+In-Reply-To: <35c505ee-b44d-4817-ab68-c4f1f768b242@davidwei.uk>
+From: Taehee Yoo <ap420073@gmail.com>
+Date: Tue, 8 Oct 2024 12:54:26 +0900
+Message-ID: <CAMArcTUwyJdBHaSJ-N06qDOBdds1BErNg64ghrOshLQdh3_4Xw@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 7/7] bnxt_en: add support for device memory tcp
+To: David Wei <dw@davidwei.uk>
+Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
+	edumazet@google.com, almasrymina@google.com, netdev@vger.kernel.org, 
+	linux-doc@vger.kernel.org, donald.hunter@gmail.com, corbet@lwn.net, 
+	michael.chan@broadcom.com, kory.maincent@bootlin.com, andrew@lunn.ch, 
+	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
+	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
+	ahmed.zaki@intel.com, paul.greenwalt@intel.com, rrameshbabu@nvidia.com, 
+	idosch@nvidia.com, asml.silence@gmail.com, kaiyuanz@google.com, 
+	willemb@google.com, aleksander.lobakin@intel.com, sridhar.samudrala@intel.com, 
+	bcreeley@amd.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2024-10-04 03:34, Taehee Yoo wrote:
-> On Fri, Oct 4, 2024 at 3:43 AM Mina Almasry <almasrymina@google.com> wrote:
->>> @@ -3608,9 +3629,11 @@ static void bnxt_free_rx_rings(struct bnxt *bp)
->>>
->>>  static int bnxt_alloc_rx_page_pool(struct bnxt *bp,
->>>                                    struct bnxt_rx_ring_info *rxr,
->>> +                                  int queue_idx,
->>>                                    int numa_node)
->>>  {
->>>         struct page_pool_params pp = { 0 };
->>> +       struct netdev_rx_queue *rxq;
->>>
->>>         pp.pool_size = bp->rx_agg_ring_size;
->>>         if (BNXT_RX_PAGE_MODE(bp))
->>> @@ -3621,8 +3644,15 @@ static int bnxt_alloc_rx_page_pool(struct bnxt *bp,
->>>         pp.dev = &bp->pdev->dev;
->>>         pp.dma_dir = bp->rx_dir;
->>>         pp.max_len = PAGE_SIZE;
->>> -       pp.flags = PP_FLAG_DMA_MAP | PP_FLAG_DMA_SYNC_DEV;
->>> +       pp.order = 0;
->>> +
->>> +       rxq = __netif_get_rx_queue(bp->dev, queue_idx);
->>> +       if (rxq->mp_params.mp_priv)
->>> +               pp.flags = PP_FLAG_DMA_MAP | PP_FLAG_ALLOW_UNREADABLE_NETMEM;
->>
->> This is not the intended use of PP_FLAG_ALLOW_UNREADABLE_NETMEM.
->>
->> The driver should set PP_FLAG_ALLOW_UNREADABLE_NETMEM when it's able
->> to handle unreadable netmem, it should not worry about whether
->> rxq->mp_params.mp_priv is set or not.
->>
->> You should set PP_FLAG_ALLOW_UNREADABLE_NETMEM when HDS is enabled.
->> Let core figure out if mp_params.mp_priv is enabled. All the driver
->> needs to report is whether it's configured to be able to handle
->> unreadable netmem (which practically means HDS is enabled).
-> 
-> The reason why the branch exists here is the PP_FLAG_ALLOW_UNREADABLE_NETMEM
-> flag can't be used with PP_FLAG_DMA_SYNC_DEV.
-> 
->  228         if (pool->slow.flags & PP_FLAG_DMA_SYNC_DEV) {
->  229                 /* In order to request DMA-sync-for-device the page
->  230                  * needs to be mapped
->  231                  */
->  232                 if (!(pool->slow.flags & PP_FLAG_DMA_MAP))
->  233                         return -EINVAL;
->  234
->  235                 if (!pool->p.max_len)
->  236                         return -EINVAL;
->  237
->  238                 pool->dma_sync = true;                //here
->  239
->  240                 /* pool->p.offset has to be set according to the address
->  241                  * offset used by the DMA engine to start copying rx data
->  242                  */
->  243         }
-> 
-> If PP_FLAG_DMA_SYNC_DEV is set, page->dma_sync is set to true.
-> 
-> 347 int mp_dmabuf_devmem_init(struct page_pool *pool)
-> 348 {
-> 349         struct net_devmem_dmabuf_binding *binding = pool->mp_priv;
-> 350
-> 351         if (!binding)
-> 352                 return -EINVAL;
-> 353
-> 354         if (!pool->dma_map)
-> 355                 return -EOPNOTSUPP;
-> 356
-> 357         if (pool->dma_sync)                      //here
-> 358                 return -EOPNOTSUPP;
-> 359
-> 360         if (pool->p.order != 0)
-> 361                 return -E2BIG;
-> 362
-> 363         net_devmem_dmabuf_binding_get(binding);
-> 364         return 0;
-> 365 }
-> 
-> In the mp_dmabuf_devmem_init(), it fails when pool->dma_sync is true.
+On Tue, Oct 8, 2024 at 11:45=E2=80=AFAM David Wei <dw@davidwei.uk> wrote:
+>
 
-This won't work for io_uring zero copy into user memory. We need all
-PP_FLAG_DMA_MAP | PP_FLAG_DMA_SYNC_DEV | PP_FLAG_ALLOW_UNREADABLE_NETMEM
-set.
+Hi David,
+Thanks a lot for your review!
 
-I agree with Mina that the driver should not be poking at the mp_priv
-fields. How about setting all the flags and then letting the mp->init()
-figure it out? mp_dmabuf_devmem_init() is called within page_pool_init()
-so as long as it resets dma_sync if set I don't see any issues.
+> On 2024-10-03 09:06, Taehee Yoo wrote:
+> > diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/et=
+hernet/broadcom/bnxt/bnxt.c
+> > index 872b15842b11..64e07d247f97 100644
+> > --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> > +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> > @@ -55,6 +55,7 @@
+> >  #include <net/page_pool/helpers.h>
+> >  #include <linux/align.h>
+> >  #include <net/netdev_queues.h>
+> > +#include <net/netdev_rx_queue.h>
+> >
+> >  #include "bnxt_hsi.h"
+> >  #include "bnxt.h"
+> > @@ -863,6 +864,22 @@ static void bnxt_tx_int(struct bnxt *bp, struct bn=
+xt_napi *bnapi, int budget)
+> >               bnapi->events &=3D ~BNXT_TX_CMP_EVENT;
+> >  }
+> >
+> > +static netmem_ref __bnxt_alloc_rx_netmem(struct bnxt *bp, dma_addr_t *=
+mapping,
+> > +                                      struct bnxt_rx_ring_info *rxr,
+> > +                                      unsigned int *offset,
+> > +                                      gfp_t gfp)
+>
+> gfp is unused
 
-> 
-> tcp-data-split can be used for normal cases, not only devmem TCP case.
-> If we enable tcp-data-split and disable devmem TCP, page_pool doesn't
-> have PP_FLAG_DMA_SYNC_DEV.
-> So I think mp_params.mp_priv is still useful.
-> 
-> Thanks a lot,
-> Taehee Yoo
-> 
->>
->>
->> --
->> Thanks,
->> Mina
+I will remove unnecessary gfp parameter in v4.
+
+>
+> > +{
+> > +     netmem_ref netmem;
+> > +
+> > +     netmem =3D page_pool_alloc_netmem(rxr->page_pool, GFP_ATOMIC);
+> > +     if (!netmem)
+> > +             return 0;
+> > +     *offset =3D 0;
+> > +
+> > +     *mapping =3D page_pool_get_dma_addr_netmem(netmem) + *offset;
+>
+> offset is always 0
+
+Okay, I will remove this too in v4.
+
+>
+> > +     return netmem;
+> > +}
+> > +
+> >  static struct page *__bnxt_alloc_rx_page(struct bnxt *bp, dma_addr_t *=
+mapping,
+> >                                        struct bnxt_rx_ring_info *rxr,
+> >                                        unsigned int *offset,
+>
+> [...]
+>
+> > @@ -1192,6 +1209,7 @@ static struct sk_buff *bnxt_rx_skb(struct bnxt *b=
+p,
+> >
+> >  static u32 __bnxt_rx_agg_pages(struct bnxt *bp,
+> >                              struct bnxt_cp_ring_info *cpr,
+> > +                            struct sk_buff *skb,
+> >                              struct skb_shared_info *shinfo,
+> >                              u16 idx, u32 agg_bufs, bool tpa,
+> >                              struct xdp_buff *xdp)
+> > @@ -1211,7 +1229,7 @@ static u32 __bnxt_rx_agg_pages(struct bnxt *bp,
+> >               u16 cons, frag_len;
+> >               struct rx_agg_cmp *agg;
+> >               struct bnxt_sw_rx_agg_bd *cons_rx_buf;
+> > -             struct page *page;
+> > +             netmem_ref netmem;
+> >               dma_addr_t mapping;
+> >
+> >               if (p5_tpa)
+> > @@ -1223,9 +1241,15 @@ static u32 __bnxt_rx_agg_pages(struct bnxt *bp,
+> >                           RX_AGG_CMP_LEN) >> RX_AGG_CMP_LEN_SHIFT;
+> >
+> >               cons_rx_buf =3D &rxr->rx_agg_ring[cons];
+> > -             skb_frag_fill_page_desc(frag, cons_rx_buf->page,
+> > -                                     cons_rx_buf->offset, frag_len);
+> > -             shinfo->nr_frags =3D i + 1;
+> > +             if (skb) {
+> > +                     skb_add_rx_frag_netmem(skb, i, cons_rx_buf->netme=
+m,
+> > +                                            cons_rx_buf->offset, frag_=
+len,
+> > +                                            BNXT_RX_PAGE_SIZE);
+> > +             } else {
+> > +                     skb_frag_fill_page_desc(frag, netmem_to_page(cons=
+_rx_buf->netmem),
+> > +                                             cons_rx_buf->offset, frag=
+_len);
+> > +                     shinfo->nr_frags =3D i + 1;
+> > +             }
+>
+> I feel like this function needs a refactor at some point to split out
+> the skb and xdp paths.
+
+Okay, I will add __bnxt_rx_agg_netmem() in v4 patch.
+
+>
+> >               __clear_bit(cons, rxr->rx_agg_bmap);
+> >
+> >               /* It is possible for bnxt_alloc_rx_page() to allocate
+>
+> [...]
+>
+> > @@ -3608,9 +3629,11 @@ static void bnxt_free_rx_rings(struct bnxt *bp)
+> >
+> >  static int bnxt_alloc_rx_page_pool(struct bnxt *bp,
+> >                                  struct bnxt_rx_ring_info *rxr,
+> > +                                int queue_idx,
+>
+> To save a parameter, the index is available already in rxr->bnapi->index
+
+Okay, I also remove the queue_idx parameter in v4.
+
+>
+> >                                  int numa_node)
+> >  {
+> >       struct page_pool_params pp =3D { 0 };
+> > +     struct netdev_rx_queue *rxq;
+> >
+> >       pp.pool_size =3D bp->rx_agg_ring_size;
+> >       if (BNXT_RX_PAGE_MODE(bp))
+> > @@ -3621,8 +3644,15 @@ static int bnxt_alloc_rx_page_pool(struct bnxt *=
+bp,
+> >       pp.dev =3D &bp->pdev->dev;
+> >       pp.dma_dir =3D bp->rx_dir;
+> >       pp.max_len =3D PAGE_SIZE;
+> > -     pp.flags =3D PP_FLAG_DMA_MAP | PP_FLAG_DMA_SYNC_DEV;
+> > +     pp.order =3D 0;
+> > +
+> > +     rxq =3D __netif_get_rx_queue(bp->dev, queue_idx);
+> > +     if (rxq->mp_params.mp_priv)
+> > +             pp.flags =3D PP_FLAG_DMA_MAP | PP_FLAG_ALLOW_UNREADABLE_N=
+ETMEM;
+> > +     else
+> > +             pp.flags =3D PP_FLAG_DMA_MAP | PP_FLAG_DMA_SYNC_DEV;
+> >
+> > +     pp.queue_idx =3D queue_idx;
+> >       rxr->page_pool =3D page_pool_create(&pp);
+> >       if (IS_ERR(rxr->page_pool)) {
+> >               int err =3D PTR_ERR(rxr->page_pool);
+> > @@ -3655,7 +3685,7 @@ static int bnxt_alloc_rx_rings(struct bnxt *bp)
+> >               cpu_node =3D cpu_to_node(cpu);
+> >               netdev_dbg(bp->dev, "Allocating page pool for rx_ring[%d]=
+ on numa_node: %d\n",
+> >                          i, cpu_node);
+> > -             rc =3D bnxt_alloc_rx_page_pool(bp, rxr, cpu_node);
+> > +             rc =3D bnxt_alloc_rx_page_pool(bp, rxr, i, cpu_node);
+> >               if (rc)
+> >                       return rc;
+> >
+
+Thanks a lot for catching things,
+I will send v4 if there is no problem after some tests.
+
+Thanks!
+Taehee Yoo
