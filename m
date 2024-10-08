@@ -1,139 +1,166 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07751DFD80
-	for <linux-doc@vger.kernel.org>; Tue,  8 Oct 2024 14:33:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F33BA1DFE17;
+	Tue,  8 Oct 2024 14:36:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728398035; cv=none; b=GsddYnYZ+5IrB7QmgI3bdy4k+0UvY2SBNcvyOG9bd5qlyvGJKrzLOrV0GeIfrNvRnW9pTkN1ga4DuL5W3gJk0ExS6qg6cUtb3Pv24oV15uDHkHVu+7HA6TL0/8ZduDQWe8Fp+H+6Ebumq1sRMSU63bAoqdufkPEIpQ9ka5Eklo0=
+	t=1728398179; cv=none; b=nWL4YamAYOBUMnVel+vkt2OycmsrM6gfmDlH2MbpFl2FLspuMV3NuJE2XJdkQ7LtK5GSI7sjcBMsOtRY7gvHqtU/sjKqiBg5Wa4yVKd+HnzoP3qvqklI3ixi0GqDU70YSG9JLtSPUlWxetsufsAFYWbnMEfhRPqmLnOXOLScy1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728398035; c=relaxed/simple;
-	bh=cJbvDgUha/1eoUVSaOiEuoQnBVNtsRTyLKAM+qSvSQ0=;
+	s=arc-20240116; t=1728398179; c=relaxed/simple;
+	bh=gxxx5O9eecv163qWQ61f/5In0s1MkC0h2hYsYBgpd4o=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FFmHGZRHuzs83z5Ed5zAsRdBUBIQC7tsYpsCKBcxAUhxQ1iKnlphqwrvpFYY9XJXpdxTDaGBiBAWG4ZxT5dzfLvuGCZAzArzHjLH191dMc5CiY2g0p5cbTbNMV6MkIwWW0ClFTSbOSyhuBV+yYM0yUFxYlQpwtXIa4lKMDv5tKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GhzlbFAq; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 To:Cc:Content-Type; b=S/zO1Y80mmqXqTMlScSxEJVGhXux7CI3+0h3l1ITSR0pAxNutZWEtYPlD1L1ILqXY4Obv1k3kDD/b0fs47HVIWiJ+KR5gxwzJvwngpKZV88XMLkADWzqKt4dbEa4UHxZDAO+MsCJysGykz8ZvJ6j3ZtlKUC9Gu0oF4qBFkqm5KY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nmUog/XW; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GhzlbFAq"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5398f3be400so6490821e87.0
-        for <linux-doc@vger.kernel.org>; Tue, 08 Oct 2024 07:33:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nmUog/XW"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5398df2c871so6110679e87.1;
+        Tue, 08 Oct 2024 07:36:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728398032; x=1729002832; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=l8UUeF5zVA7me/KDNa1uZvUuZ4ABpmFfw0rMc8MJiM4=;
-        b=GhzlbFAqqtx77ra1+v8o//33rCwoJFllP1X9NohIgaVgqW3neaEHb4GF1co9xIgMGb
-         MvgqDehmYJf+Urq4ShbnFZL5RiyRNBEzhTL52ptNFDgj/qkWc2oMXjjDXZjT1n9zYPQV
-         1Xp0fz/FPp5XqtgGub8V5ldG+2DgD5Hnj4aRW0i/9y4H2PgqpnZNsPgi5LvLNpUOgKIO
-         DrKJQQMqGFa2bGbvdYm1n3u3AbEKmBOQVhGESBiiNV11dmaOQFJdinp5TIrLswSzWdZ8
-         645L6DeP+i7OwvIHg7UHNCOhsdifTcL72MmqZ/aspTzzktZ4fb/e+y254KqX1i0qWLdT
-         LLqw==
+        d=gmail.com; s=20230601; t=1728398176; x=1729002976; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RAzASSCUQ2aUVsiLqBLU+OR2T2BBF/GKBA/6/Hrht2Y=;
+        b=nmUog/XWxHE98vP1aRBWOdqqiTdra1AWS575jFpoHyM53Y6e7zQN/FcquPeBMs14bf
+         aPuy8kgYFX4JqI1OEv6cuEYAJkv41Tv58BA3MLW378DfwBfALhXp0zSiXBDrK6w7hoW3
+         SG9RMRTkD8IVJ42W+dtP+a6tAMQEg1rJYKi/saiMrSfX5FJsZrQrmOEKrYBQV59PGzpI
+         IgXkUWLLJ3LOEIu4wlQNrUJEkpUiZ7oLKlMCMO5E3EhblLMHa1t47qP28WXxD19DHR4I
+         rTKc3hWJ5y8llNFRd5BhofZh2BWz/9wUnCLGFOznXC6rfN+BioUMPiQDaJZ7Ke4/hRW4
+         NwVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728398032; x=1729002832;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=l8UUeF5zVA7me/KDNa1uZvUuZ4ABpmFfw0rMc8MJiM4=;
-        b=dBSZ9XVhemz4jDrpew7vl49Z4SJVeQIbeUjOlGFN6BKQCvdX1usQTCF2Ur69q6s4zH
-         nPiAfAcCO7EXYSrEorTVwxVIn4DJ5E5RpdLG4wHw6qB6TbkhBwoHMjrYXt9uj/XMvPOe
-         hwOG9dBczvgo4ewZdnJdtIzR7tJGXfVnn0pqNknvN8tBkPRblSAurgc9aEEBRrEmULFX
-         gXDDMLH85ntvOk6Td75TqKhBz1hNnpu40enj5CE7Twrkn1PFHLtoYJEpS/pEeAAAHyvL
-         k2zPTi6wloYy9oQlM3DAqAQf8+O4bTgXR4Z6zopjyHKFBqfUpnlCP44BG8XtPSvE4XzJ
-         PwIA==
-X-Forwarded-Encrypted: i=1; AJvYcCWSCnGyO0Y5OMU2JvaGXfg4D4naxMv5nIwjX1HfwdvfLVWqU9YqOv+LdoEDpICo6MB5MTJldbrFNK0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyyHvu2/djGdlwy+6VkUh+sX06/ZM+F8ba852S0vFjuRdEJx93s
-	c4AbMeWnC2gTu8Z3TEZgJJ/txLY3aN7PYVn7iZKs1YQEckHx/8b9WJUoMRBN2u/b2F5Dvjnwu7b
-	F+k62mfINqqD5Voy9yaUZxoKLgnpS/U6+1qVDWQ==
-X-Google-Smtp-Source: AGHT+IGBYcpHt0lMWnVGb0Hy+ZeNqvJFr2wYYFazy0Mc7IJSh/h6XvyFgyinHLgdB/nKkTDcnov6qsaKInqYJZBkAPE=
-X-Received: by 2002:a05:6512:3b85:b0:536:54df:bffc with SMTP id
- 2adb3069b0e04-539ab9dc722mr7192766e87.42.1728398031871; Tue, 08 Oct 2024
- 07:33:51 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728398176; x=1729002976;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RAzASSCUQ2aUVsiLqBLU+OR2T2BBF/GKBA/6/Hrht2Y=;
+        b=cYrnuD6RbOItIqsgKi4Co2aWslD+EwsN3jUQhNiAtOp6qvExTX6N9+ftVK+/AZGwiH
+         JxTsDcZhuTt+TMDo2KtZsyRGE6t6Bto6S4ayh9f47KEolDx1AVBt2hYdXjWNsFGdVY8G
+         +6HtqRc7CWHDRV6iq1c0e+aLo/dS3rthVgz3OLWpP0xe3ME93FK+H67o0MNpAIqiQ2mP
+         3EY3L+6H9cWtEnM4/hw3HSRIBRgXupPWhFZhnEBgzymHGSDH5MxhWC8ByX3HiUEKa0/4
+         BPEu3CoBjRl3COPCGOinc3kVND830H7LjlrvpDM/jCSBPiG1GXFF9v6aduIhwNK6R6mR
+         jjvA==
+X-Forwarded-Encrypted: i=1; AJvYcCUJtH3awfDZ/nC626VnAxYOHkTfVIoH3kIfaoPqDVOK+deP8D57oWriGhIVI7f1VE1Nc88=@vger.kernel.org, AJvYcCUbgGK+kyLacPBfXwZh6DEUgiTVHXLqk+aXtuYMPOhFH+/s+wGhu0dOB7i0wxyaju3rnxRqg/5J97wWBAJ+OeU=@vger.kernel.org, AJvYcCV2rCp5g1JppC/inIrPY76DYPlOaZ2xdBwksr4sgPt/Jd/MlJKupA6Ss8yv/s7PmIv0dqsyysSJTTA=@vger.kernel.org, AJvYcCV9IJ38l6X5LroDzXttFFINdkD3yzgOGnA1lfHoX1xiWG07l8nircOfoo/CsvDyIKP8qCEoSAbLz9hRx0Fi@vger.kernel.org, AJvYcCVWn6u/U1hLaeP8nOPLa/UO6ryUAre4UzB1KTNdeCyAeBTsUrbB955DjqJ/0egzzQSkzPZFeRObE6bh@vger.kernel.org, AJvYcCVZr08z2eEiFB9qZZQPQKg8EQQs1YfSFER4TatCiaj9fipOsjvktYDR35dyW9iYDSkA8vsM9JAdwBB0i5AJ@vger.kernel.org, AJvYcCVzdyFAcpZ+cokUng73bgS8Mm6UjHR1k2FuWrlvxUoysZiXou+QER3OJJFz/rCqDionXvoGGH39/cyMTa34HNMNVA==@vger.kernel.org, AJvYcCW2ura4tB0AkWNuocgWJ/GET8txWB1PrLflKqFDMyIXRUY+r7qInkWU7DBBDWFKZ3mASs4deA9mHlQuCU4b@vger.kernel.org, AJvYcCXOwPz5SHzaAEeTdRy4S8wp0rdekZ+too4VPiu6TVIcNiu1UZgMWkMEqQIw9/6EEkH6qPERZIuOt1AOmQ==@vger.kernel.org, AJvYcCXRdDe3dubXYb9lSLHeHJulIH3EjKyZ63P0AScc+aR+KbyToGrF5T8LxAHKUceMsS0bCo0zyrlwIn5B@vger.kernel.org
+X-Gm-Message-State: AOJu0YzliAqJ64I6yuE+5ZCA/YTG3cGnD2sjQRftKzH5Y0Ebmv6K1Sl/
+	C4xahBG5gp7Vs51HXDV0eE5S8WzB4cq5Df6LvATxzE6KbikHc3Na75TCB4u8MbFmIeHdl+CRyiR
+	6oNV9T++a/Dw7Kxvp+mbzH/8JrA==
+X-Google-Smtp-Source: AGHT+IFk7uSGpMKxSJMgul6omDcmQyMQl5Zy1l8C5NVTbpCgjnnjxrxdxyhpPaT355keXYtQRCu422aiN8olYIcP4XU=
+X-Received: by 2002:a05:6512:3085:b0:539:8a9a:4e56 with SMTP id
+ 2adb3069b0e04-539ab8c6fb8mr8574397e87.53.1728398175714; Tue, 08 Oct 2024
+ 07:36:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241002221306.4403-1-ansuelsmth@gmail.com> <172833255295.162249.16483920948700467749.b4-ty@kernel.dk>
- <CAPDyKFoueMwVfN+P+tG7zT+-iUs=hghsRu+i9mNiHGw_9tcwBw@mail.gmail.com> <fe10ee8f-1220-4a1d-a25b-efaaa314699a@kernel.dk>
-In-Reply-To: <fe10ee8f-1220-4a1d-a25b-efaaa314699a@kernel.dk>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 8 Oct 2024 16:33:14 +0200
-Message-ID: <CAPDyKFpoFP3v8XneMoY5_DEVssYkDyK03QpikBdsZseO4_MLPw@mail.gmail.com>
-Subject: Re: [PATCH v6 0/6] block: partition table OF support
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Daniel Golle <daniel@makrotopia.org>, INAGAKI Hiroshi <musashino.open@gmail.com>, 
-	Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Ming Lei <ming.lei@redhat.com>, Li Lingfeng <lilingfeng3@huawei.com>, 
-	Christian Heusel <christian@heusel.eu>, Avri Altman <avri.altman@wdc.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Riyan Dhiman <riyandhiman14@gmail.com>, Mikko Rapeli <mikko.rapeli@linaro.org>, 
-	Jorge Ramirez-Ortiz <jorge@foundries.io>, Li Zhijian <lizhijian@fujitsu.com>, 
-	Dominique Martinet <dominique.martinet@atmark-techno.com>, 
-	Jens Wiklander <jens.wiklander@linaro.org>, 
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, linux-block@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, 
-	Lorenzo Bianconi <lorenzo@kernel.org>, Miquel Raynal <miquel.raynal@bootlin.com>, upstream@airoha.com, 
-	Christoph Hellwig <hch@infradead.org>, Christian Marangi <ansuelsmth@gmail.com>
+References: <20240925150059.3955569-30-ardb+git@google.com>
+ <20240925150059.3955569-35-ardb+git@google.com> <CAFULd4ZNwfPZO-yDjrtT2ANV509HeeYgR80b9AFachaVW5zqrg@mail.gmail.com>
+ <CAMzpN2j4uj=mhdi7QHaA7y_NLtaHuRpnit38quK6RjvxdUYQew@mail.gmail.com> <CAMj1kXF3_Hj9j2f_cBtwTFWvEmB0UoEs_cGkRiWc4AErDx0ftQ@mail.gmail.com>
+In-Reply-To: <CAMj1kXF3_Hj9j2f_cBtwTFWvEmB0UoEs_cGkRiWc4AErDx0ftQ@mail.gmail.com>
+From: Brian Gerst <brgerst@gmail.com>
+Date: Tue, 8 Oct 2024 10:36:03 -0400
+Message-ID: <CAMzpN2jWRV8-JzM2FjSvSz+VoDrNVeEJPgF7N5ksLaADHpnHsA@mail.gmail.com>
+Subject: Re: [RFC PATCH 05/28] x86: Define the stack protector guard symbol explicitly
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: Uros Bizjak <ubizjak@gmail.com>, Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org, 
+	x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
+	Christoph Lameter <cl@linux.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
+	Juergen Gross <jgross@suse.com>, Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Keith Packard <keithp@keithp.com>, 
+	Justin Stitt <justinstitt@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+	Kan Liang <kan.liang@linux.intel.com>, linux-doc@vger.kernel.org, 
+	linux-pm@vger.kernel.org, kvm@vger.kernel.org, xen-devel@lists.xenproject.org, 
+	linux-efi@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 8 Oct 2024 at 15:24, Jens Axboe <axboe@kernel.dk> wrote:
+On Fri, Oct 4, 2024 at 9:15=E2=80=AFAM Ard Biesheuvel <ardb@kernel.org> wro=
+te:
 >
-> On 10/8/24 3:10 AM, Ulf Hansson wrote:
-> > On Mon, 7 Oct 2024 at 22:22, Jens Axboe <axboe@kernel.dk> wrote:
-> >>
-> >>
-> >> On Thu, 03 Oct 2024 00:11:40 +0200, Christian Marangi wrote:
-> >>> this is an initial proposal to complete support for manually defining
-> >>> partition table.
-> >>>
-> >>> Some background on this. Many OEM on embedded device (modem, router...)
-> >>> are starting to migrate from NOR/NAND flash to eMMC. The reason for this
-> >>> is that OEM are starting to require more and more space for the firmware
-> >>> and price difference is becoming so little that using eMMC is only benefits
-> >>> and no cons.
-> >>>
-> >>> [...]
-> >>
-> >> Applied, thanks!
-> >>
-> >> [1/6] block: add support for defining read-only partitions
-> >>       commit: 03cb793b26834ddca170ba87057c8f883772dd45
-> >> [2/6] docs: block: Document support for read-only partition in cmdline part
-> >>       commit: 62adb971e515d1bb0e9e555f3dd1d5dc948cf6a1
-> >> [3/6] block: introduce add_disk_fwnode()
-> >>       commit: e5f587242b6072ffab4f4a084a459a59f3035873
-> >> [4/6] mmc: block: attach partitions fwnode if found in mmc-card
-> >>       commit: 45ff6c340ddfc2dade74d5b7a8962c778ab7042c
-> >> [5/6] block: add support for partition table defined in OF
-> >>       commit: 884555b557e5e6d41c866e2cd8d7b32f50ec974b
-> >> [6/6] dt-bindings: mmc: Document support for partition table in mmc-card
-> >>       commit: 06f39701d0666d89dd3c86ff0b163c7139b7ba2d
-> >>
+> On Sat, 28 Sept 2024 at 15:41, Brian Gerst <brgerst@gmail.com> wrote:
 > >
-> > I think we may need another merging strategy for this as I quite big
-> > changes in the pipe for the mmc block device this cycle.
+> > On Wed, Sep 25, 2024 at 2:33=E2=80=AFPM Uros Bizjak <ubizjak@gmail.com>=
+ wrote:
+> > >
+> > > On Wed, Sep 25, 2024 at 5:02=E2=80=AFPM Ard Biesheuvel <ardb+git@goog=
+le.com> wrote:
+> > > >
+> > > > From: Ard Biesheuvel <ardb@kernel.org>
+> > > >
+> > > > Specify the guard symbol for the stack cookie explicitly, rather th=
+an
+> > > > positioning it exactly 40 bytes into the per-CPU area. Doing so rem=
+oves
+> > > > the need for the per-CPU region to be absolute rather than relative=
+ to
+> > > > the placement of the per-CPU template region in the kernel image, a=
+nd
+> > > > this allows the special handling for absolute per-CPU symbols to be
+> > > > removed entirely.
+> > > >
+> > > > This is a worthwhile cleanup in itself, but it is also a prerequisi=
+te
+> > > > for PIE codegen and PIE linking, which can replace our bespoke and
+> > > > rather clunky runtime relocation handling.
+> > >
+> > > I would like to point out a series that converted the stack protector
+> > > guard symbol to a normal percpu variable [1], so there was no need to
+> > > assume anything about the location of the guard symbol.
+> > >
+> > > [1] "[PATCH v4 00/16] x86-64: Stack protector and percpu improvements=
+"
+> > > https://lore.kernel.org/lkml/20240322165233.71698-1-brgerst@gmail.com=
+/
+> > >
+> > > Uros.
 > >
-> > Would it be possible for you to drop the mmc patches and instead share
-> > an immutable branch with the block changes that I can pull in, so I
-> > can take the mmc changes?
+> > I plan on resubmitting that series sometime after the 6.12 merge
+> > window closes.  As I recall from the last version, it was decided to
+> > wait until after the next LTS release to raise the minimum GCC version
+> > to 8.1 and avoid the need to be compatible with the old stack
+> > protector layout.
+> >
 >
-> I mean we can, but the mmc changes in here are pretty self contained.
-> I'd rather avoid rebasing the block tree for that, given how small the
-> changes are. If it conflicts, should be easy enough to resolve.
-
-Okay, let's give it a try and see how it goes.
-
+> Hi Brian,
 >
-> You an also just pull in the block tree now and resolve the conflict.
-> There's not a whole lot in there yet outside of this series.
+> I'd be more than happy to compare notes on that - I wasn't aware of
+> your intentions here, or I would have reached out before sending this
+> RFC.
+>
+> There are two things that you would need to address for Clang support
+> to work correctly:
+> - the workaround I cc'ed you on the other day [0],
+> - a workaround for the module loader so it tolerates the GOTPCRELX
+> relocations that Clang emits [1]
+>
+>
+>
+> [0] https://lore.kernel.org/all/20241002092534.3163838-2-ardb+git@google.=
+com/
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/commit=
+/?id=3Da18121aabbdd
 
-Let's wait and see. If we get some conflicts, you can always set a tag
-to the latest of the mmc commits in your tree that I can pull instead.
+The first patch should be applied independently as a bug fix, since it
+already affects the 32-bit build with clang.
 
-Kind regards
-Uffe
+I don't have an environment with an older clang compiler to test the
+second patch, but I'll assume it will be necessary.  I did run into an
+issue with the GOTPCRELX relocations before [1], but I thought it was
+just an objtool issue and didn't do more testing to know if modules
+were broken or not.
+
+Brian Gerst
+
+[1] https://lore.kernel.org/all/20231026160100.195099-6-brgerst@gmail.com/
