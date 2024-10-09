@@ -1,79 +1,80 @@
 Received: from flow-a5-smtp.messagingengine.com (flow-a5-smtp.messagingengine.com [103.168.172.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31FEC817;
-	Wed,  9 Oct 2024 09:15:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 548C1817;
+	Wed,  9 Oct 2024 09:19:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728465342; cv=none; b=qlsGE3ufDNJ3QlgOjMHV6mADoHio/+a+YTS+S8Jr/z1EuHcyeL+nYU9qh7F/uOEaygvs6W2eJD418ifrbLuwnf46j3MYnixzXGfQzrSN3jLrzBaJtdcD6gjthCle3QwfB9p6PnjWT75ZaqyB82wVqCMpRFGKSAfM8TuefkId0OU=
+	t=1728465564; cv=none; b=WzMWb9Di/+2kSw/F/fb6IpnifQrsqgnHe72c/oZO1FQ7keE48kpNOAF9P8Nm165aB1mHM2VH5pEk0yEsNIABR2mI63Bz9K8lkYhtf12YrxrdMPJY4DWTVo/LzE0fF7iK821zIdsisnAExCaxkTZuv2bQwdR8k2D0ieTbGFLKZiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728465342; c=relaxed/simple;
-	bh=az3oP8XKxJqTNaLQO9pg2Qs/PWObMGbatyWQ8uLN1bI=;
+	s=arc-20240116; t=1728465564; c=relaxed/simple;
+	bh=U1HviyvjkC2nulCdjObng+ah5olLK4NONSqGo6bwmv4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WSaFfe1+7rQjW1KD5Ajb/UUZU6eiY1NAHPrTt6OuUKd6ki6ztlMWhH6nJN20zxXt+zxN/q07ozPSZQ6I7wpYuoqNy/2a+bQXJMKrSDGMBcn0hsWAQjgyms5oBPBVm3vzCXO8eKx4ip4KrzkzNkLN0Lbb0ln5NZkhm3OMqRmXLTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=INGHLYkn; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=S2H16ImH; arc=none smtp.client-ip=103.168.172.140
+	 Content-Type:Content-Disposition:In-Reply-To; b=lT7ejccljD8xxE+bZn/tob6L4WKgu0QpHIRZ4Lfg9GUEQvBgZqXcW2+UOzaUXQwAQLfNr6WbSiRgtdqg1n0e8h+2Ab00JU2MKWGkNHc1APkN8jWSMlB7eY2loS4CFn8AxznLygMNvOJSwqq4WrbIYJqN16uugnNR3LFt0pzz8r0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=vyI3IP+7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lR7txLMe; arc=none smtp.client-ip=103.168.172.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="INGHLYkn";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="S2H16ImH"
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailflow.phl.internal (Postfix) with ESMTP id 43A6F20055A;
-	Wed,  9 Oct 2024 05:15:39 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-10.internal (MEProxy); Wed, 09 Oct 2024 05:15:39 -0400
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="vyI3IP+7";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lR7txLMe"
+Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
+	by mailflow.phl.internal (Postfix) with ESMTP id 7C11D200702;
+	Wed,  9 Oct 2024 05:19:21 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Wed, 09 Oct 2024 05:19:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
 	:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1728465339; x=1728472539; bh=LAyv3VS/Qv
-	UUd89p7XNOt2uXPTdrRqf9gsz0++0rGZU=; b=INGHLYknWwxvyQ3xZtgZEXZ4HG
-	5u/0zPTtdaj2EXaD1dZx4POMLf33UKhBZwmbhJbWs2lPNFiex/E2MDJ+OT8HMgJ0
-	EKO3G1wN0o8ZO0QET7NXc3HqsSQFGOQS/JPMnXtD72PKFkxUE/CF3Eou4IdnAbeZ
-	Eu+M6+EFKIHQDk2MPDk3cUC3fber35ZIQYjFomry9QQO+R7bcEhB2nOOsQOofh9b
-	Vs74tL8NCsAvjRGLGP01aFwhr6vCPm7WaV7CoU7caipmG7ZbMS8ae9igQnwHbQLu
-	2xeqk8OuJyRMpstBjkHCQ2UKbtEO3+BYUdIq5PajNo+V2ceNYWOaRc5Ugfpg==
+	:subject:to:to; s=fm2; t=1728465561; x=1728472761; bh=5QMHODHmih
+	hrY81Jw53mmTTTo5EFLMunpfVMaJFgMyY=; b=vyI3IP+7ZGyQdEHPeRYRsH3SiQ
+	V+DrOqUp1kFtcsUz9xiYhbi8mO4F779ovfgatGaJVHBEjMU3BSjzFl6FLZTE+F4G
+	eojKJu1s1e/NfN83zV6IVZjUjgVs9X6M8/Y8EvGYREDRyL6BfGZxCBhGUVIcgsP+
+	DL0rGbVgOVJqKJhh77XbBV33yveFb6rQLNzE+S70x5rNuMQUi8y0c5/o1UZSUyNK
+	WtyNLUdjul6pvGfN2rMiUVPMsDENpn4F74nASXpfnFtlZcRncQXocIDXicaLC36e
+	AZaGfNvkyE0auqGO5jByeQJ1OTwItDZz50RrIFHeImT710QGA1GbuxhxRKbQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1728465339; x=1728472539; bh=LAyv3VS/QvUUd89p7XNOt2uXPTdr
-	Rqf9gsz0++0rGZU=; b=S2H16ImHCSSmqcjS7yYKXg+RL8QQw4VUKS4ON8kYoYp3
-	jh/EYCXwpXYwrOzWjc77pffkyx+mmyvP77cHC3hprkKZF1QVE3wArkj2wzOHlmZP
-	2tIivSKGPQZauQVMk9ZnFAnFWW5hNCFVXqSbIRGyagvD3Ktsfx2DNZKGj0aqj2zH
-	QgFYIEkATFp6WeAWeMKYGuUL1GFApbddTVQIcN7bTUdogntgl/crjCHGccowbeu0
-	lv03SI6yUzJqdpnnAFLMR15zoG6VvmVkXx8whk4+yuZVLzo8jW76/jRojB/3nULS
-	3urq0XMJNWHBMMOhvVFm1ehOpgG/GvmV5vXaDJktsg==
-X-ME-Sender: <xms:u0kGZ59PnC0LBD7G0l-U9_88pDJUniy21CXWwu2fZmIMXARicML4lA>
-    <xme:u0kGZ9vcoGuuro5UgqEQCNZek6niiTen-wklfco5J1co5NfStFNiAQJTg21H7eFEe
-    o8XeWAdM5YA6w>
-X-ME-Received: <xmr:u0kGZ3AjL9VDc5ziH-88DBYNGxKg3snkuB41J94EQTy9_Y26rnnSSme9G0A_HhFcfc5OuAUm98Yaw9k907Dcpfz13IGxy1aORqMMAw>
+	fm2; t=1728465561; x=1728472761; bh=5QMHODHmihhrY81Jw53mmTTTo5EF
+	LMunpfVMaJFgMyY=; b=lR7txLMen/WMFfKgncNvjRg6iQ+jp1xpVsWdDrz+wedu
+	RhL/LLOZBCulCSYF2cTwyJ6yIc36ltwwMa6R3JD9JDjVsRLJfDN4/oEJbKuRntOb
+	Hy2b/6s70/EKI66zYph5yxgTVRQJtNKPo9PFNCdpIdeR3gUytt2etW8wB07N4XBR
+	8fGj4gUqyuuuGseFxz2YIXpx6VZrJiQDhyZOYTuksWtm656+1WQNX1ueCmhLL6H0
+	+grW+h++7x4v0ChKXqYNFdevSUkBHlRESGGBZswRgklQ1EEFrLic4BZ5jzDn/398
+	2RiX7gHd8FSMbt9+W+yJS5loEn7ArjtvFlBa32iUog==
+X-ME-Sender: <xms:mUoGZ3NSWGOtBLGvTdE3Tb_KmoVtlMOHR6XJOiNN2CnA2RONdwwTFw>
+    <xme:mUoGZx-JqKoQ95zEsJSpezdZ2p-vJnGIgXSuGKb3D-fiH-6Pz4G-khQE3WmHb9mwK
+    _MvAOrnnpoA9Q>
+X-ME-Received: <xmr:mUoGZ2SU6FZMskM6KKJx7T3m8pgTtNAKq2ikuPlOarS6fJmUvWpyNTT2S5Rs1ESosQcIUEX-zD6eDqGNK8HmRi_n0pFH440H7iXfPg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdeffedgudehucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
     rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
     htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvden
     ucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrf
-    grthhtvghrnhepheegvdevvdeljeeugfdtudduhfekledtiefhveejkeejuefhtdeufefh
-    gfehkeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epghhrvghgsehkrhhorghhrdgtohhmpdhnsggprhgtphhtthhopedvkedpmhhouggvpehs
-    mhhtphhouhhtpdhrtghpthhtohepghhiohhmvghtthhisegvnhhnvggvnhhnvgdrtghomh
-    dprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
-    tghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpd
-    hrtghpthhtoheprghkphhmsehlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgt
-    phhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhopegthhhrihhsthhoph
-    hhvghrrdhsrdhhrghllhesihhnthgvlhdrtghomhdprhgtphhtthhopehsuhgsrhgrmhgr
-    nhhirghnrdhmohhhrghnsehinhhtvghlrdgtohhmpdhrtghpthhtohepthhglhigsehlih
-    hnuhhtrhhonhhigidruggvpdhrtghpthhtoheprghnughrihihrdhshhgvvhgthhgvnhhk
-    oheslhhinhhugidrihhnthgvlhdrtghomh
-X-ME-Proxy: <xmx:u0kGZ9ciDC-m7hsZ5qeHQ9PCtZzqaHzrEBHSNHQF6pzX6qcJqmHZhg>
-    <xmx:u0kGZ-PD77u7TP7DxYpZqktPwX8EdzNeXGoD87cf27WdX4Fcm7OGAQ>
-    <xmx:u0kGZ_n1Pl8LNZyQutRQyzo4BfDi9IjTsZdxzmhR0GGvkcxnCFbCpA>
-    <xmx:u0kGZ4sC9kCDkEWK-4GV5FlmzrM05NZQlRSlwi2SYsdVczV1SpDE_Q>
-    <xmx:u0kGZ0XgQL1VmV4mBdoeEKW8EUAyxcKWM9_Nol8hmkN87ng7Cautf0Qo>
+    grthhtvghrnhepgeehueehgfdtledutdelkeefgeejteegieekheefudeiffdvudeffeel
+    vedttddvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomhdp
+    nhgspghrtghpthhtohepvdekpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehgih
+    homhgvthhtihesvghnnhgvvghnnhgvrdgtohhmpdhrtghpthhtoheplhhinhhugidqugho
+    tgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnh
+    gvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegrkhhpmheslhhinhhu
+    gidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheptghorhgsvghtsehlfihnrd
+    hnvghtpdhrtghpthhtoheptghhrhhishhtohhphhgvrhdrshdrhhgrlhhlsehinhhtvghl
+    rdgtohhmpdhrtghpthhtohepshhusghrrghmrghnihgrnhdrmhhohhgrnhesihhnthgvlh
+    drtghomhdprhgtphhtthhopehtghhlgieslhhinhhuthhrohhnihigrdguvgdprhgtphht
+    thhopegrnhgurhhihidrshhhvghvtghhvghnkhhosehlihhnuhigrdhinhhtvghlrdgtoh
+    hm
+X-ME-Proxy: <xmx:mUoGZ7tybL9XUSkH1Eff83xl7yY65ztzIbjZANG2d8IBcuUjlVFwlw>
+    <xmx:mUoGZ_ef6BoG4WB7urStM3Bll4hUfN1GVt_EOPYYMVsFEKj9gxYZkg>
+    <xmx:mUoGZ32iXp9PDO_DL-cF9j2Upm5s4O6MlH_4fXMQOuE9y661_m1szw>
+    <xmx:mUoGZ78OIYWu3_B36Osyiv7rhMdWje5kotEbxoPraSheAZYMIuPU5Q>
+    <xmx:mUoGZynyGuIzYpVzLxoyjCH56BLW-VuBhBVl5BsQewIy76eacYgqtMf0>
 Feedback-ID: i787e41f1:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 9 Oct 2024 05:15:38 -0400 (EDT)
-Date: Wed, 9 Oct 2024 11:15:31 +0200
+ 9 Oct 2024 05:19:20 -0400 (EDT)
+Date: Wed, 9 Oct 2024 11:19:18 +0200
 From: Greg KH <greg@kroah.com>
 To: Rodolfo Giometti <giometti@enneenne.com>
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -85,12 +86,12 @@ Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 	T R Thejesh Reddy <thejesh.reddy.t.r@intel.com>,
 	Zage David <david.zage@intel.com>,
 	Chinnadurai Srinivasan <srinivasan.chinnadurai@intel.com>
-Subject: Re: [RFC 3/3] Documentation ABI: add PPS generators documentaion
-Message-ID: <2024100902-droop-uniformly-8dc8@gregkh>
+Subject: Re: [RFC 1/3] drivers pps: add PPS generators support
+Message-ID: <2024100917-daybed-suffering-7367@gregkh>
 References: <20241008135033.3171915-1-giometti@enneenne.com>
- <20241008135033.3171915-4-giometti@enneenne.com>
- <2024100819-wildlife-counting-6c63@gregkh>
- <fcb70129-f6f0-459f-b099-a2ca3a569095@enneenne.com>
+ <20241008135033.3171915-2-giometti@enneenne.com>
+ <2024100855-unsecured-mammogram-001a@gregkh>
+ <541eb5c6-5546-4170-9e8b-d421d55822a1@enneenne.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -99,66 +100,208 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fcb70129-f6f0-459f-b099-a2ca3a569095@enneenne.com>
+In-Reply-To: <541eb5c6-5546-4170-9e8b-d421d55822a1@enneenne.com>
 
-On Wed, Oct 09, 2024 at 10:48:23AM +0200, Rodolfo Giometti wrote:
-> On 08/10/24 17:43, Greg KH wrote:
-> > On Tue, Oct 08, 2024 at 03:50:33PM +0200, Rodolfo Giometti wrote:
-> > > This patch adds the documentation for the ABI between the Linux kernel
-> > > and userspace regarding the PPS generators.
-> > > 
-> > > Signed-off-by: Rodolfo Giometti <giometti@enneenne.com>
-> > > ---
-> > >   Documentation/ABI/testing/sysfs-pps-gen | 44 +++++++++++++++++++++++++
-> > >   1 file changed, 44 insertions(+)
-> > >   create mode 100644 Documentation/ABI/testing/sysfs-pps-gen
-> > > 
-> > > diff --git a/Documentation/ABI/testing/sysfs-pps-gen b/Documentation/ABI/testing/sysfs-pps-gen
-> > > new file mode 100644
-> > > index 000000000000..9ad066cb3ce5
-> > > --- /dev/null
-> > > +++ b/Documentation/ABI/testing/sysfs-pps-gen
-> > > @@ -0,0 +1,44 @@
-> > > +What:		/sys/class/pps-gen/
-> > > +Date:		October 2024
-> > > +Contact:	Rodolfo Giometti <giometti@enneenne.com>
-> > > +Description:
-> > > +		The /sys/class/pps-gen/ directory will contain files and
-> > > +		directories that will provide a unified interface to
-> > > +		the PPS generators.
-> > > +
-> > > +What:		/sys/class/pps-gen/pps-genX/
-> > > +Date:		October 2024
-> > > +Contact:	Rodolfo Giometti <giometti@enneenne.com>
-> > > +Description:
-> > > +		The /sys/class/pps-gen/pps-genX/ directory is related to X-th
-> > > +		PPS generator into the system. Each directory will
-> > > +		contain files to manage and control its PPS generator.
-> > > +
-> > > +What:		/sys/class/pps-gen/pps-genX/enable
-> > > +Date:		October 2024
-> > > +Contact:	Rodolfo Giometti <giometti@enneenne.com>
-> > > +Description:
-> > > +		This write-only file enables or disables generation of the
-> > > +		PPS signal.
-> > > +
-> > > +What:		/sys/class/pps-gen/pps-genX/name
-> > > +Date:		October 2024
-> > > +Contact:	Rodolfo Giometti <giometti@enneenne.com>
-> > > +Description:
-> > > +		This read-only file reports the name of the X-th generator.
+On Wed, Oct 09, 2024 at 10:48:14AM +0200, Rodolfo Giometti wrote:
+> > > +	kobject_put(&pps_gen->dev->kobj);
 > > 
-> > Again, why a name?  What is that for?
+> > Messing with a kobject reference directly from a device feels wrong and
+> > should never be done.
+> 
+> I followed the suggestions in this patch whose look sane to me:
+> 
+> https://lore.kernel.org/lkml/fc5fe55c-422d-4e63-a5bd-8b6b2d3e6c62@enneenne.com/T/
+
+That patch is wrong.
+
+> >  Please use the proper apis.
+> 
+> Which API are you talking about? Can you please provide some advice?
+
+get_device()
+
+You are working on devices, NOT a raw kobject, no driver should EVER be
+calling into a kobject function or a sysfs function, there should be
+driver core functions for everything you need to do.
+
+> 
+> > 
+> > 
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +/*
+> > > + * Char device stuff
+> > > + */
+> > > +
+> > > +static const struct file_operations pps_gen_cdev_fops = {
+> > > +	.owner		= THIS_MODULE,
+> > > +	.compat_ioctl	= pps_gen_cdev_compat_ioctl,
+> > 
+> > Why compat for a new ioctl?  Why not write it properly to not need it?
+> 
+> Fixed.
+> 
+> > 
+> > > +	.unlocked_ioctl	= pps_gen_cdev_ioctl,
+> > > +	.open		= pps_gen_cdev_open,
+> > > +	.release	= pps_gen_cdev_release,
+> > > +};
+> > > +
+> > > +static void pps_gen_device_destruct(struct device *dev)
+> > > +{
+> > > +	struct pps_gen_device *pps_gen = dev_get_drvdata(dev);
+> > > +
+> > > +	pr_debug("deallocating pps-gen%d\n", pps_gen->id);
+> > 
+> > ftrace is your friend.
+> 
+> I see, but we can also use pr_debug()! :P
+> 
+> > 
+> > > +	kfree(dev);
+> > > +	kfree(pps_gen);
+> > > +}
+> > > +
+> > > +static int pps_gen_register_cdev(struct pps_gen_device *pps_gen)
+> > > +{
+> > > +	int err;
+> > > +	dev_t devt;
+> > > +
+> > > +	mutex_lock(&pps_gen_idr_lock);
+> > > +
+> > > +	err = idr_alloc(&pps_gen_idr, pps_gen, 0, PPS_GEN_MAX_SOURCES,
+> > > +					GFP_KERNEL);
+> > > +	if (err < 0) {
+> > > +		if (err == -ENOSPC) {
+> > > +			pr_err("%s: too many PPS sources in the system\n",
+> > > +			       pps_gen->info.name);
+> > > +			err = -EBUSY;
+> > > +		}
+> > > +		goto out_unlock;
+> > > +	}
+> > > +	pps_gen->id = err;
+> > > +
+> > > +	devt = MKDEV(pps_gen_major, pps_gen->id);
+> > > +	pps_gen->dev = device_create(pps_gen_class, pps_gen->info.parent, devt,
+> > > +					pps_gen, "pps-gen%d", pps_gen->id);
+> > > +	if (IS_ERR(pps_gen->dev)) {
+> > > +		err = PTR_ERR(pps_gen->dev);
+> > > +		goto free_idr;
+> > > +	}
+> > > +
+> > > +	/* Override the release function with our own */
+> > > +	pps_gen->dev->release = pps_gen_device_destruct;
+> > > +
+> > > +	pr_debug("generator %s got cdev (%d:%d)\n",
+> > > +			pps_gen->info.name, pps_gen_major, pps_gen->id);
+> > 
+> > Why not dev_dbg()?
+> 
+> Honestly I prefer pr_debug() because this message is not device related, but
+> it is geneated by the PPS subsystem.
+
+But you have a device, please use it!  Otherwise it's impossible to
+track back what is going on to what device in the system.
+
+> > > +static ssize_t name_show(struct device *dev, struct device_attribute *attr,
+> > > +                         char *buf)
+> > > +{
+> > > +        struct pps_gen_device *pps_gen = dev_get_drvdata(dev);
+> > > +
+> > > +        return sysfs_emit(buf, "%s\n", pps_gen->info.name);
+> > 
+> > Why have a separate name?
 > 
 > This can be useful in order to distinguish between different PPS generators
 > in the system.
-> 
-> For example, the PARPORT generator is not very precise, and userspace
-> applications should be able to know which generator corresponds to the
-> device /dev/pps-gen0 or /dev/pps-gen1, etc.
 
-That's what the device symlink in the directory is for, no need to pick
-yet-another-random-name to have to read from a file :)
+Again, rely on the backing device structure for this (i.e. the symlink
+in sysfs), you do not need to duplicate existing infrastructure.
+
+> > That shouldn't matter at all.  If it does
+> > matter, than link to the device that created it properly, don't make up
+> > yet another name for your device.
+> 
+> I'm not sure to understand what you mean... The "name" attribute is just a
+> label which the userspace my (or my not) use to know which generator to
+> enable or not.
+
+Again, it's tied to the device in the system, don't list that same thing
+again.
+
+> 
+> > > +}
+> > > +static DEVICE_ATTR_RO(name);
+> > > +
+> > > +static struct attribute *pps_gen_attrs[] = {
+> > > +        &dev_attr_enable.attr,
+> > > +        &dev_attr_name.attr,
+> > > +        &dev_attr_time.attr,
+> > > +        &dev_attr_system.attr,
+> > > +        NULL,
+> > > +};
+> > > +
+> > > +static const struct attribute_group pps_gen_group = {
+> > > +        .attrs = pps_gen_attrs,
+> > > +};
+> > > +
+> > > +const struct attribute_group *pps_gen_groups[] = {
+> > > +        &pps_gen_group,
+> > > +        NULL,
+> > > +};
+> > > diff --git a/include/linux/pps_gen_kernel.h b/include/linux/pps_gen_kernel.h
+> > > new file mode 100644
+> > > index 000000000000..5513415b53ec
+> > > --- /dev/null
+> > > +++ b/include/linux/pps_gen_kernel.h
+> > > @@ -0,0 +1,57 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> > > +/*
+> > > + * PPS generator API kernel header
+> > > + *
+> > > + * Copyright (C) 2024   Rodolfo Giometti <giometti@enneenne.com>
+> > > + */
+> > > +
+> > > +#ifndef LINUX_PPS_GEN_KERNEL_H
+> > > +#define LINUX_PPS_GEN_KERNEL_H
+> > > +
+> > > +#include <linux/pps_gen.h>
+> > > +#include <linux/cdev.h>
+> > > +#include <linux/device.h>
+> > > +
+> > > +/*
+> > > + * Global defines
+> > > + */
+> > > +
+> > > +struct pps_gen_device;
+> > > +
+> > > +/* The specific PPS source info */
+> > > +struct pps_gen_source_info {
+> > > +	char name[PPS_GEN_MAX_NAME_LEN];	/* symbolic name */
+> > > +	bool use_system_clock;
+> > > +
+> > > +	int (*get_time)(struct pps_gen_device *pps_gen,
+> > > +					struct timespec64 *time);
+> > > +	int (*enable)(struct pps_gen_device *pps_gen, bool enable);
+> > > +
+> > > +	struct module *owner;
+> > > +	struct device *parent;			/* for device_create */
+> > > +};
+> > > +
+> > > +/* The main struct */
+> > > +struct pps_gen_device {
+> > > +	struct pps_gen_source_info info;	/* PSS generator info */
+> > > +	bool enabled;				/* PSS generator status */
+> > > +
+> > > +	unsigned int id;			/* PPS generator unique ID */
+> > > +	struct device *dev;
+> > 
+> > Why not be a real device? What is this a pointer to?
+> 
+> This is a pointer to the device created within the pps_gen_register_cdev().
+
+Why isn't it a real cdev instead?
 
 thanks,
 
