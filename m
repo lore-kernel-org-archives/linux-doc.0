@@ -1,169 +1,142 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8322B1F4FC2;
-	Wed,  9 Oct 2024 15:37:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D516E19DF66;
+	Wed,  9 Oct 2024 15:38:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728488230; cv=none; b=SRYYsySDG4rbuLZ5JPj7xNZZ88BmA4mtr3F+QyLVlErgDVsXC27lNaw1NjuIcchePedwu2STuaOJWJWTC15hlA7ay99XtTcb4jaaVwDuD7lLbIuPbpD14xktXgQ7opLl4LJRRe8eQ7yR6P5SCq/2u2aSrDDyLbDt1TKu2arGx/U=
+	t=1728488285; cv=none; b=CPXNuy1vuCUUF4xxXmpje8ATFgTRYLz2g//dFx37Xgezr5qQQbzUjzeogiwUguHt/4P6bBBpvIYk1q2Ax+WsyxyGgnimH6BSVu+dvEq9LipVVpTKha+sketcpgfBPAUVhef1B3f2mOfo59O5DEAy3HlqjwevFF7ivH6NZM0NPsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728488230; c=relaxed/simple;
-	bh=yrWK9guy4QSl6qtQfqv509X0npMUw4ahN/8mznSDu3I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B+xpjf9TPtnZQn4QXk2HOeZnzY1NzprYHZO/qEqI24tIMnF+5+I8khiQo3lFC5PqIEpkyrm02ZXhXFaPCfoUQl2EjhPIalkkmq+jGH+QZjriMnxjYPP/OhEAboYVmqqzqbpoWHBK79MHbAVJFKeuQlcvP8APPlFLj8qIQ9l6Muw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=XooOIQ2F; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Eq3LJeDc; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=XooOIQ2F; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Eq3LJeDc; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1728488285; c=relaxed/simple;
+	bh=NHnaAvn93H+xdWtc1eIfwQdjHyE3NdRCkm+SLUAIP3c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=U8M08w2LgIhL4lTBhK6EwCxF4yGgGsn8OXrcL2Fkn98ivRT7tbNMXPCvMnaSMfO54PH1E/7HMQDCy0rZf9WdevfJXqU+BI6gJDWPuvLfN5RE1LBhb26cm+7iheN0BLKz9S5wT58NfNhxtqx7cFP2kYaneuwnFJ3QqFfM2RZj4+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qi/jgqcN; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="XooOIQ2F";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Eq3LJeDc";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="XooOIQ2F";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Eq3LJeDc"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 328ED1F896;
-	Wed,  9 Oct 2024 15:36:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1728488205;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cNjL0RSe+pEK01YoJ4LcI5i4jyH5jOdUOpsxh2f8Gbg=;
-	b=XooOIQ2FTDzKMFmK04SgigiPIsBbMhZyOs0u4xZ//UFBYiD530ZmZGd87NOhyjqaFn3MaK
-	f8bQeLiDXy02satFUGVLpi297p1cGN2gqZBIONIR8vwwGY/zWDGfEztuv9zREq6KRuH1rc
-	UFoJjh/B9ziBuMaNfTwPomaJjSCajQM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1728488205;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cNjL0RSe+pEK01YoJ4LcI5i4jyH5jOdUOpsxh2f8Gbg=;
-	b=Eq3LJeDcLQ5edAAhku6R8PeobEF4P8P/b7qZAm889pwHEQeHvX5tnx6+B44A7tBJpxJwXB
-	CX79zOcInd2504BQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=XooOIQ2F;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Eq3LJeDc
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1728488205;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cNjL0RSe+pEK01YoJ4LcI5i4jyH5jOdUOpsxh2f8Gbg=;
-	b=XooOIQ2FTDzKMFmK04SgigiPIsBbMhZyOs0u4xZ//UFBYiD530ZmZGd87NOhyjqaFn3MaK
-	f8bQeLiDXy02satFUGVLpi297p1cGN2gqZBIONIR8vwwGY/zWDGfEztuv9zREq6KRuH1rc
-	UFoJjh/B9ziBuMaNfTwPomaJjSCajQM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1728488205;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cNjL0RSe+pEK01YoJ4LcI5i4jyH5jOdUOpsxh2f8Gbg=;
-	b=Eq3LJeDcLQ5edAAhku6R8PeobEF4P8P/b7qZAm889pwHEQeHvX5tnx6+B44A7tBJpxJwXB
-	CX79zOcInd2504BQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0B07813A58;
-	Wed,  9 Oct 2024 15:36:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 3ciBAg2jBmf5WgAAD6G6ig
-	(envelope-from <dsterba@suse.cz>); Wed, 09 Oct 2024 15:36:45 +0000
-Date: Wed, 9 Oct 2024 17:36:42 +0200
-From: David Sterba <dsterba@suse.cz>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Ira Weiny <ira.weiny@intel.com>, Dave Jiang <dave.jiang@intel.com>,
-	Fan Ni <fan.ni@samsung.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Navneet Singh <navneet.singh@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	linux-btrfs@vger.kernel.org, linux-cxl@vger.kernel.org,
-	linux-doc@vger.kernel.org, nvdimm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
-	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
-	Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Subject: Re: [PATCH v4 04/28] range: Add range_overlaps()
-Message-ID: <20241009153641.GK1609@suse.cz>
-Reply-To: dsterba@suse.cz
-References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
- <20241007-dcd-type2-upstream-v4-4-c261ee6eeded@intel.com>
- <20241008161032.GB1609@twin.jikos.cz>
- <ZwaW9gXuh_JzqRfh@black.fi.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qi/jgqcN"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-7e9fdad5af8so2812876a12.3;
+        Wed, 09 Oct 2024 08:38:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728488283; x=1729093083; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NHnaAvn93H+xdWtc1eIfwQdjHyE3NdRCkm+SLUAIP3c=;
+        b=Qi/jgqcNRU4ocS+G2QGixALjbANtBxHkBUsdM5UublFT9EHSZZwf2BfeomJ7UhZrWH
+         Kt1Jvi2rD7iEGC7OFarRlns+WKt6dENaTaU4u0jNVsqwXocAvzQlTMTSM/pOsUYW2tk0
+         T5FmvYAZZyVDOTiHIzoYEc3Ob0+OwDLEtGEZf7asp3lFYv/RqjHXcQRGq7Nz9JbV0k9x
+         GcX99ZSs81kXr05LMBg6W6PARcG/LnKxn/DusXYALi0v5ntbGXVWad4xM3VCPw5Z3kAB
+         lX3I/tcYc5jnQ1u10bQxPezCpEjSS9ZwiD9cFdpVQW+zMUVpjOQYmTXelumNxbWwn3ai
+         Mj3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728488283; x=1729093083;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NHnaAvn93H+xdWtc1eIfwQdjHyE3NdRCkm+SLUAIP3c=;
+        b=NWAJOqyxGvde9hEWGmjl5OSvRkBB44FzyctlDvRaun+KzvK8jbeaB6mqMRYTLy2yDr
+         qbEb35sRQSS65GFVI7lnhpijZN/VglgL5WyCP4V3y9GZ5Dz6YLK2Kzw5fJcCM5yQVIac
+         R1s1/u3V2WIwYBv7ixA08G6JsWTC0JbR99k/DLiYK13F7RNwvO5b6AP31vBSWSmKKNfS
+         txggX70tmUSSPceZkLjEQsYGlwXA0SQdnSk9NRjURQ5VlQVqKjXkWSI8NQmaaI319KI0
+         xy1XTCpDj48DRmqZa2ICCfU24YsUMiHGFN0XI+9UjFnMfaic8tGfipl6SjOr+LPdluZw
+         671A==
+X-Forwarded-Encrypted: i=1; AJvYcCWCTZeG9KecAxrvzym4mfXma7NCKAeDUBDQm1XZSERv/RHZad14i9KVrDTLMwzWEqaSRY1+X2Px@vger.kernel.org, AJvYcCXf+rFdXqZBovpdbCufmnE8xZ/fH20pVDynprYGEQatuNSdNQY2AzyUlc10g+6eNSmHSmesGc2KoaI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwY28eWJqjdln5s56ff9e1ifrcabFLJqZ52LCwqm1DhLV8OAh90
+	MwKdQc8pKGkw43Eh7gg6ghAIdFJlHbJMs/bNhzXGlre1G3NwHxziMDU596c9vxBvp55KV8iglgF
+	b0OI3P8p7ITqEZQh1M8R4unleyuk=
+X-Google-Smtp-Source: AGHT+IHvMnSXgZRDFgXDb46A9k1hmtC48lXdRz9TULccZUtpS0/UB9bx44l2tVC+w1wevMlm/x/XISw8vH2/AwICHZs=
+X-Received: by 2002:a17:90a:c7ce:b0:2e0:8e36:132 with SMTP id
+ 98e67ed59e1d1-2e2a21ef11fmr3724307a91.3.1728488283169; Wed, 09 Oct 2024
+ 08:38:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZwaW9gXuh_JzqRfh@black.fi.intel.com>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-X-Rspamd-Queue-Id: 328ED1F896
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.21 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	HAS_REPLYTO(0.30)[dsterba@suse.cz];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.21
-X-Spam-Flag: NO
+References: <20241003160620.1521626-1-ap420073@gmail.com> <20241003160620.1521626-8-ap420073@gmail.com>
+ <CAHS8izO-7pPk7xyY4JdyaY4hZpd7zerbjhGanRvaTk+OOsvY0A@mail.gmail.com>
+ <CAMArcTU61G=fexf-RJDSW_sGp9dZCkJsJKC=yjg79RS9Ugjuxw@mail.gmail.com> <20241008125023.7fbc1f64@kernel.org>
+In-Reply-To: <20241008125023.7fbc1f64@kernel.org>
+From: Taehee Yoo <ap420073@gmail.com>
+Date: Thu, 10 Oct 2024 00:37:49 +0900
+Message-ID: <CAMArcTWVrQ7KWPt+c0u7X=jvBd2VZGVLwjWYCjMYhWZTymMRTg@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 7/7] bnxt_en: add support for device memory tcp
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Mina Almasry <almasrymina@google.com>, davem@davemloft.net, pabeni@redhat.com, 
+	edumazet@google.com, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	donald.hunter@gmail.com, corbet@lwn.net, michael.chan@broadcom.com, 
+	kory.maincent@bootlin.com, andrew@lunn.ch, maxime.chevallier@bootlin.com, 
+	danieller@nvidia.com, hengqi@linux.alibaba.com, ecree.xilinx@gmail.com, 
+	przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, ahmed.zaki@intel.com, 
+	paul.greenwalt@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
+	asml.silence@gmail.com, kaiyuanz@google.com, willemb@google.com, 
+	aleksander.lobakin@intel.com, dw@davidwei.uk, sridhar.samudrala@intel.com, 
+	bcreeley@amd.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 09, 2024 at 05:45:10PM +0300, Andy Shevchenko wrote:
-> On Tue, Oct 08, 2024 at 06:10:32PM +0200, David Sterba wrote:
-> > On Mon, Oct 07, 2024 at 06:16:10PM -0500, Ira Weiny wrote:
-> 
-> ...
-> 
-> > > +static inline bool range_overlaps(struct range *r1, struct range *r2)
-> > 
-> > I've noticed only now, you can constify the arguments, but this applise
-> > to other range_* functions so that can be done later in one go.
-> 
-> Frankly you may add the same to each new API being added to the file and
-> the "one go" will never happen.
+On Wed, Oct 9, 2024 at 4:50=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> wro=
+te:
+>
+> On Fri, 4 Oct 2024 19:34:45 +0900 Taehee Yoo wrote:
+> > > Our intention with the whole netmem design is that drivers should
+> > > never have to call netmem_to_page(). I.e. the driver should use netme=
+m
+> > > unaware of whether it's page or non-page underneath, to minimize
+> > > complexity driver needs to handle.
+> > >
+> > > This netmem_to_page() call can be removed by using
+> > > skb_frag_fill_netmem_desc() instead of the page variant. But, more
+> > > improtantly, why did the code change here? The code before calls
+> > > skb_frag_fill_page_desc, but the new code sometimes will
+> > > skb_frag_fill_netmem_desc() and sometimes will skb_add_rx_frag_netmem=
+.
+> > > I'm not sure why that logic changed.
+> >
+> > The reason why skb_add_rx_frag_netmem() is used here is to set
+> > skb->unreadable flag. the skb_frag_fill_netmem_desc() doesn't set
+> > skb->unreadable because it doesn't handle skb, it only handles frag.
+> > As far as I know, skb->unreadable should be set to true for devmem
+> > TCP, am I misunderstood?
+> > I tested that don't using skb_add_rx_frag_netmem() here, and it
+> > immediately fails.
+>
+> Yes, but netmem_ref can be either a net_iov or a normal page,
+> and skb_add_rx_frag_netmem() and similar helpers should automatically
+> set skb->unreadable or not.
+>
+> IOW you should be able to always use netmem-aware APIs, no?
 
-Yeah, but it's a minor issue for a 28 patchset, I don't know if there
-are some other major things still to do so that a v5 is expected.
+I'm not sure the update skb->unreadable flag is possible because
+frag API like skb_add_rx_frag_netmem(), receives only frag, not skb.
+How about an additional API to update skb->unreadable flag?
+skb_update_unreadable() or skb_update_netmem()?
 
-If anybody is interested, reviewing APIs and interfaces with focus on
-some data structure and const is relatively easy, compile test is
-typically enough. The hard part is to find the missing ones. There's no
-compiler aid thad I'd know of (-Wsuggest-attribute=const is not for
-parameters), so it's been reading a file top-down for me.
+>
+> > > This is not the intended use of PP_FLAG_ALLOW_UNREADABLE_NETMEM.
+> > >
+> > > The driver should set PP_FLAG_ALLOW_UNREADABLE_NETMEM when it's able
+> > > to handle unreadable netmem, it should not worry about whether
+> > > rxq->mp_params.mp_priv is set or not.
+> > >
+> > > You should set PP_FLAG_ALLOW_UNREADABLE_NETMEM when HDS is enabled.
+> > > Let core figure out if mp_params.mp_priv is enabled. All the driver
+> > > needs to report is whether it's configured to be able to handle
+> > > unreadable netmem (which practically means HDS is enabled).
+> >
+> > The reason why the branch exists here is the PP_FLAG_ALLOW_UNREADABLE_N=
+ETMEM
+> > flag can't be used with PP_FLAG_DMA_SYNC_DEV.
+>
+> Hm. Isn't the existing check the wrong way around? Is the driver
+> supposed to sync the buffers for device before passing them down?
 
-> So, I support your first part with
-> constifying, but I think it would be rather done now to start that "one
-> go" to happen.
-
-Agreed, one patch on top is probably the least intrusive way.
+I haven't thought the failure of PP_FLAG_DMA_SYNC_DEV
+for dmabuf may be wrong.
+I think device memory TCP is not related to this flag.
+So device memory TCP core API should not return failure when
+PP_FLAG_DMA_SYNC_DEV flag is set.
+How about removing this condition check code in device memory TCP core?
