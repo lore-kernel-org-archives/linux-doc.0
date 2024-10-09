@@ -1,109 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78811885BF;
-	Wed,  9 Oct 2024 21:25:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728509140; cv=none; b=gy1k77N5P/xDZV7xz+Uk9WHSVgxwS8dgYz2I384i1rJH475zLvQqtWqq4BzlNxAlwGr6BNZUOQPnDL+WPvGKs1w+UXGq+eQV//dr9zoGsGkfi3F6eM7TzFIrpFRGexOiJ8cJtaeRx4xyp40sKzU+YmGK06uhZSDPnGRtK6iZiPs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728509140; c=relaxed/simple;
-	bh=oq7it/tBoxVfX5zXymvTWS15B74hVD8eo/0w703epQE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lToTXTM5kNypv7/3EbfTsQ0y3/YwDKPKITiF2c4Dxsr4bjBpcoeY5WUlNXDJT2wQm4XQf8pp4UBV2za2ZsPp3UI3tcW1+Lo/rR/809KN3v4j41bv7MYqSxOqQ/oj8DVU/M3BlTeSJz2sWvqi6taPyVXe4y2gDcLP88hl85hdrRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S5/KnvYN; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486D71A0AFA;
+	Wed,  9 Oct 2024 21:44:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728510255; cv=pass; b=lVSdw2vFNnPmU+HvIl8dGPBX8UnhvPqgQJWFScX12BFaIwOLPMfL5SjbhYJlXF9tyTUdZKH+Q+4UAsl4IZ80AzG/rn9l8UEWEXPQX4E13lvDj3IOGnQ474BI+tW2He4veh6IcDRJxWMkawy3XQMEcL6zABEGUgYFvIgefVYCZnM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728510255; c=relaxed/simple;
+	bh=EumyMqRP3ZRih9USB9tVghZIhnj4oL3qMhwfHWb7Sbg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VrLBsIz3+Yn4hNkQ4yt4cyhtfKNbrqjYb628FxyfPin8wAt2CAuyidG/lLwxOnefFJMNOVhEgHrZ2reei2QnP8p1+rgDOTl8EkwGclR8Liu4ciwpcbyMZX7tbnlV3eE1tFcqpGcJdG3lyWjR0wPm9ufCvgcDSuXtgxNgynNyi38=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=IP7Vn03r; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S5/KnvYN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5730C4CECC;
-	Wed,  9 Oct 2024 21:25:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728509140;
-	bh=oq7it/tBoxVfX5zXymvTWS15B74hVD8eo/0w703epQE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=S5/KnvYNrLg++QlWKethzkwCyccAWlQVNBj+8WIaUQHIwX3JiHVxkkxLe64Svu4Kh
-	 RtIdGDx7Qc6tc9ghtltaN9/kBHk777DBWlxiwIEhzWC9JjLtwWo4+Bbass3N4KbPwv
-	 LSPM+3roeeNF6KYP/bUfzJYAAxWgH1BHYNzZff7iuNqsg/GV5atFDQ+iQ9gWWRYxq3
-	 Z6VWhsDqvDR/6QI6Yf9CnfEwcdMtMEA4SfrtVBmkVnfKs9XL8Xhvp+5C97p5P+fO/B
-	 6xOKkb8XEaM4hgkhNP/kL+6FfKhtVYEZI4AnQOXVGjvJM0MHB1rKMQE0+zDP4KiT5Z
-	 mqGCvgFRLyzqQ==
-Date: Wed, 9 Oct 2024 14:25:40 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Tamir Duberstein <tamird@gmail.com>
-Cc: Matthew Wilcox <willy@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="IP7Vn03r"
+ARC-Seal: i=1; a=rsa-sha256; t=1728510238; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=RNpVt7PgbXAoEY9ef9PTTEqmkLcTC28ULUs6HOqzh1GF6iHuffhAAYYVswsNmevzhE/qmFBw95n8Kd8bDoM08xhJGbjREdSVyd91kgcz1luFbeKzBJtrETG3t+nu0+KZNTEdLQYanPZm/+nJHpp6JuhKSc4mJq5HYtrUF3teGaE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1728510238; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=YIlrE0fcMEPzbyHoxB6Wnq7KQhP7bhlB1XNHnfKuC+g=; 
+	b=WB+vWQfxbmW9Igb53vhVA8xgInqaObyCraR2r/lXoQSKq5ADwjyWws+G8VSfcNf+F4amsOGtPrGq6K7px+sfH/bAsVaSodQG07++oG/+XnXeLJF14VPMZyd2t3rLjfpJtkyFEdw6Bd+VNC07W3wRUE029oGcoemhofYosm5CSvE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+	dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1728510238;
+	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=YIlrE0fcMEPzbyHoxB6Wnq7KQhP7bhlB1XNHnfKuC+g=;
+	b=IP7Vn03rIc5lYG9cF81FXkBwzSB0pfvi1QCXO5SuW+Bec++6cDN6J7kM+GhzDYI7
+	Iz/hPJ9QR0GjxUFpsdYYLdSKJVwB3BYedpLcz/m68p4doOlg9rOTgu9H1DtdMoL2Kum
+	/eJd9kWY11iO/T8lVuAp2vPv5acBz/4L6/nLlqQY=
+Received: by mx.zohomail.com with SMTPS id 1728510237013233.51078949345924;
+	Wed, 9 Oct 2024 14:43:57 -0700 (PDT)
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	Steven Price <steven.price@arm.com>,
+	=?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+Cc: kernel@collabora.com,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] XArray: minor documentation improvements
-Message-ID: <20241009212540.GG21836@frogsfrogsfrogs>
-References: <CAJ-ks9kiAH5MYmMvHxwH9JfBdhLGA_mP+ezmZ8wJOzDY1p7o5w@mail.gmail.com>
- <20241009205237.48881-2-tamird@gmail.com>
+Subject: [PATCH] Documentation/gpu: Fix Panthor documentation build warnings
+Date: Wed,  9 Oct 2024 22:43:30 +0100
+Message-ID: <20241009214346.2308917-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.46.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241009205237.48881-2-tamird@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 09, 2024 at 04:52:38PM -0400, Tamir Duberstein wrote:
-> - Replace "they" with "you" where "you" is used in the preceding
->   sentence fragment.
-> - Use "erasing" rather than "storing `NULL`" when describing multi-index
->   entries. Split this into a separate sentence.
-> - Add "call" parentheses on "xa_store" for consistency and
->   linkification.
-> 
-> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+Fix Panthor documentation build errors uncovered by the makedocs target
+when building with extra warnings enabled.
 
-/me reads about XA_FLAGS_ALLOC and is ok with this now.
+Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+Fixes: f25044688b04 ("drm/panthor: add sysfs knob for enabling job profiling")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+---
+ Documentation/gpu/drivers.rst         | 1 +
+ Documentation/gpu/drm-usage-stats.rst | 1 +
+ Documentation/gpu/panthor.rst         | 2 +-
+ 3 files changed, 3 insertions(+), 1 deletion(-)
 
-Reviewed-by: Darrick J. Wong <djwong@kernel.org>
+diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
+index b899cbc5c2b4..7b1282e2d807 100644
+--- a/Documentation/gpu/drivers.rst
++++ b/Documentation/gpu/drivers.rst
+@@ -22,6 +22,7 @@ GPU Driver Documentation
+    afbc
+    komeda-kms
+    panfrost
++   panthor
+ 
+ .. only::  subproject and html
+ 
+diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
+index a80f95ca1b2f..12ca3193bf15 100644
+--- a/Documentation/gpu/drm-usage-stats.rst
++++ b/Documentation/gpu/drm-usage-stats.rst
+@@ -186,4 +186,5 @@ Driver specific implementations
+ 
+ * :ref:`i915-usage-stats`
+ * :ref:`panfrost-usage-stats`
++* :ref:`panthor-usage-stats`
+ * :ref:`xe-usage-stats`
+diff --git a/Documentation/gpu/panthor.rst b/Documentation/gpu/panthor.rst
+index cbf5c4429a2d..3f8979fa2b86 100644
+--- a/Documentation/gpu/panthor.rst
++++ b/Documentation/gpu/panthor.rst
+@@ -4,7 +4,7 @@
+  drm/Panthor CSF driver
+ =========================
+ 
+-.. _panfrost-usage-stats:
++.. _panthor-usage-stats:
+ 
+ Panthor DRM client usage stats implementation
+ ==============================================
+-- 
+2.46.2
 
---D
-
-> ---
-> V1 -> V2: s/use/you/ (Darrick J. Wong)
-> 
->  Documentation/core-api/xarray.rst | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/core-api/xarray.rst b/Documentation/core-api/xarray.rst
-> index 77e0ece2b1d6..75c83b37e88f 100644
-> --- a/Documentation/core-api/xarray.rst
-> +++ b/Documentation/core-api/xarray.rst
-> @@ -42,8 +42,8 @@ call xa_tag_pointer() to create an entry with a tag, xa_untag_pointer()
->  to turn a tagged entry back into an untagged pointer and xa_pointer_tag()
->  to retrieve the tag of an entry.  Tagged pointers use the same bits that
->  are used to distinguish value entries from normal pointers, so you must
-> -decide whether they want to store value entries or tagged pointers in
-> -any particular XArray.
-> +decide whether you want to store value entries or tagged pointers in any
-> +particular XArray.
->  
->  The XArray does not support storing IS_ERR() pointers as some
->  conflict with value entries or internal entries.
-> @@ -52,8 +52,8 @@ An unusual feature of the XArray is the ability to create entries which
->  occupy a range of indices.  Once stored to, looking up any index in
->  the range will return the same entry as looking up any other index in
->  the range.  Storing to any index will store to all of them.  Multi-index
-> -entries can be explicitly split into smaller entries, or storing ``NULL``
-> -into any entry will cause the XArray to forget about the range.
-> +entries can be explicitly split into smaller entries. Erasing any entry
-> +will cause the XArray to forget about the range.
->  
->  Normal API
->  ==========
-> @@ -64,7 +64,7 @@ allocated ones.  A freshly-initialised XArray contains a ``NULL``
->  pointer at every index.
->  
->  You can then set entries using xa_store() and get entries
-> -using xa_load().  xa_store will overwrite any entry with the
-> +using xa_load().  xa_store() will overwrite any entry with the
->  new entry and return the previous entry stored at that index.  You can
->  use xa_erase() instead of calling xa_store() with a
->  ``NULL`` entry.  There is no difference between an entry that has never
-> -- 
-> 2.47.0
-> 
-> 
