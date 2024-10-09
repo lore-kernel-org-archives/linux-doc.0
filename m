@@ -1,99 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE221E2840;
-	Wed,  9 Oct 2024 15:46:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99711E1048
+	for <linux-doc@vger.kernel.org>; Wed,  9 Oct 2024 15:53:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728488789; cv=none; b=GZY6hF0d3s6ozRAua7tnwp2t+EHZvKQevNWu5dnyCJ0hRQPhwBd+NqoQ2P66xggwfjtGyP50V+20yv8pl2/eXuovZC9XZDq9TASgzoIWejPfgYovwiRZAo0QNV43bognnwnSJJPrpUNEnwwJ9KJJAmy+8n9mOWlpZc9OmOju+lQ=
+	t=1728489238; cv=none; b=DeqI/NKj+PV5n3p6qri2PeQYMJPl85e4ZixZpNSvsAkjhD7h9YiwVp+qwCi/jgxaOmGGcYaqoEI+jq4912wDGy4TZivE8a+MEAWnSrqGbXTCwDWElDAI4ZcqgU/tbRBnLz6m7h3hJyfISt7pnQWxezKDNLItZ8LKihdUlKL7ZwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728488789; c=relaxed/simple;
-	bh=mz0QdF/TZzuddFxlTtqYPaUx4gBrjjJi0C8a7WuVOXc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=U/eg1DAHLkusny6AozBqBHy/daqbOJPrMpmMwyka7pbMdTFtN73CRquDjW7WINVENyP7bVUSg5kS8L5wWBvEQN4OMtTx/GVTCuQ4byWf0uVxnD8diGseJHEZ7ZLUrNGWZUPqudPrdpKoMdzwB6f9N4t+w8+7njdgxG2lf7LYOlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oXTjl7jR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728489238; c=relaxed/simple;
+	bh=NJ3E7SiyoRumtSue3+YxGg4JRiaY7WIm5XxcTZL8d9E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dI4nHDD/H1j1aM1Z02fRwYWWlNyrJhgFInM1puLNCXvAs5ncA1/gavDb7WjjyqM3W1zuAIuYd4YScCBHHTlflnTRRNJeYnlXdhhC1DdoqMAZ4nISooB4Q695oSooZTMt73zwKCiO00Pc07xuG5SznmyKmiKYPlCLBiWYjqVGcik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=j0vNgKjn; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oXTjl7jR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4B70C4CEC3;
-	Wed,  9 Oct 2024 15:46:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728488788;
-	bh=mz0QdF/TZzuddFxlTtqYPaUx4gBrjjJi0C8a7WuVOXc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=oXTjl7jRub0Xfkc1dNAwi5Ne068xwLuzwJwzqXwcEmAVp/F3M9zYyzDTsToVYvsla
-	 rgRY4jIxhoiv9x3GhovJmBiusxhSyQRw+S21ADrlzRAzIYyqabFBiHqtzKtlsQxOE7
-	 tFt0qWTJ3V3EfwWOVU4tdyoZJIZUEgGY1tP3Cno+K6ncGKJlRcA1syKWyu2FnRwY7b
-	 KxGoD/105e11tTmy5xzG7uJnTGowhLdwJJSG8mqFM7kUxb9KUi4V3USll8hHTVpOwL
-	 0F441FzBWx12ouFBDZ4WiYBwBdSR1NekdHpEa4fB6kLGIGhRzwgzlfVxWt3ke7+7NN
-	 aX9Hk0T7IRKrw==
-Date: Wed, 9 Oct 2024 08:46:26 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Taehee Yoo <ap420073@gmail.com>
-Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
- almasrymina@google.com, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- donald.hunter@gmail.com, corbet@lwn.net, michael.chan@broadcom.com,
- kory.maincent@bootlin.com, andrew@lunn.ch, maxime.chevallier@bootlin.com,
- danieller@nvidia.com, hengqi@linux.alibaba.com, ecree.xilinx@gmail.com,
- przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, ahmed.zaki@intel.com,
- paul.greenwalt@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com,
- asml.silence@gmail.com, kaiyuanz@google.com, willemb@google.com,
- aleksander.lobakin@intel.com, dw@davidwei.uk, sridhar.samudrala@intel.com,
- bcreeley@amd.com
-Subject: Re: [PATCH net-next v3 3/7] net: ethtool: add support for
- configuring tcp-data-split-thresh
-Message-ID: <20241009084626.0e0d6780@kernel.org>
-In-Reply-To: <CAMArcTXvMi_QWsYFgt8TJcQQz6=edoGs3-5th=4mKaHO_X+hhQ@mail.gmail.com>
-References: <20241003160620.1521626-1-ap420073@gmail.com>
-	<20241003160620.1521626-4-ap420073@gmail.com>
-	<20241008113314.243f7c36@kernel.org>
-	<CAMArcTXvMi_QWsYFgt8TJcQQz6=edoGs3-5th=4mKaHO_X+hhQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="j0vNgKjn"
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2fabfc06de3so78022761fa.1
+        for <linux-doc@vger.kernel.org>; Wed, 09 Oct 2024 08:53:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728489235; x=1729094035; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NJ3E7SiyoRumtSue3+YxGg4JRiaY7WIm5XxcTZL8d9E=;
+        b=j0vNgKjndvWXO1+ogWjyD3d9GmvQUiaMjN4S7Y32pT3teHh9as0KD5JIUafAE06btM
+         mnPFPs3tNewx4ndnzw2lTovdavg4k8CSHE9KW7iRHN5tjhyadnSDqrfWa5yh6gbNk852
+         cyg8R8ARiC8mjoKVNMQK3dQ2W/Bi4teXNrNvC3A8N6Hz+YB/9mk6bFg6jdgoH4YUGHvY
+         s6lPNlf9FXiui+IUeByhvyX1E7foqt6wq0O7DKlChe7yx0Dt6485UDRcTJESeitpRbr3
+         FR/+3U5pN5cZoTgfN+T0mtxzu0W96Xa87bCT74OjN3MPYMUjMWeAd8LmGrwG241Ij2bJ
+         8Sew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728489235; x=1729094035;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NJ3E7SiyoRumtSue3+YxGg4JRiaY7WIm5XxcTZL8d9E=;
+        b=RGBqNMrmPstZWtQeMBqcQXwKl5pmdQw3yHbPC97Q8PFqPkfsEkDo9nfYaUMs6o9u4s
+         VkcxBLV095hI6FNWEWJE8K5mOYyVvMEnFaqgQaRgrYFCuL4XQKgRrjgbKgHlMIcoFKxQ
+         Qy+mda4+3fhcW4JaTxpUd5lO4xhspqoB5D03pVuxulYmBlg+Y8FlwDCm2b3sVcn1wdHV
+         QzpbEaQ4vNK/oifh8GTy6oXRkzKVLMdKg5ljgJa1xa3OkEkeykRFJodvr3V6VjVxe2E6
+         5v2wgTWc/YD/Z6tg8VW1UspQJAottSUdiP6RPKpJM2VD2qXD/xa+3wKoj/bmRew92uiz
+         ZMig==
+X-Forwarded-Encrypted: i=1; AJvYcCUcAn+Yp4Wdcapp+eqm9GzUeoMgfZ3GBxaAsLtrnU5DZtvADyIGx1BG0baUx4ShjnU787QfsGFXvqM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMQlnaagfNEZDUDCGUOV9YF9sOPGhZf/s1J6sjMrxsjWG4Cyy7
+	ZWf/ePP0hqT6ZsEKU6txVkAtiQfh3LEaMSb8zr/iW5r8oIU9kkOmV1rNvE0zQRiJdydcI7XbKDt
+	U0ijpDZ+AeJDF8Y41mCeP54ijmfzN62mclT0LUg==
+X-Google-Smtp-Source: AGHT+IF1Lv/76V+RyjJ3lzcXIdhaFKwqua1nbpbFn/1KRFIOa6rU81jScDSr5dJe6IpSIdWWq5KQKVGGqaDkj0Vt1Dc=
+X-Received: by 2002:a2e:5152:0:b0:2f7:6519:9a01 with SMTP id
+ 38308e7fff4ca-2fb1873ea07mr15960721fa.24.1728489234904; Wed, 09 Oct 2024
+ 08:53:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20241009144135.12453-1-zpenya1314@gmail.com>
+In-Reply-To: <20241009144135.12453-1-zpenya1314@gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 9 Oct 2024 17:53:43 +0200
+Message-ID: <CACRpkdbVOOvrXiZQ2pSQn7ar5S8j824pu9gnnrN_+7+YHTUwiQ@mail.gmail.com>
+Subject: Re: [PATCH v2] Docs/mm: Fix a mistake for pfn in page_tables.rst
+To: Pengyu Zhang <zpenya1314@gmail.com>
+Cc: corbet@lwn.net, rppt@kernel.org, fmdefrancesco@gmail.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	yaxin_wang_uestc@163.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 9 Oct 2024 23:25:55 +0900 Taehee Yoo wrote:
-> > > The tcp-data-split is not enabled, the tcp-data-split-thresh will
-> > > not be used and can't be configured.
-> > >
-> > >    # ethtool -G enp14s0f0np0 tcp-data-split off
-> > >    # ethtool -g enp14s0f0np0
-> > >    Ring parameters for enp14s0f0np0:
-> > >    Pre-set maximums:
-> > >    ...
-> > >    TCP data split thresh:  256
-> > >    Current hardware settings:
-> > >    ...
-> > >    TCP data split:         off
-> > >    TCP data split thresh:  n/a  
-> >
-> > My reply to Sridhar was probably quite unclear on this point, but FWIW
-> > I do also have a weak preference to drop the "TCP" from the new knob.
-> > Rephrasing what I said here:
-> > https://lore.kernel.org/all/20240911173150.571bf93b@kernel.org/
-> > the old knob is defined as being about TCP but for the new one we can
-> > pick how widely applicable it is (and make it cover UDP as well).  
-> 
-> I'm not sure that I understand about "knob".
-> The knob means the command "tcp-data-split-thresh"?
-> If so, I would like to change from "tcp-data-split-thresh" to
-> "header-data-split-thresh".
+On Wed, Oct 9, 2024 at 4:41=E2=80=AFPM Pengyu Zhang <zpenya1314@gmail.com> =
+wrote:
 
-Sounds good!
+> The documentation incorrectly calculate the pfn value as 0x3fffff,
+> which should be 0x3ffff instead. It is obtained by right-shifting
+> 0xffffc000 by 14 bits.
+>
+> This patch corrects the value to prevent any potential confusion
+> for developers referencing this document.
+>
+> Signed-off-by: Pengyu Zhang <zpenya1314@gmail.com>
 
-> > > +     if (tb[ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THRESH] &&
-> > > +         !(ops->supported_ring_params & ETHTOOL_RING_USE_TCP_DATA_SPLIT)) {  
-> >
-> > here you use the existing flag, yet gve and idpf set that flag and will
-> > ignore the setting silently. They need to be changed or we need a new
-> > flag.  
-> 
-> Okay, I would like to add the ETHTOOL_RING_USE_TCP_DATA_SPLIT_THRESH flag.
-> Or ETHTOOL_RING_USE_HDS_THRESH, which indicates header-data-split thresh.
-> If you agree with adding a new flag, how do you think about naming it?
+Thanks, I love attention to detail yet make mistakes all the
+time!
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-How about ETHTOOL_RING_USE_HDS_THRS ?
+Yours,
+Linus Walleij
