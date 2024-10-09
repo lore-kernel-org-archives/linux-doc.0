@@ -1,95 +1,152 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+Received: from smtpcmd01-g.aruba.it (smtpcmd01-g.aruba.it [62.149.158.217])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6323178CC5;
-	Wed,  9 Oct 2024 08:25:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFFBB1922F9
+	for <linux-doc@vger.kernel.org>; Wed,  9 Oct 2024 08:51:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.149.158.217
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728462336; cv=none; b=fGxPACfSEnDr++x3lAMquO07/F/z29jGbHZ03CyvArek1HiTkBNybQ/X+1z2QeCDK3wYxZJFT2GFGns5s+uH/DTCUKG6+eHycigYsfa0hueAOwp169NBPlpkrESQVE6tQferRR9XPHSa8HBMbbB7LtVfYnTioqKJJ3vAIj44AH0=
+	t=1728463889; cv=none; b=EG4TUM7PaR6JNDJpT4DVcemJpUrgjbcGJQvbNtwCC68c1xNAlG98lJTPF6vH3deARasyOilyauU+8ftHbitYZCxkzW+KYus1k5woF2OfDnw934aqjOp9SBw9BvkALxxfPZ5DWgZQjYocSXAh+kd5mUxdV9h6gaeNzH7D9XzMQJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728462336; c=relaxed/simple;
-	bh=UxNnh2WzJ8CLTLei4znEPmYJnr+OQynZNUK60qagLRw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qgM3pYzomtNBeNYAfVUsi9023f7WsNBCtenLNgcxB7yix94xUuWdDPyjxWKC/BDmgBWqJWSz0JbsfnPjHOQXEBFN/59RGtmUTFFq3rVe1YE39Kv6MJheJ2Z2sYnW/jj/wpxkrtV6+JpOTqsbseNP3tLH35mqHs3+Dza/DXmlI+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=mID/6cel; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1728463889; c=relaxed/simple;
+	bh=FV7e7mTgWHw2Z3NtjjRX2MBIrZt/rRVowc+kGDl6BTw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KpN2diRlLJfexPK/iyIjo3l4qLZdgvLEqmZh+XXKA5gRU5GwzkttQDo/rrbWBjhnuvss+qPJoXNupPBFhSDSSZzCE+PMNzC7Qnlye7+ks+g6Io0pPv+d0kEuxAHfB96Xu+DlYlZNqcezCndS9RcAU1tTVFl44o8jCNX+HIhw3Ac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com; spf=pass smtp.mailfrom=enneenne.com; dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b=Uvc7Qzp3; arc=none smtp.client-ip=62.149.158.217
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enneenne.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mID/6cel"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0711E20004;
-	Wed,  9 Oct 2024 08:25:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1728462331;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SZHV98coS7hPa6Orw7gMJo2fGrkTDHuf4Kv65CNkK/Y=;
-	b=mID/6celJW3fnQf3g20HfFs4LLTrKAspxVdfjHEQRInXes6a03Dkj5a+piX2QNWiPJiy+E
-	Y5NxGeDoF3kPKZsGxb+NMNnMI51lrdNnZeJ44aqdMysqcam2ULIrbP+jLbF1Wfj3G8yfGH
-	OWLz1xuV+vSR4QXgqT4wU2+xfJUea5W3SSjy0IOqcPgZfu1k3CP1oe0MjDb5ziGFMj2Hnz
-	gi/NGOs5PILuacyHdRfOX06lYNTN7WFVfQDPp1u0SIVPfmMpL0Z8DdIiXSngSLaqbSn5as
-	YaXbqOqRuxzjxF8enim2PT7ms2d7dVbN6YZ3QPvlARvgeGiHa5N2x1WYFsZ8TA==
-Date: Wed, 9 Oct 2024 10:25:26 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
- <donald.hunter@gmail.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
- Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de
-Subject: Re: [PATCH net-next 12/12] net: pse-pd: tps23881: Add support for
- PSE events and interrupts
-Message-ID: <20241009102526.0db933f2@kmaincent-XPS-13-7390>
-In-Reply-To: <ZwYv1qunWpqhC9IH@pengutronix.de>
-References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
-	<20241002-feature_poe_port_prio-v1-12-787054f74ed5@bootlin.com>
-	<ZwYv1qunWpqhC9IH@pengutronix.de>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b="Uvc7Qzp3"
+Received: from [192.168.1.58] ([79.0.204.227])
+	by Aruba Outgoing Smtp  with ESMTPSA
+	id ySMgsnKqdwy3rySMpsrqeB; Wed, 09 Oct 2024 10:48:24 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+	t=1728463704; bh=FV7e7mTgWHw2Z3NtjjRX2MBIrZt/rRVowc+kGDl6BTw=;
+	h=Date:MIME-Version:Subject:To:From:Content-Type;
+	b=Uvc7Qzp3FEYqEqD/rvjmJO5Xey0Exv95Xx0hpAoe1d8Xc1nrOyYNy3B0Qka4A9xWF
+	 VTk/MIl9zPj5Ft2zQMZtL65RVZ8xU2T9RNpLtTP79TtFM+/WvR03LFjwbMEUEn5P6r
+	 HKrELBR7gCH6/mieShNQciQOgiUh+s6tI1nGuH6uQaBIrD/G0ktLl1FEWYGoZPa+0V
+	 ItmCRAv4idtsjq48Ks8M6gs75NptG97JlB7i2XVvxsBZKsAZhzT5PY1H2zSkDJTowQ
+	 pyaro9wn0seAUuwhSvHUIeZ6+v5cEhiigCfFCKR3CCZpHRUV5gYhugdSsmP1IghcI5
+	 VwuygQfR4l9ug==
+Message-ID: <fcb70129-f6f0-459f-b099-a2ca3a569095@enneenne.com>
+Date: Wed, 9 Oct 2024 10:48:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 3/3] Documentation ABI: add PPS generators documentaion
+To: Greg KH <greg@kroah.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
+ Hall Christopher S <christopher.s.hall@intel.com>,
+ Mohan Subramanian <subramanian.mohan@intel.com>, tglx@linutronix.de,
+ andriy.shevchenko@linux.intel.com, Dong Eddie <eddie.dong@intel.com>,
+ N Pandith <pandith.n@intel.com>,
+ T R Thejesh Reddy <thejesh.reddy.t.r@intel.com>,
+ Zage David <david.zage@intel.com>,
+ Chinnadurai Srinivasan <srinivasan.chinnadurai@intel.com>
+References: <20241008135033.3171915-1-giometti@enneenne.com>
+ <20241008135033.3171915-4-giometti@enneenne.com>
+ <2024100819-wildlife-counting-6c63@gregkh>
+From: Rodolfo Giometti <giometti@enneenne.com>
+Content-Language: en-US
+In-Reply-To: <2024100819-wildlife-counting-6c63@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfMlxE6mUpguHLy4ZvIxzQPIAvV3oB91YJn+BHky68AOsVpS7bwixEkOVJrpjeOGo9ZFdHSSbs2c9eBLq1tNThaef4RirLZgvb5mqiW8S59WeVTqYM3GX
+ V5VJ8obslYmIOAePh1NzhNfg8CpEmF8Plub2jPSti0jjP5816AnTohPZkhR2HugQ9PcPJ71cK0hAcqKtILQytYh+w06cv8HfrxYr82PEstZR4j9q13mXPakW
+ uEel2a+sCfIVKVH+Hb6VobAA06voeej0RiAaOX1XFWRsMLmgmB/PyIpkSj1sEoyQbOMsWWOCvtDm/UspPeUQoUFYVsQm3W3zfQrGXKQyZJ9h7t4S7w1E8POS
+ l9+7L/vCX4K6wa4qBJJpSVS/3dCSXHs821nsGtsKplB0Lci1C78cAICSQFkfOwZRdl5wCUYLhRyZI9kFg8XC/tN1LGczEuZXeFr2qqm3CiinSFDH5y6qqhCj
+ Tijj+jk29qEyvYj5bxxLe0aNzWdLz0XEt1iOQ89CiZZroj+/hQKuB0NbpggfGas4O365COlCNdddUNaQmuaM/vuL9IML4mEd72UVxxVJwc2gEGcxpON6Fb57
+ OEobIMtrjztEFfSbR3gov9ZAptzs31WcBAiSpUmmWGuleRc7TlHu8QcZceVSOo0sZQ6BBAxkiGaammCtLXNNIX0k
 
-On Wed, 9 Oct 2024 09:25:10 +0200
-Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+On 08/10/24 17:43, Greg KH wrote:
+> On Tue, Oct 08, 2024 at 03:50:33PM +0200, Rodolfo Giometti wrote:
+>> This patch adds the documentation for the ABI between the Linux kernel
+>> and userspace regarding the PPS generators.
+>>
+>> Signed-off-by: Rodolfo Giometti <giometti@enneenne.com>
+>> ---
+>>   Documentation/ABI/testing/sysfs-pps-gen | 44 +++++++++++++++++++++++++
+>>   1 file changed, 44 insertions(+)
+>>   create mode 100644 Documentation/ABI/testing/sysfs-pps-gen
+>>
+>> diff --git a/Documentation/ABI/testing/sysfs-pps-gen b/Documentation/ABI/testing/sysfs-pps-gen
+>> new file mode 100644
+>> index 000000000000..9ad066cb3ce5
+>> --- /dev/null
+>> +++ b/Documentation/ABI/testing/sysfs-pps-gen
+>> @@ -0,0 +1,44 @@
+>> +What:		/sys/class/pps-gen/
+>> +Date:		October 2024
+>> +Contact:	Rodolfo Giometti <giometti@enneenne.com>
+>> +Description:
+>> +		The /sys/class/pps-gen/ directory will contain files and
+>> +		directories that will provide a unified interface to
+>> +		the PPS generators.
+>> +
+>> +What:		/sys/class/pps-gen/pps-genX/
+>> +Date:		October 2024
+>> +Contact:	Rodolfo Giometti <giometti@enneenne.com>
+>> +Description:
+>> +		The /sys/class/pps-gen/pps-genX/ directory is related to X-th
+>> +		PPS generator into the system. Each directory will
+>> +		contain files to manage and control its PPS generator.
+>> +
+>> +What:		/sys/class/pps-gen/pps-genX/enable
+>> +Date:		October 2024
+>> +Contact:	Rodolfo Giometti <giometti@enneenne.com>
+>> +Description:
+>> +		This write-only file enables or disables generation of the
+>> +		PPS signal.
+>> +
+>> +What:		/sys/class/pps-gen/pps-genX/name
+>> +Date:		October 2024
+>> +Contact:	Rodolfo Giometti <giometti@enneenne.com>
+>> +Description:
+>> +		This read-only file reports the name of the X-th generator.
+> 
+> Again, why a name?  What is that for?
 
-> > +
-> > +	if (val & (TPS23881_REG_IT_IFAULT | TPS23881_REG_IT_IFAULT << 8)) {
-> > +		ret =3D i2c_smbus_read_word_data(client, TPS23881_REG_FAULT);
-> > +		if (ret < 0)
-> > +			return PSE_FAILED_RETRY;
-> > +
-> > +		val =3D (u16)(ret & 0xf0f);
-> > +
-> > +		/* Power cut detected, shutdown low priority port */
-> > +		if (val && priv->oss)
-> > +			tps23881_turn_off_low_prio(priv); =20
->=20
-> Sorry, this is policy and even not the best one.
-> The priority concept is related to the power budget, but this
-> implementation will shutdown all low prios ports only if some
-> port/channel has over-current event. It means, in case high prio port
-> has over-current event, it will be not shut down.
-> =20
-> I'll propose not to add prio support for this chip right now, it will
-> need more software infrastructure to handle it nearly in similar way as
-> it is done by pd692x0.
+This can be useful in order to distinguish between different PPS generators in 
+the system.
 
-Yes, I have expected some debate around this support.
-I was not sure of the policy while developing it.
-Ok, let's remove it for now.
+For example, the PARPORT generator is not very precise, and userspace 
+applications should be able to know which generator corresponds to the device 
+/dev/pps-gen0 or /dev/pps-gen1, etc.
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+> 
+>> +
+>> +What:		/sys/class/pps-gen/pps-genX/system
+>> +Date:		October 2024
+>> +Contact:	Rodolfo Giometti <giometti@enneenne.com>
+>> +Description:
+>> +		This read-only file returns "1" if the generator takes the
+>> +		timing from the system clock, while it returns "0" if not
+>> +		(i.e. from a peripheral device clock).
+>> +
+>> +What:		/sys/class/pps-gen/pps-genX/time
+>> +Date:		October 2024
+>> +Contact:	Rodolfo Giometti <giometti@enneenne.com>
+>> +Description:
+>> +		This read-only file contains the current time stored into the
+>> +		generator clock as two integers representing the current time
+>> +		seconds and nanoseconds.
+> 
+> Trailing whitespace, please always run checkpatch.pl.
+
+Fixed.
+
+Ciao,
+
+Rodolfo
+
+-- 
+GNU/Linux Solutions                  e-mail: giometti@enneenne.com
+Linux Device Driver                          giometti@linux.it
+Embedded Systems                     phone:  +39 349 2432127
+UNIX programming
+
