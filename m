@@ -1,113 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from flow-a5-smtp.messagingengine.com (flow-a5-smtp.messagingengine.com [103.168.172.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62753189F55;
-	Wed,  9 Oct 2024 09:12:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E074F176AB5;
+	Wed,  9 Oct 2024 09:14:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728465151; cv=none; b=CyoFNYfIu+wuy2vW10K5dUdUQ+n1V3vXJ6GTXzqK0Ui4gl4Xpl0h+XNSsxAEX3qK172COBVsm8Oo4jFxadDCedPrPWzPTfBoIsNsRSX/cWD4Sw5AxsyXvD4XOwFnJOm3LKlj2vezTgWOIsmAkWuxr5+7tK/BG2mv72J7/jRVlqo=
+	t=1728465300; cv=none; b=pV0sdMq1eXM9qKZhccNld5pf6K7mRTFpaSod+GcxsUF2HmYtO+KbrAoaRJIkVkBvr9XQEoJOFJrVoJY64kIB0hwVIqlAIEt1LKSFQuFk5nncYurPtlVm2/x3m2oTMP6H7zgo6gMwByfpvgMtoVPiT+kTg4lfPiLe9l2lTdIou3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728465151; c=relaxed/simple;
-	bh=FEBmVHNV/Na9j044i78gzDI5htibytqSBw9g3ISvbHA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=BVBuaI7ear3VLje37Nk+3HMy75oSyk47ZpPeHsJQQJFn1oafS33Uw2S/ojvCrHO3cNI7SxPn90Wpl60+IZePVFXOpPkt1yoR92a+6GdpAb/XTSGnvw8XiU9RTsR+yty2K0U5TASC+mmf9xphZqBaCVc1QYgADRv6SzzQ0tXoBe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lxzonjCg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728465300; c=relaxed/simple;
+	bh=mDAd7lYgScrwy6UukpvWxq2YwNPPYLzg9hqsamlAhQ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PBTgcsngPtLqwutZzulRWkRXVoKEGRUQUYEIkrQgB9jD3BBxfuCVxlcleiGKOid3RY85dYIgYFcbnhf7zG8Bm3SYySPJVklYNSHXYZJ2uc8YclhRyCzSHh1Vse7Z434FtE+3dA8SDtNCq//hsLtQncgl/HVNJcpJW0BpG+hVBiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=OjZUD6+Q; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GiUMl0J5; arc=none smtp.client-ip=103.168.172.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lxzonjCg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70A4FC4CEC5;
-	Wed,  9 Oct 2024 09:12:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728465151;
-	bh=FEBmVHNV/Na9j044i78gzDI5htibytqSBw9g3ISvbHA=;
-	h=From:Date:Subject:To:Cc:From;
-	b=lxzonjCggDN4pwWrNz4kZfdJKYesiWdTg5bHSBhj0dRjbBE3HcH47NvYgQ1L6fIu3
-	 Rd0dWueSiLzAHzlDzQ6TVwkcxHZgm1+0CyEmDiOhdtRuCp29iJPP++c8VQlnVDLW4p
-	 VPBkei7a0SDe4Mw5QrKd0+ql+SJJ84V4bi4NZXFmcud8ChsrIpPEJj0hu2EpX1LtRu
-	 HsFRItPCCbd+Aw73JiYeYYQF7a4BGY4ldO2UvIn4t8lZ5qi5LD6FZXnYj9T4nNWz8N
-	 CT4XewvSJm3U6KA11q7ssQ59qyIYwcZOC1Q7LVWsqw2KjqMgx4fGPKqDdPr3+PeQBM
-	 LYBlg3dJRLHwg==
-From: Simon Horman <horms@kernel.org>
-Date: Wed, 09 Oct 2024 10:12:19 +0100
-Subject: [PATCH net v2] docs: netdev: document guidance on cleanup patches
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="OjZUD6+Q";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GiUMl0J5"
+Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
+	by mailflow.phl.internal (Postfix) with ESMTP id B67C7200539;
+	Wed,  9 Oct 2024 05:14:56 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-07.internal (MEProxy); Wed, 09 Oct 2024 05:14:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1728465296; x=1728472496; bh=ykuMn4Gfu+
+	9n4bYVayawskQGI00iTjMXs063l2RtcOA=; b=OjZUD6+QfBD1M4xYBFRNi3HsSC
+	C9nttSJ6CKcYMUar7z0FpPWoIhLy2j+PkeGHIFFwcK2QyAOd7PicW+rwT62D7dra
+	M0yqo7IgBVi2YWHo/Z26TnWdH+y0on/XG8R51HikN8Jwqr2GeO7pGNq58ZNUZfOp
+	fFtQuvRpyBHKdG+TuvZ354oEAfAafXfKzfRyuY8ULiJtf/fb5BVyCmsxBmkDi92D
+	fk8skAgCVrtJLB0fML//9+Y1ViY7eSvLbIR6DurzucXUJZbzdWQ0JepLFPVMUmi+
+	ttOVvm4hjJqj5/qQ+aWYs+Y5wFzudV7rTnbGWVi60HkNHbdvZquLvBt53RXA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1728465296; x=1728472496; bh=ykuMn4Gfu+9n4bYVayawskQGI00i
+	TjMXs063l2RtcOA=; b=GiUMl0J5Ym16HR6orwhZ7mUnwP1TjY+EpHycUk8CvYSe
+	3ZAAu2gI7jneYDsIJ5kKJoxak5GKg7vGBDiY4R0C4o67toWD3ifoptXCqnOQSuMo
+	fSVBKl5+RKB/JmE9062+RZuI6COrDNNXg9gcOGGiOCYhV29XPvt+19lKPW58pail
+	8JOf2F1fv7vqW/IxZBe+mcbm1Rd3u2jLv5K8jOyPgel52X74/CzM6VVb7jY48zZk
+	xFxnAIv5jlB67jH9VIFXO6RAoyRajgCp5IZAd+IKLpe8A1uPeEagX61wYopROkEM
+	TKYtrhx5tV78EW9X1wn0W/OJUOIUNurD8BA21cU7iw==
+X-ME-Sender: <xms:kEkGZ6TYt9toMlleOFDWut2QozWYnWtDD_hcmFe9CnZXqTWQAbV4vg>
+    <xme:kEkGZ_yxEPFoe9uWLRa8wB69kU7bu8RIj6NZATatb0i1tsfYksyNiYodMGIbPjz7-
+    9gTII6Kp0KbEg>
+X-ME-Received: <xmr:kEkGZ32ItDd7mYUsXywYDU0mrgfDjOidkcHJ_v43p5TrO7EKg9wdTho_JsyMt_JAL4c6dvCzpBt6ZmWQ1ob-CqJW4rZWhfaSGeBkSw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdeffedgudegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvden
+    ucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrf
+    grthhtvghrnhepheegvdevvdeljeeugfdtudduhfekledtiefhveejkeejuefhtdeufefh
+    gfehkeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epghhrvghgsehkrhhorghhrdgtohhmpdhnsggprhgtphhtthhopedvkedpmhhouggvpehs
+    mhhtphhouhhtpdhrtghpthhtohepghhiohhmvghtthhisegvnhhnvggvnhhnvgdrtghomh
+    dprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
+    tghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpd
+    hrtghpthhtoheprghkphhmsehlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgt
+    phhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhopegthhhrihhsthhoph
+    hhvghrrdhsrdhhrghllhesihhnthgvlhdrtghomhdprhgtphhtthhopehsuhgsrhgrmhgr
+    nhhirghnrdhmohhhrghnsehinhhtvghlrdgtohhmpdhrtghpthhtohepthhglhigsehlih
+    hnuhhtrhhonhhigidruggvpdhrtghpthhtoheprghnughrihihrdhshhgvvhgthhgvnhhk
+    oheslhhinhhugidrihhnthgvlhdrtghomh
+X-ME-Proxy: <xmx:kEkGZ2DXnWj6eVTTNVprNuDNOQs0k1b1H4teGQNn7FXhU18md8rWwg>
+    <xmx:kEkGZzi4eGP6KB5NrLczs3uj_MXM1UB-6lyR_l6MAXsYBPLb8WConw>
+    <xmx:kEkGZypcb7Qll86Imnq4q0sQbpFw2HbyY8cpVm5ssqVyCy84UYuwyA>
+    <xmx:kEkGZ2iLjbV1hZ9ZcvNflaYI11V88Yrd1_o6I84q71cLzYK-WXslRg>
+    <xmx:kEkGZ06NnF4J0srXR2SlJNCObWrWuDMXtLuGrHOIcpnpay63eQzwqp_8>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 9 Oct 2024 05:14:55 -0400 (EDT)
+Date: Wed, 9 Oct 2024 11:14:53 +0200
+From: Greg KH <greg@kroah.com>
+To: Rodolfo Giometti <giometti@enneenne.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
+	Hall Christopher S <christopher.s.hall@intel.com>,
+	Mohan Subramanian <subramanian.mohan@intel.com>, tglx@linutronix.de,
+	andriy.shevchenko@linux.intel.com,
+	Dong Eddie <eddie.dong@intel.com>, N Pandith <pandith.n@intel.com>,
+	T R Thejesh Reddy <thejesh.reddy.t.r@intel.com>,
+	Zage David <david.zage@intel.com>,
+	Chinnadurai Srinivasan <srinivasan.chinnadurai@intel.com>
+Subject: Re: [RFC 2/3] Documentation pps.rst: add PPS generators documentation
+Message-ID: <2024100932-twirl-stabilize-8574@gregkh>
+References: <20241008135033.3171915-1-giometti@enneenne.com>
+ <20241008135033.3171915-3-giometti@enneenne.com>
+ <2024100850-stunned-curve-2ba4@gregkh>
+ <fcb082fd-2572-4782-b9e2-69cdbc22714d@enneenne.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241009-doc-mc-clean-v2-1-e637b665fa81@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAPJIBmcC/22NwQ7CIBBEf6XZs2tgBWM8+R+mB4S1JVZooCGah
- n+XcPb4ZjJvdsicPGe4DjskLj77GBrQYQA7mzAxetcYSJCSQih00eLbol3YBGRt1Enos2NiaJM
- 18dN/uu4OgTcYWzj7vMX07RdF9uq/rUiUSMLSxdmHcJpuL06Bl2NME4y11h9vmyBcrgAAAA==
-To: "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: netdev@vger.kernel.org, workflows@vger.kernel.org, 
- linux-doc@vger.kernel.org
-X-Mailer: b4 0.14.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fcb082fd-2572-4782-b9e2-69cdbc22714d@enneenne.com>
 
-The purpose of this section is to document what is the current practice
-regarding clean-up patches which address checkpatch warnings and similar
-problems. I feel there is a value in having this documented so others
-can easily refer to it.
+On Wed, Oct 09, 2024 at 10:48:18AM +0200, Rodolfo Giometti wrote:
+> On 08/10/24 17:43, Greg KH wrote:
+> > On Tue, Oct 08, 2024 at 03:50:32PM +0200, Rodolfo Giometti wrote:
+> > > This patch adds some examples about how to register a new PPS
+> > > generator in the system, and how to manage it.
+> > > 
+> > > Signed-off-by: Rodolfo Giometti <giometti@enneenne.com>
+> > > ---
+> > >   Documentation/driver-api/pps.rst | 40 ++++++++++++++++++++++++++++++++
+> > 
+> > All of this can go into the .c file and autogenerated there, no need for
+> > a separate .rst file that will quickly get out-of-date.
+> 
+> I see. I'm going to add proper documentation within .c files. But since some
+> references about PPS generators are also present in this file, I think it
+> would be wise to add some notes about the new interface...
 
-Clearly this topic is subjective. And to some extent the current
-practice discourages a wider range of patches than is described here.
-But I feel it is best to start somewhere, with the most well established
-part of the current practice.
+Why not just move all of the documentation into the .c files?
 
---
-I did think this was already documented. And perhaps it is.
-But I was unable to find it after a quick search.
+thanks,
 
-Signed-off-by: Simon Horman <horms@kernel.org>
----
-Changes in v2:
-- Drop RFC designation
-- Correct capitalisation of heading
-- Add that:
-  + devm_ conversions are also discouraged, outside the context of other work
-  + Spelling and grammar fixes are not discouraged
-- Reformat text accordingly
-- Link to v1: https://lore.kernel.org/r/20241004-doc-mc-clean-v1-1-20c28dcb0d52@kernel.org
----
- Documentation/process/maintainer-netdev.rst | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
-
-diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
-index c9edf9e7362d..1ae71e31591c 100644
---- a/Documentation/process/maintainer-netdev.rst
-+++ b/Documentation/process/maintainer-netdev.rst
-@@ -355,6 +355,8 @@ just do it. As a result, a sequence of smaller series gets merged quicker and
- with better review coverage. Re-posting large series also increases the mailing
- list traffic.
- 
-+.. _rcs:
-+
- Local variable ordering ("reverse xmas tree", "RCS")
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
-@@ -391,6 +393,21 @@ APIs and helpers, especially scoped iterators. However, direct use of
- ``__free()`` within networking core and drivers is discouraged.
- Similar guidance applies to declaring variables mid-function.
- 
-+Clean-up patches
-+~~~~~~~~~~~~~~~~
-+
-+Netdev discourages patches which perform simple clean-ups, which are not in
-+the context of other work. For example:
-+
-+* Addressing ``checkpatch.pl`` warnings
-+* Addressing :ref:`Local variable ordering<rcs>` issues
-+* Conversions to device-managed APIs (``devm_`` helpers)
-+
-+This is because it is felt that the churn that such changes produce comes
-+at a greater cost than the value of such clean-ups.
-+
-+Conversely, spelling and grammar fixes are not discouraged.
-+
- Resending after review
- ~~~~~~~~~~~~~~~~~~~~~~
- 
-
+greg k-h
