@@ -1,130 +1,162 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF3CD1D07A3;
-	Wed,  9 Oct 2024 16:04:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6836E1E32CE;
+	Wed,  9 Oct 2024 16:09:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728489892; cv=none; b=crseXkJfqflkBqwZfiyT78U7lEeR1jInwaHxgGB6n/0PZMayNhBxvsBkJEvLCaNi/40ebjVZcSZII+v+7WOBfr34HedK5Kp4X5O0aqXw+RAZQ62970pq73ebJkux+xvMTBncV/H0T2ltc/0shgKlm5deJ4Z/HMeMoHl2VZ5LuUk=
+	t=1728490185; cv=none; b=cxXhUNdgw1WQdEcfyn29iEH88WbUe9SIq8TqebAajvlGzWwYrD8A7+0kx4h7ImvgfB9M5Lil7g9kG+9dZyHqoiPQm+gRvXs8uUpM6RMmpY2GRTWHFwtLP2vkzVsL2m1x8rnHar4MaXYGTgxg4KbwFQ4lYgAxO+miNmpmUWEoWXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728489892; c=relaxed/simple;
-	bh=S7VOLr15MA5IYpxNnw6xgbwUOkXwGf/+Y/OeUbY9oZk=;
+	s=arc-20240116; t=1728490185; c=relaxed/simple;
+	bh=zHFZh0+NMiMWYYJ4ABAZdyr64m8aYnHfZn/F21PIQ/0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ISKSZqQ8b4cSoAazUo5ksswysYHY3EpPD1CSQPPNw7UkM/qB/R0RHsJ0OFOnx5ZjCSHVXHNLwuXliyYf3M7acLXoju5HhAh7Jqm2ASxVCeR+Crwzw1SvMwMK0CMTBcSJKcXuhmB0WctUgV2XFWKoIwwt0VcQebjG7c3ZaUdV+4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mMqRLFBH; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=hbMbHW4ir5e7j9kOgQBXdTghSq/UzrsKeiuHTuxAvlgitIDTFZrcgVnfqQqXdYFidNaLjJM2VQIn/yKyakovM6H9e002O3S6Pzm5UpYIj4N7A5oQ4p3Mu6qPAaqQnvoulNAceHLP+cz0maZ9WuB/HwGUjRxBspiLE5Qg7YmzoIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=kRtTpEhy; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mMqRLFBH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728489891; x=1760025891;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=S7VOLr15MA5IYpxNnw6xgbwUOkXwGf/+Y/OeUbY9oZk=;
-  b=mMqRLFBHn6HXxrsLLJp7yCpLQri273Wd9PIqBqFouek5KW9lJnGqIU8z
-   ilv54wxa3U21A14s97BuQNN8bmyYUpcV2m8UxjnkBJFecoNx+WCLubozF
-   JMAMnYOUXbbNwY55FqXpHEmnfpY7jLidc+hKhpsKlh70qQGnl3ziBPgmN
-   AtWh6UgHbYEMaGmzs0kTVI8mDlTdPntDAnhwVAFdceZgbzgahSUZEvqJj
-   R6xYOpYfeVf1tN9YMYCVew+d4l1nbVRHHpLL0HtYGdIvCsKicd3ZUIddC
-   IBxp07OQUQVIwPLN/p9w3j5lTHW1/AkIfj2fNjpMm11hXKqF9LJooVROU
-   g==;
-X-CSE-ConnectionGUID: MFREpKG5Tfu6oO68frH4vg==
-X-CSE-MsgGUID: Azlxt9QbTq+hp6EzsimnqA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="39163345"
-X-IronPort-AV: E=Sophos;i="6.11,190,1725346800"; 
-   d="scan'208";a="39163345"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 09:04:50 -0700
-X-CSE-ConnectionGUID: sdQLp+9IQuq57QIp38SDtA==
-X-CSE-MsgGUID: N99/WQr4SpWFntETzZXecw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,190,1725346800"; 
-   d="scan'208";a="80805323"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa005.fm.intel.com with ESMTP; 09 Oct 2024 09:04:45 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 0BDAB50F; Wed, 09 Oct 2024 19:04:43 +0300 (EEST)
-Date: Wed, 9 Oct 2024 19:04:43 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: David Sterba <dsterba@suse.cz>
-Cc: Ira Weiny <ira.weiny@intel.com>, Dave Jiang <dave.jiang@intel.com>,
-	Fan Ni <fan.ni@samsung.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Navneet Singh <navneet.singh@intel.com>,
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="kRtTpEhy"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=ACLnXv8vy+mXWC64mZBSTow4VmehlxdQjUKWeB/19WQ=; b=kR
+	tTpEhyogUX5xwRBQHGmMMvaheMFjOaB8YYklRjpplD3+QS1hf62S7tkAnmYb/tKkH79N8aYgs0ZG3
+	qnYCzF3K8sJwTGOLm8wiu91sK8P0LxnzrY/qi34FAnPFtU2sFEwx5S6ojj9W4PXe2vyCirIGz+80f
+	37i/nE/HNFHG55U=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1syZFk-009W8n-9w; Wed, 09 Oct 2024 18:09:32 +0200
+Date: Wed, 9 Oct 2024 18:09:32 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Kory Maincent <kory.maincent@bootlin.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	linux-btrfs@vger.kernel.org, linux-cxl@vger.kernel.org,
-	linux-doc@vger.kernel.org, nvdimm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
-	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
-	Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Subject: Re: [PATCH v4 04/28] range: Add range_overlaps()
-Message-ID: <Zwapm97gV0y7Up9H@black.fi.intel.com>
-References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
- <20241007-dcd-type2-upstream-v4-4-c261ee6eeded@intel.com>
- <20241008161032.GB1609@twin.jikos.cz>
- <ZwaW9gXuh_JzqRfh@black.fi.intel.com>
- <20241009153641.GK1609@suse.cz>
+	Donald Hunter <donald.hunter@gmail.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
+	Dent Project <dentproject@linuxfoundation.org>,
+	kernel@pengutronix.de
+Subject: Re: [PATCH net-next 08/12] net: pse-pd: pd692x0: Add support for PSE
+ PI priority feature
+Message-ID: <9e58bfec-c915-4c30-9d75-979a309e3f69@lunn.ch>
+References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
+ <20241002-feature_poe_port_prio-v1-8-787054f74ed5@bootlin.com>
+ <1e9cdab6-f15e-4569-9c71-eb540e94b2fe@lunn.ch>
+ <ZwU6QuGSbWF36hhF@pengutronix.de>
+ <9c77d97e-6494-4f86-9510-498d93156788@lunn.ch>
+ <ZwYt0WT-tdOM0Abj@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241009153641.GK1609@suse.cz>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZwYt0WT-tdOM0Abj@pengutronix.de>
 
-On Wed, Oct 09, 2024 at 05:36:42PM +0200, David Sterba wrote:
-> On Wed, Oct 09, 2024 at 05:45:10PM +0300, Andy Shevchenko wrote:
-> > On Tue, Oct 08, 2024 at 06:10:32PM +0200, David Sterba wrote:
-> > > On Mon, Oct 07, 2024 at 06:16:10PM -0500, Ira Weiny wrote:
-
-...
-
-> > > > +static inline bool range_overlaps(struct range *r1, struct range *r2)
+On Wed, Oct 09, 2024 at 09:16:33AM +0200, Oleksij Rempel wrote:
+> Hi Andrew,
+> 
+> On Tue, Oct 08, 2024 at 06:50:25PM +0200, Andrew Lunn wrote:
+> > On Tue, Oct 08, 2024 at 03:57:22PM +0200, Oleksij Rempel wrote:
+> > > On Thu, Oct 03, 2024 at 01:41:02AM +0200, Andrew Lunn wrote:
+> > > > > +	msg = pd692x0_msg_template_list[PD692X0_MSG_SET_PORT_PARAM];
+> > > > > +	msg.sub[2] = id;
+> > > > > +	/* Controller priority from 1 to 3 */
+> > > > > +	msg.data[4] = prio + 1;
+> > > > 
+> > > > Does 0 have a meaning? It just seems an odd design if it does not.
 > > > 
-> > > I've noticed only now, you can constify the arguments, but this applise
-> > > to other range_* functions so that can be done later in one go.
+> > > 0 is not documented. But there are sub-priority which are not directly
+> > > configured by user, but affect the system behavior.
+> > > 
+> > > Priority#: Critical – 1; high – 2; low – 3
+> > >  For ports with the same priority, the PoE Controller sets the
+> > >  sub-priority according to the logic port number. (Lower number gets
+> > >  higher priority).
 > > 
-> > Frankly you may add the same to each new API being added to the file and
-> > the "one go" will never happen.
+> > With less priorities than ports, there is always going to be something
+> > like this.
+> > 
+> > > 
+> > > Port priority affects:
+> > > 1. Power-up order: After a reset, the ports are powered up according to
+> > >  their priority, highest to lowest, highest priority will power up first.
+> > > 2. Shutdown order: When exceeding the power budget, lowest priority
+> > >  ports will turn off first.
+> > > 
+> > > Should we return sub priorities on the prio get request?
+> > 
+> > I should be optional, since we might not actually know what a
+> > particular device is doing. It could pick at random, it could pick a
+> > port which is consuming just enough to cover the shortfall if it was
+> > turned off, it could pick the highest consumer of the lowest priority
+> > etc. Some of these conditions are not going to be easy to describe
+> > even if we do know it.
 > 
-> Yeah, but it's a minor issue for a 28 patchset, I don't know if there
-> are some other major things still to do so that a v5 is expected.
-
-At least seems printf() changes have to be amended, so I think v5 is
-warranted anyway.
-
-> If anybody is interested, reviewing APIs and interfaces with focus on
-> some data structure and const is relatively easy, compile test is
-> typically enough.
-
-Except the cases where a const pointer has to be passed thru non-const
-(or integer) field in a data structure. Tons of the existing examples is
-ID tables that wanted to have kernel_ulong_t instead of const void * in
-driver data field.
-
-> The hard part is to find the missing ones. There's no
-> compiler aid thad I'd know of (-Wsuggest-attribute=const is not for
-> parameters), so it's been reading a file top-down for me.
-
-Yeah...
-
-> > So, I support your first part with
-> > constifying, but I think it would be rather done now to start that "one
-> > go" to happen.
+> After reviewing the manuals for LTC4266 and TPS2388x, I realized that these
+> controllers expose interfaces, but they don't implement prioritization concepts
+> themselves.
 > 
-> Agreed, one patch on top is probably the least intrusive way.
+> The LTC4266 and TPS2388x controllers provide only interfaces that allow the
+> kernel to manage shutdown and prioritization policies. For TPS2388x, fast
+> shutdown is implemented as a port bitmask with only two priorities, handled via
+> the OSS pin. Fast shutdown is triggered by the kernel on request by toggling
+> the corresponding pin, and the policy - when and why this pin is toggled - is
+> defined by the kernel or user space. Slow shutdown, on the other hand, is
+> managed via the I2C bus and allows for more refined control, enabling a wider
+> range of priorities and more granular policies.
+> 
+> I'll tend to hope we can reuse the proposed ETHTOOL_A_C33_PSE_PRIO interface
+> across different PSE controllers. However, it is already being mapped to
+> different shutdown concepts: PD692x0 firmware seems to rely on a slow shutdown
+> backed by internal policies, while TPS2388x maps it to fast shutdown with
+> driver specific policy. This inconsistency could force us to either break the
+> UAPI or introduce a new, inconsistent one once we realize TPS2388x fast
+> shutdown isn't what we actually need.
 
--- 
-With Best Regards,
-Andy Shevchenko
+We should try to avoid fragmentation of the API, but given there is no
+standardisation here, vendors are free to do whatever they want, this
+may be difficult. Still, we should try to avoid it.
+
+Maybe we want to consider a generic simple prioritization in the
+kernel, plus export a generic model of PSE to user space to allow a
+user space manager? This is really policy, and ideally we don't want
+policy in the kernel. The in kernel implementation can use the
+hardware prioritisation if it supports it, otherwise provide a library
+of code which a driver can use to implement simple software
+prioritisation?
+
+For a user space manager, we already talked about an event to signal
+that we are entering overload. I guess we additionally need an API to
+get the current runtime state, what each consumer is actually
+consuming, and a management API to shutdown or enable a port due to
+overload, which is separate to the administrative state of a port.
+
+The hardware/firmware might provide lots of options and capabilities,
+but sometimes it is better it ignore them. Export a basic set which we
+expect most PSE controllers can offer, and do the rest in our software
+which we have full insight into, and debug and share, unlike firmware
+which is a broken black box.
+
+If we decide this is the way we want to go, we should not need to
+extend the API for LTC4266 and TPS2388x, you just implement a basic
+prioritisation in the driver. If it turns out to be not ideal, it does
+not matter so much, so long as we have the understanding that
+eventually we can have something better in userspace.
+
+We can maybe do a rough sketch of what the kAPI looks like for a user
+space manager, but we can kick the implementation down the road while
+the in kernel prioritization is good enough.
+
+	Andrew
 
 
