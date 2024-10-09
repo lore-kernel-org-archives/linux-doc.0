@@ -1,266 +1,481 @@
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02on2055.outbound.protection.outlook.com [40.107.249.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2433D11CA9;
-	Wed,  9 Oct 2024 00:20:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.249.55
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728433230; cv=fail; b=tbsVKwsjGq4ClCRWXpxg4SxtJtLlAFue/4yUoH7BrQ98UzfWMsAng2L+DgvBEA4kVfMOidIDVlwLM89E83m0TCFaiK4OqFdZ/QB6toqeKTiWzV2hBXLCyNTNJV3GgbhiCoRaXjjWYEqwjxA9Giphv6Xi1wjLNxW58xaMWX9Mixw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728433230; c=relaxed/simple;
-	bh=f1d1D65EL3r6YIHqpwuMhzF1UFOLY4Sk2xXJQjCOM9g=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=kyOW1hD5GAUWr0IWQIGEmpBtVdW2SQdhOU0YXkhvKdXavYsInvt3JCk9yZENDbHqK3N5JuXHhCx/97+15mDjqzIJO6g0meERypKdRJVRg+ntbl0FtVEDYFdGwYFqdb6H23EEZHKEyiTZoOv1gfYv1lZMTOs7q2ViF/CSfyPRliw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech; spf=pass smtp.mailfrom=est.tech; dkim=pass (1024-bit key) header.d=est.tech header.i=@est.tech header.b=kiQj3R7h; arc=fail smtp.client-ip=40.107.249.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=est.tech
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4DA04C85
+	for <linux-doc@vger.kernel.org>; Wed,  9 Oct 2024 00:55:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728435341; cv=none; b=ZbwDFzkoYkiNm5vR1jg5mgXuk5BpU458/naAcQ19A+0Jd/Y+/VwQnsz+ank5Jh13d9n8ybhgvxINU4I6Yfmsq/xca8G8+qHNW3r9ZC/1Tvw96g4Ac0O4xZRwnZTlaOA3x3aPnnJZ4cx9+aELBlCcqKzt4nXZgenWakOLY/QG2V0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728435341; c=relaxed/simple;
+	bh=CwS2feb+rObsPn1KsPZ5USRKBeDtZYyJldlUZESLfoI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JWyyapo3zzHAtdlyJ5yH7f5swERl6CpPeHt816CLIc+t3bht1INJYU/c8wjGjBZzskIwzHkEgs0hxQkCpxO1Iio2mrhNCQGa/4YdczWe1RIP87Mhqm+O/aLPVQSt1fRUm5KzqDSDx1Dcf/J36zLx+RSW9MrQe34ss+ZfJcFJs5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=O8aiXtWP; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=est.tech header.i=@est.tech header.b="kiQj3R7h"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Tt9Yk86IPX3rn7PSDDzYraCFfG2kAg0LaGcYqEZVY0+4sqOIbx7pNRwzr5PbFN4Wv+b8tYz10kHnqx/H5tA9wx+6Yen5sTa4ioXma9V7M4/agoBHwGNw4x533A8vMOTsGt/PtuHHULL3XiOAg23vzkdkJOci87PeX3SNX1wunDYvKf4RU4B722H6Ntdk6CVHgSzqkRL4uTFFUbs0QZhyosmRhmdYEYRZoFNohKmo5TNJGZsE97orQOg42X8Zu5QqG2NABbusP7fKVCRiphZ/G9RAQdW9py5MGUY8Rjr+f1c97iVBnsNesMMgu/ezFxzPd6Rg7P4qV0EtdkIhGax9NQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eawqXiFX60mkB+uFhuWCzT1Znvv0sZq3zKrpT00clA0=;
- b=HsFmRWTdMRLDDQr8DgoSjW3K9j1z3F69rg7iXMm/pBvvJakPc93KahhshNBsXKXolxRJzRsRq10P0L65l1ZP66f2ZZV9BezZDuTH9xqwYGxKznn5eLgyCZQmby3dt/IDOQte4SCLJOfVFGKdlcC29WFlYjHd2rD3Oyv5xFHUz1X1LbSjEdriyBuZsTvBgQPA83naHXW9GcxndEVHKbTpKN2Bpxy6wQ8rzFdsmqWiLGqH0vMzHv2oDVbecvScjUlfgXph5qV34rycdJDKxdYQHQTDawM3PJlvbsaCMo5L7hZ1y6VlhKJJS3ZKSdcQkpuyjMNg8FSTccpadSORtBtWaQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eawqXiFX60mkB+uFhuWCzT1Znvv0sZq3zKrpT00clA0=;
- b=kiQj3R7hoaoiL0npknj0qNVGup7QlziqdZMUl/bP0HQzntEnty3StoKdE1VV1q50OpPBWuhcm3lowYcfT0FCpntfu1HS4qT+n0S8wpfRXx+V4UKicMnMPrGTZwAwLWwtrAuWs5MP5MQasHEA1Zwo4bcGZ6Nqrl78JoQstgXV2gE=
-Received: from AM7P189MB0807.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:115::19)
- by DB9P189MB1834.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:330::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.22; Wed, 9 Oct
- 2024 00:20:22 +0000
-Received: from AM7P189MB0807.EURP189.PROD.OUTLOOK.COM
- ([fe80::53cd:a2f6:34be:7dab]) by AM7P189MB0807.EURP189.PROD.OUTLOOK.COM
- ([fe80::53cd:a2f6:34be:7dab%6]) with mapi id 15.20.8048.013; Wed, 9 Oct 2024
- 00:20:22 +0000
-From: Kyle Swenson <kyle.swenson@est.tech>
-To: Kory Maincent <kory.maincent@bootlin.com>
-CC: Oleksij Rempel <o.rempel@pengutronix.de>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
-	<corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>, Thomas Petazzoni
-	<thomas.petazzoni@bootlin.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, Dent Project <dentproject@linuxfoundation.org>,
-	"kernel@pengutronix.de" <kernel@pengutronix.de>
-Subject: Re: [PATCH 00/12] Add support for PSE port priority
-Thread-Topic: [PATCH 00/12] Add support for PSE port priority
-Thread-Index: AQHbFOYypdriGqfBF0imTPrJ4BWVpLJ9mBcA
-Date: Wed, 9 Oct 2024 00:20:21 +0000
-Message-ID: <ZwXMFV5SaIGgVoCU@p620.local.tld>
-References: <20241002-feature_poe_port_prio-v1-0-eb067b78d6cf@bootlin.com>
-In-Reply-To: <20241002-feature_poe_port_prio-v1-0-eb067b78d6cf@bootlin.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM7P189MB0807:EE_|DB9P189MB1834:EE_
-x-ms-office365-filtering-correlation-id: 24b6715f-cbe3-4f6d-6f86-08dce7f829db
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|376014|7416014|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?taFy6+jDGVUuR2+AG0FHGmBbvm/G34jcCFw7GkZ+ro6uue8SpAC5yMsTe3UK?=
- =?us-ascii?Q?m3ArgusMqjzulzRsSSq+k1ZR1tz2ECOVEaVNS9RWBfTBh7SatLETVP0BduXQ?=
- =?us-ascii?Q?RvMWNHL7lyaUPL6sFHx3qiwVdICC+0HU0iCkF931SGgnfG5n78x4+alv4hK9?=
- =?us-ascii?Q?wf4UmBrFVPeetalLqYQbnBN8vYnq7x+UL1tQNDGgllvJNxnP0SGUMUlFknvJ?=
- =?us-ascii?Q?6Xriy1E6jh4pqAcBcSNRiS7S1ArLi9953GLIykopCQyU/1WWTQjTcqWAt2db?=
- =?us-ascii?Q?xW/YFqeRNKf3LXO4X1p7L4ws+bg6U54h9N61uG/kc54jnKwlZowUulZjBVt0?=
- =?us-ascii?Q?uBXK3XGagh/ynoOQhEfbUitDnQfCoyRMynyHB9KBNhwKr4D6jdw7WL8uHnKn?=
- =?us-ascii?Q?kr5PKymDYKIXsw2A2tg4iFyOkaB7CoBnVQWWunzOQG07jqTIqsagmKUZ8WOB?=
- =?us-ascii?Q?Hap982BlFDyzHb3qS0MHVrvfyEO0sK2KVqyIJdOrv4HKiYcz1ecbfRT0XQ7d?=
- =?us-ascii?Q?+hjfpNBSJDN9YCpvzPu62zH4sMlZddYMkGCfeErpbXMbhVrHr3FvMIHx6/Lx?=
- =?us-ascii?Q?RwqAtXJglLEFrf+KKcHZzawoYphkcUqvv9psQ04fTLs7zMA82HpXEVz/vxp/?=
- =?us-ascii?Q?fx7NBkav5+Ln9+WmcgdqFKaUgKKMSCs9YPUtGV5/zHfqHBsAfwTkC/P+Faj1?=
- =?us-ascii?Q?ckIQVr+56RdUjlLuBl3ubqPkXqxbEkEJ/ivj/jZG0R8jZ5wcfeGwQzTRQfey?=
- =?us-ascii?Q?Hh+l0tAF0pmuIY5MRUxPguCsnkkQ47PAzktwGMpdWRTKhbQ50nTVe3+xCabN?=
- =?us-ascii?Q?9ubWlSYBxLYrDLweS0krgTiGVFZu6x1jUgODgFDqaHltPM9MOHHDB/ZgH5Kj?=
- =?us-ascii?Q?TWvO231K4+dD8MyLR5OzdB34yOyn48azmxY33HYao3jT47TYNEyeche9bvx8?=
- =?us-ascii?Q?WH11NCeATz+P3c/sXNLAnhWfgFaQak2EzPNtd1YAtKShj1DDxkYW0t9X03Y7?=
- =?us-ascii?Q?KQOhI9LOG0oK+c3tuMjDbkffe5ZcxeVLp7Ws17Cx6eiC9NN4cZmRFpd3Zik7?=
- =?us-ascii?Q?hfTE2JgngzHEsjkdtPQ7R+YlBZ7HJBsSFsyA34fuRYJMZoL+JElfNO0HTX6w?=
- =?us-ascii?Q?uJyBo0NmvoP1W5g0AZZIlvyOwjUrythwpu0pV8GRJ6oJHGLuY02Ps39qrIjE?=
- =?us-ascii?Q?UJ80FTalHtqyVq/IZ77Ca3BD73SC+I1cpDf7T8H/cD0uhuOIeSZSzNP/NTd7?=
- =?us-ascii?Q?uISpix91YW6vcdXvK3w+MEJDSbiUxtcEn9/wMqZHHc7zhSAP3fgTCvOCHJ5i?=
- =?us-ascii?Q?pBd4+OpD4NBi7tmWTg7dhBh0IkdKGyNHr5bq59DhmQJrmQ=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7P189MB0807.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?osTMLPOQ/Al5mtNNzG19F7x7wJFlVv/zJuHHsp54UYXlmlGsSIc89tNmS9oJ?=
- =?us-ascii?Q?23HshGiX03o8GLK/FPZTH/o/lV0TMDj6S1R9YRGHz7dLhFdcQepw1uOnAFFM?=
- =?us-ascii?Q?am/Y/4VNpvt398Bdqme2hf/JUm63yd3Qv3EUtLLNWGSBH6O4Uc4i6balUhhB?=
- =?us-ascii?Q?2kQziJk2oorQoo62WSi+RIaa+NWCpHddjO88XgjO0uBfdoOoIGJgtTO5LXn7?=
- =?us-ascii?Q?neNCUpPW3h6JDebc10ULX4n4Oa+6vj0Pz1uDkwkEUQirKkbbLvyaM5H09L5V?=
- =?us-ascii?Q?MZ1BMy6QI3oNPI2EtyyFGM32xDGs7Zd6mg716F7pTNAQJwTBApLG43m9rNmp?=
- =?us-ascii?Q?jpLjE10cHNzKlgsgswOaVkFFFwM6CNN+2tdGFQrFPWNu+gEpHAlAdlQdk0Ru?=
- =?us-ascii?Q?LVZXacVFeekP1Lcemo584iuEsUOazg9AbqVz7xFvnRQueWEwQrAZkVZKSuAj?=
- =?us-ascii?Q?59Zn4T+yi9SliEOvPbaIVxZxvfJXWWX1lQAac7BZshDufDAVdgjpLQ9Tk6lD?=
- =?us-ascii?Q?CKxOqBtaauBn4lEOw0JxrZbZN+vhYKW0VsPZtRR3/70d0cdqiUruFTdGVsFA?=
- =?us-ascii?Q?flvansVSLIAj7Qwlg8d9LaPwebbfntRQFMQpVAdhTmv3u05/67MXD0vci9VZ?=
- =?us-ascii?Q?FX0NWVyWMbO6Xf15HF92wKFTH7TpBegWgVMydNjUSg2aPCdLP0OYN6VoT1Hp?=
- =?us-ascii?Q?Wwo2fGiYwW0ryGaAdVVNJa4cDJUW0vWw8p06veKMxQOwpREcA9fCpeLPlPY3?=
- =?us-ascii?Q?pObRBouojBUhob++cAAeV6avFbmI+CumdkNkSzzD+Or8M3GJKeDyGRCRVRHn?=
- =?us-ascii?Q?zJu2YK4cqHZeke8HuNU50fgxKKq3ps+Xv8R6nXPq2XghH33jD+HOh8CgpFn2?=
- =?us-ascii?Q?qJjgq0fdY/RWnzBcQBAq9M/BvTKHWrMQyOhbkT/2QgJPViip4nyN2LQFYSTK?=
- =?us-ascii?Q?6516AzM8EZ6857MHBRa7WUDfmmsRIycBMbQIEHQDSBtmdcrzUOBQ7ArSmXB/?=
- =?us-ascii?Q?bdtabuqvfktpQZa0g1c1HcuhK9cBFcR4PQNpzAi9c1c1s8SxDv/1HYYW+c9c?=
- =?us-ascii?Q?+mHrM0qKtmgu3jAXhsxRzGASA7oHAzWkLowZk+L2b0h3MRk1A9JD39OnHPnv?=
- =?us-ascii?Q?yqHY/INntXM6liKEpCMEoK0aye3uV95KDURhUeOUsioPSI0pRSsxReuq8Vso?=
- =?us-ascii?Q?0OkhpdVqW/i0UmATHEMgP4jgQWkprDPCe7mjYdWgTkevJS7yCdZj88DB858u?=
- =?us-ascii?Q?QEglr0puNxHjr6UMmiZf3Ku7yxJZpngTb2Nd1Dl5fjgeAiOjJHPcnKvppAV7?=
- =?us-ascii?Q?Uw9/wUYNjdTp+85p3kXw2HWvojLQ0Q5NO0kOUhhfyDdz/7bq4fRAn0blkwG0?=
- =?us-ascii?Q?6bDXF5xHKSCXyuUIPqUHl8Unq9FCpPUCZI4zRbg3FFyJagMrZBPE3iz6Lc6L?=
- =?us-ascii?Q?MlNAFtSFycAwbFuNQBDcemDJkTO06c7+Z6OITTg5QR9sB6Kyn8xzijDNdOrt?=
- =?us-ascii?Q?ze/Wz6lLtRFj1P3wXuqTpfMlDGDftrNAEPYfXpOD4MeUXBrIUzs8ZyksT9mO?=
- =?us-ascii?Q?uS2ZquBDiK91o9cFZW7osiHrtVAEtigCE63uq0qy?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <E82105127CC49F4B9D43E8743CFE8E35@EURP189.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="O8aiXtWP"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-20b9b35c7c3so65728415ad.3
+        for <linux-doc@vger.kernel.org>; Tue, 08 Oct 2024 17:55:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fastly.com; s=google; t=1728435338; x=1729040138; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0hZm1bNbiOoun3SBVfAl4d/LK4eZCG5yrarprvfuu7s=;
+        b=O8aiXtWP52uK7SnlHCqrvGn7qtOFrM9WowfyD3U2l80eIzJ3SWA8F5801PywI7+zfb
+         8/gcLP5uNqyjzPcFLSwyTgKA6MZkruBFxhYw9/CR/reCZVPR0TDjkRwhLC4nicjejHuP
+         5uyYsxU8ukRZ0TMk7n5YbcADArv69KFng0VtQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728435338; x=1729040138;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0hZm1bNbiOoun3SBVfAl4d/LK4eZCG5yrarprvfuu7s=;
+        b=KwwfEbR1p6OkvfFwl2xytLvehLlgJvdojj160ulNs2/8zyKkqboypHAJRm0WkM2ET7
+         6FI6N0VfDtpo68YSdTu3t4oejRTztQtWDdHd54STQ/fmWyeFunQ8nTjruqnf3BvjWbwV
+         Kf/3Brrdpa7k/56toZeZDGHsrI1oVs+M6ymwwkK95BQauUnZOw4S0XUEWjVInqpEblf8
+         9R9arLBzDnj67Cn4wodZN43Wa5i47RibtiVsX+ZXwFxUYCxleYynN1oiUaPn8DVCxn5J
+         Kp2FtCHsbovS8D9KQzSStfw/Yt+EAVs/tK7AUfd4Ei063IQXnkkMUOiWrljjck8xYUac
+         FATg==
+X-Forwarded-Encrypted: i=1; AJvYcCVlS9DFkP8x0RR+Ydj0W4xW2s45zrtlYbYaJVE85gWAwvcCDuNiF2ferF1hcnErKRM/7iGnvh0s0hw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQVz2UZl6ENjSPG3MzpA5GWMwOTWbN2HoV//Ege0xDMvtbUhmj
+	td1Gv1YKly0ZtyHJT89IMbXrl8Amw2kg7GBJMJ9yx5Zf/KqMdL62fflZsvYYKCw=
+X-Google-Smtp-Source: AGHT+IH+yyIfQqCt1KtCvBK0pj44BAGrzNn26hWLo/i9n6aDZlwLJjV7Ve1Jc/U3FGu6wjeHPfuNUg==
+X-Received: by 2002:a17:902:eccc:b0:20c:6399:d637 with SMTP id d9443c01a7336-20c6399e31dmr12490985ad.40.1728435337979;
+        Tue, 08 Oct 2024 17:55:37 -0700 (PDT)
+Received: from localhost.localdomain ([2620:11a:c019:0:65e:3115:2f58:c5fd])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20c138cec92sm60996045ad.101.2024.10.08.17.55.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Oct 2024 17:55:37 -0700 (PDT)
+From: Joe Damato <jdamato@fastly.com>
+To: netdev@vger.kernel.org
+Cc: mkarsten@uwaterloo.ca,
+	skhawaja@google.com,
+	sdf@fomichev.me,
+	bjorn@rivosinc.com,
+	amritha.nambiar@intel.com,
+	sridhar.samudrala@intel.com,
+	willemdebruijn.kernel@gmail.com,
+	Joe Damato <jdamato@fastly.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Breno Leitao <leitao@debian.org>,
+	Daniel Jurgens <danielj@nvidia.com>,
+	David Ahern <dsahern@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list),
+	linux-rdma@vger.kernel.org (open list:MELLANOX MLX4 core VPI driver),
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Mina Almasry <almasrymina@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Subject: [net-next v5 0/9] Add support for per-NAPI config via netlink
+Date: Wed,  9 Oct 2024 00:54:54 +0000
+Message-Id: <20241009005525.13651-1-jdamato@fastly.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM7P189MB0807.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 24b6715f-cbe3-4f6d-6f86-08dce7f829db
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Oct 2024 00:20:21.9823
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: z8uMQPk58GR3VMLhXkhPW1lSI99QvxnMJxB2tJyvcZOg8KTcKK0aVtXj90ukv0mRIgEzUXXZgPYfkl1sk2rOjg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9P189MB1834
+Content-Transfer-Encoding: 8bit
 
-Hello Kory,
+Greetings:
 
-On Wed, Oct 02, 2024 at 06:14:11PM +0200, Kory Maincent wrote:
-> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
->=20
-> This series brings support for port priority in the PSE subsystem.
-> PSE controllers can set priorities to decide which ports should be
-> turned off in case of special events like over-current.
+Welcome to v5, the first non-RFC version of this code! See the changelog
+below for more details on changes between revisions.
 
-First off, great work here.  I've read through the patches in the series an=
-d
-have a pretty good idea of what you're trying to achieve- use the PSE
-controller's idea of "port priority" and expose this to userspace via ethto=
-ol.
+A few important call outs for reviewers:
 
-I think this is probably sufficient but I wanted to share my experience
-supporting a system level PSE power budget with PSE port priorities across
-different PSE controllers through the same userspace interface such that
-userspace doesn't know or care about the underlying PSE controller.
+  1. This revision seems to work (see below for a full walk through). I
+     think this is the behavior we talked about, but please let me know if
+     a use case is missing.
+  
+  2. Re a previous point made by Stanislav regarding "taking over a NAPI
+     ID" when the channel count changes: mlx5 seems to call napi_disable
+     followed by netif_napi_del for the old queues and then calls
+     napi_enable for the new ones. In this RFC, the NAPI ID generation is
+     deferred to napi_enable. This means we won't end up with two of the
+     same NAPI IDs added to the hash at the same time.
 
-Out of the three PSE controllers I'm aware of (Microchip's PD692x0, TI's
-TPS2388x, and LTC's LT4266), the PD692x0 definitely has the most advanced
-configuration, supporting concepts like a system (well, manager) level budg=
-et
-and powering off lower priority ports in the event that the port power
-consumption is greater than the system budget.
+     Can we assume all drivers will napi_disable the old queues before
+     napi_enable the new ones?
+       - If yes: we might not need to worry about a NAPI ID takeover
+       	 function.
+       - If no: I'll need to make a change so that the NAPI ID generation
+       	 is deferred only for drivers which have opted into the config
+       	 space via calls to netif_napi_add_config
 
-When we experimented with this feature in our routers, we found it to be us=
-ing
-the dynamic power consumed by a particular port- literally, the summation o=
-f
-port current * port voltage across all the ports.  While this behavior
-technically saves the system from resetting or worse, it causes a bit of a
-problem with lower priority ports getting powered off depending on the beha=
-vior
-(power consumption) of unrelated devices. =20
+  3. I made the decision to remove the WARN_ON_ONCE that (I think?)
+     Jakub previously suggested in alloc_netdev_mqs (WARN_ON_ONCE(txqs
+     != rxqs);) because this was triggering on every kernel boot with my
+     mlx5 NIC.
 
-As an example, let's say we've got 4 devices, all powered, and we're close =
-to
-the power budget.  One of the devices starts consuming more power (perhaps =
-it's
-modem just powered on), but not more than it's class limit.  Say this devic=
-e
-consumes enough power to exceed the configured power budget, causing the lo=
-west
-priority device to be powered off.  This is the documented and intended
-behavior of the PD692x0 chipset, but causes an unpleasant user experience
-because it's not really clear why some device was powered down all the sudd=
-en.
-Was it because someone unplugged it? Or because the modem on the high prior=
-ity
-device turned on?  Or maybe that device had an overcurrent?  It'd be imposs=
-ible
-to tell, and even worse, by the time someone is able to physically look at =
-the
-switch, the low priority device might be back online (perhaps the modem on
-the high priority device powered off).
+  4. I left the "maxqs = max(txqs, rxqs);" in alloc_netdev_mqs despite
+     thinking this is a bit strange. I think it's strange that we might
+     be short some number of NAPI configs, but it seems like most people
+     are in favor of this approach, so I've left it. 
 
-This behavior is unique to the PD692x0- I'm much less familiar with the
-TPS2388x's idea of port priority but it is very different from the PD692x0.
-Frankly the behavior of the OSS pin is confusing and since we don't use the=
- PSE
-controllers' idea of port priority, it was safe to ignore it. Finally, the
-LTC4266 has a "masked shutdown" ability where a predetermined set of ports =
-are
-shutdown when a specific pin (MSD) is driven low.  Like the TPS2388x's OSS =
-pin,
-We ignore this feature on the LTC4266.
+I'd appreciate thoughts from reviewers on the above items, if at all
+possible.
 
-If the end-goal here is to have a device-independent idea of "port priority=
-" I
-think we need to add a level of indirection between the port priority conce=
-pt and the
-actual PSE hardware.  The indirection would enable a system with multiple
-(possibly heterogeneous even) PSE chips to have a unified idea of port
-priority.  The way we've implemented this in our routers is by putting the =
-PSE
-controllers in "semi-auto" mode, where they continually detect and classify=
- PDs
-(powered device), but do not power them until instructed to do so.  The
-mechanism that decides to power a particular port or not (for lack of a bet=
-ter
-term, "budgeting logic") uses the available system power budget (configured
-from userspace), the relative port priorities (also configured from userspa=
-ce)
-and the class of a detected PD.  The classification result is used to deter=
-mine
-the _maximum_ power a particular PD might draw, and that is the value that =
-is
-subtracted from the power budget.
+Now, on to the implementation.
 
-Using the PD's classification and then allocating it the maximum power for =
-that
-class enables a non-technical installer to plug in all the PDs at the switc=
-h,
-and observe if all the PDs are powered (or not).  But the important part is
-(unless the port priorities or power budget are changed from userspace) the
-devices that are powered won't change due to dynamic power consumption of t=
-he
-other devices.
+Firstly, this implementation moves certain settings to napi_struct so that
+they are "per-NAPI", while taking care to respect existing sysfs
+parameters which are interface wide and affect all NAPIs:
+  - NAPI ID
+  - gro_flush_timeout
+  - defer_hard_irqs
 
-I'm not sure what the right path is for the kernel, and I'm not sure how th=
-is
-would look with the regulator integration, nor am I sure what the userspace=
- API
-should look like (we used sysfs, but that's probably not ideal for upstream=
-).
-It's also not clear how much of the budgeting logic should be in the kernel=
-, if
-any. Despite that, hopefully sharing our experience is insightful and/or
-helpful.  If not, feel free to ignore it.  In any case, you've got my
+Furthermore:
+   - NAPI ID generation and addition to the hash is now deferred to
+     napi_enable, instead of during netif_napi_add
+   - NAPIs are removed from the hash during napi_disable, instead of
+     netif_napi_del.
+   - An array of "struct napi_config" is allocated in net_device.
 
-Reviewed-by: Kyle Swenson <kyle.swenson@est.tech>
+IMPORTANT: The above changes affect all network drivers.
 
-for all the patches in the series.
+Optionally, drivers may opt-in to using their config space by calling
+netif_napi_add_config instead of netif_napi_add.
+
+If a driver does this, the NAPI being added is linked with an allocated
+"struct napi_config" and the per-NAPI settings (including NAPI ID) are
+persisted even as hardware queues are destroyed and recreated.
+
+To help illustrate how this would end up working, I've added patches for
+3 drivers, of which I have access to only 1:
+  - mlx5 which is the basis of the examples below
+  - mlx4 which has TX only NAPIs, just to highlight that case. I have
+    only compile tested this patch; I don't have this hardware.
+  - bnxt which I have only compiled tested. I don't have this
+    hardware.
+
+NOTE: I only tested this on mlx5; I have no access to the other hardware
+for which I provided patches. Hopefully other folks can help test :)
+
+Here's how it works when I test it on my mlx5 system:
+
+# start with 2 queues
+
+$ ethtool -l eth4 | grep Combined | tail -1
+Combined:       2
+
+First, output the current NAPI settings:
+
+$ ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/netdev.yaml \
+                         --dump napi-get --json='{"ifindex": 7}'
+[{'defer-hard-irqs': 0,
+  'gro-flush-timeout': 0,
+  'id': 345,
+  'ifindex': 7,
+  'irq': 527},
+ {'defer-hard-irqs': 0,
+  'gro-flush-timeout': 0,
+  'id': 344,
+  'ifindex': 7,
+  'irq': 327}]
+
+Now, set the global sysfs parameters:
+
+$ sudo bash -c 'echo 20000 >/sys/class/net/eth4/gro_flush_timeout'
+$ sudo bash -c 'echo 100 >/sys/class/net/eth4/napi_defer_hard_irqs'
+
+Output current NAPI settings again:
+
+$ ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/netdev.yaml \
+                         --dump napi-get --json='{"ifindex": 7}'
+[{'defer-hard-irqs': 100,
+  'gro-flush-timeout': 20000,
+  'id': 345,
+  'ifindex': 7,
+  'irq': 527},
+ {'defer-hard-irqs': 100,
+  'gro-flush-timeout': 20000,
+  'id': 344,
+  'ifindex': 7,
+  'irq': 327}]
+
+Now set NAPI ID 345, via its NAPI ID to specific values:
+
+$ sudo ./tools/net/ynl/cli.py \
+          --spec Documentation/netlink/specs/netdev.yaml \
+          --do napi-set \
+          --json='{"id": 345,
+                   "defer-hard-irqs": 111,
+                   "gro-flush-timeout": 11111}'
+None
+
+Now output current NAPI settings again to ensure only NAPI ID 345
+changed:
+
+$ ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/netdev.yaml \
+                         --dump napi-get --json='{"ifindex": 7}'
+
+[{'defer-hard-irqs': 111,
+  'gro-flush-timeout': 11111,
+  'id': 345,
+  'ifindex': 7,
+  'irq': 527},
+ {'defer-hard-irqs': 100,
+  'gro-flush-timeout': 20000,
+  'id': 344,
+  'ifindex': 7,
+  'irq': 327}]
+
+Now, increase gro-flush-timeout only:
+
+$ sudo ./tools/net/ynl/cli.py \
+       --spec Documentation/netlink/specs/netdev.yaml \
+       --do napi-set --json='{"id": 345,
+                              "gro-flush-timeout": 44444}'
+None
+
+Now output the current NAPI settings once more:
+
+$ ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/netdev.yaml \
+                         --dump napi-get --json='{"ifindex": 7}'
+[{'defer-hard-irqs': 111,
+  'gro-flush-timeout': 44444,
+  'id': 345,
+  'ifindex': 7,
+  'irq': 527},
+ {'defer-hard-irqs': 100,
+  'gro-flush-timeout': 20000,
+  'id': 344,
+  'ifindex': 7,
+  'irq': 327}]
+
+Now set NAPI ID 345 to have gro_flush_timeout of 0:
+
+$ sudo ./tools/net/ynl/cli.py \
+       --spec Documentation/netlink/specs/netdev.yaml \
+       --do napi-set --json='{"id": 345,
+                              "gro-flush-timeout": 0}'
+None
+
+Check that NAPI ID 345 has a value of 0:
+
+$ ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/netdev.yaml \
+                         --dump napi-get --json='{"ifindex": 7}'
+
+[{'defer-hard-irqs': 111,
+  'gro-flush-timeout': 0,
+  'id': 345,
+  'ifindex': 7,
+  'irq': 527},
+ {'defer-hard-irqs': 100,
+  'gro-flush-timeout': 20000,
+  'id': 344,
+  'ifindex': 7,
+  'irq': 327}]
+
+Change the queue count, ensuring that NAPI ID 345 retains its settings:
+
+$ sudo ethtool -L eth4 combined 4
+
+Check that the new queues have the system wide settings but that NAPI ID
+345 remains unchanged:
+
+$ ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/netdev.yaml \
+                         --dump napi-get --json='{"ifindex": 7}'
+
+[{'defer-hard-irqs': 100,
+  'gro-flush-timeout': 20000,
+  'id': 347,
+  'ifindex': 7,
+  'irq': 529},
+ {'defer-hard-irqs': 100,
+  'gro-flush-timeout': 20000,
+  'id': 346,
+  'ifindex': 7,
+  'irq': 528},
+ {'defer-hard-irqs': 111,
+  'gro-flush-timeout': 0,
+  'id': 345,
+  'ifindex': 7,
+  'irq': 527},
+ {'defer-hard-irqs': 100,
+  'gro-flush-timeout': 20000,
+  'id': 344,
+  'ifindex': 7,
+  'irq': 327}]
+
+Now reduce the queue count below where NAPI ID 345 is indexed:
+
+$ sudo ethtool -L eth4 combined 1
+
+Check the output:
+
+$ ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/netdev.yaml \
+                         --dump napi-get --json='{"ifindex": 7}'
+[{'defer-hard-irqs': 100,
+  'gro-flush-timeout': 20000,
+  'id': 344,
+  'ifindex': 7,
+  'irq': 327}]
+
+Re-increase the queue count to ensure NAPI ID 345 is re-assigned the same
+values:
+
+$ sudo ethtool -L eth4 combined 2
+
+$ ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/netdev.yaml \
+                         --dump napi-get --json='{"ifindex": 7}'
+[{'defer-hard-irqs': 111,
+  'gro-flush-timeout': 0,
+  'id': 345,
+  'ifindex': 7,
+  'irq': 527},
+ {'defer-hard-irqs': 100,
+  'gro-flush-timeout': 20000,
+  'id': 344,
+  'ifindex': 7,
+  'irq': 327}]
+
+Create new queues to ensure the sysfs globals are used for the new NAPIs
+but that NAPI ID 345 is unchanged:
+
+$ sudo ethtool -L eth4 combined 8
+
+$ ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/netdev.yaml \
+                         --dump napi-get --json='{"ifindex": 7}'
+[...]
+ {'defer-hard-irqs': 100,
+  'gro-flush-timeout': 20000,
+  'id': 346,
+  'ifindex': 7,
+  'irq': 528},
+ {'defer-hard-irqs': 111,
+  'gro-flush-timeout': 0,
+  'id': 345,
+  'ifindex': 7,
+  'irq': 527},
+ {'defer-hard-irqs': 100,
+  'gro-flush-timeout': 20000,
+  'id': 344,
+  'ifindex': 7,
+  'irq': 327}]
+
+Last, but not least, let's try writing the sysfs parameters to ensure
+all NAPIs are rewritten:
+
+$ sudo bash -c 'echo 33333 >/sys/class/net/eth4/gro_flush_timeout'
+$ sudo bash -c 'echo 222 >/sys/class/net/eth4/napi_defer_hard_irqs'
+
+Check that worked:
+
+$ ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/netdev.yaml \
+                         --dump napi-get --json='{"ifindex": 7}'
+
+[...]
+ {'defer-hard-irqs': 222,
+  'gro-flush-timeout': 33333,
+  'id': 346,
+  'ifindex': 7,
+  'irq': 528},
+ {'defer-hard-irqs': 222,
+  'gro-flush-timeout': 33333,
+  'id': 345,
+  'ifindex': 7,
+  'irq': 527},
+ {'defer-hard-irqs': 222,
+  'gro-flush-timeout': 33333,
+  'id': 344,
+  'ifindex': 7,
+  'irq': 327}]
 
 Thanks,
-Kyle Swenson=
+Joe
+
+v5:
+  - Converted from an RFC to a PATCH
+  - Moved defer_hard_irqs above control-fields comment in napi_struct in
+    patch 1
+  - Moved gro_flush_timeout above control-fields comment in napi_struct in
+    patch 3
+  - Removed unnecessary idpf changes from patch 3
+  - Removed unnecessary kdoc in patch 5 for a parameter removed in an
+    earlier revision
+  - Removed unnecessary NULL check in patch 5
+  - Used tooling to autogenerate code for patch 6, which fixed the type and
+    range of NETDEV_A_NAPI_DEFER_HARD_IRQ.
+
+rfcv4:
+  - Updated commit messages of most patches
+  - Renamed netif_napi_add_storage to netif_napi_add_config in patch 5
+  - Added a NULL check in netdev_set_defer_hard_irqs and
+    netdev_set_gro_flush_timeout for netdev->napi_config in patch 5
+  - Removed the WARN_ON_ONCE suggested in an earlier revision
+    in alloc_netdev_mqs from patch 5; it triggers every time on my mlx5
+    machine at boot and needlessly spams the log
+  - Added a locking adjustment suggested by Stanislav to patch 6 to
+    protect napi_id in patch 5
+  - Removed napi_hash_del from netif_napi_del in patch 5. netif_napi_del
+    calls __netif_napi_del which itself calls napi_hash_del. The
+    original code thus resulted in two napi_hash_del calls, which is
+    incorrect.
+  - Removed the napi_hash_add from netif_napi_add_weight in patch 5.
+    NAPIs are added to the hash when napi_enable is called, instead.
+  - Moved the napi_restore_config to the top of napi_enable in patch 5.
+  - Simplified the logic in __netif_napi_del and removed napi_hash_del.
+    NAPIs are removed in napi_disable.
+  - Fixed merge conflicts in patch 6 so it applies cleanly
+
+rfcv3:
+  - Renamed napi_storage to napi_config
+  - Reordered patches
+  - Added defer_hard_irqs and gro_flush_timeout to napi_struct
+  - Attempt to save and restore settings on napi_disable/napi_enable
+  - Removed weight as a parameter to netif_napi_add_storage
+  - Updated driver patches to no longer pass in weight
+
+rfcv2:
+  - Almost total rewrite from v1
+
+
+Joe Damato (9):
+  net: napi: Make napi_defer_hard_irqs per-NAPI
+  netdev-genl: Dump napi_defer_hard_irqs
+  net: napi: Make gro_flush_timeout per-NAPI
+  netdev-genl: Dump gro_flush_timeout
+  net: napi: Add napi_config
+  netdev-genl: Support setting per-NAPI config values
+  bnxt: Add support for persistent NAPI config
+  mlx5: Add support for persistent NAPI config
+  mlx4: Add support for persistent NAPI config to RX CQs
+
+ Documentation/netlink/specs/netdev.yaml       | 25 +++++
+ .../networking/net_cachelines/net_device.rst  |  5 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt.c     |  3 +-
+ drivers/net/ethernet/mellanox/mlx4/en_cq.c    |  3 +-
+ .../net/ethernet/mellanox/mlx5/core/en_main.c |  2 +-
+ include/linux/netdevice.h                     | 42 +++++++-
+ include/uapi/linux/netdev.h                   |  3 +
+ net/core/dev.c                                | 95 ++++++++++++++++---
+ net/core/dev.h                                | 88 +++++++++++++++++
+ net/core/net-sysfs.c                          |  4 +-
+ net/core/netdev-genl-gen.c                    | 18 ++++
+ net/core/netdev-genl-gen.h                    |  1 +
+ net/core/netdev-genl.c                        | 57 +++++++++++
+ tools/include/uapi/linux/netdev.h             |  3 +
+ 14 files changed, 322 insertions(+), 27 deletions(-)
+
+-- 
+2.34.1
+
