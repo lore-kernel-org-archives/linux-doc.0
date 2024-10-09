@@ -1,16 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0D015B153
-	for <linux-doc@vger.kernel.org>; Wed,  9 Oct 2024 05:02:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1BE12B17C
+	for <linux-doc@vger.kernel.org>; Wed,  9 Oct 2024 05:04:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728450174; cv=none; b=HX0nJd+4335hzVu2O2wfFsSIJBimbl+sn6M9TDrMpnhwwYurMNgFnLA/k9QXlrmK3+c9/i6DkOwFpflKVGuAVlGYe6YEi21VyRs0CCz23B48WAINOKbjlmPEX0SP+hecZTPSEO4T+EcZhq2VGPPdxYlORBLuBCzM16+ocZTFqaY=
+	t=1728450266; cv=none; b=XpuUi290hCPZ2uxvILAHJQGprqLj02+Q5rQYqGT2Ec0DJ6SHBkZdjqJIiCEw19dCN38WSJ4YWSla2EJguVTfRmv1Gpc4at9gDU0FjZw609QD9KCF9lsj6bzp1segKb8mlcPl9MguooLEjD6FNvVdOOl3N5dGYp8YXOOisepDiOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728450174; c=relaxed/simple;
-	bh=3zu6HelztqsSJpcutStF7/py3ojK0Oc7zj4c4ZU/ixc=;
+	s=arc-20240116; t=1728450266; c=relaxed/simple;
+	bh=Ri3/ptumzcVwvbI6ZlR/CA3zMqzzhBySQ2P+5XK5u7c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=itnQaqGoPZQ7CXEsHJt+cB/tPbMFS/EhzDwxdQN8a92lSvNCgCwEadCd5+Jl3S4Shjb+o9Blu+isng+O25Aj2QsFx6GRJVA+LrjEX8Kiin1LG7V+UXbY0bZg9jOQefzrHKDkAyyqp2xuBai2Ooe8Ox2HWZPFtBon6gh5FvIqOrw=
+	 Content-Type:Content-Disposition:In-Reply-To; b=CN1r+bpnWsdRWF+9EZVAppslq44VaglQ+8kVqfsz6Tese65XBjwe3pGtIkdDPCHsWiK4QMXhYcaSw9s/TeEk1tcf1DPXVx69Eli0trPxCZoRRGjiZsR1fIfQApZq3ZAgVi7Stiv6iaIiHmj/k7yLEU1EW5wX+w3Q2PtcuJ0Aeoo=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -18,17 +18,17 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ore@pengutronix.de>)
-	id 1syOqO-0002A8-7t; Wed, 09 Oct 2024 07:02:40 +0200
+	id 1syOrs-0002Ez-Rj; Wed, 09 Oct 2024 07:04:12 +0200
 Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <ore@pengutronix.de>)
-	id 1syOqM-000Wlx-AB; Wed, 09 Oct 2024 07:02:38 +0200
+	id 1syOrs-000Wm4-Aj; Wed, 09 Oct 2024 07:04:12 +0200
 Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
 	(envelope-from <ore@pengutronix.de>)
-	id 1syOqM-002180-0h;
-	Wed, 09 Oct 2024 07:02:38 +0200
-Date: Wed, 9 Oct 2024 07:02:38 +0200
+	id 1syOrs-00218S-0k;
+	Wed, 09 Oct 2024 07:04:12 +0200
+Date: Wed, 9 Oct 2024 07:04:12 +0200
 From: Oleksij Rempel <o.rempel@pengutronix.de>
 To: Kory Maincent <kory.maincent@bootlin.com>
 Cc: "David S. Miller" <davem@davemloft.net>,
@@ -41,11 +41,11 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
 	Dent Project <dentproject@linuxfoundation.org>,
 	kernel@pengutronix.de
-Subject: Re: [PATCH net-next 04/12] net: pse-pd: tps23881: Add support for
- power limit and measurement features
-Message-ID: <ZwYOboTdMppaZVmX@pengutronix.de>
+Subject: Re: [PATCH net-next 05/12] net: pse-pd: Add support for getting and
+ setting port priority
+Message-ID: <ZwYOzLCrneaS5wKL@pengutronix.de>
 References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
- <20241002-feature_poe_port_prio-v1-4-787054f74ed5@bootlin.com>
+ <20241002-feature_poe_port_prio-v1-5-787054f74ed5@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,7 +54,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241002-feature_poe_port_prio-v1-4-787054f74ed5@bootlin.com>
+In-Reply-To: <20241002-feature_poe_port_prio-v1-5-787054f74ed5@bootlin.com>
 X-Sent-From: Pengutronix Hildesheim
 X-URL: http://www.pengutronix.de/
 X-Accept-Language: de,en
@@ -64,45 +64,18 @@ X-SA-Exim-Mail-From: ore@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Wed, Oct 02, 2024 at 06:28:00PM +0200, Kory Maincent wrote:
+On Wed, Oct 02, 2024 at 06:28:01PM +0200, Kory Maincent wrote:
 > From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 > 
-> Expand PSE callbacks to support the newly introduced
-> pi_get/set_current_limit() and pi_get_voltage() functions. These callbacks
-> allow for power limit configuration in the TPS23881 controller.
+> This patch introduces the ability to configure the PSE PI port priority.
+> Port priority is utilized by PSE controllers to determine which ports to
+> turn off first in scenarios such as power budget exceedance.
 > 
-> Additionally, the patch includes the detected class, the current power
-> delivered and the power limit ranges in the status returned, providing more
-> comprehensive PoE status reporting.
+> The pis_prio_max value is used to define the maximum priority level
+> supported by the controller. Both the current priority and the maximum
+> priority are exposed to the user through the pse_ethtool_get_status call.
 > 
 > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
-
-> +static int tps23881_pi_get_class(struct tps23881_priv *priv, int id)
-> +{
-....
-> +	if (chan < 4)
-> +		class = ret >> 4;
-> +	else
-> +		class = ret >> 12;
-
-....
-> +tps23881_pi_set_2p_pw_limit(struct tps23881_priv *priv, u8 chan, u8 pol)
-> +{
-....
-> +	reg = TPS23881_REG_2PAIR_POL1 + (chan % 4);
-> +	ret = i2c_smbus_read_word_data(client, reg);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	if (chan < 4)
-> +		val = (ret & 0xff00) | pol;
-> +	else
-> +		val = (ret & 0xff) | (pol << 8);
-
-This is a common pattern in this driver, we read and write two registers
-in one run and then calculate bit offset for the channel, can you please
-move it in to separate function. This can be done in a separate patch if
-you like.
 
 Acked-by: Oleksij Rempel <o.rempel@pengutronix.de>
 
