@@ -1,35 +1,35 @@
 Received: from smtpcmd01-g.aruba.it (smtpcmd01-g.aruba.it [62.149.158.217])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFFBB1922F9
-	for <linux-doc@vger.kernel.org>; Wed,  9 Oct 2024 08:51:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8A5B192598
+	for <linux-doc@vger.kernel.org>; Wed,  9 Oct 2024 08:51:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.149.158.217
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728463889; cv=none; b=EG4TUM7PaR6JNDJpT4DVcemJpUrgjbcGJQvbNtwCC68c1xNAlG98lJTPF6vH3deARasyOilyauU+8ftHbitYZCxkzW+KYus1k5woF2OfDnw934aqjOp9SBw9BvkALxxfPZ5DWgZQjYocSXAh+kd5mUxdV9h6gaeNzH7D9XzMQJs=
+	t=1728463890; cv=none; b=E7Yr9/bplqdBY3C8irt9y/wSDepZEmiNeKcX8bL+/P8cCop5F/RkZRqelcvgpQn0SUAsplq48z5BFle9TWFeup3hpriHHWGUR5CQdNCVh6+q3EpqtfYMXz0Isu8Eljk7waOE13Z39ZKgOdJJdYD4dzN1N7SEdV0EV2Ll+nRCzN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728463889; c=relaxed/simple;
-	bh=FV7e7mTgWHw2Z3NtjjRX2MBIrZt/rRVowc+kGDl6BTw=;
+	s=arc-20240116; t=1728463890; c=relaxed/simple;
+	bh=F7SbP0Gkpb6hTGIKeHIh3SLW4Za0d2+J9HFZIgm6ABM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KpN2diRlLJfexPK/iyIjo3l4qLZdgvLEqmZh+XXKA5gRU5GwzkttQDo/rrbWBjhnuvss+qPJoXNupPBFhSDSSZzCE+PMNzC7Qnlye7+ks+g6Io0pPv+d0kEuxAHfB96Xu+DlYlZNqcezCndS9RcAU1tTVFl44o8jCNX+HIhw3Ac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com; spf=pass smtp.mailfrom=enneenne.com; dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b=Uvc7Qzp3; arc=none smtp.client-ip=62.149.158.217
+	 In-Reply-To:Content-Type; b=hPhVUVev8zungnAlvmfdyweSuAD9X/y2Hn+CEeZPeoyQE0ijAKTJgqpKn9yRKfq5/0kNa6wTM3Jzj3ufqzkN1P31G2qWrodwI2nbD+vr41TkOqOJiV3SHbMZaPA02FyUP1elPNcycrulDLziWviK4gf77lX+iNpzQE6dTLnI8Oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com; spf=pass smtp.mailfrom=enneenne.com; dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b=VIyhovJL; arc=none smtp.client-ip=62.149.158.217
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enneenne.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b="Uvc7Qzp3"
+	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b="VIyhovJL"
 Received: from [192.168.1.58] ([79.0.204.227])
 	by Aruba Outgoing Smtp  with ESMTPSA
-	id ySMgsnKqdwy3rySMpsrqeB; Wed, 09 Oct 2024 10:48:24 +0200
+	id ySMgsnKqdwy3rySMksrqam; Wed, 09 Oct 2024 10:48:18 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
-	t=1728463704; bh=FV7e7mTgWHw2Z3NtjjRX2MBIrZt/rRVowc+kGDl6BTw=;
+	t=1728463698; bh=F7SbP0Gkpb6hTGIKeHIh3SLW4Za0d2+J9HFZIgm6ABM=;
 	h=Date:MIME-Version:Subject:To:From:Content-Type;
-	b=Uvc7Qzp3FEYqEqD/rvjmJO5Xey0Exv95Xx0hpAoe1d8Xc1nrOyYNy3B0Qka4A9xWF
-	 VTk/MIl9zPj5Ft2zQMZtL65RVZ8xU2T9RNpLtTP79TtFM+/WvR03LFjwbMEUEn5P6r
-	 HKrELBR7gCH6/mieShNQciQOgiUh+s6tI1nGuH6uQaBIrD/G0ktLl1FEWYGoZPa+0V
-	 ItmCRAv4idtsjq48Ks8M6gs75NptG97JlB7i2XVvxsBZKsAZhzT5PY1H2zSkDJTowQ
-	 pyaro9wn0seAUuwhSvHUIeZ6+v5cEhiigCfFCKR3CCZpHRUV5gYhugdSsmP1IghcI5
-	 VwuygQfR4l9ug==
-Message-ID: <fcb70129-f6f0-459f-b099-a2ca3a569095@enneenne.com>
-Date: Wed, 9 Oct 2024 10:48:23 +0200
+	b=VIyhovJLV/7MPr3nl3pR1YFKS9cL5CMzNfArhsVFMeZIIByfwwbsUisa4+vyHUzwa
+	 +BDteqyhTw1yt/xLKUs1fl/w1BdkP3/WEti8/TH4n2rcRSl0nl42nIiva31p2FAtos
+	 MRCP3NRnefn5FnObIC/QKjw0ckNLAPDsTTQWqMkWGhXHtWRKfagviqaUdHn4zjPMXu
+	 KDsb/TGqLyh1iI5Xb0gn1j24Dv8sVpwjIJWOUpzW+r+GS2VMclBwNoajuwQ4vJ6s2C
+	 zPm6l3IjdZ6aOwLRLI2rB3M9jZujAe5hGSxXlT9vQzXJgEJd/0/q1gRV9swEFAg4VB
+	 uFng3JeCk3ctA==
+Message-ID: <fcb082fd-2572-4782-b9e2-69cdbc22714d@enneenne.com>
+Date: Wed, 9 Oct 2024 10:48:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,7 +37,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 3/3] Documentation ABI: add PPS generators documentaion
+Subject: Re: [RFC 2/3] Documentation pps.rst: add PPS generators documentation
 To: Greg KH <greg@kroah.com>
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
@@ -49,96 +49,35 @@ Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  Zage David <david.zage@intel.com>,
  Chinnadurai Srinivasan <srinivasan.chinnadurai@intel.com>
 References: <20241008135033.3171915-1-giometti@enneenne.com>
- <20241008135033.3171915-4-giometti@enneenne.com>
- <2024100819-wildlife-counting-6c63@gregkh>
+ <20241008135033.3171915-3-giometti@enneenne.com>
+ <2024100850-stunned-curve-2ba4@gregkh>
 From: Rodolfo Giometti <giometti@enneenne.com>
 Content-Language: en-US
-In-Reply-To: <2024100819-wildlife-counting-6c63@gregkh>
+In-Reply-To: <2024100850-stunned-curve-2ba4@gregkh>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfMlxE6mUpguHLy4ZvIxzQPIAvV3oB91YJn+BHky68AOsVpS7bwixEkOVJrpjeOGo9ZFdHSSbs2c9eBLq1tNThaef4RirLZgvb5mqiW8S59WeVTqYM3GX
- V5VJ8obslYmIOAePh1NzhNfg8CpEmF8Plub2jPSti0jjP5816AnTohPZkhR2HugQ9PcPJ71cK0hAcqKtILQytYh+w06cv8HfrxYr82PEstZR4j9q13mXPakW
- uEel2a+sCfIVKVH+Hb6VobAA06voeej0RiAaOX1XFWRsMLmgmB/PyIpkSj1sEoyQbOMsWWOCvtDm/UspPeUQoUFYVsQm3W3zfQrGXKQyZJ9h7t4S7w1E8POS
- l9+7L/vCX4K6wa4qBJJpSVS/3dCSXHs821nsGtsKplB0Lci1C78cAICSQFkfOwZRdl5wCUYLhRyZI9kFg8XC/tN1LGczEuZXeFr2qqm3CiinSFDH5y6qqhCj
- Tijj+jk29qEyvYj5bxxLe0aNzWdLz0XEt1iOQ89CiZZroj+/hQKuB0NbpggfGas4O365COlCNdddUNaQmuaM/vuL9IML4mEd72UVxxVJwc2gEGcxpON6Fb57
- OEobIMtrjztEFfSbR3gov9ZAptzs31WcBAiSpUmmWGuleRc7TlHu8QcZceVSOo0sZQ6BBAxkiGaammCtLXNNIX0k
+X-CMAE-Envelope: MS4xfEwbNNZ2dn1aV8c8238Lr98QHpTvWZQvQB+B2HayfARdf+BloeeCvJcZB7SheO8LO+cDraYWtRIouBMeOPiam4Lk6FEHrglFfrUNWPnN5GCJLYN4vi6M
+ 89ToOswrdmZE9I0c+6PAgUe3+CpLD9cJ2HytqhNVTCKtG6d97X2gLuJ62ifSqIts/tLf/9FlMXTdnjpWDq4V6GxeKkv1klB/oV63ZazSt8Bee3gC//s8HSix
+ H132MI5FD2AtVPUWpZxsLbYy3V9sSfg8PoNBn2CY3rSHkVhk/PUk8BlbqDulBSt6CrzbO4CuJQdfYwYT0SOH7honx3rl6bTRBSP7vVhHHRR9ZnjTCj3t88As
+ w75GKyUraG9iuvN/R7fgavJXvW8Uh+Sq0rmw6G2KHqas7CbuymjroiNnowGp73H4YHoPauo1O3UZpLq7wzAmcfZJDc3gDkCwWGVX26fV/1pmJKoPbvjjuqOn
+ nHw6bFlWXNXwd+lMXb9IPg6pMEA+Ae/RVWSfaoqREe7sQtWvDN64+96JWrDi07vl5PDVfzVT1ObYZisJ+4uL2csvj9Nz/t6XOHfzowqVXuhxREYl0Q73E31O
+ JO4F8dwlE5fDObLzQBuzxSNDyW0yX1CaP5qtyj/hzaoPCbfeqOUkQ6E7A9GFp/vZK/ufuJGWHAi9JZ5vHf8bxhFN
 
 On 08/10/24 17:43, Greg KH wrote:
-> On Tue, Oct 08, 2024 at 03:50:33PM +0200, Rodolfo Giometti wrote:
->> This patch adds the documentation for the ABI between the Linux kernel
->> and userspace regarding the PPS generators.
+> On Tue, Oct 08, 2024 at 03:50:32PM +0200, Rodolfo Giometti wrote:
+>> This patch adds some examples about how to register a new PPS
+>> generator in the system, and how to manage it.
 >>
 >> Signed-off-by: Rodolfo Giometti <giometti@enneenne.com>
 >> ---
->>   Documentation/ABI/testing/sysfs-pps-gen | 44 +++++++++++++++++++++++++
->>   1 file changed, 44 insertions(+)
->>   create mode 100644 Documentation/ABI/testing/sysfs-pps-gen
->>
->> diff --git a/Documentation/ABI/testing/sysfs-pps-gen b/Documentation/ABI/testing/sysfs-pps-gen
->> new file mode 100644
->> index 000000000000..9ad066cb3ce5
->> --- /dev/null
->> +++ b/Documentation/ABI/testing/sysfs-pps-gen
->> @@ -0,0 +1,44 @@
->> +What:		/sys/class/pps-gen/
->> +Date:		October 2024
->> +Contact:	Rodolfo Giometti <giometti@enneenne.com>
->> +Description:
->> +		The /sys/class/pps-gen/ directory will contain files and
->> +		directories that will provide a unified interface to
->> +		the PPS generators.
->> +
->> +What:		/sys/class/pps-gen/pps-genX/
->> +Date:		October 2024
->> +Contact:	Rodolfo Giometti <giometti@enneenne.com>
->> +Description:
->> +		The /sys/class/pps-gen/pps-genX/ directory is related to X-th
->> +		PPS generator into the system. Each directory will
->> +		contain files to manage and control its PPS generator.
->> +
->> +What:		/sys/class/pps-gen/pps-genX/enable
->> +Date:		October 2024
->> +Contact:	Rodolfo Giometti <giometti@enneenne.com>
->> +Description:
->> +		This write-only file enables or disables generation of the
->> +		PPS signal.
->> +
->> +What:		/sys/class/pps-gen/pps-genX/name
->> +Date:		October 2024
->> +Contact:	Rodolfo Giometti <giometti@enneenne.com>
->> +Description:
->> +		This read-only file reports the name of the X-th generator.
+>>   Documentation/driver-api/pps.rst | 40 ++++++++++++++++++++++++++++++++
 > 
-> Again, why a name?  What is that for?
+> All of this can go into the .c file and autogenerated there, no need for
+> a separate .rst file that will quickly get out-of-date.
 
-This can be useful in order to distinguish between different PPS generators in 
-the system.
-
-For example, the PARPORT generator is not very precise, and userspace 
-applications should be able to know which generator corresponds to the device 
-/dev/pps-gen0 or /dev/pps-gen1, etc.
-
-> 
->> +
->> +What:		/sys/class/pps-gen/pps-genX/system
->> +Date:		October 2024
->> +Contact:	Rodolfo Giometti <giometti@enneenne.com>
->> +Description:
->> +		This read-only file returns "1" if the generator takes the
->> +		timing from the system clock, while it returns "0" if not
->> +		(i.e. from a peripheral device clock).
->> +
->> +What:		/sys/class/pps-gen/pps-genX/time
->> +Date:		October 2024
->> +Contact:	Rodolfo Giometti <giometti@enneenne.com>
->> +Description:
->> +		This read-only file contains the current time stored into the
->> +		generator clock as two integers representing the current time
->> +		seconds and nanoseconds.
-> 
-> Trailing whitespace, please always run checkpatch.pl.
-
-Fixed.
+I see. I'm going to add proper documentation within .c files. But since some 
+references about PPS generators are also present in this file, I think it would 
+be wise to add some notes about the new interface...
 
 Ciao,
 
