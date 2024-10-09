@@ -1,133 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97EDD191473;
-	Wed,  9 Oct 2024 20:49:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC1B40849;
+	Wed,  9 Oct 2024 20:51:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728506947; cv=none; b=AMQi7SVMrcf+KNrvZoW7l5ukbdxjexC0vmGBtlxp8JYGntGXKRU72l/Z8jn25s1pmexgsrNVWaA5pIMro0D9a588NFpcp+qY7S5e/v+73N2GYzy+EUkhyJfrKBepotRToo8ijBjOQYooDmLcdWDjvQ0DdrBzkAmAWpwt7QqpNMs=
+	t=1728507120; cv=none; b=uE2SFt9s4r8g0XLA1J3H2zUg+9RC69jXsnhhTq2iH2FkI3FrBtSbkdLCt7QcMzy3Qj+08t307FiTOmQY5mWBW4ZMepsWawedCE/jqJbMz5d3+G7LA97/R6jSHDjMkjbBT0kharXCvI2nuBHDTyVA0yf2qmj8nCTByepVF7bDzSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728506947; c=relaxed/simple;
-	bh=OFXVpQgisC9iUKGKv5IwiYtmzwJhlFDr4RbKRl3vukg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=idFqj2QqDMAk3J1S6HW7Bk9lpvbnwKBbI6GA6QF0I+/ILjCYfNitnr/hhaojdBQ9o/uzaUlsIu+B9s3ZKfM1iRzILZHx0xy1mlkDoIgAg7iRjODqfGEBwScJodIEnQO1Zxl09lQg49QK84jjAY/pmu1OW4AN+YweG4cCLai0aJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jwwzqOcs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728507120; c=relaxed/simple;
+	bh=7eEYmkwZOXgG3cVEV4IS3EQLMD0iGOzTcNtfPWmdV6o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bxJrkp8VC00FqZWMxjAFrnKhBVoX0kmYh/w1VxN9/p0jPwMOctW/f3MGW/h8vuh+FMadKt5INQXFuKg8O0SiZnj2bsM7f/QWjMz6jX1muUgizvUBjjj/b1t2gtQrSqcM45DcFUw8ggf6Pc9qzIqGOS7TwaiOOyOz5Q0V9hCbhiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QKYY8/06; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jwwzqOcs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 265F0C4CEC3;
-	Wed,  9 Oct 2024 20:49:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728506947;
-	bh=OFXVpQgisC9iUKGKv5IwiYtmzwJhlFDr4RbKRl3vukg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jwwzqOcsIgLrThOk8MIptc37fnC8WhDVG/Ifwy2LQsuL0Z4HqID9q3xo5GmNvlMWw
-	 eNl92ym/ChcRd1xr8+UyxVIbPr10zOFe2v1P26pHi8j4KqfQyFTCtdCTtFkYDvoNCn
-	 88RqmptFKK8mFSlpJ/NIdqjRbl+D0uHhq6eywBIxXm9OdZjAQYAt25M4X1nG2Vsv2K
-	 iLRcywG3rMMJHxFwy+hAioNwJTf5J1HHiOHMA8h9kEwkXiiZg8fdreE92CqvaoCeOu
-	 aIqJ9lyhQQPATY+NFOgQp6C5iagTBhJ3J8KAevnqDwaRN2s7JeRpB7lhsFX2JgZc0M
-	 kTUhwSaWl5MMA==
-Date: Wed, 9 Oct 2024 13:49:03 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Shuah Khan <shuah@kernel.org>,
-	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Florian Weimer <fweimer@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
-	Ross Burton <ross.burton@arm.com>,
-	David Spickett <david.spickett@arm.com>,
-	Yury Khrustalev <yury.khrustalev@arm.com>,
-	Wilco Dijkstra <wilco.dijkstra@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v13 11/40] arm64/gcs: Provide basic EL2 setup to allow
- GCS usage at EL0 and EL1
-Message-ID: <20241009204903.GA3353168@thelio-3990X>
-References: <20241001-arm64-gcs-v13-0-222b78d87eee@kernel.org>
- <20241001-arm64-gcs-v13-11-222b78d87eee@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QKYY8/06"
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2fac787f39fso2062581fa.2;
+        Wed, 09 Oct 2024 13:51:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728507117; x=1729111917; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7eEYmkwZOXgG3cVEV4IS3EQLMD0iGOzTcNtfPWmdV6o=;
+        b=QKYY8/06XTXHjnrr//gXN6wtN/858To7OyP7z8aIVexry7msl/7xJOIytoXwSa0jxX
+         Y3QXwY21p/i7TPR0HH2EsV32ocNmRf7F4mIgmvBIIKjJJxFeo+q7VYHueLKz0zpeM2LN
+         BaJgDSC28d4aHhZTQBxmLv42WfMzl+zBwdH8qUCpd/Y9yqWxRad+NylGgGpYZoYfeOpe
+         mPbWitsWp+LjSdYJQobdOaUdwFJKMNXVY+zYLlEZXwH801/2nm58RU9Gt6fkBMSkosOQ
+         RTZIkNjLaooB23zKAzABwBNZsT68lMk+rK9AwxegQKjdCzEtbg7iIM+mvFdQTe229VXG
+         M9pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728507117; x=1729111917;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7eEYmkwZOXgG3cVEV4IS3EQLMD0iGOzTcNtfPWmdV6o=;
+        b=nS8RsUim1oIzCWoALe7TnJNtqkyc7axs/zrwR96lWk7vJ1IOLZuhHkSN/Uy1a9eHGC
+         2w14GgxRg5+SyVRUFuH/fzIEntgK5+RVEutI3mxRlNoDGgUCRguKjqHIxT/a1+2MaUSO
+         0kK7nG7d8++jo6mraG5l6nFpXI79UjdwrRWwQOerH3HwZ4N1540N3D4mVevhPLn2ztYU
+         4bc2p+40ZA2hG5fXbtj3oTSLXBPYPOsghtAI5fxGs3jX63hVXCQ0WzWc0x/adm9AhXtE
+         rr1es5NxAdvMCKuzz4Sn+eL/uMd+matygfeb8YqVbF/qFG2GxKT7JESSrjGF3kRPifcC
+         71XA==
+X-Forwarded-Encrypted: i=1; AJvYcCUj4OwvBKVlUT29TIj7N7YzAJ/IbTnKM1aR1wDMY3w+5Icwq3ABjfINBIBFQMbjW0gpaNEYolJk3732cCya@vger.kernel.org, AJvYcCWvNUYhexSngkPh+Thu66bWMGo2J+QjsIdXvxgPdMFsGtIsyImxE0yunI4+1TKT+3ddhcIjYg++hKM=@vger.kernel.org, AJvYcCXKPukSsvQvr1UnFNgqYVODlncxo+b3KTdcbtrvEgOT5C6G/eMNQJIecpKb/cNjvHEkMCeRFYXR37Hsm+hPHQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKe7y465q8n1b16lv4UZDNkDPwWdCVri0wdsuIxoylSU1TfPv0
+	q0YyJ+d5kVll+ifm0JUSP9Y2vWSRoceG7+VdWTQb++wri9LN8K1yv0HLnuVFQrWAKlR7j18TpNz
+	FuP3x14xvAZEpGzC+wBuFDpaQfsg=
+X-Google-Smtp-Source: AGHT+IFPqpXACmSDMOmLZlZLVksWQb1h2WwlpU0ag6spXreUoZYethZyf7RMHEGsspTXj65mCdnvjs7xn/2TiYx9YHo=
+X-Received: by 2002:a05:651c:505:b0:2fa:c519:6e66 with SMTP id
+ 38308e7fff4ca-2fb187d1e4dmr21747781fa.40.1728507116460; Wed, 09 Oct 2024
+ 13:51:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241001-arm64-gcs-v13-11-222b78d87eee@kernel.org>
+References: <20241009193602.41797-2-tamird@gmail.com> <20241009204433.GF21836@frogsfrogsfrogs>
+In-Reply-To: <20241009204433.GF21836@frogsfrogsfrogs>
+From: Tamir Duberstein <tamird@gmail.com>
+Date: Wed, 9 Oct 2024 16:51:19 -0400
+Message-ID: <CAJ-ks9kiAH5MYmMvHxwH9JfBdhLGA_mP+ezmZ8wJOzDY1p7o5w@mail.gmail.com>
+Subject: Re: [PATCH] XArray: minor documentation improvements
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Matthew Wilcox <willy@infradead.org>, Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Mark,
+On Wed, Oct 9, 2024 at 4:44=E2=80=AFPM Darrick J. Wong <djwong@kernel.org> =
+wrote:
+>
+> n00b question: is xa_store(..., NULL) the same as xa_erase?
+>
+> If it is, then should the documentation mention that xa_store(NULL) is
+> the same as xa_erase, and that both of these operations will cause the
+> xarray to forget about that range?
 
-On Tue, Oct 01, 2024 at 11:58:50PM +0100, Mark Brown wrote:
-> There is a control HCRX_EL2.GCSEn which must be set to allow GCS
-> features to take effect at lower ELs and also fine grained traps for GCS
-> usage at EL0 and EL1.  Configure all these to allow GCS usage by EL0 and
-> EL1.
-> 
-> We also initialise GCSCR_EL1 and GCSCRE0_EL1 to ensure that we can
-> execute function call instructions without faulting regardless of the
-> state when the kernel is started.
-> 
-> Reviewed-by: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
-> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
-> Signed-off-by: Mark Brown <broonie@kernel.org>
+They're not quite the same in the presence of `XA_FLAGS_ALLOC`. Per the doc=
+s:
 
-I just bisected a build failure from a failed linker script assertion
-that I see with allmodconfig to this change in -next as commit
-ff5181d8a2a8 ("arm64/gcs: Provide basic EL2 setup to allow GCS usage at
-EL0 and EL1"):
+> Unlike a normal XArray, storing NULL will mark the entry as being in use =
+[...]
 
-  $ make -skj"$(nproc)" ARCH=arm64 CROSS_COMPILE=aarch64-linux- mrproper allmodconfig vmlinux
-  aarch64-linux-ld: HYP init code too big
-  make[4]: *** [scripts/Makefile.vmlinux:34: vmlinux] Error 1
-  ...
-
-I see this with both GCC 14 and clang 19, in case toolchain version
-matters. Bisect log included as well.
-
-Cheers,
-Nathan
-
-# bad: [b6270c3bca987530eafc6a15f9d54ecd0033e0e3] Add linux-next specific files for 20241009
-# good: [75b607fab38d149f232f01eae5e6392b394dd659] Merge tag 'sched_ext-for-6.12-rc2-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/tj/sched_ext
-git bisect start 'b6270c3bca987530eafc6a15f9d54ecd0033e0e3' '75b607fab38d149f232f01eae5e6392b394dd659'
-# bad: [76d36603db22f0f0774c19147b25f5a0bcac64e6] Merge branch 'master' of git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git
-git bisect bad 76d36603db22f0f0774c19147b25f5a0bcac64e6
-# bad: [e90a3e76b4b8080f633a167179f3a76b93077270] Merge branch 'renesas-clk' of git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
-git bisect bad e90a3e76b4b8080f633a167179f3a76b93077270
-# good: [dd60a5d8b8ac2e7dc6810182a6dbc251a746f09e] Merge branch 'perf-tools-next' of git://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git
-git bisect good dd60a5d8b8ac2e7dc6810182a6dbc251a746f09e
-# bad: [fa74fd4773673726bfa8f89d15805d8a1b26f855] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/khilman/linux-omap.git
-git bisect bad fa74fd4773673726bfa8f89d15805d8a1b26f855
-# bad: [a7833d5793f83512f1fb6f36fa7588ea03da6b1b] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git
-git bisect bad a7833d5793f83512f1fb6f36fa7588ea03da6b1b
-# bad: [c9c0de66c9b5f295f09a116f15401465bdd13263] Merge branch 'for-next/core' of git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux
-git bisect bad c9c0de66c9b5f295f09a116f15401465bdd13263
-# bad: [506496bcbb4204c9ff5cfe82b1b90e1f14366992] arm64/gcs: Ensure that new threads have a GCS
-git bisect bad 506496bcbb4204c9ff5cfe82b1b90e1f14366992
-# good: [d0aa2b4351862cc2ce8d97e00c96bffc02ea16af] arm64/gcs: Provide put_user_gcs()
-git bisect good d0aa2b4351862cc2ce8d97e00c96bffc02ea16af
-# bad: [6497b66ba6945f142902c7e8fce86e47016ead1c] arm64/mm: Map pages for guarded control stack
-git bisect bad 6497b66ba6945f142902c7e8fce86e47016ead1c
-# bad: [6487c963083c24ede289d4267ffa60a9db668cd4] arm64/cpufeature: Runtime detection of Guarded Control Stack (GCS)
-git bisect bad 6487c963083c24ede289d4267ffa60a9db668cd4
-# bad: [ff5181d8a2a82c982276a7e035896185c390e856] arm64/gcs: Provide basic EL2 setup to allow GCS usage at EL0 and EL1
-git bisect bad ff5181d8a2a82c982276a7e035896185c390e856
-# first bad commit: [ff5181d8a2a82c982276a7e035896185c390e856] arm64/gcs: Provide basic EL2 setup to allow GCS usage at EL0 and EL1
+See https://docs.kernel.org/core-api/xarray.html#allocating-xarrays.
