@@ -1,124 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4E20194C9E;
-	Wed,  9 Oct 2024 12:44:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B75194C76;
+	Wed,  9 Oct 2024 12:49:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728477895; cv=none; b=nNkcYQG1dtVotYjyx09ErrTNIZBWuCz/OSXkl8VQmLv4eZyZUal3JkHtEZ8Rx9MzVCzdfjv1wxVxQrfOxRwDQVeNjcbQHQ8DHyBxpMk1XQkpPv78rBogrdTIS82aGKG+uwXpPMB0nEqFezSr4aKcvQa8xWyxYfGhQ9zmSk98aaE=
+	t=1728478183; cv=none; b=YzNvdiya+4EGGjBWqyfq1KF6hH96sh+PRFvqdOzVCTmROqP7VcJu+ewPcKR4pIyPUYjZ1L8NYgrgdyZhsU84vuJ3p7pCAef7UPAH1XKFHKPKxPPNTyscGVzXBi2n6FNUjydT5ZtfDnMhB7DJJU2REhaqViKy795K8rFPs2jswCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728477895; c=relaxed/simple;
-	bh=H8kdm68yh4PjNaTTQSqiK9xUlJdE5SEZL8vV5HEB7bo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fMOAL8HzCuB6x8ApoS6ojN3s5W0MqXhpnNJ8UBsN8Xp11XpnWQIUTfUDatu/UCxzUy3zBH8vL6ZNJM4fy3xh5DeoTp4abZUptg2nJv+SkgyDnCvU1936iHrz/2grZSL6KnzeFi+JfoY2eMcSWxLPrqlV3XjM1daTltuspgvPH4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pOg7lJQK; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pOg7lJQK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD9FAC4CECD;
-	Wed,  9 Oct 2024 12:44:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728477894;
-	bh=H8kdm68yh4PjNaTTQSqiK9xUlJdE5SEZL8vV5HEB7bo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pOg7lJQKEW40/bEO415zN2BipiNrVKXBJ2+6AJ0LyDe1eEgZUcOfEVv8Br6oOMYsX
-	 3B/6JS62G0rWlabeOtrYgBLyQbAdzzeEOBiuK92mZAiorw66/nD+XcXkfn9qtL4FT+
-	 KN0EnsQrEhwTOt9UoPhpqWnbGNLYj1QMABF3CPXuSJy4xY/xYkCx1aoW2MlmTqMaKC
-	 hVufeF9v+RTk+47TEFUKqwVFGedBDVag41dYHoysZp6OUcLYY/N10Lq2B53dlDEIVI
-	 nuqkKlzn+w4X44DP8K+IiEw/iYAhfJKl18vtVF42xEUqCB6nuBqh4+H2S/YV8MRfv0
-	 vn0qtNlJb8Vsg==
-Date: Wed, 9 Oct 2024 13:44:51 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Deepak Gupta <debug@rivosinc.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	alistair.francis@wdc.com, richard.henderson@linaro.org,
-	jim.shu@sifive.com, andybnac@gmail.com, kito.cheng@sifive.com,
-	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
-	cleger@rivosinc.com, alexghiti@rivosinc.com,
-	samitolvanen@google.com, rick.p.edgecombe@intel.com
-Subject: Re: [PATCH v6 19/33] riscv: Implements arch agnostic shadow stack
- prctls
-Message-ID: <ZwZ6w1Fu5zt2beRZ@finisterre.sirena.org.uk>
-References: <20241008-v5_user_cfi_series-v6-0-60d9fe073f37@rivosinc.com>
- <20241008-v5_user_cfi_series-v6-19-60d9fe073f37@rivosinc.com>
+	s=arc-20240116; t=1728478183; c=relaxed/simple;
+	bh=BaVk3s2KAvoqDvsifoqUDpefeIGff22P2TiuTCvppqk=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=H16KZ7ut3ss0uf2HGGtq4j99o/gLAcg+l24Uj9kIvK7JNswfiaDFLP+R4Y/Ip+Dw+INVZ+HZzwGqsjTeyTkE8Puw/aGad0dpVGUvKKcv8D8ywbg764PHYxx/iaPtTidvixwkuk16sGGZKpbVLEH+rkJT09nIXR2s6LNJwoNeXLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4XNt4f1v2bz6GD69;
+	Wed,  9 Oct 2024 20:49:22 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 0B01A140133;
+	Wed,  9 Oct 2024 20:49:40 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 9 Oct
+ 2024 14:49:38 +0200
+Date: Wed, 9 Oct 2024 13:49:36 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: <ira.weiny@intel.com>
+CC: Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, "Navneet
+ Singh" <navneet.singh@intel.com>, Jonathan Corbet <corbet@lwn.net>, "Andrew
+ Morton" <akpm@linux-foundation.org>, Dan Williams <dan.j.williams@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>, "Alison Schofield"
+	<alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
+	<linux-btrfs@vger.kernel.org>, <linux-cxl@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <nvdimm@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, "Li, Ming" <ming4.li@intel.com>
+Subject: Re: [PATCH v4 08/28] cxl/mem: Read dynamic capacity configuration
+ from the device
+Message-ID: <20241009134936.00003e0e@Huawei.com>
+In-Reply-To: <20241007-dcd-type2-upstream-v4-8-c261ee6eeded@intel.com>
+References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
+	<20241007-dcd-type2-upstream-v4-8-c261ee6eeded@intel.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5KnydFV4ujRpm3UO"
-Content-Disposition: inline
-In-Reply-To: <20241008-v5_user_cfi_series-v6-19-60d9fe073f37@rivosinc.com>
-X-Cookie: Editing is a rewording activity.
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
+ frapeml500008.china.huawei.com (7.182.85.71)
+
+On Mon, 07 Oct 2024 18:16:14 -0500
+ira.weiny@intel.com wrote:
+
+> From: Navneet Singh <navneet.singh@intel.com>
+> 
+> Devices which optionally support Dynamic Capacity (DC) are configured
+> via mailbox commands.  CXL 3.1 requires the host to issue the Get DC
+> Configuration command in order to properly configure DCDs.  Without the
+> Get DC Configuration command DCD can't be supported.
+> 
+> Implement the DC mailbox commands as specified in CXL 3.1 section
+> 8.2.9.9.9 (opcodes 48XXh) to read and store the DCD configuration
+> information.  Disable DCD if DCD is not supported.  Leverage the Get DC
+> Configuration command supported bit to indicate if DCD support.
+> 
+> Linux has no use for the trailing fields of the Get Dynamic Capacity
+> Configuration Output Payload (Total number of supported extents, number
+> of available extents, total number of supported tags, and number of
+> available tags). Avoid defining those fields to use the more useful
+> dynamic C array.
+> 
+> Cc: "Li, Ming" <ming4.li@intel.com>
+> Signed-off-by: Navneet Singh <navneet.singh@intel.com>
+> Co-developed-by: Ira Weiny <ira.weiny@intel.com>
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+
+Looks fine to me.  Trivial comment inline
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 
---5KnydFV4ujRpm3UO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Tue, Oct 08, 2024 at 03:37:01PM -0700, Deepak Gupta wrote:
+> diff --git a/drivers/cxl/cxlmem.h b/drivers/cxl/cxlmem.h
+> index e8907c403edb..0690b917b1e0 100644
+> --- a/drivers/cxl/cxlmem.h
+> +++ b/drivers/cxl/cxlmem.h
+...
 
-> +int arch_lock_shadow_stack_status(struct task_struct *task,
-> +				unsigned long arg)
-> +{
-> +	/* If shtstk not supported or not enabled on task, nothing to lock here */
-> +	if (!cpu_supports_shadow_stack() ||
-> +		!is_shstk_enabled(task))
-> +		return -EINVAL;
-> +
-> +	set_shstk_lock(task);
-> +
-> +	return 0;
-> +}
+> +/* See CXL 3.1 Table 8-164 get dynamic capacity config Output Payload */
+> +struct cxl_mbox_get_dc_config_out {
+> +	u8 avail_region_count;
+> +	u8 regions_returned;
+> +	u8 rsvd[6];
+> +	/* See CXL 3.1 Table 8-165 */
+> +	struct cxl_dc_region_config {
+> +		__le64 region_base;
+> +		__le64 region_decode_length;
+> +		__le64 region_length;
+> +		__le64 region_block_size;
+> +		__le32 region_dsmad_handle;
+> +		u8 flags;
+> +		u8 rsvd[3];
+> +	} __packed region[];
 
-This will lock the shadow stack settings regardless of the value of arg.
-On arm64 the argument is a mask of bits to block changes to.  While for
-RISC-V you only support enables so there's only one bit that'll actually
-do anything portable code could in theory try to do something like
-masking writes or pushes only and get surprised that disabling shadow
-stack gets blocked.  For arm64 the implementaion accepts any possible
-mask value, allowing for userspace to block enabling of any future
-options that get added.  In theory someone might end up calling with a
-value of 0 (eg, if there's a config option for the bitmask to lock and
-they don't bother optimising out the syscall if the value is 0) which
-would definitely break.
+Could throw in a __counted_by I think?
 
---5KnydFV4ujRpm3UO
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcGesIACgkQJNaLcl1U
-h9CoSgf/QkpoT9Wv9XJugV4VDvwAhLMHLTE4q1599RvHVraBUMB4Sk2kckdamajU
-gf1rLq5KWESxQNXgMiArCIXUaWaZ95G3TfZYo+2tmZcnyNoQVOc8BqiwgRevA58E
-goARRqmt+Dt97Ifxm175SDCvb+va0e6s6t1mM0dwrxEjOB2o8Mk98qp70JhLz5qG
-CYOO5V9/8s0xc3D6MHLW+SIg/4x1RdRfvmxZ+xborNttlnZolTTlWkHhuYpYeHFz
-GRgGDVYycuo6Nw6IjmBsA1CU68ICHNna9PgvngHCmSJ2oK3NrzZodyEtOmc0wQ0y
-gCYvJSj/oECnl39N1bJTiArvCF/HAg==
-=Ri8u
------END PGP SIGNATURE-----
-
---5KnydFV4ujRpm3UO--
+> +	/* Trailing fields unused */
+> +} __packed;
+> +#define CXL_DYNAMIC_CAPACITY_SANITIZE_ON_RELEASE_FLAG BIT(0)
+> +#define CXL_DCD_BLOCK_LINE_SIZE 0x40
