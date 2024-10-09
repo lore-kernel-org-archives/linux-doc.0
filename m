@@ -1,461 +1,391 @@
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [58.251.27.85])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63E871CD2B;
-	Wed,  9 Oct 2024 01:52:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=58.251.27.85
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728438758; cv=none; b=VVyn+ObZKPrSslAaixYI6TQs3tEUnBR+OkcvlPsuPX5V4sm5HMwfX/4HZ7EUrH9eFur1rz3+qMq48UjkCQz4cP2WA6Wbmu0q/c8vuxWfZ+a4pqJ8mivKgfrLeM6NntzRbkXBNFU1hj9gV1u/Ft0Pe4GjR1+/wJFhcLDcfotaS5o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728438758; c=relaxed/simple;
-	bh=42SRhJTVR5G5W5IrzFC2hiNrNOwwYrpdQgMp7SYQhHA=;
-	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=FPq+sJ8OiC4XR9VOYzpYo6jlX0jGZy7s0CylwtUmntpSYirCbk0HOkW2WYem+OcCnjzw/yzaTuvm7U6lQDXd+4jD8NPvluCZ8RqxkC7IFvq9yhDeshIuoa6lqebggmgSPuY7Pj/DhVC93FXI3CKhtiJSRAaoFTMf4Vi1tsbUcR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=58.251.27.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mxde.zte.com.cn (unknown [10.35.20.121])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4XNbMr6BNVz1Dx3;
-	Wed,  9 Oct 2024 09:46:32 +0800 (CST)
-Received: from mxhk.zte.com.cn (unknown [192.168.250.137])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mxde.zte.com.cn (FangMail) with ESMTPS id 4XNbMh3HWnzBRHKP;
-	Wed,  9 Oct 2024 09:46:24 +0800 (CST)
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4XNbMT48D2z8R03x;
-	Wed,  9 Oct 2024 09:46:13 +0800 (CST)
-Received: from njb2app07.zte.com.cn ([10.55.22.95])
-	by mse-fl2.zte.com.cn with SMTP id 4991k6K4006373;
-	Wed, 9 Oct 2024 09:46:06 +0800 (+08)
-	(envelope-from jiang.kun2@zte.com.cn)
-Received: from mapi (njy2app03[null])
-	by mapi (Zmail) with MAPI id mid204;
-	Wed, 9 Oct 2024 09:46:07 +0800 (CST)
-Date: Wed, 9 Oct 2024 09:46:07 +0800 (CST)
-X-Zmail-TransId: 2afb6705e05f163-2d217
-X-Mailer: Zmail v1.0
-Message-ID: <20241009094607377dUpMqBUFFrp0LP303_o5H@zte.com.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC1444C76;
+	Wed,  9 Oct 2024 01:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728438996; cv=fail; b=iLXKCaokxN97G8FwHBtlDORukmGgkdtAy5JBaKzXzGPkzb/QBBBfuwJU78eK6H/Xmz8qr5WCWUun5fZE/ULlDX5fbZg1vj/zK6D/2JxD2ChZT+fDG0y3JNg/6rAh6OpNJQcJwlVYMnXIsyq5VSN7HvHx6fqg3UiWXwneQFaCMRY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728438996; c=relaxed/simple;
+	bh=9fohnkhIe5UyF+rPAGs2KJ+QqL2AgFjLHLx0NoyynBg=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=kN7XaxUOMQB2PcsP4y1Z8VYoG6Hv+6uotUHAksynRCKvagnysQdZyV8aXazF0lN5dTBbee3cPktbqjGC81i9BPvzLNWJKHTgviXAJffG5rKKdozsh3zXtJGy0663FFlmfK3xekZYM7QPSRt7LpQlUG1xasX6KdtHqvZdu5Iz+8g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d4SXWsgH; arc=fail smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d4SXWsgH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728438994; x=1759974994;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=9fohnkhIe5UyF+rPAGs2KJ+QqL2AgFjLHLx0NoyynBg=;
+  b=d4SXWsgHXFLYrO7B5DJeDXdcw2fsRQLXQUlzDet9R4kdBRKeo36yruQA
+   VhC6nrmeWciUvL0MmSqGTAPbbZiQprU6XIAEiJOVZ+VBUYm+odH2uRR4s
+   ED1Y+dU3H7ZS+sFGIJHbGFXKvo/zTK593ITNDMsDSoCHk09ilQPs/J1b2
+   hkibNZoUaYm/UCQqBnq0+s3C+YzbqnTriPMur9iSbgAQnnD6j8aNcSHTU
+   EcWc0uBCbGgfACmApcoDYU3nxzHyEt1JLz7JJXVUPtvIE2oTAcUX8B1od
+   ioh3dutNZtGOUWAVrm0OrY5qpr1Z6Bv+tzMF4/+LhPOZxBNos1I4L1oDO
+   A==;
+X-CSE-ConnectionGUID: xVKWJ62KSMmx/aOcJ+nljA==
+X-CSE-MsgGUID: aQD+yGZqQM6iwQGV9NwhRg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="31411168"
+X-IronPort-AV: E=Sophos;i="6.11,188,1725346800"; 
+   d="scan'208";a="31411168"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 18:56:27 -0700
+X-CSE-ConnectionGUID: Nc474462SMK49IaBMRqZ+A==
+X-CSE-MsgGUID: olRm7WHISxWjaRQ6IJFE4g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,188,1725346800"; 
+   d="scan'208";a="106916801"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 08 Oct 2024 18:56:26 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 8 Oct 2024 18:56:25 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 8 Oct 2024 18:56:24 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Tue, 8 Oct 2024 18:56:24 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 8 Oct 2024 18:56:24 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pXC4JI2P26rIG6fZcLiRmF78jhGSpdenNaauSIy1pYD7943sLoUb31Mc4RMQgzsx1/h36I84BKhOpa9oT0NwV6ZEZjk355xPeRJ5J+MnEbCidJMyGtxLFXynEcYbO3Yi/IeIKDsuxhEQlTj1K+P2ADcn6nBLei/S4k+NiT9OnLSvxubdddbmz3Up+e0IOaFiH+qjwSq1mcbTfG6tQ8Dl1mYPEUqIDpSmR41wx0ozFCygPZzwrREae6oTwguqTj3NkEFigDJbvKq6GxD1Tkn038gI/kuND58pqQgi2/pl8ylekb0sSNdGGKt28mF3N+KAVlKIfmok9vVIZZnykXieDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aD0gBv9/N+a+6/hUmmSrM3RpY33VxHzN3iUhd70/Il8=;
+ b=lWrOkXQtQxPPdv2QThXh4dM+I2u+duTd1DQ3fZvL1O5jepSBTz3/JpGFtiAzkhvlGWsra4BY/F5ePWDw+kX4/pOUN2OxE28d1JMXSmUZIpYjMAVRhUy8CNh1WqZI5+Ot7PSyEW/96ju2sGYHX5dNupYHUlG6F1YNoMxiDWUxbB9d/yKsDPOzecBCbA2A2eoozNu1Rv6YfiPg50qjxy4HK6bE63R/t7ns8MWyEYkykIWI1t1fejgbGtl4f/TP+nXG6RbUdH6AucNsrciToC1fu98iWdQ+0IVGu9j3ImDmBFaRL2UxIqDlhmgNPdc8seVPh/vXa7LXUYEeCrnH1lABxA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from IA1PR11MB7200.namprd11.prod.outlook.com (2603:10b6:208:42f::11)
+ by PH0PR11MB5805.namprd11.prod.outlook.com (2603:10b6:510:14a::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.23; Wed, 9 Oct
+ 2024 01:56:17 +0000
+Received: from IA1PR11MB7200.namprd11.prod.outlook.com
+ ([fe80::8f47:b4ca:ec7f:d2c0]) by IA1PR11MB7200.namprd11.prod.outlook.com
+ ([fe80::8f47:b4ca:ec7f:d2c0%4]) with mapi id 15.20.8026.020; Wed, 9 Oct 2024
+ 01:56:17 +0000
+Message-ID: <4337ddd9-312b-4fb7-9597-81e8b00d57cb@intel.com>
+Date: Wed, 9 Oct 2024 09:56:06 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 21/28] cxl/extent: Process DCD events and realize
+ region extents
+To: <ira.weiny@intel.com>, Dave Jiang <dave.jiang@intel.com>, Fan Ni
+	<fan.ni@samsung.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, Navneet
+ Singh <navneet.singh@intel.com>, Jonathan Corbet <corbet@lwn.net>, Andrew
+ Morton <akpm@linux-foundation.org>
+CC: Dan Williams <dan.j.williams@intel.com>, Davidlohr Bueso
+	<dave@stgolabs.net>, Alison Schofield <alison.schofield@intel.com>, "Vishal
+ Verma" <vishal.l.verma@intel.com>, <linux-btrfs@vger.kernel.org>,
+	<linux-cxl@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
+ <20241007-dcd-type2-upstream-v4-21-c261ee6eeded@intel.com>
+Content-Language: en-US
+From: "Li, Ming4" <ming4.li@intel.com>
+In-Reply-To: <20241007-dcd-type2-upstream-v4-21-c261ee6eeded@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI2P153CA0004.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:4:140::23) To IA1PR11MB7200.namprd11.prod.outlook.com
+ (2603:10b6:208:42f::11)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <jiang.kun2@zte.com.cn>
-To: <alexs@kernel.org>, <siyanteng@loongson.cn>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <mudongliangabcd@gmail.com>, <seakeel@gmail.com>
-Cc: <wang.yaxin@zte.com.cn>, <fan.yu9@zte.com.cn>, <xu.xin16@zte.com.cn>,
-        <he.peilin@zte.com.cn>, <tu.qiang35@zte.com.cn>,
-        <qiu.yutan@zte.com.cn>, <zhang.yunkai@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIIHY0IFJFU0VORF0gRG9jcy96aF9DTjogVHJhbnNsYXRlIHBoeXNpY2FsX21lbW9yeS5yc3QgdG8gU2ltcGxpZmllZCBDaGluZXNl?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl2.zte.com.cn 4991k6K4006373
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6705E077.000/4XNbMr6BNVz1Dx3
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR11MB7200:EE_|PH0PR11MB5805:EE_
+X-MS-Office365-Filtering-Correlation-Id: fce003ee-148b-4fb6-49db-08dce8058ff2
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?NXhRZWpDaHJqYkhMZVFScDdpRG10ZWdFbVIxak9xS1owVm9wM1I3bzUvdG91?=
+ =?utf-8?B?clpYa0xZWDMzVTZIOStZK1VyRUJ5YjRoN05oQlY4M3NZVVgwOUtOaENzNzVm?=
+ =?utf-8?B?em1kandYaTRaZ3BxQ0hGc1FZcWp4NTJ2OUNzRG5PTWZQZmhnV1hzYnU5bVEx?=
+ =?utf-8?B?aW5QaHdaRTA0YjQyMTYvUmVhWlVlUkZBdjg1NHR1eDV2cUpFUnBHbS90aGVI?=
+ =?utf-8?B?Qnl0bzlzSjF1OWxZZEwzamhCVFdHeE1hSlI4cm5HblJTT0o5RUI2NHVSUzFM?=
+ =?utf-8?B?Q0VzekRmQzdsazJONVUzYXo4QkUwRmZvd1BEdDk4ekloY2h5VDVjczh6aXZV?=
+ =?utf-8?B?VmU4S3FOVUdjdDFnczNSNFpwYVc3UEloYU5va3RXbVhVeCsyUGVVU29PZHBN?=
+ =?utf-8?B?aUV1SWpvNnZKYkFIUXNoaitzWFkySU9xa1JtNkdCTE9iTWg2bW1yUVJCb281?=
+ =?utf-8?B?emxhWmkyUkJtZDhzYjA4dWdBK1k0U0M4UEpnU2R5M2RaSExQRHJ3TjM2TFlP?=
+ =?utf-8?B?OXNHOGNIMEJ2NWFKVW8yeVpKMW01MUFXWFY4dXJXWG81UlVDMGN4K1RWbkEx?=
+ =?utf-8?B?U3ZPL3NPUm5oc0hUQ2lJUEk2eVZDcGVnT3FZYXZURXY1MVRCV0Z5Vk1zOS9k?=
+ =?utf-8?B?NmRMZTFXaGxIKzhTc0k5U0NRaE94WktzQkpGYUY4dTZoNUtVM1dSTHVBcmFl?=
+ =?utf-8?B?anVYN0o2dkRRazVNN1hwU3c2THh4UVFHLytMU2E4Tis1bkVuWndISlE5bmFM?=
+ =?utf-8?B?Vy85Q0VneG1YQmt1RUcwa29BQWl1S0hvZkhYSWRDZHhzR2FwU2kxUUVtOVVQ?=
+ =?utf-8?B?U2ZabjJacmtXNHAyNUhvRzZHN1VveWFkdDBZWGRyV0gyT29CNndQb2M0NXlP?=
+ =?utf-8?B?andFWk54dGZKTEFUR2pwWUFBMVVyY2xvK1UrOHhJTnVSTWx5aDVadTNTUU5J?=
+ =?utf-8?B?Ymt5NGZoOU11QUVnMDI2ZUZLZCtkb3RHRlA1aWFBc1RRTWN0MjU3dmNoam81?=
+ =?utf-8?B?Wi9Dd1hTZWt0VitNWmI0dXpDVE9MaEU1dlFwbDlvMzMybVY4enpRbWRiZXFR?=
+ =?utf-8?B?VzRKb2pTNXlheWNyRklqZWxFOVBuS3dyYmhrNlYvS0Njb21QVm45Z0RIVHRD?=
+ =?utf-8?B?c3NKdkdDblEzUG1IVkJZbnBzNm9PeCs2MzZQQTJUTW9SOHR1bHkyM1JOOUZ3?=
+ =?utf-8?B?WHNWak9DK3pPdlFUZEYzS1FJeDhRTGRPVlFncE0zZFJCSnpyekNHNkFUa2lW?=
+ =?utf-8?B?cFlOd3VVTHJVbmtXQ05LTENxY3o0WlNsRURWcWFjVTBIc094MHhkRXFaR1ZL?=
+ =?utf-8?B?YXlTR21UY0FzNDVzUnJzYzhSZEZ2SDFNbkNNeHlmekdsb0hTNkZaWExkUU1a?=
+ =?utf-8?B?UHBCeDVsTFRGRkNLekx0cTBsOGR6Zk9qbFpoSDhPUDdjczVlR3FnMHZUV2w3?=
+ =?utf-8?B?TUtIZ2ZxOXV1bVowWFNudjZGZmFHVGoyejl2RW5sems5MVdqT0F3WmxYbU8z?=
+ =?utf-8?B?Zlpjc3lEc20vMlR0eGFhc1h3ZFdWbkRMTTBBTnNZUFltTWNjUGljU3RraWpG?=
+ =?utf-8?B?V3lLV1lLdFdHRFlWaTA3VDJqRHhEZkhWWGdNbHZHZnVSbmw4S2pFMHFyYVhu?=
+ =?utf-8?B?cjZMNWlFem0zQmNuenI4Qzd0TFBnZU9pc0FtTzdwSTQ5NVNPamF1SHk0OFRo?=
+ =?utf-8?B?cERlL21YbXNiTjlmZEREYWtUa2dJZFlqczZtK05YS2JqWG5SRlNqVzJRPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB7200.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eFRrTmdzU2U5My9RR05CQ2c4QjNIaWZueE5kbFV4bjZNeUdiaXcvYy8xYXVK?=
+ =?utf-8?B?WS9HK2RCdCtqTnBReGZtTXVyT1ArK3VUeVFjOFJBRzRLYThnMmxkK093Rlo4?=
+ =?utf-8?B?V0xtS2daZmFhczhyR3Y5S0EyQVpwN1JNM0FCcTJNV0QxM0oyL2ZBSUJmQmho?=
+ =?utf-8?B?Y3Y5SFZ5NG9HVm9BanR3bmpjTGErZ1RDODBOb3hRZkwzS3I5NWJRT2dOSnR4?=
+ =?utf-8?B?WjVXanVuTjhiS3JvcHpkWURpTjFodDduVjI5cXE0Z3FxRHJmMk9jYVV0N2ls?=
+ =?utf-8?B?MndhS0VHWnd6Vk1xNWhsM0xCVUllQ3BxdUYweHJGeEdwaXZPSlZvZ2FRT1A3?=
+ =?utf-8?B?Q3FqT3ZGeEYwQ21HL0dZcGNHUUhyVHpLMHFhMGl0SGFOczZRQkNCZStaLzN6?=
+ =?utf-8?B?VjBJTEFBbXFOQUxvNUFQMmU5NU8wWExKeHc1dFVwWGJxcWM2K2FqbTFtaXZw?=
+ =?utf-8?B?bWUrMVlyeUkzcnhxK21lZHI4K0JlWjRTcTliYnFiY2YzN0xjQ3Vrd0hqVVgw?=
+ =?utf-8?B?MDh5OWhZU3RvQnlsQjNsditveU0vTmtNZEY2UTltK2hUQ2VsaDNIRUwvUThC?=
+ =?utf-8?B?b0RCd3ExM0FxSFlGbWg2ZGdFWXI5TTE4ZVVLNkhWbHluNVRhbmYrWG0ybDZQ?=
+ =?utf-8?B?NHVWR2xJenJnNzhXRUY5V1FaR2NjSVRkUEdEb0ZmL0FkWGg3RFNtSEtjUlE1?=
+ =?utf-8?B?V2s3aG9kdW5HdFNaSHZsT1g5bmo0M1E4aGNEYjZ1L3ROZjhGeDN4WU9YamVI?=
+ =?utf-8?B?OW1USTZ5Sit0ZW9DaFJ3UnNTK09nWjhqeSs1VEZLQkJrdldYNHlUcXRaK3Bj?=
+ =?utf-8?B?K0ZveXJuMDgvb25kNUdqUEdraWs2WXc3ZzBBM1dpeHlJT3BpLytudEs0Snh0?=
+ =?utf-8?B?ME5sZGt2M1BQWFRVWFU2S0FlWEdQOElJMGRpTEZHMHN5aU1weExpMkI1dTFK?=
+ =?utf-8?B?MkNjRll5SlZodkJZL1NweGVSMnF6Y3VsWXhGVEVtOHUxOFhyWW96ZVFRNlds?=
+ =?utf-8?B?eXhIZTZnNUNybkZrSDhtYU5sdDFkZVkvVEZkc3pndGtsWmhIcUlzZlpydkYr?=
+ =?utf-8?B?TEM0LzMwQ2ZQWXFncXQ3S1BqTmw1Y3Jlc3BYRkU5TjlSR2lQZFVESmx3aVVp?=
+ =?utf-8?B?Zm85U2FYUjdIekMvdTlwZkl0TTBCcWs0a1ZiaUNVVWVtTVZRUFVrSjRxN1c4?=
+ =?utf-8?B?dlVBK2VCenE2a254MVZmc2pjVHdTd20vajFMdnh4ZlpLNktWMXl1YW11MkVE?=
+ =?utf-8?B?eUVMSWdYQUhQemxVQ3Z3RnhiQ0VDWStiRXV1ZHdnUm9wMDcxUmtPbyszUGdi?=
+ =?utf-8?B?VjlFd3hGSDc0TFZzcDNDZXF4UTZjRDJ5ak8wR1hRdjc1aU9DRkRMeFBFNHhI?=
+ =?utf-8?B?M09teXNWQlZCcDlJNUxoOSs0b2tLREcvdGFxRk5YeGt0MU1yN1FaVnpERTlt?=
+ =?utf-8?B?aGxHQUV4NnFqbUwrWDdVNk53Y2d3c0NNSjdOb2M5WDdSWHJNdERNWWZEcThK?=
+ =?utf-8?B?VE4wZWJxSlFsS2l0cG11Zzh0WTZRb1Axd1B3Qmd1RG1OQUpONHVFamtsUXVR?=
+ =?utf-8?B?dnBXS0REUkpDeEVkVWxtcWllazRrT0lZNVdrYW1xRkdXUzlHaTlHMThrZ2dm?=
+ =?utf-8?B?WkNBL2FnODVFSUxrNGxoUnBrMXorUE9laTRzQUdyempVSmlqcFNLbmM4T3RK?=
+ =?utf-8?B?RGFWVmtLTmFhUS8xWDRrR0Z2Qm1nZXlvVnNMRElXM0VhR2JXSkxWUklTRmcw?=
+ =?utf-8?B?WTdDM2pRYUNaUkx5Mk1YbHE3aUx3YUdFUk0zTFNlZzZQZG1JRmdmeFFBbEdp?=
+ =?utf-8?B?VFBYNEJhVGkzbHQxUWVJQlpMZUQxaHlsR1Ixbm8rMmpzVHhsY2ZqcnByYldz?=
+ =?utf-8?B?VXdIUGcwbUg3UVJxREdkWDNUWUF5RkhrVDdpRVNocnJ5a095NS9oZlVxbVRT?=
+ =?utf-8?B?TWMzY0ZpTTZGTmxBYXJJM3VXQmh2bFVwU1dZdCs3U3ZkLzRuVUdBb3VWREd1?=
+ =?utf-8?B?NTQ2TS9ZOXBDZlRZK3JwRnhyZ2VDSVFMTVVTSUJ1aFpzR2JQWk5OMXZISlZT?=
+ =?utf-8?B?WEt1NFEzd1Y1MlpDSDV4Q0NDZlJRZU5tUDhQNFJUMklsUmhOTkI2Tzk2ek5X?=
+ =?utf-8?Q?wbYrjAvQoY6UhbHkuc7im64OD?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: fce003ee-148b-4fb6-49db-08dce8058ff2
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB7200.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2024 01:56:17.0816
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4m9lPJk1JUg7q1C1NcvvTjZwuyWUWVS4OaIM2w2/KZDqVuFtKX6V06xbaaZmudsq0zwPYh4xJ7UFxShQOQ1Oag==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5805
+X-OriginatorOrg: intel.com
 
-From: Yaxin Wang <wang.yaxin@zte.com.cn>
+On 10/8/2024 7:16 AM, ira.weiny@intel.com wrote:
+> From: Navneet Singh <navneet.singh@intel.com>
+>
+> A dynamic capacity device (DCD) sends events to signal the host for
+> changes in the availability of Dynamic Capacity (DC) memory.  These
+> events contain extents describing a DPA range and meta data for memory
+> to be added or removed.  Events may be sent from the device at any time.
+>
+> Three types of events can be signaled, Add, Release, and Force Release.
+>
+> On add, the host may accept or reject the memory being offered.  If no
+> region exists, or the extent is invalid, the extent should be rejected.
+> Add extent events may be grouped by a 'more' bit which indicates those
+> extents should be processed as a group.
+>
+> On remove, the host can delay the response until the host is safely not
+> using the memory.  If no region exists the release can be sent
+> immediately.  The host may also release extents (or partial extents) at
+> any time.  Thus the 'more' bit grouping of release events is of less
+> value and can be ignored in favor of sending multiple release capacity
+> responses for groups of release events.
+>
+> Force removal is intended as a mechanism between the FM and the device
+> and intended only when the host is unresponsive, out of sync, or
+> otherwise broken.  Purposely ignore force removal events.
+>
+> Regions are made up of one or more devices which may be surfacing memory
+> to the host.  Once all devices in a region have surfaced an extent the
+> region can expose a corresponding extent for the user to consume.
+> Without interleaving a device extent forms a 1:1 relationship with the
+> region extent.  Immediately surface a region extent upon getting a
+> device extent.
+>
+> Per the specification the device is allowed to offer or remove extents
+> at any time.  However, anticipated use cases can expect extents to be
+> offered, accepted, and removed in well defined chunks.
+>
+> Simplify extent tracking with the following restrictions.
+>
+> 	1) Flag for removal any extent which overlaps a requested
+> 	   release range.
+> 	2) Refuse the offer of extents which overlap already accepted
+> 	   memory ranges.
+> 	3) Accept again a range which has already been accepted by the
+> 	   host.  Eating duplicates serves three purposes.  First, this
+> 	   simplifies the code if the device should get out of sync with
+> 	   the host.  And it should be safe to acknowledge the extent
+> 	   again.  Second, this simplifies the code to process existing
+> 	   extents if the extent list should change while the extent
+> 	   list is being read.  Third, duplicates for a given region
+> 	   which are seen during a race between the hardware surfacing
+> 	   an extent and the cxl dax driver scanning for existing
+> 	   extents will be ignored.
+>
+> 	   NOTE: Processing existing extents is done in a later patch.
+>
+> Management of the region extent devices must be synchronized with
+> potential uses of the memory within the DAX layer.  Create region extent
+> devices as children of the cxl_dax_region device such that the DAX
+> region driver can co-drive them and synchronize with the DAX layer.
+> Synchronization and management is handled in a subsequent patch.
+>
+> Tag support within the DAX layer is not yet supported.  To maintain
+> compatibility legacy DAX/region processing only tags with a value of 0
+> are allowed.  This defines existing DAX devices as having a 0 tag which
+> makes the most logical sense as a default.
+>
+> Process DCD events and create region devices.
+>
+> Signed-off-by: Navneet Singh <navneet.singh@intel.com>
+> Co-developed-by: Ira Weiny <ira.weiny@intel.com>
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+>
+Hi Ira,
 
-This patch translates the "physical_memory.rst" document into
-Simplified Chinese to improve accessibility for Chinese-speaking
-developers and users.
+I guess you missed my comments for V3, I comment it again for this patch.
 
-The translation was done with attention to technical accuracy
-and readability, ensuring that the document remains informative
-and useful in its translated form.
+> +static bool extents_contain(struct cxl_dax_region *cxlr_dax,
+> +			    struct cxl_endpoint_decoder *cxled,
+> +			    struct range *new_range)
+> +{
+> +	struct device *extent_device;
+> +	struct match_data md = {
+> +		.cxled = cxled,
+> +		.new_range = new_range,
+> +	};
+> +
+> +	extent_device = device_find_child(&cxlr_dax->dev, &md, match_contains);
+> +	if (!extent_device)
+> +		return false;
+> +
+> +	put_device(extent_device);
+could use __free(put_device) to drop this 'put_device(extent_device)'
+> +	return true;
+> +}
+[...]
+> +static bool extents_overlap(struct cxl_dax_region *cxlr_dax,
+> +			    struct cxl_endpoint_decoder *cxled,
+> +			    struct range *new_range)
+> +{
+> +	struct device *extent_device;
+> +	struct match_data md = {
+> +		.cxled = cxled,
+> +		.new_range = new_range,
+> +	};
+> +
+> +	extent_device = device_find_child(&cxlr_dax->dev, &md, match_overlaps);
+> +	if (!extent_device)
+> +		return false;
+> +
+> +	put_device(extent_device);
+Same as above.
+> +	return true;
+> +}
+> +
+[...]
+> +static int cxl_send_dc_response(struct cxl_memdev_state *mds, int opcode,
+> +				struct xarray *extent_array, int cnt)
+> +{
+> +	struct cxl_mailbox *cxl_mbox = &mds->cxlds.cxl_mbox;
+> +	struct cxl_mbox_dc_response *p;
+> +	struct cxl_mbox_cmd mbox_cmd;
+> +	struct cxl_extent *extent;
+> +	unsigned long index;
+> +	u32 pl_index;
+> +	int rc;
+> +
+> +	size_t pl_size = struct_size(p, extent_list, cnt);
+> +	u32 max_extents = cnt;
+> +
+> +	/* May have to use more bit on response. */
+> +	if (pl_size > cxl_mbox->payload_size) {
+> +		max_extents = (cxl_mbox->payload_size - sizeof(*p)) /
+> +			      sizeof(struct updated_extent_list);
+> +		pl_size = struct_size(p, extent_list, max_extents);
+> +	}
+> +
+> +	struct cxl_mbox_dc_response *response __free(kfree) =
+> +						kzalloc(pl_size, GFP_KERNEL);
+> +	if (!response)
+> +		return -ENOMEM;
+> +
+> +	pl_index = 0;
+> +	xa_for_each(extent_array, index, extent) {
+> +
+> +		response->extent_list[pl_index].dpa_start = extent->start_dpa;
+> +		response->extent_list[pl_index].length = extent->length;
+> +		pl_index++;
+> +		response->extent_list_size = cpu_to_le32(pl_index);
+> +
+> +		if (pl_index == max_extents) {
+> +			mbox_cmd = (struct cxl_mbox_cmd) {
+> +				.opcode = opcode,
+> +				.size_in = struct_size(response, extent_list,
+> +						       pl_index),
+> +				.payload_in = response,
+> +			};
+> +
+> +			response->flags = 0;
+> +			if (pl_index < cnt)
+> +				response->flags &= CXL_DCD_EVENT_MORE;
 
-Signed-off-by: Yaxin Wang <wang.yaxin@zte.com.cn>
----
-v3->v4:
-Some fixes according to:
-https://lore.kernel.org/all/CAD-N9QWJL8xmyLXi+D1gm5fXX-9DcjuzGv=pW=oQyJyXc=GfqA@mail.gmail.com/
-1. Adjust the context alignment, make it more neat.
-2. Regenerate the patch make sure it can now be applied to the latest
-next/master branch.
+It should be 'response->flags |= CXL_DCD_EVENT_MORE' here.
 
-Documentation/translations/zh_CN/mm/index.rst |   1 +
-../translations/zh_CN/mm/physical_memory.rst | 356 ++++++++++++++++++
-2 files changed, 357 insertions(+)
-create mode 100644 Documentation/translations/zh_CN/mm/physical_memory.rst
+Another issue is if 'cnt' is N times bigger than 'max_extents'(e,g. cnt=20, max_extents=10). all responses will be sent in this xa_for_each(), and CXL_DCD_EVENT_MORE will be set in the last response but it should not be set in these cases.
 
-diff --git a/Documentation/translations/zh_CN/mm/index.rst b/Documentation/translations/zh_CN/mm/index.rst
-index b950dd118be7..eac20a7ec9a6 100644
---- a/Documentation/translations/zh_CN/mm/index.rst
-+++ b/Documentation/translations/zh_CN/mm/index.rst
-@@ -53,6 +53,7 @@ Linux内存管理文档
-page_migration
-page_owner
-page_table_check
-+   physical_memory
-remap_file_pages
-split_page_table_lock
-vmalloced-kernel-stacks
-diff --git a/Documentation/translations/zh_CN/mm/physical_memory.rst b/Documentation/translations/zh_CN/mm/physical_memory.rst
-new file mode 100644
-index 000000000000..ed813e513897
---- /dev/null
-+++ b/Documentation/translations/zh_CN/mm/physical_memory.rst
-@@ -0,0 +1,356 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/mm/physical_memory.rst
-+
-+:翻译:
-+
-+   王亚鑫 Yaxin Wang <wang.yaxin@zte.com.cn>
-+
-+========
-+物理内存
-+========
-+
-+Linux可用于多种架构，因此需要一个与架构无关的抽象来表示物理内存。本章描述
-+了管理运行系统中物理内存的结构。
-+
-+第一个与内存管理相关的主要概念是`非一致性内存访问(NUMA)
-+<https://en.wikipedia.org/wiki/Non-uniform_memory_access>`
-+
-+在多核和多插槽机器中，内存可能被组织成不同的存储区，这些存储区根据与处理器
-+的“不同”而有不同的访问开销。例如，可能为每个CPU分配内存存储区，或者为外围
-+设备在附近分配一个非常适合DMA的内存存储区。
-+
-+每个存储区被称为一个节点，节点在Linux中表示为 ``struct pglist_data``，
-+即使是在UMA架构中也是这样表示。该结构总是通过 ``pg_data_t`` 来引用。特
-+定节点的 ``pg_data_t`` 结构体可以通过NODE_DATA(nid)引用，其中nid被称
-+为该节点的ID。
-+
-+对于非一致性内存访问（NUMA）架构，节点数据结构在引导时由特定于架构的代码早
-+期分配。通常，这些结构在其所在的内存区上本地分配。对于一致性内存访问（UMA）
-+架构，只使用一个静态的 ``pg_data_t`` 结构体，称为 ``contig_page_data`` 。
-+节点将会在 :ref:`节点 <nodes>` 章节中进一步讨论。
-+
-+整个物理内存被划分为一个或多个被称为区域的块，这些区域表示内存的范围。这
-+些范围通常由访问内存的架构限制来决定。在节点内，与特定区域对应的内存范围
-+由 ``struct zone`` 结构体描述，该结构被定义为 ``zone_t``，每种区域都
-+属于以下描述类型的一种。
-+
-+* ``ZONE_DMA`` 和 ``ZONE_DMA32`` 在历史上代表适用于DMA的内存，这些
-+  内存由那些不能访问所有可寻址内存的外设访问。多年来，已经有了更好、更稳
-+  固的接口来获取满足特定DMA需求的内存（这些接口由
-+  Documentation/core-api/dma-api.rst 文档描述），但是 ``ZONE_DMA``
-+  和 ``ZONE_DMA32`` 仍然表示访问受限的内存范围。
-+
-+取决于架构的不同，这两种区域可以在构建时通过关闭 ``CONFIG_ZONE_DMA`` 和
-+``CONFIG_ZONE_DMA32`` 配置选项来禁用。一些64位的平台可能需要这两种区域，
-+因为他们支持具有不同DMA寻址限制的外设。
-+
-+* ``ZONE_NORMAL`` 是普通内存的区域，这种内存可以被内核随时访问。如果DMA
-+  设备支持将数据传输到所有可寻址的内存区域，那么可在该区域的页面上执行DMA
-+  操作。 ``ZONE_NORMAL`` 总是开启的。
-+
-+* ``ZONE_HIGHMEM`` 是指那些没有在内核页表中永久映射的物理内存部分。该区
-+  域的内存只能通过临时映射被内核访问。该区域只在某些32位架构上可用，并且是
-+  通过 ``CONFIG_HIGHMEM`` 选项开启。
-+
-+* ``ZONE_MOVABLE`` 是用于可访问的普通内存区域，就像 ``ZONE_NORMAL``
-+  一样。  不同之处在于 ``ZONE_MOVABLE`` 中的大多数页面内容是可移动的。
-+  这意味着这些页面的虚拟地址不会改变，但它们的内容可能会在不同的物理页面
-+  之间移动。通常，在内存热插拔期间填充 ``ZONE_MOVABLE``，  在启动时也
-+  可以使用 ``kernelcore``、 ``movablecore`` 和 ``movable_node``
-+  这些内核命令行参数来填充。更多详细信息，请参阅内核文档
-+  Documentation/mm/page_migration.rst 和
-+  Documentation/admin-guide/mm/memory-hotplug.rst。
-+
-+* ``ZONE_DEVICE`` 表示位于持久性内存（PMEM）和图形处理单元（GPU）
-+  等设备上的内存。它与RAM区域类型有不同的特性，并且它的存在是为了提供
-+  :ref:`struct page<Pages>` 结构和内存映射服务，以便设备驱动程序能
-+  识别物理地址范围。 ``ZONE_DEVICE`` 通过 ``CONFIG_ZONE_DEVICE``
-+  选项开启。
-+
-+需要注意的是，许多内核操作只能使用 ``ZONE_NORMAL`` 来执行，因此它是
-+性能最关键区域。区域在 :ref:`区域 <zones>` 章节中有更详细的讨论。
-+
-+节点和区域范围之间的关系由固件报告的物理内存映射决定，另外也由内存寻址
-+的架构约束以及内核命令行中的某些参数决定。
-+
-+例如，在具有2GB RAM的x86统一内存架构（UMA）机器上运行32位内核时，整
-+个内存将位于节点0，并且将有三个区域： ``ZONE_DMA``、 ``ZONE_NORMAL``
-+和 ``ZONE_HIGHMEM``::
-+
-+  0                                                            2G
-+  +-------------------------------------------------------------+
-+  |                            node 0                           |
-+  +-------------------------------------------------------------+
-+
-+  0         16M                    896M                        2G
-+  +----------+-----------------------+--------------------------+
-+  | ZONE_DMA |      ZONE_NORMAL      |       ZONE_HIGHMEM       |
-+  +----------+-----------------------+--------------------------+
-+
-+
-+在内核构建时关闭 ``ZONE_DMA`` 开启 ``ZONE_DMA32``，并且在具有16GB
-+RAM平均分配在两个节点上的arm64机器上，使用 ``movablecore=80%`` 参数
-+启动时， ``ZONE_DMA32`` 、 ``ZONE_NORMAL`` 和 ``ZONE_MOVABLE``
-+位于节点0，而 ``ZONE_NORMAL`` 和 ``ZONE_MOVABLE`` 位于节点1::
-+
-+
-+ 1G                                9G                         17G
-+  +--------------------------------+ +--------------------------+
-+  |              node 0            | |          node 1          |
-+  +--------------------------------+ +--------------------------+
-+
-+  1G       4G        4200M          9G          9320M          17G
-+  +---------+----------+-----------+ +------------+-------------+
-+  |  DMA32  |  NORMAL  |  MOVABLE  | |   NORMAL   |   MOVABLE   |
-+  +---------+----------+-----------+ +------------+-------------+
-+
-+
-+内存存储区可能位于交错的节点。在下面的例子中，一台x86机器有16GB的RAM分
-+布在4个内存存储区上，偶数编号的内存存储区属于节点0，奇数编号的内存条属于
-+节点1::
-+
-+  0              4G              8G             12G            16G
-+  +-------------+ +-------------+ +-------------+ +-------------+
-+  |    node 0   | |    node 1   | |    node 0   | |    node 1   |
-+  +-------------+ +-------------+ +-------------+ +-------------+
-+
-+  0   16M      4G
-+  +-----+-------+ +-------------+ +-------------+ +-------------+
-+  | DMA | DMA32 | |    NORMAL   | |    NORMAL   | |    NORMAL   |
-+  +-----+-------+ +-------------+ +-------------+ +-------------+
-+
-+在这种情况下，节点0将覆盖从0到12GB的内存范围，而节点1将覆盖从4GB到16GB
-+的内存范围。
-+
-+.. _nodes:
-+
-+节点
-+====
-+
-+正如我们所提到的，内存中的每个节点由 ``pg_data_t`` 描述，通过
-+``struct pglist_data`` 结构体的类型定义。在分配页面时，默认情况下，Linux
-+使用节点本地分配策略，从离当前运行CPU的最近节点分配内存。由于进程倾向于在同
-+一个CPU上运行，很可能会使用当前节点的内存。分配策略可以由用户控制，如内核文
-+档Documentation/admin-guide/mm/numa_memory_policy.rst 中所述。
-+
-+大多数NUMA（非统一内存访问）架构维护了一个指向节点结构的指针数组。这些实际
-+的结构在启动过程中的早期被分配，这时特定于架构的代码解析了固件报告的物理内
-+存映射。节点初始化的大部分工作是在由 free_area_init()实现的启动过程之后
-+完成，该函数在后面的小节 :ref:`初始化 <initialization>` 中有详细描述。
-+
-+除了节点结构，内核还维护了一个名为 ``node_states`` 的 ``nodemask_t``
-+位掩码数组。这个数组中的每个位掩码代表一组特定属性的节点，这些属性由
-+``enum node_states`` 定义，定义如下：
-+
-+``N_POSSIBLE``
-+节点可能在某个时刻上线。
-+
-+``N_ONLINE``
-+节点已经上线。
-+
-+``N_NORMAL_MEMORY``
-+节点拥有普通内存。
-+
-+``N_HIGH_MEMORY``
-+节点拥有普通或高端内存。当关闭 ``CONFIG_HIGHMEM`` 配置时，
-+也可以称为 ``N_NORMAL_MEMORY``。
-+
-+``N_MEMORY``
-+节点拥有（普通、高端、可移动）内存。
-+
-+``N_CPU``
-+节点拥有一个或多个CPU。
-+
-+对于具有上述属性的每个节点， ``node_states[<property>]``
-+掩码中对应于节点ID的位会被置位。
-+
-+例如，对于具有常规内存和CPU的节点2，第二个bit将被设置::
-+
-+  node_states[N_POSSIBLE]
-+  node_states[N_ONLINE]
-+  node_states[N_NORMAL_MEMORY]
-+  node_states[N_HIGH_MEMORY]
-+  node_states[N_MEMORY]
-+  node_states[N_CPU]
-+
-+有关使用节点掩码（nodemasks）可能进行的各种操作，请参考
-+``include/linux/nodemask.h``。
-+
-+除此之外，节点掩码（nodemasks）提供用于遍历节点的宏，即
-+``for_each_node()`` 和 ``for_each_online_node()``。
-+
-+例如，要为每个在线节点调用函数 foo()，可以这样操作::
-+
-+  for_each_online_node(nid) {
-+		  pg_data_t *pgdat = NODE_DATA(nid);
-+
-+		  foo(pgdat);
-+	}
-+
-+节点数据结构
-+------------
-+
-+节点结构 ``struct pglist_data`` 在 ``include/linux/mmzone.h``
-+中声明。这里我们将简要描述这个结构体的字段：
-+
-+通用字段
-+~~~~~~~~
-+
-+``node_zones``
-+表示该节点的区域列表。并非所有区域都可能被填充，但这是
-+完整的列表。它被该节点的node_zonelists以及其它节点的
-+node_zonelists引用。
-+
-+``node_zonelists``
-+所有节点中所有区域的列表。此列表定义了分配内存时首选的区域
-+顺序。 ``node_zonelists`` 在核心内存管理结构初始化期间，
-+由 ``mm/page_alloc.c`` 中的 ``build_zonelists()``
-+函数设置。
-+
-+``nr_zones``
-+表示此节点中已填充区域的数量。
-+
-+``node_mem_map``
-+对于使用FLATMEM内存模型的UMA系统，0号节点的 ``node_mem_map``
-+表示每个物理帧的struct pages数组。
-+
-+``node_page_ext``
-+对于使用FLATMEM内存模型的UMA系统，0号节点的 ``node_page_ext``
-+是struct pages的扩展数组。只有在构建时开启了 ``CONFIG_PAGE_EXTENSION``
-+选项的内核中才可用。
-+
-+``node_start_pfn``
-+表示此节点中起始页面帧的页面帧号。
-+
-+``node_present_pages``
-+表示此节点中存在的物理页面的总数。
-+
-+``node_spanned_pages``
-+表示包括空洞在内的物理页面范围的总大小。
-+
-+``node_size_lock``
-+一个保护定义节点范围字段的锁。仅在开启了 ``CONFIG_MEMORY_HOTPLUG`` 或
-+``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` 配置选项中的某一个时才定义。提
-+供了``pgdat_resize_lock()`` 和 ``pgdat_resize_unlock()`` 用来操作
-+``node_size_lock``，而无需检查 ``CONFIG_MEMORY_HOTPLUG`` 或
-+``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` 选项。
-+
-+``node_id``
-+节点的节点ID（NID），从0开始。
-+
-+``totalreserve_pages``
-+这是每个节点保留的页面，这些页面不可用于用户空间分配。
-+
-+``first_deferred_pfn``
-+如果大型机器上的内存初始化被推迟，那么第一个PFN（页帧号）是需要初始化的。
-+在开启了 ``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` 选项时定义。
-+
-+``deferred_split_queue``
-+每个节点的大页队列，这些大页的拆分被推迟了。仅在开启了 ``CONFIG_TRANSPARENT_HUGEPAGE``
-+配置选项时定义。
-+
-+``__lruvec``
-+每个节点的lruvec持有LRU（最近最少使用）列表和相关参数。仅在禁用了内存
-+控制组（cgroups）时使用。它不应该直接访问，而应该使用 ``mem_cgroup_lruvec()``
-+来查找 lruvecs。
-+
-+回收控制
-+~~~~~~~~
-+
-+另见内核文档 Documentation/mm/page_reclaim.rst 文件。
-+
-+``kswapd``
-+每个节点的kswapd内核线程实例。
-+
-+``kswapd_wait``, ``pfmemalloc_wait``, ``reclaim_wait``
-+同步内存回收任务的工作队列。
-+
-+``nr_writeback_throttled``
-+等待写回脏页时，被限制的任务数量。
-+
-+``kswapd_order``
-+控制kswapd尝试回收的order。
-+
-+``kswapd_highest_zoneidx``
-+kswapd线程可以回收的最高区域索引。
-+
-+``kswapd_failures``
-+kswapd无法回收任何页面的运行次数。
-+
-+``min_unmapped_pages``
-+无法回收的未映射文件支持的最小页面数量。由 ``vm.min_unmapped_ratio``
-+系统控制台（sysctl）参数决定。在开启 ``CONFIG_NUMA`` 配置时定义。
-+
-+``min_slab_pages``
-+无法回收的SLAB页面的最少数量。由 ``vm.min_slab_ratio`` 系统控制台
-+（sysctl）参数决定。在开启 ``CONFIG_NUMA`` 时定义。
-+
-+``flags``
-+控制回收行为的标志位。
-+
-+内存压缩控制
-+~~~~~~~~~~~~
-+
-+``kcompactd_max_order``
-+kcompactd应尝试实现的页面order。
-+
-+``kcompactd_highest_zoneidx``
-+kcompactd可以压缩的最高区域索引。
-+
-+``kcompactd_wait``
-+同步内存压缩任务的工作队列。
-+
-+``kcompactd``
-+每个节点的kcompactd内核线程实例。
-+
-+``proactive_compact_trigger``
-+决定是否使用主动压缩。由 ``vm.compaction_proactiveness`` 系统控
-+制台（sysctl）参数控制。
-+
-+统计信息
-+~~~~~~~~
-+
-+``per_cpu_nodestats``
-+表示节点的Per-CPU虚拟内存统计信息。
-+
-+``vm_stat``
-+表示节点的虚拟内存统计数据。
-+
-+.. _zones:
-+
-+区域
-+====
-+
-+.. admonition:: Stub
-+
-+  本节内容不完整。请列出并描述相应的字段。
-+
-+.. _pages:
-+
-+页
-+====
-+
-+.. admonition:: Stub
-+
-+  本节内容不完整。请列出并描述相应的字段。
-+
-+页码
-+====
-+
-+.. admonition:: Stub
-+
-+  本节内容不完整。请列出并描述相应的字段。
-+
-+.. _initialization:
-+
-+初始化
-+======
-+
-+.. admonition:: Stub
-+
-+  本节内容不完整。请列出并描述相应的字段。
-+
-+
---
-2.25.1
+
+> +
+> +			rc = cxl_internal_send_cmd(cxl_mbox, &mbox_cmd);
+> +			if (rc)
+> +				return rc;
+> +			pl_index = 0;
+> +		}
+> +	}
+> +
+> +	if (cnt == 0 || pl_index) {
+> +		mbox_cmd = (struct cxl_mbox_cmd) {
+> +			.opcode = opcode,
+> +			.size_in = struct_size(response, extent_list,
+> +					       pl_index),
+> +			.payload_in = response,
+> +		};
+> +
+> +		response->flags = 0;
+> +		rc = cxl_internal_send_cmd(cxl_mbox, &mbox_cmd);
+> +		if (rc)
+> +			return rc;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+
