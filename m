@@ -1,100 +1,106 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C78558B7;
-	Wed,  9 Oct 2024 14:45:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6E5433B6;
+	Wed,  9 Oct 2024 14:46:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728485145; cv=none; b=IT88Bzn1+eOWHtHr6keowi2Q11v63SWKQ2jSGdwPS85jMwEcd92d6GBDEg739cTMTUz/P59TJShx1uqu4kXbWFpvK7pye0vDgkwkgqXSosvB45gkmN2iw5yxDhjyK4N0TW+n65S109EX4JuuLTu2hDLfSHYr//7rbSzYdmF43zA=
+	t=1728485190; cv=none; b=my9ibOiENj3Z+eIYpc/9A3nU2oWv/STbFshs0slPoabxdcgZUPqj0qxDZafd8ChytdxTPagp7Z5FcBPXnNAIZZYafVvVyYxHO9vfzfr8kif7cz9a5crKqTZ1XvK92HV1kF/fCXrytzZIJB4Lz/Nkagf/WLnqvTUbNNdoE4YNMN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728485145; c=relaxed/simple;
-	bh=z9giLuqh+16SRki7I+asllyvLxyx93m2RVSASHgNCqM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=H+PstWT+d18YVkQnVQaMoTVw2ZjajvKuIbcgQT3TmDEmsvX/O4eoYQMyUYNLR54r1G3r+lD8aH/gnRalaMCUB4z0LEHKnSw5SzBj4BwdL2Ls8Fkf/XFuccxTUG3LY2sjrc5fw1mz4aJ755tgi62+WomyrHCJkacCjbBiX9hGgUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eZPAIoH9; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728485190; c=relaxed/simple;
+	bh=xXD0CGxWWzLTAw/TXApXZkvVnSpZBuc19McI4xF2HPE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=plwXkkm+SiF1XSB6w7ApXy9xBt/3PZto+dhR5lpH5mKQOEdkBvMjNDerItiC26F84E30XlZHSJ4AE61sxuTrk5r69QhVwFDCb+d/9QKjJ26tYNhmuYRY65Vkwqco8hqyxuBrrL25c35SNUjVOj1p/Jau8rsubEcgK2sRwmKQU90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n/uGmT0Z; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eZPAIoH9"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a991fedbd04so469512466b.3;
-        Wed, 09 Oct 2024 07:45:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728485142; x=1729089942; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=z9giLuqh+16SRki7I+asllyvLxyx93m2RVSASHgNCqM=;
-        b=eZPAIoH9dOqou1h82T1wEeCFS6LiBeSrdVYdFbL9MESaBrywDMbe/TVxqKdKQdnkXH
-         mo3bSe0PGa+we3t3KuMbWSBLCNp78snCRDgsyI6aPy4v7J6vdv6+o/cfUkJjm2pQH/pn
-         vXn7zh5n/1N5mVtqBSRUG+hEQ2y+uTKMxZzQ1rC7UbtdMvaVpV1jibCj3ymcFOEqk/iS
-         Me2CM9uPYrcE87u1xFYSESLUuoT0j3D5/RNHIduEgN6bBYUCfBQF9s/Bnk+pkEkwKrcF
-         a/cNrDe5nkuu7JrpIWd2AM6TMCyEoQKGcWiBob4DBowyBKKBkN9EOACRM3RnAs28V91o
-         jo8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728485142; x=1729089942;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=z9giLuqh+16SRki7I+asllyvLxyx93m2RVSASHgNCqM=;
-        b=bNjH07u8xAxo5z+yb7wPWYb4VfjMO+sq3Xv4/f4PmpJUefehb8W0yB7GNahgPlIUCz
-         G0HmqIfKYGH/+scBVxzFQT/yT2pwY7rljIBsYXdHk45Nd1dWMTmS3uRbsrk0WJPPwWbQ
-         0wwXYeazLJJp5habpdXEZUKB+8qr9gOw6XmEaz4VLAbNVUNAAsSz5hn4X33ovS14jT/v
-         D3OJIyDmzfAXGgYzp56G3h2kQwyOLPXeg6j4DKnZsmPjvbfiSLGesaWswUpWf91PoSCC
-         wqGbrklI4G+liov9tzgU1cMz+kSTjSm6VycY7Op/zwzaEOM5fQ2XQVL7CKtBAT/ZH/3Y
-         Ulcg==
-X-Forwarded-Encrypted: i=1; AJvYcCU8++z6ij+iq9mJg/UA1DS0i1vc9rNCXcgWqanDLvOwKzV147v+EZi/nlMJh6hvxziVPMpKBk5UczWr@vger.kernel.org, AJvYcCUIoAMCIX8AJk7UuF6QdKdUX15doU46o0dJjNkTHGb9HeGUsMZzbL+xV3gVWNfW3kmlfUz2lSApM3Ho@vger.kernel.org, AJvYcCVFbDs+V6sCns1E5wKSHTkFqrEWSCzJW8aSyFGjKdI59HjGhN8LDSipDMVmsdc6kSDDWYgp1tUFp+684xYB@vger.kernel.org, AJvYcCVHubqXA5NLGATafsIac0hY4SONLiX3/ugulVXJIHm3Ld5Eb6a/hqFQXgl37N/djmgeNotFyHZaBsX0kKI=@vger.kernel.org, AJvYcCVkpNVE7ohx9QCKcgD6Zmf7dg+Jt2w81pZY5bR9G5jPx81q5nHGEQKsIS16O5CTs4UvD3GR2i232V6J@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2WVBCO1N4VUaVHJIxENodO6CAQ/9sKxfE/8wrcxYQ0guakz0U
-	n9JkDicjMZ5DPk3tuL4q327N9y87ouf1AJNv13maRgbqjYHCP1Y3
-X-Google-Smtp-Source: AGHT+IGk+GcMmuO86SrRgY1+Q2QlflBxWNF5bBi07sPlNbBqwIH3NgMDhUtp/UVsAj4mjY+cT9/v5w==
-X-Received: by 2002:a05:6402:2808:b0:5c5:b7fd:170a with SMTP id 4fb4d7f45d1cf-5c91d624cffmr3578210a12.28.1728485142287;
-        Wed, 09 Oct 2024 07:45:42 -0700 (PDT)
-Received: from ?IPv6:2001:a61:34c9:ea01:14b4:7ed9:5135:9381? ([2001:a61:34c9:ea01:14b4:7ed9:5135:9381])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c8e05f4010sm5540116a12.93.2024.10.09.07.45.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Oct 2024 07:45:41 -0700 (PDT)
-Message-ID: <bff897a52650dbd499a83d955645cbc2290f80ce.camel@gmail.com>
-Subject: Re: [PATCH v4 8/8] iio: adc: ad7606: Disable PWM usage for non
- backend version
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Guillaume Stols <gstols@baylibre.com>, Uwe
- =?ISO-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>, Lars-Peter Clausen
- <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
- aardelean@baylibre.com,  dlechner@baylibre.com, jstephan@baylibre.com,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Date: Wed, 09 Oct 2024 16:45:40 +0200
-In-Reply-To: <20241009-ad7606_add_iio_backend_support-v4-8-6971a8c0f1d5@baylibre.com>
-References: 
-	<20241009-ad7606_add_iio_backend_support-v4-0-6971a8c0f1d5@baylibre.com>
-	 <20241009-ad7606_add_iio_backend_support-v4-8-6971a8c0f1d5@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n/uGmT0Z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728485189; x=1760021189;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xXD0CGxWWzLTAw/TXApXZkvVnSpZBuc19McI4xF2HPE=;
+  b=n/uGmT0Zz2vHm/9KBfuqprqmB90YGYP77EzztxEol4weJVGApEobYyXD
+   s4kzNm1+cl40ibp3kVuTAvuVsHLKibP5I2L+gaqU1+kZTbm7R0/6gb10k
+   8IexRY49x9L0bG7nZE7sZYbxPj29+dMgp3H2PWb59xpViL5pa5HUnS7bw
+   sMAE5G24JkJJ0IksH6xMiD6xvxLUu1K1pqr1yuoswkSIcm/nJwvKzAzxy
+   Vek4os0faE1Q0KLaiLdkpfpMqPWd4swbWdTbusROlk6p18nAUPv8s32Th
+   Ez/9s0vRNwLsQ2Zp4HfcMsxwX8nm8Oer2lNndjUj4LQnnCqhVCsgjpDhT
+   A==;
+X-CSE-ConnectionGUID: SNFjQBGiQxiVyVnpFAi6Yg==
+X-CSE-MsgGUID: PZ4ws1chSsaNVzKqTNZ3hg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="45259095"
+X-IronPort-AV: E=Sophos;i="6.11,190,1725346800"; 
+   d="scan'208";a="45259095"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 07:46:28 -0700
+X-CSE-ConnectionGUID: AJQomrpJQ2WqZ2mRP+8BlA==
+X-CSE-MsgGUID: nNhaAVk2TEuOKbqR/zLgWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,190,1725346800"; 
+   d="scan'208";a="99606822"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa002.fm.intel.com with ESMTP; 09 Oct 2024 07:46:24 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id EFE8B807; Wed, 09 Oct 2024 17:46:22 +0300 (EEST)
+Date: Wed, 9 Oct 2024 17:46:22 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: David Sterba <dsterba@suse.cz>
+Cc: Ira Weiny <ira.weiny@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+	Fan Ni <fan.ni@samsung.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Navneet Singh <navneet.singh@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	linux-btrfs@vger.kernel.org, linux-cxl@vger.kernel.org,
+	linux-doc@vger.kernel.org, nvdimm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
+	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
+	Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Subject: Re: [PATCH v4 04/28] range: Add range_overlaps()
+Message-ID: <ZwaXPm5WrzLVoUuw@black.fi.intel.com>
+References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
+ <20241007-dcd-type2-upstream-v4-4-c261ee6eeded@intel.com>
+ <20241008161032.GB1609@twin.jikos.cz>
+ <ZwaW9gXuh_JzqRfh@black.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZwaW9gXuh_JzqRfh@black.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Wed, 2024-10-09 at 09:19 +0000, Guillaume Stols wrote:
-> Since the pwm was introduced before backend, there was a mock use, with
-> a GPIO emulation. Now that iio backend is introduced, the mock use can
-> be removed.
->=20
-> Signed-off-by: Guillaume Stols <gstols@baylibre.com>
-> ---
+On Wed, Oct 09, 2024 at 05:45:10PM +0300, Andy Shevchenko wrote:
+> On Tue, Oct 08, 2024 at 06:10:32PM +0200, David Sterba wrote:
+> > On Mon, Oct 07, 2024 at 06:16:10PM -0500, Ira Weiny wrote:
 
-Maybe this was agreed on the previous iterations but I wonder if we shouldn=
-'t just
-bring PWM support in the same patch as backend support is added...
+...
 
-- Nuno S=C3=A1
+> > > +static inline bool range_overlaps(struct range *r1, struct range *r2)
+> > 
+> > I've noticed only now, you can constify the arguments, but this applise
+> > to other range_* functions so that can be done later in one go.
+> 
+> Frankly you may add the same to each new API being added to the file and
+> the "one go" will never happen. So, I support your first part with
+> constifying, but I think it would be rather done now to start that "one
+> go" to happen.
+
+Alternatively there is should be the patch _in this series_ to make it
+happen before extending an API. I leave the choice to Ira.
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
