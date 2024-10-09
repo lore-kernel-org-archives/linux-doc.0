@@ -1,48 +1,50 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C4231F4727;
-	Wed,  9 Oct 2024 16:13:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99A0C1E25EE;
+	Wed,  9 Oct 2024 16:15:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728490429; cv=none; b=YdW2uiFmh0o/uNZfJ88wVRCoR8F97UB66bdZSwjjrVSh98sftjdyncJlZeHjORWEXvUO2Nfn1mdOYb4PCEge8NwCkhO0FKHR9/UPZ0W82DPmPV1tqTtdY8ZqwzbW7mwhJXwCaNVM9J8aLZvAmAkrHtyzBxTv6Pk11Q7T9lkYuJU=
+	t=1728490549; cv=none; b=fpebZXDlOSpnwZSBUEft2oHIDsHRwN1+OEx8ZnNJ6gg5ztlltOiq2WJw/QAgjNcDAoLJQ1aupfz9QBY6IJpd703icEoJAo1LNa11Y/QO00vBAKotMVvxJvlYDgAVdgv46KduOntR503HoQ0rmgngTxUKu4jgWh1HU0PSvz4Lrus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728490429; c=relaxed/simple;
-	bh=k2AauQCxT5E9o8Og7vMo0KTkdk0cTiSbjAs/VD9in4U=;
+	s=arc-20240116; t=1728490549; c=relaxed/simple;
+	bh=M/ITb2FVzNNNzUQiWSg2FGDAKOER5kCds7nowSGQ/zU=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=GKAtA6CaRvNizvFcxXdREdD/t1d4CZidFPbTwc1CLgrqKqW8DGQgQgJGLC58XzOP+WAFQT+GgA7gG+0CFpT/SddB8k7TrFQTWuF61xQ3lp7Xvsx8d4fhzuQkdjw4yzgcjds9laAqoSk049DzhYxFifK/jqpR8IjlVhhs1CRbxA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=CfPzSDFG; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=Wo7Wqvp6VaAx4LPM8KR5RdXpqbfEnRE/FifUYqptO0wWx0kduXUOs+WF0jyelD76T1Ayhz9ld+Yjk9cjNiBkHCn3NIeCuBdNvt2g2x2aA3FaMInunyg1/GxcVegxAAwP6QjlQISrA/mOv/XgFnyW9lMwUJrAaahaaMdBR4Ku2NQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=IWWB/aia; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="CfPzSDFG"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5B74F42BFE
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="IWWB/aia"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C30D942BFE
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1728490422; bh=CDzpyu2oFSqa5srLpZeVEFvn8kV26o/3REyRaSpzS1o=;
+	t=1728490545; bh=NjqhBZRochyW4BAgB0vKuGodznxzOKCcr9igmm+TVhM=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=CfPzSDFGBJruqkA8eajmYJHlOs5R5/st8DkhYhb6TcUudxTeVpRjWM4FzyXQCLwmt
-	 n6pPp4BEwJ7yhLhR1tMJx5ngnuxMDjCz6bXdCcXpBhTZjBc7DgkPmX2mWAJjWgGoOS
-	 Gjc5PcAHI9Az1V2mVo2g58xmLnyXxHxClXKeWEqyV26IRHjbY572Sen7PDE+1ZdotH
-	 O6hgZ2f0HUl/vzesvns4ZqAkPDpf9z4+ntRLv18k4U2mdB9ei7FMdBZAHoFVfEuzPc
-	 xKAzUJ6Nkh3bxtg5Z99g9zUaJxAKv3+VMyk9SEdZcwRVJupyAdVMQlqWJixOOr1myU
-	 fQiMtJJ3p6fUw==
+	b=IWWB/aiaGlTDm8lOAYxgYtBBXuq+PRH2tO0zfJbEX3zheyUtL1MqFjRKynOo9NSKz
+	 U6+ixqLgXsEn17QP1drpFzgAkb2zNhpdrsnOcHjcdUMF2h9CoohFJjU4rS8lgVeVDt
+	 AlN7XQw+z/XLicQl3gKiVwNr39XGXNuyR7izkQYtHtmk39KwHduaduqcnhg5tydd8J
+	 aSm7/yLXr+HKOClrr8ThD1P4C2n4gHJzAhD1R8QSSB5WeDv4rYZYTBY+ecQGpaa436
+	 YU5A4F5zQzlGKr1DlMNw4aWtEGGP+ae+AYBSkLJWG8ymIoybdYgHRpbub4oG/28OAQ
+	 Z9+d3iLib/QJQ==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 5B74F42BFE;
-	Wed,  9 Oct 2024 16:13:42 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id C30D942BFE;
+	Wed,  9 Oct 2024 16:15:45 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Pengyu Zhang <zpenya1314@gmail.com>, alexs@kernel.org,
- siyanteng@loongson.cn, seakeel@gmail.com, si.yanteng@linux.dev
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- zpenya1314@gmail.com, yaxin_wang_uestc@163.com, zenghui.yu@linux.dev
-Subject: Re: [PATCH v4] Docs/zh_CN: Translate page_tables.rst to Simplified
- Chinese
-In-Reply-To: <20241008153824.4691-1-zpenya1314@gmail.com>
-References: <20241008153824.4691-1-zpenya1314@gmail.com>
-Date: Wed, 09 Oct 2024 10:13:41 -0600
-Message-ID: <87plo9b6fe.fsf@trenco.lwn.net>
+To: jiang.kun2@zte.com.cn, alexs@kernel.org, siyanteng@loongson.cn,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mudongliangabcd@gmail.com, seakeel@gmail.com
+Cc: wang.yaxin@zte.com.cn, fan.yu9@zte.com.cn, xu.xin16@zte.com.cn,
+ he.peilin@zte.com.cn, tu.qiang35@zte.com.cn, qiu.yutan@zte.com.cn,
+ zhang.yunkai@zte.com.cn
+Subject: Re: [PATCH v4 RESEND] Docs/zh_CN: Translate physical_memory.rst to
+ Simplified Chinese
+In-Reply-To: <20241009094607377dUpMqBUFFrp0LP303_o5H@zte.com.cn>
+References: <20241009094607377dUpMqBUFFrp0LP303_o5H@zte.com.cn>
+Date: Wed, 09 Oct 2024 10:15:45 -0600
+Message-ID: <87ldyxb6by.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,29 +53,24 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Pengyu Zhang <zpenya1314@gmail.com> writes:
+<jiang.kun2@zte.com.cn> writes:
 
-> This patch provides a Simplified Chinese translation of the
-> "page_tables.rst" document, aimed at improving accessibility
-> for Chinese-speaking developers and users.
+> From: Yaxin Wang <wang.yaxin@zte.com.cn>
 >
-> The translation prioritizes technical accuracy and readability,
-> ensuring that the content remains clear and informative for
-> its intended audience.
+> This patch translates the "physical_memory.rst" document into
+> Simplified Chinese to improve accessibility for Chinese-speaking
+> developers and users.
 >
-> Signed-off-by: Pengyu Zhang <zpenya1314@gmail.com>
-> ---
->  Documentation/translations/zh_CN/mm/index.rst |   1 +
->  .../translations/zh_CN/mm/page_tables.rst     | 221 ++++++++++++++++++
->  2 files changed, 222 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/mm/page_tables.rst
+> The translation was done with attention to technical accuracy
+> and readability, ensuring that the document remains informative
+> and useful in its translated form.
+>
+> Signed-off-by: Yaxin Wang <wang.yaxin@zte.com.cn>
 
-When posting revised versions of patches, please always include (below
-the "---" line) a summary of what has changed.
+So that is not you.  If you are passing on a patch written by somebody
+else, you need to add your own Signed-off-by tag as well.
 
-It looks like Alex reviewed the previous version; is there a reason you
-didn't include the Reviewed-by tag?  Unless something comes up, my plan
-is to add that back and apply this in the near future.
+I would love it if somebody could review this...
 
 Thanks,
 
