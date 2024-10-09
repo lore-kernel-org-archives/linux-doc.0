@@ -1,413 +1,461 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [58.251.27.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 051F843AD2
-	for <linux-doc@vger.kernel.org>; Wed,  9 Oct 2024 00:56:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63E871CD2B;
+	Wed,  9 Oct 2024 01:52:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=58.251.27.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728435366; cv=none; b=lrqOe5TVzow8mH+mk5lMzjZcAP4yAh2U8z0fmn96VDtF3gRmUqurpIa6DgTnklFlnD/CeNzLr/BBd62V3PyQ23IHN2gA8bZlDomlJMYI6ngcGC/28jI0NFpwSQ0A8CMT5UNGW1/jlG85nw7e+HML+9LvrpJEXYG7wNT25yuf/Qk=
+	t=1728438758; cv=none; b=VVyn+ObZKPrSslAaixYI6TQs3tEUnBR+OkcvlPsuPX5V4sm5HMwfX/4HZ7EUrH9eFur1rz3+qMq48UjkCQz4cP2WA6Wbmu0q/c8vuxWfZ+a4pqJ8mivKgfrLeM6NntzRbkXBNFU1hj9gV1u/Ft0Pe4GjR1+/wJFhcLDcfotaS5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728435366; c=relaxed/simple;
-	bh=OgnU7jGlYOZ4RgUbpwTEE1doBCYt+nNNnswKcF5DWLk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=YzhZUX1z5OluJ0qmb6YQi8g6cCOO5mSmdINQW5PWZ/Mlqi1TB+ewRc9ffvvgtrZ6wCzwaUwiScVOpI5sqyFIjj8XG7QWrvZ+DfNmKyNeIksHkMpNDqo8PHKylMSOJ0pI3jaOKxjc8IZEW756/0ZyGG8FrIbq4zoQ9lFR2mDV0oE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=rHS5XO8d; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="rHS5XO8d"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-20c544d345cso2798685ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 08 Oct 2024 17:56:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1728435364; x=1729040164; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=n16XhemzbXx7qwcaB9LPA7EkmnNUbtxincb4Rdb9OsI=;
-        b=rHS5XO8dkUU3o7d/3kMT1rFjpuzKmRr8/+yrpDMpZBSWuKBr/2nGo90dBlT1T8MrWh
-         jtG01oIW3CBI85VRbrDE5XfIyHpRllm+fic9XEknqMGdawqAwExoJJlAwhpzqHSW0Eqe
-         L2FIQoJosTfs/c8rbzA8UpuPufEiRo6BcNvmk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728435364; x=1729040164;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=n16XhemzbXx7qwcaB9LPA7EkmnNUbtxincb4Rdb9OsI=;
-        b=H+mgtJ2Fbn3Cc+4MMDHCKFhtx7UU0Z0/rWqnkw3sVqqGO5QY4Q1u1fTitCVyT5Z/e7
-         pfDUMgHaI8yd7932P7X++IvISVPrWcU5GFwTotIuW5bi3+Dq6rUUeESJPXukdVQFu+9R
-         j+tBL3G+Rq6RM/YUEc3q02lJfuxCfGodU+54eELC9wO2kmi/B1NopFPJ0/sr5q6Oi0Dj
-         AaD45nns0c15C4o39P9WJ2nxS5UN8AHRrDFFIL9QJH0iAkLjyFDreqmpt7Fb8GQAUucN
-         ttHgSllRHPfNTNunfp23VIba4Ep3hIlUgQuKxYCsp/UkD7crjVLKzrp4+28aQguapEWr
-         1jtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXlBQpB+cea5dz7e1C54X0+X4sLUoqwaiK6hL5DNJHxDZCDahQSN36GhjbiybPxv6kNEzFjqLh1t4k=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/mOio5SY8CK9X9dDjGHUoABlGAuRXFi3AtTxat0pNWMNV5SH2
-	a5LbZvllAa0g1wGkKao1e8Mhpx8Ms+sHaiZLORH7xyQZxt/RBpJZDtQI9bmN0Sw=
-X-Google-Smtp-Source: AGHT+IHR1SIa8oY4V7UBXp5AdvZXp4JzGRwj4HelaMVkmT5XlbsItqb8H1RCUr8fzXvBNtNPuWtGqw==
-X-Received: by 2002:a17:903:124d:b0:205:5c06:39e6 with SMTP id d9443c01a7336-20c4e19d98emr86680775ad.0.1728435364214;
-        Tue, 08 Oct 2024 17:56:04 -0700 (PDT)
-Received: from localhost.localdomain ([2620:11a:c019:0:65e:3115:2f58:c5fd])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20c138cec92sm60996045ad.101.2024.10.08.17.56.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Oct 2024 17:56:03 -0700 (PDT)
-From: Joe Damato <jdamato@fastly.com>
-To: netdev@vger.kernel.org
-Cc: mkarsten@uwaterloo.ca,
-	skhawaja@google.com,
-	sdf@fomichev.me,
-	bjorn@rivosinc.com,
-	amritha.nambiar@intel.com,
-	sridhar.samudrala@intel.com,
-	willemdebruijn.kernel@gmail.com,
-	Joe Damato <jdamato@fastly.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	Johannes Berg <johannes.berg@intel.com>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [net-next v5 5/9] net: napi: Add napi_config
-Date: Wed,  9 Oct 2024 00:54:59 +0000
-Message-Id: <20241009005525.13651-6-jdamato@fastly.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241009005525.13651-1-jdamato@fastly.com>
-References: <20241009005525.13651-1-jdamato@fastly.com>
+	s=arc-20240116; t=1728438758; c=relaxed/simple;
+	bh=42SRhJTVR5G5W5IrzFC2hiNrNOwwYrpdQgMp7SYQhHA=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=FPq+sJ8OiC4XR9VOYzpYo6jlX0jGZy7s0CylwtUmntpSYirCbk0HOkW2WYem+OcCnjzw/yzaTuvm7U6lQDXd+4jD8NPvluCZ8RqxkC7IFvq9yhDeshIuoa6lqebggmgSPuY7Pj/DhVC93FXI3CKhtiJSRAaoFTMf4Vi1tsbUcR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=58.251.27.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mxde.zte.com.cn (unknown [10.35.20.121])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4XNbMr6BNVz1Dx3;
+	Wed,  9 Oct 2024 09:46:32 +0800 (CST)
+Received: from mxhk.zte.com.cn (unknown [192.168.250.137])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mxde.zte.com.cn (FangMail) with ESMTPS id 4XNbMh3HWnzBRHKP;
+	Wed,  9 Oct 2024 09:46:24 +0800 (CST)
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4XNbMT48D2z8R03x;
+	Wed,  9 Oct 2024 09:46:13 +0800 (CST)
+Received: from njb2app07.zte.com.cn ([10.55.22.95])
+	by mse-fl2.zte.com.cn with SMTP id 4991k6K4006373;
+	Wed, 9 Oct 2024 09:46:06 +0800 (+08)
+	(envelope-from jiang.kun2@zte.com.cn)
+Received: from mapi (njy2app03[null])
+	by mapi (Zmail) with MAPI id mid204;
+	Wed, 9 Oct 2024 09:46:07 +0800 (CST)
+Date: Wed, 9 Oct 2024 09:46:07 +0800 (CST)
+X-Zmail-TransId: 2afb6705e05f163-2d217
+X-Mailer: Zmail v1.0
+Message-ID: <20241009094607377dUpMqBUFFrp0LP303_o5H@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+From: <jiang.kun2@zte.com.cn>
+To: <alexs@kernel.org>, <siyanteng@loongson.cn>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <mudongliangabcd@gmail.com>, <seakeel@gmail.com>
+Cc: <wang.yaxin@zte.com.cn>, <fan.yu9@zte.com.cn>, <xu.xin16@zte.com.cn>,
+        <he.peilin@zte.com.cn>, <tu.qiang35@zte.com.cn>,
+        <qiu.yutan@zte.com.cn>, <zhang.yunkai@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIHY0IFJFU0VORF0gRG9jcy96aF9DTjogVHJhbnNsYXRlIHBoeXNpY2FsX21lbW9yeS5yc3QgdG8gU2ltcGxpZmllZCBDaGluZXNl?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl2.zte.com.cn 4991k6K4006373
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6705E077.000/4XNbMr6BNVz1Dx3
 
-Add a persistent NAPI config area for NAPI configuration to the core.
-Drivers opt-in to setting the persistent config for a NAPI by passing an
-index when calling netif_napi_add_config.
+From: Yaxin Wang <wang.yaxin@zte.com.cn>
 
-napi_config is allocated in alloc_netdev_mqs, freed in free_netdev
-(after the NAPIs are deleted).
+This patch translates the "physical_memory.rst" document into
+Simplified Chinese to improve accessibility for Chinese-speaking
+developers and users.
 
-Drivers which call netif_napi_add_config will have persistent per-NAPI
-settings: NAPI IDs, gro_flush_timeout, and defer_hard_irq settings.
+The translation was done with attention to technical accuracy
+and readability, ensuring that the document remains informative
+and useful in its translated form.
 
-Per-NAPI settings are saved in napi_disable and restored in napi_enable.
-
-Co-developed-by: Martin Karsten <mkarsten@uwaterloo.ca>
-Signed-off-by: Martin Karsten <mkarsten@uwaterloo.ca>
-Signed-off-by: Joe Damato <jdamato@fastly.com>
+Signed-off-by: Yaxin Wang <wang.yaxin@zte.com.cn>
 ---
- .../networking/net_cachelines/net_device.rst  |  1 +
- include/linux/netdevice.h                     | 36 ++++++++-
- net/core/dev.c                                | 79 +++++++++++++++++--
- net/core/dev.h                                | 12 +++
- 4 files changed, 118 insertions(+), 10 deletions(-)
+v3->v4:
+Some fixes according to:
+https://lore.kernel.org/all/CAD-N9QWJL8xmyLXi+D1gm5fXX-9DcjuzGv=pW=oQyJyXc=GfqA@mail.gmail.com/
+1. Adjust the context alignment, make it more neat.
+2. Regenerate the patch make sure it can now be applied to the latest
+next/master branch.
 
-diff --git a/Documentation/networking/net_cachelines/net_device.rst b/Documentation/networking/net_cachelines/net_device.rst
-index 3ab663b6cf16..9d86720cb722 100644
---- a/Documentation/networking/net_cachelines/net_device.rst
-+++ b/Documentation/networking/net_cachelines/net_device.rst
-@@ -183,5 +183,6 @@ struct_dpll_pin*                    dpll_pin
- struct hlist_head                   page_pools
- struct dim_irq_moder*               irq_moder
- u64                                 max_pacing_offload_horizon
-+struct_napi_config*                 napi_config
- unsigned_long                       gro_flush_timeout
- u32                                 napi_defer_hard_irqs
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index 4239a4a9d295..b65a901ab4e7 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -342,6 +342,15 @@ struct gro_list {
-  */
- #define GRO_HASH_BUCKETS	8
- 
-+/*
-+ * Structure for per-NAPI config
-+ */
-+struct napi_config {
-+	u64 gro_flush_timeout;
-+	u32 defer_hard_irqs;
-+	unsigned int napi_id;
-+};
+Documentation/translations/zh_CN/mm/index.rst |   1 +
+../translations/zh_CN/mm/physical_memory.rst | 356 ++++++++++++++++++
+2 files changed, 357 insertions(+)
+create mode 100644 Documentation/translations/zh_CN/mm/physical_memory.rst
+
+diff --git a/Documentation/translations/zh_CN/mm/index.rst b/Documentation/translations/zh_CN/mm/index.rst
+index b950dd118be7..eac20a7ec9a6 100644
+--- a/Documentation/translations/zh_CN/mm/index.rst
++++ b/Documentation/translations/zh_CN/mm/index.rst
+@@ -53,6 +53,7 @@ Linux内存管理文档
+page_migration
+page_owner
+page_table_check
++   physical_memory
+remap_file_pages
+split_page_table_lock
+vmalloced-kernel-stacks
+diff --git a/Documentation/translations/zh_CN/mm/physical_memory.rst b/Documentation/translations/zh_CN/mm/physical_memory.rst
+new file mode 100644
+index 000000000000..ed813e513897
+--- /dev/null
++++ b/Documentation/translations/zh_CN/mm/physical_memory.rst
+@@ -0,0 +1,356 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
- /*
-  * Structure for NAPI scheduling similar to tasklet but with weighting
-  */
-@@ -379,6 +388,8 @@ struct napi_struct {
- 	struct list_head	dev_list;
- 	struct hlist_node	napi_hash_node;
- 	int			irq;
-+	int			index;
-+	struct napi_config	*config;
- };
- 
- enum {
-@@ -1860,9 +1871,6 @@ enum netdev_reg_state {
-  *				allocated at register_netdev() time
-  *	@real_num_rx_queues: 	Number of RX queues currently active in device
-  *	@xdp_prog:		XDP sockets filter program pointer
-- *	@gro_flush_timeout:	timeout for GRO layer in NAPI
-- *	@napi_defer_hard_irqs:	If not zero, provides a counter that would
-- *				allow to avoid NIC hard IRQ, on busy queues.
-  *
-  *	@rx_handler:		handler for received packets
-  *	@rx_handler_data: 	XXX: need comments on this one
-@@ -2012,6 +2020,11 @@ enum netdev_reg_state {
-  *		   where the clock is recovered.
-  *
-  *	@max_pacing_offload_horizon: max EDT offload horizon in nsec.
-+ *	@napi_config: An array of napi_config structures containing per-NAPI
-+ *		      settings.
-+ *	@gro_flush_timeout:	timeout for GRO layer in NAPI
-+ *	@napi_defer_hard_irqs:	If not zero, provides a counter that would
-+ *				allow to avoid NIC hard IRQ, on busy queues.
-  *
-  *	FIXME: cleanup struct net_device such that network protocol info
-  *	moves out.
-@@ -2405,6 +2418,7 @@ struct net_device {
- 	struct dim_irq_moder	*irq_moder;
- 
- 	u64			max_pacing_offload_horizon;
-+	struct napi_config	*napi_config;
- 	unsigned long		gro_flush_timeout;
- 	u32			napi_defer_hard_irqs;
- 
-@@ -2657,6 +2671,22 @@ netif_napi_add_tx_weight(struct net_device *dev,
- 	netif_napi_add_weight(dev, napi, poll, weight);
- }
- 
-+/**
-+ * netif_napi_add_config - initialize a NAPI context with persistent config
-+ * @dev: network device
-+ * @napi: NAPI context
-+ * @poll: polling function
-+ * @index: the NAPI index
-+ */
-+static inline void
-+netif_napi_add_config(struct net_device *dev, struct napi_struct *napi,
-+		      int (*poll)(struct napi_struct *, int), int index)
-+{
-+	napi->index = index;
-+	napi->config = &dev->napi_config[index];
-+	netif_napi_add_weight(dev, napi, poll, NAPI_POLL_WEIGHT);
-+}
++.. include:: ../disclaimer-zh_CN.rst
 +
- /**
-  * netif_napi_add_tx() - initialize a NAPI context to be used for Tx only
-  * @dev:  network device
-diff --git a/net/core/dev.c b/net/core/dev.c
-index fca2295f4d95..bd87232f7b37 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -6503,6 +6503,22 @@ EXPORT_SYMBOL(napi_busy_loop);
- 
- #endif /* CONFIG_NET_RX_BUSY_POLL */
- 
-+static void __napi_hash_add_with_id(struct napi_struct *napi,
-+				    unsigned int napi_id)
-+{
-+	napi->napi_id = napi_id;
-+	hlist_add_head_rcu(&napi->napi_hash_node,
-+			   &napi_hash[napi->napi_id % HASH_SIZE(napi_hash)]);
-+}
++:Original: Documentation/mm/physical_memory.rst
 +
-+static void napi_hash_add_with_id(struct napi_struct *napi,
-+				  unsigned int napi_id)
-+{
-+	spin_lock(&napi_hash_lock);
-+	__napi_hash_add_with_id(napi, napi_id);
-+	spin_unlock(&napi_hash_lock);
-+}
++:翻译:
 +
- static void napi_hash_add(struct napi_struct *napi)
- {
- 	if (test_bit(NAPI_STATE_NO_BUSY_POLL, &napi->state))
-@@ -6515,10 +6531,8 @@ static void napi_hash_add(struct napi_struct *napi)
- 		if (unlikely(++napi_gen_id < MIN_NAPI_ID))
- 			napi_gen_id = MIN_NAPI_ID;
- 	} while (napi_by_id(napi_gen_id));
--	napi->napi_id = napi_gen_id;
- 
--	hlist_add_head_rcu(&napi->napi_hash_node,
--			   &napi_hash[napi->napi_id % HASH_SIZE(napi_hash)]);
-+	__napi_hash_add_with_id(napi, napi_gen_id);
- 
- 	spin_unlock(&napi_hash_lock);
- }
-@@ -6641,6 +6655,28 @@ void netif_queue_set_napi(struct net_device *dev, unsigned int queue_index,
- }
- EXPORT_SYMBOL(netif_queue_set_napi);
- 
-+static void napi_restore_config(struct napi_struct *n)
-+{
-+	n->defer_hard_irqs = n->config->defer_hard_irqs;
-+	n->gro_flush_timeout = n->config->gro_flush_timeout;
-+	/* a NAPI ID might be stored in the config, if so use it. if not, use
-+	 * napi_hash_add to generate one for us. It will be saved to the config
-+	 * in napi_disable.
-+	 */
-+	if (n->config->napi_id)
-+		napi_hash_add_with_id(n, n->config->napi_id);
-+	else
-+		napi_hash_add(n);
-+}
++   王亚鑫 Yaxin Wang <wang.yaxin@zte.com.cn>
 +
-+static void napi_save_config(struct napi_struct *n)
-+{
-+	n->config->defer_hard_irqs = n->defer_hard_irqs;
-+	n->config->gro_flush_timeout = n->gro_flush_timeout;
-+	n->config->napi_id = n->napi_id;
-+	napi_hash_del(n);
-+}
++========
++物理内存
++========
 +
- void netif_napi_add_weight(struct net_device *dev, struct napi_struct *napi,
- 			   int (*poll)(struct napi_struct *, int), int weight)
- {
-@@ -6651,8 +6687,6 @@ void netif_napi_add_weight(struct net_device *dev, struct napi_struct *napi,
- 	INIT_HLIST_NODE(&napi->napi_hash_node);
- 	hrtimer_init(&napi->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL_PINNED);
- 	napi->timer.function = napi_watchdog;
--	napi_set_defer_hard_irqs(napi, READ_ONCE(dev->napi_defer_hard_irqs));
--	napi_set_gro_flush_timeout(napi, READ_ONCE(dev->gro_flush_timeout));
- 	init_gro_hash(napi);
- 	napi->skb = NULL;
- 	INIT_LIST_HEAD(&napi->rx_list);
-@@ -6670,7 +6704,13 @@ void netif_napi_add_weight(struct net_device *dev, struct napi_struct *napi,
- 	set_bit(NAPI_STATE_SCHED, &napi->state);
- 	set_bit(NAPI_STATE_NPSVC, &napi->state);
- 	list_add_rcu(&napi->dev_list, &dev->napi_list);
--	napi_hash_add(napi);
++Linux可用于多种架构，因此需要一个与架构无关的抽象来表示物理内存。本章描述
++了管理运行系统中物理内存的结构。
 +
-+	/* default settings from sysfs are applied to all NAPIs. any per-NAPI
-+	 * configuration will be loaded in napi_enable
-+	 */
-+	napi_set_defer_hard_irqs(napi, READ_ONCE(dev->napi_defer_hard_irqs));
-+	napi_set_gro_flush_timeout(napi, READ_ONCE(dev->gro_flush_timeout));
++第一个与内存管理相关的主要概念是`非一致性内存访问(NUMA)
++<https://en.wikipedia.org/wiki/Non-uniform_memory_access>`
 +
- 	napi_get_frags_check(napi);
- 	/* Create kthread for this napi if dev->threaded is set.
- 	 * Clear dev->threaded if kthread creation failed so that
-@@ -6702,6 +6742,11 @@ void napi_disable(struct napi_struct *n)
- 
- 	hrtimer_cancel(&n->timer);
- 
-+	if (n->config)
-+		napi_save_config(n);
-+	else
-+		napi_hash_del(n);
++在多核和多插槽机器中，内存可能被组织成不同的存储区，这些存储区根据与处理器
++的“不同”而有不同的访问开销。例如，可能为每个CPU分配内存存储区，或者为外围
++设备在附近分配一个非常适合DMA的内存存储区。
 +
- 	clear_bit(NAPI_STATE_DISABLE, &n->state);
- }
- EXPORT_SYMBOL(napi_disable);
-@@ -6717,6 +6762,11 @@ void napi_enable(struct napi_struct *n)
- {
- 	unsigned long new, val = READ_ONCE(n->state);
- 
-+	if (n->config)
-+		napi_restore_config(n);
-+	else
-+		napi_hash_add(n);
++每个存储区被称为一个节点，节点在Linux中表示为 ``struct pglist_data``，
++即使是在UMA架构中也是这样表示。该结构总是通过 ``pg_data_t`` 来引用。特
++定节点的 ``pg_data_t`` 结构体可以通过NODE_DATA(nid)引用，其中nid被称
++为该节点的ID。
 +
- 	do {
- 		BUG_ON(!test_bit(NAPI_STATE_SCHED, &val));
- 
-@@ -6746,7 +6796,11 @@ void __netif_napi_del(struct napi_struct *napi)
- 	if (!test_and_clear_bit(NAPI_STATE_LISTED, &napi->state))
- 		return;
- 
--	napi_hash_del(napi);
-+	if (napi->config) {
-+		napi->index = -1;
-+		napi->config = NULL;
++对于非一致性内存访问（NUMA）架构，节点数据结构在引导时由特定于架构的代码早
++期分配。通常，这些结构在其所在的内存区上本地分配。对于一致性内存访问（UMA）
++架构，只使用一个静态的 ``pg_data_t`` 结构体，称为 ``contig_page_data`` 。
++节点将会在 :ref:`节点 <nodes>` 章节中进一步讨论。
++
++整个物理内存被划分为一个或多个被称为区域的块，这些区域表示内存的范围。这
++些范围通常由访问内存的架构限制来决定。在节点内，与特定区域对应的内存范围
++由 ``struct zone`` 结构体描述，该结构被定义为 ``zone_t``，每种区域都
++属于以下描述类型的一种。
++
++* ``ZONE_DMA`` 和 ``ZONE_DMA32`` 在历史上代表适用于DMA的内存，这些
++  内存由那些不能访问所有可寻址内存的外设访问。多年来，已经有了更好、更稳
++  固的接口来获取满足特定DMA需求的内存（这些接口由
++  Documentation/core-api/dma-api.rst 文档描述），但是 ``ZONE_DMA``
++  和 ``ZONE_DMA32`` 仍然表示访问受限的内存范围。
++
++取决于架构的不同，这两种区域可以在构建时通过关闭 ``CONFIG_ZONE_DMA`` 和
++``CONFIG_ZONE_DMA32`` 配置选项来禁用。一些64位的平台可能需要这两种区域，
++因为他们支持具有不同DMA寻址限制的外设。
++
++* ``ZONE_NORMAL`` 是普通内存的区域，这种内存可以被内核随时访问。如果DMA
++  设备支持将数据传输到所有可寻址的内存区域，那么可在该区域的页面上执行DMA
++  操作。 ``ZONE_NORMAL`` 总是开启的。
++
++* ``ZONE_HIGHMEM`` 是指那些没有在内核页表中永久映射的物理内存部分。该区
++  域的内存只能通过临时映射被内核访问。该区域只在某些32位架构上可用，并且是
++  通过 ``CONFIG_HIGHMEM`` 选项开启。
++
++* ``ZONE_MOVABLE`` 是用于可访问的普通内存区域，就像 ``ZONE_NORMAL``
++  一样。  不同之处在于 ``ZONE_MOVABLE`` 中的大多数页面内容是可移动的。
++  这意味着这些页面的虚拟地址不会改变，但它们的内容可能会在不同的物理页面
++  之间移动。通常，在内存热插拔期间填充 ``ZONE_MOVABLE``，  在启动时也
++  可以使用 ``kernelcore``、 ``movablecore`` 和 ``movable_node``
++  这些内核命令行参数来填充。更多详细信息，请参阅内核文档
++  Documentation/mm/page_migration.rst 和
++  Documentation/admin-guide/mm/memory-hotplug.rst。
++
++* ``ZONE_DEVICE`` 表示位于持久性内存（PMEM）和图形处理单元（GPU）
++  等设备上的内存。它与RAM区域类型有不同的特性，并且它的存在是为了提供
++  :ref:`struct page<Pages>` 结构和内存映射服务，以便设备驱动程序能
++  识别物理地址范围。 ``ZONE_DEVICE`` 通过 ``CONFIG_ZONE_DEVICE``
++  选项开启。
++
++需要注意的是，许多内核操作只能使用 ``ZONE_NORMAL`` 来执行，因此它是
++性能最关键区域。区域在 :ref:`区域 <zones>` 章节中有更详细的讨论。
++
++节点和区域范围之间的关系由固件报告的物理内存映射决定，另外也由内存寻址
++的架构约束以及内核命令行中的某些参数决定。
++
++例如，在具有2GB RAM的x86统一内存架构（UMA）机器上运行32位内核时，整
++个内存将位于节点0，并且将有三个区域： ``ZONE_DMA``、 ``ZONE_NORMAL``
++和 ``ZONE_HIGHMEM``::
++
++  0                                                            2G
++  +-------------------------------------------------------------+
++  |                            node 0                           |
++  +-------------------------------------------------------------+
++
++  0         16M                    896M                        2G
++  +----------+-----------------------+--------------------------+
++  | ZONE_DMA |      ZONE_NORMAL      |       ZONE_HIGHMEM       |
++  +----------+-----------------------+--------------------------+
++
++
++在内核构建时关闭 ``ZONE_DMA`` 开启 ``ZONE_DMA32``，并且在具有16GB
++RAM平均分配在两个节点上的arm64机器上，使用 ``movablecore=80%`` 参数
++启动时， ``ZONE_DMA32`` 、 ``ZONE_NORMAL`` 和 ``ZONE_MOVABLE``
++位于节点0，而 ``ZONE_NORMAL`` 和 ``ZONE_MOVABLE`` 位于节点1::
++
++
++ 1G                                9G                         17G
++  +--------------------------------+ +--------------------------+
++  |              node 0            | |          node 1          |
++  +--------------------------------+ +--------------------------+
++
++  1G       4G        4200M          9G          9320M          17G
++  +---------+----------+-----------+ +------------+-------------+
++  |  DMA32  |  NORMAL  |  MOVABLE  | |   NORMAL   |   MOVABLE   |
++  +---------+----------+-----------+ +------------+-------------+
++
++
++内存存储区可能位于交错的节点。在下面的例子中，一台x86机器有16GB的RAM分
++布在4个内存存储区上，偶数编号的内存存储区属于节点0，奇数编号的内存条属于
++节点1::
++
++  0              4G              8G             12G            16G
++  +-------------+ +-------------+ +-------------+ +-------------+
++  |    node 0   | |    node 1   | |    node 0   | |    node 1   |
++  +-------------+ +-------------+ +-------------+ +-------------+
++
++  0   16M      4G
++  +-----+-------+ +-------------+ +-------------+ +-------------+
++  | DMA | DMA32 | |    NORMAL   | |    NORMAL   | |    NORMAL   |
++  +-----+-------+ +-------------+ +-------------+ +-------------+
++
++在这种情况下，节点0将覆盖从0到12GB的内存范围，而节点1将覆盖从4GB到16GB
++的内存范围。
++
++.. _nodes:
++
++节点
++====
++
++正如我们所提到的，内存中的每个节点由 ``pg_data_t`` 描述，通过
++``struct pglist_data`` 结构体的类型定义。在分配页面时，默认情况下，Linux
++使用节点本地分配策略，从离当前运行CPU的最近节点分配内存。由于进程倾向于在同
++一个CPU上运行，很可能会使用当前节点的内存。分配策略可以由用户控制，如内核文
++档Documentation/admin-guide/mm/numa_memory_policy.rst 中所述。
++
++大多数NUMA（非统一内存访问）架构维护了一个指向节点结构的指针数组。这些实际
++的结构在启动过程中的早期被分配，这时特定于架构的代码解析了固件报告的物理内
++存映射。节点初始化的大部分工作是在由 free_area_init()实现的启动过程之后
++完成，该函数在后面的小节 :ref:`初始化 <initialization>` 中有详细描述。
++
++除了节点结构，内核还维护了一个名为 ``node_states`` 的 ``nodemask_t``
++位掩码数组。这个数组中的每个位掩码代表一组特定属性的节点，这些属性由
++``enum node_states`` 定义，定义如下：
++
++``N_POSSIBLE``
++节点可能在某个时刻上线。
++
++``N_ONLINE``
++节点已经上线。
++
++``N_NORMAL_MEMORY``
++节点拥有普通内存。
++
++``N_HIGH_MEMORY``
++节点拥有普通或高端内存。当关闭 ``CONFIG_HIGHMEM`` 配置时，
++也可以称为 ``N_NORMAL_MEMORY``。
++
++``N_MEMORY``
++节点拥有（普通、高端、可移动）内存。
++
++``N_CPU``
++节点拥有一个或多个CPU。
++
++对于具有上述属性的每个节点， ``node_states[<property>]``
++掩码中对应于节点ID的位会被置位。
++
++例如，对于具有常规内存和CPU的节点2，第二个bit将被设置::
++
++  node_states[N_POSSIBLE]
++  node_states[N_ONLINE]
++  node_states[N_NORMAL_MEMORY]
++  node_states[N_HIGH_MEMORY]
++  node_states[N_MEMORY]
++  node_states[N_CPU]
++
++有关使用节点掩码（nodemasks）可能进行的各种操作，请参考
++``include/linux/nodemask.h``。
++
++除此之外，节点掩码（nodemasks）提供用于遍历节点的宏，即
++``for_each_node()`` 和 ``for_each_online_node()``。
++
++例如，要为每个在线节点调用函数 foo()，可以这样操作::
++
++  for_each_online_node(nid) {
++		  pg_data_t *pgdat = NODE_DATA(nid);
++
++		  foo(pgdat);
 +	}
 +
- 	list_del_rcu(&napi->dev_list);
- 	napi_free_frags(napi);
- 
-@@ -11083,6 +11137,8 @@ struct net_device *alloc_netdev_mqs(int sizeof_priv, const char *name,
- 		unsigned int txqs, unsigned int rxqs)
- {
- 	struct net_device *dev;
-+	size_t napi_config_sz;
-+	unsigned int maxqs;
- 
- 	BUG_ON(strlen(name) >= sizeof(dev->name));
- 
-@@ -11096,6 +11152,8 @@ struct net_device *alloc_netdev_mqs(int sizeof_priv, const char *name,
- 		return NULL;
- 	}
- 
-+	maxqs = max(txqs, rxqs);
++节点数据结构
++------------
 +
- 	dev = kvzalloc(struct_size(dev, priv, sizeof_priv),
- 		       GFP_KERNEL_ACCOUNT | __GFP_RETRY_MAYFAIL);
- 	if (!dev)
-@@ -11170,6 +11228,11 @@ struct net_device *alloc_netdev_mqs(int sizeof_priv, const char *name,
- 	if (!dev->ethtool)
- 		goto free_all;
- 
-+	napi_config_sz = array_size(maxqs, sizeof(*dev->napi_config));
-+	dev->napi_config = kvzalloc(napi_config_sz, GFP_KERNEL_ACCOUNT);
-+	if (!dev->napi_config)
-+		goto free_all;
++节点结构 ``struct pglist_data`` 在 ``include/linux/mmzone.h``
++中声明。这里我们将简要描述这个结构体的字段：
 +
- 	strscpy(dev->name, name);
- 	dev->name_assign_type = name_assign_type;
- 	dev->group = INIT_NETDEV_GROUP;
-@@ -11231,6 +11294,8 @@ void free_netdev(struct net_device *dev)
- 	list_for_each_entry_safe(p, n, &dev->napi_list, dev_list)
- 		netif_napi_del(p);
- 
-+	kvfree(dev->napi_config);
++通用字段
++~~~~~~~~
 +
- 	ref_tracker_dir_exit(&dev->refcnt_tracker);
- #ifdef CONFIG_PCPU_DEV_REFCNT
- 	free_percpu(dev->pcpu_refcnt);
-diff --git a/net/core/dev.h b/net/core/dev.h
-index 26e598aa56c3..f22cb532de7a 100644
---- a/net/core/dev.h
-+++ b/net/core/dev.h
-@@ -167,11 +167,17 @@ static inline void napi_set_defer_hard_irqs(struct napi_struct *n, u32 defer)
- static inline void netdev_set_defer_hard_irqs(struct net_device *netdev,
- 					      u32 defer)
- {
-+	unsigned int count = max(netdev->num_rx_queues,
-+				 netdev->num_tx_queues);
- 	struct napi_struct *napi;
-+	int i;
- 
- 	WRITE_ONCE(netdev->napi_defer_hard_irqs, defer);
- 	list_for_each_entry(napi, &netdev->napi_list, dev_list)
- 		napi_set_defer_hard_irqs(napi, defer);
++``node_zones``
++表示该节点的区域列表。并非所有区域都可能被填充，但这是
++完整的列表。它被该节点的node_zonelists以及其它节点的
++node_zonelists引用。
 +
-+	for (i = 0; i < count; i++)
-+		netdev->napi_config[i].defer_hard_irqs = defer;
- }
- 
- /**
-@@ -207,11 +213,17 @@ static inline void napi_set_gro_flush_timeout(struct napi_struct *n,
- static inline void netdev_set_gro_flush_timeout(struct net_device *netdev,
- 						unsigned long timeout)
- {
-+	unsigned int count = max(netdev->num_rx_queues,
-+				 netdev->num_tx_queues);
- 	struct napi_struct *napi;
-+	int i;
- 
- 	WRITE_ONCE(netdev->gro_flush_timeout, timeout);
- 	list_for_each_entry(napi, &netdev->napi_list, dev_list)
- 		napi_set_gro_flush_timeout(napi, timeout);
++``node_zonelists``
++所有节点中所有区域的列表。此列表定义了分配内存时首选的区域
++顺序。 ``node_zonelists`` 在核心内存管理结构初始化期间，
++由 ``mm/page_alloc.c`` 中的 ``build_zonelists()``
++函数设置。
 +
-+	for (i = 0; i < count; i++)
-+		netdev->napi_config[i].gro_flush_timeout = timeout;
- }
- 
- int rps_cpumask_housekeeping(struct cpumask *mask);
--- 
-2.34.1
-
++``nr_zones``
++表示此节点中已填充区域的数量。
++
++``node_mem_map``
++对于使用FLATMEM内存模型的UMA系统，0号节点的 ``node_mem_map``
++表示每个物理帧的struct pages数组。
++
++``node_page_ext``
++对于使用FLATMEM内存模型的UMA系统，0号节点的 ``node_page_ext``
++是struct pages的扩展数组。只有在构建时开启了 ``CONFIG_PAGE_EXTENSION``
++选项的内核中才可用。
++
++``node_start_pfn``
++表示此节点中起始页面帧的页面帧号。
++
++``node_present_pages``
++表示此节点中存在的物理页面的总数。
++
++``node_spanned_pages``
++表示包括空洞在内的物理页面范围的总大小。
++
++``node_size_lock``
++一个保护定义节点范围字段的锁。仅在开启了 ``CONFIG_MEMORY_HOTPLUG`` 或
++``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` 配置选项中的某一个时才定义。提
++供了``pgdat_resize_lock()`` 和 ``pgdat_resize_unlock()`` 用来操作
++``node_size_lock``，而无需检查 ``CONFIG_MEMORY_HOTPLUG`` 或
++``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` 选项。
++
++``node_id``
++节点的节点ID（NID），从0开始。
++
++``totalreserve_pages``
++这是每个节点保留的页面，这些页面不可用于用户空间分配。
++
++``first_deferred_pfn``
++如果大型机器上的内存初始化被推迟，那么第一个PFN（页帧号）是需要初始化的。
++在开启了 ``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` 选项时定义。
++
++``deferred_split_queue``
++每个节点的大页队列，这些大页的拆分被推迟了。仅在开启了 ``CONFIG_TRANSPARENT_HUGEPAGE``
++配置选项时定义。
++
++``__lruvec``
++每个节点的lruvec持有LRU（最近最少使用）列表和相关参数。仅在禁用了内存
++控制组（cgroups）时使用。它不应该直接访问，而应该使用 ``mem_cgroup_lruvec()``
++来查找 lruvecs。
++
++回收控制
++~~~~~~~~
++
++另见内核文档 Documentation/mm/page_reclaim.rst 文件。
++
++``kswapd``
++每个节点的kswapd内核线程实例。
++
++``kswapd_wait``, ``pfmemalloc_wait``, ``reclaim_wait``
++同步内存回收任务的工作队列。
++
++``nr_writeback_throttled``
++等待写回脏页时，被限制的任务数量。
++
++``kswapd_order``
++控制kswapd尝试回收的order。
++
++``kswapd_highest_zoneidx``
++kswapd线程可以回收的最高区域索引。
++
++``kswapd_failures``
++kswapd无法回收任何页面的运行次数。
++
++``min_unmapped_pages``
++无法回收的未映射文件支持的最小页面数量。由 ``vm.min_unmapped_ratio``
++系统控制台（sysctl）参数决定。在开启 ``CONFIG_NUMA`` 配置时定义。
++
++``min_slab_pages``
++无法回收的SLAB页面的最少数量。由 ``vm.min_slab_ratio`` 系统控制台
++（sysctl）参数决定。在开启 ``CONFIG_NUMA`` 时定义。
++
++``flags``
++控制回收行为的标志位。
++
++内存压缩控制
++~~~~~~~~~~~~
++
++``kcompactd_max_order``
++kcompactd应尝试实现的页面order。
++
++``kcompactd_highest_zoneidx``
++kcompactd可以压缩的最高区域索引。
++
++``kcompactd_wait``
++同步内存压缩任务的工作队列。
++
++``kcompactd``
++每个节点的kcompactd内核线程实例。
++
++``proactive_compact_trigger``
++决定是否使用主动压缩。由 ``vm.compaction_proactiveness`` 系统控
++制台（sysctl）参数控制。
++
++统计信息
++~~~~~~~~
++
++``per_cpu_nodestats``
++表示节点的Per-CPU虚拟内存统计信息。
++
++``vm_stat``
++表示节点的虚拟内存统计数据。
++
++.. _zones:
++
++区域
++====
++
++.. admonition:: Stub
++
++  本节内容不完整。请列出并描述相应的字段。
++
++.. _pages:
++
++页
++====
++
++.. admonition:: Stub
++
++  本节内容不完整。请列出并描述相应的字段。
++
++页码
++====
++
++.. admonition:: Stub
++
++  本节内容不完整。请列出并描述相应的字段。
++
++.. _initialization:
++
++初始化
++======
++
++.. admonition:: Stub
++
++  本节内容不完整。请列出并描述相应的字段。
++
++
+--
+2.25.1
