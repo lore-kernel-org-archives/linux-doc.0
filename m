@@ -1,154 +1,202 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE81E1A0B06;
-	Wed,  9 Oct 2024 14:59:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1F5C196D98;
+	Wed,  9 Oct 2024 15:02:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728485976; cv=none; b=j3pkHI9w9QPG3jxfvxsYGwVgpjZy4g6KqqkiX7qUbRC0ZwmEBDV79nHcI2ntsyagLH4gy9WosEjQwpeO/R62hWa2CWjZYn+LPJ66EhyhTqbtxehCsPu7PPhukFGiKQpgT/iJlgqdMnaZR1IBUeE6rEZadTrEUkhT6WMGQ4VgiIs=
+	t=1728486173; cv=none; b=ODjpgtm98qM+B+ajF3zpqTEsNurLvsdLNn+bpaY3dWXQFkpYqaOnVkUb9O5K+kNTioJh9umhz8gAmD9L0PXD6lhN7jUDY+NLUqudpaYaToUR1X8obuOziY0Rdlpl/LVr7hiJexrQHaqhViVNWee2Wfi9D/tzxvMF2FkhYY88aZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728485976; c=relaxed/simple;
-	bh=bMAvKTxqdqHiwcL4OB2FVzz4YshB8ALhlNR8QDtvW/A=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=FiBO5o6JDmogXGIOFury+BH7Ek3eR8ebEbGRL1qWjOUiKSycF3d0t3yU94MCwii9cAsvFDyCRRb8gmt3gt3Eq9ZcZHpwws1TyD67s+xWqjxmAdk9/zTiZek//qmLQDGYIiAQ1EiQkiHdU4GJe/lLF2SD2z1i0R9QRAVohngBixA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hh5/x0LT; arc=none smtp.client-ip=209.85.218.53
+	s=arc-20240116; t=1728486173; c=relaxed/simple;
+	bh=Mk44DNlSMwHtbEg19mQvbg2/aNCmQ3rZ/LMVqCQ1yuU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BwtHph5v5vda8GuskdRY6Cg/dT54rcPfejDZIIfRxtmNiqVqvoG2KlWSAtwFXMAkZ8GiYf6uI1auiFDEHM2Hf1HM6awbN9VdJvxdp3SyPAbswHPdm+DyyIU4lMkjrWQI0paV5F+9VhVR3ij3JnUUWjIETowutjVaxVZw9Yo88gM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EXg5ONS+; arc=none smtp.client-ip=209.85.216.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hh5/x0LT"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a9977360f9fso249048066b.0;
-        Wed, 09 Oct 2024 07:59:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EXg5ONS+"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2e0946f9a8eso4829102a91.1;
+        Wed, 09 Oct 2024 08:02:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728485972; x=1729090772; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=E3WtsCpgNIXHaF0APsCrNftN5SWrqWtnB+nbBJCHGk8=;
-        b=hh5/x0LT8DCbBth308ip/feOXF6YVINilmYR77o41XwrCzTbpatozF5eUMSNBcO2Le
-         zecY7fJeUgQ6Y5sX9stq5jHs52gbFOsnPmI0R6z6HB9DY7cCjpeWoR4JlBjHUWEfUmJc
-         DicdZbXPVQRV6VZjEWDtzWDgnCXajZKYiYeAkFdXdjVuefB9xTIbiqXPIqriK3BxtcSu
-         dbkFphNtLMOwfo2We28A/vYMwZOIesncbqyUotQBbHFNjJGmFinjohod2kfof5vWkA05
-         PK2caf+/ijRT+TTpUKSOGc5s+MWz874TB+ooRS7tCteDvvJHUsKNAm8aNL2BQTQ4JZ7k
-         fZHw==
+        d=gmail.com; s=20230601; t=1728486171; x=1729090971; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qaKS53yTMSxp8Q9ePLUQ+BVB9n7Us0sPrHA8rLSAqgw=;
+        b=EXg5ONS+DeD3G9jY+tiKFEAbvYy6AQPFeGyuvqf1vPPn2q/o7tRLyFGKS4fKwiaEW3
+         8ltfAcjPR7EVN2x3tLJEVyxD2PlqDKXRZDTOp9M45mA8V5YbRisMC/3kNBKGcTyvzfMZ
+         aw4/T/S/RWlzQgIVsUNvpzyt/cg/21NQsMHawJcHAjFDUP/ClO31Ov7T67HbNS+uCIdP
+         +0itdz6v38sGYfBOulLD7Kh4ue+zOgu+tirwAdcwCtZEsbl4wyBNLOtdqNfv9WY0jY28
+         fUOFpVXlAyJq9SKNVDjlo1G5b5Zq6+OG1FD/dwDI/VhFnVrOcM+LSb0d9rksvw8uMitQ
+         QI9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728485972; x=1729090772;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=E3WtsCpgNIXHaF0APsCrNftN5SWrqWtnB+nbBJCHGk8=;
-        b=EjI3GUdmpsE5LrzyzLXUDIGlUlyPY53oRK4EPrMCpJhe09iQe5d3pkgc5h3lJmZQQx
-         K2frWQBFfKqMurZpE2bMreLzr0Ht++hv3D174U/96MSWW49t6DqIqkUDdKXOQhDSWQLg
-         2xjEwkQNBOea4dWbZ33uOp+ClV0DN2/HjJ4Ssv4gRlFtPrrOLjPqna900hEAxoeVmUEV
-         z+OUUBsW/G+xyDNbaH6PgYQUhv9SookLcsMTF6Vv0HOC27yrNdZ5d7BlyLlbE2Z0t7cw
-         beedNn0a+GIckKxYzI+HtaZnVtvBQ/xKP66NhZ1Zoi+SmcqzPz8ez+vmiWyRitsAWjD9
-         tvcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVA+pyzzXQq8jj49Yre1R2cme706hcepKT2LaVq4AUO8jPoa2L5obw8vw+OQdGxaquB+CuXlW6Y55p9@vger.kernel.org, AJvYcCW+yQuVY0vkLuLrCJjXOVKgcTfo8/pBzPqRawnaLm7sH1T02QG6lj5PYTSLlUaxADbmtRMQ9/Cob71t@vger.kernel.org, AJvYcCWx39NxT9lPkUyqV0CUHB/Gyfu7VLzQCOYdyvmlJ8mZ4OizhLQgvlQEL4rjCvY53qP0YRnPHrJ90zvuvTs=@vger.kernel.org, AJvYcCXj3Ks1spsbtOKk5Gvzej1MCcey6yfhui9dGzZvoAmVsgpWoKALsZ2Ylth4mtaDdDIvGSyqS6vg2eTt@vger.kernel.org, AJvYcCXxPyOpidVu2VJipBIjrAWd7utDOMy8np+qs/GAOTQ04bCpHJ/1MPpIN+CiYT5U9qwQjOGENNY5CP+2HTnM@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyvmyy1lMgroXHt1SQxM5Fc46p0XHzER2dxEB9T41U4g6NlELpG
-	sln3AIrl29YxgkbNP6pfOlg7/L8vdPSV7m6Z8KYhd/JRbxxrFXcCNfGR9P1ENBY=
-X-Google-Smtp-Source: AGHT+IEJKBcrFnVSMldqrFkSB32VcoGZJx7VO9bzRb/opmzn+IGK9ULEl7e4QRixKBFGGfKcFRB8IA==
-X-Received: by 2002:a17:907:c7dd:b0:a99:446e:3b5f with SMTP id a640c23a62f3a-a998d3158c1mr250285466b.50.1728485971918;
-        Wed, 09 Oct 2024 07:59:31 -0700 (PDT)
-Received: from ?IPv6:2001:a61:34c9:ea01:14b4:7ed9:5135:9381? ([2001:a61:34c9:ea01:14b4:7ed9:5135:9381])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a992e787eecsm661220066b.125.2024.10.09.07.59.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Oct 2024 07:59:31 -0700 (PDT)
-Message-ID: <bb0874600cb0c74f1a3ff8d41a0c3f9e76829009.camel@gmail.com>
-Subject: Re: [PATCH v4 5/8] iio: adc: ad7606: Add compatibility to fw_nodes
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Guillaume Stols <gstols@baylibre.com>, Uwe
- =?ISO-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>, Lars-Peter Clausen
- <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
- aardelean@baylibre.com,  dlechner@baylibre.com, jstephan@baylibre.com,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Date: Wed, 09 Oct 2024 16:59:30 +0200
-In-Reply-To: <d1229162-b97b-4261-9c4a-e1f83ef14378@baylibre.com>
-References: 
-	<20241009-ad7606_add_iio_backend_support-v4-0-6971a8c0f1d5@baylibre.com>
-	 <20241009-ad7606_add_iio_backend_support-v4-5-6971a8c0f1d5@baylibre.com>
-	 <facfe06f51a815f4ff5604aeacd8bd6ed0629be4.camel@gmail.com>
-	 <d1229162-b97b-4261-9c4a-e1f83ef14378@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
+        d=1e100.net; s=20230601; t=1728486171; x=1729090971;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qaKS53yTMSxp8Q9ePLUQ+BVB9n7Us0sPrHA8rLSAqgw=;
+        b=niMyBwvXSH3EdWRm+S7/ysusEra8RDlFT6JuzIRnWIhw1ecnavm9GHsYz3rzsnDanN
+         MTqJlNbPfxiI+BkZvfvMVsNxuxZhTUuB5WLd1Ca+F3QFoBOy4lNbq0MszmYEEB8J3t1n
+         TIZID1FYPFItax4OmeHyiPVkG0ZD/zhUjHNxn6rPSlt+xKuRzz7I1Jt6lgwPwTxmLCNX
+         iDzOu7HgxQOWTIF5BaB5TFGHfjlpG4ETHQzsv2fJpGxkp53qbXw6sviNmjGIaMwDwhKG
+         lbCawUmHWqzvDPcHvuR0cWF6II15btmwpCLdqWbrasko1DYb/7pb9vp4Y0Pk09PPtUKY
+         A8CA==
+X-Forwarded-Encrypted: i=1; AJvYcCUojJCCBgwZusE/65L+FyyWcsvNUH9EJeM39a+ZRUfO+bb+zmmUWFPa9EeaPPcR99wvJsOmUtTFCC0=@vger.kernel.org, AJvYcCVC/ExAQ9NE5vMglL16CWXqsVgJOABBgNb3IzsqSHStmQ713bOvhXlpQW2pOfx7aYeizkkAPvxR@vger.kernel.org
+X-Gm-Message-State: AOJu0YyLNbGAfs08VEQ9hPXHNNEVzyn7W1jwPpmzqoLc0lIhu3aUWqq2
+	dLcSjtuwiGst11fA03gH0SSacVW4Jkax6d2bBwz7q4wqViqJMfYMlHGUg25xCmIP5COlBD8T6n/
+	Ho/zGgUNu3Z9uhmO3Ctqv8S3LGCM=
+X-Google-Smtp-Source: AGHT+IFVFdWxe5akt6EZLNX/2yNuQeocWxGJr1YJen3l9LxlG0R8AHcZNtUGHY6e1V1bp6yreDU+mm1Mx70nAjtBHdU=
+X-Received: by 2002:a17:90a:c2c5:b0:2e2:a650:3070 with SMTP id
+ 98e67ed59e1d1-2e2a6503305mr3042587a91.4.1728486170882; Wed, 09 Oct 2024
+ 08:02:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20241003160620.1521626-1-ap420073@gmail.com> <20241003160620.1521626-8-ap420073@gmail.com>
+ <CAHS8izO-7pPk7xyY4JdyaY4hZpd7zerbjhGanRvaTk+OOsvY0A@mail.gmail.com>
+ <CAMArcTU61G=fexf-RJDSW_sGp9dZCkJsJKC=yjg79RS9Ugjuxw@mail.gmail.com> <18255eaf-a2ce-4cd1-b47b-2482b6c42e08@davidwei.uk>
+In-Reply-To: <18255eaf-a2ce-4cd1-b47b-2482b6c42e08@davidwei.uk>
+From: Taehee Yoo <ap420073@gmail.com>
+Date: Thu, 10 Oct 2024 00:02:37 +0900
+Message-ID: <CAMArcTWsa3Z2Y4Kj-kNia7MsiosW74w56DvaoCQ=9eK5GwC0_w@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 7/7] bnxt_en: add support for device memory tcp
+To: David Wei <dw@davidwei.uk>
+Cc: Mina Almasry <almasrymina@google.com>, davem@davemloft.net, kuba@kernel.org, 
+	pabeni@redhat.com, edumazet@google.com, netdev@vger.kernel.org, 
+	linux-doc@vger.kernel.org, donald.hunter@gmail.com, corbet@lwn.net, 
+	michael.chan@broadcom.com, kory.maincent@bootlin.com, andrew@lunn.ch, 
+	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
+	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
+	ahmed.zaki@intel.com, paul.greenwalt@intel.com, rrameshbabu@nvidia.com, 
+	idosch@nvidia.com, asml.silence@gmail.com, kaiyuanz@google.com, 
+	willemb@google.com, aleksander.lobakin@intel.com, sridhar.samudrala@intel.com, 
+	bcreeley@amd.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2024-10-09 at 16:53 +0200, Guillaume Stols wrote:
->=20
-> On 10/9/24 16:39, Nuno S=C3=A1 wrote:
-> > On Wed, 2024-10-09 at 09:19 +0000, Guillaume Stols wrote:
-> > > On the parallel version, the current implementation is only compatibl=
+On Tue, Oct 8, 2024 at 11:57=E2=80=AFAM David Wei <dw@davidwei.uk> wrote:
+>
+> On 2024-10-04 03:34, Taehee Yoo wrote:
+> > On Fri, Oct 4, 2024 at 3:43=E2=80=AFAM Mina Almasry <almasrymina@google=
+.com> wrote:
+> >>> @@ -3608,9 +3629,11 @@ static void bnxt_free_rx_rings(struct bnxt *bp=
+)
+> >>>
+> >>>  static int bnxt_alloc_rx_page_pool(struct bnxt *bp,
+> >>>                                    struct bnxt_rx_ring_info *rxr,
+> >>> +                                  int queue_idx,
+> >>>                                    int numa_node)
+> >>>  {
+> >>>         struct page_pool_params pp =3D { 0 };
+> >>> +       struct netdev_rx_queue *rxq;
+> >>>
+> >>>         pp.pool_size =3D bp->rx_agg_ring_size;
+> >>>         if (BNXT_RX_PAGE_MODE(bp))
+> >>> @@ -3621,8 +3644,15 @@ static int bnxt_alloc_rx_page_pool(struct bnxt=
+ *bp,
+> >>>         pp.dev =3D &bp->pdev->dev;
+> >>>         pp.dma_dir =3D bp->rx_dir;
+> >>>         pp.max_len =3D PAGE_SIZE;
+> >>> -       pp.flags =3D PP_FLAG_DMA_MAP | PP_FLAG_DMA_SYNC_DEV;
+> >>> +       pp.order =3D 0;
+> >>> +
+> >>> +       rxq =3D __netif_get_rx_queue(bp->dev, queue_idx);
+> >>> +       if (rxq->mp_params.mp_priv)
+> >>> +               pp.flags =3D PP_FLAG_DMA_MAP | PP_FLAG_ALLOW_UNREADAB=
+LE_NETMEM;
+> >>
+> >> This is not the intended use of PP_FLAG_ALLOW_UNREADABLE_NETMEM.
+> >>
+> >> The driver should set PP_FLAG_ALLOW_UNREADABLE_NETMEM when it's able
+> >> to handle unreadable netmem, it should not worry about whether
+> >> rxq->mp_params.mp_priv is set or not.
+> >>
+> >> You should set PP_FLAG_ALLOW_UNREADABLE_NETMEM when HDS is enabled.
+> >> Let core figure out if mp_params.mp_priv is enabled. All the driver
+> >> needs to report is whether it's configured to be able to handle
+> >> unreadable netmem (which practically means HDS is enabled).
+> >
+> > The reason why the branch exists here is the PP_FLAG_ALLOW_UNREADABLE_N=
+ETMEM
+> > flag can't be used with PP_FLAG_DMA_SYNC_DEV.
+> >
+> >  228         if (pool->slow.flags & PP_FLAG_DMA_SYNC_DEV) {
+> >  229                 /* In order to request DMA-sync-for-device the pag=
 e
-> > > with id tables and won't work with fw_nodes, this commit intends to f=
-ix
-> > > it.
-> > >=20
-> > > Doing so required to declare ad7606_chip_info structures in the .h fi=
-le
-> > > so to make them accessible to all the driver files that can set a
-> > > pointer to the corresponding chip as the driver data.
-> > >=20
-> > > Signed-off-by: Guillaume Stols <gstols@baylibre.com>
-> > > ---
-> > > =C2=A0=C2=A0drivers/iio/adc/ad7606.c=C2=A0=C2=A0=C2=A0=C2=A0 | 283 ++=
-++++++++++++++++++++++------------------
-> > > -
-> > > =C2=A0=C2=A0drivers/iio/adc/ad7606.h=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 =
-32 +++--
-> > > =C2=A0=C2=A0drivers/iio/adc/ad7606_par.c |=C2=A0 30 +++--
-> > > =C2=A0=C2=A0drivers/iio/adc/ad7606_spi.c |=C2=A0 96 +++++++++------
-> > > =C2=A0=C2=A04 files changed, 254 insertions(+), 187 deletions(-)
-> > >=20
-> > > diff --git a/drivers/iio/adc/ad7606.c b/drivers/iio/adc/ad7606.c
-> > > index 5b276d087ec3..dfbdea8c28ba 100644
-> > > --- a/drivers/iio/adc/ad7606.c
-> > > +++ b/drivers/iio/adc/ad7606.c
-> > > @@ -78,6 +78,155 @@ static const unsigned int ad7616_oversampling_ava=
-il[8] =3D {
-> > >=20
-> > ...
-> >=20
-> > > +const struct ad7606_chip_info ad7616_info =3D {
-> > > +	.channels =3D ad7616_channels,
-> > > +	.init_delay_ms =3D 15,
-> > > +	.name =3D "ad7616",
-> > > +	.num_channels =3D 17,
-> > > +	.oversampling_avail =3D ad7616_oversampling_avail,
-> > > +	.oversampling_num =3D ARRAY_SIZE(ad7616_oversampling_avail),
-> > > +	.os_req_reset =3D true,
-> > > +	.scale_setup_cb =3D ad7606_16bit_chan_scale_setup,
-> > > +};
-> > > +EXPORT_SYMBOL_NS_GPL(ad7616_info, IIO_AD7606);
-> > >=20
-> > Maybe my eyes are tricking me but I'm not seeing any MODULE_IMPORT_NS()=
- in the
-> > drivers?
->=20
-> Hi Nuno,
->=20
-> The ad7606_spi.c and ad7606_par.c use MODULE_IMPORT_NS(IIO_AD7606).
->=20
-> Chip infos are used in the "coupling" structures, e.g:
->=20
-> =C2=A0=C2=A0static const struct ad7606_bus_info ad7616_bus_info =3D {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .chip_info =3D &ad7616_info,=C2=AC
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .bops =3D &ad7616_spi_bops,=C2=AC
-> =C2=A0=C2=A0};=C2=AC
->=20
+> >  230                  * needs to be mapped
+> >  231                  */
+> >  232                 if (!(pool->slow.flags & PP_FLAG_DMA_MAP))
+> >  233                         return -EINVAL;
+> >  234
+> >  235                 if (!pool->p.max_len)
+> >  236                         return -EINVAL;
+> >  237
+> >  238                 pool->dma_sync =3D true;                //here
+> >  239
+> >  240                 /* pool->p.offset has to be set according to the a=
+ddress
+> >  241                  * offset used by the DMA engine to start copying =
+rx data
+> >  242                  */
+> >  243         }
+> >
+> > If PP_FLAG_DMA_SYNC_DEV is set, page->dma_sync is set to true.
+> >
+> > 347 int mp_dmabuf_devmem_init(struct page_pool *pool)
+> > 348 {
+> > 349         struct net_devmem_dmabuf_binding *binding =3D pool->mp_priv=
+;
+> > 350
+> > 351         if (!binding)
+> > 352                 return -EINVAL;
+> > 353
+> > 354         if (!pool->dma_map)
+> > 355                 return -EOPNOTSUPP;
+> > 356
+> > 357         if (pool->dma_sync)                      //here
+> > 358                 return -EOPNOTSUPP;
+> > 359
+> > 360         if (pool->p.order !=3D 0)
+> > 361                 return -E2BIG;
+> > 362
+> > 363         net_devmem_dmabuf_binding_get(binding);
+> > 364         return 0;
+> > 365 }
+> >
+> > In the mp_dmabuf_devmem_init(), it fails when pool->dma_sync is true.
+>
+> This won't work for io_uring zero copy into user memory. We need all
+> PP_FLAG_DMA_MAP | PP_FLAG_DMA_SYNC_DEV | PP_FLAG_ALLOW_UNREADABLE_NETMEM
+> set.
+>
+> I agree with Mina that the driver should not be poking at the mp_priv
+> fields. How about setting all the flags and then letting the mp->init()
+> figure it out? mp_dmabuf_devmem_init() is called within page_pool_init()
+> so as long as it resets dma_sync if set I don't see any issues.
+>
 
-You were faster than me. I just realized that code is only in the testing b=
-ranch of
-IIO and was going to reply to disregard my comment :).
+Ah, I haven't thought the failure of PP_FLAG_DMA_SYNC_DEV
+for dmabuf may be wrong.
+IIUC this flag indicates sync between device and CPU.
+But device memory TCP is not related to sync between device and CPU.
+So, I think we need to remove this condition check code in the core.
+How do you think about it?
 
-- Nuno S=C3=A1
+> >
+> > tcp-data-split can be used for normal cases, not only devmem TCP case.
+> > If we enable tcp-data-split and disable devmem TCP, page_pool doesn't
+> > have PP_FLAG_DMA_SYNC_DEV.
+> > So I think mp_params.mp_priv is still useful.
+> >
+> > Thanks a lot,
+> > Taehee Yoo
+> >
+> >>
+> >>
+> >> --
+> >> Thanks,
+> >> Mina
