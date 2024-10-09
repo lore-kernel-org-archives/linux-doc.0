@@ -1,96 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 913D4199E8C;
-	Wed,  9 Oct 2024 12:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AFDF19D074;
+	Wed,  9 Oct 2024 12:51:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728478225; cv=none; b=MkKxRgtahLnoCd92h4RXx/rpp1gFbNpaWbKo40OJtL5WE+IiN5yqedpsLKurhMrdtF1WleLPlXa5z7rphn30Z3oXzARYAEwMlDbIIwPHamL7Pyu8TGpKN6phbBcJu229Tp5ahbwUYkC44W2HkV4g9VLXX2CeWBaxNf336VM0RVk=
+	t=1728478313; cv=none; b=uQueE7QcFjeX2XEc8YP1ZSdnxHV3RC7yJwjgG2qVHh7vkr5O1PzF33HVltEyW+kjIjQuBOxhLngtsM0LmNi+hHxVwgl/xB+TiR3Zhfyvn/biby+xUx35VrXQZH/mMg/WFzDp+rJf/2f7lYfDX3smRzRTtmye10OagmE8sSDWjvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728478225; c=relaxed/simple;
-	bh=yvNe98Z7L5t99Iq3TS1CIPsDhczn7uicq7Rg6gMTksA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I3yPM7zLwgjFgvPE9FFfszzLwTe/8/ZKLnGKe+SJVvE1+AtU6P0JQtjOIcOM00MFTq4ZRaifQYnIod6n6rJe2gOP0AOOZ/xrbm/h1wGimQ9SaAmT0MQtP9+gmtLExf1IdwNf7HVUsCQJmhrX56nnqhoJAmz32H+biKN/sdcfsJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N5niaz9h; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N5niaz9h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BE7FC4CEC5;
-	Wed,  9 Oct 2024 12:50:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728478225;
-	bh=yvNe98Z7L5t99Iq3TS1CIPsDhczn7uicq7Rg6gMTksA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N5niaz9h1SMc8Ggb1E/Jq7F8qVs8Hq0wDWXLIp1bOBJqpNqz84OIG0p6xBV5mlnZT
-	 1+inNEMCsVUAwALouSqOMzOGECoC3ylw0l05/FM1egEsA6pzX6Bh7zK8eSzzXZ4lO1
-	 Oze9mm0YfhpHWwYfXc6+Ll09Tu1S5d7feaZhv1Io2KIEQFuNNKGZIfYWiE//XSsxyX
-	 VjUebrK7aLpCO04NYwJx+0ThZsWw9iWhkD7VG7N+8wtqzZlx0BdqtW6/l+jRfhPlVv
-	 BLpf5RTE4XSGnWdcutQxgLx2/IRSarTv941e0RE7+iBiwycjHErui5ml4WqsFJ7n8u
-	 i97P1IuH9uTLw==
-Date: Wed, 9 Oct 2024 13:50:21 +0100
-From: Simon Horman <horms@kernel.org>
-To: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	Tony Nguyen <anthony.l.nguyen@intel.com>
-Subject: Re: [PATCH net v2] docs: netdev: document guidance on cleanup patches
-Message-ID: <20241009125021.GU99782@kernel.org>
-References: <20241009-doc-mc-clean-v2-1-e637b665fa81@kernel.org>
- <01c97823-d560-4f89-b757-752e18940f31@intel.com>
+	s=arc-20240116; t=1728478313; c=relaxed/simple;
+	bh=dF3rM4GYNFGcBcZ9fKpWcLZR2/eAYRWIYHT7Mt8IkJo=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Vq/eUUQOVlfjtXhUzlGI6h5bOJgjV9ezc8+DV4agHcisQtlfJAONK5oAGlU+KfNIRlJsAR6dw0q4vgNcY7X1rreED7wW2+sc2eGOkOT9ScJ/A9FDFEiPjJ5XZHZQIwVgTrRJ6AL+e9GGsfOhQkBVvNoFppNdWZDGCAlS1tSGpik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4XNt6066Zyz6K76s;
+	Wed,  9 Oct 2024 20:50:32 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 8A1AC14038F;
+	Wed,  9 Oct 2024 20:51:50 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 9 Oct
+ 2024 14:51:48 +0200
+Date: Wed, 9 Oct 2024 13:51:46 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: <ira.weiny@intel.com>
+CC: Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, "Navneet
+ Singh" <navneet.singh@intel.com>, Jonathan Corbet <corbet@lwn.net>, "Andrew
+ Morton" <akpm@linux-foundation.org>, Dan Williams <dan.j.williams@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>, "Alison Schofield"
+	<alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
+	<linux-btrfs@vger.kernel.org>, <linux-cxl@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <nvdimm@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 09/28] cxl/core: Separate region mode from decoder
+ mode
+Message-ID: <20241009135146.00001043@Huawei.com>
+In-Reply-To: <20241007-dcd-type2-upstream-v4-9-c261ee6eeded@intel.com>
+References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
+	<20241007-dcd-type2-upstream-v4-9-c261ee6eeded@intel.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <01c97823-d560-4f89-b757-752e18940f31@intel.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-On Wed, Oct 09, 2024 at 11:42:14AM +0200, Przemek Kitszel wrote:
-> On 10/9/24 11:12, Simon Horman wrote:
-> > The purpose of this section is to document what is the current practice
-> > regarding clean-up patches which address checkpatch warnings and similar
-> > problems. I feel there is a value in having this documented so others
-> > can easily refer to it.
-> > 
-> > Clearly this topic is subjective. And to some extent the current
-> > practice discourages a wider range of patches than is described here.
-> > But I feel it is best to start somewhere, with the most well established
-> > part of the current practice.
-> > 
-> > --
-> > I did think this was already documented. And perhaps it is.
-> > But I was unable to find it after a quick search.
-> > 
-> > Signed-off-by: Simon Horman <horms@kernel.org>
+On Mon, 07 Oct 2024 18:16:15 -0500
+ira.weiny@intel.com wrote:
+
+> From: Navneet Singh <navneet.singh@intel.com>
 > 
-> Looks like you wanted to say "please don't submit autogenerated clenups"
-
-:)
-
-> > ---
-> > Changes in v2:
-> > - Drop RFC designation
-> > - Correct capitalisation of heading
-> > - Add that:
-> >    + devm_ conversions are also discouraged, outside the context of other work
+> Until now region modes and decoder modes were equivalent in that both
+> modes were either PMEM or RAM.  The addition of Dynamic
+> Capacity partitions defines up to 8 DC partitions per device.
 > 
-> devm_ is generally discouraged in netdev, so much that I will welcome
-> the opposite cleanup :)
+> The region mode is thus no longer equivalent to the endpoint decoder
+> mode.  IOW the endpoint decoders may have modes of DC0-DC7 while the
+> region mode is simply DC.
 > 
-> Your write-up on this is correct, no objections.
+> Define a new region mode enumeration which applies to regions separate
+> from the decoder mode.  Adjust the code to process these modes
+> independently.
 > 
-> Perhaps we could say more about the status of the code that is fixed -
-> Maintained/Odd fixes/Orphaned - I would don't touch anything below
-> "Maintained" for good reason
+> There is no equal to decoder mode dead in region modes.  Avoid
+> constructing regions with decoders which have been flagged as dead.
+> 
+> Suggested-by: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+> Signed-off-by: Navneet Singh <navneet.singh@intel.com>
+> Co-developed-by: Ira Weiny <ira.weiny@intel.com>
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 
-I agree that there is room to expand on that.  But I would rather defer on
-that, because, as mentioned by Jakub in his review of v1, that quickly
-becomes quite subjective.
+LGTM
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-IOW, let's start with something and improve on it later.
 
-...
