@@ -1,115 +1,96 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B75194C76;
-	Wed,  9 Oct 2024 12:49:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 913D4199E8C;
+	Wed,  9 Oct 2024 12:50:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728478183; cv=none; b=YzNvdiya+4EGGjBWqyfq1KF6hH96sh+PRFvqdOzVCTmROqP7VcJu+ewPcKR4pIyPUYjZ1L8NYgrgdyZhsU84vuJ3p7pCAef7UPAH1XKFHKPKxPPNTyscGVzXBi2n6FNUjydT5ZtfDnMhB7DJJU2REhaqViKy795K8rFPs2jswCY=
+	t=1728478225; cv=none; b=MkKxRgtahLnoCd92h4RXx/rpp1gFbNpaWbKo40OJtL5WE+IiN5yqedpsLKurhMrdtF1WleLPlXa5z7rphn30Z3oXzARYAEwMlDbIIwPHamL7Pyu8TGpKN6phbBcJu229Tp5ahbwUYkC44W2HkV4g9VLXX2CeWBaxNf336VM0RVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728478183; c=relaxed/simple;
-	bh=BaVk3s2KAvoqDvsifoqUDpefeIGff22P2TiuTCvppqk=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=H16KZ7ut3ss0uf2HGGtq4j99o/gLAcg+l24Uj9kIvK7JNswfiaDFLP+R4Y/Ip+Dw+INVZ+HZzwGqsjTeyTkE8Puw/aGad0dpVGUvKKcv8D8ywbg764PHYxx/iaPtTidvixwkuk16sGGZKpbVLEH+rkJT09nIXR2s6LNJwoNeXLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4XNt4f1v2bz6GD69;
-	Wed,  9 Oct 2024 20:49:22 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id 0B01A140133;
-	Wed,  9 Oct 2024 20:49:40 +0800 (CST)
-Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 9 Oct
- 2024 14:49:38 +0200
-Date: Wed, 9 Oct 2024 13:49:36 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: <ira.weiny@intel.com>
-CC: Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, "Navneet
- Singh" <navneet.singh@intel.com>, Jonathan Corbet <corbet@lwn.net>, "Andrew
- Morton" <akpm@linux-foundation.org>, Dan Williams <dan.j.williams@intel.com>,
-	Davidlohr Bueso <dave@stgolabs.net>, "Alison Schofield"
-	<alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
-	<linux-btrfs@vger.kernel.org>, <linux-cxl@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <nvdimm@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, "Li, Ming" <ming4.li@intel.com>
-Subject: Re: [PATCH v4 08/28] cxl/mem: Read dynamic capacity configuration
- from the device
-Message-ID: <20241009134936.00003e0e@Huawei.com>
-In-Reply-To: <20241007-dcd-type2-upstream-v4-8-c261ee6eeded@intel.com>
-References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
-	<20241007-dcd-type2-upstream-v4-8-c261ee6eeded@intel.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1728478225; c=relaxed/simple;
+	bh=yvNe98Z7L5t99Iq3TS1CIPsDhczn7uicq7Rg6gMTksA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I3yPM7zLwgjFgvPE9FFfszzLwTe/8/ZKLnGKe+SJVvE1+AtU6P0JQtjOIcOM00MFTq4ZRaifQYnIod6n6rJe2gOP0AOOZ/xrbm/h1wGimQ9SaAmT0MQtP9+gmtLExf1IdwNf7HVUsCQJmhrX56nnqhoJAmz32H+biKN/sdcfsJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N5niaz9h; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N5niaz9h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BE7FC4CEC5;
+	Wed,  9 Oct 2024 12:50:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728478225;
+	bh=yvNe98Z7L5t99Iq3TS1CIPsDhczn7uicq7Rg6gMTksA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=N5niaz9h1SMc8Ggb1E/Jq7F8qVs8Hq0wDWXLIp1bOBJqpNqz84OIG0p6xBV5mlnZT
+	 1+inNEMCsVUAwALouSqOMzOGECoC3ylw0l05/FM1egEsA6pzX6Bh7zK8eSzzXZ4lO1
+	 Oze9mm0YfhpHWwYfXc6+Ll09Tu1S5d7feaZhv1Io2KIEQFuNNKGZIfYWiE//XSsxyX
+	 VjUebrK7aLpCO04NYwJx+0ThZsWw9iWhkD7VG7N+8wtqzZlx0BdqtW6/l+jRfhPlVv
+	 BLpf5RTE4XSGnWdcutQxgLx2/IRSarTv941e0RE7+iBiwycjHErui5ml4WqsFJ7n8u
+	 i97P1IuH9uTLw==
+Date: Wed, 9 Oct 2024 13:50:21 +0100
+From: Simon Horman <horms@kernel.org>
+To: Przemek Kitszel <przemyslaw.kitszel@intel.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	Tony Nguyen <anthony.l.nguyen@intel.com>
+Subject: Re: [PATCH net v2] docs: netdev: document guidance on cleanup patches
+Message-ID: <20241009125021.GU99782@kernel.org>
+References: <20241009-doc-mc-clean-v2-1-e637b665fa81@kernel.org>
+ <01c97823-d560-4f89-b757-752e18940f31@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
- frapeml500008.china.huawei.com (7.182.85.71)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <01c97823-d560-4f89-b757-752e18940f31@intel.com>
 
-On Mon, 07 Oct 2024 18:16:14 -0500
-ira.weiny@intel.com wrote:
-
-> From: Navneet Singh <navneet.singh@intel.com>
+On Wed, Oct 09, 2024 at 11:42:14AM +0200, Przemek Kitszel wrote:
+> On 10/9/24 11:12, Simon Horman wrote:
+> > The purpose of this section is to document what is the current practice
+> > regarding clean-up patches which address checkpatch warnings and similar
+> > problems. I feel there is a value in having this documented so others
+> > can easily refer to it.
+> > 
+> > Clearly this topic is subjective. And to some extent the current
+> > practice discourages a wider range of patches than is described here.
+> > But I feel it is best to start somewhere, with the most well established
+> > part of the current practice.
+> > 
+> > --
+> > I did think this was already documented. And perhaps it is.
+> > But I was unable to find it after a quick search.
+> > 
+> > Signed-off-by: Simon Horman <horms@kernel.org>
 > 
-> Devices which optionally support Dynamic Capacity (DC) are configured
-> via mailbox commands.  CXL 3.1 requires the host to issue the Get DC
-> Configuration command in order to properly configure DCDs.  Without the
-> Get DC Configuration command DCD can't be supported.
+> Looks like you wanted to say "please don't submit autogenerated clenups"
+
+:)
+
+> > ---
+> > Changes in v2:
+> > - Drop RFC designation
+> > - Correct capitalisation of heading
+> > - Add that:
+> >    + devm_ conversions are also discouraged, outside the context of other work
 > 
-> Implement the DC mailbox commands as specified in CXL 3.1 section
-> 8.2.9.9.9 (opcodes 48XXh) to read and store the DCD configuration
-> information.  Disable DCD if DCD is not supported.  Leverage the Get DC
-> Configuration command supported bit to indicate if DCD support.
+> devm_ is generally discouraged in netdev, so much that I will welcome
+> the opposite cleanup :)
 > 
-> Linux has no use for the trailing fields of the Get Dynamic Capacity
-> Configuration Output Payload (Total number of supported extents, number
-> of available extents, total number of supported tags, and number of
-> available tags). Avoid defining those fields to use the more useful
-> dynamic C array.
+> Your write-up on this is correct, no objections.
 > 
-> Cc: "Li, Ming" <ming4.li@intel.com>
-> Signed-off-by: Navneet Singh <navneet.singh@intel.com>
-> Co-developed-by: Ira Weiny <ira.weiny@intel.com>
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> Perhaps we could say more about the status of the code that is fixed -
+> Maintained/Odd fixes/Orphaned - I would don't touch anything below
+> "Maintained" for good reason
 
-Looks fine to me.  Trivial comment inline
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+I agree that there is room to expand on that.  But I would rather defer on
+that, because, as mentioned by Jakub in his review of v1, that quickly
+becomes quite subjective.
 
+IOW, let's start with something and improve on it later.
 
-
-> diff --git a/drivers/cxl/cxlmem.h b/drivers/cxl/cxlmem.h
-> index e8907c403edb..0690b917b1e0 100644
-> --- a/drivers/cxl/cxlmem.h
-> +++ b/drivers/cxl/cxlmem.h
 ...
-
-> +/* See CXL 3.1 Table 8-164 get dynamic capacity config Output Payload */
-> +struct cxl_mbox_get_dc_config_out {
-> +	u8 avail_region_count;
-> +	u8 regions_returned;
-> +	u8 rsvd[6];
-> +	/* See CXL 3.1 Table 8-165 */
-> +	struct cxl_dc_region_config {
-> +		__le64 region_base;
-> +		__le64 region_decode_length;
-> +		__le64 region_length;
-> +		__le64 region_block_size;
-> +		__le32 region_dsmad_handle;
-> +		u8 flags;
-> +		u8 rsvd[3];
-> +	} __packed region[];
-
-Could throw in a __counted_by I think?
-
-> +	/* Trailing fields unused */
-> +} __packed;
-> +#define CXL_DYNAMIC_CAPACITY_SANITIZE_ON_RELEASE_FLAG BIT(0)
-> +#define CXL_DCD_BLOCK_LINE_SIZE 0x40
