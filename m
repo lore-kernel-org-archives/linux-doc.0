@@ -1,131 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EB961E0B8F;
-	Wed,  9 Oct 2024 15:28:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8322B1F4FC2;
+	Wed,  9 Oct 2024 15:37:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728487719; cv=none; b=dSRVURydntuX4OI6pxu8XWZXrDfUbLajgOu0kS5RdpsssE+IktS9ImyL7VrDEvcbUfX312yag8WYKhdzytKGNMf855eR4mT2z6k5+sgUE5XkDiCKAPlVwzvDmgXD9GuJ9E7zujpXoAb3/svhb6l7/G9UgRPJqUf7n11qf3qlMYo=
+	t=1728488230; cv=none; b=SRYYsySDG4rbuLZ5JPj7xNZZ88BmA4mtr3F+QyLVlErgDVsXC27lNaw1NjuIcchePedwu2STuaOJWJWTC15hlA7ay99XtTcb4jaaVwDuD7lLbIuPbpD14xktXgQ7opLl4LJRRe8eQ7yR6P5SCq/2u2aSrDDyLbDt1TKu2arGx/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728487719; c=relaxed/simple;
-	bh=NZhPKkxiBqWOWXobZBa+zAtIejUJQqhd5KjHxmog/7E=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cdyoL7FL8+CwYnixc2DE7Sm9CGdS+nmbccGV0QHN0si4FY+Pcj7R7dTKQyieJThp8M3CpzNvsdfSf7iWaGB6TI14Y3+1oiG2ApwOPndTJi6ytMbOn/nmI5oxi8Nps1kkKxzhfaF6atzpbFnNjQ96txqM+ll90oNXS4VW6DX9JAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D+bsbYPZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728488230; c=relaxed/simple;
+	bh=yrWK9guy4QSl6qtQfqv509X0npMUw4ahN/8mznSDu3I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B+xpjf9TPtnZQn4QXk2HOeZnzY1NzprYHZO/qEqI24tIMnF+5+I8khiQo3lFC5PqIEpkyrm02ZXhXFaPCfoUQl2EjhPIalkkmq+jGH+QZjriMnxjYPP/OhEAboYVmqqzqbpoWHBK79MHbAVJFKeuQlcvP8APPlFLj8qIQ9l6Muw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=XooOIQ2F; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Eq3LJeDc; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=XooOIQ2F; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Eq3LJeDc; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D+bsbYPZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 066CFC4CEC5;
-	Wed,  9 Oct 2024 15:28:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728487719;
-	bh=NZhPKkxiBqWOWXobZBa+zAtIejUJQqhd5KjHxmog/7E=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=D+bsbYPZY+y1bchZ94DwJYleIOy7dxZajVy5YHh6VFsbOw9/GaprvzqnmWsvZ/zgN
-	 tfkwCXmXBLPjQg1wGPuYeu9kktqKTcwwZlVFNTJEIUGyCVaJ2Huc0zdvbaO1ruFvEq
-	 oIO5WtC6GebDxzZ4rZUgYYkzKunm65M0eaahclBUHmp92veiQ+8qRWlXQVRtbRny+2
-	 ovlImXyMF/QdRk8RLErP89Jdf4MN8lAlxnS5hCeWk2AcMJ91PY48/UwzowsfJSyuLR
-	 21tjmdmvRCUN1DP0bwxTP0+uiZZhSbxUg9sUws0utsSKVvS2TSGmYjIzNNoXOZupiw
-	 NXcs4Or84gpTQ==
-Date: Wed, 9 Oct 2024 08:28:37 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Taehee Yoo <ap420073@gmail.com>
-Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
- almasrymina@google.com, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- donald.hunter@gmail.com, corbet@lwn.net, michael.chan@broadcom.com,
- kory.maincent@bootlin.com, andrew@lunn.ch, maxime.chevallier@bootlin.com,
- danieller@nvidia.com, hengqi@linux.alibaba.com, ecree.xilinx@gmail.com,
- przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, ahmed.zaki@intel.com,
- paul.greenwalt@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com,
- asml.silence@gmail.com, kaiyuanz@google.com, willemb@google.com,
- aleksander.lobakin@intel.com, dw@davidwei.uk, sridhar.samudrala@intel.com,
- bcreeley@amd.com
-Subject: Re: [PATCH net-next v3 2/7] bnxt_en: add support for tcp-data-split
- ethtool command
-Message-ID: <20241009082837.2735cd97@kernel.org>
-In-Reply-To: <CAMArcTU+r+Pj_y7rUvRwTrDWqg57xy4e-OacjWCfKRCUa8A-aw@mail.gmail.com>
-References: <20241003160620.1521626-1-ap420073@gmail.com>
-	<20241003160620.1521626-3-ap420073@gmail.com>
-	<20241008111926.7056cc93@kernel.org>
-	<CAMArcTU+r+Pj_y7rUvRwTrDWqg57xy4e-OacjWCfKRCUa8A-aw@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="XooOIQ2F";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Eq3LJeDc";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="XooOIQ2F";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Eq3LJeDc"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 328ED1F896;
+	Wed,  9 Oct 2024 15:36:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1728488205;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cNjL0RSe+pEK01YoJ4LcI5i4jyH5jOdUOpsxh2f8Gbg=;
+	b=XooOIQ2FTDzKMFmK04SgigiPIsBbMhZyOs0u4xZ//UFBYiD530ZmZGd87NOhyjqaFn3MaK
+	f8bQeLiDXy02satFUGVLpi297p1cGN2gqZBIONIR8vwwGY/zWDGfEztuv9zREq6KRuH1rc
+	UFoJjh/B9ziBuMaNfTwPomaJjSCajQM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1728488205;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cNjL0RSe+pEK01YoJ4LcI5i4jyH5jOdUOpsxh2f8Gbg=;
+	b=Eq3LJeDcLQ5edAAhku6R8PeobEF4P8P/b7qZAm889pwHEQeHvX5tnx6+B44A7tBJpxJwXB
+	CX79zOcInd2504BQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=XooOIQ2F;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Eq3LJeDc
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1728488205;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cNjL0RSe+pEK01YoJ4LcI5i4jyH5jOdUOpsxh2f8Gbg=;
+	b=XooOIQ2FTDzKMFmK04SgigiPIsBbMhZyOs0u4xZ//UFBYiD530ZmZGd87NOhyjqaFn3MaK
+	f8bQeLiDXy02satFUGVLpi297p1cGN2gqZBIONIR8vwwGY/zWDGfEztuv9zREq6KRuH1rc
+	UFoJjh/B9ziBuMaNfTwPomaJjSCajQM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1728488205;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cNjL0RSe+pEK01YoJ4LcI5i4jyH5jOdUOpsxh2f8Gbg=;
+	b=Eq3LJeDcLQ5edAAhku6R8PeobEF4P8P/b7qZAm889pwHEQeHvX5tnx6+B44A7tBJpxJwXB
+	CX79zOcInd2504BQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0B07813A58;
+	Wed,  9 Oct 2024 15:36:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 3ciBAg2jBmf5WgAAD6G6ig
+	(envelope-from <dsterba@suse.cz>); Wed, 09 Oct 2024 15:36:45 +0000
+Date: Wed, 9 Oct 2024 17:36:42 +0200
+From: David Sterba <dsterba@suse.cz>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Ira Weiny <ira.weiny@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+	Fan Ni <fan.ni@samsung.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Navneet Singh <navneet.singh@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	linux-btrfs@vger.kernel.org, linux-cxl@vger.kernel.org,
+	linux-doc@vger.kernel.org, nvdimm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
+	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
+	Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Subject: Re: [PATCH v4 04/28] range: Add range_overlaps()
+Message-ID: <20241009153641.GK1609@suse.cz>
+Reply-To: dsterba@suse.cz
+References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
+ <20241007-dcd-type2-upstream-v4-4-c261ee6eeded@intel.com>
+ <20241008161032.GB1609@twin.jikos.cz>
+ <ZwaW9gXuh_JzqRfh@black.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZwaW9gXuh_JzqRfh@black.fi.intel.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Rspamd-Queue-Id: 328ED1F896
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.21 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	HAS_REPLYTO(0.30)[dsterba@suse.cz];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -4.21
+X-Spam-Flag: NO
 
-On Wed, 9 Oct 2024 22:54:17 +0900 Taehee Yoo wrote:
-> > This breaks previous behavior. The HDS reporting from get was
-> > introduced to signal to user space whether the page flip based
-> > TCP zero-copy (the one added some years ago not the recent one)
-> > will be usable with this NIC.
-> >
-> > When HW-GRO is enabled HDS will be working.
-> >
-> > I think that the driver should only track if the user has set the value
-> > to ENABLED (forced HDS), or to UKNOWN (driver default). Setting the HDS
-> > to disabled is not useful, don't support it.  
+On Wed, Oct 09, 2024 at 05:45:10PM +0300, Andy Shevchenko wrote:
+> On Tue, Oct 08, 2024 at 06:10:32PM +0200, David Sterba wrote:
+> > On Mon, Oct 07, 2024 at 06:16:10PM -0500, Ira Weiny wrote:
 > 
-> Okay, I will remove the disable feature in a v4 patch.
-> Before this patch, hds_threshold was rx-copybreak value.
-> How do you think hds_threshold should still follow rx-copybreak value
-> if it is UNKNOWN mode?
-
-IIUC the rx_copybreak only applies to the header? Or does it apply 
-to the entire frame?
-
-If rx_copybreak applies to the entire frame and not just the first
-buffer (headers or headers+payload if not split) - no preference.
-If rx_copybreak only applies to the headers / first buffer then
-I'd keep them separate as they operate on a different length.
-
-> I think hds_threshold need to follow new tcp-data-split-thresh value in
-> ENABLE/UNKNOWN and make rx-copybreak pure software feature.
-
-Sounds good to me, but just to be clear:
-
-If user sets the HDS enable to UNKNOWN (or doesn't set it):
- - GET returns (current behavior, AFAIU):
-   - DISABLED (if HW-GRO is disabled and MTU is not Jumbo)
-   - ENABLED (if HW-GRO is enabled of MTU is Jumbo)
-If user sets the HDS enable to ENABLED (force HDS on):
- - GET returns ENABLED 
-
-hds_threshold returns: some value, but it's only actually used if GET
-returns ENABLED.
-
-> But if so, it changes the default behavior.
-
-How so? The configuration of neither of those two is exposed to 
-the user. We can keep the same defaults, until user overrides them.
-
-> How do you think about it?
+> ...
 > 
-> >  
-> > >       ering->tx_max_pending = BNXT_MAX_TX_DESC_CNT;
-> > >
-> > >       ering->rx_pending = bp->rx_ring_size;
-> > > @@ -854,9 +858,25 @@ static int bnxt_set_ringparam(struct net_device *dev,
-> > >           (ering->tx_pending < BNXT_MIN_TX_DESC_CNT))
-> > >               return -EINVAL;
-> > >
-> > > +     if (kernel_ering->tcp_data_split != ETHTOOL_TCP_DATA_SPLIT_DISABLED &&
-> > > +         BNXT_RX_PAGE_MODE(bp)) {
-> > > +             NL_SET_ERR_MSG_MOD(extack, "tcp-data-split can not be enabled with XDP");
-> > > +             return -EINVAL;
-> > > +     }  
-> >
-> > Technically just if the XDP does not support multi-buffer.
-> > Any chance we could do this check in the core?  
+> > > +static inline bool range_overlaps(struct range *r1, struct range *r2)
+> > 
+> > I've noticed only now, you can constify the arguments, but this applise
+> > to other range_* functions so that can be done later in one go.
 > 
-> I think we can access xdp_rxq_info with netdev_rx_queue structure.
-> However, xdp_rxq_info is not sufficient to distinguish mb is supported
-> by the driver or not. I think prog->aux->xdp_has_frags is required to
-> distinguish it correctly.
-> So, I think we need something more.
-> Do you have any idea?
+> Frankly you may add the same to each new API being added to the file and
+> the "one go" will never happen.
 
-Take a look at dev_xdp_prog_count(), something like that but only
-counting non-mb progs?
+Yeah, but it's a minor issue for a 28 patchset, I don't know if there
+are some other major things still to do so that a v5 is expected.
+
+If anybody is interested, reviewing APIs and interfaces with focus on
+some data structure and const is relatively easy, compile test is
+typically enough. The hard part is to find the missing ones. There's no
+compiler aid thad I'd know of (-Wsuggest-attribute=const is not for
+parameters), so it's been reading a file top-down for me.
+
+> So, I support your first part with
+> constifying, but I think it would be rather done now to start that "one
+> go" to happen.
+
+Agreed, one patch on top is probably the least intrusive way.
