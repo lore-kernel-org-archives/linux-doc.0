@@ -1,113 +1,202 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4224719DF64
-	for <linux-doc@vger.kernel.org>; Wed,  9 Oct 2024 15:08:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073861E0DE2
+	for <linux-doc@vger.kernel.org>; Wed,  9 Oct 2024 15:16:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728486521; cv=none; b=bIQzLOxLinFowfv+2vDr8uSqgEyB/T6CO7teH8OcPMZcMsUBGl2MuzCVIzwO/sDHyD18r87FokoIJPyiPMrVpPUaiEX3YMwiN8K/PGU07gB3NMNgjagS6r2rhwAbEXsW3Yyxcd6Xj4BlHNswgZCYJdBgjuPXUFsuQhmJSKjzdT4=
+	t=1728487002; cv=none; b=OG7yQUFug01MGcs7YfEC2rL6Pbs5OoyNh1BczdhMtLnr7IxljcLk8/Mt5LGVj6LFvC7zOFke80mfUhBoMTZ1O1WFZiJc3Ijw3gB06RNlx6A8APb+fSKBcc0Wea0wSIWU4KCeqtW8L9jCH0ClfNhf0WfLw5gGhcqSWrd8wHDn76Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728486521; c=relaxed/simple;
-	bh=GQpL2QuZYkG/5Gk1+/BcgATs/F9bM08iuGgLJCuy53Q=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=q4C6IXSSBYZjZTXLg7Ph7WcRnJrxqwCqlJbjCKjU9k+ACHW2wF9OdgH/m9c1dB9HoAhn9B0zE1PckGKli2Tq7N5Xe8ma/no7WWLVd9grKpESVmy8Ee0dnXNqWrewxt5nUsEyfCskf8AF7kWoezIGth6NNP4v/MS3yWl4nrm5Jb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=fq/TkUyE; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="fq/TkUyE"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 036A942BFE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1728486512; bh=BL87GI+Y/jElrV0w5SRRmKiaish3bRMayxIczYzcdUo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=fq/TkUyEa4MuaGUpPeTAuxtSctb5kiILcC3+yWQAODTcPqR2390X5jMEnZDlPr7FF
-	 rbAn+NMtnCm5KHoYxysBmsqeyCGwF0lsEWASpLCYKJSbJg8QpVF1okSu37wDny2aXe
-	 sg3gm/BvIOTSlveOwPQASzSj6ze7nV/MXKceSd+w31UvE7yRaxz4uEd3pED5RtC5qG
-	 vzft8ifr9R5/6viUf9dSwlXDgW49V8Z0eudIQi/mw//eUsZ6gOkd5Q5m0ElER0X8Hp
-	 vlizqZZFGkwMsZfnfxPOuvgZFTF43HgrwTo003ajIkFBXPAU2nv0/2bGFK5zJ1Ezqn
-	 +xlGwlEhN67sQ==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 036A942BFE;
-	Wed,  9 Oct 2024 15:08:31 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Vlastimil Babka <vbabka@suse.cz>, David Rientjes <rientjes@google.com>,
- Christoph Lameter <cl@linux.com>
-Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>, Roman Gushchin
- <roman.gushchin@linux.dev>, Andrew Morton <akpm@linux-foundation.org>,
- linux-mm@kvack.org, linux-doc@vger.kernel.org, Vlastimil Babka
- <vbabka@suse.cz>
-Subject: Re: [PATCH] mm, slab: add kerneldocs for common SLAB_ flags
-In-Reply-To: <20241009142936.56092-2-vbabka@suse.cz>
-References: <20241009142936.56092-2-vbabka@suse.cz>
-Date: Wed, 09 Oct 2024 09:08:31 -0600
-Message-ID: <878quxe2kw.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1728487002; c=relaxed/simple;
+	bh=erbjsBtCILmKJ+nigxio9EUrqkSXvbmuLoXoTa3lE+k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pqGYQBV61a3eeYIZD8aftJ8mCVq0D8xZ1bJ+hXgtdWOUHpRkI9z6c83jwlsjBOJsw7M5uvBhSR0MVF1OY8fpLXBtPKTkk8t/HnfHSYPciTHaHO5c9W6BhZOxYPOjLvLy/eLJREDxEbfA727vL0hEdTIWxD2/uykfBIVL07H5GHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1syYQK-0000cM-0b; Wed, 09 Oct 2024 17:16:24 +0200
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ore@pengutronix.de>)
+	id 1syYQG-000dE4-In; Wed, 09 Oct 2024 17:16:20 +0200
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1syYQG-002AnD-1Y;
+	Wed, 09 Oct 2024 17:16:20 +0200
+Date: Wed, 9 Oct 2024 17:16:20 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
+	Dent Project <dentproject@linuxfoundation.org>,
+	kernel@pengutronix.de
+Subject: Re: [PATCH net-next 04/12] net: pse-pd: tps23881: Add support for
+ power limit and measurement features
+Message-ID: <ZwaeRL9z310dBBlh@pengutronix.de>
+References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
+ <20241002-feature_poe_port_prio-v1-4-787054f74ed5@bootlin.com>
+ <ZwYOboTdMppaZVmX@pengutronix.de>
+ <20241009110501.5f776c9b@kmaincent-XPS-13-7390>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241009110501.5f776c9b@kmaincent-XPS-13-7390>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Vlastimil Babka <vbabka@suse.cz> writes:
+On Wed, Oct 09, 2024 at 11:05:01AM +0200, Kory Maincent wrote:
+> On Wed, 9 Oct 2024 07:02:38 +0200
+> Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+> 
+> > On Wed, Oct 02, 2024 at 06:28:00PM +0200, Kory Maincent wrote:
+> > > From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+> > > 
+> > > Expand PSE callbacks to support the newly introduced
+> > > pi_get/set_current_limit() and pi_get_voltage() functions. These callbacks
+> > > allow for power limit configuration in the TPS23881 controller.
+> > > 
+> > > Additionally, the patch includes the detected class, the current power
+> > > delivered and the power limit ranges in the status returned, providing more
+> > > comprehensive PoE status reporting.
+> > > 
+> > > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>  
+> > 
+> > > +static int tps23881_pi_get_class(struct tps23881_priv *priv, int id)
+> > > +{  
+> > ....
+> > > +	if (chan < 4)
+> > > +		class = ret >> 4;
+> > > +	else
+> > > +		class = ret >> 12;  
+> > 
+> > ....
+> > > +tps23881_pi_set_2p_pw_limit(struct tps23881_priv *priv, u8 chan, u8 pol)
+> > > +{  
+> > ....
+> > > +	reg = TPS23881_REG_2PAIR_POL1 + (chan % 4);
+> > > +	ret = i2c_smbus_read_word_data(client, reg);
+> > > +	if (ret < 0)
+> > > +		return ret;
+> > > +
+> > > +	if (chan < 4)
+> > > +		val = (ret & 0xff00) | pol;
+> > > +	else
+> > > +		val = (ret & 0xff) | (pol << 8);  
+> > 
+> > This is a common pattern in this driver, we read and write two registers
+> > in one run and then calculate bit offset for the channel, can you please
+> > move it in to separate function. This can be done in a separate patch if
+> > you like.
+> 
+> The pattern is common but the operations are always different so I didn't found
+> a clean way of doing it.
+> Here is a listing of it:
+> 	if (chan < 4)
+> 		class = ret >> 4;
+> 	else
+> 		class = ret >> 12;
+> 
+> 	if (chan < 4)
+> 		val = (ret & 0xff00) | pol;
+> 	else
+> 		val = (ret & 0xff) | (pol << 8);  
+> 
+>         if (chan < 4)                                                           
+>                 val = (u16)(ret | BIT(chan));                                   
+>         else                                                                    
+>                 val = (u16)(ret | BIT(chan + 4));
+> 
+> 	if (chan < 4)
+> 		mW = (ret & 0xff) * TPS23881_MW_STEP;
+> 	else
+> 		mW = (ret >> 8) * TPS23881_MW_STEP;
+> 
+> 
+> Any idea?
+> 
 
-> We have many SLAB_ flags but many are used only internally, by kunit
-> tests or debugging subsystems cooperating with slab, or are set
-> according to slab_debug boot parameter.
->
-> Create kerneldocs for the commonly used flags that may be passed to
-> kmem_cache_create(). SLAB_TYPESAFE_BY_RCU already had a detailed
-> description, so turn it to a kerneldoc. Add some details for
-> SLAB_ACCOUNT, SLAB_RECLAIM_ACCOUNT and SLAB_HWCACHE_ALIGN. Reference
-> them from the __kmem_cache_create_args() kerneldoc.
->
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> ---
-> I plan to take this in the slab tree, but a question for Jon/linux-doc:
->
-> I think I'm doing properly the "Object-like macro documentation" for
-> parameter-less macros from the doc-guide. Yet I can see in the htmldocs
-> things like "SLAB_TYPESAFE_BY_RCU ()" and "Parameters". Is there a bug
-> in the sphinx machinery? Thanks.
+something like this:
 
-No, it's totally bug-free and any appearance to the contrary is entirely
-in your imagination :)
+/*
+ * Helper to extract a value from a u16 register value, which is made of two u8 registers.
+ * The function calculates the bit offset based on the channel and extracts the relevant
+ * bits using a provided field mask.
+ *
+ * @param reg_val: The u16 register value (composed of two u8 registers).
+ * @param chan: The channel number (0-7).
+ * @param field_offset: The base bit offset to apply (e.g., 0 or 4).
+ * @param field_mask: The mask to apply to extract the required bits.
+ * @return: The extracted value for the specific channel.
+ */
+static u16 tps23881_calc_val(u16 reg_val, u8 chan, u8 field_offset, u16 field_mask)
+{
+        u8 bit_offset;
 
-I don't think anybody has tried to do kerneldoc for macros that don't
-look like functions; it doesn't surprise me that it doesn't work right. 
+        if (chan < 4) {
+                bit_offset = field_offset;
+        } else {
+                bit_offset = field_offset;
+                reg_val >>= 8;
+        }
 
->  include/linux/slab.h | 60 ++++++++++++++++++++++++++++++--------------
->  mm/slab_common.c     | 14 ++++++++++-
->  2 files changed, 54 insertions(+), 20 deletions(-)
->
-> diff --git a/include/linux/slab.h b/include/linux/slab.h
-> index b35e2db7eb0e..49e9fb93e864 100644
-> --- a/include/linux/slab.h
-> +++ b/include/linux/slab.h
-> @@ -77,7 +77,17 @@ enum _slab_flag_bits {
->  #define SLAB_POISON		__SLAB_FLAG_BIT(_SLAB_POISON)
->  /* Indicate a kmalloc slab */
->  #define SLAB_KMALLOC		__SLAB_FLAG_BIT(_SLAB_KMALLOC)
-> -/* Align objs on cache lines */
-> +/**
-> + * define SLAB_HWCACHE_ALIGN - Align objects on cache line boundaries.
-> + *
-> + * Sufficiently large objects are aligned on cache line boundary. For object
-> + * size smaller than a half of cache line size, the alignment is on the half of
-> + * cache line size. In general, if object size is smaller than 1/2^n of cache
-> + * line size, the alignment is adjusted to 1/2^n.
+        return (reg_val >> bit_offset) & field_mask;
+}
 
-I'm kind of surprised that kernel-doc doesn't complain about that; it's
-definitely not something that was ever envisioned, as far as I know.
+/*
+ * Helper to combine individual channel values into a u16 register value.
+ * The function sets the value for a specific channel in the appropriate position.
+ *
+ * @param reg_val: The current u16 register value.
+ * @param chan: The channel number (0-7).
+ * @param field_offset: The base bit offset to apply (e.g., 0 or 4).
+ * @param field_mask: The mask to apply for the field (e.g., 0x0F).
+ * @param field_val: The value to set for the specific channel (masked by field_mask).
+ * @return: The updated u16 register value with the channel value set.
+ */
+static u16 tps23881_set_val(u16 reg_val, u8 chan, u8 field_offset, u16 field_mask, u16 field_val)
+{
+        u8 bit_offset;
 
-Making it work properly probably requires somebody to wander into Perl
-regex hell.  In the short term, if you want to get this text into the
-rendered docs, the usual approach is to make a DOC: block out of it and
-include it explicitly.
+        field_val &= field_mask;
 
-Thanks,
+        if (chan < 4) {
+                bit_offset = field_offset;
+                reg_val &= ~(field_mask << bit_offset);
+                reg_val |= (field_val << bit_offset);
+        } else {
+                bit_offset = field_offset;
+                reg_val &= ~(field_mask << (bit_offset + 8));
+                reg_val |= (field_val << (bit_offset + 8));
+        }
 
-jon
+        return reg_val;
+}
+ 
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
