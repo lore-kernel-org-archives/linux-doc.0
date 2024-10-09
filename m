@@ -1,117 +1,230 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C47C1D318A
-	for <linux-doc@vger.kernel.org>; Wed,  9 Oct 2024 17:29:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3803915CD78;
+	Wed,  9 Oct 2024 17:33:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728495002; cv=none; b=b8E/QUGsj1pJ2MXAiJ3HTIZNhha++xDnytOpjtNWUK6sqvIsal/7hC+nvJ8FOBG9IbDtjyzlxBN+jZ9IQyhbzix8e87IsxU2JPaOMc9Trt2QC3wEGNgIwfs9UboW4V3YfIJ4Q9bCIFa9Wp3W1D4GyAQlYPLTGP12/J5I84d3eiU=
+	t=1728495228; cv=none; b=kUA+S7BRpseYm1n/axq2ik7RsWVpsVe4+f7NK52nxqo8/QnkwSUrQcM+czuJLvZd0EfcvkqT3LjkUospMMhTO6ACJmhetjSmb9QCB2r5xFLwdoMeLD+nD13Op+sGl5oZ/4+jI07DHk/h4E7ux33N/5PzA4Ax0ejl/xwGmT+Y8Zw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728495002; c=relaxed/simple;
-	bh=PJVwcXcibgiYriey2g8Mw/pptgW5zUsdumgQFIEbIoI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NLOVMaC9EL3CHI1mzIUo1gU0b1MBsz9PfnbtNHzhgqcCol1wwjaFo8Un/YrWq7X6ZrRqRozflZrIIL1IwczD18NE7H9y2ZA1aRaOdrm7HjotCvBNlvv4SJ+EsBNLlh2sdjSxM3I2clv3AwZimjLNcSWv9+EVqr9kIImirkJ8dbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everestkc.com.np; spf=none smtp.mailfrom=everestkc.com.np; dkim=fail (2048-bit key) header.d=everestkc.com.np header.i=@everestkc.com.np header.b=ezAqI8oR reason="signature verification failed"; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everestkc.com.np
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=everestkc.com.np
+	s=arc-20240116; t=1728495228; c=relaxed/simple;
+	bh=5+d3p/uEKo1tv34nr+5R5ivdsIqjFVPAciWFglkA+RE=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ASWuVn8riVlS5LEFaJczedoXzpbzx5Ip3/BNXbfj2/CJc9kER7UeGM/ndXnW8uURLBLGcA1MeslHbnRCzqW/Dw9Ew9h3JhQel4GpIW7iDizychK8CwoNcYdj7bJ2ZX3f/2V8r8W0Ir3MpBWc6H2Vral//bnTABV3SVSMCZ/RM4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h2zhlSuO; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=everestkc.com.np header.i=@everestkc.com.np header.b="ezAqI8oR"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a7a843bef98so6985766b.2
-        for <linux-doc@vger.kernel.org>; Wed, 09 Oct 2024 10:29:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h2zhlSuO"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-6e2e4237da4so1009307b3.1;
+        Wed, 09 Oct 2024 10:33:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=everestkc.com.np; s=everest; t=1728494995; x=1729099795; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8cp2ioR05MBhm6TSp5/Wwm/z/I4MQsDlfJob4dXYszs=;
-        b=ezAqI8oRdb10issRjccSZ8y+P+stree8FmeTwUlRgCIbEo4PPbtGkj4mpN9YuObm0a
-         mhP7nLpga4ITmxmVy6tA+Im+P/c58UOosLMID5KTvPkrrolt66q/sGDCBbksAF8ATxtV
-         aZiCaLrCqaR/enADTYQeEOwh5IngUO7EyqQO73twwxrlLMzC6cw7MfRzsRurN0kJEO3Q
-         tvsHkAOsXoFBB7HakAmIUP9kMHa9s5NENSXlIkvIRaa6S9e3q9hI9XHxiQhknRDVELXz
-         xZDog59tpk9aR8JBMntHVr8llKvEDT/iNEu/3wNyTmngMEB+KEKZLEqjJNfcfCCY/jsT
-         /aeg==
+        d=gmail.com; s=20230601; t=1728495226; x=1729100026; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kdIWw6YeNqBuFnAq+SVqtF9+ypPyeZ31a/GstolXt5g=;
+        b=h2zhlSuOzLe01ShkzIOSRR6XtWeuZczV1/8x/Mfr4+LZK+EAiIwbTdsd5JTYNGERhb
+         RstvQtaB7odXtAja87PhBzQbuu1E+xuVjX/xsOkZPIRsg9SvpEMFBAx90d6ZVkZ00y6h
+         0wJa52O2+RLjZ6AWfPLG1e31mCn0B2Se+IdLO5c54esKqE6iOCdwco0Zn+Cp3FcP/lT3
+         Qz7wqwqLm8iD9NGyWjBbSRh8x++USAXVkw7pIy1dPcuk0tmIk9SupR1ZzvLTvtVirRhu
+         5AiTVxImAadsPUZA8YQF0w/7ueYNSWALWtw5UQGz2fOxq4hFP5WfVs/iG1ZGsd+7DwIa
+         X+2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728494995; x=1729099795;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8cp2ioR05MBhm6TSp5/Wwm/z/I4MQsDlfJob4dXYszs=;
-        b=p5oxtV6ah7JiNcF5RbPey7fd5mU8zdoOWbDW0K4WU69KbcAhIlQhL7/fQOyFFMHhWx
-         yeRPAC/9pZUVxofIhqbRzRW6UabYuEd/93cO7jyBopKK1Aer0CtV6zbiKMpXB05qP6Yh
-         Mem6Ooifq/dML6q8+UhiRJFRgbTr877KClJ68YVX4LMh4cCIJDI9tb19FuxtpXv3F1vJ
-         oNo+qIcMsfdsVWn7c2Hp9f8WZylkZEUamHemI+7k62ue/0Bu1JgdtaB8ZNSCruGqKSRe
-         qvs4wuG+bs5v8ap1kdOGjyV5qyHZwAwtxIHzlMyvrYambe16d/q7BZii1zNrRqgGHCEf
-         hH6A==
-X-Forwarded-Encrypted: i=1; AJvYcCUgtMtuVKRxDyPm92ZqD+RcwcFuIrMTLEy37lFzTceHrU8dTIyizMS5rQe0QoMEbpTotRFA770k/vI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxrcCGskfjBNmo6B9wUzUb2QCGVtr6izmb8b6x4GVlqzTvWzodr
-	x6xLApF/1R4eL9J5ZbKk/aFSAM4eiub4Sn7LMuOW8EosbDNcffAUYG9umRcCWiidR5c+VbWahsg
-	SaLc+WxXFlJIfc3qBj1TzYPo3pu/S/C6AP9bYAQ==
-X-Google-Smtp-Source: AGHT+IFlkcPGSSt+FkF/AeZ9ren+91PRcuHIGXxky2tQ3SxKjSYHH1M3nNkivi+T62HmOUXRleWu7WPHCEDV1ks1k1M=
-X-Received: by 2002:a17:907:9706:b0:a99:51dd:9792 with SMTP id
- a640c23a62f3a-a998d20b4d3mr292257666b.30.1728494995415; Wed, 09 Oct 2024
- 10:29:55 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728495226; x=1729100026;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kdIWw6YeNqBuFnAq+SVqtF9+ypPyeZ31a/GstolXt5g=;
+        b=N5UkQzbDNnXVwQQT/wUyNoFzuLUpJYq2RvRk4AuNAZL4esIKYEa/DjN19ZfE4qyKGk
+         TFhyyxvUYqB21DkIxnHWnmUtg3vPX9Q7Mpr7yGpWNd0t/x4GGHwGOoIOBogIXlynCTfQ
+         8E5wXIhumSYXSIGWlrsZDIKhYbUbanD+rN8jjkBR5o/XHovlEJ2HdlxUA1Npr1Orauxc
+         api+sSc6aalfU4jrrQjacE+li+cSrUihUxx4Y6JXch9p1nPmlSl6jNTl64iHrb2elURe
+         1k+wqMuZwGpWtSDeMOLXNzK/+/feQlCufh39hrtfdPcD621Tjbk0nOrdeVzwlG+5nrq9
+         nQWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUJ3LQS77CFjYrV4fNg4lTeDPqixTpd5I5Av7N0EDWi5L5aFD8bFVBBm0QTkN+wluYx0nwQgjWnzvMx3yJW@vger.kernel.org, AJvYcCUghisZoE7tdfyK+Be+GXIu+krbai9xpd6w3FubXVD2zy3+D3yl2KlMVw7lRjcY0YzZZR1Zbn8V7/DUog==@vger.kernel.org, AJvYcCVTBsDp5tbzAmx+oMGCWh4uOhcXgj3AqebeVHlNECmSMr5sTBsoXJUuwpEtTo9uma5fgeppAu5L4TMG@vger.kernel.org, AJvYcCXFoUbJ46THT/LjU6oVvzDQSjJqi9nX6QVhfTbJ3+xzr2qCh165q3PdE7lsCO7h/dQr9OKH4GVRw/vX@vger.kernel.org
+X-Gm-Message-State: AOJu0YybLU+/iRwB/FkG7hu+wdQl/9vHAe53tS+D3ODiqvdWk8ISFI8h
+	TN2UIrOyfNxcY/7gHegbnBoLBeo9BK8XdOUj+kGyaKNde0EJNm2u
+X-Google-Smtp-Source: AGHT+IGYDXoiIVsZD4D1VMdAVzKWO5yqoecM7leCzcRbETTKF2cR52wcXBVELZjVeQW9kZpZAYQigA==
+X-Received: by 2002:a05:690c:5:b0:650:a1cb:b122 with SMTP id 00721157ae682-6e32e22164amr12486607b3.27.1728495226148;
+        Wed, 09 Oct 2024 10:33:46 -0700 (PDT)
+Received: from fan ([50.205.20.42])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e2d9280254sm19287527b3.46.2024.10.09.10.33.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Oct 2024 10:33:45 -0700 (PDT)
+From: Fan Ni <nifan.cxl@gmail.com>
+X-Google-Original-From: Fan Ni <fan.ni@samsung.com>
+Date: Wed, 9 Oct 2024 10:33:42 -0700
+To: Ira Weiny <ira.weiny@intel.com>
+Cc: Dave Jiang <dave.jiang@intel.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Navneet Singh <navneet.singh@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	linux-btrfs@vger.kernel.org, linux-cxl@vger.kernel.org,
+	linux-doc@vger.kernel.org, nvdimm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [PATCH v4 02/28] printk: Add print format (%pra) for struct range
+Message-ID: <Zwa-dtJ21zwBWZpY@fan>
+References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
+ <20241007-dcd-type2-upstream-v4-2-c261ee6eeded@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241008071559.18523-1-everestkc@everestkc.com.np> <ZwanGrWs3PI4X7OZ@p14s>
-In-Reply-To: <ZwanGrWs3PI4X7OZ@p14s>
-From: "Everest K.C." <everestkc@everestkc.com.np>
-Date: Wed, 9 Oct 2024 11:29:43 -0600
-Message-ID: <CAEO-vhFFHXeHH961e8KMYrwyUHtGCZmPOP9VC7QrhpabH2wP5A@mail.gmail.com>
-Subject: Re: [PATCH] remoteproc: Fix spelling error in remoteproc.rst
-To: Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc: andersson@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, 
-	linux-remoteproc@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241007-dcd-type2-upstream-v4-2-c261ee6eeded@intel.com>
 
-On Wed, Oct 9, 2024 at 9:54=E2=80=AFAM Mathieu Poirier
-<mathieu.poirier@linaro.org> wrote:
->
-> Good morning,
->
-> This is a case of old english vs. new english.  Using "implementors" is s=
-till
-> correct.  Moreover, there are 33 instances of the word "implementor" in t=
-he
-> kernel tree.  Unless there is an effor to change all occurences I will no=
-t move
-> forward with this patch.
-I can work on changing all 33 instances of the word "implementor".
-Should I create a patchset for it ?
-> Thanks,
-> Mathieu
->
-> On Tue, Oct 08, 2024 at 01:15:57AM -0600, Everest K.C. wrote:
-> > Following spelling error reported by codespell
-> > was fixed:
-> >       implementors =3D=3D> implementers
-> >
-> > Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
-> > ---
-> >  Documentation/staging/remoteproc.rst | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/staging/remoteproc.rst b/Documentation/stagi=
-ng/remoteproc.rst
-> > index 348ee7e508ac..5c226fa076d6 100644
-> > --- a/Documentation/staging/remoteproc.rst
-> > +++ b/Documentation/staging/remoteproc.rst
-> > @@ -104,7 +104,7 @@ Typical usage
-> >       rproc_shutdown(my_rproc);
-> >    }
-> >
-> > -API for implementors
-> > +API for implementers
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >
-> >  ::
-> > --
-> > 2.43.0
-> >
-Thanks,
-Everest K.C.
+On Mon, Oct 07, 2024 at 06:16:08PM -0500, Ira Weiny wrote:
+> The use of struct range in the CXL subsystem is growing.  In particular,
+> the addition of Dynamic Capacity devices uses struct range in a number
+> of places which are reported in debug and error messages.
+> 
+> To wit requiring the printing of the start/end fields in each print
+> became cumbersome.  Dan Williams mentions in [1] that it might be time
+> to have a print specifier for struct range similar to struct resource
+> 
+> A few alternatives were considered including '%par', '%r', and '%pn'.
+> %pra follows that struct range is similar to struct resource (%p[rR])
+> but need to be different.  Based on discussions with Petr and Andy
+> '%pra' was chosen.[2]
+> 
+> Andy also suggested to keep the range prints similar to struct resource
+> though combined code.  Add hex_range() to handle printing for both
+> pointer types.
+> 
+> To: Petr Mladek <pmladek@suse.com>
+> To: Steven Rostedt <rostedt@goodmis.org>
+> To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> To: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+> To: Sergey Senozhatsky <senozhatsky@chromium.org>
+> To: Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION)
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org (open list)
+> Link: https://lore.kernel.org/all/663922b475e50_d54d72945b@dwillia2-xfh.jf.intel.com.notmuch/ [1]
+> Link: https://lore.kernel.org/all/66cea3bf3332f_f937b29424@iweiny-mobl.notmuch/ [2]
+> Suggested-by: "Dan Williams" <dan.j.williams@intel.com>
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> 
+> ---
+> Changes:
+> [Andy: create new hex_range() and use it in both range/resource]
+> [Petr/Andy: Use %pra]
+> [Andy: Add test case start > end]
+> [Petr: Update documentation]
+> [Petr: use 'range -']
+> [Petr: fixup printf_spec specifiers]
+> [Petr: add lib/test_printf test]
+> ---
+>  Documentation/core-api/printk-formats.rst | 13 ++++++++
+>  lib/test_printf.c                         | 26 +++++++++++++++
+>  lib/vsprintf.c                            | 55 +++++++++++++++++++++++++++----
+>  3 files changed, 88 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+> index 14e093da3ccd..03b102fc60bb 100644
+> --- a/Documentation/core-api/printk-formats.rst
+> +++ b/Documentation/core-api/printk-formats.rst
+> @@ -231,6 +231,19 @@ width of the CPU data path.
+>  
+>  Passed by reference.
+>  
+> +Struct Range
+> +------------
+> +
+> +::
+> +
+> +	%pra    [range 0x0000000060000000-0x000000006fffffff]
+> +	%pra    [range 0x0000000060000000]
+> +
+> +For printing struct range.  struct range holds an arbitrary range of u64
+> +values.  If start is equal to end only 1 value is printed.
+> +
+> +Passed by reference.
+> +
+>  DMA address types dma_addr_t
+>  ----------------------------
+>  
+> diff --git a/lib/test_printf.c b/lib/test_printf.c
+> index 5afdf5efc627..e3e75b6d10a0 100644
+> --- a/lib/test_printf.c
+> +++ b/lib/test_printf.c
+> @@ -432,6 +432,31 @@ struct_resource(void)
+>  	     "%pR", &test_resource);
+>  }
+>  
+> +static void __init
+> +struct_range(void)
+> +{
+> +	struct range test_range = {
+> +		.start = 0xc0ffee00ba5eba11,
+> +		.end = 0xc0ffee00ba5eba11,
+> +	};
+> +
+> +	test("[range 0xc0ffee00ba5eba11]", "%pra", &test_range);
+> +
+> +	test_range = (struct range) {
+> +		.start = 0xc0ffee,
+> +		.end = 0xba5eba11,
+> +	};
+> +	test("[range 0x0000000000c0ffee-0x00000000ba5eba11]",
+> +	     "%pra", &test_range);
+> +
+> +	test_range = (struct range) {
+> +		.start = 0xba5eba11,
+> +		.end = 0xc0ffee,
+> +	};
+> +	test("[range 0x00000000ba5eba11-0x0000000000c0ffee]",
+> +	     "%pra", &test_range);
+> +}
+> +
+ ...
+>  static noinline_for_stack
+>  char *hex_string(char *buf, char *end, u8 *addr, struct printf_spec spec,
+>  		 const char *fmt)
+> @@ -2277,6 +2314,7 @@ char *rust_fmt_argument(char *buf, char *end, void *ptr);
+>   * - 'Bb' as above with module build ID (for use in backtraces)
+>   * - 'R' For decoded struct resource, e.g., [mem 0x0-0x1f 64bit pref]
+>   * - 'r' For raw struct resource, e.g., [mem 0x0-0x1f flags 0x201]
+> + * - 'ra' struct ranges [range 0x00 - 0xff]
+
+Maybe follow the existing examples here, like
+'ra" For struct ranges, e.g., ...
+
+fan
+
+>   * - 'b[l]' For a bitmap, the number of bits is determined by the field
+>   *       width which must be explicitly specified either as part of the
+>   *       format string '%32b[l]' or through '%*b[l]', [l] selects
+> @@ -2399,8 +2437,13 @@ char *pointer(const char *fmt, char *buf, char *end, void *ptr,
+>  		fallthrough;
+>  	case 'B':
+>  		return symbol_string(buf, end, ptr, spec, fmt);
+> -	case 'R':
+>  	case 'r':
+> +		switch (fmt[1]) {
+> +		case 'a':
+> +			return range_string(buf, end, ptr, spec, fmt);
+> +		}
+> +		fallthrough;
+> +	case 'R':
+>  		return resource_string(buf, end, ptr, spec, fmt);
+>  	case 'h':
+>  		return hex_string(buf, end, ptr, spec, fmt);
+> 
+> -- 
+> 2.46.0
+> 
+
+-- 
+Fan Ni
