@@ -1,86 +1,83 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578FD178CCA
-	for <linux-doc@vger.kernel.org>; Wed,  9 Oct 2024 22:02:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF7F17A584;
+	Wed,  9 Oct 2024 22:17:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728511357; cv=none; b=TzCdhV8H8pe5ZUsXPXPtCZRhZD0LIvc67JfxGot7q7U/SnNiJSSQ/rRv5Ff3+iAr/XA9yrml+2Zh9eLS4rfGKpnCBUSfww5810IEv89q8moonYmh+gzw+CDVS2R5yoGIyvyLVBGLIiaKyRxKJMiOqlT5BUmQ4y/aYadwAh8+TaY=
+	t=1728512230; cv=none; b=NKxysIBc3NdvQ4J/bXBCNpzuwObNHTnC7Xpv4bdSSNqPMckVlFOjGTzRK8J6Mh3F117gqeqlWO8tm3FHBar0Bb1m8zvWVwPL282qGvgBZoBGt5aPlLrfmIInlsqIQ6M7WkcsdZ+f0nhQVwhC1QbhRKKdFig3jgXRpIl2fBmh9KI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728511357; c=relaxed/simple;
-	bh=WmzhW4Yz9d4CYS2cvnPXGqkoVEAeBlG0bw816P86+6U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fSmfdkCfsaIFhlkx5ZI0sKde5waYNu+Ls2guHxF2QAxNMPaGe/rP/8KjXvEv17xzxrDTwk+XhYsCe8FMe/Cy9ZhMa+wZDQ8o+q6c55YoEmYTg9t0JJrp18M0IQRdc050N+Dn9eH0F9TPmmsX9s8PgAQI6LguPD3bdOXOZ85/n+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=siatCB37; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1728512230; c=relaxed/simple;
+	bh=Qz18RXphvenXEN9nRI5napXnTtwj4lI2pWTe5c1vSKc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SC3QmclvFoYBKobG9hXZG5ev/3NZ0jgb7v8FzFRJ22EtlW188YdCnk11jw7a70bv7hoQh1ZxJTURILtJVIhkoulGqT/bR1hiIbUXgyrvAJ59NRragFYig2DNY8jmojHxPmFVZ++qTQTCfXKaZ7vC80mAPGya+O39y15qnR+d1VI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cwm5Ycp9; arc=none smtp.client-ip=209.85.208.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="siatCB37"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=HCh2YRncTzKIRqu2AgE80f/pX5qYbpsU8s2PLS/3fiY=; b=siatCB378wZ3PecidgHlodLsex
-	G1r8lDqv5Z4b9Wh+HbDnMJDIjPhqKzdI5yth6fslhdRCR00CuFmOv8bmsHzUjG2+5iXz54XiAtZ3W
-	ZZcoL6GMe9w9uDpplmzXJMe0YpKn6X/Y8wdI8v0ZE/SV2Hvnke3FV9mh8l71qX3JLARJmInhSCfI9
-	wdVNdtc2boSApVioXl9+BzYWqe+wXhctgVLNUFFS49ostn5cq85XguCi8D2jQefgTTSu4bqhDvvlB
-	H+nypnR6VGVHoapUMg13yB8vcUAR1mptFZs5BtQ1LRMCnEkC2d9eYDpcPSlUmFyWTwt4LTCmtLbNt
-	oXAxMy8A==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1syelC-00000005vRL-0jx9;
-	Wed, 09 Oct 2024 22:02:24 +0000
-Message-ID: <8b0c1bb9-4a9a-4f8e-87df-275994df739d@infradead.org>
-Date: Wed, 9 Oct 2024 15:02:17 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cwm5Ycp9"
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2fad8337aa4so3137401fa.0;
+        Wed, 09 Oct 2024 15:17:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728512227; x=1729117027; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9vJOR5Pe5cnpO/MtL9k0byjEiB3fJceAvrtHENukwyA=;
+        b=cwm5Ycp9Eu4AA3rv/QVfdZWpU4ok6TKZW7aYAcND3CrPKQHe0YmmgMIaOmmjoOeQMQ
+         dXq4NL6BE3TmDFnTItyMp+pPbpDQHCitDEVMCDj3zqzwnDDuWOEJZQjwWeFlzGR/92O7
+         FJuOT5MPHbXKnigrCT8iR5BGHZVdeUc/xwL9OuaIGa0zdIOv7yvfRtFWnFlHvoDWmErx
+         N/454RG5iyOabFNGT3vka67+eX1nCO3ouy0P3mHHGaylMvBqXWdtHhQN9nVKgJZKlh1g
+         edWOydhpPOdM+hf0LG3EZEiM8H8BpWmuVaq2u7Qn3t+8WXXLEb4GLzrXUup4mjUV8n7T
+         3rFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728512227; x=1729117027;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9vJOR5Pe5cnpO/MtL9k0byjEiB3fJceAvrtHENukwyA=;
+        b=ADOQHGqbON+bxkCx3SzpzdF8LI2T+CPYsO92UVCy5YxbYesKzvsErnri4jcWrDU73v
+         lxfMcp81BXRbnuruufHzsm7UZCm6NcZa5QdAOU33lFOs+EZw48l4Fh2PLfHh4srE1Hd/
+         ZwW6UEGlavpb5DIRXGySQI6PRZMqBDcW8MGihwJdQEKvLPcZhRxgZHn9KAEou73WZSWA
+         fNVz2AVXAHBmJTM1FzqF6vUrvuHiISW0ggQzm7sjO4N6wuF1gHvb6s9X/DFIclc/1n29
+         nCh3jc3lYFlVpNgsNx3bUcnzZ+SrWl7Ax3Hm60cOleWL2dXt9pJpBRYhB3rPD4mUUu1N
+         eJZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVPUNWnA+/GvtyGVg/zLTr6kf0G78dcimRY2wD1t7+HDxPdsDQIylFkCgCSY8EUp+kcrYzUmWWPuXJjwXdiQg==@vger.kernel.org, AJvYcCWS8ffLD2ElVIgmwagPqcl8ycSqXErEMtnO0erNk1bCpV3jyMuPj4GLzxq+vGmzNjPGL17sydpnk/c=@vger.kernel.org, AJvYcCWloOXQ6R/RmLfm5iiz1/RGAO8a8hpvYc5WYLzwdeI/UVNL/F25NpCvaq2b0HiefDzi66vdQrc9eAkUPOhm@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyh2n9Gm0TuTZsAHkh8NTShV7t9BWgF0l7vM990TNkf64MqwRea
+	hHH5DpvX9whLmr4uGMWPGGIv9pk5CUNTvitG2GWZHQrg6acGiH2nj9+EhZhqrdDn8vWDU0UJSG3
+	gWv5L21iUZraVjVIuQxfrKmH3y9kLMPFe
+X-Google-Smtp-Source: AGHT+IFzQKnqDZgRef9bfo33+6pfeW7KfLapHRRW52/zyYe98ZvvG58H6JkACElKHZrqP0fDYAevwfrbxbh8hmixIA8=
+X-Received: by 2002:a2e:a58b:0:b0:2ef:2555:e52f with SMTP id
+ 38308e7fff4ca-2fb187bf0a2mr25469781fa.35.1728512227009; Wed, 09 Oct 2024
+ 15:17:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm, slab: add kerneldocs for common SLAB_ flags
-To: Jonathan Corbet <corbet@lwn.net>, Vlastimil Babka <vbabka@suse.cz>,
- David Rientjes <rientjes@google.com>, Christoph Lameter <cl@linux.com>
-Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org
-References: <20241009142936.56092-2-vbabka@suse.cz>
- <878quxe2kw.fsf@trenco.lwn.net>
- <f6fa720b-e8af-4afa-906f-29019aefe49a@suse.cz>
- <878quxb4rm.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <878quxb4rm.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <CAJ-ks9kiAH5MYmMvHxwH9JfBdhLGA_mP+ezmZ8wJOzDY1p7o5w@mail.gmail.com>
+ <20241009205237.48881-2-tamird@gmail.com> <875xq19bus.fsf@trenco.lwn.net>
+In-Reply-To: <875xq19bus.fsf@trenco.lwn.net>
+From: Tamir Duberstein <tamird@gmail.com>
+Date: Wed, 9 Oct 2024 18:16:29 -0400
+Message-ID: <CAJ-ks9md9bCrwyCNp3jR=1pF-xpieu8oW4jPqw5w=kCL9bpeBg@mail.gmail.com>
+Subject: Re: [PATCH v2] XArray: minor documentation improvements
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Oct 9, 2024 at 5:59=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> wro=
+te:
+>
+> I'm not convinced that this is better.  This is programmer
+> documentation, and "storing NULL" says exactly what is going on.
+> "Erasing" is, IMO, less clear.
 
+Both are verbs that appear in function names:
+"storing NULL" is to `xa_store(NULL)` as "erasing" is to `xa_erase()`.
 
-On 10/9/24 9:49 AM, Jonathan Corbet wrote:
-> Vlastimil Babka <vbabka@suse.cz> writes:
-> 
->> Thanks for the hints. I hope if we can agree that documenting the macros was
->> intended to be supported, doesn't break the build (there are users already)
->> and has only those minor rendering issues, it can be used?
-> 
-> I'd totally forgotten that this was supposed to work.
-> 
-> Yes it can be used... $WE just need to find a way to make it work
-> properly.
-
-The code probably isn't expecting a macro on the right side. I'll take a look,
-but no promises.
-
-> 
-> Every now and then I ponder rewriting kernel-doc in Rust, both to make
-> it more reasonable to modify and as a learning exercise.  But then I
-> come to my senses and go back to stuff that actually needs to get done.
-
-That's a good way to lose helpers, although it might also gain you a few...
-
-Yesh, I know, current is Perl.
-
--- 
-~Randy
+Cheers.
+Tamir
