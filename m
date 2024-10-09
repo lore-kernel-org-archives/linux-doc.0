@@ -1,202 +1,131 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073861E0DE2
-	for <linux-doc@vger.kernel.org>; Wed,  9 Oct 2024 15:16:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EB961E0B8F;
+	Wed,  9 Oct 2024 15:28:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728487002; cv=none; b=OG7yQUFug01MGcs7YfEC2rL6Pbs5OoyNh1BczdhMtLnr7IxljcLk8/Mt5LGVj6LFvC7zOFke80mfUhBoMTZ1O1WFZiJc3Ijw3gB06RNlx6A8APb+fSKBcc0Wea0wSIWU4KCeqtW8L9jCH0ClfNhf0WfLw5gGhcqSWrd8wHDn76Y=
+	t=1728487719; cv=none; b=dSRVURydntuX4OI6pxu8XWZXrDfUbLajgOu0kS5RdpsssE+IktS9ImyL7VrDEvcbUfX312yag8WYKhdzytKGNMf855eR4mT2z6k5+sgUE5XkDiCKAPlVwzvDmgXD9GuJ9E7zujpXoAb3/svhb6l7/G9UgRPJqUf7n11qf3qlMYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728487002; c=relaxed/simple;
-	bh=erbjsBtCILmKJ+nigxio9EUrqkSXvbmuLoXoTa3lE+k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pqGYQBV61a3eeYIZD8aftJ8mCVq0D8xZ1bJ+hXgtdWOUHpRkI9z6c83jwlsjBOJsw7M5uvBhSR0MVF1OY8fpLXBtPKTkk8t/HnfHSYPciTHaHO5c9W6BhZOxYPOjLvLy/eLJREDxEbfA727vL0hEdTIWxD2/uykfBIVL07H5GHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1syYQK-0000cM-0b; Wed, 09 Oct 2024 17:16:24 +0200
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ore@pengutronix.de>)
-	id 1syYQG-000dE4-In; Wed, 09 Oct 2024 17:16:20 +0200
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1syYQG-002AnD-1Y;
-	Wed, 09 Oct 2024 17:16:20 +0200
-Date: Wed, 9 Oct 2024 17:16:20 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
-	Dent Project <dentproject@linuxfoundation.org>,
-	kernel@pengutronix.de
-Subject: Re: [PATCH net-next 04/12] net: pse-pd: tps23881: Add support for
- power limit and measurement features
-Message-ID: <ZwaeRL9z310dBBlh@pengutronix.de>
-References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
- <20241002-feature_poe_port_prio-v1-4-787054f74ed5@bootlin.com>
- <ZwYOboTdMppaZVmX@pengutronix.de>
- <20241009110501.5f776c9b@kmaincent-XPS-13-7390>
+	s=arc-20240116; t=1728487719; c=relaxed/simple;
+	bh=NZhPKkxiBqWOWXobZBa+zAtIejUJQqhd5KjHxmog/7E=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cdyoL7FL8+CwYnixc2DE7Sm9CGdS+nmbccGV0QHN0si4FY+Pcj7R7dTKQyieJThp8M3CpzNvsdfSf7iWaGB6TI14Y3+1oiG2ApwOPndTJi6ytMbOn/nmI5oxi8Nps1kkKxzhfaF6atzpbFnNjQ96txqM+ll90oNXS4VW6DX9JAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D+bsbYPZ; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D+bsbYPZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 066CFC4CEC5;
+	Wed,  9 Oct 2024 15:28:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728487719;
+	bh=NZhPKkxiBqWOWXobZBa+zAtIejUJQqhd5KjHxmog/7E=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=D+bsbYPZY+y1bchZ94DwJYleIOy7dxZajVy5YHh6VFsbOw9/GaprvzqnmWsvZ/zgN
+	 tfkwCXmXBLPjQg1wGPuYeu9kktqKTcwwZlVFNTJEIUGyCVaJ2Huc0zdvbaO1ruFvEq
+	 oIO5WtC6GebDxzZ4rZUgYYkzKunm65M0eaahclBUHmp92veiQ+8qRWlXQVRtbRny+2
+	 ovlImXyMF/QdRk8RLErP89Jdf4MN8lAlxnS5hCeWk2AcMJ91PY48/UwzowsfJSyuLR
+	 21tjmdmvRCUN1DP0bwxTP0+uiZZhSbxUg9sUws0utsSKVvS2TSGmYjIzNNoXOZupiw
+	 NXcs4Or84gpTQ==
+Date: Wed, 9 Oct 2024 08:28:37 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Taehee Yoo <ap420073@gmail.com>
+Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
+ almasrymina@google.com, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ donald.hunter@gmail.com, corbet@lwn.net, michael.chan@broadcom.com,
+ kory.maincent@bootlin.com, andrew@lunn.ch, maxime.chevallier@bootlin.com,
+ danieller@nvidia.com, hengqi@linux.alibaba.com, ecree.xilinx@gmail.com,
+ przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, ahmed.zaki@intel.com,
+ paul.greenwalt@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com,
+ asml.silence@gmail.com, kaiyuanz@google.com, willemb@google.com,
+ aleksander.lobakin@intel.com, dw@davidwei.uk, sridhar.samudrala@intel.com,
+ bcreeley@amd.com
+Subject: Re: [PATCH net-next v3 2/7] bnxt_en: add support for tcp-data-split
+ ethtool command
+Message-ID: <20241009082837.2735cd97@kernel.org>
+In-Reply-To: <CAMArcTU+r+Pj_y7rUvRwTrDWqg57xy4e-OacjWCfKRCUa8A-aw@mail.gmail.com>
+References: <20241003160620.1521626-1-ap420073@gmail.com>
+	<20241003160620.1521626-3-ap420073@gmail.com>
+	<20241008111926.7056cc93@kernel.org>
+	<CAMArcTU+r+Pj_y7rUvRwTrDWqg57xy4e-OacjWCfKRCUa8A-aw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241009110501.5f776c9b@kmaincent-XPS-13-7390>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 09, 2024 at 11:05:01AM +0200, Kory Maincent wrote:
-> On Wed, 9 Oct 2024 07:02:38 +0200
-> Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+On Wed, 9 Oct 2024 22:54:17 +0900 Taehee Yoo wrote:
+> > This breaks previous behavior. The HDS reporting from get was
+> > introduced to signal to user space whether the page flip based
+> > TCP zero-copy (the one added some years ago not the recent one)
+> > will be usable with this NIC.
+> >
+> > When HW-GRO is enabled HDS will be working.
+> >
+> > I think that the driver should only track if the user has set the value
+> > to ENABLED (forced HDS), or to UKNOWN (driver default). Setting the HDS
+> > to disabled is not useful, don't support it.  
 > 
-> > On Wed, Oct 02, 2024 at 06:28:00PM +0200, Kory Maincent wrote:
-> > > From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
-> > > 
-> > > Expand PSE callbacks to support the newly introduced
-> > > pi_get/set_current_limit() and pi_get_voltage() functions. These callbacks
-> > > allow for power limit configuration in the TPS23881 controller.
-> > > 
-> > > Additionally, the patch includes the detected class, the current power
-> > > delivered and the power limit ranges in the status returned, providing more
-> > > comprehensive PoE status reporting.
-> > > 
-> > > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>  
-> > 
-> > > +static int tps23881_pi_get_class(struct tps23881_priv *priv, int id)
-> > > +{  
-> > ....
-> > > +	if (chan < 4)
-> > > +		class = ret >> 4;
-> > > +	else
-> > > +		class = ret >> 12;  
-> > 
-> > ....
-> > > +tps23881_pi_set_2p_pw_limit(struct tps23881_priv *priv, u8 chan, u8 pol)
-> > > +{  
-> > ....
-> > > +	reg = TPS23881_REG_2PAIR_POL1 + (chan % 4);
-> > > +	ret = i2c_smbus_read_word_data(client, reg);
-> > > +	if (ret < 0)
-> > > +		return ret;
-> > > +
-> > > +	if (chan < 4)
-> > > +		val = (ret & 0xff00) | pol;
-> > > +	else
-> > > +		val = (ret & 0xff) | (pol << 8);  
-> > 
-> > This is a common pattern in this driver, we read and write two registers
-> > in one run and then calculate bit offset for the channel, can you please
-> > move it in to separate function. This can be done in a separate patch if
-> > you like.
+> Okay, I will remove the disable feature in a v4 patch.
+> Before this patch, hds_threshold was rx-copybreak value.
+> How do you think hds_threshold should still follow rx-copybreak value
+> if it is UNKNOWN mode?
+
+IIUC the rx_copybreak only applies to the header? Or does it apply 
+to the entire frame?
+
+If rx_copybreak applies to the entire frame and not just the first
+buffer (headers or headers+payload if not split) - no preference.
+If rx_copybreak only applies to the headers / first buffer then
+I'd keep them separate as they operate on a different length.
+
+> I think hds_threshold need to follow new tcp-data-split-thresh value in
+> ENABLE/UNKNOWN and make rx-copybreak pure software feature.
+
+Sounds good to me, but just to be clear:
+
+If user sets the HDS enable to UNKNOWN (or doesn't set it):
+ - GET returns (current behavior, AFAIU):
+   - DISABLED (if HW-GRO is disabled and MTU is not Jumbo)
+   - ENABLED (if HW-GRO is enabled of MTU is Jumbo)
+If user sets the HDS enable to ENABLED (force HDS on):
+ - GET returns ENABLED 
+
+hds_threshold returns: some value, but it's only actually used if GET
+returns ENABLED.
+
+> But if so, it changes the default behavior.
+
+How so? The configuration of neither of those two is exposed to 
+the user. We can keep the same defaults, until user overrides them.
+
+> How do you think about it?
 > 
-> The pattern is common but the operations are always different so I didn't found
-> a clean way of doing it.
-> Here is a listing of it:
-> 	if (chan < 4)
-> 		class = ret >> 4;
-> 	else
-> 		class = ret >> 12;
+> >  
+> > >       ering->tx_max_pending = BNXT_MAX_TX_DESC_CNT;
+> > >
+> > >       ering->rx_pending = bp->rx_ring_size;
+> > > @@ -854,9 +858,25 @@ static int bnxt_set_ringparam(struct net_device *dev,
+> > >           (ering->tx_pending < BNXT_MIN_TX_DESC_CNT))
+> > >               return -EINVAL;
+> > >
+> > > +     if (kernel_ering->tcp_data_split != ETHTOOL_TCP_DATA_SPLIT_DISABLED &&
+> > > +         BNXT_RX_PAGE_MODE(bp)) {
+> > > +             NL_SET_ERR_MSG_MOD(extack, "tcp-data-split can not be enabled with XDP");
+> > > +             return -EINVAL;
+> > > +     }  
+> >
+> > Technically just if the XDP does not support multi-buffer.
+> > Any chance we could do this check in the core?  
 > 
-> 	if (chan < 4)
-> 		val = (ret & 0xff00) | pol;
-> 	else
-> 		val = (ret & 0xff) | (pol << 8);  
-> 
->         if (chan < 4)                                                           
->                 val = (u16)(ret | BIT(chan));                                   
->         else                                                                    
->                 val = (u16)(ret | BIT(chan + 4));
-> 
-> 	if (chan < 4)
-> 		mW = (ret & 0xff) * TPS23881_MW_STEP;
-> 	else
-> 		mW = (ret >> 8) * TPS23881_MW_STEP;
-> 
-> 
-> Any idea?
-> 
+> I think we can access xdp_rxq_info with netdev_rx_queue structure.
+> However, xdp_rxq_info is not sufficient to distinguish mb is supported
+> by the driver or not. I think prog->aux->xdp_has_frags is required to
+> distinguish it correctly.
+> So, I think we need something more.
+> Do you have any idea?
 
-something like this:
-
-/*
- * Helper to extract a value from a u16 register value, which is made of two u8 registers.
- * The function calculates the bit offset based on the channel and extracts the relevant
- * bits using a provided field mask.
- *
- * @param reg_val: The u16 register value (composed of two u8 registers).
- * @param chan: The channel number (0-7).
- * @param field_offset: The base bit offset to apply (e.g., 0 or 4).
- * @param field_mask: The mask to apply to extract the required bits.
- * @return: The extracted value for the specific channel.
- */
-static u16 tps23881_calc_val(u16 reg_val, u8 chan, u8 field_offset, u16 field_mask)
-{
-        u8 bit_offset;
-
-        if (chan < 4) {
-                bit_offset = field_offset;
-        } else {
-                bit_offset = field_offset;
-                reg_val >>= 8;
-        }
-
-        return (reg_val >> bit_offset) & field_mask;
-}
-
-/*
- * Helper to combine individual channel values into a u16 register value.
- * The function sets the value for a specific channel in the appropriate position.
- *
- * @param reg_val: The current u16 register value.
- * @param chan: The channel number (0-7).
- * @param field_offset: The base bit offset to apply (e.g., 0 or 4).
- * @param field_mask: The mask to apply for the field (e.g., 0x0F).
- * @param field_val: The value to set for the specific channel (masked by field_mask).
- * @return: The updated u16 register value with the channel value set.
- */
-static u16 tps23881_set_val(u16 reg_val, u8 chan, u8 field_offset, u16 field_mask, u16 field_val)
-{
-        u8 bit_offset;
-
-        field_val &= field_mask;
-
-        if (chan < 4) {
-                bit_offset = field_offset;
-                reg_val &= ~(field_mask << bit_offset);
-                reg_val |= (field_val << bit_offset);
-        } else {
-                bit_offset = field_offset;
-                reg_val &= ~(field_mask << (bit_offset + 8));
-                reg_val |= (field_val << (bit_offset + 8));
-        }
-
-        return reg_val;
-}
- 
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Take a look at dev_xdp_prog_count(), something like that but only
+counting non-mb progs?
