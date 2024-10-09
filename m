@@ -1,385 +1,277 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA53190671;
-	Wed,  9 Oct 2024 14:29:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A65D21993B5
+	for <linux-doc@vger.kernel.org>; Wed,  9 Oct 2024 14:29:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728484183; cv=none; b=Vs7XXyIIf56ef/+3VJuvAzUcUmTJ89f1AnzIhWtMr3uvDvll8cYOPx4sDD1gfYBwojEZBBs9dP3rKurfx8tvRXw15urrRkZoM+5i2gpyndmGN6jWxv9LeW2kaT3c2JpX3vCCuLFdtlJUuRwkUKaLvlSS6z/ORxTu91uhuSa7k4Y=
+	t=1728484183; cv=none; b=T94RJgM81Pzy47nbDMf1pGFzNU+dB4jHvioD+ANMfDFHJ9zmP3z0gXnNppWtp2fNARXb3CF7JTO5Vq6lDRUTGHjbq/8ffkQu6QgBdAbu84OWZzdhT1YVyh3jltR0n3KHVoiE2Qjl+tPtIfvYe95O9+7KfJ7CosMaEMSAvu6M5GE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1728484183; c=relaxed/simple;
-	bh=E5l7XLUph4CroFoG9mgsfyCmACzVRqqisf8fJBYUGFg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Z/ckAwlgcWIVicQdK2RoGHgNvp9BqAee6VJlAP0pJtvyOkdT1n2LO9hU7mSjePdY1ELk3VSEe09aNf6aRoG991JfDn5YIwkiED44SzBae5NEbaycoDzc2SRTJJlG7DZHhoC+1iFrrqjCz3pUnxXu6C4D67EJoE5yu4NdX6OLV9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DYegVRLP; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	bh=Js1CrYfbZDCyYXdsRIZ78FF85ICgCnL8TGwzxAsRTtA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UMgQhDojpRqeYVYF/+ugGDqAMZ9w2Tfd6x70HWvOyj8izDbFE2naTZbkPx07cXeiahIAsSNLl7dDbeFX876UcAwg7oa+8ycNAx0Tovh0IpqTWprstcjZjh0f2EWL/XA6amS3nX9LLZfmbY2ow/6+Sl+RvC+A+p2tyWDUg1WPADI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cHQt3MCr; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=mNtyBiKM; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cHQt3MCr; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=mNtyBiKM; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DYegVRLP"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-53997328633so9365706e87.3;
-        Wed, 09 Oct 2024 07:29:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728484176; x=1729088976; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=x1exwFMCtjID6DoZpDSkqCzWTlshQQhxAhHFrjRH1NA=;
-        b=DYegVRLPMOUWFNc5e9bJVPrdCZHicA2qVQ6OPwafLliK1XS4pYZfccjX4hNxXeHX9l
-         HTFSmkuuooshHtxOMSwAfOFZ7/fbCis6EIoXZOejs5lS9f1JlDMagJfmI7ioEPAn2ja5
-         7xZiTpbOS10SZEwDEDDgUEp7rkDZygnrZzqt5/hopHbncLGXFs57Rpi04dJvcxNagjgA
-         uIhHTFSW3YYGI8+L2WW709AzRox3o8dq0IyF2wwCojYwFDK//6tDsmObEao2gppOCyH+
-         eZ4ShYs1Ufm1oM9aIBQPO2RhHrcTBluWCsKQCHCVaD6u4ATT2yTYawN0iUCfXg/z6sdc
-         wczQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728484176; x=1729088976;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=x1exwFMCtjID6DoZpDSkqCzWTlshQQhxAhHFrjRH1NA=;
-        b=fm0rG5BWTCEiZGfwiTMccheCUoNM2d/HxjWZ/lzkd0rAnLWR3yozKlMw0Oxb0yo0KU
-         ARZXxdsYeWeatYIjCpOKSCpHR8NNBqLsce8l66Q+FrdDWT092s0yNoofcUsamX2xnRsD
-         m/my/DmOKXSpDkseAAnwE0AX3cm0VC1UoUgpxX1iWrm5c4CoX8j96xduJXydUGiwUfgK
-         0kgtfNyzDJC5aO/ewMXcJrhOzSclwCm3Ft0G5zzANZXfYdRG9QA3Hx742q+6MAbZXGDJ
-         ++A8DYL94a4qKo02jIFgtQWJWehltqDRT+mSTphmvsggTyEe+V93CpVloJ3QxNQ7rKyu
-         rnxA==
-X-Forwarded-Encrypted: i=1; AJvYcCVG+FKKe3rCEgsgtsH4pP5kFK0A13PfbXrtBtIYAWcshXHiYimW/uEwHxOF2Tk6jFvG+XjKsVyB/0Ki@vger.kernel.org, AJvYcCVSWTciFWL0gf7GZS4SRvXcWTzuNUM0Ijn8RnCw7wQvsbsiGtEFVoALVEa/qNrdVoUb8dXYcTD0Ya8v@vger.kernel.org, AJvYcCX1//2YmP6NInH4R/e/OENZamXaH6Tmo/xI5DBTQyrH0Ie/cYnqZo+VagHiepwuCdu2UIZnK+fiEyqJgvMK@vger.kernel.org, AJvYcCXpuExWdzlRiZ20V4uoibLyYwHcbMDf4O27EVJF4HAQj5G6dcJa9Q5aDfnMI9Yqf21Z7BLLM9DWqk57VAc=@vger.kernel.org, AJvYcCXqMMNHJgWRRa6wxCI19POGLV7AjIHr2Ws2l84n7k/vG9DhaQJOq9ltHw2bkw/mbOZ8Ef9gxndy8hII@vger.kernel.org
-X-Gm-Message-State: AOJu0YxIIU7iF0H4yHRY148cjZu88wQszR5HPibz9pijG9Pf2NqwTk49
-	96TJYPZNce8MvNo46g9VOGM1dyBDPbxITVgOWccyqhuk/Qwupewq
-X-Google-Smtp-Source: AGHT+IHypRgzpda4UOn7tUpkG6oM5G0fDPn+ptPE33yjZYSablG58wP1fcey4fCgQzqtBNml3VEhew==
-X-Received: by 2002:a05:6512:3a91:b0:52c:9ae0:beed with SMTP id 2adb3069b0e04-539c4967fd4mr2586186e87.52.1728484175915;
-        Wed, 09 Oct 2024 07:29:35 -0700 (PDT)
-Received: from ?IPv6:2001:a61:34c9:ea01:14b4:7ed9:5135:9381? ([2001:a61:34c9:ea01:14b4:7ed9:5135:9381])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9963760779sm298304366b.204.2024.10.09.07.29.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Oct 2024 07:29:34 -0700 (PDT)
-Message-ID: <5860310e0413038ac477b9e191c3d15029487628.camel@gmail.com>
-Subject: Re: [PATCH v4 4/8] iio: adc: ad7606: Add PWM support for conversion
- trigger
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Guillaume Stols <gstols@baylibre.com>, Uwe
- =?ISO-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>, Lars-Peter Clausen
- <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
- aardelean@baylibre.com,  dlechner@baylibre.com, jstephan@baylibre.com,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Date: Wed, 09 Oct 2024 16:29:33 +0200
-In-Reply-To: <20241009-ad7606_add_iio_backend_support-v4-4-6971a8c0f1d5@baylibre.com>
-References: 
-	<20241009-ad7606_add_iio_backend_support-v4-0-6971a8c0f1d5@baylibre.com>
-	 <20241009-ad7606_add_iio_backend_support-v4-4-6971a8c0f1d5@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cHQt3MCr";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="mNtyBiKM";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cHQt3MCr";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="mNtyBiKM"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C830F21E81;
+	Wed,  9 Oct 2024 14:29:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1728484179; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=kEEVUu4TR/KxCJYKxSfEmcKvSVeKXTKNpUyftRsOkgM=;
+	b=cHQt3MCrfDgen/Rd/IKzmkDBT89/V2SfGNZp8a2SWl/kRGyzxLQRwnWJnM4RkT3qTHH+81
+	auNWA6LHezg7LHplpCaQ4v2GQuW0OtwJlhcVfxWKy04s2GQ4HsHNH7+cDJs+4g9kH/0EJ6
+	20FBmFMofBScQSoQtBa4ggzeZKVfNn0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1728484179;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=kEEVUu4TR/KxCJYKxSfEmcKvSVeKXTKNpUyftRsOkgM=;
+	b=mNtyBiKMMpnvNu4tLamDOR/hFoTiW4E0BSaRcMEX3w8Gj27k9dcacimzQRnTCvRExRB+K9
+	+v9bN6RUlXZlaFDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1728484179; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=kEEVUu4TR/KxCJYKxSfEmcKvSVeKXTKNpUyftRsOkgM=;
+	b=cHQt3MCrfDgen/Rd/IKzmkDBT89/V2SfGNZp8a2SWl/kRGyzxLQRwnWJnM4RkT3qTHH+81
+	auNWA6LHezg7LHplpCaQ4v2GQuW0OtwJlhcVfxWKy04s2GQ4HsHNH7+cDJs+4g9kH/0EJ6
+	20FBmFMofBScQSoQtBa4ggzeZKVfNn0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1728484179;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=kEEVUu4TR/KxCJYKxSfEmcKvSVeKXTKNpUyftRsOkgM=;
+	b=mNtyBiKMMpnvNu4tLamDOR/hFoTiW4E0BSaRcMEX3w8Gj27k9dcacimzQRnTCvRExRB+K9
+	+v9bN6RUlXZlaFDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B3F20136BA;
+	Wed,  9 Oct 2024 14:29:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 2pKZK1OTBmdgRAAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Wed, 09 Oct 2024 14:29:39 +0000
+From: Vlastimil Babka <vbabka@suse.cz>
+To: David Rientjes <rientjes@google.com>,
+	Christoph Lameter <cl@linux.com>
+Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-mm@kvack.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Vlastimil Babka <vbabka@suse.cz>
+Subject: [PATCH] mm, slab: add kerneldocs for common SLAB_ flags
+Date: Wed,  9 Oct 2024 16:29:37 +0200
+Message-ID: <20241009142936.56092-2-vbabka@suse.cz>
+X-Mailer: git-send-email 2.46.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FREEMAIL_CC(0.00)[gmail.com,linux.dev,linux-foundation.org,kvack.org,lwn.net,vger.kernel.org,suse.cz];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:mid];
+	TAGGED_RCPT(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Score: -1.30
+X-Spam-Flag: NO
 
-On Wed, 2024-10-09 at 09:19 +0000, Guillaume Stols wrote:
-> Until now, the conversion were triggered by setting high the GPIO
-> connected to the convst pin. This commit gives the possibility to
-> connect the convst pin to a PWM.
-> Connecting a PWM allows to have a better control on the samplerate,
-> but it must be handled with care, as it is completely decorrelated of
-> the driver's busy pin handling.
-> Hence it is not recommended to be used "as is" but must be exploited
-> in conjunction with IIO backend, and for now only a mock functionality
-> is enabled, i.e PWM never swings, but is used as a GPIO, i.e duty_cycle
-> =3D=3D period equals high state, duty_cycle =3D=3D 0 equals low state.
->=20
-> This mock functionality will be disabled after the IIO backend usecase
-> is introduced.
->=20
-> Signed-off-by: Guillaume Stols <gstols@baylibre.com>
-> ---
+We have many SLAB_ flags but many are used only internally, by kunit
+tests or debugging subsystems cooperating with slab, or are set
+according to slab_debug boot parameter.
 
-Hi Guillaume,
+Create kerneldocs for the commonly used flags that may be passed to
+kmem_cache_create(). SLAB_TYPESAFE_BY_RCU already had a detailed
+description, so turn it to a kerneldoc. Add some details for
+SLAB_ACCOUNT, SLAB_RECLAIM_ACCOUNT and SLAB_HWCACHE_ALIGN. Reference
+them from the __kmem_cache_create_args() kerneldoc.
 
-Looks overall good, just some minor stuff
+Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+---
+I plan to take this in the slab tree, but a question for Jon/linux-doc:
 
-> =C2=A0drivers/iio/adc/ad7606.c | 143 ++++++++++++++++++++++++++++++++++++=
-+++++++----
-> =C2=A0drivers/iio/adc/ad7606.h |=C2=A0=C2=A0 2 +
-> =C2=A02 files changed, 135 insertions(+), 10 deletions(-)
->=20
-> diff --git a/drivers/iio/adc/ad7606.c b/drivers/iio/adc/ad7606.c
-> index 71362eafe838..5b276d087ec3 100644
-> --- a/drivers/iio/adc/ad7606.c
-> +++ b/drivers/iio/adc/ad7606.c
-> @@ -13,10 +13,12 @@
-> =C2=A0#include <linux/kernel.h>
-> =C2=A0#include <linux/module.h>
-> =C2=A0#include <linux/property.h>
-> +#include <linux/pwm.h>
-> =C2=A0#include <linux/regulator/consumer.h>
-> =C2=A0#include <linux/sched.h>
-> =C2=A0#include <linux/slab.h>
-> =C2=A0#include <linux/sysfs.h>
-> +#include <linux/units.h>
-> =C2=A0#include <linux/util_macros.h>
-> =C2=A0
-> =C2=A0#include <linux/iio/buffer.h>
-> @@ -299,6 +301,82 @@ static int ad7606_reg_access(struct iio_dev *indio_d=
-ev,
-> =C2=A0	}
-> =C2=A0}
-> =C2=A0
-> +static int ad7606_pwm_set_high(struct ad7606_state *st)
-> +{
-> +	struct pwm_state cnvst_pwm_state;
-> +	int ret;
-> +
-> +	if (!st->cnvst_pwm)
-> +		return -EINVAL;
-> +
+I think I'm doing properly the "Object-like macro documentation" for
+parameter-less macros from the doc-guide. Yet I can see in the htmldocs
+things like "SLAB_TYPESAFE_BY_RCU ()" and "Parameters". Is there a bug
+in the sphinx machinery? Thanks.
 
-Maybe consider doing the check before calling the API (for the cases that n=
-eed it)?
-It seems at least that in a couple of cases you actually already know that =
-the PWM
-must be here (since you check for the gpio presence)...
+ include/linux/slab.h | 60 ++++++++++++++++++++++++++++++--------------
+ mm/slab_common.c     | 14 ++++++++++-
+ 2 files changed, 54 insertions(+), 20 deletions(-)
 
-> +	pwm_get_state(st->cnvst_pwm, &cnvst_pwm_state);
-> +	cnvst_pwm_state.enabled =3D true;
-> +	cnvst_pwm_state.duty_cycle =3D cnvst_pwm_state.period;
-> +
-> +	ret =3D pwm_apply_might_sleep(st->cnvst_pwm, &cnvst_pwm_state);
-> +	/* sleep 2 =C2=B5S to let finish the current pulse */
-> +	fsleep(2);
-> +
-> +	return ret;
-> +}
-> +
-> +static int ad7606_pwm_set_low(struct ad7606_state *st)
-> +{
-> +	struct pwm_state cnvst_pwm_state;
-> +	int ret;
-> +
-> +	if (!st->cnvst_pwm)
-> +		return -EINVAL;
-> +
-
-Same deal...
-
-> +	pwm_get_state(st->cnvst_pwm, &cnvst_pwm_state);
-> +	cnvst_pwm_state.enabled =3D true;
-> +	cnvst_pwm_state.duty_cycle =3D 0;
-> +
-> +	ret =3D pwm_apply_might_sleep(st->cnvst_pwm, &cnvst_pwm_state);
-> +	/* sleep 2 =C2=B5S to let finish the current pulse */
-> +	fsleep(2);
-> +
-> +	return ret;
-> +}
-> +
-> +static bool ad7606_pwm_is_swinging(struct ad7606_state *st)
-> +{
-> +	struct pwm_state cnvst_pwm_state;
-> +
-> +	if (!st->cnvst_pwm)
-> +		return false;
-> +
-
-This one also seems to be redundant? ad7606_set_sampling_freq() should be o=
-nly called
-from a context where the PWM exists right?
-
-> +	pwm_get_state(st->cnvst_pwm, &cnvst_pwm_state);
-> +
-> +	return cnvst_pwm_state.duty_cycle !=3D cnvst_pwm_state.period &&
-> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cnvst_pwm_state.duty_cycle !=3D 0;
-> +}
-> +
-> +static int ad7606_set_sampling_freq(struct ad7606_state *st, unsigned lo=
-ng freq)
-> +{
-> +	struct pwm_state cnvst_pwm_state;
-> +	bool is_swinging =3D ad7606_pwm_is_swinging(st);
-> +	bool is_high;
-> +
-> +	if (freq =3D=3D 0)
-> +		return -EINVAL;
-> +
-> +	/* Retrieve the previous state. */
-> +	pwm_get_state(st->cnvst_pwm, &cnvst_pwm_state);
-> +	is_high =3D cnvst_pwm_state.duty_cycle =3D=3D cnvst_pwm_state.period;
-> +
-> +	cnvst_pwm_state.period =3D DIV_ROUND_UP_ULL(NSEC_PER_SEC, freq);
-> +	cnvst_pwm_state.polarity =3D PWM_POLARITY_NORMAL;
-> +	if (is_high)
-> +		cnvst_pwm_state.duty_cycle =3D cnvst_pwm_state.period;
-> +	else if (is_swinging)
-> +		cnvst_pwm_state.duty_cycle =3D cnvst_pwm_state.period / 2;
-> +	else
-> +		cnvst_pwm_state.duty_cycle =3D 0;
-> +
-> +	return pwm_apply_might_sleep(st->cnvst_pwm, &cnvst_pwm_state);
-> +}
-> +
-> =C2=A0static int ad7606_read_samples(struct ad7606_state *st)
-> =C2=A0{
-> =C2=A0	unsigned int num =3D st->chip_info->num_channels - 1;
-> @@ -325,6 +403,7 @@ static irqreturn_t ad7606_trigger_handler(int irq, vo=
-id *p)
-> =C2=A0	iio_trigger_notify_done(indio_dev->trig);
-> =C2=A0	/* The rising edge of the CONVST signal starts a new conversion. *=
-/
-> =C2=A0	gpiod_set_value(st->gpio_convst, 1);
-> +	ad7606_pwm_set_high(st);
-> =C2=A0
-> =C2=A0	return IRQ_HANDLED;
-> =C2=A0}
-> @@ -337,7 +416,13 @@ static int ad7606_scan_direct(struct iio_dev *indio_=
-dev,
-> unsigned int ch,
-> =C2=A0	const struct iio_chan_spec *chan;
-> =C2=A0	int ret;
-> =C2=A0
-> -	gpiod_set_value(st->gpio_convst, 1);
-> +	if (st->gpio_convst) {
-> +		gpiod_set_value(st->gpio_convst, 1);
-> +	} else {
-> +		ret =3D ad7606_pwm_set_high(st);
-> +		if (ret < 0)
-> +			return ret;
-> +	}
-> =C2=A0	ret =3D wait_for_completion_timeout(&st->completion,
-> =C2=A0					=C2=A0 msecs_to_jiffies(1000));
-> =C2=A0	if (!ret) {
-> @@ -363,6 +448,11 @@ static int ad7606_scan_direct(struct iio_dev *indio_=
-dev,
-> unsigned int ch,
-> =C2=A0	}
-> =C2=A0
-> =C2=A0error_ret:
-> +	if (!st->gpio_convst) {
-> +		ret =3D ad7606_pwm_set_low(st);
-> +		if (ret < 0)
-> +			return ret;
-> +	}
-> =C2=A0	gpiod_set_value(st->gpio_convst, 0);
-> =C2=A0
-> =C2=A0	return ret;
-> @@ -662,8 +752,9 @@ static int ad7606_request_gpios(struct ad7606_state *=
-st)
-> =C2=A0{
-> =C2=A0	struct device *dev =3D st->dev;
-> =C2=A0
-> -	st->gpio_convst =3D devm_gpiod_get(dev, "adi,conversion-start",
-> -					 GPIOD_OUT_LOW);
-> +	st->gpio_convst =3D devm_gpiod_get_optional(dev, "adi,conversion-start"=
-,
-> +						=C2=A0 GPIOD_OUT_LOW);
-> +
-> =C2=A0	if (IS_ERR(st->gpio_convst))
-> =C2=A0		return PTR_ERR(st->gpio_convst);
-> =C2=A0
-> @@ -708,6 +799,7 @@ static irqreturn_t ad7606_interrupt(int irq, void *de=
-v_id)
-> =C2=A0
-> =C2=A0	if (iio_buffer_enabled(indio_dev)) {
-> =C2=A0		gpiod_set_value(st->gpio_convst, 0);
-> +		ad7606_pwm_set_low(st);
-> =C2=A0		iio_trigger_poll_nested(st->trig);
-> =C2=A0	} else {
-> =C2=A0		complete(&st->completion);
-> @@ -732,6 +824,7 @@ static int ad7606_buffer_postenable(struct iio_dev *i=
-ndio_dev)
-> =C2=A0	struct ad7606_state *st =3D iio_priv(indio_dev);
-> =C2=A0
-> =C2=A0	gpiod_set_value(st->gpio_convst, 1);
-> +	ad7606_pwm_set_high(st);
-
-error handling?
-> =C2=A0
-> =C2=A0	return 0;
-> =C2=A0}
-> @@ -741,6 +834,7 @@ static int ad7606_buffer_predisable(struct iio_dev *i=
-ndio_dev)
-> =C2=A0	struct ad7606_state *st =3D iio_priv(indio_dev);
-> =C2=A0
-> =C2=A0	gpiod_set_value(st->gpio_convst, 0);
-> +	ad7606_pwm_set_low(st);
->=20
-
-error handling?
-
-> =C2=A0	return 0;
-> =C2=A0}
-> @@ -874,6 +968,11 @@ static int ad7606_chan_scales_setup(struct iio_dev *=
-indio_dev)
-> =C2=A0	return 0;
-> =C2=A0}
-> =C2=A0
-> +static void ad7606_pwm_disable(void *data)
-> +{
-> +	pwm_disable(data);
-> +}
-> +
-> =C2=A0int ad7606_probe(struct device *dev, int irq, void __iomem *base_ad=
-dress,
-> =C2=A0		 const char *name, unsigned int id,
-> =C2=A0		 const struct ad7606_bus_ops *bops)
-> @@ -950,6 +1049,31 @@ int ad7606_probe(struct device *dev, int irq, void =
-__iomem
-> *base_address,
-> =C2=A0	if (ret)
-> =C2=A0		return ret;
-> =C2=A0
-> +	/* If convst pin is not defined, setup PWM. */
-> +	if (!st->gpio_convst) {
-> +		st->cnvst_pwm =3D devm_pwm_get(dev, NULL);
-> +		if (IS_ERR(st->cnvst_pwm))
-> +			return PTR_ERR(st->cnvst_pwm);
-> +
-> +		/* The PWM is initialized at 1MHz to have a fast enough GPIO
-> emulation. */
-> +		ret =3D ad7606_set_sampling_freq(st, 1 * MEGA);
-> +		if (ret)
-> +			return ret;
-> +
-> +		ret =3D ad7606_pwm_set_low(st);
-> +		if (ret)
-> +			return ret;
-> +
-> +		/*
-> +		 * PWM is not disabled when sampling stops, but instead its duty
-> cycle is set
-> +		 * to 0% to be sure we have a "low" state. After we unload the
-> driver, let's
-> +		 * disable the PWM.
-> +		 */
-> +		ret =3D devm_add_action_or_reset(dev, ad7606_pwm_disable,
-> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 st->cnvst_pwm);
-> +		if (ret)
-> +			return ret;
-> +	}
-> =C2=A0	st->trig =3D devm_iio_trigger_alloc(dev, "%s-dev%d",
-> =C2=A0					=C2=A0 indio_dev->name,
-> =C2=A0					=C2=A0 iio_device_id(indio_dev));
-> @@ -963,6 +1087,12 @@ int ad7606_probe(struct device *dev, int irq, void =
-__iomem
-> *base_address,
-> =C2=A0		return ret;
-> =C2=A0
-> =C2=A0	indio_dev->trig =3D iio_trigger_get(st->trig);
-> +	ret =3D devm_iio_triggered_buffer_setup(dev, indio_dev,
-> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &iio_pollfunc_store_time,
-> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &ad7606_trigger_handler,
-> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &ad7606_buffer_ops);
-> +	if (ret)
-> +		return ret;
->=20
-
-The above change seems unrelated?
-
-- Nuno S=C3=A1
+diff --git a/include/linux/slab.h b/include/linux/slab.h
+index b35e2db7eb0e..49e9fb93e864 100644
+--- a/include/linux/slab.h
++++ b/include/linux/slab.h
+@@ -77,7 +77,17 @@ enum _slab_flag_bits {
+ #define SLAB_POISON		__SLAB_FLAG_BIT(_SLAB_POISON)
+ /* Indicate a kmalloc slab */
+ #define SLAB_KMALLOC		__SLAB_FLAG_BIT(_SLAB_KMALLOC)
+-/* Align objs on cache lines */
++/**
++ * define SLAB_HWCACHE_ALIGN - Align objects on cache line boundaries.
++ *
++ * Sufficiently large objects are aligned on cache line boundary. For object
++ * size smaller than a half of cache line size, the alignment is on the half of
++ * cache line size. In general, if object size is smaller than 1/2^n of cache
++ * line size, the alignment is adjusted to 1/2^n.
++ *
++ * If explicit alignment is also requested by the respective
++ * &struct kmem_cache_args field, the greater of both is alignments is applied.
++ */
+ #define SLAB_HWCACHE_ALIGN	__SLAB_FLAG_BIT(_SLAB_HWCACHE_ALIGN)
+ /* Use GFP_DMA memory */
+ #define SLAB_CACHE_DMA		__SLAB_FLAG_BIT(_SLAB_CACHE_DMA)
+@@ -87,8 +97,8 @@ enum _slab_flag_bits {
+ #define SLAB_STORE_USER		__SLAB_FLAG_BIT(_SLAB_STORE_USER)
+ /* Panic if kmem_cache_create() fails */
+ #define SLAB_PANIC		__SLAB_FLAG_BIT(_SLAB_PANIC)
+-/*
+- * SLAB_TYPESAFE_BY_RCU - **WARNING** READ THIS!
++/**
++ * define SLAB_TYPESAFE_BY_RCU - **WARNING** READ THIS!
+  *
+  * This delays freeing the SLAB page by a grace period, it does _NOT_
+  * delay object freeing. This means that if you do kmem_cache_free()
+@@ -99,20 +109,22 @@ enum _slab_flag_bits {
+  * stays valid, the trick to using this is relying on an independent
+  * object validation pass. Something like:
+  *
+- * begin:
+- *  rcu_read_lock();
+- *  obj = lockless_lookup(key);
+- *  if (obj) {
+- *    if (!try_get_ref(obj)) // might fail for free objects
+- *      rcu_read_unlock();
+- *      goto begin;
++ * ::
++ *
++ *  begin:
++ *   rcu_read_lock();
++ *   obj = lockless_lookup(key);
++ *   if (obj) {
++ *     if (!try_get_ref(obj)) // might fail for free objects
++ *       rcu_read_unlock();
++ *       goto begin;
+  *
+- *    if (obj->key != key) { // not the object we expected
+- *      put_ref(obj);
+- *      rcu_read_unlock();
+- *      goto begin;
+- *    }
+- *  }
++ *     if (obj->key != key) { // not the object we expected
++ *       put_ref(obj);
++ *       rcu_read_unlock();
++ *       goto begin;
++ *     }
++ *   }
+  *  rcu_read_unlock();
+  *
+  * This is useful if we need to approach a kernel structure obliquely,
+@@ -137,7 +149,6 @@ enum _slab_flag_bits {
+  *
+  * Note that SLAB_TYPESAFE_BY_RCU was originally named SLAB_DESTROY_BY_RCU.
+  */
+-/* Defer freeing slabs to RCU */
+ #define SLAB_TYPESAFE_BY_RCU	__SLAB_FLAG_BIT(_SLAB_TYPESAFE_BY_RCU)
+ /* Trace allocations and frees */
+ #define SLAB_TRACE		__SLAB_FLAG_BIT(_SLAB_TRACE)
+@@ -170,7 +181,12 @@ enum _slab_flag_bits {
+ #else
+ # define SLAB_FAILSLAB		__SLAB_FLAG_UNUSED
+ #endif
+-/* Account to memcg */
++/**
++ * define SLAB_ACCOUNT - Account allocations to memcg.
++ *
++ * All object allocations from this cache will be memcg accounted, regardless of
++ * __GFP_ACCOUNT being or not being passed to individual allocations.
++ */
+ #ifdef CONFIG_MEMCG
+ # define SLAB_ACCOUNT		__SLAB_FLAG_BIT(_SLAB_ACCOUNT)
+ #else
+@@ -197,7 +213,13 @@ enum _slab_flag_bits {
+ #endif
+ 
+ /* The following flags affect the page allocator grouping pages by mobility */
+-/* Objects are reclaimable */
++/**
++ * define SLAB_RECLAIM_ACCOUNT - Objects are reclaimable.
++ *
++ * Use this flag for caches that have an associated shrinker. As a result, slab
++ * pages are allocated with __GFP_RECLAIMABLE, which affects grouping pages by
++ * mobility, and are accounted in SReclaimable counter in /proc/meminfo
++ */
+ #ifndef CONFIG_SLUB_TINY
+ #define SLAB_RECLAIM_ACCOUNT	__SLAB_FLAG_BIT(_SLAB_RECLAIM_ACCOUNT)
+ #else
+diff --git a/mm/slab_common.c b/mm/slab_common.c
+index 744324465615..4d8353b601a6 100644
+--- a/mm/slab_common.c
++++ b/mm/slab_common.c
+@@ -257,11 +257,23 @@ static struct kmem_cache *create_cache(const char *name,
+  * @object_size: The size of objects to be created in this cache.
+  * @args: Additional arguments for the cache creation (see
+  *        &struct kmem_cache_args).
+- * @flags: See %SLAB_* flags for an explanation of individual @flags.
++ * @flags: See the desriptions of individual flags. The common ones are listed
++ *         in the description below.
+  *
+  * Not to be called directly, use the kmem_cache_create() wrapper with the same
+  * parameters.
+  *
++ * Commonly used @flags:
++ *
++ * &SLAB_ACCOUNT - Account allocations to memcg.
++ *
++ * &SLAB_HWCACHE_ALIGN - Align objects on cache line boundaries.
++ *
++ * &SLAB_RECLAIM_ACCOUNT - Objects are reclaimable.
++ *
++ * &SLAB_TYPESAFE_BY_RCU - Slab page (not individual objects) freeing delayed
++ * by a grace period - see the full description before using.
++ *
+  * Context: Cannot be called within a interrupt, but can be interrupted.
+  *
+  * Return: a pointer to the cache on success, NULL on failure.
+-- 
+2.46.1
 
