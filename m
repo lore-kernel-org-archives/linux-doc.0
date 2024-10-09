@@ -1,126 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5D31714A4;
-	Wed,  9 Oct 2024 20:34:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ABB01E22F9;
+	Wed,  9 Oct 2024 20:44:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728506097; cv=none; b=jLR3CRUHYpQTjZEZiymDgEVOZYbEsMk4voMB9JRkUYGLMz47U1jsoPqWEEvVNrCQYCgTBkLoVG9n5s2U7S+2RT7qjEui08qYIpRaGLOkfVi0djEpk+aCuqqYo5nxTaqbMNciBcqxaEe+lHox0typ/A3IG7O0zFMQBlL7MD69Y9o=
+	t=1728506675; cv=none; b=IM8r8Yg1sw1c2lRzm12OTxarhxfgOtup3IrRbAA9PbhifZgk8IqZZ910iAO3Jm7a/6yqvY5oyRTKPEN1NHkHXY/X4klflj7+BNdsGoLk87yqQ+eU8jDeG0gYpr1TDaXx6YFFDDyEjD81/4cLdhmtk4quQTuPxMn6y/bBYFLxAOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728506097; c=relaxed/simple;
-	bh=qt6O4TFup6l2Hiu5AxCdTSn2l50AeT3gR5vPwM87zqc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hIpyLTxmz99kSfr9ApA3ZEQMvfE5qLBAaN8VZoWZwlfj3Uj8yx+rQ3nMqJptSvxlTmc5mIlhC5P89wJR7uC/7ZjVvtTtfTf52TknXYZM5FGHy2Jli0ByXrWDy62ut6tsCxG6VvpvH9loKxeKu4XSMKcUZ1uTVNrjOynH1yE25Ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hW3mCtvU; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1728506675; c=relaxed/simple;
+	bh=e2Klj4bGTEVjFtcQkmQ0u6yLGsKG8aqb/oFcy/bWooY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KQxO4ddzThxnWCoo0hUG9Ji7nLUzXeKYKFxqePa7yarJk8ni1+1bm1nZ4xMmYRXhbylS+FgoUQtjpJEGuLsAtnS6Ho+N88S8Tcd6Ge2YK/4VAsvBgyLJbZAWcZZfjfIKP4fVCOCysPbZoDy1vOgWp64BVGCvgbKif0p85ItZB2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n6VEf0D5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hW3mCtvU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728506095; x=1760042095;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=qt6O4TFup6l2Hiu5AxCdTSn2l50AeT3gR5vPwM87zqc=;
-  b=hW3mCtvUCFKg4m4gGhAcig+aTXbIFrtPgqSYI2TqudSZY2jKyqmuhJhQ
-   FMJqUP8ImyxCnKGBE+eFURk8qrHwGfYLcSPfpFA7s/y5pDA18qcyoZX8s
-   YZjIRRHoJwMCdXq/zlX4xXpj4CIJmRIOuBHoKpFn3PFWDu3ojf17l39tq
-   NCTiXnyM47JQMCw2IZ6JsLlgBdkwr6YnwBP3lWmVKajdeZyxdpQcQZsCp
-   7wgV9jSSpt3ommy1P4C0ZKrgtwjEIl3UnRqnr4SguSwi97mg9b8pISIWd
-   JAdakokswEhS3tEeMAWu2VHSCWT6p2OhDWeonr98hoFiDmMutL2O+5bHy
-   w==;
-X-CSE-ConnectionGUID: TKssQWXfRf2xFgverFoDdQ==
-X-CSE-MsgGUID: nMPi65CMQmqGP+OQYfUDOA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="15454535"
-X-IronPort-AV: E=Sophos;i="6.11,190,1725346800"; 
-   d="scan'208";a="15454535"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 13:34:54 -0700
-X-CSE-ConnectionGUID: qGvKCha/QXOfx5bwKqeUgQ==
-X-CSE-MsgGUID: FCIqEx2tTIufV7RB2QEYug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,190,1725346800"; 
-   d="scan'208";a="76842358"
-Received: from yaaguila-mobl.amr.corp.intel.com (HELO [10.125.83.153]) ([10.125.83.153])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 13:34:54 -0700
-Message-ID: <0db4dd0a-61c7-4e04-ae8f-38d7e720ebe6@linux.intel.com>
-Date: Wed, 9 Oct 2024 13:34:52 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n6VEf0D5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2A1AC4CEC3;
+	Wed,  9 Oct 2024 20:44:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728506674;
+	bh=e2Klj4bGTEVjFtcQkmQ0u6yLGsKG8aqb/oFcy/bWooY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=n6VEf0D5E1iEZ6Vm1yPJ3HvCPzh6MYooc367wdgAomq4HFVbttKvWep4UrUi2s3ss
+	 yZN+SZES5yaJrwVDvAWDnX9wjXP22RAJw5JQ75HBOpG8uPYgHCqWSm8Nx4pQmce9ql
+	 PsEc9aGGFl7v9i/P/SkHxpujQYg1udXbk8YT61EbgH3Iy6rnVpadPUd0k/NeAPV7Xf
+	 UM7qY3MH5IPGvA0nZe0trabyOsMv1CG7cSi5ioAKwOrzkaNIUlNTk9pbgCTXmRy1kN
+	 5EWT3xxki2qxN6bBivkip8wNBYNDQ17xcvTqzam70n5rsC0kMIfMzkqdv/vGNKMr5M
+	 ZR0972FP6ehYA==
+Date: Wed, 9 Oct 2024 13:44:33 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Tamir Duberstein <tamird@gmail.com>
+Cc: Matthew Wilcox <willy@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] XArray: minor documentation improvements
+Message-ID: <20241009204433.GF21836@frogsfrogsfrogs>
+References: <20241009193602.41797-2-tamird@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] x86/bugs: Create single parameter for VERW based
- mitigations
-To: "Kaplan, David" <David.Kaplan@amd.com>, Jonathan Corbet <corbet@lwn.net>,
- Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
- Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
- "x86@kernel.org" <x86@kernel.org>
-Cc: "hpa@zytor.com" <hpa@zytor.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>
-References: <20240924223140.1054918-2-daniel.sneddon@linux.intel.com>
- <LV3PR12MB92651F4DF654C886B9F2BCF7947E2@LV3PR12MB9265.namprd12.prod.outlook.com>
- <879b3437-c706-47c4-b1aa-b2def940f569@linux.intel.com>
- <LV3PR12MB9265A30309277CBB4A9B81D1947F2@LV3PR12MB9265.namprd12.prod.outlook.com>
- <7c1de6fb-fa83-47bc-a57b-e6700860513d@linux.intel.com>
- <83686f5b-7957-432c-9e2c-d54e381c06c9@linux.intel.com>
- <LV3PR12MB926551F0A89B3C7B6209F3A4947F2@LV3PR12MB9265.namprd12.prod.outlook.com>
-Content-Language: en-US
-From: Daniel Sneddon <daniel.sneddon@linux.intel.com>
-In-Reply-To: <LV3PR12MB926551F0A89B3C7B6209F3A4947F2@LV3PR12MB9265.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241009193602.41797-2-tamird@gmail.com>
 
-On 10/9/24 13:02, Kaplan, David wrote:
-> [AMD Official Use Only - AMD Internal Distribution Only]
+On Wed, Oct 09, 2024 at 03:36:03PM -0400, Tamir Duberstein wrote:
+> - Replace "they" with "you" where "you" is used in the preceding
+>   sentence fragment.
+> - Use "erasing" rather than "storing `NULL`" when describing multi-index
+>   entries. Split this into a separate sentence.
+> - Add "call" parentheses on "xa_store" for consistency and
+>   linkification.
 > 
->> -----Original Message-----
->> From: Daniel Sneddon <daniel.sneddon@linux.intel.com>
->> Sent: Wednesday, October 9, 2024 2:44 PM
->> To: Kaplan, David <David.Kaplan@amd.com>; Jonathan Corbet
->> <corbet@lwn.net>; Thomas Gleixner <tglx@linutronix.de>; Borislav Petkov
->> <bp@alien8.de>; Peter Zijlstra <peterz@infradead.org>; Josh Poimboeuf
->> <jpoimboe@kernel.org>; Ingo Molnar <mingo@redhat.com>; Dave Hansen
->> <dave.hansen@linux.intel.com>; x86@kernel.org
->> Cc: hpa@zytor.com; linux-doc@vger.kernel.org; linux-
->> kernel@vger.kernel.org; pawan.kumar.gupta@linux.intel.com
->> Subject: Re: [PATCH 1/6] x86/bugs: Create single parameter for VERW based
->> mitigations
->>
->> Caution: This message originated from an External Source. Use proper
->> caution when opening attachments, clicking links, or responding.
->>
->>
->> On 10/9/24 09:39, Daniel Sneddon wrote:
->>>
->>>>>
->>>>> Are you suggesting a name change away from "clear_cpu_buffers" since
->>>>> it is clearly about the mitigation rather than the bug? I'm not sure
->>>>> there is a good common name for those 4 bugs that isn't about the
->>>>> mitigation, but I'm open to any suggestions.
->>>>>
->>>>
->>>> Yes, I think that would be better.  I wasn't sure on a name either.  In the
->> RFDS webpage I see it described as "similar to data sampling transient
->> execution attacks".  Perhaps something like that could be an umbrella term?
->>>>
->>
->> data sampling feels a little too generic. How about something like
->> microarch_data_sampling?
+> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+> ---
+>  Documentation/core-api/xarray.rst | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> That's what MDS stands for right?  Might be too associated with that one issue.
+> diff --git a/Documentation/core-api/xarray.rst b/Documentation/core-api/xarray.rst
+> index 77e0ece2b1d6..d79d4e4ceff6 100644
+> --- a/Documentation/core-api/xarray.rst
+> +++ b/Documentation/core-api/xarray.rst
+> @@ -42,8 +42,8 @@ call xa_tag_pointer() to create an entry with a tag, xa_untag_pointer()
+>  to turn a tagged entry back into an untagged pointer and xa_pointer_tag()
+>  to retrieve the tag of an entry.  Tagged pointers use the same bits that
+>  are used to distinguish value entries from normal pointers, so you must
+> -decide whether they want to store value entries or tagged pointers in
+> -any particular XArray.
+> +decide whether use want to store value entries or tagged pointers in any
 
-Oops. Right. I'm so used to the acronym I can't even remember what it actually
-stands for! :)
+"...so you must decide if *you* want to store value entries or..."
 
-> 
-> Maybe transient_data_sampling?
-> 
-That'll work! Thanks!
-> --David Kaplan
+> +particular XArray.
+>  
+>  The XArray does not support storing IS_ERR() pointers as some
+>  conflict with value entries or internal entries.
+> @@ -52,8 +52,8 @@ An unusual feature of the XArray is the ability to create entries which
+>  occupy a range of indices.  Once stored to, looking up any index in
+>  the range will return the same entry as looking up any other index in
+>  the range.  Storing to any index will store to all of them.  Multi-index
+> -entries can be explicitly split into smaller entries, or storing ``NULL``
+> -into any entry will cause the XArray to forget about the range.
+> +entries can be explicitly split into smaller entries. Erasing any entry
+> +will cause the XArray to forget about the range.
 
+n00b question: is xa_store(..., NULL) the same as xa_erase?
+
+If it is, then should the documentation mention that xa_store(NULL) is
+the same as xa_erase, and that both of these operations will cause the
+xarray to forget about that range?
+
+--D
+
+>  Normal API
+>  ==========
+> @@ -64,7 +64,7 @@ allocated ones.  A freshly-initialised XArray contains a ``NULL``
+>  pointer at every index.
+>  
+>  You can then set entries using xa_store() and get entries
+> -using xa_load().  xa_store will overwrite any entry with the
+> +using xa_load().  xa_store() will overwrite any entry with the
+>  new entry and return the previous entry stored at that index.  You can
+>  use xa_erase() instead of calling xa_store() with a
+>  ``NULL`` entry.  There is no difference between an entry that has never
+> -- 
+> 2.47.0
+> 
+> 
