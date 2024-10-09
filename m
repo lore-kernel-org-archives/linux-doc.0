@@ -1,106 +1,144 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6E5433B6;
-	Wed,  9 Oct 2024 14:46:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9801A3031
+	for <linux-doc@vger.kernel.org>; Wed,  9 Oct 2024 14:53:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728485190; cv=none; b=my9ibOiENj3Z+eIYpc/9A3nU2oWv/STbFshs0slPoabxdcgZUPqj0qxDZafd8ChytdxTPagp7Z5FcBPXnNAIZZYafVvVyYxHO9vfzfr8kif7cz9a5crKqTZ1XvK92HV1kF/fCXrytzZIJB4Lz/Nkagf/WLnqvTUbNNdoE4YNMN0=
+	t=1728485639; cv=none; b=ge7Lnw2d3VbVuax5mAbQTqIdFOuskO6S1dQ7IZyFLXUfbvXp8lgnNy2ZVknPWer42t7MBNJREqmxN9LkIRpJ5W9SV2vOekBDprR/RQD50YASZsDHOuU7Cmi8OWx9z81//ej85hU+VSGFbDhHJdpIxULkNm8tGvPyEiyiougoKZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728485190; c=relaxed/simple;
-	bh=xXD0CGxWWzLTAw/TXApXZkvVnSpZBuc19McI4xF2HPE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=plwXkkm+SiF1XSB6w7ApXy9xBt/3PZto+dhR5lpH5mKQOEdkBvMjNDerItiC26F84E30XlZHSJ4AE61sxuTrk5r69QhVwFDCb+d/9QKjJ26tYNhmuYRY65Vkwqco8hqyxuBrrL25c35SNUjVOj1p/Jau8rsubEcgK2sRwmKQU90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n/uGmT0Z; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728485639; c=relaxed/simple;
+	bh=Wcp+GqMmu1q63H/YE6QHbhgPAIl3ZjKVz6SCpWyow9A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=d5Mj2m002dWcHLuxhbt0HKB3LuCB5zf6ZNiyqG/T7lGOFSwurYO/dSf33ZUSSsEWFcqWi+Jnh06bz90FVC7vi58yfI+pf/iKaojcGGRbdVezwvzYbQm5RxADXJFvX8BY9X7YS5SBwoRwLtFZF7UaR2tlMTOrodXTquGU3dZSF7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=GQk9j3dN; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n/uGmT0Z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728485189; x=1760021189;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xXD0CGxWWzLTAw/TXApXZkvVnSpZBuc19McI4xF2HPE=;
-  b=n/uGmT0Zz2vHm/9KBfuqprqmB90YGYP77EzztxEol4weJVGApEobYyXD
-   s4kzNm1+cl40ibp3kVuTAvuVsHLKibP5I2L+gaqU1+kZTbm7R0/6gb10k
-   8IexRY49x9L0bG7nZE7sZYbxPj29+dMgp3H2PWb59xpViL5pa5HUnS7bw
-   sMAE5G24JkJJ0IksH6xMiD6xvxLUu1K1pqr1yuoswkSIcm/nJwvKzAzxy
-   Vek4os0faE1Q0KLaiLdkpfpMqPWd4swbWdTbusROlk6p18nAUPv8s32Th
-   Ez/9s0vRNwLsQ2Zp4HfcMsxwX8nm8Oer2lNndjUj4LQnnCqhVCsgjpDhT
-   A==;
-X-CSE-ConnectionGUID: SNFjQBGiQxiVyVnpFAi6Yg==
-X-CSE-MsgGUID: PZ4ws1chSsaNVzKqTNZ3hg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="45259095"
-X-IronPort-AV: E=Sophos;i="6.11,190,1725346800"; 
-   d="scan'208";a="45259095"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 07:46:28 -0700
-X-CSE-ConnectionGUID: AJQomrpJQ2WqZ2mRP+8BlA==
-X-CSE-MsgGUID: nNhaAVk2TEuOKbqR/zLgWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,190,1725346800"; 
-   d="scan'208";a="99606822"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa002.fm.intel.com with ESMTP; 09 Oct 2024 07:46:24 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id EFE8B807; Wed, 09 Oct 2024 17:46:22 +0300 (EEST)
-Date: Wed, 9 Oct 2024 17:46:22 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: David Sterba <dsterba@suse.cz>
-Cc: Ira Weiny <ira.weiny@intel.com>, Dave Jiang <dave.jiang@intel.com>,
-	Fan Ni <fan.ni@samsung.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Navneet Singh <navneet.singh@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	linux-btrfs@vger.kernel.org, linux-cxl@vger.kernel.org,
-	linux-doc@vger.kernel.org, nvdimm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
-	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
-	Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Subject: Re: [PATCH v4 04/28] range: Add range_overlaps()
-Message-ID: <ZwaXPm5WrzLVoUuw@black.fi.intel.com>
-References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
- <20241007-dcd-type2-upstream-v4-4-c261ee6eeded@intel.com>
- <20241008161032.GB1609@twin.jikos.cz>
- <ZwaW9gXuh_JzqRfh@black.fi.intel.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="GQk9j3dN"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a9963e47b69so394377566b.1
+        for <linux-doc@vger.kernel.org>; Wed, 09 Oct 2024 07:53:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1728485636; x=1729090436; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+H0kOFP4T6igJRfk2BDJYURUAXD48fpn61B4tvG4AaA=;
+        b=GQk9j3dNZD8m37cnWnX8dl3uhCDRwTxXvvkI0LffXg3uHbvkhXPlMMNACl7/1oJTRN
+         yiVjoAUWDBunpylxOVj8pfD6wzFZA7Tl0Fdr0kX/NUnfey/qOclZplOjCvNOZtguXC9F
+         piQXEirzYCvDtHopOptlVJ7KHL0hlNM9p8TaWJw/Q7pOFUhVqoNrldyHio2KhD179+d+
+         YD0xJN6YYQlXEFVPSYMItFqIMxTvCf1vtBbyI9R80lNL8albUhn7PysZZJ/UobtDq7V5
+         9ii/lo0gMCDej1l0OBW0dLwiECrvn2s77cu1/I6aiI9bT/ha5fLRJyh9sVc4L59J1I9O
+         CzVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728485636; x=1729090436;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+H0kOFP4T6igJRfk2BDJYURUAXD48fpn61B4tvG4AaA=;
+        b=OPnoD4+aBqXo9Tw+DUSAokib9mu49W0D65zF/5HJfNuSCb13LkXQ6Jv720lUpPkqPk
+         PSoDmacUGf233tUzYDNcTfSuGIvM3H+c+aWP9MxyDbQ0kUfkPu+CQXByZbLCvjTa+S1T
+         hamy596GpH+5VGT/NnMnEjTobCKmTkUl71cvSrvrmCtEgJmb2YEW3NSEWR5sLuml4HnA
+         wocHw5/G7QjNj9/guCahW6IvZ+2S5gLvZ+Xk1qDtd3TYdEUJUy6oaJzdH0QnloQInaHP
+         p8L85XqxEN+2zDu+DyGfSwqP0Y33X98qURuMeo7q0LAdP3Bf3q4EKDsT/J5w+cXK3NJz
+         2Oiw==
+X-Forwarded-Encrypted: i=1; AJvYcCXJBkIlE23u6AcpUOI/nQdfIgxoHa1OFruaMxJzyTad5EP2bjSGQV74M9kV9UmPozj7PFCOmi7rY80=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyB+uHQzdLxuvvWXCPjjPlVouFuGNbUYRpOoiLNmdCWjRNTTWso
+	QEn9EKol1d1EhgbWndh8T9oLRJR2e5c/ubTxjmuVGnwyVrdmsBX0zYGExY2uhJ8=
+X-Google-Smtp-Source: AGHT+IEmgayneaJS0wgjiRp3q+Nwt/ZLsb7/5QU2fJv3JVDDkUIOa2C5YBb0EWyjxUDT/pKbrEA38A==
+X-Received: by 2002:a17:907:1c18:b0:a99:4d7f:138f with SMTP id a640c23a62f3a-a999e6e1ba1mr35003766b.29.1728485635259;
+        Wed, 09 Oct 2024 07:53:55 -0700 (PDT)
+Received: from ?IPV6:2a04:cec2:b:1ea2:d913:e3ce:8fdf:8180? ([2a04:cec2:b:1ea2:d913:e3ce:8fdf:8180])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9958923911sm403787966b.190.2024.10.09.07.53.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Oct 2024 07:53:54 -0700 (PDT)
+Message-ID: <d1229162-b97b-4261-9c4a-e1f83ef14378@baylibre.com>
+Date: Wed, 9 Oct 2024 16:53:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZwaW9gXuh_JzqRfh@black.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-
-On Wed, Oct 09, 2024 at 05:45:10PM +0300, Andy Shevchenko wrote:
-> On Tue, Oct 08, 2024 at 06:10:32PM +0200, David Sterba wrote:
-> > On Mon, Oct 07, 2024 at 06:16:10PM -0500, Ira Weiny wrote:
-
-...
-
-> > > +static inline bool range_overlaps(struct range *r1, struct range *r2)
-> > 
-> > I've noticed only now, you can constify the arguments, but this applise
-> > to other range_* functions so that can be done later in one go.
-> 
-> Frankly you may add the same to each new API being added to the file and
-> the "one go" will never happen. So, I support your first part with
-> constifying, but I think it would be rather done now to start that "one
-> go" to happen.
-
-Alternatively there is should be the patch _in this series_ to make it
-happen before extending an API. I leave the choice to Ira.
-
--- 
-With Best Regards,
-Andy Shevchenko
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 5/8] iio: adc: ad7606: Add compatibility to fw_nodes
+To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ aardelean@baylibre.com, dlechner@baylibre.com, jstephan@baylibre.com,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>
+References: <20241009-ad7606_add_iio_backend_support-v4-0-6971a8c0f1d5@baylibre.com>
+ <20241009-ad7606_add_iio_backend_support-v4-5-6971a8c0f1d5@baylibre.com>
+ <facfe06f51a815f4ff5604aeacd8bd6ed0629be4.camel@gmail.com>
+Content-Language: en-US
+From: Guillaume Stols <gstols@baylibre.com>
+In-Reply-To: <facfe06f51a815f4ff5604aeacd8bd6ed0629be4.camel@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
+On 10/9/24 16:39, Nuno Sá wrote:
+> On Wed, 2024-10-09 at 09:19 +0000, Guillaume Stols wrote:
+>> On the parallel version, the current implementation is only compatible
+>> with id tables and won't work with fw_nodes, this commit intends to fix
+>> it.
+>>
+>> Doing so required to declare ad7606_chip_info structures in the .h file
+>> so to make them accessible to all the driver files that can set a
+>> pointer to the corresponding chip as the driver data.
+>>
+>> Signed-off-by: Guillaume Stols <gstols@baylibre.com>
+>> ---
+>>   drivers/iio/adc/ad7606.c     | 283 ++++++++++++++++++++++++-------------------
+>>   drivers/iio/adc/ad7606.h     |  32 +++--
+>>   drivers/iio/adc/ad7606_par.c |  30 +++--
+>>   drivers/iio/adc/ad7606_spi.c |  96 +++++++++------
+>>   4 files changed, 254 insertions(+), 187 deletions(-)
+>>
+>> diff --git a/drivers/iio/adc/ad7606.c b/drivers/iio/adc/ad7606.c
+>> index 5b276d087ec3..dfbdea8c28ba 100644
+>> --- a/drivers/iio/adc/ad7606.c
+>> +++ b/drivers/iio/adc/ad7606.c
+>> @@ -78,6 +78,155 @@ static const unsigned int ad7616_oversampling_avail[8] = {
+>>
+> ...
+>
+>> +const struct ad7606_chip_info ad7616_info = {
+>> +	.channels = ad7616_channels,
+>> +	.init_delay_ms = 15,
+>> +	.name = "ad7616",
+>> +	.num_channels = 17,
+>> +	.oversampling_avail = ad7616_oversampling_avail,
+>> +	.oversampling_num = ARRAY_SIZE(ad7616_oversampling_avail),
+>> +	.os_req_reset = true,
+>> +	.scale_setup_cb = ad7606_16bit_chan_scale_setup,
+>> +};
+>> +EXPORT_SYMBOL_NS_GPL(ad7616_info, IIO_AD7606);
+>>
+> Maybe my eyes are tricking me but I'm not seeing any MODULE_IMPORT_NS() in the
+> drivers?
+
+Hi Nuno,
+
+The ad7606_spi.c and ad7606_par.c use MODULE_IMPORT_NS(IIO_AD7606).
+
+Chip infos are used in the "coupling" structures, e.g:
+
+  static const struct ad7606_bus_info ad7616_bus_info = {
+      .chip_info = &ad7616_info,¬
+      .bops = &ad7616_spi_bops,¬
+  };¬
+
+Guillaume
+
+> - Nuno Sá
+>
+>
