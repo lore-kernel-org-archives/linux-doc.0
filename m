@@ -1,103 +1,86 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A9C183CD9;
-	Wed,  9 Oct 2024 21:59:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578FD178CCA
+	for <linux-doc@vger.kernel.org>; Wed,  9 Oct 2024 22:02:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728511167; cv=none; b=QuNY5GHeRD1vxNDYy4NWQUwhSVRuqMcucLRA62NwVninUYVII0Xp1Ysso/YBGks1XxKjuuaNhXdHXnHZzxqxrds8Nn30DjtsuNj9VF5DlLvvl5rWnZ3zsPeB6SWmd+QYYJ6IAYt/6b4hZAG+CTpGIApNPoalzebIuAbzRQdhE7w=
+	t=1728511357; cv=none; b=TzCdhV8H8pe5ZUsXPXPtCZRhZD0LIvc67JfxGot7q7U/SnNiJSSQ/rRv5Ff3+iAr/XA9yrml+2Zh9eLS4rfGKpnCBUSfww5810IEv89q8moonYmh+gzw+CDVS2R5yoGIyvyLVBGLIiaKyRxKJMiOqlT5BUmQ4y/aYadwAh8+TaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728511167; c=relaxed/simple;
-	bh=E5AWC27aG0o5CisvhFleFhR3/dF6OzCogmbvKgH3AVc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=I+Jms2dn8cgd8gyOV6TflIUNTQxjHEZSy8sBhXtMzpEamMi/C4kwu/kVDA6AhTURHyk5nymAQzdaMZW4aOId9Zrp1RxJNsGFTtO725wnpGmwWS+r0RijrhAKu07yJzFpBjQZi/13o9/1VYcy3VmNPPzKMlfLuEw5Ht++PJXAFP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Lfhx58LF; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1728511357; c=relaxed/simple;
+	bh=WmzhW4Yz9d4CYS2cvnPXGqkoVEAeBlG0bw816P86+6U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fSmfdkCfsaIFhlkx5ZI0sKde5waYNu+Ls2guHxF2QAxNMPaGe/rP/8KjXvEv17xzxrDTwk+XhYsCe8FMe/Cy9ZhMa+wZDQ8o+q6c55YoEmYTg9t0JJrp18M0IQRdc050N+Dn9eH0F9TPmmsX9s8PgAQI6LguPD3bdOXOZ85/n+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=siatCB37; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Lfhx58LF"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 539E742BFE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1728511164; bh=XXDMsRlCKxTG6eBTaXeYupkf28S4+lkWp0XdWJLcz3o=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Lfhx58LFy3EJoF0gVVY5dCY472M426TbheH4EW/a12vVWIo9v00rnP8u1EzkCbI3d
-	 ZWRA20ONrtHUZIkYfhHvHp/o519eJkv160jA9twbuVXUhd0uRInjE2hbCoYjUu6Fc+
-	 ZuhUs7oFAeLMCZeuQR/LL7G5xytPXavxXHmZTFpoyVnxFtga17LzM49mDsMgCZyLr2
-	 5YnGjYSaHlSuRwNCbVBAeq+Jfm3nXBt5/fxoK7DSR9U80zBe1rH7VcOY5aw53U2RuE
-	 3tl9O3H4huJ2lg7zL3YPmRc0p6P71T22mscANvXduAN2iQUuUKfqrwkKTeqJiFtIp8
-	 2jIrNiOmFqG9A==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 539E742BFE;
-	Wed,  9 Oct 2024 21:59:24 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Tamir Duberstein <tamird@gmail.com>, Matthew Wilcox <willy@infradead.org>
-Cc: Tamir Duberstein <tamird@gmail.com>, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] XArray: minor documentation improvements
-In-Reply-To: <20241009205237.48881-2-tamird@gmail.com>
-References: <CAJ-ks9kiAH5MYmMvHxwH9JfBdhLGA_mP+ezmZ8wJOzDY1p7o5w@mail.gmail.com>
- <20241009205237.48881-2-tamird@gmail.com>
-Date: Wed, 09 Oct 2024 15:59:23 -0600
-Message-ID: <875xq19bus.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="siatCB37"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=HCh2YRncTzKIRqu2AgE80f/pX5qYbpsU8s2PLS/3fiY=; b=siatCB378wZ3PecidgHlodLsex
+	G1r8lDqv5Z4b9Wh+HbDnMJDIjPhqKzdI5yth6fslhdRCR00CuFmOv8bmsHzUjG2+5iXz54XiAtZ3W
+	ZZcoL6GMe9w9uDpplmzXJMe0YpKn6X/Y8wdI8v0ZE/SV2Hvnke3FV9mh8l71qX3JLARJmInhSCfI9
+	wdVNdtc2boSApVioXl9+BzYWqe+wXhctgVLNUFFS49ostn5cq85XguCi8D2jQefgTTSu4bqhDvvlB
+	H+nypnR6VGVHoapUMg13yB8vcUAR1mptFZs5BtQ1LRMCnEkC2d9eYDpcPSlUmFyWTwt4LTCmtLbNt
+	oXAxMy8A==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1syelC-00000005vRL-0jx9;
+	Wed, 09 Oct 2024 22:02:24 +0000
+Message-ID: <8b0c1bb9-4a9a-4f8e-87df-275994df739d@infradead.org>
+Date: Wed, 9 Oct 2024 15:02:17 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mm, slab: add kerneldocs for common SLAB_ flags
+To: Jonathan Corbet <corbet@lwn.net>, Vlastimil Babka <vbabka@suse.cz>,
+ David Rientjes <rientjes@google.com>, Christoph Lameter <cl@linux.com>
+Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org
+References: <20241009142936.56092-2-vbabka@suse.cz>
+ <878quxe2kw.fsf@trenco.lwn.net>
+ <f6fa720b-e8af-4afa-906f-29019aefe49a@suse.cz>
+ <878quxb4rm.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <878quxb4rm.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Tamir Duberstein <tamird@gmail.com> writes:
 
-> - Replace "they" with "you" where "you" is used in the preceding
->   sentence fragment.
-> - Use "erasing" rather than "storing `NULL`" when describing multi-index
->   entries. Split this into a separate sentence.
-> - Add "call" parentheses on "xa_store" for consistency and
->   linkification.
->
-> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
-> ---
-> V1 -> V2: s/use/you/ (Darrick J. Wong)
->
->  Documentation/core-api/xarray.rst | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
 
-So sorry to pick nits, but it's that kind of patch...:)
+On 10/9/24 9:49 AM, Jonathan Corbet wrote:
+> Vlastimil Babka <vbabka@suse.cz> writes:
+> 
+>> Thanks for the hints. I hope if we can agree that documenting the macros was
+>> intended to be supported, doesn't break the build (there are users already)
+>> and has only those minor rendering issues, it can be used?
+> 
+> I'd totally forgotten that this was supposed to work.
+> 
+> Yes it can be used... $WE just need to find a way to make it work
+> properly.
 
-> diff --git a/Documentation/core-api/xarray.rst b/Documentation/core-api/xarray.rst
-> index 77e0ece2b1d6..75c83b37e88f 100644
-> --- a/Documentation/core-api/xarray.rst
-> +++ b/Documentation/core-api/xarray.rst
-> @@ -42,8 +42,8 @@ call xa_tag_pointer() to create an entry with a tag, xa_untag_pointer()
->  to turn a tagged entry back into an untagged pointer and xa_pointer_tag()
->  to retrieve the tag of an entry.  Tagged pointers use the same bits that
->  are used to distinguish value entries from normal pointers, so you must
-> -decide whether they want to store value entries or tagged pointers in
-> -any particular XArray.
-> +decide whether you want to store value entries or tagged pointers in any
-> +particular XArray.
->  
->  The XArray does not support storing IS_ERR() pointers as some
->  conflict with value entries or internal entries.
-> @@ -52,8 +52,8 @@ An unusual feature of the XArray is the ability to create entries which
->  occupy a range of indices.  Once stored to, looking up any index in
->  the range will return the same entry as looking up any other index in
->  the range.  Storing to any index will store to all of them.  Multi-index
-> -entries can be explicitly split into smaller entries, or storing ``NULL``
-> -into any entry will cause the XArray to forget about the range.
-> +entries can be explicitly split into smaller entries. Erasing any entry
-> +will cause the XArray to forget about the range.
+The code probably isn't expecting a macro on the right side. I'll take a look,
+but no promises.
 
-I'm not convinced that this is better.  This is programmer
-documentation, and "storing NULL" says exactly what is going on.
-"Erasing" is, IMO, less clear.
+> 
+> Every now and then I ponder rewriting kernel-doc in Rust, both to make
+> it more reasonable to modify and as a learning exercise.  But then I
+> come to my senses and go back to stuff that actually needs to get done.
 
-Whatever; if Willy's happy I'll certainly apply this.
+That's a good way to lose helpers, although it might also gain you a few...
 
-Thanks,
+Yesh, I know, current is Perl.
 
-jon
+-- 
+~Randy
