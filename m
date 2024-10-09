@@ -1,296 +1,385 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81E1545948;
-	Wed,  9 Oct 2024 14:26:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA53190671;
+	Wed,  9 Oct 2024 14:29:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728483972; cv=none; b=VsxX95TAgsIrI01wtjPAFEvjMu7k+LxcTzUFFD24XXPPozcWrlkCN7LFJhAY51022Omtrzozjl002jlyf9rEYgxIMzTKuN7MKbVGEmjcRuBdGA0qBHgwJjM24hSEaxWrGHJU8aP4EL41yez0USYYqwvi2WEaDXTadFMSoKF7r1Y=
+	t=1728484183; cv=none; b=Vs7XXyIIf56ef/+3VJuvAzUcUmTJ89f1AnzIhWtMr3uvDvll8cYOPx4sDD1gfYBwojEZBBs9dP3rKurfx8tvRXw15urrRkZoM+5i2gpyndmGN6jWxv9LeW2kaT3c2JpX3vCCuLFdtlJUuRwkUKaLvlSS6z/ORxTu91uhuSa7k4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728483972; c=relaxed/simple;
-	bh=Nh2vdkAii9d9F/EIG8QOWV2J5Alv52vKdmuaIFapp2o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JDXWRj0b3xyPvNM8deO1H06KGWMygEs7W3qtqrFCfRjh1bFV5LtIGVpKZGbf36DDjwpCleW3FsabCnu4tYsrtoCLnQmslcPADWmQ62VdvrCYtKJYdpigU6B2he6pyS7fRfZw6YuY+c1Aj6lBqY+PguQCUsfHExMIp+K7uWwu5d8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JCsuQe4k; arc=none smtp.client-ip=209.85.216.47
+	s=arc-20240116; t=1728484183; c=relaxed/simple;
+	bh=E5l7XLUph4CroFoG9mgsfyCmACzVRqqisf8fJBYUGFg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Z/ckAwlgcWIVicQdK2RoGHgNvp9BqAee6VJlAP0pJtvyOkdT1n2LO9hU7mSjePdY1ELk3VSEe09aNf6aRoG991JfDn5YIwkiED44SzBae5NEbaycoDzc2SRTJJlG7DZHhoC+1iFrrqjCz3pUnxXu6C4D67EJoE5yu4NdX6OLV9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DYegVRLP; arc=none smtp.client-ip=209.85.167.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JCsuQe4k"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2e2b549799eso404660a91.3;
-        Wed, 09 Oct 2024 07:26:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DYegVRLP"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-53997328633so9365706e87.3;
+        Wed, 09 Oct 2024 07:29:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728483970; x=1729088770; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VOB06Ug3h/KF5kA+MQO1vNSf26yPJaws72ej/LwI+Qg=;
-        b=JCsuQe4k4c/ntSU1Ddojm/eaqtOWjgcFX1ZcMD5FHOF4w3vxYczdCJ4RNG8l09dSNI
-         mKOTNXf6y/r3EgzPVCL5JVWjRfXdHixrYSSi8ZohpE9l163ReFjy/yxeTkCL/LQFJ9XA
-         QTbj3/i+acFnPXDwQRuE3r+6G+0LTx3MLcerZ7ygLkL7MR5NV/yQzxl7zXOpOAYXEEY5
-         VeqxJpFUnFk5bDIfcN5mvlT8vRuWlsiVSbkM5B6M5wD8V7HAQXRPdToEVbmsJc3nejjj
-         9e4zJv3JeqwrY5O9jgj8XHzZCbmOcebE0PfzeTVXTha8+C5mza7WEmoShr3ygY6hJ3Tm
-         iQog==
+        d=gmail.com; s=20230601; t=1728484176; x=1729088976; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=x1exwFMCtjID6DoZpDSkqCzWTlshQQhxAhHFrjRH1NA=;
+        b=DYegVRLPMOUWFNc5e9bJVPrdCZHicA2qVQ6OPwafLliK1XS4pYZfccjX4hNxXeHX9l
+         HTFSmkuuooshHtxOMSwAfOFZ7/fbCis6EIoXZOejs5lS9f1JlDMagJfmI7ioEPAn2ja5
+         7xZiTpbOS10SZEwDEDDgUEp7rkDZygnrZzqt5/hopHbncLGXFs57Rpi04dJvcxNagjgA
+         uIhHTFSW3YYGI8+L2WW709AzRox3o8dq0IyF2wwCojYwFDK//6tDsmObEao2gppOCyH+
+         eZ4ShYs1Ufm1oM9aIBQPO2RhHrcTBluWCsKQCHCVaD6u4ATT2yTYawN0iUCfXg/z6sdc
+         wczQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728483970; x=1729088770;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VOB06Ug3h/KF5kA+MQO1vNSf26yPJaws72ej/LwI+Qg=;
-        b=j/qXRVp4Wpd9WSBMHSWDK+FAH+CzFzagZCL0sbdCg4ByiVVWvl/+QETKeRoN2IYE0M
-         rClEc20NpKBOzMMy83Y4ls1xcBiDHBCwYz2OmgASdAgyawf2U+irlxaOnQwhmXRGVNND
-         GuSHRoLrizXnKAH2AD84/o0D6dx3GeqRpAmVOIR6ZUptl9TiiMWwQyBCgsXYspPzfQ02
-         JodxymvcZ3oSlpmd729YT45nsti3kJxVYHC6budxUWNU7VhuWqYl95Yhk6RaoWKwM6WP
-         kDvaWA6T+Hhx03lNTqat0rFVNlx/7G5wD5sBlWIWCNMoarnaaW8cr7brjnxfakYhd4h1
-         nuPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUDDBBWfM3inKf6HhveWXM44BBpqL0JCqj6u8XB4lJ+rEbLmcNbv5DgIfgVav1eoDY0Wy/gi/nC@vger.kernel.org, AJvYcCV1lPoN1Nq6Ybq5N8lF7v6TgEBvlozn1IXPWwm3M4wE6b1whY7YHrPLKtX0zTkXEwUgpJ/y01dCHAg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSNtkIpSB6ovpepd8W13b4jCD0FF96o57K1bIe0S85qxH73XHs
-	AOAOBltPymfaYdyTJJJXdlVH9eleluIVnJ7gux0BfQ5rFV56cmSEdgIcVNsOhQYtCmp3RiJTny5
-	01Nux+kQgzca53nxwcQnRi/Omgqo=
-X-Google-Smtp-Source: AGHT+IGq1shxJ05d44RR8/D5IqiFd7aIjNGegKhr0T28JAEWbNO9HKqc2zRDnExdtv9TR7gskTFwASmnCitIBynxf7U=
-X-Received: by 2002:a17:90b:430f:b0:2e2:bd9a:4ff4 with SMTP id
- 98e67ed59e1d1-2e2bd9a5225mr1075485a91.24.1728483969625; Wed, 09 Oct 2024
- 07:26:09 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728484176; x=1729088976;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=x1exwFMCtjID6DoZpDSkqCzWTlshQQhxAhHFrjRH1NA=;
+        b=fm0rG5BWTCEiZGfwiTMccheCUoNM2d/HxjWZ/lzkd0rAnLWR3yozKlMw0Oxb0yo0KU
+         ARZXxdsYeWeatYIjCpOKSCpHR8NNBqLsce8l66Q+FrdDWT092s0yNoofcUsamX2xnRsD
+         m/my/DmOKXSpDkseAAnwE0AX3cm0VC1UoUgpxX1iWrm5c4CoX8j96xduJXydUGiwUfgK
+         0kgtfNyzDJC5aO/ewMXcJrhOzSclwCm3Ft0G5zzANZXfYdRG9QA3Hx742q+6MAbZXGDJ
+         ++A8DYL94a4qKo02jIFgtQWJWehltqDRT+mSTphmvsggTyEe+V93CpVloJ3QxNQ7rKyu
+         rnxA==
+X-Forwarded-Encrypted: i=1; AJvYcCVG+FKKe3rCEgsgtsH4pP5kFK0A13PfbXrtBtIYAWcshXHiYimW/uEwHxOF2Tk6jFvG+XjKsVyB/0Ki@vger.kernel.org, AJvYcCVSWTciFWL0gf7GZS4SRvXcWTzuNUM0Ijn8RnCw7wQvsbsiGtEFVoALVEa/qNrdVoUb8dXYcTD0Ya8v@vger.kernel.org, AJvYcCX1//2YmP6NInH4R/e/OENZamXaH6Tmo/xI5DBTQyrH0Ie/cYnqZo+VagHiepwuCdu2UIZnK+fiEyqJgvMK@vger.kernel.org, AJvYcCXpuExWdzlRiZ20V4uoibLyYwHcbMDf4O27EVJF4HAQj5G6dcJa9Q5aDfnMI9Yqf21Z7BLLM9DWqk57VAc=@vger.kernel.org, AJvYcCXqMMNHJgWRRa6wxCI19POGLV7AjIHr2Ws2l84n7k/vG9DhaQJOq9ltHw2bkw/mbOZ8Ef9gxndy8hII@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIIU7iF0H4yHRY148cjZu88wQszR5HPibz9pijG9Pf2NqwTk49
+	96TJYPZNce8MvNo46g9VOGM1dyBDPbxITVgOWccyqhuk/Qwupewq
+X-Google-Smtp-Source: AGHT+IHypRgzpda4UOn7tUpkG6oM5G0fDPn+ptPE33yjZYSablG58wP1fcey4fCgQzqtBNml3VEhew==
+X-Received: by 2002:a05:6512:3a91:b0:52c:9ae0:beed with SMTP id 2adb3069b0e04-539c4967fd4mr2586186e87.52.1728484175915;
+        Wed, 09 Oct 2024 07:29:35 -0700 (PDT)
+Received: from ?IPv6:2001:a61:34c9:ea01:14b4:7ed9:5135:9381? ([2001:a61:34c9:ea01:14b4:7ed9:5135:9381])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9963760779sm298304366b.204.2024.10.09.07.29.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Oct 2024 07:29:34 -0700 (PDT)
+Message-ID: <5860310e0413038ac477b9e191c3d15029487628.camel@gmail.com>
+Subject: Re: [PATCH v4 4/8] iio: adc: ad7606: Add PWM support for conversion
+ trigger
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Guillaume Stols <gstols@baylibre.com>, Uwe
+ =?ISO-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>, Lars-Peter Clausen
+ <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ aardelean@baylibre.com,  dlechner@baylibre.com, jstephan@baylibre.com,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Date: Wed, 09 Oct 2024 16:29:33 +0200
+In-Reply-To: <20241009-ad7606_add_iio_backend_support-v4-4-6971a8c0f1d5@baylibre.com>
+References: 
+	<20241009-ad7606_add_iio_backend_support-v4-0-6971a8c0f1d5@baylibre.com>
+	 <20241009-ad7606_add_iio_backend_support-v4-4-6971a8c0f1d5@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241003160620.1521626-1-ap420073@gmail.com> <20241003160620.1521626-4-ap420073@gmail.com>
- <20241008113314.243f7c36@kernel.org>
-In-Reply-To: <20241008113314.243f7c36@kernel.org>
-From: Taehee Yoo <ap420073@gmail.com>
-Date: Wed, 9 Oct 2024 23:25:55 +0900
-Message-ID: <CAMArcTXvMi_QWsYFgt8TJcQQz6=edoGs3-5th=4mKaHO_X+hhQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 3/7] net: ethtool: add support for configuring tcp-data-split-thresh
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com, 
-	almasrymina@google.com, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	donald.hunter@gmail.com, corbet@lwn.net, michael.chan@broadcom.com, 
-	kory.maincent@bootlin.com, andrew@lunn.ch, maxime.chevallier@bootlin.com, 
-	danieller@nvidia.com, hengqi@linux.alibaba.com, ecree.xilinx@gmail.com, 
-	przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, ahmed.zaki@intel.com, 
-	paul.greenwalt@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
-	asml.silence@gmail.com, kaiyuanz@google.com, willemb@google.com, 
-	aleksander.lobakin@intel.com, dw@davidwei.uk, sridhar.samudrala@intel.com, 
-	bcreeley@amd.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 9, 2024 at 3:33=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> wro=
-te:
->
-> On Thu,  3 Oct 2024 16:06:16 +0000 Taehee Yoo wrote:
-> > The tcp-data-split-thresh option configures the threshold value of
-> > the tcp-data-split.
-> > If a received packet size is larger than this threshold value, a packet
-> > will be split into header and payload.
-> > The header indicates TCP header, but it depends on driver spec.
-> > The bnxt_en driver supports HDS(Header-Data-Split) configuration at
-> > FW level, affecting TCP and UDP too.
-> > So, like the tcp-data-split option, If tcp-data-split-thresh is set,
-> > it affects UDP and TCP packets.
-> >
-> > The tcp-data-split-thresh has a dependency, that is tcp-data-split
-> > option. This threshold value can be get/set only when tcp-data-split
-> > option is enabled.
-> >
-> > Example:
-> >    # ethtool -G <interface name> tcp-data-split-thresh <value>
-> >
-> >    # ethtool -G enp14s0f0np0 tcp-data-split on tcp-data-split-thresh 25=
-6
-> >    # ethtool -g enp14s0f0np0
-> >    Ring parameters for enp14s0f0np0:
-> >    Pre-set maximums:
-> >    ...
-> >    TCP data split thresh:  256
-> >    Current hardware settings:
-> >    ...
-> >    TCP data split:         on
-> >    TCP data split thresh:  256
-> >
-> > The tcp-data-split is not enabled, the tcp-data-split-thresh will
-> > not be used and can't be configured.
-> >
-> >    # ethtool -G enp14s0f0np0 tcp-data-split off
-> >    # ethtool -g enp14s0f0np0
-> >    Ring parameters for enp14s0f0np0:
-> >    Pre-set maximums:
-> >    ...
-> >    TCP data split thresh:  256
-> >    Current hardware settings:
-> >    ...
-> >    TCP data split:         off
-> >    TCP data split thresh:  n/a
->
-> My reply to Sridhar was probably quite unclear on this point, but FWIW
-> I do also have a weak preference to drop the "TCP" from the new knob.
-> Rephrasing what I said here:
-> https://lore.kernel.org/all/20240911173150.571bf93b@kernel.org/
-> the old knob is defined as being about TCP but for the new one we can
-> pick how widely applicable it is (and make it cover UDP as well).
+On Wed, 2024-10-09 at 09:19 +0000, Guillaume Stols wrote:
+> Until now, the conversion were triggered by setting high the GPIO
+> connected to the convst pin. This commit gives the possibility to
+> connect the convst pin to a PWM.
+> Connecting a PWM allows to have a better control on the samplerate,
+> but it must be handled with care, as it is completely decorrelated of
+> the driver's busy pin handling.
+> Hence it is not recommended to be used "as is" but must be exploited
+> in conjunction with IIO backend, and for now only a mock functionality
+> is enabled, i.e PWM never swings, but is used as a GPIO, i.e duty_cycle
+> =3D=3D period equals high state, duty_cycle =3D=3D 0 equals low state.
+>=20
+> This mock functionality will be disabled after the IIO backend usecase
+> is introduced.
+>=20
+> Signed-off-by: Guillaume Stols <gstols@baylibre.com>
+> ---
 
-I'm not sure that I understand about "knob".
-The knob means the command "tcp-data-split-thresh"?
-If so, I would like to change from "tcp-data-split-thresh" to
-"header-data-split-thresh".
+Hi Guillaume,
 
->
-> > The default/min/max values are not defined in the ethtool so the driver=
-s
-> > should define themself.
-> > The 0 value means that all TCP and UDP packets' header and payload
-> > will be split.
->
-> > diff --git a/include/linux/ethtool.h b/include/linux/ethtool.h
-> > index 12f6dc567598..891f55b0f6aa 100644
-> > --- a/include/linux/ethtool.h
-> > +++ b/include/linux/ethtool.h
-> > @@ -78,6 +78,8 @@ enum {
-> >   * @cqe_size: Size of TX/RX completion queue event
-> >   * @tx_push_buf_len: Size of TX push buffer
-> >   * @tx_push_buf_max_len: Maximum allowed size of TX push buffer
-> > + * @tcp_data_split_thresh: Threshold value of tcp-data-split
-> > + * @tcp_data_split_thresh_max: Maximum allowed threshold of tcp-data-s=
-plit-threshold
->
-> Please wrap at 80 chars:
->
-> ./scripts/checkpatch.pl --max-line-length=3D80 --strict $patch..
+Looks overall good, just some minor stuff
 
-Thanks, I will fix this in v4 patch.
+> =C2=A0drivers/iio/adc/ad7606.c | 143 ++++++++++++++++++++++++++++++++++++=
++++++++----
+> =C2=A0drivers/iio/adc/ad7606.h |=C2=A0=C2=A0 2 +
+> =C2=A02 files changed, 135 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/drivers/iio/adc/ad7606.c b/drivers/iio/adc/ad7606.c
+> index 71362eafe838..5b276d087ec3 100644
+> --- a/drivers/iio/adc/ad7606.c
+> +++ b/drivers/iio/adc/ad7606.c
+> @@ -13,10 +13,12 @@
+> =C2=A0#include <linux/kernel.h>
+> =C2=A0#include <linux/module.h>
+> =C2=A0#include <linux/property.h>
+> +#include <linux/pwm.h>
+> =C2=A0#include <linux/regulator/consumer.h>
+> =C2=A0#include <linux/sched.h>
+> =C2=A0#include <linux/slab.h>
+> =C2=A0#include <linux/sysfs.h>
+> +#include <linux/units.h>
+> =C2=A0#include <linux/util_macros.h>
+> =C2=A0
+> =C2=A0#include <linux/iio/buffer.h>
+> @@ -299,6 +301,82 @@ static int ad7606_reg_access(struct iio_dev *indio_d=
+ev,
+> =C2=A0	}
+> =C2=A0}
+> =C2=A0
+> +static int ad7606_pwm_set_high(struct ad7606_state *st)
+> +{
+> +	struct pwm_state cnvst_pwm_state;
+> +	int ret;
+> +
+> +	if (!st->cnvst_pwm)
+> +		return -EINVAL;
+> +
 
->
-> >  static int rings_fill_reply(struct sk_buff *skb,
-> > @@ -108,7 +110,13 @@ static int rings_fill_reply(struct sk_buff *skb,
-> >            (nla_put_u32(skb, ETHTOOL_A_RINGS_TX_PUSH_BUF_LEN_MAX,
-> >                         kr->tx_push_buf_max_len) ||
-> >             nla_put_u32(skb, ETHTOOL_A_RINGS_TX_PUSH_BUF_LEN,
-> > -                       kr->tx_push_buf_len))))
-> > +                       kr->tx_push_buf_len))) ||
-> > +         (kr->tcp_data_split =3D=3D ETHTOOL_TCP_DATA_SPLIT_ENABLED &&
->
-> Please add a new ETHTOOL_RING_USE_* flag for this, or fix all the
-> drivers which set ETHTOOL_RING_USE_TCP_DATA_SPLIT already and use that.
-> I don't think we should hide the value when HDS is disabled.
->
-> > +          (nla_put_u32(skb, ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THRESH,
-> > +                      kr->tcp_data_split_thresh))) ||
->
-> nit: unnecessary brackets around the nla_put_u32()
+Maybe consider doing the check before calling the API (for the cases that n=
+eed it)?
+It seems at least that in a couple of cases you actually already know that =
+the PWM
+must be here (since you check for the gpio presence)...
 
-I will fix this too.
+> +	pwm_get_state(st->cnvst_pwm, &cnvst_pwm_state);
+> +	cnvst_pwm_state.enabled =3D true;
+> +	cnvst_pwm_state.duty_cycle =3D cnvst_pwm_state.period;
+> +
+> +	ret =3D pwm_apply_might_sleep(st->cnvst_pwm, &cnvst_pwm_state);
+> +	/* sleep 2 =C2=B5S to let finish the current pulse */
+> +	fsleep(2);
+> +
+> +	return ret;
+> +}
+> +
+> +static int ad7606_pwm_set_low(struct ad7606_state *st)
+> +{
+> +	struct pwm_state cnvst_pwm_state;
+> +	int ret;
+> +
+> +	if (!st->cnvst_pwm)
+> +		return -EINVAL;
+> +
 
->
-> > +         (kr->tcp_data_split =3D=3D ETHTOOL_TCP_DATA_SPLIT_ENABLED &&
-> > +          (nla_put_u32(skb, ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THRESH_MAX,
-> > +                      kr->tcp_data_split_thresh_max))))
-> >               return -EMSGSIZE;
-> >
-> >       return 0;
->
-> > +     if (tb[ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THRESH] &&
-> > +         !(ops->supported_ring_params & ETHTOOL_RING_USE_TCP_DATA_SPLI=
-T)) {
->
-> here you use the existing flag, yet gve and idpf set that flag and will
-> ignore the setting silently. They need to be changed or we need a new
-> flag.
+Same deal...
 
-Okay, I would like to add the ETHTOOL_RING_USE_TCP_DATA_SPLIT_THRESH flag.
-Or ETHTOOL_RING_USE_HDS_THRESH, which indicates header-data-split thresh.
-If you agree with adding a new flag, how do you think about naming it?
+> +	pwm_get_state(st->cnvst_pwm, &cnvst_pwm_state);
+> +	cnvst_pwm_state.enabled =3D true;
+> +	cnvst_pwm_state.duty_cycle =3D 0;
+> +
+> +	ret =3D pwm_apply_might_sleep(st->cnvst_pwm, &cnvst_pwm_state);
+> +	/* sleep 2 =C2=B5S to let finish the current pulse */
+> +	fsleep(2);
+> +
+> +	return ret;
+> +}
+> +
+> +static bool ad7606_pwm_is_swinging(struct ad7606_state *st)
+> +{
+> +	struct pwm_state cnvst_pwm_state;
+> +
+> +	if (!st->cnvst_pwm)
+> +		return false;
+> +
 
->
-> > +             NL_SET_ERR_MSG_ATTR(info->extack,
-> > +                                 tb[ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THR=
-ESH],
-> > +                                 "setting tcp-data-split-thresh is not=
- supported");
-> > +             return -EOPNOTSUPP;
-> > +     }
-> > +
-> >       if (tb[ETHTOOL_A_RINGS_CQE_SIZE] &&
-> >           !(ops->supported_ring_params & ETHTOOL_RING_USE_CQE_SIZE)) {
-> >               NL_SET_ERR_MSG_ATTR(info->extack,
-> > @@ -196,9 +213,9 @@ ethnl_set_rings(struct ethnl_req_info *req_info, st=
-ruct genl_info *info)
-> >       struct kernel_ethtool_ringparam kernel_ringparam =3D {};
-> >       struct ethtool_ringparam ringparam =3D {};
-> >       struct net_device *dev =3D req_info->dev;
-> > +     bool mod =3D false, thresh_mod =3D false;
-> >       struct nlattr **tb =3D info->attrs;
-> >       const struct nlattr *err_attr;
-> > -     bool mod =3D false;
-> >       int ret;
-> >
-> >       dev->ethtool_ops->get_ringparam(dev, &ringparam,
-> > @@ -222,9 +239,30 @@ ethnl_set_rings(struct ethnl_req_info *req_info, s=
-truct genl_info *info)
-> >                       tb[ETHTOOL_A_RINGS_RX_PUSH], &mod);
-> >       ethnl_update_u32(&kernel_ringparam.tx_push_buf_len,
-> >                        tb[ETHTOOL_A_RINGS_TX_PUSH_BUF_LEN], &mod);
-> > -     if (!mod)
-> > +     ethnl_update_u32(&kernel_ringparam.tcp_data_split_thresh,
-> > +                      tb[ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THRESH],
-> > +                      &thresh_mod);
-> > +     if (!mod && !thresh_mod)
-> >               return 0;
-> >
-> > +     if (kernel_ringparam.tcp_data_split =3D=3D ETHTOOL_TCP_DATA_SPLIT=
-_DISABLED &&
-> > +         thresh_mod) {
-> > +             NL_SET_ERR_MSG_ATTR(info->extack,
-> > +                                 tb[ETHTOOL_A_RINGS_TCP_DATA_SPLIT_THR=
-ESH],
-> > +                                 "tcp-data-split-thresh can not be upd=
-ated while tcp-data-split is disabled");
-> > +             return -EINVAL;
-> > +     }
->
-> I'm not sure we need to reject changing the setting when HDS is
-> disabled. Driver can just store the value until HDS gets enabled?
-> WDYT? I don't have a strong preference.
+This one also seems to be redundant? ad7606_set_sampling_freq() should be o=
+nly called
+from a context where the PWM exists right?
 
-I checked similar options, which are tx-push and tx-push-buff-len,
-updating tx-push-buff-len may not fail when tx-push is disabled.
+> +	pwm_get_state(st->cnvst_pwm, &cnvst_pwm_state);
+> +
+> +	return cnvst_pwm_state.duty_cycle !=3D cnvst_pwm_state.period &&
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cnvst_pwm_state.duty_cycle !=3D 0;
+> +}
+> +
+> +static int ad7606_set_sampling_freq(struct ad7606_state *st, unsigned lo=
+ng freq)
+> +{
+> +	struct pwm_state cnvst_pwm_state;
+> +	bool is_swinging =3D ad7606_pwm_is_swinging(st);
+> +	bool is_high;
+> +
+> +	if (freq =3D=3D 0)
+> +		return -EINVAL;
+> +
+> +	/* Retrieve the previous state. */
+> +	pwm_get_state(st->cnvst_pwm, &cnvst_pwm_state);
+> +	is_high =3D cnvst_pwm_state.duty_cycle =3D=3D cnvst_pwm_state.period;
+> +
+> +	cnvst_pwm_state.period =3D DIV_ROUND_UP_ULL(NSEC_PER_SEC, freq);
+> +	cnvst_pwm_state.polarity =3D PWM_POLARITY_NORMAL;
+> +	if (is_high)
+> +		cnvst_pwm_state.duty_cycle =3D cnvst_pwm_state.period;
+> +	else if (is_swinging)
+> +		cnvst_pwm_state.duty_cycle =3D cnvst_pwm_state.period / 2;
+> +	else
+> +		cnvst_pwm_state.duty_cycle =3D 0;
+> +
+> +	return pwm_apply_might_sleep(st->cnvst_pwm, &cnvst_pwm_state);
+> +}
+> +
+> =C2=A0static int ad7606_read_samples(struct ad7606_state *st)
+> =C2=A0{
+> =C2=A0	unsigned int num =3D st->chip_info->num_channels - 1;
+> @@ -325,6 +403,7 @@ static irqreturn_t ad7606_trigger_handler(int irq, vo=
+id *p)
+> =C2=A0	iio_trigger_notify_done(indio_dev->trig);
+> =C2=A0	/* The rising edge of the CONVST signal starts a new conversion. *=
+/
+> =C2=A0	gpiod_set_value(st->gpio_convst, 1);
+> +	ad7606_pwm_set_high(st);
+> =C2=A0
+> =C2=A0	return IRQ_HANDLED;
+> =C2=A0}
+> @@ -337,7 +416,13 @@ static int ad7606_scan_direct(struct iio_dev *indio_=
+dev,
+> unsigned int ch,
+> =C2=A0	const struct iio_chan_spec *chan;
+> =C2=A0	int ret;
+> =C2=A0
+> -	gpiod_set_value(st->gpio_convst, 1);
+> +	if (st->gpio_convst) {
+> +		gpiod_set_value(st->gpio_convst, 1);
+> +	} else {
+> +		ret =3D ad7606_pwm_set_high(st);
+> +		if (ret < 0)
+> +			return ret;
+> +	}
+> =C2=A0	ret =3D wait_for_completion_timeout(&st->completion,
+> =C2=A0					=C2=A0 msecs_to_jiffies(1000));
+> =C2=A0	if (!ret) {
+> @@ -363,6 +448,11 @@ static int ad7606_scan_direct(struct iio_dev *indio_=
+dev,
+> unsigned int ch,
+> =C2=A0	}
+> =C2=A0
+> =C2=A0error_ret:
+> +	if (!st->gpio_convst) {
+> +		ret =3D ad7606_pwm_set_low(st);
+> +		if (ret < 0)
+> +			return ret;
+> +	}
+> =C2=A0	gpiod_set_value(st->gpio_convst, 0);
+> =C2=A0
+> =C2=A0	return ret;
+> @@ -662,8 +752,9 @@ static int ad7606_request_gpios(struct ad7606_state *=
+st)
+> =C2=A0{
+> =C2=A0	struct device *dev =3D st->dev;
+> =C2=A0
+> -	st->gpio_convst =3D devm_gpiod_get(dev, "adi,conversion-start",
+> -					 GPIOD_OUT_LOW);
+> +	st->gpio_convst =3D devm_gpiod_get_optional(dev, "adi,conversion-start"=
+,
+> +						=C2=A0 GPIOD_OUT_LOW);
+> +
+> =C2=A0	if (IS_ERR(st->gpio_convst))
+> =C2=A0		return PTR_ERR(st->gpio_convst);
+> =C2=A0
+> @@ -708,6 +799,7 @@ static irqreturn_t ad7606_interrupt(int irq, void *de=
+v_id)
+> =C2=A0
+> =C2=A0	if (iio_buffer_enabled(indio_dev)) {
+> =C2=A0		gpiod_set_value(st->gpio_convst, 0);
+> +		ad7606_pwm_set_low(st);
+> =C2=A0		iio_trigger_poll_nested(st->trig);
+> =C2=A0	} else {
+> =C2=A0		complete(&st->completion);
+> @@ -732,6 +824,7 @@ static int ad7606_buffer_postenable(struct iio_dev *i=
+ndio_dev)
+> =C2=A0	struct ad7606_state *st =3D iio_priv(indio_dev);
+> =C2=A0
+> =C2=A0	gpiod_set_value(st->gpio_convst, 1);
+> +	ad7606_pwm_set_high(st);
 
-I think It's too strong condition check and it's not consistent with
-similar options.
+error handling?
+> =C2=A0
+> =C2=A0	return 0;
+> =C2=A0}
+> @@ -741,6 +834,7 @@ static int ad7606_buffer_predisable(struct iio_dev *i=
+ndio_dev)
+> =C2=A0	struct ad7606_state *st =3D iio_priv(indio_dev);
+> =C2=A0
+> =C2=A0	gpiod_set_value(st->gpio_convst, 0);
+> +	ad7606_pwm_set_low(st);
+>=20
 
-The disabling HDS option is going to be removed in v4 patch.
-I asked about how to handle hds_threshold when it is UNKNOWN mode in the
-previous patch thread. If the hds_threshold should follow rx-copybreak
-value in the UNKNOWN mode, this condition check is not necessary.
+error handling?
 
->
-> > +     if (kernel_ringparam.tcp_data_split_thresh >
-> > +         kernel_ringparam.tcp_data_split_thresh_max) {
-> > +             NL_SET_ERR_MSG_ATTR_FMT(info->extack,
-> > +                                     tb[ETHTOOL_A_RINGS_TCP_DATA_SPLIT=
-_THRESH_MAX],
-> > +                                     "Requested tcp-data-split-thresh =
-exceeds the maximum of %u",
->
-> No need for the string, just NL_SET_BAD_ATTR() + ERANGE is enough
+> =C2=A0	return 0;
+> =C2=A0}
+> @@ -874,6 +968,11 @@ static int ad7606_chan_scales_setup(struct iio_dev *=
+indio_dev)
+> =C2=A0	return 0;
+> =C2=A0}
+> =C2=A0
+> +static void ad7606_pwm_disable(void *data)
+> +{
+> +	pwm_disable(data);
+> +}
+> +
+> =C2=A0int ad7606_probe(struct device *dev, int irq, void __iomem *base_ad=
+dress,
+> =C2=A0		 const char *name, unsigned int id,
+> =C2=A0		 const struct ad7606_bus_ops *bops)
+> @@ -950,6 +1049,31 @@ int ad7606_probe(struct device *dev, int irq, void =
+__iomem
+> *base_address,
+> =C2=A0	if (ret)
+> =C2=A0		return ret;
+> =C2=A0
+> +	/* If convst pin is not defined, setup PWM. */
+> +	if (!st->gpio_convst) {
+> +		st->cnvst_pwm =3D devm_pwm_get(dev, NULL);
+> +		if (IS_ERR(st->cnvst_pwm))
+> +			return PTR_ERR(st->cnvst_pwm);
+> +
+> +		/* The PWM is initialized at 1MHz to have a fast enough GPIO
+> emulation. */
+> +		ret =3D ad7606_set_sampling_freq(st, 1 * MEGA);
+> +		if (ret)
+> +			return ret;
+> +
+> +		ret =3D ad7606_pwm_set_low(st);
+> +		if (ret)
+> +			return ret;
+> +
+> +		/*
+> +		 * PWM is not disabled when sampling stops, but instead its duty
+> cycle is set
+> +		 * to 0% to be sure we have a "low" state. After we unload the
+> driver, let's
+> +		 * disable the PWM.
+> +		 */
+> +		ret =3D devm_add_action_or_reset(dev, ad7606_pwm_disable,
+> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 st->cnvst_pwm);
+> +		if (ret)
+> +			return ret;
+> +	}
+> =C2=A0	st->trig =3D devm_iio_trigger_alloc(dev, "%s-dev%d",
+> =C2=A0					=C2=A0 indio_dev->name,
+> =C2=A0					=C2=A0 iio_device_id(indio_dev));
+> @@ -963,6 +1087,12 @@ int ad7606_probe(struct device *dev, int irq, void =
+__iomem
+> *base_address,
+> =C2=A0		return ret;
+> =C2=A0
+> =C2=A0	indio_dev->trig =3D iio_trigger_get(st->trig);
+> +	ret =3D devm_iio_triggered_buffer_setup(dev, indio_dev,
+> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &iio_pollfunc_store_time,
+> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &ad7606_trigger_handler,
+> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &ad7606_buffer_ops);
+> +	if (ret)
+> +		return ret;
+>=20
 
-Thanks, I will fix it.
+The above change seems unrelated?
 
->
-> > +                                     kernel_ringparam.tcp_data_split_t=
-hresh_max);
-> > +
-> > +             return -EINVAL;
->
-> ERANGE
+- Nuno S=C3=A1
 
-I will fix it too.
-
->
-> > +     }
-> > +
-> >       /* ensure new ring parameters are within limits */
-> >       if (ringparam.rx_pending > ringparam.rx_max_pending)
-> >               err_attr =3D tb[ETHTOOL_A_RINGS_RX];
->
