@@ -1,140 +1,176 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 935DC1D318A;
-	Wed,  9 Oct 2024 17:47:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111221E1051;
+	Wed,  9 Oct 2024 17:47:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728496046; cv=none; b=VOoAZuIGIvCidtBov95sQBBbcsUNamdYNmLFCousY3xCjyuJH2oraD1gDrfRVXcH714UNSTzF/kSgQFP0PXPErT75tkhKDnD3eDjZxX1sgbEQ10UG4wM0EBMFMGxBUPVmTfRFP3/PUrbjxhBWTC7x834EHfvvEQ/4iS0LgR03G4=
+	t=1728496054; cv=none; b=OTsvNhPl5a3SoNG1wfB/l4qWrYwghg9Ly+M1+P3Eb7E6Cns016jjxnOzwb8T4rKINqgQj6DAifXOqDE93VqtlkW43CCD7BH0pqz4nMLpt7Cf+dKta+sgt9SJ+OvXsxNCeTZrVhbkyBvMOlncTXqHPdh2HhUkfsEJTAJueYzcHv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728496046; c=relaxed/simple;
-	bh=hrduq5hX72SJbr+Ep+RCPMEc9rDr01SBnYcCDcMmYbM=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O8CaJbgxzXYV2HyEhkiABRuqWc/0GCj2Typqi4ezlNfciP13jydUzICgVRNC0y0k0U7VTHYXU6lnNLUY8rTBTd8cyxCPNj7ErNieaCm9vuZ17IOySRI4qyRa2F7RKX0ejLx9/Q+/6cpvFIsVp/1E29oIF865NiGbfyiqV/VbHHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gqSiY4lT; arc=none smtp.client-ip=209.85.128.178
+	s=arc-20240116; t=1728496054; c=relaxed/simple;
+	bh=K37iXdvvL1R4BM6Q9TRQSGCY12MoPF6iqHxeCNtAEX4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZRPx3P7OZI7h89rcLCU66H1mO2cAMYRGaxkpuxKMAvuir40ZWtkw7ybqph/ebmujrNb453dM/pinqsGOiy20E72+3fi8zOcNy08NyriXn6wnq0Mzz5x8lETY0lzPEXmfDVdTzVgaaH4rx0Z2wT9zOHJPZBJClHyQka6rfNopW00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SoNiUHwt; arc=none smtp.client-ip=209.85.215.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gqSiY4lT"
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6dde476d3dfso1127857b3.3;
-        Wed, 09 Oct 2024 10:47:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SoNiUHwt"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-7ae3d7222d4so23482a12.3;
+        Wed, 09 Oct 2024 10:47:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728496043; x=1729100843; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UC1+s/+UBvzxoqZUG6QZubGws8xau17tsJaWekZSoEE=;
-        b=gqSiY4lT/WpoYkClexk4gSxjYO66pCZ26pMyWFseAJxcEsGN/1iqRh+80f9R35eeX1
-         Ei6TLD4d394N/H5DAgJI2eWMjcX32B9UwOX9/MsL+Zxvt4gtmMKctGTwXk2HgTj8iixd
-         PUnD7MaEylOffSyThRHb3QMfywy6cX0R2kEbkx/8IbiYtKMfDTiO1LhYOWCX+aDC0NRq
-         cEymwr1MJ92YEZgOtomtVww0U+Az+oSwNhIgEg8edZhVmlbD75cpKpCqJ0N1jVsIuUeu
-         PBRl0eKdtKGjAsv2ovPQsMJdClFWhvNETKDVqbcMm4m1Q/Vsu9GjjRJ1qE4EqBOTa/dB
-         3dZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728496043; x=1729100843;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1728496052; x=1729100852; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UC1+s/+UBvzxoqZUG6QZubGws8xau17tsJaWekZSoEE=;
-        b=KjiRVxJShlNWZgB16KNkBAn+bmAI/xaPFYkhPhIy38lRARgH9acxb4oY0QaMjZ9fNp
-         YaBp98J45+OJmDG25qaxmc2W3Xx+VNTh+yopDvZ1T6wGpW7Y0a4S+cfcmodHHrAWstBQ
-         PnhUpYpmMX9Am+ByzzkGinDMafPI4osHaxl+EA2KsvsZ2HQfEFGydIK2fnKVS5j87vLO
-         hywERyjsRJpf/Wpv3MpjgDkiFYU+6pofmu11c1uUTg2fImJREzRVmf0/Q3dGXCgxYqTT
-         IXUU1yl3LRc/ZoPQNWZ1qNt+lLg4WoE2GiZmRrbKp/zACAy+wPNs6qAd3KXrO2xhyM/2
-         kBOw==
-X-Forwarded-Encrypted: i=1; AJvYcCUqIQB21zH/+BsM89/2e0iWBExKDKi1Y3tuf59FOL23l/69XyJM2JhAueVijYV2yY1hm43sy6K9vYMBHg==@vger.kernel.org, AJvYcCUtC5DduCXuvLEQ1S56ETX8XoB3n1+L8BJcaIPTV7BtE6XCMMExdQkKUaaH/iOwigYvXOHNqsKHpdmk@vger.kernel.org, AJvYcCVdN00GtlgUMEalDJR6nvwB0qEeyjyXbh8qgUYv4l+ZCnQpG8XtRDNyGmi33j5wK76k5eXIfZL6fBsA@vger.kernel.org, AJvYcCX4jJV+9+fHzDyGnaMcOIP6TG2IMEE0V9RXWF/2dQHMiU7DFk2ftfYMtTMJ8NwylhSjS6AGRGfg5LMZKc90@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZFXfgnhbYFZdj2bf8ItzLzg5ZnRgiupo0Y4ucIU93fY/E1gxH
-	hgW6vMf+fcF8jh4WO9Ol/Dk4nUi3oRB+PHMomD3prw0aYE4m/Ymm
-X-Google-Smtp-Source: AGHT+IF7Ewv221Glscvu1OZcOfztkqBqsRZZI6mFeYxOjowv6x9OgIFXt36jk+9E6Y2K+UdD8DipVA==
-X-Received: by 2002:a05:690c:6a05:b0:6e2:63e:f087 with SMTP id 00721157ae682-6e3221f8577mr35924477b3.42.1728496043387;
-        Wed, 09 Oct 2024 10:47:23 -0700 (PDT)
-Received: from fan ([50.205.20.42])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e2d93f7d31sm19219847b3.135.2024.10.09.10.47.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Oct 2024 10:47:23 -0700 (PDT)
-From: Fan Ni <nifan.cxl@gmail.com>
-X-Google-Original-From: Fan Ni <fan.ni@samsung.com>
-Date: Wed, 9 Oct 2024 10:47:20 -0700
-To: Ira Weiny <ira.weiny@intel.com>
-Cc: Dave Jiang <dave.jiang@intel.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Navneet Singh <navneet.singh@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	linux-btrfs@vger.kernel.org, linux-cxl@vger.kernel.org,
-	linux-doc@vger.kernel.org, nvdimm@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 06/28] cxl/pci: Delay event buffer allocation
-Message-ID: <ZwbBqNnKXfNMTGEF@fan>
-References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
- <20241007-dcd-type2-upstream-v4-6-c261ee6eeded@intel.com>
+        bh=OQIRNmq3rFplEVbPziydfZiGPMJqFFcq3ay2W9V6Dt8=;
+        b=SoNiUHwtgYrcxQkAVVonK0gEl0PIEHMB6mOUhwopdrmfb8bOpoJG3Fcgejxdy/SDZh
+         HMKw0P9k/VzK+FotaGoF4vhd+wW4Vj1qIRYtW3Lpvpcry7u2X+lCpTP1Z4mP+qx6ZFlK
+         WE4cnMcKfADv0IoBVhktL7J4OKxtNkCdUFt7CqeIYBlnvifEhhP3Jyt86xsva8IrutPJ
+         aB1p5fMWV2CjPFYbM86gytCEkOKAYS5o54v7j2/rY7cK8d+hqY8glPo0B2Lybpnn1/lB
+         Hd1JRx9RRUUc5+GKEB8rV83ONY1Wef85me8Ru1vdt/VRMGi+hnsVn6qkVNPV9QNMGw8z
+         z+kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728496052; x=1729100852;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OQIRNmq3rFplEVbPziydfZiGPMJqFFcq3ay2W9V6Dt8=;
+        b=DE6cgs9Or/oDT5d+iCUY0JBjgoBLGFtAK/351jeiU88e0wxD7jNITOgyQ8TEsAu0jJ
+         IjcwZS4WjzLFDTiIYX1ubp6TlFsVVIUe1GCOjZh2qFGDetKMwWNeU4BOUGNUolKpnTbk
+         HnFXWUTOJQIrV6H0t0vg2/N7MgBYISCVFpw4QdH/dUs/8pAr4hxDoNLrXkhMGTzx3Ji4
+         pxzMrYwOYQdtsvMqO6E567kZrjw/66+27bkFYX1CbY1zc9Y6p0oVnNOEIXBNHGNu8O42
+         KJbd6DM8mLcV454TbQZ0pvZXkBUIIpqfo9+n0MtyZ6T4gMAR3Qlv0M8j/szV8wCyitUb
+         OhLg==
+X-Forwarded-Encrypted: i=1; AJvYcCWeVVzh32o1EExK0nBfBMCHSetmVn/VZqpPIGJllHdAiXDk5Ab1L1eC0EWbruNJM8/+nZy6qIO3@vger.kernel.org, AJvYcCXeid0387bz7PlKM5d2bDZb3hIpcE7gGlCbpAW58OftzSVaS7TKynDWiLOTALyZqkPU9NBjhQl4rc0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtX8axK97ITnXsIBb1r67EEJHbugjwWn7mGcf8vQHQ5K+7sV0N
+	Ct+n1Ryffk9H0rfJ+NlWoUzOkfm2BhhO5ohO7X0CiPx+nR0Q20epubexjIbXtEd3EjTb/OMxz7M
+	1Ho1CPIhoUMYTnT7SRYCP5dXTSC4=
+X-Google-Smtp-Source: AGHT+IFH9RaUlsO+z0rzgmrDGer59ojA83L7geZKPFqeGnN6Qpm6PlJ8nAgfBjIjRCx6Pya9dQyPsN1FgN0P7oPs444=
+X-Received: by 2002:a17:90a:bb94:b0:2e2:b6ef:1611 with SMTP id
+ 98e67ed59e1d1-2e2b6ef16cemr1959030a91.18.1728496052307; Wed, 09 Oct 2024
+ 10:47:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241007-dcd-type2-upstream-v4-6-c261ee6eeded@intel.com>
+References: <20241003160620.1521626-1-ap420073@gmail.com> <20241003160620.1521626-3-ap420073@gmail.com>
+ <20241008111926.7056cc93@kernel.org> <CAMArcTU+r+Pj_y7rUvRwTrDWqg57xy4e-OacjWCfKRCUa8A-aw@mail.gmail.com>
+ <20241009082837.2735cd97@kernel.org>
+In-Reply-To: <20241009082837.2735cd97@kernel.org>
+From: Taehee Yoo <ap420073@gmail.com>
+Date: Thu, 10 Oct 2024 02:47:18 +0900
+Message-ID: <CAMArcTX97qsNTtgkaS5-jrV4bC_2ftS_0ZcS2vd_utYEceG7SA@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 2/7] bnxt_en: add support for tcp-data-split
+ ethtool command
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com, 
+	almasrymina@google.com, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	donald.hunter@gmail.com, corbet@lwn.net, michael.chan@broadcom.com, 
+	kory.maincent@bootlin.com, andrew@lunn.ch, maxime.chevallier@bootlin.com, 
+	danieller@nvidia.com, hengqi@linux.alibaba.com, ecree.xilinx@gmail.com, 
+	przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, ahmed.zaki@intel.com, 
+	paul.greenwalt@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
+	asml.silence@gmail.com, kaiyuanz@google.com, willemb@google.com, 
+	aleksander.lobakin@intel.com, dw@davidwei.uk, sridhar.samudrala@intel.com, 
+	bcreeley@amd.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 07, 2024 at 06:16:12PM -0500, Ira Weiny wrote:
-> The event buffer does not need to be allocated if something has failed in
-> setting up event irq's.
-> 
-> In prep for adjusting event configuration for DCD events move the buffer
-> allocation to the end of the event configuration.
-> 
-> Reviewed-by: Davidlohr Bueso <dave@stgolabs.net>
-> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> 
+On Thu, Oct 10, 2024 at 12:28=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> w=
+rote:
+>
+> On Wed, 9 Oct 2024 22:54:17 +0900 Taehee Yoo wrote:
+> > > This breaks previous behavior. The HDS reporting from get was
+> > > introduced to signal to user space whether the page flip based
+> > > TCP zero-copy (the one added some years ago not the recent one)
+> > > will be usable with this NIC.
+> > >
+> > > When HW-GRO is enabled HDS will be working.
+> > >
+> > > I think that the driver should only track if the user has set the val=
+ue
+> > > to ENABLED (forced HDS), or to UKNOWN (driver default). Setting the H=
+DS
+> > > to disabled is not useful, don't support it.
+> >
+> > Okay, I will remove the disable feature in a v4 patch.
+> > Before this patch, hds_threshold was rx-copybreak value.
+> > How do you think hds_threshold should still follow rx-copybreak value
+> > if it is UNKNOWN mode?
+>
+> IIUC the rx_copybreak only applies to the header? Or does it apply
+> to the entire frame?
+>
+> If rx_copybreak applies to the entire frame and not just the first
+> buffer (headers or headers+payload if not split) - no preference.
+> If rx_copybreak only applies to the headers / first buffer then
+> I'd keep them separate as they operate on a different length.
 
-Reviewed-by: Fan Ni <fan.ni@samsung.com>
+It applies only the first buffer.
+So, if HDS is enabled, it copies only header.
+Thanks, I will separate rx-copybreak and hds_threshold.
 
-> ---
-> Changes:
-> [iweiny: keep tags for early simple patch]
-> [Davidlohr, Jonathan, djiang: move to beginning of series]
-> 	[Dave feel free to pick this up if you like]
-> ---
->  drivers/cxl/pci.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/cxl/pci.c b/drivers/cxl/pci.c
-> index 37164174b5fb..0ccd6fd98b9d 100644
-> --- a/drivers/cxl/pci.c
-> +++ b/drivers/cxl/pci.c
-> @@ -764,10 +764,6 @@ static int cxl_event_config(struct pci_host_bridge *host_bridge,
->  		return 0;
->  	}
->  
-> -	rc = cxl_mem_alloc_event_buf(mds);
-> -	if (rc)
-> -		return rc;
-> -
->  	rc = cxl_event_get_int_policy(mds, &policy);
->  	if (rc)
->  		return rc;
-> @@ -781,6 +777,10 @@ static int cxl_event_config(struct pci_host_bridge *host_bridge,
->  		return -EBUSY;
->  	}
->  
-> +	rc = cxl_mem_alloc_event_buf(mds);
-> +	if (rc)
-> +		return rc;
-> +
->  	rc = cxl_event_irqsetup(mds);
->  	if (rc)
->  		return rc;
-> 
-> -- 
-> 2.46.0
-> 
+>
+> > I think hds_threshold need to follow new tcp-data-split-thresh value in
+> > ENABLE/UNKNOWN and make rx-copybreak pure software feature.
+>
+> Sounds good to me, but just to be clear:
+>
+> If user sets the HDS enable to UNKNOWN (or doesn't set it):
+>  - GET returns (current behavior, AFAIU):
+>    - DISABLED (if HW-GRO is disabled and MTU is not Jumbo)
+>    - ENABLED (if HW-GRO is enabled of MTU is Jumbo)
+> If user sets the HDS enable to ENABLED (force HDS on):
+>  - GET returns ENABLED
+>
+> hds_threshold returns: some value, but it's only actually used if GET
+> returns ENABLED.
+>
 
--- 
-Fan Ni
+Thanks for the detailed explanation!
+
+> > But if so, it changes the default behavior.
+>
+> How so? The configuration of neither of those two is exposed to
+> the user. We can keep the same defaults, until user overrides them.
+>
+
+Ah, right.
+I understood.
+
+> > How do you think about it?
+> >
+> > >
+> > > >       ering->tx_max_pending =3D BNXT_MAX_TX_DESC_CNT;
+> > > >
+> > > >       ering->rx_pending =3D bp->rx_ring_size;
+> > > > @@ -854,9 +858,25 @@ static int bnxt_set_ringparam(struct net_devic=
+e *dev,
+> > > >           (ering->tx_pending < BNXT_MIN_TX_DESC_CNT))
+> > > >               return -EINVAL;
+> > > >
+> > > > +     if (kernel_ering->tcp_data_split !=3D ETHTOOL_TCP_DATA_SPLIT_=
+DISABLED &&
+> > > > +         BNXT_RX_PAGE_MODE(bp)) {
+> > > > +             NL_SET_ERR_MSG_MOD(extack, "tcp-data-split can not be=
+ enabled with XDP");
+> > > > +             return -EINVAL;
+> > > > +     }
+> > >
+> > > Technically just if the XDP does not support multi-buffer.
+> > > Any chance we could do this check in the core?
+> >
+> > I think we can access xdp_rxq_info with netdev_rx_queue structure.
+> > However, xdp_rxq_info is not sufficient to distinguish mb is supported
+> > by the driver or not. I think prog->aux->xdp_has_frags is required to
+> > distinguish it correctly.
+> > So, I think we need something more.
+> > Do you have any idea?
+>
+> Take a look at dev_xdp_prog_count(), something like that but only
+> counting non-mb progs?
+
+Thanks for very nice example, I will try it!
