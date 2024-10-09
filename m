@@ -1,100 +1,113 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3FA916BE3A;
-	Wed,  9 Oct 2024 22:22:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44EE915D5D9;
+	Wed,  9 Oct 2024 22:42:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728512528; cv=none; b=W2ZXJjnwZtzIQ7pGTbhSVEOzy00dQKhEeiGAW6rmoFw/GM0K2lQe/nEFFy3QPoW/fOIgzInTpUcxCEEfxV1lMlFd3X6SIZSP0LhCFPakI1WsZiz7LnBdTiffvGgw5NPSi6HycLRHcLUUVeH0Oa2igZA4Ofj5JPd2swI29dt/4YY=
+	t=1728513764; cv=none; b=Z2Fnmg8BdOVtgE+Egd8/Cctq3VZeAo+QKiZx8HGB3LustJQPgRafPoThaL3vtxY+yJIszLstZGKijevn6PBTISi9GVKG2Lfb0tD9F38+3QDCl6IHHW3fX09OTs1fRVYTXc0/mX7Pz0FUrckzxGoLuNQ5KcRQ4EYJfmqIsWVV+b0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728512528; c=relaxed/simple;
-	bh=t2grafQ4p5qcPLkHVLDhCLzP8cWU7FO81QJnhVWwcr4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cAIzHxIPP+CUQT9VltacadB1ixB7nKyz6kIehqgJV3/MzZDe6fnETe933EStEgA8XDgfFo4hyQbxzj6RxH7J6WA3MJyUsf9VRDKkNdu91MXkdA2sWW4VKijotOMfC6m1umUnfuUlu7ToIjcrEK5igW32Xk+ev9Ybe0e7/NJ0GtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mIuRj7j8; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1728513764; c=relaxed/simple;
+	bh=M/jYqexT1hPJpZFhtuqzJvWEFeg2v79s2Hd6JNUeEzI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eexv4f3Vnls2bC5+gbM/rpNKtul6hpTq2bsoJzy1Pkh4LKaoWxKJfHBH8xOpmzEhN6fdBktNoVrpiUnDZV2q25pDiPi8zc3J5K+214MieyqymjFPGUu+gQO0nukzEv0eDfDT/5negr/yENrIcMiGd/MRjeQ+S3pzDzQniulBFD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZIWjNpcG; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mIuRj7j8"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=EOYU8y4+qI/COMS/ju+DcVNRCAm1uZYZJBornpKVAuw=; b=mIuRj7j8eZEgpO5sH3Bj/L47OG
-	S2IGXdvnH2o5Gk4BDASpjWkQs7AVXcwb32o0X1ofIMWJI+4ZVNTkD0m1CgUYf6bfVtFhbbRX14guT
-	gyPry2F7ICdNe7oR9IK3mOSNM+A9UG6nEYbACHRPCRNN6kCAC97Nnnhk8xP+8bKWNvmKI9wlz9nkH
-	SgNc2ZxzVNja9GlAYU9O56sINaztznj+//jwcc5KoIdQHrzBF2knYVq6Bu4Th8YzRlsxI0Riu19aa
-	e7DxMuXPmcu1ttlbdOYDjS1/5PElfw3iMMfxQuruErtqhIM+33GD3Q6PjcFUQBgjvQIBbVIDfVwsY
-	vqngR5Kg==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1syf4F-00000005xB0-40PE;
-	Wed, 09 Oct 2024 22:22:05 +0000
-Message-ID: <b4a4668d-1280-446e-b1a9-a01fd073fd8f@infradead.org>
-Date: Wed, 9 Oct 2024 15:22:02 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZIWjNpcG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728513762; x=1760049762;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=M/jYqexT1hPJpZFhtuqzJvWEFeg2v79s2Hd6JNUeEzI=;
+  b=ZIWjNpcGZLaEaAEDOrmyV01GHNN8Y+dpS7Z98nAJHJGqt9x+ctO+K1aC
+   SbNFHWQJ5eQksKKmkIS3fROMwjdyZmFAdJZhy+o5s0IAL0GYU5HunB0XI
+   R38WqSraI88r+aqqhkf3jc0r2MMKDpoKJ5IE1kVpmDS5waEns2dux81Ca
+   zQXqUbgiJ1IaqoJD+0TIbwXSvGrsNQMgBsWLJdvu2JsWXC82qXQY8Ce5F
+   +G/35e9RYh1GSJV1QOq/CCCg+lckK8x6/czZ4QIh7lwOwuMH2JlzvzIGc
+   uMmCo8VEnm2qAnQyZxgr2A+e+Br623S6boogGT79+p6l9zAktECVEz8iW
+   g==;
+X-CSE-ConnectionGUID: CNIFzll1RlO/Eo7NzzXoCw==
+X-CSE-MsgGUID: 0QQaw1JmRjis2Dh2nui8Ow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="27931565"
+X-IronPort-AV: E=Sophos;i="6.11,191,1725346800"; 
+   d="scan'208";a="27931565"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 15:42:36 -0700
+X-CSE-ConnectionGUID: VYgdYngeSbqWRF33DTyLxA==
+X-CSE-MsgGUID: VFaRBY4FSYOoKihsqrBvIA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,191,1725346800"; 
+   d="scan'208";a="81410626"
+Received: from agluck-desk3.sc.intel.com ([172.25.222.70])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 15:42:35 -0700
+Date: Wed, 9 Oct 2024 15:42:33 -0700
+From: Tony Luck <tony.luck@intel.com>
+To: Babu Moger <babu.moger@amd.com>
+Cc: corbet@lwn.net, fenghua.yu@intel.com, reinette.chatre@intel.com,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+	paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org,
+	peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com,
+	lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com,
+	leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com,
+	kirill.shutemov@linux.intel.com, jithu.joseph@intel.com,
+	kai.huang@intel.com, kan.liang@linux.intel.com,
+	daniel.sneddon@linux.intel.com, pbonzini@redhat.com,
+	sandipan.das@amd.com, ilpo.jarvinen@linux.intel.com,
+	peternewman@google.com, maciej.wieczor-retman@intel.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	eranian@google.com, james.morse@arm.com
+Subject: Re: [PATCH v8 07/25] x86/resctrl: Introduce the interface to display
+ monitor mode
+Message-ID: <ZwcG2e90vXHlIVan@agluck-desk3.sc.intel.com>
+References: <cover.1728495588.git.babu.moger@amd.com>
+ <dc8ffd9074123320ceeecdc8e0b36d1ac0780e02.1728495588.git.babu.moger@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] XArray: minor documentation improvements
-To: Tamir Duberstein <tamird@gmail.com>, Matthew Wilcox <willy@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <CAJ-ks9kiAH5MYmMvHxwH9JfBdhLGA_mP+ezmZ8wJOzDY1p7o5w@mail.gmail.com>
- <20241009205237.48881-2-tamird@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20241009205237.48881-2-tamird@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dc8ffd9074123320ceeecdc8e0b36d1ac0780e02.1728495588.git.babu.moger@amd.com>
 
+On Wed, Oct 09, 2024 at 12:39:32PM -0500, Babu Moger wrote:
+> +"mbm_assign_mode":
+> +	Reports the list of monitoring modes supported. The enclosed brackets
+> +	indicate which mode is enabled.
+> +	::
+> +
+> +	  cat /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
+> +	  [mbm_cntr_assign]
+> +	  default
+> +
+> +	"mbm_cntr_assign":
+> +
+> +	In mbm_cntr_assign mode user-space is able to specify which control
+> +	or monitor groups in resctrl should have a counter assigned using the
+> +	'mbm_assign_control' file. The number of counters available is described
+> +	in the 'num_mbm_cntrs' file. Changing the mode may cause all counters on
+> +	a resource to reset.
+> +
+> +	The mode is useful on platforms which support more control and monitor
+> +	groups than hardware counters, meaning 'unassigned' control or monitor
+> +	groups will report 'Unavailable' or count the traffic in an unpredictable
+> +	way.
+> +
+> +	AMD Platforms with ABMC (Assignable Bandwidth Monitoring Counters) feature
+> +	enable this mode by default so that counters remain assigned even when the
+> +	corresponding RMID is not in use by any processor.
+> +
+> +	"default":
+> +
+> +	By default resctrl assumes each control and monitor group has a hardware
+> +	counter. Hardware that does not support 'mbm_cntr_assign' mode will still
+> +	allow more control or monitor groups than 'num_rmids' to be created. In
 
+Should that be s/num_rmids/num_mbm_cntrs/ ?
 
-On 10/9/24 1:52 PM, Tamir Duberstein wrote:
-> - Replace "they" with "you" where "you" is used in the preceding
->   sentence fragment.
-> - Use "erasing" rather than "storing `NULL`" when describing multi-index
->   entries. Split this into a separate sentence.
-> - Add "call" parentheses on "xa_store" for consistency and
->   linkification.
-> 
-> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
-> ---
-> V1 -> V2: s/use/you/ (Darrick J. Wong)
-> 
->  Documentation/core-api/xarray.rst | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/core-api/xarray.rst b/Documentation/core-api/xarray.rst
-> index 77e0ece2b1d6..75c83b37e88f 100644
-> --- a/Documentation/core-api/xarray.rst
-> +++ b/Documentation/core-api/xarray.rst
-
-> @@ -52,8 +52,8 @@ An unusual feature of the XArray is the ability to create entries which
->  occupy a range of indices.  Once stored to, looking up any index in
->  the range will return the same entry as looking up any other index in
->  the range.  Storing to any index will store to all of them.  Multi-index
-> -entries can be explicitly split into smaller entries, or storing ``NULL``
-
-Is storing %NULL does by making a function call or just by doing
-	*xa1 = NULL;
-
-?
-
-> -into any entry will cause the XArray to forget about the range.
-> +entries can be explicitly split into smaller entries. Erasing any entry
-> +will cause the XArray to forget about the range.
-
-Clearing any entry by calling xa_erase() will cause the XArray to forget about the range.
-
-
->  
->  Normal API
->  ==========
-
-
--- 
-~Randy
+-Tony
