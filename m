@@ -1,315 +1,219 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2045.outbound.protection.outlook.com [40.107.220.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A06A1CC179;
-	Thu, 10 Oct 2024 15:27:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728574072; cv=none; b=WCGJ3iZaH/Bf3Tg6267ywHcoMwA0HzChz7zTac3k/cKqBBJEGTdjTM8pPkQUsu9w5H+zHQN8gpk7QmOrC7tkmGYqlo3iOUCD7VD6unx4Zm+o+FJt+LBBXa57wPWsUwP/SQjIMsSCvgkRebiJ/DU6UNe0mfD+Vza3I540gWIRx1Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728574072; c=relaxed/simple;
-	bh=SNVe+TdvAayhuxSjhFCoU0u7zIY9O6cAdSoJx16is/E=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EnPIE2Y7gpfBVdJHRlW22SFwwwHLiJAatoQTRa0zUw+otCE3LBj7pmBa29TnmYucxEUHdi6ZtGD3VenkRsv9UpwsUDekgDcZqGYNX/eVic+oFCfrydJGKifjSWSpxsk04eKplXcHdSceLp5Ted/tAk8TxG1EituoH/pYxqYhV8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4XPYRy2q5Jz6J7sj;
-	Thu, 10 Oct 2024 23:23:26 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id 510E4140A78;
-	Thu, 10 Oct 2024 23:27:47 +0800 (CST)
-Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Thu, 10 Oct
- 2024 17:27:46 +0200
-Date: Thu, 10 Oct 2024 16:27:45 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: <ira.weiny@intel.com>
-CC: Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, "Navneet
- Singh" <navneet.singh@intel.com>, Jonathan Corbet <corbet@lwn.net>, "Andrew
- Morton" <akpm@linux-foundation.org>, Dan Williams <dan.j.williams@intel.com>,
-	Davidlohr Bueso <dave@stgolabs.net>, "Alison Schofield"
-	<alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
-	<linux-btrfs@vger.kernel.org>, <linux-cxl@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <nvdimm@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 24/28] dax/region: Create resources on sparse DAX
- regions
-Message-ID: <20241010162745.00007b31@Huawei.com>
-In-Reply-To: <20241007-dcd-type2-upstream-v4-24-c261ee6eeded@intel.com>
-References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
-	<20241007-dcd-type2-upstream-v4-24-c261ee6eeded@intel.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93CF61CCEE0;
+	Thu, 10 Oct 2024 15:30:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728574243; cv=fail; b=Kj8fr+zImo4rxxVSgjPg89QZRbC+4XYJiQp6fPxxayErfl2pS+h5imBEKyUyTRtMv2tOArejevmwp11DozQRIWeY3gBWdHknKxQxdr8gGvgzsLs4cQdizMF/NcGMm1y2nYDtGVY2P04TyxviZj7rZKoFH6/uHPph4IjDm7CJ3t8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728574243; c=relaxed/simple;
+	bh=HFkh6oTB3uD8m5qqvTGedZ8Nv1YCBswT/iaRDB4y/V4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=dO34TS7Ek0hu3SQMWoru23rYTMaQ4yZTXnl/ic7rTZxVdHThF69Ac5gstWNeMu1/2Qkc+j2rlmZWNDnCC+GEX+teMaJDtOaN2LPn3c1QqPyu/ILX9LnqkWuJtrR5KlXm2/f2cgguy/nvdOSfP45ZNsMHeHLEwa6LupbSOgpTBkQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=hXQfNISe; arc=fail smtp.client-ip=40.107.220.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="hXQfNISe"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Jy3c5CGK/Uw9t18Z9EPGngDtq7ffHbRiJiv47c/5hJyK5fs0zsbXN39fCoP729oI4QbtJkq01WcUFAxDwPQhE1CRvimFAd+ZmxzlTZTiEFmjGiQXWKVB5osoVzLeujO3zxq+zh+MEVYesQYLUg83o5/eN+QfW3SfAZXi2jAU1ULwVL00bTn/IR3Eryi4OjnDh8KVI5MSUdhng0N8yOMNIGAUFrpNWXt25DyNO3L0odobZve+Vjnny9NZBgGd68Njf1a8cTZSJoT5K8OyQ4pr8OaAn35KzQL4mgPzdjPrEpiYzSqrT8C9HbRdAx4d5K05CQVbcIsuJ76VHWGIcYhvyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=m8qsBjIzwEKG6mMO+kmAVIiGo/7AFcrpU/KlPxubTcg=;
+ b=Z11JQAVj4nmSfBcrGWNGNaA6VXtpQGs5RmYmsbw67vqlJlBgJyxUxH1K4ahOZNQmcttksr3hsgjP8bPslncBbYbDUkuAJ67UNp7nHcQwTgM5MR/VMA7xWd9eY4SumhZcCxKa5XoLeNtNRogz0kbIp8ke/0Q6D61XZBaC3HX9UY+M5NQ4K2ZDLKYRXa0ROcPdqXZyFdZ9UM2mM5CAs1XnZjAwE7etHGJVpRGkGu9RZ74mrRYyTf5pZMKVPsoxyeOGYnlfcTIeqIYYMqHFTkH6jJw9mBEPvqyLc8zDTLuW4e+ptMMPdfhIzFMDUAS4AzbKM1oz+4Q25+tremqHgjfsrw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m8qsBjIzwEKG6mMO+kmAVIiGo/7AFcrpU/KlPxubTcg=;
+ b=hXQfNISe/jrAHKxhHgS3fQUAsZAgX1/EH+r9fqwXGCRA0wvzzAMhMstJfnjOZ3ViU9ektJ83Vg1qPyyv3S1qxUaYWUVups6xcuuysTNvxYiZ5mCaInhu7EAHZ/jynOi6GdTT7U7ZV1Qa9P4v3wIi+W6d4C9k3QFXnMXdfqJ5J8I=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by CY8PR12MB7242.namprd12.prod.outlook.com (2603:10b6:930:59::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.16; Thu, 10 Oct
+ 2024 15:30:38 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.8048.017; Thu, 10 Oct 2024
+ 15:30:38 +0000
+Message-ID: <71c79023-d39c-43e7-abc7-057864508edc@amd.com>
+Date: Thu, 10 Oct 2024 10:30:33 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v8 07/25] x86/resctrl: Introduce the interface to display
+ monitor mode
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: "corbet@lwn.net" <corbet@lwn.net>, "Yu, Fenghua" <fenghua.yu@intel.com>,
+ "Chatre, Reinette" <reinette.chatre@intel.com>,
+ "tglx@linutronix.de" <tglx@linutronix.de>,
+ "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+ "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+ "paulmck@kernel.org" <paulmck@kernel.org>,
+ "rdunlap@infradead.org" <rdunlap@infradead.org>,
+ "tj@kernel.org" <tj@kernel.org>, "peterz@infradead.org"
+ <peterz@infradead.org>, "yanjiewtw@gmail.com" <yanjiewtw@gmail.com>,
+ "kim.phillips@amd.com" <kim.phillips@amd.com>,
+ "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+ "seanjc@google.com" <seanjc@google.com>,
+ "jmattson@google.com" <jmattson@google.com>,
+ "leitao@debian.org" <leitao@debian.org>,
+ "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
+ "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+ "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+ "Joseph, Jithu" <jithu.joseph@intel.com>, "Huang, Kai"
+ <kai.huang@intel.com>, "kan.liang@linux.intel.com"
+ <kan.liang@linux.intel.com>,
+ "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "sandipan.das@amd.com" <sandipan.das@amd.com>,
+ "ilpo.jarvinen@linux.intel.com" <ilpo.jarvinen@linux.intel.com>,
+ "peternewman@google.com" <peternewman@google.com>,
+ "Wieczor-Retman, Maciej" <maciej.wieczor-retman@intel.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "Eranian, Stephane" <eranian@google.com>,
+ "james.morse@arm.com" <james.morse@arm.com>
+References: <cover.1728495588.git.babu.moger@amd.com>
+ <dc8ffd9074123320ceeecdc8e0b36d1ac0780e02.1728495588.git.babu.moger@amd.com>
+ <ZwcG2e90vXHlIVan@agluck-desk3.sc.intel.com>
+ <4da658fa-3cea-4388-86f4-d4b0fb5f0903@amd.com>
+ <SJ1PR11MB6083410D8FF053823F0BF884FC782@SJ1PR11MB6083.namprd11.prod.outlook.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <SJ1PR11MB6083410D8FF053823F0BF884FC782@SJ1PR11MB6083.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA1P222CA0010.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:22c::12) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
- frapeml500008.china.huawei.com (7.182.85.71)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|CY8PR12MB7242:EE_
+X-MS-Office365-Filtering-Correlation-Id: ca91beb7-bb38-4e75-1461-08dce9407dfc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?ajJtclNJLzk4R0t3YzB5SFpmUlc1R1N5V1FEbmlwcHh2eXBFNG16S1NqOVhH?=
+ =?utf-8?B?bXhxdjhZaG9Sc2R3RjlwZVRoNWlIRkMzUVFRMG81Q3ZEVzZjSWhiaXQwV1JP?=
+ =?utf-8?B?bExEdk9yaXVOZHVzODYrSGJCR2xSYlJoMjlEdkpueVo0T0UwUzhHYTNyOHpS?=
+ =?utf-8?B?OHBoRlhLNGxFTEFMaG9YT1hueXRDM2pmTmlKaHZSS3pmcHpUZFg3SGp6bFQ2?=
+ =?utf-8?B?eE4xZDRTdU1QZUpQUWs2UUN1QjBMMDFGVjVsZHBrZUxZS0h3NTdlbDdrc3RI?=
+ =?utf-8?B?elA1WUpSbDhsc3ZiZVBNT1dZby9jOW0rcUNhM3V6WWtpQmJwTU5XMWdvN3A0?=
+ =?utf-8?B?V1hqdEZiQVdLU2hxYW9aam5lM0ZOR2NLV0hzSHU2QmJYM0NNcUl0bm02YVVI?=
+ =?utf-8?B?Q2hKaHBuSitwd1NpR2VQTGFSZWFUTjNCc0d2aTkxWjN0dXhhSkdYOS9XYURW?=
+ =?utf-8?B?T1lBSk9ST3A3UDdSSThyME16bTF1ZDRuZW5rL0lzNnQ1UWlWUS9Rd1BnWkxD?=
+ =?utf-8?B?eGUvNUNMWWozYkM5c2ZQMmtQb0QzT0lRQWhlajlEYi93UGx3WWUvZFVNM0di?=
+ =?utf-8?B?cnBxYlNlRzFoWVkvamQ1RDhtWENvNjRteWtHNjYwYTEyRnFURkxpdWhVdWZK?=
+ =?utf-8?B?bU5QUnBSVnpUMmY0eFVmTTIrbFJJVGlNSFpBcmY5WXgvcU9lWUxDODVDTUVM?=
+ =?utf-8?B?SUNjMkcxcm9kWEZESzdIUkVPRzRpdVB6V2IyNFBEVVlORlJNeHlNc2ZPcjZ3?=
+ =?utf-8?B?NUhPRTFIcFhwYWdKRHhYOWxtY0lMaWdJTTVZMkpFMFJhd1ZSVWRBOGNXMW5k?=
+ =?utf-8?B?amswR2lmdXBSRGZ0YlhrdllOUjNwRENkMjJqbE5CaUx4WjNNdk16T1VndUNP?=
+ =?utf-8?B?WTRrbjNTMzk0ajArUFV3c0cvdDRRRldMVldQYTJYNmpyejYydStJdjdkNGhD?=
+ =?utf-8?B?a1NaS1V6Z2lGMzE1cjNjUjN2elBMN0F0MVNZaEUvSHdZOHBjUXdrUEk4cjky?=
+ =?utf-8?B?VWJYeVZGOEtWdHFtY3c1QjZ0NUF0Q0hJRDBlOVEvVkswTUV1MVA3SWpkTDhv?=
+ =?utf-8?B?cldsSXFaczhFalJCR1BhMGZUbkJJUm81Z1dZdi9OYzFUallsc1JnbnBIQ0V0?=
+ =?utf-8?B?MXVTeGNkL01CZWc4djYxbStVK1dCWDBPU2ZqQmE0NVJoYVoxelJuOUszVC9G?=
+ =?utf-8?B?Y3pyMXJ2WDNkSk1uc1czV1lURE5OUEV0K3IwMmhSTWlyeERsRG15OWkzS0My?=
+ =?utf-8?B?eGxuNnRwUHUrc2dwNndOcERSWjUxRFNQSGhKSXR1YytUWExqT2pGRXBpWU54?=
+ =?utf-8?B?eWhWS1JYd1I0ZHJwNWh3YlJ2K0NUQS8zMkV1VVVyWUYwRGRsQi9LdmppR3k2?=
+ =?utf-8?B?a2RwcWMxTmkxODFGSFFDOVp6QmpibXQxZUdOTkZMc0xZM1VIMG5SUVFocERO?=
+ =?utf-8?B?eHlONzFldXBaN0NRcmo5djJXOEc3cElBZjcwNkJpSGRnL0ZGa3RXUDdkcDdt?=
+ =?utf-8?B?d2NkWE1sbjdCbjF2K2pvNUkxc1BXU1V5RjhzQTJxdTRkNnBuWEh2QjdoNDVS?=
+ =?utf-8?B?eGdHcW5yVG5BYmw3ZTR5SjE1SWtVcjdlUmZTVmszWkxkVTl0bU0yQUJ5d0Nm?=
+ =?utf-8?B?VGhFeFhJWHZtV2IrSno4K1VFQzdkNnRoVWZOVGh1YXBkS2xZZ1JtZnFVNHEw?=
+ =?utf-8?B?OC9RZlBHaHFDM0c5azZVUXgxUGN4ZlZHaDBTVFRWWmlVZDFxNW9Ua3NnPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NjVUNFF6VGdyREJEOFl4VmNaSXJiMDIwQVlyQjFJMENkY0hBalc0dTdvczBo?=
+ =?utf-8?B?V2FsTHNHV2NBNzdleGZmTEpHT0l6N0c5bE9qa2xWT0QrV1ZTTXRLeEc2KzZW?=
+ =?utf-8?B?KzBMQVlsa1pPSzh5ZmcwSzNmcmJBbVVGYTh6WnZScTJFNlM5R1ArUExtL0FH?=
+ =?utf-8?B?TXd3QjcyRzRhWFR0aWtIL1VZblh5VXhBTThMaWtUQUg2YzVCZlIxNkZDNkU1?=
+ =?utf-8?B?dXJyUTUrUHFPTDJWVkJQVzRLOEhQOTdCSnNBd3h4dy9tbTdjcGRpSVBTUlN1?=
+ =?utf-8?B?MVU5MDVlTmVYSmtTcXRWbnFCaVJidGFHQm9YWFFpZUFxZ0ZjU083S3RSQ3Zm?=
+ =?utf-8?B?aXdqU1JmUGY4RVBlQlJ5VGFJSkorT25jV05lLzFnT1IvVjMwbUJmVGRFY1Rt?=
+ =?utf-8?B?cTc3K2NSTGhVVWtmV01rYUhiZU9jcmZNbUp2QnJiM0NDRzN4OW1pNExkSWpP?=
+ =?utf-8?B?WDFTRllPT2ROeDl6bitRbElQM1ArNVlGMGdUQWlxcUFCWFQ0K3gvK1FURVJR?=
+ =?utf-8?B?Sit4eGFtd2JnVCszOUJacnI1MExoSkErZk5IbndIK09tcGZFcFg0SUo5Qkt1?=
+ =?utf-8?B?M2NMYUhZWDVkQ3lVUmgrcEdyTTVmZHJFNmt0SndsSUhIbmNEVjVRZlIvb2Qy?=
+ =?utf-8?B?UEp5d1llWDM1WFI2d3hPdDl2TGtSdjlwaUxmRVJpcE14Q3ZWV0NtYngrM0hx?=
+ =?utf-8?B?bCtlUEU1a0pRVklydFV4UEVBaXVlWHpzenF0b2dYTmNGdGxHWHhCdmszV2Nq?=
+ =?utf-8?B?L1k3WTZmMm91ZDN5OFI1YTZ0ZTB5TmxIMGF0R1RKMWl1UkRGM2NYSy95Wkc2?=
+ =?utf-8?B?ZlNWeHUreEFiWTgydFhuUzdoRVJEL00reVNHbWJxNmVGUTlGMlNJaWtySnM5?=
+ =?utf-8?B?Nlp6UU1vZzRzSXdNOUV2Q3RIWDgxUVlIME9iYXRva0RhVXlhTXVDb00zaHkw?=
+ =?utf-8?B?NTVPNitWdXd5YVM4UzRndjltUzdaZVphbGJhYWJucTlTRW9XYTF3Qm9JYXpB?=
+ =?utf-8?B?S21EdmRqUGdja3UrNmF4eWVIb2ZZRlJOdmZycXFyOUtueFkrNTF0WDlHckVa?=
+ =?utf-8?B?R1JETkJMMmJhTzZBQVlmdXY5R1NPYUEyRmlpWE9scVNzTGpjSS94NnZDUGl2?=
+ =?utf-8?B?WVZlMGFGbDJmYS9oa0xIbUN0NEhrMEFmKzYrOW5Ddk4rL2RMM1l3QmpTVDZm?=
+ =?utf-8?B?L0l3TEZzVFdwU3UzRkQ0aHZ0VkRaeUQrM1c3d1oxQXY2ckFuaUF5dzZmY1R6?=
+ =?utf-8?B?Sk50U2dyNFZHK2RKMlJ2d29VbUh2d2tGUHB6a204Tk5uMGZhRlpYaktyUVNw?=
+ =?utf-8?B?OGNVbStQcXNIUzRUT1ZYRjY5ODdlOXZRWWZkdThqeTRZUXFuWm56U3ZZeFpC?=
+ =?utf-8?B?L20raFA5eE8zMDlMZlJmRllObUpsSlMvZVBvKy9CVXRzazRyUDI4eGRSb2hX?=
+ =?utf-8?B?NXNWQkhITWdsQ1RjUXJOMEdrS1BFTkJPV1BYL1pvVmlBcjRpMjhkOFdBV1dO?=
+ =?utf-8?B?eXVrVG9WMk1FQUUyMU9HL3NEZVkrK1JCYWk2eUcvYVFSTXNRWjVyNjFmekxB?=
+ =?utf-8?B?cnMrMXUyK3AvS2UxRzNwa1puWGFlMUwzNzF0TWtUVEYwblJqVFNOQm0xRDVK?=
+ =?utf-8?B?UFlHQVBaai9Id2ozTDBCZmY3ME1uUXZ2UWtNTHREUGVJVmlLbjI4Wkl1cWdQ?=
+ =?utf-8?B?Ky9pMFNKOWFDdHR3Tzd0RUwzQ2ErVno2MlYwWkZxdTAvaEdWL0xJMjN2MmRy?=
+ =?utf-8?B?TXEvWVlUU21Ja0pLVkxnU3ZYbGNBektsd1dTbUozMzY4dlRVVVhCZjI4a21V?=
+ =?utf-8?B?eUFDemg5OTc0cXJ4bGZIbWFCUHBKdjBLVDVGRk4wRTd2OWNLK3E5QzJlWXM1?=
+ =?utf-8?B?VC9xMFNZSGxMZ1lHYkZKMi9sODVUcHRNOHZwN1p0YnlHQ29sM2JFbTFIV2lv?=
+ =?utf-8?B?L3pGWWMramo3bzJzUU1NMGlLYzZBRHlLeEc3VTFKSG92N2R3RG0yOFhCSDVE?=
+ =?utf-8?B?WFd4QmFkZjIzb0U4U3RwZmdCSWFsLzhVdGRkNjErY2txVmcrVmZhdjQrV0N2?=
+ =?utf-8?B?RDhWQUN5cTR6OTZ0enpCMHh5VEh6Y0hoTDdoOEpzd28raG92elRPeTJnNGZ1?=
+ =?utf-8?Q?1bdw=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ca91beb7-bb38-4e75-1461-08dce9407dfc
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2024 15:30:38.2016
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hHNX5kfDdBM9AhHQVvApzYzoyBGjl4SVelD1ROvT1PhwwVtoNd0rBZtEH12Reat+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7242
 
-On Mon, 07 Oct 2024 18:16:30 -0500
-ira.weiny@intel.com wrote:
+Hi Tony,
 
-> From: Navneet Singh <navneet.singh@intel.com>
+On 10/10/24 10:07, Luck, Tony wrote:
+>>>> +  By default resctrl assumes each control and monitor group has a hardware
+>>>> +  counter. Hardware that does not support 'mbm_cntr_assign' mode will still
+>>>> +  allow more control or monitor groups than 'num_rmids' to be created. In
+>>>
+>>> Should that be s/num_rmids/num_mbm_cntrs/ ?
+>>
+>> It is actually num_rmids here as in default mode, num_rmid_cntrs are not
+>> available.
 > 
-> DAX regions which map dynamic capacity partitions require that memory be
-> allowed to come and go.  Recall sparse regions were created for this
-> purpose.  Now that extents can be realized within DAX regions the DAX
-> region driver can start tracking sub-resource information.
+> Babu,
 > 
-> The tight relationship between DAX region operations and extent
-> operations require memory changes to be controlled synchronously with
-> the user of the region.  Synchronize through the dax_region_rwsem and by
-> having the region driver drive both the region device as well as the
-> extent sub-devices.
+> The code isn't working that way for me. I built & booted. Since I'm on
+> an Intel machine without ABMC I'm in "default" mode. But I can't make
+> more monitor groups that num_rmids.
 > 
-> Recall requests to remove extents can happen at any time and that a host
-> is not obligated to release the memory until it is not being used.  If
-> an extent is not used allow a release response.
-> 
-> The DAX layer has no need for the details of the CXL memory extent
-> devices.  Expose extents to the DAX layer as device children of the DAX
-> region device.  A single callback from the driver aids the DAX layer to
-> determine if the child device is an extent.  The DAX layer also
-> registers a devres function to automatically clean up when the device is
-> removed from the region.
-> 
-> There is a race between extents being surfaced and the dax_cxl driver
-> being loaded.  The driver must therefore scan for any existing extents
-> while still under the device lock.
-> 
-> Respond to extent notifications.  Manage the DAX region resource tree
-> based on the extents lifetime.  Return the status of remove
-> notifications to lower layers such that it can manage the hardware
-> appropriately.
-> 
-> Signed-off-by: Navneet Singh <navneet.singh@intel.com>
-> Co-developed-by: Ira Weiny <ira.weiny@intel.com>
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> 
-More somewhat superficial review from me.
-Needs DAX expert reviewers.
 
-Jonathan
+That is correct. We will have to change the text. How about?
 
-> ---
->  drivers/cxl/core/extent.c |  74 ++++++++++++--
->  drivers/cxl/cxl.h         |   6 ++
->  drivers/dax/bus.c         | 243 +++++++++++++++++++++++++++++++++++++++++-----
->  drivers/dax/bus.h         |   3 +-
->  drivers/dax/cxl.c         |  62 +++++++++++-
->  drivers/dax/dax-private.h |  42 ++++++++
->  drivers/dax/hmem/hmem.c   |   2 +-
->  drivers/dax/pmem.c        |   2 +-
->  8 files changed, 396 insertions(+), 38 deletions(-)
-> 
-> diff --git a/drivers/cxl/core/extent.c b/drivers/cxl/core/extent.c
-> index a1eb6e8e4f1a..75fb73ce2185 100644
-> --- a/drivers/cxl/core/extent.c
-> +++ b/drivers/cxl/core/extent.c
-> @@ -270,20 +270,65 @@ static void calc_hpa_range(struct cxl_endpoint_decoder *cxled,
->  	hpa_range->end = hpa_range->start + range_len(dpa_range) - 1;
->  }
->  
-> +static int cxlr_notify_extent(struct cxl_region *cxlr, enum dc_event event,
-> +			      struct region_extent *region_extent)
-> +{
-> +	struct device *dev = &cxlr->cxlr_dax->dev;
-> +	struct cxl_notify_data notify_data;
-> +	struct cxl_driver *driver;
-> +
-> +	dev_dbg(dev, "Trying notify: type %d HPA %pra\n",
-> +		event, &region_extent->hpa_range);
-> +
-> +	guard(device)(dev);
-> +
-> +	/*
-> +	 * The lack of a driver indicates a notification has failed.  No user
-> +	 * space coordiantion was possible.
-spell check.
-coordination
+"default":
+By default resctrl assumes each control and monitor group has a hardware
+counter. Hardware that does not support 'mbm_cntr_assign' mode will still
+allow to create control or monitor groups up to num_rmids supported. In
+that case reading the mbm_total_bytes and mbm_local_bytes may report
+'Unavailable' if there is no counter associated with that group.
 
-> +	 */
-> +	if (!dev->driver)
-> +		return 0;
-> +	driver = to_cxl_drv(dev->driver);
-> +	if (!driver->notify)
-> +		return 0;
-> +
-> +	notify_data = (struct cxl_notify_data) {
-> +		.event = event,
-> +		.region_extent = region_extent,
-> +	};
-> +
-> +	dev_dbg(dev, "Notify: type %d HPA %pra\n",
-> +		event, &region_extent->hpa_range);
-> +	return driver->notify(dev, &notify_data);
-> +}
-
-> diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
-> index f0e3f8c787df..4e19d18369de 100644
-> --- a/drivers/dax/bus.c
-> +++ b/drivers/dax/bus.c
-> @@ -183,6 +183,86 @@ static bool is_sparse(struct dax_region *dax_region)
->  	return (dax_region->res.flags & IORESOURCE_DAX_SPARSE_CAP) != 0;
->  }
-
-> +
-> +int dax_region_add_resource(struct dax_region *dax_region,
-> +			    struct device *device,
-> +			    resource_size_t start, resource_size_t length)
-> +{
-> +	struct resource *new_resource;
-> +	int rc;
-> +
-> +	struct dax_resource *dax_resource __free(kfree) =
-> +				kzalloc(sizeof(*dax_resource), GFP_KERNEL);
-> +	if (!dax_resource)
-> +		return -ENOMEM;
-> +
-> +	guard(rwsem_write)(&dax_region_rwsem);
-> +
-> +	dev_dbg(dax_region->dev, "DAX region resource %pr\n", &dax_region->res);
-> +	new_resource = __request_region(&dax_region->res, start, length, "extent", 0);
-> +	if (!new_resource) {
-> +		dev_err(dax_region->dev, "Failed to add region s:%pa l:%pa\n",
-> +			&start, &length);
-> +		return -ENOSPC;
-> +	}
-> +
-> +	dev_dbg(dax_region->dev, "add resource %pr\n", new_resource);
-> +	dax_resource->region = dax_region;
-> +	dax_resource->res = new_resource;
-> +	dev_set_drvdata(device, dax_resource);
-> +	rc = devm_add_action_or_reset(device, dax_release_resource,
-> +				      no_free_ptr(dax_resource));
-> +	/*  On error; ensure driver data is cleared under semaphore */
-
-It's not used in the dax_release_resource callback (that I can
-immediately spot) so could you just not set it until after
-this has succeeded?
-
-> +	if (rc)
-> +		dev_set_drvdata(device, NULL);
-i.e. move
-	dev_set_drvdata(device, dax_resource);
-to here.
-
-> +	return rc;
-> +}
-> +EXPORT_SYMBOL_GPL(dax_region_add_resource);
-Adding quite a few exports. Is it time to namespace DAX exports?
-Perhaps a follow up series.
-
-
-
->  bool static_dev_dax(struct dev_dax *dev_dax)
->  {
->  	return is_static(dev_dax->region);
-> @@ -296,19 +376,44 @@ static ssize_t region_align_show(struct device *dev,
->  static struct device_attribute dev_attr_region_align =
->  		__ATTR(align, 0400, region_align_show, NULL);
->  
-> +#define for_each_child_resource(extent, res) \
-> +	for (res = (extent)->child; res; res = res->sibling)
-> +
-Extent naming in here is a little off for a general sounding macro.
-Maybe for_each_child_resource(parent, res) or something like that?
-
-Seem generally useful. Maybe move to resource.h?
-
-> @@ -1494,8 +1679,14 @@ static struct dev_dax *__devm_create_dev_dax(struct dev_dax_data *data)
->  	device_initialize(dev);
->  	dev_set_name(dev, "dax%d.%d", dax_region->id, dev_dax->id);
->  
-> +	if (is_sparse(dax_region) && data->size) {
-> +		dev_err(parent, "Sparse DAX region devices must be created initially with 0 size");
-> +		rc = -EINVAL;
-> +		goto err_id;
-
-Right label?  This code doesn't have side effects and the next error path is goto err_range
-Looks like you fail to reverse the alloc_dev_dax_id() in this error path.
-
-> +	}
-> +
->  	rc = alloc_dev_dax_range(&dax_region->res, dev_dax, dax_region->res.start,
-> -				 data->size);
-> +				 data->size, NULL);
->  	if (rc)
->  		goto err_range;
->  
-> diff --git a/drivers/dax/bus.h b/drivers/dax/bus.h
-> index 783bfeef42cc..ae5029ea6047 100644
-> --- a/drivers/dax/bus.h
-> +++ b/drivers/dax/bus.h
-> @@ -9,6 +9,7 @@ struct dev_dax;
->  struct resource;
->  struct dax_device;
->  struct dax_region;
-> +struct dax_sparse_ops;
->  
->  /* dax bus specific ioresource flags */
->  #define IORESOURCE_DAX_STATIC BIT(0)
-> @@ -17,7 +18,7 @@ struct dax_region;
->  
->  struct dax_region *alloc_dax_region(struct device *parent, int region_id,
->  		struct range *range, int target_node, unsigned int align,
-> -		unsigned long flags);
-> +		unsigned long flags, struct dax_sparse_ops *sparse_ops);
->  
->  struct dev_dax_data {
->  	struct dax_region *dax_region;
-> diff --git a/drivers/dax/cxl.c b/drivers/dax/cxl.c
-> index 367e86b1c22a..df979ea2cb59 100644
-> --- a/drivers/dax/cxl.c
-> +++ b/drivers/dax/cxl.c
-> @@ -5,6 +5,58 @@
->  
->  #include "../cxl/cxl.h"
->  #include "bus.h"
-> +#include "dax-private.h"
-> +
-> +static int __cxl_dax_add_resource(struct dax_region *dax_region,
-> +				  struct region_extent *region_extent)
-> +{
-> +	resource_size_t start, length;
-> +	struct device *dev;
-> +
-> +	dev = &region_extent->dev;
-Might as well do
-	struct device *dev = &region_extent->dev;
-
-
-> +	start = dax_region->res.start + region_extent->hpa_range.start;
-> +	length = range_len(&region_extent->hpa_range);
-> +	return dax_region_add_resource(dax_region, dev, start, length);
-> +}
-
-
-> diff --git a/drivers/dax/dax-private.h b/drivers/dax/dax-private.h
-> index ccde98c3d4e2..e3866115243e 100644
-> --- a/drivers/dax/dax-private.h
-> +++ b/drivers/dax/dax-private.h
-...
-
-> +/*
-> + * Similar to run_dax() dax_region_{add,rm}_resource() and dax_avail_size() are
-> + * exported but are not intended to be generic operations outside the dax
-> + * subsystem.  They are only generic between the dax layer and the dax drivers.
-> + */
-> +int dax_region_add_resource(struct dax_region *dax_region, struct device *dev,
-> +			    resource_size_t start, resource_size_t length);
-> +int dax_region_rm_resource(struct dax_region *dax_region,
-> +			   struct device *dev);
-> +resource_size_t dax_avail_size(struct resource *dax_resource);
-> +
-> +typedef int (*match_cb)(struct device *dev, resource_size_t *size_avail);
-Why is this here?
-
+-- 
+Thanks
+Babu Moger
