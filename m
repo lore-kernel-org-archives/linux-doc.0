@@ -1,100 +1,195 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1194619CCF4;
-	Thu, 10 Oct 2024 17:52:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A6B19CD07;
+	Thu, 10 Oct 2024 17:59:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728582739; cv=none; b=M9q4WTyqer/BSS7ghRmvuQ632idC9JXT2R+JPDysCTOTWn6b/6LDkHR7w2iUjSSsvhdozFTVtxCe8hCnsZGKtcCQxCe+cElhH0gxiXYUK9JIBf5aENcDalKIkBJnW1Rx2jbLY2AB7DOyiq9+eIQLKVAeHSdAsdartkViGyPF08c=
+	t=1728583144; cv=none; b=JvjQAM+ZMCVYLxXuE1UC95VYqhN8jsVljRThDW1moY30twwCaAKpAOMyHKO1MLVCQrkgz0PA2o2h1IXwIMeGh6eL88aNpNBkEvQ+9Voy6tb78JmyIkxJ+eTHR9O+y3rWzCvI5TJHiL32QHE+3UH9jVHaQTlCM5l1M5C7/ozy7Bs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728582739; c=relaxed/simple;
-	bh=ddiIgXOukM4wZqhv8wcNPf5q4K9xFXwkgPf0LtUxuVg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=NnzNanMy23MU9AP3ye/9s1h6eIah4j1+CjfOWF7ol1v8tDIGYma01hWUZFyCa8UxF9y6fCSYFZQK8rmCGhBylqBfUJqoVW5iu+E+jb6iB2FHJEx3zOw4nPor2rhY8cGZRYUaqHn7AI7zsIYUnaJJ8Ro4VQ2s4hy9nzegm7uJy5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VFT4sPoN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728583144; c=relaxed/simple;
+	bh=Kge7wc2eVf7UslF+TD3gPb+FeB7D+a2MobjWWFDO3WA=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oP8h0sYLytWXWBbpXDUsE2cOx1prdfOtvPsJSwRr0AWhsjdGCAr/sSklRO73XzlMcBL/l6ln842wr0b2htUwx7o+Km4UfhcoyxH69x6hBoI2F095uFhhe6TpvsLohPKT6t7AHyzWpU6JA1QCwXH5dd9k0667/CK4xflcBo3Aks8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YJYdGDCo; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VFT4sPoN"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A5E39C4CEC5;
-	Thu, 10 Oct 2024 17:52:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728582738;
-	bh=ddiIgXOukM4wZqhv8wcNPf5q4K9xFXwkgPf0LtUxuVg=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=VFT4sPoNWAEyqXbXT2vcSPVpDbc7zIRVrvDeNCc/hriUtDptWkb7+0qqK2KLUm/Pg
-	 K6XCPpkQDDnhKdT5+GGvy8MIPiX34onxIMJrCIaz2uTmUSdP+TtUe2l6hakSNwsqQZ
-	 iCwXoSkYYqwQzxcXh4KRgXH/Qb74KLGMC5/leajTSIymmCQ+0ybJVZUtq5fKXsCE7S
-	 Yzpt1yOe8IZTfKpn22y9otQdSe12w7hQ+ChHhlhQq1g0jinKHA6D5yhROLdgPGoqXb
-	 HktVIgSdLwr637mqalxqP2kWUjD6Ik1B9bkOw9CKKaB2HAbDXnAg/LQ78Vi0nPoGT5
-	 Zxp41d9ggUsxg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 904E0CFC5EB;
-	Thu, 10 Oct 2024 17:52:18 +0000 (UTC)
-From: Nathan Lynch via B4 Relay <devnull+nathan.lynch.amd.com@kernel.org>
-Date: Thu, 10 Oct 2024 12:52:07 -0500
-Subject: [PATCH] Documentation: dmaengine: Correct reference to
- glReadPixels()
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YJYdGDCo"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-20b7259be6fso12959545ad.0;
+        Thu, 10 Oct 2024 10:59:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728583143; x=1729187943; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Pjaq1ccy6Z8uwpI+HpuudFCkgY1TCeYNA3gLc2Vpidw=;
+        b=YJYdGDCoT8voQXMVWvBmEFHBxTu2e6pYABtWOn0OAlW4UI03xgNWVCDQLxV2JSBsZU
+         zQ1ZnlPE8Ix/koHON7JildJzYhchxpGWNQfRoywcF/qfaMDrm3HQiM+Uak1zwCI458lh
+         c91SGSmE5GVTIRi0iruAsntfs05q6srPTKQCytWEcJeuukTOKgAmETIbVLLWLES659Iu
+         XMyKOY5KiZbX+5CegTZN0v5Q3z2ued5m7vD620VHy/9i8WmR7jz6xS0G05AB1/M7oW4S
+         OYOQ+AJZvH8OrvUQ1Qw/s26uONpdBGwEjsOb1HLDpqUKVwvSakgF+pI1UcnXsNSkNN/Q
+         HUcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728583143; x=1729187943;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Pjaq1ccy6Z8uwpI+HpuudFCkgY1TCeYNA3gLc2Vpidw=;
+        b=poKcsjn2BV2Q3M8DgSUcejyU/+fOtdeYZbA8O593hZ2O+ntCJEcT8yAxOAcT4fJmQn
+         3SQvU2jkmF/J4QgChSR1nPyxDeot5X4YM6RNB5paHzjmgNc64o33TVdJpIDFqiw89rQ2
+         SCkMPQffbkyZ3vZAOGM2nMaKXhdbL/6dFoogtVY5q/vfJSdWyofoxWnw5CSnAfRy3oaa
+         nwo2Ux6JI2vv0QYJ3yW96IzgDo2bA9qnJ0TSzxJ4boJ5rhG2fq9CJ4nnzmcwV7S6reaN
+         AkhZdpb7k6WQaXAu+gQ1AD2Tb+o7cZ7MDKhZfy75pLd7M2ZIizWBAZItwaYEHCKhY1Dn
+         el8w==
+X-Forwarded-Encrypted: i=1; AJvYcCUJZu7ozhBJb4SUx6e3qSrcDat42p2YHh2RhBron4EpbgGabLT+GsY5MQBlkkE/Slgi0AYQFQ0CJITV@vger.kernel.org, AJvYcCV/lbgsCHSGQtD9dm4hdt0bkb5tEmdMdUFnhr8UpX8HGkgSzcuk/9RooYNNHz1sp7aYZW1xQ1pvI0sgDg==@vger.kernel.org, AJvYcCXG97lEzg2JNob9GMPByXRkUccmtjg1FEIMQokypwCq1TlXMSPDXXNWiR6iIrwO4Q2gRv4h/VcHo6dc@vger.kernel.org, AJvYcCXbKR8D+3xaRmcY+cdxT3UMGbC41M2lyr+NP8ZypjwThS3Lt9wuhkI2PfB+FbQO8x70hmjhZAHyEi08wPx0@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/MrQuxtUVkTDZ0yE5Sv5UrFnK+CABbsLa8vn1Dy5e1AEIbyoo
+	w0ezYKVN9MdOl9T+cEwKTqPB7mhlawUqonA+nTVY6kDZpmPKLJ4+oQmirw==
+X-Google-Smtp-Source: AGHT+IEyOee19JN6mF8IjynsdGZ4gyhcTytl8LOHNBi6Lt4Mwgsu9dLliHXMPgXybxOPTDtUxxBD0w==
+X-Received: by 2002:a17:903:1208:b0:20c:70ab:b9c3 with SMTP id d9443c01a7336-20c9d8d2615mr5434325ad.34.1728583142564;
+        Thu, 10 Oct 2024 10:59:02 -0700 (PDT)
+Received: from fan ([2601:646:8f03:9fee:c165:c800:4280:d79b])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20c8c340106sm11950045ad.265.2024.10.10.10.58.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Oct 2024 10:59:02 -0700 (PDT)
+From: Fan Ni <nifan.cxl@gmail.com>
+X-Google-Original-From: Fan Ni <fan.ni@samsung.com>
+Date: Thu, 10 Oct 2024 10:58:56 -0700
+To: Ira Weiny <ira.weiny@intel.com>
+Cc: Dave Jiang <dave.jiang@intel.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Navneet Singh <navneet.singh@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	linux-btrfs@vger.kernel.org, linux-cxl@vger.kernel.org,
+	linux-doc@vger.kernel.org, nvdimm@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 17/28] cxl/events: Split event msgnum configuration
+ from irq setup
+Message-ID: <ZwgV4D9NmcC-SAYQ@fan>
+References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
+ <20241007-dcd-type2-upstream-v4-17-c261ee6eeded@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241010-doc-dmaengine-glreadpixels-v1-1-8202e5834b13@amd.com>
-X-B4-Tracking: v=1; b=H4sIAEYUCGcC/xXMwQqEIBRG4VeJu+6CmRPVq0QLR//sQlkoRBC9+
- zjLjwPnoYwkyDRWDyVckuWIBU1dkVttDGDxxaSVNo1SA/vDsd8tYpAIDluC9afc2DL339Z8tOl
- 6OE1lcCYspfzn0/y+P0jULq9sAAAA
-X-Change-ID: 20241009-doc-dmaengine-glreadpixels-8b3452468ec2
-To: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Nathan Lynch <nathan.lynch@amd.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1728582737; l=1424;
- i=nathan.lynch@amd.com; s=20241010; h=from:subject:message-id;
- bh=sDI7N3mxHAJ03TcvFpl2PcGzAZf7bKpMalFWT9iQmv8=;
- b=C2kVbm9G0oEK8V8c2YVh5mkgs4l3JJMx87pC6fK6biBfp90u3cCU638A9FdaIo3IPPlGudriY
- 3Io0jApTASJC251tjhjmU7+fLufEo7UYd5bGXz14PqV2J98qNIQYpzn
-X-Developer-Key: i=nathan.lynch@amd.com; a=ed25519;
- pk=ZR637UTGg5YLDj56cxFeHdYoUjPMMFbcijfOkAmAnbc=
-X-Endpoint-Received: by B4 Relay for nathan.lynch@amd.com/20241010 with
- auth_id=241
-X-Original-From: Nathan Lynch <nathan.lynch@amd.com>
-Reply-To: nathan.lynch@amd.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241007-dcd-type2-upstream-v4-17-c261ee6eeded@intel.com>
 
-From: Nathan Lynch <nathan.lynch@amd.com>
+On Mon, Oct 07, 2024 at 06:16:23PM -0500, Ira Weiny wrote:
+> Dynamic Capacity Devices (DCD) require event interrupts to process
+> memory addition or removal.  BIOS may have control over non-DCD event
+> processing.  DCD interrupt configuration needs to be separate from
+> memory event interrupt configuration.
+> 
+> Split cxl_event_config_msgnums() from irq setup in preparation for
+> separate DCD interrupts configuration.
+> 
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> ---
+One minor comment inline; otherwise
 
-The author very likely meant "glReadPixels()" instead of
-"glReadpielx()", which does not appear in the OpenGL API.
+Reviewed-by: Fan Ni <fan.ni@samsung.com>
 
-https://registry.khronos.org/OpenGL-Refpages/gl4/html/glReadPixels.xhtml
+>  drivers/cxl/pci.c | 24 ++++++++++++------------
+>  1 file changed, 12 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/cxl/pci.c b/drivers/cxl/pci.c
+> index fc5ab74448cc..29a863331bec 100644
+> --- a/drivers/cxl/pci.c
+> +++ b/drivers/cxl/pci.c
+> @@ -702,35 +702,31 @@ static int cxl_event_config_msgnums(struct cxl_memdev_state *mds,
+>  	return cxl_event_get_int_policy(mds, policy);
+>  }
+>  
+> -static int cxl_event_irqsetup(struct cxl_memdev_state *mds)
+> +static int cxl_event_irqsetup(struct cxl_memdev_state *mds,
+> +			      struct cxl_event_interrupt_policy *policy)
+>  {
+>  	struct cxl_dev_state *cxlds = &mds->cxlds;
+> -	struct cxl_event_interrupt_policy policy;
+>  	int rc;
+>  
+> -	rc = cxl_event_config_msgnums(mds, &policy);
+> -	if (rc)
+> -		return rc;
+> -
+> -	rc = cxl_event_req_irq(cxlds, policy.info_settings);
+> +	rc = cxl_event_req_irq(cxlds, policy->info_settings);
+>  	if (rc) {
+>  		dev_err(cxlds->dev, "Failed to get interrupt for event Info log\n");
+>  		return rc;
+>  	}
+>  
+> -	rc = cxl_event_req_irq(cxlds, policy.warn_settings);
+> +	rc = cxl_event_req_irq(cxlds, policy->warn_settings);
+>  	if (rc) {
+>  		dev_err(cxlds->dev, "Failed to get interrupt for event Warn log\n");
+>  		return rc;
+>  	}
+>  
+> -	rc = cxl_event_req_irq(cxlds, policy.failure_settings);
+> +	rc = cxl_event_req_irq(cxlds, policy->failure_settings);
+>  	if (rc) {
+>  		dev_err(cxlds->dev, "Failed to get interrupt for event Failure log\n");
+>  		return rc;
+>  	}
+>  
+> -	rc = cxl_event_req_irq(cxlds, policy.fatal_settings);
+> +	rc = cxl_event_req_irq(cxlds, policy->fatal_settings);
+>  	if (rc) {
+>  		dev_err(cxlds->dev, "Failed to get interrupt for event Fatal log\n");
+>  		return rc;
 
-Signed-off-by: Nathan Lynch <nathan.lynch@amd.com>
----
- Documentation/driver-api/dmaengine/provider.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+There is a lot of duplicate code here, can we simplify it by
+iteratting all setttings in cxl_event_interrrupt_policy like 
 
-diff --git a/Documentation/driver-api/dmaengine/provider.rst b/Documentation/driver-api/dmaengine/provider.rst
-index 3085f8b460fa5514bf95d07e9c7120c19f2d467b..48ad4fd6e2773ab4e4ca5bcb851c0204295ab56f 100644
---- a/Documentation/driver-api/dmaengine/provider.rst
-+++ b/Documentation/driver-api/dmaengine/provider.rst
-@@ -172,8 +172,8 @@ Currently, the types available are:
-   - It's usually used for copying pixel data between host memory and
-     memory-mapped GPU device memory, such as found on modern PCI video graphics
-     cards. The most immediate example is the OpenGL API function
--    ``glReadPielx()``, which might require a verbatim copy of a huge framebuffer
--    from local device memory onto host memory.
-+    ``glReadPixels()``, which might require a verbatim copy of a huge
-+    framebuffer from local device memory onto host memory.
- 
- - DMA_XOR
- 
+for setting in policy:
+    rc = cxl_event_req_irq(cxlds, setting);
+    if (rc) {
+        ...
+    }
 
----
-base-commit: 8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b
-change-id: 20241009-doc-dmaengine-glreadpixels-8b3452468ec2
+For DCD, handle the setup separately afterwards.
 
-Best regards,
+Fan
+
+> @@ -749,7 +745,7 @@ static bool cxl_event_int_is_fw(u8 setting)
+>  static int cxl_event_config(struct pci_host_bridge *host_bridge,
+>  			    struct cxl_memdev_state *mds, bool irq_avail)
+>  {
+> -	struct cxl_event_interrupt_policy policy;
+> +	struct cxl_event_interrupt_policy policy = { 0 };
+>  	int rc;
+>  
+>  	/*
+> @@ -777,11 +773,15 @@ static int cxl_event_config(struct pci_host_bridge *host_bridge,
+>  		return -EBUSY;
+>  	}
+>  
+> +	rc = cxl_event_config_msgnums(mds, &policy);
+> +	if (rc)
+> +		return rc;
+> +
+>  	rc = cxl_mem_alloc_event_buf(mds);
+>  	if (rc)
+>  		return rc;
+>  
+> -	rc = cxl_event_irqsetup(mds);
+> +	rc = cxl_event_irqsetup(mds, &policy);
+>  	if (rc)
+>  		return rc;
+>  
+> 
+> -- 
+> 2.46.0
+> 
+
 -- 
-Nathan Lynch <nathan.lynch@amd.com>
-
-
+Fan Ni
