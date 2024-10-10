@@ -1,99 +1,288 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD0CA1BD03E;
-	Thu, 10 Oct 2024 08:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E721B3724
+	for <linux-doc@vger.kernel.org>; Thu, 10 Oct 2024 08:57:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728547816; cv=none; b=uVczmv7lT97/IaqtJXN1uOaOnpwKT09EnnKJvPMbh6cZsA8is/qpgLCmWLg0AFL1/g+rk4d63YJb/smzduPPGJYgRTkzCv2VaaL6KWLV39qGOh2H586DD8Bd7/JpWiPadPGsN4pkS/K8wKoyT2SVZB/0yD+KZcGBSJzD9UFh/Nw=
+	t=1728550661; cv=none; b=OM8shg8gKBwqbqLGZc1HYe2c6s6jjwFZZ6x+ta2FRb5B7FMejx3/19qi7qkAH3OmDLItnpSgFCQwpLo5tW1yZxsGyLzhpjLqrltVFhDd2mRgqZcv/u81iHpZ8RgJrYTHlAxzyFVkryTCk4NKeN6OBhgNRkFJCKJI9MhUwi+c34E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728547816; c=relaxed/simple;
-	bh=lUHpaDpkgjwSIOpS7uOdFQf2dUS+V/U9/3xLgBMHyT8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CkF978Lj7+rDFRotiGjjQi8AheANs6yMdMZA1CVJM97sR/9x8uwqTkhIsLZJIdTa8JPhbJwX8oWrfFRb9bDXAgw+QYqc5RT5322vDNVG1WJSWV5BdmiGbItfcLEJ/Utl0pQgOjY+ao4l+kNbxiSi04OgEN/jgqG9azIWlXo9Q2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E75EC497;
-	Thu, 10 Oct 2024 01:10:36 -0700 (PDT)
-Received: from [10.1.33.28] (e122027.cambridge.arm.com [10.1.33.28])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 255E73F64C;
-	Thu, 10 Oct 2024 01:10:05 -0700 (PDT)
-Message-ID: <d086651e-410e-4ac6-8825-d192abeac38f@arm.com>
-Date: Thu, 10 Oct 2024 09:10:03 +0100
+	s=arc-20240116; t=1728550661; c=relaxed/simple;
+	bh=yMUiDyaDw0rmD/dvo9jvxidKU8GUMKeVKhtisHpbTEM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=u0R8BKgMN86OQJQGM0dYSp7LN9kRbTsRCOJqvE7zeXBWON/OlQZ1Y1KlQpWxLkHcG03/kkio7FpkRb4XElOhj8/FbL+ZAlMcNqTWmYNtxAjwmaDenHgrBjuDsQlxI2GEThJ413HNgLSJpJNjXdWISMcUq0JLqyztaTU3VZpSx44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KLKLnxzG; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KLKLnxzG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1728550658;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6TrX2zEj2ZgP1RN5eSGwq6SD54cXQjSCTkkf2QKYXQk=;
+	b=KLKLnxzGPgyXI0l1z0pjqUSYBalk2AV2kafYs69U8iur4iA7DAq5dRhrb4M3uTIdEOdsPs
+	ehSVFXBY2/7NCCv1ggaXlO2UNEwPoUzba4untKCbIGgi2VMnyQ8dvLaMT9934HGLDThY5y
+	ldWREa3gJg+731t+Xnwg5QwXy79RmZ4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-175-8O57CctXOhGI_FgnSKYpzg-1; Thu, 10 Oct 2024 04:57:37 -0400
+X-MC-Unique: 8O57CctXOhGI_FgnSKYpzg-1
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-43119e2a879so1593225e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 10 Oct 2024 01:57:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728550656; x=1729155456;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6TrX2zEj2ZgP1RN5eSGwq6SD54cXQjSCTkkf2QKYXQk=;
+        b=VBcvqs0O2A/75JthrIg9l20YiXFGRLlgNQ/Ho4kzbqujdyXgBMkbz3bEGGzZzW+alM
+         FCJWv4XxLI/2IEZS2aVS/bomJyGv/xZTx6kBpPwFo1moEd+mr7MG2hKYGQaCADWKxsaq
+         U+ao4WAx1L7NjV53TV0B7OlXm+B4U1DbLywTOrLAxyKhG8knOut+a9RwaIV+FLQiHlZy
+         cr9sQ/MaUXHH8+/JKCpjn+MQLVgHR38LpYx0nUfPXXizdHq+438J+gukGytWkLPE+hly
+         CxBvc8hDSJWjfVGv0evAguz40lyxvqiAPmk5OrZLt0rP9uxon6aT2itvWlR56zKrI+Kv
+         9Ojg==
+X-Forwarded-Encrypted: i=1; AJvYcCX1rqBkWrJIwbYiDq3sSD3MrCtCqdf04+yvnvRen2baXnZstx+N/abGGbnYaDs3Y/+MMTE1Tjha0cY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6LAbfK2gBHXr3qXQX2R7rPHXzQPFWXMc6Ge1qoZ2C4eeLHgct
+	8y32QI2XS5XR/qg0DB2ezhq/tRRiITT1U974Yei8zVgZykhp83OFL2GEftKWn2x3Z4nN+5UhMsR
+	vbyNYqF5LTaDmY9+Nu7xBRRycUK0sT2dh4rYS2kM0f0s9Au/2nEUAK98nNw==
+X-Received: by 2002:adf:e5cc:0:b0:374:baeb:2ec with SMTP id ffacd0b85a97d-37d47e9dbd1mr2045007f8f.19.1728550656056;
+        Thu, 10 Oct 2024 01:57:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEtznOMy68s/vt2yJMLa35Bsj6so4bbqxkVQgeKXfgOXOylGrq3sapfjI90PeS2dco4Q6E5xg==
+X-Received: by 2002:adf:e5cc:0:b0:374:baeb:2ec with SMTP id ffacd0b85a97d-37d47e9dbd1mr2044978f8f.19.1728550655529;
+        Thu, 10 Oct 2024 01:57:35 -0700 (PDT)
+Received: from fedora (g2.ign.cz. [91.219.240.8])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b6bcf50sm914167f8f.29.2024.10.10.01.57.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Oct 2024 01:57:35 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Nikolas Wipper <nikwip@amazon.de>
+Cc: Nicolas Saenz Julienne <nsaenz@amazon.com>, Alexander Graf
+ <graf@amazon.de>, James Gowans <jgowans@amazon.com>,
+ nh-open-source@amazon.com, Sean Christopherson <seanjc@google.com>, Paolo
+ Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo
+ Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, Nikolas Wipper <nik.wipper@gmx.de>,
+ linux-kernel@vger.kernel.org, kvm@vger.kernel.org, x86@kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, Nikolas
+ Wipper <nikwip@amazon.de>
+Subject: Re: [PATCH 5/7] KVM: x86: Implement KVM_HYPERV_SET_TLB_FLUSH_INHIBIT
+In-Reply-To: <20241004140810.34231-6-nikwip@amazon.de>
+References: <20241004140810.34231-1-nikwip@amazon.de>
+ <20241004140810.34231-6-nikwip@amazon.de>
+Date: Thu, 10 Oct 2024 10:57:34 +0200
+Message-ID: <878quwgwsh.fsf@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/gpu: Fix Panthor documentation build
- warnings
-To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>,
- Boris Brezillon <boris.brezillon@collabora.com>
-Cc: kernel@collabora.com, Stephen Rothwell <sfr@canb.auug.org.au>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20241009214346.2308917-1-adrian.larumbe@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20241009214346.2308917-1-adrian.larumbe@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On 09/10/2024 22:43, Adrián Larumbe wrote:
-> Fix Panthor documentation build errors uncovered by the makedocs target
-> when building with extra warnings enabled.
-> 
-> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-> Fixes: f25044688b04 ("drm/panthor: add sysfs knob for enabling job profiling")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Nikolas Wipper <nikwip@amazon.de> writes:
 
-Reviewed-by: Steven Price <steven.price@arm.com>
-
+> Implement KVM_HYPERV_SET_TLB_FLUSH_INHIBIT for x86. Apart from setting/
+> clearing the internal TLB flush inhibit flag this ioctl also wakes up
+> vCPUs suspended and waiting on this vCPU.
+>
+> When the flag is set, a vCPU trying to flush the inhibited vCPUs TLB with
+> a Hyper-V hyper-call suspendeds until the bit is cleared again. The hyper-
+> call finishes internally, but the instruction isn't skipped, and execution
+> doesn't return to the guest. This behaviour and the suspended state itself
+> are specified in Microsoft's "Hypervisor Top Level Functional
+> Specification" (TLFS).
+>
+> To maintain thread safety during suspension and unsuspension, the IOCTL
+> uses the KVM SRCU. After flipping the flush inhibit flag, it synchronizes
+> SRCU to ensure that all running TLB flush attempts that saw the old state,
+> finish before the IOCTL exits. If the flag was changed to inhibit new TLB
+> flushes, this guarantees that no TLB flushes happen once the ioctl exits.
+> If the flag was changed to no longer inhibit TLB flushes, the
+> synchronization ensures that all suspended CPUs finished entering the
+> suspended state properly, so they can be unsuspended again.
+>
+> Once TLB flushes are no longer inhibited, all suspended vCPUs are
+> unsuspended.
+>
+> Signed-off-by: Nikolas Wipper <nikwip@amazon.de>
 > ---
->  Documentation/gpu/drivers.rst         | 1 +
->  Documentation/gpu/drm-usage-stats.rst | 1 +
->  Documentation/gpu/panthor.rst         | 2 +-
->  3 files changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
-> index b899cbc5c2b4..7b1282e2d807 100644
-> --- a/Documentation/gpu/drivers.rst
-> +++ b/Documentation/gpu/drivers.rst
-> @@ -22,6 +22,7 @@ GPU Driver Documentation
->     afbc
->     komeda-kms
->     panfrost
-> +   panthor
+>  arch/x86/include/asm/kvm_host.h |  2 ++
+>  arch/x86/kvm/hyperv.c           | 22 ++++++++++++++++++++
+>  arch/x86/kvm/x86.c              | 37 +++++++++++++++++++++++++++++++++
+>  3 files changed, 61 insertions(+)
+>
+> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+> index 7571ac578884..ab3a9beb61a2 100644
+> --- a/arch/x86/include/asm/kvm_host.h
+> +++ b/arch/x86/include/asm/kvm_host.h
+> @@ -698,6 +698,8 @@ struct kvm_vcpu_hv {
 >  
->  .. only::  subproject and html
+>  	bool suspended;
+>  	int waiting_on;
+> +
+> +	int tlb_flush_inhibit;
+
+This is basically boolean, right? And we only make it 'int' to be able
+to store 'u8' from the ioctl? This doesn't look very clean. Do you
+envision anything but '1'/'0' in 'inhibit'? If not, maybe we can just
+make it a flag (and e.g. extend 'flags' to be u32/u64)? This way we can
+convert 'tlb_flush_inhibit' to a normal bool.
+
+>  };
 >  
-> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-> index a80f95ca1b2f..12ca3193bf15 100644
-> --- a/Documentation/gpu/drm-usage-stats.rst
-> +++ b/Documentation/gpu/drm-usage-stats.rst
-> @@ -186,4 +186,5 @@ Driver specific implementations
+>  struct kvm_hypervisor_cpuid {
+> diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
+> index e68fbc0c7fc1..40ea8340838f 100644
+> --- a/arch/x86/kvm/hyperv.c
+> +++ b/arch/x86/kvm/hyperv.c
+> @@ -2137,6 +2137,9 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
+>  		bitmap_zero(vcpu_mask, KVM_MAX_VCPUS);
 >  
->  * :ref:`i915-usage-stats`
->  * :ref:`panfrost-usage-stats`
-> +* :ref:`panthor-usage-stats`
->  * :ref:`xe-usage-stats`
-> diff --git a/Documentation/gpu/panthor.rst b/Documentation/gpu/panthor.rst
-> index cbf5c4429a2d..3f8979fa2b86 100644
-> --- a/Documentation/gpu/panthor.rst
-> +++ b/Documentation/gpu/panthor.rst
-> @@ -4,7 +4,7 @@
->   drm/Panthor CSF driver
->  =========================
+>  		kvm_for_each_vcpu(i, v, kvm) {
+> +			if (READ_ONCE(v->arch.hyperv->tlb_flush_inhibit))
+> +				goto ret_suspend;
+> +
+>  			__set_bit(i, vcpu_mask);
+>  		}
+>  	} else if (!is_guest_mode(vcpu)) {
+> @@ -2148,6 +2151,9 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
+>  				__clear_bit(i, vcpu_mask);
+>  				continue;
+>  			}
+> +
+> +			if (READ_ONCE(v->arch.hyperv->tlb_flush_inhibit))
+> +				goto ret_suspend;
+>  		}
+>  	} else {
+>  		struct kvm_vcpu_hv *hv_v;
+> @@ -2175,6 +2181,9 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
+>  						    sparse_banks))
+>  				continue;
 >  
-> -.. _panfrost-usage-stats:
-> +.. _panthor-usage-stats:
+> +			if (READ_ONCE(v->arch.hyperv->tlb_flush_inhibit))
+> +				goto ret_suspend;
+> +
+
+These READ_ONCEs make me think I misunderstand something here, please
+bear with me :-).
+
+Like we're trying to protect against 'tlb_flush_inhibit' being read
+somewhere in the beginning of the function and want to generate real
+memory accesses. But what happens if tlb_flush_inhibit changes right
+_after_ we checked it here and _before_ we actuall do
+kvm_make_vcpus_request_mask()? Wouldn't it be a problem? In case it
+would, I think we need to reverse the order: do
+kvm_make_vcpus_request_mask() anyway and after it go through vcpu_mask
+checking whether any of the affected vCPUs has 'tlb_flush_inhibit' and
+if it does, suspend the caller.
+
+>  			__set_bit(i, vcpu_mask);
+>  		}
+>  	}
+> @@ -2193,6 +2202,9 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
+>  	/* We always do full TLB flush, set 'Reps completed' = 'Rep Count' */
+>  	return (u64)HV_STATUS_SUCCESS |
+>  		((u64)hc->rep_cnt << HV_HYPERCALL_REP_COMP_OFFSET);
+> +ret_suspend:
+> +	kvm_hv_vcpu_suspend_tlb_flush(vcpu, v->vcpu_id);
+> +	return -EBUSY;
+>  }
 >  
->  Panthor DRM client usage stats implementation
->  ==============================================
+>  static void kvm_hv_send_ipi_to_many(struct kvm *kvm, u32 vector,
+> @@ -2380,6 +2392,13 @@ static int kvm_hv_hypercall_complete(struct kvm_vcpu *vcpu, u64 result)
+>  	u32 tlb_lock_count = 0;
+>  	int ret;
+>  
+> +	/*
+> +	 * Reached when the hyper-call resulted in a suspension of the vCPU.
+> +	 * The instruction will be re-tried once the vCPU is unsuspended.
+> +	 */
+> +	if (kvm_hv_vcpu_suspended(vcpu))
+> +		return 1;
+> +
+>  	if (hv_result_success(result) && is_guest_mode(vcpu) &&
+>  	    kvm_hv_is_tlb_flush_hcall(vcpu) &&
+>  	    kvm_read_guest(vcpu->kvm, to_hv_vcpu(vcpu)->nested.pa_page_gpa,
+> @@ -2919,6 +2938,9 @@ int kvm_get_hv_cpuid(struct kvm_vcpu *vcpu, struct kvm_cpuid2 *cpuid,
+>  
+>  void kvm_hv_vcpu_suspend_tlb_flush(struct kvm_vcpu *vcpu, int vcpu_id)
+>  {
+> +	RCU_LOCKDEP_WARN(!srcu_read_lock_held(&vcpu->kvm->srcu),
+> +			 "Suspicious Hyper-V TLB flush inhibit usage\n");
+> +
+>  	/* waiting_on's store should happen before suspended's */
+>  	WRITE_ONCE(vcpu->arch.hyperv->waiting_on, vcpu_id);
+>  	WRITE_ONCE(vcpu->arch.hyperv->suspended, true);
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index 18d0a300e79a..1f925e32a927 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -4642,6 +4642,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+>  	case KVM_CAP_HYPERV_CPUID:
+>  	case KVM_CAP_HYPERV_ENFORCE_CPUID:
+>  	case KVM_CAP_SYS_HYPERV_CPUID:
+> +	case KVM_CAP_HYPERV_TLB_FLUSH_INHIBIT:
+>  #endif
+>  	case KVM_CAP_PCI_SEGMENT:
+>  	case KVM_CAP_DEBUGREGS:
+> @@ -5853,6 +5854,31 @@ static int kvm_vcpu_ioctl_enable_cap(struct kvm_vcpu *vcpu,
+>  	}
+>  }
+>  
+> +static int kvm_vcpu_ioctl_set_tlb_flush_inhibit(struct kvm_vcpu *vcpu,
+> +						struct kvm_hyperv_tlb_flush_inhibit *set)
+> +{
+> +	if (set->inhibit == READ_ONCE(vcpu->arch.hyperv->tlb_flush_inhibit))
+> +		return 0;
+> +
+> +	WRITE_ONCE(vcpu->arch.hyperv->tlb_flush_inhibit, set->inhibit);
+
+As you say before, vCPU ioctls are serialized and noone else sets
+tlb_flush_inhibit, do I understand correctly that
+READ_ONCE()/WRITE_ONCE() are redundant here?
+
+> +
+> +	/*
+> +	 * synchronize_srcu() ensures that:
+> +	 * - On inhibit, all concurrent TLB flushes finished before this ioctl
+> +	 *   exits.
+> +	 * - On uninhibit, there are no longer vCPUs being suspended due to this
+> +	 *   inhibit.
+> +	 * This function can't race with itself, because vCPU IOCTLs are
+> +	 * serialized, so if the inhibit bit is already the desired value this
+> +	 * synchronization has already happened.
+> +	 */
+> +	synchronize_srcu(&vcpu->kvm->srcu);
+> +	if (!set->inhibit)
+> +		kvm_hv_vcpu_unsuspend_tlb_flush(vcpu);
+> +
+> +	return 0;
+> +}
+> +
+>  long kvm_arch_vcpu_ioctl(struct file *filp,
+>  			 unsigned int ioctl, unsigned long arg)
+>  {
+> @@ -6306,6 +6332,17 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
+>  	case KVM_SET_DEVICE_ATTR:
+>  		r = kvm_vcpu_ioctl_device_attr(vcpu, ioctl, argp);
+>  		break;
+> +#ifdef CONFIG_KVM_HYPERV
+> +	case KVM_HYPERV_SET_TLB_FLUSH_INHIBIT: {
+> +		struct kvm_hyperv_tlb_flush_inhibit set;
+> +
+> +		r = -EFAULT;
+> +		if (copy_from_user(&set, argp, sizeof(set)))
+> +			goto out;
+> +		r = kvm_vcpu_ioctl_set_tlb_flush_inhibit(vcpu, &set);
+> +		break;
+> +	}
+> +#endif
+>  	default:
+>  		r = -EINVAL;
+>  	}
+
+-- 
+Vitaly
 
