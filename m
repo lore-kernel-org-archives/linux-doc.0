@@ -1,217 +1,284 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2078.outbound.protection.outlook.com [40.107.94.78])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466381C9ED0;
-	Thu, 10 Oct 2024 15:12:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.78
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728573156; cv=fail; b=CFpughNLDVjKrU+d9+yN457sQ85OscfUZzXHqBoZNwi5vrzjMlOnCVY2qT8OrAvdjDxVu+83wDB0qNNwzFrseJe9fUrbL6rtKK5XMDdgFv+dKLcL4os+v/sXwPYByspVjjLfXLY4R+TiqCMmLhQagz6Vq0dRZ3KB2Hr2Q1XRhP0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728573156; c=relaxed/simple;
-	bh=c4+lFk9qHULXSE5EiPZ39WFJMnCRHDGP5TqKQcRk+dg=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ERnSB6+I+iln6YBI67hahYv5Qu30bsHhvrpMw9hZnvs6Tdr9TLZp8UEw0+stKcu7817DgtAZCTwdubiSTxHsTE4rMp2XQn54RLBX+TSxlnN34eWjMYO3c/U5JXeKCifF8stjjvt4eq+bLV5DRolsTUOTTGhA3IzQXHQVH8y9oE8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=nunvLNIj; arc=fail smtp.client-ip=40.107.94.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13EAE1CBEB4;
+	Thu, 10 Oct 2024 15:18:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728573500; cv=none; b=dL9sUzoGJDvfjmOwHBBte6bHZ1RJYkxcIfhH1gYUMpkSznuYd2RIOqo7FutAVllcnm0u3ymIsgblAsBUaTltmwulxukUckDIHG+GbbpcXvUWellETCyzG/QI33KiQmmaWg2cEpgArvJo83rIkSYfp2rBaFphgqEHHfJVMtycQXs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728573500; c=relaxed/simple;
+	bh=6dvKTY2cy/sodJ8sieN7BO/TIIO+P82VgqdOgk5UcTA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=t7ggdgHGKuJAsAZgdMRHhpBQZA9bbNX3EB6HfypLuzJxpXMM5BtZmHGw0KIUzclVxuU6GsMk2qVgnrKLpiZIpRHRHLHp3BAlBvqIqkTwSw+b4lfCAl2GDJ7cqjWYp5ShzXCdNSjqehX88jkeZ/0QTS2v7Qeoggjo7MIPfMMRwI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JJJWVitm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="nunvLNIj"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cAusFs0eOnedxsmRXyC7wjNYrtCU7pn+F3sbcKQ+2ghFM1xcU2LTzTKJ2Fm961D2tNzSqAo9zF6MVqMTnUFkcVmMo3oQfSwwMZMgDiQvUdEWCuC0XwQV1LMmAGlVYo42dG43ICk1h5ii7gKPMP2JZ4s9tg64NauQsVu3yYk1+qo9mbbmpZWPvWWT6KkNHMLUu6gzHbsIa/fv/6ae2xQ7huehR2dWoVmj2ZwbNOx9/Srld9sRqujwM/YG1yAe7GulYg8oG8Nwj4MTJMv8VE2Y1/j50xEdHfdsFW3Vnly6Lywl87mV16E6YuGMauAxSazaMUGyOTOTTCT92Sdjip3GFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BwCC835bIj2a81DCnRrmD3CbOKRuBrh61y+Ltz+eYY0=;
- b=nHZiRYFc9eiS9cyS11Ykq3FPIgrQ0FEDXIn5/kZrduR72U6NbcpUR5BHERgQsa1u8OoxvxkqDq9yMTgziqnpQdNMe0cOjan/0O+56gpq8rC6iuOglAQVNklEw8NFpm5QooAPkA1C/5ze6bAAx0T6738bkPOLjIbQ1vCgR2WBour2ONGN4vIMAHcG2Alu46rQbFEOFV9T6FQX26B5pIDEXAbZurLN5EUecCdT/xp6bazOuD4uAO7xmiv+6HGAjrPbZ7iQhNtvzXCKyDWpp1oehMX54naXV4ajDi90Bd13pX5rie2VWyUFLjzRx+ec3WR4Cq2Qtpk8nHjnyIuOYaV+wA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BwCC835bIj2a81DCnRrmD3CbOKRuBrh61y+Ltz+eYY0=;
- b=nunvLNIjaV4IK9ngspyjPp9Oihb5y6/6xMxUO41qjotedMEhhiouLe6GB85GbzcRP3IyjqiHmIN2bRAZE+raw3hV49DCU7mEpKFs07TYhwtbCwsgtQgr5ACyx8y8a1pX001E17AudBYwEebIBBUm3Vq5f8RkF77eBdfcAZLwwH4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by DM4PR12MB6424.namprd12.prod.outlook.com (2603:10b6:8:be::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.18; Thu, 10 Oct
- 2024 15:12:32 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.8048.017; Thu, 10 Oct 2024
- 15:12:31 +0000
-Message-ID: <8ceeb50a-70d7-4467-b7c1-4f62b1a1eec8@amd.com>
-Date: Thu, 10 Oct 2024 10:12:27 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v8 08/25] x86/resctrl: Introduce interface to display
- number of monitoring counters
-To: Tony Luck <tony.luck@intel.com>
-Cc: corbet@lwn.net, fenghua.yu@intel.com, reinette.chatre@intel.com,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org,
- peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com,
- lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com,
- leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com,
- kirill.shutemov@linux.intel.com, jithu.joseph@intel.com,
- kai.huang@intel.com, kan.liang@linux.intel.com,
- daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
- ilpo.jarvinen@linux.intel.com, peternewman@google.com,
- maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
-References: <cover.1728495588.git.babu.moger@amd.com>
- <c79fdf4196d974325df995eb334221463747689e.1728495588.git.babu.moger@amd.com>
- <ZwcIkf_oy2oKByNu@agluck-desk3.sc.intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <ZwcIkf_oy2oKByNu@agluck-desk3.sc.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN7PR04CA0155.namprd04.prod.outlook.com
- (2603:10b6:806:125::10) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JJJWVitm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D004C4CEC5;
+	Thu, 10 Oct 2024 15:18:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728573497;
+	bh=6dvKTY2cy/sodJ8sieN7BO/TIIO+P82VgqdOgk5UcTA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=JJJWVitmpvLvarMUPZUkuoB8gP29XOw0sXNcXNa5kByyDAx7zTpXCXE3HAPvwucIc
+	 nqKSjxxqVqe/grf/6yTnmqZ60aylmorsMhYnLl/p7veN8L+6Z6UpBle4GJuML4f7xb
+	 i4kReeFAE20WpHLaj8KfSAKT2u3eSPxMo5z1CNQJcQfr/ga40kbvqrkDBDHrIhHoXF
+	 Fx9jWKSkz74XO4oqeZAS85rWP/9HC/v2M1aUJUQw6PW1C+qyBOnY/aeVO+soSpZuga
+	 63WABLS/bqHPf7/DMKi/vZmUVhEJ5IYzs9ZH3gGYScj5D1kIistrSeFfZCohaujqqN
+	 f91Lx8662bKcA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1syuve-002Eqs-J7;
+	Thu, 10 Oct 2024 16:18:14 +0100
+Date: Thu, 10 Oct 2024 16:18:13 +0100
+Message-ID: <86msjc56mi.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Shuah Khan <shuah@kernel.org>,
+	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+	Kees Cook <kees@kernel.org>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Florian Weimer <fweimer@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
+	Ross Burton <ross.burton@arm.com>,
+	David Spickett <david.spickett@arm.com>,
+	Yury Khrustalev <yury.khrustalev@arm.com>,
+	Wilco Dijkstra <wilco.dijkstra@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v13 11/40] arm64/gcs: Provide basic EL2 setup to allow GCS usage at EL0 and EL1
+In-Reply-To: <20241009204903.GA3353168@thelio-3990X>
+References: <20241001-arm64-gcs-v13-0-222b78d87eee@kernel.org>
+	<20241001-arm64-gcs-v13-11-222b78d87eee@kernel.org>
+	<20241009204903.GA3353168@thelio-3990X>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DM4PR12MB6424:EE_
-X-MS-Office365-Filtering-Correlation-Id: 33e28951-917a-4a19-1684-08dce93df682
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?SW5KTk1xMi9zSkhoNGZVdThVV1h6M2FyMm9qUWFEOUxocCtsVnR4bk1vOWJE?=
- =?utf-8?B?MklwTi9mRmRYOEdrVmZVZVFZTTRoUmx1K2JmazJEaEdhTWdMVllDekJzU0F6?=
- =?utf-8?B?TTNJL2dqTnBxTjVzZkh0SWU5SHQrSWJnTmZwRFF2R3RKSi9QYVFKd09ObTV5?=
- =?utf-8?B?UXpGOTlYTTdWUnVDZnZwNnhPV0JLeXhCVEI0TzlZbzZuNkdWbE9oOGI3d1FX?=
- =?utf-8?B?aWp3d0lkRENKVjUzd0QvZFZUdis0VGpublp4dGZ0OE9DbU9NVW9Uc3VZNU5M?=
- =?utf-8?B?MU5QK2U5dnp5bUc4MkpIUnVGai93RFVvM1JFU0M2dHBiRDl6OFRYY21HUzNo?=
- =?utf-8?B?cTl5bkJLK3lncXk1elc2RXRPSWY5VHVlT2gzemFndWNYME8xblBHZm5ueWZk?=
- =?utf-8?B?dGdhSkl1TVEwWk5NbVFQTTRZTUVaUjgyTWlSbGpJTzBEYkt2SVJZQ0tVT2gv?=
- =?utf-8?B?ajVZYUVKYnR6bmVDS0lNVVQwalQ5aFk3bTFJNDkzM29LS0VoRXNrbTkyR1Nt?=
- =?utf-8?B?YXJsSzE0QUdCcVRmYkJPcm9jeUdBbE9xQ0hOclBiOUoyTk9tVGIxNzBSVFVC?=
- =?utf-8?B?eDVxelhURmlPTm01MTkxTGgwVWMyb1ZTY3k0YTJQRlRjRGY2RjR1b2liN0Jk?=
- =?utf-8?B?Z3FkaHR0Z3JJMVJqRFFFQ0xvUVNRVEFoQXhBRjRkSEZaTGljUzFFOEpieno5?=
- =?utf-8?B?bXJrZytVWFZpOXV2aUVsZVZaWWp1WUxHOWdrcDdEVnc0QnJjR1VmZHBQNnM1?=
- =?utf-8?B?NFRWcXE0RXhUZzlReUN2QUxwMDJjSkFWcE8rM0FtdWxTcEFnbm8yamRxU3hh?=
- =?utf-8?B?R3EyTEFFWDhOKzhqVk1lZnhCc3BESzhiUENHMi9TaGFtS0VzRWtVTmpDb0RU?=
- =?utf-8?B?RGp6cm1NeE8yYzVYdEZOUEZmTXNIUzBjSk50cDE4TmJlWENpQWJQN25QNFdC?=
- =?utf-8?B?Vjhxd3dtS1RwMlRhZXZ1aENMMTBCdnJrUzJTa09vbzEvTzNvelBMSUp0Y3pY?=
- =?utf-8?B?NmJBQWliSmFhaW1yQ3F6ZnEzYUZPUVJTMCtmV0pOQ2ptOHg5cWR0UnBWRkZ4?=
- =?utf-8?B?UGduVFNXelIzK1Nmd3hWSFRxUDU5V3R3eVpyU1Z5NlhHTUhoVGthdGtRaG8w?=
- =?utf-8?B?aVd4aG5KaVlDT1JpUklmVnozOVBkMVNOS2JraCswRlQyTGxEYS90cU1mQmVa?=
- =?utf-8?B?NTdYLzBXOEltR3FKVjVzMWxnL2djU0t6WXByYW9nS3RjVFo4T1lwb3d4cU5n?=
- =?utf-8?B?ZUxzZ2hnRTl2OThQcGcxOUpDMHdVMUFOU0dLSVFTc2syRXRtNWFyTU9pWlV5?=
- =?utf-8?B?MFlpN2JvSjFVaDlaSVAzUm9RQ201WndmaE5zKzBpbFlOaUcwQW1xZmk5NTBv?=
- =?utf-8?B?dEdKMDk2ZEU0TG1GakEyd2I0eXgyTFllN3NqL3d2R2lLdHJ1S0t1WG9MeEpo?=
- =?utf-8?B?d3huOWczVVRjN3RFcnJ0WmxDZkw4aExicVFGMGZSaWYzYUt2d0gyU29Sam83?=
- =?utf-8?B?V3BxOGpUZE5jTWV2YjVBWXdxSUdpL0U4RVJtVnUrOWNBMm0yZDF2blcwOW9Q?=
- =?utf-8?B?T0lnV0oxcUVUOXRhYytPMjBqVUI0VGlndmFYM3ZEL0pSQjBsUUw0MHR6T3R1?=
- =?utf-8?B?cHNra2xCUWF5M21jN2Z0UjNvZm9VekFGZGNWa2FiUHlDa1FmazNoc00xeGdV?=
- =?utf-8?B?am5ONGV3WTBVUVNMb1VscHpuV3l4NVFCOEtHMFNLL0dHeGI1c1AvS21nPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NXpFQm1HeVRtU2JvOU4vUzlEVzZOaEN0bWN0Y1FPN1EzRWhhWE1VemFKaUdF?=
- =?utf-8?B?OER2eHZQUFpXVzkrTnhLOE1SdXV1cm5MM1dRa1pLV1JjdHk0NWlaSndOWE1v?=
- =?utf-8?B?cEkwaDZDSVB2dzZYaEtwSEtmSlFxWU1jZGpiZHZRU2VHNGVSWU5rZzRwRXBu?=
- =?utf-8?B?UFFoTlNCMUppd2doN005ZEFQWW1jMy9XODU2NkVEV3VNSmVoa2lJNS80VENR?=
- =?utf-8?B?M0UvMit3b3IvcEZ4NEhUOGpCRDJvYlFOTkRDUXBabUdsY1VFcHRCQ3JmZzhL?=
- =?utf-8?B?Skxrc29xeUNiVFM3cGJtaGhodHdSdDhoYTJqUXJiZEV2Z3VaTGY0a3FoOCtz?=
- =?utf-8?B?RkJrQitIZjhVTzh0U2QwNmZ3VW5hQnhETEZhS3F1Sy9yRTlXOHl2aHRCSGx2?=
- =?utf-8?B?TldEb2QvdTRPYi9qZGh5VnowZFJXYStEQlhaMDhHa2drM3lpVWcwTjFIK3Vt?=
- =?utf-8?B?Um4vK1k1elB3MnBhMTBIK3NCTzBUWDgyaFJNdWw0ZDNiczlLMzV2eTNhVkUx?=
- =?utf-8?B?bGdPWVd2ZnZaSWJlejI4UEluZ1JFS1BWWmJqTUp4SElkdkZZaWdQazRFcVd0?=
- =?utf-8?B?b0ZNZE1sSW1GKzdEZjgzbFU2dDJZSEJCRTVNQ2JrZVViYmFidC9uY2NxU2dk?=
- =?utf-8?B?WEtBM0hLOEVSQkdseG8zOEM3WGh0UzFlNUVQZDdmSXdvK1Z5TWJ0Z3VTVTNv?=
- =?utf-8?B?cVE4R1hlY0k1WWNtVlBQakt6bU5zVTg0NXFmRzU0QVBZVStjVW5BdjNYVGVU?=
- =?utf-8?B?Z1FGL1pGMjVKdFh4SXVKRElRdG8xQWQvSWkrWmEycHFkK1NOb2JiS2lPUWdT?=
- =?utf-8?B?RWUrbFVVWGpudDlBVWFFSVdJa2UrZHR5YW41Zlc2VHFEamQraWIxRStMRGFW?=
- =?utf-8?B?MHg1d2o5WHBvNmRTRkdRemhjV01GWnVzRHBZWTIzNEp0Yk0rck95cTlCdkhQ?=
- =?utf-8?B?T2laV0YyTHVHd0xYenlaK2JRTlNHbVlWL3dmSXhGZ1hYc3ZrWXlvSitLcElE?=
- =?utf-8?B?elJjNDEyL3MvUmo3NDRJbXF1S3EvOFYwRzBOUSt3dU1LOExCRWlOVlU5ajdo?=
- =?utf-8?B?QzVBYVI4WXlUSS9KbEhOY2xiOVBFSXZweElnQ1drQXJqUG5kcmc2aDhYZ2JZ?=
- =?utf-8?B?YWUvNEVHNWpudTU3bktMU2RseUl1T21wRGZaYzZmTGRpeUd3eXdsRDlORndY?=
- =?utf-8?B?bDJTYzZscTNxL3I0alNDT21MOEZzTzc0bEExczVCU0VqbEw4SlREYitUTmlk?=
- =?utf-8?B?ZnBLVldRSG9aSlhpT2VNbHNSSGRlbGk1MXZHWGZKUFh2RWMvejZjREhiUkla?=
- =?utf-8?B?bWZJeDBtL2RKclNrWFFlUWV2eWloR3FXaGpNTEhtUVZxYUZoazZwVk51Vzls?=
- =?utf-8?B?OFNPS2dRS2tuS1RaclZhckxIWU5jMmxrRG1NN0p4eUs0U2F4cVF6RHJkL0Mr?=
- =?utf-8?B?Z00zYzBnTFNBRCt4VmprbjNHQnlUeXZhTUxEL2NQRm9ud01Yb0JtLzJNYVRB?=
- =?utf-8?B?NTZmUC9ZZFlKWjBUZGtUcWlJUDducklwWjh1Sk1lUlRzMXlJSGd0d0l4dW4z?=
- =?utf-8?B?c2VQajN2Y1RydTM1QUNQZ2ZKeDM5UStXZkNpOGRrUHZvNEJQZ3VOY3FsVDFV?=
- =?utf-8?B?K1hQRDhsYTRCZzM2ZWI2WVlIQ0c1QnpqeGI0eTh0UVpkNGYra2ZIQmU4ais2?=
- =?utf-8?B?V1FvZHREUEszSkZ2eWFlV2pxSFJTa2lSMjM2bit0Uk1qUExpOFczekZ5VmhY?=
- =?utf-8?B?TEZrSGo0T0ttTDRmQ21CbzR5bDNUTHZBRHdzYUhmbTVpNm1hM0pidC9tT1B3?=
- =?utf-8?B?WG9XbDZWcjY5SXRhNjdKV1FwMmxTSDlOL0lKVWpYTEw5NUZuNHA3VUxOc2Va?=
- =?utf-8?B?UEQzNG11MHJsdGNvV0REbVFUcW16Vko0ZFNtMEhIbUw3WnQ0VXcxK1lEbVZr?=
- =?utf-8?B?WFRHU0ZYbVFkQ21uVU1RY3Y1cVo0QjFqbnc2UlMvZGlJc0tVVmIrZExXR0Rl?=
- =?utf-8?B?U3FMbWR3TSsyNG5rVjlNNVh0UUtJWEFYWkFvTlZ1NW5Ld0wvcFh3bC9yaTlR?=
- =?utf-8?B?WENJZExpYmZEMkNnSXh0RDhBbDlXQlprRGRWTXpFRHhsaDNzblNDWDJvZkFh?=
- =?utf-8?Q?lCpg=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 33e28951-917a-4a19-1684-08dce93df682
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2024 15:12:31.9108
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: glwBzuduiJvorqQEsH2MqolBQVB+E+ONVdX+/UBfbbiRCB1EdOdq2E0dqxeRDC3u
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6424
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: nathan@kernel.org, broonie@kernel.org, catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net, akpm@linux-foundation.org, oliver.upton@linux.dev, james.morse@arm.com, suzuki.poulose@arm.com, arnd@arndb.de, oleg@redhat.com, ebiederm@xmission.com, shuah@kernel.org, rick.p.edgecombe@intel.com, debug@rivosinc.com, ardb@kernel.org, Szabolcs.Nagy@arm.com, kees@kernel.org, hjl.tools@gmail.com, paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu, fweimer@redhat.com, brauner@kernel.org, thiago.bauermann@linaro.org, ross.burton@arm.com, david.spickett@arm.com, yury.khrustalev@arm.com, wilco.dijkstra@arm.com, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, linux-mm@kvack.org, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-Hi Tony,
+On Wed, 09 Oct 2024 21:49:03 +0100,
+Nathan Chancellor <nathan@kernel.org> wrote:
+>=20
+> Hi Mark,
+>=20
+> On Tue, Oct 01, 2024 at 11:58:50PM +0100, Mark Brown wrote:
+> > There is a control HCRX_EL2.GCSEn which must be set to allow GCS
+> > features to take effect at lower ELs and also fine grained traps for GCS
+> > usage at EL0 and EL1.  Configure all these to allow GCS usage by EL0 and
+> > EL1.
+> >=20
+> > We also initialise GCSCR_EL1 and GCSCRE0_EL1 to ensure that we can
+> > execute function call instructions without faulting regardless of the
+> > state when the kernel is started.
+> >=20
+> > Reviewed-by: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
+> > Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+> > Signed-off-by: Mark Brown <broonie@kernel.org>
+>=20
+> I just bisected a build failure from a failed linker script assertion
+> that I see with allmodconfig to this change in -next as commit
+> ff5181d8a2a8 ("arm64/gcs: Provide basic EL2 setup to allow GCS usage at
+> EL0 and EL1"):
+>=20
+>   $ make -skj"$(nproc)" ARCH=3Darm64 CROSS_COMPILE=3Daarch64-linux- mrpro=
+per allmodconfig vmlinux
+>   aarch64-linux-ld: HYP init code too big
+>   make[4]: *** [scripts/Makefile.vmlinux:34: vmlinux] Error 1
+>   ...
+>=20
+> I see this with both GCC 14 and clang 19, in case toolchain version
+> matters. Bisect log included as well.
 
-On 10/9/24 17:49, Tony Luck wrote:
-> On Wed, Oct 09, 2024 at 12:39:33PM -0500, Babu Moger wrote:
->> +"num_mbm_cntrs":
->> +	The number of monitoring counters available for assignment when the
->> +	architecture supports mbm_cntr_assign mode.
-> 
-> It's not obvious (to me) how these counters work. When I create
-> a group with both local and total monitoring enabled, does that
-> use up two counters (even though I only used up one RMID)?
+Grmbl... 16 bytes too big. The hack below buys us about ~600 bytes by
+removing some duplication, but we're losing half of the space to the
+vectors.
 
-That is correct. One RMID can be associated with multiple h/w counters.
+Anyway, this is very lightly tested and it may eat your box.
 
-> 
-> Are the counters multi-purpose. E.g. if I disable local counting
-> on all groups, are the freed-up counters available for use to
-> count total bandwidth on some additional groups?
+Thanks,
 
-Yes. That is correct.
+	M.
 
-With 32 counters you can enable both the events on up to 16 groups.
+=46rom 20c98d2647c11db1e40768f92c5998ff5d764a3a Mon Sep 17 00:00:00 2001
+From: Marc Zyngier <maz@kernel.org>
+Date: Thu, 10 Oct 2024 16:13:26 +0100
+Subject: [PATCH] KVM: arm64: Shave a few bytes from the EL2 idmap code
 
-You can also enable only one event in up to 32 groups.
+Our idmap is becoming too big, to the point where it doesn't fit in
+a 4kB page anymore.
 
-> 
->>From the examples it looks like if there are free counters
-> available when user does mkdir, then they will be assigned
-> to the new rdtgroup. If only one counter is free, does it
-> get assigned to local or total?
+There are some low-hanging fruits though, such as the el2_init_state
+horror that is expanded 3 times in the kernel. Let's at least limit
+ourselves to two copies, which makes the kernel link again.
 
-Right now total event takes a priority.
+At some point, we'll have to have a better way of doing this.
 
-All good points. How about this text:
+Reported-by: Nathan Chancellor <nathan@kernel.org>
+Signed-off-by: Marc Zyngier <maz@kernel.org>
+Link: https://lore.kernel.org/r/20241009204903.GA3353168@thelio-3990X
+---
+ arch/arm64/include/asm/kvm_asm.h   |  1 +
+ arch/arm64/kernel/asm-offsets.c    |  1 +
+ arch/arm64/kvm/hyp/nvhe/hyp-init.S | 52 +++++++++++++++++-------------
+ 3 files changed, 31 insertions(+), 23 deletions(-)
 
-"num_mbm_cntrs":
-The number of monitoring counters available for assignment when the
-architecture supports mbm_cntr_assign mode.
+diff --git a/arch/arm64/include/asm/kvm_asm.h b/arch/arm64/include/asm/kvm_=
+asm.h
+index b36a3b6cc0116..67afac659231e 100644
+--- a/arch/arm64/include/asm/kvm_asm.h
++++ b/arch/arm64/include/asm/kvm_asm.h
+@@ -178,6 +178,7 @@ struct kvm_nvhe_init_params {
+ 	unsigned long hcr_el2;
+ 	unsigned long vttbr;
+ 	unsigned long vtcr;
++	unsigned long tmp;
+ };
+=20
+ /*
+diff --git a/arch/arm64/kernel/asm-offsets.c b/arch/arm64/kernel/asm-offset=
+s.c
+index 27de1dddb0abe..b21dd24b8efc3 100644
+--- a/arch/arm64/kernel/asm-offsets.c
++++ b/arch/arm64/kernel/asm-offsets.c
+@@ -146,6 +146,7 @@ int main(void)
+   DEFINE(NVHE_INIT_HCR_EL2,	offsetof(struct kvm_nvhe_init_params, hcr_el2)=
+);
+   DEFINE(NVHE_INIT_VTTBR,	offsetof(struct kvm_nvhe_init_params, vttbr));
+   DEFINE(NVHE_INIT_VTCR,	offsetof(struct kvm_nvhe_init_params, vtcr));
++  DEFINE(NVHE_INIT_TMP,		offsetof(struct kvm_nvhe_init_params, tmp));
+ #endif
+ #ifdef CONFIG_CPU_PM
+   DEFINE(CPU_CTX_SP,		offsetof(struct cpu_suspend_ctx, sp));
+diff --git a/arch/arm64/kvm/hyp/nvhe/hyp-init.S b/arch/arm64/kvm/hyp/nvhe/h=
+yp-init.S
+index 401af1835be6b..fc18662260676 100644
+--- a/arch/arm64/kvm/hyp/nvhe/hyp-init.S
++++ b/arch/arm64/kvm/hyp/nvhe/hyp-init.S
+@@ -24,28 +24,25 @@
+ 	.align	11
+=20
+ SYM_CODE_START(__kvm_hyp_init)
+-	ventry	__invalid		// Synchronous EL2t
+-	ventry	__invalid		// IRQ EL2t
+-	ventry	__invalid		// FIQ EL2t
+-	ventry	__invalid		// Error EL2t
++	ventry	.			// Synchronous EL2t
++	ventry	.			// IRQ EL2t
++	ventry	.			// FIQ EL2t
++	ventry	.			// Error EL2t
+=20
+-	ventry	__invalid		// Synchronous EL2h
+-	ventry	__invalid		// IRQ EL2h
+-	ventry	__invalid		// FIQ EL2h
+-	ventry	__invalid		// Error EL2h
++	ventry	.			// Synchronous EL2h
++	ventry	.			// IRQ EL2h
++	ventry	.			// FIQ EL2h
++	ventry	.			// Error EL2h
+=20
+ 	ventry	__do_hyp_init		// Synchronous 64-bit EL1
+-	ventry	__invalid		// IRQ 64-bit EL1
+-	ventry	__invalid		// FIQ 64-bit EL1
+-	ventry	__invalid		// Error 64-bit EL1
++	ventry	.			// IRQ 64-bit EL1
++	ventry	.			// FIQ 64-bit EL1
++	ventry	.			// Error 64-bit EL1
+=20
+-	ventry	__invalid		// Synchronous 32-bit EL1
+-	ventry	__invalid		// IRQ 32-bit EL1
+-	ventry	__invalid		// FIQ 32-bit EL1
+-	ventry	__invalid		// Error 32-bit EL1
+-
+-__invalid:
+-	b	.
++	ventry	.			// Synchronous 32-bit EL1
++	ventry	.			// IRQ 32-bit EL1
++	ventry	.			// FIQ 32-bit EL1
++	ventry	.			// Error 32-bit EL1
+=20
+ 	/*
+ 	 * Only uses x0..x3 so as to not clobber callee-saved SMCCC registers.
+@@ -76,6 +73,13 @@ __do_hyp_init:
+ 	eret
+ SYM_CODE_END(__kvm_hyp_init)
+=20
++SYM_CODE_START_LOCAL(__kvm_init_el2_state)
++	/* Initialize EL2 CPU state to sane values. */
++	init_el2_state				// Clobbers x0..x2
++	finalise_el2_state
++	ret
++SYM_CODE_END(__kvm_init_el2_state)
++
+ /*
+  * Initialize the hypervisor in EL2.
+  *
+@@ -102,9 +106,12 @@ SYM_CODE_START_LOCAL(___kvm_hyp_init)
+ 	// TPIDR_EL2 is used to preserve x0 across the macro maze...
+ 	isb
+ 	msr	tpidr_el2, x0
+-	init_el2_state
+-	finalise_el2_state
++	str	lr, [x0, #NVHE_INIT_TMP]
++
++	bl	__kvm_init_el2_state
++
+ 	mrs	x0, tpidr_el2
++	ldr	lr, [x0, #NVHE_INIT_TMP]
+=20
+ 1:
+ 	ldr	x1, [x0, #NVHE_INIT_TPIDR_EL2]
+@@ -199,9 +206,8 @@ SYM_CODE_START_LOCAL(__kvm_hyp_init_cpu)
+=20
+ 2:	msr	SPsel, #1			// We want to use SP_EL{1,2}
+=20
+-	/* Initialize EL2 CPU state to sane values. */
+-	init_el2_state				// Clobbers x0..x2
+-	finalise_el2_state
++	bl	__kvm_init_el2_state
++
+ 	__init_el2_nvhe_prepare_eret
+=20
+ 	/* Enable MMU, set vectors and stack. */
+--=20
+2.39.2
 
-Resctrl subsystem provides the interface to count maximum of two memory
-bandwidth events per group, from a combination of available total and
-local events. Keeping the current interface, users can enable a maximum of
-2 counters per group. User will also have the option to enable only one
-counter to the group to maximize the number of groups monitored.
-
-
--- 
-Thanks
-Babu Moger
+--=20
+Without deviation from the norm, progress is not possible.
