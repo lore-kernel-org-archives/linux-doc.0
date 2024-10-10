@@ -1,195 +1,86 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A6B19CD07;
-	Thu, 10 Oct 2024 17:59:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE67188A08;
+	Thu, 10 Oct 2024 18:04:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728583144; cv=none; b=JvjQAM+ZMCVYLxXuE1UC95VYqhN8jsVljRThDW1moY30twwCaAKpAOMyHKO1MLVCQrkgz0PA2o2h1IXwIMeGh6eL88aNpNBkEvQ+9Voy6tb78JmyIkxJ+eTHR9O+y3rWzCvI5TJHiL32QHE+3UH9jVHaQTlCM5l1M5C7/ozy7Bs=
+	t=1728583456; cv=none; b=tq+ctl9rUdzNB0J1apXMVUDc61p+OiqpmcVmLKHbGbCZJ8vyS+S+lOu97sZLrFp67MpjTv3+jdPyFyVI+ZJbhXZ6fv9c5WyfQmj+azg/DimrTZuf/RV1UGzao0y+zBj/kDfEoiSU7CSUQk9Aq3XKw6D/Wf/toKdTU/WG1C1SGVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728583144; c=relaxed/simple;
-	bh=Kge7wc2eVf7UslF+TD3gPb+FeB7D+a2MobjWWFDO3WA=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oP8h0sYLytWXWBbpXDUsE2cOx1prdfOtvPsJSwRr0AWhsjdGCAr/sSklRO73XzlMcBL/l6ln842wr0b2htUwx7o+Km4UfhcoyxH69x6hBoI2F095uFhhe6TpvsLohPKT6t7AHyzWpU6JA1QCwXH5dd9k0667/CK4xflcBo3Aks8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YJYdGDCo; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728583456; c=relaxed/simple;
+	bh=bXzsja91oxEK7A4oh7gQhxbPTPspC3mQheHfMkv4M1w=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rI+5axm9lr+pp0y64+CJ5xgxc1ST/sKGxHHxKc1gblocSR5Ta44t461yd4X+qvCQaXog+EZLO+sB/PSmXy7gbgkLTFENyL6Dgk/bVRqud8NcxEk5ED3B2VEhJzaJFd72VvOmsQr41QGdF4wK/00yGTlCcdsGcEZngLyUNpXJV5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X6E+4EKk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YJYdGDCo"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-20b7259be6fso12959545ad.0;
-        Thu, 10 Oct 2024 10:59:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728583143; x=1729187943; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Pjaq1ccy6Z8uwpI+HpuudFCkgY1TCeYNA3gLc2Vpidw=;
-        b=YJYdGDCoT8voQXMVWvBmEFHBxTu2e6pYABtWOn0OAlW4UI03xgNWVCDQLxV2JSBsZU
-         zQ1ZnlPE8Ix/koHON7JildJzYhchxpGWNQfRoywcF/qfaMDrm3HQiM+Uak1zwCI458lh
-         c91SGSmE5GVTIRi0iruAsntfs05q6srPTKQCytWEcJeuukTOKgAmETIbVLLWLES659Iu
-         XMyKOY5KiZbX+5CegTZN0v5Q3z2ued5m7vD620VHy/9i8WmR7jz6xS0G05AB1/M7oW4S
-         OYOQ+AJZvH8OrvUQ1Qw/s26uONpdBGwEjsOb1HLDpqUKVwvSakgF+pI1UcnXsNSkNN/Q
-         HUcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728583143; x=1729187943;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Pjaq1ccy6Z8uwpI+HpuudFCkgY1TCeYNA3gLc2Vpidw=;
-        b=poKcsjn2BV2Q3M8DgSUcejyU/+fOtdeYZbA8O593hZ2O+ntCJEcT8yAxOAcT4fJmQn
-         3SQvU2jkmF/J4QgChSR1nPyxDeot5X4YM6RNB5paHzjmgNc64o33TVdJpIDFqiw89rQ2
-         SCkMPQffbkyZ3vZAOGM2nMaKXhdbL/6dFoogtVY5q/vfJSdWyofoxWnw5CSnAfRy3oaa
-         nwo2Ux6JI2vv0QYJ3yW96IzgDo2bA9qnJ0TSzxJ4boJ5rhG2fq9CJ4nnzmcwV7S6reaN
-         AkhZdpb7k6WQaXAu+gQ1AD2Tb+o7cZ7MDKhZfy75pLd7M2ZIizWBAZItwaYEHCKhY1Dn
-         el8w==
-X-Forwarded-Encrypted: i=1; AJvYcCUJZu7ozhBJb4SUx6e3qSrcDat42p2YHh2RhBron4EpbgGabLT+GsY5MQBlkkE/Slgi0AYQFQ0CJITV@vger.kernel.org, AJvYcCV/lbgsCHSGQtD9dm4hdt0bkb5tEmdMdUFnhr8UpX8HGkgSzcuk/9RooYNNHz1sp7aYZW1xQ1pvI0sgDg==@vger.kernel.org, AJvYcCXG97lEzg2JNob9GMPByXRkUccmtjg1FEIMQokypwCq1TlXMSPDXXNWiR6iIrwO4Q2gRv4h/VcHo6dc@vger.kernel.org, AJvYcCXbKR8D+3xaRmcY+cdxT3UMGbC41M2lyr+NP8ZypjwThS3Lt9wuhkI2PfB+FbQO8x70hmjhZAHyEi08wPx0@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/MrQuxtUVkTDZ0yE5Sv5UrFnK+CABbsLa8vn1Dy5e1AEIbyoo
-	w0ezYKVN9MdOl9T+cEwKTqPB7mhlawUqonA+nTVY6kDZpmPKLJ4+oQmirw==
-X-Google-Smtp-Source: AGHT+IEyOee19JN6mF8IjynsdGZ4gyhcTytl8LOHNBi6Lt4Mwgsu9dLliHXMPgXybxOPTDtUxxBD0w==
-X-Received: by 2002:a17:903:1208:b0:20c:70ab:b9c3 with SMTP id d9443c01a7336-20c9d8d2615mr5434325ad.34.1728583142564;
-        Thu, 10 Oct 2024 10:59:02 -0700 (PDT)
-Received: from fan ([2601:646:8f03:9fee:c165:c800:4280:d79b])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20c8c340106sm11950045ad.265.2024.10.10.10.58.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2024 10:59:02 -0700 (PDT)
-From: Fan Ni <nifan.cxl@gmail.com>
-X-Google-Original-From: Fan Ni <fan.ni@samsung.com>
-Date: Thu, 10 Oct 2024 10:58:56 -0700
-To: Ira Weiny <ira.weiny@intel.com>
-Cc: Dave Jiang <dave.jiang@intel.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Navneet Singh <navneet.singh@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	linux-btrfs@vger.kernel.org, linux-cxl@vger.kernel.org,
-	linux-doc@vger.kernel.org, nvdimm@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 17/28] cxl/events: Split event msgnum configuration
- from irq setup
-Message-ID: <ZwgV4D9NmcC-SAYQ@fan>
-References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
- <20241007-dcd-type2-upstream-v4-17-c261ee6eeded@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X6E+4EKk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 060D5C4CEC5;
+	Thu, 10 Oct 2024 18:04:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728583455;
+	bh=bXzsja91oxEK7A4oh7gQhxbPTPspC3mQheHfMkv4M1w=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=X6E+4EKkTEMnER0y7X54Q3GxgUBkzewVbE3MXRvQtspaT4h78hayMtoHIGHBci/LL
+	 4KEoRBTA+l0HbHxU41XeTv8irhEHDzDelj4tLjNW5maFYy4WG+bBG114rOW1iOsYvH
+	 7NprZ/c5JHnuq7bu6wh3VHxdCSSQHJouefMj2VGlGZhxkUPtv4JTbdae82UmHndgTX
+	 3n3cL+NDYGzce4oti1RYMtA902XEQf6hX+QBEjNy8bfOkJnKBA82lRTA6Jx5KDIJzE
+	 fU09cG9jEYkBr28dHdwo6H6/nrZ3HY5Tb326w6lm1jB06NsihJLFnhJSS5ZK3a53BC
+	 WaBcVY5O2poTA==
+Date: Thu, 10 Oct 2024 19:04:00 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Guillaume Stols <gstols@baylibre.com>
+Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Lars-Peter
+ Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ aardelean@baylibre.com, dlechner@baylibre.com, Jonathan Cameron
+ <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v3 09/10] iio: adc: ad7606: Add iio-backend support
+Message-ID: <20241010190400.34905ab2@jic23-huawei>
+In-Reply-To: <ac765343-7804-4bd5-8057-d67fec2f17b1@baylibre.com>
+References: <20241004-ad7606_add_iio_backend_support-v3-0-38757012ce82@baylibre.com>
+	<20241004-ad7606_add_iio_backend_support-v3-9-38757012ce82@baylibre.com>
+	<20241005125318.0c4a7bc8@jic23-huawei>
+	<ac765343-7804-4bd5-8057-d67fec2f17b1@baylibre.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241007-dcd-type2-upstream-v4-17-c261ee6eeded@intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 07, 2024 at 06:16:23PM -0500, Ira Weiny wrote:
-> Dynamic Capacity Devices (DCD) require event interrupts to process
-> memory addition or removal.  BIOS may have control over non-DCD event
-> processing.  DCD interrupt configuration needs to be separate from
-> memory event interrupt configuration.
+
+> >> diff --git a/drivers/iio/adc/ad7606.c b/drivers/iio/adc/ad7606.c
+> >> index 3666a58f8a6f..d86eb7c3e4f7 100644
+> >> --- a/drivers/iio/adc/ad7606.c
+> >> +++ b/drivers/iio/adc/ad7606.c
+> >> @@ -21,6 +21,7 @@
+> >> @@ -737,6 +773,10 @@ static int ad7606_write_raw(struct iio_dev *indio_dev,
+> >>   			return ret;
+> >>   
+> >>   		return 0;
+> >> +	case IIO_CHAN_INFO_SAMP_FREQ:
+> >> +		if (val < 0 && val2 != 0)
+> >> +			return -EINVAL;
+> >> +		return ad7606_set_sampling_freq(st, val);  
+> > Currently I think  for the !backend + pwm case this can go out of
+> > range for which that code works (fsleep removed in next patch).
+> > Perhaps delay adding this until after that patch.  
 > 
-> Split cxl_event_config_msgnums() from irq setup in preparation for
-> separate DCD interrupts configuration.
+> Hi Jonathan,
 > 
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> ---
-One minor comment inline; otherwise
+> The sampling frequency can be adjusted only for the backend version, 
+> otherwise (including pwm+interrupt), there is no sysfs access to the 
+> sampling frequency (only available for AD7606_BI_CHANNEL).
+Ah! That makes sense.
+Thanks,
 
-Reviewed-by: Fan Ni <fan.ni@samsung.com>
-
->  drivers/cxl/pci.c | 24 ++++++++++++------------
->  1 file changed, 12 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/cxl/pci.c b/drivers/cxl/pci.c
-> index fc5ab74448cc..29a863331bec 100644
-> --- a/drivers/cxl/pci.c
-> +++ b/drivers/cxl/pci.c
-> @@ -702,35 +702,31 @@ static int cxl_event_config_msgnums(struct cxl_memdev_state *mds,
->  	return cxl_event_get_int_policy(mds, policy);
->  }
->  
-> -static int cxl_event_irqsetup(struct cxl_memdev_state *mds)
-> +static int cxl_event_irqsetup(struct cxl_memdev_state *mds,
-> +			      struct cxl_event_interrupt_policy *policy)
->  {
->  	struct cxl_dev_state *cxlds = &mds->cxlds;
-> -	struct cxl_event_interrupt_policy policy;
->  	int rc;
->  
-> -	rc = cxl_event_config_msgnums(mds, &policy);
-> -	if (rc)
-> -		return rc;
-> -
-> -	rc = cxl_event_req_irq(cxlds, policy.info_settings);
-> +	rc = cxl_event_req_irq(cxlds, policy->info_settings);
->  	if (rc) {
->  		dev_err(cxlds->dev, "Failed to get interrupt for event Info log\n");
->  		return rc;
->  	}
->  
-> -	rc = cxl_event_req_irq(cxlds, policy.warn_settings);
-> +	rc = cxl_event_req_irq(cxlds, policy->warn_settings);
->  	if (rc) {
->  		dev_err(cxlds->dev, "Failed to get interrupt for event Warn log\n");
->  		return rc;
->  	}
->  
-> -	rc = cxl_event_req_irq(cxlds, policy.failure_settings);
-> +	rc = cxl_event_req_irq(cxlds, policy->failure_settings);
->  	if (rc) {
->  		dev_err(cxlds->dev, "Failed to get interrupt for event Failure log\n");
->  		return rc;
->  	}
->  
-> -	rc = cxl_event_req_irq(cxlds, policy.fatal_settings);
-> +	rc = cxl_event_req_irq(cxlds, policy->fatal_settings);
->  	if (rc) {
->  		dev_err(cxlds->dev, "Failed to get interrupt for event Fatal log\n");
->  		return rc;
-
-There is a lot of duplicate code here, can we simplify it by
-iteratting all setttings in cxl_event_interrrupt_policy like 
-
-for setting in policy:
-    rc = cxl_event_req_irq(cxlds, setting);
-    if (rc) {
-        ...
-    }
-
-For DCD, handle the setup separately afterwards.
-
-Fan
-
-> @@ -749,7 +745,7 @@ static bool cxl_event_int_is_fw(u8 setting)
->  static int cxl_event_config(struct pci_host_bridge *host_bridge,
->  			    struct cxl_memdev_state *mds, bool irq_avail)
->  {
-> -	struct cxl_event_interrupt_policy policy;
-> +	struct cxl_event_interrupt_policy policy = { 0 };
->  	int rc;
->  
->  	/*
-> @@ -777,11 +773,15 @@ static int cxl_event_config(struct pci_host_bridge *host_bridge,
->  		return -EBUSY;
->  	}
->  
-> +	rc = cxl_event_config_msgnums(mds, &policy);
-> +	if (rc)
-> +		return rc;
-> +
->  	rc = cxl_mem_alloc_event_buf(mds);
->  	if (rc)
->  		return rc;
->  
-> -	rc = cxl_event_irqsetup(mds);
-> +	rc = cxl_event_irqsetup(mds, &policy);
->  	if (rc)
->  		return rc;
->  
-> 
-> -- 
-> 2.46.0
-> 
-
--- 
-Fan Ni
+J
