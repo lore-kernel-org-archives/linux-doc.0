@@ -1,231 +1,131 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D901919D880;
-	Thu, 10 Oct 2024 17:43:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F420B19CD07
+	for <linux-doc@vger.kernel.org>; Thu, 10 Oct 2024 17:44:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728582196; cv=none; b=j21gL1GrCT0jdU4yzy1YMsR4+IaeeyOlf0lUIoAkWpFBZdX3Lp7VpoYr26NCC97t6otrVw3c1Qh3jB0njLSG+twEvXkKlODvMbqfSPYKYXi5uY3tV7fG3Y0l/1ZP1fe8eoub/pqhQn1aWFcCV45AzuHwQYg0/JSp0oNWz0iUl2Q=
+	t=1728582295; cv=none; b=qEPejgaLbInsj3R3uRFlQplvaZzuPIF37/khr13bNNTwlRpf8AAMTfUgQx2wZU4K5JHmfwOkP6kpFMyJOCJKan0c/DilCaUbQQFbc58dHR5E8oJgPqqd7QtbqG+kG9i3aTop4sWSp6UeHjfdgn4ECjND9xMyjsIcWTYQ2J7k83s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728582196; c=relaxed/simple;
-	bh=5Ral5SCk0zqXFGrByZZ20HawBOKvjeHD46WrEHKarUw=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=IFNEhnfchlAeaA3vvZia9teEN89ZB8ViMWBbR4Ed7OW/SouZ4m6BDuevVJe8Xwd1i53yLZ7IWpwtS23MrGd9SoKnc25qrje5ijWo8bV6fmI/AaV3nkPfJOdaMLXbOu7AW8ZtuTS3pck3mK7xKTlwe48/1NvyYIlzrAzOd1aVDf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=AKuV7np7; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1728582295; c=relaxed/simple;
+	bh=G+YlhLMery7c2PQZuybl3kAqhPqj+cOokjVVbYtmDys=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tqAzXqYd6Pdotmda4uqWB6eCFN6odnrEy3v2DxOKLrchaWVnKThAeQ7Z0E1pvKLP4EBN5cA7OM+AXCmtDCcKXrWhmgvV8yx5j0+DyS05giTmgXQFucy1fnWyy2m0aY2uano7UsgW1YGsS5WZd5QBOssO1WIVuf8trWaC9GwWi6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ASqowXn6; arc=none smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="AKuV7np7"
-Received: by linux.microsoft.com (Postfix, from userid 1052)
-	id 66ABE20DEAB1; Thu, 10 Oct 2024 10:43:14 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 66ABE20DEAB1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1728582194;
-	bh=fg30yrz7Ppq6rRRoSzlGA6z7azUJrniMIn14BcLgHro=;
-	h=From:To:Cc:Subject:Date:From;
-	b=AKuV7np7mO71AR024I8CS+CWNTItbAnxbHFZLt0I5XFi+viY0RmRkKWtVAnfScfnM
-	 pQZMXLiSJ2qGf/WnehSDpX/ocq/+6lTRajLYsvRQr6Vy0oAWPFW1J3gPhBTkl7bzRp
-	 gNNzNOX63QBa8dKQmZEubVB9xknbvyvNMsUrXToI=
-From: Fan Wu <wufan@linux.microsoft.com>
-To: corbet@lwn.net,
-	jmorris@namei.org,
-	paul@paul-moore.com,
-	serge@hallyn.com
-Cc: linux-doc@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Fan Wu <wufan@linux.microsoft.com>
-Subject: [PATCH v1] ipe: add 'anonymous_memory' property for policy decisions
-Date: Thu, 10 Oct 2024 10:42:37 -0700
-Message-Id: <1728582157-13884-1-git-send-email-wufan@linux.microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ASqowXn6"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-45fb0ebb1d0so17011cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 10 Oct 2024 10:44:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1728582293; x=1729187093; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G+YlhLMery7c2PQZuybl3kAqhPqj+cOokjVVbYtmDys=;
+        b=ASqowXn6r12SAwlzz3G2qqnr1AW0tYJIanIt7myEDZvm+r7l7JPxfsWvYAI16bcdZW
+         p9oMoEP8/bksftUxpUNyVJvJH+cE0yCyC0CToTOYKCfyK5iWcJWcA9Jg4Dovp3DNJF/h
+         nNftGF3b7KjFOU2/EJrlRdQEVLjJ3z74anPCJZxWVjegjyZ3GTrSgDT5lo3/0hYhp5ro
+         3LcSm75XRCDEzKb3DccfyN0WB8J0Bj3d7vpQfNbXapxwIcHbTQ45W0bxIdFRfL5Rd0hC
+         +LRaB4GPa475RlPDT/lWdUM5tV6fM9UcarvwJl6pfRnkrIu4wElAXQu0zzFyS0gUGg7S
+         f0aA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728582293; x=1729187093;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=G+YlhLMery7c2PQZuybl3kAqhPqj+cOokjVVbYtmDys=;
+        b=J2DjTPYMf23F7URSZay+7fzcxV1mNUWIePNyuR/LJ3apL+GuxcuYiZxhPWvJsGLZ35
+         xVh7a77fU6wjtaWCMWHowFFY5i2EvNpUw70iGORsXIB/zrawtvbCsBYrBxKGvcejC13L
+         J7+t3rzr1P5+6y6+gGG906/PxvWpAi1g2AZlaigiN8w0ptd/yEUTD7ztva1V6Sfzgu7r
+         OjkZBaJO3GH3gxwxfLB1qrDaejy92Ka7kzHOM3dal8h9mVR+NlGbpGSUINcVxMldryWf
+         kUinr8CXEtSj8oThceHPDWpqLqJvfS6CQ3PSVAJ6oZRfS67u3QkMyfsTv1+D4hsqRvuT
+         qHzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX927WBxe5DgixoC2Ty23ZqNNMMcY1QYAnWzTywYHWTCqdZFd3mNyYcWEO+gtttIFm+qxW6sOA5fYQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwG1l3UFPRMi0HBZ5v9OtGbvaUB88Gz6PK/I88FLGhnCXdgqkdM
+	u7ufAI5Xat+e1pJgnop4Q4VawnRCKQarwFDZo5v7768bvh87iVdD7xXPG6k/GHPZNLw/+RsvBW8
+	k2bsnoqsRX6/I9HlXY4jqN/1d38THX4RT618g
+X-Google-Smtp-Source: AGHT+IHBhsaTPf8MZyXqXn+ky4tZtEVMbF5vDoqwo8wznqVtpsAMJ1C0i52LynbA8eDXzYQiG2Dtr0LY6Sw5vk7+MPY=
+X-Received: by 2002:a05:622a:a38b:b0:460:481a:d537 with SMTP id
+ d75a77b69052e-460481ad644mr1794981cf.25.1728582292604; Thu, 10 Oct 2024
+ 10:44:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20241003160620.1521626-1-ap420073@gmail.com> <20241003160620.1521626-8-ap420073@gmail.com>
+ <CAHS8izO-7pPk7xyY4JdyaY4hZpd7zerbjhGanRvaTk+OOsvY0A@mail.gmail.com>
+ <CAMArcTU61G=fexf-RJDSW_sGp9dZCkJsJKC=yjg79RS9Ugjuxw@mail.gmail.com>
+ <20241008125023.7fbc1f64@kernel.org> <CAMArcTWVrQ7KWPt+c0u7X=jvBd2VZGVLwjWYCjMYhWZTymMRTg@mail.gmail.com>
+ <20241009170102.1980ed1d@kernel.org>
+In-Reply-To: <20241009170102.1980ed1d@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Thu, 10 Oct 2024 10:44:38 -0700
+Message-ID: <CAHS8izMwd__+RkW-Nj3r3uG4gmocJa6QEqeHChzNXux1cbSS=w@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 7/7] bnxt_en: add support for device memory tcp
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Taehee Yoo <ap420073@gmail.com>, davem@davemloft.net, pabeni@redhat.com, 
+	edumazet@google.com, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	donald.hunter@gmail.com, corbet@lwn.net, michael.chan@broadcom.com, 
+	kory.maincent@bootlin.com, andrew@lunn.ch, maxime.chevallier@bootlin.com, 
+	danieller@nvidia.com, hengqi@linux.alibaba.com, ecree.xilinx@gmail.com, 
+	przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, ahmed.zaki@intel.com, 
+	paul.greenwalt@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
+	asml.silence@gmail.com, kaiyuanz@google.com, willemb@google.com, 
+	aleksander.lobakin@intel.com, dw@davidwei.uk, sridhar.samudrala@intel.com, 
+	bcreeley@amd.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Currently, all existing IPE properties evaluate to FALSE for
-operations triggered by anonymous memory regions. As a result,
-IPE falls back to the policy's default action for such operations.
+On Wed, Oct 9, 2024 at 5:01=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wro=
+te:
+>
+> On Thu, 10 Oct 2024 00:37:49 +0900 Taehee Yoo wrote:
+> > > Yes, but netmem_ref can be either a net_iov or a normal page,
+> > > and skb_add_rx_frag_netmem() and similar helpers should automatically
+> > > set skb->unreadable or not.
+> > >
+> > > IOW you should be able to always use netmem-aware APIs, no?
+> >
+> > I'm not sure the update skb->unreadable flag is possible because
+> > frag API like skb_add_rx_frag_netmem(), receives only frag, not skb.
+> > How about an additional API to update skb->unreadable flag?
+> > skb_update_unreadable() or skb_update_netmem()?
+>
+> Ah, the case where we don't get skb is because we're just building XDP
+> frame at that stage. And XDP can't be netmem.
+>
+> In that case switching to skb_frag_fill_netmem_desc() should be enough.
+>
+> > > > The reason why the branch exists here is the PP_FLAG_ALLOW_UNREADAB=
+LE_NETMEM
+> > > > flag can't be used with PP_FLAG_DMA_SYNC_DEV.
+> > >
+> > > Hm. Isn't the existing check the wrong way around? Is the driver
+> > > supposed to sync the buffers for device before passing them down?
+> >
+> > I haven't thought the failure of PP_FLAG_DMA_SYNC_DEV
+> > for dmabuf may be wrong.
+> > I think device memory TCP is not related to this flag.
+> > So device memory TCP core API should not return failure when
+> > PP_FLAG_DMA_SYNC_DEV flag is set.
+> > How about removing this condition check code in device memory TCP core?
+>
+> I think we need to invert the check..
+> Mina, WDYT?
+>
 
-In policies where the default action is DENY, this behavior blocks
-all anonymous memory operations, rendering binaries that rely on
-anonymous memory unusable.
+On a closer look, my feeling is similar to Taehee,
+PP_FLAG_DMA_SYNC_DEV should be orthogonal to memory providers. The
+memory providers allocate the memory and provide the dma-addr, but
+need not dma-sync the dma-addr, right? The driver can sync the
+dma-addr if it wants and the driver can delegate the syncing to the pp
+via PP_FLAG_DMA_SYNC_DEV if it wants. AFAICT I think the check should
+be removed, not inverted, but I could be missing something.
 
-This commit introduces a new IPE property, 'anonymous_memory',
-which evaluates to TRUE when an operation is triggered by an
-anonymous memory region. This allows administrators to explicitly
-allow or deny operations involving anonymous memory.
-
-Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
----
- Documentation/admin-guide/LSM/ipe.rst | 11 +++++++++++
- Documentation/security/ipe.rst        |  9 +++++----
- security/ipe/Kconfig                  | 10 ++++++++++
- security/ipe/audit.c                  |  2 ++
- security/ipe/eval.c                   | 26 ++++++++++++++++++++++++++
- security/ipe/policy.h                 |  2 ++
- security/ipe/policy_parser.c          |  4 ++++
- 7 files changed, 60 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/admin-guide/LSM/ipe.rst b/Documentation/admin-guide/LSM/ipe.rst
-index f93a467db628..356f0dd6e4c3 100644
---- a/Documentation/admin-guide/LSM/ipe.rst
-+++ b/Documentation/admin-guide/LSM/ipe.rst
-@@ -669,6 +669,17 @@ fsverity_signature
- 
-       fsverity_signature=(TRUE|FALSE)
- 
-+anonymous_memory
-+~~~~~~~~~~~~~~~~
-+
-+   This property can be used to allow or deny operations triggered by
-+   anonymous memory. It evaluates to TRUE when a memory region
-+   in the evaluation context is not backed by a file. It is controlled by
-+   the ``IPE_PROP_ANONYMOUS_MEMORY`` config option.
-+   The format of this property is::
-+
-+      anonymous_memory=(TRUE|FALSE)
-+
- Policy Examples
- ---------------
- 
-diff --git a/Documentation/security/ipe.rst b/Documentation/security/ipe.rst
-index 4a7d953abcdc..1606484241cb 100644
---- a/Documentation/security/ipe.rst
-+++ b/Documentation/security/ipe.rst
-@@ -385,15 +385,16 @@ Anonymous Memory
- Anonymous memory isn't treated any differently from any other access in IPE.
- When anonymous memory is mapped with ``+X``, it still comes into the ``file_mmap``
- or ``file_mprotect`` hook, but with a ``NULL`` file object. This is submitted to
--the evaluation, like any other file. However, all current trust properties will
--evaluate to false, as they are all file-based and the operation is not
--associated with a file.
-+the evaluation, like any other file. However, except the ``anonymous_memory`` property,
-+all current trust properties will evaluate to false, as they are all file-based and
-+the operation is not associated with a file.
- 
- .. WARNING::
- 
-   This also occurs with the ``kernel_load_data`` hook, when the kernel is
-   loading data from a userspace buffer that is not backed by a file. In this
--  scenario all current trust properties will also evaluate to false.
-+  scenario, all current trust properties except ``anonymous_memory`` will also evaluate
-+  to false.
- 
- Securityfs Interface
- ~~~~~~~~~~~~~~~~~~~~
-diff --git a/security/ipe/Kconfig b/security/ipe/Kconfig
-index ee6beca5494a..839a554f4e17 100644
---- a/security/ipe/Kconfig
-+++ b/security/ipe/Kconfig
-@@ -94,6 +94,16 @@ config IPE_PROP_FS_VERITY_BUILTIN_SIG
- 
- 	  if unsure, answer Y.
- 
-+config IPE_PROP_ANONYMOUS_MEMORY
-+	bool "Enable support for anonymous memory"
-+	default y
-+	help
-+	  This option enables the 'anonymous_memory' property within IPE
-+	  policies. The property evaluates to TRUE when a memory region
-+	  in the evaluation context is not backed by a file (i.e., it is
-+	  anonymous memory).
-+
-+	  if unsure, answer Y.
- endmenu
- 
- config SECURITY_IPE_KUNIT_TEST
-diff --git a/security/ipe/audit.c b/security/ipe/audit.c
-index f05f0caa4850..ab5217655910 100644
---- a/security/ipe/audit.c
-+++ b/security/ipe/audit.c
-@@ -59,6 +59,8 @@ static const char *const audit_prop_names[__IPE_PROP_MAX] = {
- 	"fsverity_digest=",
- 	"fsverity_signature=FALSE",
- 	"fsverity_signature=TRUE",
-+	"anonymous_memory=FALSE",
-+	"anonymous_memory=TRUE",
- };
- 
- /**
-diff --git a/security/ipe/eval.c b/security/ipe/eval.c
-index 21439c5be336..e2ab7a8d7d8c 100644
---- a/security/ipe/eval.c
-+++ b/security/ipe/eval.c
-@@ -265,6 +265,28 @@ static bool evaluate_fsv_sig_true(const struct ipe_eval_ctx *const ctx)
- }
- #endif /* CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG */
- 
-+#ifdef CONFIG_IPE_PROP_ANONYMOUS_MEMORY
-+static bool evaluate_anonymous_memory_false(const struct ipe_eval_ctx *const ctx)
-+{
-+	return !ctx->file;
-+}
-+
-+static bool evaluate_anonymous_memory_true(const struct ipe_eval_ctx *const ctx)
-+{
-+	return !evaluate_anonymous_memory_false(ctx);
-+}
-+#else
-+static bool evaluate_anonymous_memory_false(const struct ipe_eval_ctx *const ctx)
-+{
-+	return false;
-+}
-+
-+static bool evaluate_anonymous_memory_true(const struct ipe_eval_ctx *const ctx)
-+{
-+	return false;
-+}
-+#endif /* CONFIG_IPE_PROP_ANONYMOUS_MEMORY */
-+
- /**
-  * evaluate_property() - Analyze @ctx against a rule property.
-  * @ctx: Supplies a pointer to the context to be evaluated.
-@@ -297,6 +319,10 @@ static bool evaluate_property(const struct ipe_eval_ctx *const ctx,
- 		return evaluate_fsv_sig_false(ctx);
- 	case IPE_PROP_FSV_SIG_TRUE:
- 		return evaluate_fsv_sig_true(ctx);
-+	case IPE_PROP_ANON_MEM_FALSE:
-+		return evaluate_anonymous_memory_false(ctx);
-+	case IPE_PROP_ANON_MEM_TRUE:
-+		return evaluate_anonymous_memory_true(ctx);
- 	default:
- 		return false;
- 	}
-diff --git a/security/ipe/policy.h b/security/ipe/policy.h
-index 5bfbdbddeef8..0becc2d2bd33 100644
---- a/security/ipe/policy.h
-+++ b/security/ipe/policy.h
-@@ -39,6 +39,8 @@ enum ipe_prop_type {
- 	IPE_PROP_FSV_DIGEST,
- 	IPE_PROP_FSV_SIG_FALSE,
- 	IPE_PROP_FSV_SIG_TRUE,
-+	IPE_PROP_ANON_MEM_FALSE,
-+	IPE_PROP_ANON_MEM_TRUE,
- 	__IPE_PROP_MAX
- };
- 
-diff --git a/security/ipe/policy_parser.c b/security/ipe/policy_parser.c
-index 7f27e39931d6..5c83095e7c37 100644
---- a/security/ipe/policy_parser.c
-+++ b/security/ipe/policy_parser.c
-@@ -281,6 +281,8 @@ static const match_table_t property_tokens = {
- 	{IPE_PROP_FSV_DIGEST,		"fsverity_digest=%s"},
- 	{IPE_PROP_FSV_SIG_FALSE,	"fsverity_signature=FALSE"},
- 	{IPE_PROP_FSV_SIG_TRUE,		"fsverity_signature=TRUE"},
-+	{IPE_PROP_ANON_MEM_FALSE,	"anonymous_memory=FALSE"},
-+	{IPE_PROP_ANON_MEM_TRUE,	"anonymous_memory=TRUE"},
- 	{IPE_PROP_INVALID,		NULL}
- };
- 
-@@ -331,6 +333,8 @@ static int parse_property(char *t, struct ipe_rule *r)
- 	case IPE_PROP_DMV_SIG_TRUE:
- 	case IPE_PROP_FSV_SIG_FALSE:
- 	case IPE_PROP_FSV_SIG_TRUE:
-+	case IPE_PROP_ANON_MEM_FALSE:
-+	case IPE_PROP_ANON_MEM_TRUE:
- 		p->type = token;
- 		break;
- 	default:
--- 
-2.46.2
-
+--=20
+Thanks,
+Mina
