@@ -1,208 +1,256 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2071.outbound.protection.outlook.com [40.107.93.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B017F1E8853;
-	Thu, 10 Oct 2024 18:30:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728585002; cv=none; b=RCAW+Xe+w5JiEk1IkSJ2whZUnre/5tQtb4ivj3gG6XSBpfW232y0K3zZ9HuCIPRz+YCPiWe0DSACR+K3iE3/+17BBpl4DN7AkZqNjMTV+DbAyQviecNgrpILJk6kRdJuoJhowdG2CMMyCJMiisjoQVdKubx2ZeeWUGR74XGFwdo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728585002; c=relaxed/simple;
-	bh=ATlE5iF1D+i8hM107h56WYkiC3V5Vr7ynZaWhizuKOg=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FiCbQEx9P9p5AQuu8MkXBAqQCAde3jUwtz52n8vBZ7FORpqYRuZyAt7u50ZMNGFOCaTSeizYXyvjl08sATmRA37GAWRYyie/NR14fwB9G9d79OmGiIVBPgVg2I+6cy7Nuuj6umsl/cN9LMmbtraaViWE/mj+sceZV5Nwf1BlcZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jIcJKWGv; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354731CBEAB;
+	Thu, 10 Oct 2024 18:36:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.71
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728585413; cv=fail; b=gY47+EupQmxhUz7SILg/5QPDHLL4EuyuHSFflSd4yTDhUT6dF3MueKH02b076tmDjMtypcbJ+MZa3g4F6CBk6XTh5xP3vLeIV+4eHqNBQL3OTpFrrbmktIEzpFHGTCYXGYZgsNQWgM9biuxmt0OkN2Wl+uvQ1e6aAdRS15H+RTk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728585413; c=relaxed/simple;
+	bh=3KvhDgraFxvEgUaeD99SEk97JsmTDHHwW1fEE6HlaI4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=L+eWe4aaCY4Y1CHFFSyeEukWjr98Y+BotiC5ntMFLkxAalaq3oH2OAF6sNqG6icxAz4W8U8R/c25NN4z3KP/Wdq4J1FTnDibNca3OFapKx2wBSWoHjVJiWXlbbEa2KWSWn+8l/knN5ABAHWoEmVhxPhqh4PpZePuTGFmMDsdcCo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=uiLiA5Sw; arc=fail smtp.client-ip=40.107.93.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jIcJKWGv"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2e2c6bc4840so976989a91.2;
-        Thu, 10 Oct 2024 11:30:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728585000; x=1729189800; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YimOy7qc5N+LKT23Y0mjrXB82RJNkHep3WQxQZ801rM=;
-        b=jIcJKWGvvqgcE6XaiGb2TYsaIKf0uIgJilCQDBZJPubeZm8kK0/QOgQnxSY6/0J4nR
-         bX0hoLnwX5Qrf+xrlFHE+Yiis011tWchK+//WItXmdanuvXEiHgtBEkrT2mbZeOMm4K5
-         DAGHARcxHoDv9LcMl7Z0LNztmUNBEDf5599hIpJRRVGOAC8OmQ6LczyqMFaOsGppF39T
-         VLOz1KJzqrStxTywgQ3FTVKW7luPPeuXjUF+lopYSGc7m1HdLBMupk/rzNklUeQix8SA
-         tZb1jC52n7cjo/G/4YqRoI0qt73Po/1O1Cm+yTUxUHUTGMXEkYrwlpe+/eWluhwuCYzf
-         JhGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728585000; x=1729189800;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YimOy7qc5N+LKT23Y0mjrXB82RJNkHep3WQxQZ801rM=;
-        b=JeE6KDf7RG6RH4l1QWUaWfyLYeijdrxKcqDoX7KEk5cySCDf5uYMCyV7WV+y2s6qfD
-         slOIh8uEgnE1sPsyXfT4rI77YoCYJTb0T+nR6S0tffU5pvLvtZkGz5xLREcUVF5Comsz
-         ZOH4HMW9S+dCu5FTvbtzpSbpg41FXJq3l55k7QBqRzLjV2LrK2ZafbLUs9uVfLNK9GgW
-         05cjAgUg7fKZLm4jKTnwn9AaxF2UlrdozLlSVUGiuKfDb+zXqmDpm8bYVtNv6h1tlDoo
-         MklB2Bi/METzIexNQ1s/k8xPfUYENqthUdCChS34wst7Ttb+8yX6XocWFhQKEXFFUdzD
-         QbKw==
-X-Forwarded-Encrypted: i=1; AJvYcCURNXdQLRam5ekckcP9kkTZJT+b4dZoE/iisCshXmLCpfC3UaaoCQYEAuzDeJytXIZoChe2Xgu0Ie5U@vger.kernel.org, AJvYcCWtXKNITvoDI/oDnfTiFoi887LKGNoYGw7L+N6MqXho/k2Nb2xsc729gj8y6zWZbpmE2avwl1tZAFP1@vger.kernel.org, AJvYcCX/4CnMSiDEAKKbbukXXMRsSmSU+NjlvSsMAclGq3Nil8qUNBD5p62ebehJ0C8jVdE3xzPIxTIV0MV7Lfrs@vger.kernel.org, AJvYcCXmn/hQYYWAsf9T/a+SBwbcUJ3arD9aCgLc+e8DyjbiiOLTaMxybd7Q8ZiGOnCpqAgavtpW61oBFIb4fw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzp06wyMdMr1CwQje6WdkC3bvpVT+T9CDw4lmA42bdr/z4P95cm
-	sptp0V7aoBPFE3gxQ1iLIyKPEq/xng/MJlqRsHRvp5d5IHEbZDYs
-X-Google-Smtp-Source: AGHT+IGZrKnj1WJs8nsWKq4t5Jq9tMpObwNCDHwnSBub3/8G7+C0G8eVp4m92pO5SYGehe8jLGH2yg==
-X-Received: by 2002:a17:90a:fd0a:b0:2e2:b211:a4da with SMTP id 98e67ed59e1d1-2e2f0a710fcmr118697a91.14.1728585000069;
-        Thu, 10 Oct 2024 11:30:00 -0700 (PDT)
-Received: from fan ([2601:646:8f03:9fee:c165:c800:4280:d79b])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e2d5f0a4edsm1662161a91.31.2024.10.10.11.29.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2024 11:29:59 -0700 (PDT)
-From: Fan Ni <nifan.cxl@gmail.com>
-X-Google-Original-From: Fan Ni <fan.ni@samsung.com>
-Date: Thu, 10 Oct 2024 11:29:56 -0700
-To: Ira Weiny <ira.weiny@intel.com>
-Cc: Dave Jiang <dave.jiang@intel.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Navneet Singh <navneet.singh@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	linux-btrfs@vger.kernel.org, linux-cxl@vger.kernel.org,
-	linux-doc@vger.kernel.org, nvdimm@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 20/28] cxl/core: Return endpoint decoder information
- from region search
-Message-ID: <ZwgdJC8bSxfJuRuR@fan>
-References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
- <20241007-dcd-type2-upstream-v4-20-c261ee6eeded@intel.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="uiLiA5Sw"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=svXMEBZsfaG+oCqQCH2PbAKEimbXXn5Aa1nJfiF+J16gcYMw5JczFfaNfnchynRN+4fboYgsixzGd+7/qKimicg9ZlGL9QhLUBBMWdhPmStObvjEdEqGZUEjBIM+lZ3py/BGFOabd0tXSF4WhlK6thvlTXTNZlNrELaR3pZ5puZo1jD6VkVDP3PRNPMvowl31SJrGIDm2vX11enpbaC6NoeULRqXxUGHa9bTNRBnQcSXJav+pphBEQAMCMFWPYsV1ZUv54pjBYOxSnANHFa1wG7d6bx1hT/gd3mjhUrm7BLfhF+aua8N3alJiJavvBCS03jwnfbX5xaSg2k/mSdlVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=N9PQ/97dN+Mysvi1WDS1x5ebqRtprxmVyW7oM+/gdXc=;
+ b=meeqmF86g4Fx0sJVPdE232pJqghLhNP6kdDdLjpsRipq8QUSIHh/cS0H6w2IVENCzjXY6q01nPPrKPAjuqUFkXigfuz8zRRsadGZ+jp+mod3pHszfmanL0f5JkTuLhcL8KjtpvjaVSaNJ/BC/RZvsXapzkVLYElpFOuZwrU1RArAsuyqKTkTaPoou1tZJbIpbnVEQegjKZLqI9qLjvYry61NoHsElJux3DJ2LNoB6M+qUFY4voMj9QPkeoJfrdkJE/VxiYmo4xbFQlRcdd/wr7AjuPO97OMDbz+RlgMv9DtV+G+QJNpBvimyn+9U/iIQVxz+pq5vRWrWBNWnEldzog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N9PQ/97dN+Mysvi1WDS1x5ebqRtprxmVyW7oM+/gdXc=;
+ b=uiLiA5SwHLCaHwfkDg77J2imVJCiBqjdbivGP6+rEFUD8HkuZvPnVn4ymUaYmb311KakziyV4+t5VermavDZUJu2nR+EbZ+VZSOo9kbh5YWqGhHpRwzpzPV1Yo2r5iaTQO8oZ3dPIaFuhmgvyolxG3RcodFSW1yMeQfiDl3BZl8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by LV2PR12MB5944.namprd12.prod.outlook.com (2603:10b6:408:14f::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.16; Thu, 10 Oct
+ 2024 18:36:49 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.8048.017; Thu, 10 Oct 2024
+ 18:36:49 +0000
+Message-ID: <d1986f3f-9db7-4ac9-9fea-56878548ad61@amd.com>
+Date: Thu, 10 Oct 2024 13:36:44 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v8 08/25] x86/resctrl: Introduce interface to display
+ number of monitoring counters
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: "corbet@lwn.net" <corbet@lwn.net>, "Yu, Fenghua" <fenghua.yu@intel.com>,
+ "Chatre, Reinette" <reinette.chatre@intel.com>,
+ "tglx@linutronix.de" <tglx@linutronix.de>,
+ "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+ "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+ "paulmck@kernel.org" <paulmck@kernel.org>,
+ "rdunlap@infradead.org" <rdunlap@infradead.org>,
+ "tj@kernel.org" <tj@kernel.org>, "peterz@infradead.org"
+ <peterz@infradead.org>, "yanjiewtw@gmail.com" <yanjiewtw@gmail.com>,
+ "kim.phillips@amd.com" <kim.phillips@amd.com>,
+ "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+ "seanjc@google.com" <seanjc@google.com>,
+ "jmattson@google.com" <jmattson@google.com>,
+ "leitao@debian.org" <leitao@debian.org>,
+ "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
+ "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+ "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+ "Joseph, Jithu" <jithu.joseph@intel.com>, "Huang, Kai"
+ <kai.huang@intel.com>, "kan.liang@linux.intel.com"
+ <kan.liang@linux.intel.com>,
+ "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "sandipan.das@amd.com" <sandipan.das@amd.com>,
+ "ilpo.jarvinen@linux.intel.com" <ilpo.jarvinen@linux.intel.com>,
+ "peternewman@google.com" <peternewman@google.com>,
+ "Wieczor-Retman, Maciej" <maciej.wieczor-retman@intel.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "Eranian, Stephane" <eranian@google.com>,
+ "james.morse@arm.com" <james.morse@arm.com>
+References: <cover.1728495588.git.babu.moger@amd.com>
+ <c79fdf4196d974325df995eb334221463747689e.1728495588.git.babu.moger@amd.com>
+ <ZwcIkf_oy2oKByNu@agluck-desk3.sc.intel.com>
+ <8ceeb50a-70d7-4467-b7c1-4f62b1a1eec8@amd.com>
+ <SJ1PR11MB608381B9DA3AE26749070BE8FC782@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <0fedcbd4-487c-4d55-8151-69dc34f41f1d@amd.com>
+ <SJ1PR11MB6083FFA19F9387F21C058A09FC782@SJ1PR11MB6083.namprd11.prod.outlook.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <SJ1PR11MB6083FFA19F9387F21C058A09FC782@SJ1PR11MB6083.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA1P222CA0195.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:3c4::8) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241007-dcd-type2-upstream-v4-20-c261ee6eeded@intel.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|LV2PR12MB5944:EE_
+X-MS-Office365-Filtering-Correlation-Id: fea362db-9ddd-4448-8f30-08dce95a8077
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?WDJpdCtaK3lFV0RzaG9pWnBIdDRDOHIwdWFyV0FTZzFBMHdBa3ZEQVZlWkdQ?=
+ =?utf-8?B?UjZicUo5V3F5VERRc2FpR0l4TEY2M2lRYWxjZElhTDM2bU1hcVZ0TEV6cmNr?=
+ =?utf-8?B?Z29NU2kyeTl5V0x0ZkNudkdPYWZidWZ2Q1hDRVJLRkl0SkUxVkJYci9sMkd3?=
+ =?utf-8?B?Y1I4ajZuSUZLMmhDRWRacTR6d04zdlEyOG1LTGN0RzYwMXFVenJ0SFZHODVl?=
+ =?utf-8?B?cmtkUTlnYTBoNU1KdXRVYjkzZlFtKzYxYldkcHFWSk1ibFRBOFY2MDlpdkZn?=
+ =?utf-8?B?dzByUm16ekhHMDVTWGc0aEplZUlhZnVWZmVRcit4ZTR0bXZXM1pUbW1VN0wx?=
+ =?utf-8?B?bzd6OTZmOEpGV3hSQ3lELy8zNHUvSC9uODRaOTlpUENKR093SXlEZmx1WGxv?=
+ =?utf-8?B?U3pXdFZuOGczcXJWd2xPenVERUZRckJpUHNwSFRHQ2VIOVVpcGx3Mm42WXdk?=
+ =?utf-8?B?U2ZOY3BsOW8rVGRTT3JvWU5xUGQvV1YwR21KRG96ZVdHc3pwS1pGd2NmYVFi?=
+ =?utf-8?B?aVRQTjlkRDIvMXZ6S1hTWWIxZHh0MG5KWEVreGIyN0Q1cXp6ViszNnBSUy9D?=
+ =?utf-8?B?UGx3dmdRQjZ5UUdqMVMyVUtFcy9UeVZXcHRQaTJnR0t4Z2xwaElzdFBuaVFq?=
+ =?utf-8?B?MzhOS2YwNEdrYmp4RDBUdTJ4M2lvTHNPWDBJK0RyQnp0a21McUpGNi94VGFw?=
+ =?utf-8?B?L2dTYnVnd3lvUmE5TzZJZ09yc3NnSGpUeUdBQzJFTkVmanEveWJGMGlzbFFG?=
+ =?utf-8?B?c3F4cVdWcURaazhKRm9tWE15TFZXRFR3bXhaYWRZM01TWDdjRGowcTJsSUxI?=
+ =?utf-8?B?ellyU3Y4WXU3SllGSmJSajVYbmZmbHZiRkU1R0JjSWdQQTlCUERPemZTRzJL?=
+ =?utf-8?B?N2tpVmlZc0xocnllcDV1K214YTRBZHBFQis4TW0rQ0VjckViSEx0WFU1a3hx?=
+ =?utf-8?B?bHFoSkxSQ0lmOWRYSHpzTDRvQ3o3dXdibHNOSnBJS0ZLeHMyRUtxZi8rL0lX?=
+ =?utf-8?B?L09tSDdnR1B0ZjNLUnBUT2lGOVZhTFV2VUV6ZUl4TG12Q1hrQ1RoS2JDalZq?=
+ =?utf-8?B?RW9tSDNwOFRFeGxTVWZUK3pDbGNVVkZFZmk4RnBNRmloWGVyNnlKY1BIZFZF?=
+ =?utf-8?B?bk5oeUhuNTUxclR3VGh5ZGY2dkU1NUNLL2ZEWCthUHp2NldTMmQyZGVBeUhn?=
+ =?utf-8?B?QytoVzNWdnVSU3V3WkZvOFFER2lqb3lNZnZQeEVEdmlNd0x1ZUJFUTBuQTlk?=
+ =?utf-8?B?VW1OYXNVQnUxcXRzNUY4L3RlclE5NlRsT2hVRFUvbzdPTlZ3MGI0cmJGV2RG?=
+ =?utf-8?B?SzNFTm5hN29aSjZpVmE2USt5U0ZYcFd6ZlUvWDliVHU4ZVIvUkRyZkR4U01i?=
+ =?utf-8?B?VEpwUmY5MjNScFduMEJTVGE4Z3U4RWZhZlgySFMraUxNeUVSS2J0R0lWRkhC?=
+ =?utf-8?B?ckd4ZkxCcDl0N3pKVFFBVE9JRDQzZDNiWk1NMDIvTGEyeUpuaXh5QUJmSGhp?=
+ =?utf-8?B?TkIycWpwVHRnbDhrc2k2MFFGcWljd0NLMEFpaUkwWWk0TDNGdCtJellrMzVI?=
+ =?utf-8?B?dGtMS3g3YkFIQTVKeXhQaDdsN1pJb1k1bldiU3pWVGtmcTc4dkp2SE0xKzlE?=
+ =?utf-8?B?dEhnYndKL09RZ0o4WWtJditad3NKRkRLZ1dCTWNBTk9Pd3pPZVFBTWtMaUFr?=
+ =?utf-8?B?SURUZlluN1JVYkdDY3A4ZGRUWFZweWNtWTFwUUFCZEJwUUU2alBCaVhRPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dHdsUGxYS3k4a0FITXNZQVJKMHpyeEZoRTBReVZPSkxXdWN0WjVydVJDdlhP?=
+ =?utf-8?B?VUg2QWZydUNuN0ZUZ1hTVE84YlpPSGw1cEltOWN6L3ViUjVkeGdlY01zeHRW?=
+ =?utf-8?B?dXh1VlE1OUJRY3JnQjBoeGNBYTY2SHgxcWx5dEIwY0hnOG5DK2JmVHl1Wk9h?=
+ =?utf-8?B?TjhQOG5yM3YzUmQ0YTNOYzU1cjRKTlg4WGExYWJQQ3lZcnM5MUFVTXdjNHpv?=
+ =?utf-8?B?YkVJMnJDUlZLRG1sbjJrTkJ2M1ZoMkxIb2lRZUFvRTdTM1hrM3d3c2ptMU1w?=
+ =?utf-8?B?WHBpWTFOTEVyZWFtcGJSWFZJMXo1aWJkbDBVNnYyejVkOTdoWStqeUFycXN3?=
+ =?utf-8?B?MVdRS2kxa2I2ZkVhdWtScGJacGwvb1I0L2JzMDc5eGNRdTdSOXBtQnRXMlRI?=
+ =?utf-8?B?V00rM01HcW1xWHRIdUwwdnIzRnJESWVhclR5TTYzajJxZU8wSUdFQ29PdWl1?=
+ =?utf-8?B?RDhaZENaaHFMUTdjb3dMbmZ5dlQ0V3Z1b0k3cEo0MHpLa2h3V3FUQnEvVE03?=
+ =?utf-8?B?eWZ5RmtZUGI4am9QbjQzcUhKZDMrK3hJb0IreFlTQmYyZ0ZDNCsybElEMkpZ?=
+ =?utf-8?B?VFhEanpycGpXeW5zeUtKWFk3cFpyc1doZm14UEVWTmQvVHBpZzZGb09UamJ2?=
+ =?utf-8?B?eW5pVXFxeW1pc1lsSFVCMVQxdU5zc2EvSTZ3bTBmVFM1MjlpYSt6bnB2ZjVu?=
+ =?utf-8?B?eWZGOUtDSGNFS0E1Z3BDMm02MTBYZ29KUWM0VUV0OTAza0JsNGpZUSsyREUv?=
+ =?utf-8?B?SkZPY04yL29xKzI3WDJBbWlObEVhUGEzNWUyaVJiQURpb0dvemlNYlVnVFpk?=
+ =?utf-8?B?K3dOK0xPWUhQc2REWEJiUTA1Z0F4cFF6a2d5V1R0ZnRoLzAyK3BZb1gyY0Fh?=
+ =?utf-8?B?MVVnNktzRStZT3FLNG5MRm5IQ2xrTWJnak1neFQ1MjZ5Q294M25LNytFa2R6?=
+ =?utf-8?B?TkxYVzNWYUV5ZXl4MVJWWXNKNXE4cGZrNkI2STViL3pXL0lkTXg4dHNvQWhz?=
+ =?utf-8?B?ZHM3bmMrQjBUekNPcVp0eGJ3elVqNHZQQ1hKQWV6UENYS1BVOTIrS1BCMWZ5?=
+ =?utf-8?B?YzJma3REQ0R3UGJUbXFlUmF3SHdBWFJGWWpMWGVBK3AzaUgyNkg2Ylk3Qm9E?=
+ =?utf-8?B?NTlGdXlYRDdIZ0hGakVUWTgvZmt1T0NUWHA4c3poNnd1QmhQNU9xaFBUd1cz?=
+ =?utf-8?B?VGlaLzBNbkI1Rk1CWkVDMGRQK1lwRkRWV2VNc0dWdnY1alNnQjg4VG1EKzM1?=
+ =?utf-8?B?NkwzbTdrQm1GdnZ2RCtJeUplNFBJc1lOVWQ5SWFWT3ZCZ0JJb0xMRnE2bDRa?=
+ =?utf-8?B?ZGRNTVFJeTJ6NytYUXJLLzExa2RLMXRmNWlzcVhjOXlLanlEMDNMZHVBd2pU?=
+ =?utf-8?B?bUVvRlRaU040TU0wajlzbVdCU0l3eVdFdnZUQmpaT3MzZ21TL3NGUDJ6Nm5B?=
+ =?utf-8?B?VnVGNDhQZi9VQXVXeVYyTjFRVDd1RktRZkFuWFEraHRFMUs5b2tEZmx1ekw5?=
+ =?utf-8?B?WGQ4d0ZxQ0N3WmpmN2VBcExpMzc4VEIyUUtGcEtCN0t6d1lVa1BGc2lSWjFG?=
+ =?utf-8?B?OG9LcHNVSUVZZ3ArdEExcXd3V2xVR0h5ekNMZktzSWNDZnJuOVNMVjdzamlU?=
+ =?utf-8?B?aHMrbG9ncjVETG4xck4rRGlteTBSY0JRQ0l0QitIVjBuV2x3ckZLM0tkUUZ5?=
+ =?utf-8?B?ZTloOG4xSDlUeUtOaXJLZlh0c0F6L1RLYUlZYmxpU1VhNmJ3VXFmLzVaMkRT?=
+ =?utf-8?B?eHFyQTNBVnpDSCtzQ0p3RHhndHJBV216R084RndvbWxSMmRBZHpQU2sxSlhQ?=
+ =?utf-8?B?V3I3dUtxNWIra2RtbElqYkMrckJsNVlBRG5ya3ZqTXJha1lwMUN4Ky9HVXZW?=
+ =?utf-8?B?U1Vna2lsN1paNmNCYVI1dU9TbExlNkQyMmFRM2lWalRFTkxEUEdRSjByUklG?=
+ =?utf-8?B?N3h4NWQ5ZHl4OGo2bXg4Y0ZkbHI2STRyT0pDS3AwY251aWtBcjR4bEpiV1lO?=
+ =?utf-8?B?eStDdksrZGJBdUprN29uWlkyaTJDcEhhcTRpNHdHNGZpbW1va1Z2Z2hFZGdI?=
+ =?utf-8?B?M2RkbExPNlN0c0V3VVNsbjZ6STRISmd0WEhPVEhaMmMvYm9OVTliN0sycDdh?=
+ =?utf-8?Q?Dazw=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fea362db-9ddd-4448-8f30-08dce95a8077
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2024 18:36:49.2822
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bK0ECKM6AclY1AaGlU4nSLhY0TvyjxCEyQex4sDPFsDD2txQIQqG3mGzM5EQlUhr
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5944
 
-On Mon, Oct 07, 2024 at 06:16:26PM -0500, Ira Weiny wrote:
-> cxl_dpa_to_region() finds the region from a <DPA, device> tuple.
-> The search involves finding the device endpoint decoder as well.
-> 
-> Dynamic capacity extent processing uses the endpoint decoder HPA
-> information to calculate the HPA offset.  In addition, well behaved
-> extents should be contained within an endpoint decoder.
-> 
-> Return the endpoint decoder found to be used in subsequent DCD code.
-> 
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+Hi Tony,
 
-Reviewed-by: Fan Ni <fan.ni@samsung.com>
+On 10/10/24 12:08, Luck, Tony wrote:
+> Babu,
+> 
+>> We have the information already in r->mon.mbm_cntr_free_map.
+>>
+>> How about adding an extra text while printing num_mbm_cntrs?
+>>
+>> $ cat /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs
+>>   Total 32, Available 16
+> 
+> Either that or:
+> Total 32
+> Available 16
+> 
 
-> ---
->  drivers/cxl/core/core.h   | 6 ++++--
->  drivers/cxl/core/mbox.c   | 2 +-
->  drivers/cxl/core/memdev.c | 4 ++--
->  drivers/cxl/core/region.c | 8 +++++++-
->  4 files changed, 14 insertions(+), 6 deletions(-)
+Sure. Fine with me.
+
+> which looks fractionally simpler to parse. But I don't have strong feelings.
 > 
-> diff --git a/drivers/cxl/core/core.h b/drivers/cxl/core/core.h
-> index 5d6fe7ab0a78..94ee06cfbdca 100644
-> --- a/drivers/cxl/core/core.h
-> +++ b/drivers/cxl/core/core.h
-> @@ -39,7 +39,8 @@ void cxl_decoder_kill_region(struct cxl_endpoint_decoder *cxled);
->  int cxl_region_init(void);
->  void cxl_region_exit(void);
->  int cxl_get_poison_by_endpoint(struct cxl_port *port);
-> -struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa);
-> +struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa,
-> +				     struct cxl_endpoint_decoder **cxled);
->  u64 cxl_dpa_to_hpa(struct cxl_region *cxlr, const struct cxl_memdev *cxlmd,
->  		   u64 dpa);
->  
-> @@ -50,7 +51,8 @@ static inline u64 cxl_dpa_to_hpa(struct cxl_region *cxlr,
->  	return ULLONG_MAX;
->  }
->  static inline
-> -struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa)
-> +struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa,
-> +				     struct cxl_endpoint_decoder **cxled)
->  {
->  	return NULL;
->  }
-> diff --git a/drivers/cxl/core/mbox.c b/drivers/cxl/core/mbox.c
-> index 3ba465823564..584d7d282a97 100644
-> --- a/drivers/cxl/core/mbox.c
-> +++ b/drivers/cxl/core/mbox.c
-> @@ -916,7 +916,7 @@ void cxl_event_trace_record(const struct cxl_memdev *cxlmd,
->  		guard(rwsem_read)(&cxl_dpa_rwsem);
->  
->  		dpa = le64_to_cpu(evt->media_hdr.phys_addr) & CXL_DPA_MASK;
-> -		cxlr = cxl_dpa_to_region(cxlmd, dpa);
-> +		cxlr = cxl_dpa_to_region(cxlmd, dpa, NULL);
->  		if (cxlr)
->  			hpa = cxl_dpa_to_hpa(cxlr, cxlmd, dpa);
->  
-> diff --git a/drivers/cxl/core/memdev.c b/drivers/cxl/core/memdev.c
-> index 2565b10a769c..31872c03006b 100644
-> --- a/drivers/cxl/core/memdev.c
-> +++ b/drivers/cxl/core/memdev.c
-> @@ -313,7 +313,7 @@ int cxl_inject_poison(struct cxl_memdev *cxlmd, u64 dpa)
->  	if (rc)
->  		goto out;
->  
-> -	cxlr = cxl_dpa_to_region(cxlmd, dpa);
-> +	cxlr = cxl_dpa_to_region(cxlmd, dpa, NULL);
->  	if (cxlr)
->  		dev_warn_once(cxl_mbox->host,
->  			      "poison inject dpa:%#llx region: %s\n", dpa,
-> @@ -377,7 +377,7 @@ int cxl_clear_poison(struct cxl_memdev *cxlmd, u64 dpa)
->  	if (rc)
->  		goto out;
->  
-> -	cxlr = cxl_dpa_to_region(cxlmd, dpa);
-> +	cxlr = cxl_dpa_to_region(cxlmd, dpa, NULL);
->  	if (cxlr)
->  		dev_warn_once(cxl_mbox->host,
->  			      "poison clear dpa:%#llx region: %s\n", dpa,
-> diff --git a/drivers/cxl/core/region.c b/drivers/cxl/core/region.c
-> index 34a6f447e75b..a0c181cc33e4 100644
-> --- a/drivers/cxl/core/region.c
-> +++ b/drivers/cxl/core/region.c
-> @@ -2827,6 +2827,7 @@ int cxl_get_poison_by_endpoint(struct cxl_port *port)
->  struct cxl_dpa_to_region_context {
->  	struct cxl_region *cxlr;
->  	u64 dpa;
-> +	struct cxl_endpoint_decoder *cxled;
->  };
->  
->  static int __cxl_dpa_to_region(struct device *dev, void *arg)
-> @@ -2860,11 +2861,13 @@ static int __cxl_dpa_to_region(struct device *dev, void *arg)
->  			dev_name(dev));
->  
->  	ctx->cxlr = cxlr;
-> +	ctx->cxled = cxled;
->  
->  	return 1;
->  }
->  
-> -struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa)
-> +struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa,
-> +				     struct cxl_endpoint_decoder **cxled)
->  {
->  	struct cxl_dpa_to_region_context ctx;
->  	struct cxl_port *port;
-> @@ -2876,6 +2879,9 @@ struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa)
->  	if (port && is_cxl_endpoint(port) && cxl_num_decoders_committed(port))
->  		device_for_each_child(&port->dev, &ctx, __cxl_dpa_to_region);
->  
-> +	if (cxled)
-> +		*cxled = ctx.cxled;
-> +
->  	return ctx.cxlr;
->  }
->  
+>> There are all global counters, we don't differentiate between sockets just
+>> like number of CLOSIDs.
 > 
-> -- 
-> 2.46.0
+> Interesting. So there is no real benefit from "0=tl;1=_" ... you are using
+> up two counters, just not reporting them on socket 1.
 > 
+> Why have this complexity in mbm_assign_control syntax?
+
+Lets take an example:
+$ cat /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs
+Total 32
+Available 30
+
+# cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+//0=tl;1=tl;
+
+Here default group has taken two counters.
+
+# cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+//0=_;1=tl;
+
+Here default group has two counters.
+Domain 0 does not have counters applied. So, you wont be able to read the
+MBM values for domain 0.
+Domain 1 has both the counters applied.
+
+Domain level application is important.
+
+This is similar to what we have with schemata. You can change the value in
+each individual domain.
+#cat schemata
+    MB:0=2048;1=2048;2=2048;3=2048
+    L3:0=ffff;1=ffff;2=ffff;3=ffff
+
+
+> 
+> You could have just {grouppath}/{allocation}
+> 
+> where allocation is one of _, t, l, tl
+> 
+> -Tony
 
 -- 
-Fan Ni
+Thanks
+Babu Moger
