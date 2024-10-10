@@ -1,65 +1,35 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtpcmd11117.aruba.it (smtpcmd11117.aruba.it [62.149.156.117])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D355FBE6F
-	for <linux-doc@vger.kernel.org>; Thu, 10 Oct 2024 09:20:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F32191F62
+	for <linux-doc@vger.kernel.org>; Thu, 10 Oct 2024 09:53:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.149.156.117
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728552013; cv=none; b=PQgbK4CvygCevBeayFVVtiFjOw5rCqYY0rtPbsTOsKvaIpOFAB2HyNlEBnvVt3oNL9c7d63fPqMW/E9ijpQoD6IU1kqZ6vk+EHzh3t8ydu9c3OrIzlK8bGVXK3GBfi/lI4tz8AKKoLr+1JlWOgfJwrV8fnwCtHsAh1tEfCHaoi8=
+	t=1728554032; cv=none; b=SgWMSYyeFIpcYcCq+S4+kxv4GYxLiN6wj+ajVrmf72EAP5ISTmbNS9KvPKa2zT541WurVo/QkLJVJgXtDskRkEuc6UIfz4We8sqzs8mOiJzStmdOLEMKYBEwfju3rKocGnUH/JfC8BQ0jDisBjw3SLs0CuPIGEizVcI6HFTZNDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728552013; c=relaxed/simple;
-	bh=gt2Q8i+/uL6SnPG+SqIIUvv4iq2wBJWCilwcTB+uC2s=;
+	s=arc-20240116; t=1728554032; c=relaxed/simple;
+	bh=gkluOhCEVP/sbivB9JIfnCAkFGmMUsQJbIZF6GonPuo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LOONr+zbr0o6lSUisigajQNj0lg46TbzIJ6zZ3YSYKsq5YFT4DatRzKsXNxTZiQ6msyNKt4Frxj5oiw8DFYb7xTh5L0daoychFgAOZusf4AWIjZEaCvSmmuUxIWEQ9CbWP76m/t+VhxFx0976mXk82mduIDHTrETcfRbefETLDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Qfq5Z4ss; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=VHyPMyPKtNJ6VRYEspHa3N0hbto2DrSsyGQiMtxt16ndlvicS9dfIWGmKxglFlRViVcHRiagUYhtXYQa4IH5IAFSNKpK81I41Pjf2hFidCb/bpILwaZXR8X9g1Le8xOS9gBk+rRK3X2OZOEOSalzMh5FOLqutFaobccTXaMaY/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com; spf=pass smtp.mailfrom=enneenne.com; dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b=fl0RUeSP; arc=none smtp.client-ip=62.149.156.117
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enneenne.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Qfq5Z4ss"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1728552010;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c2EUHF55AVEM97e3j7jFpqy1lpH47XxEwMg8191duf8=;
-	b=Qfq5Z4ss8SNfviHOBNkFQtqEnyK+uJqhTYUb8xcBOX8D579AFSS/1KSfxXlFxZX59JsuPD
-	pIxDidy+gJRAQ0BibHr67O3cGVngYKSkwsYBFOVEM2EO7E8Ozl6Uq776vbCLHZFfOGzl+S
-	l3b35MCco3Cw2JPHeI8NJ2uIytR5+rg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-587-PIs_Fvg2P0aR19CVWG5siQ-1; Thu, 10 Oct 2024 05:20:09 -0400
-X-MC-Unique: PIs_Fvg2P0aR19CVWG5siQ-1
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-37d432f9f5eso376546f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 10 Oct 2024 02:20:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728552008; x=1729156808;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=c2EUHF55AVEM97e3j7jFpqy1lpH47XxEwMg8191duf8=;
-        b=ebPWsZDfT7au/tpVgnCZqUQmzHwwg76fAewt23ng5qIE19ISComUurqcx5ofdNx1YW
-         0LyQrDXazdmjpRj3jGPzzmG79XvO977IB6oWh72tmT0nlWymbOjHtmi22YOKMR44SgNF
-         Bw1uUqKmVnsXPYoaITjYnkFa5LN42rP4CZtJ67erDe1lhDwJrcCEV5NWO/HMvGT05WZS
-         cn409+/cXrSGq8HJWPTA2wfDsIw30V48zMpRma14Tpd92unqk9N+lkmY0HxYITsmfe9E
-         gMwKDaqQ7I8/Vk39ZBJWrgvQcPJaLLzYJGFZSL744yywQZ+axjXHOymYJC0IqeeacBBb
-         g+8g==
-X-Forwarded-Encrypted: i=1; AJvYcCW0gPhy9Zg9xXAuOziJjmrFsnVhyzzpzOXnIk9ix/6PV5UCWY7nrxE6zwZO3mn06uL8RoSHaaigClM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzg570GBkpWrOXBE8dS5b/FupMLLmCSFo1csUDARUe2dZ45+qFf
-	6mA/FnN4PxhvPKJVisfZaBrxOjwCzTFbbLq8+vCTB3S5N4xggZSCsGU7Ng936R0SewuFpm0Ym8Z
-	KadPcBzhUpDUdKHiccQ/oCMj3jY2k7AiME9AtwCg6MXzPvD0tpx2mjkAxhA==
-X-Received: by 2002:a5d:6908:0:b0:374:b71f:72c9 with SMTP id ffacd0b85a97d-37d47e9d085mr2387114f8f.16.1728552008563;
-        Thu, 10 Oct 2024 02:20:08 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFdzmtcngiF6R3pU93/9HaNeh0a1Th7Q3WQBAnseARGFC78C7arTlWMQzmNNCWluBuGpiZQJg==
-X-Received: by 2002:a5d:6908:0:b0:374:b71f:72c9 with SMTP id ffacd0b85a97d-37d47e9d085mr2387085f8f.16.1728552008187;
-        Thu, 10 Oct 2024 02:20:08 -0700 (PDT)
-Received: from [192.168.88.248] (146-241-27-157.dyn.eolo.it. [146.241.27.157])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b79fa3bsm974757f8f.78.2024.10.10.02.20.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Oct 2024 02:20:07 -0700 (PDT)
-Message-ID: <822f5875-5ec0-46e1-83f8-66ec1e31f0f2@redhat.com>
-Date: Thu, 10 Oct 2024 11:20:05 +0200
+	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b="fl0RUeSP"
+Received: from [192.168.1.58] ([79.0.204.227])
+	by Aruba Outgoing Smtp  with ESMTPSA
+	id yprcso0rw7AmWyprcsMf1B; Thu, 10 Oct 2024 11:53:46 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+	t=1728554026; bh=gkluOhCEVP/sbivB9JIfnCAkFGmMUsQJbIZF6GonPuo=;
+	h=Date:MIME-Version:Subject:To:From:Content-Type;
+	b=fl0RUeSPXQk9bhSiE+AKV8EvKT804iq8hc1cmg/MBru9a300q4st0Gqu/K80P0wIL
+	 axZf9TE3H+VU+Y9Ao7Lh+lQCRZ3DEtnK3SCdBQOA4ShSH/HhKHXU0kO98bcCSQ0/0v
+	 y6hhJM+tkqMJnHna5gjO3ouUXZVv/731ijDGbo5LIZao3YbPwIoiITYnI9DrI04Y2a
+	 QFS/CpBJY2dtbEZIqFspwCMrPgoiT5/dmTm1vil+Hn+8N1pNhSJueiR0V4aeuuBODB
+	 cJ6pVVqT7q4VD3PttfYL/fBzwvj2tVqio5j154OQJAcTr7+Rg6H9YspiB8du3OwnF3
+	 ICjkw1paZxPTw==
+Message-ID: <253ff116-6ead-42f1-a3a7-0d627ac90b5e@enneenne.com>
+Date: Thu, 10 Oct 2024 11:53:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,43 +37,83 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2] net: Implement fault injection forcing skb
- reallocation
-To: Breno Leitao <leitao@debian.org>, Akinobu Mita <akinobu.mita@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: kernel-team@meta.com, kuniyu@amazon.com, asml.silence@gmail.com,
- Willem de Bruijn <willemb@google.com>, Mina Almasry
- <almasrymina@google.com>, Alexander Lobakin <aleksander.lobakin@intel.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>
-References: <20241008111358.1691157-1-leitao@debian.org>
+Subject: Re: [RFC 1/3] drivers pps: add PPS generators support
+To: Greg KH <greg@kroah.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
+ Hall Christopher S <christopher.s.hall@intel.com>,
+ Mohan Subramanian <subramanian.mohan@intel.com>, tglx@linutronix.de,
+ andriy.shevchenko@linux.intel.com, Dong Eddie <eddie.dong@intel.com>,
+ N Pandith <pandith.n@intel.com>,
+ T R Thejesh Reddy <thejesh.reddy.t.r@intel.com>,
+ Zage David <david.zage@intel.com>,
+ Chinnadurai Srinivasan <srinivasan.chinnadurai@intel.com>
+References: <20241008135033.3171915-1-giometti@enneenne.com>
+ <20241008135033.3171915-2-giometti@enneenne.com>
+ <2024100855-unsecured-mammogram-001a@gregkh>
+ <541eb5c6-5546-4170-9e8b-d421d55822a1@enneenne.com>
+ <2024101013-reputably-skid-9e01@gregkh>
+ <d42b0c9f-086e-4c07-a2ab-8f3b0d6ab580@enneenne.com>
+ <2024101002-viscous-egomaniac-04d3@gregkh>
+From: Rodolfo Giometti <giometti@enneenne.com>
 Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20241008111358.1691157-1-leitao@debian.org>
+In-Reply-To: <2024101002-viscous-egomaniac-04d3@gregkh>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfDG0EGOzieghxLLlgbucQc5oI/bLMrAZN9K9ngTyvhwA6tMQ2wcyaH+s5/kly3Z403QJVrIuy/LuUuVL99j579Cs+11aMIdVg+7FNpeCygMiD2qm4s7o
+ i0tu8Esuj4lf9Q+tUGAYTvCK84kmOCIDDe5Y4Ml5S7AhnYRgmMLQ0kLZjGr6JwQqhmynJE3riChRdcBacib+fZpSjSCmFca1y166xUaS4e/ENGv1MzcjOIqk
+ PKJW9/lBpEuwPtF/+VKIiWarWWZi+n1rEI7+228tMbeSb17k33Xl+tRr/403+hGmo3V5m434WFjcVa6IbslxakmpdrmYWhkHAnmwgx2Iga9DuqoRAqdmUCM4
+ OoRugYyHu0oqP/MS5KKzPooECsVwhvYcEe2RoLUz+3xwj1aWcmCB6/aCb48o+YATAA+P/Q0vcV7KRb02lyhkl95P6v2EBL/HeZ8FfPs9rmQD+T3RfFCO8nfv
+ 31+C8N9w98H4QLBsdq3g3t7IAmQXz1uIWTjNWFx43pJ1v2BuBa0uyixX+jlQ+uZcOq7SvyoEHYX6DdbCSi2vof3f9cTmPQfftxXziMeVOw06Ir3kq1IDApi5
+ PS0S+Tv/8VmiF0Jsghu3QECogv4LPfJY4/jsKa9VUSE7S7woTNEizmls2lrncfSL4l/S8iQYhkOcGwVuYfE3g0+x
 
-On 10/8/24 13:13, Breno Leitao wrote:
-> +void skb_might_realloc(struct sk_buff *skb)
-> +{
-> +	struct net_device *net = skb->dev;
-> +
-> +	if (skb_realloc.filtered &&
-> +	    strncmp(net->name, skb_realloc.devname, IFNAMSIZ))
-> +		/* device name filter set, but names do not match */
-> +		return;
-> +
-> +	if (!should_fail(&skb_realloc.attr, 1))
-> +		return;
+On 10/10/24 09:54, Greg KH wrote:
+> On Thu, Oct 10, 2024 at 09:32:22AM +0200, Rodolfo Giometti wrote:
+>> On 10/10/24 09:15, Greg KH wrote:
+>>> On Wed, Oct 09, 2024 at 10:48:14AM +0200, Rodolfo Giometti wrote:
+>>>>>> +#ifdef CONFIG_COMPAT
+>>>>>> +static long pps_gen_cdev_compat_ioctl(struct file *file,
+>>>>>> +		unsigned int cmd, unsigned long arg)
+>>>>>> +{
+>>>>>> +	cmd = _IOC(_IOC_DIR(cmd), _IOC_TYPE(cmd), _IOC_NR(cmd), sizeof(void *));
+>>>>>> +	return pps_gen_cdev_ioctl(file, cmd, arg);
+>>>>>> +}
+>>>>>> +#else
+>>>>>> +#define pps_gen_cdev_compat_ioctl	NULL
+>>>>>> +#endif
+>>>>>> +
+>>>>>> +static struct pps_gen_device *pps_gen_idr_get(unsigned long id)
+>>>>>> +{
+>>>>>> +	struct pps_gen_device *pps_gen;
+>>>>>> +
+>>>>>> +	mutex_lock(&pps_gen_idr_lock);
+>>>>>> +	pps_gen = idr_find(&pps_gen_idr, id);
+>>>>>> +	if (pps_gen)
+>>>>>> +		kobject_get(&pps_gen->dev->kobj);
+>>>>>> +
+>>>>>> +	mutex_unlock(&pps_gen_idr_lock);
+>>>>>
+>>>>> Doesn't an idr have a lock in it?  I can never remember...
+>>>>
+>>>> As far as I know we must use a mutex...
+>>>
+>>> If you do, someone will come along and remove it, please see:
+>>> 	https://lore.kernel.org/r/b1fcc6707ec2b6309d50060fa52ccc2c892afde2.1728507153.git.christophe.jaillet@wanadoo.fr
+>>> as an example (with links that show it is not needed).
+>>
+>> Here is an example about ida API, but I'm using idr API.
+> 
+> Why not use ida then?  :)
 
-if you wraps the above 2 statement in an helper() taking an skb 
-argument, you could wrap it with the ALLOW_ERROR_INJECTION() macro, for 
-added flexibility, i.e. look at the existing should_failslab().
+Because we need an ID associated with a pointer.
 
-Cheers,
+Ciao,
 
-Paolo
+Rodolfo
+
+-- 
+GNU/Linux Solutions                  e-mail: giometti@enneenne.com
+Linux Device Driver                          giometti@linux.it
+Embedded Systems                     phone:  +39 349 2432127
+UNIX programming
 
