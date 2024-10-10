@@ -1,35 +1,35 @@
 Received: from smtpcmd11117.aruba.it (smtpcmd11117.aruba.it [62.149.156.117])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E111C3F18
-	for <linux-doc@vger.kernel.org>; Thu, 10 Oct 2024 07:29:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 423721EABD2
+	for <linux-doc@vger.kernel.org>; Thu, 10 Oct 2024 07:29:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.149.156.117
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728545353; cv=none; b=ESboDl3PC94whFOKPF2eJFINyWY15I8oJlOBigC4XQUxMCcX6kBbk05SuwqLI74nJOwAY2MYeqoBz0CsmYlbBjsFdaYpRIolRGU4+6jYlbRvfmKrbuU/vh0/MdIqxRksX2xp3ODSPTsApfXUjN0bA2wEgSvS0zGGn6W1jg/Qddw=
+	t=1728545363; cv=none; b=ed/8Ui7+l2TO8CswkpPFP4htg/IA095rtETYJUQty3oOmzlVMUdWpjFXlzZNQ4HiiwNDD71gyxWHvj3ttFSr7/CtMCeRag0aIr+o9/uqyQ9QshJo1Qr4eGVwDDYYrGVCE2JmD1oJoKhiMKv2D0G1IIXnU8LUMTqI5bllOj7X0kA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728545353; c=relaxed/simple;
-	bh=bQ1iSUwJzTr3VrEef8bPG0Zt6AQ6fVnnO+sar11PSgY=;
+	s=arc-20240116; t=1728545363; c=relaxed/simple;
+	bh=YG01dE/xnLvqxhzq1yvPegDpRLjAHw442m9JdyFpt4g=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RInoQE27212D2uQE2TWWRpkkAKsAUnwNKgcmDpLd4kX/BK8g6RzWH0blCQMtbP0lLN2diaAESiQV+ovCf9rchugKKhBzUdLzHxjPAUXOr1VgFJLo8SuFJq/9iFnTQ2AdLpUfli9vvoBPn1bESsM6Y3RmR0vf+tAjK21u4VKuQgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com; spf=pass smtp.mailfrom=enneenne.com; dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b=UjJUKCqM; arc=none smtp.client-ip=62.149.156.117
+	 In-Reply-To:Content-Type; b=KRryK/OfMhewfoSjIzCa1w0soMJJyeTse27PLMyHfIqD/AMOtZmi/aLalh5iNJVYPYmcLDOqvXWEeXzP3pxqOjfY5kTbkV0Kd+61l2Pbf9Kv9m7vbPr2lnZAvn4WtUZl8HBM/MGn/EvP8XfeA/EEklej7/T2ard3ot+5KpI74rk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com; spf=pass smtp.mailfrom=enneenne.com; dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b=j8yG8Lkk; arc=none smtp.client-ip=62.149.156.117
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enneenne.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b="UjJUKCqM"
+	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b="j8yG8Lkk"
 Received: from [192.168.1.58] ([79.0.204.227])
 	by Aruba Outgoing Smtp  with ESMTPSA
-	id ynYdsm3VA7AmWynYdsLL4v; Thu, 10 Oct 2024 09:26:00 +0200
+	id ynYxsm3tO7AmWynYxsLLN3; Thu, 10 Oct 2024 09:26:20 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
-	t=1728545160; bh=bQ1iSUwJzTr3VrEef8bPG0Zt6AQ6fVnnO+sar11PSgY=;
+	t=1728545180; bh=YG01dE/xnLvqxhzq1yvPegDpRLjAHw442m9JdyFpt4g=;
 	h=Date:MIME-Version:Subject:To:From:Content-Type;
-	b=UjJUKCqMeAa0MwXs3t0mx3oLtXGfiRm0USiGCvjP8Y6linHoj0fH6lWHQzv0JeWd1
-	 8bfIpd1tCASizMTD/VnfWE9YNjhP4nwVt23jyrDUz9kuFPE6o1xTVCNqsYzVCp5Hws
-	 U8q6EXOHUlcoFW0lSVKdtxhcev+gELnnLOQTsWx38YQNHcTaZ6d6Dk7iH3ercaOcZR
-	 hD/vXXCwcDcptMbYfcFoAAE/c+luXKVllqTmxP8vHzzRclxCe6ySuZMXZJ5UaxJM8r
-	 iB/UnJvAR0TMXqaE/J3LmEyTUMyec4BLiM7umNnLgFNUmh7TMFSEDxk1S+433ALlQW
-	 NP1AFAQ33/8sg==
-Message-ID: <7158028e-e516-4eb6-b207-eb8c2d92fd39@enneenne.com>
-Date: Thu, 10 Oct 2024 09:25:58 +0200
+	b=j8yG8Lkk9dgzIZOxDpiI8MNMI3AtX8XFkCTNnZ7oeccB6WHrJMWTbsSlC4XOnFZ16
+	 MgKuuxcMES9zJCcD9hSfVKajN7VY7VQT2hn9nQH4hVqcX8WgfMw4LmqQ3xVjp/pP9e
+	 AC7G7GH0STi82G8o+hHA+rM+/23dZlhxpNfAPcoSBq1QoibilbtXVIbwmgH1VttHhl
+	 2FagxtW2smASffH/3iBtPN5PdKb+VqoZOp+Hs9MYhw+JfRv9loSsVLXEXe2I/RW8TT
+	 1K7rpXQ9XD/XHDD4kjCM9g88VTehAYtacTPXAgNvLzCT0BoMqhnAfHqW7ph8L9dcK0
+	 H7Wwo1yE3VLrg==
+Message-ID: <01ed8d0e-0579-419b-8a6f-1df7cb0da773@enneenne.com>
+Date: Thu, 10 Oct 2024 09:26:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,7 +37,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 1/3] drivers pps: add PPS generators support
+Subject: Re: [RFC 2/3] Documentation pps.rst: add PPS generators documentation
 To: Greg KH <greg@kroah.com>
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
@@ -49,50 +49,48 @@ Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  Zage David <david.zage@intel.com>,
  Chinnadurai Srinivasan <srinivasan.chinnadurai@intel.com>
 References: <20241008135033.3171915-1-giometti@enneenne.com>
- <20241008135033.3171915-2-giometti@enneenne.com>
- <2024100855-unsecured-mammogram-001a@gregkh>
- <541eb5c6-5546-4170-9e8b-d421d55822a1@enneenne.com>
- <2024100917-daybed-suffering-7367@gregkh>
+ <20241008135033.3171915-3-giometti@enneenne.com>
+ <2024100850-stunned-curve-2ba4@gregkh>
+ <fcb082fd-2572-4782-b9e2-69cdbc22714d@enneenne.com>
+ <2024100932-twirl-stabilize-8574@gregkh>
 From: Rodolfo Giometti <giometti@enneenne.com>
 Content-Language: en-US
-In-Reply-To: <2024100917-daybed-suffering-7367@gregkh>
+In-Reply-To: <2024100932-twirl-stabilize-8574@gregkh>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfMovEkJirDeIFPRfqGHWgUK1T7K7szP+CmR0YPO1yusObFLFvawUZjIdqY8KMkBQCoAElOj4d6SclKPyisnDeXEZRclrFcAvaqZaBaJkNvqsyVNiySEt
- KCJb5GtJXlpj/SYO/3nAF1OKbpV2yN4idgA95kRZPRKJm8Jo/opvuyNVmC60w46+vdgKMLj2cfeAgDZNYOqLiCj7BQvco9dr3RA0Kc0txrMbv/6tZ43Rmukh
- qVEKIjJNrqvXB7tEDETbmEsf9MUTd7fOGjhuM57PIofIKrqtwWk7BpM0y2TGqdUW2gj3j+waqrluIMTpLoD6CSV2Omx8EBGyqDRUcSH/T32x/1hCav5SomsX
- f58qUDT6Un0RFWYDbDxyHuOXtNeMGj+Fv70Vk9zOSrjqpE0qvyMvtEXzBdYvcUmksK3uoLGSdccwtgf+psrJHOjFu7jj5rZ6sPf/gnrn8ixUpxPnqm7/NS9M
- clNUA2NP65OJcs7h0KiO/AwFZPLNvLl7sdat2WSeSotGBNpMSDTzz+BUAlE3B263pokXsl3ioeJI6WzMzMoRG/onkjW+5YRWBY36sY9uHzZdqNrnOMSKxiKq
- 5qLL3s6Ym3Vo2YGo5gm1Hl1ic5cLHiF0WXl4/KQcrCBjTYh1EmcEoHNkX3k8xhnkwhGuYYx2+LjqNMHkjcY/yYTp
+X-CMAE-Envelope: MS4xfNP9CS3i7qzHEeQ5NlHxQwvVAnw/+OvEp636GjGFKRKAyO0nsFxwCZxx1eHNXnPqG+V9Oc4bXb0H5kqS78KSOpptVThCs4ntg1dU0hTRMmjgJTk9HuNP
+ ZgUoxUyKEoxyUkIzLgNKMtU+ebF0XBHgdC6j3XdWflVfZJFs/QG8DhFeY6MEFuHpN7c4BVspTAZA+mIRU19lNnT0zkss1U0qVtAXHOBDgGQ7L6q7mGcMiznr
+ 2stGh+Cq/r/SJ0c4FLth3RAL85SDEtXZzYPQiIqJyYrJFWJ7V3A+a9Xw8ZopuZg6ubpq0Vl3YjeFZj3soqXUx7TV5NeAIMRF37hE+OOI9WsWQ+nW94AibIUP
+ WCUCbpMbo3KCNMqwjPoST7Fb8foolp/cJULpCPY5947dv0f9f6KtXOhzpMInBvXUdJ0wvaTYosk8esQ0WnaOgaSQnqztOinuSmJwyE1uJJhn/S5ZjH4vaUeL
+ sVrRoxhRvzVSKuSfA/X3Ih1EzoIc/9zbXzcRtja26gcu+TRSP+SfPQFpfc1mu+Fm0OTU16LBgnyvRPo5h/z6nq1Xp49sn2v/XIhP/7iUz0vYQ3esQy1EvtPg
+ U002Xkkom8lnBa55kiOVkhiGyT9d+aII2xWjrzQ6heMT129L6PL18mQT4R6xeSoKkzY9VbizyV7sYMXuNCMHR8SR
 
-On 09/10/24 11:19, Greg KH wrote:
-> On Wed, Oct 09, 2024 at 10:48:14AM +0200, Rodolfo Giometti wrote:
->>>> +	kobject_put(&pps_gen->dev->kobj);
+On 09/10/24 11:14, Greg KH wrote:
+> On Wed, Oct 09, 2024 at 10:48:18AM +0200, Rodolfo Giometti wrote:
+>> On 08/10/24 17:43, Greg KH wrote:
+>>> On Tue, Oct 08, 2024 at 03:50:32PM +0200, Rodolfo Giometti wrote:
+>>>> This patch adds some examples about how to register a new PPS
+>>>> generator in the system, and how to manage it.
+>>>>
+>>>> Signed-off-by: Rodolfo Giometti <giometti@enneenne.com>
+>>>> ---
+>>>>    Documentation/driver-api/pps.rst | 40 ++++++++++++++++++++++++++++++++
 >>>
->>> Messing with a kobject reference directly from a device feels wrong and
->>> should never be done.
+>>> All of this can go into the .c file and autogenerated there, no need for
+>>> a separate .rst file that will quickly get out-of-date.
 >>
->> I followed the suggestions in this patch whose look sane to me:
->>
->> https://lore.kernel.org/lkml/fc5fe55c-422d-4e63-a5bd-8b6b2d3e6c62@enneenne.com/T/
+>> I see. I'm going to add proper documentation within .c files. But since some
+>> references about PPS generators are also present in this file, I think it
+>> would be wise to add some notes about the new interface...
 > 
-> That patch is wrong.
+> Why not just move all of the documentation into the .c files?
 
-:(
+I see, but this is another story. :-P
 
->>>   Please use the proper apis.
->>
->> Which API are you talking about? Can you please provide some advice?
-> 
-> get_device()
-> 
-> You are working on devices, NOT a raw kobject, no driver should EVER be
-> calling into a kobject function or a sysfs function, there should be
-> driver core functions for everything you need to do.
+At the moment I prefer to just add a note here about the new interface, and 
+later we can do what you suggest.
 
-OK, I'm going to provide a new RFC taking in account what you suggest.
-
-Thanks,
+Ciao,
 
 Rodolfo
 
