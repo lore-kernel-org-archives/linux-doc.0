@@ -1,142 +1,99 @@
-Received: from flow-a8-smtp.messagingengine.com (flow-a8-smtp.messagingengine.com [103.168.172.143])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 226271BBBCD;
-	Thu, 10 Oct 2024 07:54:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.143
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD0CA1BD03E;
+	Thu, 10 Oct 2024 08:10:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728546858; cv=none; b=kyFENgGeN8d8o8VBqVF4l25MP6lsrSlOTp76isWJTyaOna6qDC0zvn0T7eLeBeM3Wymhhqh2gqB5CBSPD55oeAN86Yqqll/El9A/8fnAaIrVa/CI4naFvoC3jWkekGSBeJIoDa6XVk12hKJVWxw/JNHGl+lt1urUqxFmvIaKSes=
+	t=1728547816; cv=none; b=uVczmv7lT97/IaqtJXN1uOaOnpwKT09EnnKJvPMbh6cZsA8is/qpgLCmWLg0AFL1/g+rk4d63YJb/smzduPPGJYgRTkzCv2VaaL6KWLV39qGOh2H586DD8Bd7/JpWiPadPGsN4pkS/K8wKoyT2SVZB/0yD+KZcGBSJzD9UFh/Nw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728546858; c=relaxed/simple;
-	bh=yQdITD3WpxzAEjDgREY4c01kbPx8Bv3a29Byf4HmD4Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oe3cIYXdYqtAtuNvFfgCTgunSnHwqI1Un+vHIkqVZEC5aq7F8nU9Guje/gwUJ+iKrgBYbWWrUIPyrmsSu6SVZHEygEkEjH3zMqcDmwEc6pTuHV8XA/NgPMP3r1Xkrp0DEFcGT/PZnIEJ/lfshsg51FVbOvu0/YuAXdi0ZYoPhOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=nHotkl57; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=o5cOf2+B; arc=none smtp.client-ip=103.168.172.143
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="nHotkl57";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="o5cOf2+B"
-Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
-	by mailflow.phl.internal (Postfix) with ESMTP id 1761D200A8E;
-	Thu, 10 Oct 2024 03:54:15 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Thu, 10 Oct 2024 03:54:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1728546855; x=1728554055; bh=8ZgPwhYOGk
-	lXvFEroC5FWV0PRPDFcPPw8YmjGDO+WMA=; b=nHotkl57YicS1Dy7W6zf9x3fyG
-	pxwW76XatgkjGsfEkVFZ7su7XLjMjsN+65tKAagEFcYFq2tUO6jUeKwV4OsTjrWw
-	cDp3bjshnjALVaY6k+yJPuyzCEHAiEZYleJKgmdqirr2LbdNOV/e5wRMo9FggI/5
-	Elzommy77CP1Uxk6f4oG4Lz3YSbw63wK8eDlpjcBEXzJFPBQYrfnwtZ/0heLyXiX
-	4e8qdhAUWUpuuTA0OFynctFm4DTWMhF2yQu8jRdDuBEBTpOJoOBkKisitTPF5VQd
-	hjt8UXj9rtoRvdOvZZ3tkEiqgzaUcKmjugSkZuA2BxMJyBGk9qgshETgKXOA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1728546855; x=1728554055; bh=8ZgPwhYOGklXvFEroC5FWV0PRPDF
-	cPPw8YmjGDO+WMA=; b=o5cOf2+BVYeHI7U/Q6+QDES60k9dQNADWsDv4BikpzI0
-	nwNFnUogVNUjkli+SoTsdVYL+hP0i1YSTL6/9T077ac9J6nnzSt9bPE6deGhCOeW
-	vrI/vRWgvSDWjUWy31QD91/vlztznpQaO+9AX9jEeT4bg1gTxdGvw7/D1GlyDUtm
-	WdemYYQHGiB17JmoUqbx68fqZK+UnzIgaFSm83MDteuw9/qqMShBVqdQ4vfKBvB7
-	4YIYZv06sI+4k0eTnlzHlqJJCyuS1qAxs1blEhQu7HnkY3px+P4JWW/pEEXX7XhQ
-	RwYN18KDmVl0NTdUrj/jBN5MTvw7CnG7qMO0TEKPpQ==
-X-ME-Sender: <xms:JogHZ28cs_NJjuiUsCWG35tq8FwEjj7wJBhSajmfW24JMM-LQ7h7SQ>
-    <xme:JogHZ2vxGG8w-k7n8xwmWmAok2NcCgsQoHzVr4m2l_mw9btsIyxTzOFN6Zv4XW8tN
-    5mlHMWSZF8vCQ>
-X-ME-Received: <xmr:JogHZ8BEiQYRT-Yl22GfaoApX5Vwdjrzgc2lX80pcjnWe-w4OLkAEYOdsk8w33TJPVkGmZUYdrnuCHjtusYrHiBe_MIpsPgtzImkZA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdefgedguddviecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddv
-    necuhfhrohhmpefirhgvghcumffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtf
-    frrghtthgvrhhnpeegheeuhefgtdeluddtleekfeegjeetgeeikeehfeduieffvddufeef
-    leevtddtvdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuih
-    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
-    pdhnsggprhgtphhtthhopedvkedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepgh
-    hiohhmvghtthhisegvnhhnvggvnhhnvgdrtghomhdprhgtphhtthhopehlihhnuhigqdgu
-    ohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrh
-    hnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghkphhmsehlihhn
-    uhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopegtohhrsggvtheslhifnh
-    drnhgvthdprhgtphhtthhopegthhhrihhsthhophhhvghrrdhsrdhhrghllhesihhnthgv
-    lhdrtghomhdprhgtphhtthhopehsuhgsrhgrmhgrnhhirghnrdhmohhhrghnsehinhhtvg
-    hlrdgtohhmpdhrtghpthhtohepthhglhigsehlihhnuhhtrhhonhhigidruggvpdhrtghp
-    thhtoheprghnughrihihrdhshhgvvhgthhgvnhhkoheslhhinhhugidrihhnthgvlhdrtg
-    homh
-X-ME-Proxy: <xmx:JogHZ-cxGkK-V7KjUga3afS93PTRX-KVzhp0juJJWbZuJbEBxCwDxg>
-    <xmx:JogHZ7ONND1nHmcquuQuL2esGtTO-LAF_XVqolGO1pPVYEQM2uE37g>
-    <xmx:JogHZ4nDmaIPRXVZbIy5oVnW4bBFRwKpzlgdRygL2CJmTCRBlRf3CQ>
-    <xmx:JogHZ9voDuSIMhgjM5s-M33-Rk1RrsAQIqWqYsco8DkYdcMAFr8TOw>
-    <xmx:J4gHZ1W3UwIKP7wVH5XStYyT2vDVjkWRX5p8hp23s23o_5nz0xUf8vra>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 10 Oct 2024 03:54:13 -0400 (EDT)
-Date: Thu, 10 Oct 2024 09:54:11 +0200
-From: Greg KH <greg@kroah.com>
-To: Rodolfo Giometti <giometti@enneenne.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
-	Hall Christopher S <christopher.s.hall@intel.com>,
-	Mohan Subramanian <subramanian.mohan@intel.com>, tglx@linutronix.de,
-	andriy.shevchenko@linux.intel.com,
-	Dong Eddie <eddie.dong@intel.com>, N Pandith <pandith.n@intel.com>,
-	T R Thejesh Reddy <thejesh.reddy.t.r@intel.com>,
-	Zage David <david.zage@intel.com>,
-	Chinnadurai Srinivasan <srinivasan.chinnadurai@intel.com>
-Subject: Re: [RFC 1/3] drivers pps: add PPS generators support
-Message-ID: <2024101002-viscous-egomaniac-04d3@gregkh>
-References: <20241008135033.3171915-1-giometti@enneenne.com>
- <20241008135033.3171915-2-giometti@enneenne.com>
- <2024100855-unsecured-mammogram-001a@gregkh>
- <541eb5c6-5546-4170-9e8b-d421d55822a1@enneenne.com>
- <2024101013-reputably-skid-9e01@gregkh>
- <d42b0c9f-086e-4c07-a2ab-8f3b0d6ab580@enneenne.com>
+	s=arc-20240116; t=1728547816; c=relaxed/simple;
+	bh=lUHpaDpkgjwSIOpS7uOdFQf2dUS+V/U9/3xLgBMHyT8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CkF978Lj7+rDFRotiGjjQi8AheANs6yMdMZA1CVJM97sR/9x8uwqTkhIsLZJIdTa8JPhbJwX8oWrfFRb9bDXAgw+QYqc5RT5322vDNVG1WJSWV5BdmiGbItfcLEJ/Utl0pQgOjY+ao4l+kNbxiSi04OgEN/jgqG9azIWlXo9Q2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E75EC497;
+	Thu, 10 Oct 2024 01:10:36 -0700 (PDT)
+Received: from [10.1.33.28] (e122027.cambridge.arm.com [10.1.33.28])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 255E73F64C;
+	Thu, 10 Oct 2024 01:10:05 -0700 (PDT)
+Message-ID: <d086651e-410e-4ac6-8825-d192abeac38f@arm.com>
+Date: Thu, 10 Oct 2024 09:10:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d42b0c9f-086e-4c07-a2ab-8f3b0d6ab580@enneenne.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation/gpu: Fix Panthor documentation build
+ warnings
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Boris Brezillon <boris.brezillon@collabora.com>
+Cc: kernel@collabora.com, Stephen Rothwell <sfr@canb.auug.org.au>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20241009214346.2308917-1-adrian.larumbe@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20241009214346.2308917-1-adrian.larumbe@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 10, 2024 at 09:32:22AM +0200, Rodolfo Giometti wrote:
-> On 10/10/24 09:15, Greg KH wrote:
-> > On Wed, Oct 09, 2024 at 10:48:14AM +0200, Rodolfo Giometti wrote:
-> > > > > +#ifdef CONFIG_COMPAT
-> > > > > +static long pps_gen_cdev_compat_ioctl(struct file *file,
-> > > > > +		unsigned int cmd, unsigned long arg)
-> > > > > +{
-> > > > > +	cmd = _IOC(_IOC_DIR(cmd), _IOC_TYPE(cmd), _IOC_NR(cmd), sizeof(void *));
-> > > > > +	return pps_gen_cdev_ioctl(file, cmd, arg);
-> > > > > +}
-> > > > > +#else
-> > > > > +#define pps_gen_cdev_compat_ioctl	NULL
-> > > > > +#endif
-> > > > > +
-> > > > > +static struct pps_gen_device *pps_gen_idr_get(unsigned long id)
-> > > > > +{
-> > > > > +	struct pps_gen_device *pps_gen;
-> > > > > +
-> > > > > +	mutex_lock(&pps_gen_idr_lock);
-> > > > > +	pps_gen = idr_find(&pps_gen_idr, id);
-> > > > > +	if (pps_gen)
-> > > > > +		kobject_get(&pps_gen->dev->kobj);
-> > > > > +
-> > > > > +	mutex_unlock(&pps_gen_idr_lock);
-> > > > 
-> > > > Doesn't an idr have a lock in it?  I can never remember...
-> > > 
-> > > As far as I know we must use a mutex...
-> > 
-> > If you do, someone will come along and remove it, please see:
-> > 	https://lore.kernel.org/r/b1fcc6707ec2b6309d50060fa52ccc2c892afde2.1728507153.git.christophe.jaillet@wanadoo.fr
-> > as an example (with links that show it is not needed).
+On 09/10/2024 22:43, Adrián Larumbe wrote:
+> Fix Panthor documentation build errors uncovered by the makedocs target
+> when building with extra warnings enabled.
 > 
-> Here is an example about ida API, but I'm using idr API.
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> Fixes: f25044688b04 ("drm/panthor: add sysfs knob for enabling job profiling")
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
 
-Why not use ida then?  :)
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+> ---
+>  Documentation/gpu/drivers.rst         | 1 +
+>  Documentation/gpu/drm-usage-stats.rst | 1 +
+>  Documentation/gpu/panthor.rst         | 2 +-
+>  3 files changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
+> index b899cbc5c2b4..7b1282e2d807 100644
+> --- a/Documentation/gpu/drivers.rst
+> +++ b/Documentation/gpu/drivers.rst
+> @@ -22,6 +22,7 @@ GPU Driver Documentation
+>     afbc
+>     komeda-kms
+>     panfrost
+> +   panthor
+>  
+>  .. only::  subproject and html
+>  
+> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
+> index a80f95ca1b2f..12ca3193bf15 100644
+> --- a/Documentation/gpu/drm-usage-stats.rst
+> +++ b/Documentation/gpu/drm-usage-stats.rst
+> @@ -186,4 +186,5 @@ Driver specific implementations
+>  
+>  * :ref:`i915-usage-stats`
+>  * :ref:`panfrost-usage-stats`
+> +* :ref:`panthor-usage-stats`
+>  * :ref:`xe-usage-stats`
+> diff --git a/Documentation/gpu/panthor.rst b/Documentation/gpu/panthor.rst
+> index cbf5c4429a2d..3f8979fa2b86 100644
+> --- a/Documentation/gpu/panthor.rst
+> +++ b/Documentation/gpu/panthor.rst
+> @@ -4,7 +4,7 @@
+>   drm/Panthor CSF driver
+>  =========================
+>  
+> -.. _panfrost-usage-stats:
+> +.. _panthor-usage-stats:
+>  
+>  Panthor DRM client usage stats implementation
+>  ==============================================
+
