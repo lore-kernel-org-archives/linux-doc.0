@@ -1,117 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4B21CF7B8;
-	Thu, 10 Oct 2024 20:36:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF7901BC077;
+	Thu, 10 Oct 2024 21:35:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728592601; cv=none; b=bT5U5ZYl+hv7RR8cIX9f45mgxaxD19V6gl6t6ZehwXK4i8q3m74CMyU9HPWwMFXPMWMCe2t45SlFxapUh2hlMeDzBwqTWbdGtn9KFKzeltalm5PctgNbC5qSnXeGheWISwiIm5Dj6/TuheF6yHtu+K5y4eYvhzSSaUhuTUFpmv8=
+	t=1728596111; cv=none; b=jLgUIq92y4UuPvqNQl7f7fb5lVB2hKwACa9U/OYncKxFxBnzuN9ov7GUeec6/9VnBAEP4w1t/SwbRzoYm1WLTLskSSLCdxv84Oj8O1G4CqQj+K/j6QiMgRzP7nA76CLJqQM9VakX1HVuubYc9h4Bhlpp0DECrjxDqNyc/1e4q2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728592601; c=relaxed/simple;
-	bh=PEOrMed0XoOGSxfnnHoSuxxB2fcADkrYpaZ2gR/BVCE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fnjzaloI78WK/BzBkM/ue5ppOXxFCCHQJ/7+hxGLvreeY9MKPrjFhTIDR15+rMHYmeKdOMGKhFdtZPX6PkUrxQ/eygMTkTxSrcZlupJj7Cl9RWfUhIQLItTh3G4Ho0y35sTLJCHyKwdJ+9YPv62Mo5HsiIW+2jEGZCebLyJRvuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NJeVJQBo; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728596111; c=relaxed/simple;
+	bh=zK7p5128U8C4qw9cUGDDbyNbtWkGbaBIkeYO7AqYWYI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YjK2Aq8phEa+xxSo9YXnpYo8dLEt13TNsZep7gPQJvhRxREkFCPLqLsJwUomgVKAdns+7lnU4nCp3YI+PdhE2ZjVVNJGVfOCU7Rc9B78VCuXnDXu4Bnziv4Mgvnj6ZEiEBt2IGXlELR6fyFi8ZaGjGt+1T8kpYFTOJrCGMxW8Hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=g/FNjAR4; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NJeVJQBo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728592599; x=1760128599;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PEOrMed0XoOGSxfnnHoSuxxB2fcADkrYpaZ2gR/BVCE=;
-  b=NJeVJQBoM+m/SMtPOs5VxF/2nGDkZS8PCvuanjIRxWgCCe5CLVQE915F
-   3w1VbwzOWXUFTZsnYJ4qQs4a03sXAJCiKZNp/h+G5E9ghb1NxKE3sVwqC
-   cS/tv4VRIvPejF6Jeh0P3BNiPnHZpO3JHSgd7W5PLo7zFGeZU1ReoW1r4
-   UuF/Yq2ai/vfiD1RMR4NH57fJffVQLuiJMchLWfeHIXDA/TBoLC/sotb/
-   pBuQpzEAPWdLNWLqRaQHqN07Y7XfF9yn6H2YVO8XeiIq1rkBa4omfPRJq
-   ipGNUid6q+KWtap8PCp3ToXR7gRuM5YHIJKga7MoanprYEvAAOh1iPXQS
-   w==;
-X-CSE-ConnectionGUID: JnwS0V7BS/m7Dovz8V5SEg==
-X-CSE-MsgGUID: FNBNYHLIS7+bT45yPe8d4A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="39373354"
-X-IronPort-AV: E=Sophos;i="6.11,194,1725346800"; 
-   d="scan'208";a="39373354"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 13:36:38 -0700
-X-CSE-ConnectionGUID: zsUJwG1uSc2QB6hgk5nb5Q==
-X-CSE-MsgGUID: Mv/wsEi3Qfy8gL8addNwnA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,194,1725346800"; 
-   d="scan'208";a="81508557"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 10 Oct 2024 13:36:32 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1syztd-000BEl-1o;
-	Thu, 10 Oct 2024 20:36:29 +0000
-Date: Fri, 11 Oct 2024 04:35:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>,
-	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
-	Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-	Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
-	arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	thomas.petazzoni@bootlin.com, jeremie.dautheribes@bootlin.com,
-	miquel.raynal@bootlin.com, seanpaul@google.com, marcheu@google.com,
-	nicolejadeyee@google.com,
-	Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH v12 13/15] drm/vkms: Create KUnit tests for YUV
- conversions
-Message-ID: <202410110407.EHvadSaF-lkp@intel.com>
-References: <20241007-yuv-v12-13-01c1ada6fec8@bootlin.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="g/FNjAR4"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=vMbQwUr7ywKb4MkZIOldfixyIkJJKRhdNS4esop9Ajo=; b=g/FNjAR4eBrtGpvrc8xR90CTEd
+	fydpayj6JPE0SFXITu299amM1dGMSGvFQ/LSBjyhKfJQd3LliyrSWlvSh43zOJ1YwaGUOfj2RgyhV
+	5BcXJjbsVss/z/sEIXY5UYEIqhn4nK8LRnyZSBnCaogLVHf/iRDgDCbeg8xuilhVx4jDlhE3j5v6P
+	qIh3yPh/k9JjvqsaL7UCXkG0VDOksk0BpqlVgpeh97U8xEVV3UXfRWoB+t5b8mitrieaH9RKePHfe
+	5nVWyBrmruKPLf2oZBhSANZzh3Q/K3vru0JitAYn5VjTCPM9pmkkWJ66EKTGPX/M3QnChqU1RyNVU
+	khiOW9sw==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1sz0oG-00000005g2f-3tAb;
+	Thu, 10 Oct 2024 21:35:01 +0000
+Message-ID: <f7fba2fa-cac9-4ecd-98e1-adb2cac474ab@infradead.org>
+Date: Thu, 10 Oct 2024 14:34:56 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241007-yuv-v12-13-01c1ada6fec8@bootlin.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] XArray: minor documentation improvements
+To: Tamir Duberstein <tamird@gmail.com>
+Cc: Matthew Wilcox <willy@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <CAJ-ks9khQo8o_7qUj_wMS+_LRpmhy7OQ62nhWZBwam59wid5hQ@mail.gmail.com>
+ <20241010141309.52527-2-tamird@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20241010141309.52527-2-tamird@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Louis,
+Hi Tamir,
 
-kernel test robot noticed the following build errors:
+On 10/10/24 7:12 AM, Tamir Duberstein wrote:
+>  Normal API
+>  ==========
+> @@ -63,13 +64,14 @@ for statically allocated XArrays or xa_init() for dynamically
+>  allocated ones.  A freshly-initialised XArray contains a ``NULL``
+>  pointer at every index.
+>  
+> -You can then set entries using xa_store() and get entries
+> -using xa_load().  xa_store will overwrite any entry with the
+> -new entry and return the previous entry stored at that index.  You can
+> -use xa_erase() instead of calling xa_store() with a
+> +You can then set entries using xa_store() and get entries using
+> +xa_load().  xa_store() will overwrite any entry with the new entry and
+> +return the previous entry stored at that index.  You can unset entries
+> +using xa_erase() or by setting the entry to ``NULL`` using xa_store().
+>  ``NULL`` entry.  There is no difference between an entry that has never
 
-[auto build test ERROR on 82fe69e63d2b5a5e86ea94c7361c833d3848ab69]
+Is the line above supposed to be here?
+Confusing to me.
+Thanks.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Louis-Chauvet/drm-vkms-Code-formatting/20241008-001316
-base:   82fe69e63d2b5a5e86ea94c7361c833d3848ab69
-patch link:    https://lore.kernel.org/r/20241007-yuv-v12-13-01c1ada6fec8%40bootlin.com
-patch subject: [PATCH v12 13/15] drm/vkms: Create KUnit tests for YUV conversions
-config: i386-randconfig-013-20241010 (https://download.01.org/0day-ci/archive/20241011/202410110407.EHvadSaF-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241011/202410110407.EHvadSaF-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410110407.EHvadSaF-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
->> ERROR: modpost: "drm_get_color_range_name" [drivers/gpu/drm/vkms/tests/vkms_format_test.ko] undefined!
->> ERROR: modpost: "drm_get_color_encoding_name" [drivers/gpu/drm/vkms/tests/vkms_format_test.ko] undefined!
->> ERROR: modpost: "get_conversion_matrix_to_argb_u16" [drivers/gpu/drm/vkms/tests/vkms_format_test.ko] undefined!
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+> -been stored to, one that has been erased and one that has most recently
+> -had ``NULL`` stored to it.
+> +been stored to and one that has been erased with xa_erase(); an entry
+> +that has most recently had ``NULL`` stored to it is also equivalent
+> +except if the XArray was initialized with ``XA_FLAGS_ALLOC``.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+~Randy
