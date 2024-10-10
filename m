@@ -1,127 +1,228 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D05236C;
-	Thu, 10 Oct 2024 00:01:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB783A59
+	for <linux-doc@vger.kernel.org>; Thu, 10 Oct 2024 00:02:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728518465; cv=none; b=bLoJCEqBDSpLUmqbT0ijnhDk9gLyU/xDEqsdPoFn2EBUEXJwTJQ0TA5dfUIXO9zFXIMoWjTp94rmj8a01kC4Njk/HDDcwovFw7DshIsI5os4VFJaVzYyvL4zRTglgfDUIlHFvMhi5kddB4tmiPiH2zwYfdrzqaoifULd0/rm1bk=
+	t=1728518536; cv=none; b=jURBAd2N+RtQoDZdbX5USNYYUEYhtIbIAYyfg9oellHRyyJqjqUwFMApquMIi3zF+4bnaROMhqISz1hZYGuqorOPkS24+BwFSvObKcHeFhnrPWxW2sxHrsBGVuWTel3lwTslojaRNV4S51dK4c48tkRRncle0J0NDijJE95nNMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728518465; c=relaxed/simple;
-	bh=dr2LfrrEzJmigC9ayHJC4QWG19jmWEVbmR0xRv/38xk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sUhBbcfLe6e71O+AMDDdM8AcbFQCj4fhV5rslxn2sPyYfy1T9YrrAIthOg7ZttpgtrwSypRpzfUNgndJSiNyVf7T/pGwgxT+EGJpkstNlpH8s8Rrjq0OJYZ3A0teJudJrwKjOGeN+eDKFAYqtmz6Kp9UuLmjnSAOJGCADDpKO30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XTJI3SJR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728518536; c=relaxed/simple;
+	bh=ewGqRf1g6Sl7BxQGp08YR8W3r9FXfAEWp++dX7lyTMw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZKarUT4b6Ys8urd/cwhjxsCbgCftZ/hV3uymbp95X1cOS4Q0ieYFbOFZ+oSyb/Pi8zpTRQ65FOh3EuqI2NY53fsg1arwOM8xiJ/ZriQyjx1N29Vf878+1r+MqTuYAE3Ig5tyq/5JRkEbaya4Q0pqNsr6NGm29PS/t7AjJjsPwnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=vuvB9ybR; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XTJI3SJR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E348C4CECD;
-	Thu, 10 Oct 2024 00:01:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728518464;
-	bh=dr2LfrrEzJmigC9ayHJC4QWG19jmWEVbmR0xRv/38xk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=XTJI3SJR+XkmjG4/z0dQeNBgU1dMp3gSFYEShLQ6ZuSHtZZ6syHCBQfFy9/NpW5Ij
-	 toDP0PxtZVpQSMDEGMQZWUMPMKmrmNv4p1u67XlgxLFXpyzeAAhwz7NndHcjQPWUBN
-	 +OXWy8IVAPJQIpIXtFjhKyhCEvsvQaJqpHpBu+VYMsRsSa6RrVVB7acXSkwvdG2euT
-	 CIskZESML2QpmzlcAM0uMhDoK4OdrumwJVqXanjtR9BYlFjkxBMZFntb/TUw8T2t+2
-	 xZLbd+i+OjFzaKOzL54Yk4z9SRgqaA52b84lDB+JuTSbzyir5B6Gfr2159VSD72EpR
-	 kB56xfftfdWNQ==
-Date: Wed, 9 Oct 2024 17:01:02 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Taehee Yoo <ap420073@gmail.com>, Mina Almasry <almasrymina@google.com>
-Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org, donald.hunter@gmail.com,
- corbet@lwn.net, michael.chan@broadcom.com, kory.maincent@bootlin.com,
- andrew@lunn.ch, maxime.chevallier@bootlin.com, danieller@nvidia.com,
- hengqi@linux.alibaba.com, ecree.xilinx@gmail.com,
- przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, ahmed.zaki@intel.com,
- paul.greenwalt@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com,
- asml.silence@gmail.com, kaiyuanz@google.com, willemb@google.com,
- aleksander.lobakin@intel.com, dw@davidwei.uk, sridhar.samudrala@intel.com,
- bcreeley@amd.com
-Subject: Re: [PATCH net-next v3 7/7] bnxt_en: add support for device memory
- tcp
-Message-ID: <20241009170102.1980ed1d@kernel.org>
-In-Reply-To: <CAMArcTWVrQ7KWPt+c0u7X=jvBd2VZGVLwjWYCjMYhWZTymMRTg@mail.gmail.com>
-References: <20241003160620.1521626-1-ap420073@gmail.com>
-	<20241003160620.1521626-8-ap420073@gmail.com>
-	<CAHS8izO-7pPk7xyY4JdyaY4hZpd7zerbjhGanRvaTk+OOsvY0A@mail.gmail.com>
-	<CAMArcTU61G=fexf-RJDSW_sGp9dZCkJsJKC=yjg79RS9Ugjuxw@mail.gmail.com>
-	<20241008125023.7fbc1f64@kernel.org>
-	<CAMArcTWVrQ7KWPt+c0u7X=jvBd2VZGVLwjWYCjMYhWZTymMRTg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="vuvB9ybR"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2e2bd347124so283557a91.1
+        for <linux-doc@vger.kernel.org>; Wed, 09 Oct 2024 17:02:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1728518533; x=1729123333; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=z81onnv7XmpsFKJJEJouk5fW7lC/eJB47z6sozvRnOU=;
+        b=vuvB9ybRThfOultl9MKUk74XHtLMYLSGysi4/XdZtFHACescnpiUWJodqvF1gCEshr
+         epG7YLP5ADOJukQ4lj/g5GvaKJw6A4GO3UhutTbN48Fg/Gng499b2OPL94jrgKPt45pE
+         fNomdr4+iSptDyfc93Erp34tfQ6lCa9LwhMm0W1Cmk8pyFYnfL7c8XFR4FH2izHoOJba
+         Lr2J3djRLveFmfBpzjAafxekAsQxClmYeMnFOl2a7flCsXq3aoRzdkxJfz0guWRPZ3uL
+         IqxcSKFrgY8WV6JDQ6dTFiXAJBHWxMZg8FugPOX3z0XN7ae1eurvLR68U4dkgfGlTWWV
+         4nuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728518533; x=1729123333;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z81onnv7XmpsFKJJEJouk5fW7lC/eJB47z6sozvRnOU=;
+        b=bb1t6XQviO4scWh+1kFDjyAeYDsGulBiIuR2JsAnzfwX5KjLL0H7T1pAtxpok2j6b9
+         /RBeHhnQequtEzIHHpJrsPpXK/+H7vXx3jNW4RqfpY4h7aKpniR/rTYQHEIklkCoSqKl
+         FFZd4IAVq6ajRwLuYJw/cG0/y2tFlgYwXHyyFbBZU3/C79fqWv6NABu1OrXpDDg+rd/d
+         VXxBffZQ4WmCs3+uL0SzLqdtlRsE1pM4mHBdkMNek1KxSkG34as7RMyOhPBqf8scdrq8
+         xux8aCy5c+TYU3UtkjR5KFQHjF8ahtJU5jv3G+AVsqnMgTPNsYGfIKMvIDqTwEi91uPJ
+         rfVg==
+X-Forwarded-Encrypted: i=1; AJvYcCUhkEcBDzahBI3ZPSYvX1U0z9QZBEyjvlJPqXLH16mSuT0JwEhUhCwVXx/6lszPd1COtsxGPqy+b10=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw50EdGeDwAABdnLRWdwqppvU6Cy8yrJvkxQu0Wag1ozhXl5QvD
+	US4OSs466qsjUZf7+Ypu1JBocGIv+hclV1Og2vM0iU3yUUIBuwuoj5ra37Akxsc=
+X-Google-Smtp-Source: AGHT+IFZmP54aZT+PGhT0sMeks15kfczHLhKUFL1tfOl/r4KWZKd9Mj0XsQpQ7yVRv3lx6isgmniRg==
+X-Received: by 2002:a17:90b:4a42:b0:2e2:bad2:69ba with SMTP id 98e67ed59e1d1-2e2bad26afcmr3003723a91.14.1728518533102;
+        Wed, 09 Oct 2024 17:02:13 -0700 (PDT)
+Received: from debug.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e2d5f0b03bsm22252a91.34.2024.10.09.17.02.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Oct 2024 17:02:12 -0700 (PDT)
+Date: Wed, 9 Oct 2024 17:02:08 -0700
+From: Deepak Gupta <debug@rivosinc.com>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <brauner@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	alistair.francis@wdc.com, richard.henderson@linaro.org,
+	jim.shu@sifive.com, andybnac@gmail.com, kito.cheng@sifive.com,
+	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
+	cleger@rivosinc.com, alexghiti@rivosinc.com,
+	samitolvanen@google.com, broonie@kernel.org,
+	rick.p.edgecombe@intel.com
+Subject: Re: [PATCH v6 11/33] riscv/mm : ensure PROT_WRITE leads to VM_READ |
+ VM_WRITE
+Message-ID: <ZwcZgKuOK5MpldDX@debug.ba.rivosinc.com>
+References: <20241008-v5_user_cfi_series-v6-0-60d9fe073f37@rivosinc.com>
+ <20241008-v5_user_cfi_series-v6-11-60d9fe073f37@rivosinc.com>
+ <22972e7b-0844-4ebc-8d82-a0838b83c3a0@lucifer.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <22972e7b-0844-4ebc-8d82-a0838b83c3a0@lucifer.local>
 
-On Thu, 10 Oct 2024 00:37:49 +0900 Taehee Yoo wrote:
-> > Yes, but netmem_ref can be either a net_iov or a normal page,
-> > and skb_add_rx_frag_netmem() and similar helpers should automatically
-> > set skb->unreadable or not.
-> >
-> > IOW you should be able to always use netmem-aware APIs, no?  
-> 
-> I'm not sure the update skb->unreadable flag is possible because
-> frag API like skb_add_rx_frag_netmem(), receives only frag, not skb.
-> How about an additional API to update skb->unreadable flag?
-> skb_update_unreadable() or skb_update_netmem()?
+On Wed, Oct 09, 2024 at 02:36:12PM +0100, Lorenzo Stoakes wrote:
+>On Tue, Oct 08, 2024 at 03:36:53PM -0700, Deepak Gupta wrote:
+>> `arch_calc_vm_prot_bits` is implemented on risc-v to return VM_READ |
+>> VM_WRITE if PROT_WRITE is specified. Similarly `riscv_sys_mmap` is
+>> updated to convert all incoming PROT_WRITE to (PROT_WRITE | PROT_READ).
+>> This is to make sure that any existing apps using PROT_WRITE still work.
+>>
+>> Earlier `protection_map[VM_WRITE]` used to pick read-write PTE encodings.
+>> Now `protection_map[VM_WRITE]` will always pick PAGE_SHADOWSTACK PTE
+>> encodings for shadow stack. Above changes ensure that existing apps
+>> continue to work because underneath kernel will be picking
+>> `protection_map[VM_WRITE|VM_READ]` PTE encodings.
+>>
+>> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+>> ---
+>>  arch/riscv/include/asm/mman.h    | 24 ++++++++++++++++++++++++
+>>  arch/riscv/include/asm/pgtable.h |  1 +
+>>  arch/riscv/kernel/sys_riscv.c    | 10 ++++++++++
+>>  arch/riscv/mm/init.c             |  2 +-
+>>  mm/mmap.c                        |  1 +
+>>  5 files changed, 37 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/arch/riscv/include/asm/mman.h b/arch/riscv/include/asm/mman.h
+>> new file mode 100644
+>> index 000000000000..ef9fedf32546
+>> --- /dev/null
+>> +++ b/arch/riscv/include/asm/mman.h
+>> @@ -0,0 +1,24 @@
+>> +/* SPDX-License-Identifier: GPL-2.0 */
+>> +#ifndef __ASM_MMAN_H__
+>> +#define __ASM_MMAN_H__
+>> +
+>> +#include <linux/compiler.h>
+>> +#include <linux/types.h>
+>> +#include <uapi/asm/mman.h>
+>> +
+>> +static inline unsigned long arch_calc_vm_prot_bits(unsigned long prot,
+>> +	unsigned long pkey __always_unused)
+>> +{
+>> +	unsigned long ret = 0;
+>> +
+>> +	/*
+>> +	 * If PROT_WRITE was specified, force it to VM_READ | VM_WRITE.
+>> +	 * Only VM_WRITE means shadow stack.
+>> +	 */
+>> +	if (prot & PROT_WRITE)
+>> +		ret = (VM_READ | VM_WRITE);
+>> +	return ret;
+>> +}
+>> +#define arch_calc_vm_prot_bits(prot, pkey) arch_calc_vm_prot_bits(prot, pkey)
+>> +
+>> +#endif /* ! __ASM_MMAN_H__ */
+>> diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
+>> index e79f15293492..4948a1f18ae8 100644
+>> --- a/arch/riscv/include/asm/pgtable.h
+>> +++ b/arch/riscv/include/asm/pgtable.h
+>> @@ -177,6 +177,7 @@ extern struct pt_alloc_ops pt_ops __meminitdata;
+>>  #define PAGE_READ_EXEC		__pgprot(_PAGE_BASE | _PAGE_READ | _PAGE_EXEC)
+>>  #define PAGE_WRITE_EXEC		__pgprot(_PAGE_BASE | _PAGE_READ |	\
+>>  					 _PAGE_EXEC | _PAGE_WRITE)
+>> +#define PAGE_SHADOWSTACK       __pgprot(_PAGE_BASE | _PAGE_WRITE)
+>>
+>>  #define PAGE_COPY		PAGE_READ
+>>  #define PAGE_COPY_EXEC		PAGE_READ_EXEC
+>> diff --git a/arch/riscv/kernel/sys_riscv.c b/arch/riscv/kernel/sys_riscv.c
+>> index d77afe05578f..43a448bf254b 100644
+>> --- a/arch/riscv/kernel/sys_riscv.c
+>> +++ b/arch/riscv/kernel/sys_riscv.c
+>> @@ -7,6 +7,7 @@
+>>
+>>  #include <linux/syscalls.h>
+>>  #include <asm/cacheflush.h>
+>> +#include <asm-generic/mman-common.h>
+>>
+>>  static long riscv_sys_mmap(unsigned long addr, unsigned long len,
+>>  			   unsigned long prot, unsigned long flags,
+>> @@ -16,6 +17,15 @@ static long riscv_sys_mmap(unsigned long addr, unsigned long len,
+>>  	if (unlikely(offset & (~PAGE_MASK >> page_shift_offset)))
+>>  		return -EINVAL;
+>>
+>> +	/*
+>> +	 * If PROT_WRITE is specified then extend that to PROT_READ
+>> +	 * protection_map[VM_WRITE] is now going to select shadow stack encodings.
+>> +	 * So specifying PROT_WRITE actually should select protection_map [VM_WRITE | VM_READ]
+>> +	 * If user wants to create shadow stack then they should use `map_shadow_stack` syscall.
+>> +	 */
+>> +	if (unlikely((prot & PROT_WRITE) && !(prot & PROT_READ)))
+>> +		prot |= PROT_READ;
+>> +
+>>  	return ksys_mmap_pgoff(addr, len, prot, flags, fd,
+>>  			       offset >> (PAGE_SHIFT - page_shift_offset));
+>>  }
+>> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+>> index 0e8c20adcd98..964810aeb405 100644
+>> --- a/arch/riscv/mm/init.c
+>> +++ b/arch/riscv/mm/init.c
+>> @@ -326,7 +326,7 @@ pgd_t early_pg_dir[PTRS_PER_PGD] __initdata __aligned(PAGE_SIZE);
+>>  static const pgprot_t protection_map[16] = {
+>>  	[VM_NONE]					= PAGE_NONE,
+>>  	[VM_READ]					= PAGE_READ,
+>> -	[VM_WRITE]					= PAGE_COPY,
+>> +	[VM_WRITE]					= PAGE_SHADOWSTACK,
+>>  	[VM_WRITE | VM_READ]				= PAGE_COPY,
+>>  	[VM_EXEC]					= PAGE_EXEC,
+>>  	[VM_EXEC | VM_READ]				= PAGE_READ_EXEC,
+>> diff --git a/mm/mmap.c b/mm/mmap.c
+>> index dd4b35a25aeb..b56f1e8cbfc6 100644
+>> --- a/mm/mmap.c
+>> +++ b/mm/mmap.c
+>> @@ -47,6 +47,7 @@
+>>  #include <linux/oom.h>
+>>  #include <linux/sched/mm.h>
+>>  #include <linux/ksm.h>
+>> +#include <linux/processor.h>
+>
+>This seems benign enough, just wonder why you need it?
 
-Ah, the case where we don't get skb is because we're just building XDP
-frame at that stage. And XDP can't be netmem.
+I think leftover from previous versions. Will remove it.
+Don't think its needed here anymore.
 
-In that case switching to skb_frag_fill_netmem_desc() should be enough.
-
-> > > The reason why the branch exists here is the PP_FLAG_ALLOW_UNREADABLE_NETMEM
-> > > flag can't be used with PP_FLAG_DMA_SYNC_DEV.  
-> >
-> > Hm. Isn't the existing check the wrong way around? Is the driver
-> > supposed to sync the buffers for device before passing them down?  
-> 
-> I haven't thought the failure of PP_FLAG_DMA_SYNC_DEV
-> for dmabuf may be wrong.
-> I think device memory TCP is not related to this flag.
-> So device memory TCP core API should not return failure when
-> PP_FLAG_DMA_SYNC_DEV flag is set.
-> How about removing this condition check code in device memory TCP core?
-
-I think we need to invert the check..
-Mina, WDYT?
-
-diff --git a/net/core/devmem.c b/net/core/devmem.c
-index 11b91c12ee11..c5cace3f9831 100644
---- a/net/core/devmem.c
-+++ b/net/core/devmem.c
-@@ -331,12 +331,6 @@ int mp_dmabuf_devmem_init(struct page_pool *pool)
- 	if (!binding)
- 		return -EINVAL;
- 
--	if (!pool->dma_map)
--		return -EOPNOTSUPP;
--
--	if (pool->dma_sync)
--		return -EOPNOTSUPP;
--
- 	if (pool->p.order != 0)
- 		return -E2BIG;
- 
-diff --git a/net/core/page_pool.c b/net/core/page_pool.c
-index a813d30d2135..c8dbbf262de3 100644
---- a/net/core/page_pool.c
-+++ b/net/core/page_pool.c
-@@ -287,6 +287,12 @@ static int page_pool_init(struct page_pool *pool,
- 	}
- 
- 	if (pool->mp_priv) {
-+		if (!pool->dma_map || !pool->dma_sync)
-+			return -EOPNOTSUPP;
-+
-+		/* Memory provider is responsible for syncing the pages. */
-+		pool->dma_sync = 0;
-+
- 		err = mp_dmabuf_devmem_init(pool);
- 		if (err) {
- 			pr_warn("%s() mem-provider init failed %d\n", __func__,
+>
+>>
+>>  #include <linux/uaccess.h>
+>>  #include <asm/cacheflush.h>
+>>
+>> --
+>> 2.45.0
+>>
