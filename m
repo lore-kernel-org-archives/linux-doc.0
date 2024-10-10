@@ -1,412 +1,231 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B6F19ABCE;
-	Thu, 10 Oct 2024 17:41:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D901919D880;
+	Thu, 10 Oct 2024 17:43:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728582084; cv=none; b=nBGMR5brvMwkgAWyOKkKbTLcLkqIMW+GHr3Mp7K5OznFe8SMaWI/D0Xlb/SnXInb8FmF6epqGGp3A7VkvRj23vX7oXJGDB2upgQNdIMlcRNdnQQ9cTnVkDsCqycfcZoJfdBGN3T5GvFjiA6cPD+Mq1nRGbQlMsyBeH2vyCK2Fos=
+	t=1728582196; cv=none; b=j21gL1GrCT0jdU4yzy1YMsR4+IaeeyOlf0lUIoAkWpFBZdX3Lp7VpoYr26NCC97t6otrVw3c1Qh3jB0njLSG+twEvXkKlODvMbqfSPYKYXi5uY3tV7fG3Y0l/1ZP1fe8eoub/pqhQn1aWFcCV45AzuHwQYg0/JSp0oNWz0iUl2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728582084; c=relaxed/simple;
-	bh=aIm8Ss8JajMFDpAwaUzFXIbnue6ZaISA0kkITYeBLXE=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DcG8EjsByMyOhqLzk3BHNOM9bPMkUc/Y73XvWOhDBehYm1uOyibAzYghtc6UyhnGp4oMqbQelDCi99NhcJNU77+BKSMSnCBFSbf5QG+0/2Z7FTsZVC6GzII/v6DSRBcwdajvjxA5R1rkZBHHAOuXR+NxJGUVE00NjIaBA7ifEbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ffrdUvGH; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728582196; c=relaxed/simple;
+	bh=5Ral5SCk0zqXFGrByZZ20HawBOKvjeHD46WrEHKarUw=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=IFNEhnfchlAeaA3vvZia9teEN89ZB8ViMWBbR4Ed7OW/SouZ4m6BDuevVJe8Xwd1i53yLZ7IWpwtS23MrGd9SoKnc25qrje5ijWo8bV6fmI/AaV3nkPfJOdaMLXbOu7AW8ZtuTS3pck3mK7xKTlwe48/1NvyYIlzrAzOd1aVDf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=AKuV7np7; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ffrdUvGH"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-71df04d3cd1so1070655b3a.2;
-        Thu, 10 Oct 2024 10:41:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728582082; x=1729186882; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/1rQOwMKiHT/cHy9N2CsneDTHV0YTsagRNHYedEBcjg=;
-        b=ffrdUvGHIzh01JwZkktoUTjsC7Z6XXucW90zTup4wB4wlAx03xXE9G+eDlPIp0HotF
-         S3s+OW1PczACp/Sbyi/0VZfYNVP3KnN1V+8boIzN6oe3y74YrL/mz8IS09MYQ8oUiz5t
-         IvJTD8wRR25E/Yub4qHiTWWBNT+xesrTtfFr+Os6fAFFC6ABnY6sveIuU/NafAPXE7uk
-         uVxtJ8EiLcdYgyypvIHw5xdjDUCS4gs+s+M8+IZZcns6A5D7NQMOUnj8Jrg7yoVvJ568
-         CQhMsDBzfMe8kNIExnAa7JFvcFq7NrM1qMHKFpNPQHUSwb9mOBrKh/EFztI5z4Yc/h9N
-         qdAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728582082; x=1729186882;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/1rQOwMKiHT/cHy9N2CsneDTHV0YTsagRNHYedEBcjg=;
-        b=f4JjZgsslibp4o5hWSzIdOH4cfmrj72p5jsPuF4YKrOhYr8bj3JVHzDUcIeZrzDuXY
-         61N0MTMia2l1pSB2OG2L/wBtWjF7O82DqkNaIIjtBRJj/4Sn+GdmgGy35Su/pznPs3En
-         cKOE8USp9RpKQ2ng4t/ATsvuIiOV0rPAKRK95n2giSbXH/mYsp8yTgSzQSN9sjcsYWDY
-         590vH8NNCBT85IP9aX58PnBf60Pn5UVMI++It52R+gaLQewmJdVpmZpmwOkbtfm1V9L3
-         zI2Kz3rH8rXM3mEY2AjBviHuzVdCeV4B90Yw18admahz8AXno4708H7zpZTh2/CIvggG
-         sIwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU0mpyIKL/NCZQFiFAiclsT9rJtpzbTShnJ++zMOQgq9i88onKd8kZMb46tGKz021FRD2UHD8U/HH2uWCCv@vger.kernel.org, AJvYcCU1OQoZUtbbEi6hQxL8ccXxEHX2FUooPexBlLVeT2xeDfHTawdGQcuQsuBENdaHj7Uhq7UOuH0/xR3F@vger.kernel.org, AJvYcCUDlPDEgXeTmQSe/0iudxy72yawEYyqNZejE2riR3VAIsHZrwVxo2cvg5CU15CZQad2kqFjB/ZdZz++1Q==@vger.kernel.org, AJvYcCV/TOKXJ4/UpYJk3RuVzdloUQz+kr7utp9gLsoIqhCqCy9m0qs05vGSKYpaTdhz0p2PQGK50Z15hwP3@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbiXLk1v82TBL4saNoybF0tvgnrC5z6GpvfDN37WeYHE5ZnQV7
-	uy4D6CCWNcd6ajmfnIUjXAMEEKXq5i/DP07wRrz4PzQsDWYD0XDx
-X-Google-Smtp-Source: AGHT+IHNATlZ265TvmMhtLhq7HOxclwj7HJql/O6zYsPTgggNxactr61h0+rShQfZlcF6IwSy3pfXQ==
-X-Received: by 2002:a05:6a00:1742:b0:71e:b8:1930 with SMTP id d2e1a72fcca58-71e1db8fc6emr11459656b3a.16.1728582081868;
-        Thu, 10 Oct 2024 10:41:21 -0700 (PDT)
-Received: from fan ([2601:646:8f03:9fee:c165:c800:4280:d79b])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71e2ab0b7a1sm1277157b3a.197.2024.10.10.10.41.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2024 10:41:21 -0700 (PDT)
-From: Fan Ni <nifan.cxl@gmail.com>
-X-Google-Original-From: Fan Ni <fan.ni@samsung.com>
-Date: Thu, 10 Oct 2024 10:41:15 -0700
-To: ira.weiny@intel.com
-Cc: Dave Jiang <dave.jiang@intel.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Navneet Singh <navneet.singh@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	linux-btrfs@vger.kernel.org, linux-cxl@vger.kernel.org,
-	linux-doc@vger.kernel.org, nvdimm@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 16/28] cxl/region: Add sparse DAX region support
-Message-ID: <ZwgRu8GiBKJFFmWQ@fan>
-References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
- <20241007-dcd-type2-upstream-v4-16-c261ee6eeded@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="AKuV7np7"
+Received: by linux.microsoft.com (Postfix, from userid 1052)
+	id 66ABE20DEAB1; Thu, 10 Oct 2024 10:43:14 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 66ABE20DEAB1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1728582194;
+	bh=fg30yrz7Ppq6rRRoSzlGA6z7azUJrniMIn14BcLgHro=;
+	h=From:To:Cc:Subject:Date:From;
+	b=AKuV7np7mO71AR024I8CS+CWNTItbAnxbHFZLt0I5XFi+viY0RmRkKWtVAnfScfnM
+	 pQZMXLiSJ2qGf/WnehSDpX/ocq/+6lTRajLYsvRQr6Vy0oAWPFW1J3gPhBTkl7bzRp
+	 gNNzNOX63QBa8dKQmZEubVB9xknbvyvNMsUrXToI=
+From: Fan Wu <wufan@linux.microsoft.com>
+To: corbet@lwn.net,
+	jmorris@namei.org,
+	paul@paul-moore.com,
+	serge@hallyn.com
+Cc: linux-doc@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Fan Wu <wufan@linux.microsoft.com>
+Subject: [PATCH v1] ipe: add 'anonymous_memory' property for policy decisions
+Date: Thu, 10 Oct 2024 10:42:37 -0700
+Message-Id: <1728582157-13884-1-git-send-email-wufan@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241007-dcd-type2-upstream-v4-16-c261ee6eeded@intel.com>
 
-On Mon, Oct 07, 2024 at 06:16:22PM -0500, ira.weiny@intel.com wrote:
-> From: Navneet Singh <navneet.singh@intel.com>
-> 
-> Dynamic Capacity CXL regions must allow memory to be added or removed
-> dynamically.  In addition to the quantity of memory available the
-> location of the memory within a DC partition is dynamic based on the
-> extents offered by a device.  CXL DAX regions must accommodate the
-> sparseness of this memory in the management of DAX regions and devices.
-> 
-> Introduce the concept of a sparse DAX region.  Add a create_dc_region()
-> sysfs entry to create such regions.  Special case DC capable regions to
-> create a 0 sized seed DAX device to maintain compatibility which
-> requires a default DAX device to hold a region reference.
-> 
-> Indicate 0 byte available capacity until such time that capacity is
-> added.
-> 
-> Sparse regions complicate the range mapping of dax devices.  There is no
-> known use case for range mapping on sparse regions.  Avoid the
-> complication by preventing range mapping of dax devices on sparse
-> regions.
-> 
-> Interleaving is deferred for now.  Add checks.
-> 
-> Signed-off-by: Navneet Singh <navneet.singh@intel.com>
-> Co-developed-by: Ira Weiny <ira.weiny@intel.com>
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> 
-LGTM, and behaves as expected when tested with qemu setup.
+Currently, all existing IPE properties evaluate to FALSE for
+operations triggered by anonymous memory regions. As a result,
+IPE falls back to the policy's default action for such operations.
 
-Fan
-> ---
-> Changes:
-> [Fan: use single function for dc region store]
-> [djiang: avoid setting dev_size twice]
-> [djbw: Check DCD support and interleave restriction on region creation]
-> [iweiny: squash patch : dax/region: Prevent range mapping allocation on sparse regions]
-> [iwieny: remove reviews]
-> [iweiny: rebase to master]
-> [iweiny: push sysfs version to 6.12]
-> [iweiny: make cxled_to_mds inline]
-> ---
->  Documentation/ABI/testing/sysfs-bus-cxl | 22 ++++++++--------
->  drivers/cxl/core/core.h                 | 12 +++++++++
->  drivers/cxl/core/port.c                 |  1 +
->  drivers/cxl/core/region.c               | 46 +++++++++++++++++++++++++++++++--
->  drivers/dax/bus.c                       | 10 +++++++
->  drivers/dax/bus.h                       |  1 +
->  drivers/dax/cxl.c                       | 16 ++++++++++--
->  7 files changed, 93 insertions(+), 15 deletions(-)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-bus-cxl b/Documentation/ABI/testing/sysfs-bus-cxl
-> index 661dab99183f..b63ab622515f 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-cxl
-> +++ b/Documentation/ABI/testing/sysfs-bus-cxl
-> @@ -439,20 +439,20 @@ Description:
->  		interleave_granularity).
->  
->  
-> -What:		/sys/bus/cxl/devices/decoderX.Y/create_{pmem,ram}_region
-> -Date:		May, 2022, January, 2023
-> -KernelVersion:	v6.0 (pmem), v6.3 (ram)
-> +What:		/sys/bus/cxl/devices/decoderX.Y/create_{pmem,ram,dc}_region
-> +Date:		May, 2022, January, 2023, August 2024
-> +KernelVersion:	v6.0 (pmem), v6.3 (ram), v6.12 (dc)
->  Contact:	linux-cxl@vger.kernel.org
->  Description:
->  		(RW) Write a string in the form 'regionZ' to start the process
-> -		of defining a new persistent, or volatile memory region
-> -		(interleave-set) within the decode range bounded by root decoder
-> -		'decoderX.Y'. The value written must match the current value
-> -		returned from reading this attribute. An atomic compare exchange
-> -		operation is done on write to assign the requested id to a
-> -		region and allocate the region-id for the next creation attempt.
-> -		EBUSY is returned if the region name written does not match the
-> -		current cached value.
-> +		of defining a new persistent, volatile, or Dynamic Capacity
-> +		(DC) memory region (interleave-set) within the decode range
-> +		bounded by root decoder 'decoderX.Y'. The value written must
-> +		match the current value returned from reading this attribute.
-> +		An atomic compare exchange operation is done on write to assign
-> +		the requested id to a region and allocate the region-id for the
-> +		next creation attempt.  EBUSY is returned if the region name
-> +		written does not match the current cached value.
->  
->  
->  What:		/sys/bus/cxl/devices/decoderX.Y/delete_region
-> diff --git a/drivers/cxl/core/core.h b/drivers/cxl/core/core.h
-> index 0c62b4069ba0..5d6fe7ab0a78 100644
-> --- a/drivers/cxl/core/core.h
-> +++ b/drivers/cxl/core/core.h
-> @@ -4,15 +4,27 @@
->  #ifndef __CXL_CORE_H__
->  #define __CXL_CORE_H__
->  
-> +#include <cxlmem.h>
-> +
->  extern const struct device_type cxl_nvdimm_bridge_type;
->  extern const struct device_type cxl_nvdimm_type;
->  extern const struct device_type cxl_pmu_type;
->  
->  extern struct attribute_group cxl_base_attribute_group;
->  
-> +static inline struct cxl_memdev_state *
-> +cxled_to_mds(struct cxl_endpoint_decoder *cxled)
-> +{
-> +	struct cxl_memdev *cxlmd = cxled_to_memdev(cxled);
-> +	struct cxl_dev_state *cxlds = cxlmd->cxlds;
-> +
-> +	return container_of(cxlds, struct cxl_memdev_state, cxlds);
-> +}
-> +
->  #ifdef CONFIG_CXL_REGION
->  extern struct device_attribute dev_attr_create_pmem_region;
->  extern struct device_attribute dev_attr_create_ram_region;
-> +extern struct device_attribute dev_attr_create_dc_region;
->  extern struct device_attribute dev_attr_delete_region;
->  extern struct device_attribute dev_attr_region;
->  extern const struct device_type cxl_pmem_region_type;
-> diff --git a/drivers/cxl/core/port.c b/drivers/cxl/core/port.c
-> index 23b4f266a83a..fefa592e9159 100644
-> --- a/drivers/cxl/core/port.c
-> +++ b/drivers/cxl/core/port.c
-> @@ -320,6 +320,7 @@ static struct attribute *cxl_decoder_root_attrs[] = {
->  	&dev_attr_qos_class.attr,
->  	SET_CXL_REGION_ATTR(create_pmem_region)
->  	SET_CXL_REGION_ATTR(create_ram_region)
-> +	SET_CXL_REGION_ATTR(create_dc_region)
->  	SET_CXL_REGION_ATTR(delete_region)
->  	NULL,
->  };
-> diff --git a/drivers/cxl/core/region.c b/drivers/cxl/core/region.c
-> index 2ca6148d108c..34a6f447e75b 100644
-> --- a/drivers/cxl/core/region.c
-> +++ b/drivers/cxl/core/region.c
-> @@ -496,6 +496,11 @@ static ssize_t interleave_ways_store(struct device *dev,
->  	if (rc)
->  		return rc;
->  
-> +	if (cxlr->mode == CXL_REGION_DC && val != 1) {
-> +		dev_err(dev, "Interleaving and DCD not supported\n");
-> +		return -EINVAL;
-> +	}
-> +
->  	rc = ways_to_eiw(val, &iw);
->  	if (rc)
->  		return rc;
-> @@ -2176,6 +2181,7 @@ static size_t store_targetN(struct cxl_region *cxlr, const char *buf, int pos,
->  	if (sysfs_streq(buf, "\n"))
->  		rc = detach_target(cxlr, pos);
->  	else {
-> +		struct cxl_endpoint_decoder *cxled;
->  		struct device *dev;
->  
->  		dev = bus_find_device_by_name(&cxl_bus_type, NULL, buf);
-> @@ -2187,8 +2193,13 @@ static size_t store_targetN(struct cxl_region *cxlr, const char *buf, int pos,
->  			goto out;
->  		}
->  
-> -		rc = attach_target(cxlr, to_cxl_endpoint_decoder(dev), pos,
-> -				   TASK_INTERRUPTIBLE);
-> +		cxled = to_cxl_endpoint_decoder(dev);
-> +		if (cxlr->mode == CXL_REGION_DC &&
-> +		    !cxl_dcd_supported(cxled_to_mds(cxled))) {
-> +			dev_dbg(dev, "DCD unsupported\n");
-> +			return -EINVAL;
-> +		}
-> +		rc = attach_target(cxlr, cxled, pos, TASK_INTERRUPTIBLE);
->  out:
->  		put_device(dev);
->  	}
-> @@ -2533,6 +2544,7 @@ static struct cxl_region *__create_region(struct cxl_root_decoder *cxlrd,
->  	switch (mode) {
->  	case CXL_REGION_RAM:
->  	case CXL_REGION_PMEM:
-> +	case CXL_REGION_DC:
->  		break;
->  	default:
->  		dev_err(&cxlrd->cxlsd.cxld.dev, "unsupported mode %s\n",
-> @@ -2586,6 +2598,20 @@ static ssize_t create_ram_region_store(struct device *dev,
->  }
->  DEVICE_ATTR_RW(create_ram_region);
->  
-> +static ssize_t create_dc_region_show(struct device *dev,
-> +				     struct device_attribute *attr, char *buf)
-> +{
-> +	return __create_region_show(to_cxl_root_decoder(dev), buf);
-> +}
-> +
-> +static ssize_t create_dc_region_store(struct device *dev,
-> +				      struct device_attribute *attr,
-> +				      const char *buf, size_t len)
-> +{
-> +	return create_region_store(dev, buf, len, CXL_REGION_DC);
-> +}
-> +DEVICE_ATTR_RW(create_dc_region);
-> +
->  static ssize_t region_show(struct device *dev, struct device_attribute *attr,
->  			   char *buf)
->  {
-> @@ -3168,6 +3194,11 @@ static int devm_cxl_add_dax_region(struct cxl_region *cxlr)
->  	struct device *dev;
->  	int rc;
->  
-> +	if (cxlr->mode == CXL_REGION_DC && cxlr->params.interleave_ways != 1) {
-> +		dev_err(&cxlr->dev, "Interleaving DC not supported\n");
-> +		return -EINVAL;
-> +	}
-> +
->  	cxlr_dax = cxl_dax_region_alloc(cxlr);
->  	if (IS_ERR(cxlr_dax))
->  		return PTR_ERR(cxlr_dax);
-> @@ -3260,6 +3291,16 @@ static struct cxl_region *construct_region(struct cxl_root_decoder *cxlrd,
->  		return ERR_PTR(-EINVAL);
->  
->  	mode = cxl_decoder_to_region_mode(cxled->mode);
-> +	if (mode == CXL_REGION_DC) {
-> +		if (!cxl_dcd_supported(cxled_to_mds(cxled))) {
-> +			dev_err(&cxled->cxld.dev, "DCD unsupported\n");
-> +			return ERR_PTR(-EINVAL);
-> +		}
-> +		if (cxled->cxld.interleave_ways != 1) {
-> +			dev_err(&cxled->cxld.dev, "Interleaving and DCD not supported\n");
-> +			return ERR_PTR(-EINVAL);
-> +		}
-> +	}
->  	do {
->  		cxlr = __create_region(cxlrd, mode,
->  				       atomic_read(&cxlrd->region_id));
-> @@ -3467,6 +3508,7 @@ static int cxl_region_probe(struct device *dev)
->  	case CXL_REGION_PMEM:
->  		return devm_cxl_add_pmem_region(cxlr);
->  	case CXL_REGION_RAM:
-> +	case CXL_REGION_DC:
->  		/*
->  		 * The region can not be manged by CXL if any portion of
->  		 * it is already online as 'System RAM'
-> diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
-> index fde29e0ad68b..d8cb5195a227 100644
-> --- a/drivers/dax/bus.c
-> +++ b/drivers/dax/bus.c
-> @@ -178,6 +178,11 @@ static bool is_static(struct dax_region *dax_region)
->  	return (dax_region->res.flags & IORESOURCE_DAX_STATIC) != 0;
->  }
->  
-> +static bool is_sparse(struct dax_region *dax_region)
-> +{
-> +	return (dax_region->res.flags & IORESOURCE_DAX_SPARSE_CAP) != 0;
-> +}
-> +
->  bool static_dev_dax(struct dev_dax *dev_dax)
->  {
->  	return is_static(dev_dax->region);
-> @@ -301,6 +306,9 @@ static unsigned long long dax_region_avail_size(struct dax_region *dax_region)
->  
->  	lockdep_assert_held(&dax_region_rwsem);
->  
-> +	if (is_sparse(dax_region))
-> +		return 0;
-> +
->  	for_each_dax_region_resource(dax_region, res)
->  		size -= resource_size(res);
->  	return size;
-> @@ -1373,6 +1381,8 @@ static umode_t dev_dax_visible(struct kobject *kobj, struct attribute *a, int n)
->  		return 0;
->  	if (a == &dev_attr_mapping.attr && is_static(dax_region))
->  		return 0;
-> +	if (a == &dev_attr_mapping.attr && is_sparse(dax_region))
-> +		return 0;
->  	if ((a == &dev_attr_align.attr ||
->  	     a == &dev_attr_size.attr) && is_static(dax_region))
->  		return 0444;
-> diff --git a/drivers/dax/bus.h b/drivers/dax/bus.h
-> index cbbf64443098..783bfeef42cc 100644
-> --- a/drivers/dax/bus.h
-> +++ b/drivers/dax/bus.h
-> @@ -13,6 +13,7 @@ struct dax_region;
->  /* dax bus specific ioresource flags */
->  #define IORESOURCE_DAX_STATIC BIT(0)
->  #define IORESOURCE_DAX_KMEM BIT(1)
-> +#define IORESOURCE_DAX_SPARSE_CAP BIT(2)
->  
->  struct dax_region *alloc_dax_region(struct device *parent, int region_id,
->  		struct range *range, int target_node, unsigned int align,
-> diff --git a/drivers/dax/cxl.c b/drivers/dax/cxl.c
-> index 9b29e732b39a..367e86b1c22a 100644
-> --- a/drivers/dax/cxl.c
-> +++ b/drivers/dax/cxl.c
-> @@ -13,19 +13,31 @@ static int cxl_dax_region_probe(struct device *dev)
->  	struct cxl_region *cxlr = cxlr_dax->cxlr;
->  	struct dax_region *dax_region;
->  	struct dev_dax_data data;
-> +	resource_size_t dev_size;
-> +	unsigned long flags;
->  
->  	if (nid == NUMA_NO_NODE)
->  		nid = memory_add_physaddr_to_nid(cxlr_dax->hpa_range.start);
->  
-> +	flags = IORESOURCE_DAX_KMEM;
-> +	if (cxlr->mode == CXL_REGION_DC)
-> +		flags |= IORESOURCE_DAX_SPARSE_CAP;
-> +
->  	dax_region = alloc_dax_region(dev, cxlr->id, &cxlr_dax->hpa_range, nid,
-> -				      PMD_SIZE, IORESOURCE_DAX_KMEM);
-> +				      PMD_SIZE, flags);
->  	if (!dax_region)
->  		return -ENOMEM;
->  
-> +	if (cxlr->mode == CXL_REGION_DC)
-> +		/* Add empty seed dax device */
-> +		dev_size = 0;
-> +	else
-> +		dev_size = range_len(&cxlr_dax->hpa_range);
-> +
->  	data = (struct dev_dax_data) {
->  		.dax_region = dax_region,
->  		.id = -1,
-> -		.size = range_len(&cxlr_dax->hpa_range),
-> +		.size = dev_size,
->  		.memmap_on_memory = true,
->  	};
->  
-> 
-> -- 
-> 2.46.0
-> 
+In policies where the default action is DENY, this behavior blocks
+all anonymous memory operations, rendering binaries that rely on
+anonymous memory unusable.
 
+This commit introduces a new IPE property, 'anonymous_memory',
+which evaluates to TRUE when an operation is triggered by an
+anonymous memory region. This allows administrators to explicitly
+allow or deny operations involving anonymous memory.
+
+Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+---
+ Documentation/admin-guide/LSM/ipe.rst | 11 +++++++++++
+ Documentation/security/ipe.rst        |  9 +++++----
+ security/ipe/Kconfig                  | 10 ++++++++++
+ security/ipe/audit.c                  |  2 ++
+ security/ipe/eval.c                   | 26 ++++++++++++++++++++++++++
+ security/ipe/policy.h                 |  2 ++
+ security/ipe/policy_parser.c          |  4 ++++
+ 7 files changed, 60 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/admin-guide/LSM/ipe.rst b/Documentation/admin-guide/LSM/ipe.rst
+index f93a467db628..356f0dd6e4c3 100644
+--- a/Documentation/admin-guide/LSM/ipe.rst
++++ b/Documentation/admin-guide/LSM/ipe.rst
+@@ -669,6 +669,17 @@ fsverity_signature
+ 
+       fsverity_signature=(TRUE|FALSE)
+ 
++anonymous_memory
++~~~~~~~~~~~~~~~~
++
++   This property can be used to allow or deny operations triggered by
++   anonymous memory. It evaluates to TRUE when a memory region
++   in the evaluation context is not backed by a file. It is controlled by
++   the ``IPE_PROP_ANONYMOUS_MEMORY`` config option.
++   The format of this property is::
++
++      anonymous_memory=(TRUE|FALSE)
++
+ Policy Examples
+ ---------------
+ 
+diff --git a/Documentation/security/ipe.rst b/Documentation/security/ipe.rst
+index 4a7d953abcdc..1606484241cb 100644
+--- a/Documentation/security/ipe.rst
++++ b/Documentation/security/ipe.rst
+@@ -385,15 +385,16 @@ Anonymous Memory
+ Anonymous memory isn't treated any differently from any other access in IPE.
+ When anonymous memory is mapped with ``+X``, it still comes into the ``file_mmap``
+ or ``file_mprotect`` hook, but with a ``NULL`` file object. This is submitted to
+-the evaluation, like any other file. However, all current trust properties will
+-evaluate to false, as they are all file-based and the operation is not
+-associated with a file.
++the evaluation, like any other file. However, except the ``anonymous_memory`` property,
++all current trust properties will evaluate to false, as they are all file-based and
++the operation is not associated with a file.
+ 
+ .. WARNING::
+ 
+   This also occurs with the ``kernel_load_data`` hook, when the kernel is
+   loading data from a userspace buffer that is not backed by a file. In this
+-  scenario all current trust properties will also evaluate to false.
++  scenario, all current trust properties except ``anonymous_memory`` will also evaluate
++  to false.
+ 
+ Securityfs Interface
+ ~~~~~~~~~~~~~~~~~~~~
+diff --git a/security/ipe/Kconfig b/security/ipe/Kconfig
+index ee6beca5494a..839a554f4e17 100644
+--- a/security/ipe/Kconfig
++++ b/security/ipe/Kconfig
+@@ -94,6 +94,16 @@ config IPE_PROP_FS_VERITY_BUILTIN_SIG
+ 
+ 	  if unsure, answer Y.
+ 
++config IPE_PROP_ANONYMOUS_MEMORY
++	bool "Enable support for anonymous memory"
++	default y
++	help
++	  This option enables the 'anonymous_memory' property within IPE
++	  policies. The property evaluates to TRUE when a memory region
++	  in the evaluation context is not backed by a file (i.e., it is
++	  anonymous memory).
++
++	  if unsure, answer Y.
+ endmenu
+ 
+ config SECURITY_IPE_KUNIT_TEST
+diff --git a/security/ipe/audit.c b/security/ipe/audit.c
+index f05f0caa4850..ab5217655910 100644
+--- a/security/ipe/audit.c
++++ b/security/ipe/audit.c
+@@ -59,6 +59,8 @@ static const char *const audit_prop_names[__IPE_PROP_MAX] = {
+ 	"fsverity_digest=",
+ 	"fsverity_signature=FALSE",
+ 	"fsverity_signature=TRUE",
++	"anonymous_memory=FALSE",
++	"anonymous_memory=TRUE",
+ };
+ 
+ /**
+diff --git a/security/ipe/eval.c b/security/ipe/eval.c
+index 21439c5be336..e2ab7a8d7d8c 100644
+--- a/security/ipe/eval.c
++++ b/security/ipe/eval.c
+@@ -265,6 +265,28 @@ static bool evaluate_fsv_sig_true(const struct ipe_eval_ctx *const ctx)
+ }
+ #endif /* CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG */
+ 
++#ifdef CONFIG_IPE_PROP_ANONYMOUS_MEMORY
++static bool evaluate_anonymous_memory_false(const struct ipe_eval_ctx *const ctx)
++{
++	return !ctx->file;
++}
++
++static bool evaluate_anonymous_memory_true(const struct ipe_eval_ctx *const ctx)
++{
++	return !evaluate_anonymous_memory_false(ctx);
++}
++#else
++static bool evaluate_anonymous_memory_false(const struct ipe_eval_ctx *const ctx)
++{
++	return false;
++}
++
++static bool evaluate_anonymous_memory_true(const struct ipe_eval_ctx *const ctx)
++{
++	return false;
++}
++#endif /* CONFIG_IPE_PROP_ANONYMOUS_MEMORY */
++
+ /**
+  * evaluate_property() - Analyze @ctx against a rule property.
+  * @ctx: Supplies a pointer to the context to be evaluated.
+@@ -297,6 +319,10 @@ static bool evaluate_property(const struct ipe_eval_ctx *const ctx,
+ 		return evaluate_fsv_sig_false(ctx);
+ 	case IPE_PROP_FSV_SIG_TRUE:
+ 		return evaluate_fsv_sig_true(ctx);
++	case IPE_PROP_ANON_MEM_FALSE:
++		return evaluate_anonymous_memory_false(ctx);
++	case IPE_PROP_ANON_MEM_TRUE:
++		return evaluate_anonymous_memory_true(ctx);
+ 	default:
+ 		return false;
+ 	}
+diff --git a/security/ipe/policy.h b/security/ipe/policy.h
+index 5bfbdbddeef8..0becc2d2bd33 100644
+--- a/security/ipe/policy.h
++++ b/security/ipe/policy.h
+@@ -39,6 +39,8 @@ enum ipe_prop_type {
+ 	IPE_PROP_FSV_DIGEST,
+ 	IPE_PROP_FSV_SIG_FALSE,
+ 	IPE_PROP_FSV_SIG_TRUE,
++	IPE_PROP_ANON_MEM_FALSE,
++	IPE_PROP_ANON_MEM_TRUE,
+ 	__IPE_PROP_MAX
+ };
+ 
+diff --git a/security/ipe/policy_parser.c b/security/ipe/policy_parser.c
+index 7f27e39931d6..5c83095e7c37 100644
+--- a/security/ipe/policy_parser.c
++++ b/security/ipe/policy_parser.c
+@@ -281,6 +281,8 @@ static const match_table_t property_tokens = {
+ 	{IPE_PROP_FSV_DIGEST,		"fsverity_digest=%s"},
+ 	{IPE_PROP_FSV_SIG_FALSE,	"fsverity_signature=FALSE"},
+ 	{IPE_PROP_FSV_SIG_TRUE,		"fsverity_signature=TRUE"},
++	{IPE_PROP_ANON_MEM_FALSE,	"anonymous_memory=FALSE"},
++	{IPE_PROP_ANON_MEM_TRUE,	"anonymous_memory=TRUE"},
+ 	{IPE_PROP_INVALID,		NULL}
+ };
+ 
+@@ -331,6 +333,8 @@ static int parse_property(char *t, struct ipe_rule *r)
+ 	case IPE_PROP_DMV_SIG_TRUE:
+ 	case IPE_PROP_FSV_SIG_FALSE:
+ 	case IPE_PROP_FSV_SIG_TRUE:
++	case IPE_PROP_ANON_MEM_FALSE:
++	case IPE_PROP_ANON_MEM_TRUE:
+ 		p->type = token;
+ 		break;
+ 	default:
 -- 
-Fan Ni
+2.46.2
+
