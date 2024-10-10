@@ -1,513 +1,171 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2050.outbound.protection.outlook.com [40.107.223.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3079F33CD2;
-	Thu, 10 Oct 2024 11:17:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728559071; cv=none; b=sc2UuwIleC1mjednDiMKSvXOxbmGCUmXCNJhmA/lslVmu+zyRRqjUPXVBQ++rOiDI4sG5L9qUiy5Pw9IDSITNbOFbrXG/7Pe1j4g0vjTC2U/g4a9s6Hck5rE57C/fvFJXdeeIYWcc9jqPmeKlrncAsWx9PW3wiY/G2LNjw6NdA4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728559071; c=relaxed/simple;
-	bh=VWRIjUC3AEIXbmmC2dLGoTxWtP6sLGoBUrTQ2GpoHHg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UaLp2NZ9dz0FPXmli0CxOUUYOnyLdQn7JmytZC/x6p3aqMGTAVbLtFzxCXPQtzGDkBnka4FBhvq5uotJNODUH9ZLtyiKBvk15Uc7sdPPauVQHJPbeAIK1ahQryyLIxlg4+G3706HUGXqj/UqgkJnYOLHuSjTE35nHZjtb4lZ51U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ayEqMonA; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 087BB1C3F2E;
+	Thu, 10 Oct 2024 12:15:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728562509; cv=fail; b=srXxcFiOf/2a6GQIErbqrTvrPJmJA7do33ghTezsHOJFkkhDW9MvcYDFsDSggNCMq0Tb900tWEdHkD8W5mIXWJgKZdyGoX85KCgV7hFcautKu8sWG89Fk3oZKRArwXRQ9ShrjoXL88guVrSsdMhr4/tZIkGWJqWcJXNdUUPhBVA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728562509; c=relaxed/simple;
+	bh=GVO2TmwD8i6uH4uXf3OsGK9B6Pv+B+GN/sGVcxrReUk=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=bO6tUOFDER9tz4dIhoI8Vlt9Gr9xdy93YbKlzRWcSHaMK3yIYn4YNH/rqs3p6viiEx0Hl0JyzhhAIn6nT4nwVD3+W7DeypNTEA+khTxpmefAMa+iq7kMVYFTquW1oNL9G2Bs1aetGzgPO080T1eSpXg34nRDirstgaXQ5Bhuggg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=F+rF1NOc; arc=fail smtp.client-ip=40.107.223.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ayEqMonA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728559070; x=1760095070;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VWRIjUC3AEIXbmmC2dLGoTxWtP6sLGoBUrTQ2GpoHHg=;
-  b=ayEqMonAU2drynTOSyioIdRISbBPF71dr3XNHqsgx1tMdvQadtpbe4cS
-   oBTs1YXZIc/jFTnZyViOjzoTQkM+lSp6lmb1vnOEmp1CNBC3brGWUjZ05
-   FFV1J8VMRxnpopTy7MT0Cf0E382wOH6KZDCGTuMQ30A2E06/m5YlAHX0A
-   y3U0cKgcfJgbLIJpA38/wsyASiArxGzKHLI6Dj4dq/t5VMtET2RJHZ4Sf
-   r4fSXLpzhbGzxdN8X52D3EGGpqrYK1NgNiW01Jqldl73y4V6vre62xu+1
-   PR2VJwtXY7+YlGLiaqxNMVsE0lOmIZdvBDOz41iUuJFaUSs+SY9TQ/KH2
-   w==;
-X-CSE-ConnectionGUID: SwstaPzmQwarBWWyK2MzxA==
-X-CSE-MsgGUID: 7jSjW4obQaq+N6ZqomCDKQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="45423627"
-X-IronPort-AV: E=Sophos;i="6.11,192,1725346800"; 
-   d="scan'208";a="45423627"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 04:17:48 -0700
-X-CSE-ConnectionGUID: eVCX4pvRSYinHoImS686yg==
-X-CSE-MsgGUID: GLTvq/yvSi+v/PlKfKjrrA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,192,1725346800"; 
-   d="scan'208";a="76877392"
-Received: from ly-workstation.sh.intel.com (HELO ly-workstation) ([10.239.161.23])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 04:17:35 -0700
-Date: Thu, 10 Oct 2024 19:16:37 +0800
-From: "Lai, Yi" <yi1.lai@linux.intel.com>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-	Matt Turner <mattst88@gmail.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	David Ahern <dsahern@kernel.org>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
-	Magnus Karlsson <magnus.karlsson@intel.com>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>,
-	Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Yunsheng Lin <linyunsheng@huawei.com>,
-	Shailend Chand <shailend@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Jeroen de Borst <jeroendb@google.com>,
-	Praveen Kaligineedi <pkaligineedi@google.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Taehee Yoo <ap420073@gmail.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Kaiyuan Zhang <kaiyuanz@google.com>, yi1.lai@intel.com
-Subject: Re: [PATCH net-next v25 10/13] net: add SO_DEVMEM_DONTNEED
- setsockopt to release RX frags
-Message-ID: <Zwe3lWTN36IUaIdd@ly-workstation>
-References: <20240909054318.1809580-1-almasrymina@google.com>
- <20240909054318.1809580-11-almasrymina@google.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="F+rF1NOc"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UNFA0Jx2UMmm0xAlWf8FdKucazSR653cSse5YGa3+M5UoxOC9yvELOirInflX2GTtf7uoRh4qzVK2g2W+9kfHEbPBd+1EJEQgKAJ6lC1gtaaI8RqWO3yW6dDDlzhZlKgwzZEGHGKE1Tz5sC142P471giVMGHBdBj884kkqylW6MBO1OfV5p1ONLSO25tz/0DIUD72cAgNaoyP77WebZ7SEckOh+CRT07B5NsN0XOEj/0KJhGiAn24k8kJIApRyo0N+weZcrtY8+ERlMut32zBYp0GQm/flsfnCMIza4ACwwYsC6MawchsmPzCd0MTwFMo8Ho/bbaiejqVuscmqnxMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XdQXzfNLBtAiSpxrnWW+oqufrDsRXfDIOO45bu6Pr3w=;
+ b=aiWlMhRx0s5SoKDA94CxXshpUkkXn8ZS5Wxn1THef3mU9qamAx9NZ2oUnNJyQ2T83na2O055QleoX0MtVxRVJMiAnurdVBuK+2dkFPE/TU0BV6w/r/kRSEwK5cji7kRqvmwfcw8FauUQ8VYzesIzE2YbReLkgfCKpHIhTkcDz12sQSF2dabBXOgpBw602EX5I16TTpKPDzyZtB8jcOKtDnFP/c0S3TYgAigEzCikn1guVCOlaYTDGezZdUOk6eh1WckL2YZcZ5sfye0Cjnxvdqxiript5VzjOe7aDAonr6f582gEU0WviE0cpjZa39EVkTZKSdAlZ4JkRsuGU2TgKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XdQXzfNLBtAiSpxrnWW+oqufrDsRXfDIOO45bu6Pr3w=;
+ b=F+rF1NOcTPyweXs9ZmcEeEIZ43/SdkSwraofztLK6ANQ6aJOyxpRZSPQ6HgDFw20yHu0nrb3Xy8ohBNXV5oIa5GeF6Qfz6/jT+cnoozBBqCUMzX52ERMfODPpaP18e7CtkoPzvEL5gY8ZX9ZMnGOtUBGPHkzmeVzxz30Ffix9Ms=
+Received: from DM5PR07CA0069.namprd07.prod.outlook.com (2603:10b6:4:ad::34) by
+ DM4PR12MB7694.namprd12.prod.outlook.com (2603:10b6:8:102::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8048.18; Thu, 10 Oct 2024 12:15:03 +0000
+Received: from DS3PEPF0000C37B.namprd04.prod.outlook.com
+ (2603:10b6:4:ad:cafe::a3) by DM5PR07CA0069.outlook.office365.com
+ (2603:10b6:4:ad::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.18 via Frontend
+ Transport; Thu, 10 Oct 2024 12:15:03 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS3PEPF0000C37B.mail.protection.outlook.com (10.167.23.5) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8048.13 via Frontend Transport; Thu, 10 Oct 2024 12:15:03 +0000
+Received: from ethanolx16dchost.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 10 Oct
+ 2024 07:15:02 -0500
+From: Pavan Kumar Paluri <papaluri@amd.com>
+To: <linux-kernel@vger.kernel.org>
+CC: <linux-doc@vger.kernel.org>, <linux-coco@lists.linux.dev>, Borislav Petkov
+	<bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
+	<mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, "Eric Van
+ Tassell" <Eric.VanTassell@amd.com>, Tom Lendacky <thomas.lendacky@amd.com>,
+	Ashish Kalra <ashish.kalra@amd.com>, Michael Roth <michael.roth@amd.com>, "H
+ . Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>, "Pavan
+ Kumar Paluri" <papaluri@amd.com>, Dhaval Giani <dhaval.giani@amd.com>
+Subject: [PATCH v6 0/2] nosnp sev command line support
+Date: Thu, 10 Oct 2024 07:14:53 -0500
+Message-ID: <20241010121455.15795-1-papaluri@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240909054318.1809580-11-almasrymina@google.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS3PEPF0000C37B:EE_|DM4PR12MB7694:EE_
+X-MS-Office365-Filtering-Correlation-Id: f6f79fbf-f4d0-4593-a489-08dce9252ba1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|376014|36860700013|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?qZjZz+HcqztRHqj0YY3VZSSwcl0xgYWxE2O1ME0VH/lrbtcw9C229up/UmSg?=
+ =?us-ascii?Q?1ll6cfRq6DVWVlOVVkUeJuKokhUDeS06ajUtX6MOy/PuKQr/BlDPIg42wtUi?=
+ =?us-ascii?Q?vSPxt1blIOI14qlC4DntG0OeQFtZZArZEpNYcvUFJrNmjfdPxIhPVSBpRO2n?=
+ =?us-ascii?Q?oyR2cus+h8UM+hNQHc6EzqrVTJ2wYDPhzW/aCxQBNlzF0mZl1Bmtd/4PPLrd?=
+ =?us-ascii?Q?BrSPL06uDAfl2e/OYLpIrFSX8u+V5EVXPQIfRs3sqaxAhLZJkY0bhGRaTWO2?=
+ =?us-ascii?Q?DxXSvbkzmEW9yjP/SdctYs7o3gqt67/bV8N6S4sdMCJD0vrqE4T+wWmY2C04?=
+ =?us-ascii?Q?gy7OMQphMAG5Ba0J/5+rOtBPAqw2dCU8cW1YL6AJzJsehdZBOd9rhpIktvCe?=
+ =?us-ascii?Q?bUS+rZJyNI2DF9G+7sYg8oS5CQ8eIzj8PowaPOCWPFMI6YJcEG2DxhSw1E33?=
+ =?us-ascii?Q?vPQC370eiD2l7j8lr6YnRP0BTwyoCYNAVoHo7Ocu8h37PwYgwz7nCfb0Tkky?=
+ =?us-ascii?Q?uIPo0gyDdBSsCLdE3dqujg61GMwQWbhFs+24+AEcMViXNaLjiWgURd6CCHyF?=
+ =?us-ascii?Q?Mr46YomsSrAAXzhOaKc1n0jqt96izqxxnNEcLPbwxY1soTv3WqouZRnkOXQ2?=
+ =?us-ascii?Q?LB6sYc2rPojcQT990fBaIzw3wVEI8mIbsuWpQb33YcZY+ZbkIpED0Fmf4ddz?=
+ =?us-ascii?Q?BxE4L1zCWqYnV6rU3sjkpTxKVqZhNGIB/UClb3GS6YS+whpsXRGjWlrpVKX6?=
+ =?us-ascii?Q?tplgLUe+bAuobvlzOqj+Oj0RaGLftQTw2EGOKGPlRl9Q8ta7vFB3B6awWU5V?=
+ =?us-ascii?Q?YlQ+HHUQrNDlqLOX1M0XaqBEHG5/nTDzkI7hbZie677GisKlI+46VNowgSuD?=
+ =?us-ascii?Q?SRB0T9DXGwx8C+dKlHOxYU9bXLGei8i8V5y25yWEBCA3VlNHupp4taVOUiHt?=
+ =?us-ascii?Q?ty3AdNuVEo0r6/Di3rT0boHJstapCp67FNvc55lTRMj8LtryhqgnzTlt7oG1?=
+ =?us-ascii?Q?wf2PC0DGZ+FNM9uRU+3iBwgEixheWVwDOjl7FkGNr51/ZGtrkLYkBA7ZKrxf?=
+ =?us-ascii?Q?A+syi2hFgPujec83HhJh+4ARLwuLXVRHMDD9NrbjoA88GW069Ro7fUK0rWSb?=
+ =?us-ascii?Q?ti0MJPrzlv9x5szca/12qIDZr4kDMTzQScoS/UWuG0SF2WU++SOxIvQpzlMp?=
+ =?us-ascii?Q?7n8L342SXb2fweZcuuQl7IqZTu34j2jS0V+UJTJBZna6JbrXIXisuJe8aNQI?=
+ =?us-ascii?Q?X8E8DGa53OtReegHrXYBGaxlMYDsLXw/KuFmRGWYaH9Ke6NqOrGjNvWe4U5s?=
+ =?us-ascii?Q?ysbw3KAWADz4sbLgPN4Q3qnHv5JXJyywZ4g3IRfZnj6SrWVodipHR+qsEMCU?=
+ =?us-ascii?Q?y9gLOjOeB5owIDMTJC8txdLlY610?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(36860700013)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2024 12:15:03.3280
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f6f79fbf-f4d0-4593-a489-08dce9252ba1
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DS3PEPF0000C37B.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7694
 
-Hi Mina Almasry,
+Provide "nosnp" boot option via "sev=nosnp" kernel command line to
+prevent SEV-SNP [1] capable host kernel from enabling SEV-SNP and
+initializing Reverse Map Table (RMP)
 
-Greetings!
+Setting 'nosnp' avoids the RMP check overhead in memory accesses when
+users do not want to run SEV-SNP guests.
 
-I used Syzkaller and found that there is BUG: soft lockup inqt in linux-next tree next-20241008
+On providing sev=nosnp via kernel command line:
+cat /sys/module/kvm_amd/parameters/sev_snp should be "N".
 
-After bisection and the first bad commit is:
-"
-678f6e28b5f6 net: add SO_DEVMEM_DONTNEED setsockopt to release RX frags
-"
+The patchset is based on tip/master.
 
-All detailed into can be found at:
-https://github.com/laifryiee/syzkaller_logs/tree/main/241009_103423_do_sock_setsockopt
-Syzkaller repro code:
-https://github.com/laifryiee/syzkaller_logs/tree/main/241009_103423_do_sock_setsockopt/repro.c
-Syzkaller repro syscall steps:
-https://github.com/laifryiee/syzkaller_logs/tree/main/241009_103423_do_sock_setsockopt/repro.prog
-Syzkaller report:
-https://github.com/laifryiee/syzkaller_logs/tree/main/241009_103423_do_sock_setsockopt/repro.report
-Kconfig(make olddefconfig):
-https://github.com/laifryiee/syzkaller_logs/tree/main/241009_103423_do_sock_setsockopt/kconfig_origin
-Bisect info:
-https://github.com/laifryiee/syzkaller_logs/tree/main/241009_103423_do_sock_setsockopt/bisect_info.log
-bzImage:
-https://github.com/laifryiee/syzkaller_logs/raw/refs/heads/main/241009_103423_do_sock_setsockopt/bzImage_8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b
-Issue dmesg:
-https://github.com/laifryiee/syzkaller_logs/blob/main/241009_103423_do_sock_setsockopt/8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b_dmesg.log
+Reference:
+[1] https://www.amd.com/content/dam/amd/en/documents/processor-tech-docs/programmer-references/24593.pdf
 
-"
-[   48.825073]  ? __lock_acquire+0x1b0f/0x5c90
-[   48.825419]  ? __pfx___lock_acquire+0x10/0x10
-[   48.825774]  sock_setsockopt+0x68/0x90
-[   48.826117]  do_sock_setsockopt+0x3fb/0x480
-[   48.826455]  ? __pfx_do_sock_setsockopt+0x10/0x10
-[   48.826829]  ? lock_release+0x441/0x870
-[   48.827140]  ? __sanitizer_cov_trace_const_cmp4+0x1a/0x20
-[   48.827558]  ? fdget+0x188/0x230
-[   48.827846]  __sys_setsockopt+0x131/0x200
-[   48.828184]  ? __pfx___sys_setsockopt+0x10/0x10
-[   48.828551]  ? seqcount_lockdep_reader_access.constprop.0+0xc0/0xd0
-[   48.829042]  ? __sanitizer_cov_trace_cmp4+0x1a/0x20
-[   48.829425]  ? ktime_get_coarse_real_ts64+0xbf/0xf0
-[   48.829817]  __x64_sys_setsockopt+0xc6/0x160
-[   48.830160]  ? syscall_trace_enter+0x14a/0x230
-[   48.830520]  x64_sys_call+0x6cf/0x20d0
-[   48.830825]  do_syscall_64+0x6d/0x140
-[   48.831124]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-[   48.831517] RIP: 0033:0x7f26cdc3ee5d
-[   48.831804] Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 93 af 1b 00 f7 d8 64 89 01 48
-[   48.833180] RSP: 002b:00007fff33f36278 EFLAGS: 00000213 ORIG_RAX: 0000000000000036
-[   48.833756] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f26cdc3ee5d
-[   48.834294] RDX: 0000000000000050 RSI: 0000000000000001 RDI: 0000000000000003
-[   48.834830] RBP: 00007fff33f36290 R08: 0000000000000010 R09: 00007fff33f36290
-[   48.835368] R10: 0000000020000080 R11: 0000000000000213 R12: 00007fff33f363e8
-[   48.835906] R13: 000000000040178f R14: 0000000000403e08 R15: 00007f26cde51000
-[   48.836466]  </TASK>
-[   48.836648] Kernel panic - not syncing: softlockup: hung tasks
-[   48.837096] CPU: 1 UID: 0 PID: 729 Comm: repro Tainted: G             L     6.12.0-rc2-8cf0b93919e1 #1
-[   48.837796] Tainted: [L]=SOFTLOCKUP
-[   48.838071] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014
-[   48.838916] Call Trace:
-[   48.839113]  <IRQ>
-[   48.839282]  dump_stack_lvl+0x42/0x150
-[   48.839584]  dump_stack+0x19/0x20
-[   48.839846]  panic+0x703/0x790
-[   48.840100]  ? __pfx_panic+0x10/0x10
-[   48.840394]  ? watchdog_timer_fn+0x599/0x6b0
-[   48.840727]  ? watchdog_timer_fn+0x58c/0x6b0
-[   48.841065]  watchdog_timer_fn+0x5aa/0x6b0
-[   48.841382]  ? __pfx_watchdog_timer_fn+0x10/0x10
-[   48.841743]  __hrtimer_run_queues+0x5d6/0xc30
-[   48.842091]  ? __pfx___hrtimer_run_queues+0x10/0x10
-[   48.842473]  hrtimer_interrupt+0x324/0x7a0
-[   48.842802]  __sysvec_apic_timer_interrupt+0x10b/0x410
-[   48.843198]  ? debug_smp_processor_id+0x20/0x30
-[   48.843551]  sysvec_apic_timer_interrupt+0xaf/0xd0
-[   48.843922]  </IRQ>
-[   48.844101]  <TASK>
-[   48.844275]  asm_sysvec_apic_timer_interrupt+0x1f/0x30
-[   48.844711] RIP: 0010:__sanitizer_cov_trace_pc+0x45/0x70
-[   48.845130] Code: a9 00 01 ff 00 74 1d f6 c4 01 74 43 a9 00 00 0f 00 75 3c a9 00 00 f0 00 75 35 8b 82 04 1e 00 00 85 c0 74 2b 8b 82 e0 1d 00 00 <83> f8 02 75 20 48 8b 8a e8 1d 00 00 8b 92 e4 1d 00 00 48 8b 01 48
-[   48.846480] RSP: 0018:ffff8880239cf790 EFLAGS: 00000246
-[   48.846876] RAX: 0000000000000000 RBX: ffff8880239cf900 RCX: ffffffff8581c19f
-[   48.847407] RDX: ffff88801a818000 RSI: ffffffff8581c1d5 RDI: 0000000000000007
-[   48.847933] RBP: ffff8880239cf790 R08: 0000000000000001 R09: ffffed1004739f23
-[   48.848472] R10: 0000000077cc006e R11: 0000000000000001 R12: 0000000000000000
-[   48.849002] R13: 0000000077cc006e R14: ffff8880239cf918 R15: 0000000000000000
-[   48.849536]  ? xas_start+0x11f/0x730
-[   48.849818]  ? xas_start+0x155/0x730
-[   48.850101]  xas_start+0x155/0x730
-[   48.850372]  xas_load+0x2f/0x520
-[   48.850629]  ? irqentry_exit+0x3e/0xa0
-[   48.850922]  ? sysvec_apic_timer_interrupt+0x6a/0xd0
-[   48.851304]  xas_store+0x1165/0x1ad0
-[   48.851588]  ? __this_cpu_preempt_check+0x21/0x30
-[   48.851950]  ? irqentry_exit+0x3e/0xa0
-[   48.852254]  __xa_erase+0xc6/0x180
-[   48.852524]  ? __pfx___xa_erase+0x10/0x10
-[   48.852842]  ? __xa_erase+0xf1/0x180
-[   48.853123]  ? sock_devmem_dontneed+0x42c/0x6d0
-[   48.853480]  sock_devmem_dontneed+0x3a8/0x6d0
-[   48.853829]  ? __pfx_sock_devmem_dontneed+0x10/0x10
-[   48.854205]  ? trace_lock_acquire+0x139/0x1b0
-[   48.854548]  ? lock_acquire+0x80/0xb0
-[   48.854833]  ? __might_fault+0xf1/0x1b0
-[   48.855133]  ? __might_fault+0xf1/0x1b0
-[   48.855437]  ? __sanitizer_cov_trace_const_cmp8+0x1c/0x30
-[   48.855849]  sk_setsockopt+0x480/0x3c60
-[   48.856158]  ? __pfx_sk_setsockopt+0x10/0x10
-[   48.856491]  ? __kasan_check_read+0x15/0x20
-[   48.856814]  ? __lock_acquire+0x1b0f/0x5c90
-[   48.857144]  ? __pfx___lock_acquire+0x10/0x10
-[   48.857488]  sock_setsockopt+0x68/0x90
-[   48.857785]  do_sock_setsockopt+0x3fb/0x480
-[   48.858110]  ? __pfx_do_sock_setsockopt+0x10/0x10
-[   48.858474]  ? lock_release+0x441/0x870
-[   48.858776]  ? __sanitizer_cov_trace_const_cmp4+0x1a/0x20
-[   48.859184]  ? fdget+0x188/0x230
-[   48.859448]  __sys_setsockopt+0x131/0x200
-[   48.859764]  ? __pfx___sys_setsockopt+0x10/0x10
-[   48.860123]  ? seqcount_lockdep_reader_access.constprop.0+0xc0/0xd0
-[   48.860598]  ? __sanitizer_cov_trace_cmp4+0x1a/0x20
-[   48.860982]  ? ktime_get_coarse_real_ts64+0xbf/0xf0
-[   48.861370]  __x64_sys_setsockopt+0xc6/0x160
-[   48.861710]  ? syscall_trace_enter+0x14a/0x230
-[   48.862057]  x64_sys_call+0x6cf/0x20d0
-[   48.862350]  do_syscall_64+0x6d/0x140
-[   48.862639]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-[   48.863023] RIP: 0033:0x7f26cdc3ee5d
-[   48.863301] Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 93 af 1b 00 f7 d8 64 89 01 48
-[   48.864659] RSP: 002b:00007fff33f36278 EFLAGS: 00000213 ORIG_RAX: 0000000000000036
-[   48.865223] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f26cdc3ee5d
-"
+Changelog:
+=========
+v5:
+  * Update cover-letter and Documentation to include information on why
+    nosnp command line option is required (Dave Hansen)
+  * Remove <asm/cache.h> stray header introduced in the previous
+    versions because of __read_mostly attribute that is now moved into
+    virt/svm/cmdline.c
+  * Link: https://lore.kernel.org/all/20240930231102.123403-1-papaluri@amd.com/
 
-I hope you find it useful.
+v4:
+  * Move __read_mostly attribute to place where sev_cfg is declared (Tom)
+  * Link: https://lore.kernel.org/all/20240922033626.29038-1-papaluri@amd.com/
 
-Regards,
-Yi Lai
+Pavan Kumar Paluri (2):
+  x86, KVM:SVM: Move sev specific parsing into arch/x86/virt/svm
+  x86 KVM:SVM: Provide "nosnp" boot option for sev kernel command line
 
----
-
-If you don't need the following environment to reproduce the problem or if you
-already have one reproduced environment, please ignore the following information.
-
-How to reproduce:
-git clone https://gitlab.com/xupengfe/repro_vm_env.git
-cd repro_vm_env
-tar -xvf repro_vm_env.tar.gz
-cd repro_vm_env; ./start3.sh  // it needs qemu-system-x86_64 and I used v7.1.0
-  // start3.sh will load bzImage_2241ab53cbb5cdb08a6b2d4688feb13971058f65 v6.2-rc5 kernel
-  // You could change the bzImage_xxx as you want
-  // Maybe you need to remove line "-drive if=pflash,format=raw,readonly=on,file=./OVMF_CODE.fd \" for different qemu version
-You could use below command to log in, there is no password for root.
-ssh -p 10023 root@localhost
-
-After login vm(virtual machine) successfully, you could transfer reproduced
-binary to the vm by below way, and reproduce the problem in vm:
-gcc -pthread -o repro repro.c
-scp -P 10023 repro root@localhost:/root/
-
-Get the bzImage for target kernel:
-Please use target kconfig and copy it to kernel_src/.config
-make olddefconfig
-make -jx bzImage           //x should equal or less than cpu num your pc has
-
-Fill the bzImage file into above start3.sh to load the target kernel in vm.
+ .../arch/x86/x86_64/boot-options.rst          |  5 +++
+ arch/x86/coco/sev/core.c                      | 44 -------------------
+ arch/x86/include/asm/sev-common.h             | 27 ++++++++++++
+ arch/x86/virt/svm/Makefile                    |  1 +
+ arch/x86/virt/svm/cmdline.c                   | 39 ++++++++++++++++
+ 5 files changed, 72 insertions(+), 44 deletions(-)
+ create mode 100644 arch/x86/virt/svm/cmdline.c
 
 
-Tips:
-If you already have qemu-system-x86_64, please ignore below info.
-If you want to install qemu v7.1.0 version:
-git clone https://github.com/qemu/qemu.git
-cd qemu
-git checkout -f v7.1.0
-mkdir build
-cd build
-yum install -y ninja-build.x86_64
-yum -y install libslirp-devel.x86_64
-../configure --target-list=x86_64-softmmu --enable-kvm --enable-vnc --enable-gtk --enable-sdl --enable-usb-redir --enable-slirp
-make
-make install 
+base-commit: 00d91979d23c88d3f50870e22fc9cec3f5e26a2a
+-- 
+2.34.1
 
-On Mon, Sep 09, 2024 at 05:43:15AM +0000, Mina Almasry wrote:
-> Add an interface for the user to notify the kernel that it is done
-> reading the devmem dmabuf frags returned as cmsg. The kernel will
-> drop the reference on the frags to make them available for reuse.
-> 
-> Signed-off-by: Willem de Bruijn <willemb@google.com>
-> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
-> Reviewed-by: Eric Dumazet <edumazet@google.com>
-> 
-> ---
-> 
-> v16:
-> - Use sk_is_tcp().
-> - Fix unnamed 128 DONTNEED limit (David).
-> - Fix kernel allocating for 128 tokens even if the user didn't ask for
->   that much (Eric).
-> - Fix number assignement (Arnd).
-> 
-> v10:
-> - Fix leak of tokens (Nikolay).
-> 
-> v7:
-> - Updated SO_DEVMEM_* uapi to use the next available entry (Arnd).
-> 
-> v6:
-> - Squash in locking optimizations from edumazet@google.com. With his
->   changes we lock the xarray once per sock_devmem_dontneed operation
->   rather than once per frag.
-> 
-> Changes in v1:
-> - devmemtoken -> dmabuf_token (David).
-> - Use napi_pp_put_page() for refcounting (Yunsheng).
-> - Fix build error with missing socket options on other asms.
-> 
-> ---
->  arch/alpha/include/uapi/asm/socket.h  |  1 +
->  arch/mips/include/uapi/asm/socket.h   |  1 +
->  arch/parisc/include/uapi/asm/socket.h |  1 +
->  arch/sparc/include/uapi/asm/socket.h  |  1 +
->  include/uapi/asm-generic/socket.h     |  1 +
->  include/uapi/linux/uio.h              |  4 ++
->  net/core/sock.c                       | 68 +++++++++++++++++++++++++++
->  7 files changed, 77 insertions(+)
-> 
-> diff --git a/arch/alpha/include/uapi/asm/socket.h b/arch/alpha/include/uapi/asm/socket.h
-> index ef4656a41058..251b73c5481e 100644
-> --- a/arch/alpha/include/uapi/asm/socket.h
-> +++ b/arch/alpha/include/uapi/asm/socket.h
-> @@ -144,6 +144,7 @@
->  #define SCM_DEVMEM_LINEAR	SO_DEVMEM_LINEAR
->  #define SO_DEVMEM_DMABUF	79
->  #define SCM_DEVMEM_DMABUF	SO_DEVMEM_DMABUF
-> +#define SO_DEVMEM_DONTNEED	80
->  
->  #if !defined(__KERNEL__)
->  
-> diff --git a/arch/mips/include/uapi/asm/socket.h b/arch/mips/include/uapi/asm/socket.h
-> index 414807d55e33..8ab7582291ab 100644
-> --- a/arch/mips/include/uapi/asm/socket.h
-> +++ b/arch/mips/include/uapi/asm/socket.h
-> @@ -155,6 +155,7 @@
->  #define SCM_DEVMEM_LINEAR	SO_DEVMEM_LINEAR
->  #define SO_DEVMEM_DMABUF	79
->  #define SCM_DEVMEM_DMABUF	SO_DEVMEM_DMABUF
-> +#define SO_DEVMEM_DONTNEED	80
->  
->  #if !defined(__KERNEL__)
->  
-> diff --git a/arch/parisc/include/uapi/asm/socket.h b/arch/parisc/include/uapi/asm/socket.h
-> index 2b817efd4544..38fc0b188e08 100644
-> --- a/arch/parisc/include/uapi/asm/socket.h
-> +++ b/arch/parisc/include/uapi/asm/socket.h
-> @@ -136,6 +136,7 @@
->  #define SCM_DEVMEM_LINEAR	SO_DEVMEM_LINEAR
->  #define SO_DEVMEM_DMABUF	79
->  #define SCM_DEVMEM_DMABUF	SO_DEVMEM_DMABUF
-> +#define SO_DEVMEM_DONTNEED	80
->  
->  #if !defined(__KERNEL__)
->  
-> diff --git a/arch/sparc/include/uapi/asm/socket.h b/arch/sparc/include/uapi/asm/socket.h
-> index 00248fc68977..57084ed2f3c4 100644
-> --- a/arch/sparc/include/uapi/asm/socket.h
-> +++ b/arch/sparc/include/uapi/asm/socket.h
-> @@ -137,6 +137,7 @@
->  #define SCM_DEVMEM_LINEAR        SO_DEVMEM_LINEAR
->  #define SO_DEVMEM_DMABUF         0x0058
->  #define SCM_DEVMEM_DMABUF        SO_DEVMEM_DMABUF
-> +#define SO_DEVMEM_DONTNEED       0x0059
->  
->  #if !defined(__KERNEL__)
->  
-> diff --git a/include/uapi/asm-generic/socket.h b/include/uapi/asm-generic/socket.h
-> index e993edc9c0ee..3b4e3e815602 100644
-> --- a/include/uapi/asm-generic/socket.h
-> +++ b/include/uapi/asm-generic/socket.h
-> @@ -139,6 +139,7 @@
->  #define SCM_DEVMEM_LINEAR	SO_DEVMEM_LINEAR
->  #define SO_DEVMEM_DMABUF	79
->  #define SCM_DEVMEM_DMABUF	SO_DEVMEM_DMABUF
-> +#define SO_DEVMEM_DONTNEED	80
->  
->  #if !defined(__KERNEL__)
->  
-> diff --git a/include/uapi/linux/uio.h b/include/uapi/linux/uio.h
-> index 3a22ddae376a..d17f8fcd93ec 100644
-> --- a/include/uapi/linux/uio.h
-> +++ b/include/uapi/linux/uio.h
-> @@ -33,6 +33,10 @@ struct dmabuf_cmsg {
->  				 */
->  };
->  
-> +struct dmabuf_token {
-> +	__u32 token_start;
-> +	__u32 token_count;
-> +};
->  /*
->   *	UIO_MAXIOV shall be at least 16 1003.1g (5.4.1.1)
->   */
-> diff --git a/net/core/sock.c b/net/core/sock.c
-> index 468b1239606c..bbb57b5af0b1 100644
-> --- a/net/core/sock.c
-> +++ b/net/core/sock.c
-> @@ -124,6 +124,7 @@
->  #include <linux/netdevice.h>
->  #include <net/protocol.h>
->  #include <linux/skbuff.h>
-> +#include <linux/skbuff_ref.h>
->  #include <net/net_namespace.h>
->  #include <net/request_sock.h>
->  #include <net/sock.h>
-> @@ -1049,6 +1050,69 @@ static int sock_reserve_memory(struct sock *sk, int bytes)
->  	return 0;
->  }
->  
-> +#ifdef CONFIG_PAGE_POOL
-> +
-> +/* This is the number of tokens that the user can SO_DEVMEM_DONTNEED in
-> + * 1 syscall. The limit exists to limit the amount of memory the kernel
-> + * allocates to copy these tokens.
-> + */
-> +#define MAX_DONTNEED_TOKENS 128
-> +
-> +static noinline_for_stack int
-> +sock_devmem_dontneed(struct sock *sk, sockptr_t optval, unsigned int optlen)
-> +{
-> +	unsigned int num_tokens, i, j, k, netmem_num = 0;
-> +	struct dmabuf_token *tokens;
-> +	netmem_ref netmems[16];
-> +	int ret = 0;
-> +
-> +	if (!sk_is_tcp(sk))
-> +		return -EBADF;
-> +
-> +	if (optlen % sizeof(struct dmabuf_token) ||
-> +	    optlen > sizeof(*tokens) * MAX_DONTNEED_TOKENS)
-> +		return -EINVAL;
-> +
-> +	tokens = kvmalloc_array(optlen, sizeof(*tokens), GFP_KERNEL);
-> +	if (!tokens)
-> +		return -ENOMEM;
-> +
-> +	num_tokens = optlen / sizeof(struct dmabuf_token);
-> +	if (copy_from_sockptr(tokens, optval, optlen)) {
-> +		kvfree(tokens);
-> +		return -EFAULT;
-> +	}
-> +
-> +	xa_lock_bh(&sk->sk_user_frags);
-> +	for (i = 0; i < num_tokens; i++) {
-> +		for (j = 0; j < tokens[i].token_count; j++) {
-> +			netmem_ref netmem = (__force netmem_ref)__xa_erase(
-> +				&sk->sk_user_frags, tokens[i].token_start + j);
-> +
-> +			if (netmem &&
-> +			    !WARN_ON_ONCE(!netmem_is_net_iov(netmem))) {
-> +				netmems[netmem_num++] = netmem;
-> +				if (netmem_num == ARRAY_SIZE(netmems)) {
-> +					xa_unlock_bh(&sk->sk_user_frags);
-> +					for (k = 0; k < netmem_num; k++)
-> +						WARN_ON_ONCE(!napi_pp_put_page(netmems[k]));
-> +					netmem_num = 0;
-> +					xa_lock_bh(&sk->sk_user_frags);
-> +				}
-> +				ret++;
-> +			}
-> +		}
-> +	}
-> +
-> +	xa_unlock_bh(&sk->sk_user_frags);
-> +	for (k = 0; k < netmem_num; k++)
-> +		WARN_ON_ONCE(!napi_pp_put_page(netmems[k]));
-> +
-> +	kvfree(tokens);
-> +	return ret;
-> +}
-> +#endif
-> +
->  void sockopt_lock_sock(struct sock *sk)
->  {
->  	/* When current->bpf_ctx is set, the setsockopt is called from
-> @@ -1211,6 +1275,10 @@ int sk_setsockopt(struct sock *sk, int level, int optname,
->  			ret = -EOPNOTSUPP;
->  		return ret;
->  		}
-> +#ifdef CONFIG_PAGE_POOL
-> +	case SO_DEVMEM_DONTNEED:
-> +		return sock_devmem_dontneed(sk, optval, optlen);
-> +#endif
->  	}
->  
->  	sockopt_lock_sock(sk);
-> -- 
-> 2.46.0.469.g59c65b2a67-goog
-> 
