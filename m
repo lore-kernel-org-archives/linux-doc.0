@@ -1,246 +1,355 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE37F1CF2B4;
-	Thu, 10 Oct 2024 18:57:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728586658; cv=fail; b=SH2YZrS9K4QCdMMMqxzg1g+KiSSQ5YKFu5A2NFBUA4Zg3WhXEoolVbqcrnD57wk1jCyj46CPNVMyQlkn/4aEguibFhfvxLsDUWiVUlMUIrklQjpY0AfrGSQ0Cs9/6bQ9qSTZBvPSJOx7q14WCl9DwcQnaGzQlkLmIuaBx5TA6yI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728586658; c=relaxed/simple;
-	bh=593qkRKxlI3JC1LZA/5mk70pD8P6x4eM3QxZjyRVzBU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=jtBpeDuhobVi2ydpDBx1dLpc+k34HTdLFmy4DeMebhFlyZR4EfsGrPiZxR9co343UNw6tOjlXf242N9Y5+6COeBNxp0Kb5aQz+dE/z80ZScSOWLmagIiu+SAJ0VQg0ax6ehq4lnjGuarRsF+W0qxWfNAyIXrjGCR29Uro6QMYdc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zpj4bAwN; arc=fail smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5749419DFAB
+	for <linux-doc@vger.kernel.org>; Thu, 10 Oct 2024 19:05:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728587157; cv=none; b=SA9o0LUcLpNdtxyuTMGHZq5MjM5xAPlkgwoRz9EMCGgyP/0nUXHR3r+2YiY4R9dRVzxKwJcE19foR6v31+f57EJyAcj5XfJr8lMx5ErJwn0PAOeAPIS8ZNRhSgTh89WYpuzkmQMo7x2BGdH36P2ccXi0jWyzuqLXZRS8EubwbXg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728587157; c=relaxed/simple;
+	bh=5HPzgAdFormJXXqK8h/l25xPeBcHWohJ3hWfo3eavJc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=p2k7KNJcDPp2lEC3xLTKqVy3vxFY2AxUAYbZ9IOMnqmQ89UCWV4rzwchAN6+CPKy8lkA5VlhHF84GkmQAHhAxOHVYZQ/RjUT/IlG1ZV9/ZP5tKeEPW5Gn7Y1AHjGQB+MDNBo36S8HgeTFaSkNMISDN21SRAUurcJPMYnr783YfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rO6X22gY; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zpj4bAwN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728586657; x=1760122657;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=593qkRKxlI3JC1LZA/5mk70pD8P6x4eM3QxZjyRVzBU=;
-  b=Zpj4bAwNIyBU5+rd2Jft291m59ZKIaTHA/EofLBBGpajbpExIWmuGTMu
-   BfaYgUkHf0w0YYQ8Zn2Vc3BmWtDKv+iXsTaVpGR2tJnLDi7xD+DdHN16H
-   dsRuu/sZ2onEVkWIO2EO62y2ftn8eEn1PttrtfxsPnQqQ/UFcPN3GNNk1
-   uWnclBwEV6Ecsqvtwu3hi+zRUOMjcF7CCyM8kmPvZk0XLRo+KhjneUfpT
-   G2zLpV41d8IaBEOTLs6fur31MHMVGXxaVcakzcP9lh47pcO7z207oylTl
-   1W7GflwobbPSIucNGqD0UTnaFrKEk8huwgCVgT3KxF9ssfIB3aVsvSfka
-   A==;
-X-CSE-ConnectionGUID: /rH+MQs+SbmsqMrGc4SPhw==
-X-CSE-MsgGUID: 089GWvwJR0SaFum1rs/Q5A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="28110410"
-X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; 
-   d="scan'208";a="28110410"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 11:57:36 -0700
-X-CSE-ConnectionGUID: PMca4bBxRdSAa3OwMgh51Q==
-X-CSE-MsgGUID: k1X1tDL2QwGp2VIDH6iQNw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; 
-   d="scan'208";a="100018781"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Oct 2024 11:57:36 -0700
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 10 Oct 2024 11:57:35 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 10 Oct 2024 11:57:35 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 10 Oct 2024 11:57:35 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.172)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 10 Oct 2024 11:57:34 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AFmeO///3Nf0knFeHfMWyaqzATKAwP7kkNnHdhgMijqfHkYyM5s1SYTYDLeTEFlAGt28SdjhggJ8cYsAIDE1TgUnwzTQlEowf3ndJ150mKA4mlKk/wSZfgr8Ef2/S5mRzSRfSprWGLl6yaoVEx4ypIvKKYoH5WCKsGUBPoIWCVL/27r3iiqj04MnvXOO7ZN8GgcsiYMeMzGz5k0NVvm2aD1hs5/waZaRqsWhVgESWIFU/GdCX6tDQr+g5vQ/kjO8YUxnfN4sP4XRW9Y3GdotczCYxpe6TcJz5ubPM9+fvzzjAvihKFGbzpb5plulRnJ09HRe8XReBvRnmFvQUWC6FQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=593qkRKxlI3JC1LZA/5mk70pD8P6x4eM3QxZjyRVzBU=;
- b=LQ5go74Ha8LXiNY1iM3PN58BQ5pU8/xQaFl6E4y5hKTR9Ow69qQ+WCIUhUYsNJTZUphgeOF58wFr5gwlBHk3ynubr8j0WgF+bO3aIVzhQ0iMDjakdu7xuHI8mP7BM95dXFSpIMzKwmAlzk7ncMForOaIOABHX3TmEbLwfgx9CqB6Z+C/Kg55ISaJ42oPXnQUjZDA070DYOUPwED79X6H7gcGvbnzH905ibxej+Cje4vPqR5FvTLgX0wSJl40l83BrnJ3EHGsTmFufCVz7DIG1Z+sDImQSO0RhxVjFIiNom0pQqd7Jn0WTuO9nDtWirND8vnrJjysJA7hYvTMPsZTIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
- by PH0PR11MB7446.namprd11.prod.outlook.com (2603:10b6:510:26d::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.27; Thu, 10 Oct
- 2024 18:57:31 +0000
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::acfd:b7e:b73b:9361]) by SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::acfd:b7e:b73b:9361%4]) with mapi id 15.20.8048.013; Thu, 10 Oct 2024
- 18:57:31 +0000
-From: "Luck, Tony" <tony.luck@intel.com>
-To: "babu.moger@amd.com" <babu.moger@amd.com>
-CC: "corbet@lwn.net" <corbet@lwn.net>, "Yu, Fenghua" <fenghua.yu@intel.com>,
-	"Chatre, Reinette" <reinette.chatre@intel.com>, "tglx@linutronix.de"
-	<tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de"
-	<bp@alien8.de>, "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-	"paulmck@kernel.org" <paulmck@kernel.org>, "rdunlap@infradead.org"
-	<rdunlap@infradead.org>, "tj@kernel.org" <tj@kernel.org>,
-	"peterz@infradead.org" <peterz@infradead.org>, "yanjiewtw@gmail.com"
-	<yanjiewtw@gmail.com>, "kim.phillips@amd.com" <kim.phillips@amd.com>,
-	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>, "seanjc@google.com"
-	<seanjc@google.com>, "jmattson@google.com" <jmattson@google.com>,
-	"leitao@debian.org" <leitao@debian.org>, "jpoimboe@kernel.org"
-	<jpoimboe@kernel.org>, "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-	"kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>, "Joseph,
- Jithu" <jithu.joseph@intel.com>, "Huang, Kai" <kai.huang@intel.com>,
-	"kan.liang@linux.intel.com" <kan.liang@linux.intel.com>,
-	"daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
-	"pbonzini@redhat.com" <pbonzini@redhat.com>, "sandipan.das@amd.com"
-	<sandipan.das@amd.com>, "ilpo.jarvinen@linux.intel.com"
-	<ilpo.jarvinen@linux.intel.com>, "peternewman@google.com"
-	<peternewman@google.com>, "Wieczor-Retman, Maciej"
-	<maciej.wieczor-retman@intel.com>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "Eranian, Stephane" <eranian@google.com>,
-	"james.morse@arm.com" <james.morse@arm.com>
-Subject: RE: [PATCH v8 08/25] x86/resctrl: Introduce interface to display
- number of monitoring counters
-Thread-Topic: [PATCH v8 08/25] x86/resctrl: Introduce interface to display
- number of monitoring counters
-Thread-Index: AQHbGybdEonESjxpIEK+MSvEee6fXLKAG/3ggAAYpoCAAACqQIAAGxsAgAADIiA=
-Date: Thu, 10 Oct 2024 18:57:31 +0000
-Message-ID: <SJ1PR11MB608382EB9F40FBDC19DF71C4FC782@SJ1PR11MB6083.namprd11.prod.outlook.com>
-References: <cover.1728495588.git.babu.moger@amd.com>
- <c79fdf4196d974325df995eb334221463747689e.1728495588.git.babu.moger@amd.com>
- <ZwcIkf_oy2oKByNu@agluck-desk3.sc.intel.com>
- <8ceeb50a-70d7-4467-b7c1-4f62b1a1eec8@amd.com>
- <SJ1PR11MB608381B9DA3AE26749070BE8FC782@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <0fedcbd4-487c-4d55-8151-69dc34f41f1d@amd.com>
- <SJ1PR11MB6083FFA19F9387F21C058A09FC782@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <d1986f3f-9db7-4ac9-9fea-56878548ad61@amd.com>
-In-Reply-To: <d1986f3f-9db7-4ac9-9fea-56878548ad61@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ1PR11MB6083:EE_|PH0PR11MB7446:EE_
-x-ms-office365-filtering-correlation-id: 84915fc7-3d6c-4c97-a133-08dce95d64d5
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|7416014|366016|376014|1800799024|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?M1NkaTJxdGgrNVlESzFRY0I4OE5LRVJmamcvOWVtOEFRYkFGbkpUN3pjdUNR?=
- =?utf-8?B?NE8wOHpBOC9JK3N4U3hSSGRlc3k2OWQzcGpLOHhjc0hRb0ErNzFpWWdxRWdD?=
- =?utf-8?B?R05CbDBCR1FkRG1sV25PclRHZkQ0d3p4Zit0NCtpclIvanFUMThIOUNCanM3?=
- =?utf-8?B?YU9RVHhBN0JxL1F6dVpQYVJTK0FES090R2c4djFWR21yNzlsbkovV2Y1cW1H?=
- =?utf-8?B?MXJDOE1sRFJiVlZLNitmLzRuM3RKRU5tYkszWkd4MGtOK25Kd0tQV2dVaVNx?=
- =?utf-8?B?UE1McUlydDRwbzlKOS9jSVIvaWNDQzhHK3R3SzhEaWpiby8wSlgrMEliZFpy?=
- =?utf-8?B?Qm5UTjB0eTZUTTFGa215L1paOExrdXpVelJCMkhtTWdwNjlDdlhRcTB3c1B3?=
- =?utf-8?B?cGZpdE5aNGtnSzRZSk9uVU4zRk0xV3J3Z1QyVW1vamRDQjdWTWZocXhZVTJU?=
- =?utf-8?B?VG9nV2d3ckN3UGV0VjlaZ1dsZVhPN3NBVk9obHo5L1ZSWW5WekxQclJnMXFo?=
- =?utf-8?B?bHVrcTZJOW9EL0VCZjk3aFRWbms5VGRQQWVjQnI4WUQyYnhNTUM0UktqVVNU?=
- =?utf-8?B?aGdRa1VkV3hBcUt1UjE3bkdMa2paOFlYS1lpdFFFZGhZMllESStZN1RuNEFE?=
- =?utf-8?B?aUdldURrVFRNR2N4eDNMNlBZWlRZYTAvQ2EyNWZFYXZaQ3l5RUlhWitJa0Fa?=
- =?utf-8?B?VHhTRzBoVFA1dmxYakNlZER1UEY5Nis5akpGdW9MZnpXRTFaenA5SlNxZklh?=
- =?utf-8?B?WnR6QSswSmpIMUxPZm9USEkvWjByd2FvZHh5N2IweHBtVEFMUFk5VVBpVUdT?=
- =?utf-8?B?Szk3SDlsZ2c2QWp5TU0yWVc5eWtJclI4QmUrWmRXQjhLTDVmOGM5dFp0S0Yw?=
- =?utf-8?B?bnNMQklXVTRvMmhWTmhjMTliYU9BNVBIUWtRSHY2d1JXTTBMM1h6SXQ3bUpl?=
- =?utf-8?B?N0hEMkVtYXlmanNRZzVzV3ViOHpmN25DMEdGSG5yUE9teUNZanV6ZWZkS1R4?=
- =?utf-8?B?c1ppbzduUDdIaEVsMDdYaXlxNHRjczg3NUtMdllHK0ppRW5XU3ZNVVk4ZFZB?=
- =?utf-8?B?T2xnUTVzTm5XbWFEVTU0clpXNTJrUXBQUm5Ba0JqYW45S01nYVUxRTZ3RStk?=
- =?utf-8?B?eTNiM3hGcWJDUW9VRVN1dURuY1hScmNRM2Nac3JKM1NQMmpLS1V1NkFRMnFW?=
- =?utf-8?B?ZmhVUjFQc3BpMzgrd1IyTTMzdzU4ZVFGRkQ4L0YwblJuMWdyWkg2ZFB4QmZR?=
- =?utf-8?B?cU1QZmJhVE9UQ1JGQnFDd0RJTjBJcEZEOUZJNE1yV1lDeUMwSHROV0RkcjZR?=
- =?utf-8?B?emI1ZElXOVJRS1RQRGFCM2Vxcjgvaklqbkx6ZDdmeFEvbDh3bVYvNnBzMlpF?=
- =?utf-8?B?dEpQLzJnL01BNHZGK1VUUEZKK2JGN0U1UThSR1M0di9pMTEvVjl3TDVkcEM3?=
- =?utf-8?B?ZU9ZQzBEOWF5Zzd4TEFuNmdYUGxVbUllTW1pVGU0ZXBZQ3k2aytrWWlJdHht?=
- =?utf-8?B?cDZ2RmIzUUdxcTZPYnNVZ1ozMXYwMXdOSGtIWUp1c1IzMEUrdFU4ZEJTMzNR?=
- =?utf-8?B?V1JjRFZHTjdmYk85RFY1OGJnUnBpb1BhMmh4Vml4M1J5c1UxVmxjZnpCcEVP?=
- =?utf-8?B?UUNsRE9rVXkybE9NQW03VjIwWE9iQ1pxdWJWUlJhRkhjVEkwSXhqd2pkZGFv?=
- =?utf-8?B?SzAzZWdPNm1HTC9BM09Jd2FOYmpBaUhCOWdkNGV2c294NEovd0liM2hqckdI?=
- =?utf-8?B?SWFYZXhiL1NHMUpoalVLaEtTcnp1bk9TbjVTb1VFQWorNHJwaDJsZjRGN1RB?=
- =?utf-8?B?b0lGbFM4QWNvUEhxRjFTZz09?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Vkc0Mi8xbEhqNGhwNUc0cUFrNDVOKzQveElhMVRSd3QyWFVwQzRoVHFYeFJQ?=
- =?utf-8?B?dzBuR01pUUhrOVdoZzFwUVlaak1lcUcvRlBnQktJZGhMYXlBcUF6dHcxU0xU?=
- =?utf-8?B?YlBJSklQUElSTzR5bFlneXNJMzhWUlpoQnlON3lTWE91ZThBb3hFa1B6aGtC?=
- =?utf-8?B?ajdTdXBscld4WEZMeFYrRWVKakFGUzREWnpjN3JxNmtDUWlXM2FMai9hWnlE?=
- =?utf-8?B?bnlYd2tKTE1SblhURXdpZHQ5cG9CdUxpVzRQTmJVSWprdC9EM3oyOHJyOHFH?=
- =?utf-8?B?citpRUdPbnQxdXJaVEF0M2k1WmdMM3h6amx3Nmx3SDNWSVM5QUlSaXMrcUQw?=
- =?utf-8?B?emo1TGcrQXRvcGN6cHlWdkJ2SEpPZndsY3drakNYWFNCL0g5QUdUT1lEZ0Vo?=
- =?utf-8?B?NXJhUUxaeERrSk04d3ppY3ptcCt5NmdONFVwS1NTMU9WMlZXSFlHQkU1UHZJ?=
- =?utf-8?B?UHFlSTJac1BoNFlkbjBYZEF6aEQ0N2FLSGpUT0NURmtzWUFnVHRJbmd4WjFG?=
- =?utf-8?B?Vkx4L0N4S0VrSG5OeXNmdFc1RzUyWGR0UmYrQTV4bTRzVnF0N1IyVzg5Z2t3?=
- =?utf-8?B?YWZpS2E3ZXYzWEV1REZrVk9WL1VyMXRHUnoyeUdUdzIrOVd6OFpkNDhqN2hP?=
- =?utf-8?B?R1pCbWtyZDVYR2N5ekdadkdGUElPVDVIbDFVeWs5NFBsb1UrWUlIWlJUaVFU?=
- =?utf-8?B?L3FYMHNWNk1hVS9jVStjV09zanNsRGlnbHp0cHlpcGZWaTZOQ0tzc2tpcWZZ?=
- =?utf-8?B?dFR4alhuLzJCT29wNUFyVFhXV3c0djU2SkxhbWRjV3VGUHcrRXRjVS8vWldz?=
- =?utf-8?B?Sk5PWDdGaDZtYjRlcEtMRWxOVitqZGx0RkduWGd5MVRLeXpUdGM0aVU1VE9q?=
- =?utf-8?B?RGkvaXF3WGVXMDZ0QlhsZnBTOWdLZ3BQNVhiVDhNeVM0eDU2YUNRRHVOK3k2?=
- =?utf-8?B?RUM4anAzeXVnMFdVRVVBc04vRkxsM01MbUIwSXFWMUJzQXNwN3FNZys4N0xH?=
- =?utf-8?B?b0t2ZUcwNkxuTmtPdVBwcFQvcmp0SERlR3JEZUxIdGJxV29Kb0hqVExpeGYr?=
- =?utf-8?B?YnUzLzQxbURrTGtzaXl0R1ZOeXQwdXBYc2YrcG11S1JOZDhsM0RLWUh4TGZH?=
- =?utf-8?B?RGV4eElhY3JEeVM0VThXUEo4NVNObUc2dmFwWXZWd0ZiVDhmS2Y4Mm8rRnJ6?=
- =?utf-8?B?bWNIMkVieE4yUUlKNVJwSkJyWVRGNmE0eittWHA0aVl4eDNHUmF1Yk41aFlN?=
- =?utf-8?B?U2VFc1JpbHFEbEVHS2VqV2E1cEVhRFhBdEdTTWRFdzg5OENZKzdub2R5M2Zw?=
- =?utf-8?B?UTQ3cXpyMFZ5WHB6TjBtVWZwbUkvdmtqamI4cDVJZ3ZqemZWWWxVMXBMZklK?=
- =?utf-8?B?VlhEUjdDeHZUbGVEVEQvcys1blYrNGo3L3d0NTJuQmlWUk5JV0pIYlpoVi85?=
- =?utf-8?B?d1NIQ3pBSWVWVEVtTzAyNnlxclZ3c2lCVWRBOC90eXV3dlZkVlQ4eWhocjFa?=
- =?utf-8?B?dHJ2Z280UWRURWpxU2ludE9aY05FemdJZUdlYjd5YzM4aWRMNDBaVFU0WFpW?=
- =?utf-8?B?c2Q4QTZSYllTK2hyT2tuUUFrNTNaTWxiSzM4a2hKd3FPQ3JkT3RYMlcyWVBF?=
- =?utf-8?B?Ty93UHJ4eXk2L2VCcDc1T2NOQitScWFYZDVCTEd6SklrSDNMbGpBTTc5VFlZ?=
- =?utf-8?B?cHpYMUE4WkQ4UFlEZWRSVFIyUEU1U0dxenl0SDV6bmRRQVZ3bXVVWmJCcEln?=
- =?utf-8?B?Y1NSZUN3OEpxdWpBSTBZaVhoeE96SmRCSzhqRmNKR2svZWxTamYyd2FhT0Nh?=
- =?utf-8?B?WVRNZkJTWHVKSUQwVExVSXYrU0N0dThpaERKVDJIbkg2M3Nwc2plWm9GY1RT?=
- =?utf-8?B?d2J4Ly80YTdsZFNrSFRjemErNHZwK09VVHE1YWdIeHdxVkFrQU5CU3NReDla?=
- =?utf-8?B?SWJMS0JEa1BuSkR3TkNSK2J4RTRGaU5lU1JmWnl4M3BIbkhMdzdmcDVPL0dR?=
- =?utf-8?B?WUVqWUNtTW9sbUFPeGx0RWhpQnFIN0hUWkRQekdCZXpDdGtMSXhzeU9JejY3?=
- =?utf-8?B?d1lndDJEaXliYWE0cGl6Wm5EWjJwQk5rNWxOalBrN01HTjJuVmlrUzEwMTBQ?=
- =?utf-8?Q?bWn62U5id5hV5A3sHg2UteU/Z?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rO6X22gY"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4601a471aecso45551cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 10 Oct 2024 12:05:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1728587153; x=1729191953; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/SQIULv3PuhYrubi1b4Lzr/jGOZjc/yeQb9Fnkxqp1k=;
+        b=rO6X22gYTxAMr2wmMn8kkKQwEpbmuQB9QIm95VKvMJwjIIzb4XpPgtJLXU2ZLU9EgH
+         w4j+iglDLGhietiKkyeCmokb7UJjWOdftKSN4IT4cA03gdHcGSPpbVN6e9p/n/PvTRip
+         V50jXZGYJJFmbygq0FtHXxbE6jQCjfkOknbnBvccVZc3FF9fqqKJAH436ndS2GxA5ckv
+         kmqLddiMuOqeaAhhn7zmaWuHpKTilOVkxs10iamn607JDG0XCg3xVBsZ93yUvfKsOpR2
+         dulNVEokzfjKFkEG/6qOrh09E6wwGymvpUPEDzLCusfWL6bdziWKD1qvdkq9rBb11/Qt
+         nt/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728587153; x=1729191953;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/SQIULv3PuhYrubi1b4Lzr/jGOZjc/yeQb9Fnkxqp1k=;
+        b=kaDraSEmHjtz4upIOEI3nWhW9YrmWwI86UPNHr6J9GYbdL/I/tCu3rc6qmTFkJ7dit
+         UXdVpyMMj3fHd+UiC79PlifqWKejitxG5pQevnEwbJtU92Vb+po7DBPiMQZSfGOndEfq
+         ir1xMqyXArkQiOHWmttLim0U2Lr/be8OBixvh/88UwJdkSr5p6pnAuiH9HjI0v67mr/j
+         ToQMZYiV+U94IRRbItQetFqWhbWj50v2Mvd7o88SctsqNDCeLFqaqQx7vOf/hUiEpva3
+         BEqGjVk07qYy5XPiYIUsbl1VPyahmpuhH3hQXBTtSh7UfJh2YCUPPTZsmq2fz3+M0lsl
+         8vDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW0r3Ka6Xmo0PSPty/02c3oJwZ9eWnnkmdSjyMKWHr8JEMwljqR1K/kMZ+cmzUsMZPuKQ/qCkiJmfo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/a7hzceCSwWoziQUF27yZPI1k6hODdPXECi9BJcJy0SUqU0je
+	pWbXeYFhFhnY65yVZXiYFHHifT0qcjGU2JYb2no4KpDj5f2hjAAFCofsCKfXA0x1tUGSOWDSRFG
+	FZUfMTQNZPQaJ8WAea4UTLY9M23si0yKaMPfQ
+X-Google-Smtp-Source: AGHT+IFXW31rsZ9kFmf+FJMtckOgDblc8qAc7+JIkHyyX3UPQEOm0e8exkrBalRYLEuVTVB8uGfh8R0/wFj2yt5Uk7U=
+X-Received: by 2002:a05:622a:4f8c:b0:45f:5cd:a617 with SMTP id
+ d75a77b69052e-4604b127c4cmr368761cf.9.1728587152864; Thu, 10 Oct 2024
+ 12:05:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 84915fc7-3d6c-4c97-a133-08dce95d64d5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Oct 2024 18:57:31.2324
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: O5sDFJBgR8UKYNKvTkPhyq07sg96x/DH0UiiyfLEOWxz7zgvuBIM7PNs0JtjszeFY16P2QVcdsdkePMTgToi3w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB7446
-X-OriginatorOrg: intel.com
+References: <20240909054318.1809580-1-almasrymina@google.com>
+ <20240909054318.1809580-11-almasrymina@google.com> <Zwe3lWTN36IUaIdd@ly-workstation>
+In-Reply-To: <Zwe3lWTN36IUaIdd@ly-workstation>
+From: Mina Almasry <almasrymina@google.com>
+Date: Thu, 10 Oct 2024 12:05:38 -0700
+Message-ID: <CAHS8izPuEUA20BDXvwq2vW-24ez36YFJFMQok-oBDbgk6bajSA@mail.gmail.com>
+Subject: Re: [PATCH net-next v25 10/13] net: add SO_DEVMEM_DONTNEED setsockopt
+ to release RX frags
+To: "Lai, Yi" <yi1.lai@linux.intel.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>, 
+	Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>, 
+	Magnus Karlsson <magnus.karlsson@intel.com>, 
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>, 
+	Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, 
+	Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>, yi1.lai@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-PiA+IFdoeSBoYXZlIHRoaXMgY29tcGxleGl0eSBpbiBtYm1fYXNzaWduX2NvbnRyb2wgc3ludGF4
-Pw0KPg0KPiBMZXRzIHRha2UgYW4gZXhhbXBsZToNCj4gJCBjYXQgL3N5cy9mcy9yZXNjdHJsL2lu
-Zm8vTDNfTU9OL251bV9tYm1fY250cnMNCj4gVG90YWwgMzINCj4gQXZhaWxhYmxlIDMwDQo+DQo+
-ICMgY2F0IC9zeXMvZnMvcmVzY3RybC9pbmZvL0wzX01PTi9tYm1fYXNzaWduX2NvbnRyb2wNCj4g
-Ly8wPXRsOzE9dGw7DQo+DQo+IEhlcmUgZGVmYXVsdCBncm91cCBoYXMgdGFrZW4gdHdvIGNvdW50
-ZXJzLg0KPg0KPiAjIGNhdCAvc3lzL2ZzL3Jlc2N0cmwvaW5mby9MM19NT04vbWJtX2Fzc2lnbl9j
-b250cm9sDQo+IC8vMD1fOzE9dGw7DQo+DQo+IEhlcmUgZGVmYXVsdCBncm91cCBoYXMgdHdvIGNv
-dW50ZXJzLg0KPiBEb21haW4gMCBkb2VzIG5vdCBoYXZlIGNvdW50ZXJzIGFwcGxpZWQuIFNvLCB5
-b3Ugd29udCBiZSBhYmxlIHRvIHJlYWQgdGhlDQo+IE1CTSB2YWx1ZXMgZm9yIGRvbWFpbiAwLg0K
-PiBEb21haW4gMSBoYXMgYm90aCB0aGUgY291bnRlcnMgYXBwbGllZC4NCg0KSXMgdGhlcmUgc29t
-ZSBiZW5lZml0IGZyb20gZG9pbmcgdGhpcz8gWW91IGFyZSBzdGlsbCB1c2luZyB0aGUgc2FtZQ0K
-bnVtYmVyIG9mIGNvdW50ZXJzLiBZb3Ugbm93IGNhbid0IHJlYWQgdGhlbSBmcm9tIGRvbWFpbiAw
-Lg0KDQpZb3Ugc2FpZCB0aGUgY291bnRlcnMgYXJlIHN5c3RlbS13aWRlLiBEb2VzIHRoYXQgbWVh
-biB0aGF0IGluIA0KdGhpcyBjYXNlOg0KDQojIGNhdCAvc3lzL2ZzL3Jlc2N0cmwvaW5mby9MM19N
-T04vbWJtX2Fzc2lnbl9jb250cm9sDQovLzA9dGw7MT10bDsNCg0KdGhlcmUgYXJlbid0IHNlcGFy
-YXRlIGNvdW50cyBmcm9tIGVhY2ggb2YgZG9tYWluIDAgYW5kIGRvbWFpbiAxLg0KSS5lLiBpZiBJ
-IHJlYWQgYm90aCBJJ2Qgc2VlIHRoZSBzYW1lIHZhbHVlIChzdW0gb2YgdHJhZmZpYyBvbiBib3Ro
-IGRvbWFpbnMpOg0KDQokIGdyZXAgLiAvc3lzL2ZzL3Jlc2N0cmwvbW9uX2RhdGEvKi8qdG90YWwq
-DQovc3lzL2ZzL3Jlc2N0cmwgL21vbl9kYXRhL21vbl9MM18wMC9tYm1fdG90YWxfYnl0ZXM6MjYw
-MDM5NDY3MDA4DQovc3lzL2ZzL3Jlc2N0cmwgL21vbl9kYXRhL21vbl9MM18wMS9tYm1fdG90YWxf
-Ynl0ZXM6MjYwMDM5NDY3MDA4DQoNCi1Ub255DQo=
+On Thu, Oct 10, 2024 at 4:17=E2=80=AFAM Lai, Yi <yi1.lai@linux.intel.com> w=
+rote:
+>
+> Hi Mina Almasry,
+>
+> Greetings!
+>
+> I used Syzkaller and found that there is BUG: soft lockup inqt in linux-n=
+ext tree next-20241008
+>
+> After bisection and the first bad commit is:
+> "
+> 678f6e28b5f6 net: add SO_DEVMEM_DONTNEED setsockopt to release RX frags
+> "
+>
+> All detailed into can be found at:
+> https://github.com/laifryiee/syzkaller_logs/tree/main/241009_103423_do_so=
+ck_setsockopt
+> Syzkaller repro code:
+> https://github.com/laifryiee/syzkaller_logs/tree/main/241009_103423_do_so=
+ck_setsockopt/repro.c
+> Syzkaller repro syscall steps:
+> https://github.com/laifryiee/syzkaller_logs/tree/main/241009_103423_do_so=
+ck_setsockopt/repro.prog
+> Syzkaller report:
+> https://github.com/laifryiee/syzkaller_logs/tree/main/241009_103423_do_so=
+ck_setsockopt/repro.report
+> Kconfig(make olddefconfig):
+> https://github.com/laifryiee/syzkaller_logs/tree/main/241009_103423_do_so=
+ck_setsockopt/kconfig_origin
+> Bisect info:
+> https://github.com/laifryiee/syzkaller_logs/tree/main/241009_103423_do_so=
+ck_setsockopt/bisect_info.log
+> bzImage:
+> https://github.com/laifryiee/syzkaller_logs/raw/refs/heads/main/241009_10=
+3423_do_sock_setsockopt/bzImage_8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b
+> Issue dmesg:
+> https://github.com/laifryiee/syzkaller_logs/blob/main/241009_103423_do_so=
+ck_setsockopt/8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b_dmesg.log
+>
+> "
+> [   48.825073]  ? __lock_acquire+0x1b0f/0x5c90
+> [   48.825419]  ? __pfx___lock_acquire+0x10/0x10
+> [   48.825774]  sock_setsockopt+0x68/0x90
+> [   48.826117]  do_sock_setsockopt+0x3fb/0x480
+> [   48.826455]  ? __pfx_do_sock_setsockopt+0x10/0x10
+> [   48.826829]  ? lock_release+0x441/0x870
+> [   48.827140]  ? __sanitizer_cov_trace_const_cmp4+0x1a/0x20
+> [   48.827558]  ? fdget+0x188/0x230
+> [   48.827846]  __sys_setsockopt+0x131/0x200
+> [   48.828184]  ? __pfx___sys_setsockopt+0x10/0x10
+> [   48.828551]  ? seqcount_lockdep_reader_access.constprop.0+0xc0/0xd0
+> [   48.829042]  ? __sanitizer_cov_trace_cmp4+0x1a/0x20
+> [   48.829425]  ? ktime_get_coarse_real_ts64+0xbf/0xf0
+> [   48.829817]  __x64_sys_setsockopt+0xc6/0x160
+> [   48.830160]  ? syscall_trace_enter+0x14a/0x230
+> [   48.830520]  x64_sys_call+0x6cf/0x20d0
+> [   48.830825]  do_syscall_64+0x6d/0x140
+> [   48.831124]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> [   48.831517] RIP: 0033:0x7f26cdc3ee5d
+> [   48.831804] Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 4=
+8 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <=
+48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 93 af 1b 00 f7 d8 64 89 01 48
+> [   48.833180] RSP: 002b:00007fff33f36278 EFLAGS: 00000213 ORIG_RAX: 0000=
+000000000036
+> [   48.833756] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f26c=
+dc3ee5d
+> [   48.834294] RDX: 0000000000000050 RSI: 0000000000000001 RDI: 000000000=
+0000003
+> [   48.834830] RBP: 00007fff33f36290 R08: 0000000000000010 R09: 00007fff3=
+3f36290
+> [   48.835368] R10: 0000000020000080 R11: 0000000000000213 R12: 00007fff3=
+3f363e8
+> [   48.835906] R13: 000000000040178f R14: 0000000000403e08 R15: 00007f26c=
+de51000
+> [   48.836466]  </TASK>
+> [   48.836648] Kernel panic - not syncing: softlockup: hung tasks
+> [   48.837096] CPU: 1 UID: 0 PID: 729 Comm: repro Tainted: G             =
+L     6.12.0-rc2-8cf0b93919e1 #1
+> [   48.837796] Tainted: [L]=3DSOFTLOCKUP
+> [   48.838071] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIO=
+S rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014
+> [   48.838916] Call Trace:
+> [   48.839113]  <IRQ>
+> [   48.839282]  dump_stack_lvl+0x42/0x150
+> [   48.839584]  dump_stack+0x19/0x20
+> [   48.839846]  panic+0x703/0x790
+> [   48.840100]  ? __pfx_panic+0x10/0x10
+> [   48.840394]  ? watchdog_timer_fn+0x599/0x6b0
+> [   48.840727]  ? watchdog_timer_fn+0x58c/0x6b0
+> [   48.841065]  watchdog_timer_fn+0x5aa/0x6b0
+> [   48.841382]  ? __pfx_watchdog_timer_fn+0x10/0x10
+> [   48.841743]  __hrtimer_run_queues+0x5d6/0xc30
+> [   48.842091]  ? __pfx___hrtimer_run_queues+0x10/0x10
+> [   48.842473]  hrtimer_interrupt+0x324/0x7a0
+> [   48.842802]  __sysvec_apic_timer_interrupt+0x10b/0x410
+> [   48.843198]  ? debug_smp_processor_id+0x20/0x30
+> [   48.843551]  sysvec_apic_timer_interrupt+0xaf/0xd0
+> [   48.843922]  </IRQ>
+> [   48.844101]  <TASK>
+> [   48.844275]  asm_sysvec_apic_timer_interrupt+0x1f/0x30
+> [   48.844711] RIP: 0010:__sanitizer_cov_trace_pc+0x45/0x70
+> [   48.845130] Code: a9 00 01 ff 00 74 1d f6 c4 01 74 43 a9 00 00 0f 00 7=
+5 3c a9 00 00 f0 00 75 35 8b 82 04 1e 00 00 85 c0 74 2b 8b 82 e0 1d 00 00 <=
+83> f8 02 75 20 48 8b 8a e8 1d 00 00 8b 92 e4 1d 00 00 48 8b 01 48
+> [   48.846480] RSP: 0018:ffff8880239cf790 EFLAGS: 00000246
+> [   48.846876] RAX: 0000000000000000 RBX: ffff8880239cf900 RCX: ffffffff8=
+581c19f
+> [   48.847407] RDX: ffff88801a818000 RSI: ffffffff8581c1d5 RDI: 000000000=
+0000007
+> [   48.847933] RBP: ffff8880239cf790 R08: 0000000000000001 R09: ffffed100=
+4739f23
+> [   48.848472] R10: 0000000077cc006e R11: 0000000000000001 R12: 000000000=
+0000000
+> [   48.849002] R13: 0000000077cc006e R14: ffff8880239cf918 R15: 000000000=
+0000000
+> [   48.849536]  ? xas_start+0x11f/0x730
+> [   48.849818]  ? xas_start+0x155/0x730
+> [   48.850101]  xas_start+0x155/0x730
+> [   48.850372]  xas_load+0x2f/0x520
+> [   48.850629]  ? irqentry_exit+0x3e/0xa0
+> [   48.850922]  ? sysvec_apic_timer_interrupt+0x6a/0xd0
+> [   48.851304]  xas_store+0x1165/0x1ad0
+> [   48.851588]  ? __this_cpu_preempt_check+0x21/0x30
+> [   48.851950]  ? irqentry_exit+0x3e/0xa0
+> [   48.852254]  __xa_erase+0xc6/0x180
+> [   48.852524]  ? __pfx___xa_erase+0x10/0x10
+> [   48.852842]  ? __xa_erase+0xf1/0x180
+> [   48.853123]  ? sock_devmem_dontneed+0x42c/0x6d0
+> [   48.853480]  sock_devmem_dontneed+0x3a8/0x6d0
+> [   48.853829]  ? __pfx_sock_devmem_dontneed+0x10/0x10
+> [   48.854205]  ? trace_lock_acquire+0x139/0x1b0
+> [   48.854548]  ? lock_acquire+0x80/0xb0
+> [   48.854833]  ? __might_fault+0xf1/0x1b0
+> [   48.855133]  ? __might_fault+0xf1/0x1b0
+> [   48.855437]  ? __sanitizer_cov_trace_const_cmp8+0x1c/0x30
+> [   48.855849]  sk_setsockopt+0x480/0x3c60
+> [   48.856158]  ? __pfx_sk_setsockopt+0x10/0x10
+> [   48.856491]  ? __kasan_check_read+0x15/0x20
+> [   48.856814]  ? __lock_acquire+0x1b0f/0x5c90
+> [   48.857144]  ? __pfx___lock_acquire+0x10/0x10
+> [   48.857488]  sock_setsockopt+0x68/0x90
+> [   48.857785]  do_sock_setsockopt+0x3fb/0x480
+> [   48.858110]  ? __pfx_do_sock_setsockopt+0x10/0x10
+> [   48.858474]  ? lock_release+0x441/0x870
+> [   48.858776]  ? __sanitizer_cov_trace_const_cmp4+0x1a/0x20
+> [   48.859184]  ? fdget+0x188/0x230
+> [   48.859448]  __sys_setsockopt+0x131/0x200
+> [   48.859764]  ? __pfx___sys_setsockopt+0x10/0x10
+> [   48.860123]  ? seqcount_lockdep_reader_access.constprop.0+0xc0/0xd0
+> [   48.860598]  ? __sanitizer_cov_trace_cmp4+0x1a/0x20
+> [   48.860982]  ? ktime_get_coarse_real_ts64+0xbf/0xf0
+> [   48.861370]  __x64_sys_setsockopt+0xc6/0x160
+> [   48.861710]  ? syscall_trace_enter+0x14a/0x230
+> [   48.862057]  x64_sys_call+0x6cf/0x20d0
+> [   48.862350]  do_syscall_64+0x6d/0x140
+> [   48.862639]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> [   48.863023] RIP: 0033:0x7f26cdc3ee5d
+> [   48.863301] Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 4=
+8 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <=
+48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 93 af 1b 00 f7 d8 64 89 01 48
+> [   48.864659] RSP: 002b:00007fff33f36278 EFLAGS: 00000213 ORIG_RAX: 0000=
+000000000036
+> [   48.865223] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f26c=
+dc3ee5d
+> "
+>
+> I hope you find it useful.
+
+Thank you for the report. I think I see the issue and I commented on
+the fix in the code below.
+
+Only issue is that this is unlucky timing for me. I have a flight
+tomorrow for a vacation where I think I may have internet access and
+may not. I will try to follow up here, but in case I can't, what's the
+urgency for this issue? Can this wait 2 weeks when I get back?
+
+> > +     if (optlen % sizeof(struct dmabuf_token) ||
+> > +         optlen > sizeof(*tokens) * MAX_DONTNEED_TOKENS)
+> > +             return -EINVAL;
+> > +
+> > +     tokens =3D kvmalloc_array(optlen, sizeof(*tokens), GFP_KERNEL);
+> > +     if (!tokens)
+> > +             return -ENOMEM;
+> > +
+
+There is an unrelated bug here. The first argument for kvmalloc_array
+is the number of elements, I think, not the number of bytes. So this
+should be:
+
+num_tokens =3D optlen / sizeof(struct dmabuf_token);
+tokens =3D kvmalloc_array(num_tokens, sizeof(*tokens), GFP_KERNEL);
+if (!tokens)
+   return -ENOMEM;
+
+> > +
+> > +     if (copy_from_sockptr(tokens, optval, optlen)) {
+> > +             kvfree(tokens);
+> > +             return -EFAULT;
+> > +     }
+> > +
+> > +     xa_lock_bh(&sk->sk_user_frags);
+> > +     for (i =3D 0; i < num_tokens; i++) {
+> > +             for (j =3D 0; j < tokens[i].token_count; j++) {
+
+The bug should be here. tokens[i].token_count is a u32 provided by the
+user. The user can specify U32_MAX here, which will make the loop
+below spin for a very long time with the lock held, which should be
+the cause of the soft lockup.
+
+We should add a check that token_count is < MAX_DONTNEED_TOKENS or
+something like that, above this line.
+
+Please let me know of urgency. If this can't wait I'll try very hard
+to repro the issue/fix while I'm out. Untested fix I'm going to try
+out:
+
+diff --git a/net/core/sock.c b/net/core/sock.c
+index 083d438d8b6f..cb3d8b19de14 100644
+--- a/net/core/sock.c
++++ b/net/core/sock.c
+@@ -1071,11 +1071,11 @@ sock_devmem_dontneed(struct sock *sk,
+sockptr_t optval, unsigned int optlen)
+            optlen > sizeof(*tokens) * MAX_DONTNEED_TOKENS)
+                return -EINVAL;
+
+-       tokens =3D kvmalloc_array(optlen, sizeof(*tokens), GFP_KERNEL);
++       num_tokens =3D optlen / sizeof(struct dmabuf_token);
++       tokens =3D kvmalloc_array(num_tokens, sizeof(*tokens), GFP_KERNEL);
+        if (!tokens)
+                return -ENOMEM;
+
+-       num_tokens =3D optlen / sizeof(struct dmabuf_token);
+        if (copy_from_sockptr(tokens, optval, optlen)) {
+                kvfree(tokens);
+                return -EFAULT;
+@@ -1083,6 +1083,10 @@ sock_devmem_dontneed(struct sock *sk, sockptr_t
+optval, unsigned int optlen)
+
+        xa_lock_bh(&sk->sk_user_frags);
+        for (i =3D 0; i < num_tokens; i++) {
++
++               if (tokens[i].token_count > MAX_DONTNEED_TOKENS)
++                       continue;
++
+                for (j =3D 0; j < tokens[i].token_count; j++) {
+                        netmem_ref netmem =3D (__force netmem_ref)__xa_eras=
+e(
+                                &sk->sk_user_frags, tokens[i].token_start +=
+ j);
+
+--=20
+Thanks,
+Mina
