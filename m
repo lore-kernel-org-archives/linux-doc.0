@@ -1,183 +1,169 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2052.outbound.protection.outlook.com [40.107.243.52])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 532681C3F18;
-	Thu, 10 Oct 2024 12:15:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728562531; cv=fail; b=euYZY3R9z7kQ615RCcP6ovpwiAQPWGEWphMl7gU4oEmcIYTu+A26HNFUr5aTi35Phlu/FiAYzdWkquDniG2m5eCZhiiFcux+LgawS3iUjEKrqCMXPwQqG0w4EC5wAV872SFdrohyYNve10YS4+sqgFfXhVXOp3kcfo1EilLusFk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728562531; c=relaxed/simple;
-	bh=fuJI24g+lqVG7snhxlrsiuRR33+OAk6lyJx+tFD0bpc=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KKOVEVoxafnMMe61raemXuWDBpVrq1PJgsDTNFZsb4naUVHUs5TLuBZmTHhMMTMmFP9LwERp4eP7jUYaweeeydWcW8WGF9y/5e9bSiRtjMS+AThc+7fuisdvqVCW2FXYjCZ2X/Rr0aFBgWjQVrNtDv2PRt8CNdKfgeXfufg9ny8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=A3wGX7M5; arc=fail smtp.client-ip=40.107.243.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="A3wGX7M5"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UwFTWY+pu56oXcuUbuTJLPbsU4AeJV10MLu+UIC12S2zFsC9KkVJQHs1FaWqxz8eDtM/uZi26asCY253w6AFlsChMV/Uq5zOqepEMZ++CqM65wlKjbpWX+OwD8PdToz+zpwdRGu9RONxqtTLJ8lF5LqVfl6V55xJHfBKq+3dxllL+sWmbaaGhwkBtq3XtOM+t4VC4kw3JgPVZNOYjy2KSyYUru7nB6gxBtXPU1lhzdK2sPSlt8vl9Op62XgyexKrVehDO6PMJrd+m9yHhuCSxeuzG82e2fpMOw9dwFCFy+SduSatyKAH/IABsIOdmRDvvx2wRHAwLNA11xuZC5671Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=91DX+f/Xb/MiOMiKXzxRufE8kaNCoS9bFbGmvzdyaCQ=;
- b=oYlyjeiW1fnVD5CaIqXJHy/Vv/418ZlRbBR28iw/CusrAQKkIfnHOYym7MA2sa+IcdV8QHz0eazzFVMioXxZ5qgS6C3Gr8nyiXZUrjIlAOHXoqUIiGXzAGU6dtQ5i3FICSSWm78GSiDBiboHquhWz3LKeH6IDELk+ViU5l5ZD5+hyt7iSFy23qoHv/alyaZBMh9KAIylu2aeFlAfdITB7KdGZquZqaPRv7PftXigz/1ESR9PpaYolKIwnEBUYMUNf1v3tdyoULReE8gd75BubC+Mss8ad1K0Flrhcp47wioYa1Y+/cWoLhO7hLgDelwZ+pMPrXK4is56Bqsgwlk58w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=91DX+f/Xb/MiOMiKXzxRufE8kaNCoS9bFbGmvzdyaCQ=;
- b=A3wGX7M5nD+VAYFlxKG5+w9TxJKwIbSWPf+gkUENRigpk/zLDFDm5a27laPs7ICmnzbxLEu2TTLdyMU68cBhoZdqyfwu4OHdKjaoHSxC/q3N44xxZ8FaR7eh98j6W3Da31VADt52gGvqOC5amxvcIQP+Y+Xm0Rjonrbzdav+jZs=
-Received: from BY5PR20CA0027.namprd20.prod.outlook.com (2603:10b6:a03:1f4::40)
- by PH7PR12MB9065.namprd12.prod.outlook.com (2603:10b6:510:1f7::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.18; Thu, 10 Oct
- 2024 12:15:25 +0000
-Received: from SJ5PEPF000001E8.namprd05.prod.outlook.com
- (2603:10b6:a03:1f4:cafe::58) by BY5PR20CA0027.outlook.office365.com
- (2603:10b6:a03:1f4::40) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.20 via Frontend
- Transport; Thu, 10 Oct 2024 12:15:25 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ5PEPF000001E8.mail.protection.outlook.com (10.167.242.196) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8048.13 via Frontend Transport; Thu, 10 Oct 2024 12:15:25 +0000
-Received: from ethanolx16dchost.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 10 Oct
- 2024 07:15:24 -0500
-From: Pavan Kumar Paluri <papaluri@amd.com>
-To: <linux-kernel@vger.kernel.org>
-CC: <linux-doc@vger.kernel.org>, <linux-coco@lists.linux.dev>, Borislav Petkov
-	<bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
-	<mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, "Eric Van
- Tassell" <Eric.VanTassell@amd.com>, Tom Lendacky <thomas.lendacky@amd.com>,
-	Ashish Kalra <ashish.kalra@amd.com>, Michael Roth <michael.roth@amd.com>, "H
- . Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>, "Pavan
- Kumar Paluri" <papaluri@amd.com>, Dhaval Giani <dhaval.giani@amd.com>
-Subject: [PATCH v6 2/2] x86 KVM:SVM: Provide "nosnp" boot option for sev kernel command line
-Date: Thu, 10 Oct 2024 07:14:55 -0500
-Message-ID: <20241010121455.15795-3-papaluri@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241010121455.15795-1-papaluri@amd.com>
-References: <20241010121455.15795-1-papaluri@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A505D1C579A;
+	Thu, 10 Oct 2024 12:45:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728564341; cv=none; b=rCu0jMeDdFLbmu6gjzriGM5B1p4IUqBy1/RI0aVDqB27N0NBH/DTXOrfQwOvekVgBEUDLkUv2rC2htRzi3GZ1qOspFjp2jXzpcvJCKU0cyfdD6E1NMN/FnFzSVfi87QhrbxBXPQpnzIeI36BTqR1WKBU7fIt3FAB4ZIANJaJQe0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728564341; c=relaxed/simple;
+	bh=XXZ5TjTag0urHfraLP3YklOn4FDkBrCcuI/v/Qu8nU4=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JdHi3ekqH6WoGvNh0mmKaLHtgSaMaf2HNiKFrPkgqRv1YAWp25vluzLZgI3FbBncB5MZP0sCVCweiJkJWrbatJoAeiMw9MBwED3lJq1fxq/ncYAML2v/KIsp7iBo7AKp/LKVhn9P8EJ4kANr+i11NooaIyBHin8/KUeWQof1Tv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4XPTxR3zvDz6HJP4;
+	Thu, 10 Oct 2024 20:45:15 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 16EAB140AE5;
+	Thu, 10 Oct 2024 20:45:36 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Thu, 10 Oct
+ 2024 14:45:35 +0200
+Date: Thu, 10 Oct 2024 13:45:33 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: <ira.weiny@intel.com>
+CC: Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, "Navneet
+ Singh" <navneet.singh@intel.com>, Jonathan Corbet <corbet@lwn.net>, "Andrew
+ Morton" <akpm@linux-foundation.org>, Dan Williams <dan.j.williams@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>, "Alison Schofield"
+	<alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
+	<linux-btrfs@vger.kernel.org>, <linux-cxl@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <nvdimm@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 11/28] cxl/hdm: Add dynamic capacity size support to
+ endpoint decoders
+Message-ID: <20241010134533.00002750@Huawei.com>
+In-Reply-To: <20241007-dcd-type2-upstream-v4-11-c261ee6eeded@intel.com>
+References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
+	<20241007-dcd-type2-upstream-v4-11-c261ee6eeded@intel.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001E8:EE_|PH7PR12MB9065:EE_
-X-MS-Office365-Filtering-Correlation-Id: 073d4354-8329-4047-aef1-08dce92538c8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|1800799024|376014|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Wp4EE0uyhlglsQJIJAnsWekwq7gDEkymwIh4Ffsha5r9VNpF9tp434bf1O1Z?=
- =?us-ascii?Q?/bK9PZJV59Tz9ckRGmsFYqss6Q1HlxNf4iIe2to6zQGPbktVx6q0jnxcCBdo?=
- =?us-ascii?Q?3U1Nyvfrp/9JpfO+cRnc007nyhcNxm9eLRtRRAAqWufCkoSaPq8N1naiOIrM?=
- =?us-ascii?Q?cjDltdVN5Kr1KIoO9/UQ8bYYjcv8451jgpDGbsv8osaUrJd8x0O1iR5OtbIg?=
- =?us-ascii?Q?pSwxREjhQhahr+DjFwE7P/uCj1KZ97dZT2FGzUdtzSwxXY5hYIjsCRAU51aO?=
- =?us-ascii?Q?d3MdjVwnrX+9qRIX5jCp1+nY+MHM/HdrPwmaWxiIR2CWMfd1gp8W1e5aOAZG?=
- =?us-ascii?Q?dy+29bFlJ46SpDDYr4ujguTZqrEIgayYxIy1QKZLDwxTfMQEwcw5Y2cvPpOL?=
- =?us-ascii?Q?kio2oyF7DNvVh73jq7csN8KpNWvBnx83Vl3hEKzmTe/gpmmE7ply72dk85Zv?=
- =?us-ascii?Q?17GkMwBQKWpNpGYehlHy8IXzlFN5rx8R03/8sh5hrYT0KoV6LYo2x4knVqt9?=
- =?us-ascii?Q?c45WNz3noO/sIB5Q7WBDfyKlj+Xz4wfxPGYR3C/4oG3yoT1JXfIv2v/XOZwK?=
- =?us-ascii?Q?uZosJVwNlHZctPY4fLMFWdLV8rLne/A2rpXFNFkKhEKYOIvlIuI3zZL4d/gy?=
- =?us-ascii?Q?zRLrep6pwuQFPNXz7g2lxhWYIV4gl9kPWrJRqTFXnOZsMRiEbSwr778P7FLw?=
- =?us-ascii?Q?30xvvZern2VxdRroYV8PWLq57hyU0SXEMrjt8SbIqQFW3aa8a8lm3NoNywjl?=
- =?us-ascii?Q?O8WT7fnLmNmImQOrs2ftgwMkmTutJf0Q/hpzpbN74pjO+r9lz42wsg3hUrur?=
- =?us-ascii?Q?bYc9zE44AiT05kJqjW3wwRF48geZpcNRXWPJgBr6lsUhQTekMrEDZiaSofxV?=
- =?us-ascii?Q?LW1dROlqaZFFZm/RO40Q2hkZL5wTnACCmWcI2VL6bFAjxXa8PCZliEON1Z6N?=
- =?us-ascii?Q?ypgwaiiI5990ZOfWOQBybrwI8PxIpQJA0OXYAfdfMZc+uVvjuawbClItEmAj?=
- =?us-ascii?Q?j2snutddwVGFb1OLkwa+SWYBKNoDlljDrdrmwtT6ChhrkusTo6UGT7+KVt+V?=
- =?us-ascii?Q?DOcchcedUQkye2UbMbN9stxk+/rMzM7zExqfeiyLdfCH1bGgFMDHoEJKWel1?=
- =?us-ascii?Q?gQEKsYx/gcdq5O/ZEmxntGVQ5JzgEwtPDzM/zIRcZeMqGCtfouFdQUTPmm7H?=
- =?us-ascii?Q?zKXgaGA2RHGIYxCKTmwXnMetXWPFpljwDCZ5xfg8DAEet5QiZ9S/XBHc1y8T?=
- =?us-ascii?Q?1muqPbO/KTyIzI7T/d9BtU1C6PzHvob+cEOhkGcryY0XoDV6nEP0mCc2dQek?=
- =?us-ascii?Q?wR4HDN8bgqEdy9NV0+uKV0dymsesQ8PBvHk65X4QTrOzruLo32fCKAKrvf//?=
- =?us-ascii?Q?jhOMCpdLxTQMvuY2uKjM51l2/8G3?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(376014)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2024 12:15:25.4099
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 073d4354-8329-4047-aef1-08dce92538c8
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ5PEPF000001E8.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9065
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-Provide a "nosnp" kernel command line option to prevent enabling of the
-RMP and SEV-SNP features in the host/hypervisor. Not initializing the
-RMP removes system overhead associated with RMP checks.
+On Mon, 07 Oct 2024 18:16:17 -0500
+ira.weiny@intel.com wrote:
 
-Co-developed-by: Eric Van Tassell <Eric.VanTassell@amd.com>
-Signed-off-by: Eric Van Tassell <Eric.VanTassell@amd.com>
-Signed-off-by: Pavan Kumar Paluri <papaluri@amd.com>
-Reviewed-by: Tom Lendacky <thomas.lendacky@amd.com>
----
- Documentation/arch/x86/x86_64/boot-options.rst | 5 +++++
- arch/x86/virt/svm/cmdline.c                    | 7 +++++++
- 2 files changed, 12 insertions(+)
+> From: Navneet Singh <navneet.singh@intel.com>
+> 
+> To support Dynamic Capacity Devices (DCD) endpoint decoders will need to
+> map DC partitions (regions).  In addition to assigning the size of the
+> DC partition, the decoder must assign any skip value from the previous
+> decoder.  This must be done within a contiguous DPA space.
+> 
+> Two complications arise with Dynamic Capacity regions which did not
+> exist with Ram and PMEM partitions.  First, gaps in the DPA space can
+> exist between and around the DC partitions.  Second, the Linux resource
+> tree does not allow a resource to be marked across existing nodes within
+> a tree.
+> 
+> For clarity, below is an example of an 60GB device with 10GB of RAM,
+> 10GB of PMEM and 10GB for each of 2 DC partitions.  The desired CXL
+> mapping is 5GB of RAM, 5GB of PMEM, and 5GB of DC1.
+> 
+>      DPA RANGE
+>      (dpa_res)
+> 0GB        10GB       20GB       30GB       40GB       50GB       60GB
+> |----------|----------|----------|----------|----------|----------|
+> 
+> RAM         PMEM                  DC0                   DC1
+>  (ram_res)  (pmem_res)            (dc_res[0])           (dc_res[1])
+> |----------|----------|   <gap>  |----------|   <gap>  |----------|
+> 
+>  RAM        PMEM                                        DC1
+> |XXXXX|----|XXXXX|----|----------|----------|----------|XXXXX-----|
+> 0GB   5GB  10GB  15GB 20GB       30GB       40GB       50GB       60GB
+> 
+> The previous skip resource between RAM and PMEM was always a child of
+> the RAM resource and fit nicely [see (S) below].  Because of this
+> simplicity this skip resource reference was not stored in any CXL state.
+> On release the skip range could be calculated based on the endpoint
+> decoders stored values.
+> 
+> Now when DC1 is being mapped 4 skip resources must be created as
+> children.  One for the PMEM resource (A), two of the parent DPA resource
+> (B,D), and one more child of the DC0 resource (C).
+> 
+> 0GB        10GB       20GB       30GB       40GB       50GB       60GB
+> |----------|----------|----------|----------|----------|----------|
+>                            |                     |
+> |----------|----------|    |     |----------|    |     |----------|
+>         |          |       |          |          |
+>        (S)        (A)     (B)        (C)        (D)
+> 	v          v       v          v          v
+> |XXXXX|----|XXXXX|----|----------|----------|----------|XXXXX-----|
+>        skip       skip  skip        skip      skip
+> 
+> Expand the calculation of DPA free space and enhance the logic to
+> support this more complex skipping.  To track the potential of multiple
+> skip resources an xarray is attached to the endpoint decoder.  The
+> existing algorithm between RAM and PMEM is consolidated within the new
+> one to streamline the code even though the result is the storage of a
+> single skip resource in the xarray.
+> 
+> Signed-off-by: Navneet Singh <navneet.singh@intel.com>
+> Co-developed-by: Ira Weiny <ira.weiny@intel.com>
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+One trivial comment inline.
 
-diff --git a/Documentation/arch/x86/x86_64/boot-options.rst b/Documentation/arch/x86/x86_64/boot-options.rst
-index 98d4805f0823..d69e3cfbdba5 100644
---- a/Documentation/arch/x86/x86_64/boot-options.rst
-+++ b/Documentation/arch/x86/x86_64/boot-options.rst
-@@ -305,3 +305,8 @@ The available options are:
- 
-    debug
-      Enable debug messages.
-+
-+   nosnp
-+     Do not enable SEV-SNP (applies to host/hypervisor only). Setting
-+     'nosnp' avoids the RMP check overhead in memory accesses when
-+     users do not want to run SEV-SNP guests.
-diff --git a/arch/x86/virt/svm/cmdline.c b/arch/x86/virt/svm/cmdline.c
-index 9640507342e0..313415d6f53f 100644
---- a/arch/x86/virt/svm/cmdline.c
-+++ b/arch/x86/virt/svm/cmdline.c
-@@ -11,6 +11,7 @@
- #include <linux/printk.h>
- 
- #include <asm/sev-common.h>
-+#include <asm/cpufeature.h>
- 
- struct sev_config sev_cfg __read_mostly;
- 
-@@ -24,6 +25,12 @@ static int __init init_sev_config(char *str)
- 			continue;
- 		}
- 
-+		if (!strcmp(s, "nosnp")) {
-+			setup_clear_cpu_cap(X86_FEATURE_SEV_SNP);
-+			cc_platform_clear(CC_ATTR_HOST_SEV_SNP);
-+			continue;
-+		}
-+
- 		pr_info("SEV command-line option '%s' was not recognized\n", s);
- 	}
- 
--- 
-2.34.1
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> 
+> ---
+> Changes:
+> [djiang: s/skip_res/skip_xa/]
+> ---
+>  drivers/cxl/core/hdm.c  | 196 ++++++++++++++++++++++++++++++++++++++++++++----
+>  drivers/cxl/core/port.c |   2 +
+>  drivers/cxl/cxl.h       |   2 +
+>  3 files changed, 184 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/cxl/core/hdm.c b/drivers/cxl/core/hdm.c
+> index 3df10517a327..8c7f941eaba1 100644
+> --- a/drivers/cxl/core/hdm.c
+> +++ b/drivers/cxl/core/hdm.c
+> @@ -223,6 +223,25 @@ void cxl_dpa_debug(struct seq_file *file, struct cxl_dev_state *cxlds)
+>  }
+>  EXPORT_SYMBOL_NS_GPL(cxl_dpa_debug, CXL);
+>  
+> +static void cxl_skip_release(struct cxl_endpoint_decoder *cxled)
+> +{
+> +	struct cxl_dev_state *cxlds = cxled_to_memdev(cxled)->cxlds;
+> +	struct cxl_port *port = cxled_to_port(cxled);
+> +	struct device *dev = &port->dev;
+> +	unsigned long index;
+> +	void *entry;
+> +
+> +	xa_for_each(&cxled->skip_xa, index, entry) {
+> +		struct resource *res = entry;
+
+	struct resource *res;
+
+	xa_for_each(&cxled->skip_xa, index, res) {
+
+as can always cast form a pointer to a void *
+and avoiding the extra local variable is a nice to have.
+
+
+> +
+> +		dev_dbg(dev, "decoder%d.%d: releasing skipped space; %pr\n",
+> +			port->id, cxled->cxld.id, res);
+> +		__release_region(&cxlds->dpa_res, res->start,
+> +				 resource_size(res));
+> +		xa_erase(&cxled->skip_xa, index);
+> +	}
+> +}
+
 
