@@ -1,76 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0114A07;
-	Thu, 10 Oct 2024 04:52:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEB0D2F50
+	for <linux-doc@vger.kernel.org>; Thu, 10 Oct 2024 05:07:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728535942; cv=none; b=Wnuia6esMruyF0wu/rnZ0aWXwbZkpEbU8+8wH480vVTxhCl9OAjGnhAcjNqZhpC+pmvGF8GBpTKl8yyeNsAS1uwfHbM3209mtaMC8HqBt2cvrJM+sHYRx0nuVVZi1Iw40IOccOtUvow7MquhqN+26s3WakF1N2AmERDoHOK/PGg=
+	t=1728536832; cv=none; b=PXVoy5q/K8TFpai4x29Get89ryg/lQ7h4GF9q+k/mm6LNPgyF6gMiOTrRmHXVcrXoKMBzDTWc/SorWb/7JuW1sc+IGM5XOMTTY532JH5IxpexECdONMitn1Qrrmnryh7llmvmv/3o9soobEdeRRiC3jmxeQ64whE+SOcM2TXe8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728535942; c=relaxed/simple;
-	bh=unHAhpTlcXmGgRRxD+5eMfkCFlRtvsOf2E77spDnXow=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u/zdwqOv089pkzUBkm6nb3qH8AGerO1NbCFIOXNdX9dbW+XOe90YRbbjJXF7mDJ/7LKLOJZzPaMcJtLYP8nAfAkoER7a6JJ5+wKmCow92IyuRqi/7n/nrarHUiShmN74M3t3mFt4gR52aVczPSKT9Od4UKClMa54WEuSn7hMp7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aMS6s0s6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728536832; c=relaxed/simple;
+	bh=MhyaaqfZS8RRFBzJ7Erc/q5N8zrMVQyU/5s0xyXsBuk=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=bzBcWIEJNpOKCYj6hl4rB6MG5LGhtBlXPeEopBl8KPlD7YD03Nd35DlApJu44FrtwGMg55exIdWgTz4kegz8peYitKQRfne2SmUMonRjRosBrwzPMPAlu3aIdGX31C6AK1j5P8EMKrLae5ROcTnmKqBZJwe2hhyTfU5+Uti7A2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NNEOpVOI; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aMS6s0s6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEB50C4CEC6;
-	Thu, 10 Oct 2024 04:52:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728535941;
-	bh=unHAhpTlcXmGgRRxD+5eMfkCFlRtvsOf2E77spDnXow=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aMS6s0s6ZOlwW8CvPE1lHPUUUIHQ7ma1Cvarf9CIKJMZ8eweyqyi5mUUk6FkZp9lF
-	 WvxkkoH/raFz162aLmrY37bg/Qjh5bKo5HtvNChaaRqLAKT+fAO/qxzvQH4Hvx4ZRP
-	 gXTqxU1hU01cJXpcLANZq9lw8ZISF6zTrpgTML9rzNhhccYuZcFChLm4srJWTf6/t3
-	 5HKp9YGdR40C6zWPZ9mi5LQ/fjXxZPTtKvOdUZOMazCoNMC2btmUY3VSmkBwsU/WA3
-	 +dx2VJHgHThovBtFgAd5h9QN0RCuPgDBx4msB/T+sHqDp7F3iWVKqT5yAyDIRw0XHB
-	 etezacO6opYDA==
-Date: Wed, 9 Oct 2024 21:52:19 -0700
-From: Josh Poimboeuf <jpoimboe@kernel.org>
-To: "Kaplan, David" <David.Kaplan@amd.com>
-Cc: Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Borislav Petkov <bp@alien8.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>
-Subject: Re: [PATCH 1/6] x86/bugs: Create single parameter for VERW based
- mitigations
-Message-ID: <20241010045219.vgpcl7nfqaimqrne@treble.attlocal.net>
-References: <20240924223140.1054918-2-daniel.sneddon@linux.intel.com>
- <LV3PR12MB92651F4DF654C886B9F2BCF7947E2@LV3PR12MB9265.namprd12.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NNEOpVOI"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=wEgvGlzfOb4jVHpg0zy7I32G3MPlOwZBuQVAvB/6vAo=; b=NNEOpVOI0rd6NRvv8+ZVaIs1VH
+	q2EYnY8rgNBNYcGXor6EUeeg0IM/hkN7u+dsIsL5u2AHZwTpgMuODIsM/6fR9ZM1AxPNx7IMVPur8
+	SVi65dIHCAC2PWFDZ71Zq7dbibVpZhhuVOYCgwT7UrcRsie+/jyYVvIlEBZta5KZTXJpZasUD4+6y
+	cI0JPHA3ht4FtWlEdft+RcDeSTJgB64+7x0dMCZtrZmeUazZ9obgNmrO9YwHkgYdnPI6Wk9vcD/YR
+	j2DiMo/DblrqtYKttt2wzoNSSm/+Syss/tDx0uE3BTXZq89Xh3xERLEHgXQ1/PYfi+ja9uLVsDHra
+	1V7UpF+A==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1sylNx-00000005B6i-36o6;
+	Thu, 10 Oct 2024 05:06:50 +0000
+Message-ID: <1406d498-84bf-49aa-9efd-6480ad618582@infradead.org>
+Date: Wed, 9 Oct 2024 22:06:43 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <LV3PR12MB92651F4DF654C886B9F2BCF7947E2@LV3PR12MB9265.namprd12.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mm, slab: add kerneldocs for common SLAB_ flags
+From: Randy Dunlap <rdunlap@infradead.org>
+To: Jonathan Corbet <corbet@lwn.net>, Vlastimil Babka <vbabka@suse.cz>,
+ David Rientjes <rientjes@google.com>, Christoph Lameter <cl@linux.com>
+Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org
+References: <20241009142936.56092-2-vbabka@suse.cz>
+ <878quxe2kw.fsf@trenco.lwn.net>
+ <f6fa720b-e8af-4afa-906f-29019aefe49a@suse.cz>
+ <878quxb4rm.fsf@trenco.lwn.net>
+ <8b0c1bb9-4a9a-4f8e-87df-275994df739d@infradead.org>
+Content-Language: en-US
+In-Reply-To: <8b0c1bb9-4a9a-4f8e-87df-275994df739d@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Oct 08, 2024 at 07:24:01PM +0000, Kaplan, David wrote:
-> > There are currently 4 mitigations that use VERW to flush different cpu buffers. This
-> > can cause confusion when trying to disable all the different VERW mitigations.
-> > Simplify enabling/disabling these mitigations by creating a single parameter for
-> > controlling them.
+
+
+On 10/9/24 3:02 PM, Randy Dunlap wrote:
 > 
-> Just curious, what is the use case for disabling the different VERW
-> mitigations (but not other mitigations)?  Is that a testing/debugging
-> use case or a production use case?
+> 
+> On 10/9/24 9:49 AM, Jonathan Corbet wrote:
+>> Vlastimil Babka <vbabka@suse.cz> writes:
+>>
+>>> Thanks for the hints. I hope if we can agree that documenting the macros was
+>>> intended to be supported, doesn't break the build (there are users already)
+>>> and has only those minor rendering issues, it can be used?
+>>
+>> I'd totally forgotten that this was supposed to work.
+>>
+>> Yes it can be used... $WE just need to find a way to make it work
+>> properly.
+> 
+> The code probably isn't expecting a macro on the right side. I'll take a look,
+> but no promises.
+> 
+That would have been too simple.
+I haven't found the problem yet. Ran out of time. Will continue on it tommorrow/Thursday.
 
-I'm also wondering about this.  I like the idea of cleaning up the code
-mess (like in patch 6) but I'm not sure I see the benefit of this patch
-to add yet another option.
-
-Is this a realistic use case?  Are people really going to want to
-enable/disable VERW mitigations as a group?
+>>
+>> Every now and then I ponder rewriting kernel-doc in Rust, both to make
+>> it more reasonable to modify and as a learning exercise.  But then I
+>> come to my senses and go back to stuff that actually needs to get done.
+> 
+> That's a good way to lose helpers, although it might also gain you a few...
+> 
+> Yesh, I know, current is Perl.
+> 
 
 -- 
-Josh
+~Randy
