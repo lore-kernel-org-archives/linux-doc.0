@@ -1,59 +1,50 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30AC20967E;
-	Fri, 11 Oct 2024 07:12:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50CAE209F37;
+	Fri, 11 Oct 2024 07:24:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728630744; cv=none; b=gLRueFtB1nWRVU3zSZHbGnCgmSkHSZg3oO8Md6amdbud5H3I9JoF4misSUL6hXqYk6KM0sYSkAFqJfTCpA7HaOBao22qRqCBDfDPjbH5QcyJaKiCOBQ/opbaC9XiHH4qJDMSrK+TCFGHsbX5OSW2sdbqttp824Yhu57+gSbOhwo=
+	t=1728631467; cv=none; b=lQnpyJd9lx0w+qsmhCs3ca998xRXFu+zRHh3I6M2Clr54z0obJVI+vmPG5QNZe2weVwbAK+AxqoPKS63GsH8NXuToahOuC92nJp4aLFcNzsQVs3XwSNw4JkAFrQ0YiZAH6ao8Nb7ePSwxlI9v4h+iXEE5tdZ+VsT0W7VInrDICw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728630744; c=relaxed/simple;
-	bh=tY4TYXxX/WadAeNKarfkA3AXEpoRczdft7qlw/eTD8E=;
+	s=arc-20240116; t=1728631467; c=relaxed/simple;
+	bh=Z7KbgGb2SEirlGgTeQ4Iv+yWIHuJb37+AkiI8yShLAk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oNCnD1ktXE3zrEmj37MH0mDcUKkZZ0aqfLRX5mk2XoCzIsS7wOyZ8fEIQp9lgcb0kgbeVBMQ5aC5yXqI+lAfuGDYu9+hqqefl2q/ixUadENBwSQ3eeo9hN+DhoHVKnuZIBQA4KcwVCI1FZ4eP501L1qpDJEACK9Sx3X47djuCDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hjVTwDlu; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=tDFlKev330RHYtcK0tH1R5VFVZc/0KKD9ASA5a6XOrTLWBNt8aQ+u122d3oa6BqZCJuDZYgR1KzqseGE37VLkqi8KePIv9ni6IbPiAOwmhVWFiJGQnScMlKom3/F53kR3eXtPWBUcRneXPbM3sLS0qDlVlanEnoA/gS0dQ9aTcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zb5kqHJK; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hjVTwDlu"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-20c693b68f5so17453775ad.1;
-        Fri, 11 Oct 2024 00:12:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728630741; x=1729235541; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cF7M0cebwJ63IntgzoRMWt16PVXK9O5OCPTAkQex8RI=;
-        b=hjVTwDluv1aEkscT/lvYwZ/4Cf6XSjscs0I/T+oeRcAUWQ+uuxt2hXGXG4vJ+ZjaP0
-         2NUSvdNR5JUTGy0XXcDRlDXV4NZ2aORDqmI6nfwNUmiLdTuIfbmH1jBSbJMeX5Mr4xnx
-         xzAyJKFCn+ydgmhhb0PRQxec+v4b/aAOZTDKWlq/nDNnvjUEtaFlW1S3qQ0BFD4IV0of
-         kJTUdRboA1Oz0bf1UTqEyXPpScgQPd03+m53Mdl3UUf8YtlhMOspAx7OZEXpdOM8Eyi6
-         Yup48+0KSdJpq7eyTlCY+y5ysAPYgsIqApY9Dx9Ac4nKNRzwS0Jk4nHQa20esUXiFcRL
-         UgWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728630741; x=1729235541;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cF7M0cebwJ63IntgzoRMWt16PVXK9O5OCPTAkQex8RI=;
-        b=LxswpN1tLdKDvbuueJd2USrDkijUk9A7Q/jLwAeaILQV20tf6eFhDq/a9g3mCtXhrf
-         xEmGAQjXQ9QjGD0o7f4YT3zrNxI9VTUGj622Tq1Ffnnwd3X0OaIi81OFjolx1OWtFOA7
-         xVTpNVoTRR83Bgy35AZ5PrHiSef4ghRoGViTE4RoEm69Aay6Hz0NBcZB7qS2r4Jx9QwN
-         ZHkas2hzEeDFMrbx2nAyIJThAiINIhTDlzZTVVZE2AgwrI+ZxgBdHAbl9Ssdoge8+H4K
-         ULsqedi8oRfTVjEbPcBplJiUj99bknzhVHuQP35U+CI3fYVoXwyxflSLWXWrD+Cir7hY
-         gu6g==
-X-Forwarded-Encrypted: i=1; AJvYcCUijNgc6V90C2V+0KZ7R6/HPgAbgSnG89HD7z8ZjlEBTLp3DpesIGAcl7HwXLPVL5BeOt6MpovRwcg=@vger.kernel.org, AJvYcCVk7aa5Ey0ol1GnNjNcdXA8ZXeieD2QjhBpf0BMcpxguwz8HiMWYL5M3iTxJY9c/UvOHWdHZ0t8ejwR4W13yJ+QlYzc@vger.kernel.org, AJvYcCWhDRSWPj/7Ro+Ye7Xak7EZG0G+rpwksNqv3XXPEPAo17NdPnw5n/p4K6hoasVsInNG1l6pxoxxMjwPkrgk@vger.kernel.org
-X-Gm-Message-State: AOJu0YwiPy7hugOTcCO4XrxyMzYlvmF/kLisb059vxmUff+f4X11XR+e
-	v8NjFXO2NTA84wBAuPlOf82QpLt9I5FklYiK7gpQKcoSsEAb5O66
-X-Google-Smtp-Source: AGHT+IGurRqmXPgBljb7X8G/0d/ADwpqBXAygImRXg3sHuPg55cFVXhCCEzdFL6RWOZYFe6ikJ5dcw==
-X-Received: by 2002:a17:902:e845:b0:20b:b26e:c149 with SMTP id d9443c01a7336-20ca1467cf5mr22313035ad.29.1728630740851;
-        Fri, 11 Oct 2024 00:12:20 -0700 (PDT)
-Received: from ?IPV6:2409:40c0:11a4:8d8a:4468:2628:16ef:9650? ([2409:40c0:11a4:8d8a:4468:2628:16ef:9650])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20c8c0e74aesm18692215ad.152.2024.10.11.00.12.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Oct 2024 00:12:20 -0700 (PDT)
-Message-ID: <e7851def-91ce-43e7-880a-22dc5752c4ad@gmail.com>
-Date: Fri, 11 Oct 2024 12:42:14 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zb5kqHJK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728631466; x=1760167466;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Z7KbgGb2SEirlGgTeQ4Iv+yWIHuJb37+AkiI8yShLAk=;
+  b=Zb5kqHJKcueg6XR7gOtglMQICYSFjKEZqRHkrXYHP3GEyk8JwgQY1Ipo
+   dq6SKzH9GJ4mjwbRRNZxP8tEHAJbmwY0koZPpPliyoKgn92Asjnzgh7ap
+   dg4WEpunPXcsxTcVFb6uxiJrttyLfY7vfkelCWNBNvsMHtJYDseCx41Io
+   DBvKv5OFmqxidlWCafkHmZRubeVvJT+mddIINcgrCsJWCkaorm9mSt7Yo
+   xSlr1NL2Cc758r7LrBOJC2T+iy+HdNnkerK9/dO0E2+/14zjJMY7dEs+h
+   vI1rUgq+OF9qOy1n6Qr8qg3fneL9ZboBQbVBzJGFwr/aYsANXEMYq62kW
+   A==;
+X-CSE-ConnectionGUID: UcIO1v9ST2WfTZvpfHtoWw==
+X-CSE-MsgGUID: uNw1PkBNSBmqxH/bDcO8VA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="27490400"
+X-IronPort-AV: E=Sophos;i="6.11,195,1725346800"; 
+   d="scan'208";a="27490400"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 00:24:25 -0700
+X-CSE-ConnectionGUID: ksJIIJowTsevGlWnmBiRHQ==
+X-CSE-MsgGUID: hV88kXkyT8mT1BUb4DqhsA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,195,1725346800"; 
+   d="scan'208";a="81655409"
+Received: from jwbates1-mobl.amr.corp.intel.com (HELO [10.245.100.202]) ([10.245.100.202])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 00:24:21 -0700
+Message-ID: <49b12989-6c9a-4c2f-bc60-8fe2581ded34@linux.intel.com>
+Date: Fri, 11 Oct 2024 09:24:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,58 +52,93 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: fix WARNING document not included in any toctree
-To: Jonathan Corbet <corbet@lwn.net>, Steven Rostedt <rostedt@goodmis.org>
-Cc: mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20241002195817.22972-1-surajsonawane0215@gmail.com>
- <20241010154708.0bf658a3@gandalf.local.home> <87y12vzqg0.fsf@trenco.lwn.net>
+Subject: Re: [PATCH] accel/qaic: Add AIC080 support
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, quic_carlv@quicinc.com
+Cc: ogabbay@kernel.org, corbet@lwn.net, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ Troy Hanson <quic_thanson@quicinc.com>
+References: <20241004195209.3910996-1-quic_jhugo@quicinc.com>
 Content-Language: en-US
-From: Suraj Sonawane <surajsonawane0215@gmail.com>
-In-Reply-To: <87y12vzqg0.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20241004195209.3910996-1-quic_jhugo@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/10/24 01:21, Jonathan Corbet wrote:
-> Steven Rostedt <rostedt@goodmis.org> writes:
-> 
->> On Thu,  3 Oct 2024 01:28:17 +0530
->> SurajSonawane2415 <surajsonawane0215@gmail.com> wrote:
->>
->>> Add debugging.rst to the relevant toctree to fix warning
->>> about missing documentation inclusion in toctree.
->>>
->>> Signed-off-by: SurajSonawane2415 <surajsonawane0215@gmail.com>
->>> ---
->>>   Documentation/trace/index.rst | 1 +
->>>   1 file changed, 1 insertion(+)
->>>
->>> diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
->>> index 0b300901f..2c991dc96 100644
->>> --- a/Documentation/trace/index.rst
->>> +++ b/Documentation/trace/index.rst
->>> @@ -24,6 +24,7 @@ Linux Tracing Technologies
->>>      histogram
->>>      histogram-design
->>>      boottime-trace
->>> +   debugging
->>
->> If order matters here, I'd like the debugging to be at the top. As I plan
->> on it being more of a tutorial for using tracing, and should be the first
->> document people see.
->>
+Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
-Thanks for the feedback!
-
->> I need to take some time out and start filling it up!
+On 10/4/2024 9:52 PM, Jeffrey Hugo wrote:
+> Add basic support for the new AIC080 product. The PCIe Device ID is
+> 0xa080. AIC080 is a lower cost, lower performance SKU variant of AIC100.
+> From the qaic perspective, it is the same as AIC100.
 > 
-> That's the order that the links will show up in the rendered page, so
-> yes, it matters.
+> Reviewed-by: Troy Hanson <quic_thanson@quicinc.com>
+> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> ---
+>  Documentation/accel/qaic/aic080.rst | 14 ++++++++++++++
+>  Documentation/accel/qaic/index.rst  |  1 +
+>  drivers/accel/qaic/qaic_drv.c       |  4 +++-
+>  3 files changed, 18 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/accel/qaic/aic080.rst
 > 
-> jon
-Can I send an updated patch with this change (moving debugging section 
-to the top)?
+> diff --git a/Documentation/accel/qaic/aic080.rst b/Documentation/accel/qaic/aic080.rst
+> new file mode 100644
+> index 000000000000..d563771ea6ce
+> --- /dev/null
+> +++ b/Documentation/accel/qaic/aic080.rst
+> @@ -0,0 +1,14 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +
+> +===============================
+> + Qualcomm Cloud AI 80 (AIC080)
+> +===============================
+> +
+> +Overview
+> +========
+> +
+> +The Qualcomm Cloud AI 80/AIC080 family of products are a derivative of AIC100.
+> +The number of NSPs and clock rates are reduced to fit within resource
+> +constrained solutions. The PCIe Product ID is 0xa080.
+> +
+> +As a derivative product, all AIC100 documentation applies.
+> diff --git a/Documentation/accel/qaic/index.rst b/Documentation/accel/qaic/index.rst
+> index ad19b88d1a66..967b9dd8bace 100644
+> --- a/Documentation/accel/qaic/index.rst
+> +++ b/Documentation/accel/qaic/index.rst
+> @@ -10,4 +10,5 @@ accelerator cards.
+>  .. toctree::
+>  
+>     qaic
+> +   aic080
+>     aic100
+> diff --git a/drivers/accel/qaic/qaic_drv.c b/drivers/accel/qaic/qaic_drv.c
+> index bf10156c334e..f139c564eadf 100644
+> --- a/drivers/accel/qaic/qaic_drv.c
+> +++ b/drivers/accel/qaic/qaic_drv.c
+> @@ -34,6 +34,7 @@
+>  
+>  MODULE_IMPORT_NS(DMA_BUF);
+>  
+> +#define PCI_DEV_AIC080			0xa080
+>  #define PCI_DEV_AIC100			0xa100
+>  #define QAIC_NAME			"qaic"
+>  #define QAIC_DESC			"Qualcomm Cloud AI Accelerators"
+> @@ -365,7 +366,7 @@ static struct qaic_device *create_qdev(struct pci_dev *pdev, const struct pci_de
+>  		return NULL;
+>  
+>  	qdev->dev_state = QAIC_OFFLINE;
+> -	if (id->device == PCI_DEV_AIC100) {
+> +	if (id->device == PCI_DEV_AIC080 || id->device == PCI_DEV_AIC100) {
+>  		qdev->num_dbc = 16;
+>  		qdev->dbc = devm_kcalloc(dev, qdev->num_dbc, sizeof(*qdev->dbc), GFP_KERNEL);
+>  		if (!qdev->dbc)
+> @@ -607,6 +608,7 @@ static struct mhi_driver qaic_mhi_driver = {
+>  };
+>  
+>  static const struct pci_device_id qaic_ids[] = {
+> +	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, PCI_DEV_AIC080), },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, PCI_DEV_AIC100), },
+>  	{ }
+>  };
 
-Best,
-Suraj
