@@ -1,96 +1,174 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB914218D68;
-	Fri, 11 Oct 2024 14:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B38219C91;
+	Fri, 11 Oct 2024 14:29:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728656068; cv=none; b=OxCva+9DsX+l/g0X/k8xHlze7j7kBsFoWggmQqBmD084ZJ/lXfkyUs4FiIR9NkNh2KsUmizdBJHlOJpYDf6KU+xTOZz385fJEHtnJ63yc9IETLjMgXsbwmHlTtCpnVWu0sE06bB7T25qQUCNbTbykn7w24bCAK3e8WKCQ4d24T4=
+	t=1728656973; cv=none; b=TYG2nVlcfrENv8oXrManYIMWLmDfiWh/j7MJCRx9t/alnSeQWVHl3/CzeS3uP5L3cJe7962AqizcRQGg7Yr6xx640hMjzIcVYr5q56repDtxQ5sLA0QWLkY0L/7o8KtyEHo3JhkqXMZT2xV6qcAogfAFosgjAnIYRThq0+tLwK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728656068; c=relaxed/simple;
-	bh=S2kpBhzA9CT2tk67op8T4/X6KIP8Ece09QFxSl24cf8=;
+	s=arc-20240116; t=1728656973; c=relaxed/simple;
+	bh=eASTqqWN/RbwvBq6aSE6zKDgJt8fvUtaBJXivcUldxU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DEoCwqVAKuKioEcx5pGiA6JYzSWGgeFZTRSNfI7MwsPikDBmpMwzRFtWNHNC7eylHK6XFXEf1aQ1Yi0KQUmX6DXoPjGgBW3m45BL9CDdb1TaU4j56gLZv1MSJ1I/OjYboIe8g3x1w2GCEqSeTGkoHhw/7/vLDO/G29b1cd3ok5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mkKWf7c7; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=pFj7yWqGPDUfUXVqone2YPS02P1Vr5HbPZY2HU8/CvyCj0abYlHkh+YiYXGhA7zaaqydSuUZHnTyl+kEh3bQEKkEk7hq+u1b8B4bm9CtjNM58set21EYUkX/aTV6By9tFXT26G9aLDV3jd3AQqInH5o91t/3BTsCCCauls1Ru8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=k4Gr/qNY; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mkKWf7c7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA7E9C4CEC3;
-	Fri, 11 Oct 2024 14:14:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728656067;
-	bh=S2kpBhzA9CT2tk67op8T4/X6KIP8Ece09QFxSl24cf8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mkKWf7c7cL5WE1JLcPA5P6+KJ6hRJq+ZtKvd4oUHWuDiKE2gQk6EiAqZV487QgV/0
-	 5fv95z+lKMlyA5zi0bUHmF7elNYetorKf3Xx0ueHZSrYyJsbLyXZyi8K9qp0fThEQm
-	 8QduGft4fkhdIup4in0AThMs7vPZ2x6OreAYPRL4RLVFHwcXoKhEw+qO/KYD609Uv7
-	 kEIpmHSk6N9To8w/0KJh/+KVNKr+a7/T8ZcH8rarQJc7LbiQfJQ6Rub0doJ+b4qBPU
-	 GkJYHQfuY3cAlHnSaHlOIEC9D1UzaqNQpWkRKRUVeDXQeLgB/EGFYeiOOmA41W/zhe
-	 hFLKOhnXu+GXg==
-Date: Fri, 11 Oct 2024 16:14:24 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Maira Canal <mairacanal@riseup.net>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
-	Melissa Wen <melissa.srw@gmail.com>, Haneen Mohammed <hamohammed.sa@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org, arthurgrillo@riseup.net, 
-	pekka.paalanen@haloniitty.fi, Simona Vetter <simona.vetter@ffwll.ch>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	thomas.petazzoni@bootlin.com, jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com, 
-	seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
-Subject: Re: [PATCH v12 09/15] drm/vkms: Remove useless drm_rotation_simplify
-Message-ID: <20241011-lyrical-rebel-orca-52a60a@houat>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="k4Gr/qNY"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 92379E0002;
+	Fri, 11 Oct 2024 14:29:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1728656968;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dxooFsfSP5WcF10uZh9IA27LMTRQH7j6L0q8CNYDpNM=;
+	b=k4Gr/qNYHdODpez3/DCHZupSvlEjfo3N4RAaY2HahSkuKqldVKtl7BPPO0MxrtN+LPZ7EA
+	5Gyf6RhX+P9oR4YAZAl8jWTRWAjKTgrZvnwx3nENZKDgfVIHsht1LUiaUXostuQ6NvKCkK
+	WcJ8nS4pmpvqKlBglmcfPAjOMKNKdG299UNBOGJmEe8f+j10Tn9ijloFpvcKup2pwaYujJ
+	AOwLMi0Wk80drqgtOTS6j6tSft0exOSpgYuj7bnQYi3OTsrSm6+kKCYzOEpzpzaamOBmTP
+	oLcfBeSUbuWOvQ/bhMTGyS8YGWRzFIHsSER4FwQW5Tvi1wesvYIoa1md7cxCzQ==
+Date: Fri, 11 Oct 2024 16:29:25 +0200
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Maaara Canal <mairacanal@riseup.net>,
+	Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+	Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
+	arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
+	jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+	seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
+	Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: Re: [PATCH v12 13/15] drm/vkms: Create KUnit tests for YUV
+ conversions
+Message-ID: <Zwk2RSgfV75LVLpR@louis-chauvet-laptop>
+Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
+	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Maaara Canal <mairacanal@riseup.net>,
+	Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+	Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
+	arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
+	jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+	seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
+	Pekka Paalanen <pekka.paalanen@collabora.com>
 References: <20241007-yuv-v12-0-01c1ada6fec8@bootlin.com>
- <20241007-yuv-v12-9-01c1ada6fec8@bootlin.com>
- <Zwjxo2TEAR3PelO9@louis-chauvet-laptop>
- <608074ed-567c-4e6d-b1c2-9e0ecf1d102b@riseup.net>
+ <20241007-yuv-v12-13-01c1ada6fec8@bootlin.com>
+ <20241008-ingenious-calm-silkworm-3e99ba@houat>
+ <ZwT6CnyYRKS9QxIS@louis-chauvet-laptop>
+ <20241011-shiny-skua-of-authority-998ad3@houat>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="mh3evp5i7kodpuvy"
-Content-Disposition: inline
-In-Reply-To: <608074ed-567c-4e6d-b1c2-9e0ecf1d102b@riseup.net>
-
-
---mh3evp5i7kodpuvy
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20241011-shiny-skua-of-authority-998ad3@houat>
+X-GND-Sasl: louis.chauvet@bootlin.com
 
-On Fri, Oct 11, 2024 at 10:53:52AM GMT, Maira Canal wrote:
-> Hi Louis,
->=20
-> On 10/11/24 06:36, Louis Chauvet wrote:
-> >=20
-> > Hi all,
-> >=20
-> > Until this point, this series has not received any major comments since
-> > v9. I will commit patches 1-9 next week if there are no further comment=
-s.
-> >=20
->=20
-> Although we are maintainers of VKMS, it isn't recommended that we push
-> our own changes without even the Ack of another person. Please, read the
-> "drm-misc Committer Guidelines" [1].
+On 11/10/24 - 12:49, Maxime Ripard wrote:
+> On Tue, Oct 08, 2024 at 11:23:22AM GMT, Louis Chauvet wrote:
+> > 
+> > Hi, 
+> > 
+> > > > + * The YUV color representation were acquired via the colour python framework.
+> > > > + * Below are the function calls used for generating each case.
+> > > > + *
+> > > > + * For more information got to the docs:
+> > > > + * https://colour.readthedocs.io/en/master/generated/colour.RGB_to_YCbCr.html
+> > > > + */
+> > > > +static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
+> > > > +	/*
+> > > > +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
+> > > > +	 *                     K=colour.WEIGHTS_YCBCR["ITU-R BT.601"],
+> > > > +	 *                     in_bits = 16,
+> > > > +	 *                     in_legal = False,
+> > > > +	 *                     in_int = True,
+> > > > +	 *                     out_bits = 8,
+> > > > +	 *                     out_legal = False,
+> > > > +	 *                     out_int = True)
+> > > > +	 */
+> > > 
+> > > We should really detail what the intent and expected outcome is supposed
+> > > to be here. Relying on a third-party python library call for
+> > > documentation isn't great.
+> >
+> > This was requested by Pekka in the [v2] of this series.
+> 
+> Ok.
+> 
+> > I can add something like this before each tests, but I think having the 
+> > exact python code used may help people to understand what should be the 
+> > behavior, and refering to the python code to understand the conversion.
+> 
+> Help, sure. Be the *only* documentation, absolutely not.
+> 
+> Let's turn this around. You run kunit, one of these tests fail:
+> 
+>  - It adds cognitive load to try to identify and make sense of an
+>    unknown lib.
+> 
+>  - How can we check that the arguments you provided there are the one
+>    you actually wanted to provide, and you didn't make a typo?
+> 
+> > I can add something like this before each tests to clarify the tested 
+> > case:
+> > 
+> > 	Test cases for conversion between YUV BT601 limited range and 
+> > 	RGB using the ITU-R BT.601 weights.
+> > 
+> > Or maybe just documenting the structure yuv_u8_to_argb_u16_case:
+> > 
+> > 	@encoding: Encoding used to convert RGB to YUV
+> > 	@range: Range used to convert RGB to YUV
+> > 	@n_colors: Count of test colors in this case
+> > 	@format_pair.name: Name used for this color conversion, used to 
+> > 			   clarify the test results
+> > 	@format_pair.rgb: RGB color tested
+> > 	@format_pair.yuv: Same color as @format_pair.rgb, but converted to 
+> > 			  YUV using @encoding and @range.
+> > 
+> > What do you think?
+> 
+> That it's welcome, but it still doesn't allow to figure out what your
+> intent was with this test 2 years from now.
 
-It's not that it's not recommended, it's that you shouldn't, really.
+I don't really understand what you want to add. Can you explain what you 
+expect here? Did you mean you want a description like this above the test 
+function?
 
-Maxime
+/*
+ * vkms_format_test_yuv_u8_to_argb_u16 - Testing the conversion between YUV
+ * colors to ARGB colors in VKMS
+ *
+ * This test will use the functions get_conversion_matrix_to_argb_u16 and
+ * argb_u16_from_yuv888 to convert YUV colors (stored in
+ * yuv_u8_to_argb_u16_cases) into ARGB colors.
+ *
+ * As there is a different range between YUV input (8 bits) and RGB output (16
+ * bits), the values are not checked exactly but ensured that they are within
+ * the uncertainty range.
+ */
 
---mh3evp5i7kodpuvy
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks,
+Louis Chauvet
 
------BEGIN PGP SIGNATURE-----
+> Maxime
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZwkyuwAKCRAnX84Zoj2+
-dtJiAYDYtRU8bOHWuM4htXQzC9QzV5j+6JizmH9edB8kva4xwLN/cpf/iK0j82ov
-rdS6u24BgPVlpyT9nYkZN48z0BkjXKcyTetT773goNf/UwDBrMkdymaobdd+NzGM
-ab60NUleEQ==
-=lGK5
------END PGP SIGNATURE-----
 
---mh3evp5i7kodpuvy--
