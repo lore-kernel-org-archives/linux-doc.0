@@ -1,178 +1,261 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563B71E500F
-	for <linux-doc@vger.kernel.org>; Fri, 11 Oct 2024 18:54:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0CA1C2327;
+	Fri, 11 Oct 2024 19:14:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728672904; cv=none; b=uOZpGsy8R036qjD4UFMr4WYGA2J5MwhQZ5itAVlykexkuec5UuRCixVREOfDGu+RmPHWHQBHLDnWCl2ZgtXhqAuixk3yAmTU876N0SYnmZtQIV9NRItxI1nG9cn4t7g6a7dd2AWdYbrFXdbz1zC2IQkQuHOYCpwDkEH9EKYHa/w=
+	t=1728674092; cv=none; b=NYp/0IsqPrcvW/iF3vxFnBOP2Q9j2W+Lw26CIjca0WEbckKmwR/OLB0OHuqZk8uRZEg5BOk2f7RJMqBmMFPlZxH+Xci8pTMiOZTcgIDnYgt29xHlcRI6tTisZgaJVfhMPZZuVzBFtuLKSJiknDhWU7wLqV6IYq9CvyOC0qewBXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728672904; c=relaxed/simple;
-	bh=e1gtd88RzjTEdKgz5vKtdQEHaWC6suwW5itfB3BJQME=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qTiaaytdDs0wN9yqI2f3EgS7ZNkznTcm2J1qNuk8Mcj2QA9Ft8v19TnpO7lyhFs11z3ko+cIlYVN8yrHakUaQDT9FEjxB9ltOVq1USxzxvfKi1I/fHrkuryRSZTPHOCfgpPB6xyf3EUrk75+qsXzMy1Oa8wcKW/kk1lSUcuGaR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=p0A8yWx3; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1728674092; c=relaxed/simple;
+	bh=aQRSA1yeJHJ4TV/I8uMqgU5sOulw5Aa610ReT/Pi0PE=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h+Fncn5q9R9CyfmoHa36VwXfo4skzKs/xI3vfMELOb9BwS7SuykN1T4d3GR2aThSNLxP7Afz6T99QEt8zxKpC3775iGNMWjuzYUaRLhwYmW6EjtVrbm/VryzZ5R8Ws9zfTbmxW2p1VIx0h6giD2rWffPF+HwxEfVY1qS2ti7nbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JyXeDu87; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="p0A8yWx3"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-430f6bc9ca6so18066655e9.2
-        for <linux-doc@vger.kernel.org>; Fri, 11 Oct 2024 11:54:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JyXeDu87"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-71e427e29c7so491576b3a.3;
+        Fri, 11 Oct 2024 12:14:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1728672892; x=1729277692; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=H45D+zQ4RlZo87PnQlpnl9k3Po/Ceaj5Q2WfHuVjsjY=;
-        b=p0A8yWx3OoCljbbWdvX+WqHz0Dsg4ejsm68SeCsnGKpsZFz2+z3AKNhmuuSuLzw6ug
-         rxIGcld16NVdxN8Iesbd8WECOerZq7tppUBoA63LMzXXUJMNz2RINMu29sBhXUlpjTE4
-         7GP70BrfbWKynZb4G/AYt0W+mKoOUvRl0xw9YGmasyNdTv0q3HDI3mfFgXUZTwNiYp2f
-         txunhWxzSiieJ+XxFLzo+jM225ZQwUz19bTeOVpJwGRR7GiCISJUhxhnfltGpOtfeean
-         +bio2aDx0J+o3orHOxRZWeQkD6iYhlYnDhgm1WXWX28kpmw6gdZQbzGPemT42yQiFlNB
-         3DJw==
+        d=gmail.com; s=20230601; t=1728674090; x=1729278890; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9RwrXc2bfBcpRHPltvXo1MSSyTQE/O8f245siaXgKRY=;
+        b=JyXeDu87bcdwUy/O4BIBd8os6O6gxxFpLQZ39uG4buE/xmrJ+HLnd/lYHlmTKyeI+o
+         sUuYtCjnvBpH9BnjtuaadmJ/QhFECzF4QSBv3lvF4dlBQQVr5YANm610e7hAyVPCq9G1
+         XVLqoJQtWgeOfS1KJ+G+0pwTESq0mJZdlRYAUMkeF4RdjQxPl/Kg1Bi8MuUqQ5b2A1aB
+         kCdOb+bUJIQIj3ZGGSTC9cPzPoiU8fLIjr/e8AH0UwHWHtpCWEX9JbHbZe/XEYsDX67H
+         GHnbCrnan5kbFAeRkyGJmz2FYoLcBJdjio8cgeLf+mfqtUL5k11qJ8rPJu1Lw731/+di
+         FNBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728672892; x=1729277692;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=H45D+zQ4RlZo87PnQlpnl9k3Po/Ceaj5Q2WfHuVjsjY=;
-        b=HVrpP5urRVaiUy+uYM4Xk0m+Zfij16so8km/M9rm+3T1BpazxJVoos2IKScGPzYUEZ
-         IwxBDF7eEQ8u6VqkIts6FyGOub/QxXVTz0LqLkM8cF7uHFaBAK5APS7RUaFyWqpmU0QU
-         wp8kMuWcpLITe/iklvU9Qbw26CJq3MpgkqIgB3Wqb4FhdS6YfqCJl/ZtdcD+epJbM8ac
-         8FefdGsRyul8oWsFkchqY6ZPd2hq8sS4Zg4uWkx11JoObZ67f55umGPHusotg7/prMw0
-         jvPTKtjjE3HSjmS5OEnQo94jIJpkvWJa7RxGyV1YN9RixoXnwJy48vctEqoZM4Hvyebk
-         mZ4g==
-X-Forwarded-Encrypted: i=1; AJvYcCV8RaDUPtWWuXX/e8VgSrUPVPWbvQjGqunC106lhR2Tut4UOIjyM6rGkh6fq+bJoZeKayNK4n8HfZQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyeNPMRHv0uMaeyDqZn79+bHuyWp26xnrz31QJ0rM6sOi/dY8Lj
-	mtjPl3WhcRCUdD1RF3GnrHvbQnWOYggJdV1Gy7pLlce1WNUNPxmXqlSBUH5Chiw=
-X-Google-Smtp-Source: AGHT+IGoTXSLCWNbiKvBBCB8iuDTBloAvzoGmWYaf2ibRIfcx4PwXi3/91OEiktNbtQQzvwdztwuZg==
-X-Received: by 2002:a05:600c:190f:b0:431:251a:9dc9 with SMTP id 5b1f17b1804b1-431256099fdmr3480875e9.25.1728672892069;
-        Fri, 11 Oct 2024 11:54:52 -0700 (PDT)
-Received: from [127.0.1.1] ([2a01:cb1d:dc:7e00:68b8:bef:b7eb:538f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b79fe7csm4559161f8f.70.2024.10.11.11.54.50
+        d=1e100.net; s=20230601; t=1728674090; x=1729278890;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9RwrXc2bfBcpRHPltvXo1MSSyTQE/O8f245siaXgKRY=;
+        b=jgDPlqxWgHEkfL5gJSrdgzA+Fo2VK8ko3nKGUWT7CsARGrzkHbdHlMzqkspxk0FZkD
+         EwjMLm+Ek4qbNQAEcDDD6cAyuum5caAh+gUdif/pATuWqQdvFyxbI+S9euwYuVs7xuwW
+         nHBrVNiHSDp+FcrgAoP3/lmWsb28v1eeeAgQeZIHGLHvft10jMzZUPpJC5N1bFGF9OKF
+         JOaKCph0KeXVEJoTbSZM/98qXmU3y9XlNa81r49HWcGrdkEHs2XAErvAokhZ/jozZmp5
+         ijC8JEWD2Gqxegz3uWuVh7CIPtcU9Yymk0A+31NAMKQ5zY6hnZBa90JWBnNyGdQREAJx
+         j31A==
+X-Forwarded-Encrypted: i=1; AJvYcCV3FxpAiIZx6+xkkrGGWIbzrVa3nWaEzIwIEtcAxx7ADGhz8txgSC6sSw+AKPwfd9s2rdcC+vPUhHhX@vger.kernel.org, AJvYcCVcDrli3JgNZooWwkAGFWv8deMhlCr6d7Gaf3FqO+gwz0Rw4RMWDfeqYmT8zBAWJdI+S1hO41RODdhX@vger.kernel.org, AJvYcCW7SJe5DxEy8rFHSQnngkPqMruLTB9rvvDy98YUDcLiYw2Mtb3dsDNgDbMkOKnNAleZroCsBoBeVV16ow==@vger.kernel.org, AJvYcCXHsME4wDQX4R66md4/A779GcDyMa2uUueaUWSFcCOm6HFjKkuxRoly2k0Y3PpREaHWezqckIsya4V9rI2B@vger.kernel.org
+X-Gm-Message-State: AOJu0YybJnVxSZFCUEOfDufgEtVqsZMornPuxQZ6oPB1X3+zOMmMVqhe
+	iMvc53oL61k8CVSOB5PbCvib8kbmJMgNeBWEc4excFTUPtyl0xCv
+X-Google-Smtp-Source: AGHT+IGVCV+SFYfjW4RcGOZJynL6OplbrhtCwww1MFkvESFVXDS6nOzvMGaek+UcLI4OxxU65Gaiug==
+X-Received: by 2002:aa7:8890:0:b0:71d:e93e:f542 with SMTP id d2e1a72fcca58-71e4c1cfdffmr870472b3a.21.1728674089661;
+        Fri, 11 Oct 2024 12:14:49 -0700 (PDT)
+Received: from fan ([2601:646:8f03:9fee:fa84:fdda:e412:45e])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71e48e54f46sm643539b3a.57.2024.10.11.12.14.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Oct 2024 11:54:51 -0700 (PDT)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Fri, 11 Oct 2024 20:54:15 +0200
-Subject: [PATCH v7 16/17] ufs: host: add a callback for deriving software
- secrets and use it
+        Fri, 11 Oct 2024 12:14:49 -0700 (PDT)
+From: Fan Ni <nifan.cxl@gmail.com>
+X-Google-Original-From: Fan Ni <fan.ni@samsung.com>
+Date: Fri, 11 Oct 2024 12:14:26 -0700
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Ira Weiny <ira.weiny@intel.com>, "Li, Ming4" <ming4.li@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Navneet Singh <navneet.singh@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	linux-btrfs@vger.kernel.org, linux-cxl@vger.kernel.org,
+	linux-doc@vger.kernel.org, nvdimm@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 21/28] cxl/extent: Process DCD events and realize
+ region extents
+Message-ID: <Zwl5Esr7uV8EpxMP@fan>
+References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
+ <20241007-dcd-type2-upstream-v4-21-c261ee6eeded@intel.com>
+ <4337ddd9-312b-4fb7-9597-81e8b00d57cb@intel.com>
+ <6706de3530f5c_40429294b8@iweiny-mobl.notmuch>
+ <20241010155014.00004bdd@Huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241011-wrapped-keys-v7-16-e3f7a752059b@linaro.org>
-References: <20241011-wrapped-keys-v7-0-e3f7a752059b@linaro.org>
-In-Reply-To: <20241011-wrapped-keys-v7-0-e3f7a752059b@linaro.org>
-To: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, 
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, 
- Mikulas Patocka <mpatocka@redhat.com>, 
- Adrian Hunter <adrian.hunter@intel.com>, 
- Asutosh Das <quic_asutoshd@quicinc.com>, 
- Ritesh Harjani <ritesh.list@gmail.com>, 
- Ulf Hansson <ulf.hansson@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
- Avri Altman <avri.altman@wdc.com>, Bart Van Assche <bvanassche@acm.org>, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>, 
- Eric Biggers <ebiggers@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>, 
- Jaegeuk Kim <jaegeuk@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Gaurav Kashyap <quic_gaurkash@quicinc.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: linux-block@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dm-devel@lists.linux.dev, 
- linux-mmc@vger.kernel.org, linux-scsi@vger.kernel.org, 
- linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2513;
- i=bartosz.golaszewski@linaro.org; h=from:subject:message-id;
- bh=8izsipyIaDBdSDiSjvy9mf21cushU27meDYZO8QM7MY=;
- b=owEBbQKS/ZANAwAKARGnLqAUcddyAcsmYgBnCXRhwyf+sbRZiDFPfQnZmkfF4U7jfh05yXQav
- c1LkPJCdPeJAjMEAAEKAB0WIQQWnetsC8PEYBPSx58Rpy6gFHHXcgUCZwl0YQAKCRARpy6gFHHX
- cqB7D/95mHJd7lZyDeS8zmIiYEZFW6SUNcNDYRflN999g4QScsSRTKlq3MTcag3Ca8ltNUoJIug
- 39wPTbq1I/X4YXzUshJpgGyNrzQuSZLcNlz/0CdD8URU1pLkFmPyY4MiXpu3oh+NQ/o67QYtiMJ
- v43/AALUcHRtWLYflg1ZxUAqMPXsG4WK8RtjPxdauvJY1FKhOPEs3hhMpnrAsj5IIbHbot1IxOR
- 0eyjVtaIbciJa2EnmaMwjUIBNeIBG2O0p4NTSbIwyX3i+wqvemAx4yBWK+RyzKfrCaVhz6a8KcB
- ov8vJP4nCLNxST6gtuasJ1jiOpE+uqWjm5ec3TBerQiy8tVH/PvTI3EXKSCgacHeeyiF0vhe+ji
- wR4YvxwSm0y8XK+4lYYv2vOW/viQ4eF3IjxGR64O8g5P1z1OSIeSp2jJ0aTipkSh72yTCm2hMoy
- eoiYN+G9pZimXdoq1h3ouQz2PExiECAIYS/NE6bsZ3vihyhgExQ24oFpoAhGVPgeK8ma3ReFC2F
- g+9Iv64HG9yUE1X/w86/vby7nlQ32V464qHqdz7PdMJ3IzZLQCvDhAJCtyHC2iTc/Y5ZeJwfoL1
- 8lDEtDIK1LNhbGnL0ICafGD5S6YgALrTCClSAxesU0bMYwYiALDVzXhzi4R2slJHNHXjiN0WHRd
- 2IlGSJY+nTTII6w==
-X-Developer-Key: i=bartosz.golaszewski@linaro.org; a=openpgp;
- fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241010155014.00004bdd@Huawei.com>
 
-From: Gaurav Kashyap <quic_gaurkash@quicinc.com>
+On Thu, Oct 10, 2024 at 03:50:14PM +0100, Jonathan Cameron wrote:
+> On Wed, 9 Oct 2024 14:49:09 -0500
+> Ira Weiny <ira.weiny@intel.com> wrote:
+> 
+> > Li, Ming4 wrote:
+> > > On 10/8/2024 7:16 AM, ira.weiny@intel.com wrote:  
+> > > > From: Navneet Singh <navneet.singh@intel.com>
+> > > >  
+> > 
+> > [snip]
+> > 
+> > > >
+> > > > Signed-off-by: Navneet Singh <navneet.singh@intel.com>
+> > > > Co-developed-by: Ira Weiny <ira.weiny@intel.com>
+> > > > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> > > >  
+> > > Hi Ira,
+> > > 
+> > > I guess you missed my comments for V3, I comment it again for this patch.  
+> > 
+> > Apologies.  Yes I totally missed your reply.  :-(
+> > 
+> > >   
+> > > > +static bool extents_contain(struct cxl_dax_region *cxlr_dax,
+> > > > +			    struct cxl_endpoint_decoder *cxled,
+> > > > +			    struct range *new_range)
+> > > > +{
+> > > > +	struct device *extent_device;
+> > > > +	struct match_data md = {
+> > > > +		.cxled = cxled,
+> > > > +		.new_range = new_range,
+> > > > +	};
+> > > > +
+> > > > +	extent_device = device_find_child(&cxlr_dax->dev, &md, match_contains);
+> > > > +	if (!extent_device)
+> > > > +		return false;
+> > > > +
+> > > > +	put_device(extent_device);  
+> > > could use __free(put_device) to drop this 'put_device(extent_device)'  
+> > 
+> > Yep.
+> > 
+> > > > +	return true;
+> > > > +}  
+> > > [...]  
+> > > > +static bool extents_overlap(struct cxl_dax_region *cxlr_dax,
+> > > > +			    struct cxl_endpoint_decoder *cxled,
+> > > > +			    struct range *new_range)
+> > > > +{
+> > > > +	struct device *extent_device;
+> > > > +	struct match_data md = {
+> > > > +		.cxled = cxled,
+> > > > +		.new_range = new_range,
+> > > > +	};
+> > > > +
+> > > > +	extent_device = device_find_child(&cxlr_dax->dev, &md, match_overlaps);
+> > > > +	if (!extent_device)
+> > > > +		return false;
+> > > > +
+> > > > +	put_device(extent_device);  
+> > > Same as above.  
+> > 
+> > Done.
+> > 
+> > > > +	return true;
+> > > > +}
+> > > > +  
+> > > [...]  
+> > > > +static int cxl_send_dc_response(struct cxl_memdev_state *mds, int opcode,
+> > > > +				struct xarray *extent_array, int cnt)
+> > > > +{
+> > > > +	struct cxl_mailbox *cxl_mbox = &mds->cxlds.cxl_mbox;
+> > > > +	struct cxl_mbox_dc_response *p;
+> > > > +	struct cxl_mbox_cmd mbox_cmd;
+> > > > +	struct cxl_extent *extent;
+> > > > +	unsigned long index;
+> > > > +	u32 pl_index;
+> > > > +	int rc;
+> > > > +
+> > > > +	size_t pl_size = struct_size(p, extent_list, cnt);
+> > > > +	u32 max_extents = cnt;
+> > > > +
+> > > > +	/* May have to use more bit on response. */
+> > > > +	if (pl_size > cxl_mbox->payload_size) {
+> > > > +		max_extents = (cxl_mbox->payload_size - sizeof(*p)) /
+> > > > +			      sizeof(struct updated_extent_list);
+> > > > +		pl_size = struct_size(p, extent_list, max_extents);
+> > > > +	}
+> > > > +
+> > > > +	struct cxl_mbox_dc_response *response __free(kfree) =
+> > > > +						kzalloc(pl_size, GFP_KERNEL);
+> > > > +	if (!response)
+> > > > +		return -ENOMEM;
+> > > > +
+> > > > +	pl_index = 0;
+> > > > +	xa_for_each(extent_array, index, extent) {
+> > > > +
+> > > > +		response->extent_list[pl_index].dpa_start = extent->start_dpa;
+> > > > +		response->extent_list[pl_index].length = extent->length;
+> > > > +		pl_index++;
+> > > > +		response->extent_list_size = cpu_to_le32(pl_index);
+> > > > +
+> > > > +		if (pl_index == max_extents) {
+> > > > +			mbox_cmd = (struct cxl_mbox_cmd) {
+> > > > +				.opcode = opcode,
+> > > > +				.size_in = struct_size(response, extent_list,
+> > > > +						       pl_index),
+> > > > +				.payload_in = response,
+> > > > +			};
+> > > > +
+> > > > +			response->flags = 0;
+> > > > +			if (pl_index < cnt)
+> > > > +				response->flags &= CXL_DCD_EVENT_MORE;  
+> > > 
+> > > It should be 'response->flags |= CXL_DCD_EVENT_MORE' here.  
+> > 
+> > Ah yea.  Good catch.
+> > 
+> > > 
+> > > Another issue is if 'cnt' is N times bigger than 'max_extents'(e,g. cnt=20, max_extents=10). all responses will be sent in this xa_for_each(), and CXL_DCD_EVENT_MORE will be set in the last response but it should not be set in these cases.
+> > >   
+> > 
+> > Ah yes.  cnt must be decremented.  As I looked at the patch just now the
+> > 
+> > 	if (cnt == 0 || pl_index)
+> > 
+> > ... seemed very wrong to me.  That change masked this bug.
+> > 
+> > This should fix it:
+> > 
+> > diff --git a/drivers/cxl/core/mbox.c b/drivers/cxl/core/mbox.c
+> > index d66beec687a0..99200274dea8 100644
+> > --- a/drivers/cxl/core/mbox.c
+> > +++ b/drivers/cxl/core/mbox.c
+> > @@ -1119,10 +1119,11 @@ static int cxl_send_dc_response(struct cxl_memdev_state *mds, int opcode,
+> >                         if (rc)
+> >                                 return rc;
+> >                         pl_index = 0;
+> > +                       cnt -= pl_index;
+> >                 }
+> >         }
+> >  
+> > -       if (cnt == 0 || pl_index) {
+> 
+> I thought this cnt == 0 check was to deal with the no valid
+> extents case where an empty reply is needed.
 
-Add a new UFS core callback for deriving software secrets from hardware
-wrapped keys and implement it in QCom UFS.
+Agreed. Based on current code logic, there are two cases that cnt == 0:
+1. no extent is accepted so cnt is passed as 0;
+2. cnt was decreased to 0 and response has already been sent.
 
-Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
-Signed-off-by: Gaurav Kashyap <quic_gaurkash@quicinc.com>
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
----
- drivers/ufs/host/ufs-qcom.c | 15 +++++++++++++++
- include/ufs/ufshcd.h        |  1 +
- 2 files changed, 16 insertions(+)
+For case 1, we still need to send a response with zero extents;
+For case 2, we do not need to handle.
 
-diff --git a/drivers/ufs/host/ufs-qcom.c b/drivers/ufs/host/ufs-qcom.c
-index 880df3a8955a..862e02bf8f64 100644
---- a/drivers/ufs/host/ufs-qcom.c
-+++ b/drivers/ufs/host/ufs-qcom.c
-@@ -182,9 +182,23 @@ static int ufs_qcom_ice_program_key(struct ufs_hba *hba,
- 		return qcom_ice_evict_key(host->ice, slot);
- }
- 
-+/*
-+ * Derive a software secret from a hardware wrapped key. The key is unwrapped in
-+ * hardware from trustzone and a software key/secret is then derived from it.
-+ */
-+static int ufs_qcom_ice_derive_sw_secret(struct ufs_hba *hba, const u8 wkey[],
-+					 unsigned int wkey_size,
-+					 u8 sw_secret[BLK_CRYPTO_SW_SECRET_SIZE])
-+{
-+	struct ufs_qcom_host *host = ufshcd_get_variant(hba);
-+
-+	return qcom_ice_derive_sw_secret(host->ice, wkey, wkey_size, sw_secret);
-+}
-+
- #else
- 
- #define ufs_qcom_ice_program_key NULL
-+#define ufs_qcom_ice_derive_sw_secret NULL
- 
- static inline void ufs_qcom_ice_enable(struct ufs_qcom_host *host)
- {
-@@ -1832,6 +1846,7 @@ static const struct ufs_hba_variant_ops ufs_hba_qcom_vops = {
- 	.device_reset		= ufs_qcom_device_reset,
- 	.config_scaling_param = ufs_qcom_config_scaling_param,
- 	.program_key		= ufs_qcom_ice_program_key,
-+	.derive_sw_secret	= ufs_qcom_ice_derive_sw_secret,
- 	.reinit_notify		= ufs_qcom_reinit_notify,
- 	.mcq_config_resource	= ufs_qcom_mcq_config_resource,
- 	.get_hba_mac		= ufs_qcom_get_hba_mac,
-diff --git a/include/ufs/ufshcd.h b/include/ufs/ufshcd.h
-index d74a26a36f5b..c172c1dd9209 100644
---- a/include/ufs/ufshcd.h
-+++ b/include/ufs/ufshcd.h
-@@ -323,6 +323,7 @@ struct ufs_pwr_mode_info {
-  * @device_reset: called to issue a reset pulse on the UFS device
-  * @config_scaling_param: called to configure clock scaling parameters
-  * @program_key: program or evict an inline encryption key
-+ * @derive_sw_secret: derive sw secret from a wrapped key
-  * @fill_crypto_prdt: initialize crypto-related fields in the PRDT
-  * @event_notify: called to notify important events
-  * @reinit_notify: called to notify reinit of UFSHCD during max gear switch
+Fan
+
+> 
+> 
+> > +       if (pl_index) {
+> >                 mbox_cmd = (struct cxl_mbox_cmd) {
+> >                         .opcode = opcode,
+> >                         .size_in = struct_size(response, extent_list,
+> > 
+> > 
+> > Thank you, and sorry again for missing your feedback.
+> > 
+> > Ira
+> > 
+> > [snip]
+> > 
+> 
 
 -- 
-2.43.0
-
+Fan Ni
