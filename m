@@ -1,118 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32CF178372;
-	Fri, 11 Oct 2024 15:27:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A961198A30;
+	Fri, 11 Oct 2024 15:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728660432; cv=none; b=PjIrseXp/GEemARWjszBYmEXkyHh2uKyTwJBBE8gVmAFP54qrRNfDG5mxsHu2nvNEiRu5zq7b9+czPjiQPXsfgluKd/o6tAdBD42ZEDN4qX0BbubHHtFzFP9h3KE+pki8EI/pk9/OjTd9l8VVguRDSnR1muLmli7wmg92ZN/rxs=
+	t=1728661769; cv=none; b=kOqQtwiQ1ByT4wW/Zo976mW+c0+SsZ1XFhfkGRa1eEWmXK9tL5p8VmZ7Cwxsa6oFW90tsRe4rDtkRa0oEZG1NFukCZx4V35160FUfffrw7jDOaFrAZnexJlQH5eKPysY2SYVLR5MOeklfif4KqpJ/T18ZCrUl/yQ/XFqaQQX2AE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728660432; c=relaxed/simple;
-	bh=sGWntrz3wIyVB8alp9rpncuZ1V1KDuURy3H+JpEcM7M=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CAa0u1VNwrXu4AWZKa13D8IITkTYNjEqaH/NVcKmmUp4I8fo5VYBtH0NIRHn8EulJiUcpFARmVHXVfHwDHiDR88PG4O+8ffdm77bO6mNkpm0Mvg3O88kRLeQp+F1jx60uFQgATfnAX4GBglRAvAZhLwNq+p6eV29V/43Jrk2lDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I8L75zVt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728661769; c=relaxed/simple;
+	bh=f2hcgsydgRYVoApnvHt1Ek6C1pfxeKgde/tWJDkAMv8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=TZKunO+lbv5uLDAyxn2/r3ZA37v38wHUEPSgJpc0+lnS2FD02trfbvbwAJMEmzSbpp6R7cNatxOiuMqyN2BCCEl6y4fdC8JYhif4PK6XUjyXYyt+4rc/xEv5THI0RDv3CIgty4ZuX8JKq5ca6ZWv9GCfAkz16P4mtiW1V+U4Kgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BJnQPN02; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I8L75zVt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64E81C4CEC7;
-	Fri, 11 Oct 2024 15:27:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728660431;
-	bh=sGWntrz3wIyVB8alp9rpncuZ1V1KDuURy3H+JpEcM7M=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=I8L75zVtrZx7w5SpRULZ/piL2MAHcg+XRpGLvOSuuaq79SJWN4Fma1eeimZ3TTbVB
-	 s3Tj07SktC4NyMlxdWrHxkP9B09QxKjTACbn46Lcb7EZmhdJiFuU6u5LM0LB+VOnwB
-	 ipxmM/V1tJE/lNo+oR0h67Z16lt34GSW47dbcRsA2Rcnm7hvFzitsQaVu0tDTBL7I1
-	 XrWK27pP7SdJ/JUMi4LEQxyVwYXTQYUn1hmQM2ozZex/gG6pI4W/jWyE7zsMYDHYlF
-	 b7b0dB6+vFHNuxfWZal17srhcGgebXOevLR69yA//3wjEvgTu0P9zbH1pTrGNR4W9m
-	 VsL6bpzNsWhgg==
-Date: Fri, 11 Oct 2024 08:27:07 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: "Lai, Yi" <yi1.lai@linux.intel.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, Donald Hunter
- <donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
- Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge
- Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>, Jesper
- Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas
- <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, Masami
- Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>, Steffen
- Klassert <steffen.klassert@secunet.com>, Herbert Xu
- <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem de
- Bruijn <willemdebruijn.kernel@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
- <bjorn@kernel.org>, Magnus Karlsson <magnus.karlsson@intel.com>, Maciej
- Fijalkowski <maciej.fijalkowski@intel.com>, Jonathan Lemon
- <jonathan.lemon@gmail.com>, Shuah Khan <shuah@kernel.org>, Alexei
- Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, John
- Fastabend <john.fastabend@gmail.com>, Sumit Semwal
- <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, David
- Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
- <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
- Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
- Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
- <pkaligineedi@google.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
- Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
- Taehee Yoo <ap420073@gmail.com>, Willem de Bruijn <willemb@google.com>,
- Kaiyuan Zhang <kaiyuanz@google.com>, yi1.lai@intel.com
-Subject: Re: [PATCH net-next v25 10/13] net: add SO_DEVMEM_DONTNEED
- setsockopt to release RX frags
-Message-ID: <20241011082707.5de66f15@kernel.org>
-In-Reply-To: <CAHS8izPuEUA20BDXvwq2vW-24ez36YFJFMQok-oBDbgk6bajSA@mail.gmail.com>
-References: <20240909054318.1809580-1-almasrymina@google.com>
-	<20240909054318.1809580-11-almasrymina@google.com>
-	<Zwe3lWTN36IUaIdd@ly-workstation>
-	<CAHS8izPuEUA20BDXvwq2vW-24ez36YFJFMQok-oBDbgk6bajSA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BJnQPN02"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-7ea535890e0so131918a12.2;
+        Fri, 11 Oct 2024 08:49:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728661768; x=1729266568; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=J1St2Im4uOTbsDXAIoCqhnZbuttTkVPtBeaDvpamXxQ=;
+        b=BJnQPN02lReiSqOduHQcPYfjtP671blYjZeoVWqLA9Sfl/DxUua8NvYzD9AzJKfoeM
+         1RwObS3bbVZtFmtVqNc0wXDlPcYJquLaW7zJScR8oe5QqosGBa53zuKuq2VlVg2ryOGd
+         lPpsHBBK6PoB0fmGX2J15c2qs5Sxdjtbo87b0e0rTpGYm7V4QTL+WV96vLMLPy27JsQx
+         GOGgy4HY3P+ykASGgFxUGy8sbjMSYe4c8SyVY7P5PeOB69JOgDgEbEZsM0zweT7kcbVO
+         eRUfD3mK1JVj6a2ru05kY0I4z/ygI4wCbUROgLNeiR7cmSGmrce7kM9oMPMnswiHKB4H
+         jy/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728661768; x=1729266568;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=J1St2Im4uOTbsDXAIoCqhnZbuttTkVPtBeaDvpamXxQ=;
+        b=ty28Zyr21PK34HaVihAoEHKegLWnIrhbkZM3hXvmw6rYYhuLaaH7eX4Mbxkdg7vycf
+         JNPDJXIiYtvbLFBINF2f1fiU62Xw+5iaB+eEJPc6/CjjvFhGMTtO/C/N5GKEBwC3eW2c
+         OOci+YI5aQccxBsLwkBIH46wa89MNSmsD8tQUF7+RvP2l2VYl67Fcas7YsKzMBykyXAQ
+         QapnEVPqxdhQfkgoBEZl33RevSCMJiH92nuCTT9wgKLD/8I6np/bkUounzmsAtd+w5EI
+         GKFDeBTmo7UhdxqGISyCQL1CCCi3YDEchmy5xwWBn3TSnKXO5akUMbDhzVOXpyDuzJcR
+         abTg==
+X-Forwarded-Encrypted: i=1; AJvYcCXCAICdikFIo6Sa26lF7+IDXe60QVHe/2alAZwPZ0GVcbzRW9Jau9LQ0pjPuQbb4/oo2tjoBBf4IqfPBkw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbgpWWVQkYycEXf6qeOMcuFllbi9Gj/YZIusvB/7CN2jAxvW/6
+	GGBqJUaFPpL1IztrxmWtR4sySeK2VRh8YggNQ9AB4fzhYECylUIm
+X-Google-Smtp-Source: AGHT+IE6uVyZZ5iMM+uYfdamWAPqsmsaVtX7zoqAR7E0nuUfTQI0i0pXJJjiy7S0nZW6q8UhSpYleg==
+X-Received: by 2002:a17:90a:8c03:b0:2e0:9d55:3784 with SMTP id 98e67ed59e1d1-2e2f0808125mr1823037a91.0.1728661767527;
+        Fri, 11 Oct 2024 08:49:27 -0700 (PDT)
+Received: from aizome.localdomain ([117.172.223.242])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e2d5fa92e1sm3367382a91.35.2024.10.11.08.49.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Oct 2024 08:49:27 -0700 (PDT)
+From: Pengyu Zhang <zpenya1314@gmail.com>
+To: si.yanteng@linux.dev
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	zpenya1314@gmail.com,
+	yaxin_wang_uestc@163.com
+Subject: Re: [PATCH v4] Docs/zh_CN: Translate page_tables.rst to Simplified Chinese
+Date: Fri, 11 Oct 2024 23:49:13 +0800
+Message-Id: <20241011154913.2808-1-zpenya1314@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 10 Oct 2024 12:05:38 -0700 Mina Almasry wrote:
-> diff --git a/net/core/sock.c b/net/core/sock.c
-> index 083d438d8b6f..cb3d8b19de14 100644
-> --- a/net/core/sock.c
-> +++ b/net/core/sock.c
-> @@ -1071,11 +1071,11 @@ sock_devmem_dontneed(struct sock *sk,
-> sockptr_t optval, unsigned int optlen)
->             optlen > sizeof(*tokens) * MAX_DONTNEED_TOKENS)
->                 return -EINVAL;
-> 
-> -       tokens = kvmalloc_array(optlen, sizeof(*tokens), GFP_KERNEL);
-> +       num_tokens = optlen / sizeof(struct dmabuf_token);
-> +       tokens = kvmalloc_array(num_tokens, sizeof(*tokens), GFP_KERNEL);
->         if (!tokens)
->                 return -ENOMEM;
-> 
-> -       num_tokens = optlen / sizeof(struct dmabuf_token);
->         if (copy_from_sockptr(tokens, optval, optlen)) {
->                 kvfree(tokens);
->                 return -EFAULT;
-> @@ -1083,6 +1083,10 @@ sock_devmem_dontneed(struct sock *sk, sockptr_t
-> optval, unsigned int optlen)
-> 
->         xa_lock_bh(&sk->sk_user_frags);
->         for (i = 0; i < num_tokens; i++) {
-> +
-> +               if (tokens[i].token_count > MAX_DONTNEED_TOKENS)
-> +                       continue;
+Hi, Yanteng
 
-For the real fix let's scan the tokens before we take the xa lock
-and return an error rather than silently skipping?
+>在 2024/10/11 09:47, Yanteng Si 写道:
+>>
+>> Hi Pengyu,
+>>
+>> 在 2024/10/8 23:38, Pengyu Zhang 写道:
+>>> This patch provides a Simplified Chinese translation of the
+>>> "page_tables.rst" document, aimed at improving accessibility
+>>> for Chinese-speaking developers and users.
+>>>
+>>> The translation prioritizes technical accuracy and readability,
+>>> ensuring that the content remains clear and informative for
+>>> its intended audience.
+>> Let's add a commit tag so that the scripts/checktransupdate.py can
+>> recognize it. just like:
+>>
+>> Subject:[PATCH v3] docs/zh_CN: add the translation of kbuild/gcc-plugins.rst <https://lore.kernel.org/linux-doc/20240907070244.206808-1-dzm91@hust.edu.cn/#r>
+>> Date: Sat,  7 Sep 2024 15:02:08 +0800
+>>
+>> Finish the translation of kbuild/gcc-plugins.rst and move gcc-plugins
+>> from TODO to the main body.
+>>
+>> Update to commit 3832d1fd84b6 ("docs/core-api: expand Fedora instructions
+>> for GCC plugins")
+>>
+>>
+>> Thanks，
+>> Yanteng
+>>
+>Sorry, my email client sent an HTML email and I have fixed it. Now resend
+>to the mailing list.
+>
+>
+>Thanks,
+>Yanteng
 
->                 for (j = 0; j < tokens[i].token_count; j++) {
+We discovered a pfn calculation error during the translation of the 
+page_tables.rst. I have submitted another patch to fix it, and it had been
+reviewed by three maintainers, but it has not yet been merged into the mainline. 
+https://lore.kernel.org/all/20241009144135.12453-1-zpenya1314@gmail.com/
+
+So I have a question: should the commit tag be based on the fix patch
+I submitted, or the tag of the original page_tables.rst?
+
+Thanks,
+Pengyu
 
