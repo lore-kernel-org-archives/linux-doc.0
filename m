@@ -1,119 +1,150 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9862719B5B2;
-	Fri, 11 Oct 2024 10:18:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CCDF20B1E9;
+	Fri, 11 Oct 2024 10:49:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728641901; cv=none; b=jG+RIeiBIAImGyFG3KSq0pF8odphxZz/lmB2nJT/Uc2wcVvc0FB2dkCKttWLt9ixwPwK5y/gRbzfUdUzFBJrdfHNajoFGIEkh48HbSw4G4k9Y6RBYs3Pf3m5wQFsuH7B+FXkwtc6x671ExuNLCN8ydx1DAgnWaUBeKg4AsqqRM0=
+	t=1728643787; cv=none; b=bgNo08Sm/Fp/WjDepgWX4lTsz60f4ot5nleL5KB+a09TIt5unwMOoIpqFi5b9qFxE0jR+1ZR6/kJv8uQxlq2cfxzEefy2ImBoSGeKYjA7tog1TmKT43tjLPcijfmlIKBPPX2pRYLy2bc2MNujfY3Z4t0iCR5iAdvquq9T5clAG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728641901; c=relaxed/simple;
-	bh=lyKMdlipHmMYKqMilFlbZUHsLyqahWCluuNLI0NJiGg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CpXvlosEOc5xunGafY5A8FcDOF7npdipjxOKqzL4iwhzJANXPBc1svqHGzEFuO5+a+Qyrby0pgO8AX8axWe6v7K4k4aJwafWF5vRTk1HqQm/52C+ptoNQNjFyl/epAFm/HND2bBAJrEkYu40k/K8RMe8gEKJ4CCbwg+CfoYGBmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YjoopDs5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728643787; c=relaxed/simple;
+	bh=iGFL206iPeIYfSH1TBbeBoo4QjA57peaFogEpgxvHaY=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nBXOFlvzwqzATC1vl8p/QEy4GGsrG8tcZard1w0+gsaLlGeVhNoo6vYa+8JPvWrbyb0C6n9svvEg7QLiCGuejzaxRRJOhisB/ndZngQWZqe4TN+D9eO36mH7p0nWLIup1v/D/gZ8R8pTMm1lBnNUxzCFHdeDWddO4wz1v3g2kh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dX6WtH0V; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YjoopDs5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 954F2C4CEC3;
-	Fri, 11 Oct 2024 10:18:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dX6WtH0V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40826C4CEC3;
+	Fri, 11 Oct 2024 10:49:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728641901;
-	bh=lyKMdlipHmMYKqMilFlbZUHsLyqahWCluuNLI0NJiGg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YjoopDs5/omBheGfRb9ZQ450SmBtY6HZjHLk4F2wc6F5woXclnTMZFIsICX42AkUS
-	 ZyIsYdj91w3FXWFEdw6JaShqxjF+G18Q5Ff6R2GjLaO0qDAxP9R6VpiUU3pmwhN7QW
-	 xiyBUuSLUibdBek6wdxoqqZj+MagtJde/r8jEaXDCqt1YsFuQO96bMYBrC3XPuIsM1
-	 uWTW6FwjVT6eVldfcoe3NSxxoOTaDSTUD/Su513PPSelESY+nugqM/+rQ9p4p2cB3h
-	 zDNAcVH0E7YJsJu7hJk0J4XD95ImgZuz9BE7bsUTnYJ5PgSSQ3LpOvFvhvi7bSk30S
-	 C/FSjlpgfro+g==
-Date: Fri, 11 Oct 2024 11:18:17 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Zong Li <zong.li@sifive.com>
-Cc: Deepak Gupta <debug@rivosinc.com>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	alistair.francis@wdc.com, richard.henderson@linaro.org,
-	jim.shu@sifive.com, andybnac@gmail.com, kito.cheng@sifive.com,
-	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
-	cleger@rivosinc.com, alexghiti@rivosinc.com,
-	samitolvanen@google.com, rick.p.edgecombe@intel.com
-Subject: Re: [PATCH v6 33/33] kselftest/riscv: kselftest for user mode cfi
-Message-ID: <Zwj7aZj36TBGzpZa@finisterre.sirena.org.uk>
-References: <20241008-v5_user_cfi_series-v6-0-60d9fe073f37@rivosinc.com>
- <20241008-v5_user_cfi_series-v6-33-60d9fe073f37@rivosinc.com>
- <CANXhq0pXVS2s-hZNusPLoQ4qPkyi1S2BTQ-FyAvcz=cDctKQng@mail.gmail.com>
+	s=k20201202; t=1728643786;
+	bh=iGFL206iPeIYfSH1TBbeBoo4QjA57peaFogEpgxvHaY=;
+	h=Date:From:To:Subject:References:In-Reply-To:From;
+	b=dX6WtH0V6ZNIjt9AkDk0vWgKbSJZxxfDUi0XjFdOBcEdKoll9pOKof+qeG/lBGunA
+	 4abGUABlQQs99occU6ANB1zXLrjKpArDtiGj8JhdDTvgJhsJRCbGxfPk9VCtK7n8pT
+	 yOO/kYp7XciOLUwDBVj/KQ/xi0IggTYYYsvbR727zhrQO2fHm0q/K/e77av/9OL/BV
+	 Xgcf1qdBdyQ2o48/kck0jAcE6ZmuHiLXrplJiyObmnWNpqSv8BZoekO+CWVVJYoILu
+	 2vXqrYOsu7zzfrJp6KdRzpmx8gc+f9GUzVV9JaunRqGGqczaQ4sZcgxYQ9D/fqAn+i
+	 uvDKEAh44kvxw==
+Date: Fri, 11 Oct 2024 12:49:43 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+	Melissa Wen <melissa.srw@gmail.com>, Maaara Canal <mairacanal@riseup.net>, 
+	Haneen Mohammed <hamohammed.sa@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org, 
+	arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi, 
+	Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com, jeremie.dautheribes@bootlin.com, 
+	miquel.raynal@bootlin.com, seanpaul@google.com, marcheu@google.com, 
+	nicolejadeyee@google.com, Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: Re: [PATCH v12 13/15] drm/vkms: Create KUnit tests for YUV
+ conversions
+Message-ID: <20241011-shiny-skua-of-authority-998ad3@houat>
+References: <20241007-yuv-v12-0-01c1ada6fec8@bootlin.com>
+ <20241007-yuv-v12-13-01c1ada6fec8@bootlin.com>
+ <20241008-ingenious-calm-silkworm-3e99ba@houat>
+ <ZwT6CnyYRKS9QxIS@louis-chauvet-laptop>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="PJjNqwWWqyWbjeHL"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="ft4zr7lbcug3nly4"
 Content-Disposition: inline
-In-Reply-To: <CANXhq0pXVS2s-hZNusPLoQ4qPkyi1S2BTQ-FyAvcz=cDctKQng@mail.gmail.com>
-X-Cookie: Editing is a rewording activity.
+In-Reply-To: <ZwT6CnyYRKS9QxIS@louis-chauvet-laptop>
 
 
---PJjNqwWWqyWbjeHL
-Content-Type: text/plain; charset=utf-8
+--ft4zr7lbcug3nly4
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 11, 2024 at 01:44:55PM +0800, Zong Li wrote:
-> On Wed, Oct 9, 2024 at 7:46=E2=80=AFAM Deepak Gupta <debug@rivosinc.com> =
-wrote:
-
-> > +       if (si->si_code =3D=3D SEGV_CPERR) {
-
-> Hi Deepak,
-> I got some errors when building this test, I suppose they should be
-> fixed in the next version.
-
-> riscv_cfi_test.c: In function 'sigsegv_handler':
-> riscv_cfi_test.c:17:28: error: 'SEGV_CPERR' undeclared (first use in
-> this function); did you mean 'SEGV_ACCERR'?
->    17 |         if (si->si_code =3D=3D SEGV_CPERR) {
->       |                            ^~~~~~~~~~
->       |                            SEGV_ACCERR
+On Tue, Oct 08, 2024 at 11:23:22AM GMT, Louis Chauvet wrote:
 >=20
+> Hi,=20
+>=20
+> > > + * The YUV color representation were acquired via the colour python =
+framework.
+> > > + * Below are the function calls used for generating each case.
+> > > + *
+> > > + * For more information got to the docs:
+> > > + * https://colour.readthedocs.io/en/master/generated/colour.RGB_to_Y=
+CbCr.html
+> > > + */
+> > > +static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] =3D=
+ {
+> > > +	/*
+> > > +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
+> > > +	 *                     K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.601"],
+> > > +	 *                     in_bits =3D 16,
+> > > +	 *                     in_legal =3D False,
+> > > +	 *                     in_int =3D True,
+> > > +	 *                     out_bits =3D 8,
+> > > +	 *                     out_legal =3D False,
+> > > +	 *                     out_int =3D True)
+> > > +	 */
+> >=20
+> > We should really detail what the intent and expected outcome is supposed
+> > to be here. Relying on a third-party python library call for
+> > documentation isn't great.
+>
+> This was requested by Pekka in the [v2] of this series.
 
-Did you run "make headers_install" prior to building kselftest to get
-the current kernel's headers available for userspace builds?
+Ok.
 
---PJjNqwWWqyWbjeHL
+> I can add something like this before each tests, but I think having the=
+=20
+> exact python code used may help people to understand what should be the=
+=20
+> behavior, and refering to the python code to understand the conversion.
+
+Help, sure. Be the *only* documentation, absolutely not.
+
+Let's turn this around. You run kunit, one of these tests fail:
+
+ - It adds cognitive load to try to identify and make sense of an
+   unknown lib.
+
+ - How can we check that the arguments you provided there are the one
+   you actually wanted to provide, and you didn't make a typo?
+
+> I can add something like this before each tests to clarify the tested=20
+> case:
+>=20
+> 	Test cases for conversion between YUV BT601 limited range and=20
+> 	RGB using the ITU-R BT.601 weights.
+>=20
+> Or maybe just documenting the structure yuv_u8_to_argb_u16_case:
+>=20
+> 	@encoding: Encoding used to convert RGB to YUV
+> 	@range: Range used to convert RGB to YUV
+> 	@n_colors: Count of test colors in this case
+> 	@format_pair.name: Name used for this color conversion, used to=20
+> 			   clarify the test results
+> 	@format_pair.rgb: RGB color tested
+> 	@format_pair.yuv: Same color as @format_pair.rgb, but converted to=20
+> 			  YUV using @encoding and @range.
+>=20
+> What do you think?
+
+That it's welcome, but it still doesn't allow to figure out what your
+intent was with this test 2 years from now.
+
+Maxime
+
+--ft4zr7lbcug3nly4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcI+2gACgkQJNaLcl1U
-h9D6tQf8Cbjh+ZCxTHzNMvyIkuab9pqHuHnVUB/sDN7eeBJp3Yem3v9BmF2lUAdA
-E2WU54VgKuAaJJ+3nvouHfzMeZ9bT+OaDgwDVtgDkF8agaj9mRM2tKmsMWpAb4aF
-eORi9++qQz7h7OvKTPSZCVB8o6jVRhOFEFcyv/gXXg5WvNb8UIf0cPkwhS8hh61e
-GIAT7UE2o+e0/BzYHIAVrMB8F8YHSkEYi/fAFy4rcIHrru8aL3dATtRMKpxGDX20
-VlJ9IYA/nNuODeLJSt10auIsA2z3GF73b4fWqhQ7h0/ga7SACr050BxNq3SBkfJ2
-NaDmcT4DAf+mI549FZMM61qSvllFEg==
-=La7c
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZwkCvwAKCRAnX84Zoj2+
+dndpAX9qewITSorE5xkloVDv05qqXxzUgriyCrfDgT92WWF0hboSYYYb3XiAXcXI
+5WNcUckBgOfu6zX8wo6A2M1haWgW+g/S8IMW8CI6gtjxVhPXutoD1iSMyEo74eXA
+ARSWWO4+Vg==
+=91dx
 -----END PGP SIGNATURE-----
 
---PJjNqwWWqyWbjeHL--
+--ft4zr7lbcug3nly4--
