@@ -1,61 +1,61 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D4671D0B8C
-	for <linux-doc@vger.kernel.org>; Fri, 11 Oct 2024 18:54:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706FD1D14E7
+	for <linux-doc@vger.kernel.org>; Fri, 11 Oct 2024 18:54:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728672895; cv=none; b=Qw7Dz1MdhfRDKTqgqmOYMTrwkB+db3hbzB6NJEK1txNXZJy0dDZd4boYTQI574uyBJcqLWdHQJhTsL/yB7yZmdLq5QM/Nz+l61WM+oumGR66C2xGBdePF8pgYG9A2cXiSw8rEelDYvqmuoqrM4MR5c6THT52IQEZskHjJi4hzCM=
+	t=1728672899; cv=none; b=uOjIerprYIt1Dmy5CJMTZ+yqbsaKysn7Y/soR0V2thiP/CWIpAnLA5vJPFgliPCcAD6Hdylm6gPuT1oUq2zIpZFfB9JhUJF14DJqDxzulh5qp4sQoV2oMFfx9xbwdSFkvtl5LIT8fwY25F1Rqk/lE/hLTUvcg5RHPuyL1nkyuRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728672895; c=relaxed/simple;
-	bh=ldj2GPboWWV6klKA5zzXhrbBgDv7yjuDukUxSR5XLac=;
+	s=arc-20240116; t=1728672899; c=relaxed/simple;
+	bh=rCoqdQ9B7Hn8xdsgALiUMx6hOr/x0MpVdqxz3Ze2hQA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ft1iiK7hW2dDuZbLL3nFiKzEmQIqDDsKPiZeSwW+cPtcLa6/KF2yl4De7eJqy8bQ+M6EFEk0BpTXZboNthbLSuu3AssKz7UAeSX59TjZ731o6J7765+yfMW9q4598NoO3fNADUZOpHLl+KqBD0GqrGfOxLDUG9koqd5tSRf5+/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=M2VzqzTd; arc=none smtp.client-ip=209.85.208.169
+	 In-Reply-To:To:Cc; b=TB7B9qptFMMvQjuSX5pNflk9ETBXYxIHO5z+xy0eJAhwzIg8dWCGI5L1Rjhbdekt4xOTTlss7nhnPzP6Q/Gbcj2GuGBpFjL7/kmiX+IFfj3Vpw7a0OZ3JeXQYxuDy7MSM9I01hcN0VyAk0xr+BV5ULQ03Qc5GR4ucY4usowgqHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=nRkMEkO3; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="M2VzqzTd"
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2fabfc06de3so26044951fa.1
-        for <linux-doc@vger.kernel.org>; Fri, 11 Oct 2024 11:54:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="nRkMEkO3"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43111cff9d3so17482735e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 11 Oct 2024 11:54:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1728672886; x=1729277686; darn=vger.kernel.org;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1728672888; x=1729277688; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=IQv7sxIwl848pSZRL5IFcSxv5uf9mZ9Yp6m9/sxxkj0=;
-        b=M2VzqzTdsdVMo1arefVpg9IgUvodk6S7hvolPuXVQXZ61deDZOO8KGhVph2A6PNqrU
-         WAkYvqWoM0fV1cHHZ4EMnsXheDXjFDFg0d14NMO6MnYjX+Xx2WthV+GxVoABvKbkoaaj
-         RAdc080tr7TFMKQCdZJ8ht8RpMQAtNJwney+TTflBu+Y5RInyW7JWncpVf9nt+3vNDqT
-         N22HtoQyVUbD3YxJj/B729fWBI6jx6v0l2s2WeXm3cPGwoy5m5/nTg1HtyWH0h5+tWuf
-         XCO1/KBHiT1EUqsLOhOMmUmSew9Yng2YVXgFDnResl1VLwdLgkaSSinRfXuqI7fjKlPf
-         a+Dw==
+        bh=bhatKWKJuxfltx1oNZ6oUaNqgboH9F2TpuTRwRw3JfI=;
+        b=nRkMEkO3WAn4V05TmXnB8gjaBNhfQPZIJTzt6Q9SV7V9A9wJG9louYgBc2SltMkUap
+         vbrFbizKTeMn3tVVPXoR+aXaDEK4mvx/79VTmud68FnTyjKPbeSP3kv3SmN+Ldy+pciT
+         d1Gm4NGWZYTacVA7upmqdi+8j0jpmjLYW8am9eglDhMVjp4nMhw4oECCp0broom8aUkQ
+         pdFkw6jEl68o696hM9TqwtVbQsu0UCms/Jy06Y6Yg4ceN1uTW8c62GxgWklzNckDVQMN
+         nMENVlUK7ev0l7OQRcROTSK5WFio43Fn9Nac2ZFE0I4kIpReIOqaBBeUzFPIFg31eotx
+         TnJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728672886; x=1729277686;
+        d=1e100.net; s=20230601; t=1728672888; x=1729277688;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IQv7sxIwl848pSZRL5IFcSxv5uf9mZ9Yp6m9/sxxkj0=;
-        b=YkbOQ3y5lITQ52tDeUbcKznH9dMGQJ1zW0mPJITImOSVp6gML1sf84ivebOALlwQIY
-         oFpYp0DJw1oG896+mqzJUmjOPgmUFnaswCGVQj5eq8ngE/Vpyqhxb7woj9E+QJ4cTGMb
-         GKPinEH23hQPzV7sZfqEUh3VRI22m64aS/+9OethGQvvpyFnOlxpPn5TuQxMMRW2j3Ly
-         UNFuxrDm7Zh4w1EX9FWNJI/b+AB4He6s3rHZEYiAVXxULIpwSiDHZ2ZnhbR+VOI/n23g
-         lADpjzauqw6xeazBzOfspjFgqM8AA/+tGTRUfH2yDDhpMeBH6AhjFVtU37O3QsPHbvwe
-         RADg==
-X-Forwarded-Encrypted: i=1; AJvYcCV7zGj51HQ4Y2JRutpHDL2B2ohvGQeot9QSf0//4inX6cHEfL2wBEcp2kEjMsNmwPvq/djZ8jR2bmI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPFCBpaUwArQMDfGbrf8UH8qmsFN9m9ul+mEcBDwaLY65ZI6E7
-	q0hlem5kyWIRu9uCEFDxn3/+94ufskU3h1BoNq1uyeTa6m/I5sqwPWkQUzndiZg=
-X-Google-Smtp-Source: AGHT+IFcy03ZRQPqSeC9cuSBxo4PkWZJsOoMLCkEkzXlqxzk+nbj3iXHAOOO2iMhPWzZrAvTqRNEkQ==
-X-Received: by 2002:a2e:5152:0:b0:2fb:3475:42e2 with SMTP id 38308e7fff4ca-2fb347543e3mr16437861fa.24.1728672885435;
-        Fri, 11 Oct 2024 11:54:45 -0700 (PDT)
+        bh=bhatKWKJuxfltx1oNZ6oUaNqgboH9F2TpuTRwRw3JfI=;
+        b=w8UWgJGU05xxsvi2Xadd3kcZ+mOhNR+hqYEKt+H6Z2c6+TOskbxIHAwDKarbChwITx
+         q8DF4VzLcPGsI6HVNRDLBm8OoEoBFfU2ODkDUCwq55nCY3i5zhjUh+eyiKEEMhEf4FF/
+         LolPUWIfTzdWydn8zFuwOS4ra1gYuQGZvfXdTbK7uMGiIOTFk+JBy6Gq1vVLTse5wHpp
+         djOX8b3Cbl4t2AqWh5qC2VfMAG7VGlE7xPMIve7pkPmZCDm6y+IMdT2kRrW89lZLOKp+
+         +PbPfZeH1o2oN6parBBimgmC9z2W3/gjQ1rhH7Mq19+u/IU+556J4gDJIDI2ZSY+PCsz
+         HIXA==
+X-Forwarded-Encrypted: i=1; AJvYcCUPOjrAYTJ7Q4xHZOe8LcuKN3e6n0ynI5mPP+qYno34sFU8EtfbEvPvtqbh76jj1E2WAdYDSnlIBX8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YworkU85n+TAWvthePcfG3ppCD6Gsg34WMEeQ9Y6JTI0FZ07E20
+	lQzn8ZXC2IwHVQycU9Cqca6rkTktx3oqfN/WZg1pD7L0iBDDDHziMOVcDAGlfZ0=
+X-Google-Smtp-Source: AGHT+IGmsTYdyN8AnM0SFDW0KnEWUsE2KWdNV7xLu0WWRUc2MVy9WTK7gb9S/nVCr2balMC3xW7jWQ==
+X-Received: by 2002:a05:600c:1e03:b0:42f:520b:1591 with SMTP id 5b1f17b1804b1-4311df474abmr30031205e9.24.1728672888171;
+        Fri, 11 Oct 2024 11:54:48 -0700 (PDT)
 Received: from [127.0.1.1] ([2a01:cb1d:dc:7e00:68b8:bef:b7eb:538f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b79fe7csm4559161f8f.70.2024.10.11.11.54.44
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b79fe7csm4559161f8f.70.2024.10.11.11.54.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Oct 2024 11:54:45 -0700 (PDT)
+        Fri, 11 Oct 2024 11:54:47 -0700 (PDT)
 From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Fri, 11 Oct 2024 20:54:11 +0200
-Subject: [PATCH v7 12/17] ufs: core: add support for wrapped keys to UFS
- core
+Date: Fri, 11 Oct 2024 20:54:13 +0200
+Subject: [PATCH v7 14/17] ufs: core: add support for generating, importing
+ and preparing keys
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241011-wrapped-keys-v7-12-e3f7a752059b@linaro.org>
+Message-Id: <20241011-wrapped-keys-v7-14-e3f7a752059b@linaro.org>
 References: <20241011-wrapped-keys-v7-0-e3f7a752059b@linaro.org>
 In-Reply-To: <20241011-wrapped-keys-v7-0-e3f7a752059b@linaro.org>
 To: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, 
@@ -91,97 +91,98 @@ Cc: linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-mmc@vger.kernel.org, linux-scsi@vger.kernel.org, 
  linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  linux-arm-msm@vger.kernel.org, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+ Om Prakash Singh <quic_omprsing@quicinc.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2829;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2542;
  i=bartosz.golaszewski@linaro.org; h=from:subject:message-id;
- bh=kSNAg4Cg7lt9kA8Y9QFGrqnE75GttRm2ZeCOs5zZLVY=;
- b=owEBbQKS/ZANAwAKARGnLqAUcddyAcsmYgBnCXRgz3wpu0+BmPDjfUCGlQZykfD0g8J2gBSHw
- e4ovQlJ612JAjMEAAEKAB0WIQQWnetsC8PEYBPSx58Rpy6gFHHXcgUCZwl0YAAKCRARpy6gFHHX
- chbaEADYsgCUHfhaeIXNmnetIBjLR65WJIKNlWjqtGy1b23P35IBpeYFt5NbCJUqQwn8mvEuenD
- yFDO2Ihso7iqDPh9LwXeBj/tShzSpZYi5IZOo33vKuLiYflO3gdutzjawn7QjzTQuPQYeHlODzJ
- H5ejRZCjuzJsmLfDuPl2eldtgzORJe9ppVqw2gkqP5XApQxnWzFsNBVg67wg7L2fiuxBDlt/2OJ
- EZvsA9DGxgfKQ+Xhatcpfy3pZM0hUBXv7KIMcdC1SBjqC9T4cW8sou5ZYBEb+BJJxyUvpCwhttr
- DHD+T4sPMbqUHG9cEexHSm1VmpojWGFVouvfMlrmlgj5OdFYQEU+k/d2S+wYfgwQrsM9uRGx12n
- sG3IsyJpgSFNcConqxl/sb8WfPM6KJ/MfUxz+nn+mFxQrzN3m2yoxHjmkrtgSFlSNAJsciiIB19
- 1/X6yevLw6GW+6nkyUQmqgkEDFuTPQdDdHbJc4l0HvYR81ABEzS6ynmzikb/O8DqwdfrFO1hrO/
- jLvTYI+DiaPqlswdRt3+GzO6cDw+NQjY+0nfUkJ4NQLaltWoQepSDL1xbeYzuAS6/9Pok1/mHsQ
- zH10aVHSDaxTwYoYint8S3Lv501kGiuEiKZPDoqPEoAg6KsPLH+dG7CCAurIhpf9AbkN4cA4k/7
- pRutaMpiIigVkyA==
+ bh=+ALSGPhqSpFCx8VMqBEOHa6jvoZdtMRVH6U+tA0zR4E=;
+ b=owEBbQKS/ZANAwAKARGnLqAUcddyAcsmYgBnCXRgIa9JxS13dmB3BNLm5fvTras3dIpSag6X7
+ iOgkq4b7OWJAjMEAAEKAB0WIQQWnetsC8PEYBPSx58Rpy6gFHHXcgUCZwl0YAAKCRARpy6gFHHX
+ cv+EEADf3pf7OpbgUzzA0lbKqWbwldOeq01TQaRjRNSnIIGR9Pir/kkxjWn0wIojkhZLtqaRXdZ
+ i6cbuaIfFzAbqGeGUNmocV4ivByw808djzRGDXZj5C/l9O0Ztf7Oulz+QvskdWsEmmLhgffrwNt
+ MP/Z47wGvTnVQVsXGbIEyPZSX82eglF9A2u71/d0+Ozb2OjKpwMxAj0UEasybrj7K4+i9MGVTa2
+ 6JlU2kEB/3H1vhhysqZK5T78mKy2Prl97HwuTUgqm+yQ6QLeyyjKXbwWIWe/tG/ZJYUuhnf+cfR
+ E7pphMtjVKPduJeEvBJU3ocdLgtCsiLBxS53CktanacXKOWGWDCkVVn2M2dK2nY6l3YKh7KnQHM
+ VJxRQoQffBcRXUNbhgfUtiaF1Hq3ZE6OVtGBmFUH/1OlE10cn2eEeWmhJ/rS5oBkcajHBvHCwAG
+ 2e1hR41YzEjaKMs1GXbm3nJTI5ogUwQ9gAtur2KYXkd6NSOVy0VeZKfk6mG2/ZzFz9zP7g2EZce
+ lpaXSpe24sTH4DE8/e0OXNRxb/LM0B3U6Klpsf2zUKXvfc1tUo7SXpVKPuGAxs8fjXDxBm6ezhH
+ ab1ZdLu+2XbyoeTs8wAf4xThVS+VVcFDIwYRCMOiG8FEOiBFAn1Rn8/S/tA/XcvAwQirGxP58ML
+ bS1eVfDWvezVEww==
 X-Developer-Key: i=bartosz.golaszewski@linaro.org; a=openpgp;
  fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
 
 From: Gaurav Kashyap <quic_gaurkash@quicinc.com>
 
-Add a new UFS capability flag indicating that the controller supports HW
-wrapped keys and use it to determine which mechanism to use in UFS core.
+The block layer now allows storage controllers to implement the
+operations for handling wrapped keys. We can now extend the UFS core to
+also support them by reaching into the block layer. Add hooks
+corresponding with the existing crypto operations lower on the stack.
 
 Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
+Reviewed-by: Om Prakash Singh <quic_omprsing@quicinc.com>
 Signed-off-by: Gaurav Kashyap <quic_gaurkash@quicinc.com>
 Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 ---
- drivers/ufs/core/ufshcd-crypto.c | 24 ++++++++++++++++--------
- include/ufs/ufshcd.h             |  5 +++++
- 2 files changed, 21 insertions(+), 8 deletions(-)
+ drivers/ufs/core/ufshcd-crypto.c | 41 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
 diff --git a/drivers/ufs/core/ufshcd-crypto.c b/drivers/ufs/core/ufshcd-crypto.c
-index 33083e0cad6e..64389e876910 100644
+index 2530239d42af..49c0784f2432 100644
 --- a/drivers/ufs/core/ufshcd-crypto.c
 +++ b/drivers/ufs/core/ufshcd-crypto.c
-@@ -81,13 +81,15 @@ static int ufshcd_crypto_keyslot_program(struct blk_crypto_profile *profile,
- 	cfg.crypto_cap_idx = cap_idx;
- 	cfg.config_enable = UFS_CRYPTO_CONFIGURATION_ENABLE;
+@@ -145,10 +145,51 @@ bool ufshcd_crypto_enable(struct ufs_hba *hba)
+ 	return true;
+ }
  
--	if (ccap_array[cap_idx].algorithm_id == UFS_CRYPTO_ALG_AES_XTS) {
--		/* In XTS mode, the blk_crypto_key's size is already doubled */
--		memcpy(cfg.crypto_key, key->raw, key->size/2);
--		memcpy(cfg.crypto_key + UFS_CRYPTO_KEY_MAX_SIZE/2,
--		       key->raw + key->size/2, key->size/2);
--	} else {
--		memcpy(cfg.crypto_key, key->raw, key->size);
-+	if (key->crypto_cfg.key_type != BLK_CRYPTO_KEY_TYPE_HW_WRAPPED) {
-+		if (ccap_array[cap_idx].algorithm_id == UFS_CRYPTO_ALG_AES_XTS) {
-+			/* In XTS mode, the blk_crypto_key's size is already doubled */
-+			memcpy(cfg.crypto_key, key->raw, key->size / 2);
-+			memcpy(cfg.crypto_key + UFS_CRYPTO_KEY_MAX_SIZE / 2,
-+			       key->raw + key->size / 2, key->size / 2);
-+		} else {
-+			memcpy(cfg.crypto_key, key->raw, key->size);
-+		}
- 	}
- 
- 	err = ufshcd_program_key(hba, key, &cfg, slot);
-@@ -196,7 +198,13 @@ int ufshcd_hba_init_crypto_capabilities(struct ufs_hba *hba)
- 	hba->crypto_profile.ll_ops = ufshcd_crypto_ops;
- 	/* UFS only supports 8 bytes for any DUN */
- 	hba->crypto_profile.max_dun_bytes_supported = 8;
--	hba->crypto_profile.key_types_supported = BLK_CRYPTO_KEY_TYPE_STANDARD;
-+	if (hba->caps & UFSHCD_CAP_WRAPPED_CRYPTO_KEYS)
-+		hba->crypto_profile.key_types_supported =
-+				BLK_CRYPTO_KEY_TYPE_HW_WRAPPED;
-+	else
-+		hba->crypto_profile.key_types_supported =
-+				BLK_CRYPTO_KEY_TYPE_STANDARD;
++static int ufshcd_crypto_generate_key(struct blk_crypto_profile *profile,
++				      u8 lt_key[BLK_CRYPTO_MAX_HW_WRAPPED_KEY_SIZE])
++{
++	struct ufs_hba *hba =
++		container_of(profile, struct ufs_hba, crypto_profile);
 +
- 	hba->crypto_profile.dev = hba->dev;
- 
- 	/*
-diff --git a/include/ufs/ufshcd.h b/include/ufs/ufshcd.h
-index 331b1ed171da..19c36f4ca381 100644
---- a/include/ufs/ufshcd.h
-+++ b/include/ufs/ufshcd.h
-@@ -763,6 +763,11 @@ enum ufshcd_caps {
- 	 * WriteBooster when scaling the clock down.
- 	 */
- 	UFSHCD_CAP_WB_WITH_CLK_SCALING			= 1 << 12,
++	if (hba->vops && hba->vops->generate_key)
++		return hba->vops->generate_key(hba, lt_key);
 +
-+	/*
-+	 * UFS controller supports HW wrapped keys when using inline encryption.
-+	 */
-+	UFSHCD_CAP_WRAPPED_CRYPTO_KEYS			= 1 << 13,
++	return -EOPNOTSUPP;
++}
++
++static int ufshcd_crypto_prepare_key(struct blk_crypto_profile *profile,
++				     const u8 *lt_key, size_t lt_key_size,
++				     u8 eph_key[BLK_CRYPTO_MAX_HW_WRAPPED_KEY_SIZE])
++{
++	struct ufs_hba *hba =
++		container_of(profile, struct ufs_hba, crypto_profile);
++
++	if (hba->vops && hba->vops->prepare_key)
++		return hba->vops->prepare_key(hba, lt_key, lt_key_size, eph_key);
++
++	return -EOPNOTSUPP;
++}
++
++static int ufshcd_crypto_import_key(struct blk_crypto_profile *profile,
++				    const u8 *imp_key, size_t imp_key_size,
++				    u8 lt_key[BLK_CRYPTO_MAX_HW_WRAPPED_KEY_SIZE])
++{
++	struct ufs_hba *hba =
++		container_of(profile, struct ufs_hba, crypto_profile);
++
++	if (hba->vops && hba->vops->import_key)
++		return hba->vops->import_key(hba, imp_key, imp_key_size, lt_key);
++
++	return -EOPNOTSUPP;
++}
++
+ static const struct blk_crypto_ll_ops ufshcd_crypto_ops = {
+ 	.keyslot_program	= ufshcd_crypto_keyslot_program,
+ 	.keyslot_evict		= ufshcd_crypto_keyslot_evict,
+ 	.derive_sw_secret	= ufshcd_crypto_derive_sw_secret,
++	.generate_key		= ufshcd_crypto_generate_key,
++	.prepare_key		= ufshcd_crypto_prepare_key,
++	.import_key		= ufshcd_crypto_import_key,
  };
  
- struct ufs_hba_variant_params {
+ static enum blk_crypto_mode_num
 
 -- 
 2.43.0
