@@ -1,89 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2521A08BC;
-	Fri, 11 Oct 2024 17:23:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABBD51C2DC8
+	for <linux-doc@vger.kernel.org>; Fri, 11 Oct 2024 17:33:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728667413; cv=none; b=q7aKYl/HAr66dLWiIKBc0Vk4epzojpJOOqGWhlpx8MowWvR6V/glgcW0j2nfRZwytZhzw1VacmK6VF7SqEZaipSTXcGfJknWkrty4RUs4Idgp3GANAAiAB4sinOfDobICz5cyiDtHK5aXGuy3u3IN9KQd2Qb2zITldQgLFENDIE=
+	t=1728668040; cv=none; b=dtlHKA0xiAx9/EIrmu9BzPuTlbVu40foir+ko3Y1tiRCmiT6F9kibr/171sEjJKlRWfdjGc8JvTAzFC48KqRNPqHZGcBBvp1ro1Kho9tNoJmX+prwmOHEfByeBAt8+3uOv8mi8bkhKzISVPXeHy6gbLLZVxGf4CCxm91x5Tcg0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728667413; c=relaxed/simple;
-	bh=eRAi8rQkJunGrDG6t0kcJRTBv9Jq5mSsb16dF6jAqSg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nM8bC21Y+rIC6KzmXzm/oOVlPI/Dj4igMbIvJZNLb5jBJl2AW3GhQ4aUQ63yERgKwncupJGiB8P52pQV2LnvNkifUkN6qn2VcCu/IIV4//v9bLomr+DIWu90jllaDLitbPeZoCHtl1zS0oPAD2y/JJ9xqWaC6AVFu4YZQif0cc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UbnZXLjh; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728668040; c=relaxed/simple;
+	bh=VRrf8ntlcACFdviPg6gJE38L8OLS0KaeN7NIdzpw4Lw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OJeO7vClGCcRyQDznjlaeu8f0j4+6Og0vh0l47miXKaOAfiKo1na37D01fZY8ihzRymcTTllpuAmlypRAo+Bihs8dJ9Ibd6kLzVuOw2UNoSs4qwFpayx2VVJ9FXhgHOrFtoFayFPGjY58pX1ftkvBv76LyL/E/LS+qFCvGgy4DM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0QcrklZ8; arc=none smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UbnZXLjh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728667413; x=1760203413;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eRAi8rQkJunGrDG6t0kcJRTBv9Jq5mSsb16dF6jAqSg=;
-  b=UbnZXLjhzMmiXbAKVYHVkc2QwTmJemU75piqidvcVyfEHHRQaiKSJzu6
-   x1DD7PWbKhvBAhfkeF3tA3lJqnkLrHB7Tmnns4gH1Y4S0i7O+nhPXFKe+
-   xhlFRXm68KzLeDEr0ikUvvh/YUXPkVHntbJbIO5TVCQ5HPt5IvpZ4Wi6h
-   XvhZaHuqui9arXVjUv9VrBarkuiUlbz/Sno6lHFfly5/2Sk9ZVGAfG4WG
-   +6JQCcmI8Tf/gXcDxLyJtdOFSk/O0djX3x8kLSZlKXohYG09Ezjo2Xt3M
-   /dNNCExgrZK9q8HhRFlpXCTgww/5uWotcLQQxeDncz7ddbpR8kA0NjIzI
-   Q==;
-X-CSE-ConnectionGUID: 2kUFze8ITqSAUNwfrYfd6Q==
-X-CSE-MsgGUID: moGGYOQGS7G0p2qIGp9gOA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="38641065"
-X-IronPort-AV: E=Sophos;i="6.11,196,1725346800"; 
-   d="scan'208";a="38641065"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 10:23:31 -0700
-X-CSE-ConnectionGUID: BKd99AjLSMa8g0Jnq0rqtg==
-X-CSE-MsgGUID: oNhlxIWGRAiYJNAKpV3S7g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,196,1725346800"; 
-   d="scan'208";a="76979895"
-Received: from agluck-desk3.sc.intel.com ([172.25.222.70])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 10:23:29 -0700
-Date: Fri, 11 Oct 2024 10:23:28 -0700
-From: Tony Luck <tony.luck@intel.com>
-To: Babu Moger <babu.moger@amd.com>
-Cc: corbet@lwn.net, fenghua.yu@intel.com, reinette.chatre@intel.com,
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-	paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org,
-	peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com,
-	lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com,
-	leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com,
-	kirill.shutemov@linux.intel.com, jithu.joseph@intel.com,
-	kai.huang@intel.com, kan.liang@linux.intel.com,
-	daniel.sneddon@linux.intel.com, pbonzini@redhat.com,
-	sandipan.das@amd.com, ilpo.jarvinen@linux.intel.com,
-	peternewman@google.com, maciej.wieczor-retman@intel.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	eranian@google.com, james.morse@arm.com
-Subject: Re: [PATCH v8 20/25] x86/resctrl: Report "Unassigned" for MBM events
- in mbm_cntr_assign mode
-Message-ID: <ZwlfENV_ijDKjUqW@agluck-desk3.sc.intel.com>
-References: <cover.1728495588.git.babu.moger@amd.com>
- <50a4e993098422eece96d08edc337856a52cadd1.1728495588.git.babu.moger@amd.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0QcrklZ8"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4601a471aecso3281cf.1
+        for <linux-doc@vger.kernel.org>; Fri, 11 Oct 2024 10:33:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1728668037; x=1729272837; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KmnghbBZ3GwSfb268fMdvHk82X10qhUobyckvFj2KWQ=;
+        b=0QcrklZ8wXoEmcO/JXs3Eqc0BMbHGTDaH63XfoX2H2f1l3+VMBpXJ0IT2P5EWh7lE5
+         cF9uuskr1DAbyTBdQJ/rQCIAX3ecbmJPrBT4DDgc6N9AHGeS6cQtvJzSq3vNcfK4tjGB
+         KnsR3lYnIIXdiKoBKynw4u8SmyABEH/yLvMLrFAh5Fpmmz5ajJ6aWcri+TGrPoe+5REQ
+         GJr+Vq739eiiGR50xxEXL7RLHBbeOJZ4HV0/kylI9V47+GtoWLLE/J4FV0QaUWCubh3X
+         ZJSNEtZ5YNiMqscowmsHbI3avTraL6fY0eDnX/nrtGduh+yXcUvrvXbXKRdxkEIIHDMZ
+         aqWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728668037; x=1729272837;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KmnghbBZ3GwSfb268fMdvHk82X10qhUobyckvFj2KWQ=;
+        b=WpvxHBTzRnG2uwnTk2Z5zKsP9X2W91OQzFhqvb14axJ8W3fBHACgk1IqXVcZ6uarUk
+         7AYZyJpfBDjWK43YhuNpCoEL9fhlzLU2yE8T/GLt+9hfsC4WL2mQE+IEjOGPu+epIpeN
+         7pLazth9JfJIGhJ6VJXOhNwef+Bw64uwjAG/i9KNFLM2E2KgXJjqOgRFeTSS2fyqPDUI
+         vKM4A7tB4esZ/mc1FnsAHMMOmW2uIMoFnkZIFwtzG5y2TR/GBv1f2XcxZj+qNbm+a3tq
+         3s0JPHEMaDbYgQz90WOiEpqkVag18kfeJpyQjNlB9saZfeehRP0xgZWPLYCkQa9emvxm
+         qEWg==
+X-Forwarded-Encrypted: i=1; AJvYcCWg0Y2xq1/P3VMrxJeMHfETBdOeLUWoA8xjIf3x0u1YOl6UvLV/BDInNVKyYyb9PwiyW2s7cPT5RLE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/1551gvZW3qNRChxBZ2mUeWRSi56ZVRQHR9z3NmNValpWJTzh
+	6GSFYKYa0w5vlitKumLYfUQ8JLWVYoxbshf0QMasx+iUs1sydFStbRG9WUHtsXFTyFxnEysGvRp
+	qtDin9tYqchQGR8Bls7ji9JQBZtv7WkE4gKLd
+X-Google-Smtp-Source: AGHT+IFz4SsvmOVlN9wmuI0OD+n+Y3BKo/jR94QdcFEtQIr/0/iWWqkX2UXzu02XCIryglx7gU3frkwmZlQJh7tb8Tk=
+X-Received: by 2002:a05:622a:820c:b0:45c:9eab:cce0 with SMTP id
+ d75a77b69052e-4604c16ba51mr3184741cf.15.1728668037354; Fri, 11 Oct 2024
+ 10:33:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <50a4e993098422eece96d08edc337856a52cadd1.1728495588.git.babu.moger@amd.com>
+References: <20241003160620.1521626-1-ap420073@gmail.com> <20241003160620.1521626-8-ap420073@gmail.com>
+ <CAHS8izO-7pPk7xyY4JdyaY4hZpd7zerbjhGanRvaTk+OOsvY0A@mail.gmail.com>
+ <CAMArcTU61G=fexf-RJDSW_sGp9dZCkJsJKC=yjg79RS9Ugjuxw@mail.gmail.com>
+ <20241008125023.7fbc1f64@kernel.org> <CAMArcTWVrQ7KWPt+c0u7X=jvBd2VZGVLwjWYCjMYhWZTymMRTg@mail.gmail.com>
+ <20241009170102.1980ed1d@kernel.org> <CAHS8izMwd__+RkW-Nj3r3uG4gmocJa6QEqeHChzNXux1cbSS=w@mail.gmail.com>
+ <20241010183440.29751370@kernel.org>
+In-Reply-To: <20241010183440.29751370@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Fri, 11 Oct 2024 10:33:43 -0700
+Message-ID: <CAHS8izPuWkSmp4VCTYm93JB9fEJyUTztcT5u3UMX4b8ADWZGrA@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 7/7] bnxt_en: add support for device memory tcp
+To: Jakub Kicinski <kuba@kernel.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Samiullah Khawaja <skhawaja@google.com>
+Cc: Taehee Yoo <ap420073@gmail.com>, davem@davemloft.net, pabeni@redhat.com, 
+	edumazet@google.com, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	donald.hunter@gmail.com, corbet@lwn.net, michael.chan@broadcom.com, 
+	kory.maincent@bootlin.com, andrew@lunn.ch, maxime.chevallier@bootlin.com, 
+	danieller@nvidia.com, hengqi@linux.alibaba.com, ecree.xilinx@gmail.com, 
+	przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, ahmed.zaki@intel.com, 
+	paul.greenwalt@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
+	asml.silence@gmail.com, kaiyuanz@google.com, willemb@google.com, 
+	aleksander.lobakin@intel.com, dw@davidwei.uk, sridhar.samudrala@intel.com, 
+	bcreeley@amd.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 09, 2024 at 12:39:45PM -0500, Babu Moger wrote:
-> @@ -576,6 +576,15 @@ int rdtgroup_mondata_show(struct seq_file *m, void *arg)
->  	evtid = md.u.evtid;
->  	r = &rdt_resources_all[resid].r_resctrl;
->  
-> +	if (resctrl_arch_mbm_cntr_assign_enabled(r) && evtid != QOS_L3_OCCUP_EVENT_ID) {
+On Thu, Oct 10, 2024 at 6:34=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
+ote:
+>
+> On Thu, 10 Oct 2024 10:44:38 -0700 Mina Almasry wrote:
+> > > > I haven't thought the failure of PP_FLAG_DMA_SYNC_DEV
+> > > > for dmabuf may be wrong.
+> > > > I think device memory TCP is not related to this flag.
+> > > > So device memory TCP core API should not return failure when
+> > > > PP_FLAG_DMA_SYNC_DEV flag is set.
+> > > > How about removing this condition check code in device memory TCP c=
+ore?
+> > >
+> > > I think we need to invert the check..
+> > > Mina, WDYT?
+> >
+> > On a closer look, my feeling is similar to Taehee,
+> > PP_FLAG_DMA_SYNC_DEV should be orthogonal to memory providers. The
+> > memory providers allocate the memory and provide the dma-addr, but
+> > need not dma-sync the dma-addr, right? The driver can sync the
+> > dma-addr if it wants and the driver can delegate the syncing to the pp
+> > via PP_FLAG_DMA_SYNC_DEV if it wants. AFAICT I think the check should
+> > be removed, not inverted, but I could be missing something.
+>
+> I don't know much about dmabuf but it hinges on the question whether
+> doing DMA sync for device on a dmabuf address is :
+>  - a good thing
+>  - a noop
+>  - a bad thing
+>
+> If it's a good thing or a noop - agreed.
+>
+> Similar question for the sync for CPU.
+>
+> I agree that intuitively it should be all fine. But the fact that dmabuf
+> has a bespoke API for accessing the memory by the CPU makes me worried
+> that there may be assumptions about these addresses not getting
+> randomly fed into the normal DMA API..
 
-Better to write this as:
+Sorry I'm also a bit unsure what is the right thing to do here. The
+code that we've been running in GVE does a dma-sync for cpu
+unconditionally on RX for dma-buf and non-dmabuf dma-addrs and we
+haven't been seeing issues. It never does dma-sync for device.
 
-	if (resctrl_arch_mbm_cntr_assign_enabled(r) && is_mbm_event(evtid)) {
+My first question is why is dma-sync for device needed on RX path at
+all for some drivers in the first place? For incoming (non-dmabuf)
+data, the data is written by the device and read by the cpu, so sync
+for cpu is really what's needed. Is the sync for device for XDP? Or is
+it that buffers should be dma-syncd for device before they are
+re-posted to the NIC?
 
--Tony
+Christian/Jason, sorry quick question: are
+dma_sync_single_for_{device|cpu} needed or wanted when the dma-addrs
+come from a dma-buf? Or these dma-addrs to be treated like any other
+with the normal dma_sync_for_{device|cpu} rules?
+
+--
+Thanks,
+Mina
