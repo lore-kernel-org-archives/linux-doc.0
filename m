@@ -1,156 +1,169 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC1E41A704B
-	for <linux-doc@vger.kernel.org>; Thu, 10 Oct 2024 23:55:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85BBB2F22;
+	Fri, 11 Oct 2024 00:07:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728604508; cv=none; b=lHN1FScX+XPQ6wJWw0W1r5zISeCJ92giN4GLutDd6wZE463L3rf+E9ubHA8NZk7gEGkFjDJ2BXzEeIQZjKK6vPp7MAXxTtwOncO62pBv+LmMAsQP9DC0Qa+Eo6VvT+qhmo3S4VJXqZH/XodPbvJKY8llLmKBQFcTq3nhC/13t68=
+	t=1728605250; cv=none; b=pbJNoe0rnfOlqPlN0Clh0a4lwmOCGid64sWshu0bEtXEEXNPgyhFpEU8HTMxLZ1jD57J7zeHoOjAaVq2UJ7gg5CJGDg7lvHpQz9Bjv9h5jECp+j9wCikRHsCg6VhMl7eVITB1U6HYaLjRzn4dr7mQGHMAKhf5SZt8v8v5jU7J/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728604508; c=relaxed/simple;
-	bh=KHqXPixWG9aXv6WohiHYIwXMRo6WFOd5Wo6gjSfxyYk=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Y+oU+dwgZsWrWFGVCsD7p35DtJt3CRK8c5G1TO1/GvwuEKrsXcydFIZTJldDq+DJ+V4aX9SMQJHMC5R9Xp16W2nibbceyjuK9y6mcXoWgHCo6Ql1jDUICjTacwCE2jT10BS+1l77m5efJC1c2goJfn8Qk+jX+JHzBCjO04E4DB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=k5y2A0KT; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1728605250; c=relaxed/simple;
+	bh=VHY/IpxLsqrKso/ubGG8dZw0luXv4oOhTYzevc+M8OA=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=t1bGEUw1VgnO6zaQgJkJiT8moEsBSI6ZxYh0gB7WtBbm4ZzUxbT2Kc4138wXs60F04zQIchnaAiOowcxA8WM++/Eo5glOZ8lcXBlxCDcLtFuHgfr1Plidrf36VzTGARgIce0F73jRw3D1+5ZjhlQV64iJf/YS6dpvTsv/Q/C8Gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=XKcgUT/m; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="k5y2A0KT"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=snqs3EHvQQFe5TlwVU9Fqyfnun53AdSjkQFSmOW8rqg=; b=k5y2A0KTzzhh1N8FNtU6Rdqy7o
-	Zi5Aw1wAZJ+Dw8nItthR3rpyIm+YsPBYhuFaZfsancwNjOqDFLMybm7ClX1L5YMEc37/0pyu00uLa
-	Nr/d3Q+gZ2q9aeELopN6NbOgzpZZMNGJDqMaEJTUGAaokGoZfVzevvIHohmXXX4c1g9aoEVshRd1a
-	mKtRz4vbCwnMKXnkS78s+UKdb9/qxKoFN+fiq2nlmCG0C09JuFWjFMRCUsbVaRE5b/CEdhoUUr6cj
-	RqQ09iemAlqK0IB4hjEM++BfEzt3LF4trW75rxzE42i8o37ozPxXjNpZpi0MleQEfay+JwIcXV5X3
-	FY7x6UQA==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1sz2za-00000005k0I-2q5f;
-	Thu, 10 Oct 2024 23:54:51 +0000
-Message-ID: <5b16b00f-749c-431b-baeb-7accb76b492b@infradead.org>
-Date: Thu, 10 Oct 2024 16:54:46 -0700
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="XKcgUT/m"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49ACJVgv009176;
+	Fri, 11 Oct 2024 00:07:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	R1FqWp+DRKYOUqlQ4LUib0IV2t85IXqXgjKgvw2+jyA=; b=XKcgUT/mTiDm9Uo+
+	lqarZdWJ+wODMfFbQOlvDJvm9UJD/r8rOrZ0T88IIJ5L/FJPg7cU/TOjleeCb1/6
+	DU/xVNcbxeGF2nkk2BSBtQ77OSPLTAsHKiEhSa8ZENivmsTaPRZZ0+iN924eH83a
+	U9udxPVqRen5Hy7Tks/2fnr2ZIw2GOlFS4A6IB2ZBjVFxrPKMnBPRFXNFqgWqYkB
+	QxUqM9L8gBXYM6Jn/FoSHjnqFrlg0zkkjULh9qI2qIYGjyYggifF6HnYZkuJjJ60
+	dmDV/M7qN7LDYReM+ryt684iTUT/JlaDWRyQXvgcGtAoM0RAt7rCStKRFcss4pUm
+	RIejwQ==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 425tn150vq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 11 Oct 2024 00:07:04 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49B073Ni008711
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 11 Oct 2024 00:07:03 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Thu, 10 Oct 2024 17:07:02 -0700
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <tiwai@suse.com>, <krzk+dt@kernel.org>,
+        <pierre-louis.bossart@linux.intel.com>, <Thinh.Nguyen@synopsys.com>,
+        <bgoswami@quicinc.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        Mathias Nyman
+	<mathias.nyman@linux.intel.com>,
+        Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v28 01/33] xhci: support setting interrupt moderation IMOD for secondary interrupters
+Date: Thu, 10 Oct 2024 17:05:47 -0700
+Message-ID: <20241011000650.2585600-3-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241011000650.2585600-1-quic_wcheng@quicinc.com>
+References: <20241011000650.2585600-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [partial fix] Re: [PATCH] mm, slab: add kerneldocs for common
- SLAB_ flags
-From: Randy Dunlap <rdunlap@infradead.org>
-To: Jonathan Corbet <corbet@lwn.net>, Vlastimil Babka <vbabka@suse.cz>,
- David Rientjes <rientjes@google.com>, Christoph Lameter <cl@linux.com>,
- Horia Geanta <horia.geanta@freescale.com>
-Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org
-References: <20241009142936.56092-2-vbabka@suse.cz>
- <878quxe2kw.fsf@trenco.lwn.net>
- <f6fa720b-e8af-4afa-906f-29019aefe49a@suse.cz>
- <878quxb4rm.fsf@trenco.lwn.net>
- <8b0c1bb9-4a9a-4f8e-87df-275994df739d@infradead.org>
- <1406d498-84bf-49aa-9efd-6480ad618582@infradead.org>
- <46c52676-c402-4b39-b634-a401f7a7a571@infradead.org>
-Content-Language: en-US
-In-Reply-To: <46c52676-c402-4b39-b634-a401f7a7a571@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: oyjULX7Hu2DUsaZbS0se3bV4cSUUjBH9
+X-Proofpoint-GUID: oyjULX7Hu2DUsaZbS0se3bV4cSUUjBH9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
+ suspectscore=0 priorityscore=1501 mlxlogscore=721 impostorscore=0
+ spamscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015 malwarescore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410100159
 
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
 
+Allow creators of xHCI secondary interrupters to specify the interrupt
+moderation interval value in nanoseconds when creating the interrupter.
 
-On 10/10/24 4:43 PM, Randy Dunlap wrote:
-> 
-> 
-> On 10/9/24 10:06 PM, Randy Dunlap wrote:
->>
->>
->> On 10/9/24 3:02 PM, Randy Dunlap wrote:
->>>
->>>
->>> On 10/9/24 9:49 AM, Jonathan Corbet wrote:
->>>> Vlastimil Babka <vbabka@suse.cz> writes:
->>>>
->>>>> Thanks for the hints. I hope if we can agree that documenting the macros was
->>>>> intended to be supported, doesn't break the build (there are users already)
->>>>> and has only those minor rendering issues, it can be used?
->>>>
->>>> I'd totally forgotten that this was supposed to work.
->>>>
->>>> Yes it can be used... $WE just need to find a way to make it work
->>>> properly.
->>>
->>> The code probably isn't expecting a macro on the right side. I'll take a look,
->>> but no promises.
->>>
->> That would have been too simple.
->> I haven't found the problem yet. Ran out of time. Will continue on it tommorrow/Thursday.
-> 
-> The main problem is that output_function_rst() does not support object-like macros while
-> output_function_man() does.  There is still a bunch of sphinx_version handling that I know
-> nothing about, so the present output (after my trivial patch) leaves more to be done.
-> 
-> Well, the *main* problem is that the output is not consistent. Sometimes my tests don't fail
-> as they did at first.
-> 
-> 
-> This patch drops the trailing "()" for object-like macros in output_function_rst()
-> but there is still more to be done.
-> 
-> ---------------------
-> From: Randy Dunlap <rdunlap@infradead.org>
-> Subject: [PATCH] kernel-doc: allow object-like macros in ReST output
-> 
-> output_function_rst() does not handle object-like macros. It presents
-> a trailing "()" while output_function_man() handles these macros
-> correctly.
-> 
-> Fixes: cbb4d3e6510b ("scripts/kernel-doc: handle object-like macros")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Horia Geanta <horia.geanta@freescale.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Vlastimil Babka <vbabka@suse.cz>
-> ---
->  scripts/kernel-doc |    8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> --- linux-next-20241009.orig/scripts/kernel-doc
-> +++ linux-next-20241009/scripts/kernel-doc
-> @@ -822,10 +822,12 @@ sub output_function_rst(%) {
->      my $oldprefix = $lineprefix;
->  
->      my $signature = "";
-> +    my $noret = $signature eq "";
+If not sure what value to use then use the xhci driver default
+xhci->imod_interval
 
-^^^ That line is in the wrong location. Still working on it....
+Suggested-by: Wesley Cheng <quic_wcheng@quicinc.com>
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Link: https://lore.kernel.org/r/20240905143300.1959279-13-mathias.nyman@linux.intel.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/usb/host/xhci-mem.c | 8 +++++++-
+ drivers/usb/host/xhci.c     | 4 ++--
+ drivers/usb/host/xhci.h     | 5 ++++-
+ 3 files changed, 13 insertions(+), 4 deletions(-)
 
-> +
->      if ($args{'functiontype'} ne "") {
->          $signature = $args{'functiontype'} . " " . $args{'function'} . " (";
->      } else {
-> -        $signature = $args{'function'} . " (";
-> +        $signature = $args{'function'} . " ";
->      }
->  
->      my $count = 0;
-> @@ -844,7 +846,9 @@ sub output_function_rst(%) {
->          }
->      }
->  
-> -    $signature .= ")";
-> +    if (!$noret) {
-> +    	$signature .= ")";
-> +    }
->  
->      if ($sphinx_major < 3) {
->          if ($args{'typedef'}) {
-> 
-> 
-
--- 
-~Randy
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index 3100219d6496..a25576f27e66 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -2334,7 +2334,8 @@ xhci_add_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir,
+ }
+ 
+ struct xhci_interrupter *
+-xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs)
++xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
++				  u32 imod_interval)
+ {
+ 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+ 	struct xhci_interrupter *ir;
+@@ -2367,6 +2368,11 @@ xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs)
+ 		return NULL;
+ 	}
+ 
++	err = xhci_set_interrupter_moderation(ir, imod_interval);
++	if (err)
++		xhci_warn(xhci, "Failed to set interrupter %d moderation to %uns\n",
++			  i, imod_interval);
++
+ 	xhci_dbg(xhci, "Add secondary interrupter %d, max interrupters %d\n",
+ 		 i, xhci->max_interrupters);
+ 
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 37eb37b0affa..ed1bb7ed44b0 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -347,8 +347,8 @@ static int xhci_disable_interrupter(struct xhci_interrupter *ir)
+ }
+ 
+ /* interrupt moderation interval imod_interval in nanoseconds */
+-static int xhci_set_interrupter_moderation(struct xhci_interrupter *ir,
+-					   u32 imod_interval)
++int xhci_set_interrupter_moderation(struct xhci_interrupter *ir,
++				    u32 imod_interval)
+ {
+ 	u32 imod;
+ 
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 30415158ed3c..324644165d93 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1827,7 +1827,8 @@ struct xhci_container_ctx *xhci_alloc_container_ctx(struct xhci_hcd *xhci,
+ void xhci_free_container_ctx(struct xhci_hcd *xhci,
+ 		struct xhci_container_ctx *ctx);
+ struct xhci_interrupter *
+-xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs);
++xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
++				  u32 imod_interval);
+ void xhci_remove_secondary_interrupter(struct usb_hcd
+ 				       *hcd, struct xhci_interrupter *ir);
+ 
+@@ -1867,6 +1868,8 @@ int xhci_alloc_tt_info(struct xhci_hcd *xhci,
+ 		struct xhci_virt_device *virt_dev,
+ 		struct usb_device *hdev,
+ 		struct usb_tt *tt, gfp_t mem_flags);
++int xhci_set_interrupter_moderation(struct xhci_interrupter *ir,
++				    u32 imod_interval);
+ 
+ /* xHCI ring, segment, TRB, and TD functions */
+ dma_addr_t xhci_trb_virt_to_dma(struct xhci_segment *seg, union xhci_trb *trb);
