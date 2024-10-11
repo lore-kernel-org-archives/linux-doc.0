@@ -1,112 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B650119413B;
-	Fri, 11 Oct 2024 08:56:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BA02030A;
+	Fri, 11 Oct 2024 09:36:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728637016; cv=none; b=PWXwwuVveH9+r1LGgUT8Ru4oettGPZ2kZy9uMRrCqCOlUjMLd5XUcVXnzYPP/Di5urqCUL3IIoecOK7TB3IIYkax9nH9EzNKwpZFj8wqWykKkylJmCK+36pFdcnd88gmHjHv1sqIL7Phj+vlXocqcI0qyNA3t/eisLH6AoO2n/A=
+	t=1728639405; cv=none; b=RQEUCsec/Vl6frjdvYaEsI0JLe7yfpYkO/06SZ8z4nOq6ZqLfGqVCyfXSv0tHQ3MywUe3d68Kx6ZlIs0hPWZ3rhiz8OX49EdyU+CXWhv+nOUAQ0FKf7hIUS0Cc9LfbRN8lpkUSyyi58wbyuwFxr3sUTo9UIF0nOHOqZW2EGJudI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728637016; c=relaxed/simple;
-	bh=O8UMgy4NK3I9Ac3Z4UxYDyPfUUZlGgk3rritssUgmSE=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=tARUZFXjkRilAgHZolZI8wwyzUbDh0CI/KW8wpDk9KE24GW/KY6Jv8mHIiUtXJbigOEXUPgOzZ5zMFXvo/sVA4VwsG0QxIpFxZrsNooxoa92JsY7TxLX3YvFRvPgoPNYEILUwhSKWdT7ed0yb4tyMFWZ2zT7v/rVg++4OttSb9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZTArbzVF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728639405; c=relaxed/simple;
+	bh=iU+RjTF2OHKKaMZg6XwXqwPEfJ9ZZTGwXVAlRTh2tvg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h1L7SEPLIIg3lvixOWyIphzPS5XhPpcHI0909MYJLVq8n5WC7qogTL478TercauLFDiA+l2fUwbrSG8sp/rnTZhikIjnQYvfIkk1KXyDRmZxn8VnPLTqqENsVQCRi2x5c95tZvqVelRVA00BJXwGAmLT30OIxaXqmmOi/fX2eDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=GoFfH3pX; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZTArbzVF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD7DBC4CEC3;
-	Fri, 11 Oct 2024 08:56:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728637016;
-	bh=O8UMgy4NK3I9Ac3Z4UxYDyPfUUZlGgk3rritssUgmSE=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=ZTArbzVFqv+vzi6Ln/obGoDSQd75fU7AS/1J/rnwZ9ku7vVaqKOt4oBS7JFJl97LO
-	 yfC4gpjRIdwLUVcsR9aNXaQ6VxmcJjgqc03c2XxyAheP9pjPRqKKdIVrJRezZcmW7+
-	 u7ukKjQBckULxox8wj4bRRfYoIAOsNmJ8L6ZPg91RV4KwaOr43dORcPYh54BY6GKfA
-	 7jcHaXhmB6Yr6s1PdvDKz/PoD24aPBKaeXx1xn1bWJCfC7unyVJ9J60SyCACrCVTR6
-	 7nFcVxyZz16BTAgYSUOGucG0jGiJ+vlDb+LhwhTgc1Ntryp70OhvnjbNbVa8XXHbce
-	 XYBaxpbPM8g0g==
-Message-ID: <94166f32-7ff9-46d2-83c9-4df2a787fe25@kernel.org>
-Date: Fri, 11 Oct 2024 16:56:47 +0800
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="GoFfH3pX"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 778932000A;
+	Fri, 11 Oct 2024 09:36:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1728639400;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DOr1y6bkl2ESGBEAuDHnJepThp32G9brhsEAe/glmCw=;
+	b=GoFfH3pXCxEQ4cP0HBtTb/GeVfzPsPexPQ9F04GQ7cdvz7gVeh6Oanb3JYxWTGyNAdK1KX
+	9z7BVCEvmenpF+fYTIc7Zx4T0hkBQ6Bmc+HES5JROGHQS6OI/2wdC+5QGF7uqXey19YJv6
+	Os2QsSuL1KJhpMXzLbdpflFV9HfZ6I4J9eJcEVfOAKwWZfKCdW61ggBKc2/YzhEbVnxjjG
+	+dK3T7LoAUViCGsMTGz2DAoZkEKHzHmX6/SU1DI7hXlDpoNacFP6X73CGR2PHyDncpe6B9
+	gABvipThp1v5nyYyolUdX5dwNhkk6WQ+zUdQWiHqKfCh2Thppou4rt7YD0jMEw==
+Date: Fri, 11 Oct 2024 11:36:35 +0200
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Maaara Canal <mairacanal@riseup.net>,
+	Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+	Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
+	arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
+	Simona Vetter <simona.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
+	jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+	seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
+Subject: Re: [PATCH v12 09/15] drm/vkms: Remove useless drm_rotation_simplify
+Message-ID: <Zwjxo2TEAR3PelO9@louis-chauvet-laptop>
+Mail-Followup-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Maaara Canal <mairacanal@riseup.net>,
+	Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+	Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
+	arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
+	jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+	seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
+References: <20241007-yuv-v12-0-01c1ada6fec8@bootlin.com>
+ <20241007-yuv-v12-9-01c1ada6fec8@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: Chao Yu <chao@kernel.org>,
- "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>,
- Theodore Ts'o <tytso@mit.edu>, Jonathan Corbet <corbet@lwn.net>,
- Josef Bacik <josef@toxicpanda.com>, Johannes Weiner <hannes@cmpxchg.org>,
- =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- "Darrick J . Wong" <djwong@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
- Tejun Heo <tj@kernel.org>, akpm@linux-foundation.org,
- Christian Brauner <brauner@kernel.org>,
- Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.cz>,
- Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
- cgroups@vger.kernel.org, linux-btrfs@vger.kernel.org,
- linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
- mcgrof@kernel.org, gost.dev@samsung.com, linux-doc@vger.kernel.org,
- linux-xfs@vger.kernel.org, Pankaj Raghav <p.raghav@samsung.com>
-Subject: Re: [PATCH] fs/writeback: convert wbc_account_cgroup_owner to take a
- folio
-To: Matthew Wilcox <willy@infradead.org>, Jaegeuk Kim <jaegeuk@kernel.org>
-References: <20240926140121.203821-1-kernel@pankajraghav.com>
- <ZvVrmBYTyNL3UDyR@casper.infradead.org> <ZvstH7UHpdnnDxW6@google.com>
-Content-Language: en-US
-From: Chao Yu <chao@kernel.org>
-In-Reply-To: <ZvstH7UHpdnnDxW6@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241007-yuv-v12-9-01c1ada6fec8@bootlin.com>
+X-GND-Sasl: louis.chauvet@bootlin.com
 
-On 2024/10/1 6:58, Jaegeuk Kim wrote:
-> On 09/26, Matthew Wilcox wrote:
->> On Thu, Sep 26, 2024 at 04:01:21PM +0200, Pankaj Raghav (Samsung) wrote:
->>> Convert wbc_account_cgroup_owner() to take a folio instead of a page,
->>> and convert all callers to pass a folio directly except f2fs.
->>>
->>> Convert the page to folio for all the callers from f2fs as they were the
->>> only callers calling wbc_account_cgroup_owner() with a page. As f2fs is
->>> already in the process of converting to folios, these call sites might
->>> also soon be calling wbc_account_cgroup_owner() with a folio directly in
->>> the future.
->>
->> I was hoping for more from f2fs.  I still don't have an answer from them
->> whether they're going to support large folios.  There's all kinds of
->> crud already in these functions like:
->>
->>          f2fs_set_bio_crypt_ctx(bio, fio->page->mapping->host,
->>                          page_folio(fio->page)->index, fio, GFP_NOIO);
->>
->> and this patch is making it worse, not better.  A series of patches
->> which at least started to spread folios throughout f2fs would be better.
->> I think that struct f2fs_io_info should have its page converted to
->> a folio, for example.  Although maybe not; perhaps this structure can
->> carry data which doesn't belong to a folio that came from the page cache.
->> It's very hard to tell because f2fs is so mind-numbingly complex and
->> riddled with stupid abstraction layers.
-> 
-> Hah, I don't think it's too complex at all tho, there's a somewhat complexity to
-> support file-based encryption, compression, and fsverity, which are useful
 
-I agree w/ Jaegeuk.
+Hi all,
 
-> for Android users. Well, I don't see any strong needs to support large folio,
-> but some requests exist which was why we had to do some conversion.
-> 
->>
->> But I don't know what the f2fs maintainers have planned.  And they won't
->> tell me despite many times of asking.
+Until this point, this series has not received any major comments since 
+v9. I will commit patches 1-9 next week if there are no further comments.
 
-I supported large folio in f2fs by using a hacking way /w iomap fwk, it can
-only be enabled in very limited condition, after some seqread tests, I can
-see performance gain in server environment, but none in android device, and
-in addition, there is a memory leak bug which can cause out-of-memory issue.
-Unlucky, I have no slots to dig into these issues recently.
+For patches 10-15, I am currently waiting for feedback from Maxime to 
+send the next iteration with a fix for kunit tests.
 
 Thanks,
+Louis Chauvet
 
-
+On 07/10/24 - 18:10, Louis Chauvet wrote:
+> As all the rotation are now supported by VKMS, this simplification does
+> not make sense anymore, so remove it.
+> 
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+>  drivers/gpu/drm/vkms/vkms_plane.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+> index 8875bed76410..5a028ee96c91 100644
+> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> @@ -115,12 +115,7 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+>  	frame_info->fb = fb;
+>  	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
+>  	drm_framebuffer_get(frame_info->fb);
+> -	frame_info->rotation = drm_rotation_simplify(new_state->rotation, DRM_MODE_ROTATE_0 |
+> -									  DRM_MODE_ROTATE_90 |
+> -									  DRM_MODE_ROTATE_270 |
+> -									  DRM_MODE_REFLECT_X |
+> -									  DRM_MODE_REFLECT_Y);
+> -
+> +	frame_info->rotation = new_state->rotation;
+>  
+>  	vkms_plane_state->pixel_read_line = get_pixel_read_line_function(fmt);
+>  }
+> 
+> -- 
+> 2.46.2
+> 
