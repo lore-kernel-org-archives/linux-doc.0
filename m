@@ -1,49 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F0B1885AD;
-	Fri, 11 Oct 2024 17:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2521A08BC;
+	Fri, 11 Oct 2024 17:23:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728667073; cv=none; b=smSaXbauSbehlxhT3zoGv0oo4TSBs4L5UrohhEONGPNT4oMO8DwGAQ+QjRw2Dg5NaF4Yflm27RkuP30I1bGmtftNsrdea8TzuKoz8mp9V7FJHybH90lcOQqefsIeuOtDcLEIsRMcpK4MSuzhzqkgp0UWlS1RAitdOIML4ec83ww=
+	t=1728667413; cv=none; b=q7aKYl/HAr66dLWiIKBc0Vk4epzojpJOOqGWhlpx8MowWvR6V/glgcW0j2nfRZwytZhzw1VacmK6VF7SqEZaipSTXcGfJknWkrty4RUs4Idgp3GANAAiAB4sinOfDobICz5cyiDtHK5aXGuy3u3IN9KQd2Qb2zITldQgLFENDIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728667073; c=relaxed/simple;
-	bh=pkBAqpG7XSDDkbeiXIU/xXtZJwy+sM5Znhd8x7fr7hk=;
+	s=arc-20240116; t=1728667413; c=relaxed/simple;
+	bh=eRAi8rQkJunGrDG6t0kcJRTBv9Jq5mSsb16dF6jAqSg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nxzo0HP7wpnkn17C2XCnJezredqKRQUayrClLBKMjvIdwWbYHcQsaMRuNpCGUGhXXS5x+QGH57YWKX7ywTVJ2DDHsk8vNM4jeZ+tEtYHzf/ebnUok+jB5414EJCEcawA/YPs9CB5d5ATzIzrksve+vpCJ7jRblPo4bRwRX+QlwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NO9EzeDC; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=nM8bC21Y+rIC6KzmXzm/oOVlPI/Dj4igMbIvJZNLb5jBJl2AW3GhQ4aUQ63yERgKwncupJGiB8P52pQV2LnvNkifUkN6qn2VcCu/IIV4//v9bLomr+DIWu90jllaDLitbPeZoCHtl1zS0oPAD2y/JJ9xqWaC6AVFu4YZQif0cc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UbnZXLjh; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NO9EzeDC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UbnZXLjh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728667072; x=1760203072;
+  t=1728667413; x=1760203413;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=pkBAqpG7XSDDkbeiXIU/xXtZJwy+sM5Znhd8x7fr7hk=;
-  b=NO9EzeDCyQM8pfIk9d7jImFtTd1K+tCy6Wg051f1J+K8UpvGQyGwmksw
-   eleuGrsotGVtBdm83K8ocRTW94d/2PdF0o2LUrhQG1pUN2g4c9IUsQsr/
-   50W/SF3Ge4Y1u/1c7UVrpf6Bdv+jOPyB2CF+ukUGccusgfZ06NDPxe3S5
-   Qs/X9o+Bv42wO119szY5Fz48l2gnbhSy+zEVBnp/ljgudiDHw4uWrD6zb
-   +CgREzuPnLWnnIxgoSy161pc62q3/1hWUM82Rt9Y5VZgaXNzYmau/ZcG0
-   VwG6fHLtZi2t8r1HlpD4MqtMQeJySzxCRNStoa7PdpMMjS5/+fVd1QOZc
-   w==;
-X-CSE-ConnectionGUID: 5v9kgSRKSFC6BkJIhxdUKw==
-X-CSE-MsgGUID: XSgfV6DtQ42tnOmvV+X39A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28236907"
+  bh=eRAi8rQkJunGrDG6t0kcJRTBv9Jq5mSsb16dF6jAqSg=;
+  b=UbnZXLjhzMmiXbAKVYHVkc2QwTmJemU75piqidvcVyfEHHRQaiKSJzu6
+   x1DD7PWbKhvBAhfkeF3tA3lJqnkLrHB7Tmnns4gH1Y4S0i7O+nhPXFKe+
+   xhlFRXm68KzLeDEr0ikUvvh/YUXPkVHntbJbIO5TVCQ5HPt5IvpZ4Wi6h
+   XvhZaHuqui9arXVjUv9VrBarkuiUlbz/Sno6lHFfly5/2Sk9ZVGAfG4WG
+   +6JQCcmI8Tf/gXcDxLyJtdOFSk/O0djX3x8kLSZlKXohYG09Ezjo2Xt3M
+   /dNNCExgrZK9q8HhRFlpXCTgww/5uWotcLQQxeDncz7ddbpR8kA0NjIzI
+   Q==;
+X-CSE-ConnectionGUID: 2kUFze8ITqSAUNwfrYfd6Q==
+X-CSE-MsgGUID: moGGYOQGS7G0p2qIGp9gOA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="38641065"
 X-IronPort-AV: E=Sophos;i="6.11,196,1725346800"; 
-   d="scan'208";a="28236907"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 10:17:51 -0700
-X-CSE-ConnectionGUID: 5OhZymknRJ2EdMhZxx0YMw==
-X-CSE-MsgGUID: HP/n5oIVRrOPRtJIR7kRRg==
+   d="scan'208";a="38641065"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 10:23:31 -0700
+X-CSE-ConnectionGUID: BKd99AjLSMa8g0Jnq0rqtg==
+X-CSE-MsgGUID: oNhlxIWGRAiYJNAKpV3S7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,196,1725346800"; 
-   d="scan'208";a="76881728"
+   d="scan'208";a="76979895"
 Received: from agluck-desk3.sc.intel.com ([172.25.222.70])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 10:17:50 -0700
-Date: Fri, 11 Oct 2024 10:17:48 -0700
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 10:23:29 -0700
+Date: Fri, 11 Oct 2024 10:23:28 -0700
 From: Tony Luck <tony.luck@intel.com>
 To: Babu Moger <babu.moger@amd.com>
 Cc: corbet@lwn.net, fenghua.yu@intel.com, reinette.chatre@intel.com,
@@ -60,11 +60,11 @@ Cc: corbet@lwn.net, fenghua.yu@intel.com, reinette.chatre@intel.com,
 	peternewman@google.com, maciej.wieczor-retman@intel.com,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 	eranian@google.com, james.morse@arm.com
-Subject: Re: [PATCH v8 19/25] x86/resctrl: Auto assign/unassign counters when
- mbm_cntr_assign is enabled
-Message-ID: <ZwldvDBjEA3TSw2k@agluck-desk3.sc.intel.com>
+Subject: Re: [PATCH v8 20/25] x86/resctrl: Report "Unassigned" for MBM events
+ in mbm_cntr_assign mode
+Message-ID: <ZwlfENV_ijDKjUqW@agluck-desk3.sc.intel.com>
 References: <cover.1728495588.git.babu.moger@amd.com>
- <ce07d802260f537b24b3affec57c2d2e65023709.1728495588.git.babu.moger@amd.com>
+ <50a4e993098422eece96d08edc337856a52cadd1.1728495588.git.babu.moger@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -73,65 +73,17 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ce07d802260f537b24b3affec57c2d2e65023709.1728495588.git.babu.moger@amd.com>
+In-Reply-To: <50a4e993098422eece96d08edc337856a52cadd1.1728495588.git.babu.moger@amd.com>
 
-On Wed, Oct 09, 2024 at 12:39:44PM -0500, Babu Moger wrote:
-> +/*
-> + * Called when a new group is created. If `mbm_cntr_assign` mode is enabled,
-> + * counters are automatically assigned. Each group requires two counters:
-> + * one for the total event and one for the local event. Due to the limited
-> + * number of counters, assignments may fail in some cases. However, it is
-> + * not necessary to fail the group creation. Users have the option to
-> + * modify the assignments after the group has been created.
-> + */
-> +static int rdtgroup_assign_cntrs(struct rdtgroup *rdtgrp)
-> +{
-> +	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
-> +	int ret = 0;
-> +
-> +	if (!resctrl_arch_mbm_cntr_assign_enabled(r))
-> +		return 0;
-> +
-> +	if (is_mbm_total_enabled())
-> +		ret = rdtgroup_assign_cntr_event(r, rdtgrp, NULL, QOS_L3_MBM_TOTAL_EVENT_ID);
-> +
-> +	if (!ret && is_mbm_local_enabled())
-> +		ret = rdtgroup_assign_cntr_event(r, rdtgrp, NULL, QOS_L3_MBM_LOCAL_EVENT_ID);
+On Wed, Oct 09, 2024 at 12:39:45PM -0500, Babu Moger wrote:
+> @@ -576,6 +576,15 @@ int rdtgroup_mondata_show(struct seq_file *m, void *arg)
+>  	evtid = md.u.evtid;
+>  	r = &rdt_resources_all[resid].r_resctrl;
+>  
+> +	if (resctrl_arch_mbm_cntr_assign_enabled(r) && evtid != QOS_L3_OCCUP_EVENT_ID) {
 
-This overwrites the value from allocating the counter for total event.
+Better to write this as:
 
-> +
-> +	return ret;
-
-But none of the callers check the return. Indeed it is ok (and
-expected) that counter allocation can fail.
-
-Just make this a "void" function and delete the "ret" local variable.
-> +}
-> +
-> +/*
-> + * Called when a group is deleted. Counters are unassigned if it was in
-> + * assigned state.
-> + */
-> +static int rdtgroup_unassign_cntrs(struct rdtgroup *rdtgrp)
-> +{
-> +	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
-> +	int ret = 0;
-> +
-> +	if (!resctrl_arch_mbm_cntr_assign_enabled(r))
-> +		return 0;
-> +
-> +	if (is_mbm_total_enabled())
-> +		ret = rdtgroup_unassign_cntr_event(r, rdtgrp, NULL, QOS_L3_MBM_TOTAL_EVENT_ID);
-> +
-> +	if (!ret && is_mbm_local_enabled())
-> +		ret = rdtgroup_unassign_cntr_event(r, rdtgrp, NULL, QOS_L3_MBM_LOCAL_EVENT_ID);
-> +
-> +	return ret;
-
-Ditto. No caller checks. Make this a void function. Dig down the
-call chain here. It looks like rdtgroup_unassign_cntr_event() can't
-fail, so it should be a void function too. Ditto resctrl_arch_config_cntr()
-> +}
+	if (resctrl_arch_mbm_cntr_assign_enabled(r) && is_mbm_event(evtid)) {
 
 -Tony
