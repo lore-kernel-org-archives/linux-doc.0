@@ -1,172 +1,161 @@
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CEF61E47BE
-	for <linux-doc@vger.kernel.org>; Fri, 11 Oct 2024 23:42:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F7553A7;
+	Sat, 12 Oct 2024 02:21:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728690153; cv=none; b=tzvfeylC6jAE6jix+iu4l9GCFmBa+vaQj1z3pKcGAq2QdLaqCnEWmx1u2m61Z7jQKgSFtQvGfDf6JLV8oTN4xV8Py2xSmIq+BdDLx8SnRTyytHflvdAGXi0/1kYN7b9XZdUO1g3ZDjZuRYHRit1VUJCoxPicsp5T6YW80mkSgrg=
+	t=1728699675; cv=none; b=WJTgXsNkUNOuDYlwGuf0buXpnsVYOXaumCnoFSg8eZGfKJ1s2UPEPZF9KZPgWXLuhV+/AaKRnBX4DCG4l5r4rtveEDZAV7G4Nq3OkogNBLIbQp8rgFtNRto8e2Bwp9iPj9V9ZCVIxUYNfC+9Lhevce8wW84u/uuzsuJjL+3/bo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728690153; c=relaxed/simple;
-	bh=TBPC0eowcXh/MBu7GZif3OSMhDwxQ3mPafJT5pUGJt0=;
+	s=arc-20240116; t=1728699675; c=relaxed/simple;
+	bh=VMxTAuuLSwpvF14j63KDL8Q8eddsXGX+MXQKvX8BNmU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TGAMd0b7hUtNvrY1u2WKItF4k3tIDFsryZSYi7nMZNvA6ELTZX3cRxdi8HyrceE15oD9NBwzQRg0aLJhf2+Yu0jOoTg7wSstSvlZulPfsX8jZNZkwscT/kzD2JtjRI8u0TNUhtmQyWX6LN8IoQAgszt0mp5aGvR5KVYhEvEKiD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=Ek+ObBeZ; arc=none smtp.client-ip=209.85.219.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	 Content-Type:Content-Disposition:In-Reply-To; b=r/rDMGX8x1UdWMQotsELDfrpH1iSmmkYWOAPpE8J36DTW1uIP4lM2D+KanqeQ8FjMjkKLlI8s7Cq5bQfb4mLYAVkEB1MH34bc5VgM1+8weRDPn3RLvAo98k0nU4XvSORImPyuANrfGETY0o6K+iviKjFKOV5X+lZfLkblcbRY0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b5LCdg4m; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="Ek+ObBeZ"
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6cbe3e99680so12868326d6.3
-        for <linux-doc@vger.kernel.org>; Fri, 11 Oct 2024 16:42:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b5LCdg4m"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-207115e3056so21722375ad.2;
+        Fri, 11 Oct 2024 19:21:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1728690150; x=1729294950; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=xXJBMqCoMuYuDY4nzuhWTUrJv8A53VZgPDgtsloBNPk=;
-        b=Ek+ObBeZYjrEB+hI7D9ensGEQRykWGZuKEATgD6MsHglUsJaaE1/MkWttXitmD9XKA
-         qEt5aF1BEjRy8W5Z/LZWJdvTEy2RtSI/VtephOqnmLa4LTF5yRPPXAgT9Qpn8Niy8tHU
-         FYzqTRNLOnVPqWwo7DLYjVHfVXskpg/zObTDFh7cKtXwYdlJsAQkdNPBKtvmAb5SYeF8
-         dP55pcqSVYZRD8KJ6+8soY0dfTWwbvy1jzytPjFg4ppEpVe1ghvzEjxFbf4AWviC6Bpm
-         54stL/bi/Q8RIsFIq2iN48FljDLoA3umEgmvPkoL+63IF0E++uVy6u/EBVLKophDIjD7
-         oLog==
+        d=gmail.com; s=20230601; t=1728699673; x=1729304473; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5RQTG/zd6RilzriZO+uy7TCnbIOwmxbC6TCGxLYsp8Q=;
+        b=b5LCdg4mhiG2rFNVUegETY8OeYR21QOKtuMk4W0exSowv4t/YTqfB+jLTTk5BWuOzA
+         YJw0OizeuVoLrWVX1XFRVFIpfDHcRh4UxjgWW28jHvorjVzvUqfuNNOOJSixp2NCZYrO
+         G65r0sB4IWvP2NHhIaoboFqmVAPwSArG/NRb3NmTR/Cwt4RXrDldYZYYwO+VsA4teoH3
+         eiDZ6O9ILj8Ve3U1SV0RkfiBH/3W41VKjwnkInw3GrRwO9M3b+/dlnBgxronPsz8vHL5
+         tHRtr72w9L+uk39DYQVl/V3gyd5VE79Y1wCazIMLA27GlHS7fkJh5L/I0/Te+e4SvCcZ
+         LsBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728690150; x=1729294950;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xXJBMqCoMuYuDY4nzuhWTUrJv8A53VZgPDgtsloBNPk=;
-        b=FAsc+l8F34JvpdWm9vsPTBRktlMeaYgnq2tGIdzO1TIWea/FzBmJXAsLRKFBf/GGMK
-         EaTJGzixUBg6c4EaxZBpTHCRUWgXclG6reacHA3wTYEvTn8S/bh+UX4OQ0cz1SvVCPjw
-         cb7B2RMMbgTs2w2h7nM/9A7z4yMyO0Jpoyu0Sf/2EMYiNK9Xo0ejgCvAlXNt6Oz365no
-         PwMhOoj+Ecl4N9lAZaz32y6inu4cyyXnpzBtrDLVFG3UvRxug8TdQPwUN6rPtH1FQYVA
-         MquduGHVybjrH8n9qeprgE1s4YBbIwDtsZVhbPsLMxt6HWy5dQdvP6fMa6jdx16DrwN5
-         gEWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWeLosE3ktRA2r3DwpSHLJAhB+He5XIIPFhinE3eMqQRPmSj4A+if9OoZf4t3pTnv8QslOTKWFeMlU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyorXa28gznwqqiNBhWBSbBdEFUqYyEBytffeExJcCk35dv33Gy
-	nGMPdZLySNbQKBIw0S+8CdybzK4Y0hU9I+H4WTnu0RDkFFt6zELN2C3pwfdLLr8=
-X-Google-Smtp-Source: AGHT+IFH9bT6CVOYPLqw23tWCJW9/9IfbvX5Fo48QkoulgGtFqu1xzBgNKvi+Xhn0j9hbOAHPdRblQ==
-X-Received: by 2002:a05:6214:5242:b0:6cb:a75f:9c6e with SMTP id 6a1803df08f44-6cbeff80f1dmr81302266d6.10.1728690149985;
-        Fri, 11 Oct 2024 16:42:29 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-68-128-5.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.128.5])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cbe8608f79sm20550526d6.75.2024.10.11.16.42.28
+        d=1e100.net; s=20230601; t=1728699673; x=1729304473;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5RQTG/zd6RilzriZO+uy7TCnbIOwmxbC6TCGxLYsp8Q=;
+        b=tkpGjUxfypWuvfAbHZwf1K2AoliJibEKlKjcgpPeu/bGCpBUOQsVZhJD2D+qDP+uzR
+         f8ENWONzdQQIYtntW2nQiYUP1NtHBWtZbGv5DrHgd/8uOahYW5xiXHepH49T+tPdEjst
+         RpVpquRQ1ph8qpX8pCu2Kj0nNgb6EXCxxGBtprcg//FpMDFXHKyyIM99nGR0cGj87sn7
+         QtkTlEufZib3pmhsdjXrhVdMLMaaXUkBBdiYUfz7DQZLQIa5iEsRxUC2tpbWxWZCA4u1
+         4TImp39s5CXUzqlbqGKUm66/8hFV4C9kNsYyAG8bDAWeJTRXxfeTg1yPxykygv6ZOeLb
+         0kNw==
+X-Forwarded-Encrypted: i=1; AJvYcCV/Ey+UMAztpy9xaCJ5xJ1qObtzK0ArSodrW+y1HNZLGKz629qCFNao+k104XLvYjaXQuAMcD+B2RicNO+u@vger.kernel.org, AJvYcCWhHqghZ3rw9MifTPQXO8MHZgqeTxn/0kI+gr3XOXxqjjMOvc21mtEHDvMytqiRBWBtpwwnnfVVgVQ=@vger.kernel.org, AJvYcCXIGdYJO0fIwX8vTuylJFqP5ytN3Gv5cS4zcs4b9xSWhwsEVwUwDPS/9T7CdfRWe1KxuzwZkw+yI8Cbz3LqV+YzmUpTXQ==@vger.kernel.org, AJvYcCXnxzNNDezjqw0qOflw/c4OPFjgByeJN6sHzr4gJgNGg19eR6WKB/qNL5rc4MSvA4WdCv3iecRdYeQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwBIHTq+BCMxCEfcmtEtBgwsUoMmG+06ga3bzWpzk0RWmt7nfhe
+	wNTDJupzGQR68crDvlax/7vkJT2ilzMsR+BOkQ49E6Z+PBfjX+qIG1CUh0re
+X-Google-Smtp-Source: AGHT+IFbA8cJKdZ90eXXEgZkPH/TjtxxJPEZLNNH2+HD4LKNuAv26Da2Q1cZVEVZRm5g0wdbk8e04w==
+X-Received: by 2002:a17:902:c942:b0:20c:7485:892c with SMTP id d9443c01a7336-20ca16b5f83mr64243865ad.45.1728699672939;
+        Fri, 11 Oct 2024 19:21:12 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20c8bad33c0sm29965785ad.35.2024.10.11.19.21.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Oct 2024 16:42:28 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1szPH9-009Xgw-JI;
-	Fri, 11 Oct 2024 20:42:27 -0300
-Date: Fri, 11 Oct 2024 20:42:27 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Mina Almasry <almasrymina@google.com>,
-	Leon Romanovsky <leonro@nvidia.com>
-Cc: Jakub Kicinski <kuba@kernel.org>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Taehee Yoo <ap420073@gmail.com>, davem@davemloft.net,
-	pabeni@redhat.com, edumazet@google.com, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, donald.hunter@gmail.com, corbet@lwn.net,
-	michael.chan@broadcom.com, kory.maincent@bootlin.com,
-	andrew@lunn.ch, maxime.chevallier@bootlin.com, danieller@nvidia.com,
-	hengqi@linux.alibaba.com, ecree.xilinx@gmail.com,
-	przemyslaw.kitszel@intel.com, hkallweit1@gmail.com,
-	ahmed.zaki@intel.com, paul.greenwalt@intel.com,
-	rrameshbabu@nvidia.com, idosch@nvidia.com, asml.silence@gmail.com,
-	kaiyuanz@google.com, willemb@google.com,
-	aleksander.lobakin@intel.com, dw@davidwei.uk,
-	sridhar.samudrala@intel.com, bcreeley@amd.com
-Subject: Re: [PATCH net-next v3 7/7] bnxt_en: add support for device memory
- tcp
-Message-ID: <20241011234227.GB1825128@ziepe.ca>
-References: <20241003160620.1521626-1-ap420073@gmail.com>
- <20241003160620.1521626-8-ap420073@gmail.com>
- <CAHS8izO-7pPk7xyY4JdyaY4hZpd7zerbjhGanRvaTk+OOsvY0A@mail.gmail.com>
- <CAMArcTU61G=fexf-RJDSW_sGp9dZCkJsJKC=yjg79RS9Ugjuxw@mail.gmail.com>
- <20241008125023.7fbc1f64@kernel.org>
- <CAMArcTWVrQ7KWPt+c0u7X=jvBd2VZGVLwjWYCjMYhWZTymMRTg@mail.gmail.com>
- <20241009170102.1980ed1d@kernel.org>
- <CAHS8izMwd__+RkW-Nj3r3uG4gmocJa6QEqeHChzNXux1cbSS=w@mail.gmail.com>
- <20241010183440.29751370@kernel.org>
- <CAHS8izPuWkSmp4VCTYm93JB9fEJyUTztcT5u3UMX4b8ADWZGrA@mail.gmail.com>
+        Fri, 11 Oct 2024 19:21:12 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 89AD8441B369; Sat, 12 Oct 2024 09:21:09 +0700 (WIB)
+Date: Sat, 12 Oct 2024 09:21:09 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Mario Limonciello <mario.limonciello@amd.com>,
+	Borislav Petkov <bp@alien8.de>, Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
+Cc: x86@kernel.org, "Gautham R . Shenoy" <gautham.shenoy@amd.com>,
+	Perry Yuan <perry.yuan@amd.com>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+Subject: Re: [PATCH v2 00/13] Add support for AMD hardware feedback interface
+Message-ID: <ZwndFfdpevdwxurj@archie.me>
+References: <20241010193705.10362-1-mario.limonciello@amd.com>
+ <Zwh3Ky9Qoe6si1qC@archie.me>
+ <6d7e5cc5-db07-423b-b39c-0de213fedaf5@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ecUbuLzqmr6wswmv"
+Content-Disposition: inline
+In-Reply-To: <6d7e5cc5-db07-423b-b39c-0de213fedaf5@amd.com>
+
+
+--ecUbuLzqmr6wswmv
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHS8izPuWkSmp4VCTYm93JB9fEJyUTztcT5u3UMX4b8ADWZGrA@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 11, 2024 at 10:33:43AM -0700, Mina Almasry wrote:
-> On Thu, Oct 10, 2024 at 6:34 PM Jakub Kicinski <kuba@kernel.org> wrote:
-> >
-> > On Thu, 10 Oct 2024 10:44:38 -0700 Mina Almasry wrote:
-> > > > > I haven't thought the failure of PP_FLAG_DMA_SYNC_DEV
-> > > > > for dmabuf may be wrong.
-> > > > > I think device memory TCP is not related to this flag.
-> > > > > So device memory TCP core API should not return failure when
-> > > > > PP_FLAG_DMA_SYNC_DEV flag is set.
-> > > > > How about removing this condition check code in device memory TCP core?
-> > > >
-> > > > I think we need to invert the check..
-> > > > Mina, WDYT?
-> > >
-> > > On a closer look, my feeling is similar to Taehee,
-> > > PP_FLAG_DMA_SYNC_DEV should be orthogonal to memory providers. The
-> > > memory providers allocate the memory and provide the dma-addr, but
-> > > need not dma-sync the dma-addr, right? The driver can sync the
-> > > dma-addr if it wants and the driver can delegate the syncing to the pp
-> > > via PP_FLAG_DMA_SYNC_DEV if it wants. AFAICT I think the check should
-> > > be removed, not inverted, but I could be missing something.
-> >
-> > I don't know much about dmabuf but it hinges on the question whether
-> > doing DMA sync for device on a dmabuf address is :
-> >  - a good thing
-> >  - a noop
-> >  - a bad thing
-> >
-> > If it's a good thing or a noop - agreed.
-> >
-> > Similar question for the sync for CPU.
-> >
-> > I agree that intuitively it should be all fine. But the fact that dmabuf
-> > has a bespoke API for accessing the memory by the CPU makes me worried
-> > that there may be assumptions about these addresses not getting
-> > randomly fed into the normal DMA API..
-> 
-> Sorry I'm also a bit unsure what is the right thing to do here. The
-> code that we've been running in GVE does a dma-sync for cpu
-> unconditionally on RX for dma-buf and non-dmabuf dma-addrs and we
-> haven't been seeing issues. It never does dma-sync for device.
-> 
-> My first question is why is dma-sync for device needed on RX path at
-> all for some drivers in the first place? For incoming (non-dmabuf)
-> data, the data is written by the device and read by the cpu, so sync
-> for cpu is really what's needed. Is the sync for device for XDP? Or is
-> it that buffers should be dma-syncd for device before they are
-> re-posted to the NIC?
-> 
-> Christian/Jason, sorry quick question: are
-> dma_sync_single_for_{device|cpu} needed or wanted when the dma-addrs
-> come from a dma-buf? Or these dma-addrs to be treated like any other
-> with the normal dma_sync_for_{device|cpu} rules?
+On Thu, Oct 10, 2024 at 08:29:47PM -0500, Mario Limonciello wrote:
+> On 10/10/2024 19:54, Bagas Sanjaya wrote:
+> > On Thu, Oct 10, 2024 at 02:36:52PM -0500, Mario Limonciello wrote:
+> > > The AMD Heterogeneous core design and Hardware Feedback Interface (HF=
+I)
+> > > provide behavioral classification and a dynamically updated ranking t=
+able
+> > > for the scheduler to use when choosing cores for tasks.
+> > >=20
+> > > Threads are classified during runtime into enumerated classes.
+> > > Currently, the driver supports 3 classes (0 through 2). These classes
+> > > represent thread performance/power characteristics that may benefit f=
+rom
+> > > special scheduling behaviors. The real-time thread classification is
+> > > consumed by the operating system and is used to inform the scheduler =
+of
+> > > where the thread should be placed for optimal performance or energy e=
+fficiency.
+> > >=20
+> > > The thread classification helps to select CPU from a ranking table th=
+at describes
+> > > an efficiency and performance ranking for each classification from tw=
+o dimensions.
+> > >=20
+> > > The ranking data provided by the ranking table are numbers ranging fr=
+om 0 to 255,
+> > > where a higher performance value indicates higher performance capabil=
+ity and a higher
+> > > efficiency value indicates greater efficiency. All the CPU cores are =
+ranked into
+> > > different class IDs. Within each class ranking, the cores may have di=
+fferent ranking
+> > > values. Therefore, picking from each classification ID will later all=
+ow the scheduler
+> > > to select the best core while threads are classified into the specifi=
+ed workload class.
+> > >=20
+> > > This series was originally submitted by Perry Yuan [1] but he is now =
+doing a different
+> > > role and he asked me to take over.
+> >=20
+> > Sorry but can you specify the base commit/tree of this series? I can't =
+apply
+> > it on top of current platform-drivers-x86.git, though.
+> >=20
+> > Confused...
+> >=20
+>=20
+> Sorry about that.  As it crosses a few subsystems it will require some
+> coordination to properly land once it has review comments.
+>=20
+> It's (currently) based off:
+> https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git/log/?h=
+=3Dlinux-next
+>=20
+> commit 57533bc760ae ("cpufreq/amd-pstate: Fix non kerneldoc comment")
 
-Um, I think because dma-buf hacks things up and generates illegal
-scatterlist entries with weird dma_map_resource() addresses for the
-typical P2P case the dma sync API should not be used on those things.
+Series successfully applied for review, thanks!
 
-However, there is no way to know if the dma-buf has does this, and
-there are valid case where the scatterlist is not ill formed and the
-sync is necessary.
+--=20
+An old man doll... just what I always wanted! - Clara
 
-We are getting soo close to being able to start fixing these API
-issues in dmabuf, I hope next cylce we can begin.. Fingers crossed.
+--ecUbuLzqmr6wswmv
+Content-Type: application/pgp-signature; name="signature.asc"
 
-From a CPU architecture perspective you do not need to cache flush PCI
-MMIO BAR memory, and perhaps doing so be might be problematic on some
-arches (???). But you do need to flush normal cachable CPU memory if
-that is in the DMA buf.
+-----BEGIN PGP SIGNATURE-----
 
-Jason
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZwndFQAKCRD2uYlJVVFO
+o6P2AP0Uc7qUmd7kX74wkUxR44feaSmbqnUXz+/KVhUh9N0XDgEA/ceDdiODFul3
+EUVcDMeokgEfMJELaJDqX1ehL5O+WQQ=
+=gDEV
+-----END PGP SIGNATURE-----
+
+--ecUbuLzqmr6wswmv--
