@@ -1,101 +1,117 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 411ED1E892;
-	Sat, 12 Oct 2024 14:25:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C1031E529;
+	Sat, 12 Oct 2024 17:40:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728743129; cv=none; b=l7fvrn6wL0+CpETt1wC6/x7APvkqEDKeQdnQxZuuK1pISniNCtd2dgmpaSXayCKwAvwS0nZR4voKzK1eTWniZ5GcqF3ewVAtzFfAqbKLaJOhI2ThYnXtVJmApuvxbVxTziWnUjt1Ui21pd0QHvMAD6kaJe5tTEwaeppUkL1md/E=
+	t=1728754822; cv=none; b=Z23C0QzRJDxSFpEjDAUUcLMp5W1DfaABE67uLFuW86dcoE3xToGMz/3H9oDLWvTura6Ml5ZusobCUdqgDb+xc7vsC/4CvoOL/YWRDyenDZrA2y3j7cdoMC9hUhEcccJdP4Bg0Kl70Tmoi8YwaQ98ZI1uKoqgDgmFtzxickVi6VM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728743129; c=relaxed/simple;
-	bh=6s4+dR6F8h+e6rFroGl/EsRq5g/Wtl+duEVvAzC3/js=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AxsfBfYE/iD6UUUA/rm2h8AFIXQ8iiUQwrjNvYhqA+d04Z43gVRQ5pOQKzro1S+toopRXGf+k1DkcpDke/R6JdMsomVsdAPTcT/FkelfpyY/XanD5xR0Eu18i000naZeGAbw+70MFW9rlPpCPRPe15t0iw/kKDRMwjZYPr3ggEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jIxO+UAn; arc=none smtp.client-ip=209.85.215.179
+	s=arc-20240116; t=1728754822; c=relaxed/simple;
+	bh=j+0eugA5qlshkzOWKhURgw3WOGiDbE79dVsJbtUFeow=;
+	h=Date:From:To:Message-ID:In-Reply-To:References:Subject:
+	 Mime-Version:Content-Type; b=oaNHgbKv8/MXQmYOqdsoC+V1SI5lRyPVwGkO4jfp/UIxbncV4mWpHQ56FnpmFZD531ZUBANXmo/2vMjVLsNDg+S03J8zcS3hGp9xKIq3R5/s6iGXyvtobUUOwxUhu8Msq3RsTGYaKcmcJvx2X7eoMrCWZsb0io3+udhCJqM3CBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eZCvm5VC; arc=none smtp.client-ip=209.85.222.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jIxO+UAn"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7ea64af4bbbso123661a12.1;
-        Sat, 12 Oct 2024 07:25:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eZCvm5VC"
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7afc5925679so199781185a.3;
+        Sat, 12 Oct 2024 10:40:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728743127; x=1729347927; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=K2nX2QwjAQ13tayvjTv+QasYt7kFsy2YDA8StTcMPVk=;
-        b=jIxO+UAnVem6UpNlB5ud3fXeKfawMZtC0AtGu4/QOp0iJbfONSbWv8ktK6RMb5ky93
-         XIF8uxgow/q5xQ87jOZ/7/1gYB5k57Qpq2GW7E0bRX376gBI2UbVVq/5iNw3fbkyLrJ2
-         85XA7C0O91iDEqBvWRVSMvjxeiQSLzpVK1rcZ5IzdOoIxKvaLn0ggnA3i2CNkmY4ZAu+
-         znPHrwQbgw+kq7cJ4x4eD2mN57g9hd+5HFrQ2L8JCvij8yKZaTd1jJ35o5pyEcNTmDI8
-         ZjPUWuEZR1L/nTZohTQGATdrlDkjXUp7CRRVtwpkQKlNq0AeZiO4EO1sg9HoNlbWwseY
-         7v4Q==
+        d=gmail.com; s=20230601; t=1728754820; x=1729359620; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qeQVh5vaiF4LZT4ihfN5o5UvxngIEpWBJHf7f40MegM=;
+        b=eZCvm5VCYp/LZJpGzPs060EjyOHR2THPclhS7YUG0LYAsBTFigTWV/qLfo0kO8by7S
+         E65OiJYfbL3ZesVIWzZnW1zbA8PFJyRczjMcQTplbLqWmkHacP6SnfKPvOVqOEDiITYJ
+         OfJAJ0i1v1I62yE5RPccZzDjOKLxxykYBdUHGOf/EcJ1fwxp0vTeM2Nlh/dS4VG1EhL9
+         x9goVd9FgCINdYdWE9zdaxTEVSGKe7nDYHvZt/mSHuKiFrWS/rf8L7Ec/vJwqGus9pHk
+         e2K44mNtXCsoVWSfkq7xU9tvdJEvL3LUVIdrRoKiNuMVs8IY4ojWHJcEAnG7kAdwW21Q
+         fcFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728743127; x=1729347927;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=K2nX2QwjAQ13tayvjTv+QasYt7kFsy2YDA8StTcMPVk=;
-        b=ZwhqpR0GRUaHTixcHFyOn6Y5BdZLLutZtiQBRPveyHQmNFj9A9eir0m6vTosUFGW5A
-         6L40eHkt/1MowgzIbdeagiBQAUdqfLTUV0ZvXwWdjs8XDq83vcoz8e64ACPQ2mXtT3Bl
-         2X94yI5UBSNr8X+gwDq5rBEQZkFV8GTJkIzCjzHOVAnaxHv/MAh+bAmDpg1E5/LBPobp
-         jVrO4p401tdtEqNlXz6x7fvyTgJ/T2eYzrc4cjbzyP3MUeJPL77MabKqYh14emKn9IUO
-         72dJHWaRL+QZu8tgzEmXMHaQm8lziDlqRx15xRARnneXpisNzE9Nk2UBCLOGRAInRJJH
-         I2PQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV5LQxwletbeLN0r1Ixfj1ZMQ39bK+PDHS5tgLU+rIixubQjlrPmeDerS75+z7oRWid0e5FlcPODi4=@vger.kernel.org, AJvYcCW8NdV9MAm2QrbpkceM68x3OjANmbdGhS3nvtPA7EY2IOeTYZB3bibVlSfXHtEoos20kYKlDvQ1APwWQbg1@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyv2xT/bUwwoaL717Oo8bw9Az5mkpNee/Zmzv1ngWqhy6lgvxHQ
-	SPX8tXyw+kUl2jQya5BJAyFl54Cufdp3cZb/7nxn6FMPWZPOCAfQcEhlYu8pBbw=
-X-Google-Smtp-Source: AGHT+IHv+vHrBtdpveO9ZnYW27upHTDCr/ovYCldf0BlIuPbzgrXjgySGiUZ3ouPGeCiKQnVNotpfQ==
-X-Received: by 2002:a05:6a00:3e1d:b0:714:2051:89ea with SMTP id d2e1a72fcca58-71e37e25dedmr4098848b3a.1.1728743127353;
-        Sat, 12 Oct 2024 07:25:27 -0700 (PDT)
-Received: from ice.. ([171.76.87.218])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71e2aa9394csm4192999b3a.123.2024.10.12.07.25.25
+        d=1e100.net; s=20230601; t=1728754820; x=1729359620;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qeQVh5vaiF4LZT4ihfN5o5UvxngIEpWBJHf7f40MegM=;
+        b=VktZInrqqBtD+QyMi0+9tA1/vwGr3vafqIEOKx5RYB4S2wr2T6kSh5gYYLm6NqQ9Ru
+         TKzel2KwDZImceRc4D9AnV26neMPkPC/B0bcAe5p1lg4WrPRL1mOcNrSZJ+gte03CKhJ
+         LIFrya9zBCe5T9zOuv5f2pH3tWyBaYGvW6QT6wUDxxPLYiwmZ/W520sVDnuDaBi/Vdq0
+         ngA48WeHCJQ/pCTR2d+2uk0sOYsrY6vWvXgLFkM89zhenr0aabtQRwwq4ClKdNKgcRKx
+         qhIKL4YGAXuBIApoSDs0pYvkXevpsjopFASIHQjGy8GHfqPrjiCicoHf9fJw3QfbqDac
+         AYfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVMv/N1PEvTVl61Mq5CHelYmF6mtp415xVq/A1TGb8Tqht6wWfA9AnT22VjU6GpG8q3//k=@vger.kernel.org, AJvYcCVTnuGEBOSy6KdT3vnyHQBn3wQvS5Lhawe+8IAb0MeB8Y+vs2B2IdyZzR+8pvwcOBrjrLfuxY0KnwHI@vger.kernel.org, AJvYcCViWhEfQRwpgJNYCP1neiZ8BJkyHb4eqMenuPHiSyfP1k2ubvC2oGMAs2NfjCVe65p2Ej6keuioYlyQATYY@vger.kernel.org, AJvYcCXbLqUowG7YzRhYD3kC/ZoRGeTJXmv5uxKhTy9KeOYmMNMTSPcCzzG21OkyMUoPvdvAL2JUotf064rB0nB0gUEZ@vger.kernel.org, AJvYcCXmUGvT/NtvQfOlKWQSdI7/nHMLWHgpFE/J2bdzIE2ZPyg+SolShdcw7U0uoT5Gj8b71qHlBz13@vger.kernel.org
+X-Gm-Message-State: AOJu0YxyQ1kXvi+7fbqpo2SXIQVXanKHkURLs6R9BVAUqzUXj+5PmAUr
+	h7dcw3Gl+IIwsYIyFVOvKQnTVWE5ZS03yUTimtE8tXqFu1l1/G2j
+X-Google-Smtp-Source: AGHT+IHm4Bx8DL3ED0EiIGa9UoE0AQ+a9pp5rid+2GyH7NTS4vnz6h0mFmR06lQvNNdN+JG5fbYMyg==
+X-Received: by 2002:a05:620a:4446:b0:7af:ce6e:1663 with SMTP id af79cd13be357-7b12101be7bmr436841385a.60.1728754820032;
+        Sat, 12 Oct 2024 10:40:20 -0700 (PDT)
+Received: from localhost (86.235.150.34.bc.googleusercontent.com. [34.150.235.86])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b1148c7129sm240855985a.19.2024.10.12.10.40.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Oct 2024 07:25:27 -0700 (PDT)
-From: Nihar Chaithanya <niharchaithanya@gmail.com>
-To: corbet@lwn.net
-Cc: workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	Nihar Chaithanya <niharchaithanya@gmail.com>
-Subject: [PATCH] docs:process:changes: fix version command for btrfs-progs
-Date: Sat, 12 Oct 2024 19:44:28 +0530
-Message-Id: <20241012141425.11852-1-niharchaithanya@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Sat, 12 Oct 2024 10:40:19 -0700 (PDT)
+Date: Sat, 12 Oct 2024 13:40:18 -0400
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Jason Wang <jasowang@redhat.com>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+ Shuah Khan <shuah@kernel.org>, 
+ linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ netdev@vger.kernel.org, 
+ kvm@vger.kernel.org, 
+ virtualization@lists.linux-foundation.org, 
+ linux-kselftest@vger.kernel.org, 
+ Yuri Benditovich <yuri.benditovich@daynix.com>, 
+ Andrew Melnychenko <andrew@daynix.com>, 
+ Stephen Hemminger <stephen@networkplumber.org>, 
+ gur.stavi@huawei.com
+Message-ID: <670ab482ba75d_2737bf2945a@willemb.c.googlers.com.notmuch>
+In-Reply-To: <30bbebd8-1692-4b62-9a1f-070f6152061c@daynix.com>
+References: <20241008-rss-v5-0-f3cf68df005d@daynix.com>
+ <20241008-rss-v5-1-f3cf68df005d@daynix.com>
+ <67068a7261d8c_1cca3129414@willemb.c.googlers.com.notmuch>
+ <30bbebd8-1692-4b62-9a1f-070f6152061c@daynix.com>
+Subject: Re: [PATCH RFC v5 01/10] virtio_net: Add functions for hashing
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-The command given in the changes.rst document to check the version of
-btrfs-progs is:
--> btrfsck
-which does not output the version, and according to manual page of the
-btrfs-progs the command to check the version of btrfs-progs is:
--> btrfs --version
+Akihiko Odaki wrote:
+> On 2024/10/09 22:51, Willem de Bruijn wrote:
+> > Akihiko Odaki wrote:
+> >> They are useful to implement VIRTIO_NET_F_RSS and
+> >> VIRTIO_NET_F_HASH_REPORT.
+> >>
+> >> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> >> ---
+> >>   include/linux/virtio_net.h | 188 +++++++++++++++++++++++++++++++++++++++++++++
+> > 
+> > No need for these to be in header files
+> 
+> I naively followed prior examples in this file. Do you have an 
+> alternative idea?
 
-Add a fix changing the command to check the version of btrfs-progs.
+This is long overdue really, not specific to this fuatre.
 
-Signed-off-by: Nihar Chaithanya <niharchaithanya@gmail.com>
----
- Documentation/process/changes.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+And extends to your patch 4 that deduplicates tun.c and tap.c.
 
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 00f1ed7c59c3..82b5e378eebf 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -46,7 +46,7 @@ jfsutils               1.1.3            fsck.jfs -V
- reiserfsprogs          3.6.3            reiserfsck -V
- xfsprogs               2.6.0            xfs_db -V
- squashfs-tools         4.0              mksquashfs -version
--btrfs-progs            0.18             btrfsck
-+btrfs-progs            0.18             btrfs --version
- pcmciautils            004              pccardctl -V
- quota-tools            3.09             quota -V
- PPP                    2.4.0            pppd --version
--- 
-2.34.1
+Perhaps drivers/net/virtio_net_hdr.c.
+
+Or drivers/net/tun_vnet.c, matching your choice of drivers/net/tun_vnet.h.
 
