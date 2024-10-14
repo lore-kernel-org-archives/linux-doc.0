@@ -1,96 +1,103 @@
-Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4BF1CBE8B
-	for <linux-doc@vger.kernel.org>; Mon, 14 Oct 2024 23:36:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B51E1D89FA
+	for <linux-doc@vger.kernel.org>; Mon, 14 Oct 2024 23:49:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728949015; cv=none; b=IW3HAqFAj70WcO9r+Z6EGgNwzweZk1eok5EsSKeOsY0H2H1/5TnDWqXdw4onffCrgqO9hbDDbdXrA49VZhPbSov7v0fJwWs5N3gMn1oMeyxIMojs6lo3UMse90tG8/zcpDFH/bA0AO/tN5UCrHyocM4eIWQzB8ni6e4YZCuHXC0=
+	t=1728949762; cv=none; b=qibGDKMb2nmYKMyxKNJ51uA4gZxGbkd/XFRQkwQIsJVVsEGU9PK3vseUphEJRZ8X35Xt11fAjAjb4DQXOjNbIrhxicH7trMmJNetyjNp5XO4IMM+RUxDhlz9VUF7P2tREb0Np3/tWnhETh+05iiVpa+G30pQD8xB4+vrKsuZg+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728949015; c=relaxed/simple;
-	bh=9lQ11KBt43uQ5J9JR5JWrhkSeYstXcy9pl4223UHEE0=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=hk+DUGeI+FBEhWNJTOK5Uh0HqXBYbRFmETXfcU90+QtobYVx0GPpwE/J0CCLEEZgPTMlQp3cb8CfR9yt5sri0rfilw9kpLN3XXugowg0f5+LTqVB3HETkoaVWOhdkzuXzd9JgmYaY/GnpPtkIBMxL+Q/14tUyyFUz1vc8VQ2iig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=q5Qbr6Ma; arc=none smtp.client-ip=209.85.128.201
+	s=arc-20240116; t=1728949762; c=relaxed/simple;
+	bh=1SZ+jfinI7KnF20uWq+5MiVKe7evA6ps9MC+h5JnAKA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RqzxrkylH2B5FBEHqpK9YEV/OrncFldx94W+lFzo5+MOT6s3E9AIr/32V/mkwBiixI2ncXERcuJTCaEhfDy5EdNmylRi/qq0G0deRfZRlTeFqjBg08qxRzNWvHQUSDOwgknKRBbC36stGx5CbISWz1nnALesk0SGEYi2ELmSbmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4gZIBAbm; arc=none smtp.client-ip=209.85.218.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="q5Qbr6Ma"
-Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-6e389169f92so23293877b3.0
-        for <linux-doc@vger.kernel.org>; Mon, 14 Oct 2024 16:36:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4gZIBAbm"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a9a0474e70eso291994266b.0
+        for <linux-doc@vger.kernel.org>; Mon, 14 Oct 2024 16:49:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1728949013; x=1729553813; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zm6GRvpYVPkv4rqmcHo9pBIrnZWQHVu3C3S3LK/OgI4=;
-        b=q5Qbr6MaqI7zz/3A99gTIAbvhpULKJUA3yL3NQotwIJ286dQE9tiW2xwSkioFwixiG
-         16tXjs+9iN/bAC8aMP2ms4c/2UmYVhUSUSCjFsQzuzrWrIRgb7W/dI74V/fEwS4tq8Ix
-         wVhBELhd2r3XZRkahlrfO3rYWd5nrGIrG1rrudcNoaMBbkLbMvw7DHwtr2S+E/vK27hu
-         UB7UxMfYszMXhIJ3W3gQDv7Yee/PG1PH47q9bTD3yjpWEYIaeHCbVN2w17XPhneJtqvn
-         ORBrIcZChjtwhSHR+TCrrxNV9Df87tfejS8gQmMbZXR7o0cMGX04NhjXTJxFccvw6E0n
-         n59w==
+        d=google.com; s=20230601; t=1728949759; x=1729554559; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1SZ+jfinI7KnF20uWq+5MiVKe7evA6ps9MC+h5JnAKA=;
+        b=4gZIBAbmXgMngcMGOdEzLFMrVuIhioYRlNLl7eDALx9Od7dFttDJ+fPgSm6qLuAqXq
+         zvrLFPzqR2Fz2ucqNevLXwsCwyTbYV6oF4cvjjjW1mHoNE83439TzUWbBFy8xD2PrMG8
+         aE1PlRDeP9H6T0KW6tMJL7hJKIGlOjIwjAq/SX2wGAAuOT80wagHxyGwEotpFtoCsS1d
+         FjZ50o72Yqza+ImIP3hbMg5GdbvJZjUfgXSxNpMm2wcfv3FTVB0fRlBWh9VjEA7GyxyD
+         6Ajg2gw9ui4JmA40AEQAWtFkNzvukfjsY2Cr19+j+qVFIbLqISZei/3QGZ+Vo4ZopgmX
+         Pywg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728949013; x=1729553813;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zm6GRvpYVPkv4rqmcHo9pBIrnZWQHVu3C3S3LK/OgI4=;
-        b=P6vlcyAfAI6UXentA/t5QzDUEPxnTqDGOqyOgV+BWGvDdl60LOf6+tBFAOkTNkdXr4
-         XsrV+YpwVvyPcfULQ4mvLyQicR6VQliYSP7/tmWWWMWGRXt7Y3hT10fsBqw1W1qlc76S
-         cc3nMaYTV/9y/RRaraHioday/oQgRfKHszxQhiAaYbWTvTJPFvVEvUXctfWagx+NVOaE
-         TO/Z43B/hilScc0Vw/y9/ivrsJKNtHdvxi6yeQDpNLMKafi4NhYT+n3EuSdvOi+ZtUtY
-         G94Zw70V1disw1emA7cxYsvAFtib2QvSiDsqI+rzoEqaIvvyHMJcEbBzXhnxRxZLGKp0
-         yMFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXcHtOm+mQxDYz3MdqbPX/rXW6QEfMiaQA2KAcyfQeyhw20QhNxaJ/FG+DSgztM/QKdduw1G+cCZ2Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyR9+1qViewzxlhJDn02L+IeJZ6CLKC2qr6Z/OayXj6a1blPfO3
-	CV072PfmLHraua7/1U9fCNU4lF9s1Bzrng2Gnm6wACMA1EIQ6/Y7W+mkbPOtlS95DGn/6ojQNPN
-	GnA==
-X-Google-Smtp-Source: AGHT+IGrlmmIMbrq1eDFzk8slt5Bv/bjfFyuOUS+xM//3TUnJKMB1jMjboz4gv8IycU3lIMwe83TEFFGqyA=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:9d:3983:ac13:c240])
- (user=seanjc job=sendgmr) by 2002:a25:2e02:0:b0:e22:5fcb:5e22 with SMTP id
- 3f1490d57ef6-e2919d75c76mr8304276.3.1728949013311; Mon, 14 Oct 2024 16:36:53
- -0700 (PDT)
-Date: Mon, 14 Oct 2024 16:36:51 -0700
-In-Reply-To: <20241004140810.34231-1-nikwip@amazon.de>
+        d=1e100.net; s=20230601; t=1728949759; x=1729554559;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1SZ+jfinI7KnF20uWq+5MiVKe7evA6ps9MC+h5JnAKA=;
+        b=tRLvJ4Sa+kQPBGUmoZrdqtTzY99fJnGWuirUHoJfafNjEenTX72NOGOOLaOMR8ib3y
+         bEZG0cTQW9yRt7UoBzEwc/PIXjzmcEHpKvIDXhcvTIpUGYdo3f5R33U9nw132Ox83EFz
+         DxZCyyjGezFibGCohsVwP5IivHRmUNfIPCnk5tNqcaF6zV6iRsiws+zlVDTqBkErQ0hy
+         lFo+mQMwWypDkfw91QS9LeZTXTiYACHwvgMX6miflDuyITKZEHi6+3ob1ufBniY0vx/y
+         hVDjVS8VOgx+vGGGrSiIJ/PMpMBfhGs86CWU5tRBcbBYYVpymSo06btfIMPi+q9OtkMU
+         DHuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVkSoOA+0MKAbSdaIEqIKvVQvCaK3mv9b+wkMdFjCRasGVgPUC3pn4u1jjC+nPkEzKvB5aAk+L0EBc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAqKRQeVziVw74nfseGqcXCOgmT8LTE3Qbqx4CPDp1tLyHlQ63
+	eKB3UW3yIdHT6wljIHj8qx3be1jEmgQAckptDcTbwbiCjUZb1My+sws54JcbD6iK0ys0//9zyUe
+	JLd902EYZOJsrxxOrrnFRxpxG+wFCSFT8uvGv
+X-Google-Smtp-Source: AGHT+IF3LTkRo2bNnzsq5dT0NEdsT3wmUih6L0PdgKsa4EEm9X0C1vz+srf2kxl0ec7RLeunLrfhzidYV/TpVSBkxmQ=
+X-Received: by 2002:a17:907:e6cc:b0:a86:94e2:2a47 with SMTP id
+ a640c23a62f3a-a99e3b5a86dmr831600866b.15.1728949758341; Mon, 14 Oct 2024
+ 16:49:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20241004140810.34231-1-nikwip@amazon.de>
-Message-ID: <Zw2rE7-ZTCFpNE5G@google.com>
-Subject: Re: [PATCH 0/7] KVM: x86: Introduce new ioctl KVM_HYPERV_SET_TLB_FLUSH_INHIBIT
-From: Sean Christopherson <seanjc@google.com>
-To: Nikolas Wipper <nikwip@amazon.de>
-Cc: Vitaly Kuznetsov <vkuznets@redhat.com>, Nicolas Saenz Julienne <nsaenz@amazon.com>, 
-	Alexander Graf <graf@amazon.de>, James Gowans <jgowans@amazon.com>, nh-open-source@amazon.com, 
-	Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	Nikolas Wipper <nik.wipper@gmx.de>, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
-	x86@kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+References: <20241014203646.1952505-1-surenb@google.com> <20241014203646.1952505-6-surenb@google.com>
+In-Reply-To: <20241014203646.1952505-6-surenb@google.com>
+From: Yosry Ahmed <yosryahmed@google.com>
+Date: Mon, 14 Oct 2024 16:48:41 -0700
+Message-ID: <CAJD7tkY0zzwX1BCbayKSXSxwKEGiEJzzKggP8dJccdajsr_bKw@mail.gmail.com>
+Subject: Re: [PATCH v3 5/5] alloc_tag: config to store page allocation tag
+ refs in page flags
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, corbet@lwn.net, 
+	arnd@arndb.de, mcgrof@kernel.org, rppt@kernel.org, paulmck@kernel.org, 
+	thuth@redhat.com, tglx@linutronix.de, bp@alien8.de, 
+	xiongwei.song@windriver.com, ardb@kernel.org, david@redhat.com, 
+	vbabka@suse.cz, mhocko@suse.com, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
+	pasha.tatashin@soleen.com, souravpanda@google.com, keescook@chromium.org, 
+	dennis@kernel.org, jhubbard@nvidia.com, yuzhao@google.com, vvvvvv@google.com, 
+	rostedt@goodmis.org, iamjoonsoo.kim@lge.com, rientjes@google.com, 
+	minchan@google.com, kaleshsingh@google.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 04, 2024, Nikolas Wipper wrote:
-> This series introduces a new ioctl KVM_HYPERV_SET_TLB_FLUSH_INHIBIT. It
-> allows hypervisors to inhibit remote TLB flushing of a vCPU coming from
-> Hyper-V hyper-calls (namely HvFlushVirtualAddressSpace(Ex) and
-> HvFlushirtualAddressList(Ex)). It is required to implement the
-> HvTranslateVirtualAddress hyper-call as part of the ongoing effort to
-> emulate VSM within KVM and QEMU. The hyper-call requires several new KVM
-> APIs, one of which is KVM_HYPERV_SET_TLB_FLUSH_INHIBIT.
-> 
-> Once the inhibit flag is set, any processor attempting to flush the TLB on
-> the marked vCPU, with a HyperV hyper-call, will be suspended until the
-> flag is cleared again. During the suspension the vCPU will not run at all,
-> neither receiving events nor running other code. It will wake up from
-> suspension once the vCPU it is waiting on clears the inhibit flag. This
-> behaviour is specified in Microsoft's "Hypervisor Top Level Functional
-> Specification" (TLFS).
-> 
-> The vCPU will block execution during the suspension, making it transparent
-> to the hypervisor.
- 
-s/hypervisor/VMM.  In the world of KVM, the typical terminology is that KVM itself
-is the hypervisor, and the userspace side is the VMM.  It's not perfect, but it's
-good enough and fairly ubiquitous at this point, and thus many readers will be
-quite confused as to how a vCPU blocking is transparent to KVM :-)
+On Mon, Oct 14, 2024 at 1:37=E2=80=AFPM Suren Baghdasaryan <surenb@google.c=
+om> wrote:
+>
+> Add CONFIG_PGALLOC_TAG_USE_PAGEFLAGS to store allocation tag
+> references directly in the page flags. This eliminates memory
+> overhead caused by page_ext and results in better performance
+> for page allocations.
+> If the number of available page flag bits is insufficient to
+> address all kernel allocations, profiling falls back to using
+> page extensions with an appropriate warning to disable this
+> config.
+> If dynamically loaded modules add enough tags that they can't
+> be addressed anymore with available page flag bits, memory
+> profiling gets disabled and a warning is issued.
+
+Just curious, why do we need a config option? If there are enough bits
+in page flags, why not use them automatically or fallback to page_ext
+otherwise?
+
+Is the reason that dynamically loadable modules, where the user may
+know in advance that the page flags won't be enough with the modules
+loaded?
