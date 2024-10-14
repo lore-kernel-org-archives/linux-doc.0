@@ -1,41 +1,40 @@
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2671A01BF
-	for <linux-doc@vger.kernel.org>; Mon, 14 Oct 2024 11:05:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CF7A156C52
+	for <linux-doc@vger.kernel.org>; Mon, 14 Oct 2024 11:18:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728903954; cv=none; b=i+IuUPHOMnxifWibqeyl9zghMcLz9koPDn4iZZPZ99bvqjxj+GHUfVTq0abMEBpLNgavwC/O/0g+VSMIKk2IOHxex6txu23SanIhKuk7IlI/yjBiPA1cbu4bC/JISbuKSajmwAFqdn3ZwvFhQ9t5KbxSRTKO28gOvBysYexhU6s=
+	t=1728904729; cv=none; b=AAJRdkxUfOtsp6oE9i29Owo8XesHvdrnQWmKlpSf8T+6L12/sBYBZJH5AbS7k3C67hkoMLfiG+PQKlkfRJOOG/6ouWG8U7TjZBMCNrpfIzT9O13JPfoiTFPfHo54nMhkPSoKKWR4VUDPyAZLdt+zaO68wbOPuViO+rZYpL4wVIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728903954; c=relaxed/simple;
-	bh=SZduyd5PlZwbvcO1kNCCzjkc3tuS/Im4y2OrFxkyM+s=;
+	s=arc-20240116; t=1728904729; c=relaxed/simple;
+	bh=9aHry6VBkjZcEIo50VZB8AKNQPDK82Co3aN9mgWk1Kg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NvVt7dZIkM928VfL85d9R8vpQVUFsq+l1iIbnE2c7okpE2p7EE5/7uKPXd3b/Ff5t0vkJafixui99qH1UsSbADydyoHcSUZ+z/CesA99JghoRG0ST6DpqjgEvfDsIVpAWm6hAfS7QA2dkmpMjFVk93FCg2ScWAYaAYmboXbMkbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=DSyIH1Na; arc=none smtp.client-ip=91.218.175.189
+	 In-Reply-To:Content-Type; b=Ctsmzlfyce+SXUtX8HgCE17jfH9ZjwnkJYrkgva9MKGutCputbzk0i4h53L6MeMer2ilKWIuGSUfyxYVFRG4mUW1HcW529kRkynuhXJsacY9SA58gPmx87bANZDLiHLlff2QjlrvnNUrDpOTfzAT4XXm1NPe3flfm+HD/iY2uT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=n5G7NUt2; arc=none smtp.client-ip=95.215.58.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="DSyIH1Na"
-Message-ID: <ece8648c-e555-4a7a-9b73-8a8e7afd7b05@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="n5G7NUt2"
+Message-ID: <8502a496-f83d-470c-a84d-081a7c7e2cae@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1728903949;
+	t=1728904725;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bztqRj+LjYKMuLBZdcPQ7znVekB8Zzh9IllBzUVGDRk=;
-	b=DSyIH1NaLNaJTuAWWFqza4OdmoPV91a7X6BueZCvfJ7Zcvr/GgJ8xKqPJloDP5IokABKcv
-	yBFlHC8gY75uF1VbE3FGg8vtRdV1lM6GPrGoImmFdku50EWMF0WmRBGsH3V+IspSxt55tu
-	fhqLpmkRT0foO/Qx342I0TuOPbb4lM0=
-Date: Mon, 14 Oct 2024 12:05:42 +0100
+	bh=7Qvk+SQkpm0adFfLZoGHx2leIDXBWldvO8V7DbQkvxs=;
+	b=n5G7NUt2rY0D9drJF1pLyBXmQKgvHIGv5vdjiHstPGP1rQ21liZbQc1Gk4kV+xyL/Mjzvp
+	3nGtgV/JKi2iWzk75HFKoftKVRTv8dJSQJjIrP4J4wX5ES3BWFqb5wfQq2ETKqaVx4a4Pd
+	EHtGvi7LxdJallR4j3G5KH0U4DhamVo=
+Date: Mon, 14 Oct 2024 12:18:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH net-next 1/2] eth: fbnic: Add mailbox support for PLDM
- updates
+Subject: Re: [PATCH net-next 2/2] eth: fbnic: Add devlink dev flash support
 To: Lee Trager <lee@trager.us>, Alexander Duyck <alexanderduyck@fb.com>,
  Jakub Kicinski <kuba@kernel.org>, kernel-team@meta.com,
  "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
@@ -45,439 +44,246 @@ To: Lee Trager <lee@trager.us>, Alexander Duyck <alexanderduyck@fb.com>,
 Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20241012023646.3124717-1-lee@trager.us>
- <20241012023646.3124717-2-lee@trager.us>
+ <20241012023646.3124717-3-lee@trager.us>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-In-Reply-To: <20241012023646.3124717-2-lee@trager.us>
+In-Reply-To: <20241012023646.3124717-3-lee@trager.us>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
 On 12/10/2024 03:34, Lee Trager wrote:
-> This adds driver support to utilize the kernel completion API. This allows
-> the driver to block on a response from firmware. Initially
-> fbnic_fw_completion only has support for updates, future patches will add
-> additional features.
+> fbnic supports updating firmware using a PLDM image signed and distributed
+> by Meta. PLDM images are written into stored flashed. Flashing does not
+> interrupt operation.
+> 
+> On host reboot the newly flashed UEFI driver will be used. To run new
+> control or cmrt firmware the NIC must be power cycled.
 > 
 > Signed-off-by: Lee Trager <lee@trager.us>
 > ---
->   drivers/net/ethernet/meta/fbnic/fbnic.h    |   1 +
->   drivers/net/ethernet/meta/fbnic/fbnic_fw.c | 263 +++++++++++++++++++++
->   drivers/net/ethernet/meta/fbnic/fbnic_fw.h |  59 +++++
->   3 files changed, 323 insertions(+)
+>   .../device_drivers/ethernet/meta/fbnic.rst    |  11 +
+>   drivers/net/ethernet/meta/Kconfig             |   1 +
+>   .../net/ethernet/meta/fbnic/fbnic_devlink.c   | 270 +++++++++++++++++-
+>   3 files changed, 281 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/net/ethernet/meta/fbnic/fbnic.h b/drivers/net/ethernet/meta/fbnic/fbnic.h
-> index ca59261f0155..f58727e6e45a 100644
-> --- a/drivers/net/ethernet/meta/fbnic/fbnic.h
-> +++ b/drivers/net/ethernet/meta/fbnic/fbnic.h
-> @@ -31,6 +31,7 @@ struct fbnic_dev {
+> diff --git a/Documentation/networking/device_drivers/ethernet/meta/fbnic.rst b/Documentation/networking/device_drivers/ethernet/meta/fbnic.rst
+> index 32ff114f5c26..d6726c254818 100644
+> --- a/Documentation/networking/device_drivers/ethernet/meta/fbnic.rst
+> +++ b/Documentation/networking/device_drivers/ethernet/meta/fbnic.rst
+> @@ -27,3 +27,14 @@ driver takes over.
+>   devlink dev info provides version information for all three components. In
+>   addition to the version the hg commit hash of the build is included as a
+>   separate entry.
+> +
+> +Upgrading Firmware
+> +------------------
+> +
+> +fbnic supports upgrading firmware using devlink dev flash. Firmware images
+> +are signed and distributed by Meta. All firmware is bundled into a single
+> +PLDM image which is written into stored flash. Flashing firmware does not
+> +interrupt operation.
+> +
+> +On host reboot the newly flashed UEFI driver will be used. To run new control
+> +or cmrt firmware the NIC must be power cycled.
+> diff --git a/drivers/net/ethernet/meta/Kconfig b/drivers/net/ethernet/meta/Kconfig
+> index 85519690b837..f5d2c6b6399f 100644
+> --- a/drivers/net/ethernet/meta/Kconfig
+> +++ b/drivers/net/ethernet/meta/Kconfig
+> @@ -26,6 +26,7 @@ config FBNIC
+>   	select NET_DEVLINK
+>   	select PAGE_POOL
+>   	select PHYLINK
+> +	select PLDMFW
+>   	help
+>   	  This driver supports Meta Platforms Host Network Interface.
 > 
->   	struct fbnic_fw_mbx mbx[FBNIC_IPC_MBX_INDICES];
->   	struct fbnic_fw_cap fw_cap;
-> +	struct fbnic_fw_completion *cmpl_data;
->   	/* Lock protecting Tx Mailbox queue to prevent possible races */
->   	spinlock_t fw_tx_lock;
+> diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c b/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c
+> index 0072d612215e..d487ae7f1126 100644
+> --- a/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c
+> +++ b/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c
+> @@ -3,6 +3,7 @@
 > 
-> diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_fw.c b/drivers/net/ethernet/meta/fbnic/fbnic_fw.c
-> index 8f7a2a19ddf8..deebff3b6821 100644
-> --- a/drivers/net/ethernet/meta/fbnic/fbnic_fw.c
-> +++ b/drivers/net/ethernet/meta/fbnic/fbnic_fw.c
-> @@ -207,6 +207,38 @@ static int fbnic_mbx_map_tlv_msg(struct fbnic_dev *fbd,
->   	return err;
->   }
+>   #include <linux/unaligned.h>
+>   #include <linux/pci.h>
+> +#include <linux/pldmfw.h>
+>   #include <linux/types.h>
+>   #include <net/devlink.h>
 > 
-> +static int fbnic_mbx_map_req_w_cmpl(struct fbnic_dev *fbd,
-> +				    struct fbnic_tlv_msg *msg,
-> +				    struct fbnic_fw_completion *cmpl_data)
-> +{
-> +	unsigned long flags;
-> +	int err;
-> +
-> +	spin_lock_irqsave(&fbd->fw_tx_lock, flags);
-> +
-> +	/* If we are already waiting on a completion then abort */
-> +	if (cmpl_data && fbd->cmpl_data) {
-> +		err = -EBUSY;
-> +		goto unlock_mbx;
-> +	}
-> +
-> +	/* Record completion location and submit request */
-> +	if (cmpl_data)
-> +		fbd->cmpl_data = cmpl_data;
-> +
-> +	err = fbnic_mbx_map_msg(fbd, FBNIC_IPC_MBX_TX_IDX, msg,
-> +				le16_to_cpu(msg->hdr.len) * sizeof(u32), 1);
-> +
-> +	/* If msg failed then clear completion data for next caller */
-> +	if (err && cmpl_data)
-> +		fbd->cmpl_data = NULL;
-> +
-> +unlock_mbx:
-> +	spin_unlock_irqrestore(&fbd->fw_tx_lock, flags);
-> +
-> +	return err;
-> +}
-> +
->   static void fbnic_mbx_process_tx_msgs(struct fbnic_dev *fbd)
->   {
->   	struct fbnic_fw_mbx *tx_mbx = &fbd->mbx[FBNIC_IPC_MBX_TX_IDX];
-> @@ -651,6 +683,225 @@ void fbnic_fw_check_heartbeat(struct fbnic_dev *fbd)
->   		dev_warn(fbd->dev, "Failed to send heartbeat message\n");
+> @@ -109,8 +110,275 @@ static int fbnic_devlink_info_get(struct devlink *devlink,
+>   	return 0;
 >   }
 > 
 > +/**
-> + * fbnic_fw_xmit_fw_start_upgrade - Create and transmit a start update message
-> + * @fbd: FBNIC device structure
-> + * @cmpl_data: Completion data for upgrade process
-> + * @id: Component ID
-> + * @len: Length of FW update package data
+> + * fbnic_send_package_data - Send record package data to firmware
+> + * @context: PLDM FW update structure
+> + * @data: pointer to the package data
+> + * @length: length of the package data
 > + *
-> + * Return: zero on success, negative value on failure
+> + * Send a copy of the package data associated with the PLDM record matching
+> + * this device to the firmware.
 > + *
-> + * Asks the FW to prepare for starting a firmware upgrade
+> + * Return: zero on success
+> + *	    negative error code on failure
 > + */
-> +int fbnic_fw_xmit_fw_start_upgrade(struct fbnic_dev *fbd,
-> +				   struct fbnic_fw_completion *cmpl_data,
-> +				   unsigned int id, unsigned int len)
+> +static int fbnic_send_package_data(struct pldmfw *context, const u8 *data,
+> +				   u16 length)
 > +{
-> +	struct fbnic_tlv_msg *msg;
-> +	int err;
+> +	struct device *dev = context->dev;
 > +
-> +	if (!len)
+> +	/* Temp placeholder required by devlink */
+> +	dev_info(dev,
+> +		 "Sending %u bytes of PLDM record package data to firmware\n",
+> +		 length);
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * fbnic_send_component_table - Send PLDM component table to the firmware
+> + * @context: PLDM FW update structure
+> + * @component: The component to send
+> + * @transfer_flag: Flag indication location in component tables
+> + *
+> + * Read relevant data from component table and forward it to the firmware.
+> + * Check response to verify if the firmware indicates that it wishes to
+> + * proceed with the update.
+> + *
+> + * Return: zero on success
+> + *	    negative error code on failure
+> + */
+> +static int fbnic_send_component_table(struct pldmfw *context,
+> +				      struct pldmfw_component *component,
+> +				      u8 transfer_flag)
+> +{
+> +	struct device *dev = context->dev;
+> +	u16 id = component->identifier;
+> +	u8 test_string[80];
+> +
+> +	switch (id) {
+> +	case QSPI_SECTION_CMRT:
+> +	case QSPI_SECTION_CONTROL_FW:
+> +	case QSPI_SECTION_OPTION_ROM:
+> +		break;
+> +	default:
+> +		dev_err(dev, "Unknown component ID %u\n", id);
 > +		return -EINVAL;
+> +	}
 > +
-> +	msg = fbnic_tlv_msg_alloc(FBNIC_TLV_MSG_ID_FW_START_UPGRADE_REQ);
-> +	if (!msg)
-> +		return -ENOMEM;
+> +	dev_dbg(dev, "Sending PLDM component table to firmware\n");
 > +
-> +	err = fbnic_tlv_attr_put_int(msg, FBNIC_FW_START_UPGRADE_SECTION, id);
-> +	if (err)
-> +		goto free_message;
-> +
-> +	err = fbnic_tlv_attr_put_int(msg, FBNIC_FW_START_UPGRADE_IMAGE_LENGTH,
-> +				     len);
-> +	if (err)
-> +		goto free_message;
-> +
-> +	err = fbnic_mbx_map_req_w_cmpl(fbd, msg, cmpl_data);
-> +	if (err)
-> +		goto free_message;
-> +
-> +	return 0;
-> +
-> +free_message:
-> +	free_page((unsigned long)msg);
-> +	return err;
-> +}
-> +
-> +static const struct fbnic_tlv_index fbnic_fw_start_upgrade_resp_index[] = {
-> +	FBNIC_TLV_ATTR_S32(FBNIC_FW_START_UPGRADE_ERROR),
-> +	FBNIC_TLV_ATTR_LAST
-> +};
-> +
-> +static int fbnic_fw_parse_fw_start_upgrade_resp(void *opaque,
-> +						struct fbnic_tlv_msg **results)
-> +{
-> +	struct fbnic_dev *fbd = opaque;
-> +	struct fbnic_fw_completion *cmpl_data;
+> +	/* Temp placeholder */
+> +	memcpy(test_string, component->version_string,
+> +	       min_t(u8, component->version_len, 79));
+> +	test_string[min_t(u8, component->version_len, 79)] = 0;
 
-Hi Lee!
+Looks like this construction can be replaced with strscpy().
+There were several patchsets in the tree to use strscpy(), let's follow
+the pattern.
 
-Looks like you didn't follow reverse Xmas tree for variables here and
-in several functions later, all about cmpl_data variable.
-
-> +	int err = 0;
-> +
-> +	/* Verify we have a completion pointer */
-> +	cmpl_data = READ_ONCE(fbd->cmpl_data);
-> +	if (!cmpl_data ||
-> +	    cmpl_data->msg_type != FBNIC_TLV_MSG_ID_FW_WRITE_CHUNK_REQ)
-> +		return -ENOSPC;
-> +
-> +	/* Check for errors */
-> +	get_signed_result(FBNIC_FW_START_UPGRADE_ERROR, err);
-> +
-> +	cmpl_data->result = err;
-> +	complete(&cmpl_data->done);
+> +	dev_info(dev, "PLDMFW: Component ID: %u version %s\n",
+> +		 id, test_string);
 > +
 > +	return 0;
 > +}
 > +
-> +static const struct fbnic_tlv_index fbnic_fw_write_chunk_req_index[] = {
-> +	FBNIC_TLV_ATTR_U32(FBNIC_FW_WRITE_CHUNK_OFFSET),
-> +	FBNIC_TLV_ATTR_U32(FBNIC_FW_WRITE_CHUNK_LENGTH),
-> +	FBNIC_TLV_ATTR_LAST
-> +};
-> +
-> +static int fbnic_fw_parse_fw_write_chunk_req(void *opaque,
-> +					     struct fbnic_tlv_msg **results)
+> +/**
+> + * fbnic_flash_component - Flash a component of the QSPI
+> + * @context: PLDM FW update structure
+> + * @component: The component table to send to FW
+> + *
+> + * Map contents of component and make it available for FW to download
+> + * so that it can update the contents of the QSPI Flash.
+> + *
+> + * Return: zero on success
+> + *	    negative error code on failure
+> + */
+> +static int fbnic_flash_component(struct pldmfw *context,
+> +				 struct pldmfw_component *component)
 > +{
-> +	struct fbnic_dev *fbd = opaque;
-> +	struct fbnic_fw_completion *cmpl_data;
-
-here again...
-
-> +	u32 length = 0, offset = 0;
-> +	struct fbnic_tlv_msg *msg;
+> +	const u8 *data = component->component_data;
+> +	u32 size = component->component_size;
+> +	struct fbnic_fw_completion *fw_cmpl;
+> +	struct device *dev = context->dev;
+> +	struct pci_dev *pdev = to_pci_dev(dev);
+> +	u16 id = component->identifier;
+> +	const char *component_name;
+> +	int retries = 2;
 > +	int err;
 > +
-> +	/* Start by attempting to allocate a response to the message */
-> +	msg = fbnic_tlv_msg_alloc(FBNIC_TLV_MSG_ID_FW_WRITE_CHUNK_RESP);
-> +	if (!msg)
+> +	struct devlink *devlink;
+> +	struct fbnic_dev *fbd;
+> +
+> +	switch (id) {
+> +	case QSPI_SECTION_CMRT:
+> +		component_name = "boot1";
+> +		break;
+> +	case QSPI_SECTION_CONTROL_FW:
+> +		component_name = "boot2";
+> +		break;
+> +	case QSPI_SECTION_OPTION_ROM:
+> +		component_name = "option-rom";
+> +		break;
+> +	default:
+> +		dev_err(dev, "Unknown component ID %u\n", id);
+> +		return -EINVAL;
+> +	}
+> +
+> +	fw_cmpl = kzalloc(sizeof(*fw_cmpl), GFP_KERNEL);
+> +	if (!fw_cmpl)
 > +		return -ENOMEM;
 > +
-> +	/* Verify we have a completion pointer */
-> +	cmpl_data = READ_ONCE(fbd->cmpl_data);
-> +	if (!cmpl_data ||
-> +	    cmpl_data->msg_type != FBNIC_TLV_MSG_ID_FW_WRITE_CHUNK_REQ) {
-> +		err = -ENOSPC;
-> +		goto msg_err;
-> +	}
+> +	pdev = to_pci_dev(dev);
+> +	fbd = pci_get_drvdata(pdev);
+> +	devlink = priv_to_devlink(fbd);
 > +
-> +	/* Notify FW if the data link has been severed */
-> +	if (!cmpl_data->fw_update.data) {
-> +		err = -ECANCELED;
-> +		goto msg_err;
-> +	}
+> +	/* Initialize completion and queue it for FW to process */
+> +	fw_cmpl->msg_type = FBNIC_TLV_MSG_ID_FW_WRITE_CHUNK_REQ;
+> +	init_completion(&fw_cmpl->done);
 > +
-> +	/* Pull length/offset pair and mark it as complete */
-> +	get_unsigned_result(FBNIC_FW_WRITE_CHUNK_OFFSET, offset);
-> +	get_unsigned_result(FBNIC_FW_WRITE_CHUNK_LENGTH, length);
+> +	fw_cmpl->fw_update.last_offset = 0;
+> +	fw_cmpl->fw_update.data = data;
+> +	fw_cmpl->fw_update.size = size;
 > +
-> +	/* Record offset and length for the response */
-> +	if (offset) {
-> +		err = fbnic_tlv_attr_put_int(msg, FBNIC_FW_WRITE_CHUNK_OFFSET,
-> +					     offset);
-> +		if (err)
-> +			goto msg_err;
-> +	}
-> +
-> +	err = fbnic_tlv_attr_put_int(msg, FBNIC_FW_WRITE_CHUNK_LENGTH,
-> +				     length);
+> +	err = fbnic_fw_xmit_fw_start_upgrade(fbd, fw_cmpl, id, size);
 > +	if (err)
-> +		goto msg_err;
+> +		goto cmpl_free;
 > +
-> +	/* Verify length */
-> +	if (!length || length > TLV_MAX_DATA) {
-> +		err = -EINVAL;
-> +		goto msg_err;
+> +	/* Monitor completions and report status of update */
+> +	while (fw_cmpl->fw_update.data) {
+> +		u32 offset = fw_cmpl->fw_update.last_offset;
+> +
+> +		devlink_flash_update_status_notify(devlink, "Flashing",
+> +						   component_name, offset,
+> +						   size);
+> +
+> +		/* Allow 5 seconds for reply, resend and try up to 2 times */
+> +		if (wait_for_completion_timeout(&fw_cmpl->done, 5 * HZ)) {
+> +			reinit_completion(&fw_cmpl->done);
+> +			/* If we receive a reply, reinit our retry counter */
+> +			retries = 2;
+> +		} else if (--retries == 0) {
+> +			dev_err(fbd->dev, "Timed out waiting on update\n");
+> +			err = -ETIMEDOUT;
+> +			goto cmpl_cleanup;
+> +		}
 > +	}
 > +
-> +	/* Verify offset and length are within bounds */
-> +	if (offset >= cmpl_data->fw_update.size ||
-> +	    offset + length > cmpl_data->fw_update.size) {
-> +		err = -EFAULT;
-> +		goto msg_err;
-> +	}
-> +
-> +	/* Add outbound data to message */
-> +	err = fbnic_tlv_attr_put_value(msg, FBNIC_FW_WRITE_CHUNK_DATA,
-> +				       cmpl_data->fw_update.data + offset,
-> +				       length);
-> +
-> +	/* Notify the waiting thread that we processed a message */
-> +	if (!err)
-> +		cmpl_data->fw_update.last_offset = offset;
-> +
-> +	cmpl_data->result = err;
-> +	complete(&cmpl_data->done);
-> +
-> +msg_err:
-> +	/* Report error to FW if one occurred */
+> +	err = fw_cmpl->result;
 > +	if (err)
-> +		fbnic_tlv_attr_put_int(msg, FBNIC_FW_WRITE_CHUNK_ERROR, err);
+> +		goto cmpl_cleanup;
 > +
-> +	/* Map and send the response */
-> +	err = fbnic_mbx_map_tlv_msg(fbd, msg);
-> +	if (err)
-> +		free_page((unsigned long)msg);
+> +	devlink_flash_update_status_notify(devlink, "Flashing",
+> +					   component_name, size, size);
+> +
+> +cmpl_cleanup:
+> +	fbd->cmpl_data = NULL;
+> +cmpl_free:
+> +	kfree(fw_cmpl);
 > +
 > +	return err;
 > +}
 > +
-> +static const struct fbnic_tlv_index fbnic_fw_verify_image_resp_index[] = {
-> +	FBNIC_TLV_ATTR_S32(FBNIC_FW_VERIFY_IMAGE_ERROR),
-> +	FBNIC_TLV_ATTR_LAST
-> +};
-> +
-> +static int fbnic_fw_parse_fw_verify_image_resp(void *opaque,
-> +					       struct fbnic_tlv_msg **results)
-> +{
-> +	struct fbnic_dev *fbd = opaque;
-> +	struct fbnic_fw_completion *cmpl_data;
 
-.. and again..
-
-> +	int err = 0;
-> +
-> +	/* Verify we have a completion pointer */
-> +	cmpl_data = READ_ONCE(fbd->cmpl_data);
-> +	if (!cmpl_data ||
-> +	    cmpl_data->msg_type != FBNIC_TLV_MSG_ID_FW_VERIFY_IMAGE_RESP)
-> +		return -ENOSPC;
-> +
-> +	/* Check for errors */
-> +	get_signed_result(FBNIC_FW_VERIFY_IMAGE_ERROR, err);
-> +
-> +	cmpl_data->result = err;
-> +	complete(&cmpl_data->done);
-> +
-> +	return err;
-> +}
-> +
-> +static const struct fbnic_tlv_index fbnic_fw_finish_upgrade_req_index[] = {
-> +	FBNIC_TLV_ATTR_S32(FBNIC_FW_FINISH_UPGRADE_ERROR),
-> +	FBNIC_TLV_ATTR_LAST
-> +};
-> +
-> +static int fbnic_fw_parse_fw_finish_upgrade_req(void *opaque,
-> +						struct fbnic_tlv_msg **results)
-> +{
-> +	struct fbnic_dev *fbd = opaque;
-> +	struct fbnic_fw_completion *cmpl_data;
-
-...and again...
-
-> +	int err = 0;
-> +
-> +	/* Verify we have a completion pointer */
-> +	cmpl_data = READ_ONCE(fbd->cmpl_data);
-> +	if (!cmpl_data ||
-> +	    cmpl_data->msg_type != FBNIC_TLV_MSG_ID_FW_WRITE_CHUNK_REQ)
-> +		return -ENOSPC;
-> +
-> +	/* Check for errors */
-> +	get_signed_result(FBNIC_FW_FINISH_UPGRADE_ERROR, err);
-> +
-> +	/* Close out update by clearing data pointer */
-> +	cmpl_data->fw_update.last_offset = cmpl_data->fw_update.size;
-> +	cmpl_data->fw_update.data = NULL;
-> +
-> +	cmpl_data->result = err;
-> +	complete(&cmpl_data->done);
-> +
-> +	return 0;
-> +}
-> +
->   static const struct fbnic_tlv_parser fbnic_fw_tlv_parser[] = {
->   	FBNIC_TLV_PARSER(FW_CAP_RESP, fbnic_fw_cap_resp_index,
->   			 fbnic_fw_parse_cap_resp),
-> @@ -658,6 +909,18 @@ static const struct fbnic_tlv_parser fbnic_fw_tlv_parser[] = {
->   			 fbnic_fw_parse_ownership_resp),
->   	FBNIC_TLV_PARSER(HEARTBEAT_RESP, fbnic_heartbeat_resp_index,
->   			 fbnic_fw_parse_heartbeat_resp),
-> +	FBNIC_TLV_PARSER(FW_START_UPGRADE_RESP,
-> +			 fbnic_fw_start_upgrade_resp_index,
-> +			 fbnic_fw_parse_fw_start_upgrade_resp),
-> +	FBNIC_TLV_PARSER(FW_WRITE_CHUNK_REQ,
-> +			 fbnic_fw_write_chunk_req_index,
-> +			 fbnic_fw_parse_fw_write_chunk_req),
-> +	FBNIC_TLV_PARSER(FW_VERIFY_IMAGE_RESP,
-> +			 fbnic_fw_verify_image_resp_index,
-> +			 fbnic_fw_parse_fw_verify_image_resp),
-> +	FBNIC_TLV_PARSER(FW_FINISH_UPGRADE_REQ,
-> +			 fbnic_fw_finish_upgrade_req_index,
-> +			 fbnic_fw_parse_fw_finish_upgrade_req),
->   	FBNIC_TLV_MSG_ERROR
->   };
-> 
-> diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_fw.h b/drivers/net/ethernet/meta/fbnic/fbnic_fw.h
-> index 221faf8c6756..a638d73d2da5 100644
-> --- a/drivers/net/ethernet/meta/fbnic/fbnic_fw.h
-> +++ b/drivers/net/ethernet/meta/fbnic/fbnic_fw.h
-> @@ -44,6 +44,19 @@ struct fbnic_fw_cap {
->   	u8	link_fec;
->   };
-> 
-> +struct fbnic_fw_completion {
-> +	u32 msg_type;
-> +	struct completion done;
-> +	int result;
-> +	union {
-> +		struct {
-> +			u32 size;
-> +			u32 last_offset;
-> +			const u8 *data;
-> +		} fw_update;
-> +	};
-> +};
-> +
->   void fbnic_mbx_init(struct fbnic_dev *fbd);
->   void fbnic_mbx_clean(struct fbnic_dev *fbd);
->   void fbnic_mbx_poll(struct fbnic_dev *fbd);
-> @@ -52,6 +65,9 @@ void fbnic_mbx_flush_tx(struct fbnic_dev *fbd);
->   int fbnic_fw_xmit_ownership_msg(struct fbnic_dev *fbd, bool take_ownership);
->   int fbnic_fw_init_heartbeat(struct fbnic_dev *fbd, bool poll);
->   void fbnic_fw_check_heartbeat(struct fbnic_dev *fbd);
-> +int fbnic_fw_xmit_fw_start_upgrade(struct fbnic_dev *fbd,
-> +				   struct fbnic_fw_completion *cmpl_data,
-> +				   unsigned int id, unsigned int len);
-> 
->   #define fbnic_mk_full_fw_ver_str(_rev_id, _delim, _commit, _str, _str_sz) \
->   do {									\
-> @@ -67,6 +83,15 @@ do {									\
->   #define fbnic_mk_fw_ver_str(_rev_id, _str) \
->   	fbnic_mk_full_fw_ver_str(_rev_id, "", "", _str, sizeof(_str))
-> 
-> +enum {
-> +	QSPI_SECTION_CMRT			= 0,
-> +	QSPI_SECTION_CONTROL_FW			= 1,
-> +	QSPI_SECTION_UCODE			= 2,
-> +	QSPI_SECTION_OPTION_ROM			= 3,
-> +	QSPI_SECTION_USER			= 4,
-> +	QSPI_SECTION_INVALID,
-> +};
-> +
->   #define FW_HEARTBEAT_PERIOD		(10 * HZ)
-> 
->   enum {
-> @@ -76,6 +101,14 @@ enum {
->   	FBNIC_TLV_MSG_ID_OWNERSHIP_RESP			= 0x13,
->   	FBNIC_TLV_MSG_ID_HEARTBEAT_REQ			= 0x14,
->   	FBNIC_TLV_MSG_ID_HEARTBEAT_RESP			= 0x15,
-> +	FBNIC_TLV_MSG_ID_FW_START_UPGRADE_REQ		= 0x22,
-> +	FBNIC_TLV_MSG_ID_FW_START_UPGRADE_RESP		= 0x23,
-> +	FBNIC_TLV_MSG_ID_FW_WRITE_CHUNK_REQ		= 0x24,
-> +	FBNIC_TLV_MSG_ID_FW_WRITE_CHUNK_RESP		= 0x25,
-> +	FBNIC_TLV_MSG_ID_FW_VERIFY_IMAGE_REQ		= 0x26,
-> +	FBNIC_TLV_MSG_ID_FW_VERIFY_IMAGE_RESP		= 0x27,
-> +	FBNIC_TLV_MSG_ID_FW_FINISH_UPGRADE_REQ		= 0x28,
-> +	FBNIC_TLV_MSG_ID_FW_FINISH_UPGRADE_RESP		= 0x29,
->   };
-> 
->   #define FBNIC_FW_CAP_RESP_VERSION_MAJOR		CSR_GENMASK(31, 24)
-> @@ -121,4 +154,30 @@ enum {
->   	FBNIC_FW_OWNERSHIP_FLAG			= 0x0,
->   	FBNIC_FW_OWNERSHIP_MSG_MAX
->   };
-> +
-> +enum {
-> +	FBNIC_FW_START_UPGRADE_ERROR		= 0x0,
-> +	FBNIC_FW_START_UPGRADE_SECTION		= 0x1,
-> +	FBNIC_FW_START_UPGRADE_IMAGE_LENGTH	= 0x2,
-> +	FBNIC_FW_START_UPGRADE_MSG_MAX
-> +};
-> +
-> +enum {
-> +	FBNIC_FW_WRITE_CHUNK_OFFSET		= 0x0,
-> +	FBNIC_FW_WRITE_CHUNK_LENGTH		= 0x1,
-> +	FBNIC_FW_WRITE_CHUNK_DATA		= 0x2,
-> +	FBNIC_FW_WRITE_CHUNK_ERROR		= 0x3,
-> +	FBNIC_FW_WRITE_CHUNK_MSG_MAX
-> +};
-> +
-> +enum {
-> +	FBNIC_FW_VERIFY_IMAGE_ERROR		= 0x0,
-> +	FBNIC_FW_VERIFY_IMAGE_MSG_MAX
-> +};
-> +
-> +enum {
-> +	FBNIC_FW_FINISH_UPGRADE_ERROR		= 0x0,
-> +	FBNIC_FW_FINISH_UPGRADE_MSG_MAX
-> +};
-> +
->   #endif /* _FBNIC_FW_H_ */
-> --
-> 2.43.5
-
+[ strip ]
