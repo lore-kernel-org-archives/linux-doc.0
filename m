@@ -1,280 +1,246 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2082.outbound.protection.outlook.com [40.107.220.82])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B6F1BFE10;
-	Mon, 14 Oct 2024 17:43:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F22231C8A;
+	Mon, 14 Oct 2024 17:46:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.82
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728927810; cv=pass; b=ZuKHVjsa2jY4/Ox6uoG6RH57xgQXAD5+Aub8GW5DrzXFleSdrSIMfdOglq6zbK10XFLrYizor1SgoVsjVXC/xbLuMM3nmSXSNHc4pUgWjzjy6DRvibF+0s3EfLqvcYUSkk4+ltGbEPLZhkoXp24BdVpfGR10lB9msZXtpmUGDgM=
+	t=1728927985; cv=fail; b=HxSiExV3WdQKTAkdG1W3Jl2c3zPqDhbKcNbkfaPy2xOS7PtM6Dazq+j3Hb+b3b6cPQvyecdBoXNvy+cSV72klHNvnekrMBmbiOZCGn73eO4G8owDL5XJzaIdBK08Jvp6bvERJRiz19824cu0nCXrE5uCSAptQ1YNfw87XbcRCBI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728927810; c=relaxed/simple;
-	bh=CMQ5aEKoPJ8Yjt4bYFbMcMTcPpYh1IwTmFPdeQ0zY5Q=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=ndFHJ119dn233YIZmrlvrGg0m9KIX8J+BL8i1Sn6Vuoxwhp9sRtaRXDNebvLJtKBc76bjrKsfYyiBpEZ0FNRK5YfEvGtHT0JlciniPE1hwsQgclcFHgWuF3MliIVQFf8D8MvGh1M9UBnK7CeDUwsZG55zLeuhCrYRJHXpV3IEhM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=EI5Gkrfy; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1728927985; c=relaxed/simple;
+	bh=aeOvmxjSKMeKwqj6q3fcDddngXywdJSjK528H3VY0hs=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Hn2g1Yo661icEUGI3/QBKpG/glgmMAnpM5lV9m542WMT7fv0ZZjMmGfxSr134KcBfmVT8NZ1O5aTDuA1OMJyadKYN1Y870aIY74u15mHdbsDQTXYanOEdO6f5qdGLKdWPP79sb7J3/6PZ3RTQIQnD7/ImmOA1+AjFRqSbXhVvCU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=laWWqWSL; arc=fail smtp.client-ip=40.107.220.82
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="EI5Gkrfy"
-ARC-Seal: i=1; a=rsa-sha256; t=1728927792; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=eLCVRJdKExl6mMPF6kiha+MatIiJsh1lZkjUC29mWQp+BKyzQtYjaGjVda5Dv8dEK6Bz9g7t9vQ+mA72uG6JK630JtwPn+Mpt8RJnBMn1SEfQjkTNoQmQ/NCbtgP+ObI/5qE1/o6kHbCMAN7tRTYwDWlABsfCt6DYKQ8M6T7CIk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1728927792; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=MDhWxv3iV/paXTy7tIMf5UxS7BfHgZA0lyUUT/MwM7c=; 
-	b=KL+z+sYDT1Yt7FaJKm+iy7wxF6RJdFwbJa9dGHKDv0a/UvBj7YhlVHK6pTIS3osTrTJTRVjJCUiLaOxeZyj1/ySLCyFs2dOGefkeZwx0tDDcXRQAcw34Y40psCDhDhhLG7OWsr1+idbdoXFvuO8Pl1bsJthvkuesAs2VCaRExuc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
-	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1728927792;
-	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
-	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
-	bh=MDhWxv3iV/paXTy7tIMf5UxS7BfHgZA0lyUUT/MwM7c=;
-	b=EI5GkrfyVnvJSE3zdbcNeatciL6LOato1ZkumWCJAWqiISMInpH4fsQyCJP0WDm5
-	DsN60WFrVM6OYBkNe7Lg9RWY992M7izI7tWvDzbsBZB8R3H2upRKsH0ulKuOqACmtVK
-	noZTK//UnhYHVYDDaxKWW4ylJ4HVyc1XOwXJiGMA=
-Received: by mx.zohomail.com with SMTPS id 1728927790947967.650983391245;
-	Mon, 14 Oct 2024 10:43:10 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="laWWqWSL"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=r7q1Ck0LjYKWDdqjTgohXMefSXNVRQOhhaGT9esXFQ6xVVrTxBNp+X79MeyRGKIKfb/wQhZcPtySMKOYfn8rmWzCNZkEs9qi8w3rXkTMTxpzXyMP7nmSmytrtk9vsY31AsAOEUaBjSv6NyqjwsJVDyZV76WdUlu3226Q2fNuWXJ6fCIgbna5JRKl2Lk6UGFAhethl6z5Xn/sFCgmM7b5AuWh2PwNFVNSzFJaSyMbtEvnQMKIsqIkxY+tM4StgfAKNAKqffAm8NykoGis7YLlu0bwoTyDBRgS0J5Q4Cv3vUceWNZyCo6PjGld3kQ3s8Z2pbJywzpPMNEukRwtEssuJQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=njPRrVOF4Z3cbd2vnwfvKWLUqHRJjhXFZgItpFrS+Qk=;
+ b=MH8zV8IG1SYyMbb83F2LzEKXoNsPCtG+8oVYabTEtYUtjjG9P8CkNN+7qzSjxZx6OXo5+BJ6C0lmgRy2izXbq54qwNRuSo5NzOgn4JolCw8GtGjRJ/JBl+6423oT1aRA6L6uLVNHNJBL+U6PKjj68rZnk0c+BoHmj9b3c1OALjN2OY7R/Bxs4fU7IIu2f2Kasu7MU21jW50GmklX5d52ufqIAIPVioXxlA5gAB5mNJzom1FQeZgM5s+Kau9hqj0fZqEvvM4+pmaTrnLjkxtUb15n07W9SS0az6mcxgTqGz+t6916hcBuvsQzWQiYN1uolx00A+2imkdxkgr9SUh6rw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=njPRrVOF4Z3cbd2vnwfvKWLUqHRJjhXFZgItpFrS+Qk=;
+ b=laWWqWSL6FNmGcbMiuSiyzEMX0RbjjZ3KJrx48mtmxjuHJCzU5McwNDhQtUxBNFruaJA+9xok1zQrvryrgHNS1+uqw7IC+CDlddOOQCY0TQGldG5W/PDWXXQs60o2s36ZRj5ngQGNS2csof5bdTFHBARu3RHP1JkWKdg7SZhzIM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by DS0PR12MB9446.namprd12.prod.outlook.com (2603:10b6:8:192::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.25; Mon, 14 Oct
+ 2024 17:46:21 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.8048.020; Mon, 14 Oct 2024
+ 17:46:21 +0000
+Message-ID: <91f63f7b-32e8-4a67-9851-1c080fe62e23@amd.com>
+Date: Mon, 14 Oct 2024 12:46:17 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v8 08/25] x86/resctrl: Introduce interface to display
+ number of monitoring counters
+To: Reinette Chatre <reinette.chatre@intel.com>,
+ Tony Luck <tony.luck@intel.com>
+Cc: corbet@lwn.net, fenghua.yu@intel.com, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+ hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org,
+ peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com,
+ lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com,
+ leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com,
+ kirill.shutemov@linux.intel.com, jithu.joseph@intel.com,
+ kai.huang@intel.com, kan.liang@linux.intel.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
+ ilpo.jarvinen@linux.intel.com, peternewman@google.com,
+ maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
+References: <cover.1728495588.git.babu.moger@amd.com>
+ <c79fdf4196d974325df995eb334221463747689e.1728495588.git.babu.moger@amd.com>
+ <ZwcIkf_oy2oKByNu@agluck-desk3.sc.intel.com>
+ <8ceeb50a-70d7-4467-b7c1-4f62b1a1eec8@amd.com>
+ <ceeaf5a7-190e-4c29-89da-ba9e83693360@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <ceeaf5a7-190e-4c29-89da-ba9e83693360@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA1P222CA0008.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:22c::35) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3818.100.11.1.3\))
-Subject: Re: [PATCH RFC v2 3/3] docs: media: Debugging guide for the media
- subsystem
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20240529-b4-media_docs_improve-v2-3-66318b2da726@collabora.com>
-Date: Mon, 14 Oct 2024 14:42:55 -0300
-Cc: Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org,
- laurent.pinchart@ideasonboard.com,
- hverkuil-cisco@xs4all.nl,
- mauro.chehab@linux.intel.com,
- kernel@collabora.com,
- bob.beckett@collabora.com,
- nicolas.dufresne@collabora.com
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <666F7E2C-A44B-4B09-AF8E-D29138DFDBD3@collabora.com>
-References: <20240529-b4-media_docs_improve-v2-0-66318b2da726@collabora.com>
- <20240529-b4-media_docs_improve-v2-3-66318b2da726@collabora.com>
-To: Sebastian Fricke <sebastian.fricke@collabora.com>
-X-Mailer: Apple Mail (2.3818.100.11.1.3)
-X-ZohoMailClient: External
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DS0PR12MB9446:EE_
+X-MS-Office365-Filtering-Correlation-Id: b518e987-3651-4347-278c-08dcec781d63
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?TXM2Z0ZXM1hsazlhT2RBKzlONHk1VnZXdjJkMGhPclFka2FFVWVwOEh5Y1Zh?=
+ =?utf-8?B?ZHdUZXkyYWF4Sm9kUW9DV2Z0eGZZR1dyS1BsdEVhRUYwUU10aTlhMEFMa2FH?=
+ =?utf-8?B?NTBGMUhIemliaDQwOWlmWDRBRkFQSVlTc2twSkpoaGJkVHZ1ZWlEd3o0WXFq?=
+ =?utf-8?B?Z0t6NjBWZjdOUUgyMTZQTHdsS1VQRlVNOGtrK0lwMklBempPYWJBbllJVUxN?=
+ =?utf-8?B?Q0g5a09hczlkLzZaRWo0UWRoTGR5VDdYbkMvMXF1dmUvaVhabGoxZ1FlcWVn?=
+ =?utf-8?B?cklvNXoyRlJZajNJaGpITVlYeS9GbFNJRkJHb1FLWU9aNE4vK0lETStnMklt?=
+ =?utf-8?B?b0JrMVlmZFdEWGVtZ050VkdFZUhRclg5K3lQWGtRSjNlb2pkRmplYytOM21v?=
+ =?utf-8?B?UlJNcWNZdElDZVNKVm9SaW02U2hTMk5qeldwbGxra2NvTGJYQ3pJOUZIM2sy?=
+ =?utf-8?B?WHcxd3JydTZNSVpDdmJLNnZGMWwrZ1FEYTM5QUIrQkR5NVM5ZXlQVXVZa2NX?=
+ =?utf-8?B?d0NJblJzSUZPMkNOeFcyc1lMWDNRZ1BnUTJYbDU1R2twakRuS3g3L0dxUjhw?=
+ =?utf-8?B?UGZKckUxZSt2eDFMakp2eGpTeXhxR1NDVFlNRnZuR0g0c0VtM1BCWXFSWEhV?=
+ =?utf-8?B?QkFHeW5DcjZVTEhqT2NYQzRDMWVBbk5TZXFRVUZaL2Fkd3VNeXBXNTJjalF0?=
+ =?utf-8?B?SDUwUDBzV0lhRzRjd3MzdDhad3Z4QkluL3dUdVdDYlQyUVlHeU9yRE9id2dl?=
+ =?utf-8?B?NnFnd1JkU3dzejMzRS9OYXI3NnJRbEpLMk1GK2VkdkJWTmtTejBzOXR5UFY2?=
+ =?utf-8?B?dkRkSGplZzNGV203RGp1R2RXRkd0c3RlN0doK29ObmJlZUF3TmZjaE9hRXhN?=
+ =?utf-8?B?ZTBmOGszSVJzTUY1YkErakthMGdKdXU1UjU5M2lUQzFVS1pSRk50eWpmdExG?=
+ =?utf-8?B?Zm9jLzUxVUVYb05Qa1ZLQitLdHFFSnBqcE9KeW5OUk95dXFwaEV3OEZtS2VI?=
+ =?utf-8?B?SlJrM2gzQ0Y1NTJiTWJYRWJPeXkweTBYQTFqK2ZTYzlkMXpmK2tISGRPTEpt?=
+ =?utf-8?B?TW9kV0ZsQldKS010ZGJWUVBYc0loUkVxRVlvWW5kSkQ1Yks3VEhWdEYrMmZF?=
+ =?utf-8?B?MStDbTA3SlR0WW42S2p2a2NtM2ZkN01Kb1BZcCtNaThsaW1iSWIzSExXU05R?=
+ =?utf-8?B?ZVozK2ltMGUxZUdhK1dXVkxnd3o4VkVBdkt6Q2ZWODZQTVEzR0ZkN2pFcEFo?=
+ =?utf-8?B?NmNNNm9sQ0Erc3FPTWI2ZWszYjdvak1vVi84L25QUkZFN0dGekk0SithUWFX?=
+ =?utf-8?B?OEI0M053SnNjSTNTUTJTTUNtelB5ZHZLNUhtU3h6ZWJ2QmFOYnMxdUlDajBu?=
+ =?utf-8?B?QmhIK3d1Q0ZoRHdETithT0VDalprV0ZoaHkvb0lnQ3ZyeGlrSStORVFtOFJr?=
+ =?utf-8?B?TEljUjNXTzZPbFV5M01FeXBUVm9qa1NHSGx2andnYlVqNmhGK0pnck9wOWdJ?=
+ =?utf-8?B?YXhvam5qVk5NMWhoQlQ1aTdJS2E4R0JhVnVvSCs1R21FNzFVTDNOOFlIUG5l?=
+ =?utf-8?B?Y2F6RTVpb202UDJ3TTEwOHl0SWhNcjhGL3NWRlI3T1YzN1oremVWRm1IS1k4?=
+ =?utf-8?B?NmJGakIrNHRvQmpHMnVGOW16Y1d0c1JYVWF5c05QaVBsWWhFSmU5SW9LVzUy?=
+ =?utf-8?B?dXoxSDhRTzhON2Roa0xHSmNlUnFWd1NIMSt3TW5sYmdkOEt4WlhqVWtBPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Qys3d3dyR3lMdUljbkMzbklQN0dYNjJxM0RTMkFHQ3dzSWFWWFdZY0RuN1VH?=
+ =?utf-8?B?Y2hNZEZjenlPcGlvNWh0OXBlUnYzMEJMT1RWTXFZM1BYNnBDbTF2Q293UU5z?=
+ =?utf-8?B?RDFZZFJLeGlERkVsRldSY1VZM0RGQUhiR09CRGVIdzFrbDVMWFEzN21EdU1H?=
+ =?utf-8?B?aFAzYjFIVEdKSXljeGxKWFczWU1wTGdEd2o3d2hEZlR3OUo4NXMrcDk3L3Rp?=
+ =?utf-8?B?UFZWcWhEa2ZKNTNZZHpMVEEvTHJTQnZrcjhuTmxTY0NXMEE1NkhMVjVkTi9M?=
+ =?utf-8?B?NXNsMGVjQkw3MmxwTnFZRnlqUkNVWHJWUzZpV3ljQmdBTzA1c0p5bTUxZElh?=
+ =?utf-8?B?RXEwRzVaRWNpOEZzaXdYY3BSdHkzSGhRYUN6YzNYOWJmTklMUUdPTGJZZEZU?=
+ =?utf-8?B?U09yWHJhZTgvbjE2L20xb0d5SWtkWFpVTUxTM1gzUmNhOGlFMEJ1T2hkMThn?=
+ =?utf-8?B?YzgyWjZ4aGg3cWlUOW5YMlllQkxEV3RUZkVYR1oxNDN6SGpMK1BiYTZHL3BI?=
+ =?utf-8?B?Y1FpQVFRTERZZXRIVTkyOGZKNDYvYk42cDRzc2dHTzN6MGEwUjkwVWNFU0Mv?=
+ =?utf-8?B?ZzdvZ0JIam52QmhJWlVaakMvR0t5TythbDdOL3g4bi92UUxXL2NUMUZwU2Zw?=
+ =?utf-8?B?aElOZUZUbHdoYjF2aWU2SmNvOUM0SWJVTGp1MmhiL3VGYjFEVXVOZnlKdEhF?=
+ =?utf-8?B?ZTNaV1VsbFFHZ2ZiMWcwNFBZOFpmYUlnRU9lYzdTekxZbkdPeUJVVVo4NXBx?=
+ =?utf-8?B?ZnZKeGlOeStvSlg5TUpLWmtBZCt0WnczRUVrNW5DK0VIRy9GQitoOGpjUmMr?=
+ =?utf-8?B?REpDNE9FdkRQZ1FWTW9KR1IySHcxTUovYTBBUTdWUGpJOS9RMG1aWnkxa212?=
+ =?utf-8?B?cWhENzdvRzRlZ0JQaEpWZ3lYWXpmbXZ6cFZ0Tmg2YlUzVTZTc0wvcXk0Nzg0?=
+ =?utf-8?B?WlVZbzlsSUNWU2dyQm4yZlhLOWk1d1RyUXRvRGkxL1RkcjhrZFY2NGJuamFw?=
+ =?utf-8?B?dWU2UHV3aXR3RGdJWTN0ZnNxNzJtY0Z2L1BVdkJFVTZKRTV4YloyMm5BMDRO?=
+ =?utf-8?B?bEg3TERxYU01K0lqeFVYMUtwUHV2QnI4M2JYNjdPWUJycGRUbmlRNEJ3WDJ4?=
+ =?utf-8?B?UTBWREJ2YjVYNmNMOFVKNUxkTzJEKy9Ic2FRM3o4REJrdkltQWFSTWhmU2g2?=
+ =?utf-8?B?T3ZTRjJDbjBsNnkvK1p4QnloQ2F0UjZjOGJ0b2tzNkRZK1U2djNsaVg5MXN4?=
+ =?utf-8?B?OVNoSjZ3UmdHYnhHWFpoRkg1ZHpJR0h4RksxZzJCWU9CUHVBem9NbURHNFpj?=
+ =?utf-8?B?YVRvMThkUnNsMGF5bHFsSEo2ckZ2eUwra3FvM2ZYRDJuWElsWm9zaVBvRWtC?=
+ =?utf-8?B?ZUU2WkhQOVFRN1U3SWIxekV5RUlmTnVsUGV3cWkwUy91Q3pGN2RVNUdJYVBK?=
+ =?utf-8?B?SFFGTlY4ZlRXejFhQTN3bndWZis4RFhkaEh6M1pYRFg2RExTcmcyVGdTaDdx?=
+ =?utf-8?B?cXRoQVhEZ2piRmtCSXdsUTZtMjlFRXlTR09oSWRVSFNFM0xudXFZbkw1WmhB?=
+ =?utf-8?B?KzJtOGxGWGRJNmQwc0lpTHZrUmMyc0VxTC82ZUozWlZuaUNDaVhCM0Uzckla?=
+ =?utf-8?B?eC95SUYwaFozTEU0N1FtUU82VWE3RkNqZzg4UVVWdmVxK0tVaXdmY0Q5Y09F?=
+ =?utf-8?B?N1BLZVpSK2xCZW5VdWtwdUE3RzFESTNNMGhJVFBQeHdsVjNPSC9CbmJ6Vlh0?=
+ =?utf-8?B?NW43dGxuTGZYanhWUk5UVTF1bFd5cTZSTlI5ZnpyZjVEbjJXY0tCU09idUlh?=
+ =?utf-8?B?NnRXbFB1eDZKaVN0M0x6eFFxUUViY0NEcGo0aHhTbHJhS3o3aytSVU9SVmk0?=
+ =?utf-8?B?M3FoSStOcGxwYWtCRUZHS05wN1NKTmJueUxUUWJoMWhqSnFQUzAwQzRFbjV2?=
+ =?utf-8?B?WmNleEJpZjBkeHZwUTY5NlNnMW1CSEI4eTc3Y3gxN0xJSHRVWjN6d2NhV2dU?=
+ =?utf-8?B?Nmxkb1o1NHk5SG44M0dOb2VzQmZtY04ycjdoNlJRL041Rm16MFN0aElZZW12?=
+ =?utf-8?B?NnRFb0pLZzM3b0YrSyttMlcyd2d0aktGNWhWV1l0NGlZM2RMWkJSc3hUTllW?=
+ =?utf-8?Q?Kt2E=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b518e987-3651-4347-278c-08dcec781d63
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2024 17:46:21.4546
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rzXx2oRYyB6JFHV/RBdL0D4vn8LPAyohcu7LgVJC6zGsCj7q6CzlZJB3AqVJvNMU
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9446
 
-Hi Sebastian,
+Hi Reinette,
 
-> On 24 Sep 2024, at 05:45, Sebastian Fricke =
-<sebastian.fricke@collabora.com> wrote:
->=20
-> Create a guides section for all documentation material, that isn't
-> strictly related to a specific piece of code.
->=20
-> Provide a guide for developers on how to debug code with a focus on =
-the
-> media subsystem. This document aims to provide a rough overview over =
-the
-> possibilities and a rational to help choosing the right tool for the
-> given circumstances.
->=20
-> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-> ---
-> Documentation/media/guides/debugging_issues.rst | 174 =
-++++++++++++++++++++++++
-> Documentation/media/guides/index.rst            |  11 ++
-> Documentation/media/index.rst                   |   1 +
-> 3 files changed, 186 insertions(+)
->=20
-> diff --git a/Documentation/media/guides/debugging_issues.rst =
-b/Documentation/media/guides/debugging_issues.rst
-> new file mode 100644
-> index 000000000000..5f37801dd4ba
-> --- /dev/null
-> +++ b/Documentation/media/guides/debugging_issues.rst
-> @@ -0,0 +1,174 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: <isonum.txt>
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Debugging and tracing in the media subsystem
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +This document serves as a starting point and lookup for debugging =
-device
-> +drivers in the media subsystem.
-> +
-> +.. contents::
-> +    :depth: 3
-> +
-> +General debugging advice
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+On 10/14/24 11:25, Reinette Chatre wrote:
+> Hi Babu and Tony,
+> 
+> On 10/10/24 8:12 AM, Moger, Babu wrote:
+>>
+>> All good points. How about this text:
+>>
+>> "num_mbm_cntrs":
+>> The number of monitoring counters available for assignment when the
+>> architecture supports mbm_cntr_assign mode.
+>>
+>> Resctrl subsystem provides the interface to count maximum of two memory
+> 
+> subsystem -> filesystem
 
-> +
-> +For general advice see the `general-debugging-guide =
-<../../debugging/index.html>`__.
-> +
-> +Available tools
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +dev_debug module parameter
-> +--------------------------
-> +
-> +For a general overview please see the =
-`driver-development-debugging-guide =
-<../../debugging/driver_development_debugging_guide.html>`__.
-> +
-> +Every video device provides a `dev_debug` parameter, which allows to =
-get further insights into the IOCTLs in the background.
-> +::
-> +
-> +  # cat /sys/class/video4linux/video3/name
-> +  rkvdec
-> +  # echo 0xff > /sys/class/video4linux/video3/dev_debug
-> +  # dmesg -wH
-> +  [...] videodev: v4l2_open: video3: open (0)
-> +  [  +0.000036] video3: VIDIOC_QUERYCAP: driver=3Drkvdec, =
-card=3Drkvdec, bus=3Dplatform:rkvdec, version=3D0x00060900, =
-capabilities=3D0x84204000, device_caps=3D0x04204000
-> +
-> +`Full documentation =
-<../../driver-api/media/v4l2-dev.html#video-device-debugging>`__
-> +
-> +dev_dbg / v4l2_dbg
-> +------------------
-> +
-> +- Difference between both?
-> +
-> +  - v4l2_dbg utilizes v4l2_printk under the hood, which further uses =
-printk directly, thus it cannot be targeted by dynamic debug
-> +  - dev_dbg can be targeted by dynamic debug
-> +  - v4l2_dbg has a more specific prefix format for the media =
-subsystem, while dev_dbg only highlights the driver name and the =
-location of the log
-> +
-> +Dynamic debug
-> +-------------
-> +
-> +For general advice see the `userspace-debugging-guide =
-<../../debugging/userspace_debugging_guide.html>`__.
-> +
-> +Here is one example, that enables all available `pr_debug()`'s within =
-the file:
-> +::
-> +
-> +  $ alias ddcmd=3D'echo $* > /proc/dynamic_debug/control'
-> +  $ ddcmd '-p; file v4l2-h264.c +p'
-> +  $ grep =3Dp /proc/dynamic_debug/control
-> +   drivers/media/v4l2-core/v4l2-h264.c:372 =
-[v4l2_h264]print_ref_list_b =3Dp "ref_pic_list_b%u (cur_poc %u%c) %s"
-> +   drivers/media/v4l2-core/v4l2-h264.c:333 =
-[v4l2_h264]print_ref_list_p =3Dp "ref_pic_list_p (cur_poc %u%c) %s\n"
-> +
-> +Ftrace
-> +------
-> +
-> +For general advice see the `userspace-debugging-guide =
-<../../debugging/userspace_debugging_guide.html>`__.
-> +
-> +Trace whenever the `rkvdec_try_ctrl` function is called
-> +::
-> +
-> +  $ cd /sys/kernel/tracing
-> +  $ echo function > /sys/kernel/tracing/current_tracer
-> +  $ echo rkvdec_try_ctrl > set_ftrace_filter
-> +  $ echo 1 > tracing_on
-> +  $ cat trace
-> +   h264parse0:sink-6359    [001] ...1. 172714.547523: rkvdec_try_ctrl =
-<-try_or_set_cluster
-> +   h264parse0:sink-6359    [005] ...1. 172714.567386: rkvdec_try_ctrl =
-<-try_or_set_cluster
-> +
-> +Find out from where the calls originate
-> +::
-> +
-> +  $ echo 1 > options/func_stack_trace
-> +   h264parse0:sink-6715    [002] ..... 172837.967762: rkvdec_try_ctrl =
-<-try_or_set_cluster
-> +   h264parse0:sink-6715    [002] ..... 172837.967773: <stack trace>
-> +   =3D> rkvdec_try_ctrl
-> +   =3D> try_or_set_cluster
-> +   =3D> try_set_ext_ctrls_common
-> +   =3D> try_set_ext_ctrls
-> +   =3D> v4l2_s_ext_ctrls
-> +   =3D> v4l_s_ext_ctrls
-> +   ...
-> +   h264parse0:sink-6715    [004] ..... 172837.985747: rkvdec_try_ctrl =
-<-try_or_set_cluster
-> +   h264parse0:sink-6715    [004] ..... 172837.985750: <stack trace>
-> +   =3D> rkvdec_try_ctrl
-> +   =3D> try_or_set_cluster
-> +   =3D> v4l2_ctrl_request_setup
-> +   =3D> rkvdec_run_preamble
-> +   =3D> rkvdec_h264_run
-> +   =3D> rkvdec_device_run
-> +   ...
-> +
-> +Trace the children of a function call and show the return values =
-(requires config `FUNCTION_GRAPH_RETVAL`)
-> +::
-> +
-> +  echo function_graph > current_tracer
-> +  echo rkvdec_h264_run > set_graph_function
-> +  echo 4 > max_graph_depth
-> +  echo do_interrupt_handler mutex_* > set_graph_notrace
-> +  echo 1 > options/funcgraph-retval
-> +   ...
-> +   4)               |  rkvdec_h264_run [rockchip_vdec]() {
-> +   4)               |    v4l2_ctrl_find [videodev]() {
-> +   ...
-> +   4)               |    rkvdec_run_preamble [rockchip_vdec]() {
-> +   4)   4.666 us    |      v4l2_m2m_next_buf [v4l2_mem2mem](); /* =3D =
-0xffff000005782000 */
-> +   ...
-> +   4)               |      v4l2_ctrl_request_setup [videodev]() {
-> +   4)   4.667 us    |        media_request_object_find [mc](); /* =3D =
-0xffff000005e3aa98 */
-> +   4)   1.750 us    |        find_ref [videodev](); /* =3D =
-0xffff00000833b2a0 */
-> +   ...
-> +   4)   1.750 us    |      v4l2_m2m_buf_copy_metadata =
-[v4l2_mem2mem](); /* =3D 0x0 */
-> +   4) ! 114.333 us  |    } /* rkvdec_run_preamble [rockchip_vdec] =3D =
-0x0 */
-> +   4)   2.334 us    |    v4l2_h264_init_reflist_builder =
-[v4l2_h264](); /* =3D 0x3e */
-> +   ...
-> +   4)               |    v4l2_h264_build_b_ref_lists [v4l2_h264]() {
-> +   ...
-> +   4)               |    rkvdec_run_postamble [rockchip_vdec]() {
-> +   ...
-> +   4) ! 444.208 us  |  } /* rkvdec_h264_run [rockchip_vdec] =3D 0x0 =
-*/
+Sure.
+> 
+>> bandwidth events per group, from a combination of available total and
+> 
+> Is this "from a combination of ..." snippet intended to hint at BMEC?
 
-Maybe have a look at retsnoop?=20
-
-To me, a very frustrating and very common issue is having to figure out =
-where
-exactly an error code was generated. Ftrace helps a great deal, but I =
-feel that
-retsnoop just takes it a step further. On top of that, you can retrace =
-the
-execution on a statement level. =20
-
-That is, with the right options, it can tell you exactly what statements
-executed, which then lets you get very precise without any extra prints.
-
-See [0]. There=E2=80=99s a talk on KR2024 about it too [1].
+No. We support 2 MBM events right now. That is why I added combination of
+total and local. I can remove that text.
 
 
-[0]: https://github.com/anakryiko/retsnoop
+> 
+>> local events. Keeping the current interface, users can enable a maximum of
+> 
+> What is meant by "Keeping the current interface"? Which interface? What will
+> "current" mean when a user reads this documentation?
 
-[1]: https://www.youtube.com/watch?v=3DNvTBrx6EdF8=20
+I meant not to change any interface to support mbm_cntrl_assign feature.
 
-=E2=80=94 Daniel=
+> 
+>> 2 counters per group. User will also have the option to enable only one
+> 
+> "User will also have" is talking about the future. When will this be the case?
+
+Again.. will have change the text here.
+
+> 
+>> counter to the group to maximize the number of groups monitored.
+>>
+>>
+> 
+> I think that we need to be careful when making this documentation so specific
+> to the ABMC implementation. We already know that "soft-ABMC" is coming and
+> Peter already shared [1] that with software assignment it will not be possible
+> to assign counters to individual events. 
+> 
+> The goal of this work is to create a generic interface and this is the documentation
+> for it. If this documentation is created to be specific to the first implementation
+> it will make it difficult to use this same interface to support other
+> implementations.
+> 
+
+Agree.
+
+How about this?
+
+
+"num_mbm_cntrs":
+The number of monitoring counters available for assignment when the
+architecture supports mbm_cntr_assign mode.
+
+The resctrl filesystem allows user track up to two memory bandwidth events
+per group, using a mix of total and local events. Users can enable up to 2
+counters per group. There's also an option to enable just one counter per
+group, which allows monitoring more groups.
+
+
+-- 
+Thanks
+Babu Moger
