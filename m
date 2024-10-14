@@ -1,75 +1,141 @@
-Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0448B3F9D5
-	for <linux-doc@vger.kernel.org>; Mon, 14 Oct 2024 02:08:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AFDA211C;
+	Mon, 14 Oct 2024 02:56:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728871735; cv=none; b=ombXx56MeQWtpYWtZAVUjSVB4mNRwsS/N9jtXgVBDYWWMrqdaEZZzyGjCmzcQXscghO/nClv37PuyH1bHT7jGlnUaPYKacXe4bGUxEf9tZRtCG8mCLMSugF58phnhFM8Q/1JpL1a2xVROfr4i966ga+Hzz6F4dkPGIRN5uRfzQo=
+	t=1728874564; cv=none; b=njJMVaLIvgJFSvoY+Ap/E6DCLvDvIWCcBEsPIpjJRS3PpZLEOs1jWelivWRJI/hOQKPlI2U9M6NZA6NgEBFqgXU9ABrTtKuD584lDARcKXlpaJwVPMUtalTXMV1l7quPd2vb2zoV90exf9SPgqrCcLaQA30I6ouUo1rjqbe15o8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728871735; c=relaxed/simple;
-	bh=sKoT9ubx2MR3FyeYH9iNNnEYGr/zsGQemIq59egXHpQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fZ2SoN+eAcGuDmMQ6VPrLTqQkfi6Md+JXNVOskvlR/k8166XSXHm8ZsyrrDGiubS7KcugUfR7YEoXYhmtO12JmTaI8nRDj9uHwcGjA0L0QG0EcZgqFERbYucxqO4FHowQIVADsxYDv7rucR99gd1emgQh5cIUEJ6iF/qmUxiQVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=piCSKsWT; arc=none smtp.client-ip=95.215.58.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1728874564; c=relaxed/simple;
+	bh=+jad3wDIVxZ5ZkSppTDF0WTXDCY46VjinDCM4p5MDDs=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=jUSKxWgga8toz0t8kZ++kJyP8S1KZ6qSOu1VhI0Wtz0vulBz/b0fdZIubaU0jkf4cRleg6njsBpSgddpK9O+XCfSmubGLX045LvJKk0dfVaIEB6T5n+LhJGuZOplO/iIJRjeJf3N8RKv1U0UbpuPoAPxpBtITvRdddXODKof/ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DZWF07uP; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="piCSKsWT"
-Date: Sun, 13 Oct 2024 22:08:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1728871726;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wY+ijKXuZt2ojjF9sY4li+YhA/f7UOPAEofiJwS3jCc=;
-	b=piCSKsWTpyYrc56O9Fty31hKyS/UmcAPuHEaFC3yEGAp3Oqj4IHVsd5UhxwApkguAg9jfK
-	mQuwf8cyO0fG3pxjo1ycCwmwZfpoHqO8sBqNH1PvjOdzHU2cobTW/0SSIpHUAVQoWlblsS
-	6HsAREY2u24k+CImBZYk/XmZzIN3OVc=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Kuan-Wei Chiu <visitorckw@gmail.com>
-Cc: colyli@suse.de, msakai@redhat.com, corbet@lwn.net, 
-	peterz@infradead.org, mingo@redhat.com, acme@kernel.org, namhyung@kernel.org, 
-	akpm@linux-foundation.org, mark.rutland@arm.com, alexander.shishkin@linux.intel.com, 
-	jolsa@kernel.org, irogers@google.com, adrian.hunter@intel.com, 
-	kan.liang@linux.intel.com, jserv@ccns.ncku.edu.tw, linux-kernel@vger.kernel.org, 
-	linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev, linux-bcachefs@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 0/3] Enhance min heap API with non-inline functions and
- optimizations
-Message-ID: <lee342z2tyrmmxuqnqb2mg4i4qem6n3ei6ifnuusivxilouqbe@nsbaqry3lchl>
-References: <20241013184703.659652-1-visitorckw@gmail.com>
- <uisaqjn2ttzhohe3a5qrdw4x6m7rhuoxxuhfoz5szufynuz5fz@4wicz52jydwz>
- <ZwxXSje3n6lMTbjj@visitorckw-System-Product-Name>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DZWF07uP"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a9932aa108cso572082966b.2;
+        Sun, 13 Oct 2024 19:56:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728874561; x=1729479361; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K7Dhocqjb276k2G2J0MeGRjVha2Bmm+qWInnAWrlt1Q=;
+        b=DZWF07uPeWVcH2O9i6N9Duxn8buhBslBs7TwgY8rZIaLd5wNBh3rC5fd+0ym5i6Wsq
+         BfGgLQAmW/Dh/ojqhhZe90MnERkQRxYEcq44f+SlRt8KnD3hKNCsyKi4/dN7ekmw0xsu
+         EXudRr6Apmh2QoBVh5l4YM12cLyuM6jjWzFcoxXkazFQudWc+d3iPU/LCFO+DC8/jPhs
+         OWbazubxHJFYgKQrklFaLk8CCynW6f+1OVzB7IZnWTH80XX2mmFkj5+rhNHIM2xdeuvZ
+         YaigM6fPzlk+vNbaKr4w9thpQcyrY5GmTZx9Zg8XG5s7CV3bBno0vmAwkGFYwstDfZA3
+         pJ/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728874561; x=1729479361;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=K7Dhocqjb276k2G2J0MeGRjVha2Bmm+qWInnAWrlt1Q=;
+        b=aiJU3+m0f7CDjMd13xkA7JrPjlFKVxQdB0W/SEd0q8xCtK+HEb2rWYeQRORTCAEqC8
+         3IirvVOT1GsjB6Wel3Le0F6DkXxAf6jeEzcsENphEmTb7CcoYCzd4TgB+dVK8oiUSTFx
+         e4vop5rFZXlkWwcEB5WsBva8eOUANvcp0yzOxTsMGjoOrov9+IWzqZb7qeI6mxdVgfJE
+         yyIF8T1nJVLCblniVJUAVWdaquEeMWbeFTl3SkSu3X9p4A7j1KXB20OxQuX8sdsyiqfZ
+         b67Ii5d6g9ATHKRlYJcLHt+UVrXNdTO2bXk8T4QPyaJ5isDr/stT9E0Vp2YXjgVq6Kr3
+         ouHw==
+X-Forwarded-Encrypted: i=1; AJvYcCUQ9AwGF+/2O67U9mlsh0uHlIC6OTf86jMLB6LDndTD54clSL76Qsk74VzU5l8kET43xzQmjOuXFDzv@vger.kernel.org, AJvYcCUVzQ+p/IybgtzUwN5aOQiv8/LoGQNeQXewIriocVow+o5gTuQUeaKTCCqpJ+ms89u3Yw/qx+MvwOqOPGqw@vger.kernel.org, AJvYcCWBMiTp2rz1XADWoTiHMeEphUEFkhaWEajjpAPxFBDUELz4TPBT9G+M7QqKGyu15csD9/fdliJ7xHA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqKnoIZghaqYYMtq6xLC3OnVV8Rytny9bWTE01mDg7DfdoXJ5E
+	AON8oznCbLgFzO8/NhBJTi/IUMY/537OzjeL7RKyCzRwpc459bOZ
+X-Google-Smtp-Source: AGHT+IGE2RbCl116shOFEFRChGbBgS2YV7zDKqpNZIfMEb70LXwFCrg+DOxy37i0KpwC0h1ZeLHRgw==
+X-Received: by 2002:a17:907:6d02:b0:a99:422a:dee5 with SMTP id a640c23a62f3a-a99b970d0a7mr852403666b.57.1728874561232;
+        Sun, 13 Oct 2024 19:56:01 -0700 (PDT)
+Received: from work.. (2.133.25.254.dynamic.telecom.kz. [2.133.25.254])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99ebdfbff1sm270501366b.39.2024.10.13.19.55.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Oct 2024 19:56:00 -0700 (PDT)
+From: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
+To: andreyknvl@gmail.com
+Cc: 2023002089@link.tyut.edu.cn,
+	akpm@linux-foundation.org,
+	alexs@kernel.org,
+	corbet@lwn.net,
+	dvyukov@google.com,
+	elver@google.com,
+	glider@google.com,
+	kasan-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	ryabinin.a.a@gmail.com,
+	siyanteng@loongson.cn,
+	snovitoll@gmail.com,
+	vincenzo.frascino@arm.com,
+	workflows@vger.kernel.org
+Subject: [PATCH RESEND v3 0/3] kasan: migrate the last module test to kunit
+Date: Mon, 14 Oct 2024 07:56:58 +0500
+Message-Id: <20241014025701.3096253-1-snovitoll@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <CA+fCnZcyrGf5TBdkaG4M+r9ViKDwdCHZg12HUeeoTV3UNZnwBg@mail.gmail.com>
+References: <CA+fCnZcyrGf5TBdkaG4M+r9ViKDwdCHZg12HUeeoTV3UNZnwBg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZwxXSje3n6lMTbjj@visitorckw-System-Product-Name>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 14, 2024 at 07:27:06AM GMT, Kuan-Wei Chiu wrote:
-> On Sun, Oct 13, 2024 at 07:05:38PM -0400, Kent Overstreet wrote:
-> > On Mon, Oct 14, 2024 at 02:47:00AM GMT, Kuan-Wei Chiu wrote:
-> > > Add non-inline versions of the min heap API functions in lib/min_heap.c
-> > > and updates all users outside of kernel/events/core.c to use these
-> > > non-inline versions. Additionally, it micro-optimizes the efficiency of
-> > > the min heap by pre-scaling the counter, following the same approach as
-> > > in lib/sort.c. Documentation for the min heap API has also been added
-> > > to the core-api section.
-> > 
-> > Nice, has it been tested - do you need a CI account?
-> > 
-> > I'd like to start seeing links to CI results in patch postings (and I
-> > need to tweak the CI to add git fetch links, as well).
-> >
-> It would be nice to have a CI account to test my patches. Is there any
-> guide available on how to use it?
+copy_user_test() is the last KUnit-incompatible test with
+CONFIG_KASAN_MODULE_TEST requirement, which we are going to migrate to KUnit
+framework and delete the former test and Kconfig as well.
 
-I give you a config file to edit, it watches your git branch(es), you
-watch dashboard
+In this patch series:
+
+	- [1/3] move kasan_check_write() and check_object_size() to
+		do_strncpy_from_user() to cover with KASAN checks with
+		multiple conditions	in strncpy_from_user().
+
+	- [2/3] migrated copy_user_test() to KUnit, where we can also test
+		strncpy_from_user() due to [1/4].
+
+		KUnits have been tested on:
+		- x86_64 with CONFIG_KASAN_GENERIC. Passed
+		- arm64 with CONFIG_KASAN_SW_TAGS. 1 fail. See [1]
+		- arm64 with CONFIG_KASAN_HW_TAGS. 1 fail. See [1]
+		[1] https://lore.kernel.org/linux-mm/CACzwLxj21h7nCcS2-KA_q7ybe+5pxH0uCDwu64q_9pPsydneWQ@mail.gmail.com/
+
+	- [3/3] delete CONFIG_KASAN_MODULE_TEST and documentation occurrences.
+
+Changes v2 -> v3:
+- added in [1/3] Reviewed-by: Andrey Konovalov.
+- added a long string in usermem for strncpy_from_user. Suggested by Andrey.
+- applied Andrey's patch to modify further kasan.rst.
+
+Changes v1 -> v2:
+- moved the sanitization to do_strncpy_from_user and as the separate commit
+per Andrey's review.
+- deleted corresponding entries of kasan_test_module.o in Makefile
+- deleted CONFIG_KASAN_MODULE_TEST at all with the documentation in separate
+  commit.
+- added Documentation maintainers in CC.
+
+Sabyrzhan Tasbolatov (3):
+  kasan: move checks to do_strncpy_from_user
+  kasan: migrate copy_user_test to kunit
+  kasan: delete CONFIG_KASAN_MODULE_TEST
+
+ Documentation/dev-tools/kasan.rst             |  9 +--
+ .../translations/zh_CN/dev-tools/kasan.rst    |  6 +-
+ .../translations/zh_TW/dev-tools/kasan.rst    |  6 +-
+ lib/Kconfig.kasan                             |  7 --
+ lib/strncpy_from_user.c                       |  5 +-
+ mm/kasan/Makefile                             |  2 -
+ mm/kasan/kasan.h                              |  2 +-
+ mm/kasan/kasan_test_c.c                       | 39 +++++++++
+ mm/kasan/kasan_test_module.c                  | 81 -------------------
+ mm/kasan/report.c                             |  2 +-
+ 10 files changed, 48 insertions(+), 111 deletions(-)
+ delete mode 100644 mm/kasan/kasan_test_module.c
+
+-- 
+2.34.1
+
