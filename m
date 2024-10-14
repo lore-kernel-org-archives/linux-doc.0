@@ -1,226 +1,280 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2087.outbound.protection.outlook.com [40.107.220.87])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9BE11B85E4;
-	Mon, 14 Oct 2024 17:20:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B6F1BFE10;
+	Mon, 14 Oct 2024 17:43:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728926437; cv=fail; b=VwJTjrmvuWYCobfluW3eDoFjc0g2lI+WVHt7eFO6KfGSNTUK5o3sv3aAduU+oiGtoSZ8AYp6f2ruEPh179NnHNuIdpbScnItfk+zL4/KoQ5Jx2YRrBLOyoJ+eedU6T7kTRLpF8uzyETowk2ti4rPx1lF215Cxdf1VBEyXAQLHjw=
+	t=1728927810; cv=pass; b=ZuKHVjsa2jY4/Ox6uoG6RH57xgQXAD5+Aub8GW5DrzXFleSdrSIMfdOglq6zbK10XFLrYizor1SgoVsjVXC/xbLuMM3nmSXSNHc4pUgWjzjy6DRvibF+0s3EfLqvcYUSkk4+ltGbEPLZhkoXp24BdVpfGR10lB9msZXtpmUGDgM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728926437; c=relaxed/simple;
-	bh=nfgDxO2Ny0hKfdMbamMjeFtRPMJSi7SvXNNvJNvPnYE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=eCXurRgpDTl8ltDcv1j6FdQsyYHB9dsX1lk+hQiwREQCu7YIqiQXwRSAR3Af+mIfMvvJtkQfjxTbd7UVK79Hu945w5YC+0ulH27TKSx6Q3S1DE1U9Wkcikrha7jRvxPMqyB+XtPtpP8jCR18OJ1eIjz7BwMdORIt+Tswy/ERKqQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=luJndiDm; arc=fail smtp.client-ip=40.107.220.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1728927810; c=relaxed/simple;
+	bh=CMQ5aEKoPJ8Yjt4bYFbMcMTcPpYh1IwTmFPdeQ0zY5Q=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=ndFHJ119dn233YIZmrlvrGg0m9KIX8J+BL8i1Sn6Vuoxwhp9sRtaRXDNebvLJtKBc76bjrKsfYyiBpEZ0FNRK5YfEvGtHT0JlciniPE1hwsQgclcFHgWuF3MliIVQFf8D8MvGh1M9UBnK7CeDUwsZG55zLeuhCrYRJHXpV3IEhM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=EI5Gkrfy; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="luJndiDm"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zRY9cmXKztUTBtj7iU7zzYPIJjXG9rtZ0oqv/t826/Ez6grJND80xAp+BMLpqLC6o4Im4OQxM+LPMvbSZ4XH8qR24Ug6pZ3C/RT6gvh0/AaAgmiDViUuSiCwLJU+bIaCy5Dxmo5tjLWc6NUj63vI0BNBnhlTn7uONP22STs4UYb+vjLJTa3xAcy1UBtjfOPPS/zBER33PfYdeRfxsT68lxyDMjIiiK7MOS6nEaKvXtfiW/m3e4rRe+s4hTUyfq7BI0KU2CR6gPW5czKX+46wK1rbrNtW2fRaGbydOSWk4S5pRCoiofHHBGvT69pagmv6hhYOuUmu3USu877pD4hbMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0eLfQDtrOK2KG7jRRfZllt+mhr7PDUXEcr5/LHe5zIM=;
- b=noH7Koov70gIL6YpSb3aQrr7u+8ANzzW0o+hzMzYHC+Jqp4NyJobj+PLKpX6f8vKex03QNe6D7dPBM9FL3jYWF6MBpX25zuDdtMJRdklcPEQ2WZU4Mspjs+wL0jkzLVZQbWiW0hFi0Eolczgg79ve4WilR2QKWfwQ7Il9PcSjKEvT6d98z+wuAf//Yeaf1WveJxXXecRbZ6HU3piKZ7pbh3ghnjXriuvs6f8ILkzARjsnrs7MOyrbEfGVRFirbwdQ4CtQnvq8YNQTfOhl1qfyz5l/miKzlv/fsB6nccect9bIBJks9hQmiWPn091ySnC8PXBgd6fZtmWdWrpnEg02A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0eLfQDtrOK2KG7jRRfZllt+mhr7PDUXEcr5/LHe5zIM=;
- b=luJndiDmLj1uSar3WHBxQXw2zr8yV811+9TTHC+9/cuv8hk0ZHrSDzcLfpRXtSQdz4bk5GEivRkp1M2nW0iOrMnVehPZd8kccLoedD5W5fO/KS6uaY9rDThq9OtPzPb6zUZ4/YnY4oU6r/MfybZfKDA737+WGycaoqvxTfl8w4g=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by DS0PR12MB6656.namprd12.prod.outlook.com (2603:10b6:8:d2::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.25; Mon, 14 Oct
- 2024 17:20:33 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.8048.020; Mon, 14 Oct 2024
- 17:20:33 +0000
-Message-ID: <0ee2e67d-c1dd-489e-beef-1f255c5629d6@amd.com>
-Date: Mon, 14 Oct 2024 12:20:29 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v8 08/25] x86/resctrl: Introduce interface to display
- number of monitoring counters
-To: Reinette Chatre <reinette.chatre@intel.com>,
- Tony Luck <tony.luck@intel.com>
-Cc: "corbet@lwn.net" <corbet@lwn.net>, "Yu, Fenghua" <fenghua.yu@intel.com>,
- "tglx@linutronix.de" <tglx@linutronix.de>,
- "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
- "paulmck@kernel.org" <paulmck@kernel.org>,
- "rdunlap@infradead.org" <rdunlap@infradead.org>,
- "tj@kernel.org" <tj@kernel.org>, "peterz@infradead.org"
- <peterz@infradead.org>, "yanjiewtw@gmail.com" <yanjiewtw@gmail.com>,
- "kim.phillips@amd.com" <kim.phillips@amd.com>,
- "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
- "seanjc@google.com" <seanjc@google.com>,
- "jmattson@google.com" <jmattson@google.com>,
- "leitao@debian.org" <leitao@debian.org>,
- "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
- "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
- "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
- "Joseph, Jithu" <jithu.joseph@intel.com>, "Huang, Kai"
- <kai.huang@intel.com>, "kan.liang@linux.intel.com"
- <kan.liang@linux.intel.com>,
- "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "sandipan.das@amd.com" <sandipan.das@amd.com>,
- "ilpo.jarvinen@linux.intel.com" <ilpo.jarvinen@linux.intel.com>,
- "peternewman@google.com" <peternewman@google.com>,
- "Wieczor-Retman, Maciej" <maciej.wieczor-retman@intel.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "Eranian, Stephane" <eranian@google.com>,
- "james.morse@arm.com" <james.morse@arm.com>
-References: <ZwcIkf_oy2oKByNu@agluck-desk3.sc.intel.com>
- <8ceeb50a-70d7-4467-b7c1-4f62b1a1eec8@amd.com>
- <SJ1PR11MB608381B9DA3AE26749070BE8FC782@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <0fedcbd4-487c-4d55-8151-69dc34f41f1d@amd.com>
- <SJ1PR11MB6083FFA19F9387F21C058A09FC782@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <d1986f3f-9db7-4ac9-9fea-56878548ad61@amd.com>
- <SJ1PR11MB608382EB9F40FBDC19DF71C4FC782@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <1baa07f6-0ccc-4365-b7b8-09fe985963cd@amd.com>
- <Zwlj5TQxZphcuDSR@agluck-desk3.sc.intel.com>
- <8af0ce3a-1327-3ffc-ac5c-e495f9cdf5d0@amd.com>
- <ZwmadFbK--Qb8qWP@agluck-desk3.sc.intel.com>
- <ee7771e4-3768-456c-9990-fcd59b4f74af@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <ee7771e4-3768-456c-9990-fcd59b4f74af@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA0PR11CA0201.namprd11.prod.outlook.com
- (2603:10b6:806:1bc::26) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="EI5Gkrfy"
+ARC-Seal: i=1; a=rsa-sha256; t=1728927792; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=eLCVRJdKExl6mMPF6kiha+MatIiJsh1lZkjUC29mWQp+BKyzQtYjaGjVda5Dv8dEK6Bz9g7t9vQ+mA72uG6JK630JtwPn+Mpt8RJnBMn1SEfQjkTNoQmQ/NCbtgP+ObI/5qE1/o6kHbCMAN7tRTYwDWlABsfCt6DYKQ8M6T7CIk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1728927792; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=MDhWxv3iV/paXTy7tIMf5UxS7BfHgZA0lyUUT/MwM7c=; 
+	b=KL+z+sYDT1Yt7FaJKm+iy7wxF6RJdFwbJa9dGHKDv0a/UvBj7YhlVHK6pTIS3osTrTJTRVjJCUiLaOxeZyj1/ySLCyFs2dOGefkeZwx0tDDcXRQAcw34Y40psCDhDhhLG7OWsr1+idbdoXFvuO8Pl1bsJthvkuesAs2VCaRExuc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+	dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1728927792;
+	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+	bh=MDhWxv3iV/paXTy7tIMf5UxS7BfHgZA0lyUUT/MwM7c=;
+	b=EI5GkrfyVnvJSE3zdbcNeatciL6LOato1ZkumWCJAWqiISMInpH4fsQyCJP0WDm5
+	DsN60WFrVM6OYBkNe7Lg9RWY992M7izI7tWvDzbsBZB8R3H2upRKsH0ulKuOqACmtVK
+	noZTK//UnhYHVYDDaxKWW4ylJ4HVyc1XOwXJiGMA=
+Received: by mx.zohomail.com with SMTPS id 1728927790947967.650983391245;
+	Mon, 14 Oct 2024 10:43:10 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DS0PR12MB6656:EE_
-X-MS-Office365-Filtering-Correlation-Id: 14a4da4a-4e0a-4e19-a43e-08dcec74829b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Um9odUNuWGR0WDBTZXlGQUlFNXRSMnlNbVlxTVRvbUwwbTlacE5mOFowcUFz?=
- =?utf-8?B?d1UzRHVHYkppeENuUTBtckMwV3RUclZxdEFFZGJZWldnVXl6RDJMOUNuSU9H?=
- =?utf-8?B?QzVjaGIzREVMNmhQdlFHdURCN2lRTkNHTkFLRVo5Q0lBUDU5UUtCV1h1cnV0?=
- =?utf-8?B?bE5GMmN4UWNrZkhBbjZtYVd1QkEyQTUrK0NVaFBqRmpsQWtYcHdFcis0dlZu?=
- =?utf-8?B?c21XRDV4VTF1UUdROUNMYVZXNURpTjZJVVhKeUlPK3BsWVJBZzZvYXBsclVO?=
- =?utf-8?B?MlFWV25HNVgvZXFuU2JnTCtocDRDV2t1enB2NDA4N3VEcUV4MDFKRDFZTUZq?=
- =?utf-8?B?OWF5ZzZBb280VjhSaWFEU3FRM2VORjZRb2cwL1FwV1NlSjFpT3h5OElHN2U4?=
- =?utf-8?B?MWdpQ0hraUxzV2hGbDZZRjgrTlRHZFdlL3hMa24vT3RnQ3ZESlFPVEFEcUVL?=
- =?utf-8?B?M2wxZnlDckFObHkvK1M0ZmZnQldOZ3ZJQnBRRWFjM3FFUFd4cHdUb0lIL2g2?=
- =?utf-8?B?VDZDbVd3VHNTY2ZuY3dCNTJpdkxWUjJ3R2RQSjlLZ08zR0YvWEdoM2RmYWtT?=
- =?utf-8?B?NWJtWXJJUDcyNi80b3FzMGExTGhzR2FieTBpOVVsV0JzdWJzR3hvdkRVdndQ?=
- =?utf-8?B?Y1J3dnhhbkJjWWV2TDBYVVkrNklRNmxXa1FSaURDRHBpSjlISzJMaSt0L1hE?=
- =?utf-8?B?SDVLYWVxbm1JKzBrRFNPajdIb09DaDhVUS9LSGtMcDU1dTlTY1NqSXJSbHVT?=
- =?utf-8?B?UmgvQ1NQRnZvMW9hbHQ3QVpEdnNleDMwZ283S3IvVTcwendCalBIRkdjMEsy?=
- =?utf-8?B?YzJPeldzczVrOWFOR3B5ZjlpTWI1VXIwQjY3V2JDZ0JvdHNWQlJMVTd0S3NX?=
- =?utf-8?B?NUFLeGlNMStNTHRZd2hHa2FNU2JLaG8vVkloSHdZZjgxTHA2YzlQMTcwMUVT?=
- =?utf-8?B?d0hXYUVacVRzUk1QR2hXa0RZekRKTWlJSGNLV2VJMk9pcTQzek1GRkhqRzl2?=
- =?utf-8?B?QjUvM21ObkplOVNDdG90R2plL0dMemhpTEZlbzkvWmR2bjJaNmYwdXJzL0U1?=
- =?utf-8?B?cG9EWDlLWTZWblBjMWY2aWt2b0FkSTNqVzYyWEVsWUtGNGFQQmxhb3BwSis3?=
- =?utf-8?B?Nm5WUjd3djFFYm1oNXhOZGhOQ0VPYW1vd1dwNnFsUWJ1MVlWcE5SbVhjc1Rh?=
- =?utf-8?B?b0Jqa2loaDc1dWREUFVvZjF3NDd4ZlZ2M1Y3OFVUTHZCeVFZVXZ6UFUrL29R?=
- =?utf-8?B?ektQL3dlRkFTM1piOU00TEFKU2NQM2ZsVFJRN2dxd3VWVGZCRnh6aTc2b1By?=
- =?utf-8?B?bzl3TnRPZTViNzBSL2FLUVRBaTNaR3hoekVpUkxJVFo1YzJPQ2dJc0xxWWRV?=
- =?utf-8?B?Ti9NTWsveVRxQlBuSHdrbERKdlQyRFRFWlVEeHZteU5BekdXc1ZTYTZabys4?=
- =?utf-8?B?bnczUmlIK1VuWHBRTTZJUURtRWJ5WEExNkZrekxVK2NtdFNuZjR4a0h2QW50?=
- =?utf-8?B?aEtzOThRZkY5MVViS21OamhpeXM1RlBOMm1VdjltQ2RyNUY5eWF3NGEvUGd5?=
- =?utf-8?B?SVhMVTB3R2w5dk9TbDV2aFJWa3QvcmhvSGR5ZWg4SFRFemxmOTdlQ2ZualRO?=
- =?utf-8?B?Yi9OZ1RVQ0owL2hBSVZZZkgyUERTQnJtbmptOS9OYlZpQ0loajJUdDRYYmNt?=
- =?utf-8?B?VnRYWExaNGlDYkluYko5MTZFUVBpQzFiSzFiTkR3WnpzcEYxbWJqYlB3PT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TEZ0ZHZxVG8ycjg0aGlrSG1CSG9oWG1penBkQ3dUdmV6T2o4MlV1cjljQ0pk?=
- =?utf-8?B?bDg1N1piWlZVa0ZPSFcwd25yZHJKRmlhMWd6bEdXdDRQb1l5bVZ0dUJiNmtv?=
- =?utf-8?B?aTZBTER2MERRb0hTYi82bmZOZzBkcDl0NTJxT05KRk1FT3lIWXAxQ1pXWjBJ?=
- =?utf-8?B?dkZHWTZFZURNbkRxeVN5MlFDR0FLdWJOY3lqaDRYQXFKRE9TRStxOHQ5ekRG?=
- =?utf-8?B?VVBqcEdKakYzRXUrYnNJMmkzTmRpc2xWWkVVSnZSdGdkRTJIc1ZqZmJTRHVz?=
- =?utf-8?B?ZytOSGx1bXBUdjR0WTBqd0NmTHlQZHdhSGx5ODBmSTZzY2g3ajdtZUFZWEVL?=
- =?utf-8?B?cmIzcURjTk0wb2ZpSitXZ1FtMXlJL2IzUTAzU3lvS1hmSWNjWFNFRXpXYlpx?=
- =?utf-8?B?NUpnQXZWcERuQnFkZmkwak5oMDQ0dlV1cXVUL2ZGWHZCWFJhQVVxUGpORXd4?=
- =?utf-8?B?SURJcW8zRFdxRXdzZExXSE1mY1NxREVFVG1CZHhUSm9pY3lJV3M0cmt4KzNG?=
- =?utf-8?B?U3pHUUNHcTc5cGtSdS9iSm02QW85VmFtc0k2SEMwQ2s0dXUzZTF3VGtxc0Zs?=
- =?utf-8?B?U0Fha29JblRSRUVGeGFFN0xPQThJcFdQeTllR21JTW1ZcGt2c0FSbFNDNDJx?=
- =?utf-8?B?SGl5QWNaSmQwbjNOK3RyTllKZW5kZ0VGQ0lkYzlMMU1jd1JRVmdNb2dTZmZv?=
- =?utf-8?B?YXJXT1ZUdG1XN2dDNWk5Sm1QaXJQYlV4Z2VlckdpSGM4ZExROTl0ODArMGwv?=
- =?utf-8?B?VWtyeUV0bjlpVWY0cW0yVnVwQ1VGV3dhTnNsb0NGeXpBaW41NVNxdGt3SDZT?=
- =?utf-8?B?TmU3NTVwZFBwRHRITTVTbUtWQy90R3ZiTmxZMytzWVdCcGlVNkxkcFZXdDU5?=
- =?utf-8?B?a1hySHhMZ2M4Q1YrUjd4dGVCWWNIcUJ1ejdYWjQ1b1FtcWgvOU9PTzgvL09B?=
- =?utf-8?B?WWpCcHJia2NCWERoV3JyZDlLS0dEL0YzRDJXbGxIUS9XK3RpUFA1dHkyT1ZY?=
- =?utf-8?B?U0hnMHEvWTRValFuNjFRME1aWHNYZVEyTXRsWVRYd1V4N0ZyNkkwNjgwbWVN?=
- =?utf-8?B?Z0FJOTdna1llU2EwYmsvNzRvRnI2NTJIVVBVOFZMbmE2TnIzUjdzYXR3d0NU?=
- =?utf-8?B?RXU5UUdEY0lXQTJZbmdRSDdpdXdyY0tBdmdIZnFrdWVNOXJ2dExmVTVQVG84?=
- =?utf-8?B?UERIQnRRamNQRjhjTEtnN1BLNWtJdlNqRzgwY2oycGI1V0FNMk9GeHo0WWRN?=
- =?utf-8?B?RWgwaTNzSlFzZ3h5S3pTa1FKbG5Idm55aGV3RDdscXZTc0kvNm1uMGxJQWF5?=
- =?utf-8?B?QjBiY3VZN3h0Si9WNHYzbWhEVVZ2RjdGVldhS0xTT2NtTTNaajZZTk9FbXBh?=
- =?utf-8?B?VktiRUcxMXdLRXJjVFA5SE93RGNaanRIaHdmbmttcWwxb0ZjbFpYbDB1R3lo?=
- =?utf-8?B?bExuajZ5bGlPSjg3MkJ5aDkxcktvVGN2VXNnNXF4UEg3dWIrUFk0SDdBSGpE?=
- =?utf-8?B?N0V3R2V4V2MxamNpSE93QkVkSm8wcnJzeXM3WHRNTXFWU2FGSUlRZ1N2b0Rp?=
- =?utf-8?B?NU5NbEJMRCtDajl4T1J6VDhFVHlHN2prTk5ZVXA2aFZKdk5iZG4yTFIvbTZs?=
- =?utf-8?B?Z0o1OEtNSXBxL3RoQnFPa3lwTjg4RTQ4WndIYTZValBqTnFWZ2JickEwZ3pJ?=
- =?utf-8?B?ZGRTVUJNakdBOHFUNFBVU0FNeFBQZmtjZ0VRZElBRHg0WDNJYWFqT2txN2xw?=
- =?utf-8?B?K0krUlZoMUNLVDVkUlUvM0VqODB4SnV5NWlwSE54dlZMRmpZbTFlbzczWTM3?=
- =?utf-8?B?SlpBeURuNXpzTytQL01UbmhJTThzQ1o5aWM1Q0J1YUlIZ3ljOTk0T0hWcUZN?=
- =?utf-8?B?WFMyRkVZYmkxNWlNN3lFVlhvTTZ2K0pzZXFDelU0b0NlQlBlNytiMVJRcXlK?=
- =?utf-8?B?QUswVzFxaUV3UVJpa2oxOHNLWm9WSDQyVVhyRXc5MTZjYitlV0N2TTN3SHZQ?=
- =?utf-8?B?Ynhkclg3VGhCUU5DRDNKUitGUVpUUDg2b0t2bFR3YjEyUStEMFBCenJIYkNq?=
- =?utf-8?B?bVJRMlBJaitVbVVELzFvbXZGZDlONW9oMUJaRTdyMUtyclNiYzQxNE1sRWJs?=
- =?utf-8?Q?YgPo=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 14a4da4a-4e0a-4e19-a43e-08dcec74829b
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2024 17:20:33.3182
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9fn5jVosiUBPfhqDikz5M+Nz+Oxo5KAuBtRDIk7C8h1Ea0Lj85LauDEKvruTDJ7Y
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6656
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3818.100.11.1.3\))
+Subject: Re: [PATCH RFC v2 3/3] docs: media: Debugging guide for the media
+ subsystem
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20240529-b4-media_docs_improve-v2-3-66318b2da726@collabora.com>
+Date: Mon, 14 Oct 2024 14:42:55 -0300
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org,
+ laurent.pinchart@ideasonboard.com,
+ hverkuil-cisco@xs4all.nl,
+ mauro.chehab@linux.intel.com,
+ kernel@collabora.com,
+ bob.beckett@collabora.com,
+ nicolas.dufresne@collabora.com
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <666F7E2C-A44B-4B09-AF8E-D29138DFDBD3@collabora.com>
+References: <20240529-b4-media_docs_improve-v2-0-66318b2da726@collabora.com>
+ <20240529-b4-media_docs_improve-v2-3-66318b2da726@collabora.com>
+To: Sebastian Fricke <sebastian.fricke@collabora.com>
+X-Mailer: Apple Mail (2.3818.100.11.1.3)
+X-ZohoMailClient: External
+
+Hi Sebastian,
+
+> On 24 Sep 2024, at 05:45, Sebastian Fricke =
+<sebastian.fricke@collabora.com> wrote:
+>=20
+> Create a guides section for all documentation material, that isn't
+> strictly related to a specific piece of code.
+>=20
+> Provide a guide for developers on how to debug code with a focus on =
+the
+> media subsystem. This document aims to provide a rough overview over =
+the
+> possibilities and a rational to help choosing the right tool for the
+> given circumstances.
+>=20
+> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+> ---
+> Documentation/media/guides/debugging_issues.rst | 174 =
+++++++++++++++++++++++++
+> Documentation/media/guides/index.rst            |  11 ++
+> Documentation/media/index.rst                   |   1 +
+> 3 files changed, 186 insertions(+)
+>=20
+> diff --git a/Documentation/media/guides/debugging_issues.rst =
+b/Documentation/media/guides/debugging_issues.rst
+> new file mode 100644
+> index 000000000000..5f37801dd4ba
+> --- /dev/null
+> +++ b/Documentation/media/guides/debugging_issues.rst
+> @@ -0,0 +1,174 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: <isonum.txt>
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Debugging and tracing in the media subsystem
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +This document serves as a starting point and lookup for debugging =
+device
+> +drivers in the media subsystem.
+> +
+> +.. contents::
+> +    :depth: 3
+> +
+> +General debugging advice
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+
+> +
+> +For general advice see the `general-debugging-guide =
+<../../debugging/index.html>`__.
+> +
+> +Available tools
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +dev_debug module parameter
+> +--------------------------
+> +
+> +For a general overview please see the =
+`driver-development-debugging-guide =
+<../../debugging/driver_development_debugging_guide.html>`__.
+> +
+> +Every video device provides a `dev_debug` parameter, which allows to =
+get further insights into the IOCTLs in the background.
+> +::
+> +
+> +  # cat /sys/class/video4linux/video3/name
+> +  rkvdec
+> +  # echo 0xff > /sys/class/video4linux/video3/dev_debug
+> +  # dmesg -wH
+> +  [...] videodev: v4l2_open: video3: open (0)
+> +  [  +0.000036] video3: VIDIOC_QUERYCAP: driver=3Drkvdec, =
+card=3Drkvdec, bus=3Dplatform:rkvdec, version=3D0x00060900, =
+capabilities=3D0x84204000, device_caps=3D0x04204000
+> +
+> +`Full documentation =
+<../../driver-api/media/v4l2-dev.html#video-device-debugging>`__
+> +
+> +dev_dbg / v4l2_dbg
+> +------------------
+> +
+> +- Difference between both?
+> +
+> +  - v4l2_dbg utilizes v4l2_printk under the hood, which further uses =
+printk directly, thus it cannot be targeted by dynamic debug
+> +  - dev_dbg can be targeted by dynamic debug
+> +  - v4l2_dbg has a more specific prefix format for the media =
+subsystem, while dev_dbg only highlights the driver name and the =
+location of the log
+> +
+> +Dynamic debug
+> +-------------
+> +
+> +For general advice see the `userspace-debugging-guide =
+<../../debugging/userspace_debugging_guide.html>`__.
+> +
+> +Here is one example, that enables all available `pr_debug()`'s within =
+the file:
+> +::
+> +
+> +  $ alias ddcmd=3D'echo $* > /proc/dynamic_debug/control'
+> +  $ ddcmd '-p; file v4l2-h264.c +p'
+> +  $ grep =3Dp /proc/dynamic_debug/control
+> +   drivers/media/v4l2-core/v4l2-h264.c:372 =
+[v4l2_h264]print_ref_list_b =3Dp "ref_pic_list_b%u (cur_poc %u%c) %s"
+> +   drivers/media/v4l2-core/v4l2-h264.c:333 =
+[v4l2_h264]print_ref_list_p =3Dp "ref_pic_list_p (cur_poc %u%c) %s\n"
+> +
+> +Ftrace
+> +------
+> +
+> +For general advice see the `userspace-debugging-guide =
+<../../debugging/userspace_debugging_guide.html>`__.
+> +
+> +Trace whenever the `rkvdec_try_ctrl` function is called
+> +::
+> +
+> +  $ cd /sys/kernel/tracing
+> +  $ echo function > /sys/kernel/tracing/current_tracer
+> +  $ echo rkvdec_try_ctrl > set_ftrace_filter
+> +  $ echo 1 > tracing_on
+> +  $ cat trace
+> +   h264parse0:sink-6359    [001] ...1. 172714.547523: rkvdec_try_ctrl =
+<-try_or_set_cluster
+> +   h264parse0:sink-6359    [005] ...1. 172714.567386: rkvdec_try_ctrl =
+<-try_or_set_cluster
+> +
+> +Find out from where the calls originate
+> +::
+> +
+> +  $ echo 1 > options/func_stack_trace
+> +   h264parse0:sink-6715    [002] ..... 172837.967762: rkvdec_try_ctrl =
+<-try_or_set_cluster
+> +   h264parse0:sink-6715    [002] ..... 172837.967773: <stack trace>
+> +   =3D> rkvdec_try_ctrl
+> +   =3D> try_or_set_cluster
+> +   =3D> try_set_ext_ctrls_common
+> +   =3D> try_set_ext_ctrls
+> +   =3D> v4l2_s_ext_ctrls
+> +   =3D> v4l_s_ext_ctrls
+> +   ...
+> +   h264parse0:sink-6715    [004] ..... 172837.985747: rkvdec_try_ctrl =
+<-try_or_set_cluster
+> +   h264parse0:sink-6715    [004] ..... 172837.985750: <stack trace>
+> +   =3D> rkvdec_try_ctrl
+> +   =3D> try_or_set_cluster
+> +   =3D> v4l2_ctrl_request_setup
+> +   =3D> rkvdec_run_preamble
+> +   =3D> rkvdec_h264_run
+> +   =3D> rkvdec_device_run
+> +   ...
+> +
+> +Trace the children of a function call and show the return values =
+(requires config `FUNCTION_GRAPH_RETVAL`)
+> +::
+> +
+> +  echo function_graph > current_tracer
+> +  echo rkvdec_h264_run > set_graph_function
+> +  echo 4 > max_graph_depth
+> +  echo do_interrupt_handler mutex_* > set_graph_notrace
+> +  echo 1 > options/funcgraph-retval
+> +   ...
+> +   4)               |  rkvdec_h264_run [rockchip_vdec]() {
+> +   4)               |    v4l2_ctrl_find [videodev]() {
+> +   ...
+> +   4)               |    rkvdec_run_preamble [rockchip_vdec]() {
+> +   4)   4.666 us    |      v4l2_m2m_next_buf [v4l2_mem2mem](); /* =3D =
+0xffff000005782000 */
+> +   ...
+> +   4)               |      v4l2_ctrl_request_setup [videodev]() {
+> +   4)   4.667 us    |        media_request_object_find [mc](); /* =3D =
+0xffff000005e3aa98 */
+> +   4)   1.750 us    |        find_ref [videodev](); /* =3D =
+0xffff00000833b2a0 */
+> +   ...
+> +   4)   1.750 us    |      v4l2_m2m_buf_copy_metadata =
+[v4l2_mem2mem](); /* =3D 0x0 */
+> +   4) ! 114.333 us  |    } /* rkvdec_run_preamble [rockchip_vdec] =3D =
+0x0 */
+> +   4)   2.334 us    |    v4l2_h264_init_reflist_builder =
+[v4l2_h264](); /* =3D 0x3e */
+> +   ...
+> +   4)               |    v4l2_h264_build_b_ref_lists [v4l2_h264]() {
+> +   ...
+> +   4)               |    rkvdec_run_postamble [rockchip_vdec]() {
+> +   ...
+> +   4) ! 444.208 us  |  } /* rkvdec_h264_run [rockchip_vdec] =3D 0x0 =
+*/
+
+Maybe have a look at retsnoop?=20
+
+To me, a very frustrating and very common issue is having to figure out =
+where
+exactly an error code was generated. Ftrace helps a great deal, but I =
+feel that
+retsnoop just takes it a step further. On top of that, you can retrace =
+the
+execution on a statement level. =20
+
+That is, with the right options, it can tell you exactly what statements
+executed, which then lets you get very precise without any extra prints.
+
+See [0]. There=E2=80=99s a talk on KR2024 about it too [1].
 
 
+[0]: https://github.com/anakryiko/retsnoop
 
-On 10/14/24 11:46,  wrote:
-> Hi Tony,
-> 
-> On 10/11/24 2:36 PM, Tony Luck wrote:
->> On Fri, Oct 11, 2024 at 03:49:48PM -0500, Moger, Babu wrote:
->>
->> I.e. the user who chose this simply gave up being able to
->> read total bandwidth on domain 1, but didn't get an extra
->> counter in exchange for this sacrifice. That doesn't seem
->> like a good deal.
-> 
-> As Babu mentioned earlier, this seems equivalent to the existing
-> CLOSid management. For example, if a user assigns only CPUs
-> from one domain to a resource group, it does not free up the
-> CLOSID to create a new resource group dedicated to other domain(s).
-> 
+[1]: https://www.youtube.com/watch?v=3DNvTBrx6EdF8=20
 
-Thanks for the confirmation here.
-
-I was wondering if this works differently on Intel. I was trying to figure
-out on 2 socket intel system if we can create two separate resctrl groups
-sharing the same CLOSID (one group using CLOSID 1 on socket 0 and another
-group CLOSID 1 socket 1). No. We cannot do that.
-
-Even though hardware supports separate allocation for each domain, resctrl
-design does not support that.
--- 
-Thanks
-Babu Moger
+=E2=80=94 Daniel=
