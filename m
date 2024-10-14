@@ -1,112 +1,95 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD314175B1
-	for <linux-doc@vger.kernel.org>; Mon, 14 Oct 2024 15:48:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7597F1AB534;
+	Mon, 14 Oct 2024 15:56:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728920929; cv=none; b=PMRDOSdWqpjb1kZdlhsqqJrv5gHhPBSm5oCPOmBXtkPpVGOog8IPhdBEShr/EmHPQ2igwXZRVhBleWREEmXT0KoM07S/zp6rkUW2Wak6YDSjhYyIRNOHHmuYBkmFvRkFLIdioZiW2FAYuwCtsicKt5+kVsEBwklscJWUjETwlKM=
+	t=1728921372; cv=none; b=mmuhI5iJsntTexShSB/9IFwIB8cCi4NO6JoAsex3wu/Ev1JBPa+eaWJ+PUiumblZm3qxyIlx2DLRVIrLDyR0tONHxfaai5/nDFnndmQgfNHYJnmUIO5xdQeuVVY2aVwEDuMQsGCGrU00hMBlUWsE29ONpe9+tIVJBlwLDJALcsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728920929; c=relaxed/simple;
-	bh=z2UsJqzv7CC72O92S/vrz1vSlgsc+hNmrr+UQKEntc0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Bo1twyyohfVawQ+AFMfaODXOvsNGlLXOopp/b3GvXfxO7QoUuD5RBhkm49tVMA0iF/5tBnToJtgksFEltbQESf4YLIlCecSSAb26Qy2ua80UPN0UIWO9J4SHIKN7MxIzOar62Lfn84zuuBfGc6Nhs/dwiOgS89o67oznhew/Hps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=J1qZNVh+; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1728921372; c=relaxed/simple;
+	bh=VDJeC5SYCs2Dgrv56MNNO7EyaXUdUGMTeP7dA0b4Xzg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pAu/I0KtRU7q8aFmVl3whyMkfwfd7eWzxgyo9yygOQnoCYDfHyXiJOTO8lwqWiKrs9ejTPliTSJtHX7IDA7AbN2e78UqnWOyDR/FhL9eRcVoPbIeRUCdCwI4p8I0KVWxeU7SXYbqRgiCuCu0iwaBVVUitJps5CQTGPgOnzDGeLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bhGrFvKw; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="J1qZNVh+"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C0C2442C0C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1728920926; bh=KsBiH0rb3KTJP9bsGDwcxZeE2zYK9n/Y6Scyw7CVZAk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=J1qZNVh+/5ouKxXyzjL2a0C9wVf0gRWNNB0XccPz4gQLeMxDqeHPamnZ/pGugKeja
-	 RgaNi0kJx/NyIcVtKuob91edMxMuUmyLzBIJVlXSiFOOTHS2Ywdz6SRcReBsaUF9sR
-	 KYqHH0D1aDjOper94HLMOoSAe1EhpquUb3pxvlGQvvk01kzXUZ/milDQvD4v9i01pC
-	 3UHExX0XCYNG35wS52dfHn2bC0CRIDYXlAr504cqWkVQ1ce/bRT6r9w5CUHbaIyr/U
-	 sjFDu3RcgIXGOruFzVPpj9/s+Rvcd2VKdW0TiPZ83IHWZPBUSn0MGz/6125cuc4uyH
-	 +zb9A2JzssCGQ==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id C0C2442C0C;
-	Mon, 14 Oct 2024 15:48:46 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>, Horia Geanta
- <horia.geanta@freescale.com>, Vlastimil Babka <vbabka@suse.cz>
-Subject: Re: [RFC] kernel-doc: allow object-like macros in ReST output
-In-Reply-To: <20241014051333.462847-1-rdunlap@infradead.org>
-References: <20241014051333.462847-1-rdunlap@infradead.org>
-Date: Mon, 14 Oct 2024 09:48:45 -0600
-Message-ID: <87cyk2u1lu.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bhGrFvKw"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-20cb8954ec9so1116115ad.3;
+        Mon, 14 Oct 2024 08:56:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728921371; x=1729526171; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=irYTghu5OKCkpdCtEDCE7QbDQl9wDWZzQGu0+ilLEjY=;
+        b=bhGrFvKwLXIRMQYI3Ml7NepdXL94XwEVyWUyUFb+cjIMkMGdlePKnzgUxz9aywydOQ
+         sFX/9p5YfGo082KozriUEbDTAYTPRGjGyuFq6ju8gX0yD+1F2kMwzna4yX5KYHC2gAC0
+         1VFgU8DzCOI4tCeZJQTq61fuAowCLZh1rac1+9bLfT/Efjq+0kYANa+Sn5PbjcmTEbXJ
+         b3ZL8gGg5ktEaKw1evSFQ7XuePPKz4D+wf23S9/Nso4Y1ZS91n+oWy6Nkc9FcIXxJTK0
+         Bokz4Dm1lkmrQWhGJYWbnFunyxUlqrP99YNY2RGBrtnt9P49kN/Fm3OhezuksFXy0Suk
+         Dx5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728921371; x=1729526171;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=irYTghu5OKCkpdCtEDCE7QbDQl9wDWZzQGu0+ilLEjY=;
+        b=YbLBOfSQf+elbiE7yEldGmb9ul1Z3Gd9XFUbDlpGUwaVWdzxfjQc/oWp4031L2ncLt
+         D1ZAdGuHnXnUY/rJfE0WYQ8/AuUxNGfyNQvMZ8owW+JUI5+VZh2HMv7ofqbzpIPNAH2N
+         3Uz0bGXp2Opz/9YP8bzdsv7LFHuH7xb553H8+WSUxR3I6f0V9QAeaOO7x7mlTZXJhEWA
+         Yn85D0VSWv5VeEVVmH9maM2J/FF3b11hhsHSMNM8tOp5g03jB9i4eoSEdKRhMrI1gfe7
+         Kw2k5OtEvXIURfv7OHazW9iEj+65RbI/9YdI8Ud1xAxAuBe2mmd6Epfy0Y7PCC2AxMjs
+         g5lw==
+X-Forwarded-Encrypted: i=1; AJvYcCVU1VK0oR3tYUIjrSGtShTTVEQYRXGV2HrRrpbNAjk9lf+7svzuSh6ITI6bMmg/0hPm8ogJffUZQw+o3Sc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywi0fREf0Z877qZpZ9JzRiGIKdHw4HsaW/D5ALJ2gAUiFmpiOeM
+	SJzpFlt11Zp7stwKiNlKLBURxaZ2Gw5JPA26AgPfvDJ0AuRIueZsdlEdGJYBw15JTg==
+X-Google-Smtp-Source: AGHT+IGLNtQa4ReaE12ZnmUZhfU5sx6UPtRCT2Ga/Zen6jAMApY6tU1DwLawLGhdb+Cj6S6P51j45g==
+X-Received: by 2002:a17:902:c407:b0:207:6e9:320b with SMTP id d9443c01a7336-20ca169e926mr68504455ad.7.1728921370729;
+        Mon, 14 Oct 2024 08:56:10 -0700 (PDT)
+Received: from aizome.localdomain ([117.172.223.242])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20d00363205sm11168485ad.53.2024.10.14.08.56.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Oct 2024 08:56:09 -0700 (PDT)
+From: Pengyu Zhang <zpenya1314@gmail.com>
+To: alexs@kernel.org,
+	siyanteng@loongson.cn,
+	corbet@lwn.net,
+	seakeel@gmail.com,
+	si.yanteng@linux.dev
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	zpenya1314@gmail.com,
+	yaxin_wang_uestc@163.com,
+	zenghui.yu@linux.dev
+Subject: [PATCH v5 0/3] Translate page_tables.rst and fix PFN calculation
+Date: Mon, 14 Oct 2024 23:55:23 +0800
+Message-Id: <20241014155526.17065-1-zpenya1314@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+Translate page_tables.rst to Simplified Chinese.
 
-> output_function_rst() does not handle object-like macros. It presents
-> a trailing "()" while output_function_man() handles these macros
-> correctly.
->
-> Update output_function_rst() to handle object-like macros.
-> Don't show the "Parameters" heading if there are no parameters.
->
-> For output_function_man(), do show the "ARGUMENTS" heading if there
-> are no parameters.
->
-> I have tested this quite a bit with my ad hoc test files for both ReST
-> and man format outputs. The generated output looks good.
->
-> However, I am seeing one problem that I don't have any idea about and
-> would appreciate some assistance, even just email commentary about it.
-> The output now includes around 100 warnings like these examples:
->
-> Documentation/core-api/mm-api:37: ../include/linux/slab.h:154: WARNING: Inline literal start-string without end-string. [docutils]
-> Documentation/core-api/mm-api:37: ../include/linux/slab.h:192: WARNING: Inline literal start-string without end-string. [docutils]
+Fix a mistake for pfn value in mm/page_tables.rst.
 
-That comes down to this in the kernel-doc output:
+Synchronize the changes of origin document to fix the pfn value.
 
-> .. c:macro:: DRM_SCHED_FENCE_DONT_PIPELINE
-> 
-> ``DRM_SCHED_FENCE_DONT_PIPELINE ``
-> 
->    Prefent dependency pipelining
-> 
+Pengyu Zhang (3):
+  Docs/zh_CN: Translate page_tables.rst to Simplified Chinese
+  Docs/mm: Fix a mistake for pfn in page_tables.rst
+  Docs/zh_CN: Fix the pfn calculation error in page_tables.rst
 
-Sphinx is, as we know, weird about white space, so the blank before the
-closing `` makes it unhappy.
+ Documentation/mm/page_tables.rst              |   2 +-
+ Documentation/translations/zh_CN/mm/index.rst |   1 +
+ .../translations/zh_CN/mm/page_tables.rst     | 221 ++++++++++++++++++
+ 3 files changed, 223 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/mm/page_tables.rst
 
-The attached patch on top of yours makes it go away - but there are some
-other weird warnings, like:
-
-> /stuff/k/git/kernel/Documentation/gpu/imagination/uapi:169:
-> ./drivers/gpu/drm/imagination/pvr_device.h:686: ERROR: Unknown target name:
-> "static_expr".
-
-...that I haven't been able to track down yet.
-
-Thanks for working on this,
-
-jon
-
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 78373af6679e..aaf29b11b3bc 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -830,7 +830,7 @@ sub output_function_rst(%) {
-     my $paramcount = $#{$args{'parameterlist'}}; # treat -1 as 0
- 
- 	if ($func_macro) {
--        $signature = $args{'function'} . " ";
-+	    $signature = $args{'function'};
- 	} else {
-         $signature = $args{'functiontype'} . " " . $args{'function'} . " (";
-     }
+-- 
+2.25.1
 
