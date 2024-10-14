@@ -1,166 +1,156 @@
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C72D01ABEB8
-	for <linux-doc@vger.kernel.org>; Mon, 14 Oct 2024 14:34:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DADED1ADFE9
+	for <linux-doc@vger.kernel.org>; Mon, 14 Oct 2024 14:46:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728916444; cv=none; b=Cl5CtWM8yP+DvSCkv9V9KQOfJaHj6tiFtKg+kTm/6s5Vpmi/f55HSqMKplelEdxn9YvhgS1xdqgd/vNJZLZii7XxwtSLH/z2Lold2sKSiXrw8u4a9TI0rOvHIm6j62QODFx9oD+MbdLP06CKN4qKJwlqrA82/MMUa/LaLoMqItM=
+	t=1728917199; cv=none; b=C8HVBpgRO6wUlGbSPsrAB6FFogg66kCKwSXkkJmBBRLZ5XNT51R0593G+qqpho9BcrrOMKuY7+FRwYHFxARRZ58bzfg5lRrVLHg17AxPiXQuuI6MqlJasG3OV+EmxWv2Gd6w+GjHxmYffdvHYAbTBvhJzCJKNbRgVxeSFGuzjBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728916444; c=relaxed/simple;
-	bh=3OxyjW6caETvvuftipAto/JP5HGaH56ZmiLo8YxjIgk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Nafc5ukJGPOcQhd6mXF+BNSy3SWTfxBKdHFFZYM565y52kbaIXgFFapuhDr2S/DFcumRaPcKzLdNDs6gtNGxhHFdxJAcMzo7jwclUUUdaIc8AyN/NOrCpgpbaR+en4QqOFi5X5kwmnWR7Ok/i+amU4qSlOo1q9/VPkaUrP0Byp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=LHAn4QAG; arc=none smtp.client-ip=209.85.166.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
+	s=arc-20240116; t=1728917199; c=relaxed/simple;
+	bh=vyHcmYVND/8sAhmy2mkfCXOuTQ/V3gOInOxW1tqxOKE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nIDVAFK41pfJtiu4NU/yCeqfp8N/rw27dpHwcfGUPIyh/LZK7XF4e2KDZRFhAbh/TcWl57vL5ZEvN5JWeJucjWyagWZrDpQ26DHu70RiegUbSVDa1Iy0GxKAumxhBHWh6vXb3mEYQ0ASKcT6jK5/CyCl5k8DcsB1j1PfJ2C7xbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NVapV5l5; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="LHAn4QAG"
-Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-8353fd2cb2dso218134239f.2
-        for <linux-doc@vger.kernel.org>; Mon, 14 Oct 2024 07:34:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1728916442; x=1729521242; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BZFiFSV2S6ephEEXxaRsM/YTIpGDjHwKVrQbLRq0m74=;
-        b=LHAn4QAGSll1eE/HMgAwesfDfZ68OE/RRaEsD53z96UgS329eLqZavLF1uk2z1t8BA
-         O4pMhWYXEPf8inAMuGPmlnDm157PkFemJaWjMqRtilnfLSIn/OzLcKZctoHOYlO8PFq/
-         5QF/kby6lWI0nyQIlGomPaPX2B4YcQOsyUwgrq6mYrwlRa+p+7At3UpL1iwajhC2Q3I/
-         rADy7FvjGp2/+XMC9Exm/izwIMaQYy1c76iLwb1vMDg9A2u5YpNmcI9gW2jfCqsF1wRL
-         SkjpYV7rnAdK6r/2lVMlrBB/xVx3Nmex1nOmOwVZN4nbkteh/enZoY1GnftzlyFoTijk
-         Gzbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728916442; x=1729521242;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BZFiFSV2S6ephEEXxaRsM/YTIpGDjHwKVrQbLRq0m74=;
-        b=cMrUox+N64Hu1iXmQK1Lr7ubJDwvFyt//9P9aGyLBhXqxJheevQbaGieSisozn4uv/
-         2hgnSGlpAUhRagHE010E77Z93ipIzJyV3hu9Q8/C1oOII1V9N71DVeGgy34qpHr9R42L
-         KG6Hu/nkuJFdsSl+yNsALbUFre0J4uUYs6eaHspN6O2NB831dM4/LPRB+Ugz1L8bvf4I
-         dAB5Rj4a3pztaF3WlypoItRKOJ9UTJz7vd7CMKNVbyPrIaOwH3HwDWxaFohCjF3MPwTz
-         9i75+jc2RigEV+LaFeZXRLso/Lmp0rvO/vFF+K+cPmaRi0aooB+fSVTksmPHxy5g7/Xo
-         ynFg==
-X-Forwarded-Encrypted: i=1; AJvYcCX4sgDGqyKtbH7JJ7ZuRB11H85uCsmnflVIkimnoft6riyg7QfyBcRmC9S7t1WVBM0lB21j7eZwhw0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdfJv720xm10mo7kd1RgRrsg6fK/Wv2qbcBh4D/m9ob2oqyojc
-	ViePU9/cd+GiBrskU7+NMW5a3v6MWIbrt06m7304A3DuOZKYsQKAD/dsjOprmIpqIImO/PsZ13s
-	VN4pa9S3EPXBoGb8fnCo3oo2xvz1o4/HkAoyIgQ==
-X-Google-Smtp-Source: AGHT+IFYJowFNk6TiJAeIlJ6VE4pS1HwOZ1J0S0O0mVVAaMh1gyG2y64c+9AiCOVdFTYNqR+gnZqJMfVyAe4szQJ6+M=
-X-Received: by 2002:a05:6602:3f91:b0:837:7e21:1677 with SMTP id
- ca18e2360f4ac-837929fd68fmr950720739f.4.1728916441860; Mon, 14 Oct 2024
- 07:34:01 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NVapV5l5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1728917197;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=CNpmOCUST08vkHQoeG1NSNtCSmJNv1NINO7OIcBeA0Y=;
+	b=NVapV5l5fPwEtDZJ+OTbuJ14j7Kphn7XJ6L+veIc7kyZm8Rovr7i90V3FARdLcCGN3I6bc
+	M2X3wrN2fhPk66PXaQ5FFfm/NUsQNXF1/wZWMSHpOWLxf6BWtziKZQKvT4IgdbvBJoKadb
+	LgA0bAzO/H1nM6ZMqXkV3mLUv8F7W4Q=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-613-NRRBshLPP-2vKK199e8dRA-1; Mon,
+ 14 Oct 2024 10:46:33 -0400
+X-MC-Unique: NRRBshLPP-2vKK199e8dRA-1
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 806081955F40;
+	Mon, 14 Oct 2024 14:46:31 +0000 (UTC)
+Received: from t14s.cit.tum.de (unknown [10.22.32.146])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E97671955E93;
+	Mon, 14 Oct 2024 14:46:23 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: linux-mm@kvack.org,
+	linux-s390@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org,
+	David Hildenbrand <david@redhat.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Thomas Huth <thuth@redhat.com>,
+	Cornelia Huck <cohuck@redhat.com>,
+	Janosch Frank <frankja@linux.ibm.com>,
+	Claudio Imbrenda <imbrenda@linux.ibm.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2 0/7] virtio-mem: s390 support
+Date: Mon, 14 Oct 2024 16:46:12 +0200
+Message-ID: <20241014144622.876731-1-david@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241008-v5_user_cfi_series-v6-0-60d9fe073f37@rivosinc.com>
- <20241008-v5_user_cfi_series-v6-33-60d9fe073f37@rivosinc.com>
- <CANXhq0pXVS2s-hZNusPLoQ4qPkyi1S2BTQ-FyAvcz=cDctKQng@mail.gmail.com>
- <Zwj7aZj36TBGzpZa@finisterre.sirena.org.uk> <CANXhq0q49k6q3ZGYqzczMeFr+_rrfa9mL7FMu62xPHeUKfvhMw@mail.gmail.com>
- <ZwmAdRb5BRkPLbWg@debug.ba.rivosinc.com>
-In-Reply-To: <ZwmAdRb5BRkPLbWg@debug.ba.rivosinc.com>
-From: Zong Li <zong.li@sifive.com>
-Date: Mon, 14 Oct 2024 22:33:50 +0800
-Message-ID: <CANXhq0rH_07JRGbBnMTntPxhOQcXzxrcRJ0WAN7T6oQX7DaNoQ@mail.gmail.com>
-Subject: Re: [PATCH v6 33/33] kselftest/riscv: kselftest for user mode cfi
-To: Deepak Gupta <debug@rivosinc.com>
-Cc: Mark Brown <broonie@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Christian Brauner <brauner@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Oleg Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, alistair.francis@wdc.com, 
-	richard.henderson@linaro.org, jim.shu@sifive.com, andybnac@gmail.com, 
-	kito.cheng@sifive.com, charlie@rivosinc.com, atishp@rivosinc.com, 
-	evan@rivosinc.com, cleger@rivosinc.com, alexghiti@rivosinc.com, 
-	samitolvanen@google.com, rick.p.edgecombe@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-On Sat, Oct 12, 2024 at 3:46=E2=80=AFAM Deepak Gupta <debug@rivosinc.com> w=
-rote:
->
-> On Fri, Oct 11, 2024 at 07:43:30PM +0800, Zong Li wrote:
-> >On Fri, Oct 11, 2024 at 6:18=E2=80=AFPM Mark Brown <broonie@kernel.org> =
-wrote:
-> >>
-> >> On Fri, Oct 11, 2024 at 01:44:55PM +0800, Zong Li wrote:
-> >> > On Wed, Oct 9, 2024 at 7:46=E2=80=AFAM Deepak Gupta <debug@rivosinc.=
-com> wrote:
-> >>
-> >> > > +       if (si->si_code =3D=3D SEGV_CPERR) {
-> >>
-> >> > Hi Deepak,
-> >> > I got some errors when building this test, I suppose they should be
-> >> > fixed in the next version.
-> >>
-> >> > riscv_cfi_test.c: In function 'sigsegv_handler':
-> >> > riscv_cfi_test.c:17:28: error: 'SEGV_CPERR' undeclared (first use in
-> >> > this function); did you mean 'SEGV_ACCERR'?
-> >> >    17 |         if (si->si_code =3D=3D SEGV_CPERR) {
-> >> >       |                            ^~~~~~~~~~
-> >> >       |                            SEGV_ACCERR
-> >> >
-> >>
-> >> Did you run "make headers_install" prior to building kselftest to get
-> >> the current kernel's headers available for userspace builds?
-> >
-> >Yes, I have run "make header" and "make header_install" before
-> >building the kselftest. This error happens when I cross compiled it,
-> >perhaps I can help to check if it is missing some header files or
-> >header search path.
->
-> That's wierd.
->
-> It doesn't fail for me even if I do not do `make headers_install`. But I =
-am
-> building kernel and selftests with toolchain which supports shadow stack =
-and
-> landing pad. It's defined in `siginfo.h`. When I built toolchain, I did p=
-oint
-> it at the latest kernel headers. May be that's the trick.
->
-> """
->
-> $ grep -nir SEGV_CPERR /scratch/debug/linux/kbuild/usr/include/*
-> /scratch/debug/linux/kbuild/usr/include/asm-generic/siginfo.h:240:#define=
- SEGV_CPERR    10      /* Control protection fault */
->
-> $ grep -nir SEGV_CPERR /scratch/debug/open_src/sifive_cfi_toolchain/INSTA=
-LL_Sept18/sysroot/usr/*
-> /scratch/debug/open_src/sifive_cfi_toolchain/INSTALL_Sept18/sysroot/usr/i=
-nclude/asm-generic/siginfo.h:240:#define SEGV_CPERR    10      /* Control p=
-rotection fault */
-> /scratch/debug/open_src/sifive_cfi_toolchain/INSTALL_Sept18/sysroot/usr/i=
-nclude/bits/siginfo-consts.h:139:  SEGV_CPERR                  /* Control p=
-rotection fault.  */
-> /scratch/debug/open_src/sifive_cfi_toolchain/INSTALL_Sept18/sysroot/usr/i=
-nclude/bits/siginfo-consts.h:140:#  define SEGV_CPERR  SEGV_CPERR
->
-> """
+Let's finally add s390 support for virtio-mem; my last RFC was sent
+4 years ago, and a lot changed in the meantime.
 
-In my case, because the test files don't explicitly include siginfo.h,
-I assume it's expected that siginfo.h will be included through
-signal.h. Regarding the header search path, it will eventually locate
-signal.h in toolchain_path/sysroot/usr/include/. In my
-toolchain_path/sysroot/usr/include/signal.h, it doesn't include any
-signal.h; instead, signal.h will be included from
-toolchain_path/sysroot/usr/include/linux/signal.h or
-kernel_src/usr/include/linux/signal.h rather than
-toolchain/sysroot/usr/include/signal.h. I think that is why I lost the
-SEGV_CPERR definition. Is there any difference with you?
+The latest QEMU series is available at [1], which contains some more
+details and a usage example on s390 (last patch).
 
->
+There is not too much in here: The biggest part is querying a new diag(500)
+STORAGE_LIMIT hypercall to obtain the proper "max_physmem_end".
+
+The last two patches are not strictly required but certainly nice-to-have.
+
+Note that -- in contrast to standby memory -- virtio-mem memory must be
+configured to be automatically onlined as soon as hotplugged. The easiest
+approach is using the "memhp_default_state=" kernel parameter or by using
+proper udev rules. More details can be found at [2].
+
+I have reviving+upstreaming a systemd service to handle configuring
+that on my todo list, but for some reason I keep getting distracted ...
+
+I tested various things, including:
+ * Various memory hotplug/hotunplug combinations
+ * Device hotplug/hotunplug
+ * /proc/iomem output
+ * reboot
+ * kexec
+ * kdump: make sure we don't hotplug memory
+
+One remaining work item is kdump support for virtio-mem memory. This will
+be sent out separately once initial support landed.
+
+[1] https://lkml.kernel.org/r/20241008105455.2302628-1-david@redhat.com
+[2] https://virtio-mem.gitlab.io/user-guide/user-guide-linux.html
+
+v1 -> v2:
+* Document the new diag500 subfunction
+* Use "s390" instead of "s390x" consistently
+
+Cc: Heiko Carstens <hca@linux.ibm.com>
+Cc: Vasily Gorbik <gor@linux.ibm.com>
+Cc: Alexander Gordeev <agordeev@linux.ibm.com>
+Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
+Cc: Sven Schnelle <svens@linux.ibm.com>
+Cc: Thomas Huth <thuth@redhat.com>
+Cc: Cornelia Huck <cohuck@redhat.com>
+Cc: Janosch Frank <frankja@linux.ibm.com>
+Cc: Claudio Imbrenda <imbrenda@linux.ibm.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>
+Cc: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Cc: "Eugenio Pérez" <eperezma@redhat.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+
+David Hildenbrand (7):
+  s390/kdump: implement is_kdump_kernel()
+  Documentation: s390-diag.rst: make diag500 a generic KVM hypercall
+  Documentation: s390-diag.rst: document diag500(STORAGE LIMIT)
+    subfunction
+  s390/physmem_info: query diag500(STORAGE LIMIT) to support QEMU/KVM
+    memory devices
+  virtio-mem: s390 support
+  lib/Kconfig.debug: default STRICT_DEVMEM to "y" on s390
+  s390/sparsemem: reduce section size to 128 MiB
+
+ Documentation/virt/kvm/s390/s390-diag.rst | 32 ++++++++++++----
+ arch/s390/boot/physmem_info.c             | 46 +++++++++++++++++++++--
+ arch/s390/include/asm/kexec.h             |  4 ++
+ arch/s390/include/asm/physmem_info.h      |  3 ++
+ arch/s390/include/asm/sparsemem.h         |  2 +-
+ arch/s390/kernel/crash_dump.c             |  6 +++
+ drivers/virtio/Kconfig                    | 12 +++---
+ lib/Kconfig.debug                         |  2 +-
+ 8 files changed, 89 insertions(+), 18 deletions(-)
+
+
+base-commit: 6485cf5ea253d40d507cd71253c9568c5470cd27
+-- 
+2.46.1
+
