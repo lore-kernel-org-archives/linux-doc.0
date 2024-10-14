@@ -1,126 +1,106 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438391FAA;
-	Mon, 14 Oct 2024 18:21:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 006AF1FAA;
+	Mon, 14 Oct 2024 18:22:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728930070; cv=none; b=g5o5/HfxSX3jvuxcCePUIlXutEvamSzawKf922OTmI03SFdmiIUyCY65kfqMpc+oydrn40mTkfSQPZ0xI4U1ZGLFMcQEBUF+ArMGX/uUGqdF2205pTKSvRB0ltRNhsEdWEErs2kvRJkWiyRcbV6V8ukaccizIqa912DIsHn4QBQ=
+	t=1728930122; cv=none; b=JvKwy4cF2oE5WCddsIUc6PfOMv9QTlnyaJJ5dTsKwjAocE0LHNq2vdAKTnL424/GwYDL1BiC2XFpmoyi3MFi2crTKVP6Rpsn8rAnK1wp/cfk+D+VaijaSHifUyeMeOZMYu0AVBs+on7akFHOzEHqq78gf2O7pdU5o8A2EYj3oug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728930070; c=relaxed/simple;
-	bh=Mbpp6GolQUp8+qvADWh7Iwb0btCr36EF3neqagVgQTk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NaRMqS1Kc3AFUNcfwSPfc0Ztgj6XpVJuWA0+DjAkFaVGZKwtpSGC8sMBHCFSkDUMkPVAtEP7cualgC3LVu8zzHxTCP87DSeaq07X4BLfqXEeZv40bQLjECaEoSmDVfKDPWs2Ujr64AJGgjWZXogKVCaSSMhR57D9hteoHpJ6Sj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=eaNHFEKw; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1728930122; c=relaxed/simple;
+	bh=RYWJhD4avTH3LS7540U6bEmGVhpem0ClBLlJUEQ07Wo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Q2KoiZqotq+3PNS4BCEI0b9rDTN0Xa9wur29+1XJfimbuBR7r7Kkw4rHDKaPcG0b21MaZy5O0SfHmDb7w4tYyXLoKpzsVZlZfMV+59fHSNHwsSV+/oFo/sxewbmWcZ0V554a0K0gH/lr1gHspEWzv/7G1f1fqK9dBo1BnAB9kiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=kpBXn5EE; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="eaNHFEKw"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49EHLkwT026660;
-	Mon, 14 Oct 2024 18:21:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date
-	:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=pp1; bh=+15fU+vlFJXlfWNo5SAb6q/LxbD
-	R71Q4LmaLqoFoAZY=; b=eaNHFEKwAne8T5Hw2RuPNhr4IuZPqpuAd6PDLZfd4W2
-	2ua4t2Ns/mhAzdVfGH1rRTanXrr0dHqRIuF0H9ZxSHZOqN1Xfde3r3RZ7en+j556
-	bxhS46+2O1W1jb7yuqKmrCOeiVLZqE/C67SoUeO5ljNQN1QvBuCvLr2NrJg2PDiZ
-	GBZZI7k6w3VtsDNQWHd9fjaOTVR5bN6Vrnw/S0XnP3IjpKEgCGXFHXUGhibZ65//
-	8TuT+jehc8jqB3j+eLVnGmZLr5gxblfETosLAxM6HUAx3irF9x+xv3ODQ4tLz2YT
-	xYOpZjaLAgQtQIbJN+RBvkyh4FOfMHPDIcVlqSbmUzg==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4297mh07ww-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 14 Oct 2024 18:21:02 +0000 (GMT)
-Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 49EIL1KV023177;
-	Mon, 14 Oct 2024 18:21:01 GMT
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4297mh07ws-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 14 Oct 2024 18:21:01 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 49EICqoP006757;
-	Mon, 14 Oct 2024 18:21:00 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4284xjyumy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 14 Oct 2024 18:21:00 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 49EIKul654788570
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 14 Oct 2024 18:20:56 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B54FD20043;
-	Mon, 14 Oct 2024 18:20:56 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B980620040;
-	Mon, 14 Oct 2024 18:20:55 +0000 (GMT)
-Received: from osiris (unknown [9.171.66.174])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Mon, 14 Oct 2024 18:20:55 +0000 (GMT)
-Date: Mon, 14 Oct 2024 20:20:54 +0200
-From: Heiko Carstens <hca@linux.ibm.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-s390@vger.kernel.org, virtualization@lists.linux.dev,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-        Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, Mario Casquero <mcasquer@redhat.com>
-Subject: Re: [PATCH v2 1/7] s390/kdump: implement is_kdump_kernel()
-Message-ID: <20241014182054.10447-D-hca@linux.ibm.com>
-References: <20241014144622.876731-1-david@redhat.com>
- <20241014144622.876731-2-david@redhat.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="kpBXn5EE"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1226042BFE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1728930120; bh=tJUYbtFkO2o0Z+VD382yux/kSn4dPnJekgpVL+9vBgo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=kpBXn5EEu1xLHUG7iiNTeCHIU0LJUzz8lj2VssE3NSdrJ0z0DX+q6Oize/h7WXNbY
+	 4TR8vtJqep0NOsSyUFlPeDiF2vt07mniYaaHQgV1DtkdVJrHLOjn6OhCWQ3liGWiL0
+	 xG8/USHeDofR8IAKM6F4ySbG/qF818Y9X1HWEjoLSEw6oLmqoBl/UP5gL3/kvjoH9G
+	 lC050/UDA3JeSjyTQsf6foPYhy9oHrl0cp+wumbj7doifONqjP9iTmTjXDLABs7JwE
+	 RNwSZnoZ730LLChfEwKIBNUJOiQN8OI9V6mpZlewhCS9nyxCMQbmWF0wwam1SS3/Rp
+	 HDRngyKjuwUsQ==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 1226042BFE;
+	Mon, 14 Oct 2024 18:22:00 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Chen-Yu Tsai <wenst@chromium.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] scripts/kernel-doc: Do not track section counter across
+ processed files
+In-Reply-To: <20241008082905.4005524-1-wenst@chromium.org>
+References: <20241008082905.4005524-1-wenst@chromium.org>
+Date: Mon, 14 Oct 2024 12:21:59 -0600
+Message-ID: <87iktusfy0.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241014144622.876731-2-david@redhat.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: ZNrF-vliafvsXTZlHD8cU1V8rNPhMb3U
-X-Proofpoint-GUID: bsGZDluyQp-DsQa9Pp8zZysEnv_dnaq2
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-14_12,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
- spamscore=0 impostorscore=0 priorityscore=1501 lowpriorityscore=0
- clxscore=1015 mlxlogscore=388 bulkscore=0 adultscore=0 suspectscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410140128
+Content-Type: text/plain
 
-On Mon, Oct 14, 2024 at 04:46:13PM +0200, David Hildenbrand wrote:
-> s390 currently always results in is_kdump_kernel() == false, because
-> it sets "elfcorehdr_addr = ELFCORE_ADDR_MAX;" early during setup_arch to
-> deactivate the elfcorehdr= kernel parameter.
-> 
-> Let's follow the powerpc example and implement our own logic.
-> 
-> This is required for virtio-mem to reliably identify a kdump
-> environment to not try hotplugging memory.
-> 
-> Tested-by: Mario Casquero <mcasquer@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+Chen-Yu Tsai <wenst@chromium.org> writes:
+
+> The section counter tracks how many sections of kernel-doc were added.
+> The only real use of the counter value is to check if anything was
+> actually supposed to be output and give a warning is nothing is
+> available.
+>
+> The current logic of remembering the initial value and then resetting
+> the value then when processing each file means that if a file has the
+> same number of sections as the previously processed one, a warning is
+> incorrectly given.
+>
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 > ---
->  arch/s390/include/asm/kexec.h | 4 ++++
->  arch/s390/kernel/crash_dump.c | 6 ++++++
->  2 files changed, 10 insertions(+)
+> Found this while improving and checking the kernel docs for the
+> regulator core.
+>
+>  scripts/kernel-doc | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+> index 2791f8195203..c608820f0bf5 100755
+> --- a/scripts/kernel-doc
+> +++ b/scripts/kernel-doc
+> @@ -2322,7 +2322,6 @@ sub process_inline($$) {
+>  
+>  sub process_file($) {
+>      my $file;
+> -    my $initial_section_counter = $section_counter;
+>      my ($orig_file) = @_;
+>  
+>      $file = map_filename($orig_file);
+> @@ -2360,8 +2359,7 @@ sub process_file($) {
+>      }
+>  
+>      # Make sure we got something interesting.
+> -    if ($initial_section_counter == $section_counter && $
+> -        output_mode ne "none") {
+> +    if (!$section_counter && $output_mode ne "none") {
+>          if ($output_selection == OUTPUT_INCLUDE) {
+>              emit_warning("${file}:1", "'$_' not found\n")
+>                  for keys %function_table;
 
-Looks like this could work. But the comment in smp.c above
-dump_available() needs to be updated.
+So I am curious, have you actually seen a spurious warning from this?  A
+normal build does not emit any here.
 
-Are you willing to do that, or should I provide an addon patch?
+The current logic is indeed screwy, I'll apply this fix.  But
+$section_counter kind of seems like a holdover from the docbook days and
+maybe isn't needed at all anymore?
+
+Thanks,
+
+jon
