@@ -1,278 +1,226 @@
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2055.outbound.protection.outlook.com [40.107.220.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689B61A76DD;
-	Tue, 15 Oct 2024 20:32:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729024328; cv=none; b=InY4k04b66JxyqFmTOXLh1VL6NJgAR3Iet1UwXzB3/F1Hxa0SQnmEiS3H6FCXm4i1Wcb93aDV8S8HEOAv+p8tgXWideaaHnK70vDl5b/Q6B+pVGjVu4Bz7Sdq8W92+0WmNTNfp7Y8TSdJZedWKFKvCHWKnm5DYjnAoa2Yl39pxQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729024328; c=relaxed/simple;
-	bh=8cDk11iDvyKZdnVjT+Yr5+r88bYjxh1eB4rjAMWjKkc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eM6D0UabsjOyhoqrjeXtWisyZCc/CC6DEZOP7m9JL+CSySurIhDLOB9W/w5J3gk8ezHloZojeCKxNBxgsZ+55TvH8LBdx/7vx5+sljUUov2VCMocMxOnBpXnPuc8U0jMiKJpOs9YKHgcQw4Yhy/bqB4HXoNQj9F/qsUYq8Q33CY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jodbh/7Q; arc=none smtp.client-ip=209.85.210.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8158A1F8183;
+	Tue, 15 Oct 2024 20:40:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729024840; cv=fail; b=KMqBPGpE/wzgwI02wJoi4GFvnZll/WR25Ek7wPA857cfIGdlWIxZYTb9UuN2azQih2QGVNkBNqNlBZOQ2aTIrtLYsiJ0hMU9U4z8kIA4wfTAVJeghD5527NEDPTXrpfqOObc4S+vXwBglI1K1NZl0DZOMHcpZ/adIU9Vl3mYkis=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729024840; c=relaxed/simple;
+	bh=NrhVzf+OKSRf1uZjLDrPBe4bNjz+6QssRRY/oGNH3wc=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=SbSMRjssTKM/F1QU8H55YtDeEu8H/kcLfv1PwyvgsHPQZ6UkjXexKLkJvJPusZlxflUYvrr3iSKYjURlW6+MYV2f6Xyy1CTzQ1eKOcPQrABskpOJii7AdbmyOyR43orkiU6UOObjr5BUUAorvTurnWL6cmLc83eMY5VhFDyWc6w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ACODnLbh; arc=fail smtp.client-ip=40.107.220.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jodbh/7Q"
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-7165df3a85fso3408585a34.3;
-        Tue, 15 Oct 2024 13:32:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729024326; x=1729629126; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KBWtkqYz09+QJinmIo782z9Z/cy1lkhmhnz03IFAMnw=;
-        b=jodbh/7Q4e4jb+aX5vBd8rsHZvsNEPIdTqDT/2vkfXVKoL4ui6GKy6aWzKWCwFuFMs
-         W8ZJ86+WNFBHBlHiOCvX/rKUYA+2Uqb9x8epSuh0ldQPXw/qCtE5pkBYR4otZbczrQOX
-         vH9aV0NUyDEID7dTz8t+fQAMfg92xsKHDHzd0nOQrQwZ5lGDFCpmQpv3zqcXJsgq3l1A
-         YXmF3dmy5+VvHzzjpFWe0szQ/MZYz7x/J2BeoVNAQmk/5CnzBOgldG7+YGY/9PJ+nNW4
-         LTAEVlU3P65bbYDq+qO1Aeb+D8hPnnngxXCS+X5C8rdDLeqCmFUNT8oPNB9Yn983Eola
-         gXEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729024326; x=1729629126;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KBWtkqYz09+QJinmIo782z9Z/cy1lkhmhnz03IFAMnw=;
-        b=XoofPpCyqXT3YRtuPAgKP6efgX5JLkOKpaCfQF1fpasLthyN8VIPZICuTAh0m9rHNb
-         mfO5CYif9zLvy4rgX5pY0I6tA7F53pAcCHcdx8TLNOWf2DtwhIAODvEjg66ft59xHWcS
-         NZpaoOzgJn4QLViIKqohw/DXfY2JdwOBn2auDbX+ebmk5f3lVjuf5jG/xG3jdyYUjcfu
-         aQVKN6NtFYGgJ2vVEBCHdzXACszQA/rrkQzsdO+82CjFoZ7E+9vYTMeQ9JEwyGEJCag3
-         3AWeRGJ4z4qvbPSSiPf/ZYP0kkkf2th55EI13ZxOkN/DIExPEpmVxkZ/zv32RFn4XNQ4
-         gkGw==
-X-Forwarded-Encrypted: i=1; AJvYcCUxJMKH4uSLE/tgD85tgBYCT+hrmhcd7XdZW10rqmRgVhrvv6sQFDV6xRnzSbq6XhW+Ho2txN+/MB0j@vger.kernel.org, AJvYcCVZ0HTkamXgroCYAFUO04Q6WzoB4y3E6M0xHkoIg/zBwZzHzql+91KYCkpBnw6WKOMPG0pE28A4NfI=@vger.kernel.org, AJvYcCWk+1Ea8B48kBBZvG3Qvizgp7WHxuolyUb93EN+CqyxC4L22XTg7Cc3W50n/b7wjRnSOUY+aMMuF5CUlziU@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWGvdHnBQdJ1psMr7Nnq+sHL9wUi/4QOBiVawzrAWO8RGB5P/h
-	q0nAi+jegTQftA5ph9wb74YxUXWOI2z61RMRyJhN3aN4RsagRz8P
-X-Google-Smtp-Source: AGHT+IFZ4ct4q2Mizm93//1ZugEn+brrjtMJxnlhiRa5oGsO3yagcbzr7QcW+w6XeuZx4Ex7ealEWQ==
-X-Received: by 2002:a05:6830:4486:b0:717:d0a1:f15b with SMTP id 46e09a7af769-717d640e836mr12038133a34.4.1729024326122;
-        Tue, 15 Oct 2024 13:32:06 -0700 (PDT)
-Received: from illithid ([2600:1700:957d:1d70::49])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-718045ee6cdsm159296a34.50.2024.10.15.13.32.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 13:32:04 -0700 (PDT)
-Date: Tue, 15 Oct 2024 15:32:02 -0500
-From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-To: Ian Rogers <irogers@google.com>
-Cc: Alejandro Colomar <alx@kernel.org>, David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-man@vger.kernel.org
-Subject: Re: [PATCH v1 1/3] proc_pid_fdinfo.5: Reduce indent for most of the
- page
-Message-ID: <20241015203202.vyfi4nykkid35luj@illithid>
-References: <20241015183824.1014964-1-irogers@google.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ACODnLbh"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ByLMO9KiaV/NYAiN8B5W0dMHWNw/ttzIYMU1CZ8NEJkFy8SRAF+gK4f2/UzAZoypVMEYryED84k289DYyxlcaDFDaDfKUIzdsTqid22Zll9eQ79f/ltLa9/YjsOhV2N3klztIVI8XLYdM2tcbFzyHgQowGMQt0qH5QoK4huSPhIwzr55h9gTVtwGw5+pqAJR9YBWxsKrS3Gvaz8KShTSvLKKyuRJe+Y5UUXjLu9QT4lZdd++IzIIIDm0TQQS1N+IG4ogLDfZtkdSp/ysfFrH3W1qn0fs+HYgeFFY+uSPn3s2YJmMmyfW+xR7s9KpdAvR2fdr0tY1nzGjbuCOgO9CpA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HTnzHCM0sGv4fdnrjc/d9bGyhTwd4verzqvVTaaJDV0=;
+ b=ooRzk+ank6p1BuHoT1eVJ19WTUNo22YwrogL9WITYzdza1o1+T8VXRsID17eLueiBkeMu/rlM8JtKEmuWGWaGalV4LYDvAiXCKx8HPdJzltW14wvgNd2OywyPW1xGGya8oQAfd4OlHyqVz1JaMFklfBVrUvo29g75Im/BQdju5F31+h0rSk0ddOGXTFeG2B/PwPmtBNldE7WlW9z9UQQvS7p1WhLZCorZDhSreYwDiTq1v6tCkfOeFRbwKrHPMwFUFLps8bWoiaYTjvFTrtWr7kP9lqvrJ1GQM7EYL80pY7wHMqwGRRFEKzufSz9bXwJ0WM5DT2Q3mejyXRZes3kbg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HTnzHCM0sGv4fdnrjc/d9bGyhTwd4verzqvVTaaJDV0=;
+ b=ACODnLbhQYdQAybHgp9fAoWfSY/UQLhHsMmxsDbZC8Rz/hYkeOvusagXaAC+YO3w96d7p2MIgdNCrg55pZ2/RMJnoYFqBfwy8C29TMkrw0aq8qKDbL24Gaw5ky4N6TAhPllHPPAkDUe1GXRFOZJNO3tWGe4stAGDV6kuiAvkZu4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by PH7PR12MB7210.namprd12.prod.outlook.com (2603:10b6:510:205::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.26; Tue, 15 Oct
+ 2024 20:40:35 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.8048.029; Tue, 15 Oct 2024
+ 20:40:34 +0000
+Message-ID: <bf67bc4e-9cf8-4cac-9ffb-2d4f81ab7e30@amd.com>
+Date: Tue, 15 Oct 2024 15:40:30 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH 3/7] x86/resctrl: Introduce sdciae_capable in rdt_resource
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org
+Cc: fenghua.yu@intel.com, hpa@zytor.com, paulmck@kernel.org,
+ thuth@redhat.com, xiongwei.song@windriver.com, ardb@kernel.org,
+ pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
+ sandipan.das@amd.com, kai.huang@intel.com, peterz@infradead.org,
+ kan.liang@linux.intel.com, pbonzini@redhat.com, xin3.li@intel.com,
+ ebiggers@google.com, alexandre.chartre@oracle.com, perry.yuan@amd.com,
+ tan.shaopeng@fujitsu.com, james.morse@arm.com, tony.luck@intel.com,
+ maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, peternewman@google.com, eranian@google.com
+References: <cover.1723824984.git.babu.moger@amd.com>
+ <cf9e47bbd66dbbdb76f0124620fad2f1b06e977e.1723824984.git.babu.moger@amd.com>
+ <254da029-81b2-4745-bc78-5aefeb33adb0@intel.com>
+ <b96e5de8-75ce-4a7a-8788-f5d3a959d771@amd.com>
+ <89da43fd-69fb-48a6-830e-e157360aeab6@amd.com>
+ <dbe8a012-eb21-426f-a8e4-46efee26da62@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <dbe8a012-eb21-426f-a8e4-46efee26da62@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA0PR11CA0163.namprd11.prod.outlook.com
+ (2603:10b6:806:1bb::18) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="optj6anisaxduzt3"
-Content-Disposition: inline
-In-Reply-To: <20241015183824.1014964-1-irogers@google.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|PH7PR12MB7210:EE_
+X-MS-Office365-Filtering-Correlation-Id: 276e1f1e-9f92-4e5a-4eeb-08dced599e70
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?dzFhNkZjSlFCZUlzQUZGYjl5WWpZUEZEZjc0ek02RGNqZnFXdEZ4OERIWGVs?=
+ =?utf-8?B?OUVicmNqYnl2dlllUHJiMWhJVHBQMkt6ZlNISjAwL0c2WGtrRGZwSkwrSXky?=
+ =?utf-8?B?Q1MreEdDZSs2bjBaWWJiY2ZkdklOR0kxS1FJK0FtZ3p2aWJhK3hKaXo0YWtL?=
+ =?utf-8?B?a3hVZkM4RnpmOUwzVXZHSEFzUnNYekxKQWdZeUxIRE1UM29XSDRkSmh0bTFE?=
+ =?utf-8?B?bzhyaXpOWTNTY1c4bFNWTlNoQXVxRGtrRWVabHJsbXJaRlMxaTFPMHgyelB5?=
+ =?utf-8?B?S2tDZmF6NWFtVktTVXI2Yml4emlHZEpNcUFMd3VXTG0xRUVHMWhUWnlNM3FR?=
+ =?utf-8?B?S053K2JDS3NrR3RiR0xWWXZ1N3V1VWhiN1VjOHZYRmtvdGtpdnNnQllUL3M3?=
+ =?utf-8?B?RWU3NjNGcmN3T3lHNC9pWG9MMysyOENRUzNlRjZPV2lESllCTnpWRFg1ZzhD?=
+ =?utf-8?B?dXBRWkE2OHYxRUFLUS9TOTNUUG1SOTl6bGZxbUMwTUpQOURXSy9MbWxKYStp?=
+ =?utf-8?B?dklTS0VJMjZUTWlLdmlIWFpkWEVyT0VncjhNTFl0NVVsL2lkZ1lJMGsyVFdn?=
+ =?utf-8?B?TTVINDUvSzRBZHdPdGRuMDYxMnFVTkUrd1poL3J6MDRuekZVbTF6Uk95MHRz?=
+ =?utf-8?B?WDd3TGNTUWlneEo3TWtZM2lwM2w1eUtja2ZGOUJZK0xvLzdGQm5HMnpaNW4y?=
+ =?utf-8?B?amxySVRvb3pjUHAwSHBUZ0Z4ZnZHQlVMSnQ0dWplRDFLa1gxQjNyd3JyUmhX?=
+ =?utf-8?B?dHhROFk5WjRFYms2ekEybGtNWTBkdkZERUxhUUFwMnpIc2syenNTdEZDWU52?=
+ =?utf-8?B?RDhKYTBpWVJaNzVaQ2lacnRMMTJiT2phZURra2crakhWeHRlcWJ2MklyWXFC?=
+ =?utf-8?B?aVp3QjRGTmprTmVxdFdzYlBZODhTc3h5TDZuM0FHS2FOTW54Rm1NU3ZuUWhI?=
+ =?utf-8?B?VVhiUVZMaVEzU2NiSHVPWENkZGdqQ3FLclY3WGNKU01YZzlKRmlCaXFzd1Vy?=
+ =?utf-8?B?aUR0cDdRRUpGTjVNMUZWLzJnTzltdzlyOUFmbkswbUp5NWM1elVJRGdMdVl1?=
+ =?utf-8?B?Z3Q5RnVSQmdCT01oMExzMm9qdFpqMWIvU0srNTMxditpLzVIenEzeldUek9j?=
+ =?utf-8?B?eXczUVBsUm5QMUJzd05wdktWRnUvaG5GKzAvMk1GNmtvanpoeGNJTi9CeVkv?=
+ =?utf-8?B?RngzSFZjZEllTnN5MEZNK3E3UUFjWUsvajM3QzFRNkJVd0greVFPdUQyUU9u?=
+ =?utf-8?B?ZktrT3JaTkFjWDZCbU0yZEs4WGVlM2dST1dkZk1WaG9hRCtZQ0sxL3NnUDNV?=
+ =?utf-8?B?aVFZSzJPRU8zRy9UNWlsVHhrSFhDMXJUVHYzTDlsU2hyQlkzaGpHYlpQY0Zi?=
+ =?utf-8?B?SkNZSUhraHlJcmRzMzlhbGtnZ3hGdzEreFBKQzRRNlE0Y0NMVUQ2bVNkdzZw?=
+ =?utf-8?B?UU1wYUVoZVA1RXZ2RW8wWTlKQVRWMUhGUm44YytvU1dyMDJWdmdZR1lwaENq?=
+ =?utf-8?B?UGNmQmVrWndnSEJBT1FoY0I5MWlpam1RNUtNdWN6MVNhRFN6ZTFrS3lwT1R0?=
+ =?utf-8?B?S09uaW5BM0FQWU5jVzhaSEZqa2ZVOE5PR0tzUElyTWRqNUZqaHRmQWpYcm1F?=
+ =?utf-8?B?UEVuaVlWOHZuaDBOM2dEY2k3SEJqZWsrUWQ0bEtGdlZZNytGSmhLUVFJT1Nw?=
+ =?utf-8?B?ZGFjNTFlc3JUejNnb2o0L0R0NlJ6emZCTTZEc2N1VG1wV1l0bzU3OTlRPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?azFESEgxUEx2ak1rT3JHa3NadkhMUjdhOWF1VytmZG9qT1BJY0xYSHpFUW5o?=
+ =?utf-8?B?dFhXWSs3cnJocnJhU0JoV3NUOEhrWklJdkYxdWxlUUhaQ0kxdU5vL1pzMmRl?=
+ =?utf-8?B?SE5FRWVjajF1L3U2TG92NTEzbEF1cGZWRGR4ODdxeHl0VGZSNFVBcW5UcXZ0?=
+ =?utf-8?B?U0srcG80TlJUeENCK25aK2VicU0rYUZ6V1o2Sm5mbzBUOFJCRlVzdDlRNWxk?=
+ =?utf-8?B?V1NIYzNSZmtvYStZQi9ubHdtNVpOL3RZMjNmeWF0cjAxMFlwMktTN3dkSXNU?=
+ =?utf-8?B?dkpEQmJ0SVk2SGZGdmRVOEJjRkp5aElRQ0NvUit3S2NqZHlJOWV6L2htMjFm?=
+ =?utf-8?B?YUU3dVJ6U0FCMDBUSStVMy8xWUI3ak1LZGpjTmgvYXF3cXNzNTEzVk43ajM0?=
+ =?utf-8?B?N0hJUWJOc0h6Ni9hZDFYV28vZytmRlY2c3RaNXRFc3k3eUJ4V2tOS3B4QzFM?=
+ =?utf-8?B?TkJ0V0NxZ2lqdFFjdjZqSVZIcXRacmZXd2E4cjZZYUt2Njc2VExEWHAvQU9q?=
+ =?utf-8?B?Z0VRTHFJekovL0EvWUoxZjl4eFlFT0x3cHoxMG9mbVRoN1lSSm9yTC9rcXYv?=
+ =?utf-8?B?dDdTS1hYeS9ST1M5SisxYUV5bzFscUJDcmpJazhLLzBPY05TbWxUbEJsNnNx?=
+ =?utf-8?B?MXdRTDdQN2RwZEU3RmowNmdnN0NMcC9JdGRsemN0Sm12TVlCWk9ZVWIya2hq?=
+ =?utf-8?B?bllFVnNoV255OG45U2I5K3ozaU4ycWhaT0VXdEh4RnZ0VU9DU1V1NHFVOGI1?=
+ =?utf-8?B?cXFxQmtyVjFvMEFhWkhVZ24vZm5RUW5tMHYzMnJLbzh1dUdxeWVjQjk5WGJH?=
+ =?utf-8?B?Z2J5ZlN2UE92dTdIZlMxd1p1NlVzWFNieXArYWN1TlJZUXZwdWlLZHVZaFBq?=
+ =?utf-8?B?K0tLZmE0NFkxL3BvT1Y2TDFVSDVZZW1FY1o5U3dTcXNyUGh2M3RoSEF2bU1p?=
+ =?utf-8?B?d2NLWVN1akV0aiszSGRzN1lkczBjN1hlQmMrR3MrRm11Z2JocFJJSVNWVmFS?=
+ =?utf-8?B?a0FGbWE0QWRQRy9zUThKaTFEbXVQY0dxVE4vV3cwYm95M0hVcjdJQmRQcUJB?=
+ =?utf-8?B?U1BKN1lKT3M1ZDUraDQyV1RyTmtNWWpiTFhhZjF6eHNTUi8rOWw3OHNNYkJr?=
+ =?utf-8?B?cnBkcHJLZGZwR3dwUW16YWdqUlZvak9reWdWMGw4bUNRY1NId1pDbnRrWU1W?=
+ =?utf-8?B?b21ydkRlVS83LzZWRS8wTXlGZkYrd3hLK2xCU2FHNGRLYlNGa1BnWDdibEdy?=
+ =?utf-8?B?NkRXMGR3Z2Z1MzdvZVI5OTBxWGxlZ3RabjA3dzE4cDIvc1NLUXhPSkROeExo?=
+ =?utf-8?B?NmxBZGExVFhCT0hzRXdvc1JUeHFuaVAzM1JGUWpqbEx2R2tjVnZabnVNN256?=
+ =?utf-8?B?OVJreGJTdlRodUhRRDc2UHZNNDZqUTNWdHhQaDc2M3FLOXlCN1FhQUZRMEx1?=
+ =?utf-8?B?REJBSDlESElkU0FZS1B2RUZBNDYwZzdlNms4S0l5QWVDWkhzUjJwWWMvMVIr?=
+ =?utf-8?B?V3lBVFVwOHpNVENvOUhZYlBBcEUxWkRqMCtXNGRxSHh0cnA2NWtUTnR1ZnZy?=
+ =?utf-8?B?WEdNV3RYaUJ3Z0l5T3dFY1FVUGgvckxzYzRxK1VMcUJRU09POTN3VWdQaThM?=
+ =?utf-8?B?ZEpSZFg4VkpraGtUa2RrUkZkaDljSmtjdnY1WnIyWnBFclFiWnowOU1Zdk4v?=
+ =?utf-8?B?dlZWbHNlckZGZ3ljUDBEZGdaMU5jQkJFRkk1RHFPWVlQazJwQWdUdSt1M05v?=
+ =?utf-8?B?V1FXN1JzeEViTm55UzJBeGk3ZkZscEQ2ejY0N0xmSWpZbEQ4NUtBMFEvTEUy?=
+ =?utf-8?B?R2ZGTHViN2ZqbHFjRmNza1VFakhwUDhURkFGSkJWME9WbW53M1BFS2FSYTFY?=
+ =?utf-8?B?UVN5VkxjRFlmMjZ4aUZMSjVwaVdvSVg4OTZwZmxhSGJFWE9EQ2FWaHA2cWRK?=
+ =?utf-8?B?b0w4ME5lRE5NcnVrUjY2Q2ZpQktJR2JpdnN6UVA2QjEzTkx5c1lkTmVIVm1U?=
+ =?utf-8?B?ME0wcVdsVEVrT05ReXVPTXRlWEJKOTVWbTB5MUdsU3lPdHFjLzdGaXlqelU4?=
+ =?utf-8?B?VE44Z0ROTHk0RGUrZSswbVlFdEttN00xbUhzQ3VmYmxZRDJBdkYvQW1SaHZs?=
+ =?utf-8?Q?/qvE=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 276e1f1e-9f92-4e5a-4eeb-08dced599e70
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2024 20:40:34.7524
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aLUmtT4oZJEcQ8hEOK27SMbgDX1xTya+KLjS/32IrBre5yVIaeyVEm+Dbi7jsfbb
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7210
 
+Hi Reinette,
 
---optj6anisaxduzt3
-Content-Type: multipart/mixed; protected-headers=v1;
-	boundary="2r75hx4jq6yflj7c"
-Content-Disposition: inline
-Subject: Re: [PATCH v1 1/3] proc_pid_fdinfo.5: Reduce indent for most of the
- page
-MIME-Version: 1.0
+On 9/19/24 10:33, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 9/18/24 11:22 AM, Moger, Babu wrote:
+>>
+>>
+>> On 9/18/24 10:27, Moger, Babu wrote:
+>>> Hi Reinette,
+>>>
+>>> On 9/13/24 15:45, Reinette Chatre wrote:
+>>>> Hi Babu,
+>>>>
+>>>> On 8/16/24 9:16 AM, Babu Moger wrote:
+>>>>> Detect SDCIAE`(L3 Smart Data Cache Injection Allocation Enforcement)
+>>>>
+>>>> (stray ` char)
+>>>
+>>> Sure.
+>>>
+>>>>
+>>>>> feature and initialize sdciae_capable.
+>>>>
+>>>> (This is a repeat of the discussion we had surrounding the ABMC feature.)
+>>>>
+>>>> By adding "sdciae_capable" to struct rdt_resource the "sdciae" feature
+>>>> becomes a resctrl fs feature. Any other architecture that has a "similar
+>>>> but perhaps not identical feature to AMD's SDCIAE" will be forced to also
+>>>> call it "sdciae" ... sdciae seems like a marketing name to me and resctrl
+>>>> needs something generic that could later be built on (if needed) by other
+>>>> architectures.
+>>>
+>>> How about "cache_inject_capable" ?
+>>>
+>>> This seems generic. I will change the description also.
+>>>
+>>
+>> Basically, this feature reserves specific CLOS for SDCI cache.
+>>
+>> We can also name "clos_reserve_capable".
+> 
+> Naming is always complicated. I think we should try to stay away from
+> "clos" in a generic name since that creates problem when trying to
+> apply it to Arm and is very specific to how AMD implements this
+> feature. "cache_inject_capable" does sound much better to me ...
+> it also looks like this may be more appropriate as a property
+> of struct resctrl_cache?
 
+Coming back to this again, I feel 'cache_inject_capable' is kind of very
+generic. Cache injection term is used very generically everywhere.
 
---2r75hx4jq6yflj7c
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Does  'cache_reserve_capable" sound good ?  This is inside the resctrl
+subsystem. We know what it is referring to.
 
-At 2024-10-15T11:38:22-0700, Ian Rogers wrote:
-> When /proc/pid/fdinfo was part of proc.5 man page the indentation made
-> sense. As a standalone man page the indentation doesn't need to be so
-> far over to the right.
->=20
-> Signed-off-by: Ian Rogers <irogers@google.com>
-> ---
->  man/man5/proc_pid_fdinfo.5 | 50 +++++++++++++++++++-------------------
->  1 file changed, 25 insertions(+), 25 deletions(-)
->=20
-> diff --git a/man/man5/proc_pid_fdinfo.5 b/man/man5/proc_pid_fdinfo.5
-> index 1e23bbe02..0c4950d5d 100644
-> --- a/man/man5/proc_pid_fdinfo.5
-> +++ b/man/man5/proc_pid_fdinfo.5
-> @@ -8,8 +8,9 @@
->  .SH NAME
->  /proc/pid/fdinfo/ \- information about file descriptors
->  .SH DESCRIPTION
-> -.TP
-> +.TP 0
->  .IR /proc/ pid /fdinfo/ " (since Linux 2.6.22)"
-> +.P
->  This is a subdirectory containing one entry for each file which the
->  process has open, named by its file descriptor.
->  The files in this directory are readable only by the owner of the proces=
-s.
-
-I don't find this usage to be idiomatic.
-
-There's no point having a tagged paragraph if you want that paragraph's
-indentation to be zero.
-
-I'll grant that it's also unusual to have a man page's "Description"
-section lurch straight into a definition list without any preamble.
-
-Since the only topic of this man page is now the file (or class of
-files) in question, I suggest dropping the paragraph tag altogether
-since it duplicates the summary description.
-
-And as it happens, you can put font styling _in_ the summary desription.
-
-So I suggest something like:
-
-=2ESH NAME
-=2EIR /proc/ pid /fdinfo " \- information about file descriptors"
-=2ESH DESCRIPTION
-Since Linux 2.6.22,
-this subdirectory contains one entry for each file that process
-=2EI pid
-has open,
-named for its file descriptor.
-
-This renders fine with groff and mandoc(1).
-
-Sample page attached.
-
-Regards,
-Branden
-
---2r75hx4jq6yflj7c
-Content-Type: application/x-troff-man
-Content-Disposition: attachment; filename="proc_pid_fdinfo_ropers.man"
-Content-Transfer-Encoding: quoted-printable
-
-=2E\" Copyright (C) 1994, 1995, Daniel Quinlan <quinlan@yggdrasil.com>=0A.\=
-" Copyright (C) 2002-2008, 2017, Michael Kerrisk <mtk.manpages@gmail.com>=
-=0A.\" Copyright (C) 2023, Alejandro Colomar <alx@kernel.org>=0A.\"=0A.\" S=
-PDX-License-Identifier: GPL-3.0-or-later=0A.\"=0A.TH proc_pid_fdinfo 5 (dat=
-e) "Linux man-pages (unreleased)"=0A.SH NAME=0A.IR /proc/ pid /fdinfo " \- =
-information about file descriptors"=0A.SH DESCRIPTION=0ASince Linux 2.6.22,=
-=0Athis subdirectory contains one entry for each file that process=0A.I pid=
-=0Ahas open,=0Anamed for its file descriptor.=0AThe contents of each file c=
-an be read to obtain information=0Aabout the corresponding file descriptor.=
-=0AThe content depends on the type of file referred to by the=0Acorrespondi=
-ng file descriptor.=0A.P=0AFor regular files and directories, we see someth=
-ing like:=0A.P=0A.in +4n=0A.EX=0A.RB "$" " cat /proc/12015/fdinfo/4"=0Apos:=
-    1000=0Aflags:  01002002=0Amnt_id: 21=0A.EE=0A.in=0A.P=0AThe fields are =
-as follows:=0A.TP=0A.I pos=0AThis is a decimal number showing the file offs=
-et.=0A.TP=0A.I flags=0AThis is an octal number that displays the=0Afile acc=
-ess mode and file status flags (see=0A.BR open (2)).=0AIf the close-on-exec=
- file descriptor flag is set, then=0A.I flags=0Awill also include the value=
-=0A.BR O_CLOEXEC .=0A.P=0ABefore Linux 3.1,=0A.\" commit 1117f72ea0217ba0cc=
-19f05adbbd8b9a397f5ab7=0Athis field incorrectly displayed the setting of=0A=
-=2EB O_CLOEXEC=0Aat the time the file was opened,=0Arather than the current=
- setting of the close-on-exec flag.=0A.TP=0A.I=0A.I mnt_id=0AThis field, pr=
-esent since Linux 3.15,=0A.\" commit 49d063cb353265c3af701bab215ac438ca7df3=
-6d=0Ais the ID of the mount containing this file.=0ASee the description of=
-=0A.IR /proc/ pid /mountinfo .=0A.P=0AFor eventfd file descriptors (see=0A.=
-BR eventfd (2)),=0Awe see (since Linux 3.8)=0A.\" commit cbac5542d48127b546=
-a23d816380a7926eee1c25=0Athe following fields:=0A.P=0A.in +4n=0A.EX=0Apos:	=
-0=0Aflags:	02=0Amnt_id:	10=0Aeventfd\-count:               40=0A.EE=0A.in=
-=0A.P=0A.I eventfd\-count=0Ais the current value of the eventfd counter, in=
- hexadecimal.=0A.P=0AFor epoll file descriptors (see=0A.BR epoll (7)),=0Awe=
- see (since Linux 3.8)=0A.\" commit 138d22b58696c506799f8de759804083ff9effa=
-e=0Athe following fields:=0A.P=0A.in +4n=0A.EX=0Apos:	0=0Aflags:	02=0Amnt_i=
-d:	10=0Atfd:        9 events:       19 data: 74253d2500000009=0Atfd:       =
- 7 events:       19 data: 74253d2500000007=0A.EE=0A.in=0A.P=0AEach of the l=
-ines beginning=0A.I tfd=0Adescribes one of the file descriptors being monit=
-ored via=0Athe epoll file descriptor (see=0A.BR epoll_ctl (2)=0Afor some de=
-tails).=0AThe=0A.I tfd=0Afield is the number of the file descriptor.=0AThe=
-=0A.I events=0Afield is a hexadecimal mask of the events being monitored fo=
-r this file=0Adescriptor.=0AThe=0A.I data=0Afield is the data value associa=
-ted with this file descriptor.=0A.P=0AFor signalfd file descriptors (see=0A=
-=2EBR signalfd (2)),=0Awe see (since Linux 3.8)=0A.\" commit 138d22b58696c5=
-06799f8de759804083ff9effae=0Athe following fields:=0A.P=0A.in +4n=0A.EX=0Ap=
-os:	0=0Aflags:	02=0Amnt_id:	10=0Asigmask:	0000000000000006=0A.EE=0A.in=0A.P=
-=0A.I sigmask=0Ais the hexadecimal mask of signals that are accepted via th=
-is=0Asignalfd file descriptor.=0A(In this example, bits 2 and 3 are set, co=
-rresponding to the signals=0A.B SIGINT=0Aand=0A.BR SIGQUIT ;=0Asee=0A.BR si=
-gnal (7).)=0A.P=0AFor inotify file descriptors (see=0A.BR inotify (7)),=0Aw=
-e see (since Linux 3.8)=0Athe following fields:=0A.P=0A.in +4n=0A.EX=0Apos:=
-	0=0Aflags:	00=0Amnt_id:	11=0Ainotify wd:2 ino:7ef82a sdev:800001 mask:800a=
-fff ignored_mask:0 fhandle\-bytes:8 fhandle\-type:1 f_handle:2af87e00220ffd=
-73=0Ainotify wd:1 ino:192627 sdev:800001 mask:800afff ignored_mask:0 fhandl=
-e\-bytes:8 fhandle\-type:1 f_handle:27261900802dfd73=0A.EE=0A.in=0A.P=0AEac=
-h of the lines beginning with "inotify" displays information about=0Aone fi=
-le or directory that is being monitored.=0AThe fields in this line are as f=
-ollows:=0A.TP=0A.I wd=0AA watch descriptor number (in decimal).=0A.TP=0A.I =
-ino=0AThe inode number of the target file (in hexadecimal).=0A.TP=0A.I sdev=
-=0AThe ID of the device where the target file resides (in hexadecimal).=0A.=
-TP=0A.I mask=0AThe mask of events being monitored for the target file (in h=
-exadecimal).=0A.P=0AIf the kernel was built with exportfs support, the path=
- to the target=0Afile is exposed as a file handle, via three hexadecimal fi=
-elds:=0A.IR fhandle\-bytes ,=0A.IR fhandle\-type ,=0Aand=0A.IR f_handle .=
-=0A.P=0AFor fanotify file descriptors (see=0A.BR fanotify (7)),=0Awe see (s=
-ince Linux 3.8)=0Athe following fields:=0A.P=0A.in +4n=0A.EX=0Apos:	0=0Afla=
-gs:	02=0Amnt_id:	11=0Afanotify flags:0 event\-flags:88002=0Afanotify ino:19=
-264f sdev:800001 mflags:0 mask:1 ignored_mask:0 fhandle\-bytes:8 fhandle\-t=
-ype:1 f_handle:4f261900a82dfd73=0A.EE=0A.in=0A.P=0AThe fourth line displays=
- information defined when the fanotify group=0Awas created via=0A.BR fanoti=
-fy_init (2):=0A.TP=0A.I flags=0AThe=0A.I flags=0Aargument given to=0A.BR fa=
-notify_init (2)=0A(expressed in hexadecimal).=0A.TP=0A.I event\-flags=0AThe=
-=0A.I event_f_flags=0Aargument given to=0A.BR fanotify_init (2)=0A(expresse=
-d in hexadecimal).=0A.P=0AEach additional line shown in the file contains i=
-nformation=0Aabout one of the marks in the fanotify group.=0AMost of these =
-fields are as for inotify, except:=0A.TP=0A.I mflags=0AThe flags associated=
- with the mark=0A(expressed in hexadecimal).=0A.TP=0A.I mask=0AThe events m=
-ask for this mark=0A(expressed in hexadecimal).=0A.TP=0A.I ignored_mask=0AT=
-he mask of events that are ignored for this mark=0A(expressed in hexadecima=
-l).=0A.P=0AFor details on these fields, see=0A.BR fanotify_mark (2).=0A.P=
-=0AFor timerfd file descriptors (see=0A.BR timerfd (2)),=0Awe see (since Li=
-nux 3.17)=0A.\" commit af9c4957cf212ad9cf0bee34c95cb11de5426e85=0Athe follo=
-wing fields:=0A.P=0A.in +4n=0A.EX=0Apos:    0=0Aflags:  02004002=0Amnt_id: =
-13=0Aclockid: 0=0Aticks: 0=0Asettime flags: 03=0Ait_value: (7695568592, 640=
-020877)=0Ait_interval: (0, 0)=0A.EE=0A.in=0A.TP=0A.I clockid=0AThis is the =
-numeric value of the clock ID=0A(corresponding to one of the=0A.B CLOCK_*=
-=0Aconstants defined via=0A.IR <time.h> )=0Athat is used to mark the progre=
-ss of the timer (in this example, 0 is=0A.BR CLOCK_REALTIME ).=0A.TP=0A.I t=
-icks=0AThis is the number of timer expirations that have occurred,=0A(i.e.,=
- the value that=0A.BR read (2)=0Aon it would return).=0A.TP=0A.I settime fl=
-ags=0AThis field lists the flags with which the timerfd was last armed (see=
-=0A.BR timerfd_settime (2)),=0Ain octal=0A(in this example, both=0A.B TFD_T=
-IMER_ABSTIME=0Aand=0A.B TFD_TIMER_CANCEL_ON_SET=0Aare set).=0A.TP=0A.I it_v=
-alue=0AThis field contains the amount of time until the timer will next exp=
-ire,=0Aexpressed in seconds and nanoseconds.=0AThis is always expressed as =
-a relative value,=0Aregardless of whether the timer was created using the=
-=0A.B TFD_TIMER_ABSTIME=0Aflag.=0A.TP=0A.I it_interval=0AThis field contain=
-s the interval of the timer,=0Ain seconds and nanoseconds.=0A(The=0A.I it_v=
-alue=0Aand=0A.I it_interval=0Afields contain the values that=0A.BR timerfd_=
-gettime (2)=0Aon this file descriptor would return.)=0A.SH SEE ALSO=0A.BR p=
-roc (5)=0A
---2r75hx4jq6yflj7c--
-
---optj6anisaxduzt3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmcO0TsACgkQ0Z6cfXEm
-bc6Wug//XQw8suXg/QZYuTDM2CpN6NjRSCDh+QMUCcKLjGmoUW4p7C6FBlWMrHVA
-JLK1WYl8il3ruGJYfaPWct8wnLSNNyuzoqpuQMGMkli8Iaq6jbDHXpG7n3DjFkJm
-h76ZWvaBsIaO5d33ZMqe6+3+Qr2SYdVg2l25oWY6Iag/h8Tm2BgCx7l9p0vXJ8HP
-1iU05/RWL8OLzDyy5f4Lz3DPkH/bFhdUFSxdjOHrJ2O6m+8s1g7fTu2BoYMQ5E96
-Zrv80c7ArDqD/L9uXwLlCgfKlbVwO7h1HvUosz6CZGGRrigmv0l6/9eY1BU5EBSm
-BbsegBysJLa2mRSn+RnCzITabOCqC6O/omTfbt6CssI0YzMDAO66xM2qFhjtzoCs
-U4QNzybh1nQdC7u8zR/3VOW3FMC/7VeFjWf0fccZVDeeu9pl6fDhmElLqpbEgYEW
-fGN3eVFKvGvgXHBGwC8roDr+6IAMMA0fg1UWzGuQEDHE9kJaXmWCoimFjkZ/y189
-/+b5gIze2adz+x/EHYeBNf0GZ2cvN21nYjUUgGnVqMRRHdKMvJDJmibpQuip+yXu
-ZBvhntojotTw7yHzvrX/OMn2a5kv8kOKGF/BMvc8J8wN186JxpOAmNDTq69sbqn6
-tTmv8zWYFA9VwNK2RKTpaPDeMfTooo+b9Da4WuZfZrioyy/Kqw0=
-=e1Na
------END PGP SIGNATURE-----
-
---optj6anisaxduzt3--
+-- 
+Thanks
+Babu Moger
