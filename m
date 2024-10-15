@@ -1,371 +1,182 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF1A2158D9C;
-	Tue, 15 Oct 2024 05:20:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2362AE94
+	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 07:32:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728969635; cv=none; b=aeBj4GM1ZCrNno5pzQYfFd/Pdlg+qfzGMQq1OVhLmrtzzsXzzvNWyJEPf2xUqUs+C2/D0wraQfF+L00jo2MEDhXzBn3eGk3eO1gGwdBJVun/SlBm9k5lr0dg53JbnfmuM0X7VZsDl3Yj3kiGeopH9ZogsyB7mybb5LKARDwTHjQ=
+	t=1728977529; cv=none; b=XIj901yqPud2AhWP6Ov7SKwC3PtWYzOfQg+b35PoOVj/Y534N8wRO/aLtAuEyxXb4usSvVTHzzSvXoVDlvASUFv7sV3GZRWB64hayc5HEgbsMf77c5mLDxwWP/YBhcFS1ux77cZC31mUc0s2oOkf26mW3xFVuwMvzcIi/aihnK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728969635; c=relaxed/simple;
-	bh=rZTuJA0XgneHld4XMUgodeC5ue8N4Ux6YuviVK1vDNE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dT5fuyI9hj2DuJUoC6+Vl0pFaYT2jKaxzHzAzzj3/WwZ63uRzXXU1ZLEC99C+XcuWdukPFUmK6JaoiTen/eQZM1GPqJSrC5XVGpGaOQQkyFILkjWF9afxYFUcVhCmE5+0FfYJsSw5nsqUdltaKEKvAYXJ9imX9HEH3k5Ftc/GGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IqyHxwaI; arc=none smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728977529; c=relaxed/simple;
+	bh=LtOtInp2pAms8+4cw9LP3+VTg1rg2WveoUioIQeElcI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FI6aAthPD6n3uG529X3ZRzs6DsCeQGvPbqjbTdqtFVcsQ6z0A9M/6ELsJX3ea5x00Yk7xnrOaErJsXW8JF4bB5uXfikHoe9wG4n86LVYKzlh6vubmcVKyMS5zXw7/736CltkIO/Ya+EMiOo2eboVRPwMZ74goY/XgNKWOyzsUtA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eBkLFbmZ; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IqyHxwaI"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-7ea7e2ff5ceso1332307a12.2;
-        Mon, 14 Oct 2024 22:20:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728969633; x=1729574433; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z2IhkJXPFLzz+hPR/kWflHimnMzSkOTzvQDFAvHBhxY=;
-        b=IqyHxwaIjXxWg8yl/WZIPVpc9G0Q+vTXukjF7QXH0nQlIM+1kLET6TLEKL6CruS0hm
-         cKHMhbU9/i7KGsj4LacrMI7nUg1h+ksQtMMJQw0eS4i5n8Xrqo/gZUUi+elHq1MExXCA
-         qpLmUExzxpBCSQA4X6VmdKbSwERAyzBcQU1r8L47k0Y4/7AVNECtEqfVESPHW/7Bgf8n
-         2LFP5zD1ugLJSsu2xlNsrERh5fLiyvJUm4sZPkpkHGi8/Aa5FeKIqJP3d72jP2KkOvln
-         +dnCmG8n3lCiiRBoO3i0cHJlbqQrqvHrlowafmebrqJZ/H3m0qcdLWVr7o7VYOjrPg4u
-         uDlA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eBkLFbmZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1728977527;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=nyE9B7hpHS+Vt34gnY1OmDu8BxYtxG3M/5VWTg5iT2I=;
+	b=eBkLFbmZAIh9dMgvC7CwHLUoPK7PCCZfFKFu7+MmgyA4gAGdFp6Ids6pfhnQ/MQkC+u0Mb
+	XoWahrtw0fgq/9zhKQgAxfJUYzdt2CUEHSt3HYK9DrOzvNtG7cHtTwRcybIaxuTKfwcwUG
+	9Thb1KieWVVrNakZ+8FyX04xXbwhoAc=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-9-5UnHbXHVPt2qhXdzHZK66g-1; Tue, 15 Oct 2024 03:32:06 -0400
+X-MC-Unique: 5UnHbXHVPt2qhXdzHZK66g-1
+Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-539fdef0040so618808e87.0
+        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 00:32:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728969633; x=1729574433;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z2IhkJXPFLzz+hPR/kWflHimnMzSkOTzvQDFAvHBhxY=;
-        b=fU2wMPJz7uTNDe1GWBz8m5/DM2o1lDs974WhP56dWVdMdaan3ljlmvn/ge5mBXNLdm
-         WbNKzWnqriIA2n4LydWKQZn/lf6ABS+1IzwCSR38jjzzIOq5GUp8Ziqvu0NMVkcS3/IQ
-         vpUr0XX4pYnsj/T98fXVjIyYyFYWS/1XuF+P9hYQjwYKf/KQwaaxS33R1VVyVkqA3dK7
-         RY3m5l7UzfYX2ck3dGuPT8vaVF+RJkPUSqfLN6SfMLOWX5PfnO4/zvqV5f+l8c8laywf
-         mrrb2hrtm9bLijovNxu90BamQazBkCu2ZS/wEhSfFbRm2E5ICmW4rHnrlQtUmCtsFd3r
-         92xw==
-X-Forwarded-Encrypted: i=1; AJvYcCV7rwrPl6+FfcPqqobE99CTYccAiybZpYsyIzAxSxbyuze/4HwhV/cw5D1Y6tktsnTVEDNwneepWxM=@vger.kernel.org, AJvYcCVkgZvnJT1lDuvEolXkEoDKtdQkiiLV1DVuHVLQ0aZwV5iRIVpGQPmynI7Ay0ZDnOAkN45QdWZ3DjGq4KHt@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOiH2AhnkYCAX6wLvRPW8jePUU0NIPInRQ3v4/7U7y28YlYWZp
-	yE0q1UXvht9nL6eKZzuHxj9T6RAc9FPouQKW0759WEVyHpjso89Z
-X-Google-Smtp-Source: AGHT+IH3MzNOvexbhwEGTN4Lxk5gpsONFsFijM346VGqnxk5o8siCWx9cs7S/tdiu2/LDwkXCQUQpQ==
-X-Received: by 2002:a05:6a21:6b0b:b0:1d2:e78d:214a with SMTP id adf61e73a8af0-1d8bcfbae38mr21602493637.44.1728969632596;
-        Mon, 14 Oct 2024 22:20:32 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e392ed3b5esm577391a91.18.2024.10.14.22.20.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2024 22:20:31 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 520064250F47; Tue, 15 Oct 2024 12:20:28 +0700 (WIB)
-Date: Tue, 15 Oct 2024 12:20:28 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Yunsheng Lin <linyunsheng@huawei.com>, davem@davemloft.net,
-	kuba@kernel.org, pabeni@redhat.com
-Cc: Linux Networking <netdev@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Alexander Duyck <alexander.duyck@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH net-next v21 13/14] mm: page_frag: update documentation
- for page_frag
-Message-ID: <Zw37nCqT4RY1udAK@archie.me>
-References: <20241012112320.2503906-1-linyunsheng@huawei.com>
- <20241012112320.2503906-14-linyunsheng@huawei.com>
+        d=1e100.net; s=20230601; t=1728977525; x=1729582325;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=nyE9B7hpHS+Vt34gnY1OmDu8BxYtxG3M/5VWTg5iT2I=;
+        b=wgkUxZO+OXwdfE4h7UNViGdNcwXfoTcOGVWq6DhxJkaQW98myur49pzbA0FkZnaUQ2
+         NonNQ9N/fxiZA07jeVvHVB0Slj9lvpEO2QfdG6h4wiAwTH/cSEZDvZyH0DsaHTCngZsx
+         T9sbVTJjAresUmiWYFjLwOIsbjdeAXVLpefmkIQ7I6aUgJYmX6BNsU6t5PvSn/aOzbkK
+         e7lAJwGAEE/L0rIJV+JQuHH88iumTVgv0KgahaOJK4lw4Qu6ziF92FnURtTHymqz1faC
+         gkvq5mpIQSqXlqegZq7NOzfsCkc4KTlP2AVvSQXuPHiBKtT4WOY3PmUyFGOrfuPi1xnr
+         DAdw==
+X-Forwarded-Encrypted: i=1; AJvYcCWrlu/SRlOmghJqkgEZaLMEVMvp9vRP/tUbfsUVkoA3InGAgpGSPpBzK72aSGtlqY8y0auqHlW3WEo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYyPbA+zBecenP9W9QfSTB8Yae4zjZttCli127BpFI+S5c/fcG
+	aKVSlmxpxvn65p8wCc5kZ0zhdHnIFUAtmo7B7JCOCeZzw27o4iPJAoNjq1tYgSC7+s7qdDe6s0j
+	bYg3LKpcPPTAPs6Pxo9BhY74Ae5PVHPmAw590okk7sFaG/NvW1K9F2oZv3A==
+X-Received: by 2002:a05:6512:3b26:b0:52b:de5b:1b30 with SMTP id 2adb3069b0e04-539e573166dmr5316970e87.44.1728977524524;
+        Tue, 15 Oct 2024 00:32:04 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFZcIBtnyo7fVIGARq8By3CJHYUF1aICDo+0e1ZaipF2PWW33IBZ9UT9s1U9mblrwDccZYPiA==
+X-Received: by 2002:a05:6512:3b26:b0:52b:de5b:1b30 with SMTP id 2adb3069b0e04-539e573166dmr5316936e87.44.1728977524005;
+        Tue, 15 Oct 2024 00:32:04 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c730:9700:d653:fb19:75e5:ab5c? (p200300cbc7309700d653fb1975e5ab5c.dip0.t-ipconnect.de. [2003:cb:c730:9700:d653:fb19:75e5:ab5c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4313f6c4a41sm9185105e9.41.2024.10.15.00.32.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Oct 2024 00:32:03 -0700 (PDT)
+Message-ID: <6a2a84f5-8474-432f-b97e-18552a9d993c@redhat.com>
+Date: Tue, 15 Oct 2024 09:32:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="uausBQGM1VviM0gB"
-Content-Disposition: inline
-In-Reply-To: <20241012112320.2503906-14-linyunsheng@huawei.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 5/5] alloc_tag: config to store page allocation tag
+ refs in page flags
+To: John Hubbard <jhubbard@nvidia.com>, Yosry Ahmed <yosryahmed@google.com>,
+ Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, corbet@lwn.net,
+ arnd@arndb.de, mcgrof@kernel.org, rppt@kernel.org, paulmck@kernel.org,
+ thuth@redhat.com, tglx@linutronix.de, bp@alien8.de,
+ xiongwei.song@windriver.com, ardb@kernel.org, vbabka@suse.cz,
+ mhocko@suse.com, hannes@cmpxchg.org, roman.gushchin@linux.dev,
+ dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com,
+ pasha.tatashin@soleen.com, souravpanda@google.com, keescook@chromium.org,
+ dennis@kernel.org, yuzhao@google.com, vvvvvv@google.com,
+ rostedt@goodmis.org, iamjoonsoo.kim@lge.com, rientjes@google.com,
+ minchan@google.com, kaleshsingh@google.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-mm@kvack.org, linux-modules@vger.kernel.org, kernel-team@android.com
+References: <20241014203646.1952505-1-surenb@google.com>
+ <20241014203646.1952505-6-surenb@google.com>
+ <CAJD7tkY0zzwX1BCbayKSXSxwKEGiEJzzKggP8dJccdajsr_bKw@mail.gmail.com>
+ <cd848c5f-50cd-4834-a6dc-dff16c586e49@nvidia.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <cd848c5f-50cd-4834-a6dc-dff16c586e49@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+On 15.10.24 01:53, John Hubbard wrote:
+> On 10/14/24 4:48 PM, Yosry Ahmed wrote:
+>> On Mon, Oct 14, 2024 at 1:37 PM Suren Baghdasaryan <surenb@google.com> wrote:
+>>>
+>>> Add CONFIG_PGALLOC_TAG_USE_PAGEFLAGS to store allocation tag
+>>> references directly in the page flags. This eliminates memory
+>>> overhead caused by page_ext and results in better performance
+>>> for page allocations.
+>>> If the number of available page flag bits is insufficient to
+>>> address all kernel allocations, profiling falls back to using
+>>> page extensions with an appropriate warning to disable this
+>>> config.
+>>> If dynamically loaded modules add enough tags that they can't
+>>> be addressed anymore with available page flag bits, memory
+>>> profiling gets disabled and a warning is issued.
+>>
+>> Just curious, why do we need a config option? If there are enough bits
+>> in page flags, why not use them automatically or fallback to page_ext
+>> otherwise?
+> 
+> Or better yet, *always* fall back to page_ext, thus leaving the
+> scarce and valuable page flags available for other features?
+> 
+> Sorry Suren, to keep coming back to this suggestion, I know
+> I'm driving you crazy here! But I just keep thinking it through
+> and failing to see why this feature deserves to consume so
+> many page flags.
 
---uausBQGM1VviM0gB
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+My 2 cents: there is nothing wrong about consuming unused page flags in 
+a configuration. No need to let them stay unused in a configuration :)
 
-On Sat, Oct 12, 2024 at 07:23:19PM +0800, Yunsheng Lin wrote:
-> +Architecture overview
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +.. code-block:: none
-> +
-> +                      +----------------------+
-> +                      | page_frag API caller |
-> +                      +----------------------+
-> +                                  |
-> +                                  |
-> +                                  v
-> +    +------------------------------------------------------------------+
-> +    |                   request page fragment                          |
-> +    +------------------------------------------------------------------+
-> +             |                                 |                     |
-> +             |                                 |                     |
-> +             |                          Cache not enough             |
-> +             |                                 |                     |
-> +             |                         +-----------------+           |
-> +             |                         | reuse old cache |--Usable-->|
-> +             |                         +-----------------+           |
-> +             |                                 |                     |
-> +             |                             Not usable                |
-> +             |                                 |                     |
-> +             |                                 v                     |
-> +        Cache empty                   +-----------------+            |
-> +             |                        | drain old cache |            |
-> +             |                        +-----------------+            |
-> +             |                                 |                     |
-> +             v_________________________________v                     |
-> +                              |                                      |
-> +                              |                                      |
-> +             _________________v_______________                       |
-> +            |                                 |              Cache is en=
-ough
-> +            |                                 |                      |
-> + PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE         |                      |
-> +            |                                 |                      |
-> +            |               PAGE_SIZE >=3D PAGE_FRAG_CACHE_MAX_SIZE    |
-> +            v                                 |                      |
-> +    +----------------------------------+      |                      |
-> +    | refill cache with order > 0 page |      |                      |
-> +    +----------------------------------+      |                      |
-> +      |                    |                  |                      |
-> +      |                    |                  |                      |
-> +      |              Refill failed            |                      |
-> +      |                    |                  |                      |
-> +      |                    v                  v                      |
-> +      |      +------------------------------------+                  |
-> +      |      |   refill cache with order 0 page   |                  |
-> +      |      +----------------------------------=3D-+                  |
-> +      |                       |                                      |
-> + Refill succeed               |                                      |
-> +      |                 Refill succeed                               |
-> +      |                       |                                      |
-> +      v                       v                                      v
-> +    +------------------------------------------------------------------+
-> +    |             allocate fragment from cache                         |
-> +    +------------------------------------------------------------------+
-> +
-> +API interface
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +As the design and implementation of page_frag API implies, the allocatio=
-n side
-> +does not allow concurrent calling. Instead it is assumed that the caller=
- must
-> +ensure there is not concurrent alloc calling to the same page_frag_cache
-> +instance by using its own lock or rely on some lockless guarantee like N=
-API
-> +softirq.
-> +
-> +Depending on different aligning requirement, the page_frag API caller ma=
-y call
-> +page_frag_*_align*() to ensure the returned virtual address or offset of=
- the
-> +page is aligned according to the 'align/alignment' parameter. Note the s=
-ize of
-> +the allocated fragment is not aligned, the caller needs to provide an al=
-igned
-> +fragsz if there is an alignment requirement for the size of the fragment.
-> +
-> +Depending on different use cases, callers expecting to deal with va, pag=
-e or
-> +both va and page for them may call page_frag_alloc, page_frag_refill, or
-> +page_frag_alloc_refill API accordingly.
-> +
-> +There is also a use case that needs minimum memory in order for forward =
-progress,
-> +but more performant if more memory is available. Using page_frag_*_prepa=
-re() and
-> +page_frag_commit*() related API, the caller requests the minimum memory =
-it needs
-> +and the prepare API will return the maximum size of the fragment returne=
-d. The
-> +caller needs to either call the commit API to report how much memory it =
-actually
-> +uses, or not do so if deciding to not use any memory.
+The real issue starts once another feature wants to make use of some of 
+them ... in such configuration there would be less available for 
+allocation tags and the performance of allocations tags might 
+consequently get worse again.
 
-Looks OK.
+-- 
+Cheers,
 
-> +Coding examples
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Init & Drain API
-> +----------------
+David / dhildenb
 
-Initialization and draining API?
-
-> +Alloc & Free API
-> +----------------
-
-Shouldn't it be called allocation API?
-
-> +Prepare & Commit API
-> +--------------------
-
-This one looks OK.
-
-> +/**
-> + * page_frag_cache_init() - Init page_frag cache.
-> + * @nc: page_frag cache from which to init
-> + *
-> + * Inline helper to init the page_frag cache.
-> + */
-s/Init/Initialize/
->  static inline void page_frag_cache_init(struct page_frag_cache *nc)
->  {
->  	nc->encoded_page =3D 0;
->  }
-> =20
-> +/**
-> + * page_frag_cache_is_pfmemalloc() - Check for pfmemalloc.
-> + * @nc: page_frag cache from which to check
-> + *
-> + * Used to check if the current page in page_frag cache is pfmemalloc'ed.
-                                                           is allocated by =
-pfmemalloc()?
-> + * It has the same calling context expectation as the alloc API.
-> + *
-> + * Return:
-> + * true if the current page in page_frag cache is pfmemalloc'ed, otherwi=
-se
-> + * return false.
-> + */
->  static inline bool page_frag_cache_is_pfmemalloc(struct page_frag_cache =
-*nc)
->  {
->  	return encoded_page_decode_pfmemalloc(nc->encoded_page);
->  }
-> =20
-> +/**
-> + * page_frag_cache_page_offset() - Return the current page fragment's of=
-fset.
-> + * @nc: page_frag cache from which to check
-> + *
-> + * The API is only used in net/sched/em_meta.c for historical reason, do=
- not use
-> + * it for new caller unless there is a strong reason.
-
-Then what does page_frag_cache_page_offset() do then?
-
-> + *
-> + * Return:
-> + * the offset of the current page fragment in the page_frag cache.
-> + */
->  static inline unsigned int page_frag_cache_page_offset(const struct page=
-_frag_cache *nc)
->  {
->  	return nc->offset;
-> @@ -66,6 +93,19 @@ static inline unsigned int __page_frag_cache_commit(st=
-ruct page_frag_cache *nc,
->  	return __page_frag_cache_commit_noref(nc, pfrag, used_sz);
->  }
-> =20
-> +/**
-> + * __page_frag_alloc_align() - Alloc a page fragment with aligning
-> + * requirement.
-> + * @nc: page_frag cache from which to allocate
-> + * @fragsz: the requested fragment size
-> + * @gfp_mask: the allocation gfp to use when cache need to be refilled
-> + * @align_mask: the requested aligning requirement for the 'va'
-> + *
-> + * Alloc a page fragment from page_frag cache with aligning requirement.
-      Allocate
-> + *
-> + * Return:
-> + * Virtual address of the page fragment, otherwise return NULL.
-> + */
->  static inline void *__page_frag_alloc_align(struct page_frag_cache *nc,
->  					    unsigned int fragsz, gfp_t gfp_mask,
->  					    unsigned int align_mask)
-> @@ -83,6 +123,19 @@ static inline void *__page_frag_alloc_align(struct pa=
-ge_frag_cache *nc,
->  	return va;
->  }
-> =20
-> +/**
-> + * page_frag_alloc_align() - Alloc a page fragment with aligning require=
-ment.
-> + * @nc: page_frag cache from which to allocate
-> + * @fragsz: the requested fragment size
-> + * @gfp_mask: the allocation gfp to use when cache needs to be refilled
-> + * @align: the requested aligning requirement for the fragment
-> + *
-> + * WARN_ON_ONCE() checking for @align before allocing a page fragment fr=
-om
-                                                allocating
-> + * page_frag cache with aligning requirement.
-> + *
-> + * Return:
-> + * virtual address of the page fragment, otherwise return NULL.
-> + */
->  static inline void *page_frag_alloc_align(struct page_frag_cache *nc,
->  					  unsigned int fragsz, gfp_t gfp_mask,
->  					  unsigned int align)
-> @@ -91,12 +144,36 @@ static inline void *page_frag_alloc_align(struct pag=
-e_frag_cache *nc,
->  	return __page_frag_alloc_align(nc, fragsz, gfp_mask, -align);
->  }
-> =20
-> +/**
-> + * page_frag_alloc() - Alloc a page fragment.
-> + * @nc: page_frag cache from which to allocate
-> + * @fragsz: the requested fragment size
-> + * @gfp_mask: the allocation gfp to use when cache need to be refilled
-> + *
-> + * Alloc a page fragment from page_frag cache.
-      Allocate
-> + *
-> + * Return:
-> + * virtual address of the page fragment, otherwise return NULL.
-> + */
->  static inline void *page_frag_alloc(struct page_frag_cache *nc,
->  				    unsigned int fragsz, gfp_t gfp_mask)
->  {
->  	return __page_frag_alloc_align(nc, fragsz, gfp_mask, ~0u);
->  }
-> =20
-> +/**
-> + * __page_frag_alloc_refill_prepare_align() - Prepare allocing a fragmen=
-t and
-> + * refilling a page_frag with aligning requirement.
-> + * @nc: page_frag cache from which to allocate and refill
-> + * @fragsz: the requested fragment size
-> + * @pfrag: the page_frag to be refilled.
-> + * @gfp_mask: the allocation gfp to use when cache need to be refilled
-> + * @align_mask: the requested aligning requirement for the fragment.
-> + *
-> + * Prepare allocing a fragment and refilling a page_frag from page_frag =
-cache.
-      Prepare allocating?
-> + *
-> + * Return:
-> + * virtual address of the page fragment, otherwise return NULL.
-> + */
->  static inline void *__page_frag_alloc_refill_prepare_align(struct page_f=
-rag_cache *nc,
->  							   unsigned int fragsz,
->  							   struct page_frag *pfrag,
-> @@ -166,6 +324,21 @@ static inline void *__page_frag_alloc_refill_prepare=
-_align(struct page_frag_cach
->  	return __page_frag_cache_prepare(nc, fragsz, pfrag, gfp_mask, align_mas=
-k);
->  }
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---uausBQGM1VviM0gB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZw37lwAKCRD2uYlJVVFO
-ozsyAQD/vI8ZDKqg1/mPx9QCFewRQlcaTj1hUmavIjvE6eMZIwD+MJo+IyfxYIMz
-Vejvd38012SypK8hEnXwGWhvPMavcwU=
-=GCX2
------END PGP SIGNATURE-----
-
---uausBQGM1VviM0gB--
