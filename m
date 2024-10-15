@@ -1,188 +1,173 @@
-Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29EC41F9EA6
-	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 15:58:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1BA51F667D
+	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 15:59:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729007885; cv=none; b=r+DNFOmubSpSLMVMHr3opcWoTiApENfWqK68Qf6jq2Ma39LKNhCOv5ViLq+JN63tioiwe5mwJBcuyFkIVoyxXsB6b3Y4eAUZaLcBWvsAxHzG3LHWffCfl2at9OzPQwD9vbt4XQ3f68qgqNBZbdTqBasqN2WSSJX+9sBTOxGF+FQ=
+	t=1729007955; cv=none; b=lU8yET1Fin5WTccm1GCR7izC08KRjQplJAApg0os4DV9kbtbed5tGItQFE57ujnjcJKNUC+7xQiVB/CaHDbw3NzQqf+quyg/eWD7r2bpNsNXWb9SQBn9vuNMxUg5A5yarovuFz5kl+WJuOZcQCGJecyWd2iWFoOw6ER3TCWHTBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729007885; c=relaxed/simple;
-	bh=aYJ3ScoRGgAobUtmWNW7wrrfHvNJK4QqvJ0rYbf6QwA=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=ghe9BsJP1B0anTXUWbbRud1OlkW9ZGCOyD9KyakhkDM7jQTSLjsqD8/Tffdfv0UYBEoWgvbYXeIR0DhAyRu3SLEhVOzHRdemHWr4rcEVsn8hMcTMM2k1+yLBaz0c8HvoSUrhM+buK3eKtT3qQbItkJfn9RBoZWzYWgODz4dTbjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xKI1ie1X; arc=none smtp.client-ip=209.85.210.201
+	s=arc-20240116; t=1729007955; c=relaxed/simple;
+	bh=XE41Ka7vKxZjagEXLHac+Fwc56DYu0ANyHcZAa6jXdw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TB2X5Owjl6MslV9F8i/MhUESWJkB2nzzzWT+qNCdUsI1tp4swhjkOpbq0OrZnUBx8HrroHE1rA6xqJOpzyskNARvfTHBWS4JfDEdUGoJf1wgwJ76uFUstmm4mEuaG2XBdJSIwoIkTEDeW+/cO9roEqFGxdt2l6PbD1kuqBacjWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=InYUrCyF; arc=none smtp.client-ip=209.85.160.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xKI1ie1X"
-Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-71e6e4a51feso1339084b3a.0
-        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 08:58:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="InYUrCyF"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-45fb0ebb1d0so723061cf.1
+        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 08:59:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729007883; x=1729612683; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bpgcprPI+vvJsG2LB/Vt+V2mYjpRXDgXYo99nuQ4xLg=;
-        b=xKI1ie1X40VczKlusr1XxD0YPkV2zZfe/6okKWD3+t8AFuC1QFITTSPGtfYAWW+NkP
-         oD/2iSw3t5TyDU6xmFJ5lEdm0VK8bhpD9Lv6J8nT1eBicsyEIYv5GnR/JdABC/Ah1yEk
-         ADV6mXe17tOE6Pyq0mR6YTrCsaSbyrgtSKTFSu55q8oyBpCYsI2v3D0zhpfrnc9cqH1I
-         m7SaNxyMhPvljDrUfbQV7g2o5dBN8kccwLR1S/QYXaCsvLoKV3qxUhFrvr1L4y0mTMkd
-         WVtbxGYXSq2vffsS6K12kSNTkmstcq7eDCyWUYm9gNUlOZYsvrCy6Jq2LczpUM8bVnq3
-         a99g==
+        d=google.com; s=20230601; t=1729007953; x=1729612753; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XE41Ka7vKxZjagEXLHac+Fwc56DYu0ANyHcZAa6jXdw=;
+        b=InYUrCyF1rEOsYNSVAHRT+QpeORYlDOg0R9f1bATZsSE/a5ljFOeiaptj2jum+sDAX
+         0lRFmdxIS1u8eJQ84mnPKZAKR12ik+LepB87gcmnQzz+O/wQ4aUXtrcDTrJ7BIrva3Qs
+         e4V888udjmjBsVm2SW1iyJBPaDueyJ+F/8wUB64Lc5Mj6t1U7IFWzF8Bq9RRUHXIpIMo
+         9JWqc3pNV4MP0D5/NVKhIMZQRSejoDe9qMGSdKd6HddesKjtKw39vr2QWr6hGhA6/Ae7
+         8614dwy8S66dF7jqMN6oOE5yhSU4E9h4YdZkDNe7Y1i5KTZIpj30uX69gXpbhLkgk/u7
+         r2tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729007883; x=1729612683;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bpgcprPI+vvJsG2LB/Vt+V2mYjpRXDgXYo99nuQ4xLg=;
-        b=Fo5K5t/0jYOn2dH0bN79fhSxTa9Iaz6HK10whLwDJsQPgYU7IpdzfoCsi9nONlYGPz
-         I7q1BatUL6Qxm0e9OQpolcGAEiOinYDGf08zUpuEWKB8ljH+6E38MyKykueTZWnePsRO
-         m2UDWqMjeUBa1IIdU1ht9PHJiucZ6K5YRklI82DJHt1ALFcl3W9elJSdusv6n53G84Ij
-         HZwsjmTgAIOFKX3o2UAB7UhNFyagmgYEn0m9hTnQLKETfA5beHqd7i4K5u45opL+wJgm
-         DyGKHKXnc3sisBkjNNKqsO3JmdcVV8sz8dh3/TJ6lHXdrxCz3htnjY1iFmnQi1Gmn+QE
-         tTEA==
-X-Forwarded-Encrypted: i=1; AJvYcCUlWMWNtpw5W0IMxUJUXGNotFuirjgg/gP/vxq6bc9HLmBYLjtaLYoO4601BcFaM5GK1LBec9RzE8E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwbV7uyEN5tusMQcIkbJaZhO4D2cRXIF8TOCQEryQmamCUfUYyn
-	c08ZOd0Lq8lRKbLgG6xmQ78MezWDw0tjlDQUdm/XeqBjl6EdxuMyBJ8kCRsFN2Q+9l7ftRx7JFe
-	b8w==
-X-Google-Smtp-Source: AGHT+IEOMhUIEJb7HA5wBTCErVAFDrxkcdBMavuoBSriks4hlucPD3WdjFvME0Ck5+1DRkZ02jm1mHkhvMQ=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:9d:3983:ac13:c240])
- (user=seanjc job=sendgmr) by 2002:aa7:9d81:0:b0:71e:5bf6:fef0 with SMTP id
- d2e1a72fcca58-71e7db6d5b2mr1783b3a.6.1729007883292; Tue, 15 Oct 2024 08:58:03
- -0700 (PDT)
-Date: Tue, 15 Oct 2024 08:58:01 -0700
-In-Reply-To: <87h69dg4og.fsf@redhat.com>
+        d=1e100.net; s=20230601; t=1729007953; x=1729612753;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XE41Ka7vKxZjagEXLHac+Fwc56DYu0ANyHcZAa6jXdw=;
+        b=ZapXimqcq7IEIe2ndruiSMsS2ektS3/x1DbhNCaSeF/+h1B73IQ5JtlowJoNBrHjA1
+         zQsZAxd65fkRjp6t9Bni3OLQEIDxjqs71J9NTXnl/GNjaX11CGJ12l+uURcmtF7yQcSt
+         yQSzP6pCnNxWQ9wKLwd4EU7FmVSFIhFi9aOLZDpyfy9zlis5GZHvU1i97QAHdUrXkRtx
+         Fz7nYV/dljcPONMhVqCcLX88Tocj9I/BmKd2Q0Nc+BP8xDbSqQgI14ceGwsJP/olBYiE
+         DpYIimt8cREdYZ32lspwXAJKskGjoc1pec4+En7EBe+OXLkwBe0hGiSnrygObUvBVZI/
+         ItuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWHext2shdJLb6n27jZTLfdH61HdR87tR0mq9FzaUPN6yBZoFZN6W9czEQ0slNfdggEcFqvU+FtKb8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyV0PyK6tuVG/uexHLnRwPAwFKXV8apYOUU8xV8xEWXaTJwsSPh
+	U3YZWTmxznAuvikYrt7/QqZm9RdnUWP3naE+SHT+0R4riIZ3aNO4Vkd8FsZ2EGXLkpBcPxuncbg
+	VAFxzKrm7JV5sagXJHuajNm5V8fsht8XubJ51
+X-Google-Smtp-Source: AGHT+IF6xgKzdwApAz/tp26tbpQrjDXqxixmCCmxzkzM5PRyG4nrJ8/4jSASshjSbXG9ZNd4t2I6D2nt4kc3vxb6XWk=
+X-Received: by 2002:a05:622a:4b05:b0:453:56e7:c62b with SMTP id
+ d75a77b69052e-46058ec036amr9300601cf.12.1729007952467; Tue, 15 Oct 2024
+ 08:59:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20241004140810.34231-1-nikwip@amazon.de> <20241004140810.34231-3-nikwip@amazon.de>
- <875xq0gws8.fsf@redhat.com> <9ef935db-459a-4738-ab9a-4bd08828cb60@gmx.de> <87h69dg4og.fsf@redhat.com>
-Message-ID: <Zw6PlAv4H5rNZsBf@google.com>
-Subject: Re: [PATCH 2/7] KVM: x86: Implement Hyper-V's vCPU suspended state
-From: Sean Christopherson <seanjc@google.com>
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Cc: Nikolas Wipper <nik.wipper@gmx.de>, Nikolas Wipper <nikwip@amazon.de>, 
-	Nicolas Saenz Julienne <nsaenz@amazon.com>, Alexander Graf <graf@amazon.de>, James Gowans <jgowans@amazon.com>, 
-	nh-open-source@amazon.com, Paolo Bonzini <pbonzini@redhat.com>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org, 
-	kvm@vger.kernel.org, x86@kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+References: <20241014203646.1952505-1-surenb@google.com> <20241014203646.1952505-6-surenb@google.com>
+ <CAJD7tkY0zzwX1BCbayKSXSxwKEGiEJzzKggP8dJccdajsr_bKw@mail.gmail.com>
+ <cd848c5f-50cd-4834-a6dc-dff16c586e49@nvidia.com> <6a2a84f5-8474-432f-b97e-18552a9d993c@redhat.com>
+ <CAJuCfpGkuaCh+PxKbzMbu-81oeEdzcfjFThoRk+-Cezf0oJWZg@mail.gmail.com> <9c81a8bb-18e5-4851-9925-769bf8535e46@redhat.com>
+In-Reply-To: <9c81a8bb-18e5-4851-9925-769bf8535e46@redhat.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Tue, 15 Oct 2024 08:58:59 -0700
+Message-ID: <CAJuCfpH-YqwEi1aqUAF3rCZGByFpvKVSfDckATtCFm=J_4+QOw@mail.gmail.com>
+Subject: Re: [PATCH v3 5/5] alloc_tag: config to store page allocation tag
+ refs in page flags
+To: David Hildenbrand <david@redhat.com>
+Cc: John Hubbard <jhubbard@nvidia.com>, Yosry Ahmed <yosryahmed@google.com>, 
+	akpm@linux-foundation.org, kent.overstreet@linux.dev, corbet@lwn.net, 
+	arnd@arndb.de, mcgrof@kernel.org, rppt@kernel.org, paulmck@kernel.org, 
+	thuth@redhat.com, tglx@linutronix.de, bp@alien8.de, 
+	xiongwei.song@windriver.com, ardb@kernel.org, vbabka@suse.cz, mhocko@suse.com, 
+	hannes@cmpxchg.org, roman.gushchin@linux.dev, dave@stgolabs.net, 
+	willy@infradead.org, liam.howlett@oracle.com, pasha.tatashin@soleen.com, 
+	souravpanda@google.com, keescook@chromium.org, dennis@kernel.org, 
+	yuzhao@google.com, vvvvvv@google.com, rostedt@goodmis.org, 
+	iamjoonsoo.kim@lge.com, rientjes@google.com, minchan@google.com, 
+	kaleshsingh@google.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 15, 2024, Vitaly Kuznetsov wrote:
-> Nikolas Wipper <nik.wipper@gmx.de> writes:
-> 
-> > On 10.10.24 10:57, Vitaly Kuznetsov wrote:
-> 
-> ...
-> 
-> >>>  int kvm_hv_vcpu_flush_tlb(struct kvm_vcpu *vcpu);
-> >>> +
-> >>> +static inline bool kvm_hv_vcpu_suspended(struct kvm_vcpu *vcpu)
-> >>> +{
-> >>> +	return vcpu->arch.hyperv_enabled &&
-> >>> +	       READ_ONCE(vcpu->arch.hyperv->suspended);
+On Tue, Oct 15, 2024 at 8:42=E2=80=AFAM David Hildenbrand <david@redhat.com=
+> wrote:
+>
+> On 15.10.24 16:59, Suren Baghdasaryan wrote:
+> > On Tue, Oct 15, 2024 at 12:32=E2=80=AFAM David Hildenbrand <david@redha=
+t.com> wrote:
 > >>
-> >> I don't think READ_ONCE() means anything here, does it?
+> >> On 15.10.24 01:53, John Hubbard wrote:
+> >>> On 10/14/24 4:48 PM, Yosry Ahmed wrote:
+> >>>> On Mon, Oct 14, 2024 at 1:37=E2=80=AFPM Suren Baghdasaryan <surenb@g=
+oogle.com> wrote:
+> >>>>>
+> >>>>> Add CONFIG_PGALLOC_TAG_USE_PAGEFLAGS to store allocation tag
+> >>>>> references directly in the page flags. This eliminates memory
+> >>>>> overhead caused by page_ext and results in better performance
+> >>>>> for page allocations.
+> >>>>> If the number of available page flag bits is insufficient to
+> >>>>> address all kernel allocations, profiling falls back to using
+> >>>>> page extensions with an appropriate warning to disable this
+> >>>>> config.
+> >>>>> If dynamically loaded modules add enough tags that they can't
+> >>>>> be addressed anymore with available page flag bits, memory
+> >>>>> profiling gets disabled and a warning is issued.
+> >>>>
+> >>>> Just curious, why do we need a config option? If there are enough bi=
+ts
+> >>>> in page flags, why not use them automatically or fallback to page_ex=
+t
+> >>>> otherwise?
+> >>>
+> >>> Or better yet, *always* fall back to page_ext, thus leaving the
+> >>> scarce and valuable page flags available for other features?
+> >>>
+> >>> Sorry Suren, to keep coming back to this suggestion, I know
+> >>> I'm driving you crazy here! But I just keep thinking it through
+> >>> and failing to see why this feature deserves to consume so
+> >>> many page flags.
 > >>
+> >> My 2 cents: there is nothing wrong about consuming unused page flags i=
+n
+> >> a configuration. No need to let them stay unused in a configuration :)
+> >>
+> >> The real issue starts once another feature wants to make use of some o=
+f
+> >> them ... in such configuration there would be less available for
+> >> allocation tags and the performance of allocations tags might
+> >> consequently get worse again.
 > >
-> > It does prevent compiler optimisations and is actually required[1]. Also
-> > it makes clear that this variable is shared, and may be accessed from
-> > remote CPUs.
-> >
-> > [1] https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0124r6.html#Variable%20Access
-> 
-> It certainly does no harm but I think if we follow 'Loads from and
-> stores to shared (but non-atomic) variables should be protected with the
-> READ_ONCE(), WRITE_ONCE()' rule literally we will need to sprinkle them
-> all over KVM/kernel ;-) And personally, this makes reading the code
-> harder.
-> 
-> To my (very limited) knowledge, we really need READ_ONCE()s when we need
-> to have some sort of a serialization, e.g. the moment when this read
-> happens actually makes a difference. If we can e.g. use a local variable
-> in the beginning of a function and replace all READ_ONCE()s with
-> reading this local variable -- then we don't need READ_ONCE()s and are
-> OK with possible compiler optimizations. Similar (reversed) thoughts go
-> to WRITE_ONCE().
-> 
-> I think it's OK to keep them but it would be nice (not mandatory IMO,
-> but nice) to have a comment describing which particular synchronization
-> we are achieving (== the compiler optimization scenario we are protecting
-> against). 
-> 
-> In this particular case, kvm_hv_vcpu_suspended() is inline so I briefly
-> looked at all kvm_hv_vcpu_suspended() call sites (there are three) in
-> your series but couldn't think of a place where the READ_ONCE() makes a
-> real difference. kvm_hv_hypercall_complete() looks pretty safe
-> anyway. kvm_hv_vcpu_unsuspend_tlb_flush() will be simplified
-> significantly if we merge 'suspended' with 'waiting_on': instead of 
-> 
->       kvm_for_each_vcpu(i, v, vcpu->kvm) {
->               vcpu_hv = to_hv_vcpu(v);
-> 
->               if (kvm_hv_vcpu_suspended(v) &&
->                   READ_ONCE(vcpu_hv->waiting_on) == vcpu->vcpu_id) {
-> ...
-> 
-> you will have just
-> 
->       kvm_for_each_vcpu(i, v, vcpu->kvm) {
->               vcpu_hv = to_hv_vcpu(v);
-> 
->               if (vcpu_hv && vcpu_hv->waiting_on == vcpu->vcpu_id) {
-> ...
-> (and yes, I also think that READ_ONCE() is superfluous here, as real
-> (non-speculative) write below can't happen _before_ the check )
-> 
-> The last one, kvm_vcpu_running(), should also be indifferent to
-> READ_ONCE() in kvm_hv_vcpu_suspended(). I may had missed something, of
-> course, but I hope you got my line of thought.
+> > Thanks for the input and indeed this is the case. If this happens, we
+> > will get a warning telling us that page flags could not be used and
+> > page_ext will be used instead. I think that's the best I can do given
+> > that page flag bits is a limited resource.
+>
+> Right, I think what John is concerned about (and me as well) is that
+> once a new feature really needs a page flag, there will be objection
+> like "no you can't, we need them for allocation tags otherwise that
+> feature will be degraded".
 
-I don't think you're missing anything.  In general, all of this code is more than
-a bit heavy-handed and lacks any kind of precision, which makes it *really* hard
-to see what actually guarantees a vCPU won't get stuck blocking.
+I do understand your concern but IMHO the possibility of degrading a
+feature should not be a reason to always operate at degraded capacity
+(which is what we have today). If one is really concerned about
+possible future regression they can set
+CONFIG_PGALLOC_TAG_USE_PAGEFLAGS=3Dn and keep what we have today. That's
+why I'm strongly advocating that we do need
+CONFIG_PGALLOC_TAG_USE_PAGEFLAGS so that the user has control over how
+this scarce resource is used.
 
-Writers synchronize SRCU and readers are required to acquire SRCU, but there's
-no actual data tagged as being protected by SRCU, i.e. tlb_flush_inhibit should
-be __rcu.
+>
+> So a "The Lord has given, and the Lord has taken away!" mentality might
+> be required when consuming that many scarce resources, meaning, as long
+> as they are actually unused, use them, but it should not block other
+> features that really need them.
 
-All of the {READ,WRITE}_ONCE() stuff provides some implicit compiler barriers,
-but the actual protection to ensure a vCPU either observes inhibit=false or a wake
-event is provided by the smp_wmb() in __kvm_make_request().
+I agree and I think that's what I implemented here. If there are
+enough page flag bits we use them, otherwise we automatically fall
+back to page_ext.
 
-And from a performance perspective, synchronizing on kvm->srcu is going to be
-susceptible to random slowdowns, because writers will have to wait until all vCPUs
-drop SRCU, even if they have nothing to do with PV TLB flushes.  E.g. if vCPUs
-are faulting in memory from swap, uninhibiting a TLB flushes could be stalled
-unnecessarily for an extended duration.
+>
+> Does that make sense?
 
-Lastly, KVM_REQ_EVENT is a big hammer (triggers a lot of processing) and semantically
-misleading (there is no event to process).  At a glance, KVM_REQ_UNBLOCK is likely
-more appropriate.
+Absolutely and thank you all for the feedback.
 
-Before we spend too much time cleaning things up, I want to first settle on the
-overall design, because it's not clear to me that punting HvTranslateVirtualAddress
-to userspace is a net positive.  We agreed that VTLs should be modeled primarily
-in userspace, but that doesn't automatically make punting everything to userspace
-the best option, especially given the discussion at KVM Forum with respect to
-mplementing VTLs, VMPLs, TD partitions, etc.
-
-The cover letters for this series and KVM_TRANSLATE2 simply say they're needed
-for HvTranslateVirtualAddress, but neither series nor Nicolas' patch to punt
-HVCALL_TRANSLATE_VIRTUAL_ADDRESS[*] justifies the split between userspace and
-KVM.  And it very much is a split, because there are obviously a lot of details
-around TlbFlushInhibit that bleed into KVM.
-
-Side topic, what actually clears HvRegisterInterceptSuspend.TlbFlushInhibit?  The
-TLFS just says 
-
-  After the memory intercept routine performs instruction completion, it should
-  clear the TlbFlushInhibit bit of the HvRegisterInterceptSuspend register.
-
-but I can't find anything that says _how_ it clears TlbFlushInhibit.
-
-[*] https://lore.kernel.org/all/20240609154945.55332-8-nsaenz@amazon.com
+>
+> --
+> Cheers,
+>
+> David / dhildenb
+>
