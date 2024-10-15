@@ -1,186 +1,108 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61BA1B21B6;
-	Tue, 15 Oct 2024 14:29:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA4314F117
+	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 14:33:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729002549; cv=none; b=l1JKTi9gfFh87/lsEdJ+Z+WqHd6wM2Nk/E1PqzuaEqvc4P3+hI2m59umoN6FlD7zfZBU0it7ZUn6r61Rk3qP6gu5UKEBGnL0xgg/SnHBdw56VwdDm62BCJ+1loouJDgLJLiSwPdnadfAwuTmJgCxg/tUdy59So4ZwxVPJHprms0=
+	t=1729002789; cv=none; b=iyWs0Cbw3YroeOSxSarpgO2u77SIY3XiPqGRz30HgNNjhDuxzDYD6FTgG06QGPgbkFtq+DyBo90AY628opPPqeTaRZoSIQJModi5gyfhd7Lyh/cqhUTH9TR0WXaOURE6xTsFsV8AZGTEU5wIuljg7i9WQjaJkQfY18fbalNS77I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729002549; c=relaxed/simple;
-	bh=KYhwTzqpLb3lImYFAZDBipsuDoqTNhV85Vy2bPxqQRI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V398lcLH/8+WmPx/SZV3O6qlIQ0ad+A3f4FyhniB20B36pCmMVZreyGt0evxB3+ZWfnUOKaibH72XIo1aBwcm2xA8rkgSuaAl32Jx75D7ZdCRmLndiJeTX4obhPn76t5SOqOAXJhN0GKvHI6AL1oC5aAkrcbtBp8kNLyetf2qoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jERtut1m; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729002789; c=relaxed/simple;
+	bh=cispWMbOcCPkOtixYU/J3EAO8QBZS+85mmwIXWPTglI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sgEzqAj2c0+kIWt8lTNmDooLeZAbS+191urXfAd9n6rWLoSVO2+9v/NK6tMRNz685E6DA8mO752I2mN5kWzETSMJ1TNryYPpHK3luwVfwhJGgljMn5xVyZpKZghLylkJuVtRmR6yXqisKo09EvGacUEG0H+6HrfV/tL1I+3ATXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gfeqcZ2C; arc=none smtp.client-ip=209.85.219.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jERtut1m"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2fb498a92f6so26977741fa.1;
-        Tue, 15 Oct 2024 07:29:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gfeqcZ2C"
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e2972abc807so551794276.3
+        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 07:33:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729002546; x=1729607346; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uJ3WPqH7t2kr/rB0FU+Ti9b525bP9DvSRI19vimoyX4=;
-        b=jERtut1m4zw+Vs3Ywytj0e8/KMJfArgEKLTwU/mVHRpfpFVH2CoLimoVsajt0lSOzq
-         hwlxaYwK/vLhlfkYstTntqAPuK2x/LB8OT9V/Q103u13P2Gp2Uz2ajbUWidEzDsZOVye
-         qLe0sqQUb+9p2rDiAHeMIiNc88X1lL9hECldPqnBNyCwEwpkvexchtPCTfF0C8aEf488
-         Am6bwIn9cmnrGGG4YF8A28OIsMvmxoXySAfcTm4lir1dJvK17KIrJc1eW+bosik96I+I
-         s5e/bZ3uwP8HUJCIY1MW+Cl1DaW3W5As8aQyMkb4dF3RPjsHXO3zNZ9cc+gqZkv+14zU
-         CZ4w==
+        d=google.com; s=20230601; t=1729002786; x=1729607586; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qYbi5gZJ4OrZjgdOZozfnDl/MQxnlNPVWNQhf6fR4f0=;
+        b=gfeqcZ2CWvVbAasFznspjOcugD28srEpnDEuLEYIcm8bREJtkzERKBlbivN6L+E/PE
+         6ZqR0uNdEJG7qaYupwOWSGpZO2coweQ7CwYdX0aNSETBnmNo1JWDz1Bx+7hB02pms/yq
+         Wb5DBAUV6yFmGgBjWAqlS7widg42xq7ylrDOS954MSU7oxPqLT4h9emAg9K7tcaOHkYL
+         x1LdhH09+SAM/7cCG2zAet00frpQhWOcE+NG+FoUgR4cbLRQn2yhsORTNJOofPKv/+Lq
+         GtO/pCXmVVxfQ/K2K63zS5NT9GBbn19prflIKaryXKyQXunGI5H0932OKJh/WPKVHYF0
+         GBrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729002546; x=1729607346;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uJ3WPqH7t2kr/rB0FU+Ti9b525bP9DvSRI19vimoyX4=;
-        b=e8a0Jt5ryUIFDicCY1LMsWu/FZvoVat+foL0T4caK2CRgV2dYNb04OQM+qdDb+0EBh
-         pIhrTO00Ua992VV0V8bVhvN1tKAtjfbHljFAWwpNYZFiGi6OtAXCLbrsEUTswlmscl1A
-         05t2zTPjR+e7vMuX86darpLRJAXvquYWKOxItl7GuOsvwaetdqvcV4fHzjEnrxb7P5Wm
-         l/HLPCbxetCMwAnpzSlkYGBzJfPzTlgYeY7M0w1s8lLODAKMW/GuyfHr3PaIreF6pbYL
-         iCdpeb/u2Vewg3d2BMF0iMdQnD30n7ERrOvn2Cg16V2izBq1fHjD2YUhWiqVHtlPeQcD
-         I5Bg==
-X-Forwarded-Encrypted: i=1; AJvYcCUHpmzfrqmAXa6gCdujeRZc3qFOJgWB9RfpdBLqIJq3jmha89K6QIzuJL8zKLxCdhVhd9rnDWgnfz4=@vger.kernel.org, AJvYcCWfAVtFabT1lJKPwjwwpB0TFdhHPpAFqk/2H/TzyJP0ZQkMpg2CYpKH5xL81wnW8zzoYXUPe+tR@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw02qjoLk/ftB3ce6GOcMLOX8r6l+zaEgGy7Kq+TqZTlTLoccZV
-	LVaEuz6oeIFXfPR0NQurHajYYqQizjdiEwEqn+EJvgOOaDw7yxbk
-X-Google-Smtp-Source: AGHT+IGcbBiMI4F6YjYfM1LEwylKFySObFXpHZ9WlRvmAO3s1TFz18qgRgz+4T0NZDJ9DycqoC8MEg==
-X-Received: by 2002:a2e:4c1a:0:b0:2fb:5014:c963 with SMTP id 38308e7fff4ca-2fb61b6e100mr3754801fa.20.1729002545380;
-        Tue, 15 Oct 2024 07:29:05 -0700 (PDT)
-Received: from [192.168.42.212] ([85.255.233.136])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c98d4d6269sm770716a12.2.2024.10.15.07.29.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Oct 2024 07:29:04 -0700 (PDT)
-Message-ID: <75b16ab0-07c0-41d8-9285-0511a10629f7@gmail.com>
-Date: Tue, 15 Oct 2024 15:29:26 +0100
+        d=1e100.net; s=20230601; t=1729002786; x=1729607586;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qYbi5gZJ4OrZjgdOZozfnDl/MQxnlNPVWNQhf6fR4f0=;
+        b=C25C+vFvZML9+3IpF8Q0BFVdAdsuS1PK0O5OYiz90pSrrSgnXFvj72AX53IPuJ1ko5
+         YugBXyI/IuIH7o8+AxGE1UsWqdazUxCkm22AU3Dw8K1vC9OofubUkDE3ZsLlhtCdo2fL
+         uSqGs3PeJkq11jtAhCChFDDBj56cxQkZvPrDRxcRx4l4pwoZO/n/k9sMMpQ+bRALAvd+
+         ZtcxvwwRy/C9nGo9bnyDAnvxNrux5nESHkWZXt91UJG3aMdCcXeYLk5QXlDYptA06ZRK
+         nGbODLyJwszx6nTuIBVzT1tMTqT5PA9tivqiJy37NlkOtczfzqcX2jx9iMo2phRqdGQb
+         SQDA==
+X-Forwarded-Encrypted: i=1; AJvYcCWDYkuK+U1hNOhBfR7UNufaBcxbXaa3UjnhK0iZUhaTOsgKunM0vxILrpQh9CU9sZYiNLJSlfeLJb8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1MVrT+8PtEyMJbg+2Zv3KF+6TXrFsAyh55xw7ZQvkHFv3wLYz
+	qCoBTpjMT4AxcQtOVm0UBW9T0b6ql9GXtTi5pE1p9hH2BdaIJbV6YRuHsWCcvsQJZvBSQ5qJ/r2
+	pwhENJEXqwUtCP8MMNcoyoZyuYqUfA6+IWskecNwh/xF9jH7HYcPn
+X-Google-Smtp-Source: AGHT+IFZs56aAHhGD7Dtb0kDtkQdr1ZZUSIQiPFpxpiO5HWv5d7OB4424EZKwAZ4IMnzuRzHa4IKV/3BReaO30E2D7I=
+X-Received: by 2002:a05:6902:114d:b0:e29:3923:9934 with SMTP id
+ 3f1490d57ef6-e297830bb05mr532299276.26.1729002785701; Tue, 15 Oct 2024
+ 07:33:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 7/7] bnxt_en: add support for device memory
- tcp
-To: Mina Almasry <almasrymina@google.com>, Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Leon Romanovsky <leonro@nvidia.com>, Jakub Kicinski <kuba@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Samiullah Khawaja <skhawaja@google.com>, Taehee Yoo <ap420073@gmail.com>,
- davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org, donald.hunter@gmail.com,
- corbet@lwn.net, michael.chan@broadcom.com, kory.maincent@bootlin.com,
- andrew@lunn.ch, maxime.chevallier@bootlin.com, danieller@nvidia.com,
- hengqi@linux.alibaba.com, ecree.xilinx@gmail.com,
- przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, ahmed.zaki@intel.com,
- paul.greenwalt@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com,
- kaiyuanz@google.com, willemb@google.com, aleksander.lobakin@intel.com,
- dw@davidwei.uk, sridhar.samudrala@intel.com, bcreeley@amd.com
-References: <20241003160620.1521626-1-ap420073@gmail.com>
- <20241003160620.1521626-8-ap420073@gmail.com>
- <CAHS8izO-7pPk7xyY4JdyaY4hZpd7zerbjhGanRvaTk+OOsvY0A@mail.gmail.com>
- <CAMArcTU61G=fexf-RJDSW_sGp9dZCkJsJKC=yjg79RS9Ugjuxw@mail.gmail.com>
- <20241008125023.7fbc1f64@kernel.org>
- <CAMArcTWVrQ7KWPt+c0u7X=jvBd2VZGVLwjWYCjMYhWZTymMRTg@mail.gmail.com>
- <20241009170102.1980ed1d@kernel.org>
- <CAHS8izMwd__+RkW-Nj3r3uG4gmocJa6QEqeHChzNXux1cbSS=w@mail.gmail.com>
- <20241010183440.29751370@kernel.org>
- <CAHS8izPuWkSmp4VCTYm93JB9fEJyUTztcT5u3UMX4b8ADWZGrA@mail.gmail.com>
- <20241011234227.GB1825128@ziepe.ca>
- <CAHS8izNzK4=6AMdACfn9LWqH9GifCL1vVxH1y2DmF9mFZbB72g@mail.gmail.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <CAHS8izNzK4=6AMdACfn9LWqH9GifCL1vVxH1y2DmF9mFZbB72g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20241015140159.8082-1-tttturtleruss@hust.edu.cn> <CAD-N9QWdqPaZSh=Xi_CWcKyNmxCS0WOteAtRvwHLZf16fab3eQ@mail.gmail.com>
+In-Reply-To: <CAD-N9QWdqPaZSh=Xi_CWcKyNmxCS0WOteAtRvwHLZf16fab3eQ@mail.gmail.com>
+From: Marco Elver <elver@google.com>
+Date: Tue, 15 Oct 2024 16:32:27 +0200
+Message-ID: <CANpmjNOg=+Y-E0ozJbOoxOzOcayYnZkC0JGtuz4AOQQNmjSUuQ@mail.gmail.com>
+Subject: Re: [PATCH] docs/dev-tools: fix a typo
+To: Dongliang Mu <mudongliangabcd@gmail.com>
+Cc: Haoyang Liu <tttturtleruss@hust.edu.cn>, Alexander Potapenko <glider@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	hust-os-kernel-patches@googlegroups.com, kasan-dev@googlegroups.com, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/14/24 23:38, Mina Almasry wrote:
-> On Sat, Oct 12, 2024 at 2:42 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
->>
->> On Fri, Oct 11, 2024 at 10:33:43AM -0700, Mina Almasry wrote:
->>> On Thu, Oct 10, 2024 at 6:34 PM Jakub Kicinski <kuba@kernel.org> wrote:
->>>>
->>>> On Thu, 10 Oct 2024 10:44:38 -0700 Mina Almasry wrote:
->>>>>>> I haven't thought the failure of PP_FLAG_DMA_SYNC_DEV
->>>>>>> for dmabuf may be wrong.
->>>>>>> I think device memory TCP is not related to this flag.
->>>>>>> So device memory TCP core API should not return failure when
->>>>>>> PP_FLAG_DMA_SYNC_DEV flag is set.
->>>>>>> How about removing this condition check code in device memory TCP core?
->>>>>>
->>>>>> I think we need to invert the check..
->>>>>> Mina, WDYT?
->>>>>
->>>>> On a closer look, my feeling is similar to Taehee,
->>>>> PP_FLAG_DMA_SYNC_DEV should be orthogonal to memory providers. The
->>>>> memory providers allocate the memory and provide the dma-addr, but
->>>>> need not dma-sync the dma-addr, right? The driver can sync the
->>>>> dma-addr if it wants and the driver can delegate the syncing to the pp
->>>>> via PP_FLAG_DMA_SYNC_DEV if it wants. AFAICT I think the check should
->>>>> be removed, not inverted, but I could be missing something.
->>>>
->>>> I don't know much about dmabuf but it hinges on the question whether
->>>> doing DMA sync for device on a dmabuf address is :
->>>>   - a good thing
->>>>   - a noop
->>>>   - a bad thing
->>>>
->>>> If it's a good thing or a noop - agreed.
->>>>
->>>> Similar question for the sync for CPU.
->>>>
->>>> I agree that intuitively it should be all fine. But the fact that dmabuf
->>>> has a bespoke API for accessing the memory by the CPU makes me worried
->>>> that there may be assumptions about these addresses not getting
->>>> randomly fed into the normal DMA API..
->>>
->>> Sorry I'm also a bit unsure what is the right thing to do here. The
->>> code that we've been running in GVE does a dma-sync for cpu
->>> unconditionally on RX for dma-buf and non-dmabuf dma-addrs and we
->>> haven't been seeing issues. It never does dma-sync for device.
->>>
->>> My first question is why is dma-sync for device needed on RX path at
->>> all for some drivers in the first place? For incoming (non-dmabuf)
->>> data, the data is written by the device and read by the cpu, so sync
->>> for cpu is really what's needed. Is the sync for device for XDP? Or is
->>> it that buffers should be dma-syncd for device before they are
->>> re-posted to the NIC?
->>>
->>> Christian/Jason, sorry quick question: are
->>> dma_sync_single_for_{device|cpu} needed or wanted when the dma-addrs
->>> come from a dma-buf? Or these dma-addrs to be treated like any other
->>> with the normal dma_sync_for_{device|cpu} rules?
->>
->> Um, I think because dma-buf hacks things up and generates illegal
->> scatterlist entries with weird dma_map_resource() addresses for the
->> typical P2P case the dma sync API should not be used on those things.
->>
->> However, there is no way to know if the dma-buf has does this, and
->> there are valid case where the scatterlist is not ill formed and the
->> sync is necessary.
->>
->> We are getting soo close to being able to start fixing these API
->> issues in dmabuf, I hope next cylce we can begin.. Fingers crossed.
->>
->>  From a CPU architecture perspective you do not need to cache flush PCI
->> MMIO BAR memory, and perhaps doing so be might be problematic on some
->> arches (???). But you do need to flush normal cachable CPU memory if
->> that is in the DMA buf.
->>
-> 
-> Thanks Jason. In that case I agree with Jakub we should take in his change here:
-> 
-> https://lore.kernel.org/netdev/20241009170102.1980ed1d@kernel.org/
-> 
-> With this change the driver would delegate dma_sync_for_device to the
-> page_pool, and the page_pool will skip it altogether for the dma-buf
-> memory provider.
+On Tue, 15 Oct 2024 at 16:11, Dongliang Mu <mudongliangabcd@gmail.com> wrot=
+e:
+>
+> On Tue, Oct 15, 2024 at 10:09=E2=80=AFPM Haoyang Liu <tttturtleruss@hust.=
+edu.cn> wrote:
+> >
+> > fix a typo in dev-tools/kmsan.rst
+> >
+> > Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
+> > ---
+> >  Documentation/dev-tools/kmsan.rst | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/dev-tools/kmsan.rst b/Documentation/dev-tool=
+s/kmsan.rst
+> > index 6a48d96c5c85..0dc668b183f6 100644
+> > --- a/Documentation/dev-tools/kmsan.rst
+> > +++ b/Documentation/dev-tools/kmsan.rst
+> > @@ -133,7 +133,7 @@ KMSAN shadow memory
+> >  -------------------
+> >
+> >  KMSAN associates a metadata byte (also called shadow byte) with every =
+byte of
+> > -kernel memory. A bit in the shadow byte is set iff the corresponding b=
+it of the
+> > +kernel memory. A bit in the shadow byte is set if the corresponding bi=
+t of the
+>
+> This is not a typo. iff is if and only if
 
-Requiring ->dma_map should be common to all providers as page pool
-shouldn't be dipping to net_iovs figuring out how to map them. However,
-looking at this discussion seems that the ->dma_sync concern is devmem
-specific and should be discarded by pp providers using dmabufs, i.e. in
-devmem.c:mp_dmabuf_devmem_init().
++1
 
--- 
-Pavel Begunkov
+https://en.wikipedia.org/wiki/If_and_only_if
+
+Nack.
