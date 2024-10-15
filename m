@@ -1,78 +1,80 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C721B2186;
-	Tue, 15 Oct 2024 13:36:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FD571AF0B2;
+	Tue, 15 Oct 2024 13:40:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728999412; cv=none; b=VESfDXAR6EmUIgtvKyiWg4EIye4vHKwBrPCo8AhQMClCybRDH0LfZ2m/wv5fls9Ts3J6yZ6fWEDm3gSM7TTuriGNt2gsw9DdyyWMu+6XQw3gD+qobXlPaxAURj7VJVLw9kvH9NAFL8YWIy6NVSq1+n/GnPAVwXn1OiMuhgL/o2Q=
+	t=1728999637; cv=none; b=Cd4dUNaMM2YjTQeRYhd9mqUUSNOXfHI//KxoQgAIy3KqI9uuhEEwemBjjff1K+y/Zw7Eiwy3VjCZM00OTMK5dMQKna6oHEgCeD+ITYNsvBiDSKCJ335+UHzad4kGyn0YC1W8AMBIq5v6et5MnJ7Q+CSOdKJm2jHs3wb8w13m9tg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728999412; c=relaxed/simple;
-	bh=1o+mpm3TwP32msRXHLP7zEzdbkFDP0OejQgTcO9tZqA=;
+	s=arc-20240116; t=1728999637; c=relaxed/simple;
+	bh=hWsnXqzWUVbS/LFkW+4v8ACd0XaCqMw01lVnIK0YzH4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=kGHWHHhmEAJFqpwPszNpR5Y5HNfPBpXcoWtraZRCW7h9SyCeqjC96AE+t1Z/RkWSsJ3PU+hTQQWfPxV4bF8H2bj2GoXJF2hAL4BVuJqZTL0m63UmDJy7nLyWmYrXh8E+u0MEHE2L+zjygefKqzRNn5CcFqS51+bFgULgj3hcI88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=aCtdZ9mg; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	 MIME-Version:Content-Type; b=hD/aPi2GKHs4iBTkl2EwESZCYA288Y5m5PurPV7w6l9IM0voneqxlg5bdLiji4k6jmNlwWt3saaFSdOhFTM47JiE1QoTvZilK1BBEwo+CujgC2iD/ek+7ABQVyEBD8O15nSZS/Yu9jnAKg/ViEk8U424cHAni3UfvwLUhy38vEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=krisman.be; spf=pass smtp.mailfrom=krisman.be; dkim=pass (2048-bit key) header.d=krisman.be header.i=@krisman.be header.b=Sr0LYTIG; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=krisman.be
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=krisman.be
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="aCtdZ9mg"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D1CF6418B6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1728999410; bh=/9PBSSXDLd3URlyiOb3FwjVfJcT0hVdJJ4SMwSlMcI0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=aCtdZ9mgJcGC4FCS+8I43hg5h8/oRvOS9p40s1OLNt8VfVgetMFkDZrT26qvg4dBQ
-	 LWco3ljJS9e8RRMNWRYNbsFMCo+sQM5fiZEPg+xPoLLZ3khJUd+nt4/JhNUnz6eJiy
-	 OxMmgZyh3RfaO7qddLM6xM27S+Ah7NTAM2dNxHpQz82EI4ReOPwOwW5NRGfL6/xULI
-	 /iRcbQTm3jEBMKFs9M0k5s1G3yxvc5lyM0fr1KiG6TYX/Jw2O4ZgeE0KiR5Ju1UC6J
-	 KJ7eq1K+d+MHQCAWfKIYCTbEJK13mOBYHvblKmB4XfWOmUPjLkDTVt+RnCaXTSyxdW
-	 /DbtTJAQS9hTA==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id D1CF6418B6;
-	Tue, 15 Oct 2024 13:36:49 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Dongliang Mu <dzm91@hust.edu.cn>, David Howells <dhowells@redhat.com>,
- Jeff Layton <jlayton@kernel.org>
-Cc: hust-os-kernel-patches@googlegroups.com, Dongliang Mu
- <dzm91@hust.edu.cn>, netfs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: fix a reference of a removed file
-In-Reply-To: <20241015092356.1526387-1-dzm91@hust.edu.cn>
-References: <20241015092356.1526387-1-dzm91@hust.edu.cn>
-Date: Tue, 15 Oct 2024 07:36:49 -0600
-Message-ID: <87jze9qyha.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=krisman.be header.i=@krisman.be header.b="Sr0LYTIG"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7042120011;
+	Tue, 15 Oct 2024 13:40:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=krisman.be; s=gm1;
+	t=1728999627;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RFLmJEq84/4RSf31UFW/K0HnFE3ckCo/P5dpzh8CF5M=;
+	b=Sr0LYTIGO6411b3ukyZwFgc6ppUe4er18qohZzBB0p+hCXn1ltg+9xq5LMJ+sr0G37Dn/4
+	wAYFJ8NOvvS/+Y9E0NYXTqP1YIZNqn8h5+kXbPlrjX1XU0LHp6P8/cVyY+bO2s7Q320xkg
+	bC1ZkeQho1T6MfgxXKusejSY53Jx7uqZ3oqM5p9KjfUOKCqfsP7zt8A9zHQK3wKF80SWzh
+	hXBw7Pdo27zw5KquEeUdtV8l8/PaEeCIJ+AHIqq8kbsIhRTSkxhwFLt9eO3vywozEGq2sf
+	xvYjpRHeEqhHLxv12w5W0MQ9eAm+Csm4Lyr2uf1qFIjcsBz+utrJY8scDns45g==
+From: Gabriel Krisman Bertazi <gabriel@krisman.be>
+To: =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@igalia.com>
+Cc:  Alexander Viro <viro@zeniv.linux.org.uk>,  Christian Brauner
+ <brauner@kernel.org>,  Jan Kara <jack@suse.cz>,  Theodore Ts'o
+ <tytso@mit.edu>,  Andreas Dilger <adilger.kernel@dilger.ca>,  Hugh Dickins
+ <hughd@google.com>,  Andrew Morton <akpm@linux-foundation.org>,  Jonathan
+ Corbet <corbet@lwn.net>,  smcv@collabora.com,  kernel-dev@igalia.com,
+  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  linux-ext4@vger.kernel.org,  linux-mm@kvack.org,
+  linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 03/10] unicode: Export latest available UTF-8 version
+ number
+In-Reply-To: <20241010-tonyk-tmpfs-v6-3-79f0ae02e4c8@igalia.com>
+ (=?utf-8?Q?=22Andr=C3=A9?=
+	Almeida"'s message of "Thu, 10 Oct 2024 16:39:38 -0300")
+References: <20241010-tonyk-tmpfs-v6-0-79f0ae02e4c8@igalia.com>
+	<20241010-tonyk-tmpfs-v6-3-79f0ae02e4c8@igalia.com>
+Date: Tue, 15 Oct 2024 09:40:22 -0400
+Message-ID: <87o73lscvt.fsf@mailhost.krisman.be>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: gabriel@krisman.be
 
-Dongliang Mu <dzm91@hust.edu.cn> writes:
+Andr=C3=A9 Almeida <andrealmeid@igalia.com> writes:
 
-> Since 86b374d061ee ("netfs: Remove fs/netfs/io.c") removed
-> fs/netfs/io.c, we need to delete its reference in the documentation.
+> Export latest available UTF-8 version number so filesystems can easily
+> load the newest one.
 >
-> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
-> ---
->  Documentation/filesystems/netfs_library.rst | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/Documentation/filesystems/netfs_library.rst b/Documentation/filesystems/netfs_library.rst
-> index f0d2cb257bb8..73f0bfd7e903 100644
-> --- a/Documentation/filesystems/netfs_library.rst
-> +++ b/Documentation/filesystems/netfs_library.rst
-> @@ -592,4 +592,3 @@ API Function Reference
->  
->  .. kernel-doc:: include/linux/netfs.h
->  .. kernel-doc:: fs/netfs/buffered_read.c
-> -.. kernel-doc:: fs/netfs/io.c
+> Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
+> Acked-by: Gabriel Krisman Bertazi <krisman@suse.de>
 
-Already fixed by 368196e50194 in linux-next.
+This will clash with another change sent to fs/unicode[1].
 
-Thanks,
+This is just a FYI.  No need to resend. It should be handled during the
+merge. That is, unless it reaches mainline before your patchset is
+merged.
 
-jon
+See [1] 20241011072509.3068328-8-davidgow@google.com
+
+--=20
+Gabriel Krisman Bertazi
