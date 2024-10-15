@@ -1,222 +1,161 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2061.outbound.protection.outlook.com [40.107.94.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED9D1FAF1F;
-	Tue, 15 Oct 2024 18:09:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.61
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729015790; cv=fail; b=Frn7JB7jyUM9VXrtgFyF0SjVOJRwBS2j7qREckQTZLMHfRQ6NdD/sfgLCM5iXqPDtEMjUIQN36rPezgnsell75C3FZ2uvPRPDCOjYjWsmhxNlh2SBB0A4VCXz7H7ABJ/zsHjB2B4f+nFE072ZZCB8d56uiVmfdlz8EcVhoju40I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729015790; c=relaxed/simple;
-	bh=xqQVgVhDX593Q9SlaT4heR2rInN/YHQEg4B9bkOg8mY=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=IDSMm3BsEPw8nq3dj6vWT5AWnczvj4pb2HMjwUwgcTtM68jQZvhc7kV/dxA+ElYza/KZE5JkxgirCCFPkYSiX87OJUDoo2+2lWv+WrD6Ccqt1+o8n3zrJIopifid1Jei0kWNiXTOApaPPmVNDRmFXP6bjZqLBWi6NBDdbZA/ZtQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=EHXZnsZS; arc=fail smtp.client-ip=40.107.94.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4351F8EF2
+	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 18:10:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729015855; cv=none; b=OjvQ+LnAeVQ9P9E8IrdHKQdXy6847efWYdsV8TAcKXisGoOqJCoeKuogFMRCUDh7MkqvDvDxh92OOd7mFT3Pss41SvsHon8hc44zYLgO0SA4NQ65+ae+wuJxFWLySGI+xh8Zc+5Jhm1d1TxlY3O4FW3gsdF0xDj51cLnOHURtJM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729015855; c=relaxed/simple;
+	bh=onARMYvCe4MEVctCzTmFfC9c9hckqdb5NrW57WWe4fY=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=iAGS6V7PWLkGAkDlxo/O6EawDs08qddM1Qk62+wRr2LVQ53KJvSiaf355xUQvFpo24gnQiXSgTvdWj8KgUNS4gOf5tG8NHnTOFTRe7wwd4EMJmUHpONf/XQFL15QakX8DsQYMKMVzzD7SBokH5h2Sqrihkn/440DxIZX3a+2adA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=12qg7+Sc; arc=none smtp.client-ip=209.85.219.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="EHXZnsZS"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CI5nq+MR3ZkwJgh0jttNt4aRPOS7zS1djHxmkGa1wEoghI5Q4S66SknyoKZrB9D8MzVJeyX0uJ0Rn5j8YBKldlhWwDyzINF1M52o6qFutaxCjeGH/heApb5NOhWXNqPLTaxe3J3jmCVo207R74y1i+jdN+LX6+Q4RktwFwMvIRyd9oQsKIp/prRrq8ULJ9t9om9ReLVtBoVrcfs3DJx6oehiUP+ZOUf7AVVaPjnYtYBTTvCEz3gHkXcltk3ZAx3l8YWTmDa/JWal8YdIW3wAGmdd9qE/iCwZw/PAbkxGbYVl4koIdh0NQVZa/ddvkC1Vm+6l//X6HK92zcXkYCbkrw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=g45mgsy4pAedlnStswzneaQZCospxe+t6PPDLQ/icr8=;
- b=R9CmEofitndpVSnR8o47DDyke4L5E4yuV9DmB71nnfvOHjD/6GFxgIOqibooumRR3425X+xoM9ZGfbHkkWfqC9n7eSyfPke4F7TM5VM3Ywn6zbOIpmRQIb3UB39vif3oTXoRy1JxSpEHRdt1NW7DhK5/c2/2pCnYz4RrXYpEQirfgB9+4oV3diB3Vm42kC/Z3fLWHS2cQJKTylhdTs9uvUbyg1AjTwp3IUt5y9HPM4Pl8D/rpzKplKZpMxWwt6nW1V2OC8/UozgWJ2D4DaKnnxFzRjdMDE8Vb92GYp2AmO/yOHFjsAAsKlowpYRnK3NoSCYTUw4qHNQEbjpvy8MKoQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=g45mgsy4pAedlnStswzneaQZCospxe+t6PPDLQ/icr8=;
- b=EHXZnsZSwBI9OM5vlhgPZFAWndg/02W/qzE2tnY4rZlsmk++dWahmIa1Qxq925XMy5aucKFCBq9obfJDnMYlBFfZIuyXM9isSQCiLbGu/ZUoRj/GbZqk9QgtLlW+LSh8u1MKpep++FX+iKzBmGjPJn17rodG0m24W+aFkIcGuks=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by IA1PR12MB8285.namprd12.prod.outlook.com (2603:10b6:208:3f6::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.17; Tue, 15 Oct
- 2024 18:09:44 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca%6]) with mapi id 15.20.8048.020; Tue, 15 Oct 2024
- 18:09:44 +0000
-Message-ID: <1395bee1-95a7-4d14-a5e8-0e1dc71fadac@amd.com>
-Date: Tue, 15 Oct 2024 13:09:42 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/13] platform/x86: hfi: Introduce AMD Hardware
- Feedback Interface Driver
-To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-Cc: Borislav Petkov <bp@alien8.de>, Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- x86@kernel.org, "Gautham R . Shenoy" <gautham.shenoy@amd.com>,
- Perry Yuan <perry.yuan@amd.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
- platform-driver-x86@vger.kernel.org,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-References: <20241010193705.10362-1-mario.limonciello@amd.com>
- <20241010193705.10362-6-mario.limonciello@amd.com>
- <20241015035233.GA28522@ranerica-svr.sc.intel.com>
-Content-Language: en-US
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20241015035233.GA28522@ranerica-svr.sc.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA9P221CA0028.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:806:25::33) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="12qg7+Sc"
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-e2954ada861so3432701276.3
+        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 11:10:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1729015853; x=1729620653; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xkQVBApGBnsFauh/NRUkLSuJKpKjtmpIspmB3NqO1qM=;
+        b=12qg7+SclH3foH+QFnrlHYEJuVgiyun3lojQ8iMgUEnH2pp1k9JODEiCOBnn9I+QXs
+         oO+AgTtVurJ5iGKtKuR82mJUoId9y004GYN9vHAJKNbRcRXRHwiA5Q6mRg7GTxm/JaLE
+         xouHtQd0zFTjh/TiF7UmliYUY8lviLGeNo6AnIMwMsRVh4+ZsdEBJ+aJG5tw6PujGyi4
+         c7OBAlLIvqBUj1zYdZXwVe7zysJgFCHE5wW4meftNq0Y6ugpLlyJk3Z5jT1NWgPq3p3M
+         g7tK9GpcIWmdqH8Ro3GhEEGRUV3ypV/+oudjWYQQwzXgxZcCHW2iKiiWcV6rAEoJW7NX
+         DtSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729015853; x=1729620653;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xkQVBApGBnsFauh/NRUkLSuJKpKjtmpIspmB3NqO1qM=;
+        b=U6T9hTyHfG4FDbs9lFwzOhbHaho8giSC2HETCAyXGD0B++LaPhxG720d/c2MqIWH+I
+         xBwS9T0inBICIyiQgquI0GAnaeR/O/ilPJabTZRQCNCAtOjqXTkQGhGyUgfeGbZzBYMI
+         qrji5KK1kMOEP70gEpk/zKD7LoikYitUHA3nVt2XfeLGRdJZdyAbqRRlMSiYPqTQyYgp
+         iNAZFsDkALErXwATjCcNwK/pLYj6EghWLR1/5WbLPtf36dq7mmkheezoxTpaO40bYFMs
+         bn/kVhHhD+evmlKu7K0vHz4sjRcn7FPZFlzL/OqunZ9OC2hLwRRDTifHl3GxoJ+neo/Z
+         aMXA==
+X-Forwarded-Encrypted: i=1; AJvYcCUOOk9rCg+VfaRm/wBolI4k6SBT6CYVvmNG3dGGbRM3VmvZbPQSNqeWX5ivDxr0rnGYnZpr4AghFmI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAjnIeb1wPeEMXr7tGW2hhf1UQTvaton8oYGY9NNTMo7Dpg5RM
+	FMzTiDB/fsG7zH0Iufi/xh0BMzTd1TaQDKg4FvcXuoBP/HqUguqngjwf2Nyol5lqhWSBrdOSiCf
+	d7w==
+X-Google-Smtp-Source: AGHT+IG5g2O//zMCPKGiWKKREPFUIbatrbPoLXHOrf551PzbHYpXNxKLEQfE9nef7o/Ugk4b+yX13BYXYnc=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:9d:3983:ac13:c240])
+ (user=seanjc job=sendgmr) by 2002:a05:6902:112:b0:e29:7587:66db with SMTP id
+ 3f1490d57ef6-e29782b20edmr1102276.2.1729015852814; Tue, 15 Oct 2024 11:10:52
+ -0700 (PDT)
+Date: Tue, 15 Oct 2024 11:10:51 -0700
+In-Reply-To: <058a6302-3444-4fd6-a154-b81f384b63fc@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|IA1PR12MB8285:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9f23e480-91af-418a-2dcd-08dced448c29
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?VGUvcytNZmRRY2F5ZXlzRU5Xb001czRYbWVPdVdjdEtqTEViU3Q2dUd2Y1c0?=
- =?utf-8?B?dndNeVZpd3FISzcwbCtzOUFJSWxyWUJIRXFNcjdCTm1rVUxUS2E0UVBiWUh2?=
- =?utf-8?B?Ti93YXl1TGNzaXJoVzBWT1IveTJhQnQ0MmJ0WTR2OFFzb1dRUUE2alBxeFFl?=
- =?utf-8?B?Wng3ZVZNb2pCaXRjRnhSMnFVdTFsVVdhWk52c2IvZFBxL2twc200MHEzRUdT?=
- =?utf-8?B?eHIxeHM2OW91TG9zeXNrZEE5QXhDZVRKMGFERmRHelh6Ti9LbEFPRlRiK3JG?=
- =?utf-8?B?Nk1LeUczMHdlSU8rMjJacGE1TnpkUlN1d3hobVduYnFUclAzemtxSHhwNE00?=
- =?utf-8?B?djk4Rm5XVVZlNUJ3UUhSMFBwWThTNkF2RldTdXJMd1FJQWJzNWdzb3dsZGRM?=
- =?utf-8?B?bkRmUTZLUnloa2JxemV4OHoxNGNLTlE2WW5kRUZSSzgrazNsZVFIUGpTbVpw?=
- =?utf-8?B?Wi9NZEZsVnpBUExpNEhMaHIvTEtWWFpVbDNuYkJQMnE5Mm00QmtoWUJLOWVF?=
- =?utf-8?B?Rjl4SC82dXdId0p1QkV3Qm04WmcrUGNIaGlnb1lTUGt6SGJwVUR6RmhDbWhs?=
- =?utf-8?B?MEhwQjZ0MlhLdmZTVmYzTzBYN2pDYmUxMklhanlaZkVWd1BMM1VOVDUvdW5o?=
- =?utf-8?B?dExEZzlrY0VuaVprUjdZQ2J4UmVGa3NCQTBnSEtpNUxmZGJyY0lTb3N3Ny9o?=
- =?utf-8?B?TEJEQVFrNHlFaHhDUUZLS3ZlK2xPWXBQT3RFOHRmTWVGQ1BJcCtNbXBkVkda?=
- =?utf-8?B?dGEzejlyUWx3QllWMnE2QXVCNDlNSS9NRmkyRFpNYlp2ZDRjR2hVVlRjZEtG?=
- =?utf-8?B?TlRxTFE3VWI1U25aOTQ3b1dPOTdmMzhaMDZIU1Z6MVN1aVE2RlVBV3k5Qkl3?=
- =?utf-8?B?bUgvVHhpN1BkaWVuSWdMTDdJbGcweTQyMXkyMTBCWDdMUkx4M3NhV0MrcTdL?=
- =?utf-8?B?RDdKaDZtTDI1Y1hoMXBMRmxpTnhwYTZIdkdGWS9pbFV1U0YyV1FXYitCWGlW?=
- =?utf-8?B?ZGRzQlk5cjhuMElmZVVYQ1BBS1RLcVdCNXlsMTU3K2szUHNHRXFYcjVGQXhm?=
- =?utf-8?B?UXE4WTVjNHJQZVJvdGhOK0Q3K01zdVhHdC9WTEFQMTZ6UU02SFdScFM5R0ow?=
- =?utf-8?B?dUFQSWNxL1h2QTA0SDAvSEMzeW5HNjRLMHdydlNvMkJWSmkraE54RW05Uy9I?=
- =?utf-8?B?Yk1MaEZXMmNJd2U3a09nbkNLWmx1cmRzb0swNGF5QUZLeDFJdjJVRjBkc2Fo?=
- =?utf-8?B?TGZyMWZ2R1hVYnArNGJVbS92RE5KQVp6QkpiMzlVSDd2SEtoOEx0UmZCS3Jn?=
- =?utf-8?B?TTFmWFZObk1zdTJBM2xabUN3UUZnbytiNlgxbXlzZm9iMFlhamtueTFQRXh2?=
- =?utf-8?B?N1pydUY4TXg3ZllHRE9ZYmlPcTRFdkZSTDNNTXEwK2MwY2FLTnBBU3lQTGIy?=
- =?utf-8?B?Ymk5U2RwSVhrb3VMb3lHV2hOVmViNklBS1kwMUlIcHNQRzY0SUI3cDRTb3VM?=
- =?utf-8?B?a0hkeUkrdUc3NVJ5QXY1WFVSVUZjcGdUeng4T3BiZFd3UE5WM24wR3c1WlFB?=
- =?utf-8?B?MGV5Y1I1RUNXM1BXeVArcHYrWTVnOHcyRkdjVmxJZy9OSThWdVZtcU1FTW5j?=
- =?utf-8?B?bHkwczFHK2dnQWowelkxMUdyNGpvRXcwdjBRa3pXR2ZFcEd4NTFsNjRub2M4?=
- =?utf-8?B?SUZNYm1mbEsrbUNsdVFYSkV2cDZjZ0poRSs1bnFkK0RtdkpBaUkrb2xBPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aSs2cUU1Z2tQUmxBdjhWVmh6cEpPc0ZJM1ZpSUp3dDR2QWNnclRpcnRMckZs?=
- =?utf-8?B?djl6cHlCWnZ5K0h5OHZidXZsSXdGVGhTTnk2NFN0Q3Z0VmdWc24yRVA5N3RZ?=
- =?utf-8?B?UDR6Z3o5ZFFIckRVQUd5emhhRWtJcVFQenF3UnZXTXhuQzYwWTIvajE3TG5B?=
- =?utf-8?B?UVRVd1QrK3lOT3ZKa0R1S1BDUS8zYWp5MnMvMDUyMVJGQW1qTytMREM5bXh6?=
- =?utf-8?B?ejJNR2RJYUJyY0ZtS1I4Sm82YlRiSHk1cU4yd0tpU2pYSzlSUHdDYXJpRUZk?=
- =?utf-8?B?OGNML1MrN2JBV1BIbEZIbkFtT1FHNzhqQWEweWhTbjIrRDhqelZEek4vUmZJ?=
- =?utf-8?B?SU5LT28xQnM0d3FkQkYwdmxYN29YZzg2Q3FrYXFSa3ZGREV5TDVTQS8zMmdD?=
- =?utf-8?B?WEZkZ0tSaGRTZmdFamlYMmE1RGZSd1VuMUEvQ1dmNzc2K2V1a0FOQkZ2SnRO?=
- =?utf-8?B?WEFYZzFWRm9CQmxKcFdwaTkxYk1EWXJDcDdoMWUza01nN1hZTHFuMi9oTlA0?=
- =?utf-8?B?b0o3bEVWNW5tcnBRcDdkRm1SOTVKczNtdVRNc0ZFajRLSmVyTjNtRWJtZyt2?=
- =?utf-8?B?Q3FVWlV1enJLNFR3SVVydmpidjlUTW9lZ0ozTGJSK1NBL3lrMGVkdXpSVDJ1?=
- =?utf-8?B?ZEo3bXBFYUplRStIZTRvMUFIcFB5UnUvbEhjeTc2VUZXOG56Nmd6a3VYTkVB?=
- =?utf-8?B?WW52VGFDczdXeGhFdWw5SXFpcGh6SDhHY3huUVpOTGNSd2NFZ213M3hSVGQr?=
- =?utf-8?B?eUd3OS82b0pPQ096dHFVWm8rTzlIQ1ZVWm1WbTRUcStUVG5DRzZnVU4yVE5q?=
- =?utf-8?B?bnZNMngxVmFOL3JjaW1oMGY0TWRUcys5R283cjVKTHRRZTRDOVh1cFYvcUtY?=
- =?utf-8?B?Z1Q2Sm40ZTV0Rkw1aWJ4TmFZZ3NSQVBCclJKcE56cVZNQTV1dWQya01qNUt5?=
- =?utf-8?B?eVlwK2RORk9ablZjcHFsWGFnMGh2VGJ3c09WMkd1MzlUYmZUWFBEOWo3NXJL?=
- =?utf-8?B?NVRUQWp4RGQ2RXdDMzJ3Znhydm9VL082TE5meFpqN3NUeCtUNm8zTy9ndExu?=
- =?utf-8?B?QTcvVUV6Y0I0dGVhaWRwR2VKYmE3aWQ4dXc4RFdBaXpuQlk4THUwRUgxZHNk?=
- =?utf-8?B?eGRFT3o3MmRuTnAzM2lKL1NzbWtuaWFVSjNYRWZpZW9CYWR5dkRTdDVYVVNY?=
- =?utf-8?B?OVIwQVBIYVBwZFh6cGN6KzBNeE16cTBqWW5MaWFHTTdxbzhxT0ZvYlNxcjUv?=
- =?utf-8?B?SWxWRlNhcVNsV0Y0bXZ1dGNZdEplTThuaXhGSWc0WVlBcDVHM2c1MjNVVkJh?=
- =?utf-8?B?NGRsVVdQWnRPK3NHZmpKbXVzTTlFYzRqanAzeFhQUFRSelVRaWNSUERFV2NT?=
- =?utf-8?B?MFdPVlZTdXUrd1RQYlpFVDU3SjQrSUIwVXlTVVIzTlVxS2tTZzBocEpHVjRU?=
- =?utf-8?B?VUsvQnRPY0pCVThrZjRIMmxNRHBVeWdITFhyYWdqcEFDRlI1clBTLzFNK2hK?=
- =?utf-8?B?QmlMcjdUODd0NU15M0ViTnJRdlduZ2RkTXpjUW5KOXBLa3VVS1BTV2RRMnBQ?=
- =?utf-8?B?cFBneXpYRTNYRjIxREt6WWhnd1lRVTNpTXh2Ky9rSk5iZjcwYmJlOHJXVzFX?=
- =?utf-8?B?ZzhzRDlDS1FPMGYwZVprMlFRcldYM2xTU2ZjMWRVcHAzU0NOa3JtNkhMcmVK?=
- =?utf-8?B?QmRkdTJheHRkN29lTElNTHhUQlJyYi82a1JEZzhMcjBzcXA2cnNnbzNsSDNG?=
- =?utf-8?B?eFhjZ0NGVWpKWTFudWxlYURocmNOVVhDbHN2Ym5yQlB4bXdCbloxblVkcjVX?=
- =?utf-8?B?RHVaTjMrOUV3dXEzaGp1Q2FHRktkbHFqRUlnU3lHWnE5ZzF5c1ZiT1dSMk42?=
- =?utf-8?B?cHBkMUpHMm5PeVBTTEFrWW1SY1ErMHVQTU9OaFVIRXZJaTYveVl2Q0ZHSGlP?=
- =?utf-8?B?eXJzU29RMkFJMFJ5L0oyaEM4aXcwaFdtWkE5YW9FV2pwcWhQR3lyQWtjTkw2?=
- =?utf-8?B?SmJDMTBjalRUeVF3S3RaTXZwQUhaSW5majB0c3NGNnNiNUVVR09jdm80ZVVM?=
- =?utf-8?B?a1FEdnppNU5kM2RVdjVHTGpDaVBEanNmZ28vQ2RtVmh1L0pPZHZMRzN2OEFX?=
- =?utf-8?Q?GLL8uPAGp5xzgIPbtUgmVMWjg?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f23e480-91af-418a-2dcd-08dced448c29
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2024 18:09:44.6336
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QcAL+EKbl2w0H7JC1T4BwpgDpIKGNgiu1S0u6PL4nuAJG/CVH1N68H6RQPViZDP2ywJkLeFRHLOf8LNZWue8Fw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8285
+Mime-Version: 1.0
+References: <20241004140810.34231-1-nikwip@amazon.de> <20241004140810.34231-3-nikwip@amazon.de>
+ <875xq0gws8.fsf@redhat.com> <9ef935db-459a-4738-ab9a-4bd08828cb60@gmx.de>
+ <87h69dg4og.fsf@redhat.com> <Zw6PlAv4H5rNZsBf@google.com> <058a6302-3444-4fd6-a154-b81f384b63fc@gmx.de>
+Message-ID: <Zw6wKwHQJcGPfxwn@google.com>
+Subject: Re: [PATCH 2/7] KVM: x86: Implement Hyper-V's vCPU suspended state
+From: Sean Christopherson <seanjc@google.com>
+To: Nikolas Wipper <nik.wipper@gmx.de>
+Cc: Vitaly Kuznetsov <vkuznets@redhat.com>, Nikolas Wipper <nikwip@amazon.de>, 
+	Nicolas Saenz Julienne <nsaenz@amazon.com>, Alexander Graf <graf@amazon.de>, James Gowans <jgowans@amazon.com>, 
+	nh-open-source@amazon.com, Paolo Bonzini <pbonzini@redhat.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org, 
+	kvm@vger.kernel.org, x86@kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-On 10/14/2024 22:52, Ricardo Neri wrote:
-> On Thu, Oct 10, 2024 at 02:36:57PM -0500, Mario Limonciello wrote:
->> From: Perry Yuan <Perry.Yuan@amd.com>
->>
->> The AMD Heterogeneous core design and Hardware Feedback Interface (HFI)
->> provide behavioral classification and a dynamically updated ranking table
->> for the scheduler to use when choosing cores for tasks.
->>
->> There are two CPU core types defined: `Classic Core` and `Dense Core`.
->> "Classic" cores are the standard performance cores, while "Dense" cores
->> are optimized for area and efficiency.
->>
->> Heterogeneous compute refers to CPU implementations that are comprised
->> of more than one architectural class, each with two capabilities. This
->> means each CPU reports two separate capabilities: "perf" and "eff".
->>
->> Each capability lists all core ranking numbers between 0 and 255, where
->> a higher number represents a higher capability.
->>
->> Heterogeneous systems can also extend to more than two architectural
->> classes.
->>
->> The purpose of the scheduling feedback mechanism is to provide information
->> to the operating system scheduler in real time, allowing the scheduler to
->> direct threads to the optimal core during task scheduling.
->>
->> All core ranking data are provided by the BIOS via a shared memory ranking
->> table, which the driver reads and uses to update core capabilities to the
->> scheduler. When the hardware updates the table, it generates a platform
->> interrupt to notify the OS to read the new ranking table.
->>
->> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
+On Tue, Oct 15, 2024, Nikolas Wipper wrote:
+> On 15.10.24 17:58, Sean Christopherson wrote:
+> > ...
+> >
+> > And from a performance perspective, synchronizing on kvm->srcu is going to be
+> > susceptible to random slowdowns, because writers will have to wait until all vCPUs
+> > drop SRCU, even if they have nothing to do with PV TLB flushes.  E.g. if vCPUs
+> > are faulting in memory from swap, uninhibiting a TLB flushes could be stalled
+> > unnecessarily for an extended duration.
+> >
 > 
-> I tried to find the HFI details on the documents in this "bug" but I could
-> not find them. What document in specific could I look at?
+> This should be an easy fix, right? Just create an SRCU only for the TLB flushes only.
+
+Yes, this is a very solvable problem.  But while SRCU objects aren't expensive,
+they aren't entirely free either.
+ 
+> > Lastly, KVM_REQ_EVENT is a big hammer (triggers a lot of processing) and semantically
+> > misleading (there is no event to process).  At a glance, KVM_REQ_UNBLOCK is likely
+> > more appropriate.
+> >
+> > Before we spend too much time cleaning things up, I want to first settle on the
+> > overall design, because it's not clear to me that punting HvTranslateVirtualAddress
+> > to userspace is a net positive.  We agreed that VTLs should be modeled primarily
+> > in userspace, but that doesn't automatically make punting everything to userspace
+> > the best option, especially given the discussion at KVM Forum with respect to
+> > mplementing VTLs, VMPLs, TD partitions, etc.
+> >
 > 
-> Thanks and BR,
-> Ricardo
+> I wasn't at the discussion, so maybe I'm missing something, but the hypercall
+> still needs VTL awareness. 
 
-Hi Ricardo,
+Yeah, the KVM Forum discussion is relevant, because one of the key takeaways from
+that discussion was that KVM will need some amount of VTL awareness.
 
-It is spread out across multiple places.  This is part of the reason for 
-patch 1 in the series outlines details of how it works.
+> For one, it is primarily executed from VTL0 and primarily targets VTL1
+> (primarily here means "thats what I see when I boot Windows Server 2019"), so
+> it would need to know which vCPU is the corresponding VTL (this assumes one
+> vCPU per VTL, as in the QEMU implementation).
 
-The reason for that "collect all" Bugzilla for documentation is because 
-the URLs for AMD documentation have undergone changes in the past and it 
-makes it difficult to put stable URLs in commit messages.  So teams that 
-want to reference documentation put it on a dump all bug for a stable 
-URL to reference.
+Right, but even without the takeways from KVM Forum, we need to look at big picture
+and come up with a design that makes the most sense.  E.g. if making KVM aware
+of "struct kvm" objects that represent different VTLs in the same VM greatly
+simplifies supporting HvTranslateVirtualAddress, then it's likely worth doing.
 
-On that link you will find the APM, which will have some documentation 
-specifically for the CPUID leafs used for topology identification and 
-clearing history.
+> To make matters worse, the hypercall can also arbitrarily choose to target a
+> different VP.  This would require a way to map (VP index, VTL) -> (vcpu_id)
+> within KVM.
 
-Read patch 1 and let me know if it covers what specifically you're 
-looking for.  If it's still missing some info let me know what you would 
-like added.
+I don't think so.  The TLFS definition for TlbFlushInhibit give KVM a _lot_ of
+wiggle room, e.g. KVM can retry the hypercall as many times as necessary.  To
+honor TlbFlushInhibit, KVM just needs to ensure that flushes are blocked if any
+vCPU at the target VTL is blocking flushes.  And to avoid hanging a vCPU, KVM
+only needs to ensure a vCPU is awakened if it _might_ be able to make forward
+progress.
 
-Also; I do want to note something; this is the first series to lay some 
-foundation for static information and not everything in patch 1 is 
-implemented in this first series.  There will be further follow-ups later.
+I.e. I don't think KVM needs to be super precise when waking blocking vCPUs, and
+thus there's no need to precisely track who is blocking whom.  I think :-)
+ 
+> > The cover letters for this series and KVM_TRANSLATE2 simply say they're needed
+> > for HvTranslateVirtualAddress, but neither series nor Nicolas' patch to punt
+> > HVCALL_TRANSLATE_VIRTUAL_ADDRESS[*] justifies the split between userspace and
+> > KVM.  And it very much is a split, because there are obviously a lot of details
+> > around TlbFlushInhibit that bleed into KVM.
+> >
+> > Side topic, what actually clears HvRegisterInterceptSuspend.TlbFlushInhibit?  The
+> > TLFS just says
+> >
+> >   After the memory intercept routine performs instruction completion, it should
+> >   clear the TlbFlushInhibit bit of the HvRegisterInterceptSuspend register.
+> >
+> > but I can't find anything that says _how_ it clears TlbFlushInhibit.
+> >
+> 
+> The register cannot be accessed using the HvSetVpRegisters hypercall, but the TLFS
+> talks about it elsewhere. I'm assuming this is a formatting issue (there are a few
+> elsewhere). In 15.5.1.3 it says
+> 
+>   To unlock the TLB, the higher VTL can clear this bit. Also, once a VP returns
+>   to a lower VTL, it releases all TLB locks which it holds at the time.
+> 
+> The QEMU implementation also just uninhibits on intercept exit, and that, at least,
+> does not crash.
+
+Hmm, it would be nice to bottom out on whether the higher VLT or the VMM/hypervisor
+is responsible for clearing TlbFlushInhibit, because that may influence KVM's
+design.
