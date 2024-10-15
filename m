@@ -1,102 +1,143 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2F41F7065;
-	Tue, 15 Oct 2024 15:59:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5945A1E282B
+	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 16:05:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729007997; cv=none; b=gxHNS05JyDEkapOzzrSAM4XwBZhKMI/Oih4YXyrMnESqFgBHizArothtL/u/TcUq6hGo6BJH4QLaW7km2m82tI7fKgqZSvolEEkgMcjW/NUMNPPW2sZsJDrsv5kr7zOTiUPKz18ayQ91M+n7IYn3NVAlT7ryF7DRd1+w5kvUh6g=
+	t=1729008336; cv=none; b=PlZCk7nLORUKnNVYLaEg9IjZHYQoRsP7683fTNVi6iH1hW3mmxHY5TC27+2ZCripMbbqD7D6oqnX67jMMgz8nzJj+3oSExi37F7CTjF3YAgT2w+fmfxrU7RQW0SZZEQbIJbRgo6AtH69DMA7zy/AEWTBzJ+q+8y9t4xdG4lUfOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729007997; c=relaxed/simple;
-	bh=2mK+ZWFmR/HEmxNXgK8igOSG3DBZjetA7eR4+41kzn4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=bA/z7G4WrOUWUvPQOWbK8nd3jhabxI7N+sRY39Cw+Vd93WKjKTZ3lZ2M0j9EDKneJEpeioHfyx/wqNi2EWYWCn+fFZDCCwr2gGTAfvTv4FZ4JLUZ9NPs5o1pErqxJi34NNyTl+Al618Kg4CMPzT+6DFKuVUtwCS0GQjsRh0stDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=krisman.be; spf=pass smtp.mailfrom=krisman.be; dkim=pass (2048-bit key) header.d=krisman.be header.i=@krisman.be header.b=gHZ4donL; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=krisman.be
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=krisman.be
+	s=arc-20240116; t=1729008336; c=relaxed/simple;
+	bh=YQ53XndspLGpbhTGCSSul0R4z2fIICDQYPz9a8rUG2s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IwO36chHhMbxjfelq9mKnbi8IocWBqSDcYdTuZSL6Inq7F0ZL4DVgXE5gEUpa1RP/Yo8izaIJZMqfDTDvMaSHyT62/mNaXHYUlStletDTFQdHF5N+tZPN9AniEp6YwN+ikFPcLrT9mM8gDXYwSd62JZqKtP1vJMvRqXQCwM0VYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=T7Ng6TJC; arc=none smtp.client-ip=95.215.58.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=krisman.be header.i=@krisman.be header.b="gHZ4donL"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1A7E3240003;
-	Tue, 15 Oct 2024 15:59:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=krisman.be; s=gm1;
-	t=1729007992;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="T7Ng6TJC"
+Date: Tue, 15 Oct 2024 09:05:18 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1729008327;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=muVbXj6XjdM0+48mRJ+sHlgnyRTe+ujByi/N8a3eBTU=;
-	b=gHZ4donLANwwj7WEZd0j8tA3ic8bZf2ia6q3HlhTGiET+Nvgh3TjDYlHXDistcF+lyHcx2
-	K0qrxStda8Eaw46w7rFD+mE5WWeXz86nJ/rdcqf4KW8x7aRh8RY0xKv0MhmQB/IYWJIOkH
-	vSYxKazzw+dMgcNmipFPOlMp0aeRSfpjfHdvgRLzAhiIdVV5VjEEIYgW2MaT91tyOhb9V7
-	0QwsOwXm0Y32jnBFs52zUfvQC8j8Lbx45RjU/hdZMntyh5dWa11406j3HEDbsTtdVoRNAU
-	bWTDsEOH8FtsM0mwmj7RBwRUOepKNZt8+Y0Glwd+RaU+SntsCTlxJ0ZXfT7Img==
-From: Gabriel Krisman Bertazi <gabriel@krisman.be>
-To: =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@igalia.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,  Christian Brauner
- <brauner@kernel.org>,  Jan Kara <jack@suse.cz>,  Theodore Ts'o
- <tytso@mit.edu>,  Andreas Dilger <adilger.kernel@dilger.ca>,  Hugh Dickins
- <hughd@google.com>,  Andrew Morton <akpm@linux-foundation.org>,  Jonathan
- Corbet <corbet@lwn.net>,  smcv@collabora.com,  kernel-dev@igalia.com,
-  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org,
-  linux-ext4@vger.kernel.org,  linux-mm@kvack.org,
-  linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 01/10] libfs: Create the helper function
- generic_ci_validate_strict_name()
-In-Reply-To: <20241010-tonyk-tmpfs-v6-1-79f0ae02e4c8@igalia.com>
- (=?utf-8?Q?=22Andr=C3=A9?=
-	Almeida"'s message of "Thu, 10 Oct 2024 16:39:36 -0300")
-References: <20241010-tonyk-tmpfs-v6-0-79f0ae02e4c8@igalia.com>
-	<20241010-tonyk-tmpfs-v6-1-79f0ae02e4c8@igalia.com>
-Date: Tue, 15 Oct 2024 11:59:48 -0400
-Message-ID: <87bjzls6ff.fsf@mailhost.krisman.be>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	bh=l6VKTTEot+K7niCJS6lBnaCocYaIc0vO9Sx2qrc2It0=;
+	b=T7Ng6TJCI19EPEOMr+JCbwLaGP6CGCut2IkXEyXDqtYZ0tGbxnoY7SetkIYlsQ7wEly95u
+	RO/WKJKryq5K1tEDqPmR6031gcDsDG5R8DbAXNQUCtI/JIcDqKxdfTBah9MtBhoYxyNFGy
+	2fOs8s6cC3zmRL0Vc8+HrHvHMGJGaR4=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Oliver Upton <oliver.upton@linux.dev>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+	Marc Zyngier <maz@kernel.org>, James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
+	Shuah Khan <shuah@kernel.org>, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-pm@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Francesco Lavra <francescolavra.fl@gmail.com>,
+	Miguel Luis <miguel.luis@oracle.com>
+Subject: Re: [PATCH v5 4/5] KVM: selftests: Add test for PSCI SYSTEM_OFF2
+Message-ID: <Zw6Svts5hqpIoKwN@linux.dev>
+References: <20240926184546.833516-1-dwmw2@infradead.org>
+ <20240926184546.833516-5-dwmw2@infradead.org>
+ <ZvwWM7rQd075o6nb@linux.dev>
+ <408b137dbf60ff4d189cbd98b7cf8cd833579f61.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: gabriel@krisman.be
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <408b137dbf60ff4d189cbd98b7cf8cd833579f61.camel@infradead.org>
+X-Migadu-Flow: FLOW_OUT
 
-Andr=C3=A9 Almeida <andrealmeid@igalia.com> writes:
+On Sat, Oct 12, 2024 at 10:28:10AM +0100, David Woodhouse wrote:
+> On Tue, 2024-10-01 at 08:33 -0700, Oliver Upton wrote:
+> > On Thu, Sep 26, 2024 at 07:37:59PM +0100, David Woodhouse wrote:
+> > > +       vm = setup_vm(guest_test_system_off2, &source, &target);
+> > > +       vcpu_get_reg(target, KVM_REG_ARM_PSCI_VERSION, &psci_version);
+> > > +       TEST_ASSERT(psci_version >= PSCI_VERSION(0, 2),
+> > > +                   "Unexpected PSCI version %lu.%lu",
+> > > +                   PSCI_VERSION_MAJOR(psci_version),
+> > > +                   PSCI_VERSION_MINOR(psci_version));
+> > > +
+> > > +       if (psci_version < PSCI_VERSION(1,3))
+> > > +               goto skip;
+> > 
+> > I'm not following this. Is there a particular reason why we'd want to
+> > skip for v1.2 and fail the test for anything less than that?
+> 
+> These tests unconditionally set KVM_ARM_VCPU_PSCI_0_2 in setup_vm().
+> Which is probably OK assuming support for that that predates
+> KVM_CAP_ARM_SYSTEM_SUSPEND (which is already a TEST_REQUIRE() right at
+> the start).
+> 
+> So the world is very broken if KVM actually starts a VM but the version
+> isn't at least 0.2, and it seemed like it warranted an actual failure.
 
-> +static inline bool generic_ci_validate_strict_name(struct inode *dir, st=
-ruct qstr *name)
-> +{
-> +	if (!IS_CASEFOLDED(dir) || !sb_has_strict_encoding(dir->i_sb))
-> +		return true;
-> +
-> +	/*
-> +	 * A casefold dir must have a encoding set, unless the filesystem
-> +	 * is corrupted
-> +	 */
-> +	if (WARN_ON_ONCE(!dir->i_sb->s_encoding))
-> +		return true;
-> +
-> +	return utf8_validate(dir->i_sb->s_encoding, name);
+If we're looking at this from a testing lens then KVM coming up with any
+PSCI version other than KVM_ARM_PSCI_LATEST (i.e. v1.3) is a bug. So
+maybe we can tighten that assertion because...
 
-There is something fishy here.  Concerningly, the fstests test doesn't
-catch it.
+> > Just do TEST_REQUIRE(psci_version >= PSCI_VERSION(1, 3)), it makes the
+> > requirements obvious in the case someone runs new selftests on an old
+> > kernel.
+> 
+> I don't think we want to put that in main() and skip the other checks
+> that would run on earlier kernels.
 
-utf8_validate is defined as:
+Running KVM selftests on older kernels in a meaningful way isn't
+something we support. At all. An example of this is commit
+8a53e1302133 ("KVM: selftests: Require KVM_CAP_USER_MEMORY2 for
+tests that create memslots"), which skips ~everything for kernels older
+than 6.8.
 
-  int utf8_validate(const struct unicode_map *um, const struct qstr *str)
+> (Even if we had easy access to
+> psci_version without actually running a test and starting a VM).
+> 
+> I could put it into host_test_system_off2() which runs last (and
+> comment the invocations in main() to say that they're in increasing
+> order of PSCI version) to accommodate such). But then it seems that I'd
+> be the target of this comment in ksft_exit_skip()...
+> 
+>         /*
+>          * FIXME: several tests misuse ksft_exit_skip so produce
+>          * something sensible if some tests have already been run
+>          * or a plan has been printed.  Those tests should use
+>          * ksft_test_result_skip or ksft_exit_fail_msg instead.
+>          */
+> 
+> I suspect the real answer here is that the individual tests here be
+> calling ksft_test_result_pass(), and the system_off2 one should call
+> ksft_test_result_skip() if it skips?
 
-Which returns 0 on success and !0 on error. Thus, when casting to bool,
-the return code should be negated.
+modulo a few one-offs, KVM selftests doesn't use the kselftest harness
+so it isn't subject to this comment. Since there's no test plan, we can
+skip at any time.
 
-But generic/556 doesn't fail. That's because we are over cautious, and
-also check the string at the end of generic_ci_d_hash.  So we never
-really reach utf8_validate in the tested case.
+> I'll add an explicit comment about the 0.2 check though, saying that it
+> should never happen so we might as well have the ASSERT for it.
 
-But if you comment the final if in generic_ci_d_hash, you'll see this
-patchset regresses the fstests case generic/556 over ext4.
+After looking at this again, I think we should do one of the following:
 
-We really need the check in both places, though.  We don't want to rely
-on the behavior of generic_ci_d_hash to block invalid filenames, as that
-might change.
+ - TEST_REQUIRE() that the PSCI version is at least v1.3, making the
+   dependency clear on older kernels.
 
---=20
-Gabriel Krisman Bertazi
+ - TEST_REQUIRE() for v1.3, which would provide better test coverage on
+   upstream.
+
+-- 
+Thanks,
+Oliver
