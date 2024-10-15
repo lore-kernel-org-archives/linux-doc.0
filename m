@@ -1,94 +1,108 @@
-Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9234C8C
-	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 03:29:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946C546B8;
+	Tue, 15 Oct 2024 03:46:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728962969; cv=none; b=se5tkN2sKe2xyftbed0sPiL3mHeVZnbrlKzbOvdycgOqsRgyd7JJTl/NmF5NYXZmwSwA3HYPOMqvOe1jBmMtqGev0lXrgvX8DxOymSXAYdsgCJTo+ue60WV62bGSdg37a6zxSjYQW+qC0LkRvw3EN+92HVa2AK/sVo2IqzLfRfE=
+	t=1728963998; cv=none; b=iWW/HIvdD5epifiTCMIwN6ZRgoESKUY7XC34pxWFmgYB9jmUffFxhgxC8wY9QN80I2TvLJ3qasNQu30aGGAlfj9x5PwbleUwitpL3xYHGGATyvGgVIyQGHmT7Q835VttEBuf1Cz5I8jHH1/vjE1/JGI1QSOuEGv/CPpfdJCee0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728962969; c=relaxed/simple;
-	bh=VJC4VzBx1aILUuz/lqnmlJkmGMl6HwJ2I5ieCb1Ii7c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RylcZxQAG+Xaf8I8HLZ8wlfy1vksJR7d8RxaNo227Ofn7+cHcCwl/C68ZbVh50mXztz8UCNlbK8UIQbjaL1qaTDYaaoDss37Rn80PiMJ2+hUkOFf6Prh/XGUi30ogio3bCMMoYSv9qZcp45CXz7RCz4VczZNTmSFwYO1Dliy5fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TE8e37kB; arc=none smtp.client-ip=91.218.175.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1728963998; c=relaxed/simple;
+	bh=VhP4ufTp43pJg/B1YzAD8L/O5ZhgPE90KANbJg7mQno=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QVmBBOqjoWrCLEsINyPAniBcLZXfAS8EXPcArVLM6HJzQRMurUto8yjxp3ZHecgOkBNW2NPl1AgDTS1x3OfUHK6SmS6/lrEtvuVIQg4cg5NCubPVIXK3QT8/KdAcxfangze7eAhgftVRZhg1gQC0uMX7VHmDPuOu2yKHZXXNn+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lj6S8VVR; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TE8e37kB"
-Message-ID: <22fde7ff-457b-4b69-b548-69cff915569d@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1728962964;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nxbHd8WjPhjH1XD16k4hT12HJ0eL0UwvEDh9WdChaEg=;
-	b=TE8e37kBjTdN0tNaBOSXvGqs1qP82Vt3586AfdNr2xECshRxDVWWMMww5coxhDcVWe+Pnu
-	6tud6WhxVZV/whxypBakVPekvVlXY1D+v73lihgufQqrNCRGwGJSWAL86DP+yDhCWbcr0j
-	I5GsnYjSWbD+/f97zNty54fT7pShvB0=
-Date: Tue, 15 Oct 2024 11:29:13 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lj6S8VVR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728963997; x=1760499997;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VhP4ufTp43pJg/B1YzAD8L/O5ZhgPE90KANbJg7mQno=;
+  b=lj6S8VVRdFFlUF7DscBtUFidf+3J41dgXnmXrGdNT7S2LFC/Yq4nvuOY
+   1EbqYBpXzomDa/KWYuNPugK6Zhr3hr5kJ6liSiO3EJ0LqU49kRU9qhMQN
+   n9Lbx+4iRLsTVUSYQDDtuqkTYGCPO0t5O1pHtiw+ZKzv2qfvTbG5rc8uS
+   qUnjipaEms/oc+2CL9fdAFfUeqA1card6bAhOhC98BTO0veJtmCqgOicB
+   8B7kYEuGe5/7tTIaiCvQbjRe/qEt95T8iGDoIONjZzrKZ2gxGMD8+JmDb
+   l3I0cttwJe8WE6fbVfG9XL5JmpiaVSReZNeOrTurK4JZvRZUdJ11eAvTb
+   Q==;
+X-CSE-ConnectionGUID: zz9aVldMS7W5QtnNsSM5hQ==
+X-CSE-MsgGUID: ezzSmEbtSCiPO7RRgiFp6A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="32030702"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="32030702"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 20:46:36 -0700
+X-CSE-ConnectionGUID: bwm9j0/VTpKek/bv8SBTww==
+X-CSE-MsgGUID: xHSe1yZgSUWFVMsljU7kNg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
+   d="scan'208";a="82789775"
+Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 20:46:36 -0700
+Date: Mon, 14 Oct 2024 20:52:33 -0700
+From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Borislav Petkov <bp@alien8.de>, Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	x86@kernel.org, "Gautham R . Shenoy" <gautham.shenoy@amd.com>,
+	Perry Yuan <perry.yuan@amd.com>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+Subject: Re: [PATCH v2 05/13] platform/x86: hfi: Introduce AMD Hardware
+ Feedback Interface Driver
+Message-ID: <20241015035233.GA28522@ranerica-svr.sc.intel.com>
+References: <20241010193705.10362-1-mario.limonciello@amd.com>
+ <20241010193705.10362-6-mario.limonciello@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v5] Docs/zh_CN: Translate physical_memory.rst to
- Simplified Chinese
-To: Jonathan Corbet <corbet@lwn.net>, Alex Shi <seakeel@gmail.com>,
- jiang.kun2@zte.com.cn, alexs@kernel.org, siyanteng@loongson.cn,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- mudongliangabcd@gmail.com
-Cc: wang.yaxin@zte.com.cn, fan.yu9@zte.com.cn, xu.xin16@zte.com.cn,
- he.peilin@zte.com.cn, tu.qiang35@zte.com.cn, qiu.yutan@zte.com.cn,
- zhang.yunkai@zte.com.cn
-References: <20241012171357153parWX6Has5WheQyGlP0kP@zte.com.cn>
- <ecdc7672-965a-4bc5-8e0a-a407de82407f@gmail.com>
- <87ed4isd7b.fsf@trenco.lwn.net>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <87ed4isd7b.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241010193705.10362-6-mario.limonciello@amd.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 
+On Thu, Oct 10, 2024 at 02:36:57PM -0500, Mario Limonciello wrote:
+> From: Perry Yuan <Perry.Yuan@amd.com>
+> 
+> The AMD Heterogeneous core design and Hardware Feedback Interface (HFI)
+> provide behavioral classification and a dynamically updated ranking table
+> for the scheduler to use when choosing cores for tasks.
+> 
+> There are two CPU core types defined: `Classic Core` and `Dense Core`.
+> "Classic" cores are the standard performance cores, while "Dense" cores
+> are optimized for area and efficiency.
+> 
+> Heterogeneous compute refers to CPU implementations that are comprised
+> of more than one architectural class, each with two capabilities. This
+> means each CPU reports two separate capabilities: "perf" and "eff".
+> 
+> Each capability lists all core ranking numbers between 0 and 255, where
+> a higher number represents a higher capability.
+> 
+> Heterogeneous systems can also extend to more than two architectural
+> classes.
+> 
+> The purpose of the scheduling feedback mechanism is to provide information
+> to the operating system scheduler in real time, allowing the scheduler to
+> direct threads to the optimal core during task scheduling.
+> 
+> All core ranking data are provided by the BIOS via a shared memory ranking
+> table, which the driver reads and uses to update core capabilities to the
+> scheduler. When the hardware updates the table, it generates a platform
+> interrupt to notify the OS to read the new ranking table.
+> 
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
 
+I tried to find the HFI details on the documents in this "bug" but I could
+not find them. What document in specific could I look at?
 
-
-在 2024/10/15 03:21, Jonathan Corbet 写道:
-> Alex Shi <seakeel@gmail.com> writes:
->
->> Hi Jiang,
->>
->> Your patch format is still odd in 'Subject':
->> Subject: =?UTF-8?B?wqBbUEFUQ0ggdjVdIERvY3MvemhfQ046IFRyYW5zbGF0ZSBwaHlzaWNhbF9tZW1vcnkucnN0IHRvIFNpbXBsaWZpZWTCoENoaW5lc2U=?=
->> Content-Type: text/plain;
->>          charset="UTF-8"
->> X-MAIL:mse-fl2.zte.com.cn 49C9DsLB077233
->> X-Fangmail-Anti-Spam-Filtered: true
->> X-Fangmail-MID-QID: 670A3DD9.001/4XQd8n4BCPz5B1DK
->>
->> It should a English word.
->> You need to send patch to yourself and apply it to check if
->> everything all right.
-> I think the formatting is OK - the patch applies fine here.  I would
-> appreciate a review of the actual content, though...:)
-<https://lore.kernel.org/linux-doc/1add7be9-0da0-4463-a3ea-80e2fd99bd19@gmail.com/>
- From the very beginning, we have reviewed the content. Moving forward,
-we will continue with the review process, but we would really appreciate
-receiving feedback from the translator, even if it's just a simple "OK".
-
-Alex, I believe we need to draft a Chinese translation guide, in order to
-minimize the review work that is unrelated to the content itself.
-
-Thanks,
-Yanteng
-
->
-> Thanks,
->
-> jon
->
-
+Thanks and BR,
+Ricardo
