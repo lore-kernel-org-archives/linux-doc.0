@@ -1,143 +1,128 @@
-Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5945A1E282B
-	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 16:05:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFB9B1F4FCA
+	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 16:26:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729008336; cv=none; b=PlZCk7nLORUKnNVYLaEg9IjZHYQoRsP7683fTNVi6iH1hW3mmxHY5TC27+2ZCripMbbqD7D6oqnX67jMMgz8nzJj+3oSExi37F7CTjF3YAgT2w+fmfxrU7RQW0SZZEQbIJbRgo6AtH69DMA7zy/AEWTBzJ+q+8y9t4xdG4lUfOo=
+	t=1729009598; cv=none; b=tFlEtNt+I+vjAMFCCrVz+5L50MIpVEg5RStflpzIoodR1FEmA9O+MqJUff3HcpUJB+Uipa7RUAcuxOweIhNpoqA//h6FNr7DnrUyiBjUz8p9XtBuZ9g6OPzAuAIDVcDzr3dmfZlpEjLv3VVvGIwmzzrGy0pYzGJmpFRXN7WNsY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729008336; c=relaxed/simple;
-	bh=YQ53XndspLGpbhTGCSSul0R4z2fIICDQYPz9a8rUG2s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IwO36chHhMbxjfelq9mKnbi8IocWBqSDcYdTuZSL6Inq7F0ZL4DVgXE5gEUpa1RP/Yo8izaIJZMqfDTDvMaSHyT62/mNaXHYUlStletDTFQdHF5N+tZPN9AniEp6YwN+ikFPcLrT9mM8gDXYwSd62JZqKtP1vJMvRqXQCwM0VYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=T7Ng6TJC; arc=none smtp.client-ip=95.215.58.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1729009598; c=relaxed/simple;
+	bh=r/LUYHfo0b2oPsQBnswC2i/HWfTInJ4Wj1YFss1OM0A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eQLi137xoNts0Gam8n+HF4IjQzUkxgUgWYU8zedoXKVqOvar6t9savSBwHQom/Xaal3mFxjGNODxrDDvrgpPkHypvw8eeal03sbJfzU5gNcSNOyEBhlj/LJyPrwvNzlB5oTiXBb4EGcoNn/deHqpAfQwwdYIkHIEutxK2sHcKDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dceeE9jM; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="T7Ng6TJC"
-Date: Tue, 15 Oct 2024 09:05:18 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1729008327;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l6VKTTEot+K7niCJS6lBnaCocYaIc0vO9Sx2qrc2It0=;
-	b=T7Ng6TJCI19EPEOMr+JCbwLaGP6CGCut2IkXEyXDqtYZ0tGbxnoY7SetkIYlsQ7wEly95u
-	RO/WKJKryq5K1tEDqPmR6031gcDsDG5R8DbAXNQUCtI/JIcDqKxdfTBah9MtBhoYxyNFGy
-	2fOs8s6cC3zmRL0Vc8+HrHvHMGJGaR4=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Oliver Upton <oliver.upton@linux.dev>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-	Marc Zyngier <maz@kernel.org>, James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
-	Shuah Khan <shuah@kernel.org>, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-pm@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Francesco Lavra <francescolavra.fl@gmail.com>,
-	Miguel Luis <miguel.luis@oracle.com>
-Subject: Re: [PATCH v5 4/5] KVM: selftests: Add test for PSCI SYSTEM_OFF2
-Message-ID: <Zw6Svts5hqpIoKwN@linux.dev>
-References: <20240926184546.833516-1-dwmw2@infradead.org>
- <20240926184546.833516-5-dwmw2@infradead.org>
- <ZvwWM7rQd075o6nb@linux.dev>
- <408b137dbf60ff4d189cbd98b7cf8cd833579f61.camel@infradead.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dceeE9jM"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-45fb0ebb1d0so735461cf.1
+        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 09:26:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1729009596; x=1729614396; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ByNOtnqk52ePIj5atFjVP7CCcQ9LOwoYrSe4G9dfPzk=;
+        b=dceeE9jMcx5ICYSFz8cO505jHTInVLzivWeO58vZkYzaQTAqGPDgZt2Wa+/bvDFSdD
+         U7KHzgB5Zofr6CT/qM+np5ihKnQc0/YvpyjG9UA4dCyddatP5GO+q1yJsaK/8yXAX4Tp
+         gShJUkXlW9RhPfywCLTsPKFSOuE2RTIEsc3HORYutBCvh1bfralHG/bTNd9+omHqUoRy
+         SvkdV1Fx6J0TCGhIf/N61l23yvuYwpRP/1iAGZIFX2La/k0cFVx2wxtji+BJkrlxuAaH
+         mtwh5c2Pxoa1RZR+gmz18/5yqh5Rvk1ETPlftuVvVxuti6To/lCKR4kmVjOAWezSfRp/
+         1Ozw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729009596; x=1729614396;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ByNOtnqk52ePIj5atFjVP7CCcQ9LOwoYrSe4G9dfPzk=;
+        b=D8qJv89nT7dG/V/pfruOaUQ5mNIMGURPQ8jYaVDblF0svM8vS7MLqAFSp/35LzAdlU
+         FN2vAFYwxopEzCwBDQd4yLucQirqavte2BG8g7N3mw2Jvzr3f+68SpFcL7xy0O1gUr4P
+         wubZXC6kdYk+VZF8vU7yTV600DQMVocU4jlGzbpX5l5U22gsZOmJKWJpqwnHpbr5IbX7
+         h+2IYCuojLh2akIlyaTPDJBCImC86tHr+8ZbhPDdczVpP25lwReotOYB1Q66xRvraNrb
+         WA8ssqUeRG2OFDuXd3uhG8ugfgurwSvyldIW+0Um6+x5q9NPbLWAG0Y5m9kvly6xJfO7
+         TA7A==
+X-Forwarded-Encrypted: i=1; AJvYcCUhZVZpTy8FlsJiswS3n6Z1hCHdN5u90ljpRspWqzJ9irtnyWEPmig0MKy29bGYvTbUqM3RFWiiqbk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKFKV7vJiEnDwe4ugTbSNWC/QK1SXGApbsZbflrAm3o5N1oAGg
+	Ylzto5NWoacDDBK+RLN8Mt5GH4rtPOvMvSG9215Rigo1B0y1A42PCmu4e/UnEpDHvZ19Od4NrCa
+	cYeZFD19rV0IX64enEnQAQmdYzDys3fM+mDU8
+X-Google-Smtp-Source: AGHT+IEJf/zEbvfRLlUBkavHUP4hlRMi5TuBiNYWQTdXNa6kRDfahgq4f8DAV0x/WUWXlEXeRgomzUcU5kxGSCng7Vk=
+X-Received: by 2002:a05:622a:848e:b0:458:17ac:2913 with SMTP id
+ d75a77b69052e-46059c43d71mr9480531cf.11.1729009595317; Tue, 15 Oct 2024
+ 09:26:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <408b137dbf60ff4d189cbd98b7cf8cd833579f61.camel@infradead.org>
-X-Migadu-Flow: FLOW_OUT
+References: <20241014203646.1952505-1-surenb@google.com> <20241014163231.9ef058c82de8a6073b3edfdc@linux-foundation.org>
+ <CAJuCfpHo=gu-JJ-N_nU_3hX4HEsfsQ6=ff19vU=NCrp1y3abiw@mail.gmail.com>
+In-Reply-To: <CAJuCfpHo=gu-JJ-N_nU_3hX4HEsfsQ6=ff19vU=NCrp1y3abiw@mail.gmail.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Tue, 15 Oct 2024 09:26:24 -0700
+Message-ID: <CAJuCfpHMRM1GyzCA_=v5V2kUZbprvNJD1aFmpF58vm0w4eWBHw@mail.gmail.com>
+Subject: Re: [PATCH v3 0/5] page allocation tag compression
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: kent.overstreet@linux.dev, corbet@lwn.net, arnd@arndb.de, 
+	mcgrof@kernel.org, rppt@kernel.org, paulmck@kernel.org, thuth@redhat.com, 
+	tglx@linutronix.de, bp@alien8.de, xiongwei.song@windriver.com, 
+	ardb@kernel.org, david@redhat.com, vbabka@suse.cz, mhocko@suse.com, 
+	hannes@cmpxchg.org, roman.gushchin@linux.dev, dave@stgolabs.net, 
+	willy@infradead.org, liam.howlett@oracle.com, pasha.tatashin@soleen.com, 
+	souravpanda@google.com, keescook@chromium.org, dennis@kernel.org, 
+	jhubbard@nvidia.com, yuzhao@google.com, vvvvvv@google.com, 
+	rostedt@goodmis.org, iamjoonsoo.kim@lge.com, rientjes@google.com, 
+	minchan@google.com, kaleshsingh@google.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Oct 12, 2024 at 10:28:10AM +0100, David Woodhouse wrote:
-> On Tue, 2024-10-01 at 08:33 -0700, Oliver Upton wrote:
-> > On Thu, Sep 26, 2024 at 07:37:59PM +0100, David Woodhouse wrote:
-> > > +       vm = setup_vm(guest_test_system_off2, &source, &target);
-> > > +       vcpu_get_reg(target, KVM_REG_ARM_PSCI_VERSION, &psci_version);
-> > > +       TEST_ASSERT(psci_version >= PSCI_VERSION(0, 2),
-> > > +                   "Unexpected PSCI version %lu.%lu",
-> > > +                   PSCI_VERSION_MAJOR(psci_version),
-> > > +                   PSCI_VERSION_MINOR(psci_version));
-> > > +
-> > > +       if (psci_version < PSCI_VERSION(1,3))
-> > > +               goto skip;
-> > 
-> > I'm not following this. Is there a particular reason why we'd want to
-> > skip for v1.2 and fail the test for anything less than that?
-> 
-> These tests unconditionally set KVM_ARM_VCPU_PSCI_0_2 in setup_vm().
-> Which is probably OK assuming support for that that predates
-> KVM_CAP_ARM_SYSTEM_SUSPEND (which is already a TEST_REQUIRE() right at
-> the start).
-> 
-> So the world is very broken if KVM actually starts a VM but the version
-> isn't at least 0.2, and it seemed like it warranted an actual failure.
+On Mon, Oct 14, 2024 at 6:48=E2=80=AFPM Suren Baghdasaryan <surenb@google.c=
+om> wrote:
+>
+> On Mon, Oct 14, 2024 at 4:32=E2=80=AFPM Andrew Morton <akpm@linux-foundat=
+ion.org> wrote:
+> >
+> > On Mon, 14 Oct 2024 13:36:41 -0700 Suren Baghdasaryan <surenb@google.co=
+m> wrote:
+> >
+> > > Patch #2 copies module tags into virtually contiguous memory which
+> > > serves two purposes:
+> > > - Lets us deal with the situation when module is unloaded while there
+> > > are still live allocations from that module. Since we are using a cop=
+y
+> > > version of the tags we can safely unload the module. Space and gaps i=
+n
+> > > this contiguous memory are managed using a maple tree.
+> >
+> > Does this make "lib: alloc_tag_module_unload must wait for pending
+> > kfree_rcu calls" unneeded?
+>
+> With this change we can unload a module even when tags from that
+> module are still in use. However "lib: alloc_tag_module_unload must
+> wait for pending kfree_rcu calls" would still be useful because it
+> will allow us to release the memory occupied by module's tags and let
+> other modules use that memory.
+>
+> >  If so, that patch was cc:stable (justifyably), so what to do about tha=
+t?
+>
+> Now that I posted this patchset I'll work on backporting "lib:
+> alloc_tag_module_unload must wait for pending kfree_rcu calls" and its
+> prerequisites to 6.10 and 6.11. I'll try to get backports out
+> tomorrow.
 
-If we're looking at this from a testing lens then KVM coming up with any
-PSCI version other than KVM_ARM_PSCI_LATEST (i.e. v1.3) is a bug. So
-maybe we can tighten that assertion because...
-
-> > Just do TEST_REQUIRE(psci_version >= PSCI_VERSION(1, 3)), it makes the
-> > requirements obvious in the case someone runs new selftests on an old
-> > kernel.
-> 
-> I don't think we want to put that in main() and skip the other checks
-> that would run on earlier kernels.
-
-Running KVM selftests on older kernels in a meaningful way isn't
-something we support. At all. An example of this is commit
-8a53e1302133 ("KVM: selftests: Require KVM_CAP_USER_MEMORY2 for
-tests that create memslots"), which skips ~everything for kernels older
-than 6.8.
-
-> (Even if we had easy access to
-> psci_version without actually running a test and starting a VM).
-> 
-> I could put it into host_test_system_off2() which runs last (and
-> comment the invocations in main() to say that they're in increasing
-> order of PSCI version) to accommodate such). But then it seems that I'd
-> be the target of this comment in ksft_exit_skip()...
-> 
->         /*
->          * FIXME: several tests misuse ksft_exit_skip so produce
->          * something sensible if some tests have already been run
->          * or a plan has been printed.  Those tests should use
->          * ksft_test_result_skip or ksft_exit_fail_msg instead.
->          */
-> 
-> I suspect the real answer here is that the individual tests here be
-> calling ksft_test_result_pass(), and the system_off2 one should call
-> ksft_test_result_skip() if it skips?
-
-modulo a few one-offs, KVM selftests doesn't use the kselftest harness
-so it isn't subject to this comment. Since there's no test plan, we can
-skip at any time.
-
-> I'll add an explicit comment about the 0.2 check though, saying that it
-> should never happen so we might as well have the ASSERT for it.
-
-After looking at this again, I think we should do one of the following:
-
- - TEST_REQUIRE() that the PSCI version is at least v1.3, making the
-   dependency clear on older kernels.
-
- - TEST_REQUIRE() for v1.3, which would provide better test coverage on
-   upstream.
-
--- 
+I prepared 6.10 and 6.11 backports for
+https://lore.kernel.org/all/20241007205236.11847-1-fw@strlen.de but
+will wait for it to get merged into Linus' tree before posting them to
+stable.
 Thanks,
-Oliver
+Suren.
+
+> I don't think we need to backport this patchset to pre-6.12 kernels
+> since this is an improvement and not a bug fix. But if it's needed I
+> can backport it as well.
+> Thanks,
+> Suren.
