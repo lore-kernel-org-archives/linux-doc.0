@@ -1,129 +1,98 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77AD613D638
-	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 01:10:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2891A184F;
+	Tue, 15 Oct 2024 01:18:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728954661; cv=none; b=Jb3ROX431CpXnx5anwqfYTdVQKbRAFqXzOBIgzt0ZbSKHrGSr9tAHOZWTFCweMf+PnDKKj/lJY/9vK9o7crxihTd+qoXeqD7ReVWRsp8OA1ZZnOhT0wI3LqJJIjv7jHN6ZvmT2hSx+2FxJIWfafp6cXGyTwD7lQ/d5mPU1uw6yE=
+	t=1728955120; cv=none; b=psmOU6mTRKvbNbaUjiV5E29Sxo28Cxwz/IcAgWZwep624unWo2umdYaPVLrJiiZN1pCQstgTJqUaqgY2eU+3auchdwKqThxFHiXvgqryzqeNsd1WfsgVgTREWMU+gSN2As9hVI3+8s8c2He/T2jftxtO/ILEJzwhb5rsUoNJ0zM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728954661; c=relaxed/simple;
-	bh=G3p3v2IVPnYwW6geyKRP6ZLFOQMbvfxwqtiPANE8Q+w=;
+	s=arc-20240116; t=1728955120; c=relaxed/simple;
+	bh=5/bXP3m0Q4mEvUmx0OmjCLIQItF8jOXbfM/6ldYROco=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kNFOI0cCZFd76gYUMDZt9i3LWphVQzMpMq8HbdJdCiQ8rMiYOdmgndzc+Z4EIHQ3p/wWCwMFYru609DGlbX/Mad2rII3/br3+HQJE0X0Kf2lYE7PdDzWTEl8de8+G7CDtwG91e+Ezz0LRovAwbtqq+bXMQOau0W0gc/rnOhwHqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=x69y2woX; arc=none smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=AC6VuvhmLuEXkCGXab+aREjTRs6/Mlk56U3Oox6/h0G7vKjI471Ei+udb57WCkvAi73oR9jaGXQ080bc6MouTuPh4xZhD9ozIi4G6idJBUnaCY4Wrch5NQ8SD+qlpIhD2MmZHnYajujghcWZwNs92Yd/wLZLxXUI2In10It2HXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LS2E9u4n; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="x69y2woX"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-45fb0ebb1d0so525481cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 14 Oct 2024 18:10:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LS2E9u4n"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-37d473c4bb6so3753043f8f.3;
+        Mon, 14 Oct 2024 18:18:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1728954658; x=1729559458; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1728955117; x=1729559917; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=G3p3v2IVPnYwW6geyKRP6ZLFOQMbvfxwqtiPANE8Q+w=;
-        b=x69y2woXq7U6PGnkmZ1Y7S+TQO+pb3oOGmArAC1ZzKOcTYvjHUvpeTM7+2JJf+v72T
-         fuRJDLTFypIE1caGBToh45eWHgjE81lCiJReKj9OorTT0k54IDEfnCCqAWHZBKJtMsdV
-         nrVRMI1Lgg+P4VC6JM5YdGHOESyACxGTdU2XHJQ2SZ4NLW5z1QPuIykGmJNTHsXTkhuY
-         xiYnBgMX3U2UrVOvP6chiIkTWvE+SWU/b15FFn0As9hxYf7qBpQIErfyx2/gSJygYdl8
-         wAPMQlcLIys5Y5/hdNC4SlC5eEsyOAHQ5igC7f/BywPc0XjqpWFPy08txReVXNfTZ8ub
-         mGPw==
+        bh=5/bXP3m0Q4mEvUmx0OmjCLIQItF8jOXbfM/6ldYROco=;
+        b=LS2E9u4nx/UxpAfn6tJXxep7QVKrqmT5cJ8+UzlNhFRo/XIaDnP+79014a5p1bvovd
+         ZpiftTK7G18FPMhPbA2gOUxdtC07FjrCdTeMzkq5qihwQnB1NB/cWomxIz3q1UcOuWTb
+         Xp2WCwOVBC6riWmawZK/JEDhvUTh9/dX1XKDUASRnBOspAxfwUiDcMVyle/q0Y9rR513
+         4RAk4suu1aCtIToJ4g9o6IHRvDNYsKEw73Q4Fus5CkMkRMB6aW0YbUq1WxIYhgckmJ/P
+         qA13wEvJ6yO/QQzKmKBVhA/M7tZ4n+7Gw3CPI92ra3gIOh9kqsvJefXoFdYMpmaOZrTF
+         xZtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728954658; x=1729559458;
+        d=1e100.net; s=20230601; t=1728955117; x=1729559917;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=G3p3v2IVPnYwW6geyKRP6ZLFOQMbvfxwqtiPANE8Q+w=;
-        b=g2EvHUqaC1z0/vn/EeHjOknOyAn2JoX1mQSqkPAOLnRAKFgIWiSMLvv7qMPXsYFzL9
-         tDlnwCX5DXVFLzFH5KJF6n0a9IkB4ObrLOa47L868IfO/ZvSEbasHcxrclBvltr8SHQa
-         NzdnnGrOEY8G9UrT/oiDpOkGMOiDC/9LfxlhWa/1WelpsDSCj4oavvBb6xHv+spqBEh+
-         1G/lDWMOXeqnb8+GbuzAEIiQR2ULjLJsETWyyABc22xA6oO37cIu0aX0ZvVmy7vbXqoN
-         Hs7Fc9j9wVoHCcX4nZicSpGQzHg/d3bQS1CmUJGplmf+82mv8hYn6p+hkgKb2DJx3X6A
-         ewnQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWhPb6RzifWNCDOOuHbscxZ8sg5zwt1kIWlExJBE0mXr2wJJgs95DCcsE1rc3F7AP/fzFKXtq+oM4Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzvECjs/YIX7cm8zQjz295BzPApiWMMO/SAGyonL44zkwksuRMN
-	GJsqDYlSUnftQ8YWk2byeD+VzVlzHM2ZFNm9rmIeuXN/8CsCBnJvy8/zA2VreS8X3vSwD69dhjl
-	0bVQeBigRcbbiRJrzMwTiqtM71Iw/9weoxRv9
-X-Google-Smtp-Source: AGHT+IFuh8W7Uf7fvfrbQy6mJO5wY7T86T49mlOONosOyBbStmXP/uck1Oy8jFpfIjUbdjW4D0wseFu0I1+Pe49OvO0=
-X-Received: by 2002:a05:622a:7392:b0:460:49d1:7872 with SMTP id
- d75a77b69052e-46058f5ed56mr6725041cf.28.1728954658009; Mon, 14 Oct 2024
- 18:10:58 -0700 (PDT)
+        bh=5/bXP3m0Q4mEvUmx0OmjCLIQItF8jOXbfM/6ldYROco=;
+        b=cfpJyjuZTJwLBPWdM60VGkjC2Rdysy2cUI70jDoSbyLl+V5hqxzVqXrC8HSrvps7sz
+         1CJEN/YbvgRpIRRAF23qoed1X4bw47F+s3cfnqIOhX3sIh97TcePUPRvEIYQsOxxliJL
+         EBFeWpEmHQ3gUsfew1Dv8vc7HN9YJQ9dcUkz7gUs1plSkzGRSH09Ff3sWtUZHtIqtXJg
+         kytUAwVqDsM4Hozh5+Iu6746m78E4zj28MQI9qV/hUtwFpATnRIEScMFJyuyVuVhprLO
+         Wat3f2taTYBRGaySVCDZi/6merDcIILfMwvdZCRo67aQQcA4GnksQ+AGO90Jgo/7umL3
+         FaRw==
+X-Forwarded-Encrypted: i=1; AJvYcCVRdhWmuE6Jop+6yU+dUxsl+pp9eboRJ46kWjgN++HFTSIQpnQejdTP8GpqXnF9MSPsM7RcTtP946k=@vger.kernel.org, AJvYcCXBPqBBxIOXPgvTZSucnSwddCWhyHzfGX0zaGA7rm6gUoZ3Ebes7SFv3mdPdG93W0WFUbDT/+qclNrH@vger.kernel.org, AJvYcCXVl4+wE2z2Lzzj9nkH3Gig5mrUkmOPYV1R8YUZpgdKEdqr7KiDiBxQEddp4evyLrCoKEQ4U18U+ZEsjpyX@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+V3dteyANDtso1uK6VfxE5ne9RBlqjoHug52xboUiB9MX5aFs
+	m8f9EZgqmwgjRZGS74M4Do3xnqD9shK9Nin/Z31XexM5Z2GiNbQYnovTrIyDwcCo93GbnmHkhZ6
+	cFHSgFpkN4KCVL6UmIXMJypKIylk=
+X-Google-Smtp-Source: AGHT+IFtf+x855A/MZb6mMCgpyufRS4x7cJapnTn+jP4Vzfg2f1CrWh7r7FOxPwBA+jr7T5wHmBHsDAzKLxh7gY5SMA=
+X-Received: by 2002:a05:6000:459f:b0:37d:4eeb:7366 with SMTP id
+ ffacd0b85a97d-37d5ff27c30mr7704415f8f.4.1728955117170; Mon, 14 Oct 2024
+ 18:18:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241003160620.1521626-1-ap420073@gmail.com> <20241003160620.1521626-8-ap420073@gmail.com>
- <CAHS8izO-7pPk7xyY4JdyaY4hZpd7zerbjhGanRvaTk+OOsvY0A@mail.gmail.com>
- <CAMArcTU61G=fexf-RJDSW_sGp9dZCkJsJKC=yjg79RS9Ugjuxw@mail.gmail.com>
- <20241008125023.7fbc1f64@kernel.org> <CAMArcTWVrQ7KWPt+c0u7X=jvBd2VZGVLwjWYCjMYhWZTymMRTg@mail.gmail.com>
- <20241009170102.1980ed1d@kernel.org> <CAHS8izMwd__+RkW-Nj3r3uG4gmocJa6QEqeHChzNXux1cbSS=w@mail.gmail.com>
- <20241010183440.29751370@kernel.org> <CAHS8izPuWkSmp4VCTYm93JB9fEJyUTztcT5u3UMX4b8ADWZGrA@mail.gmail.com>
- <20241011234227.GB1825128@ziepe.ca> <CAHS8izNzK4=6AMdACfn9LWqH9GifCL1vVxH1y2DmF9mFZbB72g@mail.gmail.com>
- <20241014171636.3b5b7383@kernel.org>
-In-Reply-To: <20241014171636.3b5b7383@kernel.org>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 15 Oct 2024 04:10:44 +0300
-Message-ID: <CAHS8izOVzOetQH5Dr6sJzRpO6Bihv=66Z2OttGS7vU7xjC=POw@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 7/7] bnxt_en: add support for device memory tcp
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leonro@nvidia.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Samiullah Khawaja <skhawaja@google.com>, Taehee Yoo <ap420073@gmail.com>, davem@davemloft.net, 
-	pabeni@redhat.com, edumazet@google.com, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, donald.hunter@gmail.com, corbet@lwn.net, 
-	michael.chan@broadcom.com, kory.maincent@bootlin.com, andrew@lunn.ch, 
-	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
-	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
-	ahmed.zaki@intel.com, paul.greenwalt@intel.com, rrameshbabu@nvidia.com, 
-	idosch@nvidia.com, asml.silence@gmail.com, kaiyuanz@google.com, 
-	willemb@google.com, aleksander.lobakin@intel.com, dw@davidwei.uk, 
-	sridhar.samudrala@intel.com, bcreeley@amd.com
+References: <CA+fCnZcyrGf5TBdkaG4M+r9ViKDwdCHZg12HUeeoTV3UNZnwBg@mail.gmail.com>
+ <20241014025701.3096253-1-snovitoll@gmail.com> <20241014025701.3096253-3-snovitoll@gmail.com>
+ <20241014161042.885cf17fca7850b5bbf2f8e5@linux-foundation.org>
+In-Reply-To: <20241014161042.885cf17fca7850b5bbf2f8e5@linux-foundation.org>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Tue, 15 Oct 2024 03:18:26 +0200
+Message-ID: <CA+fCnZcwoL3qWhKsmgCCPDeAW0zpKGn=H7F8w8Fmsg+7-Y8p3g@mail.gmail.com>
+Subject: Re: [PATCH RESEND v3 2/3] kasan: migrate copy_user_test to kunit
+To: Andrew Morton <akpm@linux-foundation.org>, Sabyrzhan Tasbolatov <snovitoll@gmail.com>
+Cc: 2023002089@link.tyut.edu.cn, alexs@kernel.org, corbet@lwn.net, 
+	dvyukov@google.com, elver@google.com, glider@google.com, 
+	kasan-dev@googlegroups.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, ryabinin.a.a@gmail.com, 
+	siyanteng@loongson.cn, vincenzo.frascino@arm.com, workflows@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 15, 2024 at 3:16=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
+On Tue, Oct 15, 2024 at 1:10=E2=80=AFAM Andrew Morton <akpm@linux-foundatio=
+n.org> wrote:
 >
-> On Tue, 15 Oct 2024 01:38:20 +0300 Mina Almasry wrote:
-> > Thanks Jason. In that case I agree with Jakub we should take in his cha=
-nge here:
-> >
-> > https://lore.kernel.org/netdev/20241009170102.1980ed1d@kernel.org/
-> >
-> > With this change the driver would delegate dma_sync_for_device to the
-> > page_pool, and the page_pool will skip it altogether for the dma-buf
-> > memory provider.
+> On Mon, 14 Oct 2024 07:57:00 +0500 Sabyrzhan Tasbolatov <snovitoll@gmail.=
+com> wrote:
 >
-> And we need a wrapper for a sync for CPU which will skip if the page
-> comes from an unreadable pool?
+> > Migrate the copy_user_test to the KUnit framework to verify out-of-boun=
+d
+> > detection via KASAN reports in copy_from_user(), copy_to_user() and
+> > their static functions.
+> >
+> > This is the last migrated test in kasan_test_module.c, therefore delete
+> > the file.
+> >
+>
+> x86_64 allmodconfig produces:
+>
+> vmlinux.o: warning: objtool: strncpy_from_user+0x8a: call to __check_obje=
+ct_size() with UACCESS enabled
 
-This is where it gets a bit tricky, no?
-
-Our production code does a dma_sync_for_cpu but no
-dma_sync_for_device. That has been working reliably for us with GPU
-dmabufs and udmabuf, but we haven't of course tested every dma-buf.
-I'm comfortable enforcing the 'no dma_sync_for_device' now since it
-brings upstream in line with our well tested setup. I'm not sure I'm
-100% comfortable enforcing the 'no dma_sync_for_cpu' now since it's a
-deviation. The dma_sync_for_cpu is very very likely a no-op since we
-don't really access the data from cpu ever with devmem TCP, but who
-knows.
-
-Is it possible to give me a couple of weeks to make this change
-locally and run it through some testing to see if it breaks anything?
-
-But if you or Jason think that enforcing the 'no dma_buf_sync_for_cpu'
-now is critical, no problem. We can also provide this patch, and seek
-to revert it or fix it up properly later in the event it turns out it
-causes issues.
-
-Note that io_uring provider, or other non-dmabuf providers may need to
-do a dma-sync, but that bridge can be crossed in David's patchset.
-
---=20
-Thanks,
-Mina
+Too bad. I guess we have to duplicate both kasan_check_write and
+check_object_size before both do_strncpy_from_user calls in
+strncpy_from_user.
