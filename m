@@ -1,100 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38073BBF6;
-	Tue, 15 Oct 2024 01:10:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77AD613D638
+	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 01:10:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728954632; cv=none; b=Tc08MVL4PYvWVkcEZCvzDxcF3CzqBBfcKCRk0cJzCYuOWfxDJUvv9bNVLM6D7NpsMHD17MpGdJ7gUCVGZb4xStoLSauGlYdXDhcGnEgfETM3wNygaK07ElOCqyT8482GzxaU3dTaeoNbQfVkfah1pvhsn0WPxx+hd1enRJ4E6M4=
+	t=1728954661; cv=none; b=Jb3ROX431CpXnx5anwqfYTdVQKbRAFqXzOBIgzt0ZbSKHrGSr9tAHOZWTFCweMf+PnDKKj/lJY/9vK9o7crxihTd+qoXeqD7ReVWRsp8OA1ZZnOhT0wI3LqJJIjv7jHN6ZvmT2hSx+2FxJIWfafp6cXGyTwD7lQ/d5mPU1uw6yE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728954632; c=relaxed/simple;
-	bh=rVAgkhvYvFX2PSpXyOhsMPNCZ0R/2JRF6RV4qQPo9lw=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=D83PhVx0x2gnmJyWjB5E0mtc6G8w/UL2XLZtbr4dP2Plt+DnsUB4QfC3D5nCOXylgM/BBUc0sAu5Ty7qXXrCSr81MbHMzSwm3R4BN1yhA3D/C2eeRc9MYiuA7QQZnSUbp7VrAOy0yra9UEWjV6fwguObnl+shTz3KxhQBzkNUZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TQcyO9tx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728954661; c=relaxed/simple;
+	bh=G3p3v2IVPnYwW6geyKRP6ZLFOQMbvfxwqtiPANE8Q+w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kNFOI0cCZFd76gYUMDZt9i3LWphVQzMpMq8HbdJdCiQ8rMiYOdmgndzc+Z4EIHQ3p/wWCwMFYru609DGlbX/Mad2rII3/br3+HQJE0X0Kf2lYE7PdDzWTEl8de8+G7CDtwG91e+Ezz0LRovAwbtqq+bXMQOau0W0gc/rnOhwHqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=x69y2woX; arc=none smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TQcyO9tx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63710C4CEC3;
-	Tue, 15 Oct 2024 01:10:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728954631;
-	bh=rVAgkhvYvFX2PSpXyOhsMPNCZ0R/2JRF6RV4qQPo9lw=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=TQcyO9tx7sGkph8gD0p2y1qkrVqIIl8T6mDtLXWikymynriRzqHdQ9pWvlrVTrZ31
-	 ewDVc8rXNJbEUomVxFSqQ2maMjmsRc1BFljrLaUsYr7L7or8JZ8B/iNrwg9dGkPte0
-	 ajU4Sqbe+GWQrlYJCM4sYJO/h1ksHVaa4FY4xSd646gVUinpoWTbwo0QJJT5n6nQNE
-	 2u2h4qnrTTroW4Q14iij3m52GmTVrNepA5VicXIqKHDgWOnFuPnpTYTIr3sxrg8++X
-	 Q2RwH3QH9miTeHUiRRb4uESBR6iOhxP03uuTWdjRGoJMc719DZeytIb3KwR420mIW8
-	 Z4Aeb0tG9luyQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE12C3822E4C;
-	Tue, 15 Oct 2024 01:10:37 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="x69y2woX"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-45fb0ebb1d0so525481cf.1
+        for <linux-doc@vger.kernel.org>; Mon, 14 Oct 2024 18:10:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1728954658; x=1729559458; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G3p3v2IVPnYwW6geyKRP6ZLFOQMbvfxwqtiPANE8Q+w=;
+        b=x69y2woXq7U6PGnkmZ1Y7S+TQO+pb3oOGmArAC1ZzKOcTYvjHUvpeTM7+2JJf+v72T
+         fuRJDLTFypIE1caGBToh45eWHgjE81lCiJReKj9OorTT0k54IDEfnCCqAWHZBKJtMsdV
+         nrVRMI1Lgg+P4VC6JM5YdGHOESyACxGTdU2XHJQ2SZ4NLW5z1QPuIykGmJNTHsXTkhuY
+         xiYnBgMX3U2UrVOvP6chiIkTWvE+SWU/b15FFn0As9hxYf7qBpQIErfyx2/gSJygYdl8
+         wAPMQlcLIys5Y5/hdNC4SlC5eEsyOAHQ5igC7f/BywPc0XjqpWFPy08txReVXNfTZ8ub
+         mGPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728954658; x=1729559458;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=G3p3v2IVPnYwW6geyKRP6ZLFOQMbvfxwqtiPANE8Q+w=;
+        b=g2EvHUqaC1z0/vn/EeHjOknOyAn2JoX1mQSqkPAOLnRAKFgIWiSMLvv7qMPXsYFzL9
+         tDlnwCX5DXVFLzFH5KJF6n0a9IkB4ObrLOa47L868IfO/ZvSEbasHcxrclBvltr8SHQa
+         NzdnnGrOEY8G9UrT/oiDpOkGMOiDC/9LfxlhWa/1WelpsDSCj4oavvBb6xHv+spqBEh+
+         1G/lDWMOXeqnb8+GbuzAEIiQR2ULjLJsETWyyABc22xA6oO37cIu0aX0ZvVmy7vbXqoN
+         Hs7Fc9j9wVoHCcX4nZicSpGQzHg/d3bQS1CmUJGplmf+82mv8hYn6p+hkgKb2DJx3X6A
+         ewnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWhPb6RzifWNCDOOuHbscxZ8sg5zwt1kIWlExJBE0mXr2wJJgs95DCcsE1rc3F7AP/fzFKXtq+oM4Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvECjs/YIX7cm8zQjz295BzPApiWMMO/SAGyonL44zkwksuRMN
+	GJsqDYlSUnftQ8YWk2byeD+VzVlzHM2ZFNm9rmIeuXN/8CsCBnJvy8/zA2VreS8X3vSwD69dhjl
+	0bVQeBigRcbbiRJrzMwTiqtM71Iw/9weoxRv9
+X-Google-Smtp-Source: AGHT+IFuh8W7Uf7fvfrbQy6mJO5wY7T86T49mlOONosOyBbStmXP/uck1Oy8jFpfIjUbdjW4D0wseFu0I1+Pe49OvO0=
+X-Received: by 2002:a05:622a:7392:b0:460:49d1:7872 with SMTP id
+ d75a77b69052e-46058f5ed56mr6725041cf.28.1728954658009; Mon, 14 Oct 2024
+ 18:10:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [net-next v6 0/9] Add support for per-NAPI config via netlink
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <172895463623.686374.12703675923446130811.git-patchwork-notify@kernel.org>
-Date: Tue, 15 Oct 2024 01:10:36 +0000
-References: <20241011184527.16393-1-jdamato@fastly.com>
-In-Reply-To: <20241011184527.16393-1-jdamato@fastly.com>
-To: Joe Damato <jdamato@fastly.com>
-Cc: netdev@vger.kernel.org, mkarsten@uwaterloo.ca, skhawaja@google.com,
- sdf@fomichev.me, bjorn@rivosinc.com, amritha.nambiar@intel.com,
- sridhar.samudrala@intel.com, willemdebruijn.kernel@gmail.com,
- edumazet@google.com, aleksander.lobakin@intel.com, leitao@debian.org,
- danielj@nvidia.com, dsahern@kernel.org, davem@davemloft.net,
- donald.hunter@gmail.com, kuba@kernel.org, hawk@kernel.org, jiri@resnulli.us,
- johannes.berg@intel.com, corbet@lwn.net, leon@kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rdma@vger.kernel.org, lorenzo@kernel.org, michael.chan@broadcom.com,
- almasrymina@google.com, pabeni@redhat.com, saeedm@nvidia.com,
- bigeasy@linutronix.de, tariqt@nvidia.com, xuanzhuo@linux.alibaba.com
+References: <20241003160620.1521626-1-ap420073@gmail.com> <20241003160620.1521626-8-ap420073@gmail.com>
+ <CAHS8izO-7pPk7xyY4JdyaY4hZpd7zerbjhGanRvaTk+OOsvY0A@mail.gmail.com>
+ <CAMArcTU61G=fexf-RJDSW_sGp9dZCkJsJKC=yjg79RS9Ugjuxw@mail.gmail.com>
+ <20241008125023.7fbc1f64@kernel.org> <CAMArcTWVrQ7KWPt+c0u7X=jvBd2VZGVLwjWYCjMYhWZTymMRTg@mail.gmail.com>
+ <20241009170102.1980ed1d@kernel.org> <CAHS8izMwd__+RkW-Nj3r3uG4gmocJa6QEqeHChzNXux1cbSS=w@mail.gmail.com>
+ <20241010183440.29751370@kernel.org> <CAHS8izPuWkSmp4VCTYm93JB9fEJyUTztcT5u3UMX4b8ADWZGrA@mail.gmail.com>
+ <20241011234227.GB1825128@ziepe.ca> <CAHS8izNzK4=6AMdACfn9LWqH9GifCL1vVxH1y2DmF9mFZbB72g@mail.gmail.com>
+ <20241014171636.3b5b7383@kernel.org>
+In-Reply-To: <20241014171636.3b5b7383@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Tue, 15 Oct 2024 04:10:44 +0300
+Message-ID: <CAHS8izOVzOetQH5Dr6sJzRpO6Bihv=66Z2OttGS7vU7xjC=POw@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 7/7] bnxt_en: add support for device memory tcp
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leonro@nvidia.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Samiullah Khawaja <skhawaja@google.com>, Taehee Yoo <ap420073@gmail.com>, davem@davemloft.net, 
+	pabeni@redhat.com, edumazet@google.com, netdev@vger.kernel.org, 
+	linux-doc@vger.kernel.org, donald.hunter@gmail.com, corbet@lwn.net, 
+	michael.chan@broadcom.com, kory.maincent@bootlin.com, andrew@lunn.ch, 
+	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
+	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
+	ahmed.zaki@intel.com, paul.greenwalt@intel.com, rrameshbabu@nvidia.com, 
+	idosch@nvidia.com, asml.silence@gmail.com, kaiyuanz@google.com, 
+	willemb@google.com, aleksander.lobakin@intel.com, dw@davidwei.uk, 
+	sridhar.samudrala@intel.com, bcreeley@amd.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello:
+On Tue, Oct 15, 2024 at 3:16=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> wr=
+ote:
+>
+> On Tue, 15 Oct 2024 01:38:20 +0300 Mina Almasry wrote:
+> > Thanks Jason. In that case I agree with Jakub we should take in his cha=
+nge here:
+> >
+> > https://lore.kernel.org/netdev/20241009170102.1980ed1d@kernel.org/
+> >
+> > With this change the driver would delegate dma_sync_for_device to the
+> > page_pool, and the page_pool will skip it altogether for the dma-buf
+> > memory provider.
+>
+> And we need a wrapper for a sync for CPU which will skip if the page
+> comes from an unreadable pool?
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+This is where it gets a bit tricky, no?
 
-On Fri, 11 Oct 2024 18:44:55 +0000 you wrote:
-> Greetings:
-> 
-> Welcome to v6. Minor changes from v5 [1], please see changelog below.
-> 
-> There were no explicit comments from reviewers on the call outs in my
-> v5, so I'm retaining them from my previous cover letter just in case :)
-> 
-> [...]
+Our production code does a dma_sync_for_cpu but no
+dma_sync_for_device. That has been working reliably for us with GPU
+dmabufs and udmabuf, but we haven't of course tested every dma-buf.
+I'm comfortable enforcing the 'no dma_sync_for_device' now since it
+brings upstream in line with our well tested setup. I'm not sure I'm
+100% comfortable enforcing the 'no dma_sync_for_cpu' now since it's a
+deviation. The dma_sync_for_cpu is very very likely a no-op since we
+don't really access the data from cpu ever with devmem TCP, but who
+knows.
 
-Here is the summary with links:
-  - [net-next,v6,1/9] net: napi: Make napi_defer_hard_irqs per-NAPI
-    https://git.kernel.org/netdev/net-next/c/f15e3b3ddb9f
-  - [net-next,v6,2/9] netdev-genl: Dump napi_defer_hard_irqs
-    https://git.kernel.org/netdev/net-next/c/516010460011
-  - [net-next,v6,3/9] net: napi: Make gro_flush_timeout per-NAPI
-    https://git.kernel.org/netdev/net-next/c/acb8d4ed5661
-  - [net-next,v6,4/9] netdev-genl: Dump gro_flush_timeout
-    https://git.kernel.org/netdev/net-next/c/0137891e7457
-  - [net-next,v6,5/9] net: napi: Add napi_config
-    https://git.kernel.org/netdev/net-next/c/86e25f40aa1e
-  - [net-next,v6,6/9] netdev-genl: Support setting per-NAPI config values
-    https://git.kernel.org/netdev/net-next/c/1287c1ae0fc2
-  - [net-next,v6,7/9] bnxt: Add support for persistent NAPI config
-    https://git.kernel.org/netdev/net-next/c/419365227496
-  - [net-next,v6,8/9] mlx5: Add support for persistent NAPI config
-    https://git.kernel.org/netdev/net-next/c/2a3372cafe02
-  - [net-next,v6,9/9] mlx4: Add support for persistent NAPI config to RX CQs
-    https://git.kernel.org/netdev/net-next/c/c9191eaa7285
+Is it possible to give me a couple of weeks to make this change
+locally and run it through some testing to see if it breaks anything?
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+But if you or Jason think that enforcing the 'no dma_buf_sync_for_cpu'
+now is critical, no problem. We can also provide this patch, and seek
+to revert it or fix it up properly later in the event it turns out it
+causes issues.
 
+Note that io_uring provider, or other non-dmabuf providers may need to
+do a dma-sync, but that bridge can be crossed in David's patchset.
 
+--=20
+Thanks,
+Mina
