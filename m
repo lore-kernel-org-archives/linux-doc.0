@@ -1,175 +1,280 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06492036E0;
-	Tue, 15 Oct 2024 18:35:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA68203700
+	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 18:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729017325; cv=none; b=HFU7HENySsU23COb2OOOx7/KAARYRg2c9CDaST66xzC6bklwVyfSZQkcTwgYU/VMHdjYbjHUxovgQKabB0sMLD3C5nTrAnXn49WIO+pzUS/ECGaGd5+ZIcyMXythM4nFdnnwQWLlh2kLHPm090h6dT9/ujclen3oHRmcanPYLWw=
+	t=1729017528; cv=none; b=tkrhNLWGa6NUUT7gd93sK94xVHEI07RG2sCvpQEXtdDqyIBC3QemYYbTN/M2Jk4X4VsvLEkN1HyiXWkXuSIfe5akZ/PXewuRk4LITKKwbjxyW73rkXbT0WQHZykcNmqAERTxUYICCkVcBkvDJJ228zavlj8s2+aAAnHOBMCb1ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729017325; c=relaxed/simple;
-	bh=sXBjcMEip2iMYc6Cb9tM3ec1NMU3XjJtMG0zksq4F8E=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=UPvT5jfIUITtoRiqYAMlRiN/egn/vlVHrtzCckUxqctTHYbnrCoSAy+LO2kQpgP4vV9miu1T3nnYEqXhrAHe6I/YsZV0hy/D5DI6rGTRuTn0elEl/pdb+1EUmeLGgETQb2MS5ePcvWoesRtGnXL4Hs+k0REWd3BL4YJD0Zy0vxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OYks4C3z; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=d2oXo14o; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OYks4C3z; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=d2oXo14o; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1729017528; c=relaxed/simple;
+	bh=GNXj3nUhSvxJmdbJQREeSXSa7GaHWSES3dEtYsyt5IM=;
+	h=Date:Message-Id:Mime-Version:Subject:From:To:Cc:Content-Type; b=eWeGTCSNdRvXYP7TFfCmvqplpBX2OCjGzfQX1FXn3pGiAl0AbVwIHbIziJOoXR1mnkRUYgvu3GjGF++OW8DIznyc8v3YFev5P6d++WH2ehfVqCeIq0pDqsuPHUjYIsGhQwhttvMsz2WkYgAH30LoqJw7ynsWsiDbhCsmZ2RkAAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hZhUkLyh; arc=none smtp.client-ip=209.85.219.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OYks4C3z";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="d2oXo14o";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OYks4C3z";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="d2oXo14o"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1CC5721B9B;
-	Tue, 15 Oct 2024 18:35:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729017322; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1ZstxhVk9QOrcNizGJVVQwN2mCzQEZY3vaa7cVcnk/k=;
-	b=OYks4C3zNQfaTB0uJRa597TOaL1xPd5XsUl+zquiDOI2keIPIA9VPl6RcMRUE5tqXmdLD8
-	hKx+QhgkSbGqJoce02xRLEUwICxqRlq7xUN7uHRPrvCKgbE0u1gKCCOcqe+WWu9HRyaxVr
-	yxat4EWnlUyYQBgKmc2ik2G8QsDcADI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729017322;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1ZstxhVk9QOrcNizGJVVQwN2mCzQEZY3vaa7cVcnk/k=;
-	b=d2oXo14ovteimlXL6Ac5e5DJ+Di4YEbS/EkR5bQgMaxxV7+/gVFD4ffVwwISEs26y+Qz/b
-	ryOd5Kyr966hXdDA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729017322; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1ZstxhVk9QOrcNizGJVVQwN2mCzQEZY3vaa7cVcnk/k=;
-	b=OYks4C3zNQfaTB0uJRa597TOaL1xPd5XsUl+zquiDOI2keIPIA9VPl6RcMRUE5tqXmdLD8
-	hKx+QhgkSbGqJoce02xRLEUwICxqRlq7xUN7uHRPrvCKgbE0u1gKCCOcqe+WWu9HRyaxVr
-	yxat4EWnlUyYQBgKmc2ik2G8QsDcADI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729017322;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1ZstxhVk9QOrcNizGJVVQwN2mCzQEZY3vaa7cVcnk/k=;
-	b=d2oXo14ovteimlXL6Ac5e5DJ+Di4YEbS/EkR5bQgMaxxV7+/gVFD4ffVwwISEs26y+Qz/b
-	ryOd5Kyr966hXdDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BFF8D13A53;
-	Tue, 15 Oct 2024 18:35:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id T6M/J+m1DmeoTQAAD6G6ig
-	(envelope-from <krisman@suse.de>); Tue, 15 Oct 2024 18:35:21 +0000
-From: Gabriel Krisman Bertazi <krisman@suse.de>
-To: =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@igalia.com>
-Cc: Gabriel Krisman Bertazi <krisman@kernel.org>,  Alexander Viro
- <viro@zeniv.linux.org.uk>,  Christian Brauner <brauner@kernel.org>,  Jan
- Kara <jack@suse.cz>,  Theodore Ts'o <tytso@mit.edu>,  Andreas Dilger
- <adilger.kernel@dilger.ca>,  Hugh Dickins <hughd@google.com>,  Andrew
- Morton <akpm@linux-foundation.org>,  Jonathan Corbet <corbet@lwn.net>,
-  smcv@collabora.com,  kernel-dev@igalia.com,
-  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org,
-  linux-ext4@vger.kernel.org,  linux-mm@kvack.org,
-  linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 07/10] tmpfs: Add casefold lookup support
-In-Reply-To: <20241010-tonyk-tmpfs-v6-7-79f0ae02e4c8@igalia.com>
- (=?utf-8?Q?=22Andr=C3=A9?=
-	Almeida"'s message of "Thu, 10 Oct 2024 16:39:42 -0300")
-References: <20241010-tonyk-tmpfs-v6-0-79f0ae02e4c8@igalia.com>
-	<20241010-tonyk-tmpfs-v6-7-79f0ae02e4c8@igalia.com>
-Date: Tue, 15 Oct 2024 14:35:20 -0400
-Message-ID: <87wmi9qknr.fsf@mailhost.krisman.be>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hZhUkLyh"
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-e24a31ad88aso7018555276.1
+        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 11:38:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1729017525; x=1729622325; darn=vger.kernel.org;
+        h=cc:to:from:subject:mime-version:message-id:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=elVcyqBRot1hWy/7wsiTZrHkBjkpf9b46nIr70Zlz4E=;
+        b=hZhUkLyh2BGc4EW69zU5tdUAkPbN9ptgOymoIciW6nfEYv35WmmBwDmoBPUwAYuKS+
+         h+1+6TBit5SuszabeKCrQ4A41934DR3hX5Ab1o70vuHc4SXZrZg22HK8RrVrazsny08n
+         lWvHVmgHrYl1ruL4FwiR1RLmm4i5JZ95L+5MMF5LCWNDawAljYmYnnbFMSRxH6uwyguQ
+         JaK9d/7t3Kb+yW2Qy28WzjRVdGzZ5qV18XsvAL9Rz+O0gXt4/E4mhOA98Qhz0d8VURFV
+         zsviVUpxbi+zjHGLmoAW0xpyAS0/dUw6jELTqKVFxJTb/sZMuiYmQPXvOfOUoDnKb62g
+         6o/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729017525; x=1729622325;
+        h=cc:to:from:subject:mime-version:message-id:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=elVcyqBRot1hWy/7wsiTZrHkBjkpf9b46nIr70Zlz4E=;
+        b=dI7l9nt45QheprrvekskO/7MC9kIIt0prCfZca4rOhg4gZ9VXeCNjaw31Cl1WB44h1
+         mNztmZDBXhuLsUhnffyTzoBF79I2/cpKDZmKFH8y3+XB106tFD8yvpv+E3DVHpN/EbP3
+         /NrPQvIZ0hTq5IlHaXr/aC443/7W427BoVoa9MiBZ74qg+3AVvZ3bmrmRkmyf6tJEfh6
+         OnM6SCCdenqLTXNfIIHoFA3H6kUU7R9+He6qU8gO/bKKiWKCIoVGTT3Xwsc4AIXaSRoT
+         2FyN10X/Zrk6/sGVBroGauhNwIoQ3svGJOkdTsjT7DuWfrg7IS1IQ0scQSc5D2NT1hdn
+         G3SA==
+X-Forwarded-Encrypted: i=1; AJvYcCU5Y8zux3ZQIziaAWF2amgw7JUSl6t9Z5gZp5zYf7o7xFxgCXP2jDV+HzGLWjuKOMhUxoan8eZN0Tw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzh2X4x348pXdQ6ryGVe/qvszFdjIo/lMP0+nSwn7zqhXABV5iL
+	sIJO73HUeI/iHAVa4r1svlHhrZ7Y7i/bkyHqh/phnlCOOHERM8tCRu/cwzc+lHNXg88DyxKEb2p
+	ZFEARSw==
+X-Google-Smtp-Source: AGHT+IEyK7rc0w1b7082t7PmrW0ZPtserOhvsOb+4IAJFUB6ZgGx9hjsurpK767oQk9+ppFpQnIWnoXlh8wl
+X-Received: from irogers.svl.corp.google.com ([2620:15c:2c5:11:61a1:4d9d:aca1:ada])
+ (user=irogers job=sendgmr) by 2002:a25:9702:0:b0:e28:e510:6ab1 with SMTP id
+ 3f1490d57ef6-e297857f673mr582276.8.1729017524932; Tue, 15 Oct 2024 11:38:44
+ -0700 (PDT)
+Date: Tue, 15 Oct 2024 11:38:22 -0700
+Message-Id: <20241015183824.1014964-1-irogers@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_DN_SOME(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Level: 
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.0.rc1.288.g06298d1525-goog
+Subject: [PATCH v1 1/3] proc_pid_fdinfo.5: Reduce indent for most of the page
+From: Ian Rogers <irogers@google.com>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-man@vger.kernel.org, Ian Rogers <irogers@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Andr=C3=A9 Almeida <andrealmeid@igalia.com> writes:
+When /proc/pid/fdinfo was part of proc.5 man page the indentation made
+sense. As a standalone man page the indentation doesn't need to be so
+far over to the right.
 
+Signed-off-by: Ian Rogers <irogers@google.com>
+---
+ man/man5/proc_pid_fdinfo.5 | 50 +++++++++++++++++++-------------------
+ 1 file changed, 25 insertions(+), 25 deletions(-)
 
-> @@ -4663,10 +4756,24 @@ static int shmem_fill_super(struct super_block *s=
-b, struct fs_context *fc)
->  	sb->s_export_op =3D &shmem_export_ops;
->  	sb->s_flags |=3D SB_NOSEC | SB_I_VERSION;
->=20=20
-> -	sb->s_d_op =3D &simple_dentry_operations;
-> +	if (!ctx->encoding && ctx->strict_encoding) {
-> +		pr_err("tmpfs: strict_encoding option without encoding is forbidden\n"=
-);
-> +		error =3D -EINVAL;
-> +		goto failed;
-> +	}
-> +
-> +#if IS_ENABLED(CONFIG_UNICODE)
-> +	if (ctx->encoding) {
-> +		sb->s_encoding =3D ctx->encoding;
-> +		sb->s_d_op =3D &shmem_ci_dentry_ops;
-> +		if (ctx->strict_encoding)
-> +			sb->s_encoding_flags =3D SB_ENC_STRICT_MODE_FL;
-> +	}
-> +#endif
+diff --git a/man/man5/proc_pid_fdinfo.5 b/man/man5/proc_pid_fdinfo.5
+index 1e23bbe02..0c4950d5d 100644
+--- a/man/man5/proc_pid_fdinfo.5
++++ b/man/man5/proc_pid_fdinfo.5
+@@ -8,8 +8,9 @@
+ .SH NAME
+ /proc/pid/fdinfo/ \- information about file descriptors
+ .SH DESCRIPTION
+-.TP
++.TP 0
+ .IR /proc/ pid /fdinfo/ " (since Linux 2.6.22)"
++.P
+ This is a subdirectory containing one entry for each file which the
+ process has open, named by its file descriptor.
+ The files in this directory are readable only by the owner of the process.
+@@ -17,9 +18,9 @@ The contents of each file can be read to obtain information
+ about the corresponding file descriptor.
+ The content depends on the type of file referred to by the
+ corresponding file descriptor.
+-.IP
++.P
+ For regular files and directories, we see something like:
+-.IP
++.P
+ .in +4n
+ .EX
+ .RB "$" " cat /proc/12015/fdinfo/4"
+@@ -28,7 +29,7 @@ flags:  01002002
+ mnt_id: 21
+ .EE
+ .in
+-.IP
++.P
+ The fields are as follows:
+ .RS
+ .TP
+@@ -51,7 +52,6 @@ this field incorrectly displayed the setting of
+ at the time the file was opened,
+ rather than the current setting of the close-on-exec flag.
+ .TP
+-.I
+ .I mnt_id
+ This field, present since Linux 3.15,
+ .\" commit 49d063cb353265c3af701bab215ac438ca7df36d
+@@ -59,13 +59,13 @@ is the ID of the mount containing this file.
+ See the description of
+ .IR /proc/ pid /mountinfo .
+ .RE
+-.IP
++.P
+ For eventfd file descriptors (see
+ .BR eventfd (2)),
+ we see (since Linux 3.8)
+ .\" commit cbac5542d48127b546a23d816380a7926eee1c25
+ the following fields:
+-.IP
++.P
+ .in +4n
+ .EX
+ pos:	0
+@@ -74,16 +74,16 @@ mnt_id:	10
+ eventfd\-count:               40
+ .EE
+ .in
+-.IP
++.P
+ .I eventfd\-count
+ is the current value of the eventfd counter, in hexadecimal.
+-.IP
++.P
+ For epoll file descriptors (see
+ .BR epoll (7)),
+ we see (since Linux 3.8)
+ .\" commit 138d22b58696c506799f8de759804083ff9effae
+ the following fields:
+-.IP
++.P
+ .in +4n
+ .EX
+ pos:	0
+@@ -93,7 +93,7 @@ tfd:        9 events:       19 data: 74253d2500000009
+ tfd:        7 events:       19 data: 74253d2500000007
+ .EE
+ .in
+-.IP
++.P
+ Each of the lines beginning
+ .I tfd
+ describes one of the file descriptors being monitored via
+@@ -110,13 +110,13 @@ descriptor.
+ The
+ .I data
+ field is the data value associated with this file descriptor.
+-.IP
++.P
+ For signalfd file descriptors (see
+ .BR signalfd (2)),
+ we see (since Linux 3.8)
+ .\" commit 138d22b58696c506799f8de759804083ff9effae
+ the following fields:
+-.IP
++.P
+ .in +4n
+ .EX
+ pos:	0
+@@ -125,7 +125,7 @@ mnt_id:	10
+ sigmask:	0000000000000006
+ .EE
+ .in
+-.IP
++.P
+ .I sigmask
+ is the hexadecimal mask of signals that are accepted via this
+ signalfd file descriptor.
+@@ -135,12 +135,12 @@ and
+ .BR SIGQUIT ;
+ see
+ .BR signal (7).)
+-.IP
++.P
+ For inotify file descriptors (see
+ .BR inotify (7)),
+ we see (since Linux 3.8)
+ the following fields:
+-.IP
++.P
+ .in +4n
+ .EX
+ pos:	0
+@@ -150,7 +150,7 @@ inotify wd:2 ino:7ef82a sdev:800001 mask:800afff ignored_mask:0 fhandle\-bytes:8
+ inotify wd:1 ino:192627 sdev:800001 mask:800afff ignored_mask:0 fhandle\-bytes:8 fhandle\-type:1 f_handle:27261900802dfd73
+ .EE
+ .in
+-.IP
++.P
+ Each of the lines beginning with "inotify" displays information about
+ one file or directory that is being monitored.
+ The fields in this line are as follows:
+@@ -168,19 +168,19 @@ The ID of the device where the target file resides (in hexadecimal).
+ .I mask
+ The mask of events being monitored for the target file (in hexadecimal).
+ .RE
+-.IP
++.P
+ If the kernel was built with exportfs support, the path to the target
+ file is exposed as a file handle, via three hexadecimal fields:
+ .IR fhandle\-bytes ,
+ .IR fhandle\-type ,
+ and
+ .IR f_handle .
+-.IP
++.P
+ For fanotify file descriptors (see
+ .BR fanotify (7)),
+ we see (since Linux 3.8)
+ the following fields:
+-.IP
++.P
+ .in +4n
+ .EX
+ pos:	0
+@@ -190,7 +190,7 @@ fanotify flags:0 event\-flags:88002
+ fanotify ino:19264f sdev:800001 mflags:0 mask:1 ignored_mask:0 fhandle\-bytes:8 fhandle\-type:1 f_handle:4f261900a82dfd73
+ .EE
+ .in
+-.IP
++.P
+ The fourth line displays information defined when the fanotify group
+ was created via
+ .BR fanotify_init (2):
+@@ -210,7 +210,7 @@ argument given to
+ .BR fanotify_init (2)
+ (expressed in hexadecimal).
+ .RE
+-.IP
++.P
+ Each additional line shown in the file contains information
+ about one of the marks in the fanotify group.
+ Most of these fields are as for inotify, except:
+@@ -228,16 +228,16 @@ The events mask for this mark
+ The mask of events that are ignored for this mark
+ (expressed in hexadecimal).
+ .RE
+-.IP
++.P
+ For details on these fields, see
+ .BR fanotify_mark (2).
+-.IP
++.P
+ For timerfd file descriptors (see
+ .BR timerfd (2)),
+ we see (since Linux 3.17)
+ .\" commit af9c4957cf212ad9cf0bee34c95cb11de5426e85
+ the following fields:
+-.IP
++.P
+ .in +4n
+ .EX
+ pos:    0
+-- 
+2.47.0.rc1.288.g06298d1525-goog
 
-Actually...
-
-The previous patch moved the dentry ops configuration for the !casefolded c=
-ase to this
-place, only for thsi patch to remove it.  Drop patch 6, instead?
-
-> +
->  #else
->  	sb->s_flags |=3D SB_NOUSER;
-> -#endif
-> +#endif /* CONFIG_TMPFS */
->  	sbinfo->max_blocks =3D ctx->blocks;
->  	sbinfo->max_inodes =3D ctx->inodes;
->  	sbinfo->free_ispace =3D sbinfo->max_inodes * BOGO_INODE_SIZE;
-> @@ -4940,6 +5047,8 @@ int shmem_init_fs_context(struct fs_context *fc)
->  	ctx->uid =3D current_fsuid();
->  	ctx->gid =3D current_fsgid();
->=20=20
-> +	ctx->encoding =3D NULL;
-> +
->  	fc->fs_private =3D ctx;
->  	fc->ops =3D &shmem_fs_context_ops;
->  	return 0;
-
---=20
-Gabriel Krisman Bertazi
