@@ -1,172 +1,133 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDBF01CB9FA
-	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 15:06:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6DBA1CB9FE;
+	Tue, 15 Oct 2024 15:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729004810; cv=none; b=qPC6JErrRNqHe9zRIuvangSA7mpPLB93eQc8ZTfy42anrohbjUlGbApDBLTGf9kDVdhsCobFX1M0W2NkCkcYJly0kPYCaRleMPl074FnOSv8wY4XC1Z6xrl63nIrKMcppR3HhgIcHo/nEGNpS/Fd2HmisL7DipsaNDVtP8+/aZw=
+	t=1729005625; cv=none; b=Q1cprr0AMJv98VOgwzgRcSj5Cul5XqISgC2EvR3+0+EaTCO33ikGOc0fxLYllq+u1yIyAf8max0q9Io5jn0O9M+VFQ1Vi18jsIiiFjl9ss/RmI/XARru0MLCQ/JextviBLcegIaFcayX3M3hKK8a7ND3X3glDkiz/DvlY/Px3Y8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729004810; c=relaxed/simple;
-	bh=ZQl9UHMbS2zpthn3YlCftCta2N9I8PKzHq+fgsLN3WU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rT3pS0DI+9Hql57iGc/WP4lRCwN9/Y1LP0JOz+2OwksqKXdWTxn/NReZ7zwOh7+meEym72qgj2EDSEH0ZghTxbd+d0RRZlDDGQYBEhjjwEWoKnMjNLlUC2ggZYJ2uTbGhgzDyR8yaC7icJQq4pKV4AK/cfe8Q/54qw8txeSoxGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rFrdZQBU; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1729005625; c=relaxed/simple;
+	bh=lVkV1vFjNJEMDvdyimYUH+siM7VBxYLLrgPg2wIHi2w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=IQgD4wYbTVn50HTqWxwWhxF+ak7OqGEIM1R06df/PquIlWME75WdJ6r4lg9VL0vBkas2x8NeNKdL/GXBqepzKX2uk5DsKh2uI8mbdTUSVWVC3eu0YibpL4sCwN18oOueyLMZrffizfrUbUW7eAeHm3D1vwa/oPzXjM11yYw+DKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=TpHTiMsV; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rFrdZQBU"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-460395fb1acso761731cf.0
-        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 08:06:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729004808; x=1729609608; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZQl9UHMbS2zpthn3YlCftCta2N9I8PKzHq+fgsLN3WU=;
-        b=rFrdZQBUwK7/8NHpvnye4lKlnZjtShFi8/CGdGyDUgsw9iBJbNYqowB2MYXZMyuYNs
-         DXeayvOWXYxm1UK1zGyecFMNZXpowo4dQstkyZboIiMzvB6BGTLuNAPnVEAJzNn1kdRz
-         aV0ERoMyWi71ULYetk8d62Tg0R4QlrgaPk4iZ1TDdon5dxzoxlrjk03aSESlIDti5RSP
-         OJjQolWHPY+QIqDm+4Msr4Ve+Upcr4Yf43JqYR7o9uiK0nxZXTNOIUEhVRC5Eeu+1VUs
-         gzH52tuJU6ZR8qoDb/R8Zmj16ORnbMA/bsLyDkjtIpKG4HXkaDNRGExOhdWBh77AtbFa
-         I01w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729004808; x=1729609608;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZQl9UHMbS2zpthn3YlCftCta2N9I8PKzHq+fgsLN3WU=;
-        b=dHXvMSbME+yv9erNLdw8pSZ0qC4Fs7L666S1/qlzvuyc2jBjODUvvPfj9/9R2mULYx
-         5XeY32md/UqSlTJkOmfZ5Nm3PjTmThWt4wg48n5GqRV7NZRsWxJQcqKRCzKG0ZTvGLwa
-         JWCL2ekMlg67nQtUkJQlpGuKUWr3xsnGSEVua+A0jMe2T1zoardtt+p0O++ahfojMYwA
-         rOQMe2Wz55RAHhlCLOlzolOAWw9LUrL+qghbNfadk+oUf09F1tue/rHkxqSHzb4PdgrP
-         ET2OyRwzS25QlHBXXbnKaqEwr8wWTAaydNL7KHra/6kn4k9zeZSrbMUnBzja3/ooKg0J
-         BsiA==
-X-Forwarded-Encrypted: i=1; AJvYcCW53IJJKy+Nk5WsenZuyVLg8EeSNt3yqrxy6MRYb/rnSDKkNOzTnzL5raZbkSOJyjQzyEtNCV7J07M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxAorUeuo+QLt3STiVvWUTnDhFZ2g1++OhfCf6+ALL7qx543W8w
-	Igq+iXQ12S7Cwqh1DqnFo8i/fU6y0i+bPOfqIlXLIj3Txak7ly2AXjQ62tzXnAJ0GS9C0R9Elbw
-	y3DOIkLPYAFn6MMRj2q0tmxPd26ZbY5cdxgvZ
-X-Google-Smtp-Source: AGHT+IFz49w7sJh5aAv5suX/gv44ZHvixIsfk7pLi4CHMT74qdTtREKObwESHWojwr9bWtWWKSGe9xN21xl8GKoggmw=
-X-Received: by 2002:ac8:648d:0:b0:460:8406:2c2c with SMTP id
- d75a77b69052e-46084062ef6mr1391331cf.25.1729004807352; Tue, 15 Oct 2024
- 08:06:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="TpHTiMsV"
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49FFJqMo016714;
+	Tue, 15 Oct 2024 15:20:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=iGuQeqwI6HZC3u7lEqO9aIAaSIscVF
+	1CMX/wdfvit/s=; b=TpHTiMsV7gss9CE2gbTv2CeHsBmwRk9TsMr12i/hKys93P
+	WKlRkjvobxfliO1vTzhtIxt+eW5FfqcrDXvU1ucgCaZCC8y4F+nwbiO7zezxjUOk
+	TUwI9kmcCTCGDAd9VrQ4PoTD9oO0joSVgiuTDmBl4io9IwAaF71Y7u168DIqGS4+
+	MokAYq7Sl1D3LCgAi0k9IuBtPoJirNfIt7OmSf0A5WLM0LzpVjTrq59FBGwRbNKT
+	Q+TYgxxaHAyejOuT3a7N/lXpAr4gdzStgwz8h5PRBpDmgFGvR0gFCNBtbXqtz8gt
+	s8j/VF7dXYidIvDu/zIsipCnLc2M6oPxIFVCSW6A==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 429txf004v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 15 Oct 2024 15:20:16 +0000 (GMT)
+Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 49FFKFsp017969;
+	Tue, 15 Oct 2024 15:20:15 GMT
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 429txf004n-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 15 Oct 2024 15:20:15 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 49FEdsIN006401;
+	Tue, 15 Oct 2024 15:20:14 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4284xk4fps-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 15 Oct 2024 15:20:14 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 49FFKA2H57999682
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 15 Oct 2024 15:20:10 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id AA9F62004F;
+	Tue, 15 Oct 2024 15:20:10 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 133C420040;
+	Tue, 15 Oct 2024 15:20:10 +0000 (GMT)
+Received: from osiris (unknown [9.152.212.60])
+	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Tue, 15 Oct 2024 15:20:10 +0000 (GMT)
+Date: Tue, 15 Oct 2024 17:20:08 +0200
+From: Heiko Carstens <hca@linux.ibm.com>
+To: Eric Farman <farman@linux.ibm.com>
+Cc: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-s390@vger.kernel.org,
+        virtualization@lists.linux.dev, linux-doc@vger.kernel.org,
+        kvm@vger.kernel.org, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, Mario Casquero <mcasquer@redhat.com>
+Subject: Re: [PATCH v2 4/7] s390/physmem_info: query diag500(STORAGE LIMIT)
+ to support QEMU/KVM memory devices
+Message-ID: <20241015152008.7641-P-hca@linux.ibm.com>
+References: <20241014144622.876731-1-david@redhat.com>
+ <20241014144622.876731-5-david@redhat.com>
+ <20241014184339.10447-E-hca@linux.ibm.com>
+ <8131b905c61a7baf4bd09ec4a08e1ace84d36754.camel@linux.ibm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8131b905c61a7baf4bd09ec4a08e1ace84d36754.camel@linux.ibm.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: i1zBRW8UGLcWVcN5Coobxt0ARxFddDl7
+X-Proofpoint-ORIG-GUID: Ub7xaX8YqTGNc9RIsPz804moAAXEwY3a
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241014203646.1952505-1-surenb@google.com> <20241014203646.1952505-6-surenb@google.com>
- <CAJD7tkY0zzwX1BCbayKSXSxwKEGiEJzzKggP8dJccdajsr_bKw@mail.gmail.com>
- <cd848c5f-50cd-4834-a6dc-dff16c586e49@nvidia.com> <CAJD7tkY8LKVGN5QNy9q2UkRLnoOEd7Wcu_fKtxKqV7SN43QgrA@mail.gmail.com>
- <ba888da6-cd45-41b6-9d97-8292474d3ce6@nvidia.com> <CAJuCfpE4eOH+HN8dQAavwUaMDfX5Fdyx7zft6TKcT33TiiDbXQ@mail.gmail.com>
- <CAJD7tkb7UTpNWwJ84TZqB7SyZ2eyQrraOJ0g2qDmxS6C6Y1AtQ@mail.gmail.com>
-In-Reply-To: <CAJD7tkb7UTpNWwJ84TZqB7SyZ2eyQrraOJ0g2qDmxS6C6Y1AtQ@mail.gmail.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 15 Oct 2024 08:06:36 -0700
-Message-ID: <CAJuCfpF=EJ2CZRdg-JEdzkRCp_TtSXduB_hxqdEu379Z0OKAKg@mail.gmail.com>
-Subject: Re: [PATCH v3 5/5] alloc_tag: config to store page allocation tag
- refs in page flags
-To: Yosry Ahmed <yosryahmed@google.com>
-Cc: John Hubbard <jhubbard@nvidia.com>, akpm@linux-foundation.org, 
-	kent.overstreet@linux.dev, corbet@lwn.net, arnd@arndb.de, mcgrof@kernel.org, 
-	rppt@kernel.org, paulmck@kernel.org, thuth@redhat.com, tglx@linutronix.de, 
-	bp@alien8.de, xiongwei.song@windriver.com, ardb@kernel.org, david@redhat.com, 
-	vbabka@suse.cz, mhocko@suse.com, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	pasha.tatashin@soleen.com, souravpanda@google.com, keescook@chromium.org, 
-	dennis@kernel.org, yuzhao@google.com, vvvvvv@google.com, rostedt@goodmis.org, 
-	iamjoonsoo.kim@lge.com, rientjes@google.com, minchan@google.com, 
-	kaleshsingh@google.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ malwarescore=0 phishscore=0 priorityscore=1501 suspectscore=0 spamscore=0
+ lowpriorityscore=0 bulkscore=0 clxscore=1015 mlxscore=0 adultscore=0
+ mlxlogscore=649 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410150105
 
-On Tue, Oct 15, 2024 at 1:10=E2=80=AFAM Yosry Ahmed <yosryahmed@google.com>=
- wrote:
->
-> On Mon, Oct 14, 2024 at 6:58=E2=80=AFPM Suren Baghdasaryan <surenb@google=
-.com> wrote:
-> >
-> > On Mon, Oct 14, 2024 at 5:03=E2=80=AFPM 'John Hubbard' via kernel-team
-> > <kernel-team@android.com> wrote:
-> > >
-> > > On 10/14/24 4:56 PM, Yosry Ahmed wrote:
-> > > > On Mon, Oct 14, 2024 at 4:53=E2=80=AFPM John Hubbard <jhubbard@nvid=
-ia.com> wrote:
-> > > >>
-> > > >> On 10/14/24 4:48 PM, Yosry Ahmed wrote:
-> > > >>> On Mon, Oct 14, 2024 at 1:37=E2=80=AFPM Suren Baghdasaryan <suren=
-b@google.com> wrote:
-> > > >>>>
-> > > >>>> Add CONFIG_PGALLOC_TAG_USE_PAGEFLAGS to store allocation tag
-> > > >>>> references directly in the page flags. This eliminates memory
-> > > >>>> overhead caused by page_ext and results in better performance
-> > > >>>> for page allocations.
-> > > >>>> If the number of available page flag bits is insufficient to
-> > > >>>> address all kernel allocations, profiling falls back to using
-> > > >>>> page extensions with an appropriate warning to disable this
-> > > >>>> config.
-> > > >>>> If dynamically loaded modules add enough tags that they can't
-> > > >>>> be addressed anymore with available page flag bits, memory
-> > > >>>> profiling gets disabled and a warning is issued.
-> > > >>>
-> > > >>> Just curious, why do we need a config option? If there are enough=
- bits
-> > > >>> in page flags, why not use them automatically or fallback to page=
-_ext
-> > > >>> otherwise?
-> > > >>
-> > > >> Or better yet, *always* fall back to page_ext, thus leaving the
-> > > >> scarce and valuable page flags available for other features?
-> > > >>
-> > > >> Sorry Suren, to keep coming back to this suggestion, I know
-> > > >> I'm driving you crazy here! But I just keep thinking it through
-> > > >> and failing to see why this feature deserves to consume so
-> > > >> many page flags.
-> > > >
-> > > > I think we already always use page_ext today. My understanding is t=
-hat
-> > > > the purpose of this series is to give the option to avoid using
-> > > > page_ext if there are enough unused page flags anyway, which reduce=
-s
-> > > > memory waste and improves performance.
-> > > >
-> > > > My question is just why not have that be the default behavior with =
-a
-> > > > config option, use page flags if there are enough unused bits,
-> > > > otherwise use page_ext.
-> > >
-> > > I agree that if you're going to implement this feature at all, then
-> > > keying off of CONFIG_MEM_ALLOC_PROFILING seems sufficient, and no
-> > > need to add CONFIG_PGALLOC_TAG_USE_PAGEFLAGS on top of that.
-> >
-> > Yosry's original guess was correct. If not for loadable modules we
-> > could get away with having no CONFIG_PGALLOC_TAG_USE_PAGEFLAGS. We
-> > could try to fit codetag references into page flags and if they do not
-> > fit we could fall back to page_ext. That works fine when we have a
-> > predetermined number of tags. But loadable modules make this number
-> > variable at runtime and there is a possibility we run out of page flag
-> > bits at runtime. In that case, the current patchset disables memory
-> > profiling and issues a warning that the user should disable
-> > CONFIG_PGALLOC_TAG_USE_PAGEFLAGS to avoid this situation. I expect
-> > this to be a rare case but it can happen and we have to provide a way
-> > for a user to avoid running out of bits, which is where
-> > CONFIG_PGALLOC_TAG_USE_PAGEFLAGS would be used.
->
-> If this is in fact a rare case, I think it may make more sense for the
-> config to be on by default, and the config description would clearly
-> state that it is intended to be turned off only if the loadable
-> modules warning fires.
+On Tue, Oct 15, 2024 at 11:01:44AM -0400, Eric Farman wrote:
+> On Mon, 2024-10-14 at 20:43 +0200, Heiko Carstens wrote:
+> > On Mon, Oct 14, 2024 at 04:46:16PM +0200, David Hildenbrand wrote:
+...
+> > +#define DIAG500_SC_STOR_LIMIT 4
+...
+> I like the idea of a defined constant here instead of hardcoded, but maybe it should be placed
+> somewhere in include/uapi so that QEMU can pick it up with update-linux-headers.sh and be in sync
+> with the kernel, instead of just an equivalent definition in [1] ?
+> 
+> [1] https://lore.kernel.org/qemu-devel/20241008105455.2302628-8-david@redhat.com/
 
-Just to be clear, I think running out of pageflag bits at runtime (as
-a result of module loading) will be a rare case. That's because the
-core kernel has many more allocations than a typical module. Not
-having enough bits for the core kernel might be the most prevalent
-case, at least for large systems.
-That said, your suggestion makes sense. Since we have to keep
-CONFIG_PAGE_EXTENSION dependency (for the cases when we have to fall
-back to page_ext), there is no advantage of keeping
-CONFIG_PGALLOC_TAG_USE_PAGEFLAGS disabled. I'll change the default in
-the next version. Thanks for the suggestion!
+It is already a mess; we have already subcode 3 defined:
+
+#define KVM_S390_VIRTIO_CCW_NOTIFY 3
+
+in
+
+arch/s390/include/uapi/asm/virtio-ccw.h
+
+which for some reason is uapi. But it doesn't make sense to put the
+new subcode 4 there too. So what is the end result?
+
+Another uapi file? I think resolving this would be a project on its own.
