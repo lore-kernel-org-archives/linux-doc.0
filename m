@@ -1,101 +1,261 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17D421E490B;
-	Tue, 15 Oct 2024 10:58:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C651EF934;
+	Tue, 15 Oct 2024 12:19:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728989926; cv=none; b=bcHMqDAARinrov7KhI/MEH6okBtFKGAYRapbaxnzG9HyN2ePZTmylefVWlPwgEdnzBf8DZ/AZbE4I+OU7anF8LVLRqazfvIAKA20G+Uh7MIax0Y3qW46y+Nb4rL4hoYZOMqeQheiWADnBeXPiFx1/iMjXxGIwGXdMPHG05RKlnQ=
+	t=1728994754; cv=none; b=hZcFlURz83U4KycokIihpQC6oQkIO6JJbI3PSVq5aL3tCBUdG3be+s6HNMLusSUyhF1mjoyZfa6X6bCfTI/MXQ3gZjDK5hpGdH+IZvLLFIBnjbm97dDIezrQpoXMBoi8TCmZA4AsLT1Evh8YhcVodm761LwsrVmNwhsWRVdEUq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728989926; c=relaxed/simple;
-	bh=zMHsowq5udoENrH4VBjjEDVjw8UknD0mJVneCrtHFs4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=rbC+OIZqJ635vjuoIIKeE8fso20PF/USSuuvpFWmgvmGBlsBAkdWLch82IoIKtRi8geTqhWPLcQ+u2EhLOOsOkuAb5cyOwO+jXUA8qFT5O/47DGhecgykxEbNc96StwOvMug5sIcWCQOJYplK4mOBxP5kdPIJKrdOh3I0mcFAfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4XSWJY5zD0zySdf;
-	Tue, 15 Oct 2024 18:57:17 +0800 (CST)
-Received: from dggpemf200006.china.huawei.com (unknown [7.185.36.61])
-	by mail.maildlp.com (Postfix) with ESMTPS id A66D1180AE9;
-	Tue, 15 Oct 2024 18:58:40 +0800 (CST)
-Received: from [10.67.120.129] (10.67.120.129) by
- dggpemf200006.china.huawei.com (7.185.36.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 15 Oct 2024 18:58:40 +0800
-Message-ID: <d814c044-8a0d-48fd-9fc1-06aa457c46c6@huawei.com>
-Date: Tue, 15 Oct 2024 18:58:39 +0800
+	s=arc-20240116; t=1728994754; c=relaxed/simple;
+	bh=h4+7by0rAf1o7D24l+y+0PKeuIiAXm/n19ReSlgbZAA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S7qIKT2jDM08UGP2TqZu8lv2lQL+tyC1Oh1uybYVQNjN0lgIfOlHx7XDJhEdX56Kn9lfDeK00xrkbUnYlLdoODUg9xujeRSvepTzlL8Rk3Pud+GFaGQbzQcEwSW2BlwFCVusYa8nyWvODCCjxebs08V/Uj4/P3kdlIlV38UglmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bbKbeUOf; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bbKbeUOf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0037C4CEC6;
+	Tue, 15 Oct 2024 12:19:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728994753;
+	bh=h4+7by0rAf1o7D24l+y+0PKeuIiAXm/n19ReSlgbZAA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bbKbeUOfn9nyDXrtBn7g19Dpfjiiw77gfgeY76w/MQudeJ+b61eaCe1lNNUr/wZsx
+	 NPYYUCCNZqjY+e0FpiMV0ssGHtIM4kTnGCLC/d7Nkj7MozDRcNrxTwPsujBUIQd6dh
+	 I7iGN20nS0P09TvQqbm0ZYkIwkbZECUW+yKmPcegYF8REA5wenOFpRoO2SVolOkynd
+	 nTd0FKRDimQvqjAtQjL34RYpNOxdkS2f+FMd4CvvRoEYfynQsvPeYauSwnLRHBt0id
+	 XBJTOVhu64U/+vudH7ZYapQVuQFYm6Y/c5zlyGCODMyTrwKlF3NtvOZ9lcr+LvwugG
+	 ChpqrAC7oGC8A==
+Date: Tue, 15 Oct 2024 15:15:27 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, corbet@lwn.net,
+	arnd@arndb.de, mcgrof@kernel.org, paulmck@kernel.org,
+	thuth@redhat.com, tglx@linutronix.de, bp@alien8.de,
+	xiongwei.song@windriver.com, ardb@kernel.org, david@redhat.com,
+	vbabka@suse.cz, mhocko@suse.com, hannes@cmpxchg.org,
+	roman.gushchin@linux.dev, dave@stgolabs.net, willy@infradead.org,
+	liam.howlett@oracle.com, pasha.tatashin@soleen.com,
+	souravpanda@google.com, keescook@chromium.org, dennis@kernel.org,
+	jhubbard@nvidia.com, yuzhao@google.com, vvvvvv@google.com,
+	rostedt@goodmis.org, iamjoonsoo.kim@lge.com, rientjes@google.com,
+	minchan@google.com, kaleshsingh@google.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-mm@kvack.org,
+	linux-modules@vger.kernel.org, kernel-team@android.com
+Subject: Re: [PATCH v3 3/5] alloc_tag: populate memory for module tags as
+ needed
+Message-ID: <Zw5c3zjW4sUUmont@kernel.org>
+References: <20241014203646.1952505-1-surenb@google.com>
+ <20241014203646.1952505-4-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v21 13/14] mm: page_frag: update documentation
- for page_frag
-To: Bagas Sanjaya <bagasdotme@gmail.com>, <davem@davemloft.net>,
-	<kuba@kernel.org>, <pabeni@redhat.com>
-CC: Linux Networking <netdev@vger.kernel.org>, Linux Kernel Mailing List
-	<linux-kernel@vger.kernel.org>, Alexander Duyck <alexander.duyck@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>, Linux Documentation
-	<linux-doc@vger.kernel.org>
-References: <20241012112320.2503906-1-linyunsheng@huawei.com>
- <20241012112320.2503906-14-linyunsheng@huawei.com>
- <Zw37nCqT4RY1udAK@archie.me>
-Content-Language: en-US
-From: Yunsheng Lin <linyunsheng@huawei.com>
-In-Reply-To: <Zw37nCqT4RY1udAK@archie.me>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemf200006.china.huawei.com (7.185.36.61)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241014203646.1952505-4-surenb@google.com>
 
-On 2024/10/15 13:20, Bagas Sanjaya wrote:
-
-...
-
->>  
->> +/**
->> + * page_frag_cache_is_pfmemalloc() - Check for pfmemalloc.
->> + * @nc: page_frag cache from which to check
->> + *
->> + * Used to check if the current page in page_frag cache is pfmemalloc'ed.
->                                                            is allocated by pfmemalloc()?
-
-There seems to be no pfmemalloc() function.
-
-Perhaps change it to something like below as the comment in
-page_is_pfmemalloc():
-Used to check if the current page in page_frag cache is allocated from the
-pfmemalloc reserves.
-
-
->> + * It has the same calling context expectation as the alloc API.
->> + *
->> + * Return:
->> + * true if the current page in page_frag cache is pfmemalloc'ed, otherwise
->> + * return false.
->> + */
->>  static inline bool page_frag_cache_is_pfmemalloc(struct page_frag_cache *nc)
->>  {
->>  	return encoded_page_decode_pfmemalloc(nc->encoded_page);
->>  }
->>  
->> +/**
->> + * page_frag_cache_page_offset() - Return the current page fragment's offset.
->> + * @nc: page_frag cache from which to check
->> + *
->> + * The API is only used in net/sched/em_meta.c for historical reason, do not use
->> + * it for new caller unless there is a strong reason.
+On Mon, Oct 14, 2024 at 01:36:44PM -0700, Suren Baghdasaryan wrote:
+> The memory reserved for module tags does not need to be backed by
+> physical pages until there are tags to store there. Change the way
+> we reserve this memory to allocate only virtual area for the tags
+> and populate it with physical pages as needed when we load a module.
 > 
-> Then what does page_frag_cache_page_offset() do then?
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> ---
+>  include/linux/execmem.h | 11 ++++++
+>  include/linux/vmalloc.h |  9 +++++
+>  lib/alloc_tag.c         | 84 +++++++++++++++++++++++++++++++++--------
+>  mm/execmem.c            | 16 ++++++++
+>  mm/vmalloc.c            |  4 +-
+>  5 files changed, 106 insertions(+), 18 deletions(-)
+> 
+> diff --git a/include/linux/execmem.h b/include/linux/execmem.h
+> index 7436aa547818..a159a073270a 100644
+> --- a/include/linux/execmem.h
+> +++ b/include/linux/execmem.h
+> @@ -127,6 +127,17 @@ void *execmem_alloc(enum execmem_type type, size_t size);
+>   */
+>  void execmem_free(void *ptr);
+>  
+> +/**
+> + * execmem_vmap - create virtual mapping for executable memory
+> + * @type: type of the allocation
+> + * @size: size of the virtual mapping in bytes
+> + *
+> + * Maps virtually contiguous area that can be populated with executable code.
+> + *
+> + * Return: the area descriptor on success or %NULL on failure.
+> + */
+> +struct vm_struct *execmem_vmap(enum execmem_type type, size_t size);
+> +
 
-It is used to replace the the below direct access of 'page_frag_cache':
-https://elixir.bootlin.com/linux/v6.11/source/net/sched/em_meta.c#L585
+I think it's better limit it to EXECMEM_MODULE_DATA
 
-Each one of 'page_frag_cache' instance has its own allocation context
-to ensure lockless access, it is not encouraged to access 'page_frag_cache'
-directly outside of the allocation context as the accessing is unreliable.
+>  /**
+>   * execmem_update_copy - copy an update to executable memory
+>   * @dst:  destination address to update
+> diff --git a/include/linux/vmalloc.h b/include/linux/vmalloc.h
+> index 9a012cd4fad2..9d64cc6f24d1 100644
+> --- a/include/linux/vmalloc.h
+> +++ b/include/linux/vmalloc.h
+> @@ -202,6 +202,9 @@ extern int remap_vmalloc_range_partial(struct vm_area_struct *vma,
+>  extern int remap_vmalloc_range(struct vm_area_struct *vma, void *addr,
+>  							unsigned long pgoff);
+>  
+> +int vmap_pages_range(unsigned long addr, unsigned long end,
+> +		pgprot_t prot, struct page **pages, unsigned int page_shift);
+> +
+>
+>  /*
+>   * Architectures can set this mask to a combination of PGTBL_P?D_MODIFIED values
+>   * and let generic vmalloc and ioremap code know when arch_sync_kernel_mappings()
+> @@ -239,6 +242,12 @@ extern struct vm_struct *__get_vm_area_caller(unsigned long size,
+>  					unsigned long flags,
+>  					unsigned long start, unsigned long end,
+>  					const void *caller);
+> +struct vm_struct *__get_vm_area_node(unsigned long size,
+> +				     unsigned long align, unsigned long shift,
+> +				     unsigned long flags, unsigned long start,
+> +				     unsigned long end, int node, gfp_t gfp_mask,
+> +				     const void *caller);
+> +
+
+This is not used outside mm/, let's put it into mm/internal.h
+
+>  void free_vm_area(struct vm_struct *area);
+>  extern struct vm_struct *remove_vm_area(const void *addr);
+>  extern struct vm_struct *find_vm_area(const void *addr);
+> diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
+> index b10e7f17eeda..648f32d52b8d 100644
+> --- a/lib/alloc_tag.c
+> +++ b/lib/alloc_tag.c
+> @@ -8,6 +8,7 @@
+>  #include <linux/proc_fs.h>
+>  #include <linux/seq_buf.h>
+>  #include <linux/seq_file.h>
+> +#include <linux/vmalloc.h>
+>  
+>  static struct codetag_type *alloc_tag_cttype;
+>  
+> @@ -153,6 +154,7 @@ static void __init procfs_init(void)
+>  #ifdef CONFIG_MODULES
+>  
+>  static struct maple_tree mod_area_mt = MTREE_INIT(mod_area_mt, MT_FLAGS_ALLOC_RANGE);
+> +static struct vm_struct *vm_module_tags;
+>  /* A dummy object used to indicate an unloaded module */
+>  static struct module unloaded_mod;
+>  /* A dummy object used to indicate a module prepended area */
+> @@ -195,6 +197,25 @@ static void clean_unused_module_areas_locked(void)
+>  	}
+>  }
+>  
+> +static int vm_module_tags_grow(unsigned long addr, unsigned long bytes)
+> +{
+> +	struct page **next_page = vm_module_tags->pages + vm_module_tags->nr_pages;
+> +	unsigned long more_pages = ALIGN(bytes, PAGE_SIZE) >> PAGE_SHIFT;
+> +	unsigned long nr;
+> +
+> +	nr = alloc_pages_bulk_array_node(GFP_KERNEL | __GFP_NOWARN,
+> +					 NUMA_NO_NODE, more_pages, next_page);
+> +	if (nr != more_pages)
+> +		return -ENOMEM;
+> +
+> +	vm_module_tags->nr_pages += nr;
+> +	if (vmap_pages_range(addr, addr + (nr << PAGE_SHIFT),
+> +			     PAGE_KERNEL, next_page, PAGE_SHIFT) < 0)
+> +		return -ENOMEM;
+> +
+> +	return 0;
+> +}
+> +
+>  static void *reserve_module_tags(struct module *mod, unsigned long size,
+>  				 unsigned int prepend, unsigned long align)
+>  {
+> @@ -202,7 +223,7 @@ static void *reserve_module_tags(struct module *mod, unsigned long size,
+>  	MA_STATE(mas, &mod_area_mt, 0, section_size - 1);
+>  	bool cleanup_done = false;
+>  	unsigned long offset;
+> -	void *ret;
+> +	void *ret = NULL;
+>  
+>  	/* If no tags return NULL */
+>  	if (size < sizeof(struct alloc_tag))
+> @@ -239,7 +260,7 @@ static void *reserve_module_tags(struct module *mod, unsigned long size,
+>  		goto repeat;
+>  	} else {
+>  		ret = ERR_PTR(-ENOMEM);
+> -		goto out;
+> +		goto unlock;
+>  	}
+>  
+>  found:
+> @@ -254,7 +275,7 @@ static void *reserve_module_tags(struct module *mod, unsigned long size,
+>  		mas_store(&mas, &prepend_mod);
+>  		if (mas_is_err(&mas)) {
+>  			ret = ERR_PTR(xa_err(mas.node));
+> -			goto out;
+> +			goto unlock;
+>  		}
+>  		mas.index = offset;
+>  		mas.last = offset + size - 1;
+> @@ -263,7 +284,7 @@ static void *reserve_module_tags(struct module *mod, unsigned long size,
+>  			ret = ERR_PTR(xa_err(mas.node));
+>  			mas.index = pad_start;
+>  			mas_erase(&mas);
+> -			goto out;
+> +			goto unlock;
+>  		}
+>  
+>  	} else {
+> @@ -271,18 +292,33 @@ static void *reserve_module_tags(struct module *mod, unsigned long size,
+>  		mas_store(&mas, mod);
+>  		if (mas_is_err(&mas)) {
+>  			ret = ERR_PTR(xa_err(mas.node));
+> -			goto out;
+> +			goto unlock;
+>  		}
+>  	}
+> +unlock:
+> +	mas_unlock(&mas);
+> +	if (IS_ERR(ret))
+> +		return ret;
+>  
+> -	if (module_tags.size < offset + size)
+> -		module_tags.size = offset + size;
+> +	if (module_tags.size < offset + size) {
+> +		unsigned long phys_size = vm_module_tags->nr_pages << PAGE_SHIFT;
+>  
+> -	ret = (struct alloc_tag *)(module_tags.start_addr + offset);
+> -out:
+> -	mas_unlock(&mas);
+> +		module_tags.size = offset + size;
+> +		if (phys_size < module_tags.size) {
+> +			int grow_res;
+> +
+> +			grow_res = vm_module_tags_grow(module_tags.start_addr + phys_size,
+> +						       module_tags.size - phys_size);
+> +			if (grow_res) {
+> +				static_branch_disable(&mem_alloc_profiling_key);
+> +				pr_warn("Failed to allocate tags memory for module %s. Memory profiling is disabled!\n",
+> +					mod->name);
+> +				return ERR_PTR(grow_res);
+> +			}
+> +		}
+> +	}
+
+The diff for reserve_module_tags() is hard to read, and the function itself
+becomes really complex to follow with all the gotos back and forth.
+Maybe it's possible to split out some parts of it as helpers?
+
+> -	return ret;
+> +	return (struct alloc_tag *)(module_tags.start_addr + offset);
+>  }
+>  
+
+-- 
+Sincerely yours,
+Mike.
