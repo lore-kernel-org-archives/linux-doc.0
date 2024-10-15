@@ -1,157 +1,140 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE50D1B0F0D
-	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 22:59:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76441F80A9;
+	Tue, 15 Oct 2024 23:17:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729033179; cv=none; b=eUhQioDDDxpnSwbbJpr7frOlWkNZCxlPfBmnBD9E112YXTXBwzkEFSj1rxZ3s72fnnA3zXHXeFpFQKriCMmuRzgyb698waM7kFhzbGnY2eWX7KyLWsTl08ptPr3/DrlJwEfz54lhF9DzI/3Whb+bCoxCrP55e0lg8QZriadcVvE=
+	t=1729034227; cv=none; b=Hf799l0M3QufUverjeIKz1lmvDOZFHCW3yv1PoOysHrdXyITukE38JGgsdL9ya7Qotiq51a9gTRQa1A/yy8LzoPUDoCJ7tZunRYnHQgzn2/roe5rSLV3lomXCgW4tqFbQJ7wa1phGMDrddGjhzGzRON/V1lTqMN3lxxkNQ4oWdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729033179; c=relaxed/simple;
-	bh=glZWFHnHemFUqJOD7Sb/Nrj7aOzGfWHp45F6CqIEbr0=;
+	s=arc-20240116; t=1729034227; c=relaxed/simple;
+	bh=yNEQTDJYd3zDwO4vw237JOdlRcVHD6pdhGX8t7IxIyY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=W/ud0sVvmasAzccUpU0UQoC1CtwtH2YhuV/YKlgFK6e6ov2oCdXNYAiA/utypzbsIzsf8Ztp7SopkqvKiwdEDEfnmd23q5bbIQlUYG+eZSie5xMUa62RBeYKj/7GX7qBTKw1Y38J644Mo4ioHyzkI0jgeiHZggpPx2AKdk73bss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=J05FT0bO; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=DgAAQ0q+qm5XeWE1kNmPbaRmXUPTUnlVG9PMFgcl6XVT80oR/oGPiPfVvk8OtUbd4nEoWARRaD6mqJ/0rMW/rnlXr6xTgT02wmZ2ILhaQOJK0sbIbStmbFPfZEKyVjeK1asfTuWx8K8dKycf8x9xCzwquue9/WiBhsyD0JDfy0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WqE24gxc; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="J05FT0bO"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4601a471aecso26371cf.1
-        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 15:59:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WqE24gxc"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-431481433bdso7947595e9.3;
+        Tue, 15 Oct 2024 16:17:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729033177; x=1729637977; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1729034224; x=1729639024; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aatrfRIq+KwjGDMApdNFzlbuQ/dlgztbUi1A7FhVako=;
-        b=J05FT0bOE/56N47S34Yh9y9yYelnXGECE9sqe20xEqWvNSfTUpFm7GvPs9+YlP2ncc
-         k8FcVB+w0kSuDwYXWEs9/9MjRQxG9VOB0w/6iAJgwLn8aEsbP1VhyxY2NFHplMFjixPj
-         lLTP3D16J1QFfhZ9VAk9wz5cNjSkQyW06Eec8GlrbkBWNOQiHuStDRld8dYEDmztADLk
-         aAdaez/3k4ff3VIHcDJYQz5XXW7iSEjj+GY3bXbfOIyjAuiR/fDRUgFfWewOEM8kTSuh
-         NY3d0B+FzsFsm/OQ33NxLWipHrocPxdB+LbBVZ4IHAQ5zkpqSwuA244oEomF2cjLR+BL
-         RHlg==
+        bh=eD4CywG5G4jHbhFsfPy0Spq5T4P0b6fgkLacmkiZ4vE=;
+        b=WqE24gxcIlP/4XzHylmsty6ybZdFKSt28A5tEbGj2Qgvoc/tMogVcCy4WLXiVFk+wP
+         P+QTdnLAOZnmjMfT6mXNuKppXpWXazrDHFOxePQuQLUDkLNCFrQnA7Qfxaf2EahV9rnQ
+         zcATysD2Xuw08EnQX7GJEh4cM55m+IcY7DfgHonvu3qmQ73hpthwG8zFh1Go8Bm6LmfV
+         lHpJViQGdbawC/Dx4JWeoYnO1vBuUTlEbx8OAIisiRkU4+uoC8LHGFfKgR1xQRZAKtQb
+         T5NXNMcFEAKYeBp3IvYTPf/n/hmylmlcvs+uRsPBBGgqPFMgjroA3ZcgyeoR0qZ8+TkK
+         e37w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729033177; x=1729637977;
+        d=1e100.net; s=20230601; t=1729034224; x=1729639024;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=aatrfRIq+KwjGDMApdNFzlbuQ/dlgztbUi1A7FhVako=;
-        b=TUmIawP3AJuTb7+T/4CU174Aew6FRss+DKRmlWeTX58Oig6eYDGmc6kdwHRrHirFAi
-         U1ECN9FCKtmUdKWgoBJ3m7RazwQOj0b/Ob8/wVfHDdkURbiDJHA1sa7ZhM6U5yAXUv8/
-         R6wXomJ/XdpRGf71ibTFTP9+gtHxYyd22J+5Qeff1A3mHANmAq5yRg0gSDNLGt6IONbd
-         +YIMMtWY9ef8qSUMRJhDIUitGe7USEpgBdERauf3R9SNH84z53eDBYDHjvX29H7XkP85
-         +ljcuTCsB3ApWbYBLOTpyxbcaqVyY8GAuj0VjVe0UmwijneBYf9PoeE6t3uy9h6mvOVI
-         KZhg==
-X-Forwarded-Encrypted: i=1; AJvYcCUSqlN4iWeq71i+p2jX3r+/+49GVybqpswqTeEVfGgEk6r8Lr2nT2vvIoILTHTjFcMpua9m1I7Mcos=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDTrUd6JE8nmJwgwJDZaJY6AWnpJrYWjH+6wlOfKG3hZ71gDqP
-	oD/lM6i2JNO2C90+a/lLU9iwdpG8k9i7VQK7lZ3Ko900CQSA/v3pOPUGD13HEkvQBHpofOQ6+l3
-	Spfl8MOpbWc/C7FIjlYCXJExoSEk8Q8xplF81
-X-Google-Smtp-Source: AGHT+IELTeVk+3ZUTk+NpnVTeDJUGBGjLAiZXyLrgAjXmAsx+E8kO4d8VubcdugaUnODGJwHhuL8CSe4MgIy4xCWvP4=
-X-Received: by 2002:a05:622a:46cb:b0:45c:9d26:8f6e with SMTP id
- d75a77b69052e-4608ed29b69mr572131cf.21.1729033176389; Tue, 15 Oct 2024
- 15:59:36 -0700 (PDT)
+        bh=eD4CywG5G4jHbhFsfPy0Spq5T4P0b6fgkLacmkiZ4vE=;
+        b=wHpe5SAyfvQ4EUJMvMshZXR86vi15ccOmhMpC010txbOPEi8vNwCoyjdGC2n5Y/mqa
+         1a1R1JQqOLgrqoyEkcIpFIGu4D0bL01UlI8dDw7k+30HRIAFuhnUcP5zrWCexqwaFnjx
+         KH8tvLG9ca3b/3T4C1zk2FLSyk1L94zgHohc7ctzgbKwi9HMU1pP2F08wNaLVO5Ez2x1
+         vN9yrycXQwBcfDl6OTELiv/HNdsVJyyLRdZrYrg+w9jPVMzSkw0eFZi6gcfCtqcchw0A
+         dLF6ik8MxYcuQTRIba4dHPiNZkzZb7/LXIH2OPDv3L4J75pqPOJV4jBOA3rPXSb578DJ
+         BYJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVF3vZV/F2QbtYucPXtvrXA7S9dzjZKLR26MqNmnjyexeB77h9VleAnh5Y+Gf/MMQ+Lh7FlhtvdSkB3@vger.kernel.org, AJvYcCWjkI6lLoB/+RkJAPAeMtH8+N4nIpfhKcdfjGuUcI6VvEQ+BwYc8VvPJmph3XrkxSGCKCJz3od+35o=@vger.kernel.org, AJvYcCX8s++bfvinDkcq7dkIfMDssJpWaRmjm9UOSAfTLSeg/i1lGbazGHEc0QvZwJhY9oKTh6Maq9yVUYApUT5p@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+I0855fF6h+N1x4r8x6G3xbnb7oE0ZT9vFCTKb7gAcunyUQ/e
+	NQ8XMzerp/2//QFlCPb+uV2Njt1cWuxBSY17oY3rszBynGQR5GxX6Bx+n7eCkiyQE3w5BSrfmEL
+	4YFOWTib4vLCmb0pjgn+DZIWJmOE=
+X-Google-Smtp-Source: AGHT+IFfPTgIz4rA2XwAvHVPueqtZhJGmRZFRE4ddHUTGZk/+1SCzJOPWNfvCkOwGnD81zjFhcwyV1EKACC9Xm8QGCQ=
+X-Received: by 2002:a5d:6647:0:b0:37d:453f:4469 with SMTP id
+ ffacd0b85a97d-37d551d506amr10150361f8f.22.1729034223715; Tue, 15 Oct 2024
+ 16:17:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241014203646.1952505-1-surenb@google.com> <20241014203646.1952505-3-surenb@google.com>
- <20241014165149.6adebbf38fdc0a1f79ded66b@linux-foundation.org>
- <CAJuCfpETusPzdjEg01zahF7NOStQJZmoM5Jabqd5tJpCCQrj2g@mail.gmail.com> <k4uejpziyyhcuozdpm6x6iy5zuugfhozilmgmjvo574yuq2oen@zvdoiqmk2mii>
-In-Reply-To: <k4uejpziyyhcuozdpm6x6iy5zuugfhozilmgmjvo574yuq2oen@zvdoiqmk2mii>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 15 Oct 2024 15:59:23 -0700
-Message-ID: <CAJuCfpEdkVkeBvHyusiY8XQaM22vP_LZr9LnWxesHMt7f=No4g@mail.gmail.com>
-Subject: Re: [PATCH v3 2/5] alloc_tag: load module tags into separate
- contiguous memory
-To: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>, kent.overstreet@linux.dev, corbet@lwn.net, 
-	arnd@arndb.de, mcgrof@kernel.org, rppt@kernel.org, paulmck@kernel.org, 
-	thuth@redhat.com, tglx@linutronix.de, bp@alien8.de, 
-	xiongwei.song@windriver.com, ardb@kernel.org, david@redhat.com, 
-	vbabka@suse.cz, mhocko@suse.com, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	pasha.tatashin@soleen.com, souravpanda@google.com, keescook@chromium.org, 
-	dennis@kernel.org, jhubbard@nvidia.com, yuzhao@google.com, vvvvvv@google.com, 
-	rostedt@goodmis.org, iamjoonsoo.kim@lge.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kernel-team@android.com
+References: <CA+fCnZcyrGf5TBdkaG4M+r9ViKDwdCHZg12HUeeoTV3UNZnwBg@mail.gmail.com>
+ <20241014025701.3096253-1-snovitoll@gmail.com> <20241014025701.3096253-3-snovitoll@gmail.com>
+ <20241014161042.885cf17fca7850b5bbf2f8e5@linux-foundation.org>
+ <CA+fCnZcwoL3qWhKsmgCCPDeAW0zpKGn=H7F8w8Fmsg+7-Y8p3g@mail.gmail.com> <CACzwLxgJaOL9RXkhAZEosmFDzp-D4=gGfhSh3d5scBRBaq76pw@mail.gmail.com>
+In-Reply-To: <CACzwLxgJaOL9RXkhAZEosmFDzp-D4=gGfhSh3d5scBRBaq76pw@mail.gmail.com>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Wed, 16 Oct 2024 01:16:52 +0200
+Message-ID: <CA+fCnZf8YRH=gkmwU8enMLnGi7hHfVP4DSE2TLrmmVsHT10wRQ@mail.gmail.com>
+Subject: Re: [PATCH RESEND v3 2/3] kasan: migrate copy_user_test to kunit
+To: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 2023002089@link.tyut.edu.cn, 
+	alexs@kernel.org, corbet@lwn.net, dvyukov@google.com, elver@google.com, 
+	glider@google.com, kasan-dev@googlegroups.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, ryabinin.a.a@gmail.com, 
+	siyanteng@loongson.cn, vincenzo.frascino@arm.com, workflows@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 15, 2024 at 2:08=E2=80=AFPM Shakeel Butt <shakeel.butt@linux.de=
-v> wrote:
+On Tue, Oct 15, 2024 at 12:52=E2=80=AFPM Sabyrzhan Tasbolatov
+<snovitoll@gmail.com> wrote:
 >
-> On Mon, Oct 14, 2024 at 07:10:56PM GMT, Suren Baghdasaryan wrote:
-> > On Mon, Oct 14, 2024 at 4:51=E2=80=AFPM Andrew Morton <akpm@linux-found=
-ation.org> wrote:
-> > >
-> > > On Mon, 14 Oct 2024 13:36:43 -0700 Suren Baghdasaryan <surenb@google.=
-com> wrote:
-> > >
-> > > > When a module gets unloaded there is a possibility that some of the
-> > > > allocations it made are still used and therefore the allocation tag=
-s
-> > > > corresponding to these allocations are still referenced. As such, t=
-he
-> > > > memory for these tags can't be freed. This is currently handled as =
-an
-> > > > abnormal situation and module's data section is not being unloaded.
-> > > > To handle this situation without keeping module's data in memory,
-> > > > allow codetags with longer lifespan than the module to be loaded in=
-to
-> > > > their own separate memory. The in-use memory areas and gaps after
-> > > > module unloading in this separate memory are tracked using maple tr=
-ees.
-> > > > Allocation tags arrange their separate memory so that it is virtual=
-ly
-> > > > contiguous and that will allow simple allocation tag indexing later=
- on
-> > > > in this patchset. The size of this virtually contiguous memory is s=
-et
-> > > > to store up to 100000 allocation tags.
-> > > >
-> > > > ...
-> > > >
-> > > > --- a/kernel/module/main.c
-> > > > +++ b/kernel/module/main.c
-> > > > @@ -1254,22 +1254,17 @@ static int module_memory_alloc(struct modul=
-e *mod, enum mod_mem_type type)
-> > > >       return 0;
-> > > >  }
-> > > >
-> > > > -static void module_memory_free(struct module *mod, enum mod_mem_ty=
-pe type,
-> > > > -                            bool unload_codetags)
-> > > > +static void module_memory_free(struct module *mod, enum mod_mem_ty=
-pe type)
-> > > >  {
-> > > >       struct module_memory *mem =3D &mod->mem[type];
-> > > > -     void *ptr =3D mem->base;
-> > > >
-> > > >       if (mem->is_rox)
-> > > >               vfree(mem->rw_copy);
-> > > >
-> > > > -     if (!unload_codetags && mod_mem_type_is_core_data(type))
-> > > > -             return;
-> > > > -
-> > > > -     execmem_free(ptr);
-> > > > +     execmem_free(mem->base);
-> > > >  }
-> > >
-> > > The changes around here are dependent upon Mike's "module: make
-> > > module_memory_{alloc,free} more self-contained", which is no longer i=
-n
-> > > mm-unstable.  I assume Mike is working on a v2 so I'll park this seri=
-es
-> > > for now.
-> >
-> > Looks like the last update on Mike's patchset was back in May. Let me
-> > check with Mike if he is planning to get it out soon. I would like my
-> > patchset to get into 6.12 if possible.
+> > Too bad. I guess we have to duplicate both kasan_check_write and
+> > check_object_size before both do_strncpy_from_user calls in
+> > strncpy_from_user.
 >
-> 6.12 or 6.13?
+> Shall we do it once in strncpy_from_user() as I did in v1?
+> Please let me know as I've tested in x86_64 and arm64 -
+> there is no warning during kernel build with the diff below.
+>
+> These checks are for kernel pointer *dst only and size:
+>    kasan_check_write(dst, count);
+>    check_object_size(dst, count, false);
+>
+> And there are 2 calls of do_strncpy_from_user,
+> which are implemented in x86 atm per commit 2865baf54077,
+> and they are relevant to __user *src address, AFAIU.
+>
+> long strncpy_from_user()
+>    if (can_do_masked_user_access()) {
+>       src =3D masked_user_access_begin(src);
+>       retval =3D do_strncpy_from_user(dst, src, count, count);
+>       user_read_access_end();
+>    }
+>
+>    if (likely(src_addr < max_addr)) {
+>       if (user_read_access_begin(src, max)) {
+>          retval =3D do_strncpy_from_user(dst, src, count, max);
+>          user_read_access_end();
+>
+> ---
+> diff --git a/lib/strncpy_from_user.c b/lib/strncpy_from_user.c
+> index 989a12a6787..6dc234913dd 100644
+> --- a/lib/strncpy_from_user.c
+> +++ b/lib/strncpy_from_user.c
+> @@ -120,6 +120,9 @@ long strncpy_from_user(char *dst, const char
+> __user *src, long count)
+>         if (unlikely(count <=3D 0))
+>                 return 0;
+>
+> +       kasan_check_write(dst, count);
+> +       check_object_size(dst, count, false);
+> +
+>         if (can_do_masked_user_access()) {
+>                 long retval;
+>
+> @@ -142,8 +145,6 @@ long strncpy_from_user(char *dst, const char
+> __user *src, long count)
+>                 if (max > count)
+>                         max =3D count;
+>
+> -               kasan_check_write(dst, count);
+> -               check_object_size(dst, count, false);
+>                 if (user_read_access_begin(src, max)) {
+>                         retval =3D do_strncpy_from_user(dst, src, count, =
+max);
+>                         user_read_access_end();
 
-Right, it's 6.13 at this point.
+Ok, let's do this. (What looked concerning to me with this approach
+was doing the KASAN/userscopy checks outside of the src_addr <
+max_addr, but I suppose that should be fine.)
+
+Thank you!
