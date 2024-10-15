@@ -1,188 +1,247 @@
-Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24C01FBF7D
-	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 21:17:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB7C1F80BC;
+	Tue, 15 Oct 2024 21:29:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729027050; cv=none; b=qSserLpwCCBRk0b4cbjIAok9qB79uWfpr3cKRAWGfm1CMb3bO1AEOTFrxiHiB3fiSUfLD0ocLrY+43u7SEq3PHBLCr1PvYqv+M55yyp/qIQ9WtHdibsR/xQd5sbP0+ZtCxx5B9VOEqS8YObKPobQrwFsYU6qeTOohG/Tl4BZY54=
+	t=1729027793; cv=none; b=foW+9K9jCUsXL0dlDZXW86/E1tCrL1NjdK5S8g8KQcApsAi5BdMau7L8P6+Qirx1B6vD3n9dqODAilkjc4PteG1Pnjz8VuidpNydk21TbExVgpUfc0TIplIunOfHHskhGlPrlxSZ7k/vhtNW9voTovlBnuGrRRZLjvhDBMSOm9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729027050; c=relaxed/simple;
-	bh=kBpbcw1zYMMwWP/n8mwopVROyJozEpjDPvBdKUBkL5w=;
-	h=Date:In-Reply-To:Message-Id:Mime-Version:References:Subject:From:
-	 To:Cc:Content-Type; b=TOLhP8EEK+BXFhEXdis4A1Skj8Cvq2DOjKfAaH13mQIhh9Pla6J8qbwEYynbjc1XkSYh1Eil/TJ8whtYZ/XhlCqRJRtHeyarYuK1a9S/Vzh4Jj/vi69rXBa5kDdyAkzYz3R0xaqhyL4LwMxPtn5P3MdCeGPn44Sar7+mcA12PE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=E94PCxDH; arc=none smtp.client-ip=209.85.128.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com
+	s=arc-20240116; t=1729027793; c=relaxed/simple;
+	bh=IkMCCmmayPEOkLVBZv1cFnxPTwhINuoT5uWbQVxY0J8=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kkaVOPMB3kwOw9l235+382RK+nNxiPn3WvMRF0IauTr2SxoqHUwSwHwcQE16xrjYpIAan5j/gFrNUG2OAJ+5wSCc+ZknHZTlgxQMnn3PR4NqCWpdr/BASeaVSLmJUKKoG3d58r/iJzFeZApl470Xs4fIdXtL7V81tfS4CwGysmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=gxpcsCFM; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="E94PCxDH"
-Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-690404fd230so110187187b3.3
-        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 14:17:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729027048; x=1729631848; darn=vger.kernel.org;
-        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WKU5Ql8c4lOWuBE9mb5dgHxWXN25Z3UPK2tc2nBX/Hw=;
-        b=E94PCxDHtENYiiEsiuWSjIqS/FxmIlkMyGe6OWanHoWBuzkwRtxadYyXrrqT7EBDlv
-         Uyy5VC0c7SZXD7tMhAiqorZEJuEcMTjydD1Gl6D2dzVsOWUvnhMZMFYb6s5xBF7NuQ/Y
-         TeyuvZHuFTtziM9R636JLXP4hsMRCQ069Yce6aFSDnV6lM8W3/VoMA3/+ojOc+o/7YM4
-         0WKukLX1zD9et+pf9idLqDoRk69hPBwNlDUJ845fhWZZsh7Rn/L8ibIosKqeUPgAEpN8
-         WCNzsYBiDlcNdkOm0qRzR/WKJznT3SKj6k6ScZnrmOCaBl78/T6JVx1RKwAIMi5ZL5Co
-         BSwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729027048; x=1729631848;
-        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WKU5Ql8c4lOWuBE9mb5dgHxWXN25Z3UPK2tc2nBX/Hw=;
-        b=wErdmV1bPHtJ39zhc7AMD5IwtAecQeRYZmyMixOW6Jc7tjRKW79pqK2LQpPQmFfzW1
-         vZYbOk+VDdUmEnXQynzR8mFesDu/5tXcXpgPcayzDTWTRVE2jq/aMx8jlwwLQcAp6kq/
-         3wW45jetirvTOd3hjtntMQ4Yx00AbiOq6h0GEKagXoo8epi7mS8GGw6Qle2qXlo/dS2l
-         cDr01AmPEEFf5X+mLP5dd9WsSd7HZkGNADQIuAkLGNa0aKQ4wns6x6aWy6bHYfjQHOBu
-         Rh5gnPBUtB2nWUzWhaUAKfBv5D7jR+UnTM2BHFMxWYZta/FUqUC5cxHGsdYyVAEWdGXr
-         Q92g==
-X-Forwarded-Encrypted: i=1; AJvYcCUDBmFDpyXY0EWaTCRYlP+qVqKwjIHvBInPohXJwvUQiKMMqsyZUAjdAXmDoL13Nn3Ra5gnz4tscbY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwtjthHaOOubvxcJGbMnWlMkRQFDvsbf6C/FZy8iVMjRzYMvUoX
-	CtL8dQdFGv5+/jNMjefTBpmI8yiTFMyZSLFHcESkq5a/a17RhgaSuVylSf55oTIvVmWrmZuyxmn
-	l1dHvgA==
-X-Google-Smtp-Source: AGHT+IETvJtGSVidjurE+k5FibZOHgtYv0ZzxgqNHn8C/rHRsq8sjnXk5FCqfV1MPhDQwBmALvvUhYa1EhM9
-X-Received: from irogers.svl.corp.google.com ([2620:15c:2c5:11:61a1:4d9d:aca1:ada])
- (user=irogers job=sendgmr) by 2002:a05:690c:2fc9:b0:66a:764f:e57f with SMTP
- id 00721157ae682-6e3d41fb686mr13757b3.7.1729027047836; Tue, 15 Oct 2024
- 14:17:27 -0700 (PDT)
-Date: Tue, 15 Oct 2024 14:17:19 -0700
-In-Reply-To: <20241015211719.1152862-1-irogers@google.com>
-Message-Id: <20241015211719.1152862-3-irogers@google.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="gxpcsCFM"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49FG28Of029359;
+	Tue, 15 Oct 2024 21:29:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	8f3ltJ7kTNBqD63IJWPrINYxMdkP2wD5fAwRcNzFY10=; b=gxpcsCFMnNhLb5Fu
+	bc1xiBhKCYs/2eGhzcx6EnYoD3P/vp5UMYNnteVu4md9uQnX7RVRo5KtJaK7/jKt
+	BgwG6l4VruL0Z9XrOT62dfH6VNIlc0tPF286qu0r2jh9Bh5p0zRUV+/hzH+pR68G
+	w5a1jRf/AcYspkVU73Zj1l5LczLdfLbGol3p63V6iI1jQSZMq+W9shaXvBA8jk8c
+	TsNNgVkEiuIgViPREjkQzY1/KGlnOF0o8XLOjoCh3ozEqmM+rq135pZ1+0QHFkq1
+	EzbTHVHsQMWaXAZh/8/os9u45fQt+g3Lxz7iuw1ISp4sT3IvxirD+0GVDWVuvXHs
+	N/Pi9g==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 429k7w2f2s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 15 Oct 2024 21:29:32 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49FLTVbv026432
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 15 Oct 2024 21:29:31 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 15 Oct 2024 14:29:31 -0700
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <lgirdwood@gmail.com>, <tiwai@suse.com>,
+        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        Wesley Cheng
+	<quic_wcheng@quicinc.com>
+Subject: [PATCH v29 17/33] ASoC: usb: Create SOC USB SND jack kcontrol
+Date: Tue, 15 Oct 2024 14:28:59 -0700
+Message-ID: <20241015212915.1206789-18-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241015212915.1206789-1-quic_wcheng@quicinc.com>
+References: <20241015212915.1206789-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20241015211719.1152862-1-irogers@google.com>
-X-Mailer: git-send-email 2.47.0.rc1.288.g06298d1525-goog
-Subject: [PATCH v2 3/3] proc_pid_fdinfo.5: Add DRM subsection
-From: Ian Rogers <irogers@google.com>
-To: Alejandro Colomar <alx@kernel.org>, "G . Branden Robinson" <g.branden.robinson@gmail.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-man@vger.kernel.org, Ian Rogers <irogers@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: WfLjWExwsBDrJ8TW2mxbWb_F5QS-4buu
+X-Proofpoint-ORIG-GUID: WfLjWExwsBDrJ8TW2mxbWb_F5QS-4buu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxscore=0
+ clxscore=1015 priorityscore=1501 phishscore=0 adultscore=0
+ lowpriorityscore=0 impostorscore=0 suspectscore=0 bulkscore=0
+ malwarescore=0 mlxlogscore=963 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2409260000 definitions=main-2410150143
 
-Add description of DRM fdinfo information based on the Linux kernel's
-`Documentation/gpu/drm-usage-stats.rst`:
-https://docs.kernel.org/gpu/drm-usage-stats.html
+Expose API for creation of a jack control for notifying of available
+devices that are plugged in/discovered, and that support offloading.  This
+allows for control names to be standardized across implementations of USB
+audio offloading.
 
-Signed-off-by: Ian Rogers <irogers@google.com>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- man/man5/proc_pid_fdinfo.5 | 94 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 94 insertions(+)
+ include/sound/soc-usb.h | 23 +++++++++++
+ sound/soc/soc-usb.c     | 89 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 112 insertions(+)
 
-diff --git a/man/man5/proc_pid_fdinfo.5 b/man/man5/proc_pid_fdinfo.5
-index 02eceac04..bb6c07527 100644
---- a/man/man5/proc_pid_fdinfo.5
-+++ b/man/man5/proc_pid_fdinfo.5
-@@ -300,5 +300,99 @@ fields contain the values that
- .BR timerfd_gettime (2)
- on this file descriptor would return.)
- .RE
-+.SS Direct Rendering Manager
-+.P
-+DRM drivers can optionally choose to expose usage stats through
-+/proc/pid/fdinfo/. For example:
-+.P
-+.in +4n
-+.EX
-+pos:    0
-+flags:  02100002
-+mnt_id: 26
-+ino:    284
-+drm-driver:     i915
-+drm-client-id:  39
-+drm-pdev:       0000:00:02.0
-+drm-total-system0:      6044 KiB
-+drm-shared-system0:     0
-+drm-active-system0:     0
-+drm-resident-system0:   6044 KiB
-+drm-purgeable-system0:  1688 KiB
-+drm-total-stolen-system0:       0
-+drm-shared-stolen-system0:      0
-+drm-active-stolen-system0:      0
-+drm-resident-stolen-system0:    0
-+drm-purgeable-stolen-system0:   0
-+drm-engine-render:      346249 ns
-+drm-engine-copy:        0 ns
-+drm-engine-video:       0 ns
-+drm-engine-capacity-video:      2
-+drm-engine-video-enhance:       0 ns
-+.EE
-+.TP
-+.IR drm-driver: " .+  (mandatory)"
-+The name this driver registered.
-+.TP
-+.IR drm-pdev: " <aaaa:bb:cc.d>"
-+For PCI devices this should contain the PCI slot address of the device
-+in question.
-+.TP
-+.IR drm-client-id: " [0-9]+"
-+Unique value relating to the open DRM file descriptor used to
-+distinguish duplicated and shared file descriptors.
-+.P
-+GPUs usually contain multiple execution engines. Each shall be given a
-+stable and unique name (<engine_name>), with possible values
-+documented in the driver specific documentation.
-+.TP
-+.IR drm-engine-<engine_name>: " [0-9]+ ns"
-+GPU engine utilization, time spent busy executing workloads for this client.
-+.TP
-+.IR drm-engine-capacity-<engine_name>: " [0-9]+"
-+Capacity of the engine if not 1, cannot be 0.
-+.TP
-+.IR drm-cycles-<engine_name>: " [0-9]+"
-+Contains the number of busy cycles for the given engine.  Values are
-+not required to be constantly monotonic, but are required to catch up
-+with the previously reported larger value within a reasonable
-+period. Upon observing a value lower than what was previously read,
-+userspace is expected to stay with that larger previous value until a
-+monotonic update is seen.
-+.TP
-+.IR drm-total-cycles-<engine_name>: " [0-9]+"
-+Contains the total number cycles for the given engine.  This is a
-+timestamp in GPU unspecified unit that matches the update rate of
-+drm-cycles-<engine_name>. For drivers that implement this interface,
-+the engine utilization can be calculated entirely on the GPU clock
-+domain, without considering the CPU sleep time between 2 samples.
-+.P
-+Each possible memory type which can be used to store buffer objects by
-+the GPU in question shall be given a stable and unique name <region>.
-+The name "memory" is reserved to refer to normal system memory.
-+.TP
-+.IR drm-memory-<region>: " [0-9]+ [KiB|MiB]"
-+The amount of storage currently consumed by the buffer objects belong
-+to this client, in the respective memory region.
-+.IP
-+Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
-+indicating kibi- or mebi-bytes.
-+.TP
-+.IR drm-shared-<region>: " [0-9]+ [KiB|MiB]"
-+The total size of buffers that are shared with another file (e.g., have more
-+than a single handle).
-+.TP
-+.IR drm-total-<region>: " [0-9]+ [KiB|MiB]"
-+The total size of buffers that including shared and private memory.
-+.TP
-+.IR drm-resident-<region>: " [0-9]+ [KiB|MiB]"
-+The total size of buffers that are resident in the specified region.
-+.TP
-+.IR drm-purgeable-<region>: " [0-9]+ [KiB|MiB]"
-+The total size of buffers that are purgeable.
-+.TP
-+.IR drm-active-<region>: " [0-9]+ [KiB|MiB]"
-+The total size of buffers that are active on one or more engines.
+diff --git a/include/sound/soc-usb.h b/include/sound/soc-usb.h
+index db9ff0b4191d..587ea07a8cf5 100644
+--- a/include/sound/soc-usb.h
++++ b/include/sound/soc-usb.h
+@@ -56,6 +56,12 @@ int snd_soc_usb_connect(struct device *usbdev, struct snd_soc_usb_device *sdev);
+ int snd_soc_usb_disconnect(struct device *usbdev, struct snd_soc_usb_device *sdev);
+ void *snd_soc_usb_find_priv_data(struct device *usbdev);
+ 
++int snd_soc_usb_setup_offload_jack(struct snd_soc_component *component,
++				   struct snd_soc_jack *jack);
++int snd_soc_usb_disable_offload_jack(struct snd_soc_component *component);
++int snd_soc_usb_enable_offload_jack(struct snd_soc_component *component,
++				    struct snd_soc_jack *jack);
 +
- .SH SEE ALSO
- .BR proc (5)
--- 
-2.47.0.rc1.288.g06298d1525-goog
-
+ struct snd_soc_usb *snd_soc_usb_allocate_port(struct snd_soc_component *component,
+ 					      void *data);
+ void snd_soc_usb_free_port(struct snd_soc_usb *usb);
+@@ -86,6 +92,23 @@ static inline void *snd_soc_usb_find_priv_data(struct device *usbdev)
+ 	return NULL;
+ }
+ 
++static inline int snd_soc_usb_setup_offload_jack(struct snd_soc_component *component,
++						 struct snd_soc_jack *jack)
++{
++	return 0;
++}
++
++static inline int snd_soc_usb_disable_offload_jack(struct snd_soc_component *component)
++{
++	return 0;
++}
++
++static inline int snd_soc_usb_enable_offload_jack(struct snd_soc_component *component,
++						  struct snd_soc_jack *jack)
++{
++	return 0;
++}
++
+ static inline struct snd_soc_usb *
+ snd_soc_usb_allocate_port(struct snd_soc_component *component, void *data)
+ {
+diff --git a/sound/soc/soc-usb.c b/sound/soc/soc-usb.c
+index c63033468e4a..ab914878e101 100644
+--- a/sound/soc/soc-usb.c
++++ b/sound/soc/soc-usb.c
+@@ -4,7 +4,10 @@
+  */
+ #include <linux/of.h>
+ #include <linux/usb.h>
++
++#include <sound/jack.h>
+ #include <sound/soc-usb.h>
++
+ #include "../usb/card.h"
+ 
+ static DEFINE_MUTEX(ctx_mutex);
+@@ -56,6 +59,92 @@ static struct snd_soc_usb *snd_soc_find_usb_ctx(struct device *dev)
+ 	return ctx ? ctx : NULL;
+ }
+ 
++/* SOC USB sound kcontrols */
++/**
++ * snd_soc_usb_setup_offload_jack() - Create USB offloading jack
++ * @component: USB DPCM backend DAI component
++ * @jack: jack structure to create
++ *
++ * Creates a jack device for notifying userspace of the availability
++ * of an offload capable device.
++ *
++ * Returns 0 on success, negative on error.
++ *
++ */
++int snd_soc_usb_setup_offload_jack(struct snd_soc_component *component,
++				   struct snd_soc_jack *jack)
++{
++	int ret;
++
++	ret = snd_soc_card_jack_new(component->card, "USB Offload Jack",
++				    SND_JACK_USB, jack);
++	if (ret < 0) {
++		dev_err(component->card->dev, "Unable to add USB offload jack: %d\n",
++			ret);
++		return ret;
++	}
++
++	ret = snd_soc_component_set_jack(component, jack, NULL);
++	if (ret) {
++		dev_err(component->card->dev, "Failed to set jack: %d\n", ret);
++		return ret;
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(snd_soc_usb_setup_offload_jack);
++
++/**
++ * snd_soc_usb_disable_offload_jack() - Disables USB offloading jack
++ * @component: USB DPCM backend DAI component
++ *
++ * Disables the offload jack device, so that further connection events
++ * won't be notified.
++ *
++ * Returns 0 on success, negative on error.
++ *
++ */
++int snd_soc_usb_disable_offload_jack(struct snd_soc_component *component)
++{
++	int ret;
++
++	ret = snd_soc_component_set_jack(component, NULL, NULL);
++	if (ret) {
++		dev_err(component->card->dev, "Failed to disable jack: %d\n", ret);
++		return ret;
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(snd_soc_usb_disable_offload_jack);
++
++/**
++ * snd_soc_usb_enable_offload_jack() - Enables USB offloading jack
++ * @component: USB DPCM backend DAI component
++ * @jack: offload jack to enable
++ *
++ * Enables the offload jack device, so that further connection events
++ * will be notified.  This is the complement to
++ * snd_soc_usb_disable_offload_jack().
++ *
++ * Returns 0 on success, negative on error.
++ *
++ */
++int snd_soc_usb_enable_offload_jack(struct snd_soc_component *component,
++				    struct snd_soc_jack *jack)
++{
++	int ret;
++
++	ret = snd_soc_component_set_jack(component, jack, NULL);
++	if (ret) {
++		dev_err(component->card->dev, "Failed to enable jack: %d\n", ret);
++		return ret;
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(snd_soc_usb_enable_offload_jack);
++
+ /**
+  * snd_soc_usb_find_priv_data() - Retrieve private data stored
+  * @usbdev: device reference
