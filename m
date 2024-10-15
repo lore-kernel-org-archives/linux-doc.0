@@ -1,66 +1,66 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02B81CDFDF
-	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 08:48:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E7C1C3F0A
+	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 08:53:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728982111; cv=none; b=HRBPQ5GdVp9z1GvRFMVu+2H0QLDbxazO2EHB7No1tallNDVhw7TSTz8tlT31jwqOib6c/ck+nKqp06xQ/7y+70ZeMGCbytFq3cl9+Oo3aNQ1G7EPSKsuAFeDLz76GJm6N5ZdC1LFDLgAhZkou3VkvKYsx3I8LSS/02S3VDxHOQ0=
+	t=1728982429; cv=none; b=WVo+HltyawNaWsDMTW0nnRvQfjwUOC5It8qDnDBhCrkiuea8+Ynxn2L5/WUsrWtpMM+CuqHLBGV0nTMBnhw5/mEdDb4ZXh8KKVLV8kKtPFhE1vQtuHtkupiEWQquydhlmlgqSlja23h8SVwcNcA0rcrxEVB/fufz9lcO7ajb4tE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728982111; c=relaxed/simple;
-	bh=p/MIGSRtGZoGVvz7Yr/8nDGL8TNsnqXsAbNUPPNhkrY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pn7ksGqlbgcq4FTQGDEW0X53CnBB7aeiK0IdzCqPCHPtjJylIUbOXwDxq900qDhlBHjdbFEXGklHFGJ5kG7DZ73MA24qDf6zNK3ud1UwdQ/hJL7H0ZnRhMM9Kx3VLDev9FM0JQx2BpsgHXcjdj+I/yoWGlhfRDij6CUsjwcuekE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gXY6m6uA; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1728982429; c=relaxed/simple;
+	bh=cCO6k509GchPM8MKW2tnK2KlEfAg2yEcGXdslgc9ZAQ=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=cHw8sD4/sFLtUJigDXgtjEdvfERHpOPjg5G2BqKu/5cL2VLVRp5+jxaTwJbTdLf7f5MHdiJcBCf2YVpNrd55aCbCB8Qx50RZzk3dlo1L1BHGgrY3EKGwoSGe6kuEYyydCz8/q3cvSvnoxreMKKH3TZRynISDXRTm//t+F2E5DRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Z5gYEZEg; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gXY6m6uA"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Z5gYEZEg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1728982108;
+	s=mimecast20190719; t=1728982426;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=50wFFqNXFpjaX6P/Mlz7i8+V12CHV816FHHaZjiGzpk=;
-	b=gXY6m6uACSjbPZ/2i+hp/YI9mWRAB/ng9ypvZ4GNEDJ0P+RU6hpfBdEGikUNcsSygY/z21
-	VZK3wpaArRIUXy/5yOuGN3Meu7Tpv57DK+kj9tGMo3Le6s6JB+Vlv91aTTGVANXIP7CGaj
-	bketi1W0E3pyUzoNSV3cYAJvssFu6RU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=vea3Db7MOU1y6JVuoKAndvUjY3oqb1LxEwH6YBMbryM=;
+	b=Z5gYEZEgLlaRfeOZKkDualbXQHGhCZri5xqwaVV3WwVT99bbBnpZUpSR24SjcMKHTiyKlq
+	h1Np+rAUxjtPpLDeGjJo0KUG1fMO05yRQCiHnect1Yu94f01d/3DWvNmfH0fRGLabOPjjt
+	NTIiangM5YkxvXpzr9qrAKpK+grk0YY=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-277-hAZsSlf_Mqa2e8XCXrNK-Q-1; Tue, 15 Oct 2024 04:48:23 -0400
-X-MC-Unique: hAZsSlf_Mqa2e8XCXrNK-Q-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-43111c47d0bso26635815e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 01:48:23 -0700 (PDT)
+ us-mta-230-SavAfEuxO4SfPmkVviMm7w-1; Tue, 15 Oct 2024 04:53:45 -0400
+X-MC-Unique: SavAfEuxO4SfPmkVviMm7w-1
+Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-539f067414fso1587092e87.2
+        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 01:53:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728982102; x=1729586902;
+        d=1e100.net; s=20230601; t=1728982422; x=1729587222;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
+         :content-language:references:cc:to:from:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=50wFFqNXFpjaX6P/Mlz7i8+V12CHV816FHHaZjiGzpk=;
-        b=rRxB2Vo/P3m1Fa7QFf3IqXdUnz/9tW59fbY+IWkSnpvVuMlfseO7kiO3sQ3xXuw2ff
-         yhL2LHF5nS/4C/ba26X3B++LQcdwzXfTfZp+g/a0oJFc4l/n1xcZh5KKcLNF78XTeVIl
-         fhiXyBEjO3uSW788FY2MXz+qUoROg8NhQKjyFHARhluTGm6+QP/6pQFVjRiwFn6wqigX
-         7po8CWP4f8AFWhn+Yu65fDEJz1McHbiDoYmWO30OMhma980XrCltS0odvzf5erWynmBe
-         AAShQonY/O1XM0M67fU2nfWlSG3tdNBNTULtIJO8xiL1A5rO10e0GvB69TMoaIgQrRgg
-         +nxg==
-X-Forwarded-Encrypted: i=1; AJvYcCWJq4XuURTPsraakavsstsPxjndx+5ElQROmlNg9e1Qbn9O+VtgBHrJXwYKuWwWzj0lKnlgiBwvUJQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxgJPhUSWfX1Ot/MCKzxyJdba3wCKcpmG5qsfhgVFbsYrfK/XL1
-	0NK2OoUMQQpBM1Dm4yrgRI3xTZQFxwnd+6EWl99YEpmTH/L15HILHZVznaPYU4FuSZfURZCi8WX
-	8xNt7mwlz8k269CI1KgJSZT6GFTqH6j2G6dt3JmSXv/DNVV5aa3NahxQA2g==
-X-Received: by 2002:a05:600c:c0d:b0:42f:7e87:3438 with SMTP id 5b1f17b1804b1-4311de0041fmr117015435e9.0.1728982102433;
-        Tue, 15 Oct 2024 01:48:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHBTHE1MOfpAobdlWqdrQtQCCiBsBcqnh8ka2vWhYs6jn4f2rukhBZXH4tRhj08nCUPlOwNyw==
-X-Received: by 2002:a05:600c:c0d:b0:42f:7e87:3438 with SMTP id 5b1f17b1804b1-4311de0041fmr117015145e9.0.1728982102032;
-        Tue, 15 Oct 2024 01:48:22 -0700 (PDT)
+        bh=vea3Db7MOU1y6JVuoKAndvUjY3oqb1LxEwH6YBMbryM=;
+        b=INy1akrhQtO0iK7G14Xu3reL8DLWOB077sAfALxYOla4CZN+1WEwiVvZmSW4/BIS6A
+         6ytHk4Cojw35EegkdBKUYO27kuBYaxwxntB+ZE63Ujq7vOLDoyH9A95UvCKz90Eg06kk
+         0QbnxvECg34/SjYhli59L6279cT4Sk0CVlBQERnwowPWFACgqVIzc6u63jCSlD0TNvrf
+         NelPabQSLUgEfGkvOFzrctfbW+BgoTq8KyK+ZPiVeo4yC/huXpSN2yEKXOH7zdtsnHcA
+         X95qCeqtMaxfxALY5lGTW30H+zcKesvwVBnjl1QgS1Cqv1IohXYgOcZ19OWSIFJe0MnL
+         qfcg==
+X-Forwarded-Encrypted: i=1; AJvYcCWCObQlSV5FRrRTe/PJKJmF29mcZc5M6TvVF20Gqlz3+YWbJ+ukDnxkr5mkIPkGkIYL/FDtcJ5K1/s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/1CWjbHXnG8/lHAOUVP5dxNUWUAQS+gd+FfVG86caSe5+8jSn
+	y2DXcglkP7yNnEShsjv0FoJyCrLwBzo4hNQQadUfSmv78i/ztMkFbcbGCKiQlvhFpep5mHUKCOV
+	RuHvd4x7Dnxv3ppO3PSZro8FF5Rvmmn878PRITFjRIDgnExaR4a7fsM7ODw==
+X-Received: by 2002:a05:6512:2c90:b0:539:e776:71f2 with SMTP id 2adb3069b0e04-539e7767459mr4594042e87.52.1728982421691;
+        Tue, 15 Oct 2024 01:53:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IESPX9nlg7zsDBefSD6Paju6t8SbolD81sKh21Sxmd+f1ZnXPm6cBexBcsMMBeSMJwPe6g/1g==
+X-Received: by 2002:a05:6512:2c90:b0:539:e776:71f2 with SMTP id 2adb3069b0e04-539e7767459mr4594020e87.52.1728982421165;
+        Tue, 15 Oct 2024 01:53:41 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c730:9700:d653:fb19:75e5:ab5c? (p200300cbc7309700d653fb1975e5ab5c.dip0.t-ipconnect.de. [2003:cb:c730:9700:d653:fb19:75e5:ab5c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4313f6b323asm10945305e9.36.2024.10.15.01.48.20
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4313f569eacsm11175035e9.20.2024.10.15.01.53.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Oct 2024 01:48:21 -0700 (PDT)
-Message-ID: <2050b790-4d88-4e16-8af8-3bde759d5430@redhat.com>
-Date: Tue, 15 Oct 2024 10:48:20 +0200
+        Tue, 15 Oct 2024 01:53:39 -0700 (PDT)
+Message-ID: <9be496ff-9d94-4680-b095-863ec12e3261@redhat.com>
+Date: Tue, 15 Oct 2024 10:53:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,8 +68,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/7] Documentation: s390-diag.rst: make diag500 a
- generic KVM hypercall
+Subject: Re: [PATCH v2 1/7] s390/kdump: implement is_kdump_kernel()
+From: David Hildenbrand <david@redhat.com>
 To: Heiko Carstens <hca@linux.ibm.com>
 Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-s390@vger.kernel.org, virtualization@lists.linux.dev,
@@ -82,17 +82,13 @@ Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
  Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
  <eperezma@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>
+ Jonathan Corbet <corbet@lwn.net>, Mario Casquero <mcasquer@redhat.com>
 References: <20241014144622.876731-1-david@redhat.com>
- <20241014144622.876731-3-david@redhat.com>
- <20241014180410.10447-C-hca@linux.ibm.com>
- <78e8794a-d89f-4ded-b102-afc7cea20d1d@redhat.com>
- <20241015081212.7641-A-hca@linux.ibm.com>
- <8e39522c-2853-4d1f-b5ec-64fabcca968b@redhat.com>
- <20241015082148.7641-B-hca@linux.ibm.com>
- <d90566ac-dbe3-486b-bdc7-ece6c2ec6928@redhat.com>
- <20241015084634.7641-E-hca@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
+ <20241014144622.876731-2-david@redhat.com>
+ <20241014182054.10447-D-hca@linux.ibm.com>
+ <f93b2c89-821a-4da1-8953-73ccd129a074@redhat.com>
+ <20241015083040.7641-C-hca@linux.ibm.com>
+ <0c7e876f-5648-4a82-b809-ca48f778b4a6@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -139,46 +135,129 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <20241015084634.7641-E-hca@linux.ibm.com>
+In-Reply-To: <0c7e876f-5648-4a82-b809-ca48f778b4a6@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 15.10.24 10:46, Heiko Carstens wrote:
-> On Tue, Oct 15, 2024 at 10:32:43AM +0200, David Hildenbrand wrote:
->> On 15.10.24 10:21, Heiko Carstens wrote:
->>> On Tue, Oct 15, 2024 at 10:16:20AM +0200, David Hildenbrand wrote:
->>>> On 15.10.24 10:12, Heiko Carstens wrote:
->>>>> On Mon, Oct 14, 2024 at 09:35:27PM +0200, David Hildenbrand wrote:
->>>>>> On 14.10.24 20:04, Heiko Carstens wrote:
->>>>> "If only there would be a query subcode available, so that the program
->>>>> check handling would not be necessary; but in particular my new subcode
->>>>> is not worth adding it" :)
->>>>>
->>>>> Anyway, I do not care too much.
->>>>>
->>>>
->>>> Okay, I see your point: it would allow for removing the program check
->>>> handling from the STORAGE LIMIT invocation.
->>>>
->>>> ... if only we wouldn't need the exact same program check handling for the
->>>> new query subfunction :P
+On 15.10.24 10:41, David Hildenbrand wrote:
+> On 15.10.24 10:30, Heiko Carstens wrote:
+>> On Mon, Oct 14, 2024 at 09:26:03PM +0200, David Hildenbrand wrote:
+>>> On 14.10.24 20:20, Heiko Carstens wrote:
+>>>> Looks like this could work. But the comment in smp.c above
+>>>> dump_available() needs to be updated.
 >>>
->>> Yeah yeah, but I think you got that this might help in the future.
+>>> A right, I remember that there was some outdated documentation.
+>>>
+>>>>
+>>>> Are you willing to do that, or should I provide an addon patch?
+>>>>
+>>>
+>>> I can squash the following:
+>>>
+>>> diff --git a/arch/s390/kernel/smp.c b/arch/s390/kernel/smp.c
+>>> index 4df56fdb2488..a4f538876462 100644
+>>> --- a/arch/s390/kernel/smp.c
+>>> +++ b/arch/s390/kernel/smp.c
+>>> @@ -587,16 +587,16 @@ int smp_store_status(int cpu)
+>>>     *    with sigp stop-and-store-status. The firmware or the boot-loader
+>>>     *    stored the registers of the boot CPU in the absolute lowcore in the
+>>>     *    memory of the old system.
+>>> - * 3) kdump and the old kernel did not store the CPU state,
+>>> - *    or stand-alone kdump for DASD
+>>> - *    condition: OLDMEM_BASE != NULL && !is_kdump_kernel()
+>>> + * 3) kdump or stand-alone kdump for DASD
+>>> + *    condition: OLDMEM_BASE != NULL && !is_ipl_type_dump() == false
+>>>     *    The state for all CPUs except the boot CPU needs to be collected
+>>>     *    with sigp stop-and-store-status. The kexec code or the boot-loader
+>>>     *    stored the registers of the boot CPU in the memory of the old system.
+>>> - * 4) kdump and the old kernel stored the CPU state
+>>> - *    condition: OLDMEM_BASE != NULL && is_kdump_kernel()
+>>> - *    This case does not exist for s390 anymore, setup_arch explicitly
+>>> - *    deactivates the elfcorehdr= kernel parameter
+>>> + *
+>>> + * Note that the old Kdump mode where the old kernel stored the CPU state
 >>
->> Right. Adding it later also doesn't quite help to get rid of the checks
->> here, because some user space might implement STORAGE LIMIT without QUERY.
+>> To be consistent with the rest of the comment, please write kdump in
+>> all lower case characters, please.
 > 
-> This would only help if the diag500 documentation would state that
-> implementation of the QUERY subcode is mandatory. That is: for every
-> new subcode larger than the QUERY subcode QUERY must also exist.
+> It obviously was too late in the evening for me :) Thanks!
 > 
-> That way we only would have to implement program check handling once,
-> if a program check happens on QUERY none of the newer subcodes is
-> available, otherwise the return value would indicate that.
+>>
+>>> + * does no longer exist: setup_arch explicitly deactivates the elfcorehdr=
+>>> + * kernel parameter. The is_kudmp_kernel() implementation on s390 is independent
+>>
+>> Typo: kudmp.
+>>
+>>> Does that sound reasonable? I'm not so sure about the "2) stand-alone kdump for
+>>> SCSI/NVMe (zfcp/nvme dump with swapped memory)": is that really "kdump" ?
+>>
+>> Yes, it is some sort of kdump, even though a bit odd.
 > 
-> Otherwise this whole excercise would be pointless.
+> My concern is that we'll now have
+> 
+> bool is_kdump_kernel(void)
+> {
+>          return oldmem_data.start && !is_ipl_type_dump();
+> }
+> 
+> Which matches 3), but if 2) is also called "kdump", then should it
+> actually be
+> 
+> bool is_kdump_kernel(void)
+> {
+>          return oldmem_data.start;
+> }
+> 
+> ?
+> 
+> When I wrote that code I was rather convinced that the variant in this
+> patch is the right thing to do.
+> 
 
-Yes, that would be the idea.
+I think we can do some follow up cleanups, assuming is_kdump_kernel() here is correct:
+
+diff --git a/arch/s390/kernel/crash_dump.c b/arch/s390/kernel/crash_dump.c
+index cca1827d3d2e..fbc5de66d03b 100644
+--- a/arch/s390/kernel/crash_dump.c
++++ b/arch/s390/kernel/crash_dump.c
+@@ -609,7 +609,7 @@ int elfcorehdr_alloc(unsigned long long *addr, unsigned long long *size)
+         u64 hdr_off;
+  
+         /* If we are not in kdump or zfcp/nvme dump mode return */
+-       if (!oldmem_data.start && !is_ipl_type_dump())
++       if (!dump_available())
+                 return 0;
+         /* If we cannot get HSA size for zfcp/nvme dump return error */
+         if (is_ipl_type_dump() && !sclp.hsa_size)
+diff --git a/arch/s390/kernel/os_info.c b/arch/s390/kernel/os_info.c
+index b695f980bbde..09578f400ef7 100644
+--- a/arch/s390/kernel/os_info.c
++++ b/arch/s390/kernel/os_info.c
+@@ -148,7 +148,7 @@ static void os_info_old_init(void)
+  
+         if (os_info_init)
+                 return;
+-       if (!oldmem_data.start && !is_ipl_type_dump())
++       if (!dump_available())
+                 goto fail;
+         if (copy_oldmem_kernel(&addr, __LC_OS_INFO, sizeof(addr)))
+                 goto fail;
+diff --git a/drivers/s390/char/zcore.c b/drivers/s390/char/zcore.c
+index 33cebb91b933..6a194b4f6ba5 100644
+--- a/drivers/s390/char/zcore.c
++++ b/drivers/s390/char/zcore.c
+@@ -300,9 +300,7 @@ static int __init zcore_init(void)
+         unsigned char arch;
+         int rc;
+  
+-       if (!is_ipl_type_dump())
+-               return -ENODATA;
+-       if (oldmem_data.start)
++       if (is_kdump_kernel())
+                 return -ENODATA;
+  
+         zcore_dbf = debug_register("zcore", 4, 1, 4 * sizeof(long));
+
 
 -- 
 Cheers,
