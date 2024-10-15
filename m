@@ -1,112 +1,207 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6209B1AF0CD;
-	Tue, 15 Oct 2024 13:53:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C396D172BB9
+	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 13:56:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729000385; cv=none; b=aVsgmHQdPsMXfy6+r04jqCMZV/DZ2a+aDypda33fVOuc2D0w5ZVd3XUpQbFSBzXp1MLKggsOozdSffU3vOH2dXIa02kOOQfHigIYB/EWcUwQWlMWXcstJsxA38HIuxqFpdLOUJRJUU2nnTaaBbshik4mvZr+GE/IvKuCvDgEMoQ=
+	t=1729000598; cv=none; b=dHLD4hTT+W3CYtUeynA199wzGEw1AHQuNADucAgphNqGDqMHGQeBflUz8QA+AHQTnBHV0XlR2imM2H1nlK/hY754EddiQ+04YZZZswIbJJbdjwBtTB8sHbFcsgDL7el8cox/wrpZzxdS/RQRgvWVq9eebBWh6qAh/JMsahV08+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729000385; c=relaxed/simple;
-	bh=H2j8tAxArH59yBDbzIrl/MGCWx5bBjQgQoB0i4mdJuU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gl3wNXJNTA00d1Jcp+t+Gb6MCYUvXpC6IQYfjjjFo0yPC24hPuXQXZtJYQFbUIzB9HY1GDEsOdGd6gABLlh7BMeu4/D638fIy0a2dRu5wQb4/rNW3z2sFWXdBi8jTcZBL/XQbp8qvd8pmNSr2oeGC22BVOdI5WfwrWr7MOtQyrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=jdkft+J3; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1729000598; c=relaxed/simple;
+	bh=mAvJUecqLZb8mQ7JA+zGw3XaC23jD7z91aCXiUApXpg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Mmu+qqQ2z1tXHsU4Aq4iZn6hjlMwD6TjUmsmjTRyy/ZnmEWn/0AHHgsIPxZFlkTbC2nggtRybsMI/EFDQOd4VFu9Vuy+Gn69ExYf1/euOn41GRRKZjArphAoZqHa4pfDWzWZr+wD0S8q/4AZsar+VLzqTJ7DyeXE8K6zS++V1x4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Atfazspp; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="jdkft+J3"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id D8BF340E0198;
-	Tue, 15 Oct 2024 13:53:00 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id fRYxJ-Jjmc2o; Tue, 15 Oct 2024 13:52:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1729000376; bh=IndR389A56EgJLmSWnnTj3gROCafm4Xdw9n+uR2RGCM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jdkft+J3SSI5ZXcvcV/k5hX3cOtNWyBIEvTpdM2GoZrSE/jn4WoU69GIN4e52j/wq
-	 /PRHj1ovwgYX7fRy9ZthF0WRFR/6vxUDs5SfOsdLV4l86xTmEyE3MUDYuPXcJD5j3M
-	 sNij5PdsnkO/psDzydolB6nvMkepsXfV5JkVJpKo6ImwvqO9oH8XoT+QA34wLpwlxL
-	 /EMfBxinh0RQSy1R5NQpJGrjAyrxq2YiSi7oPQp/DUXXIBRpVw/jeeAzsP7SehrQoN
-	 arRDdbAyDW3xsxpnJRDYjRX3+39kSTLk0uM0yaevYUZ5e3ZnTt2RP0brVd0gKJYxq/
-	 u6Isbz5PPh/lGtgo+3R7vzfEMvvB45fW4yr9N5aseWkDXfJsFXs761FrHdsZsTKNcz
-	 yicGbCQd4GWmYNKS5V4aoDSjoLocyMCRcD/2pVYqwFhQ8azfsU7l5knK60zw6clpJW
-	 BRC1QYxVgI5zd2KOiO6NJW4ftNrb2KQoarT6nGy+kTk4NNNfNZbQbaZZchKgEzeRgl
-	 4HZTFTjS/svrSQDPapdTDTHPOOaM8/FE2TidJjbw9iEycQScZqWvXxUqR2z0JqdPdG
-	 6R/1Y5JLlKPdlVVKiJDYmhV1nU4marIkRR4GtOevV1yw8eHuKhBXIpg3l5hs8RC4J6
-	 QI6uqckTWiOyOkTlrhjxZZ4M=
-Received: from zn.tnic (p5de8e8eb.dip0.t-ipconnect.de [93.232.232.235])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 576D240E0169;
-	Tue, 15 Oct 2024 13:52:43 +0000 (UTC)
-Date: Tue, 15 Oct 2024 15:52:31 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Daniel Sneddon <daniel.sneddon@linux.intel.com>
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>,
-	"Kaplan, David" <David.Kaplan@amd.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>
-Subject: Re: [PATCH 1/6] x86/bugs: Create single parameter for VERW based
- mitigations
-Message-ID: <20241015135231.GCZw5zn0fnI8dXpHtw@fat_crate.local>
-References: <20240924223140.1054918-2-daniel.sneddon@linux.intel.com>
- <LV3PR12MB92651F4DF654C886B9F2BCF7947E2@LV3PR12MB9265.namprd12.prod.outlook.com>
- <20241010045219.vgpcl7nfqaimqrne@treble.attlocal.net>
- <20241010145737.GOZwfrYaGxCOOlaVhy@fat_crate.local>
- <88baaae8-d9fe-4c8a-a5e2-383d6b641e2c@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Atfazspp"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43123368ea9so28880005e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 06:56:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729000593; x=1729605393; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AbMeYD74pGk8oJktHViz+H/uCI+iSWvCml2RdzFQNPc=;
+        b=AtfazsppkQsom4ceXEJYPkPA8x1odwQI+tmwHZw9OBAIjkiiqE2yfcYELVfG68kzaa
+         h8EIoZgKwz9W/EQkUXqRMA5C3l0cbS7ZD7eSczrZU795q2pu1/YeB6eoc6FAu6wweFqT
+         6wVCU1XX5ZGdWVG2jLH16fDEIfkAEu5mCb06YVBmMaYMcfbur/2rygOGyB3ZxMwV+eeU
+         vb24oT1hUt8WUgpL/fMlcm8K0ztZzkJFiRYd8+tk3HTaMheag1VcDZNQY+BscJ3uX0El
+         0yJtm1N+aFx63Nd9C6evSWKm+b0KvzQ1Xml/O1ielgM3bY7OriM1xQTi//36k2xNPUv6
+         L4TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729000593; x=1729605393;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AbMeYD74pGk8oJktHViz+H/uCI+iSWvCml2RdzFQNPc=;
+        b=Ys1vg8G+gI7SlLdn7E7noikRMkDLOZm3pY/FUUqvMDWf/36mF0TAiD1pY5I4ABlTEQ
+         bLENaLropgaPx4snfr/l4544KQfnkUv0ZXUOp0611ZaJb4NhC0uFbRyZ9Vk9nvksRGqq
+         +MMyZ6todV/8IUupZF2pcGlla3S2GMjFTBohz34xPcBMY5ZYiDsnYbj7v/YFrzi2pE6N
+         7mGzGJf/cIf6P15KuyH3SJ1VFiqRbnJEttVK84hP0O5heFuA2fHZneOxt2711pUcJMhW
+         NiQLdAw/Z+BDCbjmhFi2Trz1cqugKe2FEpiSvszdnJGc4s/oP+QyxNzGz5FMAejcWeko
+         0O5w==
+X-Forwarded-Encrypted: i=1; AJvYcCWmdyjSWgKuTE+SHAQHSCtIiGP6yNRQpgAiD5s9ebaPG7mfVS4/bXrljN1wRJNkBq9GB9+psYFlZGo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwD0ZBu2XJwsHWLQ+XUAitJPHqcNlA4837CCdTgB7qwAxWgVQQ8
+	QfUS7ibGEF5zjQoOxgf4MEUtxYRo8F2P3K51AcAZxt8Ai3MszJ3w7duiDwX//s4=
+X-Google-Smtp-Source: AGHT+IFnMCPXiLFaoUymAEwxqVwbIQmmOBwrfONlvEq/fqSIvjjlH0Zwe7ri6z5v7v7UlXqJRK2Psw==
+X-Received: by 2002:a05:600c:510f:b0:42c:bf70:a303 with SMTP id 5b1f17b1804b1-43125619eb7mr101725465e9.29.1729000592871;
+        Tue, 15 Oct 2024 06:56:32 -0700 (PDT)
+Received: from [127.0.1.1] (frhb82016ds.ikexpress.com. [185.246.87.17])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4313f56f241sm18848295e9.22.2024.10.15.06.56.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Oct 2024 06:56:32 -0700 (PDT)
+From: Guillaume Stols <gstols@baylibre.com>
+Subject: [PATCH v5 0/8] Add iio backend compatibility for ad7606
+Date: Tue, 15 Oct 2024 13:56:13 +0000
+Message-Id: <20241015-ad7606_add_iio_backend_support-v5-0-654faf1ae08c@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <88baaae8-d9fe-4c8a-a5e2-383d6b641e2c@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAH10DmcC/4XOTU7DMBCG4atEXhM0dsY/6Yp7IBSN7Qm1oElx0
+ oiq6t0xqQQIVcrym8Uz70VMnBNPYlddROYlTWkcytAPlQh7Gl65TrFsoUAhWKVritaA6SjGLqW
+ x8xTeeIjddDoexzzXAUE2oMm0CkVBjpn79Lk+eH657cwfp/Jnvh2Fp4nrMB4Oad5VaLRBpKBa3
+ ZgoQVrndSA0DiN4h9Zo3/aE4tvap2ke83ltX+SKrZlObmYusoY6MDUspZdE+OTp/J585seSsuq
+ L+hVbBZuiKiKwddYpYhvhjtj8iBIAN8WmiI2z2oJUgZ26I+Jfsd0UsYimtZJcgF5G/U+8Xq9fy
+ TCILxECAAA=
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Michael Hennerich <michael.hennerich@analog.com>, 
+ linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+ aardelean@baylibre.com, dlechner@baylibre.com, jstephan@baylibre.com, 
+ nuno.sa@analog.com, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+ Guillaume Stols <gstols@baylibre.com>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1729000592; l=5611;
+ i=gstols@baylibre.com; s=20240417; h=from:subject:message-id;
+ bh=mAvJUecqLZb8mQ7JA+zGw3XaC23jD7z91aCXiUApXpg=;
+ b=eA4Nr5B5pKK3BOlqDyvr9iNlZJuWxGBi6BvNGQV27CiYwLbHaMOK2PUFIvM7T0/ULrUhykVbL
+ iYSaMY9Vq82DLnsAcvEJMAXmH7JFgTknN/hGvuMRm/PY6qGm1BVSHfZ
+X-Developer-Key: i=gstols@baylibre.com; a=ed25519;
+ pk=XvMm5WHuV67sGYOJZqIYzXndbaJOlNd8Q6li6vnb4Cs=
 
-On Mon, Oct 14, 2024 at 08:42:26AM -0700, Daniel Sneddon wrote:
-> The reason I did the patches this way wasn't so much "need" as it just seemed a
-> simpler way to do it. Why have 4 knobs when there is really only 1 mitigation
-> under the hood? My question for you then is what you mean by "proper sync"? I'm
-> guessing you mean that if any one of those 4 mitigations is set to off then
-> assume all are off? 
+This series aims to add iio backend support for AD7606X ADCs.
 
-Well, up until now at least, we have handled under the assumption that not
-every user knows exactly what needs to be configured in order to be safe.
+In a nutshell, iio backend is a paradigm to shift the logic establishing
+the connexion between iio buffers and backend buffers into the backend's
+driver.  This provides a more stable programming interface to the driver
+developers, and give more flexibility in the way the hardware communicates.
 
-So, we have always aimed for a sane default.
+The support will be first added on AD7606B, and on next patches AD7606C16
+and AD7606C18 will be added.  The series have been tested on a Zedboard,
+using the latest HDL available, i.e
+https://github.com/analogdevicesinc/hdl/commit/7d0a4cee1b5fa403f175af513d7eb804c3bd75d0
+and an AD7606B FMCZ EKV.  This HDL handles both the conversion trigger
+(through a PWM), and the end of conversion interruption, and is compatible
+with axi-adc, which is "iio-backendable".
 
-IOW, if a user wants to disable one mitigation but all 4 are mitigated by the
-same thing, then we probably should issue a warning saying something like:
+More information about this HDL design can be found at:
+https://wiki.analog.com/resources/eval/user-guides/ad7606x-fmc/hdl
 
-	"If you want to disable W, then you need to disable W, X and Y too in
-	order to disable W effectively as all 4 are mitigated by the same
-	mechanism."
+The support is thus separated in two parts:
 
-And problem solved.
+- PWM support was first added.  My first intention was to make it available
+  for any version of the driver, but the time required to handle the
+  interruption is not neglectable, and I saw drifts that would eventually
+  cause an overlapping SPI read with a new conversion trigger, whith
+  catastrphic consequences. To mitigate this, CRC check must be
+  implemented, but indeed increasing the samplerate causes more sample to
+  be lost.  Therefore, I decided to only allow PWM for iio-backend
+  powered device as a first intention, leaving open the possibility to
+  add the general compatibility afterwards.
 
-IOW, I don't expect someone would consciously want to disable a subset of
-those mitigations but leave the remaining ones on. What usually happens, is
-people do "mitigations=off" in order to regain their performance but not do
-this selective thing which doesn't make a whole lot sense to me anyway.
+- IIO backend support was added: Once the PWM support was ready, the driver
+  can be extended to iio-backend. The iio-backend powered version of the
+  driver is a platform driver, and an exemple devicetree node is available
+  in the bindings.
 
-Thx.
+The following features will be added in subsequent patch series:
+ - software mode for iio backend
+ - 18 bits mode (AD7606C18)
+ - single read (IIO_CHAN_READ_RAW)
 
--- 
-Regards/Gruss,
-    Boris.
+Signed-off-by: Guillaume Stols <gstols@baylibre.com>
+---
+Changes in v5:
+- Removal of an useless instruction move.
+- Removal of extra checks on the PWM setters functions.
+- Renaming of buffer postenable/predisable functions.
+- Usage of device_property_present to check if there is a backend
+  property instead of trying to load the backend.
+- Improvement of error handling on PWM GPIO emulation, displaying an
+  error in the kernel log in case the duty cycle set fails.
+- Link to v4: https://lore.kernel.org/r/20241009-ad7606_add_iio_backend_support-v4-0-6971a8c0f1d5@baylibre.com
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Changes in v4:
+- Removal of accepted patches.
+- Correction on fsleep (missing semicolon and incorrect spelling !).
+- Correction on buffer initialization that should not be conditionned by
+  the presence or not of a PWM, but by the presence of a backend.
+- Addition of blank lines between blocks.
+- Modification of some declaration to switch variables to static.
+- Link to v3: https://lore.kernel.org/r/20241004-ad7606_add_iio_backend_support-v3-0-38757012ce82@baylibre.com
+
+Changes in v3:
+- Rebase on top of the series adding ad7606C16 and AD7606C18 support.
+- Addition of pwm-names actual values and improvement in the
+  description.
+- Introduction of .num_adc_channels field in ad7606_chip_info that
+  defines the number of hardware inputs.
+- Introduction of ad7606_bus_info which couples hardware and wiring
+  informations.
+- Addition of a delay in the scan_direct function for the backend.
+- Link to v2: https://lore.kernel.org/r/20240920-ad7606_add_iio_backend_support-v2-0-0e78782ae7d0@baylibre.com
+
+Changes in v2:
+- Logical change in dt-bindings, using a flag for the interface instead of
+  infering it from the value of the "reg" property.
+- Removal of get_platform_match_data addition, instead the logic is
+  directly used in the file.
+- Removal of use and export of pwm_get_state_hw, returning the configured
+  frequency instead of the running one.
+- Correction on various typos, whitespaces, bad order of includes.
+- Separation of SPI conditions and PWM disabling for no backend in other
+  commits.
+- Link to v1: https://lore.kernel.org/r/20240815-ad7606_add_iio_backend_support-v1-0-cea3e11b1aa4@baylibre.com
+
+---
+Guillaume Stols (8):
+      dt-bindings: iio: adc: ad7606: Remove spi-cpha from required
+      dt-bindings: iio: adc: ad7606: Add iio backend bindings
+      Documentation: iio: Document ad7606 driver
+      iio: adc: ad7606: Add PWM support for conversion trigger
+      iio: adc: ad7606: Add compatibility to fw_nodes
+      iio: adc: ad7606: Introduce num_adc_channels
+      iio: adc: ad7606: Add iio-backend support
+      iio: adc: ad7606: Disable PWM usage for non backend version
+
+ .../devicetree/bindings/iio/adc/adi,ad7606.yaml    |  72 ++-
+ Documentation/iio/ad7606.rst                       | 145 ++++++
+ Documentation/iio/index.rst                        |   1 +
+ MAINTAINERS                                        |   1 +
+ drivers/iio/adc/Kconfig                            |   2 +
+ drivers/iio/adc/ad7606.c                           | 576 +++++++++++++++------
+ drivers/iio/adc/ad7606.h                           |  51 +-
+ drivers/iio/adc/ad7606_par.c                       | 122 ++++-
+ drivers/iio/adc/ad7606_spi.c                       |  96 ++--
+ 9 files changed, 838 insertions(+), 228 deletions(-)
+---
+base-commit: 465644ac29536d10178b5ca4684d0b84765b9fa4
+change-id: 20240725-ad7606_add_iio_backend_support-c401305a6924
+
+Best regards,
+--
+Guillaume Stols <gstols@baylibre.com>
+
