@@ -1,95 +1,112 @@
-Received: from zg8tmja2lje4os4yms4ymjma.icoremail.net (zg8tmja2lje4os4yms4ymjma.icoremail.net [206.189.21.223])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F414A1C07CC;
-	Tue, 15 Oct 2024 13:40:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.21.223
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6209B1AF0CD;
+	Tue, 15 Oct 2024 13:53:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728999642; cv=none; b=GV7j6OJoXKJR4TxP0nC7Hzd8Eno3Lx4eJRSmPDv4vgUY8eJJdF5XAOOp4ievQ6yqqZq72hgGg7VQKZ9EkGtlJSEecKb6nLpFTuGxL6OTE3Sesde41EuuoLbL3HPZ2LEWu6NZ1jSUOFg9aWkY38+EBzR/eIOmzfPwV427uDUIKW4=
+	t=1729000385; cv=none; b=aVsgmHQdPsMXfy6+r04jqCMZV/DZ2a+aDypda33fVOuc2D0w5ZVd3XUpQbFSBzXp1MLKggsOozdSffU3vOH2dXIa02kOOQfHigIYB/EWcUwQWlMWXcstJsxA38HIuxqFpdLOUJRJUU2nnTaaBbshik4mvZr+GE/IvKuCvDgEMoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728999642; c=relaxed/simple;
-	bh=BzYWAhoI0axCue+kv6wY0di0ivbwBcXcR4ZVqGGktH0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fQBGnqEioRNj1p+eMYpQYahuoRX+aNiVd1LBo4Iz3u7yaWvgvd1UrxegkmGsqq5b2RDxBYL3uFNUf0pKexgg1+VEN4MLMfmwOw21DZiHRN6vQAyhmNN7iSLqDvtV0Lw1Dd1MdwzHRyLcHAi0AbZhh4Ux6i11NzdUVlnj+DfvOl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.21.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app2 (Coremail) with SMTP id HwEQrAB3fc3DcA5n9f4QAQ--.8912S2;
-	Tue, 15 Oct 2024 21:40:19 +0800 (CST)
-Received: from [10.12.164.29] (unknown [10.12.164.29])
-	by gateway (Coremail) with SMTP id _____wAHckLBcA5nX5dIAA--.51398S2;
-	Tue, 15 Oct 2024 21:40:18 +0800 (CST)
-Message-ID: <769f0267-f09d-46e8-854f-52f6c65996f8@hust.edu.cn>
-Date: Tue, 15 Oct 2024 21:40:17 +0800
+	s=arc-20240116; t=1729000385; c=relaxed/simple;
+	bh=H2j8tAxArH59yBDbzIrl/MGCWx5bBjQgQoB0i4mdJuU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gl3wNXJNTA00d1Jcp+t+Gb6MCYUvXpC6IQYfjjjFo0yPC24hPuXQXZtJYQFbUIzB9HY1GDEsOdGd6gABLlh7BMeu4/D638fIy0a2dRu5wQb4/rNW3z2sFWXdBi8jTcZBL/XQbp8qvd8pmNSr2oeGC22BVOdI5WfwrWr7MOtQyrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=jdkft+J3; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="jdkft+J3"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id D8BF340E0198;
+	Tue, 15 Oct 2024 13:53:00 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id fRYxJ-Jjmc2o; Tue, 15 Oct 2024 13:52:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1729000376; bh=IndR389A56EgJLmSWnnTj3gROCafm4Xdw9n+uR2RGCM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jdkft+J3SSI5ZXcvcV/k5hX3cOtNWyBIEvTpdM2GoZrSE/jn4WoU69GIN4e52j/wq
+	 /PRHj1ovwgYX7fRy9ZthF0WRFR/6vxUDs5SfOsdLV4l86xTmEyE3MUDYuPXcJD5j3M
+	 sNij5PdsnkO/psDzydolB6nvMkepsXfV5JkVJpKo6ImwvqO9oH8XoT+QA34wLpwlxL
+	 /EMfBxinh0RQSy1R5NQpJGrjAyrxq2YiSi7oPQp/DUXXIBRpVw/jeeAzsP7SehrQoN
+	 arRDdbAyDW3xsxpnJRDYjRX3+39kSTLk0uM0yaevYUZ5e3ZnTt2RP0brVd0gKJYxq/
+	 u6Isbz5PPh/lGtgo+3R7vzfEMvvB45fW4yr9N5aseWkDXfJsFXs761FrHdsZsTKNcz
+	 yicGbCQd4GWmYNKS5V4aoDSjoLocyMCRcD/2pVYqwFhQ8azfsU7l5knK60zw6clpJW
+	 BRC1QYxVgI5zd2KOiO6NJW4ftNrb2KQoarT6nGy+kTk4NNNfNZbQbaZZchKgEzeRgl
+	 4HZTFTjS/svrSQDPapdTDTHPOOaM8/FE2TidJjbw9iEycQScZqWvXxUqR2z0JqdPdG
+	 6R/1Y5JLlKPdlVVKiJDYmhV1nU4marIkRR4GtOevV1yw8eHuKhBXIpg3l5hs8RC4J6
+	 QI6uqckTWiOyOkTlrhjxZZ4M=
+Received: from zn.tnic (p5de8e8eb.dip0.t-ipconnect.de [93.232.232.235])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 576D240E0169;
+	Tue, 15 Oct 2024 13:52:43 +0000 (UTC)
+Date: Tue, 15 Oct 2024 15:52:31 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Daniel Sneddon <daniel.sneddon@linux.intel.com>
+Cc: Josh Poimboeuf <jpoimboe@kernel.org>,
+	"Kaplan, David" <David.Kaplan@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>
+Subject: Re: [PATCH 1/6] x86/bugs: Create single parameter for VERW based
+ mitigations
+Message-ID: <20241015135231.GCZw5zn0fnI8dXpHtw@fat_crate.local>
+References: <20240924223140.1054918-2-daniel.sneddon@linux.intel.com>
+ <LV3PR12MB92651F4DF654C886B9F2BCF7947E2@LV3PR12MB9265.namprd12.prod.outlook.com>
+ <20241010045219.vgpcl7nfqaimqrne@treble.attlocal.net>
+ <20241010145737.GOZwfrYaGxCOOlaVhy@fat_crate.local>
+ <88baaae8-d9fe-4c8a-a5e2-383d6b641e2c@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: fix a reference of a removed file
-To: Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>,
- Jeff Layton <jlayton@kernel.org>
-Cc: hust-os-kernel-patches@googlegroups.com, netfs@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20241015092356.1526387-1-dzm91@hust.edu.cn>
- <87jze9qyha.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <87jze9qyha.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:HwEQrAB3fc3DcA5n9f4QAQ--.8912S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvdXoWrZrWDJF48tw48ur43Zr1xAFb_yoWDJFb_JF
-	97AFs3ZryDArs7AF18KFn8WF13A3WxCry8Xw1fAws3ta4UJ395CF93J3sYyr43Wrs29rn5
-	JFWkZr9xXFy2gjkaLaAFLSUrUUUU0b8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbPAYjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-	s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
-	8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
-	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26F
-	4j6r4UJwAv7VCjz48v1sIEY20_GFW3Jr1UJwAv7VCY1x0262k0Y48FwI0_Gr1j6F4UJwAm
-	72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82
-	IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY6r1j
-	6r4UMxCIbckI1I0E14v26r1q6r43MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
-	AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
-	0xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4
-	v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AK
-	xVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU1ec_3UUUUU==
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <88baaae8-d9fe-4c8a-a5e2-383d6b641e2c@linux.intel.com>
 
+On Mon, Oct 14, 2024 at 08:42:26AM -0700, Daniel Sneddon wrote:
+> The reason I did the patches this way wasn't so much "need" as it just seemed a
+> simpler way to do it. Why have 4 knobs when there is really only 1 mitigation
+> under the hood? My question for you then is what you mean by "proper sync"? I'm
+> guessing you mean that if any one of those 4 mitigations is set to off then
+> assume all are off? 
 
-On 10/15/24 21:36, Jonathan Corbet wrote:
-> Dongliang Mu <dzm91@hust.edu.cn> writes:
->
->> Since 86b374d061ee ("netfs: Remove fs/netfs/io.c") removed
->> fs/netfs/io.c, we need to delete its reference in the documentation.
->>
->> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
->> ---
->>   Documentation/filesystems/netfs_library.rst | 1 -
->>   1 file changed, 1 deletion(-)
->>
->> diff --git a/Documentation/filesystems/netfs_library.rst b/Documentation/filesystems/netfs_library.rst
->> index f0d2cb257bb8..73f0bfd7e903 100644
->> --- a/Documentation/filesystems/netfs_library.rst
->> +++ b/Documentation/filesystems/netfs_library.rst
->> @@ -592,4 +592,3 @@ API Function Reference
->>   
->>   .. kernel-doc:: include/linux/netfs.h
->>   .. kernel-doc:: fs/netfs/buffered_read.c
->> -.. kernel-doc:: fs/netfs/io.c
-> Already fixed by 368196e50194 in linux-next.
+Well, up until now at least, we have handled under the assumption that not
+every user knows exactly what needs to be configured in order to be safe.
 
-Okay, I see. Thanks for the reminder.
+So, we have always aimed for a sane default.
 
-Dongliang Mu
+IOW, if a user wants to disable one mitigation but all 4 are mitigated by the
+same thing, then we probably should issue a warning saying something like:
 
->
-> Thanks,
->
-> jon
+	"If you want to disable W, then you need to disable W, X and Y too in
+	order to disable W effectively as all 4 are mitigated by the same
+	mechanism."
 
+And problem solved.
+
+IOW, I don't expect someone would consciously want to disable a subset of
+those mitigations but leave the remaining ones on. What usually happens, is
+people do "mitigations=off" in order to regain their performance but not do
+this selective thing which doesn't make a whole lot sense to me anyway.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
