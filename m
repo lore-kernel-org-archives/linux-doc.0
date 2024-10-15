@@ -1,275 +1,188 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2055.outbound.protection.outlook.com [40.107.243.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A531EF092;
-	Tue, 15 Oct 2024 15:43:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.55
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729007029; cv=fail; b=Vtf5ebd5YJZKqeSRXjugu7VUe1+CiJxhW9BI1R1s4GNzZIJ21qSpb41RzZItu9SSh1ahZh2YpI7Axb6oaQwkf7OCgh4qGydm8lGKBmoN3bd8M8xmXC1fWSp0f5jyXCoONVrH9VREEXUGLp5ndRVVnD7ibXD28ybTMac9JPAOtA8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729007029; c=relaxed/simple;
-	bh=TgEt33vRkgXNwBvj7poIBIbyh7ibrhW/hY1jiEsey9c=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=EUSXBDZ2k9+QvhC64tSVCXs68DNCl9QdARjvQMcs5iR5+1CkczUOeT4ko9EwYacU1I7+5HpfBIkm+cxAM1twvQiIrpL9GigYZtFNnDtnRZtWV47uTqjA/KRpn0QbSaauzjcYa6YDtGpejCx7YowGKSMX/RreJkpbql02MOApF4A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=M402sJ8c; arc=fail smtp.client-ip=40.107.243.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29EC41F9EA6
+	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 15:58:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729007885; cv=none; b=r+DNFOmubSpSLMVMHr3opcWoTiApENfWqK68Qf6jq2Ma39LKNhCOv5ViLq+JN63tioiwe5mwJBcuyFkIVoyxXsB6b3Y4eAUZaLcBWvsAxHzG3LHWffCfl2at9OzPQwD9vbt4XQ3f68qgqNBZbdTqBasqN2WSSJX+9sBTOxGF+FQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729007885; c=relaxed/simple;
+	bh=aYJ3ScoRGgAobUtmWNW7wrrfHvNJK4QqvJ0rYbf6QwA=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=ghe9BsJP1B0anTXUWbbRud1OlkW9ZGCOyD9KyakhkDM7jQTSLjsqD8/Tffdfv0UYBEoWgvbYXeIR0DhAyRu3SLEhVOzHRdemHWr4rcEVsn8hMcTMM2k1+yLBaz0c8HvoSUrhM+buK3eKtT3qQbItkJfn9RBoZWzYWgODz4dTbjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xKI1ie1X; arc=none smtp.client-ip=209.85.210.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="M402sJ8c"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vy1mUQUuNzSGTvupvFvHt81aGW9jh88MFdIO4kVS8cq66q4hIoF2E9GqaF0H3RSP658D449gWa7Xv1SoNI9k9lKptFYGt5bSaMLuxmrxSUtN5D7rINDVQVJl3r49oWfy8fNzJOe53cdy96lwdPanJxOUAuQR/aDzFCzrDEaHocQUlMs6nYK7K35lWjasGBruiiLr7X5jqdBNHQLJEfm/qjIEKHUXbv9sK0P4NLG6AidP0z9KQQgW0YMr76u8yuDAMPgbG6O8Z/iJ1xqOI/qKW1Gv/KMmqTJI+yr8R4eytdG/9Ed1C6NNjWU6OFQU+AS6wnQRloiuuKkXZKAVklDMDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=atDCYGSM7CLg8F9Sk0DwS4RYr0L9G4p0N7KE4Oh7atY=;
- b=eBSHrcwyKYDVxxK2geMXltZ5OG7uukakW9IJiF+c+HIV7EAUNi9a/u/7P1Igu3SALKkY9yw5++jD8V7VGZziZZNc+o585brLWusd5qJxc90ccIRpmRqi05uwEtYbFYUdolWix/2MDv+rhNX8XFeSbWdLUNnSJPvSFg11UaBRMBWVGxiin5f3y1+kejNitYkPIdXvYDk+8S1K5+lJ8FKXSn/olgAJCRNnpvpRnLump+b8FkmKB8vbxd3aoTtlDDGBXzw4pKkRjLbqIx4XefINmuXezPxHHxU7iBPm3jOfedfUSQ4kmUCUkOxMryGhY+q1prFJoah0JypXk4pZIXYARg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=atDCYGSM7CLg8F9Sk0DwS4RYr0L9G4p0N7KE4Oh7atY=;
- b=M402sJ8cm0SWqWLztEYgUWwESiM0rTmcvMvhKdHmlYGPfSIbPhVDf2iTPCv4hyRMeiC7wtH+0EJiA/9HNfmOfAk4TYkrgNJ/mlx9jzHnX6PhcU7IRFslSNx3wjJlkPqgMvQB0IAxXsQSJEF3Yse4TFp5svC8GbSvC30XQnn6AdE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by MN2PR12MB4254.namprd12.prod.outlook.com (2603:10b6:208:1d0::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.17; Tue, 15 Oct
- 2024 15:43:44 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.8048.029; Tue, 15 Oct 2024
- 15:43:43 +0000
-Message-ID: <b4d9b572-4df3-4758-a40b-cb48fde0b595@amd.com>
-Date: Tue, 15 Oct 2024 10:43:39 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v8 19/25] x86/resctrl: Auto assign/unassign counters when
- mbm_cntr_assign is enabled
-To: Reinette Chatre <reinette.chatre@intel.com>,
- "Luck, Tony" <tony.luck@intel.com>
-Cc: "corbet@lwn.net" <corbet@lwn.net>, "Yu, Fenghua" <fenghua.yu@intel.com>,
- "tglx@linutronix.de" <tglx@linutronix.de>,
- "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
- "paulmck@kernel.org" <paulmck@kernel.org>,
- "rdunlap@infradead.org" <rdunlap@infradead.org>,
- "tj@kernel.org" <tj@kernel.org>, "peterz@infradead.org"
- <peterz@infradead.org>, "yanjiewtw@gmail.com" <yanjiewtw@gmail.com>,
- "kim.phillips@amd.com" <kim.phillips@amd.com>,
- "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
- "seanjc@google.com" <seanjc@google.com>,
- "jmattson@google.com" <jmattson@google.com>,
- "leitao@debian.org" <leitao@debian.org>,
- "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
- "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
- "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
- "Joseph, Jithu" <jithu.joseph@intel.com>, "Huang, Kai"
- <kai.huang@intel.com>, "kan.liang@linux.intel.com"
- <kan.liang@linux.intel.com>,
- "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "sandipan.das@amd.com" <sandipan.das@amd.com>,
- "ilpo.jarvinen@linux.intel.com" <ilpo.jarvinen@linux.intel.com>,
- "peternewman@google.com" <peternewman@google.com>,
- "Wieczor-Retman, Maciej" <maciej.wieczor-retman@intel.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "Eranian, Stephane" <eranian@google.com>,
- "james.morse@arm.com" <james.morse@arm.com>
-References: <cover.1728495588.git.babu.moger@amd.com>
- <ce07d802260f537b24b3affec57c2d2e65023709.1728495588.git.babu.moger@amd.com>
- <ZwldvDBjEA3TSw2k@agluck-desk3.sc.intel.com>
- <541d6c15-ed5f-8794-506c-8fa4065ca170@amd.com>
- <SJ1PR11MB60838F3FFF40AE2718ED7833FC792@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <43654ae1-c894-409b-bcb8-065940644906@amd.com>
- <SJ1PR11MB6083379F790967B379C4232DFC442@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <a972dfe9-341b-416c-a245-0834583c6620@amd.com>
- <567bd687-a69f-46fb-ab19-3f8d95c5e798@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <567bd687-a69f-46fb-ab19-3f8d95c5e798@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA9PR13CA0163.namprd13.prod.outlook.com
- (2603:10b6:806:28::18) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xKI1ie1X"
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-71e6e4a51feso1339084b3a.0
+        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 08:58:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1729007883; x=1729612683; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bpgcprPI+vvJsG2LB/Vt+V2mYjpRXDgXYo99nuQ4xLg=;
+        b=xKI1ie1X40VczKlusr1XxD0YPkV2zZfe/6okKWD3+t8AFuC1QFITTSPGtfYAWW+NkP
+         oD/2iSw3t5TyDU6xmFJ5lEdm0VK8bhpD9Lv6J8nT1eBicsyEIYv5GnR/JdABC/Ah1yEk
+         ADV6mXe17tOE6Pyq0mR6YTrCsaSbyrgtSKTFSu55q8oyBpCYsI2v3D0zhpfrnc9cqH1I
+         m7SaNxyMhPvljDrUfbQV7g2o5dBN8kccwLR1S/QYXaCsvLoKV3qxUhFrvr1L4y0mTMkd
+         WVtbxGYXSq2vffsS6K12kSNTkmstcq7eDCyWUYm9gNUlOZYsvrCy6Jq2LczpUM8bVnq3
+         a99g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729007883; x=1729612683;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bpgcprPI+vvJsG2LB/Vt+V2mYjpRXDgXYo99nuQ4xLg=;
+        b=Fo5K5t/0jYOn2dH0bN79fhSxTa9Iaz6HK10whLwDJsQPgYU7IpdzfoCsi9nONlYGPz
+         I7q1BatUL6Qxm0e9OQpolcGAEiOinYDGf08zUpuEWKB8ljH+6E38MyKykueTZWnePsRO
+         m2UDWqMjeUBa1IIdU1ht9PHJiucZ6K5YRklI82DJHt1ALFcl3W9elJSdusv6n53G84Ij
+         HZwsjmTgAIOFKX3o2UAB7UhNFyagmgYEn0m9hTnQLKETfA5beHqd7i4K5u45opL+wJgm
+         DyGKHKXnc3sisBkjNNKqsO3JmdcVV8sz8dh3/TJ6lHXdrxCz3htnjY1iFmnQi1Gmn+QE
+         tTEA==
+X-Forwarded-Encrypted: i=1; AJvYcCUlWMWNtpw5W0IMxUJUXGNotFuirjgg/gP/vxq6bc9HLmBYLjtaLYoO4601BcFaM5GK1LBec9RzE8E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbV7uyEN5tusMQcIkbJaZhO4D2cRXIF8TOCQEryQmamCUfUYyn
+	c08ZOd0Lq8lRKbLgG6xmQ78MezWDw0tjlDQUdm/XeqBjl6EdxuMyBJ8kCRsFN2Q+9l7ftRx7JFe
+	b8w==
+X-Google-Smtp-Source: AGHT+IEOMhUIEJb7HA5wBTCErVAFDrxkcdBMavuoBSriks4hlucPD3WdjFvME0Ck5+1DRkZ02jm1mHkhvMQ=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:9d:3983:ac13:c240])
+ (user=seanjc job=sendgmr) by 2002:aa7:9d81:0:b0:71e:5bf6:fef0 with SMTP id
+ d2e1a72fcca58-71e7db6d5b2mr1783b3a.6.1729007883292; Tue, 15 Oct 2024 08:58:03
+ -0700 (PDT)
+Date: Tue, 15 Oct 2024 08:58:01 -0700
+In-Reply-To: <87h69dg4og.fsf@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|MN2PR12MB4254:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2f993298-bc9c-4bc6-c9c0-08dced30264b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Z0huUVdwbmh4bjhsdTNMYzgza2QycjlMcGo3M0o0aEJkc3BqbGtXUm5FcEpB?=
- =?utf-8?B?N3ViLzhyY1ZQS2srcTVDakpvRXBrbE9FazZSRlhRd3lBeEc2VUMreDVDNWdO?=
- =?utf-8?B?d1lOR3RKY1h5ZEhXODl4NDgxdVBMMUQ4MVBwNlhyWE1qQ1pybzhYL09ROW1D?=
- =?utf-8?B?czRGcU9yY2Fob1Z5eFdoNkZmWkN1bkxNVHZxRHhwMzZMNDlrVE5CNXhuOWN2?=
- =?utf-8?B?NkZZbXE3RmNkT2EveVcwMTE2WnVDOU9wOEhzY3JsZXVIdG94K0VhY3c1R1Zo?=
- =?utf-8?B?RjVHcjVETmpRRWkwTzlHS2hNbXJhRUptSG84dnVJT0RTcFRza1ZNZ0tNQ2x5?=
- =?utf-8?B?OWhDRUpHWDF4RXZnSlJmN2xONmMvZFRxZ2RzeGorK0drVU8ycWxEek1WR2Zr?=
- =?utf-8?B?dnRxTzJLSlJKNXBFb0FSNGhCa3FMWWNpSEZEbnBSeWpNdDVoZ3c1WC8wTm4v?=
- =?utf-8?B?cTlWQVlNTCswZCtKYU5YdUYzMEFJQzhlWkY1V2JhcmlHcHMrdXhTVExJSlRn?=
- =?utf-8?B?aEpVU3ZsUkwzQXBLWHJLTkgvMi8rTnl2NzhXYWpmdVE0czdUTXhvbkdPOXR0?=
- =?utf-8?B?aU93M3VweDh6YnUzSW5kWW9IWjBqcWZJR2xSM0NyK095UzRxTVo0WkhSZDJK?=
- =?utf-8?B?U0F1dXBLMjBkeUdvMmlXZ0pTRCtSK1Jwci9tdE1ocE42dVlMS016bUgySGJ0?=
- =?utf-8?B?YUJsWlVNaWZCd1Urd0xyUEpQYURXakprSktraVdaUndxcG9VQmhKZGN5bUpx?=
- =?utf-8?B?blNRbDhlWU1KWTR4eU9iQ2NsaDVDZ0VEeXJqNTQ5b0l2eERMSW5RVjNWMUls?=
- =?utf-8?B?NnZ4MXRwOXRYRFZ0azNwZlBqUHU1Q2lxazhydzdTSFFEc21IK0QrMkFZakdV?=
- =?utf-8?B?TGFmNVFLazhLSVdGUXlPalI0UllDcCtxY0FESDhxUzlqTlBpSFRuZnFEQ0c5?=
- =?utf-8?B?ay9kTS9UaUM5Vnc5aHhBQnZZd3ZFME10RmxXbTBSYXd0UkdCTmtVcnZJUlF3?=
- =?utf-8?B?bE1ucUtsbllpTFNucXdSWDhONXNKb0pCM2Y0WkhsWHRtdU9IekxjS083ekhE?=
- =?utf-8?B?MTdQbkJJN2MyNUdwQWZiV2RvUnAvK1YxSVBId2dYdjZhQXRhOXp1K1JsMndN?=
- =?utf-8?B?UDhCR3V5OENNUnZPWDNVWVFUTmtLUkpwY0EwaDhPZU0zSkFZRVF1eXZlaDR4?=
- =?utf-8?B?cUtlMVVyVzR1Ty84ZFRxeHlCVklycnZybWxkQ1RIaHNwVUtnaEVaait6K1R2?=
- =?utf-8?B?K2N2UkhzSUZmRHlkcHArQ3lqcFhDRHF3TVd1dFpOd2l4V0tiVVVUQWo2UmFV?=
- =?utf-8?B?L25PeWZhd2swblFxK0JENnlPc1psNTFLY2phcXc1cWxMRkl0eitUbjE3NXAv?=
- =?utf-8?B?cmN4cVRYZHJLZjZHZkxnd2MyYmVtS20zVWZQZlFWZWM5Qmt1SzQxMXRDTTdh?=
- =?utf-8?B?UExMOS9vRWZJRlVsUHhOQ2xYTkk0YnZWcnhnc0ZKRXJpNFV1TXJxM2N2bkxV?=
- =?utf-8?B?Q0ZzaUE4WHlyVVlqSDJpaU51YWs4RU5WNkVGS0dQc1NFT0RHcmtsMDhJVXE3?=
- =?utf-8?B?eUNzZkU1WTNsakdyZkI5STNGeU55N0VtQnlQL085b1RrZm9TcUtMb2NmOUIr?=
- =?utf-8?B?UEtLbVV1QlpiOCtOdmpNNjFXRmlSeUI5MVg4YURCWU5qMWtEWUJrbmdtQ3F5?=
- =?utf-8?B?dmllbzJaNUV6ekFwK2FtNENveDlxaVZvdXlHMUFMQ3RIY1c5a3Arc0lnPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?azMwT2VOUm03bkdQTTdmZUF4bmpRMllwN05UZGRTTUIwZWplaktGUmsxbDVS?=
- =?utf-8?B?Q2NXN1dZS3l3c3pQVW0veHU0cXI3aldZWnNGeGlpSG1LT0pFYmxlL3hHRjIv?=
- =?utf-8?B?dk9FK21ZYTk0dzl4SkRTQUd3eWQySENUeDVxa0FwOUFMMVk4OEkwbnMydHlE?=
- =?utf-8?B?eFJzTEhHNUJtemEzdUxUUFFzeHFsbmwzMmoxekpJU0kxcFpaaU91bXRnTE41?=
- =?utf-8?B?YVkvcSt5aGlYcHNmWmtKLzBqRytvU2k3cUFnSVdXTmxjU09jVVJ6b1BFVlZo?=
- =?utf-8?B?WGdzQStnSlR0NWVMR2xqOVdvYnZvV2dhQ2hCS01LY0JwNm5SVU4xcnYydmJz?=
- =?utf-8?B?RzVQZ29lTFpBN3Z4SGlFbStlT05MUyttWFN5UDE1ZFJ5REIzaUlhV094M2I0?=
- =?utf-8?B?bTZxVnBuZWsyZW5PU1dxMk4vR3RwK2xEWmF4dmxpUFNPL0lQdWExb3p5b0Rw?=
- =?utf-8?B?T0kyV1ZRaFVNN3FXdVJuVllXcWJFZTYyT3B4c0JSSVFvWlErb3JCQzV4QWpo?=
- =?utf-8?B?cm5hUERsc0hncUdvWlR5dEN4Uk5EWFZaSllWckFUbldCWjFaQ0NUOEZEWDk1?=
- =?utf-8?B?TU1rNG1BT3FxSVRjaXdleDcwSmZOeFdIZFhXbEhYOVRJcFRqOXczQ1ZhYktw?=
- =?utf-8?B?d2llRDdoRWxTVFRWeGN3aHNPZ3E4RlN1T3FrUFlIMXcvZjlQUDU0L0pyR3hp?=
- =?utf-8?B?c0lOaEJKWENzRlZpakNLQnNIekdEMnl3QnVNdEtiU2lRVVFIWVNYaTBWZllE?=
- =?utf-8?B?K0xXMmM3K05WRDFheU10U3psMmxxU1JPbEc3U1pzYXlVY2tPS1dXeW1XNVBG?=
- =?utf-8?B?MzYzV0ZMUGVrZUQvVnlFb0lhcUloVGhjcUVHSWpHZUw4ZVhPWFFML0x0R2Nh?=
- =?utf-8?B?ck9ZSTlHQ29tUWd1QkgvTXNnbERKc3FBWnZIZUs1WHBxbGd2ZndsanFHS2ty?=
- =?utf-8?B?S2ZQYUxkUWxaUVJ4NE5IdnJYMTN0OHdSdDFrblJaSzRNUFh1OXVSdjIzQm9P?=
- =?utf-8?B?R1VIV05RY2tNbnFKSlpkcmdaOFFzemlGanlMdmhleENvZXd4MW1zWHcvWkRD?=
- =?utf-8?B?cVhoMW9jejlzQ3JmRk5walpYYzBURE04THZVaGMyZXkrZVpQQ3YxRmk3a3J6?=
- =?utf-8?B?R3pjS1FQcG4reUpoUWdXMW1mSm9mT1NJSmprQlp1azBubGdObmdBbDhOREJO?=
- =?utf-8?B?M0ZIOUsxTjB2c0kxaE5hL3plWWNmVXI4Y3dMVU9NV1kyait5WTRpU0gycUoy?=
- =?utf-8?B?WDlJNzk1SGp4cHZ0TVM1SzB6REVId2tTUjRITnFpSzBwZGxwdGdkSkIyOElr?=
- =?utf-8?B?NVJPTUpJazFKZCt3Qk1qR0RxWHVoK0FNMFp5VnE2V1pXM1VOVnp5V3RHSnMv?=
- =?utf-8?B?YmwwTzEwTm5wb1R5Y21GZDJZNWUzZnBna0RuLzluN3k1M3F6b0l3WjBYemUw?=
- =?utf-8?B?ZWkzcmM3VkkxSGxEdVdDdFhYS2ZCOUFSZXpXbG9NNHVYRmJIMUtaSXNENGFJ?=
- =?utf-8?B?bkdtQXZwTE9xRExEVFF1dS9EUHFTNHZuL0t0OHpFM0VCREJkZnlXQy9kV1ow?=
- =?utf-8?B?Zkw3RjZWb3ZScjhPNjA5VWNRMUcvY0NjTGhMUEJnOEY2MlNmUHVHdDFTT2VW?=
- =?utf-8?B?SmdLNnVYbUExVWZNSFIzbWpNMmhUYVdSK0RpRWpWMVZFVTdpWGhNaWxqRVZo?=
- =?utf-8?B?T1BFTUJFc1lIU0grWS95QjVNZjNGM2FIWkVJazRKN0J0L1lDd0NHcldHYktM?=
- =?utf-8?B?QUd6d2hWT2w0L2ZPZElwcXRnaWg4R1gwdnJ4R3JPLzdaMjRzUVRHSWhNTmhh?=
- =?utf-8?B?ditvaTlDM0tSQ1VEZXJ5V0hWNGxCQmI1dlVJQjQ1M2Z2NlpMWlhlckk4TFYy?=
- =?utf-8?B?bmJBcUFMWUtHb1JjZjQreGxiTFNFUVRRUTVPWU9MSEpuZWx6ZitPRXJvOWNH?=
- =?utf-8?B?anN6QkVnQzU4SStzZW1kcm5MeDlJb040YmVtODZRM0IxMnVOVit5QTl3TlR1?=
- =?utf-8?B?UHVGbUJTd1BUSUJBeTNRelFWb3B1Q0tDTEE5dThkL1JzbFh4bUlSZFE2UjRs?=
- =?utf-8?B?KzNtYWZiUU9XQXR5OUhUWEhOUnZDZlZIMVcwVnRHR3FaYWt5aHlDT1hNSXMy?=
- =?utf-8?Q?a44k=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2f993298-bc9c-4bc6-c9c0-08dced30264b
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2024 15:43:43.8408
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: V45Bd7KrRhHq39fBKCM/fb54Ne8HrsJfrsdVXylJ6RpL46by2tb/w7+WFA1oBFdi
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4254
+Mime-Version: 1.0
+References: <20241004140810.34231-1-nikwip@amazon.de> <20241004140810.34231-3-nikwip@amazon.de>
+ <875xq0gws8.fsf@redhat.com> <9ef935db-459a-4738-ab9a-4bd08828cb60@gmx.de> <87h69dg4og.fsf@redhat.com>
+Message-ID: <Zw6PlAv4H5rNZsBf@google.com>
+Subject: Re: [PATCH 2/7] KVM: x86: Implement Hyper-V's vCPU suspended state
+From: Sean Christopherson <seanjc@google.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: Nikolas Wipper <nik.wipper@gmx.de>, Nikolas Wipper <nikwip@amazon.de>, 
+	Nicolas Saenz Julienne <nsaenz@amazon.com>, Alexander Graf <graf@amazon.de>, James Gowans <jgowans@amazon.com>, 
+	nh-open-source@amazon.com, Paolo Bonzini <pbonzini@redhat.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org, 
+	kvm@vger.kernel.org, x86@kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Reinette/Tony,
-
-On 10/14/24 21:39,  wrote:
-> Hi Babu,
+On Tue, Oct 15, 2024, Vitaly Kuznetsov wrote:
+> Nikolas Wipper <nik.wipper@gmx.de> writes:
 > 
-> On 10/14/24 9:35 AM, Moger, Babu wrote:
->> On 12/31/69 18:00, Luck, Tony wrote:
->  
->>>
->>> It is still the case that callers don't care about the return value.
->>
->> That is correct.
->>
+> > On 10.10.24 10:57, Vitaly Kuznetsov wrote:
 > 
-> Are you planning to change this? I think Tony has a good point that since
-> assignment failures do not matter it unnecessarily complicates the code to
-> have rdtgroup_assign_cntrs() return failure.
+> ...
 > 
-> I also think the internals of rdtgroup_assign_cntrs() deserve a closer look.
-> I assume that error handling within rdtgroup_assign_cntrs() was created with
-> ABMC in mind. When only considering ABMC then the only reason why
-> rdtgroup_assign_cntr_event() could fail is if the system ran out of counters
-> and then indeed it makes no sense to attempt another call to rdtgroup_assign_cntr_event().
+> >>>  int kvm_hv_vcpu_flush_tlb(struct kvm_vcpu *vcpu);
+> >>> +
+> >>> +static inline bool kvm_hv_vcpu_suspended(struct kvm_vcpu *vcpu)
+> >>> +{
+> >>> +	return vcpu->arch.hyperv_enabled &&
+> >>> +	       READ_ONCE(vcpu->arch.hyperv->suspended);
+> >>
+> >> I don't think READ_ONCE() means anything here, does it?
+> >>
+> >
+> > It does prevent compiler optimisations and is actually required[1]. Also
+> > it makes clear that this variable is shared, and may be accessed from
+> > remote CPUs.
+> >
+> > [1] https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0124r6.html#Variable%20Access
 > 
-> Now that the resctrl fs/arch split is clear the implementation does indeed expose
-> another opportunity for failure ... if the arch callback, resctrl_arch_config_cntr()
-> fails. It could thus be possible for the first rdtgroup_assign_cntr_event() to fail
-> while the second succeeds. Earlier [1], Tony suggested to, within rdtgroup_assign_cntrs(),
-> remove the local ret variable and have it return void. This sounds good to me.
-> When doing so a function comment explaining the usage will be helpful.
+> It certainly does no harm but I think if we follow 'Loads from and
+> stores to shared (but non-atomic) variables should be protected with the
+> READ_ONCE(), WRITE_ONCE()' rule literally we will need to sprinkle them
+> all over KVM/kernel ;-) And personally, this makes reading the code
+> harder.
 > 
-> I also think that rdtgroup_unassign_cntrs() deserves similar scrutiny. Even more
-> so since I do not think that the second rdtgroup_unassign_cntr_event()
-> should be prevented from running if the first rdtgroup_unassign_cntr_event() fails.
-
-
-Sounds fine with me. Now it will look like this below.
-
-
-static void rdtgroup_assign_cntrs(struct rdtgroup *rdtgrp)
-{
-  struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
-
- if (!resctrl_arch_mbm_cntr_assign_enabled(r))
-      return;
-
- if (is_mbm_total_enabled())
-   rdtgroup_assign_cntr_event(r, rdtgrp, NULL, QOS_L3_MBM_TOTAL_EVENT_ID);
-
- if (is_mbm_local_enabled())
-   rdtgroup_assign_cntr_event(r, rdtgrp, NULL, QOS_L3_MBM_LOCAL_EVENT_ID);
-
-}
-
-/*
- * Called when a group is deleted. Counters are unassigned if it was in
- * assigned state.
- */
-static void rdtgroup_unassign_cntrs(struct rdtgroup *rdtgrp)
-{
-  struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
-
-  if (!resctrl_arch_mbm_cntr_assign_enabled(r))
-       return;
-
- if (is_mbm_total_enabled())
- rdtgroup_unassign_cntr_event(r, rdtgrp, NULL, QOS_L3_MBM_TOTAL_EVENT_ID);
-
- if (is_mbm_local_enabled())
- rdtgroup_unassign_cntr_event(r, rdtgrp, NULL, QOS_L3_MBM_LOCAL_EVENT_ID);
-
-}
-
-
+> To my (very limited) knowledge, we really need READ_ONCE()s when we need
+> to have some sort of a serialization, e.g. the moment when this read
+> happens actually makes a difference. If we can e.g. use a local variable
+> in the beginning of a function and replace all READ_ONCE()s with
+> reading this local variable -- then we don't need READ_ONCE()s and are
+> OK with possible compiler optimizations. Similar (reversed) thoughts go
+> to WRITE_ONCE().
 > 
-> Reinette
+> I think it's OK to keep them but it would be nice (not mandatory IMO,
+> but nice) to have a comment describing which particular synchronization
+> we are achieving (== the compiler optimization scenario we are protecting
+> against). 
 > 
-> [1] https://lore.kernel.org/all/ZwldvDBjEA3TSw2k@agluck-desk3.sc.intel.com/
+> In this particular case, kvm_hv_vcpu_suspended() is inline so I briefly
+> looked at all kvm_hv_vcpu_suspended() call sites (there are three) in
+> your series but couldn't think of a place where the READ_ONCE() makes a
+> real difference. kvm_hv_hypercall_complete() looks pretty safe
+> anyway. kvm_hv_vcpu_unsuspend_tlb_flush() will be simplified
+> significantly if we merge 'suspended' with 'waiting_on': instead of 
 > 
+>       kvm_for_each_vcpu(i, v, vcpu->kvm) {
+>               vcpu_hv = to_hv_vcpu(v);
+> 
+>               if (kvm_hv_vcpu_suspended(v) &&
+>                   READ_ONCE(vcpu_hv->waiting_on) == vcpu->vcpu_id) {
+> ...
+> 
+> you will have just
+> 
+>       kvm_for_each_vcpu(i, v, vcpu->kvm) {
+>               vcpu_hv = to_hv_vcpu(v);
+> 
+>               if (vcpu_hv && vcpu_hv->waiting_on == vcpu->vcpu_id) {
+> ...
+> (and yes, I also think that READ_ONCE() is superfluous here, as real
+> (non-speculative) write below can't happen _before_ the check )
+> 
+> The last one, kvm_vcpu_running(), should also be indifferent to
+> READ_ONCE() in kvm_hv_vcpu_suspended(). I may had missed something, of
+> course, but I hope you got my line of thought.
 
--- 
-Thanks
-Babu Moger
+I don't think you're missing anything.  In general, all of this code is more than
+a bit heavy-handed and lacks any kind of precision, which makes it *really* hard
+to see what actually guarantees a vCPU won't get stuck blocking.
+
+Writers synchronize SRCU and readers are required to acquire SRCU, but there's
+no actual data tagged as being protected by SRCU, i.e. tlb_flush_inhibit should
+be __rcu.
+
+All of the {READ,WRITE}_ONCE() stuff provides some implicit compiler barriers,
+but the actual protection to ensure a vCPU either observes inhibit=false or a wake
+event is provided by the smp_wmb() in __kvm_make_request().
+
+And from a performance perspective, synchronizing on kvm->srcu is going to be
+susceptible to random slowdowns, because writers will have to wait until all vCPUs
+drop SRCU, even if they have nothing to do with PV TLB flushes.  E.g. if vCPUs
+are faulting in memory from swap, uninhibiting a TLB flushes could be stalled
+unnecessarily for an extended duration.
+
+Lastly, KVM_REQ_EVENT is a big hammer (triggers a lot of processing) and semantically
+misleading (there is no event to process).  At a glance, KVM_REQ_UNBLOCK is likely
+more appropriate.
+
+Before we spend too much time cleaning things up, I want to first settle on the
+overall design, because it's not clear to me that punting HvTranslateVirtualAddress
+to userspace is a net positive.  We agreed that VTLs should be modeled primarily
+in userspace, but that doesn't automatically make punting everything to userspace
+the best option, especially given the discussion at KVM Forum with respect to
+mplementing VTLs, VMPLs, TD partitions, etc.
+
+The cover letters for this series and KVM_TRANSLATE2 simply say they're needed
+for HvTranslateVirtualAddress, but neither series nor Nicolas' patch to punt
+HVCALL_TRANSLATE_VIRTUAL_ADDRESS[*] justifies the split between userspace and
+KVM.  And it very much is a split, because there are obviously a lot of details
+around TlbFlushInhibit that bleed into KVM.
+
+Side topic, what actually clears HvRegisterInterceptSuspend.TlbFlushInhibit?  The
+TLFS just says 
+
+  After the memory intercept routine performs instruction completion, it should
+  clear the TlbFlushInhibit bit of the HvRegisterInterceptSuspend register.
+
+but I can't find anything that says _how_ it clears TlbFlushInhibit.
+
+[*] https://lore.kernel.org/all/20240609154945.55332-8-nsaenz@amazon.com
