@@ -1,256 +1,683 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 087DFC8F0;
-	Tue, 15 Oct 2024 02:43:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728960215; cv=fail; b=lnRK2ZinQJ+IGwUsaijg4WB0xogaxRkuQ1GsONdmSbeSg3f8SF9dFGRsqq9C/ETcgEEJ9hnNZD043VwRG6VZwL5Y0phoLkUAJI2kcpSvwFQh15W9z9uUQwlttM4Cu3goWlioFbvG6ZV4JvZq+uyKQrd3c3iCjoSqz4hzLE15uiQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728960215; c=relaxed/simple;
-	bh=a11/WVGPnwodjlRUoXBGVxcG2DIbS8ngpYiOhPXiNGY=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=WypRvUXMbG7I8oUy2tcPQzSAP/jk9JKDE6HrjIKHHTjvSAoljoIlD+sjTRMLAzxWdLfcYfHp/DToeendeB2yUOH+uwJ1u3hGgSHruNemx/KeS5Ktkej1gI2kAMFtLycn8fXCWuNwf7fjmnfMlTX1i2nowLHklAB1FYic9zGOWwY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=heN7jSfl; arc=fail smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C79822AF09;
+	Tue, 15 Oct 2024 02:49:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728960580; cv=none; b=X966l4XKNiG4f9GG41hiIbjRm7IOlGHyPlPv7m/y0UxlC68tEK0DRLRXNqjLHgE8OKhWw4UWPwZbJJ4SYqGZ2+51evBlxQ5axm5nuxKTre1gD+78vxsmLKKJwch2YlDQZx/xADM4TngCdexMJfHH8zcYH02RPwVPcwKEXAREr/A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728960580; c=relaxed/simple;
+	bh=rT+agBNaC3OQqEhOmvLKHKAH7l9/vaz5975FtIxD/vc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SRUPLsvKVldX50CDBAw6hSrUExDD0zUSLqU2xBWSkCeQ+JwbtvjGeZhBmisNJ3t7J5CwGPXCuwGAhqEyNs3GCAbyDbCJKWj1y54vTBTnb/o78Sy33LT4NI+HdxuDmY5dwgq2+fAx4ggnuuhFtVM/zG3YPOs9wTH993ZaHKaiEtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LVVhrIcl; arc=none smtp.client-ip=209.85.219.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="heN7jSfl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728960214; x=1760496214;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=a11/WVGPnwodjlRUoXBGVxcG2DIbS8ngpYiOhPXiNGY=;
-  b=heN7jSflFPPMRcgDfEShsmWRXCg9YrqMIjoeqZs5i1KKyy59CETxErFg
-   lRhk73ahQ2FGzXiKRwbsHxxcQ7amn/z8Jcr5sBwz+rQjRouAVH9J1FUWc
-   Teku3KwKhVkrttjEBpvQp27cvLitzw8S5hukktjyCYA3SWKHA4ZK5cbLk
-   cbW8kkavTHj1Orh4LVwUWCL7kPy/U/M1Wq9sOMBimFEE6S/Mu6UF3we2u
-   6Pl5PyKnChCOcGX/k1esLBtCnjLMolOABAUT8YF9tqLN08Ahg1Z2+QIQK
-   KEkUezn8N3uIR/bWAVaWnK4/egIuwvVc7Jo9ZS7D/wIglbO9KynL/OeP4
-   A==;
-X-CSE-ConnectionGUID: qx2YaKTIRpKw3XQ4zbtbmw==
-X-CSE-MsgGUID: KjH251mBRmeaGTacY+hJLA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="28461885"
-X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
-   d="scan'208";a="28461885"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 19:43:33 -0700
-X-CSE-ConnectionGUID: cKQmHv1UQ9uQWKVYNEbPkg==
-X-CSE-MsgGUID: FvrJj7K0S6uEcwNY3RMBFA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
-   d="scan'208";a="81722591"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 14 Oct 2024 19:39:19 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 14 Oct 2024 19:39:19 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 14 Oct 2024 19:39:18 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Mon, 14 Oct 2024 19:39:18 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.42) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 14 Oct 2024 19:39:18 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rh9U5RAzjut1uPYd134wCmHZCTf2vg0Xf00P9EX1tGKMi/cVU5oyRJP7Xk6i7g8zSXZ9WuZ/mS+XxN2JM6xAOvGTSwkcXlXVh4LJcB9zR4BS5D99+8bYrdb014f8gSbsbW0Cp2t5e5bL1dH625ITRi/g7hl9MK9kbl589bfWWuPuiRMwWqojzQr3zPkU4lcaQn+C5G4AtsQrbPDzVlT7+e+VnpEk1+ulo9JfUfBiFW6E2uSK/BNeJWEqkNmCAAzWvfEnv7qI1lV/AdIN9v3TwBHZjTnEk1pwZ9JqbLhQbAQzfoDweDvqF5B9dMcyVOauPhBBKhd0nXm7tFOyDsqyFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=R1A4gNT80BuHcJYwns9OjtSKSemHXevJ3+7TPq1Mek0=;
- b=Zda5uF96T2lnO0qebDi53Y0vKCQLaY/eT1aOtRsmmnelM7L5VOlt7b/F3CwcJnjbNIqicqjLiluD9yqrkJ/+XCINnlJmSPr0rUR8iAy5BMVFhutKrqHGEqR+QiWY6DpKpi0o9aR8JJOzK24obwe5oL7vN1e8/IpFpMo+InbIxfd+KrQa889RuGm30xVWQj3ob9hhjOwERwIb8egH+7gM+95dvZ/c/0EsXoZ4hf9s/D3ZhrvO0TZ3OI9fLk90TXcMiP2nQDCzF7pvUUjjKuCeN6WfE+hegiYHLRv9kUi3XyUkLOwKJkyD68UeeV+JYCavG+U2tUh2LXT+4MYixo8xdw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by DM4PR11MB6093.namprd11.prod.outlook.com (2603:10b6:8:b0::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.25; Tue, 15 Oct
- 2024 02:39:10 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf%7]) with mapi id 15.20.8048.020; Tue, 15 Oct 2024
- 02:39:10 +0000
-Message-ID: <567bd687-a69f-46fb-ab19-3f8d95c5e798@intel.com>
-Date: Mon, 14 Oct 2024 19:39:07 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 19/25] x86/resctrl: Auto assign/unassign counters when
- mbm_cntr_assign is enabled
-To: <babu.moger@amd.com>, "Luck, Tony" <tony.luck@intel.com>
-CC: "corbet@lwn.net" <corbet@lwn.net>, "Yu, Fenghua" <fenghua.yu@intel.com>,
-	"tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com"
-	<mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org"
-	<x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, "paulmck@kernel.org"
-	<paulmck@kernel.org>, "rdunlap@infradead.org" <rdunlap@infradead.org>,
-	"tj@kernel.org" <tj@kernel.org>, "peterz@infradead.org"
-	<peterz@infradead.org>, "yanjiewtw@gmail.com" <yanjiewtw@gmail.com>,
-	"kim.phillips@amd.com" <kim.phillips@amd.com>, "lukas.bulwahn@gmail.com"
-	<lukas.bulwahn@gmail.com>, "seanjc@google.com" <seanjc@google.com>,
-	"jmattson@google.com" <jmattson@google.com>, "leitao@debian.org"
-	<leitao@debian.org>, "jpoimboe@kernel.org" <jpoimboe@kernel.org>, "Edgecombe,
- Rick P" <rick.p.edgecombe@intel.com>, "kirill.shutemov@linux.intel.com"
-	<kirill.shutemov@linux.intel.com>, "Joseph, Jithu" <jithu.joseph@intel.com>,
-	"Huang, Kai" <kai.huang@intel.com>, "kan.liang@linux.intel.com"
-	<kan.liang@linux.intel.com>, "daniel.sneddon@linux.intel.com"
-	<daniel.sneddon@linux.intel.com>, "pbonzini@redhat.com"
-	<pbonzini@redhat.com>, "sandipan.das@amd.com" <sandipan.das@amd.com>,
-	"ilpo.jarvinen@linux.intel.com" <ilpo.jarvinen@linux.intel.com>,
-	"peternewman@google.com" <peternewman@google.com>, "Wieczor-Retman, Maciej"
-	<maciej.wieczor-retman@intel.com>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "Eranian, Stephane" <eranian@google.com>,
-	"james.morse@arm.com" <james.morse@arm.com>
-References: <cover.1728495588.git.babu.moger@amd.com>
- <ce07d802260f537b24b3affec57c2d2e65023709.1728495588.git.babu.moger@amd.com>
- <ZwldvDBjEA3TSw2k@agluck-desk3.sc.intel.com>
- <541d6c15-ed5f-8794-506c-8fa4065ca170@amd.com>
- <SJ1PR11MB60838F3FFF40AE2718ED7833FC792@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <43654ae1-c894-409b-bcb8-065940644906@amd.com>
- <SJ1PR11MB6083379F790967B379C4232DFC442@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <a972dfe9-341b-416c-a245-0834583c6620@amd.com>
-From: Reinette Chatre <reinette.chatre@intel.com>
-Content-Language: en-US
-In-Reply-To: <a972dfe9-341b-416c-a245-0834583c6620@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR03CA0274.namprd03.prod.outlook.com
- (2603:10b6:303:b5::9) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LVVhrIcl"
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6cbd57cc35bso45105676d6.1;
+        Mon, 14 Oct 2024 19:49:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728960578; x=1729565378; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O6QpddloaBSUmjobzza4mWr5JMsand8nw+B+0gMZgz4=;
+        b=LVVhrIclrHqT/JU2Z1mh993tM/i+Ax+pklmESB4O1vKmOTyo8VsnFZVjEqoYGMZbgq
+         0nDYK7gXL9lPPZpYnUKpaML7ZHUsrj513mUtr56XGFYLBJv1g5VmwB8x6mZOX6yr8Mw7
+         7NCf81v4Afj12Bimq5CWLbhFub+08ROpCMfuSkYvju5FFhlRZR3DZTu+EsixW2bAZt2k
+         7O7XyY7pYWfBjV6FWZT5BxuqvPRShpYqR1wyd7EQO5yT55v4cqKSHGsVAOwMmYiZ19jx
+         /xSn2CKNgk5Zbr4FM/2eR1PF7axHI9sfihyPwI23Cc0JBDiPc0F3ZnqtteewiDw3VOC9
+         HkYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728960578; x=1729565378;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=O6QpddloaBSUmjobzza4mWr5JMsand8nw+B+0gMZgz4=;
+        b=BSDB5mluJmdbxhsJkGYAw7YThP0q6BmEicPbrFUPCbXiVRVdBW8R/u47sFR+PwRyYM
+         M83qYoWJv4BxjU2eCk9zrFSgtiOTW/JkALkROs/lh6EClb85ss9K+fo4Rj+pJI7jCBrm
+         uGK9WAJXowCO8wwMOjPd2QiA13Ubpse5cy/2OqUUX+zHixfUfSgZAXmB19HR7KLo65hU
+         7btje+g/7Al5cAJJbekRU01ssUsSBq9dYvydp36hLHpKh5jAjTF72LeEVganGJ8EISOP
+         D+oePGyB7b1uJb0QMe1tsTr5a9Ty7fzfevTpD1nhiRmUJX365jioWScG1OOMp9MbTr8u
+         00Bw==
+X-Forwarded-Encrypted: i=1; AJvYcCUBJGukz73PhoiEqD8e2tg3S8vGrKfS1aYClNG99bqz4ITl0MZXFJNwtZ9GGtEkDWEcZSRDK8bFkkrnQXc=@vger.kernel.org, AJvYcCUnexKSr9oxKafsS5Yox0qODk/rNeoXH/BIFIzMoxRNLgcepGH+GqS2WOYf74OCSHAZdB4VFF3IJ2wL@vger.kernel.org, AJvYcCVMlV6mlqpK8Q3xvM5bxYEIEdkGh/gbKp8SVkq8zA/UwibruH49jAu+fTTWusvqjgJJVc2M0XPlLnT5@vger.kernel.org, AJvYcCXHgsgRlRxMKka7axgP6JK18Qrkmwls1LsQpZzX4wrUEOp2E7SMrhCDoZ9EDchDKjQPMQQczjcncAl0/vWZ@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/FdGkyHGvWRKHSq54unxaeXmJPKMMU/eF0haYfyuDEnyCn5ki
+	QvkEnz/rOmOZdkx7/pNzV3J/HcTf0tVC4w+kJJQvNh7S5Dt/Jn0MSPDsTX4NDG6Ix4fm5LoiAuz
+	sIpdvTpX3aqOLtycDPl+F+AYx2kE=
+X-Google-Smtp-Source: AGHT+IEcKBHtofFY3sXmSdV/IfeR4HDDhH6DC0cwnILrlnbfKKHc2mXD8uyRieb2RIlyqcgM6Q4ecFlNbayoe0kXSrM=
+X-Received: by 2002:ad4:4ea7:0:b0:6cb:c9cf:cd40 with SMTP id
+ 6a1803df08f44-6cbe522c325mr313981486d6.8.1728960577579; Mon, 14 Oct 2024
+ 19:49:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|DM4PR11MB6093:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8014cd45-d8b7-4f5b-b8b3-08dcecc28c74
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?N1pBbDE2blNoRmFKbHMzdktyK0s3RzBSeHBENnBLdUVORi9lS2d3aDFYRnFp?=
- =?utf-8?B?OGM3bldlQmFsU0htamhiK1JaMEp1TzA3bFNZN00vWlYzMHQ3eHQ4M082bDQr?=
- =?utf-8?B?YkZNZVFGOHNtQ2tsTElJNHZmdktGeCtqQ0d4S0I4NEIvK045RFVxaWNGRUxC?=
- =?utf-8?B?OXFHSlh6Mk9DT1hQMkY4cERJa1Z4OXA4Ni9hOGJlTlN0SHZob1VCOE1UU21T?=
- =?utf-8?B?VGx4ZStjbEJFZzZ3cHdiQjUrMjdKQXRFV25iMnM4cllzWExzcEZSdk5hTXpG?=
- =?utf-8?B?OGJwNE83R0ZJM2hoUkZ2ZXR0Sk9ibHlLWExnSXdjYmZTOTRrZTh5YmFHR3Bh?=
- =?utf-8?B?K1B0SHR2OUJldjYyVW11L2tHVUR4SnN6d0xja21UamhydGpsT1VwVVE2TC8z?=
- =?utf-8?B?QktNVjBPakVNcWxOOGJLOWVyWVhaTzViamRNQzRlQUhxcW04MGJBZEhRSXcr?=
- =?utf-8?B?UStFU04ycjFLM2lpVVNyOVIyTlN6Y1NCbWdDOGk0RU9DOWlDR1hudzU0MjA3?=
- =?utf-8?B?eDdhVFQrWjdCQUNzWTlyTlZzeVRNVmdhWklvODA1TGd0K1ViSTFtT2RDTWdy?=
- =?utf-8?B?QWpZeCtpUU1MdTZ4UzBDN3dBcFNDYmZzK0FvNVNlL0x2NlRETzA1Q1FEbVRa?=
- =?utf-8?B?blBQc1MrZWtJejRGWElOV2lwT01GQjVHcEpNdyt4SitJOU1jZDN6SkRLZ2Fv?=
- =?utf-8?B?dDdPMldsb1V3VnFBa3o2V3R0YjZqQ21Pa2JYcTc4TEthRFpSaU9VMXB6aEtO?=
- =?utf-8?B?T1E2c0hhN1YwUEtpUzQ0alU4RmwyWWFFSk04RzB3UWpYS2dzblpFbjNiT2I2?=
- =?utf-8?B?dk93aHJKZC83YmdSd2hLaytuUm84anNHZzlKSUZORG1uTWRaTmZRL2tId1kv?=
- =?utf-8?B?bnhtU0JxMGVmTXQ2Si84RENUUVdSTFJnU0E3U1pDdGduaTNOc0o1MXNTZHdU?=
- =?utf-8?B?WC9zeHNLcGRtbTdic2thdzdZTHFvNitwY0d6M2ZTOXJURDlrMysyMVY2akk4?=
- =?utf-8?B?czdnb3ZwbnM4a0pIOVQwdTVMUlFxc2ErQklVcEV6N3lGWlQwcmxrR0g4TURz?=
- =?utf-8?B?Q1RkTExVYURWUkdUMUU1WlVhR01yT1BxemhyZHJzSVVkMkh5Uk1sRE9NQkg3?=
- =?utf-8?B?OGNEWE81Mnd1STFkcWRKZEVrTTN6NjlSaGdzUUczcEh6dEg0bHpyZUhOdHIv?=
- =?utf-8?B?NDV5K0U2amRXMEY5TlU5REtwdkhuaG1SbE5Dc2FlWk93ODU4WUlTQWh6eDJ2?=
- =?utf-8?B?SnRIQ2VnODBUc0xDTlplOTlGVXNPWmJ6YllERUg0djFLUFJGVmpqMUllSUdK?=
- =?utf-8?B?VWxuSXkvYnp4d2lHbTFHNjdUZTVzanBpUlE4V29lOHFjVzFNbE41d0kwZUhp?=
- =?utf-8?B?eUhZSXdtKzB4UW1kVEI0TVpGK1NWU1IwSmV6cDRNd1R5MnY4SHh1M1k0THpU?=
- =?utf-8?B?NENGTDZpOHZNckU5YWJtVlhFenRJUFlsMzV4YW9za3hKR0FmaU5GRzFJcFln?=
- =?utf-8?B?bWdUdExreDhVWGVBZ284VHJTbjFWOXNjY3FlQWZSU1FSUW5WTjhWMXlxTndq?=
- =?utf-8?B?dTZKWjBBbFo2ak8wSHdLcEpuUmNNTFVKbER1aGFBUnF6ZEpRS2lENEk3b3I5?=
- =?utf-8?B?WW5KVkoya0U4UGlrUk5jcXZrTGEyeWNLMnJRdzQwT1VJSWQ5Y2EzL3FwVUZy?=
- =?utf-8?B?TWIycG5VWVArYlo3cTRxTHVvR2R0YmlBUldYeVdESG9XcWVGVXIyOXZBPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QXJKL3IwZmEzOFBDaUNCREszdEpibnA5NkhYeTVGYS9SUnpoOWV3UWpHMGpJ?=
- =?utf-8?B?WEhMUUM1MEhSMDJiQmZHTzI3WWtNYWJkdmFZWldwdXFDeHNpK3RyZVRuUWl0?=
- =?utf-8?B?dGVJUXJEWStqOCs4TG1EMEpNUXdtcEI4TDNNNjViYVFYNFQ4N1l3bUFtczk3?=
- =?utf-8?B?UndmOXhhQ2Vkd3R2bkZaV2ZCdUROVnRlMXVRR3czT3ZNQWVQa3VxYkdDMXEx?=
- =?utf-8?B?V0ViOEhPL0dLaVU0RWE0SnNEQ05mRFZVNkNPS21ZZ21MaFc5ekFEdHlpenpu?=
- =?utf-8?B?VHBqMVVQb28vNTM4SUV3RVc0dWlLOUwxTmMydm9jaTFSY3kwaFVydHBCYnpz?=
- =?utf-8?B?anFJalpRWEZpK003dXJ2bnRWd2tmZnhFcTFVUnlURVNkbnB0RUVEZHIwd25G?=
- =?utf-8?B?aWplRmp0TFF6cFNjV01YUEFyVE9lTmMrTHlsRjRBTWpGSTBkbnBDalB1cVUx?=
- =?utf-8?B?L3BVNG1RZDFjQ3Rkem50S0hFbmtFZm56ZmQySm9jNVBDbFdjb28yaDB0MEFD?=
- =?utf-8?B?VVpIZE1aUzErUjJCckVDUHZlek1mNTJsa1lsYzVzaCtJd1d1MnRSb3g2eVY5?=
- =?utf-8?B?NXJnNk1QbkZkU3lqeDNTSzNTNHk4amtZeVFKZ3Z3UnlHWmhNL3A1Rm1DaFpH?=
- =?utf-8?B?a1NDRjYvU1ZUV0wxSWN2ZUQ4SEdMWHIzbUdDdmptMmtWdU12Z3FQdjI4VzQw?=
- =?utf-8?B?ZTJENnJaYnl6TUlzYjFFaG1TRGJuejFIMUtQZjRYeU9GaHJIZ2dBY3RkR09h?=
- =?utf-8?B?eGNSOVc0NjZkQ3UxTDZpb0RmNnU2eFpFSndaZWV3WDBEZkRrMmI3RlFUMThF?=
- =?utf-8?B?QmY1ZGVYc1NaZG5QQjZOTlZ3MnJiR05BUHNSWlNQajB4S2ZoRjZ2MjJLOGhv?=
- =?utf-8?B?dVZ0ejBqeVdkRXdPdWpRVU42cVlMbWJMZktTbUtZelZISyt5bDhGaDBUMGZR?=
- =?utf-8?B?aS9MS0IwdjBUWi9ZN3FyVS9vTVpYYnE3MWRIeU9COTZwOVNScnBUYzEzZCtW?=
- =?utf-8?B?c2V3dFkxZHJRd0ovckI3bjlXY3VLeTVpV2QvR3JGa3pKWnRINVVpcUlGUHJ0?=
- =?utf-8?B?SFQ5cGJzaG5RL3VWSWFSVnEydGh1UGtQUGQ5a1VHYk5udHNURXdjY1VzQjkw?=
- =?utf-8?B?SzhpQWhlY0h4Tzd6ZkFUZVE2R25Ic0FBeG5MUnJpazBKelJia29xcWh2RHNi?=
- =?utf-8?B?bm8rb3pSZ01WTTdITUNGZStxd2c0VlNDWGtjZCt4akExUktKcXg3M2tFSzJY?=
- =?utf-8?B?Z0FQV25sUEdDMWpFamxKOXYrNFpBdVg0cHgydDhWd3g2Y25rdmcwcmtNRGc1?=
- =?utf-8?B?RndQNmNpalh3T2JMdjkvRkdha29vc2hFQ3krNHRpalhjbEcvaktBbXpOTU5p?=
- =?utf-8?B?ai9VVHN6ZVhWN01FZnhmWE1ZWFNsR04xVm01YThjaGc4bHpLNTJzUjJtdnda?=
- =?utf-8?B?V0w4c3AxZis1TndKVzZGbFd2ZVB1SEF6eFBBMnFmUVV0ZEZiOEtJbWxZNmU2?=
- =?utf-8?B?MzhyUzlQejBVSVhWUWdkVVhETkhDZGlNMmlwRW5OMzVaR2VzVE1FaWh0MEVs?=
- =?utf-8?B?d1ZBR1VvbjR0RTRSREdHR3V2aFc2dDdxL3lidVpKRks2cnlNVzZrckdBZ25U?=
- =?utf-8?B?SFVaUEYrQUtlSy9yRUN6NGtzeVZIK3kyb0pFMHVNZFB5SlJFL3o3UTdQVER1?=
- =?utf-8?B?RkpBR3N2U2VXMUp1a2Fjblo4OFJYRFFGU0ppVDZTOUh6Q200TStPdlNycVNZ?=
- =?utf-8?B?YkFaaGgwOUIrM1hrNmJlVHNwMDVkckFjRUExM1VZTjROUlF3d29OWmx0bDBj?=
- =?utf-8?B?VVp4R0ZBU1pKNWlVWUowc1AyVi85QkpoOFVCeS9UeGphdGhmZTkwTUlLQm1q?=
- =?utf-8?B?TjJtZ01KVFIvMzhjVkh3NXBaZkppVUtmOEYvYVRBTjhsOWtBc0ZOc3NZWjQ0?=
- =?utf-8?B?N0VrV3R5MTlKVGNLTCtuTmE5dU5PREhKRktwMG9XTXp3NTV1OXJsZVMyVmhF?=
- =?utf-8?B?aFlvQk5PWWlwVkpnV2tRL0piS2w3L2dPT2d4LzFYNld3REZlcXFBTFhCTnps?=
- =?utf-8?B?bTJmV2E2TGFMZk8vMHpBb0xORThpN0JPVHJsUitsNU04cWcxWWk1ZWQzejkr?=
- =?utf-8?B?MkUzVjhOYk43MTJkdVBteXdjQUluZGhyZThWK3h3c29MYmZCbVJ3aHZ5c2pY?=
- =?utf-8?B?WWc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8014cd45-d8b7-4f5b-b8b3-08dcecc28c74
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2024 02:39:10.5150
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Jl8bD7vPde3lKGA406mChuyS38Z4kXxu4RBFYwd5b9Y5hycW1RFf9dhzEFn2CSE0uwFlduYMiGPU1UEaEdIvnN96XW4cTdxonurpVjVrJDQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6093
-X-OriginatorOrg: intel.com
+References: <20240322081158.4106326-1-kcfeng0@nuvoton.com> <20240322081158.4106326-3-kcfeng0@nuvoton.com>
+ <dee8d81d-590e-4ae5-9771-9e1848b8ffe9@roeck-us.net>
+In-Reply-To: <dee8d81d-590e-4ae5-9771-9e1848b8ffe9@roeck-us.net>
+From: Ban Feng <baneric926@gmail.com>
+Date: Tue, 15 Oct 2024 10:49:26 +0800
+Message-ID: <CALz278YCpDYd6Lyj0qdAS9xv0_HYfz7y3a3L7WW4+9A65nS7zQ@mail.gmail.com>
+Subject: Re: [PATCH v5 2/2] hwmon: Add driver for I2C chip Nuvoton NCT7363Y
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: jdelvare@suse.com, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+	conor+dt@kernel.org, corbet@lwn.net, linux-hwmon@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, openbmc@lists.ozlabs.org, kwliu@nuvoton.com, 
+	kcfeng0@nuvoton.com, DELPHINE_CHIU@wiwynn.com, Bonnie_Lo@wiwynn.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Babu,
+Hi Guenter,
 
-On 10/14/24 9:35 AM, Moger, Babu wrote:
-> On 12/31/69 18:00, Luck, Tony wrote:
- 
->>
->> It is still the case that callers don't care about the return value.
-> 
-> That is correct.
-> 
+On Thu, Jun 20, 2024 at 10:23=E2=80=AFPM Guenter Roeck <linux@roeck-us.net>=
+ wrote:
+>
+> On Fri, Mar 22, 2024 at 04:11:58PM +0800, baneric926@gmail.com wrote:
+> > From: Ban Feng <kcfeng0@nuvoton.com>
+> >
+> > The NCT7363Y is a fan controller which provides up to 16
+> > independent FAN input monitors. It can report each FAN input count
+> > values. The NCT7363Y also provides up to 16 independent PWM
+> > outputs. Each PWM can output specific PWM signal by manual mode to
+> > control the FAN duty outside.
+> >
+> > Signed-off-by: Ban Feng <kcfeng0@nuvoton.com>
+>
+> Sorry for the late reply. This got somehow lost in my queue.
+>
+> > ---
+> >  Documentation/hwmon/index.rst   |   1 +
+> >  Documentation/hwmon/nct7363.rst |  33 +++
+> >  MAINTAINERS                     |   2 +
+> >  drivers/hwmon/Kconfig           |  11 +
+> >  drivers/hwmon/Makefile          |   1 +
+> >  drivers/hwmon/nct7363.c         | 396 ++++++++++++++++++++++++++++++++
+> >  6 files changed, 444 insertions(+)
+> >  create mode 100644 Documentation/hwmon/nct7363.rst
+> >  create mode 100644 drivers/hwmon/nct7363.c
+> >
+> > diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.=
+rst
+> > index 1ca7a4fe1f8f..0874f2f754f4 100644
+> > --- a/Documentation/hwmon/index.rst
+> > +++ b/Documentation/hwmon/index.rst
+> > @@ -170,6 +170,7 @@ Hardware Monitoring Kernel Drivers
+> >     mpq8785
+> >     nct6683
+> >     nct6775
+> > +   nct7363
+> >     nct7802
+> >     nct7904
+> >     npcm750-pwm-fan
+> > diff --git a/Documentation/hwmon/nct7363.rst b/Documentation/hwmon/nct7=
+363.rst
+> > new file mode 100644
+> > index 000000000000..1a6abce3a433
+> > --- /dev/null
+> > +++ b/Documentation/hwmon/nct7363.rst
+> > @@ -0,0 +1,33 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +Kernel driver nct7363
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +Supported chip:
+> > +
+> > +  * Nuvoton NCT7363Y
+> > +
+> > +    Prefix: nct7363
+> > +
+> > +    Addresses: I2C 0x20, 0x21, 0x22, 0x23
+> > +
+> > +Author: Ban Feng <kcfeng0@nuvoton.com>
+> > +
+> > +
+> > +Description
+> > +-----------
+> > +
+> > +The NCT7363Y is a fan controller which provides up to 16 independent
+> > +FAN input monitors, and up to 16 independent PWM outputs with SMBus in=
+terface.
+> > +
+> > +
+> > +Sysfs entries
+> > +-------------
+> > +
+> > +Currently, the driver supports the following features:
+> > +
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+> > +fanX_input  provide current fan rotation value in RPM
+> > +
+> > +pwmX        get or set PWM fan control value.
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 2705e44ffc0c..c016a0bed476 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -15221,6 +15221,8 @@ M:    Ban Feng <kcfeng0@nuvoton.com>
+> >  L:   linux-hwmon@vger.kernel.org
+> >  S:   Maintained
+> >  F:   Documentation/devicetree/bindings/hwmon/nuvoton,nct7363.yaml
+> > +F:   Documentation/hwmon/nct7363.rst
+> > +F:   drivers/hwmon/nct7363.c
+> >
+> >  NETDEVSIM
+> >  M:   Jakub Kicinski <kuba@kernel.org>
+> > diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> > index 83945397b6eb..4ff19ea11001 100644
+> > --- a/drivers/hwmon/Kconfig
+> > +++ b/drivers/hwmon/Kconfig
+> > @@ -1658,6 +1658,17 @@ config SENSORS_NCT6775_I2C
+> >         This driver can also be built as a module. If so, the module
+> >         will be called nct6775-i2c.
+> >
+> > +config SENSORS_NCT7363
+> > +     tristate "Nuvoton NCT7363Y"
+> > +     depends on I2C
+> > +     select REGMAP_I2C
+> > +     help
+> > +       If you say yes here you get support for the Nuvoton NCT7363Y
+> > +       hardware monitoring chip.
+> > +
+> > +       This driver can also be built as a module. If so, the module
+> > +       will be called nct7363.
+> > +
+> >  config SENSORS_NCT7802
+> >       tristate "Nuvoton NCT7802Y"
+> >       depends on I2C
+> > diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> > index 5c31808f6378..cf7be22b916a 100644
+> > --- a/drivers/hwmon/Makefile
+> > +++ b/drivers/hwmon/Makefile
+> > @@ -171,6 +171,7 @@ obj-$(CONFIG_SENSORS_NCT6775_CORE) +=3D nct6775-cor=
+e.o
+> >  nct6775-objs                 :=3D nct6775-platform.o
+> >  obj-$(CONFIG_SENSORS_NCT6775)        +=3D nct6775.o
+> >  obj-$(CONFIG_SENSORS_NCT6775_I2C) +=3D nct6775-i2c.o
+> > +obj-$(CONFIG_SENSORS_NCT7363)        +=3D nct7363.o
+> >  obj-$(CONFIG_SENSORS_NCT7802)        +=3D nct7802.o
+> >  obj-$(CONFIG_SENSORS_NCT7904)        +=3D nct7904.o
+> >  obj-$(CONFIG_SENSORS_NPCM7XX)        +=3D npcm750-pwm-fan.o
+> > diff --git a/drivers/hwmon/nct7363.c b/drivers/hwmon/nct7363.c
+> > new file mode 100644
+> > index 000000000000..858296f5d5b3
+> > --- /dev/null
+> > +++ b/drivers/hwmon/nct7363.c
+> > @@ -0,0 +1,396 @@
+> > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > +/*
+> > + * Copyright (c) 2023 Nuvoton Technology corporation.
+> > + */
+> > +
+> > +#include <linux/bitfield.h>
+> > +#include <linux/bits.h>
+> > +#include <linux/err.h>
+> > +#include <linux/hwmon.h>
+> > +#include <linux/hwmon-sysfs.h>
+> > +#include <linux/i2c.h>
+> > +#include <linux/module.h>
+> > +#include <linux/mutex.h>
+> > +#include <linux/regmap.h>
+> > +#include <linux/slab.h>
+> > +
+> > +#define NCT7363_REG_FUNC_CFG_BASE(x) (0x20 + (x))
+> > +#define NCT7363_REG_PWMEN_BASE(x)    (0x38 + (x))
+> > +#define NCT7363_REG_FANINEN_BASE(x)  (0x41 + (x))
+> > +#define NCT7363_REG_FANINX_HVAL(x)   (0x48 + ((x) * 2))
+> > +#define NCT7363_REG_FANINX_LVAL(x)   (0x49 + ((x) * 2))
+> > +#define NCT7363_REG_FSCPXDUTY(x)     (0x90 + ((x) * 2))
+> > +
+> > +#define PWM_SEL(x)                   (BIT(0) << ((x) * 2))
+> > +#define FANIN_SEL(x)                 (BIT(1) << ((x < 8) ? \
+> > +                                      (((x) + 8) * 2) : \
+> > +                                      (((x) % 8) * 2)))
+> > +#define VALUE_TO_REG(x, y)           (((x) >> ((y) * 8)) & 0xFF)
+> > +
+> > +#define NCT7363_FANINX_LVAL_MASK     GENMASK(4, 0)
+> > +#define NCT7363_FANIN_MASK           GENMASK(12, 0)
+> > +
+> > +#define NCT7363_PWM_COUNT            16
+> > +
+> > +static inline unsigned int FAN_FROM_REG(u16 val)
+>
+> Please use lower case for functions, even if inline.
 
-Are you planning to change this? I think Tony has a good point that since
-assignment failures do not matter it unnecessarily complicates the code to
-have rdtgroup_assign_cntrs() return failure.
+ok, I'll fix it in v6.
 
-I also think the internals of rdtgroup_assign_cntrs() deserve a closer look.
-I assume that error handling within rdtgroup_assign_cntrs() was created with
-ABMC in mind. When only considering ABMC then the only reason why
-rdtgroup_assign_cntr_event() could fail is if the system ran out of counters
-and then indeed it makes no sense to attempt another call to rdtgroup_assign_cntr_event().
+>
+> > +{
+> > +     if (val =3D=3D NCT7363_FANIN_MASK || val =3D=3D 0)
+> > +             return 0;
+> > +
+> > +     return (1350000UL / val);
+> > +}
+> > +
+> > +enum chips { nct7363, nct7362 };
+> > +
+>
+> Those enums are not actually used. Are they needed ?
 
-Now that the resctrl fs/arch split is clear the implementation does indeed expose
-another opportunity for failure ... if the arch callback, resctrl_arch_config_cntr()
-fails. It could thus be possible for the first rdtgroup_assign_cntr_event() to fail
-while the second succeeds. Earlier [1], Tony suggested to, within rdtgroup_assign_cntrs(),
-remove the local ret variable and have it return void. This sounds good to me.
-When doing so a function comment explaining the usage will be helpful.
+This added is for nct7362, in case we need to add the difference between th=
+em.
 
-I also think that rdtgroup_unassign_cntrs() deserves similar scrutiny. Even more
-so since I do not think that the second rdtgroup_unassign_cntr_event()
-should be prevented from running if the first rdtgroup_unassign_cntr_event() fails.
+>
+> > +static const struct i2c_device_id nct7363_id[] =3D {
+> > +     { "nct7363", nct7363 },
+> > +     { "nct7362", nct7362 },
+> > +     { },
+> > +};
+> > +MODULE_DEVICE_TABLE(i2c, nct7363_id);
+> > +
+> > +static const struct of_device_id nct7363_of_match[] =3D {
+> > +     { .compatible =3D "nuvoton,nct7363", .data =3D (void *)nct7363 },
+> > +     { .compatible =3D "nuvoton,nct7362", .data =3D (void *)nct7362 },
+> > +     { },
+> > +};
+> > +MODULE_DEVICE_TABLE(of, nct7363_of_match);
+> > +
+> > +struct nct7363_data {
+> > +     struct regmap           *regmap;
+> > +     struct mutex            lock;           /* protect register acces=
+s */
+> > +
+> > +     u16                     fanin_mask;
+> > +     u16                     pwm_mask;
+> > +};
+> > +
+> > +static int nct7363_read_fan(struct device *dev, u32 attr, int channel,
+> > +                         long *val)
+> > +{
+> > +     struct nct7363_data *data =3D dev_get_drvdata(dev);
+> > +     unsigned int hi, lo, rpm;
+> > +     int ret =3D 0;
+> > +     u16 cnt;
+> > +
+> > +     switch (attr) {
+> > +     case hwmon_fan_input:
+> > +             /*
+> > +              * High-byte register should be read first to latch
+> > +              * synchronous low-byte value
+> > +              */
+> > +             mutex_lock(&data->lock);
+> > +             ret =3D regmap_read(data->regmap,
+> > +                               NCT7363_REG_FANINX_HVAL(channel), &hi);
+> > +             if (ret)
+> > +                     goto out;
+> > +
+> > +             ret =3D regmap_read(data->regmap,
+> > +                               NCT7363_REG_FANINX_LVAL(channel), &lo);
+>
+> Please consider using regmap_read_bulk() to avoid the locks.
 
-Reinette
+ok, I'll fix it in v6.
 
-[1] https://lore.kernel.org/all/ZwldvDBjEA3TSw2k@agluck-desk3.sc.intel.com/
+>
+> > +             if (ret)
+> > +                     goto out;
+> > +             mutex_unlock(&data->lock);
+> > +
+> > +             cnt =3D (hi << 5) | (lo & NCT7363_FANINX_LVAL_MASK);
+> > +             rpm =3D FAN_FROM_REG(cnt);
+> > +             *val =3D (long)rpm;
+>
+> rpm and the typecast are unnecessary. Just use
+>                 *val =3D fan_from_reg(cnt);
+
+ok, I'll fix it in v6.
+
+>
+> > +             return 0;
+> > +     default:
+> > +             return -EOPNOTSUPP;
+> > +     }
+> > +
+> > +out:
+> > +     mutex_unlock(&data->lock);
+> > +     return ret;
+> > +}
+> > +
+> > +static umode_t nct7363_fan_is_visible(const void *_data, u32 attr, int=
+ channel)
+> > +{
+> > +     const struct nct7363_data *data =3D _data;
+> > +
+> > +     switch (attr) {
+> > +     case hwmon_fan_input:
+> > +             if (data->fanin_mask & BIT(channel))
+> > +                     return 0444;
+> > +             break;
+> > +     default:
+> > +             break;
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int nct7363_read_pwm(struct device *dev, u32 attr, int channel,
+> > +                         long *val)
+> > +{
+> > +     struct nct7363_data *data =3D dev_get_drvdata(dev);
+> > +     unsigned int regval;
+> > +     int ret;
+> > +
+> > +     switch (attr) {
+> > +     case hwmon_pwm_input:
+> > +             ret =3D regmap_read(data->regmap,
+> > +                               NCT7363_REG_FSCPXDUTY(channel), &regval=
+);
+> > +             if (ret)
+> > +                     return ret;
+> > +
+> > +             *val =3D (long)regval;
+> > +             return 0;
+> > +     default:
+> > +             return -EOPNOTSUPP;
+> > +     }
+> > +}
+> > +
+> > +static int nct7363_write_pwm(struct device *dev, u32 attr, int channel=
+,
+> > +                          long val)
+> > +{
+> > +     struct nct7363_data *data =3D dev_get_drvdata(dev);
+> > +     int ret;
+> > +
+> > +     switch (attr) {
+> > +     case hwmon_pwm_input:
+> > +             if (val < 0 || val > 255)
+> > +                     return -EINVAL;
+> > +
+> > +             ret =3D regmap_write(data->regmap,
+> > +                                NCT7363_REG_FSCPXDUTY(channel), val);
+> > +
+> > +             return ret;
+> > +
+> > +     default:
+> > +             return -EOPNOTSUPP;
+> > +     }
+> > +}
+> > +
+> > +static umode_t nct7363_pwm_is_visible(const void *_data, u32 attr, int=
+ channel)
+> > +{
+> > +     const struct nct7363_data *data =3D _data;
+> > +
+> > +     switch (attr) {
+> > +     case hwmon_pwm_input:
+> > +             if (data->pwm_mask & BIT(channel))
+> > +                     return 0644;
+> > +             break;
+> > +     default:
+> > +             break;
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int nct7363_read(struct device *dev, enum hwmon_sensor_types ty=
+pe,
+> > +                     u32 attr, int channel, long *val)
+> > +{
+> > +     switch (type) {
+> > +     case hwmon_fan:
+> > +             return nct7363_read_fan(dev, attr, channel, val);
+> > +     case hwmon_pwm:
+> > +             return nct7363_read_pwm(dev, attr, channel, val);
+> > +     default:
+> > +             return -EOPNOTSUPP;
+> > +     }
+> > +}
+> > +
+> > +static int nct7363_write(struct device *dev, enum hwmon_sensor_types t=
+ype,
+> > +                      u32 attr, int channel, long val)
+> > +{
+> > +     switch (type) {
+> > +     case hwmon_pwm:
+> > +             return nct7363_write_pwm(dev, attr, channel, val);
+> > +     default:
+> > +             return -EOPNOTSUPP;
+> > +     }
+> > +}
+> > +
+> > +static umode_t nct7363_is_visible(const void *data,
+> > +                               enum hwmon_sensor_types type,
+> > +                               u32 attr, int channel)
+> > +{
+> > +     switch (type) {
+> > +     case hwmon_fan:
+> > +             return nct7363_fan_is_visible(data, attr, channel);
+> > +     case hwmon_pwm:
+> > +             return nct7363_pwm_is_visible(data, attr, channel);
+> > +     default:
+> > +             return 0;
+> > +     }
+> > +}
+> > +
+> > +static const struct hwmon_channel_info *nct7363_info[] =3D {
+> > +     HWMON_CHANNEL_INFO(fan,
+> > +                        HWMON_F_INPUT,
+> > +                        HWMON_F_INPUT,
+> > +                        HWMON_F_INPUT,
+> > +                        HWMON_F_INPUT,
+> > +                        HWMON_F_INPUT,
+> > +                        HWMON_F_INPUT,
+> > +                        HWMON_F_INPUT,
+> > +                        HWMON_F_INPUT,
+> > +                        HWMON_F_INPUT,
+> > +                        HWMON_F_INPUT,
+> > +                        HWMON_F_INPUT,
+> > +                        HWMON_F_INPUT,
+> > +                        HWMON_F_INPUT,
+> > +                        HWMON_F_INPUT,
+> > +                        HWMON_F_INPUT,
+> > +                        HWMON_F_INPUT),
+>
+> Other potential attributes:
+>
+> - enable (register 0x41, 0x42, and possibly 0x40)
+> - alarm (register 0x34, 0x35)
+> - min (register 0x6c, 0x6d)
+
+ok, I'll consider min and alarm in v6.
+
+>
+> > +     HWMON_CHANNEL_INFO(pwm,
+> > +                        HWMON_PWM_INPUT,
+> > +                        HWMON_PWM_INPUT,
+> > +                        HWMON_PWM_INPUT,
+> > +                        HWMON_PWM_INPUT,
+> > +                        HWMON_PWM_INPUT,
+> > +                        HWMON_PWM_INPUT,
+> > +                        HWMON_PWM_INPUT,
+> > +                        HWMON_PWM_INPUT,
+> > +                        HWMON_PWM_INPUT,
+> > +                        HWMON_PWM_INPUT,
+> > +                        HWMON_PWM_INPUT,
+> > +                        HWMON_PWM_INPUT,
+> > +                        HWMON_PWM_INPUT,
+> > +                        HWMON_PWM_INPUT,
+> > +                        HWMON_PWM_INPUT,
+> > +                        HWMON_PWM_INPUT),
+>
+> Other potential attributes:
+>
+> - enable (register 0x38)
+> - freq (register 0x91, ...)
+>
+> All those could be added later, of course, but I would suggest to at leas=
+t
+> add the fan speed low limit and alarm attributes.
+
+ok, I'll consider min and alarm in v6.
+
+>
+> > +     NULL
+> > +};
+> > +
+> > +static const struct hwmon_ops nct7363_hwmon_ops =3D {
+> > +     .is_visible =3D nct7363_is_visible,
+> > +     .read =3D nct7363_read,
+> > +     .write =3D nct7363_write,
+> > +};
+> > +
+> > +static const struct hwmon_chip_info nct7363_chip_info =3D {
+> > +     .ops =3D &nct7363_hwmon_ops,
+> > +     .info =3D nct7363_info,
+> > +};
+> > +
+> > +static int nct7363_init_chip(struct nct7363_data *data)
+> > +{
+> > +     u32 func_config =3D 0;
+> > +     int i, ret;
+> > +
+> > +     /* Pin Function Configuration */
+> > +     for (i =3D 0; i < NCT7363_PWM_COUNT; i++) {
+> > +             if (data->pwm_mask & BIT(i))
+> > +                     func_config |=3D PWM_SEL(i);
+> > +             if (data->fanin_mask & BIT(i))
+> > +                     func_config |=3D FANIN_SEL(i);
+> > +     }
+> > +
+> > +     for (i =3D 0; i < 4; i++) {
+> > +             ret =3D regmap_write(data->regmap, NCT7363_REG_FUNC_CFG_B=
+ASE(i),
+> > +                                VALUE_TO_REG(func_config, i));
+> > +             if (ret < 0)
+> > +                     return ret;
+> > +     }
+> > +
+> > +     /* PWM and FANIN Monitoring Enable */
+> > +     for (i =3D 0; i < 2; i++) {
+> > +             ret =3D regmap_write(data->regmap, NCT7363_REG_PWMEN_BASE=
+(i),
+> > +                                VALUE_TO_REG(data->pwm_mask, i));
+> > +             if (ret < 0)
+> > +                     return ret;
+> > +
+> > +             ret =3D regmap_write(data->regmap, NCT7363_REG_FANINEN_BA=
+SE(i),
+> > +                                VALUE_TO_REG(data->fanin_mask, i));
+> > +             if (ret < 0)
+> > +                     return ret;
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int nct7363_present_pwm_fanin(struct device *dev,
+> > +                                  struct device_node *child,
+> > +                                  struct nct7363_data *data)
+> > +{
+> > +     u8 fanin_ch[NCT7363_PWM_COUNT];
+> > +     struct of_phandle_args args;
+> > +     int ret, fanin_cnt;
+> > +     u8 ch, index;
+> > +
+> > +     ret =3D of_parse_phandle_with_args(child, "pwms", "#pwm-cells",
+> > +                                      0, &args);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     if (args.args[0] >=3D NCT7363_PWM_COUNT)
+> > +             return -EINVAL;
+> > +     data->pwm_mask |=3D BIT(args.args[0]);
+> > +
+> > +     fanin_cnt =3D of_property_count_u8_elems(child, "tach-ch");
+> > +     if (fanin_cnt < 1 || fanin_cnt > NCT7363_PWM_COUNT)
+> > +             return -EINVAL;
+> > +
+> > +     ret =3D of_property_read_u8_array(child, "tach-ch", fanin_ch, fan=
+in_cnt);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     for (ch =3D 0; ch < fanin_cnt; ch++) {
+> > +             index =3D fanin_ch[ch];
+> > +             if (index >=3D NCT7363_PWM_COUNT)
+> > +                     return -EINVAL;
+> > +             data->fanin_mask |=3D BIT(index);
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static const struct regmap_config nct7363_regmap_config =3D {
+> > +     .reg_bits =3D 8,
+> > +     .val_bits =3D 8,
+>
+> Your call to make, but this doesn't use regmap caching capabilities which
+> might be really useful here. Most of the registers (all but the count and
+> status registers, plus the gpio input registers if/when gpio support is
+> added) are not volatile and could be cached.
+
+ok, I'll add it in v6.
+
+>
+> > +};
+> > +
+> > +static int nct7363_probe(struct i2c_client *client)
+> > +{
+> > +     struct device *dev =3D &client->dev;
+> > +     struct device_node *child;
+> > +     struct nct7363_data *data;
+> > +     struct device *hwmon_dev;
+> > +     int ret;
+> > +
+> > +     data =3D devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+> > +     if (!data)
+> > +             return -ENOMEM;
+> > +
+> > +     data->regmap =3D devm_regmap_init_i2c(client, &nct7363_regmap_con=
+fig);
+> > +     if (IS_ERR(data->regmap))
+> > +             return PTR_ERR(data->regmap);
+> > +
+> > +     mutex_init(&data->lock);
+> > +
+> > +     for_each_child_of_node(dev->of_node, child) {
+> > +             ret =3D nct7363_present_pwm_fanin(dev, child, data);
+> > +             if (ret) {
+> > +                     of_node_put(child);
+> > +                     return ret;
+> > +             }
+> > +     }
+> > +
+> > +     /* Initialize the chip */
+> > +     ret =3D nct7363_init_chip(data);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     hwmon_dev =3D
+> > +             devm_hwmon_device_register_with_info(dev, client->name, d=
+ata,
+> > +                                                  &nct7363_chip_info, =
+NULL);
+> > +     return PTR_ERR_OR_ZERO(hwmon_dev);
+> > +}
+> > +
+> > +static struct i2c_driver nct7363_driver =3D {
+> > +     .class =3D I2C_CLASS_HWMON,
+> > +     .driver =3D {
+> > +             .name =3D "nct7363",
+> > +             .of_match_table =3D nct7363_of_match,
+> > +     },
+> > +     .probe =3D nct7363_probe,
+> > +     .id_table =3D nct7363_id,
+> > +};
+> > +
+> > +module_i2c_driver(nct7363_driver);
+> > +
+> > +MODULE_AUTHOR("CW Ho <cwho@nuvoton.com>");
+> > +MODULE_AUTHOR("Ban Feng <kcfeng0@nuvoton.com>");
+> > +MODULE_DESCRIPTION("NCT7363 Hardware Monitoring Driver");
+> > +MODULE_LICENSE("GPL");
