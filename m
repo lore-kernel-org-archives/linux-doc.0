@@ -1,81 +1,96 @@
-Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC1A2185B47;
-	Tue, 15 Oct 2024 09:24:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.161.220
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C6151DD9BD
+	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 09:35:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728984301; cv=none; b=jNqVAUaSJ3nJqjPwgUSUlnipHNN0Atnq68N3uej9WHvmnNO8YEnBHuPSIoW6wGyCo+jr9DrSoEGtQUXG1tmzF+4Jz7KfoHOiPJV8mgvrvzAQx9cTVPfWhg7Ugfscg6iGgzVrmvTXb8WHv5C/0e0uHC8SYlO+zriHdk/L4PpQLlc=
+	t=1728984939; cv=none; b=ooiGmy1nhTEM1OBMX/uFFNo9UOz7EGfbNjMtDuRD5vfWsoWJBAnahaRgEa8STi0uMUgnZHvXo2WPkm9SDkDeQHRwaPNOaVMLUh7KGkp/x1QuOf/6xAfVh0mgZrZL5DVu1wiJ9h3szJKY8piLNg8DN+YNrWKB9dghXcox360j4c0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728984301; c=relaxed/simple;
-	bh=rxLKrS7w7zyUKYbg5SX26OFOZE9TL/dqWvHJIVhx6Is=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pe20TfBVm5esx6y3O0KvRHHVOUZNWKC57ZWjR4BoaXgPc748xMDugkBKiXcdO8yX8G0hQm090xwVI7VDUhJXomnDyyZ4o/MQC/AVFh/48wVfA8StIDJy8e5Ne0/wrdtMN+T+Yspp4D84eYRyG3mPtRuesfA4RuoHH+nNSKma79U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=162.243.161.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app2 (Coremail) with SMTP id HwEQrABnEBW3NA5nsIgQAQ--.40021S2;
-	Tue, 15 Oct 2024 17:24:07 +0800 (CST)
-Received: from pride-PowerEdge-R740.. (unknown [222.20.126.129])
-	by gateway (Coremail) with SMTP id _____wDX34+1NA5nRCI5AA--.24175S2;
-	Tue, 15 Oct 2024 17:24:06 +0800 (CST)
-From: Dongliang Mu <dzm91@hust.edu.cn>
-To: David Howells <dhowells@redhat.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: hust-os-kernel-patches@googlegroups.com,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	netfs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: fix a reference of a removed file
-Date: Tue, 15 Oct 2024 17:23:55 +0800
-Message-ID: <20241015092356.1526387-1-dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1728984939; c=relaxed/simple;
+	bh=JheizOOh92xYasGYS1s6y2lJIToByxPQTHVdmHl+yA0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dBc4rddtIjrR7LYUrWkasB1h4p3dTLpmbR1Sh1qfzNB8jfXjcp5oNVBtHLjm+3+hk0g+W4lMkb088KcoI9xhIJzymQakA7tdfLgOdtPqnEnjxAMs3TEzQuWkhLVOx1hK5hVXmUV6jpyYetFMLtomwJgjXDEFlx0uRXzOPaDY3wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1t0dxZ-0007gA-3y; Tue, 15 Oct 2024 11:35:21 +0200
+Received: from [2a0a:edc0:0:b01:1d::7b] (helo=bjornoya.blackshift.org)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1t0dxY-00202N-Jj; Tue, 15 Oct 2024 11:35:20 +0200
+Received: from pengutronix.de (pd9e595f8.dip0.t-ipconnect.de [217.229.149.248])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: mkl-all@blackshift.org)
+	by smtp.blackshift.org (Postfix) with ESMTPSA id 3CFD5353187;
+	Tue, 15 Oct 2024 09:35:20 +0000 (UTC)
+Date: Tue, 15 Oct 2024 11:35:19 +0200
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Pankaj Gupta <pankaj.gupta@nxp.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, imx@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v8 0/5] v8: firmware: imx: driver for NXP secure-enclave
+Message-ID: <20241015-silky-mussel-of-tolerance-b3f5ba-mkl@pengutronix.de>
+References: <20241015-imx-se-if-v8-0-915438e267d3@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HwEQrABnEBW3NA5nsIgQAQ--.40021S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvdXoW7XF1xZFyrZw45WrW8XFWkWFg_yoW3JFX_JF
-	yfJFs5XryDArs7JF18KFn8WF13Z3W0kFy8Xw13JwsIv347J395CFZ3X3s0yrsxXrs29rn5
-	WFWkXrZxXFy7tjkaLaAFLSUrUUUUnb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbmkYjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-	s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
-	8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
-	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I0En4kS14v26r126r1DMx
-	AIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkE
-	bVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E74
-	80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0
-	I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
-	k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7Cj
-	xVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU0XVy3UUUUU==
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ve7ngvhuovj33gje"
+Content-Disposition: inline
+In-Reply-To: <20241015-imx-se-if-v8-0-915438e267d3@nxp.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Since 86b374d061ee ("netfs: Remove fs/netfs/io.c") removed
-fs/netfs/io.c, we need to delete its reference in the documentation.
 
-Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
----
- Documentation/filesystems/netfs_library.rst | 1 -
- 1 file changed, 1 deletion(-)
+--ve7ngvhuovj33gje
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/filesystems/netfs_library.rst b/Documentation/filesystems/netfs_library.rst
-index f0d2cb257bb8..73f0bfd7e903 100644
---- a/Documentation/filesystems/netfs_library.rst
-+++ b/Documentation/filesystems/netfs_library.rst
-@@ -592,4 +592,3 @@ API Function Reference
- 
- .. kernel-doc:: include/linux/netfs.h
- .. kernel-doc:: fs/netfs/buffered_read.c
--.. kernel-doc:: fs/netfs/io.c
--- 
-2.43.0
+On 15.10.2024 14:30:58, Pankaj Gupta wrote:
+> base-commit: b63ff26648537a5600cf79bd62f916792c53e015
 
+Where can I obtain the base-commit?
+
+regards,
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde          |
+Embedded Linux                   | https://www.pengutronix.de |
+Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+
+--ve7ngvhuovj33gje
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEUEC6huC2BN0pvD5fKDiiPnotvG8FAmcON1QACgkQKDiiPnot
+vG9X2Af+J+xuxalOSQSQcrU4QulynDR7mUOqjhFSIuBwZ5BB56PMabTK88v+zwFW
+HbNp07my5v/vfjTZMBHcnvgIhkDk2L3Ko90AaOU03GQgl4HDmFC1XfUITOVQt5Ke
+JH5FOI9oCyhI0NsoKLnAhrL4Mf2LvU4suSgnEnGuIeQTqbZgfNJV/YiCx+WyJSpC
+HpevZ+dv8eZ/8FUt33GIbOmu0rkSM9s5C5XSCCLaNEIyTFwTPpe7e6QsLWlSuh6U
+zBybW65UpnnQVO4INSRsBENiOp7cMWkCwDcjaiQLRBSr75vp2xXLQMlTBZpXq4iC
+4uw415bFodLqdtYaLHZYPlWee5IeDw==
+=/T01
+-----END PGP SIGNATURE-----
+
+--ve7ngvhuovj33gje--
