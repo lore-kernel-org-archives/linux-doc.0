@@ -1,66 +1,66 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E7C1C3F0A
-	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 08:53:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A4D757FC
+	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 08:56:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728982429; cv=none; b=WVo+HltyawNaWsDMTW0nnRvQfjwUOC5It8qDnDBhCrkiuea8+Ynxn2L5/WUsrWtpMM+CuqHLBGV0nTMBnhw5/mEdDb4ZXh8KKVLV8kKtPFhE1vQtuHtkupiEWQquydhlmlgqSlja23h8SVwcNcA0rcrxEVB/fufz9lcO7ajb4tE=
+	t=1728982603; cv=none; b=IYvcDf5RabdwdMUj9BKzz55CZPcwehfCCqzIvqD9jHgOqwx3QQMnkgDwamYdRt3O63XcAl7qdZy6PNIUbCW51OF75IdC2VWJCel8lnwRSIGovWLUruTMMt+lS3YXDIAtNcV3nm2UttLVoNY1TH++mKjKBFlyVicPtf72nh+oe/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728982429; c=relaxed/simple;
-	bh=cCO6k509GchPM8MKW2tnK2KlEfAg2yEcGXdslgc9ZAQ=;
+	s=arc-20240116; t=1728982603; c=relaxed/simple;
+	bh=O42w5CTLhbMRclTCviYPTVvqTr9R+AzQm5hnoWoyrw0=;
 	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=cHw8sD4/sFLtUJigDXgtjEdvfERHpOPjg5G2BqKu/5cL2VLVRp5+jxaTwJbTdLf7f5MHdiJcBCf2YVpNrd55aCbCB8Qx50RZzk3dlo1L1BHGgrY3EKGwoSGe6kuEYyydCz8/q3cvSvnoxreMKKH3TZRynISDXRTm//t+F2E5DRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Z5gYEZEg; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=CHZ8nnuwc3AuoD9AW8PTFhBL9b2YmQN8CjUmUOHGWZ7cbQZCPEryoN6pRmNC2taM8humXbGQ1D5olElFF//P3d62HB2j6IfTtM6b6ktdL1jREyyT9Ys74Od/b+92xhpasSsiMxZ4DGP9/zeQdV4dhTz8GmkSwSd4s0sWNFd2YDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CjRRTfZp; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Z5gYEZEg"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CjRRTfZp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1728982426;
+	s=mimecast20190719; t=1728982601;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=vea3Db7MOU1y6JVuoKAndvUjY3oqb1LxEwH6YBMbryM=;
-	b=Z5gYEZEgLlaRfeOZKkDualbXQHGhCZri5xqwaVV3WwVT99bbBnpZUpSR24SjcMKHTiyKlq
-	h1Np+rAUxjtPpLDeGjJo0KUG1fMO05yRQCiHnect1Yu94f01d/3DWvNmfH0fRGLabOPjjt
-	NTIiangM5YkxvXpzr9qrAKpK+grk0YY=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=2JTzqyMVBj94VglYxJ5U9erxgRtGYL/iWlOKct2eeCo=;
+	b=CjRRTfZpXhU3rMYdJi/Yk9lp6Oi82NbWZwahgTgtIjK26A9nHrtMXzjJieQ7dSs7rMvn72
+	SDsqvlI4Z3f5DmTn2FRaoYv61ccvNfxzD5X6VtycwVm/MbrcOm3yYMG9tcCCs3s1xnYYs1
+	pGqOhdhVjMpIZB67G7bHlpOLn11bs+4=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-230-SavAfEuxO4SfPmkVviMm7w-1; Tue, 15 Oct 2024 04:53:45 -0400
-X-MC-Unique: SavAfEuxO4SfPmkVviMm7w-1
-Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-539f067414fso1587092e87.2
-        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 01:53:43 -0700 (PDT)
+ us-mta-628-H_TelX-nPN2FUWzc1utLtg-1; Tue, 15 Oct 2024 04:56:37 -0400
+X-MC-Unique: H_TelX-nPN2FUWzc1utLtg-1
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-37d45de8bbfso3250569f8f.3
+        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 01:56:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728982422; x=1729587222;
+        d=1e100.net; s=20230601; t=1728982596; x=1729587396;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:references:cc:to:from:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=vea3Db7MOU1y6JVuoKAndvUjY3oqb1LxEwH6YBMbryM=;
-        b=INy1akrhQtO0iK7G14Xu3reL8DLWOB077sAfALxYOla4CZN+1WEwiVvZmSW4/BIS6A
-         6ytHk4Cojw35EegkdBKUYO27kuBYaxwxntB+ZE63Ujq7vOLDoyH9A95UvCKz90Eg06kk
-         0QbnxvECg34/SjYhli59L6279cT4Sk0CVlBQERnwowPWFACgqVIzc6u63jCSlD0TNvrf
-         NelPabQSLUgEfGkvOFzrctfbW+BgoTq8KyK+ZPiVeo4yC/huXpSN2yEKXOH7zdtsnHcA
-         X95qCeqtMaxfxALY5lGTW30H+zcKesvwVBnjl1QgS1Cqv1IohXYgOcZ19OWSIFJe0MnL
-         qfcg==
-X-Forwarded-Encrypted: i=1; AJvYcCWCObQlSV5FRrRTe/PJKJmF29mcZc5M6TvVF20Gqlz3+YWbJ+ukDnxkr5mkIPkGkIYL/FDtcJ5K1/s=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/1CWjbHXnG8/lHAOUVP5dxNUWUAQS+gd+FfVG86caSe5+8jSn
-	y2DXcglkP7yNnEShsjv0FoJyCrLwBzo4hNQQadUfSmv78i/ztMkFbcbGCKiQlvhFpep5mHUKCOV
-	RuHvd4x7Dnxv3ppO3PSZro8FF5Rvmmn878PRITFjRIDgnExaR4a7fsM7ODw==
-X-Received: by 2002:a05:6512:2c90:b0:539:e776:71f2 with SMTP id 2adb3069b0e04-539e7767459mr4594042e87.52.1728982421691;
-        Tue, 15 Oct 2024 01:53:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IESPX9nlg7zsDBefSD6Paju6t8SbolD81sKh21Sxmd+f1ZnXPm6cBexBcsMMBeSMJwPe6g/1g==
-X-Received: by 2002:a05:6512:2c90:b0:539:e776:71f2 with SMTP id 2adb3069b0e04-539e7767459mr4594020e87.52.1728982421165;
-        Tue, 15 Oct 2024 01:53:41 -0700 (PDT)
+        bh=2JTzqyMVBj94VglYxJ5U9erxgRtGYL/iWlOKct2eeCo=;
+        b=YSDz+eNRVbzSAx8m3z1jbpr5aqYCCB/mqAvvOP232vNndizqGkLIGj4N+/2lQfmHhj
+         k9ggia+awNj2OAbOOaiEqfzIxzj/REHH0/uPoePZccm637fNFhhJGt5Y5Qb63bkpT17x
+         cUynmDhUK/b/ik7O2eRPxukM8HlEevCAyUdopRJQ0krDQVYKc12pe8ShmOXPV39+orbN
+         frC7Hgi3s6yKDiot/D872Qv1RQ1AQogKCJ1XkT0Ch6Z6uugwOY76gkG5DUt1GTw+w+rd
+         K3GDP1hOza2PgfuFNxkfEIxkA/RK6vFjmN74yV3VFV9QYhyPzFtME1KIq/DbdT16GGG4
+         AHAw==
+X-Forwarded-Encrypted: i=1; AJvYcCV0oqKawKra8AZS/3tvItjg/CvS5L5eTYDD7wQ+SWOaZVqMVGZLWyDozdlQMo6WWi2OB2dSZdCtAFI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxauv5bzSucSHWKQxeYDTDdtC7FN+dpnln2tH41yUSyBNQCzREl
+	VVJ8HQy0RHgOpskh84RFG/jOJCkRhn+cb4y684xCAf7P50qohUxh+Ez68mzTDsP4rOfoko6KU3n
+	wXM43SG9rebHe88Zm4IJ0qznK+7KKaS35sthGIELEVXUaVfHC9bBwEv4rWw==
+X-Received: by 2002:a05:6000:18ad:b0:37d:2de3:bf8a with SMTP id ffacd0b85a97d-37d5ff8e86amr11867115f8f.26.1728982596582;
+        Tue, 15 Oct 2024 01:56:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGF962U15sbK8PU8Ne9hmX+D8SM5tX4rDWSW8Z7Xq3Jkp8kq7XgpWY4UJlJ8ZyjHK7dXO9k0w==
+X-Received: by 2002:a05:6000:18ad:b0:37d:2de3:bf8a with SMTP id ffacd0b85a97d-37d5ff8e86amr11867083f8f.26.1728982596121;
+        Tue, 15 Oct 2024 01:56:36 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c730:9700:d653:fb19:75e5:ab5c? (p200300cbc7309700d653fb1975e5ab5c.dip0.t-ipconnect.de. [2003:cb:c730:9700:d653:fb19:75e5:ab5c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4313f569eacsm11175035e9.20.2024.10.15.01.53.38
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d7fa7a1e0sm1024500f8f.9.2024.10.15.01.56.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Oct 2024 01:53:39 -0700 (PDT)
-Message-ID: <9be496ff-9d94-4680-b095-863ec12e3261@redhat.com>
-Date: Tue, 15 Oct 2024 10:53:37 +0200
+        Tue, 15 Oct 2024 01:56:35 -0700 (PDT)
+Message-ID: <f061c60c-91f6-4d6b-83dd-36c7d2f92062@redhat.com>
+Date: Tue, 15 Oct 2024 10:56:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -89,6 +89,7 @@ References: <20241014144622.876731-1-david@redhat.com>
  <f93b2c89-821a-4da1-8953-73ccd129a074@redhat.com>
  <20241015083040.7641-C-hca@linux.ibm.com>
  <0c7e876f-5648-4a82-b809-ca48f778b4a6@redhat.com>
+ <9be496ff-9d94-4680-b095-863ec12e3261@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -135,129 +136,134 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <0c7e876f-5648-4a82-b809-ca48f778b4a6@redhat.com>
+In-Reply-To: <9be496ff-9d94-4680-b095-863ec12e3261@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 15.10.24 10:41, David Hildenbrand wrote:
-> On 15.10.24 10:30, Heiko Carstens wrote:
->> On Mon, Oct 14, 2024 at 09:26:03PM +0200, David Hildenbrand wrote:
->>> On 14.10.24 20:20, Heiko Carstens wrote:
->>>> Looks like this could work. But the comment in smp.c above
->>>> dump_available() needs to be updated.
->>>
->>> A right, I remember that there was some outdated documentation.
->>>
+On 15.10.24 10:53, David Hildenbrand wrote:
+> On 15.10.24 10:41, David Hildenbrand wrote:
+>> On 15.10.24 10:30, Heiko Carstens wrote:
+>>> On Mon, Oct 14, 2024 at 09:26:03PM +0200, David Hildenbrand wrote:
+>>>> On 14.10.24 20:20, Heiko Carstens wrote:
+>>>>> Looks like this could work. But the comment in smp.c above
+>>>>> dump_available() needs to be updated.
 >>>>
->>>> Are you willing to do that, or should I provide an addon patch?
+>>>> A right, I remember that there was some outdated documentation.
 >>>>
+>>>>>
+>>>>> Are you willing to do that, or should I provide an addon patch?
+>>>>>
+>>>>
+>>>> I can squash the following:
+>>>>
+>>>> diff --git a/arch/s390/kernel/smp.c b/arch/s390/kernel/smp.c
+>>>> index 4df56fdb2488..a4f538876462 100644
+>>>> --- a/arch/s390/kernel/smp.c
+>>>> +++ b/arch/s390/kernel/smp.c
+>>>> @@ -587,16 +587,16 @@ int smp_store_status(int cpu)
+>>>>      *    with sigp stop-and-store-status. The firmware or the boot-loader
+>>>>      *    stored the registers of the boot CPU in the absolute lowcore in the
+>>>>      *    memory of the old system.
+>>>> - * 3) kdump and the old kernel did not store the CPU state,
+>>>> - *    or stand-alone kdump for DASD
+>>>> - *    condition: OLDMEM_BASE != NULL && !is_kdump_kernel()
+>>>> + * 3) kdump or stand-alone kdump for DASD
+>>>> + *    condition: OLDMEM_BASE != NULL && !is_ipl_type_dump() == false
+>>>>      *    The state for all CPUs except the boot CPU needs to be collected
+>>>>      *    with sigp stop-and-store-status. The kexec code or the boot-loader
+>>>>      *    stored the registers of the boot CPU in the memory of the old system.
+>>>> - * 4) kdump and the old kernel stored the CPU state
+>>>> - *    condition: OLDMEM_BASE != NULL && is_kdump_kernel()
+>>>> - *    This case does not exist for s390 anymore, setup_arch explicitly
+>>>> - *    deactivates the elfcorehdr= kernel parameter
+>>>> + *
+>>>> + * Note that the old Kdump mode where the old kernel stored the CPU state
 >>>
->>> I can squash the following:
+>>> To be consistent with the rest of the comment, please write kdump in
+>>> all lower case characters, please.
+>>
+>> It obviously was too late in the evening for me :) Thanks!
+>>
 >>>
->>> diff --git a/arch/s390/kernel/smp.c b/arch/s390/kernel/smp.c
->>> index 4df56fdb2488..a4f538876462 100644
->>> --- a/arch/s390/kernel/smp.c
->>> +++ b/arch/s390/kernel/smp.c
->>> @@ -587,16 +587,16 @@ int smp_store_status(int cpu)
->>>     *    with sigp stop-and-store-status. The firmware or the boot-loader
->>>     *    stored the registers of the boot CPU in the absolute lowcore in the
->>>     *    memory of the old system.
->>> - * 3) kdump and the old kernel did not store the CPU state,
->>> - *    or stand-alone kdump for DASD
->>> - *    condition: OLDMEM_BASE != NULL && !is_kdump_kernel()
->>> + * 3) kdump or stand-alone kdump for DASD
->>> + *    condition: OLDMEM_BASE != NULL && !is_ipl_type_dump() == false
->>>     *    The state for all CPUs except the boot CPU needs to be collected
->>>     *    with sigp stop-and-store-status. The kexec code or the boot-loader
->>>     *    stored the registers of the boot CPU in the memory of the old system.
->>> - * 4) kdump and the old kernel stored the CPU state
->>> - *    condition: OLDMEM_BASE != NULL && is_kdump_kernel()
->>> - *    This case does not exist for s390 anymore, setup_arch explicitly
->>> - *    deactivates the elfcorehdr= kernel parameter
->>> + *
->>> + * Note that the old Kdump mode where the old kernel stored the CPU state
+>>>> + * does no longer exist: setup_arch explicitly deactivates the elfcorehdr=
+>>>> + * kernel parameter. The is_kudmp_kernel() implementation on s390 is independent
+>>>
+>>> Typo: kudmp.
+>>>
+>>>> Does that sound reasonable? I'm not so sure about the "2) stand-alone kdump for
+>>>> SCSI/NVMe (zfcp/nvme dump with swapped memory)": is that really "kdump" ?
+>>>
+>>> Yes, it is some sort of kdump, even though a bit odd.
 >>
->> To be consistent with the rest of the comment, please write kdump in
->> all lower case characters, please.
-> 
-> It obviously was too late in the evening for me :) Thanks!
-> 
+>> My concern is that we'll now have
 >>
->>> + * does no longer exist: setup_arch explicitly deactivates the elfcorehdr=
->>> + * kernel parameter. The is_kudmp_kernel() implementation on s390 is independent
+>> bool is_kdump_kernel(void)
+>> {
+>>           return oldmem_data.start && !is_ipl_type_dump();
+>> }
 >>
->> Typo: kudmp.
+>> Which matches 3), but if 2) is also called "kdump", then should it
+>> actually be
 >>
->>> Does that sound reasonable? I'm not so sure about the "2) stand-alone kdump for
->>> SCSI/NVMe (zfcp/nvme dump with swapped memory)": is that really "kdump" ?
+>> bool is_kdump_kernel(void)
+>> {
+>>           return oldmem_data.start;
+>> }
 >>
->> Yes, it is some sort of kdump, even though a bit odd.
+>> ?
+>>
+>> When I wrote that code I was rather convinced that the variant in this
+>> patch is the right thing to do.
+>>
 > 
-> My concern is that we'll now have
+> I think we can do some follow up cleanups, assuming is_kdump_kernel() here is correct:
 > 
-> bool is_kdump_kernel(void)
-> {
->          return oldmem_data.start && !is_ipl_type_dump();
-> }
+> diff --git a/arch/s390/kernel/crash_dump.c b/arch/s390/kernel/crash_dump.c
+> index cca1827d3d2e..fbc5de66d03b 100644
+> --- a/arch/s390/kernel/crash_dump.c
+> +++ b/arch/s390/kernel/crash_dump.c
+> @@ -609,7 +609,7 @@ int elfcorehdr_alloc(unsigned long long *addr, unsigned long long *size)
+>           u64 hdr_off;
+>    
+>           /* If we are not in kdump or zfcp/nvme dump mode return */
+> -       if (!oldmem_data.start && !is_ipl_type_dump())
+> +       if (!dump_available())
+>                   return 0;
+>           /* If we cannot get HSA size for zfcp/nvme dump return error */
+>           if (is_ipl_type_dump() && !sclp.hsa_size)
+> diff --git a/arch/s390/kernel/os_info.c b/arch/s390/kernel/os_info.c
+> index b695f980bbde..09578f400ef7 100644
+> --- a/arch/s390/kernel/os_info.c
+> +++ b/arch/s390/kernel/os_info.c
+> @@ -148,7 +148,7 @@ static void os_info_old_init(void)
+>    
+>           if (os_info_init)
+>                   return;
+> -       if (!oldmem_data.start && !is_ipl_type_dump())
+> +       if (!dump_available())
+>                   goto fail;
+>           if (copy_oldmem_kernel(&addr, __LC_OS_INFO, sizeof(addr)))
+>                   goto fail;
+> diff --git a/drivers/s390/char/zcore.c b/drivers/s390/char/zcore.c
+> index 33cebb91b933..6a194b4f6ba5 100644
+> --- a/drivers/s390/char/zcore.c
+> +++ b/drivers/s390/char/zcore.c
+> @@ -300,9 +300,7 @@ static int __init zcore_init(void)
+>           unsigned char arch;
+>           int rc;
+>    
+> -       if (!is_ipl_type_dump())
+> -               return -ENODATA;
+> -       if (oldmem_data.start)
+> +       if (is_kdump_kernel())
+>                   return -ENODATA;
+>    
+>           zcore_dbf = debug_register("zcore", 4, 1, 4 * sizeof(long));
 > 
-> Which matches 3), but if 2) is also called "kdump", then should it
-> actually be
-> 
-> bool is_kdump_kernel(void)
-> {
->          return oldmem_data.start;
-> }
-> 
-> ?
-> 
-> When I wrote that code I was rather convinced that the variant in this
-> patch is the right thing to do.
 > 
 
-I think we can do some follow up cleanups, assuming is_kdump_kernel() here is correct:
-
-diff --git a/arch/s390/kernel/crash_dump.c b/arch/s390/kernel/crash_dump.c
-index cca1827d3d2e..fbc5de66d03b 100644
---- a/arch/s390/kernel/crash_dump.c
-+++ b/arch/s390/kernel/crash_dump.c
-@@ -609,7 +609,7 @@ int elfcorehdr_alloc(unsigned long long *addr, unsigned long long *size)
-         u64 hdr_off;
-  
-         /* If we are not in kdump or zfcp/nvme dump mode return */
--       if (!oldmem_data.start && !is_ipl_type_dump())
-+       if (!dump_available())
-                 return 0;
-         /* If we cannot get HSA size for zfcp/nvme dump return error */
-         if (is_ipl_type_dump() && !sclp.hsa_size)
-diff --git a/arch/s390/kernel/os_info.c b/arch/s390/kernel/os_info.c
-index b695f980bbde..09578f400ef7 100644
---- a/arch/s390/kernel/os_info.c
-+++ b/arch/s390/kernel/os_info.c
-@@ -148,7 +148,7 @@ static void os_info_old_init(void)
-  
-         if (os_info_init)
-                 return;
--       if (!oldmem_data.start && !is_ipl_type_dump())
-+       if (!dump_available())
-                 goto fail;
-         if (copy_oldmem_kernel(&addr, __LC_OS_INFO, sizeof(addr)))
-                 goto fail;
-diff --git a/drivers/s390/char/zcore.c b/drivers/s390/char/zcore.c
-index 33cebb91b933..6a194b4f6ba5 100644
---- a/drivers/s390/char/zcore.c
-+++ b/drivers/s390/char/zcore.c
-@@ -300,9 +300,7 @@ static int __init zcore_init(void)
-         unsigned char arch;
-         int rc;
-  
--       if (!is_ipl_type_dump())
--               return -ENODATA;
--       if (oldmem_data.start)
-+       if (is_kdump_kernel())
-                 return -ENODATA;
-  
-         zcore_dbf = debug_register("zcore", 4, 1, 4 * sizeof(long));
-
+Ugh, ignore the last one, I'm just confused about dumping options on 
+s390x at this point :)
 
 -- 
 Cheers,
