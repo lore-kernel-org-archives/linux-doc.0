@@ -1,96 +1,153 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8806721E3B3
-	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 21:49:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D873C1B0F0E
+	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 22:48:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729028995; cv=none; b=XDnmnFXT+De26W0or7klrA+TcFx9pt6GCTvvwtEUmPWqDKIbHk08tV4WOQTady1ji0HakfFhI0mxoHjhffYfEByRO7qK5AXrjrZjEuTW1tPnOEIYyegIfl8bt30zqiD8ekBZm+amwTmgX6a+za4tpi9r1h4g8gMACyvd7fWtHWQ=
+	t=1729032501; cv=none; b=glk/M/rb6f+tED4CNWZMT87HjuYWhTGwABW2TUeyPhagZbp+AjiZ8/XE3/cR4Mr9mqwyedLB4BAPIuvRvPB3Z/pJQSx9rdPMewqSN7Rx3dbPWAKHrMmMX5Fme0ABS7MffLgjTWU/FGPRATWNALh98omx5MkHgfwXn7GR++ZipfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729028995; c=relaxed/simple;
-	bh=t8l2PQQC/6/ox/3K2+V1dY4B9/uKczkWWiR6f/lPBXQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=D39qeZWZmzrZBdpTLqeq/HKjLuAqha3rRjoxdICU1uWW4/48zyyB3wHBiu2zHelf3BkRdmQjE1+NHjJhCk5TQo6MoR+v6RVfGtknGU4XU8kVTeiPqTQncP7tuNtD2WFl8AnFHQUI6nnILxerVVdPnlV4yWRTihGD/LSLBoMjm3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tk3sjicb; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1729032501; c=relaxed/simple;
+	bh=y4wTt1hMw46Ajv3cIQeHDlR0RDHcUdA5/yND53W4oTs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IIJEz35O+iYAYlC0MiACvJQNxHwX11vSrC7UCUcyku0IUb1niepJ0YdkSSpUsr1vVFluIUNgG7edB49rcdMfgjicIOGOfgN1j3Sq02GuqNeP2VDi8UbcllKRxI5De7afiCE7rRoXpfpspngRDXbOwrpsxC5gBL1MUhhyxEw4IlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=f6AO1YyS; arc=none smtp.client-ip=209.85.217.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tk3sjicb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729028993; x=1760564993;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=t8l2PQQC/6/ox/3K2+V1dY4B9/uKczkWWiR6f/lPBXQ=;
-  b=Tk3sjicbW6YnzEPCtGKddQ1a7lBg6zgMNkJyeX0usSuXcESTh37+XgOp
-   qSERFNlomCBWRSDda6xGlvTbthyNAXosNUPyJA9cJCNPnvyctoPMFdhAs
-   eO2tuVPqL4lub5wHOHP2jW7YXNCX33mN8EDuhgr5ctXumZPk6woWtt815
-   5JN4AOR53EP67mI3xTFFCvHPOcGw00uletbVDrlW5pGC8/AK7nT18Eb2i
-   eis0HmdVhYyXB/RDc4BtPPmQi6FWf1LyXIdbVzO35T9CuvQRrCyfrkcBb
-   TKAJlEtU2TeDyJPscSOd/ISC7niEjNdS9756G3AcbjlsbaPjXLRL4O9w/
-   Q==;
-X-CSE-ConnectionGUID: 5Mf0SrcNTMGDJJHBhv+kDA==
-X-CSE-MsgGUID: lMdHYpaXRY62zhOObz/8fw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="39085230"
-X-IronPort-AV: E=Sophos;i="6.11,206,1725346800"; 
-   d="scan'208";a="39085230"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 14:49:53 -0700
-X-CSE-ConnectionGUID: rG4bsEmZSV+7X90vHdEI4A==
-X-CSE-MsgGUID: 9ltnfMeKQ5i8SyIw1sou+w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,206,1725346800"; 
-   d="scan'208";a="82681951"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 15 Oct 2024 14:49:51 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t0pQL-000JyN-2i;
-	Tue, 15 Oct 2024 21:49:49 +0000
-Date: Wed, 16 Oct 2024 05:48:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>,
-	"Rob Herring (Arm)" <robh@kernel.org>, linux-doc@vger.kernel.org
-Subject: [lee-mfd:for-mfd-next 32/32] htmldocs: Warning:
- Documentation/devicetree/bindings/input/zii,rave-sp-pwrbutton.txt references
- a file that doesn't exist:
- Documentation/devicetree/bindings/mfd/zii,rave-sp.txt
-Message-ID: <202410160528.7HLubyG3-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="f6AO1YyS"
+Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-4a48477b25eso197351137.0
+        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 15:48:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1729032498; x=1729637298; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=thjVFZ9JHy+XHx/P+OmRUKAu97VTsEznVTTuyaP0ILg=;
+        b=f6AO1YySgd60836QBSGee0wmssdZufNGSHq2M6w8crI+FrFnI5A215R9UJr7H8iwGq
+         dhJjk+Nv9z14pZG8q0H0URq9Y+4z9CNRVzlDr/5/rN23xKtMkcsaA/0Sh97JLT5i54Jk
+         kyLCVcycucs698Y83gNcXcvSkHRKrsP6ANG9+oNMKFgrh2KhUccmNs9cOmSRrhiTsl0i
+         o9k9o82RR5GQKSXLJYN/spm8AL35nOPMjg8I2OjS2py38zja4Kf3iNpT+4u1ce+PnSFG
+         oXJsufnrj8JIQF9GnsD4oJV3nGOn85VqCiS/vHeblde4rqDT4t/fNvN/OUxoM8BA5YPI
+         lYEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729032498; x=1729637298;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=thjVFZ9JHy+XHx/P+OmRUKAu97VTsEznVTTuyaP0ILg=;
+        b=KN+Ht+s+badCQIc2pGYM3Cex1K+57OCNdHEoVjDvp46jiQTKKVG83boCRm+J4kIlyl
+         3Wej9kMHCPT8RZY9DnH09tVoZBhbz8FmbUum1Xa9s2cUaztt+Oige22IOZfMsiCtdaRO
+         7UaTd+0KhCJi0mvm3z8RWbV1iSc6dCdEIkTNg7EPX5ZsvbMiNY84KGUBOLkfHwP0Xx7g
+         E24tYYT2kKszVT7mJYZW9c2MmCBBSzXSOEvE0I9qnziwePuE6x3iKmQ/H90dnx91/cy3
+         UpHuO1Sb/AdjM/pAWuBeyto9VuHKzpc0Hel2ueUqTQWiBKmOaK7nsCUUNc6DrtpF03W4
+         8YkA==
+X-Forwarded-Encrypted: i=1; AJvYcCU43PlJrnTrEbzF3PEHJvjdmhJXtJGIWUQ50bKic1Xn0e5BWKop6QzIG6uOWY13nIJAX5tqdx2mo9w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzGVuXuIHzY3o/ZAiM1Qalqqk5+9UpsnaNAkWhmwnnGXAPU0aOO
+	JVbI4YTbFJeZPpFeWdItqAbB3Wx1V+pNMqree6QM/qy65Y69yQbNbYk45r/Sd/rvNI9L4f1QdIt
+	gfANXnfFEhT8hFbUYW5UGjpnoiQkJpkAJWoTG
+X-Google-Smtp-Source: AGHT+IHnaSy0q/kDCz0vAJot6g5xsnJ0ihADeJJee62qYBERkh1eaBoELa9F+6Vz1W9f+tMrfIXWvAwFDhmw3bKOIJ8=
+X-Received: by 2002:a05:6102:b04:b0:4a4:72f0:7937 with SMTP id
+ ada2fe7eead31-4a5b4cf873bmr2033136137.8.1729032497513; Tue, 15 Oct 2024
+ 15:48:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240926013506.860253-1-jthoughton@google.com>
+ <Zw2no4OGDVK7m8QR@google.com> <CADrL8HUP1=eXE5QpVrKjgQGpusr_Raejr1sY2LLW1uSigpptOw@mail.gmail.com>
+In-Reply-To: <CADrL8HUP1=eXE5QpVrKjgQGpusr_Raejr1sY2LLW1uSigpptOw@mail.gmail.com>
+From: Yu Zhao <yuzhao@google.com>
+Date: Tue, 15 Oct 2024 16:47:39 -0600
+Message-ID: <CAOUHufZU8C-48H0n2v02D52PoC8b0mYUJJS=C-dz+bruruOfdg@mail.gmail.com>
+Subject: Re: [PATCH v7 00/18] mm: multi-gen LRU: Walk secondary MMU page
+ tables while aging
+To: James Houghton <jthoughton@google.com>
+Cc: Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Matlack <dmatlack@google.com>, 
+	David Rientjes <rientjes@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>, 
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, Wei Xu <weixugc@google.com>, 
+	Axel Rasmussen <axelrasmussen@google.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	David Stevens <stevensd@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
-head:   f4b00ab2c29960961f9641be8f3e8ba4960fd849
-commit: f4b00ab2c29960961f9641be8f3e8ba4960fd849 [32/32] dt-bindings: mfd: Convert zii,rave-sp.txt to yaml format
-reproduce: (https://download.01.org/0day-ci/archive/20241016/202410160528.7HLubyG3-lkp@intel.com/reproduce)
+On Mon, Oct 14, 2024 at 6:07=E2=80=AFPM James Houghton <jthoughton@google.c=
+om> wrote:
+>
+> On Mon, Oct 14, 2024 at 4:22=E2=80=AFPM Sean Christopherson <seanjc@googl=
+e.com> wrote:
+> >
+> > On Thu, Sep 26, 2024, James Houghton wrote:
+> > > This patchset makes it possible for MGLRU to consult secondary MMUs
+> > > while doing aging, not just during eviction. This allows for more
+> > > accurate reclaim decisions, which is especially important for proacti=
+ve
+> > > reclaim.
+> >
+> > ...
+> >
+> > > James Houghton (14):
+> > >   KVM: Remove kvm_handle_hva_range helper functions
+> > >   KVM: Add lockless memslot walk to KVM
+> > >   KVM: x86/mmu: Factor out spte atomic bit clearing routine
+> > >   KVM: x86/mmu: Relax locking for kvm_test_age_gfn and kvm_age_gfn
+> > >   KVM: x86/mmu: Rearrange kvm_{test_,}age_gfn
+> > >   KVM: x86/mmu: Only check gfn age in shadow MMU if
+> > >     indirect_shadow_pages > 0
+> > >   mm: Add missing mmu_notifier_clear_young for !MMU_NOTIFIER
+> > >   mm: Add has_fast_aging to struct mmu_notifier
+> > >   mm: Add fast_only bool to test_young and clear_young MMU notifiers
+> >
+> > Per offline discussions, there's a non-zero chance that fast_only won't=
+ be needed,
+> > because it may be preferable to incorporate secondary MMUs into MGLRU, =
+even if
+> > they don't support "fast" aging.
+> >
+> > What's the status on that front?  Even if the status is "TBD", it'd be =
+very helpful
+> > to let others know, so that they don't spend time reviewing code that m=
+ight be
+> > completely thrown away.
+>
+> The fast_only MMU notifier changes will probably be removed in v8.
+>
+> ChromeOS folks found that the way MGLRU *currently* interacts with KVM
+> is problematic. That is, today, with the MM_WALK MGLRU capability
+> enabled, normal PTEs have their Accessed bits cleared via a page table
+> scan and then during an rmap walk upon attempted eviction, whereas,
+> KVM SPTEs only have their Accessed bits cleared via the rmap walk at
+> eviction time. So KVM SPTEs have their Accessed bits cleared less
+> frequently than normal PTEs, and therefore they appear younger than
+> they should.
+>
+> It turns out that this causes tab open latency regressions on ChromeOS
+> where a significant amount of memory is being used by a VM. IIUC, the
+> fix for this is to have MGLRU age SPTEs as often as it ages normal
+> PTEs; i.e., it should call the correct MMU notifiers each time it
+> clears A bits on PTEs. The final patch in this series sort of does
+> this, but instead of calling the new fast_only notifier, we need to
+> call the normal test/clear_young() notifiers regardless of how fast
+> they are.
+>
+> This also means that the MGLRU changes no longer depend on the KVM
+> optimizations, as they can motivated independently.
+>
+> Yu, have I gotten anything wrong here? Do you have any more details to sh=
+are?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410160528.7HLubyG3-lkp@intel.com/
+Yes, that's precisely the problem. My original justification [1] for
+not scanning KVM MMU when lockless is not supported turned out to be
+harmful to some workloads too.
 
-All warnings (new ones prefixed by >>):
+On one hand, scanning KVM MMU when not lockless can cause the KVM MMU
+lock contention; on the other hand, not scanning KVM MMU can skew
+anon/file LRU aging and thrash page cache. Given the lock contention
+is being tackled, the latter seems to be the lesser of two evils.
 
-   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`rt_link<../../networking/netlink_spec/rt_link>`
-   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
-   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
->> Warning: Documentation/devicetree/bindings/input/zii,rave-sp-pwrbutton.txt references a file that doesn't exist: Documentation/devicetree/bindings/mfd/zii,rave-sp.txt
->> Warning: Documentation/devicetree/bindings/leds/backlight/zii,rave-sp-backlight.txt references a file that doesn't exist: Documentation/devicetree/bindings/mfd/zii,rave-sp.txt
->> Warning: Documentation/devicetree/bindings/nvmem/zii,rave-sp-eeprom.txt references a file that doesn't exist: Documentation/devicetree/bindings/mfd/zii,rave-sp.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
->> Warning: Documentation/devicetree/bindings/watchdog/zii,rave-sp-wdt.txt references a file that doesn't exist: Documentation/devicetree/bindings/mfd/zii,rave-sp.txt
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
-   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[1] https://lore.kernel.org/linux-mm/CAOUHufYFHKLwt1PWp2uS6g174GZYRZURWJAmd=
+UWs5eaKmhEeyQ@mail.gmail.com/
