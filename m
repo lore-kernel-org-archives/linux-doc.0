@@ -1,116 +1,136 @@
-Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2723C1FBF55
-	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 21:08:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15F61F81B1
+	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 21:16:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729026536; cv=none; b=XzAnom6ih18nJhhyc3jAemjSrNA4PtmyQpYFolLukWXV9UvNwS10RKEMV8sZEqXe89CG3ceqhU5abkoB1EyT6Qu9oOYvRv4fA73DuFBtjkGQtO4xnY1gk9S6ZZ+exDFOfegl5D3Q9gpKHZ7s/UkepL7IGqb4PXfuYmLdMsGJlQQ=
+	t=1729026977; cv=none; b=G2aDlNAvZ0I8hQYLZO0lMSYRpcHLQzZ6Zq2bKmioKKUuA7dcIK2XOLEe3t8co2V96Cs8O264kTFA7pX5ssFiC0hL4+Kpb6e62YrC/pcHL95gk216rqkR04aeT3vUlt8IhaeyDEfBUUBNOqb98f3gAwqY+IzRpW2h3b2V3eLgNaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729026536; c=relaxed/simple;
-	bh=kGiBdQ5J5H7gRrebhKiFtxxwc8DYEtmcnydecYzxn5k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HqAcgAcg02przzIEZWqZ6COhlIdlv/DD4GbJ6RzN1skINu6fXj0LTrPUip6RR6/Zo5Q3uTzEcTSnBxy50p24h0Ka/lZhHuuPFLudc+x/3FxdEWTdUT7cNYDYf9lBnLf9OjAvlVS+oi675/CYzxpORjaqH20A7YBDx+s1fH4cU80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=XZ2uVbbq; arc=none smtp.client-ip=91.218.175.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1729026977; c=relaxed/simple;
+	bh=apgOJUyzRbuZaee4XpVPnPmNtrBW0Uxe2veHVmjM9VU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KzYW5f01/+FZdwKMbnJB6szHSbkalR7j/61qofugd7vC113CLW1JyNKzcl3errW8MRVfSAq8k0UssnCG1RnXc8PvChGRaLYMyz/XTRMVfO+gvyExZqF5tfv5n+qN7RBDIwcvMfrgGexGVTBFAfIjpy+WL+TMOykxW2biILnJu6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hyun42B6; arc=none smtp.client-ip=209.85.166.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="XZ2uVbbq"
-Date: Tue, 15 Oct 2024 14:08:39 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1729026530;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eSynVCGUx/bo0b2uALTE+vNPBiF1i+qQIdLst2WgqkE=;
-	b=XZ2uVbbqJA7f6oIYdyRA5IQCTZBHNtxCKfVwUW+gGGJfh9UwP4wYoTAMO2wzcCxYKZ/UTZ
-	TqXufj4xQgoGWWrVNAiLVaOi9ZUUGpGPRe360Wt+GJHPz9foOFziZzPW2LgDB1gmWtG1Wp
-	OFWOS5TLcg1WIfDTJLPlkPjCZrOGd5Y=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, kent.overstreet@linux.dev, 
-	corbet@lwn.net, arnd@arndb.de, mcgrof@kernel.org, rppt@kernel.org, 
-	paulmck@kernel.org, thuth@redhat.com, tglx@linutronix.de, bp@alien8.de, 
-	xiongwei.song@windriver.com, ardb@kernel.org, david@redhat.com, vbabka@suse.cz, 
-	mhocko@suse.com, hannes@cmpxchg.org, roman.gushchin@linux.dev, dave@stgolabs.net, 
-	willy@infradead.org, liam.howlett@oracle.com, pasha.tatashin@soleen.com, 
-	souravpanda@google.com, keescook@chromium.org, dennis@kernel.org, jhubbard@nvidia.com, 
-	yuzhao@google.com, vvvvvv@google.com, rostedt@goodmis.org, iamjoonsoo.kim@lge.com, 
-	rientjes@google.com, minchan@google.com, kaleshsingh@google.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-mm@kvack.org, linux-modules@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH v3 2/5] alloc_tag: load module tags into separate
- contiguous memory
-Message-ID: <k4uejpziyyhcuozdpm6x6iy5zuugfhozilmgmjvo574yuq2oen@zvdoiqmk2mii>
-References: <20241014203646.1952505-1-surenb@google.com>
- <20241014203646.1952505-3-surenb@google.com>
- <20241014165149.6adebbf38fdc0a1f79ded66b@linux-foundation.org>
- <CAJuCfpETusPzdjEg01zahF7NOStQJZmoM5Jabqd5tJpCCQrj2g@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hyun42B6"
+Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-3a3b28ac9a1so1229685ab.1
+        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 14:16:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1729026974; x=1729631774; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O8t3MQX53gJacU2dQjrjSkqB49dUGpAYvqMTaTgZEsw=;
+        b=hyun42B6UD3ehnDregkMYAHGN2lH48336vO/9BJj/Ip2BZY5zGnthx3aSEWAuXCFiv
+         BpK03fIqXeW6J+TNFiErjRmMGhXDOUCBaxnqjIGZrnCi7+Rd7XXWfAaLb4WxHZLnPRa7
+         6GOAVyKEqYT906DWd3+xUcdaNpufkIgOaKRBMcT41mNIg2CSSi20dZeed8stNdTEFOnz
+         phxrSzJCotAUVr2sonSzR90tXGtbf8+TZwAfocuKdlobbnXgcxJyqKys48yQI0B+Xiaw
+         OryTK7wmqDe8niW/oxkV3VmR8oWLVX0Agz+yFrxKnN1xRtB86MqSGRsEpQhvAI0FzU0z
+         UK/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729026974; x=1729631774;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=O8t3MQX53gJacU2dQjrjSkqB49dUGpAYvqMTaTgZEsw=;
+        b=OcS/P9a3ENiQMwqva2y8tRRmnnK92JTDLniciYCmUYproqYVHEUeJWl9GJriouAbU4
+         kmRs91yIkPHbTPWwrChY0Uq1FSDtmQCdT/oLAAE/WKWTlnhLXSq/aFEvZ2/IiSpl/4aa
+         ZriRpBErHsCDgKD8CeL8L5ALwdU1M2BiQc1QSG+iaWWaZbT+o9DvveLIMMClDifPlK1H
+         d9yAt53Zmbr2mLu2EqFS0up3qJRng1+jNQm9dttfo7NxNatm+Vt3pvsHz6KxIHYj59Af
+         rIUYpi2lKGHNykYXw46ewf1ZoasrLyGlf6DN9yH96ddxFit7WjgGcv/aaG+BKMiFQRRO
+         Z3JA==
+X-Forwarded-Encrypted: i=1; AJvYcCXe+7v4os5Ke6+ePLwlgTLANRXUdEqqwB9kCXLiXqimOTUZUXZMq+qBk8Ujw11VWJU6JDksUhdRWxw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwwSCNgziF8icDKR8Swmws57BxVi2l3aAC3CG2St9sNaqLF8hMd
+	T9+t2c1aNxvb3Z7gI3QZdcnyvNqKxXaN1dfkCN7Ko5OmS2sOR1FD0qHHK8vF44boUqkyBOQ6cPy
+	ksRWl4FNKc/Uw+mmFJI1PZh3U73EUP09Gsv9l
+X-Google-Smtp-Source: AGHT+IHINpXEi5bb/dccSxtN8wJyzozbPFXJh2tHJWT4nH0CEB3DhiR+erAYo6ijlB3wG61HmbFlaLAczJD9QPgiALM=
+X-Received: by 2002:a05:6e02:1fc6:b0:39d:1b64:3551 with SMTP id
+ e9e14a558f8ab-3a3de7d1385mr347375ab.19.1729026973940; Tue, 15 Oct 2024
+ 14:16:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJuCfpETusPzdjEg01zahF7NOStQJZmoM5Jabqd5tJpCCQrj2g@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
+References: <20241015183824.1014964-1-irogers@google.com> <20241015203202.vyfi4nykkid35luj@illithid>
+In-Reply-To: <20241015203202.vyfi4nykkid35luj@illithid>
+From: Ian Rogers <irogers@google.com>
+Date: Tue, 15 Oct 2024 14:16:00 -0700
+Message-ID: <CAP-5=fU1Rh8z0RdRri7+yw5ORDes3sCSLyaHf9UqZ6o1rygkrg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/3] proc_pid_fdinfo.5: Reduce indent for most of the page
+To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+Cc: Alejandro Colomar <alx@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-man@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 14, 2024 at 07:10:56PM GMT, Suren Baghdasaryan wrote:
-> On Mon, Oct 14, 2024 at 4:51 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+On Tue, Oct 15, 2024 at 1:32=E2=80=AFPM G. Branden Robinson
+<g.branden.robinson@gmail.com> wrote:
+>
+> At 2024-10-15T11:38:22-0700, Ian Rogers wrote:
+> > When /proc/pid/fdinfo was part of proc.5 man page the indentation made
+> > sense. As a standalone man page the indentation doesn't need to be so
+> > far over to the right.
 > >
-> > On Mon, 14 Oct 2024 13:36:43 -0700 Suren Baghdasaryan <surenb@google.com> wrote:
+> > Signed-off-by: Ian Rogers <irogers@google.com>
+> > ---
+> >  man/man5/proc_pid_fdinfo.5 | 50 +++++++++++++++++++-------------------
+> >  1 file changed, 25 insertions(+), 25 deletions(-)
 > >
-> > > When a module gets unloaded there is a possibility that some of the
-> > > allocations it made are still used and therefore the allocation tags
-> > > corresponding to these allocations are still referenced. As such, the
-> > > memory for these tags can't be freed. This is currently handled as an
-> > > abnormal situation and module's data section is not being unloaded.
-> > > To handle this situation without keeping module's data in memory,
-> > > allow codetags with longer lifespan than the module to be loaded into
-> > > their own separate memory. The in-use memory areas and gaps after
-> > > module unloading in this separate memory are tracked using maple trees.
-> > > Allocation tags arrange their separate memory so that it is virtually
-> > > contiguous and that will allow simple allocation tag indexing later on
-> > > in this patchset. The size of this virtually contiguous memory is set
-> > > to store up to 100000 allocation tags.
-> > >
-> > > ...
-> > >
-> > > --- a/kernel/module/main.c
-> > > +++ b/kernel/module/main.c
-> > > @@ -1254,22 +1254,17 @@ static int module_memory_alloc(struct module *mod, enum mod_mem_type type)
-> > >       return 0;
-> > >  }
-> > >
-> > > -static void module_memory_free(struct module *mod, enum mod_mem_type type,
-> > > -                            bool unload_codetags)
-> > > +static void module_memory_free(struct module *mod, enum mod_mem_type type)
-> > >  {
-> > >       struct module_memory *mem = &mod->mem[type];
-> > > -     void *ptr = mem->base;
-> > >
-> > >       if (mem->is_rox)
-> > >               vfree(mem->rw_copy);
-> > >
-> > > -     if (!unload_codetags && mod_mem_type_is_core_data(type))
-> > > -             return;
-> > > -
-> > > -     execmem_free(ptr);
-> > > +     execmem_free(mem->base);
-> > >  }
-> >
-> > The changes around here are dependent upon Mike's "module: make
-> > module_memory_{alloc,free} more self-contained", which is no longer in
-> > mm-unstable.  I assume Mike is working on a v2 so I'll park this series
-> > for now.
-> 
-> Looks like the last update on Mike's patchset was back in May. Let me
-> check with Mike if he is planning to get it out soon. I would like my
-> patchset to get into 6.12 if possible.
+> > diff --git a/man/man5/proc_pid_fdinfo.5 b/man/man5/proc_pid_fdinfo.5
+> > index 1e23bbe02..0c4950d5d 100644
+> > --- a/man/man5/proc_pid_fdinfo.5
+> > +++ b/man/man5/proc_pid_fdinfo.5
+> > @@ -8,8 +8,9 @@
+> >  .SH NAME
+> >  /proc/pid/fdinfo/ \- information about file descriptors
+> >  .SH DESCRIPTION
+> > -.TP
+> > +.TP 0
+> >  .IR /proc/ pid /fdinfo/ " (since Linux 2.6.22)"
+> > +.P
+> >  This is a subdirectory containing one entry for each file which the
+> >  process has open, named by its file descriptor.
+> >  The files in this directory are readable only by the owner of the proc=
+ess.
+>
+> I don't find this usage to be idiomatic.
+>
+> There's no point having a tagged paragraph if you want that paragraph's
+> indentation to be zero.
+>
+> I'll grant that it's also unusual to have a man page's "Description"
+> section lurch straight into a definition list without any preamble.
+>
+> Since the only topic of this man page is now the file (or class of
+> files) in question, I suggest dropping the paragraph tag altogether
+> since it duplicates the summary description.
+>
+> And as it happens, you can put font styling _in_ the summary desription.
+>
+> So I suggest something like:
+>
+> .SH NAME
+> .IR /proc/ pid /fdinfo " \- information about file descriptors"
+> .SH DESCRIPTION
+> Since Linux 2.6.22,
+> this subdirectory contains one entry for each file that process
+> .I pid
+> has open,
+> named for its file descriptor.
+>
+> This renders fine with groff and mandoc(1).
+>
+> Sample page attached.
 
-6.12 or 6.13?
+Thanks for the advice on how to make things more idiomatic. I'll try
+to incorporate your feedback into v2.
+
+Ian
