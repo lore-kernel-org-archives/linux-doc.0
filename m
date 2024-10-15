@@ -1,108 +1,330 @@
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA4314F117
-	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 14:33:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD9221C4A21
+	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 14:49:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729002789; cv=none; b=iyWs0Cbw3YroeOSxSarpgO2u77SIY3XiPqGRz30HgNNjhDuxzDYD6FTgG06QGPgbkFtq+DyBo90AY628opPPqeTaRZoSIQJModi5gyfhd7Lyh/cqhUTH9TR0WXaOURE6xTsFsV8AZGTEU5wIuljg7i9WQjaJkQfY18fbalNS77I=
+	t=1729003770; cv=none; b=TKmp0wZQJ9hrs5izbpobbHY8BEzvfTptotlHva2nWh77Jfz1UbkLohnSGsXo0lyfHPYvqgVKVAmHNmDI+2AoDcwKMfJEIrUyeEqVn8jWsIoHMrnGqoK4s3ofaa6U4b07YI6OX/kHi1GoOa+U6LPvjiQhDPQWK3zTnJEpm7Tuqkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729002789; c=relaxed/simple;
-	bh=cispWMbOcCPkOtixYU/J3EAO8QBZS+85mmwIXWPTglI=;
+	s=arc-20240116; t=1729003770; c=relaxed/simple;
+	bh=ZhV7zbthHbMIewHCp0h03ho7/B/ftgyEQCYUwBDxG48=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sgEzqAj2c0+kIWt8lTNmDooLeZAbS+191urXfAd9n6rWLoSVO2+9v/NK6tMRNz685E6DA8mO752I2mN5kWzETSMJ1TNryYPpHK3luwVfwhJGgljMn5xVyZpKZghLylkJuVtRmR6yXqisKo09EvGacUEG0H+6HrfV/tL1I+3ATXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gfeqcZ2C; arc=none smtp.client-ip=209.85.219.179
+	 To:Cc:Content-Type; b=aNkAwt4EGnl1b7gzHUBN1pefPMJ+qwy5NvcH2lHqcmSkpDImb7MC8Xvduc8gqIMO13eAJm4SzLnzgOCsiXW2AE2ay0DElNXZpT0Ug9ccQrUo2rQNz1uwpaeWvfZ7Q7mEUcStlyxfoIgvJv8LLkOP1CmEPNno6Zfd+0lT/YhBsqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=R9rJmJot; arc=none smtp.client-ip=209.85.160.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gfeqcZ2C"
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e2972abc807so551794276.3
-        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 07:33:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="R9rJmJot"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-45fb0ebb1d0so699151cf.1
+        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 07:49:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729002786; x=1729607586; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1729003767; x=1729608567; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qYbi5gZJ4OrZjgdOZozfnDl/MQxnlNPVWNQhf6fR4f0=;
-        b=gfeqcZ2CWvVbAasFznspjOcugD28srEpnDEuLEYIcm8bREJtkzERKBlbivN6L+E/PE
-         6ZqR0uNdEJG7qaYupwOWSGpZO2coweQ7CwYdX0aNSETBnmNo1JWDz1Bx+7hB02pms/yq
-         Wb5DBAUV6yFmGgBjWAqlS7widg42xq7ylrDOS954MSU7oxPqLT4h9emAg9K7tcaOHkYL
-         x1LdhH09+SAM/7cCG2zAet00frpQhWOcE+NG+FoUgR4cbLRQn2yhsORTNJOofPKv/+Lq
-         GtO/pCXmVVxfQ/K2K63zS5NT9GBbn19prflIKaryXKyQXunGI5H0932OKJh/WPKVHYF0
-         GBrA==
+        bh=KGfVMDlLn1825g+J14Hy1oDH1uXbeKzHCn9d9Ylz3+Q=;
+        b=R9rJmJotcW+NqJe7rdt22hFUwXQVpBu+kK1elW1pgpaUQ3uNCLDHpABZBP0lK/o23d
+         ObUGqW+oxoCM6Dbd8qIcklJPhBPLM28QQRdLP0dl68u+E21OL/CTDsucfbQCF5zPcTCE
+         Ldy8ipOsory0FjDf00OqBSWKi5hQZvUczqqJ5QEE7r055Ayhj5vFy6PE5WgLW/A/M04o
+         o/+NuZWvaFPkPUwTgBAdJpmlASeTrWJz85aN0gpUXxr6DSDLcRptbityC1/q2Y56pt+g
+         GVMfuSFLJjksH73h4OW6FdEQJM84ehbRObN8o8sfQ9CazKF1Wn/g9v+q4YNFCuEA0QSE
+         QwEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729002786; x=1729607586;
+        d=1e100.net; s=20230601; t=1729003767; x=1729608567;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qYbi5gZJ4OrZjgdOZozfnDl/MQxnlNPVWNQhf6fR4f0=;
-        b=C25C+vFvZML9+3IpF8Q0BFVdAdsuS1PK0O5OYiz90pSrrSgnXFvj72AX53IPuJ1ko5
-         YugBXyI/IuIH7o8+AxGE1UsWqdazUxCkm22AU3Dw8K1vC9OofubUkDE3ZsLlhtCdo2fL
-         uSqGs3PeJkq11jtAhCChFDDBj56cxQkZvPrDRxcRx4l4pwoZO/n/k9sMMpQ+bRALAvd+
-         ZtcxvwwRy/C9nGo9bnyDAnvxNrux5nESHkWZXt91UJG3aMdCcXeYLk5QXlDYptA06ZRK
-         nGbODLyJwszx6nTuIBVzT1tMTqT5PA9tivqiJy37NlkOtczfzqcX2jx9iMo2phRqdGQb
-         SQDA==
-X-Forwarded-Encrypted: i=1; AJvYcCWDYkuK+U1hNOhBfR7UNufaBcxbXaa3UjnhK0iZUhaTOsgKunM0vxILrpQh9CU9sZYiNLJSlfeLJb8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1MVrT+8PtEyMJbg+2Zv3KF+6TXrFsAyh55xw7ZQvkHFv3wLYz
-	qCoBTpjMT4AxcQtOVm0UBW9T0b6ql9GXtTi5pE1p9hH2BdaIJbV6YRuHsWCcvsQJZvBSQ5qJ/r2
-	pwhENJEXqwUtCP8MMNcoyoZyuYqUfA6+IWskecNwh/xF9jH7HYcPn
-X-Google-Smtp-Source: AGHT+IFZs56aAHhGD7Dtb0kDtkQdr1ZZUSIQiPFpxpiO5HWv5d7OB4424EZKwAZ4IMnzuRzHa4IKV/3BReaO30E2D7I=
-X-Received: by 2002:a05:6902:114d:b0:e29:3923:9934 with SMTP id
- 3f1490d57ef6-e297830bb05mr532299276.26.1729002785701; Tue, 15 Oct 2024
- 07:33:05 -0700 (PDT)
+        bh=KGfVMDlLn1825g+J14Hy1oDH1uXbeKzHCn9d9Ylz3+Q=;
+        b=K6/CwT01jKfDCL7ds3w+J6cSXKmXktn8bdV3SjhRQswh45RqD7rQEVgnDbaar/Ahzd
+         moxnjqUOvCxKJDm1rj01exVtNvPZQlUjog5mfJVMigcCodcvBc0JbU2wWkH0B4549wPH
+         59uaFpKzls/DpCts5SXQJ2ALo/5n2ZOnAPhF/OjpERvfsECTjOPbd/WUFK4ngd8EfpZo
+         tApQ3wH2l3Y3G8sr0VZhJgG4KFBiutUTQnBPVBy/IuQTdVT9wKVnZTCr2JIZ8kd4ztXj
+         G3Or88EbEp0AQeRthR5X/NtDzAlgMPM1JymEY2+M11lgIPpMpSkg/clAR425OZSpSKoF
+         NYDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXpIAsmD9SSMh8TEMeGfeGUIMUBjBadUTV9SxbdpZRZrPdLw2p30LNc2AqYcXeNW3ZjehYfbBkDND8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZqD6YEsWyyEtE5HKlfTEmtTN9ZNXoPtzn/kbGy7tO7olVoepb
+	OEWBjv9hdPEJnJHt747QYPHeROyIPDJaNbXE/+d7/+AzDV9aPgyZ9hsxa2w8KmBAk2NA6BKxFcb
+	USG+/wrLrsYBDkX9d67Mka4tUOzWHFmmCXY+r
+X-Google-Smtp-Source: AGHT+IHyqoTyx/YlQBvl8SRkssyjUIklgUBoWFJuAmw8xTcFULp90DIWTR4dOeGeR2G47cVqTZdstcTSZdSOnU18ol8=
+X-Received: by 2002:a05:622a:820c:b0:45d:8d1f:c505 with SMTP id
+ d75a77b69052e-46059c43f44mr7776181cf.15.1729003766319; Tue, 15 Oct 2024
+ 07:49:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241015140159.8082-1-tttturtleruss@hust.edu.cn> <CAD-N9QWdqPaZSh=Xi_CWcKyNmxCS0WOteAtRvwHLZf16fab3eQ@mail.gmail.com>
-In-Reply-To: <CAD-N9QWdqPaZSh=Xi_CWcKyNmxCS0WOteAtRvwHLZf16fab3eQ@mail.gmail.com>
-From: Marco Elver <elver@google.com>
-Date: Tue, 15 Oct 2024 16:32:27 +0200
-Message-ID: <CANpmjNOg=+Y-E0ozJbOoxOzOcayYnZkC0JGtuz4AOQQNmjSUuQ@mail.gmail.com>
-Subject: Re: [PATCH] docs/dev-tools: fix a typo
-To: Dongliang Mu <mudongliangabcd@gmail.com>
-Cc: Haoyang Liu <tttturtleruss@hust.edu.cn>, Alexander Potapenko <glider@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	hust-os-kernel-patches@googlegroups.com, kasan-dev@googlegroups.com, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+References: <20241014203646.1952505-1-surenb@google.com> <20241014203646.1952505-4-surenb@google.com>
+ <Zw5c3zjW4sUUmont@kernel.org>
+In-Reply-To: <Zw5c3zjW4sUUmont@kernel.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Tue, 15 Oct 2024 07:49:13 -0700
+Message-ID: <CAJuCfpGymAAoyeWHgg_4vGX3DhRwLVa+Ueegs0DUCQ8+Wf6ChQ@mail.gmail.com>
+Subject: Re: [PATCH v3 3/5] alloc_tag: populate memory for module tags as needed
+To: Mike Rapoport <rppt@kernel.org>
+Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, corbet@lwn.net, 
+	arnd@arndb.de, mcgrof@kernel.org, paulmck@kernel.org, thuth@redhat.com, 
+	tglx@linutronix.de, bp@alien8.de, xiongwei.song@windriver.com, 
+	ardb@kernel.org, david@redhat.com, vbabka@suse.cz, mhocko@suse.com, 
+	hannes@cmpxchg.org, roman.gushchin@linux.dev, dave@stgolabs.net, 
+	willy@infradead.org, liam.howlett@oracle.com, pasha.tatashin@soleen.com, 
+	souravpanda@google.com, keescook@chromium.org, dennis@kernel.org, 
+	jhubbard@nvidia.com, yuzhao@google.com, vvvvvv@google.com, 
+	rostedt@goodmis.org, iamjoonsoo.kim@lge.com, rientjes@google.com, 
+	minchan@google.com, kaleshsingh@google.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kernel-team@android.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 15 Oct 2024 at 16:11, Dongliang Mu <mudongliangabcd@gmail.com> wrot=
-e:
+On Tue, Oct 15, 2024 at 5:19=E2=80=AFAM 'Mike Rapoport' via kernel-team
+<kernel-team@android.com> wrote:
 >
-> On Tue, Oct 15, 2024 at 10:09=E2=80=AFPM Haoyang Liu <tttturtleruss@hust.=
-edu.cn> wrote:
+> On Mon, Oct 14, 2024 at 01:36:44PM -0700, Suren Baghdasaryan wrote:
+> > The memory reserved for module tags does not need to be backed by
+> > physical pages until there are tags to store there. Change the way
+> > we reserve this memory to allocate only virtual area for the tags
+> > and populate it with physical pages as needed when we load a module.
 > >
-> > fix a typo in dev-tools/kmsan.rst
-> >
-> > Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
+> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 > > ---
-> >  Documentation/dev-tools/kmsan.rst | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >  include/linux/execmem.h | 11 ++++++
+> >  include/linux/vmalloc.h |  9 +++++
+> >  lib/alloc_tag.c         | 84 +++++++++++++++++++++++++++++++++--------
+> >  mm/execmem.c            | 16 ++++++++
+> >  mm/vmalloc.c            |  4 +-
+> >  5 files changed, 106 insertions(+), 18 deletions(-)
 > >
-> > diff --git a/Documentation/dev-tools/kmsan.rst b/Documentation/dev-tool=
-s/kmsan.rst
-> > index 6a48d96c5c85..0dc668b183f6 100644
-> > --- a/Documentation/dev-tools/kmsan.rst
-> > +++ b/Documentation/dev-tools/kmsan.rst
-> > @@ -133,7 +133,7 @@ KMSAN shadow memory
-> >  -------------------
+> > diff --git a/include/linux/execmem.h b/include/linux/execmem.h
+> > index 7436aa547818..a159a073270a 100644
+> > --- a/include/linux/execmem.h
+> > +++ b/include/linux/execmem.h
+> > @@ -127,6 +127,17 @@ void *execmem_alloc(enum execmem_type type, size_t=
+ size);
+> >   */
+> >  void execmem_free(void *ptr);
 > >
-> >  KMSAN associates a metadata byte (also called shadow byte) with every =
-byte of
-> > -kernel memory. A bit in the shadow byte is set iff the corresponding b=
-it of the
-> > +kernel memory. A bit in the shadow byte is set if the corresponding bi=
-t of the
+> > +/**
+> > + * execmem_vmap - create virtual mapping for executable memory
+> > + * @type: type of the allocation
+> > + * @size: size of the virtual mapping in bytes
+> > + *
+> > + * Maps virtually contiguous area that can be populated with executabl=
+e code.
+> > + *
+> > + * Return: the area descriptor on success or %NULL on failure.
+> > + */
+> > +struct vm_struct *execmem_vmap(enum execmem_type type, size_t size);
+> > +
 >
-> This is not a typo. iff is if and only if
+> I think it's better limit it to EXECMEM_MODULE_DATA
 
-+1
+Ack.
 
-https://en.wikipedia.org/wiki/If_and_only_if
+>
+> >  /**
+> >   * execmem_update_copy - copy an update to executable memory
+> >   * @dst:  destination address to update
+> > diff --git a/include/linux/vmalloc.h b/include/linux/vmalloc.h
+> > index 9a012cd4fad2..9d64cc6f24d1 100644
+> > --- a/include/linux/vmalloc.h
+> > +++ b/include/linux/vmalloc.h
+> > @@ -202,6 +202,9 @@ extern int remap_vmalloc_range_partial(struct vm_ar=
+ea_struct *vma,
+> >  extern int remap_vmalloc_range(struct vm_area_struct *vma, void *addr,
+> >                                                       unsigned long pgo=
+ff);
+> >
+> > +int vmap_pages_range(unsigned long addr, unsigned long end,
+> > +             pgprot_t prot, struct page **pages, unsigned int page_shi=
+ft);
+> > +
+> >
+> >  /*
+> >   * Architectures can set this mask to a combination of PGTBL_P?D_MODIF=
+IED values
+> >   * and let generic vmalloc and ioremap code know when arch_sync_kernel=
+_mappings()
+> > @@ -239,6 +242,12 @@ extern struct vm_struct *__get_vm_area_caller(unsi=
+gned long size,
+> >                                       unsigned long flags,
+> >                                       unsigned long start, unsigned lon=
+g end,
+> >                                       const void *caller);
+> > +struct vm_struct *__get_vm_area_node(unsigned long size,
+> > +                                  unsigned long align, unsigned long s=
+hift,
+> > +                                  unsigned long flags, unsigned long s=
+tart,
+> > +                                  unsigned long end, int node, gfp_t g=
+fp_mask,
+> > +                                  const void *caller);
+> > +
+>
+> This is not used outside mm/, let's put it into mm/internal.h
 
-Nack.
+Ack.
+
+>
+> >  void free_vm_area(struct vm_struct *area);
+> >  extern struct vm_struct *remove_vm_area(const void *addr);
+> >  extern struct vm_struct *find_vm_area(const void *addr);
+> > diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
+> > index b10e7f17eeda..648f32d52b8d 100644
+> > --- a/lib/alloc_tag.c
+> > +++ b/lib/alloc_tag.c
+> > @@ -8,6 +8,7 @@
+> >  #include <linux/proc_fs.h>
+> >  #include <linux/seq_buf.h>
+> >  #include <linux/seq_file.h>
+> > +#include <linux/vmalloc.h>
+> >
+> >  static struct codetag_type *alloc_tag_cttype;
+> >
+> > @@ -153,6 +154,7 @@ static void __init procfs_init(void)
+> >  #ifdef CONFIG_MODULES
+> >
+> >  static struct maple_tree mod_area_mt =3D MTREE_INIT(mod_area_mt, MT_FL=
+AGS_ALLOC_RANGE);
+> > +static struct vm_struct *vm_module_tags;
+> >  /* A dummy object used to indicate an unloaded module */
+> >  static struct module unloaded_mod;
+> >  /* A dummy object used to indicate a module prepended area */
+> > @@ -195,6 +197,25 @@ static void clean_unused_module_areas_locked(void)
+> >       }
+> >  }
+> >
+> > +static int vm_module_tags_grow(unsigned long addr, unsigned long bytes=
+)
+> > +{
+> > +     struct page **next_page =3D vm_module_tags->pages + vm_module_tag=
+s->nr_pages;
+> > +     unsigned long more_pages =3D ALIGN(bytes, PAGE_SIZE) >> PAGE_SHIF=
+T;
+> > +     unsigned long nr;
+> > +
+> > +     nr =3D alloc_pages_bulk_array_node(GFP_KERNEL | __GFP_NOWARN,
+> > +                                      NUMA_NO_NODE, more_pages, next_p=
+age);
+> > +     if (nr !=3D more_pages)
+> > +             return -ENOMEM;
+> > +
+> > +     vm_module_tags->nr_pages +=3D nr;
+> > +     if (vmap_pages_range(addr, addr + (nr << PAGE_SHIFT),
+> > +                          PAGE_KERNEL, next_page, PAGE_SHIFT) < 0)
+> > +             return -ENOMEM;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> >  static void *reserve_module_tags(struct module *mod, unsigned long siz=
+e,
+> >                                unsigned int prepend, unsigned long alig=
+n)
+> >  {
+> > @@ -202,7 +223,7 @@ static void *reserve_module_tags(struct module *mod=
+, unsigned long size,
+> >       MA_STATE(mas, &mod_area_mt, 0, section_size - 1);
+> >       bool cleanup_done =3D false;
+> >       unsigned long offset;
+> > -     void *ret;
+> > +     void *ret =3D NULL;
+> >
+> >       /* If no tags return NULL */
+> >       if (size < sizeof(struct alloc_tag))
+> > @@ -239,7 +260,7 @@ static void *reserve_module_tags(struct module *mod=
+, unsigned long size,
+> >               goto repeat;
+> >       } else {
+> >               ret =3D ERR_PTR(-ENOMEM);
+> > -             goto out;
+> > +             goto unlock;
+> >       }
+> >
+> >  found:
+> > @@ -254,7 +275,7 @@ static void *reserve_module_tags(struct module *mod=
+, unsigned long size,
+> >               mas_store(&mas, &prepend_mod);
+> >               if (mas_is_err(&mas)) {
+> >                       ret =3D ERR_PTR(xa_err(mas.node));
+> > -                     goto out;
+> > +                     goto unlock;
+> >               }
+> >               mas.index =3D offset;
+> >               mas.last =3D offset + size - 1;
+> > @@ -263,7 +284,7 @@ static void *reserve_module_tags(struct module *mod=
+, unsigned long size,
+> >                       ret =3D ERR_PTR(xa_err(mas.node));
+> >                       mas.index =3D pad_start;
+> >                       mas_erase(&mas);
+> > -                     goto out;
+> > +                     goto unlock;
+> >               }
+> >
+> >       } else {
+> > @@ -271,18 +292,33 @@ static void *reserve_module_tags(struct module *m=
+od, unsigned long size,
+> >               mas_store(&mas, mod);
+> >               if (mas_is_err(&mas)) {
+> >                       ret =3D ERR_PTR(xa_err(mas.node));
+> > -                     goto out;
+> > +                     goto unlock;
+> >               }
+> >       }
+> > +unlock:
+> > +     mas_unlock(&mas);
+> > +     if (IS_ERR(ret))
+> > +             return ret;
+> >
+> > -     if (module_tags.size < offset + size)
+> > -             module_tags.size =3D offset + size;
+> > +     if (module_tags.size < offset + size) {
+> > +             unsigned long phys_size =3D vm_module_tags->nr_pages << P=
+AGE_SHIFT;
+> >
+> > -     ret =3D (struct alloc_tag *)(module_tags.start_addr + offset);
+> > -out:
+> > -     mas_unlock(&mas);
+> > +             module_tags.size =3D offset + size;
+> > +             if (phys_size < module_tags.size) {
+> > +                     int grow_res;
+> > +
+> > +                     grow_res =3D vm_module_tags_grow(module_tags.star=
+t_addr + phys_size,
+> > +                                                    module_tags.size -=
+ phys_size);
+> > +                     if (grow_res) {
+> > +                             static_branch_disable(&mem_alloc_profilin=
+g_key);
+> > +                             pr_warn("Failed to allocate tags memory f=
+or module %s. Memory profiling is disabled!\n",
+> > +                                     mod->name);
+> > +                             return ERR_PTR(grow_res);
+> > +                     }
+> > +             }
+> > +     }
+>
+> The diff for reserve_module_tags() is hard to read, and the function itse=
+lf
+> becomes really complex to follow with all the gotos back and forth.
+> Maybe it's possible to split out some parts of it as helpers?
+
+Got it. Will refactor this function to make it easier to review.
+
+Thanks for the prompt review, Mike!
+
+>
+> > -     return ret;
+> > +     return (struct alloc_tag *)(module_tags.start_addr + offset);
+> >  }
+> >
+>
+> --
+> Sincerely yours,
+> Mike.
+>
+> To unsubscribe from this group and stop receiving emails from it, send an=
+ email to kernel-team+unsubscribe@android.com.
+>
