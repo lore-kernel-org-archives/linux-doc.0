@@ -1,132 +1,161 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2A31DD524
-	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 09:09:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FBB91DAC97
+	for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 09:11:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728983356; cv=none; b=jz4lHNfWOI3dTiF4IbWRWlQ2l8Xq2xxYaU7Zd3RORqRWoKVSlnvYXL0mDSndT32QVt4b6Z9IJBqf6YCPUSuNHAFt1mySIEJGXTmxd4xD3sHhA1aeGgVRyktqTU5ISanpbaHGxRebYBw5BzGsWgYnJMkwEtV5cwkU1kpCJ4UNAYI=
+	t=1728983465; cv=none; b=FRf7/HccA8PBLONXYgHI4Bha/C/p92Q2Ab586SDX7SQJ0CtouSWtUWoMBUSQm6N58rdv54o8AgC7R08JttIOOI93Ufh+YWJJ7gNLr+3VUGK+oszOK+UT8otbKCCFRjU09QC6ve+HNjTmtkTwfv8qoSL8A/yJBGVOSTzkyhxD5x8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728983356; c=relaxed/simple;
-	bh=Xf+1p1dhNaBSOlyYJsyHP6TW4PzwOUZ7+GLCro93QzI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EOJiaCN5P7sBJ0Ttsz3m56bTl/Uptc1a6F0jFVUE4Q+sP4D0TlUwDOyDTjYyNH6+MxsCG03X4h8ISJMgxo3VHukBnqm4ybnpr5xUB6mz4X1YawyHreoAGojgsKlKOVEtOzDOHyA4Epr11PSNf5jhKnHAt3SbR9eBuFeYcb2pLjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=V54wJyEK; arc=none smtp.client-ip=209.85.128.53
+	s=arc-20240116; t=1728983465; c=relaxed/simple;
+	bh=HmU2U/g1OAAlOudivqA9vY5MRTPns4lodRZU40lGkLM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dm+x+lMdjGQvmtjuP47sfXfsyiAv9KPC1ZBRT07uD6VxqwOfKpQjkiayPo1F1kOsBk/TTINn9mCZDpL291JxO5Eis6a6jozxQW+rJe5RewyXXISmI3USfjcvEkBwXZssLInQmRH9j8b6ep0z2TTRcjVr4GApeuBWV8tEjOcWnXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=sVls2s/7; arc=none smtp.client-ip=209.85.208.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="V54wJyEK"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-430ee5c9570so60280515e9.3
-        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 02:09:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="sVls2s/7"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5c9362c26d8so8715972a12.1
+        for <linux-doc@vger.kernel.org>; Tue, 15 Oct 2024 02:11:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1728983351; x=1729588151; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0uiUgc2lMDswctm/8bBLpifbXnHpYVOogncCBqrFxao=;
-        b=V54wJyEKeFL0R/9HTBYUmOXBHmTOTKarTmRjYb4lc6gEbq62XqT6O4Mt+iSl1g+WQY
-         SraV8m3ZRWBPfYZkW8Vj6pxBAeki44iE0unoqLy9zhqRadZXahwzqgHfoRXHP1NmeRQV
-         4QL/2jO8QOUV1yCQ1hchWCRgtUzU0oLdWoVzDvbiuP6SXrq3iLgjKqdFj5yQ4FI4jYLl
-         78+QxmsdrlhVpjfPMZPMa8o/vTFDATicLjK9DuRM69r2YuGfMQtQl5jmRmnNlt/Ip7/K
-         Femp1MYZ0WD9WgplK0LNNsPY9yGQp+cSEoxvWEfNs3NeVeJz24mCM/dI3p4qqNRBRjDD
-         FoRg==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1728983462; x=1729588262; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dKYX/X7mBxPp2nsbdWzAtfQtdeIIhxTu5G+abp+bZns=;
+        b=sVls2s/7KpP/FDKJSb+knTM6ggR5CrORPbQKP3+PPYjWtFFdRY50a87PxoRUuGg6l4
+         A6ywRTDGjEY44xbZYigEs90Fyp2Fz9pDENr0jKdWUrvLJVkXOmslDRnk40Zv7pA65/Dl
+         NhDG0Dz7/ngQurUuHGAQYCXyrP2/GTrk4/Py0APKLpPpVKgosFvHpEbOTG3UuWtMatVp
+         VZABiV9Lqb4LkAuLPtmsGT7c3kC9x2uI2uD9T7jpnO1fVtMdFNvZNkCsWeVk98EP0aec
+         ACkgSuDXS6v+wurXWoQuuixwy4B0jfXSGqoOb4Htyu6en3ZiWMXK05z+4gItUabrPTdo
+         iQ0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728983351; x=1729588151;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1728983462; x=1729588262;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0uiUgc2lMDswctm/8bBLpifbXnHpYVOogncCBqrFxao=;
-        b=xG53HDhuMv1xgu3aeVjRDK1Cec6VW0+t5MyMpo8k/QvZliov2H5JI8xJWhW1WT5za3
-         dYqfMXQWz9GVOpBwtzMTwDQKSNqJzkpkRXcuJfN1S6ZDvRheZM0yzAxtGiCncLu8NwUW
-         rzh6RP9a0Ixs3EuIrEPAHKymXTNiboY7AqD443dbmoQO3lhhINKOKEPcgxpJjyUvYDgm
-         Tw/njKp5RTGdwcivblslK/UIbm6stWU3mkGpwOLyyWmcRn5rSR7R1lQUf/cUYK8f+y4m
-         ScSd/T+7i9m6X+PG2ZtRhi1c1E/0SbOj2f7Q0ce3Dlc6IAm8pnSYKlfFE75R7t6syUaz
-         ow2A==
-X-Forwarded-Encrypted: i=1; AJvYcCXDUS6M/DHuUGSMeXu0ZPxa9/PfrMku5S+m0KgspxYFTDip/sTB7MvBOc27R+HIW3e+aFQT13LOfzI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdC8xQopsUCStuznGrKn0NEPtliBMSuublOj6NP/foV9hDtkuk
-	ECj7XgU/ovGf7k+DdviTcyOP0QPq0b6DAyGoKpdPIPXmBA+PuHR+7w1YRssJiPY=
-X-Google-Smtp-Source: AGHT+IEUX37M/knbAn5SKR1nohLrXr6gCko+RdOrWyp0Mui4xUOkxNxxb3hi8uVAPtADPhLB4yiVMQ==
-X-Received: by 2002:a5d:448e:0:b0:37c:d1fb:82f4 with SMTP id ffacd0b85a97d-37d600d2fe3mr9913019f8f.36.1728983350979;
-        Tue, 15 Oct 2024 02:09:10 -0700 (PDT)
-Received: from [192.168.1.64] (2a02-842a-d52e-6101-6fd0-06c4-5d68-f0a5.rev.sfr.net. [2a02:842a:d52e:6101:6fd0:6c4:5d68:f0a5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d7fc123dasm1012882f8f.94.2024.10.15.02.09.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 02:09:09 -0700 (PDT)
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Tue, 15 Oct 2024 11:09:09 +0200
-Subject: [PATCH RFC 4/4] docs: iio: ad7380: add adaq4370-4 and adaq4380-4
+        bh=dKYX/X7mBxPp2nsbdWzAtfQtdeIIhxTu5G+abp+bZns=;
+        b=QSTi9eYnqL3Cg32UL0oBTkIFSveV6A4SVhjHnjOLMxSE5fcIrYwA9/a9bBYg4Ol9OS
+         7hfv324ZLCLjQJKQTXQQPAyYObhUpOe75N9fDMlH7Uu8t1xCakF3SfpIuXcUJFc2d7gI
+         qx8zJ6iA+VDwWfo37D/wX+n9/O2r0MXyzLOc5yHDy0lhj+fc0nNlIwm/zJM+XyrIXjhC
+         WIrbr029wVjninNxPLs2TdFx4XPCQ6meoXX1+1mdkdxBUd1e+UZP7Jj4+eQXwUkQSruU
+         VJ1R4boeqsIM+Wtg+TFLZg+dRXYx4RW2ppgDcLHz2zcm/lU9ksdg2IC7XAZmq7lEJt0M
+         rUGw==
+X-Forwarded-Encrypted: i=1; AJvYcCXs8uYy2KJxUcKSvKxB8M9JbvErJePS+6oFcOUoKTX2UhX51noHf610aDdoZuK0zpi34LIshpVSm3g=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3w3k8HFDcJQguJvZpil8DHaukJsI+xog8HkmW9E6ts+zCCxbL
+	H5ovry2y772Qh0LJUy7nYKaIYST8nWrW2ia1+7tND/oaOISM4IESZh/p4aapvEmAFAY+v38IyLd
+	EDO8dXEUpTrBT6Hf7ulCn73hRbecwlzqGqUEcsg==
+X-Google-Smtp-Source: AGHT+IGmhwhZFzzcmR6cBoSAtHt5axlbjpP3SJn5Ija0fnp0VR7nDAoptCMqzkDm1+vRBtFUi8OGGMQk2xKXo/DJAwg=
+X-Received: by 2002:a17:907:7f1b:b0:a8d:2281:94d9 with SMTP id
+ a640c23a62f3a-a99a13ae729mr1930686166b.23.1728983461702; Tue, 15 Oct 2024
+ 02:11:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241015-ad7380-add-adaq4380-4-support-v1-4-d2e1a95fb248@baylibre.com>
-References: <20241015-ad7380-add-adaq4380-4-support-v1-0-d2e1a95fb248@baylibre.com>
-In-Reply-To: <20241015-ad7380-add-adaq4380-4-support-v1-0-d2e1a95fb248@baylibre.com>
-To: Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- David Lechner <dlechner@baylibre.com>, Jonathan Cameron <jic23@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Julien Stephan <jstephan@baylibre.com>
-X-Mailer: b4 0.14.1
+References: <20241007-ad7380-fix-supplies-v1-0-badcf813c9b9@baylibre.com>
+ <20241007-ad7380-fix-supplies-v1-2-badcf813c9b9@baylibre.com>
+ <v7in5n6ktmu5kfzlndn4eujmk5n66fmft4lvwuvucqbcv5r5hb@etdqvn6ev6nl>
+ <20241010192218.12808268@jic23-huawei> <CAEHHSvaGTKFA1mUeONXUQ=aTirVemHWFc_E-i76sQgtQ5_Svtg@mail.gmail.com>
+ <20241014193701.40e3785a@jic23-huawei>
+In-Reply-To: <20241014193701.40e3785a@jic23-huawei>
+From: Julien Stephan <jstephan@baylibre.com>
+Date: Tue, 15 Oct 2024 11:10:52 +0200
+Message-ID: <CAEHHSvbvGGD=EPjdB+hPoKx3AHjTB8e3f_umLhv83i4=sRJ0Yw@mail.gmail.com>
+Subject: Re: [PATCH 2/6] dt-bindings: iio: adc: ad7380: fix ad7380-4 reference supply
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	David Lechner <dlechner@baylibre.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Adding documentation for adaq4370-4 and adaq4380-4 supported devices. In
-particular, document the reference voltage mechanism and the gain
-parameter that are specific to adaq devices.
+Le lun. 14 oct. 2024 =C3=A0 20:37, Jonathan Cameron <jic23@kernel.org> a =
+=C3=A9crit :
+>
+> On Mon, 14 Oct 2024 11:00:39 +0200
+> Julien Stephan <jstephan@baylibre.com> wrote:
+>
+> > Le jeu. 10 oct. 2024 =C3=A0 20:22, Jonathan Cameron <jic23@kernel.org> =
+a =C3=A9crit :
+> > >
+> > > On Tue, 8 Oct 2024 09:52:50 +0200
+> > > Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> > >
+> > > > On Mon, Oct 07, 2024 at 05:45:45PM +0200, Julien Stephan wrote:
+> > > > > ad7380-4 is the only device from ad738x family that doesn't have =
+an
+> > > > > internal reference. Moreover its external reference is called REF=
+IN in
+> > > > > the datasheet while all other use REFIO as an optional external
+> > > > > reference. If refio-supply is omitted the internal reference is
+> > > > > used.
+> > > > >
+> > > > > Fix the binding by adding refin-supply and makes it required for
+> > > > > ad7380-4 only.
+> > > >
+> > > > Maybe let's just use refio as refin? Reference-IO fits here well.
+> > > > Otherwise you have two supplies for the same.
+> > > Whilst it is ugly, the effort this series is going to in order
+> > > to paper over a naming mismatch makes me agree with Krzysztof.
+> > >
+> > > I think adding a comment to the dt-binding would be sensible
+> > > though as people might fall into this hole.
+> > >
+> >
+> > Hi Jonathan and Krzysztof,
+> >
+> > I am currently adding support for another chip to this family
+> > (ADAQ4380-4) and it also uses REFIN.. but in another way ad7380-4
+> > does..
+> > So:
+> > - ad7380-4 does not have any internal reference and use a mandatory
+> > refin supply as external reference
+> > - adaq4380-4 does not have external reference but uses a 3V internal
+> > reference derived from a 5V mandatory refin supply
+> > - all others (AFAIK) use an optional refio external reference. If
+> > omitted, use an internal 2.5V reference.
+> >
+> > I am not sure using a single refio-supply for all will make things
+> > clearer.. What do you think? Should I also send the adaq series now to
+> > bring more context? (I wanted feedback on this series first).
+> >
+>
+> Sounds like that context would be useful if you have it more or less
+> ready to send anyway.  I don't have particularly strong views on this
+> either way.  If we 'fix' the case you have here, old bindings should
+> continue to work for the part you are moving over (though no need
+> to have them in the dt-bindings file).
+>
 
-Signed-off-by: Julien Stephan <jstephan@baylibre.com>
----
- Documentation/iio/ad7380.rst | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+Hi Jonathan,
 
-diff --git a/Documentation/iio/ad7380.rst b/Documentation/iio/ad7380.rst
-index 6f70b49b9ef2..eeffd19db642 100644
---- a/Documentation/iio/ad7380.rst
-+++ b/Documentation/iio/ad7380.rst
-@@ -27,6 +27,8 @@ The following chips are supported by this driver:
- * `AD7386-4 <https://www.analog.com/en/products/ad7386-4.html>`_
- * `AD7387-4 <https://www.analog.com/en/products/ad7387-4.html>`_
- * `AD7388-4 <https://www.analog.com/en/products/ad7388-4.html>`_
-+* `ADAQ4370-4 <https://www.analog.com/en/products/adaq4370-4.html>`_
-+* `ADAQ4380-4 <https://www.analog.com/en/products/adaq4380-4.html>`_
- 
- 
- Supported features
-@@ -47,6 +49,12 @@ ad7380-4
- ad7380-4 supports only an external reference voltage (2.5V to 3.3V). It must be
- declared in the device tree as ``refin-supply``.
- 
-+adaq devices
-+~~~~~~~~~~~~
-+
-+adaq4370-4 and adaq4380-4 don't have an external reference, but use a 3V
-+internal reference derived from one of its supplies (``refin-supply``)
-+
- All other devices from ad738x family
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
-@@ -121,6 +129,13 @@ Example for AD7386/7/8 (2 channels parts):
- 
- When enabling sequencer mode, the effective sampling rate is divided by two.
- 
-+
-+Gain (adaq devices only)
-+~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+adaq devices have a configurable gain in front of each adc. The appropriate gain
-+is selectable from device tree using the ``adi,gain-milli`` property.
-+
- Unimplemented features
- ----------------------
- 
+Just sent the new series with an RFC tag.
 
--- 
-2.46.0
 
+Cheers
+Julien
+
+> Jonathan
+>
+> > Cheers
+> > Julien
+> >
+> > > Other than the missing ret =3D, rest of series looks fine to me
+> > >
+> > > Jonathan
+> > >
+> > > >
+> > > > Best regards,
+> > > > Krzysztof
+> > > >
+> > >
+>
