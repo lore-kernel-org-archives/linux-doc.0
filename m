@@ -1,247 +1,208 @@
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2074.outbound.protection.outlook.com [40.107.95.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 531D82141B9;
-	Wed, 16 Oct 2024 20:18:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.74
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729109924; cv=fail; b=ayFe1iuvYhiKn/dVyp0n0CDpDmcK1NyyM/MYE50ZiVJL2892eO7ltoAU+yfsLaCvP8urtJVqG3NuXgi1A40rBwmoo82q4R0Irtm2Xf6uhdN6SvEzKs52paiyj1lIhsPoEa2DZjzK8HxfOowUn9dnGFJCrG/Uc9rOH9R/yWPWRFw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729109924; c=relaxed/simple;
-	bh=li+Ir8+RqUO8AyyegEBn90ZKLr8SbzCtrQH9XznTqSE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=dK3TEaiWeUdOsHUzdiClcx74vGrxTX8dHi6Zj6PqfAALjJUbj8cIY3Mq+kh7UO7CxDzzQJyyJC2e/uJpQY3OxOzv/mpzMhPvQK0wuzoh11cFbMSMlziul+O4yTqoJyuIcgJ8xA6atYD1pWdrRkdK0yiP70lDTsy+WWbvlPgTGL0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ZdDhbtba; arc=fail smtp.client-ip=40.107.95.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02CE421E3C2
+	for <linux-doc@vger.kernel.org>; Wed, 16 Oct 2024 20:28:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729110499; cv=none; b=ZniNf+DdIG9qx8z64ynrZN6MQu0lad/b5LiIXljQAL/zRN+tVL4pjAkUxkre/edzXXQ5V8MQRagz9Yw/wsFdwbKQN6LEGLoKPwnT1uRgnr2vQTvF4dzsLRN59V7nHBEOV58yvpeweLd6lmDv635KFgz/czaV95V1E4vJfSEnMWg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729110499; c=relaxed/simple;
+	bh=/IaAt73yOV50Rg9XD7tq6+9kh5Tx32oTfZJbG3X6LJ0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hwUoTVY38QUlBjE4EZALubqCjBfwlvrvi4iDyQ0GhCbVHuF0MBXdcDXfrSSnJadzgf9oNaQf0eU3LiOP8oaVkiUoh7ZbxtbuP+wzrLfhbgyhN62g6jljm1CIQgC5ut2Oc2jdnNjh6DQip2ICErCGqs7f/8HNIWaMm9x3cko993k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=meQwn5kZ; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ZdDhbtba"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qZGHJoMtZMCaEFiMKsVACDOKqe5h/ilByTjRty21XRL43QVzd1ZLkPUW0dsikr8pc1PMhtppOd2jwrmyRNqSK6QWfNc/faHsdbqEbLv2YeBXVFshufPbLi/o7096hLfm8iUAEV4WeXhzYzjyAjv7sBfucvEdwwHm2J0nMWw/sgSayLFXdceNp+PCLYFlW/L4NL6+lJYueE7KXPcQaAw51mrkCKqoBoM46JXb1x5iBFwsJE+G3geYsXk5CAcMys22HmM9cQTqV47Ss8sPr22J43uRWK6ONEsGKJvUIAoxdt190xgtXvSa8nqOejgiMsyr4jYwAq5YsxHAYRj3MlAx5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=a9KR1FP5Fg77TZsui9MCPqCQxw9MLh/jVe/NoqaJfaA=;
- b=cJECALz+5Kl0F4EJlzi8vAUSyVL68jxFlHQJ6kmfbxct1gKuERr9vBwHAev1lJYOgq1i3n7Z2UVZoMSXACTtJnv7ZvZTwS8FMQ3v9cXKpuP58law3zcDN95wG3QPfAp8qxq8fwP8b1XZzeoyxR+ZCMtgCVhzHbiBPpj9Vcw3ICU06bYkduOSjaZslr+FGhVkaiAXkNq0fpX0DoMVPsiwE8fTSwY6vL8X+/c52jW7z9Ovf7DMvKuUl/DwpN7m7Fa2z86GVlL1craHS6+L2Wc5lW63QfeTZ5LY2h5/5JsysCvourRsSZQhOoayF7oAg/Z/vo6kcNQe2XIQ+WRRrdm3eQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a9KR1FP5Fg77TZsui9MCPqCQxw9MLh/jVe/NoqaJfaA=;
- b=ZdDhbtbabpjz4eBv9R7m2ISINhJo1sMWm7qLCNxspkU36ZASL1BecGolhvhjrOyc7GillLbk+JVJh7N1wZe4TjNxTjlDo98NX4rbJ/t/d7BAy+RoDe3aUIR+nHD2LuCFxXDartGG+P0raDMEau9FkEYtIG5xsCN6icyO7GEehL4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by SJ2PR12MB8954.namprd12.prod.outlook.com (2603:10b6:a03:541::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.26; Wed, 16 Oct
- 2024 20:18:34 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.8048.029; Wed, 16 Oct 2024
- 20:18:34 +0000
-Message-ID: <72a320c8-13c1-4472-95fd-26eef279ad9b@amd.com>
-Date: Wed, 16 Oct 2024 15:18:30 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v8 09/25] x86/resctrl: Add __init attribute to
- dom_data_init()
-To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
- tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
- kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
- jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
- kirill.shutemov@linux.intel.com, jithu.joseph@intel.com,
- kai.huang@intel.com, kan.liang@linux.intel.com,
- daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
- ilpo.jarvinen@linux.intel.com, peternewman@google.com,
- maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
-References: <cover.1728495588.git.babu.moger@amd.com>
- <03077cf67cea1b3ebb00495fd40d1535db27ff8c.1728495588.git.babu.moger@amd.com>
- <b19af235-7ad5-4897-8082-1eabfee849e8@intel.com>
- <7749600f-f281-4cb8-b909-382a69dac56b@amd.com>
- <00ae6b0e-29a2-4240-93af-c460ce4de66a@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <00ae6b0e-29a2-4240-93af-c460ce4de66a@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA1P222CA0006.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:22c::7) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="meQwn5kZ"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2e2c6bc4840so165604a91.2
+        for <linux-doc@vger.kernel.org>; Wed, 16 Oct 2024 13:28:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sifive.com; s=google; t=1729110497; x=1729715297; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hEUhwJlktvJ9XLTxaEULHD6mXOGpKAbrtbb51ie7J44=;
+        b=meQwn5kZPL4gTadyOGW6RP6T65gU/A6KbUonATaxVe7fd1ynAebBSu+ilB0tss0YAR
+         Me2BV5lKtZg+T9ej/zWdXtVVCIOo5EiZ3m4tAzKATCL2r/rLpB1LPkqJS63FRhwr19HF
+         vDoASh3XP7zXiJ4aSiGVvR6Sdrn8Alm0AF4jn0nacm4NwvZowOYWYs6tXb99V2TB7Mw3
+         07OpsbaXCiWZot+Sd+1h3F1H+De/zQL79tzUHzooUOQScZXxBypTIgxg3P3CVc/uPXg3
+         0TEaZBURykg3Kdg6JLN7V8T1oFDLmTnE1LQIKOygYYiEfPalX3Np/Ry+o22eqyV5S6Ll
+         ljuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729110497; x=1729715297;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hEUhwJlktvJ9XLTxaEULHD6mXOGpKAbrtbb51ie7J44=;
+        b=E3BP0cVjzeE0/aEfWIWsOuuYqLUSgAtjCS1aFLeM3zSTt6fKdTomJjk3L3AbHVmBbx
+         RTSsHkldfPIdw3+SYprQQH5y6L6h7Jds5aM/GKROo1pBelL6ZgmMTgWiYYBnBTEK0wQr
+         wps3ALOdZ4QfNYVjUSnowUnnjkwY/HG1gzDDo2DZ/gyKaWIxH91OuVS3/Y8pFuYvaI/j
+         /Xd1uaBr0SOkOpnV7jXG0820ctWDa0bKrCiLR3kbR6qouBpnXRmBZm07qwgX6+psAB0X
+         8HLTRubJs13bYju37623lgl7b1MtnjslBt51Vm1BhgOqyhBcUobNvgDps44T0och6+5M
+         JtfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV8yOBTelXALHct8UXzNvn7POFVj5hGCu5kll9d8YF8xpRe/j3J2X4z5H616hnr47H39fxdoM7OoUc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyM6iWavArF63Uy7Wp/AKKb7ytcgE3K8aKpJmSqh3VkQoI+HrMM
+	Uyu1iWkC2Q6iVlfDCeAjWZ2gK0x3nA70ErbTtyhB3oQZ9olK9xpGLdJ/V56Ys0k=
+X-Google-Smtp-Source: AGHT+IGllzymcOAYJ4F9gGwGiLHbUJdPlvukCb/zqDKpUvzRbezJlnGn7CSqgSzw6TP5Nt2/LjKHnQ==
+X-Received: by 2002:a17:90b:4b8b:b0:2e2:9077:a3b4 with SMTP id 98e67ed59e1d1-2e3151b8a44mr21167547a91.7.1729110497313;
+        Wed, 16 Oct 2024 13:28:17 -0700 (PDT)
+Received: from sw06.internal.sifive.com ([4.53.31.132])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e3e08f8f89sm228613a91.38.2024.10.16.13.28.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Oct 2024 13:28:16 -0700 (PDT)
+From: Samuel Holland <samuel.holland@sifive.com>
+To: Palmer Dabbelt <palmer@dabbelt.com>,
+	linux-riscv@lists.infradead.org
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Atish Patra <atishp@atishpatra.org>,
+	linux-kselftest@vger.kernel.org,
+	Rob Herring <robh+dt@kernel.org>,
+	"Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+	Shuah Khan <shuah@kernel.org>,
+	devicetree@vger.kernel.org,
+	Anup Patel <anup@brainfault.org>,
+	linux-kernel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	kvm-riscv@lists.infradead.org,
+	Conor Dooley <conor@kernel.org>,
+	kasan-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	Evgenii Stepanov <eugenis@google.com>,
+	Charlie Jenkins <charlie@rivosinc.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Samuel Holland <samuel.holland@sifive.com>
+Subject: [PATCH v5 00/10] riscv: Userspace pointer masking and tagged address ABI
+Date: Wed, 16 Oct 2024 13:27:41 -0700
+Message-ID: <20241016202814.4061541-1-samuel.holland@sifive.com>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|SJ2PR12MB8954:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4ad477df-4615-4c8f-2aa4-08dcee1fb5b8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?SXZQbTgrSFliNkNtKzdqV0p3dHorR3prNE9SMVBwbnFXZVY2V3FRVnVUZ1Ft?=
- =?utf-8?B?SERUdEtrL3k3WkFuZG5tZ0J2WVNLVDRtSGVBU3hhQkFhS21lam9Fd0IxY1lC?=
- =?utf-8?B?RUtSZVovR3UxL3J3UkpBVEFseDJ6aDhITmx5c3FTWUU0WWFGNXZVa25uZmUy?=
- =?utf-8?B?OVNFNFlDdG5NUHVvaytmQnhwb2U5dGttQUY4RDhHTWJDZFNRazIvUDdvTjVN?=
- =?utf-8?B?Q1A5YmZiVUJUTEtVZWI2ZVc1NUUxNEZ0eEZ0QjNqZ2s3aGdpeC9SRi9jVVdQ?=
- =?utf-8?B?N0FnRWNSdDFnN3l1ZVV1MmhQeWdyUFlsR0FsejViUDQrN3MvRTFzeVBERW1Y?=
- =?utf-8?B?NXhQMVRHMTl3eG9IMjhqV2x5NnZVaDh5RFhaeEpVa1htcnJLcDJWcllvTEp5?=
- =?utf-8?B?ejBFdGN1ZnZiajJPeVlleWdwRW0zMVlBejB1OERFcVlsNFMxVEJOYXlZbmsw?=
- =?utf-8?B?Z0E2aklKbktuSWxaanY4MGxaR29CYnMvamMxV1p5QmFLMTlzdWNXN0dGMENH?=
- =?utf-8?B?NVRkdWlDRlZKRUhnM2lESXF3V2R4NmxxOUl2SXQ1ZVpRNFVadER4MTFnWEZD?=
- =?utf-8?B?NHIxNk9aUzN6SDNYbzNyb2tFbjkyZ1RpdUtDWC9SMXdKSE53OFRPVUQzamhm?=
- =?utf-8?B?WElDdy9wRkdWTWRiSXZuVEhVYmVBeU42c1lVS1lMQjdsT1NKdWZ4VHNFdCtr?=
- =?utf-8?B?TWovMVVreTVHd01sNkJVdTdvRkZvZkIzMXd6a3RoNEtkVDhRUUJtSkI5eFpi?=
- =?utf-8?B?RWJUdlRpUU5RTEVBLzJGRU50cWN1UmpiOVE4YmpFc3hsS2hMYndlclZVTjN0?=
- =?utf-8?B?V2tObzRMTGh5NHUwRFV3N1pVOXBiTXFsZXhGWXVORTVuNUZhd1dpcmhqMit5?=
- =?utf-8?B?ZEJTajBaVVRSdTdlUHYzQk1DaXRlem5SQitleHZ6TGRpU2JsQ3Q4TS9TUmNr?=
- =?utf-8?B?aWlYUUdBdkZLTWE4WU9pMGFRektQd3FKMzlKdEdNbEIwNmpJTzE1V0FFV2U1?=
- =?utf-8?B?SC9PMVhwdmY3eVlTK3ZGOCtmT0VMUVZ0UkwzQXN5Q3BsNmxzM3FJWXRsTmt4?=
- =?utf-8?B?eC8zSkVBTmU2a0duWkNVK0tpNCt5c3EycDJwUG9wS1U1SjFZVUJKQ2FTMFUr?=
- =?utf-8?B?bHpVR0lrOU1SckVPUDVmblRKZXpCMDB6QTZWVXJNbXlQdVNkNVNMNUZhOGFx?=
- =?utf-8?B?RTJCcndOUU9qWk5UN0wreUppWEtVVWlVZmYrZGJBNkRjU09iR0xQSW1iZjFp?=
- =?utf-8?B?MlI0RFgzeVJkdFU3aEpVVW1GSmtMSjl3dVVtWjBCbEpyN1VMdnpEOVQ3K1hW?=
- =?utf-8?B?TWlhZTJEZWZnNE1jZ2NnYktaSFIrSHJOVVAzVG1nbktOYW41U1lZenY0OXBC?=
- =?utf-8?B?eW54UGV5Wi9QaU9pSmYvWW1MWmhzeDVITHNURXZsM2sxRkp4MmRxQXlEUENm?=
- =?utf-8?B?NUVNSkZMMytWckhmbUgxMW1ubE9XN2Q0czZFTGhUY1llaW0rRmVMaUlySXla?=
- =?utf-8?B?WTh5MHVVWGJxT2JJdElSTFZFVjdGRVNCaXVHOWZlYXZ0MU5ObXBCSXNESWhw?=
- =?utf-8?B?L0g1NW5LbEVJQUlVSThTREVoQ3I4cHlVK29pQ2dxRTVBZE15UWFieTEzK2s4?=
- =?utf-8?B?S0RpTDdST3ErY0dvMEltNEJkWldEaXg5dm15UDAzWVE4ZkNJRlIyeW9STmtj?=
- =?utf-8?B?ZUtNNGFWUGlaeWZoY3JsalJMN3pWOTFOWCt6QXJYVkFuT20vMWEyR0s2d29G?=
- =?utf-8?Q?YrjSUvOrJhk1XS1gCH5PEC0B0kyfhtOFqfGwy/R?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WCt1bUdUNDdTWnlBT1VIK1Z2M1c2VUYva0VyWTQyWjJtUUY5OXcrcWRqcy91?=
- =?utf-8?B?K2Frc3BTOURjTXZuSFFoakRlVGppdWxtQXgxcnVNdGg3a3ZVd0ZqQXdTZmov?=
- =?utf-8?B?VDNLYTRlampWUkFVLzdud0wxcG90U09rOUtvWThDL2VlYnlBMDFUeFJXMlB3?=
- =?utf-8?B?UUFVQnFsY0c4QnZaR0ZBQnpCbE9VRk9LNU9GT3BkcGJWYVRkRUx4RGlSaWIx?=
- =?utf-8?B?NU04cWRDelBDTmhvYVFNS09pVEN3M1ltWDRzUzNoS0d4K1NSeDBueUNrdEFZ?=
- =?utf-8?B?dHVRQzI0SndOVEQ4NzZvY0NuZ0VvbXZvWFo0dUg2S21FL0NEY3ppQmlvOGlH?=
- =?utf-8?B?TzlUb3N4MlVnbzNoTkdYYkRsQkVIWS9rU3BhZGhQSkVEUWVORXlBQmJNcFJ6?=
- =?utf-8?B?dEg1S0NUMzFSUE1CTGxBUldFdEdJVndPdUxNN0dLSm16YzlmZUJjSXBRZDRo?=
- =?utf-8?B?N0dzR2lvVmtTcy8xektXcFEwRHF4NWdBRjBNOGphZEVQK3BZbkptRFovSUV3?=
- =?utf-8?B?VTdLSWVlLzFSaVE2SFU1cG51VVRuY1k1R2p1K0hiWVQybk82Nk0zRXYyWjh0?=
- =?utf-8?B?SUFyRDlpTzQ2U0lvQ0RMVW43UUk3MW9yazhUQzhIL0FVVDUrNkM5WDd3WWFx?=
- =?utf-8?B?VVpVUDBCeW5tUlRCODh1Y0J3VnJCaUNhcVJJVEV1eDZXcUQycXZ1dlRQR3Fx?=
- =?utf-8?B?bGFnZ1ZNRGUrbzIwclVJOEo4RGtacW5UbXJFZmRDMkNoMWIvY1FjWDFDUmZB?=
- =?utf-8?B?MmJwY0Vhd3dDM0N4UzFGc2xsMmh1UExmRkl6L29HVWg0L3BtN3BsVVNpbmR5?=
- =?utf-8?B?U2ZJMDBsdFpqZzNlQ2Vyd05nN2kyc2VxNEhvYTR1UmltTXg4VkErQVBRMnpW?=
- =?utf-8?B?bFJ0SWR5dlJ6WXkzMHJWbUhlTFhkNW9xbnZTNzRxVUJGUFMxTmZFRG5yYVpj?=
- =?utf-8?B?M1dqcnpCM21lekZHeWhXYUQwbmVpTVZZSHo0bHUzck5JeEFTMlRORWRXaDZR?=
- =?utf-8?B?eTQ1YXpYTUxCeEM0NWZCcENvSWN0ZklCZnlVVFJSWVdsVk1uL1JZN0NUUG41?=
- =?utf-8?B?VVZKc2JLeDMxNU5oVlBLSFJ5N2h3V1Y4a2dwd0VralgzRG4zK28vd2hQcFcx?=
- =?utf-8?B?blp1VUI0b1lGc0dNNmVwWU5YQy81SUV5UGhkL01DUnNVeEEyYSswVTh2SjE3?=
- =?utf-8?B?ZU43bVNFRlBSWC9pTGtTZUE3dVAzMGNCaVNIbFhxQm1lUzdLcFBvTmxjUTNx?=
- =?utf-8?B?c3hyK2FhQXgwMFpuanZhWWdadGgySVUxcUliaVRSMGhmOUxOdFNjalh4bUFn?=
- =?utf-8?B?dVY5aGIraGZPT3YwazNWeUlkMEZaM2RTYko1UGo3Mm9ZeE1hUjhHMmNMZHMv?=
- =?utf-8?B?eXdsSzRsS0ZGK3VUQU1PeExMS0VxVVhQM3MrdkZOS1JpQXY0eVFiRlVRZGVR?=
- =?utf-8?B?ZlV6ZFByOUdFWlgvQWJQcms5V1NRMFcxaTluRFRvVy9xQWpQam4yTU9yNXlH?=
- =?utf-8?B?RlI1MWM2TGx1K1lmVjZQWWgyaWhxSHdoZFZ4TjEzb0JtVzhWd0hsOHNyNms1?=
- =?utf-8?B?MUhYRml0ak4wR3VDekprazVjL0Fmc3BTc0lrRncwR1NwSEdGUis0c29scHl4?=
- =?utf-8?B?Nkl0WU80Q2Mwb3dJYzFXMHZzRlVlREFTdlAvL0ZpbFdBN0JseVBwNzc5SEZH?=
- =?utf-8?B?WDVOVzNqNG03RElUWUhudEE1NHR0bmhuVk1BZzRXL2hVYWhTV1gwdnpubkt5?=
- =?utf-8?B?SDd5S1BPSkZLK1pLU2tITnZnb0FFbktxa29SdmF0QTZsSmZRVzczbFMxMmh2?=
- =?utf-8?B?L1V2bXVzRW96SGhtVGxEVE1Ga3pJY0Z4c3ZaYVRQQU9uYU5qOHFVdmNLejhN?=
- =?utf-8?B?L0Uza1VWVVlHZVQ5QVNuSy9SakE4T3hyR2oxaUQzMit1VFEzZXhGMHJuTit1?=
- =?utf-8?B?QW05MHJBWWF0SmtXNXZ0Uy9kVS9xOHhJSXptbzFZeEwrM3NzNlFoNzAvaFZu?=
- =?utf-8?B?UFFZQUFvVDB1NWIrZ2dsQjBOMVVOK1c2anNSTm1Obi9VVHVJWnBYNkN4a0or?=
- =?utf-8?B?VisxK0Z3UXNQVFRGVEFnREtXM3MweXpMN2lUL0FLdkxKZkovYzJCY3QzazQw?=
- =?utf-8?Q?BuLw=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ad477df-4615-4c8f-2aa4-08dcee1fb5b8
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2024 20:18:34.2619
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1a+KcNt48UF6ETuqG3rGtDEiBruLPSzdPApKWKVWdj3KoPNEz52u50Ohnrn6CbAZ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8954
+Content-Transfer-Encoding: 8bit
 
-Hi Reinette,
+RISC-V defines three extensions for pointer masking[1]:
+ - Smmpm: configured in M-mode, affects M-mode
+ - Smnpm: configured in M-mode, affects the next lower mode (S or U-mode)
+ - Ssnpm: configured in S-mode, affects the next lower mode (VS, VU, or U-mode)
 
-On 10/16/24 13:55, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 10/16/24 10:32 AM, Moger, Babu wrote:
->>
->>
->> On 10/15/24 22:13, Reinette Chatre wrote:
->>> Hi Babu,
->>>
->>> On 10/9/24 10:39 AM, Babu Moger wrote:
->>>> dom_data_init() is only called during the __init sequence.
->>>> Add __init attribute like the rest of call sequence.
->>>>
->>>> While at it, pass 'struct rdt_resource' to dom_data_init() and
->>>> dom_data_exit() which will be used for mbm counter __init and__exit
->>>> call sequence.
->>>
->>> This patch needs to be split. Please move fixes to beginning of series and
->>> move the addition of the parameter to the patch where it is first used/needed.
->>
->> Sure. Will move the fixes to the beginning.
->>
->>>
->>>>
->>>> Fixes: bd334c86b5d7 ("x86/resctrl: Add __init attribute to rdt_get_mon_l3_config()")
->>>
->>> For this change I think the following Fixes tag would be more accurate:
->>> Fixes: 6a445edce657 ("x86/intel_rdt/cqm: Add RDT monitoring initialization")
->>>
->>> I think for a complete fix of the above commit it also needs to add __init
->>> storage class to l3_mon_evt_init().
->>
->> Yes. Sure.
->>
->>>
->>> The __init storage class is also missing from rdt_get_mon_l3_config() ...
->>
->> 1 internal.h _int rdt_get_mon_l3_config(struct rdt_resource *r);
->> 2 monitor.c  int __init rdt_get_mon_l3_config(struct rdt_resource *r)
->>
->> rdt_get_mon_l3_config() has __init attribute already. But prototype in
->> internal.h does not add the '__init'. Looks like that is ok.
-> 
-> I also think it may technically be ok since as far as I understand attributes
-> the attributes will be merged. Even so, doing so does not match the current
-> style where the storage class of declaration and definition are the same. See
-> for example the partner function rdt_put_mon_l3_config().
+This series adds support for configuring Smnpm or Ssnpm (depending on
+which privilege mode the kernel is running in) to allow pointer masking
+in userspace (VU or U-mode), extending the PR_SET_TAGGED_ADDR_CTRL API
+from arm64. Unlike arm64 TBI, userspace pointer masking is not enabled
+by default on RISC-V. Additionally, the tag width (referred to as PMLEN)
+is variable, so userspace needs to ask the kernel for a specific tag
+width, which is interpreted as a lower bound on the number of tag bits.
 
-Sure.
+This series also adds support for a tagged address ABI similar to arm64
+and x86. Since accesses from the kernel to user memory use the kernel's
+pointer masking configuration, not the user's, the kernel must untag
+user pointers in software before dereferencing them. And since the tag
+width is variable, as with LAM on x86, it must be kept the same across
+all threads in a process so untagged_addr_remote() can work.
 
-> 
->>
->>
->>> fixing that would indeed need the Fixes tag below:
->>> Fixes: bd334c86b5d7 ("x86/resctrl: Add __init attribute to rdt_get_mon_l3_config()"
->>
->> How about addressing both dom_data_init() and l3_mon_evt_init() in a
->> single patch and adding 2 fixes flags?
-> 
-> ... and add __init to declaration of rdt_get_mon_l3_config() ?
+[1]: https://github.com/riscv/riscv-j-extension/raw/d70011dde6c2/zjpm-spec.pdf
+---
+This series depends on the per-thread envcfg series in riscv/for-next.
 
-Sure. Will do.
+This series can be tested in QEMU by applying a patch set[2].
 
-> 
->>
->> Fixes: 6a445edce657 ("x86/intel_rdt/cqm: Add RDT monitoring initialization")
->> Fixes: bd334c86b5d7 ("x86/resctrl: Add __init attribute to
->> rdt_get_mon_l3_config()")
-> 
-> Reinette
-> 
+KASAN_SW_TAGS using pointer masking is an independent patch series[3].
+
+[2]: https://lore.kernel.org/qemu-devel/20240511101053.1875596-1-me@deliversmonkey.space/
+[3]: https://lore.kernel.org/linux-riscv/20240814085618.968833-1-samuel.holland@sifive.com/
+
+Changes in v5:
+ - Update pointer masking spec version to 1.0 and state to ratified
+ - Document how PR_[SG]ET_TAGGED_ADDR_CTRL are used on RISC-V
+ - Document that the RISC-V tagged address ABI is the same as AArch64
+ - Rename "pm" selftests directory to "abi" to be more generic
+ - Fix -Wparentheses warnings
+ - Fix order of operations when writing via the tagged pointer
+ - Update pointer masking spec version to 1.0 in hwprobe documentation
+
+Changes in v4:
+ - Switch IS_ENABLED back to #ifdef to fix riscv32 build
+ - Combine __untagged_addr() and __untagged_addr_remote()
+
+Changes in v3:
+ - Note in the commit message that the ISA extension spec is frozen
+ - Rebase on riscv/for-next (ISA extension list conflicts)
+ - Remove RISCV_ISA_EXT_SxPM, which was not used anywhere
+ - Use shifts instead of large numbers in ENVCFG_PMM* macro definitions
+ - Rename CONFIG_RISCV_ISA_POINTER_MASKING to CONFIG_RISCV_ISA_SUPM,
+   since it only controls the userspace part of pointer masking
+ - Use IS_ENABLED instead of #ifdef when possible
+ - Use an enum for the supported PMLEN values
+ - Simplify the logic in set_tagged_addr_ctrl()
+ - Use IS_ENABLED instead of #ifdef when possible
+ - Implement mm_untag_mask()
+ - Remove pmlen from struct thread_info (now only in mm_context_t)
+
+Changes in v2:
+ - Drop patch 4 ("riscv: Define is_compat_thread()"), as an equivalent
+   patch was already applied
+ - Move patch 5 ("riscv: Split per-CPU and per-thread envcfg bits") to a
+   different series[3]
+ - Update pointer masking specification version reference
+ - Provide macros for the extension affecting the kernel and userspace
+ - Use the correct name for the hstatus.HUPMM field
+ - Rebase on riscv/linux.git for-next
+ - Add and use the envcfg_update_bits() helper function
+ - Inline flush_tagged_addr_state()
+ - Implement untagged_addr_remote()
+ - Restrict PMLEN changes once a process is multithreaded
+ - Rename "tags" directory to "pm" to avoid .gitignore rules
+ - Add .gitignore file to ignore the compiled selftest binary
+ - Write to a pipe to force dereferencing the user pointer
+ - Handle SIGSEGV in the child process to reduce dmesg noise
+ - Export Supm via hwprobe
+ - Export Smnpm and Ssnpm to KVM guests
+
+Samuel Holland (10):
+  dt-bindings: riscv: Add pointer masking ISA extensions
+  riscv: Add ISA extension parsing for pointer masking
+  riscv: Add CSR definitions for pointer masking
+  riscv: Add support for userspace pointer masking
+  riscv: Add support for the tagged address ABI
+  riscv: Allow ptrace control of the tagged address ABI
+  riscv: selftests: Add a pointer masking test
+  riscv: hwprobe: Export the Supm ISA extension
+  RISC-V: KVM: Allow Smnpm and Ssnpm extensions for guests
+  KVM: riscv: selftests: Add Smnpm and Ssnpm to get-reg-list test
+
+ Documentation/arch/riscv/hwprobe.rst          |   3 +
+ Documentation/arch/riscv/uabi.rst             |  16 +
+ .../devicetree/bindings/riscv/extensions.yaml |  18 +
+ arch/riscv/Kconfig                            |  11 +
+ arch/riscv/include/asm/csr.h                  |  16 +
+ arch/riscv/include/asm/hwcap.h                |   5 +
+ arch/riscv/include/asm/mmu.h                  |   7 +
+ arch/riscv/include/asm/mmu_context.h          |  13 +
+ arch/riscv/include/asm/processor.h            |   8 +
+ arch/riscv/include/asm/switch_to.h            |  11 +
+ arch/riscv/include/asm/uaccess.h              |  43 ++-
+ arch/riscv/include/uapi/asm/hwprobe.h         |   1 +
+ arch/riscv/include/uapi/asm/kvm.h             |   2 +
+ arch/riscv/kernel/cpufeature.c                |   3 +
+ arch/riscv/kernel/process.c                   | 154 ++++++++
+ arch/riscv/kernel/ptrace.c                    |  42 +++
+ arch/riscv/kernel/sys_hwprobe.c               |   3 +
+ arch/riscv/kvm/vcpu_onereg.c                  |   4 +
+ include/uapi/linux/elf.h                      |   1 +
+ include/uapi/linux/prctl.h                    |   5 +-
+ .../selftests/kvm/riscv/get-reg-list.c        |   8 +
+ tools/testing/selftests/riscv/Makefile        |   2 +-
+ tools/testing/selftests/riscv/abi/.gitignore  |   1 +
+ tools/testing/selftests/riscv/abi/Makefile    |  10 +
+ .../selftests/riscv/abi/pointer_masking.c     | 332 ++++++++++++++++++
+ 25 files changed, 712 insertions(+), 7 deletions(-)
+ create mode 100644 tools/testing/selftests/riscv/abi/.gitignore
+ create mode 100644 tools/testing/selftests/riscv/abi/Makefile
+ create mode 100644 tools/testing/selftests/riscv/abi/pointer_masking.c
 
 -- 
-Thanks
-Babu Moger
+2.45.1
+
