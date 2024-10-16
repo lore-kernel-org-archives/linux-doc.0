@@ -1,108 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14CB81B218C;
-	Wed, 16 Oct 2024 07:21:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794811B394D
+	for <linux-doc@vger.kernel.org>; Wed, 16 Oct 2024 07:26:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729063269; cv=none; b=N+dmVqVa6Z3p7qLdLh+86prKInJAUsMXFMaLnK1n5hFgrjEql+ys0Bvvb8F/W1f/pGx4zgGu15KTdhX0iGiW/SJnxtY8eA6/6mSHJQywYhkFCaw+b/HJWuln6fvvt8UXkUpPXG2dB+jkFDrtEHv40x7SNG44+Q3L+K4RugwO0lE=
+	t=1729063568; cv=none; b=XXH5M8BWPuYazuMzEckNcBVWqHCCf8K6x2IoiUEVOLYNGWIsgHyIYIRIwccAdjtiopBU65v48rD3t1NQWbF3Acccaam9zeDH3eQj0ExPJkUWDXZ4T9k+mz+pTY0Mu6wSsYbQF3pNc2xaD2IuhUCppjAVHFoA1IiErez168ro8+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729063269; c=relaxed/simple;
-	bh=tNLN0Hsi06h0KXDRSOvGs8YDS4+LPkihDOXR2+rrwcg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W2IU2ve7yIeS3lc5dCM3urQCsI9l7AhSCQDDbAmmf2rrbnuW+ZKC8leLa4HXKpIJBV5PH4Luji9vKNZRLuZLYWxYdeg6t5B8d4ubigHsIG6kEj/BK7CjCnMw1h+zE3Pa7ILnvxHAde5gO83CrDUX73GI6Ix7tfFTpe8a2w+AsZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gBMq7vNl; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1729063568; c=relaxed/simple;
+	bh=EkUGl4udaRvqskMWNNCBeol4kDoR1IFd16zVZQo0SO4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SFMZJ6bUzUy+5VMdOm1VkIJXCxjpmmveSdA8tBwD8DQZGcCkjyImXO51mkLtisOnUQ4bXCnrMU03VwLkcG2RIzixlJpsjv8jD3tx71u3oyehD+rg8QBUz47VsNGkJo8Jw59joZNGfvIzRBXhptp++H4NkNklY//aNMXkcFBImy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ye6U6Q02; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gBMq7vNl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729063267; x=1760599267;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tNLN0Hsi06h0KXDRSOvGs8YDS4+LPkihDOXR2+rrwcg=;
-  b=gBMq7vNl6qaQxlECDPTslBZ05W5h1xG1jUhen9pxoBKUlAVd/VDj8DK0
-   CmUXyKnNUz8CfMgYfoPRgDXjaHCv//WstiBjQGKVrvrueO7pFjK12zAnz
-   ak2q6L+ETwitAR0g46tVwsdYxuOTGyHekNZHQD3GXjm/+Gwm8OkBIXf5I
-   yMzEo9WY/1tu7A3OekxMCzO/qjS/NP93rresQe/cfIXYMS8vlnJk9fjYa
-   iBPwgWBJ5arlQk3Ce8PxTi1ODoXZeRZcfnS5FFphYsk4hsg4sRTRlJPJp
-   /Wx7BUShz2w2NRqFhhjeabW3XS0F3HyXCTn3VeMdQyIFmbGB81ojZ7vOe
-   w==;
-X-CSE-ConnectionGUID: oXGVVx0cTMijhEA+m8qB3A==
-X-CSE-MsgGUID: 4inUWa8DS+60AF1HPQ/Iog==
-X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="32414800"
-X-IronPort-AV: E=Sophos;i="6.11,207,1725346800"; 
-   d="scan'208";a="32414800"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 00:21:06 -0700
-X-CSE-ConnectionGUID: 7CFWPXKZTKKz3VQrwvcvWw==
-X-CSE-MsgGUID: nMIp9oLsROGRICCG5IcKfw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,207,1725346800"; 
-   d="scan'208";a="83213005"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 16 Oct 2024 00:21:04 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t0yL7-000KUh-1L;
-	Wed, 16 Oct 2024 07:21:01 +0000
-Date: Wed, 16 Oct 2024 15:20:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: anish kumar <yesanishhere@gmail.com>, andersson@kernel.org,
-	mathieu.poirier@linaro.orgi, corbet@lwn.net
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	anish kumar <yesanishhere@gmail.com>
-Subject: Re: [PATCH] remoteproc: Documentation: upgrade from staging.
-Message-ID: <202410161444.jOKMsoGS-lkp@intel.com>
-References: <20241015025831.65232-1-yesanishhere@gmail.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ye6U6Q02"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-539fb49c64aso4104501e87.0
+        for <linux-doc@vger.kernel.org>; Wed, 16 Oct 2024 00:26:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729063564; x=1729668364; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RhK9aEfPG1w4C02v66++bUX1W5vp3z5jqPVGAhJIjSA=;
+        b=ye6U6Q02TGaXRbjaxpQce1Z8iCLpNC25xvxpejBnHoKgyI3hIYMfptIZ02ry3KL3nK
+         YCjpsHM78gB0B7PIGGPIdIt+kW5sgKWhANXgwujdyONwsQ/lfTTi1TPfkjsDEHQCciHk
+         +hP0kU7StnpQ6WhIvtLxNeGaowSRFk/JziarOFKrpqAdXLqo5So1jozsN3JII7EGWxfE
+         E5iuEyup0gHabwwhQMhGc1kJrywQQhyBzDPEFJDF8luLJGqx7Dw6DQMKOKWt5Mkljx19
+         dkIVkcZyBai+ZW8t43zXgqlWZXrz3KjaZ10yL3q/MjOXMZ3YpAo+7ce1VRJRhbXailIl
+         ZB2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729063564; x=1729668364;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RhK9aEfPG1w4C02v66++bUX1W5vp3z5jqPVGAhJIjSA=;
+        b=tk/lvDLycegnY3t1EdGCxGrbHdULCPn/FCCxh80A2i1/2gH/zTI2PgUZzEH0rSnxPb
+         uqojEfVHaZXwbRZnWb2d73rbc9hqW6inRRFnRDAkAnUC/BiykyWEEGrZXLLrrqVArga2
+         aMGnGA9GEN6aTXyf41+m3eGiwOGeFa+JL6nlbadRippT4JyvsJSGxAO5s8KMrRTa26uF
+         Elwc+xb7mcSA4/IpYppQKchw0uCVWj0EqvpsPnpvF9eMkkM3wX/pODcgZdnP+3pE6sJy
+         eViq370Ys7wdGlGHa0icNE75C8cJUp6TlKfdK2xPyUJ4Jb37OHl+rgp3bR1QoS9noGyf
+         g7Ng==
+X-Forwarded-Encrypted: i=1; AJvYcCU13mjUdT+4XDxrrvrXx0o+pbSqHpr+HQKX/K0IQC4Knjotj2Cb3B1Z8hNEDz7494GyVr67kwFQQNk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyw4kL4BvJJ/8IAQJ2LKIOVKhpkgZuabGPHql9PKsCOQ0CICO59
+	00ehWsJr//zsbBidGlrkLm4TQ/1SC4O0qkAmeSjvZUV86iR3vV06WN3hXrSlfaoheGoM6bkhMUL
+	fEB51IQ/IaLJqxEc9jJp1dnm/VH2CorCsIHEM+A==
+X-Google-Smtp-Source: AGHT+IGeB3nfnjYOLwENvDZsj3kps6wkLWnU7XfsrF9QM9GfJpD8KbnECT8aOYo1TBp4gpcs9DRuudnglEn75xmeocU=
+X-Received: by 2002:a05:6512:350e:b0:53a:423:6ec9 with SMTP id
+ 2adb3069b0e04-53a042370c9mr1782511e87.54.1729063564225; Wed, 16 Oct 2024
+ 00:26:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241015025831.65232-1-yesanishhere@gmail.com>
+References: <20241015-ad7380-add-adaq4380-4-support-v1-0-d2e1a95fb248@baylibre.com>
+ <20241015-scoreless-carwash-9ac6047092fe@spud>
+In-Reply-To: <20241015-scoreless-carwash-9ac6047092fe@spud>
+From: Julien Stephan <jstephan@baylibre.com>
+Date: Wed, 16 Oct 2024 09:25:53 +0200
+Message-ID: <CAEHHSvZ+j2DyikVQ1XYzk-Zg14FVKP1YHOm-rOimjHydxaGPaA@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/4] ad7380: add adaq4370-4 and adaq4380-4 support
+To: Conor Dooley <conor@kernel.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	David Lechner <dlechner@baylibre.com>, Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi anish,
+Le mar. 15 oct. 2024 =C3=A0 18:43, Conor Dooley <conor@kernel.org> a =C3=A9=
+crit :
+>
+> On Tue, Oct 15, 2024 at 11:09:05AM +0200, Julien Stephan wrote:
+> > Hello,
+> >
+> > This series add support for adaq4370-4 (2MSPS) and adaq4380-4 (4MSPS)
+> > which are quad-channel precision data acquisition signal chain =CE=BCMo=
+dule
+> > solutions compatible with the ad738x family, with the following differe=
+nces:
+> >
+> > - configurable gain in front of each 4 adc
+> > - internal reference is 3V derived from refin-supply (5V)
+> > - additional supplies
+> >
+> > This series depends on [1] which fix several supplies issues
+> >
+> > [1]: https://lore.kernel.org/all/20241007-ad7380-fix-supplies-v1-0-badc=
+f813c9b9@baylibre.com/
+>
+> What exactly makes this series RFC rather than v1?
 
-kernel test robot noticed the following build warnings:
+Hi Conor,
+I am sorry I forgot to add some context here... There is an ongoing
+discussion on the dependent series about power supplies and Jonathan
+asked me to send this series to see how to properly handle the supply
+fix...
+See  https://lore.kernel.org/all/20241014193701.40e3785a@jic23-huawei/
 
-[auto build test WARNING on remoteproc/rpmsg-next]
-[also build test WARNING on remoteproc/rproc-next lwn/docs-next linus/master v6.12-rc3 next-20241015]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/anish-kumar/remoteproc-Documentation-upgrade-from-staging/20241015-105957
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rpmsg-next
-patch link:    https://lore.kernel.org/r/20241015025831.65232-1-yesanishhere%40gmail.com
-patch subject: [PATCH] remoteproc: Documentation: upgrade from staging.
-reproduce: (https://download.01.org/0day-ci/archive/20241016/202410161444.jOKMsoGS-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410161444.jOKMsoGS-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`rt_link<../../networking/netlink_spec/rt_link>`
-   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
-   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
->> Warning: Documentation/remoteproc/rproc-kernel-api.rst references a file that doesn't exist: Documentation/remotproc/remoteproc-api.rst
-   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
-   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/staging/remoteproc.rst
-   Using alabaster theme
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Julien
