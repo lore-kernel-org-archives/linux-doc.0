@@ -1,270 +1,377 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30AF318C33E;
-	Wed, 16 Oct 2024 18:55:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729104952; cv=fail; b=iUPHLFWGKAOKa64JPudc0z1idojIuJiXubUY0vgXP3XgIc7TNrxdU5BMmIWMYUv65Tw3F29TnZ+wGdkw1DnlO3gzWWn17q1DJiT7hBSrq86TK+FzvVWWceIHiulfSpEFV02i6i+B8A++3zUSnYtkNAFtERpLORVRl3ZoyIA0OJM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729104952; c=relaxed/simple;
-	bh=/lV4oNK2Jo4cmDejR/BOM+TuL5wLinkZ5RKTKPBtNso=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=jQxzN3IDL4R/INOtkkEsjEmEXHRnljuNaGJA29RdEyL35th16mH5Q2zpvYK+5eOj2paZjhjFlrW46tptUivjSxJECdfeT9zxw/aUwpaENzCtVqF1kGDzXBgXCj9jtNww8UzlCzPn10/2v9jXQvGeIed4kdtUnti31ojmMRnGg5E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IrnCM0C4; arc=fail smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DDCF21E3C2;
+	Wed, 16 Oct 2024 20:17:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729109851; cv=none; b=T9tluZgI1ZZgKiTFWj01tOlb7/orj9Jul8nU4Byqxp0JMu+rsUS+mijBRkPenMHl5gumKPqoCp66d+TY5LOJ8Xc7t7Fme+AxEP9ionOTE+xfWuzsHNia8SdG0Lw3CvSXZ5T94UAcpwucsD/Crohe7rirueuT44ODIycbeyHTUIk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729109851; c=relaxed/simple;
+	bh=7ZSavL1eTbrOwlaZ4LSkgBdHzgDhTau3TE/FHf5ZDzY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OOO4iM30ITQJ3bDLCLAebhLEnqxp5dd6XlaOviLoSHMxnIcmxjhdfI0OiA0SK3buVEC5M+9P0huZvdu2qVt40K8c5KGpN7FOi/gkIvfG3zF37kr/r04UGENQtjZuX44JWs1lrv7qV+DfZUYcBasHFi0J0JmOp/6Wd7ZJwffqadA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KtUyIIFu; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IrnCM0C4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729104950; x=1760640950;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=/lV4oNK2Jo4cmDejR/BOM+TuL5wLinkZ5RKTKPBtNso=;
-  b=IrnCM0C429C44uttLsLmAa+oOt5yS9yRYipwA6OEofLXhb2R0f8hProy
-   ws66ShL6u6/VOdc0ISlt+XOCW6Pq9kcFQkUV0REasOleSyS8PsX85W2F1
-   mF5gYfH9Z3Ji9XpTJpA7/0jwYDXhIRB1bkEmWjzLYhvjWh5eyzJj3nEiG
-   +mURqFrq83jBj/1RIj4RSHpElDdSmMcD14pbMbOVszXM2M7ZafphY4VVO
-   FsAPRG2O7nF6CPt2qI9NN0A5eTWeAhJTS5eZwSDCqrX0ZUrGCytvzlw6I
-   O865BcGeJlaYeEPxfXeyJ979mnJLHujvsUCaxVkWK0+JnImoonWQZk642
-   Q==;
-X-CSE-ConnectionGUID: DmKycJZTRVmfyCiADgVB1w==
-X-CSE-MsgGUID: 8D3cmtvjSZGqCZCxuVd0ow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39690479"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="39690479"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 11:55:48 -0700
-X-CSE-ConnectionGUID: OFEs5zksTdSBepVUd+8jlw==
-X-CSE-MsgGUID: M0ZeVUgpS/GjzLG8QVK27A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,208,1725346800"; 
-   d="scan'208";a="82852975"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 16 Oct 2024 11:55:46 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 16 Oct 2024 11:55:45 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 16 Oct 2024 11:55:44 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Wed, 16 Oct 2024 11:55:44 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.173)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 16 Oct 2024 11:55:44 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xQ0kzK//EmaYXkQVNIX4t8J8tZzOvQWLOLE9Oc9c2TXY+w19kHHGSM9NJLelFSQiLHkNovuNrp5ohVm+g3ZetY/hX1JnwaLazAWsAVnSTvbHdgB/nOpLzYznI3enO/veNeNioE1wW4A7RrX5xKrgKdTLLYzYvO3RzdpYHNkAYXwquYF4vAfJC4L0l3Svew7Ji912hhxCu5YtuL26sRlj/ErJ0GeWZnhxS7ZhgErTaf8pGnju175fOeQVW1oEFRjTcooKxMhRt10nrFDrQn+QpKBmkhiRVCfs7wajqtTcB0PBiGCPeWq+2X1upnW2d7OplNHnfIVVWR12vEewaUDGIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Qd+WUv8JoEogBcG+jYRRD+QysL248Bz2wt1SX8faPFQ=;
- b=kLzGNmxdWumA14t07GI2BdPohBLSMUtJQPltT9NIdzQjyQoe8Y88kbxHkwmZpNMPOv38jSN0wEQ0KWZ+CWJt3UcB6mE6TF8Zyla2vIkWisUGTxMUJryCD4Gr6PdCBcuOz16YQr+Eo+iaMsubbNvMYW9KqNm6IahdbTX7jIeNztKeMXkptszvMvOEb0irFvGMSiH0Ro86iRGN9WSvfk+f1T9/OMSc4AbpDweeDd7CO7/wIJlFQFgkHYwDSJpn6hndaKfoc2lXngltuIYe3OnalXZhSuGGET88HRro0bbGhf6DSvQVoBFeEreAODayhlaKz+77lPSioYAItot0CrVFsg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by MN2PR11MB4648.namprd11.prod.outlook.com (2603:10b6:208:26f::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.18; Wed, 16 Oct
- 2024 18:55:40 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf%7]) with mapi id 15.20.8048.020; Wed, 16 Oct 2024
- 18:55:40 +0000
-Message-ID: <00ae6b0e-29a2-4240-93af-c460ce4de66a@intel.com>
-Date: Wed, 16 Oct 2024 11:55:36 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 09/25] x86/resctrl: Add __init attribute to
- dom_data_init()
-To: <babu.moger@amd.com>, <corbet@lwn.net>, <fenghua.yu@intel.com>,
-	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>
-CC: <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-	<rdunlap@infradead.org>, <tj@kernel.org>, <peterz@infradead.org>,
-	<yanjiewtw@gmail.com>, <kim.phillips@amd.com>, <lukas.bulwahn@gmail.com>,
-	<seanjc@google.com>, <jmattson@google.com>, <leitao@debian.org>,
-	<jpoimboe@kernel.org>, <rick.p.edgecombe@intel.com>,
-	<kirill.shutemov@linux.intel.com>, <jithu.joseph@intel.com>,
-	<kai.huang@intel.com>, <kan.liang@linux.intel.com>,
-	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
-	<sandipan.das@amd.com>, <ilpo.jarvinen@linux.intel.com>,
-	<peternewman@google.com>, <maciej.wieczor-retman@intel.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<eranian@google.com>, <james.morse@arm.com>
-References: <cover.1728495588.git.babu.moger@amd.com>
- <03077cf67cea1b3ebb00495fd40d1535db27ff8c.1728495588.git.babu.moger@amd.com>
- <b19af235-7ad5-4897-8082-1eabfee849e8@intel.com>
- <7749600f-f281-4cb8-b909-382a69dac56b@amd.com>
-From: Reinette Chatre <reinette.chatre@intel.com>
-Content-Language: en-US
-In-Reply-To: <7749600f-f281-4cb8-b909-382a69dac56b@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR02CA0026.namprd02.prod.outlook.com
- (2603:10b6:303:16d::25) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KtUyIIFu"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2e2cc47f1d7so158899a91.0;
+        Wed, 16 Oct 2024 13:17:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729109849; x=1729714649; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hB6pneLlgNQzre4Tw2gjYdHzpO9RAcsl0x9aZ2GOgvQ=;
+        b=KtUyIIFuZRFVadhTxauVctBhWXc5lTYIxDfV+f8qJRuNVXk7yOSrSW7uq5/V8RhQVb
+         k/uEvoz9uR2vNBWtx2IgAZnLVDLJmlsqGuQVPXqfo8qY6NbQB7jvgAkEH+1O4S3gEFeW
+         8dT5p16N1UOmHAdQwM8tW7CAalabU8pHjdDAnDKJzH4ZFTwjh7zGCHLpAQwqP4lN5Z+7
+         TbKPLr7aBXsQXnNvGXQ5INnPatBnIW6ohJh9d7B3Lbij0qCo8LTYe2Rliy1/MlyiEYbO
+         IZ4vZkNburYZU4lMF2O+7YMJLZaHmNE8dy68EvV3MToGpUlCfq/RFSya/EQpA4L+p3Og
+         2R1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729109849; x=1729714649;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hB6pneLlgNQzre4Tw2gjYdHzpO9RAcsl0x9aZ2GOgvQ=;
+        b=WQgc+m3xDceTtaerBwJDJW7KmO44r/uNFjiVfhFlGc2ZOlmivQoKL3BdE33VhgkB+U
+         u0OmiK+j49Ng5NHOhO6HcjpdY0tKDFqEWbC07aUA9sYH61nhSpRIpmoyqcOmihRTB1JT
+         +D2eDWgANzD3wyw2SDSJk92u00xBxJDXGOlDLvfPjwivzhbIYwLajsFeel1FReD2muDD
+         fcxo5w4HqThTnz/o67U5aQtLJbnG5SdtxGtPh5m/WcZV5RINPE3AgQDx11JlR/Z2jeOE
+         uJsO4lTfaw0s1nV88CruPSjp2efcL/RhxLsx8m2mBglugVgbrQIgMl3dUADAy+ljUMZd
+         GZZg==
+X-Forwarded-Encrypted: i=1; AJvYcCU5q1v573hqHJ8Y9uJGy2IAHU4uumH+Nc8+vJxWb62qV4I31M+2/MTddEk11U2GojpSDOdCg0hv@vger.kernel.org, AJvYcCWChMtxlwEHaDwv/6PxzeaIqLmMsfWIMMortLpQu0JbipU25ZW7oAve58WSs8+upthOFSnz8Ho7m0U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwaF/BH/EWCoaqjYDWAq2IlkBsn0KZe38ro2jqr+GJsM8qmisCy
+	23XCbLVrjYDmvYChTk9aiCARqMR1YfQ6qWaNrDSzF0OJnNRbJ08=
+X-Google-Smtp-Source: AGHT+IED/LREZx07y8pqtU1+A2EgGHBRDYlp8650mlTIwjfsJE38xrBnvDfPTqfy0Rt4x/qwFDtGxA==
+X-Received: by 2002:a17:90b:4b50:b0:2e2:e086:f5c0 with SMTP id 98e67ed59e1d1-2e3dc20b181mr1289711a91.5.1729109849316;
+        Wed, 16 Oct 2024 13:17:29 -0700 (PDT)
+Received: from localhost ([2601:646:9e00:f56e:123b:cea3:439a:b3e3])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e3e08c0484sm224646a91.13.2024.10.16.13.17.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Oct 2024 13:17:28 -0700 (PDT)
+Date: Wed, 16 Oct 2024 13:17:28 -0700
+From: Stanislav Fomichev <stfomichev@gmail.com>
+To: Taehee Yoo <ap420073@gmail.com>
+Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+	edumazet@google.com, almasrymina@google.com, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, donald.hunter@gmail.com, corbet@lwn.net,
+	michael.chan@broadcom.com, kory.maincent@bootlin.com,
+	andrew@lunn.ch, maxime.chevallier@bootlin.com, danieller@nvidia.com,
+	hengqi@linux.alibaba.com, ecree.xilinx@gmail.com,
+	przemyslaw.kitszel@intel.com, hkallweit1@gmail.com,
+	ahmed.zaki@intel.com, paul.greenwalt@intel.com,
+	rrameshbabu@nvidia.com, idosch@nvidia.com, asml.silence@gmail.com,
+	kaiyuanz@google.com, willemb@google.com,
+	aleksander.lobakin@intel.com, dw@davidwei.uk,
+	sridhar.samudrala@intel.com, bcreeley@amd.com
+Subject: Re: [PATCH net-next v3 0/7] bnxt_en: implement device memory TCP for
+ bnxt
+Message-ID: <ZxAfWHk3aRWl-F31@mini-arch>
+References: <20241003160620.1521626-1-ap420073@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|MN2PR11MB4648:EE_
-X-MS-Office365-Filtering-Correlation-Id: c805d7d1-b266-48b0-4712-08dcee142105
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SzNiNFJVRXhSQllnSUpYQ2tjM0txMHJzNlVDUmh4YThrM3ZjOUFjTEtaeTd5?=
- =?utf-8?B?bnpiY0kyU1kyMWlOOFpwVG5XQXZscWVybzdGK282NmZzcUNTRUtETlZwd3Bs?=
- =?utf-8?B?QnQwMlJEK1ZhZDM1M24wVkJxS1BwL0xmbGxRUVhzaGw2TTNOS3pURWdiOGNR?=
- =?utf-8?B?WVNmTUtGTDIxRmFzbi8zNG1hLzNxQzEvZGxDKytRNWJEUzkzNllZZGVNT0Ri?=
- =?utf-8?B?aVhWKzVGK0R1K1g5eFNucU9idlFwTlBMWDB3OG4rS0FOeG5rS3NDZnZJTCs5?=
- =?utf-8?B?c1pwZnlrVHBzZkJWTjU2azFKZ1g2eHNGTXRoOGN6Q1R3NGlKS2ZvUVp4Smhq?=
- =?utf-8?B?QktIcTZwS01jeFBQUlh1dFBUck1FK2E1WThHUHRGL296Uk01WE1NNzU1aXpP?=
- =?utf-8?B?SldEUzhEZXU3MXhGdmhSZWhrQmRkWHFwdkRKUGRxMTZ5WlY2a0gyZUNCdTRZ?=
- =?utf-8?B?UURRL2UvQ1B4U0ZPa01RcTJTYUo5aDE2L3BUU01KOGl3d01Fd0lvU0ZqZWZV?=
- =?utf-8?B?NEc4SkhJT2h5NFQ2c2ZVR2VrdUU3M1lKK0RKOFdSNEpDUFprbE12RWR4eHhn?=
- =?utf-8?B?NnRuN00xak5YMlozWXpWSG44RExKTyttVkFOV2tReitMdlRueU0zTTlrN1Zr?=
- =?utf-8?B?L1pDSi9pOGMxc001UU1TdFV6QnVaUEIwMU1lbnVyQmp4R3RYUnBYako3NjRk?=
- =?utf-8?B?Q2dJNEZqZ3drOUQ0dWtvU2NVbTBjdm9BaHVhSnBOa0tzQkU0N0htM0puV2s5?=
- =?utf-8?B?NU5BM2J3dGI3NU1pdnBhRmZ2alA5Z3RjOFFFcjRNRzR0WjJSRnBlZEljNWNO?=
- =?utf-8?B?MTR0ZVhScThYVWd4UU14S3BDZ0lna3lLNnZzVGdQdEVNV0pUUGJLaXFxUVZF?=
- =?utf-8?B?eG5QeFVMSm9FS05rUjVCVFl6bGFsM0NZMkJyYmhCMmJMNHpFa3JFb0pKSExX?=
- =?utf-8?B?aGtaQW9HQlE3Tk5tMGdoT1c5K1M1Zi9FSDJLNWwwWWI1bDJPZll5WGlMS1d0?=
- =?utf-8?B?cmk2Z2s2VUtmWWFvbGRCZ0Z4a05EYkNjaGxoY3NMOW01d0RBajFBVzNpT0ps?=
- =?utf-8?B?VWIwM2xZK3pVaXRvODdrNnpsWkxPcEFqaUw1UlJOc3huM3NpSTU2S2VFQlY4?=
- =?utf-8?B?Q3VoekxBbU9DVmg3dW56VkZySW8rRVAxY3h6eFNWeFdYRlIvZjh4RS9GSmZu?=
- =?utf-8?B?ZE05eCs0ZHdWdWVneE8zNnVuVkJFa0U3MElDRk0vM1phN2toUklNbG85dlpt?=
- =?utf-8?B?d1BGZGszRDVIQWVTY3BUdzBPWW9VL2RXZ3BnTFk3U1VsYllNZEpHTUN3dVV3?=
- =?utf-8?B?RkJiZlZKM2lCWEoyQjQzb1VYZWI3NitKcjdZdENVQ214em50Z0dIMGZvckM0?=
- =?utf-8?B?YUFXdkdJMTVvVEFTNWJ4VmsweTgwYVlraWlPOVI5dFYwOFFaRHAya3VhVHlP?=
- =?utf-8?B?UkUvUDl1UkRVT3BhZ2N5b0lNeFRmVzJiQzV5TUF4YjBOdGczQU80bFgwRTlI?=
- =?utf-8?B?YU1DMFI4cVBGbno1NEtxRm1qSVhWZUtTcmhGOUJVYS8wUlk3TG5zdGxTS3Ux?=
- =?utf-8?B?d2lWUlZCZDM2YmpsblY0bkw2YW1QcWE2cUxJY3FkYk9COGlkRzBJS2pNaFU5?=
- =?utf-8?B?NHdTV2IxcjB1WHNxUVh5S3YrbWhyZENLc3BoYTNZRVdhYTdBSlVReFZrN2I2?=
- =?utf-8?B?SmJyeGxuNVBkUEZlRXpwUnl2T1NWZWtsVHRlU3lvUVRPalZjRkQ3RWtRPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NlhRdzFGNEZCM3N0ZUZlNEhkR2NSaFJHcTdtSEdpakhJZFhiSW54TzdiNjZq?=
- =?utf-8?B?SWM5bmZyeURrWS9QZnI4Q1ovcHhmTnJrYVBKeVE3WnFhQ3UxSVNVcTd2eFhj?=
- =?utf-8?B?ZUk0d0ZubkJjYWRrT3RJY3luZGJRRU9Fd3AyNVJnbWZSbytWMEkySlRBNEtt?=
- =?utf-8?B?WW5GRUp1VTBkaG5rRC9sQzdpUmJiOUJGODNtakJPdTQwZ0Z5anIyaW45MFFv?=
- =?utf-8?B?Ym9wcWE4U2FhaUIwYVVWL09XR2VNQnY4S2Rhai9VdWNWbXZJMzJNaUs2WEc2?=
- =?utf-8?B?MFFyVjV2cytRRk9VOWJwMldpdFRyNHBJRncxMm5WSGVncDE3N2xsUlpPUEp2?=
- =?utf-8?B?Sm1WYzNQd1lOU2ZDR1A0WnVSNFh5cDhNdWoxdGFza1RQRkxkUWUxL0ZxRFJB?=
- =?utf-8?B?UmFMc1lla3hEcjNSTlh5Y0JCTWsxRytiZEZPay9QN3F3SGo3enRqb1BqYk5H?=
- =?utf-8?B?VmFobno2cHZMQzZiQ1I0MTZrWnJRaHl5UC9yZGFEWFFYd1UvSGN5SmJNaC9Q?=
- =?utf-8?B?Rjh2UDBid0hHcnB0aURPdUllcjFRUmxiNlNmNDZGbHlIcitMamlwb0MxYzFa?=
- =?utf-8?B?YTBvRDk0L1VkTGVFZHNadVVKYjNEeWtTZkE1cWx6cFV4WkU2YzlsTDNFN2tI?=
- =?utf-8?B?TEFXQ2FxRk9uK0czcHRqTmhzNkRuNGorMnVqOU4wWXNUSVNJcTNmSWlKMCsz?=
- =?utf-8?B?bE50T2dFUWc3VElJbVJKdElGMnlPTkpNdlNWMHZ6c2JkV29BMGllQkx6YUVP?=
- =?utf-8?B?VE55TlE0cjlLRGhvTVFudlBRTjY5amNtTnBTL2gvMHpBUFp0SEU0SmprOXUv?=
- =?utf-8?B?TTJkb3BJMG9lM0w0R2pUU2hoalJmZWRnM1Rpa0huTUFwQktWTzA1WGNIVVAw?=
- =?utf-8?B?eDFUTGdOdFVlZTdsSFY1Y3NvNDFNNUlDbVdhSmNlWFNON3JPdzcwTDRiYk1N?=
- =?utf-8?B?SjNJS3hwT002WEt0Nlg0ajViSW16Unp2cUk1YzFiaWttZm5EcTV6cnFJdTN1?=
- =?utf-8?B?UWxWOWtSWWhEZG9QU2Q3NTlOWi9peW0wZ2d0N2F6bmpTK0NBcVBVM2kvZHc3?=
- =?utf-8?B?V2FodzZIeHdUTzRUVVlHSWNLdXZnK0J0djdVbi8wU2lFUktDN2gwQ01MdFR1?=
- =?utf-8?B?dXFOSFZTc0dDakNVVVVQU0ZvQXFRZmdyTGNMcGpOMDkxbFMwMXErTXUva2Vs?=
- =?utf-8?B?dzRNVFZqMFNneHRmM3cwNVBNMStRTjdIZmRMaXN1aTIxWnNBT1BiTk1XMERE?=
- =?utf-8?B?RzhGanNMbm84a0ZROUlIWDZjUTVlUFArVnJrZEdYc2FDRGlsbEluSUFPUWNI?=
- =?utf-8?B?NHVEenVhSHFGL1QreHBvUDYxNjA5cHBqaGZ6UGovTHd6Q1ZZMExxaklMS0lk?=
- =?utf-8?B?SVA2NTE5SmdhREFjdDRoeWFIWDhMbTdQSG9wUTNIT3cxNlQxVkRkT2xNdzJo?=
- =?utf-8?B?ZzIyT1VQUDFyZmYrdGt1R2xtaGx3OFZLQ1hyN0pGRGRqaTBSa0FXNkFwYmdJ?=
- =?utf-8?B?UFFRNzRDVk0ya2hvY0x4d2huaW5NOU9EdGVFa0xDQ1c5aXFJNGxUSG9mRFMw?=
- =?utf-8?B?cTBBOXpPWG1hZnZhMlpYdUFDZ0l4STVleWcreTJTdVFyT1lDcFNDREJlbXF6?=
- =?utf-8?B?VkFOc2RPM0RaNVplZU5ac01OZFpHU1BtN1FhanNuV2dlbzJ2NFdXQnFjT1JR?=
- =?utf-8?B?OXRWdnVEZ2FYOStXWW1RT20zeFFQVm5pLzBQN2J1eTZyOUZDMG5Xc3k0SU5a?=
- =?utf-8?B?RUwyRWlVMHlnQUptWTNBSk9vcFJZaXpXd2pyQUtLSHdvbWlEY0RXajluY25r?=
- =?utf-8?B?eDNWZ0dyTXdxZ2l4Sm52c2VINklva0E5VVlBenhiZG9FbkFIZ3paZU0zOVly?=
- =?utf-8?B?NVM0N3lnYkh3MkdPQnV2SHlFc2dVVDNyNEVvZDR5ZlVQcHN3Q1NTdG1IOCtT?=
- =?utf-8?B?a0x0S0ZjcS9QUnkxL1VwK1hpRTBhWjM4U2tJUmdTU2FQK0EzWmdDMGJVSERX?=
- =?utf-8?B?SGwyNzl1bVp0a0pYQWwrRGFCUTlEUjF2TEpXVkVWQ2tUZkVyTmFKOFV5eGFW?=
- =?utf-8?B?WUQ0ZHlJcXl3bzlqNk1iNUk1YkkzUVlKZ0V0RFdpNExDT3Z1YjFaTmNjT0RS?=
- =?utf-8?B?Sms4YmpZMzhwNjA3NUR2c0pLUFFWcGUxc2pQbm5rSzlPWG9CR2pkVmZwM3p0?=
- =?utf-8?B?bmc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c805d7d1-b266-48b0-4712-08dcee142105
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2024 18:55:40.1538
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: d7nylJCjbjft+/soChpERFBonFJPsX26BhfSI/Kr4guRBMSHK8+FNsBh7OSu5eqrMFppjnchNZgrbHSPciULTEt7n6PccjlSouD5K3YvVnI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4648
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241003160620.1521626-1-ap420073@gmail.com>
 
-Hi Babu,
+On 10/03, Taehee Yoo wrote:
+> This series implements device memory TCP for bnxt_en driver and
+> necessary ethtool command implementations.
+> 
+> NICs that use the bnxt_en driver support tcp-data-split feature named
+> HDS(header-data-split).
+> But there is no implementation for the HDS to enable/disable by ethtool.
+> Only getting the current HDS status is implemented and the HDS is just
+> automatically enabled only when either LRO, HW-GRO, or JUMBO is enabled.
+> The hds_threshold follows the rx-copybreak value but it wasn't
+> changeable.
+> 
+> Currently, bnxt_en driver enables tcp-data-split by default but not
+> always work.
+> There is hds_threshold value, which indicates that a packet size is
+> larger than this value, a packet will be split into header and data.
+> hds_threshold value has been 256, which is a default value of
+> rx-copybreak value too.
+> The rx-copybreak value hasn't been allowed to change so the
+> hds_threshold too.
+> 
+> This patchset decouples hds_threshold and rx-copybreak first.
+> and make tcp-data-split, rx-copybreak, and
+> tcp-data-split-thresh(hds_threshold) configurable independently.
+> 
+> But the default configuration is the same.
+> The default value of rx-copybreak is 256 and default
+> tcp-data-split-thresh is also 256.
+> 
+> There are several related options.
+> TPA(HW-GRO, LRO), JUMBO, jumbo_thresh(firmware command), and Aggregation
+> Ring.
+> 
+> The aggregation ring is fundamental to these all features.
+> When gro/lro/jumbo packets are received, NIC receives the first packet
+> from the normal ring.
+> follow packets come from the aggregation ring.
+> 
+> These features are working regardless of HDS.
+> When TPA is enabled and HDS is disabled, the first packet contains
+> header and payload too.
+> and the following packets contain payload only.
+> If HDS is enabled, the first packet contains the header only, and the
+> following packets contain only payload.
+> So, HW-GRO/LRO is working regardless of HDS.
+> 
+> There is another threshold value, which is jumbo_thresh.
+> This is very similar to hds_thresh, but jumbo thresh doesn't split
+> header and data.
+> It just split the first and following data based on length.
+> When NIC receives 1500 sized packet, and jumbo_thresh is 256(default, but
+> follows rx-copybreak),
+> the first data is 256 and the following packet size is 1500-256.
+> 
+> Before this patch, at least if one of GRO, LRO, and JUMBO flags is
+> enabled, the Aggregation ring will be enabled.
+> If the Aggregation ring is enabled, both hds_threshold and
+> jumbo_thresh are set to the default value of rx-copybreak.
+> 
+> So, GRO, LRO, JUMBO frames, they larger than 256 bytes, they will
+> be split into header and data if the protocol is TCP or UDP.
+> for the other protocol, jumbo_thresh works instead of hds_thresh.
+> 
+> This means that tcp-data-split relies on the GRO, LRO, and JUMBO flags.
+> But by this patch, tcp-data-split no longer relies on these flags.
+> If the tcp-data-split is enabled, the Aggregation ring will be
+> enabled.
+> Also, hds_threshold no longer follows rx-copybreak value, it will
+> be set to the tcp-data-split-thresh value by user-space, but the
+> default value is still 256.
+> 
+> If the protocol is TCP or UDP and the HDS is disabled and Aggregation
+> ring is enabled, a packet will be split into several pieces due to
+> jumbo_thresh.
+> 
+> When XDP is attached, tcp-data-split is automatically disabled.
+> 
+> LRO, GRO, and JUMBO are tested with BCM57414, BCM57504 and the firmware
+> version is 230.0.157.0.
+> I couldn't find any specification about minimum and maximum value
+> of hds_threshold, but from my test result, it was about 0 ~ 1023.
+> It means, over 1023 sized packets will be split into header and data if
+> tcp-data-split is enabled regardless of hds_treshold value.
+> When hds_threshold is 1500 and received packet size is 1400, HDS should
+> not be activated, but it is activated.
+> The maximum value of hds_threshold(tcp-data-split-thresh)
+> value is 256 because it has been working.
+> It was decided very conservatively.
+> 
+> I checked out the tcp-data-split(HDS) works independently of GRO, LRO,
+> JUMBO. Tested GRO/LRO, JUMBO with enabled HDS and disabled HDS.
+> Also, I checked out tcp-data-split should be disabled automatically
+> when XDP is attached and disallowed to enable it again while XDP is
+> attached. I tested ranged values from min to max for
+> tcp-data-split-thresh and rx-copybreak, and it works.
+> tcp-data-split-thresh from 0 to 256, and rx-copybreak 65 to 256.
+> When testing this patchset, I checked skb->data, skb->data_len, and
+> nr_frags values.
+> 
+> The first patch implements .{set, get}_tunable() in the bnxt_en.
+> The bnxt_en driver has been supporting the rx-copybreak feature but is
+> not configurable, Only the default rx-copybreak value has been working.
+> So, it changes the bnxt_en driver to be able to configure
+> the rx-copybreak value.
+> 
+> The second patch adds an implementation of tcp-data-split ethtool
+> command.
+> The HDS relies on the Aggregation ring, which is automatically enabled
+> when either LRO, GRO, or large mtu is configured.
+> So, if the Aggregation ring is enabled, HDS is automatically enabled by
+> it.
+> 
+> The third patch adds tcp-data-split-thresh command in the ethtool.
+> This threshold value indicates if a received packet size is larger
+> than this threshold, the packet's header and payload will be split.
+> Example:
+>    # ethtool -G <interface name> tcp-data-split-thresh <value>
+> This option can not be used when tcp-data-split is disabled or not
+> supported.
+>    # ethtool -G enp14s0f0np0 tcp-data-split on tcp-data-split-thresh 256
+>    # ethtool -g enp14s0f0np0
+>    Ring parameters for enp14s0f0np0:
+>    Pre-set maximums:
+>    ...
+>    Current hardware settings:
+>    ...
+>    TCP data split:         on
+>    TCP data split thresh:  256
+> 
+>    # ethtool -G enp14s0f0np0 tcp-data-split off
+>    # ethtool -g enp14s0f0np0
+>    Ring parameters for enp14s0f0np0:
+>    Pre-set maximums:
+>    ...
+>    Current hardware settings:
+>    ...
+>    TCP data split:         off
+>    TCP data split thresh:  n/a
+> 
+> The fourth patch adds the implementation of tcp-data-split-thresh logic
+> in the bnxt_en driver.
+> The default value is 256, which used to be the default rx-copybreak
+> value.
+> 
+> The fifth and sixth adds condition check for devmem and ethtool.
+> If tcp-data-split is disabled or threshold value is not zero, setup of
+> devmem will be failed.
+> Also, tcp-data-split and tcp-data-split-thresh will not be changed
+> while devmem is running.
+> 
+> The last patch implements device memory TCP for bnxt_en driver.
+> It usually converts generic page_pool api to netmem page_pool api.
+> 
+> No dependencies exist between device memory TCP and GRO/LRO/MTU.
+> Only tcp-data-split and tcp-data-split-thresh should be enabled when the
+> device memory TCP.
+> While devmem TCP is set, tcp-data-split and tcp-data-split-thresh can't
+> be updated because core API disallows change.
+> 
+> I tested the interface up/down while devmem TCP running. It works well.
+> Also, channel count change, and rx/tx ringsize change tests work well too.
+> 
+> The devmem TCP test NIC is BCM57504
 
-On 10/16/24 10:32 AM, Moger, Babu wrote:
-> 
-> 
-> On 10/15/24 22:13, Reinette Chatre wrote:
->> Hi Babu,
->>
->> On 10/9/24 10:39 AM, Babu Moger wrote:
->>> dom_data_init() is only called during the __init sequence.
->>> Add __init attribute like the rest of call sequence.
->>>
->>> While at it, pass 'struct rdt_resource' to dom_data_init() and
->>> dom_data_exit() which will be used for mbm counter __init and__exit
->>> call sequence.
->>
->> This patch needs to be split. Please move fixes to beginning of series and
->> move the addition of the parameter to the patch where it is first used/needed.
-> 
-> Sure. Will move the fixes to the beginning.
-> 
->>
->>>
->>> Fixes: bd334c86b5d7 ("x86/resctrl: Add __init attribute to rdt_get_mon_l3_config()")
->>
->> For this change I think the following Fixes tag would be more accurate:
->> Fixes: 6a445edce657 ("x86/intel_rdt/cqm: Add RDT monitoring initialization")
->>
->> I think for a complete fix of the above commit it also needs to add __init
->> storage class to l3_mon_evt_init().
-> 
-> Yes. Sure.
-> 
->>
->> The __init storage class is also missing from rdt_get_mon_l3_config() ...
-> 
-> 1 internal.h _int rdt_get_mon_l3_config(struct rdt_resource *r);
-> 2 monitor.c  int __init rdt_get_mon_l3_config(struct rdt_resource *r)
-> 
-> rdt_get_mon_l3_config() has __init attribute already. But prototype in
-> internal.h does not add the '__init'. Looks like that is ok.
+[..]
 
-I also think it may technically be ok since as far as I understand attributes
-the attributes will be merged. Even so, doing so does not match the current
-style where the storage class of declaration and definition are the same. See
-for example the partner function rdt_put_mon_l3_config().
-
+> All necessary configuration validations exist at the core API level.
 > 
+> Note that by this patch, the setup of device memory TCP would fail.
+> Because tcp-data-split-thresh command is not supported by ethtool yet.
+> The tcp-data-split-thresh should be 0 for setup device memory TCP and
+> the default of bnxt is 256.
+> So, for the bnxt, it always fails until ethtool supports
+> tcp-data-split-thresh command.
 > 
->> fixing that would indeed need the Fixes tag below:
->> Fixes: bd334c86b5d7 ("x86/resctrl: Add __init attribute to rdt_get_mon_l3_config()"
-> 
-> How about addressing both dom_data_init() and l3_mon_evt_init() in a
-> single patch and adding 2 fixes flags?
+> The ncdevmem.c will be updated after ethtool supports
+> tcp-data-split-thresh option.
 
-... and add __init to declaration of rdt_get_mon_l3_config() ?
+FYI, I've tested your series with BCM57504 on top of [1] and [2] with
+a couple of patches to make ncdevmem.c and TX work (see below). [1]
+decouples ncdevmem from ethtool so we can flip header split settings
+without requiring recent ethtool. Both RX and TX work perfectly.
+Feel free to carry:
 
-> 
-> Fixes: 6a445edce657 ("x86/intel_rdt/cqm: Add RDT monitoring initialization")
-> Fixes: bd334c86b5d7 ("x86/resctrl: Add __init attribute to
-> rdt_get_mon_l3_config()")
+Tested-by: Stanislav Fomichev <sdf@fomichev.me>
 
-Reinette
+Also feel free to take over the ncdevmem patch if my ncdevmem changes
+get pulled before your series.
+
+1: https://lore.kernel.org/netdev/20241009171252.2328284-1-sdf@fomichev.me/
+2: https://lore.kernel.org/netdev/20240913150913.1280238-1-sdf@fomichev.me/
+
+commit 69bc0e247eb4132ef5fd0b118719427d35d462fc
+Author:     Stanislav Fomichev <sdf@fomichev.me>
+AuthorDate: Tue Oct 15 15:56:43 2024 -0700
+Commit:     Stanislav Fomichev <sdf@fomichev.me>
+CommitDate: Wed Oct 16 13:13:42 2024 -0700
+
+    selftests: ncdevmem: Set header split threshold to 0
+    
+    Needs to happen on BRCM to allow devmem to be attached.
+    
+    Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
+
+diff --git a/tools/testing/selftests/drivers/net/hw/ncdevmem.c b/tools/testing/selftests/drivers/net/hw/ncdevmem.c
+index 903dac3e61d5..6a94d52a6c43 100644
+--- a/tools/testing/selftests/drivers/net/hw/ncdevmem.c
++++ b/tools/testing/selftests/drivers/net/hw/ncdevmem.c
+@@ -322,6 +322,8 @@ static int configure_headersplit(bool on)
+ 	ethtool_rings_set_req_set_header_dev_index(req, ifindex);
+ 	/* 0 - off, 1 - auto, 2 - on */
+ 	ethtool_rings_set_req_set_tcp_data_split(req, on ? 2 : 0);
++	if (enable)
++		ethtool_rings_set_req_set_tcp_data_split_thresh(req, 0);
+ 	ret = ethtool_rings_set(ys, req);
+ 	if (ret < 0)
+ 		fprintf(stderr, "YNL failed: %s\n", ys->err.msg);
+
+
+commit ef5ba647bc94a19153c2c5cfc64ebe4cb86ac58d
+Author:     Stanislav Fomichev <sdf@fomichev.me>
+AuthorDate: Fri Oct 11 13:52:03 2024 -0700
+Commit:     Stanislav Fomichev <sdf@fomichev.me>
+CommitDate: Wed Oct 16 13:13:42 2024 -0700
+
+    bnxt_en: support tx device memory
+    
+    The only change is to not unmap the frags on completions.
+    
+    Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
+
+diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+index 6e422e24750a..cb22707a35aa 100644
+--- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
++++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+@@ -692,7 +692,10 @@ static netdev_tx_t bnxt_start_xmit(struct sk_buff *skb, struct net_device *dev)
+ 			goto tx_dma_error;
+ 
+ 		tx_buf = &txr->tx_buf_ring[RING_TX(bp, prod)];
+-		dma_unmap_addr_set(tx_buf, mapping, mapping);
++		if (netmem_is_net_iov(frag->netmem))
++			dma_unmap_addr_set(tx_buf, mapping, 0);
++		else
++			dma_unmap_addr_set(tx_buf, mapping, mapping);
+ 
+ 		txbd->tx_bd_haddr = cpu_to_le64(mapping);
+ 
+@@ -749,9 +752,10 @@ static netdev_tx_t bnxt_start_xmit(struct sk_buff *skb, struct net_device *dev)
+ 	for (i = 0; i < last_frag; i++) {
+ 		prod = NEXT_TX(prod);
+ 		tx_buf = &txr->tx_buf_ring[RING_TX(bp, prod)];
+-		dma_unmap_page(&pdev->dev, dma_unmap_addr(tx_buf, mapping),
+-			       skb_frag_size(&skb_shinfo(skb)->frags[i]),
+-			       DMA_TO_DEVICE);
++		if (dma_unmap_addr(tx_buf, mapping))
++			dma_unmap_page(&pdev->dev, dma_unmap_addr(tx_buf, mapping),
++				       skb_frag_size(&skb_shinfo(skb)->frags[i]),
++				       DMA_TO_DEVICE);
+ 	}
+ 
+ tx_free:
+@@ -821,11 +825,12 @@ static bool __bnxt_tx_int(struct bnxt *bp, struct bnxt_tx_ring_info *txr,
+ 		for (j = 0; j < last; j++) {
+ 			cons = NEXT_TX(cons);
+ 			tx_buf = &txr->tx_buf_ring[RING_TX(bp, cons)];
+-			dma_unmap_page(
+-				&pdev->dev,
+-				dma_unmap_addr(tx_buf, mapping),
+-				skb_frag_size(&skb_shinfo(skb)->frags[j]),
+-				DMA_TO_DEVICE);
++			if (dma_unmap_addr(tx_buf, mapping))
++				dma_unmap_page(
++					&pdev->dev,
++					dma_unmap_addr(tx_buf, mapping),
++					skb_frag_size(&skb_shinfo(skb)->frags[j]),
++					DMA_TO_DEVICE);
+ 		}
+ 		if (unlikely(is_ts_pkt)) {
+ 			if (BNXT_CHIP_P5(bp)) {
+@@ -3296,10 +3301,11 @@ static void bnxt_free_tx_skbs(struct bnxt *bp)
+ 				skb_frag_t *frag = &skb_shinfo(skb)->frags[k];
+ 
+ 				tx_buf = &txr->tx_buf_ring[ring_idx];
+-				dma_unmap_page(
+-					&pdev->dev,
+-					dma_unmap_addr(tx_buf, mapping),
+-					skb_frag_size(frag), DMA_TO_DEVICE);
++				if (dma_unmap_addr(tx_buf, mapping))
++					dma_unmap_page(
++						&pdev->dev,
++						dma_unmap_addr(tx_buf, mapping),
++						skb_frag_size(frag), DMA_TO_DEVICE);
+ 			}
+ 			dev_kfree_skb(skb);
+ 		}
