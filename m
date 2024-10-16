@@ -1,171 +1,269 @@
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81CE818A933
-	for <linux-doc@vger.kernel.org>; Wed, 16 Oct 2024 18:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729102461; cv=none; b=KSaaM3ueW5WGvbLZwrdJ/mWup7juS1D/LN4vUoh5HkstOuHu1Qtizp73JXpaBlG0KU35JYQwJcmH5b51eIjKIwyjZjOTSALWjqyiMbP5xnRkstifZQZT7khtrsN6mKoAAz82t0avKv3yy6hPYjxoRNoX6X+QdfnzNkmsjPmw95Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729102461; c=relaxed/simple;
-	bh=YW99deD7/ol5oA2gYrqQtiLzp64B/5mbGCe6uO7Xvzw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=s2Ay/U4L7JBtZv6Hwq6mqhtZHv30P5kTj8W65IZIueZvvMyV/+GoC7r1j+fjaQ4J80WibH2jKU24A8Xh3BBoyFcddKItMiQtBtrHguK2AiOl1iSYqN/dmt7wEKNmP6Uvc/+Gn9ERi+JKqKyfMLOIuRQ57yigLTbalJzHl03CFLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BY5jb1SC; arc=none smtp.client-ip=209.85.166.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 374FE1494CC;
+	Wed, 16 Oct 2024 18:31:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.14
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729103494; cv=fail; b=Zp2dydxCbI+Tsmi9M4cT+CgobLyqXt7mb9uUgzvLkjA83jy9bF0XFM3Zw4TntXTQyvduq9G/8cnuOJkVVIPYvrEcHilKex74Hmz3qgHupwmGE6chFkTc2bOSo9E5gBTVmuwIz59sZd2647V5tkY4uP5r/SRHbSdmMFQ7XQF8HsQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729103494; c=relaxed/simple;
+	bh=yFdJmW++vRCi/8Kbmgg/FOIckW/0gC6TEMd2VwI12Uw=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=HNYLEgDaTZ7nGSOXkdFusn9ROREXPoJd/WHH4w/5u7JA34RJ3aWQntbAG0e4wCZ3kC2ubhShsoFDWwMLyOJ+ssF3HIgtDJK8COvLpKlwCH1YLR5JZB6sCNSvgAR/gOXA4oPxEAyxBShKBU/bQRqKKmsIOK1KgsRpPhJLoyIperA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f0zMMukq; arc=fail smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BY5jb1SC"
-Received: by mail-io1-f51.google.com with SMTP id ca18e2360f4ac-83aa3ced341so3506139f.0
-        for <linux-doc@vger.kernel.org>; Wed, 16 Oct 2024 11:14:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729102456; x=1729707256; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VMtDXM0LnjWug7j6LFf30Od5kznDt+8+RffK5lVMMlA=;
-        b=BY5jb1SCHGOefW6JcXRyVtGvZ0zHoNXCka6+wtnINRY9vqcr/awiR20WMzLPutJaqZ
-         WTaPrV/AAywFrvXFRWgME21TN6hnx6p9JZpmw7GLjJ1AgTRO2YBxoesiV3J8pW9QH/lL
-         Afjx4pjcHZw7q6XRvFlY60wHyseIwEaVcHDuc3pwYnSzI5B3dhgnm8oH3HgT4736fD8f
-         E0FmDVbFZcrPWBi4+JSvsPd7t+g+VAiv7sNsY1K3YWQ4RuQR1ok2rvaG29rSZ7x0gPmi
-         WbRSkIG9dA2ZXXwpdiZKY2SfWJRwQociMEZOjK4QkqnYtTCLDdxSukxj10MSGfQ2FwOm
-         RHwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729102456; x=1729707256;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VMtDXM0LnjWug7j6LFf30Od5kznDt+8+RffK5lVMMlA=;
-        b=V1+nXUPxFRGTsqqCtOp52bo7n25Kbpb01f/l2HBmhhkseEUrB8uVYSk7T54dkXW/EI
-         jm//A83UDDd0XLgZPVwmHM18TljELgGgFGrnT/fGwxbu0Ax0dpbW4UjNW4wpgjhMhqsA
-         bqulHvGTxHT/RNjozsFIHzrKcPKODvYbQq1BjtM9k+XRVviOUsKeBTvfl3qe1rURR7lI
-         gV4MI3zpAfTioCFrTRvxLPYBRwy8XUxL3nki+0VmJy51tAIOL6ulSmW9oFNLqTbcaE8o
-         lo1aG/n95wrLZPlLowYYPEDDbsbSowDwDz3GeTXWy67uBySNzr0qeQ7UhXJCtpUVrNXb
-         OaHw==
-X-Forwarded-Encrypted: i=1; AJvYcCXp/MURH2LVsMXuXQlf6DY3NlNzoXAafVggiRHvZRKim9X6vamKVPbtfKJjHe2JgJjHEBWem8D7xsw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZFKzDfqzwYalvlchsVH4XGJJh1ubl4L8tt2Nv2xaBawv0XBBS
-	4GAP/3MYp3Q8FeRcBk7FucLnv2zGFoAiZGa4ZNIR23Gp6KtoiieJ
-X-Google-Smtp-Source: AGHT+IG28iU/BsejFQHaHkinxQMC1KxrCnCnltoNG7uXrPkeKUKUvMPNWKE+K5sCuzboeLulVdSZFQ==
-X-Received: by 2002:a05:6e02:3b0a:b0:3a1:a57a:40a1 with SMTP id e9e14a558f8ab-3a3b5f233a9mr174859475ab.5.1729102456508;
-        Wed, 16 Oct 2024 11:14:16 -0700 (PDT)
-Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
-        by smtp.googlemail.com with ESMTPSA id e9e14a558f8ab-3a3d70cd21bsm9433695ab.45.2024.10.16.11.14.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Oct 2024 11:14:15 -0700 (PDT)
-From: Jim Cromie <jim.cromie@gmail.com>
-To: intel-gfx-trybot@lists.freedesktop.org
-Cc: ukaszb@chromium.org,
-	Jim Cromie <jim.cromie@gmail.com>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 21/61] dyndbg-doc: add classmap info to howto
-Date: Wed, 16 Oct 2024 12:13:04 -0600
-Message-ID: <20241016181344.1161237-22-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241016181344.1161237-1-jim.cromie@gmail.com>
-References: <20241016181344.1161237-1-jim.cromie@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f0zMMukq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729103492; x=1760639492;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=yFdJmW++vRCi/8Kbmgg/FOIckW/0gC6TEMd2VwI12Uw=;
+  b=f0zMMukqTe+H7btF6Q5P8+hF/6u+Ewe7ZT6JqjOTyBYkmQWJFbn6AIRT
+   ShNRGEmL1y5ZFEuqXuf2xmYXL4O6IFRTWiydXdWQBSoFyL49z1enQROuF
+   WcalYJLcSL5Kop7nogHZwWpWQu/aZRgffHND/9KH5d6GnlPlELSgp4Udi
+   pCWYZXEYzlkCMV/DAQua0qffYNIz4gQz+ddiYXGqV6TNIQdtypnrTGIDj
+   Cgkrcdi2hsNYrP3LWl9fMLVNPAjfVJOsAWXEml68GKtuHZiZ28z3mq7da
+   GTnuTXBa8g+ZO68DyGe+F/1S7X1xr3+QvuBehCHsPN3TjvvwlXmQ4dqHf
+   Q==;
+X-CSE-ConnectionGUID: 2owj6A/3QcaoMxPuGGY9Sg==
+X-CSE-MsgGUID: at7/0fuPTx6iOjuJS2PTCQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11226"; a="28768899"
+X-IronPort-AV: E=Sophos;i="6.11,208,1725346800"; 
+   d="scan'208";a="28768899"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 11:31:31 -0700
+X-CSE-ConnectionGUID: T4mZlQ4XS8uLpP3eoc0rMQ==
+X-CSE-MsgGUID: 1jfIQNZFQDOZ4zgxxecMTg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="83138489"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by orviesa003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 16 Oct 2024 11:31:30 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Wed, 16 Oct 2024 11:31:30 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Wed, 16 Oct 2024 11:31:30 -0700
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.44) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 16 Oct 2024 11:31:29 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LrZfK17Y8LGLn/sq4ZLR3H0rq6bpw6YezntVujqMq6nEyCjHVIid+bD6OLjaZYCyNvtv3gY+pgxVYku5/RT82f7bwNx6vWSkSK12/aK0eHSbSktBWxyEtarFNcXiTr3XOctUeElQomDM8rYj0v5c6BijDD07GHhmZ1s0hphtw4kJacQvdY2kqRRBYiXVE3VsO9dCSyDeYpYV26zsB2oAIv5xkba19q8qF28eRl1y7SRTJu0NBsNqf3P3YN2HSPXAFAXesGnzLzkqbzOv5RDa3KSdFp4kUyH+rM6WWGv/SXmAHcacUCQWlXPGmUai0L3/iKvAomZEYTGVNfr9Mkwt6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+Vy+9oNoHaA0JZUi7QmB3/0EcTLcOo6iJyYrTkUK/iE=;
+ b=UfApqudjd/Ja5PZAJZ67xfwPbA+vGxxzGGBp2sUb1B3ydtrThdDz8aQVIu8roKMjxRM3wfZ6Z1IqC8Chex7z7t5TgCjxWGIHw/S686sJmhzEurmqYutMhs+qfABSEAnHTTMDPb7+1zNsxWMwX8bOoDHKpCDrEyiNQbTRuPftabiW3OK58aIrzwxFHktMLyHq2TxEymt+2aeAW9RCx2d8Jgu0HVGDwBF3AvO8Usikakur3EZRhy8HTQMtRWlmZknDR2oGXyxWLkOSxI421P7vsTw0m2I/0Q1ZAf3TmVgKHUP23IaMsd0mLKjUdZT1WtyFZ6EjBx/+56leRPt7We/1qQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by PH8PR11MB7141.namprd11.prod.outlook.com (2603:10b6:510:22f::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.26; Wed, 16 Oct
+ 2024 18:31:26 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%7]) with mapi id 15.20.8048.020; Wed, 16 Oct 2024
+ 18:31:26 +0000
+Message-ID: <52990a2f-aedc-4d36-b02f-45d4de496997@intel.com>
+Date: Wed, 16 Oct 2024 11:31:23 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/7] x86/resctrl: Introduce sdciae_capable in rdt_resource
+To: <babu.moger@amd.com>, <corbet@lwn.net>, <tglx@linutronix.de>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<x86@kernel.org>
+CC: <fenghua.yu@intel.com>, <hpa@zytor.com>, <paulmck@kernel.org>,
+	<thuth@redhat.com>, <xiongwei.song@windriver.com>, <ardb@kernel.org>,
+	<pawan.kumar.gupta@linux.intel.com>, <daniel.sneddon@linux.intel.com>,
+	<sandipan.das@amd.com>, <kai.huang@intel.com>, <peterz@infradead.org>,
+	<kan.liang@linux.intel.com>, <pbonzini@redhat.com>, <xin3.li@intel.com>,
+	<ebiggers@google.com>, <alexandre.chartre@oracle.com>, <perry.yuan@amd.com>,
+	<tan.shaopeng@fujitsu.com>, <james.morse@arm.com>, <tony.luck@intel.com>,
+	<maciej.wieczor-retman@intel.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <peternewman@google.com>,
+	<eranian@google.com>
+References: <cover.1723824984.git.babu.moger@amd.com>
+ <cf9e47bbd66dbbdb76f0124620fad2f1b06e977e.1723824984.git.babu.moger@amd.com>
+ <254da029-81b2-4745-bc78-5aefeb33adb0@intel.com>
+ <b96e5de8-75ce-4a7a-8788-f5d3a959d771@amd.com>
+ <89da43fd-69fb-48a6-830e-e157360aeab6@amd.com>
+ <dbe8a012-eb21-426f-a8e4-46efee26da62@intel.com>
+ <bf67bc4e-9cf8-4cac-9ffb-2d4f81ab7e30@amd.com>
+ <ca29046a-29db-4bb0-815a-c482385194c7@intel.com>
+ <08dbb3e1-ab5c-41e1-978c-9c8885ffbe20@amd.com>
+Content-Language: en-US
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <08dbb3e1-ab5c-41e1-978c-9c8885ffbe20@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0217.namprd04.prod.outlook.com
+ (2603:10b6:303:87::12) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|PH8PR11MB7141:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0add8faf-69ec-4691-4d24-08dcee10be70
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ditzVHR2SmJHS1dvNGhEbFBjL2tFMTkrVnlpN0ZFcXNhbHR5SlNQUm16dTM0?=
+ =?utf-8?B?cEl6SXFzd2tYOThhdHZSRTdPeGFmeFZlZHhoR1NObklUWHBUQzY4cGRLcmZ2?=
+ =?utf-8?B?UVZOWHZGMjZLTDhmNjNKZ0pDZHJNUGhMdUp3QkdSTlF6TU9tdGxCUjJMOEdK?=
+ =?utf-8?B?ajBBN05zWXB2OHYwOG1UWHZ1UUlMbmVDamxNTGV0ZXZMVWt5MGVxWndyTmdJ?=
+ =?utf-8?B?NGkybll3clNCK0pLT3FFUFJJM2hpVnlhZm9JTHZUdnVCM2xFSUZLQTdLQjFQ?=
+ =?utf-8?B?NmdBNE1XMklISUVqcnh4TnlPdUZMeUtUWnA0RkxqWlQzYUVDNXpwNHFtOS8w?=
+ =?utf-8?B?OEt4TUoweHh2aitxZ0dsS3dXRmY2bks2NWtmZU1SYUlwVWNyTGNTdWt1VDlL?=
+ =?utf-8?B?c1pZc25sdHREVEtja0lhcUovTnYxbytVc1o0a280bzVLQlpQWnRoVm1COCs2?=
+ =?utf-8?B?dFYrdGRqNFVUMzg0TDBBQUFBeEdvYU9GS0R1eFVEMHVBUXl0bTh4Y2xMUytS?=
+ =?utf-8?B?eEJJdTNUVnVSY0drakYrMVJqRVd5aG9idnBXYWNnWnZIbDVSQzhQRSt4R3dx?=
+ =?utf-8?B?enpTN0N4Tnp2RXZjVU1PYUVYajJwSWxHais1THhYU0VXSEkxcDZ5N1ZUYWNZ?=
+ =?utf-8?B?cEp3LzU4cDhOVVN0cnRFa1hUU29PRjQ5YzU1cm5GVzVwTG9UMm1kS093UlFJ?=
+ =?utf-8?B?V3dua1RoQTh4cTZrQlhEWDZzeW50MUkyWUtXeldrK1ovdDhrMjhQQjNHc1hn?=
+ =?utf-8?B?OGpJSEhkT1ZjbkZlWHlxNUNSTkNkYTlSUFlJK0owUEJjbktFZWRNYTJOUXcw?=
+ =?utf-8?B?MXZ1ME1ERnpaVE1hNDhuaWFiczNlMTl5SWxwZmRsZm5sMnhQdkxNU1JOUnRL?=
+ =?utf-8?B?ZzBkLzArR094bzFkM05rdE1IZzBYZi84SnpCTTFDcktGUlpWdWtOZzk3K0Nj?=
+ =?utf-8?B?cnlZMnIxMmpkTURUN2xCSWVRelp0aFJtZlhFT3hRQldUV0JZMXV2SHlpVk8z?=
+ =?utf-8?B?YjFNampJR2tBdHVTalVoaDhLSzhWdFNkLy94NDNoMnNzSHY2L0JYYkZ6Vkkv?=
+ =?utf-8?B?QWRpd01aTzRjNGNvNG5BU1dKY2dpQjJMSGwrRnVtUjlSVTVIbTJEU1hNVWEv?=
+ =?utf-8?B?SmgzUk5LMjJLSEVpRjcvR25xK3NLclQzaXZESnBndUxCS0VDcEpRZ1F5NGdp?=
+ =?utf-8?B?VE0zYjBFbnZFbDFTUWR3TVVQczNjOTE4aFFnYzhjRHY4WU8rOGFwOVNxVStX?=
+ =?utf-8?B?RUllcVhRRWxHZkp6RzQ2U3dnSTBJN1dYekJVVWpMcVgvdllNbVR2eGxnMkVi?=
+ =?utf-8?B?RTdzMy8vOTdoVDFWM3lzNzBnOWxFakJYTytMQnY5MUU4R3NvbkZiN2NDWXdy?=
+ =?utf-8?B?VmJMU1FjOXRRVE5ERkxyeUc3TDBJNmZ1aldHUkJ1cStPYjZkNlIxWUQzSmZ2?=
+ =?utf-8?B?ZFRFbXpNczIySlZ0UkhVSjlwa0haNmNqbXM5RFVNRTBaclZtRUYzVG11SUw4?=
+ =?utf-8?B?R3p2dVgyT25JWDFpeXR1amFBakxPLzg5T0k2RWQ4L1RGUzBKdDNGVWllN21M?=
+ =?utf-8?B?cGtMbnFjdHZYeXZEbTZuVHlhTng4SnNJWno3UUg5cEM1VXVaanpSdmZZbXJD?=
+ =?utf-8?B?RzI4UnJkRThnZm1vbWpFR1FoZHgzK2cxNXdjRlBwUS9QT3NKYnRuWjdnb3Bw?=
+ =?utf-8?B?Y2NCL05FZFgxUlRWbEEveGdHZWQxbkRHbVBTb2pWNlB5cEZXOEtUWE13PT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MlJKSUVQTUxtSDFpa0ozR3o4UHJ0OGpETk4wNVBWU1JHT0dTU25hdVZXdW9o?=
+ =?utf-8?B?cFNHNlJpajd4K3RBUHd2cHU2Y1Rxc0hLaHFVei8wVUNvcnY1K25VaXNvTFVh?=
+ =?utf-8?B?Yld1R2Y4V0I4K0VOdHViK09kQ2RmcGdHOXoveVQrNkc4a3IzMmdJUTkrL0xS?=
+ =?utf-8?B?V0tMUlRFNjg0RjU1ZzBqOHF1QXVjYlJMTUJnYU9BZDdDR1NqN2luZDJITk01?=
+ =?utf-8?B?T0NtdVMzdWtMdEZuMTMzZ0lrdU9NU0RyRWhwb0FzOStsN244bG5vd2NTeHA4?=
+ =?utf-8?B?bkJEWklvb1JGREEyZitzYWdsVjZLTkFvd0gwMERkWXp4c2dtQVFFNEEyNW5G?=
+ =?utf-8?B?UTJwbGU3OXplWjlYUnEzRWdUMlBCQ1RxVkhFc0FabWdJNEFEOGZYMitzK1FD?=
+ =?utf-8?B?RHZNclRSZEx4aE5WTkFwYU1yY0Q5cTduYklzZE5XZjBiUDB5b1hhZDlqYXV4?=
+ =?utf-8?B?dU90ellqbXltZ05mMXN2My9mNk5DTTFsTTVOd3R1OU12OFRVeTUzUTNrYUxH?=
+ =?utf-8?B?Q2diK3NSWHFuK2FRb080aTJETHo4cWZyRktwWVo5cFF0L0grVXZndGNzeW9j?=
+ =?utf-8?B?VTNnZnF6b1ljSXFzMmdnbTVYbmdVLzJ2cmlvSTBPcWFUMG9nSEhyMllTZHVZ?=
+ =?utf-8?B?ZDEreTBDTENzTFRobnJiU041b3l4RWMyTE42SWp4eFR1b2ZrS3k2N1ZsYzBW?=
+ =?utf-8?B?aURIWGVvOEZvY3JGbjI0V2thVVdwMjlOTXNWaHFjZndrYllscm9iOUxlR3dG?=
+ =?utf-8?B?enRxZnFnNUdKWEhtekx1ZXdTZ2VZZ0lCTGo1d0RjaHY5WC9rZFdaQ2VMNmI1?=
+ =?utf-8?B?T0FaRElOZElaYUlGUGpMbjlSOXl2SGhvbUV4TTZtOHJpNFJvRXE1dklRV3lv?=
+ =?utf-8?B?MTVsZUtTc1BhbUJRNzBPcEtOdE1qcFRkZGxTT09hM2h1eWhKZXVDVXBpU1pz?=
+ =?utf-8?B?SlBjQWFvUUR1VnU5eDBrbUFOWlFWdkE5K1FKQXNHMkNmZE1uWG5PQmoyNFAr?=
+ =?utf-8?B?d0g0QVg0N09wV0xsTGlnQnZkNHRNYnFucHZoUTZiVVBpRVVIakc4OHhuZ0Q5?=
+ =?utf-8?B?YU9lUEtDaTJRODlQTlJvWVM0T3JxUStJTjBGL1J6UEhYUERnVVV5aWF6RVIy?=
+ =?utf-8?B?b2ZHcUFWWUs0WmluNHBGQnl5WlZxM2RQZXFpbVpIYWcvTEV1cm41RlYrckdz?=
+ =?utf-8?B?eWpIODI2NDRkRVpMV2ovRFR0aGRHaHhUcm9KOVVHTW1wb0tkd0t3bUZiRGFu?=
+ =?utf-8?B?Q2RGeHFKajR0cHM3cStEVnc5M01UeUkwalEzbWVRVWFqVEIyQjUyT0xDeXpi?=
+ =?utf-8?B?N2dkUGZkSTh1dHdiU2pBUEdyUkFTMFA5MXZsb2FWMGV3bGFiUmEzUFV3SE1K?=
+ =?utf-8?B?cmExQTBHTzBxZDZpbkMza09PVW5oMjBjMEpVRWN0b1BvZ2s5bGlsQ0dmcXZB?=
+ =?utf-8?B?MTBPNUpQN3VXV3FHYjBtSUtRTyt6MmZMblRxU0laUDN6QzVHSFJ4NU5xRXJZ?=
+ =?utf-8?B?R3FPait4THZGMUlNc0FmVWF1SDFvSTBaaDA0WlR2SEdTR1RuSDFkY2toUEdo?=
+ =?utf-8?B?M0FEaWs0ZkdWK2hId2ZjVnpQQnkzOXZrSEtQR3RMeFBPMXVFb2ZrM1RmWU1V?=
+ =?utf-8?B?Q0RZWkdjSEpVcnBVSVFFbXhyTkVaeWVOQVFGVnJDci9HQjJjeTRoTVlwRExm?=
+ =?utf-8?B?UVJ2bjhmeklRMldQalMrbmhiS0FBVjZZMStFZUxmVDJQOUxDMnBEcC9WZk1i?=
+ =?utf-8?B?TEFSdDVQZ2hlby85QWhNNFFURjhZck1kbERSRTNVd0VyZXhrRXVxWUdZQ0o5?=
+ =?utf-8?B?OU9tZGZ1SkVLMkhXUmJYalVYMVBPK1o0TTAveGN1cG1LNHVack1tTDFmbzN2?=
+ =?utf-8?B?YjlMaDNhVGY3WkVzYXpBRXhac093UEZNTEljN0xsdWFvc3JzbmozTVpxL29Q?=
+ =?utf-8?B?Y0VVR3RHUWRoVENCY0pzS1d3UWdtM0dFUHRvSnpKODdxWm9ONVFkTVhCYmFI?=
+ =?utf-8?B?eENibkI4SFhndkw5SDhaLzAvTWhoLzRzdzZ4bEVUenc1U2pLSjQ5eVRvU1NX?=
+ =?utf-8?B?c0xrZWZycVM1TGtaSGVVbFkxTmkvMGd5aWZETFYxSzJ5VVpyaGdjSXFLRFo3?=
+ =?utf-8?B?M1BKaUhSRDFpWjI1ZWtIb3Y5K0Zqd0ZlSERlL0gyMGd5QUhobTFwZXJka3lW?=
+ =?utf-8?B?eUE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0add8faf-69ec-4691-4d24-08dcee10be70
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2024 18:31:26.2994
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GFHx1MLMFJIISgf37mAirtBUsP1Gkij6MgwIyaAQJqTEIe2hopsPdhqGd5ps2ofzBodAC1Hn60HNT77VSLlGSX2iSvfvjFXjD4JmEdWPb+Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB7141
+X-OriginatorOrg: intel.com
 
-Describe the 3 API macros providing dynamic_debug's classmaps
+Hi Babu,
 
-DYNDBG_CLASSMAP_DEFINE - create, exports a module's classmap
-DYNDBG_CLASSMAP_USE    - refer to exported map
-DYNDBG_CLASSMAP_PARAM  - bind control param to the classmap
-DYNDBG_CLASSMAP_PARAM_REF + use module's storage - __drm_debug
+On 10/16/24 9:46 AM, Moger, Babu wrote:
+> On 10/16/24 10:54, Reinette Chatre wrote:
+>> On 10/15/24 1:40 PM, Moger, Babu wrote:
+>>> On 9/19/24 10:33, Reinette Chatre wrote:
+>>>> On 9/18/24 11:22 AM, Moger, Babu wrote:
+>>>>> On 9/18/24 10:27, Moger, Babu wrote:
+>>>>>> On 9/13/24 15:45, Reinette Chatre wrote:
+>>>>>>> On 8/16/24 9:16 AM, Babu Moger wrote:
+>>>>>>>> Detect SDCIAE`(L3 Smart Data Cache Injection Allocation Enforcement)
+>>>>>>>
+>>>>>>> (stray ` char)
+>>>>>>
+>>>>>> Sure.
+>>>>>>
+>>>>>>>
+>>>>>>>> feature and initialize sdciae_capable.
+>>>>>>>
+>>>>>>> (This is a repeat of the discussion we had surrounding the ABMC feature.)
+>>>>>>>
+>>>>>>> By adding "sdciae_capable" to struct rdt_resource the "sdciae" feature
+>>>>>>> becomes a resctrl fs feature. Any other architecture that has a "similar
+>>>>>>> but perhaps not identical feature to AMD's SDCIAE" will be forced to also
+>>>>>>> call it "sdciae" ... sdciae seems like a marketing name to me and resctrl
+>>>>>>> needs something generic that could later be built on (if needed) by other
+>>>>>>> architectures.
+>>>>>>
+>>>>>> How about "cache_inject_capable" ?
+>>>>>>
+>>>>>> This seems generic. I will change the description also.
+>>>>>>
+>>>>>
+>>>>> Basically, this feature reserves specific CLOS for SDCI cache.
+>>>>>
+>>>>> We can also name "clos_reserve_capable".
+>>>>
+>>>> Naming is always complicated. I think we should try to stay away from
+>>>> "clos" in a generic name since that creates problem when trying to
+>>>> apply it to Arm and is very specific to how AMD implements this
+>>>> feature. "cache_inject_capable" does sound much better to me ...
+>>>> it also looks like this may be more appropriate as a property
+>>>> of struct resctrl_cache?
+>>>
+>>> Coming back to this again, I feel 'cache_inject_capable' is kind of very
+>>> generic. Cache injection term is used very generically everywhere.
+>>>
+>>> Does  'cache_reserve_capable" sound good ?  This is inside the resctrl
+>>> subsystem. We know what it is referring to.
+>>>
+>>
+>> Since this is inside resctrl "cache_reserve_capable" sounds like existing
+>> CAT to me. Could it help if the term "io" appears in the name? Something like
+>> "io_reserve_capable"? When this is a member of struct resctrl_cache it should
+>> be implicit that it refers to the cache.
+> 
+> Yea. Naming is difficult.
+> 
+> How about "io_alloc_capable"?
+> 
 
-cc: linux-doc@vger.kernel.org
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
-v5 adjustments per Randy Dunlap
-v7 checkpatch fixes
-v8 more
----
- .../admin-guide/dynamic-debug-howto.rst       | 63 ++++++++++++++++++-
- 1 file changed, 62 insertions(+), 1 deletion(-)
+Sounds good to me, thank you.
 
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 691e0f7d4de1..89d94aab41ec 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -230,7 +230,6 @@ the ``p`` flag has meaning, other flags are ignored.
- Note the regexp ``^[-+=][fslmpt_]+$`` matches a flags specification.
- To clear all flags at once, use ``=_`` or ``-fslmpt``.
- 
--
- Debug messages during Boot Process
- ==================================
- 
-@@ -380,3 +379,65 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
- For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
- its ``prefix_str`` argument, if it is constant string; or ``hexdump``
- in case ``prefix_str`` is built dynamically.
-+
-+Dynamic Debug classmaps
-+=======================
-+
-+Dyndbg allows selection/grouping of *prdbg* callsites using structural
-+info: module, file, function, line.  Classmaps allow authors to add
-+their own domain-oriented groupings using class-names.  Classmaps are
-+exported, so they referencable from other modules.
-+
-+  # enable classes individually
-+  :#> ddcmd class DRM_UT_CORE +p
-+  :#> ddcmd class DRM_UT_KMS +p
-+  # or more selectively
-+  :#> ddcmd class DRM_UT_CORE module drm +p
-+
-+The "class FOO" syntax protects class'd prdbgs from generic overwrite::
-+
-+  # IOW this doesn't wipe any DRM.debug settings
-+  :#> ddcmd -p
-+
-+To support the DRM.debug parameter, DYNDBG_CLASSMAP_PARAM* updates all
-+classes in a classmap, mapping param-bits 0..N onto the classes:
-+DRM_UT_<*> for the DRM use-case.
-+
-+Dynamic Debug Classmap API
-+==========================
-+
-+DYNDBG_CLASSMAP_DEFINE - modules use this to create classmaps, naming
-+each of the classes (stringified enum-symbols: "DRM_UT_<*>"), and
-+type, and mapping the class-names to consecutive _class_ids.
-+
-+By doing so, modules tell dyndbg that they have prdbgs with those
-+class_ids, and they authorize dyndbg to accept "class FOO" for the
-+module defining the classmap, and its contained classnames.
-+
-+DYNDBG_CLASSMAP_USE - drm drivers invoke this to ref the CLASSMAP that
-+drm DEFINEs.  This shares the classmap definition, and authorizes
-+dyndbg to apply changes to the user module's class'd pr_debugs.  It
-+also tells dyndbg how to initialize the user's prdbgs at modprobe,
-+based upon the current setting of the parent's controlling param.
-+
-+There are 2 types of classmaps:
-+
-+ DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like DRM.debug
-+ DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
-+
-+DYNDBG_CLASSMAP_PARAM - modelled after module_param_cb, it refers to a
-+DEFINEd classmap, and associates it to the param's data-store.  This
-+state is then applied to DEFINEr and USEr modules when they're modprobed.
-+
-+This interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
-+amongst the contained classnames; all classes are independent in the
-+control parser itself.
-+
-+Modules or module-groups (drm & drivers) can define multiple
-+classmaps, as long as they share the limited 0..62 per-module-group
-+_class_id range, without overlap.
-+
-+``#define DEBUG`` will enable all pr_debugs in scope, including any
-+class'd ones.  This won't be reflected in the PARAM readback value,
-+but the class'd pr_debug callsites can be forced off by toggling the
-+classmap-kparam all-on then all-off.
--- 
-2.47.0
-
+Reinette
