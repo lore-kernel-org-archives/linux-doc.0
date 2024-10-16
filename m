@@ -1,232 +1,149 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF46209F3E
-	for <linux-doc@vger.kernel.org>; Wed, 16 Oct 2024 15:47:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA8C7212EE5;
+	Wed, 16 Oct 2024 15:48:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729093667; cv=none; b=JnSm2zFZahI6foTfEv1/pU6zeLEiJIHSCa429vujRtSGpJhpXgH7bkrZavgW0mJkldTLLeB2pfnqr6sVLy4CJ8lLLbZhD1+UfQ8t8nNIZKAMlYdwk56hqxcFNxnJZje/FFsI3Vd6aRzeQ1JJWnIdLltsk1fR60fe8m/LqH/V40U=
+	t=1729093713; cv=none; b=OJDl/oMZW0uARuhplsGzZQzLKvJBh5ON+vqJpiITii2qXl8eDi8YRPsF2tpoUd+MWuXPklBp7KjtkzfZGr29ruhgc33LmkYnr2KhBH/ppu8DvKMBGxwFY7/rVl1xXLqKjlX3WGh5F4EcdaENMENMlY/ksxleu7njTw3zlvcmWbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729093667; c=relaxed/simple;
-	bh=bWT0jZQi2gTGU5Bd8og0Hyl0LagtMrLPaQKxohyIPwA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qlMfaGWCFaQQLLt2Sst6tC4a4wl0iFG/3vWQo8CSNTXyRHq6J00R6OP/fqk7XTnrFpgraJthPVClMKcxNbMe0Piy4tu52EmFu8iDgfErOBUlQx6y9iowfOjiimES1T1GGDSZ4KHhma3IYoluYRmGKnaMzBbY6ufBbq+Au8S82z8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MHQ+wqha; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MHQ+wqha"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729093664;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=VIzfBQnPXM1p+cHUAfPvEKZFWEw7tRlCE5XfNpemY2E=;
-	b=MHQ+wqharG9EKXvpNnBfdKH5Fn4ou5M1g+3t8bG/t77TsKlAGzYfsrBdWrFwLFQI8o+iA4
-	solD9CSiFyzNaq8htBIwIGTLIsfOIt2R9n3uOveWB87JAl3vMcGm/tBZVQLOTC3LQ0wP8S
-	tffFQJBCccqF15I+GEnLcUoZ2CS+VUY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-260-dIRE6jDgNpeumOqZLNQLYQ-1; Wed, 16 Oct 2024 11:47:43 -0400
-X-MC-Unique: dIRE6jDgNpeumOqZLNQLYQ-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-43058dce286so39370615e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 16 Oct 2024 08:47:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729093662; x=1729698462;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=VIzfBQnPXM1p+cHUAfPvEKZFWEw7tRlCE5XfNpemY2E=;
-        b=cqyRMB3ArbHtRZcFDWlbexQZUMII5fdnVRbrHUPm0DDreAgj5khdcOPJwx0nh1d9UZ
-         7//ovGglbNPH6aLRd4H0dL8+qqNRXKLR9wc8BLczgFnE2Np8qGlrLg4CiFyRN9nnANvl
-         oYUdU7/ss/y7Kzmp7tBKTQzX7LCwGIR70ZhbI8UPYu+zolXObw9Cn+1OzCEdpgkLR+UF
-         Wfk8dH1dXbksmWrx68fVt8z8Kn74nNeXVeGv2Ps7hxBPAbAltvd2eOKWnzDqb3z1vT1q
-         v11nLnYl/IHO94P+qKx4xiSabyrFpF5xlAR9rq0FMlyW7U6dhpni+lX8tUZCBlppA0jG
-         NXjA==
-X-Forwarded-Encrypted: i=1; AJvYcCVtwLIhwBMQcGIpI0M9QlXzwWr+Z9GIKupYhMVUCaSRR/9Y2DIAOiOopMMH1rv0aIUYmR8vt/1WDj4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxotiJU3nGAki1K68StN61PZfA3JU7Fa7kfolFvckBLUtwpb7lZ
-	s9t0Ipw0dn8pXKId+tC47Z1bJpbXgZWZdPDlKE8/36fqtTIuTDY8qSB6ThmVwRIKd6ne5sgkEjl
-	9CYyum/O7lDCyVZ/FQdkpeoS4pfWTrO5rjpzzc6P2yCLqibLIqP1wZCrBQg==
-X-Received: by 2002:a05:600c:4711:b0:430:54a4:5b02 with SMTP id 5b1f17b1804b1-43125619e8fmr121331045e9.34.1729093662292;
-        Wed, 16 Oct 2024 08:47:42 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH/bW0hLobbLXjaDGKyq9Ar43ysgaBvBnKudmwOIGvXULooHv87b61qCzy2T1b+NaF7gXinDw==
-X-Received: by 2002:a05:600c:4711:b0:430:54a4:5b02 with SMTP id 5b1f17b1804b1-43125619e8fmr121330835e9.34.1729093661825;
-        Wed, 16 Oct 2024 08:47:41 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c74b:d000:3a9:de5c:9ae6:ccb3? (p200300cbc74bd00003a9de5c9ae6ccb3.dip0.t-ipconnect.de. [2003:cb:c74b:d000:3a9:de5c:9ae6:ccb3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4315069032asm25144845e9.0.2024.10.16.08.47.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Oct 2024 08:47:41 -0700 (PDT)
-Message-ID: <76f4ed45-5a40-4ac4-af24-a40effe7725c@redhat.com>
-Date: Wed, 16 Oct 2024 17:47:39 +0200
+	s=arc-20240116; t=1729093713; c=relaxed/simple;
+	bh=SOQ2c8KSJM+2PRLcOjVRDsewAuvHhY5x/hPLOZ0bp58=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DLIgiZBFCeEhSAhhUdIc+fYt7ZejewmU3fLuoeBD81SZGyTtTx+yRq2dRb9ehT6E9RdXM+COanPko5uGCyrKwgcYZXIVNSsCaRiNHgsjQBq/bp3yN0pkZm4j2DNK5xVB6btmASUBUvVinaaA4LVKQLlk6srOLgd9KjksX/0A9X8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4XTFjL5h0sz6D8cB;
+	Wed, 16 Oct 2024 23:47:50 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 72483140A71;
+	Wed, 16 Oct 2024 23:48:28 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 16 Oct
+ 2024 17:48:27 +0200
+Date: Wed, 16 Oct 2024 16:48:26 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Ira Weiny <ira.weiny@intel.com>
+CC: Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, "Navneet
+ Singh" <navneet.singh@intel.com>, Jonathan Corbet <corbet@lwn.net>, "Andrew
+ Morton" <akpm@linux-foundation.org>, Dan Williams <dan.j.williams@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>, "Alison Schofield"
+	<alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
+	<linux-btrfs@vger.kernel.org>, <linux-cxl@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <nvdimm@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 05/28] dax: Document dax dev range tuple
+Message-ID: <20241016164826.000068e9@Huawei.com>
+In-Reply-To: <67098d5a946b8_9710f29462@iweiny-mobl.notmuch>
+References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
+	<20241007-dcd-type2-upstream-v4-5-c261ee6eeded@intel.com>
+	<20241009134201.000011b4@Huawei.com>
+	<67098d5a946b8_9710f29462@iweiny-mobl.notmuch>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/7] s390/kdump: implement is_kdump_kernel()
-To: Alexander Egorenkov <egorenar@linux.ibm.com>
-Cc: agordeev@linux.ibm.com, akpm@linux-foundation.org,
- borntraeger@linux.ibm.com, cohuck@redhat.com, corbet@lwn.net,
- eperezma@redhat.com, frankja@linux.ibm.com, gor@linux.ibm.com,
- hca@linux.ibm.com, imbrenda@linux.ibm.com, jasowang@redhat.com,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-s390@vger.kernel.org, mcasquer@redhat.com, mst@redhat.com,
- svens@linux.ibm.com, thuth@redhat.com, virtualization@lists.linux.dev,
- xuanzhuo@linux.alibaba.com, zaslonko@linux.ibm.com
-References: <87ed4g5fwk.fsf@li-0ccc18cc-2c67-11b2-a85c-a193851e4c5d.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <87ed4g5fwk.fsf@li-0ccc18cc-2c67-11b2-a85c-a193851e4c5d.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
->>
->> When I wrote that code I was rather convinced that the variant in this patch
->> is the right thing to do.
+On Fri, 11 Oct 2024 15:40:58 -0500
+Ira Weiny <ira.weiny@intel.com> wrote:
+
+> Jonathan Cameron wrote:
+> > On Mon, 07 Oct 2024 18:16:11 -0500
+> > Ira Weiny <ira.weiny@intel.com> wrote:
+> >   
+> > > The device DAX structure is being enhanced to track additional DCD
+> > > information.
+> > > 
+> > > The current range tuple was not fully documented.  Document it prior to
+> > > adding information for DC.
+> > > 
+> > > Suggested-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> > >   
+> > Isn't this a nested struct?
+> > https://docs.kernel.org/doc-guide/kernel-doc.html#nested-structs-unions
+> > 
+> > I'm not quite sure how we document when it's a nested pointer to a
+> > a structure.  Is it the same as for a 'normal' nested struct?  
 > 
-> A short explanation about what a stand-alone kdump is.
+> In this case I think it best to document the struct and just document the
+> reference.  See below.
 > 
-> * First, it's not really a _regular_ kdump activated with kexec-tools and
->    executed by Linux itself but a regular stand-alone dump (SCSI) from the
->    FW's perspective (one has to use HMC or dumpconf to execute it and not
->    with kexec-tools like for the _regular_ kdump).
-
-Ah, that makes sense.
-
-> * One has to reserve crashkernel memory region in the old crashed kernel
->    even if it remains unused until the dump starts.
-> * zipl uses regular kdump kernel and initramfs to create stand-alone
->    dumper images and to write them to a dump disk which is used for
->    IPLIng the stand-alone dumper.
-> * The zipl bootloader takes care of transferring the old kernel memory
->    saved in HSA by the FW to the crashkernel memory region reserved by the old
->    crashed kernel before it enters the dumper. The HSA memory is released
->    by the zipl bootloader _before_ the dumper image is entered,
->    therefore, we cannot use HSA to read old kernel memory, and instead
->    use memory from crashkernel region, just like the regular kdump.
-> * is_ipl_type_dump() will be true for a stand-alone kdump because we IPL
->    the dumper like a regular stand-alone dump (e.g. zfcpdump).
-> * Summarized, zipl bootloader prepares an environment which is expected by
->    the regular kdump for a stand-alone kdump dumper before it is entered.
-
-Thanks for the details!
-
+> >     
+> > > ---
+> > > Changes:
+> > > [iweiny: move to start of series]
+> > > ---
+> > >  drivers/dax/dax-private.h | 5 ++++-
+> > >  1 file changed, 4 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/dax/dax-private.h b/drivers/dax/dax-private.h
+> > > index 446617b73aea..ccde98c3d4e2 100644
+> > > --- a/drivers/dax/dax-private.h
+> > > +++ b/drivers/dax/dax-private.h
+> > > @@ -58,7 +58,10 @@ struct dax_mapping {
+> > >   * @dev - device core
+> > >   * @pgmap - pgmap for memmap setup / lifetime (driver owned)
+> > >   * @nr_range: size of @ranges
+> > > - * @ranges: resource-span + pgoff tuples for the instance
+> > > + * @ranges: range tuples of memory used
+> > > + * @pgoff: page offset  
+> >       @ranges.pgoff?
+> > etc  
 > 
-> In my opinion, the correct version of is_kdump_kernel() would be
+> Ok yea.
 > 
-> bool is_kdump_kernel(void)
-> {
->          return oldmem_data.start;
-> }
+> As for the pointer to a structure.  I think the best thing to do is simply
+> document that structure.
 > 
-> because Linux kernel doesn't differentiate between both the regular
-> and the stand-alone kdump where it matters while performing dumper
-> operations (e.g. reading saved old kernel memory from crashkernel memory region).
+> Something like this building on this patch:
 > 
-
-Right, but if we consider "/proc/vmcore is available", a better version 
-would IMHO be:
-
-bool is_kdump_kernel(void)
-{
-           return dump_available();
-}
-
-Because that is mostly (not completely) how is_kdump_kernel() would have 
-worked right now *after* we had the elfcorehdr_alloc() during the 
-fs_init call.
-
-
-> Furthermore, if i'm not mistaken then the purpose of is_kdump_kernel()
-> is to tell us whether Linux kernel runs in a kdump like environment and not
-> whether the current mode is identical to the proper and true kdump,
-> right ? And if stand-alone kdump swims like a duck, quacks like one, then it
-> is one, regardless how it was started, by kexecing or IPLing
-> from a disk.
-
-Same thinking here.
-
 > 
-> The stand-alone kdump has a very special use case which most users will
-> never encounter. And usually, one just takes zfcpdump instead which is
-> more robust and much smaller considering how big kdump initrd can get.
-> stand-alone kdump dumper images cannot exceed HSA memory limit on a Z machine.
+> diff --git a/drivers/dax/dax-private.h b/drivers/dax/dax-private.h
+> index ccde98c3d4e2..b9816c933575 100644
+> --- a/drivers/dax/dax-private.h
+> +++ b/drivers/dax/dax-private.h
+> @@ -40,6 +40,12 @@ struct dax_region {
+>         struct device *youngest;
+>  };
+>  
+> +/**
+> + * struct dax_mapping - device to display mapping range attributes
+> + * @dev: device representing this range
+> + * @range_id: index within dev_dax ranges array
+> + * @id: ida of this mapping
+> + */
+>  struct dax_mapping {
+>         struct device dev;
+>         int range_id;
+> @@ -59,9 +65,9 @@ struct dax_mapping {
+>   * @pgmap - pgmap for memmap setup / lifetime (driver owned)
+>   * @nr_range: size of @ranges
+>   * @ranges: range tuples of memory used
+> - * @pgoff: page offset
+> - * @range: resource-span
+> - * @mapping: device to assist in interrogating the range layout
+> + * @ranges.pgoff: page offset
+> + * @ranges.range: resource-span
+> + * @ranges.mapping: reference to the dax_mapping for this range
 
-Makes sense, so it boils down to either
+Maybe just pull out definition of struct dev_dax_range?
+Avoids this confusion and no particularly obvious reason why it
+is embedded in the definition of dev_dax.
 
-bool is_kdump_kernel(void)
-{
-          return oldmem_data.start;
-}
-
-Which means is_kdump_kernel() can be "false" even though /proc/vmcore is 
-available or
-
-bool is_kdump_kernel(void)
-{
-          return dump_available();
-}
-
-Which means is_kdump_kernel() can never be "false" if /proc/vmcore is 
-available. There is the chance of is_kdump_kernel() being "true" if 
-"elfcorehdr_alloc()" fails with -ENODEV.
-
-
-You're call :) Thanks!
-
--- 
-Cheers,
-
-David / dhildenb
+>   */
+>  struct dev_dax {
+>         struct dax_region *region;
+> 
 
