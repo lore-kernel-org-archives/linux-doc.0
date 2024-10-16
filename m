@@ -1,95 +1,108 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B786860B8A;
-	Wed, 16 Oct 2024 06:33:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14CB81B218C;
+	Wed, 16 Oct 2024 07:21:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729060431; cv=none; b=jYLulQTzJou427hDWjk02SSyZm1bkVCzDrZaml+7eILUSDMsbD5CNbT4x4z8ET/zY6kvojnpqAVt37EkZC5nQfBKImJEQEei8MfNey3CBRB9YMt/tgdUoEghW8CqKp0mNx1yenmXBypa5gIuwS3Ij7ckt+rxBZA6xmuOnyuBjHY=
+	t=1729063269; cv=none; b=N+dmVqVa6Z3p7qLdLh+86prKInJAUsMXFMaLnK1n5hFgrjEql+ys0Bvvb8F/W1f/pGx4zgGu15KTdhX0iGiW/SJnxtY8eA6/6mSHJQywYhkFCaw+b/HJWuln6fvvt8UXkUpPXG2dB+jkFDrtEHv40x7SNG44+Q3L+K4RugwO0lE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729060431; c=relaxed/simple;
-	bh=hJGCmCAm0+NrnhXdFEaREIKUcpTvYTP9lgQfeLpFNF4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LNVnFy+Y6CBOzmly4MonJ0N0bNG2qP8rfgsfeyXgF3I/91Aa6CDTlbMk95w5BhvgKTTDs/DJqGWdd1/KKWwzrUJXEewcYpk8jLQ5m82+7s/zvGXa+ugp3eqd8UwC+TuFRYbiqzQbz/gDQdOK5127hLEYelPq18lLyS8hM0Xd3Pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=QNu60d5B; arc=none smtp.client-ip=117.135.210.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1729063269; c=relaxed/simple;
+	bh=tNLN0Hsi06h0KXDRSOvGs8YDS4+LPkihDOXR2+rrwcg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W2IU2ve7yIeS3lc5dCM3urQCsI9l7AhSCQDDbAmmf2rrbnuW+ZKC8leLa4HXKpIJBV5PH4Luji9vKNZRLuZLYWxYdeg6t5B8d4ubigHsIG6kEj/BK7CjCnMw1h+zE3Pa7ILnvxHAde5gO83CrDUX73GI6Ix7tfFTpe8a2w+AsZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gBMq7vNl; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="QNu60d5B"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=xEnXy
-	AUa3ZKHeWOZg2rReBIpcGcdsVLQBUE0WU79xmo=; b=QNu60d5BSKdZnbdYdIozO
-	ONW6xt8H4wOAsgOu0X3pxouY5VztDko1KFpr/hLQsoqZZ2LnsLF/VfPVNcP7ujIY
-	lRCcKvlau6RbB8eISziOZsmUGel59DzreFIzyRWaXUPvWv+3U4YUEthkbBfqY++N
-	/JGUPLzoB/IO3OFf6zRP8k=
-Received: from localhost.localdomain (unknown [193.203.214.57])
-	by gzga-smtp-mtada-g1-0 (Coremail) with SMTP id _____wDnj60tXg9n+bvABQ--.63225S4;
-	Wed, 16 Oct 2024 14:33:19 +0800 (CST)
-From: yaxin_wang <yaxin_wang_uestc@163.com>
-To: alexs@kernel.org,
-	siyanteng@loongson.cn,
-	corbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mudongliangabcd@gmail.com,
-	seakeel@gmail.com
-Cc: wang.yaxin@zte.com.cn,
-	fan.yu9@zte.com.cn,
-	xu.xin16@zte.com.cn,
-	he.peilin@zte.com.cn,
-	tu.qiang35@zte.com.cn,
-	qiu.yutan@zte.com.cn,
-	zhang.yunkai@zte.com.cn
-Subject: Re: [PATCH v5] Docs/zh_CN: Translate physical_memory.rst to Simplified Chinese
-Date: Wed, 16 Oct 2024 06:33:16 +0000
-Message-Id: <20241016063316.2792999-1-yaxin_wang_uestc@163.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gBMq7vNl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729063267; x=1760599267;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tNLN0Hsi06h0KXDRSOvGs8YDS4+LPkihDOXR2+rrwcg=;
+  b=gBMq7vNl6qaQxlECDPTslBZ05W5h1xG1jUhen9pxoBKUlAVd/VDj8DK0
+   CmUXyKnNUz8CfMgYfoPRgDXjaHCv//WstiBjQGKVrvrueO7pFjK12zAnz
+   ak2q6L+ETwitAR0g46tVwsdYxuOTGyHekNZHQD3GXjm/+Gwm8OkBIXf5I
+   yMzEo9WY/1tu7A3OekxMCzO/qjS/NP93rresQe/cfIXYMS8vlnJk9fjYa
+   iBPwgWBJ5arlQk3Ce8PxTi1ODoXZeRZcfnS5FFphYsk4hsg4sRTRlJPJp
+   /Wx7BUShz2w2NRqFhhjeabW3XS0F3HyXCTn3VeMdQyIFmbGB81ojZ7vOe
+   w==;
+X-CSE-ConnectionGUID: oXGVVx0cTMijhEA+m8qB3A==
+X-CSE-MsgGUID: 4inUWa8DS+60AF1HPQ/Iog==
+X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="32414800"
+X-IronPort-AV: E=Sophos;i="6.11,207,1725346800"; 
+   d="scan'208";a="32414800"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 00:21:06 -0700
+X-CSE-ConnectionGUID: 7CFWPXKZTKKz3VQrwvcvWw==
+X-CSE-MsgGUID: nMIp9oLsROGRICCG5IcKfw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,207,1725346800"; 
+   d="scan'208";a="83213005"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 16 Oct 2024 00:21:04 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t0yL7-000KUh-1L;
+	Wed, 16 Oct 2024 07:21:01 +0000
+Date: Wed, 16 Oct 2024 15:20:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: anish kumar <yesanishhere@gmail.com>, andersson@kernel.org,
+	mathieu.poirier@linaro.orgi, corbet@lwn.net
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	anish kumar <yesanishhere@gmail.com>
+Subject: Re: [PATCH] remoteproc: Documentation: upgrade from staging.
+Message-ID: <202410161444.jOKMsoGS-lkp@intel.com>
+References: <20241015025831.65232-1-yesanishhere@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDnj60tXg9n+bvABQ--.63225S4
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Kry8tFyUWw1DKr45KF17ZFb_yoW8Jw4fpF
-	Wru3ZFgF4kJw13GF1jkryUZFy8Kas3Jryakan3Wr1xZrWUGa4q9r9xKrZ09F98uFs5Kr4S
-	yw12kFn7Jr98ZrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRO_-QUUUUU=
-X-CM-SenderInfo: p1d0x0xbzd0wpbxh23rf6rljoofrz/1tbi7g96xGcPTcHz-AABs1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241015025831.65232-1-yesanishhere@gmail.com>
 
->> Alex Shi <seakeel@gmail.com> writes:
->>
->>> Hi Jiang,
->>>
->>> Your patch format is still odd in 'Subject':
->>> Subject: =?UTF-8?B?wqBbUEFUQ0ggdjVdIERvY3MvemhfQ046IFRyYW5zbGF0ZSBwaHlzaWNhbF9tZW1vcnkucnN0IHRvIFNpbXBsaWZpZWTCoENoaW5lc2U=?=
->>> Content-Type: text/plain;
->>>          charset="UTF-8"
->>> X-MAIL:mse-fl2.zte.com.cn 49C9DsLB077233
->>> X-Fangmail-Anti-Spam-Filtered: true
->>> X-Fangmail-MID-QID: 670A3DD9.001/4XQd8n4BCPz5B1DK
->>>
->>> It should a English word.
->>> You need to send patch to yourself and apply it to check if
->>> everything all right.
->> I think the formatting is OK - the patch applies fine here.  I would
->> appreciate a review of the actual content, though...:)
-><https://lore.kernel.org/linux-doc/1add7be9-0da0-4463-a3ea-80e2fd99bd19@gmail.com/>
-> From the very beginning, we have reviewed the content. Moving forward,
->we will continue with the review process, but we would really appreciate
->receiving feedback from the translator, even if it's just a simple "OK".
->
->Alex, I believe we need to draft a Chinese translation guide, in order to
->minimize the review work that is unrelated to the content itself.
->
->Thanks,
->Yanteng
->
->>
->> Thanks,
->>
->> jon
->>
-I think it's ok, and I will send a new patch to fix the problem pointed by Alex.
+Hi anish,
 
-Thanks,
-Yaxin
+kernel test robot noticed the following build warnings:
 
+[auto build test WARNING on remoteproc/rpmsg-next]
+[also build test WARNING on remoteproc/rproc-next lwn/docs-next linus/master v6.12-rc3 next-20241015]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/anish-kumar/remoteproc-Documentation-upgrade-from-staging/20241015-105957
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rpmsg-next
+patch link:    https://lore.kernel.org/r/20241015025831.65232-1-yesanishhere%40gmail.com
+patch subject: [PATCH] remoteproc: Documentation: upgrade from staging.
+reproduce: (https://download.01.org/0day-ci/archive/20241016/202410161444.jOKMsoGS-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410161444.jOKMsoGS-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`rt_link<../../networking/netlink_spec/rt_link>`
+   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
+   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+>> Warning: Documentation/remoteproc/rproc-kernel-api.rst references a file that doesn't exist: Documentation/remotproc/remoteproc-api.rst
+   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/staging/remoteproc.rst
+   Using alabaster theme
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
