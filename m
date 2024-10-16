@@ -1,97 +1,118 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED2A207A35
-	for <linux-doc@vger.kernel.org>; Wed, 16 Oct 2024 13:23:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EBCC20966C
+	for <linux-doc@vger.kernel.org>; Wed, 16 Oct 2024 13:30:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729085031; cv=none; b=PytehVZfNFdIFEvNATZviwKiMC1SWGjr7PVfCW+2W3bwTlECAd9NG7RcP7R0i0GQmOFr0J7lGKj44+mfv034uwZolDqrxgDhUmLi0L/YZDQ026B7S3YMb6vTlz/hv9vpKDOnv6wSFHLFvL4fJLeY8cEwt8teEq3jFSuL8vLWEKY=
+	t=1729085410; cv=none; b=tXp/RgIcDeEUWgzsOIHW2IIE/kgyOWcumFVrshPpV9JAaWv58H4afTuTQbNE9x5coZBK/Iot0pxdWla/FCigogo4OydM8zP2giTaTjx/Dnvwe0zHsNfrH9DzLDu5r3suL3A9MIpncFl8u0BLnvKGwL6amiYmTDhrap75yv7AXDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729085031; c=relaxed/simple;
-	bh=dbDkIDa3GX4Zg3hAEieWmi+3rL+bB6774AhqEXmpu0o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U13RTAKZ0Hvm0tj5+cqtOIpZ1TkHxrjA+qv8mH/2qXVPBx84FSsDNKmWYZwFeYNarC8OcQ8i9rKCvlmLdCZ6EWXRv+MZIscC34N0u8Aoz0ipsfYBa8D8Y+Vz6UnVQ/BZTrgomFIlxVFr0zsReqF8rdXqyk8X5FFP5im6v8+2nRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=sg76Cfyi; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1729085410; c=relaxed/simple;
+	bh=9e8h8YTSxbZlnoEsQInmYl/8+L7FVJO2gjIYT1N6uBc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H47YlIWQ6xM/HQBwuJkLPpG7TDfyTYEsn83xYErQDwuWJRy0ZSxojUzidsOyy+f/lHamD+S51kYG8mp8DuSkCLAcf2FZsl6emyy15kVmUIRXyYKc9eIsOKhfoOQ99+fDj/ONAR3W3Nkkt37d4b0moLbXYcBsAB7+5jsxeda/EBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WuNviwfz; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="sg76Cfyi"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-46090640f0cso6278511cf.0
-        for <linux-doc@vger.kernel.org>; Wed, 16 Oct 2024 06:23:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WuNviwfz"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a9a0474e70eso559649666b.0
+        for <linux-doc@vger.kernel.org>; Wed, 16 Oct 2024 06:30:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729085027; x=1729689827; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dbDkIDa3GX4Zg3hAEieWmi+3rL+bB6774AhqEXmpu0o=;
-        b=sg76CfyiwdlKvO9rKLtwgAOjtlTBwRBk1P5J5s0KAsACjD13PUooCdFHdJVW0hXglu
-         LpnaSzpj2pF9NkfaLWvnbrCZr48YIBCkUxu8Cj1o6OyvJWHPA6PW+aX54pFPrdT0fEWh
-         4P1/dBy/4YAw7lNwO/jxV+GcqkiAKg9bq9WaDgLqrB5JmzB8CS/l+u+1tSPOBW5f7P/D
-         80SRrEsDtNf+PNv1POoNfFP/pTrjc7SY4GGSPxU7KmP9Y2rhrvZc1syk3d/ADoFaRn1n
-         rQ2KGz9d83Vc/0P/iPYNISPoGznawLKVxoRbDsEd89rAXxvowEh4nDp0LReeNtDRQIXP
-         Dixw==
+        d=linaro.org; s=google; t=1729085407; x=1729690207; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Ao59t5O1QyBE9ZTbCp+/84/h0y2L5JOpOVIMa+Mgf5E=;
+        b=WuNviwfz1gRPtagpdF0MhB/v/WjcSnStOrOGO7f9qanF0aymUHkeV6r0u30BidSe3q
+         Kd1zvvkX7MzL4gFSeBMlNyPf8ginzRmKsc2UxdOttkKdZ8QahexVMaoWy3BybaBYkJUj
+         1eey4j/Dtk0+BfXCb5qYD/F/96c2OQFJ9NnBNdV8he8q3yWyd6mstcJUW5uZkUEYYKhd
+         l1NZyZDAzW7LmIc32it0sfs4yiwcjfJM9yzMPh4nDksmsVk48UC/BOvyRJpXECnoik9n
+         LCodNQGAMP8KhZ0+IoGtcdbsmgvZQL8h/WEV+qpIuWeIzz0xZaAPpG7pUm1AEZpSG2ys
+         VqyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729085027; x=1729689827;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1729085407; x=1729690207;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dbDkIDa3GX4Zg3hAEieWmi+3rL+bB6774AhqEXmpu0o=;
-        b=opOk0w2r06o6ehFKouuIVAvWOgFC3LfpZH3ufXegCyZreMotHiSWKXhHGJTucCcxFI
-         /p6X9xAc7GEn3tAiRJ4WlzHzLv34tqreoPEf/hRiGViiplF2C4V410NNkuLeaX8yQioM
-         Un+27D4qOYm+UNEg8ybN+TAIX1WkhtM9EDfPtxh/lKKmgHfp3mcjuUJWnCwQ0nlmU96n
-         pjjC9yFpLvFhmNN8Qp+nfE4bEhiO7+p0z+Y4CuKgg7oto5ciIQ9sabab4nEjeWfdtK7V
-         x6YUwnfuLx7IWIMFwQ97vB2j36PkDKfPIA2UNSdb5g2V8NzzKj3AzEYhyjE8yxitQri0
-         ig2g==
-X-Forwarded-Encrypted: i=1; AJvYcCX2ylCHZiTC8xg1d/sq6KlefuA5J6vwh3qbkbk3sBt2RuvOxU29O/luG8yuI1umJEvl/0Hgxjr2gwU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9J/DC5I1ZbWlDvdUV715za66G9gZnXaCRCsuoIvVGkvIsHawo
-	OUNciA/OkR7/KG40qnu9u8XyIKUuD4UzJqBnvXVhOBKdKAnEbK01BXef5ydpHyA=
-X-Google-Smtp-Source: AGHT+IEZJCs7JeC3qYycuknITXAGTgPkMxv/8NcrZC6M9sKoTxw2qcOZrgR0vjx/et/Nl5XilfsUGw==
-X-Received: by 2002:a05:622a:5912:b0:460:874f:f8bf with SMTP id d75a77b69052e-460874ffa63mr73466761cf.34.1729085026837;
-        Wed, 16 Oct 2024 06:23:46 -0700 (PDT)
-Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4607b232976sm17776181cf.58.2024.10.16.06.23.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Oct 2024 06:23:46 -0700 (PDT)
-Message-ID: <ccd95fb3-1756-4d52-bb7b-881502f7ac81@baylibre.com>
-Date: Wed, 16 Oct 2024 09:23:44 -0400
+        bh=Ao59t5O1QyBE9ZTbCp+/84/h0y2L5JOpOVIMa+Mgf5E=;
+        b=qOo/nIQUtmYUvoW5GE7MPtcKnQhbGjnOPv5NDaq30Sc0YuWInB2SU7XXYS/pCylQJA
+         VfT57zRqPbptnrjuoeBMS/EIrEJCK2DWD9+4zEnt+FbV4lj5spFvD6CqPW6Q0hEwQYTB
+         3Ee2PJX6IhaTdDHPPCHRPNlOxwd7KPWZaxOZ9xU0dyw/XZdhiu8TfeG3D51ghGPkkU45
+         X9CD682S2khFAQylzG+YSpEbdlBvemXMsI5fqNJy0WzCpbaNQLL1d6meWMUfoomoH3ZM
+         01Gdo9TySA6oPSKKbCr7lXT5bc/xowRzMBLbzISBjzv6fT2q6EIqfMu1vnHlV0uWDUQy
+         zbsw==
+X-Forwarded-Encrypted: i=1; AJvYcCX6/5k0NIcwkNG45aNvCMsoNLDX9UdpN7T0i680Z8TyJKeh0f8UR9ZYsMHadzrrgSoqkxuvcbzVyjw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJVS2hfPQJ+JOrtLZ76HpTaDSFQowVxm4QP/AgSIDQRGY+tWqK
+	/r4EECxVJXiM5VX+/rwUpYdDR2p46FwF5+dNxAr+UrZ1crPfq2m0nZPIlhSBv/M=
+X-Google-Smtp-Source: AGHT+IGt35vgRrWbivk3146TES2YNJa8U2VU4Ujk8u7PillY1LptcboEXTfbwCeWiP4uTFVrASD/NA==
+X-Received: by 2002:a17:907:9727:b0:a99:59c6:3265 with SMTP id a640c23a62f3a-a99e3b20c0bmr1419373166b.9.1729085406838;
+        Wed, 16 Oct 2024 06:30:06 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a298176a6sm187043066b.135.2024.10.16.06.30.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Oct 2024 06:30:06 -0700 (PDT)
+Date: Wed, 16 Oct 2024 16:30:02 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Marco Elver <elver@google.com>
+Cc: Dongliang Mu <mudongliangabcd@gmail.com>,
+	Haoyang Liu <tttturtleruss@hust.edu.cn>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	hust-os-kernel-patches@googlegroups.com, kasan-dev@googlegroups.com,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/dev-tools: fix a typo
+Message-ID: <c19c79ea-a535-48da-8f13-ae0ff135bbbe@stanley.mountain>
+References: <20241015140159.8082-1-tttturtleruss@hust.edu.cn>
+ <CAD-N9QWdqPaZSh=Xi_CWcKyNmxCS0WOteAtRvwHLZf16fab3eQ@mail.gmail.com>
+ <CANpmjNOg=+Y-E0ozJbOoxOzOcayYnZkC0JGtuz4AOQQNmjSUuQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/3] docs: iio: new docs for ad7625 driver
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- David Lechner <dlechner@baylibre.com>,
- Uwe Kleine-Konig <u.kleine-koenig@baylibre.com>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20240909-ad7625_r1-v5-0-60a397768b25@baylibre.com>
- <20240909-ad7625_r1-v5-3-60a397768b25@baylibre.com>
- <20241015190034.3a6f6761@jic23-huawei>
-Content-Language: en-US
-From: Trevor Gamblin <tgamblin@baylibre.com>
-In-Reply-To: <20241015190034.3a6f6761@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANpmjNOg=+Y-E0ozJbOoxOzOcayYnZkC0JGtuz4AOQQNmjSUuQ@mail.gmail.com>
 
+On Tue, Oct 15, 2024 at 04:32:27PM +0200, 'Marco Elver' via HUST OS Kernel Contribution wrote:
+> On Tue, 15 Oct 2024 at 16:11, Dongliang Mu <mudongliangabcd@gmail.com> wrote:
+> >
+> > On Tue, Oct 15, 2024 at 10:09 PM Haoyang Liu <tttturtleruss@hust.edu.cn> wrote:
+> > >
+> > > fix a typo in dev-tools/kmsan.rst
+> > >
+> > > Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
+> > > ---
+> > >  Documentation/dev-tools/kmsan.rst | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/Documentation/dev-tools/kmsan.rst b/Documentation/dev-tools/kmsan.rst
+> > > index 6a48d96c5c85..0dc668b183f6 100644
+> > > --- a/Documentation/dev-tools/kmsan.rst
+> > > +++ b/Documentation/dev-tools/kmsan.rst
+> > > @@ -133,7 +133,7 @@ KMSAN shadow memory
+> > >  -------------------
+> > >
+> > >  KMSAN associates a metadata byte (also called shadow byte) with every byte of
+> > > -kernel memory. A bit in the shadow byte is set iff the corresponding bit of the
+> > > +kernel memory. A bit in the shadow byte is set if the corresponding bit of the
+> >
+> > This is not a typo. iff is if and only if
+> 
+> +1
+> 
+> https://en.wikipedia.org/wiki/If_and_only_if
+> 
 
-On 2024-10-15 14:00, Jonathan Cameron wrote:
-> On Mon, 09 Sep 2024 10:30:49 -0400
-> Trevor Gamblin <tgamblin@baylibre.com> wrote:
->
->> Add documentation for the AD7625/AD7626/AD7960/AD7961 ADCs.
->>
->> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-> Bot picked up that this wasn't added to index.rst. I fixed up.
-Thank you!
->
-> Thanks,
->
-> Jonathan
+Does "iff" really add anything over regular "if"?  I would have thought the
+"only if" could be assumed in this case.  Or if it's really necessary then we
+could spell it out.
+
+regards,
+dan carpenter
+
