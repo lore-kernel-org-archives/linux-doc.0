@@ -1,165 +1,180 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C68E013B298;
-	Wed, 16 Oct 2024 21:28:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9980A1D2F46;
+	Wed, 16 Oct 2024 21:31:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729114100; cv=none; b=RXeZB5UJygMg6+Lxwhj2EYo6N+GbSIFAl9yEavePbYi0jAD5ZRMQwScA10nNNBsm1jqeBDOPiFeDPad/RB9B006MutpZjtTBVUCtk5/l6amiW7qKpTv8NgO4sQnnTQcNwA74JuhgOXywe0m/zu44xFdUaDaOlppUscf3ZKo5AWU=
+	t=1729114310; cv=none; b=sJipab2vHMq4n1QLpKvfnDNJzp82Li2vyJGjrZ5fsXhORdQEiaTpGKTXaB5H+5tPkovk8NsyRMABje4BIYIqpLD05GFZkrBFX9w4qeAwTv1yid24VKGAFd66wBpJDKLfm6KCdvcCVkE30zXu8uQFX/7q8UrO4E/lp5BIihA0HcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729114100; c=relaxed/simple;
-	bh=5PhXO9+lGo8DXD+77zpwvx1TmCrT2UDumS9RD2YFaFY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uUKVKWdhQUXqs/jAbIsYZD7RiIRCeQxfe3qNiViaIWQZOyV0RoNYKPwvVPaeTwLOz7EcsuQLX+8Fz57ljtoUFNOlwe2DttDsNJ88TcFotB31WWHKtgTUWvfCEvg8QMKz3mN+QCf/efa9m7mKxFH5+HFGREoXWGeI7606BElGmSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W1f9QGmc; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729114310; c=relaxed/simple;
+	bh=LKS5wFCryk8nvA/PuXtU12vWsDsxmgbPYgdw+kVDHOo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=gs/FRLHO42VJ+g757jtLIlhJGUxd6SYp9M8xYBPANkwE8x74m8UaC/tHQXeHRfgqDF4b4HEdR8FoBaGsXSpnnF/eXxcJXmgmbliIgigh+DPXEfZPOl860fI8ULkChjr9yt6fMwJwDFqpInKe6PoIp9jRnQs/yd4NC3svKvFatx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=drs8pGkB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W1f9QGmc"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-37d5689eea8so161236f8f.1;
-        Wed, 16 Oct 2024 14:28:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729114097; x=1729718897; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=J5CWN7tpBnupHcpZl+OhrCbgO2xISPYJhOm4vkK3JRU=;
-        b=W1f9QGmcz/4zAzdTiOKJcbWf5JF57PUMN/feACGG6if6a5GtlDDAY0wbJFKBYawNCR
-         y0EFsNOg9Gkw0JyVhbE+SYjj1Zj5lHYWmV4WpYWsRbyAcWwJCyvznDvmo7Mf+3tKvfGX
-         g08mQHVqMMcBRqij6yNBu3NtIDqpaY2vsMCNU0Bt1WnkXcXb5JC4bpZDLNSE+zLd8KaF
-         rbESxNNOYvFyxYf10HIYdHforWJr315f090xk8WmWfiEfKsKMGZiPYTNLe7f3bckF0FD
-         HvYRTowJmkxnmNqLgK5e1iH1S3IEpF8v6mZeJEH5PXWxb/qjxa+c7/fp24fLauPlGdUN
-         9orA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729114097; x=1729718897;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=J5CWN7tpBnupHcpZl+OhrCbgO2xISPYJhOm4vkK3JRU=;
-        b=pOdqvJIxoKhENpC2YeFlbZkp9KvnG3F7JTEY09syet9LsNgnjZbcBY8KeT3muAZ8UF
-         LOb4004Pcu84qGw1lTFJm2T8kGU2tcuaBa3qV4azWsjmO/QSHEazE5CFeGFs5ASdEhQe
-         TZQeaB/R5lFXENkrtXAzlCeRDlKIpezsCVGVI67fAGDWPhG3jYTJOuZltArlKCmZ7GT7
-         XSmTkZMt5GWgrPswkdiXtpG4VqwBEikXkgZN6nChvGZO0/wHh0kLfvUPuqgqXfSBdiCl
-         sBduH2YOdHllzSfjRtkU3b5d1ZhxfOKiQU2EoEXYAVv2lFNz/fcLWQZ70/9Q75hW0sZx
-         sCdw==
-X-Forwarded-Encrypted: i=1; AJvYcCVOtKSonIpJYsvYuR0FM18oeHXX2u8Mj1ymnE/jdPB9J6UrCWo1rrLgd71ntPUzk03Ft91J1RHbyLIqrvHL@vger.kernel.org, AJvYcCWI7dZpFDcNtQpVCbL3QskpP9sjU6eBeQ/eQvk+zSrPwf4t5wWMOydx2JuyiFxEVyDAlH7wXPYJQGsLoKQ+@vger.kernel.org, AJvYcCWJgaI1har6VMDKXtgkX4SBzDvztZOViVqRkVlS5gvUOSffNMiA+4LDjQO0qYUYLMroK9a/jjOrBUvM@vger.kernel.org
-X-Gm-Message-State: AOJu0YxU7SO5J3tjcv9irsBsZ8hGJbTLwq9L+FL3uqWMDIuva8fkTsc7
-	3BYgTD+G7TF6dD19p7WE6fmdQ8WmJPxOsV5ZX+Eq/tkmyQny9C2o
-X-Google-Smtp-Source: AGHT+IG4mBL0U4ZnMOKXMqwNyakKje1boFmWs0OmDTl3djpfOcLYydP6lSw31xXpkwvjWI3DP54Brw==
-X-Received: by 2002:adf:ce83:0:b0:37d:4cf9:e085 with SMTP id ffacd0b85a97d-37d86bdc2c4mr3677507f8f.25.1729114096729;
-        Wed, 16 Oct 2024 14:28:16 -0700 (PDT)
-Received: from [192.168.1.17] (host-80-104-113-188.retail.telecomitalia.it. [80.104.113.188])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c98d4d680csm2061359a12.6.2024.10.16.14.28.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Oct 2024 14:28:16 -0700 (PDT)
-Message-ID: <281503da-6ac3-496f-8051-d4e03979c1ef@gmail.com>
-Date: Wed, 16 Oct 2024 23:28:14 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="drs8pGkB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD741C4CEC5;
+	Wed, 16 Oct 2024 21:31:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729114310;
+	bh=LKS5wFCryk8nvA/PuXtU12vWsDsxmgbPYgdw+kVDHOo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=drs8pGkBOqU0OhXFcKi1/4M7BGdYkGqrtoEpbkKDbVDq+NklcyXrCc2kw69YVAvmi
+	 2jG+RyvXU8MRDJBQbpRaRg+U4iZ/pS0O6NqhdXVxRenkru85EOV+yh/rz+ZoCZt6EQ
+	 BpLuE1GpWLWlS2rFKu3/REejYqdQTsWxrM/mSqOwxSXslDVnh8p4ixCGENbDrnWskS
+	 6fUYy6Bixw6i9+gFXi7+yU+ExFyPY3XUzRiF1IpyejhRR0XT8KRVMfQnKwGrnQpCpf
+	 ecX0weQvoPsHjHTHmj1VCOyPonKMnEp17bjoTfJyZk3R9yv9jW2BtQWbYYL40EiovG
+	 J6YWdKz6noHRQ==
+Date: Wed, 16 Oct 2024 16:31:48 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Wei Huang <wei.huang2@amd.com>
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+	Jonathan.Cameron@huawei.com, corbet@lwn.net, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	alex.williamson@redhat.com, gospo@broadcom.com,
+	michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
+	somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
+	manoj.panicker2@amd.com, Eric.VanTassell@amd.com,
+	vadim.fedorenko@linux.dev, horms@kernel.org, bagasdotme@gmail.com,
+	bhelgaas@google.com, lukas@wunner.de, paul.e.luse@intel.com,
+	jing2.liu@intel.com
+Subject: Re: [PATCH V7 0/5] TPH and cache direct injection support
+Message-ID: <20241016213148.GA650694@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v8,09/12] drm/msm/a6xx: Add traces for preemption
-To: Rob Clark <robdclark@gmail.com>
-Cc: Kees Bakker <kees@ijzerbout.nl>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Neil Armstrong <neil.armstrong@linaro.org>
-References: <20241003-preemption-a750-t-v8-9-5c6cb9f256e0@gmail.com>
- <1b9afb20-d608-464c-ae6b-c535564b7e5a@ijzerbout.nl>
- <eb1a0381-05c3-4ef8-b6de-96824d587a7d@gmail.com>
- <CAF6AEGu0b5EXjvjDn1DTy2zCSDp7yFpGvGoAb3Kc91Y9HK+=pg@mail.gmail.com>
-Content-Language: en-US
-From: Antonino Maniscalco <antomani103@gmail.com>
-In-Reply-To: <CAF6AEGu0b5EXjvjDn1DTy2zCSDp7yFpGvGoAb3Kc91Y9HK+=pg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241002213555.GA279877@bhelgaas>
 
-On 10/16/24 10:33 PM, Rob Clark wrote:
-> On Wed, Oct 16, 2024 at 5:13 AM Antonino Maniscalco
-> <antomani103@gmail.com> wrote:
->>
->> On 10/8/24 11:10 PM, Kees Bakker wrote:
->>> Op 03-10-2024 om 18:12 schreef Antonino Maniscalco:
->>>> Add trace points corresponding to preemption being triggered and being
->>>> completed for latency measurement purposes.
->>>>
->>>> Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->>>> Tested-by: Rob Clark <robdclark@gmail.com>
->>>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
->>>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
->>>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8450-HDK
->>>> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
->>>> ---
->>>>    drivers/gpu/drm/msm/adreno/a6xx_preempt.c |  6 ++++++
->>>>    drivers/gpu/drm/msm/msm_gpu_trace.h       | 28 +++++++++++++++++++++
->>>> +++++++
->>>>    2 files changed, 34 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c b/drivers/gpu/
->>>> drm/msm/adreno/a6xx_preempt.c
->>>> index
->>>> 21e333cb6342d33425eb96f97bcc853e9b041b36..6803d5af60cc8fb0f2a52ee160ffdbf0e8ef0209 100644
->>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
->>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
->>>> @@ -7,6 +7,7 @@
->>>>    #include "a6xx_gpu.h"
->>>>    #include "a6xx_gmu.xml.h"
->>>>    #include "msm_mmu.h"
->>>> +#include "msm_gpu_trace.h"
->>>>    /*
->>>>     * Try to transition the preemption state from old to new. Return
->>>> @@ -174,6 +175,8 @@ void a6xx_preempt_irq(struct msm_gpu *gpu)
->>>>        set_preempt_state(a6xx_gpu, PREEMPT_NONE);
->>>> +    trace_msm_gpu_preemption_irq(a6xx_gpu->cur_ring->id);
->>>> +
->>>>        /*
->>>>         * Retrigger preemption to avoid a deadlock that might occur
->>>> when preemption
->>>>         * is skipped due to it being already in flight when requested.
->>>> @@ -294,6 +297,9 @@ void a6xx_preempt_trigger(struct msm_gpu *gpu)
->>>>         */
->>>>        ring->restore_wptr = false;
->>>> +    trace_msm_gpu_preemption_trigger(a6xx_gpu->cur_ring->id,
->>>> +        ring ? ring->id : -1);
->>>> +
->>> There is no need for the ternary operator. "ring" should be non-NULL,
->>> otherwise the code would have already crashed.
->>> So the change can just be
->>>       trace_msm_gpu_preemption_trigger(a6xx_gpu->cur_ring->id, ring->id);
->>
->> You are right, we had a similar cleanup but I missed this particular
->> one, thanks for pointing me at it! I apologize for the late response but
->> I've been at XDC and therefore unable to look at my email. I will point
->> this out to Rob since this series is in msm-next to see if I need to
->> send a separate patch to clean this.
+On Wed, Oct 02, 2024 at 04:35:55PM -0500, Bjorn Helgaas wrote:
+> On Wed, Oct 02, 2024 at 11:59:49AM -0500, Wei Huang wrote:
+> > Hi All,
+> > 
+> > TPH (TLP Processing Hints) is a PCIe feature that allows endpoint
+> > devices to provide optimization hints for requests that target memory
+> > space. These hints, in a format called steering tag (ST), are provided
+> > in the requester's TLP headers and allow the system hardware, including
+> > the Root Complex, to optimize the utilization of platform resources
+> > for the requests.
+> > 
+> > Upcoming AMD hardware implement a new Cache Injection feature that
+> > leverages TPH. Cache Injection allows PCIe endpoints to inject I/O
+> > Coherent DMA writes directly into an L2 within the CCX (core complex)
+> > closest to the CPU core that will consume it. This technology is aimed
+> > at applications requiring high performance and low latency, such as
+> > networking and storage applications.
+> > 
+> > This series introduces generic TPH support in Linux, allowing STs to be
+> > retrieved and used by PCIe endpoint drivers as needed. As a
+> > demonstration, it includes an example usage in the Broadcom BNXT driver.
+> > When running on Broadcom NICs with the appropriate firmware, it shows
+> > substantial memory bandwidth savings and better network bandwidth using
+> > real-world benchmarks. This solution is vendor-neutral and implemented
+> > based on industry standards (PCIe Spec and PCI FW Spec).
+> > 
+> > V6->V7:
+> >  * Rebase on top of the latest pci/main (6.12-rc1)
+> >  * Fix compilation warning/error on clang-18 with w=1 (test robot)
+> >  * Revise commit messages for Patch #2, #4, and #5 (Bjorn)
+> >  * Add more _DSM method description for reference in Patch #2 (Bjorn)
+> >  * Remove "default n" in Kconfig (Lukas)
+> > 
+> > V5->V6:
+> >  * Rebase on top of pci/main (tag: pci-v6.12-changes)
+> >  * Fix spellings and FIELD_PREP/bnxt.c compilation errors (Simon)
+> >  * Move tph.c to drivers/pci directory (Lukas)
+> >  * Remove CONFIG_ACPI dependency (Lukas)
+> >  * Slightly re-arrange save/restore sequence (Lukas)
+> > 
+> > V4->V5:
+> >  * Rebase on top of net-next/main tree (Broadcom)
+> >  * Remove TPH mode query and TPH enabled checking functions (Bjorn)
+> >  * Remove "nostmode" kernel parameter (Bjorn)
+> >  * Add "notph" kernel parameter support (Bjorn)
+> >  * Add back TPH documentation (Bjorn)
+> >  * Change TPH register namings (Bjorn)
+> >  * Squash TPH enable/disable/save/restore funcs as a single patch (Bjorn)
+> >  * Squash ST get_st/set_st funcs as a single patch (Bjorn)
+> >  * Replace nic_open/close with netdev_rx_queue_restart() (Jakub, Broadcom)
+> > 
+> > V3->V4:
+> >  * Rebase on top of the latest pci/next tree (tag: 6.11-rc1)
+> >  * Add new API functioins to query/enable/disable TPH support
+> >  * Make pcie_tph_set_st() completely independent from pcie_tph_get_cpu_st()
+> >  * Rewrite bnxt.c based on new APIs
+> >  * Remove documentation for now due to constantly changing API
+> >  * Remove pci=notph, but keep pci=nostmode with better flow (Bjorn)
+> >  * Lots of code rewrite in tph.c & pci-tph.h with cleaner interface (Bjorn)
+> >  * Add TPH save/restore support (Paul Luse and Lukas Wunner)
+> > 
+> > V2->V3:
+> >  * Rebase on top of pci/next tree (tag: pci-v6.11-changes)
+> >  * Redefine PCI TPH registers (pci_regs.h) without breaking uapi
+> >  * Fix commit subjects/messages for kernel options (Jonathan and Bjorn)
+> >  * Break API functions into three individual patches for easy review
+> >  * Rewrite lots of code in tph.c/tph.h based (Jonathan and Bjorn)
+> > 
+> > V1->V2:
+> >  * Rebase on top of pci.git/for-linus (6.10-rc1)
+> >  * Address mismatched data types reported by Sparse (Sparse check passed)
+> >  * Add pcie_tph_intr_vec_supported() for checking IRQ mode support
+> >  * Skip bnxt affinity notifier registration if
+> >    pcie_tph_intr_vec_supported()=false
+> >  * Minor fixes in bnxt driver (i.e. warning messages)
+> > 
+> > Manoj Panicker (1):
+> >   bnxt_en: Add TPH support in BNXT driver
+> > 
+> > Michael Chan (1):
+> >   bnxt_en: Pass NQ ID to the FW when allocating RX/RX AGG rings
+> > 
+> > Wei Huang (3):
+> >   PCI: Add TLP Processing Hints (TPH) support
+> >   PCI/TPH: Add Steering Tag support
+> >   PCI/TPH: Add TPH documentation
+> > 
+> >  Documentation/PCI/index.rst                   |   1 +
+> >  Documentation/PCI/tph.rst                     | 132 +++++
+> >  .../admin-guide/kernel-parameters.txt         |   4 +
+> >  Documentation/driver-api/pci/pci.rst          |   3 +
+> >  drivers/net/ethernet/broadcom/bnxt/bnxt.c     |  91 ++-
+> >  drivers/net/ethernet/broadcom/bnxt/bnxt.h     |   7 +
+> >  drivers/pci/Kconfig                           |   9 +
+> >  drivers/pci/Makefile                          |   1 +
+> >  drivers/pci/pci.c                             |   4 +
+> >  drivers/pci/pci.h                             |  12 +
+> >  drivers/pci/probe.c                           |   1 +
+> >  drivers/pci/tph.c                             | 546 ++++++++++++++++++
+> >  include/linux/pci-tph.h                       |  44 ++
+> >  include/linux/pci.h                           |   7 +
+> >  include/uapi/linux/pci_regs.h                 |  37 +-
+> >  net/core/netdev_rx_queue.c                    |   1 +
+> >  16 files changed, 890 insertions(+), 10 deletions(-)
+> >  create mode 100644 Documentation/PCI/tph.rst
+> >  create mode 100644 drivers/pci/tph.c
+> >  create mode 100644 include/linux/pci-tph.h
 > 
-> Yes, please send a new commit, I don't want to re-write history on msm-next
-
-Makes sense.
-I noticed somebody else has already sent the patch for it 
-https://lore.kernel.org/linux-arm-msm/20241011052315.4713-1-everestkc@everestkc.com.np/
-
+> I tentatively applied this on pci/tph for v6.13.
 > 
-> BR,
-> -R
-> 
->> Best regards,
->> --
->> Antonino Maniscalco <antomani103@gmail.com>
+> Not sure what you intend for the bnxt changes, since they depend on
+> the PCI core changes.  I'm happy to merge them via PCI, given acks
+> from Michael and an overall network maintainer.
 
+Given the ongoing discussion about the bnxt_en patches, I dropped
+those, so the PCI tree pci/tph branch now contains only these:
 
-Best regards,
--- 
-Antonino Maniscalco <antomani103@gmail.com>
+  e045e5c1c706 ("PCI/TPH: Add TPH documentation")
+  d2e8a34876ce ("PCI/TPH: Add Steering Tag support")
+  f69767a1ada3 ("PCI: Add TLP Processing Hints (TPH) support")
+
+This is headed for v6.13, but the branch should not be considered
+immutable, and it may be merged during the merge window either before
+or after the netdev tree.
+
+Bjorn
