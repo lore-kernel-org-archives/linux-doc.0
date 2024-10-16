@@ -1,56 +1,59 @@
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79BF11D2715
-	for <linux-doc@vger.kernel.org>; Wed, 16 Oct 2024 21:18:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C68E013B298;
+	Wed, 16 Oct 2024 21:28:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729113534; cv=none; b=Jziozb/DyJ6myfDs+b/Au85Zr1ZfL5zMaBRxE++KBlXK4xyGKLCtTuXdyNyWnGoKjuzhKNCjHYPGf0K2S8yIyNBQUCGAvdp3y85rpwhxR35I9HraqKdRqkQ32RRZxAYoD7GSSoASXB6OH+IG0/qbMZ7MXWDkayr2dFhZB0wJ3yU=
+	t=1729114100; cv=none; b=RXeZB5UJygMg6+Lxwhj2EYo6N+GbSIFAl9yEavePbYi0jAD5ZRMQwScA10nNNBsm1jqeBDOPiFeDPad/RB9B006MutpZjtTBVUCtk5/l6amiW7qKpTv8NgO4sQnnTQcNwA74JuhgOXywe0m/zu44xFdUaDaOlppUscf3ZKo5AWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729113534; c=relaxed/simple;
-	bh=ND75IMi8HXF7zE29eqO2uOotYxf0XtXYHkR75NRS9d0=;
+	s=arc-20240116; t=1729114100; c=relaxed/simple;
+	bh=5PhXO9+lGo8DXD+77zpwvx1TmCrT2UDumS9RD2YFaFY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uhwMlps4OoXZMe7rOuCdju4JaYf7UEZOPOBhH7htvCeLd1/nCcxFTo27GejO3SZbDDLblRHpPBtrOGBOJNtBtYln7iUXmm+xRI3N8jojZEV+zKgMOD+5SNqzLire/ZdRY4/N8PdBqPnJ7D3o8Srt6hKNoG6PlYhAJreJsr7li2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ds4PaO53; arc=none smtp.client-ip=209.85.166.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	 In-Reply-To:Content-Type; b=uUKVKWdhQUXqs/jAbIsYZD7RiIRCeQxfe3qNiViaIWQZOyV0RoNYKPwvVPaeTwLOz7EcsuQLX+8Fz57ljtoUFNOlwe2DttDsNJ88TcFotB31WWHKtgTUWvfCEvg8QMKz3mN+QCf/efa9m7mKxFH5+HFGREoXWGeI7606BElGmSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W1f9QGmc; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ds4PaO53"
-Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-3a394418442so1260425ab.0
-        for <linux-doc@vger.kernel.org>; Wed, 16 Oct 2024 14:18:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W1f9QGmc"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-37d5689eea8so161236f8f.1;
+        Wed, 16 Oct 2024 14:28:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1729113531; x=1729718331; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1729114097; x=1729718897; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=7LQRC3L4VImH7cjZINRKtu/5qiGqUUYdnzfIGcfIZ6Y=;
-        b=ds4PaO53MdxQIxstXbBVfOodvIlDyoAe9K3OeR3Hnkw6c/Ds1NbPwTUM7yTZBBidAR
-         h4hBz4wNMv2RWHy6fKISBXw8jOuM/TJV0U8zavaoYpfCSJe21JmST3Wolof6DeC4fMNN
-         OJ9/WAmfuspf8qR6yFpH4gY2q8Lg9O7ffuA10=
+        bh=J5CWN7tpBnupHcpZl+OhrCbgO2xISPYJhOm4vkK3JRU=;
+        b=W1f9QGmcz/4zAzdTiOKJcbWf5JF57PUMN/feACGG6if6a5GtlDDAY0wbJFKBYawNCR
+         y0EFsNOg9Gkw0JyVhbE+SYjj1Zj5lHYWmV4WpYWsRbyAcWwJCyvznDvmo7Mf+3tKvfGX
+         g08mQHVqMMcBRqij6yNBu3NtIDqpaY2vsMCNU0Bt1WnkXcXb5JC4bpZDLNSE+zLd8KaF
+         rbESxNNOYvFyxYf10HIYdHforWJr315f090xk8WmWfiEfKsKMGZiPYTNLe7f3bckF0FD
+         HvYRTowJmkxnmNqLgK5e1iH1S3IEpF8v6mZeJEH5PXWxb/qjxa+c7/fp24fLauPlGdUN
+         9orA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729113531; x=1729718331;
+        d=1e100.net; s=20230601; t=1729114097; x=1729718897;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7LQRC3L4VImH7cjZINRKtu/5qiGqUUYdnzfIGcfIZ6Y=;
-        b=PJV6kUuRBO0Q/rguOoe48I+zUbwXEavr/UrBwmb8b5Sp1QQFsRZMANdD+xxufcgn5q
-         9+OVRLAROMXceLhdRwgF0zUNXoF0POs9X6zvMlXIayNUGMP5BUm9ECuUaUxwHNOwh6uL
-         cxgfmWbanrlrwM5EOxLeLl7hF7gr4sZsLVeSSbsRfJkAxyfJlshk5P+MffWylUqZcanR
-         eZPvO7P76+zJfNq/lbHHrjLoaLhR1Wp7GGUnDnj6gdcadVSoezzgkDKXJGjHfFyxpgzI
-         iZ75rAHFVitun3PW1qYSojS3GIygTDb49ZHOuXOvVQKDE++X5KUoMzRrSy9vfPAwxdvj
-         SZ2A==
-X-Forwarded-Encrypted: i=1; AJvYcCUHWx5WPzdOSxZ9lqE8SB+dyznvaBUL0GT45K7fmx9SOg1zfLgb5AKHFh5twYGLQ0b5zohSyzqWl0E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQE0L9tWNDMvBIplH2+2Hw4Ek09caUz5RkTHT2Sagshlo7supo
-	ZjLVtYt6nV4XGp0qAt4ZCvMOnfchPeX5iM6QiW8eRz/Ya07kG0jMIpKjJpLcenc=
-X-Google-Smtp-Source: AGHT+IHNNWqgTE+rKPnGzrXotlENnXWOncse8a66x7gtQCM2wmwkeTRorc0inLEtaivP8sjwfu5YZg==
-X-Received: by 2002:a05:6e02:1caa:b0:3a0:bc39:2d8c with SMTP id e9e14a558f8ab-3a3bce0fc22mr139127825ab.25.1729113531546;
-        Wed, 16 Oct 2024 14:18:51 -0700 (PDT)
-Received: from [192.168.1.128] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3a3d70aec8csm10271275ab.21.2024.10.16.14.18.50
+        bh=J5CWN7tpBnupHcpZl+OhrCbgO2xISPYJhOm4vkK3JRU=;
+        b=pOdqvJIxoKhENpC2YeFlbZkp9KvnG3F7JTEY09syet9LsNgnjZbcBY8KeT3muAZ8UF
+         LOb4004Pcu84qGw1lTFJm2T8kGU2tcuaBa3qV4azWsjmO/QSHEazE5CFeGFs5ASdEhQe
+         TZQeaB/R5lFXENkrtXAzlCeRDlKIpezsCVGVI67fAGDWPhG3jYTJOuZltArlKCmZ7GT7
+         XSmTkZMt5GWgrPswkdiXtpG4VqwBEikXkgZN6nChvGZO0/wHh0kLfvUPuqgqXfSBdiCl
+         sBduH2YOdHllzSfjRtkU3b5d1ZhxfOKiQU2EoEXYAVv2lFNz/fcLWQZ70/9Q75hW0sZx
+         sCdw==
+X-Forwarded-Encrypted: i=1; AJvYcCVOtKSonIpJYsvYuR0FM18oeHXX2u8Mj1ymnE/jdPB9J6UrCWo1rrLgd71ntPUzk03Ft91J1RHbyLIqrvHL@vger.kernel.org, AJvYcCWI7dZpFDcNtQpVCbL3QskpP9sjU6eBeQ/eQvk+zSrPwf4t5wWMOydx2JuyiFxEVyDAlH7wXPYJQGsLoKQ+@vger.kernel.org, AJvYcCWJgaI1har6VMDKXtgkX4SBzDvztZOViVqRkVlS5gvUOSffNMiA+4LDjQO0qYUYLMroK9a/jjOrBUvM@vger.kernel.org
+X-Gm-Message-State: AOJu0YxU7SO5J3tjcv9irsBsZ8hGJbTLwq9L+FL3uqWMDIuva8fkTsc7
+	3BYgTD+G7TF6dD19p7WE6fmdQ8WmJPxOsV5ZX+Eq/tkmyQny9C2o
+X-Google-Smtp-Source: AGHT+IG4mBL0U4ZnMOKXMqwNyakKje1boFmWs0OmDTl3djpfOcLYydP6lSw31xXpkwvjWI3DP54Brw==
+X-Received: by 2002:adf:ce83:0:b0:37d:4cf9:e085 with SMTP id ffacd0b85a97d-37d86bdc2c4mr3677507f8f.25.1729114096729;
+        Wed, 16 Oct 2024 14:28:16 -0700 (PDT)
+Received: from [192.168.1.17] (host-80-104-113-188.retail.telecomitalia.it. [80.104.113.188])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c98d4d680csm2061359a12.6.2024.10.16.14.28.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Oct 2024 14:18:50 -0700 (PDT)
-Message-ID: <fbd102fc-32ef-432c-9ac0-c5581f632301@linuxfoundation.org>
-Date: Wed, 16 Oct 2024 15:18:49 -0600
+        Wed, 16 Oct 2024 14:28:16 -0700 (PDT)
+Message-ID: <281503da-6ac3-496f-8051-d4e03979c1ef@gmail.com>
+Date: Wed, 16 Oct 2024 23:28:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,72 +61,105 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/dev-tools: fix a typo
-To: Jonathan Corbet <corbet@lwn.net>, Dan Carpenter
- <dan.carpenter@linaro.org>, Marco Elver <elver@google.com>
-Cc: Dongliang Mu <mudongliangabcd@gmail.com>,
- Haoyang Liu <tttturtleruss@hust.edu.cn>,
- Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>,
- hust-os-kernel-patches@googlegroups.com, kasan-dev@googlegroups.com,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20241015140159.8082-1-tttturtleruss@hust.edu.cn>
- <CAD-N9QWdqPaZSh=Xi_CWcKyNmxCS0WOteAtRvwHLZf16fab3eQ@mail.gmail.com>
- <CANpmjNOg=+Y-E0ozJbOoxOzOcayYnZkC0JGtuz4AOQQNmjSUuQ@mail.gmail.com>
- <c19c79ea-a535-48da-8f13-ae0ff135bbbe@stanley.mountain>
- <87msj45ccm.fsf@trenco.lwn.net>
+Subject: Re: [v8,09/12] drm/msm/a6xx: Add traces for preemption
+To: Rob Clark <robdclark@gmail.com>
+Cc: Kees Bakker <kees@ijzerbout.nl>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+References: <20241003-preemption-a750-t-v8-9-5c6cb9f256e0@gmail.com>
+ <1b9afb20-d608-464c-ae6b-c535564b7e5a@ijzerbout.nl>
+ <eb1a0381-05c3-4ef8-b6de-96824d587a7d@gmail.com>
+ <CAF6AEGu0b5EXjvjDn1DTy2zCSDp7yFpGvGoAb3Kc91Y9HK+=pg@mail.gmail.com>
 Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <87msj45ccm.fsf@trenco.lwn.net>
+From: Antonino Maniscalco <antomani103@gmail.com>
+In-Reply-To: <CAF6AEGu0b5EXjvjDn1DTy2zCSDp7yFpGvGoAb3Kc91Y9HK+=pg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 10/16/24 08:52, Jonathan Corbet wrote:
-> Dan Carpenter <dan.carpenter@linaro.org> writes:
-> 
->> On Tue, Oct 15, 2024 at 04:32:27PM +0200, 'Marco Elver' via HUST OS Kernel Contribution wrote:
->>> On Tue, 15 Oct 2024 at 16:11, Dongliang Mu <mudongliangabcd@gmail.com> wrote:
->>>>
->>>> On Tue, Oct 15, 2024 at 10:09 PM Haoyang Liu <tttturtleruss@hust.edu.cn> wrote:
->>>>>
->>>>> fix a typo in dev-tools/kmsan.rst
->>>>>
->>>>> Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
->>>>> ---
->>>>>   Documentation/dev-tools/kmsan.rst | 2 +-
->>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/Documentation/dev-tools/kmsan.rst b/Documentation/dev-tools/kmsan.rst
->>>>> index 6a48d96c5c85..0dc668b183f6 100644
->>>>> --- a/Documentation/dev-tools/kmsan.rst
->>>>> +++ b/Documentation/dev-tools/kmsan.rst
->>>>> @@ -133,7 +133,7 @@ KMSAN shadow memory
->>>>>   -------------------
->>>>>
->>>>>   KMSAN associates a metadata byte (also called shadow byte) with every byte of
->>>>> -kernel memory. A bit in the shadow byte is set iff the corresponding bit of the
->>>>> +kernel memory. A bit in the shadow byte is set if the corresponding bit of the
->>>>
->>>> This is not a typo. iff is if and only if
->>>
->>> +1
->>>
->>> https://en.wikipedia.org/wiki/If_and_only_if
->>>
+On 10/16/24 10:33 PM, Rob Clark wrote:
+> On Wed, Oct 16, 2024 at 5:13 AM Antonino Maniscalco
+> <antomani103@gmail.com> wrote:
 >>
->> Does "iff" really add anything over regular "if"?  I would have thought the
->> "only if" could be assumed in this case.  Or if it's really necessary then we
->> could spell it out.
+>> On 10/8/24 11:10 PM, Kees Bakker wrote:
+>>> Op 03-10-2024 om 18:12 schreef Antonino Maniscalco:
+>>>> Add trace points corresponding to preemption being triggered and being
+>>>> completed for latency measurement purposes.
+>>>>
+>>>> Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+>>>> Tested-by: Rob Clark <robdclark@gmail.com>
+>>>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
+>>>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
+>>>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8450-HDK
+>>>> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
+>>>> ---
+>>>>    drivers/gpu/drm/msm/adreno/a6xx_preempt.c |  6 ++++++
+>>>>    drivers/gpu/drm/msm/msm_gpu_trace.h       | 28 +++++++++++++++++++++
+>>>> +++++++
+>>>>    2 files changed, 34 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c b/drivers/gpu/
+>>>> drm/msm/adreno/a6xx_preempt.c
+>>>> index
+>>>> 21e333cb6342d33425eb96f97bcc853e9b041b36..6803d5af60cc8fb0f2a52ee160ffdbf0e8ef0209 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
+>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
+>>>> @@ -7,6 +7,7 @@
+>>>>    #include "a6xx_gpu.h"
+>>>>    #include "a6xx_gmu.xml.h"
+>>>>    #include "msm_mmu.h"
+>>>> +#include "msm_gpu_trace.h"
+>>>>    /*
+>>>>     * Try to transition the preemption state from old to new. Return
+>>>> @@ -174,6 +175,8 @@ void a6xx_preempt_irq(struct msm_gpu *gpu)
+>>>>        set_preempt_state(a6xx_gpu, PREEMPT_NONE);
+>>>> +    trace_msm_gpu_preemption_irq(a6xx_gpu->cur_ring->id);
+>>>> +
+>>>>        /*
+>>>>         * Retrigger preemption to avoid a deadlock that might occur
+>>>> when preemption
+>>>>         * is skipped due to it being already in flight when requested.
+>>>> @@ -294,6 +297,9 @@ void a6xx_preempt_trigger(struct msm_gpu *gpu)
+>>>>         */
+>>>>        ring->restore_wptr = false;
+>>>> +    trace_msm_gpu_preemption_trigger(a6xx_gpu->cur_ring->id,
+>>>> +        ring ? ring->id : -1);
+>>>> +
+>>> There is no need for the ternary operator. "ring" should be non-NULL,
+>>> otherwise the code would have already crashed.
+>>> So the change can just be
+>>>       trace_msm_gpu_preemption_trigger(a6xx_gpu->cur_ring->id, ring->id);
+>>
+>> You are right, we had a similar cleanup but I missed this particular
+>> one, thanks for pointing me at it! I apologize for the late response but
+>> I've been at XDC and therefore unable to look at my email. I will point
+>> this out to Rob since this series is in msm-next to see if I need to
+>> send a separate patch to clean this.
 > 
-> Somebody "fixing" occurrences of "iff" are a regular occurrence; it's an
-> attractive nuisance for non-native speakers.  For that reason alone, I'm
-> coming to the conclusion that we should just spell it out when that is
-> the intended meaning.
+> Yes, please send a new commit, I don't want to re-write history on msm-next
+
+Makes sense.
+I noticed somebody else has already sent the patch for it 
+https://lore.kernel.org/linux-arm-msm/20241011052315.4713-1-everestkc@everestkc.com.np/
+
 > 
+> BR,
+> -R
+> 
+>> Best regards,
+>> --
+>> Antonino Maniscalco <antomani103@gmail.com>
 
-+1 on this. It would be too attractive for new developers.
-It helps us not spend cycles on reviewing and applying the patches.
 
-thanks,
--- Shuah
-
+Best regards,
+-- 
+Antonino Maniscalco <antomani103@gmail.com>
