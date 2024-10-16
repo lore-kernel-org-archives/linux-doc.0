@@ -1,143 +1,158 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30DF8208D6F;
-	Wed, 16 Oct 2024 12:13:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3054C207A2C;
+	Wed, 16 Oct 2024 12:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729080824; cv=none; b=IHSU57Q4GhGJNeiwkDcvJTjpSnlRxIBQvkUW0sXlH/JTSvhtlO+e7U3y3vy27x+KOe0njG30CT71/A4mbkIUD4IJa5RUQDildgMqXrzuvHzezhFcZIkS3XU1tC66Nml3MGEiFY+85RFedpcV4qZBgzdBcIgx6ISzkE93vbOKwMU=
+	t=1729082328; cv=none; b=izz8hvbPPS5fid108RFvLlMGCxa1nIlX74LXkpTvlSRcopc93hd9q3QBYKrLgvSMIWKDthOO4TsMS1h2B76Lj187jBVksU/G/ksfcPB6Tk9fFAEvWfY2VXHjBdowkLsxkODcwJv1+B8vS8KK9XJSjhkXS78sVZT5LO8aQNW9zMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729080824; c=relaxed/simple;
-	bh=GPs5C5W0bQDDzOr2JPqDh6O06I71YeSwM+tm3MiNfY4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XS6UsMHYaN3L4FyTynH5Ww8s927bVzkojCi+mJehL5eXrM99HkpbFivKm3bGFVjfn8B4jqgZifmZ0WntSFRnnFblPgLHUav5FouAUGn/us7DSfjPCJVq9s70Ucp/kXcIVCpjtcDloR5GJaZsZ2WxdwgZCPHgEuGuxbwqXTEUzKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SY66MPp7; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729082328; c=relaxed/simple;
+	bh=pG5z/h1vkVwxMvN3uPx4hrWsE2KHzIpOD2t9beUqJBo=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=sBscEVuITyc+PlYc//FcWD/hRZFrhvRleyWYwiZdV2/7Iczv4n9ko+ddN/lELVKUjTm/S0BTDGsexLndTDDg0cVHXS937BHFpHP6lA/CPJD0R0EyLITKVuw619RbFlv+uJtuz/kXoAPiznEXWyJqGTzglESEV1mkX+W4+ZPlaVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lVwJElp1; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SY66MPp7"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539f7606199so3588975e87.0;
-        Wed, 16 Oct 2024 05:13:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729080821; x=1729685621; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oukX+3+jCZdWa70CsJuXy2feZE0OKF+5+BRjIjFvtuo=;
-        b=SY66MPp7t2Vyb9t82nfNXlr/TsgpKLcScrOJk5e7sIzpy1JNRwHnOfZPJ7bKoBYydq
-         yGLzRbXwr2qPn/6M9ddfy3edo2tg3RWaZoUN4rdTgmfnByt9Nh6Kd9dlXcB3BvXhxwJ/
-         CQFTx3FM3HJPjeIcUYZEZBA5HoYJj7GKzZoIbSsilS/vmNzs8sG2t44M3dleAbplkAHj
-         rGdHEqVFpk6jlmtV7xt3MEIF54zoLf3jXmq59mnyMKkVgvHY8NqosAA0tgplKp37OayN
-         fQLDsxXHEswDXTmWYnWWs4wkkyIB/O4NaeWP38XwZTnoJvPlw7ZZW14KQczjC63DaUAF
-         u66A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729080821; x=1729685621;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oukX+3+jCZdWa70CsJuXy2feZE0OKF+5+BRjIjFvtuo=;
-        b=lUka6SkT+QdPQ2T6kjr5J7SrYnYVZ1gSSRxINR64iH3TOv2662vNYBTFf39ncvvHsB
-         ijoWvjcG9t5xh4oTp91ah4itIpcc1VM/xbQo8aBAKXf3Mm1T5zdoulu09ygFNhUTNtsn
-         EcU/ots54N+7t+7U+5fWYG8zgWGS3B7KWmnnxTMbCIaK6312eJca0ZOQD5fG8euFUcoH
-         buJQqV5/DZdTJ5JSSBXPVhXDPoDmXikfhsexnmJHS06wFogrN/102MKoo8VQAodCS8rx
-         TrWuNtQMsB0lNhW0zsvjxC/7pNPlIb3Uc1VrW9I1xfBemeZ0007ZezbE4MMbO+5aE8Er
-         CcoA==
-X-Forwarded-Encrypted: i=1; AJvYcCWJxy/eR2nUsqLlphAJinqu7qxTbFeMuX3U4iU9xRodGAwx21+Ehs7snW/d1MJii3FPZnkoMNN/ZR0=@vger.kernel.org, AJvYcCWzdbrzQs3DgBv92rK1tjlhBIaTOyUVPV0SC9UiI3FoIQv4gzpeO6+eQHAPrIkppCh1PmD2v71X563s8A9F@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyo5OSOPkEbQG8lIr66LPmkHclD9LpsY8J3VlldxO7/RHrXGK9G
-	fE1OYG7EW81RQMmtIEw8j9St1mU9NbYY1ZLxeffYfTTM+UiyzyAp
-X-Google-Smtp-Source: AGHT+IEjktlb7t+M19/RjoKUQZJoAvZfPZ5ttJRcYn6zBGsqkiOPb1LXIsCLUiPkaltBF4/BMPKyBQ==
-X-Received: by 2002:a05:6512:2201:b0:52f:1a0:b49 with SMTP id 2adb3069b0e04-539da4e2d8bmr8251836e87.31.1729080820891;
-        Wed, 16 Oct 2024 05:13:40 -0700 (PDT)
-Received: from [192.168.1.17] (host-80-104-113-188.retail.telecomitalia.it. [80.104.113.188])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a29718b84sm177712966b.29.2024.10.16.05.13.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Oct 2024 05:13:40 -0700 (PDT)
-Message-ID: <eb1a0381-05c3-4ef8-b6de-96824d587a7d@gmail.com>
-Date: Wed, 16 Oct 2024 14:13:33 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lVwJElp1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729082327; x=1760618327;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=pG5z/h1vkVwxMvN3uPx4hrWsE2KHzIpOD2t9beUqJBo=;
+  b=lVwJElp1FVrXw91XKMKJupu15Kl+EHXPqZ7kQRHps447/k6ChXANWDtm
+   FLYnOfxPIVy1DYYDgmSyj7aCd5sNdncbU+RbHkoRsp1cQ/lStDffvjERT
+   aQfj7CmIEqC0Sqyy8eSE64XR5QCXN0wk5FLRkMfW1QJeTEFMmd9Zp18O/
+   5Sh5SBdnIubNLbhSpuZkdmusUKzeg8WXFmbxL2tMQnI8ssIS9MUkKGDeH
+   UWlG+LirZJVBHvyhrUprZSy5gKilUp8KA9XtpmJnZWGgbqCqG8quvBwoe
+   5lJ9npvvp9scIcbjxOYV5okDDkFTJloz6Pmy8FnETKwBuP5w1JTwcyl2X
+   Q==;
+X-CSE-ConnectionGUID: E/iXUnu8RZuFZE74ssLMCg==
+X-CSE-MsgGUID: k4Si4Mu+RXifEaQPfWCXeA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="51061969"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="51061969"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 05:38:45 -0700
+X-CSE-ConnectionGUID: rrDgVVaVSeia2IFsuK+8OQ==
+X-CSE-MsgGUID: PKsPXAJLQwCf1cHK7TBpAg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,208,1725346800"; 
+   d="scan'208";a="79048427"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.221])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 05:38:42 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Wed, 16 Oct 2024 15:38:36 +0300 (EEST)
+To: Mario Limonciello <mario.limonciello@amd.com>
+cc: Borislav Petkov <bp@alien8.de>, Hans de Goede <hdegoede@redhat.com>, 
+    x86@kernel.org, "Gautham R . Shenoy" <gautham.shenoy@amd.com>, 
+    Perry Yuan <perry.yuan@amd.com>, LKML <linux-kernel@vger.kernel.org>, 
+    linux-doc@vger.kernel.org, linux-pm@vger.kernel.org, 
+    platform-driver-x86@vger.kernel.org, 
+    Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+Subject: Re: [PATCH v3 14/14] platform/x86: hfi: Add debugfs support
+In-Reply-To: <20241015213645.1476-15-mario.limonciello@amd.com>
+Message-ID: <7b3a2e3b-9c37-09a3-238a-9cc90726c929@linux.intel.com>
+References: <20241015213645.1476-1-mario.limonciello@amd.com> <20241015213645.1476-15-mario.limonciello@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v8,09/12] drm/msm/a6xx: Add traces for preemption
-To: Kees Bakker <kees@ijzerbout.nl>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Neil Armstrong <neil.armstrong@linaro.org>
-References: <20241003-preemption-a750-t-v8-9-5c6cb9f256e0@gmail.com>
- <1b9afb20-d608-464c-ae6b-c535564b7e5a@ijzerbout.nl>
-Content-Language: en-US
-From: Antonino Maniscalco <antomani103@gmail.com>
-In-Reply-To: <1b9afb20-d608-464c-ae6b-c535564b7e5a@ijzerbout.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-On 10/8/24 11:10 PM, Kees Bakker wrote:
-> Op 03-10-2024 om 18:12 schreef Antonino Maniscalco:
->> Add trace points corresponding to preemption being triggered and being
->> completed for latency measurement purposes.
->>
->> Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->> Tested-by: Rob Clark <robdclark@gmail.com>
->> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
->> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
->> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8450-HDK
->> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
->> ---
->>   drivers/gpu/drm/msm/adreno/a6xx_preempt.c |  6 ++++++
->>   drivers/gpu/drm/msm/msm_gpu_trace.h       | 28 +++++++++++++++++++++ 
->> +++++++
->>   2 files changed, 34 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c b/drivers/gpu/ 
->> drm/msm/adreno/a6xx_preempt.c
->> index 
->> 21e333cb6342d33425eb96f97bcc853e9b041b36..6803d5af60cc8fb0f2a52ee160ffdbf0e8ef0209 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
->> @@ -7,6 +7,7 @@
->>   #include "a6xx_gpu.h"
->>   #include "a6xx_gmu.xml.h"
->>   #include "msm_mmu.h"
->> +#include "msm_gpu_trace.h"
->>   /*
->>    * Try to transition the preemption state from old to new. Return
->> @@ -174,6 +175,8 @@ void a6xx_preempt_irq(struct msm_gpu *gpu)
->>       set_preempt_state(a6xx_gpu, PREEMPT_NONE);
->> +    trace_msm_gpu_preemption_irq(a6xx_gpu->cur_ring->id);
->> +
->>       /*
->>        * Retrigger preemption to avoid a deadlock that might occur 
->> when preemption
->>        * is skipped due to it being already in flight when requested.
->> @@ -294,6 +297,9 @@ void a6xx_preempt_trigger(struct msm_gpu *gpu)
->>        */
->>       ring->restore_wptr = false;
->> +    trace_msm_gpu_preemption_trigger(a6xx_gpu->cur_ring->id,
->> +        ring ? ring->id : -1);
->> +
-> There is no need for the ternary operator. "ring" should be non-NULL, 
-> otherwise the code would have already crashed.
-> So the change can just be
->      trace_msm_gpu_preemption_trigger(a6xx_gpu->cur_ring->id, ring->id);
+On Tue, 15 Oct 2024, Mario Limonciello wrote:
 
-You are right, we had a similar cleanup but I missed this particular 
-one, thanks for pointing me at it! I apologize for the late response but 
-I've been at XDC and therefore unable to look at my email. I will point 
-this out to Rob since this series is in msm-next to see if I need to 
-send a separate patch to clean this.
+> Add a dump of the class and capabilities table to debugfs to assist
+> with debugging scheduler issues.
+> 
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> ---
+> v2->v3:
+>   * New patch
+> ---
+>  drivers/platform/x86/amd/hfi/hfi.c | 31 ++++++++++++++++++++++++++++++
+>  1 file changed, 31 insertions(+)
+> 
+> diff --git a/drivers/platform/x86/amd/hfi/hfi.c b/drivers/platform/x86/amd/hfi/hfi.c
+> index 6c90b50f0a40..6df80f6ac73c 100644
+> --- a/drivers/platform/x86/amd/hfi/hfi.c
+> +++ b/drivers/platform/x86/amd/hfi/hfi.c
+> @@ -13,6 +13,7 @@
+>  #include <linux/acpi.h>
+>  #include <linux/cpu.h>
+>  #include <linux/cpumask.h>
+> +#include <linux/debugfs.h>
+>  #include <linux/gfp.h>
+>  #include <linux/init.h>
+>  #include <linux/io.h>
+> @@ -79,6 +80,8 @@ struct amd_hfi_data {
+>  	void __iomem		*pcc_comm_addr;
+>  	struct acpi_subtable_header	*pcct_entry;
+>  	struct amd_shmem_info	*shmem;
+> +
+> +	struct dentry *dbgfs_dir;
+>  };
+>  
+>  /**
+> @@ -243,6 +246,8 @@ static void amd_hfi_remove(struct platform_device *pdev)
+>  {
+>  	struct amd_hfi_data *dev = platform_get_drvdata(pdev);
+>  
+> +	debugfs_remove_recursive(dev->dbgfs_dir);
+> +
+>  	mutex_destroy(&dev->lock);
+>  }
+>  
+> @@ -400,6 +405,28 @@ static int amd_hfi_metadata_parser(struct platform_device *pdev,
+>  	return ret;
+>  }
+>  
+> +static int class_capabilities_show(struct seq_file *s, void *unused)
+> +{
+> +	int cpu, idx;
+> +
+> +	seq_puts(s, "CPU #\tWLC\tPerf\tEff\n");
+> +	for_each_present_cpu(cpu) {
+> +		struct amd_hfi_cpuinfo *hfi_cpuinfo = per_cpu_ptr(&amd_hfi_cpuinfo, cpu);
+> +
+> +		seq_printf(s, "%d\t", cpu);
+> +		for (idx = 0; idx < hfi_cpuinfo->nr_class; idx++) {
+> +			seq_printf(s, "%s%d\t%d\t%d\n",
+> +				   idx == 0 ? "" : "\t",
 
-Best regards,
+Is this conditional printing really required? Why cannot you just print \t 
+always here and remove it from the cpu print line?
+
 -- 
-Antonino Maniscalco <antomani103@gmail.com>
+ i.
+
+> +				   idx,
+> +				   hfi_cpuinfo->amd_hfi_classes[idx].perf,
+> +				   hfi_cpuinfo->amd_hfi_classes[idx].eff);
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +DEFINE_SHOW_ATTRIBUTE(class_capabilities);
+> +
+>  static int amd_hfi_pm_resume(struct device *dev)
+>  {
+>  	int ret, cpu;
+> @@ -473,6 +500,10 @@ static int amd_hfi_probe(struct platform_device *pdev)
+>  
+>  	schedule_work(&sched_amd_hfi_itmt_work);
+>  
+> +	amd_hfi_data->dbgfs_dir = debugfs_create_dir("amd_hfi", arch_debugfs_dir);
+> +	debugfs_create_file("class_capabilities", 0644, amd_hfi_data->dbgfs_dir, pdev,
+> +			    &class_capabilities_fops);
+> +
+>  	return 0;
+>  }
+>  
+> 
+
