@@ -1,101 +1,110 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703A120E021;
-	Wed, 16 Oct 2024 14:18:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACBEE212F13;
+	Wed, 16 Oct 2024 14:52:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729088314; cv=none; b=OPdCHpdmAOvLKj3+70QRRIqOlCoubKszvzQeOd3MBb0ck5QF1aJYZaZirdSI1EkS+a+BAKjqiUrPIWMrObFv5aw05OsU+Sy3FnwQvX5dMhpUYhFCPsoJyQB6j6/ONnf1Pt60P/OS7ajGMfg5ARomiYK1Nh3WTap8ZCp4cDv3WSA=
+	t=1729090370; cv=none; b=PR3xaMsHsIbHLSDssc/J+yi0ZIk9MPP7wdS4NnCDEt2rv0/XG67do6OfBMClbBLs5MRMXshk2d/xzAelwBX4FW2WQ1/Roc6pIYmMMyBd0HCGbf61j/Pw0x82pzQvINCh42Sb+twwz5F3/QkuHr/CFr0Fc67jtTeyaOWQvB8z42U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729088314; c=relaxed/simple;
-	bh=pwZ1SFatElpp7QliBGqRdyP6wxmrfZVJ8uvKAQDUdVY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Nl5T9APPTJxt/zEYqdNKpqqw/QfeqvmyPTb1uPhnsvvQ0ycRnWlfSB8LjBRaptBw3ekhUsZHLUspHKp+BbUtzL63oMeGhhoOnLKkpxq7fTfnt/Syx5BT20hcEJSzY+EKdGrZxJqS0rJT7k6zI9g+Ob/XXmdxuIyntX07DioNtx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KtSG6KY2; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729090370; c=relaxed/simple;
+	bh=pqkRlIAl5dDEfH3Z126a7ZXKSdRQuLa8iK2JZ1XN4fk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=lpWf0j1fIwQeO7XIuBRFGXZYHrx1sKBWFUy1CHJTV18eiLfA+OQo45UdlFLxV8ZQAkgFZwo0I4xUehFDDX/hycVlOMLQDUihAGjkcAhpP3fxsDc1TgkHd1rwEzuKzuLyhA5/znxMWM76AR2bHbDoZciWxPElhf3cOOLJA1k93P4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=sG7AtR3h; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KtSG6KY2"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-20c804409b0so3984185ad.2;
-        Wed, 16 Oct 2024 07:18:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729088312; x=1729693112; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Af30M0prT6OlrSQUfOsmAdCrPRcP2Y7IveJfSJnIm2o=;
-        b=KtSG6KY2RFgFL4N3dPIVgDmcjJD7zyNlTdN7mQv6HV4/OMVTTNUwpOWJeoehEXeg8S
-         3OAIETUoMCRF2CAz/+/P0Vrmy0U6K/uXOC0huBn7133/ltEhb0mGuD12r7M6s4CYOXzu
-         kz3U5uThc3wiy4ZBQYH2ezI7iuZESxkUniyTdvVFdm9VpP8cIFTnXCiC1KW16qyNsh0T
-         aJ2YirOZAon0GQEE7kX+Qv6RGXAk5e2Zqwfsp3Tjs4OVkGPg+VgjmNxMEcUKKoStHGsc
-         39v6Fyi35PO4g2rQemY3T9yDaZ1+ToZziDuQvz2I5GMDQLSK7LdUaQ3KWdXnsJ3DQ0uN
-         aUdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729088312; x=1729693112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Af30M0prT6OlrSQUfOsmAdCrPRcP2Y7IveJfSJnIm2o=;
-        b=PJpvx/xa6+tvBrVjCd01WIpc9BjMXrAeNDgwISNVJJnyJn3FQUg2Bd4uHQMr0B7+j+
-         i6lx2kUwqJpSUKgw0YrrZjV3KzlPIqRe0IbOurT9koyflWug9ZxFmfEiafL4M73Z95o3
-         MLfd2leRb+DpcBi9B8sxRiZOb8v0rGHQPQ9X1//8dtFe16a3OuayrmWO20Wux2hlVJjG
-         YiTj2njZY3u1/AWijuN4GR7hkCs2HJ+RB2OGmtdMgKii/e2SQMoG1hp4R+lAec88cSWU
-         weqfqIFkUcL1hwTWcK4s23g9lhLSMxk32FiXEGyaR+fdqUrRsXZL7TEjMG0mzYg4X/GO
-         Tdvw==
-X-Forwarded-Encrypted: i=1; AJvYcCWoIYbcv/PhOLX3bdmf6o/joh13XGD0I8p7vdMEr7KeDFzX/7fySZC8kGV7ub/135kP0V3JjUpMcgB6X5c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlR6k3eAw/yX0LFTDSOzRE4slLfdqR50GQzVpBZfYnhdWAWo+O
-	miXTgVoT1ejnl8Jyjidzy1ue1s7SZjNMqYj1Su+QdhQ/p1pOCliZ
-X-Google-Smtp-Source: AGHT+IH9iVpK7A3qTUiEYoH8V+v/cwF0JsTQ+fDSk9MrrZCyfJJb0NjDrrwRBpJHK36Eb3Hs/HrL0g==
-X-Received: by 2002:a17:902:d2ce:b0:20c:ee32:7595 with SMTP id d9443c01a7336-20d2fd09bd4mr16204325ad.2.1729088312512;
-        Wed, 16 Oct 2024 07:18:32 -0700 (PDT)
-Received: from aizome.localdomain ([36.170.32.70])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20d1804c033sm29057045ad.214.2024.10.16.07.18.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Oct 2024 07:18:32 -0700 (PDT)
-From: Pengyu Zhang <zpenya1314@gmail.com>
-To: alexs@kernel.org,
-	siyanteng@loongson.cn,
-	corbet@lwn.net,
-	seakeel@gmail.com,
-	si.yanteng@linux.dev
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	yaxin_wang_uestc@163.com,
-	zenghui.yu@linux.dev,
-	Pengyu Zhang <zpenya1314@gmail.com>
-Subject: [PATCH v6 4/4] docs/zh_CN: Add a entry in Chinese glossary
-Date: Wed, 16 Oct 2024 22:18:01 +0800
-Message-Id: <20241016141801.25487-5-zpenya1314@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241016141801.25487-1-zpenya1314@gmail.com>
-References: <20241016141801.25487-1-zpenya1314@gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="sG7AtR3h"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1443342C28
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1729090362; bh=hrEbj5bpeB01P7bbH3mV9rjR6Y1usox02y6Xk6iwfRA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=sG7AtR3hrHYmDbYoI9CQsPEcKg7Zdp/ibP2ORln3SNjLLHhiEZAbKEq8N9jpTas3Z
+	 LeYPKGMOnqMd9E5zTfcThSzsA9YEic/QGKpR3BR592h1VB/QCYs0EOnVVlRzFEaooZ
+	 kQd/CS5IoSGGT7woX+msugMh0teB/7uCW3IjIkC3CYmiJPnDL1Css41R9y0jGP3A2C
+	 aGg76KjDlKGD1osZ/QmAErGSlRg8AhO/aclpO030mUqMEqvTcGnnaiZalqTFfgP/LC
+	 OhR/jPhinO//iuSuRDAplchC3zUs4kawrFludLaPLt7Fu5zq7fYXytiB5mP/lifMC7
+	 bVKsJBtbMG/AQ==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 1443342C28;
+	Wed, 16 Oct 2024 14:52:42 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Dan Carpenter <dan.carpenter@linaro.org>, Marco Elver <elver@google.com>
+Cc: Dongliang Mu <mudongliangabcd@gmail.com>, Haoyang Liu
+ <tttturtleruss@hust.edu.cn>, Alexander Potapenko <glider@google.com>,
+ Dmitry Vyukov <dvyukov@google.com>,
+ hust-os-kernel-patches@googlegroups.com, kasan-dev@googlegroups.com,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/dev-tools: fix a typo
+In-Reply-To: <c19c79ea-a535-48da-8f13-ae0ff135bbbe@stanley.mountain>
+References: <20241015140159.8082-1-tttturtleruss@hust.edu.cn>
+ <CAD-N9QWdqPaZSh=Xi_CWcKyNmxCS0WOteAtRvwHLZf16fab3eQ@mail.gmail.com>
+ <CANpmjNOg=+Y-E0ozJbOoxOzOcayYnZkC0JGtuz4AOQQNmjSUuQ@mail.gmail.com>
+ <c19c79ea-a535-48da-8f13-ae0ff135bbbe@stanley.mountain>
+Date: Wed, 16 Oct 2024 08:52:41 -0600
+Message-ID: <87msj45ccm.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-To avoid confusion with the term "entry," the glossary stipulates
-that in contexts related to page tables, "page table entry" will be
-translated as "页表项," while "entry" will be translated as "表项."
+Dan Carpenter <dan.carpenter@linaro.org> writes:
 
-Signed-off-by: Pengyu Zhang <zpenya1314@gmail.com>
----
- Documentation/translations/zh_CN/glossary.rst | 1 +
- 1 file changed, 1 insertion(+)
+> On Tue, Oct 15, 2024 at 04:32:27PM +0200, 'Marco Elver' via HUST OS Kerne=
+l Contribution wrote:
+>> On Tue, 15 Oct 2024 at 16:11, Dongliang Mu <mudongliangabcd@gmail.com> w=
+rote:
+>> >
+>> > On Tue, Oct 15, 2024 at 10:09=E2=80=AFPM Haoyang Liu <tttturtleruss@hu=
+st.edu.cn> wrote:
+>> > >
+>> > > fix a typo in dev-tools/kmsan.rst
+>> > >
+>> > > Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
+>> > > ---
+>> > >  Documentation/dev-tools/kmsan.rst | 2 +-
+>> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+>> > >
+>> > > diff --git a/Documentation/dev-tools/kmsan.rst b/Documentation/dev-t=
+ools/kmsan.rst
+>> > > index 6a48d96c5c85..0dc668b183f6 100644
+>> > > --- a/Documentation/dev-tools/kmsan.rst
+>> > > +++ b/Documentation/dev-tools/kmsan.rst
+>> > > @@ -133,7 +133,7 @@ KMSAN shadow memory
+>> > >  -------------------
+>> > >
+>> > >  KMSAN associates a metadata byte (also called shadow byte) with eve=
+ry byte of
+>> > > -kernel memory. A bit in the shadow byte is set iff the correspondin=
+g bit of the
+>> > > +kernel memory. A bit in the shadow byte is set if the corresponding=
+ bit of the
+>> >
+>> > This is not a typo. iff is if and only if
+>>=20
+>> +1
+>>=20
+>> https://en.wikipedia.org/wiki/If_and_only_if
+>>=20
+>
+> Does "iff" really add anything over regular "if"?  I would have thought t=
+he
+> "only if" could be assumed in this case.  Or if it's really necessary the=
+n we
+> could spell it out.
 
-diff --git a/Documentation/translations/zh_CN/glossary.rst b/Documentation/translations/zh_CN/glossary.rst
-index 24f094df97cd..5975b0426f3d 100644
---- a/Documentation/translations/zh_CN/glossary.rst
-+++ b/Documentation/translations/zh_CN/glossary.rst
-@@ -34,3 +34,4 @@
- * semaphores: 信号量。
- * spinlock: 自旋锁。
- * watermark: 水位，一般指页表的消耗水平。
-+* PTE: 页表项。（Page Table Entry）
--- 
-2.25.1
+Somebody "fixing" occurrences of "iff" are a regular occurrence; it's an
+attractive nuisance for non-native speakers.  For that reason alone, I'm
+coming to the conclusion that we should just spell it out when that is
+the intended meaning.
 
+jon
