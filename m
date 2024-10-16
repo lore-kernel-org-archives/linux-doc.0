@@ -1,346 +1,311 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2072.outbound.protection.outlook.com [40.107.92.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678AE20F5A6
-	for <linux-doc@vger.kernel.org>; Wed, 16 Oct 2024 15:55:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729094106; cv=none; b=qesPd/aQ9g2xOPudi2FRaUzXhL2CcR70EcqHmH0gAqaoH9bFfO9MwDxPVf1B1JPzXAifnOo4oG0/TVVlyT3631t6JYtBGHde95SiF8QrsLWmwWwM9CSABuO/3a6kPRwx1R/MFHyNz+Fe0knqAarTfGzxidBithIuRk/myq5yaUw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729094106; c=relaxed/simple;
-	bh=qYl2Sy0hY1O7mS4Yywghy4Pbib9+2/q8/iAS6YXwtjw=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Ou/WaAyyRBNKn73DCrPAbgw4TMLXnpwuOVhGObrQb8pk1i001jm+jXCKo50IG+VzfPogx/lNzdxT/3YEj2BGXo3G5y+WGThcLTR9orlePX/DgM4i5H578CNGsEqsJcMGrWzMvdGxh+LCemavU5qkWj2jcSQ644/MHDNuUUvG4ZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TfBf8enL; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B6820E021;
+	Wed, 16 Oct 2024 15:57:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.72
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729094277; cv=fail; b=BB/sMnNW86ZvytIQinIlz9tqv6S6kdupHRR00XMe38nNj4VI8ty3gM4GpBZuYLAriUsFhsX9na7O4KNVpufc53QjT3rEv7U1oOXPCzLg6IdNw30uqIuA2Y1uY1nsawu/HB92w2730MtOJuEDw6zQtNsfhWdqRk5U6PcZ9+/+YYE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729094277; c=relaxed/simple;
+	bh=izcMjV77uIHdeuLE0BnSLK46phI72Z0/AVAW+Gk4rNI=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=avpAOGujjKy1m9RJPxpcXLD2ZGzy4OU3d+yVmc998YHZyGmVeEdYRsMWi18h1nL6k2bvL0L6ps7+D2RoTlkUIVLKt7Gytvpk4I7yUugbJZ6/uoL8aitfTH2Tgk9dNjKpZ603ynRBfmf+79AlnAIeEfVd1APoxvQ+a7s5kLEAH/g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=KKk6wiUs; arc=fail smtp.client-ip=40.107.92.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TfBf8enL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729094103;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=48P55mGkCCxQ03xjhgzSLSsbrSXDZPkk4TcShvxlXM8=;
-	b=TfBf8enLa6znCQ7bz7ORqZghDsy8SR62opfHnPnYSTi4XClJpAl4VGX2N9rV1RRzVeR8Rn
-	1jjNuuH5C64iikTYYw/6wMVmba9g2HfTO7EVj/ASzJnknzxPJeC56hbmjPX5G5m7/TQmmy
-	S1/clXObqayQVqZbi71LXL9sHpS7O3M=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-611--nmdt8y_MGSulVcM6dCG7w-1; Wed, 16 Oct 2024 11:55:01 -0400
-X-MC-Unique: -nmdt8y_MGSulVcM6dCG7w-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-37d4922d8c7so2502096f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 16 Oct 2024 08:55:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729094100; x=1729698900;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:from:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=48P55mGkCCxQ03xjhgzSLSsbrSXDZPkk4TcShvxlXM8=;
-        b=FT8biHos3DmhluusHXOkIH8UwiJPzyv37ay4uTh77K5RsMSi1GRo8BYK9EQ6sJtdCD
-         uglKRy6hGcfgFZrTTOq4Of6R+jtYnS9IG4X8muTFgtb5Uy6eKdRfjPpZgNe3w79M2msN
-         0wPBCjO1iQ6fY1sKWGiSq4ga4ujRGXppa+841Ae1+rFCu7sxhJXorjjqBtqVQYOFg31l
-         8abaWLfKwJhqfxKeP2xcLTGTepMWzL218olphWc/FD7R0vJbCszYBXszq5qONMUob2Pg
-         eiFEqawK1OJJV/TdBWDvOwVkfp6SWtt0Hjd8EgEnMBWlj0C8tDrgEUYbAWnicwkgCf3W
-         0B+g==
-X-Forwarded-Encrypted: i=1; AJvYcCVCRzQOvA1LitwgEKsDFB1wkMg2VKHjW26QinTdSe/+B9BhS3LSgmr8vb8YBUBik1kPpZ+xUreIhBg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyhM7mYfP/oGcLofK1iVg1HlbXKChqX2zWGhmTx4K8GpHIiX1Hq
-	MMVFOQHLbb1+OSlsnNegawKFNr5O/l/RNvkOZ8db9H9/lNbjfxPLbJRqVRsmpfsHeDaFep8GVnB
-	69S1Wg0wKvfIlb+Eq4LxlD9Gp2nQC9cGUc8arh6KJJqvfkdXdKj3E2fOcNw==
-X-Received: by 2002:a05:6000:10c1:b0:37d:4a68:61a1 with SMTP id ffacd0b85a97d-37d601cd19amr10687160f8f.56.1729094100042;
-        Wed, 16 Oct 2024 08:55:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFQtbfVTBZ5NkmWo/03oyq9JfbDyRlPhDr0wCs2j6/mCMXk6wnjrnWGYEMTUmZ0bShmT8bRQQ==
-X-Received: by 2002:a05:6000:10c1:b0:37d:4a68:61a1 with SMTP id ffacd0b85a97d-37d601cd19amr10687102f8f.56.1729094098224;
-        Wed, 16 Oct 2024 08:54:58 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c74b:d000:3a9:de5c:9ae6:ccb3? (p200300cbc74bd00003a9de5c9ae6ccb3.dip0.t-ipconnect.de. [2003:cb:c74b:d000:3a9:de5c:9ae6:ccb3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d7fa7a04asm4651030f8f.8.2024.10.16.08.54.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Oct 2024 08:54:57 -0700 (PDT)
-Message-ID: <87956f31-472d-4091-8061-1e55fea7a3d7@redhat.com>
-Date: Wed, 16 Oct 2024 17:54:56 +0200
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="KKk6wiUs"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pgJZNhCDQg0p/e1becsh/MFM9OOd5QQqPZu+xx9gpLkwGnURYLZD/BR0CBN3Igem70Nn634Pp5cyNWrS9gZdyPLaxRsf0BFfX0nxPhZQB2kC/8qhGh8sDSMq2k9PatptVOUBOCBNYksjxxyn1XthhBrzHGzg2Zb41GDs/x1gkjhyXyY3FabeF6nJOcDt0/k0v8BQ5KrAWk/LczzpQdbNPqkxYQpGCKlZpLJGLMWrQBh43HPzLTJiwLGaA6z3CfkkwoRC/dk9ijsT+aqQED7WJNRGMstAymAPUeKzoR2IRrmKPDoRwQZqtljmrtIrzEv7CPK2vrwm7uCc955B7hqYfA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=j2BFq/82+tLh2GKm4UK2aXp3Dt9SFuPr65yzmcK/YmI=;
+ b=ZfAF0afgB4TuYyXxRHqrFwyp8YCqa9hzYAuLXFL9yyCawZER8WlsR97gqbi1s12r29N1IZ5Un9MUvw7q4Jy096hI5EH/YWuHXuhGj8XzZnPW3LfmaTV4oYX514B1qHovTsMeecpHyGZPl7R+TdxOUOr/683pDD4ZKiQcx8l1Q8N6RGIUw7KkrBvRHZZw9fA0o9BIAh8GYop9EKZ77mN0NYE0owsVVYgzt2Uf8JdAHi6kpCMWmLuSPCrJM0IbWNnDpDuucpBphTngmmBJntlBRcXHjm5TlcedqpwhWn7Tuw4jc5AQoROla7mDa0VMw12beBryGaE4AhAGaPyhiI2iCQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j2BFq/82+tLh2GKm4UK2aXp3Dt9SFuPr65yzmcK/YmI=;
+ b=KKk6wiUsdgN2A9cm6cBvooHqc8ZhaFye22M14yDkix7QD08/NmT/U4oB38LSn/J7BFWTg5VrB5DDj05bpU4CYeGSDKuvfuFKsTjz5d/R+ivUdUxGQvt+xsV18K3Jqtl7R9mOu7ewsvEojA5EnPaq+eXqtPzZei1ApjbkuPeUUIQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by SA1PR12MB9472.namprd12.prod.outlook.com (2603:10b6:806:45b::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.18; Wed, 16 Oct
+ 2024 15:57:51 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.8048.029; Wed, 16 Oct 2024
+ 15:57:51 +0000
+Message-ID: <df9b3513-1a83-474f-8772-f10cf96c14f1@amd.com>
+Date: Wed, 16 Oct 2024 10:57:47 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v8 07/25] x86/resctrl: Introduce the interface to display
+ monitor mode
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
+ tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
+ kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
+ jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
+ rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
+ jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
+ ilpo.jarvinen@linux.intel.com, peternewman@google.com,
+ maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
+References: <cover.1728495588.git.babu.moger@amd.com>
+ <dc8ffd9074123320ceeecdc8e0b36d1ac0780e02.1728495588.git.babu.moger@amd.com>
+ <6b63542e-0ffb-4612-838e-5f3dba8469cd@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <6b63542e-0ffb-4612-838e-5f3dba8469cd@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA1P222CA0026.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:22c::27) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/7] s390/kdump: implement is_kdump_kernel()
-From: David Hildenbrand <david@redhat.com>
-To: Alexander Egorenkov <egorenar@linux.ibm.com>
-Cc: agordeev@linux.ibm.com, akpm@linux-foundation.org,
- borntraeger@linux.ibm.com, cohuck@redhat.com, corbet@lwn.net,
- eperezma@redhat.com, frankja@linux.ibm.com, gor@linux.ibm.com,
- hca@linux.ibm.com, imbrenda@linux.ibm.com, jasowang@redhat.com,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-s390@vger.kernel.org, mcasquer@redhat.com, mst@redhat.com,
- svens@linux.ibm.com, thuth@redhat.com, virtualization@lists.linux.dev,
- xuanzhuo@linux.alibaba.com, zaslonko@linux.ibm.com
-References: <87ed4g5fwk.fsf@li-0ccc18cc-2c67-11b2-a85c-a193851e4c5d.ibm.com>
- <76f4ed45-5a40-4ac4-af24-a40effe7725c@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <76f4ed45-5a40-4ac4-af24-a40effe7725c@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|SA1PR12MB9472:EE_
+X-MS-Office365-Filtering-Correlation-Id: c7c70f21-8357-4a00-7170-08dcedfb49c6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?aGZETC9yaXhvM0FvK21Ha2hsbWlod0R2QnBBT1RYVThFSlpqUENUSE5TREF2?=
+ =?utf-8?B?OFZGZXBxVGZVNnRhNUYza0ZIOTVPSzZzNXZhUWhkYy9KV0JpN0RIT0tMRk00?=
+ =?utf-8?B?Q1gyNmFySlFtb0ZDVGNMZTlEY0QvTHBjeFIzSE85OTQ0UngwWU13SFJESk5P?=
+ =?utf-8?B?WlA1OEZxd0l2NjBBZUFuM00vS2pEL2luR25ZRThOTUcvRnMrbUJRTEFrbXd0?=
+ =?utf-8?B?MUUxUmFOKzZiL3haUnR2eFlQVXgwNVhpV3o1a0xsWCtodHhPcHlzQzdrOHNT?=
+ =?utf-8?B?V2FjL1FYckdWWTVUcm5Vdnl2cVV5YnlRdTlQOGx4aXJpdkRSMkJSYVZKRDhj?=
+ =?utf-8?B?YU5RK0YzYURCZ2VKSm14L0NyRFpOcDZBTVFlaHZ5UUp3Z3VibGc1aTJxNHEy?=
+ =?utf-8?B?bHNTb3ZmMEtjeHRSbDU5TisxSjQ4NWtpeTkvOFZGbEhqNkhPOXhpK1hyajZj?=
+ =?utf-8?B?QkF4RFEzU0k3NDVyRTN5dUt6N3UyaHB6akFuUCtoTXZ1RXRMN3dmWXZiMUdP?=
+ =?utf-8?B?cWdkWStITVVzYWp2a1F2UDRWd0Z5ZzBlKzNPVEgxSStpTHZjdjFLQWl6MjNO?=
+ =?utf-8?B?NmJFdTNtZVFJQmZJWVFPZE4wK280ZndZQm9VL3NlbU9uV3plSHIrWmRRUWUy?=
+ =?utf-8?B?SlNPS3dXeEVMak5OdTk4L3hPQjdDWjd5K096Q2JLK1B3eTZaa2dsbnFkRWpB?=
+ =?utf-8?B?SlNXQzhadXF0Lzh5bDhuSXJ6SnlTUGc0ejNxZDN6b1poaG45cTBJbzZNaUFG?=
+ =?utf-8?B?enQzNUJEZHB4R0FvUW5BS09XV1lMenZFcnRqMlVsYnpIVkZmVzFLQnYvejJF?=
+ =?utf-8?B?WjF6N1cwYmJWTG1FNWNSbWduN3BlTVlldHpqcjRYRnNSZVZIUHlPZ1RvaGth?=
+ =?utf-8?B?SWdvWVN6bmpoVXc3R2xGRmtFY0ZVTkozbTR6YWJRRXVpOUVESGpqM1pCNGNm?=
+ =?utf-8?B?QU11ZTV2ZkwxcDdrNXFJWG90NzVpYk01M3E3aVpYM0hlM3E3cjlZNENOS29W?=
+ =?utf-8?B?cFRITzdCaEJGTTZlWlN5Q1BMNjB0OFY1ckUxZzVVbW5WczVub1VxckFNUVhM?=
+ =?utf-8?B?cmVrQU1QWVNCTGRmUy9LWENacjl3QWlqUHhCR2ltRVNaTVl1ZlZLd1hObE9I?=
+ =?utf-8?B?UUV4UmVsMkFBOWxKUEN0azVPQld2bEl4a1VpaEhhK25rOWZwMDJmckUwTmtO?=
+ =?utf-8?B?V3FUbVhIaFdwdjRJMnkyczJFNXBkSzk2TUdjdnF1TURUQ2Y5OEZnbXh1a2Rz?=
+ =?utf-8?B?TjNLNEg4TEx2aXIrM1UxQjU4YUZJMmlVNStPeGtlTmc3UzYrSStPUExJc29J?=
+ =?utf-8?B?ZTRuc1NjYUMzSWR4UXhaN0lyOWhjVURxT0gvbFhIWGhFbUQxVU5hU1ZaOGV6?=
+ =?utf-8?B?ckx6ek9ZV3p3TTlWNjYxanBnc21qYVZPYzl6SVE2dE95NFo4cTVDNFFpbitC?=
+ =?utf-8?B?ZUxjZFllV1UzT1cyR1ZnOGM0KzFZaHpVVVQyenI4Z3dVaTl6R1c5TnoyNjFp?=
+ =?utf-8?B?UFU4ZmNVWGd2Y3FPYkJDK0dDTWRibitEbncyQ09CN3kzR3NjV05XZVA4eXpB?=
+ =?utf-8?B?MVdTcU9FNCtvT29tdjZNZTVhRFBOTVR0OVZXWnpyOEsyQzd3RytDeDlYWTBl?=
+ =?utf-8?B?K0toS2ZiUWpxcit5YUFOSVkxQWVRNzIyYTlnZ1pseEpsZjVXQlBxTzArUmVw?=
+ =?utf-8?B?eEEyUWdNNy82UWlaWTg3TDJ0RUhuTXZPbHgrZlR1T2RlUE5pMk0ybXB3PT0=?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TVVDMlBrTXpwWVl0Y3hPalhZRW5YM0dDbk90ZUNXZXF5Ti9sa21sdDUzWDZN?=
+ =?utf-8?B?alF6U2xrdE9ZTW5NOXVoaXJudkN4MUFuVStoNEtxVzZqK01UdGpZM2xBUDJr?=
+ =?utf-8?B?QjBsS0tydXNoWFZINnQzTnZIaVg3ZUhrQTh0dzlHMmlKVUZLb3dHTENMa205?=
+ =?utf-8?B?eXVYYWI4dVFQV2E5VlprMGdNZmN2VEFxZ1h1WTk0OXdxeGNKbXA0aVVHL2Rq?=
+ =?utf-8?B?eDhLMFRtYTZWcU9kMzA4Ty9LcFloczFpU1ZlaFdodUxReTl5dU5xb1YyZm8z?=
+ =?utf-8?B?c2t6WGMzVXhVUCtBSG1WYkMrMEFGMTl6Q1NKTWlUQk1jV1BwK3N3dlVtR3Rh?=
+ =?utf-8?B?TmxEMEk1bFlPMFBqQlhnbHZDV1ZXa2RkUHpXM2RLWWNuZ3NWcGRUSUtsWUdM?=
+ =?utf-8?B?b2hObXRhUHllNFVwWnZSY0c1U3hRRytoalpqb21qd01yM0syOXZyU2NsTjNH?=
+ =?utf-8?B?OHZnUTEvc2p0ZXpNTGF1bGN1elNrZEQ5NkpaN0dmckxnSUlQcFR1aHUvSGU5?=
+ =?utf-8?B?b20weHdTWnVqWDlCQ3hLUU93azJrMFlUSUhSUVUzZDcxRlo0dVRxTHkvSjNV?=
+ =?utf-8?B?WWhPUG55U2NtRndRUERCWUUzdzZzbW55L054blV2WXF5NGdTNW1UWmhHRjFk?=
+ =?utf-8?B?UHNxYkF1Nk4waHFnWExQT0hmektlZVJmU3FUdnJQTjlyMlpUTEZDQnNvSG43?=
+ =?utf-8?B?QWlYRWU4eUtzdzdmZ0xnYkdzY2dOc1Q2WUJZeTl3RFFqMWVHRFphTlBzUUVj?=
+ =?utf-8?B?KzNWZXJod3hNdURjWVNWN1FXWUJXbjUwVGVPYUxWMmYyODdEejZSZjRuTnFZ?=
+ =?utf-8?B?V3h1YzRrbFdJS25ydlVYa2k3emRLeEtRN25OWDRmbHFZY1lMUHV1cmo3YkZH?=
+ =?utf-8?B?T3JXN3pOUStDU2h5d0pGSFgwOUMzWlVKRUdBSTR1VVlZdnJ4aEtLQ2ZHTURs?=
+ =?utf-8?B?UnE0NHllUGQ2WlBoTDBod09LcEl6UEtLMGJIVzg5c0dtVExFd1pkakxGQW9K?=
+ =?utf-8?B?cjM4MndyaVg0TldDWjZiUkNVWlFkN2pKcGdZYkRMM1hkSlFGdjJFN0hZS01o?=
+ =?utf-8?B?L3QxT25Bc1dkS3A5dTVRS2hqVG1WN29rbDhNMXhuOGQ1a3VEKytlanRCZ0Jq?=
+ =?utf-8?B?Sm81RnUwTTAwRklTRnNkYTJqa1k4TUFaZXJ1emR6ckM1RWpFWkNrdUZCcFhP?=
+ =?utf-8?B?ZldHeUFsa0FHemxFUUdkVXMwS2ZxRzhwOVNud3oyYWNYVVJwYU14ZEp1a1lG?=
+ =?utf-8?B?K2lZcG1aY2pua0ZHeEdHUGpoZFducWVPRlZ0SjF3bVRaam8vN3k2UGVNTHNT?=
+ =?utf-8?B?VjlyUHJWUVNrdUFWM3g3b1lKNS9CVzJxZEgvQTlGODhab3BMdUFYN3FoWStE?=
+ =?utf-8?B?U3Rma0kyYTkxemdqQm95NU1Zb0U1eUVacDNDMlJrUkhVZk5yUFRKVk03ZW9J?=
+ =?utf-8?B?TmkreWp5VFNIMjVmMXd6d080VW43NGhHRDBYanlMTHRxSTUvcmZOejNmZzRB?=
+ =?utf-8?B?TlBtL2swaXVGWWRmZkdyQktVa2RNaEl1b1hkUWdQK1hhVWJTWW1ZcVM3amxs?=
+ =?utf-8?B?RmE5YUlYLzZvNGZqazQyaTROZEpHY1Y0ZThJTHBWRW42QUNtWldubnJVMDJQ?=
+ =?utf-8?B?MHRIQ0lXZTZqdVM2RGp4YWZKbTJHOUZzM3lrNjNEdjVsSWMwM09xMXk4emNV?=
+ =?utf-8?B?UExZRGx6dDRBeGJHa3VkNjhRelp1QVQ5YnNLWXVab3c5WmJrRjZHT1RJcXdz?=
+ =?utf-8?B?SFF0TG55WmFpNEd5R0Zjek03emRNa1IyaDczSVRQL1ZXeGgrdTJZbHpKOUkw?=
+ =?utf-8?B?Wi9ub2VSZmdTbG4rN3JsaWtlV0g4eDFCS3cwZDdLMHdWbEZHdFZsRjMreFF6?=
+ =?utf-8?B?M3E1ZGhncUo1UFNuMjMvaXZjM1d1THFvbmQ2dDFTcC9yMng5MzJBaHN2bC94?=
+ =?utf-8?B?dDVrdStGbVRjM3prNllpeHRCMnZKc3VoRlB0MTU5Y0FiSEFzRVpQR3RndnB4?=
+ =?utf-8?B?czFaTS9qYjdINkJqSFZwdHcxa1FHNCsrQ0k4Z1ZKME84aHVpd2gwMVhBdGI2?=
+ =?utf-8?B?OUlvdkUwUGF5L2dIaEpEUlFDTW1qaXlmZnBZUHFTekh6OUs4eGVnaHphRm5r?=
+ =?utf-8?Q?ZeXQ=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c7c70f21-8357-4a00-7170-08dcedfb49c6
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2024 15:57:51.1896
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3G2Oyy4p/9wiulk/9v0VzcVfyP+o93E4Mg5vG6B6c8T0l0/Bo1rjtAOjhOxPtgcV
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB9472
 
-On 16.10.24 17:47, David Hildenbrand wrote:
->>>
->>> When I wrote that code I was rather convinced that the variant in this patch
->>> is the right thing to do.
+Hi Reinette
+
+On 10/15/24 22:12, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 10/9/24 10:39 AM, Babu Moger wrote:
+>> Introduce the interface file "mbm_assign_mode" to list monitor modes
+>> supported.
 >>
->> A short explanation about what a stand-alone kdump is.
+>> The "mbm_cntr_assign" mode provides the option to assign a counter to
+>> an RMID, event pair and monitor the bandwidth as long as it is assigned.
 >>
->> * First, it's not really a _regular_ kdump activated with kexec-tools and
->>     executed by Linux itself but a regular stand-alone dump (SCSI) from the
->>     FW's perspective (one has to use HMC or dumpconf to execute it and not
->>     with kexec-tools like for the _regular_ kdump).
-> 
-> Ah, that makes sense.
-> 
->> * One has to reserve crashkernel memory region in the old crashed kernel
->>     even if it remains unused until the dump starts.
->> * zipl uses regular kdump kernel and initramfs to create stand-alone
->>     dumper images and to write them to a dump disk which is used for
->>     IPLIng the stand-alone dumper.
->> * The zipl bootloader takes care of transferring the old kernel memory
->>     saved in HSA by the FW to the crashkernel memory region reserved by the old
->>     crashed kernel before it enters the dumper. The HSA memory is released
->>     by the zipl bootloader _before_ the dumper image is entered,
->>     therefore, we cannot use HSA to read old kernel memory, and instead
->>     use memory from crashkernel region, just like the regular kdump.
->> * is_ipl_type_dump() will be true for a stand-alone kdump because we IPL
->>     the dumper like a regular stand-alone dump (e.g. zfcpdump).
->> * Summarized, zipl bootloader prepares an environment which is expected by
->>     the regular kdump for a stand-alone kdump dumper before it is entered.
-> 
-> Thanks for the details!
-> 
+>> On AMD systems "mbm_cntr_assign" is backed by the ABMC (Assignable
+>> Bandwidth Monitoring Counters) hardware feature and is enabled by default.
 >>
->> In my opinion, the correct version of is_kdump_kernel() would be
+>> The "default" mode is the existing monitoring mode that works without the
+>> explicit counter assignment, instead relying on dynamic counter assignment
+>> by hardware that may result in hardware not dedicating a counter resulting
+>> in monitoring data reads returning "Unavailable".
 >>
->> bool is_kdump_kernel(void)
->> {
->>           return oldmem_data.start;
->> }
+>> Provide an interface to display the monitor mode on the system.
+>> $cat /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
+>> [mbm_cntr_assign]
+>> default
 >>
->> because Linux kernel doesn't differentiate between both the regular
->> and the stand-alone kdump where it matters while performing dumper
->> operations (e.g. reading saved old kernel memory from crashkernel memory region).
->>
+>> Switching the mbm_assign_mode will reset all the MBM counters of all
+>> resctrl groups.
 > 
-> Right, but if we consider "/proc/vmcore is available", a better version
-> would IMHO be:
-> 
-> bool is_kdump_kernel(void)
-> {
->             return dump_available();
-> }
-> 
-> Because that is mostly (not completely) how is_kdump_kernel() would have
-> worked right now *after* we had the elfcorehdr_alloc() during the
-> fs_init call.
-> 
-> 
->> Furthermore, if i'm not mistaken then the purpose of is_kdump_kernel()
->> is to tell us whether Linux kernel runs in a kdump like environment and not
->> whether the current mode is identical to the proper and true kdump,
->> right ? And if stand-alone kdump swims like a duck, quacks like one, then it
->> is one, regardless how it was started, by kexecing or IPLing
->> from a disk.
-> 
-> Same thinking here.
-> 
->>
->> The stand-alone kdump has a very special use case which most users will
->> never encounter. And usually, one just takes zfcpdump instead which is
->> more robust and much smaller considering how big kdump initrd can get.
->> stand-alone kdump dumper images cannot exceed HSA memory limit on a Z machine.
-> 
-> Makes sense, so it boils down to either
-> 
-> bool is_kdump_kernel(void)
-> {
->            return oldmem_data.start;
-> }
-> 
-> Which means is_kdump_kernel() can be "false" even though /proc/vmcore is
-> available or
-> 
-> bool is_kdump_kernel(void)
-> {
->            return dump_available();
-> }
-> 
-> Which means is_kdump_kernel() can never be "false" if /proc/vmcore is
-> available. There is the chance of is_kdump_kernel() being "true" if
-> "elfcorehdr_alloc()" fails with -ENODEV.
-> 
-> 
-> You're call :) Thanks!
-> 
+> Please note that this now contradicts the documentation. Perhaps this sentence
+> can just be dropped since there is the documentation within the patch.	
 
-What I think we should do is the following (improved comment + patch
-description), but I'll do whatever you think is better:
+Sure. Will drop it.
+
+> 
+> 
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+> 
+> ...
+> 
+>> diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
+>> index 30586728a4cd..e4a7d6e815f6 100644
+>> --- a/Documentation/arch/x86/resctrl.rst
+>> +++ b/Documentation/arch/x86/resctrl.rst
+>> @@ -257,6 +257,40 @@ with the following files:
+>>  	    # cat /sys/fs/resctrl/info/L3_MON/mbm_local_bytes_config
+>>  	    0=0x30;1=0x30;3=0x15;4=0x15
+>>  
+>> +"mbm_assign_mode":
+>> +	Reports the list of monitoring modes supported. The enclosed brackets
+>> +	indicate which mode is enabled.
+>> +	::
+>> +
+>> +	  cat /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
+>> +	  [mbm_cntr_assign]
+>> +	  default
+>> +
+>> +	"mbm_cntr_assign":
+>> +
+>> +	In mbm_cntr_assign mode user-space is able to specify which control
+>> +	or monitor groups in resctrl should have a counter assigned using the
+> 
+> Counters cannot be assigned to control groups. How about replacing all instances
+> of "control and monitor groups" with "CTRL_MON and MON groups", similarly
+> "control or monitor groups" with "CTRL_MON or MON groups".
+
+Ok.
+
+> 
+>> +	'mbm_assign_control' file. The number of counters available is described
+> 
+> Looking at the rest of the doc it seems that the custom is actually to place
+> filenames in double quotes, like "mbm_assign_control".
+
+Sure.
+
+> 
+>> +	in the 'num_mbm_cntrs' file. Changing the mode may cause all counters on
+>> +	a resource to reset.
+>> +
+>> +	The mode is useful on platforms which support more control and monitor
+>> +	groups than hardware counters, meaning 'unassigned' control or monitor
+>> +	groups will report 'Unavailable' or count the traffic in an unpredictable
+>> +	way.
+> 
+> Note two more instances of "control groups" above.
+> 
+> Please note that the above description implies that counter assignment is per-group. For
+> example, "specify which control	or monitor groups in resctrl should have a counter
+> assigned" and "useful on platforms which support more control and monitor groups
+> than hardware counters". This needs to be reworked to reflect that counters
+> are assigned to events.
+
+How about this?
+
+The mode is useful on platforms which support more CTRL_MON and MON groups
+than the hardware counters, meaning 'unassigned' events on CTRL_MON or MON
+groups will report 'Unavailable' or count the traffic in an unpredictable
+way.
 
 
- From e86194b5195c743eff33f563796b9c725fecc65f Mon Sep 17 00:00:00 2001
-From: David Hildenbrand <david@redhat.com>
-Date: Wed, 4 Sep 2024 14:57:10 +0200
-Subject: [PATCH] s390/kdump: provide custom is_kdump_kernel()
+> 
+>> +
+>> +	AMD Platforms with ABMC (Assignable Bandwidth Monitoring Counters) feature
+>> +	enable this mode by default so that counters remain assigned even when the
+>> +	corresponding RMID is not in use by any processor.
+> 
+> I assume this should remain RMID since this specifically talks about an x86 system?
 
-s390 currently always results in is_kdump_kernel() == false until
-vmcore_init()->elfcorehdr_alloc() ran, because it sets
-"elfcorehdr_addr = ELFCORE_ADDR_MAX;" early during setup_arch to deactivate
-any elfcorehdr= kernel parameter.
+This was a suggestion from James. Let me know if you want me to change.
 
-Let's follow the powerpc example and implement our own logic. Let's use
-"dump_available()", because this is mostly (with one exception when
-elfcorehdr_alloc() fails with -ENODEV) when we would create /proc/vmcore
-and when is_kdump_kernel() would have returned "true" after
-vmcore_init().
+> 
+>> +
+>> +	"default":
+>> +
+>> +	By default resctrl assumes each control and monitor group has a hardware
+>> +	counter. Hardware that does not support 'mbm_cntr_assign' mode will still
+>> +	allow more control or monitor groups than 'num_rmids' to be created. In
+>> +	that case reading the mbm_total_bytes and mbm_local_bytes may report
+>> +	'Unavailable' if there is no counter associated with that group.
+>> +
+> 
+> I reconsidered my earlier suggestion and I believe it needs a correction since
+> counter assignment is not per group:
+> 
+> 	In default mode resctrl assumes there is a hardware counter for each
+> 	event within every CTRL_MON and MON group. Reading mbm_total_bytes or
+> 	mbm_local_bytes may report 'Unavailable' if there is no counter associated
+> 	with that event.
+> 
+> Please feel free to improve.
 
-This is required for virtio-mem to reliably identify a kdump
-environment before vmcore_init() was called to not try hotplugging memory.
+Looks good.
 
-Update the documentation above dump_available().
-
-Tested-by: Mario Casquero <mcasquer@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
-  arch/s390/include/asm/kexec.h |  4 ++++
-  arch/s390/kernel/crash_dump.c |  6 ++++++
-  arch/s390/kernel/smp.c        | 16 ++++++++--------
-  3 files changed, 18 insertions(+), 8 deletions(-)
-
-diff --git a/arch/s390/include/asm/kexec.h b/arch/s390/include/asm/kexec.h
-index 1bd08eb56d5f..bd20543515f5 100644
---- a/arch/s390/include/asm/kexec.h
-+++ b/arch/s390/include/asm/kexec.h
-@@ -94,6 +94,9 @@ void arch_kexec_protect_crashkres(void);
-  
-  void arch_kexec_unprotect_crashkres(void);
-  #define arch_kexec_unprotect_crashkres arch_kexec_unprotect_crashkres
-+
-+bool is_kdump_kernel(void);
-+#define is_kdump_kernel is_kdump_kernel
-  #endif
-  
-  #ifdef CONFIG_KEXEC_FILE
-@@ -107,4 +110,5 @@ int arch_kexec_apply_relocations_add(struct purgatory_info *pi,
-  int arch_kimage_file_post_load_cleanup(struct kimage *image);
-  #define arch_kimage_file_post_load_cleanup arch_kimage_file_post_load_cleanup
-  #endif
-+
-  #endif /*_S390_KEXEC_H */
-diff --git a/arch/s390/kernel/crash_dump.c b/arch/s390/kernel/crash_dump.c
-index 51313ed7e617..43bbaf534dd2 100644
---- a/arch/s390/kernel/crash_dump.c
-+++ b/arch/s390/kernel/crash_dump.c
-@@ -237,6 +237,12 @@ int remap_oldmem_pfn_range(struct vm_area_struct *vma, unsigned long from,
-  						       prot);
-  }
-  
-+bool is_kdump_kernel(void)
-+{
-+	return dump_available();
-+}
-+EXPORT_SYMBOL_GPL(is_kdump_kernel);
-+
-  static const char *nt_name(Elf64_Word type)
-  {
-  	const char *name = "LINUX";
-diff --git a/arch/s390/kernel/smp.c b/arch/s390/kernel/smp.c
-index 4df56fdb2488..bd41e35a27a0 100644
---- a/arch/s390/kernel/smp.c
-+++ b/arch/s390/kernel/smp.c
-@@ -574,7 +574,7 @@ int smp_store_status(int cpu)
-  
-  /*
-   * Collect CPU state of the previous, crashed system.
-- * There are four cases:
-+ * There are three cases:
-   * 1) standard zfcp/nvme dump
-   *    condition: OLDMEM_BASE == NULL && is_ipl_type_dump() == true
-   *    The state for all CPUs except the boot CPU needs to be collected
-@@ -587,16 +587,16 @@ int smp_store_status(int cpu)
-   *    with sigp stop-and-store-status. The firmware or the boot-loader
-   *    stored the registers of the boot CPU in the absolute lowcore in the
-   *    memory of the old system.
-- * 3) kdump and the old kernel did not store the CPU state,
-- *    or stand-alone kdump for DASD
-- *    condition: OLDMEM_BASE != NULL && !is_kdump_kernel()
-+ * 3) kdump or stand-alone kdump for DASD
-+ *    condition: OLDMEM_BASE != NULL && !is_ipl_type_dump() == false
-   *    The state for all CPUs except the boot CPU needs to be collected
-   *    with sigp stop-and-store-status. The kexec code or the boot-loader
-   *    stored the registers of the boot CPU in the memory of the old system.
-- * 4) kdump and the old kernel stored the CPU state
-- *    condition: OLDMEM_BASE != NULL && is_kdump_kernel()
-- *    This case does not exist for s390 anymore, setup_arch explicitly
-- *    deactivates the elfcorehdr= kernel parameter
-+ *
-+ * Note that the old kdump mode where the old kernel stored the CPU state
-+ * does no longer exist: setup_arch explicitly deactivates the elfcorehdr=
-+ * kernel parameter. The is_kdump_kernel() implementation on s390 is independent
-+ * of the elfcorehdr= parameter, and is purely based on dump_available().
-   */
-  static bool dump_available(void)
-  {
--- 
-2.46.1
-
+> 
+>>  "max_threshold_occupancy":
+>>  		Read/write file provides the largest value (in
+>>  		bytes) at which a previously used LLC_occupancy
+> 
+> The code change looks good to me.
 
 -- 
-Cheers,
-
-David / dhildenb
-
+Thanks
+Babu Moger
