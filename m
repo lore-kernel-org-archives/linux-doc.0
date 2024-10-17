@@ -1,59 +1,66 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792991CACF7;
-	Thu, 17 Oct 2024 08:15:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6354D3398B
+	for <linux-doc@vger.kernel.org>; Thu, 17 Oct 2024 08:19:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729152920; cv=none; b=crUkbMH39JQS9uVpcKwpKnyg9pNwa68aWFqXCaCQpJAuw8DEFDTMv9ulUhD19Bw1Tt6WyvC204YiJPS0ftD1ISoLvQSzVxuQkodaRRzCenlyPL/QXtv1WkNt26RnWNWiQipLQ9kvMq/dbtk1o8Y3B5KyXigPUs9zB3YX61t4WZg=
+	t=1729153185; cv=none; b=ar/uyutTQ24wFJ+XIqL5kjQQNdK+CfwakbLPck8OccZeN3xRFr2XU/6chxqDMQGK3WkEfhqIHko4o/tg2hXPZtC0G5ll2l6XNAU3ug6Q2TTjCzPGu/MopPyoNuaicHxKjLdKLMx8WZ6nDOrEJbWwSHzUtdAGgUrCYEdqidY99jA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729152920; c=relaxed/simple;
-	bh=ODMEvT+7qb5RcnLcqwsjd+5KgEx+en9ndAfwLA3x60I=;
+	s=arc-20240116; t=1729153185; c=relaxed/simple;
+	bh=drap6yRTWUV8zY03UQ8GuuoRsDJoBiyKbOtSKJ+Ypww=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RHt7CdbTSI30XzMMR57MmF05mmia3BZmez1FjdZMZKDdYOdDJ0n7YM0IfC7iS/TYTqAbv3uXe35NFb+3ogo10MpmWxg+ji1/5XIMBKbvVbL1mtJftOrgGeo4MmiWcgZD2IKIn+9oVei6riNM7yjiMqhH81aUlzHsV3Fz0VuOBis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dteLFjzw; arc=none smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=B3yGgtSv7lalFIySJcTWaUCeSQpUicwDxmxY8IPi4SQ2Zef1i1a1nubcSg5e02tnjVFkzbMxDEZJQETVanYZVuRqyzkxfS/B0WpxD6pByRLmxa3+fddpukiLMo5TgL7ydmUySAQuWJjYNBJiLDM353671v3AW/KpZ3x69TdgtPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=N3PPXrHJ; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dteLFjzw"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6e22f10cc11so5501927b3.1;
-        Thu, 17 Oct 2024 01:15:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729152915; x=1729757715; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5WvhUb8ItT1IXqKKnFo6ymSL6Bt/koZbJ8vsU2XeI80=;
-        b=dteLFjzwJUsA4fy8QFYGRree2Oz9JD6dPmZ/QIeVQ2GE+9WMlLWJTVAy65Cu2yGa3S
-         hW0jJuybLqnFxB4GM9Rrgh7OfRf5VZ8Hr4Jk5ehSb4JwC6PC8kTG6sMK9igynTe6uryi
-         Tm7qrbNDVZMgeKuRv1VNwIboagYVa3heInZ9DN/OFgL8LzmUF9QHIvwRjAhvufQps4V/
-         IaKyXKehVhWfsXMh2ep30eAM5q+wrvvBV5+bryuge+2U6ZdwEDo0AfYCRb2GNOHBnO4y
-         rQNNyB+AYe0lZNSefoEtZulyqotw77qaj59Gyy+yh0jzwsZTjml3PysnRv/0kF6q2TZh
-         T7pw==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="N3PPXrHJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1729153182;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=yucW1PH2OPYsrEpldE45jW5xNoecHxa8NdyxGrQqNKM=;
+	b=N3PPXrHJhRgl5DbnsYsLe+oIVe/pDmcVgczn4oQbq+AdQuyYTY9KjOCo4eNgVtVVuhfvrD
+	CWkzxB6KkhH2DQ2jK2iKWgUZm4AcD8loGZqT/+4SEpHEzFb4lIyM1dLeTV3z6iV8tUFBML
+	hLaZSFEpmvBf3dJkKrn2UHY0Rnk7sns=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-581-bogux-I-P86w_tG15PDHyQ-1; Thu, 17 Oct 2024 04:19:41 -0400
+X-MC-Unique: bogux-I-P86w_tG15PDHyQ-1
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-37d531a19a9so344170f8f.1
+        for <linux-doc@vger.kernel.org>; Thu, 17 Oct 2024 01:19:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729152915; x=1729757715;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5WvhUb8ItT1IXqKKnFo6ymSL6Bt/koZbJ8vsU2XeI80=;
-        b=UN/z3z7srTB7G9Q3OCJ56UjFO1b+0T3wTu2O9pIfZsdyX5QbVKU0QBWMCy/GXZBzYe
-         Br4uiHwysMO1HomCrQaytmeoXFR4oYsMmEnARlAr+86D1qaLRjog3mnuj0iBQ/8ilTo5
-         wTeaqJsIR/fRhxnZTMiSD2zLDdnydUgL7QNC/U/tGGEzqVbk+LF1F+zv7BpUnuPluSMS
-         eZNkmxBZO7nGtR+XtdUEFMvPOuX+rptE/GVDZlwPqFWvGyy0Eja1BPiw1o67kF6zG4Jm
-         wFa1cmmC+qUlCYSGltlX93vHGpGV31TrdYPLXColFdzIqCx6M/uShgp/LJ4kEtMkV8HT
-         apxA==
-X-Forwarded-Encrypted: i=1; AJvYcCVjoFiULwVtSp1I9oNz+4wrTHQOlH9o0daik82LaSQl45EAD6o0uV5amqh+C1xX9x3FYVpuccU4sB4=@vger.kernel.org, AJvYcCW8TFloNb/pUWpEJoZqgWIjO9xxByvhFmxtXw/Cp8wbaInlxEx2Bt6recj6IvtWkdDWHJTPy7OWOk/VffJngNI=@vger.kernel.org, AJvYcCWXExnyJvDxp0P/Q33UmO9cCnUswz/m7m0dLZjeBk2lIW9XS5zkvBxL79dikooMysaWZYnlUdqNFKBvgouZ@vger.kernel.org
-X-Gm-Message-State: AOJu0YzB584Rn1aE5qI4hVvic3axFh5MLpNp/VYBM5b4A1sXeRwPv/I9
-	VDs3QnRa3f3YYWMDVE7tR2gdBChVPp3gUSIXKt8N5iEIv3ZLqiba
-X-Google-Smtp-Source: AGHT+IG0KsSE6VD2YX/aV8k68GgO4g3H0CiuJaxA7ijK0YheXHjErYeg0Ux9n/xahOmS4Op5tN9ERQ==
-X-Received: by 2002:a05:690c:6ac2:b0:6e5:b495:27d1 with SMTP id 00721157ae682-6e5b49580f0mr2139547b3.19.1729152915106;
-        Thu, 17 Oct 2024 01:15:15 -0700 (PDT)
-Received: from [192.168.2.226] ([107.175.133.150])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e3c5cbdbe7sm10267587b3.92.2024.10.17.01.15.04
+        d=1e100.net; s=20230601; t=1729153180; x=1729757980;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=yucW1PH2OPYsrEpldE45jW5xNoecHxa8NdyxGrQqNKM=;
+        b=H2y8dv50DRtqVSbWV58hFmKNXHqtY4Igq5gyhDlXEI3KoUAe1dseSGvcPUfh41pwW/
+         4QDFJK+pesN7RoLtoYgJMewrPSSlwLwMOxD/bCZ1ugsi9kWbWoVYWj6M5aZxJ50LuBzI
+         sSGaqXVBdySg2mYTeVhiT4uBzKofQ3Mry6T1QQJmlLNKdCw9i0oDI1xtztsGo222Jbgs
+         ealYsgOPtcr8FpQa1r2k2+WOwaAxA/4usJrbM+Q+lfoeX3UeesxKMweMfHSECUCkK5qu
+         0YREcIWE6GBqe2h546lTpYVWuCYNM7y7wXxWwZChAt7G2GBNF7dFsLkcjGsidDt1FqoC
+         rTyA==
+X-Forwarded-Encrypted: i=1; AJvYcCWlgtniS/+xGDCH9iNFcvFONeVIuXfvaTsnYRx5eiFR0BpQqv4EXtfzwpepf4FsRVgzfcQYX6nD/bw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxxgUAx5mvL9rTzlg7rVG1+7+qARuv04PbcvLFlEul4HzT+SYrz
+	ukUh0Oy3B0mzSveh9oJOt5YxCpwkEOwvHvQOtaF0hxX3NFPaqECYUnfotS5Ex+vjk8z8Pp8S2i0
+	JzAp117YPVBXDZn6xekpWPEwT1vdsKsAk7tR3agfjDl3rK2MuXdaF412JeQ==
+X-Received: by 2002:adf:e908:0:b0:37c:cd0d:3437 with SMTP id ffacd0b85a97d-37d5530438bmr15476767f8f.58.1729153179981;
+        Thu, 17 Oct 2024 01:19:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEHvGRV7gRI9scIXVqygnO0gFFWAgggOmNSlEaAKQ5e7/aADl4rIuAo+u5BaUehhaRDGGy2LQ==
+X-Received: by 2002:adf:e908:0:b0:37c:cd0d:3437 with SMTP id ffacd0b85a97d-37d5530438bmr15476747f8f.58.1729153179553;
+        Thu, 17 Oct 2024 01:19:39 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c705:7600:62cc:24c1:9dbe:a2f5? (p200300cbc705760062cc24c19dbea2f5.dip0.t-ipconnect.de. [2003:cb:c705:7600:62cc:24c1:9dbe:a2f5])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43158c3dedfsm18012235e9.26.2024.10.17.01.19.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Oct 2024 01:15:13 -0700 (PDT)
-Message-ID: <d75654e3-729e-47a7-be87-be786e112ea2@gmail.com>
-Date: Thu, 17 Oct 2024 16:15:00 +0800
+        Thu, 17 Oct 2024 01:19:39 -0700 (PDT)
+Message-ID: <04d5169f-3289-4aac-abca-90b20ad4e9c9@redhat.com>
+Date: Thu, 17 Oct 2024 10:19:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,371 +68,161 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/zh_CN: add the translation of kbuild/kbuild.rst
-To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <siyanteng@loongson.cn>, Jonathan Corbet <corbet@lwn.net>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: hust-os-kernel-patches@googlegroups.com, Yanteng Si
- <si.yanteng@linux.dev>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- llvm@lists.linux.dev
-References: <20241016131710.2619567-1-dzm91@hust.edu.cn>
+Subject: Re: [PATCH v2 4/7] s390/physmem_info: query diag500(STORAGE LIMIT) to
+ support QEMU/KVM memory devices
+To: Alexander Gordeev <agordeev@linux.ibm.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-s390@vger.kernel.org, virtualization@lists.linux.dev,
+ linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Mario Casquero <mcasquer@redhat.com>
+References: <20241014144622.876731-1-david@redhat.com>
+ <20241014144622.876731-5-david@redhat.com>
+ <ZxC+mr5PcGv4fBcY@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
+From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
-From: Alex Shi <seakeel@gmail.com>
-In-Reply-To: <20241016131710.2619567-1-dzm91@hust.edu.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <ZxC+mr5PcGv4fBcY@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-LGTM
+On 17.10.24 09:36, Alexander Gordeev wrote:
+> On Mon, Oct 14, 2024 at 04:46:16PM +0200, David Hildenbrand wrote:
+> 
+> Hi David!
 
-Reviewed-by: Alex Shi <alexs@kernel.org>
+Hi Alexander!
 
-On 10/16/24 21:16, Dongliang Mu wrote:
-> Finish the translation of kbuild/kbuild.rst and move kbuild
-> from TODO to the main body.
 > 
-> Update to commit 2eb5d7f24299 ("kbuild: doc: describe the -C
-> option precisely for external module builds")
+>> @@ -157,7 +189,9 @@ unsigned long detect_max_physmem_end(void)
+>>   {
+>>   	unsigned long max_physmem_end = 0;
+>>   
+>> -	if (!sclp_early_get_memsize(&max_physmem_end)) {
+>> +	if (!diag500_storage_limit(&max_physmem_end)) {
+>> +		physmem_info.info_source = MEM_DETECT_DIAG500_STOR_LIMIT;
+>> +	} else if (!sclp_early_get_memsize(&max_physmem_end)) {
+>>   		physmem_info.info_source = MEM_DETECT_SCLP_READ_INFO;
+>>   	} else {
+>>   		max_physmem_end = search_mem_end();
+>> @@ -170,11 +204,17 @@ void detect_physmem_online_ranges(unsigned long max_physmem_end)
+>>   {
+>>   	if (!sclp_early_read_storage_info()) {
+>>   		physmem_info.info_source = MEM_DETECT_SCLP_STOR_INFO;
+>> +		return;
+>>   	} else if (!diag260()) {
+>>   		physmem_info.info_source = MEM_DETECT_DIAG260;
+>> -	} else if (max_physmem_end) {
+>> -		add_physmem_online_range(0, max_physmem_end);
+>> +		return;
+>> +	} else if (physmem_info.info_source == MEM_DETECT_DIAG500_STOR_LIMIT) {
+>> +		max_physmem_end = 0;
+>> +		if (!sclp_early_get_memsize(&max_physmem_end))
+>> +			physmem_info.info_source = MEM_DETECT_SCLP_READ_INFO;
 > 
-> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
-> ---
->  .../translations/zh_CN/kbuild/index.rst       |   2 +-
->  .../translations/zh_CN/kbuild/kbuild.rst      | 304 ++++++++++++++++++
->  2 files changed, 305 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/kbuild/kbuild.rst
+> Why search_mem_end() is not tried in case sclp_early_get_memsize() failed?
+
+Patch #3 documents that:
+
++    The storage limit does not indicate currently usable storage, it may
++    include holes, standby storage and areas reserved for other means, such
++    as memory hotplug or virtio-mem devices. Other interfaces for detecting
++    actually usable storage, such as SCLP, must be used in conjunction with
++    this subfunction.
+
+If SCLP would fail, something would be seriously wrong and we should just crash
+instead of trying to fallback to the legacy way of scanning.
+
 > 
-> diff --git a/Documentation/translations/zh_CN/kbuild/index.rst b/Documentation/translations/zh_CN/kbuild/index.rst
-> index e8eb448c1197..c06268cf44be 100644
-> --- a/Documentation/translations/zh_CN/kbuild/index.rst
-> +++ b/Documentation/translations/zh_CN/kbuild/index.rst
-> @@ -15,12 +15,12 @@
->      kconfig
->      headers_install
->      gcc-plugins
-> +    kbuild
->  
->  TODO:
->  
->  - kconfig-language
->  - kconfig-macro-language
-> -- kbuild
->  - makefiles
->  - modules
->  - issues
-> diff --git a/Documentation/translations/zh_CN/kbuild/kbuild.rst b/Documentation/translations/zh_CN/kbuild/kbuild.rst
-> new file mode 100644
-> index 000000000000..e5e2aebe1ebc
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/kbuild/kbuild.rst
-> @@ -0,0 +1,304 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/kbuild/kbuild.rst
-> +:Translator: 慕冬亮 Dongliang Mu <dzm91@hust.edu.cn>
-> +
-> +======
-> +Kbuild
-> +======
-> +
-> +
-> +输出文件
-> +========
-> +
-> +modules.order
-> +-------------
-> +该文件记录模块在 Makefile 中出现的顺序。modprobe 使用该文件来确定性
-> +解析匹配多个模块的别名。
-> +
-> +modules.builtin
-> +---------------
-> +该文件列出了所有内置到内核中的模块。modprobe 使用该文件来避免尝试加载
-> +内置模块时出错。
-> +
-> +modules.builtin.modinfo
-> +-----------------------
-> +该文件包含所有内置模块的 modinfo。与单独模块的 modinfo 不同，所有字段
-> +都带有模块名称前缀。
-> +
-> +modules.builtin.ranges
-> +----------------------
-> +该文件包含所有内核内置模块的地址偏移范围（每个 ELF 节）。结合 System.map
-> +文件，它可以用来将模块名称与符号关联起来。
-> +
-> +环境变量
-> +========
-> +
-> +KCPPFLAGS
-> +---------
-> +在预处理时传递的额外选项。kbuild 进行所有预处理（包括构建 C 文件和汇编文件）
-> +时，都会使用这些预处理选项。
-> +
-> +KAFLAGS
-> +-------
-> +传递给汇编器的额外选项（适用于内置模块和外部模块）。
-> +
-> +AFLAGS_MODULE
-> +-------------
-> +外部模块的额外汇编选项。
-> +
-> +AFLAGS_KERNEL
-> +-------------
-> +内置模块的额外汇编选项。
-> +
-> +KCFLAGS
-> +-------
-> +传递给 C 编译器的额外选项（适用于内置模块和外部模块）。
-> +
-> +KRUSTFLAGS
-> +----------
-> +传递给 Rust 编译器的额外选项（适用于内置模块和外部模块）。
-> +
-> +CFLAGS_KERNEL
-> +-------------
-> +在编译内置代码时，传递给 $(CC) 的额外选项。
-> +
-> +CFLAGS_MODULE
-> +-------------
-> +编译外部模块时，传递给 $(CC) 的额外模块特定选项。
-> +
-> +RUSTFLAGS_KERNEL
-> +----------------
-> +在编译内置代码时，传递给 $(RUSTC) 的额外选项。
-> +
-> +RUSTFLAGS_MODULE
-> +----------------
-> +用于 $(RUSTC) 的额外模块特定选项。
-> +
-> +LDFLAGS_MODULE
-> +--------------
-> +用于 $(LD) 链接模块时的额外选项。
-> +
-> +HOSTCFLAGS
-> +----------
-> +在构建主机程序时传递给 $(HOSTCC) 的额外标志。
-> +
-> +HOSTCXXFLAGS
-> +------------
-> +在构建主机程序时传递给 $(HOSTCXX) 的额外标志。
-> +
-> +HOSTRUSTFLAGS
-> +-------------
-> +在构建主机程序时传递给 $(HOSTRUSTC) 的额外标志。
-> +
-> +HOSTLDFLAGS
-> +-----------
-> +链接主机程序时传递的额外选项。
-> +
-> +HOSTLDLIBS
-> +----------
-> +在构建主机程序时链接的额外库。
-> +
-> +.. _zh_cn_userkbuildflags:
-> +
-> +USERCFLAGS
-> +----------
-> +用于 $(CC) 编译用户程序（userprogs）时的额外选项。
-> +
-> +USERLDFLAGS
-> +-----------
-> +用于 $(LD) 链接用户程序时的额外选项。用户程序（userprogs）是使用 CC 链接的，
-> +因此 $(USERLDFLAGS) 应该根据需要包含 "-Wl," 前缀。
-> +
-> +KBUILD_KCONFIG
-> +--------------
-> +将顶级 Kconfig 文件设置为此环境变量的值。默认名称为 "Kconfig"。
-> +
-> +KBUILD_VERBOSE
-> +--------------
-> +设置 kbuild 的详细程度。可以分配与 "V=..." 相同的值。
-> +
-> +有关完整列表，请参见 `make help`。
-> +
-> +设置 "V=..." 优先于 KBUILD_VERBOSE。
-> +
-> +KBUILD_EXTMOD
-> +-------------
-> +在构建外部模块时设置内核源代码的搜索目录。
-> +
-> +设置 "M=..." 优先于 KBUILD_EXTMOD。
-> +
-> +KBUILD_OUTPUT
-> +-------------
-> +指定内核构建的输出目录。
-> +
-> +在单独的构建目录中为预构建内核构建外部模块时，这个变量也可以指向内核输出目录。请注意，
-> +这并不指定外部模块本身的输出目录。
-> +
-> +输出目录也可以使用 "O=..." 指定。
-> +
-> +设置 "O=..." 优先于 KBUILD_OUTPUT。
-> +
-> +KBUILD_EXTRA_WARN
-> +-----------------
-> +指定额外的构建检查。也可以通过在命令行传递 "W=..." 来设置相同的值。
-> +
-> +请参阅 `make help` 了解支持的值列表。
-> +
-> +设置 "W=..." 优先于 KBUILD_EXTRA_WARN。
-> +
-> +KBUILD_DEBARCH
-> +--------------
-> +对于 deb-pkg 目标，允许覆盖 deb-pkg 部署的正常启发式方法。通常 deb-pkg 尝试根据
-> +UTS_MACHINE 变量（在某些架构中还包括内核配置）来猜测正确的架构。KBUILD_DEBARCH
-> +的值假定（不检查）为有效的 Debian 架构。
-> +
-> +KDOCFLAGS
-> +---------
-> +指定在构建过程中用于 kernel-doc 检查的额外（警告/错误）标志，查看
-> +scripts/kernel-doc 了解支持的标志。请注意，这目前不适用于文档构建。
-> +
-> +ARCH
-> +----
-> +设置 ARCH 为要构建的架构。
-> +
-> +在大多数情况下，架构的名称与 arch/ 目录中的子目录名称相同。
-> +
-> +但某些架构（如 x86 和 sparc）有别名。
-> +
-> +- x86: i386 表示 32 位，x86_64 表示 64 位
-> +- parisc: parisc64 表示 64 位
-> +- sparc: sparc32 表示 32 位，sparc64 表示 64 位
-> +
-> +CROSS_COMPILE
-> +-------------
-> +指定 binutils 文件名的可选固定部分。CROSS_COMPILE 可以是文件名的一部分或完整路径。
-> +
-> +在某些设置中，CROSS_COMPILE 也用于 ccache。
-> +
-> +CF
-> +--
-> +用于 sparse 的额外选项。
-> +
-> +CF 通常在命令行中如下所示使用::
-> +
-> +    make CF=-Wbitwise C=2
-> +
-> +INSTALL_PATH
-> +------------
-> +INSTALL_PATH 指定放置更新后的内核和系统映像的路径。默认值是 /boot，但你可以设置
-> +为其他值。
-> +
-> +INSTALLKERNEL
-> +-------------
-> +使用 "make install" 时调用的安装脚本。
-> +默认名称是 "installkernel"。
-> +
-> +该脚本将会以以下参数调用：
-> +
-> +   - $1 - 内核版本
-> +   - $2 - 内核映像文件
-> +   - $3 - 内核映射文件
-> +   - $4 - 默认安装路径（如果为空，则使用根目录）
-> +
-> +"make install" 的实现是架构特定的，可能与上述有所不同。
-> +
-> +提供 INSTALLKERNEL 以便在交叉编译内核时可以指定自定义安装程序。
-> +
-> +MODLIB
-> +------
-> +指定模块的安装位置。
-> +默认值为::
-> +
-> +    $(INSTALL_MOD_PATH)/lib/modules/$(KERNELRELEASE)
-> +
-> +该值可以被覆盖，在这种情况下将忽略默认值。
-> +
-> +INSTALL_MOD_PATH
-> +----------------
-> +INSTALL_MOD_PATH 指定了模块目录重定位时 MODLIB 的前缀，通常由构建根
-> +（build roots）所需。它没有在 makefile 中定义，但如果需要，可以作为
-> +参数传递给 make。
-> +
-> +INSTALL_MOD_STRIP
-> +-----------------
-> +如果 INSTALL_MOD_STRIP 被定义，内核模块在安装后会被剥离。如果
-> +INSTALL_MOD_STRIP 的值为 '1'，则会使用默认选项 --strip-debug。否则，
-> +INSTALL_MOD_STRIP 的值将作为 strip 命令的选项。
-> +
-> +INSTALL_HDR_PATH
-> +----------------
-> +INSTALL_HDR_PATH 指定了执行 "make headers_*" 时，用户空间头文件的安装位置。
-> +
-> +默认值为::
-> +
-> +    $(objtree)/usr
-> +
-> +$(objtree) 是保存输出文件的目录。
-> +输出目录通常使用命令行中的 "O=..." 进行设置。
-> +
-> +该值可以被覆盖，在这种情况下将忽略默认值。
-> +
-> +INSTALL_DTBS_PATH
-> +-----------------
-> +INSTALL_DTBS_PATH 指定了设备树二进制文件的安装位置，通常由构建根（build roots）所需。
-> +它没有在 makefile 中定义，但如果需要，可以作为参数传递给 make。
-> +
-> +KBUILD_ABS_SRCTREE
-> +--------------------------------------------------
-> +Kbuild 在可能的情况下使用相对路径指向源代码树。例如，在源代码树中构建时，源代码树路径是
-> +'.'。
-> +
-> +设置该标志请求 Kbuild 使用源代码树的绝对路径。
-> +在某些情况下这是有用的，例如在生成带有绝对路径条目的标签文件时等。
-> +
-> +KBUILD_SIGN_PIN
-> +---------------
-> +当签署内核模块时，如果私钥需要密码或 PIN，此变量允许将密码或 PIN 传递给 sign-file 工具。
-> +
-> +KBUILD_MODPOST_WARN
-> +-------------------
-> +KBUILD_MODPOST_WARN 可以设置为在最终模块链接阶段出现未定义符号时避免错误。它将这些错误
-> +转为警告。
-> +
-> +KBUILD_MODPOST_NOFINAL
-> +----------------------
-> +KBUILD_MODPOST_NOFINAL 可以设置为跳过模块的最终链接。这仅在加速编译测试时有用。
-> +
-> +KBUILD_EXTRA_SYMBOLS
-> +--------------------
-> +用于依赖其他模块符号的模块。详见 modules.rst。
-> +
-> +ALLSOURCE_ARCHS
-> +---------------
-> +对于 tags/TAGS/cscope 目标，可以指定包含在数据库中的多个架构，用空格分隔。例如::
-> +
-> +    $ make ALLSOURCE_ARCHS="x86 mips arm" tags
-> +
-> +要获取所有可用架构，也可以指定 all。例如::
-> +
-> +    $ make ALLSOURCE_ARCHS=all tags
-> +
-> +IGNORE_DIRS
-> +-----------
-> +对于 tags/TAGS/cscope 目标，可以选择不包含在数据库中的目录，用空格分隔。例如::
-> +
-> +    $ make IGNORE_DIRS="drivers/gpu/drm/radeon tools" cscope
-> +
-> +KBUILD_BUILD_TIMESTAMP
-> +----------------------
-> +将该环境变量设置为日期字符串，可以覆盖在 UTS_VERSION 定义中使用的时间戳
-> +（运行内核时的 uname -v）。该值必须是一个可以传递给 date -d 的字符串。默认值是
-> +内核构建某个时刻的 date 命令输出。
-> +
-> +KBUILD_BUILD_USER, KBUILD_BUILD_HOST
-> +------------------------------------
-> +这两个变量允许覆盖启动时显示的 user@host 字符串以及 /proc/version 中的信息。
-> +默认值分别是 whoami 和 host 命令的输出。
-> +
-> +LLVM
-> +----
-> +如果该变量设置为 1，Kbuild 将使用 Clang 和 LLVM 工具，而不是 GCC 和 GNU
-> +binutils 来构建内核。
+>>   	}
+>> +	if (max_physmem_end)
+>> +		add_physmem_online_range(0, max_physmem_end);
+>>   }
+>>   
+>>   void physmem_set_usable_limit(unsigned long limit)
+>> diff --git a/arch/s390/include/asm/physmem_info.h b/arch/s390/include/asm/physmem_info.h
+>> index f45cfc8bc233..51b68a43e195 100644
+>> --- a/arch/s390/include/asm/physmem_info.h
+>> +++ b/arch/s390/include/asm/physmem_info.h
+>> @@ -9,6 +9,7 @@ enum physmem_info_source {
+>>   	MEM_DETECT_NONE = 0,
+>>   	MEM_DETECT_SCLP_STOR_INFO,
+>>   	MEM_DETECT_DIAG260,
+>> +	MEM_DETECT_DIAG500_STOR_LIMIT,
+>>   	MEM_DETECT_SCLP_READ_INFO,
+>>   	MEM_DETECT_BIN_SEARCH
+>>   };
+>> @@ -107,6 +108,8 @@ static inline const char *get_physmem_info_source(void)
+>>   		return "sclp storage info";
+>>   	case MEM_DETECT_DIAG260:
+>>   		return "diag260";
+>> +	case MEM_DETECT_DIAG500_STOR_LIMIT:
+>> +		return "diag500 storage limit";
+> 
+> AFAIU you want to always override MEM_DETECT_DIAG500_STOR_LIMIT method
+> with an online memory detection method. In that case this code is dead.
+
+Not in the above case, pathological case above where something went wrong
+during sclp_early_get_memsize(). In that scenario, die_oom() would indicate
+that there are no memory ranges but that "diag500 storage limit" worked.
+
+Does that make sense?
+
+Thanks for the review!
+
+-- 
+Cheers,
+
+David / dhildenb
+
