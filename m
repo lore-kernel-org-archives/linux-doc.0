@@ -1,163 +1,191 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC241DACA1;
-	Thu, 17 Oct 2024 10:30:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41EB41D270B;
+	Thu, 17 Oct 2024 10:36:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729161013; cv=none; b=n6zasb3tQITC3esnsBbIESh4Juj9BlfniENdC6lMkW+WVafgvjBuDCv0xoJ6N125HhOXdU/0l61ACqJHgmyLJJSJnABEsz6L6UtK5dIQucRPq61nrig+QMuBloWSkfBbaGu0Y70G7n+MSzwxEoYeOEII/DYlcnPD4bQwb+RtTZA=
+	t=1729161371; cv=none; b=b5qMUd8VDfii0vhK+UL8g3LTJfV8qo69+2ygIesJsji/ymncV09mb41inc6c8fJF+LptDyNe07ypfJ9+PRkm0ObTlC+ujIofTmqnnBtyIuIj98/Yc555oB4fMMtlpXmPO1Ewih8YKaf0qmLozdO5kz4apsaGH9rg8f/LOJLfn/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729161013; c=relaxed/simple;
-	bh=kLwSQH57PEe5zVOlFBEwDTX0uJqJce5cR9UB+XSr2Zk=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=PBI6+EXlfPVyFFXp2b30bPYHS7LGIi0wgIi4NNn+W7949AY890i1Z5b6qmc98Ir3gaZWz7YR08K/6dlVFNYY63AutGa++UtPGgOiFpfBzK8j9Su5cmWAyFIO4yiERiAJP+9lwfm1I8L2AhDv5QlAUgOEfLNQ+Xa8zfIYsiD55zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HviEcUWR; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1729161371; c=relaxed/simple;
+	bh=bN0ynZ5VvEebxpXgXh2TCBbbaoPHNbGQrJn45V3ZuV4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZFzQ70O68clmj1Sq71U3ePTYb4KfnUsNDGt1YnaKzJ2yIWvK1tsyticTAu7Y1IVFuooBVGoHL/UC5CnSJ2iIQrHV42zQofn8q0wn/sRUeHSEJ1V0eVT0KUNyGGRewiN+unMGnv4kQN92VgRryFBH2cJJGs5s/VerVOCr5K+c/n4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=G98204VL; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HviEcUWR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729161010; x=1760697010;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=kLwSQH57PEe5zVOlFBEwDTX0uJqJce5cR9UB+XSr2Zk=;
-  b=HviEcUWRsGOW6xrRrmGlaZcXXE6okRgYXrTm/5ryk+n/QlI2TXODds5c
-   oN/Yex8ND1Q9Gol+GlezAnJcHB0+Ka9qTjueJVD3sYtQtXtf9jyz4IOLD
-   NhmqR+pxReW2Qo+trkAaIEnA6JMoJAre/NnJInNXnGzlR2zOibz9dNOqV
-   JBGygco0KS/qOn5q4iQt08PIggtuTuENcPYMgql9jjuCjskHS+RiZ/ltn
-   nBw+d4sc4wm5nnr8Ud1IslrJDrpyMEizqyV2Z6ZIHx895WZGkAt7dX3CD
-   oN+i1aGFa9QUrm9Z8POuJpTn+aUALQGIjH00kkc7qlTOUDGZ03KXkP0gg
-   g==;
-X-CSE-ConnectionGUID: iLjTbjanTdiWxDI89aueIA==
-X-CSE-MsgGUID: sHiS3dG5Tn2UpZV0f7VfNQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11227"; a="28771519"
-X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
-   d="scan'208";a="28771519"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 03:30:09 -0700
-X-CSE-ConnectionGUID: fq/YAsdiTF2LsYUjOCgWwQ==
-X-CSE-MsgGUID: eDB9BRDOTKe9wcIiYvYmZg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
-   d="scan'208";a="78164890"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.91])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 03:30:03 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Thu, 17 Oct 2024 13:30:00 +0300 (EEST)
-To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-cc: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>, 
-    Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, 
-    Rob Herring <robh@kernel.org>, 
-    =?ISO-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kw@linux.com>, 
-    "Maciej W. Rozycki" <macro@orcam.me.uk>, Lukas Wunner <lukas@wunner.de>, 
-    Alexandru Gagniuc <mr.nuke.me@gmail.com>, 
-    Krishna chaitanya chundru <quic_krichai@quicinc.com>, 
-    Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
-    "Rafael J. Wysocki" <rafael@kernel.org>, linux-pm@vger.kernel.org, 
-    Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>, 
-    Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
-    LKML <linux-kernel@vger.kernel.org>, 
-    Daniel Lezcano <daniel.lezcano@linaro.org>, 
-    Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
-    Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH v8 1/8] PCI: Protect Link Control 2 Register with RMW
- locking
-In-Reply-To: <20241017111213.00005d4f@Huawei.com>
-Message-ID: <8b022694-ed39-5216-67ed-f532ecb576df@linux.intel.com>
-References: <20241009095223.7093-1-ilpo.jarvinen@linux.intel.com> <20241009095223.7093-2-ilpo.jarvinen@linux.intel.com> <20241017111213.00005d4f@Huawei.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="G98204VL"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id ADEE91BF204;
+	Thu, 17 Oct 2024 10:35:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1729161360;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FU3ajgfKVQdp/DGYqfIoFwgjGz2NDpydxrXXIn2bE1U=;
+	b=G98204VLPKaAcWsavGd30rRwqEypallNrziTcStzdHkRWaKtaMkSoHfpTQYq6rlY1nQ9AX
+	oA97FMVpRw7r7fNmacsDX2Wo3haxFqhvQGZwRhHfs5DmGTcNPCPk1gnmvMdodkgnJs/8Lv
+	yOb4mGFH/6qKarFgC398y2e6MV1wuOtFtUUX3vDEzXCNrbPV8jmIf06Fjrcs9BR4K6Us/H
+	eRuyPpFGdEVEsDn09l0eqt0bqDUEJCdA6E269M8MKpWpK2iNhfq+wr2m+KhyJWNU9x9sS/
+	hY8egc0q6dio7a5KWPfC6PoqxbjxHxru/zYSduyYqpE+moqvOJ0piu8KKv2Ozw==
+Date: Thu, 17 Oct 2024 12:35:57 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Kyle Swenson <kyle.swenson@est.tech>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "netdev@vger.kernel.org"
+ <netdev@vger.kernel.org>, "linux-doc@vger.kernel.org"
+ <linux-doc@vger.kernel.org>, Dent Project
+ <dentproject@linuxfoundation.org>, "kernel@pengutronix.de"
+ <kernel@pengutronix.de>
+Subject: Re: [PATCH net-next 00/12] Add support for PSE port priority
+Message-ID: <20241017123557.68189d5b@kmaincent-XPS-13-7390>
+In-Reply-To: <20241015114352.2034b84a@kmaincent-XPS-13-7390>
+References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
+	<ZwaLDW6sKcytVhYX@p620.local.tld>
+	<20241009170400.3988b2ac@kmaincent-XPS-13-7390>
+	<ZwbAYyciOcjt7q3e@est-xps15>
+	<ZwdpQRRGst1Z0eQE@pengutronix.de>
+	<20241015114352.2034b84a@kmaincent-XPS-13-7390>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-1216660895-1729161000=:929"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Tue, 15 Oct 2024 11:43:52 +0200
+Kory Maincent <kory.maincent@bootlin.com> wrote:
 
---8323328-1216660895-1729161000=:929
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-
-On Thu, 17 Oct 2024, Jonathan Cameron wrote:
-
-> On Wed,  9 Oct 2024 12:52:16 +0300
-> Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com> wrote:
->=20
-> > PCIe Bandwidth Controller performs RMW accesses the Link Control 2
-> > Register which can occur concurrently to other sources of Link Control
-> > 2 Register writes. Therefore, add Link Control 2 Register among the PCI
-> > Express Capability Registers that need RMW locking.
+> > Policy Variants and Implementation
 > >=20
-> > Signed-off-by: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
-> > Reviewed-by: Lukas Wunner <lukas@wunner.de>
-> Totally trivial comment inline.
->=20
-> LGTM
->=20
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->=20
-> > ---
-> >  Documentation/PCI/pciebus-howto.rst | 14 +++++++++-----
-> >  include/linux/pci.h                 |  1 +
-> >  2 files changed, 10 insertions(+), 5 deletions(-)
+> > In cases where we are discussing prioritization, we are fundamentally
+> > talking about over-provisioning. This typically means that while a devi=
+ce
+> > advertises a certain maximum per-port power capacity (e.g., 95W), the t=
+otal
+> > system power budget (e.g., 300W) is insufficient to supply maximum powe=
+r to
+> > all ports simultaneously. This is often due to various system limitatio=
+ns,
+> > and if there were no power limits, prioritization wouldn't be necessary.
 > >=20
-> > diff --git a/Documentation/PCI/pciebus-howto.rst b/Documentation/PCI/pc=
-iebus-howto.rst
-> > index f344452651e1..375d9ce171f6 100644
-> > --- a/Documentation/PCI/pciebus-howto.rst
-> > +++ b/Documentation/PCI/pciebus-howto.rst
-> > @@ -217,8 +217,12 @@ capability structure except the PCI Express capabi=
-lity structure,
-> >  that is shared between many drivers including the service drivers.
-> >  RMW Capability accessors (pcie_capability_clear_and_set_word(),
-> >  pcie_capability_set_word(), and pcie_capability_clear_word()) protect
-> > -a selected set of PCI Express Capability Registers (Link Control
-> > -Register and Root Control Register). Any change to those registers
-> > -should be performed using RMW accessors to avoid problems due to
-> > -concurrent updates. For the up-to-date list of protected registers,
-> > -see pcie_capability_clear_and_set_word().
-> > +a selected set of PCI Express Capability Registers:
-> > +
-> > +* Link Control Register
-> > +* Root Control Register
-> > +* Link Control 2 Register
-> > +
-> > +Any change to those registers should be performed using RMW accessors =
+> > The challenge then becomes how to squeeze more Powered Devices (PDs) on=
 to
-> > +avoid problems due to concurrent updates. For the up-to-date list of
-> > +protected registers, see pcie_capability_clear_and_set_word().
+> > one PSE system. Here are two methods for over-provisioning:
+> >=20
+> > 1. Static Method:
+> > =20
+> >    This method involves distributing power based on PD classification. =
+It=E2=80=99s
+> >    straightforward and stable, with the software (probably within the P=
+SE
+> >    framework) keeping track of the budget and subtracting the power
+> > requested by each PD=E2=80=99s class.=20
+> > =20
+> >    Advantages: Every PD gets its promised power at any time, which
+> > guarantees reliability.=20
+> >=20
+> >    Disadvantages: PD classification steps are large, meaning devices re=
+quest
+> >    much more power than they actually need. As a result, the power supp=
+ly
+> > may only operate at, say, 50% capacity, which is inefficient and wastes
+> > money.
+> >=20
+> > 2. Dynamic Method: =20
+> >=20
+> >    To address the inefficiencies of the static method, vendors like
+> > Microchip have introduced dynamic power budgeting, as seen in the PD692=
+x0
+> > firmware. This method monitors the current consumption per port and
+> > subtracts it from the available power budget. When the budget is exceed=
+ed,
+> > lower-priority ports are shut down. =20
+> >=20
+> >    Advantages: This method optimizes resource utilization, saving costs.
+> >=20
+> >    Disadvantages: Low-priority devices may experience instability. A
+> > possible improvement could involve using LLDP protocols to dynamically
+> > configure power limits per port, thus allowing us to reduce power on
+> > over-consuming ports rather than shutting them down entirely. =20
 >=20
-> If I were super fussy I'd ask for a precursor patch doing the reformat.
+> Indeed we will have only static method for PSE controllers not supporting
+> system power budget management like the TPS2388x or LTC426.
+> Both method could be supported for "smart" PSE controller like PD692x0.
 >=20
-> Meh - up to Bjorn, but for me this is small enough to not be worth
-> the effort.
+> Let's begin with the static method implementation in the PSE framework for
+> now. It will need the power domain notion you have talked about.
 
-Hi Jonathan,
+While developing the software support for port priority in static method, I
+faced an issue.
 
-Thanks. Since you brought it up, I've no problem in splitting the=20
-reformatting into own patch, it won't take more than a minute
-anyway to do that change.
+Supposing we are exceeding the power budget when we plug a new PD.
+The port power should not be enabled directly or magic smoke will appear.
+So we have to separate the detection part to know the needs of the PD from =
+the
+power enable part.
 
+Currently the port power is enabled on the hardware automatically after the
+detection process. There is no way to separate power port process and detec=
+tion
+process with the PD692x0 controller and it could be done on the TPS23881 by
+configuring it to manual mode but: "The use of this mode is intended for sy=
+stem
+diagnostic purposes only in the event that ports cannot be powered in
+accordance with the IEEE 802.3bt standard from semiauto or auto modes."
+Not sure we want that.
+
+So in fact the workaround you talked about above will be needed for the two=
+ PSE
+controllers.
+=20
+> Both methods have their pros and cons. Since the dynamic method is not al=
+ways
+> desirable, and if there's no way to disable it in the PD692x0's firmware,=
+ one
+> potential workaround could be handling the budget in software and dynamic=
+ally
+> setting per-port limits. For instance, with a total budget of 300W and un=
+used
+> ports, we could initially set 95W limits per port. As high-priority PDs (=
+e.g.,
+> three 95W devices) are powered, we could dynamically reduce the power lim=
+it on
+> the remaining ports to 15W, ensuring that no device exceeds that
+> classification threshold.
+
+We would set port overcurrent limit for all unpowered ports when the power
+budget available is less than max PI power 100W as you described.
+If a new PD plugged exceed the overcurrent limit then it will raise an inte=
+rrupt
+and we could deal with the power budget to turn off low priority ports at t=
+hat
+time.=20
+
+Mmh in fact I could not know if the overcurrent event interrupt comes from a
+newly plugged PD or not.
+
+An option: When we get new PD device plug interrupt event, we wait the end =
+of
+classification time (Tpon 400ms) and read the interrupt states again to kno=
+w if
+there is an overcurrent or not on the port.
+
+What do you think?
+
+Regards,
 --=20
- i.
-
-> > diff --git a/include/linux/pci.h b/include/linux/pci.h
-> > index 573b4c4c2be6..be5ed534c39c 100644
-> > --- a/include/linux/pci.h
-> > +++ b/include/linux/pci.h
-> > @@ -1274,6 +1274,7 @@ static inline int pcie_capability_clear_and_set_w=
-ord(struct pci_dev *dev,
-> >  {
-> >  =09switch (pos) {
-> >  =09case PCI_EXP_LNKCTL:
-> > +=09case PCI_EXP_LNKCTL2:
-> >  =09case PCI_EXP_RTCTL:
-> >  =09=09return pcie_capability_clear_and_set_word_locked(dev, pos,
-> >  =09=09=09=09=09=09=09=09 clear, set);
->=20
->=20
-
---8323328-1216660895-1729161000=:929--
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
