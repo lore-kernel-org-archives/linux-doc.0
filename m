@@ -1,192 +1,124 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51DD31D6DB4
-	for <linux-doc@vger.kernel.org>; Thu, 17 Oct 2024 10:01:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDFED1D6DB4;
+	Thu, 17 Oct 2024 10:12:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729159266; cv=none; b=H2HoudEXMn4o54ObMygPnzjaC33Doedf345j2c1rAN/tZRuUiNiia8TtQYoW9CXtNW+MSyWanCbFBUqoCFcLl5sDIAatTHz8Tx7t42ACeN4P7P7t50YIsCCOk8dCpDjiXvak+i3u+p3O2L1ql98GZgp7GeOrFTh383McF4wqDT0=
+	t=1729159944; cv=none; b=Gf/WTfifdXl742PmityH11P8q9ooIByOtMHc+wRESe7NOajdBcy2gV8KkJFsQpMD6SF3GFSIQMxt9ToXzADSeN1qX6LjhkCAEBgfwAgIMFgfuo9/VUVmswDtwst+XcuYaEiSgP1o208ThwcYdOZWJKnCPV44R7PoVyZ5o04rJ7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729159266; c=relaxed/simple;
-	bh=VKBNhI+Ue429dozrCIKUPXiUij6uamodEC+N98AL0lo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NAYWEkOSnHdaC4A7gNmsjPd5zadwRcBZLFcmHDBu9gHP5YRApFta/E8eXLh7jJxFX2YtL5sps1t4Cv3jc+cUMUiXfL5GWrVWzTgzWd7JSabhxYpLTpnSU4Pw5L7h64L04OiL41ufvxktvwKMxw8JmqUd5Dp85ySf5mDnplsCCUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fkpcSU7J; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fkpcSU7J"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729159263;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=MNXpYWC/snVv/RcQcy4Z6FTQ4rOQoP2EVP5TGZ+dUTk=;
-	b=fkpcSU7JR+MpaNzTFfldfCeXZ4Ytv22KwM9zjkS8Jt3GRjgv2i6+O4zVsY1xM3k8fKPSJv
-	bVEr/uL9lP17joeQu6gveFOitm36B55CF/k5O+uJeAvq63jF51c6NpHeDdtz4U7k8j7qpj
-	vp3Jsp/VNGfP7xCl444LtlXsvF7LI0w=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-473-soMmUNEvOTSpQYU20omjVA-1; Thu, 17 Oct 2024 06:01:02 -0400
-X-MC-Unique: soMmUNEvOTSpQYU20omjVA-1
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-37d52ccc50eso385783f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 17 Oct 2024 03:01:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729159261; x=1729764061;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=MNXpYWC/snVv/RcQcy4Z6FTQ4rOQoP2EVP5TGZ+dUTk=;
-        b=Qndw1MhdPf/4Qo/5ZwlOm4qtjHcljFGwgeT02RcP5EVAPxL/VTcyXlP4KhIYIVr//j
-         ps0CyCVOFK3mpBjItr9ZD/3F2sp5k67BexaYg13UOrj4trENFGsjC9d5cmEWCP6+Hvu6
-         6KJgyvQnnh2X/zywXVKh/Z98UkMPfMDc/G1cp6Iix4DR52UK0cBRBuJzFxuA708y2T1x
-         1fGxErTLoilNKE8qvCa/SIz2LTCFF0vqKgH9tRsKkAJ6mRb2M/g0f5Q1BWQ5Jrwj2Du4
-         k116YmI1/ufOm5XjjLu9dvLjjFkk63KpXp7oa8qtr91PklZdQhl/9o1JmZmqPQ7/zP9g
-         z24g==
-X-Forwarded-Encrypted: i=1; AJvYcCVaC2DhrJ57nxPYPQVBBaoQE1k67y8lKsaqt9MGrGeG2CeVcMzHP0t3tQrxmdOtGUqS90WgUdVCCLU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYH1z+4ZuWTMXFNJUDXUFBTlZgoHsdJQ6S3sB6GLqCowHB/0je
-	k+XHU2WVgQZzEQmC8ntbQYMVTDTwrSWZqFEP/clQLJyxZjA5pZQVtaEFHVTIoLyP8qlXuxRbr2r
-	J+TzTJlp62Uk6hHV/twzh+B05FzDj4RrkcROLuLFfkqOchqKut3WfvMFmF9uMaN1l/8hd
-X-Received: by 2002:adf:f803:0:b0:37d:43f1:57fc with SMTP id ffacd0b85a97d-37d86d84f81mr3888589f8f.58.1729159260961;
-        Thu, 17 Oct 2024 03:01:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEeAsN2x2tkKcYuYJ2ZGm7ZZUGgpQNN57Jt9VpZjjuVf5PjflWwSWuvgSY7iIq2nRYvpheTJQ==
-X-Received: by 2002:adf:f803:0:b0:37d:43f1:57fc with SMTP id ffacd0b85a97d-37d86d84f81mr3888571f8f.58.1729159260463;
-        Thu, 17 Oct 2024 03:01:00 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c705:7600:62cc:24c1:9dbe:a2f5? (p200300cbc705760062cc24c19dbea2f5.dip0.t-ipconnect.de. [2003:cb:c705:7600:62cc:24c1:9dbe:a2f5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d7fa7a2a8sm6734586f8f.3.2024.10.17.03.00.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Oct 2024 03:01:00 -0700 (PDT)
-Message-ID: <1c7ef09e-9ba2-488e-a249-4db3f65e077d@redhat.com>
-Date: Thu, 17 Oct 2024 12:00:58 +0200
+	s=arc-20240116; t=1729159944; c=relaxed/simple;
+	bh=YzeVeOLHzuEbx+F9HKk7j53SetYaUbEgSj9ZRMYNBhM=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oMhtt8e9RpR7wcFh980FEa6LMB8enPPSvEm5KM1Hute40TNB7g8iKnFpo+XbTkrrNjkCD40cwnVDXbpdtpi9L16vy05hX0OSjIuFd32h09wZdJ0Rh8usN8DSBfqD/6AQee2x8ecauQuM6ki/UukLmEvCOSPwDhYxf9Y6p0btSwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4XTk9h708Dz6GBxS;
+	Thu, 17 Oct 2024 18:10:32 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id B37BA1400F4;
+	Thu, 17 Oct 2024 18:12:16 +0800 (CST)
+Received: from localhost (10.126.174.164) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Thu, 17 Oct
+ 2024 12:12:15 +0200
+Date: Thu, 17 Oct 2024 11:12:13 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Ilpo =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+CC: <linux-pci@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, "Lorenzo
+ Pieralisi" <lorenzo.pieralisi@arm.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof =?UTF-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, "Maciej W. Rozycki"
+	<macro@orcam.me.uk>, Lukas Wunner <lukas@wunner.de>, Alexandru Gagniuc
+	<mr.nuke.me@gmail.com>, Krishna chaitanya chundru <quic_krichai@quicinc.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, "Rafael J.
+ Wysocki" <rafael@kernel.org>, <linux-pm@vger.kernel.org>, Smita Koralahalli
+	<Smita.KoralahalliChannabasappa@amd.com>, Jonathan Corbet <corbet@lwn.net>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Daniel Lezcano
+	<daniel.lezcano@linaro.org>, Amit Kucheria <amitk@kernel.org>, Zhang Rui
+	<rui.zhang@intel.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH v8 1/8] PCI: Protect Link Control 2 Register with RMW
+ locking
+Message-ID: <20241017111213.00005d4f@Huawei.com>
+In-Reply-To: <20241009095223.7093-2-ilpo.jarvinen@linux.intel.com>
+References: <20241009095223.7093-1-ilpo.jarvinen@linux.intel.com>
+	<20241009095223.7093-2-ilpo.jarvinen@linux.intel.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/7] s390/physmem_info: query diag500(STORAGE LIMIT) to
- support QEMU/KVM memory devices
-To: Alexander Gordeev <agordeev@linux.ibm.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-s390@vger.kernel.org, virtualization@lists.linux.dev,
- linux-doc@vger.kernel.org, kvm@vger.kernel.org,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Mario Casquero <mcasquer@redhat.com>
-References: <20241014144622.876731-1-david@redhat.com>
- <20241014144622.876731-5-david@redhat.com>
- <ZxC+mr5PcGv4fBcY@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
- <04d5169f-3289-4aac-abca-90b20ad4e9c9@redhat.com>
- <ZxDetq73hETPMjln@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <ZxDetq73hETPMjln@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: lhrpeml500001.china.huawei.com (7.191.163.213) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-On 17.10.24 11:53, Alexander Gordeev wrote:
->>> Why search_mem_end() is not tried in case sclp_early_get_memsize() failed?
->>
->> Patch #3 documents that:
->>
->> +    The storage limit does not indicate currently usable storage, it may
->> +    include holes, standby storage and areas reserved for other means, such
->> +    as memory hotplug or virtio-mem devices. Other interfaces for detecting
->> +    actually usable storage, such as SCLP, must be used in conjunction with
->> +    this subfunction.
-> 
-> Yes, I read this and that exactly what causes my confusion. In this wording it
-> sounds like SCLP *or* other methods are fine to use. But then you use SCLP or
-> DIAGNOSE 260, but not memory scanning. So I am still confused ;)
+On Wed,  9 Oct 2024 12:52:16 +0300
+Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com> wrote:
 
-Well, DIAGNOSE 260 is z/VM only and DIAG 500 is KVM only. So there are 
-currently not really any other reasonable ways besides SCLP.
+> PCIe Bandwidth Controller performs RMW accesses the Link Control 2
+> Register which can occur concurrently to other sources of Link Control
+> 2 Register writes. Therefore, add Link Control 2 Register among the PCI
+> Express Capability Registers that need RMW locking.
+>=20
+> Signed-off-by: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
+> Reviewed-by: Lukas Wunner <lukas@wunner.de>
+Totally trivial comment inline.
 
-> 
->> If SCLP would fail, something would be seriously wrong and we should just crash
->> instead of trying to fallback to the legacy way of scanning.
-> 
-> But what is wrong with the legacy way of scanning?
+LGTM
 
-Missing to detect holes and starting to use them, detecting and using 
-device memory without negotiating with the device ... it all falls to 
-pieces.
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-> 
->>>> +	case MEM_DETECT_DIAG500_STOR_LIMIT:
->>>> +		return "diag500 storage limit";
->>>
->>> AFAIU you want to always override MEM_DETECT_DIAG500_STOR_LIMIT method
->>> with an online memory detection method. In that case this code is dead.
->>
->> Not in the above case, pathological case above where something went wrong
->> during sclp_early_get_memsize(). In that scenario, die_oom() would indicate
->> that there are no memory ranges but that "diag500 storage limit" worked.
->>
->> Does that make sense?
-> 
-> Yes, I get your approach.
+> ---
+>  Documentation/PCI/pciebus-howto.rst | 14 +++++++++-----
+>  include/linux/pci.h                 |  1 +
+>  2 files changed, 10 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/Documentation/PCI/pciebus-howto.rst b/Documentation/PCI/pcie=
+bus-howto.rst
+> index f344452651e1..375d9ce171f6 100644
+> --- a/Documentation/PCI/pciebus-howto.rst
+> +++ b/Documentation/PCI/pciebus-howto.rst
+> @@ -217,8 +217,12 @@ capability structure except the PCI Express capabili=
+ty structure,
+>  that is shared between many drivers including the service drivers.
+>  RMW Capability accessors (pcie_capability_clear_and_set_word(),
+>  pcie_capability_set_word(), and pcie_capability_clear_word()) protect
+> -a selected set of PCI Express Capability Registers (Link Control
+> -Register and Root Control Register). Any change to those registers
+> -should be performed using RMW accessors to avoid problems due to
+> -concurrent updates. For the up-to-date list of protected registers,
+> -see pcie_capability_clear_and_set_word().
+> +a selected set of PCI Express Capability Registers:
+> +
+> +* Link Control Register
+> +* Root Control Register
+> +* Link Control 2 Register
+> +
+> +Any change to those registers should be performed using RMW accessors to
+> +avoid problems due to concurrent updates. For the up-to-date list of
+> +protected registers, see pcie_capability_clear_and_set_word().
 
-Thanks, please let me know if I should make it clearer in the 
-description, of if you think we can improve the code.
+If I were super fussy I'd ask for a precursor patch doing the reformat.
 
--- 
-Cheers,
+Meh - up to Bjorn, but for me this is small enough to not be worth
+the effort.
 
-David / dhildenb
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 573b4c4c2be6..be5ed534c39c 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -1274,6 +1274,7 @@ static inline int pcie_capability_clear_and_set_wor=
+d(struct pci_dev *dev,
+>  {
+>  	switch (pos) {
+>  	case PCI_EXP_LNKCTL:
+> +	case PCI_EXP_LNKCTL2:
+>  	case PCI_EXP_RTCTL:
+>  		return pcie_capability_clear_and_set_word_locked(dev, pos,
+>  								 clear, set);
 
