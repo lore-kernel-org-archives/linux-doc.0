@@ -1,80 +1,89 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E91951D90C5;
-	Thu, 17 Oct 2024 09:26:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E4A1DAC9B;
+	Thu, 17 Oct 2024 09:54:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729157208; cv=none; b=FXbT3iyIv4vifQYKKh36v3z7Q3qs/+fXw3/XsHyFan1zsrOJk53uoM2rvvCJTNZRc+0NiNnfdBWpharlFxs2k2VnpkfuBJoMzs8xQ8mYWP4bwIOWZsfKb1MHkHu7zKmzbny/QAzF6p14Wxi6gRicpjfqqYZM4S2ZjnwXy0MWnos=
+	t=1729158855; cv=none; b=pHx6O2l78U0vtKn0NecbbvCXaor7zGvgLi/ft7VDmBvk6C9OdGdfrHjkVX/NO5cJtLIxyXF2N2/9sXlHxwDXHA9L7UHThqEwJAWAf3wtP0OwZGrZX7dMh4eyZ7onzfLtIsa4OsnAR9TgcAh8I8LgK9o+YxIRb03Z4/V3FA1h3vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729157208; c=relaxed/simple;
-	bh=nJJW0IqlEidUPTYRziXp8zEdXwJwaiZA85X7aRPrG4c=;
+	s=arc-20240116; t=1729158855; c=relaxed/simple;
+	bh=tTHLZwbeqBOqBvWlmD9E+niNphUJawMItIl5A2gawTo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gie3NPCxCsqyiMlin6+z+KSzAEOk/t1t9RgkkHtPJtwzMy9ibV0AmbHXiLj5px5grEXS+JFlMkigasAoXTWkpwUrQ2gUsfD8vQSB08FcOnHEK0ohjE5uVgfGpiMPz/ftVBG9kXVuJJWiWudFTL3uxuJBPk2mo+CXPx5v0kemaaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ql0WwyGY; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=scKPAiPGE6Wh+ZDEUNrVPB+cD0zdw6J2LeP4Ynm28b3b20UL6PIiiru1LaI+QsJ8AFQwEg5ridUiJKWEHybceAmJ0WDyAfe1kf0x1NECGS4gmtnbPnVvVJsjqPFfohpUsRCLa9zcQTaiWvPak+C3xNR4AG96hDZkJXUbIk4/LgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=F9kRHCX9; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ql0WwyGY"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-7eab7622b61so636749a12.1;
-        Thu, 17 Oct 2024 02:26:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729157206; x=1729762006; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nJJW0IqlEidUPTYRziXp8zEdXwJwaiZA85X7aRPrG4c=;
-        b=Ql0WwyGY2fJarPQPddHa2mV6FVMnEJ57/Pk6UN6dDfkFmokTshPgmQQv0wkcodqNBy
-         ob3FRdmAWnMdMdKJL71Ai5Z11QPsxG3CML0R0AUskyDrm6E025fCAHtLGKKy9aC6jJIE
-         Nc/s/7WFsQmfTUcm3jmalccJ1K9UrtbdFAlr1JxqNDfsVl/E0Y+EOSQVW0JMnX/T0V4i
-         fIw7WhfLBiC10tSraVYp5YQIvjVdartySKFA1cnx3oJaD4Mb+ZPFmpEGbAe5YwLjGpDw
-         QEcxlvEelbz06X71CUR3CFf5TLpiBTn7lZEvrbwiD8RK80hH4nPllX6TPV/krmEhlAdD
-         cuMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729157206; x=1729762006;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nJJW0IqlEidUPTYRziXp8zEdXwJwaiZA85X7aRPrG4c=;
-        b=aIWzEcPGO4RFwWKl4kjSeBNPGPXNdshK9iRl2y2NWl2Fv7/pv1+YPQl8h/+0NolEJ0
-         RQdVjddIpjoZooW4tWnPN5z2qT94nUVjRKR/lS+5ncLahFPvVlDh3jTvvlld65Pftlhf
-         vv/JV9aVl5yitLuMm23R/AUYW/d1B+KU+gE8wjMLGalkTk6o9X6+O8RG99DMgsgeUcOU
-         1zf2EjXeNaZUFz0fuKXbaaTWulzRAlalVRfo9JwVIRrEY5iY/ItaM+aZTIBaLZP+ey0r
-         8oi2lW5JmXB0vMxubT9IG9SnUo7qojmdWmHZqMshpGDNMXaB/C6DWSHljWAoqcKDe0uh
-         KE5A==
-X-Forwarded-Encrypted: i=1; AJvYcCUPk/w1l+qlaEMiHXowBzp6U1X3KE3/C1TY5l61CcCrFQBDvd6JzpLzXsyxFWJyUePQ9eKTqHCZHnYeomk8@vger.kernel.org, AJvYcCW0bU0CRytgYxiusDfezrXntoXCZO1Y+aoWq/U7Ekj21dA3fVe64MMu70ci3AGRG8d5o4rOvIFzdyST@vger.kernel.org, AJvYcCXZfVHDfFxgWhwUlqoM8uV7eYWxU0reC3MGsrfzqzAoMxkxN5eBPgwQNwL0WIUgGwP0n1w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxgzJfulSlk7IjUwxbNLjTo3nsQbYGqhQe+ZQ44gvQdamhaLeG
-	6udAKl7V4rhZL6JlrmE1wX7Zy9QYr7NlDDw6i0Ny6ZOlwHVvNUZM
-X-Google-Smtp-Source: AGHT+IE96loXrbUlaPAyE8WtyM8lDq1SaDZ9pKic4cShYAdR3fRclLcPo6MZKte8otQzE6KoCHpjSQ==
-X-Received: by 2002:a05:6a20:d504:b0:1cf:3d14:6921 with SMTP id adf61e73a8af0-1d905f4f902mr10429378637.35.1729157206080;
-        Thu, 17 Oct 2024 02:26:46 -0700 (PDT)
-Received: from fedora ([43.228.180.230])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71e774a2b20sm4335243b3a.122.2024.10.17.02.26.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2024 02:26:45 -0700 (PDT)
-Date: Thu, 17 Oct 2024 09:26:37 +0000
-From: Hangbin Liu <liuhangbin@gmail.com>
-To: Nikolay Aleksandrov <razor@blackwall.org>
-Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Andrii Nakryiko <andriin@fb.com>, Jussi Maki <joamaki@gmail.com>,
-	Jay Vosburgh <jv@jvosburgh.net>,
-	Andy Gospodarek <andy@greyhouse.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCHv2 net-next 0/3] Bonding: returns detailed error about XDP
- failures
-Message-ID: <ZxDYTTIgV2tE3tWw@fedora>
-References: <20241017020638.6905-1-liuhangbin@gmail.com>
- <54164763-b635-4ff6-be88-56aeb461b494@blackwall.org>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="F9kRHCX9"
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49H1t2FY027500;
+	Thu, 17 Oct 2024 09:54:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=+TRddsrmmpM1wtQaANF9W3y1Tj2RP3
+	bionyyPXGXt6Q=; b=F9kRHCX9egziWpTQJ43HZlaPP6ZucKQ/AeAMdpw3NXZTxu
+	FhVxJy0BJ4Sc/fRMntQfmS3E17JEqVp8fLk/ntCzzopaYJbwx1uTVtsUTL2SobeA
+	+ZaqhCY2Ml7x/GHd4GO3M2ALeT/+dwKKTT0VHuibNCFnvBhxX3X2g9Zm22l75Bo+
+	QXlufT64R+rfoNpCQxV7aDAax4JIQiVw2zilEKla2CeUeub7aJ9OLjl9ehSh4OmO
+	pcdYxObsFjLC/MhHm0nmfwoQCZjgPVlXMT1qMfIy4zqfIrWjDqzAcYEBCB4CTU+a
+	PkzkftNO+wW2K/QbFdQDhMmRGXk/uabXRyeouXjA==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42asbd1tar-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 17 Oct 2024 09:54:06 +0000 (GMT)
+Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 49H9pCeX010672;
+	Thu, 17 Oct 2024 09:54:05 GMT
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42asbd1tak-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 17 Oct 2024 09:54:05 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 49H6Fj8D005218;
+	Thu, 17 Oct 2024 09:54:04 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4285njdtg8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 17 Oct 2024 09:54:04 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 49H9s0Po18022718
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 17 Oct 2024 09:54:00 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 93E0A20043;
+	Thu, 17 Oct 2024 09:54:00 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7BFCE20040;
+	Thu, 17 Oct 2024 09:53:59 +0000 (GMT)
+Received: from li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com (unknown [9.179.26.155])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Thu, 17 Oct 2024 09:53:59 +0000 (GMT)
+Date: Thu, 17 Oct 2024 11:53:58 +0200
+From: Alexander Gordeev <agordeev@linux.ibm.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-s390@vger.kernel.org, virtualization@lists.linux.dev,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, Mario Casquero <mcasquer@redhat.com>
+Subject: Re: [PATCH v2 4/7] s390/physmem_info: query diag500(STORAGE LIMIT)
+ to support QEMU/KVM memory devices
+Message-ID: <ZxDetq73hETPMjln@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
+References: <20241014144622.876731-1-david@redhat.com>
+ <20241014144622.876731-5-david@redhat.com>
+ <ZxC+mr5PcGv4fBcY@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
+ <04d5169f-3289-4aac-abca-90b20ad4e9c9@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -83,14 +92,57 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <54164763-b635-4ff6-be88-56aeb461b494@blackwall.org>
+In-Reply-To: <04d5169f-3289-4aac-abca-90b20ad4e9c9@redhat.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: rsW7nei5PMxsFNxCpTTeWNX0xwVxfCqF
+X-Proofpoint-GUID: G8r6oOg0lIoIYHzFUNbBTccmQlmMrzuo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 suspectscore=0
+ malwarescore=0 spamscore=0 lowpriorityscore=0 phishscore=0 mlxscore=0
+ clxscore=1015 adultscore=0 priorityscore=1501 mlxlogscore=282
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410170064
 
-On Thu, Oct 17, 2024 at 11:40:34AM +0300, Nikolay Aleksandrov wrote:
-> Please CC reviewers when sending new versions. I was CCed on patches 1 and 2
-> probably due to the tag, but wasn't on patch 3 and had to search for
-> the series.
+> > Why search_mem_end() is not tried in case sclp_early_get_memsize() failed?
+> 
+> Patch #3 documents that:
+> 
+> +    The storage limit does not indicate currently usable storage, it may
+> +    include holes, standby storage and areas reserved for other means, such
+> +    as memory hotplug or virtio-mem devices. Other interfaces for detecting
+> +    actually usable storage, such as SCLP, must be used in conjunction with
+> +    this subfunction.
 
-Oh, sorry for the inconvenient. I thought you are in the cc list. Next time I
-will do double check.
+Yes, I read this and that exactly what causes my confusion. In this wording it
+sounds like SCLP *or* other methods are fine to use. But then you use SCLP or
+DIAGNOSE 260, but not memory scanning. So I am still confused ;)
 
-Hangbin
+> If SCLP would fail, something would be seriously wrong and we should just crash
+> instead of trying to fallback to the legacy way of scanning.
+
+But what is wrong with the legacy way of scanning?
+
+> > > +	case MEM_DETECT_DIAG500_STOR_LIMIT:
+> > > +		return "diag500 storage limit";
+> > 
+> > AFAIU you want to always override MEM_DETECT_DIAG500_STOR_LIMIT method
+> > with an online memory detection method. In that case this code is dead.
+> 
+> Not in the above case, pathological case above where something went wrong
+> during sclp_early_get_memsize(). In that scenario, die_oom() would indicate
+> that there are no memory ranges but that "diag500 storage limit" worked.
+> 
+> Does that make sense?
+
+Yes, I get your approach.
+
+> Thanks for the review!
+
+Thanks!
+
+> -- 
+> Cheers,
+> 
+> David / dhildenb
