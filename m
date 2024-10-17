@@ -1,558 +1,199 @@
-Received: from mx0a-0016f401.pphosted.com (mx0a-0016f401.pphosted.com [67.231.148.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4647B1D517D;
-	Thu, 17 Oct 2024 12:12:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.148.174
+Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C0B31DD54A;
+	Thu, 17 Oct 2024 12:14:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729167166; cv=none; b=qX8jOI0apKteh/JBQtAKmVTRfwgAuuNSqAsLTewOvVEJ9R280UW++Pk54I9VO7g3zWnwchSMqVX4ryE4DSc6v3gwTg/22/Shikj0nK1EiXqrOofjhzABdtD/A2ClDZK0BDYxp8bkTNHQQ+PlA8t7ppa7Q+UWDBucORx1B8q7o6Q=
+	t=1729167303; cv=none; b=n2b8uvA7F0lWY9Wk/eoKGG62R1obwnK8+P2ZVNSOVLUCwDfGffCuMBm7y1nFhvDVjLcJx3UXPNY84LDshC24trEqmI6OEr5lb7rYiqNqtxnZFvX41CEP5MapkngWNQdLHmHvtQRHY6xJH91+BY7mxghRC6kZauaR6k+BQD3MsTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729167166; c=relaxed/simple;
-	bh=sCcYcaMwq6fqQmkyi9NqMZGze0pz3Lig8cctdhpIu2U=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SahQTAyue5ZaUoZcJA75Tslbd5JkGbGJfGPYBJtYVzA9VcmFusAF4oia6hABJgnXFd2F1k/YgQFb2PBbaVd8WXRacXPkZYu1lAsLokzi4Hzlne03xGFQYAZ/NlyE/5qhPNwiTvp8YAyvkVRUt1mV0iQbGnMGxq2fgAEYDfjCi/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=dn86cJ3h; arc=none smtp.client-ip=67.231.148.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="dn86cJ3h"
-Received: from pps.filterd (m0431384.ppops.net [127.0.0.1])
-	by mx0a-0016f401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49HAoMlD005209;
-	Thu, 17 Oct 2024 05:12:28 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pfpt0220; bh=aDLiraul/A9OhiyDOFQLbwPPY
-	meq2Urm69irJMzyudA=; b=dn86cJ3hAv4nc4AQUCenT4leSUkG+eaEZIZt74vrZ
-	/LmJDQs65vmG815hYIYkZw/HCTOI2ayB0SW2NPEhGJPsHg9+8OJwBPxGSyTsZov4
-	5FaP+lKf+RI+ndljqBRc1VL2UKts/6sqY//p8sNB2DTl/UGeNUDeYnCy3HBZSewc
-	Omoc6CU65qMezDAm3KtwhCOoy0Mlu0adwXuViy30OXGgfxY+DnmNlKQCSmGY/ElC
-	AaQoYlt8+slgnggykbN5mJAEfL3IDQryeKnV6fFoXZeDpr+bT/JggCceL5cMthSM
-	1066hYZIPBSPfA6XOA+9rXDhqLHtUB1GU1tkA4b1asoWQ==
-Received: from dc6wp-exch02.marvell.com ([4.21.29.225])
-	by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 42ayw089wb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 17 Oct 2024 05:12:27 -0700 (PDT)
-Received: from DC6WP-EXCH02.marvell.com (10.76.176.209) by
- DC6WP-EXCH02.marvell.com (10.76.176.209) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.4; Thu, 17 Oct 2024 05:12:26 -0700
-Received: from maili.marvell.com (10.69.176.80) by DC6WP-EXCH02.marvell.com
- (10.76.176.209) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
- Transport; Thu, 17 Oct 2024 05:12:26 -0700
-Received: from hyd1403.caveonetworks.com (unknown [10.29.37.84])
-	by maili.marvell.com (Postfix) with SMTP id 508273F7055;
-	Thu, 17 Oct 2024 05:12:22 -0700 (PDT)
-Date: Thu, 17 Oct 2024 17:42:21 +0530
-From: Linu Cherian <lcherian@marvell.com>
-To: Suzuki K Poulose <suzuki.poulose@arm.com>
-CC: <mike.leach@linaro.org>, <james.clark@arm.com>,
-        <linux-arm-kernel@lists.infradead.org>, <coresight@lists.linaro.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
-        <corbet@lwn.net>, <devicetree@vger.kernel.org>, <sgoutham@marvell.com>,
-        <gcherian@marvell.com>
-Subject: Re: [PATCH v10 4/8] coresight: tmc: Enable panic sync handling
-Message-ID: <20241017121221.GA901001@hyd1403.caveonetworks.com>
-References: <20240916103437.226816-1-lcherian@marvell.com>
- <20240916103437.226816-5-lcherian@marvell.com>
- <6b405b22-9b1e-487b-9b9c-5944358488e2@arm.com>
+	s=arc-20240116; t=1729167303; c=relaxed/simple;
+	bh=KR6k2M9sJjNlxnNK+VdzSRJZKqP1DzeXSFhCkLSKWjc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=G558XZnUIYOLjz+Ukoskoh2RHbROupn47doCmGIUY5OnEOYGpq3kNTLByvRYNSNWogp+DccOoDVlZL0gVM/m9QqRS6+mmzy1ZAJXMoq9Efv5siaXYVMZpkdSDM9JdIKhfyLbWX2mu7P8krjN71Pjl17oSJRG3XtSUT0kXJwFYU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.79.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app2 (Coremail) with SMTP id HwEQrACnrACY_xBnf_YVAQ--.14997S2;
+	Thu, 17 Oct 2024 20:14:16 +0800 (CST)
+Received: from pride-PowerEdge-R740.. (unknown [222.20.126.129])
+	by gateway (Coremail) with SMTP id _____wAXAkGS_xBni3daAA--.37840S2;
+	Thu, 17 Oct 2024 20:14:11 +0800 (CST)
+From: Dongliang Mu <dzm91@hust.edu.cn>
+To: Alex Shi <alexs@kernel.org>,
+	Yanteng Si <siyanteng@loongson.cn>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Dongliang Mu <dzm91@hust.edu.cn>
+Cc: hust-os-kernel-patches@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH] docs/zh_CN: update the translation of process/programming-language.rst
+Date: Thu, 17 Oct 2024 20:13:59 +0800
+Message-ID: <20241017121407.3431231-1-dzm91@hust.edu.cn>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <6b405b22-9b1e-487b-9b9c-5944358488e2@arm.com>
-X-Proofpoint-GUID: fFgVxo911AkhQOW98aZQFvfHQ0KF2oHO
-X-Proofpoint-ORIG-GUID: fFgVxo911AkhQOW98aZQFvfHQ0KF2oHO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.687,Hydra:6.0.235,FMLib:17.0.607.475
- definitions=2020-10-13_15,2020-10-13_02,2020-04-07_01
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HwEQrACnrACY_xBnf_YVAQ--.14997S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoW3WrW3Gw18WF1rCF4fZr43ZFb_yoW7tr1UpF
+	W7Kr9rKa18J3WxGrZ7Kr17Zr1FkFZ5Ka48trWUt3WYyF40ya9IqFyxKrsxX342vryxCFWD
+	Zw1fuFW8X3y3AFDanT9S1TB71UUUUbJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUHmb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	1q6r43M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVW8ZVWrXw
+	CF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Y
+	z7v_Jr0_Gr1l4IxYO2xFxVAFwI0_GFv_Wrylx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYY7kG6IIYr7AKxVW8JVW5
+	JwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU5
+	2eHPUUUUU==
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-Hi Suzuki,
+Update to commit 0b02076f9953 ("docs: programming-language: add Rust
+programming language section")
 
-On 2024-10-01 at 22:13:12, Suzuki K Poulose (suzuki.poulose@arm.com) wrote:
-> Hi Linu
-> 
-> On 16/09/2024 11:34, Linu Cherian wrote:
-> > - Get reserved region from device tree node for metadata
-> > - Define metadata format for TMC
-> > - Add TMC ETR panic sync handler that syncs register snapshot
-> >    to metadata region
-> > - Add TMC ETF panic sync handler that syncs register snapshot
-> >    to metadata region and internal SRAM to reserved trace buffer
-> >    region.
-> 
-> The patch looks good overall. Some minor comments below.
-> 
-> > 
-> > Signed-off-by: Linu Cherian <lcherian@marvell.com>
-> > ---
-> > Changelog from v9:
-> > - Add common helper function of_tmc_get_reserved_resource_by_name
-> >    for better code reuse
-> > - Inorder to keep the reserved buffer validity and crashdata validity
-> >    independent, is_tmc_reserved_region_valid renamed to tmc_has_reserved_buffer
-> > - drvdata->crash_tbuf renamed to drvdata->resrv_buf
-> > - New fields added to crash metadata: version, ffcr, ffsr, mode
-> > - Defined crashdata version with Major version 1, Minor version 0
-> > - Set version while creating crashdata record
-> > - Removed Reviewed-by tag due to the above changes
-> >   .../hwtracing/coresight/coresight-tmc-core.c  | 14 ++++
-> >   .../hwtracing/coresight/coresight-tmc-etf.c   | 77 ++++++++++++++++++
-> >   .../hwtracing/coresight/coresight-tmc-etr.c   | 78 +++++++++++++++++++
-> >   drivers/hwtracing/coresight/coresight-tmc.h   | 66 ++++++++++++++++
-> >   4 files changed, 235 insertions(+)
-> > 
-> > diff --git a/drivers/hwtracing/coresight/coresight-tmc-core.c b/drivers/hwtracing/coresight/coresight-tmc-core.c
-> > index 0764c21aba0f..54bf8ae2bff8 100644
-> > --- a/drivers/hwtracing/coresight/coresight-tmc-core.c
-> > +++ b/drivers/hwtracing/coresight/coresight-tmc-core.c
-> > @@ -445,6 +445,20 @@ static void tmc_get_reserved_region(struct device *parent)
-> >   	drvdata->resrv_buf.paddr = res.start;
-> >   	drvdata->resrv_buf.size  = resource_size(&res);
-> > +
-> > +	if (of_tmc_get_reserved_resource_by_name(parent, "metadata", &res))
-> > +		return;
-> > +
-> > +	drvdata->crash_mdata.vaddr = memremap(res.start,
-> > +					       resource_size(&res),
-> > +					       MEMREMAP_WC);
-> > +	if (IS_ERR_OR_NULL(drvdata->crash_mdata.vaddr)) {
-> > +		dev_err(parent, "Metadata memory mapping failed\n");
-> > +		return;
-> > +	}
-> > +
-> > +	drvdata->crash_mdata.paddr = res.start;
-> > +	drvdata->crash_mdata.size  = resource_size(&res);
-> >   }
-> >   /* Detect and initialise the capabilities of a TMC ETR */
-> > diff --git a/drivers/hwtracing/coresight/coresight-tmc-etf.c b/drivers/hwtracing/coresight/coresight-tmc-etf.c
-> > index d4f641cd9de6..d77ec9307e98 100644
-> > --- a/drivers/hwtracing/coresight/coresight-tmc-etf.c
-> > +++ b/drivers/hwtracing/coresight/coresight-tmc-etf.c
-> > @@ -590,6 +590,78 @@ static unsigned long tmc_update_etf_buffer(struct coresight_device *csdev,
-> >   	return to_read;
-> >   }
-> > +static int tmc_panic_sync_etf(struct coresight_device *csdev)
-> > +{
-> > +	u32 val;
-> > +	struct csdev_access *csa;
-> > +	struct tmc_crash_metadata *mdata;
-> > +	struct tmc_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
-> > +
-> > +	csa = &drvdata->csdev->access;
-> > +	mdata = (struct tmc_crash_metadata *)drvdata->crash_mdata.vaddr;
-> > +
-> > +	/* Make sure we have valid reserved memory */
-> > +	if (!tmc_has_reserved_buffer(drvdata) ||
-> > +	    !tmc_has_crash_mdata_buffer(drvdata))
-> > +		return 0;
-> > +
-> > +	tmc_crashdata_set_invalid(drvdata);
-> > +
-> > +	CS_UNLOCK(drvdata->base);
-> > +
-> > +	/* Proceed only if ETF is enabled or configured as sink */
-> > +	val = readl(drvdata->base + TMC_CTL);
-> > +	if (!(val & TMC_CTL_CAPT_EN))
-> > +		goto out;
-> > +
-> 
-> minor nit : Since the check below is "covered" by the same comment
-> above, please drop the extra line here to make it clear that "we check
-> for sink" by checking the "MODE == CIRCULAR_BUFFER".
+scripts/checktranstatus.py reports:
 
-Ack.
+Documentation/translations/zh_CN/process/programming-language.rst
+commit 0b02076f9953 ("docs: programming-language: add Rust programming
+language section")
+commit 38484a1d0c50 ("docs: programming-language: remove mention of the
+Intel compiler")
+2 commits needs resolving in total
 
-> 
-> > +	val = readl(drvdata->base + TMC_MODE);
-> > +	if (val != TMC_MODE_CIRCULAR_BUFFER)
-> > +		goto out;
-> > +
-> > +	val = readl(drvdata->base + TMC_FFSR);
-> > +	/* Do manual flush and stop only if its not auto-stopped */
-> > +	if (!(val & TMC_FFSR_FT_STOPPED)) {
-> > +		dev_info(&csdev->dev,
-> > +			 "%s: Triggering manual flush\n", __func__);
-> 
-> Please drop the ^^^ line. We don't want to do anything like that from a
-> panic callback.
+Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+---
+ .../zh_CN/process/programming-language.rst    | 78 +++++++------------
+ 1 file changed, 30 insertions(+), 48 deletions(-)
 
-Ack.
+diff --git a/Documentation/translations/zh_CN/process/programming-language.rst b/Documentation/translations/zh_CN/process/programming-language.rst
+index fabdc338dbfb..55f132a4b212 100644
+--- a/Documentation/translations/zh_CN/process/programming-language.rst
++++ b/Documentation/translations/zh_CN/process/programming-language.rst
+@@ -3,25 +3,22 @@
+ :Original: :ref:`Documentation/process/programming-language.rst <programming_language>`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+ 
+-.. _cn_programming_language:
+-
+ 程序设计语言
+ ============
+ 
+-内核是用C语言 :ref:`c-language <cn_c-language>` 编写的。更准确地说，内核通常是用 :ref:`gcc <cn_gcc>`
+-在 ``-std=gnu11`` :ref:`gcc-c-dialect-options <cn_gcc-c-dialect-options>` 下编译的：ISO C11的 GNU 方言
+-
+-这种方言包含对语言 :ref:`gnu-extensions <cn_gnu-extensions>` 的许多扩展，当然，它们许多都在内核中使用。
++内核是用 C 编程语言编写的 [zh_cn_c-language]_。更准确地说，内核通常使用 ``gcc`` [gcc]_ 编译，
++并且使用 ``-std=gnu11`` [zh_cn_gcc-c-dialect-options]_：这是 ISO C11 的 GNU 方言。
++``clang`` [zh_cn_clang]_ 也得到了支持，详见文档：
++:ref:`使用 Clang/LLVM 构建 Linux <kbuild_llvm>`。
+ 
+-对于一些体系结构，有一些使用 :ref:`clang <cn_clang>` 和 :ref:`icc <cn_icc>` 编译内核
+-的支持，尽管在编写此文档时还没有完成，仍需要第三方补丁。
++这种方言包含对 C 语言的许多扩展 [zh_cn_gnu-extensions]_，当然，它们许多都在内核中使用。
+ 
+ 属性
+ ----
+ 
+-在整个内核中使用的一个常见扩展是属性（attributes） :ref:`gcc-attribute-syntax <cn_gcc-attribute-syntax>`
++在整个内核中使用的一个常见扩展是属性（attributes） [zh_cn_gcc-attribute-syntax]_。
+ 属性允许将实现定义的语义引入语言实体（如变量、函数或类型），而无需对语言进行
+-重大的语法更改（例如添加新关键字） :ref:`n2049 <cn_n2049>`
++重大的语法更改（例如添加新关键字） [zh_cn_n2049]_。
+ 
+ 在某些情况下，属性是可选的（即不支持这些属性的编译器仍然应该生成正确的代码，
+ 即使其速度较慢或执行的编译时检查/诊断次数不够）
+@@ -30,42 +27,27 @@
+ ``__attribute__((__pure__))`` ），以检测可以使用哪些关键字和/或缩短代码, 具体
+ 请参阅 ``include/linux/compiler_attributes.h``
+ 
+-.. _cn_c-language:
+-
+-c-language
+-   http://www.open-std.org/jtc1/sc22/wg14/www/standards
+-
+-.. _cn_gcc:
+-
+-gcc
+-   https://gcc.gnu.org
+-
+-.. _cn_clang:
+-
+-clang
+-   https://clang.llvm.org
+-
+-.. _cn_icc:
+-
+-icc
+-   https://software.intel.com/en-us/c-compilers
+-
+-.. _cn_gcc-c-dialect-options:
+-
+-c-dialect-options
+-   https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html
+-
+-.. _cn_gnu-extensions:
+-
+-gnu-extensions
+-   https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
+-
+-.. _cn_gcc-attribute-syntax:
+-
+-gcc-attribute-syntax
+-   https://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html
+-
+-.. _cn_n2049:
++Rust
++----
+ 
+-n2049
+-   http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
++内核对 Rust 编程语言 [zh_cn_rust-language]_ 的支持是实验性的，并且可以通过配置选项
++``CONFIG_RUST`` 来启用。Rust 代码使用 ``rustc`` [rustc]_ 编译器在
++``--edition=2021`` [zh_cn_rust-editions]_ 选项下进行编译。版本（Editions）是一种
++在语言中引入非后向兼容的小型变更的方式。
++
++除此之外，内核中还使用了一些不稳定的特性 [zh_cn_rust-unstable-features]_。这些不稳定
++的特性将来可能会发生变化，因此，一个重要的目标是达到仅使用稳定特性的程度。
++
++具体请参阅 Documentation/rust/index.rst
++
++.. [zh_cn_c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
++.. [gcc] https://gcc.gnu.org
++.. [zh_cn_clang] https://clang.llvm.org
++.. [zh_cn_gcc-c-dialect-options] https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html
++.. [zh_cn_gnu-extensions] https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
++.. [zh_cn_gcc-attribute-syntax] https://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html
++.. [zh_cn_n2049] http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
++.. [zh_cn_rust-language] https://www.rust-lang.org
++.. [rustc] https://doc.rust-lang.org/rustc/
++.. [zh_cn_rust-editions] https://doc.rust-lang.org/edition-guide/editions/
++.. [zh_cn_rust-unstable-features] https://github.com/Rust-for-Linux/linux/issues/2
+-- 
+2.43.0
 
-> 
-> > +		tmc_flush_and_stop(drvdata);
-> > +	} else
-> > +		tmc_wait_for_tmcready(drvdata);
-> > +
-> > +	/* Sync registers from hardware to metadata region */
-> > +	mdata->sts = csdev_access_relaxed_read32(csa, TMC_STS);
-> 
-> Why are we using "csa" here and not for TMC_CTL etc ? Simply drop the "csa"
-> and use the raw reads like above. TMC doesn't have anyother modes
-> of access.
-> 
-
-Okay.
-
-> > +	mdata->mode = csdev_access_relaxed_read32(csa, TMC_MODE);
-> > +	mdata->ffcr = csdev_access_relaxed_read32(csa, TMC_FFCR);
-> > +	mdata->ffsr = csdev_access_relaxed_read32(csa, TMC_FFSR);
-> > +	mdata->trace_paddr = drvdata->resrv_buf.paddr;
-> > +
-> > +	/* Sync Internal SRAM to reserved trace buffer region */
-> > +	drvdata->buf = drvdata->resrv_buf.vaddr;
-> > +	tmc_etb_dump_hw(drvdata);
-> > +	/* Store as per RSZ register convention */
-> > +	mdata->size = drvdata->len >> 2;
-> > +	mdata->version = CS_CRASHDATA_VERSION;
-> > +
-> > +	/*
-> > +	 * Make sure all previous writes are completed,
-> > +	 * before we mark valid
-> > +	 */
-> > +	dsb(sy);
-> 
-> I don't think this matters much, as this would only be read by a
-> secondary kernel. In the worst case, you only need `dmb(ish)` to make
-> sure the writes are visible before valid is set to true.
-
-Ack. Will change that.
-
-> 
-> > +	mdata->valid = true;
-> > +	/*
-> > +	 * Below order need to maintained, since crc of metadata
-> > +	 * is dependent on first
-> > +	 */
-> > +	mdata->crc32_tdata = find_crash_tracedata_crc(drvdata, mdata);
-> > +	mdata->crc32_mdata = find_crash_metadata_crc(mdata);
-> > +
-> > +	tmc_disable_hw(drvdata);
-> > +
-> > +	dev_info(&csdev->dev, "%s: success\n", __func__);
-> 
-> Please no "prints" from a panic call back, unless it absolutely CRITICAL.
-
-Ack.
-
-> 
-> > +out:
-> > +	CS_UNLOCK(drvdata->base);
-> > +	return 0;
-> > +}
-> > +
-> >   static const struct coresight_ops_sink tmc_etf_sink_ops = {
-> >   	.enable		= tmc_enable_etf_sink,
-> >   	.disable	= tmc_disable_etf_sink,
-> > @@ -603,6 +675,10 @@ static const struct coresight_ops_link tmc_etf_link_ops = {
-> >   	.disable	= tmc_disable_etf_link,
-> >   };
-> > +static const struct coresight_ops_panic tmc_etf_sync_ops = {
-> > +	.sync		= tmc_panic_sync_etf,
-> > +};
-> > +
-> >   const struct coresight_ops tmc_etb_cs_ops = {
-> >   	.sink_ops	= &tmc_etf_sink_ops,
-> >   };
-> > @@ -610,6 +686,7 @@ const struct coresight_ops tmc_etb_cs_ops = {
-> >   const struct coresight_ops tmc_etf_cs_ops = {
-> >   	.sink_ops	= &tmc_etf_sink_ops,
-> >   	.link_ops	= &tmc_etf_link_ops,
-> > +	.panic_ops	= &tmc_etf_sync_ops,
-> >   };
-> >   int tmc_read_prepare_etb(struct tmc_drvdata *drvdata)
-> > diff --git a/drivers/hwtracing/coresight/coresight-tmc-etr.c b/drivers/hwtracing/coresight/coresight-tmc-etr.c
-> > index 8bca5b36334a..8228d7aaa361 100644
-> > --- a/drivers/hwtracing/coresight/coresight-tmc-etr.c
-> > +++ b/drivers/hwtracing/coresight/coresight-tmc-etr.c
-> > @@ -1814,6 +1814,79 @@ static int tmc_disable_etr_sink(struct coresight_device *csdev)
-> >   	return 0;
-> >   }
-> > +static int tmc_panic_sync_etr(struct coresight_device *csdev)
-> > +{
-> > +	u32 val;
-> > +	struct csdev_access *csa;
-> > +	struct tmc_crash_metadata *mdata;
-> > +	struct tmc_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
-> > +
-> > +	csa = &drvdata->csdev->access;
-> 
-> As earlier, drop the csa.
-
-
-Okay.
-
-> 
-> > +	mdata = (struct tmc_crash_metadata *)drvdata->crash_mdata.vaddr;
-> > +
-> > +	if (!drvdata->etr_buf)
-> > +		return 0;
-> > +
-> > +	/* Being in RESRV mode implies valid reserved memory as well */
-> > +	if (drvdata->etr_buf->mode != ETR_MODE_RESRV)
-> > +		return 0;
-> > +
-> > +	if (!tmc_has_reserved_buffer(drvdata) ||
-> 
-> Do we need to check this again ? We wouldn't be in ETR_MODE_RESRV
-> otherwise, also indicated by the comment.
-
-Will drop.
-
-> 
-> > +	    !tmc_has_crash_mdata_buffer(drvdata))
-> > +		return 0;
-> > +
-> > +	tmc_crashdata_set_invalid(drvdata);
-> > +
-> > +	CS_UNLOCK(drvdata->base);
-> > +
-> > +	/* Proceed only if ETR is enabled */
-> > +	val = readl(drvdata->base + TMC_CTL);
-> > +	if (!(val & TMC_CTL_CAPT_EN))
-> > +		goto out;
-> > +
-> > +	val = readl(drvdata->base + TMC_FFSR);
-> > +	/* Do manual flush and stop only if its not auto-stopped */
-> > +	if (!(val & TMC_FFSR_FT_STOPPED)) {
-> > +		dev_info(&csdev->dev,
-> > +			 "%s: Triggering manual flush\n", __func__);
-> 
-> Drop the info
-
-Ack.
-
-> 
-> > +		tmc_flush_and_stop(drvdata);
-> > +	} else
-> > +		tmc_wait_for_tmcready(drvdata);
-> > +
-> > +	/* Sync registers from hardware to metadata region */
-> > +	mdata->size = csdev_access_relaxed_read32(csa, TMC_RSZ);
-> > +	mdata->sts = csdev_access_relaxed_read32(csa, TMC_STS);
-> > +	mdata->mode = csdev_access_relaxed_read32(csa, TMC_MODE);
-> > +	mdata->ffcr = csdev_access_relaxed_read32(csa, TMC_FFCR);
-> > +	mdata->ffsr = csdev_access_relaxed_read32(csa, TMC_FFSR);
-> 
-> Please use raw reads, don't mix csa and raw reads.
-
-Ack.
-
-> 
-> > +	mdata->rrp = tmc_read_rrp(drvdata);
-> > +	mdata->rwp = tmc_read_rwp(drvdata);
-> > +	mdata->dba = tmc_read_dba(drvdata);
-> > +	mdata->trace_paddr = drvdata->resrv_buf.paddr;
-> > +	mdata->version = CS_CRASHDATA_VERSION;
-> > +
-> > +	/*
-> > +	 * Make sure all previous writes are completed,
-> > +	 * before we mark valid
-> > +	 */
-> > +	dsb(sy);
-> 
-> Same as earlier, doesn't buy us much
-
-Will convert to dmb.
-
-> 
-> > +	mdata->valid = true;
-> > +	/*
-> > +	 * Below order need to maintained, since crc of metadata
-> > +	 * is dependent on first
-> > +	 */
-> > +	mdata->crc32_tdata = find_crash_tracedata_crc(drvdata, mdata);
-> > +	mdata->crc32_mdata = find_crash_metadata_crc(mdata);
-> > +
-> > +	tmc_disable_hw(drvdata);
-> > +
-> > +	dev_info(&csdev->dev, "%s: success\n", __func__);
-> 
-> Drop
-> 
-> > +out:
-> > +	CS_UNLOCK(drvdata->base);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >   static const struct coresight_ops_sink tmc_etr_sink_ops = {
-> >   	.enable		= tmc_enable_etr_sink,
-> >   	.disable	= tmc_disable_etr_sink,
-> > @@ -1822,8 +1895,13 @@ static const struct coresight_ops_sink tmc_etr_sink_ops = {
-> >   	.free_buffer	= tmc_free_etr_buffer,
-> >   };
-> > +static const struct coresight_ops_panic tmc_etr_sync_ops = {
-> > +	.sync		= tmc_panic_sync_etr,
-> > +};
-> > +
-> >   const struct coresight_ops tmc_etr_cs_ops = {
-> >   	.sink_ops	= &tmc_etr_sink_ops,
-> > +	.panic_ops	= &tmc_etr_sync_ops,
-> >   };
-> >   int tmc_read_prepare_etr(struct tmc_drvdata *drvdata)
-> > diff --git a/drivers/hwtracing/coresight/coresight-tmc.h b/drivers/hwtracing/coresight/coresight-tmc.h
-> > index d2261eddab71..75e504e51956 100644
-> > --- a/drivers/hwtracing/coresight/coresight-tmc.h
-> > +++ b/drivers/hwtracing/coresight/coresight-tmc.h
-> > @@ -12,6 +12,7 @@
-> >   #include <linux/miscdevice.h>
-> >   #include <linux/mutex.h>
-> >   #include <linux/refcount.h>
-> > +#include <linux/crc32.h>
-> >   #define TMC_RSZ			0x004
-> >   #define TMC_STS			0x00c
-> > @@ -76,6 +77,9 @@
-> >   #define TMC_AXICTL_AXCACHE_OS	(0xf << 2)
-> >   #define TMC_AXICTL_ARCACHE_OS	(0xf << 16)
-> > +/* TMC_FFSR - 0x300 */
-> > +#define TMC_FFSR_FT_STOPPED	BIT(1)
-> > +
-> >   /* TMC_FFCR - 0x304 */
-> >   #define TMC_FFCR_FLUSHMAN_BIT	6
-> >   #define TMC_FFCR_EN_FMT		BIT(0)
-> > @@ -94,6 +98,9 @@
-> >   #define TMC_AUTH_NSID_MASK	GENMASK(1, 0)
-> > +/* Major version 1 Minor version 0 */
-> > +#define CS_CRASHDATA_VERSION	(1 << 16)
-> > +
-> >   enum tmc_config_type {
-> >   	TMC_CONFIG_TYPE_ETB,
-> >   	TMC_CONFIG_TYPE_ETR,
-> > @@ -131,6 +138,25 @@ enum tmc_mem_intf_width {
-> >   #define CORESIGHT_SOC_600_ETR_CAPS	\
-> >   	(TMC_ETR_SAVE_RESTORE | TMC_ETR_AXI_ARCACHE)
-> > +/* TMC metadata region for ETR and ETF configurations */
-> > +struct tmc_crash_metadata {
-> > +	uint32_t crc32_mdata;	/* crc of metadata */
-> > +	uint32_t crc32_tdata;	/* crc of tracedata */
-> > +	uint32_t version;	/* 31:16 Major version, 15:0 Minor version */
-> > +	uint32_t valid;         /* Indicate if this ETF/ETR was enabled */
-> > +	uint32_t size;          /* Ram Size register */
-> 
-> Please could you not keep this "plain bytes" ? Or rename the field to
-> tmc_ram_size if we want to stick to TMC RAM SIZE register. It is very
-> easy to confuse it with "normal" bytes.
-
-Okay. Will change the name.
-
-> 
-> > +	uint32_t sts;           /* Status register */
-> 
-> tmc_sts
-> 
-> > +	uint32_t mode;		/* Mode register */
-> 
-> tmc_mode
-> 
-> This doesn't look packed. Please could you add a padding here to make sure
-> the fields are 64bit aligned ?
-> 
-> > +	uint64_t ffcr;		/* Formatter and flush control register */
-> 
-> tmc_ffcr
-> 
-> > +	uint64_t ffsr;		/* Formatter and flush status register */
-> 
-> tmc_ffsr
-> 
-> 
-> Also, why are they both 64bit ? They are all 32bit for sure ?
-> 
-> > +	uint32_t reserved32[3];
-> 
-> Why do we have reserved bits here ? They should be near the 32bit fields.
-
-Have added them for the sake of future extensions, just in case if we
-wish to add additional registers without changing the overall metadata
-size.
-
-
-> 
-> I think, once you fix the type of ffcr and ffsr things, everything will
-> be in order.
-
-
-Okay will fix.
-
-> 
-> 
-> > +	uint64_t rrp;           /* Ram Read pointer register */
-> > +	uint64_t rwp;           /* Ram Write pointer register */
-> > +	uint64_t dba;		/* Data buffer address register */
-> > +	uint64_t trace_paddr;	/* Phys address of trace buffer */
-> > +	uint64_t reserved64[3];
-> > +};
-> 
-> 
-> Suzuki
-> 
-> 
-> > +
-> >   enum etr_mode {
-> >   	ETR_MODE_FLAT,		/* Uses contiguous flat buffer */
-> >   	ETR_MODE_ETR_SG,	/* Uses in-built TMC ETR SG mechanism */
-> > @@ -205,6 +231,8 @@ struct tmc_resrv_buf {
-> >    *		retention (after crash) only when ETR_MODE_RESRV buffer
-> >    *		mode is enabled. Used by ETF for trace data retention
-> >    *		(after crash) by default.
-> > + * @crash_mdata: Reserved memory for storing tmc crash metadata.
-> > + *		 Used by ETR/ETF.
-> >    */
-> >   struct tmc_drvdata {
-> >   	struct clk		*pclk;
-> > @@ -231,6 +259,7 @@ struct tmc_drvdata {
-> >   	struct etr_buf		*sysfs_buf;
-> >   	struct etr_buf		*perf_buf;
-> >   	struct tmc_resrv_buf	resrv_buf;
-> > +	struct tmc_resrv_buf	crash_mdata;
-> >   };
-> >   struct etr_buf_operations {
-> > @@ -356,6 +385,43 @@ static inline bool tmc_has_reserved_buffer(struct tmc_drvdata *drvdata)
-> >   	return false;
-> >   }
-> > +static inline bool tmc_has_crash_mdata_buffer(struct tmc_drvdata *drvdata)
-> > +{
-> > +	if (drvdata->crash_mdata.vaddr &&
-> > +	    drvdata->crash_mdata.size)
-> > +		return true;
-> > +	return false;
-> > +}
-> > +
-> > +static inline void tmc_crashdata_set_invalid(struct tmc_drvdata *drvdata)
-> > +{
-> > +	struct tmc_crash_metadata *mdata;
-> > +
-> > +	mdata = (struct tmc_crash_metadata *)drvdata->crash_mdata.vaddr;
-> > +
-> > +	if (tmc_has_crash_mdata_buffer(drvdata))
-> > +		mdata->valid = false;
-> > +}
-> > +
-> > +static inline uint32_t find_crash_metadata_crc(struct tmc_crash_metadata *md)
-> > +{
-> > +	unsigned long crc_size;
-> > +
-> > +	crc_size = sizeof(struct tmc_crash_metadata) -
-> > +		offsetof(struct tmc_crash_metadata, crc32_tdata);
-> > +	return crc32_le(0, (void *)&md->crc32_tdata, crc_size);
-> > +}
-> > +
-> > +static inline uint32_t find_crash_tracedata_crc(struct tmc_drvdata *drvdata,
-> > +						struct tmc_crash_metadata *md)
-> > +{
-> > +	unsigned long crc_size;
-> > +
-> > +	/* Take CRC of configured buffer size to keep it simple */
-> > +	crc_size = md->size << 2;
-> > +	return crc32_le(0, (void *)drvdata->resrv_buf.vaddr, crc_size);
-> > +}
-> > +
-> >   struct coresight_device *tmc_etr_get_catu_device(struct tmc_drvdata *drvdata);
-> >   void tmc_etr_set_catu_ops(const struct etr_buf_operations *catu);
-> 
-> 
