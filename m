@@ -1,191 +1,76 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41EB41D270B;
-	Thu, 17 Oct 2024 10:36:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80F01DA100
+	for <linux-doc@vger.kernel.org>; Thu, 17 Oct 2024 10:46:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729161371; cv=none; b=b5qMUd8VDfii0vhK+UL8g3LTJfV8qo69+2ygIesJsji/ymncV09mb41inc6c8fJF+LptDyNe07ypfJ9+PRkm0ObTlC+ujIofTmqnnBtyIuIj98/Yc555oB4fMMtlpXmPO1Ewih8YKaf0qmLozdO5kz4apsaGH9rg8f/LOJLfn/s=
+	t=1729161985; cv=none; b=l+a9LAwhanOzMbDzkAQD5afkVw/Jl2ZXGTfGuhKHFBCE631wbA7R5vxrFTKk5Ob0+sfdoDy8azz60KSxovXhDU/wFJi0PN+/ZRp4ZfAOA67M/ECEHJgYVPjQfWwDMJ9uNf2qNe04Nk32enj+Nv/BkzMAX+3yo7QE60QPmlccJq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729161371; c=relaxed/simple;
-	bh=bN0ynZ5VvEebxpXgXh2TCBbbaoPHNbGQrJn45V3ZuV4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZFzQ70O68clmj1Sq71U3ePTYb4KfnUsNDGt1YnaKzJ2yIWvK1tsyticTAu7Y1IVFuooBVGoHL/UC5CnSJ2iIQrHV42zQofn8q0wn/sRUeHSEJ1V0eVT0KUNyGGRewiN+unMGnv4kQN92VgRryFBH2cJJGs5s/VerVOCr5K+c/n4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=G98204VL; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1729161985; c=relaxed/simple;
+	bh=ksJfOqZ0F+aqfgOXPTdsDbbytvSSQ9OVM/xbZDl3uy8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=syvLsPVPugca8LqI3WwD+SIj0LyTlBCfWZrHCAtn6tgmWnZeID8eH2RZep0HCxp3TC+3BdJ/bJQRMmw/XiIkJgDRbquSnbxS7NnJ55gKbIjyAM6C6suvjPNNEDWE8wAxeqnjbyyOcQBR5/E2bdEbeAcZbS3IxeUxPmTXhwXucbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=NyNYbsHD; arc=none smtp.client-ip=91.218.175.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="G98204VL"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id ADEE91BF204;
-	Thu, 17 Oct 2024 10:35:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1729161360;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="NyNYbsHD"
+Date: Thu, 17 Oct 2024 06:46:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1729161981;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FU3ajgfKVQdp/DGYqfIoFwgjGz2NDpydxrXXIn2bE1U=;
-	b=G98204VLPKaAcWsavGd30rRwqEypallNrziTcStzdHkRWaKtaMkSoHfpTQYq6rlY1nQ9AX
-	oA97FMVpRw7r7fNmacsDX2Wo3haxFqhvQGZwRhHfs5DmGTcNPCPk1gnmvMdodkgnJs/8Lv
-	yOb4mGFH/6qKarFgC398y2e6MV1wuOtFtUUX3vDEzXCNrbPV8jmIf06Fjrcs9BR4K6Us/H
-	eRuyPpFGdEVEsDn09l0eqt0bqDUEJCdA6E269M8MKpWpK2iNhfq+wr2m+KhyJWNU9x9sS/
-	hY8egc0q6dio7a5KWPfC6PoqxbjxHxru/zYSduyYqpE+moqvOJ0piu8KKv2Ozw==
-Date: Thu, 17 Oct 2024 12:35:57 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Kyle Swenson <kyle.swenson@est.tech>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "netdev@vger.kernel.org"
- <netdev@vger.kernel.org>, "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>, Dent Project
- <dentproject@linuxfoundation.org>, "kernel@pengutronix.de"
- <kernel@pengutronix.de>
-Subject: Re: [PATCH net-next 00/12] Add support for PSE port priority
-Message-ID: <20241017123557.68189d5b@kmaincent-XPS-13-7390>
-In-Reply-To: <20241015114352.2034b84a@kmaincent-XPS-13-7390>
-References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
-	<ZwaLDW6sKcytVhYX@p620.local.tld>
-	<20241009170400.3988b2ac@kmaincent-XPS-13-7390>
-	<ZwbAYyciOcjt7q3e@est-xps15>
-	<ZwdpQRRGst1Z0eQE@pengutronix.de>
-	<20241015114352.2034b84a@kmaincent-XPS-13-7390>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	bh=TuEkyXRK4a+z24nUqtPTb40oaVXyvk6oaPG3UBwJUew=;
+	b=NyNYbsHDJQPkgXNY5JdRUA7Zh5I4863hzQEO7Dmv0Pc1JnNfmFBiE0GU89OHQ0JZkRtGAD
+	u74yRbmA1j782KQL4lIBEySIJKlhXPHoeEHDtPRxh/nDRf/7SYcgbI4bonoeLaDIGvDsQI
+	W9trTM7Iw3OYTp34mGWXyCqzAedPDsc=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, colyli@suse.de, 
+	msakai@redhat.com, corbet@lwn.net, mingo@redhat.com, acme@kernel.org, 
+	namhyung@kernel.org, akpm@linux-foundation.org, mark.rutland@arm.com, 
+	alexander.shishkin@linux.intel.com, jolsa@kernel.org, irogers@google.com, adrian.hunter@intel.com, 
+	kan.liang@linux.intel.com, jserv@ccns.ncku.edu.tw, linux-kernel@vger.kernel.org, 
+	linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev, linux-bcachefs@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/3] lib/min_heap: Introduce non-inline versions of min
+ heap API functions
+Message-ID: <zne3invtehte3ym34ufnydtggigxazdb2ltfa26ca4tykvprls@rcawukx5hhcn>
+References: <20241013184703.659652-1-visitorckw@gmail.com>
+ <20241013184703.659652-2-visitorckw@gmail.com>
+ <20241014081358.GS17263@noisy.programming.kicks-ass.net>
+ <ZwznQzdZsg82KNT4@visitorckw-System-Product-Name>
+ <xb2gihmastm3wjn2o2sufvtglvjkelhiiwhnlzoiz4qncywyga@txf4vvnyxhvu>
+ <20241017095520.GV16066@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241017095520.GV16066@noisy.programming.kicks-ass.net>
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, 15 Oct 2024 11:43:52 +0200
-Kory Maincent <kory.maincent@bootlin.com> wrote:
+On Thu, Oct 17, 2024 at 11:55:20AM +0200, Peter Zijlstra wrote:
+> On Wed, Oct 16, 2024 at 11:26:30PM -0400, Kent Overstreet wrote:
+> 
+> > yeah, I think we would prefer smaller codesize, by default.
+> > 
+> > it'd be well worth checking the code size difference on inlined vs. not,
+> > and then the really think to do would be to provide optional _inlined()
+> > helpers that we can switch to if/when a particular codepath shows up in
+> > a profile
+> 
+> Make sure to build with kCFI and IBT enabled when you do this and enjoy
+> seeing ec_stripes_heap_cmp turn into this:
 
-> > Policy Variants and Implementation
-> >=20
-> > In cases where we are discussing prioritization, we are fundamentally
-> > talking about over-provisioning. This typically means that while a devi=
-ce
-> > advertises a certain maximum per-port power capacity (e.g., 95W), the t=
-otal
-> > system power budget (e.g., 300W) is insufficient to supply maximum powe=
-r to
-> > all ports simultaneously. This is often due to various system limitatio=
-ns,
-> > and if there were no power limits, prioritization wouldn't be necessary.
-> >=20
-> > The challenge then becomes how to squeeze more Powered Devices (PDs) on=
-to
-> > one PSE system. Here are two methods for over-provisioning:
-> >=20
-> > 1. Static Method:
-> > =20
-> >    This method involves distributing power based on PD classification. =
-It=E2=80=99s
-> >    straightforward and stable, with the software (probably within the P=
-SE
-> >    framework) keeping track of the budget and subtracting the power
-> > requested by each PD=E2=80=99s class.=20
-> > =20
-> >    Advantages: Every PD gets its promised power at any time, which
-> > guarantees reliability.=20
-> >=20
-> >    Disadvantages: PD classification steps are large, meaning devices re=
-quest
-> >    much more power than they actually need. As a result, the power supp=
-ly
-> > may only operate at, say, 50% capacity, which is inefficient and wastes
-> > money.
-> >=20
-> > 2. Dynamic Method: =20
-> >=20
-> >    To address the inefficiencies of the static method, vendors like
-> > Microchip have introduced dynamic power budgeting, as seen in the PD692=
-x0
-> > firmware. This method monitors the current consumption per port and
-> > subtracts it from the available power budget. When the budget is exceed=
-ed,
-> > lower-priority ports are shut down. =20
-> >=20
-> >    Advantages: This method optimizes resource utilization, saving costs.
-> >=20
-> >    Disadvantages: Low-priority devices may experience instability. A
-> > possible improvement could involve using LLDP protocols to dynamically
-> > configure power limits per port, thus allowing us to reduce power on
-> > over-consuming ports rather than shutting them down entirely. =20
->=20
-> Indeed we will have only static method for PSE controllers not supporting
-> system power budget management like the TPS2388x or LTC426.
-> Both method could be supported for "smart" PSE controller like PD692x0.
->=20
-> Let's begin with the static method implementation in the PSE framework for
-> now. It will need the power domain notion you have talked about.
+I wouldn't worry too much about the stripes heap, I'm going to replace
+that with a persistent LRU.
 
-While developing the software support for port priority in static method, I
-faced an issue.
-
-Supposing we are exceeding the power budget when we plug a new PD.
-The port power should not be enabled directly or magic smoke will appear.
-So we have to separate the detection part to know the needs of the PD from =
-the
-power enable part.
-
-Currently the port power is enabled on the hardware automatically after the
-detection process. There is no way to separate power port process and detec=
-tion
-process with the PD692x0 controller and it could be done on the TPS23881 by
-configuring it to manual mode but: "The use of this mode is intended for sy=
-stem
-diagnostic purposes only in the event that ports cannot be powered in
-accordance with the IEEE 802.3bt standard from semiauto or auto modes."
-Not sure we want that.
-
-So in fact the workaround you talked about above will be needed for the two=
- PSE
-controllers.
-=20
-> Both methods have their pros and cons. Since the dynamic method is not al=
-ways
-> desirable, and if there's no way to disable it in the PD692x0's firmware,=
- one
-> potential workaround could be handling the budget in software and dynamic=
-ally
-> setting per-port limits. For instance, with a total budget of 300W and un=
-used
-> ports, we could initially set 95W limits per port. As high-priority PDs (=
-e.g.,
-> three 95W devices) are powered, we could dynamically reduce the power lim=
-it on
-> the remaining ports to 15W, ensuring that no device exceeds that
-> classification threshold.
-
-We would set port overcurrent limit for all unpowered ports when the power
-budget available is less than max PI power 100W as you described.
-If a new PD plugged exceed the overcurrent limit then it will raise an inte=
-rrupt
-and we could deal with the power budget to turn off low priority ports at t=
-hat
-time.=20
-
-Mmh in fact I could not know if the overcurrent event interrupt comes from a
-newly plugged PD or not.
-
-An option: When we get new PD device plug interrupt event, we wait the end =
-of
-classification time (Tpon 400ms) and read the interrupt states again to kno=
-w if
-there is an overcurrent or not on the port.
-
-What do you think?
-
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+After that it looks like the only heap left in bcachefs will be in the
+clock code. Shame, they're one of my favorite data structures...
