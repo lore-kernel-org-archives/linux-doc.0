@@ -1,47 +1,45 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9256111AD;
-	Thu, 17 Oct 2024 15:33:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249711DEFD2;
+	Thu, 17 Oct 2024 15:38:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729179238; cv=none; b=TjqDRCC6jWkRIuHEdjKa3oRoGMIeQy6VLJtVE50XpP51hXfqursS7iyYEEKpgeUIDpb6OMH3n8UTYXW69KjMYrmmoiAxRLXiXwekp1HgsByCGGsAazUbx0UTc1AhStE5dsL9ZPDcmhOqmHKgCEERtzH7SMvvmET7O5gpLMn/b38=
+	t=1729179484; cv=none; b=LAwXJXMnhiw3pMzEdOSqqTEYIY7yhxyjQQoOJT0WcY4uxAqV6FLXEMncvbVuwuEVt1vQ+bM2dwMr12ZkgKj7mrQ5Sq+e7izWEJgJsTMnEyIeTCiGDyJmMDljfAtFLYfz+Ov/cJN6/ARIRiD65zTMzhe6oOlRlIjMXxDnSDnF8Y4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729179238; c=relaxed/simple;
-	bh=3pMuEHpwOaSpll42N13R4aWE8EjuRuJR9CLBAND+jJQ=;
+	s=arc-20240116; t=1729179484; c=relaxed/simple;
+	bh=KBIFieMUFg56WKUbGB9+0vfYhWHpL/gf2LHURw3IzRM=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=kUzQNdwGjyDIj2lX81mOM8hKBhhCdNc+6ySsTFrkbea+OoQsnFXP5NxLGIyN3RxXS4klLJDHriw/EmrMSn5sb2YkVO+rnJMmG0rfqWWHUdX60tmpngvyUd2IBLzNl4qEJPmkFv4KEtwvKjX8lqQAPuiVNIucqZDmVvL4MTlEBGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=XjFGeTHO; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=ejPtZw1LFdJi7t6lNAC5jK2eqNMDnmdj4nA823kDTnmuiuyACZX0Ac4OWauGunjcQV+Fo8S5lvS1cCQ6M0FBRCPehF1VuhZfFOo8qj2X3sSzPI/sRf+2LdXCKIB+mS/chGj4r6dB77a0j3oQVNP+W8b1EHPVoHkHPDwGVrF8imk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=kJir5jTy; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="XjFGeTHO"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9342842BFE
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="kJir5jTy"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 39B0342C26
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1729179232; bh=Cgf6dIwL5A+zDkEGbeh0z0XOnGyBlSao7mUP7QPyko4=;
+	t=1729179482; bh=1tMzlbriasC5cT7cD/cXSyjzn4nFHarFiBq3lFFDCGI=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=XjFGeTHOtreC3i/PuRJlYTzD2k7pODOmNWJFeyN+dTfx0GggiYigf+UrxC8OrwBFJ
-	 IdosYnmgj4pxMaXDImUni4vFxLdquj/6LHeEJHnlXew8yo6yyz0pTkNEnVfPWaXUIK
-	 yqS5zkAfMD4/guWa2Y+x4AAZZfPdWvLtrbcXYh0vF6ALVk6rnNM90BUpZ9tDDHHrSQ
-	 y1CjtuH6ZQPolTrW+zSS55vjMHWytABxfRRtcYN5z5MJfo1QmL1rgIimmI+LD2Haa9
-	 rY3I3bFfpCj35xWAoi4TRmCPARIFy/OG3fCVO8qVy4yq3jEnsmasbEvULqnZq4LRXI
-	 Q9ect6nwrCcNw==
+	b=kJir5jTyp/3DZJ0JiWofTnpUtKJPRKixwpxtaqUPTuv2HgH+3Kj0khhPNjQglYOnf
+	 g5Tns9fOCndobpFjacwU5AHQjiZ0Xp1jeq8H5nDrt2c4THzCO0TUexEYozNmpkHtLZ
+	 wMis+4zJJQiji+Vq1RhoTCx1fJ32QjwHXUR+YlOBdMpuAjiqDfyzPU1/byWxx5MXz4
+	 7oxWS/KEXQuSATBL3sUzDZwDxGOIVjLSWyDfBjO5AuiImIqZV+M1k5geL71JSWeLe7
+	 cd+vLlQnDouxhs52nzdbt2LPuWWDxqmd+/uaTpju/X1FptUSX8oSdjLIoEPtXNUlvN
+	 KO/1peV17D57A==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 9342842BFE;
-	Thu, 17 Oct 2024 15:33:52 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 39B0342C26;
+	Thu, 17 Oct 2024 15:38:02 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>, Horia Geanta
- <horia.geanta@freescale.com>, Vlastimil Babka <vbabka@suse.cz>
-Subject: Re: [PATCH] kernel-doc: allow object-like macros in ReST output
-In-Reply-To: <20241015181107.536894-1-rdunlap@infradead.org>
-References: <20241015181107.536894-1-rdunlap@infradead.org>
-Date: Thu, 17 Oct 2024 09:33:51 -0600
-Message-ID: <87frou3fs0.fsf@trenco.lwn.net>
+To: Eder Zulian <ezulian@redhat.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/core-api: swiotlb: fix typos
+In-Reply-To: <20241014224026.1838525-1-ezulian@redhat.com>
+References: <20241014224026.1838525-1-ezulian@redhat.com>
+Date: Thu, 17 Oct 2024 09:38:01 -0600
+Message-ID: <87bjzi3fl2.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,35 +48,36 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+Eder Zulian <ezulian@redhat.com> writes:
 
-> output_function_rst() does not handle object-like macros. It presents
-> a trailing "()" while output_function_man() handles these macros
-> correctly.
+> Correct references to swiotlb_tbl_map_single() and
+> swiotlb_tbl_unmap_single() in the documentation for swiotlb.
 >
-> Update output_function_rst() to handle object-like macros.
-> Don't show the "Parameters" heading if there are no parameters.
+> Fix two small typos that went unnoticed in commit c93f261dfc39
+> ("Documentation/core-api: add swiotlb documentation"):
+> swiotlb_tlb_map_single --> swiotlb_tbl_map_single
+> swiotbl_tlb_unmap_single --> swiotlb_tbl_unmap_single
 >
-> For output_function_man(), don't show the "ARGUMENTS" heading if there
-> are no parameters.
->
-> I have tested this quite a bit with my ad hoc test files for both ReST
-> and man format outputs. The generated output looks good.
->
-> Fixes: cbb4d3e6510b ("scripts/kernel-doc: handle object-like macros")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Horia Geanta <horia.geanta@freescale.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Signed-off-by: Eder Zulian <ezulian@redhat.com>
 > ---
-> Cc: linux-doc@vger.kernel.org
+>  Documentation/core-api/swiotlb.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> @Jon, feel free to update the attribution for your patch or I can do it
-> and send a v2 if you like.
->
->  scripts/kernel-doc |   43 ++++++++++++++++++++++++++++++-------------
->  1 file changed, 30 insertions(+), 13 deletions(-)
+> diff --git a/Documentation/core-api/swiotlb.rst b/Documentation/core-api/swiotlb.rst
+> index cf06bae44ff8..9e0fe027dd3b 100644
+> --- a/Documentation/core-api/swiotlb.rst
+> +++ b/Documentation/core-api/swiotlb.rst
+> @@ -295,9 +295,9 @@ slot set.
+>  
+>  Fourth, the io_tlb_slot array keeps track of any "padding slots" allocated to
+>  meet alloc_align_mask requirements described above. When
+> -swiotlb_tlb_map_single() allocates bounce buffer space to meet alloc_align_mask
+> +swiotlb_tbl_map_single() allocates bounce buffer space to meet alloc_align_mask
+>  requirements, it may allocate pre-padding space across zero or more slots. But
+> -when swiotbl_tlb_unmap_single() is called with the bounce buffer address, the
+> +when swiotlb_tbl_unmap_single() is called with the bounce buffer address, the
 
-Applied - thanks for doing this.
+Wow ... that seems like the kind of function naming that is just
+designed to cause errors of this type.  Applied, thanks.
 
 jon
