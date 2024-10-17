@@ -1,126 +1,108 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5A821D958F;
-	Thu, 17 Oct 2024 23:13:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799251F428B;
+	Thu, 17 Oct 2024 23:27:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729206811; cv=none; b=YAoCjUHHDxR8w+dOlNSWICa+Sf+CP9QaMmbknV4qSPjMjh14cke4HPMbssOXwn0c7FaWdcyp/WsmzqeAkihAokpRglMaNG0N5Te+jMSob5XhokbpNTpQ2H1SmtpwqQBJPmNS8kweM4IympA+5puYpSR7c5jTHmYJ/KkRhumQyKk=
+	t=1729207664; cv=none; b=DM1BfX0rKQ4Fm94FvIuIf25vYpCUZmCMKMSVaWfDoHIIqvoZgv2xetSpplg9CzM5xmaEQTFwekiN33JbDwxTU90LWfas1wv9MrzWSgiA1ndvgLs9cL1YlXHLnz9xnMfbN/SgQ4pAuiCRJbd3oO/QslZGwjFLQpjaaSGYEAdm64I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729206811; c=relaxed/simple;
-	bh=Tm57HR5NFw2CYwx4uunjmcx++qzhwMBgCorqbzmbFv4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E4mKIE+gnuWYHDranGz1If7ycwfT+oAbHAWq5mh/u/4Cex6rwLO93nPbMbxJm3bJxvCom6RdxTEajaLWA6hHgHxHy00GvjkJ1sZIVN4iTSBA95OQYaA6UmV9LlDwD4W6P6vzmjptsfEn/gnlMpMlwtY5XBdbBa2K/CF9C2+9Jsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=iSw3Gz6y; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1729207664; c=relaxed/simple;
+	bh=ifz3yshYbLZ1aHxcRzTbeBb3kbz/UBxDdTmrzJaM2H4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u2ibPnahS3G+IYn4tU5BDFGXgi156x9xlriSCK2mmLrtJ+LIOKOlAj8jjKlIF9f66DJK+usiFSPNfffqNPTTpKSDoDAYZ7R4z2j50nUdMre+DRagA1x22+rBEXvCZfNMmZurhoSKjMQVNeaCCGy3vLRfdD+GkXFbmpr2e7I+3uI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QrNLxfmj; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iSw3Gz6y"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=B8mX33s5nApem0yXGWM3AlBpANvFaXCy2a1aCEwgJeo=; b=iSw3Gz6ynGTxgONka5L3hPlc3N
-	/4XdFxJmX1AruX9PaoPovNzVy33I4Ckvjy8akXWg6JhVT3jDXHbtkaBuL7XgxDUGaQv4vPYruLmSt
-	gblrn3zUlypdRdTbTKJrWHav8lq6lV13cJOLmfBlnvkMBTRpKTEQq6PK3jje1+1zQLjA39NFGqODU
-	jI+SUCRO0RZNPvetNjxyYoPbNdgXTR1T6601aHK5GaUGaUlldiZ8ASE2j0/x9vskE0GklCKtWKby2
-	8fDbw01oXItQYIU9WSbA1R426YfATIrrdj1HO9YshMzdw877UgI3uecWYbaRdximbEDkiP42pqUOl
-	aHFBfNmw==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1Zg6-00000007F1I-0HtV;
-	Thu, 17 Oct 2024 23:13:11 +0000
-Message-ID: <787b22d1-7072-4ab7-8314-3f1fd15e5a22@infradead.org>
-Date: Thu, 17 Oct 2024 16:13:01 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QrNLxfmj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729207662; x=1760743662;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ifz3yshYbLZ1aHxcRzTbeBb3kbz/UBxDdTmrzJaM2H4=;
+  b=QrNLxfmjHcET3J6uGVH/pOXn+d/6vjm+RsR+enw/XTnosTMq3gPDDkZn
+   1WjM+D7j0OzTzGxy/oieGZ3hFzF3pUX3N98PXfiVarlQw39XM4PjD/s1c
+   NENIr15vKL05WM6WnSwKJNRyvw4v3YF0ohNAuImrQu0byXQGBEI3NUMfo
+   xP6NmLGf9quTNfJe8MoD9zkxUBbFG4EuGBKjG582tSTaTEDkzR7Sujw86
+   nkBdab+oGcsXrwDnOkYX/l3WE/Ql/VIf111Goq1oUhK03y6WzRsWrUlsD
+   YkkapQs3CGoRrT5/v94UnrioeXYcS3ZBcJCenC1U1eF4yKRxzmeXFu/pV
+   Q==;
+X-CSE-ConnectionGUID: HQJ6VIAIQ9G6sZh3obr6UA==
+X-CSE-MsgGUID: kBa+XAqcRlGJSdXEhvFwKg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28875879"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="28875879"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 16:27:42 -0700
+X-CSE-ConnectionGUID: CiYqMp44SOCRf5IA5M4PGw==
+X-CSE-MsgGUID: gErvNAL5QnW2fFCwIbd/GQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,212,1725346800"; 
+   d="scan'208";a="109518421"
+Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
+  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 16:27:42 -0700
+Date: Thu, 17 Oct 2024 16:33:43 -0700
+From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Borislav Petkov <bp@alien8.de>, Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	x86@kernel.org, "Gautham R . Shenoy" <gautham.shenoy@amd.com>,
+	Perry Yuan <perry.yuan@amd.com>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+Subject: Re: [PATCH v2 05/13] platform/x86: hfi: Introduce AMD Hardware
+ Feedback Interface Driver
+Message-ID: <20241017233343.GA308@ranerica-svr.sc.intel.com>
+References: <20241010193705.10362-1-mario.limonciello@amd.com>
+ <20241010193705.10362-6-mario.limonciello@amd.com>
+ <20241015035233.GA28522@ranerica-svr.sc.intel.com>
+ <1395bee1-95a7-4d14-a5e8-0e1dc71fadac@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 9/9] docs: tmpfs: Add casefold options
-To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
- Gabriel Krisman Bertazi <krisman@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Theodore Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>,
- Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, smcv@collabora.com
-Cc: kernel-dev@igalia.com, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-mm@kvack.org, linux-doc@vger.kernel.org,
- Gabriel Krisman Bertazi <krisman@suse.de>
-References: <20241017-tonyk-tmpfs-v7-0-a9c056f8391f@igalia.com>
- <20241017-tonyk-tmpfs-v7-9-a9c056f8391f@igalia.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20241017-tonyk-tmpfs-v7-9-a9c056f8391f@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1395bee1-95a7-4d14-a5e8-0e1dc71fadac@amd.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 
-Hi,
-
-On 10/17/24 2:14 PM, André Almeida wrote:
-> Document mounting options for casefold support in tmpfs.
+On Tue, Oct 15, 2024 at 01:09:42PM -0500, Mario Limonciello wrote:
+> > 
+> > > Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
+> > 
+> > I tried to find the HFI details on the documents in this "bug" but I could
+> > not find them. What document in specific could I look at?
+> > 
+> > Thanks and BR,
+> > Ricardo
 > 
-> Signed-off-by: André Almeida <andrealmeid@igalia.com>
-> Reviewed-by: Gabriel Krisman Bertazi <krisman@suse.de>
-> ---
-> Changes from v3:
-> - Rewrote note about "this doesn't enable casefold by default" (Krisman)
-> ---
->  Documentation/filesystems/tmpfs.rst | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
+> Hi Ricardo,
 > 
-> diff --git a/Documentation/filesystems/tmpfs.rst b/Documentation/filesystems/tmpfs.rst
-> index 56a26c843dbe964086503dda9b4e8066a1242d72..0385310f225808f55483413f2c69d3b6dc1b9913 100644
-> --- a/Documentation/filesystems/tmpfs.rst
-> +++ b/Documentation/filesystems/tmpfs.rst
-> @@ -241,6 +241,28 @@ So 'mount -t tmpfs -o size=10G,nr_inodes=10k,mode=700 tmpfs /mytmpfs'
->  will give you tmpfs instance on /mytmpfs which can allocate 10GB
->  RAM/SWAP in 10240 inodes and it is only accessible by root.
->  
-> +tmpfs has the following mounting options for case-insensitive lookup support:
-> +
-> +================= ==============================================================
-> +casefold          Enable casefold support at this mount point using the given
-> +                  argument as the encoding standard. Currently only UTF-8
-> +                  encodings are supported. If no argument is used, it will load
-> +                  the latest UTF-8 encoding available.
-> +strict_encoding   Enable strict encoding at this mount point (disabled by
-> +                  default). In this mode, the filesystem refuses to create file
-> +                  and directory with names containing invalid UTF-8 characters.
-> +================= ==============================================================
-> +
-> +This option doesn't render the entire filesystem case-insensitive. One needs to
-> +still set the casefold flag per directory, by flipping +F attribute in an empty
-
-I would say:                                     flipping the +F attribute
-
-> +directory. Nevertheless, new directories will inherit the attribute. The
-> +mountpoint itself cannot be made case-insensitive.
-> +
-> +Example::
-> +
-> +    $ mount -t tmpfs -o casefold=utf8-12.1.0,strict_encoding fs_name /mytmpfs
-> +    $ mount -t tmpfs -o casefold fs_name /mytmpfs
-> +
->  
->  :Author:
->     Christoph Rohland <cr@sap.com>, 1.12.01
-> @@ -250,3 +272,5 @@ RAM/SWAP in 10240 inodes and it is only accessible by root.
->     KOSAKI Motohiro, 16 Mar 2010
->  :Updated:
->     Chris Down, 13 July 2020
-> +:Updated:
-> +   André Almeida, 23 Aug 2024
+> It is spread out across multiple places.  This is part of the reason for
+> patch 1 in the series outlines details of how it works.
 > 
+> The reason for that "collect all" Bugzilla for documentation is because the
+> URLs for AMD documentation have undergone changes in the past and it makes
+> it difficult to put stable URLs in commit messages.  So teams that want to
+> reference documentation put it on a dump all bug for a stable URL to
+> reference.
+> 
+> On that link you will find the APM, which will have some documentation
+> specifically for the CPUID leafs used for topology identification and
+> clearing history.
+> 
+> Read patch 1 and let me know if it covers what specifically you're looking
+> for.  If it's still missing some info let me know what you would like added.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Thank you for your reply! I read patch 1. I was wondering specifically about
+more details of the Class ID. I see that they have associated counters and
+desired scheduling behavior.
 
-Thanks.
-
--- 
-~Randy
+I was also curious about the layout of the HFI table. I guess I can infer it
+from patches 5 and 6 but if there is a picture already, I wouldn't mind. ;)
 
