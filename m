@@ -1,93 +1,112 @@
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0A723A6
-	for <linux-doc@vger.kernel.org>; Thu, 17 Oct 2024 00:23:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF7D223A6;
+	Thu, 17 Oct 2024 00:34:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729124597; cv=none; b=b+gwmZ7VMnUTEukbm7eNh2I6EgWxD1hEmKF/OveqCM+rzbVRzasjUOK0hV36WHZF3r4lIFjaS+q+DfTEYKMhHLCzesAd1TmLYG4gwiabnceouBIYwbxlY2OqdyYapBZVrUgDvdZF+a+AeBQ5cIYsrfYPcKPX8KS5dfcjkgzPXXk=
+	t=1729125272; cv=none; b=NFHp7mDqYMkWaX2Dz7NSZXVdVwLUARXG30ZIDOiMLpo0JXTTOYaoOmbIPQSZRtqPcCegu9a8FZ3Bu3UGSOQdSsK7Yr/Qv2GFW1lL4ahCISEcqLGexarHTJpc6PFd3hpZqCa/RexIPN8w0ClQSOSz5CFJczhiPjl2MD6YxsXdyCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729124597; c=relaxed/simple;
-	bh=5bW49bD+EKSiVYlir+v4FtgYuuOeWvwSTqfDO39iuXY=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=tg5GwZacj+q+aloaG7TicRNP608fQQrfA9X2uj92q8q1pQsY5BLKKt8jJFPJh2TKKU+jXfIU1fRzXDsZTEezTMH/xazUGZGrnI7LoeTmLPOko6QCSu2cboAgnX5eZ7P5J0j0dRE/1MJ/vvF8azKxTPpIB71cz6e+lQRzKXnSzQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VwZDuF2Y; arc=none smtp.client-ip=209.85.219.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1729125272; c=relaxed/simple;
+	bh=XKExa5Lt3qO2vOeURE8GoyxM7Zo2JAwumIIS5/JGSB0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t44nd7qBKwALHegRcm+Y98UM5145gkJDYpvoDje+S15zyMP3qWDsLSTfW3dRyf3uYOR90VuurunwuwNVgAECJnxLj9H/+LaItB+7iGFX4qlRrPh19/RR31nvEKwtZ9C8/TJ46bZNBYpHxv6EtqnP5UbJjGo2OTUBmInnh+0w3O0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fv6oTeGZ; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VwZDuF2Y"
-Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-e292a6bdd72so695901276.0
-        for <linux-doc@vger.kernel.org>; Wed, 16 Oct 2024 17:23:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fv6oTeGZ"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-207115e3056so2930515ad.2;
+        Wed, 16 Oct 2024 17:34:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729124594; x=1729729394; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BDOAcCratkcKDtlnVKA6PegGNWwglEUHg+hVzvt764w=;
-        b=VwZDuF2YT7fi0xmo1Mt+KTwAXQLk381gcf5PzIIJGFsvMvQWrHLH44sDFipZ90tiiQ
-         QePbKgw+026CZW4F+QYGxjjl1ysObd++oUuS0dJzLHiAKtZzSWbvm+A6YPRYRd2/7ZNA
-         2p55f0/Zua0zBeLW9iMCcBQwGCFrzSxVHBz3hPw23fdNXSy7wlgbP0P6CbUmlpRdkXHv
-         f4QXwUxcjF3SfMKFQd5IIXRxIXMGRjYNzQ3TvNT12SIAuQKQqXcjeN9qBOLLBIf+vjt8
-         abMi2ujMH8YpSvrLHrTykBL5Vsld4LC/QJKODtUXal5i8Nt7RETlU2lk2z9yTrKX+o5H
-         MbXw==
+        d=gmail.com; s=20230601; t=1729125270; x=1729730070; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y7RLBOqoD0JN/yes3gVZ4qulQhotL+c7cg1FJxv1m7M=;
+        b=Fv6oTeGZXwZ15RknF+rtLZad2g+YJUjELfLYGdfqgqCWW7ugNL5Xdnv4LmSn+v+D4M
+         SGB1lfI5Jg/keCOw+owhmK1A/Qt0ffUtnE39WzSZHgsXTB4Fx4dxp5NTApd+ZYLAG3ax
+         HLsBEv+djf1/yFJfWI4zeRMYj/X9x53QbS8B3ke6js6vU3gQVrFhe0u7EIYmZ1Al05GG
+         JNYUfFxwVllDf/wrnricSSf4gJNgadz8unXEhgR5O8uOA94NlQnMU3SuRH6VFlncIh9Z
+         e/jnCGeneXIxM8FAs+wRLVfvz3H43YhayBQPRLAGE7NyO6rJKpMLVM2kVmnzD+UoxuCs
+         Ft4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729124594; x=1729729394;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BDOAcCratkcKDtlnVKA6PegGNWwglEUHg+hVzvt764w=;
-        b=wRizTyhsRF0+zOOoviWK7l5yu7uzyUe4KeQmJaua0MZcPphgndCzFDcOT7esKV/e4t
-         ypNh5XL4FqsdMBCxaOnZwdOcQ1Jj8J7UpbseqrGZ2XexRylx4LSghmNoqken9iwa5gOV
-         z5bqwS1cfrucbd8MCpCuOCC0ZrMkYFRuRRUUIKHpckhsAwV+k1oacSlvRGCcfe5YAk0c
-         gbpijSBXeula9sJbGGaJ3pUNmEY3Z1z9Oaxh1u8aoTvDoc+R1Og2r+eeVKitzzlA7KKj
-         6zWk2iQAa9RsK6EW0qfySN1vKS5q4lp0ATQuG2DvYEoRyJV829N/egnSEAfruw5DhWtN
-         ZKnA==
-X-Forwarded-Encrypted: i=1; AJvYcCW47mAlNWLaCMt0bQAjdkI072bB3kd98psy4E2nVKOZagakWKLYcgXtH2Ji+RmGIscgK6L0/vpRDKI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwgHX7QdpFGUzacZ3HYu5xQWdqXYIY0Fr04GwCs4iGivBB8gJGg
-	IRcUkoT3In/e20Zsg2AomAAiv5K6uFGOOcAfAgzzbS6xspNAxtX6GCJHjSmNLqroZu+htBs6z74
-	i3A==
-X-Google-Smtp-Source: AGHT+IE4l3MvTYNAOyrgYg8GdkVRXTmVWgsHaliM139NqF14S6D92z4C9+5nCmagCDbGXLX8HkyuisI1pSg=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:9d:3983:ac13:c240])
- (user=seanjc job=sendgmr) by 2002:a25:aa6b:0:b0:e25:d46a:a6b6 with SMTP id
- 3f1490d57ef6-e297857f664mr5460276.8.1729124594453; Wed, 16 Oct 2024 17:23:14
- -0700 (PDT)
-Date: Wed, 16 Oct 2024 17:23:13 -0700
-In-Reply-To: <Zw6Svts5hqpIoKwN@linux.dev>
+        d=1e100.net; s=20230601; t=1729125270; x=1729730070;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Y7RLBOqoD0JN/yes3gVZ4qulQhotL+c7cg1FJxv1m7M=;
+        b=VOSF87LJL1pJh/gmz3xGpBWFCqDtQd05QGfOnou2TijBMqeFpwbE7eUiNNNZ58ln2x
+         B9whGoJZwGk39DPZxl3nfEVTfYB39UVUdKQuNQwBblY2HDI41FL5HUmmPqqFX+/ol0Wn
+         HivV8PzsWw8/OiK3Rwav8ftw3+8Vtbn6cSxtnmaSLbfYJORUhJY8bLs6G6jLgbuTMOov
+         6CHVoPAQRcdtFInVEwjhk12s8n4TRDfDaWQkuboX1NvQ+NZgDIntYBkZEKh8069/rrJ3
+         +OGT+YVb3zemohWN1tENVMjM9Fz5dZU3Rsv/DXte1u8EbBWIfkGGw5jUvrrhsoE3lNVw
+         b9Hw==
+X-Forwarded-Encrypted: i=1; AJvYcCUwTrKjP6iHbM6Ta2K45fD98P9VUu0HHq//VUKHRiUloBJnQ3qIEfhTieNrufhY+PI2NZDhngOcu3EFn/kK5A==@vger.kernel.org, AJvYcCVZRPzoY4ZHGT77mXnSUeFjcnoQptA+iJgH2BOd5hj08GWpfbzCPNNXC1I6hE5rprur39OKXtTLat4h/rt8@vger.kernel.org, AJvYcCWIbiQ6jnq4vAuHbzuF+FEavMjKDs+VrACqDo+x0OGIvXJ8CurFDEUKI5RgmIDy9HCEaSkQW5lTSaI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1OeY1N4//1k8BqCgqwkOLanE8PfDTG9JGFKy9kIP9/+qAPof1
+	gTuNd+PvCde8maqb05oyro6Ptbjk6t/XIR1lS/3Q+yid3xwTJLucix97O3zK
+X-Google-Smtp-Source: AGHT+IEKaTeHgiipsF8H/kEFa34wV6Oov3vsQpZwYXgTCCJo7q12qz7jhLQpMW65XUq8qj2Enq9Djg==
+X-Received: by 2002:a17:903:1cc:b0:20c:8907:908 with SMTP id d9443c01a7336-20d27f1cc26mr72939835ad.44.1729125269660;
+        Wed, 16 Oct 2024 17:34:29 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20d1806c6a9sm34112015ad.302.2024.10.16.17.34.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Oct 2024 17:34:28 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id A379A41A3B24; Thu, 17 Oct 2024 07:34:25 +0700 (WIB)
+Date: Thu, 17 Oct 2024 07:34:25 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Tamir Duberstein <tamird@gmail.com>
+Cc: Matthew Wilcox <willy@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] XArray: minor documentation improvements
+Message-ID: <ZxBbka3aTzgEWgEP@archie.me>
+References: <CAJ-ks9mz5deGSA_GNXyqVfW5BtK0+C5d+LT9y33U2OLj7+XSOw@mail.gmail.com>
+ <20241010214150.52895-2-tamird@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240926184546.833516-1-dwmw2@infradead.org> <20240926184546.833516-5-dwmw2@infradead.org>
- <ZvwWM7rQd075o6nb@linux.dev> <408b137dbf60ff4d189cbd98b7cf8cd833579f61.camel@infradead.org>
- <Zw6Svts5hqpIoKwN@linux.dev>
-Message-ID: <ZxBY8S6wO7tymIeC@google.com>
-Subject: Re: [PATCH v5 4/5] KVM: selftests: Add test for PSCI SYSTEM_OFF2
-From: Sean Christopherson <seanjc@google.com>
-To: Oliver Upton <oliver.upton@linux.dev>
-Cc: David Woodhouse <dwmw2@infradead.org>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, James Morse <james.morse@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>, 
-	Shuah Khan <shuah@kernel.org>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linux-pm@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, 
-	Francesco Lavra <francescolavra.fl@gmail.com>, Miguel Luis <miguel.luis@oracle.com>
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="14kFThyEb3NINM6h"
+Content-Disposition: inline
+In-Reply-To: <20241010214150.52895-2-tamird@gmail.com>
 
-On Tue, Oct 15, 2024, Oliver Upton wrote:
-> On Sat, Oct 12, 2024 at 10:28:10AM +0100, David Woodhouse wrote:
-> > I suspect the real answer here is that the individual tests here be
-> > calling ksft_test_result_pass(), and the system_off2 one should call
-> > ksft_test_result_skip() if it skips?
-> 
-> modulo a few one-offs, KVM selftests doesn't use the kselftest harness
-> so it isn't subject to this comment. Since there's no test plan, we can
-> skip at any time.
 
-FWIW, I have some ideas on how to use the nicer pieces of kselftest harness, if
-anyone is looking for a project.  :-)
+--14kFThyEb3NINM6h
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-https://lore.kernel.org/all/ZjUwqEXPA5QVItyX@google.com
+On Thu, Oct 10, 2024 at 05:41:51PM -0400, Tamir Duberstein wrote:
+> - Replace "they" with "you" where "you" is used in the preceding
+>   sentence fragment.
+> - Mention `xa_erase` in discussion of multi-index entries.  Split this
+>   into a separate sentence.
+> - Add "call" parentheses on "xa_store" for consistency and
+>   linkification.
+> - Add caveat that `xa_store` and `xa_erase` are not equivalent in the
+>   presence of `XA_FLAGS_ALLOC`.
+>=20
+
+LGTM, thanks!
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--14kFThyEb3NINM6h
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZxBbjAAKCRD2uYlJVVFO
+o2KxAQDA50Zbc12+M1nDlaZIuk1lzysc9wi5v1hCsG1uGE/dAQD/VlGsfbjG3ihI
+SXjP7Uh+ppXg5wUVD+8uwnkeo5lP8QI=
+=BLF3
+-----END PGP SIGNATURE-----
+
+--14kFThyEb3NINM6h--
