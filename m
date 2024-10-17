@@ -1,104 +1,84 @@
-Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83D6F1DED55;
-	Thu, 17 Oct 2024 15:17:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9256111AD;
+	Thu, 17 Oct 2024 15:33:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729178257; cv=none; b=n9O+uPlqu0vhS6wY6VFwxBoC4ME1NS58tkEnPmBi85h3wgWWT55xgseIgECfzcH72dnYHRX7OVnOs8f38Zq/hqf0lj+ljHsUTkwZ0Tj1YxwHBijcmhQ801pVZoXt8o2vAVV3gOkRuRGqlEw4YYrwbKZI7At/BfIye2UFKeLTqIs=
+	t=1729179238; cv=none; b=TjqDRCC6jWkRIuHEdjKa3oRoGMIeQy6VLJtVE50XpP51hXfqursS7iyYEEKpgeUIDpb6OMH3n8UTYXW69KjMYrmmoiAxRLXiXwekp1HgsByCGGsAazUbx0UTc1AhStE5dsL9ZPDcmhOqmHKgCEERtzH7SMvvmET7O5gpLMn/b38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729178257; c=relaxed/simple;
-	bh=N8FDTjAAHjLrgVYYhi2Io42aCBZbm6lwhNbA2oeQm+A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rlD4uDm0AjQ4rfc/Ea24nDxtrAGrcpC/O2q3MJjUe0dp0md+Cu6dCYNSvTz8tUfumvs0Fl2pvNF6+MMNGDjXg6xjno4RGn8iPFynxJBLO21X6pNX86nv5eibfqKHBJ8udnMNZ8nwB/TDOTIyn24R97OpguiANiYt/erT3A/ihtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.79.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app1 (Coremail) with SMTP id HgEQrADXGqRWKhFntYz1Bw--.55446S2;
-	Thu, 17 Oct 2024 23:16:38 +0800 (CST)
-Received: from pride-PowerEdge-R740.. (unknown [222.20.126.129])
-	by gateway (Coremail) with SMTP id _____wD3_49UKhFnazxNAA--.51778S2;
-	Thu, 17 Oct 2024 23:16:37 +0800 (CST)
-From: Dongliang Mu <dzm91@hust.edu.cn>
-To: si.yanteng@linux.dev,
-	Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thorsten Blum <thorsten.blum@toblux.com>,
-	SeongJae Park <sj@kernel.org>,
-	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Dongliang Mu <dzm91@hust.edu.cn>
-Cc: hust-os-kernel-patches@googlegroups.com,
-	Miguel Ojeda <ojeda@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/zh_CN: update the translation of process/coding-style.rst
-Date: Thu, 17 Oct 2024 23:16:17 +0800
-Message-ID: <20241017151624.3532430-1-dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1729179238; c=relaxed/simple;
+	bh=3pMuEHpwOaSpll42N13R4aWE8EjuRuJR9CLBAND+jJQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=kUzQNdwGjyDIj2lX81mOM8hKBhhCdNc+6ySsTFrkbea+OoQsnFXP5NxLGIyN3RxXS4klLJDHriw/EmrMSn5sb2YkVO+rnJMmG0rfqWWHUdX60tmpngvyUd2IBLzNl4qEJPmkFv4KEtwvKjX8lqQAPuiVNIucqZDmVvL4MTlEBGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=XjFGeTHO; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="XjFGeTHO"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9342842BFE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1729179232; bh=Cgf6dIwL5A+zDkEGbeh0z0XOnGyBlSao7mUP7QPyko4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=XjFGeTHOtreC3i/PuRJlYTzD2k7pODOmNWJFeyN+dTfx0GggiYigf+UrxC8OrwBFJ
+	 IdosYnmgj4pxMaXDImUni4vFxLdquj/6LHeEJHnlXew8yo6yyz0pTkNEnVfPWaXUIK
+	 yqS5zkAfMD4/guWa2Y+x4AAZZfPdWvLtrbcXYh0vF6ALVk6rnNM90BUpZ9tDDHHrSQ
+	 y1CjtuH6ZQPolTrW+zSS55vjMHWytABxfRRtcYN5z5MJfo1QmL1rgIimmI+LD2Haa9
+	 rY3I3bFfpCj35xWAoi4TRmCPARIFy/OG3fCVO8qVy4yq3jEnsmasbEvULqnZq4LRXI
+	 Q9ect6nwrCcNw==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 9342842BFE;
+	Thu, 17 Oct 2024 15:33:52 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>, Horia Geanta
+ <horia.geanta@freescale.com>, Vlastimil Babka <vbabka@suse.cz>
+Subject: Re: [PATCH] kernel-doc: allow object-like macros in ReST output
+In-Reply-To: <20241015181107.536894-1-rdunlap@infradead.org>
+References: <20241015181107.536894-1-rdunlap@infradead.org>
+Date: Thu, 17 Oct 2024 09:33:51 -0600
+Message-ID: <87frou3fs0.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrADXGqRWKhFntYz1Bw--.55446S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW7KFy5ZFy5Ar1xZF1xtF1kZrb_yoW8Ww18pF
-	y7Kr1xGa18Cryjk34xGry8Xr48GF18Jay5Kr4agwnaqFs5CFyIvrZxtF9Yva47XrW0yay5
-	XF4akrW8Gw1FvaUanT9S1TB71UUUUbUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQ2b7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
-	z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2kKe7AKxVWUAV
-	WUtwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AI
-	YIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI0_Cr
-	0_Gr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1UMcvj
-	eVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUtVW8ZwCF04
-	k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_
-	Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
-	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
-	cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8V
-	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E
-	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUorcTDUUUU
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Type: text/plain
 
-Update to commit c5d436f05a3f ("docs/process: fix typos")
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-scripts/checktranstatus.py reports:
+> output_function_rst() does not handle object-like macros. It presents
+> a trailing "()" while output_function_man() handles these macros
+> correctly.
+>
+> Update output_function_rst() to handle object-like macros.
+> Don't show the "Parameters" heading if there are no parameters.
+>
+> For output_function_man(), don't show the "ARGUMENTS" heading if there
+> are no parameters.
+>
+> I have tested this quite a bit with my ad hoc test files for both ReST
+> and man format outputs. The generated output looks good.
+>
+> Fixes: cbb4d3e6510b ("scripts/kernel-doc: handle object-like macros")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Horia Geanta <horia.geanta@freescale.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> ---
+> Cc: linux-doc@vger.kernel.org
+>
+> @Jon, feel free to update the attribution for your patch or I can do it
+> and send a v2 if you like.
+>
+>  scripts/kernel-doc |   43 ++++++++++++++++++++++++++++++-------------
+>  1 file changed, 30 insertions(+), 13 deletions(-)
 
-Documentation/translations/zh_CN/process/coding-style.rst
-commit c5d436f05a3f ("docs/process: fix typos")
-commit 82b8000c28b5 ("net: drop special comment style")
-2 commits needs resolving in total
+Applied - thanks for doing this.
 
-Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
----
- .../translations/zh_CN/process/coding-style.rst       | 11 -----------
- 1 file changed, 11 deletions(-)
-
-diff --git a/Documentation/translations/zh_CN/process/coding-style.rst b/Documentation/translations/zh_CN/process/coding-style.rst
-index 10b9cb4f6a65..0484d0c65c25 100644
---- a/Documentation/translations/zh_CN/process/coding-style.rst
-+++ b/Documentation/translations/zh_CN/process/coding-style.rst
-@@ -560,17 +560,6 @@ Documentation/translations/zh_CN/doc-guide/index.rst 和 scripts/kernel-doc 。
- 	 * with beginning and ending almost-blank lines.
- 	 */
- 
--对于在 net/ 和 drivers/net/ 的文件，首选的长 (多行) 注释风格有些不同。
--
--.. code-block:: c
--
--	/* The preferred comment style for files in net/ and drivers/net
--	 * looks like this.
--	 *
--	 * It is nearly the same as the generally preferred comment style,
--	 * but there is no initial almost-blank line.
--	 */
--
- 注释数据也是很重要的，不管是基本类型还是衍生类型。为了方便实现这一点，每一行
- 应只声明一个数据 (不要使用逗号来一次声明多个数据)。这样你就有空间来为每个数据
- 写一段小注释来解释它们的用途了。
--- 
-2.43.0
-
+jon
