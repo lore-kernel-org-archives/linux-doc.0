@@ -1,310 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D8B206E79;
-	Fri, 18 Oct 2024 19:46:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96FE32071E9
+	for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2024 19:46:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729280796; cv=none; b=tDQlZgx4ac4jBl0RWyCBgzITC4ee5ITFjeHdB8HOiTsjoYUrR9nrIVlL39ogKCpt1NnYwEHVZW7zIM8bUkOfgEnymq8eU11ltjW6wdmUJmzeOKns5o9ceF5TWvClG7hVkyUO6XqijNyLNGkKh+TXeGkNe5L/8Lx4dOw1yoPFoPU=
+	t=1729280796; cv=none; b=pYoPIhUaamnCrT9kMMUaYU0QAoZpaoujNNRA/mRcsWQc5hDsDQN64sXaW5pO+0mQzCDedLCLA7+9mZnFAQDXGjKINSIU3gPArUDpYwNtb55tLvOuS6w+zt9RQ4teTJxLw3AcrY9viR/AR+qxaXhTC5jN28wbhpvlSAJxR3pb5L0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1729280796; c=relaxed/simple;
-	bh=3JfD/IY0gogMnjuoL9D2GLfZIVy1JrKKP7OgwHv7vxc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rDaErFJL4blm56hSxVSZMo1tJfDdVwe+XVc9BekFyp4iLFJiZ0eA4++9NVi1gjPG+UbiDwhAaIlkiRTCQf+jAgwBFK2OxogAfw3AZHmSYtgT/IyvEf380j89NwwKX13Qn1TSF5dkFTfMVOp6K5YZRCihsbirxq0yJpivuNbG1JM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kdH9rCRT; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	bh=gRKbZykbQnfZIa2mN+Qk0kjeMCLWWLiYlGss8XAlG4A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cCiNQ7T9co5VV3ZIB0bqTd1hsTdwoxjrVB2t8G9pPh877TYAM8huXuC5PMDvDB0hNluWABF2VOjWf61Jk1f3Tcr0hJ3zZwCP0pjGkdnh/U+9i83s3x+sZzJY+qRlkdMzfJvlRaYlFNRCQG32MJua8ogQZf+89jgCYLBGsK9xgv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=lBqlPoB9; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kdH9rCRT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729280794; x=1760816794;
-  h=from:date:subject:mime-version:content-transfer-encoding:
-   message-id:references:in-reply-to:to:cc;
-  bh=3JfD/IY0gogMnjuoL9D2GLfZIVy1JrKKP7OgwHv7vxc=;
-  b=kdH9rCRTO/XqyBjoClDXNZysO+Qzybzg+2qIwEf8OjqyDoT2dKlOHvbE
-   LgfsS24n9UfzlaTLQzM7V9tTfb+Yfew+w+rIabIag+7PyX2oktUFs2LDb
-   8cRi/inSy1/gYxBE/0mE2Y7T3Q9+yx/sbSVwzcRavZC8K5JCXstUacEmL
-   YftVeMlze9edBh2nGk9uvcl2gKzr6FYK6a6mM0FgzTDMS7z7nJSceEWU2
-   kLKf1Q/6OQ2FhMLVHYxnxREPoEiYdRYcGp0Nilkwc1JUlp0M4QT5EZJu/
-   O+y+zQK/H0GDJOft1IMHkqy17TNJdVT1UXP2pCeavstztyawND3C7t78F
-   g==;
-X-CSE-ConnectionGUID: qP1eZmGETqyj8ztITtzC1Q==
-X-CSE-MsgGUID: FK/7LuH4Tyya3ob1UWegkA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="28704458"
-X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
-   d="scan'208";a="28704458"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 12:46:33 -0700
-X-CSE-ConnectionGUID: vIC43TlMTTy+WN58dTjGmg==
-X-CSE-MsgGUID: i6ikMtlSRtWVSGV1UgTgDA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
-   d="scan'208";a="79017578"
-Received: from ldmartin-desk2.corp.intel.com (HELO localhost) ([10.125.109.148])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 12:46:32 -0700
-From: Ira Weiny <ira.weiny@intel.com>
-Date: Fri, 18 Oct 2024 14:46:25 -0500
-Subject: [PATCH 2/3] printf: Add print format (%pra) for struct range
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="lBqlPoB9"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-539e4b7409fso2502014e87.0
+        for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2024 12:46:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1729280791; x=1729885591; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=w8ipiDWj3Ck20WdXHaYfDWf33qFxj+sWnjP/LUx2c50=;
+        b=lBqlPoB9n9a+fq3rLpZCop2AmbKMiQfS79QNqmHPaxwhsIVyDkrsNvgnLhGe06XhAB
+         bkxeKjZX2CWDnCb2BxlDUbkS3mBz22sYj1o9lj4wlZiRhwxlfC961izMUeqPsSxH+Nfa
+         McM/jXc2lgz46ey1tlpTaH2m9thxKgpMuXQjc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729280791; x=1729885591;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=w8ipiDWj3Ck20WdXHaYfDWf33qFxj+sWnjP/LUx2c50=;
+        b=SRTIDx5CsumaI+qb/qgqryGRzxKTql89jQzqkHgO9f1WLX8itHKFc34Plt9OO7EuNw
+         +oV4h/UqENpiehPkAVkLXp6Nj+FDJk6CxqG4Gqrtd2shpsHPNjcZihmyNPtd7IN4jzGU
+         zaWigYAwTUZQFHzvoiQYh/9ZN8/97XWf9K8Os9/qS+751O1Dn4fN3Da61sXVrFcLhoay
+         AL//n4bjmvw/9MXgQ7EAGRXiBaoZlyE9rrAx6F1yDi8kTv1o0hQxEJNokDivavNqAImt
+         gPj6qT+fGKIPMYI0N74o3/m4Vt8lEfwUbB0kGaQcyHka+7aLoaqlZNY9VLCMhWHcojrC
+         ZhzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX5gbjfVa9NhZxSkX84BQQhGkAmCeRnSdG+i7GWQCUrXcgm4pZ6U62TZVD5ELjthxW6GjG9jlq7xbg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwxaAokmKJqzO89+ObJYgS1Ysj4E32c6m46LP/fiemzO5/KNZ3H
+	SF/HaIFDRt7nUL927YPx0eDPeBWXSW60eJEAwS/ISdDSkNAObtZ8b9oAmPciF4+BbTF5Or6tnTM
+	nfuDh
+X-Google-Smtp-Source: AGHT+IEwO8aFlH90U6ODrbTy7X25oEvqku3PTrt00QKNo4G4cM91JnqPxs0TXALRU0bdwoYUaD0e/w==
+X-Received: by 2002:a05:6512:3e1e:b0:539:e3a2:3a25 with SMTP id 2adb3069b0e04-53a158625d8mr1187466e87.18.1729280790240;
+        Fri, 18 Oct 2024 12:46:30 -0700 (PDT)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com. [209.85.167.41])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53a151f0afdsm302227e87.133.2024.10.18.12.46.29
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Oct 2024 12:46:29 -0700 (PDT)
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-539e8586b53so2960212e87.1
+        for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2024 12:46:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVNn2YZ7fea7Fo6NWsI8/uMsShkBYp+HyfkaYMxIPpFqpEm+yrkLvW3CArldWdD9m8Y5c/123VjcQI=@vger.kernel.org
+X-Received: by 2002:a05:6512:e91:b0:53a:c15:96a5 with SMTP id
+ 2adb3069b0e04-53a15b98db4mr1223870e87.27.1729280788792; Fri, 18 Oct 2024
+ 12:46:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241018-cxl-pra-v1-2-7f49ba58208b@intel.com>
-References: <20241018-cxl-pra-v1-0-7f49ba58208b@intel.com>
-In-Reply-To: <20241018-cxl-pra-v1-0-7f49ba58208b@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>, 
- Jonathan Corbet <corbet@lwn.net>, Davidlohr Bueso <dave@stgolabs.net>, 
- Jonathan Cameron <jonathan.cameron@huawei.com>, 
- Dave Jiang <dave.jiang@intel.com>, 
- Alison Schofield <alison.schofield@intel.com>, 
- Vishal Verma <vishal.l.verma@intel.com>, 
- Dan Williams <dan.j.williams@intel.com>
-Cc: Fan Ni <fan.ni@samsung.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-cxl@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>
-X-Mailer: b4 0.15-dev-37811
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1729280784; l=7710;
- i=ira.weiny@intel.com; s=20221211; h=from:subject:message-id;
- bh=3JfD/IY0gogMnjuoL9D2GLfZIVy1JrKKP7OgwHv7vxc=;
- b=C7e4ofwLZmWqXfjvO1KoJnpVlBhnDe2j5+Ru7sVlECe5yt+qRTunxNvxUgHvuGG7Fsn/8AV6U
- Wl8nn34ZSxaA2tFUDAupRUR9QS/ZHdDDzDUea2nx0wSxz8iOSFoGgso
-X-Developer-Key: i=ira.weiny@intel.com; a=ed25519;
- pk=noldbkG+Wp1qXRrrkfY1QJpDf7QsOEthbOT7vm0PqsE=
+References: <20241018163136.GA795979@lichtman.org> <20241018175540.GA796909@lichtman.org>
+In-Reply-To: <20241018175540.GA796909@lichtman.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 18 Oct 2024 12:46:14 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UwNAkam8HFhdPLRCXHf05LUXdJF++d-pvpFrCLtOypPQ@mail.gmail.com>
+Message-ID: <CAD=FV=UwNAkam8HFhdPLRCXHf05LUXdJF++d-pvpFrCLtOypPQ@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation: English fixes in kgdb/kdb article
+To: Nir Lichtman <nir@lichtman.org>
+Cc: jason.wessel@windriver.com, daniel.thompson@linaro.org, corbet@lwn.net, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The use of struct range in the CXL subsystem is growing.  In particular,
-the addition of Dynamic Capacity devices uses struct range in a number
-of places which are reported in debug and error messages.
+Hi,
 
-To wit requiring the printing of the start/end fields in each print
-became cumbersome.  Dan Williams mentions in [1] that it might be time
-to have a print specifier for struct range similar to struct resource
+On Fri, Oct 18, 2024 at 10:55=E2=80=AFAM Nir Lichtman <nir@lichtman.org> wr=
+ote:
+>
+> @@ -201,7 +201,7 @@ Using loadable module or built-in
+>  Configure kgdboc at runtime with sysfs
+>  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>
+> -At run time you can enable or disable kgdboc by echoing a parameters
+> +At run time you can enable or disable kgdboc by writing parameters
+>  into sysfs. Here are two examples:
 
-A few alternatives were considered including '%par', '%r', and '%pn'.
-%pra follows that struct range is similar to struct resource (%p[rR])
-but needs to be different.  Based on discussions with Petr and Andy
-'%pra' was chosen.[2]
+In response to v1, Matthew wanted you to change "the sysfs" into
+"sysfs". In the above it's no longer "the sysfs" but it's not part of
+your patch (no "-" of the old line with the "the" and "+" of the new
+line without the "the". Huh? This causes the patch to fail to apply.
 
-Andy also suggested to keep the range prints similar to struct resource
-though combined code.  Add hex_range() to handle printing for both
-pointer types.
+Other than that, this all looks fine to me.
 
-Finally introduce DEFINE_RANGE() as a parallel to DEFINE_RES_*() and use
-it in the tests.
-
-Cc: Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION)
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org (open list)
-Link: https://lore.kernel.org/all/663922b475e50_d54d72945b@dwillia2-xfh.jf.intel.com.notmuch/ [1]
-Link: https://lore.kernel.org/all/66cea3bf3332f_f937b29424@iweiny-mobl.notmuch/ [2]
-Suggested-by: "Dan Williams" <dan.j.williams@intel.com>
-Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-
----
-Changes:
-[iweiny: split from CXL patch set]
-[Andy: Define DEFINE_RANGE()]
-[Andy: rework hex_range() logic]
-[Andy: Don't use fallthrough]
-[Andy: clean up help comment]
-[Fan: clean up printk comment]
-[Rasmus: fix buf processing in hex_range()]
-[Rasmus: simplify buffer sizing]
-[Rasmus: add '[' to string]
-[Bagas: Clarify the start == end print behavior]
----
- Documentation/core-api/printk-formats.rst | 13 +++++++
- include/linux/range.h                     |  6 ++++
- lib/test_printf.c                         | 17 +++++++++
- lib/vsprintf.c                            | 57 +++++++++++++++++++++++++++----
- 4 files changed, 87 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-index 14e093da3ccd..e1ebf0376154 100644
---- a/Documentation/core-api/printk-formats.rst
-+++ b/Documentation/core-api/printk-formats.rst
-@@ -231,6 +231,19 @@ width of the CPU data path.
- 
- Passed by reference.
- 
-+Struct Range
-+------------
-+
-+::
-+
-+	%pra    [range 0x0000000060000000-0x000000006fffffff]
-+	%pra    [range 0x0000000060000000]
-+
-+For printing struct range.  struct range holds an arbitrary range of u64
-+values.  If start is equal to end only print the start value.
-+
-+Passed by reference.
-+
- DMA address types dma_addr_t
- ----------------------------
- 
-diff --git a/include/linux/range.h b/include/linux/range.h
-index 6ad0b73cb7ad..1358d4b1807a 100644
---- a/include/linux/range.h
-+++ b/include/linux/range.h
-@@ -31,4 +31,10 @@ int clean_sort_range(struct range *range, int az);
- 
- void sort_range(struct range *range, int nr_range);
- 
-+#define DEFINE_RANGE(_start, _end)		\
-+(struct range) {				\
-+		.start = (_start),		\
-+		.end = (_end),			\
-+	}
-+
- #endif
-diff --git a/lib/test_printf.c b/lib/test_printf.c
-index 5afdf5efc627..59dbe4f9a4cb 100644
---- a/lib/test_printf.c
-+++ b/lib/test_printf.c
-@@ -432,6 +432,22 @@ struct_resource(void)
- 	     "%pR", &test_resource);
- }
- 
-+static void __init
-+struct_range(void)
-+{
-+	struct range test_range = DEFINE_RANGE(0xc0ffee00ba5eba11,
-+					       0xc0ffee00ba5eba11);
-+	test("[range 0xc0ffee00ba5eba11]", "%pra", &test_range);
-+
-+	test_range = DEFINE_RANGE(0xc0ffee, 0xba5eba11);
-+	test("[range 0x0000000000c0ffee-0x00000000ba5eba11]",
-+	     "%pra", &test_range);
-+
-+	test_range = DEFINE_RANGE(0xba5eba11, 0xc0ffee);
-+	test("[range 0x00000000ba5eba11-0x0000000000c0ffee]",
-+	     "%pra", &test_range);
-+}
-+
- static void __init
- addr(void)
- {
-@@ -807,6 +823,7 @@ test_pointer(void)
- 	symbol_ptr();
- 	kernel_ptr();
- 	struct_resource();
-+	struct_range();
- 	addr();
- 	escaped_str();
- 	hex_string();
-diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index 09f022ba1c05..f6a62f273fad 100644
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -1039,6 +1039,20 @@ static const struct printf_spec default_dec04_spec = {
- 	.flags = ZEROPAD,
- };
- 
-+static noinline_for_stack
-+char *hex_range(char *buf, char *end, u64 start_val, u64 end_val,
-+		struct printf_spec spec)
-+{
-+	buf = number(buf, end, start_val, spec);
-+	if (start_val == end_val)
-+		return buf;
-+
-+	if (buf < end)
-+		*buf = '-';
-+	++buf;
-+	return number(buf, end, end_val, spec);
-+}
-+
- static noinline_for_stack
- char *resource_string(char *buf, char *end, struct resource *res,
- 		      struct printf_spec spec, const char *fmt)
-@@ -1115,11 +1129,7 @@ char *resource_string(char *buf, char *end, struct resource *res,
- 		p = string_nocheck(p, pend, "size ", str_spec);
- 		p = number(p, pend, resource_size(res), *specp);
- 	} else {
--		p = number(p, pend, res->start, *specp);
--		if (res->start != res->end) {
--			*p++ = '-';
--			p = number(p, pend, res->end, *specp);
--		}
-+		p = hex_range(p, pend, res->start, res->end, *specp);
- 	}
- 	if (decode) {
- 		if (res->flags & IORESOURCE_MEM_64)
-@@ -1140,6 +1150,31 @@ char *resource_string(char *buf, char *end, struct resource *res,
- 	return string_nocheck(buf, end, sym, spec);
- }
- 
-+static noinline_for_stack
-+char *range_string(char *buf, char *end, const struct range *range,
-+		   struct printf_spec spec, const char *fmt)
-+{
-+	char sym[sizeof("[range 0x0123456789abcdef-0x0123456789abcdef]")];
-+	char *p = sym, *pend = sym + sizeof(sym);
-+
-+	struct printf_spec range_spec = {
-+		.field_width = 2 + 2 * sizeof(range->start), /* 0x + 2 * 8 */
-+		.flags = SPECIAL | SMALL | ZEROPAD,
-+		.base = 16,
-+		.precision = -1,
-+	};
-+
-+	if (check_pointer(&buf, end, range, spec))
-+		return buf;
-+
-+	p = string_nocheck(p, pend, "[range ", default_str_spec);
-+	p = hex_range(p, pend, range->start, range->end, range_spec);
-+	*p++ = ']';
-+	*p = '\0';
-+
-+	return string_nocheck(buf, end, sym, spec);
-+}
-+
- static noinline_for_stack
- char *hex_string(char *buf, char *end, u8 *addr, struct printf_spec spec,
- 		 const char *fmt)
-@@ -2229,6 +2264,15 @@ char *fwnode_string(char *buf, char *end, struct fwnode_handle *fwnode,
- 	return widen_string(buf, buf - buf_start, end, spec);
- }
- 
-+static noinline_for_stack
-+char *resource_and_range(const char *fmt, char *buf, char *end, void *ptr,
-+			 struct printf_spec spec)
-+{
-+	if (*fmt == 'r' && fmt[1] == 'a')
-+		return range_string(buf, end, ptr, spec, fmt);
-+	return resource_string(buf, end, ptr, spec, fmt);
-+}
-+
- int __init no_hash_pointers_enable(char *str)
- {
- 	if (no_hash_pointers)
-@@ -2277,6 +2321,7 @@ char *rust_fmt_argument(char *buf, char *end, void *ptr);
-  * - 'Bb' as above with module build ID (for use in backtraces)
-  * - 'R' For decoded struct resource, e.g., [mem 0x0-0x1f 64bit pref]
-  * - 'r' For raw struct resource, e.g., [mem 0x0-0x1f flags 0x201]
-+ * - 'ra' For struct ranges, e.g., [range 0x0000000000000000 - 0x00000000000000ff]
-  * - 'b[l]' For a bitmap, the number of bits is determined by the field
-  *       width which must be explicitly specified either as part of the
-  *       format string '%32b[l]' or through '%*b[l]', [l] selects
-@@ -2401,7 +2446,7 @@ char *pointer(const char *fmt, char *buf, char *end, void *ptr,
- 		return symbol_string(buf, end, ptr, spec, fmt);
- 	case 'R':
- 	case 'r':
--		return resource_string(buf, end, ptr, spec, fmt);
-+		return resource_and_range(fmt, buf, end, ptr, spec);
- 	case 'h':
- 		return hex_string(buf, end, ptr, spec, fmt);
- 	case 'b':
-
--- 
-2.47.0
-
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
