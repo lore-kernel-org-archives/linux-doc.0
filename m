@@ -1,51 +1,52 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA2216EB4C
-	for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2024 07:02:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA6520E30A
+	for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2024 07:10:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729234928; cv=none; b=kxsj7jaiAITT0C4y1MbD5ORc5ZLCQpOr0cf7eQrB2zTx0mAfyCOFbf0QypI0H6N8noCFzFxA6C0CRgEVO1R4GJ6LPVNPjzllwx99ogUYUna3diPSh3zq2U15X732hV3wkVxjVddjdA9hFVr7nLFOj5qql2v5/GUKGPfLFoT/NMk=
+	t=1729235407; cv=none; b=b4UGuAnwSl8vbMjz02Y3De5e3RtIQIbvfpaPlpdnuuWBI7kVUfM7U+GKy8USyPNyotGm7cqAzSwkEfpQIHaCUoPSn/MM8GGYWLkQVGu30akmuk809Y7EXqV3j4GXzaK10Zh/Ed+5413fg6KRfK6L7DxtYJ0eblLKv1/5AtArcpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729234928; c=relaxed/simple;
-	bh=1OC0axrSY7PkHXgA7IuqEdTf6UvHuS/1KrSO/7HZDCA=;
+	s=arc-20240116; t=1729235407; c=relaxed/simple;
+	bh=k9L8JsOvOFxALDdMXJEjUggGAtwb3h7COGtZXiPSsp8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O9ULVuKaDPW9/eF/OgeK5XUiE5QyCesLgy2NK78isaQeLZeD5rgR4i9AeX7lh4g0ATdZKXIyh5LHIS1EeUJWixwhl/AZOIJWE6OjbJu5tSkiMc4rKGyuC7+Llugd/yYNkg/JBu8sOuvsJQUpbUgZ3qKTcC3msoGu8x4T+AFNScg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=p1wrrSAD; arc=none smtp.client-ip=91.218.175.184
+	 In-Reply-To:Content-Type; b=I+UNOEnqPLblvI6bX2ayHDkDaeHb3e/YLM8YvBJ0dWoO8qFz0ocfZJA2+9wdbL/Pg3cyBUcg4+cklGbzlIUyr6JoJELdKv2VrAAB1FZvoOIEadtL93K61vycJxBWm5qisDC1RSApV2ebOy8B39RNy2T2OgI6CZgYci4t01LxWn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=X5KdRaEY; arc=none smtp.client-ip=91.218.175.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="p1wrrSAD"
-Message-ID: <6745d52b-ff44-41eb-bb2f-de01a44dbf0e@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="X5KdRaEY"
+Message-ID: <521e45c9-a402-4c53-936b-6052fa23c052@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1729234924;
+	t=1729235401;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=oF1gq4IAx7BN7XK2CjsboktwzJFb5VHajZh+5K/TUag=;
-	b=p1wrrSAD7qkI2+C7fZwernvcRSqk4sz1evK6tFbn60nkkXiROGlU+3E9r/DhyqX5nVDWdM
-	UEPdjQD3lDvsFN6BYh8DnbiAv5ODMMXUqtCyF6MRtV8qDCd31k967lesOKCZm7Vy/8TM9t
-	GmCGeqhO4Aih0Ayqk/YEJuzLlDwKbwo=
-Date: Fri, 18 Oct 2024 15:01:57 +0800
+	bh=O62afb38F2VjWAM8YzEi2B4+rD9H0BT+zR5G48p4spM=;
+	b=X5KdRaEYjPYLUPBkUsMW0tcnkuAq+Yut29sJCIUCdXNp9opHln+zfqX07PJYnavSuBep4+
+	ADRWTQzS0r3fVmNGxfbtfRzK1Hk4KEVdYcD563M1ecc2krnyHjazotLj2S3zhsnc5+FohW
+	7cplCjSwCPn9HJoH+KM++KbsNSLc1NI=
+Date: Fri, 18 Oct 2024 15:09:54 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] docs/zh_CN: update the translation of
- process/submitting-patches.rst
+Subject: Re: [PATCH v2] docs/zh_CN: update the translation of
+ process/coding-style.rst
 To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <siyanteng@loongson.cn>, Jonathan Corbet <corbet@lwn.net>,
- Geert Uytterhoeven <geert+renesas@glider.be>
+ Jonathan Corbet <corbet@lwn.net>, SeongJae Park <sj@kernel.org>,
+ Federico Vaga <federico.vaga@vaga.pv.it>,
+ Thorsten Blum <thorsten.blum@toblux.com>
 Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
-References: <20241017111419.3396605-1-dzm91@hust.edu.cn>
+References: <20241018014609.3781089-1-dzm91@hust.edu.cn>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <20241017111419.3396605-1-dzm91@hust.edu.cn>
+In-Reply-To: <20241018014609.3781089-1-dzm91@hust.edu.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
@@ -53,14 +54,14 @@ X-Migadu-Flow: FLOW_OUT
 
 
 
-在 2024/10/17 19:14, Dongliang Mu 写道:
-> Update to commit eb5ed2fae197 ("docs: submitting-patches: Advertise b4")
+在 2024/10/18 09:46, Dongliang Mu 写道:
+> Update to commit c5d436f05a3f ("docs/process: fix typos")
 >
-> scripts/checktranstatus.py reports:
+> scripts/checktransupdate.py reports:
 >
-> Documentation/translations/zh_CN/process/submitting-patches.rst
-> commit eb5ed2fae197 ("docs: submitting-patches: Advertise b4")
-> commit 413e775efaec ("Documentation: fix links to mailing list services")
+> Documentation/translations/zh_CN/process/coding-style.rst
+> commit c5d436f05a3f ("docs/process: fix typos")
+> commit 82b8000c28b5 ("net: drop special comment style")
 > 2 commits needs resolving in total
 >
 > Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
@@ -69,58 +70,30 @@ Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
 Thanks,
 Yanteng
 > ---
->   .../zh_CN/process/submitting-patches.rst      | 19 ++++++++++---------
->   1 file changed, 10 insertions(+), 9 deletions(-)
+> v1->v2: revise the script name
+>   .../translations/zh_CN/process/coding-style.rst       | 11 -----------
+>   1 file changed, 11 deletions(-)
 >
-> diff --git a/Documentation/translations/zh_CN/process/submitting-patches.rst b/Documentation/translations/zh_CN/process/submitting-patches.rst
-> index 7ca16bda3709..f7ae584a439e 100644
-> --- a/Documentation/translations/zh_CN/process/submitting-patches.rst
-> +++ b/Documentation/translations/zh_CN/process/submitting-patches.rst
-> @@ -105,7 +105,7 @@ xyzzy do frotz”或“[I]changed xyzzy to do frotz”，就好像你在命令
->   当链接到邮件列表存档时，请首选lore.kernel.org邮件存档服务。用邮件中的
->   ``Message-ID`` 头（去掉尖括号）可以创建链接URL。例如::
+> diff --git a/Documentation/translations/zh_CN/process/coding-style.rst b/Documentation/translations/zh_CN/process/coding-style.rst
+> index 10b9cb4f6a65..0484d0c65c25 100644
+> --- a/Documentation/translations/zh_CN/process/coding-style.rst
+> +++ b/Documentation/translations/zh_CN/process/coding-style.rst
+> @@ -560,17 +560,6 @@ Documentation/translations/zh_CN/doc-guide/index.rst 和 scripts/kernel-doc 。
+>   	 * with beginning and ending almost-blank lines.
+>   	 */
 >   
-> -    Link: https://lore.kernel.org/r/30th.anniversary.repost@klaava.Helsinki.FI/
-> +    Link: https://lore.kernel.org/30th.anniversary.repost@klaava.Helsinki.FI
->   
->   请检查该链接以确保可用且指向正确的邮件。
->   
-> @@ -195,11 +195,8 @@ scripts/get_maintainer.pl在这个步骤中非常有用。如果您找不到正
->   在MAINTAINERS文件中查找子系统特定的列表；您的补丁可能会在那里得到更多的关注。
->   不过，请不要发送垃圾邮件到无关的列表。
->   
-> -许多与内核相关的列表托管在vger.kernel.org上；您可以在
-> -http://vger.kernel.org/vger-lists.html 上找到它们的列表。不过，也有与内核相关
-> -的列表托管在其他地方。
+> -对于在 net/ 和 drivers/net/ 的文件，首选的长 (多行) 注释风格有些不同。
 > -
-> -不要一次发送超过15个补丁到vger邮件列表！！！！
-> +许多与内核相关的列表托管在 kernel.org 上；您可以在 https://subspace.kernel.org
-> +上找到它们的列表。不过，也有与内核相关的列表托管在其他地方。
->   
->   Linus Torvalds是决定改动能否进入 Linux 内核的最终裁决者。他的邮件地址是
->   torvalds@linux-foundation.org 。他收到的邮件很多，所以一般来说最好 **别**
-> @@ -621,6 +618,13 @@ Fixes: 指示补丁修复了之前提交的一个问题。它可以便于确定
->   的工作所基于的树的提交哈希。你应该在封面邮件或系列的第一个补丁中添加它，它应
->   该放在 ``---`` 行的下面或所有其他内容之后，即只在你的电子邮件签名之前。
->   
-> +工具
-> +----
-> +
-> +这个过程的许多技术方面可以使用 b4 自动完成，其文档可在
-> +https://b4.docs.kernel.org/en/latest/ 查看。该工具可帮助处理诸如追踪依赖项、运行
-> +checkpatch 以及格式化和发送邮件等事务。
-> +
->   参考文献
->   --------
->   
-> @@ -643,9 +647,6 @@ Greg Kroah-Hartman，“如何惹恼内核子系统维护人员”
->   
->     <http://www.kroah.com/log/linux/maintainer-06.html>
->   
-> -不！！！别再发巨型补丁炸弹给linux-kernel@vger.kernel.org的人们了！
-> -  <https://lore.kernel.org/r/20050711.125305.08322243.davem@davemloft.net>
+> -.. code-block:: c
 > -
->   内核 Documentation/translations/zh_CN/process/coding-style.rst
->   
->   Linus Torvalds关于标准补丁格式的邮件
+> -	/* The preferred comment style for files in net/ and drivers/net
+> -	 * looks like this.
+> -	 *
+> -	 * It is nearly the same as the generally preferred comment style,
+> -	 * but there is no initial almost-blank line.
+> -	 */
+> -
+>   注释数据也是很重要的，不管是基本类型还是衍生类型。为了方便实现这一点，每一行
+>   应只声明一个数据 (不要使用逗号来一次声明多个数据)。这样你就有空间来为每个数据
+>   写一段小注释来解释它们的用途了。
 
