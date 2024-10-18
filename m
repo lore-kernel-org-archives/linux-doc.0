@@ -1,37 +1,34 @@
-Received: from zg8tmja2lje4os4yms4ymjma.icoremail.net (zg8tmja2lje4os4yms4ymjma.icoremail.net [206.189.21.223])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04C9B2E64A;
-	Fri, 18 Oct 2024 01:47:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.21.223
+Received: from sgoci-sdnproxy-4.icoremail.net (sgoci-sdnproxy-4.icoremail.net [129.150.39.64])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03F202E64A;
+	Fri, 18 Oct 2024 01:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.150.39.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729216030; cv=none; b=T3lw/YNoN696YcepHyK4znnGZNEDvFv3ZcLvj1HnBn0hcOoLHv/Xr744pelsdMpgau3Nkb5jFjAvURTCDmhXimU/tkC8P9OaLVP+WwvRSf1qVRGq6jB1P0EFKxDyGYGYoqLgIDm4VAhGOzPZB9/uIq1uwxXuSerAnr/FrwGJ7Z8=
+	t=1729216172; cv=none; b=ofF5LnXfd6BhlX/v8vpFveqaBucmTw3lwioeCNkdu4TFSAUWkSB0iGX47mb5f+jJPmV+uFsHAGuLjBZ1hA4HbWEab8DiBXCYjr3aw4L3o2hPRtZNZuhYeMrhaMzGrLHPm8cchcDdF3pN+tieb7QwBAp5h4DBtCms5kcW8WCUhes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729216030; c=relaxed/simple;
-	bh=qEyhMsKmfdSxJ8v9at5pASGUiqPhNVZJFoLbUOpK6JQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lJAgDyss4zJ9WyXBFuLLQdRVD5TSNAPclNxi6uzM+lBOu02W+JHgUMx0AFMVtjbMTrci4L/8n9ZYki8MIAtdugg+w+BQ01gAvxbhSdtx7lcKqlHltdXUiifbbvNeyt8TJP/qgBe3SSolmOM49mxaYKknvTihZPxDUttS6y88+YE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.21.223
+	s=arc-20240116; t=1729216172; c=relaxed/simple;
+	bh=Lt/4wEswi50wYeLdKZRBDV2B8BQ79W67NiEasMAgFoU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lXGwA89Eh2L86kiUaKz9aAHhzO2/eOKJLT+/UPKUxuCVx4dxWG3Wpf2G/JqNOzihAI4EwTSB1cBHLZ1HoXtGk4XH31xQG9pdIlx4zSjj49iZKMKc647uX6TZOtUytM8B3uDiH4oA5ekASl0gcU0c+8q1YDi0481E0zzfLRkSf+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=129.150.39.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
 Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app2 (Coremail) with SMTP id HwEQrAA3PwP4vRFnS0sXAQ--.48358S2;
-	Fri, 18 Oct 2024 09:46:32 +0800 (CST)
+	by app1 (Coremail) with SMTP id HgEQrAB3fn6WvhFnZbkACA--.16579S2;
+	Fri, 18 Oct 2024 09:49:10 +0800 (CST)
 Received: from pride-PowerEdge-R740.. (unknown [222.20.126.129])
-	by gateway (Coremail) with SMTP id _____wDH0EH1vRFn9PxgAA--.44896S2;
-	Fri, 18 Oct 2024 09:46:30 +0800 (CST)
+	by gateway (Coremail) with SMTP id _____wDnOAyWvhFntQJhAA--.61876S2;
+	Fri, 18 Oct 2024 09:49:10 +0800 (CST)
 From: Dongliang Mu <dzm91@hust.edu.cn>
 To: si.yanteng@linux.dev,
 	Alex Shi <alexs@kernel.org>,
 	Yanteng Si <siyanteng@loongson.cn>,
 	Jonathan Corbet <corbet@lwn.net>,
-	SeongJae Park <sj@kernel.org>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Thorsten Blum <thorsten.blum@toblux.com>
+	Dongliang Mu <dzm91@hust.edu.cn>
 Cc: hust-os-kernel-patches@googlegroups.com,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] docs/zh_CN: update the translation of process/coding-style.rst
-Date: Fri, 18 Oct 2024 09:46:01 +0800
-Message-ID: <20241018014609.3781089-1-dzm91@hust.edu.cn>
+Subject: [PATCH v2] docs/zh_CN: update the translation of process/email-clients.rst
+Date: Fri, 18 Oct 2024 09:49:01 +0800
+Message-ID: <20241018014908.3783976-1-dzm91@hust.edu.cn>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -41,64 +38,72 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HwEQrAA3PwP4vRFnS0sXAQ--.48358S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW7Ww1kZF1DCw4Dtr1xWr17Wrg_yoW8Ar1DpF
-	y7Kr1xGa18CryUC3yxG348Xr48GFn7Jay5Kr4agwnaqFs5CFyIvrW3tF9Yva47XrWvvay5
-	XF43CrW8Cw1F9aUanT9S1TB71UUUUbUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQSb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+X-CM-TRANSID:HgEQrAB3fn6WvhFnZbkACA--.16579S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoW7AFWfGFykur4UGF43Kr4fuFg_yoW8KFWxpr
+	nrKFyxta18Ga4UtFWUGryv9ry8AFyfGrW7JF97twnFqrn5tw40vFsIyrnxXF93Kr10ya45
+	XryDKr90vryUuFUanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQSb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
 	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
 	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
 	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
 	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
 	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
 	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUtVW8Zw
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUAVWUtw
 	CF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Y
-	z7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+	z7v_Jr0_Gr1l4IxYO2xFxVAFwI0_GFv_Wrylx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
 	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE
-	2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
-	xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF
-	7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUsqjgDUUUU
+	2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
+	xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF
+	7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU3YFADUUUU
 X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-Update to commit c5d436f05a3f ("docs/process: fix typos")
+Update to commit 91031ca349ee ("docs: improve comment consistency in
+.muttrc example configuration")
 
 scripts/checktransupdate.py reports:
 
-Documentation/translations/zh_CN/process/coding-style.rst
-commit c5d436f05a3f ("docs/process: fix typos")
-commit 82b8000c28b5 ("net: drop special comment style")
-2 commits needs resolving in total
+Documentation/translations/zh_CN/process/email-clients.rst
+commit 91031ca349ee ("docs: improve comment consistency in .muttrc
+example configuration")
+commit 7fe7de7be828 ("Docs/process/email-clients: Document HacKerMaiL")
+commit 9c03bc90c065 ("Documentation: process: Revert "Document suitability
+of Proton Mail for kernel development"")
+commit 1d2ed9234c85 ("Documentation: process: Document suitability of
+Proton Mail for kernel development")
+4 commits needs resolving in total
 
 Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
 ---
 v1->v2: revise the script name
- .../translations/zh_CN/process/coding-style.rst       | 11 -----------
- 1 file changed, 11 deletions(-)
+ .../translations/zh_CN/process/email-clients.rst         | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/translations/zh_CN/process/coding-style.rst b/Documentation/translations/zh_CN/process/coding-style.rst
-index 10b9cb4f6a65..0484d0c65c25 100644
---- a/Documentation/translations/zh_CN/process/coding-style.rst
-+++ b/Documentation/translations/zh_CN/process/coding-style.rst
-@@ -560,17 +560,6 @@ Documentation/translations/zh_CN/doc-guide/index.rst 和 scripts/kernel-doc 。
- 	 * with beginning and ending almost-blank lines.
- 	 */
+diff --git a/Documentation/translations/zh_CN/process/email-clients.rst b/Documentation/translations/zh_CN/process/email-clients.rst
+index 34d51cdadc7b..a70393089df3 100644
+--- a/Documentation/translations/zh_CN/process/email-clients.rst
++++ b/Documentation/translations/zh_CN/process/email-clients.rst
+@@ -197,7 +197,7 @@ Mutt不自带编辑器，所以不管你使用什么编辑器，不自动断行
+ Mutt 是高度可配置的。 这里是个使用mutt通过 Gmail 发送的补丁的最小配置::
  
--对于在 net/ 和 drivers/net/ 的文件，首选的长 (多行) 注释风格有些不同。
--
--.. code-block:: c
--
--	/* The preferred comment style for files in net/ and drivers/net
--	 * looks like this.
--	 *
--	 * It is nearly the same as the generally preferred comment style,
--	 * but there is no initial almost-blank line.
--	 */
--
- 注释数据也是很重要的，不管是基本类型还是衍生类型。为了方便实现这一点，每一行
- 应只声明一个数据 (不要使用逗号来一次声明多个数据)。这样你就有空间来为每个数据
- 写一段小注释来解释它们的用途了。
+   # .muttrc
+-  # ================  IMAP ====================
++  # ================  IMAP  ====================
+   set imap_user = 'yourusername@gmail.com'
+   set imap_pass = 'yourpassword'
+   set spoolfile = imaps://imap.gmail.com/INBOX
+@@ -325,3 +325,10 @@ Gmail网页客户端自动地把制表符转换为空格。
+ 另一个问题是Gmail还会把任何含有非ASCII的字符的消息改用base64编码，如欧洲人的
+ 名字。
+ 
++HacKerMaiL (TUI)
++****************
++
++HacKerMaiL (hkml) 是一个基于公共收件箱的简单邮件管理工具，它不需要订阅邮件列表。
++该工具由 DAMON 维护者开发和维护，旨在支持 DAMON 和通用内核子系统的基本开发工作
++流程。详细信息可参考 HacKerMaiL 的 README 文件
++(https://github.com/sjp38/hackermail/blob/master/README.md)。
 -- 
 2.43.0
 
