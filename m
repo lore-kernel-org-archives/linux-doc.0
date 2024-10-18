@@ -1,116 +1,120 @@
-Received: from smtpcmd0986.aruba.it (smtpcmd0986.aruba.it [62.149.156.86])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10311DA2FE
-	for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2024 14:42:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.149.156.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4876A200CB8;
+	Fri, 18 Oct 2024 14:48:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729262550; cv=none; b=er0vdv4Qd724EER5DNIswLIQ9Z7J62GkzJJq/Eel+L9cpvkvvzET+PHHV8jioZWarHsj4djzsxEpWyQD/PRmWXR7c09Ry4V4QfPKPYgbeSHV+5CqyU7bUSIjbbEqlVQr8o+xPcfZM3dyWEeEPKBycteqxJEDQgu+cq2alwC8hdA=
+	t=1729262912; cv=none; b=d7rz+vALOrypiFnFpY3dayKyEV/Lavu0KPR5XuLrNTfTEk3tG/F3WyPjL3sVHqb01T2+Zmrh5bcNx58zN6VsCQxRFIW+MDR75M++EY7q19R5YRdLiVLBDzE+NcfdMjLEQR7nDgVgQGM4sBXJa8nIJ1SZrO+K58x/1T0H8Alw9Io=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729262550; c=relaxed/simple;
-	bh=A/724BhEZdtZmOczhOhvy5LRjcTRymfupxHC09g57ys=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WQpi6qZ44iqbMw6xEwDepWiZVPtC1VXEgoSYzj4QzSUHfjIyp5qzv2wGlmEZrtmr/wZ34enLdmM8rDNoLBrhtmF58BLyjAR8sqOoIy7BWnbDqXuYeJWUB88cIpgjQagKH20Py/cCA1DGuJaWVTZ1vKMvk1N/O43vfKTywSslVb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com; spf=pass smtp.mailfrom=enneenne.com; dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b=dQG4zaIX; arc=none smtp.client-ip=62.149.156.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enneenne.com
+	s=arc-20240116; t=1729262912; c=relaxed/simple;
+	bh=DlMv1MbTan41VzmOrQ04+mc8hraTENCiEUVtWinjsT0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UYwSzKll7LvDBdwUHE7OgR8uL1PuCdNlOUMEXkvebuAuCoqhiQDNxZJSIvPaZouCAQMh8zxhWLmsR7Dtu755l3jvSNxqZ8LLqOrMXCK6KlbgWdn+MB2L7w79k50T2M0GWBkWk0kCky3OwSq8ThXtQEd9CLkeqtsH6K4n91PVRs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MqtpwFO9; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b="dQG4zaIX"
-Received: from polimar.homenet.telecomitalia.it ([79.0.204.227])
-	by Aruba Outgoing Smtp  with ESMTPSA
-	id 1o8JtbKaEcvwV1o8JtrU8d; Fri, 18 Oct 2024 16:39:16 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
-	t=1729262356; bh=A/724BhEZdtZmOczhOhvy5LRjcTRymfupxHC09g57ys=;
-	h=From:To:Subject:Date:MIME-Version;
-	b=dQG4zaIXIZ7g9rCS0Ew51mwCQ28LIf5eaWpCZfKG/9t9gRGTeX94af4NuabDT5XLA
-	 J+UunR6noURnRjijsqxZoTMtEDFjj70hj4zLVt1yTJBkPpClogNVs/qbryWiOow4SF
-	 ruVyT2Rz3mfrDm0T+IUGMRduca8djNpHJTQRdrXXhus7x+ONvuooUt+JC/cKYokZ6Z
-	 OBNy8nYsqrT8gPaDTJ9X09NMFPmE9Gnt0TzJDT31qoiRaFxk+f5W4Xf757nU8qc/Jt
-	 CsFGC0yEhftH5RvI447Nksrtn+36dCRH6wzcvdn7+MglDiapfgKA4cGdR2VyD/bXpV
-	 H+BWcOhaZC3WQ==
-From: Rodolfo Giometti <giometti@enneenne.com>
-To: linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MqtpwFO9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729262910; x=1760798910;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=DlMv1MbTan41VzmOrQ04+mc8hraTENCiEUVtWinjsT0=;
+  b=MqtpwFO9K3kNe7smMRfpd5J35EPBDceBtkvDHGzxousvNGiJ+ue6HZNw
+   +Krg5tjPBKAEF5AWccCoE7/itfL+VzhT98QT6mlq5pf9q1HpEdQ6h8wpS
+   gNM4H2jIfWntSV1iWDqulEMDJJbIq9y3bhHifTiuaFLgWJpGsou8zkfXh
+   BBJ7jG1evQ06Ma+jaGW0O7cp4EnmbNdBUCcnjhF9j0Wtq/y3eakVgfCqP
+   qPqmXeaFCsGV/Kab65Kwv/zZk1yIuvxCH5603trzbKvVwhBOAiHmlmsdY
+   ZcclBOEjCbzobwJjSbYHrr5gCSvUYpzE9cTzI7JazyhCYGeYN3PGJh8f+
+   g==;
+X-CSE-ConnectionGUID: cW0FkppmQsio7LwNFOuuOw==
+X-CSE-MsgGUID: oTwnmrtjRZWiVORPlyc7VQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="46296834"
+X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
+   d="scan'208";a="46296834"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 07:48:29 -0700
+X-CSE-ConnectionGUID: jJB+MDW6Rd6hmWeSO42tGg==
+X-CSE-MsgGUID: LIzzA/n4Rg2pX9bw4jGO1w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
+   d="scan'208";a="83658164"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.217])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 07:48:23 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: linux-pci@vger.kernel.org,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+	"Maciej W . Rozycki" <macro@orcam.me.uk>,
+	Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Alexandru Gagniuc <mr.nuke.me@gmail.com>,
+	Krishna chaitanya chundru <quic_krichai@quicinc.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	linux-pm@vger.kernel.org,
+	Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Greg KH <greg@kroah.com>,
-	corbet@lwn.net,
-	Hall Christopher S <christopher.s.hall@intel.com>,
-	Mohan Subramanian <subramanian.mohan@intel.com>,
-	tglx@linutronix.de,
-	andriy.shevchenko@linux.intel.com,
-	Dong Eddie <eddie.dong@intel.com>,
-	N Pandith <pandith.n@intel.com>,
-	T R Thejesh Reddy <thejesh.reddy.t.r@intel.com>,
-	Zage David <david.zage@intel.com>,
-	Chinnadurai Srinivasan <srinivasan.chinnadurai@intel.com>,
-	Rodolfo Giometti <giometti@enneenne.com>
-Subject: [V1 0/4] Add PPS generators
-Date: Fri, 18 Oct 2024 16:39:11 +0200
-Message-Id: <20241018143915.3877425-1-giometti@enneenne.com>
-X-Mailer: git-send-email 2.34.1
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Amit Kucheria <amitk@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [PATCH v9 1/9] Documentation PCI: Reformat RMW ops documentation
+Date: Fri, 18 Oct 2024 17:47:47 +0300
+Message-Id: <20241018144755.7875-2-ilpo.jarvinen@linux.intel.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20241018144755.7875-1-ilpo.jarvinen@linux.intel.com>
+References: <20241018144755.7875-1-ilpo.jarvinen@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfKM+yY/5E5Sa6WTRMRdh0E3rNyGCQWqcYtz3yVVlwjRWj7GHIKG4l7bbvPwwwZBMU8n9EzEFlX/XncKpmz3xR58uZPncsy9DFKNeNjNcRpXcaOQzUKtE
- h4S6SrYHvMAF1gBmdf6GyPWSv6nA1+W585TpRe4a/dcQlWBQcr4jPRwTDs3eFl6c/SdbDv9vy4V14C9CsVfG0+erRWJPECV5F1JecJ1C0NHQMg4+enL5DsQ7
- 4TyXjW4cttVr73DDR7IQMJl+hxhGKdYzJDZfSU1t8tCkoaqDkTs5t8Z0Rg3n9a3klpazl9lAwgwde5Ci1e2rjdJVi0pBoSCQiRNE5eLPAsw2VvYscdSbYeyS
- mu9vmKmlQjP50kqWN9BLQ8AbVlZq5UBby4bJdn6F5wY4eJNwVHSgvMmM4iMQvNSgZrnlU+VrAQ8/qLzSKM7zYagou1VecvbUzfwHam0MOgfCsqMVIdONgLKy
- mzXx4trmmCqbFm+FRdEtep/kJ4Lk+6MxnJru1sIuCGUesSxtkhyi/KnfLcNffa7j2qu7FrWOdICW017GeYY8A35qnl0rTcc0ukOxVCAPX/7mnJlyi+4+9peg
- x+P/Rj4WY1BNuMO94lRbccjFbt/9kEh5gPpZYsUBnp5Ml9YYXfXTRU3UDfgHh68dJM8fJNrn+mXQvVQRlFNJbj+07xBDx9E2AqR36JyzqIUCNZHtd1GPE0kR
- k7rxaVEoQ+yWhmX4rlFli2nGtqLaaRg/
 
-PPS generators are special hardware which are able to produce PPS
-(Pulse Per Second) signals.
+Extract the list of RMW protected PCIe Capability registers into a
+bullet list to make them easier to pick up on a glance. An upcoming
+change is going to add one more register among them so it will be much
+cleaner to have them as bullets.
 
-This patchset adds PPS generators class in order to have a well-defined
-interface for these devices.
+Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+Reviewed-by: Lukas Wunner <lukas@wunner.de>
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+---
+ Documentation/PCI/pciebus-howto.rst | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-Changelog:
-
-RFC -> V1:
-    * char device reworked (get_device/set_device)
-    * dummy driver has been moved in a separate patch
-    * idr_ replaced with ida_* functions
-    * fixes in include/uapi/linux/pps_gen.h
-    * MAINTAINERS updated
-    * new ioctl PPS_GEN_USESYSTEMCLOCK added
-    * new ioctl PPS_GEN_FETCHEVENT added
-    * .compat_ioctl dropped
-    * WARN_ON() removed from pps_gen_cdev_release()
-    * not needed pr_*() calls removed or replaced with dev_*()
-    * more quite driver
-    * name attribute dropped
-    * white spaces removed
-
-Rodolfo Giometti (4):
-  drivers pps: add PPS generators support
-  drivers pps/generators: add dummy PPS generator
-  Documentation pps.rst: add PPS generators documentation
-  Documentation ABI: add PPS generators documentation
-
- Documentation/ABI/testing/sysfs-pps-gen       |  44 +++
- Documentation/driver-api/pps.rst              |  40 ++
- .../userspace-api/ioctl/ioctl-number.rst      |   1 +
- MAINTAINERS                                   |   1 +
- drivers/pps/Makefile                          |   3 +-
- drivers/pps/generators/Kconfig                |  22 +-
- drivers/pps/generators/Makefile               |   4 +
- drivers/pps/generators/pps_gen-dummy.c        |  96 +++++
- drivers/pps/generators/pps_gen.c              | 344 ++++++++++++++++++
- drivers/pps/generators/sysfs.c                |  75 ++++
- include/linux/pps_gen_kernel.h                |  78 ++++
- include/uapi/linux/pps_gen.h                  |  37 ++
- 12 files changed, 743 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/ABI/testing/sysfs-pps-gen
- create mode 100644 drivers/pps/generators/pps_gen-dummy.c
- create mode 100644 drivers/pps/generators/pps_gen.c
- create mode 100644 drivers/pps/generators/sysfs.c
- create mode 100644 include/linux/pps_gen_kernel.h
- create mode 100644 include/uapi/linux/pps_gen.h
-
+diff --git a/Documentation/PCI/pciebus-howto.rst b/Documentation/PCI/pciebus-howto.rst
+index f344452651e1..e48d01422efc 100644
+--- a/Documentation/PCI/pciebus-howto.rst
++++ b/Documentation/PCI/pciebus-howto.rst
+@@ -217,8 +217,11 @@ capability structure except the PCI Express capability structure,
+ that is shared between many drivers including the service drivers.
+ RMW Capability accessors (pcie_capability_clear_and_set_word(),
+ pcie_capability_set_word(), and pcie_capability_clear_word()) protect
+-a selected set of PCI Express Capability Registers (Link Control
+-Register and Root Control Register). Any change to those registers
+-should be performed using RMW accessors to avoid problems due to
+-concurrent updates. For the up-to-date list of protected registers,
+-see pcie_capability_clear_and_set_word().
++a selected set of PCI Express Capability Registers:
++
++* Link Control Register
++* Root Control Register
++
++Any change to those registers should be performed using RMW accessors to
++avoid problems due to concurrent updates. For the up-to-date list of
++protected registers, see pcie_capability_clear_and_set_word().
 -- 
-2.34.1
+2.39.5
 
