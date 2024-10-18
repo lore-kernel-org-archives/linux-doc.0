@@ -1,214 +1,196 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81046E555;
-	Fri, 18 Oct 2024 12:05:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89A9F18EA2;
+	Fri, 18 Oct 2024 12:37:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729253125; cv=none; b=RpXuWa/l4x7lN+rxvN4rjRm03XflWV1cdMYgpIHW52xswHwhRfF7H+ztq3SGmTH+x5U2BUMFPmDxeRkgWU4AkRn3n1xNXbAWwZ0lmDWjNa70i/4nOKtGUDo3AnXpjOZIX2O6qo6VUqJ/RQEXyNL6AjVeAVE11Oc/i2gK8bmm4tw=
+	t=1729255033; cv=none; b=ItVyWbWxsLS/kPmRFj2M6y+gu1BJKyBwB38MceU9OgHWowanGBgP9frXXxqd5pneGdx9ezbaPSI3ofunTCT7ZhyKMwvuc73Tpjkkkfy59RhT0/nacgtbubSdtK+YdIv2ss488lGj3SYzDGkW7bpHTNl1nfkhLZrkF68Nz5QoAg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729253125; c=relaxed/simple;
-	bh=9mQ1F+VIqnWPlvM54TelqSqxN4ITH/c6dqxPDvxNFJw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=YtNLm6nWbJJCwNrF/RqlRnz2QK9WhUUARBlCsteMesRusAvI5Ob+ejyjEB5ykIvqfTcj58wHyr1/A8Wzbqr/I9BHG2f+AdjCRWaKjSkzudx5QvtonzBvY7i7mxtHriD3BE9aMGFrtj5iQcqsjnTCV4s4Q8yK6e4r6HZNuM/ZD9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W3y1fBM+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729255033; c=relaxed/simple;
+	bh=c9/xjTiiKXugCqvB0Ddy4FxGatdeqMUWidzZme3SiuM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pZkL/WvF+m7Ax6yfYmlw8FoUDvZsvjMmeR1TWktPop1R8vH2xrmAV2L7N1JJL36q9UazQw/0tptnMlg0bO3IDMvtOoLcfo2vJBh4Tba/yZHdUn4jijos6gYqawWCSKBPqzpoBuEbyrLV7j1NOd/Z0z2IZo03ggzARoqede9RiTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZOE35CuN; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W3y1fBM+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2BE4C4CEC7;
-	Fri, 18 Oct 2024 12:05:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729253125;
-	bh=9mQ1F+VIqnWPlvM54TelqSqxN4ITH/c6dqxPDvxNFJw=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=W3y1fBM+WdYOfqO6V/PectKYxNHnFN0WxUNy6Onvgx0TuA48/HdBO7OlFkF0Y14Kf
-	 /7GnlLHvu3+yDBmwNVPRWGWwb+328xlsjIwd2xpIECYiuwbM/JGZBuCeQ9UN58Y9Wk
-	 3aRNsS7wLwNhNiwcOWqLYPujn1oR+Z/8/9tp37BETdIKMwArMxjrcQOnFktJT3aXXo
-	 nDsHJFTOFkrUJvfXnxie0I5VCaVaGisjHVPTEc5W69lqop2fk85uv2ys12EckLruRl
-	 hausqoh5er4s7BOOs8hL3ZqhWLHNN3nwIyKoQifHc5MqtkPeqElLlOL0jpfcRAw0at
-	 2+wAMrRSMDO6w==
-Message-ID: <2ed155300b60cb12758322628919c9c631744243.camel@kernel.org>
-Subject: Re: [PATCH 0/6] nfsd: update the delstid patches for latest draft
- changes
-From: Jeff Layton <jlayton@kernel.org>
-To: Olga Kornievskaia <aglo@umich.edu>
-Cc: Chuck Lever <chuck.lever@oracle.com>, Neil Brown <neilb@suse.de>, Olga
- Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom
- Talpey <tom@talpey.com>, Jonathan Corbet <corbet@lwn.net>, Trond Myklebust
- <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,  Thomas Haynes
- <loghyr@gmail.com>, linux-nfs@vger.kernel.org,
- linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org
-Date: Fri, 18 Oct 2024 08:05:22 -0400
-In-Reply-To: <CAN-5tyF4=JC4gmFvb2tF-k+15=gzB7-gkW6mHuaA_8Gzr4dSrA@mail.gmail.com>
-References: <20241014-delstid-v1-0-7ce8a2f4dd24@kernel.org>
-	 <CAN-5tyF4=JC4gmFvb2tF-k+15=gzB7-gkW6mHuaA_8Gzr4dSrA@mail.gmail.com>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=mQINBE6V0TwBEADXhJg7s8wFDwBMEvn0qyhAnzFLTOCHooMZyx7XO7dAiIhDSi7G1NPxw
- n8jdFUQMCR/GlpozMFlSFiZXiObE7sef9rTtM68ukUyZM4pJ9l0KjQNgDJ6Fr342Htkjxu/kFV1Wv
- egyjnSsFt7EGoDjdKqr1TS9syJYFjagYtvWk/UfHlW09X+jOh4vYtfX7iYSx/NfqV3W1D7EDi0PqV
- T2h6v8i8YqsATFPwO4nuiTmL6I40ZofxVd+9wdRI4Db8yUNA4ZSP2nqLcLtFjClYRBoJvRWvsv4lm
- 0OX6MYPtv76hka8lW4mnRmZqqx3UtfHX/hF/zH24Gj7A6sYKYLCU3YrI2Ogiu7/ksKcl7goQjpvtV
- YrOOI5VGLHge0awt7bhMCTM9KAfPc+xL/ZxAMVWd3NCk5SamL2cE99UWgtvNOIYU8m6EjTLhsj8sn
- VluJH0/RcxEeFbnSaswVChNSGa7mXJrTR22lRL6ZPjdMgS2Km90haWPRc8Wolcz07Y2se0xpGVLEQ
- cDEsvv5IMmeMe1/qLZ6NaVkNuL3WOXvxaVT9USW1+/SGipO2IpKJjeDZfehlB/kpfF24+RrK+seQf
- CBYyUE8QJpvTZyfUHNYldXlrjO6n5MdOempLqWpfOmcGkwnyNRBR46g/jf8KnPRwXs509yAqDB6sE
- LZH+yWr9LQZEwARAQABtCVKZWZmIExheXRvbiA8amxheXRvbkBwb29jaGllcmVkcy5uZXQ+iQI7BB
- MBAgAlAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAUCTpXWPAIZAQAKCRAADmhBGVaCFc65D/4
- gBLNMHopQYgG/9RIM3kgFCCQV0pLv0hcg1cjr+bPI5f1PzJoOVi9s0wBDHwp8+vtHgYhM54yt43uI
- 7Htij0RHFL5eFqoVT4TSfAg2qlvNemJEOY0e4daljjmZM7UtmpGs9NN0r9r50W82eb5Kw5bc/r0km
- R/arUS2st+ecRsCnwAOj6HiURwIgfDMHGPtSkoPpu3DDp/cjcYUg3HaOJuTjtGHFH963B+f+hyQ2B
- rQZBBE76ErgTDJ2Db9Ey0kw7VEZ4I2nnVUY9B5dE2pJFVO5HJBMp30fUGKvwaKqYCU2iAKxdmJXRI
- ONb7dSde8LqZahuunPDMZyMA5+mkQl7kpIpR6kVDIiqmxzRuPeiMP7O2FCUlS2DnJnRVrHmCljLkZ
- Wf7ZUA22wJpepBligemtSRSbqCyZ3B48zJ8g5B8xLEntPo/NknSJaYRvfEQqGxgk5kkNWMIMDkfQO
- lDSXZvoxqU9wFH/9jTv1/6p8dHeGM0BsbBLMqQaqnWiVt5mG92E1zkOW69LnoozE6Le+12DsNW7Rj
- iR5K+27MObjXEYIW7FIvNN/TQ6U1EOsdxwB8o//Yfc3p2QqPr5uS93SDDan5ehH59BnHpguTc27Xi
- QQZ9EGiieCUx6Zh2ze3X2UW9YNzE15uKwkkuEIj60NvQRmEDfweYfOfPVOueC+iFifbQgSmVmZiBM
- YXl0b24gPGpsYXl0b25AcmVkaGF0LmNvbT6JAjgEEwECACIFAk6V0q0CGwMGCwkIBwMCBhUIAgkKC
- wQWAgMBAh4BAheAAAoJEAAOaEEZVoIViKUQALpvsacTMWWOd7SlPFzIYy2/fjvKlfB/Xs4YdNcf9q
- LqF+lk2RBUHdR/dGwZpvw/OLmnZ8TryDo2zXVJNWEEUFNc7wQpl3i78r6UU/GUY/RQmOgPhs3epQC
- 3PMJj4xFx+VuVcf/MXgDDdBUHaCTT793hyBeDbQuciARDJAW24Q1RCmjcwWIV/pgrlFa4lAXsmhoa
- c8UPc82Ijrs6ivlTweFf16VBc4nSLX5FB3ls7S5noRhm5/Zsd4PGPgIHgCZcPgkAnU1S/A/rSqf3F
- LpU+CbVBDvlVAnOq9gfNF+QiTlOHdZVIe4gEYAU3CUjbleywQqV02BKxPVM0C5/oVjMVx3bri75n1
- TkBYGmqAXy9usCkHIsG5CBHmphv9MHmqMZQVsxvCzfnI5IO1+7MoloeeW/lxuyd0pU88dZsV/riHw
- 87i2GJUJtVlMl5IGBNFpqoNUoqmvRfEMeXhy/kUX4Xc03I1coZIgmwLmCSXwx9MaCPFzV/dOOrju2
- xjO+2sYyB5BNtxRqUEyXglpujFZqJxxau7E0eXoYgoY9gtFGsspzFkVNntamVXEWVVgzJJr/EWW0y
- +jNd54MfPRqH+eCGuqlnNLktSAVz1MvVRY1dxUltSlDZT7P2bUoMorIPu8p7ZCg9dyX1+9T6Muc5d
- Hxf/BBP/ir+3e8JTFQBFOiLNdFtB9KZWZmIExheXRvbiA8amxheXRvbkBzYW1iYS5vcmc+iQI4BBM
- BAgAiBQJOldK9AhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRAADmhBGVaCFWgWD/0ZRi4h
- N9FK2BdQs9RwNnFZUr7JidAWfCrs37XrA/56olQl3ojn0fQtrP4DbTmCuh0SfMijB24psy1GnkPep
- naQ6VRf7Dxg/Y8muZELSOtsv2CKt3/02J1BBitrkkqmHyni5fLLYYg6fub0T/8Kwo1qGPdu1hx2BQ
- RERYtQ/S5d/T0cACdlzi6w8rs5f09hU9Tu4qV1JLKmBTgUWKN969HPRkxiojLQziHVyM/weR5Reu6
- FZVNuVBGqBD+sfk/c98VJHjsQhYJijcsmgMb1NohAzwrBKcSGKOWJToGEO/1RkIN8tqGnYNp2G+aR
- 685D0chgTl1WzPRM6mFG1+n2b2RR95DxumKVpwBwdLPoCkI24JkeDJ7lXSe3uFWISstFGt0HL8Eew
- P8RuGC8s5h7Ct91HMNQTbjgA+Vi1foWUVXpEintAKgoywaIDlJfTZIl6Ew8ETN/7DLy8bXYgq0Xzh
- aKg3CnOUuGQV5/nl4OAX/3jocT5Cz/OtAiNYj5mLPeL5z2ZszjoCAH6caqsF2oLyAnLqRgDgR+wTQ
- T6gMhr2IRsl+cp8gPHBwQ4uZMb+X00c/Amm9VfviT+BI7B66cnC7Zv6Gvmtu2rEjWDGWPqUgccB7h
- dMKnKDthkA227/82tYoFiFMb/NwtgGrn5n2vwJyKN6SEoygGrNt0SI84y6hEVbQlSmVmZiBMYXl0b
- 24gPGpsYXl0b25AcHJpbWFyeWRhdGEuY29tPokCOQQTAQIAIwUCU4xmKQIbAwcLCQgHAwIBBhUIAg
- kKCwQWAgMBAh4BAheAAAoJEAAOaEEZVoIV1H0P/j4OUTwFd7BBbpoSp695qb6HqCzWMuExsp8nZjr
- uymMaeZbGr3OWMNEXRI1FWNHMtcMHWLP/RaDqCJil28proO+PQ/yPhsr2QqJcW4nr91tBrv/MqItu
- AXLYlsgXqp4BxLP67bzRJ1Bd2x0bWXurpEXY//VBOLnODqThGEcL7jouwjmnRh9FTKZfBDpFRaEfD
- FOXIfAkMKBa/c9TQwRpx2DPsl3eFWVCNuNGKeGsirLqCxUg5kWTxEorROppz9oU4HPicL6rRH22Ce
- 6nOAON2vHvhkUuO3GbffhrcsPD4DaYup4ic+DxWm+DaSSRJ+e1yJvwi6NmQ9P9UAuLG93S2MdNNbo
- sZ9P8k2mTOVKMc+GooI9Ve/vH8unwitwo7ORMVXhJeU6Q0X7zf3SjwDq2lBhn1DSuTsn2DbsNTiDv
- qrAaCvbsTsw+SZRwF85eG67eAwouYk+dnKmp1q57LDKMyzysij2oDKbcBlwB/TeX16p8+LxECv51a
- sjS9TInnipssssUDrHIvoTTXWcz7Y5wIngxDFwT8rPY3EggzLGfK5Zx2Q5S/N0FfmADmKknG/D8qG
- IcJE574D956tiUDKN4I+/g125ORR1v7bP+OIaayAvq17RP+qcAqkxc0x8iCYVCYDouDyNvWPGRhbL
- UO7mlBpjW9jK9e2fvZY9iw3QzIPGKtClKZWZmIExheXRvbiA8amVmZi5sYXl0b25AcHJpbWFyeWRh
- dGEuY29tPokCOQQTAQIAIwUCU4xmUAIbAwcLCQgHAwIBBhUIAgkKCwQWAgMBAh4BAheAAAoJEAAOa
- EEZVoIVzJoQALFCS6n/FHQS+hIzHIb56JbokhK0AFqoLVzLKzrnaeXhE5isWcVg0eoV2oTScIwUSU
- apy94if69tnUo4Q7YNt8/6yFM6hwZAxFjOXR0ciGE3Q+Z1zi49Ox51yjGMQGxlakV9ep4sV/d5a50
- M+LFTmYSAFp6HY23JN9PkjVJC4PUv5DYRbOZ6Y1+TfXKBAewMVqtwT1Y+LPlfmI8dbbbuUX/kKZ5d
- dhV2736fgyfpslvJKYl0YifUOVy4D1G/oSycyHkJG78OvX4JKcf2kKzVvg7/Rnv+AueCfFQ6nGwPn
- 0P91I7TEOC4XfZ6a1K3uTp4fPPs1Wn75X7K8lzJP/p8lme40uqwAyBjk+IA5VGd+CVRiyJTpGZwA0
- jwSYLyXboX+Dqm9pSYzmC9+/AE7lIgpWj+3iNisp1SWtHc4pdtQ5EU2SEz8yKvDbD0lNDbv4ljI7e
- flPsvN6vOrxz24mCliEco5DwhpaaSnzWnbAPXhQDWb/lUgs/JNk8dtwmvWnqCwRqElMLVisAbJmC0
- BhZ/Ab4sph3EaiZfdXKhiQqSGdK4La3OTJOJYZphPdGgnkvDV9Pl1QZ0ijXQrVIy3zd6VCNaKYq7B
- AKidn5g/2Q8oio9Tf4XfdZ9dtwcB+bwDJFgvvDYaZ5bI3ln4V3EyW5i2NfXazz/GA/I/ZtbsigCFc
- 8ftCBKZWZmIExheXRvbiA8amxheXRvbkBrZXJuZWwub3JnPokCOAQTAQIAIgUCWe8u6AIbAwYLCQg
- HAwIGFQgCCQoLBBYCAwECHgECF4AACgkQAA5oQRlWghUuCg/+Lb/xGxZD2Q1oJVAE37uW308UpVSD
- 2tAMJUvFTdDbfe3zKlPDTuVsyNsALBGclPLagJ5ZTP+Vp2irAN9uwBuacBOTtmOdz4ZN2tdvNgozz
- uxp4CHBDVzAslUi2idy+xpsp47DWPxYFIRP3M8QG/aNW052LaPc0cedYxp8+9eiVUNpxF4SiU4i9J
- DfX/sn9XcfoVZIxMpCRE750zvJvcCUz9HojsrMQ1NFc7MFT1z3MOW2/RlzPcog7xvR5ENPH19ojRD
- CHqumUHRry+RF0lH00clzX/W8OrQJZtoBPXv9ahka/Vp7kEulcBJr1cH5Wz/WprhsIM7U9pse1f1g
- Yy9YbXtWctUz8uvDR7shsQxAhX3qO7DilMtuGo1v97I/Kx4gXQ52syh/w6EBny71CZrOgD6kJwPVV
- AaM1LRC28muq91WCFhs/nzHozpbzcheyGtMUI2Ao4K6mnY+3zIuXPygZMFr9KXE6fF7HzKxKuZMJO
- aEZCiDOq0anx6FmOzs5E6Jqdpo/mtI8beK+BE7Va6ni7YrQlnT0i3vaTVMTiCThbqsB20VrbMjlhp
- f8lfK1XVNbRq/R7GZ9zHESlsa35ha60yd/j3pu5hT2xyy8krV8vGhHvnJ1XRMJBAB/UYb6FyC7S+m
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40app2) 
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZOE35CuN"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 76FC620003;
+	Fri, 18 Oct 2024 12:37:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1729255028;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=owtQChlN31AVdAEqlGbXxf4xAq96BDAy75fME/ifiAM=;
+	b=ZOE35CuNqGn2xMLalISelfAuovirX3aKgmPj5A6bHOf6mP0bah1f6KXYWqj8i4hmgZzVmo
+	5OxBdyu04SqU7VHFxpy6vmJTVS26SQm7DHjgm0ApICqzj7JkPrjyOz6gyJbVS9qpxChSMJ
+	7L/P2uOTk9k+CWxIobrgpvj5Z+uwo0+pBl9WvYeDKdtnADCk2xogdt8XKZ1n0gCkBz6t3F
+	k4d8/YHMwFw43SkGKIlWZzcAj21n0mDqfFrrPGgGAYmo8JI3H1JPNLFhu8ZNgK+W8ooFRM
+	j0ynKfGTsl05UFR/aYEIm+02RmPkTUr0OOBJU4o8fMiB4vG/UbmfW5GTHgNRow==
+Date: Fri, 18 Oct 2024 14:37:06 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Kyle Swenson <kyle.swenson@est.tech>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "netdev@vger.kernel.org"
+ <netdev@vger.kernel.org>, "linux-doc@vger.kernel.org"
+ <linux-doc@vger.kernel.org>, Dent Project
+ <dentproject@linuxfoundation.org>, "kernel@pengutronix.de"
+ <kernel@pengutronix.de>
+Subject: Re: [PATCH net-next 00/12] Add support for PSE port priority
+Message-ID: <20241018143706.33d49872@kmaincent-XPS-13-7390>
+In-Reply-To: <ZxH8wpm_kptHBFQG@pengutronix.de>
+References: <20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com>
+ <ZwaLDW6sKcytVhYX@p620.local.tld>
+ <20241009170400.3988b2ac@kmaincent-XPS-13-7390>
+ <ZwbAYyciOcjt7q3e@est-xps15>
+ <ZwdpQRRGst1Z0eQE@pengutronix.de>
+ <20241015114352.2034b84a@kmaincent-XPS-13-7390>
+ <20241017123557.68189d5b@kmaincent-XPS-13-7390>
+ <ZxH8wpm_kptHBFQG@pengutronix.de>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Thu, 2024-10-17 at 18:39 -0400, Olga Kornievskaia wrote:
-> Seeing strangeness in a network trace with this patch series where
-> SETATTR is sent with time_deleg_access and server is returning with
-> EINVAL. Test is open() with read delegation, triggering a cb_recall
-> via a local access. I can see that the client has changed from sending
-> just a delegreturn to sending a setattr+delegreturn. Is there no
-> server support and this is normal to return EINVAL.
+On Fri, 18 Oct 2024 08:14:26 +0200
+Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+
+> On Thu, Oct 17, 2024 at 12:35:57PM +0200, Kory Maincent wrote:
+> > On Tue, 15 Oct 2024 11:43:52 +0200
+> > Kory Maincent <kory.maincent@bootlin.com> wrote:
+> >  =20
+>  [...] =20
+> > >=20
+> > > Indeed we will have only static method for PSE controllers not suppor=
+ting
+> > > system power budget management like the TPS2388x or LTC426.
+> > > Both method could be supported for "smart" PSE controller like PD692x=
+0.
+> > >=20
+> > > Let's begin with the static method implementation in the PSE framewor=
+k for
+> > > now. It will need the power domain notion you have talked about. =20
+> >=20
+> > While developing the software support for port priority in static metho=
+d, I
+> > faced an issue.
+> >=20
+> > Supposing we are exceeding the power budget when we plug a new PD.
+> > The port power should not be enabled directly or magic smoke will appea=
+r.
+> > So we have to separate the detection part to know the needs of the PD f=
+rom
+> > the power enable part.
+> >=20
+> > Currently the port power is enabled on the hardware automatically after=
+ the
+> > detection process. There is no way to separate power port process and
+> > detection process with the PD692x0 controller and it could be done on t=
+he
+> > TPS23881 by configuring it to manual mode but: "The use of this mode is
+> > intended for system diagnostic purposes only in the event that ports ca=
+nnot
+> > be powered in accordance with the IEEE 802.3bt standard from semiauto or
+> > auto modes." Not sure we want that.
+> >=20
+> > So in fact the workaround you talked about above will be needed for the=
+ two
+> > PSE controllers. =20
 >=20
+> For the TPS23881, "9.1.1.2 Semiauto", seems to be exactly what we wont:
+> "The port performs detection and classification (if valid detection
+> occurs) continuously. Registers are updated each time a detection or
+> classification occurs. The port power is not automatically turned on. A
+> Power Enable command is required to turn on the port"
 
-No, that's a server bug. I think it's this in nfsd4_setattr:
+I tested reading the assigned class and not the requested class register so=
+ I
+thought it was not working but indeed it detects the class even if the port
+power is off. That's what I was looking for, nice!
+Just figured out also that calling pwoff is reseting detection, classificat=
+ion,
+power policy... So the port need to be setup again after a pwoff.
+=20
+> For PD692x0 controller, i'm not 100% sure. There is "4.3.5 Set Enable/Dis=
+able
+> Channels" command, "Sets individual port Enable (Delivering power
+> enable) or Disable (Delivering power disable)."=20
+>=20
+> For my understanding, "Delivering power" is the state after
+> classification. So, it is what we wont too.
 
-        if (deleg_attrs || (setattr->sa_iattr.ia_valid & ATTR_SIZE)) {
-                status =3D nfs4_preprocess_stateid_op(rqstp, cstate,
-                                &cstate->current_fh, &setattr->sa_stateid,
-                                WR_STATE, NULL, &st);
-                if (status)
-                        return status;
-        }
+On the PD692x0 there is also a requested class and power value but it stay =
+"to
+no class detected value" (0xc) if the port is not enabled.
+It did not find a way to detect the class and keep port power off.
+=20
+> If, it works in both cases, it would be a more elegant way to go. THe
+> controller do auto- detection and classification, what we should do in
+> the software is do decide if the PD can be enabled based on
+> classification results, priority and available budget.
+>=20
+> > > Both methods have their pros and cons. Since the dynamic method is not
+> > > always desirable, and if there's no way to disable it in the PD692x0's
+> > > firmware, one potential workaround could be handling the budget in
+> > > software and dynamically setting per-port limits. For instance, with a
+> > > total budget of 300W and unused ports, we could initially set 95W lim=
+its
+> > > per port. As high-priority PDs (e.g., three 95W devices) are powered,=
+ we
+> > > could dynamically reduce the power limit on the remaining ports to 15=
+W,
+> > > ensuring that no device exceeds that classification threshold. =20
+> >=20
+> > We would set port overcurrent limit for all unpowered ports when the po=
+wer
+> > budget available is less than max PI power 100W as you described.
+> > If a new PD plugged exceed the overcurrent limit then it will raise an
+> > interrupt and we could deal with the power budget to turn off low prior=
+ity
+> > ports at that time.  =20
+>=20
+> > Mmh in fact I could not know if the overcurrent event interrupt comes f=
+rom a
+> > newly plugged PD or not. =20
+>=20
+> Hm..  in case of PD692x0, may be using event counters?
 
-We're asking for a WR_STATE in the nfs4_preprocess_stateid_op, but
-there isn't one. There is only a read delegation, so we get back
-BAD_STATEID and that eventually runs into -EINVAL. I'll need to look
-over this and figure out how to fix it properly.
+Counters? I don't see how.
 
-Thanks for the bug report.
+> > An option: When we get new PD device plug interrupt event, we wait the =
+end
+> > of classification time (Tpon 400ms) and read the interrupt states again=
+ to
+> > know if there is an overcurrent or not on the port. =20
+>=20
+> Let's try Semiauto mode for TPS23881 first, I assume it is designed
+> exactly for this use case.
 
-> On Mon, Oct 14, 2024 at 3:27=E2=80=AFPM Jeff Layton <jlayton@kernel.org> =
-wrote:
-> >=20
-> > This patchset is an update to the delstid patches that went into Chuck'=
-s
-> > nfsd-next branch recently. The original versions of the spec left out
-> > OPEN_DELEGATE_READ_ATTRS_DELEG and OPEN_DELEGATE_WRITE_ATTRS_DELEG. Thi=
-s
-> > set adds proper support for them.
-> >=20
-> > My suggestion is to drop these two patches from nfsd-next:
-> >=20
-> >     544c67cc0f26 nfsd: handle delegated timestamps in SETATTR
-> >     eee2c04ca5c1 nfsd: add support for delegated timestamps
-> >=20
-> > ...and then apply this set on top of the remaining pile. The resulting
-> > set is a bit larger than the original, as I took the liberty of adding
-> > some more symbols to the autogenerated part of the spec.
-> >=20
-> > Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> > ---
-> > Jeff Layton (6):
-> >       nfsd: drop inode parameter from nfsd4_change_attribute()
-> >       nfsd: switch to autogenerated definitions for open_delegation_typ=
-e4
-> >       nfsd: rename NFS4_SHARE_WANT_* constants to OPEN4_SHARE_ACCESS_WA=
-NT_*
-> >       nfsd: prepare delegation code for handing out *_ATTRS_DELEG deleg=
-ations
-> >       nfsd: add support for delegated timestamps
-> >       nfsd: handle delegated timestamps in SETATTR
-> >=20
-> >  Documentation/sunrpc/xdr/nfs4_1.x    |  22 ++++-
-> >  fs/nfsd/nfs4callback.c               |  42 ++++++++-
-> >  fs/nfsd/nfs4proc.c                   |  26 ++++-
-> >  fs/nfsd/nfs4state.c                  | 178 ++++++++++++++++++++++++++-=
---------
-> >  fs/nfsd/nfs4xdr.c                    |  57 ++++++++---
-> >  fs/nfsd/nfs4xdr_gen.c                |  19 +++-
-> >  fs/nfsd/nfs4xdr_gen.h                |   2 +-
-> >  fs/nfsd/nfsd.h                       |   2 +
-> >  fs/nfsd/nfsfh.c                      |  11 +--
-> >  fs/nfsd/nfsfh.h                      |   3 +-
-> >  fs/nfsd/state.h                      |  18 ++++
-> >  fs/nfsd/xdr4cb.h                     |  10 +-
-> >  include/linux/nfs4.h                 |   2 +-
-> >  include/linux/sunrpc/xdrgen/nfs4_1.h |  35 ++++++-
-> >  include/linux/time64.h               |   5 +
-> >  15 files changed, 348 insertions(+), 84 deletions(-)
-> > ---
-> > base-commit: 9f8009c5be9367d01cd1627d6a379b4c642d8a28
-> > change-id: 20241014-delstid-bf05220ad941
-> >=20
-> > Best regards,
-> > --
-> > Jeff Layton <jlayton@kernel.org>
-> >=20
-> >=20
+Yes,
 
+> And then, test if PD692x0 supports a way to disable auto power delivery
+> in the 4.3.5 command.
+
+I don't have this 4.3.5 command. Are you refering to another document than =
+the
+communication protocol version 3.55 document?
+
+Regards,
 --=20
-Jeff Layton <jlayton@kernel.org>
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
