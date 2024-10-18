@@ -1,101 +1,187 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03965155A2F;
-	Fri, 18 Oct 2024 16:39:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50151202651;
+	Fri, 18 Oct 2024 16:48:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729269601; cv=none; b=Rxl8ayabBcveM/Xvr2hhSq8p57eKPPf/zrIKhLxjuOZDe1EYp0zmlumMDNHS8KlZp6HDfdvg03mxat8oHU5wqA7uHYfwQtAms3et3wNuRb8lX5f8hCSTZtm4yElnTM43Egre5C4KqtN4DJ5aP1/H2LUmM0nEmeXD8tVj2GQDWQM=
+	t=1729270093; cv=none; b=oGxUQOHcJlYBsuJbh6J2/qzN5PmX8R7Tnh8u3B7YoxPtidz7cKh4upZlqV/0UYHZuiF8czju7/WXxIizuMqkTD9NBvy01hrOPN/qw1VOejlzb+nrtb80nOpNSgLzK/ExmKa82oRcVKDe7bRaDshmsDEsXjQKhI5GUy5wCowJpFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729269601; c=relaxed/simple;
-	bh=H46ISeiK3W0lqbYv2LwPn1zRPE+sm2SJNIC9+JzX6Ms=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hb0fOrV+syz6hvsp1fvyoWIcN6vYT4vPROn6XX6tNmoM8nbcobQWQ0rXFFK82V8E9ld1lyZ/b65ElKt9rsQRwiNdG/p90SLwVbCWmAdBeUvyS9/cwQokXjMQmPKRemmgBB+NOOC3oChPUtIvlkk7cFRujcj8k7xl3TLnEkWoIO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kEoEoiMN; arc=none smtp.client-ip=209.85.214.180
+	s=arc-20240116; t=1729270093; c=relaxed/simple;
+	bh=cfG7+wQ41ZDxpQ7jdDKg8LaDeziyv82FxZfg3dp++54=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tJljUrwMtKYwRcuWjuk2pFzOOXELowNUfV4Nw/ab8GEZMc9fA9fJkAkvCS452ez/sjaMJq0vEY5nrg/6QqkWyAELSl9NhwLcWE+t9F3c+vVX7buBVoGQ+2D8kb/K9UfqmqmzfBjLg7GpcZ/vgKOmCkFsLfssfPW6S7yD6OdMZG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aTZ2NN3i; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kEoEoiMN"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-20c805a0753so20530595ad.0;
-        Fri, 18 Oct 2024 09:39:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aTZ2NN3i"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2e2d1b7bd57so260743a91.1;
+        Fri, 18 Oct 2024 09:48:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729269599; x=1729874399; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=H46ISeiK3W0lqbYv2LwPn1zRPE+sm2SJNIC9+JzX6Ms=;
-        b=kEoEoiMN7oIjv3/w9YT0B6VL9NRT0JvS9WN7HAja2GuxMJBN0ak9yk55zD2mC/NZw4
-         fnQGjS5rKeV3GvggPR3u3CV5yJgvSvghwBZh4JgXb4dOkOom1WiAJ5qGYdo+yE1kl9mC
-         OUnNsYaMi+nP+ZzS3NMcQHWEFY6okc1nWwvqH4HoU5fBfX3nxKFWzT6lIn52ZpF9EhHu
-         mRVcpWP1VGgxvq2H0W/jFaYINEGcw1Wqu0ID6Y1GzqTeTknot7/5JtxlMHgchUe4a6/A
-         f+qP+RgKPeKgLUCfcAMsMs6TPVpG5qWd2as1A3wsRNZg6KprAn7ie905FJhVV/b+uTF0
-         O5WA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729269599; x=1729874399;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1729270090; x=1729874890; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=H46ISeiK3W0lqbYv2LwPn1zRPE+sm2SJNIC9+JzX6Ms=;
-        b=NNRwmX4Esub0GWbONkbD0Yjcr6zbghZmDS69FPKQG3tMddPMwOlxrjSdI7Trs8AqM6
-         0XjY7jB9V84VdKXmhOWBVSYnIS7ad32lfsZGnK5AadKMSgrVDkkaeacz4hEFuCKQKeJL
-         5pYTVYC/GMLsr2GWPYO85YOmVETsiVnl06QD2R0KBQ8+qJ2angbwN1aEt13v9jGw2m8Q
-         7l6bnPZBR1LA+KN9P2TkpE1xFWAjQvwV/YkL3vSbejdLU2merZhvI6saQJbeIOGbqDIr
-         nmWGud84w+Epv4SKw4H+uDcEC6hZcT2YS9jAK9ra8yck72bAht3qhl1xIRfvzdB0g8KQ
-         3RsA==
-X-Forwarded-Encrypted: i=1; AJvYcCX9Ivl6cFxL6Q3soJVJRISgCTmnx5m8GaFf90RliTOml/3LG6rOXNhVOKhF3fGMXRryofZHPk7U@vger.kernel.org, AJvYcCXaK0YrSYkHWJUx0pDKujHtLyVu0+AuD7nmALk9wOabIaIs31omV1T8AKjIj4hwwjtSWshWvkylQQPNcU1h@vger.kernel.org, AJvYcCXpU7qV+5zKa7o7ZZQCyeFmzleAd2J1zhO2kBhnCA7ZJc6CG0afjQrkQkDLrBThi/Z4vbKJ38b4C90=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy5Voqg7+v8P2Nx4do5qKHxgvK3WWLYEUSyx44v+/F+ACaU47Tb
-	ZsupNyWSh+qg4ByoOjxZJ8jBCr5ixDurYYARuTbhlz3ZGmE3q8T0i7NRS2g=
-X-Google-Smtp-Source: AGHT+IE/Qr8nmy1eseHm0cw8yDRNQgfcxettWrr8jZ/XrVMu9Jtillxh0kK9TiT5cqWTWnHOvxhzvw==
-X-Received: by 2002:a17:902:ea02:b0:20c:8df8:5066 with SMTP id d9443c01a7336-20e5a8f89aamr43516495ad.45.1729269598902;
-        Fri, 18 Oct 2024 09:39:58 -0700 (PDT)
-Received: from localhost ([2601:646:9e00:f56e:123b:cea3:439a:b3e3])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e5a71ee57sm14686945ad.43.2024.10.18.09.39.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Oct 2024 09:39:58 -0700 (PDT)
-Date: Fri, 18 Oct 2024 09:39:57 -0700
-From: Stanislav Fomichev <stfomichev@gmail.com>
-To: Muyang Tian <tianmuyang@huawei.com>
-Cc: bpf@vger.kernel.org, "David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	=?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
-	Magnus Karlsson <magnus.karlsson@intel.com>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	yanan@huawei.com, xiesongyang@huawei.com, wuchangye@huawei.com,
-	liuxin350@huawei.com, zhangmingyi5@huawei.com, liwei883@huawei.com,
-	willemb@google.com
-Subject: Re: [PATCH bpf-next v2 0/3] XDP metadata: Rx checksum/GSO hint; Tx
- GSO offload
-Message-ID: <ZxKPXdYjwPnpq95V@mini-arch>
-References: <20241018091502.411513-1-tianmuyang@huawei.com>
+        bh=+KdFMyZilgxNgos2aKAfdGC1JRwrBCcFoee7Jhfl6wo=;
+        b=aTZ2NN3i6eVijeFgqrdS8iRd94jEWCKXR73recXiF8wU28tyN9e1+DriWRAmyJC5Ib
+         MyPcj3BmPMjUFoGuPMAELPY7CIBuAYDdrnMZIu7IsYM3boCAkzN0tG/ZLeiC9xaGv863
+         7aNbz7671+xuNeacBD+6USAZEvkPeSkZ/tFMooeUcl5xVY5ttxwrET4nkfQ2YjPHanhN
+         jBk8x2NNPgdpO7/gAONAg/w6oWnDb6oXu5mM82ORbA0xiLIr8R4TeR79WimKqGl6UP3m
+         RiDIeZnhrJpqhVQT430wJD3qFBKS/Uj3dQWzLTiePcmotsJAFJIAynzlARLhZDi4RT5Y
+         U8Bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729270090; x=1729874890;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+KdFMyZilgxNgos2aKAfdGC1JRwrBCcFoee7Jhfl6wo=;
+        b=wM6+FTb7oQ+29ZfLEA07+7SIlKa/TRT1qSUFu/oAQ/31LGtLQZbGG449/B8qtidx3a
+         NPAp6d1XRDbN5G1BYGtyMmwt637QrcLf/R2NH0KPBUr3u5PCk83NOxM/ipD/Qft0k/7b
+         FlH0F+BXEQWEJjPIB+vVKjDYt160zndiNUuRZSQMsVKwfVDBqbNU2vIVEZYqOl8Qumkn
+         V/EphTIVPp2rp0IDrDxkaU0TXtzI0JLYCgxbFqstoumyLI164w9wiqHh8kwb0n3YybKb
+         BMdEsAFbF6PSxxEnNRmFHSYLEUa3/33BM2fvSc4wesWk5D+bTdYi5wwGjbtl3m0Pa7AJ
+         B8EQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUigBrQ4beP9zSkA2/lXfZ8N1gtiVf1ePWSWRqESpfw7CmxuvZu/QPoDSsBeN4zXTz6AcgY+QJaVCU=@vger.kernel.org, AJvYcCWqLAeTNU9oOoVWdBUDIuTpF+WXybfqV4+pNVfmXsC2r6Ikpi/5Mtl+PnsIGEv40irQD7UIrxoDAz+YXa3h@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy330PWEj4jj79oT/sfcEK3gEc84xq4BFwYpi8CRd3zqqgdjluW
+	OAUVEiBVhgdbaxWNZHC3wQnTWd0kLMhdPq9VDlovzSI9VKNyRieEp4gCgNrhFSGaYV6sPCqXpaY
+	qKVZKFiLgQ2pzM5LBBb9F0fhthgQcZA==
+X-Google-Smtp-Source: AGHT+IEHHpQqFYmBn0xV51TfI+SJmAuytoxVOYISR+ezP4xC8C3OEqfFW8De5N7maRo4MXgcOq1zix+V+Pc+gPWkCFg=
+X-Received: by 2002:a17:90a:f189:b0:2e2:a70a:f107 with SMTP id
+ 98e67ed59e1d1-2e5615d618emr1697930a91.1.1729270090387; Fri, 18 Oct 2024
+ 09:48:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241018091502.411513-1-tianmuyang@huawei.com>
+References: <20240824-amdgpu-min-backlight-quirk-v6-0-1ed776a17fb3@weissschuh.net>
+ <cfec358a-ff42-49c3-a174-149bee7a461c@t-8ch.de> <5b1c8688-8154-436e-ba8f-f5a9087d2c85@amd.com>
+In-Reply-To: <5b1c8688-8154-436e-ba8f-f5a9087d2c85@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 18 Oct 2024 12:47:57 -0400
+Message-ID: <CADnq5_N9HxF749HviiM-cAcrrEUHJMohzdar4t5RTy_kNNK+Vg@mail.gmail.com>
+Subject: Re: [PATCH v6 0/4] drm: Minimum backlight overrides and
+ implementation for amdgpu
+To: Harry Wentland <harry.wentland@amd.com>
+Cc: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Leo Li <sunpeng.li@amd.com>, Alex Deucher <alexander.deucher@amd.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, 
+	Mario Limonciello <mario.limonciello@amd.com>, Matt Hartley <matt.hartley@gmail.com>, 
+	Kieran Levin <ktl@framework.net>, Hans de Goede <hdegoede@redhat.com>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, Xinhui Pan <Xinhui.Pan@amd.com>, 
+	Jonathan Corbet <corbet@lwn.net>, amd-gfx@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	Dustin Howett <dustin@howett.net>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/18, Muyang Tian wrote:
-> This series introduce XDP metadata functionality, including Rx checksum/GSO hint
-> and Tx GSO offload. This is aimed to transfer control fields when processing jumbo
-> frames between VMs.
+On Wed, Oct 16, 2024 at 1:47=E2=80=AFPM Harry Wentland <harry.wentland@amd.=
+com> wrote:
+>
+>
+>
+> On 2024-09-16 14:23, Thomas Wei=C3=9Fschuh wrote:
+> > Hi Harry, Leo and other amdgpu maintainers,
+> >
+> > On 2024-08-24 20:33:53+0000, Thomas Wei=C3=9Fschuh wrote:
+> >> The value of "min_input_signal" returned from ATIF on a Framework AMD =
+13
+> >> is "12". This leads to a fairly bright minimum display backlight.
+> >>
+> >> Introduce a quirk to override "min_input_signal" to "0" which leads to=
+ a
+> >> much lower minimum brightness, which is still readable even in dayligh=
+t.
+> >
+> > could you take another look at the series?
+> > The issues around panel power are not specific to the low pwm values,
+> > so shouldn't have an impact on this series.
+> > (And are nearly imperceptible anyways)
+> >
+>
+> I think these patches are good.
+>
+> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 
-Ideally, the series should also have the implementation of these hints
-for a couple of devices and appropriate selftest updates to exercise
-them.
+Can you pick these up?
 
-For GSO, CC Willem going forward (I don't think I understand why
-we want to have gso_type in the TX hint; something like header_len
-seems like a better fit).
+Thanks,
 
-Please also don't post v3 yet and allow at least a week for the initial
-reviewers to catch up..
+Alex
+
+>
+> Harry
+>
+> >> One solution would be a fixed firmware version, which was announced bu=
+t
+> >> has no timeline.
+> >>
+> >> ---
+> >> Changes in v6:
+> >> - Clean up cover letter and commit messages
+> >> - Add my S-o-b to patch from Dustin
+> >> - Mention testing in combination with "panel_power_savings"
+> >> - Link to v5: https://lore.kernel.org/r/20240818-amdgpu-min-backlight-=
+quirk-v5-0-b6c0ead0c73d@weissschuh.net
+> >>
+> >> Changes in v5:
+> >> - Forward-declare struct drm_edid
+> >> - Reorder patches, quirk entries are last
+> >> - Add patch from Dustin for additional quirk entries
+> >> - Link to v4: https://lore.kernel.org/r/20240812-amdgpu-min-backlight-=
+quirk-v4-0-56a63ff897b7@weissschuh.net
+> >>
+> >> Changes in v4:
+> >> - Switch back to v2 implementation
+> >> - Add MODULE_DESCRIPTION()
+> >> - Simplify quirk infrastructure to only handle min backlight quirks.
+> >>   It can be extended if necessary.
+> >> - Expand documentation.
+> >> - Link to v3: https://lore.kernel.org/r/20240731-amdgpu-min-backlight-=
+quirk-v3-0-46d40bb21a62@weissschuh.net
+> >>
+> >> Changes in v3:
+> >> - Switch to cmdline override parameter
+> >> - Link to v2: https://lore.kernel.org/r/20240623-amdgpu-min-backlight-=
+quirk-v2-0-cecf7f49da9b@weissschuh.net
+> >>
+> >> Changes in v2:
+> >> - Introduce proper drm backlight quirk infrastructure
+> >> - Quirk by EDID and DMI instead of only DMI
+> >> - Limit quirk to only single Framework 13 matte panel
+> >> - Link to v1: https://lore.kernel.org/r/20240610-amdgpu-min-backlight-=
+quirk-v1-1-8459895a5b2a@weissschuh.net
+> >>
+> >> ---
+> >> Dustin L. Howett (1):
+> >>       drm: panel-backlight-quirks: Add Framework 13 glossy and 2.8k pa=
+nels
+> >>
+> >> Thomas Wei=C3=9Fschuh (3):
+> >>       drm: Add panel backlight quirks
+> >>       drm/amd/display: Add support for minimum backlight quirk
+> >>       drm: panel-backlight-quirks: Add Framework 13 matte panel
+> >>
+> >>  Documentation/gpu/drm-kms-helpers.rst             |  3 +
+> >>  drivers/gpu/drm/Kconfig                           |  4 +
+> >>  drivers/gpu/drm/Makefile                          |  1 +
+> >>  drivers/gpu/drm/amd/amdgpu/Kconfig                |  1 +
+> >>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 10 +++
+> >>  drivers/gpu/drm/drm_panel_backlight_quirks.c      | 94 ++++++++++++++=
++++++++++
+> >>  include/drm/drm_utils.h                           |  4 +
+> >>  7 files changed, 117 insertions(+)
+> >> ---
+> >> base-commit: d2bafcf224f3911b183113b2fcb536c9e90684a3
+> >> change-id: 20240610-amdgpu-min-backlight-quirk-8402fd8e736a
+> >>
+> >> Best regards,
+> >> --
+> >> Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+> >>
+>
