@@ -1,73 +1,117 @@
 Received: from lichtman.org (lichtman.org [149.28.33.109])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC90A188010;
-	Fri, 18 Oct 2024 22:21:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89A2A188CDC;
+	Fri, 18 Oct 2024 22:35:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.33.109
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729290076; cv=none; b=je854HVtdXZjhDwwILQR+cpglqCdc5D3H1TLtiYU7bjFXE8jS9Oa6mNLcW+NbGgDkxdJilS0hpY47TDFZ6DnNGdec6LKmEBvkAf3VkmaXyjKbv0t2/eksDHs5gckzhu5/9Pv4r73Qkh7t8zhIu/ZowHdMKXNVr6vt/9tE58Lv9I=
+	t=1729290939; cv=none; b=jwfXNyVUDPlYzlDvkgqQrpjEaVSgxzHG56GAW6tPryGO5vqzcnAFiX8ccmYhzTc0OoMzNukgXgaeDpsBEtfAZaIC6rVfEN2YDhBKlUsyp8BM4idxL9qiJoVXGIRiOKiew29kLlHtWdMG8KTwaHVFB8eJuyzM9sxkmor3XTC/k2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729290076; c=relaxed/simple;
-	bh=7AX+UloeEVKGtCsWCJzVMK5wsfs3qcLMFGgDp508ASs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gnrqKN/yeJfiSVMtffBpxaEhsFQkMT7PLtEUMB3TfLd5exHdBibDYqvy4iNFTjljMRr6FDI0Yf/yRgKzQVNlsU9I9s0BoMd8jjCiqjyQtkt6mtO8EC11p0sJyW2lZwzWvGbFt1DqXn8N+gwJaI3u7HzDqOztzmtqvXTI6aW/ybc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lichtman.org; spf=pass smtp.mailfrom=lichtman.org; dkim=pass (2048-bit key) header.d=lichtman.org header.i=@lichtman.org header.b=beoxhTm/; arc=none smtp.client-ip=149.28.33.109
+	s=arc-20240116; t=1729290939; c=relaxed/simple;
+	bh=XD+AGUUFq4jivFWzDw1zmD0eWk5I2XvZ7EZuQDspZLw=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y4KnsTCF0ZmMsmpxJ9HpeUGguYjbc1mx2hU5XUTsOvkXAylsdmuUawLaURYnBms7eZJjoluH2rn1VIX+QBevJH11ovQIjscPdB4bXBMPoFzMGGOMWHm2p7+GcDcRnklOvVuWix3Wd2XKZEHQF8H4zWsT18y9cXOkvPnXlA/TCUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lichtman.org; spf=pass smtp.mailfrom=lichtman.org; dkim=pass (2048-bit key) header.d=lichtman.org header.i=@lichtman.org header.b=cJJb/WMM; arc=none smtp.client-ip=149.28.33.109
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lichtman.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lichtman.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lichtman.org header.i=@lichtman.org header.b="beoxhTm/"
+	dkim=pass (2048-bit key) header.d=lichtman.org header.i=@lichtman.org header.b="cJJb/WMM"
 Received: by lichtman.org (Postfix, from userid 1000)
-	id C159F177103; Fri, 18 Oct 2024 22:21:13 +0000 (UTC)
+	id 92D25177103; Fri, 18 Oct 2024 22:35:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=lichtman.org; s=mail;
-	t=1729290073; bh=7AX+UloeEVKGtCsWCJzVMK5wsfs3qcLMFGgDp508ASs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=beoxhTm/t5XUtiGDsrMqOir9WwDiQKvhwGlIp9sIWzHKxRcHLViu1JP/nM898oFlR
-	 ZezrcquVze/jENe0LUNM35so/esHGanHNe8AHCVNsge2F4fmGeb1zU9Vznt9OvL+0n
-	 7Cff+dRRkSHFw/7JQI0++RbHXoFw0S0huyjSMKx41M3xf+J8Sa/HJcxazHMDyRFWS/
-	 kh7uTgMJ+adjQ7qPfvV+rc1hS4WelPtU8Ks79xUIrG8uTtT0ZNetiM98YD6TVlRuEf
-	 XzJyyt/VsuoHOfqwGOlu3hJruQbhvzAFjPNL/Gpyl26QT2H0p21dPbFdAc+lZ7Vj4x
-	 t5lRoiwZS5/Nw==
-Date: Fri, 18 Oct 2024 22:21:13 +0000
+	t=1729290936; bh=XD+AGUUFq4jivFWzDw1zmD0eWk5I2XvZ7EZuQDspZLw=;
+	h=Date:From:To:Subject:References:In-Reply-To:From;
+	b=cJJb/WMM2I9a4GNvjDM0CcQ7HqfWVrf9LfS4jZITB9SngAsyknaz6qN4Y5ecEinuk
+	 I2DQpVR7kJMmKNbiaHsnBWshOgMXw5euvmzwxm6G4vvnUpyvBpgY93/2zxSJayhclP
+	 29Ll6jWbd1gqWJ78nInMPoXmLQy0vihPor+wMdkUkVUB3iarmpu5UB866ed9/W7PuV
+	 gdDBq6qcW9rR2znYZGRO1i9jXWoAIds+UUGbA7yaWTfxTpilDX30cDywiqSAmSrQrt
+	 0seBGXMrqBKmYonfHISJHJyg8PCrjaFiHK2hnmT0Ho32cTxgMRskjNOjjIs+u6e8NQ
+	 SDKE8byw5X46A==
+Date: Fri, 18 Oct 2024 22:35:36 +0000
 From: Nir Lichtman <nir@lichtman.org>
-To: Doug Anderson <dianders@chromium.org>
-Cc: jason.wessel@windriver.com, daniel.thompson@linaro.org, corbet@lwn.net,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation: English fixes in kgdb/kdb article
-Message-ID: <20241018222113.GA799331@lichtman.org>
+To: jason.wessel@windriver.com, daniel.thompson@linaro.org,
+	dianders@chromium.org, corbet@lwn.net, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] Documentation: English fixes in kgdb/kdb article
+Message-ID: <20241018223536.GA799515@lichtman.org>
 References: <20241018163136.GA795979@lichtman.org>
  <20241018175540.GA796909@lichtman.org>
- <CAD=FV=UwNAkam8HFhdPLRCXHf05LUXdJF++d-pvpFrCLtOypPQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=UwNAkam8HFhdPLRCXHf05LUXdJF++d-pvpFrCLtOypPQ@mail.gmail.com>
+In-Reply-To: <20241018175540.GA796909@lichtman.org>
 
-On Fri, Oct 18, 2024 at 12:46:14PM -0700, Doug Anderson wrote:
-> Hi,
-> 
-> On Fri, Oct 18, 2024 at 10:55 AM Nir Lichtman <nir@lichtman.org> wrote:
-> >
-> > @@ -201,7 +201,7 @@ Using loadable module or built-in
-> >  Configure kgdboc at runtime with sysfs
-> >  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> >
-> > -At run time you can enable or disable kgdboc by echoing a parameters
-> > +At run time you can enable or disable kgdboc by writing parameters
-> >  into sysfs. Here are two examples:
-> 
-> In response to v1, Matthew wanted you to change "the sysfs" into
-> "sysfs". In the above it's no longer "the sysfs" but it's not part of
-> your patch (no "-" of the old line with the "the" and "+" of the new
-> line without the "the". Huh? This causes the patch to fail to apply.
-> 
-> Other than that, this all looks fine to me.
-> 
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Minor grammar and typos fixed in the kgdb/kdb article
 
-Thanks, sorry about that mistake, will send a v3 with a fix shortly.
+Signed-off-by: Nir Lichtman <nir@lichtman.org>
+---
+ Documentation/dev-tools/kgdb.rst | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
+
+diff --git a/Documentation/dev-tools/kgdb.rst b/Documentation/dev-tools/kgdb.rst
+index f83ba2601e55..9e0e3f3235ef 100644
+--- a/Documentation/dev-tools/kgdb.rst
++++ b/Documentation/dev-tools/kgdb.rst
+@@ -75,11 +75,11 @@ supports it for the architecture you are using, you can use hardware
+ breakpoints if you desire to run with the ``CONFIG_STRICT_KERNEL_RWX``
+ option turned on, else you need to turn off this option.
+ 
+-Next you should choose one of more I/O drivers to interconnect debugging
++Next you should choose one or more I/O drivers to interconnect the debugging
+ host and debugged target. Early boot debugging requires a KGDB I/O
+ driver that supports early debugging and the driver must be built into
+ the kernel directly. Kgdb I/O driver configuration takes place via
+-kernel or module parameters which you can learn more about in the in the
++kernel or module parameters which you can learn more about in the
+ section that describes the parameter kgdboc.
+ 
+ Here is an example set of ``.config`` symbols to enable or disable for kgdb::
+@@ -201,7 +201,7 @@ Using loadable module or built-in
+ Configure kgdboc at runtime with sysfs
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+-At run time you can enable or disable kgdboc by echoing a parameters
+-into the sysfs. Here are two examples:
++At run time you can enable or disable kgdboc by writing parameters
++into sysfs. Here are two examples:
+ 
+ 1. Enable kgdboc on ttyS0::
+@@ -374,10 +374,10 @@ default behavior is always set to 0.
+ Kernel parameter: ``nokaslr``
+ -----------------------------
+ 
+-If the architecture that you are using enable KASLR by default,
++If the architecture that you are using enables KASLR by default,
+ you should consider turning it off.  KASLR randomizes the
+-virtual address where the kernel image is mapped and confuse
+-gdb which resolve kernel symbol address from symbol table
++virtual address where the kernel image is mapped and confuses
++gdb which resolves addresses of kernel symbols from the symbol table
+ of vmlinux.
+ 
+ Using kdb
+@@ -631,8 +631,6 @@ automatically changes into kgdb mode.
+ 
+ 	kgdb
+ 
+-   Now disconnect your terminal program and connect gdb in its place
+-
+ 2. At the kdb prompt, disconnect the terminal program and connect gdb in
+    its place.
+ 
+@@ -749,7 +747,7 @@ The kernel debugger is organized into a number of components:
+    helper functions in some of the other kernel components to make it
+    possible for kdb to examine and report information about the kernel
+    without taking locks that could cause a kernel deadlock. The kdb core
+-   contains implements the following functionality.
++   implements the following functionality.
+ 
+    -  A simple shell
+ 
+-- 
+2.39.2
