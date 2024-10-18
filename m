@@ -1,113 +1,101 @@
-Received: from lichtman.org (lichtman.org [149.28.33.109])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4197165EFC;
-	Fri, 18 Oct 2024 16:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.33.109
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03965155A2F;
+	Fri, 18 Oct 2024 16:39:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729269447; cv=none; b=LDGezMSZ4qvf68IQIbtS6/jqmWoqA8z0jLoP9fjNVfOeaohJgbrzot+W4IENOZoN5scOCH6/5dizNk6hXTbJSYbs0psm1jEk2KfMEFGf8AMALUxlJtKJnOO2zxyYtNlhOOpyRMO6BIa75URDbaEb7wQO/G2vmW8Xo6WX5/ByJpM=
+	t=1729269601; cv=none; b=Rxl8ayabBcveM/Xvr2hhSq8p57eKPPf/zrIKhLxjuOZDe1EYp0zmlumMDNHS8KlZp6HDfdvg03mxat8oHU5wqA7uHYfwQtAms3et3wNuRb8lX5f8hCSTZtm4yElnTM43Egre5C4KqtN4DJ5aP1/H2LUmM0nEmeXD8tVj2GQDWQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729269447; c=relaxed/simple;
-	bh=iznIP1CQ2RKWwk7uUDU5rLTH1EXRc5AplndOTJbAEBA=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XyVENV110SmL3cjK9z5aMVPby1l6cH/Yl2x70Gq8JlUmvNCa2SKc3rhsQCA2NCZtEk2A38ojiBufMm8CaVkua6lmWR0s980gkQmjM2cJA/Ak7JYE79QTZ2GFR15euj70G523M/aEhvTbmq+PP8K0KUlRWHCk3BWgpviP+bjmp54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lichtman.org; spf=pass smtp.mailfrom=lichtman.org; dkim=pass (2048-bit key) header.d=lichtman.org header.i=@lichtman.org header.b=CTLQDGbX; arc=none smtp.client-ip=149.28.33.109
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lichtman.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lichtman.org
+	s=arc-20240116; t=1729269601; c=relaxed/simple;
+	bh=H46ISeiK3W0lqbYv2LwPn1zRPE+sm2SJNIC9+JzX6Ms=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hb0fOrV+syz6hvsp1fvyoWIcN6vYT4vPROn6XX6tNmoM8nbcobQWQ0rXFFK82V8E9ld1lyZ/b65ElKt9rsQRwiNdG/p90SLwVbCWmAdBeUvyS9/cwQokXjMQmPKRemmgBB+NOOC3oChPUtIvlkk7cFRujcj8k7xl3TLnEkWoIO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kEoEoiMN; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lichtman.org header.i=@lichtman.org header.b="CTLQDGbX"
-Received: by lichtman.org (Postfix, from userid 1000)
-	id 12BBE177103; Fri, 18 Oct 2024 16:31:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=lichtman.org; s=mail;
-	t=1729269096; bh=iznIP1CQ2RKWwk7uUDU5rLTH1EXRc5AplndOTJbAEBA=;
-	h=Date:From:To:Subject:From;
-	b=CTLQDGbXDkiBfolwG5yy1jOH2Fff+uvYjb1Is94eWi1LnmBIfpW/BXWbxqIeK6yNB
-	 fydZIRBikSeJ054rYODTynf2YWUhSukOEh11jo+icPGS/kaJ0KkZkYGkSz8kuZp4Z0
-	 Nlm5B6df1mx4KIl7Q5RTiHYn9scohtbjyUVOdt7SslQEmwvt6z8KFCXv34BAw4Fw+e
-	 1yJW6NybxKZsWNqXCol9MsZ9pVOJjbTsTNOTv47aztpAble7lob+EsjsRhUnsubhig
-	 wEQGOGXFySGsB5DCV6QZWccTX8xi1YW1fBUVjzWbsbreSSMfO1ZjxVvTP10KApva0v
-	 cU/X1MBm6ihyw==
-Date: Fri, 18 Oct 2024 16:31:36 +0000
-From: Nir Lichtman <nir@lichtman.org>
-To: jason.wessel@windriver.com, daniel.thompson@linaro.org,
-	dianders@chromium.org, corbet@lwn.net, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: English fixes in kgdb/kdb article
-Message-ID: <20241018163136.GA795979@lichtman.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kEoEoiMN"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-20c805a0753so20530595ad.0;
+        Fri, 18 Oct 2024 09:39:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729269599; x=1729874399; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=H46ISeiK3W0lqbYv2LwPn1zRPE+sm2SJNIC9+JzX6Ms=;
+        b=kEoEoiMN7oIjv3/w9YT0B6VL9NRT0JvS9WN7HAja2GuxMJBN0ak9yk55zD2mC/NZw4
+         fnQGjS5rKeV3GvggPR3u3CV5yJgvSvghwBZh4JgXb4dOkOom1WiAJ5qGYdo+yE1kl9mC
+         OUnNsYaMi+nP+ZzS3NMcQHWEFY6okc1nWwvqH4HoU5fBfX3nxKFWzT6lIn52ZpF9EhHu
+         mRVcpWP1VGgxvq2H0W/jFaYINEGcw1Wqu0ID6Y1GzqTeTknot7/5JtxlMHgchUe4a6/A
+         f+qP+RgKPeKgLUCfcAMsMs6TPVpG5qWd2as1A3wsRNZg6KprAn7ie905FJhVV/b+uTF0
+         O5WA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729269599; x=1729874399;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=H46ISeiK3W0lqbYv2LwPn1zRPE+sm2SJNIC9+JzX6Ms=;
+        b=NNRwmX4Esub0GWbONkbD0Yjcr6zbghZmDS69FPKQG3tMddPMwOlxrjSdI7Trs8AqM6
+         0XjY7jB9V84VdKXmhOWBVSYnIS7ad32lfsZGnK5AadKMSgrVDkkaeacz4hEFuCKQKeJL
+         5pYTVYC/GMLsr2GWPYO85YOmVETsiVnl06QD2R0KBQ8+qJ2angbwN1aEt13v9jGw2m8Q
+         7l6bnPZBR1LA+KN9P2TkpE1xFWAjQvwV/YkL3vSbejdLU2merZhvI6saQJbeIOGbqDIr
+         nmWGud84w+Epv4SKw4H+uDcEC6hZcT2YS9jAK9ra8yck72bAht3qhl1xIRfvzdB0g8KQ
+         3RsA==
+X-Forwarded-Encrypted: i=1; AJvYcCX9Ivl6cFxL6Q3soJVJRISgCTmnx5m8GaFf90RliTOml/3LG6rOXNhVOKhF3fGMXRryofZHPk7U@vger.kernel.org, AJvYcCXaK0YrSYkHWJUx0pDKujHtLyVu0+AuD7nmALk9wOabIaIs31omV1T8AKjIj4hwwjtSWshWvkylQQPNcU1h@vger.kernel.org, AJvYcCXpU7qV+5zKa7o7ZZQCyeFmzleAd2J1zhO2kBhnCA7ZJc6CG0afjQrkQkDLrBThi/Z4vbKJ38b4C90=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy5Voqg7+v8P2Nx4do5qKHxgvK3WWLYEUSyx44v+/F+ACaU47Tb
+	ZsupNyWSh+qg4ByoOjxZJ8jBCr5ixDurYYARuTbhlz3ZGmE3q8T0i7NRS2g=
+X-Google-Smtp-Source: AGHT+IE/Qr8nmy1eseHm0cw8yDRNQgfcxettWrr8jZ/XrVMu9Jtillxh0kK9TiT5cqWTWnHOvxhzvw==
+X-Received: by 2002:a17:902:ea02:b0:20c:8df8:5066 with SMTP id d9443c01a7336-20e5a8f89aamr43516495ad.45.1729269598902;
+        Fri, 18 Oct 2024 09:39:58 -0700 (PDT)
+Received: from localhost ([2601:646:9e00:f56e:123b:cea3:439a:b3e3])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e5a71ee57sm14686945ad.43.2024.10.18.09.39.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Oct 2024 09:39:58 -0700 (PDT)
+Date: Fri, 18 Oct 2024 09:39:57 -0700
+From: Stanislav Fomichev <stfomichev@gmail.com>
+To: Muyang Tian <tianmuyang@huawei.com>
+Cc: bpf@vger.kernel.org, "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	=?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+	Magnus Karlsson <magnus.karlsson@intel.com>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	yanan@huawei.com, xiesongyang@huawei.com, wuchangye@huawei.com,
+	liuxin350@huawei.com, zhangmingyi5@huawei.com, liwei883@huawei.com,
+	willemb@google.com
+Subject: Re: [PATCH bpf-next v2 0/3] XDP metadata: Rx checksum/GSO hint; Tx
+ GSO offload
+Message-ID: <ZxKPXdYjwPnpq95V@mini-arch>
+References: <20241018091502.411513-1-tianmuyang@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <20241018091502.411513-1-tianmuyang@huawei.com>
 
-Minor grammar and typos fixed in the kgdb/kdb article
+On 10/18, Muyang Tian wrote:
+> This series introduce XDP metadata functionality, including Rx checksum/GSO hint
+> and Tx GSO offload. This is aimed to transfer control fields when processing jumbo
+> frames between VMs.
 
-Signed-off-by: Nir Lichtman <nir@lichtman.org>
----
- Documentation/dev-tools/kgdb.rst | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+Ideally, the series should also have the implementation of these hints
+for a couple of devices and appropriate selftest updates to exercise
+them.
 
-diff --git a/Documentation/dev-tools/kgdb.rst b/Documentation/dev-tools/kgdb.rst
-index f83ba2601e55..9e0e3f3235ef 100644
---- a/Documentation/dev-tools/kgdb.rst
-+++ b/Documentation/dev-tools/kgdb.rst
-@@ -75,11 +75,11 @@ supports it for the architecture you are using, you can use hardware
- breakpoints if you desire to run with the ``CONFIG_STRICT_KERNEL_RWX``
- option turned on, else you need to turn off this option.
- 
--Next you should choose one of more I/O drivers to interconnect debugging
-+Next you should choose one of the I/O drivers to interconnect the debugging
- host and debugged target. Early boot debugging requires a KGDB I/O
- driver that supports early debugging and the driver must be built into
- the kernel directly. Kgdb I/O driver configuration takes place via
--kernel or module parameters which you can learn more about in the in the
-+kernel or module parameters which you can learn more about in the
- section that describes the parameter kgdboc.
- 
- Here is an example set of ``.config`` symbols to enable or disable for kgdb::
-@@ -201,7 +201,7 @@ Using loadable module or built-in
- Configure kgdboc at runtime with sysfs
- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
--At run time you can enable or disable kgdboc by echoing a parameters
-+At run time you can enable or disable kgdboc by echoing the parameters
- into the sysfs. Here are two examples:
- 
- 1. Enable kgdboc on ttyS0::
-@@ -374,10 +374,10 @@ default behavior is always set to 0.
- Kernel parameter: ``nokaslr``
- -----------------------------
- 
--If the architecture that you are using enable KASLR by default,
-+If the architecture that you are using enables KASLR by default,
- you should consider turning it off.  KASLR randomizes the
--virtual address where the kernel image is mapped and confuse
--gdb which resolve kernel symbol address from symbol table
-+virtual address where the kernel image is mapped and confuses
-+gdb which resolves addresses of kernel symbols from the symbol table
- of vmlinux.
- 
- Using kdb
-@@ -631,8 +631,6 @@ automatically changes into kgdb mode.
- 
- 	kgdb
- 
--   Now disconnect your terminal program and connect gdb in its place
--
- 2. At the kdb prompt, disconnect the terminal program and connect gdb in
-    its place.
- 
-@@ -749,7 +747,7 @@ The kernel debugger is organized into a number of components:
-    helper functions in some of the other kernel components to make it
-    possible for kdb to examine and report information about the kernel
-    without taking locks that could cause a kernel deadlock. The kdb core
--   contains implements the following functionality.
-+   implements the following functionality.
- 
-    -  A simple shell
- 
--- 
-2.39.2
+For GSO, CC Willem going forward (I don't think I understand why
+we want to have gso_type in the TX hint; something like header_len
+seems like a better fit).
+
+Please also don't post v3 yet and allow at least a week for the initial
+reviewers to catch up..
