@@ -1,108 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799251F428B;
-	Thu, 17 Oct 2024 23:27:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FC72F29;
+	Fri, 18 Oct 2024 00:07:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729207664; cv=none; b=DM1BfX0rKQ4Fm94FvIuIf25vYpCUZmCMKMSVaWfDoHIIqvoZgv2xetSpplg9CzM5xmaEQTFwekiN33JbDwxTU90LWfas1wv9MrzWSgiA1ndvgLs9cL1YlXHLnz9xnMfbN/SgQ4pAuiCRJbd3oO/QslZGwjFLQpjaaSGYEAdm64I=
+	t=1729210062; cv=none; b=p+/22HvTwi3Hx0KLc+zs8ht6bcT86kE7MVQMYX800nvkfIXh7yBgJdSaimAi0NoGznWDIMkOGGF8Ar4yIS8yTfQtHY5Cu3Hb3ewfn81TPiK96FuGUz+XDOfhDaNj9siM4CJ4y1JvQaT5WkoD+1kaoinXl/SpMs7i+mBHTUEWEBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729207664; c=relaxed/simple;
-	bh=ifz3yshYbLZ1aHxcRzTbeBb3kbz/UBxDdTmrzJaM2H4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u2ibPnahS3G+IYn4tU5BDFGXgi156x9xlriSCK2mmLrtJ+LIOKOlAj8jjKlIF9f66DJK+usiFSPNfffqNPTTpKSDoDAYZ7R4z2j50nUdMre+DRagA1x22+rBEXvCZfNMmZurhoSKjMQVNeaCCGy3vLRfdD+GkXFbmpr2e7I+3uI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QrNLxfmj; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1729210062; c=relaxed/simple;
+	bh=D9ULUqk+TbUqMTKGR0bFo25YiiZ2cs6nBE1a1b8WqFQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=YdYec5faevHtXowN9MxcrRc4Umqg616XfKG4Vn9DjkHEh6oqBy2/8tdvgMT73kUkTs8UPK/WwVCUYdy6f73qp3dmhtOkyXVney8BgyovzFS6dzxQdhkPU2f6UrMPKt+FPtCBg6gyluFW55Ae07dhSDFA51EZIXCu0zFLH7+Ekfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=RX9Ouqrq; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QrNLxfmj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729207662; x=1760743662;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ifz3yshYbLZ1aHxcRzTbeBb3kbz/UBxDdTmrzJaM2H4=;
-  b=QrNLxfmjHcET3J6uGVH/pOXn+d/6vjm+RsR+enw/XTnosTMq3gPDDkZn
-   1WjM+D7j0OzTzGxy/oieGZ3hFzF3pUX3N98PXfiVarlQw39XM4PjD/s1c
-   NENIr15vKL05WM6WnSwKJNRyvw4v3YF0ohNAuImrQu0byXQGBEI3NUMfo
-   xP6NmLGf9quTNfJe8MoD9zkxUBbFG4EuGBKjG582tSTaTEDkzR7Sujw86
-   nkBdab+oGcsXrwDnOkYX/l3WE/Ql/VIf111Goq1oUhK03y6WzRsWrUlsD
-   YkkapQs3CGoRrT5/v94UnrioeXYcS3ZBcJCenC1U1eF4yKRxzmeXFu/pV
-   Q==;
-X-CSE-ConnectionGUID: HQJ6VIAIQ9G6sZh3obr6UA==
-X-CSE-MsgGUID: kBa+XAqcRlGJSdXEhvFwKg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28875879"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28875879"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 16:27:42 -0700
-X-CSE-ConnectionGUID: CiYqMp44SOCRf5IA5M4PGw==
-X-CSE-MsgGUID: gErvNAL5QnW2fFCwIbd/GQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,212,1725346800"; 
-   d="scan'208";a="109518421"
-Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 16:27:42 -0700
-Date: Thu, 17 Oct 2024 16:33:43 -0700
-From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Borislav Petkov <bp@alien8.de>, Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	x86@kernel.org, "Gautham R . Shenoy" <gautham.shenoy@amd.com>,
-	Perry Yuan <perry.yuan@amd.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-Subject: Re: [PATCH v2 05/13] platform/x86: hfi: Introduce AMD Hardware
- Feedback Interface Driver
-Message-ID: <20241017233343.GA308@ranerica-svr.sc.intel.com>
-References: <20241010193705.10362-1-mario.limonciello@amd.com>
- <20241010193705.10362-6-mario.limonciello@amd.com>
- <20241015035233.GA28522@ranerica-svr.sc.intel.com>
- <1395bee1-95a7-4d14-a5e8-0e1dc71fadac@amd.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="RX9Ouqrq"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49HDcuMX016699;
+	Fri, 18 Oct 2024 00:07:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	uxBavpTgL71vWYYy2sA8sf5j3chQYVV9GD147SGaeIE=; b=RX9Ouqrq4NFVay6j
+	q4ttG0ZDVQRxiFHqWMz1ETLYdt9a14mSskOsu4TE50T7xoN7Yz1fi1sDfPZMXDCw
+	Nid3g40KR97d0eIZ6brHzq3xJa0t7AKSCcSoS1FsTDUta85y2SVt5RKKQm0XC+UZ
+	ftQLUofQozfcyUcqlpajRTWKzTMpeConXTyXCrqh/KO8LjdXl+5S0psOcWaD3SwG
+	eOo+yjKkMRzwm4hTVhc4CuOPc0GaEqSVtAgn1QRp3uyc4I+1HGARPsbBQgpR7NKS
+	e8ZqYMKHlVOTbVP2mGtD6UeD4JYw2esaE4AGL3vN9Ffk9mC3fy0oma7dgzZ3FTyN
+	IRBG3A==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42a8w6pdcw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 18 Oct 2024 00:07:15 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49I07EUv021198
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 18 Oct 2024 00:07:14 GMT
+Received: from [10.71.112.85] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 17 Oct
+ 2024 17:07:13 -0700
+Message-ID: <5847c380-75ce-492a-9a30-0899b7ebe98c@quicinc.com>
+Date: Thu, 17 Oct 2024 17:07:12 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1395bee1-95a7-4d14-a5e8-0e1dc71fadac@amd.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v29 01/33] xhci: support setting interrupt moderation IMOD
+ for secondary interrupters
+To: Greg KH <gregkh@linuxfoundation.org>
+CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <lgirdwood@gmail.com>, <tiwai@suse.com>,
+        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <robh@kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>
+References: <20241015212915.1206789-1-quic_wcheng@quicinc.com>
+ <20241015212915.1206789-2-quic_wcheng@quicinc.com>
+ <2024101747-defog-squiggly-ef54@gregkh>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <2024101747-defog-squiggly-ef54@gregkh>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: IbNrRGE8x9UV4v1k3a1frmTMQ3tDVf0N
+X-Proofpoint-ORIG-GUID: IbNrRGE8x9UV4v1k3a1frmTMQ3tDVf0N
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
+ phishscore=0 lowpriorityscore=0 clxscore=1015 mlxlogscore=607
+ malwarescore=0 impostorscore=0 priorityscore=1501 suspectscore=0
+ bulkscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410170163
 
-On Tue, Oct 15, 2024 at 01:09:42PM -0500, Mario Limonciello wrote:
-> > 
-> > > Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
-> > 
-> > I tried to find the HFI details on the documents in this "bug" but I could
-> > not find them. What document in specific could I look at?
-> > 
-> > Thanks and BR,
-> > Ricardo
-> 
-> Hi Ricardo,
-> 
-> It is spread out across multiple places.  This is part of the reason for
-> patch 1 in the series outlines details of how it works.
-> 
-> The reason for that "collect all" Bugzilla for documentation is because the
-> URLs for AMD documentation have undergone changes in the past and it makes
-> it difficult to put stable URLs in commit messages.  So teams that want to
-> reference documentation put it on a dump all bug for a stable URL to
-> reference.
-> 
-> On that link you will find the APM, which will have some documentation
-> specifically for the CPUID leafs used for topology identification and
-> clearing history.
-> 
-> Read patch 1 and let me know if it covers what specifically you're looking
-> for.  If it's still missing some info let me know what you would like added.
+Hi Greg,
 
-Thank you for your reply! I read patch 1. I was wondering specifically about
-more details of the Class ID. I see that they have associated counters and
-desired scheduling behavior.
+On 10/16/2024 11:40 PM, Greg KH wrote:
+> On Tue, Oct 15, 2024 at 02:28:43PM -0700, Wesley Cheng wrote:
+>> From: Mathias Nyman <mathias.nyman@linux.intel.com>
+>>
+>> Allow creators of xHCI secondary interrupters to specify the interrupt
+>> moderation interval value in nanoseconds when creating the interrupter.
+>>
+>> If not sure what value to use then use the xhci driver default
+>> xhci->imod_interval
+>>
+>> Suggested-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+>> Link: https://lore.kernel.org/r/20240905143300.1959279-13-mathias.nyman@linux.intel.com
+>> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> ---
+>>  drivers/usb/host/xhci-mem.c | 8 +++++++-
+>>  drivers/usb/host/xhci.c     | 4 ++--
+>>  drivers/usb/host/xhci.h     | 5 ++++-
+>>  3 files changed, 13 insertions(+), 4 deletions(-)
+> This is already in 6.12-rc1, which makes me confused as to what tree you
+> made this series against.
 
-I was also curious about the layout of the HFI table. I guess I can infer it
-from patches 5 and 6 but if there is a picture already, I wouldn't mind. ;)
+Sorry, I didn't fetch the latest changes from usb-next.  In this case, should I rebase and resbumit?
 
+Thanks
+
+Wesley Cheng
+
+> thanks,
+>
+> greg k-h
