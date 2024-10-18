@@ -1,270 +1,499 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2049.outbound.protection.outlook.com [40.107.94.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BD9A20E31E;
-	Fri, 18 Oct 2024 14:31:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729261910; cv=fail; b=tw65UyTitGnlX1wJY0YkV0SNn/ZKLXFGM3PbifxkNY90mGV5jcZdQGnqAOvdhwBYYqcC5TZ7nl3LiF146IJrp8dRYi6ikdGoZRtq2PDqmtMjKvzrrDXQifTnoJTPu7yA2u7UzlzoOyiM1Vua/0YCGVA5dE1wgKL7vB5IoOHHcyU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729261910; c=relaxed/simple;
-	bh=GAvOYmH6EfU2f2GTXyTOXvynqnbrOQlj1Hxw1/HyIWQ=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=iheFsySzSMp6za8rL87V/hZM1yiQrmsK9zqKCgg+R6t2OQ0pjt0ItWP4cM235BgQrhmjqHSBWMJ8gjDuN00ok08vOS3sqnDGhE6BLauzvkPmMrXul/pX5FXmtWNGLrzkLDFKc7SC0J4L3As5IinMFKGqFR5YAIe7mcPmExyQQog=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=cMDmm3v9; arc=fail smtp.client-ip=40.107.94.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06DBA18643;
+	Fri, 18 Oct 2024 14:33:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729262030; cv=none; b=AwBe29jW7CHELlllbbICOPC+9J7K0usCcoqR1CH9NTEJJ1NEOkDquBGjP6UMxCzNV0OtiuAikSlx+Pv6imqVxHQ+B2GUBCel5oo42pos1rlSd2tSpgZ2r23uPzc5ktkRsCV+YyJD0ymOeBSIg0bsi4lYXmkhO0FD4j/WPL1UGnk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729262030; c=relaxed/simple;
+	bh=hGeLOV5cRgxqY5c7llKv5YNPbRVax3yK+ST2a4XdQ4c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GbxbdP3v5MziERAxnuhbQQXXTzXqqA99/biX4XoErnyo92TbY3WQ/qdUrMRvQ+0ftd2tAANYouO0cAFo5sRg5FZkEbRhxXyhIhW8tor91eATzmSFLyQQd3INJyuofrOcghuR5xZ5ARVY4UlHTkjbsRxnrhsLklkymBtg2dPwtUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RfoY1qxj; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="cMDmm3v9"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=W9+/TfJOLz3wEuUvRTSctlrnrbjwQTAIRU6s1HWok0/Jl9iKmNbQiN3kt2yzFLHHvhaHe750SY1qX4thusscQjyi+kA+lVXURAhb+SdB+LEEYePbNNEwdRxKdQ3Nd7lReP0/TS9ULwyA0F60nwUsd7obp1suwnN6Pbmp3JcS1ipAAmnNf+lLLurI6Ip5qn8DsS/E5OfN0dnXg5DL7bE0PR2SwYrQg0qIroCV9F64fm+b5jCA/WENxMBFk6/AApVy22NGeIvhKozSrwWAtua8O5C+41GI9D9BFUGf633poxo6YT6DuCm0Gek2f1Sh6wC/y7R1poBSEE4yoEneI9sh9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hkbG3XMFdvBG8dSz8fd3fQUoc4hsvesXfZLR0YHyZBQ=;
- b=KbXUC6aByrZge6CxWYiulKVB0agsxnEAJW6JXzUT0G08pWl+cM6jlpaLAIvTgd2PZOuECtqL8v0n2gNqHmgZw3/6IaxajRhAdzCF6h2DytFTzFApUDZQ77iaTMeofmP+FblTTNi01SYsfTnfgGIcCP1QUNFfnrOUCpEzY1czIzp9hcdMj5DzUEWm/AwQU3Kol33Gxm/0A0vMuyujFeYCyrfzv1gRC8Vl727/gUvT7Y6sBWfhEo/zRD2TPTEP3v1PcGM6GWrnGPcizPwvf+tCXQi69EwxWlzfZZWsq3HuAMpEY3NLrageYfvK6ckX1Q0vRFXw2f4T5ixEyexurA2uAQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hkbG3XMFdvBG8dSz8fd3fQUoc4hsvesXfZLR0YHyZBQ=;
- b=cMDmm3v9uLjBNZBgRI5CIqDvi4uhx0Rd29gBmRxWGHEFwiHj1eBnAHJtvNV3mjGQyf9c7RlXOGnmyVfb6lLNqFC7Z5ivmi/BMDIoaMh+fioJk08K8CeSaUilXkhdHh1Zw4rcrbJaYalcuI5IsUJ/ySxPUy2LlRCN/5pe9yLM+Hk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by PH0PR12MB7096.namprd12.prod.outlook.com (2603:10b6:510:21d::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.26; Fri, 18 Oct
- 2024 14:31:44 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.8069.020; Fri, 18 Oct 2024
- 14:31:44 +0000
-Message-ID: <c074fd31-f037-7da9-85f9-9cfde3b30716@amd.com>
-Date: Fri, 18 Oct 2024 09:31:39 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v8 20/25] x86/resctrl: Report "Unassigned" for MBM events
- in mbm_cntr_assign mode
-Content-Language: en-US
-To: Reinette Chatre <reinette.chatre@intel.com>,
- Babu Moger <babu.moger@amd.com>, corbet@lwn.net, fenghua.yu@intel.com,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
- tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
- kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
- jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
- rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
- jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
- daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
- ilpo.jarvinen@linux.intel.com, peternewman@google.com,
- maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
-References: <cover.1728495588.git.babu.moger@amd.com>
- <50a4e993098422eece96d08edc337856a52cadd1.1728495588.git.babu.moger@amd.com>
- <115efb93-9d5e-4e03-9aab-a08afa003359@intel.com>
-From: "Moger, Babu" <bmoger@amd.com>
-In-Reply-To: <115efb93-9d5e-4e03-9aab-a08afa003359@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA9PR10CA0022.namprd10.prod.outlook.com
- (2603:10b6:806:a7::27) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RfoY1qxj"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-6e330b7752cso23565477b3.1;
+        Fri, 18 Oct 2024 07:33:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729262027; x=1729866827; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2cpH3TMEoZo2lCrqppCe3V/KLiY8USrLUUXcB040Sss=;
+        b=RfoY1qxj1kXqFVVYQCPl1O0fQI8Hj4VM/xIB7n5MjAre516kvthYfYLTETFMjuimMY
+         xWd6ZUOmXPBg7ipW/PraZkMmi/kOjpyWrKlPOX4IjsUr9m60tNvqO19myotA8t9Ah25W
+         HoWXQS6T7CNuxdbyyR8kaZJavXLBR4sPnMYNbDQ9HQhOkAY1rMsRLOtHo0xMjLBsYzHW
+         F2pUDqkTbm3bsMdlOtTCL4vjmGXIQWpOho8Ktj5VJBMJ0KXvDHWZwInRpiCEmjp+FD2K
+         uqqBwKQys3sCbd3cTblMdrhI608vlgqyMYzuic/0wa48s9VSsnGdsPFAnOVtdhET/Ik5
+         32eA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729262027; x=1729866827;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2cpH3TMEoZo2lCrqppCe3V/KLiY8USrLUUXcB040Sss=;
+        b=HLb812oingCMJSMIcHRhJ+nlr0L7OUzw24h3LemF3xqCMaWHjpGT8m2pGUr+viCXDL
+         zy8NKo61TSzlj7tEU/d2zDgYbzvwbhJYMschqVSkVqZTo0XysWn3ZI9+/45/Q7SpoQq0
+         VsQEmi1tBFp/cGO9HeH58IA9i+GLFOz4ctnUTla7LG5VVysySETkWtFevbmp+iMtoJ7t
+         VWa3jn7F8aU7z6Rf+gwT9cBHVl0/QLXTq23LW4QJRNLDWLHCNDzsdRU8KJFTDBLK3UDz
+         cL3zhpSoROJYF2Qd2o5n9LsigqkWxsINKw/DuHIlPHLNdIJzvIYMlUkgG7hAeqPlx2qV
+         kICQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUdkP3tFzTCD0TVkrcFcIYydCXf8adeH8FjVQShpS89mh4iyf6Iirhefvj/l2Frs0HbXOMR185GtUGiynUQ@vger.kernel.org, AJvYcCUta17lwaLL2IsyDgEgydSZAFNjDR1Mj5qP0aLII3VjK8sN5cmMH+jP4A0/Mi5h3F02jbxHw0PeNiU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6srP/ssbu9ZLEx7fz99RoC+lyD4AYI2+7gUKOVtXPb0EWE+UM
+	BdttsWUSmzyqQ4dDKWllwl3PahUkmnZi9SJtcY3XOfSLwdjFapI1
+X-Google-Smtp-Source: AGHT+IGocgP7CKeNYdNzgAgf13kRmK8+erkIDi3PdbIIte4aq3rJ4kbLEa/Z5HJ4dnkfJcf4q+xktw==
+X-Received: by 2002:a05:690c:4883:b0:6e3:7625:15f7 with SMTP id 00721157ae682-6e5a3d5743dmr60775127b3.10.1729262026615;
+        Fri, 18 Oct 2024 07:33:46 -0700 (PDT)
+Received: from [192.168.2.226] ([107.175.133.150])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e5c024ae6dsm3116547b3.116.2024.10.18.07.33.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Oct 2024 07:33:46 -0700 (PDT)
+Message-ID: <c95075bc-187b-4d38-b9bc-2f19f29a2231@gmail.com>
+Date: Fri, 18 Oct 2024 22:33:34 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|PH0PR12MB7096:EE_
-X-MS-Office365-Filtering-Correlation-Id: e15e9ee6-228d-40b4-3a8a-08dcef8196be
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?ZGJ1VmVNUWozc1lIT0FibFZUVzUxR3NMbjYybTJkeFZHZ0U3K0dwYThhNXNT?=
- =?utf-8?B?MUw3S0w4YjkrNFhKbFJrUE1PVmlteHJtMllwYlcvdEg5ZFhsRDduRTd0SVZ4?=
- =?utf-8?B?QVVSeHM4cm9FNkVTVi92UzA4bVUwbG9LTDlKM3liZUcxYXFpNGgwaXZkOU11?=
- =?utf-8?B?azRaVDgwUXI2bm5OUlJiaVl6anlLRU8zUlN2ZTdxL2lFVHUrSmp2ck5ZTE5p?=
- =?utf-8?B?TkJQM0dVY0pSYWdKTmx4aUIzMDJoRWUvNERES3RtWTl5Ymhia1h1UklzTlpi?=
- =?utf-8?B?aUlSWjY5dzJNMnJIbmF3RjF4Nk94REVGMm0wa2JjbmRoZ3g2Z295WmdEdWFI?=
- =?utf-8?B?S2lGRGdYM0NoNElwYmd1cFVBRWlnQWk5eUZYVHVCT3gyUFVKdjR4bnBQMFZ5?=
- =?utf-8?B?STNVR3pScjJmcGo3TVdrWENKM3VleUJJcisybEhlNkI2dHI2YTExS0V0RGpN?=
- =?utf-8?B?cVFGclk5d2dGeFVWWG1kUnJWbXV5RDZGakE3QThMM1AwTkIvcXZ0ZE9OWlBT?=
- =?utf-8?B?Y3RINUZLYXZIZDUzMkhVWjVYaGJsY1lONjRHa2kzU2FWMHFzMmNhL2x5aWhi?=
- =?utf-8?B?NHM5cW9yT2c1ZUJaaFdWZm1lc210WUQrMmJtMWxkdW41NHV2L2ZYMTlwa2Jx?=
- =?utf-8?B?cTFzZlcyY2w3OHBKdTBadURBYlFXOUo3bnBLNzBpWGFzQzB5d0FienVZZ25k?=
- =?utf-8?B?cFBsLy9TVEdaLy8zdGdMbU9XUHp1MEU1ZEhueG9Xd0FDVnNoTFpIcjhXWmtE?=
- =?utf-8?B?RFdUclRZZzZCdUNKVjJQU2lzSFRxRzBRckZUMlhmbzN2bVZYZm05RGx3NmdJ?=
- =?utf-8?B?RVlaWWVMVGJTNURxZUI4WS9DSm01MmhaM3ZlUENmUEp4U3RFU2hmWGlPU1ls?=
- =?utf-8?B?cTl3Mkp1Q20yUUwvYnJtcHFWSm1SV3JtWGZHc0gzTURzb0xSRXJqNUFuS3BY?=
- =?utf-8?B?WXM4cnZoTUZRUWxmbWwxN3ZRdE9nN01lNzlhbGE2eXRBaER2ZWNCV2oxV3pa?=
- =?utf-8?B?TXRTak9WUS8wd01Sc21LQkhTaW5DckxYUDNXRWoySW1sNGR6aTVnNGpweEZ6?=
- =?utf-8?B?bExMWDcyNVRPOVE1MmtzK0RBN2xRMlg3K3VLNTB0VTI0THFZOXM1KzlSZE4w?=
- =?utf-8?B?N2JJQkNaeEJ3UWNpZVNqRFYvUHBLK1l2by9GeXhTenhwemZLQ0VKaDJSM3cz?=
- =?utf-8?B?SndIMjdXLzFNSW1HY0tyVzBaSE9uNllRc0RRWHR5eWNCSUZTSEVtZFFrY3NU?=
- =?utf-8?B?bnVSY040Y1d1em03d25aUEhZNVF5Tm45VnYvYVNaUXJzbkFTVnB6UHBBenhq?=
- =?utf-8?B?QzErRGpNaGE1bERJeGxUQ0hwdWxUTWJ5Q3BsYlJiVXVVOU1ka3ZIL2VUamM3?=
- =?utf-8?B?NHRlTFRlVWtJenlNZGNoLzlSa0Y5Z1lKZFlsc0VZL0FqZnNEYmY0NVRTMTJP?=
- =?utf-8?B?OWszdDZuY0hiUDdPeEtvUUVGcWpMM0RIdmZHdWw1RW1USTExT2p2V2RKeldX?=
- =?utf-8?B?UG9tRXpUUlpLRFNhVEhPMmQxYUZPRFFaVmlQSHRLKys3U2NOdmVzNERWV3FN?=
- =?utf-8?B?MFRGcTFBZWFmQ0NCRXNIRU94RlFGM0xFNkpIVktxR3BYTGpVOXM1SEYwbWJW?=
- =?utf-8?B?NFViZnRwc0VORjl2U1pWeER6SmxGbzVZSTBMQVFtZE4rcnpHWUF5V21UdjJz?=
- =?utf-8?B?T0t6QzNyVU1teUJHZS9xeFRSN0t6TUtwaFZYTzJ4WGlncTFtUjVsaSs2RUZp?=
- =?utf-8?Q?LGAAnXGXtTvUZhixpZDhcvkUis84PEDkmHoZ3gQ?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?djNXRFNham96dkc3QUVHZUlRc1p4ZFBZRERsOGZGdjVPeGRBaEdjTktMdmJt?=
- =?utf-8?B?S2JhdGJueDd2NmFhYmJDM1dGUHhBeFJ3NUlzLzdoYmFyeHF4OEN2RzJRYkhJ?=
- =?utf-8?B?NExUNWVBMVJBd01oelJkUkE4RFVVNUxWODM3N243UGVCNlh6ZWFBNTFsSEFC?=
- =?utf-8?B?SG1Xdmp5NTZyeFAyRVl5RzNXS3pYS2IxbjUzbSt3UVNLWUJoRGh6NVRPdVFS?=
- =?utf-8?B?QzdFQUhZZzkxR0lPenJtRmYxNno3cHI4SFFaYXgvdzhPb3RqWjRIbEVic3J0?=
- =?utf-8?B?TGVvTzJ3bjN1OCtDeS9taHpRNG9lTE5iSmdFanpWalpCZ3A5T2NUYitRa0pO?=
- =?utf-8?B?a09tYWxkY2JKeTdBM2pENUcrd2lWYUVrYW9kR0ZhdmdUc3VyamlSUzlCdXFt?=
- =?utf-8?B?aHFLN0Jrc3NlRkhIZWpzeWw2TFZrQUdWZ2c5VnE2eU1PanRCeUdiYXVxWkUy?=
- =?utf-8?B?NzdSMkM2NkF0WE1KTWdnbmlmMksyTDhZN1FJOFNSMTVZNnBuWlpKakswSFcv?=
- =?utf-8?B?RnBKUTJTcitFTVlCZk1VeEt3dUhqanVYaWFMcHRONittOWFMZGhhOEJrMVZp?=
- =?utf-8?B?TDBEZ0w5cExsMjlTaWpFV3BFQWtXQXgwRmRibFpHbFFHYzluS21RSnhXNldP?=
- =?utf-8?B?cnhtV1BqQVRzWVFkTnpjbUJWVHBucFg3eitiVUlIYlVRNEYzWFFDUktraHpr?=
- =?utf-8?B?cWdGSTRabDhlSm5IZldTMHprMzFqNEtta0ZRTE44MklGZzZsRVdOL0t1elF0?=
- =?utf-8?B?ekhDK1h4ZmlpUDlyQ0c2bWZJdEN1ZkxZcFdUbERoSWxGWU00WWhnODZ1Y2d1?=
- =?utf-8?B?Y0xDc2k1OU5IWnAvcG15OXBibGp0SGVYSVhXUWV5RmJJZFRPN1MwbGg2K0FK?=
- =?utf-8?B?SUNvS2JoalU4THBJWS9NY3BOaE1LUTFva1N6M2MxNDRIQWtLNEVubW1nMEY1?=
- =?utf-8?B?Z2FhOWtrMk9vS3hsMFYwaWhLeUkrdGVCZ0ZUSzNMZE1HRzhDQlNEaFRCY1cx?=
- =?utf-8?B?cDE5RnRQcnhJR2hjRWFBS09HeUw4bkhReXI3YWhTMVkvOHZpbi80Q3F4ZHhI?=
- =?utf-8?B?SEdEODNNU0Zqd2crS0h5V2lNU28rUi9ldy8zaXp0VG5jc1ZEdTlXMDBsY2xE?=
- =?utf-8?B?REJDTnZHakdkQ1hzdW85Z1NZdXBiYlNGUWxQVWNQNThLVUFETmdOV2F0REhl?=
- =?utf-8?B?OTFsc21VSTFUT3gxdlFVclJ6K21yOE8xS1lOZkI4QU5JSlFobjNaTjZGYzJI?=
- =?utf-8?B?Zy9wcEk0cUhaeHNEZktqVDlVRHc0NjQ2ODNYRmVMRUp3TUNnOU5zT3BTakxD?=
- =?utf-8?B?disrc0tONGRVdGlWVGRnQUJsOGtEUmVzK0N0OFgyNHJnVzNRWGZtSTBIelNH?=
- =?utf-8?B?MTlhYjE3SXZ1dzZ1Q2VPWVp0TXV5eTl2SWRUNjg3YlpBRmJTQ3IxUUk3OXda?=
- =?utf-8?B?Yi93eFQxZEZjdWt1T1piSTFZM3hSaktTSWxLdm5VYVgyMFp4WnJibWhuaDht?=
- =?utf-8?B?a0ZMaFFyVjFYblpSYjQrT1hGUFNhYnUvQTBHWlRXaXprd1I3UVFnZmw2ZnVK?=
- =?utf-8?B?WENrQlZpUWxFcXJmVDRBR1d2WGVFRzhXUTFWM2NoSXMxWnJpVUd0TklBWGdB?=
- =?utf-8?B?LzdUSUlUeXA2VjQzakdFYUQ1bVZRK3NRRG44QU9RSDF2NHIrMk9pZVZpOGJS?=
- =?utf-8?B?ZG9id0psNml1QUVVbzl3UGsrUGZDQ0Y1NW94SHEwcTVXejIzcjg3SEc2Tjlk?=
- =?utf-8?B?dUQwbDNZRS96QXdxTUxIQmJwR0VQZW8vbFN5SXd1aGRDQ1ZlM05kWWVrVUlY?=
- =?utf-8?B?Q0p2Nk8xYUNDRmsrRnQ0cDlQWW1KRXU3aHU3YVczQlltaEsxemxJT1JXTndJ?=
- =?utf-8?B?VW1QNnB2Ny9NZ1JOU1AvK1ZmdWxOa3JETjFCbEJab0Nna21JOGxZZlpCb2ov?=
- =?utf-8?B?RDNJb0NkZHlvMTZPUktxVnFodWNvWnNydHErYTB6REhTOGFYTTRNeWlZQWMy?=
- =?utf-8?B?RmpVdmVvQjdKaDFpUjMrclMvNDZnTFAwWGxWTFRWYjNNUGQvaWgwQXBxUEhz?=
- =?utf-8?B?Q3NveDExeHEwalh6cExBaGZJVjlSWEM3YlMxQ2k3NC9ZblQvWFhqa3VIMmNs?=
- =?utf-8?Q?M+qA=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e15e9ee6-228d-40b4-3a8a-08dcef8196be
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Oct 2024 14:31:44.4918
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WyUH7u3UQoV6WFiyFahip8yByia5Zba8lvxSGoIoBu5I9dDpoaLJ5zXWSGoRAoZZ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7096
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6] Docs/zh_CN: Translate physical_memory.rst to
+ Simplified Chinese
+To: jiang.kun2@zte.com.cn, alexs@kernel.org, siyanteng@loongson.cn,
+ corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mudongliangabcd@gmail.com
+Cc: wang.yaxin@zte.com.cn, fan.yu9@zte.com.cn, xu.xin16@zte.com.cn,
+ he.peilin@zte.com.cn, tu.qiang35@zte.com.cn, qiu.yutan@zte.com.cn,
+ zhang.yunkai@zte.com.cn
+References: <20241018141724436H0QeZl1E8_YDGP_Fb0n9F@zte.com.cn>
+Content-Language: en-US
+From: Alex Shi <seakeel@gmail.com>
+In-Reply-To: <20241018141724436H0QeZl1E8_YDGP_Fb0n9F@zte.com.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Reinette,
+Hi Jiang,
 
-On 10/15/2024 10:31 PM, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 10/9/24 10:39 AM, Babu Moger wrote:
->> In mbm_cntr_assign mode, the hardware counter should be assigned to read
->> the MBM events.
->>
->> Report "Unassigned" in case the user attempts to read the events without
->> assigning the counter.
->>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> ---
->> v8: Used MBM_EVENT_ARRAY_INDEX to get the index for the MBM event.
->>      Documentation update to make the text generic.
->>
->> v7: Moved the documentation under "mon_data".
->>      Updated the text little bit.
->>
->> v6: Added more explaination in the resctrl.rst
->>      Added checks to detect "Unassigned" before reading RMID.
->>
->> v5: New patch.
->> ---
->>   Documentation/arch/x86/resctrl.rst        | 10 ++++++++++
->>   arch/x86/kernel/cpu/resctrl/ctrlmondata.c | 13 ++++++++++++-
->>   2 files changed, 22 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
->> index 1b5c05a35793..99ee9c87952b 100644
->> --- a/Documentation/arch/x86/resctrl.rst
->> +++ b/Documentation/arch/x86/resctrl.rst
->> @@ -419,6 +419,16 @@ When monitoring is enabled all MON groups will also contain:
->>   	for the L3 cache they occupy). These are named "mon_sub_L3_YY"
->>   	where "YY" is the node number.
->>   
->> +	When supported the 'mbm_cntr_assign' mode allows users to assign a
->> +	counter to mon_hw_id, event pair enabling bandwidth monitoring for
->> +	as long as the counter remains assigned. The hardware will continue
->> +	tracking the assigned mon_hw_id until the user manually unassigns
->> +	it, ensuring that counters are not reset during this period. With
->> +	a limited number of counters, the system may run out of assignable
->> +	counters at some point. In that case, MBM event counters will return
-> 
-> nit: "at some point" can be dropped for clarity.
+the translation looks fine, but your patch failed on 'git am':
+$ g am ./v6_20241018_jiang_kun2_docs_zh_cn_translate_physical_memory_rst_to_simplified_chinese.mbx 
+Applying: Docs/zh_CN: Translate physical_memory.rst to Simplified Chinese
+error: patch failed: Documentation/translations/zh_CN/mm/index.rst:53
+error: Documentation/translations/zh_CN/mm/index.rst: patch does not apply
+error: Documentation/translations/zh_CN/mm/physical_memory.rst: already exists in index
+Patch failed at 0001 Docs/zh_CN: Translate physical_memory.rst to Simplified Chinese
+hint: Use 'git am --show-current-patch' to see the failed patch
+When you have resolved this problem, run "git am --continue".
+If you prefer to skip this patch, run "git am --skip" instead.
+To restore the original branch and stop patching, run "git am --abort".
 
-Sure.
-
-> 
->> +	"Unassigned" when the event is read. Users must manually assign a
->> +	counter to read the events.
->> +
->>   "mon_hw_id":
->>   	Available only with debug option. The identifier used by hardware
->>   	for the monitor group. On x86 this is the RMID.
->> diff --git a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
->> index 50fa1fe9a073..5a9d15b2c319 100644
->> --- a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
->> +++ b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
->> @@ -562,7 +562,7 @@ int rdtgroup_mondata_show(struct seq_file *m, void *arg)
->>   	struct rdtgroup *rdtgrp;
->>   	struct rdt_resource *r;
->>   	union mon_data_bits md;
->> -	int ret = 0;
->> +	int ret = 0, index;
->>   
->>   	rdtgrp = rdtgroup_kn_lock_live(of->kn);
->>   	if (!rdtgrp) {
->> @@ -576,6 +576,15 @@ int rdtgroup_mondata_show(struct seq_file *m, void *arg)
->>   	evtid = md.u.evtid;
->>   	r = &rdt_resources_all[resid].r_resctrl;
->>   
->> +	if (resctrl_arch_mbm_cntr_assign_enabled(r) && evtid != QOS_L3_OCCUP_EVENT_ID) {
->> +		index = MBM_EVENT_ARRAY_INDEX(evtid);
->> +		if (index != INVALID_CONFIG_INDEX &&
->> +		    rdtgrp->mon.cntr_id[index] == MON_CNTR_UNSET) {
->> +			rr.err = -ENOENT;
->> +			goto checkresult;
->> +		}
->> +	}
->> +
->>   	if (md.u.sum) {
->>   		/*
->>   		 * This file requires summing across all domains that share
->> @@ -613,6 +622,8 @@ int rdtgroup_mondata_show(struct seq_file *m, void *arg)
->>   		seq_puts(m, "Error\n");
->>   	else if (rr.err == -EINVAL)
->>   		seq_puts(m, "Unavailable\n");
->> +	else if (rr.err == -ENOENT)
->> +		seq_puts(m, "Unassigned\n");
->>   	else
->>   		seq_printf(m, "%llu\n", rr.val);
->>   
-> 
-> Reinette
-> 
+You may like to try 'git format-patch' or 'git send-email'?
 
 Thanks
-- Babu Moger
+
+
+On 10/18/24 14:17, jiang.kun2@zte.com.cn wrote:
+> From: Yaxin Wang <wang.yaxin@zte.com.cn>
+> 
+> This patch translates the "physical_memory.rst" document into
+> Simplified Chinese to improve accessibility for Chinese-speaking
+> developers and users.
+> 
+> The translation was done with attention to technical accuracy
+> and readability, ensuring that the document remains informative
+> and useful in its translated form.
+> 
+> Update to commit 7332f9e45d2e("docs/mm: Physical Memory: Fix grammar")
+> 
+> Signed-off-by: Yaxin Wang <wang.yaxin@zte.com.cn>
+> Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
+> Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
+> ---
+> v5->v6:
+> Some fixes according to:
+> https://lore.kernel.org/all/8f62f870-3db1-4a9b-944f-336b61d48be9@linux.dev/
+> 1. remove some extra apace
+> 2. add Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
+> 
+>  Documentation/translations/zh_CN/mm/index.rst |   1 +
+>  .../translations/zh_CN/mm/physical_memory.rst | 356 ++++++++++++++++++
+>  2 files changed, 357 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/mm/physical_memory.rst
+> 
+> diff --git a/Documentation/translations/zh_CN/mm/index.rst b/Documentation/translations/zh_CN/mm/index.rst
+> index b950dd118be7..eac20a7ec9a6 100644
+> --- a/Documentation/translations/zh_CN/mm/index.rst
+> +++ b/Documentation/translations/zh_CN/mm/index.rst
+> @@ -53,6 +53,7 @@ Linux内存管理文档
+>     page_migration
+>     page_owner
+>     page_table_check
+> +   physical_memory
+>     remap_file_pages
+>     split_page_table_lock
+>     vmalloced-kernel-stacks
+> diff --git a/Documentation/translations/zh_CN/mm/physical_memory.rst b/Documentation/translations/zh_CN/mm/physical_memory.rst
+> new file mode 100644
+> index 000000000000..83eb7a330606
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/mm/physical_memory.rst
+> @@ -0,0 +1,356 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/mm/physical_memory.rst
+> +
+> +:翻译:
+> +
+> +   王亚鑫 Yaxin Wang <wang.yaxin@zte.com.cn>
+> +
+> +========
+> +物理内存
+> +========
+> +
+> +Linux可用于多种架构，因此需要一个与架构无关的抽象来表示物理内存。本章描述
+> +了管理运行系统中物理内存的结构。
+> +
+> +第一个与内存管理相关的主要概念是 `非一致性内存访问(NUMA)
+> +<https://en.wikipedia.org/wiki/Non-uniform_memory_access>`
+> +
+> +在多核和多插槽机器中，内存可能被组织成不同的存储区，这些存储区根据与处理器
+> +的距离“不同”而有不同的访问开销。例如，可能为每个CPU分配内存存储区，或者为
+> +外围设备在附近分配一个非常适合DMA的内存存储区。
+> +
+> +每个存储区被称为一个节点，节点在Linux中表示为 ``struct pglist_data``，
+> +即使是在UMA架构中也是这样表示。该结构总是通过 ``pg_data_t`` 来引用。特
+> +定节点的 ``pg_data_t`` 结构体可以通过NODE_DATA(nid)引用，其中nid被称
+> +为该节点的ID。
+> +
+> +对于非一致性内存访问（NUMA）架构，节点数据结构在引导时由特定于架构的代码早
+> +期分配。通常，这些结构在其所在的内存区上本地分配。对于一致性内存访问（UMA）
+> +架构，只使用一个静态的 ``pg_data_t`` 结构体，称为 ``contig_page_data``。
+> +节点将会在 :ref:`节点 <nodes>` 章节中进一步讨论。
+> +
+> +整个物理内存被划分为一个或多个被称为区域的块，这些区域表示内存的范围。这
+> +些范围通常由访问内存的架构限制来决定。在节点内，与特定区域对应的内存范围
+> +由 ``struct zone`` 结构体描述，该结构被定义为 ``zone_t``，每种区域都
+> +属于以下描述类型的一种。
+> +
+> +* ``ZONE_DMA`` 和 ``ZONE_DMA32`` 在历史上代表适用于DMA的内存，这些
+> +  内存由那些不能访问所有可寻址内存的外设访问。多年来，已经有了更好、更稳
+> +  固的接口来获取满足特定DMA需求的内存（这些接口由
+> +  Documentation/core-api/dma-api.rst 文档描述），但是 ``ZONE_DMA``
+> +  和 ``ZONE_DMA32`` 仍然表示访问受限的内存范围。
+> +
+> +取决于架构的不同，这两种区域可以在构建时通过关闭 ``CONFIG_ZONE_DMA`` 和
+> +``CONFIG_ZONE_DMA32`` 配置选项来禁用。一些64位的平台可能需要这两种区域，
+> +因为他们支持具有不同DMA寻址限制的外设。
+> +
+> +* ``ZONE_NORMAL`` 是普通内存的区域，这种内存可以被内核随时访问。如果DMA
+> +  设备支持将数据传输到所有可寻址的内存区域，那么可在该区域的页面上执行DMA
+> +  操作。``ZONE_NORMAL`` 总是开启的。
+> +
+> +* ``ZONE_HIGHMEM`` 是指那些没有在内核页表中永久映射的物理内存部分。该区
+> +  域的内存只能通过临时映射被内核访问。该区域只在某些32位架构上可用，并且是
+> +  通过 ``CONFIG_HIGHMEM`` 选项开启。
+> +
+> +* ``ZONE_MOVABLE`` 是指可访问的普通内存区域，就像 ``ZONE_NORMAL``
+> +  一样。不同之处在于 ``ZONE_MOVABLE`` 中的大多数页面内容是可移动的。
+> +  这意味着这些页面的虚拟地址不会改变，但它们的内容可能会在不同的物理页面
+> +  之间移动。通常，在内存热插拔期间填充 ``ZONE_MOVABLE``，在启动时也可
+> +  以使用 ``kernelcore``、``movablecore`` 和 ``movable_node``
+> +  这些内核命令行参数来填充。更多详细信息，请参阅内核文档
+> +  Documentation/mm/page_migration.rst 和
+> +  Documentation/admin-guide/mm/memory-hotplug.rst。
+> +
+> +* ``ZONE_DEVICE`` 表示位于持久性内存（PMEM）和图形处理单元（GPU）
+> +  等设备上的内存。它与RAM区域类型有不同的特性，并且它的存在是为了提供
+> +  :ref:`struct page<Pages>` 结构和内存映射服务，以便设备驱动程序能
+> +  识别物理地址范围。``ZONE_DEVICE`` 通过 ``CONFIG_ZONE_DEVICE``
+> +  选项开启。
+> +
+> +需要注意的是，许多内核操作只能使用 ``ZONE_NORMAL`` 来执行，因此它是
+> +性能最关键区域。区域在 :ref:`区域 <zones>` 章节中有更详细的讨论。
+> +
+> +节点和区域范围之间的关系由固件报告的物理内存映射决定，另外也由内存寻址
+> +的架构约束以及内核命令行中的某些参数决定。
+> +
+> +例如，在具有2GB RAM的x86统一内存架构（UMA）机器上运行32位内核时，整
+> +个内存将位于节点0，并且将有三个区域： ``ZONE_DMA``、 ``ZONE_NORMAL``
+> +和 ``ZONE_HIGHMEM``::
+> +
+> +  0                                                            2G
+> +  +-------------------------------------------------------------+
+> +  |                            node 0                           |
+> +  +-------------------------------------------------------------+
+> +
+> +  0         16M                    896M                        2G
+> +  +----------+-----------------------+--------------------------+
+> +  | ZONE_DMA |      ZONE_NORMAL      |       ZONE_HIGHMEM       |
+> +  +----------+-----------------------+--------------------------+
+> +
+> +
+> +在内核构建时关闭 ``ZONE_DMA`` 开启 ``ZONE_DMA32``，并且具有16GB
+> +RAM平均分配在两个节点上的arm64机器上，使用 ``movablecore=80%`` 参数
+> +启动时，``ZONE_DMA32``、``ZONE_NORMAL`` 和 ``ZONE_MOVABLE``
+> +位于节点0，而 ``ZONE_NORMAL`` 和 ``ZONE_MOVABLE`` 位于节点1::
+> +
+> +
+> + 1G                                9G                         17G
+> +  +--------------------------------+ +--------------------------+
+> +  |              node 0            | |          node 1          |
+> +  +--------------------------------+ +--------------------------+
+> +
+> +  1G       4G        4200M          9G          9320M          17G
+> +  +---------+----------+-----------+ +------------+-------------+
+> +  |  DMA32  |  NORMAL  |  MOVABLE  | |   NORMAL   |   MOVABLE   |
+> +  +---------+----------+-----------+ +------------+-------------+
+> +
+> +
+> +内存存储区可能位于交错的节点。在下面的例子中，一台x86机器有16GB的RAM分
+> +布在4个内存存储区上，偶数编号的内存存储区属于节点0，奇数编号的内存条属于
+> +节点1::
+> +
+> +  0              4G              8G             12G            16G
+> +  +-------------+ +-------------+ +-------------+ +-------------+
+> +  |    node 0   | |    node 1   | |    node 0   | |    node 1   |
+> +  +-------------+ +-------------+ +-------------+ +-------------+
+> +
+> +  0   16M      4G
+> +  +-----+-------+ +-------------+ +-------------+ +-------------+
+> +  | DMA | DMA32 | |    NORMAL   | |    NORMAL   | |    NORMAL   |
+> +  +-----+-------+ +-------------+ +-------------+ +-------------+
+> +
+> +在这种情况下，节点0将覆盖从0到12GB的内存范围，而节点1将覆盖从4GB到16GB
+> +的内存范围。
+> +
+> +.. _nodes:
+> +
+> +节点
+> +====
+> +
+> +正如我们所提到的，内存中的每个节点由 ``pg_data_t`` 描述，通过
+> +``struct pglist_data`` 结构体的类型定义。在分配页面时，默认情况下，Linux
+> +使用节点本地分配策略，从离当前运行CPU的最近节点分配内存。由于进程倾向于在同
+> +一个CPU上运行，很可能会使用当前节点的内存。分配策略可以由用户控制，如内核文
+> +档 Documentation/admin-guide/mm/numa_memory_policy.rst 中所述。
+> +
+> +大多数NUMA（非统一内存访问）架构维护了一个指向节点结构的指针数组。这些实际
+> +的结构在启动过程中的早期被分配，这时特定于架构的代码解析了固件报告的物理内
+> +存映射。节点初始化的大部分工作是在由free_area_init()实现的启动过程之后
+> +完成，该函数在后面的小节 :ref:`初始化 <initialization>` 中有详细描述。
+> +
+> +除了节点结构，内核还维护了一个名为 ``node_states`` 的 ``nodemask_t``
+> +位掩码数组。这个数组中的每个位掩码代表一组特定属性的节点，这些属性由
+> +``enum node_states`` 定义，定义如下：
+> +
+> +``N_POSSIBLE``
+> +节点可能在某个时刻上线。
+> +
+> +``N_ONLINE``
+> +节点已经上线。
+> +
+> +``N_NORMAL_MEMORY``
+> +节点拥有普通内存。
+> +
+> +``N_HIGH_MEMORY``
+> +节点拥有普通或高端内存。当关闭 ``CONFIG_HIGHMEM`` 配置时，
+> +也可以称为 ``N_NORMAL_MEMORY``。
+> +
+> +``N_MEMORY``
+> +节点拥有（普通、高端、可移动）内存。
+> +
+> +``N_CPU``
+> +节点拥有一个或多个CPU。
+> +
+> +对于具有上述属性的每个节点，``node_states[<property>]``
+> +掩码中对应于节点ID的位会被置位。
+> +
+> +例如，对于具有常规内存和CPU的节点2，第二个bit将被设置::
+> +
+> +  node_states[N_POSSIBLE]
+> +  node_states[N_ONLINE]
+> +  node_states[N_NORMAL_MEMORY]
+> +  node_states[N_HIGH_MEMORY]
+> +  node_states[N_MEMORY]
+> +  node_states[N_CPU]
+> +
+> +有关使用节点掩码（nodemasks）可能进行的各种操作，请参考
+> +``include/linux/nodemask.h``。
+> +
+> +除此之外，节点掩码（nodemasks）提供用于遍历节点的宏，即
+> +``for_each_node()`` 和 ``for_each_online_node()``。
+> +
+> +例如，要为每个在线节点调用函数 foo()，可以这样操作::
+> +
+> +  for_each_online_node(nid) {
+> +		pg_data_t *pgdat = NODE_DATA(nid);
+> +
+> +		foo(pgdat);
+> +	}
+> +
+> +节点数据结构
+> +------------
+> +
+> +节点结构 ``struct pglist_data`` 在 ``include/linux/mmzone.h``
+> +中声明。这里我们将简要描述这个结构体的字段：
+> +
+> +通用字段
+> +~~~~~~~~
+> +
+> +``node_zones``
+> +表示该节点的区域列表。并非所有区域都可能被填充，但这是
+> +完整的列表。它被该节点的node_zonelists以及其它节点的
+> +node_zonelists引用。
+> +
+> +``node_zonelists``
+> +表示所有节点中所有区域的列表。此列表定义了分配内存时首选的区域
+> +顺序。``node_zonelists`` 在核心内存管理结构初始化期间，
+> +由 ``mm/page_alloc.c`` 中的 ``build_zonelists()``
+> +函数设置。
+> +
+> +``nr_zones``
+> +表示此节点中已填充区域的数量。
+> +
+> +``node_mem_map``
+> +对于使用FLATMEM内存模型的UMA系统，0号节点的 ``node_mem_map``
+> +表示每个物理帧的struct pages数组。
+> +
+> +``node_page_ext``
+> +对于使用FLATMEM内存模型的UMA系统，0号节点的 ``node_page_ext``
+> +是struct pages的扩展数组。只有在构建时开启了 ``CONFIG_PAGE_EXTENSION``
+> +选项的内核中才可用。
+> +
+> +``node_start_pfn``
+> +表示此节点中起始页面帧的页面帧号。
+> +
+> +``node_present_pages``
+> +表示此节点中存在的物理页面的总数。
+> +
+> +``node_spanned_pages``
+> +表示包括空洞在内的物理页面范围的总大小。
+> +
+> +``node_size_lock``
+> +一个保护定义节点范围字段的锁。仅在开启了 ``CONFIG_MEMORY_HOTPLUG`` 或
+> +``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` 配置选项中的某一个时才定义。提
+> +供了 ``pgdat_resize_lock()`` 和 ``pgdat_resize_unlock()`` 用来操作
+> +``node_size_lock``，而无需检查 ``CONFIG_MEMORY_HOTPLUG`` 或
+> +``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` 选项。
+> +
+> +``node_id``
+> +节点的节点ID（NID），从0开始。
+> +
+> +``totalreserve_pages``
+> +这是每个节点保留的页面，这些页面不可用于用户空间分配。
+> +
+> +``first_deferred_pfn``
+> +如果大型机器上的内存初始化被推迟，那么第一个PFN（页帧号）是需要初始化的。
+> +在开启了 ``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` 选项时定义。
+> +
+> +``deferred_split_queue``
+> +每个节点的大页队列，这些大页的拆分被推迟了。仅在开启了 ``CONFIG_TRANSPARENT_HUGEPAGE``
+> +配置选项时定义。
+> +
+> +``__lruvec``
+> +每个节点的lruvec持有LRU（最近最少使用）列表和相关参数。仅在禁用了内存
+> +控制组（cgroups）时使用。它不应该直接访问，而应该使用 ``mem_cgroup_lruvec()``
+> +来查找lruvecs。
+> +
+> +回收控制
+> +~~~~~~~~
+> +
+> +另见内核文档 Documentation/mm/page_reclaim.rst 文件。
+> +
+> +``kswapd``
+> +每个节点的kswapd内核线程实例。
+> +
+> +``kswapd_wait``, ``pfmemalloc_wait``, ``reclaim_wait``
+> +同步内存回收任务的工作队列。
+> +
+> +``nr_writeback_throttled``
+> +等待写回脏页时，被限制的任务数量。
+> +
+> +``kswapd_order``
+> +控制kswapd尝试回收的order。
+> +
+> +``kswapd_highest_zoneidx``
+> +kswapd线程可以回收的最高区域索引。
+> +
+> +``kswapd_failures``
+> +kswapd无法回收任何页面的运行次数。
+> +
+> +``min_unmapped_pages``
+> +无法回收的未映射文件支持的最小页面数量。由 ``vm.min_unmapped_ratio``
+> +系统控制台（sysctl）参数决定。在开启 ``CONFIG_NUMA`` 配置时定义。
+> +
+> +``min_slab_pages``
+> +无法回收的SLAB页面的最少数量。由 ``vm.min_slab_ratio`` 系统控制台
+> +（sysctl）参数决定。在开启 ``CONFIG_NUMA`` 时定义。
+> +
+> +``flags``
+> +控制回收行为的标志位。
+> +
+> +内存压缩控制
+> +~~~~~~~~~~~~
+> +
+> +``kcompactd_max_order``
+> +kcompactd应尝试实现的页面order。
+> +
+> +``kcompactd_highest_zoneidx``
+> +kcompactd可以压缩的最高区域索引。
+> +
+> +``kcompactd_wait``
+> +同步内存压缩任务的工作队列。
+> +
+> +``kcompactd``
+> +每个节点的kcompactd内核线程实例。
+> +
+> +``proactive_compact_trigger``
+> +决定是否使用主动压缩。由 ``vm.compaction_proactiveness`` 系统控
+> +制台（sysctl）参数控制。
+> +
+> +统计信息
+> +~~~~~~~~
+> +
+> +``per_cpu_nodestats``
+> +表示节点的Per-CPU虚拟内存统计信息。
+> +
+> +``vm_stat``
+> +表示节点的虚拟内存统计数据。
+> +
+> +.. _zones:
+> +
+> +区域
+> +====
+> +
+> +.. admonition:: Stub
+> +
+> +  本节内容不完整。请列出并描述相应的字段。
+> +
+> +.. _pages:
+> +
+> +页
+> +====
+> +
+> +.. admonition:: Stub
+> +
+> +  本节内容不完整。请列出并描述相应的字段。
+> +
+> +页码
+> +====
+> +
+> +.. admonition:: Stub
+> +
+> +  本节内容不完整。请列出并描述相应的字段。
+> +
+> +.. _initialization:
+> +
+> +初始化
+> +======
+> +
+> +.. admonition:: Stub
+> +
+> +  本节内容不完整。请列出并描述相应的字段。
+> +
+> +
