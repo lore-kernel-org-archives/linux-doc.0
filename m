@@ -1,330 +1,234 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C569018872A;
-	Fri, 18 Oct 2024 09:46:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1EA52022F9;
+	Fri, 18 Oct 2024 10:50:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729244784; cv=none; b=hW6vJv0NR6YmDGVxLuTvD3aCDfCGDfnb+7KW3uCHUyQhPVQUs1oewG1MfzcZxptnSPUh7nRKvDeXhI/WKzrhZbFniVQwYgjJR763pQ5JAjwtWLA4xlbpwZtYXRAmOlaPbrLS2YtNwFc+mpIpUOleZjHJkjP29dbTXgLJZ+cWh5M=
+	t=1729248641; cv=none; b=hjzOMRCO/sTdD1xgxA+PeVfrqDBjrR8Z8nceNksaijq0h2aCJqfFyQfsRStQdtLbw8wECVAYALuvj7X7IJPG+u4ztYUY+WFrQsX7fyOO4ThNLnkV6JoW9Den+qGK5in8qWYXBwkHFX/cnliMaGHtGDXoUZRzeHbUXfxcbcWXR2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729244784; c=relaxed/simple;
-	bh=azHhQksD+K7NQxomrk2erox1QKFqxrV59ouOXwU43Ck=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u5tM0XATIOZrMWxQ9N0XT0SoJ6sVYOEslFw/T4HdJTPGLFaG/QXCvut/DpLDpCfAxVOwqUUwsqV4eV+Ys8gLL+X39IVr4Ix5WLglKocWDLHMXF4huWczMCZ1mz9ZEAxhLVi3tur48j3uiv18Z7/hfLjJOuDNsKMOoySX90E6FNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CCC2EFEC;
-	Fri, 18 Oct 2024 02:46:50 -0700 (PDT)
-Received: from [10.57.22.188] (unknown [10.57.22.188])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A06B93F58B;
-	Fri, 18 Oct 2024 02:46:18 -0700 (PDT)
-Message-ID: <05ed4a6f-cb41-4953-a654-9988f0fcd373@arm.com>
-Date: Fri, 18 Oct 2024 10:46:17 +0100
+	s=arc-20240116; t=1729248641; c=relaxed/simple;
+	bh=HI79Pkt7n2LlJw3bJJcop8gJ0T5QnqUto0lUkIYJO6M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W9L0YFt9VLRf1JpuAKShdAbqHtcVRhnolrHshxhjI8wXZlynbR26SRDo4iib0odEi+nS3FE7L4p4/PZBSOrfL1rqq/ddC2L4hbzrTPUwIzp7aa7kkTIZwSsbWmISD1ZGaorffzH6NiOTFJrPfPkWWgpUIQ5X9weYiES54+2GBgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RDp7zqhK; arc=none smtp.client-ip=209.85.222.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RDp7zqhK"
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-84fb56d2fb2so601497241.3;
+        Fri, 18 Oct 2024 03:50:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729248639; x=1729853439; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=um8CJgoH8YP7qg2KspbA5c0NLRN95mVz+O4+Mbauz+0=;
+        b=RDp7zqhKhp7o4Py3oqnUS96r5gMmEr2zOiEnSIM40QHcKtoe+uRJm2ykl0VAsIiVLW
+         qI8uO8GNCwUk3iW+Umx7kTm0CCbI9khOwdFo5ToctXYfgpJmXsxTNeLF3S0nOJvyQi+L
+         poDijbB3xV6qjSWR7KQPx/eKs6eCIhqVaQFPrg9a3lGrkwT3KO+YnnegKZDzvrcxfQG0
+         Qv7HtOdzDLlBvn9KaC29M7PlzaDQ1aUt5pw6GpcuUvC4gMvHDaLVifN3lwigmRw5eidN
+         nAT5P9rWPfutfSuPHgXJplRgsy/2Y1uPmWb5M2fmueArJtbwEDC46Sh18BIlY0HeuXX/
+         5EMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729248639; x=1729853439;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=um8CJgoH8YP7qg2KspbA5c0NLRN95mVz+O4+Mbauz+0=;
+        b=fwUomVpMqNh4VXIgRMlZVzZD0IZUAoZnfLRr4BcYyIredGE4pvMQ+l4Kaxk13AHbSX
+         WIlSGGSW8+fffVo6XkIG4EH6WvCkWTcH3Bfa2BsBN2mNrxQlC+ZCK4//ocV5f5VFgxKJ
+         D51VK420g3aO9Bt7dd+TovM+oZPZ1MRgm44NdiMr71gaybzeA17P3YbBKLv3suNe7Shx
+         er81lv+S3aYfNIdNMXikYvOT3JfK3oc/G+qH84FGofgubEvK62CSkZ9H6evMpWZaK0uG
+         /AuMYf58MxHCfHOZyB9e45BiZnGAngTp2g3gXTnjn+0PRLcSbSPx+SuqwvBXAxbKc/x0
+         Idvg==
+X-Forwarded-Encrypted: i=1; AJvYcCWcH04ZhJ0Y+6b2/hoVmsKfBwKxdo2sUfg8cBE9DUrIxN6JKyMFZaxQLKEc1Rs9xwxx0NNT/SjQT6M=@vger.kernel.org, AJvYcCXPp0YujBMV7OqpsntCIh+h80t3J7aZ60XUzexjesD8ANs7/0Y1AzULCWNqzRzgrZ3yIWoL2D9KCuvlMKC2@vger.kernel.org
+X-Gm-Message-State: AOJu0YwC3Xex7YVCzCtTsoFJfFa5L5P8l1DSSXzPHPv3so5WM2h3HiHq
+	Mwrrt+s+p8E9EBoXTl/gaE1SIHC/Du2UT2GbT0XAJRDouywngnm+tIgKZlc0
+X-Google-Smtp-Source: AGHT+IH8Mn5he2yfHltuZbtxUYmes0GQVaKU8iMC8ELro74qZ/ahKHro38OTgzSJU4H0qaepttvaZA==
+X-Received: by 2002:a05:6102:1608:b0:4a4:97bc:c0d7 with SMTP id ada2fe7eead31-4a5d6ae16a3mr1399174137.8.1729248638707;
+        Fri, 18 Oct 2024 03:50:38 -0700 (PDT)
+Received: from localhost (fwdproxy-ash-003.fbsv.net. [2a03:2880:20ff:3::face:b00c])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b156fa5618sm58452385a.65.2024.10.18.03.50.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Oct 2024 03:50:38 -0700 (PDT)
+From: Usama Arif <usamaarif642@gmail.com>
+To: akpm@linux-foundation.org,
+	linux-mm@kvack.org
+Cc: hannes@cmpxchg.org,
+	david@redhat.com,
+	willy@infradead.org,
+	kanchana.p.sridhar@intel.com,
+	yosryahmed@google.com,
+	nphamcs@gmail.com,
+	chengming.zhou@linux.dev,
+	ryan.roberts@arm.com,
+	ying.huang@intel.com,
+	21cnbao@gmail.com,
+	riel@surriel.com,
+	shakeel.butt@linux.dev,
+	kernel-team@meta.com,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Usama Arif <usamaarif642@gmail.com>
+Subject: [RFC 0/4] mm: zswap: add support for zswapin of large folios
+Date: Fri, 18 Oct 2024 11:48:38 +0100
+Message-ID: <20241018105026.2521366-1-usamaarif642@gmail.com>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 5/8] coresight: tmc: Add support for reading crash
- data
-Content-Language: en-GB
-To: Linu Cherian <lcherian@marvell.com>
-Cc: mike.leach@linaro.org, james.clark@arm.com,
- linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
- devicetree@vger.kernel.org, sgoutham@marvell.com, gcherian@marvell.com,
- Anil Kumar Reddy <areddy3@marvell.com>, Tanmay Jagdale <tanmay@marvell.com>
-References: <20240916103437.226816-1-lcherian@marvell.com>
- <20240916103437.226816-6-lcherian@marvell.com>
- <f1acfd07-7317-4b7e-bb81-ea9a894f25ac@arm.com>
- <20241017114054.GC896339@hyd1403.caveonetworks.com>
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <20241017114054.GC896339@hyd1403.caveonetworks.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 17/10/2024 12:40, Linu Cherian wrote:
-> On 2024-10-03 at 18:55:54, Suzuki K Poulose (suzuki.poulose@arm.com) wrote:
->> Hi Linu
->>
->> On 16/09/2024 11:34, Linu Cherian wrote:
->>> * Add support for reading crashdata using special device files.
->>>     The special device files /dev/crash_tmc_xxx would be available
->>>     for read file operation only when the crash data is valid.
->>>
->>> * User can read the crash data as below
->>>
->>>     For example, for reading crash data from tmc_etf sink
->>>
->>>     #dd if=/dev/crash_tmc_etfXX of=~/cstrace.bin
->>
->> There are some comments below, please take a look.
->>
->>>
->>> Signed-off-by: Anil Kumar Reddy <areddy3@marvell.com>
->>> Signed-off-by: Tanmay Jagdale <tanmay@marvell.com>
->>> Signed-off-by: Linu Cherian <lcherian@marvell.com>
->>> ---
->>> Changelog from v9:
->>> - Removed READ_CRASHDATA mode meant for special casing crashdata read
->>> - Added new fields full, len, offset to struct tmc_resrv_buf
->>
->> Why do we need "full" ? See more on that below.
->>
->>>     so as to have a common read function for ETR and ETF
->>> - Introduced read file operation, tmc_crashdata_read
->>>     specific to crashdata reads common for both ETR and ETF
->>> - Introduced is_tmc_crashdata_valid function
->>>     Special device file /dev/crash_tmc_xxx will be available only when
->>>     crashdata is valid.
->>> - Version checks added to crashdata validity checks
->>> - Mark crashdata as invalid when user starts tracing with ETR sink in
->>>     "resrv" buffer mode
->>>
->>>    .../hwtracing/coresight/coresight-tmc-core.c  | 206 +++++++++++++++++-
->>>    .../hwtracing/coresight/coresight-tmc-etf.c   |  36 +++
->>>    .../hwtracing/coresight/coresight-tmc-etr.c   |  63 ++++++
->>>    drivers/hwtracing/coresight/coresight-tmc.h   |  18 +-
->>>    include/linux/coresight.h                     |  12 +
->>>    5 files changed, 333 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/hwtracing/coresight/coresight-tmc-core.c b/drivers/hwtracing/coresight/coresight-tmc-core.c
->>> index 54bf8ae2bff8..47b6b3f88750 100644
->>> --- a/drivers/hwtracing/coresight/coresight-tmc-core.c
->>> +++ b/drivers/hwtracing/coresight/coresight-tmc-core.c
->>> @@ -105,6 +105,125 @@ u32 tmc_get_memwidth_mask(struct tmc_drvdata *drvdata)
->>>    	return mask;
->>>    }
->>> +bool is_tmc_crashdata_valid(struct tmc_drvdata *drvdata)
->>> +{
->>> +	struct tmc_crash_metadata *mdata;
->>> +
->>> +	if (!tmc_has_reserved_buffer(drvdata) ||
->>> +	    !tmc_has_crash_mdata_buffer(drvdata))
->>> +		return false;
->>> +
->>> +	mdata = drvdata->crash_mdata.vaddr;
->>> +
->>> +	/* Check version match */
->>> +	if (mdata->version != CS_CRASHDATA_VERSION)
->>> +		return false;
->>> +
->>> +	/* Check data integrity of metadata */
->>> +	if (mdata->crc32_mdata != find_crash_metadata_crc(mdata)) {
->>> +		dev_dbg(&drvdata->csdev->dev,
->>> +			"CRC mismatch in tmc crash metadata\n");
->>> +		return false;
->>> +	}
->>> +	/* Check data integrity of tracedata */
->>> +	if (mdata->crc32_tdata != find_crash_tracedata_crc(drvdata, mdata)) {
->>> +		dev_dbg(&drvdata->csdev->dev,
->>> +			"CRC mismatch in tmc crash tracedata\n");
->>> +		return false;
->>> +	}
->>> +	/* Check for valid metadata */
->>> +	if (!mdata->valid) {
->>
->> minor nit: This could be checked right after the VERSION and we verify
->> the CRC anyway later and thus could skip all the CRC calculations if
->> !valid.
-> 
-> 
-> Ack.
-> 
->>
->>> +		dev_dbg(&drvdata->csdev->dev,
->>> +			"Data invalid in tmc crash metadata\n");
->>> +		return false;
->>> +	}
->>> +
->>> +	return true;
->>> +}
->>> +
->>> +int tmc_read_prepare_crashdata(struct tmc_drvdata *drvdata)
->>> +{
->>> +	int ret = 0;
->>> +	unsigned long flags;
->>> +	struct tmc_crash_metadata *mdata;
->>> +	struct coresight_device *csdev = drvdata->csdev;
->>> +
->>> +	spin_lock_irqsave(&drvdata->spinlock, flags);
->>> +
->>> +	if (!is_tmc_crashdata_valid(drvdata)) {
->>> +		ret = -ENXIO;
->>> +		goto out;
->>> +	}
->>> +
->>> +	mdata = drvdata->crash_mdata.vaddr;
->>> +	/*
->>> +	 * Buffer address given by metadata for retrieval of trace data
->>> +	 * from previous boot is expected to be same as the reserved
->>> +	 * trace buffer memory region provided through DTS
->>> +	 */
->>> +	if (drvdata->resrv_buf.paddr != mdata->trace_paddr) {
->>> +		dev_dbg(&csdev->dev, "Trace buffer address of previous boot invalid\n");
->>
->> Couldn't this be made part of the "is_tmc_crashdata_valid()" and not
->> repeated everytime we do the read ? Surely, this can't change after
->> boot.
-> 
-> Ack. Will move.
-> 
->>
->>> +		ret = -EINVAL;
->>> +		goto out;
->>> +	}
->>> +
->>> +	/* Sink specific crashdata mode preparation */
->>> +	ret = crashdata_ops(csdev)->prepare(csdev);
->>> +	if (ret)
->>> +		goto out;
->>> +
->>> +	if (mdata->sts & 0x1)
->>> +		coresight_insert_barrier_packet(drvdata->buf);
->>> +
->>> +	drvdata->reading = true;
->>
->> Why are we dealing with drvdata->reading ? That is supposed to be only
->> for the normal trace reading ?
-> 
-> Ack. Will remove, we dont need this.
-> 
->>
->>> +out:
->>> +	spin_unlock_irqrestore(&drvdata->spinlock, flags);
->>> +	return ret;
->>> +}
->>> +
->>> +int tmc_read_unprepare_crashdata(struct tmc_drvdata *drvdata)
->>> +{
->>> +	int ret;
->>> +	unsigned long flags;
->>> +	struct coresight_device *csdev = drvdata->csdev;
->>> +
->>> +	spin_lock_irqsave(&drvdata->spinlock, flags);
->>> +
->>> +	/* Sink specific crashdata mode preparation */
->>> +	ret = crashdata_ops(csdev)->unprepare(csdev);
->>> +
->>> +	drvdata->reading = false;
->>
->>
->>
->>> +	spin_unlock_irqrestore(&drvdata->spinlock, flags);
->>> +
->>> +	return ret;
->>> +}
->>> +
->>> +static inline ssize_t tmc_get_resvbuf_trace(struct tmc_drvdata *drvdata,
->>> +					  loff_t pos, size_t len, char **bufpp)
->>> +{
->>> +	s64 offset;
->>> +	ssize_t actual = len;
->>> +	struct tmc_resrv_buf *rbuf = &drvdata->resrv_buf;
->>> +
->>> +	if (pos + actual > rbuf->len)
->>> +		actual = rbuf->len - pos;
->>> +	if (actual <= 0)
->>> +		return actual;
->>
->> return 0 ? Because, we went beyond the file position, not because there was
->> an error. So, that it doesn't look like we are suppressing an ERROR ?
-> 
-> 
-> return 0 looks fine to me. Will recheck on this.
-> 
->>
->>
->>> +
->>> +	/* Compute the offset from which we read the data */
->>> +	offset = rbuf->offset + pos;
->>> +	if (offset >= rbuf->size)
->>> +		offset -= rbuf->size;
->>> +
->>> +	/* Adjust the length to limit this transaction to end of buffer */
->>> +	actual = (actual < (rbuf->size - offset)) ?
->>> +		actual : rbuf->size - offset;
->>> +
->>> +	*bufpp = (char *)rbuf->vaddr + offset;
->>> +
->>> +	return actual;
->>> +}
->>> +
->>>    static int tmc_read_prepare(struct tmc_drvdata *drvdata)
->>>    {
->>>    	int ret = 0;
->>> @@ -224,6 +343,70 @@ static const struct file_operations tmc_fops = {
->>>    	.llseek		= no_llseek,
->>>    };
->>> +static int tmc_crashdata_open(struct inode *inode, struct file *file)
->>> +{
->>> +	int ret;
->>> +	struct tmc_drvdata *drvdata = container_of(file->private_data,
->>> +						   struct tmc_drvdata,
->>> +						   crashdev);
->>> +
->>> +	ret = tmc_read_prepare_crashdata(drvdata);
->>
->> I don't see the point of this "prepare" and unprepare callbacks, as they
->> can be made generic by populating the mdata->rrp,rwp fields accordingly ?
->>
->> i.e., while populating the mdata-> fields, for ETR, do what you do now.
->> For ETF you could :
->>
->> mdata->rrp = 0;
->> mdata->dba = 0;
->> mdata->rwp = drvdata->len;
->> mdata->size = drvdata->len >> 2;
->> mdata->sts = TMC_STS_FULL;
-> 
-> Agree with your point that this would get rid of sink specific
-> callbacks.
-> 
-> But few points to consider before we go with the above approach,
-> 
-> * mdata register snapshots wont be true to their definition,
->    with such encodings.
-> 
->    We had a similar discussion on this earlier regarding mdata->size,
->    ie. We decided to stick to register format instead of storing bytes.
->    https://lore.kernel.org/linux-arm-kernel/20240620041054.GC125816@hyd1403.caveonetworks.com/
+After large folio zswapout support added in [1], this patch adds
+support for zswapin of large folios to bring it on par with zram.
+This series makes sure that the benefits of large folios (fewer
+page faults, batched PTE and rmap manipulation, reduced lru list,
+TLB coalescing (for arm64 and amd)) are not lost at swap out when
+using zswap.
 
-Understood. But whoever fills in the metdata does need to fill the
-mdata information above ? Including calculating the hash. So, I think it
-is fair to say that mdata is populated in a way that makes sense
-just by looking at it. In fact, we should :
+It builds on top of [2] which added large folio swapin support for
+zram and provides the same level of large folio swapin support as
+zram, i.e. only supporting swap count == 1.
 
+Patch 1 skips swapcache for swapping in zswap pages, this should improve
+no readahead swapin performance [3], and also allows us to build on large
+folio swapin support added in [2], hence is a prerequisite for patch 3.
 
-mdata->dba = <address of the tracedata>
-mdata->rrp = mdata->dba;
-mdata->rwp = mdata->rrp + drvdata->len;
-mdata->size = drvdata->len >> 2;
-mdata->sts = TMC_STS_FULL;
+Patch 3 adds support for large folio zswapin. This patch does not add
+support for hybrid backends (i.e. folios partly present swap and zswap).
 
-Rather than filling in 0's.
+The main performance benefit comes from maintaining large folios *after*
+swapin, large folio performance improvements have been mentioned in previous
+series posted on it [2],[4], so have not added those. Below is a simple
+microbenchmark to measure the time needed *for* zswpin of 1G memory (along
+with memory integrity check).
 
+                                |  no mTHP (ms) | 1M mTHP enabled (ms)
+Base kernel                     |   1165        |    1163
+Kernel with mTHP zswpin series  |   1203        |     738
 
-> 
-> * We will have more comparable code between normal trace buffer reading
->    and reading trace buffer after panic with sink specific callbacks,
->    even though we keep the code seperate.
+The time measured was pretty consistent between runs (~1-2% variation).
+There is 36% improvement in zswapin time with 1M folios. The percentage
+improvement is likely to be more if the memcmp is removed.
 
-Lets not create "customs" here. We have a callback for a reason. i.e,
-the ETF has an internal SRAM which is not accessible directly by the CPU
-and ETR uses normal RAM.
+diff --git a/tools/testing/selftests/cgroup/test_zswap.c b/tools/testing/selftests/cgroup/test_zswap.c
+index 40de679248b8..77068c577c86 100644
+--- a/tools/testing/selftests/cgroup/test_zswap.c
++++ b/tools/testing/selftests/cgroup/test_zswap.c
+@@ -9,6 +9,8 @@
+ #include <string.h>
+ #include <sys/wait.h>
+ #include <sys/mman.h>
++#include <sys/time.h>
++#include <malloc.h>
+ 
+ #include "../kselftest.h"
+ #include "cgroup_util.h"
+@@ -407,6 +409,74 @@ static int test_zswap_writeback_disabled(const char *root)
+        return test_zswap_writeback(root, false);
+ }
+ 
++static int zswapin_perf(const char *cgroup, void *arg)
++{
++       long pagesize = sysconf(_SC_PAGESIZE);
++       size_t memsize = MB(1*1024);
++       char buf[pagesize];
++       int ret = -1;
++       char *mem;
++       struct timeval start, end;
++
++       mem = (char *)memalign(2*1024*1024, memsize);
++       if (!mem)
++               return ret;
++
++       /*
++        * Fill half of each page with increasing data, and keep other
++        * half empty, this will result in data that is still compressible
++        * and ends up in zswap, with material zswap usage.
++        */
++       for (int i = 0; i < pagesize; i++)
++               buf[i] = i < pagesize/2 ? (char) i : 0;
++
++       for (int i = 0; i < memsize; i += pagesize)
++               memcpy(&mem[i], buf, pagesize);
++
++       /* Try and reclaim allocated memory */
++       if (cg_write_numeric(cgroup, "memory.reclaim", memsize)) {
++               ksft_print_msg("Failed to reclaim all of the requested memory\n");
++               goto out;
++       }
++
++       gettimeofday(&start, NULL);
++       /* zswpin */
++       for (int i = 0; i < memsize; i += pagesize) {
++               if (memcmp(&mem[i], buf, pagesize)) {
++                       ksft_print_msg("invalid memory\n");
++                       goto out;
++               }
++       }
++       gettimeofday(&end, NULL);
++       printf ("zswapin took %fms to run.\n", (end.tv_sec - start.tv_sec)*1000 + (double)(end.tv_usec - start.tv_usec) / 1000);
++       ret = 0;
++out:
++       free(mem);
++       return ret;
++}
++
++static int test_zswapin_perf(const char *root)
++{
++       int ret = KSFT_FAIL;
++       char *test_group;
++
++       test_group = cg_name(root, "zswapin_perf_test");
++       if (!test_group)
++               goto out;
++       if (cg_create(test_group))
++               goto out;
++
++       if (cg_run(test_group, zswapin_perf, NULL))
++               goto out;
++
++       ret = KSFT_PASS;
++out:
++       cg_destroy(test_group);
++       free(test_group);
++       return ret;
++}
++
+ /*
+  * When trying to store a memcg page in zswap, if the memcg hits its memory
+  * limit in zswap, writeback should affect only the zswapped pages of that
+@@ -584,6 +654,7 @@ struct zswap_test {
+        T(test_zswapin),
+        T(test_zswap_writeback_enabled),
+        T(test_zswap_writeback_disabled),
++       T(test_zswapin_perf),
+        T(test_no_kmem_bypass),
+        T(test_no_invasive_cgroup_shrink),
+ };
 
-While in this case, we have the data in CPU accessible RAM and the
-"driver" in this case is crash handling and can be agnostic of where
-the data was captured (ETF vs ETR)
+[1] https://lore.kernel.org/all/20241001053222.6944-1-kanchana.p.sridhar@intel.com/
+[2] https://lore.kernel.org/all/20240821074541.516249-1-hanchuanhua@oppo.com/
+[3] https://lore.kernel.org/all/1505886205-9671-5-git-send-email-minchan@kernel.org/T/#u
+[4] https://lwn.net/Articles/955575/
 
+Usama Arif (4):
+  mm/zswap: skip swapcache for swapping in zswap pages
+  mm/zswap: modify zswap_decompress to accept page instead of folio
+  mm/zswap: add support for large folio zswapin
+  mm/zswap: count successful large folio zswap loads
 
-Suzuki
+ Documentation/admin-guide/mm/transhuge.rst |   3 +
+ include/linux/huge_mm.h                    |   1 +
+ include/linux/zswap.h                      |   6 ++
+ mm/huge_memory.c                           |   3 +
+ mm/memory.c                                |  16 +--
+ mm/page_io.c                               |   2 +-
+ mm/zswap.c                                 | 120 ++++++++++++++-------
+ 7 files changed, 99 insertions(+), 52 deletions(-)
 
-
-> 
-> Please let me know your thoughts on this.
-
+-- 
+2.43.5
 
