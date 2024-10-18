@@ -1,155 +1,94 @@
-Received: from trager.us (trager.us [52.5.81.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6B7D17C7CA;
-	Fri, 18 Oct 2024 22:48:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.5.81.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6B17485
+	for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2024 22:49:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729291735; cv=none; b=BlNGsFwapvgEyfPR8b/s4/MqIXLjeG59of8roYZDG7OQNMllRIo266DEzU/eY3zmKn4O3eFYT8GSY/DeVCwF4Yx/Ay4WaGiZrfJwpFxQdyK69GuVRJM/vQ8d3wIMdsr7hr532cjLWjRs9e5fG5+4tTglorH7GqHP/RhXeW6pSXQ=
+	t=1729291766; cv=none; b=s19XBRxJAmQ96XtX6b7NRi9F+x1OAgXPF5avzahVT7UOa3VlRhc7RJ2Y4MegJpnFun4etE/9nn2tVdqHQYvetHJXupiBLmwpCIeU8KO36zGQnhv4VjRnxggF4yc8WN7R67KLjMeEnV/FaYxBoPnyR9MYrINN83yyrDrS+mKZKRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729291735; c=relaxed/simple;
-	bh=0Da96HRJeN9ktw0gyUG3jlCYvRusTcxVT6BOX6TImn0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uIhtBqgsW3i7tGIW8iGO/B9r4AY3OGTtgSe6PHZuvG+AD2NQchSq81ZgPBee0BgdnFjDPoPQ6tiXI9MnWzzwjcGPQPjp+otV6Q+/AVcw5aa71XZ/RfIEwyWbJjr6FDIJMq4kYGI35ScmW9TlMq63l8Jh+jV2m0ZKT66BZQpz+nE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=trager.us; spf=pass smtp.mailfrom=trager.us; arc=none smtp.client-ip=52.5.81.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=trager.us
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trager.us
-Received: from c-76-104-255-50.hsd1.wa.comcast.net ([76.104.255.50] helo=[192.168.1.226])
-	by trager.us with esmtpsa (TLSv1.3:TLS_AES_128_GCM_SHA256:128)
-	(Exim 4.92.3)
-	(envelope-from <lee@trager.us>)
-	id 1t1vlp-0007L3-P2; Fri, 18 Oct 2024 22:48:33 +0000
-Message-ID: <61e80187-49d0-4ad8-a66a-0c3901963201@trager.us>
-Date: Fri, 18 Oct 2024 15:48:26 -0700
+	s=arc-20240116; t=1729291766; c=relaxed/simple;
+	bh=1bBwuyzzVOCNx5VvAd10N7xgL2slk66JywXHsESICFc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KFs6niaYtQz2clsByZaIheHYGD584zNCJMZfBLAxcVUZGR6sb1X0QTi4nRI8W7A8sodV3QyNKd9PezBEJ42u+iAxFHxV/rK5T4tYRV5qklAPSFaXgroZoUD8CJH+uSRQD3lQbs2H86iftc7Hh8BYCBzR1cvvogr6B49Utz3jD7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=aODlrxz2; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="aODlrxz2"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2fb5fa911aaso41544751fa.2
+        for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2024 15:49:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1729291761; x=1729896561; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+s7F+58hcUpSSjAioENK+2lQzzQuZ6ITMw0yi3ng4I8=;
+        b=aODlrxz2egE2Ndi+RivO0gpKBgT4w7RlDti9FobiiIHtmXFqfdSfhrScs9Yze0HwA8
+         tgKIPmoKBc36FAxoPLVxe7eSire5v+T0iK31y8thEOX/YRpezIMYTbkP8gH56IXUDvsw
+         twZ7qLOgogSepxxqf4ws/l9KFU5E/Lhi2aPkA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729291761; x=1729896561;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+s7F+58hcUpSSjAioENK+2lQzzQuZ6ITMw0yi3ng4I8=;
+        b=mWg28kXPZGFQjYwnjvPv/XhzMJLObnvdm5e9frgSfJTVYL6GsPswGaThkRDMmNrm2F
+         BuaCMqVZYVPSuzU2KtsiyPNLFgA5JCIO1GvOrQQDneofH2q+Q344tXv73ONOkmMN5jI+
+         AEBhVAbWTBOg+FemvONM85sB9xGSbUS3lZ5glAhCUilg/moHQ0kajMjhIEsLn0kAZH+C
+         y7K4hpirjcIcbjEmysoHlOYzOYOy4AUC0VwxQBmkt+74PdXutWEhqFqZvwWaM7r9c/cY
+         CD4v9Fb2Ccv4VTtHQ4/lKuosTaFTVmgtP5cabi1NLSw+My6Ls1HYx52yOYmsjw4tHZFi
+         YefQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVAoeN6N1M+D7DSsUVJXy6su+6H0k+7q3yzwLr3aQuhmsKfiouqYWziy3ufexI0LaqEPAYIx2rWsmY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxArc0tuAaQd8v36YN6U1Ig5BPNv4R9dpDQllqzHOUNDgmVQfpH
+	h9gmYVgaZQcMwyZBYva6EZH7j2nQ9p6zizQyFG7xxT6dGn4wrE4n06bSNYoiZ+uBWdDrK9jfpN/
+	w4g==
+X-Google-Smtp-Source: AGHT+IHSzz6u16ies+bzFlnEgC9QHfpM2V4u7c16lZ8dA0nTDLxdlSEHFv/NKbrNGfF3JXhW4/pbcQ==
+X-Received: by 2002:a05:6512:12cc:b0:535:6a34:b8c3 with SMTP id 2adb3069b0e04-53a1533f6eemr3594075e87.5.1729291761449;
+        Fri, 18 Oct 2024 15:49:21 -0700 (PDT)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53a151f0d71sm339058e87.166.2024.10.18.15.49.20
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Oct 2024 15:49:21 -0700 (PDT)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539e1543ab8so4666910e87.2
+        for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2024 15:49:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXeE6q/6Tz0YnIyoKboTF5ez9CMDiuCMi+D/TCAR5RW3OcdnJ+chWibIKdRjsjqD9DyPxpXJxa2Qjs=@vger.kernel.org
+X-Received: by 2002:a05:6512:39d3:b0:530:e0fd:4a97 with SMTP id
+ 2adb3069b0e04-53a151cf94emr3965821e87.0.1729291759641; Fri, 18 Oct 2024
+ 15:49:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 2/2] eth: fbnic: Add devlink dev flash support
-To: Simon Horman <horms@kernel.org>,
- Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Cc: Alexander Duyck <alexanderduyck@fb.com>, Jakub Kicinski
- <kuba@kernel.org>, kernel-team@meta.com,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Mohsin Bashir <mohsin.bashr@gmail.com>,
- Sanman Pradhan <sanmanpradhan@meta.com>, Al Viro <viro@zeniv.linux.org.uk>,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20241012023646.3124717-1-lee@trager.us>
- <20241012023646.3124717-3-lee@trager.us>
- <8502a496-f83d-470c-a84d-081a7c7e2cae@linux.dev>
- <20241015104353.GC569285@kernel.org>
-Content-Language: en-US
-From: Lee Trager <lee@trager.us>
-In-Reply-To: <20241015104353.GC569285@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20241018163136.GA795979@lichtman.org> <20241018175540.GA796909@lichtman.org>
+ <20241018223536.GA799515@lichtman.org>
+In-Reply-To: <20241018223536.GA799515@lichtman.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 18 Oct 2024 15:49:04 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UaNLoJBuzp_qrCVdYaq=-OB+726mWu4q9DCeTrZhpv9A@mail.gmail.com>
+Message-ID: <CAD=FV=UaNLoJBuzp_qrCVdYaq=-OB+726mWu4q9DCeTrZhpv9A@mail.gmail.com>
+Subject: Re: [PATCH v3] Documentation: English fixes in kgdb/kdb article
+To: Nir Lichtman <nir@lichtman.org>
+Cc: jason.wessel@windriver.com, daniel.thompson@linaro.org, corbet@lwn.net, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/15/24 3:43 AM, Simon Horman wrote:
+Hi,
 
-> On Mon, Oct 14, 2024 at 12:18:36PM +0100, Vadim Fedorenko wrote:
->> On 12/10/2024 03:34, Lee Trager wrote:
->>> fbnic supports updating firmware using a PLDM image signed and distributed
->>> by Meta. PLDM images are written into stored flashed. Flashing does not
->>> interrupt operation.
->>>
->>> On host reboot the newly flashed UEFI driver will be used. To run new
->>> control or cmrt firmware the NIC must be power cycled.
->>>
->>> Signed-off-by: Lee Trager <lee@trager.us>
-> ...
+On Fri, Oct 18, 2024 at 3:35=E2=80=AFPM Nir Lichtman <nir@lichtman.org> wro=
+te:
 >
->>> diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c b/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c
-> ...
+> Minor grammar and typos fixed in the kgdb/kdb article
 >
->>> +/**
->>> + * fbnic_send_component_table - Send PLDM component table to the firmware
->>> + * @context: PLDM FW update structure
->>> + * @component: The component to send
->>> + * @transfer_flag: Flag indication location in component tables
->>> + *
->>> + * Read relevant data from component table and forward it to the firmware.
->>> + * Check response to verify if the firmware indicates that it wishes to
->>> + * proceed with the update.
->>> + *
->>> + * Return: zero on success
->>> + *	    negative error code on failure
->>> + */
->>> +static int fbnic_send_component_table(struct pldmfw *context,
->>> +				      struct pldmfw_component *component,
->>> +				      u8 transfer_flag)
->>> +{
->>> +	struct device *dev = context->dev;
->>> +	u16 id = component->identifier;
->>> +	u8 test_string[80];
->>> +
->>> +	switch (id) {
->>> +	case QSPI_SECTION_CMRT:
->>> +	case QSPI_SECTION_CONTROL_FW:
->>> +	case QSPI_SECTION_OPTION_ROM:
->>> +		break;
->>> +	default:
->>> +		dev_err(dev, "Unknown component ID %u\n", id);
->>> +		return -EINVAL;
->>> +	}
->>> +
->>> +	dev_dbg(dev, "Sending PLDM component table to firmware\n");
->>> +
->>> +	/* Temp placeholder */
->>> +	memcpy(test_string, component->version_string,
->>> +	       min_t(u8, component->version_len, 79));
->>> +	test_string[min_t(u8, component->version_len, 79)] = 0;
->> Looks like this construction can be replaced with strscpy().
->> There were several patchsets in the tree to use strscpy(), let's follow
->> the pattern.
-> While looking at these lines, I'm unsure why min_t() is being used
-> instead of min() here. As version_len is unsigned and 79 is a positive
-> constant, I believe min() should be fine here.
+> Signed-off-by: Nir Lichtman <nir@lichtman.org>
+> ---
+>  Documentation/dev-tools/kgdb.rst | 16 +++++++---------
+>  1 file changed, 7 insertions(+), 9 deletions(-)
 
-clang complains if I'm not explicit with the type by using min_t()
+You could have kept my tag, but in any case giving it again:
 
-
-/home/ltrager/fbnic/src/fbnic_devlink.c:194:3: warning: comparison of 
-distinct pointer types ('typeof (component->version_len) *' (aka 
-'unsigned char *') and 'typeof (79) *' (aka 'int *')) 
-[-Wcompare-distinct-pointer-types]
-
-   194 | min(component->version_len, 79));
-
-       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-./include/linux/minmax.h:45:19: note: expanded from macro 'min'
-
-    45 | #define min(x, y) __careful_cmp(x, y, <)
-
-       | ^~~~~~~~~~~~~~~~~~~~~~
-
-./include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
-
-    36 | __builtin_choose_expr(__safe_cmp(x, y), \
-
-       | ^~~~~~~~~~~~~~~~
-
-./include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
-
-    26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
-
-       |                  ^~~~~~~~~~~~~~~~~
-
-./include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
-
-    20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-
-       |                    ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
-
-1 warning generated.
-
->>> +	dev_info(dev, "PLDMFW: Component ID: %u version %s\n",
->>> +		 id, test_string);
->>> +
->>> +	return 0;
->>> +}
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
