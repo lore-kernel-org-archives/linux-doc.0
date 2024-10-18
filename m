@@ -1,33 +1,33 @@
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE00188003
-	for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2024 07:12:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2919416F8EF
+	for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2024 07:14:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729235555; cv=none; b=YxGSuQqlOvABX0XTWV9rq1QTNlnw+7B/IQOTjVxFUoAdkjsA0poADGrN+QuyYwEQoHGlfi7+qmNVXaEZTCePA0aail9b7GSoggZmck7LIsYw3LUtl2KJFuI86DPcmiGEQ2MHt0VYYo8+1h949XMUNkF/gdZaHIn9/Q7EqSWQE7w=
+	t=1729235665; cv=none; b=XhX/+LWgWcGa+p0GxEQ2pWppTkUTuc1U1uwHs+H0BDN4zmpgO62yzmyjohF/A3rWvjaY85QbxN6P38vuZeB2v/sCAcIH4W4bO6bVqfD0eNSvIqYN3DJqrRdWURjfeflq4jTp4NaJzoYqAtZFWMky7ElpkNabuiD5THqSD45dQNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729235555; c=relaxed/simple;
-	bh=8a2CvP01T45JBZpUoaVFpNMu7YYmqJTtnLVDBdYBGGY=;
+	s=arc-20240116; t=1729235665; c=relaxed/simple;
+	bh=CNDZidYDQjQO/KxpEE38RWnBxpwCgdTHV9CIuuQEsN8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BsJrALePWz553ZBIHwlbZY2L/UA87xbBHFxEhujhUYemxvP2CcAbCarZJO9Z94W44grY+7cSPZ+R13nj4h9TmCQwFirgPZYHZCJySWB5FR2l0lbq+TTQjJ02GbbNhhFo/Jm9ShswvXxJcoVEtYOifu+W2MeJqY5ZTtsURw1vqAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=iYUw8vPm; arc=none smtp.client-ip=95.215.58.170
+	 In-Reply-To:Content-Type; b=d7FFeRsM1p1MoBhFQPAK7R4ED7ruZ6iEGmKuoxcclCSV4CjM8ohdeZY3uKAt7RIwb67+R9vVwa5Ah3HcV3Ywj+dKgKQhIKY67/t8JPO73hkxqzc8yzV05D73D6z8waUK/DLvZsr1mZKsEkV6NjQqdqcrWkpPl5bhf5sM8pBy2Tc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LOI+OiM5; arc=none smtp.client-ip=91.218.175.184
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="iYUw8vPm"
-Message-ID: <aac937f3-f147-49b8-8408-9f8f4d00735e@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LOI+OiM5"
+Message-ID: <716c3106-1ea7-42cb-ae97-94f1c8d53ba0@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1729235551;
+	t=1729235661;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3nyb7d3Vngjzfumw9bM43i0p38J/HUSsus5gmBO5wvs=;
-	b=iYUw8vPmoQVoorvPVCJbKPLOWZYV3Scdn/jw3z86ADcpjvWnc64PrCUFXIUXfU2FyIyRQ7
-	2FDAVYg0uhHFPkMNaxKCJMfgt5MQAtnhqR3GWlz0WoKaO+oxXY8p3Iebv1U/Ozd9xiaWdc
-	O7CCPVxGrM0uWXrT4fC5fjOBef0i+yw=
-Date: Fri, 18 Oct 2024 15:12:25 +0800
+	bh=8Dy/FMmIdpEEYtPG11bDaRN2mkWlqryabLg2egJl0Xk=;
+	b=LOI+OiM5ulkStDBIJ8XMM0nrwzIUD4B4rYiBXf78FanjML26Sl8ekNCKh20bwZJIeVWz1O
+	0TtjN+5SpZNRIXEj8oB9Slw+gvMPKfMeIKimk6liQjBtbfdnILlLb6bZPh10KxzwIJyH7f
+	1nNh+3KGIjcR9MaWDC0qrI48Lu4wSyA=
+Date: Fri, 18 Oct 2024 15:14:11 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,18 +35,24 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Subject: Re: [PATCH v2] docs/zh_CN: update the translation of
- process/submitting-patches.rst
+ process/programming-language.rst
 To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: hust-os-kernel-patches@googlegroups.com,
- Hu Haowen <2023002089@link.tyut.edu.cn>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20241018015452.3787741-1-dzm91@hust.edu.cn>
+ Jonathan Corbet <corbet@lwn.net>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ llvm@lists.linux.dev
+References: <20241018015226.3786020-1-dzm91@hust.edu.cn>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <20241018015452.3787741-1-dzm91@hust.edu.cn>
+In-Reply-To: <20241018015226.3786020-1-dzm91@hust.edu.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
@@ -54,14 +60,17 @@ X-Migadu-Flow: FLOW_OUT
 
 
 
-在 2024/10/18 09:54, Dongliang Mu 写道:
-> Update to commit eb5ed2fae197 ("docs: submitting-patches: Advertise b4")
+在 2024/10/18 09:52, Dongliang Mu 写道:
+> Update to commit 0b02076f9953 ("docs: programming-language: add Rust
+> programming language section")
 >
 > scripts/checktransupdate.py reports:
 >
-> Documentation/translations/zh_CN/process/submitting-patches.rst
-> commit eb5ed2fae197 ("docs: submitting-patches: Advertise b4")
-> commit 413e775efaec ("Documentation: fix links to mailing list services")
+> Documentation/translations/zh_CN/process/programming-language.rst
+> commit 0b02076f9953 ("docs: programming-language: add Rust programming
+> language section")
+> commit 38484a1d0c50 ("docs: programming-language: remove mention of the
+> Intel compiler")
 > 2 commits needs resolving in total
 >
 > Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
@@ -71,58 +80,110 @@ Thanks,
 Yanteng
 > ---
 > v1->v2: revise the script name
->   .../zh_CN/process/submitting-patches.rst      | 19 ++++++++++---------
->   1 file changed, 10 insertions(+), 9 deletions(-)
+>   .../zh_CN/process/programming-language.rst    | 78 +++++++------------
+>   1 file changed, 30 insertions(+), 48 deletions(-)
 >
-> diff --git a/Documentation/translations/zh_CN/process/submitting-patches.rst b/Documentation/translations/zh_CN/process/submitting-patches.rst
-> index 7ca16bda3709..f7ae584a439e 100644
-> --- a/Documentation/translations/zh_CN/process/submitting-patches.rst
-> +++ b/Documentation/translations/zh_CN/process/submitting-patches.rst
-> @@ -105,7 +105,7 @@ xyzzy do frotz”或“[I]changed xyzzy to do frotz”，就好像你在命令
->   当链接到邮件列表存档时，请首选lore.kernel.org邮件存档服务。用邮件中的
->   ``Message-ID`` 头（去掉尖括号）可以创建链接URL。例如::
+> diff --git a/Documentation/translations/zh_CN/process/programming-language.rst b/Documentation/translations/zh_CN/process/programming-language.rst
+> index fabdc338dbfb..55f132a4b212 100644
+> --- a/Documentation/translations/zh_CN/process/programming-language.rst
+> +++ b/Documentation/translations/zh_CN/process/programming-language.rst
+> @@ -3,25 +3,22 @@
+>   :Original: :ref:`Documentation/process/programming-language.rst <programming_language>`
+>   :Translator: Alex Shi <alex.shi@linux.alibaba.com>
 >   
-> -    Link: https://lore.kernel.org/r/30th.anniversary.repost@klaava.Helsinki.FI/
-> +    Link: https://lore.kernel.org/30th.anniversary.repost@klaava.Helsinki.FI
->   
->   请检查该链接以确保可用且指向正确的邮件。
->   
-> @@ -195,11 +195,8 @@ scripts/get_maintainer.pl在这个步骤中非常有用。如果您找不到正
->   在MAINTAINERS文件中查找子系统特定的列表；您的补丁可能会在那里得到更多的关注。
->   不过，请不要发送垃圾邮件到无关的列表。
->   
-> -许多与内核相关的列表托管在vger.kernel.org上；您可以在
-> -http://vger.kernel.org/vger-lists.html 上找到它们的列表。不过，也有与内核相关
-> -的列表托管在其他地方。
+> -.. _cn_programming_language:
 > -
-> -不要一次发送超过15个补丁到vger邮件列表！！！！
-> +许多与内核相关的列表托管在 kernel.org 上；您可以在 https://subspace.kernel.org
-> +上找到它们的列表。不过，也有与内核相关的列表托管在其他地方。
+>   程序设计语言
+>   ============
 >   
->   Linus Torvalds是决定改动能否进入 Linux 内核的最终裁决者。他的邮件地址是
->   torvalds@linux-foundation.org 。他收到的邮件很多，所以一般来说最好 **别**
-> @@ -621,6 +618,13 @@ Fixes: 指示补丁修复了之前提交的一个问题。它可以便于确定
->   的工作所基于的树的提交哈希。你应该在封面邮件或系列的第一个补丁中添加它，它应
->   该放在 ``---`` 行的下面或所有其他内容之后，即只在你的电子邮件签名之前。
+> -内核是用C语言 :ref:`c-language <cn_c-language>` 编写的。更准确地说，内核通常是用 :ref:`gcc <cn_gcc>`
+> -在 ``-std=gnu11`` :ref:`gcc-c-dialect-options <cn_gcc-c-dialect-options>` 下编译的：ISO C11的 GNU 方言
+> -
+> -这种方言包含对语言 :ref:`gnu-extensions <cn_gnu-extensions>` 的许多扩展，当然，它们许多都在内核中使用。
+> +内核是用 C 编程语言编写的 [zh_cn_c-language]_。更准确地说，内核通常使用 ``gcc`` [gcc]_ 编译，
+> +并且使用 ``-std=gnu11`` [zh_cn_gcc-c-dialect-options]_：这是 ISO C11 的 GNU 方言。
+> +``clang`` [zh_cn_clang]_ 也得到了支持，详见文档：
+> +:ref:`使用 Clang/LLVM 构建 Linux <kbuild_llvm>`。
 >   
-> +工具
+> -对于一些体系结构，有一些使用 :ref:`clang <cn_clang>` 和 :ref:`icc <cn_icc>` 编译内核
+> -的支持，尽管在编写此文档时还没有完成，仍需要第三方补丁。
+> +这种方言包含对 C 语言的许多扩展 [zh_cn_gnu-extensions]_，当然，它们许多都在内核中使用。
+>   
+>   属性
+>   ----
+>   
+> -在整个内核中使用的一个常见扩展是属性（attributes） :ref:`gcc-attribute-syntax <cn_gcc-attribute-syntax>`
+> +在整个内核中使用的一个常见扩展是属性（attributes） [zh_cn_gcc-attribute-syntax]_。
+>   属性允许将实现定义的语义引入语言实体（如变量、函数或类型），而无需对语言进行
+> -重大的语法更改（例如添加新关键字） :ref:`n2049 <cn_n2049>`
+> +重大的语法更改（例如添加新关键字） [zh_cn_n2049]_。
+>   
+>   在某些情况下，属性是可选的（即不支持这些属性的编译器仍然应该生成正确的代码，
+>   即使其速度较慢或执行的编译时检查/诊断次数不够）
+> @@ -30,42 +27,27 @@
+>   ``__attribute__((__pure__))`` ），以检测可以使用哪些关键字和/或缩短代码, 具体
+>   请参阅 ``include/linux/compiler_attributes.h``
+>   
+> -.. _cn_c-language:
+> -
+> -c-language
+> -   http://www.open-std.org/jtc1/sc22/wg14/www/standards
+> -
+> -.. _cn_gcc:
+> -
+> -gcc
+> -   https://gcc.gnu.org
+> -
+> -.. _cn_clang:
+> -
+> -clang
+> -   https://clang.llvm.org
+> -
+> -.. _cn_icc:
+> -
+> -icc
+> -   https://software.intel.com/en-us/c-compilers
+> -
+> -.. _cn_gcc-c-dialect-options:
+> -
+> -c-dialect-options
+> -   https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html
+> -
+> -.. _cn_gnu-extensions:
+> -
+> -gnu-extensions
+> -   https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
+> -
+> -.. _cn_gcc-attribute-syntax:
+> -
+> -gcc-attribute-syntax
+> -   https://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html
+> -
+> -.. _cn_n2049:
+> +Rust
 > +----
+>   
+> -n2049
+> -   http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
+> +内核对 Rust 编程语言 [zh_cn_rust-language]_ 的支持是实验性的，并且可以通过配置选项
+> +``CONFIG_RUST`` 来启用。Rust 代码使用 ``rustc`` [rustc]_ 编译器在
+> +``--edition=2021`` [zh_cn_rust-editions]_ 选项下进行编译。版本（Editions）是一种
+> +在语言中引入非后向兼容的小型变更的方式。
 > +
-> +这个过程的许多技术方面可以使用 b4 自动完成，其文档可在
-> +https://b4.docs.kernel.org/en/latest/ 查看。该工具可帮助处理诸如追踪依赖项、运行
-> +checkpatch 以及格式化和发送邮件等事务。
+> +除此之外，内核中还使用了一些不稳定的特性 [zh_cn_rust-unstable-features]_。这些不稳定
+> +的特性将来可能会发生变化，因此，一个重要的目标是达到仅使用稳定特性的程度。
 > +
->   参考文献
->   --------
->   
-> @@ -643,9 +647,6 @@ Greg Kroah-Hartman，“如何惹恼内核子系统维护人员”
->   
->     <http://www.kroah.com/log/linux/maintainer-06.html>
->   
-> -不！！！别再发巨型补丁炸弹给linux-kernel@vger.kernel.org的人们了！
-> -  <https://lore.kernel.org/r/20050711.125305.08322243.davem@davemloft.net>
-> -
->   内核 Documentation/translations/zh_CN/process/coding-style.rst
->   
->   Linus Torvalds关于标准补丁格式的邮件
+> +具体请参阅 Documentation/rust/index.rst
+> +
+> +.. [zh_cn_c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
+> +.. [gcc] https://gcc.gnu.org
+> +.. [zh_cn_clang] https://clang.llvm.org
+> +.. [zh_cn_gcc-c-dialect-options] https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html
+> +.. [zh_cn_gnu-extensions] https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
+> +.. [zh_cn_gcc-attribute-syntax] https://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html
+> +.. [zh_cn_n2049] http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
+> +.. [zh_cn_rust-language] https://www.rust-lang.org
+> +.. [rustc] https://doc.rust-lang.org/rustc/
+> +.. [zh_cn_rust-editions] https://doc.rust-lang.org/edition-guide/editions/
+> +.. [zh_cn_rust-unstable-features] https://github.com/Rust-for-Linux/linux/issues/2
 
