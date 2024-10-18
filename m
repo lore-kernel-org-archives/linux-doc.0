@@ -1,49 +1,36 @@
-Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F2CA20E327;
-	Fri, 18 Oct 2024 01:53:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [20.231.56.155])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43B0C20E327;
+	Fri, 18 Oct 2024 01:56:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=20.231.56.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729216386; cv=none; b=eMNZivKTD0B16dXiIcXyBOz6oeBpdqsTfOPhilZYcDfvEPUqs0gN2Q6XPjepMqXlhaqNtbPwN4YN6y1s8UiR/w8VSXbk9l5tVVngjraKl4dDjDEWeEVo1ooKOntXoJ/5yRJb9Db/gCRIly5WcXIt6b4K46V6ayN0RWN6gcedJkI=
+	t=1729216567; cv=none; b=GdnAwwpmWROBTPqEabSjaxNBtwlg6aYl/vtLqKkVrOQl2YrqT2qT2rERgSPGDxP96xLTU8LbXeSh8tiQFAsxBTO/UOwU3wIi0U7srJhOBiHrTYFrtplh3GOc6B6pXOWIdDvO5R4VlVFdb6aq9uinuJDSBOEW3q5MhFLUCEvQsrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729216386; c=relaxed/simple;
-	bh=GwT3A+NOL2q0+cWVmACAjiU4di5jpTAluA9HNpF8cyo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=MiWnqMKiN5nWx2jI0E6utWyaZpqwGaj5CPNYrEKVjC06r0R5atGNqMhobIRU00PB6Pw0LKhPsw8BgvRd0jqbCmWtzGWDOgYuUj/iq8YdYyrvWSSBgin9EkOl3Cu9mjvSBo/3bKy+cmZgpmLeFppPmlSdgoGMLa9zwmd00mySQdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.79.184
+	s=arc-20240116; t=1729216567; c=relaxed/simple;
+	bh=8mqe2nfOjdoe+qMCwR7dofHrVeamoOVqki0cwmbQ5ko=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nLprJsAGteS0/x78N0lh13wHXLu/LB8+69msJnGNn1hKgyhMrTSiWr8OCC7zcQRkkJYKpVpU2EniooapMbUpbWVal22h0ml137LTrF0DTDJk542gaW6Wn2vXsmZGr9NvmVgErlMmmyl36J79ZaOvZ32HlKcHbNAQNNphvpi0T4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=20.231.56.155
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
 Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app2 (Coremail) with SMTP id HwEQrABHTgJhvxFn+E4XAQ--.3867S2;
-	Fri, 18 Oct 2024 09:52:33 +0800 (CST)
+	by app2 (Coremail) with SMTP id HwEQrACHjwP3vxFneFAXAQ--.3696S2;
+	Fri, 18 Oct 2024 09:55:03 +0800 (CST)
 Received: from pride-PowerEdge-R740.. (unknown [222.20.126.129])
-	by gateway (Coremail) with SMTP id _____wB3M8ZcvxFnm+lRAA--.59195S2;
-	Fri, 18 Oct 2024 09:52:28 +0800 (CST)
+	by gateway (Coremail) with SMTP id _____wAX8sbxvxFnC+1RAA--.1462S2;
+	Fri, 18 Oct 2024 09:54:57 +0800 (CST)
 From: Dongliang Mu <dzm91@hust.edu.cn>
 To: si.yanteng@linux.dev,
 	Alex Shi <alexs@kernel.org>,
 	Yanteng Si <siyanteng@loongson.cn>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Dongliang Mu <dzm91@hust.edu.cn>
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: hust-os-kernel-patches@googlegroups.com,
+	Hu Haowen <2023002089@link.tyut.edu.cn>,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH v2] docs/zh_CN: update the translation of process/programming-language.rst
-Date: Fri, 18 Oct 2024 09:52:18 +0800
-Message-ID: <20241018015226.3786020-1-dzm91@hust.edu.cn>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] docs/zh_CN: update the translation of process/submitting-patches.rst
+Date: Fri, 18 Oct 2024 09:54:44 +0800
+Message-ID: <20241018015452.3787741-1-dzm91@hust.edu.cn>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -53,149 +40,93 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HwEQrABHTgJhvxFn+E4XAQ--.3867S2
+X-CM-TRANSID:HwEQrACHjwP3vxFneFAXAQ--.3696S2
 Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW3WrW3Gw18WF1rCF4fZr43ZFb_yoW7tryfpF
-	W7Kr9rKa18J3WxCrZ7Kr12vr1FkFZ5Ka48trWUt3WYyF40ya9IqFyxKr43J342vryxCFWD
-	Z34fuFW8X3y3AFDanT9S1TB71UUUU1UqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUHmb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+X-Coremail-Antispam: 1UD129KBjvJXoWxZryUJrWDWr4rtFWxtry5Jwb_yoWrGF48pF
+	s29343J3WxKF1rJ3yxGay8ZF18J3WkCF9rGrsrK3WSyFs5Kay2v3sIqryfWay3J3s5KFy7
+	ZFs2qryv9ry29rDanT9S1TB71UUUUbUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQSb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
 	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
 	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
 	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	1q6r43M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
 	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
 	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVW8ZVWrXw
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUAVWUtw
 	CF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Y
 	z7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Wrv_ZF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
-	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYY7kG6IIYr7AKxVW8JVW5
-	JwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26ryj6F1UMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU5
-	2eHPUUUUU==
+	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE
+	2Ix0cI8IcVAFwI0_Xr0_Ar1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
+	xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF
+	7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU3YFADUUUU
 X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-Update to commit 0b02076f9953 ("docs: programming-language: add Rust
-programming language section")
+Update to commit eb5ed2fae197 ("docs: submitting-patches: Advertise b4")
 
 scripts/checktransupdate.py reports:
 
-Documentation/translations/zh_CN/process/programming-language.rst
-commit 0b02076f9953 ("docs: programming-language: add Rust programming
-language section")
-commit 38484a1d0c50 ("docs: programming-language: remove mention of the
-Intel compiler")
+Documentation/translations/zh_CN/process/submitting-patches.rst
+commit eb5ed2fae197 ("docs: submitting-patches: Advertise b4")
+commit 413e775efaec ("Documentation: fix links to mailing list services")
 2 commits needs resolving in total
 
 Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
 ---
 v1->v2: revise the script name
- .../zh_CN/process/programming-language.rst    | 78 +++++++------------
- 1 file changed, 30 insertions(+), 48 deletions(-)
+ .../zh_CN/process/submitting-patches.rst      | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/translations/zh_CN/process/programming-language.rst b/Documentation/translations/zh_CN/process/programming-language.rst
-index fabdc338dbfb..55f132a4b212 100644
---- a/Documentation/translations/zh_CN/process/programming-language.rst
-+++ b/Documentation/translations/zh_CN/process/programming-language.rst
-@@ -3,25 +3,22 @@
- :Original: :ref:`Documentation/process/programming-language.rst <programming_language>`
- :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+diff --git a/Documentation/translations/zh_CN/process/submitting-patches.rst b/Documentation/translations/zh_CN/process/submitting-patches.rst
+index 7ca16bda3709..f7ae584a439e 100644
+--- a/Documentation/translations/zh_CN/process/submitting-patches.rst
++++ b/Documentation/translations/zh_CN/process/submitting-patches.rst
+@@ -105,7 +105,7 @@ xyzzy do frotz”或“[I]changed xyzzy to do frotz”，就好像你在命令
+ 当链接到邮件列表存档时，请首选lore.kernel.org邮件存档服务。用邮件中的
+ ``Message-ID`` 头（去掉尖括号）可以创建链接URL。例如::
  
--.. _cn_programming_language:
--
- 程序设计语言
- ============
+-    Link: https://lore.kernel.org/r/30th.anniversary.repost@klaava.Helsinki.FI/
++    Link: https://lore.kernel.org/30th.anniversary.repost@klaava.Helsinki.FI
  
--内核是用C语言 :ref:`c-language <cn_c-language>` 编写的。更准确地说，内核通常是用 :ref:`gcc <cn_gcc>`
--在 ``-std=gnu11`` :ref:`gcc-c-dialect-options <cn_gcc-c-dialect-options>` 下编译的：ISO C11的 GNU 方言
--
--这种方言包含对语言 :ref:`gnu-extensions <cn_gnu-extensions>` 的许多扩展，当然，它们许多都在内核中使用。
-+内核是用 C 编程语言编写的 [zh_cn_c-language]_。更准确地说，内核通常使用 ``gcc`` [gcc]_ 编译，
-+并且使用 ``-std=gnu11`` [zh_cn_gcc-c-dialect-options]_：这是 ISO C11 的 GNU 方言。
-+``clang`` [zh_cn_clang]_ 也得到了支持，详见文档：
-+:ref:`使用 Clang/LLVM 构建 Linux <kbuild_llvm>`。
+ 请检查该链接以确保可用且指向正确的邮件。
  
--对于一些体系结构，有一些使用 :ref:`clang <cn_clang>` 和 :ref:`icc <cn_icc>` 编译内核
--的支持，尽管在编写此文档时还没有完成，仍需要第三方补丁。
-+这种方言包含对 C 语言的许多扩展 [zh_cn_gnu-extensions]_，当然，它们许多都在内核中使用。
+@@ -195,11 +195,8 @@ scripts/get_maintainer.pl在这个步骤中非常有用。如果您找不到正
+ 在MAINTAINERS文件中查找子系统特定的列表；您的补丁可能会在那里得到更多的关注。
+ 不过，请不要发送垃圾邮件到无关的列表。
  
- 属性
- ----
+-许多与内核相关的列表托管在vger.kernel.org上；您可以在
+-http://vger.kernel.org/vger-lists.html 上找到它们的列表。不过，也有与内核相关
+-的列表托管在其他地方。
+-
+-不要一次发送超过15个补丁到vger邮件列表！！！！
++许多与内核相关的列表托管在 kernel.org 上；您可以在 https://subspace.kernel.org
++上找到它们的列表。不过，也有与内核相关的列表托管在其他地方。
  
--在整个内核中使用的一个常见扩展是属性（attributes） :ref:`gcc-attribute-syntax <cn_gcc-attribute-syntax>`
-+在整个内核中使用的一个常见扩展是属性（attributes） [zh_cn_gcc-attribute-syntax]_。
- 属性允许将实现定义的语义引入语言实体（如变量、函数或类型），而无需对语言进行
--重大的语法更改（例如添加新关键字） :ref:`n2049 <cn_n2049>`
-+重大的语法更改（例如添加新关键字） [zh_cn_n2049]_。
+ Linus Torvalds是决定改动能否进入 Linux 内核的最终裁决者。他的邮件地址是
+ torvalds@linux-foundation.org 。他收到的邮件很多，所以一般来说最好 **别**
+@@ -621,6 +618,13 @@ Fixes: 指示补丁修复了之前提交的一个问题。它可以便于确定
+ 的工作所基于的树的提交哈希。你应该在封面邮件或系列的第一个补丁中添加它，它应
+ 该放在 ``---`` 行的下面或所有其他内容之后，即只在你的电子邮件签名之前。
  
- 在某些情况下，属性是可选的（即不支持这些属性的编译器仍然应该生成正确的代码，
- 即使其速度较慢或执行的编译时检查/诊断次数不够）
-@@ -30,42 +27,27 @@
- ``__attribute__((__pure__))`` ），以检测可以使用哪些关键字和/或缩短代码, 具体
- 请参阅 ``include/linux/compiler_attributes.h``
- 
--.. _cn_c-language:
--
--c-language
--   http://www.open-std.org/jtc1/sc22/wg14/www/standards
--
--.. _cn_gcc:
--
--gcc
--   https://gcc.gnu.org
--
--.. _cn_clang:
--
--clang
--   https://clang.llvm.org
--
--.. _cn_icc:
--
--icc
--   https://software.intel.com/en-us/c-compilers
--
--.. _cn_gcc-c-dialect-options:
--
--c-dialect-options
--   https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html
--
--.. _cn_gnu-extensions:
--
--gnu-extensions
--   https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
--
--.. _cn_gcc-attribute-syntax:
--
--gcc-attribute-syntax
--   https://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html
--
--.. _cn_n2049:
-+Rust
++工具
 +----
++
++这个过程的许多技术方面可以使用 b4 自动完成，其文档可在
++https://b4.docs.kernel.org/en/latest/ 查看。该工具可帮助处理诸如追踪依赖项、运行
++checkpatch 以及格式化和发送邮件等事务。
++
+ 参考文献
+ --------
  
--n2049
--   http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
-+内核对 Rust 编程语言 [zh_cn_rust-language]_ 的支持是实验性的，并且可以通过配置选项
-+``CONFIG_RUST`` 来启用。Rust 代码使用 ``rustc`` [rustc]_ 编译器在
-+``--edition=2021`` [zh_cn_rust-editions]_ 选项下进行编译。版本（Editions）是一种
-+在语言中引入非后向兼容的小型变更的方式。
-+
-+除此之外，内核中还使用了一些不稳定的特性 [zh_cn_rust-unstable-features]_。这些不稳定
-+的特性将来可能会发生变化，因此，一个重要的目标是达到仅使用稳定特性的程度。
-+
-+具体请参阅 Documentation/rust/index.rst
-+
-+.. [zh_cn_c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
-+.. [gcc] https://gcc.gnu.org
-+.. [zh_cn_clang] https://clang.llvm.org
-+.. [zh_cn_gcc-c-dialect-options] https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html
-+.. [zh_cn_gnu-extensions] https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
-+.. [zh_cn_gcc-attribute-syntax] https://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html
-+.. [zh_cn_n2049] http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
-+.. [zh_cn_rust-language] https://www.rust-lang.org
-+.. [rustc] https://doc.rust-lang.org/rustc/
-+.. [zh_cn_rust-editions] https://doc.rust-lang.org/edition-guide/editions/
-+.. [zh_cn_rust-unstable-features] https://github.com/Rust-for-Linux/linux/issues/2
+@@ -643,9 +647,6 @@ Greg Kroah-Hartman，“如何惹恼内核子系统维护人员”
+ 
+   <http://www.kroah.com/log/linux/maintainer-06.html>
+ 
+-不！！！别再发巨型补丁炸弹给linux-kernel@vger.kernel.org的人们了！
+-  <https://lore.kernel.org/r/20050711.125305.08322243.davem@davemloft.net>
+-
+ 内核 Documentation/translations/zh_CN/process/coding-style.rst
+ 
+ Linus Torvalds关于标准补丁格式的邮件
 -- 
 2.43.0
 
