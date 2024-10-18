@@ -1,40 +1,45 @@
-Received: from lichtman.org (lichtman.org [149.28.33.109])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A38370;
-	Fri, 18 Oct 2024 17:55:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.33.109
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F712038B4;
+	Fri, 18 Oct 2024 17:56:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729274143; cv=none; b=u4TS/Vt5NMrjYEMA8cpoWzA9JFkz2MObjHOfabb1bQJDzJHu9KcMIAGP5ziGiCvr0DVm0POkXQXF64GR83zrIBzh7TCUA5MRXcGLeRkf+xubwKFGSBl+ggZ3IToJLOCIyTtEzrrbRWUwpxS6x5HXqXxN3Gc1Kub2Sf1dwBaVAiM=
+	t=1729274186; cv=none; b=onpwDmxIXYEQZR4qS7horXQSLcNRWZiJmDkjCS+fIiGXUzhVfrDl0Qo+RQcSmvLo8uQL4HxANZ66wkRvNlUfVBCBkFOI+AP0GdK7H80Wsk+e6S8nxhdofOPTlQ8E89zjnkc7pu9jI9Wnp1U/CJfA3TJASwykp+baVeNQK+Fqlj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729274143; c=relaxed/simple;
-	bh=TkvnOKXF7XGGKCA+xeQ2PbjFHpKzLCM3l+ml11uMLX4=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n8BDG8HBmnPddQceDZWyj4H/rg0h73hNDZrWaRZXi09umTNZuXzU1GCUEekFnMydGp6XLL/lp6DhPoQ7e+GcQqbWBGzEqQ6mEeuksr3sbLpyZvId7F+m2kmGoZBBPiwZj85TzlI+Zgz+vwDG1lVaXgV2kFF2FSols/n1nRMTclQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lichtman.org; spf=pass smtp.mailfrom=lichtman.org; dkim=pass (2048-bit key) header.d=lichtman.org header.i=@lichtman.org header.b=cdRCJqEj; arc=none smtp.client-ip=149.28.33.109
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lichtman.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lichtman.org
+	s=arc-20240116; t=1729274186; c=relaxed/simple;
+	bh=12ItbSqaZwxlMTt2WSyenPaLtURDb8Hoa9wUR++z1UI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gh8vPpNplR1+0stLDuDjcEe5MWeAC5U+e7PuU0xYl3riOUIYHrOZw02pcI+6LD4eTdSYK5VpXKnoTqDVKi4KVPPHaN+y3oGxuQK5yRUA5FptcnhfUQYa8oSJMBdzgTPGbSXuE5I0coDMo8mRiY/4xtmwQibnmFBOA2WdPXTu16Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Pwta1cxe; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lichtman.org header.i=@lichtman.org header.b="cdRCJqEj"
-Received: by lichtman.org (Postfix, from userid 1000)
-	id 5F5EC177103; Fri, 18 Oct 2024 17:55:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=lichtman.org; s=mail;
-	t=1729274140; bh=TkvnOKXF7XGGKCA+xeQ2PbjFHpKzLCM3l+ml11uMLX4=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=cdRCJqEjNGsBRa2yrH6cshOfztjbm9ycCDvfbVzWJ5S61hjxvPHHF3wWj+EyQhs7f
-	 5OnkkSlP0ieFi6iaDP3JKwW5rJ+pLu3ol4vkoaWEHC+o7g80b3iEXd/+kODI/aFjAj
-	 jW1wblSk6KZIWz2dXZQykMB98fHyZv+i36UJLagamA38urhtH98hCUX1qDTSJBInpC
-	 EOXCLvMPE8uR6x6QkDI8V13IrJFSPRaRXSBwl95rUWm2wK386W+1/ASBS7Pkpdprfe
-	 hviyfx2gVS+xqcgQlmtPYHgbk3xwJB+8NzzYrhp4uhrJM9DAsnEZK9/ct/+SBy5spH
-	 DKi0cRCBh8x3w==
-Date: Fri, 18 Oct 2024 17:55:40 +0000
-From: Nir Lichtman <nir@lichtman.org>
-To: jason.wessel@windriver.com, daniel.thompson@linaro.org,
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Pwta1cxe"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=D1tyVh3hRf2lr7BlmGAOL8606KTw+opaSL4arqPA3mQ=; b=Pwta1cxe44D90gWQINck2lbgov
+	nMNHmbyxfHhPioCo79bw708oP1chk9ugXecLppbZXgiGE5YznuNgZMnviQhVx5DbJ73yqT+Vvb45+
+	Iqpu1mTyetzHvORWmDdfLriMyYmHjtUkT/f9s4vAV1DUoVWmobamM5Sebiu/g7pr9KXpflem90B5L
+	UAfSuB9Vm5Z6T9ebBx01zDKLaq57fnY82WJhrC2XE5TQwZRNf4N7G5g8PR1dNcyZZq9TiDyET0Q3R
+	kL3ycMGkCydtsOFNAiLaq0kDljNf5uK2rAkUSKSrIK44yv+XiESH/avXo2Ikigvm1HgzndCLYGikz
+	Jqo5gxxQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1t1rD3-0000000DRTZ-2IYa;
+	Fri, 18 Oct 2024 17:56:21 +0000
+Date: Fri, 18 Oct 2024 18:56:21 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Nir Lichtman <nir@lichtman.org>
+Cc: jason.wessel@windriver.com, daniel.thompson@linaro.org,
 	dianders@chromium.org, corbet@lwn.net, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] Documentation: English fixes in kgdb/kdb article
-Message-ID: <20241018175540.GA796909@lichtman.org>
+Subject: Re: [PATCH] Documentation: English fixes in kgdb/kdb article
+Message-ID: <ZxKhRTereZT1ZZf-@casper.infradead.org>
 References: <20241018163136.GA795979@lichtman.org>
+ <ZxKaZR_M-mOjSmBp@casper.infradead.org>
+ <20241018174953.GA796860@lichtman.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -43,73 +48,15 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241018163136.GA795979@lichtman.org>
+In-Reply-To: <20241018174953.GA796860@lichtman.org>
 
-Minor grammar and typos fixed in the kgdb/kdb article
+On Fri, Oct 18, 2024 at 05:49:53PM +0000, Nir Lichtman wrote:
+> > > -   Now disconnect your terminal program and connect gdb in its place
+> > > -
+> > 
+> > Is there a reason you deleted this?  It seems important.
+> > 
+> 
+> Yes, this sentence is duplicated twice (with slightly different wording), here and a line below.
 
-Signed-off-by: Nir Lichtman <nir@lichtman.org>
----
- Documentation/dev-tools/kgdb.rst | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
-
-diff --git a/Documentation/dev-tools/kgdb.rst b/Documentation/dev-tools/kgdb.rst
-index f83ba2601e55..9e0e3f3235ef 100644
---- a/Documentation/dev-tools/kgdb.rst
-+++ b/Documentation/dev-tools/kgdb.rst
-@@ -75,11 +75,11 @@ supports it for the architecture you are using, you can use hardware
- breakpoints if you desire to run with the ``CONFIG_STRICT_KERNEL_RWX``
- option turned on, else you need to turn off this option.
- 
--Next you should choose one of more I/O drivers to interconnect debugging
-+Next you should choose one or more I/O drivers to interconnect the debugging
- host and debugged target. Early boot debugging requires a KGDB I/O
- driver that supports early debugging and the driver must be built into
- the kernel directly. Kgdb I/O driver configuration takes place via
--kernel or module parameters which you can learn more about in the in the
-+kernel or module parameters which you can learn more about in the
- section that describes the parameter kgdboc.
- 
- Here is an example set of ``.config`` symbols to enable or disable for kgdb::
-@@ -201,7 +201,7 @@ Using loadable module or built-in
- Configure kgdboc at runtime with sysfs
- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
--At run time you can enable or disable kgdboc by echoing a parameters
-+At run time you can enable or disable kgdboc by writing parameters
- into sysfs. Here are two examples:
- 
- 1. Enable kgdboc on ttyS0::
-@@ -374,10 +374,10 @@ default behavior is always set to 0.
- Kernel parameter: ``nokaslr``
- -----------------------------
- 
--If the architecture that you are using enable KASLR by default,
-+If the architecture that you are using enables KASLR by default,
- you should consider turning it off.  KASLR randomizes the
--virtual address where the kernel image is mapped and confuse
--gdb which resolve kernel symbol address from symbol table
-+virtual address where the kernel image is mapped and confuses
-+gdb which resolves addresses of kernel symbols from the symbol table
- of vmlinux.
- 
- Using kdb
-@@ -631,8 +631,6 @@ automatically changes into kgdb mode.
- 
- 	kgdb
- 
--   Now disconnect your terminal program and connect gdb in its place
--
- 2. At the kdb prompt, disconnect the terminal program and connect gdb in
-    its place.
- 
-@@ -749,7 +747,7 @@ The kernel debugger is organized into a number of components:
-    helper functions in some of the other kernel components to make it
-    possible for kdb to examine and report information about the kernel
-    without taking locks that could cause a kernel deadlock. The kdb core
--   contains implements the following functionality.
-+   implements the following functionality.
- 
-    -  A simple shell
- 
--- 
-2.39.2
+Right you are.  I should have looked more closely.
