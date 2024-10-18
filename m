@@ -1,99 +1,120 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96FE32071E9
-	for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2024 19:46:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB34C2071E9;
+	Fri, 18 Oct 2024 19:46:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729280796; cv=none; b=pYoPIhUaamnCrT9kMMUaYU0QAoZpaoujNNRA/mRcsWQc5hDsDQN64sXaW5pO+0mQzCDedLCLA7+9mZnFAQDXGjKINSIU3gPArUDpYwNtb55tLvOuS6w+zt9RQ4teTJxLw3AcrY9viR/AR+qxaXhTC5jN28wbhpvlSAJxR3pb5L0=
+	t=1729280798; cv=none; b=QgE8o8gnSmBkoOMLcTBXc1eAEtT6o5UQk0ZzDHDdAAXjmeMQH3JbANGVODqB8iEwZPNDUXVAqhDQfT2aXsLjqWt3UReI/zrm/nkZS94yyuZaW+z27pGNWiOVlQfXQmjFTLJZF9+SgXd0fWUFXjE7W0cNTnf9axnUFYtpglekq3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729280796; c=relaxed/simple;
-	bh=gRKbZykbQnfZIa2mN+Qk0kjeMCLWWLiYlGss8XAlG4A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cCiNQ7T9co5VV3ZIB0bqTd1hsTdwoxjrVB2t8G9pPh877TYAM8huXuC5PMDvDB0hNluWABF2VOjWf61Jk1f3Tcr0hJ3zZwCP0pjGkdnh/U+9i83s3x+sZzJY+qRlkdMzfJvlRaYlFNRCQG32MJua8ogQZf+89jgCYLBGsK9xgv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=lBqlPoB9; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1729280798; c=relaxed/simple;
+	bh=/JeMO2fu7enk080lSjfE13zH8ww++AGV97ihDY9Z1G4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=FRp6K1QyMClaC6tHWqSBfcsFBo92GpOVCqvGieE7m4NS3/3c6Kr7DftnUYjbiWrbWuJ+I6vKdY7I+uKNdmzGaLk0f4DxiSFOeDuyxmbv6r74t0SttasB5mjMq7gtOMMexvFhw+CIfYmvhpYerVeayPynrVHQXK7nQoV8brCcom0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W/anIrzH; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="lBqlPoB9"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-539e4b7409fso2502014e87.0
-        for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2024 12:46:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1729280791; x=1729885591; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=w8ipiDWj3Ck20WdXHaYfDWf33qFxj+sWnjP/LUx2c50=;
-        b=lBqlPoB9n9a+fq3rLpZCop2AmbKMiQfS79QNqmHPaxwhsIVyDkrsNvgnLhGe06XhAB
-         bkxeKjZX2CWDnCb2BxlDUbkS3mBz22sYj1o9lj4wlZiRhwxlfC961izMUeqPsSxH+Nfa
-         McM/jXc2lgz46ey1tlpTaH2m9thxKgpMuXQjc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729280791; x=1729885591;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=w8ipiDWj3Ck20WdXHaYfDWf33qFxj+sWnjP/LUx2c50=;
-        b=SRTIDx5CsumaI+qb/qgqryGRzxKTql89jQzqkHgO9f1WLX8itHKFc34Plt9OO7EuNw
-         +oV4h/UqENpiehPkAVkLXp6Nj+FDJk6CxqG4Gqrtd2shpsHPNjcZihmyNPtd7IN4jzGU
-         zaWigYAwTUZQFHzvoiQYh/9ZN8/97XWf9K8Os9/qS+751O1Dn4fN3Da61sXVrFcLhoay
-         AL//n4bjmvw/9MXgQ7EAGRXiBaoZlyE9rrAx6F1yDi8kTv1o0hQxEJNokDivavNqAImt
-         gPj6qT+fGKIPMYI0N74o3/m4Vt8lEfwUbB0kGaQcyHka+7aLoaqlZNY9VLCMhWHcojrC
-         ZhzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX5gbjfVa9NhZxSkX84BQQhGkAmCeRnSdG+i7GWQCUrXcgm4pZ6U62TZVD5ELjthxW6GjG9jlq7xbg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxaAokmKJqzO89+ObJYgS1Ysj4E32c6m46LP/fiemzO5/KNZ3H
-	SF/HaIFDRt7nUL927YPx0eDPeBWXSW60eJEAwS/ISdDSkNAObtZ8b9oAmPciF4+BbTF5Or6tnTM
-	nfuDh
-X-Google-Smtp-Source: AGHT+IEwO8aFlH90U6ODrbTy7X25oEvqku3PTrt00QKNo4G4cM91JnqPxs0TXALRU0bdwoYUaD0e/w==
-X-Received: by 2002:a05:6512:3e1e:b0:539:e3a2:3a25 with SMTP id 2adb3069b0e04-53a158625d8mr1187466e87.18.1729280790240;
-        Fri, 18 Oct 2024 12:46:30 -0700 (PDT)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com. [209.85.167.41])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53a151f0afdsm302227e87.133.2024.10.18.12.46.29
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Oct 2024 12:46:29 -0700 (PDT)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-539e8586b53so2960212e87.1
-        for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2024 12:46:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVNn2YZ7fea7Fo6NWsI8/uMsShkBYp+HyfkaYMxIPpFqpEm+yrkLvW3CArldWdD9m8Y5c/123VjcQI=@vger.kernel.org
-X-Received: by 2002:a05:6512:e91:b0:53a:c15:96a5 with SMTP id
- 2adb3069b0e04-53a15b98db4mr1223870e87.27.1729280788792; Fri, 18 Oct 2024
- 12:46:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W/anIrzH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729280797; x=1760816797;
+  h=from:date:subject:mime-version:content-transfer-encoding:
+   message-id:references:in-reply-to:to:cc;
+  bh=/JeMO2fu7enk080lSjfE13zH8ww++AGV97ihDY9Z1G4=;
+  b=W/anIrzHPInrWlpw09VZuUPT2tKuQXxA0dmGVyJ1Uxifu047rzEi9Zt7
+   9E0bPhwbibbUucThY4M1dkOANzIs+YvVrgvPhcEfCRwG6u4oyDp0AmK2Q
+   4m5KxM2hh05KrcI9Jd62AfMAQohRBPbzXJRrWdr+9bUTW178eoNfxdfMv
+   Zw5/Rv58R5S8+pI/bYsOazKyqWFq72ezESGWKjyA4Udau2imnwVsdDOsH
+   4rH2xVyb93V8Or1Twj3NENUABZxPG4FSsT1WmTTPtwSzLuQNS+pScpfFk
+   cCSVGjNBebEtjmXLMiiBRj6TUYt/UDfdExYWPaFXKDFKavDVV0uq7sVc0
+   Q==;
+X-CSE-ConnectionGUID: Le4112cyQd2/m7q7ZyBqPA==
+X-CSE-MsgGUID: uP5zL71lStiakzLMApF0Mg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="28704469"
+X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
+   d="scan'208";a="28704469"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 12:46:36 -0700
+X-CSE-ConnectionGUID: LB7sNHGETXGuCIc+Tuqhvw==
+X-CSE-MsgGUID: 5zmL7R7LSMOxg5ipA4decg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
+   d="scan'208";a="79017591"
+Received: from ldmartin-desk2.corp.intel.com (HELO localhost) ([10.125.109.148])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 12:46:35 -0700
+From: Ira Weiny <ira.weiny@intel.com>
+Date: Fri, 18 Oct 2024 14:46:26 -0500
+Subject: [PATCH 3/3] cxl/cdat: Use %pra for dpa range outputs
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241018163136.GA795979@lichtman.org> <20241018175540.GA796909@lichtman.org>
-In-Reply-To: <20241018175540.GA796909@lichtman.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 18 Oct 2024 12:46:14 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UwNAkam8HFhdPLRCXHf05LUXdJF++d-pvpFrCLtOypPQ@mail.gmail.com>
-Message-ID: <CAD=FV=UwNAkam8HFhdPLRCXHf05LUXdJF++d-pvpFrCLtOypPQ@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation: English fixes in kgdb/kdb article
-To: Nir Lichtman <nir@lichtman.org>
-Cc: jason.wessel@windriver.com, daniel.thompson@linaro.org, corbet@lwn.net, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241018-cxl-pra-v1-3-7f49ba58208b@intel.com>
+References: <20241018-cxl-pra-v1-0-7f49ba58208b@intel.com>
+In-Reply-To: <20241018-cxl-pra-v1-0-7f49ba58208b@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+ Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Davidlohr Bueso <dave@stgolabs.net>, 
+ Jonathan Cameron <jonathan.cameron@huawei.com>, 
+ Dave Jiang <dave.jiang@intel.com>, 
+ Alison Schofield <alison.schofield@intel.com>, 
+ Vishal Verma <vishal.l.verma@intel.com>, 
+ Dan Williams <dan.j.williams@intel.com>
+Cc: Fan Ni <fan.ni@samsung.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-cxl@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>
+X-Mailer: b4 0.15-dev-37811
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1729280784; l=1437;
+ i=ira.weiny@intel.com; s=20221211; h=from:subject:message-id;
+ bh=/JeMO2fu7enk080lSjfE13zH8ww++AGV97ihDY9Z1G4=;
+ b=zLjjim30L5onOW4NpnzoIUsh/fvGuaNQH83i+1j4TebZKv0bkUxZzY1GMt8Ak4d7IOTebFMyp
+ 7DEuGgzmN++DzlOCC9VQHn6hsIgaAMoiBt2MYVvVhlbeo+7LGSNsqSp
+X-Developer-Key: i=ira.weiny@intel.com; a=ed25519;
+ pk=noldbkG+Wp1qXRrrkfY1QJpDf7QsOEthbOT7vm0PqsE=
 
-Hi,
+Now that there is a printf specifier for struct range use it to enhance
+the debug output of CDAT data.
 
-On Fri, Oct 18, 2024 at 10:55=E2=80=AFAM Nir Lichtman <nir@lichtman.org> wr=
-ote:
->
-> @@ -201,7 +201,7 @@ Using loadable module or built-in
->  Configure kgdboc at runtime with sysfs
->  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->
-> -At run time you can enable or disable kgdboc by echoing a parameters
-> +At run time you can enable or disable kgdboc by writing parameters
->  into sysfs. Here are two examples:
+Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+---
+ drivers/cxl/core/cdat.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-In response to v1, Matthew wanted you to change "the sysfs" into
-"sysfs". In the above it's no longer "the sysfs" but it's not part of
-your patch (no "-" of the old line with the "the" and "+" of the new
-line without the "the". Huh? This causes the patch to fail to apply.
+diff --git a/drivers/cxl/core/cdat.c b/drivers/cxl/core/cdat.c
+index ef1621d40f05..438869df241a 100644
+--- a/drivers/cxl/core/cdat.c
++++ b/drivers/cxl/core/cdat.c
+@@ -247,8 +247,8 @@ static void update_perf_entry(struct device *dev, struct dsmas_entry *dent,
+ 	dpa_perf->dpa_range = dent->dpa_range;
+ 	dpa_perf->qos_class = dent->qos_class;
+ 	dev_dbg(dev,
+-		"DSMAS: dpa: %#llx qos: %d read_bw: %d write_bw %d read_lat: %d write_lat: %d\n",
+-		dent->dpa_range.start, dpa_perf->qos_class,
++		"DSMAS: dpa: %pra qos: %d read_bw: %d write_bw %d read_lat: %d write_lat: %d\n",
++		&dent->dpa_range, dpa_perf->qos_class,
+ 		dent->coord[ACCESS_COORDINATE_CPU].read_bandwidth,
+ 		dent->coord[ACCESS_COORDINATE_CPU].write_bandwidth,
+ 		dent->coord[ACCESS_COORDINATE_CPU].read_latency,
+@@ -279,8 +279,8 @@ static void cxl_memdev_set_qos_class(struct cxl_dev_state *cxlds,
+ 			 range_contains(&pmem_range, &dent->dpa_range))
+ 			update_perf_entry(dev, dent, &mds->pmem_perf);
+ 		else
+-			dev_dbg(dev, "no partition for dsmas dpa: %#llx\n",
+-				dent->dpa_range.start);
++			dev_dbg(dev, "no partition for dsmas dpa: %pra\n",
++				&dent->dpa_range);
+ 	}
+ }
+ 
 
-Other than that, this all looks fine to me.
+-- 
+2.47.0
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
