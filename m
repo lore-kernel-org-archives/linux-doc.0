@@ -1,132 +1,102 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [20.231.56.155])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43B0C20E327;
-	Fri, 18 Oct 2024 01:56:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=20.231.56.155
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B695F291E;
+	Fri, 18 Oct 2024 03:13:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729216567; cv=none; b=GdnAwwpmWROBTPqEabSjaxNBtwlg6aYl/vtLqKkVrOQl2YrqT2qT2rERgSPGDxP96xLTU8LbXeSh8tiQFAsxBTO/UOwU3wIi0U7srJhOBiHrTYFrtplh3GOc6B6pXOWIdDvO5R4VlVFdb6aq9uinuJDSBOEW3q5MhFLUCEvQsrI=
+	t=1729221186; cv=none; b=jU5w4t1FenevoJ78cQrtds73rRDv71+hIj7ZdUYWk8QgJEOfheDGExDN4wncIHBLFMjNS4+s43RJsuAiVdf0oyf5XE2nc2t3tRjFHqithuvKoXo2x96ED/XgpyNtIpcM4aZpQgGMCOvro11ICCDpubCmoSh2+NCEt+Kiz7xCXdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729216567; c=relaxed/simple;
-	bh=8mqe2nfOjdoe+qMCwR7dofHrVeamoOVqki0cwmbQ5ko=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nLprJsAGteS0/x78N0lh13wHXLu/LB8+69msJnGNn1hKgyhMrTSiWr8OCC7zcQRkkJYKpVpU2EniooapMbUpbWVal22h0ml137LTrF0DTDJk542gaW6Wn2vXsmZGr9NvmVgErlMmmyl36J79ZaOvZ32HlKcHbNAQNNphvpi0T4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=20.231.56.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app2 (Coremail) with SMTP id HwEQrACHjwP3vxFneFAXAQ--.3696S2;
-	Fri, 18 Oct 2024 09:55:03 +0800 (CST)
-Received: from pride-PowerEdge-R740.. (unknown [222.20.126.129])
-	by gateway (Coremail) with SMTP id _____wAX8sbxvxFnC+1RAA--.1462S2;
-	Fri, 18 Oct 2024 09:54:57 +0800 (CST)
-From: Dongliang Mu <dzm91@hust.edu.cn>
-To: si.yanteng@linux.dev,
-	Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: hust-os-kernel-patches@googlegroups.com,
+	s=arc-20240116; t=1729221186; c=relaxed/simple;
+	bh=Mbhk6OVowHcpsMN07TUo495OKjlMt8B1HvFFI4oWGt0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NuoYxTnz90tT5WirVzHE6t4NYeE4oMZ3YxO4XM9S+fhWiKkK8CgkuYtKgZiklz7bFlO/zB9HUIuwwOQNjKJRfn7BoXpr1o1k4Cnqur0BdH7rR3ApL5q+aIFglCjY0xbdh3SSgW9hOweJqmHvxXG/pzTSPKgxaJXk8nVPGi6VglE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EVhnMs77; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EVhnMs77"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729221185; x=1760757185;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Mbhk6OVowHcpsMN07TUo495OKjlMt8B1HvFFI4oWGt0=;
+  b=EVhnMs77bROw7zgaKjMUBoShazAP5HIugojP9uMNxhYFDnO3YLsC9N5Z
+   I6XXOzoMFnYAseX0tVezoIe1g4FoelCDQ6o2NcvLRP9hBgZysuUABLjup
+   KM2QvnIItXtpHQXU+bvp24BVxTwrbFbamcn0552InFcZCSGV8l5LD1MqC
+   dyERxbnxR0hF0M1steeOcxwOnYDAmWdjCCFacONwGaCyvdNEYDDJ3WuU1
+   zbxiJggbQwXOE9lbdNXF7ffkVfn8p1T5qJcNjA7Z65nXwnfLHnoFTEbpY
+   Gme6QqcJzuXbHxPNNjL4adX5AeRZvDJxWj9ecqnIxo+iFk8UbcCuDXlFz
+   A==;
+X-CSE-ConnectionGUID: 7BUbnZONSgWkjrVFHOE+bA==
+X-CSE-MsgGUID: Au6r/8yeT3ehWSExpaxdsQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11228"; a="28951359"
+X-IronPort-AV: E=Sophos;i="6.11,212,1725346800"; 
+   d="scan'208";a="28951359"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 20:13:04 -0700
+X-CSE-ConnectionGUID: SVxD1VEAT/y+R+nIehCDkg==
+X-CSE-MsgGUID: bCSa7BIaSjeXOIA2YxV1FQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="83569646"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 17 Oct 2024 20:13:02 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t1dQB-000ND5-1w;
+	Fri, 18 Oct 2024 03:12:59 +0000
+Date: Fri, 18 Oct 2024 11:12:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Federico Vaga <federico.vaga@vaga.pv.it>,
+	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
 	Hu Haowen <2023002089@link.tyut.edu.cn>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] docs/zh_CN: update the translation of process/submitting-patches.rst
-Date: Fri, 18 Oct 2024 09:54:44 +0800
-Message-ID: <20241018015452.3787741-1-dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.43.0
+	Akira Yokosawa <akiyks@gmail.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: remove Documentation/dontdiff
+Message-ID: <202410181003.R1XoCTwa-lkp@intel.com>
+References: <87y12m1zk4.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HwEQrACHjwP3vxFneFAXAQ--.3696S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxZryUJrWDWr4rtFWxtry5Jwb_yoWrGF48pF
-	s29343J3WxKF1rJ3yxGay8ZF18J3WkCF9rGrsrK3WSyFs5Kay2v3sIqryfWay3J3s5KFy7
-	ZFs2qryv9ry29rDanT9S1TB71UUUUbUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQSb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUAVWUtw
-	CF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Y
-	z7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Wrv_ZF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
-	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE
-	2Ix0cI8IcVAFwI0_Xr0_Ar1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
-	xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF
-	7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU3YFADUUUU
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87y12m1zk4.fsf@trenco.lwn.net>
 
-Update to commit eb5ed2fae197 ("docs: submitting-patches: Advertise b4")
+Hi Jonathan,
 
-scripts/checktransupdate.py reports:
+kernel test robot noticed the following build warnings:
 
-Documentation/translations/zh_CN/process/submitting-patches.rst
-commit eb5ed2fae197 ("docs: submitting-patches: Advertise b4")
-commit 413e775efaec ("Documentation: fix links to mailing list services")
-2 commits needs resolving in total
+[auto build test WARNING on lwn/docs-next]
+[also build test WARNING on linus/master v6.12-rc3 next-20241017]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
----
-v1->v2: revise the script name
- .../zh_CN/process/submitting-patches.rst      | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Corbet/docs-remove-Documentation-dontdiff/20241018-001340
+base:   git://git.lwn.net/linux.git docs-next
+patch link:    https://lore.kernel.org/r/87y12m1zk4.fsf%40trenco.lwn.net
+patch subject: [PATCH] docs: remove Documentation/dontdiff
+reproduce: (https://download.01.org/0day-ci/archive/20241018/202410181003.R1XoCTwa-lkp@intel.com/reproduce)
 
-diff --git a/Documentation/translations/zh_CN/process/submitting-patches.rst b/Documentation/translations/zh_CN/process/submitting-patches.rst
-index 7ca16bda3709..f7ae584a439e 100644
---- a/Documentation/translations/zh_CN/process/submitting-patches.rst
-+++ b/Documentation/translations/zh_CN/process/submitting-patches.rst
-@@ -105,7 +105,7 @@ xyzzy do frotz”或“[I]changed xyzzy to do frotz”，就好像你在命令
- 当链接到邮件列表存档时，请首选lore.kernel.org邮件存档服务。用邮件中的
- ``Message-ID`` 头（去掉尖括号）可以创建链接URL。例如::
- 
--    Link: https://lore.kernel.org/r/30th.anniversary.repost@klaava.Helsinki.FI/
-+    Link: https://lore.kernel.org/30th.anniversary.repost@klaava.Helsinki.FI
- 
- 请检查该链接以确保可用且指向正确的邮件。
- 
-@@ -195,11 +195,8 @@ scripts/get_maintainer.pl在这个步骤中非常有用。如果您找不到正
- 在MAINTAINERS文件中查找子系统特定的列表；您的补丁可能会在那里得到更多的关注。
- 不过，请不要发送垃圾邮件到无关的列表。
- 
--许多与内核相关的列表托管在vger.kernel.org上；您可以在
--http://vger.kernel.org/vger-lists.html 上找到它们的列表。不过，也有与内核相关
--的列表托管在其他地方。
--
--不要一次发送超过15个补丁到vger邮件列表！！！！
-+许多与内核相关的列表托管在 kernel.org 上；您可以在 https://subspace.kernel.org
-+上找到它们的列表。不过，也有与内核相关的列表托管在其他地方。
- 
- Linus Torvalds是决定改动能否进入 Linux 内核的最终裁决者。他的邮件地址是
- torvalds@linux-foundation.org 。他收到的邮件很多，所以一般来说最好 **别**
-@@ -621,6 +618,13 @@ Fixes: 指示补丁修复了之前提交的一个问题。它可以便于确定
- 的工作所基于的树的提交哈希。你应该在封面邮件或系列的第一个补丁中添加它，它应
- 该放在 ``---`` 行的下面或所有其他内容之后，即只在你的电子邮件签名之前。
- 
-+工具
-+----
-+
-+这个过程的许多技术方面可以使用 b4 自动完成，其文档可在
-+https://b4.docs.kernel.org/en/latest/ 查看。该工具可帮助处理诸如追踪依赖项、运行
-+checkpatch 以及格式化和发送邮件等事务。
-+
- 参考文献
- --------
- 
-@@ -643,9 +647,6 @@ Greg Kroah-Hartman，“如何惹恼内核子系统维护人员”
- 
-   <http://www.kroah.com/log/linux/maintainer-06.html>
- 
--不！！！别再发巨型补丁炸弹给linux-kernel@vger.kernel.org的人们了！
--  <https://lore.kernel.org/r/20050711.125305.08322243.davem@davemloft.net>
--
- 内核 Documentation/translations/zh_CN/process/coding-style.rst
- 
- Linus Torvalds关于标准补丁格式的邮件
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410181003.R1XoCTwa-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+>> Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+   Using alabaster theme
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
