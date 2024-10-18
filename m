@@ -1,143 +1,262 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85A74200B90
-	for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2024 16:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729267479; cv=none; b=MMJ12JFl134Jc9LeaGCxQOjWeV/Ma7zZFo6tBEbPquMbQMmU5MFsm8l9qVzwSxRf0zWSLOcQq5+vGRsV/+w6pmX4c4YRwEhc1xe/x9atzcF2cgz8o1MCUchokNLnR1MYVrLui9Lu5FGEKdi+VLnzvaF8E+hx0qFt2zcZ9eIXisM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729267479; c=relaxed/simple;
-	bh=inlYmE1jkrrFn4f3Uk0ZGHGC9Ou3kuwAezYOZ+WS5/M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ILvfXOdFzN4UQp0Pxoh2aIalP3MZVwpyYdd65LYIygOYYD6SoeiyCRcJ6Y6ajZ670G0cERy98nGmxTDl6iPrb2fziM+8xeOdXGDvvNVOAl1qokCGCXd7LT/JOdQVPSGooIwNfXLxU4wT8GF1rsPLIu9dm59nXFTRTc+jfafbjSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uheKiSvL; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ACC92022F4;
+	Fri, 18 Oct 2024 16:07:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729267623; cv=fail; b=t8rX8NcltS31EPG5GBG7nAXp8+UuL8SRGPPfTn5vNHBgyxu4NchIeeY8ue0AI2+HtKpZy23MoJix9BXtv9fDE0VRs4DaXNG/9H/Ia/hi5X9Y1pd+bgT+tuzbPrJE9H+hP5ua/l5MxDIhxGofRHWBOGn9VBskit2HHgCep567jow=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729267623; c=relaxed/simple;
+	bh=eAYfbI3tR7UWw32oChCVlXf28+GsBwwamOVQ92sx4JU=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=g08Z1VxM3dwTu91fjnSEdG6I7x4YjFKyXh7TXftR1GBrHdO7PdlfdAoohUQ246IaLeRjOT3CgTrjVzWp1ryCtB99ggoH8urqpcIsLgj/bcCTQ8y4AKNti4tJRsfjY/ctR0V1/ePmbF0tlZPzN8RgbTL+NXQPl+3MNzV+Gt0ahvo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kl+UYZHX; arc=fail smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uheKiSvL"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-460a8d1a9b7so253711cf.1
-        for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2024 09:04:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729267476; x=1729872276; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=txzJ41KP+IG2jzYwjNeONh64Ul17CPWMb2WeMlBT1K8=;
-        b=uheKiSvLv3RBS2j+3aIR/SC5iCxT6blxyNxdn5bwGdU2+quEJRvz0bVf93OVWZkiZW
-         4HAq3nNllK6blEc8bals7SLQPtiYSm9WRpGTynb1gecndYjikg0BmbCkZ2EWiJiEYvad
-         UKX9CDTQSiXxEwU6Vc1mDKNMVJOozs/oVP2QvXXUHpuPTzNUj7mkXvpFYfPPII2z2EC2
-         ot/RqW4exjaWw6cYj7cTxoS6xii/gPf8t9i904X3YfWnr27sJ4dTT4ZGRPsbT+sn6oYj
-         KY1U/7Wwjh2sfTOh3Q6KsBuTKy+jjH8OLepnaraxZOhK/oM4TxRDbO6HYrxIR/zjSaFi
-         oR2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729267476; x=1729872276;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=txzJ41KP+IG2jzYwjNeONh64Ul17CPWMb2WeMlBT1K8=;
-        b=BhtiCAxzI1jOgo/M0ESC+Toh+oNN/hJSB3pR6caYOvaYlJGSA80rsIVAg85je/b+4Q
-         l/4vPqewZNFH9xyGZmxhCvEho6RAhmo0MIORX3WqBYv9r0mSMVlwFvnBc3YmSaGNrF4V
-         d4bfTxKais6SepFd1EjYe0S+sLPSBiegw4k8K/hMp9SO1no+MQ+PG5ApBjhMgYXltule
-         jbJMM06nw6hWOTRm0Q+wJmjDbVlKTquJhKYXYuvkYdNQj/DY7+JhDyO8OEDrz7okC7JJ
-         rUdasnBQppA9h0N+ym7ZuMwyxzoF67qoYJSKeeV8vNMmthY/RqfPV/b5fTPIcKZllaUa
-         azcw==
-X-Forwarded-Encrypted: i=1; AJvYcCXm1sgUnZa5vo++oI2NvcTSl1kmJBOnuhYSLBfAfA44uh+VCcCxevQ0rsNCZ3G+ZL/fCK0wqsZ8Er8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKevYCD/An9VUjcMHnLg7VPEskNV57b5mPoL89rTY0FQZm6Yrm
-	NPy0k1jQROTIfKY+s3t1zlJq1RD+UkddMT6leyx6R56f4/IeHLUp0i4WbCTADx3YIybfiKrfsOZ
-	TCctnQY6YG22z9jbatAl+P8y8X19WKX12UWzt
-X-Google-Smtp-Source: AGHT+IFQG+EGiekTkeB05IxiF0O0r7KvtKqW4HJXohUooeRpV2q0MrbuBuWAeTds5JJTI5Aqfm71otuz2Ld2rT6smr0=
-X-Received: by 2002:a05:622a:7b0a:b0:460:46a8:9e67 with SMTP id
- d75a77b69052e-460ad735ad8mr3690811cf.10.1729267475834; Fri, 18 Oct 2024
- 09:04:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kl+UYZHX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729267622; x=1760803622;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=eAYfbI3tR7UWw32oChCVlXf28+GsBwwamOVQ92sx4JU=;
+  b=kl+UYZHXGkE0rej31OglLtgA5mRWF9vQmqs+l9knipn5W5ZDPl0Xw68B
+   BB1aeMAvhUAOsSL6ghniNpOH9itzxyME5zzrJf4TjYH/udf8OHtjqZTYn
+   taG05HzI3RjVbyniYSXB3OA3moEhl7b5yM4Fb0+4xl04i8VoqsTtGO0at
+   tIEtl946+8jYnRDTKfOv5viHZSgYzPba+RZJlem8Vut4D8LGCotShMufO
+   LYW+SIJJftw7fKF5hxxmY+A5+r5WmQKyWl5/2YG9GyuY7/WhczxmhWq/n
+   zNqHoxLRQJ2iKPvt1Ge6GVjvzRKpETSOeQo0i7SSyaWOs95pPzC4bQmnB
+   Q==;
+X-CSE-ConnectionGUID: UmSZgEo1Tk64trdOg/pxXw==
+X-CSE-MsgGUID: erml9LPsTI+Ie5eAj+jrtQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="16420607"
+X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
+   d="scan'208";a="16420607"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 09:07:01 -0700
+X-CSE-ConnectionGUID: j6MPa9A8R+GIcHAvepnMHg==
+X-CSE-MsgGUID: 0seUidMOR1242N8ytLGR3w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
+   d="scan'208";a="79046178"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 18 Oct 2024 09:07:00 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Fri, 18 Oct 2024 09:06:59 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Fri, 18 Oct 2024 09:06:59 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Fri, 18 Oct 2024 09:06:59 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.41) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Fri, 18 Oct 2024 09:06:58 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Vy4z1/IUSG5qtF+rvnOiWQmw3FWC1tLX7awpNc2sJxK+f9456rfxhf4gEedHCuObfZKLoOHo4bSalXgzuOhshgQtF3HOY34/8qOH9xoy/8QaM9Jc5dYh5bZwlhG2AP62TdP1t8gm320AVrLey0az/+JVUrEexvTb9KfklsNJ4dQFkTLUixABHjKxtqFK4V8wce3CAXa3FB/g11VNm8MfbTVQeeK5jDOi/OPGKqTJ7Ue3vAbKfzE9jgm7mSZMH+gaQrhofN0o4EP635TLTF9fAs3NXSMdRzYzFWMXBT/sHLxoPlFKpMb+zRj3FyMQpl6WUrZCNXfsCHC/dos5mi4o0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rB2DGGbDxT3PVX/AR4z8+sus5nY7arzRng6zr9+kJOc=;
+ b=yFpajQeAoAOY6PwK+x/nSoWA6TS0cOqjkuPgqG1ynFfrlkVrmJNCZtG735Rl+Mvo3+XyPnPBBu2TXdsYLvgMv5Y/4eQqLzsaQldF97/2RrV+cazrWHSz/72GS9okvzIhWqeWbgPpd0hZacjgcTK2BX7L+pb4qHmUupBg0fZ5pTFuemkuLx3KuJ45xZthCAujIW8gwl46si/dXL8A3dAX5pvm+loFpzKD2ERYk1soAULso36iX74udcqbfLW3US6+QiHLuTXhxPY1vo6jIt8S9nQklWeR5TnmRKwiQh2F8pvsS40hOg39ogqi5wr+Lo6fpKdLgBWKiP1ZGbDoLweJQw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by CYXPR11MB8755.namprd11.prod.outlook.com (2603:10b6:930:e3::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.17; Fri, 18 Oct
+ 2024 16:06:52 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%7]) with mapi id 15.20.8069.019; Fri, 18 Oct 2024
+ 16:06:52 +0000
+Message-ID: <9ffd9ef5-59f0-43fa-be5f-f24f200d9089@intel.com>
+Date: Fri, 18 Oct 2024 09:06:46 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 18/25] x86/resctrl: Add the interface to unassign a MBM
+ counter
+To: <babu.moger@amd.com>, <corbet@lwn.net>, <fenghua.yu@intel.com>,
+	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>
+CC: <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
+	<rdunlap@infradead.org>, <tj@kernel.org>, <peterz@infradead.org>,
+	<yanjiewtw@gmail.com>, <kim.phillips@amd.com>, <lukas.bulwahn@gmail.com>,
+	<seanjc@google.com>, <jmattson@google.com>, <leitao@debian.org>,
+	<jpoimboe@kernel.org>, <rick.p.edgecombe@intel.com>,
+	<kirill.shutemov@linux.intel.com>, <jithu.joseph@intel.com>,
+	<kai.huang@intel.com>, <kan.liang@linux.intel.com>,
+	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
+	<sandipan.das@amd.com>, <ilpo.jarvinen@linux.intel.com>,
+	<peternewman@google.com>, <maciej.wieczor-retman@intel.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<eranian@google.com>, <james.morse@arm.com>
+References: <cover.1728495588.git.babu.moger@amd.com>
+ <a06e3f9b975bc3743ed8b8df04b6b52229d62bd9.1728495588.git.babu.moger@amd.com>
+ <a74315f3-9250-4e52-823b-dfadf87a6142@intel.com>
+ <3172b5fe-5394-92ca-4d4a-d194b84e8364@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <3172b5fe-5394-92ca-4d4a-d194b84e8364@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MW4PR04CA0038.namprd04.prod.outlook.com
+ (2603:10b6:303:6a::13) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241014203646.1952505-1-surenb@google.com> <20241014203646.1952505-6-surenb@google.com>
- <CAJD7tkY0zzwX1BCbayKSXSxwKEGiEJzzKggP8dJccdajsr_bKw@mail.gmail.com>
- <cd848c5f-50cd-4834-a6dc-dff16c586e49@nvidia.com> <6a2a84f5-8474-432f-b97e-18552a9d993c@redhat.com>
- <CAJuCfpGkuaCh+PxKbzMbu-81oeEdzcfjFThoRk+-Cezf0oJWZg@mail.gmail.com>
- <9c81a8bb-18e5-4851-9925-769bf8535e46@redhat.com> <CAJuCfpH-YqwEi1aqUAF3rCZGByFpvKVSfDckATtCFm=J_4+QOw@mail.gmail.com>
- <ZxJcryjDUk_LzOuj@tiehlicka>
-In-Reply-To: <ZxJcryjDUk_LzOuj@tiehlicka>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Fri, 18 Oct 2024 09:04:24 -0700
-Message-ID: <CAJuCfpGV3hwCRJj6D-SnSOc+VEe5=_045R1aGJEuYCL7WESsrg@mail.gmail.com>
-Subject: Re: [PATCH v3 5/5] alloc_tag: config to store page allocation tag
- refs in page flags
-To: Michal Hocko <mhocko@suse.com>
-Cc: David Hildenbrand <david@redhat.com>, John Hubbard <jhubbard@nvidia.com>, 
-	Yosry Ahmed <yosryahmed@google.com>, akpm@linux-foundation.org, 
-	kent.overstreet@linux.dev, corbet@lwn.net, arnd@arndb.de, mcgrof@kernel.org, 
-	rppt@kernel.org, paulmck@kernel.org, thuth@redhat.com, tglx@linutronix.de, 
-	bp@alien8.de, xiongwei.song@windriver.com, ardb@kernel.org, vbabka@suse.cz, 
-	hannes@cmpxchg.org, roman.gushchin@linux.dev, dave@stgolabs.net, 
-	willy@infradead.org, liam.howlett@oracle.com, pasha.tatashin@soleen.com, 
-	souravpanda@google.com, keescook@chromium.org, dennis@kernel.org, 
-	yuzhao@google.com, vvvvvv@google.com, rostedt@goodmis.org, 
-	iamjoonsoo.kim@lge.com, rientjes@google.com, minchan@google.com, 
-	kaleshsingh@google.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|CYXPR11MB8755:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7bfd9538-e5b9-471f-4c3b-08dcef8ee0eb
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZmI1M1ZxcHZyYnhhNmlzZkJvRS81WHBLcHJZSS9EUHZIeVpJZUtTMm9sblpi?=
+ =?utf-8?B?R04wak96Y21RMWJ2enhaOUhiaFh6REJ3Q2FqZWxEQWVvRGRxNWt1WlpYYjJR?=
+ =?utf-8?B?alZhZ0xCMDMxMXRnZFd1TmRVT1dwTU9LYTdtbVlrbUlGM2tHTnE1VTVUMmxk?=
+ =?utf-8?B?cS9xVjJOYnlCQkhlWXpKUnpOMkpwRVllRFhpMHFhc0NnS3ptVVduSGFhQnln?=
+ =?utf-8?B?TTA3cnpnVmJjcWdTUW5NU0ZHaFo3N0Z5QjBMOGdkSVZQUmZzYnNVb3M2UzF5?=
+ =?utf-8?B?R3luQ3hDL3VKK3NVRHMyeUZnR0RmY1NGSlk0QnVtNzBvVHJtd2phTitqcm10?=
+ =?utf-8?B?dkZpT3V3OUFabU5Bd3NkcXhyZmRsRlFpNFhnQ1oweG5mUjJkdVFyL3NQVDhZ?=
+ =?utf-8?B?YXFjNHdaK3ZIcENENmVUcWtHN2Iyb0V0WVFSM1psWHJkLzdieUdIMU5hTm8y?=
+ =?utf-8?B?OGk4K3NONVlkdVBzUUdPRHJmZ2tCbVJaa25vQmk4MWdMV2hqY3J5Rm9iRXdj?=
+ =?utf-8?B?NHgxejJQelZORDZ1M2hLKzZoQjhRek04OGdMZFI5N3VBeFM1VHU4Q3ZzVklV?=
+ =?utf-8?B?U2FqUnFLZnlrRERpS0J5aXpBaGZ0L3lZYWV6cnk4cGFFcGhqZ25KYzB2blF4?=
+ =?utf-8?B?bHlYRXdJQ0pwOS9Yb2Q2b1hERjZ3a25zMG1tK204b0haMEhnTHRhMWVOa1pF?=
+ =?utf-8?B?TEN5ODg4NmtsSm1YZUJubDBJeCtRMjVXL0xzazBNTEZkY0ZDSWVZb21hRi9w?=
+ =?utf-8?B?K0xyeWdPam5LR0lzMjI3Zytza1lZd3FQbElOYzRTSCsyOGhtd2VUMGloVHpr?=
+ =?utf-8?B?ZDhzNnJSOWlGcTdwMk44V3I5UmpQb0pXRUExSUYvTENJZ213WUR2M2R3NEZo?=
+ =?utf-8?B?U29tby9JbnZ0SGs2YkVoNFJIdUZnSDFqb3RsQXlmT2FxK2Z6TUhRTVlVWHZK?=
+ =?utf-8?B?U245dlVlSXhDbEhZWU9KME9FRmxLNmgyaVlYaTJTanRYc0tLZWlCVVBoSmhz?=
+ =?utf-8?B?aWhJN1BKMHpnWWxacmIrSG40dGhGbHE5cHVWQVgvK3I4V0UraTllTWNSbDRW?=
+ =?utf-8?B?WTg2T1FMQURSTE9UQlNTTDluTHU3V3FFVEh6NlBNQ2JBaHRNS2VoTFVhbVZt?=
+ =?utf-8?B?L1JRZldIU0Z3N0RiU1BOVmpyTVMzbC9PcEFyRE0xOXJXNWJFdzk5cGJ1WnBY?=
+ =?utf-8?B?MDlTNTdBazVpUG9xc05rSDhseTNLeUZuV1lrMDNjVlF6N0UxUTEzYlUyVEx5?=
+ =?utf-8?B?aDZ3OEt3cHpUbEROYTRxQjRPQmVScDlEWisyUWRlY1lLZmdQVVBSS3laZmVQ?=
+ =?utf-8?B?T2tHREZWRWJlbEl0c1hVV1QreHJCTXMrM0NtNVg2UWJkMXE4WE8rRnE3Y2c5?=
+ =?utf-8?B?Y1NaUVJqNVJSSlI1NFVVQi9kRTRzYmQ4bjc3LzhRTlNHczF3TmR6cXBXWk1U?=
+ =?utf-8?B?NHE1NFNyc1pEK3JTZTdQaTF6NlY1N1RXQ1FaQ1E4bzQvcXZ5eW44U28yQytD?=
+ =?utf-8?B?azVoaGphK2E5a2hwbWFtMXBhSzZMWEkzYkFpYVlSLzZZZnZRcExiV3E4ei9K?=
+ =?utf-8?B?NHlBR0tNVHBSMk1qdFJhUzVJNFYyQi9nRjE0V3EreElyUUpTTTc5VDh2L1ND?=
+ =?utf-8?B?VUNXd1RlZ2dMcE5OeVU0eEw4MDZpRE0wbW53cjFjd21YQ3BpT3VvOHpIc1lo?=
+ =?utf-8?B?UGQ2SUZjL09yZHN4a1dqYWJSYjBDUkxYU3k4eTRWdWxpYnZ5ZU5LQ2R5Wk1q?=
+ =?utf-8?Q?GRb7XiStLEQ8fgNyzBZExEH4OdqXtzob6qGp3w7?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UkVyN1c0bDRvWlBvYnM2NzdLZHkweStSQ25MdDdYbjduNklhT1NpbmNNTTNs?=
+ =?utf-8?B?TVFWNGNoRHNnaHpCdXZGOXVvNjNxdXNyaVdraGVKK3E1OFBkRUo1bTZaSGF1?=
+ =?utf-8?B?dXpYdXkyaG0zS1ZETnNXWElBRHZEbHJtYldCN2Rpa2lHdVZkUTRzcjdyNnda?=
+ =?utf-8?B?THV0M0RhWE1nY3hIRnBBS1NNMWVxTDFiZXp5alpxYVRZdE9naUJxL2svbVVM?=
+ =?utf-8?B?cmRlVnlYYnl3NDlrSE1KOHkzVmF4VVRBNENIRG8yRjZaSTlrMENGOXR1THNR?=
+ =?utf-8?B?Nkh0dUtzQkJnYm0rNTV5ci9wV3VwMk1rMC9PWHBVY21ybTZ5OUxGWm1mWWt5?=
+ =?utf-8?B?TDhTdHQ2cE9NelBVMHdyR1EyV3ozT1crWkhXSlJZTGJvS1hHQXArQXpIdklC?=
+ =?utf-8?B?dFBBdkhnRUQvdzA5NXVkQ0V5bGVxWVVCUlVSVXBjZVVWamFtUnB1RG4xRHc4?=
+ =?utf-8?B?SHlkL0ZsM1ViMCtTaytvZTJJYzFiNkR6Ny9mRUdXWk9OMWxlRUdCWkdOYTZS?=
+ =?utf-8?B?UllaMHNuMjFsSHJmUktiWVJqWVlMWDJUYnRwdFFSVVUrVW5wTTR0KzRMdEZw?=
+ =?utf-8?B?amgxMnUvV1dDbnNjK1AyblpMUlQ2L0pUNXJia0I3dVFPWVBZWEFkb09FVE9D?=
+ =?utf-8?B?eGM5R2Z6bkJRZFZJVjcvaXcwZndnTURWNUlQcGQ4VmVmSGgxYllWbTlyWGpn?=
+ =?utf-8?B?di9GV2IzVkpEblBQb3NoRFlKMko4Uis5TUlwMlQxMThoamJTbWIzeG4rU0pU?=
+ =?utf-8?B?MDBjZTVJN01xVyt2MTlQdFU2YXVZakIzZlZLd3RLemE0SU03NzcyT0tyMWht?=
+ =?utf-8?B?TTVpS25ZYzNFQm4rNmJYR1FYRDVlSE5wTnowcTZjeS9qRDFUSVNiZTc5NXNR?=
+ =?utf-8?B?eGxDWmRGRFd3NVhWcjJrVXdJakYvdlFESlAvN2xoNVdJNSt5dEN3TGxPQlRs?=
+ =?utf-8?B?RkFzbHZ1Y0Y5aDFxaUhTUlIvMjVCNE1WVktBYlN6aURpbEc1WmJtcG9maGhs?=
+ =?utf-8?B?TjZVTkNBVDZjQnhCTXlhamxML2JKaEZKQ0JOUHc2MnAvRVBIb29sclFuTkVq?=
+ =?utf-8?B?WUpFS1YrN2p3bE8reWgwMVlzdE52Q3JHbnZrZ3R0RENEdE15aDhsREc1cTYw?=
+ =?utf-8?B?NEd4ejUzM3JmZG1RWFZ0OWpuL2lUb1UxOE1iRm1keHNZd3BzUGMrNFQrZ0JX?=
+ =?utf-8?B?Vlc4alkyWHF6T1FmZkh0bmpOSjY0dXlaRmI2TGtqdHJvMGR3cWRkNTlmaG5K?=
+ =?utf-8?B?ZG5uanlIaitEQWVLREVrSVAvS3hnVVJZclpUeEJZYWlFRHFWOFJ3c21MQmNw?=
+ =?utf-8?B?dDZKQzk1ajFaWlFHTmR5VHczclRKdU9jbWpueXpJeWszMDZBcmluRm1Ec1Js?=
+ =?utf-8?B?WmYweWZvVmd2ZUJuZUJQUXdQRmM4TWgwSnllc1hVZVpaMVRYTnhpNnRZRVJQ?=
+ =?utf-8?B?ek9XTSsra3lwNFAzeWp6M2EzbnY4QnBUR0JSRTllU1RlQmFwbk9WRE9mejB1?=
+ =?utf-8?B?RkNPcmpIWklna3dJU2JyVWVMa3lZN1V6MXQ4VzY5S0hqSGdYdGJ5MEhkOXNR?=
+ =?utf-8?B?SnhPVHhQd090YjhoWWErVTdJK2hjTmVKTWlDejIvd29kaXR1OThwclUvTS9Z?=
+ =?utf-8?B?Szc3clN2OEJEdWRZQk5Kd2doYzc0YVdVYXNLb3hnaFV1c3hmb29CUEhISHBK?=
+ =?utf-8?B?L2swbTFzUGdrUUM5YURYWi9EQ1JwRTBzemswNnc1eGFwbmlXb0llSlQ0ZGVP?=
+ =?utf-8?B?alRIU05RdG5tVU03RWxsQU40NTVUUUJsbG5DRlN6U0plUGIzdUlYdEdNL2R4?=
+ =?utf-8?B?MDIrS0RMZFVPWEFiWkhubW0wL3RJQVBwNFhMejhjeEswMllGeWJtMTVkVHFF?=
+ =?utf-8?B?SFA2eFl2VDFLSVB4VldWSlV5ejFjMjBBamJyWlhETGIralFmYmxyODUvS3pL?=
+ =?utf-8?B?NHgvNytuei9ENVcrbCtSUHlDOU96VG9FVVlqUnlPdDRqVFhxb0Qrd2kxRVhn?=
+ =?utf-8?B?Y29JT2JLN29VK0M1dEtKSWxjN3FtQ05kK0RpTGptU3BCRzdxRG1OWS9SN0Fu?=
+ =?utf-8?B?QnpGN1NvazZhM0RsUTZXMUU2dDBHeFpwNEdIbmZ2TnBpTVk0Q20xMTVLMlVn?=
+ =?utf-8?B?dVYvU3NPUFZGQWp0aTNmQTI5bC9MZWJicDdwM284clZGd3JOYTZhdXBldG5l?=
+ =?utf-8?B?Q2c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7bfd9538-e5b9-471f-4c3b-08dcef8ee0eb
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Oct 2024 16:06:51.9630
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qGiRrv1hxgD+T9Ah9g4JS11Phh5sPtp+K3wenjRrGUHmnZw5W1H+jmG5V99CDk0syG72sq0CoQgoghWNuibIGl7hYw7MidOd6KxgsGDliEQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR11MB8755
+X-OriginatorOrg: intel.com
 
-On Fri, Oct 18, 2024 at 6:03=E2=80=AFAM Michal Hocko <mhocko@suse.com> wrot=
-e:
->
-> On Tue 15-10-24 08:58:59, Suren Baghdasaryan wrote:
-> > On Tue, Oct 15, 2024 at 8:42=E2=80=AFAM David Hildenbrand <david@redhat=
-.com> wrote:
-> [...]
-> > > Right, I think what John is concerned about (and me as well) is that
-> > > once a new feature really needs a page flag, there will be objection
-> > > like "no you can't, we need them for allocation tags otherwise that
-> > > feature will be degraded".
-> >
-> > I do understand your concern but IMHO the possibility of degrading a
-> > feature should not be a reason to always operate at degraded capacity
-> > (which is what we have today). If one is really concerned about
-> > possible future regression they can set
-> > CONFIG_PGALLOC_TAG_USE_PAGEFLAGS=3Dn and keep what we have today. That'=
-s
-> > why I'm strongly advocating that we do need
-> > CONFIG_PGALLOC_TAG_USE_PAGEFLAGS so that the user has control over how
-> > this scarce resource is used.
->
-> I really do not think users will know how/why to setup this and I wouldn'=
-t
-> even bother them thinking about that at all TBH.
->
-> This is an implementation detail. It is fine to reuse unused flags space
-> as a storage as a performance optimization but why do you want users to
-> bother with that? Why would they ever want to say N here?
+Hi Babu,
 
-In this patch you can find a couple of warnings that look like this:
+On 10/17/24 4:11 PM, Moger, Babu wrote:
+> On 10/15/2024 10:29 PM, Reinette Chatre wrote:
+>> On 10/9/24 10:39 AM, Babu Moger wrote:
 
-pr_warn("With module %s there are too many tags to fit in %d page flag
-bits. Memory profiling is disabled!\n", mod->name,
-NR_UNUSED_PAGEFLAG_BITS);
-emitted when we run out of page flag bits during a module loading,
+>>> +    if (!d) {
+>>> +        list_for_each_entry(d, &r->mon_domains, hdr.list) {
+>>> +            ret = resctrl_arch_config_cntr(r, d, evtid, rdtgrp->mon.rmid,
+>>> +                               rdtgrp->closid, cntr_id, false);
+>>> +            if (ret)
+>>> +                goto out_done_unassign;
+>>> +
+>>> +            clear_bit(cntr_id, d->mbm_cntr_map);
+>>> +        }
+>>> +    } else {
+>>> +        ret = resctrl_arch_config_cntr(r, d, evtid, rdtgrp->mon.rmid,
+>>> +                           rdtgrp->closid, cntr_id, false);
+>>> +        if (ret)
+>>> +            goto out_done_unassign;
+>>> +
+>>> +        clear_bit(cntr_id, d->mbm_cntr_map);
+>>
+>> Please see comment to previous patch about the duplicate snippets. Snippets can be
+>> replaced with single function that also resets architectural state.
+> 
+> Sure.
+> 
+> will combine rdtgroup_assign_cntr_event() and
+> rdtgroup_unassign_cntr_event().
 
-pr_err("%s: alignment %lu is incompatible with allocation tag
-indexing, disable CONFIG_PGALLOC_TAG_USE_PAGEFLAGS",  mod->name,
-align);
-emitted when the arch-specific section alignment is incompatible with
-alloc_tag indexing.
+That is not what I suggested. I attempted to clarify in response to patch
+with original feedback:
+https://lore.kernel.org/all/c36e0c76-1666-4a31-984e-1ee6aed2e414@intel.com/
 
-I'll change the first one to also specifically guide the user to
-disable CONFIG_PGALLOC_TAG_USE_PAGEFLAGS.
-When these happen, memory profiling gets disabled automatically. These
-two cases would be the main ones when the user would want to disable
-CONFIG_PGALLOC_TAG_USE_PAGEFLAGS to keep memory profiling enabled.
-I also think when we auto-disable memory profiling at runtime like
-that, I should make /proc/allocinfo empty so that it's apparent it is
-disabled and the user does not use stale data.
+> 
+> I need to rename the function. How about resctrl_configure_cntr_event()?
+> 
+> 
+>>
+>>> +    }
+>>> +
+>>> +    /* Update the counter bitmap */
+>>
+>> What is the update?
+> 
+> Clear the counter bitmap.
+
+Could you please update the comment to be more specific? What is
+written can be seen from code.
+
+Reinette
 
 
-> --
-> Michal Hocko
-> SUSE Labs
