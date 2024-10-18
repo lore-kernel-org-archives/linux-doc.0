@@ -1,312 +1,165 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8874417E8E5
-	for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2024 07:37:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDBEB17BB25
+	for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2024 08:15:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729237030; cv=none; b=hOoN94PySI3uSERaM5jGiJfZn7PF3t1sGPmOixWxGgn9ROyrADKtxZpViHDyJ7LusQJ0XbJWYOJjNleiWhhNKqn6L/qtPRHVlGjK5FCf6nmzD8JGroMLmwmjuXfD/eyo16vyx30Pn2i3YZhcgVZ/Z47UdoBCjcFKfAisSFF1Akg=
+	t=1729239330; cv=none; b=p0IfV0qNgP5mcIxDVXm4Nzuz7rKHaTaHeXo6dXomoHeUb8KdpajszWm9aQLDopVv3HVji4mfaTz5jXAWz6tc5R6eZmTvnflMXV+b+hM9lszgRVRbssr5oRDSyuYee69ulmoXkaII7u+NpysOWFCb+ZcGCY4B3cix1bpQA6Rgsd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729237030; c=relaxed/simple;
-	bh=J/2P0Qjo4Pi1oxevSNksyDuXieZuyJYEGU2KpqhBDkY=;
+	s=arc-20240116; t=1729239330; c=relaxed/simple;
+	bh=RyCuiX7Z7beQNgjkYjzS1E6I9EFHABI+uLFOdorHDUA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rvuPILj5Asrqr6aQ0+Dn55Bb6x2r85gpDiPGlsje38oWkr+yvusxbUfeAfLTj9oPMRhngrCCx1pD9vv/3En8/34L26CvtxyR/VvxU1cDTfMYU+Gx0NPojt1aCe98FeMau+8VqaOhGflYX/atG1j1iUJWbWEhxUmiVkTTZ8KLnVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=CVyw4H2U; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	 To:Cc:Content-Type; b=REATReWz1SjdFQl2w+Sl9/3tTYWcDSlTOLcQnhbzWEcUM7tyofjr8/uAopvkadAebgVNIdG1Z7eVhrjsW2vyuKTzqyBR54PDihXpymPPrfLsmRkAtD8fcJ+iG5uGf2bR8Bq6q65EK2XNwZvu2wsQWPiozWB8cJfgQoCEMItS5IM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LNeddTMH; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="CVyw4H2U"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-539e1543ab8so3169775e87.2
-        for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2024 00:37:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729237026; x=1729841826; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FQ8SdkLsCIJNhBVmfW5932i8NaML5sg9nvB1KSarBPA=;
-        b=CVyw4H2UWtdhSajVc42QWON1wDRRDqiUh8on3uIiryOA8Y5K6Fjx61bx7WoKoXLx24
-         AHKRMNSes1GNgunfJWrnY67OBIpHQx0ce5DHLbV7wIz1YeZPx/yZfOV0IuKu41Rce0Dx
-         WhjCjbYYJNnUV2yChPRYthVKnxX52XOeVq6fGp7ZnG/ce1O6727XMX/kN7UVM1Xvs+Z5
-         EH3gSVXk3lB9LBqFez5Zol51E7e9C7vsClrTfJyJL0JO8/XsE7ZAEnEc1I899VArscgk
-         Np5q/qIQLyS7gliT/hT4m8fuDnMABznMATon6nbbnHMhtZTLwTh6Ob0AS1MHyT04xr88
-         iy8A==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LNeddTMH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1729239326;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yr2YuJLh1oBlVb3LAJ7sYOHk9wkq05eBctRIWz59ZDw=;
+	b=LNeddTMH8AlEWYJBJR6TdYyS31gX1hZoA0dU3PXI4KA1Zq127bA1bepsU/kJ1uukFAeUzo
+	ibTjBKCgQYEhDhu1B1yhW/zLc7/8Iua9Z2/hD6eqkHdQGrm9T3pjdCtdZEiUfy4hyY5Dsg
+	EbroMNA6cxm6ZCUgt9XoaX1P/O9kfwE=
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-39-jC_i_SyKPDS94m0eNNTXVQ-1; Fri, 18 Oct 2024 04:15:25 -0400
+X-MC-Unique: jC_i_SyKPDS94m0eNNTXVQ-1
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-5e4df21f22dso1721020a12.0
+        for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2024 01:15:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729237026; x=1729841826;
+        d=1e100.net; s=20230601; t=1729239324; x=1729844124;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FQ8SdkLsCIJNhBVmfW5932i8NaML5sg9nvB1KSarBPA=;
-        b=dDc7gfPZGrbSklIhf6YAscmVrqrVnLGmzpSyF12Ulpk4QL+NbFny9eOMW+nrLp6hqF
-         IYeZklIzhYf6AOLdgh9mbLzscOWltgBVBM0td+rEatT12appaoNCcVljsphFpX93av1L
-         fhDkv15M7F8tQgNNIDuv2zoAeH+E9TIKW8W3hAvE5jJVQqxYM0bmrWP2SMu8t2Bz4M7e
-         d7QHdiWhdH1mcWtMKXGTG42keMa83iPb4KgGc3TWwhL2UbpAEi4m8p8+EW9Ps7AtKu1m
-         77NNeEOBOS9C9F/jnEBZYw0X+BOEAp37ui7AZghY+KjJ3aHEpRHBg63oLpRNWCgzphFD
-         k4Cw==
-X-Forwarded-Encrypted: i=1; AJvYcCVcikUvSOx+RMb7To9p+6XOkhKybIpoYPzxg4GnqzvsGVTjgrt26yAiAO4KdyMpPRBEDwze8Fxv9OM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4VqrC8nmyy/52pu3cH2iF1o8Q8otPVMO6gvHvt7ZXkKvaaaBL
-	RIrdIM0ozjAOq2tB11O7MQC5lsVfmiALaTmdRkB2OVroBxvzxHa52fIQA3hfofmMWBQHlqziaxg
-	718MCoz1LjuAZL13e/hnmkmPAmffH9SAZh/v2bQ==
-X-Google-Smtp-Source: AGHT+IFwONEnb117sVQ31CVX2MhwK+WpK1e9jDFmK9d88cHvnLc4jpqFjUwCVajdCZBWq38iLQOWMzxWC22WcOsJ8HE=
-X-Received: by 2002:a05:6512:1585:b0:539:8f68:e036 with SMTP id
- 2adb3069b0e04-53a154964a1mr1226810e87.34.1729237024774; Fri, 18 Oct 2024
- 00:37:04 -0700 (PDT)
+        bh=yr2YuJLh1oBlVb3LAJ7sYOHk9wkq05eBctRIWz59ZDw=;
+        b=qJ4rs95PaESujx7NE7MS5x4BiyuN+nJqKweeaOa+2rHfB4ppDCnCZC4ttmgtbLlgS1
+         +yq3MxzOvELS6G3f1e2WKLKYUN16o6chxsueGUuiLNS2oawKe3Qi/F5oXvecqSWQ5t0B
+         VqV+rLegvlsJmxYLZ8g1001MY9Bf7Q3yVUCckDyI8e4ZVVzXkBVvOWg+/uRPZvg28bJ7
+         7q5/pgsQUpsPyreVBqyVMW8GnrOyYT8P/fZNwS4sIntl8Wa+DLKbvtLgXy4S1BgYMH35
+         X8gZ9QDHWb4DmUpkur8Mw8q5cmkDh8djVw37I0rOjf+hA84Fh4VqBoUV+TL1xhirSEfb
+         UBHA==
+X-Forwarded-Encrypted: i=1; AJvYcCWllVlSGLm2c/ZL42NGE8VsQ/hGbiDnJyDDhcbtW8IOjwMPYwiwHGc3/J2bYswOJfQUqEJuDJ5ydhc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyrfjHCnU4lyee62eAj3wJLKlq38TNAJ8EzGGgGC962lX4dTU9s
+	DOy0fOs7vBtAvlZy9x6ft0SxH1NIJKg6yXQCo1mA5+4lcO5Hq/2v0/luLLXF+Gfc8x2b8rC9+LJ
+	W/hCAwvlR2XfmvaddFjECdTu230y9zVjkznkHd6UHT8Md/MBUbJZ3XSAsy7nKng1Q0j+2Y/6Lvc
+	wVSpti3/4I+RkrIResPfw4/4tFC0qRzPUG
+X-Received: by 2002:a05:6a21:178a:b0:1d8:aa1d:b30c with SMTP id adf61e73a8af0-1d92c9f8becmr2035166637.1.1729239324401;
+        Fri, 18 Oct 2024 01:15:24 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGLD3LtPmdn3YgZFunCmr4YCke9ZeVKhkDNBtOgm6i/o4DVa5u2WpwUUag2e6tVVnOKvDE1CSmiKahP3Ex3VII=
+X-Received: by 2002:a05:6a21:178a:b0:1d8:aa1d:b30c with SMTP id
+ adf61e73a8af0-1d92c9f8becmr2035126637.1.1729239323920; Fri, 18 Oct 2024
+ 01:15:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241015-ad7380-add-adaq4380-4-support-v1-0-d2e1a95fb248@baylibre.com>
- <20241015-ad7380-add-adaq4380-4-support-v1-1-d2e1a95fb248@baylibre.com> <20241017190500.215b895e@jic23-huawei>
-In-Reply-To: <20241017190500.215b895e@jic23-huawei>
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Fri, 18 Oct 2024 09:36:52 +0200
-Message-ID: <CAEHHSvZrXNrh_DsyrnjjBfZJ3STYmA+HdysakO-54T6qYwTfrQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 1/4] dt-bindings: iio: adc: ad7380: add adaq4370-4 and
- adaq4380-4 compatible parts
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	David Lechner <dlechner@baylibre.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20241008-rss-v5-0-f3cf68df005d@daynix.com> <20241008-rss-v5-7-f3cf68df005d@daynix.com>
+ <CACGkMEsPNTr3zcstsQGoOiQdCFQ+6EG6cSGiZzNxONsH9Xm=Aw@mail.gmail.com> <4bc7dfaa-a7cd-41f4-a917-e71b5c7241f7@daynix.com>
+In-Reply-To: <4bc7dfaa-a7cd-41f4-a917-e71b5c7241f7@daynix.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Fri, 18 Oct 2024 16:15:12 +0800
+Message-ID: <CACGkMEtt7a4+gadQt2=3zz+MCUtueuWj+zwaHR_gXCvLg=0PcQ@mail.gmail.com>
+Subject: Re: [PATCH RFC v5 07/10] tun: Introduce virtio-net RSS
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, kvm@vger.kernel.org, 
+	virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org, 
+	Yuri Benditovich <yuri.benditovich@daynix.com>, Andrew Melnychenko <andrew@daynix.com>, 
+	Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le jeu. 17 oct. 2024 =C3=A0 20:05, Jonathan Cameron <jic23@kernel.org> a =
-=C3=A9crit :
+On Sat, Oct 12, 2024 at 6:29=E2=80=AFPM Akihiko Odaki <akihiko.odaki@daynix=
+.com> wrote:
 >
-> On Tue, 15 Oct 2024 11:09:06 +0200
-> Julien Stephan <jstephan@baylibre.com> wrote:
+> On 2024/10/09 17:14, Jason Wang wrote:
+> > On Tue, Oct 8, 2024 at 2:55=E2=80=AFPM Akihiko Odaki <akihiko.odaki@day=
+nix.com> wrote:
+> >>
+> >> RSS is a receive steering algorithm that can be negotiated to use with
+> >> virtio_net. Conventionally the hash calculation was done by the VMM.
+> >> However, computing the hash after the queue was chosen defeats the
+> >> purpose of RSS.
+> >>
+> >> Another approach is to use eBPF steering program. This approach has
+> >> another downside: it cannot report the calculated hash due to the
+> >> restrictive nature of eBPF steering program.
+> >>
+> >> Introduce the code to perform RSS to the kernel in order to overcome
+> >> thse challenges. An alternative solution is to extend the eBPF steerin=
+g
+> >> program so that it will be able to report to the userspace, but I didn=
+'t
+> >> opt for it because extending the current mechanism of eBPF steering
+> >> program as is because it relies on legacy context rewriting, and
+> >> introducing kfunc-based eBPF will result in non-UAPI dependency while
+> >> the other relevant virtualization APIs such as KVM and vhost_net are
+> >> UAPIs.
+> >>
+> >> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> >> ---
+> >>   drivers/net/tap.c           | 11 +++++-
+> >>   drivers/net/tun.c           | 57 ++++++++++++++++++++-------
+> >>   drivers/net/tun_vnet.h      | 96 +++++++++++++++++++++++++++++++++++=
+++++++----
+> >>   include/linux/if_tap.h      |  4 +-
+> >>   include/uapi/linux/if_tun.h | 27 +++++++++++++
+> >>   5 files changed, 169 insertions(+), 26 deletions(-)
+> >>
+
+[...]
+
+> >> diff --git a/include/uapi/linux/if_tun.h b/include/uapi/linux/if_tun.h
+> >> index d11e79b4e0dc..4887f97500a8 100644
+> >> --- a/include/uapi/linux/if_tun.h
+> >> +++ b/include/uapi/linux/if_tun.h
+> >> @@ -75,6 +75,14 @@
+> >>    *
+> >>    * The argument is a pointer to &struct tun_vnet_hash.
+> >>    *
+> >> + * The argument is a pointer to the compound of the following in orde=
+r if
+> >> + * %TUN_VNET_HASH_RSS is set:
+> >> + *
+> >> + * 1. &struct tun_vnet_hash
+> >> + * 2. &struct tun_vnet_hash_rss
+> >> + * 3. Indirection table
+> >> + * 4. Key
+> >> + *
+> >
+> > Let's try not modify uAPI. We can introduce new ioctl if necessary.
 >
-> > adaq4370-4 (2MSPS) and adaq4380-4 (4MSPS) are quad-channel precision da=
-ta
-> > acquisition signal chain =CE=BCModule solutions compatible with the ad7=
-38x
-> > family, with the following differences:
-> >
-> > - configurable gain in front of each 4 adc
-> > - internal reference is 3V derived from refin-supply (5V)
+> 2, 3, and 4 are new additions. Adding a separate ioctl for them means we
+> need to call two ioctls to configure RSS and it is hard to design the
+> interactions with them.
 >
-> Now I'm confused.
+> For example, if we set TUN_VNET_HASH_RSS with TUNSETVNETHASH before
+> setting struct tun_vnet_hash_rss with another ioctl, tuntap will enable
+> RSS with undefined parameters. Setting struct tun_vnet_hash_rss with
+> TUN_VNET_HASH_RSS unset also sounds unreasnoable.
 >
-> The earlier refin-supply change appears unused in this patch.
-> I was expecting it to be required for the additional devices.
-> With additions to the docs from the fix to explain the new
-> cases.  I'm not seeing that in here.
->
->
-> > - additional supplies
-> >
-> > To configure the gain a new patternProperties is added to describe each
-> > channel. It is restricted to adaq devices.
-> >
-> > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> > ---
-> >  .../devicetree/bindings/iio/adc/adi,ad7380.yaml    | 117 +++++++++++++=
-++++++++
-> >  1 file changed, 117 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml =
-b/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
-> > index 74d82721637c..3007d8e39684 100644
-> > --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
-> > +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
-> > @@ -25,6 +25,8 @@ description: |
-> >    * https://www.analog.com/en/products/ad7386-4.html
-> >    * https://www.analog.com/en/products/ad7387-4.html
-> >    * https://www.analog.com/en/products/ad7388-4.html
-> > +  * https://www.analog.com/en/products/adaq4370-4.html
-> > +  * https://www.analog.com/en/products/adaq4380-4.html
-> >
-> >
-> >  $ref: /schemas/spi/spi-peripheral-props.yaml#
-> > @@ -46,6 +48,8 @@ properties:
-> >        - adi,ad7386-4
-> >        - adi,ad7387-4
-> >        - adi,ad7388-4
-> > +      - adi,adaq4370-4
-> > +      - adi,adaq4380-4
-> >
-> >    reg:
-> >      maxItems: 1
-> > @@ -59,6 +63,9 @@ properties:
-> >    vlogic-supply: true
-> >    refio-supply: true
-> >    refin-supply: true
-> > +  vs-p-supply: true
-> > +  vs-n-supply: true
-> > +  ldo-supply: true
-> >
-> >    aina-supply:
-> >      description:
-> > @@ -86,12 +93,43 @@ properties:
-> >        specify the ALERT interrupt.
-> >      maxItems: 1
-> >
-> > +  '#address-cells':
-> > +    const: 1
-> > +
-> > +  '#size-cells':
-> > +    const: 0
-> > +
-> >  required:
-> >    - compatible
-> >    - reg
-> >    - vcc-supply
-> >    - vlogic-supply
-> >
-> > +patternProperties:
-> > +  "^channel@([0-3])$":
-> > +    $ref: adc.yaml
-> > +    type: object
-> > +
-> > +    properties:
-> > +      reg:
-> > +        description:
-> > +          The channel number. From 0 to 3 corresponding to channels A,=
-B,C,D
-> > +        items:
-> > +          minimum: 0
-> > +          maximum: 3
-> > +
-> > +      adi,gain-milli:
-> > +        description:
-> > +          The hardware gain applied to the ADC input (in milli units).
-> > +          If not present, default to 1000 (no actual gain applied).
-> > +        $ref: /schemas/types.yaml#/definitions/uint32
-> > +        default: 1000
-> > +
-> > +    required:
-> > +      - reg
-> > +
-> > +    additionalProperties: false
-> > +
-> >  unevaluatedProperties: false
-> >
-> >  allOf:
-> > @@ -128,7 +166,21 @@ allOf:
-> >          ainc-supply: false
-> >          aind-supply: false
-> >
-> > +  # Using channel to declare gain property only applies to adaq device=
-s
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          not:
-> > +            contains:
-> > +              enum:
-> > +                - adi,adaq4370-4
-> > +                - adi,adaq4380-4
-> > +    then:
-> > +      patternProperties:
-> > +        "^channel@([0-3])$": false
-> > +
-> >    # ad7380-4 uses refin-supply as external reference.
-> > +  # adaq devices use internal reference only, derived from refin-suppl=
-y
+> Letting the new ioctl set TUN_VNET_HASH_RSS does not help either.
+> TUNSETVNETHASH still sets the bitmask of allowed hash types so RSS will
+> depend on two ioctls.
 
-Hi Jonathan,
+I meant let's avoid introducing an ioctl with function 1 in one patch,
+and adding 2,3,4 in exactly the same ioctl in the following. It breaks
+the uABI consistency and bisection.
 
-here I add a quick description on how adaq devices are using refin-supply .=
-..
+We can add all in one patch.
 
-> >    # All other chips from ad738x family use refio as optional external =
-reference.
-> >    # When refio-supply is omitted, internal reference is used.
-> >    - if:
-> > @@ -136,6 +188,8 @@ allOf:
-> >          compatible:
-> >            enum:
-> >              - adi,ad7380-4
-> > +            - adi,adaq4370-4
-> > +            - adi,adaq4380-4
+Thanks
 
-... and adaq devices are added here to require refin-supply.
-
-Maybe I am missing your point? or I still need to improve the description?
-
-Cheers
-Julien
-
-> >      then:
-> >        properties:
-> >          refio-supply: false
-> > @@ -145,6 +199,24 @@ allOf:
-> >        properties:
-> >          refin-supply: false
-> >
-> > +  # adaq devices need more supplies
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          enum:
-> > +            - adi,adaq4370-4
-> > +            - adi,adaq4380-4
-> > +    then:
-> > +      required:
-> > +        - vs-p-supply
-> > +        - vs-n-supply
-> > +        - ldo-supply
-> > +    else:
-> > +      properties:
-> > +        vs-p-supply: false
-> > +        vs-n-supply: false
-> > +        ldo-supply: false
-> > +
-> >  examples:
-> >    - |
-> >      #include <dt-bindings/interrupt-controller/irq.h>
-> > @@ -169,3 +241,48 @@ examples:
-> >              refio-supply =3D <&supply_2_5V>;
-> >          };
-> >      };
-> > +
-> > +  - |
-> > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > +
-> > +    spi {
-> > +        #address-cells =3D <1>;
-> > +        #size-cells =3D <0>;
-> > +
-> > +        adc@0 {
-> > +            compatible =3D "adi,adaq4380-4";
-> > +            reg =3D <0>;
-> > +
-> > +            spi-cpol;
-> > +            spi-cpha;
-> > +            spi-max-frequency =3D <80000000>;
-> > +
-> > +            interrupts =3D <27 IRQ_TYPE_EDGE_FALLING>;
-> > +            interrupt-parent =3D <&gpio0>;
-> > +
-> > +            vcc-supply =3D <&supply_3_3V>;
-> > +            vlogic-supply =3D <&supply_3_3V>;
-> > +            refin-supply =3D <&supply_5V>;
-> > +            vs-p-supply =3D <&supply_5V>;
-> > +            vs-n-supply =3D <&supply_0V>;
-> > +            ldo-supply =3D <&supply_5V>;
-> > +
-> > +            #address-cells =3D <1>;
-> > +            #size-cells =3D <0>;
-> > +
-> > +            channel@0 {
-> > +                reg =3D <0>;
-> > +                adi,gain-milli =3D <300>;
-> > +            };
-> > +
-> > +            channel@2 {
-> > +                reg =3D <2>;
-> > +                adi,gain-milli =3D <600>;
-> > +            };
-> > +
-> > +            channel@3 {
-> > +                reg =3D <3>;
-> > +                adi,gain-milli =3D <1000>;
-> > +            };
-> > +        };
-> > +    };
-> >
->
