@@ -1,122 +1,111 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FC72F29;
-	Fri, 18 Oct 2024 00:07:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857B62A1D1;
+	Fri, 18 Oct 2024 00:46:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729210062; cv=none; b=p+/22HvTwi3Hx0KLc+zs8ht6bcT86kE7MVQMYX800nvkfIXh7yBgJdSaimAi0NoGznWDIMkOGGF8Ar4yIS8yTfQtHY5Cu3Hb3ewfn81TPiK96FuGUz+XDOfhDaNj9siM4CJ4y1JvQaT5WkoD+1kaoinXl/SpMs7i+mBHTUEWEBk=
+	t=1729212388; cv=none; b=uUNmRdeppmVorp0ZHwJskEutWqCyK+ts7WWSG2DyOSgXkhIshQNT8xDggsrzlRZ+tQ689Xm2CfaeWZrD6E/e0Q1XXURSHOQFkET39tC37l6J/2elLxLYpUSN+D22Z4PaERpKwfWVNsPwTffSDeJe6OgqkqrhDasY3KQSAfrMWPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729210062; c=relaxed/simple;
-	bh=D9ULUqk+TbUqMTKGR0bFo25YiiZ2cs6nBE1a1b8WqFQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=YdYec5faevHtXowN9MxcrRc4Umqg616XfKG4Vn9DjkHEh6oqBy2/8tdvgMT73kUkTs8UPK/WwVCUYdy6f73qp3dmhtOkyXVney8BgyovzFS6dzxQdhkPU2f6UrMPKt+FPtCBg6gyluFW55Ae07dhSDFA51EZIXCu0zFLH7+Ekfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=RX9Ouqrq; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1729212388; c=relaxed/simple;
+	bh=A9W5BXqJLzSc6wqaDftNTLmM/XjPL1T+K9gE4lzY9eg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O8gtDiOliKKlFQXAg+lqVPz6xLDxev1IGy5lI6j6bUTKrzCZ2zV/4+cGChbiTS64NU6Rl99eE6mQdHk3ExBjftYdaSKWampbL/RQaxhU9adHLGxj8YTjW/UKzR5Jjauto8N1AgLH6U5HD8oTbdzmpqhgxFJgTott00kk0/NpGm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bn4GOA3b; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="RX9Ouqrq"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49HDcuMX016699;
-	Fri, 18 Oct 2024 00:07:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	uxBavpTgL71vWYYy2sA8sf5j3chQYVV9GD147SGaeIE=; b=RX9Ouqrq4NFVay6j
-	q4ttG0ZDVQRxiFHqWMz1ETLYdt9a14mSskOsu4TE50T7xoN7Yz1fi1sDfPZMXDCw
-	Nid3g40KR97d0eIZ6brHzq3xJa0t7AKSCcSoS1FsTDUta85y2SVt5RKKQm0XC+UZ
-	ftQLUofQozfcyUcqlpajRTWKzTMpeConXTyXCrqh/KO8LjdXl+5S0psOcWaD3SwG
-	eOo+yjKkMRzwm4hTVhc4CuOPc0GaEqSVtAgn1QRp3uyc4I+1HGARPsbBQgpR7NKS
-	e8ZqYMKHlVOTbVP2mGtD6UeD4JYw2esaE4AGL3vN9Ffk9mC3fy0oma7dgzZ3FTyN
-	IRBG3A==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42a8w6pdcw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 18 Oct 2024 00:07:15 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49I07EUv021198
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 18 Oct 2024 00:07:14 GMT
-Received: from [10.71.112.85] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 17 Oct
- 2024 17:07:13 -0700
-Message-ID: <5847c380-75ce-492a-9a30-0899b7ebe98c@quicinc.com>
-Date: Thu, 17 Oct 2024 17:07:12 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bn4GOA3b"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-7ea784aea63so909546a12.3;
+        Thu, 17 Oct 2024 17:46:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729212387; x=1729817187; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=RVunuq3gbvj+AkSw28J9IAD2E6K6krV4ZjRY2oiq+QY=;
+        b=Bn4GOA3bJHOvp7OuqZK5yyXMrwE37cypyWQ06BXwWvKRfSKaX6Xe8ag9CjjucE2Ylx
+         HLfQ297Wz/3BknAkP/T7dqM9qUVDafjvf/x/KvWUUWbm2QckRl/NZG0f2OYMMhlTjDWp
+         3qYy3lacBBarJmg295j/BwOVPi4ujOtnx6qPwR/tffSDJYYg+hhUzYlUwBqXNVJhlmsB
+         +ZNY8/884aM1Zi3YSEJ463Z9SBLGWYNwJfnXS0q5pO4wMH/bwGa0Br8mdmdx7hKLxJvC
+         Ri/5qJq5Vo1ZihR/AANC7vp/ABB72H2A22/GF9owJZF06q+u6lO4kEpYRQKuU7pTu6Hu
+         w+nA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729212387; x=1729817187;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RVunuq3gbvj+AkSw28J9IAD2E6K6krV4ZjRY2oiq+QY=;
+        b=mk3voFCHNBqCD+aAHjzDWz/PmatIQhzvxSrIexw340aKB+yeF4e1740f7qsSR2WIoG
+         V+76wsgU/L0qI+Nq/WadnpCVe5p9OpKcKX2t8nH9zkD3ZHBpJ4hZNIPDwF8zZSX0R1+n
+         ke0pBOSFATE+hQaauU8uJvaOGN+ppxL+4kt2TaIFI1K1OVIFGio6KQ+1AjbGFhkPq9MG
+         DsC11UyjbxZK7atsHObWI9BnJTExJyVuYN9jaVHy8vunBoVvSynSyBL4JmsjaL4St04Y
+         Ugv59bUkz59QVpAkU39sFcjCFqy86uoHKLM8s3VttQedQ4pSCf3g0izY8OFuq7ySRocr
+         5VPw==
+X-Forwarded-Encrypted: i=1; AJvYcCUGrNUD7dYrsJ1ATSFlgvG549GSWMr0RLNYHUxSzl6iagvhUrt5RN5mJTyWp41e9FdzNjrOEJNBa+r0@vger.kernel.org, AJvYcCVSZFVc4N7kkWkyc+CHHU43yAV1quyfFIeOyou8o2cBJzWpWVYuWortRmpaXWB0VZMwt7zr5UQ/THAXMZ8/@vger.kernel.org, AJvYcCWdLBdoKQHPyE/Er52MyRYT2GrLlrjs7Ijbb5qdDu6FruhmNZ3B7arR9rJPw4FJp86tX14=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw1+7TkMMeHKPztVjA52i8gLxi8Nb4TQ4AJHDlwY4OZCgCB638x
+	lxS46uzz1uuROGWbp2XtD9QgVp4b97yzueoixDnS5pk57eIwaDJJLeF6zWWUCzo=
+X-Google-Smtp-Source: AGHT+IHPg8DRZc4blkJt6M4jB9p7QkQPgZeoQK6vx6eapZG8GWX01nJC76zgSI/PBpyyXXHR6o9AUA==
+X-Received: by 2002:a05:6a21:1693:b0:1cf:4ad8:83b9 with SMTP id adf61e73a8af0-1d92c5abf0dmr1004985637.43.1729212386730;
+        Thu, 17 Oct 2024 17:46:26 -0700 (PDT)
+Received: from fedora ([43.228.180.230])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71ea3459abesm271817b3a.168.2024.10.17.17.46.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Oct 2024 17:46:26 -0700 (PDT)
+Date: Fri, 18 Oct 2024 00:46:18 +0000
+From: Hangbin Liu <liuhangbin@gmail.com>
+To: Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@redhat.com>
+Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Andrii Nakryiko <andriin@fb.com>, Jussi Maki <joamaki@gmail.com>,
+	Jay Vosburgh <jv@jvosburgh.net>,
+	Andy Gospodarek <andy@greyhouse.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+	Nikolay Aleksandrov <razor@blackwall.org>
+Subject: Re: [PATCHv2 net-next 2/3] bonding: use correct return value
+Message-ID: <ZxGv2s4bl5VQV4g-@fedora>
+References: <20241017020638.6905-1-liuhangbin@gmail.com>
+ <20241017020638.6905-3-liuhangbin@gmail.com>
+ <878qumzszs.fsf@toke.dk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v29 01/33] xhci: support setting interrupt moderation IMOD
- for secondary interrupters
-To: Greg KH <gregkh@linuxfoundation.org>
-CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
-        <corbet@lwn.net>, <lgirdwood@gmail.com>, <tiwai@suse.com>,
-        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
-        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
-        <bgoswami@quicinc.com>, <robh@kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-References: <20241015212915.1206789-1-quic_wcheng@quicinc.com>
- <20241015212915.1206789-2-quic_wcheng@quicinc.com>
- <2024101747-defog-squiggly-ef54@gregkh>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <2024101747-defog-squiggly-ef54@gregkh>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: IbNrRGE8x9UV4v1k3a1frmTMQ3tDVf0N
-X-Proofpoint-ORIG-GUID: IbNrRGE8x9UV4v1k3a1frmTMQ3tDVf0N
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
- phishscore=0 lowpriorityscore=0 clxscore=1015 mlxlogscore=607
- malwarescore=0 impostorscore=0 priorityscore=1501 suspectscore=0
- bulkscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410170163
+In-Reply-To: <878qumzszs.fsf@toke.dk>
 
-Hi Greg,
+On Thu, Oct 17, 2024 at 04:47:19PM +0200, Toke Høiland-Jørgensen wrote:
+> > diff --git a/drivers/net/bonding/bond_main.c b/drivers/net/bonding/bond_main.c
+> > index f0f76b6ac8be..6887a867fe8b 100644
+> > --- a/drivers/net/bonding/bond_main.c
+> > +++ b/drivers/net/bonding/bond_main.c
+> > @@ -5699,7 +5699,7 @@ static int bond_xdp_set(struct net_device *dev, struct bpf_prog *prog,
+> >  		if (dev_xdp_prog_count(slave_dev) > 0) {
+> >  			SLAVE_NL_ERR(dev, slave_dev, extack,
+> >  				     "Slave has XDP program loaded, please unload before enslaving");
+> > -			err = -EOPNOTSUPP;
+> > +			err = -EEXIST;
+> 
+> Hmm, this has been UAPI since kernel 5.15, so can we really change it
+> now? What's the purpose of changing it, anyway?
 
-On 10/16/2024 11:40 PM, Greg KH wrote:
-> On Tue, Oct 15, 2024 at 02:28:43PM -0700, Wesley Cheng wrote:
->> From: Mathias Nyman <mathias.nyman@linux.intel.com>
->>
->> Allow creators of xHCI secondary interrupters to specify the interrupt
->> moderation interval value in nanoseconds when creating the interrupter.
->>
->> If not sure what value to use then use the xhci driver default
->> xhci->imod_interval
->>
->> Suggested-by: Wesley Cheng <quic_wcheng@quicinc.com>
->> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
->> Link: https://lore.kernel.org/r/20240905143300.1959279-13-mathias.nyman@linux.intel.com
->> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->> ---
->>  drivers/usb/host/xhci-mem.c | 8 +++++++-
->>  drivers/usb/host/xhci.c     | 4 ++--
->>  drivers/usb/host/xhci.h     | 5 ++++-
->>  3 files changed, 13 insertions(+), 4 deletions(-)
-> This is already in 6.12-rc1, which makes me confused as to what tree you
-> made this series against.
-
-Sorry, I didn't fetch the latest changes from usb-next.Â  In this case, should I rebase and resbumit?
+I just think it should return EXIST when the error is "Slave has XDP program
+loaded". No special reason. If all others think we should not change it, I
+can drop this patch.
 
 Thanks
-
-Wesley Cheng
-
-> thanks,
->
-> greg k-h
+Hangbin
