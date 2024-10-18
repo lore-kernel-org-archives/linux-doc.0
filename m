@@ -1,33 +1,33 @@
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2354188926
-	for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2024 07:11:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE00188003
+	for <linux-doc@vger.kernel.org>; Fri, 18 Oct 2024 07:12:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729235472; cv=none; b=GN8RptPRm04TsnELzi05seteo3sIVHxbIDc5SW0cf8NMNBv85jNWP5+fWWv4cyAZSMjcalt52vWjgUEgd4a0m/2FoSUVIjsLfegt0E4E9iiDHt0iONQOndPhKXneRP/hU2FTin4KpuNIOykI9sXxFaJnr08IkIrMEoHCDkbGUWw=
+	t=1729235555; cv=none; b=YxGSuQqlOvABX0XTWV9rq1QTNlnw+7B/IQOTjVxFUoAdkjsA0poADGrN+QuyYwEQoHGlfi7+qmNVXaEZTCePA0aail9b7GSoggZmck7LIsYw3LUtl2KJFuI86DPcmiGEQ2MHt0VYYo8+1h949XMUNkF/gdZaHIn9/Q7EqSWQE7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729235472; c=relaxed/simple;
-	bh=KhpKfpfAxofzn5Lk8AAilVgA3xnrYs4kWfSIOcDbJH8=;
+	s=arc-20240116; t=1729235555; c=relaxed/simple;
+	bh=8a2CvP01T45JBZpUoaVFpNMu7YYmqJTtnLVDBdYBGGY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dU5uAoyhm4HfQ1IEBPR2Chd0lDisCHIrM1SB4hZjywSjh8urZ2qpNit1GrDMWVEsQJr6uwlyRxJPTq8asGdNTj8qVqTcYerx8WNNElEyzMZ0YlTKL7UL/X8eeNKxEKfA6MysoeFjMKwycVGchVBwdi5V5Og1zEnXDsEoycgD03c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=c6TZClOX; arc=none smtp.client-ip=91.218.175.170
+	 In-Reply-To:Content-Type; b=BsJrALePWz553ZBIHwlbZY2L/UA87xbBHFxEhujhUYemxvP2CcAbCarZJO9Z94W44grY+7cSPZ+R13nj4h9TmCQwFirgPZYHZCJySWB5FR2l0lbq+TTQjJ02GbbNhhFo/Jm9ShswvXxJcoVEtYOifu+W2MeJqY5ZTtsURw1vqAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=iYUw8vPm; arc=none smtp.client-ip=95.215.58.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="c6TZClOX"
-Message-ID: <0d807175-a7ba-4fd9-adf8-e388ab126ded@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="iYUw8vPm"
+Message-ID: <aac937f3-f147-49b8-8408-9f8f4d00735e@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1729235467;
+	t=1729235551;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pjgyr7iHWkx1YZrrYsXIEVt9rAkmdbqLb5oxsHnAaLE=;
-	b=c6TZClOXKQJtrljEFD6lswmH9TiP0FnLP0aMvJ2GOwNHhBWxRCcfxuzIS3jk3AU/HnWdZC
-	1nkNyzFFIXX6Byg0ZcB6bQOY6VK2UXMab0zhWJlvgY8+asq9kTkfofozNmHxxjOzoddD7L
-	4KnweV6SB0dBTCIcW9cjIska2eay1yA=
-Date: Fri, 18 Oct 2024 15:11:02 +0800
+	bh=3nyb7d3Vngjzfumw9bM43i0p38J/HUSsus5gmBO5wvs=;
+	b=iYUw8vPmoQVoorvPVCJbKPLOWZYV3Scdn/jw3z86ADcpjvWnc64PrCUFXIUXfU2FyIyRQ7
+	2FDAVYg0uhHFPkMNaxKCJMfgt5MQAtnhqR3GWlz0WoKaO+oxXY8p3Iebv1U/Ozd9xiaWdc
+	O7CCPVxGrM0uWXrT4fC5fjOBef0i+yw=
+Date: Fri, 18 Oct 2024 15:12:25 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,16 +35,18 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Subject: Re: [PATCH v2] docs/zh_CN: update the translation of
- process/email-clients.rst
+ process/submitting-patches.rst
 To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <siyanteng@loongson.cn>, Jonathan Corbet <corbet@lwn.net>
-Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>,
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: hust-os-kernel-patches@googlegroups.com,
+ Hu Haowen <2023002089@link.tyut.edu.cn>, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
-References: <20241018014908.3783976-1-dzm91@hust.edu.cn>
+References: <20241018015452.3787741-1-dzm91@hust.edu.cn>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <20241018014908.3783976-1-dzm91@hust.edu.cn>
+In-Reply-To: <20241018015452.3787741-1-dzm91@hust.edu.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
@@ -52,21 +54,15 @@ X-Migadu-Flow: FLOW_OUT
 
 
 
-在 2024/10/18 09:49, Dongliang Mu 写道:
-> Update to commit 91031ca349ee ("docs: improve comment consistency in
-> .muttrc example configuration")
+在 2024/10/18 09:54, Dongliang Mu 写道:
+> Update to commit eb5ed2fae197 ("docs: submitting-patches: Advertise b4")
 >
 > scripts/checktransupdate.py reports:
 >
-> Documentation/translations/zh_CN/process/email-clients.rst
-> commit 91031ca349ee ("docs: improve comment consistency in .muttrc
-> example configuration")
-> commit 7fe7de7be828 ("Docs/process/email-clients: Document HacKerMaiL")
-> commit 9c03bc90c065 ("Documentation: process: Revert "Document suitability
-> of Proton Mail for kernel development"")
-> commit 1d2ed9234c85 ("Documentation: process: Document suitability of
-> Proton Mail for kernel development")
-> 4 commits needs resolving in total
+> Documentation/translations/zh_CN/process/submitting-patches.rst
+> commit eb5ed2fae197 ("docs: submitting-patches: Advertise b4")
+> commit 413e775efaec ("Documentation: fix links to mailing list services")
+> 2 commits needs resolving in total
 >
 > Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
 Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
@@ -75,31 +71,58 @@ Thanks,
 Yanteng
 > ---
 > v1->v2: revise the script name
->   .../translations/zh_CN/process/email-clients.rst         | 9 ++++++++-
->   1 file changed, 8 insertions(+), 1 deletion(-)
+>   .../zh_CN/process/submitting-patches.rst      | 19 ++++++++++---------
+>   1 file changed, 10 insertions(+), 9 deletions(-)
 >
-> diff --git a/Documentation/translations/zh_CN/process/email-clients.rst b/Documentation/translations/zh_CN/process/email-clients.rst
-> index 34d51cdadc7b..a70393089df3 100644
-> --- a/Documentation/translations/zh_CN/process/email-clients.rst
-> +++ b/Documentation/translations/zh_CN/process/email-clients.rst
-> @@ -197,7 +197,7 @@ Mutt不自带编辑器，所以不管你使用什么编辑器，不自动断行
->   Mutt 是高度可配置的。 这里是个使用mutt通过 Gmail 发送的补丁的最小配置::
+> diff --git a/Documentation/translations/zh_CN/process/submitting-patches.rst b/Documentation/translations/zh_CN/process/submitting-patches.rst
+> index 7ca16bda3709..f7ae584a439e 100644
+> --- a/Documentation/translations/zh_CN/process/submitting-patches.rst
+> +++ b/Documentation/translations/zh_CN/process/submitting-patches.rst
+> @@ -105,7 +105,7 @@ xyzzy do frotz”或“[I]changed xyzzy to do frotz”，就好像你在命令
+>   当链接到邮件列表存档时，请首选lore.kernel.org邮件存档服务。用邮件中的
+>   ``Message-ID`` 头（去掉尖括号）可以创建链接URL。例如::
 >   
->     # .muttrc
-> -  # ================  IMAP ====================
-> +  # ================  IMAP  ====================
->     set imap_user = 'yourusername@gmail.com'
->     set imap_pass = 'yourpassword'
->     set spoolfile = imaps://imap.gmail.com/INBOX
-> @@ -325,3 +325,10 @@ Gmail网页客户端自动地把制表符转换为空格。
->   另一个问题是Gmail还会把任何含有非ASCII的字符的消息改用base64编码，如欧洲人的
->   名字。
+> -    Link: https://lore.kernel.org/r/30th.anniversary.repost@klaava.Helsinki.FI/
+> +    Link: https://lore.kernel.org/30th.anniversary.repost@klaava.Helsinki.FI
 >   
-> +HacKerMaiL (TUI)
-> +****************
+>   请检查该链接以确保可用且指向正确的邮件。
+>   
+> @@ -195,11 +195,8 @@ scripts/get_maintainer.pl在这个步骤中非常有用。如果您找不到正
+>   在MAINTAINERS文件中查找子系统特定的列表；您的补丁可能会在那里得到更多的关注。
+>   不过，请不要发送垃圾邮件到无关的列表。
+>   
+> -许多与内核相关的列表托管在vger.kernel.org上；您可以在
+> -http://vger.kernel.org/vger-lists.html 上找到它们的列表。不过，也有与内核相关
+> -的列表托管在其他地方。
+> -
+> -不要一次发送超过15个补丁到vger邮件列表！！！！
+> +许多与内核相关的列表托管在 kernel.org 上；您可以在 https://subspace.kernel.org
+> +上找到它们的列表。不过，也有与内核相关的列表托管在其他地方。
+>   
+>   Linus Torvalds是决定改动能否进入 Linux 内核的最终裁决者。他的邮件地址是
+>   torvalds@linux-foundation.org 。他收到的邮件很多，所以一般来说最好 **别**
+> @@ -621,6 +618,13 @@ Fixes: 指示补丁修复了之前提交的一个问题。它可以便于确定
+>   的工作所基于的树的提交哈希。你应该在封面邮件或系列的第一个补丁中添加它，它应
+>   该放在 ``---`` 行的下面或所有其他内容之后，即只在你的电子邮件签名之前。
+>   
+> +工具
+> +----
 > +
-> +HacKerMaiL (hkml) 是一个基于公共收件箱的简单邮件管理工具，它不需要订阅邮件列表。
-> +该工具由 DAMON 维护者开发和维护，旨在支持 DAMON 和通用内核子系统的基本开发工作
-> +流程。详细信息可参考 HacKerMaiL 的 README 文件
-> +(https://github.com/sjp38/hackermail/blob/master/README.md)。
+> +这个过程的许多技术方面可以使用 b4 自动完成，其文档可在
+> +https://b4.docs.kernel.org/en/latest/ 查看。该工具可帮助处理诸如追踪依赖项、运行
+> +checkpatch 以及格式化和发送邮件等事务。
+> +
+>   参考文献
+>   --------
+>   
+> @@ -643,9 +647,6 @@ Greg Kroah-Hartman，“如何惹恼内核子系统维护人员”
+>   
+>     <http://www.kroah.com/log/linux/maintainer-06.html>
+>   
+> -不！！！别再发巨型补丁炸弹给linux-kernel@vger.kernel.org的人们了！
+> -  <https://lore.kernel.org/r/20050711.125305.08322243.davem@davemloft.net>
+> -
+>   内核 Documentation/translations/zh_CN/process/coding-style.rst
+>   
+>   Linus Torvalds关于标准补丁格式的邮件
 
